@@ -1,23 +1,29 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id CADDB71BC4
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id C1C4460745
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2016 15:27:37 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga104.jf.intel.com with ESMTP; 08 Dec 2016 07:27:38 -0800
+	Thu,  8 Dec 2016 16:05:58 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 08 Dec 2016 08:04:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; d="scan'208";a="200470675"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga004.fm.intel.com with ESMTP; 08 Dec 2016 07:27:37 -0800
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id EC2106A4080;
-	Thu,  8 Dec 2016 07:26:50 -0800 (PST)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Dec 2016 17:27:23 +0200
-Message-Id: <1481210843-15173-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] oe-run-native: standardize usage output
+X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; 
+	d="asc'?scan'208";a="15475402"
+Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.142])
+	([10.219.5.142])
+	by orsmga002.jf.intel.com with ESMTP; 08 Dec 2016 08:04:46 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1481142664.git.anibal.limon@linux.intel.com>
+	<2b7e685f6ff33f4c12d0f4d025db3689df43ad83.1481142664.git.anibal.limon@linux.intel.com>
+	<CAJTo0LYP1kqqLOy6w_L_bh1uAF8pta8d7mZQyJgF2r=zaiLUhg@mail.gmail.com>
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Message-ID: <5849851C.80102@linux.intel.com>
+Date: Thu, 8 Dec 2016 10:06:52 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LYP1kqqLOy6w_L_bh1uAF8pta8d7mZQyJgF2r=zaiLUhg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 16/32] oeqa/core: Change name of d to td
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,41 +36,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2016 15:27:37 -0000
+X-List-Received-Date: Thu, 08 Dec 2016 16:05:59 -0000
+X-Groupsio-MsgNum: 90466
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="2WK2ABpxbF0x1QARvkErr09vGTCOKKftI"
 
-Made usage output of oe-run-native to look similar to the
-output of other oe scripts.
+--2WK2ABpxbF0x1QARvkErr09vGTCOKKftI
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-[YOCTO #10751]
+Sure, sending v3.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- scripts/oe-run-native | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+	alimon
 
-diff --git a/scripts/oe-run-native b/scripts/oe-run-native
-index 496e34f..7e26ea3 100755
---- a/scripts/oe-run-native
-+++ b/scripts/oe-run-native
-@@ -22,8 +22,15 @@
- #
- 
- if [ $# -lt 1 -o "$1" = '--help' -o "$1" = '-h' ] ; then
--    echo "Usage: $0 <native tool> [parameters]"
--    exit 1
-+    echo 'oe-run-native: error: the following arguments are required: <native tool>'
-+    echo 'Usage: oe-run-native tool [parameters]'
-+    echo ''
-+    echo 'OpenEmbedded run-native - runs native tools'
-+    echo ''
-+    echo 'arguments:'
-+    echo '  tool                Native tool to run'
-+    echo ''
-+    exit 2
- fi
- 
- SYSROOT_SETUP_SCRIPT=`which oe-find-native-sysroot 2> /dev/null`
--- 
-2.1.4
+On 12/08/2016 08:41 AM, Burton, Ross wrote:
+> On 7 December 2016 at 20:32, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux=
+=2Eintel.com>
+> wrote:
+>=20
+>> The d variable references the test data into a test context, so
+>> makes a more sense to call it: td (test data).
+>>
+>=20
+> Can you squash this into the commits where they are introduced (don't n=
+eed
+> to see your working, etc).
+>=20
+> Ross
+>=20
 
 
+--2WK2ABpxbF0x1QARvkErr09vGTCOKKftI
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBAgAGBQJYSYUeAAoJEGJqcE9h3glgxnAP/RGxTqAJ4dqZAHswJ06eYsZ5
+WPnhd01O1X4Rs5XcWCDEVAJK2zEQRNGv8HIkD6JISJqvA7fjUbngF9I8BNDeR7EK
+jA+Gzsmfw2sJETDSd0uUs7PIUO8P1F8VAIyElL17yvXd/mYm8LyBiCzscLRk3j8Y
++MHcso6xsTeeVVtnYJ/KyvCxWTTG7q9qXDim4eak2VFV3I+pdSCc/FjdaQxf/vS0
+Ib1otsOKYhcd8TmE3Ax0dUadvZp76Mafvb8hVa6KCQ3PLbNr6vL02ffxAZxLMfJ4
+b6no/SWyGTfV31z9qTgBKF+DPze2sxtt3l61cz1H3ry4gSzkNjUOgEAGEbQJwPc3
+itdC9+P10qtKmk/BC5dVm8KHS6WoCGosRCCLwW0smJCfYO9raktiou0x9aaQ+TIV
+pzzq6/JIeNkHkcNMP1g8khvsBNOXYrpK9Y76jQRBO6jy6ijjR3AAlXkNtwWj10RT
+3rX0lsxUlvzDYsYv9yIN259EcBDqhC/6qjs5iVlKKQ3tRfgshY2PArkxaeVZp2Ro
+XOtYQLWrj+1nS3QU0COrsCAEjWjDcXrS7RSGYTLcbGy40FPAYl08N5Ci6gdSGRU8
+O8OvRyQXy2O/Yl2OunRBwX6to8RbOqt3ECOzE+ZCyzOYBbbr3PED12u5KS0Ilj/A
+cZx91HpBqmvHy6pL/Sef
+=z7QJ
+-----END PGP SIGNATURE-----
+
+--2WK2ABpxbF0x1QARvkErr09vGTCOKKftI--
