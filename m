@@ -1,47 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EC0E6E5FC
+Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 5491B6E5FC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2016 14:41:50 +0000 (UTC)
-Received: by mail-qk0-f175.google.com with SMTP id x190so451371963qkb.0
+	Thu,  8 Dec 2016 14:42:00 +0000 (UTC)
+Received: by mail-qt0-f178.google.com with SMTP id n6so413779546qtd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Dec 2016 06:41:52 -0800 (PST)
+	Thu, 08 Dec 2016 06:42:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=tAQ1EyRcAECJWGqtLotEEI84n1dKfG2pEe55RGnophE=;
-	b=bCXL7dmKud6vn6vtJr8Z/Ua5RVYmA7mZMldXTgBFtPV4m+zseN9q28JiwSS1rLs5cm
-	bcaweXTMXUL7s2EGf1MF/1ZdZXtKjZo+kgU/SxayXl3CEal8BSxf1DWIjmQNOp43ihlv
-	KEL9gzIGwy2vFC+seN/aYe5FFduAPOnqRpjJeGi8ezzSeP+8XqbWaPOX915RQ2FpbFwG
-	zCLQYjaDmEuwEWcuzqukPOQzCaF0wKNQtgjutl/1r3CbqrEeM5BnbODEr/L73GDs4ZMG
-	9KRMIhV9aYb60SicSN18yavWmhMBbrhqzYKLvVIbIL1Iknv6XhBXsLo3WAp3OPoNNgNn
-	zlRQ==
+	:cc; bh=FQ38zYLq6h6zjS4LCVM+4jCl+bSRi8Qm+f+7O4Hf8AE=;
+	b=eDHzjLI5yCkA2xUX0y3ayFQMpwgBLNevTe9LV3wJMdocqvspxj5RIn7DagKX/z+S6k
+	2MnrXrF8uNWQgDdNWiDqmwPM+liHXjYisXmnixcKBOLMHMBDiXv/h5tlcnDbtf3EBQpP
+	4pwNOkBJwVPLkfcab4zCOWV2v5GcCc9GXobHFEJg/AW0YuC9ZJ3dqcTp4xpp5LwWcVoo
+	m9cfbkPAMLK7H88mBCj9I1Qq9kdOwBO3mbg/V+/XyDGgO63DBu/Ui9AwPzcY5DOy9nDj
+	5J6+C4eHdfXMzUMjUKsp9SArcVz6e2BRh8gPAQ3HUcQC3BAkthpiZSyGEP5Auzjf3gje
+	RYxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=tAQ1EyRcAECJWGqtLotEEI84n1dKfG2pEe55RGnophE=;
-	b=MnGI7zkTKr2CYTFE4veLKPxeCBL9hxaLu8+X+J4J/0bXBFie7HQHhhrIQ41Mczg0OQ
-	qxF0GzEUX/PJsnynmCG1GoL+nkkNJ97Y84/rV//x+EtaOZuvmRa+auXTOU3pzwZ+jveY
-	dOwJgKEqhhbq9BBd7zrAMpIFfdjhUQkHVKO877LjHmjxO/CEEvAEXwE23wcWa+vF/VaE
-	yp8SVt7Y0bP/RDAcRKWZFMxOJ8ElU4y4np8UKvXzQ+o4U2Ru753Vmz697FUcME6TdZGZ
-	CYVFP9Y7wGYgwXxhFs0SXQWkYNIsoU1kFOhO4Pu3uER+FvNBq0Lmuk3vyicz9emce+f4
-	BvaQ==
-X-Gm-Message-State: AKaTC03lBb8q25XJis5oJBN1eQw0jDlrgH5X8HkNoaDb7ObWOCPcq7Q1y59dBVVPwpJmI8v9rRrpD6WDDxOWoKGg
-X-Received: by 10.55.207.78 with SMTP id e75mr75296955qkj.36.1481208103523;
-	Thu, 08 Dec 2016 06:41:43 -0800 (PST)
+	bh=FQ38zYLq6h6zjS4LCVM+4jCl+bSRi8Qm+f+7O4Hf8AE=;
+	b=NMUIpM+P3L6fvn05j5I3ULNHHo97f1p0oVeWgK0k1TKaTfgKURP51tSzezMVGFX/2S
+	/jLVpdmJWT3sWAUht7rAW0lRZCK2z9wRXLKmbHQij0AigcgI69nYtd6ySh0QlxDSCvDK
+	+ZCKK1+Rz60aGxgAfXOlrsM+2bcKfFkelWBrsPfAwD1DUdfmJ7Qpndnl7llAXdj1tjAh
+	iubOEMBJMrkNqRCOsoQkO74C0OIyXxIOMRB6dY4MFpfScAfKImmPYKjuDoQkVE7pz+ea
+	LF77oNBdbk9h/qNiAXFe21ba4+TqD624OTDX8rwMEzvhAGQ7Uv7AzqyK3f1t2sYpKr7c
+	+1aw==
+X-Gm-Message-State: AKaTC02Oq6vHvl2mJFr98z97iVXMDukSp9kFiweyNT5xd4q3iouVxAaGFPhcOceo3ITv9UsqU76dO6WOe08YBVrX
+X-Received: by 10.200.57.54 with SMTP id s51mr63278078qtb.68.1481208122324;
+	Thu, 08 Dec 2016 06:42:02 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Thu, 8 Dec 2016 06:41:22 -0800 (PST)
-In-Reply-To: <2b7e685f6ff33f4c12d0f4d025db3689df43ad83.1481142664.git.anibal.limon@linux.intel.com>
+Received: by 10.140.106.99 with HTTP; Thu, 8 Dec 2016 06:41:41 -0800 (PST)
+In-Reply-To: <2fd5296cdd3485bd4eab59388ba8d19fce3fb022.1481142664.git.anibal.limon@linux.intel.com>
 References: <cover.1481142664.git.anibal.limon@linux.intel.com>
-	<2b7e685f6ff33f4c12d0f4d025db3689df43ad83.1481142664.git.anibal.limon@linux.intel.com>
+	<2fd5296cdd3485bd4eab59388ba8d19fce3fb022.1481142664.git.anibal.limon@linux.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 8 Dec 2016 14:41:22 +0000
-Message-ID: <CAJTo0LYP1kqqLOy6w_L_bh1uAF8pta8d7mZQyJgF2r=zaiLUhg@mail.gmail.com>
+Date: Thu, 8 Dec 2016 14:41:41 +0000
+Message-ID: <CAJTo0LZRy2q4hAzDDqRWAn6YdwCZZznu3exfmYFYW83MOPpRAQ@mail.gmail.com>
 To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 16/32] oeqa/core: Change name of d to td
+Subject: Re: [PATCHv2 17/32] oeqa/utils/path: Add remove_safe function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,40 +54,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2016 14:41:51 -0000
-Content-Type: multipart/alternative; boundary=001a1145b7b8d9c372054326a244
+X-List-Received-Date: Thu, 08 Dec 2016 14:42:01 -0000
+Content-Type: multipart/alternative; boundary=001a113a01e8f851e1054326a37e
 
---001a1145b7b8d9c372054326a244
+--001a113a01e8f851e1054326a37e
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+
+Can you squash this into the commit that added core/utils/path.
+
+Ross
 
 On 7 December 2016 at 20:32, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.int=
 el.com>
 wrote:
 
-> The d variable references the test data into a test context, so
-> makes a more sense to call it: td (test data).
+> Checks if path exists before try to remove of avoid exception.
+>
+> Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel.com>
+> ---
+>  meta/lib/oeqa/core/utils/path.py | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/meta/lib/oeqa/core/utils/path.py b/meta/lib/oeqa/core/utils/
+> path.py
+> index cb06523..a21caad 100644
+> --- a/meta/lib/oeqa/core/utils/path.py
+> +++ b/meta/lib/oeqa/core/utils/path.py
+> @@ -12,3 +12,8 @@ def findFile(file_name, directory):
+>          if file_name in f:
+>              return os.path.join(r, file_name)
+>      return None
+> +
+> +def remove_safe(path):
+> +    if os.path.exists(path):
+> +        os.remove(path)
+> +
+> --
+> 2.1.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
-Can you squash this into the commits where they are introduced (don't need
-to see your working, etc).
-
-Ross
-
---001a1145b7b8d9c372054326a244
+--001a113a01e8f851e1054326a37e
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 7 December 2016 at 20:32, An=C3=ADbal Lim=C3=B3n <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:anibal.limon@linux.intel.com" target=3D"_blank">anibal.lim=
-on@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
-<div id=3D":21" class=3D"a3s aXjCH m158dafcd106879a7">The d variable refere=
-nces the test data into a test context, so<br>
-makes a more sense to call it: td (test data).<br></div></blockquote></div>=
-<br>Can you squash this into the commits where they are introduced (don&#39=
-;t need to see your working, etc).</div><div class=3D"gmail_extra"><br></di=
-v><div class=3D"gmail_extra">Ross</div></div>
+<div dir=3D"ltr">Can you squash this into the commit that added core/utils/=
+path.<div><br></div><div>Ross</div></div><div class=3D"gmail_extra"><br><di=
+v class=3D"gmail_quote">On 7 December 2016 at 20:32, An=C3=ADbal Lim=C3=B3n=
+ <span dir=3D"ltr">&lt;<a href=3D"mailto:anibal.limon@linux.intel.com" targ=
+et=3D"_blank">anibal.limon@linux.intel.com</a>&gt;</span> wrote:<br><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex">Checks if path exists before try to remove of avoid=
+ exception.<br>
+<br>
+Signed-off-by: An=C3=ADbal Lim=C3=B3n &lt;<a href=3D"mailto:anibal.limon@li=
+nux.intel.com">anibal.limon@linux.intel.com</a>&gt;<br>
+---<br>
+=C2=A0meta/lib/oeqa/core/utils/path.<wbr>py | 5 +++++<br>
+=C2=A01 file changed, 5 insertions(+)<br>
+<br>
+diff --git a/meta/lib/oeqa/core/utils/<wbr>path.py b/meta/lib/oeqa/core/uti=
+ls/<wbr>path.py<br>
+index cb06523..a21caad 100644<br>
+--- a/meta/lib/oeqa/core/utils/<wbr>path.py<br>
++++ b/meta/lib/oeqa/core/utils/<wbr>path.py<br>
+@@ -12,3 +12,8 @@ def findFile(file_name, directory):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if file_name in f:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return os.path.join(r, file=
+_name)<br>
+=C2=A0 =C2=A0 =C2=A0return None<br>
++<br>
++def remove_safe(path):<br>
++=C2=A0 =C2=A0 if os.path.exists(path):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 os.remove(path)<br>
++<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.1.4<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div>
 
---001a1145b7b8d9c372054326a244--
+--001a113a01e8f851e1054326a37e--
