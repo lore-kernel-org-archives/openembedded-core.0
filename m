@@ -1,18 +1,18 @@
 Return-Path: <obi@opendreambox.org>
 Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id EB83E71C84
+	by mail.openembedded.org (Postfix) with ESMTP id 4348C71C75
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2016 21:48:06 +0000 (UTC)
+	Thu,  8 Dec 2016 21:48:07 +0000 (UTC)
 Received: by t510.zcs.saftware.de (Postfix, from userid 1000)
-	id DF6A4B8737F; Thu,  8 Dec 2016 22:47:58 +0100 (CET)
+	id 24D8FB87983; Thu,  8 Dec 2016 22:47:58 +0100 (CET)
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Dec 2016 22:47:33 +0100
-Message-Id: <1481233677-27298-10-git-send-email-obi@opendreambox.org>
+Date: Thu,  8 Dec 2016 22:47:34 +0100
+Message-Id: <1481233677-27298-11-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1481233677-27298-1-git-send-email-obi@opendreambox.org>
 References: <1481233677-27298-1-git-send-email-obi@opendreambox.org>
-Subject: [PATCH v2 09/33] apt-native: use sed to prepare apt.conf.sample
+Subject: [PATCH v2 10/33] apt: use default packaging rules for manpages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,86 +29,68 @@ X-List-Received-Date: Thu, 08 Dec 2016 21:48:07 -0000
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-devtools/apt/apt-native_1.2.12.bb     | 32 +++++-----------------
- .../apt/{files/apt.conf => apt/apt.conf.in}        |  6 ++--
- 2 files changed, 10 insertions(+), 28 deletions(-)
- rename meta/recipes-devtools/apt/{files/apt.conf => apt/apt.conf.in} (87%)
+ meta/recipes-devtools/apt/apt_1.2.12.bb | 35 +--------------------------------
+ 1 file changed, 1 insertion(+), 34 deletions(-)
 
-diff --git a/meta/recipes-devtools/apt/apt-native_1.2.12.bb b/meta/recipes-devtools/apt/apt-native_1.2.12.bb
-index 0edceeb..695e21d 100644
---- a/meta/recipes-devtools/apt/apt-native_1.2.12.bb
-+++ b/meta/recipes-devtools/apt/apt-native_1.2.12.bb
-@@ -11,33 +11,10 @@ SRC_URI += "file://db_linking_hack.patch \
-             file://0001-fix-the-gcc-version-check.patch \
-             file://noconfigure.patch \
-             file://no-curl.patch \
-+            file://apt.conf.in \
- "
+diff --git a/meta/recipes-devtools/apt/apt_1.2.12.bb b/meta/recipes-devtools/apt/apt_1.2.12.bb
+index 3efa14e..ba49571 100644
+--- a/meta/recipes-devtools/apt/apt_1.2.12.bb
++++ b/meta/recipes-devtools/apt/apt_1.2.12.bb
+@@ -2,45 +2,13 @@ DEPENDS = "curl db zlib"
+ RDEPENDS_${PN} = "dpkg bash debianutils"
+ require apt.inc
  
--python do_install () {
--    bb.build.exec_func('do_install_base', d)
--    bb.build.exec_func('do_install_config', d)
--}
+-apt-manpages="doc/apt-cache.8 \
+-	      doc/apt-cdrom.8 \
+-	      doc/apt-config.8 \
+-	      doc/apt-get.8 \
+-	      doc/apt.8 \
+-	      doc/apt.conf.5 \
+-	      doc/apt_preferences.5 \
+-	      doc/sources.list.5"
+-apt-utils-manpages="doc/apt-extracttemplates.1 \
+-		    doc/apt-sortpkgs.1"
 -
--python do_install_config () {
--    indir = os.path.dirname(d.getVar('FILE', True))
--    infile = open(oe.path.join(indir, 'files', 'apt.conf'), 'r')
--    data = infile.read()
--    infile.close()
+-def get_files_apt_doc(d, bb, manpages):
+-    import re
+-    manpages = re.sub(r'\bdoc/(\S+)/(\S+)\.\1\.(.)\b', r'${mandir}/\1/man\3/\2.\3', manpages)
+-    manpages = re.sub(r'\bdoc/(\S+)\.(.)\b', r'${mandir}/man\2/\1.\2', manpages)
+-    return manpages
 -
--    data = d.expand(data)
+-def get_commands_apt_doc(d, bb, manpages):
+-    s = list()
+-    __dir_cache__ = list()
+-    for m in manpages.split():
+-        dest = get_files_apt_doc(d, bb, m)
+-        dir = os.path.dirname(dest)
+-        if not dir in __dir_cache__:
+-            s.append("install -d ${D}/%s" % dir)
+-            __dir_cache__.append(dir)
+-        s.append("install -m 0644 %s ${D}/%s" % (m, dest))
+-    return "\n".join(s)
 -
--    outdir = oe.path.join(d.getVar('D', True), d.getVar('sysconfdir', True), 'apt')
--    if not os.path.exists(outdir):
--        os.makedirs(outdir)
--
--    outpath = oe.path.join(outdir, 'apt.conf.sample')
--    if not os.path.exists(outpath):
--        outfile = open(outpath, 'w')
--        outfile.write(data)
--        outfile.close()
--}
--
--do_install_base () {
-+do_install() {
- 	install -d ${D}${bindir}
- 	install -m 0755 bin/apt-cdrom ${D}${bindir}/
- 	install -m 0755 bin/apt-get ${D}${bindir}/
-@@ -69,4 +46,9 @@ do_install_base () {
- 	install -d ${D}${localstatedir}/cache/apt/archives/partial
+-PACKAGES += "${PN}-utils ${PN}-utils-doc"
++PACKAGES += "${PN}-utils"
+ FILES_${PN} = "${bindir}/apt-cdrom ${bindir}/apt-get \
+ 	       ${bindir}/apt-config ${bindir}/apt-cache \
+ 	       ${libdir}/apt ${libdir}/libapt*.so.* \
+ 	       ${localstatedir} ${sysconfdir} \
+ 	       ${libdir}/dpkg"
+ FILES_${PN}-utils = "${bindir}/apt-sortpkgs ${bindir}/apt-extracttemplates"
+-FILES_${PN}-doc = "${@get_files_apt_doc(d, bb, d.getVar('apt-manpages', True))} \
+-		   ${docdir}/apt"
+-FILES_${PN}-utils-doc = "${@get_files_apt_doc(d, bb, d.getVar('apt-utils-manpages', True))}"
+ FILES_${PN}-dev = "${libdir}/libapt*.so ${includedir}"
  
- 	install -d ${D}${localstatedir}/log/apt/
-+
-+	sed -e "s,@STAGING_DIR_NATIVE@,${STAGING_DIR_NATIVE},g" \
-+	    -e "s,@STAGING_BINDIR_NATIVE@,${STAGING_BINDIR_NATIVE},g" \
-+	    -e "s,@STAGING_LIBDIR@,${STAGING_LIBDIR},g" \
-+	    < ${WORKDIR}/apt.conf.in > ${D}${sysconfdir}/apt/apt.conf.sample
- }
-diff --git a/meta/recipes-devtools/apt/files/apt.conf b/meta/recipes-devtools/apt/apt/apt.conf.in
-similarity index 87%
-rename from meta/recipes-devtools/apt/files/apt.conf
-rename to meta/recipes-devtools/apt/apt/apt.conf.in
-index 9ad61cc..6fc1326 100644
---- a/meta/recipes-devtools/apt/files/apt.conf
-+++ b/meta/recipes-devtools/apt/apt/apt.conf.in
-@@ -1,4 +1,4 @@
--Dir "${STAGING_DIR_NATIVE}/"
-+Dir "@STAGING_DIR_NATIVE@/"
- {
-    State "var/lib/apt/"
-    {
-@@ -11,9 +11,9 @@ Dir "${STAGING_DIR_NATIVE}/"
-       pkgcache "";
-       srcpkgcache "";
-    };
--   Bin "${STAGING_BINDIR_NATIVE}/"
-+   Bin "@STAGING_BINDIR_NATIVE@/"
-    {
--      methods "${STAGING_LIBDIR}/apt/methods/";
-+      methods "@STAGING_LIBDIR@/apt/methods/";
-       gzip "/bin/gzip";
-       dpkg "dpkg";
-       dpkg-source "dpkg-source";
+ do_install () {
+@@ -87,7 +55,6 @@ PACKAGECONFIG[bz2] = "ac_cv_lib_bz2_BZ2_bzopen=yes,ac_cv_lib_bz2_BZ2_bzopen=no,b
+ PACKAGECONFIG[lz4] = "ac_cv_lib_lz4_LZ4F_createCompressionContext=yes,ac_cv_lib_lz4_LZ4F_createCompressionContext=no,lz4"
+ 
+ FILES_${PN} += "${bindir}/apt-key"
+-apt-manpages += "doc/apt-key.8"
+ 
+ do_install_append() {
+     #Write the correct apt-architecture to apt.conf
 -- 
 2.7.4
 
