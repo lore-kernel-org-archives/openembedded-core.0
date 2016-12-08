@@ -1,16 +1,18 @@
 Return-Path: <obi@opendreambox.org>
 Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B9F371C6F
+	by mail.openembedded.org (Postfix) with ESMTP id 6644171BF9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2016 21:48:01 +0000 (UTC)
+	Thu,  8 Dec 2016 21:48:05 +0000 (UTC)
 Received: by t510.zcs.saftware.de (Postfix, from userid 1000)
-	id 80509B8731B; Thu,  8 Dec 2016 22:47:57 +0100 (CET)
+	id C424DB87A4F; Thu,  8 Dec 2016 22:47:58 +0100 (CET)
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Dec 2016 22:47:24 +0100
-Message-Id: <1481233677-27298-1-git-send-email-obi@opendreambox.org>
+Date: Thu,  8 Dec 2016 22:47:30 +0100
+Message-Id: <1481233677-27298-7-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH v2 00/33] Accumulated patches for deb packaging
+In-Reply-To: <1481233677-27298-1-git-send-email-obi@opendreambox.org>
+References: <1481233677-27298-1-git-send-email-obi@opendreambox.org>
+Subject: [PATCH v2 06/33] debianutils: Allow native builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,92 +27,32 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 08 Dec 2016 21:48:05 -0000
 
-These are most of my patches which accumulated since our distro
-switched from opkg to dpkg and apt two years ago. They were tested
-thoroughly on dora and krogoth and just a little bit on master.
+Apt has a runtime dependency on it.
 
-Most importantly, this adds support for Debian's update-alternatives
-on rootfs creation time. For this to work, the recently added option
-'--force-script-chrootless' must be passed to dpkg.
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+---
+ meta/recipes-support/debianutils/debianutils_4.8.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-There's also a patch adding BAD_RECOMMENDATIONS for deb packages.
-
-One patch renames dpkg-start-stop to start-stop-daemon. There's also
-a recipe in meta-oe with the same name, which should be removed later.
-
-v2: Patches 1, 3, 20, 21, 23 and 28 were modified and annotated.
-
-Andreas Oberritter (33):
-  dpkg: implement offline mode for update-alternatives
-  dpkg: update-alternatives-dpkg should conflict with other providers
-  dpkg-native: hardcode SYSCONFDIR to sysconfdir_native in
-    update-alternatives
-  apt-native: Use option --force-script-chrootless for rootfs
-  package_manager/deb: pass option --force-script-chrootless to dpkg
-  debianutils: Allow native builds
-  apt-native: merge apt-native.inc into .bb
-  apt: merge apt-package.inc into .bb
-  apt-native: use sed to prepare apt.conf.sample
-  apt: use default packaging rules for manpages
-  apt: use default packaging rules for base package, prepend apt-utils
-  apt: use default packaging rules for -dev package
-  apt: rewrite do_install
-  apt-native: drop obsolete patches
-  apt: merge with apt-native
-  apt: merge apt.inc into .bb
-  apt: group variables (license, configuration, packaging)
-  apt: more fine-grained packaging
-  apt: recommend gnupg
-  package_manager/deb: let apt-get handle postinst scripts
-  package_manager/deb: create Packages.xz
-  package_manager/deb: implement BAD_RECOMMENDATIONS
-  dpkg: use PACKAGECONFIG
-  dpkg: set license field to more common "GPLv2+"
-  dpkg: clean-up packaging of start-stop-daemon
-  dpkg: remove unneeded do_configure override
-  dpkg: simplify replacing perl interpreter in scripts
-  dpkg: update packages and files to match Debian more closely
-  dpkg: always install dpkg-configure.service
-  dpkg: use correct path for perl libraries
-  package_deb.bbclass: compress control.tar with the same algorithm as
-    data.tar
-  apt: fix rpath error during configure
-  apt: dselect depends on perl
-
- meta/classes/package_deb.bbclass                   |   3 +-
- meta/classes/rootfs_deb.bbclass                    |  10 +-
- meta/lib/oe/package_manager.py                     | 117 ++----
- meta/lib/oe/rootfs.py                              |   8 +-
- meta/recipes-devtools/apt/apt-native.inc           |  70 ----
- meta/recipes-devtools/apt/apt-native_1.2.12.bb     |   4 -
- meta/recipes-devtools/apt/apt-package.inc          |  78 ----
- meta/recipes-devtools/apt/apt.inc                  |  35 --
- ...ys-run-dpkg-configure-a-at-the-end-of-our.patch | 126 -------
- .../apt/{files/apt.conf => apt/apt.conf.in}        |   8 +-
- meta/recipes-devtools/apt/apt/noconfigure.patch    |  37 --
- meta/recipes-devtools/apt/apt_1.2.12.bb            | 125 ++++++-
- .../apt/files/db_linking_hack.patch                |  29 --
- meta/recipes-devtools/apt/files/environment.patch  |  15 -
- meta/recipes-devtools/apt/files/no-curl.patch      |  54 ---
- meta/recipes-devtools/dpkg/dpkg.inc                | 156 ++++----
- ...tinsts-expect-D-to-be-set-when-running-in.patch |  70 ----
- ...pdate-alternatives-Implement-offline-mode.patch | 401 +++++++++++++++++++++
- meta/recipes-devtools/dpkg/dpkg_1.18.7.bb          |   2 +-
- .../recipes-support/debianutils/debianutils_4.8.bb |   4 +-
- 20 files changed, 662 insertions(+), 690 deletions(-)
- delete mode 100644 meta/recipes-devtools/apt/apt-native.inc
- delete mode 100644 meta/recipes-devtools/apt/apt-native_1.2.12.bb
- delete mode 100644 meta/recipes-devtools/apt/apt-package.inc
- delete mode 100644 meta/recipes-devtools/apt/apt.inc
- delete mode 100644 meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
- rename meta/recipes-devtools/apt/{files/apt.conf => apt/apt.conf.in} (80%)
- delete mode 100644 meta/recipes-devtools/apt/apt/noconfigure.patch
- delete mode 100644 meta/recipes-devtools/apt/files/db_linking_hack.patch
- delete mode 100644 meta/recipes-devtools/apt/files/environment.patch
- delete mode 100644 meta/recipes-devtools/apt/files/no-curl.patch
- delete mode 100644 meta/recipes-devtools/dpkg/dpkg/0003-Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/0003-update-alternatives-Implement-offline-mode.patch
-
+diff --git a/meta/recipes-support/debianutils/debianutils_4.8.bb b/meta/recipes-support/debianutils/debianutils_4.8.bb
+index d969fd3..cf4f382 100644
+--- a/meta/recipes-support/debianutils/debianutils_4.8.bb
++++ b/meta/recipes-support/debianutils/debianutils_4.8.bb
+@@ -32,7 +32,7 @@ do_install_append() {
+ PACKAGES =+ "${PN}-run-parts"
+ FILES_${PN}-run-parts = "${base_bindir}/run-parts.debianutils"
+ 
+-RDEPENDS_${PN} += "${PN}-run-parts"
++RDEPENDS_${PN}_class-target = "${PN}-run-parts"
+ 
+ 
+ ALTERNATIVE_PRIORITY="30"
+@@ -46,3 +46,5 @@ ALTERNATIVE_LINK_NAME[run-parts]="${base_bindir}/run-parts"
+ ALTERNATIVE_LINK_NAME[savelog]="${bindir}/savelog"
+ ALTERNATIVE_LINK_NAME[tempfile]="${base_bindir}/tempfile"
+ ALTERNATIVE_LINK_NAME[which]="${bindir}/which"
++
++BBCLASSEXTEND = "native"
 -- 
 2.7.4
 
