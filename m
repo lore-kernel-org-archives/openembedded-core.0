@@ -1,23 +1,23 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id CD34671C6E
+	by mail.openembedded.org (Postfix) with ESMTP id DB6CB71C0B
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  8 Dec 2016 16:20:07 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
 	by fmsmga101.fm.intel.com with ESMTP; 08 Dec 2016 08:19:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; d="scan'208";a="40496567"
+X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; d="scan'208";a="40496571"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.142])
 	by fmsmga006.fm.intel.com with ESMTP; 08 Dec 2016 08:19:01 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Dec 2016 10:20:54 -0600
-Message-Id: <95461eb1208468f54eb986f1e76dc5b31f944597.1481213961.git.anibal.limon@linux.intel.com>
+Date: Thu,  8 Dec 2016 10:20:55 -0600
+Message-Id: <7053b8398f14cffed0ab773700afbfe90bd235c2.1481213961.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1481213961.git.anibal.limon@linux.intel.com>
 References: <cover.1481213961.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCHv3 26/30] oeqa/sdkext: Adds case and context modules.
+Subject: [PATCHv3 27/30] classes/testsdk: Migrate to use the new OESDKExtTestContext
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,288 +34,50 @@ X-List-Received-Date: Thu, 08 Dec 2016 16:20:08 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The extensible sdk context and case modules extends the sdk ones,
-this means that the tests from sdk are run also the sdkext tests.
-
-Enables support in context for use oe-test esdk command for run
-the test suites, the same options of sdk are required for run esdk tests.
-
-Removes old related to case and context inside oetest.py.
-
-[YOCTO #10599]
-
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/classes/testsdk.bbclass    | 99 +++++++++++++++++++----------------------
- meta/lib/oeqa/oetest.py         | 40 -----------------
- meta/lib/oeqa/sdkext/case.py    | 21 +++++++++
- meta/lib/oeqa/sdkext/context.py | 21 +++++++++
- 4 files changed, 88 insertions(+), 93 deletions(-)
- create mode 100644 meta/lib/oeqa/sdkext/case.py
- create mode 100644 meta/lib/oeqa/sdkext/context.py
+ meta/classes/testsdk.bbclass | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
-index 4c4df10..24529ca 100644
+index 24529ca..1d6547a 100644
 --- a/meta/classes/testsdk.bbclass
 +++ b/meta/classes/testsdk.bbclass
-@@ -16,37 +16,6 @@
+@@ -100,7 +100,7 @@ def testsdkext_main(d):
  
- TESTSDKLOCK = "${TMPDIR}/testsdk.lock"
- 
--def run_test_context(CTestContext, d, testdir, tcname, pn, *args):
--    import glob
--    import time
--
--    targets = glob.glob(d.expand(testdir + "/tc/environment-setup-*"))
--    for sdkenv in targets:
--        bb.plain("Testing %s" % sdkenv)
--        tc = CTestContext(d, testdir, sdkenv, tcname, args)
--
--        # this is a dummy load of tests
--        # we are doing that to find compile errors in the tests themselves
--        # before booting the image
--        try:
--            tc.loadTests()
--        except Exception as e:
--            import traceback
--            bb.fatal("Loading tests failed:\n%s" % traceback.format_exc())
--
--        starttime = time.time()
--        result = tc.runTests()
--        stoptime = time.time()
--        if result.wasSuccessful():
--            bb.plain("%s SDK(%s):%s - Ran %d test%s in %.3fs" % (pn, os.path.basename(tcname), os.path.basename(sdkenv),result.testsRun, result.testsRun != 1 and "s" or "", stoptime - starttime))
--            msg = "%s - OK - All required tests passed" % pn
--            skipped = len(result.skipped)
--            if skipped:
--                msg += " (skipped=%d)" % skipped
--            bb.plain(msg)
--        else:
--            bb.fatal("%s - FAILED - check the task log and the commands log" % pn)
--
- def testsdk_main(d):
-     import os
-     import subprocess
-@@ -121,16 +90,20 @@ addtask testsdk
- do_testsdk[nostamp] = "1"
- do_testsdk[lockfiles] += "${TESTSDKLOCK}"
- 
--TEST_LOG_SDKEXT_DIR ?= "${WORKDIR}/testsdkext"
- TESTSDKEXTLOCK = "${TMPDIR}/testsdkext.lock"
- 
- def testsdkext_main(d):
-     import os
--    import oeqa.sdkext
-+    import json
-     import subprocess
-+    import logging
-+
      from bb.utils import export_proxies
--    from oeqa.oetest import SDKTestContext, SDKExtTestContext
      from oeqa.utils import avoid_paths_in_environ
-+    from oeqa.sdk.context import OESDKExtTestContext, OESDKExtTestContextExecutor
-+
-+    pn = d.getVar("PN", True)
-+    logger = logging.getLogger("BitBake")
+-    from oeqa.sdk.context import OESDKExtTestContext, OESDKExtTestContextExecutor
++    from oeqa.sdkext.context import OESDKExtTestContext, OESDKExtTestContextExecutor
  
-     # extensible sdk use network
-     export_proxies(d)
-@@ -141,20 +114,24 @@ def testsdkext_main(d):
-                       d.getVar('BASE_WORKDIR', True)]
-     os.environ['PATH'] = avoid_paths_in_environ(paths_to_avoid)
- 
--    pn = d.getVar("PN", True)
--    bb.utils.mkdirhier(d.getVar("TEST_LOG_SDKEXT_DIR", True))
--
-     tcname = d.expand("${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.sh")
-     if not os.path.exists(tcname):
+     pn = d.getVar("PN", True)
+     logger = logging.getLogger("BitBake")
+@@ -119,13 +119,13 @@ def testsdkext_main(d):
          bb.fatal("The toolchain ext %s is not built. Build it before running the" \
                   " tests: 'bitbake <image> -c populate_sdk_ext' ." % tcname)
  
--    testdir = d.expand("${WORKDIR}/testsdkext/")
--    bb.utils.remove(testdir, True)
--    bb.utils.mkdirhier(testdir)
--    sdkdir = os.path.join(testdir, 'tc')
-+    tdname = d.expand("${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.testdata.json")
-+    test_data = json.load(open(tdname, "r"))
-+
-+    target_pkg_manifest = OESDKExtTestContextExecutor._load_manifest(
-+        d.expand("${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.target.manifest"))
-+    host_pkg_manifest = OESDKExtTestContextExecutor._load_manifest(
-+        d.expand("${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.host.manifest"))
-+
-+    sdk_dir = d.expand("${WORKDIR}/testsdkext/")
-+    bb.utils.remove(sdk_dir, True)
-+    bb.utils.mkdirhier(sdk_dir)
-     try:
--        subprocess.check_output("%s -y -d %s" % (tcname, sdkdir), shell=True)
-+        subprocess.check_output("%s -y -d %s" % (tcname, sdk_dir), shell=True)
+-    tdname = d.expand("${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.testdata.json")
++    tdname = d.expand("${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.testdata.json")
+     test_data = json.load(open(tdname, "r"))
+ 
+     target_pkg_manifest = OESDKExtTestContextExecutor._load_manifest(
+-        d.expand("${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.target.manifest"))
++        d.expand("${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.target.manifest"))
+     host_pkg_manifest = OESDKExtTestContextExecutor._load_manifest(
+-        d.expand("${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.host.manifest"))
++        d.expand("${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.host.manifest"))
+ 
+     sdk_dir = d.expand("${WORKDIR}/testsdkext/")
+     bb.utils.remove(sdk_dir, True)
+@@ -134,7 +134,7 @@ def testsdkext_main(d):
+         subprocess.check_output("%s -y -d %s" % (tcname, sdk_dir), shell=True)
      except subprocess.CalledProcessError as e:
          msg = "Couldn't install the extensible SDK:\n%s" % e.output.decode("utf-8")
-         logfn = os.path.join(sdkdir, 'preparing_build_system.log')
-@@ -165,19 +142,35 @@ def testsdkext_main(d):
-                     msg += line
-         bb.fatal(msg)
- 
--    try:
--        bb.plain("Running SDK Compatibility tests ...")
--        run_test_context(SDKExtTestContext, d, testdir, tcname, pn, True)
--    finally:
--        pass
-+    fail = False
-+    sdk_envs = OESDKExtTestContextExecutor._get_sdk_environs(sdk_dir)
-+    for s in sdk_envs:
-+        bb.plain("Extensible SDK testing environment: %s" % s)
- 
--    try:
--        bb.plain("Running Extensible SDK tests ...")
--        run_test_context(SDKExtTestContext, d, testdir, tcname, pn)
--    finally:
--        pass
-+        sdk_env = sdk_envs[s]
-+        tc = OESDKExtTestContext(td=test_data, logger=logger, sdk_dir=sdk_dir,
-+            sdk_env=sdk_env, target_pkg_manifest=target_pkg_manifest,
-+            host_pkg_manifest=host_pkg_manifest)
- 
--    bb.utils.remove(testdir, True)
-+        try:
-+            tc.loadTests(OESDKExtTestContextExecutor.default_cases)
-+        except Exception as e:
-+            import traceback
-+            bb.fatal("Loading tests failed:\n%s" % traceback.format_exc())
-+
-+        result = tc.runTests()
-+
-+        component = "%s %s" % (pn, OESDKExtTestContextExecutor.name)
-+        context_msg = "%s:%s" % (os.path.basename(tcname), os.path.basename(sdk_env))
-+
-+        tc.logSummary(result, component, context_msg)
-+        tc.logDetails()
-+
-+        if not result.wasSuccessful():
-+            fail = True
-+
-+    if fail:
-+        bb.fatal("%s - FAILED - check the task log and the commands log" % pn)
- 
- testsdkext_main[vardepsexclude] =+ "BB_ORIGENV"
- 
-diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-index 4a98b0f1..f9e9025 100644
---- a/meta/lib/oeqa/oetest.py
-+++ b/meta/lib/oeqa/oetest.py
-@@ -27,7 +27,6 @@ try:
- except ImportError:
-     pass
- from oeqa.utils.decorators import LogResults, gettag, getResults
--from oeqa.utils import avoid_paths_in_environ
- 
- logger = logging.getLogger("BitBake")
- 
-@@ -145,18 +144,6 @@ class OETestCalledProcessError(subprocess.CalledProcessError):
- 
- subprocess.CalledProcessError = OETestCalledProcessError
- 
--class oeSDKExtTest(oeSDKTest):
--    def _run(self, cmd):
--        # extensible sdk shows a warning if found bitbake in the path
--        # because can cause contamination, i.e. use devtool from
--        # poky/scripts instead of eSDK one.
--        env = os.environ.copy()
--        paths_to_avoid = ['bitbake/bin', 'poky/scripts']
--        env['PATH'] = avoid_paths_in_environ(paths_to_avoid)
--
--        return subprocess.check_output(". %s > /dev/null;"\
--            " %s;" % (self.tc.sdkenv, cmd), stderr=subprocess.STDOUT, shell=True, env=env).decode("utf-8")
--
- def getmodule(pos=2):
-     # stack returns a list of tuples containg frame information
-     # First element of the list the is current frame, caller is 1
-@@ -642,30 +629,3 @@ class ExportTestContext(RuntimeTestContext):
-         extracted_dir = self.d.getVar("TEST_EXPORT_EXTRACTED_DIR", True)
-         pkg_dir = os.path.join(export_dir, extracted_dir)
-         super(ExportTestContext, self).install_uninstall_packages(test_id, pkg_dir, install)
--
--class SDKExtTestContext(SDKTestContext):
--    def __init__(self, d, sdktestdir, sdkenv, tcname, *args):
--        self.target_manifest = d.getVar("SDK_EXT_TARGET_MANIFEST", True)
--        self.host_manifest = d.getVar("SDK_EXT_HOST_MANIFEST", True)
--        if args:
--            self.cm = args[0] # Compatibility mode for run SDK tests
--        else:
--            self.cm = False
--
--        super(SDKExtTestContext, self).__init__(d, sdktestdir, sdkenv, tcname)
--
--        self.sdkextfilesdir = os.path.join(os.path.dirname(os.path.abspath(
--            oeqa.sdkext.__file__)), "files")
--
--    def _get_test_namespace(self):
--        if self.cm:
--            return "sdk"
--        else:
--            return "sdkext"
--
--    def _get_test_suites(self):
--        return (self.d.getVar("TEST_SUITES_SDK_EXT", True) or "auto").split()
--
--    def _get_test_suites_required(self):
--        return [t for t in (self.d.getVar("TEST_SUITES_SDK_EXT", True) or \
--                "auto").split() if t != "auto"]
-diff --git a/meta/lib/oeqa/sdkext/case.py b/meta/lib/oeqa/sdkext/case.py
-new file mode 100644
-index 0000000..6f708aa
---- /dev/null
-+++ b/meta/lib/oeqa/sdkext/case.py
-@@ -0,0 +1,21 @@
-+# Copyright (C) 2016 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT)
-+
-+import os
-+import subprocess
-+
-+from oeqa.utils import avoid_paths_in_environ
-+from oeqa.sdk.case import OESDKTestCase
-+
-+class OESDKExtTestCase(OESDKTestCase):
-+    def _run(self, cmd):
-+        # extensible sdk shows a warning if found bitbake in the path
-+        # because can cause contamination, i.e. use devtool from
-+        # poky/scripts instead of eSDK one.
-+        env = os.environ.copy()
-+        paths_to_avoid = ['bitbake/bin', 'poky/scripts']
-+        env['PATH'] = avoid_paths_in_environ(paths_to_avoid)
-+
-+        return subprocess.check_output(". %s > /dev/null;"\
-+            " %s;" % (self.tc.sdk_env, cmd), stderr=subprocess.STDOUT,
-+            shell=True, env=env).decode("utf-8")
-diff --git a/meta/lib/oeqa/sdkext/context.py b/meta/lib/oeqa/sdkext/context.py
-new file mode 100644
-index 0000000..8dbcd80
---- /dev/null
-+++ b/meta/lib/oeqa/sdkext/context.py
-@@ -0,0 +1,21 @@
-+# Copyright (C) 2016 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT)
-+
-+import os
-+from oeqa.sdk.context import OESDKTestContext, OESDKTestContextExecutor
-+
-+class OESDKExtTestContext(OESDKTestContext):
-+    esdk_files_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "files")
-+
-+class OESDKExtTestContextExecutor(OESDKTestContextExecutor):
-+    _context_class = OESDKExtTestContext
-+
-+    name = 'esdk'
-+    help = 'esdk test component'
-+    description = 'executes esdk tests'
-+
-+    default_cases = [OESDKTestContextExecutor.default_cases[0],
-+            os.path.join(os.path.abspath(os.path.dirname(__file__)), 'cases')]
-+    default_test_data = None
-+
-+_executor_class = OESDKExtTestContextExecutor
+-        logfn = os.path.join(sdkdir, 'preparing_build_system.log')
++        logfn = os.path.join(sdk_dir, 'preparing_build_system.log')
+         if os.path.exists(logfn):
+             msg += '\n\nContents of preparing_build_system.log:\n'
+             with open(logfn, 'r') as f:
 -- 
 2.1.4
 
