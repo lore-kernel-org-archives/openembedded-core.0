@@ -1,23 +1,23 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 69D0D71BD9
+	by mail.openembedded.org (Postfix) with ESMTP id 77BD971BF2
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  8 Dec 2016 16:18:51 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
 	by orsmga102.jf.intel.com with ESMTP; 08 Dec 2016 08:18:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; d="scan'208";a="40496433"
+X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; d="scan'208";a="40496439"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.142])
 	by fmsmga006.fm.intel.com with ESMTP; 08 Dec 2016 08:18:52 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Dec 2016 10:20:29 -0600
-Message-Id: <0711aef04ea53378432f3e50de95021215a9019c.1481213961.git.anibal.limon@linux.intel.com>
+Date: Thu,  8 Dec 2016 10:20:30 -0600
+Message-Id: <a7c6047ee7ff9ffa4ea697e2e4859f7eba1df3ac.1481213961.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1481213961.git.anibal.limon@linux.intel.com>
 References: <cover.1481213961.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCHv3 01/30] oeqa/core: Add base OEQA framework
+Subject: [PATCHv3 02/30] oeqa/core: Add utils module for OEQA framework
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,192 +34,175 @@ X-List-Received-Date: Thu, 08 Dec 2016 16:18:51 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-case: Defines OETestCase base class that provides custom
-    methods/attrs defined by the framework.
-    Every OETestCase instance contains a reference to the test
-    data (d), the test context (tc) and the logger.
-    Also implements _oe{SetUp,TearDown}Class for make special
-    handling of OEQA decorators and validations.
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-runner: Defines OETestRunner/OETestResult with support for RAW
-    and XML result logs.
+misc: Functions for transform object to other types.
+path: Functions for path handling.
+test: Functions for operations related to test cases and suites.
 
-exception: Custom exceptions related to the OEQA framework based
-    on class OEQAException.
+[YOCTO #10232]
 
-[YOCTO #10230]
-[YOCTO #10233]
-
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/lib/oeqa/core/__init__.py  |  0
- meta/lib/oeqa/core/case.py      | 46 +++++++++++++++++++++++++
- meta/lib/oeqa/core/exception.py | 14 ++++++++
- meta/lib/oeqa/core/runner.py    | 76 +++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 136 insertions(+)
- create mode 100644 meta/lib/oeqa/core/__init__.py
- create mode 100644 meta/lib/oeqa/core/case.py
- create mode 100644 meta/lib/oeqa/core/exception.py
- create mode 100644 meta/lib/oeqa/core/runner.py
+ meta/lib/oeqa/core/utils/__init__.py |  0
+ meta/lib/oeqa/core/utils/misc.py     | 37 +++++++++++++++++++
+ meta/lib/oeqa/core/utils/path.py     | 19 ++++++++++
+ meta/lib/oeqa/core/utils/test.py     | 71 ++++++++++++++++++++++++++++++++++++
+ 4 files changed, 127 insertions(+)
+ create mode 100644 meta/lib/oeqa/core/utils/__init__.py
+ create mode 100644 meta/lib/oeqa/core/utils/misc.py
+ create mode 100644 meta/lib/oeqa/core/utils/path.py
+ create mode 100644 meta/lib/oeqa/core/utils/test.py
 
-diff --git a/meta/lib/oeqa/core/__init__.py b/meta/lib/oeqa/core/__init__.py
+diff --git a/meta/lib/oeqa/core/utils/__init__.py b/meta/lib/oeqa/core/utils/__init__.py
 new file mode 100644
 index 0000000..e69de29
-diff --git a/meta/lib/oeqa/core/case.py b/meta/lib/oeqa/core/case.py
+diff --git a/meta/lib/oeqa/core/utils/misc.py b/meta/lib/oeqa/core/utils/misc.py
 new file mode 100644
-index 0000000..d2dbf20
+index 0000000..6ae58ad
 --- /dev/null
-+++ b/meta/lib/oeqa/core/case.py
-@@ -0,0 +1,46 @@
++++ b/meta/lib/oeqa/core/utils/misc.py
+@@ -0,0 +1,37 @@
 +# Copyright (C) 2016 Intel Corporation
 +# Released under the MIT license (see COPYING.MIT)
 +
-+import unittest
++def toList(obj, obj_type, obj_name="Object"):
++    if isinstance(obj, obj_type):
++        return [obj]
++    elif isinstance(obj, list):
++        return obj
++    else:
++        raise TypeError("%s must be %s or list" % (obj_name, obj_type))
 +
-+from oeqa.core.exception import OEQAMissingVariable
++def toSet(obj, obj_type, obj_name="Object"):
++    if isinstance(obj, obj_type):
++        return {obj}
++    elif isinstance(obj, list):
++        return set(obj)
++    elif isinstance(obj, set):
++        return obj
++    else:
++        raise TypeError("%s must be %s or set" % (obj_name, obj_type))
 +
-+def _validate_td_vars(td, td_vars, type_msg):
-+    if td_vars:
-+        for v in td_vars:
-+            if not v in td:
-+                raise OEQAMissingVariable("Test %s need %s variable but"\
-+                        " isn't into td" % (type_msg, v))
++def strToList(obj, obj_name="Object"):
++    return toList(obj, str, obj_name)
 +
-+class OETestCase(unittest.TestCase):
-+    # TestContext and Logger instance set by OETestLoader.
-+    tc = None
-+    logger = None
++def strToSet(obj, obj_name="Object"):
++    return toSet(obj, str, obj_name)
 +
-+    # td has all the variables needed by the test cases
-+    # is the same across all the test cases.
-+    td = None
++def intToList(obj, obj_name="Object"):
++    return toList(obj, int, obj_name)
 +
-+    # td_vars has the variables needed by a test class
-+    # or test case instance, if some var isn't into td a
-+    # OEMissingVariable exception is raised
-+    td_vars = None
++def dataStoteToDict(d, variables):
++    data = {}
 +
-+    @classmethod
-+    def _oeSetUpClass(clss):
-+        _validate_td_vars(clss.td, clss.td_vars, "class")
-+        clss.setUpClassMethod()
++    for v in variables:
++        data[v] = d.getVar(v, True)
 +
-+    @classmethod
-+    def _oeTearDownClass(clss):
-+        clss.tearDownClassMethod()
-+
-+    def _oeSetUp(self):
-+        for d in self.decorators:
-+            d.setUpDecorator()
-+        self.setUpMethod()
-+
-+    def _oeTearDown(self):
-+        for d in self.decorators:
-+            d.tearDownDecorator()
-+        self.tearDownMethod()
-diff --git a/meta/lib/oeqa/core/exception.py b/meta/lib/oeqa/core/exception.py
++    return data
+diff --git a/meta/lib/oeqa/core/utils/path.py b/meta/lib/oeqa/core/utils/path.py
 new file mode 100644
-index 0000000..2dfd840
+index 0000000..a21caad
 --- /dev/null
-+++ b/meta/lib/oeqa/core/exception.py
-@@ -0,0 +1,14 @@
-+# Copyright (C) 2016 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT)
-+
-+class OEQAException(Exception):
-+    pass
-+
-+class OEQATimeoutError(OEQAException):
-+    pass
-+
-+class OEQAMissingVariable(OEQAException):
-+    pass
-+
-+class OEQADependency(OEQAException):
-+    pass
-diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
-new file mode 100644
-index 0000000..8f5af57
---- /dev/null
-+++ b/meta/lib/oeqa/core/runner.py
-@@ -0,0 +1,76 @@
++++ b/meta/lib/oeqa/core/utils/path.py
+@@ -0,0 +1,19 @@
 +# Copyright (C) 2016 Intel Corporation
 +# Released under the MIT license (see COPYING.MIT)
 +
 +import os
-+import time
++import sys
++
++def findFile(file_name, directory):
++    """
++        Search for a file in directory and returns its complete path.
++    """
++    for r, d, f in os.walk(directory):
++        if file_name in f:
++            return os.path.join(r, file_name)
++    return None
++
++def remove_safe(path):
++    if os.path.exists(path):
++        os.remove(path)
++
+diff --git a/meta/lib/oeqa/core/utils/test.py b/meta/lib/oeqa/core/utils/test.py
+new file mode 100644
+index 0000000..820b997
+--- /dev/null
++++ b/meta/lib/oeqa/core/utils/test.py
+@@ -0,0 +1,71 @@
++# Copyright (C) 2016 Intel Corporation
++# Released under the MIT license (see COPYING.MIT)
++
++import os
 +import unittest
-+import logging
 +
-+xmlEnabled = False
-+try:
-+    import xmlrunner
-+    from xmlrunner.result import _XMLTestResult as _TestResult
-+    from xmlrunner.runner import XMLTestRunner as _TestRunner
-+    xmlEnabled = True
-+except ImportError:
-+    # use the base runner instead
-+    from unittest import TextTestResult as _TestResult
-+    from unittest import TextTestRunner as _TestRunner
++def getSuiteCases(suite):
++    """
++        Returns individual test from a test suite.
++    """
++    tests = []
++    for item in suite:
++        if isinstance(item, unittest.suite.TestSuite):
++            tests.extend(getSuiteCases(item))
++        elif isinstance(item, unittest.TestCase):
++            tests.append(item)
++    return tests
 +
-+class OEStreamLogger(object):
-+    def __init__(self, logger):
-+        self.logger = logger
-+        self.buffer = ""
++def getSuiteModules(suite):
++    """
++        Returns modules in a test suite.
++    """
++    modules = set()
++    for test in getSuiteCases(suite):
++        modules.add(getCaseModule(test))
++    return modules
 +
-+    def write(self, msg):
-+        if msg[-1] != '\n':
-+            self.buffer += msg
-+        else:
-+            self.logger.log(logging.INFO, self.buffer.rstrip("\n"))
-+            self.buffer = ""
++def getSuiteCasesInfo(suite, func):
++    """
++        Returns test case info from suite. Info is fetched from func.
++    """
++    tests = []
++    for test in getSuiteCases(suite):
++        tests.append(func(test))
++    return tests
 +
-+    def flush(self):
-+        for handler in self.logger.handlers:
-+            handler.flush()
++def getSuiteCasesNames(suite):
++    """
++        Returns test case names from suite.
++    """
++    return getSuiteCasesInfo(suite, getCaseMethod)
 +
-+class OETestResult(_TestResult):
-+    def __init__(self, tc, *args, **kwargs):
-+        super(OETestResult, self).__init__(*args, **kwargs)
++def getSuiteCasesIDs(suite):
++    """
++        Returns test case ids from suite.
++    """
++    return getSuiteCasesInfo(suite, getCaseID)
 +
-+        self.tc = tc
++def getCaseModule(test_case):
++    """
++        Returns test case module name.
++    """
++    return test_case.__module__
 +
-+        self.tc._results['failures'] = self.failures
-+        self.tc._results['errors'] = self.errors
-+        self.tc._results['skipped'] = self.skipped
-+        self.tc._results['expectedFailures'] = self.expectedFailures
++def getCaseClass(test_case):
++    """
++        Returns test case class name.
++    """
++    return test_case.__class__.__name__
 +
-+    def startTest(self, test):
-+        super(OETestResult, self).startTest(test)
++def getCaseID(test_case):
++    """
++        Returns test case complete id.
++    """
++    return test_case.id()
 +
-+class OETestRunner(_TestRunner):
-+    def __init__(self, tc, *args, **kwargs):
-+        if xmlEnabled:
-+            if not kwargs.get('output'):
-+                kwargs['output'] = os.path.join(os.getcwd(),
-+                        'TestResults_%s' % time.strftime("%Y%m%d%H%M%S"))
-+
-+        super(OETestRunner, self).__init__(*args, **kwargs)
-+        self.tc = tc
-+        self.resultclass = OETestResult
-+
-+    # XXX: The unittest-xml-reporting package defines _make_result method instead
-+    # of _makeResult standard on unittest.
-+    if xmlEnabled:
-+        def _make_result(self):
-+            """
-+            Creates a TestResult object which will be used to store
-+            information about the executed tests.
-+            """
-+            # override in subclasses if necessary.
-+            return self.resultclass(self.tc,
-+                self.stream, self.descriptions, self.verbosity, self.elapsed_times
-+            )
-+    else:
-+        def _makeResult(self):
-+            return self.resultclass(self.tc, self.stream, self.descriptions,
-+                    self.verbosity)
++def getCaseMethod(test_case):
++    """
++        Returns test case method name.
++    """
++    return getCaseID(test_case).split('.')[-1]
 -- 
 2.1.4
 
