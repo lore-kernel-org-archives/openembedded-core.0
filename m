@@ -1,52 +1,30 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 36A1871B42
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E1846B6EA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Dec 2016 23:50:51 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id n204so50822650qke.2
+	Thu,  8 Dec 2016 01:22:41 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="13708087"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 08 Dec 2016 09:22:37 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 517614670074
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Dec 2016 15:50:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=pZOCndABfD7LywRTGtuQamsCW7nVim2QJxOlQJ8Hnms=;
-	b=ZlOY67SECxWZNGoTPD5oS2xCoG1UIW9BaiaFMZ4Q5jgjg187vTVGG0R8/N3GExOR+2
-	Ea5CHQ2cXJs1j1Drn1j5fbfLX+DmwqnfxSsw4G7MsaGcS4VKJd7mGnSTdQeod+ooVDhr
-	hpDwn6Dw3aAy/4W7x0EkyMs8g1P63AsgIcxrBzWXkbNttDFqCok7KYWV12aPAtfrwypd
-	+6M7V5odHj8+Ify7gSGl17zF+nq+5Qff4wrt+fQ3pK89+jNglCcMsTodZNUdWcHHU+QP
-	+PHt3PQ31sCx4eEjG25kgTPB/Dg4zaN+p8iii4ulBvzPLI6zi15dYVLfy7S+HS4qa6jI
-	j0og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=pZOCndABfD7LywRTGtuQamsCW7nVim2QJxOlQJ8Hnms=;
-	b=eSt0/s1wdZN/nqyYQNzXV0qyAikkQluy6vf60U+oMNbpAbhH/ToSAGaYJ4uPEgCqP2
-	PxAG1b7Iu56Z9Qgs0dKcP1gt/cuHO3te/bczPc8IcGhFNKd+TvmaYkKFPoIG7mbif/4N
-	0neNJaxU9r3qxQWZ4by7X62AdgGBbT3H8+Z010adVsnH7mjkM9nIMXBFcLbOg3H1UoXU
-	RqUXIPElyysiq0g/Am6gTJWsVB3Zt51qeUij3Ws2Cxz411OfpDtUvUCiOfOFFDPEqCcI
-	f7+PDZ1eU3BkJA4kJsbvUSYJ4nVjFISzg4YW28Jj7b4Q36AJ55DfJOpZUHpETIyr0YAP
-	L4eQ==
-X-Gm-Message-State: AKaTC01S6rwZkaM/WQJZauIurbvy7ZlhKVNtAGhD3tGjLnxIbjK5mzZGgIOJA99sRqeKWMUH0vU/SA4V3nADxQ==
-X-Received: by 10.55.94.135 with SMTP id s129mr58847650qkb.124.1481154652950; 
-	Wed, 07 Dec 2016 15:50:52 -0800 (PST)
+	Thu,  8 Dec 2016 09:22:33 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.81) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Thu, 8 Dec 2016 09:22:33 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 8 Dec 2016 01:22:18 -0800
+Message-ID: <1481188938-53432-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 10.237.46.162 with HTTP; Wed, 7 Dec 2016 15:50:52 -0800 (PST)
-In-Reply-To: <CAHUNapSr5a2cuKN1xiK=2K0S+zkwMA7J0ALfe1hUZAVgXv2Fpw@mail.gmail.com>
-References: <cover.1480711764.git.bruce.ashfield@windriver.com>
-	<48f1e3e16ca28e1194d6024689d000cb6ffc303c.1480711764.git.bruce.ashfield@windriver.com>
-	<1481058881.17535.58.camel@intel.com>
-	<20161206230222.5411d7b6@nuc.betafive.co.uk>
-	<CAHUNapQ847n7e=acLQ+hkLqziqaP8EQg5_0wrw5oJ9i9+Tw6tg@mail.gmail.com>
-	<78eef00e-4156-bdbf-cda1-688ae0495414@windriver.com>
-	<CAHUNapSr5a2cuKN1xiK=2K0S+zkwMA7J0ALfe1hUZAVgXv2Fpw@mail.gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Wed, 7 Dec 2016 18:50:52 -0500
-Message-ID: <CAHUNapQxmOANi1FinaTiXH+J2VdyvH4g5y2zRJydBso6epf00A@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] kern-tools: fix processing for no branch meta-data
+X-Originating-IP: [10.167.226.81]
+X-yoursite-MailScanner-ID: 517614670074.AFD7F
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] libnotify : 0.7.6 -> 0.7.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,28 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2016 23:50:52 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 08 Dec 2016 01:22:43 -0000
+Content-Type: text/plain
 
-On Wed, Dec 7, 2016 at 1:05 PM, Trevor Woerner <twoerner@gmail.com> wrote:
-> On Wed, Dec 7, 2016 at 11:18 AM, Bruce Ashfield
-> <bruce.ashfield@windriver.com> wrote:
->> With the attached patch, I see nothing else that is named  in /tmp/
->>
->> If you have the cycles, can you give it a try and let me know ?
->
-> Yes, I'm giving it a whirl right now. Thanks!
+Upgrade libnotify from 0.7.6 to 0.7.7.
 
-That patch looks good, how soon can it land? ;-)
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+---
+ .../libnotify/{libnotify_0.7.6.bb => libnotify_0.7.7.bb}              | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-gnome/libnotify/{libnotify_0.7.6.bb => libnotify_0.7.7.bb} (79%)
 
-I'm sure there's still something in the build that is creating
-temporary files in /tmp. I'm not sure which process is doing it, I
-have no reason to suspect it's the kernel tools (in fact I think it
-happens too early in the build to be the kernel tools), and the tmp
-files that are created are named with temporary names (e.g.
-/tmp/tmp.2wavbhTlDU) so they shouldn't interfere with multiple users
-building on the same machine. Each build appears to create two such
-temp files that aren't cleaned up at the end of the build. Not a big
-deal. I don't think it's something new that was introduced recently
-(but I'd have to do more investigation to verify).
+diff --git a/meta/recipes-gnome/libnotify/libnotify_0.7.6.bb b/meta/recipes-gnome/libnotify/libnotify_0.7.7.bb
+similarity index 79%
+rename from meta/recipes-gnome/libnotify/libnotify_0.7.6.bb
+rename to meta/recipes-gnome/libnotify/libnotify_0.7.7.bb
+index ce8e5ae..2ab2f1f 100644
+--- a/meta/recipes-gnome/libnotify/libnotify_0.7.6.bb
++++ b/meta/recipes-gnome/libnotify/libnotify_0.7.7.bb
+@@ -9,8 +9,8 @@ inherit gnomebase gtk-doc distro_features_check gobject-introspection
+ # depends on gtk+3
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+ 
+-SRC_URI[archive.md5sum] = "a4997019d08f46f3bf57b78e6f795a59"
+-SRC_URI[archive.sha256sum] = "0ef61ca400d30e28217979bfa0e73a7406b19c32dd76150654ec5b2bdf47d837"
++SRC_URI[archive.md5sum] = "e9d911f6a22435e0b922f2fe71212b59"
++SRC_URI[archive.sha256sum] = "9cb4ce315b2655860c524d46b56010874214ec27e854086c1a1d0260137efc04"
+ 
+ # there were times, we had two versions of libnotify (oe-core libnotify:0.6.x /
+ # meta-gnome libnotify3: 0.7.x)
+-- 
+2.7.4
+
+
+
 
