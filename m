@@ -1,47 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
-	[209.85.216.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 5491B6E5FC
+Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
+	[209.85.220.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 0841F60069
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2016 14:42:00 +0000 (UTC)
-Received: by mail-qt0-f178.google.com with SMTP id n6so413779546qtd.1
+	Thu,  8 Dec 2016 15:24:25 +0000 (UTC)
+Received: by mail-qk0-f181.google.com with SMTP id x190so452634775qkb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Dec 2016 06:42:02 -0800 (PST)
+	Thu, 08 Dec 2016 07:24:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=FQ38zYLq6h6zjS4LCVM+4jCl+bSRi8Qm+f+7O4Hf8AE=;
-	b=eDHzjLI5yCkA2xUX0y3ayFQMpwgBLNevTe9LV3wJMdocqvspxj5RIn7DagKX/z+S6k
-	2MnrXrF8uNWQgDdNWiDqmwPM+liHXjYisXmnixcKBOLMHMBDiXv/h5tlcnDbtf3EBQpP
-	4pwNOkBJwVPLkfcab4zCOWV2v5GcCc9GXobHFEJg/AW0YuC9ZJ3dqcTp4xpp5LwWcVoo
-	m9cfbkPAMLK7H88mBCj9I1Qq9kdOwBO3mbg/V+/XyDGgO63DBu/Ui9AwPzcY5DOy9nDj
-	5J6+C4eHdfXMzUMjUKsp9SArcVz6e2BRh8gPAQ3HUcQC3BAkthpiZSyGEP5Auzjf3gje
-	RYxQ==
+	:cc; bh=aGyuKSPEjyNtiwKK0nw770x9p+/iQD8mEz26AHj04K8=;
+	b=WybQoeQlOkIIQphAa/5TrPEfhPa5A//MKJpowP5lg+3OedjPJfcfHomhqPnQtFeuDq
+	ajkjw0xfBeh38xgnXWHV5mJ6N4WRz9RAbncy8dhobnnc/APLmyF9w+ik3kftk/LjLB13
+	TDJg22eJcYkD2b+UimASOIRuUolAQHHTFkbybqIq5s+DaqAQ0b7BITaQSaaczBftqpwd
+	3bsMHDPmcN11qupWAz6Eisba8W8ZqIJ8wWpNhkl33yTwdAwnEs7F9pnlGRvH0POr49vx
+	I+Puyrvz8WxiXrYXLoI7DbX9VSbwZ0smVblqFPYuAz6cdw5RQAH/x+Cu8Z7iRleTbd8D
+	VOvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=FQ38zYLq6h6zjS4LCVM+4jCl+bSRi8Qm+f+7O4Hf8AE=;
-	b=NMUIpM+P3L6fvn05j5I3ULNHHo97f1p0oVeWgK0k1TKaTfgKURP51tSzezMVGFX/2S
-	/jLVpdmJWT3sWAUht7rAW0lRZCK2z9wRXLKmbHQij0AigcgI69nYtd6ySh0QlxDSCvDK
-	+ZCKK1+Rz60aGxgAfXOlrsM+2bcKfFkelWBrsPfAwD1DUdfmJ7Qpndnl7llAXdj1tjAh
-	iubOEMBJMrkNqRCOsoQkO74C0OIyXxIOMRB6dY4MFpfScAfKImmPYKjuDoQkVE7pz+ea
-	LF77oNBdbk9h/qNiAXFe21ba4+TqD624OTDX8rwMEzvhAGQ7Uv7AzqyK3f1t2sYpKr7c
-	+1aw==
-X-Gm-Message-State: AKaTC02Oq6vHvl2mJFr98z97iVXMDukSp9kFiweyNT5xd4q3iouVxAaGFPhcOceo3ITv9UsqU76dO6WOe08YBVrX
-X-Received: by 10.200.57.54 with SMTP id s51mr63278078qtb.68.1481208122324;
-	Thu, 08 Dec 2016 06:42:02 -0800 (PST)
+	bh=aGyuKSPEjyNtiwKK0nw770x9p+/iQD8mEz26AHj04K8=;
+	b=UT0J+qoRDHzfvwpUXprEB2k44K5QpQjeViqzMS620vBgFIoWArGJKrII2ai4OfyG8N
+	CpI1hVlzHexahr1DLhFUDR8pJfWR4KYWLIIU7MIb9z8UCtgPPsgWf5dMOjSf202rpXvq
+	I0Sw62Rfv2ijcBb2AvFX4ChhH/gS/mOjjaS7cxyAbEift0oe2ivej+jWIgLBQmTQQYnK
+	n5dzkhZ5WJZkbBvPn7qtGBhqaoyz0QH4RsyLqGWHO0NB7MKae+rBDZZf5GR2dNv7qJhH
+	BtwNP0jC8uArhr0qLSQBrtMyM+UadP1BiEHNdY0hmfKoWqfOUOofg9vCSKXCTjIHOV0s
+	tQ5Q==
+X-Gm-Message-State: AKaTC01z3OSWPIbkO01BbuxCQyqua8nKHMS6NSYRSgw+tzdNXiQ7tYSmPOri1DmL/yVIC6fXR2Qxx41ykZziwaYz
+X-Received: by 10.55.5.145 with SMTP id 139mr65057384qkf.77.1481210666410;
+	Thu, 08 Dec 2016 07:24:26 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Thu, 8 Dec 2016 06:41:41 -0800 (PST)
-In-Reply-To: <2fd5296cdd3485bd4eab59388ba8d19fce3fb022.1481142664.git.anibal.limon@linux.intel.com>
-References: <cover.1481142664.git.anibal.limon@linux.intel.com>
-	<2fd5296cdd3485bd4eab59388ba8d19fce3fb022.1481142664.git.anibal.limon@linux.intel.com>
+Received: by 10.140.106.99 with HTTP; Thu, 8 Dec 2016 07:24:06 -0800 (PST)
+In-Reply-To: <2760910.PlGPul2nZt@peggleto-mobl.ger.corp.intel.com>
+References: <1477393415-13053-1-git-send-email-olani@axis.com>
+	<3d0139cbc58340fea6f0ea733004c06a@XBOX01.axis.com>
+	<2760910.PlGPul2nZt@peggleto-mobl.ger.corp.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 8 Dec 2016 14:41:41 +0000
-Message-ID: <CAJTo0LZRy2q4hAzDDqRWAn6YdwCZZznu3exfmYFYW83MOPpRAQ@mail.gmail.com>
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Date: Thu, 8 Dec 2016 15:24:06 +0000
+Message-ID: <CAJTo0LaYJ0+AyUb+-h1Kf5vbXuro=pq-2gNKXiO7Ea4mO3hMkg@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 17/32] oeqa/utils/path: Add remove_safe function
+Subject: Re: [PATCH 0/4] Load devtool and reciptool plugins in a well-defined manner
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,45 +55,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2016 14:42:01 -0000
-Content-Type: multipart/alternative; boundary=001a113a01e8f851e1054326a37e
+X-List-Received-Date: Thu, 08 Dec 2016 15:24:26 -0000
+Content-Type: multipart/alternative; boundary=001a114c8f849bf8790543273b5d
 
---001a113a01e8f851e1054326a37e
+--001a114c8f849bf8790543273b5d
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-Can you squash this into the commit that added core/utils/path.
+Sorry, slipped down in my inbox.  Thanks for acking Paul, these are in
+staging now.
 
 Ross
 
-On 7 December 2016 at 20:32, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.int=
-el.com>
+On 7 December 2016 at 21:16, Paul Eggleton <paul.eggleton@linux.intel.com>
 wrote:
 
-> Checks if path exists before try to remove of avoid exception.
+> On Tue, 06 Dec 2016 07:37:16 Ola x Nilsson wrote:
+> > Ping?
 >
-> Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel.com>
-> ---
->  meta/lib/oeqa/core/utils/path.py | 5 +++++
->  1 file changed, 5 insertions(+)
+> I guess Ross / Richard were waiting for my ack - sorry about that.
 >
-> diff --git a/meta/lib/oeqa/core/utils/path.py b/meta/lib/oeqa/core/utils/
-> path.py
-> index cb06523..a21caad 100644
-> --- a/meta/lib/oeqa/core/utils/path.py
-> +++ b/meta/lib/oeqa/core/utils/path.py
-> @@ -12,3 +12,8 @@ def findFile(file_name, directory):
->          if file_name in f:
->              return os.path.join(r, file_name)
->      return None
-> +
-> +def remove_safe(path):
-> +    if os.path.exists(path):
-> +        os.remove(path)
-> +
+> Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+>
+> Cheers,
+> Paul
+>
 > --
-> 2.1.4
 >
+> Paul Eggleton
+> Intel Open Source Technology Centre
 > --
 > _______________________________________________
 > Openembedded-core mailing list
@@ -100,44 +90,33 @@ wrote:
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
---001a113a01e8f851e1054326a37e
+--001a114c8f849bf8790543273b5d
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Can you squash this into the commit that added core/utils/=
-path.<div><br></div><div>Ross</div></div><div class=3D"gmail_extra"><br><di=
-v class=3D"gmail_quote">On 7 December 2016 at 20:32, An=C3=ADbal Lim=C3=B3n=
- <span dir=3D"ltr">&lt;<a href=3D"mailto:anibal.limon@linux.intel.com" targ=
-et=3D"_blank">anibal.limon@linux.intel.com</a>&gt;</span> wrote:<br><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex">Checks if path exists before try to remove of avoid=
- exception.<br>
+<div dir=3D"ltr">Sorry, slipped down in my inbox.=C2=A0 Thanks for acking P=
+aul, these are in staging now.<div><br></div><div>Ross</div></div><div clas=
+s=3D"gmail_extra"><br><div class=3D"gmail_quote">On 7 December 2016 at 21:1=
+6, Paul Eggleton <span dir=3D"ltr">&lt;<a href=3D"mailto:paul.eggleton@linu=
+x.intel.com" target=3D"_blank">paul.eggleton@linux.intel.com</a>&gt;</span>=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex">On Tue, 06 Dec 2016 07:37:16 Ola =
+x Nilsson wrote:<br>
+&gt; Ping?<br>
 <br>
-Signed-off-by: An=C3=ADbal Lim=C3=B3n &lt;<a href=3D"mailto:anibal.limon@li=
-nux.intel.com">anibal.limon@linux.intel.com</a>&gt;<br>
----<br>
-=C2=A0meta/lib/oeqa/core/utils/path.<wbr>py | 5 +++++<br>
-=C2=A01 file changed, 5 insertions(+)<br>
+I guess Ross / Richard were waiting for my ack - sorry about that.<br>
 <br>
-diff --git a/meta/lib/oeqa/core/utils/<wbr>path.py b/meta/lib/oeqa/core/uti=
-ls/<wbr>path.py<br>
-index cb06523..a21caad 100644<br>
---- a/meta/lib/oeqa/core/utils/<wbr>path.py<br>
-+++ b/meta/lib/oeqa/core/utils/<wbr>path.py<br>
-@@ -12,3 +12,8 @@ def findFile(file_name, directory):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if file_name in f:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return os.path.join(r, file=
-_name)<br>
-=C2=A0 =C2=A0 =C2=A0return None<br>
-+<br>
-+def remove_safe(path):<br>
-+=C2=A0 =C2=A0 if os.path.exists(path):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 os.remove(path)<br>
-+<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.1.4<br>
+Acked-by: Paul Eggleton &lt;<a href=3D"mailto:paul.eggleton@linux.intel.com=
+">paul.eggleton@linux.intel.com</a><wbr>&gt;<br>
 <br>
+Cheers,<br>
+Paul<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
 --<br>
+<br>
+Paul Eggleton<br>
+Intel Open Source Technology Centre<br>
+</font></span><div class=3D"HOEnZb"><div class=3D"h5">--<br>
 ______________________________<wbr>_________________<br>
 Openembedded-core mailing list<br>
 <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
@@ -145,6 +124,6 @@ re@lists.<wbr>openembedded.org</a><br>
 <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
 " rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
 ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
+</div></div></blockquote></div><br></div>
 
---001a113a01e8f851e1054326a37e--
+--001a114c8f849bf8790543273b5d--
