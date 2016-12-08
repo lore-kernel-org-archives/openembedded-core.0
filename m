@@ -1,18 +1,18 @@
 Return-Path: <obi@opendreambox.org>
 Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A4ED71CA7
+	by mail.openembedded.org (Postfix) with ESMTP id 5F58F71C70
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2016 21:48:21 +0000 (UTC)
+	Thu,  8 Dec 2016 21:48:22 +0000 (UTC)
 Received: by t510.zcs.saftware.de (Postfix, from userid 1000)
-	id 56B92B88DCD; Thu,  8 Dec 2016 22:48:01 +0100 (CET)
+	id 69D4BB8AB94; Thu,  8 Dec 2016 22:48:01 +0100 (CET)
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Dec 2016 22:47:57 +0100
-Message-Id: <1481233677-27298-34-git-send-email-obi@opendreambox.org>
+Date: Thu,  8 Dec 2016 22:47:56 +0100
+Message-Id: <1481233677-27298-33-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1481233677-27298-1-git-send-email-obi@opendreambox.org>
 References: <1481233677-27298-1-git-send-email-obi@opendreambox.org>
-Subject: [PATCH v2 33/33] apt: dselect depends on perl
+Subject: [PATCH v2 32/33] apt: fix rpath error during configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,26 +25,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2016 21:48:21 -0000
+X-List-Received-Date: Thu, 08 Dec 2016 21:48:22 -0000
+
+| checking for shared library run path origin... /bin/sh: ../apt-1.0.10.1/buildlib/config.rpath: No such file or directory
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-devtools/apt/apt_1.2.12.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/apt/apt_1.2.12.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/meta/recipes-devtools/apt/apt_1.2.12.bb b/meta/recipes-devtools/apt/apt_1.2.12.bb
-index 5dc50a4..0b640f9 100644
+index 4d781a2..5dc50a4 100644
 --- a/meta/recipes-devtools/apt/apt_1.2.12.bb
 +++ b/meta/recipes-devtools/apt/apt_1.2.12.bb
-@@ -110,7 +110,7 @@ do_install_append_class-target() {
- PACKAGES =+ "${PN}-dselect ${PN}-transport-https ${PN}-utils lib${PN}-inst lib${PN}-pkg"
+@@ -28,7 +28,10 @@ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/a/apt/"
  
- RDEPENDS_${PN} = "dpkg debianutils"
--RDEPENDS_${PN}-dselect = "bash"
-+RDEPENDS_${PN}-dselect = "bash perl"
+ inherit autotools gettext useradd
  
- RRECOMMENDS_${PN} = "gnupg"
- RRECOMMENDS_${PN}_class-native = ""
++AUTOTOOLS_AUXDIR = "${S}/buildlib"
++
+ EXTRA_AUTORECONF = "--exclude=autopoint,autoheader"
++EXTRA_OECONF = "--disable-rpath"
+ 
+ PACKAGECONFIG ??= "lzma"
+ PACKAGECONFIG[lzma] = "ac_cv_lib_lzma_lzma_easy_encoder=yes,ac_cv_lib_lzma_lzma_easy_encoder=no,xz"
 -- 
 2.7.4
 
