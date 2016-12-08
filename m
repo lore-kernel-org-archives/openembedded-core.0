@@ -1,49 +1,21 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id D1C576069D
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 525006069D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2016 16:16:59 +0000 (UTC)
-Received: by mail-qk0-f175.google.com with SMTP id n21so454262675qka.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Dec 2016 08:17:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=fkVKjhmtMi6pWXfrR25GnXl6XstYNi6gAoSsb2YrZj0=;
-	b=D087TERkydjRBHS7sZOQNA/OttdkGCBAgAxNU/7UBFV74nWb6dMc6BgcsB3zeQLm2m
-	gTXunXapwgZyuvcOO580cWzgrYxZXeUTvXDC7gQDMVQTwyD9KD2qNR5Znu5u7NmEHNwa
-	mLZEzrgtd5QRl6K9sAhuqfZv5RCk5SfFw9vTQv1knmBFUx7sLrTWKAzdZqcnnP2GSVvl
-	M6yE3JVOMfSomq3lj7wARWWTVVZO/9ICIQtRargDI2xT6RQo+X7z4lw2CSvQEl4YAd4j
-	9HzYjYX71FTL/BUb2rF4qyACk/vHn9HlXIBez2J9hBT/GEI0iDVq90HFXYkyApXpgXAH
-	9eJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=fkVKjhmtMi6pWXfrR25GnXl6XstYNi6gAoSsb2YrZj0=;
-	b=cXX+FErizfNrsedx7s3BEZNZT6DpXG14UwmwhjxIjdQ+QTDPpeZe36s6D8M9VNvY9i
-	/RAtrR7+wTltLE4Jihjch7Z/Oe/WOH36RzGdsXFSi97OgSIEJ6ohOsWq6xDwPORV81Ag
-	4Vn0BDrsKPwfCjf8S7SGyK9FNhFvEDW+hqxrDNbObFCMcd55PArw9pkhJBf6MGAobhZI
-	gn1H38OHwcRFV90JkMaHidUUsn+msUdnLBMcNAr5jNeNBdaL4hxdsMphVJctjsKd2Lwl
-	WAPgBYo9eqXCFS+QUKXKhAe8XC5TCO/wwZRHYuxeMREpKGEXfnG0qooqP0UDGlldt8t9
-	jLMg==
-X-Gm-Message-State: AKaTC0121hidebtpXZ2R/AP5kVWnoPCYJxMXdpW9AKKoI83h1iJazdH59o9g80XapwRaPSRsPRQuL2W8Mbf++No0
-X-Received: by 10.55.207.78 with SMTP id e75mr75785577qkj.36.1481213810965;
-	Thu, 08 Dec 2016 08:16:50 -0800 (PST)
+	Thu,  8 Dec 2016 16:18:50 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga102.jf.intel.com with ESMTP; 08 Dec 2016 08:18:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; d="scan'208";a="40496427"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.142])
+	by fmsmga006.fm.intel.com with ESMTP; 08 Dec 2016 08:18:52 -0800
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  8 Dec 2016 10:20:28 -0600
+Message-Id: <cover.1481213961.git.anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Thu, 8 Dec 2016 08:16:30 -0800 (PST)
-In-Reply-To: <62473423-1805-cbb9-240f-c070f729fe16@opendreambox.org>
-References: <1481024991-5882-1-git-send-email-obi@opendreambox.org>
-	<1481024991-5882-3-git-send-email-obi@opendreambox.org>
-	<CAJTo0LbsxuA6wMm8gY1LJJhxq15k10x9HoD0qBBHi4tSoQa8SA@mail.gmail.com>
-	<62473423-1805-cbb9-240f-c070f729fe16@opendreambox.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 8 Dec 2016 16:16:30 +0000
-Message-ID: <CAJTo0LbxmC2BBj0V2BXWo1UqJmgALSdSK=GmCh4dZeMyxFp3gg@mail.gmail.com>
-To: Andreas Oberritter <obi@opendreambox.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 02/33] dpkg: update-alternatives-dpkg should conflict with other providers
+Subject: [PATCHv3 00/30] OEQA Framework Refactor & Improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,125 +28,199 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2016 16:17:01 -0000
-Content-Type: multipart/alternative; boundary=001a1145b7b80a1acf054327f796
-
---001a1145b7b80a1acf054327f796
+X-List-Received-Date: Thu, 08 Dec 2016 16:18:51 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-With PACKAGE_CLASSES="package_rpm package_deb" this happens:
+This patchset is related to OEQA Framework for details read the RFC send to the
+Openembedded architecture ML.
 
-ERROR: dpkg-native-1.18.7-r0 do_populate_sysroot: The recipe dpkg-native is
-trying to install files into a shared area when those files already exist.
-Those files and their manifest location are:
+http://lists.openembedded.org/pipermail/openembedded-architecture/2016-December/000351.html
 
- /data/poky-master/tmp-glibc/sysroots/x86_64-linux/usr/bin/update-alternatives
- Matched in b'manifest-x86_64-opkg-utils-native.populate_sysroot'
+Changes in v2: Fixes sdk extensible test case sdk_update.
+Changes in v3: Squashed two commits related to d -> td and remove_safe function.
 
-Whilst I agree that building multiple package types at the same time is a
-bit weird, it's always worked in the past.
+The following changes since commit 931ce04b0884ebe73158251d0d9a461214dfe1aa:
 
-Ross
+  bitbake: toaster: Reference pip3 not pip (2016-12-08 15:52:08 +0000)
 
-On 7 December 2016 at 01:30, Andreas Oberritter <obi@opendreambox.org>
-wrote:
+are available in the git repository at:
 
-> On 06.12.2016 20:52, Burton, Ross wrote:
-> > This needs more than just RCONFLICTS:
-> >
-> > ERROR: dpkg-native-1.18.7-r0 do_populate_sysroot: The recipe dpkg-native
-> > is trying to install files into a shared area when those files already
-> > exist. Those files and their manifest location are:
-> >
-> >  /data/poky-master/tmp-glibc/sysroots/x86_64-linux/usr/bin/
-> update-alternatives
-> >
-> > I have both package_deb and package_rpm enabled, and have a build from
-> > master before trying your branch.
->
-> I'm going to address this in "dpkg: implement offline mode for update-
-> alternatives" with the following additions:
->
-> +PROVIDES = "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives',
-> 'virtual/update-alternatives', '', d)}"
->
-> [...]
->
-> +UA = "update-alternatives"
-> +UA_native = "${@['', 'update-alternatives'][d.getVar('PREFERRED_PROVIDER_
-> virtual/update-alternatives-native', True) == 'dpkg-native']}"
-> +
-> +PACKAGECONFIG ??= "${UA}"
-> +PACKAGECONFIG[update-alternatives] = "--enable-update-alternatives,
-> --disable-update-alternatives"
->
-> Because update-alternative-dpkg and update-alternatives-opkg are using
-> incompatible databases, I don't think there are much better ways to
-> avoid this conflict.
->
-> Regards,
-> Andreas
->
+  git://git.yoctoproject.org/poky-contrib alimon/oeqa_sdk_migration
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=alimon/oeqa_sdk_migration
 
---001a1145b7b80a1acf054327f796
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Aníbal Limón (26):
+  oeqa/core: Add base OEQA framework
+  oeqa/core: Add loader, context and decorator modules
+  oeqa/core/decorator: Add support for OETestDepends
+  oeqa/core/decorator: Add support for OETestDataDepends and
+    skipIfDataVar
+  scripts/oe-test: Add new oe-test script
+  oeqa/core/context: Add support of OETestContextExecutor
+  oeqa/core/cases: Add example test cases
+  oeqa/core: Add README
+  oe/data: Add export2json function
+  classes/rootfs-postcommands: Add write_image_test_data
+  classes/populate_sdk_base: Add write_sdk_test_data to postprocess
+  oeqa: Move common files to oeqa/files instead of runtime only
+  oeqa/sdk: Move test cases inside cases directory
+  oeqa/{runtime,sdk}/files: Move testsdkmakefile from runtime to sdk
+    module
+  oeqa/sdk: Add case and context modules for the SDK component
+  classes/testsdk: Migrates testsdk.bbclass to use new OESDKTestContext
+  oeqa/utils: Move targetbuild to buildproject module
+  oeqa/utils: {Target,SDK,}BuildProject remove dependency of bb
+  oeqa/sdk/cases: Migrate tests to the new OEQA framework
+  classes/testsdk: Remove the need of TEST_LOG_DIR variable
+  oeqa/sdkext: Move test cases inside cases directory
+  oeqa/sdkext: Adds case and context modules.
+  classes/testsdk: Migrate to use the new OESDKExtTestContext
+  oeqa/sdkext/cases: Migrate test case to new OEQA framework
+  oeqa/runtime: Fix TargetBuildProject instances
+  oeqa: Fix files handling on runtime tests.
 
-<div dir=3D"ltr">With PACKAGE_CLASSES=3D&quot;package_rpm package_deb&quot;=
- this happens:<div><br></div><div><div>ERROR: dpkg-native-1.18.7-r0 do_popu=
-late_sysroot: The recipe dpkg-native is trying to install files into a shar=
-ed area when those files already exist. Those files and their manifest loca=
-tion are:</div><div>=C2=A0 =C2=A0/data/poky-master/tmp-glibc/sysroots/x86_6=
-4-linux/usr/bin/update-alternatives</div><div>=C2=A0Matched in b&#39;manife=
-st-x86_64-opkg-utils-native.populate_sysroot&#39;</div></div><div><br></div=
-><div>Whilst I agree that building multiple package types at the same time =
-is a bit weird, it&#39;s always worked in the past.</div><div><br></div><di=
-v>Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote"=
->On 7 December 2016 at 01:30, Andreas Oberritter <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:obi@opendreambox.org" target=3D"_blank">obi@opendreambox.org<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On=
- 06.12.2016 20:52, Burton, Ross wrote:<br>
-&gt; This needs more than just RCONFLICTS:<br>
-&gt;<br>
-&gt; ERROR: dpkg-native-1.18.7-r0 do_populate_sysroot: The recipe dpkg-nati=
-ve<br>
-&gt; is trying to install files into a shared area when those files already=
-<br>
-&gt; exist. Those files and their manifest location are:<br>
-&gt;<br>
-&gt;=C2=A0 /data/poky-master/tmp-glibc/<wbr>sysroots/x86_64-linux/usr/bin/<=
-wbr>update-alternatives<br>
-&gt;<br>
-&gt; I have both package_deb and package_rpm enabled, and have a build from=
-<br>
-&gt; master before trying your branch.<br>
-<br>
-</span>I&#39;m going to address this in &quot;dpkg: implement offline mode =
-for update-<br>
-alternatives&quot; with the following additions:<br>
-<br>
-+PROVIDES =3D &quot;${@bb.utils.contains(&#39;<wbr>PACKAGECONFIG&#39;, &#39=
-;update-alternatives&#39;, &#39;virtual/update-alternatives&#39;, &#39;&#39=
-;, d)}&quot;<br>
-<br>
-[...]<br>
-<br>
-+UA =3D &quot;update-alternatives&quot;<br>
-+UA_native =3D &quot;${@[&#39;&#39;, &#39;update-alternatives&#39;][d.<wbr>=
-getVar(&#39;PREFERRED_PROVIDER_<wbr>virtual/update-alternatives-<wbr>native=
-&#39;, True) =3D=3D &#39;dpkg-native&#39;]}&quot;<br>
-+<br>
-+PACKAGECONFIG ??=3D &quot;${UA}&quot;<br>
-+PACKAGECONFIG[update-<wbr>alternatives] =3D &quot;--enable-update-alternat=
-ives,<wbr>--disable-update-alternatives&quot;<br>
-<br>
-Because update-alternative-dpkg and update-alternatives-opkg are using<br>
-incompatible databases, I don&#39;t think there are much better ways to<br>
-avoid this conflict.<br>
-<br>
-Regards,<br>
-Andreas<br>
-</blockquote></div><br></div>
+Mariano Lopez (4):
+  oeqa/core: Add utils module for OEQA framework
+  oeqa/core/decorator: Add support for OETestID and OETestTag
+  oeqa/core/decorator: Add support for OETimeout decorator
+  oeqa/core: Add tests for the OEQA framework
 
---001a1145b7b80a1acf054327f796--
+ meta/classes/populate_sdk_base.bbclass             |   9 +-
+ meta/classes/rootfs-postcommands.bbclass           |  18 ++
+ meta/classes/testexport.bbclass                    |   5 +
+ meta/classes/testimage.bbclass                     |   4 +
+ meta/classes/testsdk.bbclass                       | 162 ++++++++------
+ meta/lib/oe/data.py                                |  28 +++
+ meta/lib/oeqa/core/README                          |  38 ++++
+ meta/lib/oeqa/core/__init__.py                     |   0
+ meta/lib/oeqa/core/case.py                         |  46 ++++
+ meta/lib/oeqa/core/cases/__init__.py               |   0
+ meta/lib/oeqa/core/cases/example/data.json         |   1 +
+ meta/lib/oeqa/core/cases/example/test_basic.py     |  20 ++
+ meta/lib/oeqa/core/context.py                      | 225 ++++++++++++++++++++
+ meta/lib/oeqa/core/decorator/__init__.py           |  71 +++++++
+ meta/lib/oeqa/core/decorator/data.py               |  36 ++++
+ meta/lib/oeqa/core/decorator/depends.py            |  94 +++++++++
+ meta/lib/oeqa/core/decorator/oeid.py               |  23 ++
+ meta/lib/oeqa/core/decorator/oetag.py              |  24 +++
+ meta/lib/oeqa/core/decorator/oetimeout.py          |  25 +++
+ meta/lib/oeqa/core/exception.py                    |  14 ++
+ meta/lib/oeqa/core/loader.py                       | 235 +++++++++++++++++++++
+ meta/lib/oeqa/core/runner.py                       |  76 +++++++
+ meta/lib/oeqa/core/tests/__init__.py               |   0
+ meta/lib/oeqa/core/tests/cases/data.py             |  20 ++
+ meta/lib/oeqa/core/tests/cases/depends.py          |  38 ++++
+ .../oeqa/core/tests/cases/loader/invalid/oeid.py   |  15 ++
+ .../oeqa/core/tests/cases/loader/valid/another.py  |   9 +
+ meta/lib/oeqa/core/tests/cases/oeid.py             |  18 ++
+ meta/lib/oeqa/core/tests/cases/oetag.py            |  18 ++
+ meta/lib/oeqa/core/tests/cases/timeout.py          |  18 ++
+ meta/lib/oeqa/core/tests/common.py                 |  35 +++
+ meta/lib/oeqa/core/tests/test_data.py              |  51 +++++
+ meta/lib/oeqa/core/tests/test_decorators.py        | 135 ++++++++++++
+ meta/lib/oeqa/core/tests/test_loader.py            |  86 ++++++++
+ meta/lib/oeqa/core/tests/test_runner.py            |  38 ++++
+ meta/lib/oeqa/core/utils/__init__.py               |   0
+ meta/lib/oeqa/core/utils/misc.py                   |  37 ++++
+ meta/lib/oeqa/core/utils/path.py                   |  19 ++
+ meta/lib/oeqa/core/utils/test.py                   |  71 +++++++
+ meta/lib/oeqa/{runtime => }/files/test.c           |   0
+ meta/lib/oeqa/{runtime => }/files/test.cpp         |   0
+ meta/lib/oeqa/{runtime => }/files/test.pl          |   0
+ meta/lib/oeqa/{runtime => }/files/test.py          |   0
+ meta/lib/oeqa/oetest.py                            |  92 +-------
+ meta/lib/oeqa/runtime/buildcvs.py                  |   9 +-
+ meta/lib/oeqa/runtime/buildgalculator.py           |   8 +-
+ meta/lib/oeqa/runtime/buildiptables.py             |   8 +-
+ meta/lib/oeqa/runtime/gcc.py                       |   4 +-
+ meta/lib/oeqa/runtime/perl.py                      |   2 +-
+ meta/lib/oeqa/runtime/python.py                    |   2 +-
+ meta/lib/oeqa/runtime/utils/__init__.py            |   0
+ meta/lib/oeqa/runtime/utils/targetbuildproject.py  |  33 +++
+ meta/lib/oeqa/sdk/__init__.py                      |   3 -
+ meta/lib/oeqa/sdk/case.py                          |  12 ++
+ meta/lib/oeqa/sdk/{ => cases}/buildcvs.py          |  15 +-
+ meta/lib/oeqa/sdk/{ => cases}/buildgalculator.py   |  28 ++-
+ meta/lib/oeqa/sdk/{ => cases}/buildiptables.py     |  16 +-
+ meta/lib/oeqa/sdk/cases/gcc.py                     |  43 ++++
+ meta/lib/oeqa/sdk/cases/perl.py                    |  27 +++
+ meta/lib/oeqa/sdk/{ => cases}/python.py            |  25 ++-
+ meta/lib/oeqa/sdk/context.py                       | 133 ++++++++++++
+ .../oeqa/{runtime => sdk}/files/testsdkmakefile    |   0
+ meta/lib/oeqa/sdk/gcc.py                           |  36 ----
+ meta/lib/oeqa/sdk/perl.py                          |  28 ---
+ meta/lib/oeqa/sdk/utils/__init__.py                |   0
+ meta/lib/oeqa/sdk/utils/sdkbuildproject.py         |  45 ++++
+ meta/lib/oeqa/sdkext/__init__.py                   |   3 -
+ meta/lib/oeqa/sdkext/case.py                       |  21 ++
+ meta/lib/oeqa/sdkext/{ => cases}/devtool.py        |  49 +++--
+ meta/lib/oeqa/sdkext/{ => cases}/sdk_update.py     |  17 +-
+ meta/lib/oeqa/sdkext/context.py                    |  21 ++
+ meta/lib/oeqa/utils/buildproject.py                |  52 +++++
+ meta/lib/oeqa/utils/targetbuild.py                 | 135 ------------
+ scripts/oe-test                                    |  98 +++++++++
+ 74 files changed, 2284 insertions(+), 443 deletions(-)
+ create mode 100644 meta/lib/oeqa/core/README
+ create mode 100644 meta/lib/oeqa/core/__init__.py
+ create mode 100644 meta/lib/oeqa/core/case.py
+ create mode 100644 meta/lib/oeqa/core/cases/__init__.py
+ create mode 100644 meta/lib/oeqa/core/cases/example/data.json
+ create mode 100644 meta/lib/oeqa/core/cases/example/test_basic.py
+ create mode 100644 meta/lib/oeqa/core/context.py
+ create mode 100644 meta/lib/oeqa/core/decorator/__init__.py
+ create mode 100644 meta/lib/oeqa/core/decorator/data.py
+ create mode 100644 meta/lib/oeqa/core/decorator/depends.py
+ create mode 100644 meta/lib/oeqa/core/decorator/oeid.py
+ create mode 100644 meta/lib/oeqa/core/decorator/oetag.py
+ create mode 100644 meta/lib/oeqa/core/decorator/oetimeout.py
+ create mode 100644 meta/lib/oeqa/core/exception.py
+ create mode 100644 meta/lib/oeqa/core/loader.py
+ create mode 100644 meta/lib/oeqa/core/runner.py
+ create mode 100644 meta/lib/oeqa/core/tests/__init__.py
+ create mode 100644 meta/lib/oeqa/core/tests/cases/data.py
+ create mode 100644 meta/lib/oeqa/core/tests/cases/depends.py
+ create mode 100644 meta/lib/oeqa/core/tests/cases/loader/invalid/oeid.py
+ create mode 100644 meta/lib/oeqa/core/tests/cases/loader/valid/another.py
+ create mode 100644 meta/lib/oeqa/core/tests/cases/oeid.py
+ create mode 100644 meta/lib/oeqa/core/tests/cases/oetag.py
+ create mode 100644 meta/lib/oeqa/core/tests/cases/timeout.py
+ create mode 100644 meta/lib/oeqa/core/tests/common.py
+ create mode 100755 meta/lib/oeqa/core/tests/test_data.py
+ create mode 100755 meta/lib/oeqa/core/tests/test_decorators.py
+ create mode 100755 meta/lib/oeqa/core/tests/test_loader.py
+ create mode 100755 meta/lib/oeqa/core/tests/test_runner.py
+ create mode 100644 meta/lib/oeqa/core/utils/__init__.py
+ create mode 100644 meta/lib/oeqa/core/utils/misc.py
+ create mode 100644 meta/lib/oeqa/core/utils/path.py
+ create mode 100644 meta/lib/oeqa/core/utils/test.py
+ rename meta/lib/oeqa/{runtime => }/files/test.c (100%)
+ rename meta/lib/oeqa/{runtime => }/files/test.cpp (100%)
+ rename meta/lib/oeqa/{runtime => }/files/test.pl (100%)
+ rename meta/lib/oeqa/{runtime => }/files/test.py (100%)
+ create mode 100644 meta/lib/oeqa/runtime/utils/__init__.py
+ create mode 100644 meta/lib/oeqa/runtime/utils/targetbuildproject.py
+ create mode 100644 meta/lib/oeqa/sdk/case.py
+ rename meta/lib/oeqa/sdk/{ => cases}/buildcvs.py (59%)
+ rename meta/lib/oeqa/sdk/{ => cases}/buildgalculator.py (45%)
+ rename meta/lib/oeqa/sdk/{ => cases}/buildiptables.py (58%)
+ create mode 100644 meta/lib/oeqa/sdk/cases/gcc.py
+ create mode 100644 meta/lib/oeqa/sdk/cases/perl.py
+ rename meta/lib/oeqa/sdk/{ => cases}/python.py (46%)
+ create mode 100644 meta/lib/oeqa/sdk/context.py
+ rename meta/lib/oeqa/{runtime => sdk}/files/testsdkmakefile (100%)
+ delete mode 100644 meta/lib/oeqa/sdk/gcc.py
+ delete mode 100644 meta/lib/oeqa/sdk/perl.py
+ create mode 100644 meta/lib/oeqa/sdk/utils/__init__.py
+ create mode 100644 meta/lib/oeqa/sdk/utils/sdkbuildproject.py
+ create mode 100644 meta/lib/oeqa/sdkext/case.py
+ rename meta/lib/oeqa/sdkext/{ => cases}/devtool.py (73%)
+ rename meta/lib/oeqa/sdkext/{ => cases}/sdk_update.py (63%)
+ create mode 100644 meta/lib/oeqa/sdkext/context.py
+ create mode 100644 meta/lib/oeqa/utils/buildproject.py
+ delete mode 100644 meta/lib/oeqa/utils/targetbuild.py
+ create mode 100755 scripts/oe-test
+
+-- 
+2.1.4
+
+
