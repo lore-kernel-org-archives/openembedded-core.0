@@ -1,50 +1,48 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id BEEEA719DA;
-	Fri,  9 Dec 2016 12:52:18 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id g23so3896784wme.1;
-	Fri, 09 Dec 2016 04:52:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=OfIwa266mr5bCCnoOAbohNch1FUSoIgP9iyBBjEzKds=;
-	b=M2kaBnhsKaQ9JBR6OCDxPIyyg+3iYSdZBazEmqU3yXGNeNHcFlTrASj3nGc2RrO0J8
-	XVPgXlaq0OWBeyhpSVU07LpBqQ92yuHUC0x8YbW08GgbyznVvwqmk6z3of33jF9rz+HJ
-	SH1It24RL++TT6lGe+H4zRO+FXxsokl9dGdYqQVXqD0808WARDZQIqrx+UeAeAE0nebZ
-	MsmoMNzSiaRwMKYYJfWijxzmD7EmjRsl3fBXgjNreISk7jP1cgEL093TrF73Mnyi2UlF
-	q2Fsn7eMAsSEl4gHhfN1Pl7gEMATwPOs6RFO7DqqvKCGb6iKK8EcTnRbRXH2VL28jWnX
-	B4VA==
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ua0-f169.google.com (mail-ua0-f169.google.com
+	[209.85.217.169])
+	by mail.openembedded.org (Postfix) with ESMTP id CA93A71CB7;
+	Fri,  9 Dec 2016 13:02:03 +0000 (UTC)
+Received: by mail-ua0-f169.google.com with SMTP id 20so16585817uak.0;
+	Fri, 09 Dec 2016 05:02:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=4MlcS6qUvhC/J9XYA2H9xezsNxkZ0FMl+FUlXClLmtU=;
+	b=pPLdCDgxqBVQlW5X+kh8zR9aPtcoSf1HEsw3V1ISaV2U+yrmld39OGHAnKE+O7djfi
+	EACgeh8OWr4gljZ8/LTRxHNe1biKEFKH4ao4YFsPKDaSv7oekzxeMlCsXOdlnNwFndy5
+	Q9AP9FCI8G/ZKgbP+8C6PwR7ZPlQt62xJEoJ04/M934WrLP0HIhNRnC4jrkW1uf7FfmB
+	XX//2GOCOM65/w5HWN8J3rzFFx9XrTx7hi6ojYRa9rFYz20HjGYnzz1NVhC51pYoVACa
+	b5T986s9B6dxXfRvJYN23Xg5uMo7Y8GNWQ3wUpz9qxiSuLqwZqMbMNrQWw4etJqXfSuB
+	DXbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=OfIwa266mr5bCCnoOAbohNch1FUSoIgP9iyBBjEzKds=;
-	b=b/YxHb9DLjbGCaPLQJluzfIUvBZnrUNvMsEB6xnJOla6CRmn2FZQV+tSz4RkICY1Xj
-	aO5k07QUwqJKZw7tLBwrf6/tkbV9clCli8GZWatnaIcgMfZ/Zs4WzLFGlgUVOcyt8V9w
-	pqEnvPdAPRynZycTV0Il5WeOHzh94QPm4s2/iiqQOwEkdwXeevijsFK8CC0UMSjEzNYH
-	glyAyQutyf0gm4JGL3K35SDHWmzVd65FUE58poZUwHFyD6qFNIDFPWk/AxvzzDrt4L87
-	H+uId6jf8oDM9wQfpEPrulM/tgZqX3ko7h0q45zB79TJRNqsYMF9/BjEPvwe9Sr87avO
-	JK8g==
-X-Gm-Message-State: AKaTC00JVYITb/ONVjpVdgj2KwsHzTkoD2UaFCL7S0iwktgNvo7tjzEaRASGXdgd/8M1eA==
-X-Received: by 10.28.134.146 with SMTP id i140mr1655345wmd.100.1481287939085; 
-	Fri, 09 Dec 2016 04:52:19 -0800 (PST)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	jm6sm42156714wjb.27.2016.12.09.04.52.18
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 09 Dec 2016 04:52:18 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 9 Dec 2016 13:52:19 +0100
-To: openembedded-core@lists.openembedded.org,
-	Armin Kuster <akuster808@gmail.com>
-Message-ID: <20161209125219.GC3327@jama>
-References: <20161206224742.2426.34904@opal.openembedded.org>
-	<20161206224747.129FE50158@opal.openembedded.org>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=4MlcS6qUvhC/J9XYA2H9xezsNxkZ0FMl+FUlXClLmtU=;
+	b=YZzeY/+DUWj2LUn7U6HsM4D8YZZyXxjvaVdT2VuGWJ7v/9r5uaBwehqiJIaXC4OAwy
+	Rps0BFQUJm+0jXn/iwLeDOYIqIQtnHmoFCBkxCTrF5JKA4tgu7cb/LIsRyonDOcg/I/B
+	0DQcWFtahqqCZqgLz65h5NPRDKU+o0szMDJRDeI3fxnDrIaMXkBbn+DRk30XL/IsvXhU
+	LVdIIQammEBlNy/7WPu7cQRsxqCzhJelUhoQcuX4r73v8QsQ7yxsK/HH3hHj242tNiE3
+	ZIQwWU4Omp/XlgxDVzXOs3+leaBvXhyLS2ceHV5FgW+AqBIP4g9QB+GO0zwncPJUCR5L
+	fQYQ==
+X-Gm-Message-State: AKaTC01DOoFYlD8Y4W8uMCYihm4iDyejl7LoHUlMgj/zagNyYz4dGmtd7z5XZA7aU2QNnSiNZoF6/wI3fTtFLQ==
+X-Received: by 10.176.84.147 with SMTP id p19mr15044978uaa.76.1481288524630;
+	Fri, 09 Dec 2016 05:02:04 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20161206224747.129FE50158@opal.openembedded.org>
-User-Agent: Mutt/1.7.2 (2016-11-26)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] [openembedded-core] 13/13: tzdata: update to 2016i
+Received: by 10.176.85.157 with HTTP; Fri, 9 Dec 2016 05:02:03 -0800 (PST)
+In-Reply-To: <20161209124402.GB3327@jama>
+References: <20161209124402.GB3327@jama>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Fri, 9 Dec 2016 14:02:03 +0100
+Message-ID: <CALbNGRRLOOi7fEeXdevp1cC-JZuBbudQpghJfAFQYR9ieoiT3w@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: State of bitbake world, Failed tasks 2016-12-06
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,143 +55,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2016 12:52:20 -0000
-X-Groupsio-MsgNum: 90574
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="f+W+jCU1fRNres8c"
-Content-Disposition: inline
-
---f+W+jCU1fRNres8c
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Fri, 09 Dec 2016 13:02:05 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 06, 2016 at 10:47:55PM +0000, git@git.openembedded.org wrote:
-> rpurdie pushed a commit to branch jethro
-> in repository openembedded-core.
->=20
-> commit c6e18b6734108c233afc1a188bc58c0e5287c60d
-> Author: Armin Kuster <akuster808@gmail.com>
-> AuthorDate: Thu Nov 3 22:53:28 2016 -0700
->=20
->     tzdata: update to 2016i
+On Fri, Dec 9, 2016 at 1:44 PM, Martin Jansa <martin.jansa@gmail.com> wrote=
+:
+> =3D=3D Number of issues - stats =3D=3D
+> {| class=3D'wikitable'
+> !|Date               !!colspan=3D'3'|Failed tasks                     !!c=
+olspan=3D'6'|Failed depencencies                    !!|Signatures          =
+  !!colspan=3D'12'|QA !!Comment
+> |-
+> ||              ||qemuarm       ||qemux86       ||qemux86_64    ||qemuarm=
+||max||min     ||qemux86||max||min     ||all   ||already-stripped      ||li=
+bdir        ||textrel       ||build-deps    ||file-rdeps    ||version-going=
+-backwards       ||host-user-contaminated        ||installed-vs-shipped  ||=
+unknown-configure-option      ||symlink-to-sysroot    ||invalid-pkgconfig  =
+   ||pkgname       ||
+> |-
+> ||2016-12-06    ||6     ||7     ||6     ||13    ||6     ||6     ||15    |=
+|7     ||7     ||0     ||0             ||0             ||1             ||6 =
+            ||3             ||0             ||0             ||0            =
+ ||0             ||0             ||0             ||0             ||
+> |}
+>
+> http://www.openembedded.org/wiki/Bitbake_World_Status
+>
+> =3D=3D Failed tasks 2016-12-06 =3D=3D
+>
+> INFO: jenkins-job.sh-1.8.12 Complete log available at http://logs.nslu2-l=
+inux.org/buildlogs/oe/world/pyro/log.report.20161209_001246.log
+>
+> =3D=3D=3D common (5) =3D=3D=3D
+>     * meta-openembedded/meta-gnome/recipes-gnome/gnome-menus/gnome-menus3=
+_3.10.1.bb:do_configure
+>     * meta-openembedded/meta-gnome/recipes-gnome/gthumb/gthumb_2.12.4.bb:=
+do_configure
+>     * meta-openembedded/meta-gnome/recipes-gnome/libwnck/libwnck3_3.20.1.=
+bb:do_configure
+^^ These three should be fixed with the patches you just applied to master-=
+next
+>     * meta-openembedded/meta-multimedia/recipes-mediacenter/kodi/kodi_16.=
+bb:do_configure
+>     * meta-openembedded/meta-xfce/recipes-xfce/exo/exo_0.11.1.bb:do_confi=
+gure
+^^ This one should be fixed by oe-core's pending patch 'liburi-perl:
+update to 1.71
+>
+> =3D=3D=3D common-x86 (0) =3D=3D=3D
+>
+> =3D=3D=3D qemuarm (1) =3D=3D=3D
+>     * openembedded-core/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb:do_c=
+ompile
+>
+> =3D=3D=3D qemux86 (2) =3D=3D=3D
+>     * meta-browser/recipes-browser/chromium/chromium_52.0.2743.76.bb:do_c=
+ompile
+>     * meta-qt5/recipes-qt/qt5/qtwebengine_git.bb:do_compile
+>
+> =3D=3D=3D qemux86_64 (1) =3D=3D=3D
+>     * meta-openembedded/meta-oe/recipes-graphics/libvncserver/libvncserve=
+r_0.9.10.bb:do_compile
+>
+> =3D=3D=3D Number of failed tasks (19) =3D=3D=3D
+> {| class=3Dwikitable
+> |-
+> || qemuarm      || 6     || http://logs.nslu2-linux.org/buildlogs/oe/worl=
+d/pyro/log.world.qemuarm.20161206_030245.log/ || http://errors.yoctoproject=
+.org/Errors/Build/25556/
+> |-
+> || qemux86      || 7     || http://logs.nslu2-linux.org/buildlogs/oe/worl=
+d/pyro/log.world.qemux86.20161206_052857.log/ || http://errors.yoctoproject=
+.org/Errors/Build/25561/
+> |-
+> || qemux86_64   || 6     || http://logs.nslu2-linux.org/buildlogs/oe/worl=
+d/pyro/log.world.qemux86-64.20161206_072352.log/ || http://errors.yoctoproj=
+ect.org/Errors/Build/25797/
+> |}
+Andreas
 
-Hi,
-
-now there is again inconsistency in tz* versions across release
-branches.
-
-Oldest jethro has newest (same as master) tzdata and tzcode (2016i)
-and newer Yocto releases have older tz* krogoth (2016g) and morty (2016h).
-
->       Briefly: Cyprus split into two time zones on 2016-10-30, and Tonga
->       reintroduces DST on 2016-11-06.
->    =20
->       Changes to future time stamps
->    =20
->         Pacific/Tongatapu begins DST on 2016-11-06 at 02:00, ending on
->         2017-01-15 at 03:00.  Assume future observances in Tonga will be
->         from the first Sunday in November through the third Sunday in
->         January, like Fiji.  (Thanks to Pulu =CA=BBAnau.)  Switch to nume=
-ric
->         time zone abbreviations for this zone.
->    =20
->       Changes to past and future time stamps
->    =20
->         Northern Cyprus is now +03 year round, causing a split in Cyprus
->         time zones starting 2016-10-30 at 04:00.  This creates a zone
->         Asia/Famagusta.  (Thanks to Even Scharning and Matt Johnson.)
->    =20
->         Antarctica/Casey switched from +08 to +11 on 2016-10-22.
->         (Thanks to Steffen Thorsen.)
->    =20
->       Changes to past time stamps
->    =20
->         Several corrections were made for pre-1975 time stamps in Italy.
->         These affect Europe/Malta, Europe/Rome, Europe/San_Marino, and
->         Europe/Vatican.
->    =20
->         First, the 1893-11-01 00:00 transition in Italy used the new UT
->         offset (+01), not the old (+00:49:56).  (Thanks to Michael
->         Deckers.)
->    =20
->         Second, rules for daylight saving in Italy were changed to agree
->         with Italy's National Institute of Metrological Research (INRiM)
->         except for 1944, as follows (thanks to Pierpaolo Bernardi, Brian
->         Inglis, and Michael Deckers):
->    =20
->           The 1916-06-03 transition was at 24:00, not 00:00.
->    =20
->           The 1916-10-01, 1919-10-05, and 1920-09-19 transitions were at
->           00:00, not 01:00.
->    =20
->           The 1917-09-30 and 1918-10-06 transitions were at 24:00, not
->           01:00.
->    =20
->           The 1944-09-17 transition was at 03:00, not 01:00.  This
->           particular change is taken from Italian law as INRiM's table,
->           (which says 02:00) appears to have a typo here.  Also, keep the
->           1944-04-03 transition for Europe/Rome, as Rome was controlled by
->           Germany then.
->    =20
->           The 1967-1970 and 1972-1974 fallback transitions were at 01:00,
->           not 00:00.
->    =20
->     (From OE-Core rev: daf95f7fd9f7ab65685d7b764d8e50df8d00d308)
->    =20
->     Signed-off-by: Armin Kuster <akuster808@gmail.com>
->     Signed-off-by: Ross Burton <ross.burton@intel.com>
->     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->     Signed-off-by: Armin Kuster <akuster808@gmail.com>
-> ---
->  meta/recipes-extended/tzdata/{tzdata_2016h.bb =3D> tzdata_2016i.bb} | 4 =
-++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-extended/tzdata/tzdata_2016h.bb b/meta/recipes-=
-extended/tzdata/tzdata_2016i.bb
-> similarity index 98%
-> rename from meta/recipes-extended/tzdata/tzdata_2016h.bb
-> rename to meta/recipes-extended/tzdata/tzdata_2016i.bb
-> index cd720e6..298bc64 100644
-> --- a/meta/recipes-extended/tzdata/tzdata_2016h.bb
-> +++ b/meta/recipes-extended/tzdata/tzdata_2016i.bb
-> @@ -8,8 +8,8 @@ DEPENDS =3D "tzcode-native"
-> =20
->  SRC_URI =3D "http://www.iana.org/time-zones/repository/releases/tzdata${=
-PV}.tar.gz;name=3Dtzdata"
-> =20
-> -SRC_URI[tzdata.md5sum] =3D "878f0ec3fd9e4026ea11dd1b649a315a"
-> -SRC_URI[tzdata.sha256sum] =3D "da1b74fc2dec2ce8b64948dafb0bfc2f923c830d4=
-21a7ae4d016226135697a64"
-> +SRC_URI[tzdata.md5sum] =3D "73912ecfa6a9a8048ddf2e719d9bc39d"
-> +SRC_URI[tzdata.sha256sum] =3D "b6966ec982ef64fe48cebec437096b4f57f428751=
-9ed32dde59c86d3a1853845"
-> =20
->  inherit allarch
-> =20
->=20
-> --=20
-> To stop receiving notification emails like this one, please contact
-> the administrator of this repository.
-> --=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---f+W+jCU1fRNres8c
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWEqpAgAKCRA3VSO3ZXaA
-HOXnAKCbdJWFeqvmeWhTWAh8F9vGjocjrwCglwhIhB+uEM+XdTUYoqPx9cry2+Q=
-=xs5I
------END PGP SIGNATURE-----
-
---f+W+jCU1fRNres8c--
