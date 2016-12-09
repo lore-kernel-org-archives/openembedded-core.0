@@ -1,26 +1,54 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A6B7271CBD
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id C7C14719B3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Dec 2016 07:42:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uB97g7rd022304
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri,  9 Dec 2016 07:55:30 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id p42so47123934ioo.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 Dec 2016 23:42:08 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.184) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Thu, 8 Dec 2016 23:42:06 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 9 Dec 2016 15:43:03 +0800
-Message-ID: <f26e3de2a7a94cb9618f4cc957fe37cbb820a716.1481269071.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1481269071.git.Qi.Chen@windriver.com>
-References: <cover.1481269071.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] Use weak assignment for SERIAL_CONSOLES in qemu configuration files
+	Thu, 08 Dec 2016 23:55:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=oA1ebZspg/uufe9h5hZuVwCAIOaEuyeyXgBf5PejXUQ=;
+	b=veibBMrgGvOYSJmq0AeZZD1lnvAZosaQwC4LsPcGoPfaiSwQXKY8X3Kp7Kz3V/fPMH
+	sqz58tntvHHEVEcRfQfSG0RmMrT0S3oK+jWMcA3zyJGnnfBkyqacQiIsDT/2WLJKSo01
+	KgVPCT0HR9enLrNBrG0+HYtKkcVIntmhxp5Nf9uTMj6t3/k1LkNzQOcg87rwLE6MWgqQ
+	GZATvRelxe8alSr/Pgy9gye+zCKFYrkPOGT2KXNqPTLLgMX7lj7sIHsaMNdMTp0XcdJ7
+	/WbCyOw/1UX7m+FIK1V7mqSKrv2tLUhmnY/riqy7wYUBuN/HJ0JA8Z8GOKW4gGl2cq4t
+	XL1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=oA1ebZspg/uufe9h5hZuVwCAIOaEuyeyXgBf5PejXUQ=;
+	b=UI5uHxuxXC0gEPmhxu8qjuKNgQTodBjoKbWuPwSsP3Dhz18/34zsw4rW+CWHHnoGpo
+	bTTq96P1xcaVP6Qd6D7J4Tl/MgRk7w7HlkMlORLvMvHTmMm6AOPw8u7OCkc1CKo635xH
+	y3MDwZt8yKvSYq/8hqUw++vUG/keLRGgPrbPEVwZ7roVfOYsf9nomKXvog2Jk3Mzg2Q3
+	+ylCCTiZstxA6q507xY+4B7PVGScn4GGPu6k37s3hX8yb//j1grRxiv5DM4ZQdPrwWLK
+	YWjKNPETykLU3Ic674yG856RWNkLO8YEJDUB5N0Ovd7cC28r99+Y0GxyBt6vi4YAKelz
+	5fZQ==
+X-Gm-Message-State: AKaTC00R6EdVGF6UxjY1pLw5VLZFpEGdw7BSV/eedE5If5iYuxNDRS2k1HH1wgywO3SAQEce
+X-Received: by 10.107.140.65 with SMTP id o62mr30378936iod.17.1481270131847;
+	Thu, 08 Dec 2016 23:55:31 -0800 (PST)
+Received: from pohly-mobl1 (p57A56EBF.dip0.t-ipconnect.de. [87.165.110.191])
+	by smtp.gmail.com with ESMTPSA id e13sm6807599itd.4.2016.12.08.23.55.30
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 08 Dec 2016 23:55:31 -0800 (PST)
+Message-ID: <1481270128.17535.132.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Andreas Oberritter <obi@opendreambox.org>
+Date: Fri, 09 Dec 2016 08:55:28 +0100
+In-Reply-To: <5dbe9bcf-935d-dd2c-1a8e-2a62c569aab8@opendreambox.org>
+References: <cover.1480346284.git.patrick.ohly@intel.com>
+	<d96e4eb080323e3331ae743d1df3362a6c5a2309.1480346284.git.patrick.ohly@intel.com>
+	<5dbe9bcf-935d-dd2c-1a8e-2a62c569aab8@opendreambox.org>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 01/11] buildstats: add system state sampling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,119 +61,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2016 07:42:07 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 09 Dec 2016 07:55:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Use weak assignment for SERIAL_CONSOLES in qemu configuration files so that
-the value could serve as a default value and could be easily overridden in
-configuration files like local.conf.
+On Fri, 2016-12-09 at 01:29 +0100, Andreas Oberritter wrote:
+> Hi Patrick,
+> 
+> On 28.11.2016 16:33, Patrick Ohly wrote:
+> > +    def sample(self, force):
+> > +        now = time.time()
+> > +        if (now - self.last > self.min_seconds) or force:
+> > +            for filename, output in self.proc_files:
+> > +                with open(os.path.join('/proc', filename), 'rb') as input:
+>                         ^
+> this fails with a backtrace if /proc/diskstats is not available, which
+> may be the case in virtualized environments, e.g. Linux-VServer.
 
-When using the default value for SERAIL_CONSOLES in qemux86-64,we would have
-annoying messages on console complaining about respawning getty on ttyS1.
-Although the value is set by purpose, at least we need to provide an easy way
-to override it.
+Thanks for pointing that out, I'll send a fix.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/conf/machine/qemuarm.conf    | 2 +-
- meta/conf/machine/qemuarm64.conf  | 2 +-
- meta/conf/machine/qemumips.conf   | 2 +-
- meta/conf/machine/qemumips64.conf | 2 +-
- meta/conf/machine/qemuppc.conf    | 2 +-
- meta/conf/machine/qemux86-64.conf | 2 +-
- meta/conf/machine/qemux86.conf    | 2 +-
- 7 files changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
-index 17402ef..f9d6dd7 100644
---- a/meta/conf/machine/qemuarm.conf
-+++ b/meta/conf/machine/qemuarm.conf
-@@ -8,7 +8,7 @@ require conf/machine/include/tune-arm926ejs.inc
- 
- KERNEL_IMAGETYPE = "zImage"
- 
--SERIAL_CONSOLES = "115200;ttyAMA0 115200;ttyAMA1"
-+SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;ttyAMA1"
- 
- # For runqemu
- QB_SYSTEM_NAME = "qemu-system-arm"
-diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
-index df2010c..e70538a 100644
---- a/meta/conf/machine/qemuarm64.conf
-+++ b/meta/conf/machine/qemuarm64.conf
-@@ -7,7 +7,7 @@ require conf/machine/include/qemu.inc
- 
- KERNEL_IMAGETYPE = "Image"
- 
--SERIAL_CONSOLES = "38400;ttyAMA0 38400;hvc0"
-+SERIAL_CONSOLES ?= "38400;ttyAMA0 38400;hvc0"
- 
- # For runqemu
- QB_SYSTEM_NAME = "qemu-system-aarch64"
-diff --git a/meta/conf/machine/qemumips.conf b/meta/conf/machine/qemumips.conf
-index 3182ea1..986315a 100644
---- a/meta/conf/machine/qemumips.conf
-+++ b/meta/conf/machine/qemumips.conf
-@@ -9,6 +9,6 @@ require conf/machine/include/qemuboot-mips.inc
- KERNEL_IMAGETYPE = "vmlinux"
- KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
- 
--SERIAL_CONSOLES = "115200;ttyS0 115200;ttyS1"
-+SERIAL_CONSOLES ?= "115200;ttyS0 115200;ttyS1"
- 
- MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
-diff --git a/meta/conf/machine/qemumips64.conf b/meta/conf/machine/qemumips64.conf
-index 9529f4c..3f91cbe 100644
---- a/meta/conf/machine/qemumips64.conf
-+++ b/meta/conf/machine/qemumips64.conf
-@@ -9,6 +9,6 @@ require conf/machine/include/qemuboot-mips.inc
- KERNEL_IMAGETYPE = "vmlinux"
- KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
- 
--SERIAL_CONSOLES = "115200;ttyS0 115200;ttyS1"
-+SERIAL_CONSOLES ?= "115200;ttyS0 115200;ttyS1"
- 
- MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
-diff --git a/meta/conf/machine/qemuppc.conf b/meta/conf/machine/qemuppc.conf
-index 8703c20..9d174bc 100644
---- a/meta/conf/machine/qemuppc.conf
-+++ b/meta/conf/machine/qemuppc.conf
-@@ -9,7 +9,7 @@ TARGET_CC_KERNEL_ARCH = "-mno-spe"
- 
- KERNEL_IMAGETYPE = "vmlinux"
- 
--SERIAL_CONSOLES = "115200;ttyS0 115200;ttyS1"
-+SERIAL_CONSOLES ?= "115200;ttyS0 115200;ttyS1"
- 
- # For runqemu
- QB_SYSTEM_NAME = "qemu-system-ppc"
-diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
-index 3117ca1..150d745 100644
---- a/meta/conf/machine/qemux86-64.conf
-+++ b/meta/conf/machine/qemux86-64.conf
-@@ -14,7 +14,7 @@ require conf/machine/include/qemuboot-x86.inc
- 
- KERNEL_IMAGETYPE = "bzImage"
- 
--SERIAL_CONSOLES = "115200;ttyS0 115200;ttyS1"
-+SERIAL_CONSOLES ?= "115200;ttyS0 115200;ttyS1"
- 
- XSERVER = "xserver-xorg \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-swrast xserver-xorg-extension-glx', '', d)} \
-diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
-index 7785999..8997f6b 100644
---- a/meta/conf/machine/qemux86.conf
-+++ b/meta/conf/machine/qemux86.conf
-@@ -13,7 +13,7 @@ require conf/machine/include/qemuboot-x86.inc
- 
- KERNEL_IMAGETYPE = "bzImage"
- 
--SERIAL_CONSOLES = "115200;ttyS0 115200;ttyS1"
-+SERIAL_CONSOLES ?= "115200;ttyS0 115200;ttyS1"
- 
- XSERVER = "xserver-xorg \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-swrast xserver-xorg-extension-glx', '', d)} \
 -- 
-1.9.1
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
