@@ -1,30 +1,23 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AD81171D42
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 2567171D4E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Dec 2016 17:26:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uB9HQCmS017165
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 9 Dec 2016 09:26:12 -0800 (PST)
-Received: from soho-mhatle-m.local (172.25.36.230) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 9 Dec 2016 09:26:11 -0800
-To: Khem Raj <raj.khem@gmail.com>
-References: <20161208190327.221469-1-mark.hatle@windriver.com>
-	<CAMKF1sphGgZP8-3DoPi+1Wv3DV6yDOAQW0Z5dNX=QFy16deLXA@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <a429c8fc-8e0c-971b-9295-4056c09a614a@windriver.com>
-Date: Fri, 9 Dec 2016 11:26:10 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.5.1
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1sphGgZP8-3DoPi+1Wv3DV6yDOAQW0Z5dNX=QFy16deLXA@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc: Enable backtrace from abort on ARM
+	Fri,  9 Dec 2016 17:27:01 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 09 Dec 2016 09:27:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,324,1477983600"; d="scan'208";a="910537276"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga003.jf.intel.com with ESMTP; 09 Dec 2016 09:27:03 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id B559E6A4006;
+	Fri,  9 Dec 2016 09:26:16 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  9 Dec 2016 19:26:48 +0200
+Message-Id: <1481304408-11692-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] oe-buildenv-internal: show usage output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,23 +30,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2016 17:26:16 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 09 Dec 2016 17:27:02 -0000
 
-On 12/9/16 12:48 AM, Khem Raj wrote:
-> On Thu, Dec 8, 2016 at 11:03 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
->> +do_configure_append_arm () {
->> +       echo "CFLAGS-abort.c = -funwind-tables" >> ${B}/configparms
->> +       echo "CFLAGS-raise.c = -funwind-tables" >> ${B}/configparms
->> +}
-> 
-> perhaps using  -fasynchronous-unwind-tables is better. can you try that out ?
-> 
+Show usage text if script is not sourced.
+Tested in bash, zsh and dash.
 
-This passed my internal test with the same results.
+[YOCTO #10751]
 
-So either one is fine with me.  What is the difference between the options?
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/oe-buildenv-internal | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
---Mark
+diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
+index 9fae3b4..c890552 100755
+--- a/scripts/oe-buildenv-internal
++++ b/scripts/oe-buildenv-internal
+@@ -18,6 +18,18 @@
+ # along with this program; if not, write to the Free Software
+ # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ 
++if ! $(return >/dev/null 2>&1) ; then
++    echo 'oe-buildenv-internal: error: this script must be sourced'
++    echo ''
++    echo 'Usage: . $OEROOT/scripts/oe-buildenv-internal &&'
++    echo ''
++    echo 'OpenEmbedded oe-buildenv-internal - an internal script that is'
++    echo 'used in oe-init-build-env and oe-init-build-env-memres to'
++    echo 'initialize oe build environment'
++    echo ''
++    exit 2
++fi
++
+ # It is assumed OEROOT is already defined when this is called
+ if [ -z "$OEROOT" ]; then
+     echo >&2 "Error: OEROOT is not defined!"
+-- 
+2.1.4
+
 
