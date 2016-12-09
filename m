@@ -1,54 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f173.google.com (mail-qt0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 08E99719F9
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BC91F71975
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Dec 2016 20:11:04 +0000 (UTC)
-Received: by mail-qt0-f173.google.com with SMTP id n6so26395838qtd.1
+	Fri,  9 Dec 2016 21:41:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uB9LfTxk001190
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Dec 2016 12:11:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=LyZv4f7y1ufkdo3U3643Bj5kQaN/6sdQgzpDIE42B1g=;
-	b=PrYVzw+awlr6vaJ72mHtyKqMq4VSkhWrsMCack6SHhF5BLjP5mUhbqLqSKm+KIVesS
-	/bhMeHTVaOZXhLjCg9qrbGzpQEEgnUkHA8I0LwWDYchNnUtpv/czcSa1S8Zxgjlwyj8a
-	1JKem/Y7K0L+O4c+WQl3z22JXMa+dJ9Eh0rGIwq6RT+OIk9UzXof4qZDWMUuND0XD0vO
-	Q1HFGvtNnkYTVdR7iLLDu1EMHwLeK3z4AEn7soeVQ64NXHXOk2kwFgdALu2BkXuwT24t
-	vgaWsmgSpJyN2ZdgiAOhv0HUQTdjVYvADKdTC0DY1FImRDzVASrHM9SFzzwbU1howdoq
-	SBSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=LyZv4f7y1ufkdo3U3643Bj5kQaN/6sdQgzpDIE42B1g=;
-	b=c7G0YdW6cfqelca58eDIzajaWW0UUs4BigH0iAjIPX6iBNNblMj4Sv++9tlm/Txu1U
-	jrycThVVhziNUTUquhaOLNEgcJe1+qXGx/y66RTFgi2JCXBXvkbnIp5zcfjO04zflI6F
-	Z67reP9OeMVWoU9KpLtgcYYDEHbpUeRjBYXVaNLegUwsUMSmXrYrIM0fxkBei1RmgE4W
-	R8B4wnKLxuKAjtQs5YlxKKLXZM0bmwz8UoxNrGLEdgTZp2CgoqsC/LnkVjSZwcJnzImw
-	ZLKvbZpjQX0LUbeweRl/NWC7a73EIWYXEQBVnxCx1og/ESU4kC8HP6ftWHfrI0SBO4cQ
-	hw4w==
-X-Gm-Message-State: AKaTC03uihfw5Z7zxHPmfdkS0Hrlgi9Z+6YOozIJ1OGpHmyWmMgA9dY6sSeXrdGkJMFxTFo0kW9XvHUMHyJisOgE
-X-Received: by 10.200.57.54 with SMTP id s51mr69262695qtb.68.1481314266384;
-	Fri, 09 Dec 2016 12:11:06 -0800 (PST)
+	Fri, 9 Dec 2016 13:41:29 -0800 (PST)
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Fri, 9 Dec 2016 13:41:29 -0800
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 9 Dec 2016 16:41:27 -0500
+Message-ID: <1481319687-19818-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Fri, 9 Dec 2016 12:10:45 -0800 (PST)
-In-Reply-To: <584ADA83.9070709@linux.intel.com>
-References: <1480610065-25697-1-git-send-email-anibal.limon@linux.intel.com>
-	<CAMKF1srq2VD3En90FNXLB6p4YvLYh=fEz6mzEmC-O4bBHV1Q7A@mail.gmail.com>
-	<5840A839.5070704@linux.intel.com>
-	<CAMKF1srD4Nzzo=tB8PbRCOTKckqe1T0C_5XCiAK2Wn2kASekhA@mail.gmail.com>
-	<584991B7.9050603@linux.intel.com>
-	<CAJ86T=We5bfDF6EpGs_sPph16O=Niz+ei5vADWbMTXzsTq-C8g@mail.gmail.com>
-	<CAJTo0LYUhvxCxhLAcbwFcnxJSx856DnZBLPjqUHXoW2FAvkQVg@mail.gmail.com>
-	<584ADA83.9070709@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 9 Dec 2016 20:10:45 +0000
-Message-ID: <CAJTo0LaJ0b5TtNFgTcx5A2byiHb7MjupUk_kX_Sprf-w2TLCGw@mail.gmail.com>
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] perl-native: Remove usage of -fstack-protector=strong
+Subject: [PATCH] sysklogd: do more to properly work with systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,90 +31,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2016 20:11:06 -0000
-Content-Type: multipart/alternative; boundary=001a113a01e8a621be05433f5ae8
+X-List-Received-Date: Fri, 09 Dec 2016 21:41:29 -0000
+Content-Type: text/plain
 
---001a113a01e8a621be05433f5ae8
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+It was noticed that syslogd and klogd were no longer running on system
+startup, meaning no /var/log/messages etc.. It appears as though
+sysklogd has never been updated to follow the expected logging
+requirement for systemd as described here:
+https://www.freedesktop.org/wiki/Software/systemd/syslog/
 
-The patch is "uninative: rebuild uninative for gcc 4.8 and 4.9" but I
-forgot it didn't get merged as it broke eSDK.
+As such no service was started and no logging present. Using the above
+guidelines we create two new service files syslogd.service and
+klogd.service. We make use of tmpfiles.d in order to ensure the
+xconsole device node exists and do other minor recipe cleanup to
+ensure peaceful coexistence with sysvinit and systemd implementations.
 
-Ross
+The systemd documentation also asks that for a logger which is not
+rsyslog that we also enable 'ForwardToSyslog=' in journald.conf, but
+this is already the case so no action is required.
 
-On 9 December 2016 at 16:23, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.int=
-el.com>
-wrote:
+With this change in place syslogd and klogd are started at system
+startup and the expected logs are available.
 
->
->
-> On 12/08/2016 02:35 PM, Burton, Ross wrote:
-> > On 8 December 2016 at 19:16, Andre McCurdy <armccurdy@gmail.com> wrote:
-> >
-> >> Is it correct that native sstate from a host with gcc < 4.9 should be
-> >> reused by a host with gcc >=3D 4.9 ?
-> >>
-> >> Doesn't the change in NATIVELSBSTRING prevent that from happening?
-> >>
-> >
-> > Yes, we recently landed a change so that uninative is versioned by host
-> > GCC.  Presumably that solves this problem in a different way?
->
-> If the sstate generated is different from a host distro with gcc>=3D4.9
-> and gcc<4.9 will be work.
->
-> Could you point me to the patch that makes this change?
->
->         alimon
->
-> >
-> > Ross
-> >
->
->
+Unfortunately I was not able to find any work done on this upstream or
+in other distros so this is my best effort at making this work.
 
---001a113a01e8a621be05433f5ae8
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+ meta/recipes-extended/sysklogd/files/klogd.service    | 13 +++++++++++++
+ meta/recipes-extended/sysklogd/files/syslogd.service  | 14 ++++++++++++++
+ .../sysklogd/files/tmpfiles.sysklogd.conf             |  1 +
+ meta/recipes-extended/sysklogd/sysklogd.inc           | 19 +++++++++++++++++--
+ 4 files changed, 45 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/sysklogd/files/klogd.service
+ create mode 100644 meta/recipes-extended/sysklogd/files/syslogd.service
+ create mode 100644 meta/recipes-extended/sysklogd/files/tmpfiles.sysklogd.conf
 
-<div dir=3D"ltr">The patch is &quot;uninative: rebuild uninative for gcc 4.=
-8 and 4.9&quot; but I forgot it didn&#39;t get merged as it broke eSDK.<div=
-><br></div><div>Ross</div></div><div class=3D"gmail_extra"><br><div class=
-=3D"gmail_quote">On 9 December 2016 at 16:23, An=C3=ADbal Lim=C3=B3n <span =
-dir=3D"ltr">&lt;<a href=3D"mailto:anibal.limon@linux.intel.com" target=3D"_=
-blank">anibal.limon@linux.intel.com</a>&gt;</span> wrote:<br><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
-adding-left:1ex"><span class=3D""><br>
-<br>
-On 12/08/2016 02:35 PM, Burton, Ross wrote:<br>
-&gt; On 8 December 2016 at 19:16, Andre McCurdy &lt;<a href=3D"mailto:armcc=
-urdy@gmail.com">armccurdy@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt;&gt; Is it correct that native sstate from a host with gcc &lt; 4.9 sho=
-uld be<br>
-&gt;&gt; reused by a host with gcc &gt;=3D 4.9 ?<br>
-&gt;&gt;<br>
-&gt;&gt; Doesn&#39;t the change in NATIVELSBSTRING prevent that from happen=
-ing?<br>
-&gt;&gt;<br>
-&gt;<br>
-&gt; Yes, we recently landed a change so that uninative is versioned by hos=
-t<br>
-&gt; GCC.=C2=A0 Presumably that solves this problem in a different way?<br>
-<br>
-</span>If the sstate generated is different from a host distro with gcc&gt;=
-=3D4.9<br>
-and gcc&lt;4.9 will be work.<br>
-<br>
-Could you point me to the patch that makes this change?<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 alimon<br>
-<br>
-&gt;<br>
-&gt; Ross<br>
-&gt;<br>
-<br>
-</blockquote></div><br></div>
+diff --git a/meta/recipes-extended/sysklogd/files/klogd.service b/meta/recipes-extended/sysklogd/files/klogd.service
+new file mode 100644
+index 0000000..0c888c4
+--- /dev/null
++++ b/meta/recipes-extended/sysklogd/files/klogd.service
+@@ -0,0 +1,13 @@
++[Unit]
++Description=Kernel Logging Service
++After=syslogd.service
++
++[Service]
++Type=forking
++ExecStart=/sbin/klogd
++PIDFile=/var/run/klogd.pid
++StandardOutput=null
++Restart=on-failure
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-extended/sysklogd/files/syslogd.service b/meta/recipes-extended/sysklogd/files/syslogd.service
+new file mode 100644
+index 0000000..eeaff3d
+--- /dev/null
++++ b/meta/recipes-extended/sysklogd/files/syslogd.service
+@@ -0,0 +1,14 @@
++[Unit]
++Description=System Logging Service
++Requires=syslog.socket
++
++[Service]
++Type=forking
++ExecStart=/sbin/syslogd
++PIDFile=/var/run/syslogd.pid
++StandardOutput=null
++Restart=on-failure
++
++[Install]
++WantedBy=multi-user.target
++Alias=syslog.service
+diff --git a/meta/recipes-extended/sysklogd/files/tmpfiles.sysklogd.conf b/meta/recipes-extended/sysklogd/files/tmpfiles.sysklogd.conf
+new file mode 100644
+index 0000000..f4aecd3
+--- /dev/null
++++ b/meta/recipes-extended/sysklogd/files/tmpfiles.sysklogd.conf
+@@ -0,0 +1 @@
++p /dev/xconsole 0640 root adm
+diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
+index 5c15ffe..092b922 100644
+--- a/meta/recipes-extended/sysklogd/sysklogd.inc
++++ b/meta/recipes-extended/sysklogd/sysklogd.inc
+@@ -11,17 +11,24 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
+                     file://klogd.c;beginline=2;endline=19;md5=7e87ed0ae6142de079bce738c10c899d \
+                    "
+ 
+-inherit update-rc.d update-alternatives
++inherit update-rc.d update-alternatives systemd
+ 
+ SRC_URI = "http://www.infodrom.org/projects/sysklogd/download/sysklogd-${PV}.tar.gz \
+            file://no-strip-install.patch \
+            file://0001-Fix-build-with-musl.patch \
+            file://sysklogd \
+            file://syslog.conf \
++           file://syslogd.service \
++           file://klogd.service \
++           file://tmpfiles.sysklogd.conf \
+            "
+ 
+ SRC_URI_append_e500v2 = " file://no-vectorization.patch"
+ 
++SYSTEMD_PACKAGES = "${PN}"
++SYSTEMD_SERVICE_${PN} = "syslogd.service klogd.service"
++SYSTEMD_AUTO_ENABLE = "enable"
++
+ INITSCRIPT_NAME = "syslog"
+ CONFFILES_${PN} = "${sysconfdir}/syslog.conf.${BPN}"
+ 
+@@ -39,13 +46,21 @@ do_install () {
+ 	install -m 644 ${WORKDIR}/syslog.conf ${D}${sysconfdir}/syslog.conf
+ 	install -d ${D}${sysconfdir}/init.d
+ 	install -m 755 ${WORKDIR}/sysklogd ${D}${sysconfdir}/init.d/syslog
++	install -d ${D}${systemd_unitdir}/system
++	install -m 644 ${WORKDIR}/syslogd.service ${D}${systemd_unitdir}/system
++	install -m 644 ${WORKDIR}/klogd.service ${D}${systemd_unitdir}/system
++	install -d ${D}${exec_prefix}/lib/tmpfiles.d
++	install -m 644 ${WORKDIR}/tmpfiles.sysklogd.conf ${D}${exec_prefix}/lib/tmpfiles.d/sysklogd.conf
+ }
+ 
++FILES_${PN} += "${@bb.utils.contains('DISTRO_FEATURES','systemd','${exec_prefix}/lib/tmpfiles.d/sysklogd.conf', '', d)}"
++
+ # sysklogd package has no internal systemd support, so we weigh busybox's
+ # sysklogd utility over it in case of systemd
+ ALTERNATIVE_PRIORITY = "${@bb.utils.contains('DISTRO_FEATURES','systemd','10','100',d)}"
+ 
+-ALTERNATIVE_${PN} = "syslogd klogd syslog-init syslog-conf"
++ALTERNATIVE_${PN} = "syslogd klogd syslog-conf \
++    ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','syslog-init','',d)}"
+ 
+ ALTERNATIVE_LINK_NAME[syslogd] = "${base_sbindir}/syslogd"
+ ALTERNATIVE_LINK_NAME[klogd] = "${base_sbindir}/klogd"
+-- 
+2.7.4
 
---001a113a01e8a621be05433f5ae8--
+
