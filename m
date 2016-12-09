@@ -1,23 +1,23 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id B6B4171D5B
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 252E671D42
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Dec 2016 17:46:36 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga104.jf.intel.com with ESMTP; 09 Dec 2016 09:46:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,324,1477983600"; d="scan'208";a="796215501"
-Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 09 Dec 2016 09:46:38 -0800
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 9C52B6A4006;
-	Fri,  9 Dec 2016 09:45:51 -0800 (PST)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Dec 2016 19:46:26 +0200
-Message-Id: <1481305586-11873-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] edgerouter.conf: enable generation of wic.bmap
+	Fri,  9 Dec 2016 17:49:35 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uB9Hna03019150
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Fri, 9 Dec 2016 09:49:36 -0800
+Received: from msp-dhcp15.wrs.com (172.25.34.15) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Fri, 9 Dec 2016 09:49:35 -0800
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 9 Dec 2016 11:49:34 -0600
+Message-ID: <20161209174934.77726-1-mark.hatle@windriver.com>
+X-Mailer: git-send-email 2.11.0.rc1
+MIME-Version: 1.0
+Subject: [master][morty][PATCH v2] glibc: Enable backtrace from abort on ARM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,33 +30,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2016 17:46:39 -0000
+X-List-Received-Date: Fri, 09 Dec 2016 17:49:36 -0000
+Content-Type: text/plain
 
-Enabled generation of block map(bmap) files for wic images
-built for edgerouter machine. This should simplify flashing
-images with bmaptool.
+From: Yuanjie Huang <yuanjie.huang@windriver.com>
 
-[YOCTO #10621]
+ARM stack frames for abort and raise were limited to the the actual
+abort and raise call, such as:
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Obtained 4 stack frames.
+./test-app(print_trace+0x1c) [0x10a08]
+./test-app() [0x10b3c]
+/lib/libc.so.6(__default_sa_restorer+0) [0x4adae1e0]
+/lib/libc.so.6(gsignal+0xa0) [0x4adacf74]
+
+This is not terribly useful when trying to figure out what function
+may have called called the abort, especially when using pthreads.
+
+After the change the trace would now look like:
+
+Obtained 8 stack frames.
+./test-app(print_trace+0x1c) [0x10a08]
+./test-app() [0x10b3c]
+/lib/libc.so.6(__default_sa_restorer+0) [0x4befe1e0]
+/lib/libc.so.6(gsignal+0xa0) [0x4befcf74]
+/lib/libc.so.6(abort+0x134) [0x4befe358]
+./test-app(dummy_function+0x50) [0x10adc]
+./test-app(main+0xd4) [0x10c24]
+/lib/libc.so.6(__libc_start_main+0x114) [0x4bee7a58]
+
+Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta-yocto-bsp/conf/machine/edgerouter.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/glibc/glibc.inc | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta-yocto-bsp/conf/machine/edgerouter.conf b/meta-yocto-bsp/conf/machine/edgerouter.conf
-index 720a947..c6193d9 100644
---- a/meta-yocto-bsp/conf/machine/edgerouter.conf
-+++ b/meta-yocto-bsp/conf/machine/edgerouter.conf
-@@ -18,7 +18,7 @@ USE_VT ?= "0"
+diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
+index e85c7044a0..7bae0e9554 100644
+--- a/meta/recipes-core/glibc/glibc.inc
++++ b/meta/recipes-core/glibc/glibc.inc
+@@ -78,3 +78,9 @@ do_configure_prepend() {
+ }
  
- MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
- 
--IMAGE_FSTYPES ?= "jffs2 tar.bz2 wic"
-+IMAGE_FSTYPES ?= "jffs2 tar.bz2 wic wic.bmap"
- JFFS2_ERASEBLOCK = "0x10000"
- 
- WKS_FILE ?= "sdimage-bootpart.wks"
+ GLIBC_ADDONS ?= "nptl,libidn"
++
++# Enable backtrace from abort()
++do_configure_append_arm () {
++	echo "CFLAGS-abort.c = -fasynchronous-unwind-tables" >> ${B}/configparms
++	echo "CFLAGS-raise.c = -fasynchronous-unwind-tables" >> ${B}/configparms
++}
 -- 
-2.1.4
+2.11.0.rc1
 
 
