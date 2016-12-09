@@ -1,33 +1,26 @@
-Return-Path: <Jackie.Huang@windriver.com>
+Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AE23A6067C
+	by mail.openembedded.org (Postfix) with ESMTP id 036AE6067C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Dec 2016 08:30:29 +0000 (UTC)
+	Fri,  9 Dec 2016 08:38:16 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uB98UUur005948
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uB98cHbX006984
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 9 Dec 2016 00:30:30 -0800 (PST)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.3.46]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0294.000;
-	Fri, 9 Dec 2016 00:30:29 -0800
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "BURTON, ROSS" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] classes/cpan-base: fix for PERLVERSION
-Thread-Index: AQHSTw0ayW7vwYUooUOeVR01b0XM/aD/S3Sw
-Date: Fri, 9 Dec 2016 08:30:29 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA013DE45D18@ALA-MBA.corp.ad.wrs.com>
-References: <20161109055107.2250-1-jackie.huang@windriver.com>
-	<CAJTo0LZrTFKALSKsZo=54OQ52Bbex5_bVFL0Xj6QVHULkQFsOg@mail.gmail.com>
-In-Reply-To: <CAJTo0LZrTFKALSKsZo=54OQ52Bbex5_bVFL0Xj6QVHULkQFsOg@mail.gmail.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.132]
+	Fri, 9 Dec 2016 00:38:17 -0800 (PST)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Fri, 9 Dec 2016 00:38:16 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 9 Dec 2016 00:38:15 -0800
+Message-ID: <a27415050670fcb77888e9a8a770c1e4c4d63246.1481272232.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.10.2
+In-Reply-To: <cover.1481272232.git.liezhi.yang@windriver.com>
+References: <cover.1481272232.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] classes/cpan-base: fix for PERLVERSION
+Subject: [PATCH 1/1] [jethro] selftest/recipetool.py: set srcrev for recipetool create
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,106 +33,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2016 08:30:31 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_1B858668EC6A94408DCA5225FDFA85AA013DE45D18ALAMBAcorpadw_"
+X-List-Received-Date: Fri, 09 Dec 2016 08:38:17 -0000
+Content-Type: text/plain
 
---_000_1B858668EC6A94408DCA5225FDFA85AA013DE45D18ALAMBAcorpadw_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+The srcrev would default to master when not set, which may cause erorrs
+when the source is changed.
 
-WWVzLCBJIGNhbiBmaXggaXQgaW4gdGhlIHJlY2lwZSB0aGF0IHVzZXMgUEVSTFZFUlNJT04gYXMg
-YW4gYWx0ZXJuYXRpdmUuDQoNClRoYW5rcywNCkphY2tpZQ0KDQpGcm9tOiBCdXJ0b24sIFJvc3Mg
-W21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQpTZW50OiBNb25kYXksIERlY2VtYmVyIDA1
-LCAyMDE2IDExOjM0IFBNDQpUbzogSHVhbmcsIEppZSAoSmFja2llKQ0KQ2M6IE9FLWNvcmUNClN1
-YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBjbGFzc2VzL2NwYW4tYmFzZTogZml4IGZvciBQ
-RVJMVkVSU0lPTg0KDQoNCk9uIDkgTm92ZW1iZXIgMjAxNiBhdCAwNTo1MSwgPGphY2tpZS5odWFu
-Z0B3aW5kcml2ZXIuY29tPG1haWx0bzpqYWNraWUuaHVhbmdAd2luZHJpdmVyLmNvbT4+IHdyb3Rl
-Og0KLVBFUkxWRVJTSU9OIDo9ICIke0BnZXRfcGVybF92ZXJzaW9uKGQpfSINCitQRVJMVkVSU0lP
-TiA9ICIke0BnZXRfcGVybF92ZXJzaW9uKGQpfSINCg0KVGhpcyB1c2VzIDo9IGFzIHRoZSBnZXRf
-cGVybF92ZXJzaW9uIGlzIGEgbm9uLXRyaXZpYWwgYW1vdW50IG9mIHB5dGhvbiB3aGljaCBkb2Vz
-bid0IG5lZWQgdG8gYmUgcmUtZXZhbHVhdGVkIGFsbCB0aGUgdGltZS4gIEhhdmUgeW91IGxvb2tl
-ZCBhdCBob3cgYmFkIHRoZSBwZXJmb3JtYW5jZSBoaXQgaXMsIGFuZCB3aGV0aGVyIHRoZXJlIGlz
-IGFuIGFsdGVybmF0aXZlPw0KDQpSb3NzDQo=
+Fixed:
+======================================================================
+FAIL: test_recipetool_create_git (oeqa.selftest.recipetool.RecipetoolTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/utils/decorators.py", line 106, in wrapped_f
+    return func(*args, **kwargs)
+  File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/recipetool.py", line 402, in test_recipetool_create_git
+    self._test_recipe_contents(recipefile, checkvars, inherits)
+  File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/devtool.py", line 25, in _test_recipe_contents
+    self.assertEqual(value, needvalue, 'values for %s do not match' % var)
+AssertionError: 'Unknown LGPLv2.1' != 'LGPLv2.1' : values for LICENSE do not match
 
---_000_1B858668EC6A94408DCA5225FDFA85AA013DE45D18ALAMBAcorpadw_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+The rev=9f7cf8895ae2d39c465c04cc78e918c157420269 is taken from master
+branch. It was failed because libmatchbox's master branch has added a
+COPYING.MIT, and the testcase only checks COPYING.
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
-b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
-dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
-MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
-MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
-Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
-Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBp
-bjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
-bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
-bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
-aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
-bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
-dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFs
-LXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFG
-NDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglm
-b250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0K
-CXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4yNWluIDEuMGluIDEuMjVpbjt9
-DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEt
-LVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlk
-bWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+
-DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0
-YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxi
-b2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9
-IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
-aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
-aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+WWVzLCBJIGNhbiBmaXggaXQgaW4gdGhlIHJlY2lwZSB0
-aGF0IHVzZXMgUEVSTFZFUlNJT04gYXMgYW4gYWx0ZXJuYXRpdmUuPG86cD48L286cD48L3NwYW4+
-PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7
-Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2Nv
-bG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
-bGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5UaGFua3Ms
-PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9
-ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtz
-YW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkphY2tpZTxvOnA+PC9vOnA+PC9zcGFuPjwv
-cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
-bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xv
-cjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3Jk
-ZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGluIDBpbiAwaW4g
-NC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQg
-I0I1QzRERiAxLjBwdDtwYWRkaW5nOjMuMHB0IDBpbiAwaW4gMGluIj4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90
-O1RhaG9tYSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij5Gcm9tOjwvc3Bhbj48L2I+PHNw
-YW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7
-LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRv
-bkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5TZW50OjwvYj4gTW9uZGF5LCBEZWNlbWJlciAwNSwgMjAx
-NiAxMTozNCBQTTxicj4NCjxiPlRvOjwvYj4gSHVhbmcsIEppZSAoSmFja2llKTxicj4NCjxiPkNj
-OjwvYj4gT0UtY29yZTxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSF0g
-Y2xhc3Nlcy9jcGFuLWJhc2U6IGZpeCBmb3IgUEVSTFZFUlNJT048bzpwPjwvbzpwPjwvc3Bhbj48
-L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286
-cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9v
-OnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIDkgTm92ZW1iZXIgMjAxNiBh
-dCAwNTo1MSwgJmx0OzxhIGhyZWY9Im1haWx0bzpqYWNraWUuaHVhbmdAd2luZHJpdmVyLmNvbSIg
-dGFyZ2V0PSJfYmxhbmsiPmphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPC9hPiZndDsgd3JvdGU6
-PG86cD48L286cD48L3A+DQo8ZGl2IGlkPSJnbWFpbC06MzUxIj4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPi1QRVJMVkVSU0lPTiA6PSAmcXVvdDske0BnZXRfcGVybF92ZXJzaW9uKGQpfSZxdW90Ozxi
-cj4NCiYjNDM7UEVSTFZFUlNJT04gPSAmcXVvdDske0BnZXRfcGVybF92ZXJzaW9uKGQpfSZxdW90
-OzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxi
-cj4NClRoaXMgdXNlcyA6PSBhcyB0aGUgZ2V0X3BlcmxfdmVyc2lvbiBpcyBhIG5vbi10cml2aWFs
-IGFtb3VudCBvZiBweXRob24gd2hpY2ggZG9lc24ndCBuZWVkIHRvIGJlIHJlLWV2YWx1YXRlZCBh
-bGwgdGhlIHRpbWUuJm5ic3A7IEhhdmUgeW91IGxvb2tlZCBhdCBob3cgYmFkIHRoZSBwZXJmb3Jt
-YW5jZSBoaXQgaXMsIGFuZCB3aGV0aGVyIHRoZXJlIGlzIGFuIGFsdGVybmF0aXZlPzxvOnA+PC9v
-OnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8
-L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5Sb3NzPG86cD48
-L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRt
-bD4NCg==
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/lib/oeqa/selftest/recipetool.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---_000_1B858668EC6A94408DCA5225FDFA85AA013DE45D18ALAMBAcorpadw_--
+diff --git a/meta/lib/oeqa/selftest/recipetool.py b/meta/lib/oeqa/selftest/recipetool.py
+index b1f1d2ab..d15820c 100644
+--- a/meta/lib/oeqa/selftest/recipetool.py
++++ b/meta/lib/oeqa/selftest/recipetool.py
+@@ -389,7 +389,7 @@ class RecipetoolTests(RecipetoolBase):
+         os.makedirs(tempsrc)
+         recipefile = os.path.join(self.tempdir, 'libmatchbox.bb')
+         srcuri = 'git://git.yoctoproject.org/libmatchbox'
+-        result = runCmd('recipetool create -o %s %s -x %s' % (recipefile, srcuri, tempsrc))
++        result = runCmd('recipetool create -o %s "%s;rev=9f7cf8895ae2d39c465c04cc78e918c157420269" -x %s' % (recipefile, srcuri, tempsrc))
+         self.assertTrue(os.path.isfile(recipefile), 'recipetool did not create recipe file; output:\n%s' % result.output)
+         checkvars = {}
+         checkvars['LICENSE'] = 'LGPLv2.1'
+-- 
+2.10.2
+
+
