@@ -1,23 +1,23 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 82D526E5FC
+Return-Path: <Zubair.Kakakhel@imgtec.com>
+Received: from mailapp01.imgtec.com (mailapp01.imgtec.com [195.59.15.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C3E3601F6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Dec 2016 14:32:27 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga103.jf.intel.com with ESMTP; 09 Dec 2016 06:32:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,324,1477983600"; d="scan'208";a="40619029"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 09 Dec 2016 06:32:24 -0800
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 155966A4006;
-	Fri,  9 Dec 2016 06:31:37 -0800 (PST)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Dec 2016 16:32:08 +0200
-Message-Id: <1481293928-8104-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] oe-setup-builddir: create usage output
+	Fri,  9 Dec 2016 15:00:20 +0000 (UTC)
+Received: from HHMAIL01.hh.imgtec.org (unknown [10.100.10.19])
+	by Forcepoint Email with ESMTPS id 9ADE057BBC23F
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  9 Dec 2016 15:00:16 +0000 (GMT)
+Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
+	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
+	id 14.3.294.0; Fri, 9 Dec 2016 15:00:20 +0000
+From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 9 Dec 2016 15:00:16 +0000
+Message-ID: <20161209150016.24037-1-Zubair.Kakakhel@imgtec.com>
+X-Mailer: git-send-email 2.10.2
+MIME-Version: 1.0
+X-Originating-IP: [192.168.154.45]
+Subject: [Morty][Patch] gmp: Disable assembly for MIPS R6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,37 +30,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2016 14:32:29 -0000
+X-List-Received-Date: Fri, 09 Dec 2016 15:00:30 -0000
+Content-Type: text/plain
 
-Created usage output for oe-setup-builddir script.
+gmplib has some assembly routines. These have not been optimized
+for MIPS R6 yet. Add --disable-assembly so that the C implementation
+is used.
 
-[YOCTO #10751]
+(From OE-Core rev: b0975809fe43b7506cc30a60245f5e32b275a3ec)
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+
 ---
- scripts/oe-setup-builddir | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Not exact backport as Pyro has support for some MACHINEOVERRIDES that
+are used instead.
+---
+ meta/recipes-support/gmp/gmp_6.1.1.bb | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
-index e53f73c..ef49551 100755
---- a/scripts/oe-setup-builddir
-+++ b/scripts/oe-setup-builddir
-@@ -23,6 +23,14 @@ if [ -z "$BUILDDIR" ]; then
-     exit 1
- fi
+diff --git a/meta/recipes-support/gmp/gmp_6.1.1.bb b/meta/recipes-support/gmp/gmp_6.1.1.bb
+index 303c3ef..c89773a 100644
+--- a/meta/recipes-support/gmp/gmp_6.1.1.bb
++++ b/meta/recipes-support/gmp/gmp_6.1.1.bb
+@@ -20,7 +20,14 @@ SRC_URI[sha256sum] = "a8109865f2893f1373b0a8ed5ff7429de8db696fc451b1036bd7bdf95b
  
-+if [ "$1" = '--help' -o "$1" = '-h' ]; then
-+    echo 'Usage: oe-setup-builddir'
-+    echo ''
-+    echo "OpenEmbedded setup-builddir - setup build directory $BUILDDIR"
-+    echo ''
-+    exit 2
-+fi
+ acpaths = ""
+ 
+-EXTRA_OECONF += " --enable-cxx=detect"
++DISABLE_ASSEMBLY ?= ""
 +
- mkdir -p "$BUILDDIR/conf"
++DISABLE_ASSEMBLY_mipsisa32r6 = "--disable-assembly"
++DISABLE_ASSEMBLY_mipsisa32r6el = "--disable-assembly"
++DISABLE_ASSEMBLY_mipsisa64r6 = "--disable-assembly"
++DISABLE_ASSEMBLY_mipsisa64r6el = "--disable-assembly"
++
++EXTRA_OECONF += " --enable-cxx=detect ${DISABLE_ASSEMBLY}"
  
- if [ ! -d "$BUILDDIR" ]; then
+ PACKAGES =+ "libgmpxx"
+ FILES_libgmpxx = "${libdir}/libgmpxx${SOLIBS}"
 -- 
-2.1.4
+2.10.2
 
 
