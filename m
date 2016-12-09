@@ -1,23 +1,46 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 252E671D42
+Return-Path: <daniel.diaz@linaro.org>
+Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com
+	[209.85.218.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D1E871D68
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Dec 2016 17:49:35 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uB9Hna03019150
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Fri, 9 Dec 2016 09:49:36 -0800
-Received: from msp-dhcp15.wrs.com (172.25.34.15) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 9 Dec 2016 09:49:35 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 9 Dec 2016 11:49:34 -0600
-Message-ID: <20161209174934.77726-1-mark.hatle@windriver.com>
-X-Mailer: git-send-email 2.11.0.rc1
+	Fri,  9 Dec 2016 18:20:49 +0000 (UTC)
+Received: by mail-oi0-f50.google.com with SMTP id w63so27081594oiw.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 09 Dec 2016 10:20:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=M9rwMpGrnUBgnuQUVMlEKruOYkoJywV7uWj2rLD6Cr0=;
+	b=YX2Pc+Fr8TJH3Q9/aSOlTSleqMA4UQ0fYx6g2NXjVi2On45b53J+9rrvzHapdnWHlg
+	xl4iZk7ZDz2EAMnmoF+MvdYbUWSpPN6GCoJE/9rdwfCTAfoZHmKNNjfJDkoiAnXz8fX/
+	mgbPx2+dF1bjH8+3/mrwDx8x9brNgLXzZZ+MI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=M9rwMpGrnUBgnuQUVMlEKruOYkoJywV7uWj2rLD6Cr0=;
+	b=EhGVlQ12PZdVnCiq2P8rRmeCaOJZ5oJuItF9n30JX/SgCdxJOObbwQ0aOni69ejdLf
+	ydRL4reqe+I7zxNWpN9jYHv7mIHu4VfatcyAKI6zxXzKd9qE3OP1bViwgMmt/AeCR49m
+	lS5UjWiVBysXQHO6DEXJYMWiYN5ePQaYAqgdrruYUCA8xzWqCIridS2epWVrf3ieIc16
+	ccQ0NLB8Bpgv4vU8vpCnl2CrDqHtcSA1uTYFwQz7w9DjiZlK5mtd+Ebv2Be+ZU1hhpZw
+	x/O0VTFGkBYqT/DFyV/MfGVjAfDODhjJj4DlRLW2L6WjQOFB1O9GdFB7Ei09nEeqEF/I
+	E76g==
+X-Gm-Message-State: AKaTC01w5XsPaIQ1Q4I1z0tbQHs4URlAanXCP6SuQvuSi7qn46jGJSbkuOBGdjl1SLJzJjxR
+X-Received: by 10.157.14.210 with SMTP id 76mr41792811otj.71.1481307651123;
+	Fri, 09 Dec 2016 10:20:51 -0800 (PST)
+Received: from aura.cortijodelrio.net
+	(CableLink64-18.telefonia.InterCable.net. [201.172.64.18])
+	by smtp.googlemail.com with ESMTPSA id
+	110sm12815430otc.39.2016.12.09.10.20.49
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 09 Dec 2016 10:20:50 -0800 (PST)
+From: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  9 Dec 2016 12:20:18 -0600
+Message-Id: <1481307618-11526-1-git-send-email-daniel.diaz@linaro.org>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [master][morty][PATCH v2] glibc: Enable backtrace from abort on ARM
+Subject: [PATCH] RFC: weston-init: Update systemd service unit.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,56 +53,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2016 17:49:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 09 Dec 2016 18:20:50 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Yuanjie Huang <yuanjie.huang@windriver.com>
+Based on the "ultimate" systemd service unit [1], this unit
+works without the need of weston-start/weston-launch, as is
+recommended by Weston developers.
 
-ARM stack frames for abort and raise were limited to the the actual
-abort and raise call, such as:
+It handles:
+* proper VT/tty allocation and handling,
+* PAM login (XDG environment settings),
+* correct logging,
+* optional arguments to Weston via config file.
 
-Obtained 4 stack frames.
-./test-app(print_trace+0x1c) [0x10a08]
-./test-app() [0x10b3c]
-/lib/libc.so.6(__default_sa_restorer+0) [0x4adae1e0]
-/lib/libc.so.6(gsignal+0xa0) [0x4adacf74]
+[1] https://phabricator.freedesktop.org/T63
 
-This is not terribly useful when trying to figure out what function
-may have called called the abort, especially when using pthreads.
-
-After the change the trace would now look like:
-
-Obtained 8 stack frames.
-./test-app(print_trace+0x1c) [0x10a08]
-./test-app() [0x10b3c]
-/lib/libc.so.6(__default_sa_restorer+0) [0x4befe1e0]
-/lib/libc.so.6(gsignal+0xa0) [0x4befcf74]
-/lib/libc.so.6(abort+0x134) [0x4befe358]
-./test-app(dummy_function+0x50) [0x10adc]
-./test-app(main+0xd4) [0x10c24]
-/lib/libc.so.6(__libc_start_main+0x114) [0x4bee7a58]
-
-Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
 ---
- meta/recipes-core/glibc/glibc.inc | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/recipes-graphics/wayland/weston-init.bb       |  6 +++++
+ .../wayland/weston-init/weston.service             | 31 +++++++++++++++++++---
+ 2 files changed, 34 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
-index e85c7044a0..7bae0e9554 100644
---- a/meta/recipes-core/glibc/glibc.inc
-+++ b/meta/recipes-core/glibc/glibc.inc
-@@ -78,3 +78,9 @@ do_configure_prepend() {
- }
+diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
+index 22ba5f3..4a97eba 100644
+--- a/meta/recipes-graphics/wayland/weston-init.bb
++++ b/meta/recipes-graphics/wayland/weston-init.bb
+@@ -10,7 +10,13 @@ S = "${WORKDIR}"
  
- GLIBC_ADDONS ?= "nptl,libidn"
+ do_install() {
+ 	install -Dm755 ${WORKDIR}/init ${D}/${sysconfdir}/init.d/weston
 +
-+# Enable backtrace from abort()
-+do_configure_append_arm () {
-+	echo "CFLAGS-abort.c = -fasynchronous-unwind-tables" >> ${B}/configparms
-+	echo "CFLAGS-raise.c = -fasynchronous-unwind-tables" >> ${B}/configparms
-+}
++	# Install weston.service systemd service unit
+ 	install -Dm0644 ${WORKDIR}/weston.service ${D}${systemd_system_unitdir}/weston.service
++	sed -i  -e 's,/usr/bin,${bindir},g' \
++		-e 's,/etc,${sysconfdir},g' \
++		-e 's,/var,${localstatedir},g \
++		${D}${systemd_system_unitdir}/weston.service
+ 
+ 	# Install weston-start script
+ 	install -Dm755 ${WORKDIR}/weston-start ${D}${bindir}/weston-start
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston.service b/meta/recipes-graphics/wayland/weston-init/weston.service
+index 689ce41..66d49ec 100644
+--- a/meta/recipes-graphics/wayland/weston-init/weston.service
++++ b/meta/recipes-graphics/wayland/weston-init/weston.service
+@@ -1,12 +1,37 @@
+ [Unit]
+-Description=Weston Wayland Compositor
++Description=Weston Wayland Compositor (on tty7)
+ RequiresMountsFor=/run
++Conflicts=getty@tty7.service plymouth-quit.service
++After=systemd-user-sessions.service getty@tty7.service plymouth-quit-wait.service
+ 
+ [Service]
+ User=root
++PermissionsStartOnly=true
++
++# Log us in via PAM so we get our XDG & co. environment and
++# are treated as logged in so we can use the tty:
++PAMName=login
++
++# Grab tty7
++UtmpIdentifier=tty7
++TTYPath=/dev/tty7
++TTYReset=yes
++TTYVHangup=yes
++TTYVTDisallocate=yes
++
++# stderr to journal so our logging doesn't get thrown into /dev/null
++StandardOutput=tty
++StandardInput=tty
++StandardError=journal
++
+ EnvironmentFile=-/etc/default/weston
+-ExecStart=/usr/bin/weston-start -v -e -- $OPTARGS
++
++# Weston does not successfully change VT, nor does systemd place us on
++# the VT it just activated for us. Switch manually:
++ExecStartPre=/usr/bin/chvt 7
++ExecStart=/usr/bin/weston --log=/var/log/weston.log $OPTARGS
++
++IgnoreSIGPIPE=no
+ 
+ [Install]
+ WantedBy=multi-user.target
+-
 -- 
-2.11.0.rc1
+1.9.1
 
 
