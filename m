@@ -1,48 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
-	[209.85.217.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C65C6FFCE
+Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
+	[209.85.217.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F0C86FFCE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Dec 2016 02:49:54 +0000 (UTC)
-Received: by mail-ua0-f194.google.com with SMTP id 20so477411uak.0
+	Fri,  9 Dec 2016 02:53:10 +0000 (UTC)
+Received: by mail-ua0-f193.google.com with SMTP id 12so473133uas.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Dec 2016 18:49:56 -0800 (PST)
+	Thu, 08 Dec 2016 18:53:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=FohNldKXNKZ8e05ZD9EZ5aYjpv+LZxTKTX4BXekcr/s=;
-	b=qY4M9x2co2UsSvzEjFJueZq4b3q/HaGdCLbsGv6r9k+pz9ihLKmt61+wHIWBeL6ijy
-	r/LSnXoRUtyJ+z5b/W2q1665ECSPrm4DCQpbpTem1ZLMwRTFlUwFoFTqiI9u96EWAOcu
-	TRtC8dRREAJYU4igia3EcF8Vi96lXc7d+Z1+smQL/DwAH2PqzSxrwRIqwNZb2G2WdyLP
-	ilLOzzo/JvvipCXlLQygipUGt0/J+zjg6AHOnay7Eyyx0sfLd3HzOP+P+fdNdC+ld3v9
-	Z50r3ZSA9WBhPXi0bkWxWNrMF/gCTSRVd36aaEEPFY4Fz7teyTlWggWX84V9iFvtsNEo
-	TNDg==
+	:cc:content-transfer-encoding;
+	bh=rf6P3HvsO94NYSboscumo1qWk1bP6q/UznUJYO4qHDk=;
+	b=gxvVTLLAhK/M4U5aU7jiWBqV2vq/zbUhbzCwCB/XuDkbE4w41dj44mIlQDbAQS2Fc7
+	Jr56VJ9YVUUHfeu3XGYqeD7Bv90OD7VdfhlbJdixKMoMcyeVhtt5FsZla/VG4AqTLDwB
+	OSxgS44bbqi9/Yf6MwAXgy+EfPoDw9HY+1etAYdPQaaKm15jXtayVa1EkLLcbMAOVRlj
+	ns6aqdnxNBiQgW6fW4/rkEXKGPinz/4hUWFMverafIAyCu0SoDQ6fzB4TH04+w2wPgi9
+	sseYampZszADLqsQZ/bH8DjIQXIC0aIo8RsFP/qeG9A5cMPjMX8JspJ07m5Hth/6OEjG
+	J38Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=FohNldKXNKZ8e05ZD9EZ5aYjpv+LZxTKTX4BXekcr/s=;
-	b=XyyZrVa4MTrdsUCipA/JU6AdqqsLXdvVN6CXbaMDqjW14JPQBpLFh27I51LDPFcS3N
-	XKWuJ+8Xn5yQMFkLQwyvDO88lVGLpFGq8F8xIAgqHqi9u0EqVSINbATIw+dj9Qbtjn6g
-	DdfopFIqKm5TFlooqgvWtdkZJ3R3w+MtblmvzgCH2Ik1oegei5aayPnLHvuLrc4+86Tt
-	2YhV3ktGTDp+YH9pTMvj61SfWOzNZWxhS18s81zigLDrk1WkGkP9K2VkHjt89D/wumNe
-	nq32cKO7qvimiCwLnGMosbi14tbS1Z5A2L+eYfnZnJRUEADlhCsFGnO14Vn7OYePHjyr
-	XL9w==
-X-Gm-Message-State: AKaTC03WPKksUoEV2vC32WXV46MecUK+fs19UWXyYRNhoITfcxtwo3SxVv7nLzDJYAXlsX69CbRIwniqGcjN8A==
-X-Received: by 10.176.0.180 with SMTP id 49mr60243253uaj.32.1481251795947;
-	Thu, 08 Dec 2016 18:49:55 -0800 (PST)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=rf6P3HvsO94NYSboscumo1qWk1bP6q/UznUJYO4qHDk=;
+	b=fRHtpCsvhv5NO6VLfTAJKYfE5ee3aLL9UEaHSlt8TtgvdTZf5W9PTi6auUthhOR1Vh
+	fVyTjLzhkO+wYh7uMsDX0C/e3RXVY0OzlvESRrjfCpscdfleEoTayKsMyySXB8eK4KUL
+	vjBh6OY6Bdo9BSL9O5JicVxCW0pR6w8MMw2WAmjun2jdVExN7LOfbav5YDfFNwZX0VQq
+	rrUQSDtpGkUodmYA/d43qQIkFkjxiv1lJ8t6QH45Dm8gRb4GO6toZsFPHOyEFFS+gDmB
+	lAP1atJbYJPwhwIgziSMMvwi3LJflydkzOlUkN/5/bMYa+JrT8kvQeDhoX9CGK6U0Vh7
+	CHRg==
+X-Gm-Message-State: AKaTC00aikmWNMesgw2VcsRZC12qRn0+w1iCabalPFBJa5Uij9EZ7M2KXI+PGeVsEkC5X32goOilO5A3esYOdQ==
+X-Received: by 10.176.84.8 with SMTP id n8mr24954633uaa.29.1481251992006; Thu,
+	08 Dec 2016 18:53:12 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.159.48.87 with HTTP; Thu, 8 Dec 2016 18:49:25 -0800 (PST)
-In-Reply-To: <1388d400-de9b-e414-ee96-898089425033@mleia.com>
-References: <20161206151718.18176-1-vz@mleia.com>
-	<DC2BDF45-0E2A-40EC-885D-0EF1A61F8453@gmail.com>
-	<1388d400-de9b-e414-ee96-898089425033@mleia.com>
+Received: by 10.159.48.87 with HTTP; Thu, 8 Dec 2016 18:52:41 -0800 (PST)
+In-Reply-To: <CALbNGRTqROjBNZP=FsRMYUPn=sMbYYgAP6CAYmnjePKO3o4N=A@mail.gmail.com>
+References: <1480983561-11437-1-git-send-email-schnitzeltony@googlemail.com>
+	<1480983561-11437-3-git-send-email-schnitzeltony@googlemail.com>
+	<CAMKF1sorwZg-yF5k8NJBtDakZHqCZr0H=jvLP8mx8bkcU2B3Gg@mail.gmail.com>
+	<CALbNGRTqROjBNZP=FsRMYUPn=sMbYYgAP6CAYmnjePKO3o4N=A@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 8 Dec 2016 18:49:25 -0800
-Message-ID: <CAMKF1so4jNvs7mFHELuvoaF6d0_D-4bK4oHG8u=cAv5VpgSaPw@mail.gmail.com>
-To: Vladimir Zapolskiy <vz@mleia.com>
+Date: Thu, 8 Dec 2016 18:52:41 -0800
+Message-ID: <CAMKF1sofn-ZLUCYnU5D34tLJvMOWRbceyRK7YjXMXHMD+jFGeQ@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] insane: Add SH4 musl mapping to the QA arch tests
+Subject: Re: [PATCH 3/5] libsdl2: add EXTRA_OECONF[vardepsexclude] = "MACHINE"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,55 +57,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2016 02:49:55 -0000
+X-List-Received-Date: Fri, 09 Dec 2016 02:53:11 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 8, 2016 at 6:42 PM, Vladimir Zapolskiy <vz@mleia.com> wrote:
-> Hello Khem,
->
-> On 12/09/2016 03:29 AM, Khem Raj wrote:
->>
->>> On Dec 6, 2016, at 7:17 AM, Vladimir Zapolskiy <vz@mleia.com> wrote:
->>>
->>> This change allows to pass QA for packages built with sh4-oe-linux-musl
->>> toolchain, the problem is reproted while building core-image-minimal target:
->>>
->>>  ERROR: readline-7.0-r0 do_package_qa:
->>>  Error executing a python function in exec_python_func() autogenerated
->>>
->>> Signed-off-by: Vladimir Zapolskiy <vz@mleia.com>
->>> ---
->>> meta/classes/insane.bbclass | 1 +
->>> 1 file changed, 1 insertion(+)
->>>
->>> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
->>> index 5ddb87b..01494e3 100644
->>> --- a/meta/classes/insane.bbclass
->>> +++ b/meta/classes/insane.bbclass
->>> @@ -138,6 +138,7 @@ def package_qa_get_machine_dict(d):
->>>                         "microblaze":  (189,     0,    0,          False,         32),
->>>                         "microblazeeb":(189,     0,    0,          False,         32),
->>>                         "microblazeel":(189,     0,    0,          True,          32),
->>> +                        "sh4":        (  42,     0,    0,          True,          32),
->>
->> Can you also add sh4eb as well while you are at it ?
->>
->
-> I don't build or do runtime testing of sh4eb, and you may notice that
-> there is no any other sh4eb target in the file at the moment. I'll try
-> to find some time in the future and test sh4eb linux, linux-musl and
-> linux-uclibc toolchains and add all of them together as a distinct
-> change.
->
-> Since missing sh4 linux-musl hits me immediately, I would like to ask
-> you to apply the change as is.
+On Tue, Dec 6, 2016 at 12:00 AM, Andreas M=C3=BCller
+<schnitzeltony@googlemail.com> wrote:
+> On Tue, Dec 6, 2016 at 1:24 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>> There probably is no need to use this additional variable. We can just u=
+se
+>> PKG_CONFIG_SYSROOT
+> Problem is not finding the wrong .pc files. Problem is that the output
+> of pkg-config must be prefixed to find the protocols.
 >
 
-OK, I think thats fine, I was hoping that you were testing that too
+I think this patch as such is fine for now.
 
-> Thank you.
->
-> --
-> With best wishes,
-> Vladimir
+> Andreas
 
