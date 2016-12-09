@@ -1,46 +1,26 @@
-Return-Path: <daniel.diaz@linaro.org>
-Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com
-	[209.85.218.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D1E871D68
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B78D71D61
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Dec 2016 18:20:49 +0000 (UTC)
-Received: by mail-oi0-f50.google.com with SMTP id w63so27081594oiw.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Dec 2016 10:20:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=M9rwMpGrnUBgnuQUVMlEKruOYkoJywV7uWj2rLD6Cr0=;
-	b=YX2Pc+Fr8TJH3Q9/aSOlTSleqMA4UQ0fYx6g2NXjVi2On45b53J+9rrvzHapdnWHlg
-	xl4iZk7ZDz2EAMnmoF+MvdYbUWSpPN6GCoJE/9rdwfCTAfoZHmKNNjfJDkoiAnXz8fX/
-	mgbPx2+dF1bjH8+3/mrwDx8x9brNgLXzZZ+MI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=M9rwMpGrnUBgnuQUVMlEKruOYkoJywV7uWj2rLD6Cr0=;
-	b=EhGVlQ12PZdVnCiq2P8rRmeCaOJZ5oJuItF9n30JX/SgCdxJOObbwQ0aOni69ejdLf
-	ydRL4reqe+I7zxNWpN9jYHv7mIHu4VfatcyAKI6zxXzKd9qE3OP1bViwgMmt/AeCR49m
-	lS5UjWiVBysXQHO6DEXJYMWiYN5ePQaYAqgdrruYUCA8xzWqCIridS2epWVrf3ieIc16
-	ccQ0NLB8Bpgv4vU8vpCnl2CrDqHtcSA1uTYFwQz7w9DjiZlK5mtd+Ebv2Be+ZU1hhpZw
-	x/O0VTFGkBYqT/DFyV/MfGVjAfDODhjJj4DlRLW2L6WjQOFB1O9GdFB7Ei09nEeqEF/I
-	E76g==
-X-Gm-Message-State: AKaTC01w5XsPaIQ1Q4I1z0tbQHs4URlAanXCP6SuQvuSi7qn46jGJSbkuOBGdjl1SLJzJjxR
-X-Received: by 10.157.14.210 with SMTP id 76mr41792811otj.71.1481307651123;
-	Fri, 09 Dec 2016 10:20:51 -0800 (PST)
-Received: from aura.cortijodelrio.net
-	(CableLink64-18.telefonia.InterCable.net. [201.172.64.18])
-	by smtp.googlemail.com with ESMTPSA id
-	110sm12815430otc.39.2016.12.09.10.20.49
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 09 Dec 2016 10:20:50 -0800 (PST)
-From: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Dec 2016 12:20:18 -0600
-Message-Id: <1481307618-11526-1-git-send-email-daniel.diaz@linaro.org>
-X-Mailer: git-send-email 1.9.1
+	Fri,  9 Dec 2016 19:28:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uB9JS2wE007599
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 9 Dec 2016 11:28:02 -0800 (PST)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Fri, 9 Dec 2016 11:28:01 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Fri, 9 Dec 2016 14:27:59 -0500
+Message-ID: <a436d4f086050df81206861f89a274baf80f16cd.1481311536.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <cover.1481311536.git.bruce.ashfield@windriver.com>
+References: <cover.1481311536.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH] RFC: weston-init: Update systemd service unit.
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] linux-yocto/4.8: update to -rt7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,92 +33,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2016 18:20:50 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 09 Dec 2016 19:28:02 -0000
+Content-Type: text/plain
 
-Based on the "ultimate" systemd service unit [1], this unit
-works without the need of weston-start/weston-launch, as is
-recommended by Weston developers.
+Updating to the latest 4.8-rt
 
-It handles:
-* proper VT/tty allocation and handling,
-* PAM login (XDG environment settings),
-* correct logging,
-* optional arguments to Weston via config file.
-
-[1] https://phabricator.freedesktop.org/T63
-
-Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
+Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-graphics/wayland/weston-init.bb       |  6 +++++
- .../wayland/weston-init/weston.service             | 31 +++++++++++++++++++---
- 2 files changed, 34 insertions(+), 3 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb   | 4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.8.bb      | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
-index 22ba5f3..4a97eba 100644
---- a/meta/recipes-graphics/wayland/weston-init.bb
-+++ b/meta/recipes-graphics/wayland/weston-init.bb
-@@ -10,7 +10,13 @@ S = "${WORKDIR}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
+index 8ed9d8f3743f..d392a6de5e95 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
+@@ -11,8 +11,8 @@ python () {
+         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
  
- do_install() {
- 	install -Dm755 ${WORKDIR}/init ${D}/${sysconfdir}/init.d/weston
-+
-+	# Install weston.service systemd service unit
- 	install -Dm0644 ${WORKDIR}/weston.service ${D}${systemd_system_unitdir}/weston.service
-+	sed -i  -e 's,/usr/bin,${bindir},g' \
-+		-e 's,/etc,${sysconfdir},g' \
-+		-e 's,/var,${localstatedir},g \
-+		${D}${systemd_system_unitdir}/weston.service
+-SRCREV_machine ?= "b2d665b3453891cd066c8a172af0b7785c365f57"
+-SRCREV_meta ?= "b22e47739683444916dc64548df1dbf6856500a5"
++SRCREV_machine ?= "3bafd55e39da7fd7c5d483fdee5b72450df3caf0"
++SRCREV_meta ?= "926c93ae07de2173b4f764d1da6996597a6d2b73"
  
- 	# Install weston-start script
- 	install -Dm755 ${WORKDIR}/weston-start ${D}${bindir}/weston-start
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston.service b/meta/recipes-graphics/wayland/weston-init/weston.service
-index 689ce41..66d49ec 100644
---- a/meta/recipes-graphics/wayland/weston-init/weston.service
-+++ b/meta/recipes-graphics/wayland/weston-init/weston.service
-@@ -1,12 +1,37 @@
- [Unit]
--Description=Weston Wayland Compositor
-+Description=Weston Wayland Compositor (on tty7)
- RequiresMountsFor=/run
-+Conflicts=getty@tty7.service plymouth-quit.service
-+After=systemd-user-sessions.service getty@tty7.service plymouth-quit-wait.service
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.8;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
+index 43dc34bd25a4..15b03579d4a3 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
+@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
  
- [Service]
- User=root
-+PermissionsStartOnly=true
-+
-+# Log us in via PAM so we get our XDG & co. environment and
-+# are treated as logged in so we can use the tty:
-+PAMName=login
-+
-+# Grab tty7
-+UtmpIdentifier=tty7
-+TTYPath=/dev/tty7
-+TTYReset=yes
-+TTYVHangup=yes
-+TTYVTDisallocate=yes
-+
-+# stderr to journal so our logging doesn't get thrown into /dev/null
-+StandardOutput=tty
-+StandardInput=tty
-+StandardError=journal
-+
- EnvironmentFile=-/etc/default/weston
--ExecStart=/usr/bin/weston-start -v -e -- $OPTARGS
-+
-+# Weston does not successfully change VT, nor does systemd place us on
-+# the VT it just activated for us. Switch manually:
-+ExecStartPre=/usr/bin/chvt 7
-+ExecStart=/usr/bin/weston --log=/var/log/weston.log $OPTARGS
-+
-+IgnoreSIGPIPE=no
+ SRCREV_machine ?= "e274a507b23c23bf0dd6502d0c38fae731c11511"
+-SRCREV_meta ?= "b22e47739683444916dc64548df1dbf6856500a5"
++SRCREV_meta ?= "926c93ae07de2173b4f764d1da6996597a6d2b73"
  
- [Install]
- WantedBy=multi-user.target
--
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.8.bb b/meta/recipes-kernel/linux/linux-yocto_4.8.bb
+index 090358873b46..aedfe1b1556e 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.8.bb
+@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "021b4aef55b44597587a1ce5879be642b3dca155"
+ SRCREV_machine_qemux86-64 ?= "021b4aef55b44597587a1ce5879be642b3dca155"
+ SRCREV_machine_qemumips64 ?= "1b20066b88c3abdde1f6c449b6562a516b4cce6d"
+ SRCREV_machine ?= "021b4aef55b44597587a1ce5879be642b3dca155"
+-SRCREV_meta ?= "b22e47739683444916dc64548df1dbf6856500a5"
++SRCREV_meta ?= "926c93ae07de2173b4f764d1da6996597a6d2b73"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.8;destsuffix=${KMETA}"
 -- 
-1.9.1
+2.5.0
 
 
