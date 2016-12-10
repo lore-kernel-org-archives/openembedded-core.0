@@ -1,24 +1,46 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A2896071F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f181.google.com (mail-qt0-f181.google.com
+	[209.85.216.181])
+	by mail.openembedded.org (Postfix) with ESMTP id EB0C16B6EA
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Dec 2016 02:59:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBA2xCZ7029210
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sat, 10 Dec 2016 10:43:17 +0000 (UTC)
+Received: by mail-qt0-f181.google.com with SMTP id n6so38233799qtd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 9 Dec 2016 18:59:12 -0800 (PST)
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Fri, 9 Dec 2016 18:59:11 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 10 Dec 2016 10:56:13 +0800
-Message-ID: <20161210025613.1648-1-jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.8.3
+	Sat, 10 Dec 2016 02:43:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=+lfnKaopGERCOChHU4FZxPq2m83L+Gj2KaDCHrFnVKE=;
+	b=bJl43vMFG54Sh2T3+eX0quKEFltjqu60q6iIr4xUjb4DRIw5ACcYPScVwLJQeqSIVd
+	VamcOlwWt9rPk8DoMiiIYPoWSatNp1cA6p90Wv3iemRAjK5dcLNi+evdXyiystejwLvE
+	2DX7hDJUnNsJIzDdbLIukx1P6sFQisH+zJvxHFgPHIlw+q96h68GOoyehfs7lGgl62+w
+	wX2JLXN+kLCEJghcPLeSLW+/rzBSQZAuv24gWJ/J0vk4MZyUEY1YmOE8Kqbc9Jc11FeL
+	TowkU+UZ6z0oSEYJG2eJz6DWu0GfO3eRBz9YOzUpA9/8uAhbT3TgfcwHgcDkRVs0i0Gt
+	igTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=+lfnKaopGERCOChHU4FZxPq2m83L+Gj2KaDCHrFnVKE=;
+	b=S3F/xEzqBC1aIkkwR3Z8hbHcna+dmwG9foL8wLSQAvf1MH2R99LiXrJdM4exv5AP6l
+	a48hQaxcNAIZbee8g3/7DwZXRN3Y4Q3nLh4WWJiPkZIGECYn9ImxaZi9sbIphq3M2fjt
+	N5c/vCjQLyS0tr8TOVsMjXwWL9r2lYF14Zz0hKRzQsEKNPkuPtl8osYDnNuq4TGReuWV
+	GqDiTIh6eJ5AT+pV8VzY6O/ieMGBaUacF+9KpXduX3ZPj7zWYaExlbVWYmmkZolOg2zL
+	PrpCXvi++Teq9MujNrpm/xhUQ3SbUnejdegVSzWHzofqb5GtxdG7WKNSQGABb0ksfiJD
+	deXQ==
+X-Gm-Message-State: AKaTC01UpIcE8p5UvUDcG00QyFUKjG5ISE2YVj5RoMQzyXMWbAJpwXUH5BIr7VF42c7XQQ8Qm/LIe8Uv3J3lOsYG
+X-Received: by 10.200.57.54 with SMTP id s51mr71233204qtb.68.1481366598731;
+	Sat, 10 Dec 2016 02:43:18 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] gcr: add missing dependencies for vapi
+Received: by 10.140.106.99 with HTTP; Sat, 10 Dec 2016 02:42:58 -0800 (PST)
+In-Reply-To: <20161210025613.1648-1-jackie.huang@windriver.com>
+References: <20161210025613.1648-1-jackie.huang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sat, 10 Dec 2016 10:42:58 +0000
+Message-ID: <CAJTo0LaXmKPSRG1VgLXdOERkxuFSaqFX-D-7Oo9MTKY_ydcq1w@mail.gmail.com>
+To: "jackie.huang@windriver.com" <jackie.huang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcr: add missing dependencies for vapi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,98 +53,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Dec 2016 02:59:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 10 Dec 2016 10:43:18 -0000
+Content-Type: multipart/alternative; boundary=001a113a01e8e6616705434b8910
 
-From: Jackie Huang <jackie.huang@windriver.com>
+--001a113a01e8e6616705434b8910
+Content-Type: text/plain; charset=UTF-8
 
-According to the vapi_DEPS definition:
-gcr-3.vapi depends on gck-1.vapi,
-gcr-ui-3.vapi depends on gck-1.vapi and gcr-3.vapi
+On 10 December 2016 at 02:56, <jackie.huang@windriver.com> wrote:
 
-But these dependencies are missing for the make targets,
-so it will fail when build in parallel:
-error: Package `gck-1' not found in specified Vala API directories or GObject-Introspection GIR directories
-error: Package `gcr-3' not found in specified Vala API directories or GObject-Introspection GIR directories
+> +Upstream-Status: Submitted [https://github.com/GNOME/gcr/pull/4]
+>
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- .../gcr-add-missing-dependencies-for-vapi.patch    | 51 ++++++++++++++++++++++
- meta/recipes-gnome/gcr/gcr_3.20.0.bb               |  2 +
- 2 files changed, 53 insertions(+)
- create mode 100644 meta/recipes-gnome/gcr/files/gcr-add-missing-dependencies-for-vapi.patch
+Did you get the message that GNOME doesn't take pull requests at github?
 
-diff --git a/meta/recipes-gnome/gcr/files/gcr-add-missing-dependencies-for-vapi.patch b/meta/recipes-gnome/gcr/files/gcr-add-missing-dependencies-for-vapi.patch
-new file mode 100644
-index 0000000..4b95103
---- /dev/null
-+++ b/meta/recipes-gnome/gcr/files/gcr-add-missing-dependencies-for-vapi.patch
-@@ -0,0 +1,51 @@
-+From e7e0c56ca82031121f192f7f711b78418b154c9f Mon Sep 17 00:00:00 2001
-+From: Jackie Huang <jackie.huang@windriver.com>
-+Date: Mon, 28 Nov 2016 10:17:34 +0800
-+Subject: [PATCH] gcr: add missing dependencies for vapi
-+
-+According to the vapi_DEPS definition:
-+gcr-3.vapi depends on gck-1.vapi,
-+gcr-ui-3.vapi depends on gck-1.vapi and gcr-3.vapi
-+
-+But these dependencies are missing for the make targets,
-+so it will fail when build in parallel:
-+error: Package `gck-1' not found in specified Vala API directories or GObject-Introspection GIR directories
-+error: Package `gcr-3' not found in specified Vala API directories or GObject-Introspection GIR directories
-+
-+Upstream-Status: Submitted [https://github.com/GNOME/gcr/pull/4]
-+
-+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-+---
-+ gcr/Makefile.am | 2 +-
-+ ui/Makefile.am  | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/gcr/Makefile.am b/gcr/Makefile.am
-+index eda302f..6e78dba 100644
-+--- a/gcr/Makefile.am
-++++ b/gcr/Makefile.am
-+@@ -221,7 +221,7 @@ gir_DATA += Gcr-@GCR_MAJOR@.gir
-+ 
-+ if ENABLE_VAPIGEN
-+ 
-+-gcr-@GCR_MAJOR@.vapi: Gcr-@GCR_MAJOR@.gir gcr/Gcr-@GCR_MAJOR@.metadata gcr-@GCR_MAJOR@.deps
-++gcr-@GCR_MAJOR@.vapi: Gcr-@GCR_MAJOR@.gir gcr/Gcr-@GCR_MAJOR@.metadata gcr-@GCR_MAJOR@.deps gck-@GCK_MAJOR@.vapi
-+ 
-+ VAPIGEN_VAPIS += gcr-@GCR_MAJOR@.vapi
-+ 
-+diff --git a/ui/Makefile.am b/ui/Makefile.am
-+index aa52476..6612f0d 100644
-+--- a/ui/Makefile.am
-++++ b/ui/Makefile.am
-+@@ -160,7 +160,7 @@ gir_DATA += GcrUi-@GCR_MAJOR@.gir
-+ 
-+ if ENABLE_VAPIGEN
-+ 
-+-gcr-ui-@GCR_MAJOR@.vapi: GcrUi-@GCR_MAJOR@.gir ui/GcrUi-@GCR_MAJOR@.metadata gcr-ui-@GCR_MAJOR@.deps
-++gcr-ui-@GCR_MAJOR@.vapi: GcrUi-@GCR_MAJOR@.gir ui/GcrUi-@GCR_MAJOR@.metadata gcr-ui-@GCR_MAJOR@.deps gck-@GCK_MAJOR@.vapi gcr-@GCR_MAJOR@.vapi
-+ 
-+ VAPIGEN_VAPIS += gcr-ui-@GCR_MAJOR@.vapi
-+ 
-+-- 
-+2.8.3
-+
-diff --git a/meta/recipes-gnome/gcr/gcr_3.20.0.bb b/meta/recipes-gnome/gcr/gcr_3.20.0.bb
-index b32a455..2088902 100644
---- a/meta/recipes-gnome/gcr/gcr_3.20.0.bb
-+++ b/meta/recipes-gnome/gcr/gcr_3.20.0.bb
-@@ -11,6 +11,8 @@ inherit autotools gnomebase gtk-icon-cache gtk-doc distro_features_check upstrea
- # depends on gtk+3, but also x11 through gtk+-x11
- REQUIRED_DISTRO_FEATURES = "x11"
- 
-+SRC_URI += "file://gcr-add-missing-dependencies-for-vapi.patch"
-+
- SRC_URI[archive.md5sum] = "4314bf89eac293dd0a9d806593ff1b35"
- SRC_URI[archive.sha256sum] = "90572c626d8a708225560c42b4421f7941315247fa1679d4ef569bde7f4bb379"
- 
--- 
-2.8.3
+Ross
 
+--001a113a01e8e6616705434b8910
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 10 December 2016 at 02:56,  <span dir=3D"ltr">&lt;<a href=3D"mailto:jack=
+ie.huang@windriver.com" target=3D"_blank">jackie.huang@windriver.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":173" class=3D=
+"a3s aXjCH m158e6ac8177a2587">+Upstream-Status: Submitted [<a href=3D"https=
+://github.com/GNOME/gcr/pull/4" rel=3D"noreferrer" target=3D"_blank">https:=
+//github.com/GNOME/gcr/<wbr>pull/4</a>]<br></div></blockquote></div><br>Did=
+ you get the message that GNOME doesn&#39;t take pull requests at github?</=
+div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</d=
+iv></div>
+
+--001a113a01e8e6616705434b8910--
