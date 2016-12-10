@@ -1,29 +1,21 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 4908460685
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id C92E960119
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Dec 2016 11:41:51 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
-	via TCP (outbound) with ESMTPS id 20161210114151268_0484
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Dec 2016 11:41:51 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [174.118.92.171] (port=49970 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1cFg2D-0005dO-Hx for openembedded-core@lists.openembedded.org;
-	Sat, 10 Dec 2016 06:41:45 -0500
-Date: Sat, 10 Dec 2016 06:40:27 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1612100630310.23762@localhost.localdomain>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: can "IMAGE_INSTALL ?= ..." not be written in a more obvious way?
+	Sat, 10 Dec 2016 17:16:02 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga105.fm.intel.com with ESMTP; 10 Dec 2016 09:16:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,328,1477983600"; d="scan'208";a="16376368"
+Received: from juro-precision-t5610.jf.intel.com ([10.7.198.149])
+	by orsmga002.jf.intel.com with ESMTP; 10 Dec 2016 09:16:04 -0800
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 10 Dec 2016 09:13:38 -0800
+Message-Id: <1481390018-16488-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: richard.purdie@intel.com
+Subject: [PATCH] edgerouter.py: avoid python3 exception
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,52 +28,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Dec 2016 11:41:52 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Sat, 10 Dec 2016 17:16:04 -0000
 
+This fixes an error such as:
 
-  i've nattered about this before but not sure i ever got an answer --
-here's the last bit of core-image.bbclass:
+Exception: File "/master/poky/meta-yocto-bsp/lib/oeqa/controllers/edgeroutertarget.py", line 47
+    self.image_fstype = self.get_image_fstype(d)
+TabError: inconsistent use of tabs and spaces in indentation
 
-  CORE_IMAGE_BASE_INSTALL = '\
-    packagegroup-core-boot \
-    packagegroup-base-extended \
-    \
-    ${CORE_IMAGE_EXTRA_INSTALL} \
-    '
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+---
+ meta-yocto-bsp/lib/oeqa/controllers/edgeroutertarget.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  CORE_IMAGE_EXTRA_INSTALL ?= ""
-
-  IMAGE_INSTALL ?= "${CORE_IMAGE_BASE_INSTALL}"
-
-the first time i saw that (long ago), it took me a few looks to figure
-out what was happening. can this not be written in a more obvious way:
-
-  CORE_IMAGE_BASE_INSTALL = '\
-    packagegroup-core-boot \
-    packagegroup-base-extended \
-    '
-
-  CORE_IMAGE_EXTRA_INSTALL ?= ""
-
-  IMAGE_INSTALL ?= " \
-    ${CORE_IMAGE_BASE_INSTALL} \
-    ${CORE_IMAGE_EXTRA_INSTALL} \
-    "
-
-is that not equivalent, or am i missing something? it's certainly
-clearer as to what's happening if people are perusing the code.
-
-rday
-
+diff --git a/meta-yocto-bsp/lib/oeqa/controllers/edgeroutertarget.py b/meta-yocto-bsp/lib/oeqa/controllers/edgeroutertarget.py
+index b3338ca..9c47b5b 100644
+--- a/meta-yocto-bsp/lib/oeqa/controllers/edgeroutertarget.py
++++ b/meta-yocto-bsp/lib/oeqa/controllers/edgeroutertarget.py
+@@ -44,7 +44,7 @@ class EdgeRouterTarget(MasterImageHardwareTarget):
+     def __init__(self, d):
+         super(EdgeRouterTarget, self).__init__(d)
+ 
+-	self.image_fstype = self.get_image_fstype(d)
++        self.image_fstype = self.get_image_fstype(d)
+         self.deploy_cmds = [
+                 'mount -L boot /boot',
+                 'mkdir -p /mnt/testrootfs',
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+2.7.4
 
 
