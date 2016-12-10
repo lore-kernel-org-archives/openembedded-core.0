@@ -1,48 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f195.google.com (mail-ua0-f195.google.com
-	[209.85.217.195])
-	by mail.openembedded.org (Postfix) with ESMTP id CFDF371C96
+Received: from mail-ua0-f178.google.com (mail-ua0-f178.google.com
+	[209.85.217.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 37B6B65C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Dec 2016 20:58:16 +0000 (UTC)
-Received: by mail-ua0-f195.google.com with SMTP id 20so5080452uak.0
+	Sat, 10 Dec 2016 21:16:16 +0000 (UTC)
+Received: by mail-ua0-f178.google.com with SMTP id 51so49410385uai.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Dec 2016 12:58:18 -0800 (PST)
+	Sat, 10 Dec 2016 13:16:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=lkDZG33NNvdKSE07ih5miZg54Kn9pPwCP/mA1ly5ikw=;
-	b=hiHbLBmqx+gXVLqGgFtnlBl9Mw8wSf6YXl+nMpL08XtOxy2xVnFrMRiQEl45RblB8Y
-	J4wHl5P62HpbKKpLeSycziH5iuc6lDRwMo3GoiNwc/ywJ46NaN3g2hnlzrp36PJdA5br
-	kcPNOsFtaorjStiOhrff6gG99s/yBqHPWkKoUJ6hhGOWBF7A5wii+lZrBNpFyGWyECNI
-	C0WDxtBxRhny30BG3RSfDlQDUEB6uHWtqcOMimggCRdKm4vHDoa5g+35LbB98iS7pXni
-	bTxaF7sGAygkL7Mwo+eCLomDokPPd7gARl4Nkvj3yPKmHrjbuuCW8LOlDz64qEX0F0WF
-	jBAA==
+	:cc; bh=OKvJmFvrtrKDdTMzAipqncxCGM73OFodvtZGZy3ZJLk=;
+	b=IXbe3EyN159U8+HPpdNfaMCgzkHbCg+eTiReFNPDPdEihATWtk78MN5IHEFEwrwizu
+	Bqg/yZmx1kueZBeDr39XqqSLXQa7/aH2Xys/lU1o41bbxwdErn71VAVGnPBhg5MPJpG0
+	4kPRdAfRDPYGgxAhEVAjJtJWgs3STbul1Y6KD+tSs1EGowSrOq5MWffwQ+HYkVBMmUYx
+	VT8XWIe+Yha7YtAfGqD+nE5vBwU4NZ+2mAkKxhQQFs99XwirSLyMahUKqciWIdnpaBDT
+	5D4yxaolK3xNswOlyTKtN74sX0PHgBxMIZVlvCkp6a1GCj9KJkryBLOD+tExx+lQzNsK
+	2t8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=lkDZG33NNvdKSE07ih5miZg54Kn9pPwCP/mA1ly5ikw=;
-	b=E1Mw3e31xFVpMKCo0tw6orZI942gD48cN3UOAxfKGmvAnnlZXs4qUx6EvVPRviDkrX
-	y0Nxqa0Vr6KpQiiiHIkgsLRfJjenopk8agTsHICB4T3NY5AnyXal6KDJLPXPxL1d4xqg
-	9n4TzFVCflGgztEh2YvrqzoIEaqsdGH/cFjOpE5UemeDEqbEg/A9wgT8iG7rczNuQaU3
-	bTXRy6q6h8230i9nqtAp1WzwyWKIX7Fy//W2+PV/lDjBRqPcZEqLNDnO2W6Af/L3jZQX
-	WSTQYUCHx+wP4+r/AbXedWVQkeKPqHJts4S6dH6vaX4L5Qzus0TTzvGcIEpGkEazrz6L
-	DjOA==
-X-Gm-Message-State: AKaTC02tgyHIT27UKV6LEP9SvJNMEmitHU7SwQtOelM6kEHNVHqhWj6Vrfb2vulxCZ6enVgchozeuDpYdBNiCg==
-X-Received: by 10.159.55.142 with SMTP id q14mr69910258uaq.107.1481403498406; 
-	Sat, 10 Dec 2016 12:58:18 -0800 (PST)
+	:message-id:subject:to:cc;
+	bh=OKvJmFvrtrKDdTMzAipqncxCGM73OFodvtZGZy3ZJLk=;
+	b=Htqwth9+p77WITdoUWmPLlOp9un4va+//czAxJjPthfdXaWEBZzFJPE9RepRQgvyq5
+	w1rhWkn6RZStQpl2648WZ7OC2kXqq/eoQoURLRqB9QUauG8ikXGFV2E3ne1M+p8VSuNP
+	NF4mOmhmeZZm7rnWcTUA8P1Vvzxqlzz785mmfE4ethj/VlcY58QPmzZLCqK1A4s39y5w
+	OoBy5L4r+JhyjrdWZhnVPNVEFN2f4sXQy8DW9EHqAsOhl3upRKEErsSxQ4VpZYX1z1Yj
+	iPBDVuv1NS1i5PyVid6ZlRc/P29kO4QUYp8W9MBP3OsQqrffM2wON5RGAPpB0GxsIN8U
+	EvJw==
+X-Gm-Message-State: AKaTC00Yfh2vc+QV0nZHFlEqzu+3eT28XtVNYIWVdnhw4VXFhTKJ3dHEx4gFyFLVZyBxsZORvZyyEH7Y8V9MZw==
+X-Received: by 10.176.0.180 with SMTP id 49mr67218614uaj.32.1481404577934;
+	Sat, 10 Dec 2016 13:16:17 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.159.48.87 with HTTP; Sat, 10 Dec 2016 12:57:48 -0800 (PST)
-In-Reply-To: <CABcZANk5QnzFAWwAjbaHAQvCw=XXViOnh5jg=cvRiD_B=mEpKA@mail.gmail.com>
-References: <1481305586-11873-1-git-send-email-ed.bartosh@linux.intel.com>
-	<CABcZANk5QnzFAWwAjbaHAQvCw=XXViOnh5jg=cvRiD_B=mEpKA@mail.gmail.com>
+Received: by 10.159.48.87 with HTTP; Sat, 10 Dec 2016 13:15:47 -0800 (PST)
+In-Reply-To: <alpine.LFD.2.20.1612100630310.23762@localhost.localdomain>
+References: <alpine.LFD.2.20.1612100630310.23762@localhost.localdomain>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 10 Dec 2016 12:57:48 -0800
-Message-ID: <CAMKF1sqeW4cxaj1yK_TbpyyZriuL3z3N4QY=nrpy4JV=tNRPCQ@mail.gmail.com>
-To: Christopher Larson <clarson@kergoth.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] edgerouter.conf: enable generation of wic.bmap
+Date: Sat, 10 Dec 2016 13:15:47 -0800
+Message-ID: <CAMKF1sp_R_qapapbcZ8mu-b1BumWekvKjA-QXUDLOTSWgOoXQA@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: can "IMAGE_INSTALL ?= ..." not be written in a more obvious way?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,54 +52,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Dec 2016 20:58:17 -0000
+X-List-Received-Date: Sat, 10 Dec 2016 21:16:17 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Dec 10, 2016 at 10:40 AM, Christopher Larson
-<clarson@kergoth.com> wrote:
+On Sat, Dec 10, 2016 at 3:40 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
 >
-> On Fri, Dec 9, 2016 at 10:46 AM, Ed Bartosh <ed.bartosh@linux.intel.com>
-> wrote:
->>
->> Enabled generation of block map(bmap) files for wic images
->> built for edgerouter machine. This should simplify flashing
->> images with bmaptool.
->>
->> [YOCTO #10621]
->>
->> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+>   i've nattered about this before but not sure i ever got an answer --
+> here's the last bit of core-image.bbclass:
 >
+>   CORE_IMAGE_BASE_INSTALL = '\
+>     packagegroup-core-boot \
+>     packagegroup-base-extended \
+>     \
+>     ${CORE_IMAGE_EXTRA_INSTALL} \
+>     '
 >
-> I think this is more of a distro decision than machine, whether they want=
- to
-> support use of bmaptool for their users/customers. It=E2=80=99d be nice i=
-f it was
-> easier to control compression from the distro, too. For example, if we wa=
-nt
-> to distribute wic.bz2+wic.bmap in our installers, it=E2=80=99d be nice to=
- be able to
-> switch to that for all machines that use wic. I=E2=80=99m not sure how be=
-st to pull
-> that off, however. Something to think about for the future.
+>   CORE_IMAGE_EXTRA_INSTALL ?= ""
+>
+>   IMAGE_INSTALL ?= "${CORE_IMAGE_BASE_INSTALL}"
+>
+> the first time i saw that (long ago), it took me a few looks to figure
+> out what was happening. can this not be written in a more obvious way:
+>
+>   CORE_IMAGE_BASE_INSTALL = '\
+>     packagegroup-core-boot \
+>     packagegroup-base-extended \
+>     '
+>
+>   CORE_IMAGE_EXTRA_INSTALL ?= ""
+>
+>   IMAGE_INSTALL ?= " \
+>     ${CORE_IMAGE_BASE_INSTALL} \
+>     ${CORE_IMAGE_EXTRA_INSTALL} \
+>     "
+>
+> is that not equivalent, or am i missing something? it's certainly
+> clearer as to what's happening if people are perusing the code.
 
-I think thats a good point, however, distro should be able to define
-something like
-if machine is capable of supporting feature X then lets enable it. I
-dont think we
-should add machine knowledge into distros either.
-
-> --
-> Christopher Larson
-> clarson at kergoth dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Maintainer - Tslib
-> Senior Software Engineer, Mentor Graphics
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+They are same AFAICT, dont feel strongly  about readability but feel
+free to send a patch
 
