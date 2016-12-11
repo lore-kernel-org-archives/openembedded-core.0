@@ -1,24 +1,44 @@
-Return-Path: <petter@technux.se>
-Received: from bin-vsp-out-04.atm.binero.net (vsp-unauthed02.binero.net
-	[195.74.38.227])
-	by mail.openembedded.org (Postfix) with ESMTP id D786B601A5
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id E9F9E719BA
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Dec 2016 09:14:00 +0000 (UTC)
-X-Halon-ID: 4ce2a56a-bf81-11e6-856a-005056917c0c
-Authorized-sender: petter@technux.se
-Received: from localhost.localdomain (unknown [85.195.55.167])
-	by bin-vsp-out-04.atm.binero.net (Halon Mail Gateway) with ESMTPSA
+	Sun, 11 Dec 2016 23:07:25 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id p66so8880211pga.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Dec 2016 10:07:54 +0100 (CET)
-From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
+	Sun, 11 Dec 2016 15:07:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=pVvE11eltax2lHMpZKO4mKEVJ5kPoEnRpdJSNVaeB1w=;
+	b=YjrKIanmaKaLa+mP4tCqH3i/KjbgVxbtSEHrAl/8HTwoQ6Kbdcdz+fGHxUPD9DLgeh
+	AgfmjSeGG82kBObkh0ifXSWQo0BwPz5pgDxngntcG3CVU68aoLnnSv8DH1mbPyQCLWp9
+	M3MQw6uimcrkHz+rp4SqRWEa7lPyxTpRc5e+y3ofYHIv6liFNBJJHlOo3K7vW/pCdEl+
+	5jivLuuyvOLe/Fl0ywOfH+/tupLiGuc2foTwmF7YLVq2/yjq2JMMV8HAGiZ2jC8BT4Ql
+	cT5CJ7aBU4YBL1LxZno5UlZSqNHZoKcmPoTCJpCwuLaXDVUdc04dfQ2OJZrkzdtXgE0O
+	DPqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=pVvE11eltax2lHMpZKO4mKEVJ5kPoEnRpdJSNVaeB1w=;
+	b=Md4e9qXjAQP450zjbN4vrtCAxyLbp8nGAqZV8doNcHXPOxLAKRnO5ysLDSCmuRaLiw
+	9J9ZW7+Oxn4ACK5l1wgN+HIS3bc9RWzHtOafzriAzAxnzyV+SMi1M5TAmcSp8rZOgrKz
+	yQvRNy8+PlwcYjSVz8KtjEeJskBhManVvA0BbyigV+TpiQJhNAQjaKRz6K/FS+TsTUM3
+	SSPT/64vIb9EBZsQ6dyduZJ0xbImnRas/lMbLNn92VvtvzgnydbzD0tyc3UU+bVSoSB9
+	Qg09w1AZ4clZZVd2F0k5c8TVcXRUFFAH2EJzkpMHKGUipRAHJDY9z1Qr31q2/W+di+TE
+	IE7Q==
+X-Gm-Message-State: AKaTC00u+P9VhL6NN5w3f0xA6/9JLQPExX7IzDfRmFJk95C0x7LW7teBxM6NJBrfPC5CHw==
+X-Received: by 10.99.208.21 with SMTP id z21mr162309142pgf.79.1481497647098;
+	Sun, 11 Dec 2016 15:07:27 -0800 (PST)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	y200sm71819235pfb.16.2016.12.11.15.07.26
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 11 Dec 2016 15:07:26 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 11 Dec 2016 10:07:39 +0100
-Message-Id: <35015c2d5a18b79b0166537ac832f32795d295d5.1481411836.git.petter@technux.se>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1481411836.git.petter@technux.se>
-References: <cover.1481411836.git.petter@technux.se>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] multilib.bbclass: fix faulty redefinition of STAGING_KERNEL_DIR
+Date: Sun, 11 Dec 2016 15:07:19 -0800
+Message-Id: <20161211230719.28765-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.10.2
+Subject: [PATCH] fontconfig: Fix namespace conflicts with glibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,44 +51,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Dec 2016 09:14:02 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 11 Dec 2016 23:07:26 -0000
 
-Due to the problem fixed in
-'56c677a multilib: Move redefinition of STAGING_DIR_KERNEL'
-STAGING_KERNEL_DIR must be redefined for lib32 in multilib.bbclass.
-However this redefinition expanded STAGING_KERNEL_DIR to an absolute
-path. This unconsciously added the TMPDIR path in the sstate object,
-causing packages depended on STAGING_KERNEL_DIR being rebuild if the
-TMPDIR was changed.
+glibc 2.25 will come with TS 18661-1 macro definitions in limits.h which ends with following errors
 
-Solve this by forcing the unexpanded TMPDIR variable to remain in the
-beginning of STAGING_DIR_KERNEL (as default). Since TMPDIR is included in
-BB_HASHBASE_WHITELIST, the sstate object will not be depended on the
-expanded path anymore.
+| ../../fontconfig-2.12.1/src/fcmatch.c:324:63: error: 'PRI_CHAR_WIDTH_STRONG' undeclared here (not in a function)
+|  #define FC_OBJECT(NAME, Type, Cmp) { FC_##NAME##_OBJECT, Cmp, PRI_##NAME##_STRONG, PRI_##NAME##_WEAK },
+|                                                                ^
+| ../../fontconfig-2.12.1/src/fcobjs.h:54:1: note: in expansion of macro 'FC_OBJECT'
+|  FC_OBJECT (CHAR_WIDTH,  FcTypeInteger, NULL)
+|  ^~~~~~~~~
+| ../../fontconfig-2.12.1/src/fcmatch.c:324:84: error: 'PRI_CHAR_WIDTH_WEAK' undeclared here (not in a function)
+|  #define FC_OBJECT(NAME, Type, Cmp) { FC_##NAME##_OBJECT, Cmp, PRI_##NAME##_STRONG, PRI_##NAME##_WEAK },
+|                                                                                     ^
+| ../../fontconfig-2.12.1/src/fcobjs.h:54:1: note: in expansion of macro 'FC_OBJECT'
+|  FC_OBJECT (CHAR_WIDTH,  FcTypeInteger, NULL)
+|  ^~~~~~~~~
+| make[3]: *** [Makefile:632: fcmatch.lo] Error 1
 
-Signed-off-by: Petter Mabäcker <petter@technux.se>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/multilib.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ ...icts-with-integer-width-macros-from-TS-18.patch | 74 ++++++++++++++++++++++
+ .../fontconfig/fontconfig_2.12.1.bb                |  1 +
+ 2 files changed, 75 insertions(+)
+ create mode 100644 meta/recipes-graphics/fontconfig/fontconfig/0001-Avoid-conflicts-with-integer-width-macros-from-TS-18.patch
 
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index d5a3128..eba666d 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -4,7 +4,9 @@ python multilib_virtclass_handler () {
-     if cls != "multilib" or not variant:
-         return
+diff --git a/meta/recipes-graphics/fontconfig/fontconfig/0001-Avoid-conflicts-with-integer-width-macros-from-TS-18.patch b/meta/recipes-graphics/fontconfig/fontconfig/0001-Avoid-conflicts-with-integer-width-macros-from-TS-18.patch
+new file mode 100644
+index 0000000..326ff3c
+--- /dev/null
++++ b/meta/recipes-graphics/fontconfig/fontconfig/0001-Avoid-conflicts-with-integer-width-macros-from-TS-18.patch
+@@ -0,0 +1,74 @@
++From 20cddc824c6501c2082cac41b162c34cd5fcc530 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sun, 11 Dec 2016 14:32:00 -0800
++Subject: [PATCH] Avoid conflicts with integer width macros from TS
++ 18661-1:2014
++
++glibc 2.25+ has now defined these macros in <limits.h>
++https://sourceware.org/git/?p=glibc.git;a=commit;h=5b17fd0da62bf923cb61d1bb7b08cf2e1f1f9c1a
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Submitted
++
++ fontconfig/fontconfig.h | 2 +-
++ src/fcobjs.h            | 2 +-
++ src/fcobjshash.gperf    | 2 +-
++ src/fcobjshash.h        | 2 +-
++ 4 files changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/fontconfig/fontconfig.h b/fontconfig/fontconfig.h
++index 5c72b22..843c532 100644
++--- a/fontconfig/fontconfig.h
+++++ b/fontconfig/fontconfig.h
++@@ -128,7 +128,7 @@ typedef int		FcBool;
++ #define FC_USER_CACHE_FILE	    ".fonts.cache-" FC_CACHE_VERSION
++ 
++ /* Adjust outline rasterizer */
++-#define FC_CHAR_WIDTH	    "charwidth"	/* Int */
+++#define FC_CHARWIDTH	    "charwidth"	/* Int */
++ #define FC_CHAR_HEIGHT	    "charheight"/* Int */
++ #define FC_MATRIX	    "matrix"    /* FcMatrix */
++ 
++diff --git a/src/fcobjs.h b/src/fcobjs.h
++index 1fc4f65..d27864b 100644
++--- a/src/fcobjs.h
+++++ b/src/fcobjs.h
++@@ -51,7 +51,7 @@ FC_OBJECT (DPI,			FcTypeDouble,	NULL)
++ FC_OBJECT (RGBA,		FcTypeInteger,	NULL)
++ FC_OBJECT (SCALE,		FcTypeDouble,	NULL)
++ FC_OBJECT (MINSPACE,		FcTypeBool,	NULL)
++-FC_OBJECT (CHAR_WIDTH,		FcTypeInteger,	NULL)
+++FC_OBJECT (CHARWIDTH,		FcTypeInteger,	NULL)
++ FC_OBJECT (CHAR_HEIGHT,		FcTypeInteger,	NULL)
++ FC_OBJECT (MATRIX,		FcTypeMatrix,	NULL)
++ FC_OBJECT (CHARSET,		FcTypeCharSet,	FcCompareCharSet)
++diff --git a/src/fcobjshash.gperf b/src/fcobjshash.gperf
++index 80a0237..eb4ad84 100644
++--- a/src/fcobjshash.gperf
+++++ b/src/fcobjshash.gperf
++@@ -44,7 +44,7 @@ int id;
++ "rgba",FC_RGBA_OBJECT
++ "scale",FC_SCALE_OBJECT
++ "minspace",FC_MINSPACE_OBJECT
++-"charwidth",FC_CHAR_WIDTH_OBJECT
+++"charwidth",FC_CHARWIDTH_OBJECT
++ "charheight",FC_CHAR_HEIGHT_OBJECT
++ "matrix",FC_MATRIX_OBJECT
++ "charset",FC_CHARSET_OBJECT
++diff --git a/src/fcobjshash.h b/src/fcobjshash.h
++index 5a4d1ea..4e66bb0 100644
++--- a/src/fcobjshash.h
+++++ b/src/fcobjshash.h
++@@ -284,7 +284,7 @@ FcObjectTypeLookup (register const char *str, register unsigned int len)
++       {(int)(long)&((struct FcObjectTypeNamePool_t *)0)->FcObjectTypeNamePool_str43,FC_CHARSET_OBJECT},
++       {-1},
++ #line 47 "fcobjshash.gperf"
++-      {(int)(long)&((struct FcObjectTypeNamePool_t *)0)->FcObjectTypeNamePool_str45,FC_CHAR_WIDTH_OBJECT},
+++      {(int)(long)&((struct FcObjectTypeNamePool_t *)0)->FcObjectTypeNamePool_str45,FC_CHARWIDTH_OBJECT},
++ #line 48 "fcobjshash.gperf"
++       {(int)(long)&((struct FcObjectTypeNamePool_t *)0)->FcObjectTypeNamePool_str46,FC_CHAR_HEIGHT_OBJECT},
++ #line 55 "fcobjshash.gperf"
++-- 
++2.10.2
++
+diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.12.1.bb b/meta/recipes-graphics/fontconfig/fontconfig_2.12.1.bb
+index 115f558..8616154 100644
+--- a/meta/recipes-graphics/fontconfig/fontconfig_2.12.1.bb
++++ b/meta/recipes-graphics/fontconfig/fontconfig_2.12.1.bb
+@@ -22,6 +22,7 @@ DEPENDS = "expat freetype zlib"
  
--    e.data.setVar('STAGING_KERNEL_DIR', e.data.getVar('STAGING_KERNEL_DIR', True))
-+    localdata = bb.data.createCopy(e.data)
-+    localdata.delVar('TMPDIR')
-+    e.data.setVar('STAGING_KERNEL_DIR', localdata.getVar('STAGING_KERNEL_DIR', True))
- 
-     # There should only be one kernel in multilib configs
-     # We also skip multilib setup for module packages.
+ SRC_URI = "http://fontconfig.org/release/fontconfig-${PV}.tar.gz \
+            file://revert-static-pkgconfig.patch \
++           file://0001-Avoid-conflicts-with-integer-width-macros-from-TS-18.patch \
+            "
+ SRC_URI[md5sum] = "ce55e525c37147eee14cc2de6cc09f6c"
+ SRC_URI[sha256sum] = "a9f42d03949f948a3a4f762287dbc16e53a927c91a07ee64207ebd90a9e5e292"
 -- 
-1.9.1
+2.10.2
 
 
