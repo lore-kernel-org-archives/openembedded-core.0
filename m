@@ -1,33 +1,29 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 820196FFFB
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B0249605FE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2016 00:58:10 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uBC0wB2g024894
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Dec 2016 16:58:11 -0800
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.3.46]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0294.000;
-	Sun, 11 Dec 2016 16:58:09 -0800
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "BURTON, ROSS" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] gcr: add missing dependencies for vapi
-Thread-Index: AQHSUtI9xhHiY91lZEa6KJzSckKpn6EDf8Lg
-Date: Mon, 12 Dec 2016 00:58:06 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA013DE48C31@ALA-MBA.corp.ad.wrs.com>
-References: <20161210025613.1648-1-jackie.huang@windriver.com>
-	<CAJTo0LaXmKPSRG1VgLXdOERkxuFSaqFX-D-7Oo9MTKY_ydcq1w@mail.gmail.com>
-In-Reply-To: <CAJTo0LaXmKPSRG1VgLXdOERkxuFSaqFX-D-7Oo9MTKY_ydcq1w@mail.gmail.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.151]
+	Mon, 12 Dec 2016 03:31:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uBC3VqWQ019554
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 11 Dec 2016 19:31:52 -0800 (PST)
+Received: from [128.224.177.14] (128.224.177.14) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Sun, 11 Dec 2016 19:31:51 -0800
+To: Randy Witt <randy.e.witt@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1481014270.git.liezhi.yang@windriver.com>
+	<2ecbdf8cca844fb9b76df48f80b0762811dd1b04.1481014270.git.liezhi.yang@windriver.com>
+	<4f79b40c-e1a8-3e62-0cbb-ea4c9d4176e4@linux.intel.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <79478da4-8b87-e424-a658-79e113434e28@windriver.com>
+Date: Mon, 12 Dec 2016 11:31:49 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcr: add missing dependencies for vapi
+In-Reply-To: <4f79b40c-e1a8-3e62-0cbb-ea4c9d4176e4@linux.intel.com>
+Subject: Re: [PATCH V2 5/6] runqemu: fixes for slirp, network device and hostfwd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,99 +36,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2016 00:58:11 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_1B858668EC6A94408DCA5225FDFA85AA013DE48C31ALAMBAcorpadw_"
+X-List-Received-Date: Mon, 12 Dec 2016 03:31:54 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---_000_1B858668EC6A94408DCA5225FDFA85AA013DE48C31ALAMBAcorpadw_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
 
-WWVzLCBJIHdpbGwgcmUtc2VuZCB0aGUgcGF0Y2guDQoNClRoYW5rcywNCkphY2tpZQ0KDQpGcm9t
-OiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQpTZW50OiBTYXR1
-cmRheSwgRGVjZW1iZXIgMTAsIDIwMTYgNjo0MyBQTQ0KVG86IEh1YW5nLCBKaWUgKEphY2tpZSkN
-CkNjOiBPRS1jb3JlDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gZ2NyOiBhZGQgbWlz
-c2luZyBkZXBlbmRlbmNpZXMgZm9yIHZhcGkNCg0KDQpPbiAxMCBEZWNlbWJlciAyMDE2IGF0IDAy
-OjU2LCA8amFja2llLmh1YW5nQHdpbmRyaXZlci5jb208bWFpbHRvOmphY2tpZS5odWFuZ0B3aW5k
-cml2ZXIuY29tPj4gd3JvdGU6DQorVXBzdHJlYW0tU3RhdHVzOiBTdWJtaXR0ZWQgW2h0dHBzOi8v
-Z2l0aHViLmNvbS9HTk9NRS9nY3IvcHVsbC80XQ0KDQpEaWQgeW91IGdldCB0aGUgbWVzc2FnZSB0
-aGF0IEdOT01FIGRvZXNuJ3QgdGFrZSBwdWxsIHJlcXVlc3RzIGF0IGdpdGh1Yj8NCg0KUm9zcw0K
 
---_000_1B858668EC6A94408DCA5225FDFA85AA013DE48C31ALAMBAcorpadw_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+On 12/08/2016 01:58 AM, Randy Witt wrote:
+>
+>>      def setup_slirp(self):
+>>          """Setup user networking"""
+>>
+>>          if self.fstype == 'nfs':
+>>              self.setup_nfs()
+>>          self.kernel_cmdline_script += ' ip=dhcp'
+>> -        self.set('NETWORK_CMD', self.get('QB_SLIRP_OPT'))
+>> +        # Port mapping
+>> +        hostfwd = ",hostfwd=tcp::2222-:22,hostfwd=tcp::2323-:23"
+>> +        qb_slirp_opt_default = "-netdev user,id=net0%s" % hostfwd
+>> +        qb_slirp_opt = self.get('QB_SLIRP_OPT') or qb_slirp_opt_default
+>> +        # Figure out the port
+>> +        ports = re.findall('hostfwd=[^-]*:([0-9]+)-[^,-]*', qb_slirp_opt)
+>> +        ports = [int(i) for i in ports]
+>> +        mac = 2
+>> +        # Find a free port to avoid conflicts
+>> +        for p in ports[:]:
+>> +            p_new = p
+>> +            while not check_free_port('localhost', p_new):
+>> +                p_new += 1
+>> +                mac += 1
+>> +                while p_new in ports:
+>> +                        p_new += 1
+>> +                        mac += 1
+>> +            if p != p_new:
+>> +                ports.append(p_new)
+>> +                qb_slirp_opt = re.sub(':%s-' % p, ':%s-' % p_new, qb_slirp_opt)
+>> +                logger.info("Port forward changed: %s -> %s" % (p, p_new))
+> Regardless if the port is changed or not, so that things like tests have an
+> easier time of figuring out the port mappings, would it be good add a flag that
+> prints out the entire list of ports used, or always do it? i.e. "Port forwarding
+> 2222:22 2333:23.... It's not necessary of course, you can  always look at the
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
-b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
-dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
-MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
-MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
-Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
-Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBp
-bjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
-bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
-bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
-aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
-bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
-dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFs
-LXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFG
-NDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglm
-b250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0K
-CXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4yNWluIDEuMGluIDEuMjVpbjt9
-DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEt
-LVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlk
-bWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+
-DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0
-YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxi
-b2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9
-IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
-aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
-aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+WWVzLCBJIHdpbGwgcmUtc2VuZCB0aGUgcGF0Y2guPG86
-cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZv
-bnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5z
-LXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
-ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjoj
-MUY0OTdEIj5UaGFua3MsPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJy
-aSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkphY2tpZTxvOnA+
-PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250
-LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1z
-ZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8
-ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRp
-bmc6MGluIDBpbiAwaW4gNC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2Jv
-cmRlci10b3A6c29saWQgI0I1QzRERiAxLjBwdDtwYWRkaW5nOjMuMHB0IDBpbiAwaW4gMGluIj4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2Zv
-bnQtZmFtaWx5OiZxdW90O1RhaG9tYSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij5Gcm9t
-Ojwvc3Bhbj48L2I+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1
-b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPiBCdXJ0b24sIFJvc3MgW21h
-aWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5TZW50OjwvYj4gU2F0dXJkYXks
-IERlY2VtYmVyIDEwLCAyMDE2IDY6NDMgUE08YnI+DQo8Yj5Ubzo8L2I+IEh1YW5nLCBKaWUgKEph
-Y2tpZSk8YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmU8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtP
-RS1jb3JlXSBbUEFUQ0hdIGdjcjogYWRkIG1pc3NpbmcgZGVwZW5kZW5jaWVzIGZvciB2YXBpPG86
-cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiAx
-MCBEZWNlbWJlciAyMDE2IGF0IDAyOjU2LCAmbHQ7PGEgaHJlZj0ibWFpbHRvOmphY2tpZS5odWFu
-Z0B3aW5kcml2ZXIuY29tIiB0YXJnZXQ9Il9ibGFuayI+amFja2llLmh1YW5nQHdpbmRyaXZlci5j
-b208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxkaXYgaWQ9IjoxNzMiPg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCI+JiM0MztVcHN0cmVhbS1TdGF0dXM6IFN1Ym1pdHRlZCBbPGEgaHJlZj0i
-aHR0cHM6Ly9naXRodWIuY29tL0dOT01FL2djci9wdWxsLzQiIHRhcmdldD0iX2JsYW5rIj5odHRw
-czovL2dpdGh1Yi5jb20vR05PTUUvZ2NyL3B1bGwvNDwvYT5dPG86cD48L286cD48L3A+DQo8L2Rp
-dj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGJyPg0KRGlkIHlvdSBnZXQgdGhlIG1l
-c3NhZ2UgdGhhdCBHTk9NRSBkb2Vzbid0IHRha2UgcHVsbCByZXF1ZXN0cyBhdCBnaXRodWI/PG86
-cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZu
-YnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlJvc3M8
-bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0K
-PC9odG1sPg0K
+Thansk, make sense, I added the following lines:
 
---_000_1B858668EC6A94408DCA5225FDFA85AA013DE48C31ALAMBAcorpadw_--
++        # Print out port foward
++        hostfwd = re.findall('(hostfwd=[^,]*)', qb_slirp_opt)
++        if hostfwd:
++            logger.info('Port forward: %s' % ' '.join(hostfwd))
+
+Now print:
+runqemu - INFO - Port forward: hostfwd=tcp::2222-:22 hostfwd=tcp::2323-:23
+
+
+Updated in the repo:
+   git://git.openembedded.org/openembedded-core-contrib rbt/runqemu
+ 
+http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/runqemu
+
+Robert Yang (6):
+   scripts/runqemu: fix checking for <file>.cpio.gz
+   qemuboot.bbclass: use IMGDEPLOYDIR
+   runqemu-export-rootfs: fix inconsistent var names
+   runqemu: support mutiple qemus running when nfs
+   runqemu: fixes for slirp, network device and hostfwd
+   qemuboot.bbclass: add blank lines in comments
+
+
+// Robert
+
+> command line and then check to see if anything is remapped. But that's a bit
+> more work.
+>
+>> +        mac = "%s%02x" % (self.mac_slirp, mac)
+>> +        self.set('NETWORK_CMD', '%s %s' %
+>> (self.network_device.replace('@MAC@', mac), qb_slirp_opt))
+>
+>
+
