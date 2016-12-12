@@ -1,36 +1,48 @@
-Return-Path: <andre.draszik@gmail.com>
+Return-Path: <freesilicon@gmail.com>
 Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C71BA71A90
+	by mail.openembedded.org (Postfix) with ESMTP id 8544371A6C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2016 15:40:17 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id m203so11995873wma.3
+	Mon, 12 Dec 2016 16:00:43 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id a20so12172540wme.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2016 07:40:19 -0800 (PST)
+	Mon, 12 Dec 2016 08:00:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=2J7qsIptvAE6LAKh25KO8Es3iYzsdS9MxDTywAG9dJU=;
+	b=SvkTmFhYbmR3muxvj7SYvKa8w0cc/jxIxkYCZ1OwF9OTqBjxgXPa445EvT5MDNnFH4
+	yFyirEzBW+hGSuTA3o3Ibf/zO10JLoIrV23qhwFS0cDam+/UJ0CHo08LGtpsvUWRA6lk
+	EXOXADVWRYicPdKisEyXKqIv8vL88BsgqqIuJU6NiOGXsYpJmOlLvsBSx4Gquqvyj9aA
+	vZzJbDU/Q5x7p78Y3eE9uNPmihioJvlIU+lUpd2NrAIKsuJNZsqJJeG0kDsOTMk7Jlmt
+	U9juTjvWJoDqcLaxf6OipM1XmgKVSFtzrNSBd9rFCKtT2Bez/Pb4duCY+RzJ7oBYyfe9
+	qh4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=S3ANM5carZOpTHXvskjMJ0QUBLg3Dfbe7JmPkB/G2+U=;
-	b=MPI+Uzj/xLFtqOomnCz9GZhKuGINQLuLMoClul9j+JjaRWEcK/8HbW3PAsbVlsshgZ
-	H4H67ECVpOxMlG7OjEvfbgdqe9BwEKYa6Z+PG2R8nSjPyebyYnGS7f0M/vobHpPOTX+D
-	MJ/0Y91deTmpi4tZSchUlUTT5EtdMD9cdXJ4fXHnDbANSO/9C3W9xeoUnKoqzONBhZVG
-	jo/AaDWIY53RqWWIhu7kHUrHj8AAKnOKwpu+GcJVrbD6G9g1ynFFW2ewV9pY+Eo1wBQz
-	2pD+HYAzZH+Wxw0vJDjFkxDQUVk2UyiNBMFRo5i9us2nfPfwGZgMNdjV+d3iCSlvNiRQ
-	9gDA==
-X-Gm-Message-State: AKaTC01zEdCBgVPsM7kP0KYW+Z2Egw2v6bJcXeqN1Eg0iZmwstpXn4+etvAq49CTIWf/Tg==
-X-Received: by 10.28.137.81 with SMTP id l78mr9557132wmd.36.1481557218042;
-	Mon, 12 Dec 2016 07:40:18 -0800 (PST)
-Received: from tfsielt31850.tycofs.com ([77.107.218.170])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=2J7qsIptvAE6LAKh25KO8Es3iYzsdS9MxDTywAG9dJU=;
+	b=E3sJqycQiiLzbRqzAL6YdR8W6id9pqdqjpXFgCHWooMteQXyosBjuCU0GwviLYHR2k
+	VyYxIXI391nzmNtRNt3ASlixeWaBnW1Jf82QBr9+Myzt9NM1a0TxZtzahese4VrZju4o
+	nKy4FFD5QlJRM0t2wTwkljU/iLTCCNdqeYF6UYrGWvma+pNzZMOVBI24xTYE2rgnMrAh
+	ypaz1KQvbHBEaza38etTd6nSyxT2HphkG6g4WJmZgze3kWmjDtEmW/zGSxVdVcz74zfM
+	5N1RNN0aoVGxjrkUAmKi87ZnJL9tROk/dp1ufnYoXcPanbMKoqQ8vQ2isRVQivUxtU7g
+	1KZg==
+X-Gm-Message-State: AKaTC03M02AMbKnniBNGnEkmI3OYc+w+8mIoUMfWiR0wmVqZAv1I8MJSSii3kWjzqQY1Gw==
+X-Received: by 10.28.7.130 with SMTP id 124mr17451575wmh.18.1481558444123;
+	Mon, 12 Dec 2016 08:00:44 -0800 (PST)
+Received: from localhost.localdomain ([185.47.80.46])
 	by smtp.gmail.com with ESMTPSA id
-	w197sm35949112wmd.11.2016.12.12.07.40.16
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 12 Dec 2016 07:40:17 -0800 (PST)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Dec 2016 15:40:16 +0000
-Message-Id: <20161212154016.1076-1-git@andred.net>
-X-Mailer: git-send-email 2.10.2
-Subject: [PATCH] busybox: allow libiproute to handle table ids larger than 255
+	q65sm36121218wmd.6.2016.12.12.08.00.42
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 12 Dec 2016 08:00:43 -0800 (PST)
+From: David Vincent <freesilicon@gmail.com>
+To: openembedded-core@lists.openembedded.org, ross.burton@intel.com,
+	leonardo.sandoval.gonzalez@linux.intel.com, daniela.plascencia@intel.com
+Date: Mon, 12 Dec 2016 16:59:09 +0100
+Message-Id: <20161212155909.8946-1-freesilicon@gmail.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20161124104959.32350-1-freesilicon@gmail.com>
+References: <20161124104959.32350-1-freesilicon@gmail.com>
+Subject: [PATCH v4] rootfs: Modify RPM installation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,171 +55,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2016 15:40:18 -0000
+X-List-Received-Date: Mon, 12 Dec 2016 16:00:43 -0000
 
-From: Lukasz Nowak <lnowak@tycoint.com>
+When using a custom RPM data directory instead of the default dir
+'/var/lib/rpm', the final image did not contain any of the database
+files in the expected location. This commit takes into account the
+'rpmlibdir' variable set into 'rootfs_rpm.bbclass'.
 
-These changes are required for compatibility with ConnMan, which by default
-uses table ids greater than 255.
-
-Signed-off-by: Lukasz Nowak <lnowak@tycoint.com>
+Signed-off-by: David Vincent <freesilicon@gmail.com>
 ---
- ...biproute-handle-table-ids-larger-than-255.patch | 132 +++++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.24.1.bb        |   1 +
- 2 files changed, 133 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/0001-libiproute-handle-table-ids-larger-than-255.patch
+ meta/lib/oe/package_manager.py | 23 +++++++++++++----------
+ meta/lib/oe/rootfs.py          |  3 ++-
+ 2 files changed, 15 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox/0001-libiproute-handle-table-ids-larger-than-255.patch b/meta/recipes-core/busybox/busybox/0001-libiproute-handle-table-ids-larger-than-255.patch
-new file mode 100644
-index 0000000..9ce720b
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/0001-libiproute-handle-table-ids-larger-than-255.patch
-@@ -0,0 +1,132 @@
-+From 93952a29faae6ac90f3107f1833046a30fb9789c Mon Sep 17 00:00:00 2001
-+From: Lukasz Nowak <lnowak@tycoint.com>
-+Date: Wed, 23 Nov 2016 12:48:21 +0000
-+Subject: [PATCH] libiproute: handle table ids larger than 255
-+
-+Linux kernel, starting from 2.6.19 allows ip table ids to have 32-bit values.
-+In order to preserve compatibility, the old 8-bit field: rtm_table is still
-+in use when table id is lower than 256.
-+
-+Add support for the 32-bit table id (RTA_TABLE attribute) in:
-+- ip route print
-+- ip route modify
-+- ip rule print
-+- ip rule modify
-+
-+Add printing of table ids to ip route.
-+
-+Changes are compatible with the mainline iproute2 utilities.
-+
-+These changes are required for compatibility with ConnMan, which by default
-+uses table ids greater than 255.
-+
-+Upstream-Status: Submitted http://lists.busybox.net/pipermail/busybox/2016-November/084966.html
-+
-+Signed-off-by: Lukasz Nowak <lnowak@tycoint.com>
-+---
-+ networking/libiproute/iproute.c | 22 ++++++++++++++++++----
-+ networking/libiproute/iprule.c  | 11 +++++++++--
-+ 2 files changed, 27 insertions(+), 6 deletions(-)
-+
-+diff --git a/networking/libiproute/iproute.c b/networking/libiproute/iproute.c
-+index 6ecd5f7..3add10b 100644
-+--- a/networking/libiproute/iproute.c
-++++ b/networking/libiproute/iproute.c
-+@@ -87,6 +87,7 @@ static int FAST_FUNC print_route(const struct sockaddr_nl *who UNUSED_PARAM,
-+ 	inet_prefix dst;
-+ 	inet_prefix src;
-+ 	int host_len = -1;
-++	uint32_t tid;
-+ 
-+ 	if (n->nlmsg_type != RTM_NEWROUTE && n->nlmsg_type != RTM_DELROUTE) {
-+ 		fprintf(stderr, "Not a route: %08x %08x %08x\n",
-+@@ -99,6 +100,14 @@ static int FAST_FUNC print_route(const struct sockaddr_nl *who UNUSED_PARAM,
-+ 	if (len < 0)
-+ 		bb_error_msg_and_die("wrong nlmsg len %d", len);
-+ 
-++	memset(tb, 0, sizeof(tb));
-++	parse_rtattr(tb, RTA_MAX, RTM_RTA(r), len);
-++
-++	if (tb[RTA_TABLE])
-++		tid = *(uint32_t *)RTA_DATA(tb[RTA_TABLE]);
-++	else
-++		tid = r->rtm_table;
-++
-+ 	if (r->rtm_family == AF_INET6)
-+ 		host_len = 128;
-+ 	else if (r->rtm_family == AF_INET)
-+@@ -128,7 +137,7 @@ static int FAST_FUNC print_route(const struct sockaddr_nl *who UNUSED_PARAM,
-+ 			}
-+ 		}
-+ 	} else {
-+-		if (G_filter.tb > 0 && G_filter.tb != r->rtm_table) {
-++		if (G_filter.tb > 0 && G_filter.tb != tid) {
-+ 			return 0;
-+ 		}
-+ 	}
-+@@ -157,10 +166,8 @@ static int FAST_FUNC print_route(const struct sockaddr_nl *who UNUSED_PARAM,
-+ 		return 0;
-+ 	}
-+ 
-+-	memset(tb, 0, sizeof(tb));
-+ 	memset(&src, 0, sizeof(src));
-+ 	memset(&dst, 0, sizeof(dst));
-+-	parse_rtattr(tb, RTA_MAX, RTM_RTA(r), len);
-+ 
-+ 	if (tb[RTA_SRC]) {
-+ 		src.bitlen = r->rtm_src_len;
-+@@ -283,6 +290,8 @@ static int FAST_FUNC print_route(const struct sockaddr_nl *who UNUSED_PARAM,
-+ 	if (tb[RTA_OIF]) {
-+ 		printf("dev %s ", ll_index_to_name(*(int*)RTA_DATA(tb[RTA_OIF])));
-+ 	}
-++	if (tid && tid != RT_TABLE_MAIN && !G_filter.tb)
-++		printf("table %s ", rtnl_rttable_n2a(tid));
-+ 
-+ 	/* Todo: parse & show "proto kernel", "scope link" here */
-+ 
-+@@ -434,7 +443,12 @@ IF_FEATURE_IP_RULE(ARG_table,)
-+ 			NEXT_ARG();
-+ 			if (rtnl_rttable_a2n(&tid, *argv))
-+ 				invarg(*argv, "table");
-+-			req.r.rtm_table = tid;
-++			if (tid < 256)
-++				req.r.rtm_table = tid;
-++			else {
-++				req.r.rtm_table = RT_TABLE_UNSPEC;
-++				addattr32(&req.n, sizeof(req), RTA_TABLE, tid);
-++			}
-+ #endif
-+ 		} else if (arg == ARG_dev || arg == ARG_oif) {
-+ 			NEXT_ARG();
-+diff --git a/networking/libiproute/iprule.c b/networking/libiproute/iprule.c
-+index 774a3e2..3fac7c5 100644
-+--- a/networking/libiproute/iprule.c
-++++ b/networking/libiproute/iprule.c
-+@@ -119,7 +119,9 @@ static int FAST_FUNC print_rule(const struct sockaddr_nl *who UNUSED_PARAM,
-+ 		printf("iif %s ", (char*)RTA_DATA(tb[RTA_IIF]));
-+ 	}
-+ 
-+-	if (r->rtm_table)
-++	if (tb[RTA_TABLE])
-++		printf("lookup %s ", rtnl_rttable_n2a(*(uint32_t*)RTA_DATA(tb[RTA_TABLE])));
-++	else if (r->rtm_table)
-+ 		printf("lookup %s ", rtnl_rttable_n2a(r->rtm_table));
-+ 
-+ 	if (tb[RTA_FLOW]) {
-+@@ -259,7 +261,12 @@ static int iprule_modify(int cmd, char **argv)
-+ 			NEXT_ARG();
-+ 			if (rtnl_rttable_a2n(&tid, *argv))
-+ 				invarg(*argv, "table ID");
-+-			req.r.rtm_table = tid;
-++			if (tid < 256)
-++				req.r.rtm_table = tid;
-++			else {
-++				req.r.rtm_table = RT_TABLE_UNSPEC;
-++				addattr32(&req.n, sizeof(req), RTA_TABLE, tid);
-++			}
-+ 			table_ok = 1;
-+ 		} else if (key == ARG_dev ||
-+ 			   key == ARG_iif
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-core/busybox/busybox_1.24.1.bb b/meta/recipes-core/busybox/busybox_1.24.1.bb
-index df0e131..c35cba3 100644
---- a/meta/recipes-core/busybox/busybox_1.24.1.bb
-+++ b/meta/recipes-core/busybox/busybox_1.24.1.bb
-@@ -53,6 +53,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://busybox-kbuild-race-fix-commit-d8e61bb.patch \
-            file://commit-applet_tables-fix-commit-0dddbc1.patch \
-            file://makefile-libbb-race.patch \
-+           file://0001-libiproute-handle-table-ids-larger-than-255.patch \
- "
- SRC_URI_append_libc-musl = " file://musl.cfg "
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index e5e3c3b679..e063eeeeee 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -352,7 +352,8 @@ class RpmPkgsList(PkgsList):
+         super(RpmPkgsList, self).__init__(d, rootfs_dir)
+ 
+         self.rpm_cmd = bb.utils.which(os.getenv('PATH'), "rpm")
+-        self.image_rpmlib = os.path.join(self.rootfs_dir, 'var/lib/rpm')
++        self.rpm_libdir = self.d.getVar('rpmlibdir', True)
++        self.image_rpmlib = os.path.join(self.rootfs_dir, self.rpm_libdir[1:])
+ 
+         self.ml_prefix_list, self.ml_os_list = \
+             RpmIndexer(d, rootfs_dir).get_ml_prefix_and_os_list(arch_var, os_var)
+@@ -412,7 +413,7 @@ class RpmPkgsList(PkgsList):
+ 
+     def list_pkgs(self):
+         cmd = [self.rpm_cmd, '--root', self.rootfs_dir]
+-        cmd.extend(['-D', '_dbpath /var/lib/rpm'])
++        cmd.extend(['-D', '_dbpath', self.rpm_libdir])
+         cmd.extend(['-qa', '--qf', '[%{NAME} %{ARCH} %{VERSION} %{PACKAGEORIGIN}\n]'])
+ 
+         try:
+@@ -679,7 +680,8 @@ class RpmPM(PackageManager):
+         self.solution_manifest = self.d.expand('${T}/saved/%s_solution' %
+                                                self.task_name)
+         self.saved_rpmlib = self.d.expand('${T}/saved/%s' % self.task_name)
+-        self.image_rpmlib = os.path.join(self.target_rootfs, 'var/lib/rpm')
++        self.rpm_libdir = self.d.getVar('rpmlibdir', True)
++        self.image_rpmlib = os.path.join(self.target_rootfs, self.rpm_libdir[1:])
+ 
+         if not os.path.exists(self.d.expand('${T}/saved')):
+             bb.utils.mkdirhier(self.d.expand('${T}/saved'))
+@@ -950,7 +952,7 @@ class RpmPM(PackageManager):
+             open(db_config_dir, 'w+').write(DB_CONFIG_CONTENT)
+ 
+         # Create database so that smart doesn't complain (lazy init)
+-        cmd = [self.rpm_cmd, '--root', self.target_rootfs, '--dbpath', '/var/lib/rpm', '-qa']
++        cmd = [self.rpm_cmd, '--root', self.target_rootfs, '--dbpath', self.rpm_libdir, '-qa']
+         try:
+             subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+         except subprocess.CalledProcessError as e:
+@@ -959,20 +961,19 @@ class RpmPM(PackageManager):
+         # Import GPG key to RPM database of the target system
+         if self.d.getVar('RPM_SIGN_PACKAGES', True) == '1':
+             pubkey_path = self.d.getVar('RPM_GPG_PUBKEY', True)
+-            cmd = [self.rpm_cmd, '--root', self.target_rootfs, '--dbpath', '/var/lib/rpm', '--import', pubkey_path]
++            cmd = [self.rpm_cmd, '--root', self.target_rootfs, '--dbpath', self.rpm_libdir, '--import', pubkey_path]
+             try:
+                 subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+             except subprocess.CalledProcessError as e:
+                 bb.fatal("Import GPG key failed. Command '%s' "
+                         "returned %d:\n%s" % (' '.join(cmd), e.returncode, e.output.decode("utf-8")))
+ 
+-
+         # Configure smart
+         bb.note("configuring Smart settings")
+         bb.utils.remove(os.path.join(self.target_rootfs, 'var/lib/smart'),
+                         True)
+         self._invoke_smart(['config', '--set', 'rpm-root=%s' % self.target_rootfs])
+-        self._invoke_smart(['config', '--set', 'rpm-dbpath=/var/lib/rpm'])
++        self._invoke_smart(['config', '--set', 'rpm-dbpath=%s' % self.rpm_libdir])
+         self._invoke_smart(['config', '--set', 'rpm-extra-macros._var=%s' %
+                            self.d.getVar('localstatedir', True)])
+         cmd = ["config", "--set", "rpm-extra-macros._tmppath=/%s/tmp" % self.install_dir_name]
+@@ -1232,7 +1233,7 @@ class RpmPM(PackageManager):
+ 
+         if not with_dependencies:
+             cmd = [self.rpm_cmd] + ["-e", "--nodeps", "--root=%s" %
+-                    self.target_rootfs, "--dbpath=/var/lib/rpm",
++                    self.target_rootfs, "--dbpath=%s" % self.rpm_libdir,
+                     "--define='_cross_scriptlet_wrapper %s'" %
+                     self.scriptlet_wrapper,
+                     "--define='_tmppath /%s/tmp'" % self.install_dir_name] + pkgs
+@@ -1380,7 +1381,8 @@ class RpmPM(PackageManager):
+         saved_dir = self.target_rootfs + self.d.expand('${sysconfdir}/rpm-postinsts/') + new_pkg
+ 
+         cmd = self.rpm_cmd + ' -q --scripts --root ' + self.target_rootfs
+-        cmd += ' --dbpath=/var/lib/rpm ' + new_pkg
++        cmd += ' --dbpath=%s ' %  self.rpm_libdir
++        cmd += new_pkg
+         cmd += ' | sed -n -e "/^postinstall scriptlet (using .*):$/,/^.* scriptlet (using .*):$/ {/.*/p}"'
+         cmd += ' | sed -e "/postinstall scriptlet (using \(.*\)):$/d"'
+         cmd += ' -e "/^.* scriptlet (using .*):$/d" > %s' % saved_dir
+@@ -1412,7 +1414,8 @@ class RpmPM(PackageManager):
+     '''
+     def unlock_rpm_db(self):
+         # Remove rpm db lock files
+-        rpm_db_locks = glob.glob('%s/var/lib/rpm/__db.*' % self.target_rootfs)
++        rpm_db_locks = glob.glob('%s%s/__db.*' % (self.target_rootfs,
++            self.rpm_libdir))
+         for f in rpm_db_locks:
+             bb.utils.remove(f, True)
+ 
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index a348b975c2..7cf8ce84ca 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -426,6 +426,7 @@ class RpmRootfs(Rootfs):
+ 
+     def _create(self):
+         pkgs_to_install = self.manifest.parse_initial_manifest()
++        rpm_libdir = self.d.getVar('rpmlibdir', True)
+         rpm_pre_process_cmds = self.d.getVar('RPM_PREPROCESS_COMMANDS', True)
+         rpm_post_process_cmds = self.d.getVar('RPM_POSTPROCESS_COMMANDS', True)
+ 
+@@ -473,7 +474,7 @@ class RpmRootfs(Rootfs):
+         if self.progress_reporter:
+             self.progress_reporter.next_stage()
+ 
+-        self._setup_dbg_rootfs(['/etc/rpm', '/var/lib/rpm', '/var/lib/smart'])
++        self._setup_dbg_rootfs(['/etc/rpm', rpm_libdir, '/var/lib/smart'])
+ 
+         execute_pre_post_process(self.d, rpm_post_process_cmds)
  
 -- 
-2.10.2
+2.11.0
 
 
