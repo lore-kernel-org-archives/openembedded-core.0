@@ -1,46 +1,38 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
-	[209.85.217.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 27D906011B
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 080CA71A38
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2016 06:37:44 +0000 (UTC)
-Received: by mail-ua0-f196.google.com with SMTP id 50so7572184uae.2
+	Mon, 12 Dec 2016 06:55:56 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="13822044"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 12 Dec 2016 14:55:51 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id DEA6247A8680
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Dec 2016 22:37:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ReP26tIJM9LdmWVDGwZqiQQFz7HYgQf3mXftGpQI75s=;
-	b=F3UuTJqf39vbT9aMR+vj53xzuYCAseWiyRAO+DFCcgHRyRgddybI/wsFY+iqpI2PFp
-	ohkBdAz3lLlATVsuoAXdiCDSxbOTr/TwvwmIhjywKA9zyvUS3H2pYQEkt6q33n52PwTW
-	+3Wyq8ZNv0b2c6CiI5CebEp2bwIRx2VeCoJ4z8XIf+3DJzJahvsFf5o/iXm11/70BalX
-	LDob8wdaBUsU5kPx4lz+spZm/u3NbU2kpuBT8Pm5Fo5+LJzRJT4Lbmrcv7BzfDQ1ZJXq
-	PbwL04CuXJZgJew/Vgc2NuT7ZhOkSEFZ3Aame2j/Cxr8LOwGpOO0fvbp5pg5Eoaq8xhv
-	pdhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ReP26tIJM9LdmWVDGwZqiQQFz7HYgQf3mXftGpQI75s=;
-	b=UtYVo9r7B2DBMHMNWj/iKtsWZhNrhA0BRdcOSGZDVXhqQuo5bwR706vceuRkPHLYoi
-	ZKWZfNv48aUptF5MRSl8m7rsHhwSy2TzSmIxU4hYUo3cXzlmY72BexsArAx4hPK/ZIgq
-	GxkvebD3dgzGiWNbnrwAwPi+pQvQdTv5ikYYMKNuYnPq0yFkSVSG0uZPJlm6RMJ/hRxs
-	MTyoA0b+hLzmmWooGqOR2UkSWXNiMrs22iyuHca6ScqUmci0YXk8jRuZu60Vrs5KHlhh
-	b98FRYMpGDX2sHkzpCT/rBLmaUXLu0i65VFNCjGj17clpi8eTypd3Pcxiy4b64Bxvm9M
-	WvRQ==
-X-Gm-Message-State: AKaTC00sMiQB1xWjqTKettc5DmbI2TtQ55m+QL0ZoZNH3c4jGJu+VArbjdoBU9Y4JVlWNFjoWKYh1F3iRNG4pQ==
-X-Received: by 10.159.48.146 with SMTP id j18mr70972033uab.6.1481524665996;
-	Sun, 11 Dec 2016 22:37:45 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.159.48.87 with HTTP; Sun, 11 Dec 2016 22:37:15 -0800 (PST)
-In-Reply-To: <20161212054215.20513-1-jackie.huang@windriver.com>
-References: <20161212054215.20513-1-jackie.huang@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 11 Dec 2016 22:37:15 -0800
-Message-ID: <CAMKF1sqm-YotzrkeqvvLr5MQsPNoiN6W2y_UhfYkx-dJWR66Fw@mail.gmail.com>
-To: jhuang0 <jackie.huang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
+	Mon, 12 Dec 2016 14:55:51 +0800 (CST)
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD02.g08.fujitsu.local ([10.167.33.83]) with mapi id
+	14.03.0319.002; Mon, 12 Dec 2016 14:55:55 +0800
+From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc: add -fno-builtin-strlen when not using -O2
+Thread-Topic: [OE-core] [PATCH] libpcap: Disable exposed bits of WinPCAP
+	remote	capture support
+Thread-Index: AQHSROyx5C/9E+a1DECygs7TMHi0naED/Nuw
+Date: Mon, 12 Dec 2016 06:55:54 +0000
+Message-ID: <1B56A49860EB2D45ADE3731B15C959FDFE5ADEB5@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1479838559-24993-1-git-send-email-fabio.berton@ossystems.com.br>
+In-Reply-To: <1479838559-24993-1-git-send-email-fabio.berton@ossystems.com.br>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.226.93]
+MIME-Version: 1.0
+X-yoursite-MailScanner-ID: DEA6247A8680.A9DEB
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
+X-Spam-Status: No
+Subject: Re: [PATCH] libpcap: Disable exposed bits of WinPCAP remote	capture support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,57 +45,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2016 06:37:46 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 12 Dec 2016 06:55:58 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="shift_jis"
+Content-Transfer-Encoding: base64
 
-On Sun, Dec 11, 2016 at 9:42 PM,  <jackie.huang@windriver.com> wrote:
-> From: Jackie Huang <jackie.huang@windriver.com>
->
-> The strlen will be inlined when compile with -O, -O1 or -Os,
-> so there is no symbol for strlen in ld-linux-x86-64.so.2,
-> causing a fatal error in valgrind:
->
-> valgrind: Fatal error at startup: a function redirection
-> valgrind: which is mandatory for this platform-tool combination
-> valgrind: cannot be set up. Details of the redirection are:
-> valgrind:
-> valgrind: A must-be-redirected function
-> valgrind: whose name matches the pattern: strlen
-> valgrind: in an object with soname matching: ld-linux-x86-64.so.2
->
-> so add -fno-builtin-strlen when compile with -O, -O1 or -Os.
-
-This is a bug in valgrind, I read the same on forums. KDE has proposed a fix
-https://bugsfiles.kde.org/attachment.cgi?id=82043
-can you check if this fixes the issue
-
->
-> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> ---
->  meta/recipes-core/glibc/glibc.inc | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
-> index e85c704..7f3e0f6 100644
-> --- a/meta/recipes-core/glibc/glibc.inc
-> +++ b/meta/recipes-core/glibc/glibc.inc
-> @@ -16,8 +16,8 @@ python () {
->      if opt_effective == "-O0":
->          bb.fatal("%s can't be built with %s, try -O1 instead" % (d.getVar('PN', True), opt_effective))
->      if opt_effective in ("-O", "-O1", "-Os"):
-> -        bb.note("%s doesn't build cleanly with %s, adding -Wno-error to SELECTED_OPTIMIZATION" % (d.getVar('PN', True), opt_effective))
-> -        d.appendVar("SELECTED_OPTIMIZATION", " -Wno-error")
-> +        bb.note("%s doesn't build cleanly with %s, adding -Wno-error and -fno-builtin-strlen to SELECTED_OPTIMIZATION" % (d.getVar('PN', True), opt_effective))
-> +        d.appendVar("SELECTED_OPTIMIZATION", " -Wno-error -fno-builtin-strlen")
->  }
->
->  # siteconfig.bbclass runs configure which needs a working compiler
-> --
-> 2.8.3
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+SGkgYWxsDQoNCkkgbWV0IHRoZSBzYW1lIGlzc3VlIHdoZW4gSSBidWlsZCB3
+aXJlc2hhcmsgY29tZXMgZnJvbSBtZXRhLW9lLg0KV2h5IHRoaXMgcGF0Y2gg
+aGFzbid0IGJlZW4gbWVyZ2VkIHlldD8NCg0KQmVzdCByZWdhcmRzDQpMZWkN
+Cg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IG9w
+ZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9y
+ZyBbbWFpbHRvOm9wZW5lbWJlZGRlZC0NCj4gY29yZS1ib3VuY2VzQGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZiBPZiBGYWJpbyBCZXJ0b24N
+Cj4gU2VudDogV2VkbmVzZGF5LCBOb3ZlbWJlciAyMywgMjAxNiAyOjE2IEFN
+DQo+IFRvOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnDQo+IFN1YmplY3Q6IFtPRS1jb3JlXSBbUEFUQ0hdIGxpYnBjYXA6IERp
+c2FibGUgZXhwb3NlZCBiaXRzIG9mIFdpblBDQVAgcmVtb3RlDQo+IGNhcHR1
+cmUgc3VwcG9ydA0KPiANCj4gRGlzYWJsZSBiaXRzIG9mIHJlbW90ZSBjYXB0
+dXJlIHN1cHBvcnQgaW5oZXJpdGVkIGZyb20gdGhlIFdpblBDQVAgbWVyZ2Ug
+d2hpY2gNCj4gY2F1c2UgYXBwbGljYXRpb25zIHRvIGZhaWxzIHRvIGJ1aWxk
+IGlmIHRoZXkgZGVmaW5lIEhBVkVfUkVNT1RFLg0KPiANCj4gU2lnbmVkLW9m
+Zi1ieTogRmFiaW8gQmVydG9uIDxmYWJpby5iZXJ0b25Ab3NzeXN0ZW1zLmNv
+bS5icj4NCj4gLS0tDQo+ICAuLi4vbGlicGNhcC9saWJwY2FwL2Rpc2FibGUt
+cmVtb3RlLnBhdGNoICAgICAgICAgICB8IDM2ICsrKysrKysrKysrKysrKysr
+KysrKysNCj4gIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbGlicGNhcC9s
+aWJwY2FwXzEuOC4xLmJiIHwgIDEgKw0KPiAgMiBmaWxlcyBjaGFuZ2VkLCAz
+NyBpbnNlcnRpb25zKCspDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9y
+ZWNpcGVzLWNvbm5lY3Rpdml0eS9saWJwY2FwL2xpYnBjYXAvZGlzYWJsZS0N
+Cj4gcmVtb3RlLnBhdGNoDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWNvbm5lY3Rpdml0eS9saWJwY2FwL2xpYnBjYXAvZGlzYWJsZS1yZW1v
+dGUucGF0Y2gNCj4gYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2xpYnBj
+YXAvbGlicGNhcC9kaXNhYmxlLXJlbW90ZS5wYXRjaA0KPiBuZXcgZmlsZSBt
+b2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwLi43ZTFlZWE2DQo+IC0tLSAv
+ZGV2L251bGwNCj4gKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9s
+aWJwY2FwL2xpYnBjYXAvZGlzYWJsZS1yZW1vdGUucGF0Y2gNCj4gQEAgLTAs
+MCArMSwzNiBAQA0KPiArRGlzYWJsZSBiaXRzIG9mIHJlbW90ZSBjYXB0dXJl
+IHN1cHBvcnQgaW5oZXJpdGVkIGZyb20gdGhlIFdpblBDQVAgbWVyZ2UNCj4g
+K3doaWNoIGNhdXNlIGFwcGxpY2F0aW9ucyB0byBGVEJGUyBpZiB0aGV5IGRl
+ZmluZSBIQVZFX1JFTU9URS4NCj4gKw0KPiArUGF0Y2ggZnJvbToNCj4gK2h0
+dHBzOi8vYW5vbnNjbS5kZWJpYW4ub3JnL2NnaXQvdXNlcnMvcmZyYW5jb2lz
+ZS9saWJwY2FwLmdpdC9jb21taXQvPw0KPiAraWQ9ZjM1OTQ5OTY5MjY5ZGZk
+Y2MzNTQ5YjEyZmFkZTYwNDc1NWUxZTMyNg0KPiArDQo+ICtVcHN0cmVhbS1T
+dGF0dXM6IFBlbmRpbmcNCj4gKw0KPiArLS0tIGEvcGNhcC9wY2FwLmgNCj4g
+KysrKyBiL3BjYXAvcGNhcC5oDQo+ICtAQCAtNTA2LDYgKzUwNiwxMSBAQA0K
+PiArICAgI2RlZmluZSBNT0RFX1NUQVQgMQ0KPiArICAgI2RlZmluZSBNT0RF
+X01PTiAyDQo+ICsNCj4gKysjaWZkZWYgSEFWRV9SRU1PVEUNCj4gKysgIC8q
+IEluY2x1ZGVzIG1vc3Qgb2YgdGhlIHB1YmxpYyBzdHVmZiB0aGF0IGlzIG5l
+ZWRlZCBmb3IgdGhlIHJlbW90ZQ0KPiArK2NhcHR1cmUgKi8NCj4gKysgICNp
+bmNsdWRlIDxyZW1vdGUtZXh0Lmg+DQo+ICsrI2VuZGlmCSAvKiBIQVZFX1JF
+TU9URSAqLw0KPiArKw0KPiArICNlbGlmIGRlZmluZWQoTVNET1MpDQo+ICsN
+Cj4gKyAgIC8qDQo+ICtAQCAtNTI2LDExICs1MzEsNiBAQA0KPiArDQo+ICsg
+I2VuZGlmIC8qIF9XSU4zMi9NU0RPUy9VTipYICovDQo+ICsNCj4gKy0jaWZk
+ZWYgSEFWRV9SRU1PVEUNCj4gKy0gIC8qIEluY2x1ZGVzIG1vc3Qgb2YgdGhl
+IHB1YmxpYyBzdHVmZiB0aGF0IGlzIG5lZWRlZCBmb3IgdGhlIHJlbW90ZQ0K
+PiArY2FwdHVyZSAqLw0KPiArLSAgI2luY2x1ZGUgPHJlbW90ZS1leHQuaD4N
+Cj4gKy0jZW5kaWYJIC8qIEhBVkVfUkVNT1RFICovDQo+ICstDQo+ICsgI2lm
+ZGVmIF9fY3BsdXNwbHVzDQo+ICsgfQ0KPiArICNlbmRpZg0KPiArDQo+IGRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2xpYnBjYXAv
+bGlicGNhcF8xLjguMS5iYiBiL21ldGEvcmVjaXBlcy0NCj4gY29ubmVjdGl2
+aXR5L2xpYnBjYXAvbGlicGNhcF8xLjguMS5iYg0KPiBpbmRleCA5MDcyZmUw
+Li44Y2UxOGU1IDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVj
+dGl2aXR5L2xpYnBjYXAvbGlicGNhcF8xLjguMS5iYg0KPiArKysgYi9tZXRh
+L3JlY2lwZXMtY29ubmVjdGl2aXR5L2xpYnBjYXAvbGlicGNhcF8xLjguMS5i
+Yg0KPiBAQCAtMiw2ICsyLDcgQEAgcmVxdWlyZSBsaWJwY2FwLmluYw0KPiAN
+Cj4gIFNSQ19VUkkgKz0gIiBcDQo+ICAgICAgZmlsZTovL2xpYnBjYXAtcGtn
+Y29uZmlnLXN1cHBvcnQucGF0Y2ggXA0KPiArICAgIGZpbGU6Ly9kaXNhYmxl
+LXJlbW90ZS5wYXRjaCBcDQo+ICAiDQo+IA0KPiAgU1JDX1VSSVttZDVzdW1d
+ID0gIjNkNDhmOWNkMTcxZmYxMmIwZWZkOTEzNGI1MmYxNDQ3Ig0KPiAtLQ0K
+PiAyLjEuNA0KPiANCj4gLS0NCj4gX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18NCj4gT3BlbmVtYmVkZGVkLWNvcmUg
+bWFpbGluZyBsaXN0DQo+IE9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5l
+bWJlZGRlZC5vcmcNCj4gaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZQ0KPiANCg0KCgo=
 
