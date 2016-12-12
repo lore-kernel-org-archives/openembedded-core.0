@@ -1,25 +1,25 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D9E7271A8D
+	by mail.openembedded.org (Postfix) with ESMTP id E67A671A8F
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 12 Dec 2016 10:12:07 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga102.jf.intel.com with ESMTP; 12 Dec 2016 02:11:57 -0800
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP; 12 Dec 2016 02:11:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,334,1477983600"; d="scan'208";a="41515370"
+X-IronPort-AV: E=Sophos;i="5.33,334,1477983600"; d="scan'208";a="796999454"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga005.fm.intel.com with ESMTP; 12 Dec 2016 02:11:57 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 12 Dec 2016 02:11:59 -0800
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 19CAF6A4006;
-	Mon, 12 Dec 2016 02:11:09 -0800 (PST)
+	by linux.intel.com (Postfix) with ESMTP id 6EF806A4006;
+	Mon, 12 Dec 2016 02:11:12 -0800 (PST)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Dec 2016 12:11:38 +0200
-Message-Id: <a07d74409d3a2125b06984edf4e9658a976bebf7.1481536730.git.jussi.kukkonen@intel.com>
+Date: Mon, 12 Dec 2016 12:11:40 +0200
+Message-Id: <fdf881c954a5066b2a97f90ee5d625bc1e6c1818.1481536730.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1481536730.git.jussi.kukkonen@intel.com>
 References: <cover.1481536730.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 01/12] libxfont2: Add recipe
+Subject: [PATCH 03/12] xf86-input-evdev: Upgrade 2.10.3 -> 2.10.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,43 +34,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 12 Dec 2016 10:12:08 -0000
 
-This is the same old libxfont but with a new API.
-xserver-xorg 1.19 depends on libxfont2.
+Tiny update to XINPUT ABI 24.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-graphics/xorg-lib/libxfont2_2.0.1.bb | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-lib/libxfont2_2.0.1.bb
+ .../{xf86-input-evdev_2.10.3.bb => xf86-input-evdev_2.10.4.bb}        | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-evdev_2.10.3.bb => xf86-input-evdev_2.10.4.bb} (83%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxfont2_2.0.1.bb b/meta/recipes-graphics/xorg-lib/libxfont2_2.0.1.bb
-new file mode 100644
-index 0000000..402ab0d
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libxfont2_2.0.1.bb
-@@ -0,0 +1,22 @@
-+SUMMARY = "XFont2: X Font rasterisation library"
-+
-+DESCRIPTION = "libXfont2 provides various services for X servers, most \
-+notably font selection and rasterisation (through external libraries \
-+such as freetype)."
-+
-+require xorg-lib-common.inc
-+
-+LICENSE = "MIT & MIT-style & BSD"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=a46c8040f2f737bcd0c435feb2ab1c2c"
-+
-+DEPENDS += "freetype xtrans fontsproto libfontenc zlib"
-+
-+XORG_PN = "libXfont2"
-+
-+BBCLASSEXTEND = "native"
-+
-+SRC_URI[md5sum] = "0d9f6dd9c23bf4bcbfb00504b566baf5"
-+SRC_URI[sha256sum] = "e9fbbb475ddd171b3a6a54b989cbade1f6f874fc35d505ebc5be426bc6e4db7e"
-+
-+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ipv6', '', d)}"
-+PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.10.3.bb b/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.10.4.bb
+similarity index 83%
+rename from meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.10.3.bb
+rename to meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.10.4.bb
+index f81c3ec..c660a1d 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.10.3.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.10.4.bb
+@@ -16,5 +16,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fefe33b1cf0cacba0e72e3b0fa0f0e16"
+ 
+ DEPENDS += "mtdev libevdev"
+ 
+-SRC_URI[md5sum] = "aa3363ce5061d0c4d1e7f7019b99716d"
+-SRC_URI[sha256sum] = "5aa21ba4be8df927e5676a99c7f4f0343abc089f5451b7e73e39536f29b332a2"
++SRC_URI[md5sum] = "0f209d13b39427c1a6d38d70059b1e8f"
++SRC_URI[sha256sum] = "bbf6a03fbce1a6c0c7d874eef519fd0a854bf01b515c745d41fa551ce6490cc2"
 -- 
 2.1.4
 
