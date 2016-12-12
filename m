@@ -1,48 +1,21 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8544371A6C
+Return-Path: <sgw@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 4356A71A91
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2016 16:00:43 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id a20so12172540wme.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2016 08:00:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=2J7qsIptvAE6LAKh25KO8Es3iYzsdS9MxDTywAG9dJU=;
-	b=SvkTmFhYbmR3muxvj7SYvKa8w0cc/jxIxkYCZ1OwF9OTqBjxgXPa445EvT5MDNnFH4
-	yFyirEzBW+hGSuTA3o3Ibf/zO10JLoIrV23qhwFS0cDam+/UJ0CHo08LGtpsvUWRA6lk
-	EXOXADVWRYicPdKisEyXKqIv8vL88BsgqqIuJU6NiOGXsYpJmOlLvsBSx4Gquqvyj9aA
-	vZzJbDU/Q5x7p78Y3eE9uNPmihioJvlIU+lUpd2NrAIKsuJNZsqJJeG0kDsOTMk7Jlmt
-	U9juTjvWJoDqcLaxf6OipM1XmgKVSFtzrNSBd9rFCKtT2Bez/Pb4duCY+RzJ7oBYyfe9
-	qh4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=2J7qsIptvAE6LAKh25KO8Es3iYzsdS9MxDTywAG9dJU=;
-	b=E3sJqycQiiLzbRqzAL6YdR8W6id9pqdqjpXFgCHWooMteQXyosBjuCU0GwviLYHR2k
-	VyYxIXI391nzmNtRNt3ASlixeWaBnW1Jf82QBr9+Myzt9NM1a0TxZtzahese4VrZju4o
-	nKy4FFD5QlJRM0t2wTwkljU/iLTCCNdqeYF6UYrGWvma+pNzZMOVBI24xTYE2rgnMrAh
-	ypaz1KQvbHBEaza38etTd6nSyxT2HphkG6g4WJmZgze3kWmjDtEmW/zGSxVdVcz74zfM
-	5N1RNN0aoVGxjrkUAmKi87ZnJL9tROk/dp1ufnYoXcPanbMKoqQ8vQ2isRVQivUxtU7g
-	1KZg==
-X-Gm-Message-State: AKaTC03M02AMbKnniBNGnEkmI3OYc+w+8mIoUMfWiR0wmVqZAv1I8MJSSii3kWjzqQY1Gw==
-X-Received: by 10.28.7.130 with SMTP id 124mr17451575wmh.18.1481558444123;
-	Mon, 12 Dec 2016 08:00:44 -0800 (PST)
-Received: from localhost.localdomain ([185.47.80.46])
-	by smtp.gmail.com with ESMTPSA id
-	q65sm36121218wmd.6.2016.12.12.08.00.42
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 12 Dec 2016 08:00:43 -0800 (PST)
-From: David Vincent <freesilicon@gmail.com>
-To: openembedded-core@lists.openembedded.org, ross.burton@intel.com,
-	leonardo.sandoval.gonzalez@linux.intel.com, daniela.plascencia@intel.com
-Date: Mon, 12 Dec 2016 16:59:09 +0100
-Message-Id: <20161212155909.8946-1-freesilicon@gmail.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20161124104959.32350-1-freesilicon@gmail.com>
-References: <20161124104959.32350-1-freesilicon@gmail.com>
-Subject: [PATCH v4] rootfs: Modify RPM installation
+	Mon, 12 Dec 2016 16:01:31 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga105.fm.intel.com with ESMTP; 12 Dec 2016 08:01:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,337,1477983600"; d="scan'208,217";a="17048999"
+Received: from swold-mobl2.amr.corp.intel.com ([10.254.100.204])
+	by orsmga002.jf.intel.com with ESMTP; 12 Dec 2016 08:01:31 -0800
+Message-ID: <1481558490.4417.167.camel@linux.intel.com>
+From: Saul Wold <sgw@linux.intel.com>
+To: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
+Date: Mon, 12 Dec 2016 08:01:30 -0800
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Subject: Yocto Project Status WW51
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,135 +28,220 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2016 16:00:43 -0000
+X-List-Received-Date: Mon, 12 Dec 2016 16:01:32 -0000
+Content-Type: multipart/alternative; boundary="=-dr9Vph+G0eF0e8r30PPF"
 
-When using a custom RPM data directory instead of the default dir
-'/var/lib/rpm', the final image did not contain any of the database
-files in the expected location. This commit takes into account the
-'rpmlibdir' variable set into 'rootfs_rpm.bbclass'.
-
-Signed-off-by: David Vincent <freesilicon@gmail.com>
----
- meta/lib/oe/package_manager.py | 23 +++++++++++++----------
- meta/lib/oe/rootfs.py          |  3 ++-
- 2 files changed, 15 insertions(+), 11 deletions(-)
-
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index e5e3c3b679..e063eeeeee 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -352,7 +352,8 @@ class RpmPkgsList(PkgsList):
-         super(RpmPkgsList, self).__init__(d, rootfs_dir)
- 
-         self.rpm_cmd = bb.utils.which(os.getenv('PATH'), "rpm")
--        self.image_rpmlib = os.path.join(self.rootfs_dir, 'var/lib/rpm')
-+        self.rpm_libdir = self.d.getVar('rpmlibdir', True)
-+        self.image_rpmlib = os.path.join(self.rootfs_dir, self.rpm_libdir[1:])
- 
-         self.ml_prefix_list, self.ml_os_list = \
-             RpmIndexer(d, rootfs_dir).get_ml_prefix_and_os_list(arch_var, os_var)
-@@ -412,7 +413,7 @@ class RpmPkgsList(PkgsList):
- 
-     def list_pkgs(self):
-         cmd = [self.rpm_cmd, '--root', self.rootfs_dir]
--        cmd.extend(['-D', '_dbpath /var/lib/rpm'])
-+        cmd.extend(['-D', '_dbpath', self.rpm_libdir])
-         cmd.extend(['-qa', '--qf', '[%{NAME} %{ARCH} %{VERSION} %{PACKAGEORIGIN}\n]'])
- 
-         try:
-@@ -679,7 +680,8 @@ class RpmPM(PackageManager):
-         self.solution_manifest = self.d.expand('${T}/saved/%s_solution' %
-                                                self.task_name)
-         self.saved_rpmlib = self.d.expand('${T}/saved/%s' % self.task_name)
--        self.image_rpmlib = os.path.join(self.target_rootfs, 'var/lib/rpm')
-+        self.rpm_libdir = self.d.getVar('rpmlibdir', True)
-+        self.image_rpmlib = os.path.join(self.target_rootfs, self.rpm_libdir[1:])
- 
-         if not os.path.exists(self.d.expand('${T}/saved')):
-             bb.utils.mkdirhier(self.d.expand('${T}/saved'))
-@@ -950,7 +952,7 @@ class RpmPM(PackageManager):
-             open(db_config_dir, 'w+').write(DB_CONFIG_CONTENT)
- 
-         # Create database so that smart doesn't complain (lazy init)
--        cmd = [self.rpm_cmd, '--root', self.target_rootfs, '--dbpath', '/var/lib/rpm', '-qa']
-+        cmd = [self.rpm_cmd, '--root', self.target_rootfs, '--dbpath', self.rpm_libdir, '-qa']
-         try:
-             subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-         except subprocess.CalledProcessError as e:
-@@ -959,20 +961,19 @@ class RpmPM(PackageManager):
-         # Import GPG key to RPM database of the target system
-         if self.d.getVar('RPM_SIGN_PACKAGES', True) == '1':
-             pubkey_path = self.d.getVar('RPM_GPG_PUBKEY', True)
--            cmd = [self.rpm_cmd, '--root', self.target_rootfs, '--dbpath', '/var/lib/rpm', '--import', pubkey_path]
-+            cmd = [self.rpm_cmd, '--root', self.target_rootfs, '--dbpath', self.rpm_libdir, '--import', pubkey_path]
-             try:
-                 subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-             except subprocess.CalledProcessError as e:
-                 bb.fatal("Import GPG key failed. Command '%s' "
-                         "returned %d:\n%s" % (' '.join(cmd), e.returncode, e.output.decode("utf-8")))
- 
--
-         # Configure smart
-         bb.note("configuring Smart settings")
-         bb.utils.remove(os.path.join(self.target_rootfs, 'var/lib/smart'),
-                         True)
-         self._invoke_smart(['config', '--set', 'rpm-root=%s' % self.target_rootfs])
--        self._invoke_smart(['config', '--set', 'rpm-dbpath=/var/lib/rpm'])
-+        self._invoke_smart(['config', '--set', 'rpm-dbpath=%s' % self.rpm_libdir])
-         self._invoke_smart(['config', '--set', 'rpm-extra-macros._var=%s' %
-                            self.d.getVar('localstatedir', True)])
-         cmd = ["config", "--set", "rpm-extra-macros._tmppath=/%s/tmp" % self.install_dir_name]
-@@ -1232,7 +1233,7 @@ class RpmPM(PackageManager):
- 
-         if not with_dependencies:
-             cmd = [self.rpm_cmd] + ["-e", "--nodeps", "--root=%s" %
--                    self.target_rootfs, "--dbpath=/var/lib/rpm",
-+                    self.target_rootfs, "--dbpath=%s" % self.rpm_libdir,
-                     "--define='_cross_scriptlet_wrapper %s'" %
-                     self.scriptlet_wrapper,
-                     "--define='_tmppath /%s/tmp'" % self.install_dir_name] + pkgs
-@@ -1380,7 +1381,8 @@ class RpmPM(PackageManager):
-         saved_dir = self.target_rootfs + self.d.expand('${sysconfdir}/rpm-postinsts/') + new_pkg
- 
-         cmd = self.rpm_cmd + ' -q --scripts --root ' + self.target_rootfs
--        cmd += ' --dbpath=/var/lib/rpm ' + new_pkg
-+        cmd += ' --dbpath=%s ' %  self.rpm_libdir
-+        cmd += new_pkg
-         cmd += ' | sed -n -e "/^postinstall scriptlet (using .*):$/,/^.* scriptlet (using .*):$/ {/.*/p}"'
-         cmd += ' | sed -e "/postinstall scriptlet (using \(.*\)):$/d"'
-         cmd += ' -e "/^.* scriptlet (using .*):$/d" > %s' % saved_dir
-@@ -1412,7 +1414,8 @@ class RpmPM(PackageManager):
-     '''
-     def unlock_rpm_db(self):
-         # Remove rpm db lock files
--        rpm_db_locks = glob.glob('%s/var/lib/rpm/__db.*' % self.target_rootfs)
-+        rpm_db_locks = glob.glob('%s%s/__db.*' % (self.target_rootfs,
-+            self.rpm_libdir))
-         for f in rpm_db_locks:
-             bb.utils.remove(f, True)
- 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index a348b975c2..7cf8ce84ca 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -426,6 +426,7 @@ class RpmRootfs(Rootfs):
- 
-     def _create(self):
-         pkgs_to_install = self.manifest.parse_initial_manifest()
-+        rpm_libdir = self.d.getVar('rpmlibdir', True)
-         rpm_pre_process_cmds = self.d.getVar('RPM_PREPROCESS_COMMANDS', True)
-         rpm_post_process_cmds = self.d.getVar('RPM_POSTPROCESS_COMMANDS', True)
- 
-@@ -473,7 +474,7 @@ class RpmRootfs(Rootfs):
-         if self.progress_reporter:
-             self.progress_reporter.next_stage()
- 
--        self._setup_dbg_rootfs(['/etc/rpm', '/var/lib/rpm', '/var/lib/smart'])
-+        self._setup_dbg_rootfs(['/etc/rpm', rpm_libdir, '/var/lib/smart'])
- 
-         execute_pre_post_process(self.d, rpm_post_process_cmds)
- 
--- 
-2.11.0
+--=-dr9Vph+G0eF0e8r30PPF
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
 
+Current Dev Position: YP 2.3 M1 -> M2
+Next Deadline: YP 2.3 M1 by Dec. 12, 2016 (TODAY!!)
+                         YP 2.3 M2 by Jan 23, 2017
+
+SWAT team rotation: Tracy -> Alejandro
+https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
+
+Key Status/Updates:
+ * Today is the M1 feature freeze deadline. Patches are being processed with a view to merging. We believe all patchsets targeting M1 have been posted apart from tinfoil2 which is imminent and we’re planning to try and include that in M1.
+ * We’re continuing to struggle to identify which patches are causing which failures which may delay M1 slightly as it is going to take time to figure this out and ensure builds are stable.
+ * We’re considering the best way to handle containers and the current build appliance in the project going forwards. If anyone had input they wish to contribute on that subject, Brian has started a thread on the architecture mailing list.
+
+Proposed upcoming dot releases:
+YP 2.0.3 Release by Dec. 9, 2016
+YP 2.2.1 Release by Jan. 20, 2017
+YP 2.1.3 Release by May. 19, 2017
+
+Key YP 2.3 Dates:
+YP 2.3 M1 Cutoff is Dec. 12, 2016
+YP 2.3 M1 Release is Dec. 23, 2016
+YP 2.3 M2 Cutoff is Jan. 23, 2017
+YP 2.3 M2 Release is Feb. 3, 2017
+YP 2.3 M3 Cutoff is Feb 27, 2017
+YP 2.3 M3 Release is Mar. 10, 2017
+YP 2.3 M4 Cutoff is April 3, 2017
+YP 2.3 M4 Release is April 28, 2017
+
+Tracking Metrics:
+	WDD 2437 (last week 2507)
+(https://wiki.yoctoproject.org/charts/combo.html)
+
+Key Status Links for YP:
+https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.3_Status
+https://wiki.yoctoproject.org/wiki/Yocto_2.3_Schedule
+https://wiki.yoctoproject.org/wiki/Yocto_2.3_Features
+
+[If anyone has suggestions for other information you’d like to see on this weekly status update, let us know!]
+
+--=-dr9Vph+G0eF0e8r30PPF
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html><head></head><body><div><span id=3D"docs-internal-guid-c8041880-f3c4-=
+214b-6bea-dc22d3edfc81"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top=
+:0pt;margin-bottom:0pt;"><br></p><p dir=3D"ltr" style=3D"line-height:1.38;m=
+argin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 14.666666666666=
+666px; font-family: Arial; color: rgb(0, 0, 0); background-color: transpare=
+nt; vertical-align: baseline; white-space: pre-wrap;">Current Dev Position:=
+ YP 2.3 M1 -&gt; M2</span></p><p dir=3D"ltr" style=3D"line-height:1.38;marg=
+in-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 14.666666666666666=
+px; font-family: Arial; color: rgb(0, 0, 0); background-color: transparent;=
+ vertical-align: baseline; white-space: pre-wrap;">Next Deadline: YP 2.3 M1=
+ by Dec. 12, 2016 (TODAY!!)</span></p><p dir=3D"ltr" style=3D"line-height:1=
+.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 14.6666666=
+66666666px; font-family: Arial; color: rgb(0, 0, 0); background-color: tran=
+sparent; vertical-align: baseline; white-space: pre-wrap;"> &nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YP 2.3 M2 by Jan 23, =
+2017</span></p><div dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;ma=
+rgin-bottom:0pt;"><br></div><p dir=3D"ltr" style=3D"line-height:1.38;margin=
+-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 14.666666666666666px=
+; font-family: Arial; color: rgb(0, 0, 0); background-color: transparent; v=
+ertical-align: baseline; white-space: pre-wrap;">SWAT team rotation: Tracy =
+-&gt; Alejandro</span></p><p dir=3D"ltr" style=3D"line-height:1.38;margin-t=
+op:0pt;margin-bottom:0pt;"><a href=3D"https://wiki.yoctoproject.org/wiki/Yo=
+cto_Build_Failure_Swat_Team" style=3D"text-decoration:none;"><span style=3D=
+"font-size: 14.666666666666666px; font-family: Consolas; color: rgb(17, 85,=
+ 204); background-color: transparent; text-decoration: underline; vertical-=
+align: baseline; white-space: pre-wrap;">https://wiki.yoctoproject.org/wiki=
+/Yocto_Build_Failure_Swat_Team</span></a></p><div dir=3D"ltr" style=3D"line=
+-height:1.38;margin-top:0pt;margin-bottom:0pt;"><br></div><p dir=3D"ltr" st=
+yle=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"f=
+ont-size: 14.666666666666666px; font-family: Arial; color: rgb(0, 0, 0); ba=
+ckground-color: transparent; vertical-align: baseline; white-space: pre-wra=
+p;">Key Status/Updates:</span></p><ul style=3D"margin-top:0pt;margin-bottom=
+:0pt;"><li dir=3D"ltr" style=3D"list-style-type: disc; font-size: 14.666666=
+666666666px; font-family: Arial; color: rgb(0, 0, 0); background-color: tra=
+nsparent; vertical-align: baseline;"><p dir=3D"ltr" style=3D"line-height:1.=
+38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 14.66666666=
+6666666px; background-color: transparent; vertical-align: baseline; white-s=
+pace: pre-wrap;">Today is the M1 feature freeze deadline. Patches are being=
+ processed with a view to merging. We believe all patchsets targeting M1 ha=
+ve been posted apart from tinfoil2 which is imminent and we=E2=80=99re plan=
+ning to try and include that in M1.</span></p></li><li dir=3D"ltr" style=3D=
+"list-style-type: disc; font-size: 14.666666666666666px; font-family: Arial=
+; color: rgb(0, 0, 0); background-color: transparent; vertical-align: basel=
+ine;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom=
+:0pt;"><span style=3D"font-size: 14.666666666666666px; background-color: tr=
+ansparent; vertical-align: baseline; white-space: pre-wrap;">We=E2=80=99re =
+continuing to struggle to identify which patches are causing which failures=
+ which may delay M1 slightly as it is going to take time to figure this out=
+ and ensure builds are stable.</span></p></li><li dir=3D"ltr" style=3D"list=
+-style-type: disc; font-size: 14.666666666666666px; font-family: Arial; col=
+or: rgb(0, 0, 0); background-color: transparent; vertical-align: baseline;"=
+><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;=
+"><span style=3D"font-size: 14.666666666666666px; background-color: transpa=
+rent; vertical-align: baseline; white-space: pre-wrap;">We=E2=80=99re consi=
+dering the best way to handle containers and the current build appliance in=
+ the project going forwards. If anyone had input they wish to contribute on=
+ that subject, Brian has started a thread on the architecture mailing list.=
+</span></p></li></ul><div dir=3D"ltr" style=3D"line-height:1.38;margin-top:=
+0pt;margin-bottom:0pt;"><br></div><p dir=3D"ltr" style=3D"line-height:1.38;=
+margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 14.66666666666=
+6666px; font-family: Arial; color: rgb(0, 0, 0); background-color: transpar=
+ent; vertical-align: baseline; white-space: pre-wrap;">Proposed upcoming do=
+t releases:</span></p><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0=
+pt;margin-bottom:0pt;"><span style=3D"font-size: 14.666666666666666px; font=
+-family: Arial; color: rgb(0, 0, 0); background-color: transparent; vertica=
+l-align: baseline; white-space: pre-wrap;">YP 2.0.3 Release by Dec. 9, 2016=
+</span></p><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-b=
+ottom:0pt;"><span style=3D"font-size: 14.666666666666666px; font-family: Ar=
+ial; color: rgb(0, 0, 0); background-color: transparent; vertical-align: ba=
+seline; white-space: pre-wrap;">YP 2.2.1 Release by Jan. 20, 2017</span></p=
+><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;=
+"><span style=3D"font-size: 14.666666666666666px; font-family: Arial; color=
+: rgb(0, 0, 0); background-color: transparent; vertical-align: baseline; wh=
+ite-space: pre-wrap;">YP 2.1.3 Release by May. 19, 2017</span></p><div dir=
+=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><br><=
+/div><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:=
+0pt;"><span style=3D"font-size: 14.666666666666666px; font-family: Arial; c=
+olor: rgb(0, 0, 0); background-color: transparent; vertical-align: baseline=
+; white-space: pre-wrap;">Key YP 2.3 Dates:</span></p><p dir=3D"ltr" style=
+=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font=
+-size: 14.666666666666666px; font-family: Arial; color: rgb(0, 0, 0); backg=
+round-color: transparent; vertical-align: baseline; white-space: pre-wrap;"=
+>YP 2.3 M1 Cutoff is Dec. 12, 2016</span></p><p dir=3D"ltr" style=3D"line-h=
+eight:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 14.=
+666666666666666px; font-family: Arial; color: rgb(0, 0, 0); background-colo=
+r: transparent; vertical-align: baseline; white-space: pre-wrap;">YP 2.3 M1=
+ Release is Dec. 23, 2016</span></p><p dir=3D"ltr" style=3D"line-height:1.3=
+8;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 14.666666666=
+666666px; font-family: Arial; color: rgb(0, 0, 0); background-color: transp=
+arent; vertical-align: baseline; white-space: pre-wrap;">YP 2.3 M2 Cutoff i=
+s Jan. 23, 2017</span></p><p dir=3D"ltr" style=3D"line-height:1.38;margin-t=
+op:0pt;margin-bottom:0pt;"><span style=3D"font-size: 14.666666666666666px; =
+font-family: Arial; color: rgb(0, 0, 0); background-color: transparent; ver=
+tical-align: baseline; white-space: pre-wrap;">YP 2.3 M2 Release is Feb. 3,=
+ 2017</span></p><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;mar=
+gin-bottom:0pt;"><span style=3D"font-size: 14.666666666666666px; font-famil=
+y: Arial; color: rgb(0, 0, 0); background-color: transparent; vertical-alig=
+n: baseline; white-space: pre-wrap;">YP 2.3 M3 Cutoff is Feb 27, 2017</span=
+></p><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:=
+0pt;"><span style=3D"font-size: 14.666666666666666px; font-family: Arial; c=
+olor: rgb(0, 0, 0); background-color: transparent; vertical-align: baseline=
+; white-space: pre-wrap;">YP 2.3 M3 Release is Mar. 10, 2017</span></p><p d=
+ir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><sp=
+an style=3D"font-size: 14.666666666666666px; font-family: Arial; color: rgb=
+(0, 0, 0); background-color: transparent; vertical-align: baseline; white-s=
+pace: pre-wrap;">YP 2.3 M4 Cutoff is April 3, 2017</span></p><p dir=3D"ltr"=
+ style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=
+=3D"font-size: 14.666666666666666px; font-family: Arial; color: rgb(0, 0, 0=
+); background-color: transparent; vertical-align: baseline; white-space: pr=
+e-wrap;">YP 2.3 M4 Release is April 28, 2017</span></p><div dir=3D"ltr" sty=
+le=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><br></div><p dir=
+=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span=
+ style=3D"font-size: 14.666666666666666px; font-family: Arial; color: rgb(0=
+, 0, 0); background-color: transparent; vertical-align: baseline; white-spa=
+ce: pre-wrap;">Tracking Metrics:</span></p><p dir=3D"ltr" style=3D"line-hei=
+ght:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 14.66=
+6666666666666px; font-family: Arial; color: rgb(0, 0, 0); background-color:=
+ transparent; vertical-align: baseline; white-space: pre-wrap;"><span class=
+=3D"Apple-tab-span" style=3D"white-space:pre;">	</span></span><span style=
+=3D"font-size: 14.666666666666666px; font-family: Arial; color: rgb(0, 0, 0=
+); background-color: transparent; vertical-align: baseline; white-space: pr=
+e-wrap;">WDD 2437 (last week 2507)</span></p><p dir=3D"ltr" style=3D"line-h=
+eight:1.38;margin-top:0pt;margin-bottom:0pt;text-indent: 36pt;"><span style=
+=3D"font-size: 14.666666666666666px; font-family: Consolas; color: rgb(0, 0=
+, 0); background-color: transparent; vertical-align: baseline; white-space:=
+ pre-wrap;">(</span><a href=3D"https://wiki.yoctoproject.org/charts/combo.h=
+tml" style=3D"text-decoration:none;"><span style=3D"font-size: 14.666666666=
+666666px; font-family: Arial; color: rgb(17, 85, 204); background-color: tr=
+ansparent; text-decoration: underline; vertical-align: baseline; white-spac=
+e: pre-wrap;">https://wiki.yoctoproject.org/charts/combo.html</span></a><sp=
+an style=3D"font-size: 14.666666666666666px; font-family: Consolas; color: =
+rgb(0, 0, 0); background-color: transparent; vertical-align: baseline; whit=
+e-space: pre-wrap;">)</span></p><div dir=3D"ltr" style=3D"line-height:1.38;=
+margin-top:0pt;margin-bottom:0pt;"><br></div><p dir=3D"ltr" style=3D"line-h=
+eight:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 14.=
+666666666666666px; font-family: Arial; color: rgb(0, 0, 0); background-colo=
+r: transparent; vertical-align: baseline; white-space: pre-wrap;">Key Statu=
+s Links for YP:</span></p><p dir=3D"ltr" style=3D"line-height:1.38;margin-t=
+op:0pt;margin-bottom:0pt;"><a href=3D"https://wiki.yoctoproject.org/wiki/Yo=
+cto_Project_v2.3_Status" style=3D"text-decoration:none;"><span style=3D"fon=
+t-size: 14.666666666666666px; font-family: Consolas; color: rgb(17, 85, 204=
+); background-color: transparent; text-decoration: underline; vertical-alig=
+n: baseline; white-space: pre-wrap;">https://wiki.yoctoproject.org/wiki/Yoc=
+to_Project_v2.3_Status</span></a></p><p dir=3D"ltr" style=3D"line-height:1.=
+38;margin-top:0pt;margin-bottom:0pt;"><a href=3D"https://wiki.yoctoproject.=
+org/wiki/Yocto_2.3_Schedule" style=3D"text-decoration:none;"><span style=3D=
+"font-size: 14.666666666666666px; font-family: Consolas; color: rgb(17, 85,=
+ 204); background-color: transparent; text-decoration: underline; vertical-=
+align: baseline; white-space: pre-wrap;">https://wiki.yoctoproject.org/wiki=
+/Yocto_2.3_Schedule</span></a></p><p dir=3D"ltr" style=3D"line-height:1.38;=
+margin-top:0pt;margin-bottom:0pt;"><a href=3D"https://wiki.yoctoproject.org=
+/wiki/Yocto_2.3_Features" style=3D"text-decoration:none;"><span style=3D"fo=
+nt-size: 14.666666666666666px; font-family: Consolas; color: rgb(17, 85, 20=
+4); background-color: transparent; text-decoration: underline; vertical-ali=
+gn: baseline; white-space: pre-wrap;">https://wiki.yoctoproject.org/wiki/Yo=
+cto_2.3_Features</span></a></p><div dir=3D"ltr" style=3D"line-height:1.38;m=
+argin-top:0pt;margin-bottom:0pt;"><br></div><p dir=3D"ltr" style=3D"line-he=
+ight:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 14.6=
+66666666666666px; font-family: Arial; color: rgb(0, 0, 0); background-color=
+: transparent; vertical-align: baseline; white-space: pre-wrap;">[If anyone=
+ has suggestions for other information you=E2=80=99d like to see on this we=
+ekly status update, let us know!]</span></p><div dir=3D"ltr" style=3D"line-=
+height:1.38;margin-top:0pt;margin-bottom:0pt;"><br></div></span></div><div>=
+</div></body></html>
+
+--=-dr9Vph+G0eF0e8r30PPF--
