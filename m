@@ -1,25 +1,27 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 919186069D
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id AD08A71A89
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2016 15:15:13 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga105.fm.intel.com with ESMTP; 12 Dec 2016 07:15:15 -0800
+	Mon, 12 Dec 2016 15:15:16 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP; 12 Dec 2016 07:15:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,337,1477983600"; d="scan'208";a="41674262"
+X-IronPort-AV: E=Sophos;i="5.33,337,1477983600"; d="scan'208";a="1071114023"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga006.fm.intel.com with ESMTP; 12 Dec 2016 07:15:14 -0800
+	by orsmga001.jf.intel.com with ESMTP; 12 Dec 2016 07:15:17 -0800
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.71])
-	by linux.intel.com (Postfix) with ESMTP id CA7516A4080
+	by linux.intel.com (Postfix) with ESMTP id 9F6BE6A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2016 07:14:27 -0800 (PST)
+	Mon, 12 Dec 2016 07:14:30 -0800 (PST)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Dec 2016 17:16:22 +0200
-Message-Id: <1481555783-3130-1-git-send-email-maxin.john@intel.com>
+Date: Mon, 12 Dec 2016 17:16:23 +0200
+Message-Id: <1481555783-3130-2-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
-Subject: [PATCH 1/2] libunistring: Update version 0.9.6 -> 0.9.7
+In-Reply-To: <1481555783-3130-1-git-send-email-maxin.john@intel.com>
+References: <1481555783-3130-1-git-send-email-maxin.john@intel.com>
+Subject: [PATCH 2/2] harfbuzz: upgrade to 1.3.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,49 +34,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2016 15:15:13 -0000
+X-List-Received-Date: Mon, 12 Dec 2016 15:15:16 -0000
 
-The license has changed from LGPLv3+ to "LGPLv3+ or GPLv2"
-        * README (Copyright): Rewrite section
-        * doc/libunistring.texi (Licenses): Change accordingly
+1.3.3 -> 1.3.4
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- .../{libunistring_0.9.6.bb => libunistring_0.9.7.bb}         | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
- rename meta/recipes-support/libunistring/{libunistring_0.9.6.bb => libunistring_0.9.7.bb} (70%)
+ .../harfbuzz/{harfbuzz_1.3.3.bb => harfbuzz_1.3.4.bb}                 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_1.3.3.bb => harfbuzz_1.3.4.bb} (88%)
 
-diff --git a/meta/recipes-support/libunistring/libunistring_0.9.6.bb b/meta/recipes-support/libunistring/libunistring_0.9.7.bb
-similarity index 70%
-rename from meta/recipes-support/libunistring/libunistring_0.9.6.bb
-rename to meta/recipes-support/libunistring/libunistring_0.9.7.bb
-index bb70122..f77a210 100644
---- a/meta/recipes-support/libunistring/libunistring_0.9.6.bb
-+++ b/meta/recipes-support/libunistring/libunistring_0.9.7.bb
-@@ -13,16 +13,18 @@ DESCRIPTION = "Text files are nowadays usually encoded in Unicode, and may\
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_1.3.3.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_1.3.4.bb
+similarity index 88%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_1.3.3.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_1.3.4.bb
+index 0bda42e..74d6c6a 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_1.3.3.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_1.3.4.bb
+@@ -12,8 +12,8 @@ DEPENDS = "glib-2.0 cairo fontconfig freetype"
  
- HOMEPAGE = "http://www.gnu.org/software/libunistring/"
- SECTION = "devel"
--LICENSE = "GPLv3 & LGPLv3"
--LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
--                    file://COPYING.LIB;md5=6a6a8e020838b23406c81b19c1d46df6"
-+LICENSE = "LGPLv3+ | GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
-+                    file://README;beginline=45;endline=65;md5=08287d16ba8d839faed8d2dc14d7d6a5 \
-+                    file://doc/libunistring.texi;md5=b86c9fd7acaac623017239640631912c \
-+                   "
+ SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2"
  
- SRC_URI = "${GNU_MIRROR}/libunistring/libunistring-${PV}.tar.gz \
-            file://iconv-m4-remove-the-test-to-convert-euc-jp.patch \
-            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
- "
--SRC_URI[md5sum] = "dfae4ff5583649ed24d8f368f1d0543b"
--SRC_URI[sha256sum] = "9625eec2507f4789ebb6fc48ebda98be0e0168979a2f68aa8b680bf8eeabbd47"
-+SRC_URI[md5sum] = "8e663454aa372181ee8e46edaa3ba4c8"
-+SRC_URI[sha256sum] = "9ce081cbee1951b55597b30e7030bda9d7b2f034ef901a135ff3a020be5a41e5"
+-SRC_URI[md5sum] = "97ae15a72a93f1f27324a2b8d9bd3b1d"
+-SRC_URI[sha256sum] = "2620987115a4122b47321610dccbcc18f7f121115fd7b88dc8a695c8b66cb3c9"
++SRC_URI[md5sum] = "065843caf247687b94126773285bc70f"
++SRC_URI[sha256sum] = "718aa6fcadef1a6548315b8cfe42cc27e926256302c337f42df3a443843f6a2b"
  
- inherit autotools texinfo
- BBCLASSEXTEND = "native nativesdk"
+ inherit autotools pkgconfig lib_package gtk-doc
+ 
 -- 
 2.4.0
 
