@@ -1,27 +1,23 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id A63D971A5E
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BA0271A5E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2016 13:28:51 +0000 (UTC)
-Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id uBCDKSVc021353
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2016 14:20:28 +0100
-Received: from dev.sbt.siemens.com ([163.242.50.172])
-	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id uBCDKR75025858;
-	Mon, 12 Dec 2016 14:20:27 +0100
-Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
-	by dev.sbt.siemens.com (Postfix) with ESMTP id 164F1108768;
-	Mon, 12 Dec 2016 14:20:28 +0100 (CET)
-From: Andrej Valek <andrej.valek@siemens.com>
+	Mon, 12 Dec 2016 13:35:15 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga105.jf.intel.com with ESMTP; 12 Dec 2016 05:35:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,336,1477983600"; d="scan'208";a="41399839"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga005.jf.intel.com with ESMTP; 12 Dec 2016 05:35:16 -0800
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id 7E29A6A4080;
+	Mon, 12 Dec 2016 05:34:29 -0800 (PST)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Dec 2016 14:20:20 +0100
-Message-Id: <1481548821-15878-2-git-send-email-andrej.valek@siemens.com>
+Date: Mon, 12 Dec 2016 15:35:09 +0200
+Message-Id: <cover.1481549486.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1481548821-15878-1-git-send-email-andrej.valek@siemens.com>
-References: <1481548821-15878-1-git-send-email-andrej.valek@siemens.com>
-Subject: [PATCH 2/3] libxml2: fix CVE-2016-4658 Disallow namespace nodes in XPointer points and ranges
+Subject: [PATCH 0/3] Upgrade piglit, compress generated tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,307 +30,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2016 13:28:52 -0000
+X-List-Received-Date: Mon, 12 Dec 2016 13:35:16 -0000
 
-Namespace nodes must be copied to avoid use-after-free errors.
-But they don't necessarily have a physical representation in a
-document, so simply disallow them in XPointer ranges.
+These patches were already on the list in another patchset, the only
+change is that piglit-generated-tests now RDEPENDS on tar.
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
----
- .../libxml/libxml2/libxml2-CVE-2016-4658.patch     | 269 +++++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.4.bb          |   1 +
- 2 files changed, 270 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-4658.patch
+Original cover letter follows:
 
-diff --git a/meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-4658.patch b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-4658.patch
-new file mode 100644
-index 0000000..5412e8c
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-4658.patch
-@@ -0,0 +1,269 @@
-+libxml2-2.9.4: Fix CVE-2016-4658
-+
-+[No upstream tracking] -- https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2016-4658
-+
-+xpointer: Disallow namespace nodes in XPointer points and ranges
-+
-+Namespace nodes must be copied to avoid use-after-free errors.
-+But they don't necessarily have a physical representation in a
-+document, so simply disallow them in XPointer ranges.
-+
-+Upstream-Status: Backported 
-+ - [https://git.gnome.org/browse/libxml2/commit/?id=c1d1f7121194036608bf555f08d3062a36fd344b]
-+ - [https://git.gnome.org/browse/libxml2/commit/?id=3f8a91036d338e51c059d54397a42d645f019c65]
-+CVE: CVE-2016-4658
-+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
-+
-+diff --git a/xpointer.c b/xpointer.c
-+index 676c510..911680d 100644
-+--- a/xpointer.c
-++++ b/xpointer.c
-+@@ -320,6 +320,45 @@ xmlXPtrRangesEqual(xmlXPathObjectPtr range1, xmlXPathObjectPtr range2) {
-+ }
-+ 
-+ /**
-++ * xmlXPtrNewRangeInternal:
-++ * @start:  the starting node
-++ * @startindex:  the start index
-++ * @end:  the ending point
-++ * @endindex:  the ending index
-++ *
-++ * Internal function to create a new xmlXPathObjectPtr of type range
-++ *
-++ * Returns the newly created object.
-++ */
-++static xmlXPathObjectPtr
-++xmlXPtrNewRangeInternal(xmlNodePtr start, int startindex,
-++                        xmlNodePtr end, int endindex) {
-++    xmlXPathObjectPtr ret;
-++
-++    /*
-++     * Namespace nodes must be copied (see xmlXPathNodeSetDupNs).
-++     * Disallow them for now.
-++     */
-++    if ((start != NULL) && (start->type == XML_NAMESPACE_DECL))
-++	return(NULL);
-++    if ((end != NULL) && (end->type == XML_NAMESPACE_DECL))
-++	return(NULL);
-++
-++    ret = (xmlXPathObjectPtr) xmlMalloc(sizeof(xmlXPathObject));
-++    if (ret == NULL) {
-++        xmlXPtrErrMemory("allocating range");
-++	return(NULL);
-++    }
-++    memset(ret, 0, sizeof(xmlXPathObject));
-++    ret->type = XPATH_RANGE;
-++    ret->user = start;
-++    ret->index = startindex;
-++    ret->user2 = end;
-++    ret->index2 = endindex;
-++    return(ret);
-++}
-++
-++/**
-+  * xmlXPtrNewRange:
-+  * @start:  the starting node
-+  * @startindex:  the start index
-+@@ -344,17 +383,7 @@ xmlXPtrNewRange(xmlNodePtr start, int startindex,
-+     if (endindex < 0)
-+ 	return(NULL);
-+ 
-+-    ret = (xmlXPathObjectPtr) xmlMalloc(sizeof(xmlXPathObject));
-+-    if (ret == NULL) {
-+-        xmlXPtrErrMemory("allocating range");
-+-	return(NULL);
-+-    }
-+-    memset(ret, 0 , (size_t) sizeof(xmlXPathObject));
-+-    ret->type = XPATH_RANGE;
-+-    ret->user = start;
-+-    ret->index = startindex;
-+-    ret->user2 = end;
-+-    ret->index2 = endindex;
-++    ret = xmlXPtrNewRangeInternal(start, startindex, end, endindex);
-+     xmlXPtrRangeCheckOrder(ret);
-+     return(ret);
-+ }
-+@@ -381,17 +410,8 @@ xmlXPtrNewRangePoints(xmlXPathObjectPtr start, xmlXPathObjectPtr end) {
-+     if (end->type != XPATH_POINT)
-+ 	return(NULL);
-+ 
-+-    ret = (xmlXPathObjectPtr) xmlMalloc(sizeof(xmlXPathObject));
-+-    if (ret == NULL) {
-+-        xmlXPtrErrMemory("allocating range");
-+-	return(NULL);
-+-    }
-+-    memset(ret, 0 , (size_t) sizeof(xmlXPathObject));
-+-    ret->type = XPATH_RANGE;
-+-    ret->user = start->user;
-+-    ret->index = start->index;
-+-    ret->user2 = end->user;
-+-    ret->index2 = end->index;
-++    ret = xmlXPtrNewRangeInternal(start->user, start->index, end->user,
-++				  end->index);
-+     xmlXPtrRangeCheckOrder(ret);
-+     return(ret);
-+ }
-+@@ -416,17 +436,7 @@ xmlXPtrNewRangePointNode(xmlXPathObjectPtr start, xmlNodePtr end) {
-+     if (start->type != XPATH_POINT)
-+ 	return(NULL);
-+ 
-+-    ret = (xmlXPathObjectPtr) xmlMalloc(sizeof(xmlXPathObject));
-+-    if (ret == NULL) {
-+-        xmlXPtrErrMemory("allocating range");
-+-	return(NULL);
-+-    }
-+-    memset(ret, 0 , (size_t) sizeof(xmlXPathObject));
-+-    ret->type = XPATH_RANGE;
-+-    ret->user = start->user;
-+-    ret->index = start->index;
-+-    ret->user2 = end;
-+-    ret->index2 = -1;
-++    ret = xmlXPtrNewRangeInternal(start->user, start->index, end, -1);
-+     xmlXPtrRangeCheckOrder(ret);
-+     return(ret);
-+ }
-+@@ -453,17 +463,7 @@ xmlXPtrNewRangeNodePoint(xmlNodePtr start, xmlXPathObjectPtr end) {
-+     if (end->type != XPATH_POINT)
-+ 	return(NULL);
-+ 
-+-    ret = (xmlXPathObjectPtr) xmlMalloc(sizeof(xmlXPathObject));
-+-    if (ret == NULL) {
-+-        xmlXPtrErrMemory("allocating range");
-+-	return(NULL);
-+-    }
-+-    memset(ret, 0 , (size_t) sizeof(xmlXPathObject));
-+-    ret->type = XPATH_RANGE;
-+-    ret->user = start;
-+-    ret->index = -1;
-+-    ret->user2 = end->user;
-+-    ret->index2 = end->index;
-++    ret = xmlXPtrNewRangeInternal(start, -1, end->user, end->index);
-+     xmlXPtrRangeCheckOrder(ret);
-+     return(ret);
-+ }
-+@@ -486,17 +486,7 @@ xmlXPtrNewRangeNodes(xmlNodePtr start, xmlNodePtr end) {
-+     if (end == NULL)
-+ 	return(NULL);
-+ 
-+-    ret = (xmlXPathObjectPtr) xmlMalloc(sizeof(xmlXPathObject));
-+-    if (ret == NULL) {
-+-        xmlXPtrErrMemory("allocating range");
-+-	return(NULL);
-+-    }
-+-    memset(ret, 0 , (size_t) sizeof(xmlXPathObject));
-+-    ret->type = XPATH_RANGE;
-+-    ret->user = start;
-+-    ret->index = -1;
-+-    ret->user2 = end;
-+-    ret->index2 = -1;
-++    ret = xmlXPtrNewRangeInternal(start, -1, end, -1);
-+     xmlXPtrRangeCheckOrder(ret);
-+     return(ret);
-+ }
-+@@ -516,17 +506,7 @@ xmlXPtrNewCollapsedRange(xmlNodePtr start) {
-+     if (start == NULL)
-+ 	return(NULL);
-+ 
-+-    ret = (xmlXPathObjectPtr) xmlMalloc(sizeof(xmlXPathObject));
-+-    if (ret == NULL) {
-+-        xmlXPtrErrMemory("allocating range");
-+-	return(NULL);
-+-    }
-+-    memset(ret, 0 , (size_t) sizeof(xmlXPathObject));
-+-    ret->type = XPATH_RANGE;
-+-    ret->user = start;
-+-    ret->index = -1;
-+-    ret->user2 = NULL;
-+-    ret->index2 = -1;
-++    ret = xmlXPtrNewRangeInternal(start, -1, NULL, -1);
-+     return(ret);
-+ }
-+ 
-+@@ -541,6 +521,8 @@ xmlXPtrNewCollapsedRange(xmlNodePtr start) {
-+  */
-+ xmlXPathObjectPtr
-+ xmlXPtrNewRangeNodeObject(xmlNodePtr start, xmlXPathObjectPtr end) {
-++    xmlNodePtr endNode;
-++    int endIndex;
-+     xmlXPathObjectPtr ret;
-+ 
-+     if (start == NULL)
-+@@ -549,7 +531,12 @@ xmlXPtrNewRangeNodeObject(xmlNodePtr start, xmlXPathObjectPtr end) {
-+ 	return(NULL);
-+     switch (end->type) {
-+ 	case XPATH_POINT:
-++	    endNode = end->user;
-++	    endIndex = end->index;
-++	    break;
-+ 	case XPATH_RANGE:
-++	    endNode = end->user2;
-++	    endIndex = end->index2;
-+ 	    break;
-+ 	case XPATH_NODESET:
-+ 	    /*
-+@@ -557,39 +544,15 @@ xmlXPtrNewRangeNodeObject(xmlNodePtr start, xmlXPathObjectPtr end) {
-+ 	     */
-+ 	    if (end->nodesetval->nodeNr <= 0)
-+ 		return(NULL);
-++	    endNode = end->nodesetval->nodeTab[end->nodesetval->nodeNr - 1];
-++	    endIndex = -1;
-+ 	    break;
-+ 	default:
-+ 	    /* TODO */
-+ 	    return(NULL);
-+     }
-+ 
-+-    ret = (xmlXPathObjectPtr) xmlMalloc(sizeof(xmlXPathObject));
-+-    if (ret == NULL) {
-+-        xmlXPtrErrMemory("allocating range");
-+-	return(NULL);
-+-    }
-+-    memset(ret, 0 , (size_t) sizeof(xmlXPathObject));
-+-    ret->type = XPATH_RANGE;
-+-    ret->user = start;
-+-    ret->index = -1;
-+-    switch (end->type) {
-+-	case XPATH_POINT:
-+-	    ret->user2 = end->user;
-+-	    ret->index2 = end->index;
-+-	    break;
-+-	case XPATH_RANGE:
-+-	    ret->user2 = end->user2;
-+-	    ret->index2 = end->index2;
-+-	    break;
-+-	case XPATH_NODESET: {
-+-	    ret->user2 = end->nodesetval->nodeTab[end->nodesetval->nodeNr - 1];
-+-	    ret->index2 = -1;
-+-	    break;
-+-	}
-+-	default:
-+-	    STRANGE
-+-	    return(NULL);
-+-    }
-++    ret = xmlXPtrNewRangeInternal(start, -1, endNode, endIndex);
-+     xmlXPtrRangeCheckOrder(ret);
-+     return(ret);
-+ }
-+@@ -1835,8 +1798,8 @@ xmlXPtrStartPointFunction(xmlXPathParserContextPtr ctxt, int nargs) {
-+ 		case XPATH_RANGE: {
-+ 		    xmlNodePtr node = tmp->user;
-+ 		    if (node != NULL) {
-+-			if (node->type == XML_ATTRIBUTE_NODE) {
-+-			    /* TODO: Namespace Nodes ??? */
-++			if ((node->type == XML_ATTRIBUTE_NODE) ||
-++			     (node->type == XML_NAMESPACE_DECL)) {
-+ 			    xmlXPathFreeObject(obj);
-+ 			    xmlXPtrFreeLocationSet(newset);
-+ 			    XP_ERROR(XPTR_SYNTAX_ERROR);
-+@@ -1931,8 +1894,8 @@ xmlXPtrEndPointFunction(xmlXPathParserContextPtr ctxt, int nargs) {
-+ 		case XPATH_RANGE: {
-+ 		    xmlNodePtr node = tmp->user2;
-+ 		    if (node != NULL) {
-+-			if (node->type == XML_ATTRIBUTE_NODE) {
-+-			    /* TODO: Namespace Nodes ??? */
-++			if ((node->type == XML_ATTRIBUTE_NODE) ||
-++			     (node->type == XML_NAMESPACE_DECL)) {
-+ 			    xmlXPathFreeObject(obj);
-+ 			    xmlXPtrFreeLocationSet(newset);
-+ 			    XP_ERROR(XPTR_SYNTAX_ERROR);
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.4.bb b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-index 66a8940..a1d1e9e 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.4.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-@@ -21,6 +21,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-            file://libxml-m4-use-pkgconfig.patch \
-            file://libxml2-fix_node_comparison.patch \
-            file://libxml2-CVE-2016-5131.patch \
-+           file://libxml2-CVE-2016-4658.patch \
-           "
- 
- SRC_URI[libtar.md5sum] = "ae249165c173b1ff386ee8ad676815f5"
+
+Piglit was removed because the current version was making sdk
+images too large. This patchset reduces the installed size by 1.5GB
+and adds piglit back to core-tools-testapps.
+
+Running piglit still requires the same amount of space so in practice
+this is useful for installed images only.
+
+Thanks,
+ Jussi
+
+
+The following changes since commit 36e178a62f04e7f2611b26964efe46b9af97189a:
+
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.8 (2016-12-09 08:54:07 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/piglit-compress-tests
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/piglit-compress-tests
+
+Jussi Kukkonen (3):
+  piglit: Package tests in compressed form as well
+  core-tools-testapps: Re-add piglit
+  piglit: Upgrade to current master head
+
+ .../packagegroup-core-tools-testapps.bb            |  2 +
+ .../0001-cmake-Link-test-utils-with-ldl.patch      | 41 ----------------
+ ...0001-cmake-Link-utils-with-xcb-explicitly.patch | 54 ----------------------
+ meta/recipes-graphics/piglit/piglit/piglit.sh      | 20 ++++++++
+ meta/recipes-graphics/piglit/piglit_git.bb         | 27 +++++++++--
+ 5 files changed, 44 insertions(+), 100 deletions(-)
+ delete mode 100644 meta/recipes-graphics/piglit/piglit/0001-cmake-Link-test-utils-with-ldl.patch
+ delete mode 100644 meta/recipes-graphics/piglit/piglit/0001-cmake-Link-utils-with-xcb-explicitly.patch
+ create mode 100644 meta/recipes-graphics/piglit/piglit/piglit.sh
+
 -- 
 2.1.4
 
