@@ -1,47 +1,23 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2649A6B6EA
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 8ECE660248
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2016 09:54:39 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id g23so10103028wme.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2016 01:54:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=j8rCGXVMa+x/GntpzYVn0A9M7Ny1AW2BkMV8hm+fuT8=;
-	b=dGmIiPCTwqoY/PagAHFdWOTvWBWuaADD3ZUBvRQ6D5kfPyukD2ijTk0ryj1q6SBONV
-	+ilCB3wWkBH0//haSwmPTkY+Mvy+V5YdDIYO5c4n9EgsYP526j/l5pULlLjkCvPXNyqr
-	md0tLVha22+9WUJcCCvqnFHotjg/uIHLKOmviJJlEW+of14U07ReVs8I2CtIYgoHYLPd
-	djnfz6EJWBb1ErCt2P7n2W3XZqbjTTMArrUt++bQvAo22Jeu/PZdsZW3oZjwRPZzi2yh
-	XjXvFb0pNgCKyveqMTClK0/Bw3GnPa0Glvjsi7eWU+DoE/Kb71BL4KMXQlvc6VI5yIvm
-	gFJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=j8rCGXVMa+x/GntpzYVn0A9M7Ny1AW2BkMV8hm+fuT8=;
-	b=QoQ+bbw/hamalOdZxcs2V6fipjCCWyNVGQ5YYhGPapajXZGOKxG1uizcm+raj+FHwa
-	omh70pbq1NWorEBJJMVrrnxENS5NG3epKA7KrPDb4jcefxAOYnx7M9LyjHJTBPD//IDJ
-	DDB4Av3Emet5gu74uhCerSFLXfCcFodr0sCr/bxaa2+/ye+thyDrq5+IWEG5yXAMsDQq
-	WD8rkmkrjovvQHkD4BoI8hPVqotX3HdKSu06/dg09Ls31UP2UL40at1sW34SQLob2kvi
-	xuZLGMVnHNF80hwvhwi/YeZnhb6p7LwV4Te3fOwRbtpS9MBv+Ct4UtOcuRO27UcH5TzL
-	6GCw==
-X-Gm-Message-State: AKaTC02mJ23+A+tjhfgtUNEH4Csm/Qe12RhWME7zvmSnCXead5mN8jQ+85zGzmTMXWFTwZlKhmahrcMa19zugA==
-X-Received: by 10.28.144.70 with SMTP id s67mr16050504wmd.138.1481536480445;
-	Mon, 12 Dec 2016 01:54:40 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.194.162.33 with HTTP; Mon, 12 Dec 2016 01:54:39 -0800 (PST)
-In-Reply-To: <1B858668EC6A94408DCA5225FDFA85AA013DE49043@ALA-MBA.corp.ad.wrs.com>
-References: <20161212054215.20513-1-jackie.huang@windriver.com>
-	<CAMKF1sqm-YotzrkeqvvLr5MQsPNoiN6W2y_UhfYkx-dJWR66Fw@mail.gmail.com>
-	<1B858668EC6A94408DCA5225FDFA85AA013DE49043@ALA-MBA.corp.ad.wrs.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 12 Dec 2016 01:54:39 -0800
-Message-ID: <CAJ86T=Ux+uT-PgJ+H+-i60iABaQ3iuUB8gz6iLF-+vtMycZdWw@mail.gmail.com>
-To: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc: add -fno-builtin-strlen when not using -O2
+	Mon, 12 Dec 2016 10:11:48 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 12 Dec 2016 02:11:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,334,1477983600"; d="scan'208";a="16923672"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga002.jf.intel.com with ESMTP; 12 Dec 2016 02:11:47 -0800
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id 1E1276A4006;
+	Mon, 12 Dec 2016 02:10:59 -0800 (PST)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Dec 2016 12:11:32 +0200
+Message-Id: <cover.1481536730.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 00/12] Xorg 1.19 and related driver updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,67 +30,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2016 09:54:40 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 12 Dec 2016 10:11:48 -0000
 
-On Sun, Dec 11, 2016 at 11:41 PM, Huang, Jie (Jackie)
-<Jackie.Huang@windriver.com> wrote:
->> -----Original Message-----
->> From: Khem Raj [mailto:raj.khem@gmail.com]
->> Sent: Monday, December 12, 2016 2:37 PM
->> To: Huang, Jie (Jackie)
->> Cc: Patches and discussions about the oe-core layer
->> Subject: Re: [OE-core] [PATCH] glibc: add -fno-builtin-strlen when not using -O2
->>
->> On Sun, Dec 11, 2016 at 9:42 PM,  <jackie.huang@windriver.com> wrote:
->> > From: Jackie Huang <jackie.huang@windriver.com>
->> >
->> > The strlen will be inlined when compile with -O, -O1 or -Os,
->> > so there is no symbol for strlen in ld-linux-x86-64.so.2,
->> > causing a fatal error in valgrind:
->> >
->> > valgrind: Fatal error at startup: a function redirection
->> > valgrind: which is mandatory for this platform-tool combination
->> > valgrind: cannot be set up. Details of the redirection are:
->> > valgrind:
->> > valgrind: A must-be-redirected function
->> > valgrind: whose name matches the pattern: strlen
->> > valgrind: in an object with soname matching: ld-linux-x86-64.so.2
->> >
->> > so add -fno-builtin-strlen when compile with -O, -O1 or -Os.
->>
->> This is a bug in valgrind, I read the same on forums. KDE has proposed a fix
->> https://bugsfiles.kde.org/attachment.cgi?id=82043
->> can you check if this fixes the issue
->
-> Thanks, I will check that and change to patch for valgrind if it works.
+Fairly large xorg release (it's been more than a year since 1.18), with
+input and video ABI breaks.
 
-For reference, here's the patch I've been using. It's a slightly more
-generic fix than the one in the KDE bug report.
+xfont2 is what xfont is now called: it's got a new API and it is
+parallel installable with the old one.
 
-diff --git a/coregrind/m_redir.c b/coregrind/m_redir.c
-index 7e4df8d..640a346 100644
---- a/coregrind/m_redir.c
-+++ b/coregrind/m_redir.c
-@@ -1220,7 +1220,18 @@ static void add_hardwired_spec (const  HChar*
-sopatt, const HChar* fnpatt,
-    spec->from_fnpatt = CONST_CAST(HChar *,fnpatt);
-    spec->to_addr     = to_addr;
-    spec->isWrap      = False;
--   spec->mandatory   = mandatory;
-+
-+   /* Hack: Depending on how glibc was compiled (e.g. optimised for size or
-+      built with _FORTIFY_SOURCE enabled) the strlen symbol might not be found.
-+      Therefore although we should still try to intercept it, don't make it
-+      mandatory to do so. We over-ride "mandatory" here to avoid the need to
-+      patch the many different architecture specific callers to
-+      add_hardwired_spec(). */
-+   if (0==VG_(strcmp)("strlen", fnpatt))
-+      spec->mandatory = NULL;
-+   else
-+      spec->mandatory = mandatory;
-+
-    /* VARIABLE PARTS */
-    spec->mark        = False; /* not significant */
-    spec->done        = False; /* not significant */
+Almost all of the driver updates are required because of the ABI
+changes. I've removed some git xorg driver recipes that haven't been
+touched in ages.
+
+
+Thanks,
+  Jussi
+
+
+
+The following changes since commit 36e178a62f04e7f2611b26964efe46b9af97189a:
+
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.8 (2016-12-09 08:54:07 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/xorg19
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/xorg19
+
+Jussi Kukkonen (12):
+  libxfont2: Add recipe
+  xserver-xorg: Upgrade 1.18.4 -> 1.19.0
+  xf86-input-evdev: Upgrade 2.10.3 -> 2.10.4
+  xf86-input-keyboard: Upgrade 1.8.1 -> 1.9.0
+  xf86-input-keyboard: Remove git recipe
+  xf86-input-mouse: Upgrade 1.9.1 -> 1.9.2
+  xf86-input-mouse: Remove git recipe
+  xf86-input-synaptics: Upgrade 1.8.3 -> 1.9.0
+  xf86-input-synaptics: Remove git recipe
+  xf86-video-omap: Upgrade 0.4.4 -> 0.4.5
+  xf86-video-vmware: Upgrade 13.1.0 -> 13.2.1
+  xf86-input-libinput: Upgrade 0.22 -> 0.23
+
+ ...-evdev_2.10.3.bb => xf86-input-evdev_2.10.4.bb} |  4 +-
+ ...board_1.8.1.bb => xf86-input-keyboard_1.9.0.bb} |  4 +-
+ .../xorg-driver/xf86-input-keyboard_git.bb         | 16 ------
+ ...put_0.22.0.bb => xf86-input-libinput_0.23.0.bb} |  4 +-
+ ...ut-mouse_1.9.1.bb => xf86-input-mouse_1.9.2.bb} |  5 +-
+ .../xorg-driver/xf86-input-mouse_git.bb            | 18 -------
+ ...tics_1.8.3.bb => xf86-input-synaptics_1.9.0.bb} |  4 +-
+ .../xorg-driver/xf86-input-synaptics_git.bb        | 18 -------
+ ...ideo-omap_0.4.4.bb => xf86-video-omap_0.4.5.bb} |  4 +-
+ .../0002-add-option-for-vmwgfx.patch               | 37 +++++++------
+ ...mware_13.1.0.bb => xf86-video-vmware_13.2.1.bb} |  4 +-
+ meta/recipes-graphics/xorg-lib/libxfont2_2.0.1.bb  | 22 ++++++++
+ .../recipes-graphics/xorg-xserver/xserver-xorg.inc |  5 +-
+ ...onfigure.ac-Fix-check-for-CLOCK_MONOTONIC.patch | 61 ++++++++++++++++++++++
+ ...c-Fix-wayland-scanner-and-protocols-locat.patch | 38 ++++++++++++++
+ ...erver-xorg_1.18.4.bb => xserver-xorg_1.19.0.bb} |  9 ++--
+ 16 files changed, 165 insertions(+), 88 deletions(-)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-evdev_2.10.3.bb => xf86-input-evdev_2.10.4.bb} (83%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-keyboard_1.8.1.bb => xf86-input-keyboard_1.9.0.bb} (73%)
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-input-keyboard_git.bb
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-libinput_0.22.0.bb => xf86-input-libinput_0.23.0.bb} (63%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-mouse_1.9.1.bb => xf86-input-mouse_1.9.2.bb} (76%)
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-input-mouse_git.bb
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-synaptics_1.8.3.bb => xf86-input-synaptics_1.9.0.bb} (79%)
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-input-synaptics_git.bb
+ rename meta/recipes-graphics/xorg-driver/{xf86-video-omap_0.4.4.bb => xf86-video-omap_0.4.5.bb} (89%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-video-vmware_13.1.0.bb => xf86-video-vmware_13.2.1.bb} (78%)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libxfont2_2.0.1.bb
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-configure.ac-Fix-check-for-CLOCK_MONOTONIC.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-configure.ac-Fix-wayland-scanner-and-protocols-locat.patch
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.18.4.bb => xserver-xorg_1.19.0.bb} (70%)
+
+-- 
+2.1.4
+
 
