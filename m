@@ -1,26 +1,46 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F6DA71A4B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
+	[209.85.217.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 27D906011B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2016 06:02:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBC62vqG002776
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 12 Dec 2016 06:37:44 +0000 (UTC)
+Received: by mail-ua0-f196.google.com with SMTP id 50so7572184uae.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Dec 2016 22:02:57 -0800 (PST)
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Sun, 11 Dec 2016 22:02:56 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 12 Dec 2016 13:59:47 +0800
-Message-ID: <a93d0f61f3c6676a28b52681d9c7eda2b5dfbb47.1481522082.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.8.3
-In-Reply-To: <cover.1481522082.git.jackie.huang@windriver.com>
-References: <cover.1481522082.git.jackie.huang@windriver.com>
+	Sun, 11 Dec 2016 22:37:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ReP26tIJM9LdmWVDGwZqiQQFz7HYgQf3mXftGpQI75s=;
+	b=F3UuTJqf39vbT9aMR+vj53xzuYCAseWiyRAO+DFCcgHRyRgddybI/wsFY+iqpI2PFp
+	ohkBdAz3lLlATVsuoAXdiCDSxbOTr/TwvwmIhjywKA9zyvUS3H2pYQEkt6q33n52PwTW
+	+3Wyq8ZNv0b2c6CiI5CebEp2bwIRx2VeCoJ4z8XIf+3DJzJahvsFf5o/iXm11/70BalX
+	LDob8wdaBUsU5kPx4lz+spZm/u3NbU2kpuBT8Pm5Fo5+LJzRJT4Lbmrcv7BzfDQ1ZJXq
+	PbwL04CuXJZgJew/Vgc2NuT7ZhOkSEFZ3Aame2j/Cxr8LOwGpOO0fvbp5pg5Eoaq8xhv
+	pdhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ReP26tIJM9LdmWVDGwZqiQQFz7HYgQf3mXftGpQI75s=;
+	b=UtYVo9r7B2DBMHMNWj/iKtsWZhNrhA0BRdcOSGZDVXhqQuo5bwR706vceuRkPHLYoi
+	ZKWZfNv48aUptF5MRSl8m7rsHhwSy2TzSmIxU4hYUo3cXzlmY72BexsArAx4hPK/ZIgq
+	GxkvebD3dgzGiWNbnrwAwPi+pQvQdTv5ikYYMKNuYnPq0yFkSVSG0uZPJlm6RMJ/hRxs
+	MTyoA0b+hLzmmWooGqOR2UkSWXNiMrs22iyuHca6ScqUmci0YXk8jRuZu60Vrs5KHlhh
+	b98FRYMpGDX2sHkzpCT/rBLmaUXLu0i65VFNCjGj17clpi8eTypd3Pcxiy4b64Bxvm9M
+	WvRQ==
+X-Gm-Message-State: AKaTC00sMiQB1xWjqTKettc5DmbI2TtQ55m+QL0ZoZNH3c4jGJu+VArbjdoBU9Y4JVlWNFjoWKYh1F3iRNG4pQ==
+X-Received: by 10.159.48.146 with SMTP id j18mr70972033uab.6.1481524665996;
+	Sun, 11 Dec 2016 22:37:45 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 2/2] ltp/posix: replace CWD with PWD
+Received: by 10.159.48.87 with HTTP; Sun, 11 Dec 2016 22:37:15 -0800 (PST)
+In-Reply-To: <20161212054215.20513-1-jackie.huang@windriver.com>
+References: <20161212054215.20513-1-jackie.huang@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 11 Dec 2016 22:37:15 -0800
+Message-ID: <CAMKF1sqm-YotzrkeqvvLr5MQsPNoiN6W2y_UhfYkx-dJWR66Fw@mail.gmail.com>
+To: jhuang0 <jackie.huang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: add -fno-builtin-strlen when not using -O2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,87 +53,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2016 06:02:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 12 Dec 2016 06:37:46 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Jackie Huang <jackie.huang@windriver.com>
+On Sun, Dec 11, 2016 at 9:42 PM,  <jackie.huang@windriver.com> wrote:
+> From: Jackie Huang <jackie.huang@windriver.com>
+>
+> The strlen will be inlined when compile with -O, -O1 or -Os,
+> so there is no symbol for strlen in ld-linux-x86-64.so.2,
+> causing a fatal error in valgrind:
+>
+> valgrind: Fatal error at startup: a function redirection
+> valgrind: which is mandatory for this platform-tool combination
+> valgrind: cannot be set up. Details of the redirection are:
+> valgrind:
+> valgrind: A must-be-redirected function
+> valgrind: whose name matches the pattern: strlen
+> valgrind: in an object with soname matching: ld-linux-x86-64.so.2
+>
+> so add -fno-builtin-strlen when compile with -O, -O1 or -Os.
 
-Backport a patch to replace CWD with PWD to avoid
-error messages in test results:
+This is a bug in valgrind, I read the same on forums. KDE has proposed a fix
+https://bugsfiles.kde.org/attachment.cgi?id=82043
+can you check if this fixes the issue
 
-basename: missing operand
-Try 'basename --help' for more information.
-
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- ...ix-option-group-test-replace-CWD-qith-PWD.patch | 44 ++++++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20160126.bb          |  1 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0038-run-posix-option-group-test-replace-CWD-qith-PWD.patch
-
-diff --git a/meta/recipes-extended/ltp/ltp/0038-run-posix-option-group-test-replace-CWD-qith-PWD.patch b/meta/recipes-extended/ltp/ltp/0038-run-posix-option-group-test-replace-CWD-qith-PWD.patch
-new file mode 100644
-index 0000000..8034152
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0038-run-posix-option-group-test-replace-CWD-qith-PWD.patch
-@@ -0,0 +1,44 @@
-+From f356775c400f40e3803d80a7bd295b4265959c45 Mon Sep 17 00:00:00 2001
-+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-+Date: Mon, 29 Feb 2016 14:34:40 +0530
-+Subject: [PATCH] run-posix-option-group-test: replace CWD qith PWD
-+
-+When running LTP Open Posix Testsuite there is lot of messages as:
-+
-+| Usage: basename FILE [SUFFIX]
-+|
-+| Strip directory path and .SUFFIX from FILE
-+|
-+| *******************
-+| Testing
-+| *******************
-+
-+This is because there is no $CWD defined in shell and it looks like $PWD
-+was intended instead.
-+
-+Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
-+Signed-off-by: Cyril Hrubis <chrubis@suse.cz>
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-+---
-+ testcases/open_posix_testsuite/bin/run-tests.sh | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/testcases/open_posix_testsuite/bin/run-tests.sh b/testcases/open_posix_testsuite/bin/run-tests.sh
-+index d4bd988..5ee5687 100755
-+--- a/testcases/open_posix_testsuite/bin/run-tests.sh
-++++ b/testcases/open_posix_testsuite/bin/run-tests.sh
-+@@ -29,7 +29,7 @@ run_test_loop() {
-+ 
-+ 	cat <<EOF
-+ *******************
-+-Testing $(basename $CWD)
-++Testing $(basename $PWD)
-+ *******************
-+ $(printf "PASS\t\t%3d" $NUM_PASS)
-+ $(printf "FAIL\t\t%3d" $NUM_FAIL)
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-extended/ltp/ltp_20160126.bb b/meta/recipes-extended/ltp/ltp_20160126.bb
-index 841302b..6e2ceac 100644
---- a/meta/recipes-extended/ltp/ltp_20160126.bb
-+++ b/meta/recipes-extended/ltp/ltp_20160126.bb
-@@ -64,6 +64,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0035-fix-test_proc_kill-hang.patch \
-            file://0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
-            file://0037-containers-netns_netlink-Avoid-segmentation-fault.patch \
-+           file://0038-run-posix-option-group-test-replace-CWD-qith-PWD.patch \
-            "
- 
- S = "${WORKDIR}/git"
--- 
-2.8.3
-
+>
+> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+> ---
+>  meta/recipes-core/glibc/glibc.inc | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
+> index e85c704..7f3e0f6 100644
+> --- a/meta/recipes-core/glibc/glibc.inc
+> +++ b/meta/recipes-core/glibc/glibc.inc
+> @@ -16,8 +16,8 @@ python () {
+>      if opt_effective == "-O0":
+>          bb.fatal("%s can't be built with %s, try -O1 instead" % (d.getVar('PN', True), opt_effective))
+>      if opt_effective in ("-O", "-O1", "-Os"):
+> -        bb.note("%s doesn't build cleanly with %s, adding -Wno-error to SELECTED_OPTIMIZATION" % (d.getVar('PN', True), opt_effective))
+> -        d.appendVar("SELECTED_OPTIMIZATION", " -Wno-error")
+> +        bb.note("%s doesn't build cleanly with %s, adding -Wno-error and -fno-builtin-strlen to SELECTED_OPTIMIZATION" % (d.getVar('PN', True), opt_effective))
+> +        d.appendVar("SELECTED_OPTIMIZATION", " -Wno-error -fno-builtin-strlen")
+>  }
+>
+>  # siteconfig.bbclass runs configure which needs a working compiler
+> --
+> 2.8.3
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
