@@ -1,25 +1,25 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 59C5971A77
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id A287B71A77
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2016 13:35:34 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga101.fm.intel.com with ESMTP; 12 Dec 2016 05:35:36 -0800
+	Mon, 12 Dec 2016 13:35:36 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga105.jf.intel.com with ESMTP; 12 Dec 2016 05:35:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,336,1477983600"; d="scan'208";a="41399897"
+X-IronPort-AV: E=Sophos;i="5.33,336,1477983600"; d="scan'208";a="1098022758"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 12 Dec 2016 05:35:36 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 12 Dec 2016 05:35:37 -0800
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 5C6566A4082;
-	Mon, 12 Dec 2016 05:34:49 -0800 (PST)
+	by linux.intel.com (Postfix) with ESMTP id 83F636A4080;
+	Mon, 12 Dec 2016 05:34:50 -0800 (PST)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Dec 2016 15:35:31 +0200
-Message-Id: <aebeba45c22d2749a821849d93ee99e40712601a.1481549486.git.jussi.kukkonen@intel.com>
+Date: Mon, 12 Dec 2016 15:35:32 +0200
+Message-Id: <447aa3cc3d8b4e5bfb08155034a5bff5ca980b9d.1481549486.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1481549486.git.jussi.kukkonen@intel.com>
 References: <cover.1481549486.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 1/3] piglit: Package tests in compressed form as well
+Subject: [PATCH 2/3] core-tools-testapps: Re-add piglit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,93 +34,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 12 Dec 2016 13:35:36 -0000
 
-Modify packaging so that generated tests are available in two forms:
-* piglit-generated-tests contains the tests as they are now (1.5GB
-  when installed)
-* piglit-generated-tests-compressed contains a tar.gz with the same
-  files (45 MB when installed)
-
-Add wrapper script that decompresses the tests at runtime: this
-requires 1.5GB free space.
+Piglit was removed from testapps in 9e227ecb3a because it made
+sdk images massive. Add piglit back now that the installed size is
+no longer humongous: it still needs 1.5 GB free space at runtime but
+the image sizes stay reasonable.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-graphics/piglit/piglit/piglit.sh | 20 ++++++++++++++++++++
- meta/recipes-graphics/piglit/piglit_git.bb    | 21 ++++++++++++++++++++-
- 2 files changed, 40 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/piglit/piglit/piglit.sh
+ meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-graphics/piglit/piglit/piglit.sh b/meta/recipes-graphics/piglit/piglit/piglit.sh
-new file mode 100644
-index 0000000..3308b70
---- /dev/null
-+++ b/meta/recipes-graphics/piglit/piglit/piglit.sh
-@@ -0,0 +1,20 @@
-+#!/bin/sh
-+
-+# If we're using compressed generated tests we may need to
-+# decompress first. This is going to require at least 1.5 GB of space
-+if [[ /usr/lib/piglit/generated_tests.tar.gz -nt /usr/lib/piglit/generated_tests/ ]]; then
-+    echo "Decompressing generated tests..."
-+    tar -C /usr/lib/piglit/ -zxf /usr/lib/piglit/generated_tests.tar.gz || {
-+        echo "Failed to decompress tests, exiting."
-+        exit 1
-+    }
-+    touch /usr/lib/piglit/generated_tests
-+fi
-+
-+if ! [[ -d /usr/lib/piglit/generated_tests ]]; then
-+    echo "NOTE: No generated tests found, install piglit-generated-tests-compressed"
-+    echo "      or piglit-generated-tests to include them in the tests."
-+fi
-+
-+echo "Now running piglit..."
-+PIGLIT_NO_WINDOW=1 piglit.real "$@"
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index 82adcde..63f9f17 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -7,6 +7,7 @@ SRC_URI = "git://anongit.freedesktop.org/piglit \
-            file://0001-tests-Use-FE_UPWARD-only-if-its-defined-in-fenv.h.patch \
-            file://0001-cmake-Link-utils-with-xcb-explicitly.patch \
-            file://0001-cmake-Link-test-utils-with-ldl.patch \
-+           file://piglit.sh \
-            "
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
+index 3170978..69cfd57 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
+@@ -17,6 +17,8 @@ KEXECTOOLS_nios2 ?= ""
  
- # From 2016-07-07
-@@ -39,9 +40,14 @@ do_configure_prepend() {
- }
+ X11GLTOOLS = "\
+     mesa-demos \
++    piglit \
++    piglit-generated-tests-compressed \
+     "
  
- do_install() {
--	oe_runmake -C ${B} 'DESTDIR=${D}' install/strip
-+    oe_runmake -C ${B} 'DESTDIR=${D}' install/strip
-+    mv ${D}${bindir}/piglit ${D}${bindir}/piglit.real
-+    install -m 755 ${WORKDIR}/piglit.sh ${D}${bindir}/piglit
-+    tar -C ${D}${libdir}/piglit/ -czf ${D}${libdir}/piglit/generated_tests.tar.gz generated_tests/
- }
- 
-+PACKAGES =+ "${PN}-generated-tests ${PN}-generated-tests-compressed"
-+
- RDEPENDS_${PN} = "waffle python3 python3-mako python3-json \
- 	python3-subprocess python3-misc python3-importlib \
- 	python3-unixadmin python3-xml python3-multiprocessing \
-@@ -50,3 +56,16 @@ RDEPENDS_${PN} = "waffle python3 python3-mako python3-json \
- 	"
- 
- INSANE_SKIP_${PN} += "dev-so already-stripped"
-+
-+SUMMARY_${PN}-generated-tests = "Generated piglit tests (multiple GB)"
-+FILES_${PN}-generated-tests = "${libdir}/piglit/generated_tests/*"
-+CONFLICTS_${PN}-generated-tests = "${PN}-generated-tests-compressed"
-+RDEPENDS_${PN}-generated-tests += "tar"
-+
-+SUMMARY_${PN}-generated-tests-compressed = "Generated piglit tests in compressed archive"
-+FILES_${PN}-generated-tests-compressed = "${libdir}/piglit/generated_tests.tar.gz"
-+CONFLICTS_${PN}-generated-tests-compressed = "${PN}-generated-tests"
-+pkg_postrm_${PN}-generated-tests-compressed () {
-+    rm -rf $D${libdir}/piglit/generated_tests/
-+}
-+
+ 3GTOOLS = "\
 -- 
 2.1.4
 
