@@ -1,44 +1,33 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id E9F9E719BA
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 820196FFFB
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Dec 2016 23:07:25 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id p66so8880211pga.2
+	Mon, 12 Dec 2016 00:58:10 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uBC0wB2g024894
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Dec 2016 15:07:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=pVvE11eltax2lHMpZKO4mKEVJ5kPoEnRpdJSNVaeB1w=;
-	b=YjrKIanmaKaLa+mP4tCqH3i/KjbgVxbtSEHrAl/8HTwoQ6Kbdcdz+fGHxUPD9DLgeh
-	AgfmjSeGG82kBObkh0ifXSWQo0BwPz5pgDxngntcG3CVU68aoLnnSv8DH1mbPyQCLWp9
-	M3MQw6uimcrkHz+rp4SqRWEa7lPyxTpRc5e+y3ofYHIv6liFNBJJHlOo3K7vW/pCdEl+
-	5jivLuuyvOLe/Fl0ywOfH+/tupLiGuc2foTwmF7YLVq2/yjq2JMMV8HAGiZ2jC8BT4Ql
-	cT5CJ7aBU4YBL1LxZno5UlZSqNHZoKcmPoTCJpCwuLaXDVUdc04dfQ2OJZrkzdtXgE0O
-	DPqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=pVvE11eltax2lHMpZKO4mKEVJ5kPoEnRpdJSNVaeB1w=;
-	b=Md4e9qXjAQP450zjbN4vrtCAxyLbp8nGAqZV8doNcHXPOxLAKRnO5ysLDSCmuRaLiw
-	9J9ZW7+Oxn4ACK5l1wgN+HIS3bc9RWzHtOafzriAzAxnzyV+SMi1M5TAmcSp8rZOgrKz
-	yQvRNy8+PlwcYjSVz8KtjEeJskBhManVvA0BbyigV+TpiQJhNAQjaKRz6K/FS+TsTUM3
-	SSPT/64vIb9EBZsQ6dyduZJ0xbImnRas/lMbLNn92VvtvzgnydbzD0tyc3UU+bVSoSB9
-	Qg09w1AZ4clZZVd2F0k5c8TVcXRUFFAH2EJzkpMHKGUipRAHJDY9z1Qr31q2/W+di+TE
-	IE7Q==
-X-Gm-Message-State: AKaTC00u+P9VhL6NN5w3f0xA6/9JLQPExX7IzDfRmFJk95C0x7LW7teBxM6NJBrfPC5CHw==
-X-Received: by 10.99.208.21 with SMTP id z21mr162309142pgf.79.1481497647098;
-	Sun, 11 Dec 2016 15:07:27 -0800 (PST)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	y200sm71819235pfb.16.2016.12.11.15.07.26
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 11 Dec 2016 15:07:26 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 11 Dec 2016 15:07:19 -0800
-Message-Id: <20161211230719.28765-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.10.2
-Subject: [PATCH] fontconfig: Fix namespace conflicts with glibc
+	Sun, 11 Dec 2016 16:58:11 -0800
+Received: from ALA-MBA.corp.ad.wrs.com ([169.254.3.46]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0294.000;
+	Sun, 11 Dec 2016 16:58:09 -0800
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: "BURTON, ROSS" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] gcr: add missing dependencies for vapi
+Thread-Index: AQHSUtI9xhHiY91lZEa6KJzSckKpn6EDf8Lg
+Date: Mon, 12 Dec 2016 00:58:06 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AA013DE48C31@ALA-MBA.corp.ad.wrs.com>
+References: <20161210025613.1648-1-jackie.huang@windriver.com>
+	<CAJTo0LaXmKPSRG1VgLXdOERkxuFSaqFX-D-7Oo9MTKY_ydcq1w@mail.gmail.com>
+In-Reply-To: <CAJTo0LaXmKPSRG1VgLXdOERkxuFSaqFX-D-7Oo9MTKY_ydcq1w@mail.gmail.com>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.162.151]
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcr: add missing dependencies for vapi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,124 +40,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Dec 2016 23:07:26 -0000
+X-List-Received-Date: Mon, 12 Dec 2016 00:58:11 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_1B858668EC6A94408DCA5225FDFA85AA013DE48C31ALAMBAcorpadw_"
 
-glibc 2.25 will come with TS 18661-1 macro definitions in limits.h which ends with following errors
+--_000_1B858668EC6A94408DCA5225FDFA85AA013DE48C31ALAMBAcorpadw_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-| ../../fontconfig-2.12.1/src/fcmatch.c:324:63: error: 'PRI_CHAR_WIDTH_STRONG' undeclared here (not in a function)
-|  #define FC_OBJECT(NAME, Type, Cmp) { FC_##NAME##_OBJECT, Cmp, PRI_##NAME##_STRONG, PRI_##NAME##_WEAK },
-|                                                                ^
-| ../../fontconfig-2.12.1/src/fcobjs.h:54:1: note: in expansion of macro 'FC_OBJECT'
-|  FC_OBJECT (CHAR_WIDTH,  FcTypeInteger, NULL)
-|  ^~~~~~~~~
-| ../../fontconfig-2.12.1/src/fcmatch.c:324:84: error: 'PRI_CHAR_WIDTH_WEAK' undeclared here (not in a function)
-|  #define FC_OBJECT(NAME, Type, Cmp) { FC_##NAME##_OBJECT, Cmp, PRI_##NAME##_STRONG, PRI_##NAME##_WEAK },
-|                                                                                     ^
-| ../../fontconfig-2.12.1/src/fcobjs.h:54:1: note: in expansion of macro 'FC_OBJECT'
-|  FC_OBJECT (CHAR_WIDTH,  FcTypeInteger, NULL)
-|  ^~~~~~~~~
-| make[3]: *** [Makefile:632: fcmatch.lo] Error 1
+WWVzLCBJIHdpbGwgcmUtc2VuZCB0aGUgcGF0Y2guDQoNClRoYW5rcywNCkphY2tpZQ0KDQpGcm9t
+OiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQpTZW50OiBTYXR1
+cmRheSwgRGVjZW1iZXIgMTAsIDIwMTYgNjo0MyBQTQ0KVG86IEh1YW5nLCBKaWUgKEphY2tpZSkN
+CkNjOiBPRS1jb3JlDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gZ2NyOiBhZGQgbWlz
+c2luZyBkZXBlbmRlbmNpZXMgZm9yIHZhcGkNCg0KDQpPbiAxMCBEZWNlbWJlciAyMDE2IGF0IDAy
+OjU2LCA8amFja2llLmh1YW5nQHdpbmRyaXZlci5jb208bWFpbHRvOmphY2tpZS5odWFuZ0B3aW5k
+cml2ZXIuY29tPj4gd3JvdGU6DQorVXBzdHJlYW0tU3RhdHVzOiBTdWJtaXR0ZWQgW2h0dHBzOi8v
+Z2l0aHViLmNvbS9HTk9NRS9nY3IvcHVsbC80XQ0KDQpEaWQgeW91IGdldCB0aGUgbWVzc2FnZSB0
+aGF0IEdOT01FIGRvZXNuJ3QgdGFrZSBwdWxsIHJlcXVlc3RzIGF0IGdpdGh1Yj8NCg0KUm9zcw0K
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...icts-with-integer-width-macros-from-TS-18.patch | 74 ++++++++++++++++++++++
- .../fontconfig/fontconfig_2.12.1.bb                |  1 +
- 2 files changed, 75 insertions(+)
- create mode 100644 meta/recipes-graphics/fontconfig/fontconfig/0001-Avoid-conflicts-with-integer-width-macros-from-TS-18.patch
+--_000_1B858668EC6A94408DCA5225FDFA85AA013DE48C31ALAMBAcorpadw_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-diff --git a/meta/recipes-graphics/fontconfig/fontconfig/0001-Avoid-conflicts-with-integer-width-macros-from-TS-18.patch b/meta/recipes-graphics/fontconfig/fontconfig/0001-Avoid-conflicts-with-integer-width-macros-from-TS-18.patch
-new file mode 100644
-index 0000000..326ff3c
---- /dev/null
-+++ b/meta/recipes-graphics/fontconfig/fontconfig/0001-Avoid-conflicts-with-integer-width-macros-from-TS-18.patch
-@@ -0,0 +1,74 @@
-+From 20cddc824c6501c2082cac41b162c34cd5fcc530 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 11 Dec 2016 14:32:00 -0800
-+Subject: [PATCH] Avoid conflicts with integer width macros from TS
-+ 18661-1:2014
-+
-+glibc 2.25+ has now defined these macros in <limits.h>
-+https://sourceware.org/git/?p=glibc.git;a=commit;h=5b17fd0da62bf923cb61d1bb7b08cf2e1f1f9c1a
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Submitted
-+
-+ fontconfig/fontconfig.h | 2 +-
-+ src/fcobjs.h            | 2 +-
-+ src/fcobjshash.gperf    | 2 +-
-+ src/fcobjshash.h        | 2 +-
-+ 4 files changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/fontconfig/fontconfig.h b/fontconfig/fontconfig.h
-+index 5c72b22..843c532 100644
-+--- a/fontconfig/fontconfig.h
-++++ b/fontconfig/fontconfig.h
-+@@ -128,7 +128,7 @@ typedef int		FcBool;
-+ #define FC_USER_CACHE_FILE	    ".fonts.cache-" FC_CACHE_VERSION
-+ 
-+ /* Adjust outline rasterizer */
-+-#define FC_CHAR_WIDTH	    "charwidth"	/* Int */
-++#define FC_CHARWIDTH	    "charwidth"	/* Int */
-+ #define FC_CHAR_HEIGHT	    "charheight"/* Int */
-+ #define FC_MATRIX	    "matrix"    /* FcMatrix */
-+ 
-+diff --git a/src/fcobjs.h b/src/fcobjs.h
-+index 1fc4f65..d27864b 100644
-+--- a/src/fcobjs.h
-++++ b/src/fcobjs.h
-+@@ -51,7 +51,7 @@ FC_OBJECT (DPI,			FcTypeDouble,	NULL)
-+ FC_OBJECT (RGBA,		FcTypeInteger,	NULL)
-+ FC_OBJECT (SCALE,		FcTypeDouble,	NULL)
-+ FC_OBJECT (MINSPACE,		FcTypeBool,	NULL)
-+-FC_OBJECT (CHAR_WIDTH,		FcTypeInteger,	NULL)
-++FC_OBJECT (CHARWIDTH,		FcTypeInteger,	NULL)
-+ FC_OBJECT (CHAR_HEIGHT,		FcTypeInteger,	NULL)
-+ FC_OBJECT (MATRIX,		FcTypeMatrix,	NULL)
-+ FC_OBJECT (CHARSET,		FcTypeCharSet,	FcCompareCharSet)
-+diff --git a/src/fcobjshash.gperf b/src/fcobjshash.gperf
-+index 80a0237..eb4ad84 100644
-+--- a/src/fcobjshash.gperf
-++++ b/src/fcobjshash.gperf
-+@@ -44,7 +44,7 @@ int id;
-+ "rgba",FC_RGBA_OBJECT
-+ "scale",FC_SCALE_OBJECT
-+ "minspace",FC_MINSPACE_OBJECT
-+-"charwidth",FC_CHAR_WIDTH_OBJECT
-++"charwidth",FC_CHARWIDTH_OBJECT
-+ "charheight",FC_CHAR_HEIGHT_OBJECT
-+ "matrix",FC_MATRIX_OBJECT
-+ "charset",FC_CHARSET_OBJECT
-+diff --git a/src/fcobjshash.h b/src/fcobjshash.h
-+index 5a4d1ea..4e66bb0 100644
-+--- a/src/fcobjshash.h
-++++ b/src/fcobjshash.h
-+@@ -284,7 +284,7 @@ FcObjectTypeLookup (register const char *str, register unsigned int len)
-+       {(int)(long)&((struct FcObjectTypeNamePool_t *)0)->FcObjectTypeNamePool_str43,FC_CHARSET_OBJECT},
-+       {-1},
-+ #line 47 "fcobjshash.gperf"
-+-      {(int)(long)&((struct FcObjectTypeNamePool_t *)0)->FcObjectTypeNamePool_str45,FC_CHAR_WIDTH_OBJECT},
-++      {(int)(long)&((struct FcObjectTypeNamePool_t *)0)->FcObjectTypeNamePool_str45,FC_CHARWIDTH_OBJECT},
-+ #line 48 "fcobjshash.gperf"
-+       {(int)(long)&((struct FcObjectTypeNamePool_t *)0)->FcObjectTypeNamePool_str46,FC_CHAR_HEIGHT_OBJECT},
-+ #line 55 "fcobjshash.gperf"
-+-- 
-+2.10.2
-+
-diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.12.1.bb b/meta/recipes-graphics/fontconfig/fontconfig_2.12.1.bb
-index 115f558..8616154 100644
---- a/meta/recipes-graphics/fontconfig/fontconfig_2.12.1.bb
-+++ b/meta/recipes-graphics/fontconfig/fontconfig_2.12.1.bb
-@@ -22,6 +22,7 @@ DEPENDS = "expat freetype zlib"
- 
- SRC_URI = "http://fontconfig.org/release/fontconfig-${PV}.tar.gz \
-            file://revert-static-pkgconfig.patch \
-+           file://0001-Avoid-conflicts-with-integer-width-macros-from-TS-18.patch \
-            "
- SRC_URI[md5sum] = "ce55e525c37147eee14cc2de6cc09f6c"
- SRC_URI[sha256sum] = "a9f42d03949f948a3a4f762287dbc16e53a927c91a07ee64207ebd90a9e5e292"
--- 
-2.10.2
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
+b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
+dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
+MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
+MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
+Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
+Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBp
+bjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
+bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
+bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
+aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
+bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
+dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFs
+LXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFG
+NDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglm
+b250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0K
+CXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4yNWluIDEuMGluIDEuMjVpbjt9
+DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEt
+LVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlk
+bWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+
+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0
+YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxi
+b2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9
+IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
+aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
+aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+WWVzLCBJIHdpbGwgcmUtc2VuZCB0aGUgcGF0Y2guPG86
+cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZv
+bnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5z
+LXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
+ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjoj
+MUY0OTdEIj5UaGFua3MsPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJy
+aSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkphY2tpZTxvOnA+
+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250
+LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1z
+ZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8
+ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRp
+bmc6MGluIDBpbiAwaW4gNC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2Jv
+cmRlci10b3A6c29saWQgI0I1QzRERiAxLjBwdDtwYWRkaW5nOjMuMHB0IDBpbiAwaW4gMGluIj4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2Zv
+bnQtZmFtaWx5OiZxdW90O1RhaG9tYSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij5Gcm9t
+Ojwvc3Bhbj48L2I+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1
+b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPiBCdXJ0b24sIFJvc3MgW21h
+aWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5TZW50OjwvYj4gU2F0dXJkYXks
+IERlY2VtYmVyIDEwLCAyMDE2IDY6NDMgUE08YnI+DQo8Yj5Ubzo8L2I+IEh1YW5nLCBKaWUgKEph
+Y2tpZSk8YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmU8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtP
+RS1jb3JlXSBbUEFUQ0hdIGdjcjogYWRkIG1pc3NpbmcgZGVwZW5kZW5jaWVzIGZvciB2YXBpPG86
+cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiAx
+MCBEZWNlbWJlciAyMDE2IGF0IDAyOjU2LCAmbHQ7PGEgaHJlZj0ibWFpbHRvOmphY2tpZS5odWFu
+Z0B3aW5kcml2ZXIuY29tIiB0YXJnZXQ9Il9ibGFuayI+amFja2llLmh1YW5nQHdpbmRyaXZlci5j
+b208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxkaXYgaWQ9IjoxNzMiPg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+JiM0MztVcHN0cmVhbS1TdGF0dXM6IFN1Ym1pdHRlZCBbPGEgaHJlZj0i
+aHR0cHM6Ly9naXRodWIuY29tL0dOT01FL2djci9wdWxsLzQiIHRhcmdldD0iX2JsYW5rIj5odHRw
+czovL2dpdGh1Yi5jb20vR05PTUUvZ2NyL3B1bGwvNDwvYT5dPG86cD48L286cD48L3A+DQo8L2Rp
+dj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGJyPg0KRGlkIHlvdSBnZXQgdGhlIG1l
+c3NhZ2UgdGhhdCBHTk9NRSBkb2Vzbid0IHRha2UgcHVsbCByZXF1ZXN0cyBhdCBnaXRodWI/PG86
+cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZu
+YnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlJvc3M8
+bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0K
+PC9odG1sPg0K
 
-
+--_000_1B858668EC6A94408DCA5225FDFA85AA013DE48C31ALAMBAcorpadw_--
