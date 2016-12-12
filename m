@@ -1,29 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B0249605FE
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 39389607A2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2016 03:31:51 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uBC3VqWQ019554
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 11 Dec 2016 19:31:52 -0800 (PST)
-Received: from [128.224.177.14] (128.224.177.14) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Sun, 11 Dec 2016 19:31:51 -0800
-To: Randy Witt <randy.e.witt@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1481014270.git.liezhi.yang@windriver.com>
-	<2ecbdf8cca844fb9b76df48f80b0762811dd1b04.1481014270.git.liezhi.yang@windriver.com>
-	<4f79b40c-e1a8-3e62-0cbb-ea4c9d4176e4@linux.intel.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <79478da4-8b87-e424-a658-79e113434e28@windriver.com>
-Date: Mon, 12 Dec 2016 11:31:49 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Mon, 12 Dec 2016 05:25:20 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBC5PLqw027997
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 11 Dec 2016 21:25:21 -0800 (PST)
+Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.294.0; Sun, 11 Dec 2016 21:25:20 -0800
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 12 Dec 2016 13:22:14 +0800
+Message-ID: <20161212052214.20223-1-jackie.huang@windriver.com>
+X-Mailer: git-send-email 2.8.3
 MIME-Version: 1.0
-In-Reply-To: <4f79b40c-e1a8-3e62-0cbb-ea4c9d4176e4@linux.intel.com>
-Subject: Re: [PATCH V2 5/6] runqemu: fixes for slirp, network device and hostfwd
+Subject: [PATCH v2] gcr: add missing dependencies for vapi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,80 +31,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2016 03:31:54 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 12 Dec 2016 05:25:25 -0000
+Content-Type: text/plain
 
+From: Jackie Huang <jackie.huang@windriver.com>
 
+According to the vapi_DEPS definition:
+gcr-3.vapi depends on gck-1.vapi,
+gcr-ui-3.vapi depends on gck-1.vapi and gcr-3.vapi
 
-On 12/08/2016 01:58 AM, Randy Witt wrote:
->
->>      def setup_slirp(self):
->>          """Setup user networking"""
->>
->>          if self.fstype == 'nfs':
->>              self.setup_nfs()
->>          self.kernel_cmdline_script += ' ip=dhcp'
->> -        self.set('NETWORK_CMD', self.get('QB_SLIRP_OPT'))
->> +        # Port mapping
->> +        hostfwd = ",hostfwd=tcp::2222-:22,hostfwd=tcp::2323-:23"
->> +        qb_slirp_opt_default = "-netdev user,id=net0%s" % hostfwd
->> +        qb_slirp_opt = self.get('QB_SLIRP_OPT') or qb_slirp_opt_default
->> +        # Figure out the port
->> +        ports = re.findall('hostfwd=[^-]*:([0-9]+)-[^,-]*', qb_slirp_opt)
->> +        ports = [int(i) for i in ports]
->> +        mac = 2
->> +        # Find a free port to avoid conflicts
->> +        for p in ports[:]:
->> +            p_new = p
->> +            while not check_free_port('localhost', p_new):
->> +                p_new += 1
->> +                mac += 1
->> +                while p_new in ports:
->> +                        p_new += 1
->> +                        mac += 1
->> +            if p != p_new:
->> +                ports.append(p_new)
->> +                qb_slirp_opt = re.sub(':%s-' % p, ':%s-' % p_new, qb_slirp_opt)
->> +                logger.info("Port forward changed: %s -> %s" % (p, p_new))
-> Regardless if the port is changed or not, so that things like tests have an
-> easier time of figuring out the port mappings, would it be good add a flag that
-> prints out the entire list of ports used, or always do it? i.e. "Port forwarding
-> 2222:22 2333:23.... It's not necessary of course, you can  always look at the
+But these dependencies are missing for the make targets,
+so it will fail when build in parallel:
+error: Package `gck-1' not found in specified Vala API directories or GObject-Introspection GIR directories
+error: Package `gcr-3' not found in specified Vala API directories or GObject-Introspection GIR directories
 
-Thansk, make sense, I added the following lines:
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ .../gcr-add-missing-dependencies-for-vapi.patch    | 51 ++++++++++++++++++++++
+ meta/recipes-gnome/gcr/gcr_3.20.0.bb               |  2 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-gnome/gcr/files/gcr-add-missing-dependencies-for-vapi.patch
 
-+        # Print out port foward
-+        hostfwd = re.findall('(hostfwd=[^,]*)', qb_slirp_opt)
-+        if hostfwd:
-+            logger.info('Port forward: %s' % ' '.join(hostfwd))
-
-Now print:
-runqemu - INFO - Port forward: hostfwd=tcp::2222-:22 hostfwd=tcp::2323-:23
-
-
-Updated in the repo:
-   git://git.openembedded.org/openembedded-core-contrib rbt/runqemu
+diff --git a/meta/recipes-gnome/gcr/files/gcr-add-missing-dependencies-for-vapi.patch b/meta/recipes-gnome/gcr/files/gcr-add-missing-dependencies-for-vapi.patch
+new file mode 100644
+index 0000000..a205429
+--- /dev/null
++++ b/meta/recipes-gnome/gcr/files/gcr-add-missing-dependencies-for-vapi.patch
+@@ -0,0 +1,51 @@
++From e7e0c56ca82031121f192f7f711b78418b154c9f Mon Sep 17 00:00:00 2001
++From: Jackie Huang <jackie.huang@windriver.com>
++Date: Mon, 28 Nov 2016 10:17:34 +0800
++Subject: [PATCH] gcr: add missing dependencies for vapi
++
++According to the vapi_DEPS definition:
++gcr-3.vapi depends on gck-1.vapi,
++gcr-ui-3.vapi depends on gck-1.vapi and gcr-3.vapi
++
++But these dependencies are missing for the make targets,
++so it will fail when build in parallel:
++error: Package `gck-1' not found in specified Vala API directories or GObject-Introspection GIR directories
++error: Package `gcr-3' not found in specified Vala API directories or GObject-Introspection GIR directories
++
++Upstream-Status: Submitted [https://bug775966.bugzilla-attachments.gnome.org/attachment.cgi?id=341791]
++
++Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
++---
++ gcr/Makefile.am | 2 +-
++ ui/Makefile.am  | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/gcr/Makefile.am b/gcr/Makefile.am
++index eda302f..6e78dba 100644
++--- a/gcr/Makefile.am
+++++ b/gcr/Makefile.am
++@@ -221,7 +221,7 @@ gir_DATA += Gcr-@GCR_MAJOR@.gir
++ 
++ if ENABLE_VAPIGEN
++ 
++-gcr-@GCR_MAJOR@.vapi: Gcr-@GCR_MAJOR@.gir gcr/Gcr-@GCR_MAJOR@.metadata gcr-@GCR_MAJOR@.deps
+++gcr-@GCR_MAJOR@.vapi: Gcr-@GCR_MAJOR@.gir gcr/Gcr-@GCR_MAJOR@.metadata gcr-@GCR_MAJOR@.deps gck-@GCK_MAJOR@.vapi
++ 
++ VAPIGEN_VAPIS += gcr-@GCR_MAJOR@.vapi
++ 
++diff --git a/ui/Makefile.am b/ui/Makefile.am
++index aa52476..6612f0d 100644
++--- a/ui/Makefile.am
+++++ b/ui/Makefile.am
++@@ -160,7 +160,7 @@ gir_DATA += GcrUi-@GCR_MAJOR@.gir
++ 
++ if ENABLE_VAPIGEN
++ 
++-gcr-ui-@GCR_MAJOR@.vapi: GcrUi-@GCR_MAJOR@.gir ui/GcrUi-@GCR_MAJOR@.metadata gcr-ui-@GCR_MAJOR@.deps
+++gcr-ui-@GCR_MAJOR@.vapi: GcrUi-@GCR_MAJOR@.gir ui/GcrUi-@GCR_MAJOR@.metadata gcr-ui-@GCR_MAJOR@.deps gck-@GCK_MAJOR@.vapi gcr-@GCR_MAJOR@.vapi
++ 
++ VAPIGEN_VAPIS += gcr-ui-@GCR_MAJOR@.vapi
++ 
++-- 
++2.8.3
++
+diff --git a/meta/recipes-gnome/gcr/gcr_3.20.0.bb b/meta/recipes-gnome/gcr/gcr_3.20.0.bb
+index b32a455..2088902 100644
+--- a/meta/recipes-gnome/gcr/gcr_3.20.0.bb
++++ b/meta/recipes-gnome/gcr/gcr_3.20.0.bb
+@@ -11,6 +11,8 @@ inherit autotools gnomebase gtk-icon-cache gtk-doc distro_features_check upstrea
+ # depends on gtk+3, but also x11 through gtk+-x11
+ REQUIRED_DISTRO_FEATURES = "x11"
  
-http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/runqemu
++SRC_URI += "file://gcr-add-missing-dependencies-for-vapi.patch"
++
+ SRC_URI[archive.md5sum] = "4314bf89eac293dd0a9d806593ff1b35"
+ SRC_URI[archive.sha256sum] = "90572c626d8a708225560c42b4421f7941315247fa1679d4ef569bde7f4bb379"
+ 
+-- 
+2.8.3
 
-Robert Yang (6):
-   scripts/runqemu: fix checking for <file>.cpio.gz
-   qemuboot.bbclass: use IMGDEPLOYDIR
-   runqemu-export-rootfs: fix inconsistent var names
-   runqemu: support mutiple qemus running when nfs
-   runqemu: fixes for slirp, network device and hostfwd
-   qemuboot.bbclass: add blank lines in comments
-
-
-// Robert
-
-> command line and then check to see if anything is remapped. But that's a bit
-> more work.
->
->> +        mac = "%s%02x" % (self.mac_slirp, mac)
->> +        self.set('NETWORK_CMD', '%s %s' %
->> (self.network_device.replace('@MAC@', mac), qb_slirp_opt))
->
->
 
