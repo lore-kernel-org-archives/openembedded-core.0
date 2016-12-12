@@ -1,27 +1,47 @@
-Return-Path: <Mark.Asselstine@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 868BF719E5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
+	[209.85.220.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 7333371A51
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2016 20:51:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBCKpD9h018708
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 12 Dec 2016 12:51:13 -0800 (PST)
-Received: from tal.localnet (128.224.21.216) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 12 Dec 2016 12:51:13 -0800
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 12 Dec 2016 15:51:12 -0500
-Message-ID: <3629007.TMJVuC0a6H@tal>
-Organization: Wind River 
-User-Agent: KMail/5.1.3 (Linux/4.4.0-47-generic; KDE/5.18.0; x86_64; ; )
-In-Reply-To: <FE42CCA4-D2B8-4AE1-83E5-5CBE94FA160C@gmail.com>
+	Mon, 12 Dec 2016 21:17:33 +0000 (UTC)
+Received: by mail-qk0-f181.google.com with SMTP id n204so96846249qke.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Dec 2016 13:17:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=AoPoVUUI6iNZm0GtsOHbqK3P2+DOmpITNBFt2YaYT2g=;
+	b=K+8f1FvA/ZD6p1fWCginJP7UXwhTLyYi3XjfyLH6cPi1QUFOgf6eFYLiogC674dUFa
+	VYsgtQtid4+bZyHxQPHGTWAD77bSwJMC4/nFmhrdiZRAeABMtc0OtLglaHSry3dHS245
+	wVKTPDLtdlqmmZjvynO7fc1BWsAAX6pvFpoedjuQ3lzW6vcr5lKPesPRvamojTCrD2mn
+	fEIcdOzcRH9Lo9+pt1QLu/973YmVFIBS+6ovGLC0euge8TVBGWOcYHP5/QZDBod+Y7+0
+	uLo4hAhZhwXBG8WcLiwIHoGVfNU/G0aK7nmbAitkN+DVx9e8R+thF2a7YtAHJA8hJzit
+	0H+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=AoPoVUUI6iNZm0GtsOHbqK3P2+DOmpITNBFt2YaYT2g=;
+	b=Vpfk3xjB0SAtiUmmwD95gAVhg5Z9mKmgscR+gzhJE13txJy62lU9Yp+S8OrdvlaoP1
+	jKAXIbEyvNSXhYhYCXAstlM49v+s30TxBw7p2QONB+kuNsJ9duG2Te6EW+dnUte4fne5
+	bc/MlQ3cgFQzjLZezErJDN1cl5gEEavKXo7XNPP8/pisow9PqSHxExsrdGp11q0rWGl+
+	23+WjZuNqycloeLWFF8u/PlDCNjGdFATBpeQn/obiPRe8+8HpoA/62BYgPnhvIPyBFPc
+	xqqGxD3tp+fj7dH27lZfG9c7XW90Sc/KCbIdmC0rj7s8kpH4uY/YaZaMA5V+SkgjXbFM
+	6r6g==
+X-Gm-Message-State: AKaTC03SONfT5Lw7BVEoe45QyaSimlXiir46i+Kb45CGX73O5LF/kGZitVvn4FTHzbs0RWFrDX8wj451YhTMZTOQ
+X-Received: by 10.55.75.17 with SMTP id y17mr72980472qka.26.1481577454850;
+	Mon, 12 Dec 2016 13:17:34 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.106.99 with HTTP; Mon, 12 Dec 2016 13:17:14 -0800 (PST)
+In-Reply-To: <3629007.TMJVuC0a6H@tal>
 References: <1481571408-19983-1-git-send-email-mark.asselstine@windriver.com>
 	<FE42CCA4-D2B8-4AE1-83E5-5CBE94FA160C@gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
+	<3629007.TMJVuC0a6H@tal>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 12 Dec 2016 21:17:14 +0000
+Message-ID: <CAJTo0Lb0SgZH9LQyqwdXm858XTk6RQD0HTGBnZ1g-sXoy_HbjQ@mail.gmail.com>
+To: Mark Asselstine <mark.asselstine@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] systemd: disable 'libdir' QA check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -35,76 +55,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2016 20:51:16 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 12 Dec 2016 21:17:35 -0000
+Content-Type: multipart/alternative; boundary=001a114a88c8e777c205437ca1f4
 
-On Monday, December 12, 2016 11:59:04 AM EST Khem Raj wrote:
-> > On Dec 12, 2016, at 11:36 AM, Mark Asselstine
-> > <mark.asselstine@windriver.com> wrote:
-> > 
-> > When building systemd with multilib support enabled in your build you
-> > will get the following QA warnings (if the 'libdir' QA check is
-> > enabled.)
-> > 
-> > WARNING: systemd-1_232-r0 do_package_qa: QA Issue: systemd-dbg: found \
-> > library in wrong location: /lib/systemd/.debug/libsystemd-shared-232.so
-> > systemd: found library in wrong location:
-> > /lib/systemd/libsystemd-shared.so
-> > systemd: found library in wrong location:
-> > /lib/systemd/libsystemd-shared-232.so [libdir]
-> Can we check if systemd can be a bit more flexible and accept it to go into
-> multilib libdir ? this patch can be then applied if its not acceptable to
-> systemd community.
+--001a114a88c8e777c205437ca1f4
+Content-Type: text/plain; charset=UTF-8
 
-I think the discussion I pointed to in the commit log closes the door on any 
-such change. Specific the comment from Lennart --
-https://github.com/systemd/systemd/issues/3810#issuecomment-235290526
+On 12 December 2016 at 20:51, Mark Asselstine <mark.asselstine@windriver.com
+> wrote:
 
-They don't want the library to be found in the default search path, they want 
-to maintain this as a "hidden, internal resource".
+> I think the discussion I pointed to in the commit log closes the door on
+> any
+> such change. Specific the comment from Lennart --
+> https://github.com/systemd/systemd/issues/3810#issuecomment-235290526
+>
+> They don't want the library to be found in the default search path, they
+> want
+> to maintain this as a "hidden, internal resource".
+>
 
-Being on the record that I am aware of this discussion/conclusion if I send a 
-patch now I would look like a bit of ass for wasting their time. If someone 
-else wants to push the issue, feel free. Unless there is a suitable 
-recommendation that would satisfy their wishes and ours that I am missing.
+Oh if it's an implementation detail of systemd and not a user-facing
+library then I can see their argument I guess.
 
-Mark
+Don't agree with it though.  But, the point is that as long as the parts of
+systemd that could realistically be multilibd are in $libdir then this
+isn't a problem.
 
+Ross
 
-> > Since systemd 231 upstream has included an 'internal' library which
-> > they explicitly place in the application specific /lib/systemd
-> > directory. You can see some of the discussion about this placement
-> > here https://github.com/systemd/systemd/issues/3810
-> > 
-> > This placement is being picked up by the QA checker since when
-> > multilibs are enabled it expects all libraries to be in lib32 or
-> > lib64. Since the systemd and systemd-dbg packages don't contain any
-> > other libraries we can respect the upstream placement and skip this QA
-> > check for these packages. Unfortunately the QA mechanism doesn't allow
-> > us to specify individual files so this approach is the best we can do.
-> > 
-> > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> > ---
-> > meta/recipes-core/systemd/systemd_232.bb | 3 ++-
-> > 1 file changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/recipes-core/systemd/systemd_232.bb
-> > b/meta/recipes-core/systemd/systemd_232.bb index baee02e..c86badb 100644
-> > --- a/meta/recipes-core/systemd/systemd_232.bb
-> > +++ b/meta/recipes-core/systemd/systemd_232.bb
-> > @@ -485,7 +485,8 @@ RRECOMMENDS_${PN} +=
-> > "${@bb.utils.contains('PACKAGECONFIG', 'serial-getty-genera> 
-> >                       os-release \
-> > 
-> > "
-> > 
-> > -INSANE_SKIP_${PN} += "dev-so"
-> > +INSANE_SKIP_${PN} += "dev-so libdir"
-> > +INSANE_SKIP_${PN}-dbg += "libdir"
-> > INSANE_SKIP_${PN}-doc += " libdir"
-> > 
-> > PACKAGES =+ "udev udev-hwdb"
+--001a114a88c8e777c205437ca1f4
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 12 December 2016 at 20:51, Mark Asselstine <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:mark.asselstine@windriver.com" target=3D"_blank">mark.asselstine=
+@windriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div=
+ id=3D":2y2" class=3D"a3s aXjCH m158f4cdff0c2f642">I think the discussion I=
+ pointed to in the commit log closes the door on any<br>
+such change. Specific the comment from Lennart --<br>
+<a href=3D"https://github.com/systemd/systemd/issues/3810#issuecomment-2352=
+90526" rel=3D"noreferrer" target=3D"_blank">https://github.com/systemd/<wbr=
+>systemd/issues/3810#<wbr>issuecomment-235290526</a><br>
+<br>
+They don&#39;t want the library to be found in the default search path, the=
+y want<br>
+to maintain this as a &quot;hidden, internal resource&quot;.</div></blockqu=
+ote></div><br>Oh if it&#39;s an implementation detail of systemd and not a =
+user-facing library then I can see their argument I guess.</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Don&#39;t agree with =
+it though.=C2=A0 But, the point is that as long as the parts of systemd tha=
+t could realistically be multilibd are in $libdir then this isn&#39;t a pro=
+blem.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
+Ross</div></div>
 
-
+--001a114a88c8e777c205437ca1f4--
