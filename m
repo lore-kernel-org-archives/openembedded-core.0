@@ -1,27 +1,25 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id E26D071A80
+Return-Path: <maxin.john@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id CC60471A72
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2016 13:45:25 +0000 (UTC)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id uBCDKTQe007101
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	Mon, 12 Dec 2016 13:52:45 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga104.fm.intel.com with ESMTP; 12 Dec 2016 05:52:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,336,1477983600"; d="scan'208";a="1080746568"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga001.fm.intel.com with ESMTP; 12 Dec 2016 05:52:45 -0800
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	by linux.intel.com (Postfix) with ESMTP id 7C7AA6A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2016 14:20:29 +0100
-Received: from dev.sbt.siemens.com ([163.242.50.172])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id uBCDKSgw026253;
-	Mon, 12 Dec 2016 14:20:29 +0100
-Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
-	by dev.sbt.siemens.com (Postfix) with ESMTP id 2985A108768;
-	Mon, 12 Dec 2016 14:20:29 +0100 (CET)
-From: Andrej Valek <andrej.valek@siemens.com>
+	Mon, 12 Dec 2016 05:51:58 -0800 (PST)
+From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Dec 2016 14:20:21 +0100
-Message-Id: <1481548821-15878-3-git-send-email-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1481548821-15878-1-git-send-email-andrej.valek@siemens.com>
-References: <1481548821-15878-1-git-send-email-andrej.valek@siemens.com>
-Subject: [PATCH 3/3] libxml2: Fix more NULL pointer derefs
+Date: Mon, 12 Dec 2016 15:48:04 +0200
+Message-Id: <1481550484-3360-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] sstatesig: don't squash dependencies of useradd packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,85 +32,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2016 13:45:26 -0000
+X-List-Received-Date: Mon, 12 Dec 2016 13:52:46 -0000
 
-The NULL pointer dereferencing could produced some
-security problems.
-This is a preventive security fix.
+Without this change, sstate dependency filter squashes dependencies
+of packages which inherits useradd class. That causes failures while
+rebuilding it for another MACHINE.
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+Fixes [YOCTO #8078]
+
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- .../libxml2/libxml2-fix_NULL_pointer_derefs.patch  | 46 ++++++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.4.bb          |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-fix_NULL_pointer_derefs.patch
+ meta/lib/oe/sstatesig.py | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta/recipes-core/libxml/libxml2/libxml2-fix_NULL_pointer_derefs.patch b/meta/recipes-core/libxml/libxml2/libxml2-fix_NULL_pointer_derefs.patch
-new file mode 100644
-index 0000000..83552ca
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/libxml2-fix_NULL_pointer_derefs.patch
-@@ -0,0 +1,46 @@
-+libxml2-2.9.4: Fix more NULL pointer derefs
-+
-+xpointer: Fix more NULL pointer derefs
-+
-+Upstream-Status: Backported [https://git.gnome.org/browse/libxml2/commit/?id=e905f08123e4a6e7731549e6f09dadff4cab65bd]
-+CVE: -
-+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
-+
-+diff --git a/xpointer.c b/xpointer.c
-+index 676c510..074db24 100644
-+--- a/xpointer.c
-++++ b/xpointer.c
-+@@ -555,7 +555,7 @@ xmlXPtrNewRangeNodeObject(xmlNodePtr start, xmlXPathObjectPtr end) {
-+ 	    /*
-+ 	     * Empty set ...
-+ 	     */
-+-	    if (end->nodesetval->nodeNr <= 0)
-++	    if ((end->nodesetval == NULL) || (end->nodesetval->nodeNr <= 0))
-+ 		return(NULL);
-+ 	    break;
-+ 	default:
-+@@ -1400,7 +1400,7 @@ xmlXPtrEval(const xmlChar *str, xmlXPathContextPtr ctx) {
-+ 		     */
-+ 		    xmlNodeSetPtr set;
-+ 		    set = tmp->nodesetval;
-+-		    if ((set->nodeNr != 1) ||
-++		    if ((set == NULL) || (set->nodeNr != 1) ||
-+ 			(set->nodeTab[0] != (xmlNodePtr) ctx->doc))
-+ 			stack++;
-+ 		} else
-+@@ -2073,9 +2073,11 @@ xmlXPtrRangeFunction(xmlXPathParserContextPtr ctxt, int nargs) {
-+ 	xmlXPathFreeObject(set);
-+         XP_ERROR(XPATH_MEMORY_ERROR);
-+     }
-+-    for (i = 0;i < oldset->locNr;i++) {
-+-	xmlXPtrLocationSetAdd(newset,
-+-		xmlXPtrCoveringRange(ctxt, oldset->locTab[i]));
-++    if (oldset != NULL) {
-++	for (i = 0;i < oldset->locNr;i++) {
-++	  xmlXPtrLocationSetAdd(newset,
-++		  xmlXPtrCoveringRange(ctxt, oldset->locTab[i]));
-++      }
-+     }
-+ 
-+     /*
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.4.bb b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-index a1d1e9e..ba08c9c 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.4.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-@@ -22,6 +22,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-            file://libxml2-fix_node_comparison.patch \
-            file://libxml2-CVE-2016-5131.patch \
-            file://libxml2-CVE-2016-4658.patch \
-+           file://libxml2-fix_NULL_pointer_derefs.patch \
-           "
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 8224e3a..88b2290 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -17,6 +17,9 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCache):
+     def isAllArch(fn):
+         inherits = " ".join(dataCache.inherits[fn])
+         return "/allarch.bbclass" in inherits
++    def isUserAdd(fn):
++        inherits = " ".join(dataCache.inherits[fn])
++        return "/useradd.bbclass" in inherits
+     def isImage(fn):
+         return "/image.bbclass" in " ".join(dataCache.inherits[fn])
  
- SRC_URI[libtar.md5sum] = "ae249165c173b1ff386ee8ad676815f5"
+@@ -39,6 +42,10 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCache):
+ 
+     # Only target packages beyond here
+ 
++    # Don't squash the dependencies of packages inheritting useradd class
++    if  isUserAdd(fn):
++        return True
++
+     # allarch packagegroups are assumed to have well behaved names which don't change between architecures/tunes
+     if isPackageGroup(fn) and isAllArch(fn) and not isNative(depname):
+         return False  
 -- 
-2.1.4
+2.4.0
 
 
