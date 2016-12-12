@@ -1,22 +1,24 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AB2C606A8
+	by mail.openembedded.org (Postfix) with ESMTP id B52E571A19
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2016 22:05:21 +0000 (UTC)
+	Mon, 12 Dec 2016 22:05:25 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 12 Dec 2016 14:05:22 -0800
+	by fmsmga103.fm.intel.com with ESMTP; 12 Dec 2016 14:05:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,338,1477983600"; d="scan'208";a="1080938861"
+X-IronPort-AV: E=Sophos;i="5.33,338,1477983600"; d="scan'208";a="1080938880"
 Received: from mauric9x-mobl.amr.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com.fritz.box) ([10.255.158.7])
-	by fmsmga001.fm.intel.com with ESMTP; 12 Dec 2016 14:05:19 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 12 Dec 2016 14:05:22 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Dec 2016 11:05:04 +1300
-Message-Id: <cover.1481579713.git.paul.eggleton@linux.intel.com>
+Date: Tue, 13 Dec 2016 11:05:05 +1300
+Message-Id: <18d260f575f3463216016834f1cdff367d714180.1481579713.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
+In-Reply-To: <cover.1481579713.git.paul.eggleton@linux.intel.com>
+References: <cover.1481579713.git.paul.eggleton@linux.intel.com>
 Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Subject: [PATCH 0/2] Fix log_check warnings for bb* logging functions
+Subject: [PATCH 1/2] lib/oe/rootfs: fix log_check warnings being printed twice with RPM packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,27 +33,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 12 Dec 2016 22:05:28 -0000
 
-This patchset requires the patch I just sent to the bitbake-devel mailing
-list ("lib/bb/build: enable access to logger within tasks").
+We were calling _log_check() in the RPM-specific rootfs class as well as
+in the base class; this is unnecessary and resulted in any errors/warnings
+generated during the actual package installation time triggering two warnings
+instead of one. Drop the call from RpmRootfs._create() to fix this.
 
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/lib/oe/rootfs.py | 2 --
+ 1 file changed, 2 deletions(-)
 
-The following changes since commit d62f18c39bc0ed3b0f5ac8465b393c15f2143ecf:
-
-  targetloader.py: drop test for ClassType (2016-12-12 15:16:39 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/rootfs-log-check-oe
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/rootfs-log-check-oe
-
-Paul Eggleton (2):
-  lib/oe/rootfs: fix log_check warnings being printed twice with RPM packaging
-  classes/image: suppress log_check mechanism for warnings/errors logged through BitBake
-
- meta/classes/image.bbclass | 10 +++++++++-
- meta/lib/oe/rootfs.py      | 31 ++++++++++++++++---------------
- 2 files changed, 25 insertions(+), 16 deletions(-)
-
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index a348b97..ed40b23 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -477,8 +477,6 @@ class RpmRootfs(Rootfs):
+ 
+         execute_pre_post_process(self.d, rpm_post_process_cmds)
+ 
+-        self._log_check()
+-
+         if self.inc_rpm_image_gen == "1":
+             self.pm.backup_packaging_data()
+ 
 -- 
 2.5.5
 
