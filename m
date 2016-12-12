@@ -1,25 +1,33 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id A841C71A96
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 64EBC71A72
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2016 10:12:09 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga101.jf.intel.com with ESMTP; 12 Dec 2016 02:12:10 -0800
+	Mon, 12 Dec 2016 10:59:25 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga102.jf.intel.com with ESMTP; 12 Dec 2016 02:59:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,334,1477983600"; d="scan'208";a="41344668"
+X-IronPort-AV: E=Sophos;i="5.33,336,1477983600"; d="scan'208";a="41526301"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 12 Dec 2016 02:12:11 -0800
-Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id C26F06A4082;
-	Mon, 12 Dec 2016 02:11:23 -0800 (PST)
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Dec 2016 12:11:49 +0200
-Message-Id: <46862157b10a64f163ed49d8f0ada4b9bc9e5803.1481536730.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1481536730.git.jussi.kukkonen@intel.com>
-References: <cover.1481536730.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 12/12] xf86-input-libinput: Upgrade 0.22 -> 0.23
+	by fmsmga005.fm.intel.com with ESMTP; 12 Dec 2016 02:59:26 -0800
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 76F0A6A4006;
+	Mon, 12 Dec 2016 02:58:39 -0800 (PST)
+Date: Mon, 12 Dec 2016 12:58:53 +0200
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Christopher Larson <clarson@kergoth.com>
+Message-ID: <20161212105853.GA21809@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <1481305586-11873-1-git-send-email-ed.bartosh@linux.intel.com>
+	<CABcZANk5QnzFAWwAjbaHAQvCw=XXViOnh5jg=cvRiD_B=mEpKA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CABcZANk5QnzFAWwAjbaHAQvCw=XXViOnh5jg=cvRiD_B=mEpKA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] edgerouter.conf: enable generation of wic.bmap
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,35 +40,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2016 10:12:09 -0000
+X-List-Received-Date: Mon, 12 Dec 2016 10:59:26 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Bug fixes + libinput now supports tablets (but wacom driver is
-used instead if it is installed).
+On Sat, Dec 10, 2016 at 11:40:38AM -0700, Christopher Larson wrote:
+> On Fri, Dec 9, 2016 at 10:46 AM, Ed Bartosh <ed.bartosh@linux.intel.com>
+> wrote:
+> 
+> > Enabled generation of block map(bmap) files for wic images
+> > built for edgerouter machine. This should simplify flashing
+> > images with bmaptool.
+> >
+> > [YOCTO #10621]
+> >
+> > Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+> >
+> 
+> I think this is more of a distro decision than machine, whether they want
+> to support use of bmaptool for their users/customers. It’d be nice if it
+> was easier to control compression from the distro, too. For example, if we
+> want to distribute wic.bz2+wic.bmap in our installers, it’d be nice to be
+> able to switch to that for all machines that use wic. I’m not sure how best
+> to pull that off, however. Something to think about for the future.
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
- .../{xf86-input-libinput_0.22.0.bb => xf86-input-libinput_0.23.0.bb}  | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-driver/{xf86-input-libinput_0.22.0.bb => xf86-input-libinput_0.23.0.bb} (63%)
+Thanks for pointing out to it. I did it this way for two reasons:
+- IMAGE_FSTYPES was already modified in edgerouter.conf
+- I wanted to enable generation of wic.bmap for subset of machines, i.e.
+  only for hardware reference BSPs mentioned in README.hardware
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.22.0.bb b/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.23.0.bb
-similarity index 63%
-rename from meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.22.0.bb
-rename to meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.23.0.bb
-index a102bbf..5c49abd 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.22.0.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.23.0.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5e6b20ea2ef94a998145f0ea3f788ee0"
- 
- DEPENDS += "libinput"
- 
--SRC_URI[md5sum] = "e4364319f15f97dc2ef0ef62c8616826"
--SRC_URI[sha256sum] = "c762b4072ed448e2ae9f35cebd7fec8df7fd42b3ae61462cc3b2f720a873eae2"
-+SRC_URI[md5sum] = "56ff43915a273c787ea8b93ccb83f835"
-+SRC_URI[sha256sum] = "0b53ebdfe8f8fc7554dd92af1b1c3088a6d3ec4ae1a33fc76f57d635c736a9dc"
- 
- FILES_${PN} += "${datadir}/X11/xorg.conf.d"
--- 
-2.1.4
+If there is a better to do it I'd be happy to update my patch.
 
+--
+Regards,
+Ed
 
