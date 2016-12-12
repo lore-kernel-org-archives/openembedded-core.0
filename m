@@ -1,49 +1,47 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-wj0-f196.google.com (mail-wj0-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 11DF871A6C
+Return-Path: <ola.x.nilsson@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id ABF3B6FFED
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2016 16:02:48 +0000 (UTC)
-Received: by mail-wj0-f196.google.com with SMTP id j10so12322165wjb.3
+	Mon, 12 Dec 2016 16:19:31 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id D17762E1DC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2016 08:02:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=EMqWgp+nJ6fRDyLwNsuW4vBl6CADi41Qwx/achmytI4=;
-	b=UvCwf7mtG3//KQURpuE6WD8bTR7wlqf1fvbeA4J0cXXfaXyh8Vi5/oIc2d20+Q/CyS
-	usFDfEIDgyLLUQ+xBNlYNNDhsh2HVnVyxsCZFIDNrEjChgXjU5yHbqeRmBKhCq4kVNS7
-	ieUh5ckqwUYAgVVZJexA52T/XOUV2vwsLffIPBGeA6kfmJ12ii74/ZKjKOiie7WkIQDR
-	PGTTa0bUdwm75q/vcehUPycC1cZP1wlAL7e3UkyVmcPkpP4UBT0rTWYUlbkzgUigHCUB
-	Ri5Jlw6Co2poQxnb4QrCjpipZM5riURj3sZtYuSm4FZVmYvFDsgYMKkgA9ClcgPsMVAM
-	t+Kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=EMqWgp+nJ6fRDyLwNsuW4vBl6CADi41Qwx/achmytI4=;
-	b=RUaQVkfHgrKKFA0t+/prIrDmYkzXdLbpHhNhhsy1q3hdnH9htwB9bLKPz/1PBToyNh
-	kIaGbcfnf1CWngeKhKjNbEQWJdeiRm3fFV2rzzDeFS1/rMAJaE3kYJ4cIyh16Gdmku9D
-	kzhLr+hFN/6kSENV0CDTfVotf6EifyOnzjzf3UpEStpP3+leDHxKNdhzvr4JNL2ORQRM
-	w4hBcJnhde5iMEH53GOdbKgUm9vo+14cnCaLmh5Vv+0UEFyuTBfQNp3/OxrKr5iBZwUO
-	Wq1NZfpldPPFTzXqekL4yZR9Wgb5QEmLFlhNBMYcHN8Rci7ppbNNqRIgVqeiaqlmnHqb
-	JZEA==
-X-Gm-Message-State: AKaTC02nYVR6IWgZ3F0pd1u6QhtVcGVh9knPNZo+/fq/N5JG3VcyPDWkhEsnYK8Voekr6w==
-X-Received: by 10.194.141.239 with SMTP id rr15mr77604896wjb.144.1481558569788;
-	Mon, 12 Dec 2016 08:02:49 -0800 (PST)
-Received: from localhost.localdomain ([185.47.80.46])
-	by smtp.gmail.com with ESMTPSA id
-	z6sm57839465wjt.24.2016.12.12.08.02.48
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 12 Dec 2016 08:02:49 -0800 (PST)
-From: David Vincent <freesilicon@gmail.com>
-To: openembedded-core@lists.openembedded.org, haris.okanovic@ni.com,
-	markus.lehtonen@linux.intel.com
-Date: Mon, 12 Dec 2016 17:01:48 +0100
-Message-Id: <20161212160148.9248-1-freesilicon@gmail.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20161128161150.28655-2-freesilicon@gmail.com>
-References: <20161128161150.28655-2-freesilicon@gmail.com>
-Subject: [PATCH v5] classes: Fix alternatives and rc.d ordering
+	Mon, 12 Dec 2016 17:19:31 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id 7dUqbCH3eX2y
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Dec 2016 17:19:30 +0100 (CET)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bes.se.axis.com (Postfix) with ESMTPS id 40E342E1DD
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Dec 2016 17:19:30 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 227D81E081
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Dec 2016 17:19:30 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 15AF51E080
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Dec 2016 17:19:30 +0100 (CET)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Dec 2016 17:19:30 +0100 (CET)
+Received: from lnxolani.se.axis.com (lnxolani.se.axis.com [10.88.67.1])
+	by thoth.se.axis.com (Postfix) with ESMTP id 089522C5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Dec 2016 17:19:30 +0100 (CET)
+Received: by lnxolani.se.axis.com (Postfix, from userid 20853)
+	id E85E77C066; Mon, 12 Dec 2016 17:19:29 +0100 (CET)
+From: Ola x Nilsson <ola.x.nilsson@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Dec 2016 17:19:29 +0100
+Message-Id: <1481559569-20474-1-git-send-email-ola.x.nilsson@axis.com>
+X-Mailer: git-send-email 2.1.4
+X-TM-AS-GCONF: 00
+Subject: [PATCH] oe-pkgdata-util: Make read-value handle override variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,146 +54,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2016 16:02:49 -0000
+X-List-Received-Date: Mon, 12 Dec 2016 16:19:32 -0000
 
-When using an alternative as an initscript, the ordering between
-update-rc.d and update-alternatives tasks during prerm and postinst
-tasks must always be the following in order to work:
-  * prerm:
-    - stop daemon
-    - remove alternative
+Some variables in pkgdata files have a package-name override.  When
+the bare variable can not be found, try with the override-variant.
 
-  * postinst:
-    - add alternative
-    - start daemon
+PKGSIZE is one such variable, and already had special code to handle this.
 
-This patchset adds comments to the scripts generated by both classes and
-organize the generated sections based on those comments.
+Test included.
 
-[YOCTO #10433]
-
-Signed-off-by: David Vincent <freesilicon@gmail.com>
+Signed-off-by: Ola x Nilsson <ola.x.nilsson@axis.com>
 ---
- meta/classes/update-alternatives.bbclass | 29 ++++++++++++++++++++++-------
- meta/classes/update-rc.d.bbclass         | 20 ++++++++++++++++++--
- 2 files changed, 40 insertions(+), 9 deletions(-)
+ meta/lib/oeqa/selftest/pkgdata.py |  2 ++
+ scripts/oe-pkgdata-util           | 16 ++++++++--------
+ 2 files changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
-index 1fdd681315..65929e5555 100644
---- a/meta/classes/update-alternatives.bbclass
-+++ b/meta/classes/update-alternatives.bbclass
-@@ -195,8 +195,8 @@ python populate_packages_updatealternatives () {
-     pkgdest = d.getVar('PKGD', True)
-     for pkg in (d.getVar('PACKAGES', True) or "").split():
-         # Create post install/removal scripts
--        alt_setup_links = ""
--        alt_remove_links = ""
-+        alt_setup_links = "# Begin section update-alternatives\n"
-+        alt_remove_links = "# Begin section update-alternatives\n"
-         for alt_name in (d.getVar('ALTERNATIVE_%s' % pkg, True) or "").split():
-             alt_link     = d.getVarFlag('ALTERNATIVE_LINK_NAME', alt_name, True)
-             alt_target   = d.getVarFlag('ALTERNATIVE_TARGET_%s' % pkg, alt_name, True) or d.getVarFlag('ALTERNATIVE_TARGET', alt_name, True)
-@@ -219,10 +219,13 @@ python populate_packages_updatealternatives () {
-             # Default to generate shell script.. eventually we may want to change this...
-             alt_target = os.path.normpath(alt_target)
+diff --git a/meta/lib/oeqa/selftest/pkgdata.py b/meta/lib/oeqa/selftest/pkgdata.py
+index 5a63f89..adfe346 100644
+--- a/meta/lib/oeqa/selftest/pkgdata.py
++++ b/meta/lib/oeqa/selftest/pkgdata.py
+@@ -41,6 +41,8 @@ class OePkgdataUtilTests(oeSelfTest):
+     def test_read_value(self):
+         result = runCmd('oe-pkgdata-util read-value PN libz1')
+         self.assertEqual(result.output, 'zlib')
++        result = runCmd('oe-pkgdata-util read-value PKG libz1')
++        self.assertEqual(result.output, 'libz1')
+         result = runCmd('oe-pkgdata-util read-value PKGSIZE bash')
+         pkgsize = int(result.output.strip())
+         self.assertGreater(pkgsize, 1, "Size should be greater than 1. %s" % result.output)
+diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
+index dbffd6a..fe41f41 100755
+--- a/scripts/oe-pkgdata-util
++++ b/scripts/oe-pkgdata-util
+@@ -174,15 +174,16 @@ def read_value(args):
+             logger.error("No packages specified")
+             sys.exit(1)
  
--            alt_setup_links  += '\tupdate-alternatives --install %s %s %s %s\n' % (alt_link, alt_name, alt_target, alt_priority)
--            alt_remove_links += '\tupdate-alternatives --remove  %s %s\n' % (alt_name, alt_target)
-+            alt_setup_links  += 'update-alternatives --install %s %s %s %s\n' % (alt_link, alt_name, alt_target, alt_priority)
-+            alt_remove_links += 'update-alternatives --remove  %s %s\n' % (alt_name, alt_target)
+-    def readvar(pkgdata_file, valuename):
++    def readvar(pkgdata_file, valuename, mappedpkg):
+         val = ""
+         with open(pkgdata_file, 'r') as f:
+             for line in f:
+-                if line.startswith(valuename + ":"):
++                if (line.startswith(valuename + ":") or
++                    line.startswith(valuename + "_" + mappedpkg + ":")):
+                     val = line.split(': ', 1)[1].rstrip()
+         return val
  
--        if alt_setup_links:
-+        alt_setup_links += "# End section update-alternatives\n"
-+        alt_remove_links += "# End section update-alternatives\n"
-+
-+        if len(alt_setup_links.splitlines()) > 2:
-             # RDEPENDS setup
-             provider = d.getVar('VIRTUAL-RUNTIME_update-alternatives', True)
-             if provider:
-@@ -232,12 +235,24 @@ python populate_packages_updatealternatives () {
-             bb.note('adding update-alternatives calls to postinst/prerm for %s' % pkg)
-             bb.note('%s' % alt_setup_links)
-             postinst = d.getVar('pkg_postinst_%s' % pkg, True) or '#!/bin/sh\n'
--            postinst += alt_setup_links
-+            postinst = postinst.splitlines(True)
-+            try:
-+                index = postinst.index('# Begin section update-rc.d\n')
-+                postinst.insert(index, alt_setup_links)
-+            except ValueError:
-+                postinst.append(alt_setup_links)
-+            postinst = ''.join(postinst)
-             d.setVar('pkg_postinst_%s' % pkg, postinst)
+-    logger.debug("read-value('%s', '%s' '%s'" % (args.pkgdata_dir, args.valuename, packages))
++    logger.debug("read-value('%s', '%s' '%s')" % (args.pkgdata_dir, args.valuename, packages))
+     for package in packages:
+         pkg_split = package.split('_')
+         pkg_name = pkg_split[0]
+@@ -192,18 +193,17 @@ def read_value(args):
+         if os.path.exists(revlink):
+             mappedpkg = os.path.basename(os.readlink(revlink))
+             qvar = args.valuename
++            value = readvar(revlink, qvar, mappedpkg)
+             if qvar == "PKGSIZE":
+-                # append packagename
+-                qvar = "%s_%s" % (args.valuename, mappedpkg)
+                 # PKGSIZE is now in bytes, but we we want it in KB
+-                pkgsize = (int(readvar(revlink, qvar)) + 1024 // 2) // 1024
++                pkgsize = (int(value) + 1024 // 2) // 1024
+                 value = "%d" % pkgsize
+-            else:
+-                value = readvar(revlink, qvar)
+             if args.prefix_name:
+                 print('%s %s' % (pkg_name, value))
+             else:
+                 print(value)
++        else:
++            logger.debug("revlink %s does not exist", revlink)
  
-             bb.note('%s' % alt_remove_links)
-             prerm = d.getVar('pkg_prerm_%s' % pkg, True) or '#!/bin/sh\n'
--            prerm += alt_remove_links
-+            prerm = prerm.splitlines(True)
-+            try:
-+                index = prerm.index('# End section update-rc.d\n')
-+                prerm.insert(index + 1, alt_remove_links)
-+            except ValueError:
-+                prerm.append(alt_remove_links)
-+            prerm = ''.join(prerm)
-             d.setVar('pkg_prerm_%s' % pkg, prerm)
- }
- 
-diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
-index 2c3ef9edd1..530de87270 100644
---- a/meta/classes/update-rc.d.bbclass
-+++ b/meta/classes/update-rc.d.bbclass
-@@ -35,6 +35,7 @@ fi
- }
- 
- updatercd_postinst() {
-+# Begin section update-rc.d
- if ${@use_updatercd(d)} && type update-rc.d >/dev/null 2>/dev/null; then
- 	if [ -n "$D" ]; then
- 		OPT="-r $D"
-@@ -43,12 +44,15 @@ if ${@use_updatercd(d)} && type update-rc.d >/dev/null 2>/dev/null; then
- 	fi
- 	update-rc.d $OPT ${INITSCRIPT_NAME} ${INITSCRIPT_PARAMS}
- fi
-+# End section update-rc.d
- }
- 
- updatercd_prerm() {
-+# Begin section update-rc.d
- if ${@use_updatercd(d)} && [ -z "$D" -a -x "${INIT_D_DIR}/${INITSCRIPT_NAME}" ]; then
- 	${INIT_D_DIR}/${INITSCRIPT_NAME} stop || :
- fi
-+# End section update-rc.d
- }
- 
- updatercd_postrm() {
-@@ -111,13 +115,25 @@ python populate_packages_updatercd () {
-         postinst = d.getVar('pkg_postinst_%s' % pkg, True)
-         if not postinst:
-             postinst = '#!/bin/sh\n'
--        postinst += localdata.getVar('updatercd_postinst', True)
-+        postinst = postinst.splitlines(True)
-+        try:
-+            index = postinst.index('# End section update-alternatives\n')
-+            postinst.insert(index + 1, localdata.getVar('updatercd_postinst', True))
-+        except ValueError:
-+            postinst.append(localdata.getVar('updatercd_postinst', True))
-+        postinst = ''.join(postinst)
-         d.setVar('pkg_postinst_%s' % pkg, postinst)
- 
-         prerm = d.getVar('pkg_prerm_%s' % pkg, True)
-         if not prerm:
-             prerm = '#!/bin/sh\n'
--        prerm += localdata.getVar('updatercd_prerm', True)
-+        prerm = prerm.splitlines(True)
-+        try:
-+            index = prerm.index('# Begin section update-alternatives\n')
-+            prerm.insert(index, localdata.getVar('updatercd_prerm', True))
-+        except ValueError:
-+            prerm.append(localdata.getVar('updatercd_prerm', True))
-+        prerm = ''.join(prerm)
-         d.setVar('pkg_prerm_%s' % pkg, prerm)
- 
-         postrm = d.getVar('pkg_postrm_%s' % pkg, True)
+ def lookup_pkglist(pkgs, pkgdata_dir, reverse):
+     if reverse:
 -- 
-2.11.0
+2.1.4
 
 
