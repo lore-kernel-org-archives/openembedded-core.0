@@ -1,47 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-vk0-f52.google.com (mail-vk0-f52.google.com
-	[209.85.213.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 106F071E13
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
+	[209.85.220.177])
+	by mail.openembedded.org (Postfix) with ESMTP id E29C371E13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 16:30:15 +0000 (UTC)
-Received: by mail-vk0-f52.google.com with SMTP id p9so69197721vkd.3
+	Tue, 13 Dec 2016 16:33:00 +0000 (UTC)
+Received: by mail-qk0-f177.google.com with SMTP id n21so121732597qka.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 08:30:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Tue, 13 Dec 2016 08:33:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=v6xBVo/VMZFkjdr1Uk/ivNNAzurhzPmenD0Ekqu8ncU=;
-	b=lAgFt26snaySU4aT83DaZTpyRUoGt9X7XcjL/M2ojGf/jVy6njBsVJmqwyLpwgnt8W
-	6CH5KjKn3BZoFnZUPQBmydw3FJYBxt0QslFX0pdgi06q5LTzRw99gIevijNV3Lr1C22V
-	JAzhVJpg1ie4DSPHecI+dU5AnxrbDrtBa7cRrbr6OxDmFkl+zgWfsUGPvzAmM/9bb+DM
-	p3lnvjXUOvUIz3OU7UEJCJERiZF5UMx1zL/jmiLvY61Fnu6MhzC8sYNMdQZp2JQfJqao
-	02vwSPGylBcRpejrYzkZnW9EqAcPyCT21VJFT7/xNJmYLYT1NlPoWb/oOQLeWCOk0+VU
-	sVXg==
+	:cc; bh=KXST6tyunlfjgQk/EJgN4Laop/tVaUjdcbhdv12jPtY=;
+	b=nfhXwjQRztY95rNva0bGKsEoX4c4uAUT8YPa6XYQt6UpgWBoqohsNXjCstx3ke6etu
+	HjDdZysBHYHMNiE2SZQty5NWfkqaC4PNynHm/Wbj9tNr+2hS+7aYs+JNIF5UQ3psvS6a
+	fZV1VxQ6C/zZRUX5BmN4eVUwgvXQbNoj8ARYePDCJ4aBJSgjfHGYw8T79mYtkF5z3mGy
+	/20BNw4qGxJIg6sNXaFsv1HJ/2jR0rV/0OiP7M+G/h0KOxp6Di2JMa/0i1AgAVV+Oro5
+	94z5AGeVgIKM92bFQ0Ui9yhbjmrfEySBa4q4z2EdT0qZWVWZnSM+V83MNkyv1RfJELOZ
+	mTng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=v6xBVo/VMZFkjdr1Uk/ivNNAzurhzPmenD0Ekqu8ncU=;
-	b=GGPNQHp6RDw2O7gj6Jr4hTALHXLj58QllLwdAk6lbmbEQ+xcFOoEHZ0W8hkSzE2vUF
-	P8cT9Mh6D49gL/BVm4CnqiBNnNpP2UKyHTHMogELgW7DhmLDAeH+gigJbom56fWB91R+
-	or2guLqcSpPfmAmc3MrDOXlmtyy74b0HUkZMil1nr13F+0XjHXf0Q26B4/1rqF/njOe9
-	0CUXkx+MJjJF/aH+b3b/Z06AVVRvIRkvO3SrVbIQCiCD3GVpOya0uuQcfVmoIEpWmmA5
-	Z28EPpawXOLbRVxU+O8kDHFX6FjwJL2wcCrzi01YSiO40JBLK6ASWZl+d0UBTubmQq46
-	awMA==
-X-Gm-Message-State: AKaTC03bgjLKknUs2b2grzja4hjMZK26o8T4Pgc4aMFKiy5ENSGwvazx/NjAE42oq7sla/0v5NYPEiIlPW3cbA==
-X-Received: by 10.31.234.199 with SMTP id i190mr40541417vkh.31.1481646616573; 
-	Tue, 13 Dec 2016 08:30:16 -0800 (PST)
+	bh=KXST6tyunlfjgQk/EJgN4Laop/tVaUjdcbhdv12jPtY=;
+	b=FgbRRpZeCSCWcBXLwzfe/fYeKO9gUdddzZOt/tOgwluQTKIbjTr1tPYejPX/6Ht4NV
+	eOoYRQS4Qb0/LJU2aW87kaX9y+KdvgM8kQ5dQI0SM3hUHTfaPWP0z07rJV7uQfMJuj2z
+	diMBAIHMh7GCt2yaNhZVDkJDxMAWi/sXmm4G+GthgNFgUKwWuky/ZE0ZTKT0axYT6Kfo
+	w2uhrABqq/yRdezEvUAV+mj1Olm59RrBnd349XitpIKDYkf2wwbZpXD7ffvCbu/dgtBo
+	8IoT1O3SDTrWh2r/Ds842TesknMju+7UjrcUCF20tb5C4YpofcBL8gID47bubXJx7LRI
+	06JA==
+X-Gm-Message-State: AKaTC00O/kLNTbKiKwfCCcSWtGUqwtyXMjBFjwsKEGF5+UAUbw/3zxzaAkkviBNOedJlbFwGvj8JygYNBqsEdq3f
+X-Received: by 10.55.5.145 with SMTP id 139mr84819151qkf.77.1481646781851;
+	Tue, 13 Dec 2016 08:33:01 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.159.48.87 with HTTP; Tue, 13 Dec 2016 08:29:46 -0800 (PST)
-In-Reply-To: <7aafe397c8214239a49d3cf09480d388@XBOX02.axis.com>
-References: <alpine.LFD.2.20.1612100630310.23762@localhost.localdomain>
-	<CAMKF1sp_R_qapapbcZ8mu-b1BumWekvKjA-QXUDLOTSWgOoXQA@mail.gmail.com>
-	<7aafe397c8214239a49d3cf09480d388@XBOX02.axis.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 13 Dec 2016 08:29:46 -0800
-Message-ID: <CAMKF1socSZpw1raKWxt6=SZ4T2Ux_4LeiUhX-PGpxG9Q5y_Deg@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: can "IMAGE_INSTALL ?= ..." not be written in a more obvious way?
+Received: by 10.140.106.99 with HTTP; Tue, 13 Dec 2016 08:32:41 -0800 (PST)
+In-Reply-To: <CAJTo0LZ1cj5Nm+iSO5aaHRMgf1Syhx6wQ3R2OaBe99A-SKX5Yg@mail.gmail.com>
+References: <1479227073-13133-1-git-send-email-jose.perez.carranza@linux.intel.com>
+	<CAJTo0LZ1cj5Nm+iSO5aaHRMgf1Syhx6wQ3R2OaBe99A-SKX5Yg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 13 Dec 2016 16:32:41 +0000
+Message-ID: <CAJTo0LYbCY=ETjx3wdo1nwsDDJCgEZU7F0JfiuP_zZf+tS3F-A@mail.gmail.com>
+To: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] oe-tests: Migrate tests from /oe/test to /oeqa/selftest/oe-tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,78 +54,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2016 16:30:16 -0000
+X-List-Received-Date: Tue, 13 Dec 2016 16:33:01 -0000
+Content-Type: multipart/alternative; boundary=001a114c8f841d879505438cc66f
+
+--001a114c8f841d879505438cc66f
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, Dec 13, 2016 at 12:52 AM, Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org
->> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
->> Khem Raj
->> Sent: den 10 december 2016 22:16
->> To: Robert P. J. Day
->> Cc: OE Core mailing list
->> Subject: Re: [OE-core] can "IMAGE_INSTALL ?= ..." not be written in a
->> more obvious way?
->>
->> On Sat, Dec 10, 2016 at 3:40 AM, Robert P. J. Day
->> <rpjday@crashcourse.ca> wrote:
->> >
->> >   i've nattered about this before but not sure i ever got an answer --
->> > here's the last bit of core-image.bbclass:
->> >
->> >   CORE_IMAGE_BASE_INSTALL = '\
->> >     packagegroup-core-boot \
->> >     packagegroup-base-extended \
->> >     \
->> >     ${CORE_IMAGE_EXTRA_INSTALL} \
->> >     '
->> >
->> >   CORE_IMAGE_EXTRA_INSTALL ?= ""
->> >
->> >   IMAGE_INSTALL ?= "${CORE_IMAGE_BASE_INSTALL}"
->> >
->> > the first time i saw that (long ago), it took me a few looks to figure
->> > out what was happening. can this not be written in a more obvious way:
->> >
->> >   CORE_IMAGE_BASE_INSTALL = '\
->> >     packagegroup-core-boot \
->> >     packagegroup-base-extended \
->> >     '
->> >
->> >   CORE_IMAGE_EXTRA_INSTALL ?= ""
->> >
->> >   IMAGE_INSTALL ?= " \
->> >     ${CORE_IMAGE_BASE_INSTALL} \
->> >     ${CORE_IMAGE_EXTRA_INSTALL} \
->> >     "
->> >
->> > is that not equivalent, or am i missing something? it's certainly
->> > clearer as to what's happening if people are perusing the code.
->>
->> They are same AFAICT, dont feel strongly  about readability but feel
->> free to send a patch
->
-> Careful now. Changing these can affect image recipes outside of OE-core.
-> If one has an image recipe that inherits core-image and then defines
->
-> IMAGE_INSTALL = "${CORE_IMAGE_BASE_INSTALL} my-own-packages ..."
->
-> then changing CORE_IMAGE_BASE_INSTALL as per above would suddenly
-> cause that image to miss including packages that it previously did.
+On 13 December 2016 at 16:17, Burton, Ross <ross.burton@intel.com> wrote:
 
-yes I think thats the interface it will end up in. It would be more
-explicit for someone to set IMAGE_INSTALL explicitly and not expect
-this sort of bundling. its also more readable when you construct
-IMAGE_INSTALL
-
->
-> I recommend leaving it as is.
-
-agreed.Probably not worth the churn
-
->
-> //Peter
+> It took over a minute to load a few tests.  Do you have any idea why the
+> discovery is so slow?
 >
 
+Oh, it's because oeselftest does bitbake calls isn't it.
+
+Good news: you don't need to use oeSelfTest at all, the discovery works
+fine with standard unittest.TestCase objects.
+
+Patch incoming. :)
+
+Ross
+
+--001a114c8f841d879505438cc66f
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 13 December 2016 at 16:17, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_ext=
+ra">It took over a minute to load a few tests.=C2=A0 Do you have any idea w=
+hy the discovery is so slow?</div></blockquote><div><br></div><div>Oh, it&#=
+39;s because oeselftest does bitbake calls isn&#39;t it.</div><div><br></di=
+v><div>Good news: you don&#39;t need to use oeSelfTest at all, the discover=
+y works fine with standard unittest.TestCase objects.</div><div><br></div><=
+div>Patch incoming. :)</div><div><br></div><div>Ross</div><div>=C2=A0</div>=
+</div><br></div></div>
+
+--001a114c8f841d879505438cc66f--
