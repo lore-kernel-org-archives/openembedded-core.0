@@ -1,23 +1,23 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 24A2A71B23
+	by mail.openembedded.org (Postfix) with ESMTP id 36B5E71B23
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 07:10:12 +0000 (UTC)
+	Tue, 13 Dec 2016 07:10:15 +0000 (UTC)
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga102.fm.intel.com with ESMTP; 12 Dec 2016 23:10:13 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 12 Dec 2016 23:10:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,340,1477983600"; d="scan'208";a="41885828"
+X-IronPort-AV: E=Sophos;i="5.33,340,1477983600"; d="scan'208";a="41885861"
 Received: from mauric9x-mobl.amr.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com.fritz.box) ([10.255.158.7])
-	by fmsmga005.fm.intel.com with ESMTP; 12 Dec 2016 23:10:11 -0800
+	by fmsmga005.fm.intel.com with ESMTP; 12 Dec 2016 23:10:14 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Dec 2016 20:09:38 +1300
-Message-Id: <bcb7d8ddd6320048c1f6f09f584cbd964bbbda5e.1481612135.git.paul.eggleton@linux.intel.com>
+Date: Tue, 13 Dec 2016 20:09:39 +1300
+Message-Id: <6f16cc0f1a7cd2371e799611f6cda49e14a78eec.1481612135.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
 In-Reply-To: <cover.1481612135.git.paul.eggleton@linux.intel.com>
 References: <cover.1481612135.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 06/14] classes/patch: move in logic to commit for additional tasks
+Subject: [PATCH 07/14] classes/patch: move several functions to oe.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,156 +30,298 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2016 07:10:12 -0000
+X-List-Received-Date: Tue, 13 Dec 2016 07:10:15 -0000
 
-If PATCHTOOL is "git", and PATCH_COMMIT_FUNCTIONS is set to "1", for
-additional tasks between do_unpack and do_patch, make a git commit. This
-logic was previously implemented in devtool itself, but it makes more
-sense for it to be implemented in the patch class since that's where the
-rest of the logic is for this (or in lib/oe/patch.py). It also makes
-it possible for this to work with tinfoil2.
+Move patch_path(), src_patches() and should_apply() to oe.patch, making
+them easier to call from elsewhere (particularly across the
+UI/server boundary).
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/patch.bbclass      | 69 +++++++++++++++++++++++++++++++++++++++++
- scripts/lib/devtool/standard.py | 37 +---------------------
- 2 files changed, 70 insertions(+), 36 deletions(-)
+ meta/classes/patch.bbclass | 105 ++------------------------------------------
+ meta/lib/oe/patch.py       | 107 +++++++++++++++++++++++++++++++++++++++++++++
+ meta/lib/oe/recipeutils.py |  12 +++--
+ 3 files changed, 116 insertions(+), 108 deletions(-)
 
 diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
-index 2c1f58c..7ebae28 100644
+index 7ebae28..0e5b602 100644
 --- a/meta/classes/patch.bbclass
 +++ b/meta/classes/patch.bbclass
-@@ -10,6 +10,75 @@ PATCH_GIT_USER_EMAIL ?= "oe.patch@oe"
+@@ -80,110 +80,13 @@ python patch_task_postfunc() {
+ }
  
- inherit terminal
- 
-+python () {
-+    if d.getVar('PATCHTOOL', True) == 'git' and d.getVar('PATCH_COMMIT_FUNCTIONS', True) == '1':
-+        tasks = list(filter(lambda k: d.getVarFlag(k, "task", True), d.keys()))
-+        extratasks = []
-+        def follow_chain(task, endtask, chain=None):
-+            if not chain:
-+                chain = []
-+            chain.append(task)
-+            for othertask in tasks:
-+                if othertask == task:
-+                    continue
-+                if task == endtask:
-+                    for ctask in chain:
-+                        if ctask not in extratasks:
-+                            extratasks.append(ctask)
-+                else:
-+                    deps = d.getVarFlag(othertask, 'deps', False)
-+                    if task in deps:
-+                        follow_chain(othertask, endtask, chain)
-+            chain.pop()
-+        follow_chain('do_unpack', 'do_patch')
-+        try:
-+            extratasks.remove('do_unpack')
-+        except ValueError:
-+            # For some recipes do_unpack doesn't exist, ignore it
-+            pass
-+
-+        d.appendVarFlag('do_patch', 'prefuncs', ' patch_task_patch_prefunc')
-+        for task in extratasks:
-+            d.appendVarFlag(task, 'postfuncs', ' patch_task_postfunc')
-+}
-+
-+python patch_task_patch_prefunc() {
-+    # Prefunc for do_patch
-+    func = d.getVar('BB_RUNTASK', True)
-+    srcsubdir = d.getVar('S', True)
-+
-+    patchdir = os.path.join(srcsubdir, 'patches')
-+    if os.path.exists(patchdir):
-+        if os.listdir(patchdir):
-+            d.setVar('PATCH_HAS_PATCHES_DIR', '1')
-+        else:
-+            os.rmdir(patchdir)
-+}
-+
-+python patch_task_postfunc() {
-+    # Prefunc for task functions between do_unpack and do_patch
-+    import oe.patch
-+    import shutil
-+    func = d.getVar('BB_RUNTASK', True)
-+    srcsubdir = d.getVar('S', True)
-+
-+    if os.path.exists(srcsubdir):
-+        if func == 'do_patch':
-+            haspatches = (d.getVar('PATCH_HAS_PATCHES_DIR', True) == '1')
-+            patchdir = os.path.join(srcsubdir, 'patches')
-+            if os.path.exists(patchdir):
-+                shutil.rmtree(patchdir)
-+                if haspatches:
-+                    stdout, _ = bb.process.run('git status --porcelain patches', cwd=srcsubdir)
-+                    if stdout:
-+                        bb.process.run('git checkout patches', cwd=srcsubdir)
-+        stdout, _ = bb.process.run('git status --porcelain .', cwd=srcsubdir)
-+        if stdout:
-+            useroptions = []
-+            oe.patch.GitApplyTree.gitCommandUserOptions(useroptions, d=d)
-+            bb.process.run('git add .; git %s commit -a -m "Committing changes from %s\n\n%s"' % (' '.join(useroptions), func, oe.patch.GitApplyTree.ignore_commit_prefix + ' - from %s' % func), cwd=srcsubdir)
-+}
-+
  def src_patches(d, all=False, expand=True):
-     workdir = d.getVar('WORKDIR', True)
-     fetch = bb.fetch2.Fetch([], d)
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 87d3f5d..06c508c 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -442,41 +442,6 @@ class BbTaskExecutor(object):
-             self.executed.append(func)
- 
- 
--class PatchTaskExecutor(BbTaskExecutor):
--    def __init__(self, rdata):
--        import oe.patch
--        self.check_git = False
--        self.useroptions = []
--        oe.patch.GitApplyTree.gitCommandUserOptions(self.useroptions, d=rdata)
--        super(PatchTaskExecutor, self).__init__(rdata)
+-    workdir = d.getVar('WORKDIR', True)
+-    fetch = bb.fetch2.Fetch([], d)
+-    patches = []
+-    sources = []
+-    for url in fetch.urls:
+-        local = patch_path(url, fetch, workdir, expand)
+-        if not local:
+-            if all:
+-                local = fetch.localpath(url)
+-                sources.append(local)
+-            continue
 -
--    def exec_func(self, func, report):
--        from oe.patch import GitApplyTree
--        srcsubdir = self.rdata.getVar('S', True)
--        haspatches = False
--        if func == 'do_patch':
--            patchdir = os.path.join(srcsubdir, 'patches')
--            if os.path.exists(patchdir):
--                if os.listdir(patchdir):
--                    haspatches = True
--                else:
--                    os.rmdir(patchdir)
+-        urldata = fetch.ud[url]
+-        parm = urldata.parm
+-        patchname = parm.get('pname') or os.path.basename(local)
 -
--        super(PatchTaskExecutor, self).exec_func(func, report)
--        if self.check_git and os.path.exists(srcsubdir):
--            if func == 'do_patch':
--                if os.path.exists(patchdir):
--                    shutil.rmtree(patchdir)
--                    if haspatches:
--                        stdout, _ = bb.process.run('git status --porcelain patches', cwd=srcsubdir)
--                        if stdout:
--                            bb.process.run('git checkout patches', cwd=srcsubdir)
+-        apply, reason = should_apply(parm, d)
+-        if not apply:
+-            if reason:
+-                bb.note("Patch %s %s" % (patchname, reason))
+-            continue
 -
--            stdout, _ = bb.process.run('git status --porcelain', cwd=srcsubdir)
--            if stdout:
--                bb.process.run('git add .; git %s commit -a -m "Committing changes from %s\n\n%s"' % (' '.join(self.useroptions), func, GitApplyTree.ignore_commit_prefix + ' - from %s' % func), cwd=srcsubdir)
+-        patchparm = {'patchname': patchname}
+-        if "striplevel" in parm:
+-            striplevel = parm["striplevel"]
+-        elif "pnum" in parm:
+-            #bb.msg.warn(None, "Deprecated usage of 'pnum' url parameter in '%s', please use 'striplevel'" % url)
+-            striplevel = parm["pnum"]
+-        else:
+-            striplevel = '1'
+-        patchparm['striplevel'] = striplevel
 -
+-        patchdir = parm.get('patchdir')
+-        if patchdir:
+-            patchparm['patchdir'] = patchdir
 -
- def _prep_extract_operation(config, basepath, recipename, tinfoil=None):
-     """HACK: Ugly workaround for making sure that requirements are met when
-        trying to extract a package. Returns the tinfoil instance to be used."""
-@@ -563,7 +528,7 @@ def _extract_source(srctree, keep_temp, devbranch, sync, d):
-             # We don't want to move the source to STAGING_KERNEL_DIR here
-             crd.setVar('STAGING_KERNEL_DIR', '${S}')
+-        localurl = bb.fetch.encodeurl(('file', '', local, '', '', patchparm))
+-        patches.append(localurl)
+-
+-    if all:
+-        return sources
+-
+-    return patches
+-
+-def patch_path(url, fetch, workdir, expand=True):
+-    """Return the local path of a patch, or None if this isn't a patch"""
+-
+-    local = fetch.localpath(url)
+-    base, ext = os.path.splitext(os.path.basename(local))
+-    if ext in ('.gz', '.bz2', '.Z'):
+-        if expand:
+-            local = os.path.join(workdir, base)
+-        ext = os.path.splitext(base)[1]
+-
+-    urldata = fetch.ud[url]
+-    if "apply" in urldata.parm:
+-        apply = oe.types.boolean(urldata.parm["apply"])
+-        if not apply:
+-            return
+-    elif ext not in (".diff", ".patch"):
+-        return
+-
+-    return local
++    import oe.patch
++    return oe.patch.src_patches(d, all, expand)
  
--        task_executor = PatchTaskExecutor(crd)
-+        task_executor = BbTaskExecutor(crd)
+ def should_apply(parm, d):
+     """Determine if we should apply the given patch"""
+-
+-    if "mindate" in parm or "maxdate" in parm:
+-        pn = d.getVar('PN', True)
+-        srcdate = d.getVar('SRCDATE_%s' % pn, True)
+-        if not srcdate:
+-            srcdate = d.getVar('SRCDATE', True)
+-
+-        if srcdate == "now":
+-            srcdate = d.getVar('DATE', True)
+-
+-        if "maxdate" in parm and parm["maxdate"] < srcdate:
+-            return False, 'is outdated'
+-
+-        if "mindate" in parm and parm["mindate"] > srcdate:
+-            return False, 'is predated'
+-
+-
+-    if "minrev" in parm:
+-        srcrev = d.getVar('SRCREV', True)
+-        if srcrev and srcrev < parm["minrev"]:
+-            return False, 'applies to later revisions'
+-
+-    if "maxrev" in parm:
+-        srcrev = d.getVar('SRCREV', True)
+-        if srcrev and srcrev > parm["maxrev"]:
+-            return False, 'applies to earlier revisions'
+-
+-    if "rev" in parm:
+-        srcrev = d.getVar('SRCREV', True)
+-        if srcrev and parm["rev"] not in srcrev:
+-            return False, "doesn't apply to revision"
+-
+-    if "notrev" in parm:
+-        srcrev = d.getVar('SRCREV', True)
+-        if srcrev and parm["notrev"] in srcrev:
+-            return False, "doesn't apply to revision"
+-
+-    return True, None
++    import oe.patch
++    return oe.patch.should_apply(parm, d)
  
-         crd.setVar('EXTERNALSRC_forcevariable', '')
+ should_apply[vardepsexclude] = "DATE SRCDATE"
  
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index dbefd28..456ee70 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -769,3 +769,110 @@ class UserResolver(Resolver):
+             os.chdir(olddir)
+             raise
+         os.chdir(olddir)
++
++
++def patch_path(url, fetch, workdir, expand=True):
++    """Return the local path of a patch, or None if this isn't a patch"""
++
++    local = fetch.localpath(url)
++    base, ext = os.path.splitext(os.path.basename(local))
++    if ext in ('.gz', '.bz2', '.Z'):
++        if expand:
++            local = os.path.join(workdir, base)
++        ext = os.path.splitext(base)[1]
++
++    urldata = fetch.ud[url]
++    if "apply" in urldata.parm:
++        apply = oe.types.boolean(urldata.parm["apply"])
++        if not apply:
++            return
++    elif ext not in (".diff", ".patch"):
++        return
++
++    return local
++
++def src_patches(d, all=False, expand=True):
++    workdir = d.getVar('WORKDIR', True)
++    fetch = bb.fetch2.Fetch([], d)
++    patches = []
++    sources = []
++    for url in fetch.urls:
++        local = patch_path(url, fetch, workdir, expand)
++        if not local:
++            if all:
++                local = fetch.localpath(url)
++                sources.append(local)
++            continue
++
++        urldata = fetch.ud[url]
++        parm = urldata.parm
++        patchname = parm.get('pname') or os.path.basename(local)
++
++        apply, reason = should_apply(parm, d)
++        if not apply:
++            if reason:
++                bb.note("Patch %s %s" % (patchname, reason))
++            continue
++
++        patchparm = {'patchname': patchname}
++        if "striplevel" in parm:
++            striplevel = parm["striplevel"]
++        elif "pnum" in parm:
++            #bb.msg.warn(None, "Deprecated usage of 'pnum' url parameter in '%s', please use 'striplevel'" % url)
++            striplevel = parm["pnum"]
++        else:
++            striplevel = '1'
++        patchparm['striplevel'] = striplevel
++
++        patchdir = parm.get('patchdir')
++        if patchdir:
++            patchparm['patchdir'] = patchdir
++
++        localurl = bb.fetch.encodeurl(('file', '', local, '', '', patchparm))
++        patches.append(localurl)
++
++    if all:
++        return sources
++
++    return patches
++
++
++def should_apply(parm, d):
++    if "mindate" in parm or "maxdate" in parm:
++        pn = d.getVar('PN', True)
++        srcdate = d.getVar('SRCDATE_%s' % pn, True)
++        if not srcdate:
++            srcdate = d.getVar('SRCDATE', True)
++
++        if srcdate == "now":
++            srcdate = d.getVar('DATE', True)
++
++        if "maxdate" in parm and parm["maxdate"] < srcdate:
++            return False, 'is outdated'
++
++        if "mindate" in parm and parm["mindate"] > srcdate:
++            return False, 'is predated'
++
++
++    if "minrev" in parm:
++        srcrev = d.getVar('SRCREV', True)
++        if srcrev and srcrev < parm["minrev"]:
++            return False, 'applies to later revisions'
++
++    if "maxrev" in parm:
++        srcrev = d.getVar('SRCREV', True)
++        if srcrev and srcrev > parm["maxrev"]:
++            return False, 'applies to earlier revisions'
++
++    if "rev" in parm:
++        srcrev = d.getVar('SRCREV', True)
++        if srcrev and parm["rev"] not in srcrev:
++            return False, "doesn't apply to revision"
++
++    if "notrev" in parm:
++        srcrev = d.getVar('SRCREV', True)
++        if srcrev and parm["notrev"] in srcrev:
++            return False, "doesn't apply to revision"
++
++    return True, None
++
+diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
+index ae83aab..92fa431 100644
+--- a/meta/lib/oe/recipeutils.py
++++ b/meta/lib/oe/recipeutils.py
+@@ -382,6 +382,7 @@ def copy_recipe_files(d, tgt_dir, whole_dir=False, download=True):
+ 
+ def get_recipe_local_files(d, patches=False, archives=False):
+     """Get a list of local files in SRC_URI within a recipe."""
++    import oe.patch
+     uris = (d.getVar('SRC_URI', True) or "").split()
+     fetch = bb.fetch2.Fetch(uris, d)
+     # FIXME this list should be factored out somewhere else (such as the
+@@ -393,7 +394,7 @@ def get_recipe_local_files(d, patches=False, archives=False):
+     for uri in uris:
+         if fetch.ud[uri].type == 'file':
+             if (not patches and
+-                    bb.utils.exec_flat_python_func('patch_path', uri, fetch, '', expand=False)):
++                    oe.patch.patch_path(uri, fetch, '', expand=False)):
+                 continue
+             # Skip files that are referenced by absolute path
+             fname = fetch.ud[uri].basepath
+@@ -418,10 +419,9 @@ def get_recipe_local_files(d, patches=False, archives=False):
+ 
+ def get_recipe_patches(d):
+     """Get a list of the patches included in SRC_URI within a recipe."""
++    import oe.patch
++    patches = oe.patch.src_patches(d, expand=False)
+     patchfiles = []
+-    # Execute src_patches() defined in patch.bbclass - this works since that class
+-    # is inherited globally
+-    patches = bb.utils.exec_flat_python_func('src_patches', d, expand=False)
+     for patch in patches:
+         _, _, local, _, _, parm = bb.fetch.decodeurl(patch)
+         patchfiles.append(local)
+@@ -438,9 +438,7 @@ def get_recipe_patched_files(d):
+         change mode ('A' for add, 'D' for delete or 'M' for modify)
+     """
+     import oe.patch
+-    # Execute src_patches() defined in patch.bbclass - this works since that class
+-    # is inherited globally
+-    patches = bb.utils.exec_flat_python_func('src_patches', d, expand=False)
++    patches = oe.patch.src_patches(d, expand=False)
+     patchedfiles = {}
+     for patch in patches:
+         _, _, patchfile, _, _, parm = bb.fetch.decodeurl(patch)
 -- 
 2.5.5
 
