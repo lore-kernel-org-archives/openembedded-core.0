@@ -1,20 +1,33 @@
-Return-Path: <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
+Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 493B471DBE
+	by mail.openembedded.org (Postfix) with ESMTP id 4740571E47
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 15:53:52 +0000 (UTC)
+	Tue, 13 Dec 2016 16:00:32 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga101.fm.intel.com with ESMTP; 13 Dec 2016 07:53:54 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 13 Dec 2016 08:00:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,342,1477983600"; d="scan'208";a="41881750"
-Received: from jairdeje-mobl1.zpn.intel.com ([10.219.128.79])
-	by orsmga005.jf.intel.com with ESMTP; 13 Dec 2016 07:53:53 -0800
-From: Jair Gonzalez <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Dec 2016 09:53:27 -0600
-Message-Id: <1481644407-16699-1-git-send-email-jair.de.jesus.gonzalez.plascencia@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] selftest/wic: extending test coverage for WIC script options
+X-IronPort-AV: E=Sophos;i="5.33,342,1477983600"; d="scan'208";a="41883785"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga005.jf.intel.com with ESMTP; 13 Dec 2016 08:00:30 -0800
+To: Mark Hatle <mark.hatle@windriver.com>, Khem Raj <raj.khem@gmail.com>
+References: <F0CA9E243F4F424B836EAC30E41BF4CF5DF514DB@PGSMSX104.gar.corp.intel.com>
+	<a3c142bf-8c0b-3f90-dda9-7f72dd4da1cf@windriver.com>
+	<CAMKF1spG=v7_wb_VYktNBL7NTan28NbB47G7u2B_-E43jBL8vQ@mail.gmail.com>
+	<687e0950-a18a-5d44-aeae-18517df275e6@windriver.com>
+	<4F081825-2EC8-4F85-9E55-1E24F215723D@gmail.com>
+	<89015693-dfeb-5b47-7c2b-386c85571dec@windriver.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <877d5207-0156-c57e-38db-9b2c47b61d78@linux.intel.com>
+Date: Tue, 13 Dec 2016 18:00:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <89015693-dfeb-5b47-7c2b-386c85571dec@windriver.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "Gupta,
+	Rahul KumarXX" <rahul.kumarxx.gupta@intel.com>
+Subject: Re: openssl: OpenSSL 1.1.x update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,449 +40,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2016 15:53:53 -0000
+X-List-Received-Date: Tue, 13 Dec 2016 16:00:33 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The previous WIC script selftest didn't cover all of its command
-line options. The following test cases were added to complete
-covering them:
+On 10/06/2016 06:39 PM, Mark Hatle wrote:
+>>> The OpenSSL community itself is looking at 1.1.0 as a transition to newer and
+>>> better design/api/etc... which is why it is not marked as a LTS release.
+>>
+>> api changes can be a bothersome point from integration POV, do we know if there
+>> are some forwarded porting incompatibilities in APIs already?
+>
+> I have not investigated it, as my focus has been on the LTS version at this point.
 
-1552 Test wic --version
-1553 Test wic help create
-1554 Test wic help list
-1555 Test wic list images
-1556 Test wic list source-plugins
-1557 Test wic listed images help
-1558 Test wic debug, skip-build-check and build_rootfs
-1559 Test image vars directory selection
-1562 Test alternate output directory
+I've quickly put together a openssl 1.1 recipe to test what builds and 
+what fails in oe-core, and this is the list of failures (any 
+dependencies of these aren't even attempted of course, i.e. webkit):
 
-In addition, the following test cases were assigned an ID number on
-Testopia:
+rpm
+apr-util
+ruby
+openssh
+bind
+socat
+mailx (I believe debian provides a rewrite of this one which we need to 
+package)
+cryptodev-tests
+u-boot-mkimage
 
-1560 Test creation of systemd-bootdisk image
-1561 Test creation of sdimage-bootpart image
+Openssl does not seem to be designed for parallel installation of 
+several major versions at the same time (headers and pkg-config files 
+clash), so (unless someone has a better idea), we need to either wait 
+until the above listed upstreams fix their code, or do custom patching.
 
-Finally, part of the test methods were rearranged to group them by
-functionality, and some cleanup was made to improve the code's
-compliance with PEP8 style guide.
+Mark, when can we expect rpm updates from Wind River? It's been a while 
+(actually, 10 months) since anything substantial arrived. I'd like to 
+have both a working CVS recipe (for dnf oe-core integration work), and 
+an update to the stable release with openssl 1.1 support in it - so that 
+oe-core can provide openssl 1.1. I simply do not have the bandwidth or 
+the expertise to do this work myself - far too many patches to rebase, 
+and a code base that I don't even begin to understand.
 
-Fixes [YOCTO 10594]
-
-Signed-off-by: Jair Gonzalez <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
----
- meta/lib/oeqa/selftest/wic.py | 246 +++++++++++++++++++++++++++++-------------
- 1 file changed, 174 insertions(+), 72 deletions(-)
-
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index e652fad..46bfb94 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -37,13 +37,13 @@ class Wic(oeSelfTest):
-     """Wic test class."""
- 
-     resultdir = "/var/tmp/wic/build/"
-+    alternate_resultdir = "/var/tmp/wic/build/alt/"
-     image_is_ready = False
- 
-     def setUpLocal(self):
-         """This code is executed before each test method."""
-         self.write_config('IMAGE_FSTYPES += " hddimg"\n'
--                          'MACHINE_FEATURES_append = " efi"\n'
--                          'WKS_FILE = "wic-image-minimal"\n')
-+                          'MACHINE_FEATURES_append = " efi"\n')
- 
-         # Do this here instead of in setUpClass as the base setUp does some
-         # clean up which can result in the native tools built earlier in
-@@ -56,10 +56,16 @@ class Wic(oeSelfTest):
- 
-         rmtree(self.resultdir, ignore_errors=True)
- 
-+    @testcase(1552)
-+    def test_version(self):
-+        """Test wic --version"""
-+        self.assertEqual(0, runCmd('wic --version').status)
-+
-     @testcase(1208)
-     def test_help(self):
--        """Test wic --help"""
-+        """Test wic --help and wic -h"""
-         self.assertEqual(0, runCmd('wic --help').status)
-+        self.assertEqual(0, runCmd('wic -h').status)
- 
-     @testcase(1209)
-     def test_createhelp(self):
-@@ -71,19 +77,74 @@ class Wic(oeSelfTest):
-         """Test wic list --help"""
-         self.assertEqual(0, runCmd('wic list --help').status)
- 
-+    @testcase(1553)
-+    def test_help_create(self):
-+        """Test wic help create"""
-+        self.assertEqual(0, runCmd('wic help create').status)
-+
-+    @testcase(1554)
-+    def test_help_list(self):
-+        """Test wic help list"""
-+        self.assertEqual(0, runCmd('wic help list').status)
-+
-+    @testcase(1215)
-+    def test_help_overview(self):
-+        """Test wic help overview"""
-+        self.assertEqual(0, runCmd('wic help overview').status)
-+
-+    @testcase(1216)
-+    def test_help_plugins(self):
-+        """Test wic help plugins"""
-+        self.assertEqual(0, runCmd('wic help plugins').status)
-+
-+    @testcase(1217)
-+    def test_help_kickstart(self):
-+        """Test wic help kickstart"""
-+        self.assertEqual(0, runCmd('wic help kickstart').status)
-+
-+    @testcase(1555)
-+    def test_list_images(self):
-+        """Test wic list images"""
-+        self.assertEqual(0, runCmd('wic list images').status)
-+
-+    @testcase(1556)
-+    def test_list_source_plugins(self):
-+        """Test wic list source-plugins"""
-+        self.assertEqual(0, runCmd('wic list source-plugins').status)
-+
-+    @testcase(1557)
-+    def test_listed_images_help(self):
-+        """Test wic listed images help"""
-+        output = runCmd('wic list images').output
-+        imageDetails = [line.split() for line in output.split('\n')]
-+        imageList = [row[0] for row in imageDetails]
-+        for image in imageList:
-+            self.assertEqual(0, runCmd('wic list %s help' % image).status)
-+
-+    @testcase(1213)
-+    def test_unsupported_subcommand(self):
-+        """Test unsupported subcommand"""
-+        self.assertEqual(1, runCmd('wic unsupported',
-+                                   ignore_status=True).status)
-+
-+    @testcase(1214)
-+    def test_no_command(self):
-+        """Test wic without command"""
-+        self.assertEqual(1, runCmd('wic', ignore_status=True).status)
-+
-     @testcase(1211)
-     def test_build_image_name(self):
-         """Test wic create directdisk --image-name core-image-minimal"""
-         self.assertEqual(0, runCmd("wic create directdisk "
--                                   "--image-name core-image-minimal").status)
-+                                   "--image-name=core-image-minimal").status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
- 
-     @testcase(1212)
-     def test_build_artifacts(self):
-         """Test wic create directdisk providing all artifacts."""
--        bbvars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
--                        for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE',
--                                    'STAGING_DIR_NATIVE', 'IMAGE_ROOTFS'))
-+        bbvars = dict((var.lower(), get_bb_var(var, 'core-image-minimal'))
-+                      for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE',
-+                                  'STAGING_DIR_NATIVE', 'IMAGE_ROOTFS'))
-         status = runCmd("wic create directdisk "
-                         "-b %(staging_datadir)s "
-                         "-k %(deploy_dir_image)s "
-@@ -96,113 +157,110 @@ class Wic(oeSelfTest):
-     def test_gpt_image(self):
-         """Test creation of core-image-minimal with gpt table and UUID boot"""
-         self.assertEqual(0, runCmd("wic create directdisk-gpt "
--                                   "--image-name core-image-minimal").status)
-+                                   "--image-name core-image-minimal "
-+                                   ).status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
- 
--    @testcase(1213)
--    def test_unsupported_subcommand(self):
--        """Test unsupported subcommand"""
--        self.assertEqual(1, runCmd('wic unsupported',
--                                   ignore_status=True).status)
--
--    @testcase(1214)
--    def test_no_command(self):
--        """Test wic without command"""
--        self.assertEqual(1, runCmd('wic', ignore_status=True).status)
--
--    @testcase(1215)
--    def test_help_overview(self):
--        """Test wic help overview"""
--        self.assertEqual(0, runCmd('wic help overview').status)
--
--    @testcase(1216)
--    def test_help_plugins(self):
--        """Test wic help plugins"""
--        self.assertEqual(0, runCmd('wic help plugins').status)
--
--    @testcase(1217)
--    def test_help_kickstart(self):
--        """Test wic help kickstart"""
--        self.assertEqual(0, runCmd('wic help kickstart').status)
--
-     @testcase(1264)
-     def test_compress_gzip(self):
-         """Test compressing an image with gzip"""
-         self.assertEqual(0, runCmd("wic create directdisk "
--                                   "--image-name core-image-minimal "
-+                                   "-e core-image-minimal "
-                                    "-c gzip").status)
--        self.assertEqual(1, len(glob(self.resultdir + \
--                                         "directdisk-*.direct.gz")))
-+        self.assertEqual(1, len(glob(self.resultdir +
-+                                     "directdisk-*.direct.gz")))
- 
-     @testcase(1265)
-     def test_compress_bzip2(self):
-         """Test compressing an image with bzip2"""
-         self.assertEqual(0, runCmd("wic create directdisk "
--                                   "--image-name core-image-minimal "
-+                                   "--image-name=core-image-minimal "
-                                    "-c bzip2").status)
--        self.assertEqual(1, len(glob(self.resultdir + \
--                                         "directdisk-*.direct.bz2")))
-+        self.assertEqual(1, len(glob(self.resultdir +
-+                                     "directdisk-*.direct.bz2")))
- 
-     @testcase(1266)
-     def test_compress_xz(self):
-         """Test compressing an image with xz"""
-         self.assertEqual(0, runCmd("wic create directdisk "
--                                   "--image-name core-image-minimal "
--                                   "-c xz").status)
--        self.assertEqual(1, len(glob(self.resultdir + \
--                                         "directdisk-*.direct.xz")))
-+                                   "--image-name=core-image-minimal "
-+                                   "--compress-with=xz").status)
-+        self.assertEqual(1, len(glob(self.resultdir +
-+                                     "directdisk-*.direct.xz")))
- 
-     @testcase(1267)
-     def test_wrong_compressor(self):
-         """Test how wic breaks if wrong compressor is provided"""
-         self.assertEqual(2, runCmd("wic create directdisk "
--                                   "--image-name core-image-minimal "
-+                                   "--image-name=core-image-minimal "
-                                    "-c wrong", ignore_status=True).status)
- 
-+    @testcase(1558)
-+    def test_debug_skip_build_check_and_build_rootfs(self):
-+        """Test wic debug, skip-build-check and build_rootfs"""
-+        self.assertEqual(0, runCmd("wic create directdisk "
-+                                   "--image-name=core-image-minimal "
-+                                   "-D -s -f").status)
-+        self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
-+        self.assertEqual(0, runCmd("wic create directdisk "
-+                                   "--image-name=core-image-minimal "
-+                                   "--debug "
-+                                   "--skip-build-check "
-+                                   "--build-rootfs").status)
-+        self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
-+
-     @testcase(1268)
-     def test_rootfs_indirect_recipes(self):
-         """Test usage of rootfs plugin with rootfs recipes"""
-         wks = "directdisk-multi-rootfs"
-         self.assertEqual(0, runCmd("wic create %s "
--                                   "--image-name core-image-minimal "
-+                                   "--image-name=core-image-minimal "
-                                    "--rootfs rootfs1=core-image-minimal "
--                                   "--rootfs rootfs2=core-image-minimal" \
-+                                   "--rootfs rootfs2=core-image-minimal"
-                                    % wks).status)
-         self.assertEqual(1, len(glob(self.resultdir + "%s*.direct" % wks)))
- 
-     @testcase(1269)
-     def test_rootfs_artifacts(self):
-         """Test usage of rootfs plugin with rootfs paths"""
--        bbvars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
--                        for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE',
--                                    'STAGING_DIR_NATIVE', 'IMAGE_ROOTFS'))
-+        bbvars = dict((var.lower(), get_bb_var(var, 'core-image-minimal'))
-+                      for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE',
-+                                  'STAGING_DIR_NATIVE', 'IMAGE_ROOTFS'))
-         bbvars['wks'] = "directdisk-multi-rootfs"
-         status = runCmd("wic create %(wks)s "
--                        "-b %(staging_datadir)s "
--                        "-k %(deploy_dir_image)s "
--                        "-n %(staging_dir_native)s "
-+                        "--bootimg-dir=%(staging_datadir)s "
-+                        "--kernel-dir=%(deploy_dir_image)s "
-+                        "--native-sysroot=%(staging_dir_native)s "
-                         "--rootfs-dir rootfs1=%(image_rootfs)s "
--                        "--rootfs-dir rootfs2=%(image_rootfs)s" \
-+                        "--rootfs-dir rootfs2=%(image_rootfs)s"
-                         % bbvars).status
-         self.assertEqual(0, status)
--        self.assertEqual(1, len(glob(self.resultdir + \
-+        self.assertEqual(1, len(glob(self.resultdir +
-                                      "%(wks)s-*.direct" % bbvars)))
- 
-     @testcase(1346)
-     def test_iso_image(self):
-         """Test creation of hybrid iso image with legacy and EFI boot"""
-         self.assertEqual(0, runCmd("wic create mkhybridiso "
--                                   "--image-name core-image-minimal").status)
--        self.assertEqual(1, len(glob(self.resultdir + "HYBRID_ISO_IMG-*.direct")))
--        self.assertEqual(1, len(glob(self.resultdir + "HYBRID_ISO_IMG-*.iso")))
-+                                   "--image-name core-image-minimal"
-+                                   ).status)
-+        self.assertEqual(1, len(glob(self.resultdir +
-+                                     "HYBRID_ISO_IMG-*.direct")))
-+        self.assertEqual(1, len(glob(self.resultdir +
-+                                     "HYBRID_ISO_IMG-*.iso")))
-+
-+    def __get_image_env_path(self, image):
-+        """Generate and obtain the path to <image>.env"""
-+        self.assertEqual(0, bitbake('%s -c do_rootfs_wicenv' % image).status)
-+        stdir = get_bb_var('STAGING_DIR_TARGET', image)
-+        imgdatadir = os.path.join(stdir, 'imgdata')
-+        return imgdatadir
- 
-     @testcase(1347)
-     def test_image_env(self):
--        """Test generation of <image>.env files."""
-+        """Test generation of <image>.env files"""
-         image = 'core-image-minimal'
--        self.assertEqual(0, bitbake('%s -c do_rootfs_wicenv' % image).status)
--        stdir = get_bb_var('STAGING_DIR_TARGET', image)
--        imgdatadir = os.path.join(stdir, 'imgdata')
-+        imgdatadir = self.__get_image_env_path(image)
- 
-         basename = get_bb_var('IMAGE_BASENAME', image)
-         self.assertEqual(basename, image)
-@@ -220,6 +278,21 @@ class Wic(oeSelfTest):
-                 self.assertTrue(var in content, "%s is not in .env file" % var)
-                 self.assertTrue(content[var])
- 
-+    @testcase(1559)
-+    def test_image_vars_dir(self):
-+        """Test image vars directory selection"""
-+        image = 'core-image-minimal'
-+        imgenvdir = self.__get_image_env_path(image)
-+
-+        self.assertEqual(0, runCmd("wic create directdisk "
-+                                   "--image-name=%s "
-+                                   "-v %s"
-+                                   % (image, imgenvdir)).status)
-+        self.assertEqual(0, runCmd("wic create directdisk "
-+                                   "--image-name=%s "
-+                                   "--vars %s"
-+                                   % (image, imgenvdir)).status)
-+
-     @testcase(1351)
-     def test_wic_image_type(self):
-         """Test building wic images by bitbake"""
-@@ -239,7 +312,7 @@ class Wic(oeSelfTest):
-     def test_qemux86_directdisk(self):
-         """Test creation of qemux-86-directdisk image"""
-         image = "qemux86-directdisk"
--        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
-+        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal"
-                                    % image).status)
-         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
- 
-@@ -247,7 +320,8 @@ class Wic(oeSelfTest):
-     def test_mkgummidisk(self):
-         """Test creation of mkgummidisk image"""
-         image = "mkgummidisk"
--        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
-+        self.assertEqual(0, runCmd("wic create %s --image-name "
-+                                   "core-image-minimal"
-                                    % image).status)
-         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
- 
-@@ -255,7 +329,7 @@ class Wic(oeSelfTest):
-     def test_mkefidisk(self):
-         """Test creation of mkefidisk image"""
-         image = "mkefidisk"
--        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
-+        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal"
-                                    % image).status)
-         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
- 
-@@ -263,11 +337,11 @@ class Wic(oeSelfTest):
-     def test_directdisk_bootloader_config(self):
-         """Test creation of directdisk-bootloader-config image"""
-         image = "directdisk-bootloader-config"
--        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
-+        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal"
-                                    % image).status)
-         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
- 
--    @testcase(1422)
-+    @testcase(1424)
-     def test_qemu(self):
-         """Test wic-image-minimal under qemu"""
-         self.assertEqual(0, bitbake('wic-image-minimal').status)
-@@ -275,28 +349,56 @@ class Wic(oeSelfTest):
-         with runqemu('wic-image-minimal', ssh=False) as qemu:
-             command = "mount |grep '^/dev/' | cut -f1,3 -d ' '"
-             status, output = qemu.run_serial(command)
--            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (command, output))
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s'
-+                                        % (command, output))
-             self.assertEqual(output, '/dev/root /\r\n/dev/vda3 /mnt')
- 
-+    @testcase(1496)
-     def test_bmap(self):
-         """Test generation of .bmap file"""
-         image = "directdisk"
--        status = runCmd("wic create %s -e core-image-minimal --bmap" % image).status
-+        status = runCmd("wic create %s -e core-image-minimal -m"
-+                        % image).status
-+        self.assertEqual(0, status)
-+        self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
-+        self.assertEqual(1, len(glob(self.resultdir +
-+                                     "%s-*direct.bmap" % image)))
-+        status = runCmd("wic create %s -e core-image-minimal --bmap"
-+                        % image).status
-         self.assertEqual(0, status)
-         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
--        self.assertEqual(1, len(glob(self.resultdir + "%s-*direct.bmap" % image)))
-+        self.assertEqual(1, len(glob(self.resultdir + "%s-*direct.bmap"
-+                                                      % image)))
- 
-+    @testcase(1560)
-     def test_systemd_bootdisk(self):
-         """Test creation of systemd-bootdisk image"""
-         image = "systemd-bootdisk"
--        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
-+        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal"
-                                    % image).status)
-         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
- 
-+    @testcase(1561)
-     def test_sdimage_bootpart(self):
-         """Test creation of sdimage-bootpart image"""
-         image = "sdimage-bootpart"
-         self.write_config('IMAGE_BOOT_FILES = "bzImage"\n')
--        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
-+        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal"
-                                    % image).status)
-         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
-+
-+    @testcase(1562)
-+    def test_alternate_output_dir(self):
-+        """Test alternate output directory"""
-+        self.assertEqual(0, runCmd("wic create directdisk "
-+                                   "-e core-image-minimal "
-+                                   "-o %s"
-+                                   % self.alternate_resultdir).status)
-+        self.assertEqual(1, len(glob(self.alternate_resultdir +
-+                                     "build/directdisk-*.direct")))
-+        self.assertEqual(0, runCmd("wic create mkefidisk -e "
-+                                   "core-image-minimal "
-+                                   "--outdir %s"
-+                                   % self.alternate_resultdir).status)
-+        self.assertEqual(1, len(glob(self.alternate_resultdir +
-+                                     "build/mkefidisk-*direct")))
--- 
-2.7.4
-
+Alex
 
