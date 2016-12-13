@@ -1,33 +1,54 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B8C7760111
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E8CD60111
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 08:31:17 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBD8VIsP013432
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 13 Dec 2016 00:31:18 -0800 (PST)
-Received: from [128.224.162.160] (128.224.162.160) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 13 Dec 2016 00:31:17 -0800
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1479363545.git.liezhi.yang@windriver.com>
-	<7884104.xbYfD5GGaH@peggleto-mobl.ger.corp.intel.com>
-	<d0d8f45f-774f-0965-2a60-6acd17aca09a@windriver.com>
-	<1611902.KszYoSQub8@peggleto-mobl.ger.corp.intel.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <1dbd51fd-cbe1-6b54-b321-cdc05c0dd633@windriver.com>
-Date: Tue, 13 Dec 2016 16:31:15 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <1611902.KszYoSQub8@peggleto-mobl.ger.corp.intel.com>
-Cc: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>, "Limon,
-	Anibal" <anibal.limon@intel.com>, "Lopez,
-	Mariano" <mariano.lopez@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/8] oeqa/sdkext/devtool.py: remove workspace/sources before running test cases
+	Tue, 13 Dec 2016 08:38:32 +0000 (UTC)
+Received: by mail-io0-f181.google.com with SMTP id d9so212775419ioe.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Dec 2016 00:38:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=GxY764S+7KZxQRCwng7REC55TLAKR+5OC4MqZ4jLA6o=;
+	b=0NcvtNaj+qcVN2SK23agwpCA06swMJ9BXrvQlZbesJ3cpZ9xpF8Wlrh9MF+Px7VwZU
+	4eBG7QSqI/WPzg/qIFFoJCgfqHP4WHTwDXvIGy1vfMPbfy3NMi9CisGFP1oZ4ApWznlD
+	FApglAuhql1Z3jxwB/u6MCnUVcEEWsbvqJL2nareWdn1L/H99MigT7iXq+zRagqVR8Y1
+	+uRJsZArfzvIuinv880V6jIqV47UNrItUzfp8i4XlH9kqMsO4qsBysOpEOdlg3Q1fTpD
+	Se+jXuBahAnCW4PtoWvZuT1sG8b7zwbZ97u2SYeOkZZXxFQ11UJZVOZBk+5eiQhofOq1
+	9rbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=GxY764S+7KZxQRCwng7REC55TLAKR+5OC4MqZ4jLA6o=;
+	b=F0z8A3YkXOzin7SNev1UjmyxP+oh0LELRIKL7qzmHbeIEcHudCL32Y0fyP+T/va2ML
+	KiNofyg6GVlZW2F3HGE8hx+d4vyWIR71+CFOGCLkfmnVAF39lPRPjLuJr4H6UR4XtsnN
+	ugCI6DRsuEb83txGpS7hVAerbD/zbbjZWV7PIPeOc0mTWRpx4k56wJvpM7CvWCKVZtYc
+	MHqg3w+zFn/H6ZNlygeh4/RJgwlP2MWDTnv6WGdYXVoWS7bMgnYx3ESH4BCehdZ+9fL2
+	94BT45oqDT9f5wDLoIOR509S1MpEC5HFwVs1IbEXoR/KLrk6kGbKoUTxuHQtYx9rFAxr
+	di3g==
+X-Gm-Message-State: AKaTC00cNEWTzo7HNwUrqLjqlakUn1kvVSjtgsBKUqeU7mRtJu8A7o/kGl6nHU239M3AD+NS
+X-Received: by 10.107.1.138 with SMTP id 132mr84781145iob.72.1481618313808;
+	Tue, 13 Dec 2016 00:38:33 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8F3B2.dip0.t-ipconnect.de. [93.232.243.178])
+	by smtp.gmail.com with ESMTPSA id
+	m83sm21000423ioi.11.2016.12.13.00.38.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 13 Dec 2016 00:38:32 -0800 (PST)
+Message-ID: <1481618309.17535.260.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Date: Tue, 13 Dec 2016 09:38:29 +0100
+In-Reply-To: <6c128696461dd6e37818cbad168a048575b97f5a.1481616098.git.Qi.Chen@windriver.com>
+References: <cover.1481616098.git.Qi.Chen@windriver.com>
+	<6c128696461dd6e37818cbad168a048575b97f5a.1481616098.git.Qi.Chen@windriver.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2 4/4] package.bbclass: support persistent /var/log
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,61 +61,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2016 08:31:17 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Tue, 13 Dec 2016 08:38:33 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Tue, 2016-12-13 at 16:04 +0800, Chen Qi wrote:
+> -            fs_perms_tables = 'files/fs-perms.txt'
+> +            fs_perms_tables = ['files/fs-perms-persistent-log.txt',
+> 'files/fs-perms.txt'][d.getVar('VOLATILE_LOG_DIR', True) == 'yes']
+
+Now that the rest of the changes treat VOLATILE_LOG_DIR as a boolean,
+this code here also needs to be changed. Otherwise VOLATILE_LOG_DIR=1 or
+VOLATILE_LOG_DIR=y won't work correctly.
+
+You might also want to change the description of the variable in the
+first patch to mention those other values.
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
 
-On 12/13/2016 04:21 PM, Paul Eggleton wrote:
-> On Tue, 13 Dec 2016 14:47:10 Robert Yang wrote:
->> On 12/13/2016 02:29 PM, Paul Eggleton wrote:
->>> On Tue, 13 Dec 2016 13:56:05 Robert Yang wrote:
->>>> On 12/13/2016 12:45 PM, Paul Eggleton wrote:
->>>>> It seems to me that's what's missing here is a proper teardown process
->>>>> like we have for oe-selftest, so that tests clean up after themselves
->>>>> whether they succeed or fail. I'm unsure as to whether that is part of
->>>>> the plan for the new QA refactoring though.
->>>>
->>>> There is already a 'devtool reset' which can do the cleanup, but it
->>>> can't remove sources as I said in the commit log.
->>>
->>> devtool reset not deleting the source tree is intentional - I don't want
->>
->> Add an option like "devtool reset --force" ? When I met the error, the first
->> I did was check "devtool reset", but there is no way to remove resources,
->> so I have to remove it here to allow multilib test cases runs.
->
-> I've considered this and decided against it - it just seems to me that at
-> least one person will use it every time until one day when they wipe out their
-> source with their changes in it. I'd really rather not be enabling that.
-> Besides, in everyday use repeated runs of devtool add / modify on the same
-> recipe should be at a minimum, if that's not the case then we have other
-> issues to look at.
->
-> You say there's no way to remove these, but there is - just delete the files
-> explicitly.
->
->> Or maybe fix "devtool add" to check the git repo correclty ? For example,
->> when there is already a repo, just update it rather than clone it again.
->
-> Right, that has been suggested - and it's all fine if the source tree is
-> unmodified and just a straight update to get from where it is currently to
-> match the upstream. However, what if it's not fast-forward, or a different
-> repo entirely? What if there are local modifications?
->
->> The multilib + testsdkext would fail without this fix.
->
-> Yes, that's why I ultimately said we haven't much choice but to apply this
-> patch. We must acknowledge however that the problem exists because the tests
 
-Got it, thanks.
-
-// Robert
-
-> aren't cleaning up after themselves, which should be their responsibility.
->
-> Cheers,
-> Paul
->
 
