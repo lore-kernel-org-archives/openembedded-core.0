@@ -1,42 +1,47 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wj0-f195.google.com (mail-wj0-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A3DC71E47
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-vk0-f52.google.com (mail-vk0-f52.google.com
+	[209.85.213.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 106F071E13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 16:21:11 +0000 (UTC)
-Received: by mail-wj0-f195.google.com with SMTP id j10so17241774wjb.3
+	Tue, 13 Dec 2016 16:30:15 +0000 (UTC)
+Received: by mail-vk0-f52.google.com with SMTP id p9so69197721vkd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 08:21:13 -0800 (PST)
+	Tue, 13 Dec 2016 08:30:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=v6xBVo/VMZFkjdr1Uk/ivNNAzurhzPmenD0Ekqu8ncU=;
+	b=lAgFt26snaySU4aT83DaZTpyRUoGt9X7XcjL/M2ojGf/jVy6njBsVJmqwyLpwgnt8W
+	6CH5KjKn3BZoFnZUPQBmydw3FJYBxt0QslFX0pdgi06q5LTzRw99gIevijNV3Lr1C22V
+	JAzhVJpg1ie4DSPHecI+dU5AnxrbDrtBa7cRrbr6OxDmFkl+zgWfsUGPvzAmM/9bb+DM
+	p3lnvjXUOvUIz3OU7UEJCJERiZF5UMx1zL/jmiLvY61Fnu6MhzC8sYNMdQZp2JQfJqao
+	02vwSPGylBcRpejrYzkZnW9EqAcPyCT21VJFT7/xNJmYLYT1NlPoWb/oOQLeWCOk0+VU
+	sVXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=vPRQMu5s8eQ/BNyN9ued0vN32C9nsgF8EK4Hayk1ZLY=;
-	b=DbElNsCpl7iIJ2TdZG4pR683PGG7Qu5JKIy6cbjunqVEjSobnykLKN3z36plMdwFoc
-	hok0m7/MCDcK7uzEdah81XgSWdQfwxQiaG2IWja4mE5eGifIMSI/jMkRW/QYY4On7ctp
-	2Lf/Y5B1fE4tUK/W85i2D1n4uHXhh7a40XsAYBiUBX/PRb2I7ByuM2BTinkcqj+2oP2E
-	H0JcpedRl3oAYCP1sFCwe60r4P2hQa89RFMCIDks3BYm/UY3KP4FHPYHThqNxGH51d/Q
-	DDJCEXPavk2z2Qcw7jP0CctgVCJBOGz9cR+J3iiuXcEVx0SJpD9DAyX4JDQiXEWDq0Ol
-	Nezw==
-X-Gm-Message-State: AKaTC03QHqwuz+MyIqVWPo4q0mV6T4X7sIODepB3a3C2jiO9YD0TEnZfi9QvUZuWU+BzRA==
-X-Received: by 10.194.105.228 with SMTP id gp4mr65681470wjb.208.1481646072635; 
-	Tue, 13 Dec 2016 08:21:12 -0800 (PST)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	k11sm3297248wmb.18.2016.12.13.08.21.11
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 13 Dec 2016 08:21:11 -0800 (PST)
-Message-ID: <1481646065.27847.2.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 13 Dec 2016 16:21:05 +0000
-In-Reply-To: <CAJTo0LaChfpCDnbs8hAHLzCHS3wb3Wbu3Ak99YPDDvUZjDGGRg@mail.gmail.com>
-References: <20161212154016.1076-1-git@andred.net>
-	<CAJTo0LaChfpCDnbs8hAHLzCHS3wb3Wbu3Ak99YPDDvUZjDGGRg@mail.gmail.com>
-X-Mailer: Evolution 3.22.2-1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] busybox: allow libiproute to handle table ids larger than 255
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=v6xBVo/VMZFkjdr1Uk/ivNNAzurhzPmenD0Ekqu8ncU=;
+	b=GGPNQHp6RDw2O7gj6Jr4hTALHXLj58QllLwdAk6lbmbEQ+xcFOoEHZ0W8hkSzE2vUF
+	P8cT9Mh6D49gL/BVm4CnqiBNnNpP2UKyHTHMogELgW7DhmLDAeH+gigJbom56fWB91R+
+	or2guLqcSpPfmAmc3MrDOXlmtyy74b0HUkZMil1nr13F+0XjHXf0Q26B4/1rqF/njOe9
+	0CUXkx+MJjJF/aH+b3b/Z06AVVRvIRkvO3SrVbIQCiCD3GVpOya0uuQcfVmoIEpWmmA5
+	Z28EPpawXOLbRVxU+O8kDHFX6FjwJL2wcCrzi01YSiO40JBLK6ASWZl+d0UBTubmQq46
+	awMA==
+X-Gm-Message-State: AKaTC03bgjLKknUs2b2grzja4hjMZK26o8T4Pgc4aMFKiy5ENSGwvazx/NjAE42oq7sla/0v5NYPEiIlPW3cbA==
+X-Received: by 10.31.234.199 with SMTP id i190mr40541417vkh.31.1481646616573; 
+	Tue, 13 Dec 2016 08:30:16 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.159.48.87 with HTTP; Tue, 13 Dec 2016 08:29:46 -0800 (PST)
+In-Reply-To: <7aafe397c8214239a49d3cf09480d388@XBOX02.axis.com>
+References: <alpine.LFD.2.20.1612100630310.23762@localhost.localdomain>
+	<CAMKF1sp_R_qapapbcZ8mu-b1BumWekvKjA-QXUDLOTSWgOoXQA@mail.gmail.com>
+	<7aafe397c8214239a49d3cf09480d388@XBOX02.axis.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 13 Dec 2016 08:29:46 -0800
+Message-ID: <CAMKF1socSZpw1raKWxt6=SZ4T2Ux_4LeiUhX-PGpxG9Q5y_Deg@mail.gmail.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: can "IMAGE_INSTALL ?= ..." not be written in a more obvious way?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,33 +54,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2016 16:21:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 13 Dec 2016 16:30:16 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi Ross,
+On Tue, Dec 13, 2016 at 12:52 AM, Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+>> -----Original Message-----
+>> From: openembedded-core-bounces@lists.openembedded.org
+>> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+>> Khem Raj
+>> Sent: den 10 december 2016 22:16
+>> To: Robert P. J. Day
+>> Cc: OE Core mailing list
+>> Subject: Re: [OE-core] can "IMAGE_INSTALL ?= ..." not be written in a
+>> more obvious way?
+>>
+>> On Sat, Dec 10, 2016 at 3:40 AM, Robert P. J. Day
+>> <rpjday@crashcourse.ca> wrote:
+>> >
+>> >   i've nattered about this before but not sure i ever got an answer --
+>> > here's the last bit of core-image.bbclass:
+>> >
+>> >   CORE_IMAGE_BASE_INSTALL = '\
+>> >     packagegroup-core-boot \
+>> >     packagegroup-base-extended \
+>> >     \
+>> >     ${CORE_IMAGE_EXTRA_INSTALL} \
+>> >     '
+>> >
+>> >   CORE_IMAGE_EXTRA_INSTALL ?= ""
+>> >
+>> >   IMAGE_INSTALL ?= "${CORE_IMAGE_BASE_INSTALL}"
+>> >
+>> > the first time i saw that (long ago), it took me a few looks to figure
+>> > out what was happening. can this not be written in a more obvious way:
+>> >
+>> >   CORE_IMAGE_BASE_INSTALL = '\
+>> >     packagegroup-core-boot \
+>> >     packagegroup-base-extended \
+>> >     '
+>> >
+>> >   CORE_IMAGE_EXTRA_INSTALL ?= ""
+>> >
+>> >   IMAGE_INSTALL ?= " \
+>> >     ${CORE_IMAGE_BASE_INSTALL} \
+>> >     ${CORE_IMAGE_EXTRA_INSTALL} \
+>> >     "
+>> >
+>> > is that not equivalent, or am i missing something? it's certainly
+>> > clearer as to what's happening if people are perusing the code.
+>>
+>> They are same AFAICT, dont feel strongly  about readability but feel
+>> free to send a patch
+>
+> Careful now. Changing these can affect image recipes outside of OE-core.
+> If one has an image recipe that inherits core-image and then defines
+>
+> IMAGE_INSTALL = "${CORE_IMAGE_BASE_INSTALL} my-own-packages ..."
+>
+> then changing CORE_IMAGE_BASE_INSTALL as per above would suddenly
+> cause that image to miss including packages that it previously did.
 
-On Tue, 2016-12-13 at 08:40 +0000, Burton, Ross wrote:
-> On 12 December 2016 at 15:40, André Draszik <git@andred.net> wrote:
-> 
-> > ++              printf("table %s ", rtnl_rttable_n2a(tid));
-> > 
-> 
-> Sorry but this doesn't build here:
-> 
-> > networking/libiproute/lib.a(iproute.o): In function `print_route':
-> > 
-> 
-> /usr/src/debug/busybox/1.24.1-r0/busybox-
-> 1.24.1/networking/libiproute/iproute.c:294:
-> undefined reference to `rtnl_rttable_n2a'
-> 
-> Ross
+yes I think thats the interface it will end up in. It would be more
+explicit for someone to set IMAGE_INSTALL explicitly and not expect
+this sort of bundling. its also more readable when you construct
+IMAGE_INSTALL
 
-Should be fixed in v2.
+>
+> I recommend leaving it as is.
 
+agreed.Probably not worth the churn
 
-Cheers,
-Andre'
-
+>
+> //Peter
+>
 
