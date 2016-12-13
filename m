@@ -1,20 +1,26 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 0AC4371E41
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id A6A7471990
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 21:21:18 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga102.fm.intel.com with ESMTP; 13 Dec 2016 13:21:20 -0800
+	Tue, 13 Dec 2016 23:55:37 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 13 Dec 2016 15:55:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,342,1477983600"; d="scan'208";a="39677626"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.142])
-	by orsmga004.jf.intel.com with ESMTP; 13 Dec 2016 13:21:19 -0800
-From: leonardo.sandoval.gonzalez@linux.intel.com
+X-IronPort-AV: E=Sophos;i="5.33,343,1477983600"; d="scan'208";a="1081474496"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga001.fm.intel.com with ESMTP; 13 Dec 2016 15:55:17 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 3B9D06A4006;
+	Tue, 13 Dec 2016 15:54:29 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Dec 2016 15:27:20 -0600
-Message-Id: <1481664440-6184-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Wed, 14 Dec 2016 01:55:04 +0200
+Message-Id: <1481673304-2956-1-git-send-email-ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] masterimage: ignore return status in case of ssh shutdown command
+In-Reply-To: <1976647.jAKzAtoRFl@peggleto-mobl.ger.corp.intel.com>
+References: <1976647.jAKzAtoRFl@peggleto-mobl.ger.corp.intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: [PATCH v3] uninative: rebuild uninative for gcc 4.8 and 4.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,65 +33,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2016 21:21:19 -0000
+X-List-Received-Date: Tue, 13 Dec 2016 23:55:40 -0000
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Some c++ libraries fail to build if uninative is built
+with gcc 5.x and host gcc version is either 4.8 or 4.9.
 
-There are reported cases (see bugzilla entry below) where ssh process
-is killed by the shutdown command it runs, thus the ssh's return
-status is non-zero. To ignore the ssh return status, a context manager decorador
-is use together with the 'with' statement, ignoring the status of any command
-run inside the later body.
+The issue should be solved by making separate uninative sstate
+directory structure sstate-cache/universal-<gcc version> for host gcc
+versions 4.8 and 4.9. This causes rebuilds of uninative if host gcc
+is either 4.8 or 4.9 and it doesn't match gcc version used to build
+uninative.
 
-[YOCTO #10101]
+[YOCTO #10441]
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/lib/oeqa/controllers/masterimage.py | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+ meta/classes/populate_sdk_ext.bbclass |  5 +++--
+ meta/classes/uninative.bbclass        |  2 +-
+ meta/lib/oe/utils.py                  | 14 ++++++++++++++
+ 3 files changed, 18 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/controllers/masterimage.py b/meta/lib/oeqa/controllers/masterimage.py
-index 9ce3bf8..1054fb4 100644
---- a/meta/lib/oeqa/controllers/masterimage.py
-+++ b/meta/lib/oeqa/controllers/masterimage.py
-@@ -16,6 +16,7 @@ import bb
- import traceback
- import time
- import subprocess
-+from contextlib import contextmanager
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index 3c3a73c..1affa9d 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -374,8 +374,9 @@ python copy_buildsystem () {
  
- import oeqa.targetcontrol
- import oeqa.utils.sshcontrol as sshcontrol
-@@ -24,6 +25,15 @@ from oeqa.utils import CommandError
- 
- from abc import ABCMeta, abstractmethod
- 
-+@contextmanager
-+def ignorestatus(conn):
-+    previous = conn.ignore_status
-+    conn.ignore_status = True
-+    try:
-+        yield conn
-+    finally:
-+        conn.ignore_status = previous
+     sstate_out = baseoutpath + '/sstate-cache'
+     bb.utils.remove(sstate_out, True)
+-    # uninative.bbclass sets NATIVELSBSTRING to 'universal'
+-    fixedlsbstring = 'universal'
 +
- class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta):
++    # uninative.bbclass sets NATIVELSBSTRING to 'universal%s' % oe.utils.host_gcc_version(d)
++    fixedlsbstring = "universal%s" % oe.utils.host_gcc_version(d)
  
-     supported_image_fstypes = ['tar.gz', 'tar.bz2']
-@@ -103,8 +113,11 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta
+     sdk_include_toolchain = (d.getVar('SDK_INCLUDE_TOOLCHAIN', True) == '1')
+     sdk_ext_type = d.getVar('SDK_EXT_TYPE', True)
+diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
+index 9242320..11cbf9b 100644
+--- a/meta/classes/uninative.bbclass
++++ b/meta/classes/uninative.bbclass
+@@ -88,7 +88,7 @@ def enable_uninative(d):
+     loader = d.getVar("UNINATIVE_LOADER", True)
+     if os.path.exists(loader):
+         bb.debug(2, "Enabling uninative")
+-        d.setVar("NATIVELSBSTRING", "universal")
++        d.setVar("NATIVELSBSTRING", "universal%s" % oe.utils.host_gcc_version(d))
+         d.appendVar("SSTATEPOSTUNPACKFUNCS", " uninative_changeinterp")
+         d.prependVar("PATH", "${STAGING_DIR}-uninative/${BUILD_ARCH}-linux${bindir_native}:")
  
-     def power_cycle(self, conn):
-         if self.powercontrol_cmd:
--            # be nice, don't just cut power
--            conn.run("shutdown -h now")
-+            # be nice, don't just cut power and ignore status just for shutdown cmd
-+            # status is ignore because the ssh connection may be killed by the
-+            # shutdown process, thus yielding a non-zero exit status
-+            with c = ignorestatus(conn):
-+                c.run("shutdown -h now")
-             time.sleep(10)
-             self.power_ctl("cycle")
-         else:
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index d6545b1..2b095f1 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -230,6 +230,20 @@ def format_pkg_list(pkg_dict, ret_format=None):
+ 
+     return '\n'.join(output)
+ 
++def host_gcc_version(d):
++    compiler = d.getVar("BUILD_CC", True)
++    retval, output = getstatusoutput("%s --version" % compiler)
++    if retval:
++        bb.fatal("Error running %s --version: %s" % (compiler, output))
++
++    import re
++    match = re.match(".* (\d\.\d)\.\d.*", output.split('\n')[0])
++    if not match:
++        bb.fatal("Can't get compiler version from %s --version output" % compiler)
++
++    version = match.group(1)
++    return "-%s" % version if version in ("4.8", "4.9") else ""
++
+ #
+ # Python 2.7 doesn't have threaded pools (just multiprocessing)
+ # so implement a version here
 -- 
 2.1.4
 
