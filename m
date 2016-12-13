@@ -1,46 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
-	[209.85.216.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 1252A71E47
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id CB27571E47
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 16:18:06 +0000 (UTC)
-Received: by mail-qt0-f180.google.com with SMTP id p16so111101001qta.0
+	Tue, 13 Dec 2016 16:19:29 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id a20so19263052wme.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 08:18:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=L4iyBEjqJgWK4Aak+KoKo9rPSE7GlnqdzXyMiHOplt0=;
-	b=DsdMFoshkJ6YHNmH54QpYeIXjjsN1X9aSavxHw259oU8Mt6Dns79fhn7O068nP1QHy
-	7naRhovwnoTBC73hm4JVo1NUY/46gYgi7pnqcfy+egglva3TuaTKHBVsAu8rV7vGtBN8
-	7yQkDrXK6CMwqVLbtItJlh+uwxwyu7r4aIAhQj7eYsjXj/ikmBGP2ofDTR0+16a13rJY
-	Z3YavGgzpqTLxxvBL6rc9HGzT+0zKIwDr7YaS2CesZOdtLNAbiVfPXUpwhhTEM+yP5Oj
-	PwmNsAdB7BoUIFR+FcLKuEApAIDWfBbwe/LuVO0ZZcqCm96vtASsvTuH3FX7Lj5ZHMfu
-	QhAg==
+	Tue, 13 Dec 2016 08:19:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=L4iyBEjqJgWK4Aak+KoKo9rPSE7GlnqdzXyMiHOplt0=;
-	b=eWtgotrlWKTtaN1BXbSWUz7HqsvJIubHXjCMSjikgLZR2uDIscNsT2EJWXlVG65o8Y
-	rE96gNdQ8Srf4gatJkU1b1qxD41PfWv8Gi9bhQ8PMjfy6WRNxEhwrdxbbxbcEIqD/KiS
-	i3vjuWzCtxh86ExxNFt9G9otlkP8jnfi4Tkf7rhh25tF4mhXz9FqfD90mH7FJzmQz/SU
-	ihNt51TmOJ6lOUbVH+0byVEaJJQq6WJfLKkejs5IRpMD1TgJF/rXfQVJ0YpVa06qPiGR
-	SLrs206viEMh77LTfGjU8HJfSQxkq5LhZftzFBU9jI+Bzzmi1t/oeNF5bN6ZPGBoWEVH
-	whHw==
-X-Gm-Message-State: AKaTC014rknBNWTZKhJzRfdo37a7xR7xZ4sAGzIWzNC2PAa/5b7tUNqBeedqlR4xK9ktLZkDkbAsfs7RlNl4l8V9
-X-Received: by 10.237.36.154 with SMTP id t26mr82310380qtc.188.1481645887876; 
-	Tue, 13 Dec 2016 08:18:07 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Tue, 13 Dec 2016 08:17:47 -0800 (PST)
-In-Reply-To: <1479227073-13133-1-git-send-email-jose.perez.carranza@linux.intel.com>
-References: <1479227073-13133-1-git-send-email-jose.perez.carranza@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 13 Dec 2016 16:17:47 +0000
-Message-ID: <CAJTo0LZ1cj5Nm+iSO5aaHRMgf1Syhx6wQ3R2OaBe99A-SKX5Yg@mail.gmail.com>
-To: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] oe-tests: Migrate tests from /oe/test to /oeqa/selftest/oe-tests
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=z09O+izGwuyydQqzMU2haSXrnTj1+tLxIhHjRqcppOs=;
+	b=XoDrwct7xTT0Y2WYJXrLDHudNmF9C+Khs1HWUOqNzCxj13jyEriXUoHdnGxq2BUuuP
+	bByktyxD94kgqF4V+NTu9n66xmiP/HrwuXduTNfx/fRFXlVZxNCUaEezeXywR+3wXGdD
+	EkHymrqLH8UcXtArlTi2PZVdnjiOc8iM9R8gRJyCE9aeu7ebLarG+UAE9uopMCfDIwux
+	79gry5d3Ft3OeSNFCEavDiH6INqhZNR78cZeA52mxWsYI1P0tll64gMBHOH1nbbFWBaR
+	VuMzgSy6BtTzY1AfNtP/HRFh69a9de+2tYQwrJEke02KDAY0KgA2jyn2YKAX/JOOPHuh
+	VLUA==
+X-Gm-Message-State: AKaTC02xPU+p2LFs8AQefAyYYhc9v+vR0fAUj25+bl7fThyI0V4DvS4GuMSia+ZsC8+zog==
+X-Received: by 10.28.16.65 with SMTP id 62mr3645249wmq.81.1481645969817;
+	Tue, 13 Dec 2016 08:19:29 -0800 (PST)
+Received: from tfsielt31850.tycofs.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	j1sm62974583wjm.26.2016.12.13.08.19.28
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 13 Dec 2016 08:19:29 -0800 (PST)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Dec 2016 16:19:28 +0000
+Message-Id: <20161213161928.9184-1-git@andred.net>
+X-Mailer: git-send-email 2.10.2
+In-Reply-To: <20161212154016.1076-1-git@andred.net>
+References: <20161212154016.1076-1-git@andred.net>
+Subject: [PATCH v2] busybox: allow libiproute to handle table ids larger than 255
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,83 +46,173 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2016 16:18:07 -0000
-Content-Type: multipart/alternative; boundary=001a1141058ed482f905438c9026
+X-List-Received-Date: Tue, 13 Dec 2016 16:19:30 -0000
 
---001a1141058ed482f905438c9026
-Content-Type: text/plain; charset=UTF-8
+From: Lukasz Nowak <lnowak@tycoint.com>
 
-On 15 November 2016 at 16:24, <jose.perez.carranza@linux.intel.com> wrote:
+These changes are required for compatibility with ConnMan, which by default
+uses table ids greater than 255.
 
-> Currently the unittests for scripts on meta/lib/oe/tests are not being
-> executed by any suite hence the best option is migrate them to
-> meta/lib/oeqa/selftest/oelib-tests to be executed along with the selftest
-> suite.
->
+Signed-off-by: Lukasz Nowak <lnowak@tycoint.com>
+---
+ ...biproute-handle-table-ids-larger-than-255.patch | 134 +++++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.24.1.bb        |   1 +
+ 2 files changed, 135 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-libiproute-handle-table-ids-larger-than-255.patch
 
-For some reason the discovery is very slow:
+diff --git a/meta/recipes-core/busybox/busybox/0001-libiproute-handle-table-ids-larger-than-255.patch b/meta/recipes-core/busybox/busybox/0001-libiproute-handle-table-ids-larger-than-255.patch
+new file mode 100644
+index 0000000..aac5b40
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/0001-libiproute-handle-table-ids-larger-than-255.patch
+@@ -0,0 +1,134 @@
++From b5a9234272e6084557224c73ab7737ed47f09848 Mon Sep 17 00:00:00 2001
++From: Lukasz Nowak <lnowak@tycoint.com>
++Date: Wed, 23 Nov 2016 12:48:21 +0000
++Subject: [PATCH v2] libiproute: handle table ids larger than 255
++
++Linux kernel, starting from 2.6.19 allows ip table ids to have 32-bit values.
++In order to preserve compatibility, the old 8-bit field: rtm_table is still
++in use when table id is lower than 256.
++
++Add support for the 32-bit table id (RTA_TABLE attribute) in:
++- ip route print
++- ip route modify
++- ip rule print
++- ip rule modify
++
++Add printing of table ids to ip route.
++
++Changes are compatible with the mainline iproute2 utilities.
++
++These changes are required for compatibility with ConnMan, which by default
++uses table ids greater than 255.
++
++Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/2016-December/084989.html]
++
++Signed-off-by: Lukasz Nowak <lnowak@tycoint.com>
++---
++ networking/libiproute/iproute.c | 24 ++++++++++++++++++++----
++ networking/libiproute/iprule.c  | 11 +++++++++--
++ 2 files changed, 29 insertions(+), 6 deletions(-)
++
++diff --git a/networking/libiproute/iproute.c b/networking/libiproute/iproute.c
++index 6ecd5f7..d5af498 100644
++--- a/networking/libiproute/iproute.c
+++++ b/networking/libiproute/iproute.c
++@@ -87,6 +87,7 @@ static int FAST_FUNC print_route(const struct sockaddr_nl *who UNUSED_PARAM,
++ 	inet_prefix dst;
++ 	inet_prefix src;
++ 	int host_len = -1;
+++	uint32_t tid;
++ 
++ 	if (n->nlmsg_type != RTM_NEWROUTE && n->nlmsg_type != RTM_DELROUTE) {
++ 		fprintf(stderr, "Not a route: %08x %08x %08x\n",
++@@ -99,6 +100,14 @@ static int FAST_FUNC print_route(const struct sockaddr_nl *who UNUSED_PARAM,
++ 	if (len < 0)
++ 		bb_error_msg_and_die("wrong nlmsg len %d", len);
++ 
+++	memset(tb, 0, sizeof(tb));
+++	parse_rtattr(tb, RTA_MAX, RTM_RTA(r), len);
+++
+++	if (tb[RTA_TABLE])
+++		tid = *(uint32_t *)RTA_DATA(tb[RTA_TABLE]);
+++	else
+++		tid = r->rtm_table;
+++
++ 	if (r->rtm_family == AF_INET6)
++ 		host_len = 128;
++ 	else if (r->rtm_family == AF_INET)
++@@ -128,7 +137,7 @@ static int FAST_FUNC print_route(const struct sockaddr_nl *who UNUSED_PARAM,
++ 			}
++ 		}
++ 	} else {
++-		if (G_filter.tb > 0 && G_filter.tb != r->rtm_table) {
+++		if (G_filter.tb > 0 && G_filter.tb != tid) {
++ 			return 0;
++ 		}
++ 	}
++@@ -157,10 +166,8 @@ static int FAST_FUNC print_route(const struct sockaddr_nl *who UNUSED_PARAM,
++ 		return 0;
++ 	}
++ 
++-	memset(tb, 0, sizeof(tb));
++ 	memset(&src, 0, sizeof(src));
++ 	memset(&dst, 0, sizeof(dst));
++-	parse_rtattr(tb, RTA_MAX, RTM_RTA(r), len);
++ 
++ 	if (tb[RTA_SRC]) {
++ 		src.bitlen = r->rtm_src_len;
++@@ -283,6 +290,10 @@ static int FAST_FUNC print_route(const struct sockaddr_nl *who UNUSED_PARAM,
++ 	if (tb[RTA_OIF]) {
++ 		printf("dev %s ", ll_index_to_name(*(int*)RTA_DATA(tb[RTA_OIF])));
++ 	}
+++#if ENABLE_FEATURE_IP_RULE
+++	if (tid && tid != RT_TABLE_MAIN && !G_filter.tb)
+++		printf("table %s ", rtnl_rttable_n2a(tid));
+++#endif
++ 
++ 	/* Todo: parse & show "proto kernel", "scope link" here */
++ 
++@@ -434,7 +445,12 @@ IF_FEATURE_IP_RULE(ARG_table,)
++ 			NEXT_ARG();
++ 			if (rtnl_rttable_a2n(&tid, *argv))
++ 				invarg(*argv, "table");
++-			req.r.rtm_table = tid;
+++			if (tid < 256)
+++				req.r.rtm_table = tid;
+++			else {
+++				req.r.rtm_table = RT_TABLE_UNSPEC;
+++				addattr32(&req.n, sizeof(req), RTA_TABLE, tid);
+++			}
++ #endif
++ 		} else if (arg == ARG_dev || arg == ARG_oif) {
++ 			NEXT_ARG();
++diff --git a/networking/libiproute/iprule.c b/networking/libiproute/iprule.c
++index 774a3e2..3fac7c5 100644
++--- a/networking/libiproute/iprule.c
+++++ b/networking/libiproute/iprule.c
++@@ -119,7 +119,9 @@ static int FAST_FUNC print_rule(const struct sockaddr_nl *who UNUSED_PARAM,
++ 		printf("iif %s ", (char*)RTA_DATA(tb[RTA_IIF]));
++ 	}
++ 
++-	if (r->rtm_table)
+++	if (tb[RTA_TABLE])
+++		printf("lookup %s ", rtnl_rttable_n2a(*(uint32_t*)RTA_DATA(tb[RTA_TABLE])));
+++	else if (r->rtm_table)
++ 		printf("lookup %s ", rtnl_rttable_n2a(r->rtm_table));
++ 
++ 	if (tb[RTA_FLOW]) {
++@@ -259,7 +261,12 @@ static int iprule_modify(int cmd, char **argv)
++ 			NEXT_ARG();
++ 			if (rtnl_rttable_a2n(&tid, *argv))
++ 				invarg(*argv, "table ID");
++-			req.r.rtm_table = tid;
+++			if (tid < 256)
+++				req.r.rtm_table = tid;
+++			else {
+++				req.r.rtm_table = RT_TABLE_UNSPEC;
+++				addattr32(&req.n, sizeof(req), RTA_TABLE, tid);
+++			}
++ 			table_ok = 1;
++ 		} else if (key == ARG_dev ||
++ 			   key == ARG_iif
++-- 
++2.7.4
++
+diff --git a/meta/recipes-core/busybox/busybox_1.24.1.bb b/meta/recipes-core/busybox/busybox_1.24.1.bb
+index df0e131..c35cba3 100644
+--- a/meta/recipes-core/busybox/busybox_1.24.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.24.1.bb
+@@ -53,6 +53,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://busybox-kbuild-race-fix-commit-d8e61bb.patch \
+            file://commit-applet_tables-fix-commit-0dddbc1.patch \
+            file://makefile-libbb-race.patch \
++           file://0001-libiproute-handle-table-ids-larger-than-255.patch \
+ "
+ SRC_URI_append_libc-musl = " file://musl.cfg "
+ 
+-- 
+2.10.2
 
-$ oe-selftest  -r oelib-tests.elf oelib-tests.license oelib-tests.path
-oelib-tests.types oelib-tests.utils
-2016-12-13 16:15:00,014 - selftest - INFO - Running bitbake -e to get BBPATH
-2016-12-13 16:15:03,143 - selftest - INFO - Checking that everything is in
-order before running the tests
-2016-12-13 16:15:06,512 - selftest - INFO - Running bitbake -p
-2016-12-13 16:15:10,203 - selftest - INFO - test runner init'ed like
-unittest
-2016-12-13 16:15:13,428 - selftest - INFO - Loading tests from:
-oeqa.selftest.oelib-tests.elf
-2016-12-13 16:15:16,489 - selftest - INFO - Loading tests from:
-oeqa.selftest.oelib-tests.license
-2016-12-13 16:15:29,391 - selftest - INFO - Loading tests from:
-oeqa.selftest.oelib-tests.path
-2016-12-13 16:15:38,822 - selftest - INFO - Loading tests from:
-oeqa.selftest.oelib-tests.types
-2016-12-13 16:15:57,719 - selftest - INFO - Loading tests from:
-oeqa.selftest.oelib-tests.utils
 
-It took over a minute to load a few tests.  Do you have any idea why the
-discovery is so slow?
-
-Ross
-
---001a1141058ed482f905438c9026
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 15 November 2016 at 16:24,  <span dir=3D"ltr">&lt;<a href=3D"mailto:jose=
-.perez.carranza@linux.intel.com" target=3D"_blank">jose.perez.carranza@linu=
-x.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(2=
-04,204,204);border-left-style:solid;padding-left:1ex"><div id=3D"gmail-:1up=
-" class=3D"gmail-a3s gmail-aXjCH gmail-m15868c796a11fd24">Currently the uni=
-ttests for scripts on meta/lib/oe/tests are not being<br>
-executed by any suite hence the best option is <span class=3D"gmail-il">mig=
-rate</span> them to<br>
-meta/lib/<span class=3D"gmail-il">oeqa</span>/selftest/oelib-<wbr>tests to =
-be executed along with the selftest suite.<br></div></blockquote></div><br>=
-For some reason the discovery is very slow:</div><div class=3D"gmail_extra"=
-><br></div><div class=3D"gmail_extra"><div class=3D"gmail_extra">$ oe-selft=
-est =C2=A0-r oelib-tests.elf oelib-tests.license oelib-tests.path oelib-tes=
-ts.types oelib-tests.utils</div><div class=3D"gmail_extra">2016-12-13 16:15=
-:00,014 - selftest - INFO - Running bitbake -e to get BBPATH</div><div clas=
-s=3D"gmail_extra">2016-12-13 16:15:03,143 - selftest - INFO - Checking that=
- everything is in order before running the tests</div><div class=3D"gmail_e=
-xtra">2016-12-13 16:15:06,512 - selftest - INFO - Running bitbake -p</div><=
-div class=3D"gmail_extra">2016-12-13 16:15:10,203 - selftest - INFO - test =
-runner init&#39;ed like unittest</div><div class=3D"gmail_extra">2016-12-13=
- 16:15:13,428 - selftest - INFO - Loading tests from: oeqa.selftest.oelib-t=
-ests.elf</div><div class=3D"gmail_extra">2016-12-13 16:15:16,489 - selftest=
- - INFO - Loading tests from: oeqa.selftest.oelib-tests.license</div><div c=
-lass=3D"gmail_extra">2016-12-13 16:15:29,391 - selftest - INFO - Loading te=
-sts from: oeqa.selftest.oelib-tests.path</div><div class=3D"gmail_extra">20=
-16-12-13 16:15:38,822 - selftest - INFO - Loading tests from: oeqa.selftest=
-.oelib-tests.types</div><div class=3D"gmail_extra">2016-12-13 16:15:57,719 =
-- selftest - INFO - Loading tests from: oeqa.selftest.oelib-tests.utils</di=
-v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">It took o=
-ver a minute to load a few tests.=C2=A0 Do you have any idea why the discov=
-ery is so slow?</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
-il_extra">Ross</div></div></div>
-
---001a1141058ed482f905438c9026--
