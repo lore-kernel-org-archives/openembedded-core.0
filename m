@@ -1,30 +1,24 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F01871B90
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B7C571A38
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 07:59:08 +0000 (UTC)
+	Tue, 13 Dec 2016 08:03:13 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBD7x9e2008751
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 12 Dec 2016 23:59:09 -0800 (PST)
-Received: from [128.224.162.184] (128.224.162.184) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Mon, 12 Dec 2016 23:59:06 -0800
-To: Patrick Ohly <patrick.ohly@intel.com>
-References: <cover.1479809328.git.Qi.Chen@windriver.com>
-	<4d5b1453815a0fe2389ced2a0a152249b3a97e62.1479809328.git.Qi.Chen@windriver.com>
-	<1481529942.17535.198.camel@intel.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <3fb4f7c8-66d3-60b3-8d2d-60934f648e94@windriver.com>
-Date: Tue, 13 Dec 2016 16:00:11 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uBD83EG0003565
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Dec 2016 00:03:15 -0800
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.184) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Tue, 13 Dec 2016 00:03:13 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 13 Dec 2016 16:04:14 +0800
+Message-ID: <cover.1481616098.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <1481529942.17535.198.camel@intel.com>
-X-Originating-IP: [128.224.162.184]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/4] initscripts: support persistent /var/log
+Subject: [PATCH V2 0/4] Persistent /var/log support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,33 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2016 07:59:09 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Dec 2016 08:03:14 -0000
+Content-Type: text/plain
 
-On 12/12/2016 04:05 PM, Patrick Ohly wrote:
-> On Tue, 2016-11-22 at 18:10 +0800, Chen Qi wrote:
->> ${WORKDIR}/volatiles         ${D}${sysconfdir}/default/volatiles/00_core
->> +       if [ "${VOLATILE_LOG_DIR}" = "log" ]; then
->> +               echo "l root root 0755 /var/log /var/volatile/log" >>
->> ${D}${sysconfdir}/default/volatiles/00_core
->> +       fi
-> Why are you checking for "log" here? I thought VOLATILE_LOG_DIR was
-> supposed to be a boolean?
->
-> Using oe.types.boolean in shell code is a bit awkward, but would be
-> necessary for the sake of consistency when allowing VOLATILE_LOG_DIR to
-> have more than just yes/no. Untested (relies on bool->str conversion):
->
-> if [ ${@ oe.types.boolean('${VOLATILE_LOG_DIR}') } = True ]; then
->
+The following changes since commit d62f18c39bc0ed3b0f5ac8465b393c15f2143ecf:
 
-Thanks for your suggestion.
+  targetloader.py: drop test for ClassType (2016-12-12 15:16:39 +0000)
 
-I'll send out V2.
+are available in the git repository at:
 
-Best Regards,
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/persistent-var-log
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/persistent-var-log
 
-Chen Qi
+Chen Qi (4):
+  bitbake.conf: add VOLATILE_LOG_DIR variable
+  base-files: respect VOLATILE_LOG_DIR
+  initscripts: support persistent /var/log
+  package.bbclass: support persistent /var/log
+
+ meta/classes/package.bbclass                       |  2 +-
+ meta/conf/bitbake.conf                             |  3 +
+ meta/files/fs-perms-persistent-log.txt             | 69 ++++++++++++++++++++++
+ meta/recipes-core/base-files/base-files_3.0.14.bb  |  4 +-
+ .../initscripts/initscripts-1.0/volatiles          |  1 -
+ meta/recipes-core/initscripts/initscripts_1.0.bb   |  3 +
+ 6 files changed, 78 insertions(+), 4 deletions(-)
+ create mode 100644 meta/files/fs-perms-persistent-log.txt
+
+-- 
+1.9.1
 
 
