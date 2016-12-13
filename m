@@ -1,47 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
-	[209.85.220.177])
-	by mail.openembedded.org (Postfix) with ESMTP id E29C371E13
+Received: from mail-wj0-f174.google.com (mail-wj0-f174.google.com
+	[209.85.210.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 2809A71E1B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 16:33:00 +0000 (UTC)
-Received: by mail-qk0-f177.google.com with SMTP id n21so121732597qka.3
+	Tue, 13 Dec 2016 16:33:03 +0000 (UTC)
+Received: by mail-wj0-f174.google.com with SMTP id v7so105512959wjy.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 08:33:02 -0800 (PST)
+	Tue, 13 Dec 2016 08:33:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=KXST6tyunlfjgQk/EJgN4Laop/tVaUjdcbhdv12jPtY=;
-	b=nfhXwjQRztY95rNva0bGKsEoX4c4uAUT8YPa6XYQt6UpgWBoqohsNXjCstx3ke6etu
-	HjDdZysBHYHMNiE2SZQty5NWfkqaC4PNynHm/Wbj9tNr+2hS+7aYs+JNIF5UQ3psvS6a
-	fZV1VxQ6C/zZRUX5BmN4eVUwgvXQbNoj8ARYePDCJ4aBJSgjfHGYw8T79mYtkF5z3mGy
-	/20BNw4qGxJIg6sNXaFsv1HJ/2jR0rV/0OiP7M+G/h0KOxp6Di2JMa/0i1AgAVV+Oro5
-	94z5AGeVgIKM92bFQ0Ui9yhbjmrfEySBa4q4z2EdT0qZWVWZnSM+V83MNkyv1RfJELOZ
-	mTng==
+	h=from:to:subject:date:message-id;
+	bh=iRCnxEWzejuBZWKX4cKwE1/zo2i9CeAdZ/7jUGWqirI=;
+	b=gRGpPGg6ZyzIwSHGHjXYXgptuyZ1HB/4vEuGgfGcToRHLjf/GEsD1ct0wOBtTiIbfh
+	jskREd3b+YiHgLzhuEWVCzZjYXmvLZ2jezoy98wRwAvCu+e28UlV+tYgHuvhN5XQZsuM
+	3GbrYeSmtpnqd096lVxs9rzp7J8XQiy5V7UaqpAYHAWJmF4ux5ctg+SC2P9KXM8ot8+6
+	9ENtDhF8JREshuJMNFn3PIbbQDjTmnQnHWQZvKpZZsxzWCf+2qirH26cpAo/u5BLL/sr
+	24RD+RoaKtCNM28Wu+gN3tlbFekrup/rATcotGogEaGtX08lHN0brZkogd+t8aqFU5Z2
+	FpVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=KXST6tyunlfjgQk/EJgN4Laop/tVaUjdcbhdv12jPtY=;
-	b=FgbRRpZeCSCWcBXLwzfe/fYeKO9gUdddzZOt/tOgwluQTKIbjTr1tPYejPX/6Ht4NV
-	eOoYRQS4Qb0/LJU2aW87kaX9y+KdvgM8kQ5dQI0SM3hUHTfaPWP0z07rJV7uQfMJuj2z
-	diMBAIHMh7GCt2yaNhZVDkJDxMAWi/sXmm4G+GthgNFgUKwWuky/ZE0ZTKT0axYT6Kfo
-	w2uhrABqq/yRdezEvUAV+mj1Olm59RrBnd349XitpIKDYkf2wwbZpXD7ffvCbu/dgtBo
-	8IoT1O3SDTrWh2r/Ds842TesknMju+7UjrcUCF20tb5C4YpofcBL8gID47bubXJx7LRI
-	06JA==
-X-Gm-Message-State: AKaTC00O/kLNTbKiKwfCCcSWtGUqwtyXMjBFjwsKEGF5+UAUbw/3zxzaAkkviBNOedJlbFwGvj8JygYNBqsEdq3f
-X-Received: by 10.55.5.145 with SMTP id 139mr84819151qkf.77.1481646781851;
-	Tue, 13 Dec 2016 08:33:01 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Tue, 13 Dec 2016 08:32:41 -0800 (PST)
-In-Reply-To: <CAJTo0LZ1cj5Nm+iSO5aaHRMgf1Syhx6wQ3R2OaBe99A-SKX5Yg@mail.gmail.com>
-References: <1479227073-13133-1-git-send-email-jose.perez.carranza@linux.intel.com>
-	<CAJTo0LZ1cj5Nm+iSO5aaHRMgf1Syhx6wQ3R2OaBe99A-SKX5Yg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 13 Dec 2016 16:32:41 +0000
-Message-ID: <CAJTo0LYbCY=ETjx3wdo1nwsDDJCgEZU7F0JfiuP_zZf+tS3F-A@mail.gmail.com>
-To: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] oe-tests: Migrate tests from /oe/test to /oeqa/selftest/oe-tests
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=iRCnxEWzejuBZWKX4cKwE1/zo2i9CeAdZ/7jUGWqirI=;
+	b=gmRLPe9lLKQKMuoxBC3VbV3OHFSN8TjxxX5SRcEs8s8lWootw1fOQOEwpMNc9jRgDF
+	+bhLaqzOawHV1TUXQikrZ9SLOB6pyrZ4c5PF0ZzeptZABhml+0BCDZqCPldXWMAFUrww
+	x9/REFsBgYPBmrv32D2JoEr4J7wAKAE/CYHhY9kmPTH1/qu8rc+3J7dazXOq0BswAaef
+	fsU+ejneIoZxdZfY/jxBqDVvphE/qGbiTRfBXjtGfUbdqB1QYAR+px4WqkGXdc7mMCQH
+	wiEVXidaQ1eTAaf8C4oxuIE2RbXQSHMP8nPyz72wrUKXRy1QMPra6EkaUbP0ZWHGqpBg
+	NCZg==
+X-Gm-Message-State: AKaTC00VMilD/ekFsaEVg/IY2/57S2oKUe0jchoFpxmQarFnJHnXNBbFvVZdpKHdysbYY4aI
+X-Received: by 10.194.97.8 with SMTP id dw8mr59432493wjb.84.1481646784319;
+	Tue, 13 Dec 2016 08:33:04 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	r138sm3359216wme.9.2016.12.13.08.33.02
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 13 Dec 2016 08:33:03 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Dec 2016 16:33:00 +0000
+Message-Id: <1481646780-28253-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] oeqa: move lib/oe tests to oe-selftest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,42 +54,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2016 16:33:01 -0000
-Content-Type: multipart/alternative; boundary=001a114c8f841d879505438cc66f
+X-List-Received-Date: Tue, 13 Dec 2016 16:33:04 -0000
 
---001a114c8f841d879505438cc66f
-Content-Type: text/plain; charset=UTF-8
+These tests don't get ran often (as demonstrated by the fact that some were not
+ported to Python 3), so move them to oeqa/selftest so they get executed
+frequently and can be extended easily.
 
-On 13 December 2016 at 16:17, Burton, Ross <ross.burton@intel.com> wrote:
+[ YOCTO #7376 ]
 
-> It took over a minute to load a few tests.  Do you have any idea why the
-> discovery is so slow?
->
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/lib/{oe/tests => oeqa/selftest/oelib}/__init__.py |  0
+ .../tests/test_elf.py => oeqa/selftest/oelib/elf.py}   |  0
+ .../test_license.py => oeqa/selftest/oelib/license.py} |  0
+ .../tests/test_path.py => oeqa/selftest/oelib/path.py} |  0
+ .../test_types.py => oeqa/selftest/oelib/types.py}     | 18 +++---------------
+ .../test_utils.py => oeqa/selftest/oelib/utils.py}     |  2 +-
+ 6 files changed, 4 insertions(+), 16 deletions(-)
+ rename meta/lib/{oe/tests => oeqa/selftest/oelib}/__init__.py (100%)
+ rename meta/lib/{oe/tests/test_elf.py => oeqa/selftest/oelib/elf.py} (100%)
+ rename meta/lib/{oe/tests/test_license.py => oeqa/selftest/oelib/license.py} (100%)
+ rename meta/lib/{oe/tests/test_path.py => oeqa/selftest/oelib/path.py} (100%)
+ rename meta/lib/{oe/tests/test_types.py => oeqa/selftest/oelib/types.py} (79%)
+ rename meta/lib/{oe/tests/test_utils.py => oeqa/selftest/oelib/utils.py} (96%)
 
-Oh, it's because oeselftest does bitbake calls isn't it.
+diff --git a/meta/lib/oe/tests/__init__.py b/meta/lib/oeqa/selftest/oelib/__init__.py
+similarity index 100%
+rename from meta/lib/oe/tests/__init__.py
+rename to meta/lib/oeqa/selftest/oelib/__init__.py
+diff --git a/meta/lib/oe/tests/test_elf.py b/meta/lib/oeqa/selftest/oelib/elf.py
+similarity index 100%
+rename from meta/lib/oe/tests/test_elf.py
+rename to meta/lib/oeqa/selftest/oelib/elf.py
+diff --git a/meta/lib/oe/tests/test_license.py b/meta/lib/oeqa/selftest/oelib/license.py
+similarity index 100%
+rename from meta/lib/oe/tests/test_license.py
+rename to meta/lib/oeqa/selftest/oelib/license.py
+diff --git a/meta/lib/oe/tests/test_path.py b/meta/lib/oeqa/selftest/oelib/path.py
+similarity index 100%
+rename from meta/lib/oe/tests/test_path.py
+rename to meta/lib/oeqa/selftest/oelib/path.py
+diff --git a/meta/lib/oe/tests/test_types.py b/meta/lib/oeqa/selftest/oelib/types.py
+similarity index 79%
+rename from meta/lib/oe/tests/test_types.py
+rename to meta/lib/oeqa/selftest/oelib/types.py
+index 367cc30..4fe2746 100644
+--- a/meta/lib/oe/tests/test_types.py
++++ b/meta/lib/oeqa/selftest/oelib/types.py
+@@ -1,19 +1,7 @@
+ import unittest
+-from oe.maketype import create, factory
++from oe.maketype import create
+ 
+-class TestTypes(unittest.TestCase):
+-    def assertIsInstance(self, obj, cls):
+-        return self.assertTrue(isinstance(obj, cls))
+-
+-    def assertIsNot(self, obj, other):
+-        return self.assertFalse(obj is other)
+-
+-    def assertFactoryCreated(self, value, type, **flags):
+-        cls = factory(type)
+-        self.assertIsNot(cls, None)
+-        self.assertIsInstance(create(value, type, **flags), cls)
+-
+-class TestBooleanType(TestTypes):
++class TestBooleanType(unittest.TestCase):
+     def test_invalid(self):
+         self.assertRaises(ValueError, create, '', 'boolean')
+         self.assertRaises(ValueError, create, 'foo', 'boolean')
+@@ -43,7 +31,7 @@ class TestBooleanType(TestTypes):
+         self.assertEqual(create('y', 'boolean'), True)
+         self.assertNotEqual(create('y', 'boolean'), False)
+ 
+-class TestList(TestTypes):
++class TestList(unittest.TestCase):
+     def assertListEqual(self, value, valid, sep=None):
+         obj = create(value, 'list', separator=sep)
+         self.assertEqual(obj, valid)
+diff --git a/meta/lib/oe/tests/test_utils.py b/meta/lib/oeqa/selftest/oelib/utils.py
+similarity index 96%
+rename from meta/lib/oe/tests/test_utils.py
+rename to meta/lib/oeqa/selftest/oelib/utils.py
+index 5d9ac52..7deb10f 100644
+--- a/meta/lib/oe/tests/test_utils.py
++++ b/meta/lib/oeqa/selftest/oelib/utils.py
+@@ -1,5 +1,5 @@
+ import unittest
+-from oe.utils import packages_filter_out_system
++from oe.utils import packages_filter_out_system, trim_version
+ 
+ class TestPackagesFilterOutSystem(unittest.TestCase):
+     def test_filter(self):
+-- 
+2.8.1
 
-Good news: you don't need to use oeSelfTest at all, the discovery works
-fine with standard unittest.TestCase objects.
 
-Patch incoming. :)
-
-Ross
-
---001a114c8f841d879505438cc66f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 13 December 2016 at 16:17, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_ext=
-ra">It took over a minute to load a few tests.=C2=A0 Do you have any idea w=
-hy the discovery is so slow?</div></blockquote><div><br></div><div>Oh, it&#=
-39;s because oeselftest does bitbake calls isn&#39;t it.</div><div><br></di=
-v><div>Good news: you don&#39;t need to use oeSelfTest at all, the discover=
-y works fine with standard unittest.TestCase objects.</div><div><br></div><=
-div>Patch incoming. :)</div><div><br></div><div>Ross</div><div>=C2=A0</div>=
-</div><br></div></div>
-
---001a114c8f841d879505438cc66f--
