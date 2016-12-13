@@ -1,54 +1,46 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E8CD60111
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
+	[209.85.220.177])
+	by mail.openembedded.org (Postfix) with ESMTP id CAE6571B57
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 08:38:32 +0000 (UTC)
-Received: by mail-io0-f181.google.com with SMTP id d9so212775419ioe.0
+	Tue, 13 Dec 2016 08:41:16 +0000 (UTC)
+Received: by mail-qk0-f177.google.com with SMTP id q130so109278429qke.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 00:38:34 -0800 (PST)
+	Tue, 13 Dec 2016 00:41:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=GxY764S+7KZxQRCwng7REC55TLAKR+5OC4MqZ4jLA6o=;
-	b=0NcvtNaj+qcVN2SK23agwpCA06swMJ9BXrvQlZbesJ3cpZ9xpF8Wlrh9MF+Px7VwZU
-	4eBG7QSqI/WPzg/qIFFoJCgfqHP4WHTwDXvIGy1vfMPbfy3NMi9CisGFP1oZ4ApWznlD
-	FApglAuhql1Z3jxwB/u6MCnUVcEEWsbvqJL2nareWdn1L/H99MigT7iXq+zRagqVR8Y1
-	+uRJsZArfzvIuinv880V6jIqV47UNrItUzfp8i4XlH9kqMsO4qsBysOpEOdlg3Q1fTpD
-	Se+jXuBahAnCW4PtoWvZuT1sG8b7zwbZ97u2SYeOkZZXxFQ11UJZVOZBk+5eiQhofOq1
-	9rbw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=bbgD90R+gbghS2d+skPnIix6FnB7I0rD4Kqcpf4gLfo=;
+	b=YufYTaa1gx5mHJDuE5QR4/I28ZeBj2TO4JJKbkITL2n24x5vfLNflm8/NtGxzPf3Qk
+	y5Ojav8K+6crFF7KRyxvMbjQKN1zzdb1R76oITCM43NYzyULr95NmaGSbKN+rfW0+uAR
+	foaSpCP7pbvppBRlaSYSGUEGXcg7QaVZrLI0sJNRsqviOTozCJPUkEXCP05bcA8wMb4P
+	IFPwyx6H7SVnfpnSmbh7o3nL/x6gLv1HjppDTcIkAcKRmstAAlHj1IEEdYTHGAc7FdAl
+	4aGidUZQ3PVTNzQXqmuNLBgvxe9iw837z9Khbqh3JdSHIY2A8WbF1Eh+BC4rCXVbbFcU
+	R//g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=GxY764S+7KZxQRCwng7REC55TLAKR+5OC4MqZ4jLA6o=;
-	b=F0z8A3YkXOzin7SNev1UjmyxP+oh0LELRIKL7qzmHbeIEcHudCL32Y0fyP+T/va2ML
-	KiNofyg6GVlZW2F3HGE8hx+d4vyWIR71+CFOGCLkfmnVAF39lPRPjLuJr4H6UR4XtsnN
-	ugCI6DRsuEb83txGpS7hVAerbD/zbbjZWV7PIPeOc0mTWRpx4k56wJvpM7CvWCKVZtYc
-	MHqg3w+zFn/H6ZNlygeh4/RJgwlP2MWDTnv6WGdYXVoWS7bMgnYx3ESH4BCehdZ+9fL2
-	94BT45oqDT9f5wDLoIOR509S1MpEC5HFwVs1IbEXoR/KLrk6kGbKoUTxuHQtYx9rFAxr
-	di3g==
-X-Gm-Message-State: AKaTC00cNEWTzo7HNwUrqLjqlakUn1kvVSjtgsBKUqeU7mRtJu8A7o/kGl6nHU239M3AD+NS
-X-Received: by 10.107.1.138 with SMTP id 132mr84781145iob.72.1481618313808;
-	Tue, 13 Dec 2016 00:38:33 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8F3B2.dip0.t-ipconnect.de. [93.232.243.178])
-	by smtp.gmail.com with ESMTPSA id
-	m83sm21000423ioi.11.2016.12.13.00.38.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 13 Dec 2016 00:38:32 -0800 (PST)
-Message-ID: <1481618309.17535.260.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Date: Tue, 13 Dec 2016 09:38:29 +0100
-In-Reply-To: <6c128696461dd6e37818cbad168a048575b97f5a.1481616098.git.Qi.Chen@windriver.com>
-References: <cover.1481616098.git.Qi.Chen@windriver.com>
-	<6c128696461dd6e37818cbad168a048575b97f5a.1481616098.git.Qi.Chen@windriver.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 4/4] package.bbclass: support persistent /var/log
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=bbgD90R+gbghS2d+skPnIix6FnB7I0rD4Kqcpf4gLfo=;
+	b=awXqCrFqGZ20Wuf9hDqq5eHYejFpVOwrrWGKAQ6EXYg0+/J1GOv5al0XjPra2YJYqi
+	hD1i1DOn1jBUpTnfZP4OiyNAXCLVIak3H/tIN9UIXXyHUZNNpjd3WVAb3Gf9+huRvcrv
+	nDOsXQWOduHvO6qFCIagHEeQajBzZHizAIKl9A3e+vQNQh91rg7X/89SZeAEyjFUdXy2
+	vGv5JZd/KiOReDXbM5uBXY70DdUIySNBmUsOaIgGMomyP6fLTdhguBvXesspBQz5mq2B
+	H+ZslbKMjJ2Sh84qRTdZcUd4CvK559OuEDFD+Xb3CN6xU60jxpohrBbL2RNbkOj1jcfB
+	XfEg==
+X-Gm-Message-State: AKaTC01zNXQ6NNZDGe1ax6yJADcWTXtWXgavI4qlj9sDYSXx6Z4BexbMmcq17No98keQ5mmdgv39ksqx9N8rfVWK
+X-Received: by 10.55.207.78 with SMTP id e75mr96990915qkj.36.1481618478198;
+	Tue, 13 Dec 2016 00:41:18 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.106.99 with HTTP; Tue, 13 Dec 2016 00:40:57 -0800 (PST)
+In-Reply-To: <20161212154016.1076-1-git@andred.net>
+References: <20161212154016.1076-1-git@andred.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 13 Dec 2016 08:40:57 +0000
+Message-ID: <CAJTo0LaChfpCDnbs8hAHLzCHS3wb3Wbu3Ak99YPDDvUZjDGGRg@mail.gmail.com>
+To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] busybox: allow libiproute to handle table ids larger than 255
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,30 +53,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2016 08:38:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Dec 2016 08:41:19 -0000
+Content-Type: multipart/alternative; boundary=001a1145b7b8160e250543862f05
 
-On Tue, 2016-12-13 at 16:04 +0800, Chen Qi wrote:
-> -            fs_perms_tables = 'files/fs-perms.txt'
-> +            fs_perms_tables = ['files/fs-perms-persistent-log.txt',
-> 'files/fs-perms.txt'][d.getVar('VOLATILE_LOG_DIR', True) == 'yes']
+--001a1145b7b8160e250543862f05
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Now that the rest of the changes treat VOLATILE_LOG_DIR as a boolean,
-this code here also needs to be changed. Otherwise VOLATILE_LOG_DIR=1 or
-VOLATILE_LOG_DIR=y won't work correctly.
+On 12 December 2016 at 15:40, Andr=C3=A9 Draszik <git@andred.net> wrote:
 
-You might also want to change the description of the variable in the
-first patch to mention those other values.
+> ++              printf("table %s ", rtnl_rttable_n2a(tid));
+>
 
--- 
-Best Regards, Patrick Ohly
+Sorry but this doesn't build here:
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+| networking/libiproute/lib.a(iproute.o): In function `print_route':
+|
+/usr/src/debug/busybox/1.24.1-r0/busybox-1.24.1/networking/libiproute/iprou=
+te.c:294:
+undefined reference to `rtnl_rttable_n2a'
 
+Ross
 
+--001a1145b7b8160e250543862f05
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 12 December 2016 at 15:40, Andr=C3=A9 Draszik <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:git@andred.net" target=3D"_blank">git@andred.net</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-=
+style:solid;padding-left:1ex"><div id=3D"gmail-:kq" class=3D"gmail-a3s gmai=
+l-aXjCH gmail-m158f3b14ecfe317b">++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 printf(&quot;table %s &quot;, rtnl_rttable_n2a(tid));<br></div><=
+/blockquote></div><div class=3D"gmail_extra"><br></div>Sorry but this doesn=
+&#39;t build here:</div><div class=3D"gmail_extra"><br>| networking/libipro=
+ute/lib.a(iproute.o): In function `print_route&#39;:</div><div class=3D"gma=
+il_extra">| /usr/src/debug/busybox/1.24.1-r0/busybox-1.24.1/networking/libi=
+proute/iproute.c:294: undefined reference to `rtnl_rttable_n2a&#39;<br></di=
+v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div=
+></div>
 
+--001a1145b7b8160e250543862f05--
