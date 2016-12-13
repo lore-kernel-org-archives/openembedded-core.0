@@ -1,35 +1,49 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F39671E1B
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
+	[209.85.213.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E3CA71E19
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 18:53:52 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 13 Dec 2016 10:53:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,342,1477983600"; d="scan'208";a="17624826"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga002.jf.intel.com with ESMTP; 13 Dec 2016 10:53:52 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 24A4E6A4006;
-	Tue, 13 Dec 2016 10:53:03 -0800 (PST)
-Date: Tue, 13 Dec 2016 20:53:17 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Maciej =?utf-8?B?Qm9yesSZY2tp?= <maciej.borzecki@rndity.com>
-Message-ID: <20161213185317.GA6550@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <cover.1479970230.git.maciej.borzecki@rndity.com>
-	<CAD4b0_LMUu4=kTEon3nk+_8-1+nG+zQsph9yPB-SNabahhKsbQ@mail.gmail.com>
+	Tue, 13 Dec 2016 18:56:22 +0000 (UTC)
+Received: by mail-vk0-f65.google.com with SMTP id p9so8108046vkd.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Dec 2016 10:56:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-transfer-encoding;
+	bh=Q+Fa9oFKB0HDg01u6PmvFuy0x0WdykNIyXUDKOQiIgQ=;
+	b=pC+x+YQObdWYl7etic/lJZgyLYOnlzyj/91uvoZwXbJKQw4si7hNT7f1xT3uIl8zAz
+	WV0K/UTT/+RLg8IUuf5G11dlCowdpLhhotequ/ta0wqRVvH3+Yk8LjyT0ay2dWNJB9ib
+	H558NDB2ENouYjnq2cx/XX5D+2mQVcTApRIMc3Nr9f1SN+IVXvLxKu2UKqgNlQ1cWKNE
+	GjIImteyIT1Niv/D14rulJds2wGizkttUq0W91kQf0Gl1j9MTZ4z9Qx/RD9Fro7Ke81d
+	QM1iUoCsKNrAxbuisDJnLpt621PwsnaRO3e/gLb6J2O3ymK7p/aCXnTxDa8T/zTXqlXd
+	fHfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:content-transfer-encoding;
+	bh=Q+Fa9oFKB0HDg01u6PmvFuy0x0WdykNIyXUDKOQiIgQ=;
+	b=nECuT6BFhMSCR80gHOVR+1HL9kH+5FQFdWq0kGgJirO1aoIEh048kogV0w823sIfTm
+	pAk3KpDHg0ytBPBu0OC1iIeJQr3UD1OdPUQGQRQEzo+7hzF/Dl1c2i7uO7vbZgaHLkEY
+	pQ7WWemhbJmZZOyp7Hf1VreBKxzM5M/gw9tn0qzSSZYWWcyHpwkYO4Jkl5A5Tkw4eRZc
+	sRZcd6j8vSPxDgVdbDp5kHNn2sRaHbtqWhMtAPE4vHsF2VWL/r7icU57TyeYWM8TfPdh
+	ecG+Zr/uKCNlBOYBCYYXC/SEM+fqAfm2anp+iIrvgkB79enCwDKe0x1cAut0UHCqlv3Q
+	/6gg==
+X-Gm-Message-State: AKaTC000zqHjRBodYQuW2fN37gha/kWjhCX2kEWgqY4juCT1X0DdKUAz1o+vMhOiAOSaYKNAEylrbZcPP4B0MA==
+X-Received: by 10.31.50.14 with SMTP id y14mr25732973vky.29.1481655383528;
+	Tue, 13 Dec 2016 10:56:23 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAD4b0_LMUu4=kTEon3nk+_8-1+nG+zQsph9yPB-SNabahhKsbQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Maciej Borzecki <maciek.borzecki@gmail.com>,
+Received: by 10.176.85.157 with HTTP; Tue, 13 Dec 2016 10:56:23 -0800 (PST)
+In-Reply-To: <CAMKF1srCbFH5g2-RgJyYBqwH12U6zuCSrF7z-sPVqQkGUYQFiQ@mail.gmail.com>
+References: <1481620141-4369-1-git-send-email-schnitzeltony@googlemail.com>
+	<CAMKF1srCbFH5g2-RgJyYBqwH12U6zuCSrF7z-sPVqQkGUYQFiQ@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Tue, 13 Dec 2016 19:56:23 +0100
+Message-ID: <CALbNGRR20dSAjp_aeCOeYOUyiCmt9u5iu6ot_0ejB7CWZHKOnQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>, 
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v5 0/6] wic: bugfixes & --fixed-size support, tests, oe-selftest: minor fixes
+Subject: Re: [PATCH] libepoxy: move to tip of Emmanuele Bassi's fork
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,51 +56,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2016 18:53:53 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 13 Dec 2016 18:56:22 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 13, 2016 at 09:07:30AM +0100, Maciej Borzęcki wrote:
-> On Thu, Nov 24, 2016 at 8:08 AM, Maciej Borzecki
-> <maciej.borzecki@rndity.com> wrote:
-> > v5 of a patch series previously posted here [1].
-> >
-> > Changes since v4:
-> >
-> > * dropped `wic: selftest: do not repeat core-image-minimal` & rebased
-> >   dependant patches
-> >
-> > * minor formatting fix in `wic: selftest: add tests for --fixed-size
-> >   partition flags`
-> >
-> > [1]. http://lists.openembedded.org/pipermail/openembedded-core/2016-November/129103.html
-> >
-> > Maciej Borzecki (6):
-> >   oe-selftest: enforce en_US.UTF-8 locale
-> >   oeqa/utils/commands.py: allow use of binaries from native sysroot
-> >   wic: add --fixed-size wks option
-> >   wic: selftest: avoid COMPATIBLE_HOST issues
-> >   wic: selftest: do not assume bzImage kernel image
-> >   wic: selftest: add tests for --fixed-size partition flags
-> >
-> >  meta/lib/oeqa/selftest/wic.py          | 123 +++++++++++++++++++++++++++++++--
-> >  meta/lib/oeqa/utils/commands.py        |   9 ++-
-> >  scripts/lib/wic/help.py                |  14 +++-
-> >  scripts/lib/wic/imager/direct.py       |   2 +-
-> >  scripts/lib/wic/ksparser.py            |  41 +++++++++--
-> >  scripts/lib/wic/partition.py           |  88 ++++++++++++++---------
-> >  scripts/lib/wic/utils/partitionedfs.py |   2 +-
-> >  scripts/oe-selftest                    |   3 +
-> >  8 files changed, 234 insertions(+), 48 deletions(-)
-> 
-> Is there any additional action needed from me at this point? A rebase
-> or a resend perhaps?
-> 
+On Tue, Dec 13, 2016 at 6:54 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Tue, Dec 13, 2016 at 1:09 AM, Andreas M=C3=BCller
+> <schnitzeltony@googlemail.com> wrote:
+>> * fixes starting of kde-plasma for wayland:
+>>   | No provider of glGenFramebuffers found.  Requires one of:
+>>   |     Desktop OpenGL 3.0
+>>   |     GL extension "GL_ARB_framebuffer_object"
+>>   |     OpenGL ES 2.0
+>>   |     GL extension "GL_EXT_framebuffer_object"
+>>   | /usr/bin/startplasmacompositor: line 223:   787 Aborted             =
+    (core dumped) /usr/bin/kwin_wayland --xwayland --libinput --exit-with-s=
+ession=3D/usr/libexec/startplasma
+>> * fixes some strange behavour on kde-plasma for x11: Black screen on log=
+out /
+>>   Lock screen does not return.
+>> * Eric Anholt seems to have passed maintainership of libepoxy over to
+>>   Yaron Cohen-Tal. I agree that things didn't really turn out well since=
+ then [1].
+>> * 0001-select-platforms-based-on-configuration-results.patch and
+>>   0002-add-an-option-to-disable-glx-support.patch wre replaced by
+>>   0001-make-x11-support-optional.patch
+>>
+>> [1] https://github.com/ebassi/libepoxy/commit/8dead45cb366bf5c08539bef2c=
+caa36b80eb1483
+>
+> Why do we change to a different fork ? perhaps its worth mentioning in co=
+mmit
+Just for the record I mentioned it and if you would have followed the
+link you would know.
 
-Rebase&resend would be nice as at lest one patch from this patchset is already accepted.
+I agree to Ross: let's wait what happens with libepoxy. I keep this
+patch in my tree because from meta-qt5-extra perspective this patch
+fixes many many strange issues.
 
---
-Regards,
-Ed
+Andreas
 
