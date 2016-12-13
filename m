@@ -1,24 +1,27 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 0AAB071A19
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CAAA5719F3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2016 22:05:29 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 12 Dec 2016 14:05:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,338,1477983600"; d="scan'208";a="1080938904"
-Received: from mauric9x-mobl.amr.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com.fritz.box) ([10.255.158.7])
-	by fmsmga001.fm.intel.com with ESMTP; 12 Dec 2016 14:05:27 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Dec 2016 11:05:06 +1300
-Message-Id: <70e5dd48c0b764bfe3c59833725dce6cbaac23c0.1481579713.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.5
-In-Reply-To: <cover.1481579713.git.paul.eggleton@linux.intel.com>
-References: <cover.1481579713.git.paul.eggleton@linux.intel.com>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Subject: [PATCH 2/2] classes/image: suppress log_check mechanism for warnings/errors logged through BitBake
+	Tue, 13 Dec 2016 02:58:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBD2wuUI001331
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Dec 2016 18:58:57 -0800 (PST)
+Received: from [128.224.162.160] (128.224.162.160) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Mon, 12 Dec 2016 18:58:56 -0800
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1479363545.git.liezhi.yang@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <0f0910ed-a474-0302-724b-646675869df1@windriver.com>
+Date: Tue, 13 Dec 2016 10:58:55 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <cover.1479363545.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 0/8] Fixes for eSDK and testsdkext
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,148 +34,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2016 22:05:29 -0000
+X-List-Received-Date: Tue, 13 Dec 2016 02:58:56 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-If you printed a warning through bb.warn() / bbwarn or an error through
-bb.error() / bberror, this was also being picked up by our log_check
-mechanism that was designed to pick up warnings and errors printed by
-other programs used during do_rootfs. This meant you saw not only the
-warning or error itself, you saw it a second time through log_check,
-which is a bit ugly. Use the just-added BB_TASK_LOGGER to access the
-logger and add a handler that we can use to find out if any warning or
-error we find in the logs is one we should ignore as it has already been
-printed.
+Ping, any comments on this thread, please ?
 
-Fixes [YOCTO #8223].
+// Robert
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/image.bbclass | 10 +++++++++-
- meta/lib/oe/rootfs.py      | 29 ++++++++++++++++-------------
- 2 files changed, 25 insertions(+), 14 deletions(-)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index b10272a..e63f6a3 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -208,6 +208,14 @@ PACKAGE_EXCLUDE[type] = "list"
- fakeroot python do_rootfs () {
-     from oe.rootfs import create_rootfs
-     from oe.manifest import create_manifest
-+    import logging
-+
-+    logger = d.getVar('BB_TASK_LOGGER', False)
-+    if logger:
-+        logcatcher = bb.utils.LogCatcher()
-+        logger.addHandler(logcatcher)
-+    else:
-+        logcatcher = None
- 
-     # NOTE: if you add, remove or significantly refactor the stages of this
-     # process then you should recalculate the weightings here. This is quite
-@@ -255,7 +263,7 @@ fakeroot python do_rootfs () {
-     progress_reporter.next_stage()
- 
-     # generate rootfs
--    create_rootfs(d, progress_reporter=progress_reporter)
-+    create_rootfs(d, progress_reporter=progress_reporter, logcatcher=logcatcher)
- 
-     progress_reporter.finish()
- }
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index ed40b23..74fc3bd 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -15,12 +15,13 @@ class Rootfs(object, metaclass=ABCMeta):
-     This is an abstract class. Do not instantiate this directly.
-     """
- 
--    def __init__(self, d, progress_reporter=None):
-+    def __init__(self, d, progress_reporter=None, logcatcher=None):
-         self.d = d
-         self.pm = None
-         self.image_rootfs = self.d.getVar('IMAGE_ROOTFS', True)
-         self.deploydir = self.d.getVar('IMGDEPLOYDIR', True)
-         self.progress_reporter = progress_reporter
-+        self.logcatcher = logcatcher
- 
-         self.install_order = Manifest.INSTALL_ORDER
- 
-@@ -53,6 +54,8 @@ class Rootfs(object, metaclass=ABCMeta):
-         messages = []
-         with open(log_path, 'r') as log:
-             for line in log:
-+                if self.logcatcher and self.logcatcher.contains(line.rstrip()):
-+                    continue
-                 for ee in excludes:
-                     m = ee.search(line)
-                     if m:
-@@ -375,8 +378,8 @@ class Rootfs(object, metaclass=ABCMeta):
- 
- 
- class RpmRootfs(Rootfs):
--    def __init__(self, d, manifest_dir, progress_reporter=None):
--        super(RpmRootfs, self).__init__(d, progress_reporter)
-+    def __init__(self, d, manifest_dir, progress_reporter=None, logcatcher=None):
-+        super(RpmRootfs, self).__init__(d, progress_reporter, logcatcher)
-         self.log_check_regex = '(unpacking of archive failed|Cannot find package'\
-                                '|exit 1|ERROR: |Error: |Error |ERROR '\
-                                '|Failed |Failed: |Failed$|Failed\(\d+\):)'
-@@ -530,8 +533,8 @@ class RpmRootfs(Rootfs):
-            bb.utils.remove(self.pm.install_dir_path, True)
- 
- class DpkgOpkgRootfs(Rootfs):
--    def __init__(self, d, progress_reporter=None):
--        super(DpkgOpkgRootfs, self).__init__(d, progress_reporter)
-+    def __init__(self, d, progress_reporter=None, logcatcher=None):
-+        super(DpkgOpkgRootfs, self).__init__(d, progress_reporter, logcatcher)
- 
-     def _get_pkgs_postinsts(self, status_file):
-         def _get_pkg_depends_list(pkg_depends):
-@@ -625,8 +628,8 @@ class DpkgOpkgRootfs(Rootfs):
-             num += 1
- 
- class DpkgRootfs(DpkgOpkgRootfs):
--    def __init__(self, d, manifest_dir, progress_reporter=None):
--        super(DpkgRootfs, self).__init__(d, progress_reporter)
-+    def __init__(self, d, manifest_dir, progress_reporter=None, logcatcher=None):
-+        super(DpkgRootfs, self).__init__(d, progress_reporter, logcatcher)
-         self.log_check_regex = '^E:'
-         self.log_check_expected_regexes = \
-         [
-@@ -717,8 +720,8 @@ class DpkgRootfs(DpkgOpkgRootfs):
- 
- 
- class OpkgRootfs(DpkgOpkgRootfs):
--    def __init__(self, d, manifest_dir, progress_reporter=None):
--        super(OpkgRootfs, self).__init__(d, progress_reporter)
-+    def __init__(self, d, manifest_dir, progress_reporter=None, logcatcher=None):
-+        super(OpkgRootfs, self).__init__(d, progress_reporter, logcatcher)
-         self.log_check_regex = '(exit 1|Collected errors)'
- 
-         self.manifest = OpkgManifest(d, manifest_dir)
-@@ -994,16 +997,16 @@ def variable_depends(d, manifest_dir=None):
-     cls = get_class_for_type(img_type)
-     return cls._depends_list()
- 
--def create_rootfs(d, manifest_dir=None, progress_reporter=None):
-+def create_rootfs(d, manifest_dir=None, progress_reporter=None, logcatcher=None):
-     env_bkp = os.environ.copy()
- 
-     img_type = d.getVar('IMAGE_PKGTYPE', True)
-     if img_type == "rpm":
--        RpmRootfs(d, manifest_dir, progress_reporter).create()
-+        RpmRootfs(d, manifest_dir, progress_reporter, logcatcher).create()
-     elif img_type == "ipk":
--        OpkgRootfs(d, manifest_dir, progress_reporter).create()
-+        OpkgRootfs(d, manifest_dir, progress_reporter, logcatcher).create()
-     elif img_type == "deb":
--        DpkgRootfs(d, manifest_dir, progress_reporter).create()
-+        DpkgRootfs(d, manifest_dir, progress_reporter, logcatcher).create()
- 
-     os.environ.clear()
-     os.environ.update(env_bkp)
--- 
-2.5.5
-
+On 11/17/2016 02:19 PM, Robert Yang wrote:
+> The following changes since commit a675b2c89e477af088faee9b3be96eae19a85f0b:
+>
+>   sanity.bbclass: fix logging of an error (2016-11-15 15:18:50 +0000)
+>
+> are available in the git repository at:
+>
+>   git://git.openembedded.org/openembedded-core-contrib rbt/eSDK
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/eSDK
+>
+> Robert Yang (8):
+>   populate_sdk_ext.bbclass: install multilib targets as populate_sdk
+>     does
+>   oeqa/sdkext/devtool.py: remove workspace/sources before running test
+>     cases
+>   oe-publish-sdk: make cmd easier to read
+>   oe-publish-sdk: add pyshtables.py to .gitignore
+>   oeqa/sdkext/devtool.py: don't reset when the test is failed
+>   oeqa/oetest.py: add hasLockedSig()
+>   oeqa/sdkext/devtool.py: skip test_extend_autotools_recipe_creation
+>     when no libxml2
+>   oe/copy_buildsystem.py: add SDK_LAYERS_EXCLUDE_PATTERN
+>
+>  meta/classes/populate_sdk_ext.bbclass | 61 ++++++++++++++++++++++-------------
+>  meta/lib/oe/copy_buildsystem.py       | 18 +++++++++++
+>  meta/lib/oeqa/oetest.py               | 13 ++++++++
+>  meta/lib/oeqa/sdkext/devtool.py       | 13 ++++----
+>  scripts/oe-publish-sdk                | 19 +++++++++--
+>  5 files changed, 93 insertions(+), 31 deletions(-)
+>
 
