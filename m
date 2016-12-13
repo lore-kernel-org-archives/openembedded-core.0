@@ -1,30 +1,32 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B397171A9B
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id CBC1871A60
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 08:09:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uBD89V9q003676
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 13 Dec 2016 00:09:31 -0800
-Received: from [128.224.162.160] (128.224.162.160) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 13 Dec 2016 00:09:30 -0800
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Tue, 13 Dec 2016 08:21:57 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 13 Dec 2016 00:21:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,340,1477983600"; d="scan'208";a="1081125137"
+Received: from mauric9x-mobl.amr.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.158.7])
+	by fmsmga001.fm.intel.com with ESMTP; 13 Dec 2016 00:21:55 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Tue, 13 Dec 2016 21:21:53 +1300
+Message-ID: <1611902.KszYoSQub8@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.8.12-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <d0d8f45f-774f-0965-2a60-6acd17aca09a@windriver.com>
 References: <cover.1479363545.git.liezhi.yang@windriver.com>
-	<2244665.P00pJDD7kM@peggleto-mobl.ger.corp.intel.com>
-	<18078b0a-ede2-41ff-491b-9151b5b2aa1c@windriver.com>
-	<3698001.Ed7gRfCEom@peggleto-mobl.ger.corp.intel.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <d4898605-4cb1-ab19-b7e8-2e5f87fb9b24@windriver.com>
-Date: Tue, 13 Dec 2016 16:09:29 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	<7884104.xbYfD5GGaH@peggleto-mobl.ger.corp.intel.com>
+	<d0d8f45f-774f-0965-2a60-6acd17aca09a@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <3698001.Ed7gRfCEom@peggleto-mobl.ger.corp.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 5/8] oeqa/sdkext/devtool.py: don't reset when the test is failed
+Cc: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>, "Limon,
+	Anibal" <anibal.limon@intel.com>, "Lopez,
+	Mariano" <mariano.lopez@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/8] oeqa/sdkext/devtool.py: remove workspace/sources before running test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,60 +39,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2016 08:09:32 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Dec 2016 08:21:59 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+On Tue, 13 Dec 2016 14:47:10 Robert Yang wrote:
+> On 12/13/2016 02:29 PM, Paul Eggleton wrote:
+> > On Tue, 13 Dec 2016 13:56:05 Robert Yang wrote:
+> >> On 12/13/2016 12:45 PM, Paul Eggleton wrote:
+> >>> It seems to me that's what's missing here is a proper teardown process
+> >>> like we have for oe-selftest, so that tests clean up after themselves
+> >>> whether they succeed or fail. I'm unsure as to whether that is part of
+> >>> the plan for the new QA refactoring though.
+> >> 
+> >> There is already a 'devtool reset' which can do the cleanup, but it
+> >> can't remove sources as I said in the commit log.
+> > 
+> > devtool reset not deleting the source tree is intentional - I don't want
+> 
+> Add an option like "devtool reset --force" ? When I met the error, the first
+> I did was check "devtool reset", but there is no way to remove resources,
+> so I have to remove it here to allow multilib test cases runs.
 
+I've considered this and decided against it - it just seems to me that at 
+least one person will use it every time until one day when they wipe out their 
+source with their changes in it. I'd really rather not be enabling that. 
+Besides, in everyday use repeated runs of devtool add / modify on the same 
+recipe should be at a minimum, if that's not the case then we have other 
+issues to look at.
 
-On 12/13/2016 04:07 PM, Paul Eggleton wrote:
-> On Tue, 13 Dec 2016 14:39:46 Robert Yang wrote:
->> On 12/13/2016 02:33 PM, Paul Eggleton wrote:
->>> On Tue, 13 Dec 2016 14:01:08 Robert Yang wrote:
->>>> On 12/13/2016 12:48 PM, Paul Eggleton wrote:
->>>>> On Wed, 16 Nov 2016 22:19:34 Robert Yang wrote:
->>>>>> The contents are helpful to debug when the error happens.
->>>>>
->>>>> In this case removing this is OK because we're operating on an eSDK that
->>>>> the tests install. However, this wouldn't be appropriate for the devtool
->>>>> oe- selftest tests since they are operating on the user's build system
->>>>> itself - not that you probably have any intention of changing those, I
->>>>> just wanted to note that.
->>>>
->>>> Sorry, I don't quite understand, does selftest uses
->>>> oeqa/sdkext/devtool.py,
->>>> please ?
->>>
->>> No, this is for bitbake -c testsdkext.
->>>
->>>> Even if it uses devtool.py, I still think that we need keep the
->>>> error contents for debugging when the error happens. It's very hard to
->>>> debug when there is no error log or no workspace.
->>>
->>> I mean the equivalent oe-selftest tests in oeqa/selftest/devtool.py.
->>>
->>> Actually, I've realised something that applies here as well - leaving the
->>> files around would be OK if we stopped on the first failure, but we don't
->>> -
->>> the next test proceeds after it. How will you be able to rely on what's in
->>> the workspace if several other tests have run afterwards - not to mention
->>> ensure those tests aren't disrupted by the leftover files?
->>
->> That's a problem, but we really need consider debugging, otherwise it's
->> painful when test are failed but nothing left. How about run test cases
->> in different workspaces ?
->
-> Currently when I need to debug a test, I tend to either run the test commands
-> manually, or comment out the cleanup. If we really want to improve debugging
-> then we ought to do it properly - have proper teardown infrastructure and then
-> provide a mode that disables it.
+You say there's no way to remove these, but there is - just delete the files 
+explicitly.
 
-Thanks, I will drop the patch atm.
+> Or maybe fix "devtool add" to check the git repo correclty ? For example,
+> when there is already a repo, just update it rather than clone it again.
 
-// Robert
+Right, that has been suggested - and it's all fine if the source tree is 
+unmodified and just a straight update to get from where it is currently to 
+match the upstream. However, what if it's not fast-forward, or a different 
+repo entirely? What if there are local modifications?
 
->
-> Cheers,
-> Paul
->
+> The multilib + testsdkext would fail without this fix.
+
+Yes, that's why I ultimately said we haven't much choice but to apply this 
+patch. We must acknowledge however that the problem exists because the tests 
+aren't cleaning up after themselves, which should be their responsibility.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
