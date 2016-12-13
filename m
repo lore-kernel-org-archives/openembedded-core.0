@@ -1,30 +1,31 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id DF7996025F
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id E06C871A82
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 03:31:40 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="13853778"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 13 Dec 2016 11:31:37 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 147254670486
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 11:31:35 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.226.109) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Tue, 13 Dec 2016 11:31:34 +0800
-From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Dec 2016 11:30:39 +0800
-Message-ID: <1481599839-114211-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+	Tue, 13 Dec 2016 04:45:35 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga104.jf.intel.com with ESMTP; 12 Dec 2016 20:45:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,340,1477983600"; d="scan'208";a="1098355923"
+Received: from mauric9x-mobl.amr.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.158.7])
+	by fmsmga002.fm.intel.com with ESMTP; 12 Dec 2016 20:45:27 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Tue, 13 Dec 2016 17:45:23 +1300
+Message-ID: <3281082.n0HP4LhUSl@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.8.12-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <61246658fe264929d272f4da2f681e0fb95f9809.1479363545.git.liezhi.yang@windriver.com>
+References: <cover.1479363545.git.liezhi.yang@windriver.com>
+	<61246658fe264929d272f4da2f681e0fb95f9809.1479363545.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.109]
-X-yoursite-MailScanner-ID: 147254670486.A4FF5
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] util-linux: 2.28.1 -> 2.29
+Cc: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>, "Limon,
+	Anibal" <anibal.limon@intel.com>, "Lopez,
+	Mariano" <mariano.lopez@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/8] oeqa/sdkext/devtool.py: remove workspace/sources before running test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,44 +38,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2016 03:31:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 13 Dec 2016 04:45:36 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Upgrade util-linux from 2.28.1 to 2.29
+On Wed, 16 Nov 2016 22:19:31 Robert Yang wrote:
+> Fixed:
+> MACHINE = "qemux86-64"
+> require conf/multilib.conf
+> MULTILIBS = "multilib:lib32"
+> DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+> 
+> $ bitbake core-image-minimal -cpopulate_sdk_ext
+> [snip]
+> ERROR: Source tree path
+> /path/to/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/testsdkex
+> t/tc/workspace/sources/v4l2loopback-driver already exists and is not
+> empty\n' [snip]
+> 
+> This is because the test case will run twice
+> (environment-setup-core2-64-poky-linux and
+> environment-setup-x86-pokymllib32-linux), it would fail in the second
+> run, 'devtool reset' can not remove sources, so remove it before running
+> test cases.
+> 
+> [YOCTO #10647]
+> 
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  meta/lib/oeqa/sdkext/devtool.py | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/meta/lib/oeqa/sdkext/devtool.py
+> b/meta/lib/oeqa/sdkext/devtool.py index 65f41f6..f101eb6 100644
+> --- a/meta/lib/oeqa/sdkext/devtool.py
+> +++ b/meta/lib/oeqa/sdkext/devtool.py
+> @@ -15,6 +15,9 @@ class DevtoolTest(oeSDKExtTest):
+>          self.myapp_cmake_dst = os.path.join(self.tc.sdktestdir,
+> "myapp_cmake") shutil.copytree(self.myapp_cmake_src, self.myapp_cmake_dst)
+> 
+> +        # Clean sources dir to make "git clone" can run again
+> +        shutil.rmtree(os.path.join(self.tc.sdktestdir,
+> "tc/workspace/sources"), True) +
+>      def _test_devtool_build(self, directory):
+>          self._run('devtool add myapp %s' % directory)
+>          try:
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
----
- .../util-linux/{util-linux_2.28.1.bb => util-linux_2.29.bb}         | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-core/util-linux/{util-linux_2.28.1.bb => util-linux_2.29.bb} (84%)
+It seems to me that's what's missing here is a proper teardown process like we 
+have for oe-selftest, so that tests clean up after themselves whether they 
+succeed or fail. I'm unsure as to whether that is part of the plan for the new 
+QA refactoring though.
 
-diff --git a/meta/recipes-core/util-linux/util-linux_2.28.1.bb b/meta/recipes-core/util-linux/util-linux_2.29.bb
-similarity index 84%
-rename from meta/recipes-core/util-linux/util-linux_2.28.1.bb
-rename to meta/recipes-core/util-linux/util-linux_2.29.bb
-index f232cb9..80638bd 100644
---- a/meta/recipes-core/util-linux/util-linux_2.28.1.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.29.bb
-@@ -1,4 +1,4 @@
--MAJOR_VERSION = "2.28"
-+MAJOR_VERSION = "2.29"
- require util-linux.inc
- 
- # To support older hosts, we need to patch and/or revert
-@@ -16,8 +16,8 @@ SRC_URI += "file://configure-sbindir.patch \
-             file://avoid_parallel_tests.patch \
-             file://uuid-test-error-api.patch \
- "
--SRC_URI[md5sum] = "e2d863efaf4fd330a42c5efe9f1b02b4"
--SRC_URI[sha256sum] = "3ece4ea4a34ef786b68f5c415e848390424232abd1ee00f7ee5bddc30657b60f"
-+SRC_URI[md5sum] = "07b6845f48a421ad5844aa9d58edb837"
-+SRC_URI[sha256sum] = "2c59ea67cc7b564104f60532f6e0a95fe17a91acb870ba8fd7e986f273abf9e7"
- 
- CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=ms"
- 
+In the absence of that however I guess we don't have much choice but to do 
+something like this.
+
+Cheers,
+Paul
+
 -- 
-2.7.4
 
-
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
