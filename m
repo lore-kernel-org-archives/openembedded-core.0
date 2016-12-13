@@ -1,47 +1,30 @@
-Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 42A0E71A9B
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B397171A9B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 08:07:49 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id f82so106980107wmf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 00:07:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=rndity-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=7reVuMuXog+5QdRtLiR1kxEbde5+zyS84lwjdd4r/zY=;
-	b=1HRmlHePMW5fAP4s1uqH+Jkn755AqDRB/RB744OcMNOyxNCdRSCeiPFMJOqIfZlkUW
-	h9Y4qmS25f40XylyYDOJtquvmh/rkImi9qqlKdknz3CSEbSpwTFrx6ZfofZvRo+l/9hq
-	Pq5FljmaWtvhEEH1dhJkSpTuxtwwWsxQvsb8pGcVmo8wsZREVnZKaXM6/a3MOtcbvv1X
-	LuycKKfUMU/uKErg2JsBlP/0tMMT/a/KP+JNmlYIWXZ9PdFYbfcf8Fto3TFlCO9yrjku
-	eIbDrNVKCnFbI2QHwDN7n7TYvtUpTHbLzJJpgJuP59OFaPxsBpSGuUy21S3e5N3wcekV
-	oxLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=7reVuMuXog+5QdRtLiR1kxEbde5+zyS84lwjdd4r/zY=;
-	b=kmaoGWbjuFCqM1GGkMBXIvpJiKRWxTzCCTpIaOU/HRWjTottvkCuF4LHHj9RvaUtMu
-	ao6Ohcq3At6G6raeb2wTj7gSZsLb9VL9krqs0IbbFx279q1vk6jWeQ3KqLOcjV/XlOrr
-	GfV8zK8GkPq9dNXsvPMfHPnH1b9rVrwH3+g8ZcV/sRyS9khFyhqYbOzfRX2EEmYmu5OA
-	Q5V5PZyyUdAWAbvo1zZ4asJoDde5GU7dQ+UvGm32hsySxUgzIZOIpMjsQItj9K7MGwlN
-	r+3jiQrFoggotkKIq2sSKYqdUgjl5ZuoA0+U7gOU75Xg+Uoc+D/69JtzrSxdKhBTX8x6
-	wmBg==
-X-Gm-Message-State: AKaTC018KDRrM0jmdwHhJA5oNUSLS5DJXfu2CnZfI5dCHSyUmwz6BdGBX5XNZHYfuMazoLDfYdZWHLrpvt2H0g==
-X-Received: by 10.28.88.11 with SMTP id m11mr1360204wmb.45.1481616471004; Tue,
-	13 Dec 2016 00:07:51 -0800 (PST)
+	Tue, 13 Dec 2016 08:09:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uBD89V9q003676
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 13 Dec 2016 00:09:31 -0800
+Received: from [128.224.162.160] (128.224.162.160) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 13 Dec 2016 00:09:30 -0800
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1479363545.git.liezhi.yang@windriver.com>
+	<2244665.P00pJDD7kM@peggleto-mobl.ger.corp.intel.com>
+	<18078b0a-ede2-41ff-491b-9151b5b2aa1c@windriver.com>
+	<3698001.Ed7gRfCEom@peggleto-mobl.ger.corp.intel.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <d4898605-4cb1-ab19-b7e8-2e5f87fb9b24@windriver.com>
+Date: Tue, 13 Dec 2016 16:09:29 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Received: by 10.28.10.69 with HTTP; Tue, 13 Dec 2016 00:07:30 -0800 (PST)
-In-Reply-To: <cover.1479970230.git.maciej.borzecki@rndity.com>
-References: <cover.1479970230.git.maciej.borzecki@rndity.com>
-From: =?UTF-8?Q?Maciej_Borz=C4=99cki?= <maciej.borzecki@rndity.com>
-Date: Tue, 13 Dec 2016 09:07:30 +0100
-Message-ID: <CAD4b0_LMUu4=kTEon3nk+_8-1+nG+zQsph9yPB-SNabahhKsbQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Maciej Borzecki <maciek.borzecki@gmail.com>
-Subject: Re: [PATCH v5 0/6] wic: bugfixes & --fixed-size support, tests, oe-selftest: minor fixes
+In-Reply-To: <3698001.Ed7gRfCEom@peggleto-mobl.ger.corp.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 5/8] oeqa/sdkext/devtool.py: don't reset when the test is failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,46 +37,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2016 08:07:50 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 13 Dec 2016 08:09:32 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 24, 2016 at 8:08 AM, Maciej Borzecki
-<maciej.borzecki@rndity.com> wrote:
-> v5 of a patch series previously posted here [1].
->
-> Changes since v4:
->
-> * dropped `wic: selftest: do not repeat core-image-minimal` & rebased
->   dependant patches
->
-> * minor formatting fix in `wic: selftest: add tests for --fixed-size
->   partition flags`
->
-> [1]. http://lists.openembedded.org/pipermail/openembedded-core/2016-November/129103.html
->
-> Maciej Borzecki (6):
->   oe-selftest: enforce en_US.UTF-8 locale
->   oeqa/utils/commands.py: allow use of binaries from native sysroot
->   wic: add --fixed-size wks option
->   wic: selftest: avoid COMPATIBLE_HOST issues
->   wic: selftest: do not assume bzImage kernel image
->   wic: selftest: add tests for --fixed-size partition flags
->
->  meta/lib/oeqa/selftest/wic.py          | 123 +++++++++++++++++++++++++++++++--
->  meta/lib/oeqa/utils/commands.py        |   9 ++-
->  scripts/lib/wic/help.py                |  14 +++-
->  scripts/lib/wic/imager/direct.py       |   2 +-
->  scripts/lib/wic/ksparser.py            |  41 +++++++++--
->  scripts/lib/wic/partition.py           |  88 ++++++++++++++---------
->  scripts/lib/wic/utils/partitionedfs.py |   2 +-
->  scripts/oe-selftest                    |   3 +
->  8 files changed, 234 insertions(+), 48 deletions(-)
 
-Is there any additional action needed from me at this point? A rebase
-or a resend perhaps?
 
-Cheers,
--- 
-Maciej Borzecki
-RnDity
+On 12/13/2016 04:07 PM, Paul Eggleton wrote:
+> On Tue, 13 Dec 2016 14:39:46 Robert Yang wrote:
+>> On 12/13/2016 02:33 PM, Paul Eggleton wrote:
+>>> On Tue, 13 Dec 2016 14:01:08 Robert Yang wrote:
+>>>> On 12/13/2016 12:48 PM, Paul Eggleton wrote:
+>>>>> On Wed, 16 Nov 2016 22:19:34 Robert Yang wrote:
+>>>>>> The contents are helpful to debug when the error happens.
+>>>>>
+>>>>> In this case removing this is OK because we're operating on an eSDK that
+>>>>> the tests install. However, this wouldn't be appropriate for the devtool
+>>>>> oe- selftest tests since they are operating on the user's build system
+>>>>> itself - not that you probably have any intention of changing those, I
+>>>>> just wanted to note that.
+>>>>
+>>>> Sorry, I don't quite understand, does selftest uses
+>>>> oeqa/sdkext/devtool.py,
+>>>> please ?
+>>>
+>>> No, this is for bitbake -c testsdkext.
+>>>
+>>>> Even if it uses devtool.py, I still think that we need keep the
+>>>> error contents for debugging when the error happens. It's very hard to
+>>>> debug when there is no error log or no workspace.
+>>>
+>>> I mean the equivalent oe-selftest tests in oeqa/selftest/devtool.py.
+>>>
+>>> Actually, I've realised something that applies here as well - leaving the
+>>> files around would be OK if we stopped on the first failure, but we don't
+>>> -
+>>> the next test proceeds after it. How will you be able to rely on what's in
+>>> the workspace if several other tests have run afterwards - not to mention
+>>> ensure those tests aren't disrupted by the leftover files?
+>>
+>> That's a problem, but we really need consider debugging, otherwise it's
+>> painful when test are failed but nothing left. How about run test cases
+>> in different workspaces ?
+>
+> Currently when I need to debug a test, I tend to either run the test commands
+> manually, or comment out the cleanup. If we really want to improve debugging
+> then we ought to do it properly - have proper teardown infrastructure and then
+> provide a mode that disables it.
+
+Thanks, I will drop the patch atm.
+
+// Robert
+
+>
+> Cheers,
+> Paul
+>
 
