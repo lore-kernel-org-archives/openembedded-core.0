@@ -1,31 +1,46 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 3742671B58
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
+	[209.85.220.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D97271E22
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 13:58:00 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga105.jf.intel.com with ESMTP; 13 Dec 2016 05:58:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,341,1477983600"; d="scan'208";a="202076381"
-Received: from mlopezva-mobl.amr.corp.intel.com (HELO [10.254.191.171])
-	([10.254.191.171])
-	by fmsmga004.fm.intel.com with ESMTP; 13 Dec 2016 05:58:00 -0800
-To: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Robert Yang <liezhi.yang@windriver.com>
-References: <cover.1479363545.git.liezhi.yang@windriver.com>
-	<61246658fe264929d272f4da2f681e0fb95f9809.1479363545.git.liezhi.yang@windriver.com>
-	<3281082.n0HP4LhUSl@peggleto-mobl.ger.corp.intel.com>
-From: "Lopez, Mariano" <mariano.lopez@linux.intel.com>
-Message-ID: <709e6fa6-6217-23b8-30ca-bc326600e135@linux.intel.com>
-Date: Tue, 13 Dec 2016 07:58:00 -0600
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Tue, 13 Dec 2016 14:18:07 +0000 (UTC)
+Received: by mail-qk0-f172.google.com with SMTP id x190so117430840qkb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Dec 2016 06:18:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=kCnlKz3PE054CKbfvlF/QLmcDNkUUZ8df90h8N3WQnM=;
+	b=xvnmivc/DsJ7YpxTQpOaAKbNpfbf85esHM/NxPqav6OHUeCZS3t0RTz83qd61JBvGJ
+	lpH8EqZYUG5kcTHKqAgREAgno9Qx4yfw53xYHNlrYK3h2bZ8cBXisRH/dkN7fPeE69D/
+	Kdmf87RGOPJyijA2YtUjdYhf0WSkGPKMGOCWzcBeZDA7T1HiZwkkvutM0b/q4kNzgCBB
+	U6GAezZDOx+WL8tr4mT0o8dQqxRxPyCpk+XJpu2LPbPaubwBZCedg3tiWWQJi5q1Uz3f
+	UeaJfA8ufxyzzQH3DLX75qd4qLNVKKcmfJZyadqU4AS+dVNVDa3PAMGltNeRnq908ka7
+	8U6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=kCnlKz3PE054CKbfvlF/QLmcDNkUUZ8df90h8N3WQnM=;
+	b=jpdvTQUBYIIiAXWyY45qMgIPHPl2qaXNFEBlo3dU/ETe0lWTqKL7Ibw4FMzh83ZW28
+	RxmqLOe9Jwybb+P3Trw2QEmPbdn+IIJQY6I2rQEuXWfXLWut0vfQS5myIfEKDNezob4C
+	aYspM2lWpuI+3HcNOTgUJdus0LaZd8rEOhKK1rKbp0Z+MKILi2SXN6qY3RvgiR5r2Bnq
+	IzI1zVrIY//FMhzTuQsKWfplE8UbUCfRGc1TWpJDxZC8yVC+om79cHhHDOcE4Sdlr3iq
+	AJ5dYNsLlZRTR5JyuhHFJjxGBWMl+VFNR5+5Lh/86DluRWHUeQrhBPno7LtrvEPNnyeE
+	HLAg==
+X-Gm-Message-State: AKaTC03PbjkTvaf6Celzz8cTCrLpvAj0ZX74JseETxeMrxG60x2NBLgAI0LuodYwHB8IZXeWg+ja0gi8imrdEIuS
+X-Received: by 10.55.106.134 with SMTP id f128mr93842416qkc.121.1481638688473; 
+	Tue, 13 Dec 2016 06:18:08 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <3281082.n0HP4LhUSl@peggleto-mobl.ger.corp.intel.com>
-Cc: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>,
-	openembedded-core@lists.openembedded.org, "Limon,
-	Anibal" <anibal.limon@intel.com>
-Subject: Re: [PATCH 2/8] oeqa/sdkext/devtool.py: remove workspace/sources before running test cases
+Received: by 10.140.106.99 with HTTP; Tue, 13 Dec 2016 06:17:48 -0800 (PST)
+In-Reply-To: <1481627960-3608-1-git-send-email-awais_belal@mentor.com>
+References: <1481627960-3608-1-git-send-email-awais_belal@mentor.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 13 Dec 2016 14:17:48 +0000
+Message-ID: <CAJTo0LZOSS8nYB9ooPsSJGkuBU5=pvzCTUAKVXSEUR=f7kgjDg@mail.gmail.com>
+To: Awais Belal <awais_belal@mentor.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] grub_git: extend recipe for proper target deployment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,72 +53,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2016 13:58:01 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Dec 2016 14:18:08 -0000
+Content-Type: multipart/alternative; boundary=001a114fddf6b6553405438ae365
 
+--001a114fddf6b6553405438ae365
+Content-Type: text/plain; charset=UTF-8
 
+On 13 December 2016 at 11:19, Awais Belal <awais_belal@mentor.com> wrote:
 
-On 12/12/2016 10:45 PM, Paul Eggleton wrote:
-> On Wed, 16 Nov 2016 22:19:31 Robert Yang wrote:
->> Fixed:
->> MACHINE = "qemux86-64"
->> require conf/multilib.conf
->> MULTILIBS = "multilib:lib32"
->> DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
->>
->> $ bitbake core-image-minimal -cpopulate_sdk_ext
->> [snip]
->> ERROR: Source tree path
->> /path/to/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/testsdkex
->> t/tc/workspace/sources/v4l2loopback-driver already exists and is not
->> empty\n' [snip]
->>
->> This is because the test case will run twice
->> (environment-setup-core2-64-poky-linux and
->> environment-setup-x86-pokymllib32-linux), it would fail in the second
->> run, 'devtool reset' can not remove sources, so remove it before running
->> test cases.
->>
->> [YOCTO #10647]
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>   meta/lib/oeqa/sdkext/devtool.py | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/meta/lib/oeqa/sdkext/devtool.py
->> b/meta/lib/oeqa/sdkext/devtool.py index 65f41f6..f101eb6 100644
->> --- a/meta/lib/oeqa/sdkext/devtool.py
->> +++ b/meta/lib/oeqa/sdkext/devtool.py
->> @@ -15,6 +15,9 @@ class DevtoolTest(oeSDKExtTest):
->>           self.myapp_cmake_dst = os.path.join(self.tc.sdktestdir,
->> "myapp_cmake") shutil.copytree(self.myapp_cmake_src, self.myapp_cmake_dst)
->>
->> +        # Clean sources dir to make "git clone" can run again
->> +        shutil.rmtree(os.path.join(self.tc.sdktestdir,
->> "tc/workspace/sources"), True) +
->>       def _test_devtool_build(self, directory):
->>           self._run('devtool add myapp %s' % directory)
->>           try:
-> It seems to me that's what's missing here is a proper teardown process like we
-> have for oe-selftest, so that tests clean up after themselves whether they
-> succeed or fail. I'm unsure as to whether that is part of the plan for the new
-> QA refactoring though.
-
-To clean directories before/after the test it is not in the plans of the 
-QA refactoring, they way Robert did the clean up is appropriated, in the 
-setUpClass method, this way it will run before every class test and only 
-one time.
-
-Mariano
-
->
-> In the absence of that however I guess we don't have much choice but to do
-> something like this.
->
-> Cheers,
-> Paul
+> +DEPENDS_class-target += "grub-native"
 >
 
+The native magic won't generate dependencies on itself, so this can just be
+DEPENDS.
 
+
+> +RDEPENDS_${PN}_class-target = "diffutils freetype"
+>
+
+Does this really need to be class-target-specific?
+
+Ross
+
+--001a114fddf6b6553405438ae365
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 13 December 2016 at 11:19, Awais Belal <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:awais_belal@mentor.com" target=3D"_blank">awais_belal@mentor.com</a>=
+&gt;</span> wrote:=C2=A0</div><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
+rder-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">=
+<div id=3D"gmail-:3nk" class=3D"gmail-a3s gmail-aXjCH gmail-m158f7e9ba465a9=
+98">+DEPENDS_class-target +=3D &quot;grub-native&quot;<br></div></blockquot=
+e><div><br></div><div>The native magic won&#39;t generate dependencies on i=
+tself, so this can just be DEPENDS.</div><div>=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
+rder-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">=
+<div id=3D"gmail-:3nk" class=3D"gmail-a3s gmail-aXjCH gmail-m158f7e9ba465a9=
+98">
++RDEPENDS_${PN}_class-target =3D &quot;diffutils freetype&quot;</div></bloc=
+kquote></div><br>Does this really need to be class-target-specific?</div><d=
+iv class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></d=
+iv>
+
+--001a114fddf6b6553405438ae365--
