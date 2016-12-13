@@ -1,26 +1,47 @@
-Return-Path: <jose.perez.carranza@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 289EC71E14
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BADD71E10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 16:43:35 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 13 Dec 2016 08:42:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,342,1477983600"; 
-	d="scan'208,217";a="1098613439"
-Received: from jgperezc.zpn.intel.com (HELO [10.219.5.150]) ([10.219.5.150])
-	by fmsmga002.fm.intel.com with ESMTP; 13 Dec 2016 08:42:33 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
+	Tue, 13 Dec 2016 16:50:43 +0000 (UTC)
+Received: by mail-qk0-f174.google.com with SMTP id q130so122225719qke.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Dec 2016 08:50:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=38XberlU5LhrU6QjzXOIMQxenodJfzQHBnzkOGipgTE=;
+	b=QNKSUg6L4Z11X/Mk7qcLhr9IepmyGd+zp9M2CsKeJMfgxFfIWYuuqSCp7MliJLN2h+
+	Hk57xFLEy+Ljws9QYvdxjnBLT5+ttLEeNSmAgxxBKyS+9agpMz6xb2DNxsKnRG5I1GBu
+	iWYyL5V6rVvnX/DKICJouoRS2rKsd8dIrmtwE+1Iws4/7Bkf+VzvM8xf34chZ2xU8Reb
+	Qspa6bn07tdPoYt+O60q08s1dcarjJmx4BF6UHClPAq7hnNzd8kTcaD7IrSVf8L/OWlR
+	lsRDChLsum2Dn0IQyM6kiKIGh7TgSgeRyqyTwVd7DcyNjhjhpT8Hy41cEYJqCussJDnn
+	sitg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=38XberlU5LhrU6QjzXOIMQxenodJfzQHBnzkOGipgTE=;
+	b=FFLKj+I15/Hn7/z2JWQvOgABtF82ILr7aiuN6k1KEJdOd+ZhtC43rQdtwuq5T5aC13
+	5kBmwqoLtVOYMC81UXbQVxGLJlKta1rqCprPbpnlcPOHFzVFVcI/anwaOHNGI0KczJcK
+	2XgcSjaFC7qHdcOn0Yv9YoDrbwDkIATRyIkHjrAIwkDBdxNY9EzY/w0Xqc+lTMik7I+m
+	qM9HflNFg4nK08z7x2iD61/AKWNqzkKeUEFCaqqXymZlTODv22k5oV7n5cpSygv3Oj/w
+	+iunXwTCToncQkCCdXfSOpiqL4FORz17eWS1s87uRE3GeOSTbjCfo+kw0wUP1K0mVclV
+	wptw==
+X-Gm-Message-State: AKaTC02UgcnrIMajfCvi9NSe7CTQ+luYtSyrRQuTqczf766Rfrn0lS5+0ODTlR1FDs3B1qCQsXeYhBspSfyDArF0
+X-Received: by 10.55.8.20 with SMTP id 20mr95382079qki.3.1481647844482; Tue,
+	13 Dec 2016 08:50:44 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.106.99 with HTTP; Tue, 13 Dec 2016 08:50:24 -0800 (PST)
+In-Reply-To: <add9f53a-8c35-91a1-9758-62bd7e12766d@linux.intel.com>
 References: <1479227073-13133-1-git-send-email-jose.perez.carranza@linux.intel.com>
 	<CAJTo0LZ1cj5Nm+iSO5aaHRMgf1Syhx6wQ3R2OaBe99A-SKX5Yg@mail.gmail.com>
 	<CAJTo0LYbCY=ETjx3wdo1nwsDDJCgEZU7F0JfiuP_zZf+tS3F-A@mail.gmail.com>
-From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
-Message-ID: <add9f53a-8c35-91a1-9758-62bd7e12766d@linux.intel.com>
-Date: Tue, 13 Dec 2016 10:53:27 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYbCY=ETjx3wdo1nwsDDJCgEZU7F0JfiuP_zZf+tS3F-A@mail.gmail.com>
+	<add9f53a-8c35-91a1-9758-62bd7e12766d@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 13 Dec 2016 16:50:24 +0000
+Message-ID: <CAJTo0LYy2OKK3bOECPRqjjH2E0mNhLrFB+OzxVxZf=t7Ud4cXw@mail.gmail.com>
+To: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2] oe-tests: Migrate tests from /oe/test to /oeqa/selftest/oe-tests
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -35,171 +56,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2016 16:43:37 -0000
-Content-Type: multipart/alternative;
-	boundary="------------3D0F63277BD71E46D2FD5E2F"
+X-List-Received-Date: Tue, 13 Dec 2016 16:50:47 -0000
+Content-Type: multipart/alternative; boundary=001a114c9d6073f35405438d05e1
 
---------------3D0F63277BD71E46D2FD5E2F
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+--001a114c9d6073f35405438d05e1
+Content-Type: text/plain; charset=UTF-8
 
+On 13 December 2016 at 16:53, Jose Perez Carranza <
+jose.perez.carranza@linux.intel.com> wrote:
 
-
-On 12/13/2016 10:32 AM, Burton, Ross wrote:
->
-> On 13 December 2016 at 16:17, Burton, Ross <ross.burton@intel.com 
-> <mailto:ross.burton@intel.com>> wrote:
->
->     It took over a minute to load a few tests.  Do you have any idea
->     why the discovery is so slow?
->
->
-at my host is very fast the load (1 second)
-
-jgperezc@jgperezc:~/poky-oetest/build$ oe-selftest  -r oelib-tests.elf 
-oelib-tests.license oelib-tests.path oelib-tests.types oelib-tests.utils
-2016-12-13 10:48:28,333 - selftest - INFO - Running bitbake -e to get BBPATH
-2016-12-13 10:48:29,125 - selftest - INFO - Checking that everything is 
-in order before running the tests
-2016-12-13 10:48:29,833 - selftest - INFO - Running bitbake -p
-2016-12-13 10:48:52,181 - selftest - INFO - test runner init'ed like 
-unittest
-2016-12-13 10:48:52,995 - selftest - INFO - Loading tests from: 
-oeqa.selftest.oelib-tests.elf
-2016-12-13 10:48:52,998 - selftest - INFO - Loading tests from: 
-oeqa.selftest.oelib-tests.license
-2016-12-13 10:48:53,000 - selftest - INFO - Loading tests from: 
-oeqa.selftest.oelib-tests.path
-2016-12-13 10:48:53,001 - selftest - INFO - Loading tests from: 
-oeqa.selftest.oelib-tests.types
-2016-12-13 10:48:53,003 - selftest - INFO - Loading tests from: 
-oeqa.selftest.oelib-tests.utils
-2016-12-13 10:48:53,005 - selftest - INFO - Adding: "include 
-selftest.inc" in local.conf
-2016-12-13 10:48:53,005 - selftest - INFO - Adding: "include 
-bblayers.inc" in bblayers.conf
-
-> Oh, it's because oeselftest does bitbake calls isn't it.
->
-> Good news: you don't need to use oeSelfTest at all, the discovery 
-> works fine with standard unittest.TestCase objects.
->
-> Patch incoming. :)
->
-Ok, just wondering if oe-selftest -l will also list those test cases ??
-> Ross
+> at my host is very fast the load (1 second)
 >
 
--- 
-Saludos
-José
+Okay, proof that I need a new build machine. :)
 
 
---------------3D0F63277BD71E46D2FD5E2F
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+> Ok, just wondering if oe-selftest -l will also list those test cases ??
+>
 
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p><br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">On 12/13/2016 10:32 AM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LYbCY=ETjx3wdo1nwsDDJCgEZU7F0JfiuP_zZf+tS3F-A@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 13 December 2016 at 16:17, Burton,
-            Ross <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:ross.burton@intel.com" target="_blank">ross.burton@intel.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div class="gmail_extra">It took over a minute to load a
-                few tests.  Do you have any idea why the discovery is so
-                slow?</div>
-            </blockquote>
-            <div><br>
-            </div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    at my host is very fast the load (1 second) <br>
-    <br>
-    jgperezc@jgperezc:~/poky-oetest/build$ oe-selftest  -r
-    oelib-tests.elf oelib-tests.license oelib-tests.path
-    oelib-tests.types oelib-tests.utils<br>
-    2016-12-13 10:48:28,333 - selftest - INFO - Running bitbake -e to
-    get BBPATH<br>
-    2016-12-13 10:48:29,125 - selftest - INFO - Checking that everything
-    is in order before running the tests<br>
-    2016-12-13 10:48:29,833 - selftest - INFO - Running bitbake -p<br>
-    2016-12-13 10:48:52,181 - selftest - INFO - test runner init'ed like
-    unittest<br>
-    2016-12-13 10:48:52,995 - selftest - INFO - Loading tests from:
-    oeqa.selftest.oelib-tests.elf<br>
-    2016-12-13 10:48:52,998 - selftest - INFO - Loading tests from:
-    oeqa.selftest.oelib-tests.license<br>
-    2016-12-13 10:48:53,000 - selftest - INFO - Loading tests from:
-    oeqa.selftest.oelib-tests.path<br>
-    2016-12-13 10:48:53,001 - selftest - INFO - Loading tests from:
-    oeqa.selftest.oelib-tests.types<br>
-    2016-12-13 10:48:53,003 - selftest - INFO - Loading tests from:
-    oeqa.selftest.oelib-tests.utils<br>
-    2016-12-13 10:48:53,005 - selftest - INFO - Adding: "include
-    selftest.inc" in local.conf<br>
-    2016-12-13 10:48:53,005 - selftest - INFO - Adding: "include
-    bblayers.inc" in bblayers.conf<br>
-    <br>
-    <blockquote
-cite="mid:CAJTo0LYbCY=ETjx3wdo1nwsDDJCgEZU7F0JfiuP_zZf+tS3F-A@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra">
-          <div class="gmail_quote">
-            <div>Oh, it's because oeselftest does bitbake calls isn't
-              it.</div>
-            <div><br>
-            </div>
-            <div>Good news: you don't need to use oeSelfTest at all, the
-              discovery works fine with standard unittest.TestCase
-              objects.</div>
-            <div><br>
-            </div>
-            <div>Patch incoming. :)</div>
-            <div><br>
-            </div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    Ok, just wondering if oe-selftest -l will also list those test cases
-    ?? <br>
-    <blockquote
-cite="mid:CAJTo0LYbCY=ETjx3wdo1nwsDDJCgEZU7F0JfiuP_zZf+tS3F-A@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra">
-          <div class="gmail_quote">
-            <div>Ross</div>
-            <div> </div>
-          </div>
-          <br>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    <pre class="moz-signature" cols="72">-- 
-Saludos 
-José </pre>
-  </body>
-</html>
+Huh.  -l doesn't, but -m does.
 
---------------3D0F63277BD71E46D2FD5E2F--
+Ross
+
+--001a114c9d6073f35405438d05e1
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 13 December 2016 at 16:53, Jose Perez Carranza <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:jose.perez.carranza@linux.intel.com" target=3D"_blank">jose.=
+perez.carranza@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex"><div text=3D"#000000" bgcolor=3D"#FFFFFF">at my host is very =
+fast the load (1 second) <br></div></blockquote><div><br></div><div>Okay, p=
+roof that I need a new build machine. :)</div><div>=C2=A0</div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
+;padding-left:1ex"><div text=3D"#000000" bgcolor=3D"#FFFFFF">Ok, just wonde=
+ring if oe-selftest -l will also list those test cases
+    ?? </div></blockquote></div><br>Huh. =C2=A0-l doesn&#39;t, but -m does.=
+</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross<=
+/div></div>
+
+--001a114c9d6073f35405438d05e1--
