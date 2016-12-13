@@ -1,26 +1,29 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A80DD71C00
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id D1C8871A88
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 08:03:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uBD83L7v003392
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 00:03:21 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.184) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 13 Dec 2016 00:03:20 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Dec 2016 16:04:18 +0800
-Message-ID: <6c128696461dd6e37818cbad168a048575b97f5a.1481616098.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1481616098.git.Qi.Chen@windriver.com>
-References: <cover.1481616098.git.Qi.Chen@windriver.com>
+	Tue, 13 Dec 2016 08:07:09 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga105.jf.intel.com with ESMTP; 13 Dec 2016 00:07:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,340,1477983600"; d="scan'208";a="1071433190"
+Received: from mauric9x-mobl.amr.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.158.7])
+	by orsmga001.jf.intel.com with ESMTP; 13 Dec 2016 00:07:08 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Tue, 13 Dec 2016 21:07:05 +1300
+Message-ID: <3698001.Ed7gRfCEom@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.8.12-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <18078b0a-ede2-41ff-491b-9151b5b2aa1c@windriver.com>
+References: <cover.1479363545.git.liezhi.yang@windriver.com>
+	<2244665.P00pJDD7kM@peggleto-mobl.ger.corp.intel.com>
+	<18078b0a-ede2-41ff-491b-9151b5b2aa1c@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 4/4] package.bbclass: support persistent /var/log
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 5/8] oeqa/sdkext/devtool.py: don't reset when the test is failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,112 +36,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2016 08:03:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 13 Dec 2016 08:07:11 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Add a new file, fs-perms-persistent-log.txt, which treats /var/log
-as a directory instead of a link.
+On Tue, 13 Dec 2016 14:39:46 Robert Yang wrote:
+> On 12/13/2016 02:33 PM, Paul Eggleton wrote:
+> > On Tue, 13 Dec 2016 14:01:08 Robert Yang wrote:
+> >> On 12/13/2016 12:48 PM, Paul Eggleton wrote:
+> >>> On Wed, 16 Nov 2016 22:19:34 Robert Yang wrote:
+> >>>> The contents are helpful to debug when the error happens.
+> >>> 
+> >>> In this case removing this is OK because we're operating on an eSDK that
+> >>> the tests install. However, this wouldn't be appropriate for the devtool
+> >>> oe- selftest tests since they are operating on the user's build system
+> >>> itself - not that you probably have any intention of changing those, I
+> >>> just wanted to note that.
+> >> 
+> >> Sorry, I don't quite understand, does selftest uses
+> >> oeqa/sdkext/devtool.py,
+> >> please ?
+> > 
+> > No, this is for bitbake -c testsdkext.
+> > 
+> >> Even if it uses devtool.py, I still think that we need keep the
+> >> error contents for debugging when the error happens. It's very hard to
+> >> debug when there is no error log or no workspace.
+> > 
+> > I mean the equivalent oe-selftest tests in oeqa/selftest/devtool.py.
+> > 
+> > Actually, I've realised something that applies here as well - leaving the
+> > files around would be OK if we stopped on the first failure, but we don't
+> > -
+> > the next test proceeds after it. How will you be able to rely on what's in
+> > the workspace if several other tests have run afterwards - not to mention
+> > ensure those tests aren't disrupted by the leftover files?
+> 
+> That's a problem, but we really need consider debugging, otherwise it's
+> painful when test are failed but nothing left. How about run test cases
+> in different workspaces ?
 
-Modify package.bbclass to use this file if VOLATILE_LOG_DIR is not set to "yes".
+Currently when I need to debug a test, I tend to either run the test commands 
+manually, or comment out the cleanup. If we really want to improve debugging 
+then we ought to do it properly - have proper teardown infrastructure and then 
+provide a mode that disables it.
 
-[YOCTO #6132]
+Cheers,
+Paul
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/package.bbclass           |  2 +-
- meta/files/fs-perms-persistent-log.txt | 69 ++++++++++++++++++++++++++++++++++
- 2 files changed, 70 insertions(+), 1 deletion(-)
- create mode 100644 meta/files/fs-perms-persistent-log.txt
-
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index a6f0a7a..9a423f8 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -733,7 +733,7 @@ python fixup_perms () {
-         bbpath = d.getVar('BBPATH', True)
-         fs_perms_tables = d.getVar('FILESYSTEM_PERMS_TABLES', True)
-         if not fs_perms_tables:
--            fs_perms_tables = 'files/fs-perms.txt'
-+            fs_perms_tables = ['files/fs-perms-persistent-log.txt', 'files/fs-perms.txt'][d.getVar('VOLATILE_LOG_DIR', True) == 'yes']
-         for conf_file in fs_perms_tables.split():
-             str += " %s" % bb.utils.which(bbpath, conf_file)
-         return str
-diff --git a/meta/files/fs-perms-persistent-log.txt b/meta/files/fs-perms-persistent-log.txt
-new file mode 100644
-index 0000000..2487a68
---- /dev/null
-+++ b/meta/files/fs-perms-persistent-log.txt
-@@ -0,0 +1,69 @@
-+# This file contains a list of files and directories with known permissions.
-+# It is used by the packaging class to ensure that the permissions, owners and
-+# group of listed files and directories are in sync across the system.
-+#
-+# The format of this file 
-+#
-+#<path>	<mode>	<uid>	<gid>	<walk>	<fmode>	<fuid>	<fgid>
-+#
-+# or
-+#
-+#<path> link <target>
-+#
-+# <path>: directory path
-+# <mode>: mode for directory
-+# <uid>:  uid for directory
-+# <gid>:  gid for directory
-+# <walk>: recursively walk the directory?  true or false
-+# <fmode>: if walking, new mode for files
-+# <fuid>:  if walking, new uid for files
-+# <fgid>:  if walking, new gid for files
-+# <target>: turn the directory into a symlink point to target
-+#
-+# in mode, uid or gid, a "-" means don't change any existing values
-+#
-+# /usr/src		0755	root	root	false	-	-	-
-+# /usr/share/man	0755	root	root	true	0644	root	root
-+
-+# Note: all standard config directories are automatically assigned "0755 root root false - - -"
-+
-+# Documentation should always be corrected
-+${mandir}		0755	root	root	true	0644	root	root
-+${infodir}		0755	root	root	true	0644	root	root
-+${docdir}		0755	root	root	true	0644	root	root
-+${datadir}/gtk-doc	0755	root	root	true	0644	root	root
-+
-+# Fixup locales
-+${datadir}/locale	0755	root	root	true	0644	root	root
-+
-+# Cleanup headers
-+${includedir}		0755	root	root	true	0644	root	root
-+${oldincludedir}	0755	root	root	true	0644	root	root
-+
-+# Cleanup debug src
-+/usr/src/debug		0755	root	root	true	-	root	root
-+
-+# Items from base-files
-+# Links
-+${localstatedir}/run	link	/run
-+${localstatedir}/lock	link	/run/lock
-+${localstatedir}/tmp	link	volatile/tmp
-+
-+/home				0755	root	root	false - - -
-+/srv				0755	root	root	false - - -
-+${prefix}/src			0755	root	root	false - - -
-+${localstatedir}/local		0755	root	root	false - - -
-+
-+# Special permissions from base-files
-+# Set 1777
-+/tmp				01777	root	root	false - - -
-+${localstatedir}/volatile/tmp	01777	root	root	false - - -
-+
-+# Set 0700
-+${ROOT_HOME}			0700	root	root	false - - -
-+
-+# Set 755-lsb
-+/srv				0755	root	root	false - - -
-+
-+# Set 2775-lsb
-+/var/mail			02775	root	mail	false - - -
 -- 
-1.9.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
