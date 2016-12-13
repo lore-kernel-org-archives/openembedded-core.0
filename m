@@ -1,49 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
-	[209.85.220.177])
-	by mail.openembedded.org (Postfix) with ESMTP id E660871E48
+Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
+	[209.85.216.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 1252A71E47
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 16:11:08 +0000 (UTC)
-Received: by mail-qk0-f177.google.com with SMTP id x190so121109494qkb.0
+	Tue, 13 Dec 2016 16:18:06 +0000 (UTC)
+Received: by mail-qt0-f180.google.com with SMTP id p16so111101001qta.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 08:11:10 -0800 (PST)
+	Tue, 13 Dec 2016 08:18:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=jRI6IvIJR7s9SM3afHAGUbVic2Tj5kqOWp8S/aN0wk4=;
-	b=GK2YLiUCQzLPPbqcu+bfTpdZM9q5ULFh6JFHN889Z8xINriwky51p002E1chpIZK/K
-	FZpYK3gFmQFR5FuZKMnt6VSsrnnX9hoED8HzBUjiKqiLypviZE2zeqZUJXL7V0otYJEy
-	i12FWdMmx56moOcUZrhYsBInZ9vxOXRpgHs22ZlWtvwxO9s6JGvb4pcYQfh3DSUQ9H29
-	bsFvk1/C/lzSAIaIyd3P7MhKug4XxopQZ2KOLihVCgXpFT/0wMio9EmSqLtQd/VQXV7G
-	QxYj5Eua9xnJpGXdNkTIyw7jOKBnHIxjPfnMClTkJh4jn4NukZfEUEdeghfk0dqjwVTe
-	PIOQ==
+	:cc; bh=L4iyBEjqJgWK4Aak+KoKo9rPSE7GlnqdzXyMiHOplt0=;
+	b=DsdMFoshkJ6YHNmH54QpYeIXjjsN1X9aSavxHw259oU8Mt6Dns79fhn7O068nP1QHy
+	7naRhovwnoTBC73hm4JVo1NUY/46gYgi7pnqcfy+egglva3TuaTKHBVsAu8rV7vGtBN8
+	7yQkDrXK6CMwqVLbtItJlh+uwxwyu7r4aIAhQj7eYsjXj/ikmBGP2ofDTR0+16a13rJY
+	Z3YavGgzpqTLxxvBL6rc9HGzT+0zKIwDr7YaS2CesZOdtLNAbiVfPXUpwhhTEM+yP5Oj
+	PwmNsAdB7BoUIFR+FcLKuEApAIDWfBbwe/LuVO0ZZcqCm96vtASsvTuH3FX7Lj5ZHMfu
+	QhAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=jRI6IvIJR7s9SM3afHAGUbVic2Tj5kqOWp8S/aN0wk4=;
-	b=KbQNjJJfjX6AGamAcf4K+ktW20Tl1dxEDLlHd1qh1yWXL/OVYEujt3M/OvWTTWb2kb
-	cYUsuykCkfHsW/daBU+ZW88lpteTrJDN3ZcaJEAuY0egwh1aQMjGikF37n2ETpCmez0A
-	whgc9QyQngYHoYkGXHz4Kxa5lCCHFCLFWWUlo6gSgQscsqiqg4ESeZZ3gJ8B/Ms8Lupi
-	0LhQzKSkxoMZehTjVGGktQyRRRuoEPeOlwUzxJv0CcqW1whGambpeA1fjVkLXWpP4L3v
-	M9SRx0yuAIPBb73vKgE2SYs3s2NcWva/eT9JopA00OZ3P7k/xqA1yrBvur7LSx7Zm9t2
-	Vqgg==
-X-Gm-Message-State: AKaTC02EFVM7HkFjCoOw9BFB0zj+BRDzhhkJHI4KrOSvqksarNkpjINOaBgT5axl6l8OKFPJPYD46hBkA3m3IppV
-X-Received: by 10.55.8.20 with SMTP id 20mr95167402qki.3.1481645469936; Tue,
-	13 Dec 2016 08:11:09 -0800 (PST)
+	bh=L4iyBEjqJgWK4Aak+KoKo9rPSE7GlnqdzXyMiHOplt0=;
+	b=eWtgotrlWKTtaN1BXbSWUz7HqsvJIubHXjCMSjikgLZR2uDIscNsT2EJWXlVG65o8Y
+	rE96gNdQ8Srf4gatJkU1b1qxD41PfWv8Gi9bhQ8PMjfy6WRNxEhwrdxbbxbcEIqD/KiS
+	i3vjuWzCtxh86ExxNFt9G9otlkP8jnfi4Tkf7rhh25tF4mhXz9FqfD90mH7FJzmQz/SU
+	ihNt51TmOJ6lOUbVH+0byVEaJJQq6WJfLKkejs5IRpMD1TgJF/rXfQVJ0YpVa06qPiGR
+	SLrs206viEMh77LTfGjU8HJfSQxkq5LhZftzFBU9jI+Bzzmi1t/oeNF5bN6ZPGBoWEVH
+	whHw==
+X-Gm-Message-State: AKaTC014rknBNWTZKhJzRfdo37a7xR7xZ4sAGzIWzNC2PAa/5b7tUNqBeedqlR4xK9ktLZkDkbAsfs7RlNl4l8V9
+X-Received: by 10.237.36.154 with SMTP id t26mr82310380qtc.188.1481645887876; 
+	Tue, 13 Dec 2016 08:18:07 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Tue, 13 Dec 2016 08:10:49 -0800 (PST)
-In-Reply-To: <CALbNGRR0CXGDXr6Jj1q5_WQ8U_=kyJmdvUs1hJ_jELBSEYcnDw@mail.gmail.com>
-References: <1480983561-11437-1-git-send-email-schnitzeltony@googlemail.com>
-	<1480983561-11437-5-git-send-email-schnitzeltony@googlemail.com>
-	<CAJTo0LbtMiBd=_rip_Let9C0aAg-moLt2=3V=ghGOUA=yW-m=A@mail.gmail.com>
-	<CALbNGRR0CXGDXr6Jj1q5_WQ8U_=kyJmdvUs1hJ_jELBSEYcnDw@mail.gmail.com>
+Received: by 10.140.106.99 with HTTP; Tue, 13 Dec 2016 08:17:47 -0800 (PST)
+In-Reply-To: <1479227073-13133-1-git-send-email-jose.perez.carranza@linux.intel.com>
+References: <1479227073-13133-1-git-send-email-jose.perez.carranza@linux.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 13 Dec 2016 16:10:49 +0000
-Message-ID: <CAJTo0LZ-3hpYZcibQQX=D6o-wMRZbVeTGVSs9rkKNpEmOoqoZg@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Tue, 13 Dec 2016 16:17:47 +0000
+Message-ID: <CAJTo0LZ1cj5Nm+iSO5aaHRMgf1Syhx6wQ3R2OaBe99A-SKX5Yg@mail.gmail.com>
+To: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] libsdl2: fix build on wayland(-dev)less hosts
+Subject: Re: [PATCH v2] oe-tests: Migrate tests from /oe/test to /oeqa/selftest/oe-tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,58 +53,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2016 16:11:09 -0000
-Content-Type: multipart/alternative; boundary=001a114c9d60eb41b205438c773f
+X-List-Received-Date: Tue, 13 Dec 2016 16:18:07 -0000
+Content-Type: multipart/alternative; boundary=001a1141058ed482f905438c9026
 
---001a114c9d60eb41b205438c773f
+--001a1141058ed482f905438c9026
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On 13 December 2016 at 15:42, Andreas M=C3=BCller <schnitzeltony@googlemail=
-.com>
-wrote:
+On 15 November 2016 at 16:24, <jose.perez.carranza@linux.intel.com> wrote:
 
-> Strange - something must be wrong on your machine :)
+> Currently the unittests for scripts on meta/lib/oe/tests are not being
+> executed by any suite hence the best option is migrate them to
+> meta/lib/oeqa/selftest/oelib-tests to be executed along with the selftest
+> suite.
 >
 
-config.log says:
+For some reason the discovery is very slow:
 
-configure:19371: checking for Wayland support
-configure:19382: checking for wayland-scanner
-configure:19415: result: no
-configure:19425: result: yes
+$ oe-selftest  -r oelib-tests.elf oelib-tests.license oelib-tests.path
+oelib-tests.types oelib-tests.utils
+2016-12-13 16:15:00,014 - selftest - INFO - Running bitbake -e to get BBPATH
+2016-12-13 16:15:03,143 - selftest - INFO - Checking that everything is in
+order before running the tests
+2016-12-13 16:15:06,512 - selftest - INFO - Running bitbake -p
+2016-12-13 16:15:10,203 - selftest - INFO - test runner init'ed like
+unittest
+2016-12-13 16:15:13,428 - selftest - INFO - Loading tests from:
+oeqa.selftest.oelib-tests.elf
+2016-12-13 16:15:16,489 - selftest - INFO - Loading tests from:
+oeqa.selftest.oelib-tests.license
+2016-12-13 16:15:29,391 - selftest - INFO - Loading tests from:
+oeqa.selftest.oelib-tests.path
+2016-12-13 16:15:38,822 - selftest - INFO - Loading tests from:
+oeqa.selftest.oelib-tests.types
+2016-12-13 16:15:57,719 - selftest - INFO - Loading tests from:
+oeqa.selftest.oelib-tests.utils
 
-which results in:
-
-WAYLAND_SCANNER =3D
-
-This should be fatal, but you're just missing a dependency on
-wayland-native.  I'll squash it into the patch now.
+It took over a minute to load a few tests.  Do you have any idea why the
+discovery is so slow?
 
 Ross
 
---001a114c9d60eb41b205438c773f
+--001a1141058ed482f905438c9026
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 13 December 2016 at 15:42, Andreas M=C3=BCller <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:schnitzeltony@googlemail.com" target=3D"_blank">schnitzelton=
-y@googlemail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:=
-rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div id=3D"gmail=
--:4uv" class=3D"gmail-a3s gmail-aXjCH gmail-m158f8d9503172bd7">Strange - so=
-mething must be wrong on your machine :)<br></div></blockquote></div><div c=
-lass=3D"gmail_extra"><br></div>config.log says:</div><div class=3D"gmail_ex=
-tra"><br><div class=3D"gmail_extra">configure:19371: checking for Wayland s=
-upport</div><div class=3D"gmail_extra">configure:19382: checking for waylan=
-d-scanner</div><div class=3D"gmail_extra">configure:19415: result: no</div>=
-<div class=3D"gmail_extra">configure:19425: result: yes</div><div class=3D"=
-gmail_extra"><br></div><div class=3D"gmail_extra">which results in:</div><d=
-iv class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">WAYLAND_SCANN=
-ER =3D<br></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ex=
-tra">This should be fatal, but you&#39;re just missing a dependency on wayl=
-and-native.=C2=A0 I&#39;ll squash it into the patch now.</div><div class=3D=
-"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div></div>
+On 15 November 2016 at 16:24,  <span dir=3D"ltr">&lt;<a href=3D"mailto:jose=
+.perez.carranza@linux.intel.com" target=3D"_blank">jose.perez.carranza@linu=
+x.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(2=
+04,204,204);border-left-style:solid;padding-left:1ex"><div id=3D"gmail-:1up=
+" class=3D"gmail-a3s gmail-aXjCH gmail-m15868c796a11fd24">Currently the uni=
+ttests for scripts on meta/lib/oe/tests are not being<br>
+executed by any suite hence the best option is <span class=3D"gmail-il">mig=
+rate</span> them to<br>
+meta/lib/<span class=3D"gmail-il">oeqa</span>/selftest/oelib-<wbr>tests to =
+be executed along with the selftest suite.<br></div></blockquote></div><br>=
+For some reason the discovery is very slow:</div><div class=3D"gmail_extra"=
+><br></div><div class=3D"gmail_extra"><div class=3D"gmail_extra">$ oe-selft=
+est =C2=A0-r oelib-tests.elf oelib-tests.license oelib-tests.path oelib-tes=
+ts.types oelib-tests.utils</div><div class=3D"gmail_extra">2016-12-13 16:15=
+:00,014 - selftest - INFO - Running bitbake -e to get BBPATH</div><div clas=
+s=3D"gmail_extra">2016-12-13 16:15:03,143 - selftest - INFO - Checking that=
+ everything is in order before running the tests</div><div class=3D"gmail_e=
+xtra">2016-12-13 16:15:06,512 - selftest - INFO - Running bitbake -p</div><=
+div class=3D"gmail_extra">2016-12-13 16:15:10,203 - selftest - INFO - test =
+runner init&#39;ed like unittest</div><div class=3D"gmail_extra">2016-12-13=
+ 16:15:13,428 - selftest - INFO - Loading tests from: oeqa.selftest.oelib-t=
+ests.elf</div><div class=3D"gmail_extra">2016-12-13 16:15:16,489 - selftest=
+ - INFO - Loading tests from: oeqa.selftest.oelib-tests.license</div><div c=
+lass=3D"gmail_extra">2016-12-13 16:15:29,391 - selftest - INFO - Loading te=
+sts from: oeqa.selftest.oelib-tests.path</div><div class=3D"gmail_extra">20=
+16-12-13 16:15:38,822 - selftest - INFO - Loading tests from: oeqa.selftest=
+.oelib-tests.types</div><div class=3D"gmail_extra">2016-12-13 16:15:57,719 =
+- selftest - INFO - Loading tests from: oeqa.selftest.oelib-tests.utils</di=
+v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">It took o=
+ver a minute to load a few tests.=C2=A0 Do you have any idea why the discov=
+ery is so slow?</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
+il_extra">Ross</div></div></div>
 
---001a114c9d60eb41b205438c773f--
+--001a1141058ed482f905438c9026--
