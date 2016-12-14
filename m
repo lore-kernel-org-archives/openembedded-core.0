@@ -1,52 +1,37 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C89177217
+Return-Path: <Awais_Belal@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id C49C977208
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 12:12:15 +0000 (UTC)
-Received: by mail-io0-f176.google.com with SMTP id h30so36338393iod.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 04:12:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=ZRju95GQW0oi0yUmVUeOGtUXPB8pNZNzTCyTyPeuxgE=;
-	b=p0I1BDKDiyvepHFHvRsdGWZIe53SWXK3Ei3K+xhiOmWWwF5sLKVDhMJRsLyZtf/sTi
-	zK+Tb/VcPfBsIiJI1H/jy4ROvfGyBQaoDNLOj0kwy4w5D2PUa/PKcZuiBoMJRpqIWyTO
-	ybZ3vr+t7Gwz6GxNsucfzKtthO315H/Una62z5jcaNQcfrhnXi6h7J68WfqgMEqGE/hi
-	3sEQDP1K1aXxGiV2V1awLpSgFNwjwhiXNjZ13EfKfSEmxFCs8nHB1gojQa1GiMJVGBJw
-	QDpUUeMidJx56JwxJBFgLTVjODPovJZXrG9fGGi0cVK91ip2bZpz+BtfW3ZH8hMY1FiX
-	wGZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=ZRju95GQW0oi0yUmVUeOGtUXPB8pNZNzTCyTyPeuxgE=;
-	b=IRGWLNFG6avBeo0zpKXJK62RX2O1k/uJogdCdJytN5jdpFGSS3N9GhjlaiRIYf9+vL
-	JOSOL1/d2XkBfU/3AHwXh+02tt64m0FyS0K5w8XYgj4NMNTp0p4vFu1k+pB3uElt9HQ2
-	VmjvDXcPk3DG/Yd/1+pia45P9MB6/9LqQ1XidSoFsdS57k/DIHQlf1vDVw0nggoI4Od+
-	kS3pLVPvEpd04xuSP4p9xVUveF3g6L5yqwaCElLC7dNfPFqzPurBSFhAdiRaB/Rjvd+s
-	XvKEONGnR8zET0glp1gd46iSb5iPULTv9IpCfWryL+d0yEtTYjF+fJLgSnWK58Ixki/e
-	hh9g==
-X-Gm-Message-State: AKaTC02Jlb1uGCppNBE6RWcKHfk+6USBnVWLadHr6OdURUmwj64qZZQaeMLcuwm845NLOjNR
-X-Received: by 10.107.157.2 with SMTP id g2mr90190685ioe.70.1481717537399;
-	Wed, 14 Dec 2016 04:12:17 -0800 (PST)
-Received: from pohly-mobl1 (p57A561C0.dip0.t-ipconnect.de. [87.165.97.192])
-	by smtp.gmail.com with ESMTPSA id 9sm9574580itv.0.2016.12.14.04.12.15
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 14 Dec 2016 04:12:16 -0800 (PST)
-Message-ID: <1481717534.1544.21.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Date: Wed, 14 Dec 2016 13:12:14 +0100
-In-Reply-To: <cover.1481706394.git.Qi.Chen@windriver.com>
-References: <cover.1481706394.git.Qi.Chen@windriver.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 0/4] Persistent /var/log support
+	Wed, 14 Dec 2016 13:29:59 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-MBX-03.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1cH9dA-00040j-G1 from Awais_Belal@mentor.com ;
+	Wed, 14 Dec 2016 05:30:00 -0800
+Received: from SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) by
+	SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) with Microsoft SMTP
+	Server (TLS) id 15.0.1210.3; Wed, 14 Dec 2016 13:29:57 +0000
+Received: from SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17]) by
+	SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17%22]) with
+	mapi id 15.00.1210.000; Wed, 14 Dec 2016 13:29:57 +0000
+From: "Belal, Awais" <Awais_Belal@mentor.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH 1/2] grub_git: extend recipe for proper target
+	deployment
+Thread-Index: AQHSVUvSV9G8LvsP8EWmyzHmbHpAe6EHcSqx
+Date: Wed, 14 Dec 2016 13:29:57 +0000
+Message-ID: <1481722196426.25330@mentor.com>
+References: <1481627960-3608-1-git-send-email-awais_belal@mentor.com>,
+	<CAJTo0LZOSS8nYB9ooPsSJGkuBU5=pvzCTUAKVXSEUR=f7kgjDg@mail.gmail.com>
+In-Reply-To: <CAJTo0LZOSS8nYB9ooPsSJGkuBU5=pvzCTUAKVXSEUR=f7kgjDg@mail.gmail.com>
+Accept-Language: en-US, en-IE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [137.202.0.87]
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] grub_git: extend recipe for proper target deployment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,24 +44,154 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Dec 2016 12:12:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Dec 2016 13:30:00 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_148172219642625330mentorcom_"
 
-On Wed, 2016-12-14 at 17:08 +0800, Chen Qi wrote:
-> Changes since V2:
-> Use boolean value consistently. Update the comments to fit the use of boolean value.
+--_000_148172219642625330mentorcom_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Looks good to me now.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+Hi Ross,
 
 
+>> +RDEPENDS_${PN}_class-target =3D "diffutils freetype"
+> Does this really need to be class-target-specific?
 
 
+Without the class-target override I get
+
+
+ERROR: Nothing RPROVIDES 'diffutils-native' (but virtual:native:/data/amd_y=
+octo/poky/meta/recipes-bsp/grub/grub_git.bb RDEPENDS on or otherwise requir=
+es it)
+
+
+so I believe this is necessary in this case. Are you through your review? I=
+f so, just let me know and I'll send a v2 fixing the other DEPENDS issue yo=
+u pointed out.
+
+
+BR,
+Awais
+________________________________
+From: Burton, Ross <ross.burton@intel.com>
+Sent: Tuesday, December 13, 2016 7:17 PM
+To: Belal, Awais
+Cc: OE-core
+Subject: Re: [OE-core] [PATCH 1/2] grub_git: extend recipe for proper targe=
+t deployment
+
+
+On 13 December 2016 at 11:19, Awais Belal <awais_belal@mentor.com<mailto:aw=
+ais_belal@mentor.com>> wrote:
++DEPENDS_class-target +=3D "grub-native"
+
+The native magic won't generate dependencies on itself, so this can just be=
+ DEPENDS.
+
++RDEPENDS_${PN}_class-target =3D "diffutils freetype"
+
+Does this really need to be class-target-specific?
+
+Ross
+
+--_000_148172219642625330mentorcom_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none"><!--P{margin-top:0;margin-b=
+ottom:0;} --></style>
+</head>
+<body dir=3D"ltr" style=3D"font-size:10pt;color:#000000;background-color:#F=
+FFFFF;font-family:Tahoma,Geneva,sans-serif;">
+<p>Hi Ross,</p>
+<p><br>
+</p>
+<p>&gt;&gt; &#43;RDEPENDS_${PN}_class-target =3D &quot;diffutils freetype&q=
+uot; <br>
+&gt; Does this really need to be class-target-specific?<br>
+<br>
+</p>
+<p>Without the class-target override I get</p>
+<p><br>
+</p>
+<p>ERROR: Nothing RPROVIDES 'diffutils-native' (but virtual:native:/data/am=
+d_yocto/poky/meta/recipes-bsp/grub/grub_git.bb RDEPENDS on or otherwise req=
+uires it)</p>
+<p><br>
+</p>
+<p>so I believe this is necessary in this case. Are you through your review=
+? If so, just let me know and I'll send a v2 fixing the other DEPENDS issue=
+ you pointed out.<br>
+</p>
+<p><br>
+</p>
+<div id=3D"Signature">
+<div style=3D"font-family:Tahoma; font-size:13px"><font face=3D"Tahoma"></f=
+ont>
+<div style=3D"font-size:13px">
+<div><font size=3D"2" face=3D"Tahoma"><span lang=3D"en-US">
+<div style=3D"margin:0">BR,</div>
+<div style=3D"margin:0"><i>Awais</i></div>
+</span></font></div>
+</div>
+<font face=3D"Tahoma"></font></div>
+</div>
+<div style=3D"color: rgb(33, 33, 33);">
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font style=3D"font-size:11pt" color=
+=3D"#000000" face=3D"Calibri, sans-serif"><b>From:</b> Burton, Ross &lt;ros=
+s.burton@intel.com&gt;<br>
+<b>Sent:</b> Tuesday, December 13, 2016 7:17 PM<br>
+<b>To:</b> Belal, Awais<br>
+<b>Cc:</b> OE-core<br>
+<b>Subject:</b> Re: [OE-core] [PATCH 1/2] grub_git: extend recipe for prope=
+r target deployment</font>
+<div>&nbsp;</div>
+</div>
+<div>
+<div dir=3D"ltr">
+<div class=3D"gmail_extra"><br>
+<div class=3D"gmail_quote">On 13 December 2016 at 11:19, Awais Belal <span =
+dir=3D"ltr">
+&lt;<a href=3D"mailto:awais_belal@mentor.com" target=3D"_blank">awais_belal=
+@mentor.com</a>&gt;</span> wrote:&nbsp;</div>
+<div class=3D"gmail_quote">
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex; border=
+-left-width:1px; border-left-color:rgb(204,204,204); border-left-style:soli=
+d; padding-left:1ex">
+<div id=3D"gmail-:3nk" class=3D"gmail-a3s gmail-aXjCH gmail-m158f7e9ba465a9=
+98">&#43;DEPENDS_class-target &#43;=3D &quot;grub-native&quot;<br>
+</div>
+</blockquote>
+<div><br>
+</div>
+<div>The native magic won't generate dependencies on itself, so this can ju=
+st be DEPENDS.</div>
+<div>&nbsp;</div>
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex; border=
+-left-width:1px; border-left-color:rgb(204,204,204); border-left-style:soli=
+d; padding-left:1ex">
+<div id=3D"gmail-:3nk" class=3D"gmail-a3s gmail-aXjCH gmail-m158f7e9ba465a9=
+98">&#43;RDEPENDS_${PN}_class-target =3D &quot;diffutils freetype&quot;</di=
+v>
+</blockquote>
+</div>
+<br>
+Does this really need to be class-target-specific?</div>
+<div class=3D"gmail_extra"><br>
+</div>
+<div class=3D"gmail_extra">Ross</div>
+</div>
+</div>
+</div>
+</body>
+</html>
+
+--_000_148172219642625330mentorcom_--
