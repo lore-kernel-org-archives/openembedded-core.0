@@ -1,33 +1,52 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6282F7721B
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C89177217
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 11:45:05 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga102.jf.intel.com with ESMTP; 14 Dec 2016 03:45:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,346,1477983600"; d="scan'208";a="42236889"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 14 Dec 2016 03:45:05 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id CECD86A4006;
-	Wed, 14 Dec 2016 03:44:17 -0800 (PST)
-Date: Wed, 14 Dec 2016 13:44:30 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Jair Gonzalez <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
-Message-ID: <20161214114430.GA19511@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <1481644407-16699-1-git-send-email-jair.de.jesus.gonzalez.plascencia@linux.intel.com>
-	<20161213201722.GA6557@linux.intel.com>
-	<012801d255a0$806ad8e0$81408aa0$@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <012801d255a0$806ad8e0$81408aa0$@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
+	Wed, 14 Dec 2016 12:12:15 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id h30so36338393iod.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Dec 2016 04:12:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=ZRju95GQW0oi0yUmVUeOGtUXPB8pNZNzTCyTyPeuxgE=;
+	b=p0I1BDKDiyvepHFHvRsdGWZIe53SWXK3Ei3K+xhiOmWWwF5sLKVDhMJRsLyZtf/sTi
+	zK+Tb/VcPfBsIiJI1H/jy4ROvfGyBQaoDNLOj0kwy4w5D2PUa/PKcZuiBoMJRpqIWyTO
+	ybZ3vr+t7Gwz6GxNsucfzKtthO315H/Una62z5jcaNQcfrhnXi6h7J68WfqgMEqGE/hi
+	3sEQDP1K1aXxGiV2V1awLpSgFNwjwhiXNjZ13EfKfSEmxFCs8nHB1gojQa1GiMJVGBJw
+	QDpUUeMidJx56JwxJBFgLTVjODPovJZXrG9fGGi0cVK91ip2bZpz+BtfW3ZH8hMY1FiX
+	wGZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=ZRju95GQW0oi0yUmVUeOGtUXPB8pNZNzTCyTyPeuxgE=;
+	b=IRGWLNFG6avBeo0zpKXJK62RX2O1k/uJogdCdJytN5jdpFGSS3N9GhjlaiRIYf9+vL
+	JOSOL1/d2XkBfU/3AHwXh+02tt64m0FyS0K5w8XYgj4NMNTp0p4vFu1k+pB3uElt9HQ2
+	VmjvDXcPk3DG/Yd/1+pia45P9MB6/9LqQ1XidSoFsdS57k/DIHQlf1vDVw0nggoI4Od+
+	kS3pLVPvEpd04xuSP4p9xVUveF3g6L5yqwaCElLC7dNfPFqzPurBSFhAdiRaB/Rjvd+s
+	XvKEONGnR8zET0glp1gd46iSb5iPULTv9IpCfWryL+d0yEtTYjF+fJLgSnWK58Ixki/e
+	hh9g==
+X-Gm-Message-State: AKaTC02Jlb1uGCppNBE6RWcKHfk+6USBnVWLadHr6OdURUmwj64qZZQaeMLcuwm845NLOjNR
+X-Received: by 10.107.157.2 with SMTP id g2mr90190685ioe.70.1481717537399;
+	Wed, 14 Dec 2016 04:12:17 -0800 (PST)
+Received: from pohly-mobl1 (p57A561C0.dip0.t-ipconnect.de. [87.165.97.192])
+	by smtp.gmail.com with ESMTPSA id 9sm9574580itv.0.2016.12.14.04.12.15
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 14 Dec 2016 04:12:16 -0800 (PST)
+Message-ID: <1481717534.1544.21.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Date: Wed, 14 Dec 2016 13:12:14 +0100
+In-Reply-To: <cover.1481706394.git.Qi.Chen@windriver.com>
+References: <cover.1481706394.git.Qi.Chen@windriver.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] selftest/wic: extending test coverage for WIC script options
+Subject: Re: [PATCH V3 0/4] Persistent /var/log support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,130 +59,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Dec 2016 11:45:10 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 14 Dec 2016 12:12:16 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Dec 13, 2016 at 06:24:57PM -0600, Jair Gonzalez wrote:
-> Hi Ed,
-> 
-> Thank you for your response and suggestions. Below are my comments.
-> 
+On Wed, 2016-12-14 at 17:08 +0800, Chen Qi wrote:
+> Changes since V2:
+> Use boolean value consistently. Update the comments to fit the use of boolean value.
 
-> > > +    @testcase(1557)
-> > > +    def test_listed_images_help(self):
-> > > +        """Test wic listed images help"""
-> > > +        output = runCmd('wic list images').output
-> > > +        imageDetails = [line.split() for line in output.split('\n')]
-> > > +        imageList = [row[0] for row in imageDetails]
-> > How about replacing two last lines with this?
-> > imagelist = [line.split()[0] for line in output.split('\n')]
-> I agree. What about this?
-> imagelist = [line.split()[0] for line in output.splitlines()]
+Looks good to me now.
 
-This is event better, thanks!
+-- 
+Best Regards, Patrick Ohly
 
-> > > +
-> > > + "--image-name=core-image-minimal").status)
-> > Is '=' mandatory here?
-> On wic's help it appears as mandatory, but on practice, it can be used both
-> ways. I decided to use both ways along the module to test both usages and
-> increase coverage, but not to dedicate specific test cases to each
-> combination.
-
-Makes sense to me.
-
-> > >      def test_compress_gzip(self):
-> > >          """Test compressing an image with gzip"""
-> > >          self.assertEqual(0, runCmd("wic create directdisk "
-> > > -                                   "--image-name core-image-minimal "
-> > > +                                   "-e core-image-minimal "
-> > --image-name is more readable than -e from my point of view.
-> Similarly to the '=' to define long option names' arguments, I used both
-> forms of each option along the module to increase coverage.
-OK
-
-> > > +    def test_debug_skip_build_check_and_build_rootfs(self):
-> > > +        """Test wic debug, skip-build-check and build_rootfs"""
-> > > +        self.assertEqual(0, runCmd("wic create directdisk "
-> > > +                                   "--image-name=core-image-minimal "
-> > > +                                   "-D -s -f").status)
-> > > +        self.assertEqual(1, len(glob(self.resultdir +
-> "directdisk-*.direct")))
-> > > +        self.assertEqual(0, runCmd("wic create directdisk "
-> > > +                                   "--image-name=core-image-minimal "
-> > > +                                   "--debug "
-> > > +                                   "--skip-build-check "
-> > > +                                   "--build-rootfs").status)
-> > > +        self.assertEqual(1, len(glob(self.resultdir +
-> > > + "directdisk-*.direct")))
-> > > +
-> > I'd split this to two test cases as they're testing two different options.
-> Actually, those are three different options (with their short and long
-> versions). I did this to not add too many test cases, but as you mention,
-> probably it's better to separate them by option to make it clearer.
-Agreed.
-
-> core-image-minimal").status)
-> > > -        self.assertEqual(1, len(glob(self.resultdir + "HYBRID_ISO_IMG-
-> > *.direct")))
-> > > -        self.assertEqual(1, len(glob(self.resultdir +
-> "HYBRID_ISO_IMG-*.iso")))
-> > > +                                   "--image-name core-image-minimal"
-> > > +                                   ).status)
-> > This is less readable. Is this only to fit the line into 80 chars?
-> > If so, let's not do it. Lines up to 100 chars long are more readable than
-> this I
-> > believe.
-> I changed it to conform to PEP8 and increase readability on editors adjusted
-> to 80 chars. However, if you consider it's better to leave it on 100 chars,
-> I could work within that.
-
-Let's agree on max 100 chars/line if it improves readability. Otherwise
-80 is ok.
-
-> > > +        self.assertEqual(0, runCmd("wic create directdisk "
-> > > +                                   "--image-name=%s "
-> > > +                                   "--vars %s"
-> > > +                                   % (image, imgenvdir)).status)
-> > > +
-> > Do we really want to test short and long variant of options?
-> > If so, we should do it for all options.
-> Within the module, all short and long variant of options are tested. Not all
-> combinations of long variants with '=' and without it are tested, though.
-
-OK, makes sense to me.
-
-> > > +    @testcase(1562)
-> > > +    def test_alternate_output_dir(self):
-> > > +        """Test alternate output directory"""
-> > > +        self.assertEqual(0, runCmd("wic create directdisk "
-> > > +                                   "-e core-image-minimal "
-> > > +                                   "-o %s"
-> > > +                                   % self.alternate_resultdir).status)
-> > > +        self.assertEqual(1, len(glob(self.alternate_resultdir +
-> > > +                                     "build/directdisk-*.direct")))
-> > > +        self.assertEqual(0, runCmd("wic create mkefidisk -e "
-> > > +                                   "core-image-minimal "
-> > > +                                   "--outdir %s"
-> > > +                                   % self.alternate_resultdir).status)
-> > > +        self.assertEqual(1, len(glob(self.alternate_resultdir +
-> > > +                                     "build/mkefidisk-*direct")))
-> > Would one test be enough?
-> I'm using both output option variants to increase coverage.
-yep, understood.
-
-> > BTW, did you measure how long does the test run before and after your
-> > changes? We should be careful here as this test runs on ab and makes
-> people
-> > wait longer for results.
-> Agreed. I didn't do it, but I'll measure it and take it into account for my
-> next update.
-
-Great! It would be interesting to look at the numbers.
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
 
---
-Regards,
-Ed
+
 
