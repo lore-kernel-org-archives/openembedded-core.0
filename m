@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 690BD738AE
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F14F3738AE
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 14 Dec 2016 07:24:39 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uBE7Of9t004939
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBE7OfnJ025419
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 23:24:41 -0800
+	Tue, 13 Dec 2016 23:24:41 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 13 Dec 2016 23:24:39 -0800
+	Tue, 13 Dec 2016 23:24:41 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Dec 2016 23:24:32 -0800
-Message-ID: <5c102012f81a3d26f7f81454dd17f78217faa4cc.1481700149.git.liezhi.yang@windriver.com>
+Date: Tue, 13 Dec 2016 23:24:33 -0800
+Message-ID: <3b1e2869c4215512d924b5c639de758e5315a87f.1481700149.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <cover.1481700149.git.liezhi.yang@windriver.com>
 References: <cover.1481700149.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 4/8] oe-publish-sdk: make cmd easier to read
+Subject: [PATCH V2 5/8] oe-publish-sdk: add pyshtables.py to .gitignore
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,48 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Dec 2016 07:24:39 -0000
+X-List-Received-Date: Wed, 14 Dec 2016 07:24:40 -0000
 Content-Type: text/plain
 
-The command was too long to read and maintain.
+Fixed:
+MACHINE = "qemux86-64"
+require conf/multilib.conf
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+
+$ bitbake core-image-minimal -cpopulate_sdk_ext
+[snip]
+ERROR: Failed to update metadata as there have been changes made to it. Aborting.\nERROR: Changed files:\nb' M poky/bitbake/lib/bb/pysh/pyshtables.py\\n'\n"
+[snip]
+
+This is because the test case will run twice
+(environment-setup-core2-64-poky-linux and
+environment-setup-x86-pokymllib32-linux), it would fail in the second
+run since pyshtables.py is regenerated in the first run. This file is
+generated automatically, publish it doesn't make any sense, so add it to
+.gitignore.
+
+[YOCTO #10796]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- scripts/oe-publish-sdk | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
+ scripts/oe-publish-sdk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/oe-publish-sdk b/scripts/oe-publish-sdk
-index 4fe8974..d95c623 100755
+index d95c623..e2b1b95 100755
 --- a/scripts/oe-publish-sdk
 +++ b/scripts/oe-publish-sdk
-@@ -113,10 +113,25 @@ def publish(args):
-             return ret
- 
-     # Setting up the git repo
-+    cmd_common = "if [ ! -e .git ]; then"
-+    cmd_common += "    git init .;"
-+    cmd_common += "    mv .git/hooks/post-update.sample .git/hooks/post-update;"
-+    cmd_common += "    echo '*.pyc\n*.pyo' > .gitignore;"
-+    cmd_common += "fi;"
-+    cmd_common += "git add -A .;"
-+    cmd_common += "git config user.email 'oe@oe.oe' && git config user.name 'OE' && git commit -q -m 'init repo' || true;"
-     if not is_remote:
--        cmd = 'set -e; mkdir -p %s/layers; cd %s/layers; if [ ! -e .git ]; then git init .; mv .git/hooks/post-update.sample .git/hooks/post-update; echo "*.pyc\n*.pyo" > .gitignore; fi; git add -A .; git config user.email "oe@oe.oe" && git config user.name "OE" && git commit -q -m "init repo" || true; git update-server-info' % (destination, destination)
-+        cmd = "set -e;"
-+        cmd += "mkdir -p %s/layers;" % destination
-+        cmd += "cd %s/layers;" % destination
-+        cmd += cmd_common
-+        cmd += "git update-server-info"
-     else:
--        cmd = "ssh %s 'set -e; mkdir -p %s/layers; cd %s/layers; if [ ! -e .git ]; then git init .; mv .git/hooks/post-update.sample .git/hooks/post-update; echo '*.pyc\n*.pyo' > .gitignore; fi; git add -A .; git config user.email 'oe@oe.oe' && git config user.name 'OE' && git commit -q -m \"init repo\" || true; git update-server-info'" % (host, destdir, destdir)
-+        cmd = "ssh %s 'set -e;" % host
-+        cmd += "mkdir -p %s/layers;" % destdir
-+        cmd += "cd %s/layers;" % destdir
-+        cmd += cmd_common
-+        cmd += "git update-server-info'"
-     ret = subprocess.call(cmd, shell=True)
-     if ret == 0:
-         logger.info('SDK published successfully')
+@@ -116,7 +116,7 @@ def publish(args):
+     cmd_common = "if [ ! -e .git ]; then"
+     cmd_common += "    git init .;"
+     cmd_common += "    mv .git/hooks/post-update.sample .git/hooks/post-update;"
+-    cmd_common += "    echo '*.pyc\n*.pyo' > .gitignore;"
++    cmd_common += "    echo '*.pyc\n*.pyo\npyshtables.py' > .gitignore;"
+     cmd_common += "fi;"
+     cmd_common += "git add -A .;"
+     cmd_common += "git config user.email 'oe@oe.oe' && git config user.name 'OE' && git commit -q -m 'init repo' || true;"
 -- 
 2.10.2
 
