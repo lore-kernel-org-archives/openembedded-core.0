@@ -1,29 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Jackie.Huang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F1A275C61
+	by mail.openembedded.org (Postfix) with ESMTP id 90622731DA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 02:25:38 +0000 (UTC)
+	Wed, 14 Dec 2016 02:29:26 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uBE2PcoY013640
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 13 Dec 2016 18:25:38 -0800 (PST)
-Received: from [128.224.162.160] (128.224.162.160) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 13 Dec 2016 18:25:37 -0800
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1479363545.git.liezhi.yang@windriver.com>
-	<efeb9ec88465377d3accb9c96324a3157b1c2738.1479363545.git.liezhi.yang@windriver.com>
-	<7337875.m9BQhVBZV7@peggleto-mobl.ger.corp.intel.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <78c1e5e2-2f42-97e3-fd2b-f4f72123e6b6@windriver.com>
-Date: Wed, 14 Dec 2016 10:25:36 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uBE2TS4I013655
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Dec 2016 18:29:28 -0800 (PST)
+Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Tue, 13 Dec 2016 18:29:27 -0800
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 14 Dec 2016 10:26:13 +0800
+Message-ID: <20161214022613.4587-1-jackie.huang@windriver.com>
+X-Mailer: git-send-email 2.8.3
 MIME-Version: 1.0
-In-Reply-To: <7337875.m9BQhVBZV7@peggleto-mobl.ger.corp.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/8] populate_sdk_ext.bbclass: install multilib targets as populate_sdk does
+Subject: [v2][PATCH] valgrind: make ld-XXX.so strlen intercept optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,182 +31,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Dec 2016 02:25:39 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Dec 2016 02:29:26 -0000
+Content-Type: text/plain
 
+From: Jackie Huang <jackie.huang@windriver.com>
 
-Hi Paul,
+Hack: Depending on how glibc was compiled (e.g. optimised
+for size or built with _FORTIFY_SOURCE enabled) the strlen
+symbol might not be found in ld-XXX.so. Therefore although
+we should still try to intercept it, don't make it mandatory
+to do so.
 
-After I looked into the code again, these changes are related,
-so that I can't split them into 2, please see my comments inline.
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ ...-make-ld-XXX.so-strlen-intercept-optional.patch | 45 ++++++++++++++++++++++
+ meta/recipes-devtools/valgrind/valgrind_3.12.0.bb  |  1 +
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/valgrind-make-ld-XXX.so-strlen-intercept-optional.patch
 
-On 12/13/2016 12:55 PM, Paul Eggleton wrote:
-> Hi Robert,
->
-> There are a bunch of changes in here that don't relate to the multilib fix -
-> details below.
->
-> On Wed, 16 Nov 2016 22:19:30 Robert Yang wrote:
->> Fixed:
->> MACHINE = "qemux86-64"
->> require conf/multilib.conf
->> MULTILIBS = "multilib:lib32"
->> DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
->>
->> $ bitbake core-image-minimal -cpopulate_sdk_ext
->> [snip]
->> Testing
->> /buildarea/lyang1/test_po/tmp/work/qemux86_64-poky-linux/core-image-minimal
->> /1.0-r0/testsdkext//tc/environment-setup-x86-pokymllib32-linux test_cvs
->> (oeqa.sdk.buildcvs.BuildCvsTest) ... FAIL
->> [snip]
->>
->> It was failed because no lib32 toolchains.
->>
->> The fixes include:
->> * Set SDK_TARGETS correctly
->> * Return multilib depends in get_ext_sdk_depends()
->> * Write information to all environment-setup-* scripts.
->>
->> [YOCTO #10647]
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>  meta/classes/populate_sdk_ext.bbclass | 61
->> ++++++++++++++++++++++------------- 1 file changed, 38 insertions(+), 23
->> deletions(-)
->>
->> diff --git a/meta/classes/populate_sdk_ext.bbclass
->> b/meta/classes/populate_sdk_ext.bbclass index 26b5ca6..ce9c40a 100644
->> --- a/meta/classes/populate_sdk_ext.bbclass
->> +++ b/meta/classes/populate_sdk_ext.bbclass
->> @@ -39,7 +39,7 @@ SDK_LOCAL_CONF_BLACKLIST ?= "CONF_VERSION \
->>  SDK_INHERIT_BLACKLIST ?= "buildhistory icecc"
->>  SDK_UPDATE_URL ?= ""
->>
->> -SDK_TARGETS ?= "${PN}"
->> +SDK_TARGETS ?= "${@multilib_pkg_extend(d, d.getVar('BPN', True))}"
->>
->>  def get_sdk_install_targets(d, images_only=False):
->>      sdk_install_targets = ''
->> @@ -562,38 +562,52 @@ SDK_PRE_INSTALL_COMMAND_task-populate-sdk-ext =
->> "${sdk_ext_preinst}" sdk_ext_postinst() {
->>  	printf "\nExtracting buildtools...\n"
->>  	cd $target_sdk_dir
->> -	env_setup_script="$target_sdk_dir/environment-
-> setup-${REAL_MULTIMACH_TARGE
->> T_SYS}" -	printf "buildtools\ny" | ./${SDK_BUILDTOOLS_INSTALLER} >
->> buildtools.log || { printf 'ERROR: buildtools installation failed:\n' ; cat
->> buildtools.log ; echo "printf 'ERROR: this SDK was not fully installed and
->> needs reinstalling\n'" >> $env_setup_script ; exit 1 ; }
->> +	env_setup_scripts="`ls $target_sdk_dir/environment-setup-*`"
->> +	./${SDK_BUILDTOOLS_INSTALLER} -d buildtools -y > buildtools.log
->> +	if [ $? -ne 0 ]; then
->> +		echo 'ERROR: buildtools installation failed:'
->> +		cat buildtools.log
->> +		for e in $env_setup_scripts; do
->> +			echo "echo 'ERROR: this SDK was not fully installed and needs
->> reinstalling'" >> $e +		done
->> +		exit 1
->> +	fi
->>
->
-> This change isn't entirely related to the multilib changes.
+diff --git a/meta/recipes-devtools/valgrind/valgrind/valgrind-make-ld-XXX.so-strlen-intercept-optional.patch b/meta/recipes-devtools/valgrind/valgrind/valgrind-make-ld-XXX.so-strlen-intercept-optional.patch
+new file mode 100644
+index 0000000..d04297d
+--- /dev/null
++++ b/meta/recipes-devtools/valgrind/valgrind/valgrind-make-ld-XXX.so-strlen-intercept-optional.patch
+@@ -0,0 +1,45 @@
++From 005bd11809a1ce65e9f2c28e884354a4741650b9 Mon Sep 17 00:00:00 2001
++From: Andre McCurdy <armccurdy@gmail.com>
++Date: Tue, 13 Dec 2016 11:29:55 +0800
++Subject: [PATCH] make ld-XXX.so strlen intercept optional
++
++Hack: Depending on how glibc was compiled (e.g. optimised for size or
++built with _FORTIFY_SOURCE enabled) the strlen symbol might not be
++found in ld-XXX.so. Therefore although we should still try to
++intercept it, don't make it mandatory to do so.
++
++Upstream-Status: Inappropriate
++
++Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
++Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
++---
++ coregrind/m_redir.c | 13 ++++++++++++-
++ 1 file changed, 12 insertions(+), 1 deletion(-)
++
++diff --git a/coregrind/m_redir.c b/coregrind/m_redir.c
++index ff35009..d7d6816 100644
++--- a/coregrind/m_redir.c
+++++ b/coregrind/m_redir.c
++@@ -1275,7 +1275,18 @@ static void add_hardwired_spec (const  HChar* sopatt, const HChar* fnpatt,
++    spec->to_addr     = to_addr;
++    spec->isWrap      = False;
++    spec->isGlobal    = False;
++-   spec->mandatory   = mandatory;
+++
+++   /* Hack: Depending on how glibc was compiled (e.g. optimised for size or
+++      built with _FORTIFY_SOURCE enabled) the strlen symbol might not be found.
+++      Therefore although we should still try to intercept it, don't make it
+++      mandatory to do so. We over-ride "mandatory" here to avoid the need to
+++      patch the many different architecture specific callers to
+++      add_hardwired_spec(). */
+++   if (0==VG_(strcmp)("strlen", fnpatt))
+++      spec->mandatory = NULL;
+++   else
+++      spec->mandatory = mandatory;
+++
++    /* VARIABLE PARTS */
++    spec->mark        = False; /* not significant */
++    spec->done        = False; /* not significant */
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
+index 233ff47..5c3002f 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
+@@ -22,6 +22,7 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+            file://0001-Remove-tests-that-fail-to-build-on-some-PPC32-config.patch \
+            file://use-appropriate-march-mcpu-mfpu-for-ARM-test-apps.patch \
+            file://avoid-neon-for-targets-which-don-t-support-it.patch \
++           file://valgrind-make-ld-XXX.so-strlen-intercept-optional.patch \
+ "
+ SRC_URI_append_libc-musl = "\
+            file://0001-fix-build-for-musl-targets.patch \
+-- 
+2.8.3
 
-The old code only considers one env_setup_script, but there are multiple
-ones now, so they are related.
-
->
->>  	# Delete the buildtools tar file since it won't be used again
->>  	rm -f ./${SDK_BUILDTOOLS_INSTALLER}
->>  	# We don't need the log either since it succeeded
->>  	rm -f buildtools.log
->>
->> -	# Make sure when the user sets up the environment, they also get
->> -	# the buildtools-tarball tools in their path.
->> -	echo ". $target_sdk_dir/buildtools/environment-setup*" >>
->> $env_setup_script -
->> -	# Allow bitbake environment setup to be ran as part of this sdk.
->> -	echo "export OE_SKIP_SDK_CHECK=1" >> $env_setup_script
->> +	for e in $env_setup_scripts; do
->> +		# Make sure when the user sets up the environment, they also get
->> +		# the buildtools-tarball tools in their path.
->> +		echo ". $target_sdk_dir/buildtools/environment-setup*" >> $e
->>
->> -	# A bit of another hack, but we need this in the path only for devtool
->> -	# so put it at the end of $PATH.
->> -	echo "export
->> PATH=$target_sdk_dir/sysroots/${SDK_SYS}${bindir_nativesdk}:\$PATH" >>
->> $env_setup_script +		# Allow bitbake environment setup to be ran as part
-> of
->> this sdk. +		echo "export OE_SKIP_SDK_CHECK=1" >> $e
->>
->> -	echo "printf 'SDK environment now set up; additionally you may now run
->> devtool to perform development tasks.\nRun devtool --help for further
->> details.\n'" >> $env_setup_script -
->> -	# Warn if trying to use external bitbake and the ext SDK together
->> -	echo "(which bitbake > /dev/null 2>&1 && echo 'WARNING: attempting to use
->> the extensible SDK in an environment set up to run bitbake - this may lead
->> to unexpected results. Please source this script in a new shell session
->> instead.') || true" >> $env_setup_script +		# A bit of another hack, but
-> we
->> need this in the path only for devtool +		# so put it at the end of
-> $PATH.
->> +		echo "export
->> PATH=$target_sdk_dir/sysroots/${SDK_SYS}${bindir_nativesdk}:\$PATH" >> $e
->> +		echo "printf 'SDK environment now set up; additionally you may now
-> run
->> devtool to perform development tasks.\nRun devtool --help for further
->> details.\n'" >> $e +		# Warn if trying to use external bitbake and the
-> ext
->> SDK together +		echo "(which bitbake > /dev/null 2>&1 && echo 'WARNING:
->> attempting to use the extensible SDK in an environment set up to run
->> bitbake - this may lead to unexpected results. Please source this script in
->> a new shell session instead.') || true" >> $e +	done
->>
->>  	if [ "$prepare_buildsystem" != "no" ]; then
->> -		printf "Preparing build system...\n"
->> +		echo "Preparing build system..."
->
-> Why did you change this?
-
-Will drop this in V2.
-
-
->
->>  		# dash which is /bin/sh on Ubuntu will not preserve the
->>  		# current working directory when first ran, nor will it set $1 when
->>  		# sourcing a script. That is why this has to look so ugly.
->>  		LOGFILE="$target_sdk_dir/preparing_build_system.log"
->> -		sh -c ". buildtools/environment-setup* > $LOGFILE && cd
->> $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir
->> && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> $LOGFILE
->> && python $target_sdk_dir/ext-sdk-prepare.py $LOGFILE
->> '${SDK_INSTALL_TARGETS}'" || { echo "printf 'ERROR: this SDK was not fully
->> installed and needs reinstalling\n'" >> $env_setup_script ; exit 1 ; }
->> -		rm $target_sdk_dir/ext-sdk-prepare.py
->> +		sh -c ". buildtools/environment-setup* > $LOGFILE && cd
->> $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir
->> && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> $LOGFILE
->> && python $target_sdk_dir/ext-sdk-prepare.py $LOGFILE
->> '${SDK_INSTALL_TARGETS}'" +		if [ $? -ne 0 ]; then
->> +			for e in $env_setup_scripts; do
->> +				echo "echo 'ERROR: this SDK was not fully installed and needs
->> reinstalling'" >> $e +			done
->> +			exit 1
->> +		fi
->> +		rm -f $target_sdk_dir/ext-sdk-prepare.py
->
-> That last line is also unrelated.
-
-The old code only considers one env_setup_script, but there are multiple
-ones now, so they are related.
-
-// Robert
-
->
-> Cheers,
-> Paul
->
 
