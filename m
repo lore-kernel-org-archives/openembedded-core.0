@@ -1,25 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id CDEF373286
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 30A65731C6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 08:50:12 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga104.jf.intel.com with ESMTP; 14 Dec 2016 00:50:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,346,1477983600"; d="scan'208";a="912033716"
-Received: from oshau-mobl1.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com.fritz.box) ([10.255.185.66])
-	by orsmga003.jf.intel.com with ESMTP; 14 Dec 2016 00:49:57 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Dec 2016 21:49:50 +1300
-Message-Id: <e2e11be34f7fb40dccf7d2ba45c7e8f6a7a10929.1481705295.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.5
-In-Reply-To: <cover.1481705295.git.paul.eggleton@linux.intel.com>
-References: <cover.1481705295.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1481705295.git.paul.eggleton@linux.intel.com>
-References: <cover.1481705295.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] devtool: package: don't try to initialise tinfoil twice
+	Wed, 14 Dec 2016 09:07:34 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uBE97Y31015993
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Dec 2016 01:07:35 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.184) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.294.0; Wed, 14 Dec 2016 01:07:33 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 14 Dec 2016 17:08:36 +0800
+Message-ID: <cover.1481706394.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH V3 0/4] Persistent /var/log support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,37 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Dec 2016 08:50:13 -0000
+X-List-Received-Date: Wed, 14 Dec 2016 09:07:35 -0000
+Content-Type: text/plain
 
-setup_tinfoil() already calls prepare(), we don't need to call it again
-ourselves and doing so with tinfoil2 results in "ERROR: Only one copy of
-bitbake should be run against a build directory". Calling prepare()
-twice should probably still be allowed, so that ought to be fixed
-separately, but in the mean time this code is still wrong so fix it
-here.
+Changes since V2:
+Use boolean value consistently. Update the comments to fit the use of boolean value.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- scripts/lib/devtool/package.py | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+The following changes since commit d62f18c39bc0ed3b0f5ac8465b393c15f2143ecf:
 
-diff --git a/scripts/lib/devtool/package.py b/scripts/lib/devtool/package.py
-index afb5809..4764064 100644
---- a/scripts/lib/devtool/package.py
-+++ b/scripts/lib/devtool/package.py
-@@ -28,10 +28,8 @@ def package(args, config, basepath, workspace):
-     """Entry point for the devtool 'package' subcommand"""
-     check_workspace_recipe(workspace, args.recipename)
- 
--    tinfoil = setup_tinfoil(basepath=basepath)
-+    tinfoil = setup_tinfoil(basepath=basepath, config_only=True)
-     try:
--        tinfoil.prepare(config_only=True)
--
-         image_pkgtype = config.get('Package', 'image_pkgtype', '')
-         if not image_pkgtype:
-             image_pkgtype = tinfoil.config_data.getVar('IMAGE_PKGTYPE', True)
+  targetloader.py: drop test for ClassType (2016-12-12 15:16:39 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/persistent-var-log
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/persistent-var-log
+
+Chen Qi (4):
+  bitbake.conf: add VOLATILE_LOG_DIR variable
+  base-files: respect VOLATILE_LOG_DIR
+  initscripts: support persistent /var/log
+  package.bbclass: support persistent /var/log
+
+ meta/classes/package.bbclass                       |  2 +-
+ meta/conf/bitbake.conf                             |  4 ++
+ meta/files/fs-perms-persistent-log.txt             | 69 ++++++++++++++++++++++
+ meta/recipes-core/base-files/base-files_3.0.14.bb  |  4 +-
+ .../initscripts/initscripts-1.0/volatiles          |  1 -
+ meta/recipes-core/initscripts/initscripts_1.0.bb   |  3 +
+ 6 files changed, 79 insertions(+), 4 deletions(-)
+ create mode 100644 meta/files/fs-perms-persistent-log.txt
+
 -- 
-2.5.5
+1.9.1
 
 
