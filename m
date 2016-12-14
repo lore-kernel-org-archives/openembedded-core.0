@@ -1,49 +1,49 @@
 Return-Path: <kristian.amlie@mender.io>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F22E77260
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 62B4177267
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 16:29:14 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id u144so24996661wmu.1
+	Wed, 14 Dec 2016 16:29:16 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id g23so121233522wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 08:29:16 -0800 (PST)
+	Wed, 14 Dec 2016 08:29:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mender-io.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=IgekQCYSHiTvhPIjeZfMnFX7OQHXojLWPzcSyXq2WFY=;
-	b=RcGtz2MKV4KCXNpPwJOcHa3futmlWwnG+J4E+1kMIy7ALSH4Yov0fIr4PG9fbQLzhj
-	LdV8nP0efUkLLRVMqvGSpoVIvZVmlgfVZcRTNoMfM0cFoUBV9Ipf/DayfJRcppudB1Cs
-	gw5d/iOZAAfkKUNBEVojbKkGXTTOjeOAGz9Ev87MOdjIAMlMRvWsX1vQSKUVcAfkBg1t
-	p9hJxjYVvhLPgugvDW8ssYSQnbT2/brQIniaUB5YIsk6XRZi0f2XP59szdyIY+O/BsAu
-	JVoVwN4y/cT9XuxRHMJkcSsBUmBu7Uftl3mgwX20zfM/ry9yukX8+RATTxL+p2h2fj4Z
-	EfVQ==
+	bh=y3oBMl76ztvzkSKjk9uA4eXuw+XRFpP9vQgv/SjThqs=;
+	b=jF/xmgEH9Q6+75/akUlfDj3CMVIYtgdn2hxnvL7HkEqOdRAXlJl7Bh2nksuO3c3XTe
+	N5iv5CuUrvLcJ/ZjiaQLbeNKWq9l+TJprHKJBJducMj76oXOnSPx8hm4sh0CfmsMnb7O
+	RFiBhNEcrJ9jymNYHS9ZbzkqJQ/GuxL2QIEQSydlYYSzJ3XqmJ0RgpR//2Z9BQaJMr3D
+	61PR6Rr6TixHf+pLKZVf5D5LB798M4C4lisIx3dwzRC04SwDIHQnoa+xTs2SQvQicRB3
+	DQYs+uBlkYvgCaDBj4x8eJbtXr2/UFs4eunJCPIv05dbCw5ZXVc1SAB99H9frLE58EQv
+	JqMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=IgekQCYSHiTvhPIjeZfMnFX7OQHXojLWPzcSyXq2WFY=;
-	b=iQzXN/9IlmsmprO+gyH+8/bwqQMFqrVEvXemHBALWoazCFqQlb4VFRi58kX6rDXl4S
-	S3Lid6jgjRXWeKjQGPJUMiMfG6/mn0ZH6T3Eo49G/x7GT4qYHYfbo9FTiT1yPFGikNDQ
-	52G0CpiZ3YLJQBZBCfZl5vEFT97POGFtLJHBQ/rWlOh8V6Xlw2EI8jbzxs7sUCYmk2Bl
-	qd20k4JBxs2ad93fcivoP0QlhWDvzLxvsZ0AZgKDYzs+WRt1ed4KRl+OjuGN/aAMwfhA
-	8Fh2ANfdosXNRrIRnz2+pm5N0ESi4UXw33163E93qNf3NdYD23IVCwcNRzffnBzY33HA
-	0uKA==
-X-Gm-Message-State: AKaTC01XzjOQ9W/ygR27B1djnuycULd/gylbn/FfQRwOWJu5iGpLelXZk9r0EhfqmTo8gw==
-X-Received: by 10.25.27.145 with SMTP id b139mr30738576lfb.114.1481732955969; 
-	Wed, 14 Dec 2016 08:29:15 -0800 (PST)
+	bh=y3oBMl76ztvzkSKjk9uA4eXuw+XRFpP9vQgv/SjThqs=;
+	b=ROlk+DERPgfchpvZCqQSqr+/LGvIw3gYZsO9vRq92AWlsFozorPOyEYTHyuynpoMfj
+	bPeqNN2TZr3CrCTYWInQLvt1dqduh3yTLufBM1sRr5pwtoisMpf243iFYOoOWUtNi2Cd
+	7pwSPOtLaUKmBrP0ol9xd6CWyhSrKq++oilzfrd+1PIr2NF7EJJDrRsyWJKJ6eHznshm
+	AfV7icWSCfJFukjLm/vjdo4nd5rclJ2CDmKZ0g13nkAbPiFWB3hDDfCJTuTR8gCZot6T
+	0rVXv1UZFsSSQStePYAQiIVPX0RcsI4jXhaPUiEAFtOCjX3q6s1ibYZJIYBGjsiuEH5c
+	H5QQ==
+X-Gm-Message-State: AKaTC00zfoJR6wQbk7z+mhgIjkfykh5ExUdy7CmeMvcBUNFrsg1FieA5MBTOcAX8hcH+3A==
+X-Received: by 10.25.15.39 with SMTP id e39mr10508017lfi.117.1481732957132;
+	Wed, 14 Dec 2016 08:29:17 -0800 (PST)
 Received: from kristian-mender.cfengine.com ([195.159.140.90])
 	by smtp.googlemail.com with ESMTPSA id
-	9sm10891875ljn.20.2016.12.14.08.29.15
+	9sm10891875ljn.20.2016.12.14.08.29.16
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 14 Dec 2016 08:29:15 -0800 (PST)
+	Wed, 14 Dec 2016 08:29:16 -0800 (PST)
 From: Kristian Amlie <kristian.amlie@mender.io>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Dec 2016 17:28:53 +0100
-Message-Id: <1481732934-5128-3-git-send-email-kristian.amlie@mender.io>
+Date: Wed, 14 Dec 2016 17:28:54 +0100
+Message-Id: <1481732934-5128-4-git-send-email-kristian.amlie@mender.io>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1481732934-5128-1-git-send-email-kristian.amlie@mender.io>
 References: <20161128111825.GA16035@linux.intel.com>
 	<1481732934-5128-1-git-send-email-kristian.amlie@mender.io>
-Subject: [PATCH v2 2/3] Add e2tools recipe, in order to test contents of images.
+Subject: [PATCH v2 3/3] selftest/wic: Add tests for --exclude-dir option.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,37 +56,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Dec 2016 16:29:15 -0000
+X-List-Received-Date: Wed, 14 Dec 2016 16:29:16 -0000
+
+Based partially on an earlier patch by Maciej Borzecki.
 
 Signed-off-by: Kristian Amlie <kristian.amlie@mender.io>
 ---
- meta/recipes-devtools/e2tools/e2tools-native_0.0.16.bb | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
- create mode 100644 meta/recipes-devtools/e2tools/e2tools-native_0.0.16.bb
+ meta/lib/oeqa/selftest/wic.py | 106 +++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 105 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/e2tools/e2tools-native_0.0.16.bb b/meta/recipes-devtools/e2tools/e2tools-native_0.0.16.bb
-new file mode 100644
-index 0000000..5483287
---- /dev/null
-+++ b/meta/recipes-devtools/e2tools/e2tools-native_0.0.16.bb
-@@ -0,0 +1,17 @@
-+SRC_URI = "http://home.earthlink.net/~k_sheff/sw/e2tools/e2tools-0.0.16.tar.gz;md5sum=1829b2b261e0e0d07566066769b5b28b"
-+LICENSE = "GPL-2.0"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=fa8321a71778d26ff40690a4d371ea85"
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index faac11e..b2b0fe8 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -49,7 +49,8 @@ class Wic(oeSelfTest):
+         # setUpClass being unavailable.
+         if not Wic.image_is_ready:
+             bitbake('syslinux syslinux-native parted-native gptfdisk-native '
+-                    'dosfstools-native mtools-native bmap-tools-native')
++                    'dosfstools-native mtools-native bmap-tools-native '
++                    'e2tools-native')
+             bitbake('core-image-minimal')
+             Wic.image_is_ready = True
+ 
+@@ -299,3 +300,106 @@ class Wic(oeSelfTest):
+         self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
+                                    % image).status)
+         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
 +
-+inherit native
++    def test_exclude_path(self):
++        """Test --exclude-path wks option."""
 +
-+do_configure() {
-+    ./configure --prefix=${prefix}
-+}
++        # For using 'e2ls'.
++        old_path = os.environ['PATH']
++        os.environ['PATH'] = get_bb_var('PATH', 'core-image-minimal')
 +
-+do_compile() {
-+    oe_runmake
-+}
++        wks_file = 'temp.wks'
++        ks = open(wks_file, 'w')
++        rootfs_dir = get_bb_var('IMAGE_ROOTFS', 'core-image-minimal')
++        ks.write("""part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path usr
++part /usr --source rootfs --ondisk mmcblk0 --fstype=ext4 --rootfs-dir %s/usr
++part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --rootfs-dir %s/usr"""
++                 % (rootfs_dir, rootfs_dir))
++        ks.close()
++        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
++                                   % wks_file).status)
 +
-+do_install() {
-+    oe_runmake DESTDIR=${D} install
-+}
++        os.remove(wks_file)
++        wicout = glob(self.resultdir + "%s-*direct" % 'temp')
++        self.assertEqual(1, len(wicout))
++
++        wicimg = wicout[0]
++
++        # verify partition size with wic
++        res = runCmd("parted -m %s unit b p 2>/dev/null" % wicimg)
++        self.assertEqual(0, res.status)
++
++        # parse parted output which looks like this:
++        # BYT;\n
++        # /var/tmp/wic/build/tmpfwvjjkf_-201611101222-hda.direct:200MiB:file:512:512:msdos::;\n
++        # 1:0.00MiB:200MiB:200MiB:ext4::;\n
++        partlns = res.output.splitlines()[2:]
++
++        self.assertEqual(3, len(partlns))
++
++        for part in [1, 2, 3]:
++            part_file = os.path.join(self.resultdir, "selftest_img.part%d" % part)
++            partln = partlns[part-1].split(":")
++            self.assertEqual(7, len(partln))
++            start = int(partln[1].rstrip("B")) / 512
++            length = int(partln[3].rstrip("B")) / 512
++            self.assertEqual(0, runCmd("dd if=%s of=%s skip=%d count=%d" %
++                                       (wicimg, part_file, start, length)).status)
++
++        # Test partition 1, should contain the normal root directories, except
++        # /usr.
++        res = runCmd("e2ls %s" % os.path.join(self.resultdir, "selftest_img.part1"))
++        self.assertEqual(0, res.status)
++        files = res.output.split()
++        self.assertIn("etc", files)
++        self.assertNotIn("usr", files)
++
++        # Partition 2, should contain common directories for /usr, not root
++        # directories.
++        res = runCmd("e2ls %s" % os.path.join(self.resultdir, "selftest_img.part2"))
++        self.assertEqual(0, res.status)
++        files = res.output.split()
++        self.assertNotIn("etc", files)
++        self.assertNotIn("usr", files)
++        self.assertIn("share", files)
++
++        # Partition 3, should contain the same as partition 2, including the bin
++        # directory, but not the files inside it.
++        res = runCmd("e2ls %s" % os.path.join(self.resultdir, "selftest_img.part3"))
++        self.assertEqual(0, res.status)
++        files = res.output.split()
++        self.assertNotIn("etc", files)
++        self.assertNotIn("usr", files)
++        self.assertIn("share", files)
++        self.assertIn("bin", files)
++        res = runCmd("e2ls %s:bin" % os.path.join(self.resultdir, "selftest_img.part3"))
++        self.assertEqual(0, res.status)
++        self.assertEqual("No files found!", res.output.strip())
++
++        for part in [1, 2, 3]:
++            part_file = os.path.join(self.resultdir, "selftest_img.part%d" % part)
++            os.remove(part_file)
++
++        os.environ['PATH'] = old_path
++
++    def test_exclude_path_errors(self):
++        """Test --exclude-path wks option error handling."""
++        wks_file = 'temp.wks'
++
++        rootfs_dir = get_bb_var('IMAGE_ROOTFS', 'core-image-minimal')
++
++        # Absolute argument.
++        ks = open(wks_file, 'w')
++        ks.write("part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path /usr")
++        ks.close()
++        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal" \
++                                      % wks_file, ignore_status=True).status)
++        os.remove(wks_file)
++
++        # Argument pointing to parent directory.
++        ks = open(wks_file, 'w')
++        ks.write("part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path ././..")
++        ks.close()
++        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal" \
++                                      % wks_file, ignore_status=True).status)
++        os.remove(wks_file)
 -- 
 2.7.4
 
