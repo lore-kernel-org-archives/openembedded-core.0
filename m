@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 484D473D27
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C2CA773D27
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 07:24:41 +0000 (UTC)
+	Wed, 14 Dec 2016 07:57:58 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBE7OhH5025422
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uBE7vxYe005542
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 23:24:43 -0800 (PST)
+	Tue, 13 Dec 2016 23:57:59 -0800
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 13 Dec 2016 23:24:42 -0800
+	Tue, 13 Dec 2016 23:57:58 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Dec 2016 23:24:36 -0800
-Message-ID: <f8fbf82b99d902ce8a03445acb1a5f44bcf5d2d4.1481700149.git.liezhi.yang@windriver.com>
+Date: Tue, 13 Dec 2016 23:57:57 -0800
+Message-ID: <cover.1481701322.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.10.2
-In-Reply-To: <cover.1481700149.git.liezhi.yang@windriver.com>
-References: <cover.1481700149.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 8/8] oe/copy_buildsystem.py: add SDK_LAYERS_EXCLUDE_PATTERN
+Subject: [PATCH 0/1 V2] oe/path.py: fix for "Argument list too long"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,63 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Dec 2016 07:24:42 -0000
+X-List-Received-Date: Wed, 14 Dec 2016 07:57:58 -0000
 Content-Type: text/plain
 
-It is helpful we want to exclude a lot of layers.
-It uses python re, and supports multiple patterns (separated by space).
+* V2
+  Fix oe/path.py:copyhardlinktree() as Ross suggested.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/lib/oe/copy_buildsystem.py | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+* V1
+  package_manager.py: fix for "Argument list too long"
 
-diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
-index 29ac6d4..e5d00c7 100644
---- a/meta/lib/oe/copy_buildsystem.py
-+++ b/meta/lib/oe/copy_buildsystem.py
-@@ -1,5 +1,12 @@
- # This class should provide easy access to the different aspects of the
- # buildsystem such as layers, bitbake location, etc.
-+#
-+# SDK_LAYERS_EXCLUDE: Layers which will be excluded from SDK layers.
-+# SDK_LAYERS_EXCLUDE_PATTERN: The simiar to SDK_LAYERS_EXCLUDE, this supports
-+#                             python regular expression, use space as separator,
-+#                              e.g.: ".*-downloads closed-.*"
-+#
-+
- import stat
- import shutil
- 
-@@ -23,8 +30,10 @@ class BuildSystem(object):
-         self.context = context
-         self.layerdirs = [os.path.abspath(pth) for pth in d.getVar('BBLAYERS', True).split()]
-         self.layers_exclude = (d.getVar('SDK_LAYERS_EXCLUDE', True) or "").split()
-+        self.layers_exclude_pattern = d.getVar('SDK_LAYERS_EXCLUDE_PATTERN', True)
- 
-     def copy_bitbake_and_layers(self, destdir, workspace_name=None):
-+        import re
-         # Copy in all metadata layers + bitbake (as repositories)
-         layers_copied = []
-         bb.utils.mkdirhier(destdir)
-@@ -36,8 +45,17 @@ class BuildSystem(object):
-         # Exclude layers
-         for layer_exclude in self.layers_exclude:
-             if layer_exclude in layers:
-+                bb.note('Excluded %s from sdk layers since it is in SDK_LAYERS_EXCLUDE' % layer_exclude)
-                 layers.remove(layer_exclude)
- 
-+        if self.layers_exclude_pattern:
-+            layers_cp = layers[:]
-+            for pattern in self.layers_exclude_pattern.split():
-+                for layer in layers_cp:
-+                    if re.match(pattern, layer):
-+                        bb.note('Excluded %s from sdk layers since matched SDK_LAYERS_EXCLUDE_PATTERN' % layer)
-+                        layers.remove(layer)
-+
-         workspace_newname = workspace_name
-         if workspace_newname:
-             layernames = [os.path.basename(layer) for layer in layers]
+// Robert
+
+The following changes since commit 4e412234c37efec42b3962c11d44903c0c58c92e:
+
+  libpcap: Disable exposed bits of WinPCAP remote capture support (2016-12-13 22:47:35 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/long
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/long
+
+Robert Yang (1):
+  oe/path.py: fix for "Argument list too long"
+
+ meta/lib/oe/path.py | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
 -- 
 2.10.2
 
