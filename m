@@ -1,22 +1,23 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 9518171A60
+Return-Path: <pb@pbcl.net>
+X-Greylist: delayed 1243 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 14 Dec 2016 21:58:47 UTC
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 4CB7573204
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 21:13:52 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga104.fm.intel.com with ESMTP; 14 Dec 2016 13:13:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,348,1477983600"; d="scan'208";a="18188768"
-Received: from jlock-mobl1.ger.corp.intel.com ([10.252.22.2])
-	by orsmga002.jf.intel.com with ESMTP; 14 Dec 2016 13:13:52 -0800
-From: Joshua Lock <joshua.g.lock@intel.com>
+	Wed, 14 Dec 2016 21:58:47 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=tp13)
+	by hetzner.pbcl.net with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.87)
+	(envelope-from <pb@pbcl.net>) id 1cHHFR-0007dv-UT
+	for openembedded-core@lists.openembedded.org;
+	Wed, 14 Dec 2016 22:38:04 +0100
+Message-ID: <1481751480.3851.14.camel@pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Dec 2016 21:13:07 +0000
-Message-Id: <bb5ce25a3aaa950279956656542cdf724ad3184d.1481749746.git.joshua.g.lock@intel.com>
-X-Mailer: git-send-email 2.9.3
-In-Reply-To: <cover.1481749746.git.joshua.g.lock@intel.com>
-References: <cover.1481749746.git.joshua.g.lock@intel.com>
-Subject: [PATCH 4/4] scripts: remove True option to getVarFlag calls
+Date: Wed, 14 Dec 2016 21:38:00 +0000
+X-Mailer: Evolution 3.20.5-1 
+Mime-Version: 1.0
+Subject: [PATCH] lttng-ust: Patch python shebang appropriately for native builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,61 +30,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Dec 2016 21:13:52 -0000
+X-List-Received-Date: Wed, 14 Dec 2016 21:58:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-getVarFlag() now defaults to expanding by default, thus remove the
-True option from getVarFlag() calls with a regex search and
-replace.
+If we are building a native package then ${bindir}/python3 is not guaranteed
+to be available, and if it is available then it is probably a directory not a
+file.  In either case, attempting to use it as an interpreter will not end
+well.  Let's use ${bindir}/nativepython instead.
 
-Search made with the following regex:
-getVarFlag ?\(( ?[^,()]*, ?[^,()]*), True\)
-
-Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+Signed-off-by: Phil Blundell <philb@gnu.org>
 ---
- scripts/lib/recipetool/append.py | 6 +++---
- scripts/verify-bashisms          | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-kernel/lttng/lttng-ust_git.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/lib/recipetool/append.py b/scripts/lib/recipetool/append.py
-index def4f90..69c8bb7 100644
---- a/scripts/lib/recipetool/append.py
-+++ b/scripts/lib/recipetool/append.py
-@@ -121,7 +121,7 @@ def determine_file_source(targetpath, rd):
-         logger.debug('source path: %s' % srcpath)
-         if not srcpath.startswith('/'):
-             # Handle non-absolute path
--            srcpath = os.path.abspath(os.path.join(rd.getVarFlag('do_install', 'dirs', True).split()[-1], srcpath))
-+            srcpath = os.path.abspath(os.path.join(rd.getVarFlag('do_install', 'dirs').split()[-1], srcpath))
-         if srcpath.startswith(workdir):
-             # OK, now we have the source file name, look for it in SRC_URI
-             workdirfile = os.path.relpath(srcpath, workdir)
-@@ -191,10 +191,10 @@ def get_source_path(cmdelements):
- def get_func_deps(func, d):
-     """Find the function dependencies of a shell function"""
-     deps = bb.codeparser.ShellParser(func, logger).parse_shell(d.getVar(func))
--    deps |= set((d.getVarFlag(func, "vardeps", True) or "").split())
-+    deps |= set((d.getVarFlag(func, "vardeps") or "").split())
-     funcdeps = []
-     for dep in deps:
--        if d.getVarFlag(dep, 'func', True):
-+        if d.getVarFlag(dep, 'func'):
-             funcdeps.append(dep)
-     return funcdeps
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_git.bb b/meta/recipes-kernel/lttng/lttng-ust_git.bb
+index 5869093..df22352 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_git.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_git.bb
+@@ -29,10 +29,12 @@ SRC_URI = "git://git.lttng.org/lttng-ust.git;branch=stable-2.7 \
  
-diff --git a/scripts/verify-bashisms b/scripts/verify-bashisms
-index 0741e18..a8f761d 100755
---- a/scripts/verify-bashisms
-+++ b/scripts/verify-bashisms
-@@ -97,7 +97,7 @@ if __name__=='__main__':
-         result = []
-         data = tinfoil.parse_recipe_file(fn)
-         for key in data.keys():
--            if data.getVarFlag(key, "func", True) and not data.getVarFlag(key, "python", True):
-+            if data.getVarFlag(key, "func") and not data.getVarFlag(key, "python"):
-                 script = data.getVar(key, False)
-                 if not script: continue
-                 #print ("%s:%s" % (fn, key))
+ PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages, asciidoc-native xmlto-native libxslt-native"
+ 
++usepython="${bindir}/python3"
++usepython_class-native="${bindir}/nativepython"
+ do_install_append() {
+         # Patch python tools to use Python 3; they should be source compatible, but
+         # still refer to Python 2 in the shebang
+-        sed -i -e '1s,#!.*python.*,#!${bindir}/python3,' ${D}${bindir}/lttng-gen-tp
++        sed -i -e '1s,#!.*python.*,#!${usepython},' ${D}${bindir}/lttng-gen-tp
+ }
+ 
+ S = "${WORKDIR}/git"
 -- 
-2.9.3
-
+2.10.1
 
