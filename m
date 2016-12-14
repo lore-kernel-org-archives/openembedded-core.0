@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B7BA771DA
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AB4A71BFD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 09:07:37 +0000 (UTC)
+	Wed, 14 Dec 2016 09:07:38 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBE97dff018210
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uBE97eUe015996
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 01:07:39 -0800 (PST)
+	Wed, 14 Dec 2016 01:07:40 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.184) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Wed, 14 Dec 2016 01:07:38 -0800
+	14.3.294.0; Wed, 14 Dec 2016 01:07:39 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Dec 2016 17:08:38 +0800
-Message-ID: <432f9a5147f555f2126976856cbbcfdaf2ae1385.1481706394.git.Qi.Chen@windriver.com>
+Date: Wed, 14 Dec 2016 17:08:39 +0800
+Message-ID: <a1b8a0d9776f995e83b85ac82b14e2592698de7d.1481706394.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1481706394.git.Qi.Chen@windriver.com>
 References: <cover.1481706394.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V3 2/4] base-files: respect VOLATILE_LOG_DIR
+Subject: [PATCH V3 3/4] initscripts: support persistent /var/log
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,39 +36,43 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 14 Dec 2016 09:07:39 -0000
 Content-Type: text/plain
 
-Respect VOLATILE_LOG_DIR variable. In this way, if the user overrides
-this variable to be any valid boolean false value, /var/log on the final
-image would reside on persistent storage.
+Respect VOLATILE_VAR_LOG variable so that if it's set to any valid boolean
+false value, we could have persistent /var/log on the final image.
 
 [YOCTO #6132]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-core/base-files/base-files_3.0.14.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/initscripts/initscripts-1.0/volatiles | 1 -
+ meta/recipes-core/initscripts/initscripts_1.0.bb        | 3 +++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index 5333110..c065499 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -41,7 +41,7 @@ dirs755 = "/bin /boot /dev ${sysconfdir} ${sysconfdir}/default \
-            ${localstatedir}/backups ${localstatedir}/lib \
-            /sys ${localstatedir}/lib/misc ${localstatedir}/spool \
-            ${localstatedir}/volatile \
--           ${localstatedir}/volatile/log \
-+           ${localstatedir}/${@'volatile/' if oe.types.boolean('${VOLATILE_LOG_DIR}') else ''}log \
-            /home ${prefix}/src ${localstatedir}/local \
-            /media"
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
+index 297245d..6cccab7 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
++++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
+@@ -25,7 +25,6 @@ d root root 1777 /run/lock none
+ d root root 0755 /var/volatile/log none
+ d root root 1777 /var/volatile/tmp none
+ l root root 1777 /var/lock /run/lock
+-l root root 0755 /var/log /var/volatile/log
+ l root root 0755 /var/run /run
+ l root root 1777 /var/tmp /var/volatile/tmp
+ l root root 1777 /tmp /var/tmp
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+index 8f110b0..453116c 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -102,6 +102,9 @@ do_install () {
+ 	install -m 0755    ${WORKDIR}/read-only-rootfs-hook.sh ${D}${sysconfdir}/init.d
+ 	install -m 0755    ${WORKDIR}/save-rtc.sh	${D}${sysconfdir}/init.d
+ 	install -m 0644    ${WORKDIR}/volatiles		${D}${sysconfdir}/default/volatiles/00_core
++	if [ ${@ oe.types.boolean('${VOLATILE_LOG_DIR}') } = True ]; then
++		echo "l root root 0755 /var/log /var/volatile/log" >> ${D}${sysconfdir}/default/volatiles/00_core
++	fi
+ 	install -m 0755    ${WORKDIR}/dmesg.sh		${D}${sysconfdir}/init.d
+ 	install -m 0644    ${WORKDIR}/logrotate-dmesg.conf ${D}${sysconfdir}/
  
-@@ -52,7 +52,7 @@ dirs755-lsb = "/srv  \
-                ${prefix}/lib/locale"
- dirs2775-lsb = "/var/mail"
- 
--volatiles = "log tmp"
-+volatiles = "${@'log' if oe.types.boolean('${VOLATILE_LOG_DIR}') else ''} tmp"
- conffiles = "${sysconfdir}/debian_version ${sysconfdir}/host.conf \
-              ${sysconfdir}/issue /${sysconfdir}/issue.net \
-              ${sysconfdir}/nsswitch.conf ${sysconfdir}/profile \
 -- 
 1.9.1
 
