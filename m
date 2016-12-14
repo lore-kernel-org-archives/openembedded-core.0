@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 711AF760A8
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 43C1F74197
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 07:24:40 +0000 (UTC)
+	Wed, 14 Dec 2016 07:24:41 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uBE7Og9Y015211
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uBE7Og6I004942
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2016 23:24:42 -0800 (PST)
+	Tue, 13 Dec 2016 23:24:42 -0800
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 13 Dec 2016 23:24:41 -0800
+	Tue, 13 Dec 2016 23:24:42 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Dec 2016 23:24:34 -0800
-Message-ID: <6668dae584a3dbf73a5012f599756011919e5028.1481700149.git.liezhi.yang@windriver.com>
+Date: Tue, 13 Dec 2016 23:24:35 -0800
+Message-ID: <b6f271520ad2647990e818410c502260c6801a2f.1481700149.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <cover.1481700149.git.liezhi.yang@windriver.com>
 References: <cover.1481700149.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 6/8] oeqa/oetest.py: add hasLockedSig()
+Subject: [PATCH V2 7/8] oeqa/sdkext/devtool.py: skip a testcase when no libxml2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,49 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Dec 2016 07:24:40 -0000
+X-List-Received-Date: Wed, 14 Dec 2016 07:24:41 -0000
 Content-Type: text/plain
 
-It checks whether there is a "recipe:do_populate_sysroot:" in
-locked-sigs.inc, which will help to determine whether the testcase will
-run or not.
+Skip test_extend_autotools_recipe_creation when no libxml2
+
+The librdfa requires libxml2 to build, otherwise, it would fail:
+| configure: error: Package requirements (libxml-2.0 >= 2.6.26) were not met:
+|
+| No package 'libxml-2.0' found
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/lib/oeqa/oetest.py | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ meta/lib/oeqa/sdkext/devtool.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-index 95d3bf7..d12381d 100644
---- a/meta/lib/oeqa/oetest.py
-+++ b/meta/lib/oeqa/oetest.py
-@@ -171,6 +171,12 @@ class oeSDKExtTest(oeSDKTest):
-         return subprocess.check_output(". %s > /dev/null;"\
-             " %s;" % (self.tc.sdkenv, cmd), stderr=subprocess.STDOUT, shell=True, env=env).decode("utf-8")
+diff --git a/meta/lib/oeqa/sdkext/devtool.py b/meta/lib/oeqa/sdkext/devtool.py
+index f101eb6..6cb8d01 100644
+--- a/meta/lib/oeqa/sdkext/devtool.py
++++ b/meta/lib/oeqa/sdkext/devtool.py
+@@ -1,7 +1,7 @@
+ import shutil
+ import subprocess
+ import urllib.request
+-from oeqa.oetest import oeSDKExtTest
++from oeqa.oetest import oeSDKExtTest, skipModule
+ from oeqa.utils.decorators import *
  
-+    @classmethod
-+    def hasLockedSig(self, recipe):
-+        if re.search(" " + recipe + ":do_populate_sysroot:", oeTest.tc.locked_sigs):
-+            return True
-+        return False
-+
- def getmodule(pos=2):
-     # stack returns a list of tuples containg frame information
-     # First element of the list the is current frame, caller is 1
-@@ -708,6 +714,13 @@ class SDKExtTestContext(SDKTestContext):
-         self.sdkextfilesdir = os.path.join(os.path.dirname(os.path.abspath(
-             oeqa.sdkext.__file__)), "files")
- 
-+        self.locked_sig_file = os.path.join(self.sdktestdir, "tc/conf/locked-sigs.inc")
-+        if os.path.exists(self.locked_sig_file):
-+            with open(self.locked_sig_file) as f:
-+                self.locked_sigs = f.read()
-+        else:
-+            bb.fatal("%s not found. Did you build the ext sdk image?\n%s" % e)
-+
-     def _get_test_namespace(self):
-         if self.cm:
-             return "sdk"
+ class DevtoolTest(oeSDKExtTest):
+@@ -66,6 +66,9 @@ class DevtoolTest(oeSDKExtTest):
+     @testcase(1482)
+     @skipUnlessPassed('test_devtool_location')
+     def test_extend_autotools_recipe_creation(self):
++        # librdfa requires libxml2
++        if not oeSDKExtTest.hasLockedSig("libxml2"):
++            skipModule("No libxml2 package in the eSDK")
+         req = 'https://github.com/rdfa/librdfa'
+         recipe = "bbexample"
+         self._run('devtool add %s %s' % (recipe, req) )
 -- 
 2.10.2
 
