@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 30A65731C6
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B5A08771DC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 09:07:34 +0000 (UTC)
+	Wed, 14 Dec 2016 09:07:36 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uBE97Y31015993
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uBE97b9N007348
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 01:07:35 -0800 (PST)
+	Wed, 14 Dec 2016 01:07:37 -0800
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.184) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Wed, 14 Dec 2016 01:07:33 -0800
+	14.3.294.0; Wed, 14 Dec 2016 01:07:36 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Dec 2016 17:08:36 +0800
-Message-ID: <cover.1481706394.git.Qi.Chen@windriver.com>
+Date: Wed, 14 Dec 2016 17:08:37 +0800
+Message-ID: <31f2112c87dbc93868771592e5111f43bfbf964d.1481706394.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1481706394.git.Qi.Chen@windriver.com>
+References: <cover.1481706394.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V3 0/4] Persistent /var/log support
+Subject: [PATCH V3 1/4] bitbake.conf: add VOLATILE_LOG_DIR variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,36 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Dec 2016 09:07:35 -0000
+X-List-Received-Date: Wed, 14 Dec 2016 09:07:36 -0000
 Content-Type: text/plain
 
-Changes since V2:
-Use boolean value consistently. Update the comments to fit the use of boolean value.
+The default value is "yes" which results in the /var/log being a link
+pointing to /var/volatile/log which is on tmpfs.
 
-The following changes since commit d62f18c39bc0ed3b0f5ac8465b393c15f2143ecf:
+Setting valid boolean false value ('no', 'n', 'false', 'f', '0') would make
+/var/log to be a directory on persistent storage.
 
-  targetloader.py: drop test for ClassType (2016-12-12 15:16:39 +0000)
+[YOCTO #6132]
 
-are available in the git repository at:
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/conf/bitbake.conf | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/persistent-var-log
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/persistent-var-log
-
-Chen Qi (4):
-  bitbake.conf: add VOLATILE_LOG_DIR variable
-  base-files: respect VOLATILE_LOG_DIR
-  initscripts: support persistent /var/log
-  package.bbclass: support persistent /var/log
-
- meta/classes/package.bbclass                       |  2 +-
- meta/conf/bitbake.conf                             |  4 ++
- meta/files/fs-perms-persistent-log.txt             | 69 ++++++++++++++++++++++
- meta/recipes-core/base-files/base-files_3.0.14.bb  |  4 +-
- .../initscripts/initscripts-1.0/volatiles          |  1 -
- meta/recipes-core/initscripts/initscripts_1.0.bb   |  3 +
- 6 files changed, 79 insertions(+), 4 deletions(-)
- create mode 100644 meta/files/fs-perms-persistent-log.txt
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 1472e8f..0e40c30 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -83,6 +83,10 @@ USRBINPATH_class-nativesdk = "/usr/bin"
+ # Root home directory
+ ROOT_HOME ??= "/home/root"
+ 
++# If set to boolean true ('yes', 'y', 'true', 't', '1'), /var/log links to /var/volatile/log.
++# If set to boolean false ('no', 'n', 'false', 'f', '0'), /var/log is on persistent storage.
++VOLATILE_LOG_DIR ?= "yes"
++
+ ##################################################################
+ # Architecture-dependent build variables.
+ ##################################################################
 -- 
 1.9.1
 
