@@ -1,29 +1,51 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 092CF7722A
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f54.google.com (mail-it0-f54.google.com
+	[209.85.214.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 988137720B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 15:02:34 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
-	via TCP (outbound) with ESMTPS id 20161214150227217_0484
+	Wed, 14 Dec 2016 15:37:44 +0000 (UTC)
+Received: by mail-it0-f54.google.com with SMTP id j191so3111366ita.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 15:02:27 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [216.191.234.70] (port=19775 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1cHB4X-0004gh-7C for openembedded-core@lists.openembedded.org;
-	Wed, 14 Dec 2016 10:02:21 -0500
-Date: Wed, 14 Dec 2016 10:01:01 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1612140959100.23059@localhost.localdomain>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: [PATCH][busybox] Add comments to separate Runit from SELinux content in defconfig
+	Wed, 14 Dec 2016 07:37:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:date:organization:mime-version
+	:content-transfer-encoding;
+	bh=CXPGMV+yKq4s3ERZLiSkmWgCWrIsdGFBOcysI3avw3Q=;
+	b=shcmTFfcjFV6yri+9z2hMMuaXSf791MkjOeVErFanwbr+iKF2qnEr2Dc4fkAyakjSb
+	2UhSWREIBnss3BXNS8aI0GVPZyVwYssHLGFf3ErusnbKIt67t2bA6zjwcd7XIOx6PWB6
+	PZxh6JG/ZU/EEqUfU76R2qJl6vtdrFPfKl9IVSBzGBAyVNmexW7v/N1lSJSvry1i8o62
+	q2/CgjVBb9tARiQhMOlwjiEZnVMilEAX9vyhcRae96jB0fLYsRajbjBY5xgLPzMezhO8
+	4aw4ImRZ7Ih0h+rToSAO0VlXTCZgh/dk3HrYxLOdKAnN9QaQHUAL/vuuUZza8HA5q43L
+	hSJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:organization
+	:mime-version:content-transfer-encoding;
+	bh=CXPGMV+yKq4s3ERZLiSkmWgCWrIsdGFBOcysI3avw3Q=;
+	b=LGE1ysPTAgXzbn/TKtl0gLi9GzmH8skiQm/rrNiKkcYrqwEI2jQMZ6GcVEN4zGy4aR
+	l4w4/T3P1R34d7m7dHuAvhWT/xZHHNP+gxpDp7k/a7BW+nWm942zDI0jyz4wS3tW4NyB
+	XaDtrxsJU/vYHS0UWFCEwavKP5JNHvZl9Nb5DBXUbxzy0QdQqTT5r9XbzzLdR+jbpl9j
+	R5IPhX1ONpYGwkN/SfewRXIQXct99aPUC3dGfuzxyiqlo0/0k1TqjBKLmSnRMNjxP5m0
+	NbMCaGkjR5lEWwFoFjSc4SKpBRgDAAAJTNohaloVHHd+Ygs1a0FBPH+z5LeHQNhIxqrs
+	lDfw==
+X-Gm-Message-State: AKaTC01/PjUUz/6BnYqANaSpt2aBKitD5oCQj40ryqV3NyemPnr3lVR9+QLryawpOhAafluR
+X-Received: by 10.36.238.139 with SMTP id b133mr7775777iti.81.1481729866124;
+	Wed, 14 Dec 2016 07:37:46 -0800 (PST)
+Received: from pohly-mobl1 (p57A561C0.dip0.t-ipconnect.de. [87.165.97.192])
+	by smtp.gmail.com with ESMTPSA id
+	p71sm23100396ioe.33.2016.12.14.07.37.44
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 14 Dec 2016 07:37:45 -0800 (PST)
+Message-ID: <1481729863.1544.33.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: OpenEmbedded <openembedded-core@lists.openembedded.org>
+Date: Wed, 14 Dec 2016 16:37:43 +0100
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Subject: multiconfig + siteinfo.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,41 +58,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Dec 2016 15:02:35 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Wed, 14 Dec 2016 15:37:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+Hello!
 
-There is no break in busybox's "defconfig" file to show where Runit
-settings suddenly morph into SELinux settings, so add some comments.
+While trying out a multiconfig with two configurations (one for MACHINE
+= intel-corei7-64, one for quark) in custom Ostro derivative I got an
+error while parsing recipes:
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+ERROR: /work/iot-ref-kit/openembedded-core/../meta-openembedded/meta-python/recipes-devtools/python/python-m2crypto_0.23.0.bb: Unable to determine endianness for architecture 'INVALID'
 
----
+That error comes from OE-core's meta/classes/siteinfo.bbclass;
 
-diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
-index cbdb139..773c4f8 100644
---- a/meta/recipes-core/busybox/busybox/defconfig
-+++ b/meta/recipes-core/busybox/busybox/defconfig
-@@ -981,6 +981,10 @@ CONFIG_SV_DEFAULT_SERVICE_DIR=""
- # CONFIG_ENVUIDGID is not set
- # CONFIG_ENVDIR is not set
- # CONFIG_SOFTLIMIT is not set
-+
-+#
-+#  SELinux utilities
-+#
- # CONFIG_CHCON is not set
- # CONFIG_FEATURE_CHCON_LONG_OPTIONS is not set
- # CONFIG_GETENFORCE is not set
+python () {
+    sitedata = set(siteinfo_data(d))
+    if "endian-little" in sitedata:
+        d.setVar("SITEINFO_ENDIANNESS", "le")
+    elif "endian-big" in sitedata:
+        d.setVar("SITEINFO_ENDIANNESS", "be")
+    else:
+        bb.error("Unable to determine endianness for architecture '%s'" %
+                 d.getVar("HOST_ARCH", True))
+        bb.fatal("Please add your architecture to siteinfo.bbclass")
+
+HOST_ARCH is set to "x86_64" when not using BBMULTICONFIG in local.conf.
+
+It's not specific to that recipe, everything using siteinfo.bbclass
+seems to be affected. OE-core is d62f18c3 and bitbake is b65a81933 -
+both fairly recent, but not quite master. I don't see any relevant
+changes since then.
+
+However, I can't reproduce this with just Poky :-/ Any suggestions?
 
 -- 
+Best Regards, Patrick Ohly
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+
 
 
