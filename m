@@ -1,28 +1,29 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C9181771A3
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
+	by mail.openembedded.org (Postfix) with ESMTP id BD15B7722B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 09:45:34 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uBE9jZv2016190
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 14 Dec 2016 10:29:21 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
+	via TCP (outbound) with ESMTPS id 20161214102921537_0484
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 01:45:35 -0800 (PST)
-Received: from [128.224.162.160] (128.224.162.160) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 14 Dec 2016 01:45:35 -0800
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1481014270.git.liezhi.yang@windriver.com>
-	<d04c9145ce085b65cdf6ac2460f8a3ad9bd7cc79.1481014270.git.liezhi.yang@windriver.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <3942b852-b937-6932-60ff-d4bda7214e74@windriver.com>
-Date: Wed, 14 Dec 2016 17:45:33 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Wed, 14 Dec 2016 10:29:21 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [216.191.234.70] (port=11986 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1cH6oF-00024o-9e for openembedded-core@lists.openembedded.org;
+	Wed, 14 Dec 2016 05:29:15 -0500
+Date: Wed, 14 Dec 2016 05:27:55 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1612140524530.7293@localhost.localdomain>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-In-Reply-To: <d04c9145ce085b65cdf6ac2460f8a3ad9bd7cc79.1481014270.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH V2 4/6] runqemu: support mutiple qemus running when nfs
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: opinions on enabling busybox's "runit" implementation to control some services?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,180 +36,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Dec 2016 09:45:37 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Dec 2016 10:29:22 -0000
+Content-Type: text/plain; charset=US-ASCII
 
 
+  colleague needs "runit" to control one or more services that have
+historically been managed that way, so a couple questions:
 
-On 12/06/2016 04:55 PM, Robert Yang wrote:
-> Fixed:
-> * In build1:
->   $ runqemu nfs qemux86-64
->   In build2:
->   $ runqemu nfs qemux86-64
->
->   It would fail before since the port numerbs and conf files are
->   conflicted, now make runqemu-export-rootfs work together with runqemu to
->   fix the problem.
->
-> * And we don't need export PSEUDO_LOCALSTATEDIR in runqemu, the
->   runqemu-export-rootfs can handle it well based on NFS_EXPORT_DIR.
->
-> * Remove "async" option from unfsd to fix warning in syslog:
->   Warning: unknown exports option `async' ignored
->
-> * Fixed typos
->
-> Both slirp and tap can work.
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  scripts/runqemu               | 55 ++++++++++++++++++++++++++++---------------
->  scripts/runqemu-export-rootfs | 10 ++++----
->  2 files changed, 41 insertions(+), 24 deletions(-)
->
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index c737eb2..a10270c 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -690,17 +690,33 @@ class BaseConfig(object):
->              else:
->                  self.nfs_server = '192.168.7.1'
->
-> -        nfs_instance = int(self.nfs_instance)
-> -
-> -        mountd_rpcport = 21111 + nfs_instance
-> -        nfsd_rpcport = 11111 + nfs_instance
-> -        nfsd_port = 3049 + 2 * nfs_instance
-> -        mountd_port = 3048 + 2 * nfs_instance
-> -        unfs_opts="nfsvers=3,port=%s,mountprog=%s,nfsprog=%s,udp,mountport=%s" % (nfsd_port, mountd_rpcport, nfsd_rpcport, mountd_port)
-> -        self.unfs_opts = unfs_opts
-> +        # Figure out a new nfs_instance to allow multiple qemus running.
-> +        cmd = "ps aux"
+1) anyone with experience with busybox's implementation of runit? does
+it work properly? does it play nicely with others?
 
-Updated here a little in the repo.
+2) is runit actually necessary, or would it be easy to migrate said
+services off of runit?
 
-+        # Figure out a new nfs_instance to allow multiple qemus running.
-+        # CentOS 7.1's ps doesn't print full command line without "ww"
-+        # when invoke by subprocess.Popen().
-+        cmd = "ps auxww"
+  i've never used runit, so have no idea what it is that makes it so
+(allegedly) indispensable. if it's easily migrateable, that'd be
+great.
 
+  thanks muchly.
 
-// Robert
+rday
 
-> +        ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
-> +        pattern = '/bin/unfsd .* -i .*\.pid -e .*/exports([0-9]+) '
-> +        all_instances = re.findall(pattern, ps, re.M)
-> +        if all_instances:
-> +            all_instances.sort(key=int)
-> +            self.nfs_instance = int(all_instances.pop()) + 1
-> +
-> +        mountd_rpcport = 21111 + self.nfs_instance
-> +        nfsd_rpcport = 11111 + self.nfs_instance
-> +        nfsd_port = 3049 + 2 * self.nfs_instance
-> +        mountd_port = 3048 + 2 * self.nfs_instance
-> +
-> +        # Export vars for runqemu-export-rootfs
-> +        export_dict = {
-> +            'NFS_INSTANCE': self.nfs_instance,
-> +            'MOUNTD_RPCPORT': mountd_rpcport,
-> +            'NFSD_RPCPORT': nfsd_rpcport,
-> +            'NFSD_PORT': nfsd_port,
-> +            'MOUNTD_PORT': mountd_port,
-> +        }
-> +        for k, v in export_dict.items():
-> +            # Use '%s' since they are integers
-> +            os.putenv(k, '%s' % v)
->
-> -        p = '%s/.runqemu-sdk/pseudo' % os.getenv('HOME')
-> -        os.putenv('PSEUDO_LOCALSTATEDIR', p)
-> +        self.unfs_opts="nfsvers=3,port=%s,mountprog=%s,nfsprog=%s,udp,mountport=%s" % (nfsd_port, mountd_rpcport, nfsd_rpcport, mountd_port)
->
->          # Extract .tar.bz2 or .tar.bz if no self.nfs_dir
->          if not self.nfs_dir:
-> @@ -728,7 +744,7 @@ class BaseConfig(object):
->                  self.nfs_dir = dest
->
->          # Start the userspace NFS server
-> -        cmd = 'runqemu-export-rootfs restart %s' % self.nfs_dir
-> +        cmd = 'runqemu-export-rootfs start %s' % self.nfs_dir
->          logger.info('Running %s...' % cmd)
->          if subprocess.call(cmd, shell=True) != 0:
->              raise Exception('Failed to run %s' % cmd)
-> @@ -737,6 +753,8 @@ class BaseConfig(object):
->
->
->      def setup_slirp(self):
-> +        """Setup user networking"""
-> +
->          if self.fstype == 'nfs':
->              self.setup_nfs()
->          self.kernel_cmdline_script += ' ip=dhcp'
-> @@ -804,14 +822,13 @@ class BaseConfig(object):
->              logger.error("Failed to setup tap device. Run runqemu-gen-tapdevs to manually create.")
->              return 1
->          self.tap = tap
-> -        n0 = tap[3:]
-> -        n1 = int(n0) * 2 + 1
-> -        n2 = n1 + 1
-> -        self.nfs_instance = n0
-> +        tapnum = int(tap[3:])
-> +        gateway = tapnum * 2 + 1
-> +        client = gateway + 1
->          if self.fstype == 'nfs':
->              self.setup_nfs()
-> -        self.kernel_cmdline_script += " ip=192.168.7.%s::192.168.7.%s:255.255.255.0" % (n2, n1)
-> -        mac = "52:54:00:12:34:%02x" % n2
-> +        self.kernel_cmdline_script += " ip=192.168.7.%s::192.168.7.%s:255.255.255.0" % (client, gateway)
-> +        mac = "52:54:00:12:34:%02x" % client
->          qb_tap_opt = self.get('QB_TAP_OPT')
->          if qb_tap_opt:
->              qemu_tap_opt = qb_tap_opt.replace('@TAP@', tap).replace('@MAC@', mac)
-> @@ -854,11 +871,11 @@ class BaseConfig(object):
->                          vm_drive = '-drive if=none,id=hd,file=%s,format=%s -device virtio-scsi-pci,id=scsi -device scsi-hd,drive=hd' \
->                                         % (self.rootfs, rootfs_format)
->                      elif subprocess.call(cmd2, shell=True) == 0:
-> -                        logger.info('Using scsi drive')
-> +                        logger.info('Using ide drive')
->                          vm_drive = "%s,format=%s" % (self.rootfs, rootfs_format)
->                      else:
->                          logger.warn("Can't detect drive type %s" % self.rootfs)
-> -                        logger.warn('Tring to use virtio block drive')
-> +                        logger.warn('Trying to use virtio block drive')
->                          vm_drive = '-drive if=virtio,file=%s,format=%s' % (self.rootfs, rootfs_format)
->                  self.rootfs_options = '%s -no-reboot' % vm_drive
->              self.kernel_cmdline = 'root=%s rw highres=off' % (self.get('QB_KERNEL_ROOT'))
-> diff --git a/scripts/runqemu-export-rootfs b/scripts/runqemu-export-rootfs
-> index 0dd3eba..7ebc071 100755
-> --- a/scripts/runqemu-export-rootfs
-> +++ b/scripts/runqemu-export-rootfs
-> @@ -78,13 +78,13 @@ if [ ! -d "$PSEUDO_LOCALSTATEDIR" ]; then
->  fi
->
->  # rpc.mountd RPC port
-> -MOUNTD_RPCPORT=$[ 21111 + $NFS_INSTANCE ]
-> +MOUNTD_RPCPORT=${MOUNTD_RPCPORT:=$[ 21111 + $NFS_INSTANCE ]}
->  # rpc.nfsd RPC port
-> -NFSD_RPCPORT=$[ 11111 + $NFS_INSTANCE ]
-> +NFSD_RPCPORT=${NFSD_RPCPORT:=$[ 11111 + $NFS_INSTANCE ]}
->  # NFS server port number
-> -NFSD_PORT=$[ 3049 + 2 * $NFS_INSTANCE ]
-> +NFSD_PORT=${NFSD_PORT:=$[ 3049 + 2 * $NFS_INSTANCE ]}
->  # mountd port number
-> -MOUNTD_PORT=$[ 3048 + 2 * $NFS_INSTANCE ]
-> +MOUNTD_PORT=${MOUNTD_PORT:=$[ 3048 + 2 * $NFS_INSTANCE ]}
->
->  ## For debugging you would additionally add
->  ## --debug all
-> @@ -109,7 +109,7 @@ case "$1" in
->  	fi
->
->  	echo "Creating exports file..."
-> -	echo "$NFS_EXPORT_DIR (rw,async,no_root_squash,no_all_squash,insecure)" > $EXPORTS
-> +	echo "$NFS_EXPORT_DIR (rw,no_root_squash,no_all_squash,insecure)" > $EXPORTS
->
->  	echo "Starting User Mode nfsd"
->  	echo "  $PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/bin/unfsd $UNFSD_OPTS"
->
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 
