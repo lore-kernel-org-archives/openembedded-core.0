@@ -1,30 +1,26 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 95BDB72002
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E59371D9F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 05:04:30 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="13899506"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 14 Dec 2016 13:04:25 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id CA013477B1C5
+	Wed, 14 Dec 2016 07:24:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBE7OdPo025416
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 13:04:24 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.81) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Wed, 14 Dec 2016 13:04:25 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+	Tue, 13 Dec 2016 23:24:39 -0800 (PST)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 13 Dec 2016 23:24:38 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Dec 2016 05:04:00 -0800
-Message-ID: <1481720640-2251-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+Date: Tue, 13 Dec 2016 23:24:30 -0800
+Message-ID: <c4ff83dd8b4f3ffd57293e5ec5489cb6f623f331.1481700149.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.10.2
+In-Reply-To: <cover.1481700149.git.liezhi.yang@windriver.com>
+References: <cover.1481700149.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.81]
-X-yoursite-MailScanner-ID: CA013477B1C5.A78F4
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH v2] libxkbcommon: 0.6.1 -> 0.7.0
+Subject: [PATCH V2 2/8] populate_sdk_ext.bbclass: install multilib SDKs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,47 +33,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Dec 2016 05:04:33 -0000
+X-List-Received-Date: Wed, 14 Dec 2016 07:24:38 -0000
 Content-Type: text/plain
 
-1)Upgrade libxkbcommon from 0.6.1 to 0.7.0.
-2)License checksum changed,since the copyright years were updated.
+Fixed:
+MACHINE = "qemux86-64"
+require conf/multilib.conf
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+IMAGE_CLASSES += "testimage"
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+$ bitbake core-image-minimal -cpopulate_sdk_ext
+$ bitbake core-image-minimal -ctestsdkext
+[snip]
+Testing /buildarea/lyang1/test_po/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/testsdkext//tc/environment-setup-x86-pokymllib32-linux
+test_cvs (oeqa.sdk.buildcvs.BuildCvsTest) ... FAIL
+[snip]
+
+It was failed because no lib32 toolchains.
+
+These fixes include:
+* Set SDK_TARGETS correctly
+* Return multilib depends in get_ext_sdk_depends()
+* Write information to all environment-setup-* scripts.
+
+[YOCTO #10647]
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../xorg-lib/{libxkbcommon_0.6.1.bb => libxkbcommon_0.7.0.bb}       | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxkbcommon_0.6.1.bb => libxkbcommon_0.7.0.bb} (74%)
+ meta/classes/populate_sdk_ext.bbclass | 49 ++++++++++++++++++++---------------
+ 1 file changed, 28 insertions(+), 21 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_0.6.1.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_0.7.0.bb
-similarity index 74%
-rename from meta/recipes-graphics/xorg-lib/libxkbcommon_0.6.1.bb
-rename to meta/recipes-graphics/xorg-lib/libxkbcommon_0.7.0.bb
-index fc08109..a6836d8 100644
---- a/meta/recipes-graphics/xorg-lib/libxkbcommon_0.6.1.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_0.7.0.bb
-@@ -2,15 +2,15 @@ SUMMARY = "Generic XKB keymap library"
- DESCRIPTION = "libxkbcommon is a keymap compiler and support library which \
- processes a reduced subset of keymaps as defined by the XKB specification."
- HOMEPAGE = "http://www.xkbcommon.org"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=09457b156e3155972abebcaaaa0cb434"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=e525ed9809e1f8a07cf4bce8b09e8b87"
- LICENSE = "MIT & MIT-style"
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index adef96d..840e04d 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -39,7 +39,7 @@ SDK_LOCAL_CONF_BLACKLIST ?= "CONF_VERSION \
+ SDK_INHERIT_BLACKLIST ?= "buildhistory icecc"
+ SDK_UPDATE_URL ?= ""
  
- DEPENDS = "util-macros flex-native bison-native"
+-SDK_TARGETS ?= "${PN}"
++SDK_TARGETS ?= "${@multilib_pkg_extend(d, d.getVar('BPN', True))}"
  
- SRC_URI = "http://xkbcommon.org/download/${BPN}-${PV}.tar.xz"
+ def get_sdk_install_targets(d, images_only=False):
+     sdk_install_targets = ''
+@@ -566,12 +566,14 @@ SDK_PRE_INSTALL_COMMAND_task-populate-sdk-ext = "${sdk_ext_preinst}"
+ sdk_ext_postinst() {
+ 	printf "\nExtracting buildtools...\n"
+ 	cd $target_sdk_dir
+-	env_setup_script="$target_sdk_dir/environment-setup-${REAL_MULTIMACH_TARGET_SYS}"
++	env_setup_scripts="`ls $target_sdk_dir/environment-setup-*`"
+ 	./${SDK_BUILDTOOLS_INSTALLER} -d buildtools -y > buildtools.log
+ 	if [ $? -ne 0 ]; then
+ 		printf 'ERROR: buildtools installation failed:\n'
+ 		cat buildtools.log
+-		echo "printf 'ERROR: this SDK was not fully installed and needs reinstalling\n'" >> $env_setup_script
++		for e in $env_setup_scripts; do
++			echo "printf 'ERROR: this SDK was not fully installed and needs reinstalling\n'" >> $e
++		done
+ 		exit 1
+ 	fi
  
--SRC_URI[md5sum] = "67a8f322b5fa32352272e811bb90dd73"
--SRC_URI[sha256sum] = "5b0887b080b42169096a61106661f8d35bae783f8b6c58f97ebcd3af83ea8760"
-+SRC_URI[md5sum] = "61ba550fc529ea4d6f9faa2cad62c95f"
-+SRC_URI[sha256sum] = "09351592312d67b438655f54da5b67853026662c4a57e6be4d225f04a9989798"
+@@ -580,23 +582,25 @@ sdk_ext_postinst() {
+ 	# We don't need the log either since it succeeded
+ 	rm -f buildtools.log
  
- UPSTREAM_CHECK_URI = "http://xkbcommon.org/"
+-	# Make sure when the user sets up the environment, they also get
+-	# the buildtools-tarball tools in their path.
+-	echo ". $target_sdk_dir/buildtools/environment-setup*" >> $env_setup_script
++	for e in $env_setup_scripts; do
++		# Make sure when the user sets up the environment, they also get
++		# the buildtools-tarball tools in their path.
++		echo ". $target_sdk_dir/buildtools/environment-setup*" >> $e
++		# Allow bitbake environment setup to be ran as part of this sdk.
++		echo "export OE_SKIP_SDK_CHECK=1" >> $e
  
+-	# Allow bitbake environment setup to be ran as part of this sdk.
+-	echo "export OE_SKIP_SDK_CHECK=1" >> $env_setup_script
++		# A bit of another hack, but we need this in the path only for devtool
++		# so put it at the end of $PATH.
++		echo "export PATH=$target_sdk_dir/sysroots/${SDK_SYS}${bindir_nativesdk}:\$PATH" >> $e
+ 
+-	# A bit of another hack, but we need this in the path only for devtool
+-	# so put it at the end of $PATH.
+-	echo "export PATH=$target_sdk_dir/sysroots/${SDK_SYS}${bindir_nativesdk}:\$PATH" >> $env_setup_script
++		echo "printf 'SDK environment now set up; additionally you may now run devtool to perform development tasks.\nRun devtool --help for further details.\n'" >> $e
+ 
+-	echo "printf 'SDK environment now set up; additionally you may now run devtool to perform development tasks.\nRun devtool --help for further details.\n'" >> $env_setup_script
++		# Warn if trying to use external bitbake and the ext SDK together
++		echo "(which bitbake > /dev/null 2>&1 && \
++			echo 'WARNING: attempting to use the extensible SDK in an environment set up to run bitbake - this may lead to unexpected results. Please source this script in a new shell session instead.') || \
++			true" >> $e
++	done
+ 
+-	# Warn if trying to use external bitbake and the ext SDK together
+-	echo "(which bitbake > /dev/null 2>&1 && \
+-		echo 'WARNING: attempting to use the extensible SDK in an environment set up to run bitbake - this may lead to unexpected results. Please source this script in a new shell session instead.') || \
+-		true" >> $env_setup_script
+ 
+ 	if [ "$prepare_buildsystem" != "no" ]; then
+ 		printf "Preparing build system...\n"
+@@ -610,7 +614,9 @@ sdk_ext_postinst() {
+ 			. $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> $LOGFILE && \
+ 			python $target_sdk_dir/ext-sdk-prepare.py $LOGFILE '${SDK_INSTALL_TARGETS}'"
+ 		if [ $? -ne ]; then
+-			echo "printf 'ERROR: this SDK was not fully installed and needs reinstalling\n'" >> $env_setup_script
++			for e in $env_setup_scripts; do
++				echo "printf 'ERROR: this SDK was not fully installed and needs reinstalling\n'" >> $e
++			done
+ 			exit 1
+ 			rm $target_sdk_dir/ext-sdk-prepare.py
+ 		fi
+@@ -641,10 +647,11 @@ fakeroot python do_populate_sdk_ext() {
+ def get_ext_sdk_depends(d):
+     # Note: the deps varflag is a list not a string, so we need to specify expand=False
+     deps = d.getVarFlag('do_image_complete', 'deps', False)
+-    pn = d.getVar('PN', True)
+-    deplist = ['%s:%s' % (pn, dep) for dep in deps]
+-    for task in ['do_image_complete', 'do_rootfs', 'do_build']:
+-        deplist.extend((d.getVarFlag(task, 'depends', True) or '').split())
++    deplist = []
++    for pn in multilib_pkg_extend(d, d.getVar('BPN', True)).split():
++        deplist += ['%s:%s' % (pn, dep) for dep in deps]
++        for task in ['do_image_complete', 'do_rootfs', 'do_build']:
++            deplist.extend((d.getVarFlag(task, 'depends', True) or '').split())
+     return ' '.join(deplist)
+ 
+ python do_sdk_depends() {
 -- 
-2.7.4
-
-
+2.10.2
 
 
