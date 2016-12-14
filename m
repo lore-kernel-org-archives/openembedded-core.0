@@ -1,29 +1,38 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B738731DA
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D190A7665F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 02:34:34 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga101.fm.intel.com with ESMTP; 13 Dec 2016 18:34:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,344,1477983600"; d="scan'208";a="42251992"
-Received: from oshau-mobl1.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.185.66])
-	by fmsmga005.fm.intel.com with ESMTP; 13 Dec 2016 18:34:33 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Wed, 14 Dec 2016 15:34:30 +1300
-Message-ID: <98782592.4a1LfMpUN6@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.8.12-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <78c1e5e2-2f42-97e3-fd2b-f4f72123e6b6@windriver.com>
-References: <cover.1479363545.git.liezhi.yang@windriver.com>
-	<7337875.m9BQhVBZV7@peggleto-mobl.ger.corp.intel.com>
-	<78c1e5e2-2f42-97e3-fd2b-f4f72123e6b6@windriver.com>
+	Wed, 14 Dec 2016 02:38:38 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uBE2cc78030325
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 13 Dec 2016 18:38:38 -0800
+Received: from ALA-MBA.corp.ad.wrs.com ([169.254.3.46]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0294.000;
+	Tue, 13 Dec 2016 18:38:38 -0800
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Thread-Topic: [OE-core] [PATCH] glibc: add -fno-builtin-strlen when not
+	using -O2
+Thread-Index: AQHSVEJCz/J8Jdq2uUSIIiOk30MEh6ED7VTQgACrxYCAALvZkIAAy+WAgACcmaA=
+Date: Wed, 14 Dec 2016 02:38:37 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AA013DE4B67D@ALA-MBA.corp.ad.wrs.com>
+References: <20161212054215.20513-1-jackie.huang@windriver.com>
+	<CAMKF1sqm-YotzrkeqvvLr5MQsPNoiN6W2y_UhfYkx-dJWR66Fw@mail.gmail.com>
+	<1B858668EC6A94408DCA5225FDFA85AA013DE49043@ALA-MBA.corp.ad.wrs.com>
+	<CAJ86T=Ux+uT-PgJ+H+-i60iABaQ3iuUB8gz6iLF-+vtMycZdWw@mail.gmail.com>
+	<1B858668EC6A94408DCA5225FDFA85AA013DE4A0F6@ALA-MBA.corp.ad.wrs.com>
+	<CAJ86T=Xw9JAQDE+qPKX3T00VYHP0Kt7s47Yh3cNxzpZpc5Pp0w@mail.gmail.com>
+In-Reply-To: <CAJ86T=Xw9JAQDE+qPKX3T00VYHP0Kt7s47Yh3cNxzpZpc5Pp0w@mail.gmail.com>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.162.151]
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/8] populate_sdk_ext.bbclass: install multilib targets as populate_sdk does
+Cc: Patches and discussions about the oe-core
+	layer <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: add -fno-builtin-strlen when not using -O2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,148 +45,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Dec 2016 02:34:35 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 14 Dec 2016 02:38:39 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Wed, 14 Dec 2016 10:25:36 Robert Yang wrote:
-> After I looked into the code again, these changes are related,
-> so that I can't split them into 2, please see my comments inline.
-
-I've replied inline.
- 
-> On 12/13/2016 12:55 PM, Paul Eggleton wrote:
-> > There are a bunch of changes in here that don't relate to the multilib fix
-> > - details below.
-> > 
-> > On Wed, 16 Nov 2016 22:19:30 Robert Yang wrote:
-> >> Fixed:
-> >> MACHINE = "qemux86-64"
-> >> require conf/multilib.conf
-> >> MULTILIBS = "multilib:lib32"
-> >> DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-> >> 
-> >> $ bitbake core-image-minimal -cpopulate_sdk_ext
-> >> [snip]
-> >> Testing
-> >> /buildarea/lyang1/test_po/tmp/work/qemux86_64-poky-linux/core-image-minim
-> >> al
-> >> /1.0-r0/testsdkext//tc/environment-setup-x86-pokymllib32-linux test_cvs
-> >> (oeqa.sdk.buildcvs.BuildCvsTest) ... FAIL
-> >> [snip]
-> >> 
-> >> It was failed because no lib32 toolchains.
-> >> 
-> >> The fixes include:
-> >> * Set SDK_TARGETS correctly
-> >> * Return multilib depends in get_ext_sdk_depends()
-> >> * Write information to all environment-setup-* scripts.
-> >> 
-> >> [YOCTO #10647]
-> >> 
-> >> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> >> ---
-> >> 
-> >>  meta/classes/populate_sdk_ext.bbclass | 61
-> >> 
-> >> ++++++++++++++++++++++------------- 1 file changed, 38 insertions(+), 23
-> >> deletions(-)
-> >> 
-> >> diff --git a/meta/classes/populate_sdk_ext.bbclass
-> >> b/meta/classes/populate_sdk_ext.bbclass index 26b5ca6..ce9c40a 100644
-> >> --- a/meta/classes/populate_sdk_ext.bbclass
-> >> +++ b/meta/classes/populate_sdk_ext.bbclass
-> >> @@ -39,7 +39,7 @@ SDK_LOCAL_CONF_BLACKLIST ?= "CONF_VERSION \
-> >> 
-> >>  SDK_INHERIT_BLACKLIST ?= "buildhistory icecc"
-> >>  SDK_UPDATE_URL ?= ""
-> >> 
-> >> -SDK_TARGETS ?= "${PN}"
-> >> +SDK_TARGETS ?= "${@multilib_pkg_extend(d, d.getVar('BPN', True))}"
-> >> 
-> >>  def get_sdk_install_targets(d, images_only=False):
-> >>      sdk_install_targets = ''
-> >> 
-> >> @@ -562,38 +562,52 @@ SDK_PRE_INSTALL_COMMAND_task-populate-sdk-ext =
-> >> "${sdk_ext_preinst}" sdk_ext_postinst() {
-> >> 
-> >>  	printf "\nExtracting buildtools...\n"
-> >>  	cd $target_sdk_dir
-> >> 
-> >> -	env_setup_script="$target_sdk_dir/environment-
-> > 
-> > setup-${REAL_MULTIMACH_TARGE
-> > 
-> >> T_SYS}" 
-> >> -	printf "buildtools\ny" | ./${SDK_BUILDTOOLS_INSTALLER} >
-> >> buildtools.log || { printf 'ERROR: buildtools installation failed:\n' ;
-> >> cat buildtools.log ; echo "printf 'ERROR: this SDK was not fully
-> >> installed and needs reinstalling\n'" >> $env_setup_script ; exit 1 ; }
-> >> +	env_setup_scripts="`ls $target_sdk_dir/environment-setup-*`"
-> >> +	./${SDK_BUILDTOOLS_INSTALLER} -d buildtools -y > buildtools.log
-> >> +	if [ $? -ne 0 ]; then
-> >> +		echo 'ERROR: buildtools installation failed:'
-> >> +		cat buildtools.log
-> >> +		for e in $env_setup_scripts; do
-> >> +			echo "echo 'ERROR: this SDK was not fully installed and needs
-> >> reinstalling'" >> $e +		done
-> >> +		exit 1
-> >> +	fi
-> > 
-> > This change isn't entirely related to the multilib changes.
-> 
-> The old code only considers one env_setup_script, but there are multiple
-> ones now, so they are related.
-
-Yes, I understand that. What I meant was, you've unrolled the single line 
-*and* added handling for multiple env setup scripts - both are good changes 
-but I'd like to see them in separate patches so that it's clear what's being 
-done.
-
-> >>  		# dash which is /bin/sh on Ubuntu will not preserve the
-> >>  		# current working directory when first ran, nor will it set $1
-> >>  		when
-> >>  		# sourcing a script. That is why this has to look so ugly.
-> >>  		LOGFILE="$target_sdk_dir/preparing_build_system.log"
-> >> 
-> >> -		sh -c ". buildtools/environment-setup* > $LOGFILE && cd
-> >> $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set
-> >> $target_sdk_dir
-> >> && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >>
-> >> $LOGFILE
-> >> && python $target_sdk_dir/ext-sdk-prepare.py $LOGFILE
-> >> '${SDK_INSTALL_TARGETS}'" || { echo "printf 'ERROR: this SDK was not
-> >> fully
-> >> installed and needs reinstalling\n'" >> $env_setup_script ; exit 1 ; }
-> >> -		rm $target_sdk_dir/ext-sdk-prepare.py
-> >> +		sh -c ". buildtools/environment-setup* > $LOGFILE && cd
-> >> $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set
-> >> $target_sdk_dir
-> >> && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >>
-> >> $LOGFILE
-> >> && python $target_sdk_dir/ext-sdk-prepare.py $LOGFILE
-> >> '${SDK_INSTALL_TARGETS}'" +		if [ $? -ne 0 ]; then
-> >> +			for e in $env_setup_scripts; do
-> >> +				echo "echo 'ERROR: this SDK was not fully installed and
-> >> needs reinstalling'" >> $e +			done
-> >> +			exit 1
-> >> +		fi
-> >> +		rm -f $target_sdk_dir/ext-sdk-prepare.py
-> > 
-> > That last line is also unrelated.
-> 
-> The old code only considers one env_setup_script, but there are multiple
-> ones now, so they are related.
-
-Specifically in the last line you are doing rm -f. That is a change from rm 
-previously. Again, there's nothing wrong with that, but it's not related to 
-the multilib handling.
-
-Thanks,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQW5kcmUgTWNDdXJkeSBb
+bWFpbHRvOmFybWNjdXJkeUBnbWFpbC5jb21dDQo+IFNlbnQ6IFR1ZXNkYXksIERlY2VtYmVyIDEz
+LCAyMDE2IDU6MTcgUE0NCj4gVG86IEh1YW5nLCBKaWUgKEphY2tpZSkNCj4gQ2M6IEtoZW0gUmFq
+OyBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllcg0KPiBTdWJq
+ZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gZ2xpYmM6IGFkZCAtZm5vLWJ1aWx0aW4tc3RybGVu
+IHdoZW4gbm90IHVzaW5nIC1PMg0KPiANCj4gT24gTW9uLCBEZWMgMTIsIDIwMTYgYXQgOToxNCBQ
+TSwgSHVhbmcsIEppZSAoSmFja2llKQ0KPiA8SmFja2llLkh1YW5nQHdpbmRyaXZlci5jb20+IHdy
+b3RlOg0KPiA+PiBGcm9tOiBBbmRyZSBNY0N1cmR5IFttYWlsdG86YXJtY2N1cmR5QGdtYWlsLmNv
+bV0NCj4gPj4gRm9yIHJlZmVyZW5jZSwgaGVyZSdzIHRoZSBwYXRjaCBJJ3ZlIGJlZW4gdXNpbmcu
+IEl0J3MgYSBzbGlnaHRseSBtb3JlDQo+ID4+IGdlbmVyaWMgZml4IHRoYW4gdGhlIG9uZSBpbiB0
+aGUgS0RFIGJ1ZyByZXBvcnQuDQo+ID4NCj4gPiBUaGFua3MsIEl0J3MgYSBiZXR0ZXIgcGF0Y2gg
+YW5kIEkgd2lsbCB0YWtlIGl0IGFuZCBzZW5kIGFzIHYyIG9mIHRoaXMgaXNzdWUgaWYgeW91J3Jl
+DQo+ID4gbm90IGdvaW5nIHRvIHNlbmQgaXQgeW91cnNlbGYsIGlzIGl0IGZpbmUgZm9yIHlvdSBh
+bmQgY291bGQgeW91IHByb3ZpZGUgZXh0cmEgaW5mbw0KPiA+IGZvciB0aGUgcGF0Y2ggaGVhZGVy
+IGxpa2UsIHVwc3RyZWFtLXN0YXR1cywgd3JpdHRlbiBieSBvciBTaWduZWQtb2ZmLWJ5Pw0KPiAN
+Cj4gU3VyZS4gSSBmb3JnZXQgd2h5IEkgZGlkbid0IHN1Ym1pdCB0aGlzIGF0IHRoZSB0aW1lLiBU
+aGUgZnVsbCBwYXRjaCBpczoNCg0KVGhhbmtzLCBJIHJlYmFzZWQgdGhlIHBhdGNoIHNpbmNlIHZh
+bGdyaW5kIHVwZGF0ZWQgIGFuZCBzZW50IHYyIGZvciB0aGlzIGlzc3VlOg0KDQpbT0UtY29yZV0g
+W3YyXVtQQVRDSF0gdmFsZ3JpbmQ6IG1ha2UgbGQtWFhYLnNvIHN0cmxlbiBpbnRlcmNlcHQgb3B0
+aW9uYWwNCg0KVGhhbmtzLA0KSmFja2llDQoNCg0KPiANCj4gRnJvbSBkMzRlMmE1MGNhNTQ5M2Y1
+YTBjZTljY2FkODNhMzZhYzMzNjg5MjY2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQ0KPiBGcm9t
+OiBBbmRyZSBNY0N1cmR5IDxhcm1jY3VyZHlAZ21haWwuY29tPg0KPiBEYXRlOiBGcmksIDEyIEZl
+YiAyMDE2IDE4OjIyOjEyIC0wODAwDQo+IFN1YmplY3Q6IFtQQVRDSF0gbWFrZSBsZC1YWFguc28g
+c3RybGVuIGludGVyY2VwdCBvcHRpb25hbA0KPiANCj4gSGFjazogRGVwZW5kaW5nIG9uIGhvdyBn
+bGliYyB3YXMgY29tcGlsZWQgKGUuZy4gb3B0aW1pc2VkIGZvciBzaXplIG9yDQo+IGJ1aWx0IHdp
+dGggX0ZPUlRJRllfU09VUkNFIGVuYWJsZWQpIHRoZSBzdHJsZW4gc3ltYm9sIG1pZ2h0IG5vdCBi
+ZQ0KPiBmb3VuZCBpbiBsZC1YWFguc28uIFRoZXJlZm9yZSBhbHRob3VnaCB3ZSBzaG91bGQgc3Rp
+bGwgdHJ5IHRvDQo+IGludGVyY2VwdCBpdCwgZG9uJ3QgbWFrZSBpdCBtYW5kYXRvcnkgdG8gZG8g
+c28uDQo+IA0KPiBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUNCj4gDQo+IFNpZ25lZC1v
+ZmYtYnk6IEFuZHJlIE1jQ3VyZHkgPGFybWNjdXJkeUBnbWFpbC5jb20+DQo+IC0tLQ0KPiAgY29y
+ZWdyaW5kL21fcmVkaXIuYyB8IDEzICsrKysrKysrKysrKy0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAx
+MiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvY29yZWdy
+aW5kL21fcmVkaXIuYyBiL2NvcmVncmluZC9tX3JlZGlyLmMNCj4gaW5kZXggN2U0ZGY4ZC4uNjQw
+YTM0NiAxMDA2NDQNCj4gLS0tIGEvY29yZWdyaW5kL21fcmVkaXIuYw0KPiArKysgYi9jb3JlZ3Jp
+bmQvbV9yZWRpci5jDQo+IEBAIC0xMjIwLDcgKzEyMjAsMTggQEAgc3RhdGljIHZvaWQgYWRkX2hh
+cmR3aXJlZF9zcGVjIChjb25zdCAgSENoYXIqDQo+IHNvcGF0dCwgY29uc3QgSENoYXIqIGZucGF0
+dCwNCj4gICAgIHNwZWMtPmZyb21fZm5wYXR0ID0gQ09OU1RfQ0FTVChIQ2hhciAqLGZucGF0dCk7
+DQo+ICAgICBzcGVjLT50b19hZGRyICAgICA9IHRvX2FkZHI7DQo+ICAgICBzcGVjLT5pc1dyYXAg
+ICAgICA9IEZhbHNlOw0KPiAtICAgc3BlYy0+bWFuZGF0b3J5ICAgPSBtYW5kYXRvcnk7DQo+ICsN
+Cj4gKyAgIC8qIEhhY2s6IERlcGVuZGluZyBvbiBob3cgZ2xpYmMgd2FzIGNvbXBpbGVkIChlLmcu
+IG9wdGltaXNlZCBmb3Igc2l6ZSBvcg0KPiArICAgICAgYnVpbHQgd2l0aCBfRk9SVElGWV9TT1VS
+Q0UgZW5hYmxlZCkgdGhlIHN0cmxlbiBzeW1ib2wgbWlnaHQgbm90IGJlIGZvdW5kLg0KPiArICAg
+ICAgVGhlcmVmb3JlIGFsdGhvdWdoIHdlIHNob3VsZCBzdGlsbCB0cnkgdG8gaW50ZXJjZXB0IGl0
+LCBkb24ndCBtYWtlIGl0DQo+ICsgICAgICBtYW5kYXRvcnkgdG8gZG8gc28uIFdlIG92ZXItcmlk
+ZSAibWFuZGF0b3J5IiBoZXJlIHRvIGF2b2lkIHRoZSBuZWVkIHRvDQo+ICsgICAgICBwYXRjaCB0
+aGUgbWFueSBkaWZmZXJlbnQgYXJjaGl0ZWN0dXJlIHNwZWNpZmljIGNhbGxlcnMgdG8NCj4gKyAg
+ICAgIGFkZF9oYXJkd2lyZWRfc3BlYygpLiAqLw0KPiArICAgaWYgKDA9PVZHXyhzdHJjbXApKCJz
+dHJsZW4iLCBmbnBhdHQpKQ0KPiArICAgICAgc3BlYy0+bWFuZGF0b3J5ID0gTlVMTDsNCj4gKyAg
+IGVsc2UNCj4gKyAgICAgIHNwZWMtPm1hbmRhdG9yeSA9IG1hbmRhdG9yeTsNCj4gKw0KPiAgICAg
+LyogVkFSSUFCTEUgUEFSVFMgKi8NCj4gICAgIHNwZWMtPm1hcmsgICAgICAgID0gRmFsc2U7IC8q
+IG5vdCBzaWduaWZpY2FudCAqLw0KPiAgICAgc3BlYy0+ZG9uZSAgICAgICAgPSBGYWxzZTsgLyog
+bm90IHNpZ25pZmljYW50ICovDQo+IC0tDQo+IDEuOS4xDQo=
 
