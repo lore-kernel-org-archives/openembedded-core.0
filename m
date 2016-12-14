@@ -1,38 +1,30 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D190A7665F
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E5C671C9F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 02:38:38 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uBE2cc78030325
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 13 Dec 2016 18:38:38 -0800
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.3.46]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0294.000;
-	Tue, 13 Dec 2016 18:38:38 -0800
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Thread-Topic: [OE-core] [PATCH] glibc: add -fno-builtin-strlen when not
-	using -O2
-Thread-Index: AQHSVEJCz/J8Jdq2uUSIIiOk30MEh6ED7VTQgACrxYCAALvZkIAAy+WAgACcmaA=
-Date: Wed, 14 Dec 2016 02:38:37 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA013DE4B67D@ALA-MBA.corp.ad.wrs.com>
-References: <20161212054215.20513-1-jackie.huang@windriver.com>
-	<CAMKF1sqm-YotzrkeqvvLr5MQsPNoiN6W2y_UhfYkx-dJWR66Fw@mail.gmail.com>
-	<1B858668EC6A94408DCA5225FDFA85AA013DE49043@ALA-MBA.corp.ad.wrs.com>
-	<CAJ86T=Ux+uT-PgJ+H+-i60iABaQ3iuUB8gz6iLF-+vtMycZdWw@mail.gmail.com>
-	<1B858668EC6A94408DCA5225FDFA85AA013DE4A0F6@ALA-MBA.corp.ad.wrs.com>
-	<CAJ86T=Xw9JAQDE+qPKX3T00VYHP0Kt7s47Yh3cNxzpZpc5Pp0w@mail.gmail.com>
-In-Reply-To: <CAJ86T=Xw9JAQDE+qPKX3T00VYHP0Kt7s47Yh3cNxzpZpc5Pp0w@mail.gmail.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.151]
+	Wed, 14 Dec 2016 03:34:53 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="13896743"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 14 Dec 2016 11:34:34 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id C52D3477B1C4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Dec 2016 11:34:31 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.81) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Wed, 14 Dec 2016 11:34:32 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 14 Dec 2016 03:34:09 -0800
+Message-ID: <1481715249-1985-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core
-	layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc: add -fno-builtin-strlen when not using -O2
+X-Originating-IP: [10.167.226.81]
+X-yoursite-MailScanner-ID: C52D3477B1C4.A6B0E
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] libxkbcommon: 0.6.1 -> 0.7.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,61 +37,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Dec 2016 02:38:39 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 14 Dec 2016 03:34:54 -0000
+Content-Type: text/plain
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQW5kcmUgTWNDdXJkeSBb
-bWFpbHRvOmFybWNjdXJkeUBnbWFpbC5jb21dDQo+IFNlbnQ6IFR1ZXNkYXksIERlY2VtYmVyIDEz
-LCAyMDE2IDU6MTcgUE0NCj4gVG86IEh1YW5nLCBKaWUgKEphY2tpZSkNCj4gQ2M6IEtoZW0gUmFq
-OyBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllcg0KPiBTdWJq
-ZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gZ2xpYmM6IGFkZCAtZm5vLWJ1aWx0aW4tc3RybGVu
-IHdoZW4gbm90IHVzaW5nIC1PMg0KPiANCj4gT24gTW9uLCBEZWMgMTIsIDIwMTYgYXQgOToxNCBQ
-TSwgSHVhbmcsIEppZSAoSmFja2llKQ0KPiA8SmFja2llLkh1YW5nQHdpbmRyaXZlci5jb20+IHdy
-b3RlOg0KPiA+PiBGcm9tOiBBbmRyZSBNY0N1cmR5IFttYWlsdG86YXJtY2N1cmR5QGdtYWlsLmNv
-bV0NCj4gPj4gRm9yIHJlZmVyZW5jZSwgaGVyZSdzIHRoZSBwYXRjaCBJJ3ZlIGJlZW4gdXNpbmcu
-IEl0J3MgYSBzbGlnaHRseSBtb3JlDQo+ID4+IGdlbmVyaWMgZml4IHRoYW4gdGhlIG9uZSBpbiB0
-aGUgS0RFIGJ1ZyByZXBvcnQuDQo+ID4NCj4gPiBUaGFua3MsIEl0J3MgYSBiZXR0ZXIgcGF0Y2gg
-YW5kIEkgd2lsbCB0YWtlIGl0IGFuZCBzZW5kIGFzIHYyIG9mIHRoaXMgaXNzdWUgaWYgeW91J3Jl
-DQo+ID4gbm90IGdvaW5nIHRvIHNlbmQgaXQgeW91cnNlbGYsIGlzIGl0IGZpbmUgZm9yIHlvdSBh
-bmQgY291bGQgeW91IHByb3ZpZGUgZXh0cmEgaW5mbw0KPiA+IGZvciB0aGUgcGF0Y2ggaGVhZGVy
-IGxpa2UsIHVwc3RyZWFtLXN0YXR1cywgd3JpdHRlbiBieSBvciBTaWduZWQtb2ZmLWJ5Pw0KPiAN
-Cj4gU3VyZS4gSSBmb3JnZXQgd2h5IEkgZGlkbid0IHN1Ym1pdCB0aGlzIGF0IHRoZSB0aW1lLiBU
-aGUgZnVsbCBwYXRjaCBpczoNCg0KVGhhbmtzLCBJIHJlYmFzZWQgdGhlIHBhdGNoIHNpbmNlIHZh
-bGdyaW5kIHVwZGF0ZWQgIGFuZCBzZW50IHYyIGZvciB0aGlzIGlzc3VlOg0KDQpbT0UtY29yZV0g
-W3YyXVtQQVRDSF0gdmFsZ3JpbmQ6IG1ha2UgbGQtWFhYLnNvIHN0cmxlbiBpbnRlcmNlcHQgb3B0
-aW9uYWwNCg0KVGhhbmtzLA0KSmFja2llDQoNCg0KPiANCj4gRnJvbSBkMzRlMmE1MGNhNTQ5M2Y1
-YTBjZTljY2FkODNhMzZhYzMzNjg5MjY2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQ0KPiBGcm9t
-OiBBbmRyZSBNY0N1cmR5IDxhcm1jY3VyZHlAZ21haWwuY29tPg0KPiBEYXRlOiBGcmksIDEyIEZl
-YiAyMDE2IDE4OjIyOjEyIC0wODAwDQo+IFN1YmplY3Q6IFtQQVRDSF0gbWFrZSBsZC1YWFguc28g
-c3RybGVuIGludGVyY2VwdCBvcHRpb25hbA0KPiANCj4gSGFjazogRGVwZW5kaW5nIG9uIGhvdyBn
-bGliYyB3YXMgY29tcGlsZWQgKGUuZy4gb3B0aW1pc2VkIGZvciBzaXplIG9yDQo+IGJ1aWx0IHdp
-dGggX0ZPUlRJRllfU09VUkNFIGVuYWJsZWQpIHRoZSBzdHJsZW4gc3ltYm9sIG1pZ2h0IG5vdCBi
-ZQ0KPiBmb3VuZCBpbiBsZC1YWFguc28uIFRoZXJlZm9yZSBhbHRob3VnaCB3ZSBzaG91bGQgc3Rp
-bGwgdHJ5IHRvDQo+IGludGVyY2VwdCBpdCwgZG9uJ3QgbWFrZSBpdCBtYW5kYXRvcnkgdG8gZG8g
-c28uDQo+IA0KPiBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUNCj4gDQo+IFNpZ25lZC1v
-ZmYtYnk6IEFuZHJlIE1jQ3VyZHkgPGFybWNjdXJkeUBnbWFpbC5jb20+DQo+IC0tLQ0KPiAgY29y
-ZWdyaW5kL21fcmVkaXIuYyB8IDEzICsrKysrKysrKysrKy0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAx
-MiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvY29yZWdy
-aW5kL21fcmVkaXIuYyBiL2NvcmVncmluZC9tX3JlZGlyLmMNCj4gaW5kZXggN2U0ZGY4ZC4uNjQw
-YTM0NiAxMDA2NDQNCj4gLS0tIGEvY29yZWdyaW5kL21fcmVkaXIuYw0KPiArKysgYi9jb3JlZ3Jp
-bmQvbV9yZWRpci5jDQo+IEBAIC0xMjIwLDcgKzEyMjAsMTggQEAgc3RhdGljIHZvaWQgYWRkX2hh
-cmR3aXJlZF9zcGVjIChjb25zdCAgSENoYXIqDQo+IHNvcGF0dCwgY29uc3QgSENoYXIqIGZucGF0
-dCwNCj4gICAgIHNwZWMtPmZyb21fZm5wYXR0ID0gQ09OU1RfQ0FTVChIQ2hhciAqLGZucGF0dCk7
-DQo+ICAgICBzcGVjLT50b19hZGRyICAgICA9IHRvX2FkZHI7DQo+ICAgICBzcGVjLT5pc1dyYXAg
-ICAgICA9IEZhbHNlOw0KPiAtICAgc3BlYy0+bWFuZGF0b3J5ICAgPSBtYW5kYXRvcnk7DQo+ICsN
-Cj4gKyAgIC8qIEhhY2s6IERlcGVuZGluZyBvbiBob3cgZ2xpYmMgd2FzIGNvbXBpbGVkIChlLmcu
-IG9wdGltaXNlZCBmb3Igc2l6ZSBvcg0KPiArICAgICAgYnVpbHQgd2l0aCBfRk9SVElGWV9TT1VS
-Q0UgZW5hYmxlZCkgdGhlIHN0cmxlbiBzeW1ib2wgbWlnaHQgbm90IGJlIGZvdW5kLg0KPiArICAg
-ICAgVGhlcmVmb3JlIGFsdGhvdWdoIHdlIHNob3VsZCBzdGlsbCB0cnkgdG8gaW50ZXJjZXB0IGl0
-LCBkb24ndCBtYWtlIGl0DQo+ICsgICAgICBtYW5kYXRvcnkgdG8gZG8gc28uIFdlIG92ZXItcmlk
-ZSAibWFuZGF0b3J5IiBoZXJlIHRvIGF2b2lkIHRoZSBuZWVkIHRvDQo+ICsgICAgICBwYXRjaCB0
-aGUgbWFueSBkaWZmZXJlbnQgYXJjaGl0ZWN0dXJlIHNwZWNpZmljIGNhbGxlcnMgdG8NCj4gKyAg
-ICAgIGFkZF9oYXJkd2lyZWRfc3BlYygpLiAqLw0KPiArICAgaWYgKDA9PVZHXyhzdHJjbXApKCJz
-dHJsZW4iLCBmbnBhdHQpKQ0KPiArICAgICAgc3BlYy0+bWFuZGF0b3J5ID0gTlVMTDsNCj4gKyAg
-IGVsc2UNCj4gKyAgICAgIHNwZWMtPm1hbmRhdG9yeSA9IG1hbmRhdG9yeTsNCj4gKw0KPiAgICAg
-LyogVkFSSUFCTEUgUEFSVFMgKi8NCj4gICAgIHNwZWMtPm1hcmsgICAgICAgID0gRmFsc2U7IC8q
-IG5vdCBzaWduaWZpY2FudCAqLw0KPiAgICAgc3BlYy0+ZG9uZSAgICAgICAgPSBGYWxzZTsgLyog
-bm90IHNpZ25pZmljYW50ICovDQo+IC0tDQo+IDEuOS4xDQo=
+1)Upgrade libxkbcommon from 0.6.1 to 0.7.0.
+2)License checksum changes are not related to license changes.
+
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+---
+ .../xorg-lib/{libxkbcommon_0.6.1.bb => libxkbcommon_0.7.0.bb}       | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxkbcommon_0.6.1.bb => libxkbcommon_0.7.0.bb} (74%)
+
+diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_0.6.1.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_0.7.0.bb
+similarity index 74%
+rename from meta/recipes-graphics/xorg-lib/libxkbcommon_0.6.1.bb
+rename to meta/recipes-graphics/xorg-lib/libxkbcommon_0.7.0.bb
+index fc08109..a6836d8 100644
+--- a/meta/recipes-graphics/xorg-lib/libxkbcommon_0.6.1.bb
++++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_0.7.0.bb
+@@ -2,15 +2,15 @@ SUMMARY = "Generic XKB keymap library"
+ DESCRIPTION = "libxkbcommon is a keymap compiler and support library which \
+ processes a reduced subset of keymaps as defined by the XKB specification."
+ HOMEPAGE = "http://www.xkbcommon.org"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=09457b156e3155972abebcaaaa0cb434"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=e525ed9809e1f8a07cf4bce8b09e8b87"
+ LICENSE = "MIT & MIT-style"
+ 
+ DEPENDS = "util-macros flex-native bison-native"
+ 
+ SRC_URI = "http://xkbcommon.org/download/${BPN}-${PV}.tar.xz"
+ 
+-SRC_URI[md5sum] = "67a8f322b5fa32352272e811bb90dd73"
+-SRC_URI[sha256sum] = "5b0887b080b42169096a61106661f8d35bae783f8b6c58f97ebcd3af83ea8760"
++SRC_URI[md5sum] = "61ba550fc529ea4d6f9faa2cad62c95f"
++SRC_URI[sha256sum] = "09351592312d67b438655f54da5b67853026662c4a57e6be4d225f04a9989798"
+ 
+ UPSTREAM_CHECK_URI = "http://xkbcommon.org/"
+ 
+-- 
+2.7.4
+
+
+
 
