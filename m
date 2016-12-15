@@ -1,46 +1,44 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
-	[209.85.213.68])
-	by mail.openembedded.org (Postfix) with ESMTP id B4A5F77218
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 24B5477200
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 23:38:55 +0000 (UTC)
-Received: by mail-vk0-f68.google.com with SMTP id p9so5849510vkd.1
+	Thu, 15 Dec 2016 00:06:14 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id p66so3968815pga.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 15:38:57 -0800 (PST)
+	Wed, 14 Dec 2016 16:06:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Mw9v0A3fkTADRVIYZCFugT8uReQO3ewfhZMPGw2FTMo=;
-	b=HeX+Lp+477LO8ob9m3lAvUjm2kUabF56LiUUgYkKpwD+8I3y79rL4aSUdqYq9Q0+66
-	bFHE8g/sNg9LtkSdXb+N83AWH3F//wLrnnZpa1hw1qvYZLsH/ovmzRBjU6cw9XTa2AYL
-	NdsSmdpVre6F2cv1/ihNurlY8EV+80q5tATNmhEkoIB4nkn/3VsZI2hfPhtgNIPz0dlw
-	Be3XsBTDe7XwZHw3ZM0McGtZauXaGirod4VQPhVRaBgS0EmzkX56eOZfh4oOwygn5+dw
-	BwcIqj5t8hxD8LcuqIbTn0Tj/fTbaX5ugCC89c1rg/kScA9AYUewKIgeM/tuHrMPneRL
-	YjnA==
+	h=from:to:cc:subject:date:message-id;
+	bh=QqRT986KB6wosNHTorzV5stOVkC9cDstx2RNMG8mClY=;
+	b=SS3hrZn4jOpfb50EAKiCc9lEbD9KWCoDi/1SbhZQVzoOxrqgBfbTSawWIyPqdCxTax
+	wmW7tRlyi+D0zE0MRa56D3f5/e0bZpcdYe0/hv0qqIHtdciZDRTABtX/ozka/VBHtXs4
+	qRpUcDTdMEvr35xVl6RE+rllXqmWnDZjC7VcEJWCVZx80BNsjgkdLy3DVdc9yFQM0cSh
+	R2TrkjuYoQS1+exZMHjJa7wowGFNgxUJTiLoZiwen/w1V5XVf82B97QnmfLm9eXg8LsZ
+	NziQ8XFJZOXU4TeF2juqalBCADlHvN2cO9c7TMty95denEnKbKPNQNhZ5WxyoFdcwQsE
+	i8zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Mw9v0A3fkTADRVIYZCFugT8uReQO3ewfhZMPGw2FTMo=;
-	b=sspklKJ+CzMfloUwnlkUITW9mSPVFqFVsgYbkLbklxfWniBqkBh0turCT9m+skSKFT
-	V7bHPjK1C7pLS3ckLv8vYr0fk59pAqer1y0SuVjA3Flw8VN1Tn/B9dEePe2+JXEqHOQK
-	LVRMgkl5bWQGFHWecTBSS0vnRNmoDZjMO9tNR42LBRB5Q476kFK6n7JZvbM4X86qasyi
-	EEJMOXfLNlenYJRpkfAm1jJgBQHYrhxHzUTL6+Xg1Wzu3rLMTwShsz2ZJv65EJkm5LAf
-	yLNZv2H2oBu4zCMei4IDVi7lSKzSkzI0OldNkwu8w5shsGb94MKe1D/ZGLVceS3J7gDT
-	2x4g==
-X-Gm-Message-State: AKaTC03FcFfwUMjtnZIyLr6gU7MZKpg5D9kQ23A8lxJ4k6VLPuV/lJ6+yLYZ/ReS0ohXrbk/C4MlS18yVABjBg==
-X-Received: by 10.159.48.146 with SMTP id j18mr91135554uab.6.1481758737222;
-	Wed, 14 Dec 2016 15:38:57 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.159.48.87 with HTTP; Wed, 14 Dec 2016 15:38:26 -0800 (PST)
-In-Reply-To: <1481751480.3851.14.camel@pbcl.net>
-References: <1481751480.3851.14.camel@pbcl.net>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=QqRT986KB6wosNHTorzV5stOVkC9cDstx2RNMG8mClY=;
+	b=eObCD9uuIiBY6qS+93QxOBDAznAEFcEZftVv/kK+YgjIpgeY3JVAavHsQO6Dh3iayL
+	PfRXjvUqHuxmSWVaVzYS+LYLwZAxB4RJYlcsljm9YCG74WvwBvUfayi05kupF/e66iei
+	A7ZMS2pyC2cJaiz5CGrHcJD2RhsTR9ALuHFF5aCkA7OEeehgUvAWbjbJXzgXqWGAnWci
+	o1f1x55Ahmcx210TUyyudSSvOfYRgjeBVprgrUnWWiqsfHHqTh7qffx2Iv3X7P/lob6U
+	JnLLJdO21mXxq4uFNcD2disMFflUl+7zmoJ8ecVilnmJ53d2+/WIW9b/IxbYj44R3+d+
+	rvTA==
+X-Gm-Message-State: AKaTC01Ro4BmLLKu7aTtVMBzR7pC5/gwqrM/CiPEQSMC9HfNZUriw/ROv3kh3VpevvI9ag==
+X-Received: by 10.99.245.21 with SMTP id w21mr193209082pgh.5.1481760375869;
+	Wed, 14 Dec 2016 16:06:15 -0800 (PST)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	x90sm89734383pfk.73.2016.12.14.16.06.15
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 14 Dec 2016 16:06:15 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 14 Dec 2016 15:38:26 -0800
-Message-ID: <CAMKF1sq--mXBzTh+xc+gZb9L9wNugK8izZ-MMrYJyKKKdR9aOg@mail.gmail.com>
-To: Phil Blundell <pb@pbcl.net>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lttng-ust: Patch python shebang appropriately for native builds
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 Dec 2016 16:06:08 -0800
+Message-Id: <20161215000608.14821-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.10.2
+Subject: [PATCH V2] fontconfig: Fix namespace conflicts with glibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,47 +51,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Dec 2016 23:38:57 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 15 Dec 2016 00:06:15 -0000
 
-On Wed, Dec 14, 2016 at 1:38 PM, Phil Blundell <pb@pbcl.net> wrote:
-> If we are building a native package then ${bindir}/python3 is not guaranteed
-> to be available, and if it is available then it is probably a directory not a
-> file.  In either case, attempting to use it as an interpreter will not end
-> well.  Let's use ${bindir}/nativepython instead.
->
-> Signed-off-by: Phil Blundell <philb@gnu.org>
-> ---
->  meta/recipes-kernel/lttng/lttng-ust_git.bb | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-kernel/lttng/lttng-ust_git.bb b/meta/recipes-kernel/lttng/lttng-ust_git.bb
-> index 5869093..df22352 100644
-> --- a/meta/recipes-kernel/lttng/lttng-ust_git.bb
-> +++ b/meta/recipes-kernel/lttng/lttng-ust_git.bb
-> @@ -29,10 +29,12 @@ SRC_URI = "git://git.lttng.org/lttng-ust.git;branch=stable-2.7 \
->
->  PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages, asciidoc-native xmlto-native libxslt-native"
->
-> +usepython="${bindir}/python3"
-> +usepython_class-native="${bindir}/nativepython"
->  do_install_append() {
->          # Patch python tools to use Python 3; they should be source compatible, but
->          # still refer to Python 2 in the shebang
-> -        sed -i -e '1s,#!.*python.*,#!${bindir}/python3,' ${D}${bindir}/lttng-gen-tp
-> +        sed -i -e '1s,#!.*python.*,#!${usepython},' ${D}${bindir}/lttng-gen-tp
+glibc 2.25 will come with TS 18661-1 macro definitions in limits.h which ends with following errors
 
-This also means we need to add a dependency on python-native may be it
-should inherit the python native class.
+| ../../fontconfig-2.12.1/src/fcmatch.c:324:63: error: 'PRI_CHAR_WIDTH_STRONG' undeclared here (not in a function)
+|  #define FC_OBJECT(NAME, Type, Cmp) { FC_##NAME##_OBJECT, Cmp, PRI_##NAME##_STRONG, PRI_##NAME##_WEAK },
+|                                                                ^
+| ../../fontconfig-2.12.1/src/fcobjs.h:54:1: note: in expansion of macro 'FC_OBJECT'
+|  FC_OBJECT (CHAR_WIDTH,  FcTypeInteger, NULL)
+|  ^~~~~~~~~
+| ../../fontconfig-2.12.1/src/fcmatch.c:324:84: error: 'PRI_CHAR_WIDTH_WEAK' undeclared here (not in a function)
+|  #define FC_OBJECT(NAME, Type, Cmp) { FC_##NAME##_OBJECT, Cmp, PRI_##NAME##_STRONG, PRI_##NAME##_WEAK },
+|                                                                                     ^
+| ../../fontconfig-2.12.1/src/fcobjs.h:54:1: note: in expansion of macro 'FC_OBJECT'
+|  FC_OBJECT (CHAR_WIDTH,  FcTypeInteger, NULL)
+|  ^~~~~~~~~
+| make[3]: *** [Makefile:632: fcmatch.lo] Error 1
 
->  }
->
->  S = "${WORKDIR}/git"
-> --
-> 2.10.1
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...icts-with-integer-width-macros-from-TS-18.patch | 72 ++++++++++++++++++++++
+ .../fontconfig/fontconfig_2.12.1.bb                |  1 +
+ 2 files changed, 73 insertions(+)
+ create mode 100644 meta/recipes-graphics/fontconfig/fontconfig/0001-Avoid-conflicts-with-integer-width-macros-from-TS-18.patch
+
+diff --git a/meta/recipes-graphics/fontconfig/fontconfig/0001-Avoid-conflicts-with-integer-width-macros-from-TS-18.patch b/meta/recipes-graphics/fontconfig/fontconfig/0001-Avoid-conflicts-with-integer-width-macros-from-TS-18.patch
+new file mode 100644
+index 0000000..cad7170
+--- /dev/null
++++ b/meta/recipes-graphics/fontconfig/fontconfig/0001-Avoid-conflicts-with-integer-width-macros-from-TS-18.patch
+@@ -0,0 +1,72 @@
++From 20cddc824c6501c2082cac41b162c34cd5fcc530 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sun, 11 Dec 2016 14:32:00 -0800
++Subject: [PATCH] Avoid conflicts with integer width macros from TS
++ 18661-1:2014
++
++glibc 2.25+ has now defined these macros in <limits.h>
++https://sourceware.org/git/?p=glibc.git;a=commit;h=5b17fd0da62bf923cb61d1bb7b08cf2e1f1f9c1a
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Submitted
++
++ fontconfig/fontconfig.h | 2 +-
++ src/fcobjs.h            | 2 +-
++ src/fcobjshash.gperf    | 2 +-
++ src/fcobjshash.h        | 2 +-
++ 4 files changed, 4 insertions(+), 4 deletions(-)
++
++Index: fontconfig-2.12.1/fontconfig/fontconfig.h
++===================================================================
++--- fontconfig-2.12.1.orig/fontconfig/fontconfig.h
+++++ fontconfig-2.12.1/fontconfig/fontconfig.h
++@@ -128,7 +128,8 @@ typedef int		FcBool;
++ #define FC_USER_CACHE_FILE	    ".fonts.cache-" FC_CACHE_VERSION
++ 
++ /* Adjust outline rasterizer */
++-#define FC_CHAR_WIDTH	    "charwidth"	/* Int */
+++#define FC_CHARWIDTH	    "charwidth"	/* Int */
+++#define FC_CHAR_WIDTH	    FC_CHARWIDTH
++ #define FC_CHAR_HEIGHT	    "charheight"/* Int */
++ #define FC_MATRIX	    "matrix"    /* FcMatrix */
++ 
++Index: fontconfig-2.12.1/src/fcobjs.h
++===================================================================
++--- fontconfig-2.12.1.orig/src/fcobjs.h
+++++ fontconfig-2.12.1/src/fcobjs.h
++@@ -51,7 +51,7 @@ FC_OBJECT (DPI,			FcTypeDouble,	NULL)
++ FC_OBJECT (RGBA,		FcTypeInteger,	NULL)
++ FC_OBJECT (SCALE,		FcTypeDouble,	NULL)
++ FC_OBJECT (MINSPACE,		FcTypeBool,	NULL)
++-FC_OBJECT (CHAR_WIDTH,		FcTypeInteger,	NULL)
+++FC_OBJECT (CHARWIDTH,		FcTypeInteger,	NULL)
++ FC_OBJECT (CHAR_HEIGHT,		FcTypeInteger,	NULL)
++ FC_OBJECT (MATRIX,		FcTypeMatrix,	NULL)
++ FC_OBJECT (CHARSET,		FcTypeCharSet,	FcCompareCharSet)
++Index: fontconfig-2.12.1/src/fcobjshash.gperf
++===================================================================
++--- fontconfig-2.12.1.orig/src/fcobjshash.gperf
+++++ fontconfig-2.12.1/src/fcobjshash.gperf
++@@ -44,7 +44,7 @@ int id;
++ "rgba",FC_RGBA_OBJECT
++ "scale",FC_SCALE_OBJECT
++ "minspace",FC_MINSPACE_OBJECT
++-"charwidth",FC_CHAR_WIDTH_OBJECT
+++"charwidth",FC_CHARWIDTH_OBJECT
++ "charheight",FC_CHAR_HEIGHT_OBJECT
++ "matrix",FC_MATRIX_OBJECT
++ "charset",FC_CHARSET_OBJECT
++Index: fontconfig-2.12.1/src/fcobjshash.h
++===================================================================
++--- fontconfig-2.12.1.orig/src/fcobjshash.h
+++++ fontconfig-2.12.1/src/fcobjshash.h
++@@ -284,7 +284,7 @@ FcObjectTypeLookup (register const char
++       {(int)(long)&((struct FcObjectTypeNamePool_t *)0)->FcObjectTypeNamePool_str43,FC_CHARSET_OBJECT},
++       {-1},
++ #line 47 "fcobjshash.gperf"
++-      {(int)(long)&((struct FcObjectTypeNamePool_t *)0)->FcObjectTypeNamePool_str45,FC_CHAR_WIDTH_OBJECT},
+++      {(int)(long)&((struct FcObjectTypeNamePool_t *)0)->FcObjectTypeNamePool_str45,FC_CHARWIDTH_OBJECT},
++ #line 48 "fcobjshash.gperf"
++       {(int)(long)&((struct FcObjectTypeNamePool_t *)0)->FcObjectTypeNamePool_str46,FC_CHAR_HEIGHT_OBJECT},
++ #line 55 "fcobjshash.gperf"
+diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.12.1.bb b/meta/recipes-graphics/fontconfig/fontconfig_2.12.1.bb
+index 115f558..8616154 100644
+--- a/meta/recipes-graphics/fontconfig/fontconfig_2.12.1.bb
++++ b/meta/recipes-graphics/fontconfig/fontconfig_2.12.1.bb
+@@ -22,6 +22,7 @@ DEPENDS = "expat freetype zlib"
+ 
+ SRC_URI = "http://fontconfig.org/release/fontconfig-${PV}.tar.gz \
+            file://revert-static-pkgconfig.patch \
++           file://0001-Avoid-conflicts-with-integer-width-macros-from-TS-18.patch \
+            "
+ SRC_URI[md5sum] = "ce55e525c37147eee14cc2de6cc09f6c"
+ SRC_URI[sha256sum] = "a9f42d03949f948a3a4f762287dbc16e53a927c91a07ee64207ebd90a9e5e292"
+-- 
+2.10.2
+
 
