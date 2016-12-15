@@ -1,21 +1,20 @@
-Return-Path: <edwin.plauchu.camacho@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 62B0B6FF7F
+Return-Path: <jose.a.lamego@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D6C477317
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 21:54:10 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga104.fm.intel.com with ESMTP; 15 Dec 2016 13:54:12 -0800
+	Thu, 15 Dec 2016 22:44:46 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga105.fm.intel.com with ESMTP; 15 Dec 2016 14:44:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,354,1477983600"; d="scan'208";a="43103307"
-Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
-	by fmsmga006.fm.intel.com with ESMTP; 15 Dec 2016 13:54:12 -0800
-From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.33,354,1477983600"; d="scan'208";a="18699255"
+Received: from jalamego-mobl2.zpn.intel.com ([10.219.5.137])
+	by orsmga002.jf.intel.com with ESMTP; 15 Dec 2016 14:44:46 -0800
+From: Jose Lamego <jose.a.lamego@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Dec 2016 15:55:28 -0600
-Message-Id: <1481838928-15213-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-Subject: [PATCH] pcmanfm: upgrading to 1.2.5
+Date: Thu, 15 Dec 2016 16:44:45 -0600
+Message-Id: <1481841885-2197-1-git-send-email-jose.a.lamego@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH v2] python*-git: Upgrade to version 2.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,117 +27,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2016 21:54:11 -0000
+X-List-Received-Date: Thu, 15 Dec 2016 22:44:46 -0000
 
-From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+Both python-git and python3-git need to be upgraded to latest upstream
+version.
+This change includes python3 dependencies added and was tested
+using qemux86 with core-image-sato.
 
-Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
 ---
- meta/recipes-sato/pcmanfm/pcmanfm_1.2.4.bb | 43 ------------------------------
- meta/recipes-sato/pcmanfm/pcmanfm_1.2.5.bb | 43 ++++++++++++++++++++++++++++++
- 2 files changed, 43 insertions(+), 43 deletions(-)
- delete mode 100644 meta/recipes-sato/pcmanfm/pcmanfm_1.2.4.bb
- create mode 100644 meta/recipes-sato/pcmanfm/pcmanfm_1.2.5.bb
 
-diff --git a/meta/recipes-sato/pcmanfm/pcmanfm_1.2.4.bb b/meta/recipes-sato/pcmanfm/pcmanfm_1.2.4.bb
-deleted file mode 100644
-index a6bf213..0000000
---- a/meta/recipes-sato/pcmanfm/pcmanfm_1.2.4.bb
-+++ /dev/null
-@@ -1,43 +0,0 @@
--SUMMARY = "Fast lightweight tabbed filemanager"
--HOMEPAGE = "http://pcmanfm.sourceforge.net/"
--
--LICENSE = "GPLv2 & GPLv2+ & LGPLv2.1+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
--                    file://src/pcmanfm.h;endline=22;md5=417b3855771a3a87f8ad753d994491f0 \
--                    file://src/gseal-gtk-compat.h;endline=21;md5=46922c8691f58d124f9420fe16149ce2"
--
--SECTION = "x11"
--DEPENDS = "gtk+3 startup-notification libfm intltool-native gettext-native"
--
--
--COMPATIBLE_HOST = '(x86_64.*|i.86.*|aarch64.*|arm.*|mips.*|powerpc.*|sh.*)-(linux|freebsd.*)'
--
--SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/pcmanfm-${PV}.tar.xz \
--	   file://gnome-fs-directory.png \
--	   file://gnome-fs-regular.png \
--	   file://gnome-mime-text-plain.png \
--	   file://emblem-symbolic-link.png \
--	   file://no-desktop.patch"
--
--SRC_URI[md5sum] = "19764c2f59653724c8713e0064fa6829"
--SRC_URI[sha256sum] = "38cdbb5f01d24483b41b8e6846e4aa66a5751bb3982a8618899e88a853dbe313"
--
--UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/pcmanfm/files/PCManFM%20%2B%20Libfm%20%28tarball%20release%29/PCManFM/"
--
--inherit autotools pkgconfig distro_features_check
--
--# The startup-notification requires x11 in DISTRO_FEATURES
--REQUIRED_DISTRO_FEATURES = "x11"
--
--EXTRA_OECONF = "--with-gtk=3"
--
--do_install_append () {
--	install -d ${D}/${datadir}
--	install -d ${D}/${datadir}/pixmaps/
--
--	install -m 0644 ${WORKDIR}/*.png ${D}/${datadir}/pixmaps
--}
--
--FILES_${PN} += "${libdir}/pcmanfm"
--
--RRECOMMENDS_${PN} += "adwaita-icon-theme"
-diff --git a/meta/recipes-sato/pcmanfm/pcmanfm_1.2.5.bb b/meta/recipes-sato/pcmanfm/pcmanfm_1.2.5.bb
-new file mode 100644
-index 0000000..aab7911
---- /dev/null
-+++ b/meta/recipes-sato/pcmanfm/pcmanfm_1.2.5.bb
-@@ -0,0 +1,43 @@
-+SUMMARY = "Fast lightweight tabbed filemanager"
-+HOMEPAGE = "http://pcmanfm.sourceforge.net/"
-+
-+LICENSE = "GPLv2 & GPLv2+ & LGPLv2.1+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-+                    file://src/pcmanfm.h;endline=22;md5=417b3855771a3a87f8ad753d994491f0 \
-+                    file://src/gseal-gtk-compat.h;endline=21;md5=46922c8691f58d124f9420fe16149ce2"
-+
-+SECTION = "x11"
-+DEPENDS = "gtk+3 startup-notification libfm intltool-native gettext-native"
-+
-+
-+COMPATIBLE_HOST = '(x86_64.*|i.86.*|aarch64.*|arm.*|mips.*|powerpc.*|sh.*)-(linux|freebsd.*)'
-+
-+SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/pcmanfm-${PV}.tar.xz \
-+	   file://gnome-fs-directory.png \
-+	   file://gnome-fs-regular.png \
-+	   file://gnome-mime-text-plain.png \
-+	   file://emblem-symbolic-link.png \
-+	   file://no-desktop.patch"
-+
-+SRC_URI[md5sum] = "b4d1f8ce08d87e4f27805a246fc51ac2"
-+SRC_URI[sha256sum] = "0c86cac028b705ff314c7464d814c2cf7ff604c17491c20aa204b1ef1a80ad67"
-+
-+UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/pcmanfm/files/PCManFM%20%2B%20Libfm%20%28tarball%20release%29/PCManFM/"
-+
-+inherit autotools pkgconfig distro_features_check
-+
-+# The startup-notification requires x11 in DISTRO_FEATURES
-+REQUIRED_DISTRO_FEATURES = "x11"
-+
-+EXTRA_OECONF = "--with-gtk=3"
-+
-+do_install_append () {
-+	install -d ${D}/${datadir}
-+	install -d ${D}/${datadir}/pixmaps/
-+
-+	install -m 0644 ${WORKDIR}/*.png ${D}/${datadir}/pixmaps
-+}
-+
-+FILES_${PN} += "${libdir}/pcmanfm"
-+
-+RRECOMMENDS_${PN} += "adwaita-icon-theme"
+Notes:
+    Changes in patch v2: python3 dependencies added
+
+ meta/recipes-devtools/python/python-git.inc                           | 4 ++--
+ .../python/{python-git_2.1.0.bb => python-git_2.1.1.bb}               | 0
+ .../python/{python3-git_2.1.0.bb => python3-git_2.1.1.bb}             | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python-git_2.1.0.bb => python-git_2.1.1.bb} (100%)
+ rename meta/recipes-devtools/python/{python3-git_2.1.0.bb => python3-git_2.1.1.bb} (82%)
+
+diff --git a/meta/recipes-devtools/python/python-git.inc b/meta/recipes-devtools/python/python-git.inc
+index ad41561..feddf27 100644
+--- a/meta/recipes-devtools/python/python-git.inc
++++ b/meta/recipes-devtools/python/python-git.inc
+@@ -10,8 +10,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8b8d26c37c1d5a04f9b0186edbebc183"
+ 
+ SRC_URI = "https://files.pythonhosted.org/packages/source/G/GitPython/GitPython-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "29b1fcf504d080dc7a5e630957e829d7"
+-SRC_URI[sha256sum] = "3ebda1e6ff1ef68597e41dcd1b99c2a5ae902f4dc2b22ad3533cc89c32b42aad"
++SRC_URI[md5sum] = "77f8339e68dedb6d7c4e26371a588ed9"
++SRC_URI[sha256sum] = "e96f8e953cf9fee0a7599fc587667591328760b6341a0081ef311a942fc96204"
+ 
+ UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/GitPython/"
+ UPSTREAM_CHECK_REGEX = "/GitPython/(?P<pver>(\d+[\.\-_]*)+)"
+diff --git a/meta/recipes-devtools/python/python-git_2.1.0.bb b/meta/recipes-devtools/python/python-git_2.1.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python-git_2.1.0.bb
+rename to meta/recipes-devtools/python/python-git_2.1.1.bb
+diff --git a/meta/recipes-devtools/python/python3-git_2.1.0.bb b/meta/recipes-devtools/python/python3-git_2.1.1.bb
+similarity index 82%
+rename from meta/recipes-devtools/python/python3-git_2.1.0.bb
+rename to meta/recipes-devtools/python/python3-git_2.1.1.bb
+index c9fe9ba..7a2d452 100644
+--- a/meta/recipes-devtools/python/python3-git_2.1.0.bb
++++ b/meta/recipes-devtools/python/python3-git_2.1.1.bb
+@@ -4,4 +4,4 @@ DEPENDS = "python3-gitdb"
+ 
+ inherit setuptools3
+ 
+-RDEPENDS_${PN} += "python3-gitdb python3-lang python3-io python3-shell python3-math python3-re python3-subprocess python3-stringold python3-unixadmin python3-enum python3-logging python3-datetime python3-netclient"
++RDEPENDS_${PN} += "python3-gitdb python3-lang python3-io python3-shell python3-math python3-re python3-subprocess python3-stringold python3-unixadmin python3-enum python3-logging python3-datetime python3-netclient python3-unittest python3-argparse"
 -- 
-2.1.4
+1.9.1
 
 
