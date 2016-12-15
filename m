@@ -1,51 +1,48 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
-	[209.85.214.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FD8C772BC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id DE17B772D7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 13:53:18 +0000 (UTC)
-Received: by mail-it0-f65.google.com with SMTP id b123so3718266itb.2
+	Thu, 15 Dec 2016 13:56:05 +0000 (UTC)
+Received: by mail-qk0-f170.google.com with SMTP id t184so2889164qkd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 05:53:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=AVGWGkdMpCKZ1cilbV88ccvsazFjsT+Z8xEDoiW04/E=;
-	b=EMDglu2udHzeIfxi2NS2aICv7Nr6tPtgM4CkB+pK3KQXjgXPbiPprCVjTaLXoXwGFh
-	9983Dech/CDRyIlThLvJtpmDb/8tSYZe+qcNvOqGJgfOPGx6V/T803wgqd20Ffif/U3w
-	rH3gZx5xgvoGyMuEhHCbdMcb8xDjZhbB4hqS5ajjXZvWNMp+DP47i5RIBbWzEZKF8DVR
-	hD+gi856om5DowlORtsTgzdQoBpgwZUWCC3UBtReefAXyx1nT34xU8qD1yYppph2zHQo
-	zy7fwci+FnogI5iH8y97e2ZZpo2E1pCoUglkK88jCUDDHHWsTs77d2qsMZF6gDmIgEzg
-	tCSg==
+	Thu, 15 Dec 2016 05:56:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=0I1NuXZP5jvcGQ/Tbulw1Y8ghkmDiOwPEk1xW2ujvZE=;
+	b=V35tfOKBHxcOT0g1XAk7eeOZYblsDv9AHJDdR7Trds4smqo0SpuneR41zAVyO4g/fv
+	IfBD+fungIfFmMJYzcWCs79wfq6OO3AwjEWcp/mCpyywJhCdYW9zYwTgKWUsRyTZyY+b
+	OeWbSERUJ1xrZ5ajOwt96nvH7ObXrIajRUICRcntzHKw+h05k+uXiF8uGjCj51vFrw3k
+	OPk/YX+h7Cj+o4e2oo8dMemi3RgQ+UmfDeWVFFL4qC7exJjK06HbUYfsSQgKEVJ/rhmO
+	ioUgSv5Hvqd4X6ZAjR+Bugw8RUyiTF+pPLr04AAUofdmhVDvfOadW7Bz0xjGsMhCIdiW
+	RLaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=AVGWGkdMpCKZ1cilbV88ccvsazFjsT+Z8xEDoiW04/E=;
-	b=IHoPWyewJ3umG4ZLzrAmpv7O7B3acv/+8UnT5O0Z3GHfHpaLJeiFjtmGFdxsoUJ0Um
-	e4KbLwLlxzh0b6lDjbLD7qIF9NR06gn/NKjviJ5N8J8Rcef9alMtbIUGo/cb6XpGd4fj
-	l3x1ORmzLNKluoGZ9cbQS26ZR3PteicqvyHdYwMu6jU6AjUT2KBU301Gpu73zzPEZPxj
-	KGnWwAMs7teR+fVo8ID7s9ckA7htGUHBTHPqPY+rzQ0ZavKVpDhK/TllXnWJyadpNL0Z
-	SSjqYg9G76Ev5bUg3tF+Zy8ZU4rEs1oHvndWr7cU9FpMnXOO3Zv8Qwm7B+39bkbU+q8t
-	JTvA==
-X-Gm-Message-State: AKaTC01G9fHNvBC5qXGE4eif6cyDqUgVo31l6TwVl7zRuEciGJz7JjolrUJXpKyo+UKfoQ==
-X-Received: by 10.36.17.194 with SMTP id 185mr1432101itf.46.1481810000036;
-	Thu, 15 Dec 2016 05:53:20 -0800 (PST)
-Received: from openSUSE-i7.site ([45.72.129.229])
-	by smtp.gmail.com with ESMTPSA id p20sm4336350itc.8.2016.12.15.05.53.19
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 15 Dec 2016 05:53:19 -0800 (PST)
-Date: Thu, 15 Dec 2016 08:53:17 -0500
-From: Trevor Woerner <twoerner@gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Message-ID: <20161215135317.GA11254@openSUSE-i7.site>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=0I1NuXZP5jvcGQ/Tbulw1Y8ghkmDiOwPEk1xW2ujvZE=;
+	b=CBu0saaRRt+O4/GuKVlZp+1GK4itwdUmrL8Bu3pqvhenVXX0MYgzciTTD9hv5gII1J
+	jw21I8O5kjPuC5ci5Kf5cRsxLhInr971tYtQSWY+8m3m0a/qxYMAj+tlPNQ2lYpWy8LV
+	ZlSyNK/h1mK5h+rAsIq0m+O4muTc1v38z19a22CDPMD/USC8mCsnPQMMUc6mOBcov2k6
+	3ZklZPhrt680CGNjBmTczSCqKYbtZFJ6Z7Z8Te33H+NYb9uhAqNnSRqUthyqFoAztxs0
+	DGTIOQbJNJIYT5XLaFqSvvX9jA/cUA3ONeG0WfWuWKv2gcByiGlmT15QeZsRIeeN2c3j
+	yo6w==
+X-Gm-Message-State: AIkVDXKBAJrTjAH9jfbgXCk17/f6Q6ct4zgCUtsilv6zC8jyjRTTNYur5WVOGyQzT7PuPtqgyzq7qEnv33vigESz
+X-Received: by 10.55.75.17 with SMTP id y17mr1356138qka.26.1481810166611; Thu,
+	15 Dec 2016 05:56:06 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.106.99 with HTTP; Thu, 15 Dec 2016 05:55:46 -0800 (PST)
+In-Reply-To: <20161215135317.GA11254@openSUSE-i7.site>
 References: <CAHZ0fbGcJPSjagwjxu08SxbaCAr50ucZ7WL3s-cMG2v4JaoNdg@mail.gmail.com>
 	<CAJTo0LbB5_PkVd-XBH7ESUtiGvTi7ziqLjRr9FXjLp7zAVpvqw@mail.gmail.com>
 	<CAHZ0fbGUf4naEmiEvTPuEMT2LgRYKf+m70-rqon7ZReVrp9a3g@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAHZ0fbGUf4naEmiEvTPuEMT2LgRYKf+m70-rqon7ZReVrp9a3g@mail.gmail.com>
-User-Agent: Mutt/1.6.0 (2016-04-01)
+	<20161215135317.GA11254@openSUSE-i7.site>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 15 Dec 2016 13:55:46 +0000
+Message-ID: <CAJTo0LYb7j4XYBjekHr8xNP5UpmRJKkVCof9aubiRO=XoXC=-w@mail.gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [meta-intel] [PATCH 2/2] gstreamer1.0-vaapi: Import from meta-intel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -59,35 +56,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2016 13:53:19 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 15 Dec 2016 13:56:06 -0000
+Content-Type: multipart/alternative; boundary=001a114a88c89b170e0543b2d04a
 
-I'm guessing I have to wait a little longer for various repositories to sync
-up with respect to each other, or is something going bad here?
+--001a114a88c89b170e0543b2d04a
+Content-Type: text/plain; charset=UTF-8
 
-	| configure: error: Requested 'gstreamer-codecparsers-1.0 <= 1.8.99' but version of GStreamer codec parsers is 1.10.1
-	| WARNING: /z/layerindex-master/minnowmax/tmp-glibc/work/corei7-64-oe-linux/gstreamer-vaapi-1.0/1.8.2-r0/temp/run.do_configure.11053:1 exit 1 from 'exit 1'
-	| ERROR: Function failed: do_configure (log file is located at /z/layerindex-master/minnowmax/tmp-glibc/work/corei7-64-oe-linux/gstreamer-vaapi-1.0/1.8.2-r0/temp/log.do_configure.11053)
-	ERROR: Task (/z/layerindex-master/layers/meta-intel/common/recipes-multimedia/gstreamer/gstreamer-vaapi-1.0_1.8.2.bb:do_configure) failed with exit code '1'
+On 15 December 2016 at 13:53, Trevor Woerner <twoerner@gmail.com> wrote:
 
-This is a core-image-x11 build using master for minnow/turbot:
+>         | configure: error: Requested 'gstreamer-codecparsers-1.0 <=
+> 1.8.99' but version of GStreamer codec parsers is 1.10.1
+>         | WARNING: /z/layerindex-master/minnowmax/tmp-glibc/work/
+> corei7-64-oe-linux/gstreamer-vaapi-1.0/1.8.2-r0/temp/run.do_configure.11053:1
+> exit 1 from 'exit 1'
+>         | ERROR: Function failed: do_configure (log file is located at
+> /z/layerindex-master/minnowmax/tmp-glibc/work/
+> corei7-64-oe-linux/gstreamer-vaapi-1.0/1.8.2-r0/temp/log.
+> do_configure.11053)
+>         ERROR: Task (/z/layerindex-master/layers/
+> meta-intel/common/recipes-multimedia/gstreamer/
+> gstreamer-vaapi-1.0_1.8.2.bb:do_configure) failed with exit code '1'
+>
 
-	Build Configuration:
-	BB_VERSION        = "1.32.0"
-	BUILD_SYS         = "x86_64-linux"
-	NATIVELSBSTRING   = "opensuse-42.2"
-	TARGET_SYS        = "x86_64-oe-linux"
-	MACHINE           = "intel-corei7-64"
-	DISTRO            = "nodistro"
-	DISTRO_VERSION    = "nodistro.0"
-	TUNE_FEATURES     = "m64 corei7"
-	TARGET_FPU        = ""
-	meta              = "master:91f856426c7523e1ebdf6d6f93f5fa7e509d6e49"
-	meta-intel        = "master:3d218385a7d8509fbb66b6aa92efef185d1cfcde"
-	meta-oe
-	meta-gnome        = "master:e6c7a66eb4f3944059bd4fff4103f8a9fdcb167c"
-	meta-browser      = "master:3f4fc6dd50650417a0b966c4157f3ad7f3697633"
-	meta-nodejs       = "master:7d63ea2e056e96a617a6281613afff6fe7762619"
-	meta-realtime     = "master:c7807efaaa9933f45a68576c56a2ff2f9bd24203"
+Yes, there's some outstanding patches for meta-intel.
 
+When gst-vaapi moved to oe-core it also renamed to match the convention in
+there.  I guess we should add a PROVIDES for the old name to ensure it
+replaces the old version.  Can you test that this works for you?
+
+Ross
+
+--001a114a88c89b170e0543b2d04a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 15 December 2016 at 13:53, Trevor Woerner <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:twoerner@gmail.com" target=3D"_blank">twoerner@gmail.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":7ei" class=3D"=
+a3s aXjCH m15902c2cbedb13ea">=C2=A0 =C2=A0 =C2=A0 =C2=A0 | configure: error=
+: Requested &#39;gstreamer-codecparsers-1.0 &lt;=3D 1.8.99&#39; but version=
+ of GStreamer codec parsers is 1.10.1<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 | WARNING: /z/layerindex-master/<wbr>minnowmax/=
+tmp-glibc/work/<wbr>corei7-64-oe-linux/gstreamer-<wbr>vaapi-1.0/1.8.2-r0/te=
+mp/run.<wbr>do_configure.11053:1 exit 1 from &#39;exit 1&#39;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 | ERROR: Function failed: do_configure (log fil=
+e is located at /z/layerindex-master/<wbr>minnowmax/tmp-glibc/work/<wbr>cor=
+ei7-64-oe-linux/gstreamer-<wbr>vaapi-1.0/1.8.2-r0/temp/log.<wbr>do_configur=
+e.11053)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ERROR: Task (/z/layerindex-master/layers/<wbr>m=
+eta-intel/common/recipes-<wbr>multimedia/gstreamer/<wbr>gstreamer-vaapi-1.0=
+_1.8.2.bb:d<wbr>o_configure) failed with exit code &#39;1&#39;<br></div></b=
+lockquote></div><div class=3D"gmail_extra"><br></div>Yes, there&#39;s some =
+outstanding patches for meta-intel.</div><div class=3D"gmail_extra"><br>Whe=
+n gst-vaapi moved to oe-core it also renamed to match the convention in the=
+re.=C2=A0 I guess we should add a PROVIDES for the old name to ensure it re=
+places the old version.=C2=A0 Can you test that this works for you?</div><d=
+iv class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></d=
+iv>
+
+--001a114a88c89b170e0543b2d04a--
