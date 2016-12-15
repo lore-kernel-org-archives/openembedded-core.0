@@ -1,51 +1,20 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id ADBBF772DB
+Return-Path: <jose.a.lamego@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 69C91755C2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 15:21:45 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id c4so3047304pfb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 07:21:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=fflr7HatO6i0GMBwdHnay7Huk64SLSW82lFJoFOi2Oc=;
-	b=JyllEE6T9YDbAAXqN9LQEgfJnjRZlfsJ+drJIzIDK4W4wFIfAS23MGiZpeADrLhgnN
-	el39pQXTFYQ2Yibzl0GJ59qMle9qEx8yXVA16gOI2zzXnUFFrcHWq3L5RR55ajGfb1CQ
-	JNELnNrUiigFZEiimJw2gyXPWkY43XAhm6tR/gCp+ma4icYqdlLh1SeHogknBMCGJMvf
-	Vb7cfNDNzEAhoc53Yh5qQ+JQg/fKnHyAS0u0W6VOJg5wGseamJ9O7LelWZWiarVP5ANB
-	jBWYobs/MV2IhTgyTjc1dflZYyG5GVWIUssPhdD7xJtUXE/LaUaQWGy9bHYMeHtFoJvf
-	Kv0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=fflr7HatO6i0GMBwdHnay7Huk64SLSW82lFJoFOi2Oc=;
-	b=exbRevUr83LUSE2wDYnTKrz4cToggvSC3ull/aPdCfa5FF2oN+Bhnaydth6E1LFu98
-	OCc7u9sJYjecSXEvNLP1a4IXAskRyxb2zqvqogcr+54jHfFz7CITmVKlW4rvFUkXw+YU
-	HXzHNHQZTLyGF3s75PiOMzCtruUdUBZzLLikDq8+JTUGAvUxKKyzvyNEo8vOlPMfNtq3
-	zDL5jKP3NZ5kUmfTpHfPgM1ILpJOSgpbo8aWk/IY4XOc6azChCAq9PijCC0AuTMQd1Rn
-	x9yJSu06PEEG9K+DOyoIB2PE6W6Ud63qVsQA3rSPbcs81us1sGB2zxbz+eqOnsEQE40V
-	tW6Q==
-X-Gm-Message-State: AKaTC03fP7bk0gdZpwLKotHiGN9B8rQfctdwLVgLkYk3LDEZLdA0TXaT9i4orcTNXfejPg==
-X-Received: by 10.99.209.81 with SMTP id c17mr3092566pgj.24.1481815306828;
-	Thu, 15 Dec 2016 07:21:46 -0800 (PST)
-Received: from akuster-ThinkPad-X240.mvista.com
-	(50-233-148-156-static.hfc.comcastbusiness.net. [50.233.148.156])
-	by smtp.gmail.com with ESMTPSA id 24sm5412214pfh.41.2016.12.15.07.21.46
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 15 Dec 2016 07:21:46 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster808@gmail.com,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 15 Dec 2016 07:21:45 -0800
-Message-Id: <1481815305-8690-2-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1481815305-8690-1-git-send-email-akuster808@gmail.com>
-References: <1481815305-8690-1-git-send-email-akuster808@gmail.com>
-MIME-Version: 1.0
-Subject: [PATCH] 2/2] tzdata: update to 2016j
+	Thu, 15 Dec 2016 15:56:11 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP; 15 Dec 2016 07:56:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,352,1477983600"; d="scan'208";a="912561528"
+Received: from jalamego-mobl2.zpn.intel.com ([10.219.5.137])
+	by orsmga003.jf.intel.com with ESMTP; 15 Dec 2016 07:56:12 -0800
+From: Jose Lamego <jose.a.lamego@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Dec 2016 09:56:02 -0600
+Message-Id: <1481817362-29580-1-git-send-email-jose.a.lamego@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] python*-git: Upgrade to version 2.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,54 +27,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2016 15:21:45 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 15 Dec 2016 15:56:11 -0000
 
-Briefly: Saratov, Russia moves from +03 to +04 on 2016-12-04.
+Both python-git and python3-git need to be upgraded to latest upstream
+version.
+This change was tested using qemux86 with core-image-sato.
+For each recipe test, CORE_IMAGE_EXTRA_INSTALL included
+python and python-git,
+and python3, python3-modules and python3-git, respectively.
 
-  Changes to future time stamps
-
-    Saratov, Russia switches from +03 to +04 on 2016-12-04 at 02:00.
-    This hives off a new zone Europe/Saratov from Europe/Volgograd.
-    (Thanks to Yuri Konotopov and Stepan Golosunov.)
-
-  Changes to past time stamps
-
-    The new zone Asia/Atyrau for Atyraū Region, Kazakhstan, is like
-    Asia/Aqtau except it switched from +05/+06 to +04/+05 in spring
-    1999, not fall 1994.  (Thanks to Stepan Golosunov.)
-
-  Changes to past time zone abbreviations
-
-    Asia/Gaza and Asia/Hebron now use "EEST", not "EET", to denote
-summer time before 1948. The old use of "EET" was a typo.
-
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
 ---
- meta/recipes-extended/tzdata/{tzdata_2016i.bb => tzdata_2016j.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/tzdata/{tzdata_2016i.bb => tzdata_2016j.bb} (98%)
+ meta/recipes-devtools/python/python-git.inc                           | 4 ++--
+ .../python/{python-git_2.1.0.bb => python-git_2.1.1.bb}               | 0
+ .../python/{python3-git_2.1.0.bb => python3-git_2.1.1.bb}             | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python-git_2.1.0.bb => python-git_2.1.1.bb} (100%)
+ rename meta/recipes-devtools/python/{python3-git_2.1.0.bb => python3-git_2.1.1.bb} (100%)
 
-diff --git a/meta/recipes-extended/tzdata/tzdata_2016i.bb b/meta/recipes-extended/tzdata/tzdata_2016j.bb
-similarity index 98%
-rename from meta/recipes-extended/tzdata/tzdata_2016i.bb
-rename to meta/recipes-extended/tzdata/tzdata_2016j.bb
-index 3801a3f..1ef330e 100644
---- a/meta/recipes-extended/tzdata/tzdata_2016i.bb
-+++ b/meta/recipes-extended/tzdata/tzdata_2016j.bb
-@@ -9,8 +9,8 @@ DEPENDS = "tzcode-native"
- SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
- UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+diff --git a/meta/recipes-devtools/python/python-git.inc b/meta/recipes-devtools/python/python-git.inc
+index ad41561..feddf27 100644
+--- a/meta/recipes-devtools/python/python-git.inc
++++ b/meta/recipes-devtools/python/python-git.inc
+@@ -10,8 +10,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8b8d26c37c1d5a04f9b0186edbebc183"
  
--SRC_URI[tzdata.md5sum] = "73912ecfa6a9a8048ddf2e719d9bc39d"
--SRC_URI[tzdata.sha256sum] = "b6966ec982ef64fe48cebec437096b4f57f4287519ed32dde59c86d3a1853845"
-+SRC_URI[tzdata.md5sum] = "db361d005ac8b30a2d18c5ca38d3e8ab"
-+SRC_URI[tzdata.sha256sum] = "f5ee4e0f115f6c2faee1c4b16193a97338cbd1b503f2cea6c5a768c82ff39dc8"
+ SRC_URI = "https://files.pythonhosted.org/packages/source/G/GitPython/GitPython-${PV}.tar.gz"
  
- inherit allarch
+-SRC_URI[md5sum] = "29b1fcf504d080dc7a5e630957e829d7"
+-SRC_URI[sha256sum] = "3ebda1e6ff1ef68597e41dcd1b99c2a5ae902f4dc2b22ad3533cc89c32b42aad"
++SRC_URI[md5sum] = "77f8339e68dedb6d7c4e26371a588ed9"
++SRC_URI[sha256sum] = "e96f8e953cf9fee0a7599fc587667591328760b6341a0081ef311a942fc96204"
  
+ UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/GitPython/"
+ UPSTREAM_CHECK_REGEX = "/GitPython/(?P<pver>(\d+[\.\-_]*)+)"
+diff --git a/meta/recipes-devtools/python/python-git_2.1.0.bb b/meta/recipes-devtools/python/python-git_2.1.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python-git_2.1.0.bb
+rename to meta/recipes-devtools/python/python-git_2.1.1.bb
+diff --git a/meta/recipes-devtools/python/python3-git_2.1.0.bb b/meta/recipes-devtools/python/python3-git_2.1.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python3-git_2.1.0.bb
+rename to meta/recipes-devtools/python/python3-git_2.1.1.bb
 -- 
-2.7.4
+1.9.1
 
 
