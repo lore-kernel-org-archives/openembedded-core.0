@@ -1,21 +1,21 @@
 Return-Path: <edwin.plauchu.camacho@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id DE47277304
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 136F7772F6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 18:55:49 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga105.fm.intel.com with ESMTP; 15 Dec 2016 10:55:51 -0800
+	Thu, 15 Dec 2016 18:59:04 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga104.jf.intel.com with ESMTP; 15 Dec 2016 10:59:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,353,1477983600"; d="scan'208";a="42969424"
+X-IronPort-AV: E=Sophos;i="5.33,353,1477983600"; d="scan'208";a="43050735"
 Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
-	by fmsmga005.fm.intel.com with ESMTP; 15 Dec 2016 10:55:50 -0800
+	by fmsmga006.fm.intel.com with ESMTP; 15 Dec 2016 10:59:05 -0800
 From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Dec 2016 12:57:06 -0600
-Message-Id: <1481828226-6111-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+Date: Thu, 15 Dec 2016 13:00:22 -0600
+Message-Id: <1481828422-15950-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-Subject: [PATCH 1/2] python3-setuptools: upgrade to 31.0.0
+Subject: [PATCH V2] python3-setuptools: upgrade to 31.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,7 +28,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2016 18:55:50 -0000
+X-List-Received-Date: Thu, 15 Dec 2016 18:59:05 -0000
 
 From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
 
