@@ -1,67 +1,46 @@
-Return-Path: <bevenson@melinkcorp.com>
-X-Greylist: delayed 5606 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 15 Dec 2016 17:16:43 UTC
-Received: from NAM02-CY1-obe.outbound.protection.outlook.com
-	(mail-cys01nam02on0121.outbound.protection.outlook.com
-	[104.47.37.121])
-	by mail.openembedded.org (Postfix) with ESMTP id BD18773208
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wj0-f170.google.com (mail-wj0-f170.google.com
+	[209.85.210.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 2833F731B8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 17:16:43 +0000 (UTC)
+	Thu, 15 Dec 2016 17:20:57 +0000 (UTC)
+Received: by mail-wj0-f170.google.com with SMTP id tk12so72487444wjb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Dec 2016 09:20:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=Melink.onmicrosoft.com; s=selector1-melinkcorp-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=KUcildobZS92zoZpTghshZFxHnmbztwga6c4UJtpB1A=;
-	b=Bn9+UjFNTpP6YJCX76+ZI4/hcSi1JJq8zzaoxuQ8BN2/LenOhEsjGhEHHrX6vfseU0mG+/0Kx0/LoJGgq5fNgLvrCV1dA5l3FCTkQ2jVJF9GX2LjToQxyiAPw02RyoZa/uULCenzFsxevb/V82d947X5xWR6KEvxfjGGzFkvP5U=
-Received: from DM5PR05MB2954.namprd05.prod.outlook.com (10.168.176.142) by
-	DM5PR05MB2955.namprd05.prod.outlook.com (10.168.176.143) with Microsoft
-	SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
-	15.1.789.13; Thu, 15 Dec 2016 15:43:17 +0000
-Received: from DM5PR05MB2954.namprd05.prod.outlook.com ([10.168.176.142]) by
-	DM5PR05MB2954.namprd05.prod.outlook.com ([10.168.176.142]) with mapi id
-	15.01.0789.013; Thu, 15 Dec 2016 15:43:17 +0000
-From: Bryan Evenson <bevenson@melinkcorp.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>, OE Core mailing list
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] opinions on enabling busybox's "runit" implementation
-	to control some services?
-Thread-Index: AQHSVfT5j/d0jJvcq061ujSdZTKJ8qEJFuvg
-Date: Thu, 15 Dec 2016 15:43:17 +0000
-Message-ID: <DM5PR05MB29541C0F6C502FAB225409DDBB9D0@DM5PR05MB2954.namprd05.prod.outlook.com>
-References: <alpine.LFD.2.20.1612140524530.7293@localhost.localdomain>
-In-Reply-To: <alpine.LFD.2.20.1612140524530.7293@localhost.localdomain>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=bevenson@melinkcorp.com; 
-x-originating-ip: [98.100.91.242]
-x-ms-office365-filtering-correlation-id: 765f727d-166c-4065-bd84-08d425011701
-x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:(22001);SRVR:DM5PR05MB2955;
-x-microsoft-exchange-diagnostics: 1; DM5PR05MB2955;
-	7:DXIDw6PKxTFWk0AppnYEWYYC/zU9nQI098B9gRooY98GEsnLrl3pvw1tg6FbxWCoqRYCBXlxVUTStXtM3ZJK7Ekr14buVTBIQSc/pglHBRixcvdWaP1NUVtJNdrZ0jtnDEj018l/p1vyiA9XMk+unjo4Q2hn4FQQT4OTV5G4EGB10qeVKKKb/QUeA4+UzxlGuyLy1vD2ydvISnbOwbWHTLUJNsGgUfgsdnkX6Q39VaWuX6+WOrBLvHjLNa0aZSuaX3z5a4I3t9sYTZ489xDHDE2xMOaxFGMVcXHFtSdy3V40PXcLV4gMIwKkHv215Sf/nViwpW+fC0POhkwMXbUa3Rr95YZE4tmHoKez71Tu3xBhy6zI7Bjc7HG212QeYPK11U5Kfq5DQ0OW/HnjyHIq2eQqB5zTHCSqgZgSLMf2YLtTgKXgp2qrhZgl74CQV+ydxsfh4YO3rhsb4A9RMGKzxw==
-x-microsoft-antispam-prvs: <DM5PR05MB2955C1B5949FFEB53276283DBB9D0@DM5PR05MB2955.namprd05.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(148322886591682)(31418570063057)(116415991822766)(264703809997249)(81160342030619)(126878219848629);
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(6040375)(601004)(2401047)(5005006)(8121501046)(3002001)(10201501046)(6041248)(20161123555025)(20161123564025)(20161123560025)(20161123562025)(6072148);
-	SRVR:DM5PR05MB2955; BCL:0; PCL:0; RULEID:; SRVR:DM5PR05MB2955; 
-x-forefront-prvs: 0157DEB61B
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(6009001)(7916002)(39450400003)(13464003)(377454003)(199003)(189002)(68736007)(2906002)(8936002)(81156014)(33656002)(1720100001)(5660300001)(16601075003)(92566002)(8676002)(74316002)(3846002)(66066001)(305945005)(6116002)(25786008)(2900100001)(189998001)(7736002)(107886002)(81166006)(102836003)(106116001)(99286002)(6506006)(229853002)(86362001)(105586002)(106356001)(38730400001)(6436002)(50986999)(97736004)(5001770100001)(3660700001)(2950100002)(3280700002)(76176999)(54356999)(7696004)(9686002)(122556002)(77096006)(76576001)(101416001)(15395725005);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:DM5PR05MB2955;
-	H:DM5PR05MB2954.namprd05.prod.outlook.com; FPR:; SPF:None;
-	PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
-received-spf: None (protection.outlook.com: melinkcorp.com does not designate
-	permitted sender hosts)
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-MIME-Version: 1.0
-X-OriginatorOrg: melinkcorp.com
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Dec 2016 15:43:17.6196 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d06db0f9-efcc-42b5-9f8c-c934a01c9bfd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR05MB2955
-Subject: Re: opinions on enabling busybox's "runit" implementation to control some services?
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=wm1Hh/Z25x7N3Q+PAnTWQqcnTTbUzS3m99RLnQC9RFU=;
+	b=Dr73tvac8xCmQ/VPGNSekw5cZnG+h+dHPbzDhRwhh9dipE+xCxiq60/JJOV7IF8N7s
+	FcglvDpTHVzW+/e02MxoBBlUzpoOYrhbeREkCj9FCNkbS+mfon8B9jC6SLTEpQfG+i9V
+	lXi3675k5ovzTEqJ7bHjMRTHekN4g4ZrmnQz2gv9qTJiX3PFWPvfz8DH23nNPyup6gZq
+	b8LK0XuJcQHO5L06swYyz840aS6kFZkfXsLbA0Xiu5MOL3zXmE2we8WDCqRagJ2p2QEO
+	GhhH9UFqRlsuJ1Gu7phnKmbvOUW0QoU6B0cAftF8LFJqpFLAlNoipGgUoY53hJs0uo9t
+	wwYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=wm1Hh/Z25x7N3Q+PAnTWQqcnTTbUzS3m99RLnQC9RFU=;
+	b=UT5CCQC4TNaOuY3Y8kldTzfItQNFplQoZc2sjyB/CESajoGf7KtZBruh6LZG57zU4A
+	Mbbwx4YqFpR9yo98AYhrA/VmECUnYbOjhHUN9UNacHC3MD0IhTkxgziklX5Zh8IZljAm
+	kKktJKtJdQ1oCKR/g/vIjx8OfCw7/XT+KXMhVXa2YZ58MPBZBqIh9poKzT1/On+OLeZ/
+	iSKA/+Z6jXnfwbUETx3kDfGtHFOdNx18JrmjymMkInrjgpcFDylNse48Pxm/wKH20jMw
+	At2rSmxbgr8oc4j/uYywhIIELjXX2uSAyxaXkuoGr0Sq5pWEKQDkCiIu+qmnYwBk2mMH
+	TD+A==
+X-Gm-Message-State: AKaTC00JTmxGzATLPF57ty2lnjV2W6NMgV1tvsB5d9srEclEvNQ5w+St3QH19qmOhowazjp3
+X-Received: by 10.194.80.42 with SMTP id o10mr2818856wjx.65.1481822458505;
+	Thu, 15 Dec 2016 09:20:58 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id z6sm2935071wjt.24.2016.12.15.09.20.57
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 15 Dec 2016 09:20:57 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Dec 2016 17:20:55 +0000
+Message-Id: <1481822455-17217-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] lib/oe/package_manager: bail if createrepo can't be found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -74,87 +53,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2016 17:16:44 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 15 Dec 2016 17:20:59 -0000
 
-Robert,
+If createrepo isn't found then the errors later are mysterious, so explicitly
+check and error out early if it isn't there.
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> Of Robert P. J. Day
-> Sent: Wednesday, December 14, 2016 5:28 AM
-> To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-> Subject: [OE-core] opinions on enabling busybox's "runit" implementation =
-to
-> control some services?
->=20
->=20
->   colleague needs "runit" to control one or more services that have histo=
-rically
-> been managed that way, so a couple questions:
->=20
-> 1) anyone with experience with busybox's implementation of runit? does it
-> work properly? does it play nicely with others?
->=20
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/lib/oe/package_manager.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-I have not, but this last year I was looking into what it'd take to use Bus=
-ybox's runit as an alternative to SysVinit.  I didn't do a complete code co=
-mparison, but Busybox's runit seems to be the same as the upstream package =
-minus all the code that is not needed because it is present elsewhere in Bu=
-sybox.  I couldn't figure out how to setup the image to use runit for init =
-before I got pulled onto other tasks.
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index bb45869..e557473 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -164,7 +164,11 @@ class RpmIndexer(Indexer):
+ 
+         archs = archs.union(set(sdk_pkg_archs))
+ 
+-        rpm_createrepo = bb.utils.which(os.getenv('PATH'), "createrepo")
++        rpm_createrepo = bb.utils.which(os.environ['PATH'], "createrepo")
++        if not rpm_createrepo:
++            bb.error("Cannot rebuild index as createrepo was not found in %s" % os.environ['PATH'])
++            return
++
+         if self.d.getVar('PACKAGE_FEED_SIGN') == '1':
+             signer = get_signer(self.d, self.d.getVar('PACKAGE_FEED_GPG_BACKEND'))
+         else:
+-- 
+2.8.1
 
-> 2) is runit actually necessary, or would it be easy to migrate said servi=
-ces off
-> of runit?
->=20
-
-The official runit site has tons of init examples for different services an=
-d has a brief explanation on how to change a SysVInit init script to work f=
-or runit.  I haven't done it myself, but I don't think it'd be that much wo=
-rk to go the other way.
-
->   i've never used runit, so have no idea what it is that makes it so
-> (allegedly) indispensable. if it's easily migrateable, that'd be great.
-
-It's small and simple.  Start services I parallel, monitor to make sure the=
-y are still running, and restart as necessary.  Done.  I like the idea of i=
-ts simplicity and I'm interested in seeing if it works as well as it says i=
-t does.
-
-If you figure out how to get runit as the system's init, I'd love to give i=
-t a try myself.
-
-Regards,
-Bryan
-
->=20
->   thanks muchly.
->=20
-> rday
->=20
-> --
->=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Robert P. J. Day                                 Ottawa, Ontario, CANADA
->                         http://crashcourse.ca
->=20
-> Twitter:                                       http://twitter.com/rpjday
-> LinkedIn:                               http://ca.linkedin.com/in/rpjday
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
