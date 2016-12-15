@@ -1,49 +1,43 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 65CE0772CA
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-wj0-f169.google.com (mail-wj0-f169.google.com
+	[209.85.210.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 066C4772D1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 14:37:02 +0000 (UTC)
-Received: by mail-qk0-f174.google.com with SMTP id n21so58146521qka.3
+	Thu, 15 Dec 2016 14:40:39 +0000 (UTC)
+Received: by mail-wj0-f169.google.com with SMTP id tg4so67996062wjb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 06:37:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Esdc7Gh2TAdo4+Gg/c8OmNHDZOnRduLkzw4NSNdza4M=;
-	b=YhIDBqMHMy0pegdIoXYFgH8yGu8PwCB+4Z6/7ETJWpoJuTmY39g3raKeIV4BU7GrLt
-	Wr5dHgm9NyQ34DB19wzhU1VNtgzeEZyxzUFvIEq4dyNTDvbcIpfaFcGlD1+QzoWC4OXw
-	At2BCAn0AyMqcnDqRYg4ggc8K0JiEEUmkDjukKunb5OdKR4sy2cRSxjt1Q6SM+VZU5bI
-	NKz/oAPA90MoAhoGAaFPEtzTkc/V8wP/jbYI+Y1zSfyS8iA2fiPdAawCKSSuKlLfHcV1
-	J5TYEx7+QWbcW2XL7YRTTfQIUXB5Qf4B8Qzipqd0CZCeV5Y/psAlwVMzNBA6e5DicU8i
-	g5Nw==
+	Thu, 15 Dec 2016 06:40:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=Hg3CnXKTxte+Zv8i4dy9CeUzEZXy/2BwL7oCptuyhBg=;
+	b=YkHN5u9jKBkY61gEWHw9jwlvyYFEqz3yqY7gz/iY0DXSJbax7PIeIhftQeXrFw3zW9
+	phKDpZ9i9o81g2CgDlIe3wcA1dNd2oTCPX/OOrcqXgFjnDQbmClEN3ej+uEEX4Q6tEbD
+	GFcGa3eyNjLuk6U5aea+yh0UC5070WUJnQ2cg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Esdc7Gh2TAdo4+Gg/c8OmNHDZOnRduLkzw4NSNdza4M=;
-	b=nxtKKxMlszxuAXwvZ21LLyK4AbOksMDff2jut2omO5HYP49/LUkYOQLVwZ8zjSHwUD
-	0dJSID0C4CN3bn0P88Fd0D70/QU5/NwNw2jebxI8y9imfXZzsmeghbJrRVQ/i6l3wQhh
-	NqRgqVcX7mNkiESlSxHIQrodfugiVLAU3HfVL21oesVQBkGrNb9FGjPk+0Owqk5vQGav
-	z3ngdtM5SObgRKpIBTETc/npBnDdgnPl/0QlmYqDAOrQ19It3U5v2zGwjysjnWCcsrj/
-	Ks5JQ2Ug9JDPRNRviLTz2o+MJ9bkBXorgQAKE6tLTbI3s4lTZSmLjDHMKLJPKR9qfV7V
-	uJdw==
-X-Gm-Message-State: AIkVDXIf89E63yTC+g8cGCBftNaY5pvDn8J9hA2o0z0XrRpxSFu0ohPZqKyn0obQyhBvzUbfmYbR2RBHg9zZYw==
-X-Received: by 10.55.195.141 with SMTP id r13mr1390158qkl.131.1481812624311;
-	Thu, 15 Dec 2016 06:37:04 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.237.46.162 with HTTP; Thu, 15 Dec 2016 06:37:03 -0800 (PST)
-In-Reply-To: <CAJTo0LYb7j4XYBjekHr8xNP5UpmRJKkVCof9aubiRO=XoXC=-w@mail.gmail.com>
-References: <CAHZ0fbGcJPSjagwjxu08SxbaCAr50ucZ7WL3s-cMG2v4JaoNdg@mail.gmail.com>
-	<CAJTo0LbB5_PkVd-XBH7ESUtiGvTi7ziqLjRr9FXjLp7zAVpvqw@mail.gmail.com>
-	<CAHZ0fbGUf4naEmiEvTPuEMT2LgRYKf+m70-rqon7ZReVrp9a3g@mail.gmail.com>
-	<20161215135317.GA11254@openSUSE-i7.site>
-	<CAJTo0LYb7j4XYBjekHr8xNP5UpmRJKkVCof9aubiRO=XoXC=-w@mail.gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Thu, 15 Dec 2016 09:37:03 -0500
-Message-ID: <CAHUNapTqyjiD8uyif+CJVDxydub4EkyDKtV6K5jn_v-pYa6djQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-intel] [PATCH 2/2] gstreamer1.0-vaapi: Import from meta-intel
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Hg3CnXKTxte+Zv8i4dy9CeUzEZXy/2BwL7oCptuyhBg=;
+	b=b6ZGBwW2IeLXYaOo8OZcvF+4WIhsPg1TpdTHaYmBPIu7TqHSYEO+nKdneAQ1gyctlA
+	RIwEDob1AX2tRLF3MtBF3fbllJKh7capC3IUEWzRAzy8UHmFmYyXvYIZZjU5Om6iWHVC
+	QPb0OUW+dFQMo7sjdGP0mgAyenXJ+3C6ETTf3h+9B0ro+1j/Ad63YwfoRi1/AsUeqHjv
+	9vf857z5tv5LnpeC9lSc40LbJ6RS4v3PxL7xhQhZdq1+J9Xl7wSXaszGwlJWeKoBMfT8
+	6HAdyhC/U01GH88EkJqVCo5ugRXz3jNlRFXJF7/1uPqoAUah919EkNu6BglCKjwbkYAf
+	GP2w==
+X-Gm-Message-State: AKaTC01xflZJFWSXWU3xIgQ9SM7rqu34HRzOgO0sZM5PsoHxpTmqhLex1qtbMnovXhHXohrj
+X-Received: by 10.194.248.5 with SMTP id yi5mr1776993wjc.11.1481812840270;
+	Thu, 15 Dec 2016 06:40:40 -0800 (PST)
+Received: from localhost.localdomain (ANice-651-1-9-14.w86-203.abo.wanadoo.fr.
+	[86.203.160.14]) by smtp.gmail.com with ESMTPSA id
+	cl6sm2345452wjc.10.2016.12.15.06.40.39
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 15 Dec 2016 06:40:39 -0800 (PST)
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Dec 2016 15:40:11 +0100
+Message-Id: <20161215144011.1761-1-nicolas.dechesne@linaro.org>
+X-Mailer: git-send-email 2.11.0
+Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Subject: [PATCH] gstreamer1.0-plugins-bad: default to using egl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,14 +50,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2016 14:37:03 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 15 Dec 2016 14:40:40 -0000
 
-On Thu, Dec 15, 2016 at 8:55 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> When gst-vaapi moved to oe-core it also renamed to match the convention in
-> there.  I guess we should add a PROVIDES for the old name to ensure it
-> replaces the old version.  Can you test that this works for you?
+With the current set of PACKAGECONFIG, we end up building with 'gles2' and neither
+'opengl', nor 'egl'. As a result we are building -bad with neither 'glx' nor
+'egl' platform support. So let's make sure that we at least have egl by default
+(since we default to 'gles2').
 
+Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+---
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Okay, testing now...
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+index d3c5326d45..3cb7ab1ae1 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+@@ -12,7 +12,7 @@ SRC_URI_append = " \
+ 
+ # opengl packageconfig factored out to make it easy for distros
+ # and BSP layers to pick either (desktop) opengl, gles2, or no GL
+-PACKAGECONFIG_GL ?= "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gles2', '', d)}"
++PACKAGECONFIG_GL ?= "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gles2 egl', '', d)}"
+ 
+ # gtk is not in the PACKAGECONFIG variable by default until
+ # the transition to gtk+3 is finished
+-- 
+2.11.0
+
 
