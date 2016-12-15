@@ -1,48 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id C6D38772BA
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id ADBBF772DB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 15:21:44 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id e9so6504285pgc.1
+	Thu, 15 Dec 2016 15:21:45 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id c4so3047304pfb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 07:21:46 -0800 (PST)
+	Thu, 15 Dec 2016 07:21:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=tie/EJowcA8Vwje2QyOKgG5WgWShheaypUctl3mI7GM=;
-	b=NA4B8q6Jc6pwf31MDV826jcDmgUFFQySWCczy0d5m0+TClkSSQjg+CyOHFo8ofuVt/
-	YZWYP9U1X1SdWVJ3XvcSMLYO7gXSqk7Nr+MLw7RDbgfjHwKkHxwE/YzbToAs8F/uQiV3
-	iG3KFzij7SoiyoyTwMWtVB0IShW+d7U1lG2iUlClkzrk36akHRca2lSbCWrG6TQMLkNO
-	7/Kj/QxQ4n2GMW6soxLf2YaeofIjL0DLhuZwarc5UJ1MHpRUdjHcLaRUep/H6BoYcoTj
-	LM0AVfZoTK3cWIkFUcmsZELD7pcQwANcsS6YvtNPHwlbX7MptKjqpf0fEDyX393ONUtk
-	oGmQ==
+	bh=fflr7HatO6i0GMBwdHnay7Huk64SLSW82lFJoFOi2Oc=;
+	b=JyllEE6T9YDbAAXqN9LQEgfJnjRZlfsJ+drJIzIDK4W4wFIfAS23MGiZpeADrLhgnN
+	el39pQXTFYQ2Yibzl0GJ59qMle9qEx8yXVA16gOI2zzXnUFFrcHWq3L5RR55ajGfb1CQ
+	JNELnNrUiigFZEiimJw2gyXPWkY43XAhm6tR/gCp+ma4icYqdlLh1SeHogknBMCGJMvf
+	Vb7cfNDNzEAhoc53Yh5qQ+JQg/fKnHyAS0u0W6VOJg5wGseamJ9O7LelWZWiarVP5ANB
+	jBWYobs/MV2IhTgyTjc1dflZYyG5GVWIUssPhdD7xJtUXE/LaUaQWGy9bHYMeHtFoJvf
+	Kv0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=tie/EJowcA8Vwje2QyOKgG5WgWShheaypUctl3mI7GM=;
-	b=KXbS/AalJCFAAXD1e2lbC2Eli0sSc2HNv0nlrTU10ptY5daCKGwi/9DmhEQB6WDtWq
-	n9cc+On0mZ5ngrrENh5owI7FuINcgzkgf8/OO5AwPwYJ9UvWoORxka7Jojz7oSktAKim
-	3cLHVz2Wc7bw9qUYZB4Y/JK3kUtYCvxu9pad5Wo8zBSAZ5UXXFvtfbbUyE6jL60Aid70
-	i7S8RrSWX8gUkq+eu7g3UG9P+ow8neXy92fAhqWXJkO90bwHnd0KYsjAk95n7FMdcek2
-	PM7b+LxjuVsOlS1FY9p5qHHeP47AP6uVbC+nVMR5Ar7BnvS52P6+riH2Eh0tMl6PstHS
-	ccvw==
-X-Gm-Message-State: AKaTC00TFJ5KkkkLgE5yWgRippLNk+v1zZHKxQ62kJ2WKma9PbWu6Aq/7/xTYw3gAmSFYg==
-X-Received: by 10.84.210.13 with SMTP id z13mr3414694plh.167.1481815306246;
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=fflr7HatO6i0GMBwdHnay7Huk64SLSW82lFJoFOi2Oc=;
+	b=exbRevUr83LUSE2wDYnTKrz4cToggvSC3ull/aPdCfa5FF2oN+Bhnaydth6E1LFu98
+	OCc7u9sJYjecSXEvNLP1a4IXAskRyxb2zqvqogcr+54jHfFz7CITmVKlW4rvFUkXw+YU
+	HXzHNHQZTLyGF3s75PiOMzCtruUdUBZzLLikDq8+JTUGAvUxKKyzvyNEo8vOlPMfNtq3
+	zDL5jKP3NZ5kUmfTpHfPgM1ILpJOSgpbo8aWk/IY4XOc6azChCAq9PijCC0AuTMQd1Rn
+	x9yJSu06PEEG9K+DOyoIB2PE6W6Ud63qVsQA3rSPbcs81us1sGB2zxbz+eqOnsEQE40V
+	tW6Q==
+X-Gm-Message-State: AKaTC03fP7bk0gdZpwLKotHiGN9B8rQfctdwLVgLkYk3LDEZLdA0TXaT9i4orcTNXfejPg==
+X-Received: by 10.99.209.81 with SMTP id c17mr3092566pgj.24.1481815306828;
 	Thu, 15 Dec 2016 07:21:46 -0800 (PST)
 Received: from akuster-ThinkPad-X240.mvista.com
 	(50-233-148-156-static.hfc.comcastbusiness.net. [50.233.148.156])
-	by smtp.gmail.com with ESMTPSA id 24sm5412214pfh.41.2016.12.15.07.21.45
+	by smtp.gmail.com with ESMTPSA id 24sm5412214pfh.41.2016.12.15.07.21.46
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 15 Dec 2016 07:21:45 -0800 (PST)
+	Thu, 15 Dec 2016 07:21:46 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster808@gmail.com,
 	openembedded-core@lists.openembedded.org
-Date: Thu, 15 Dec 2016 07:21:44 -0800
-Message-Id: <1481815305-8690-1-git-send-email-akuster808@gmail.com>
+Date: Thu, 15 Dec 2016 07:21:45 -0800
+Message-Id: <1481815305-8690-2-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1481815305-8690-1-git-send-email-akuster808@gmail.com>
+References: <1481815305-8690-1-git-send-email-akuster808@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH] 1/2] tzcode-native: update to 2016j
+Subject: [PATCH] 2/2] tzdata: update to 2016j
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,56 +58,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2016 15:21:44 -0000
+X-List-Received-Date: Thu, 15 Dec 2016 15:21:45 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Changes to code
+Briefly: Saratov, Russia moves from +03 to +04 on 2016-12-04.
 
-    zic no longer mishandles file systems that lack hard links, fixing
-    bugs introduced in 2016g.  (Problems reported by Tom Lane.)
-    Also, when the destination already contains symbolic links, zic
-    should now work better on systems where the 'link' system call
-    does not follow symbolic links.
+  Changes to future time stamps
 
-Changes to documentation and commentary
+    Saratov, Russia switches from +03 to +04 on 2016-12-04 at 02:00.
+    This hives off a new zone Europe/Saratov from Europe/Volgograd.
+    (Thanks to Yuri Konotopov and Stepan Golosunov.)
 
-    tz-link.htm now documents the relationship between release version
-    numbers and development-repository commit tags.  (Suggested by
-    Paul Koning.)
+  Changes to past time stamps
 
-    The 'Theory' file now documents UT.
+    The new zone Asia/Atyrau for Atyraū Region, Kazakhstan, is like
+    Asia/Aqtau except it switched from +05/+06 to +04/+05 in spring
+    1999, not fall 1994.  (Thanks to Stepan Golosunov.)
 
-    iso3166.tab now accents "Curaçao", and commentary now mentions
-the names "Cabo Verde" and "Czechia". (Thanks to Jiří Boháč.)
+  Changes to past time zone abbreviations
+
+    Asia/Gaza and Asia/Hebron now use "EEST", not "EET", to denote
+summer time before 1948. The old use of "EET" was a typo.
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../tzcode/{tzcode-native_2016i.bb => tzcode-native_2016j.bb}     | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/tzcode/{tzcode-native_2016i.bb => tzcode-native_2016j.bb} (69%)
+ meta/recipes-extended/tzdata/{tzdata_2016i.bb => tzdata_2016j.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/tzdata/{tzdata_2016i.bb => tzdata_2016j.bb} (98%)
 
-diff --git a/meta/recipes-extended/tzcode/tzcode-native_2016i.bb b/meta/recipes-extended/tzcode/tzcode-native_2016j.bb
-similarity index 69%
-rename from meta/recipes-extended/tzcode/tzcode-native_2016i.bb
-rename to meta/recipes-extended/tzcode/tzcode-native_2016j.bb
-index 9d3d5a1..630fd42 100644
---- a/meta/recipes-extended/tzcode/tzcode-native_2016i.bb
-+++ b/meta/recipes-extended/tzcode/tzcode-native_2016j.bb
-@@ -9,10 +9,10 @@ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
+diff --git a/meta/recipes-extended/tzdata/tzdata_2016i.bb b/meta/recipes-extended/tzdata/tzdata_2016j.bb
+similarity index 98%
+rename from meta/recipes-extended/tzdata/tzdata_2016i.bb
+rename to meta/recipes-extended/tzdata/tzdata_2016j.bb
+index 3801a3f..1ef330e 100644
+--- a/meta/recipes-extended/tzdata/tzdata_2016i.bb
++++ b/meta/recipes-extended/tzdata/tzdata_2016j.bb
+@@ -9,8 +9,8 @@ DEPENDS = "tzcode-native"
+ SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
  UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
  
--SRC_URI[tzcode.md5sum] = "8fae14cba9396462955b7859cf04ba48"
--SRC_URI[tzcode.sha256sum] = "411e8adcb6288b17d6c2624fde65e7d82654ca69b813ae121504ff66f0cfba7b"
 -SRC_URI[tzdata.md5sum] = "73912ecfa6a9a8048ddf2e719d9bc39d"
 -SRC_URI[tzdata.sha256sum] = "b6966ec982ef64fe48cebec437096b4f57f4287519ed32dde59c86d3a1853845"
-+SRC_URI[tzcode.md5sum] = "0684b98eb184fab250b6ca946862078d"
-+SRC_URI[tzcode.sha256sum] = "b9effc4fb4051df4a356cbe5857bf99e2fa32e00d8340f2e8a4d58f0c9ccb0b7"
 +SRC_URI[tzdata.md5sum] = "db361d005ac8b30a2d18c5ca38d3e8ab"
 +SRC_URI[tzdata.sha256sum] = "f5ee4e0f115f6c2faee1c4b16193a97338cbd1b503f2cea6c5a768c82ff39dc8"
  
- S = "${WORKDIR}"
+ inherit allarch
  
 -- 
 2.7.4
