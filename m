@@ -1,21 +1,35 @@
-Return-Path: <edwin.plauchu.camacho@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 136F7772F6
+Return-Path: <Noor_Ahsan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C4EF77307
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 18:59:04 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga104.jf.intel.com with ESMTP; 15 Dec 2016 10:59:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,353,1477983600"; d="scan'208";a="43050735"
-Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
-	by fmsmga006.fm.intel.com with ESMTP; 15 Dec 2016 10:59:05 -0800
-From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Dec 2016 13:00:22 -0600
-Message-Id: <1481828422-15950-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-Subject: [PATCH V2] python3-setuptools: upgrade to 31.0.0
+	Thu, 15 Dec 2016 19:01:30 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=svr-ies-mbx-01.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1cHbHX-0006W9-Mo from Noor_Ahsan@mentor.com ;
+	Thu, 15 Dec 2016 11:01:32 -0800
+Received: from svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1) by
+	svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1) with Microsoft SMTP
+	Server (TLS) id 15.0.1210.3; Thu, 15 Dec 2016 19:01:28 +0000
+Received: from svr-ies-mbx-01.mgc.mentorg.com ([fe80::15aa:fe76:2483:1cce]) by
+	svr-ies-mbx-01.mgc.mentorg.com ([fe80::15aa:fe76:2483:1cce%22]) with
+	mapi id 15.00.1210.000; Thu, 15 Dec 2016 19:01:28 +0000
+From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
+To: Yi Zhao <yi.zhao@windriver.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] libxml2: Security fix CVE-2016-5131
+Thread-Index: AQHSSV/2sgIh42bqeEmg8mlAt8aGNKEJeGIg
+Date: Thu, 15 Dec 2016 19:01:28 +0000
+Message-ID: <94d3b02ec5424fbabf5efbe2b48d7615@svr-ies-mbx-01.mgc.mentorg.com>
+References: <1480326940-7571-1-git-send-email-yi.zhao@windriver.com>
+In-Reply-To: <1480326940-7571-1-git-send-email-yi.zhao@windriver.com>
+Accept-Language: en-US, en-IE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [137.202.0.87]
+MIME-Version: 1.0
+Subject: Re: [PATCH] libxml2: Security fix CVE-2016-5131
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,215 +42,256 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2016 18:59:05 -0000
+X-List-Received-Date: Thu, 15 Dec 2016 19:01:31 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+Can we have this patch merged on morty branch?
 
-It is a simultaneous upgrade for python 2 and 3 over setuptools.
+Noor
 
-Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Yi Zhao
+Sent: Monday, November 28, 2016 2:56 PM
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core] [PATCH] libxml2: Security fix CVE-2016-5131
+
+CVE-2016-5131 libxml2: Use-after-free vulnerability in libxml2 through 2.9.=
+4, as used in Google Chrome before 52.0.2743.82, allows remote attackers to=
+ cause a denial of service or possibly have unspecified other impact via ve=
+ctors related to the XPointer range-to function.
+
+External References:
+https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2016-5131
+
+Patch from:
+https://git.gnome.org/browse/libxml2/commit/?id=3D9ab01a277d71f54d3143c2cf3=
+33c5c2e9aaedd9e
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- meta/recipes-devtools/python/python-setuptools.inc |  4 +--
- .../python/python-setuptools_29.0.1.bb             | 38 ----------------------
- .../python/python-setuptools_31.0.0.bb             | 38 ++++++++++++++++++++++
- .../python/python3-setuptools_29.0.1.bb            | 37 ---------------------
- .../python/python3-setuptools_31.0.0.bb            | 37 +++++++++++++++++++++
- 5 files changed, 77 insertions(+), 77 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python-setuptools_29.0.1.bb
- create mode 100644 meta/recipes-devtools/python/python-setuptools_31.0.0.bb
- delete mode 100644 meta/recipes-devtools/python/python3-setuptools_29.0.1.bb
- create mode 100644 meta/recipes-devtools/python/python3-setuptools_31.0.0.bb
+ .../libxml/libxml2/libxml2-CVE-2016-5131.patch     | 180 +++++++++++++++++=
+++++
+ meta/recipes-core/libxml/libxml2_2.9.4.bb          |   1 +
+ 2 files changed, 181 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-5131.=
+patch
 
-diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
-index e76484a..858595c 100644
---- a/meta/recipes-devtools/python/python-setuptools.inc
-+++ b/meta/recipes-devtools/python/python-setuptools.inc
-@@ -9,8 +9,8 @@ SRCNAME = "setuptools"
- 
- SRC_URI = "https://files.pythonhosted.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "28ecfd0f2574b489b9a18343879a7324"
--SRC_URI[sha256sum] = "b539118819a4857378398891fa5366e090690e46b3e41421a1e07d6e9fd8feb0"
-+SRC_URI[md5sum] = "66da89eeb1f33c2b947f316cfb3d7c7e"
-+SRC_URI[sha256sum] = "0818cc0de692c3a5c83ca83aa7ec7ba6bc206f278735f1e0267b8d0e095cfe7a"
- 
- UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/setuptools"
- 
-diff --git a/meta/recipes-devtools/python/python-setuptools_29.0.1.bb b/meta/recipes-devtools/python/python-setuptools_29.0.1.bb
-deleted file mode 100644
-index 526474c..0000000
---- a/meta/recipes-devtools/python/python-setuptools_29.0.1.bb
-+++ /dev/null
-@@ -1,38 +0,0 @@
--require python-setuptools.inc
--
--PROVIDES = "python-distribute"
--
--DEPENDS += "python"
--DEPENDS_class-native += "python-native"
--
--inherit distutils
--
--DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${PYTHON_SITEPACKAGES_DIR}"
--
--RDEPENDS_${PN} = "\
--  python-stringold \
--  python-email \
--  python-shell \
--  python-distutils \
--  python-compression \
--  python-pkgutil \
--  python-plistlib \
--  python-numbers \
--  python-html \
--  python-netserver \
--  python-ctypes \
--  python-subprocess \
--  python-unittest \
--  python-compile \
--"
--
--RDEPENDS_${PN}_class-native = "\
--  python-distutils \
--  python-compression \
--"
--
--RREPLACES_${PN} = "python-distribute"
--RPROVIDES_${PN} = "python-distribute"
--RCONFLICTS_${PN} = "python-distribute"
--
--BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python-setuptools_31.0.0.bb b/meta/recipes-devtools/python/python-setuptools_31.0.0.bb
+diff --git a/meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-5131.patch b=
+/meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-5131.patch
 new file mode 100644
-index 0000000..526474c
+index 0000000..9d47d02
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python-setuptools_31.0.0.bb
-@@ -0,0 +1,38 @@
-+require python-setuptools.inc
++++ b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-5131.patch
+@@ -0,0 +1,180 @@
++From 9ab01a277d71f54d3143c2cf333c5c2e9aaedd9e Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Tue, 28 Jun 2016 14:22:23 +0200
++Subject: [PATCH] Fix XPointer paths beginning with range-to
 +
-+PROVIDES = "python-distribute"
++The old code would invoke the broken xmlXPtrRangeToFunction. range-to=20
++isn't really a function but a special kind of location step. Remove=20
++this function and always handle range-to in the XPath code.
 +
-+DEPENDS += "python"
-+DEPENDS_class-native += "python-native"
++The old xmlXPtrRangeToFunction could also be abused to trigger a=20
++use-after-free error with the potential for remote code execution.
 +
-+inherit distutils
++Found with afl-fuzz.
 +
-+DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${PYTHON_SITEPACKAGES_DIR}"
++Fixes CVE-2016-5131.
 +
-+RDEPENDS_${PN} = "\
-+  python-stringold \
-+  python-email \
-+  python-shell \
-+  python-distutils \
-+  python-compression \
-+  python-pkgutil \
-+  python-plistlib \
-+  python-numbers \
-+  python-html \
-+  python-netserver \
-+  python-ctypes \
-+  python-subprocess \
-+  python-unittest \
-+  python-compile \
-+"
++CVE: CVE-2016-5131
++Upstream-Status: Backport
++https://git.gnome.org/browse/libxml2/commit/?id=3D9ab01a277d71f54d3143c2c
++f333c5c2e9aaedd9e
 +
-+RDEPENDS_${PN}_class-native = "\
-+  python-distutils \
-+  python-compression \
-+"
++Signed-off-by: Yi Zhao <yi.zhao@windirver.com>
++---
++ result/XPath/xptr/vidbase | 13 ++++++++
++ test/XPath/xptr/vidbase   |  1 +
++ xpath.c                   |  7 ++++-
++ xpointer.c                | 76 ++++--------------------------------------=
+-----
++ 4 files changed, 26 insertions(+), 71 deletions(-)
 +
-+RREPLACES_${PN} = "python-distribute"
-+RPROVIDES_${PN} = "python-distribute"
-+RCONFLICTS_${PN} = "python-distribute"
++diff --git a/result/XPath/xptr/vidbase b/result/XPath/xptr/vidbase=20
++index 8b9e92d..f19193e 100644
++--- a/result/XPath/xptr/vidbase
+++++ b/result/XPath/xptr/vidbase
++@@ -17,3 +17,16 @@ Object is a Location Set:
++   To node
++     ELEMENT p
++=20
+++
+++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+++Expression: xpointer(range-to(id('chapter2')))
+++Object is a Location Set:
+++1 :   Object is a range :
+++  From node
+++     /
+++  To node
+++    ELEMENT chapter
+++      ATTRIBUTE id
+++        TEXT
+++          content=3Dchapter2
+++
++diff --git a/test/XPath/xptr/vidbase b/test/XPath/xptr/vidbase index=20
++b146383..884b106 100644
++--- a/test/XPath/xptr/vidbase
+++++ b/test/XPath/xptr/vidbase
++@@ -1,2 +1,3 @@
++ xpointer(id('chapter1')/p)
++ xpointer(id('chapter1')/p[1]/range-to(following-sibling::p[2]))
+++xpointer(range-to(id('chapter2')))
++diff --git a/xpath.c b/xpath.c
++index d992841..5a01b1b 100644
++--- a/xpath.c
+++++ b/xpath.c
++@@ -10691,13 +10691,18 @@ xmlXPathCompPathExpr(xmlXPathParserContextPtr ct=
+xt) {
++ 		    lc =3D 1;
++ 		    break;
++ 		} else if ((NXT(len) =3D=3D '(')) {
++-		    /* Note Type or Function */
+++		    /* Node Type or Function */
++ 		    if (xmlXPathIsNodeType(name)) {
++ #ifdef DEBUG_STEP
++ 		        xmlGenericError(xmlGenericErrorContext,
++ 				"PathExpr: Type search\n");
++ #endif
++ 			lc =3D 1;
+++#ifdef LIBXML_XPTR_ENABLED
+++                    } else if (ctxt->xptr &&
+++                               xmlStrEqual(name, BAD_CAST "range-to")) {
+++                        lc =3D 1;
+++#endif
++ 		    } else {
++ #ifdef DEBUG_STEP
++ 		        xmlGenericError(xmlGenericErrorContext,
++diff --git a/xpointer.c b/xpointer.c
++index 676c510..d74174a 100644
++--- a/xpointer.c
+++++ b/xpointer.c
++@@ -1332,8 +1332,6 @@ xmlXPtrNewContext(xmlDocPtr doc, xmlNodePtr here, xm=
+lNodePtr origin) {
++     ret->here =3D here;
++     ret->origin =3D origin;
++=20
++-    xmlXPathRegisterFunc(ret, (xmlChar *)"range-to",
++-	                 xmlXPtrRangeToFunction);
++     xmlXPathRegisterFunc(ret, (xmlChar *)"range",
++ 	                 xmlXPtrRangeFunction);
++     xmlXPathRegisterFunc(ret, (xmlChar *)"range-inside", @@ -2243,76=20
+++2241,14 @@ xmlXPtrRangeInsideFunction(xmlXPathParserContextPtr ctxt,=20
++int nargs) {
++  * @nargs:  the number of args
++  *
++  * Implement the range-to() XPointer function
+++ *
+++ * Obsolete. range-to is not a real function but a special type of=20
+++ location
+++ * step which is handled in xpath.c.
++  */
++ void
++-xmlXPtrRangeToFunction(xmlXPathParserContextPtr ctxt, int nargs) {
++-    xmlXPathObjectPtr range;
++-    const xmlChar *cur;
++-    xmlXPathObjectPtr res, obj;
++-    xmlXPathObjectPtr tmp;
++-    xmlLocationSetPtr newset =3D NULL;
++-    xmlNodeSetPtr oldset;
++-    int i;
++-
++-    if (ctxt =3D=3D NULL) return;
++-    CHECK_ARITY(1);
++-    /*
++-     * Save the expression pointer since we will have to evaluate
++-     * it multiple times. Initialize the new set.
++-     */
++-    CHECK_TYPE(XPATH_NODESET);
++-    obj =3D valuePop(ctxt);
++-    oldset =3D obj->nodesetval;
++-    ctxt->context->node =3D NULL;
++-
++-    cur =3D ctxt->cur;
++-    newset =3D xmlXPtrLocationSetCreate(NULL);
++-
++-    for (i =3D 0; i < oldset->nodeNr; i++) {
++-	ctxt->cur =3D cur;
++-
++-	/*
++-	 * Run the evaluation with a node list made of a single item
++-	 * in the nodeset.
++-	 */
++-	ctxt->context->node =3D oldset->nodeTab[i];
++-	tmp =3D xmlXPathNewNodeSet(ctxt->context->node);
++-	valuePush(ctxt, tmp);
++-
++-	xmlXPathEvalExpr(ctxt);
++-	CHECK_ERROR;
++-
++-	/*
++-	 * The result of the evaluation need to be tested to
++-	 * decided whether the filter succeeded or not
++-	 */
++-	res =3D valuePop(ctxt);
++-	range =3D xmlXPtrNewRangeNodeObject(oldset->nodeTab[i], res);
++-	if (range !=3D NULL) {
++-	    xmlXPtrLocationSetAdd(newset, range);
++-	}
++-
++-	/*
++-	 * Cleanup
++-	 */
++-	if (res !=3D NULL)
++-	    xmlXPathFreeObject(res);
++-	if (ctxt->value =3D=3D tmp) {
++-	    res =3D valuePop(ctxt);
++-	    xmlXPathFreeObject(res);
++-	}
++-
++-	ctxt->context->node =3D NULL;
++-    }
++-
++-    /*
++-     * The result is used as the new evaluation set.
++-     */
++-    xmlXPathFreeObject(obj);
++-    ctxt->context->node =3D NULL;
++-    ctxt->context->contextSize =3D -1;
++-    ctxt->context->proximityPosition =3D -1;
++-    valuePush(ctxt, xmlXPtrWrapLocationSet(newset));
+++xmlXPtrRangeToFunction(xmlXPathParserContextPtr ctxt,
+++                       int nargs ATTRIBUTE_UNUSED) {
+++    XP_ERROR(XPATH_EXPR_ERROR);
++ }
++=20
++ /**
++--
++2.7.4
 +
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-setuptools_29.0.1.bb b/meta/recipes-devtools/python/python3-setuptools_29.0.1.bb
-deleted file mode 100644
-index 65af6f0..0000000
---- a/meta/recipes-devtools/python/python3-setuptools_29.0.1.bb
-+++ /dev/null
-@@ -1,37 +0,0 @@
--require python-setuptools.inc
--
--DEPENDS += "python3"
--DEPENDS_class-native += "python3-native"
--
--inherit distutils3
--
--DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${PYTHON_SITEPACKAGES_DIR}"
--
--# The installer puts the wrong path in the setuptools.pth file.  Correct it.
--do_install_append() {
--    rm ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
--    mv ${D}${bindir}/easy_install ${D}${bindir}/easy3_install
--    echo "./${SRCNAME}-${PV}-py${PYTHON_BASEVERSION}.egg" > ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
--}
--
--RDEPENDS_${PN} = "\
--  python3-distutils \
--  python3-compression \
--"
--RDEPENDS_${PN}_class-target = "\
--  python3-ctypes \
--  python3-distutils \
--  python3-email \
--  python3-importlib \
--  python3-numbers \
--  python3-compression \
--  python3-shell \
--  python3-subprocess \
--  python3-textutils \
--  python3-pkgutil \
--  python3-threading \
--  python3-misc \
--  python3-unittest \
--  python3-xml \
--"
--BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-devtools/python/python3-setuptools_31.0.0.bb b/meta/recipes-devtools/python/python3-setuptools_31.0.0.bb
-new file mode 100644
-index 0000000..65af6f0
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-setuptools_31.0.0.bb
-@@ -0,0 +1,37 @@
-+require python-setuptools.inc
-+
-+DEPENDS += "python3"
-+DEPENDS_class-native += "python3-native"
-+
-+inherit distutils3
-+
-+DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${PYTHON_SITEPACKAGES_DIR}"
-+
-+# The installer puts the wrong path in the setuptools.pth file.  Correct it.
-+do_install_append() {
-+    rm ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
-+    mv ${D}${bindir}/easy_install ${D}${bindir}/easy3_install
-+    echo "./${SRCNAME}-${PV}-py${PYTHON_BASEVERSION}.egg" > ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
-+}
-+
-+RDEPENDS_${PN} = "\
-+  python3-distutils \
-+  python3-compression \
-+"
-+RDEPENDS_${PN}_class-target = "\
-+  python3-ctypes \
-+  python3-distutils \
-+  python3-email \
-+  python3-importlib \
-+  python3-numbers \
-+  python3-compression \
-+  python3-shell \
-+  python3-subprocess \
-+  python3-textutils \
-+  python3-pkgutil \
-+  python3-threading \
-+  python3-misc \
-+  python3-unittest \
-+  python3-xml \
-+"
-+BBCLASSEXTEND = "native"
--- 
-2.1.4
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.4.bb b/meta/recipes-core/=
+libxml/libxml2_2.9.4.bb
+index 59874be..1fed90b 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.4.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.4.bb
+@@ -19,6 +19,7 @@ SRC_URI =3D "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.=
+gz;name=3Dlibtar \
+            file://run-ptest \
+            file://python-sitepackages-dir.patch \
+            file://libxml-m4-use-pkgconfig.patch \
++           file://libxml2-CVE-2016-5131.patch \
+           "
+=20
+ SRC_URI[libtar.md5sum] =3D "ae249165c173b1ff386ee8ad676815f5"
+--
+2.7.4
 
+--
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
