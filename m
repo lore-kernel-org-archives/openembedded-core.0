@@ -1,26 +1,30 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DD3677236
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 09A83771D9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 01:57:14 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBF1vGV2029041
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 15 Dec 2016 02:56:59 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="13935014"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 15 Dec 2016 10:56:55 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 7AB0541B5F44
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 17:57:16 -0800 (PST)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 14 Dec 2016 17:57:15 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
+	Thu, 15 Dec 2016 10:56:54 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.226.109) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Thu, 15 Dec 2016 10:56:54 +0800
+From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Dec 2016 17:57:14 -0800
-Message-ID: <a62cccfa96b7dd47639251cb23aedcd9ebe9d2b9.1481767010.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.9.0
-In-Reply-To: <cover.1481767010.git.liezhi.yang@windriver.com>
-References: <cover.1481767010.git.liezhi.yang@windriver.com>
+Date: Thu, 15 Dec 2016 10:42:30 +0800
+Message-ID: <1481769750-27370-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] selftest/bbtests.py: update test_bitbake_g()
+X-Originating-IP: [10.167.226.109]
+X-yoursite-MailScanner-ID: 7AB0541B5F44.A527E
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] e2fsprogs 1.43 -> 1.43.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,45 +37,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2016 01:57:15 -0000
+X-List-Received-Date: Thu, 15 Dec 2016 02:57:00 -0000
 Content-Type: text/plain
 
-Add tests:
-bitbake -g world
-bitbake -g world -cfetchall
+Upgrade e2fsprogs from 1.43 to 1.43.3
 
-I saw they were failed in the past.
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 ---
- meta/lib/oeqa/selftest/bbtests.py | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ .../e2fsprogs/{e2fsprogs_1.43.bb => e2fsprogs_1.43.3.bb}                | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.43.bb => e2fsprogs_1.43.3.bb} (98%)
 
-diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
-index baae1e0..bec82f8 100644
---- a/meta/lib/oeqa/selftest/bbtests.py
-+++ b/meta/lib/oeqa/selftest/bbtests.py
-@@ -114,11 +114,16 @@ class BitbakeTests(oeSelfTest):
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.3.bb
+similarity index 98%
+rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
+rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.3.bb
+index f4855bc..ac4589c 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.3.bb
+@@ -13,7 +13,7 @@ SRC_URI += "file://acinclude.m4 \
  
-     @testcase(167)
-     def test_bitbake_g(self):
--        result = bitbake('-g core-image-full-cmdline')
-         for f in ['pn-buildlist', 'pn-depends.dot', 'package-depends.dot', 'task-depends.dot']:
-             self.addCleanup(os.remove, f)
--        self.assertTrue('NOTE: PN build list saved to \'pn-buildlist\'' in result.output, msg = "No dependency \"pn-buildlist\" file was generated for the given task target. bitbake output: %s" % result.output)
--        self.assertTrue('openssh' in ftools.read_file(os.path.join(self.builddir, 'pn-buildlist')), msg = "No \"openssh\" dependency found in pn-buildlist file.")
-+        cmds = ('-g core-image-full-cmdline', '-g world', '-g world -cfetchall')
-+        for cmd in cmds:
-+            result = bitbake(cmd)
-+            self.assertTrue('NOTE: PN build list saved to \'pn-buildlist\'' in result.output, \
-+                msg = "No dependency \"pn-buildlist\" file was generated for the given task target. bitbake output: %s. Command: \"bitbake %s\"" % \
-+                (result.output, cmd))
-+            self.assertTrue('openssh' in ftools.read_file(os.path.join(self.builddir, 'pn-buildlist')), \
-+                msg = "No \"openssh\" dependency found in pn-buildlist file. Command: %s" % cmd)
+ SRC_URI_append_class-native = " file://e2fsprogs-fix-missing-check-for-permission-denied.patch"
  
-     @testcase(899)
-     def test_image_manifest(self):
+-SRCREV = "d6adf070b0e85f209c0d7f310188b134b5cb7180"
++SRCREV = "4e52870eeb08ed7532bf4fd3d5cb1538f714bdc8"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+\.\d+(\.\d+)*)$"
+ 
+ EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
 -- 
-2.9.0
+2.7.4
+
+
 
 
