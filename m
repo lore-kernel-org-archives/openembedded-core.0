@@ -1,44 +1,25 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qt0-f181.google.com (mail-qt0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 265C177293
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C71A77177
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 11:38:12 +0000 (UTC)
-Received: by mail-qt0-f181.google.com with SMTP id c47so53564156qtc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 03:38:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=xEQ2QrFVjOJSkK4VClPyTdJlbvkcaLXCckg1E4sZGIY=;
-	b=IKjb9M6eezXYNZPmWy1CS6UnK9NbrDm3KFuLpsbX+BTJ6WyZajiSsLZqld0h4vXeEG
-	u4U787A7kWo92/nPGO2AXu7cG7//XJpCSM/Mu7twEMei4MZUcBkq4RynXpAVl/Z72oip
-	iQb0x41HF4rxA0IYneZiTwTjSYn4P8kWDAFDA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=xEQ2QrFVjOJSkK4VClPyTdJlbvkcaLXCckg1E4sZGIY=;
-	b=A7DgyzxwqK3zu/IeZJtPrjxEiZ1B0uNu+GFRcYZKLz5C+fmLx+WqFQ7rlb3bi8mbfC
-	GvqpBXo3Iy8S2rbPFD1+nzSg32X0Q8GuGytPckcLXhiljk2E9LTliN/05AJEwPMDu9+5
-	AbNpsLG5zDEA1CmEmKUbDUkTOJqFfs+BiZYF7fnX1Mz/V1hQgDey9xOQ7CF5wCO5jyNR
-	Hx/KloOmk9ZjAtFdGIHlihstcb15r7ufARAfQBfHiLgnT/hYPO3sFXif3aqD6KOk4k81
-	YNZxSRZAtixJ7/huYin4kzXHCNxfQwSn97vJuFsh9Li80e000by5nr9UR9HWp1Qctmb0
-	9FbQ==
-X-Gm-Message-State: AIkVDXJi+L+5xqxQ58IOfvy+/TVmhTZvO9lc4yqCze+eaLDyLqoRgZlQBVgCeKKNHglgDgwYPxoJFNkGsD2bohUq
-X-Received: by 10.200.50.97 with SMTP id y30mr652921qta.203.1481801894236;
-	Thu, 15 Dec 2016 03:38:14 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.19.72 with HTTP; Thu, 15 Dec 2016 03:37:53 -0800 (PST)
-In-Reply-To: <1467611193-31658-2-git-send-email-carol.zhu@nxp.com>
-References: <1467611193-31658-1-git-send-email-carol.zhu@nxp.com>
-	<1467611193-31658-2-git-send-email-carol.zhu@nxp.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Thu, 15 Dec 2016 12:37:53 +0100
-Message-ID: <CAP71Wjw940K97MyZF4-gVziJve3FEhNVJG4R-_A=rm4QXLzV4Q@mail.gmail.com>
-To: Yuqing Zhu <carol.zhu@nxp.com>
+	Thu, 15 Dec 2016 12:11:24 +0000 (UTC)
+Received: from [2a00:14f0:e04c:51ac:50e2:c523:4434:54a0] (helo=phil-desktop)
+	by hetzner.pbcl.net with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.87)
+	(envelope-from <pb@pbcl.net>)
+	id 1cHUsc-0000yl-Se; Thu, 15 Dec 2016 13:11:25 +0100
+Message-ID: <1481803881.10018.20.camel@pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 15 Dec 2016 12:11:21 +0000
+In-Reply-To: <CAMKF1sq--mXBzTh+xc+gZb9L9wNugK8izZ-MMrYJyKKKdR9aOg@mail.gmail.com>
+References: <1481751480.3851.14.camel@pbcl.net>
+	<CAMKF1sq--mXBzTh+xc+gZb9L9wNugK8izZ-MMrYJyKKKdR9aOg@mail.gmail.com>
+X-Mailer: Evolution 3.22.1-2 
+Mime-Version: 1.0
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky][PATCH 1/6] gstreamer1.0-plugins-bad: Enable gldeinterlace on OpenGL ES
+Subject: Re: [PATCH] lttng-ust: Patch python shebang appropriately for native builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,26 +32,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2016 11:38:13 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 15 Dec 2016 12:11:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 4, 2016 at 7:46 AM, Yuqing Zhu <carol.zhu@nxp.com> wrote:
-> ++
-> ++#if GST_GL_HAVE_OPENGL
-> ++  if (USING_OPENGL (context)) {
-> ++    gl->MatrixMode (GL_PROJECTION);
-> ++    gl->LoadIdentity ();
-> ++  }
-> ++#endif
-> +
+On Wed, 2016-12-14 at 15:38 -0800, Khem Raj wrote:
+> On Wed, Dec 14, 2016 at 1:38 PM, Phil Blundell <pb@pbcl.net> wrote:
+> > If we are building a native package then ${bindir}/python3 is not
+> > guaranteed
+> > to be available, and if it is available then it is probably a
+> > directory not a
+> > file.  In either case, attempting to use it as an interpreter will
+> > not end
+> > well.  Let's use ${bindir}/nativepython instead.
+> > 
+> > Signed-off-by: Phil Blundell <philb@gnu.org>
+> > ---
+> >  meta/recipes-kernel/lttng/lttng-ust_git.bb | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/recipes-kernel/lttng/lttng-ust_git.bb
+> > b/meta/recipes-kernel/lttng/lttng-ust_git.bb
+> > index 5869093..df22352 100644
+> > --- a/meta/recipes-kernel/lttng/lttng-ust_git.bb
+> > +++ b/meta/recipes-kernel/lttng/lttng-ust_git.bb
+> > @@ -29,10 +29,12 @@ SRC_URI = "git://git.lttng.org/lttng-
+> > ust.git;branch=stable-2.7 \
+> > 
+> >  PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-
+> > pages, asciidoc-native xmlto-native libxslt-native"
+> > 
+> > +usepython="${bindir}/python3"
+> > +usepython_class-native="${bindir}/nativepython"
+> >  do_install_append() {
+> >          # Patch python tools to use Python 3; they should be
+> > source compatible, but
+> >          # still refer to Python 2 in the shebang
+> > -        sed -i -e '1s,#!.*python.*,#!${bindir}/python3,'
+> > ${D}${bindir}/lttng-gen-tp
+> > +        sed -i -e '1s,#!.*python.*,#!${usepython},'
+> > ${D}${bindir}/lttng-gen-tp
+> 
+> This also means we need to add a dependency on python-native may be
+> it
+> should inherit the python native class.
 
-yes, I know , a bit late in the game.. but this patch breaks when -bad
-is built with 'opengl' support in PACKAGECONFIG. In the original
-upstream commit at [1] the .h file defines the USING_OPENGL macro, but
-that piece of code was not backported properly in OE and it leaves
-USING_OPENGL as an undefined symbol..
+I suppose it probably should.  That'd be a bit suboptimal in the sense
+that the non-native version does not need to depend on python-native,
+but given that python-native is probably installed in the sysroot
+anyway I don't suppose it is likely to hurt very much.  And I don't
+think it is worth the complexity of trying to do a conditional inherit
+of pythonnative.
 
-This is now a morty issue.. i will try to cook up a patch for it later today.
+p.
 
-[1] https://cgit.freedesktop.org/gstreamer/gst-plugins-bad/commit/?id=0cfb0890ce9a20f096a0a9c9f23b656f436794c6
 
