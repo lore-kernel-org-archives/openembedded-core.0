@@ -1,48 +1,35 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
-	[209.85.213.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 5932177200
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DB5760750
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 00:10:50 +0000 (UTC)
-Received: by mail-vk0-f68.google.com with SMTP id l126so6014412vkh.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2016 16:10:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=y+8IYRTV3SV6F2DHvFl5V419gI3ltfrseOYMwJVumpo=;
-	b=eXsdiCc/cszawedGJegYyxAjJw9gwPOi80J0ZCcR2HwCM0hjNquKIkfs2lk8IOCBhO
-	BdspFuQqxJYwsPe/LuNSb4ZaXtB8RHD1TrfePWUk8i80CwJHFAhY+xtt2v4vzEBWnPRN
-	Z9EBU9X2YarzsvDYe1f+FJ8lNPyAbCBl+7FPBZ4z1PSssYiHBJK/9WTZNjSG6cTRfik4
-	qhZpvvU2MFH02ghJrGeA2J/lwjnx/KDvD+GK3szHrDanDifAJpPcunRyjaJFpg9yCmry
-	Xm5+HuOojPEoDhrGVcuXg47aXxKJzW9Hp0oJQ500Gl+xLL2WS3TBEoAW7+eFoOBjpe0K
-	fcZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=y+8IYRTV3SV6F2DHvFl5V419gI3ltfrseOYMwJVumpo=;
-	b=sxc6eewFJc4V4pf4rUaBYZQ/Qq1zi16pFbys9VFneGPeggNGm/d1VCXUeopBFJLxAb
-	IFW3nhkOopQ++VJbOAQShoTNPhYDZz/cbc7KmqXGnDR02iZd4jmbND6mVpmixkApZLoA
-	4ptLPYdNuSYR7QflKX3v/caxgbqjOnegFO9V++7ZD+P/XfLGLc5RVO5t9DHFbhz1mG3w
-	L8G2LCMrO+gDtHSVvqyBSbffi4XS82SFY8NSJTxBq2yPwLg1FwD2vQgAjNEoMDi421N/
-	wb2SrztxJhpY7cu3+IV4wiI6yXOXb7vUdZydCZZfNEEGe9/RHvm08pJenaQaJdsJ4jqD
-	hyww==
-X-Gm-Message-State: AKaTC011vXzbfbXu7SmDSMEm6RuZrwmXH1u7OZ+Ts3b+/Nf9VvT4YgvZDsSFjeYvpBRuhQhKyxq0rbhVWfVZ1Q==
-X-Received: by 10.176.1.17 with SMTP id 17mr77141109uak.143.1481760652147;
-	Wed, 14 Dec 2016 16:10:52 -0800 (PST)
+	Thu, 15 Dec 2016 01:04:39 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uBF14dHt030713
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 14 Dec 2016 17:04:39 -0800
+Received: from [172.25.44.2] (172.25.44.2) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Wed, 14 Dec 2016 17:04:38 -0800
+To: Andre McCurdy <armccurdy@gmail.com>, "Huang, Jie (Jackie)"
+	<Jackie.Huang@windriver.com>
+References: <20161212054215.20513-1-jackie.huang@windriver.com>
+	<CAMKF1sqm-YotzrkeqvvLr5MQsPNoiN6W2y_UhfYkx-dJWR66Fw@mail.gmail.com>
+	<1B858668EC6A94408DCA5225FDFA85AA013DE49043@ALA-MBA.corp.ad.wrs.com>
+	<CAJ86T=Ux+uT-PgJ+H+-i60iABaQ3iuUB8gz6iLF-+vtMycZdWw@mail.gmail.com>
+	<1B858668EC6A94408DCA5225FDFA85AA013DE4A0F6@ALA-MBA.corp.ad.wrs.com>
+	<CAJ86T=Xw9JAQDE+qPKX3T00VYHP0Kt7s47Yh3cNxzpZpc5Pp0w@mail.gmail.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <00b0154b-3278-87e2-a8f0-48e8be3c309d@windriver.com>
+Date: Wed, 14 Dec 2016 20:04:37 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.5.1
 MIME-Version: 1.0
-Received: by 10.159.48.87 with HTTP; Wed, 14 Dec 2016 16:10:21 -0800 (PST)
-In-Reply-To: <D05F496B-1241-409B-B2C7-D0BCBAA53EE9@gmail.com>
-References: <20161211230719.28765-1-raj.khem@gmail.com>
-	<CAJTo0La2dNp3SQ3AurR+QOq9mt-YgsMz6PVra56eJQVwXfvjpA@mail.gmail.com>
-	<D05F496B-1241-409B-B2C7-D0BCBAA53EE9@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 14 Dec 2016 16:10:21 -0800
-Message-ID: <CAMKF1srL3e5d3Vuz6gcV-iHhPmxpGKFOXkGofFEvrzvUzuk7hw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] fontconfig: Fix namespace conflicts with glibc
+In-Reply-To: <CAJ86T=Xw9JAQDE+qPKX3T00VYHP0Kt7s47Yh3cNxzpZpc5Pp0w@mail.gmail.com>
+X-Originating-IP: [172.25.44.2]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: add -fno-builtin-strlen when not using -O2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,183 +42,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2016 00:10:51 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 15 Dec 2016 01:04:39 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Dec 12, 2016 at 9:47 AM, Khem Raj <raj.khem@gmail.com> wrote:
+On 2016-12-13 04:16 AM, Andre McCurdy wrote:
+> On Mon, Dec 12, 2016 at 9:14 PM, Huang, Jie (Jackie)
+> <Jackie.Huang@windriver.com> wrote:
+>>> From: Andre McCurdy [mailto:armccurdy@gmail.com]
+>>> For reference, here's the patch I've been using. It's a slightly more
+>>> generic fix than the one in the KDE bug report.
+>>
+>> Thanks, It's a better patch and I will take it and send as v2 of this issue if you're
+>> not going to send it yourself, is it fine for you and could you provide extra info
+>> for the patch header like, upstream-status, written by or Signed-off-by?
 >
-> On Dec 12, 2016, at 4:45 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> Sure. I forget why I didn't submit this at the time. The full patch is:
 >
-> Has fallout, for example libxft:
+>>From d34e2a50ca5493f5a0ce9ccad83a36ac33689266 Mon Sep 17 00:00:00 2001
+> From: Andre McCurdy <armccurdy@gmail.com>
+> Date: Fri, 12 Feb 2016 18:22:12 -0800
+> Subject: [PATCH] make ld-XXX.so strlen intercept optional
 >
-> | ../../libXft-2.3.2/src/xftfreetype.c:675:43: error: =E2=80=98FC_CHAR_WI=
-DTH=E2=80=99
-> undeclared (first use in this function)
+> Hack: Depending on how glibc was compiled (e.g. optimised for size or
+> built with _FORTIFY_SOURCE enabled) the strlen symbol might not be
+> found in ld-XXX.so. Therefore although we should still try to
+> intercept it, don't make it mandatory to do so.
 >
+> Upstream-Status: Inappropriate
+
+Can you explain why it's not appropriate for upstream?
+Does valgrind not support running with different optimizations
+of glibc?
+
 >
-> OK, I wasn=E2=80=99t aware this is exported API, I will tweak the patch a=
-ccordingly.
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
+>  coregrind/m_redir.c | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
+>
+> diff --git a/coregrind/m_redir.c b/coregrind/m_redir.c
+> index 7e4df8d..640a346 100644
+> --- a/coregrind/m_redir.c
+> +++ b/coregrind/m_redir.c
+> @@ -1220,7 +1220,18 @@ static void add_hardwired_spec (const  HChar*
+> sopatt, const HChar* fnpatt,
+>     spec->from_fnpatt = CONST_CAST(HChar *,fnpatt);
+>     spec->to_addr     = to_addr;
+>     spec->isWrap      = False;
+> -   spec->mandatory   = mandatory;
+> +
+> +   /* Hack: Depending on how glibc was compiled (e.g. optimised for size or
+> +      built with _FORTIFY_SOURCE enabled) the strlen symbol might not be found.
+> +      Therefore although we should still try to intercept it, don't make it
+> +      mandatory to do so. We over-ride "mandatory" here to avoid the need to
+> +      patch the many different architecture specific callers to
+> +      add_hardwired_spec(). */
+> +   if (0==VG_(strcmp)("strlen", fnpatt))
+> +      spec->mandatory = NULL;
+
+I know that Jackie has a v2 out but since the interested parties are
+CCed here, and since this is marked as a hack, would there
+be any value in issuing a warning:
+
+#warning "strlen() will not be tracked due to glibc optimization level"
+
+or something like that. Maybe it's overkill since strlen is (should be?)
+side-effect free but I thought I'd share the thought.
+
+What's the right thing to do upstream after we have this hack merged
+locally to fix our ptests?
+
+../Randy
+
+> +   else
+> +      spec->mandatory = mandatory;
+> +
+>     /* VARIABLE PARTS */
+>     spec->mark        = False; /* not significant */
+>     spec->done        = False; /* not significant */
 >
 
-sent a v2
 
-> Ross
->
-> On 11 December 2016 at 23:07, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> glibc 2.25 will come with TS 18661-1 macro definitions in limits.h which
->> ends with following errors
->>
->> | ../../fontconfig-2.12.1/src/fcmatch.c:324:63: error:
->> 'PRI_CHAR_WIDTH_STRONG' undeclared here (not in a function)
->> |  #define FC_OBJECT(NAME, Type, Cmp) { FC_##NAME##_OBJECT, Cmp,
->> PRI_##NAME##_STRONG, PRI_##NAME##_WEAK },
->> |                                                                ^
->> | ../../fontconfig-2.12.1/src/fcobjs.h:54:1: note: in expansion of macro
->> 'FC_OBJECT'
->> |  FC_OBJECT (CHAR_WIDTH,  FcTypeInteger, NULL)
->> |  ^~~~~~~~~
->> | ../../fontconfig-2.12.1/src/fcmatch.c:324:84: error:
->> 'PRI_CHAR_WIDTH_WEAK' undeclared here (not in a function)
->> |  #define FC_OBJECT(NAME, Type, Cmp) { FC_##NAME##_OBJECT, Cmp,
->> PRI_##NAME##_STRONG, PRI_##NAME##_WEAK },
->> |
->> ^
->> | ../../fontconfig-2.12.1/src/fcobjs.h:54:1: note: in expansion of macro
->> 'FC_OBJECT'
->> |  FC_OBJECT (CHAR_WIDTH,  FcTypeInteger, NULL)
->> |  ^~~~~~~~~
->> | make[3]: *** [Makefile:632: fcmatch.lo] Error 1
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->>  ...icts-with-integer-width-macros-from-TS-18.patch | 74
->> ++++++++++++++++++++++
->>  .../fontconfig/fontconfig_2.12.1.bb                |  1 +
->>  2 files changed, 75 insertions(+)
->>  create mode 100644
->> meta/recipes-graphics/fontconfig/fontconfig/0001-Avoid-conflicts-with-in=
-teger-width-macros-from-TS-18.patch
->>
->> diff --git
->> a/meta/recipes-graphics/fontconfig/fontconfig/0001-Avoid-conflicts-with-=
-integer-width-macros-from-TS-18.patch
->> b/meta/recipes-graphics/fontconfig/fontconfig/0001-Avoid-conflicts-with-=
-integer-width-macros-from-TS-18.patch
->> new file mode 100644
->> index 0000000..326ff3c
->> --- /dev/null
->> +++
->> b/meta/recipes-graphics/fontconfig/fontconfig/0001-Avoid-conflicts-with-=
-integer-width-macros-from-TS-18.patch
->> @@ -0,0 +1,74 @@
->> +From 20cddc824c6501c2082cac41b162c34cd5fcc530 Mon Sep 17 00:00:00 2001
->> +From: Khem Raj <raj.khem@gmail.com>
->> +Date: Sun, 11 Dec 2016 14:32:00 -0800
->> +Subject: [PATCH] Avoid conflicts with integer width macros from TS
->> + 18661-1:2014
->> +
->> +glibc 2.25+ has now defined these macros in <limits.h>
->>
->> +https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D5b17fd0da62bf9=
-23cb61d1bb7b08cf2e1f1f9c1a
->> +
->> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> +---
->> +Upstream-Status: Submitted
->> +
->> + fontconfig/fontconfig.h | 2 +-
->> + src/fcobjs.h            | 2 +-
->> + src/fcobjshash.gperf    | 2 +-
->> + src/fcobjshash.h        | 2 +-
->> + 4 files changed, 4 insertions(+), 4 deletions(-)
->> +
->> +diff --git a/fontconfig/fontconfig.h b/fontconfig/fontconfig.h
->> +index 5c72b22..843c532 100644
->> +--- a/fontconfig/fontconfig.h
->> ++++ b/fontconfig/fontconfig.h
->> +@@ -128,7 +128,7 @@ typedef int                FcBool;
->> + #define FC_USER_CACHE_FILE        ".fonts.cache-" FC_CACHE_VERSION
->> +
->> + /* Adjust outline rasterizer */
->> +-#define FC_CHAR_WIDTH     "charwidth" /* Int */
->> ++#define FC_CHARWIDTH      "charwidth" /* Int */
->> + #define FC_CHAR_HEIGHT            "charheight"/* Int */
->> + #define FC_MATRIX         "matrix"    /* FcMatrix */
->> +
->> +diff --git a/src/fcobjs.h b/src/fcobjs.h
->> +index 1fc4f65..d27864b 100644
->> +--- a/src/fcobjs.h
->> ++++ b/src/fcobjs.h
->> +@@ -51,7 +51,7 @@ FC_OBJECT (DPI,                      FcTypeDouble,
->> NULL)
->> + FC_OBJECT (RGBA,              FcTypeInteger,  NULL)
->> + FC_OBJECT (SCALE,             FcTypeDouble,   NULL)
->> + FC_OBJECT (MINSPACE,          FcTypeBool,     NULL)
->> +-FC_OBJECT (CHAR_WIDTH,                FcTypeInteger,  NULL)
->> ++FC_OBJECT (CHARWIDTH,         FcTypeInteger,  NULL)
->> + FC_OBJECT (CHAR_HEIGHT,               FcTypeInteger,  NULL)
->> + FC_OBJECT (MATRIX,            FcTypeMatrix,   NULL)
->> + FC_OBJECT (CHARSET,           FcTypeCharSet,  FcCompareCharSet)
->> +diff --git a/src/fcobjshash.gperf b/src/fcobjshash.gperf
->> +index 80a0237..eb4ad84 100644
->> +--- a/src/fcobjshash.gperf
->> ++++ b/src/fcobjshash.gperf
->> +@@ -44,7 +44,7 @@ int id;
->> + "rgba",FC_RGBA_OBJECT
->> + "scale",FC_SCALE_OBJECT
->> + "minspace",FC_MINSPACE_OBJECT
->> +-"charwidth",FC_CHAR_WIDTH_OBJECT
->> ++"charwidth",FC_CHARWIDTH_OBJECT
->> + "charheight",FC_CHAR_HEIGHT_OBJECT
->> + "matrix",FC_MATRIX_OBJECT
->> + "charset",FC_CHARSET_OBJECT
->> +diff --git a/src/fcobjshash.h b/src/fcobjshash.h
->> +index 5a4d1ea..4e66bb0 100644
->> +--- a/src/fcobjshash.h
->> ++++ b/src/fcobjshash.h
->> +@@ -284,7 +284,7 @@ FcObjectTypeLookup (register const char *str,
->> register unsigned int len)
->> +       {(int)(long)&((struct FcObjectTypeNamePool_t
->> *)0)->FcObjectTypeNamePool_str43,FC_CHARSET_OBJECT},
->> +       {-1},
->> + #line 47 "fcobjshash.gperf"
->> +-      {(int)(long)&((struct FcObjectTypeNamePool_t
->> *)0)->FcObjectTypeNamePool_str45,FC_CHAR_WIDTH_OBJECT},
->> ++      {(int)(long)&((struct FcObjectTypeNamePool_t
->> *)0)->FcObjectTypeNamePool_str45,FC_CHARWIDTH_OBJECT},
->> + #line 48 "fcobjshash.gperf"
->> +       {(int)(long)&((struct FcObjectTypeNamePool_t
->> *)0)->FcObjectTypeNamePool_str46,FC_CHAR_HEIGHT_OBJECT},
->> + #line 55 "fcobjshash.gperf"
->> +--
->> +2.10.2
->> +
->> diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.12.1.bb
->> b/meta/recipes-graphics/fontconfig/fontconfig_2.12.1.bb
->> index 115f558..8616154 100644
->> --- a/meta/recipes-graphics/fontconfig/fontconfig_2.12.1.bb
->> +++ b/meta/recipes-graphics/fontconfig/fontconfig_2.12.1.bb
->> @@ -22,6 +22,7 @@ DEPENDS =3D "expat freetype zlib"
->>
->>  SRC_URI =3D "http://fontconfig.org/release/fontconfig-${PV}.tar.gz \
->>             file://revert-static-pkgconfig.patch \
->> +
->> file://0001-Avoid-conflicts-with-integer-width-macros-from-TS-18.patch \
->>             "
->>  SRC_URI[md5sum] =3D "ce55e525c37147eee14cc2de6cc09f6c"
->>  SRC_URI[sha256sum] =3D
->> "a9f42d03949f948a3a4f762287dbc16e53a927c91a07ee64207ebd90a9e5e292"
->> --
->> 2.10.2
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
->
+-- 
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
+Canada, K2K 2W5
 
