@@ -1,35 +1,38 @@
 Return-Path: <Noor_Ahsan@mentor.com>
 Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C4EF77307
+	by mail.openembedded.org (Postfix) with ESMTP id 25FCF77242
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 19:01:30 +0000 (UTC)
+	Thu, 15 Dec 2016 19:05:11 +0000 (UTC)
 Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=svr-ies-mbx-01.mgc.mentorg.com)
+	helo=SVR-IES-MBX-04.mgc.mentorg.com)
 	by relay1.mentorg.com with esmtp 
-	id 1cHbHX-0006W9-Mo from Noor_Ahsan@mentor.com ;
-	Thu, 15 Dec 2016 11:01:32 -0800
+	id 1cHbL6-0007Yo-O0 from Noor_Ahsan@mentor.com ;
+	Thu, 15 Dec 2016 11:05:13 -0800
 Received: from svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1) by
-	svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1) with Microsoft SMTP
-	Server (TLS) id 15.0.1210.3; Thu, 15 Dec 2016 19:01:28 +0000
+	SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) with Microsoft SMTP
+	Server (TLS) id 15.0.1210.3; Thu, 15 Dec 2016 19:05:09 +0000
 Received: from svr-ies-mbx-01.mgc.mentorg.com ([fe80::15aa:fe76:2483:1cce]) by
 	svr-ies-mbx-01.mgc.mentorg.com ([fe80::15aa:fe76:2483:1cce%22]) with
-	mapi id 15.00.1210.000; Thu, 15 Dec 2016 19:01:28 +0000
+	mapi id 15.00.1210.000; Thu, 15 Dec 2016 19:05:08 +0000
 From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
-To: Yi Zhao <yi.zhao@windriver.com>, "openembedded-core@lists.openembedded.org"
+To: Andrej Valek <andrej.valek@siemens.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] libxml2: Security fix CVE-2016-5131
-Thread-Index: AQHSSV/2sgIh42bqeEmg8mlAt8aGNKEJeGIg
-Date: Thu, 15 Dec 2016 19:01:28 +0000
-Message-ID: <94d3b02ec5424fbabf5efbe2b48d7615@svr-ies-mbx-01.mgc.mentorg.com>
-References: <1480326940-7571-1-git-send-email-yi.zhao@windriver.com>
-In-Reply-To: <1480326940-7571-1-git-send-email-yi.zhao@windriver.com>
+Thread-Topic: [OE-core] [PATCH 2/3] libxml2: fix CVE-2016-4658 Disallow
+	namespace	nodes in XPointer points and ranges
+Thread-Index: AQHSVHvEzeiqurQv/0eV65eKDOcR3qEJYz9A
+Date: Thu, 15 Dec 2016 19:05:08 +0000
+Message-ID: <c5a2e55512d944e0855c7dd2658ad256@svr-ies-mbx-01.mgc.mentorg.com>
+References: <1481548821-15878-1-git-send-email-andrej.valek@siemens.com>
+	<1481548821-15878-2-git-send-email-andrej.valek@siemens.com>
+In-Reply-To: <1481548821-15878-2-git-send-email-andrej.valek@siemens.com>
 Accept-Language: en-US, en-IE
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [137.202.0.87]
 MIME-Version: 1.0
-Subject: Re: [PATCH] libxml2: Security fix CVE-2016-5131
+Subject: Re: [PATCH 2/3] libxml2: fix CVE-2016-4658 Disallow namespace	nodes in XPointer points and ranges
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,252 +45,343 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2016 19:01:31 -0000
+X-List-Received-Date: Thu, 15 Dec 2016 19:05:12 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Can we have this patch merged on morty branch?
+Can we merge this on morty branch as well?
 
 Noor
 
 -----Original Message-----
 From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Yi Zhao
-Sent: Monday, November 28, 2016 2:56 PM
+-core-bounces@lists.openembedded.org] On Behalf Of Andrej Valek
+Sent: Monday, December 12, 2016 6:20 PM
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [PATCH] libxml2: Security fix CVE-2016-5131
+Subject: [OE-core] [PATCH 2/3] libxml2: fix CVE-2016-4658 Disallow namespac=
+e nodes in XPointer points and ranges
 
-CVE-2016-5131 libxml2: Use-after-free vulnerability in libxml2 through 2.9.=
-4, as used in Google Chrome before 52.0.2743.82, allows remote attackers to=
- cause a denial of service or possibly have unspecified other impact via ve=
-ctors related to the XPointer range-to function.
+Namespace nodes must be copied to avoid use-after-free errors.
+But they don't necessarily have a physical representation in a document, so=
+ simply disallow them in XPointer ranges.
 
-External References:
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2016-5131
-
-Patch from:
-https://git.gnome.org/browse/libxml2/commit/?id=3D9ab01a277d71f54d3143c2cf3=
-33c5c2e9aaedd9e
-
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
 ---
- .../libxml/libxml2/libxml2-CVE-2016-5131.patch     | 180 +++++++++++++++++=
+ .../libxml/libxml2/libxml2-CVE-2016-4658.patch     | 269 +++++++++++++++++=
 ++++
  meta/recipes-core/libxml/libxml2_2.9.4.bb          |   1 +
- 2 files changed, 181 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-5131.=
+ 2 files changed, 270 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-4658.=
 patch
 
-diff --git a/meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-5131.patch b=
-/meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-5131.patch
+diff --git a/meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-4658.patch b=
+/meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-4658.patch
 new file mode 100644
-index 0000000..9d47d02
+index 0000000..5412e8c
 --- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-5131.patch
-@@ -0,0 +1,180 @@
-+From 9ab01a277d71f54d3143c2cf333c5c2e9aaedd9e Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Tue, 28 Jun 2016 14:22:23 +0200
-+Subject: [PATCH] Fix XPointer paths beginning with range-to
++++ b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-4658.patch
+@@ -0,0 +1,269 @@
++libxml2-2.9.4: Fix CVE-2016-4658
 +
-+The old code would invoke the broken xmlXPtrRangeToFunction. range-to=20
-+isn't really a function but a special kind of location step. Remove=20
-+this function and always handle range-to in the XPath code.
++[No upstream tracking] --=20
++https://bugzilla.redhat.com/show_bug.cgi?id=3DCVE-2016-4658
 +
-+The old xmlXPtrRangeToFunction could also be abused to trigger a=20
-+use-after-free error with the potential for remote code execution.
++xpointer: Disallow namespace nodes in XPointer points and ranges
 +
-+Found with afl-fuzz.
++Namespace nodes must be copied to avoid use-after-free errors.
++But they don't necessarily have a physical representation in a=20
++document, so simply disallow them in XPointer ranges.
 +
-+Fixes CVE-2016-5131.
++Upstream-Status: Backported
++ -=20
++[https://git.gnome.org/browse/libxml2/commit/?id=3Dc1d1f7121194036608bf55
++5f08d3062a36fd344b]
++ -=20
++[https://git.gnome.org/browse/libxml2/commit/?id=3D3f8a91036d338e51c059d5
++4397a42d645f019c65]
++CVE: CVE-2016-4658
++Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
++Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
 +
-+CVE: CVE-2016-5131
-+Upstream-Status: Backport
-+https://git.gnome.org/browse/libxml2/commit/?id=3D9ab01a277d71f54d3143c2c
-+f333c5c2e9aaedd9e
-+
-+Signed-off-by: Yi Zhao <yi.zhao@windirver.com>
-+---
-+ result/XPath/xptr/vidbase | 13 ++++++++
-+ test/XPath/xptr/vidbase   |  1 +
-+ xpath.c                   |  7 ++++-
-+ xpointer.c                | 76 ++++--------------------------------------=
------
-+ 4 files changed, 26 insertions(+), 71 deletions(-)
-+
-+diff --git a/result/XPath/xptr/vidbase b/result/XPath/xptr/vidbase=20
-+index 8b9e92d..f19193e 100644
-+--- a/result/XPath/xptr/vidbase
-++++ b/result/XPath/xptr/vidbase
-+@@ -17,3 +17,16 @@ Object is a Location Set:
-+   To node
-+     ELEMENT p
-+=20
-++
-++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-++Expression: xpointer(range-to(id('chapter2')))
-++Object is a Location Set:
-++1 :   Object is a range :
-++  From node
-++     /
-++  To node
-++    ELEMENT chapter
-++      ATTRIBUTE id
-++        TEXT
-++          content=3Dchapter2
-++
-+diff --git a/test/XPath/xptr/vidbase b/test/XPath/xptr/vidbase index=20
-+b146383..884b106 100644
-+--- a/test/XPath/xptr/vidbase
-++++ b/test/XPath/xptr/vidbase
-+@@ -1,2 +1,3 @@
-+ xpointer(id('chapter1')/p)
-+ xpointer(id('chapter1')/p[1]/range-to(following-sibling::p[2]))
-++xpointer(range-to(id('chapter2')))
-+diff --git a/xpath.c b/xpath.c
-+index d992841..5a01b1b 100644
-+--- a/xpath.c
-++++ b/xpath.c
-+@@ -10691,13 +10691,18 @@ xmlXPathCompPathExpr(xmlXPathParserContextPtr ct=
-xt) {
-+ 		    lc =3D 1;
-+ 		    break;
-+ 		} else if ((NXT(len) =3D=3D '(')) {
-+-		    /* Note Type or Function */
-++		    /* Node Type or Function */
-+ 		    if (xmlXPathIsNodeType(name)) {
-+ #ifdef DEBUG_STEP
-+ 		        xmlGenericError(xmlGenericErrorContext,
-+ 				"PathExpr: Type search\n");
-+ #endif
-+ 			lc =3D 1;
-++#ifdef LIBXML_XPTR_ENABLED
-++                    } else if (ctxt->xptr &&
-++                               xmlStrEqual(name, BAD_CAST "range-to")) {
-++                        lc =3D 1;
-++#endif
-+ 		    } else {
-+ #ifdef DEBUG_STEP
-+ 		        xmlGenericError(xmlGenericErrorContext,
 +diff --git a/xpointer.c b/xpointer.c
-+index 676c510..d74174a 100644
++index 676c510..911680d 100644
 +--- a/xpointer.c
 ++++ b/xpointer.c
-+@@ -1332,8 +1332,6 @@ xmlXPtrNewContext(xmlDocPtr doc, xmlNodePtr here, xm=
-lNodePtr origin) {
-+     ret->here =3D here;
-+     ret->origin =3D origin;
-+=20
-+-    xmlXPathRegisterFunc(ret, (xmlChar *)"range-to",
-+-	                 xmlXPtrRangeToFunction);
-+     xmlXPathRegisterFunc(ret, (xmlChar *)"range",
-+ 	                 xmlXPtrRangeFunction);
-+     xmlXPathRegisterFunc(ret, (xmlChar *)"range-inside", @@ -2243,76=20
-++2241,14 @@ xmlXPtrRangeInsideFunction(xmlXPathParserContextPtr ctxt,=20
-+int nargs) {
-+  * @nargs:  the number of args
-+  *
-+  * Implement the range-to() XPointer function
-++ *
-++ * Obsolete. range-to is not a real function but a special type of=20
-++ location
-++ * step which is handled in xpath.c.
-+  */
-+ void
-+-xmlXPtrRangeToFunction(xmlXPathParserContextPtr ctxt, int nargs) {
-+-    xmlXPathObjectPtr range;
-+-    const xmlChar *cur;
-+-    xmlXPathObjectPtr res, obj;
-+-    xmlXPathObjectPtr tmp;
-+-    xmlLocationSetPtr newset =3D NULL;
-+-    xmlNodeSetPtr oldset;
-+-    int i;
-+-
-+-    if (ctxt =3D=3D NULL) return;
-+-    CHECK_ARITY(1);
-+-    /*
-+-     * Save the expression pointer since we will have to evaluate
-+-     * it multiple times. Initialize the new set.
-+-     */
-+-    CHECK_TYPE(XPATH_NODESET);
-+-    obj =3D valuePop(ctxt);
-+-    oldset =3D obj->nodesetval;
-+-    ctxt->context->node =3D NULL;
-+-
-+-    cur =3D ctxt->cur;
-+-    newset =3D xmlXPtrLocationSetCreate(NULL);
-+-
-+-    for (i =3D 0; i < oldset->nodeNr; i++) {
-+-	ctxt->cur =3D cur;
-+-
-+-	/*
-+-	 * Run the evaluation with a node list made of a single item
-+-	 * in the nodeset.
-+-	 */
-+-	ctxt->context->node =3D oldset->nodeTab[i];
-+-	tmp =3D xmlXPathNewNodeSet(ctxt->context->node);
-+-	valuePush(ctxt, tmp);
-+-
-+-	xmlXPathEvalExpr(ctxt);
-+-	CHECK_ERROR;
-+-
-+-	/*
-+-	 * The result of the evaluation need to be tested to
-+-	 * decided whether the filter succeeded or not
-+-	 */
-+-	res =3D valuePop(ctxt);
-+-	range =3D xmlXPtrNewRangeNodeObject(oldset->nodeTab[i], res);
-+-	if (range !=3D NULL) {
-+-	    xmlXPtrLocationSetAdd(newset, range);
-+-	}
-+-
-+-	/*
-+-	 * Cleanup
-+-	 */
-+-	if (res !=3D NULL)
-+-	    xmlXPathFreeObject(res);
-+-	if (ctxt->value =3D=3D tmp) {
-+-	    res =3D valuePop(ctxt);
-+-	    xmlXPathFreeObject(res);
-+-	}
-+-
-+-	ctxt->context->node =3D NULL;
-+-    }
-+-
-+-    /*
-+-     * The result is used as the new evaluation set.
-+-     */
-+-    xmlXPathFreeObject(obj);
-+-    ctxt->context->node =3D NULL;
-+-    ctxt->context->contextSize =3D -1;
-+-    ctxt->context->proximityPosition =3D -1;
-+-    valuePush(ctxt, xmlXPtrWrapLocationSet(newset));
-++xmlXPtrRangeToFunction(xmlXPathParserContextPtr ctxt,
-++                       int nargs ATTRIBUTE_UNUSED) {
-++    XP_ERROR(XPATH_EXPR_ERROR);
-+ }
++@@ -320,6 +320,45 @@ xmlXPtrRangesEqual(xmlXPathObjectPtr range1,=20
++xmlXPathObjectPtr range2) {  }
 +=20
 + /**
-+--
-+2.7.4
-+
+++ * xmlXPtrNewRangeInternal:
+++ * @start:  the starting node
+++ * @startindex:  the start index
+++ * @end:  the ending point
+++ * @endindex:  the ending index
+++ *
+++ * Internal function to create a new xmlXPathObjectPtr of type range
+++ *
+++ * Returns the newly created object.
+++ */
+++static xmlXPathObjectPtr
+++xmlXPtrNewRangeInternal(xmlNodePtr start, int startindex,
+++                        xmlNodePtr end, int endindex) {
+++    xmlXPathObjectPtr ret;
+++
+++    /*
+++     * Namespace nodes must be copied (see xmlXPathNodeSetDupNs).
+++     * Disallow them for now.
+++     */
+++    if ((start !=3D NULL) && (start->type =3D=3D XML_NAMESPACE_DECL))
+++	return(NULL);
+++    if ((end !=3D NULL) && (end->type =3D=3D XML_NAMESPACE_DECL))
+++	return(NULL);
+++
+++    ret =3D (xmlXPathObjectPtr) xmlMalloc(sizeof(xmlXPathObject));
+++    if (ret =3D=3D NULL) {
+++        xmlXPtrErrMemory("allocating range");
+++	return(NULL);
+++    }
+++    memset(ret, 0, sizeof(xmlXPathObject));
+++    ret->type =3D XPATH_RANGE;
+++    ret->user =3D start;
+++    ret->index =3D startindex;
+++    ret->user2 =3D end;
+++    ret->index2 =3D endindex;
+++    return(ret);
+++}
+++
+++/**
++  * xmlXPtrNewRange:
++  * @start:  the starting node
++  * @startindex:  the start index
++@@ -344,17 +383,7 @@ xmlXPtrNewRange(xmlNodePtr start, int startindex,
++     if (endindex < 0)
++ 	return(NULL);
++=20
++-    ret =3D (xmlXPathObjectPtr) xmlMalloc(sizeof(xmlXPathObject));
++-    if (ret =3D=3D NULL) {
++-        xmlXPtrErrMemory("allocating range");
++-	return(NULL);
++-    }
++-    memset(ret, 0 , (size_t) sizeof(xmlXPathObject));
++-    ret->type =3D XPATH_RANGE;
++-    ret->user =3D start;
++-    ret->index =3D startindex;
++-    ret->user2 =3D end;
++-    ret->index2 =3D endindex;
+++    ret =3D xmlXPtrNewRangeInternal(start, startindex, end, endindex);
++     xmlXPtrRangeCheckOrder(ret);
++     return(ret);
++ }
++@@ -381,17 +410,8 @@ xmlXPtrNewRangePoints(xmlXPathObjectPtr start, xmlXPa=
+thObjectPtr end) {
++     if (end->type !=3D XPATH_POINT)
++ 	return(NULL);
++=20
++-    ret =3D (xmlXPathObjectPtr) xmlMalloc(sizeof(xmlXPathObject));
++-    if (ret =3D=3D NULL) {
++-        xmlXPtrErrMemory("allocating range");
++-	return(NULL);
++-    }
++-    memset(ret, 0 , (size_t) sizeof(xmlXPathObject));
++-    ret->type =3D XPATH_RANGE;
++-    ret->user =3D start->user;
++-    ret->index =3D start->index;
++-    ret->user2 =3D end->user;
++-    ret->index2 =3D end->index;
+++    ret =3D xmlXPtrNewRangeInternal(start->user, start->index, end->user,
+++				  end->index);
++     xmlXPtrRangeCheckOrder(ret);
++     return(ret);
++ }
++@@ -416,17 +436,7 @@ xmlXPtrNewRangePointNode(xmlXPathObjectPtr start, xml=
+NodePtr end) {
++     if (start->type !=3D XPATH_POINT)
++ 	return(NULL);
++=20
++-    ret =3D (xmlXPathObjectPtr) xmlMalloc(sizeof(xmlXPathObject));
++-    if (ret =3D=3D NULL) {
++-        xmlXPtrErrMemory("allocating range");
++-	return(NULL);
++-    }
++-    memset(ret, 0 , (size_t) sizeof(xmlXPathObject));
++-    ret->type =3D XPATH_RANGE;
++-    ret->user =3D start->user;
++-    ret->index =3D start->index;
++-    ret->user2 =3D end;
++-    ret->index2 =3D -1;
+++    ret =3D xmlXPtrNewRangeInternal(start->user, start->index, end, -1);
++     xmlXPtrRangeCheckOrder(ret);
++     return(ret);
++ }
++@@ -453,17 +463,7 @@ xmlXPtrNewRangeNodePoint(xmlNodePtr start, xmlXPathOb=
+jectPtr end) {
++     if (end->type !=3D XPATH_POINT)
++ 	return(NULL);
++=20
++-    ret =3D (xmlXPathObjectPtr) xmlMalloc(sizeof(xmlXPathObject));
++-    if (ret =3D=3D NULL) {
++-        xmlXPtrErrMemory("allocating range");
++-	return(NULL);
++-    }
++-    memset(ret, 0 , (size_t) sizeof(xmlXPathObject));
++-    ret->type =3D XPATH_RANGE;
++-    ret->user =3D start;
++-    ret->index =3D -1;
++-    ret->user2 =3D end->user;
++-    ret->index2 =3D end->index;
+++    ret =3D xmlXPtrNewRangeInternal(start, -1, end->user, end->index);
++     xmlXPtrRangeCheckOrder(ret);
++     return(ret);
++ }
++@@ -486,17 +486,7 @@ xmlXPtrNewRangeNodes(xmlNodePtr start, xmlNodePtr end=
+) {
++     if (end =3D=3D NULL)
++ 	return(NULL);
++=20
++-    ret =3D (xmlXPathObjectPtr) xmlMalloc(sizeof(xmlXPathObject));
++-    if (ret =3D=3D NULL) {
++-        xmlXPtrErrMemory("allocating range");
++-	return(NULL);
++-    }
++-    memset(ret, 0 , (size_t) sizeof(xmlXPathObject));
++-    ret->type =3D XPATH_RANGE;
++-    ret->user =3D start;
++-    ret->index =3D -1;
++-    ret->user2 =3D end;
++-    ret->index2 =3D -1;
+++    ret =3D xmlXPtrNewRangeInternal(start, -1, end, -1);
++     xmlXPtrRangeCheckOrder(ret);
++     return(ret);
++ }
++@@ -516,17 +506,7 @@ xmlXPtrNewCollapsedRange(xmlNodePtr start) {
++     if (start =3D=3D NULL)
++ 	return(NULL);
++=20
++-    ret =3D (xmlXPathObjectPtr) xmlMalloc(sizeof(xmlXPathObject));
++-    if (ret =3D=3D NULL) {
++-        xmlXPtrErrMemory("allocating range");
++-	return(NULL);
++-    }
++-    memset(ret, 0 , (size_t) sizeof(xmlXPathObject));
++-    ret->type =3D XPATH_RANGE;
++-    ret->user =3D start;
++-    ret->index =3D -1;
++-    ret->user2 =3D NULL;
++-    ret->index2 =3D -1;
+++    ret =3D xmlXPtrNewRangeInternal(start, -1, NULL, -1);
++     return(ret);
++ }
++=20
++@@ -541,6 +521,8 @@ xmlXPtrNewCollapsedRange(xmlNodePtr start) {
++  */
++ xmlXPathObjectPtr
++ xmlXPtrNewRangeNodeObject(xmlNodePtr start, xmlXPathObjectPtr end) {
+++    xmlNodePtr endNode;
+++    int endIndex;
++     xmlXPathObjectPtr ret;
++=20
++     if (start =3D=3D NULL)
++@@ -549,7 +531,12 @@ xmlXPtrNewRangeNodeObject(xmlNodePtr start, xmlXPathO=
+bjectPtr end) {
++ 	return(NULL);
++     switch (end->type) {
++ 	case XPATH_POINT:
+++	    endNode =3D end->user;
+++	    endIndex =3D end->index;
+++	    break;
++ 	case XPATH_RANGE:
+++	    endNode =3D end->user2;
+++	    endIndex =3D end->index2;
++ 	    break;
++ 	case XPATH_NODESET:
++ 	    /*
++@@ -557,39 +544,15 @@ xmlXPtrNewRangeNodeObject(xmlNodePtr start, xmlXPath=
+ObjectPtr end) {
++ 	     */
++ 	    if (end->nodesetval->nodeNr <=3D 0)
++ 		return(NULL);
+++	    endNode =3D end->nodesetval->nodeTab[end->nodesetval->nodeNr - 1];
+++	    endIndex =3D -1;
++ 	    break;
++ 	default:
++ 	    /* TODO */
++ 	    return(NULL);
++     }
++=20
++-    ret =3D (xmlXPathObjectPtr) xmlMalloc(sizeof(xmlXPathObject));
++-    if (ret =3D=3D NULL) {
++-        xmlXPtrErrMemory("allocating range");
++-	return(NULL);
++-    }
++-    memset(ret, 0 , (size_t) sizeof(xmlXPathObject));
++-    ret->type =3D XPATH_RANGE;
++-    ret->user =3D start;
++-    ret->index =3D -1;
++-    switch (end->type) {
++-	case XPATH_POINT:
++-	    ret->user2 =3D end->user;
++-	    ret->index2 =3D end->index;
++-	    break;
++-	case XPATH_RANGE:
++-	    ret->user2 =3D end->user2;
++-	    ret->index2 =3D end->index2;
++-	    break;
++-	case XPATH_NODESET: {
++-	    ret->user2 =3D end->nodesetval->nodeTab[end->nodesetval->nodeNr - 1]=
+;
++-	    ret->index2 =3D -1;
++-	    break;
++-	}
++-	default:
++-	    STRANGE
++-	    return(NULL);
++-    }
+++    ret =3D xmlXPtrNewRangeInternal(start, -1, endNode, endIndex);
++     xmlXPtrRangeCheckOrder(ret);
++     return(ret);
++ }
++@@ -1835,8 +1798,8 @@ xmlXPtrStartPointFunction(xmlXPathParserContextPtr c=
+txt, int nargs) {
++ 		case XPATH_RANGE: {
++ 		    xmlNodePtr node =3D tmp->user;
++ 		    if (node !=3D NULL) {
++-			if (node->type =3D=3D XML_ATTRIBUTE_NODE) {
++-			    /* TODO: Namespace Nodes ??? */
+++			if ((node->type =3D=3D XML_ATTRIBUTE_NODE) ||
+++			     (node->type =3D=3D XML_NAMESPACE_DECL)) {
++ 			    xmlXPathFreeObject(obj);
++ 			    xmlXPtrFreeLocationSet(newset);
++ 			    XP_ERROR(XPTR_SYNTAX_ERROR);
++@@ -1931,8 +1894,8 @@ xmlXPtrEndPointFunction(xmlXPathParserContextPtr ctx=
+t, int nargs) {
++ 		case XPATH_RANGE: {
++ 		    xmlNodePtr node =3D tmp->user2;
++ 		    if (node !=3D NULL) {
++-			if (node->type =3D=3D XML_ATTRIBUTE_NODE) {
++-			    /* TODO: Namespace Nodes ??? */
+++			if ((node->type =3D=3D XML_ATTRIBUTE_NODE) ||
+++			     (node->type =3D=3D XML_NAMESPACE_DECL)) {
++ 			    xmlXPathFreeObject(obj);
++ 			    xmlXPtrFreeLocationSet(newset);
++ 			    XP_ERROR(XPTR_SYNTAX_ERROR);
 diff --git a/meta/recipes-core/libxml/libxml2_2.9.4.bb b/meta/recipes-core/=
 libxml/libxml2_2.9.4.bb
-index 59874be..1fed90b 100644
+index 66a8940..a1d1e9e 100644
 --- a/meta/recipes-core/libxml/libxml2_2.9.4.bb
 +++ b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-@@ -19,6 +19,7 @@ SRC_URI =3D "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.=
+@@ -21,6 +21,7 @@ SRC_URI =3D "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.=
 gz;name=3Dlibtar \
-            file://run-ptest \
-            file://python-sitepackages-dir.patch \
             file://libxml-m4-use-pkgconfig.patch \
-+           file://libxml2-CVE-2016-5131.patch \
+            file://libxml2-fix_node_comparison.patch \
+            file://libxml2-CVE-2016-5131.patch \
++           file://libxml2-CVE-2016-4658.patch \
            "
 =20
  SRC_URI[libtar.md5sum] =3D "ae249165c173b1ff386ee8ad676815f5"
 --
-2.7.4
+2.1.4
 
 --
 _______________________________________________
