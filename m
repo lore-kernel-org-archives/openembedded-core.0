@@ -1,30 +1,48 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 09A83771D9
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com
+	[209.85.216.171])
+	by mail.openembedded.org (Postfix) with ESMTP id B481671957
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 02:56:59 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="13935014"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 15 Dec 2016 10:56:55 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 7AB0541B5F44
+	Thu, 15 Dec 2016 08:43:42 +0000 (UTC)
+Received: by mail-qt0-f171.google.com with SMTP id n6so50219629qtd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 10:56:54 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.226.109) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Thu, 15 Dec 2016 10:56:54 +0800
-From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 15 Dec 2016 10:42:30 +0800
-Message-ID: <1481769750-27370-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+	Thu, 15 Dec 2016 00:43:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=0WLMdYJMfR1lh793lKlCrhGYyxOxi8oT5MUN4IKf30k=;
+	b=NpMmqkqveuWiemNEBj0KQovfHg8dkZdv2or+OXbefPROm9DIlcxJa195nTGxLmPSEI
+	Jw2tNI/qxwFz9xZ3cih8C800/ZMSxDoDC8MExi4TIPOM8OH92qDVPNPDT/NPHuyiEL6/
+	ZMiOJCp+bLLP2tj1cxszUgtUbyIuDxagvmjRe0ItEEadpRHQm9lnveW2hPj0SpSYULtM
+	KlJQdz7+HbyJMep7z511EO9OXbUmzta2NrjyoTTZvBpKZqtp6VwkFRDN9kqMe6jlOYwY
+	JyA+mikSfhz/HK6FzVwjwXdovIeE3KoacCIKL0UkLwOIJk51SSEdB/LNpViGdxG87nmE
+	8gPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=0WLMdYJMfR1lh793lKlCrhGYyxOxi8oT5MUN4IKf30k=;
+	b=R5fTDW3lEXwQyToErdW1NjgsK7glYk9AT3wtT8Y2UAUYd9XTHbIxVRQ/D3ex0h7lFg
+	StztsVphf40wvyF/tJASm+XY5BFg8eqiXE++JLN2besmCHS3els5Odgu0hKnkHQ72/AW
+	MbqB7YHB6B5DpoXTwjAEU1azn9PDP+ja7+k+gDEzQ9gs1j0QpFpYQ8+ltOjaVErVv1HK
+	O6VSGOLB5QsTPPBcvcsuPuOJAwv60OdcMrvJUSxOWA+tNucd7vA9otT3otRLPsDf1i31
+	3Il+F9LeyFhhdeedILFTjWoA0KltEOjIDfoJ9j+GPvouVC8im1K4ifgK7kCF9Unf1TG4
+	fGQQ==
+X-Gm-Message-State: AIkVDXINhHVNqVWVp959eJ9yHxYrHdd7jbFKl3Wk/VfRqhsVja+FF10GfBnAlWDFagUWo02DhjfyOSDxyUrBiAS2
+X-Received: by 10.237.36.154 with SMTP id t26mr147040qtc.188.1481791423723;
+	Thu, 15 Dec 2016 00:43:43 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.109]
-X-yoursite-MailScanner-ID: 7AB0541B5F44.A527E
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] e2fsprogs 1.43 -> 1.43.3
+Received: by 10.140.106.99 with HTTP; Thu, 15 Dec 2016 00:43:23 -0800 (PST)
+In-Reply-To: <CAMKF1sq--mXBzTh+xc+gZb9L9wNugK8izZ-MMrYJyKKKdR9aOg@mail.gmail.com>
+References: <1481751480.3851.14.camel@pbcl.net>
+	<CAMKF1sq--mXBzTh+xc+gZb9L9wNugK8izZ-MMrYJyKKKdR9aOg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 15 Dec 2016 08:43:23 +0000
+Message-ID: <CAJTo0Lb_7+-T0ugym2DjyeEqniRGUjJj9P=c8Gf2NF2SVwHx7A@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] lttng-ust: Patch python shebang appropriately for native builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,36 +55,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2016 02:57:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 15 Dec 2016 08:43:42 -0000
+Content-Type: multipart/alternative; boundary=001a1141058e716ee70543ae73e6
 
-Upgrade e2fsprogs from 1.43 to 1.43.3
+--001a1141058e716ee70543ae73e6
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
----
- .../e2fsprogs/{e2fsprogs_1.43.bb => e2fsprogs_1.43.3.bb}                | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.43.bb => e2fsprogs_1.43.3.bb} (98%)
+On 14 December 2016 at 23:38, Khem Raj <raj.khem@gmail.com> wrote:
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.3.bb
-similarity index 98%
-rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
-rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.3.bb
-index f4855bc..ac4589c 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.3.bb
-@@ -13,7 +13,7 @@ SRC_URI += "file://acinclude.m4 \
- 
- SRC_URI_append_class-native = " file://e2fsprogs-fix-missing-check-for-permission-denied.patch"
- 
--SRCREV = "d6adf070b0e85f209c0d7f310188b134b5cb7180"
-+SRCREV = "4e52870eeb08ed7532bf4fd3d5cb1538f714bdc8"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+\.\d+(\.\d+)*)$"
- 
- EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
--- 
-2.7.4
+> This also means we need to add a dependency on python-native may be it
+> should inherit the python native class.
+>
 
+Indeed.  For python-native, '#! /usr/bin/env python3' will always work as
+that should find the Python that bitbake is running in.
 
+Ross
 
+--001a1141058e716ee70543ae73e6
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 14 December 2016 at 23:38, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex"><div id=3D":4db" class=3D"a3s aXj=
+CH m158ffb48d3a8c9c6">This also means we need to add a dependency on python=
+-native may be it<br>
+should inherit the python native class.<div class=3D"yj6qo ajU"><div id=3D"=
+:2jv" class=3D"ajR" tabindex=3D"0"></div></div></div></blockquote></div><br=
+>Indeed.=C2=A0 For python-native, &#39;#! /usr/bin/env python3&#39; will al=
+ways work as that should find the Python that bitbake is running in.</div><=
+div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></=
+div>
+
+--001a1141058e716ee70543ae73e6--
