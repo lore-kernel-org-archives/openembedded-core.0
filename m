@@ -1,22 +1,22 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id B2A6F772CD
+	by mail.openembedded.org (Postfix) with ESMTP id C831D772BB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 12:48:32 +0000 (UTC)
+	Thu, 15 Dec 2016 12:48:33 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga104.jf.intel.com with ESMTP; 15 Dec 2016 04:48:34 -0800
+	by orsmga104.jf.intel.com with ESMTP; 15 Dec 2016 04:48:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,351,1477983600"; d="scan'208";a="18480802"
+X-IronPort-AV: E=Sophos;i="5.33,351,1477983600"; d="scan'208";a="18480805"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 15 Dec 2016 04:48:33 -0800
+	by orsmga002.jf.intel.com with ESMTP; 15 Dec 2016 04:48:34 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Dec 2016 14:47:58 +0200
-Message-Id: <3219961cc5e14c6dff00f69c3abfbf08d32cc2dc.1481805889.git.alexander.kanavin@linux.intel.com>
+Date: Thu, 15 Dec 2016 14:47:59 +0200
+Message-Id: <5bf7943175cac7cf2e134e7e4124d7b7113c8490.1481805889.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <cover.1481805889.git.alexander.kanavin@linux.intel.com>
 References: <cover.1481805889.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 05/16] btrfs-tools: update to 4.8.5
+Subject: [PATCH 06/16] ca-certificates: update to 20161130
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,30 +29,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2016 12:48:32 -0000
+X-List-Received-Date: Thu, 15 Dec 2016 12:48:33 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../btrfs-tools/{btrfs-tools_4.8.4.bb => btrfs-tools_4.8.5.bb}          | 2 +-
+ .../{ca-certificates_20161102.bb => ca-certificates_20161130.bb}        | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_4.8.4.bb => btrfs-tools_4.8.5.bb} (95%)
+ rename meta/recipes-support/ca-certificates/{ca-certificates_20161102.bb => ca-certificates_20161130.bb} (98%)
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.8.4.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.8.5.bb
-similarity index 95%
-rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_4.8.4.bb
-rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_4.8.5.bb
-index a15fcf2..7047c43 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.8.4.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.8.5.bb
-@@ -13,7 +13,7 @@ SECTION = "base"
- DEPENDS = "util-linux attr e2fsprogs lzo acl udev"
- RDEPENDS_${PN} = "libgcc"
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20161102.bb b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
+similarity index 98%
+rename from meta/recipes-support/ca-certificates/ca-certificates_20161102.bb
+rename to meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
+index 350b266..e0b2e41 100644
+--- a/meta/recipes-support/ca-certificates/ca-certificates_20161102.bb
++++ b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
+@@ -12,7 +12,7 @@ DEPENDS = "ca-certificates-native"
+ DEPENDS_class-native = "openssl-native"
+ DEPENDS_class-nativesdk = "ca-certificates-native openssl-native"
  
--SRCREV = "3ae37eaad1f1ef3f46838da57d8616126fdaffd8"
-+SRCREV = "144a19145e248513c7a676defad59836830535c6"
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
- "
+-SRCREV = "c6a4c8182eda2527eecda90ba0aebc73d8c07d62"
++SRCREV = "61b70a1007dc269d56881a0d480fc841daacc77c"
  
+ SRC_URI = "git://anonscm.debian.org/collab-maint/ca-certificates.git \
+            file://0002-update-ca-certificates-use-SYSROOT.patch \
 -- 
 2.10.2
 
