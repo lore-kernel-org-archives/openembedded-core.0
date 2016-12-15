@@ -1,46 +1,33 @@
-Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D58860107
+Return-Path: <mike.looijmans@topic.nl>
+X-Greylist: delayed 331 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 15 Dec 2016 13:38:08 UTC
+Received: from atl4mhfb04.myregisteredsite.com
+	(atl4mhfb04.myregisteredsite.com [209.17.115.120])
+	by mail.openembedded.org (Postfix) with ESMTP id C927B772BC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 13:31:16 +0000 (UTC)
-Received: by mail-wm0-f42.google.com with SMTP id t79so45715108wmt.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 05:31:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=rndity-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=vikXyF3vdIKNOA1oqHdg9l27yt6qZf3p145lizdy0Pg=;
-	b=DVCVznKR5qnr3j8bzpoVgekKtIHLSaO8Kele+zQ7wYuwTOXyipMEt/tn4IMSJ9VsQ+
-	XHFnpI4pU5iRH8MLTVlY9JHspm/29nqZG1quxdyZjnOpMgpy12H5H+njAKWBA/tGtFxR
-	N5FxqRDFOqnvwGumUzXaIbTp0AVA4xDNcZ9HvAVW3lD7wptaSYDB65jIObldptug1T1h
-	vGwSqMgDRDHO7EVXkeQpGD3xx1c6GOIii1Od0cynObaLPJK98sbXSeTZhYvAJX/FiPn0
-	cxm0on0ZJFoR29+OYgO9q0K7/ExiDnsgSmqgoxNWNOFcC5QatPV5YYOUwJju/qDYm/9Z
-	i1kA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=vikXyF3vdIKNOA1oqHdg9l27yt6qZf3p145lizdy0Pg=;
-	b=JCo9d+6tuoP3CHaA72IO0Z6kG86SHcDenERyBMPszFNQMrLkweltlsn121iydLAPgX
-	sAewxEaH3sYBVWka2jN8B2m6SPLPuS/F56oSxnSCjm+NjSEkcsGVLzxJtMgXVMruWexl
-	sHIoKxkOW/fFdNur+FuHg8leh+UfFHoDhz4eLOSecBqT5uZe05YFSJjk6JIy8oKcxoPy
-	1nmeUJcOzxLSt1UupWzrF9jX04gGyEUNIdUziAGMp8Su24HRBPJ0yIRB+ECgLuTREHqa
-	0TuQglt2mmvjcqnkQo2t0ONrmUn/fBFpeBmY3yWw90eq5qdltmYtOZ+VqrdcJGQ2tfcP
-	LyPg==
-X-Gm-Message-State: AKaTC028rBVm7pwKW4fnDlFq8V021DArmW4RCE6XeHbizoM+CkfpqqtKrZitCRCsdWq8bQ==
-X-Received: by 10.46.78.1 with SMTP id c1mr564989ljb.39.1481808677774;
-	Thu, 15 Dec 2016 05:31:17 -0800 (PST)
-Received: from comp_016_pc_buildenv.localdomain
-	(staticline-31-182-60-238.toya.net.pl. [31.182.60.238])
-	by smtp.gmail.com with ESMTPSA id z1sm457683lja.27.2016.12.15.05.31.16
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 15 Dec 2016 05:31:16 -0800 (PST)
-From: Maciej Borzecki <maciej.borzecki@rndity.com>
+	Thu, 15 Dec 2016 13:38:08 +0000 (UTC)
+Received: from atl4mhob18.myregisteredsite.com
+	(atl4mhob18.myregisteredsite.com [209.17.115.111])
+	by atl4mhfb04.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	uBFDWexv032200 for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Dec 2016 08:32:40 -0500
+Received: from mailpod.hostingplatform.com ([10.30.71.211])
+	by atl4mhob18.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	uBFDWb0F033461 for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Dec 2016 08:32:37 -0500
+Received: (qmail 20273 invoked by uid 0); 15 Dec 2016 13:32:37 -0000
+X-TCPREMOTEIP: 37.74.225.130
+X-Authenticated-UID: mike@milosoftware.com
+Received: from unknown (HELO mikebuntu.TOPIC.LOCAL)
+	(mike@milosoftware.com@37.74.225.130)
+	by 0 with ESMTPA; 15 Dec 2016 13:32:36 -0000
+From: Mike Looijmans <mike.looijmans@topic.nl>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Dec 2016 14:31:08 +0100
-Message-Id: <3c889318aa635d1aaf30646b1152e2d07171e63c.1481808649.git.maciej.borzecki@rndity.com>
-X-Mailer: git-send-email 2.5.5
-Cc: Maciej Borzecki <maciek.borzecki@gmail.com>
-Subject: [PATCH] selftest: wic: qemux86: use weak assignment for WKS_FILE
+Date: Thu, 15 Dec 2016 14:31:57 +0100
+Message-Id: <1481808717-26735-1-git-send-email-mike.looijmans@topic.nl>
+X-Mailer: git-send-email 1.9.1
+Cc: Mike Looijmans <mike.looijmans@topic.nl>
+Subject: [PATCH] linux-firmware: Split out Realtek chipsets rtl8188 rtl8723 rtl8821
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,32 +40,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2016 13:31:17 -0000
+X-List-Received-Date: Thu, 15 Dec 2016 13:38:09 -0000
 
-A follow-up of a fix introduced in
-1b32c6ed025745cb06b7c28ca0fe9e416ce7abfa (selftest: wic: fix test_qemu).
+Add rtl8188 rtl8712 rtl8723 rtl8821 packages to install only firmware for the
+corresponding chipset. Uses a rather blunt approach by simply adding all firmware
+files with matching prefix, to keep the package count down a bit.
 
-Wic test_qemu fails on qemux86 due to a direct assignment of WKS_FILE in machine
-configuration. Using default assignment allows WKS_FILE to be overwritten in
-test setup.
-
-Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
+Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
 ---
- meta/conf/machine/qemux86.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../recipes-kernel/linux-firmware/linux-firmware_git.bb | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
-index 8997f6ba701a91f0adc82dfaf410c7dd1a9777f3..1b478e92ad7fdf6f3cb2dd4f6dc35684a319848c 100644
---- a/meta/conf/machine/qemux86.conf
-+++ b/meta/conf/machine/qemux86.conf
-@@ -28,5 +28,5 @@ MACHINE_FEATURES += "x86"
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index 8e68ae8..1d881d7 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -224,7 +224,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-marvell-license ${PN}-sd8686 ${PN}-sd8688 ${PN}-sd8787 ${PN}-sd8797 \
+              ${PN}-ti-connectivity-license ${PN}-wl12xx ${PN}-wl18xx \
+              ${PN}-vt6656-license ${PN}-vt6656 \
+-             ${PN}-rtl-license ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su \
++             ${PN}-rtl-license ${PN}-rtl8188 ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su ${PN}-rtl8723 ${PN}-rtl8821 \
+              ${PN}-broadcom-license ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 ${PN}-bcm43340 ${PN}-bcm4339 ${PN}-bcm43430 ${PN}-bcm4354 \
+              ${PN}-atheros-license ${PN}-ar9170 ${PN}-carl9170 ${PN}-ath6k ${PN}-ath9k \
+              ${PN}-ar3k-license  ${PN}-ar3k  ${PN}-ath10k-license  ${PN}-ath10k  \
+@@ -344,14 +344,20 @@ RDEPENDS_${PN}-sd8787 += "${PN}-marvell-license"
+ RDEPENDS_${PN}-sd8797 += "${PN}-marvell-license"
  
- MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
+ # For rtl
++LICENSE_${PN}-rtl8188 = "Firmware-rtlwifi_firmware"
+ LICENSE_${PN}-rtl8192cu = "Firmware-rtlwifi_firmware"
+ LICENSE_${PN}-rtl8192ce = "Firmware-rtlwifi_firmware"
+ LICENSE_${PN}-rtl8192su = "Firmware-rtlwifi_firmware"
++LICENSE_${PN}-rtl8723 = "Firmware-rtlwifi_firmware"
++LICENSE_${PN}-rtl8821 = "Firmware-rtlwifi_firmware"
+ LICENSE_${PN}-rtl-license = "Firmware-rtlwifi_firmware"
  
--WKS_FILE = "directdisk.wks"
-+WKS_FILE ?= "directdisk.wks"
- do_image_wic[depends] += "syslinux:do_build syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
+ FILES_${PN}-rtl-license = " \
+   /lib/firmware/LICENCE.rtlwifi_firmware.txt \
+ "
++FILES_${PN}-rtl8188 = " \
++  /lib/firmware/rtlwifi/rtl8188*.bin \
++"
+ FILES_${PN}-rtl8192cu = " \
+   /lib/firmware/rtlwifi/rtl8192cufw*.bin \
+ "
+@@ -361,10 +367,19 @@ FILES_${PN}-rtl8192ce = " \
+ FILES_${PN}-rtl8192su = " \
+   /lib/firmware/rtlwifi/rtl8712u.bin \
+ "
++FILES_${PN}-rtl8723 = " \
++  /lib/firmware/rtlwifi/rtl8723*.bin \
++"
++FILES_${PN}-rtl8821 = " \
++  /lib/firmware/rtlwifi/rtl8821*.bin \
++"
+ 
++RDEPENDS_${PN}-rtl8188 += "${PN}-rtl-license"
+ RDEPENDS_${PN}-rtl8192ce += "${PN}-rtl-license"
+ RDEPENDS_${PN}-rtl8192cu += "${PN}-rtl-license"
+ RDEPENDS_${PN}-rtl8192su = "${PN}-rtl-license"
++RDEPENDS_${PN}-rtl8723 += "${PN}-rtl-license"
++RDEPENDS_${PN}-rtl8821 += "${PN}-rtl-license"
+ 
+ # For ti-connectivity
+ LICENSE_${PN}-wl12xx = "Firmware-ti-connectivity"
 -- 
-2.5.5
+1.9.1
 
 
