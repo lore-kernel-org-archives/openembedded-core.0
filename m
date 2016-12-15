@@ -1,20 +1,46 @@
-Return-Path: <jose.a.lamego@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 69C91755C2
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-vk0-f51.google.com (mail-vk0-f51.google.com
+	[209.85.213.51])
+	by mail.openembedded.org (Postfix) with ESMTP id CAE2371D3A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 15:56:11 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 15 Dec 2016 07:56:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,352,1477983600"; d="scan'208";a="912561528"
-Received: from jalamego-mobl2.zpn.intel.com ([10.219.5.137])
-	by orsmga003.jf.intel.com with ESMTP; 15 Dec 2016 07:56:12 -0800
-From: Jose Lamego <jose.a.lamego@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Dec 2016 09:56:02 -0600
-Message-Id: <1481817362-29580-1-git-send-email-jose.a.lamego@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] python*-git: Upgrade to version 2.1.1
+	Thu, 15 Dec 2016 16:30:48 +0000 (UTC)
+Received: by mail-vk0-f51.google.com with SMTP id 137so74351014vkl.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Dec 2016 08:30:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=8yKE1Led9dsxKS12tH3w9UQpcoIwHaklwDkcjCErtDY=;
+	b=vhMvKd+3MNt+DSh79dWeRkq/sN0FoEYweIMOsxi63Wh4wsv9gl8M1O1gc/Bo7lc5IB
+	Vem6UIpPmFWxZRCRaDF6QqRggv6QUrslwRxRcdJ+KYeBaej8zmzIWGLDTs2wB//kQyn+
+	iJ7OiQr82FgS0vg/h549qVpc9GW4lrHzd8K2qfI8YNia2od7LcHGRyaLcAOa3r7vUT74
+	5dF1r2tv4EgnYHLNU+AbxObGhRkQ8zgh+f78Ia2v6EeI/NcCSn6bX+Ly1b6M78nmXMDJ
+	2QZu0lnAr6FujQIOqRBmX8UNA2Z+YYIichTdBV5Dno0taA3twZHM/hFttbxW5FiM/pdB
+	UJ+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=8yKE1Led9dsxKS12tH3w9UQpcoIwHaklwDkcjCErtDY=;
+	b=hNZoprn85QhLT0odHCaT1Di5/oRYKPE+y8Hk/dJBF9mZJakVbUCnWfqJ3eCWZyODMw
+	Hx099chPusOdI0tInu6zK2FXOQaDi2aiVaEgGSYvhva4jPICI8w1VqoiK0Kh7GEhjx0u
+	87lQYdtVz7GwVMKeBKqaG+Jhm40O8iWMUT6nmHEJUBfOGxZRcOzQKufi3JNhxGE+t66M
+	rTtSOawZjzlgDskXzCVqU4QpfATc4XsUP2anfuqOIMSavn+0iEPojuocVUCXcT2Kh0hJ
+	k0lWNiMlp6G6mNd8ZPg6ZUKg0OZ+yfvz7xmOT7ad9sG8SbmZtwPoILzozMqq+mz19HMA
+	1BMw==
+X-Gm-Message-State: AKaTC03bEmIy613FpO/3Uvh2Bvy42zJ9NvHsTgSd8o+eGeqbsjhgifmxhXjUq+dRRVUtR7jdpgeCvOSfEXOwcQ==
+X-Received: by 10.31.8.8 with SMTP id 8mr1521796vki.173.1481819449885; Thu, 15
+	Dec 2016 08:30:49 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.159.48.87 with HTTP; Thu, 15 Dec 2016 08:30:19 -0800 (PST)
+In-Reply-To: <20161215144011.1761-1-nicolas.dechesne@linaro.org>
+References: <20161215144011.1761-1-nicolas.dechesne@linaro.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 15 Dec 2016 08:30:19 -0800
+Message-ID: <CAMKF1sqehO96PHPGv-kOUqi4mqUsaMeU1Oq_8RFUovy+RB45jQ@mail.gmail.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gstreamer1.0-plugins-bad: default to using egl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,48 +53,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2016 15:56:11 -0000
+X-List-Received-Date: Thu, 15 Dec 2016 16:30:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Both python-git and python3-git need to be upgraded to latest upstream
-version.
-This change was tested using qemux86 with core-image-sato.
-For each recipe test, CORE_IMAGE_EXTRA_INSTALL included
-python and python-git,
-and python3, python3-modules and python3-git, respectively.
+On Thu, Dec 15, 2016 at 6:40 AM, Nicolas Dechesne
+<nicolas.dechesne@linaro.org> wrote:
+> With the current set of PACKAGECONFIG, we end up building with 'gles2' and neither
+> 'opengl', nor 'egl'. As a result we are building -bad with neither 'glx' nor
+> 'egl' platform support. So let's make sure that we at least have egl by default
+> (since we default to 'gles2').
 
-Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
----
- meta/recipes-devtools/python/python-git.inc                           | 4 ++--
- .../python/{python-git_2.1.0.bb => python-git_2.1.1.bb}               | 0
- .../python/{python3-git_2.1.0.bb => python3-git_2.1.1.bb}             | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python-git_2.1.0.bb => python-git_2.1.1.bb} (100%)
- rename meta/recipes-devtools/python/{python3-git_2.1.0.bb => python3-git_2.1.1.bb} (100%)
+This looks ok. meta-raspberrypi will be able to unbolt one of fixes
+its carrying in own layer.
 
-diff --git a/meta/recipes-devtools/python/python-git.inc b/meta/recipes-devtools/python/python-git.inc
-index ad41561..feddf27 100644
---- a/meta/recipes-devtools/python/python-git.inc
-+++ b/meta/recipes-devtools/python/python-git.inc
-@@ -10,8 +10,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8b8d26c37c1d5a04f9b0186edbebc183"
- 
- SRC_URI = "https://files.pythonhosted.org/packages/source/G/GitPython/GitPython-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "29b1fcf504d080dc7a5e630957e829d7"
--SRC_URI[sha256sum] = "3ebda1e6ff1ef68597e41dcd1b99c2a5ae902f4dc2b22ad3533cc89c32b42aad"
-+SRC_URI[md5sum] = "77f8339e68dedb6d7c4e26371a588ed9"
-+SRC_URI[sha256sum] = "e96f8e953cf9fee0a7599fc587667591328760b6341a0081ef311a942fc96204"
- 
- UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/GitPython/"
- UPSTREAM_CHECK_REGEX = "/GitPython/(?P<pver>(\d+[\.\-_]*)+)"
-diff --git a/meta/recipes-devtools/python/python-git_2.1.0.bb b/meta/recipes-devtools/python/python-git_2.1.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python-git_2.1.0.bb
-rename to meta/recipes-devtools/python/python-git_2.1.1.bb
-diff --git a/meta/recipes-devtools/python/python3-git_2.1.0.bb b/meta/recipes-devtools/python/python3-git_2.1.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python3-git_2.1.0.bb
-rename to meta/recipes-devtools/python/python3-git_2.1.1.bb
--- 
-1.9.1
-
+>
+> Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+> ---
+>  meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+> index d3c5326d45..3cb7ab1ae1 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+> @@ -12,7 +12,7 @@ SRC_URI_append = " \
+>
+>  # opengl packageconfig factored out to make it easy for distros
+>  # and BSP layers to pick either (desktop) opengl, gles2, or no GL
+> -PACKAGECONFIG_GL ?= "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gles2', '', d)}"
+> +PACKAGECONFIG_GL ?= "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gles2 egl', '', d)}"
+>
+>  # gtk is not in the PACKAGECONFIG variable by default until
+>  # the transition to gtk+3 is finished
+> --
+> 2.11.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
