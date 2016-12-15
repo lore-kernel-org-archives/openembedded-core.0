@@ -1,22 +1,46 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 241D7772C8
+Return-Path: <maciej.borzecki@rndity.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D58860107
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 12:48:45 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga104.jf.intel.com with ESMTP; 15 Dec 2016 04:48:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,351,1477983600"; d="scan'208";a="18480869"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 15 Dec 2016 04:48:46 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+	Thu, 15 Dec 2016 13:31:16 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id t79so45715108wmt.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Dec 2016 05:31:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=rndity-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=vikXyF3vdIKNOA1oqHdg9l27yt6qZf3p145lizdy0Pg=;
+	b=DVCVznKR5qnr3j8bzpoVgekKtIHLSaO8Kele+zQ7wYuwTOXyipMEt/tn4IMSJ9VsQ+
+	XHFnpI4pU5iRH8MLTVlY9JHspm/29nqZG1quxdyZjnOpMgpy12H5H+njAKWBA/tGtFxR
+	N5FxqRDFOqnvwGumUzXaIbTp0AVA4xDNcZ9HvAVW3lD7wptaSYDB65jIObldptug1T1h
+	vGwSqMgDRDHO7EVXkeQpGD3xx1c6GOIii1Od0cynObaLPJK98sbXSeTZhYvAJX/FiPn0
+	cxm0on0ZJFoR29+OYgO9q0K7/ExiDnsgSmqgoxNWNOFcC5QatPV5YYOUwJju/qDYm/9Z
+	i1kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=vikXyF3vdIKNOA1oqHdg9l27yt6qZf3p145lizdy0Pg=;
+	b=JCo9d+6tuoP3CHaA72IO0Z6kG86SHcDenERyBMPszFNQMrLkweltlsn121iydLAPgX
+	sAewxEaH3sYBVWka2jN8B2m6SPLPuS/F56oSxnSCjm+NjSEkcsGVLzxJtMgXVMruWexl
+	sHIoKxkOW/fFdNur+FuHg8leh+UfFHoDhz4eLOSecBqT5uZe05YFSJjk6JIy8oKcxoPy
+	1nmeUJcOzxLSt1UupWzrF9jX04gGyEUNIdUziAGMp8Su24HRBPJ0yIRB+ECgLuTREHqa
+	0TuQglt2mmvjcqnkQo2t0ONrmUn/fBFpeBmY3yWw90eq5qdltmYtOZ+VqrdcJGQ2tfcP
+	LyPg==
+X-Gm-Message-State: AKaTC028rBVm7pwKW4fnDlFq8V021DArmW4RCE6XeHbizoM+CkfpqqtKrZitCRCsdWq8bQ==
+X-Received: by 10.46.78.1 with SMTP id c1mr564989ljb.39.1481808677774;
+	Thu, 15 Dec 2016 05:31:17 -0800 (PST)
+Received: from comp_016_pc_buildenv.localdomain
+	(staticline-31-182-60-238.toya.net.pl. [31.182.60.238])
+	by smtp.gmail.com with ESMTPSA id z1sm457683lja.27.2016.12.15.05.31.16
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 15 Dec 2016 05:31:16 -0800 (PST)
+From: Maciej Borzecki <maciej.borzecki@rndity.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Dec 2016 14:48:09 +0200
-Message-Id: <464c01cc2faf4ca1e6016294a91185eb5d7a8d9d.1481805889.git.alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.10.2
-In-Reply-To: <cover.1481805889.git.alexander.kanavin@linux.intel.com>
-References: <cover.1481805889.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 16/16] xf86-video-intel: fix upstream version check
+Date: Thu, 15 Dec 2016 14:31:08 +0100
+Message-Id: <3c889318aa635d1aaf30646b1152e2d07171e63c.1481808649.git.maciej.borzecki@rndity.com>
+X-Mailer: git-send-email 2.5.5
+Cc: Maciej Borzecki <maciek.borzecki@gmail.com>
+Subject: [PATCH] selftest: wic: qemux86: use weak assignment for WKS_FILE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,29 +53,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2016 12:48:45 -0000
+X-List-Received-Date: Thu, 15 Dec 2016 13:31:17 -0000
 
-Even though upstream hasn't tagged new versions for a long while,
-we should not report a bogus tag as something that can be updated to.
+A follow-up of a fix introduced in
+1b32c6ed025745cb06b7c28ca0fe9e416ce7abfa (selftest: wic: fix test_qemu).
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Wic test_qemu fails on qemux86 due to a direct assignment of WKS_FILE in machine
+configuration. Using default assignment allows WKS_FILE to be overwritten in
+test setup.
+
+Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
 ---
- meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/conf/machine/qemux86.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb b/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
-index 06cc730..3fd6c63 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
-@@ -20,6 +20,7 @@ SRC_URI = "git://anongit.freedesktop.org/xorg/driver/xf86-video-intel \
+diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
+index 8997f6ba701a91f0adc82dfaf410c7dd1a9777f3..1b478e92ad7fdf6f3cb2dd4f6dc35684a319848c 100644
+--- a/meta/conf/machine/qemux86.conf
++++ b/meta/conf/machine/qemux86.conf
+@@ -28,5 +28,5 @@ MACHINE_FEATURES += "x86"
  
- SRC_URI[md5sum] = "fa196a66e52c0c624fe5d350af7a5e7b"
- SRC_URI[sha256sum] = "00b781eea055582820a123c47b62411bdf6aabf4f03dc0568faec55faf9667c9"
-+UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
+ MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
  
- DEPENDS += "virtual/libx11 drm libpciaccess pixman"
- 
+-WKS_FILE = "directdisk.wks"
++WKS_FILE ?= "directdisk.wks"
+ do_image_wic[depends] += "syslinux:do_build syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
 -- 
-2.10.2
+2.5.5
 
 
