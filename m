@@ -1,22 +1,22 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id C831D772BB
+	by mail.openembedded.org (Postfix) with ESMTP id 0CC51772CF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 12:48:33 +0000 (UTC)
+	Thu, 15 Dec 2016 12:48:35 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga104.jf.intel.com with ESMTP; 15 Dec 2016 04:48:35 -0800
+	by orsmga104.jf.intel.com with ESMTP; 15 Dec 2016 04:48:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,351,1477983600"; d="scan'208";a="18480805"
+X-IronPort-AV: E=Sophos;i="5.33,351,1477983600"; d="scan'208";a="18480808"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 15 Dec 2016 04:48:34 -0800
+	by orsmga002.jf.intel.com with ESMTP; 15 Dec 2016 04:48:35 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Dec 2016 14:47:59 +0200
-Message-Id: <5bf7943175cac7cf2e134e7e4124d7b7113c8490.1481805889.git.alexander.kanavin@linux.intel.com>
+Date: Thu, 15 Dec 2016 14:48:00 +0200
+Message-Id: <7bc13921712abc869941b337078f9d2eb451c9a9.1481805889.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <cover.1481805889.git.alexander.kanavin@linux.intel.com>
 References: <cover.1481805889.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 06/16] ca-certificates: update to 20161130
+Subject: [PATCH 07/16] cmake: update to 3.7.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,30 +29,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2016 12:48:33 -0000
+X-List-Received-Date: Thu, 15 Dec 2016 12:48:35 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../{ca-certificates_20161102.bb => ca-certificates_20161130.bb}        | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/ca-certificates/{ca-certificates_20161102.bb => ca-certificates_20161130.bb} (98%)
+ .../cmake/{cmake-native_3.7.0.bb => cmake-native_3.7.1.bb}            | 0
+ meta/recipes-devtools/cmake/cmake.inc                                 | 4 ++--
+ meta/recipes-devtools/cmake/{cmake_3.7.0.bb => cmake_3.7.1.bb}        | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.7.0.bb => cmake-native_3.7.1.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_3.7.0.bb => cmake_3.7.1.bb} (100%)
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20161102.bb b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-similarity index 98%
-rename from meta/recipes-support/ca-certificates/ca-certificates_20161102.bb
-rename to meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-index 350b266..e0b2e41 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20161102.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-@@ -12,7 +12,7 @@ DEPENDS = "ca-certificates-native"
- DEPENDS_class-native = "openssl-native"
- DEPENDS_class-nativesdk = "ca-certificates-native openssl-native"
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.7.0.bb b/meta/recipes-devtools/cmake/cmake-native_3.7.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_3.7.0.bb
+rename to meta/recipes-devtools/cmake/cmake-native_3.7.1.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index 9ae2890..0253f3e 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -17,8 +17,8 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+            file://avoid-gcc-warnings-with-Wstrict-prototypes.patch \
+            "
  
--SRCREV = "c6a4c8182eda2527eecda90ba0aebc73d8c07d62"
-+SRCREV = "61b70a1007dc269d56881a0d480fc841daacc77c"
+-SRC_URI[md5sum] = "3801dc4e54c1c957a7378d8b0d4254ba"
+-SRC_URI[sha256sum] = "ed63e05c41aeb6c036e503114ab15847f29c312f9f21f5f1a7060a4b4ec2fb31"
++SRC_URI[md5sum] = "d031d5a06e9f1c5367cdfc56fbd2a1c8"
++SRC_URI[sha256sum] = "449a5bce64dbd4d5b9517ebd1a1248ed197add6ad27934478976fd5f1f9330e1"
  
- SRC_URI = "git://anonscm.debian.org/collab-maint/ca-certificates.git \
-            file://0002-update-ca-certificates-use-SYSROOT.patch \
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/cmake/cmake_3.7.0.bb b/meta/recipes-devtools/cmake/cmake_3.7.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_3.7.0.bb
+rename to meta/recipes-devtools/cmake/cmake_3.7.1.bb
 -- 
 2.10.2
 
