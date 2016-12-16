@@ -1,43 +1,23 @@
-Return-Path: <anders@openpuma.org>
-Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
-	[209.85.218.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 0557D773A2
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E89F60685
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2016 19:31:54 +0000 (UTC)
-Received: by mail-oi0-f46.google.com with SMTP id b126so88149955oia.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2016 11:31:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=openpuma-org.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=0iOjJdtjnvccRFvsFIWIOCiQN8BzTJ0wqwuMq9ZzQCY=;
-	b=DzbfIYX2Ho9GzYdfKuxLuU4jgrueFzPkHLcWLD80tKydVLIg/ynxU/rkG9UaZzEpgx
-	fGnidfU5F8LW2YBdEmKSUho28ulJnjvpPNNzNxLhmii5570M9YDDT/dexFXsfGKf9L7P
-	Ege8EFahPt3RnDsxUbyxnuEUhFAz51RS6tPf9rVBQ1ev2S3Ru5qRuq0L7NYmMDG0TjC8
-	uVY062vebI63wqpM/QXbq+Gn9z/VSqOQ88rVVWnbPOlcXfRkS8dC0nEbg4ji+websSiZ
-	EnuvPLbp7bxlwsyCUHgsbJYwUrVF9eIzl2XBazHR56c8NNgHiTrdEKuzhu34L2A+pkeq
-	pVbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=0iOjJdtjnvccRFvsFIWIOCiQN8BzTJ0wqwuMq9ZzQCY=;
-	b=kB7LOBjrI6545ikjA/67YpQKbZz4dzDdGCne78SGp986oxmLXqOLp8t0TTWSPofhFs
-	HydqOhMaLETQNDDyQZ1H5AV+KeYP947f8XJ4NGRQJgGo2SKrCKW/cCRNUvGmXdXTqdaF
-	ZFQY4phSgmYUs6QfY2Sr1ZP2oqTJpwK9u/sLleNkfBSZ0bm8xNZmM9lh3FOyq1S0AJcp
-	hucj37kc/QNIahxdtpaQFzmIC6Q7klBQP6yO4qnCnOpIMmbbrEOg+jB709td+T9SfCfP
-	sEeT8QbZTkqLVLnbG4BmBppVZuaGM/uMp5z04AONU4VLH7n2jdvdF5oIDW6ZFvCfALEo
-	h59g==
-X-Gm-Message-State: AKaTC02+Skurkjgs2EHixzmhdtOEG8xmbdpuezZyUP7UKgygkvYt3WWhUh1eHjY+eXs6Z2elifDyGQbC85VFTw==
-X-Received: by 10.157.47.240 with SMTP id b45mr3123236otd.242.1481916715230;
-	Fri, 16 Dec 2016 11:31:55 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.202.236.83 with HTTP; Fri, 16 Dec 2016 11:31:54 -0800 (PST)
-X-Originating-IP: [172.88.176.4]
-From: Anders Oleson <anders@openpuma.org>
-Date: Fri, 16 Dec 2016 11:31:54 -0800
-Message-ID: <CAKTo2Em1Lcs19L0M=WpGOJv3aQkQLJuetFsgm6nq_0sVix1X3A@mail.gmail.com>
+	Fri, 16 Dec 2016 20:31:06 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP; 16 Dec 2016 12:31:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,359,1477983600"; d="scan'208";a="913036779"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga003.jf.intel.com with ESMTP; 16 Dec 2016 12:31:07 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 611626A4080;
+	Fri, 16 Dec 2016 12:30:19 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: bug with dpkg-native and sstate-cache mirrors
+Date: Fri, 16 Dec 2016 22:30:45 +0200
+Message-Id: <1481920245-21689-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH] wic: look for wks files in <layer>/recipes-images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,150 +30,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2016 19:31:57 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 16 Dec 2016 20:31:07 -0000
 
-I originally posted this here:
-https://lists.yoctoproject.org/pipermail/yocto/2016-December/033542.html.
-Apologies, I did not know to report OE core issues here.
+Currently wic looks for wks files in
+<layer dir>/scripts/lib/wic/canned-wks/ directories.
+This path is too nested and doesn't look consistent with the
+naming scheme of layer directories.
 
-Also, following Jussi's advice I started reading the submission
-guidelines and I posted the patch to dpkg itself to their list to see
-if it was something that could be upstreamed. Led to a good discussion
-here: https://lists.debian.org/debian-dpkg/2016/12/msg00013.html.
-While this was an expedient way to fix my problem, it probably isn't
-the best way forward as a real change to dpkg. They have offered to
-look at submissions to fix what I think is the true root cause - the
-non-override-able, hard-coded CONFIGDIR.
+Added 'recipes-images' directory to the list of paths
+to look for wks files.
 
-Problem description:
-1. user "joe" clones the build repo, ex. poky from Yocto and builds
-everything, ex. core-system-minimal completely clean build from
-scratch. The local.conf is set to use package_deb for our system.
-2. "joe" is the build master and then publishes the resultant
-"sstate-cache" in a shared directory to be used as a mirror for the
-other users. Makes the sstate-cache-mirror directory read-only, etc.
-3. "joe" deletes the build directory creates a new one and tests the
-build in a new directory which works fine and runs quickly using the
-sstate-cache-mirror.
-3. user "bob" clones a similar revision and builds using the
-SSTATE_MIRROR pointing at the mirror.
-4. During "do_rootfs" dpkg (dpkg-native) fails with the message:
-dpkg: error: error opening configuration directory
-'/home/net/joe/work/sysgen-mrp/build/tmp/sysroots/x86_64-linux/etc/dpkg/dpkg.cfg.d':
-Permission denied
-E: Sub-process dpkg returned an error code (2)
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/lib/wic/engine.py | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-What happened is that in dpkg-native, the CONFIGDIR is compiled in and
-hard-coded to the failing path. dpkg does not currently have a way to
-override this at runtime in the same way as --instdir and --admindir.
-So dpkg is still looking for config files user "joes" directory which
-may:
-- have wrong permissions
-- be missing or parent dirs missing
-- contain malicious garbage because "joe" wants to screw with "bob" :)
-- any/all of the above (we had a combination)
+diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
+index 5b10463..8353edb 100644
+--- a/scripts/lib/wic/engine.py
++++ b/scripts/lib/wic/engine.py
+@@ -52,6 +52,7 @@ def verify_build_env():
+ 
+ CANNED_IMAGE_DIR = "lib/wic/canned-wks" # relative to scripts
+ SCRIPTS_CANNED_IMAGE_DIR = "scripts/" + CANNED_IMAGE_DIR
++RECIPES_IMAGES_DIR = "recipes-images"
+ 
+ def build_canned_image_list(path):
+     layers_path = misc.get_bitbake_var("BBLAYERS")
+@@ -59,8 +60,10 @@ def build_canned_image_list(path):
+ 
+     if layers_path is not None:
+         for layer_path in layers_path.split():
+-            cpath = os.path.join(layer_path, SCRIPTS_CANNED_IMAGE_DIR)
+-            canned_wks_layer_dirs.append(cpath)
++            for wks_path in (RECIPES_IMAGES_DIR, SCRIPTS_CANNED_IMAGE_DIR):
++                cpath = os.path.join(layer_path, wks_path)
++                if os.path.isdir(cpath):
++                    canned_wks_layer_dirs.append(cpath)
+ 
+     cpath = os.path.join(path, CANNED_IMAGE_DIR)
+     canned_wks_layer_dirs.append(cpath)
+-- 
+2.1.4
 
-Normally /etc/dpkg/dpkg.d is empty for the native sysroot, so our
-quick fix was to modify dpkg to just ignore ANY error reading that
-directory and pretend it was empty (which for Yocto builds it was
-anyway). This was preferable to removing the whole package from the
-SSTATE_MIRROR to force rebuilds in each work directory. See the patch
-I posted to the Yocto list linked above. Debian dpkg developers don't
-want to remove those checks and that seems advisable.
-
-So that leaves two options that I can see (is there an easier/better fix?):
-- we can carry a patch to dpkg-native similar to what I posted. For
-Yocto/OE it probably is good enough, at least if we limit it to
-dpkg-native
-- add something like a --configdir command line switch to dpkg so that
-we can point it toward the proper sysroot rather than use the compiled
-in default
-
-I'd actually prefer the second option because, for one thing, it would
-eliminate the baked in paths that contain user names, etc. I'd suggest
-that if we pass in --configdir we should configure/compile dpkg-native
-with the default paths pointing to neutral, constant, invalid paths to
-avoid leaking build specific information into sstate and to catch
-errors.
-
-Does this sound like I'm on the right track or like something that
-could be included? I'd like to fix this so that it doesn't sneak up on
-someone else.
-
-I'm willing to take a hack at it and test it in the scenario where
-this bit us. It would involve steps:
-1. develop a patch to dpkg to add the option
-2. develop a patch for OE to change the configure for dpkg-native
-3. a patch for OE to pass --configdir to dpkg in all the right places.
-I could use help to insure I find them all.
-
-Thanks,
-
-Anders
-
-error log below:
-----------------------
-ERROR: system-image-1.0-r0 do_rootfs: Unable to install packages.
-Command '/home/local/MrProductName/mrp-system/build/tmp/sysroots/x86_64-linux/usr/bin/apt-get
- install --force-yes --allow-unauthenticated bash run-postinsts
-packagegroup-core-eclipse-debug mrp-ofp dosfstools apt e2fsprogs dpkg
-packagegroup-core-boot' returned 100:
-Reading package lists...
-Building dependency tree...
-The following extra packages will be installed:
-  base-files base-passwd busybox busybox-hwclock busybox-syslog busybox-udhcpc
-  ca-certificates debianutils debianutils-run-parts e2fsprogs-badblocks
-  e2fsprogs-e2fsck e2fsprogs-mke2fs eudev gdbserver init-ifupdown initscripts
-  initscripts-functions kernel-4.4.26-yocto-standard kernel-module-uvesafb
-  libblkid1 libbz2-1 libc6 libc6-thread-db libcom-err2 libcrypto1.0.0 libcurl4
-  libe2p2 libext2fs2 libgcc1 libgmp10 libgnutls30 libidn11 libkmod2 liblzma5
-  libperl5 libss2 libssl1.0.0 libstdc++6 libtinfo5 libuuid1 libz1
-  modutils-initscripts ncurses-terminfo-base netbase nettle
-  openssh-sftp-server openssl-conf perl sysvinit sysvinit-inittab
-  sysvinit-pidof tcf-agent udev-cache update-alternatives-opkg update-rc.d
-  v86d xz
-Suggested packages:
-  ncurses-terminfo
-The following NEW packages will be installed:
-  apt mrp-ofp base-files base-passwd bash busybox busybox-hwclock
-  busybox-syslog busybox-udhcpc ca-certificates debianutils
-  debianutils-run-parts dosfstools dpkg e2fsprogs e2fsprogs-badblocks
-  e2fsprogs-e2fsck e2fsprogs-mke2fs eudev gdbserver init-ifupdown initscripts
-  initscripts-functions kernel-4.4.26-yocto-standard kernel-module-uvesafb
-  libblkid1 libbz2-1 libc6 libc6-thread-db libcom-err2 libcrypto1.0.0 libcurl4
-  libe2p2 libext2fs2 libgcc1 libgmp10 libgnutls30 libidn11 libkmod2 liblzma5
-  libperl5 libss2 libssl1.0.0 libstdc++6 libtinfo5 libuuid1 libz1
-  modutils-initscripts ncurses-terminfo-base netbase nettle
-  openssh-sftp-server openssl-conf packagegroup-core-boot
-  packagegroup-core-eclipse-debug perl run-postinsts sysvinit sysvinit-inittab
-  sysvinit-pidof tcf-agent udev-cache update-alternatives-opkg update-rc.d
-  v86d xz
-0 upgraded, 66 newly installed, 0 to remove and 0 not upgraded.
-Need to get 0 B/7850 kB of archives.
-After this operation, 0 B of additional disk space will be used.
-WARNING: The following packages cannot be authenticated!
-  libc6 libgcc1 libstdc++6 liblzma5 libz1 libgmp10 nettle libidn11 libgnutls30
-  libcurl4 update-alternatives-opkg libtinfo5 base-files bash run-postinsts
-  libperl5 perl xz libbz2-1 dpkg debianutils-run-parts debianutils apt mrp-ofp
-  base-passwd busybox busybox-hwclock busybox-syslog busybox-udhcpc
-  ca-certificates dosfstools libcom-err2 libss2 libuuid1 libblkid1 libe2p2
-  libext2fs2 e2fsprogs-badblocks e2fsprogs e2fsprogs-e2fsck e2fsprogs-mke2fs
-  libkmod2 eudev gdbserver netbase init-ifupdown initscripts-functions
-  initscripts kernel-4.4.26-yocto-standard kernel-module-uvesafb
-  libc6-thread-db libcrypto1.0.0 libssl1.0.0 modutils-initscripts
-  ncurses-terminfo-base openssh-sftp-server openssl-conf v86d sysvinit-pidof
-  sysvinit-inittab sysvinit packagegroup-core-boot tcf-agent
-  packagegroup-core-eclipse-debug udev-cache update-rc.d
-Authentication warning overridden.
-dpkg: error: error opening configuration directory
-'/home/net/joe/work/sysgen-mrp/build/tmp/sysroots/x86_64-linux/etc/dpkg/dpkg.cfg.d':
-Permission denied
-E: Sub-process dpkg returned an error code (2)
-
-ERROR: system-image-1.0-r0 do_rootfs: Function failed: do_rootfs
-ERROR: Logfile of failure stored in:
-/home/local/MrProductName/mrp-system/build/tmp/work/qemux86-hbdc-linux/system-image/1.0-r0/temp/log.do_rootfs.31848
-ERROR: Task 9 (/home/local/MrProductName/mrp-system/poky/../meta-system/recipes-core/images/system-image.bb,
-do_rootfs) failed with exit code '1'
 
