@@ -1,26 +1,30 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 681B4608B7
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id B848771DBA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2016 02:49:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBG2nQR5017274
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 16 Dec 2016 04:53:29 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="13975465"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 16 Dec 2016 12:53:21 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 2582141B5F44
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 18:49:26 -0800 (PST)
-Received: from pek-lpgtest20.wrs.com (128.224.179.28) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Thu, 15 Dec 2016 18:49:25 -0800
-From: Dengke Du <dengke.du@windriver.com>
+	Fri, 16 Dec 2016 12:53:21 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.226.109) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Fri, 16 Dec 2016 12:53:19 +0800
+From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Dec 2016 10:49:20 +0800
-Message-ID: <125a9f473857252cd440aa292e10dab2d95555dc.1481856470.git.dengke.du@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1481856470.git.dengke.du@windriver.com>
-References: <cover.1481856470.git.dengke.du@windriver.com>
+Date: Fri, 16 Dec 2016 12:51:44 +0800
+Message-ID: <1481863904-51496-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Subject: [PATCH 2/2] apr: fix off_t size can't match when configure and in target glibc
+X-Originating-IP: [10.167.226.109]
+X-yoursite-MailScanner-ID: 2582141B5F44.A2176
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] dbus-glib 0.106 -> 0.108
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,107 +37,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2016 02:49:26 -0000
+X-List-Received-Date: Fri, 16 Dec 2016 04:53:30 -0000
 Content-Type: text/plain
 
-When subversion run on x86 and lib32 on x86-64, it use the APR's
-apr.h header file. But when configure the APR, APR meets the cross
-compiling, it was hardcoded in configure.in in apr source code. As
-the following:
+Upgrade dbus-glib from 0.106 to 0.108
 
-	APR_CHECK_SIZEOF_EXTENDED([#include <sys/types.h>], off_t, 8)
-
-It pass 8 bytes to off_t when meets cross compiling, but on x86 or lib32
-the off_t in glibc was 4 bytes, so it let the application who use apr.h
-go to wrong.
-
-Such as subversion:
-
-	svnadmin create test
-
-So we should let the APR detect the correct off_t when cross compiling,
-change it to the following:
-
-	AC_CHECK_SIZEOF(off_t)
-
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 ---
- ..._t-size-doesn-t-match-in-glibc-when-cross.patch | 52 ++++++++++++++++++++++
- meta/recipes-support/apr/apr_1.5.2.bb              |  1 +
- 2 files changed, 53 insertions(+)
- create mode 100644 meta/recipes-support/apr/apr/0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch
+ meta/recipes-core/dbus/dbus-glib_0.106.bb | 4 ----
+ meta/recipes-core/dbus/dbus-glib_0.108.bb | 4 ++++
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ delete mode 100644 meta/recipes-core/dbus/dbus-glib_0.106.bb
+ create mode 100644 meta/recipes-core/dbus/dbus-glib_0.108.bb
 
-diff --git a/meta/recipes-support/apr/apr/0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch b/meta/recipes-support/apr/apr/0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch
+diff --git a/meta/recipes-core/dbus/dbus-glib_0.106.bb b/meta/recipes-core/dbus/dbus-glib_0.106.bb
+deleted file mode 100644
+index 0ae848e..0000000
+--- a/meta/recipes-core/dbus/dbus-glib_0.106.bb
++++ /dev/null
+@@ -1,4 +0,0 @@
+-require dbus-glib.inc
+-
+-SRC_URI[md5sum] = "2eea0b7f52b49f600a07abfd8535d4e4"
+-SRC_URI[sha256sum] = "b38952706dcf68bad9c302999ef0f420b8cf1a2428227123f0ac4764b689c046"
+diff --git a/meta/recipes-core/dbus/dbus-glib_0.108.bb b/meta/recipes-core/dbus/dbus-glib_0.108.bb
 new file mode 100644
-index 0000000..56673f4
+index 0000000..7a9a69e
 --- /dev/null
-+++ b/meta/recipes-support/apr/apr/0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch
-@@ -0,0 +1,52 @@
-+From 537f5b415677b49a52f01bca9f60937654fb9cca Mon Sep 17 00:00:00 2001
-+From: Dengke Du <dengke.du@windriver.com>
-+Date: Wed, 14 Dec 2016 18:13:08 +0800
-+Subject: [PATCH] apr: fix off_t size doesn't match in glibc when cross
-+ compiling
++++ b/meta/recipes-core/dbus/dbus-glib_0.108.bb
+@@ -0,0 +1,4 @@
++require dbus-glib.inc
 +
-+In configure.in, it contains the following:
-+
-+	APR_CHECK_SIZEOF_EXTENDED([#include <sys/types.h>], off_t, 8)
-+
-+the macro "APR_CHECK_SIZEOF_EXTENDED" was defined in build/apr_common.m4,
-+it use the "AC_TRY_RUN" macro, this macro let the off_t to 8, when cross
-+compiling enable.
-+
-+So it was hardcoded for cross compiling, we should detect it dynamic based on
-+the sysroot's glibc. We change it to the following:
-+
-+	AC_CHECK_SIZEOF(off_t)
-+
-+I have send a discussing for the upstream, the maintainer said the macro in
-+APR designed with only any attention paid to the build platform, considering
-+cross compiling less, we can check the discussing from:
-+
-+	http://mail-archives.apache.org/mod_mbox/apr-dev/201612.mbox/browser
-+
-+text/plain:
-+
-+	http://mail-archives.apache.org/mod_mbox/apr-dev/201612.mbox/raw/%3CCACsi250oDaqf%2BG4-KoT_0QWhSZdKCJhNZYhWRBqOx5WcmtYO8Q%40mail.gmail.com%3E/1
-+
-+Upstream-Status: Submitted
-+
-+Signed-off-by: Dengke Du <dengke.du@windriver.com>
-+---
-+ configure.in | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/configure.in b/configure.in
-+index 9d57ae6..fcc647e 100644
-+--- a/configure.in
-++++ b/configure.in
-+@@ -1784,7 +1784,7 @@ fi
-+ 
-+ size_t_fmt="#define APR_SIZE_T_FMT \"$size_t_fmt\""
-+ 
-+-APR_CHECK_SIZEOF_EXTENDED([#include <sys/types.h>], off_t, 8)
-++AC_CHECK_SIZEOF(off_t)
-+ 
-+ if test "${ac_cv_sizeof_off_t}${apr_cv_use_lfs64}" = "4yes"; then
-+     # Enable LFS
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-support/apr/apr_1.5.2.bb b/meta/recipes-support/apr/apr_1.5.2.bb
-index 302c935..f560c8b 100644
---- a/meta/recipes-support/apr/apr_1.5.2.bb
-+++ b/meta/recipes-support/apr/apr_1.5.2.bb
-@@ -17,6 +17,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
-            file://upgrade-and-fix-1.5.1.patch \
-            file://Fix-packet-discards-HTTP-redirect.patch \
-            file://configure.in-fix-LTFLAGS-to-make-it-work-with-ccache.patch \
-+           file://0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch \
- "
- 
- SRC_URI[md5sum] = "4e9769f3349fe11fc0a5e1b224c236aa"
++SRC_URI[md5sum] = "a66a613705870752ca9786e0359aea97"
++SRC_URI[sha256sum] = "9f340c7e2352e9cdf113893ca77ca9075d9f8d5e81476bf2bf361099383c602c"
 -- 
 2.7.4
+
+
 
 
