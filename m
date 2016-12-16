@@ -1,24 +1,26 @@
 Return-Path: <Awais_Belal@mentor.com>
 Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 8336A773EC
+	by mail.openembedded.org (Postfix) with ESMTP id 8245B71C9B
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 16 Dec 2016 12:19:23 +0000 (UTC)
 Received: from nat-ies.mentorg.com ([192.94.31.2]
 	helo=SVR-IES-FEM-01.mgc.mentorg.com)
 	by relay1.mentorg.com with esmtp 
-	id 1cHrTv-0006wV-NC from Awais_Belal@mentor.com 
+	id 1cHrTw-0006wV-Dm from Awais_Belal@mentor.com 
 	for openembedded-core@lists.openembedded.org;
 	Fri, 16 Dec 2016 04:19:24 -0800
 Received: from awais-Precision-M4700.pkl.mentorg.com (137.202.0.76) by
 	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server id 14.3.224.2; Fri, 16 Dec 2016 12:19:21 +0000
+	Server id 14.3.224.2; Fri, 16 Dec 2016 12:19:22 +0000
 From: Awais Belal <awais_belal@mentor.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Dec 2016 17:19:15 +0500
-Message-ID: <1481890756-18807-1-git-send-email-awais_belal@mentor.com>
+Date: Fri, 16 Dec 2016 17:19:16 +0500
+Message-ID: <1481890756-18807-2-git-send-email-awais_belal@mentor.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1481890756-18807-1-git-send-email-awais_belal@mentor.com>
+References: <1481890756-18807-1-git-send-email-awais_belal@mentor.com>
 MIME-Version: 1.0
-Subject: [PATCH v2 1/2] grub_git: extend recipe for proper target deployment
+Subject: [PATCH v2 2/2] grub-efi/live-vm-common: allow grub as EFI_PROVIDER
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,118 +36,73 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 16 Dec 2016 12:19:24 -0000
 Content-Type: text/plain
 
-This extends the grub_git recipe so it can deploy grub
-on the target boot disk just like grub-efi. Mainly
-this copies stuff from the grub-efi recipe and then
-adjusts some bits accordingly. This would allow
-using the latest and greatest versions of grub
-on the target.
+This allows grub to be used as EFI_PROVIDER and
+extends the grub-efi class so it can be used as is
+when EFI_PROVIDER is grub.
+Currently this can only be leveraged if you are
+using the grub_git recipe and GRUBPLATFORM plus
+EFI_PROVIDER are set correctly.
 
 Signed-off-by: Awais Belal <awais_belal@mentor.com>
 ---
- meta/recipes-bsp/grub/grub_git.bb | 60 +++++++++++++++++++++++++++++++++++----
- 1 file changed, 54 insertions(+), 6 deletions(-)
+ meta/classes/grub-efi.bbclass       | 23 +++++++++++++++++------
+ meta/classes/live-vm-common.bbclass |  2 +-
+ 2 files changed, 18 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-bsp/grub/grub_git.bb b/meta/recipes-bsp/grub/grub_git.bb
-index eb824cc..13c48c7 100644
---- a/meta/recipes-bsp/grub/grub_git.bb
-+++ b/meta/recipes-bsp/grub/grub_git.bb
-@@ -3,11 +3,15 @@ require grub2.inc
- DEFAULT_PREFERENCE = "-1"
- DEFAULT_PREFERENCE_arm = "1"
+diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
+index 17417ba..c847645 100644
+--- a/meta/classes/grub-efi.bbclass
++++ b/meta/classes/grub-efi.bbclass
+@@ -16,8 +16,8 @@
+ # ${GRUB_TIMEOUT} - timeout before executing the deault label (optional)
+ # ${GRUB_ROOT} - grub's root device.
  
-+DEPENDS += "grub-native"
-+RDEPENDS_${PN}_class-target = "diffutils freetype"
-+
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/grub-git:"
+-do_bootimg[depends] += "${MLPREFIX}grub-efi:do_deploy"
+-do_bootdirectdisk[depends] += "${MLPREFIX}grub-efi:do_deploy"
++do_bootimg[depends] += "${MLPREFIX}${EFI_PROVIDER}:do_deploy"
++do_bootdirectdisk[depends] += "${MLPREFIX}${EFI_PROVIDER}:do_deploy"
  
- PV = "2.00+${SRCPV}"
- SRCREV = "7a5b301e3adb8e054288518a325135a1883c1c6c"
- SRC_URI = "git://git.savannah.gnu.org/grub.git \
-+           file://cfg \
-            file://0001-Disable-mfpmath-sse-as-well-when-SSE-is-disabled.patch \
-            file://autogen.sh-exclude-pc.patch \
-            file://0001-grub.d-10_linux.in-add-oe-s-kernel-name.patch \
-@@ -19,29 +23,73 @@ COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*)-(linux.*|freebsd.*)'
- COMPATIBLE_HOST_armv7a = 'null'
- COMPATIBLE_HOST_armv7ve = 'null'
+ GRUB_SERIAL ?= "console=ttyS0,115200"
+ GRUB_CFG_VM = "${S}/grub_vm.cfg"
+@@ -40,10 +40,21 @@ efi_populate() {
  
--inherit autotools gettext texinfo
-+inherit autotools gettext texinfo deploy
+ 	install -d ${DEST}${EFIDIR}
  
- # configure.ac has code to set this automagically from the target tuple
- # but the OE freeform one (core2-foo-bar-linux) don't work with that.
--
- GRUBPLATFORM_arm = "uboot"
- GRUBPLATFORM_aarch64 = "efi"
- GRUBPLATFORM ??= "pc"
+-	GRUB_IMAGE="bootia32.efi"
+-	if [ "${TARGET_ARCH}" = "x86_64" ]; then
+-		GRUB_IMAGE="bootx64.efi"
+-	fi
++    if [ "${EFI_PROVIDER}" = "grub" ]; then
++	    GRUB_IMAGE="bootia32.${GRUBPLATFORM}"
++	    if [ "${TARGET_ARCH}" = "x86_64" ]; then
++		    GRUB_IMAGE="bootx64.${GRUBPLATFORM}"
++	    elif [ "${TARGET_ARCH}" = "arm" ]; then
++            grubimage = "bootarm.${GRUBPLATFORM}"
++	    elif [ "${TARGET_ARCH}" = "aarch64" ]; then
++            grubimage = "bootaa64.${GRUBPLATFORM}"
++        fi
++    else
++        GRUB_IMAGE="bootia32.efi"
++	    if [ "${TARGET_ARCH}" = "x86_64" ]; then
++		    GRUB_IMAGE="bootx64.efi"
++        fi
++    fi
+ 	install -m 0644 ${DEPLOY_DIR_IMAGE}/${GRUB_IMAGE} ${DEST}${EFIDIR}
+ 	EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
+ 	printf 'fs0:%s\%s\n' "$EFIPATH" "$GRUB_IMAGE" >${DEST}/startup.nsh
+diff --git a/meta/classes/live-vm-common.bbclass b/meta/classes/live-vm-common.bbclass
+index 734697f..0af228b 100644
+--- a/meta/classes/live-vm-common.bbclass
++++ b/meta/classes/live-vm-common.bbclass
+@@ -13,7 +13,7 @@ def set_live_vm_vars(d, suffix):
  
-+CACHED_CONFIGUREVARS += "ac_cv_path_HELP2MAN="
- EXTRA_OECONF = "--with-platform=${GRUBPLATFORM} --disable-grub-mkfont --program-prefix="" \
-                 --enable-liblzma=no --enable-device-mapper=no --enable-libzfs=no"
--
-+EXTRA_OECONF += "${@bb.utils.contains('GRUBPLATFORM', 'efi', '--enable-efiemu=no', '', d)}"
- EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', '--enable-largefile', '--disable-largefile', d)}"
+ EFI = "${@bb.utils.contains("MACHINE_FEATURES", "efi", "1", "0", d)}"
+ EFI_PROVIDER ?= "grub-efi"
+-EFI_CLASS = "${@bb.utils.contains("MACHINE_FEATURES", "efi", "${EFI_PROVIDER}", "", d)}"
++EFI_CLASS = "${@bb.utils.contains("EFI_PROVIDER", "grub", "grub-efi", "${EFI_PROVIDER}", d)}"
  
--do_install_append () {
-+# Determine the target arch for the grub modules
-+python __anonymous () {
-+    import re
-+    target = d.getVar('TARGET_ARCH', True)
-+    platform = d.getVar('GRUBPLATFORM', True)
-+    if target == "x86_64":
-+        grubtarget = 'x86_64'
-+        grubimage = "bootx64." + platform
-+    elif re.match('i.86', target):
-+        grubtarget = 'i386'
-+        grubimage = "bootia32." + platform
-+    elif re.match('arm', target):
-+        grubtarget = 'arm'
-+        grubimage = "bootarm." + platform
-+    elif re.match('aarch64', target):
-+        grubtarget = 'arm64'
-+        grubimage = "bootaa64." + platform
-+    else:
-+        raise bb.parse.SkipPackage("grub is incompatible with target %s" % target)
-+    d.setVar("GRUB_TARGET", grubtarget)
-+    d.setVar("GRUB_IMAGE", grubimage)
-+}
-+
-+do_install_class-native() {
-+    install -d ${D}${bindir}
-+    install -m 755 grub-mkimage ${D}${bindir}
-+}
-+
-+do_install_append() {
-     install -d ${D}${sysconfdir}/grub.d
-     rm -rf ${D}${libdir}/charset.alias
- }
- 
-+GRUB_BUILDIN ?= "boot linux ext2 fat serial part_msdos part_gpt normal efi_gop iso9660 search"
-+do_deploy() {
-+    # Search for the grub.cfg on the local boot media by using the
-+    # built in cfg file provided via this recipe
-+    grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
-+                   -O ${GRUB_TARGET}-${GRUBPLATFORM} -o ./${GRUB_IMAGE} \
-+                   ${GRUB_BUILDIN}
-+    install -m 644 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
-+}
-+
-+do_deploy_class-native() {
-+    :
-+}
-+
-+addtask deploy after do_install before do_build
-+
- # debugedit chokes on bare metal binaries
- INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
- 
--RDEPENDS_${PN} = "diffutils freetype"
--
- INSANE_SKIP_${PN} = "arch"
- INSANE_SKIP_${PN}-dbg = "arch"
-+
-+BBCLASSEXTEND = "native"
+ # Include legacy boot if MACHINE_FEATURES includes "pcbios" or if it does not
+ # contain "efi". This way legacy is supported by default if neither is
 -- 
 1.9.1
 
