@@ -1,23 +1,25 @@
-Return-Path: <Zubair.Kakakhel@imgtec.com>
-Received: from mailapp01.imgtec.com (mailapp01.imgtec.com [195.59.15.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 15C8D77407
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 048D977407
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2016 15:14:42 +0000 (UTC)
-Received: from HHMAIL01.hh.imgtec.org (unknown [10.100.10.19])
-	by Forcepoint Email with ESMTPS id 6021DA38059DE
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2016 15:14:39 +0000 (GMT)
-Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
-	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
-	id 14.3.294.0; Fri, 16 Dec 2016 15:14:42 +0000
-From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
-To: <openembedded-core@lists.openembedded.org>, <Zubair.Kakakhel@imgtec.com>
-Date: Fri, 16 Dec 2016 15:14:37 +0000
-Message-ID: <20161216151437.48334-1-Zubair.Kakakhel@imgtec.com>
-X-Mailer: git-send-email 2.10.2
+	Fri, 16 Dec 2016 15:17:40 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga101.fm.intel.com with ESMTP; 16 Dec 2016 07:17:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,358,1477983600"; d="scan'208";a="40563890"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga004.jf.intel.com with ESMTP; 16 Dec 2016 07:17:41 -0800
+To: openembedded-core@lists.openembedded.org
+References: <1481828422-15950-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <1b20e0d0-5a67-ccc1-f6ea-45260ad26d9d@linux.intel.com>
+Date: Fri, 16 Dec 2016 17:17:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.4.0
 MIME-Version: 1.0
-X-Originating-IP: [192.168.154.45]
-Subject: [Patch] arch-mips: Add MIPS 64r6 N32 tune
+In-Reply-To: <1481828422-15950-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+Subject: Re: [PATCH V2] python3-setuptools: upgrade to 31.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,79 +32,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2016 15:14:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 16 Dec 2016 15:17:41 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add MIPS64R6-n32 tuning options.
+On 12/15/2016 09:00 PM, Edwin Plauchu wrote:
+> From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+>
+> It is a simultaneous upgrade for python 2 and 3 over setuptools.
+>
+> Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+> ---
+>  meta/recipes-devtools/python/python-setuptools.inc |  4 +--
+>  .../python/python-setuptools_29.0.1.bb             | 38 ----------------------
+>  .../python/python-setuptools_31.0.0.bb             | 38 ++++++++++++++++++++++
+>  .../python/python3-setuptools_29.0.1.bb            | 37 ---------------------
+>  .../python/python3-setuptools_31.0.0.bb            | 37 +++++++++++++++++++++
 
-Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
----
- meta/classes/insane.bbclass                 |  2 ++
- meta/classes/siteinfo.bbclass               |  2 ++
- meta/conf/machine/include/tune-mips64r6.inc | 26 ++++++++++++++++++++++++++
- 3 files changed, 30 insertions(+)
+Same here - before sending patches, do make sure that rename detection 
+worked correctly. It's otherwise very difficult to see what has changed 
+inside the renamed file.
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 1a742cf..f8f6e00 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -174,6 +174,8 @@ def package_qa_get_machine_dict(d):
-             "linux-gnun32" :       {
-                         "mips64":       ( 8,     0,    0,          False,         32),
-                         "mips64el":     ( 8,     0,    0,          True,          32),
-+                        "mipsisa64r6":  ( 8,     0,    0,          False,         32),
-+                        "mipsisa64r6el":( 8,     0,    0,          True,          32),
-                       },
-         }
- 
-diff --git a/meta/classes/siteinfo.bbclass b/meta/classes/siteinfo.bbclass
-index abb194f..2c33732 100644
---- a/meta/classes/siteinfo.bbclass
-+++ b/meta/classes/siteinfo.bbclass
-@@ -89,6 +89,8 @@ def siteinfo_data(d):
-         "mips64el-linux-musl": "mips64el-linux",
-         "mips64-linux-gnun32": "mips-linux bit-32",
-         "mips64el-linux-gnun32": "mipsel-linux bit-32",
-+        "mipsisa64r6-linux-gnun32": "mipsisa32r6-linux bit-32",
-+        "mipsisa64r6el-linux-gnun32": "mipsisa32r6el-linux bit-32",
-         "powerpc-linux": "powerpc32-linux",
-         "powerpc-linux-musl": "powerpc-linux powerpc32-linux",
-         "powerpc-linux-uclibc": "powerpc-linux powerpc32-linux",
-diff --git a/meta/conf/machine/include/tune-mips64r6.inc b/meta/conf/machine/include/tune-mips64r6.inc
-index f0ad564..2289fb4 100644
---- a/meta/conf/machine/include/tune-mips64r6.inc
-+++ b/meta/conf/machine/include/tune-mips64r6.inc
-@@ -30,3 +30,29 @@ TUNE_FEATURES_tune-mipsisa64r6el-nf = "r6 n64 mipsisa64r6"
- MIPSPKGSFX_VARIANT_tune-mipsisa64r6el-nf = "${TUNE_ARCH}"
- BASE_LIB_tune-mipsisa64r6el-nf = "lib64"
- PACKAGE_EXTRA_ARCHS_tune-mipsisa64r6el-nf = "mipsisa64r6el-nf"
-+
-+# MIPS 64r6 n32
-+AVAILTUNES += "mipsisa64r6-n32 mipsisa64r6el-n32"
-+
-+TUNE_FEATURES_tune-mipsisa64r6-n32 = "bigendian fpu-hard r6 n32 mipsisa64r6"
-+BASE_LIB_tune-mipsisa64r6-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mipsisa64r6-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mipsisa64r6-n32 = "mipsisa64r6-n32"
-+
-+TUNE_FEATURES_tune-mipsisa64r6el-n32 = "fpu-hard r6 n32 mipsisa64r6"
-+BASE_LIB_tune-mipsisa64r6el-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mipsisa64r6el-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mipsisa64r6el-n32 = "mipsisa64r6el-n32"
-+
-+# MIPS 64r6 n32 and Soft Float
-+AVAILTUNES += "mipsisa64r6-nf-n32 mipsisa64r6el-nf-n32"
-+
-+TUNE_FEATURES_tune-mipsisa64r6-nf-n32 = "bigendian r6 n32 mipsisa64r6"
-+BASE_LIB_tune-mipsisa64r6-nf-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mipsisa64r6-nf-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mipsisa64r6-nf-n32 = "mipsisa64r6-nf-n32"
-+
-+TUNE_FEATURES_tune-mipsisa64r6el-nf-n32 = "bigendian r6 n32 mipsisa64r6"
-+BASE_LIB_tune-mipsisa64r6el-nf-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mipsisa64r6el-nf-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mipsisa64r6el-nf-n32 = "mipsisa64r6el-nf-n32"
--- 
-2.10.2
+Alex
 
 
