@@ -1,16 +1,20 @@
-Return-Path: <mru@mansr.com>
-Received: from unicorn.mansr.com (unicorn.mansr.com [81.2.72.234])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CEC37740C
+Return-Path: <edwin.plauchu.camacho@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A94F71957
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2016 16:28:53 +0000 (UTC)
-Received: by unicorn.mansr.com (Postfix, from userid 51770)
-	id BD7D615393; Fri, 16 Dec 2016 16:28:53 +0000 (GMT)
-From: Mans Rullgard <mans@mansr.com>
+	Fri, 16 Dec 2016 16:48:14 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga104.fm.intel.com with ESMTP; 16 Dec 2016 08:48:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,358,1477983600"; d="scan'208";a="43317080"
+Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
+	by fmsmga005.fm.intel.com with ESMTP; 16 Dec 2016 08:48:16 -0800
+From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Dec 2016 16:28:38 +0000
-Message-Id: <20161216162838.14910-1-mans@mansr.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] initscripts: populate-volatile: don't run commands in background
+Date: Fri, 16 Dec 2016 10:49:33 -0600
+Message-Id: <1481906973-12826-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH V3] python3-setuptools: upgrade to 31.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -23,48 +27,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2016 16:28:54 -0000
+X-List-Received-Date: Fri, 16 Dec 2016 16:48:15 -0000
 
-If commands are run asynchronously they may be completed out of
-order causing problems if later entries depend on earlier ones.
+It is a simultaneous upgrade for python 2 and 3 over setuptools.
 
-Signed-off-by: Mans Rullgard <mans@mansr.com>
+Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
 ---
- meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/python/python-setuptools.inc                    | 4 ++--
+ .../{python-setuptools_29.0.1.bb => python-setuptools_31.0.0.bb}      | 0
+ .../{python3-setuptools_29.0.1.bb => python3-setuptools_31.0.0.bb}    | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python-setuptools_29.0.1.bb => python-setuptools_31.0.0.bb} (100%)
+ rename meta/recipes-devtools/python/{python3-setuptools_29.0.1.bb => python3-setuptools_31.0.0.bb} (100%)
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-index 91514bac86fa..cf0d2bf96610 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-@@ -36,7 +36,7 @@ create_file() {
- 		[ "${VERBOSE}" != "no" ] && echo "Target already exists. Skipping."
- 	} || {
- 		if [ -z "$ROOT_DIR" ]; then
--			eval $EXEC &
-+			eval $EXEC
- 		else
- 			# Creating some files at rootfs time may fail and should fail,
- 			# but these failures should not be logged to make sure the do_rootfs
-@@ -86,7 +86,7 @@ link_file() {
- 	test "$VOLATILE_ENABLE_CACHE" = yes && echo "	$EXEC" >> /etc/volatile.cache.build
+diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
+index e76484a..858595c 100644
+--- a/meta/recipes-devtools/python/python-setuptools.inc
++++ b/meta/recipes-devtools/python/python-setuptools.inc
+@@ -9,8 +9,8 @@ SRCNAME = "setuptools"
  
- 	if [ -z "$ROOT_DIR" ]; then
--		eval $EXEC &
-+		eval $EXEC
- 	else
- 		# For the same reason with create_file(), failures should
- 		# not be logged.
-@@ -187,7 +187,7 @@ apply_cfgfile() {
+ SRC_URI = "https://files.pythonhosted.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
  
- 		case "${TTYPE}" in
- 			"f")  [ "${VERBOSE}" != "no" ] && echo "Creating file -${TNAME}-."
--				create_file "${TNAME}" &
-+				create_file "${TNAME}"
- 				;;
- 			"d")  [ "${VERBOSE}" != "no" ] && echo "Creating directory -${TNAME}-."
- 				mk_dir "${TNAME}"
+-SRC_URI[md5sum] = "28ecfd0f2574b489b9a18343879a7324"
+-SRC_URI[sha256sum] = "b539118819a4857378398891fa5366e090690e46b3e41421a1e07d6e9fd8feb0"
++SRC_URI[md5sum] = "66da89eeb1f33c2b947f316cfb3d7c7e"
++SRC_URI[sha256sum] = "0818cc0de692c3a5c83ca83aa7ec7ba6bc206f278735f1e0267b8d0e095cfe7a"
+ 
+ UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/setuptools"
+ 
+diff --git a/meta/recipes-devtools/python/python-setuptools_29.0.1.bb b/meta/recipes-devtools/python/python-setuptools_31.0.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python-setuptools_29.0.1.bb
+rename to meta/recipes-devtools/python/python-setuptools_31.0.0.bb
+diff --git a/meta/recipes-devtools/python/python3-setuptools_29.0.1.bb b/meta/recipes-devtools/python/python3-setuptools_31.0.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python3-setuptools_29.0.1.bb
+rename to meta/recipes-devtools/python/python3-setuptools_31.0.0.bb
 -- 
-2.11.0
+2.1.4
 
 
