@@ -1,31 +1,47 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id B6C68773FD
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 0291F77247
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2016 17:14:43 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga104.jf.intel.com with ESMTP; 16 Dec 2016 09:14:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,358,1477983600"; d="scan'208";a="1072872445"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 16 Dec 2016 09:14:44 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id A2C7A6A4080
+	Fri, 16 Dec 2016 17:53:44 +0000 (UTC)
+Received: by mail-qk0-f170.google.com with SMTP id q130so98283815qke.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2016 09:13:56 -0800 (PST)
-Date: Fri, 16 Dec 2016 19:14:11 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20161216171411.GA21082@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <1481907914-22383-1-git-send-email-ed.bartosh@linux.intel.com>
+	Fri, 16 Dec 2016 09:53:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=v+ovlE3/o30Mi5H77mqMNrW9ZAf/Im/92daDoTTDtv0=;
+	b=PCNAceFTRSqBroAC6kypjJ4i+ChQT7xXbx8+CFgnN4ZtWJJWfctqGVS5NaF3RplJ/p
+	pYyYPHyWXiNSkK57yaqEyQ85zTI65fTMBBlC8SJUWXwVVZMKgVe0KTpDyl+SethJ1Vl8
+	tOgovwf9VTgIPx4wFLHPo7eh+n8t8ZWo/GrRqlsr7CJ0p8sQGlZOtDWVFN2DAmDrxJ0t
+	ONOi9l+Yh92wDOc6nYE59kZOs3wDnz+kmpQqeLdttmvGCXEKm/9VFb53zsZK0Jyw6ZoJ
+	kTSJfNho628fyYYFXOgj6JnyaI/0y2bZypOX+Au8MGzkre9qccOGSs80yNM9yyYxG2Jd
+	WT/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=v+ovlE3/o30Mi5H77mqMNrW9ZAf/Im/92daDoTTDtv0=;
+	b=TqdtxVHlShrVh1qBYcO+y5P1TuSZIb3OGfIP4rYLinEe/4vi4HPZBqyN2/mCgwz72w
+	e0J0M3o/XXAXQvwJ2kxDuYthSBzg6ebKmes7iA0tlMAlG99/TX9KVFTjLMwsqTgGyACW
+	VV8wcSDjSUEFxPnQT0YUTvjkADzHkQVAxVQgxmBU1YvZWMNFk2hvwbcXc0lPWdAYzHnZ
+	NkPmPJaav3VwjtT9b+pkNi/ai79sWoul0Mw6oefly8Gxe73PQWSIN8jLi15t2pJHJar2
+	lOfaesB7JLgRkwhRllPvvJVemJZOWJI5HBxjFjrxhRNgRuI/rqTgIMNS7UlqUvgx1hJT
+	SfsQ==
+X-Gm-Message-State: AIkVDXJ/Nt+/dx9LdjFpkaYZWTkKTE9BjjD6222GFunjRbv5MvltOMcUIGP8vsVsDssoqtZy1jbhig2BH6k0OKiH
+X-Received: by 10.55.207.78 with SMTP id e75mr4748151qkj.36.1481910825665;
+	Fri, 16 Dec 2016 09:53:45 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1481907914-22383-1-git-send-email-ed.bartosh@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [wic][PATCH] meta-yocto-bsp: add kickstart file for MPC8315
+Received: by 10.140.106.99 with HTTP; Fri, 16 Dec 2016 09:53:25 -0800 (PST)
+In-Reply-To: <1481548162-22276-1-git-send-email-maxin.john@intel.com>
+References: <1481548162-22276-1-git-send-email-maxin.john@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 16 Dec 2016 17:53:25 +0000
+Message-ID: <CAJTo0LZ5ne934RKTZChfSx8TeuTqneZE5R7fd6JJNOSsd=9M=A@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@intel.com>
+Cc: Cristian Iorga <cristian.iorga@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] curl: add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,43 +54,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2016 17:14:44 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 16 Dec 2016 17:53:45 -0000
+Content-Type: multipart/alternative; boundary=001a1145b7b85a65060543ca40e0
 
-Sorry, wrong commit subject line.
-Please, ignore.
+--001a1145b7b85a65060543ca40e0
+Content-Type: text/plain; charset=UTF-8
 
-On Fri, Dec 16, 2016 at 07:05:14PM +0200, Ed Bartosh wrote:
-> Added kickstart file to produce partitioned image for
-> MPC8315 reference hardware.
-> 
-> [YOCTO #8719]
-> 
-> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> ---
->  scripts/lib/wic/canned-wks/mpc8315e-rdb.wks | 6 ++++++
->  1 file changed, 6 insertions(+)
->  create mode 100644 scripts/lib/wic/canned-wks/mpc8315e-rdb.wks
-> 
-> diff --git a/scripts/lib/wic/canned-wks/mpc8315e-rdb.wks b/scripts/lib/wic/canned-wks/mpc8315e-rdb.wks
-> new file mode 100644
-> index 0000000..af587b2
-> --- /dev/null
-> +++ b/scripts/lib/wic/canned-wks/mpc8315e-rdb.wks
-> @@ -0,0 +1,6 @@
-> +# short-description: Create SD card image with a boot partition
-> +# long-description: Creates a partitioned SD card image. Boot files
-> +# are located in the first partition.
-> +
-> +part /boot --source bootimg-partition --ondisk sdb --fstype=ext3 --label boot
-> +part / --source rootfs --ondisk sdb --fstype=ext3 --label root
-> -- 
-> 2.1.4
-> 
+On 12 December 2016 at 13:09, Maxin B. John <maxin.john@intel.com> wrote:
 
--- 
---
-Regards,
-Ed
+> +                         python-argparse python-pprint diffutils openssh \
+>
 
+Sadly this dependency on openssh breaks images which pull in dropbear
+explicitly, such as core-image-sato-dev.
+
+Why does the curl ptest needs openssh, and can it use dropbear if that is
+present?
+
+Ross
+
+--001a1145b7b85a65060543ca40e0
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 12 December 2016 at 13:09, Maxin B. John <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":94z" class=
+=3D"a3s aXjCH m158f327424b917db">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python-argparse python-ppr=
+int diffutils openssh \<br></div></blockquote></div><br>Sadly this dependen=
+cy on openssh breaks images which pull in dropbear explicitly, such as core=
+-image-sato-dev.<br></div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">Why does the curl ptest needs openssh, and can it use drop=
+bear if that is present?</div><div class=3D"gmail_extra"><br></div><div cla=
+ss=3D"gmail_extra">Ross</div></div>
+
+--001a1145b7b85a65060543ca40e0--
