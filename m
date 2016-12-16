@@ -1,26 +1,29 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 8245B71C9B
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4459C71C9B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2016 12:19:23 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1cHrTw-0006wV-Dm from Awais_Belal@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Dec 2016 04:19:24 -0800
-Received: from awais-Precision-M4700.pkl.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server id 14.3.224.2; Fri, 16 Dec 2016 12:19:22 +0000
-From: Awais Belal <awais_belal@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Dec 2016 17:19:16 +0500
-Message-ID: <1481890756-18807-2-git-send-email-awais_belal@mentor.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1481890756-18807-1-git-send-email-awais_belal@mentor.com>
-References: <1481890756-18807-1-git-send-email-awais_belal@mentor.com>
+	Fri, 16 Dec 2016 12:28:09 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uBGCSANh014406
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 16 Dec 2016 04:28:10 -0800 (PST)
+Received: from [128.224.162.211] (128.224.162.211) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Fri, 16 Dec 2016 04:28:09 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1481856470.git.dengke.du@windriver.com>
+	<46f2559616e1f79721500cb2ada13657aa67e225.1481856470.git.dengke.du@windriver.com>
+	<1481887924.9843.19.camel@linuxfoundation.org>
+From: Dengke Du <dengke.du@windriver.com>
+Message-ID: <5805f2f4-8a79-d80b-87c2-e3844dd3bf9d@windriver.com>
+Date: Fri, 16 Dec 2016 20:28:07 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: [PATCH v2 2/2] grub-efi/live-vm-common: allow grub as EFI_PROVIDER
+In-Reply-To: <1481887924.9843.19.camel@linuxfoundation.org>
+Subject: Re: [PATCH 1/2] Revert "subversion: fix "svnadmin create" fail on x86"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,77 +36,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2016 12:19:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 16 Dec 2016 12:28:10 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-This allows grub to be used as EFI_PROVIDER and
-extends the grub-efi class so it can be used as is
-when EFI_PROVIDER is grub.
-Currently this can only be leveraged if you are
-using the grub_git recipe and GRUBPLATFORM plus
-EFI_PROVIDER are set correctly.
+Hi Richard
 
-Signed-off-by: Awais Belal <awais_belal@mentor.com>
----
- meta/classes/grub-efi.bbclass       | 23 +++++++++++++++++------
- meta/classes/live-vm-common.bbclass |  2 +-
- 2 files changed, 18 insertions(+), 7 deletions(-)
+Yes, I have a root fix for the subversion failed on x86 and multilib. I 
+will send V2 explain it.
 
-diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
-index 17417ba..c847645 100644
---- a/meta/classes/grub-efi.bbclass
-+++ b/meta/classes/grub-efi.bbclass
-@@ -16,8 +16,8 @@
- # ${GRUB_TIMEOUT} - timeout before executing the deault label (optional)
- # ${GRUB_ROOT} - grub's root device.
- 
--do_bootimg[depends] += "${MLPREFIX}grub-efi:do_deploy"
--do_bootdirectdisk[depends] += "${MLPREFIX}grub-efi:do_deploy"
-+do_bootimg[depends] += "${MLPREFIX}${EFI_PROVIDER}:do_deploy"
-+do_bootdirectdisk[depends] += "${MLPREFIX}${EFI_PROVIDER}:do_deploy"
- 
- GRUB_SERIAL ?= "console=ttyS0,115200"
- GRUB_CFG_VM = "${S}/grub_vm.cfg"
-@@ -40,10 +40,21 @@ efi_populate() {
- 
- 	install -d ${DEST}${EFIDIR}
- 
--	GRUB_IMAGE="bootia32.efi"
--	if [ "${TARGET_ARCH}" = "x86_64" ]; then
--		GRUB_IMAGE="bootx64.efi"
--	fi
-+    if [ "${EFI_PROVIDER}" = "grub" ]; then
-+	    GRUB_IMAGE="bootia32.${GRUBPLATFORM}"
-+	    if [ "${TARGET_ARCH}" = "x86_64" ]; then
-+		    GRUB_IMAGE="bootx64.${GRUBPLATFORM}"
-+	    elif [ "${TARGET_ARCH}" = "arm" ]; then
-+            grubimage = "bootarm.${GRUBPLATFORM}"
-+	    elif [ "${TARGET_ARCH}" = "aarch64" ]; then
-+            grubimage = "bootaa64.${GRUBPLATFORM}"
-+        fi
-+    else
-+        GRUB_IMAGE="bootia32.efi"
-+	    if [ "${TARGET_ARCH}" = "x86_64" ]; then
-+		    GRUB_IMAGE="bootx64.efi"
-+        fi
-+    fi
- 	install -m 0644 ${DEPLOY_DIR_IMAGE}/${GRUB_IMAGE} ${DEST}${EFIDIR}
- 	EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
- 	printf 'fs0:%s\%s\n' "$EFIPATH" "$GRUB_IMAGE" >${DEST}/startup.nsh
-diff --git a/meta/classes/live-vm-common.bbclass b/meta/classes/live-vm-common.bbclass
-index 734697f..0af228b 100644
---- a/meta/classes/live-vm-common.bbclass
-+++ b/meta/classes/live-vm-common.bbclass
-@@ -13,7 +13,7 @@ def set_live_vm_vars(d, suffix):
- 
- EFI = "${@bb.utils.contains("MACHINE_FEATURES", "efi", "1", "0", d)}"
- EFI_PROVIDER ?= "grub-efi"
--EFI_CLASS = "${@bb.utils.contains("MACHINE_FEATURES", "efi", "${EFI_PROVIDER}", "", d)}"
-+EFI_CLASS = "${@bb.utils.contains("EFI_PROVIDER", "grub", "grub-efi", "${EFI_PROVIDER}", d)}"
- 
- # Include legacy boot if MACHINE_FEATURES includes "pcbios" or if it does not
- # contain "efi". This way legacy is supported by default if neither is
--- 
-1.9.1
+// Dengke
+
+
+On 2016年12月16日 19:32, Richard Purdie wrote:
+> On Fri, 2016-12-16 at 10:49 +0800, Dengke Du wrote:
+>> This reverts commit cfe6f3e251240c9d9a70354be0501600357f0b87.
+> You need to say why.
+>
+> I'm guessing you've a better fix in the following patch but it is a
+> guess and I shouldn't need to guess.
+>
+> Cheers,
+>
+> Richard
+>
 
 
