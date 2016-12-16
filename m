@@ -1,20 +1,16 @@
-Return-Path: <edwin.plauchu.camacho@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id D915B772DB
+Return-Path: <mru@mansr.com>
+Received: from unicorn.mansr.com (unicorn.mansr.com [81.2.72.234])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CEC37740C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2016 16:26:41 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga104.jf.intel.com with ESMTP; 16 Dec 2016 08:26:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,358,1477983600"; d="scan'208";a="19025459"
-Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
-	by orsmga002.jf.intel.com with ESMTP; 16 Dec 2016 08:26:42 -0800
-From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+	Fri, 16 Dec 2016 16:28:53 +0000 (UTC)
+Received: by unicorn.mansr.com (Postfix, from userid 51770)
+	id BD7D615393; Fri, 16 Dec 2016 16:28:53 +0000 (GMT)
+From: Mans Rullgard <mans@mansr.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Dec 2016 10:27:58 -0600
-Message-Id: <1481905678-8258-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] ruby: upgrade to 2.3.3
+Date: Fri, 16 Dec 2016 16:28:38 +0000
+Message-Id: <20161216162838.14910-1-mans@mansr.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] initscripts: populate-volatile: don't run commands in background
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,32 +23,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2016 16:26:44 -0000
+X-List-Received-Date: Fri, 16 Dec 2016 16:28:54 -0000
 
-Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+If commands are run asynchronously they may be completed out of
+order causing problems if later entries depend on earlier ones.
+
+Signed-off-by: Mans Rullgard <mans@mansr.com>
 ---
- meta/recipes-devtools/ruby/{ruby_2.3.1.bb => ruby_2.3.3.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/ruby/{ruby_2.3.1.bb => ruby_2.3.3.bb} (89%)
+ meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/ruby/ruby_2.3.1.bb b/meta/recipes-devtools/ruby/ruby_2.3.3.bb
-similarity index 89%
-rename from meta/recipes-devtools/ruby/ruby_2.3.1.bb
-rename to meta/recipes-devtools/ruby/ruby_2.3.3.bb
-index 299383a..7ba9b46 100644
---- a/meta/recipes-devtools/ruby/ruby_2.3.1.bb
-+++ b/meta/recipes-devtools/ruby/ruby_2.3.3.bb
-@@ -1,7 +1,7 @@
- require ruby.inc
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+index 91514bac86fa..cf0d2bf96610 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+@@ -36,7 +36,7 @@ create_file() {
+ 		[ "${VERBOSE}" != "no" ] && echo "Target already exists. Skipping."
+ 	} || {
+ 		if [ -z "$ROOT_DIR" ]; then
+-			eval $EXEC &
++			eval $EXEC
+ 		else
+ 			# Creating some files at rootfs time may fail and should fail,
+ 			# but these failures should not be logged to make sure the do_rootfs
+@@ -86,7 +86,7 @@ link_file() {
+ 	test "$VOLATILE_ENABLE_CACHE" = yes && echo "	$EXEC" >> /etc/volatile.cache.build
  
--SRC_URI[md5sum] = "0d896c2e7fd54f722b399f407e48a4c6"
--SRC_URI[sha256sum] = "b87c738cb2032bf4920fef8e3864dc5cf8eae9d89d8d523ce0236945c5797dcd"
-+SRC_URI[md5sum] = "e485f3a55649eb24a1e2e1a40bc120df"
-+SRC_URI[sha256sum] = "241408c8c555b258846368830a06146e4849a1d58dcaf6b14a3b6a73058115b7"
+ 	if [ -z "$ROOT_DIR" ]; then
+-		eval $EXEC &
++		eval $EXEC
+ 	else
+ 		# For the same reason with create_file(), failures should
+ 		# not be logged.
+@@ -187,7 +187,7 @@ apply_cfgfile() {
  
- # it's unknown to configure script, but then passed to extconf.rb
- # maybe it's not really needed as we're hardcoding the result with
+ 		case "${TTYPE}" in
+ 			"f")  [ "${VERBOSE}" != "no" ] && echo "Creating file -${TNAME}-."
+-				create_file "${TNAME}" &
++				create_file "${TNAME}"
+ 				;;
+ 			"d")  [ "${VERBOSE}" != "no" ] && echo "Creating directory -${TNAME}-."
+ 				mk_dir "${TNAME}"
 -- 
-2.1.4
+2.11.0
 
 
