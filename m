@@ -1,47 +1,43 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 0291F77247
+Return-Path: <anders@openpuma.org>
+Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
+	[209.85.218.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 0557D773A2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2016 17:53:44 +0000 (UTC)
-Received: by mail-qk0-f170.google.com with SMTP id q130so98283815qke.1
+	Fri, 16 Dec 2016 19:31:54 +0000 (UTC)
+Received: by mail-oi0-f46.google.com with SMTP id b126so88149955oia.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2016 09:53:46 -0800 (PST)
+	Fri, 16 Dec 2016 11:31:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=v+ovlE3/o30Mi5H77mqMNrW9ZAf/Im/92daDoTTDtv0=;
-	b=PCNAceFTRSqBroAC6kypjJ4i+ChQT7xXbx8+CFgnN4ZtWJJWfctqGVS5NaF3RplJ/p
-	pYyYPHyWXiNSkK57yaqEyQ85zTI65fTMBBlC8SJUWXwVVZMKgVe0KTpDyl+SethJ1Vl8
-	tOgovwf9VTgIPx4wFLHPo7eh+n8t8ZWo/GrRqlsr7CJ0p8sQGlZOtDWVFN2DAmDrxJ0t
-	ONOi9l+Yh92wDOc6nYE59kZOs3wDnz+kmpQqeLdttmvGCXEKm/9VFb53zsZK0Jyw6ZoJ
-	kTSJfNho628fyYYFXOgj6JnyaI/0y2bZypOX+Au8MGzkre9qccOGSs80yNM9yyYxG2Jd
-	WT/g==
+	d=openpuma-org.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=0iOjJdtjnvccRFvsFIWIOCiQN8BzTJ0wqwuMq9ZzQCY=;
+	b=DzbfIYX2Ho9GzYdfKuxLuU4jgrueFzPkHLcWLD80tKydVLIg/ynxU/rkG9UaZzEpgx
+	fGnidfU5F8LW2YBdEmKSUho28ulJnjvpPNNzNxLhmii5570M9YDDT/dexFXsfGKf9L7P
+	Ege8EFahPt3RnDsxUbyxnuEUhFAz51RS6tPf9rVBQ1ev2S3Ru5qRuq0L7NYmMDG0TjC8
+	uVY062vebI63wqpM/QXbq+Gn9z/VSqOQ88rVVWnbPOlcXfRkS8dC0nEbg4ji+websSiZ
+	EnuvPLbp7bxlwsyCUHgsbJYwUrVF9eIzl2XBazHR56c8NNgHiTrdEKuzhu34L2A+pkeq
+	pVbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=v+ovlE3/o30Mi5H77mqMNrW9ZAf/Im/92daDoTTDtv0=;
-	b=TqdtxVHlShrVh1qBYcO+y5P1TuSZIb3OGfIP4rYLinEe/4vi4HPZBqyN2/mCgwz72w
-	e0J0M3o/XXAXQvwJ2kxDuYthSBzg6ebKmes7iA0tlMAlG99/TX9KVFTjLMwsqTgGyACW
-	VV8wcSDjSUEFxPnQT0YUTvjkADzHkQVAxVQgxmBU1YvZWMNFk2hvwbcXc0lPWdAYzHnZ
-	NkPmPJaav3VwjtT9b+pkNi/ai79sWoul0Mw6oefly8Gxe73PQWSIN8jLi15t2pJHJar2
-	lOfaesB7JLgRkwhRllPvvJVemJZOWJI5HBxjFjrxhRNgRuI/rqTgIMNS7UlqUvgx1hJT
-	SfsQ==
-X-Gm-Message-State: AIkVDXJ/Nt+/dx9LdjFpkaYZWTkKTE9BjjD6222GFunjRbv5MvltOMcUIGP8vsVsDssoqtZy1jbhig2BH6k0OKiH
-X-Received: by 10.55.207.78 with SMTP id e75mr4748151qkj.36.1481910825665;
-	Fri, 16 Dec 2016 09:53:45 -0800 (PST)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=0iOjJdtjnvccRFvsFIWIOCiQN8BzTJ0wqwuMq9ZzQCY=;
+	b=kB7LOBjrI6545ikjA/67YpQKbZz4dzDdGCne78SGp986oxmLXqOLp8t0TTWSPofhFs
+	HydqOhMaLETQNDDyQZ1H5AV+KeYP947f8XJ4NGRQJgGo2SKrCKW/cCRNUvGmXdXTqdaF
+	ZFQY4phSgmYUs6QfY2Sr1ZP2oqTJpwK9u/sLleNkfBSZ0bm8xNZmM9lh3FOyq1S0AJcp
+	hucj37kc/QNIahxdtpaQFzmIC6Q7klBQP6yO4qnCnOpIMmbbrEOg+jB709td+T9SfCfP
+	sEeT8QbZTkqLVLnbG4BmBppVZuaGM/uMp5z04AONU4VLH7n2jdvdF5oIDW6ZFvCfALEo
+	h59g==
+X-Gm-Message-State: AKaTC02+Skurkjgs2EHixzmhdtOEG8xmbdpuezZyUP7UKgygkvYt3WWhUh1eHjY+eXs6Z2elifDyGQbC85VFTw==
+X-Received: by 10.157.47.240 with SMTP id b45mr3123236otd.242.1481916715230;
+	Fri, 16 Dec 2016 11:31:55 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Fri, 16 Dec 2016 09:53:25 -0800 (PST)
-In-Reply-To: <1481548162-22276-1-git-send-email-maxin.john@intel.com>
-References: <1481548162-22276-1-git-send-email-maxin.john@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 16 Dec 2016 17:53:25 +0000
-Message-ID: <CAJTo0LZ5ne934RKTZChfSx8TeuTqneZE5R7fd6JJNOSsd=9M=A@mail.gmail.com>
-To: "Maxin B. John" <maxin.john@intel.com>
-Cc: Cristian Iorga <cristian.iorga@intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] curl: add ptest
+Received: by 10.202.236.83 with HTTP; Fri, 16 Dec 2016 11:31:54 -0800 (PST)
+X-Originating-IP: [172.88.176.4]
+From: Anders Oleson <anders@openpuma.org>
+Date: Fri, 16 Dec 2016 11:31:54 -0800
+Message-ID: <CAKTo2Em1Lcs19L0M=WpGOJv3aQkQLJuetFsgm6nq_0sVix1X3A@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: bug with dpkg-native and sstate-cache mirrors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,41 +50,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2016 17:53:45 -0000
-Content-Type: multipart/alternative; boundary=001a1145b7b85a65060543ca40e0
-
---001a1145b7b85a65060543ca40e0
+X-List-Received-Date: Fri, 16 Dec 2016 19:31:57 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 12 December 2016 at 13:09, Maxin B. John <maxin.john@intel.com> wrote:
+I originally posted this here:
+https://lists.yoctoproject.org/pipermail/yocto/2016-December/033542.html.
+Apologies, I did not know to report OE core issues here.
 
-> +                         python-argparse python-pprint diffutils openssh \
->
+Also, following Jussi's advice I started reading the submission
+guidelines and I posted the patch to dpkg itself to their list to see
+if it was something that could be upstreamed. Led to a good discussion
+here: https://lists.debian.org/debian-dpkg/2016/12/msg00013.html.
+While this was an expedient way to fix my problem, it probably isn't
+the best way forward as a real change to dpkg. They have offered to
+look at submissions to fix what I think is the true root cause - the
+non-override-able, hard-coded CONFIGDIR.
 
-Sadly this dependency on openssh breaks images which pull in dropbear
-explicitly, such as core-image-sato-dev.
+Problem description:
+1. user "joe" clones the build repo, ex. poky from Yocto and builds
+everything, ex. core-system-minimal completely clean build from
+scratch. The local.conf is set to use package_deb for our system.
+2. "joe" is the build master and then publishes the resultant
+"sstate-cache" in a shared directory to be used as a mirror for the
+other users. Makes the sstate-cache-mirror directory read-only, etc.
+3. "joe" deletes the build directory creates a new one and tests the
+build in a new directory which works fine and runs quickly using the
+sstate-cache-mirror.
+3. user "bob" clones a similar revision and builds using the
+SSTATE_MIRROR pointing at the mirror.
+4. During "do_rootfs" dpkg (dpkg-native) fails with the message:
+dpkg: error: error opening configuration directory
+'/home/net/joe/work/sysgen-mrp/build/tmp/sysroots/x86_64-linux/etc/dpkg/dpkg.cfg.d':
+Permission denied
+E: Sub-process dpkg returned an error code (2)
 
-Why does the curl ptest needs openssh, and can it use dropbear if that is
-present?
+What happened is that in dpkg-native, the CONFIGDIR is compiled in and
+hard-coded to the failing path. dpkg does not currently have a way to
+override this at runtime in the same way as --instdir and --admindir.
+So dpkg is still looking for config files user "joes" directory which
+may:
+- have wrong permissions
+- be missing or parent dirs missing
+- contain malicious garbage because "joe" wants to screw with "bob" :)
+- any/all of the above (we had a combination)
 
-Ross
+Normally /etc/dpkg/dpkg.d is empty for the native sysroot, so our
+quick fix was to modify dpkg to just ignore ANY error reading that
+directory and pretend it was empty (which for Yocto builds it was
+anyway). This was preferable to removing the whole package from the
+SSTATE_MIRROR to force rebuilds in each work directory. See the patch
+I posted to the Yocto list linked above. Debian dpkg developers don't
+want to remove those checks and that seems advisable.
 
---001a1145b7b85a65060543ca40e0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+So that leaves two options that I can see (is there an easier/better fix?):
+- we can carry a patch to dpkg-native similar to what I posted. For
+Yocto/OE it probably is good enough, at least if we limit it to
+dpkg-native
+- add something like a --configdir command line switch to dpkg so that
+we can point it toward the proper sysroot rather than use the compiled
+in default
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 12 December 2016 at 13:09, Maxin B. John <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":94z" class=
-=3D"a3s aXjCH m158f327424b917db">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python-argparse python-ppr=
-int diffutils openssh \<br></div></blockquote></div><br>Sadly this dependen=
-cy on openssh breaks images which pull in dropbear explicitly, such as core=
--image-sato-dev.<br></div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">Why does the curl ptest needs openssh, and can it use drop=
-bear if that is present?</div><div class=3D"gmail_extra"><br></div><div cla=
-ss=3D"gmail_extra">Ross</div></div>
+I'd actually prefer the second option because, for one thing, it would
+eliminate the baked in paths that contain user names, etc. I'd suggest
+that if we pass in --configdir we should configure/compile dpkg-native
+with the default paths pointing to neutral, constant, invalid paths to
+avoid leaking build specific information into sstate and to catch
+errors.
 
---001a1145b7b85a65060543ca40e0--
+Does this sound like I'm on the right track or like something that
+could be included? I'd like to fix this so that it doesn't sneak up on
+someone else.
+
+I'm willing to take a hack at it and test it in the scenario where
+this bit us. It would involve steps:
+1. develop a patch to dpkg to add the option
+2. develop a patch for OE to change the configure for dpkg-native
+3. a patch for OE to pass --configdir to dpkg in all the right places.
+I could use help to insure I find them all.
+
+Thanks,
+
+Anders
+
+error log below:
+----------------------
+ERROR: system-image-1.0-r0 do_rootfs: Unable to install packages.
+Command '/home/local/MrProductName/mrp-system/build/tmp/sysroots/x86_64-linux/usr/bin/apt-get
+ install --force-yes --allow-unauthenticated bash run-postinsts
+packagegroup-core-eclipse-debug mrp-ofp dosfstools apt e2fsprogs dpkg
+packagegroup-core-boot' returned 100:
+Reading package lists...
+Building dependency tree...
+The following extra packages will be installed:
+  base-files base-passwd busybox busybox-hwclock busybox-syslog busybox-udhcpc
+  ca-certificates debianutils debianutils-run-parts e2fsprogs-badblocks
+  e2fsprogs-e2fsck e2fsprogs-mke2fs eudev gdbserver init-ifupdown initscripts
+  initscripts-functions kernel-4.4.26-yocto-standard kernel-module-uvesafb
+  libblkid1 libbz2-1 libc6 libc6-thread-db libcom-err2 libcrypto1.0.0 libcurl4
+  libe2p2 libext2fs2 libgcc1 libgmp10 libgnutls30 libidn11 libkmod2 liblzma5
+  libperl5 libss2 libssl1.0.0 libstdc++6 libtinfo5 libuuid1 libz1
+  modutils-initscripts ncurses-terminfo-base netbase nettle
+  openssh-sftp-server openssl-conf perl sysvinit sysvinit-inittab
+  sysvinit-pidof tcf-agent udev-cache update-alternatives-opkg update-rc.d
+  v86d xz
+Suggested packages:
+  ncurses-terminfo
+The following NEW packages will be installed:
+  apt mrp-ofp base-files base-passwd bash busybox busybox-hwclock
+  busybox-syslog busybox-udhcpc ca-certificates debianutils
+  debianutils-run-parts dosfstools dpkg e2fsprogs e2fsprogs-badblocks
+  e2fsprogs-e2fsck e2fsprogs-mke2fs eudev gdbserver init-ifupdown initscripts
+  initscripts-functions kernel-4.4.26-yocto-standard kernel-module-uvesafb
+  libblkid1 libbz2-1 libc6 libc6-thread-db libcom-err2 libcrypto1.0.0 libcurl4
+  libe2p2 libext2fs2 libgcc1 libgmp10 libgnutls30 libidn11 libkmod2 liblzma5
+  libperl5 libss2 libssl1.0.0 libstdc++6 libtinfo5 libuuid1 libz1
+  modutils-initscripts ncurses-terminfo-base netbase nettle
+  openssh-sftp-server openssl-conf packagegroup-core-boot
+  packagegroup-core-eclipse-debug perl run-postinsts sysvinit sysvinit-inittab
+  sysvinit-pidof tcf-agent udev-cache update-alternatives-opkg update-rc.d
+  v86d xz
+0 upgraded, 66 newly installed, 0 to remove and 0 not upgraded.
+Need to get 0 B/7850 kB of archives.
+After this operation, 0 B of additional disk space will be used.
+WARNING: The following packages cannot be authenticated!
+  libc6 libgcc1 libstdc++6 liblzma5 libz1 libgmp10 nettle libidn11 libgnutls30
+  libcurl4 update-alternatives-opkg libtinfo5 base-files bash run-postinsts
+  libperl5 perl xz libbz2-1 dpkg debianutils-run-parts debianutils apt mrp-ofp
+  base-passwd busybox busybox-hwclock busybox-syslog busybox-udhcpc
+  ca-certificates dosfstools libcom-err2 libss2 libuuid1 libblkid1 libe2p2
+  libext2fs2 e2fsprogs-badblocks e2fsprogs e2fsprogs-e2fsck e2fsprogs-mke2fs
+  libkmod2 eudev gdbserver netbase init-ifupdown initscripts-functions
+  initscripts kernel-4.4.26-yocto-standard kernel-module-uvesafb
+  libc6-thread-db libcrypto1.0.0 libssl1.0.0 modutils-initscripts
+  ncurses-terminfo-base openssh-sftp-server openssl-conf v86d sysvinit-pidof
+  sysvinit-inittab sysvinit packagegroup-core-boot tcf-agent
+  packagegroup-core-eclipse-debug udev-cache update-rc.d
+Authentication warning overridden.
+dpkg: error: error opening configuration directory
+'/home/net/joe/work/sysgen-mrp/build/tmp/sysroots/x86_64-linux/etc/dpkg/dpkg.cfg.d':
+Permission denied
+E: Sub-process dpkg returned an error code (2)
+
+ERROR: system-image-1.0-r0 do_rootfs: Function failed: do_rootfs
+ERROR: Logfile of failure stored in:
+/home/local/MrProductName/mrp-system/build/tmp/work/qemux86-hbdc-linux/system-image/1.0-r0/temp/log.do_rootfs.31848
+ERROR: Task 9 (/home/local/MrProductName/mrp-system/poky/../meta-system/recipes-core/images/system-image.bb,
+do_rootfs) failed with exit code '1'
+
