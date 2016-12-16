@@ -1,20 +1,30 @@
-Return-Path: <jose.a.lamego@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D6C477317
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 196AB71DC2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2016 22:44:46 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga105.fm.intel.com with ESMTP; 15 Dec 2016 14:44:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,354,1477983600"; d="scan'208";a="18699255"
-Received: from jalamego-mobl2.zpn.intel.com ([10.219.5.137])
-	by orsmga002.jf.intel.com with ESMTP; 15 Dec 2016 14:44:46 -0800
-From: Jose Lamego <jose.a.lamego@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Dec 2016 16:44:45 -0600
-Message-Id: <1481841885-2197-1-git-send-email-jose.a.lamego@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH v2] python*-git: Upgrade to version 2.1.1
+	Fri, 16 Dec 2016 00:42:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uBG0gqhG007635
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 15 Dec 2016 16:42:52 -0800 (PST)
+Received: from [128.224.162.198] (128.224.162.198) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Thu, 15 Dec 2016 16:42:52 -0800
+To: "Ahsan, Noor" <Noor_Ahsan@mentor.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <1480326940-7571-1-git-send-email-yi.zhao@windriver.com>
+	<94d3b02ec5424fbabf5efbe2b48d7615@svr-ies-mbx-01.mgc.mentorg.com>
+From: Yi Zhao <yi.zhao@windriver.com>
+Message-ID: <7cea66ed-8065-5767-243c-56c389ba525d@windriver.com>
+Date: Fri, 16 Dec 2016 08:42:24 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.5.1
+MIME-Version: 1.0
+In-Reply-To: <94d3b02ec5424fbabf5efbe2b48d7615@svr-ies-mbx-01.mgc.mentorg.com>
+X-Originating-IP: [128.224.162.198]
+Subject: Re: [PATCH] libxml2: Security fix CVE-2016-5131
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,59 +37,251 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2016 22:44:46 -0000
+X-List-Received-Date: Fri, 16 Dec 2016 00:42:54 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Both python-git and python3-git need to be upgraded to latest upstream
-version.
-This change includes python3 dependencies added and was tested
-using qemux86 with core-image-sato.
 
-Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
----
 
-Notes:
-    Changes in patch v2: python3 dependencies added
+在 2016年12月16日 03:01, Ahsan, Noor 写道:
+> Can we have this patch merged on morty branch?
+Yes
 
- meta/recipes-devtools/python/python-git.inc                           | 4 ++--
- .../python/{python-git_2.1.0.bb => python-git_2.1.1.bb}               | 0
- .../python/{python3-git_2.1.0.bb => python3-git_2.1.1.bb}             | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python-git_2.1.0.bb => python-git_2.1.1.bb} (100%)
- rename meta/recipes-devtools/python/{python3-git_2.1.0.bb => python3-git_2.1.1.bb} (82%)
+//Yi
 
-diff --git a/meta/recipes-devtools/python/python-git.inc b/meta/recipes-devtools/python/python-git.inc
-index ad41561..feddf27 100644
---- a/meta/recipes-devtools/python/python-git.inc
-+++ b/meta/recipes-devtools/python/python-git.inc
-@@ -10,8 +10,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8b8d26c37c1d5a04f9b0186edbebc183"
- 
- SRC_URI = "https://files.pythonhosted.org/packages/source/G/GitPython/GitPython-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "29b1fcf504d080dc7a5e630957e829d7"
--SRC_URI[sha256sum] = "3ebda1e6ff1ef68597e41dcd1b99c2a5ae902f4dc2b22ad3533cc89c32b42aad"
-+SRC_URI[md5sum] = "77f8339e68dedb6d7c4e26371a588ed9"
-+SRC_URI[sha256sum] = "e96f8e953cf9fee0a7599fc587667591328760b6341a0081ef311a942fc96204"
- 
- UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/GitPython/"
- UPSTREAM_CHECK_REGEX = "/GitPython/(?P<pver>(\d+[\.\-_]*)+)"
-diff --git a/meta/recipes-devtools/python/python-git_2.1.0.bb b/meta/recipes-devtools/python/python-git_2.1.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python-git_2.1.0.bb
-rename to meta/recipes-devtools/python/python-git_2.1.1.bb
-diff --git a/meta/recipes-devtools/python/python3-git_2.1.0.bb b/meta/recipes-devtools/python/python3-git_2.1.1.bb
-similarity index 82%
-rename from meta/recipes-devtools/python/python3-git_2.1.0.bb
-rename to meta/recipes-devtools/python/python3-git_2.1.1.bb
-index c9fe9ba..7a2d452 100644
---- a/meta/recipes-devtools/python/python3-git_2.1.0.bb
-+++ b/meta/recipes-devtools/python/python3-git_2.1.1.bb
-@@ -4,4 +4,4 @@ DEPENDS = "python3-gitdb"
- 
- inherit setuptools3
- 
--RDEPENDS_${PN} += "python3-gitdb python3-lang python3-io python3-shell python3-math python3-re python3-subprocess python3-stringold python3-unixadmin python3-enum python3-logging python3-datetime python3-netclient"
-+RDEPENDS_${PN} += "python3-gitdb python3-lang python3-io python3-shell python3-math python3-re python3-subprocess python3-stringold python3-unixadmin python3-enum python3-logging python3-datetime python3-netclient python3-unittest python3-argparse"
--- 
-1.9.1
+>
+> Noor
+>
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Yi Zhao
+> Sent: Monday, November 28, 2016 2:56 PM
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH] libxml2: Security fix CVE-2016-5131
+>
+> CVE-2016-5131 libxml2: Use-after-free vulnerability in libxml2 through 2.9.4, as used in Google Chrome before 52.0.2743.82, allows remote attackers to cause a denial of service or possibly have unspecified other impact via vectors related to the XPointer range-to function.
+>
+> External References:
+> https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5131
+>
+> Patch from:
+> https://git.gnome.org/browse/libxml2/commit/?id=9ab01a277d71f54d3143c2cf333c5c2e9aaedd9e
+>
+> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+> ---
+>   .../libxml/libxml2/libxml2-CVE-2016-5131.patch     | 180 +++++++++++++++++++++
+>   meta/recipes-core/libxml/libxml2_2.9.4.bb          |   1 +
+>   2 files changed, 181 insertions(+)
+>   create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-5131.patch
+>
+> diff --git a/meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-5131.patch b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-5131.patch
+> new file mode 100644
+> index 0000000..9d47d02
+> --- /dev/null
+> +++ b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-5131.patch
+> @@ -0,0 +1,180 @@
+> +From 9ab01a277d71f54d3143c2cf333c5c2e9aaedd9e Mon Sep 17 00:00:00 2001
+> +From: Nick Wellnhofer <wellnhofer@aevum.de>
+> +Date: Tue, 28 Jun 2016 14:22:23 +0200
+> +Subject: [PATCH] Fix XPointer paths beginning with range-to
+> +
+> +The old code would invoke the broken xmlXPtrRangeToFunction. range-to
+> +isn't really a function but a special kind of location step. Remove
+> +this function and always handle range-to in the XPath code.
+> +
+> +The old xmlXPtrRangeToFunction could also be abused to trigger a
+> +use-after-free error with the potential for remote code execution.
+> +
+> +Found with afl-fuzz.
+> +
+> +Fixes CVE-2016-5131.
+> +
+> +CVE: CVE-2016-5131
+> +Upstream-Status: Backport
+> +https://git.gnome.org/browse/libxml2/commit/?id=9ab01a277d71f54d3143c2c
+> +f333c5c2e9aaedd9e
+> +
+> +Signed-off-by: Yi Zhao <yi.zhao@windirver.com>
+> +---
+> + result/XPath/xptr/vidbase | 13 ++++++++
+> + test/XPath/xptr/vidbase   |  1 +
+> + xpath.c                   |  7 ++++-
+> + xpointer.c                | 76 ++++-------------------------------------------
+> + 4 files changed, 26 insertions(+), 71 deletions(-)
+> +
+> +diff --git a/result/XPath/xptr/vidbase b/result/XPath/xptr/vidbase
+> +index 8b9e92d..f19193e 100644
+> +--- a/result/XPath/xptr/vidbase
+> ++++ b/result/XPath/xptr/vidbase
+> +@@ -17,3 +17,16 @@ Object is a Location Set:
+> +   To node
+> +     ELEMENT p
+> +
+> ++
+> ++========================
+> ++Expression: xpointer(range-to(id('chapter2')))
+> ++Object is a Location Set:
+> ++1 :   Object is a range :
+> ++  From node
+> ++     /
+> ++  To node
+> ++    ELEMENT chapter
+> ++      ATTRIBUTE id
+> ++        TEXT
+> ++          content=chapter2
+> ++
+> +diff --git a/test/XPath/xptr/vidbase b/test/XPath/xptr/vidbase index
+> +b146383..884b106 100644
+> +--- a/test/XPath/xptr/vidbase
+> ++++ b/test/XPath/xptr/vidbase
+> +@@ -1,2 +1,3 @@
+> + xpointer(id('chapter1')/p)
+> + xpointer(id('chapter1')/p[1]/range-to(following-sibling::p[2]))
+> ++xpointer(range-to(id('chapter2')))
+> +diff --git a/xpath.c b/xpath.c
+> +index d992841..5a01b1b 100644
+> +--- a/xpath.c
+> ++++ b/xpath.c
+> +@@ -10691,13 +10691,18 @@ xmlXPathCompPathExpr(xmlXPathParserContextPtr ctxt) {
+> + 		    lc = 1;
+> + 		    break;
+> + 		} else if ((NXT(len) == '(')) {
+> +-		    /* Note Type or Function */
+> ++		    /* Node Type or Function */
+> + 		    if (xmlXPathIsNodeType(name)) {
+> + #ifdef DEBUG_STEP
+> + 		        xmlGenericError(xmlGenericErrorContext,
+> + 				"PathExpr: Type search\n");
+> + #endif
+> + 			lc = 1;
+> ++#ifdef LIBXML_XPTR_ENABLED
+> ++                    } else if (ctxt->xptr &&
+> ++                               xmlStrEqual(name, BAD_CAST "range-to")) {
+> ++                        lc = 1;
+> ++#endif
+> + 		    } else {
+> + #ifdef DEBUG_STEP
+> + 		        xmlGenericError(xmlGenericErrorContext,
+> +diff --git a/xpointer.c b/xpointer.c
+> +index 676c510..d74174a 100644
+> +--- a/xpointer.c
+> ++++ b/xpointer.c
+> +@@ -1332,8 +1332,6 @@ xmlXPtrNewContext(xmlDocPtr doc, xmlNodePtr here, xmlNodePtr origin) {
+> +     ret->here = here;
+> +     ret->origin = origin;
+> +
+> +-    xmlXPathRegisterFunc(ret, (xmlChar *)"range-to",
+> +-	                 xmlXPtrRangeToFunction);
+> +     xmlXPathRegisterFunc(ret, (xmlChar *)"range",
+> + 	                 xmlXPtrRangeFunction);
+> +     xmlXPathRegisterFunc(ret, (xmlChar *)"range-inside", @@ -2243,76
+> ++2241,14 @@ xmlXPtrRangeInsideFunction(xmlXPathParserContextPtr ctxt,
+> +int nargs) {
+> +  * @nargs:  the number of args
+> +  *
+> +  * Implement the range-to() XPointer function
+> ++ *
+> ++ * Obsolete. range-to is not a real function but a special type of
+> ++ location
+> ++ * step which is handled in xpath.c.
+> +  */
+> + void
+> +-xmlXPtrRangeToFunction(xmlXPathParserContextPtr ctxt, int nargs) {
+> +-    xmlXPathObjectPtr range;
+> +-    const xmlChar *cur;
+> +-    xmlXPathObjectPtr res, obj;
+> +-    xmlXPathObjectPtr tmp;
+> +-    xmlLocationSetPtr newset = NULL;
+> +-    xmlNodeSetPtr oldset;
+> +-    int i;
+> +-
+> +-    if (ctxt == NULL) return;
+> +-    CHECK_ARITY(1);
+> +-    /*
+> +-     * Save the expression pointer since we will have to evaluate
+> +-     * it multiple times. Initialize the new set.
+> +-     */
+> +-    CHECK_TYPE(XPATH_NODESET);
+> +-    obj = valuePop(ctxt);
+> +-    oldset = obj->nodesetval;
+> +-    ctxt->context->node = NULL;
+> +-
+> +-    cur = ctxt->cur;
+> +-    newset = xmlXPtrLocationSetCreate(NULL);
+> +-
+> +-    for (i = 0; i < oldset->nodeNr; i++) {
+> +-	ctxt->cur = cur;
+> +-
+> +-	/*
+> +-	 * Run the evaluation with a node list made of a single item
+> +-	 * in the nodeset.
+> +-	 */
+> +-	ctxt->context->node = oldset->nodeTab[i];
+> +-	tmp = xmlXPathNewNodeSet(ctxt->context->node);
+> +-	valuePush(ctxt, tmp);
+> +-
+> +-	xmlXPathEvalExpr(ctxt);
+> +-	CHECK_ERROR;
+> +-
+> +-	/*
+> +-	 * The result of the evaluation need to be tested to
+> +-	 * decided whether the filter succeeded or not
+> +-	 */
+> +-	res = valuePop(ctxt);
+> +-	range = xmlXPtrNewRangeNodeObject(oldset->nodeTab[i], res);
+> +-	if (range != NULL) {
+> +-	    xmlXPtrLocationSetAdd(newset, range);
+> +-	}
+> +-
+> +-	/*
+> +-	 * Cleanup
+> +-	 */
+> +-	if (res != NULL)
+> +-	    xmlXPathFreeObject(res);
+> +-	if (ctxt->value == tmp) {
+> +-	    res = valuePop(ctxt);
+> +-	    xmlXPathFreeObject(res);
+> +-	}
+> +-
+> +-	ctxt->context->node = NULL;
+> +-    }
+> +-
+> +-    /*
+> +-     * The result is used as the new evaluation set.
+> +-     */
+> +-    xmlXPathFreeObject(obj);
+> +-    ctxt->context->node = NULL;
+> +-    ctxt->context->contextSize = -1;
+> +-    ctxt->context->proximityPosition = -1;
+> +-    valuePush(ctxt, xmlXPtrWrapLocationSet(newset));
+> ++xmlXPtrRangeToFunction(xmlXPathParserContextPtr ctxt,
+> ++                       int nargs ATTRIBUTE_UNUSED) {
+> ++    XP_ERROR(XPATH_EXPR_ERROR);
+> + }
+> +
+> + /**
+> +--
+> +2.7.4
+> +
+> diff --git a/meta/recipes-core/libxml/libxml2_2.9.4.bb b/meta/recipes-core/libxml/libxml2_2.9.4.bb
+> index 59874be..1fed90b 100644
+> --- a/meta/recipes-core/libxml/libxml2_2.9.4.bb
+> +++ b/meta/recipes-core/libxml/libxml2_2.9.4.bb
+> @@ -19,6 +19,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
+>              file://run-ptest \
+>              file://python-sitepackages-dir.patch \
+>              file://libxml-m4-use-pkgconfig.patch \
+> +           file://libxml2-CVE-2016-5131.patch \
+>             "
+>   
+>   SRC_URI[libtar.md5sum] = "ae249165c173b1ff386ee8ad676815f5"
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
 
