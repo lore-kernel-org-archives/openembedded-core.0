@@ -1,20 +1,51 @@
-Return-Path: <edwin.plauchu.camacho@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A94F71957
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DED177407
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2016 16:48:14 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga104.fm.intel.com with ESMTP; 16 Dec 2016 08:48:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,358,1477983600"; d="scan'208";a="43317080"
-Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
-	by fmsmga005.fm.intel.com with ESMTP; 16 Dec 2016 08:48:16 -0800
-From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Dec 2016 10:49:33 -0600
-Message-Id: <1481906973-12826-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH V3] python3-setuptools: upgrade to 31.0.0
+	Fri, 16 Dec 2016 16:57:11 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id p66so10241219pga.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Dec 2016 08:57:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=oj9nxml3A14X+q56YKLJ5VhnXmA/ycYelm4uv4ev/5o=;
+	b=cQ81ZktpqHTor9ejIhUOwrM22Pvi2YXlDSFO1ZZ9xWbeo0RBXU9a0uSQU/j6vQnwzl
+	8Jji3+Jj6cJGbnIsh4UeYyI9pAEummXq+LEe5Rz11s0mErzuLCMWzHfyQRL/nsLGCM9M
+	5lGo2ImrLqpFgyK6VGMS66Z592unO47P7H2sZERMxSp2O1YNTe2Cxit+HZ1+4mRscqNO
+	4VYNJFnq/Jekhhm0E+gaDeGm1dZloSFkr6LnrCHcz6z9qUDLvl83dp4xxJ1TRf1BG4LJ
+	4JuRHNEW2WgfStQKL8BePNVRXdILZtwLBiCygAdA78apDcWkXzuAW/l2sGYSAWvOMfvU
+	mCZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=oj9nxml3A14X+q56YKLJ5VhnXmA/ycYelm4uv4ev/5o=;
+	b=OeLO2ycp9OaxfyQP6c3Dx5jAdxO6+1KwtlSYCPDm/RVzCVW8lTmWWmmt7zxhsR7jEr
+	qHd6GcORbks4ue5YgrhK3q45T9UkPXtBtsNl7UyhqhkyH6r1AYxlYnhs1NRcXdJLnu0F
+	ZtC4KuX8BhrsLtxtwBBii5r7eg1Rf2amdB0+foTlaFBDoST4lY06I25H4Sr0U4opr3B+
+	n4gmPXwjFyxnvVPH9AqSDWjKJaBvfSYgSs+qvnP5nvxbqb9wQoOkYVostVvWu/PXGXgw
+	ncqRderCJYsYcFbNaP9CmuDcmeS+C26d3MGkiuoOtYOXNoRbwJ/nPKFK2AFNr8oBsYqm
+	QApQ==
+X-Gm-Message-State: AKaTC02/uNJTf/q2sD/42feb8LxVaCC795Jw5PHYW++GZ4Jod0WFjXtIIB2dXZ7BnjzlpQ==
+X-Received: by 10.84.168.129 with SMTP id f1mr9006573plb.42.1481907432652;
+	Fri, 16 Dec 2016 08:57:12 -0800 (PST)
+Received: from ?IPv6:2601:646:8882:b8c:8035:ba73:d6e2:ea72?
+	([2601:646:8882:b8c:8035:ba73:d6e2:ea72])
+	by smtp.gmail.com with ESMTPSA id
+	p14sm13155305pfl.74.2016.12.16.08.57.11
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 16 Dec 2016 08:57:12 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 10.2 \(3259\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1481793382-34767-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Date: Fri, 16 Dec 2016 08:57:11 -0800
+Message-Id: <48DE1321-CAEA-4C5E-AAD5-6367729C3498@gmail.com>
+References: <1481793382-34767-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: Apple Mail (2.3259)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gdb 7.11.1 -> 7.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,43 +58,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2016 16:48:15 -0000
+X-List-Received-Date: Fri, 16 Dec 2016 16:57:11 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-It is a simultaneous upgrade for python 2 and 3 over setuptools.
 
-Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
----
- meta/recipes-devtools/python/python-setuptools.inc                    | 4 ++--
- .../{python-setuptools_29.0.1.bb => python-setuptools_31.0.0.bb}      | 0
- .../{python3-setuptools_29.0.1.bb => python3-setuptools_31.0.0.bb}    | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python-setuptools_29.0.1.bb => python-setuptools_31.0.0.bb} (100%)
- rename meta/recipes-devtools/python/{python3-setuptools_29.0.1.bb => python3-setuptools_31.0.0.bb} (100%)
+> On Dec 15, 2016, at 1:16 AM, Zheng Ruoqin =
+<zhengrq.fnst@cn.fujitsu.com> wrote:
+>=20
+> 1) Upgrade gdb from 7.11.1 to 7.12
+> 2) Delete 11 patches below, since they are integrated upstream.
+>    0001-include-sys-types.h-for-mode_t.patch
+>    0002-make-man-install-relative-to-DESTDIR.patch
+>    0003-mips-linux-nat-Define-_ABIO32-if-not-defined.patch
+>    0004-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
+>    0005-Add-support-for-Renesas-SH-sh4-architecture.patch
+>    0006-Dont-disable-libreadline.a-when-using-disable-static.patch
+>    0007-use-asm-sgidefs.h.patch
+>    0008-Use-exorted-definitions-of-SIGRTMIN.patch
+>    0009-Change-order-of-CFLAGS.patch
+>    0010-resolve-restrict-keyword-conflict.patch
+>    0011-avx_mpx.patch
 
-diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
-index e76484a..858595c 100644
---- a/meta/recipes-devtools/python/python-setuptools.inc
-+++ b/meta/recipes-devtools/python/python-setuptools.inc
-@@ -9,8 +9,8 @@ SRCNAME = "setuptools"
- 
- SRC_URI = "https://files.pythonhosted.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "28ecfd0f2574b489b9a18343879a7324"
--SRC_URI[sha256sum] = "b539118819a4857378398891fa5366e090690e46b3e41421a1e07d6e9fd8feb0"
-+SRC_URI[md5sum] = "66da89eeb1f33c2b947f316cfb3d7c7e"
-+SRC_URI[sha256sum] = "0818cc0de692c3a5c83ca83aa7ec7ba6bc206f278735f1e0267b8d0e095cfe7a"
- 
- UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/setuptools"
- 
-diff --git a/meta/recipes-devtools/python/python-setuptools_29.0.1.bb b/meta/recipes-devtools/python/python-setuptools_31.0.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python-setuptools_29.0.1.bb
-rename to meta/recipes-devtools/python/python-setuptools_31.0.0.bb
-diff --git a/meta/recipes-devtools/python/python3-setuptools_29.0.1.bb b/meta/recipes-devtools/python/python3-setuptools_31.0.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python3-setuptools_29.0.1.bb
-rename to meta/recipes-devtools/python/python3-setuptools_31.0.0.bb
--- 
-2.1.4
+I doubt if they all are merged. Can you check if you can build gdb for =
+musl targets ?
 
 
