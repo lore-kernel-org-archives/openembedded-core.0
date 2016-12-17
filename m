@@ -1,30 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C518477441
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f48.google.com (mail-pg0-f48.google.com [74.125.83.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 17F3D773F5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Dec 2016 09:47:57 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	uBH9liKo017723; Sat, 17 Dec 2016 09:47:44 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id NvWmJxp_1Lpl; Sat, 17 Dec 2016 09:47:44 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	uBH9jw4e017708
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sat, 17 Dec 2016 09:45:59 GMT
-Message-ID: <1481967958.9843.28.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-Date: Sat, 17 Dec 2016 09:45:58 +0000
-In-Reply-To: <48DE1321-CAEA-4C5E-AAD5-6367729C3498@gmail.com>
-References: <1481793382-34767-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-	<48DE1321-CAEA-4C5E-AAD5-6367729C3498@gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gdb 7.11.1 -> 7.12
+	Sat, 17 Dec 2016 19:39:15 +0000 (UTC)
+Received: by mail-pg0-f48.google.com with SMTP id a1so22189077pgf.1
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 17 Dec 2016 11:39:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=to:from:subject:message-id:date:user-agent:mime-version
+	:content-transfer-encoding;
+	bh=ylPrtXnuCNcR5BKIVNzq9CQFmD/Y09JZYJWxZtdbYLA=;
+	b=Muo0u5Gjb331YSYRd9j6KvbaOiWtER60YtpG0/UFRxJy0L5uKEWdKi4Utp0MIEm7eL
+	B2Xy8avC7SE20KXKxsN/iD2v0F653ks+reZYjX0x68phzLWQf6zQTLpxLm1DAaXWntZe
+	72fa/gKcQNcy4DI5TVlOmfGTL/f5qOGsAT5AERNY+8OWBFFULgictoEM+FAcR0+lX7+S
+	S0meRni9lb33f308trgOrBsYg9tNtjgkzLVtiLerN4tV8NDt8ptr291GmaIMvODt2ZP5
+	coACG54GIDYpK7YgIZJ/bVegLI7juz1wqNEuI3iNOYdoDmlf5xXZ4Hw1YKGrTTQdiYrZ
+	pj0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=ylPrtXnuCNcR5BKIVNzq9CQFmD/Y09JZYJWxZtdbYLA=;
+	b=ZX4kd6aW9mxLCZ2/qI1ViMQUcg10zOxGEzaFJ1JDFH93/Wjp3GwVmiltT2jPFbEM0s
+	ZxLx/bUnnPbpDTaK2kA+/Um7o6add/Md1Q6EoK2H6pk5wElb2LJmA00HyEsQFJnsNSTo
+	RkRpp2KsCE9I5kui1LMCQompGrXHhGynvAmoz54vrHePWV3L6RwoU/Nn6T5IaJti/RPd
+	p/TlgjtO78BX3CWS5OZRk9z0MZGhf/oeY1gjGQ0ZbdHZsMjkdlE4TCfbIzrIc+XKYr7j
+	jRLOjPTBoKDdBEz6O6A7LnX1tW89BOPgxRclGub34j1T4cpp/J6Z0iUBPvLly5paSP9I
+	cx0A==
+X-Gm-Message-State: AKaTC03MI73NRFpAV33g/Hggsg56OHpMMcQ3xPrTf0DMmqMDFGtefdGJ68APfSEFSDk6Pw==
+X-Received: by 10.99.124.20 with SMTP id x20mr15886336pgc.142.1481996613043;
+	Sat, 17 Dec 2016 09:43:33 -0800 (PST)
+Received: from ?IPv6:2601:202:4001:9ea0:d8a0:7bba:e039:841?
+	([2601:202:4001:9ea0:d8a0:7bba:e039:841])
+	by smtp.googlemail.com with ESMTPSA id
+	p64sm20272213pfi.88.2016.12.17.09.43.32
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 17 Dec 2016 09:43:32 -0800 (PST)
+To: OE-core <openembedded-core@lists.openembedded.org>,
+	"yocto@yoctoproject.org" <yocto@yoctoproject.org>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <7e10dcec-0477-3710-eec4-0f3da9a99691@gmail.com>
+Date: Sat, 17 Dec 2016 09:43:31 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.5.1
+MIME-Version: 1.0
+Subject: is yoctoproject.org and openenembedded.org down?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,38 +57,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Dec 2016 09:47:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 17 Dec 2016 19:39:16 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2016-12-16 at 08:57 -0800, Khem Raj wrote:
-> > 
-> > On Dec 15, 2016, at 1:16 AM, Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.
-> > com> wrote:
-> > 
-> > 1) Upgrade gdb from 7.11.1 to 7.12
-> > 2) Delete 11 patches below, since they are integrated upstream.
-> >    0001-include-sys-types.h-for-mode_t.patch
-> >    0002-make-man-install-relative-to-DESTDIR.patch
-> >    0003-mips-linux-nat-Define-_ABIO32-if-not-defined.patch
-> >    0004-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
-> >    0005-Add-support-for-Renesas-SH-sh4-architecture.patch
-> >    0006-Dont-disable-libreadline.a-when-using-disable-static.patch
-> >    0007-use-asm-sgidefs.h.patch
-> >    0008-Use-exorted-definitions-of-SIGRTMIN.patch
-> >    0009-Change-order-of-CFLAGS.patch
-> >    0010-resolve-restrict-keyword-conflict.patch
-> >    0011-avx_mpx.patch
-> I doubt if they all are merged. Can you check if you can build gdb
-> for musl targets ?
+Hello,
 
-Its confirmed as not building:
+Can anyone get to yoctoproject.org or openembedded.org?
 
-https://autobuilder.yocto.io/builders/nightly-musl/builds/104/steps/BuildImages/logs/stdio
+they where working earlier this morning.
 
-Cheers,
-
-Richard
-
-
+- Armin
 
