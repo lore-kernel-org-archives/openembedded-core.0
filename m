@@ -1,45 +1,30 @@
-Return-Path: <danielhilst@gmail.com>
-Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
-	[209.85.220.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 20D8677414
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C518477441
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Dec 2016 01:49:31 +0000 (UTC)
-Received: by mail-qk0-f194.google.com with SMTP id n204so13799620qke.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2016 17:49:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=MapkRl8bp3psFeDUsMADXbmE4RDY3S+kgMxXzc2Wv38=;
-	b=a1lcqEx5Xk2wffh8Ht3ABT31aXgiJPstkTiE7d/0yWKbIzQrWsP/7XMDbG24tzYwZ5
-	46YZJ8x6bBXpt6ZBcKjgLyEjENypx53+NRLA3xLCk/QfY1B88T09C0Na9TKhflL4TIIX
-	qWByRRz53S/L8YRi5BjYbptAWCgxd7CfHR2rIr7k2EXY7qYbJJZv90zw/GUUeaVPOLPS
-	Gdjg9Y8/i0NfeiaVN0rZRF+WAQVCOYSFxy88qvoXA9YQ9kXhU74tJECJ8I97t3eF255+
-	FrNIGSckCGfT5n83YdxZRQY6B8Lg7i0Ku3njTXzP980BIlUsmgyC1BCpfJSLrCEdwBjm
-	eyyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=MapkRl8bp3psFeDUsMADXbmE4RDY3S+kgMxXzc2Wv38=;
-	b=ShQULbmG57Cps7BaOSD1NDJTPtHd95/fUwFXGZtQhk59C77oD6mpsQ2vg905X1Vbfq
-	WWJw3npaySok1AUS5gw88prp6+k7pmYGHpLll7uvFcug7PnvN3OWvSl46raDRNYWvurW
-	Qew7JgyyqZQ8DkzoSDjun6dT/xA7RTbEl5mSoEt80rkjVLf78zZ9yzae/4PHnburTXc/
-	fJnqZZZfX9FrZ/fp7f8HoMNX1AULN81ny20D8/7Dh6AKOoVxsWH7Ik+LlMwvvKzKZIxd
-	gp1nB0xLhcg3Yd5my0Jrx0Ukcxt9kIQimELJwcwrnuBAyg71K6NA2IZu7N0er/8j3EkM
-	SnhQ==
-X-Gm-Message-State: AIkVDXKpPeHKqOiybLcd9yxi0h/qS6v6ievRoN2cXvuUPsGJRhHTWMrIZ2SWi/wCbIxIFg==
-X-Received: by 10.55.18.30 with SMTP id c30mr6623537qkh.213.1481939372942;
-	Fri, 16 Dec 2016 17:49:32 -0800 (PST)
-Received: from localhost.localdomain ([189.29.217.33])
-	by smtp.googlemail.com with ESMTPSA id
-	r8sm5080119qtc.32.2016.12.16.17.49.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 16 Dec 2016 17:49:32 -0800 (PST)
-From: Daniel Hilst Selli <danielhilst@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Dec 2016 23:48:05 -0200
-Message-Id: <20161217014805.6120-1-danielhilst@gmail.com>
-X-Mailer: git-send-email 2.10.2
-Subject: [PATCH] Add cxxtest framework to devtools.
+	Sat, 17 Dec 2016 09:47:57 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	uBH9liKo017723; Sat, 17 Dec 2016 09:47:44 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id NvWmJxp_1Lpl; Sat, 17 Dec 2016 09:47:44 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	uBH9jw4e017708
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sat, 17 Dec 2016 09:45:59 GMT
+Message-ID: <1481967958.9843.28.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+Date: Sat, 17 Dec 2016 09:45:58 +0000
+In-Reply-To: <48DE1321-CAEA-4C5E-AAD5-6367729C3498@gmail.com>
+References: <1481793382-34767-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<48DE1321-CAEA-4C5E-AAD5-6367729C3498@gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gdb 7.11.1 -> 7.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,45 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Dec 2016 01:49:32 -0000
+X-List-Received-Date: Sat, 17 Dec 2016 09:47:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-CxxTest is a C++ unit framework test that doesn't
-need precompiled library.
+On Fri, 2016-12-16 at 08:57 -0800, Khem Raj wrote:
+> > 
+> > On Dec 15, 2016, at 1:16 AM, Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.
+> > com> wrote:
+> > 
+> > 1) Upgrade gdb from 7.11.1 to 7.12
+> > 2) Delete 11 patches below, since they are integrated upstream.
+> >    0001-include-sys-types.h-for-mode_t.patch
+> >    0002-make-man-install-relative-to-DESTDIR.patch
+> >    0003-mips-linux-nat-Define-_ABIO32-if-not-defined.patch
+> >    0004-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
+> >    0005-Add-support-for-Renesas-SH-sh4-architecture.patch
+> >    0006-Dont-disable-libreadline.a-when-using-disable-static.patch
+> >    0007-use-asm-sgidefs.h.patch
+> >    0008-Use-exorted-definitions-of-SIGRTMIN.patch
+> >    0009-Change-order-of-CFLAGS.patch
+> >    0010-resolve-restrict-keyword-conflict.patch
+> >    0011-avx_mpx.patch
+> I doubt if they all are merged. Can you check if you can build gdb
+> for musl targets ?
 
-Signed-off-by: Daniel Hilst Selli <danielhilst@gmail.com>
----
- meta/recipes-devtools/cxxtest/cxxtest_4.3.bb | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
- create mode 100644 meta/recipes-devtools/cxxtest/cxxtest_4.3.bb
+Its confirmed as not building:
 
-diff --git a/meta/recipes-devtools/cxxtest/cxxtest_4.3.bb b/meta/recipes-devtools/cxxtest/cxxtest_4.3.bb
-new file mode 100644
-index 0000000..2915011
---- /dev/null
-+++ b/meta/recipes-devtools/cxxtest/cxxtest_4.3.bb
-@@ -0,0 +1,21 @@
-+DESCRIPTION = "CxxTest is a unit testing framework for C++ that is similar in spirit to JUnit, CppUnit, and xUnit."
-+HOMEPAGE = "http://cxxtest.com/"
-+LICENSE = "LGPL-2.0"
-+SECTION = "devel"
-+
-+SRC_URI = "http://downloads.sourceforge.net/project/cxxtest/cxxtest/${PV}/cxxtest-${PV}.tar.gz"
-+SRC_URI[md5sum] = "b3a24b3e1aad9acf6adac37f4c3f83ec"
-+SRC_URI[sha256sum] = "356d0f4810e8eb5c344147a0cca50fc0d84122c286e7644b61cb365c2ee22083"
-+LIC_FILES_CHKSUM = "file://${WORKDIR}/cxxtest-${PV}/COPYING;md5=e6a600fd5e1d9cbde2d983680233ad02"
-+S = "${WORKDIR}/cxxtest-${PV}/python"
-+
-+inherit distutils
-+
-+do_install_append() {
-+    install -d ${D}${includedir}
-+    cp -a ../cxxtest ${D}${includedir}
-+    sed '1c\
-+#!/usr/bin/env python' -i ${D}${bindir}/cxxtestgen
-+}
-+
-+BBCLASSEXTEND = "native nativesdk"
--- 
-2.10.2
+https://autobuilder.yocto.io/builders/nightly-musl/builds/104/steps/BuildImages/logs/stdio
+
+Cheers,
+
+Richard
+
 
 
