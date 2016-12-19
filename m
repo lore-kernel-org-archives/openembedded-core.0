@@ -1,54 +1,49 @@
-Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-lf0-f54.google.com (mail-lf0-f54.google.com
-	[209.85.215.54])
-	by mail.openembedded.org (Postfix) with ESMTP id F363A73214
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
+	[209.85.217.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 3013F6011F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 11:21:34 +0000 (UTC)
-Received: by mail-lf0-f54.google.com with SMTP id b14so51658116lfg.2
+	Mon, 19 Dec 2016 11:22:48 +0000 (UTC)
+Received: by mail-ua0-f196.google.com with SMTP id b35so8156102uaa.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 03:21:36 -0800 (PST)
+	Mon, 19 Dec 2016 03:22:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=rndity-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=HfVWCrdryLg/lPNYi3ajBvt8S5lQRk/0DHIPQOaOCgs=;
-	b=XFIdBh5oMYXm5UV38FGqYFdjPPqV4SCLIg9tK3YV/7bA6z4gSzI5n0MS1Ze4CNV+Oq
-	wKNaf0EYRXUPXnvswwGONJEFNS5X8ecStSUfMV4ypY3IEBjkXfniHpqF2nWbg2IG8vQ0
-	vF3WPgMRzfa2FgWiN8T2dg93qEY3PkHHwp4hKh0/3Kr0sbrmsipQ4d+CfZeImAXZvz1q
-	Aslg3BrT/x9YIbUywWgKFkZFqQhZHMc8znV8tNmgbNB/heewq9d64SIkBka/7hfuaR7F
-	thDPKlcC1HFab3NlaYDfLc01IEGCZRtWXuq29gJd3/nK7JjHX4S5RhbMO8iKhNM3ksXU
-	cjsQ==
+	d=googlemail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=V1cwyFptNe5vt7B5uUgIhdLrg5juaVZxn4t3V/vvmqU=;
+	b=HMTlTp5NAbwkbOoE4k2Sa6fnh8rdTH8zzdQiBXnhnor7KfVr8xwf15+oFMJJH8LP0H
+	QZMOtU7Mq13CAwRBoJI5vtlN5vRoctvaTVBnzDJPaNmIYxsXoEjhFemcx8u82dYcXHJ2
+	2cJEVQ7j2taKmjFgriBZEiRJlBWhio7P2tqqu/N4q8QeqL771iQsdoTKnC6MS/bh9i4O
+	Ou5Iy3kWC2uRhT6uo6wpbroPo1qFpqLm9nthT16CAVC5kImI+6zrhXWFlBE0t6g1FRQl
+	2CDeSgjsFm3fqrV6o42X/j9EL0FibaWbk0Ld5fjOFzKTXger3Hoq9HDItwD8FSJB5y5R
+	yMpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=HfVWCrdryLg/lPNYi3ajBvt8S5lQRk/0DHIPQOaOCgs=;
-	b=V1jQzgTXmmtY0QV2vQb7zCbMaoqXnwI0moM2iIWfI9Q0u/lnE0rnoLt4Wj2+0XCtaA
-	HTvmLCL26tJ3j2YOvEmuBCxdsESG8Qw/ZrINb3HUeSUZ/AgY//ZMOOtpSWwMVga6aZk4
-	2+Yp2tjeXArspAgjFGxkPojLEoIvsFlO8z/GihV17HN1XIPanUSFmgbdcFuLW75kbFKu
-	u/5nVVWsI4b74e/jKco/hgIpIBYHfXlvFRKBwpRnYF+tWxvMGeX3UP70NJAajie1SClf
-	7MIyY7/fX5PPAHRjCFxToDhgbAHA+mCe4eSkNyjtLF5QoHmppvVTl55t1IPnRf0MLnlE
-	TAvQ==
-X-Gm-Message-State: AIkVDXL16jdNDTrUjv+H6INzARvmWd8oO1/7EALB4L1JprhJoevDgUiz7dTxCeVVl9lE9w==
-X-Received: by 10.46.7.18 with SMTP id 18mr6528547ljh.30.1482146495830;
-	Mon, 19 Dec 2016 03:21:35 -0800 (PST)
-Received: from comp_016_pc_buildenv.localdomain
-	(staticline-31-182-60-238.toya.net.pl. [31.182.60.238])
-	by smtp.gmail.com with ESMTPSA id c2sm3681892ljb.8.2016.12.19.03.21.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 19 Dec 2016 03:21:34 -0800 (PST)
-From: Maciej Borzecki <maciej.borzecki@rndity.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Dec 2016 12:21:01 +0100
-Message-Id: <1b5033667e812d43731790e54c9d72872a9a8e6b.1482145354.git.maciej.borzecki@rndity.com>
-X-Mailer: git-send-email 2.5.5
-In-Reply-To: <cover.1482145354.git.maciej.borzecki@rndity.com>
-References: <20161213185317.GA6550@linux.intel.com>
-	<cover.1482145354.git.maciej.borzecki@rndity.com>
-In-Reply-To: <cover.1482145354.git.maciej.borzecki@rndity.com>
-References: <cover.1482145354.git.maciej.borzecki@rndity.com>
-Cc: Maciej Borzecki <maciek.borzecki@gmail.com>
-Subject: [PATCH v6 5/5] wic: selftest: add tests for --fixed-size partition flags
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=V1cwyFptNe5vt7B5uUgIhdLrg5juaVZxn4t3V/vvmqU=;
+	b=A9Tqlqwa3EA7TtVc6iIYt46R5lD2nEl5gjnsCZ+bcj9j2sNDSASnvvUvlc4KgHrj6v
+	Qpv4DGDMDTZXwa9okIPkN7/8wRsJ5Jsivq/eiMUxSzEZfgRdrGqR5q6FljnLR+aPT1OI
+	7/kap2aAEYYOEJguuJ4KmcMNfqB3PKyJKdXsYjykA1bQYn/A1JTn/zJ4LVaP2ztQv9Jy
+	dLd1Y0sy09vjXjMw00pitJpus0UVyzmwoQL0rp/qq0zuxR3f+/YKauLbCyA7XA5ethxy
+	QSmOWhkidenG4vI/2eMFjKxV9KgHmBTl7QDbDhSzsuHn/8tTXrJ9VqGyXd2MYqa9gUL4
+	krbQ==
+X-Gm-Message-State: AKaTC02Y34WyD3xKJNogfhmTI0D3DH+EjwgHFIV8Qi7M3dPcTsxijyXGQvEJlsPdcKxhWcBFcRF4L1NYhxZpDQ==
+X-Received: by 10.176.5.130 with SMTP id e2mr13115622uae.108.1482146569900;
+	Mon, 19 Dec 2016 03:22:49 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.176.85.157 with HTTP; Mon, 19 Dec 2016 03:22:48 -0800 (PST)
+In-Reply-To: <CAJTo0LZbgGV9kd0bw8jGgfg0kLbJn0ANgETon7_gJxG5fWML7g@mail.gmail.com>
+References: <CALbNGRThWRoOfZjN1BaQpT2hAGzuRCfHUnfG89gxQcDE=6cgUw@mail.gmail.com>
+	<CAJTo0LZbgGV9kd0bw8jGgfg0kLbJn0ANgETon7_gJxG5fWML7g@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Mon, 19 Dec 2016 12:22:48 +0100
+Message-ID: <CALbNGRQ+hDgM+AsRFq3YYidr4S-7yDXbx+abbfA5tpLqKTD9JQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: 'From OE-Core rev: <commit-id>' in recent master commits
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,101 +56,261 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 11:21:35 -0000
+X-List-Received-Date: Mon, 19 Dec 2016 11:22:50 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-wic has a new flag for setting a fixed parition size --fixed-size. Add
-tests that verify if partition is indeed sized properly and that errors
-are signaled when there is not enough space to fit partition data.
+On Mon, Dec 19, 2016 at 12:19 PM, Burton, Ross <ross.burton@intel.com> wrot=
+e:
+>
+> On 19 December 2016 at 11:14, Andreas M=C3=BCller <schnitzeltony@googlema=
+il.com>
+> wrote:
+>>
+>> just updated to latest HEAD and checked commits. Found a lot of commits
+>> with
+>>
+>> (From OE-Core rev: <commit ID>)
+>
+>
+> Can you point to any SHAs in particular that have this?
+>
+> Ross
+Those and more
 
-Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
----
- meta/lib/oeqa/selftest/wic.py | 61 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 61 insertions(+)
+commit c87361fc886432a9db584712bf3e41ecd0541960
+Author: Ross Burton <ross.burton@intel.com>
+Date:   Thu Dec 15 17:19:46 2016 +0000
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index 8efece3171db47ee622f2c0f712fff2c2fcf645b..9caf3b0b1e3d4b538fffd409b26f68f0101e78dc 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -29,6 +29,7 @@ import unittest
- from glob import glob
- from shutil import rmtree
- from functools import wraps
-+from tempfile import NamedTemporaryFile
- 
- from oeqa.selftest.base import oeSelfTest
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu
-@@ -59,6 +60,8 @@ class Wic(oeSelfTest):
- 
-     def setUpLocal(self):
-         """This code is executed before each test method."""
-+        self.native_sysroot = get_bb_var('STAGING_DIR_NATIVE', 'core-image-minimal')
-+
-         arch = get_bb_var('HOST_ARCH', 'core-image-minimal')
-         is_x86 = arch in ['i586', 'i686', 'x86_64']
-         if is_x86:
-@@ -344,3 +347,61 @@ class Wic(oeSelfTest):
-         self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
-                                    % image).status)
-         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
-+
-+    def _make_fixed_size_wks(self, size):
-+        """
-+        Create a wks of an image with a single partition. Size of the partition is set
-+        using --fixed-size flag. Returns a tuple: (path to wks file, wks image name)
-+        """
-+        with NamedTemporaryFile("w", suffix=".wks", delete=False) as tf:
-+            wkspath = tf.name
-+            tf.write("part " \
-+                     "--source rootfs --ondisk hda --align 4 --fixed-size %d "
-+                     "--fstype=ext4\n" % size)
-+        wksname = os.path.splitext(os.path.basename(wkspath))[0]
-+
-+        return wkspath, wksname
-+
-+    def test_fixed_size(self):
-+        """
-+        Test creation of a simple image with partition size controlled through
-+        --fixed-size flag
-+        """
-+        wkspath, wksname = self._make_fixed_size_wks(200)
-+
-+        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
-+                                   % wkspath).status)
-+        os.remove(wkspath)
-+        wicout = glob(self.resultdir + "%s-*direct" % wksname)
-+        self.assertEqual(1, len(wicout))
-+
-+        wicimg = wicout[0]
-+
-+        # verify partition size with wic
-+        res = runCmd("parted -m %s unit mib p 2>/dev/null" % wicimg,
-+                     ignore_status=True,
-+                     native_sysroot=self.native_sysroot)
-+        self.assertEqual(0, res.status)
-+
-+        # parse parted output which looks like this:
-+        # BYT;\n
-+        # /var/tmp/wic/build/tmpfwvjjkf_-201611101222-hda.direct:200MiB:file:512:512:msdos::;\n
-+        # 1:0.00MiB:200MiB:200MiB:ext4::;\n
-+        partlns = res.output.splitlines()[2:]
-+
-+        self.assertEqual(1, len(partlns))
-+        self.assertEqual("1:0.00MiB:200MiB:200MiB:ext4::;", partlns[0])
-+
-+    def test_fixed_size_error(self):
-+        """
-+        Test creation of a simple image with partition size controlled through
-+        --fixed-size flag. The size of partition is intentionally set to 1MiB
-+        in order to trigger an error in wic.
-+        """
-+        wkspath, wksname = self._make_fixed_size_wks(1)
-+
-+        self.assertEqual(1, runCmd("wic create %s -e core-image-minimal" \
-+                                   % wkspath, ignore_status=True).status)
-+        os.remove(wkspath)
-+        wicout = glob(self.resultdir + "%s-*direct" % wksname)
-+        self.assertEqual(0, len(wicout))
--- 
-2.5.5
+    lib/oe/package_manager: bail if createrepo can't be found
 
+    If createrepo isn't found then the errors later are mysterious, so
+explicitly
+    check and error out early if it isn't there.
+
+    (From OE-Core rev: e09636bbb3ea8ec58984197fd9c691bb908efe00)
+
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+commit 147d7802926153ef0abb12d5e738576d8dfd02d7
+Author: Armin Kuster <akuster808@gmail.com>
+Date:   Thu Dec 15 07:21:45 2016 -0800
+
+    tzdata: update to 2016j
+
+    Briefly: Saratov, Russia moves from +03 to +04 on 2016-12-04.
+
+      Changes to future time stamps
+
+        Saratov, Russia switches from +03 to +04 on 2016-12-04 at 02:00.
+        This hives off a new zone Europe/Saratov from Europe/Volgograd.
+        (Thanks to Yuri Konotopov and Stepan Golosunov.)
+
+      Changes to past time stamps
+
+        The new zone Asia/Atyrau for Atyra=C5=AB Region, Kazakhstan, is lik=
+e
+        Asia/Aqtau except it switched from +05/+06 to +04/+05 in spring
+        1999, not fall 1994.  (Thanks to Stepan Golosunov.)
+
+      Changes to past time zone abbreviations
+
+        Asia/Gaza and Asia/Hebron now use "EEST", not "EET", to denote
+    summer time before 1948. The old use of "EET" was a typo.
+
+    (From OE-Core rev: a0b389b5f3effad5194109f9914dec6125b3569d)
+
+    Signed-off-by: Armin Kuster <akuster808@gmail.com>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+commit f9d6b482f2275c054dff91b81ac901b612f9c9b4
+Author: Armin Kuster <akuster808@gmail.com>
+Date:   Thu Dec 15 07:21:44 2016 -0800
+
+    tzcode-native: update to 2016j
+
+    Changes to code
+
+        zic no longer mishandles file systems that lack hard links, fixing
+        bugs introduced in 2016g.  (Problems reported by Tom Lane.)
+        Also, when the destination already contains symbolic links, zic
+        should now work better on systems where the 'link' system call
+        does not follow symbolic links.
+
+    Changes to documentation and commentary
+
+        tz-link.htm now documents the relationship between release version
+        numbers and development-repository commit tags.  (Suggested by
+        Paul Koning.)
+
+        The 'Theory' file now documents UT.
+
+        iso3166.tab now accents "Cura=C3=A7ao", and commentary now mentions
+    the names "Cabo Verde" and "Czechia". (Thanks to Ji=C5=99=C3=AD Boh=C3=
+=A1=C4=8D.)
+
+    (From OE-Core rev: 3fb5ddce97af1d4ada0dcc7f9c0ceef6ac392918)
+
+    Signed-off-by: Armin Kuster <akuster808@gmail.com>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+commit a4111417b1b46cc852bf96a443b0edb0a525f346
+Author: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date:   Thu Dec 15 15:40:11 2016 +0100
+
+    gstreamer1.0-plugins-bad: default to using egl
+
+    With the current set of PACKAGECONFIG, we end up building with
+'gles2' and neither
+    'opengl', nor 'egl'. As a result we are building -bad with neither 'glx=
+' nor
+    'egl' platform support. So let's make sure that we at least have
+egl by default
+    (since we default to 'gles2').
+
+    (From OE-Core rev: 4de8447c6536385ca134866682709efebf7d4e3d)
+
+    Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+commit 41061a812239dcfde2e4cd5636250ff2cd7e4cbb
+Author: Mike Looijmans <mike.looijmans@topic.nl>
+Date:   Thu Dec 15 14:31:57 2016 +0100
+
+    linux-firmware: Split out Realtek chipsets rtl8188 rtl8723 rtl8821
+
+    Add rtl8188 rtl8712 rtl8723 rtl8821 packages to install only
+firmware for the
+    corresponding chipset. Uses a rather blunt approach by simply
+adding all firmware
+    files with matching prefix, to keep the package count down a bit.
+
+    (From OE-Core rev: 62a5c0a40d13594a0f16a01701e70dac5e492125)
+
+    Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+commit c4b71ff17f630d5289a8105ec9465ff29ecd0e6c
+Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date:   Thu Dec 15 14:48:09 2016 +0200
+
+    xf86-video-intel: fix upstream version check
+
+    Even though upstream hasn't tagged new versions for a long while,
+    we should not report a bogus tag as something that can be updated to.
+
+    (From OE-Core rev: e16e4892368ec2475853d69332f3732dbf7b06cd)
+
+    Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+commit 428531463574f4e7722912d1960bd288df586c14
+Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date:   Thu Dec 15 14:48:08 2016 +0200
+
+    upstream-version-is-even.bbclass: exclude various alphas, betas,
+pre-releases etc.
+
+    Was a problem with perl in particular.
+
+    (From OE-Core rev: cc40b3ad2c4a725f93d0b984f23d34d247cffb2f)
+
+    Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+commit 4e8e884054b56c578d51d7b4af7150b77806368d
+Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date:   Thu Dec 15 14:48:07 2016 +0200
+
+    ghostscript: fix upstream version check
+
+    (From OE-Core rev: 10001924baf112a4556c5e85c16c482cbf435950)
+
+    Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+commit 4e0e95a02a231bbdb350b1971536f4d65f4e9490
+Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date:   Thu Dec 15 14:48:06 2016 +0200
+
+    vala: update to 0.34.4
+
+    (From OE-Core rev: 798af66e2e11baf53eff6b7f0e370fb77a1c5f72)
+
+    Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+commit 0c3dbaa5d62e9ce404d1203c0478512e36ab8136
+Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date:   Thu Dec 15 14:48:05 2016 +0200
+
+    sysprof: update to 3.22.3
+
+    (From OE-Core rev: 4a8ea471e386adff9b8f8b535589e599c1491fa5)
+
+    Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+commit d4487c9ee54a90e2e11287d9c41dce675a65ad15
+Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date:   Thu Dec 15 14:48:04 2016 +0200
+
+    iso-codes: update to 3.72
+
+    (From OE-Core rev: 232ce36bb17643355b0b282063609147aa51bc1f)
+
+    Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+commit ab43357dba96d4404a66baf7b998d81ef0b7ad1d
+Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date:   Thu Dec 15 14:48:03 2016 +0200
+
+    icu: update to 58.2
+
+    (From OE-Core rev: 68eca85201c2e15ab5c197f3cc70d863fb021493)
+
+    Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+commit 84c6a3bcf44950049bba255075177a0004058a44
+Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date:   Thu Dec 15 14:48:02 2016 +0200
+
+    gnutls: update to 3.5.7
+
+    Add a 0001-Do-not-add-cli-args.h-to-cli-args.stamp-Makefile-tar.patch
+    to fix a compile issue (incorrect creation of an empty header).
+
+    Add a libunistring dependency as gnutls has gained it.
+
+    (From OE-Core rev: b2ec343ad770c26f39f3a6d335e4bb3ccbf41aec)
+
+    Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+commit 7c5462f5ff3303da8d7daa5f22827bd852987138
+Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date:   Thu Dec 15 14:48:01 2016 +0200
+
+    ffmpeg: update to 3.2.2
+
+    (From OE-Core rev: b9b50814dfb40f8d124be736f7af9ed4d69bc6b3)
+
+    Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
