@@ -1,45 +1,29 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F83B77155
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B30077269
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 14:12:59 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id h201so270547qke.3
+	Mon, 19 Dec 2016 15:18:29 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20161219151829132_0685
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 06:13:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=9rtSpOkOOcFrdBJHwwujm8qFhMG2TlQFdnTLeu0Tf6c=;
-	b=K7Yn0UWxRv8Y+imHOQCOC/gH6rBXohsfChDaNBG+w9nW8RSRGrstvY2jtcZU+Q/yGR
-	p5mLjPNI8LlTiKxOkwsdPuaznKntIEomWVmG7u2uvgfyyvgR+wejjLub4QfGLeYZsEng
-	g6JHpwICNe1gF0h0cMCOLZ/KaYlbDyQcEHRPJtCNJ4yhk2u46ODrgQJq6+z5PULc/emv
-	cKRux4qctlzqRYTqOmur7ieuiVeN2oVnoM9MzwShSizUNt66pIi/AZdk67WVR8MwQe6b
-	pkBh6Kygb4tp4ngQ0B8JZHZh5abzgzpqXim75K0JFi8F5wTUQUsO5OGxrGEAan6MZqJv
-	LX4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=9rtSpOkOOcFrdBJHwwujm8qFhMG2TlQFdnTLeu0Tf6c=;
-	b=l8DJFq0xsXTuKGyE2FOqrs1+AAg7/r1jBKQdkgtTzs5JqRxN3D+dI52GqMJH2nOo8u
-	oQAgcZIBSOI7f/2muFzhPRGprpGWW0qytZidNYxfp4GlPdTiDB2+QyzuYeBY1oR1lzwo
-	Fdv50QZjXrRnwcxl4HEkCadzwObvZox7Z9TRBX+w8f6LtmzKz1/u4aPncUjyzLruzHFr
-	4KFA1Z+aIU4IAi32iWlRHgcmYj+gf0/fDOqhSU3t0eiqky6M/5gQ9i66Aj9rR79kgE3D
-	ZqUhRNfj61mw70tSTFtfBbaP1ZOAJ0sx/vjivd7azVa5bChXRSqyI/ZF7eHaVSDKDMbz
-	9o4Q==
-X-Gm-Message-State: AIkVDXJMYKvZsGv4W2yF7AEodWD+RkVWKSYeaUALsa8V9Vc7tgK6M+HdBLxU318N/XTpSRCECI/tPKaz40rxLA==
-X-Received: by 10.55.145.132 with SMTP id t126mr561107qkd.211.1482156781240;
-	Mon, 19 Dec 2016 06:13:01 -0800 (PST)
+	Mon, 19 Dec 2016 07:18:29 -0800
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [216.191.234.70] (port=29719 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1cIzhn-0003H1-6Y for openembedded-core@lists.openembedded.org;
+	Mon, 19 Dec 2016 10:18:23 -0500
+Date: Mon, 19 Dec 2016 10:17:01 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1612190527590.8267@localhost.localdomain>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-Received: by 10.12.129.227 with HTTP; Mon, 19 Dec 2016 06:13:00 -0800 (PST)
-In-Reply-To: <alpine.LFD.2.20.1612190624290.28360@localhost.localdomain>
-References: <alpine.LFD.2.20.1612190624290.28360@localhost.localdomain>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 19 Dec 2016 09:13:00 -0500
-Message-ID: <CADkTA4MbQ+e8K07UeksjdjJmUO3GDTTX_8_Oy5k12_4wqZk0oA@mail.gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: minimal contents of a kernel config fragment
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: a few questions about "COMPATIBLE_MACHINE" variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,269 +36,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 14:13:00 -0000
-Content-Type: multipart/alternative; boundary=94eb2c083d847289e305440384b6
-
---94eb2c083d847289e305440384b6
-Content-Type: text/plain; charset=UTF-8
-
-On Mon, Dec 19, 2016 at 6:31 AM, Robert P. J. Day <rpjday@crashcourse.ca>
-wrote:
-
->
->   (ok, let's see if i can avoid embarrassing myself with an overly
-> simple question ...)
->
->   reading YP kernel-dev manual, and there is an example of a kernel
-> config fragment:
->
->   CONFIG_SERIAL_8250=y
->   CONFIG_SERIAL_8250_CONSOLE=y
->   CONFIG_SERIAL_8250_PCI=y
->   CONFIG_SERIAL_8250_NR_UARTS=4
->   CONFIG_SERIAL_8250_RUNTIME_UARTS=4
->   CONFIG_SERIAL_CORE=y
->   CONFIG_SERIAL_CORE_CONSOLE=y
->
-> all well and good, but is it clear that one can cut that down based on
-> the defaults in the Kconfig file? since the Kconfig file contains:
->
->   config SERIAL_8250_NR_UARTS
->         int "Maximum number of 8250/16550 serial ports"
->         depends on SERIAL_8250
->         default "4"
->         help
->           Set this to the number of serial ports you want the driver
->           to support.  This includes any ports discovered via ACPI or
->           PCI enumeration and any ports that may be added at run-time
->           via hot-plug, or any ISA multi-port serial cards.
->
->   config SERIAL_8250_RUNTIME_UARTS
->         int "Number of 8250/16550 serial ports to register at runtime"
->         depends on SERIAL_8250
->         range 0 SERIAL_8250_NR_UARTS
->         default "4"
->         help
->           Set this to the maximum number of serial ports you want
->           the kernel to register at boot time.  This can be overridden
->           with the module parameter "nr_uarts", or boot-time parameter
->           8250.nr_uarts
->
-> is it accurate to say that the two fragment lines related to UARTs
-> could be omitted? (yes, it's more informative to have them there, but
-> technically, they're not required, correct?)
->
+X-List-Received-Date: Mon, 19 Dec 2016 15:18:30 -0000
+Content-Type: text/plain; charset=US-ASCII
 
 
-correct. In the end, it comes down to how much future proofing, readability
-and segmentation you want in fragments. Some folks like to put everything
-into a fragments .. others trust the kernel to not change a default and mess
-with their functionality :)
+  as a starting point, COMPATIBLE_MACHINE is processed on a per-recipe
+basis, and if it has no value, then there is no machine restriction
+being applied to that recipe, correct? that's based on this snippet
+from base.bbclass:
 
+  need_machine = d.getVar('COMPATIBLE_MACHINE')
+  if need_machine:
+      import re
+      compat_machines = (d.getVar('MACHINEOVERRIDES') or "").split(":")
+      for m in compat_machines:
+          if re.match(need_machine, m):
+              break
+      else:
+          raise bb.parse.SkipPackage("incompatible with machine %s (not in COMPATIBLE_MACHINE)" % d.getVar('MACHINE'))
 
->
->   similarly, another line could be omitted given the Kconfig lines:
->
->   config SERIAL_8250
->         tristate "8250/16550 and compatible serial support"
->         select SERIAL_CORE
->
-> however, given the following in the same Kconfig file:
->
->   config SERIAL_8250_DEPRECATED_OPTIONS
->         bool "Support 8250_core.* kernel options (DEPRECATED)"
->         depends on SERIAL_8250
->         default y
->
-> if you didn't want deprecated options, you *would* have to explicitly
-> deselect that option with:
->
->   # CONFIG_SERIAL_8250_DEPRECATED_OPTIONS is not set
->
-> yes?
->
+so far, so good?
 
-Correct. As long as some other Kconfig doesn't "select <foo>", you can
-turn the default off this way. There is another subtlety that if a Kconfig
-option
-doesn't have help text, you also can't change it from a default .. but
-that's
-not my fault, that's the fun of the kernel configuration subsystem :D
+  next, the documentation describes the value of that variable as a
+regular expression, so the values are processed as RE patterns, but
+some of the actual uses are confusing. from
+poky/meta/recipes-kernel/linux:
 
-Bruce
+$ grep -r COMPATIBLE_MACHINE *
+linux-dummy.bb:#COMPATIBLE_MACHINE = "your_machine"
+linux-yocto_4.1.bb:COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
+linux-yocto_4.4.bb:COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
+linux-yocto_4.8.bb:COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
+linux-yocto-dev.bb:COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemumips64|qemux86-64)"
+linux-yocto-rt_4.1.bb:COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuppc|qemumips)"
+linux-yocto-rt_4.4.bb:COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuppc|qemumips)"
+linux-yocto-rt_4.8.bb:COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuppc|qemumips)"
+linux-yocto-tiny_4.1.bb:COMPATIBLE_MACHINE = "(qemux86$)"
+linux-yocto-tiny_4.4.bb:COMPATIBLE_MACHINE = "(qemux86$)"
+linux-yocto-tiny_4.8.bb:COMPATIBLE_MACHINE = "(qemux86$)"
+$
 
+  first, what is best practice -- to use parentheses or not? i'm
+assuming it makes no difference, but it does seem inconsistent and
+could cause some confusion.
 
->
->   just making sure i'm not overlooking any subtleties.
->
-> rday
->
-> --
->
-> ========================================================================
-> Robert P. J. Day                                 Ottawa, Ontario, CANADA
->                         http://crashcourse.ca
->
-> Twitter:                                       http://twitter.com/rpjday
-> LinkedIn:                               http://ca.linkedin.com/in/rpjday
-> ========================================================================
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+  next, if the possibilities in a list are REs, what is the point of
+explicitly listing, say, "qemuarm|qemuarm64"? would not the RE
+"qemuarm" subsume the more explicit "qemuarm64"? same for the other
+architectures. (one could suggest that that entire line could be
+shortened to "... = (^qemu)".)
 
+  the above seems pretty clear since the following lines would appear
+to say that *only* the qemux86 is compatible:
 
+  linux-yocto-tiny_4.1.bb:COMPATIBLE_MACHINE = "(qemux86$)"
+  linux-yocto-tiny_4.4.bb:COMPATIBLE_MACHINE = "(qemux86$)"
+  linux-yocto-tiny_4.8.bb:COMPATIBLE_MACHINE = "(qemux86$)"
+
+which suggests the following passage from the YP kernel dev manual is
+a bit misleading:
+
+  "You must change it to match a list of the machines that your new
+  recipe supports. For example, to support the qemux86 and qemux86-64
+  machines, use the following form:
+
+       COMPATIBLE_MACHINE = "qemux86|qemux86-64"
+
+and if all this is true, then if you're introducing a new machine, to
+be magnificently pedantic, one should not use:
+
+  COMPATIBLE_MACHINE_machinename = "machinename"
+
+but
+
+  COMPATIBLE_MACHINE_machinename = "^machinename$"
+
+just to play it safe. am i reading all this correctly?
+
+rday
 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
 
---94eb2c083d847289e305440384b6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Mon, Dec 19, 2016 at 6:31 AM, Robert P. J. Day <span dir=3D"ltr">&lt=
-;<a href=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcou=
-rse.ca</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex"><br>
-=C2=A0 (ok, let&#39;s see if i can avoid embarrassing myself with an overly=
-<br>
-simple question ...)<br>
-<br>
-=C2=A0 reading YP kernel-dev manual, and there is an example of a kernel<br=
->
-config fragment:<br>
-<br>
-=C2=A0 CONFIG_SERIAL_8250=3Dy<br>
-=C2=A0 CONFIG_SERIAL_8250_CONSOLE=3Dy<br>
-=C2=A0 CONFIG_SERIAL_8250_PCI=3Dy<br>
-=C2=A0 CONFIG_SERIAL_8250_NR_UARTS=3D4<br>
-=C2=A0 CONFIG_SERIAL_8250_RUNTIME_<wbr>UARTS=3D4<br>
-=C2=A0 CONFIG_SERIAL_CORE=3Dy<br>
-=C2=A0 CONFIG_SERIAL_CORE_CONSOLE=3Dy<br>
-<br>
-all well and good, but is it clear that one can cut that down based on<br>
-the defaults in the Kconfig file? since the Kconfig file contains:<br>
-<br>
-=C2=A0 config SERIAL_8250_NR_UARTS<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 int &quot;Maximum number of 8250/16550 serial p=
-orts&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 depends on SERIAL_8250<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 default &quot;4&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 help<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Set this to the number of serial ports y=
-ou want the driver<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 to support.=C2=A0 This includes any port=
-s discovered via ACPI or<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 PCI enumeration and any ports that may b=
-e added at run-time<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 via hot-plug, or any ISA multi-port seri=
-al cards.<br>
-<br>
-=C2=A0 config SERIAL_8250_RUNTIME_UARTS<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 int &quot;Number of 8250/16550 serial ports to =
-register at runtime&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 depends on SERIAL_8250<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 range 0 SERIAL_8250_NR_UARTS<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 default &quot;4&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 help<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Set this to the maximum number of serial=
- ports you want<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 the kernel to register at boot time.=C2=
-=A0 This can be overridden<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with the module parameter &quot;nr_uarts=
-&quot;, or boot-time parameter<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 8250.nr_uarts<br>
-<br>
-is it accurate to say that the two fragment lines related to UARTs<br>
-could be omitted? (yes, it&#39;s more informative to have them there, but<b=
-r>
-technically, they&#39;re not required, correct?)<br></blockquote><div><br><=
-br></div><div>correct. In the end, it comes down to how much future proofin=
-g, readability<br></div><div>and segmentation you want in fragments. Some f=
-olks like to put everything<br></div><div>into a fragments .. others trust =
-the kernel to not change a default and mess<br></div><div>with their functi=
-onality :)<br> </div><div>=C2=A0</div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">
-<br>
-=C2=A0 similarly, another line could be omitted given the Kconfig lines:<br=
->
-<br>
-=C2=A0 config SERIAL_8250<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 tristate &quot;8250/16550 and compatible serial=
- support&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 select SERIAL_CORE<br>
-<br>
-however, given the following in the same Kconfig file:<br>
-<br>
-=C2=A0 config SERIAL_8250_DEPRECATED_OPTIONS<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 bool &quot;Support 8250_core.* kernel options (=
-DEPRECATED)&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 depends on SERIAL_8250<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 default y<br>
-<br>
-if you didn&#39;t want deprecated options, you *would* have to explicitly<b=
-r>
-deselect that option with:<br>
-<br>
-=C2=A0 # CONFIG_SERIAL_8250_DEPRECATED_<wbr>OPTIONS is not set<br>
-<br>
-yes?<br></blockquote><div><br></div><div>Correct. As long as some other Kco=
-nfig doesn&#39;t &quot;select &lt;foo&gt;&quot;, you can<br></div><div>turn=
- the default off this way. There is another subtlety that if a Kconfig opti=
-on<br></div><div>doesn&#39;t have help text, you also can&#39;t change it f=
-rom a default .. but that&#39;s<br></div><div>not my fault, that&#39;s the =
-fun of the kernel configuration subsystem :D<br><br></div><div>Bruce<br></d=
-iv><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-=C2=A0 just making sure i&#39;m not overlooking any subtleties.<br>
-<br>
-rday<br>
-<span class=3D"gmail-HOEnZb"><font color=3D"#888888"><br>
---<br>
-<br>
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D<br>
-Robert P. J. Day=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Ottawa, Ontario,=
- CANADA<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 <a href=3D"http://crashcourse.ca" rel=3D"noreferrer" target=3D"_=
-blank">http://crashcourse.ca</a><br>
-<br>
-Twitter:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a=
- href=3D"http://twitter.com/rpjday" rel=3D"noreferrer" target=3D"_blank">ht=
-tp://twitter.com/rpjday</a><br>
-LinkedIn:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://ca.linkedin.=
-com/in/rpjday" rel=3D"noreferrer" target=3D"_blank">http://ca.linkedin.com/=
-in/<wbr>rpjday</a><br>
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><br>-- <br><div clas=
-s=3D"gmail_signature">&quot;Thou shalt not follow the NULL pointer, for cha=
-os and madness await thee at its end&quot;</div>
-</div></div>
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
---94eb2c083d847289e305440384b6--
+
