@@ -1,48 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id A637477177
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 6959773214
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 06:40:06 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id c4so7057568pfb.3
+	Mon, 19 Dec 2016 06:40:07 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id c4so7057585pfb.3
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 18 Dec 2016 22:40:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=4h1I1jNqmU0RaaKYYJqH8dhXzS4N/CxpWp+h7nDDi2k=;
-	b=GC1O+OmuBlWkyitDv7OQFGMPnVbPoHlMeNBj3nf59zSzuio7G8KE72DiLcL8+KmPkU
-	Y9d5ZlMWlixWu7KRBbUDbVJTWlXuhlW1MC/NsUo6if3pSNlnvLaRSNqnqtmTpejFzC6v
-	xPXSIX0aQg4szmIDLGNavmUflx9qHYXx1ul8plJn59rTcm/blA69f0XhRW9Tly7ygby2
-	JI9+q8KoqoFHo3OKP5IRW7DpAR4Hx2sFK6YxNIlfD+wSKUozkuZLKfq0RevPBnvwFd28
-	GceXWK5Ly8tldLXlh38KB+MSgZQoka13HgL8EWv9uZJVN9efIL9ZgKyxg2m9GT/dfvG/
-	+eDw==
+	bh=Uw0YA2U6TzrNPDVOdOrVCiIuyGD524YTrw+ZAWBJG9A=;
+	b=pMXD5eLYAn9CI3hpVrlWcsaWYowu0pGYSq5JUlrJLcz0icemI4gdfBKWM/GETnjVWx
+	EeE8i9sSKh9wNg7Nl8Im1c14iI/WKeD9Jj/jH/srjlnRqXr/kPaMKARhZ9R0FEaPSPPe
+	/jVOlFpYZIdOIC8LtwdmBvp56Am0Ko6Z1u3W8bvWKxR2qILwkgz2LLWnnf6RU4KS0+GC
+	i0mKIvjwO1aNZSHtJMVZOXlIxj1G5OLDjLi2sd0ENppFHkk2aN8bFs2KznaEEH4ozuHU
+	kkGBbuRUBmDMuTxufiw4Da8l0ERo7f7HK/jQ6JLObZyoPOiUeOCUcSUMVO3b2Civ9XkP
+	Whdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=4h1I1jNqmU0RaaKYYJqH8dhXzS4N/CxpWp+h7nDDi2k=;
-	b=hk7qS/4YPVyBO7kXHh9zzs2zHDF5cuOscLQ+jbz5MgvGt98tMG4gNTHS6ef6zwlwFo
-	mowrxZ36DkHjISDhAfYzkl+inYctZG8Vpfhwt0oETJ6vJcnlOVyxh/2QK90pPunyH8If
-	oGqVwAheCskm2GlafaqjwtceoRCzpAKXGNvLRDtvi4FdhCvpbO1fIrcpGuWlbT/cK8rS
-	Zqa0HK2Ld+f1Imi7OGxv9oTz0MQ0GEREOlRUitajVMz3CJIBqMRvJiqLwlVqbSdORWDH
-	6SNeU+FGjRlAr5i03uh7RPBkZnqHnEd9pbfqwB6q8OegxRBh4WEKM+RMGMVeTu0XINwp
-	RG1Q==
-X-Gm-Message-State: AKaTC002gdUD24h8Wc/WpyJF06vZszE6wk3HAKzA+Xd2rfgsIc8xsmDDfXPMN7zQEewYOQ==
-X-Received: by 10.84.170.195 with SMTP id j61mr32257845plb.13.1482129607896;
-	Sun, 18 Dec 2016 22:40:07 -0800 (PST)
+	bh=Uw0YA2U6TzrNPDVOdOrVCiIuyGD524YTrw+ZAWBJG9A=;
+	b=M+5ytSTZulRS4M7T2Lxrm89t9/j153XFXg+1l9D6+1vgSmvDNfcrKBjPM3jCuPFJJr
+	NcMXuD9cj9PCAafGzfq9xP/JJ7s7S7SsOgRpIrzWgOWJd1tzumlXnBT9VVJPIZRVMAPN
+	wlUrKn2gw6ZbgkYU53l/nLW5gwVeupXtuKGWOPUXdIhMtAtSv2sPDfqYo8LcoZXs2bhP
+	maH49eTWjDvUgQmpxgfhI01RWi4yt+qi5dzvPf4m+bt88Vk5Spz/gFmR670d//JAO6Ha
+	b13lPabH1mbSSMDZRJzR8CYnq/PNCJEGtEABwQ/CYnb4HZRFQLTSBsgHdETIJY1UqE1J
+	tO8Q==
+X-Gm-Message-State: AKaTC00EyP5+V1B1ri6Dis2mA6qZKV6tp0ciTqcLPx3P32rWZorYZqaNAgZMy2QCq36aNA==
+X-Received: by 10.84.143.68 with SMTP id 62mr31547815ply.63.1482129608656;
+	Sun, 18 Dec 2016 22:40:08 -0800 (PST)
 Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	72sm28238304pfw.37.2016.12.18.22.40.06
+	72sm28238304pfw.37.2016.12.18.22.40.07
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 18 Dec 2016 22:40:07 -0800 (PST)
+	Sun, 18 Dec 2016 22:40:08 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 18 Dec 2016 22:39:50 -0800
-Message-Id: <20161219063957.18716-3-raj.khem@gmail.com>
+Date: Sun, 18 Dec 2016 22:39:51 -0800
+Message-Id: <20161219063957.18716-4-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20161219063957.18716-1-raj.khem@gmail.com>
 References: <20161219063957.18716-1-raj.khem@gmail.com>
-Subject: [V2 03/10] grub: Fix build with glibc 2.25
+Subject: [V2 04/10] grub-git: Upgrade to tip of master and fix with glibc 2.25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,127 +55,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 06:40:06 -0000
-
-Backport relevant patch from grub git
+X-List-Received-Date: Mon, 19 Dec 2016 06:40:07 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...Use-AC_HEADER_MAJOR-to-find-device-macros.patch | 92 ++++++++++++++++++++++
- meta/recipes-bsp/grub/grub2.inc                    |  1 +
- 2 files changed, 93 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/0001-build-Use-AC_HEADER_MAJOR-to-find-device-macros.patch
+ meta/recipes-bsp/grub/grub_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-bsp/grub/files/0001-build-Use-AC_HEADER_MAJOR-to-find-device-macros.patch b/meta/recipes-bsp/grub/files/0001-build-Use-AC_HEADER_MAJOR-to-find-device-macros.patch
-new file mode 100644
-index 0000000000..f95b9ef9a0
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/0001-build-Use-AC_HEADER_MAJOR-to-find-device-macros.patch
-@@ -0,0 +1,92 @@
-+From 7a5b301e3adb8e054288518a325135a1883c1c6c Mon Sep 17 00:00:00 2001
-+From: Mike Gilbert <floppym@gentoo.org>
-+Date: Tue, 19 Apr 2016 14:27:22 -0400
-+Subject: [PATCH] build: Use AC_HEADER_MAJOR to find device macros
-+
-+Depending on the OS/libc, device macros are defined in different
-+headers. This change ensures we include the right one.
-+
-+sys/types.h - BSD
-+sys/mkdev.h - Sun
-+sys/sysmacros.h - glibc (Linux)
-+
-+glibc currently pulls sys/sysmacros.h into sys/types.h, but this may
-+change in a future release.
-+
-+https://sourceware.org/ml/libc-alpha/2015-11/msg00253.html
-+---
-+Upstream-Status: Backport
-+
-+ configure.ac                         | 3 ++-
-+ grub-core/osdep/devmapper/getroot.c  | 6 ++++++
-+ grub-core/osdep/devmapper/hostdisk.c | 5 +++++
-+ grub-core/osdep/linux/getroot.c      | 6 ++++++
-+ grub-core/osdep/unix/getroot.c       | 4 +++-
-+ 5 files changed, 22 insertions(+), 2 deletions(-)
-+
-+Index: grub-2.00/configure.ac
-+===================================================================
-+--- grub-2.00.orig/configure.ac
-++++ grub-2.00/configure.ac
-+@@ -326,7 +326,8 @@ fi
-+ 
-+ # Check for functions and headers.
-+ AC_CHECK_FUNCS(posix_memalign memalign asprintf vasprintf getextmntent)
-+-AC_CHECK_HEADERS(sys/param.h sys/mount.h sys/mnttab.h sys/mkdev.h limits.h)
-++AC_CHECK_HEADERS(sys/param.h sys/mount.h sys/mnttab.h limits.h)
-++AC_HEADER_MAJOR
-+ 
-+ AC_CHECK_MEMBERS([struct statfs.f_fstypename],,,[$ac_includes_default
-+ #include <sys/param.h>
-+Index: grub-2.00/grub-core/kern/emu/hostdisk.c
-+===================================================================
-+--- grub-2.00.orig/grub-core/kern/emu/hostdisk.c
-++++ grub-2.00/grub-core/kern/emu/hostdisk.c
-+@@ -41,6 +41,12 @@
-+ #include <errno.h>
-+ #include <limits.h>
-+ 
-++#if defined(MAJOR_IN_MKDEV)
-++#include <sys/mkdev.h>
-++#elif defined(MAJOR_IN_SYSMACROS)
-++#include <sys/sysmacros.h>
-++#endif
-++
-+ #ifdef __linux__
-+ # include <sys/ioctl.h>         /* ioctl */
-+ # include <sys/mount.h>
-+Index: grub-2.00/util/getroot.c
-+===================================================================
-+--- grub-2.00.orig/util/getroot.c
-++++ grub-2.00/util/getroot.c
-+@@ -35,6 +35,13 @@
-+ #ifdef HAVE_LIMITS_H
-+ #include <limits.h>
-+ #endif
-++
-++#if defined(MAJOR_IN_MKDEV)
-++#include <sys/mkdev.h>
-++#elif defined(MAJOR_IN_SYSMACROS)
-++#include <sys/sysmacros.h>
-++#endif
-++
-+ #include <grub/util/misc.h>
-+ #include <grub/util/lvm.h>
-+ #include <grub/cryptodisk.h>
-+Index: grub-2.00/util/raid.c
-+===================================================================
-+--- grub-2.00.orig/util/raid.c
-++++ grub-2.00/util/raid.c
-+@@ -29,6 +29,12 @@
-+ #include <errno.h>
-+ #include <sys/types.h>
-+ 
-++#if defined(MAJOR_IN_MKDEV)
-++#include <sys/mkdev.h>
-++#elif defined(MAJOR_IN_SYSMACROS)
-++#include <sys/sysmacros.h>
-++#endif
-++
-+ #include <linux/types.h>
-+ #include <linux/major.h>
-+ #include <linux/raid/md_p.h>
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index b69de9f340..ef893b327f 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -35,6 +35,7 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
-            file://0001-Enforce-no-pie-if-the-compiler-supports-it.patch \
-            file://0001-grub-core-kern-efi-mm.c-grub_efi_finish_boot_service.patch \
-            file://0002-grub-core-kern-efi-mm.c-grub_efi_get_memory_map-Neve.patch \
-+           file://0001-build-Use-AC_HEADER_MAJOR-to-find-device-macros.patch \
-             "
+diff --git a/meta/recipes-bsp/grub/grub_git.bb b/meta/recipes-bsp/grub/grub_git.bb
+index eb824ccc71..f24cc2f1cf 100644
+--- a/meta/recipes-bsp/grub/grub_git.bb
++++ b/meta/recipes-bsp/grub/grub_git.bb
+@@ -6,7 +6,7 @@ DEFAULT_PREFERENCE_arm = "1"
+ FILESEXTRAPATHS =. "${FILE_DIRNAME}/grub-git:"
  
- DEPENDS = "flex-native bison-native autogen-native"
+ PV = "2.00+${SRCPV}"
+-SRCREV = "7a5b301e3adb8e054288518a325135a1883c1c6c"
++SRCREV = "ce95549cc54b5d6f494608a7c390dba3aab4fba7"
+ SRC_URI = "git://git.savannah.gnu.org/grub.git \
+            file://0001-Disable-mfpmath-sse-as-well-when-SSE-is-disabled.patch \
+            file://autogen.sh-exclude-pc.patch \
 -- 
 2.11.0
 
