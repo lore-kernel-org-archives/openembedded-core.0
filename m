@@ -1,27 +1,50 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DADE71B87
+Return-Path: <kristian.amlie@mender.io>
+Received: from mail-lf0-f43.google.com (mail-lf0-f43.google.com
+	[209.85.215.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DD9A71B87
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 09:00:39 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 19 Dec 2016 01:00:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,372,1477983600"; d="scan'208";a="799907094"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
-	by FMSMGA003.fm.intel.com with ESMTP; 19 Dec 2016 01:00:21 -0800
-Date: Mon, 19 Dec 2016 11:01:56 +0200
-From: "Maxin B. John" <maxin.john@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20161219090155.GA31191@mbabyjoh-desk.ger.corp.intel.com>
-References: <1481548162-22276-1-git-send-email-maxin.john@intel.com>
-	<CAJTo0LZ5ne934RKTZChfSx8TeuTqneZE5R7fd6JJNOSsd=9M=A@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZ5ne934RKTZChfSx8TeuTqneZE5R7fd6JJNOSsd=9M=A@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Cristian Iorga <cristian.iorga@intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] curl: add ptest
+	Mon, 19 Dec 2016 09:09:34 +0000 (UTC)
+Received: by mail-lf0-f43.google.com with SMTP id c13so49561825lfg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Dec 2016 01:09:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mender-io.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=jNE6u5fgq83KmuqVvSTB+AO2YZLwGOYn0f3rFRanUn0=;
+	b=aXd1IXeNc6x4O3hCtyo8mdQX6uV76NvwAF0ei5Fl+MjzUVcwsYaskG2QeBeOcnWzQd
+	WYsl5PLtXEcKtcCgYzugVR7U/TO6z0kBqcqcwXV1QhowM2sUwilYeZawvKtrmfqkAc6t
+	gu4GK8E6iqa71e3Vd3pKYzYPD3occ5S9eNibtPDXSydi3gJfuYNMxHkPGPQG00EtuLKo
+	477TOnOAqNy6D2ake19hocMM7BK+nwBMRkf7WuOO2/4XtUo7LghydUFQ6sSg99ntm1n0
+	Z4fbNvy9TiD9ZRVgyGqh05BmXzT1jS85EmALDZOc5hz83PE8wxfaoB2UeP4x9ZbDuPHs
+	DVUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=jNE6u5fgq83KmuqVvSTB+AO2YZLwGOYn0f3rFRanUn0=;
+	b=qj5OxlTwJ3PMXQSyOI2dmdXTkD+aCFEppPa/FzjwYItkfRCVKVZzQqLm6+ubU7oR9j
+	r6sF+aCMAhljCCV1cUFftsM+vxDBYWfsQQixp1zDDrooPxNL6Es5QzBMbQdxINEvdKJ5
+	VdSqGyIfD/HsFXRGjK3dj2mOQKtVkp57AEfzZfIINplrPHZumN7PdRjLLU685PM0198X
+	kECR+NGBMBe9fc177z5CODvza75TTkjxqLIMECuRT2T9y2lZBcf/8hBmegSg+G4hMb5A
+	6OwSmGrUK6f+CcGQMZtFeRYQIpO77JfME3MxC2WhufxVgLpx/Ob0oA8nlvv6FXv04a6s
+	3MaQ==
+X-Gm-Message-State: AIkVDXIiT4A6Y5BX1qYKS4dUKGWaYXXiFW++yJnbc5ITf+faHNCzPmG/NTAK2NafX76MwA==
+X-Received: by 10.25.23.229 with SMTP id 98mr2570256lfx.41.1482138575808;
+	Mon, 19 Dec 2016 01:09:35 -0800 (PST)
+Received: from kristian-mender.cfengine.com ([195.159.140.90])
+	by smtp.googlemail.com with ESMTPSA id
+	18sm3629494ljj.7.2016.12.19.01.09.34
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 19 Dec 2016 01:09:34 -0800 (PST)
+From: Kristian Amlie <kristian.amlie@mender.io>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Date: Mon, 19 Dec 2016 10:09:22 +0100
+Message-Id: <1482138565-4120-1-git-send-email-kristian.amlie@mender.io>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <20161216144423.GB6398@linux.intel.com>
+References: <20161216144423.GB6398@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2 3/3] selftest/wic: Add tests for --exclude-dir option.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,24 +57,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 09:00:40 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 19 Dec 2016 09:09:37 -0000
 
-Hi Ross,
 
->On Fri, Dec 16, 2016 at 05:53:25PM +0000, Burton, Ross wrote:
->>On 12 December 2016 at 13:09, Maxin B. John <maxin.john@intel.com> wrote:
->>
->>    +                         python-argparse python-pprint diffutils openssh \
->    Sadly this dependency on openssh breaks images which pull in dropbear explicitly, such as core-image-sato-dev.
+>> +    def test_exclude_path(self):
+>> +        """Test --exclude-path wks option."""
+>> +
+>> +        # For using 'e2ls'.
+>> +        old_path = os.environ['PATH']
+>> +        os.environ['PATH'] = get_bb_var('PATH', 'core-image-minimal')
+>> +
+>> +        wks_file = 'temp.wks'
+>> +        ks = open(wks_file, 'w')
+> 
+> I'd use more pythonic 'with open(wks_file, 'w') as wks:' here.
 
-Ah, ok.
+Done for all three blocks!
 
->    Why does the curl ptest needs openssh, and can it use dropbear if that is present?
-
-Will check and take care of it in V2. Thanks!
-
-Best Regards,
-Maxin
+-- 
+Kristian
 
