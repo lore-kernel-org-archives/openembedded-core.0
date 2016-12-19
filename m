@@ -1,23 +1,53 @@
-Return-Path: <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id B8FC371DD0
+Return-Path: <twoerner@gmail.com>
+Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
+	[209.85.214.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A5CB3772AE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 21:08:01 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga105.fm.intel.com with ESMTP; 19 Dec 2016 13:08:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,375,1477983600"; d="scan'208";a="44344220"
-Received: from jairdeje-mobl1.amr.corp.intel.com (HELO
-	jairdeje-mobl1.zpn.intel.com) ([10.219.128.79])
-	by orsmga005.jf.intel.com with ESMTP; 19 Dec 2016 13:08:03 -0800
-From: Jair Gonzalez <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Dec 2016 15:07:34 -0600
-Message-Id: <d7fc60594f046c477a791fe69f6c6a13a2e59c2c.1482179865.git.jair.de.jesus.gonzalez.plascencia@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1482179865.git.jair.de.jesus.gonzalez.plascencia@linux.intel.com>
-References: <cover.1482179865.git.jair.de.jesus.gonzalez.plascencia@linux.intel.com>
-Subject: [PATCH v2 4/4] selftest/wic: extending test coverage for WIC script options
+	Mon, 19 Dec 2016 21:42:59 +0000 (UTC)
+Received: by mail-it0-f65.google.com with SMTP id n68so11820575itn.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Dec 2016 13:43:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=ch8m82Gz8/RvqrpbYZQ7It+qMziHyEDirs4+hULwqYw=;
+	b=LC9EkMoiILPq3PcHm2s4+jg6r7wfTsyeiX4BDiZT7OIlp/JPURBT1fnRA74yrBGnrU
+	xKTGNamZlqgUA51Xeco7tMwxJxvm7BKdXRVENTr9VtYN9mTKW7HhaYjgYdTmfux+utIO
+	BBQ6Oy5f94avCRc9e59qrk6LoJBdXNAQADToDX6V7QivQO79ehMaYyUfQ75jshqSVBgN
+	dCx/40LZBiOgS6uryHgpkr0FbchMlTIaGao7FzTD3kNUPUgXIsfeXb51ZlJr8aaRlqT6
+	d0Xh9j/M81CSeBj2cD6LZUSKtmVqCnvgY1o4XnoyxiQmh3AerdCSoDvvPGCu+oB4TqYX
+	5THQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=ch8m82Gz8/RvqrpbYZQ7It+qMziHyEDirs4+hULwqYw=;
+	b=mqTIKpd8XKwlG1uASPJA3vhwWq+s8y01bE3lPe6pA38nl8naKsT0tDWuN2rCKX8DfK
+	QVy0rqjC5UnI8RMhMqJfQe8M+u8BNAHawvj21zIDPRm8k3/NK1Hfo197qNS/BG5KejfN
+	TFw5t3mDM1Bn7xtIJ9KgMYdeu54z3BCeJ5Y088DvACGIvGfOAAN7lih6Ew+LYV+9Q9f6
+	nE2jZkU/oHFc7ctwuLwB0y9yEBxUswnjdUq9giMaCKJl2hSbv8jJXIMo1bu6DIR3bnwE
+	9MlY2lkNbFpZiy306xsE42gqvcCw3pgIfgAV9sYORAaKSJ7CGFJQCQe0MTdOfdNlESxV
+	Ns9g==
+X-Gm-Message-State: AKaTC01iSFf0Mfv8ghSfgQu1X1jkR9DcBEv9VcSgN1YohGEAbMwfWfCLl779+SJ3Ot8BJw==
+X-Received: by 10.36.215.197 with SMTP id y188mr18702141itg.71.1482183780795; 
+	Mon, 19 Dec 2016 13:43:00 -0800 (PST)
+Received: from openSUSE-i7.site (dsl-67-55-28-109.acanac.net. [67.55.28.109])
+	by smtp.gmail.com with ESMTPSA id
+	m9sm8954155ioa.12.2016.12.19.13.42.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 19 Dec 2016 13:43:00 -0800 (PST)
+Date: Mon, 19 Dec 2016 16:42:58 -0500
+From: Trevor Woerner <twoerner@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20161219214258.GA16333@openSUSE-i7.site>
+References: <1481599839-114211-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<20161219152324.GA1056@openSUSE-i7.site>
+	<CAJTo0LYV2qMTBVpm8ASDb7BdwwezWfysAn6fJbM7Xwh6FXCcyg@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LYV2qMTBVpm8ASDb7BdwwezWfysAn6fJbM7Xwh6FXCcyg@mail.gmail.com>
+User-Agent: Mutt/1.6.0 (2016-04-01)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] util-linux: 2.28.1 -> 2.29
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,279 +60,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 21:08:01 -0000
+X-List-Received-Date: Mon, 19 Dec 2016 21:42:59 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-The previous WIC script selftest didn't cover all of its command line
-options. Some option variants were included in existing test cases and
-the following tests were added to complete covering them:
+On Mon 2016-12-19 @ 08:31:25 PM, Burton, Ross wrote:
+> On 19 December 2016 at 15:23, Trevor Woerner <twoerner@gmail.com> wrote:
+> 
+> > Is anyone else seeing build failures as a result of this commit?
+> >
+> 
+> Can you reproduce this on demand?
 
-1552 Test wic --version
-1553 Test wic help create
-1554 Test wic help list
-1555 Test wic list images
-1556 Test wic list source-plugins
-1557 Test wic listed images help
-1558 Test debug
-1563 Test skip build check
-1564 Test build rootfs
-1559 Test image vars directory selection
-1562 Test alternate output directory
+Yes. Last night's raspi2 and minnow/turbot builds failed, and trying with qemu
+(x86-64 and x86) all failed.
 
-Signed-off-by: Jair Gonzalez <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
----
- meta/lib/oeqa/selftest/wic.py | 142 +++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 128 insertions(+), 14 deletions(-)
+A fresh build in a new directory fails readily:
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index 52b9538..3db00a6 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -37,7 +37,9 @@ class Wic(oeSelfTest):
-     """Wic test class."""
- 
-     resultdir = "/var/tmp/wic/build/"
-+    alternate_resultdir = "/var/tmp/wic/build/alt/"
-     image_is_ready = False
-+    wicenv_cache = {}
- 
-     def setUpLocal(self):
-         """This code is executed before each test method."""
-@@ -56,10 +58,16 @@ class Wic(oeSelfTest):
- 
-         rmtree(self.resultdir, ignore_errors=True)
- 
-+    @testcase(1552)
-+    def test_version(self):
-+        """Test wic --version"""
-+        self.assertEqual(0, runCmd('wic --version').status)
-+
-     @testcase(1208)
-     def test_help(self):
--        """Test wic --help"""
-+        """Test wic --help and wic -h"""
-         self.assertEqual(0, runCmd('wic --help').status)
-+        self.assertEqual(0, runCmd('wic -h').status)
- 
-     @testcase(1209)
-     def test_createhelp(self):
-@@ -71,6 +79,16 @@ class Wic(oeSelfTest):
-         """Test wic list --help"""
-         self.assertEqual(0, runCmd('wic list --help').status)
- 
-+    @testcase(1553)
-+    def test_help_create(self):
-+        """Test wic help create"""
-+        self.assertEqual(0, runCmd('wic help create').status)
-+
-+    @testcase(1554)
-+    def test_help_list(self):
-+        """Test wic help list"""
-+        self.assertEqual(0, runCmd('wic help list').status)
-+
-     @testcase(1215)
-     def test_help_overview(self):
-         """Test wic help overview"""
-@@ -86,6 +104,24 @@ class Wic(oeSelfTest):
-         """Test wic help kickstart"""
-         self.assertEqual(0, runCmd('wic help kickstart').status)
- 
-+    @testcase(1555)
-+    def test_list_images(self):
-+        """Test wic list images"""
-+        self.assertEqual(0, runCmd('wic list images').status)
-+
-+    @testcase(1556)
-+    def test_list_source_plugins(self):
-+        """Test wic list source-plugins"""
-+        self.assertEqual(0, runCmd('wic list source-plugins').status)
-+
-+    @testcase(1557)
-+    def test_listed_images_help(self):
-+        """Test wic listed images help"""
-+        output = runCmd('wic list images').output
-+        imagelist = [line.split()[0] for line in output.splitlines()]
-+        for image in imagelist:
-+            self.assertEqual(0, runCmd('wic list %s help' % image).status)
-+
-     @testcase(1213)
-     def test_unsupported_subcommand(self):
-         """Test unsupported subcommand"""
-@@ -99,8 +135,8 @@ class Wic(oeSelfTest):
- 
-     @testcase(1211)
-     def test_build_image_name(self):
--        """Test wic create directdisk --image-name core-image-minimal"""
--        cmd = "wic create directdisk --image-name core-image-minimal"
-+        """Test wic create directdisk --image-name=core-image-minimal"""
-+        cmd = "wic create directdisk --image-name=core-image-minimal"
-         self.assertEqual(0, runCmd(cmd).status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
- 
-@@ -162,6 +198,22 @@ class Wic(oeSelfTest):
-         self.assertEqual(0, runCmd(cmd).status)
-         self.assertEqual(1, len(glob(self.resultdir + "sdimage-bootpart-*direct")))
- 
-+    @testcase(1562)
-+    def test_alternate_output_dir(self):
-+        """Test alternate output directory"""
-+        self.assertEqual(0, runCmd("wic create directdisk "
-+                                   "-e core-image-minimal "
-+                                   "-o %s"
-+                                   % self.alternate_resultdir).status)
-+        self.assertEqual(1, len(glob(self.alternate_resultdir +
-+                                     "build/directdisk-*.direct")))
-+        self.assertEqual(0, runCmd("wic create mkefidisk -e "
-+                                   "core-image-minimal "
-+                                   "--outdir=%s"
-+                                   % self.alternate_resultdir).status)
-+        self.assertEqual(1, len(glob(self.alternate_resultdir +
-+                                     "build/mkefidisk-*direct")))
-+
-     @testcase(1212)
-     def test_build_artifacts(self):
-         """Test wic create directdisk providing all artifacts."""
-@@ -188,7 +240,7 @@ class Wic(oeSelfTest):
-     def test_compress_bzip2(self):
-         """Test compressing an image with bzip2"""
-         self.assertEqual(0, runCmd("wic create directdisk "
--                                   "--image-name core-image-minimal "
-+                                   "--image-name=core-image-minimal "
-                                    "-c bzip2").status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct.bz2")))
- 
-@@ -196,22 +248,58 @@ class Wic(oeSelfTest):
-     def test_compress_xz(self):
-         """Test compressing an image with xz"""
-         self.assertEqual(0, runCmd("wic create directdisk "
--                                   "--image-name core-image-minimal "
--                                   "-c xz").status)
-+                                   "--image-name=core-image-minimal "
-+                                   "--compress-with=xz").status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct.xz")))
- 
-     @testcase(1267)
-     def test_wrong_compressor(self):
-         """Test how wic breaks if wrong compressor is provided"""
-         self.assertEqual(2, runCmd("wic create directdisk "
--                                   "--image-name core-image-minimal "
-+                                   "--image-name=core-image-minimal "
-                                    "-c wrong", ignore_status=True).status)
- 
-+    @testcase(1558)
-+    def test_debug(self):
-+        """Test debug"""
-+        self.assertEqual(0, runCmd("wic create directdisk "
-+                                   "--image-name=core-image-minimal "
-+                                   "-D").status)
-+        self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
-+        self.assertEqual(0, runCmd("wic create directdisk "
-+                                   "--image-name=core-image-minimal "
-+                                   "--debug").status)
-+        self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
-+
-+    @testcase(1563)
-+    def test_skip_build_check(self):
-+        """Test skip build check"""
-+        self.assertEqual(0, runCmd("wic create directdisk "
-+                                   "--image-name=core-image-minimal "
-+                                   "-s").status)
-+        self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
-+        self.assertEqual(0, runCmd("wic create directdisk "
-+                                   "--image-name=core-image-minimal "
-+                                   "--skip-build-check").status)
-+        self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
-+
-+    @testcase(1564)
-+    def test_build_rootfs(self):
-+        """Test build rootfs"""
-+        self.assertEqual(0, runCmd("wic create directdisk "
-+                                   "--image-name=core-image-minimal "
-+                                   "-f").status)
-+        self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
-+        self.assertEqual(0, runCmd("wic create directdisk "
-+                                   "--image-name=core-image-minimal "
-+                                   "--build-rootfs").status)
-+        self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
-+
-     @testcase(1268)
-     def test_rootfs_indirect_recipes(self):
-         """Test usage of rootfs plugin with rootfs recipes"""
-         status = runCmd("wic create directdisk-multi-rootfs "
--                        "--image-name core-image-minimal "
-+                        "--image-name=core-image-minimal "
-                         "--rootfs rootfs1=core-image-minimal "
-                         "--rootfs rootfs2=core-image-minimal").status
-         self.assertEqual(0, status)
-@@ -225,9 +313,9 @@ class Wic(oeSelfTest):
-                                   'STAGING_DIR_NATIVE', 'IMAGE_ROOTFS'))
-         bbvars['wks'] = "directdisk-multi-rootfs"
-         status = runCmd("wic create %(wks)s "
--                        "-b %(staging_datadir)s "
--                        "-k %(deploy_dir_image)s "
--                        "-n %(staging_dir_native)s "
-+                        "--bootimg-dir=%(staging_datadir)s "
-+                        "--kernel-dir=%(deploy_dir_image)s "
-+                        "--native-sysroot=%(staging_dir_native)s "
-                         "--rootfs-dir rootfs1=%(image_rootfs)s "
-                         "--rootfs-dir rootfs2=%(image_rootfs)s"
-                         % bbvars).status
-@@ -237,19 +325,30 @@ class Wic(oeSelfTest):
-     @testcase(1496)
-     def test_bmap(self):
-         """Test generation of .bmap file"""
-+        cmd = "wic create directdisk -e core-image-minimal -m"
-+        status = runCmd(cmd).status
-+        self.assertEqual(0, status)
-+        self.assertEqual(1, len(glob(self.resultdir + "directdisk-*direct")))
-+        self.assertEqual(1, len(glob(self.resultdir + "directdisk-*direct.bmap")))
-         cmd = "wic create directdisk -e core-image-minimal --bmap"
-         status = runCmd(cmd).status
-         self.assertEqual(0, status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*direct")))
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*direct.bmap")))
- 
-+    def _get_image_env_path(self, image):
-+        """Generate and obtain the path to <image>.env"""
-+        if image not in self.wicenv_cache:
-+            self.assertEqual(0, bitbake('%s -c do_rootfs_wicenv' % image).status)
-+            stdir = get_bb_var('STAGING_DIR_TARGET', image)
-+            self.wicenv_cache[image] = os.path.join(stdir, 'imgdata')
-+        return self.wicenv_cache[image]
-+
-     @testcase(1347)
-     def test_image_env(self):
-         """Test generation of <image>.env files."""
-         image = 'core-image-minimal'
--        self.assertEqual(0, bitbake('%s -c do_rootfs_wicenv' % image).status)
--        stdir = get_bb_var('STAGING_DIR_TARGET', image)
--        imgdatadir = os.path.join(stdir, 'imgdata')
-+        imgdatadir = self._get_image_env_path(image)
- 
-         basename = get_bb_var('IMAGE_BASENAME', image)
-         self.assertEqual(basename, image)
-@@ -267,6 +366,21 @@ class Wic(oeSelfTest):
-                 self.assertTrue(var in content, "%s is not in .env file" % var)
-                 self.assertTrue(content[var])
- 
-+    @testcase(1559)
-+    def test_image_vars_dir(self):
-+        """Test image vars directory selection"""
-+        image = 'core-image-minimal'
-+        imgenvdir = self._get_image_env_path(image)
-+
-+        self.assertEqual(0, runCmd("wic create directdisk "
-+                                   "--image-name=%s "
-+                                   "-v %s"
-+                                   % (image, imgenvdir)).status)
-+        self.assertEqual(0, runCmd("wic create directdisk "
-+                                   "--image-name=%s "
-+                                   "--vars %s"
-+                                   % (image, imgenvdir)).status)
-+
-     @testcase(1351)
-     def test_wic_image_type(self):
-         """Test building wic images by bitbake"""
--- 
-2.7.4
+$ git clone git://git.openembedded.org/openembedded-core.git
+(e82a7f879419828b42b5cc71e6229c8235090f21)
+$ git clone git://git.openembedded.org/bitbake.git
+(50633012a64a3b5f0662145e29ff426374fb7683)
+$ . openembedded-core/oe-init-build-env build bitbake
+$ bitbake util-linux-native
 
+
+Build Configuration:
+BB_VERSION        = "1.32.0"
+BUILD_SYS         = "x86_64-linux"
+NATIVELSBSTRING   = "opensuse-42.2"
+TARGET_SYS        = "i586-oe-linux"
+MACHINE           = "qemux86"
+DISTRO            = "nodistro"
+DISTRO_VERSION    = "nodistro.0"
+TUNE_FEATURES     = "m32 i586"
+TARGET_FPU        = ""
+meta              = "master:e82a7f879419828b42b5cc71e6229c8235090f21"
+
+*BOOM!* ;-)
+
+| disk-utils/cfdisk-cfdisk.o:cfdisk.c:(.text.startup+0x8fd): more undefined references to `_nc_stdscr' follow
+| collect2: error: ld returned 1 exit status
+| Makefile:5737: recipe for target 'cfdisk' failed
+| make[2]: *** [cfdisk] Error 1
+| make[2]: Leaving directory '/z/qemu/build/tmp-glibc/work/x86_64-linux/util-linux-native/2.29-r0/build'
+| Makefile:11450: recipe for target 'all-recursive' failed
+| make[1]: *** [all-recursive] Error 1
+| make[1]: Leaving directory '/z/qemu/build/tmp-glibc/work/x86_64-linux/util-linux-native/2.29-r0/build'
+| Makefile:4781: recipe for target 'all' failed
+| make: *** [all] Error 2
+| ERROR: Function failed: do_compile (log file is located at /z/qemu/build/tmp-glibc/work/x86_64-linux/util-linux-native/2.29-r0/temp/log.do_compile.28460)
+ERROR: Task (virtual:native:/z/qemu/openembedded-core/meta/recipes-core/util-linux/util-linux_2.29.bb:do_compile) failed with exit code '1'
 
