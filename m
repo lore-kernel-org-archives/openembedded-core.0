@@ -1,21 +1,23 @@
 Return-Path: <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DBCE6FEF3
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CB95719A3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 21:07:41 +0000 (UTC)
+	Mon, 19 Dec 2016 21:07:52 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga105.jf.intel.com with ESMTP; 19 Dec 2016 13:07:43 -0800
+	by fmsmga105.fm.intel.com with ESMTP; 19 Dec 2016 13:07:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,375,1477983600"; d="scan'208";a="44344124"
+X-IronPort-AV: E=Sophos;i="5.33,375,1477983600"; d="scan'208";a="44344163"
 Received: from jairdeje-mobl1.amr.corp.intel.com (HELO
 	jairdeje-mobl1.zpn.intel.com) ([10.219.128.79])
-	by orsmga005.jf.intel.com with ESMTP; 19 Dec 2016 13:07:42 -0800
+	by orsmga005.jf.intel.com with ESMTP; 19 Dec 2016 13:07:53 -0800
 From: Jair Gonzalez <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Dec 2016 15:07:30 -0600
-Message-Id: <cover.1482179865.git.jair.de.jesus.gonzalez.plascencia@linux.intel.com>
+Date: Mon, 19 Dec 2016 15:07:31 -0600
+Message-Id: <245918f79d5c32a3727a14d6e52036d7d357d896.1482179865.git.jair.de.jesus.gonzalez.plascencia@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH v2 0/4] selftest/wic: extending test coverage for WIC script options
+In-Reply-To: <cover.1482179865.git.jair.de.jesus.gonzalez.plascencia@linux.intel.com>
+References: <cover.1482179865.git.jair.de.jesus.gonzalez.plascencia@linux.intel.com>
+Subject: [PATCH v2 1/4] selftest/wic: adding Testopia ID numbers to test cases missing it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,33 +30,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 21:07:42 -0000
+X-List-Received-Date: Mon, 19 Dec 2016 21:07:53 -0000
 
-Changed in V2:
+The following test cases were assigned an ID number on Testopia:
 
-The original patch was splitted and updated according to the discussion on:
-http://lists.openembedded.org/pipermail/openembedded-core/2016-December/130131.html
-NOTE: The WKS_FILE entry deletion was ommitted from this patch set as it
-was introduced on the first patch by mistake.
+1496 Test generation of .bmap file
+1560 Test creation of systemd-bootdisk image
+1561 Test creation of sdimage-bootpart image
 
-The following changes since commit 573c646d4cc62dcd0c230381df4940bdf314d495:
+Signed-off-by: Jair Gonzalez <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
+---
+ meta/lib/oeqa/selftest/wic.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-  bitbake: BBHandler: use with instead of open/close (2016-12-16 10:23:24 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib jairglez/wictest
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jairglez/wictest
-
-Jair Gonzalez (4):
-  selftest/wic: adding Testopia ID numbers to test cases missing it
-  selftest/wic: code cleanup
-  selftest/wic: reorganizing test methods by functionality
-  selftest/wic: extending test coverage for WIC script options
-
- meta/lib/oeqa/selftest/wic.py | 370 +++++++++++++++++++++++++++---------------
- 1 file changed, 238 insertions(+), 132 deletions(-)
-
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index e652fad..8c7aefa 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -278,6 +278,7 @@ class Wic(oeSelfTest):
+             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (command, output))
+             self.assertEqual(output, '/dev/root /\r\n/dev/vda3 /mnt')
+ 
++    @testcase(1496)
+     def test_bmap(self):
+         """Test generation of .bmap file"""
+         image = "directdisk"
+@@ -286,6 +287,7 @@ class Wic(oeSelfTest):
+         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
+         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct.bmap" % image)))
+ 
++    @testcase(1560)
+     def test_systemd_bootdisk(self):
+         """Test creation of systemd-bootdisk image"""
+         image = "systemd-bootdisk"
+@@ -293,6 +295,7 @@ class Wic(oeSelfTest):
+                                    % image).status)
+         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
+ 
++    @testcase(1561)
+     def test_sdimage_bootpart(self):
+         """Test creation of sdimage-bootpart image"""
+         image = "sdimage-bootpart"
 -- 
 2.7.4
 
