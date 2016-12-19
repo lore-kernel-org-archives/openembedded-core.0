@@ -1,44 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 910AF71993
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FE9D731FC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 03:06:11 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id p66so16868842pga.2
+	Mon, 19 Dec 2016 03:06:13 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id 144so6767927pfv.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Dec 2016 19:06:13 -0800 (PST)
+	Sun, 18 Dec 2016 19:06:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=XjbwxU73Vm6K0eL1JDLrNh6zE2FQqInKSHgvGW3KOZM=;
-	b=d4J3zVkIoWGwJbtGVDWgQxg25Yzlx/G/1+WQ75/kqjxPKtfjh/PGPL0X2es0sIR4MF
-	7EqQbPV79bzVAaUPEIyrbzyXtzDDFhr0p+wrqt5aa/dJr3T0th+8s7aeymSyvUWmclu6
-	y5Kbusmz79R6sVtO+48dGRY+IR03Kf2Mim8ZZeNiqdwihP+dH4BgKmfEwTwHnhJAElAu
-	tGC+vQoEuD8c8RsiwS+f0ixmFX5TE9sDxpzPHE265HmCUMtnTZkB78YV0LcwKTM9dc3y
-	cSp66T/7OlJQtOUvZAn9ssYq2l4cXY2i2W/h2+f4jp+u0LL6qJhoCd84wsXFBFTUNGDK
-	o9+Q==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=4h1I1jNqmU0RaaKYYJqH8dhXzS4N/CxpWp+h7nDDi2k=;
+	b=sL+Q0uM6vhdPYvsnfeG7+4H6aIgnG0GSOJ9MhRsjJvqcTHtd43s5flqPcAd3xMMbUj
+	jegLhzQGuwm7GkNvh7wvDQlVVr5qQlfDPw6xGy+QxDZwFssSIUwo6hB5uPn6NwRV0mR/
+	9dqqwEHDoLHBS/PTubyt7vSt0bannDwasGYkwjbWfjunKpqTCxayoExpAFe2Vo21j5CR
+	hjVzk1Zi2Pq4a1MIwLS0O9b5XSe5FuLs0zvcLbNHrX8IPDVDO6ahrYCEb5rQeoOJNsUk
+	BJyOlZK/WqBz/s0P/CArkmZNnGMlaku0unvXXTk8GdlSSWM2Foo4oyrhxtxkMJn9X4E3
+	DeZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=XjbwxU73Vm6K0eL1JDLrNh6zE2FQqInKSHgvGW3KOZM=;
-	b=rLZiuyISi1+0kGFSXrB0y0usSjOsDTRIdz3p5/GWQb4YronbV3jCDDCSYrFSPMu7/P
-	5+yZ4wjkcZC5DyfadBX61gNsaz1PRWcXn0a6qYLdr0Py1q87r+/ZCMgfPwm3wOyB7Zau
-	FiW5cGyo77uSlCSGWvLhOXQiXfUrFWgQ5wqmWMdcK1J9Q47kWjTOWQ/+xfjoyPKWpoLr
-	tbKwfVz8RcHgZ1ILVFfFGF027ZlIOYRFITq/Jo49Iu2TN4g99CSpCtjixmBeLUvxMjwR
-	fAGxcyKz4nDehE91/RlTQafRLPnCkM8j0vJ32gUKaXN7Sw6OnMp+hQ0on3P1lmeDyyXl
-	Rn9A==
-X-Gm-Message-State: AKaTC010wfwHK6c+3WNGxvDElWpQNsTidB2CCtaS7/6PASyF3uSj86ChFBLPPPukzesghA==
-X-Received: by 10.99.181.76 with SMTP id u12mr25204991pgo.64.1482116773526;
-	Sun, 18 Dec 2016 19:06:13 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=4h1I1jNqmU0RaaKYYJqH8dhXzS4N/CxpWp+h7nDDi2k=;
+	b=i9YO3E4pS8N+6R63+krDZRp50faYu6PDrImfkksRLf9l32IQzhXiSG5Ob2YtIDlxVv
+	lcg3zajloEEE5b4MPTfo7wdAI9unltbuVjaeMO7MhzLFag4GrEHbSSS6AZ0HKrJ34OrT
+	ybhSJxHpsCOeTEnpzDrnGd3Dpx+7wQJevQix7fzv/q8C6z1f0Pk3BknPB9gxMxZjK5lA
+	i30hn4hZPLcZYG/MgVBQEPch1EWZE3++UJG/VW89aW3us/FXhw4i/Kzne/p8r0I/PZ9S
+	oRU5seIf2Q4Nf372lD8yTikU84OaaVParg2cIW+mcGT03ocHAkflz8u9t15VVp5a+7hz
+	+BhQ==
+X-Gm-Message-State: AKaTC02ssn9VoRnLYr/plWj5M1RxCJeM72STqy7b68Orxkhk0bFZZoshdA1b7x5hTYPWJg==
+X-Received: by 10.98.155.9 with SMTP id r9mr13201763pfd.71.1482116775299;
+	Sun, 18 Dec 2016 19:06:15 -0800 (PST)
 Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	65sm26830276pfn.12.2016.12.18.19.06.12
+	65sm26830276pfn.12.2016.12.18.19.06.14
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 18 Dec 2016 19:06:13 -0800 (PST)
+	Sun, 18 Dec 2016 19:06:14 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 18 Dec 2016 19:05:53 -0800
-Message-Id: <20161219030600.1284-1-raj.khem@gmail.com>
+Date: Sun, 18 Dec 2016 19:05:55 -0800
+Message-Id: <20161219030600.1284-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH 1/8] webkitgtk: Fix atomic detection on arm architecture
+In-Reply-To: <20161219030600.1284-1-raj.khem@gmail.com>
+References: <20161219030600.1284-1-raj.khem@gmail.com>
+Subject: [PATCH 3/8] grub: Fix build with glibc 2.25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,71 +55,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 03:06:12 -0000
+X-List-Received-Date: Mon, 19 Dec 2016 03:06:14 -0000
+
+Backport relevant patch from grub git
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../recipes-sato/webkit/files/detect_atomics.patch | 38 ++++++++++++++++++++++
- meta/recipes-sato/webkit/webkitgtk_2.14.2.bb       |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/files/detect_atomics.patch
+ ...Use-AC_HEADER_MAJOR-to-find-device-macros.patch | 92 ++++++++++++++++++++++
+ meta/recipes-bsp/grub/grub2.inc                    |  1 +
+ 2 files changed, 93 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/0001-build-Use-AC_HEADER_MAJOR-to-find-device-macros.patch
 
-diff --git a/meta/recipes-sato/webkit/files/detect_atomics.patch b/meta/recipes-sato/webkit/files/detect_atomics.patch
+diff --git a/meta/recipes-bsp/grub/files/0001-build-Use-AC_HEADER_MAJOR-to-find-device-macros.patch b/meta/recipes-bsp/grub/files/0001-build-Use-AC_HEADER_MAJOR-to-find-device-macros.patch
 new file mode 100644
-index 0000000000..c4e80a7d96
+index 0000000000..f95b9ef9a0
 --- /dev/null
-+++ b/meta/recipes-sato/webkit/files/detect_atomics.patch
-@@ -0,0 +1,38 @@
-+Sourced from https://bugs.webkit.org/show_bug.cgi?id=161900
++++ b/meta/recipes-bsp/grub/files/0001-build-Use-AC_HEADER_MAJOR-to-find-device-macros.patch
+@@ -0,0 +1,92 @@
++From 7a5b301e3adb8e054288518a325135a1883c1c6c Mon Sep 17 00:00:00 2001
++From: Mike Gilbert <floppym@gentoo.org>
++Date: Tue, 19 Apr 2016 14:27:22 -0400
++Subject: [PATCH] build: Use AC_HEADER_MAJOR to find device macros
 +
-+on arm fixes
++Depending on the OS/libc, device macros are defined in different
++headers. This change ensures we include the right one.
 +
-+| /usr/src/debug/libgcc/6.2.0-r0/gcc-6.2.0/build.arm-oe-linux-gnueabi.arm-oe-linux-gnueabi/libgcc/../../../../../../../work-shared/gcc-6.2.0-r0/gcc-6.2.0/libgcc/config/arm/linux-atomic-64bit.c:117: multiple definition of `__sync_sub_and_fetch_8'
++sys/types.h - BSD
++sys/mkdev.h - Sun
++sys/sysmacros.h - glibc (Linux)
 +
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++glibc currently pulls sys/sysmacros.h into sys/types.h, but this may
++change in a future release.
 +
++https://sourceware.org/ml/libc-alpha/2015-11/msg00253.html
++---
 +Upstream-Status: Backport
 +
-+diff --git a/Source/WTF/wtf/CMakeLists.txt b/Source/WTF/wtf/CMakeLists.txt
-+index 867999e..ea69322 100644
-+--- a/Source/WTF/wtf/CMakeLists.txt
-++++ b/Source/WTF/wtf/CMakeLists.txt
-+@@ -171,7 +171,6 @@ set(WTF_HEADERS
++ configure.ac                         | 3 ++-
++ grub-core/osdep/devmapper/getroot.c  | 6 ++++++
++ grub-core/osdep/devmapper/hostdisk.c | 5 +++++
++ grub-core/osdep/linux/getroot.c      | 6 ++++++
++ grub-core/osdep/unix/getroot.c       | 4 +++-
++ 5 files changed, 22 insertions(+), 2 deletions(-)
++
++Index: grub-2.00/configure.ac
++===================================================================
++--- grub-2.00.orig/configure.ac
+++++ grub-2.00/configure.ac
++@@ -326,7 +326,8 @@ fi
 + 
-+ set(WTF_SOURCES
-+     Assertions.cpp
-+-    Atomics.cpp
-+     BitVector.cpp
-+     CompilationThread.cpp
-+     CrossThreadCopier.cpp
-+@@ -276,6 +275,15 @@ if (NOT USE_SYSTEM_MALLOC)
-+     list(APPEND WTF_LIBRARIES bmalloc)
-+ endif ()
++ # Check for functions and headers.
++ AC_CHECK_FUNCS(posix_memalign memalign asprintf vasprintf getextmntent)
++-AC_CHECK_HEADERS(sys/param.h sys/mount.h sys/mnttab.h sys/mkdev.h limits.h)
+++AC_CHECK_HEADERS(sys/param.h sys/mount.h sys/mnttab.h limits.h)
+++AC_HEADER_MAJOR
 + 
-++file(WRITE ${CMAKE_BINARY_DIR}/test_atomics.cpp
-++     "int main(void)\n"
-++     "{ long long x = 1; return (int) __sync_add_and_fetch_8(&x, 1); }\n")
-++try_compile(ATOMICS_BUILD_SUCCEEDED ${CMAKE_BINARY_DIR} ${CMAKE_BINARY_DIR}/test_atomics.cpp)
-++if (NOT ATOMICS_BUILD_SUCCEEDED)
-++    list(APPEND WTF_SOURCES Atomics.cpp)
-++endif ()
-++file(REMOVE ${CMAKE_BINARY_DIR}/test_atomics.cpp)
++ AC_CHECK_MEMBERS([struct statfs.f_fstypename],,,[$ac_includes_default
++ #include <sys/param.h>
++Index: grub-2.00/grub-core/kern/emu/hostdisk.c
++===================================================================
++--- grub-2.00.orig/grub-core/kern/emu/hostdisk.c
+++++ grub-2.00/grub-core/kern/emu/hostdisk.c
++@@ -41,6 +41,12 @@
++ #include <errno.h>
++ #include <limits.h>
++ 
+++#if defined(MAJOR_IN_MKDEV)
+++#include <sys/mkdev.h>
+++#elif defined(MAJOR_IN_SYSMACROS)
+++#include <sys/sysmacros.h>
+++#endif
 ++
-+ list(APPEND WTF_SOURCES
-+     unicode/icu/CollatorICU.cpp
-+ )
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
-index 1c327babfb..46b54683fb 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
-@@ -19,6 +19,7 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-Fix-racy-parallel-build-of-WebKit2-4.0.gir.patch \
-            file://0001-Tweak-gtkdoc-settings-so-that-gtkdoc-generation-work.patch \
-            file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
-+           file://detect_atomics.patch \
-            "
++ #ifdef __linux__
++ # include <sys/ioctl.h>         /* ioctl */
++ # include <sys/mount.h>
++Index: grub-2.00/util/getroot.c
++===================================================================
++--- grub-2.00.orig/util/getroot.c
+++++ grub-2.00/util/getroot.c
++@@ -35,6 +35,13 @@
++ #ifdef HAVE_LIMITS_H
++ #include <limits.h>
++ #endif
+++
+++#if defined(MAJOR_IN_MKDEV)
+++#include <sys/mkdev.h>
+++#elif defined(MAJOR_IN_SYSMACROS)
+++#include <sys/sysmacros.h>
+++#endif
+++
++ #include <grub/util/misc.h>
++ #include <grub/util/lvm.h>
++ #include <grub/cryptodisk.h>
++Index: grub-2.00/util/raid.c
++===================================================================
++--- grub-2.00.orig/util/raid.c
+++++ grub-2.00/util/raid.c
++@@ -29,6 +29,12 @@
++ #include <errno.h>
++ #include <sys/types.h>
++ 
+++#if defined(MAJOR_IN_MKDEV)
+++#include <sys/mkdev.h>
+++#elif defined(MAJOR_IN_SYSMACROS)
+++#include <sys/sysmacros.h>
+++#endif
+++
++ #include <linux/types.h>
++ #include <linux/major.h>
++ #include <linux/raid/md_p.h>
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index b69de9f340..ef893b327f 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -35,6 +35,7 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+            file://0001-Enforce-no-pie-if-the-compiler-supports-it.patch \
+            file://0001-grub-core-kern-efi-mm.c-grub_efi_finish_boot_service.patch \
+            file://0002-grub-core-kern-efi-mm.c-grub_efi_get_memory_map-Neve.patch \
++           file://0001-build-Use-AC_HEADER_MAJOR-to-find-device-macros.patch \
+             "
  
- SRC_URI[md5sum] = "2fe3cadbc546d93ca68a13756c2be015"
+ DEPENDS = "flex-native bison-native autogen-native"
 -- 
 2.11.0
 
