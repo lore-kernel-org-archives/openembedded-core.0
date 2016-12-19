@@ -1,47 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 916EC7732C
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 2480E7732C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 20:31:45 +0000 (UTC)
-Received: by mail-qk0-f171.google.com with SMTP id t184so27224268qkd.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 12:31:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=YuCOJDtunlOVkr4lNjyqzsI6zDKbnXQvDiTjQVOV81Y=;
-	b=Sc4KshM21Hoi2zHfLqzzQBljszkF7pLtODN4k8RpLzMk4pl1hjtq+MrHwX1iXZpgmZ
-	Lqel1Gfg599nWatMsKEIvId2G+/nWnuYgf2FJbL6FRUQK3kkRAokjyBv7ljgoiYmJADb
-	MwwdXqrSeqtypBj0eFuZeCnoSIrCNtXLmS1BS13TxvtWVp7K/XgV23GgIxBB3Qfb0mNu
-	PIyrNQwnnSLTBPF3ZSrUNNhbKIrVmR31LcpupBA8c9Q4QP+2oyzx4Wx1e1xqfZ7BxMLJ
-	CdN03b+wLoh0mCVnGhDsNxTd8Lg0GO722zNTN/a1Bg0q5bLFrz6kjUFh9yTJgReLFcth
-	XyrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=YuCOJDtunlOVkr4lNjyqzsI6zDKbnXQvDiTjQVOV81Y=;
-	b=FTmG0OqL1OOjvWJCHtYdTVLvcCWriUwH+nYI2MWZrhe5jdIReKBhItCSRjT54bQOSL
-	lrYT8RxFYBgw1lwm/YCTgcPxczFO3icnKbEUYZ4DKpSHOspU8wMNxA6z6yPyZWiITMND
-	E0rPsQPnz4Ebg3N0fTAro0wKeXPfiUrrbSQ8aoD5jad5Od0vEc2z0jv7tM7pd5PAQ/Of
-	kWf8hTMiUP31bL/qmzgTSX3Ksl+nJTSc3fZq7FQ5tBsAcfwdu5z1uZw5chx78te39Obr
-	fiLTk+2K1wUcpU52Zn+VzKJlDmVDzhakd+aqv9h+sG1OQ3VQ3GrkGHkOjRERPq0FQOel
-	sSNA==
-X-Gm-Message-State: AIkVDXK8nEx2nqeT+JRf2o0L03ElvuA+y3a+iT/1Ni6Eu199Xuev5fksYSF7L7pMohnOevtwdDk+y/2MgUpuZ6Xg
-X-Received: by 10.55.31.24 with SMTP id f24mr4732656qkf.221.1482179506358;
-	Mon, 19 Dec 2016 12:31:46 -0800 (PST)
+	Mon, 19 Dec 2016 20:35:29 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
+	via TCP (outbound) with ESMTPS id 20161219203524083_0684;
+	Mon, 19 Dec 2016 20:35:24 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [174.118.92.171] (port=53336 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1cJ4eT-0001EB-6T; Mon, 19 Dec 2016 15:35:17 -0500
+Date: Mon, 19 Dec 2016 15:33:55 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: Christopher Larson <clarson@kergoth.com>
+In-Reply-To: <CABcZANnkk64RWAw4vHVc92QXQmuaBXD9yK0x95u2fw=SOh7jUQ@mail.gmail.com>
+Message-ID: <alpine.LFD.2.20.1612191528260.12491@localhost.localdomain>
+References: <alpine.LFD.2.20.1612190527590.8267@localhost.localdomain>
+	<CABcZANnv7=zxZ7MNT4kDPKxScTYkJa44qAxt5Lvfc-L4=-Kb0A@mail.gmail.com>
+	<CABcZAN=X+O23y=utG3iBvsdPNo1g9qM7H2JAT1PUpt-R=AYCBg@mail.gmail.com>
+	<alpine.LFD.2.20.1612191246350.4848@localhost.localdomain>
+	<CABcZANnkk64RWAw4vHVc92QXQmuaBXD9yK0x95u2fw=SOh7jUQ@mail.gmail.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Mon, 19 Dec 2016 12:31:25 -0800 (PST)
-In-Reply-To: <20161219152324.GA1056@openSUSE-i7.site>
-References: <1481599839-114211-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-	<20161219152324.GA1056@openSUSE-i7.site>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 19 Dec 2016 20:31:25 +0000
-Message-ID: <CAJTo0LYV2qMTBVpm8ASDb7BdwwezWfysAn6fJbM7Xwh6FXCcyg@mail.gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] util-linux: 2.28.1 -> 2.29
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: a few questions about "COMPATIBLE_MACHINE" variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,33 +40,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 20:31:45 -0000
-Content-Type: multipart/alternative; boundary=001a1147e2baf89367054408ce3c
+X-List-Received-Date: Mon, 19 Dec 2016 20:35:30 -0000
+Content-Type: multipart/mixed; BOUNDARY="8323328-125966310-1482179637=:12491"
 
---001a1147e2baf89367054408ce3c
+--8323328-125966310-1482179637=:12491
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-On 19 December 2016 at 15:23, Trevor Woerner <twoerner@gmail.com> wrote:
+On Mon, 19 Dec 2016, Christopher Larson wrote:
 
-> Is anyone else seeing build failures as a result of this commit?
+> On Mon, Dec 19, 2016 at 10:56 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+>       i suspected as much. still, would consistency dictate using
+>       parentheses or not? just a style thing.
 >
+>
+> I think it’s largely personal preference. Personally, using a
+> capture when we don’t need one is ugly to me, so I’d rather see it
+> only used when needed, but that’s just my opinion. The upside to
+> always using a capture is it makes it clearer, at a glance, to a new
+> user that it’s not just a word or list of words, but a regular
+> expression.
 
-Can you reproduce this on demand?
+  i can see both sides, but my concern (as it always is) is
+consistency. when beginners are starting out, it's tempting to RTFS to
+see how things are done, and if you see more than one style, there's
+the potential for confusion as the poor reader thinks, "is there a
+*reason* the same thing is being done two different ways? is there
+something magical about those parentheses that the documentation
+doesn't explain?"
 
-Ross
+  i realize that (as with perl) there's more than one way to do
+things. doesn't mean we need to.
 
---001a1147e2baf89367054408ce3c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+>       >       next, if the possibilities in a list are REs, what is the
+>       >       point of explicitly listing, say, "qemuarm|qemuarm64"? would
+>       >       not the RE "qemuarm" subsume the more explicit "qemuarm64"?
+>       >       same for the other architectures. (one could suggest that that
+>       >       entire line could be shortened to "... = (^qemu)".)
+>       >
+>       > Just qemu would potentially match future qemu machines which aren’t
+>       > actually supported, so I don’t think that would be appropriate. It’d
+>       > match too much.
+>
+>         i realized that, i was just being technical. :-) in any event, as it
+>       is, it would *still* match too much, anything starting with
+>       "qemuarm", for example.
+>
+> Good point, yes. 
+>
+>       >         the above seems pretty clear since the following lines would appear
+>       >       to say that *only* the qemux86 is compatible:
+>       >
+>       >         linux-yocto-tiny_4.1.bb:COMPATIBLE_MACHINE = "(qemux86$)"
+>       >         linux-yocto-tiny_4.4.bb:COMPATIBLE_MACHINE = "(qemux86$)"
+>       >         linux-yocto-tiny_4.8.bb:COMPATIBLE_MACHINE = "(qemux86$)"
+>       >
+>       >       which suggests the following passage from the YP kernel dev manual is
+>       >       a bit misleading:
+>       >
+>       >         "You must change it to match a list of the machines that your new
+>       >         recipe supports. For example, to support the qemux86 and qemux86-64
+>       >         machines, use the following form:
+>       >
+>       >              COMPATIBLE_MACHINE = "qemux86|qemux86-64"
+>       >
+>       >       and if all this is true, then if you're introducing a new machine, to
+>       >       be magnificently pedantic, one should not use:
+>       >
+>       >         COMPATIBLE_MACHINE_machinename = "machinename"
+>       >
+>       >       but
+>       >
+>       >         COMPATIBLE_MACHINE_machinename = "^machinename$"
+>       >
+>       >       just to play it safe. am i reading all this correctly?
+>       >
+>       >
+>       > Yes, that’s correct, though we need the trailing $ but not the
+>       > leading ^, as it’s using re.match, not re.search — meaning it only
+>       > matches at the beginning of the string, it doesn’t search the string
+>       > to find a match.
+>
+>         ah, quite right, i had forgotten that. again, in any event, both the
+>       code and documentation could probably be tweaked to make all of this
+>       more obvious.
+>
+> Absolutely agreed. For this regex specifically, an argument could be
+> made that a lack of a trailing $ is almost certainly a bug. I could
+> argue that it should either be implicit, though that would be
+> limiting, or failing to include it could trigger a warning unless
+> you explicitly state you know what you’re doing :) Hmm..
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 December 2016 at 15:23, Trevor Woerner <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:twoerner@gmail.com" target=3D"_blank">twoerner@gmail.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3nd" class=3D"=
-a3s aXjCH m15917ae915227cc9">Is anyone else seeing build failures as a resu=
-lt of this commit?<br></div></blockquote></div><br>Can you reproduce this o=
-n demand?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
-ra">Ross</div></div>
+  well, regardless of any tweaking, i think the docs need to be far
+more clear on the processing of COMPATIBLE_MACHINE.
 
---001a1147e2baf89367054408ce3c--
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+--8323328-125966310-1482179637=:12491--
