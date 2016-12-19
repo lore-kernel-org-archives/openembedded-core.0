@@ -1,44 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id CAB48731C7
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wj0-f194.google.com (mail-wj0-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 34533731C8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 11:46:36 +0000 (UTC)
-Received: by mail-qk0-f175.google.com with SMTP id u25so1157686qki.2
+	Mon, 19 Dec 2016 11:51:39 +0000 (UTC)
+Received: by mail-wj0-f194.google.com with SMTP id j10so23248318wjb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 03:46:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Mon, 19 Dec 2016 03:51:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=keKou5GQIiZ4cU1Q5zJjh0Ui8+78O58bi7bbv5SX34M=;
-	b=Rsgud3FpEtVisPXg0Kk6gEXi2/Ot4gjZ3NBRpyJJIBRsMMNVOWrKVgJxlEgvXivyhd
-	BItnn83mpmvigW5Cv2nvlgsdDZFwt9Xr+fQTdtiw/ALPErGHgHAbOMdzwNIEk7yoc74W
-	xQeuZ6+yiQ9eBGJpWXB3+1fJazJ/2t/knyxKBWz/MuP/NvqNPPomPE+v/fkGrzRjf46y
-	y5IZgxLlhz8db0VJ0hX2/QcjtOiDOv/olP9ZRfK1wuixfWZ96MRNAP8dvg3ARNikmW8O
-	GBgyCfdgsPk64lOvB6md5EnoV1zQAa/f7l+4Ue7bUDlu5pvyorS9bm/w3gkwNu9k8+Hk
-	iUDw==
+	:cc; bh=BiNVEbRcBfX1tM00o0clrzXQ8+CH0QyF2ZERElxgliI=;
+	b=mWCjuy77nTl0MwRFNGlB19+qqTH44fT9kyB6faEGO5X7DGIv7qFrGnVhAadkAKSSK6
+	+U4BUt6SLMTzTt2ztz/tEeVuyCiJ7Mplat5IHgjHq2teW6eFcy8clMMwXuqSm0KGKXO0
+	hMk8U09lWHrzFN5l+37YI6w4O8rF1cAiiE6SNgsBMiKgOXJtILnYDvlZVnYmfHDh+nyI
+	NGXHQoZjC7DSsHkNgiZ7jzSGly6s3zRFbD9Nujwr0WP0fd/1D6zmy0Ts0iwS7hfsKTwT
+	Sa+Cht8WQTY5GCsJ17I5XfRF2bT1H8sOJCZEGu7ITb9h52KVit+Z5oI4+GRgPeg2AdG7
+	jraw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=keKou5GQIiZ4cU1Q5zJjh0Ui8+78O58bi7bbv5SX34M=;
-	b=nHcviG++U6t0Eo6X6Be2iowEBhH4skabXd3I/Mo26OcBtzk2LnrEG52pXhFLEctxKr
-	NQLz5kN/Mz7tGeFxkg96AUC1VILtixWlROxrVjQfQhEQ6//kGN7Rfn916Ryj40XmwtU+
-	Si4KpzoFmyMkSr6/iYAwEIQeGNG+vNfio/zr+an0rVuPsyVbSnJP6PqyRGOYdS3RSgP7
-	7d77jYhYrI2uWxT0JZt4EjgcvMRRGG1nfZvTzdAKcOp7lRUeg34hV+hVgwRDKF2clT9P
-	xjaVHE3UFbkJFRDOVdmSGfIYQ32UMQFbTH7XBIHYf/7+NjLrXuF8J5cfglOyXOuBcIiY
-	iaeQ==
-X-Gm-Message-State: AIkVDXLJhqSP3zDaXXqgLhnsslXULNRWwH8tT/1rm3Xq8E2d5Ctl6XSHM2v3+y48wX9LVysnOtPcRN/57IhSVVLz
-X-Received: by 10.55.31.24 with SMTP id f24mr2266187qkf.221.1482147997734;
-	Mon, 19 Dec 2016 03:46:37 -0800 (PST)
+	bh=BiNVEbRcBfX1tM00o0clrzXQ8+CH0QyF2ZERElxgliI=;
+	b=krsbnJhBcmNQhMN6JCNOkPGR0yrvbKvuPcasWh959nvJmbopFAajLnBBbHmvtkfvnC
+	bKE44ZPln75JHhUSPbSKH6TDB4LSm/fbCC439g1cBPwxPM1FPigH9gm0kDFCakJ4RkX0
+	RxG9CkNFIUkKzy9aSv/DRncKfI7U9AVWmDWdq6HfTOMUHBA/fgVOPZ5oxVkCh0G0j98T
+	j6EYgTsuExB1gUyxkn/12j99PaWxxo6net92c9XshDxKviEicn50cbIsBx+5XsB5lj7Q
+	3KVETVFUx4UbLJG5FgoVySinbIzQ+RHEHTww2z1ccSkvuruClAFw/yU6zuoLs9+Re47I
+	zA8w==
+X-Gm-Message-State: AKaTC019sEPIijYyRiXeOnEhP1oK3WuAayadVKlnQQ4mRGMiJMM1G492SaV9CXhvjMlSBNm+efrR6X0uyV9lLw==
+X-Received: by 10.194.112.170 with SMTP id ir10mr12875592wjb.190.1482148300859;
+	Mon, 19 Dec 2016 03:51:40 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Mon, 19 Dec 2016 03:46:17 -0800 (PST)
-In-Reply-To: <1482080556-4642-1-git-send-email-armccurdy@gmail.com>
+Received: by 10.194.162.33 with HTTP; Mon, 19 Dec 2016 03:51:40 -0800 (PST)
+In-Reply-To: <CAJTo0LZvF2qQphCO+CFZ9jUHqgwoEVXrjOgaGe1kAF_+5D07jg@mail.gmail.com>
 References: <1482080556-4642-1-git-send-email-armccurdy@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 19 Dec 2016 11:46:17 +0000
-Message-ID: <CAJTo0LZvF2qQphCO+CFZ9jUHqgwoEVXrjOgaGe1kAF_+5D07jg@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
+	<CAJTo0LZvF2qQphCO+CFZ9jUHqgwoEVXrjOgaGe1kAF_+5D07jg@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 19 Dec 2016 03:51:40 -0800
+Message-ID: <CAJ86T=W4s6iqODR_x0s8B5BV=Y=7fXQtaSn+GBZ5+GNrY3s1cw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] glew: build for EGL in non-X11 distros
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -53,39 +53,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 11:46:37 -0000
-Content-Type: multipart/alternative; boundary=001a1147e2bae8faba0544017813
-
---001a1147e2bae8faba0544017813
+X-List-Received-Date: Mon, 19 Dec 2016 11:51:40 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 18 December 2016 at 17:02, Andre McCurdy <armccurdy@gmail.com> wrote:
-
-> Add PACKAGECONFIG options for 'opengl' (ie the previous default, with
-> dependencies on opengl and X11) and 'egl', which depends on EGL only
-> and allows glew to be built for non-X11 distros.
+On Mon, Dec 19, 2016 at 3:46 AM, Burton, Ross <ross.burton@intel.com> wrote:
 >
+> On 18 December 2016 at 17:02, Andre McCurdy <armccurdy@gmail.com> wrote:
+>>
+>> Add PACKAGECONFIG options for 'opengl' (ie the previous default, with
+>> dependencies on opengl and X11) and 'egl', which depends on EGL only
+>> and allows glew to be built for non-X11 distros.
+>
+> Can it build both or is this definitely a build time choice?
 
-Can it build both or is this definitely a build time choice?
+Build time choice, one or the other.
 
-Ross
-
---001a1147e2bae8faba0544017813
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 December 2016 at 17:02, Andre McCurdy <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":26e" class=
-=3D"a3s aXjCH m15912e3c58cb7f14">Add PACKAGECONFIG options for &#39;opengl&=
-#39; (ie the previous default, with<br>
-dependencies on opengl and X11) and &#39;egl&#39;, which depends on EGL onl=
-y<br>
-and allows glew to be built for non-X11 distros.<br></div></blockquote></di=
-v><br>Can it build both or is this definitely a build time choice?</div><di=
-v class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></di=
-v>
-
---001a1147e2bae8faba0544017813--
