@@ -1,46 +1,46 @@
 Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-lf0-f46.google.com (mail-lf0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 82899731D8
+Received: from mail-lf0-f54.google.com (mail-lf0-f54.google.com
+	[209.85.215.54])
+	by mail.openembedded.org (Postfix) with ESMTP id F363A73214
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 11:21:33 +0000 (UTC)
-Received: by mail-lf0-f46.google.com with SMTP id c13so51760159lfg.0
+	Mon, 19 Dec 2016 11:21:34 +0000 (UTC)
+Received: by mail-lf0-f54.google.com with SMTP id b14so51658116lfg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 03:21:34 -0800 (PST)
+	Mon, 19 Dec 2016 03:21:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=rndity-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=uqpoedMUmJFtNh62pRdsXgTX4u0djt+xubZ329EQoDI=;
-	b=WM4RYwacChgvFUjYThTwoa35agd7eZsv0aFNbWnZtmurPwmy1XFB6zZnOb+PX0TVar
-	kMz2vhIycClqLVJjN1RLp2uoHWIO77wgLDb4JPzvj5XCWSAinCDXAeok8ncJAH7M+Dy9
-	uSjjrlKj8uhPIsg/bBh13m/TCuWUxgB+f/qx70W+86U2IkjBTuE3ST7nC7yvLU2VWE3/
-	du81YBVtRfnA+57LE7FHoCwzehvEj2/eIjuhdQ+iBDRjAxjwJhNMHzoNitdXKRjMTf2p
-	AMYFzfnOEHqgEHI2Cbs1QaakixcccaYRbWYm3bsEQ20Q6jxeS2ubCFPogMeMaAnXhtKp
-	sC/w==
+	bh=HfVWCrdryLg/lPNYi3ajBvt8S5lQRk/0DHIPQOaOCgs=;
+	b=XFIdBh5oMYXm5UV38FGqYFdjPPqV4SCLIg9tK3YV/7bA6z4gSzI5n0MS1Ze4CNV+Oq
+	wKNaf0EYRXUPXnvswwGONJEFNS5X8ecStSUfMV4ypY3IEBjkXfniHpqF2nWbg2IG8vQ0
+	vF3WPgMRzfa2FgWiN8T2dg93qEY3PkHHwp4hKh0/3Kr0sbrmsipQ4d+CfZeImAXZvz1q
+	Aslg3BrT/x9YIbUywWgKFkZFqQhZHMc8znV8tNmgbNB/heewq9d64SIkBka/7hfuaR7F
+	thDPKlcC1HFab3NlaYDfLc01IEGCZRtWXuq29gJd3/nK7JjHX4S5RhbMO8iKhNM3ksXU
+	cjsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=uqpoedMUmJFtNh62pRdsXgTX4u0djt+xubZ329EQoDI=;
-	b=s3nQEkLj/4rHYPIP/McIWbAplfjdxg0QwT73Du8Psb0L1vmDFWDeB6n6z2f576W0i4
-	XA/gnrph5C+as/RIsRjX/1YGE58J11YGFgZi97mutx844rln21AXdTAc8K6pmP1phTNo
-	QJWm+7PtW+TatN4P0bgwbPcprCygipSimL5o0lUAamQZEw90rJoAW7whs5h0eRSkM2xw
-	U1UJ6Edn/QBW4fEX5NNsq97tKKMHmN27X0GiqqqJPA6SF/RWp0vWb58VGjhUs0XYAkkN
-	QyHeasZzEx2CJZj4lH+fiTlMvXB5tCocrewav1chDsPSDS3FEgLubI1uoHHOZ/a4XnND
-	cK4w==
-X-Gm-Message-State: AIkVDXJMVdj7eL9BKE6AmhkTO31EukUudQq79sEMMgihKYt3MUHJKe2hINVC6X73UC5b9w==
-X-Received: by 10.46.75.10 with SMTP id y10mr7013132lja.65.1482146494172;
-	Mon, 19 Dec 2016 03:21:34 -0800 (PST)
+	bh=HfVWCrdryLg/lPNYi3ajBvt8S5lQRk/0DHIPQOaOCgs=;
+	b=V1jQzgTXmmtY0QV2vQb7zCbMaoqXnwI0moM2iIWfI9Q0u/lnE0rnoLt4Wj2+0XCtaA
+	HTvmLCL26tJ3j2YOvEmuBCxdsESG8Qw/ZrINb3HUeSUZ/AgY//ZMOOtpSWwMVga6aZk4
+	2+Yp2tjeXArspAgjFGxkPojLEoIvsFlO8z/GihV17HN1XIPanUSFmgbdcFuLW75kbFKu
+	u/5nVVWsI4b74e/jKco/hgIpIBYHfXlvFRKBwpRnYF+tWxvMGeX3UP70NJAajie1SClf
+	7MIyY7/fX5PPAHRjCFxToDhgbAHA+mCe4eSkNyjtLF5QoHmppvVTl55t1IPnRf0MLnlE
+	TAvQ==
+X-Gm-Message-State: AIkVDXL16jdNDTrUjv+H6INzARvmWd8oO1/7EALB4L1JprhJoevDgUiz7dTxCeVVl9lE9w==
+X-Received: by 10.46.7.18 with SMTP id 18mr6528547ljh.30.1482146495830;
+	Mon, 19 Dec 2016 03:21:35 -0800 (PST)
 Received: from comp_016_pc_buildenv.localdomain
 	(staticline-31-182-60-238.toya.net.pl. [31.182.60.238])
-	by smtp.gmail.com with ESMTPSA id c2sm3681892ljb.8.2016.12.19.03.21.33
+	by smtp.gmail.com with ESMTPSA id c2sm3681892ljb.8.2016.12.19.03.21.34
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 19 Dec 2016 03:21:33 -0800 (PST)
+	Mon, 19 Dec 2016 03:21:34 -0800 (PST)
 From: Maciej Borzecki <maciej.borzecki@rndity.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Dec 2016 12:21:00 +0100
-Message-Id: <fec83e65d72dab3738425c59c8ac57afcfe67cc8.1482145354.git.maciej.borzecki@rndity.com>
+Date: Mon, 19 Dec 2016 12:21:01 +0100
+Message-Id: <1b5033667e812d43731790e54c9d72872a9a8e6b.1482145354.git.maciej.borzecki@rndity.com>
 X-Mailer: git-send-email 2.5.5
 In-Reply-To: <cover.1482145354.git.maciej.borzecki@rndity.com>
 References: <20161213185317.GA6550@linux.intel.com>
@@ -48,7 +48,7 @@ References: <20161213185317.GA6550@linux.intel.com>
 In-Reply-To: <cover.1482145354.git.maciej.borzecki@rndity.com>
 References: <cover.1482145354.git.maciej.borzecki@rndity.com>
 Cc: Maciej Borzecki <maciek.borzecki@gmail.com>
-Subject: [PATCH v6 4/5] wic: selftest: do not assume bzImage kernel image
+Subject: [PATCH v6 5/5] wic: selftest: add tests for --fixed-size partition flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,30 +61,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 11:21:33 -0000
+X-List-Received-Date: Mon, 19 Dec 2016 11:21:35 -0000
 
-Instead of assuming that bzImage is available, query bitbake enviroment
-for KERNEL_IMAGETYPE.
+wic has a new flag for setting a fixed parition size --fixed-size. Add
+tests that verify if partition is indeed sized properly and that errors
+are signaled when there is not enough space to fit partition data.
 
 Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
 ---
- meta/lib/oeqa/selftest/wic.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/wic.py | 61 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 61 insertions(+)
 
 diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index 35cd14fb0c4a9b863a7a6324885f80da8e86d3eb..8efece3171db47ee622f2c0f712fff2c2fcf645b 100644
+index 8efece3171db47ee622f2c0f712fff2c2fcf645b..9caf3b0b1e3d4b538fffd409b26f68f0101e78dc 100644
 --- a/meta/lib/oeqa/selftest/wic.py
 +++ b/meta/lib/oeqa/selftest/wic.py
-@@ -339,7 +339,8 @@ class Wic(oeSelfTest):
-     def test_sdimage_bootpart(self):
-         """Test creation of sdimage-bootpart image"""
-         image = "sdimage-bootpart"
--        self.write_config('IMAGE_BOOT_FILES = "bzImage"\n')
-+        kimgtype = get_bb_var('KERNEL_IMAGETYPE', 'core-image-minimal')
-+        self.write_config('IMAGE_BOOT_FILES = "%s"\n' % kimgtype)
+@@ -29,6 +29,7 @@ import unittest
+ from glob import glob
+ from shutil import rmtree
+ from functools import wraps
++from tempfile import NamedTemporaryFile
+ 
+ from oeqa.selftest.base import oeSelfTest
+ from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu
+@@ -59,6 +60,8 @@ class Wic(oeSelfTest):
+ 
+     def setUpLocal(self):
+         """This code is executed before each test method."""
++        self.native_sysroot = get_bb_var('STAGING_DIR_NATIVE', 'core-image-minimal')
++
+         arch = get_bb_var('HOST_ARCH', 'core-image-minimal')
+         is_x86 = arch in ['i586', 'i686', 'x86_64']
+         if is_x86:
+@@ -344,3 +347,61 @@ class Wic(oeSelfTest):
          self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
                                     % image).status)
          self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
++
++    def _make_fixed_size_wks(self, size):
++        """
++        Create a wks of an image with a single partition. Size of the partition is set
++        using --fixed-size flag. Returns a tuple: (path to wks file, wks image name)
++        """
++        with NamedTemporaryFile("w", suffix=".wks", delete=False) as tf:
++            wkspath = tf.name
++            tf.write("part " \
++                     "--source rootfs --ondisk hda --align 4 --fixed-size %d "
++                     "--fstype=ext4\n" % size)
++        wksname = os.path.splitext(os.path.basename(wkspath))[0]
++
++        return wkspath, wksname
++
++    def test_fixed_size(self):
++        """
++        Test creation of a simple image with partition size controlled through
++        --fixed-size flag
++        """
++        wkspath, wksname = self._make_fixed_size_wks(200)
++
++        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
++                                   % wkspath).status)
++        os.remove(wkspath)
++        wicout = glob(self.resultdir + "%s-*direct" % wksname)
++        self.assertEqual(1, len(wicout))
++
++        wicimg = wicout[0]
++
++        # verify partition size with wic
++        res = runCmd("parted -m %s unit mib p 2>/dev/null" % wicimg,
++                     ignore_status=True,
++                     native_sysroot=self.native_sysroot)
++        self.assertEqual(0, res.status)
++
++        # parse parted output which looks like this:
++        # BYT;\n
++        # /var/tmp/wic/build/tmpfwvjjkf_-201611101222-hda.direct:200MiB:file:512:512:msdos::;\n
++        # 1:0.00MiB:200MiB:200MiB:ext4::;\n
++        partlns = res.output.splitlines()[2:]
++
++        self.assertEqual(1, len(partlns))
++        self.assertEqual("1:0.00MiB:200MiB:200MiB:ext4::;", partlns[0])
++
++    def test_fixed_size_error(self):
++        """
++        Test creation of a simple image with partition size controlled through
++        --fixed-size flag. The size of partition is intentionally set to 1MiB
++        in order to trigger an error in wic.
++        """
++        wkspath, wksname = self._make_fixed_size_wks(1)
++
++        self.assertEqual(1, runCmd("wic create %s -e core-image-minimal" \
++                                   % wkspath, ignore_status=True).status)
++        os.remove(wkspath)
++        wicout = glob(self.resultdir + "%s-*direct" % wksname)
++        self.assertEqual(0, len(wicout))
 -- 
 2.5.5
 
