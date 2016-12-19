@@ -1,47 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C80C731C8
+Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FD3F719C3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 11:53:55 +0000 (UTC)
-Received: by mail-qk0-f176.google.com with SMTP id n21so6649922qka.3
+	Mon, 19 Dec 2016 11:57:18 +0000 (UTC)
+Received: by mail-qk0-f173.google.com with SMTP id u25so1401291qki.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 03:53:57 -0800 (PST)
+	Mon, 19 Dec 2016 03:57:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=UssbRbsQvG/uBSqjOFVpATnk5IIT7YBxv55jIZ6oFzo=;
-	b=tN8H6w+VV+eoMm7d7obAiOPe3wWubnWquSa/f6jS+uEcVuFOJ29FDK79Tuw8fNJvfg
-	sUV2OFjfnYooyq2DU3X+jqhtdp7fIX4mkPajhmAwRO9y2x4p19nNnWIb6C+ceiPtQ8bp
-	JPpQ8YQ9FREvJy2YWbBTKFGr5U915eUCzJOOref6JYLm+sy6gZcSZ+a8pV5dWIoAO+H8
-	a9lXpRtM21zxtc7vuzXiLySalYklmA3BI54aAag3RDbaa7Eg5djoTCJmWGJHVqSf9Qd2
-	GX9gvDA9ro7VaMiu6uAywCKbtesTAw2OZ8PXuMnFeOub+S7wijGumR9Ybq5erpejutao
-	c4xQ==
+	:cc; bh=uK5p34uPWQlLYC0zHfR0Jc82KhRJPzQmM6EqVjkoG5I=;
+	b=qTiMmXA9hTwxIXh3q4PfR/u2SQTuTFJdf8/joWyjFRIVTDh6eEY/twmF8c2E3Ag4M8
+	CfXqBpIOwSSjRW453EEqTG2As08k6vNXJKJPSDZZ/jAVE/VlvPjdTbJ6y20oaDrZMlJL
+	iYDi20dFLXzAIHT9XKYcHS6g6WGT5oZ3nhbdetyd2UnXybGwdn7U9GWWkY/vy/57qCIN
+	Wv0nRId3q6I1mzAJ1wd195zXPKc1U3A/0YoIv9gOS5w3XXYT+q0anJA/vZaHA7/upQcH
+	/6shDISaGgNCnclA/q/DQ6QuBFRzsbqMFnpA94Xf+ARsRQrVmjQ+G9san5Nak88cwJYK
+	ksrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=UssbRbsQvG/uBSqjOFVpATnk5IIT7YBxv55jIZ6oFzo=;
-	b=mloK+T7BK7HIUtvzkE0bO9r7b3dRf8OrB+bOIbXt5NgI9JD7L8Odv0pTqhF1lPfLn2
-	R006dcjbD4CuGKLsaurXSs7Vnh9R9haVoMN1r4g2nxOecOJNpgnVDIDniFVZxrtd2JSm
-	SEUzsIvaUeYoDo0jXQM8ecYz7xeR7YkJlgWs9xCsYVNAE5tKgAVox9uxRYQJBjqhwXnd
-	Mg4x2n+133aNRHmCWd2YmVKAhIbNY5jXUsWPMia5WfjR7IXS8Zt6WM/M84IG0uGSJuJU
-	o4pmI1rT0bnoS8ajR7Xk8dtPWVhycDb/2qWfoPr+nmXn6XOgVVax/UbhQ+FCxsi2gAog
-	Dt0w==
-X-Gm-Message-State: AIkVDXKMpg+tqURAgyBkr6GCZRqsWTLFjjSQD60u5QDLB15yj8zM/NDp9lBwZV1vQ5tUoKm/HpCPYVyFKZHTVO8G
-X-Received: by 10.55.106.134 with SMTP id f128mr573699qkc.121.1482148437449;
-	Mon, 19 Dec 2016 03:53:57 -0800 (PST)
+	bh=uK5p34uPWQlLYC0zHfR0Jc82KhRJPzQmM6EqVjkoG5I=;
+	b=fX7bybnF0XEdSU8QL5CCbQqqORwT0Dcw9+lS0S9y3T4iKNb9UZwgHGMu6EN2Gd+0gH
+	9rg4vKk+JpfGSU5Z0EbGm2xwdRd+7UYqsiGAT8vsH3HRqRpLen51mIKYzhBr7NWdoT4t
+	Y8Fow0dRqfyeXrCfKqG/mMs2cd+z4e+ElOcytsloFUvU/DeHvlzYjobUKQUe5JjNT3KI
+	OhXNaVybEd0pG3bZDNZ2qXXrj8C9Sh+tmPIQf+QNsDrpiIgVRwu0OCwZ0ZXoExJAqdNb
+	qOw/GQkXoh+DD+Xr4l1JUY5rqCnPF2XyxyVnxgKLNqD7qUUK7meUiToncT5WBn7tnX7p
+	Lgaw==
+X-Gm-Message-State: AIkVDXJd9UEwC2ykRkJoYoPj9afoUMKoxMfbyZkwY22lefczEP+dcLFZwSgzc2MUMdIpxTS9gehQtWx7TKIMhsBs
+X-Received: by 10.55.207.78 with SMTP id e75mr515827qkj.36.1482148640023; Mon,
+	19 Dec 2016 03:57:20 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Mon, 19 Dec 2016 03:53:37 -0800 (PST)
-In-Reply-To: <1d8d15e8fd9c4c9c1eeb6f13e5b069df6d995dce.1482127585.git.dengke.du@windriver.com>
-References: <cover.1482127585.git.dengke.du@windriver.com>
-	<1d8d15e8fd9c4c9c1eeb6f13e5b069df6d995dce.1482127585.git.dengke.du@windriver.com>
+Received: by 10.140.106.99 with HTTP; Mon, 19 Dec 2016 03:56:59 -0800 (PST)
+In-Reply-To: <b462c405d5967bc06c0cb6e7b984c95852739480.1482125840.git.dengke.du@windriver.com>
+References: <cover.1482125840.git.dengke.du@windriver.com>
+	<b462c405d5967bc06c0cb6e7b984c95852739480.1482125840.git.dengke.du@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 19 Dec 2016 11:53:37 +0000
-Message-ID: <CAJTo0LbuTPCrsjZhfwAhczEsN=nrwUrE33mojDLOocMxxT1WMw@mail.gmail.com>
+Date: Mon, 19 Dec 2016 11:56:59 +0000
+Message-ID: <CAJTo0LaPw5z2W5-rx3DJrNj0w1APeTCsAhwGq8GEGC6_zAW4fg@mail.gmail.com>
 To: Dengke Du <dengke.du@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] cdrtools-native: update 3.01 -> 3.02
+Subject: Re: [PATCH V2 2/2] apr: fix off_t size can't match when configure and in target glibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,35 +54,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 11:53:56 -0000
-Content-Type: multipart/alternative; boundary=001a114fddf61e91f105440193bd
+X-List-Received-Date: Mon, 19 Dec 2016 11:57:20 -0000
+Content-Type: multipart/alternative; boundary=001a1145b7b831afe00544019faf
 
---001a114fddf61e91f105440193bd
+--001a1145b7b831afe00544019faf
 Content-Type: text/plain; charset=UTF-8
 
-On 19 December 2016 at 06:07, Dengke Du <dengke.du@windriver.com> wrote:
+On 19 December 2016 at 05:40, Dengke Du <dengke.du@windriver.com> wrote:
 
-> 3.01a31 -> 3.02a07
+> +I have send a discussing for the upstream, the maintainer said the macro
+> in
+> +APR designed with only any attention paid to the build platform,
+> considering
+> +cross compiling less, we can check the discussing from:
 >
 
-As the aXX releases are alpha releases for testing, is there a good reason
-to switch to an alpha?  In general we ship releases, not previews.
+Sigh...
+
+Have you verified that there are no other instances of that macros in
+configure.ac?  It's clear that it's broken by design and should just be
+removed.
 
 Ross
 
---001a114fddf61e91f105440193bd
+--001a1145b7b831afe00544019faf
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 December 2016 at 06:07, Dengke Du <span dir=3D"ltr">&lt;<a href=3D"ma=
+On 19 December 2016 at 05:40, Dengke Du <span dir=3D"ltr">&lt;<a href=3D"ma=
 ilto:dengke.du@windriver.com" target=3D"_blank">dengke.du@windriver.com</a>=
 &gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":286" class=
-=3D"a3s aXjCH m15915b1cf614de6a">3.01a31 -&gt; 3.02a07<br></div></blockquot=
-e></div><br>As the aXX releases are alpha releases for testing, is there a =
-good reason to switch to an alpha?=C2=A0 In general we ship releases, not p=
-reviews.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
-a">Ross</div></div>
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":24c" class=
+=3D"a3s aXjCH m159159940b77dd71">+I have send a discussing for the upstream=
+, the maintainer said the macro in<br>
++APR designed with only any attention paid to the build platform, consideri=
+ng<br>
++cross compiling less, we can check the discussing from:</div></blockquote>=
+</div><br>Sigh...</div><div class=3D"gmail_extra"><br></div><div class=3D"g=
+mail_extra">Have you verified that there are no other instances of that mac=
+ros in <a href=3D"http://configure.ac">configure.ac</a>?=C2=A0 It&#39;s cle=
+ar that it&#39;s broken by design and should just be removed.</div><div cla=
+ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a114fddf61e91f105440193bd--
+--001a1145b7b831afe00544019faf--
