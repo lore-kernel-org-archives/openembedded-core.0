@@ -1,44 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B06477367
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 916EC7732C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 19:12:15 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id g1so7496952pgn.0
+	Mon, 19 Dec 2016 20:31:45 +0000 (UTC)
+Received: by mail-qk0-f171.google.com with SMTP id t184so27224268qkd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 11:12:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=8gaAV8d4eoagloXhBwwpVKegvZ17bk888w2oVa3r+Hg=;
-	b=mxRaA6Xik6bPkhbuKAxtF7/x3nPoHeNcgTaDwdlyrna+AXo5VJEtpuQnDADfQQnEeM
-	UL/aV+gBfmYC+pmEZ9/UeiNkpRdM5Mc8dGab/rR+eNAKi3fhFucZIf6D3rkiU8CuAo9V
-	KMiyyN3UAWGqVAfof55E7bHY0uGHQmoAUxfGzKG9aBaI836P5tBAIQlSoerD9QLqXrPT
-	UH7IfYuBcmOj9eVjygqj+VyW22CV1Mm8EOddWGWpGatAMzDbVjZxFhIKcOPa2bolXn6c
-	o8qwXDdlFiPmoVDXNVVmmEXOsLz4lW7VlWGrcpa158myvv8ggrv9OAO1DN+hwr9qRqg2
-	+Dmw==
+	Mon, 19 Dec 2016 12:31:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=YuCOJDtunlOVkr4lNjyqzsI6zDKbnXQvDiTjQVOV81Y=;
+	b=Sc4KshM21Hoi2zHfLqzzQBljszkF7pLtODN4k8RpLzMk4pl1hjtq+MrHwX1iXZpgmZ
+	Lqel1Gfg599nWatMsKEIvId2G+/nWnuYgf2FJbL6FRUQK3kkRAokjyBv7ljgoiYmJADb
+	MwwdXqrSeqtypBj0eFuZeCnoSIrCNtXLmS1BS13TxvtWVp7K/XgV23GgIxBB3Qfb0mNu
+	PIyrNQwnnSLTBPF3ZSrUNNhbKIrVmR31LcpupBA8c9Q4QP+2oyzx4Wx1e1xqfZ7BxMLJ
+	CdN03b+wLoh0mCVnGhDsNxTd8Lg0GO722zNTN/a1Bg0q5bLFrz6kjUFh9yTJgReLFcth
+	XyrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=8gaAV8d4eoagloXhBwwpVKegvZ17bk888w2oVa3r+Hg=;
-	b=kQRKBKxnR7JoAp74mcbjHusxGq6Fmqa3twzR3UomoG0OHRlANzoaEIt1i5oOsx9csc
-	DBnq/idjGnFUUbBPA2KgGx5zKX5WaF1+8TNB7wQhGuHunkAGmAqmIyqyZJWfUu7DAnqf
-	n1m+EX0AFwL+8hzjmjwxd7gi+PsGQMRso8Sv5Omv2Oav7lDfaJaCpnossCAmgLLdjPz4
-	xa7mxKTubBv9sPv0wBNU4RjTGv5NP+zxSPRR7WtybdlPH1PxewyVkeI9bNPDGqEC4Y3I
-	2TKcwKKLVmuIbqgN0DqhWliKLa5DI5LO9x25Rq6FkILcJ35Pbce83BBpZ314p9S+D+rq
-	QMWQ==
-X-Gm-Message-State: AKaTC03Yqd1P1DMunhZJ+u/ih4HSyttaWC4ogVX2BDofm/rqfy95iPd2VUtpi+swRc0egw==
-X-Received: by 10.84.167.2 with SMTP id c2mr37012384plb.56.1482174737557;
-	Mon, 19 Dec 2016 11:12:17 -0800 (PST)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	s8sm33291047pfj.45.2016.12.19.11.12.16
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 19 Dec 2016 11:12:17 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Dec 2016 11:12:10 -0800
-Message-Id: <20161219191210.18407-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] gnutls: Do not use libunistring prefix
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=YuCOJDtunlOVkr4lNjyqzsI6zDKbnXQvDiTjQVOV81Y=;
+	b=FTmG0OqL1OOjvWJCHtYdTVLvcCWriUwH+nYI2MWZrhe5jdIReKBhItCSRjT54bQOSL
+	lrYT8RxFYBgw1lwm/YCTgcPxczFO3icnKbEUYZ4DKpSHOspU8wMNxA6z6yPyZWiITMND
+	E0rPsQPnz4Ebg3N0fTAro0wKeXPfiUrrbSQ8aoD5jad5Od0vEc2z0jv7tM7pd5PAQ/Of
+	kWf8hTMiUP31bL/qmzgTSX3Ksl+nJTSc3fZq7FQ5tBsAcfwdu5z1uZw5chx78te39Obr
+	fiLTk+2K1wUcpU52Zn+VzKJlDmVDzhakd+aqv9h+sG1OQ3VQ3GrkGHkOjRERPq0FQOel
+	sSNA==
+X-Gm-Message-State: AIkVDXK8nEx2nqeT+JRf2o0L03ElvuA+y3a+iT/1Ni6Eu199Xuev5fksYSF7L7pMohnOevtwdDk+y/2MgUpuZ6Xg
+X-Received: by 10.55.31.24 with SMTP id f24mr4732656qkf.221.1482179506358;
+	Mon, 19 Dec 2016 12:31:46 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.106.99 with HTTP; Mon, 19 Dec 2016 12:31:25 -0800 (PST)
+In-Reply-To: <20161219152324.GA1056@openSUSE-i7.site>
+References: <1481599839-114211-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<20161219152324.GA1056@openSUSE-i7.site>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 19 Dec 2016 20:31:25 +0000
+Message-ID: <CAJTo0LYV2qMTBVpm8ASDb7BdwwezWfysAn6fJbM7Xwh6FXCcyg@mail.gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] util-linux: 2.28.1 -> 2.29
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,30 +54,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 19:12:16 -0000
+X-List-Received-Date: Mon, 19 Dec 2016 20:31:45 -0000
+Content-Type: multipart/alternative; boundary=001a1147e2baf89367054408ce3c
 
-when using clang, configure it poking at build host
-if we do not use it then it falls back to sysroot
-which is what we need here.
+--001a1147e2baf89367054408ce3c
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-support/gnutls/gnutls.inc | 1 +
- 1 file changed, 1 insertion(+)
+On 19 December 2016 at 15:23, Trevor Woerner <twoerner@gmail.com> wrote:
 
-diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
-index 184a50f6e1..003dc55a38 100644
---- a/meta/recipes-support/gnutls/gnutls.inc
-+++ b/meta/recipes-support/gnutls/gnutls.inc
-@@ -37,6 +37,7 @@ EXTRA_OECONF = " \
-     --enable-local-libopts \
-     --enable-openssl-compatibility \
-     --with-libpthread-prefix=${STAGING_DIR_HOST}${prefix} \
-+    --without-libunistring-prefix \
- "
- 
- LDFLAGS_append_libc-musl = " -largp"
--- 
-2.11.0
+> Is anyone else seeing build failures as a result of this commit?
+>
 
+Can you reproduce this on demand?
 
+Ross
+
+--001a1147e2baf89367054408ce3c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 December 2016 at 15:23, Trevor Woerner <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:twoerner@gmail.com" target=3D"_blank">twoerner@gmail.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3nd" class=3D"=
+a3s aXjCH m15917ae915227cc9">Is anyone else seeing build failures as a resu=
+lt of this commit?<br></div></blockquote></div><br>Can you reproduce this o=
+n demand?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
+ra">Ross</div></div>
+
+--001a1147e2baf89367054408ce3c--
