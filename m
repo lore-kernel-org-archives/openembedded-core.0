@@ -1,51 +1,48 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
-	[209.85.223.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CD9E73163
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
+	[209.85.218.46])
+	by mail.openembedded.org (Postfix) with ESMTP id ADB457731D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 15:23:26 +0000 (UTC)
-Received: by mail-io0-f195.google.com with SMTP id b194so19335314ioa.3
+	Mon, 19 Dec 2016 15:28:55 +0000 (UTC)
+Received: by mail-oi0-f46.google.com with SMTP id w63so148290526oiw.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 07:23:27 -0800 (PST)
+	Mon, 19 Dec 2016 07:28:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=xDBs+ILTqSdUGsJL2BooPU9BkFaOPltMPP7zPX4iteY=;
-	b=W+c/B1yJMZhceMX9UesVcXd/msmHCcG4glXjslf+Eu+at44toM0SM6P5G4GZnzBDpv
-	KlBiEGaJ38hkl/uJ+uaNn0hQ0onbDLg7lIv2A8ByYjbcVqHzeehuO1n46bHjNG90QrgV
-	2OHokIauoZ7mAlU6K8oM5Fhcf2SyPFiA2x4RxgzscCAM822r22eb/d1JEvxOR6MID3ox
-	ygbTaOQ5g8jarwvAPK+yzf/kr1h82riQ1iZYFSTH69sr1xk9u4AWvpu5q2phjgFx30Vo
-	TMBEFQcmkjvDJ8n3RyIHjGCvGO9nUHv1tHyiW+YNmCCK7eR48V57ehhF63cvRkMyKL5q
-	xNEw==
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=xMlvb6aimhOUHayuucySdRMdZ0nygOu0yf0nWaRvBEQ=;
+	b=XQwGoSwPvNrG1uCLfla/Z4fokkPxnk588NYvLINvnvosi+L4MUMaHT6a4HimKBxEyP
+	E0QMZ7g4HmShgx+YMe2aasHJ4vxXoWnyns41G76TfxE3TFmaAgNML/VT+RaIqcC9npeV
+	1gntttPoVkX8khubwbI6AwiuWAZPbHcZuE9OIbUi1YM1thvvKBkaZBgy5HVVGz1NtXbc
+	Uci4e9FwcC5C860BA0VHxHM0VBqgxFYC+DuBf0VOTstkI25HwvFb4Wbbv2DQWBGzeWh7
+	cgzbhu+4Ctrpxp/pvKFy55F+JWxJf+MxKd8S55Jv559YA4y4Pnl8T7cdl6YaROgG4aHh
+	97ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=xDBs+ILTqSdUGsJL2BooPU9BkFaOPltMPP7zPX4iteY=;
-	b=KUk6Fv6/0oqTXqEZDhTG0cxhQaEKyYieMeUJ1DxSXzOO2gyY89HhAXJGttpriKRO7C
-	TV9qLyDQtLl8FToz7Dy86SkOxKG3J0YUNHxQuR10zuPj5hnnKRlaLdi55+t2uz219AG0
-	M+VEtgind8fktkTVThDdxmo5fOobCq7PQyiGng5gkfI4y3MJzBW3tKK+asfZEwosyku0
-	Ly51bUqQMb1fvv+wtUr+RTWOIeKtMx2Gfx7pO66IYQgYiYEe0xZfdKSffy4hQZKJ727u
-	ilZHmF7E7FmJzxccMfmvnBmdhcDq3gtsgW7rd686ymwgAqTVdAvHHVYqLKcxqt+ZD6JA
-	DTuw==
-X-Gm-Message-State: AIkVDXLr10ZAzCExfUyEgpKw135LQTC1N5iCdGBi4jDKvNy5U6joh0shYf9tyAuHHLVIvA==
-X-Received: by 10.107.166.145 with SMTP id p139mr15494058ioe.228.1482161007443;
-	Mon, 19 Dec 2016 07:23:27 -0800 (PST)
-Received: from openSUSE-i7.site (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.gmail.com with ESMTPSA id
-	w17sm8403995iod.22.2016.12.19.07.23.26
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 19 Dec 2016 07:23:26 -0800 (PST)
-Date: Mon, 19 Dec 2016 10:23:24 -0500
-From: Trevor Woerner <twoerner@gmail.com>
-To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-Message-ID: <20161219152324.GA1056@openSUSE-i7.site>
-References: <1481599839-114211-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=xMlvb6aimhOUHayuucySdRMdZ0nygOu0yf0nWaRvBEQ=;
+	b=uY0AWxuQfguJcUvPfAYFeCak0uurVAWAY51f8yuqPXKd6fismfnIq7hjDPofIGZ9Yo
+	y7h/00XCsWwg+2DAleXx1MRrnZaaqeBbJ4IxWcibnwndIX4DBymRyFqpoC6XOnWjp/8g
+	nNue7UFJrhbr1NwkI76ad2H+hQMDzL2ksDNQkcDiJVdvnZCgPpWn7YxIO+eW0m0X3Cr2
+	baaf1POICSQIxkxyu7KJWcLZyGwQbkyVeOySXkvIZKBjkNl2TVyJbfrehQGkeABGeOtr
+	FRNfj1qMo8y0WHbDJWgVyOZobndB3sY5NiN2+hKVNjqENckYHT1n/k0Yj85RV7S/bkdR
+	i46A==
+X-Gm-Message-State: AIkVDXJhApu/r64DofaH0XugnkReTLqlwkbmPChIq1Z9qVBCH8AuZMvjXKBmgYivyTBDVKNOg2ri8+vCOQPiHQ==
+X-Received: by 10.202.79.7 with SMTP id d7mr8482293oib.199.1482161336417; Mon,
+	19 Dec 2016 07:28:56 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1481599839-114211-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-User-Agent: Mutt/1.6.0 (2016-04-01)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] util-linux: 2.28.1 -> 2.29
+Sender: kergoth@gmail.com
+Received: by 10.157.19.10 with HTTP; Mon, 19 Dec 2016 07:28:36 -0800 (PST)
+In-Reply-To: <alpine.LFD.2.20.1612190527590.8267@localhost.localdomain>
+References: <alpine.LFD.2.20.1612190527590.8267@localhost.localdomain>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Mon, 19 Dec 2016 08:28:36 -0700
+X-Google-Sender-Auth: y0MyhgoYfSpzi-vWOQ1MrSD1ZkY
+Message-ID: <CABcZANnv7=zxZ7MNT4kDPKxScTYkJa44qAxt5Lvfc-L4=-Kb0A@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: a few questions about "COMPATIBLE_MACHINE" variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,52 +55,245 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 15:23:26 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Mon, 19 Dec 2016 15:28:56 -0000
+Content-Type: multipart/alternative; boundary=001a113d720ef5038c0544049373
 
-Is anyone else seeing build failures as a result of this commit?
+--001a113d720ef5038c0544049373
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-	... [lots of lines omitted] ...
-	| cfdisk.c:(.text+0x207b): undefined reference to `_nc_stdscr'
-	| cfdisk.c:(.text+0x20a4): undefined reference to `_nc_stdscr'
-	| cfdisk.c:(.text+0x2268): undefined reference to `_nc_stdscr'
-	| cfdisk.c:(.text+0x2284): undefined reference to `_nc_acs_map'
-	| cfdisk.c:(.text+0x2290): undefined reference to `_nc_stdscr'
-	| cfdisk.c:(.text+0x22b9): undefined reference to `_nc_stdscr'
-	| cfdisk.c:(.text+0x22d4): undefined reference to `_nc_acs_map'
-	| cfdisk.c:(.text+0x22e5): undefined reference to `_nc_stdscr'
-	| cfdisk.c:(.text+0x2304): undefined reference to `_nc_stdscr'
-	| cfdisk.c:(.text+0x231d): undefined reference to `_nc_acs_map'
-	| cfdisk.c:(.text+0x2329): undefined reference to `_nc_stdscr'
-	| cfdisk.c:(.text+0x2374): undefined reference to `_nc_stdscr'
-	| cfdisk.c:(.text+0x2392): undefined reference to `_nc_acs_map'
-	| cfdisk.c:(.text+0x239e): undefined reference to `_nc_stdscr'
-	| disk-utils/cfdisk-cfdisk.o: In function `ui_menu_resize':
-	| cfdisk.c:(.text+0x244a): undefined reference to `_nc_stdscr'
-	| disk-utils/cfdisk-cfdisk.o: In function `ui_refresh':
-	| cfdisk.c:(.text+0x24c5): undefined reference to `_nc_stdscr'
-	| cfdisk.c:(.text+0x24d2): undefined reference to `_nc_stdscr'
-	| cfdisk.c:(.text+0x24ff): undefined reference to `_nc_stdscr'
-	| disk-utils/cfdisk-cfdisk.o:cfdisk.c:(.text+0x2587): more undefined references to `_nc_stdscr' follow
-	| disk-utils/cfdisk-cfdisk.o: In function `main':
-	| cfdisk.c:(.text.startup+0x334): undefined reference to `_nc_LINES'
-	| cfdisk.c:(.text.startup+0x342): undefined reference to `_nc_COLS'
-	| cfdisk.c:(.text.startup+0x39d): undefined reference to `_nc_stdscr'
-	| cfdisk.c:(.text.startup+0x45b): undefined reference to `_nc_stdscr'
-	| cfdisk.c:(.text.startup+0x4d3): undefined reference to `_nc_stdscr'
-	| cfdisk.c:(.text.startup+0x4e0): undefined reference to `_nc_stdscr'
-	| cfdisk.c:(.text.startup+0x77d): undefined reference to `_nc_stdscr'
-	| disk-utils/cfdisk-cfdisk.o:cfdisk.c:(.text.startup+0x8fd): more undefined references to `_nc_stdscr' follow
-	| collect2: error: ld returned 1 exit status
-	| Makefile:5737: recipe for target 'cfdisk' failed
-	| make[2]: *** [cfdisk] Error 1
-	| make[2]: Leaving directory '/z/layerindex-master/raspi3/tmp-glibc/work/x86_64-linux/util-linux-native/2.29-r0/build'
-	| Makefile:11450: recipe for target 'all-recursive' failed
-	| make[1]: *** [all-recursive] Error 1
-	| make[1]: Leaving directory '/z/layerindex-master/raspi3/tmp-glibc/work/x86_64-linux/util-linux-native/2.29-r0/build'
-	| Makefile:4781: recipe for target 'all' failed
-	| make: *** [all] Error 2
-	| ERROR: Function failed: do_compile (log file is located at /z/layerindex-master/raspi3/tmp-glibc/work/x86_64-linux/util-linux-native/2.29-r0/temp/log.do_compile.18807)
-	ERROR: Task (virtual:native:/z/layerindex-master/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.29.bb:do_compile) failed with exit code '1'
+On Mon, Dec 19, 2016 at 8:17 AM, Robert P. J. Day <rpjday@crashcourse.ca>
+wrote:
 
+>   as a starting point, COMPATIBLE_MACHINE is processed on a per-recipe
+> basis, and if it has no value, then there is no machine restriction
+> being applied to that recipe, correct? that's based on this snippet
+> from base.bbclass:
+>
+>   need_machine =3D d.getVar('COMPATIBLE_MACHINE')
+>   if need_machine:
+>       import re
+>       compat_machines =3D (d.getVar('MACHINEOVERRIDES') or "").split(":")
+>       for m in compat_machines:
+>           if re.match(need_machine, m):
+>               break
+>       else:
+>           raise bb.parse.SkipPackage("incompatible with machine %s (not
+> in COMPATIBLE_MACHINE)" % d.getVar('MACHINE'))
+>
+> so far, so good?
+>
+>   next, the documentation describes the value of that variable as a
+> regular expression, so the values are processed as RE patterns, but
+> some of the actual uses are confusing. from
+> poky/meta/recipes-kernel/linux:
+>
+> $ grep -r COMPATIBLE_MACHINE *
+> linux-dummy.bb:#COMPATIBLE_MACHINE =3D "your_machine"
+> linux-yocto_4.1.bb:COMPATIBLE_MACHINE =3D "qemuarm|qemuarm64|qemux86|
+> qemuppc|qemumips|qemumips64|qemux86-64"
+> linux-yocto_4.4.bb:COMPATIBLE_MACHINE =3D "qemuarm|qemuarm64|qemux86|
+> qemuppc|qemumips|qemumips64|qemux86-64"
+> linux-yocto_4.8.bb:COMPATIBLE_MACHINE =3D "qemuarm|qemuarm64|qemux86|
+> qemuppc|qemumips|qemumips64|qemux86-64"
+> linux-yocto-dev.bb:COMPATIBLE_MACHINE =3D "(qemuarm|qemux86|qemuppc|
+> qemumips|qemumips64|qemux86-64)"
+> linux-yocto-rt_4.1.bb:COMPATIBLE_MACHINE =3D "(qemux86|qemux86-64|qemuarm=
+|
+> qemuppc|qemumips)"
+> linux-yocto-rt_4.4.bb:COMPATIBLE_MACHINE =3D "(qemux86|qemux86-64|qemuarm=
+|
+> qemuppc|qemumips)"
+> linux-yocto-rt_4.8.bb:COMPATIBLE_MACHINE =3D "(qemux86|qemux86-64|qemuarm=
+|
+> qemuppc|qemumips)"
+> linux-yocto-tiny_4.1.bb:COMPATIBLE_MACHINE =3D "(qemux86$)"
+> linux-yocto-tiny_4.4.bb:COMPATIBLE_MACHINE =3D "(qemux86$)"
+> linux-yocto-tiny_4.8.bb:COMPATIBLE_MACHINE =3D "(qemux86$)"
+> $
+>
+>   first, what is best practice -- to use parentheses or not? i'm
+> assuming it makes no difference, but it does seem inconsistent and
+> could cause some confusion.
+>
+
+They=E2=80=99re not needed in a case like this.
+
+  next, if the possibilities in a list are REs, what is the point of
+> explicitly listing, say, "qemuarm|qemuarm64"? would not the RE
+> "qemuarm" subsume the more explicit "qemuarm64"? same for the other
+> architectures. (one could suggest that that entire line could be
+> shortened to "... =3D (^qemu)".)
+>
+
+Just qemu would potentially match future qemu machines which aren=E2=80=99t
+actually supported, so I don=E2=80=99t think that would be appropriate. It=
+=E2=80=99d match
+too much.
+
+  the above seems pretty clear since the following lines would appear
+> to say that *only* the qemux86 is compatible:
+>
+>   linux-yocto-tiny_4.1.bb:COMPATIBLE_MACHINE =3D "(qemux86$)"
+>   linux-yocto-tiny_4.4.bb:COMPATIBLE_MACHINE =3D "(qemux86$)"
+>   linux-yocto-tiny_4.8.bb:COMPATIBLE_MACHINE =3D "(qemux86$)"
+>
+> which suggests the following passage from the YP kernel dev manual is
+> a bit misleading:
+>
+>   "You must change it to match a list of the machines that your new
+>   recipe supports. For example, to support the qemux86 and qemux86-64
+>   machines, use the following form:
+>
+>        COMPATIBLE_MACHINE =3D "qemux86|qemux86-64"
+>
+> and if all this is true, then if you're introducing a new machine, to
+> be magnificently pedantic, one should not use:
+>
+>   COMPATIBLE_MACHINE_machinename =3D "machinename"
+>
+> but
+>
+>   COMPATIBLE_MACHINE_machinename =3D "^machinename$"
+>
+> just to play it safe. am i reading all this correctly?
+>
+
+Yes, that=E2=80=99s correct, though we need the trailing $ but not the lead=
+ing ^,
+as it=E2=80=99s using re.match, not re.search =E2=80=94 meaning it only mat=
+ches at the
+beginning of the string, it doesn=E2=80=99t search the string to find a mat=
+ch.
+--=20
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--001a113d720ef5038c0544049373
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Mon, Dec 19, 2016 at 8:17 AM, Robert P. J. Day <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcourse.=
+ca</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":29s"=
+ class=3D"a3s aXjCH m15917a9fa05d4cb7">=C2=A0 as a starting point, COMPATIB=
+LE_MACHINE is processed on a per-recipe<br>
+basis, and if it has no value, then there is no machine restriction<br>
+being applied to that recipe, correct? that&#39;s based on this snippet<br>
+from base.bbclass:<br>
+<br>
+=C2=A0 need_machine =3D d.getVar(&#39;COMPATIBLE_MACHINE&#39;)<br>
+=C2=A0 if need_machine:<br>
+=C2=A0 =C2=A0 =C2=A0 import re<br>
+=C2=A0 =C2=A0 =C2=A0 compat_machines =3D (d.getVar(&#39;MACHINEOVERRIDES&#3=
+9;) or &quot;&quot;).split(&quot;:&quot;)<br>
+=C2=A0 =C2=A0 =C2=A0 for m in compat_machines:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if re.match(need_machine, m):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break<br>
+=C2=A0 =C2=A0 =C2=A0 else:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise bb.parse.SkipPackage(&quot;<wbr>in=
+compatible with machine %s (not in COMPATIBLE_MACHINE)&quot; % d.getVar(&#3=
+9;MACHINE&#39;))<br>
+<br>
+so far, so good?<br>
+<br>
+=C2=A0 next, the documentation describes the value of that variable as a<br=
+>
+regular expression, so the values are processed as RE patterns, but<br>
+some of the actual uses are confusing. from<br>
+poky/meta/recipes-kernel/<wbr>linux:<br>
+<br>
+$ grep -r COMPATIBLE_MACHINE *<br>
+linux-dummy.bb:#COMPATIBLE_<wbr>MACHINE =3D &quot;your_machine&quot;<br>
+linux-yocto_4.1.bb:COMPATIBLE_<wbr>MACHINE =3D &quot;qemuarm|qemuarm64|qemu=
+x86|<wbr>qemuppc|qemumips|qemumips64|<wbr>qemux86-64&quot;<br>
+linux-yocto_4.4.bb:COMPATIBLE_<wbr>MACHINE =3D &quot;qemuarm|qemuarm64|qemu=
+x86|<wbr>qemuppc|qemumips|qemumips64|<wbr>qemux86-64&quot;<br>
+linux-yocto_4.8.bb:COMPATIBLE_<wbr>MACHINE =3D &quot;qemuarm|qemuarm64|qemu=
+x86|<wbr>qemuppc|qemumips|qemumips64|<wbr>qemux86-64&quot;<br>
+linux-yocto-dev.bb:COMPATIBLE_<wbr>MACHINE =3D &quot;(qemuarm|qemux86|qemup=
+pc|<wbr>qemumips|qemumips64|qemux86-<wbr>64)&quot;<br>
+linux-yocto-rt_4.1.bb:COMPATIB<wbr>LE_MACHINE =3D &quot;(qemux86|qemux86-64=
+|qemuarm|<wbr>qemuppc|qemumips)&quot;<br>
+linux-yocto-rt_4.4.bb:COMPATIB<wbr>LE_MACHINE =3D &quot;(qemux86|qemux86-64=
+|qemuarm|<wbr>qemuppc|qemumips)&quot;<br>
+linux-yocto-rt_4.8.bb:COMPATIB<wbr>LE_MACHINE =3D &quot;(qemux86|qemux86-64=
+|qemuarm|<wbr>qemuppc|qemumips)&quot;<br>
+linux-yocto-tiny_4.1.bb:COMPAT<wbr>IBLE_MACHINE =3D &quot;(qemux86$)&quot;<=
+br>
+linux-yocto-tiny_4.4.bb:COMPAT<wbr>IBLE_MACHINE =3D &quot;(qemux86$)&quot;<=
+br>
+linux-yocto-tiny_4.8.bb:COMPAT<wbr>IBLE_MACHINE =3D &quot;(qemux86$)&quot;<=
+br>
+$<br>
+<br>
+=C2=A0 first, what is best practice -- to use parentheses or not? i&#39;m<b=
+r>
+assuming it makes no difference, but it does seem inconsistent and<br>
+could cause some confusion.<br></div></blockquote><div><br></div><div>They=
+=E2=80=99re not needed in a case like this.=C2=A0</div><div><br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
+c solid;padding-left:1ex"><div id=3D":29s" class=3D"a3s aXjCH m15917a9fa05d=
+4cb7">
+=C2=A0 next, if the possibilities in a list are REs, what is the point of<b=
+r>
+explicitly listing, say, &quot;qemuarm|qemuarm64&quot;? would not the RE<br=
+>
+&quot;qemuarm&quot; subsume the more explicit &quot;qemuarm64&quot;? same f=
+or the other<br>
+architectures. (one could suggest that that entire line could be<br>
+shortened to &quot;... =3D (^qemu)&quot;.)<br></div></blockquote><div><br><=
+/div><div>Just qemu would potentially match future qemu machines which aren=
+=E2=80=99t actually supported, so I don=E2=80=99t think that would be appro=
+priate. It=E2=80=99d match too much.</div><div><br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex"><div id=3D":29s" class=3D"a3s aXjCH m15917a9fa05d4cb7">
+=C2=A0 the above seems pretty clear since the following lines would appear<=
+br>
+to say that *only* the qemux86 is compatible:<br>
+<br>
+=C2=A0 linux-yocto-tiny_4.1.bb:COMPAT<wbr>IBLE_MACHINE =3D &quot;(qemux86$)=
+&quot;<br>
+=C2=A0 linux-yocto-tiny_4.4.bb:COMPAT<wbr>IBLE_MACHINE =3D &quot;(qemux86$)=
+&quot;<br>
+=C2=A0 linux-yocto-tiny_4.8.bb:COMPAT<wbr>IBLE_MACHINE =3D &quot;(qemux86$)=
+&quot;<br>
+<br>
+which suggests the following passage from the YP kernel dev manual is<br>
+a bit misleading:<br>
+<br>
+=C2=A0 &quot;You must change it to match a list of the machines that your n=
+ew<br>
+=C2=A0 recipe supports. For example, to support the qemux86 and qemux86-64<=
+br>
+=C2=A0 machines, use the following form:<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0COMPATIBLE_MACHINE =3D &quot;qemux86|qemux86-64&=
+quot;<br>
+<br>
+and if all this is true, then if you&#39;re introducing a new machine, to<b=
+r>
+be magnificently pedantic, one should not use:<br>
+<br>
+=C2=A0 COMPATIBLE_MACHINE_machinename =3D &quot;machinename&quot;<br>
+<br>
+but<br>
+<br>
+=C2=A0 COMPATIBLE_MACHINE_machinename =3D &quot;^machinename$&quot;<br>
+<br>
+just to play it safe. am i reading all this correctly?</div></blockquote></=
+div><br>Yes, that=E2=80=99s correct, though we need the trailing $ but not =
+the leading ^, as it=E2=80=99s using re.match, not re.search =E2=80=94 mean=
+ing it only matches at the beginning of the string, it doesn=E2=80=99t sear=
+ch the string to find a match.<br>-- <br><div class=3D"gmail_signature" dat=
+a-smartmail=3D"gmail_signature">Christopher Larson<br>clarson at kergoth do=
+t com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<=
+br>Senior Software Engineer, Mentor Graphics</div>
+</div></div>
+
+--001a113d720ef5038c0544049373--
