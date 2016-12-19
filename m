@@ -1,47 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A7E1719C3
+Return-Path: <maciej.borzecki@rndity.com>
+Received: from mail-lf0-f54.google.com (mail-lf0-f54.google.com
+	[209.85.215.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D202719C3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 11:19:31 +0000 (UTC)
-Received: by mail-qk0-f173.google.com with SMTP id q68so11431899qki.1
+	Mon, 19 Dec 2016 11:21:27 +0000 (UTC)
+Received: by mail-lf0-f54.google.com with SMTP id y21so51677561lfa.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 03:19:33 -0800 (PST)
+	Mon, 19 Dec 2016 03:21:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=RZWXfSiBHm/oosrlhim2kBgIjC9eGaDAvI5YfdViZ9k=;
-	b=sEwp1mpqVE00AUomIuoVW2I882RaASvwklq730LBv0qpesx4SbsiLjJ3qjDx8oLK60
-	SNYtN1t8oqHekFd0dRa5I0bm5YSf/Ls9FDGuxFndlJW3IjUV5SpjF4LGOewGghUANAnJ
-	m/K6Rez5qbRTgUEhv0a61gfYErCE4kYdyXpRIBeoun2ctm8gM4AFRrDzQfs83eRHNjQc
-	73aYRCFqHWGSXofsaa5CEHVakU8jfMwPC1xQEasc/6trmGYkQfcYV30CpK+W8J6gL9XM
-	1zZ5YehcFEpCP2aYk9K7cuY9KGCYJBkciGddkXgR/E5y9tEHeX+9a2C7DhlTpzybuVVz
-	ocmw==
+	d=rndity-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=BsKUik13rONrdGNCDzDXZ9GmVlAPCdXDtKvxWimc07Y=;
+	b=IFhiiD/VZZAWuN0CzvVVRs52WQT+qoqntulVt1LZxSyfXzUo4Yat4wMVNKouBPoTmo
+	VtNgNBMF2kn7p+wU1IBk27fU/lgNGOu7x/z5IFRbwyhpLwOW0akdN87y0AW4pFL6uEDe
+	Hus8LuBMWtqoeA/OewjKg6zZZ/7H7l81JxlP1fdLQKOYc2w1S8TmxlvP3Qqy/d+eVEO3
+	JqqHOvQpTk7F/IaIyJJh5rhYkCWnMcWaaKzTsEjHhmVd+hZO1adPIDXRj4aImQEyRCMO
+	atkyWtOXbon6spnkjizeAXZMstXTiEg1/F+5tyath5t7brXXO3+VyBc8Uv5qx7OIDAbq
+	BEow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=RZWXfSiBHm/oosrlhim2kBgIjC9eGaDAvI5YfdViZ9k=;
-	b=s+8Ko4Fs2lnLCcvF7P2Anf+AHIbz6mHJkKYBEpnSiK5A5x4vYSiD1fvlywW/Zu1A7G
-	d61Ot6BiPsBLmy8rPDS7oOdQZzlBuIraiPd/qY7t/DtZH5kKN+NhfjQ3tdAJkDeEm5HS
-	Tk05zFBFDHv/wao1OmDl6z2FnaCwnKAgV4rTs0tR0I5PL7PifRVghUFSBzdiBNA7ml8c
-	wVfATZV1+4RSrwAGPYMzNSCqpcOIiI15a/dpaYy1q+YPzRHLKbkWDxQMw+UixS3q/C6h
-	RlVYIVcmduhzJQTJOfwVrf9GyOZPyiplpJfruBpiCxP3rGwec/iT8qhf2Xot2tB4v4Ct
-	ImWQ==
-X-Gm-Message-State: AIkVDXL7GCfQicC9922n0/bksKt1DyAS0VL8dJ040ydo9RA+cewqzsR2OHB6IYz4er6sHucRJKJrXsVnDjr3MDio
-X-Received: by 10.55.8.20 with SMTP id 20mr1447642qki.3.1482146373245; Mon, 19
-	Dec 2016 03:19:33 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Mon, 19 Dec 2016 03:19:12 -0800 (PST)
-In-Reply-To: <CALbNGRThWRoOfZjN1BaQpT2hAGzuRCfHUnfG89gxQcDE=6cgUw@mail.gmail.com>
-References: <CALbNGRThWRoOfZjN1BaQpT2hAGzuRCfHUnfG89gxQcDE=6cgUw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 19 Dec 2016 11:19:12 +0000
-Message-ID: <CAJTo0LZbgGV9kd0bw8jGgfg0kLbJn0ANgETon7_gJxG5fWML7g@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: 'From OE-Core rev: <commit-id>' in recent master commits
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=BsKUik13rONrdGNCDzDXZ9GmVlAPCdXDtKvxWimc07Y=;
+	b=BtJiGTnRLRA0Ue6r0dRR4m9Z8R+JzuEg+1u4maeZPXKnQ7NFSiPrYsB/tv959SqdtF
+	iBjPy14fIxstgNfNn0f4E9G2Vh79XLhRJUpAwpnTgrQ1XHFrszl7cHsWWf+gzFEv7Zcm
+	0Mq8aFAf8nzcOAaF9dL6S5ffLB2OTUhDM898TX+1XdNIIVmHZStUtiuKOUjcUI/e831R
+	PVhEPkUo0QGXywtF3QdLAkPx77PbAUbhbaD0xs+w5SJAu8bdBstwwPmJsg+7rxahi/SU
+	HonGvixsIH9En4pwQ35rn0SXkE8Yqw+pzBi3SJnw14Ud9eMQNrMADKFdi6lYE/inT33G
+	a9fw==
+X-Gm-Message-State: AIkVDXJ4+9MlfAj970VcEm53GFGrTFTyMpRPnvF0n2GBx8qUNoFHuBXAeVnvChd5pfd+lQ==
+X-Received: by 10.46.70.17 with SMTP id t17mr858154lja.38.1482146488918;
+	Mon, 19 Dec 2016 03:21:28 -0800 (PST)
+Received: from comp_016_pc_buildenv.localdomain
+	(staticline-31-182-60-238.toya.net.pl. [31.182.60.238])
+	by smtp.gmail.com with ESMTPSA id c2sm3681892ljb.8.2016.12.19.03.21.27
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 19 Dec 2016 03:21:27 -0800 (PST)
+From: Maciej Borzecki <maciej.borzecki@rndity.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Dec 2016 12:20:56 +0100
+Message-Id: <cover.1482145354.git.maciej.borzecki@rndity.com>
+X-Mailer: git-send-email 2.5.5
+In-Reply-To: <20161213185317.GA6550@linux.intel.com>
+References: <20161213185317.GA6550@linux.intel.com>
+Cc: Maciej Borzecki <maciek.borzecki@gmail.com>
+Subject: [PATCH v6 0/5] wic: bugfixes & --fixed-size support, tests, oeqa: enhancements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,41 +57,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 11:19:33 -0000
-Content-Type: multipart/alternative; boundary=001a114c9d60152402054401186c
+X-List-Received-Date: Mon, 19 Dec 2016 11:21:29 -0000
 
---001a114c9d60152402054401186c
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+v6 of a patch series previously posted here [1].
 
-On 19 December 2016 at 11:14, Andreas M=C3=BCller <schnitzeltony@googlemail=
-.com>
-wrote:
+Changes since v5:
 
-> just updated to latest HEAD and checked commits. Found a lot of commits
-> with
->
-> (From OE-Core rev: <commit ID>)
->
+* `oe-selftest: enforce en_US.UTF-8 locale` was merged to master, hence it's no
+  longer part of this series
 
-Can you point to any SHAs in particular that have this?
+* rebased on top of master (d0d260b0b85790ceb136dd6b0445e8e33d038f5e)
 
-Ross
+[1]. http://lists.openembedded.org/pipermail/openembedded-core/2016-November/129187.html
 
---001a114c9d60152402054401186c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Maciej Borzecki (5):
+  oeqa/utils/commands.py: allow use of binaries from native sysroot
+  wic: add --fixed-size wks option
+  wic: selftest: avoid COMPATIBLE_HOST issues
+  wic: selftest: do not assume bzImage kernel image
+  wic: selftest: add tests for --fixed-size partition flags
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 December 2016 at 11:14, Andreas M=C3=BCller <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:schnitzeltony@googlemail.com" target=3D"_blank">schnitzelton=
-y@googlemail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
- style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><d=
-iv id=3D":1wb" class=3D"a3s aXjCH m15916cb293d3e022">just updated to latest=
- HEAD and checked commits. Found a lot of commits with<br>
-<br>
-(From OE-Core rev: &lt;commit ID&gt;)<br></div></blockquote></div><br>Can y=
-ou point to any SHAs in particular that have this?</div><div class=3D"gmail=
-_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+ meta/lib/oeqa/selftest/wic.py          | 117 +++++++++++++++++++++++++++++++--
+ meta/lib/oeqa/utils/commands.py        |   9 ++-
+ scripts/lib/wic/help.py                |  14 +++-
+ scripts/lib/wic/imager/direct.py       |   2 +-
+ scripts/lib/wic/ksparser.py            |  41 ++++++++++--
+ scripts/lib/wic/partition.py           |  88 +++++++++++++++----------
+ scripts/lib/wic/utils/partitionedfs.py |   2 +-
+ 7 files changed, 224 insertions(+), 49 deletions(-)
 
---001a114c9d60152402054401186c--
+-- 
+2.5.5
+
+
