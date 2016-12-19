@@ -1,46 +1,47 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wj0-f194.google.com (mail-wj0-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 34533731C8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
+	[209.85.220.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C80C731C8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 11:51:39 +0000 (UTC)
-Received: by mail-wj0-f194.google.com with SMTP id j10so23248318wjb.3
+	Mon, 19 Dec 2016 11:53:55 +0000 (UTC)
+Received: by mail-qk0-f176.google.com with SMTP id n21so6649922qka.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 03:51:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Mon, 19 Dec 2016 03:53:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=BiNVEbRcBfX1tM00o0clrzXQ8+CH0QyF2ZERElxgliI=;
-	b=mWCjuy77nTl0MwRFNGlB19+qqTH44fT9kyB6faEGO5X7DGIv7qFrGnVhAadkAKSSK6
-	+U4BUt6SLMTzTt2ztz/tEeVuyCiJ7Mplat5IHgjHq2teW6eFcy8clMMwXuqSm0KGKXO0
-	hMk8U09lWHrzFN5l+37YI6w4O8rF1cAiiE6SNgsBMiKgOXJtILnYDvlZVnYmfHDh+nyI
-	NGXHQoZjC7DSsHkNgiZ7jzSGly6s3zRFbD9Nujwr0WP0fd/1D6zmy0Ts0iwS7hfsKTwT
-	Sa+Cht8WQTY5GCsJ17I5XfRF2bT1H8sOJCZEGu7ITb9h52KVit+Z5oI4+GRgPeg2AdG7
-	jraw==
+	:cc; bh=UssbRbsQvG/uBSqjOFVpATnk5IIT7YBxv55jIZ6oFzo=;
+	b=tN8H6w+VV+eoMm7d7obAiOPe3wWubnWquSa/f6jS+uEcVuFOJ29FDK79Tuw8fNJvfg
+	sUV2OFjfnYooyq2DU3X+jqhtdp7fIX4mkPajhmAwRO9y2x4p19nNnWIb6C+ceiPtQ8bp
+	JPpQ8YQ9FREvJy2YWbBTKFGr5U915eUCzJOOref6JYLm+sy6gZcSZ+a8pV5dWIoAO+H8
+	a9lXpRtM21zxtc7vuzXiLySalYklmA3BI54aAag3RDbaa7Eg5djoTCJmWGJHVqSf9Qd2
+	GX9gvDA9ro7VaMiu6uAywCKbtesTAw2OZ8PXuMnFeOub+S7wijGumR9Ybq5erpejutao
+	c4xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=BiNVEbRcBfX1tM00o0clrzXQ8+CH0QyF2ZERElxgliI=;
-	b=krsbnJhBcmNQhMN6JCNOkPGR0yrvbKvuPcasWh959nvJmbopFAajLnBBbHmvtkfvnC
-	bKE44ZPln75JHhUSPbSKH6TDB4LSm/fbCC439g1cBPwxPM1FPigH9gm0kDFCakJ4RkX0
-	RxG9CkNFIUkKzy9aSv/DRncKfI7U9AVWmDWdq6HfTOMUHBA/fgVOPZ5oxVkCh0G0j98T
-	j6EYgTsuExB1gUyxkn/12j99PaWxxo6net92c9XshDxKviEicn50cbIsBx+5XsB5lj7Q
-	3KVETVFUx4UbLJG5FgoVySinbIzQ+RHEHTww2z1ccSkvuruClAFw/yU6zuoLs9+Re47I
-	zA8w==
-X-Gm-Message-State: AKaTC019sEPIijYyRiXeOnEhP1oK3WuAayadVKlnQQ4mRGMiJMM1G492SaV9CXhvjMlSBNm+efrR6X0uyV9lLw==
-X-Received: by 10.194.112.170 with SMTP id ir10mr12875592wjb.190.1482148300859;
-	Mon, 19 Dec 2016 03:51:40 -0800 (PST)
+	bh=UssbRbsQvG/uBSqjOFVpATnk5IIT7YBxv55jIZ6oFzo=;
+	b=mloK+T7BK7HIUtvzkE0bO9r7b3dRf8OrB+bOIbXt5NgI9JD7L8Odv0pTqhF1lPfLn2
+	R006dcjbD4CuGKLsaurXSs7Vnh9R9haVoMN1r4g2nxOecOJNpgnVDIDniFVZxrtd2JSm
+	SEUzsIvaUeYoDo0jXQM8ecYz7xeR7YkJlgWs9xCsYVNAE5tKgAVox9uxRYQJBjqhwXnd
+	Mg4x2n+133aNRHmCWd2YmVKAhIbNY5jXUsWPMia5WfjR7IXS8Zt6WM/M84IG0uGSJuJU
+	o4pmI1rT0bnoS8ajR7Xk8dtPWVhycDb/2qWfoPr+nmXn6XOgVVax/UbhQ+FCxsi2gAog
+	Dt0w==
+X-Gm-Message-State: AIkVDXKMpg+tqURAgyBkr6GCZRqsWTLFjjSQD60u5QDLB15yj8zM/NDp9lBwZV1vQ5tUoKm/HpCPYVyFKZHTVO8G
+X-Received: by 10.55.106.134 with SMTP id f128mr573699qkc.121.1482148437449;
+	Mon, 19 Dec 2016 03:53:57 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.194.162.33 with HTTP; Mon, 19 Dec 2016 03:51:40 -0800 (PST)
-In-Reply-To: <CAJTo0LZvF2qQphCO+CFZ9jUHqgwoEVXrjOgaGe1kAF_+5D07jg@mail.gmail.com>
-References: <1482080556-4642-1-git-send-email-armccurdy@gmail.com>
-	<CAJTo0LZvF2qQphCO+CFZ9jUHqgwoEVXrjOgaGe1kAF_+5D07jg@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 19 Dec 2016 03:51:40 -0800
-Message-ID: <CAJ86T=W4s6iqODR_x0s8B5BV=Y=7fXQtaSn+GBZ5+GNrY3s1cw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+Received: by 10.140.106.99 with HTTP; Mon, 19 Dec 2016 03:53:37 -0800 (PST)
+In-Reply-To: <1d8d15e8fd9c4c9c1eeb6f13e5b069df6d995dce.1482127585.git.dengke.du@windriver.com>
+References: <cover.1482127585.git.dengke.du@windriver.com>
+	<1d8d15e8fd9c4c9c1eeb6f13e5b069df6d995dce.1482127585.git.dengke.du@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 19 Dec 2016 11:53:37 +0000
+Message-ID: <CAJTo0LbuTPCrsjZhfwAhczEsN=nrwUrE33mojDLOocMxxT1WMw@mail.gmail.com>
+To: Dengke Du <dengke.du@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glew: build for EGL in non-X11 distros
+Subject: Re: [PATCH 1/1] cdrtools-native: update 3.01 -> 3.02
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,18 +54,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 11:51:40 -0000
+X-List-Received-Date: Mon, 19 Dec 2016 11:53:56 -0000
+Content-Type: multipart/alternative; boundary=001a114fddf61e91f105440193bd
+
+--001a114fddf61e91f105440193bd
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Dec 19, 2016 at 3:46 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 18 December 2016 at 17:02, Andre McCurdy <armccurdy@gmail.com> wrote:
->>
->> Add PACKAGECONFIG options for 'opengl' (ie the previous default, with
->> dependencies on opengl and X11) and 'egl', which depends on EGL only
->> and allows glew to be built for non-X11 distros.
->
-> Can it build both or is this definitely a build time choice?
+On 19 December 2016 at 06:07, Dengke Du <dengke.du@windriver.com> wrote:
 
-Build time choice, one or the other.
+> 3.01a31 -> 3.02a07
+>
 
+As the aXX releases are alpha releases for testing, is there a good reason
+to switch to an alpha?  In general we ship releases, not previews.
+
+Ross
+
+--001a114fddf61e91f105440193bd
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 December 2016 at 06:07, Dengke Du <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:dengke.du@windriver.com" target=3D"_blank">dengke.du@windriver.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":286" class=
+=3D"a3s aXjCH m15915b1cf614de6a">3.01a31 -&gt; 3.02a07<br></div></blockquot=
+e></div><br>As the aXX releases are alpha releases for testing, is there a =
+good reason to switch to an alpha?=C2=A0 In general we ship releases, not p=
+reviews.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
+a">Ross</div></div>
+
+--001a114fddf61e91f105440193bd--
