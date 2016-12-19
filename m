@@ -1,46 +1,46 @@
 Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-lf0-f51.google.com (mail-lf0-f51.google.com
-	[209.85.215.51])
-	by mail.openembedded.org (Postfix) with ESMTP id F362E731AE
+Received: from mail-lf0-f53.google.com (mail-lf0-f53.google.com
+	[209.85.215.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 8431C731CA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 11:21:30 +0000 (UTC)
-Received: by mail-lf0-f51.google.com with SMTP id c13so51759515lfg.0
+	Mon, 19 Dec 2016 11:21:32 +0000 (UTC)
+Received: by mail-lf0-f53.google.com with SMTP id t196so51734681lff.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 03:21:32 -0800 (PST)
+	Mon, 19 Dec 2016 03:21:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=rndity-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=Vy+7jZpLy6lS/5qQ4bKmqU/J+PY+s8eNH8HBnNqatB8=;
-	b=qVvFt72sKZmrjI1VZyFMvnTv+8GkOT3llT0Gju5Wmftdlhf3Nc+m9eyKB1c0Z/6azx
-	HgvTloegX/sQ0f3j+jDiHKKFWBnbz/Ne8P+dW02k20J24KD1l6HB4ppsa7Q+Bs3Or4R/
-	S7ZkI9ZxZNi6EvKje6tMzLp4pmAFDvJz0ZG5G6C/c9zivWlqZZ5mnXbAjVgyGypbfTNi
-	dKEsN3rpRH5tb90TZCSCNf1IENmhvSzO34CCX5Emmuby4vXxN+KTjUXo3rfEYMqDVmuf
-	dX+HQKWHph4HzWfWsJoyU5nD0gVJ+YJl34lkOylZw20XPNyaxqni+7PFrjoalzwkCEX3
-	Agsg==
+	bh=JrbetI/AE4MIozQMHicvhkSito4TBnyb2dDNdAf1dvo=;
+	b=bIUqxum87/iGDGdZvRYp4IYvMFVpHSw2StH4N3HOYwGj0uACZWPVGsVgawR761Pqgr
+	XA+m27snryS5Mz1L1HRloAhBWlVNVm8WlRmY767550ndCr8YhCojowRcvgnfiluSX5OH
+	jZlb7boW0t085842zCMYZyBYQ8b7kzPKtHLqrCI90YWnhcTkkFQ2VN6MFSt8WatcZyo7
+	Q8lPbipGS3PAkewAEWVaSFRNfJCGKU2BWN2EObEhxjmr1JvcUENLtb5VEs3Ilqr4a/ys
+	GwtqmgOAsz0CFLyB+kQwcdqfOGek9W9dXhc5UbfTVV1094HMgskBgWyhoLCmK5YF3A/0
+	ZD+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=Vy+7jZpLy6lS/5qQ4bKmqU/J+PY+s8eNH8HBnNqatB8=;
-	b=iZdU2OLkjNCfiiR0YEYP6rE9HPJmadtZS3Y6Kko+bZm4I83bqefFAW8pU/BjreA27v
-	/xX4Lg9QxAQ6SIVkOBXS8apUoljj5Snv8X9Ir2dpmf9JMi9eDTnEhvLj2MXMpYPByrG5
-	KW2HbHgvYdLEfFmYX2BnQsbm3FwSi4qYv6a9VXArErugDUu1QjMhp78UGWwWb5rrRR6f
-	c4NZuFAhCghLXMd8d6cbh+Qpfu0ZSLT+D3sUEFr6MAoBk1ZQZXXb8SJ/2Z9tN5XLWsn0
-	hnfSQ5EazPmQlDR/RmjGm4BLl0BGG44hwdTSXRTlabrwGXL8g9QgZJnxI4/JPE86bVu6
-	Cfdg==
-X-Gm-Message-State: AKaTC01s3Iiujyu5oZa1TDHOC1adTSAewU3mVIP6d2Q3VpoqKTobVV2Mgol/90RjhO/agA==
-X-Received: by 10.25.206.13 with SMTP id e13mr5487584lfg.38.1482146491447;
-	Mon, 19 Dec 2016 03:21:31 -0800 (PST)
+	bh=JrbetI/AE4MIozQMHicvhkSito4TBnyb2dDNdAf1dvo=;
+	b=W7Z61wvz6jpWmcvZ4aGzPO/UxA1f+8OgNJmlTsAy8zn85g8AonXtSbNThRBxeyWxaK
+	352TLlm0ZVOjvQPuhuGo/Xrt4b4tBUaad1IQCMlbQU3Aev4u9h9tPnIjUD8Buw5rUIR1
+	0x7ZAJ4GGZcH9/afznSwIBJ543n3tAmA4og3ryk3BVhb0W/zpYHaN/8YMaxItndf2GOj
+	hiuicgqnCNuz+o84j1V54Cxhlc2Ah6JNILlSmFcCTor1LwA/kjGOvDGyM4CX8syUZim2
+	sFgCAvOG3klsoST4iCde8A5n2PzAKqrTardZa4tUqcGe+OYMTjZv2Szm3xSj+sxbwQ+1
+	/+uQ==
+X-Gm-Message-State: AKaTC00Q2nGZOiaTimxbLvNvHryPHlc4YDihNBQ5Bq9cExewJqHXmZ4mgzb0RXp8IUNmhQ==
+X-Received: by 10.25.76.195 with SMTP id z186mr5440774lfa.104.1482146493024;
+	Mon, 19 Dec 2016 03:21:33 -0800 (PST)
 Received: from comp_016_pc_buildenv.localdomain
 	(staticline-31-182-60-238.toya.net.pl. [31.182.60.238])
-	by smtp.gmail.com with ESMTPSA id c2sm3681892ljb.8.2016.12.19.03.21.30
+	by smtp.gmail.com with ESMTPSA id c2sm3681892ljb.8.2016.12.19.03.21.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 19 Dec 2016 03:21:30 -0800 (PST)
+	Mon, 19 Dec 2016 03:21:32 -0800 (PST)
 From: Maciej Borzecki <maciej.borzecki@rndity.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Dec 2016 12:20:58 +0100
-Message-Id: <91c9c9688486d36e5f1cae91079be6e197441f31.1482145354.git.maciej.borzecki@rndity.com>
+Date: Mon, 19 Dec 2016 12:20:59 +0100
+Message-Id: <b24d9ead4dc6b25c7686381ac902ff12186b0a68.1482145354.git.maciej.borzecki@rndity.com>
 X-Mailer: git-send-email 2.5.5
 In-Reply-To: <cover.1482145354.git.maciej.borzecki@rndity.com>
 References: <20161213185317.GA6550@linux.intel.com>
@@ -48,7 +48,7 @@ References: <20161213185317.GA6550@linux.intel.com>
 In-Reply-To: <cover.1482145354.git.maciej.borzecki@rndity.com>
 References: <cover.1482145354.git.maciej.borzecki@rndity.com>
 Cc: Maciej Borzecki <maciek.borzecki@gmail.com>
-Subject: [PATCH v6 2/5] wic: add --fixed-size wks option
+Subject: [PATCH v6 3/5] wic: selftest: avoid COMPATIBLE_HOST issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,341 +61,233 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 11:21:32 -0000
+X-List-Received-Date: Mon, 19 Dec 2016 11:21:33 -0000
 
-Added new option --fixed-size to wks. The option can be used to indicate
-the exact size of a partition. The option cannot be added together with
---size, in which case an error will be raised. Other options that
-influence automatic partition size (--extra-space, --overhead-factor),
-if specifiec along with --fixed-size, will raise an error.
+wic tests will unconditionally attempt to build syslinux and add
+configuration options that may not be compatible with current machine.
 
-If it partition data is larger than the amount of space specified with
---fixed-size option wic will raise an error.
+Resolve this by consulting HOST_ARCH (which defaults to TARGET_ARCH) and build
+recipes, add configuration options or skip tests conditionally.
+
+A convenience decorator onlyForArch() can be used to skip test cases for
+specific architectures.
 
 Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
 ---
- scripts/lib/wic/help.py                | 14 ++++--
- scripts/lib/wic/imager/direct.py       |  2 +-
- scripts/lib/wic/ksparser.py            | 41 ++++++++++++++--
- scripts/lib/wic/partition.py           | 88 +++++++++++++++++++++-------------
- scripts/lib/wic/utils/partitionedfs.py |  2 +-
- 5 files changed, 105 insertions(+), 42 deletions(-)
+ meta/lib/oeqa/selftest/wic.py | 53 +++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 48 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-index e5347ec4b7c900c68fc64351a5293e75de0672b3..daa11bf489c135627ddfe4cef968e48f8e3ad1d8 100644
---- a/scripts/lib/wic/help.py
-+++ b/scripts/lib/wic/help.py
-@@ -646,6 +646,12 @@ DESCRIPTION
-                  not specified, the size is in MB.
-                  You do not need this option if you use --source.
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index e652fad24ab6dd7ab1b998b60a98a4052a2f1dd7..35cd14fb0c4a9b863a7a6324885f80da8e86d3eb 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -24,15 +24,33 @@
+ """Test cases for wic."""
  
-+         --fixed-size: Exact partition size. Value format is the same
-+                       as for --size option. This option cannot be
-+                       specified along with --size. If partition data
-+                       is larger than --fixed-size and error will be
-+                       raised when assembling disk image.
-+
-          --source: This option is a wic-specific option that names the
-                    source of the data that will populate the
-                    partition.  The most common value for this option
-@@ -719,13 +725,15 @@ DESCRIPTION
-                         space after the space filled by the content
-                         of the partition. The final size can go
-                         beyond the size specified by --size.
--                        By default, 10MB.
-+                        By default, 10MB. This option cannot be used
-+                        with --fixed-size option.
+ import os
++import unittest
  
-          --overhead-factor: This option is specific to wic. The
-                             size of the partition is multiplied by
-                             this factor. It has to be greater than or
--                            equal to 1.
--                            The default value is 1.3.
-+                            equal to 1. The default value is 1.3.
-+                            This option cannot be used with --fixed-size
-+                            option.
+ from glob import glob
+ from shutil import rmtree
++from functools import wraps
  
-          --part-type: This option is specific to wic. It specifies partition
-                       type GUID for GPT partitions.
-diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
-index 2bedef08d6450096c786def6f75a9ee53fcd4b3b..11ec15e33f65885618c7adc83e55c6a39fedbe99 100644
---- a/scripts/lib/wic/imager/direct.py
-+++ b/scripts/lib/wic/imager/direct.py
-@@ -290,7 +290,7 @@ class DirectImageCreator(BaseImageCreator):
-                          self.bootimg_dir, self.kernel_dir, self.native_sysroot)
+ from oeqa.selftest.base import oeSelfTest
+ from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu
+ from oeqa.utils.decorators import testcase
  
  
--            self.__image.add_partition(int(part.size),
-+            self.__image.add_partition(part.disk_size,
-                                        part.disk,
-                                        part.mountpoint,
-                                        part.source_file,
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index 0894e2b199a299fbbed272f2e1c95e9d692e3ab1..62c490274aa92bf82aac304d9323250e3b728d0c 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -113,6 +113,9 @@ def systemidtype(arg):
- class KickStart():
-     """"Kickstart parser implementation."""
- 
-+    DEFAULT_EXTRA_SPACE = 10*1024
-+    DEFAULT_OVERHEAD_FACTOR = 1.3
++class onlyForArch(object):
 +
-     def __init__(self, confpath):
- 
-         self.partitions = []
-@@ -127,16 +130,24 @@ class KickStart():
-         part.add_argument('mountpoint', nargs='?')
-         part.add_argument('--active', action='store_true')
-         part.add_argument('--align', type=int)
--        part.add_argument("--extra-space", type=sizetype, default=10*1024)
-+        part.add_argument("--extra-space", type=sizetype)
-         part.add_argument('--fsoptions', dest='fsopts')
-         part.add_argument('--fstype')
-         part.add_argument('--label')
-         part.add_argument('--no-table', action='store_true')
-         part.add_argument('--ondisk', '--ondrive', dest='disk')
--        part.add_argument("--overhead-factor", type=overheadtype, default=1.3)
-+        part.add_argument("--overhead-factor", type=overheadtype)
-         part.add_argument('--part-type')
-         part.add_argument('--rootfs-dir')
--        part.add_argument('--size', type=sizetype, default=0)
++    def __init__(self, *args):
++        self.archs = args
 +
-+        # --size and --fixed-size cannot be specified together; options
-+        # ----extra-space and --overhead-factor should also raise a parser
-+        # --error, but since nesting mutually exclusive groups does not work,
-+        # ----extra-space/--overhead-factor are handled later
-+        sizeexcl = part.add_mutually_exclusive_group()
-+        sizeexcl.add_argument('--size', type=sizetype, default=0)
-+        sizeexcl.add_argument('--fixed-size', type=sizetype, default=0)
-+
-         part.add_argument('--source')
-         part.add_argument('--sourceparams')
-         part.add_argument('--system-id', type=systemidtype)
-@@ -170,11 +181,33 @@ class KickStart():
-                 lineno += 1
-                 if line and line[0] != '#':
-                     try:
--                        parsed = parser.parse_args(shlex.split(line))
-+                        line_args = shlex.split(line)
-+                        parsed = parser.parse_args(line_args)
-                     except ArgumentError as err:
-                         raise KickStartError('%s:%d: %s' % \
-                                              (confpath, lineno, err))
-                     if line.startswith('part'):
-+                        # using ArgumentParser one cannot easily tell if option
-+                        # was passed as argument, if said option has a default
-+                        # value; --overhead-factor/--extra-space cannot be used
-+                        # with --fixed-size, so at least detect when these were
-+                        # passed with non-0 values ...
-+                        if parsed.fixed_size:
-+                            if parsed.overhead_factor or parsed.extra_space:
-+                                err = "%s:%d: arguments --overhead-factor and --extra-space not "\
-+                                      "allowed with argument --fixed-size" \
-+                                      % (confpath, lineno)
-+                                raise KickStartError(err)
-+                        else:
-+                            # ... and provide defaults if not using
-+                            # --fixed-size iff given option was not used
-+                            # (again, one cannot tell if option was passed but
-+                            # with value equal to 0)
-+                            if '--overhead-factor' not in line_args:
-+                                parsed.overhead_factor = self.DEFAULT_OVERHEAD_FACTOR
-+                            if '--extra-space' not in line_args:
-+                                parsed.extra_space = self.DEFAULT_EXTRA_SPACE
-+
-                         self.partnum += 1
-                         self.partitions.append(Partition(parsed, self.partnum))
-                     elif line.startswith('include'):
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index b191cdee542054956262d6c49f3ccc7cf812ee8a..aa8f8a79486b00b99fc43153fda93e654adfd1d9 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -54,6 +54,7 @@ class Partition():
-         self.part_type = args.part_type
-         self.rootfs_dir = args.rootfs_dir
-         self.size = args.size
-+        self.fixed_size = args.fixed_size
-         self.source = args.source
-         self.sourceparams = args.sourceparams
-         self.system_id = args.system_id
-@@ -87,6 +88,41 @@ class Partition():
-         else:
-             return 0
- 
-+    def get_rootfs_size(self, actual_rootfs_size=0):
-+        """
-+        Calculate the required size of rootfs taking into consideration
-+        --size/--fixed-size flags as well as overhead and extra space, as
-+        specified in kickstart file. Raises an error if the
-+        `actual_rootfs_size` is larger than fixed-size rootfs.
-+
-+        """
-+        if self.fixed_size:
-+            rootfs_size = self.fixed_size
-+            if actual_rootfs_size > rootfs_size:
-+                msger.error("Actual rootfs size (%d kB) is larger than allowed size %d kB" \
-+                            %(actual_rootfs_size, rootfs_size))
-+        else:
-+            extra_blocks = self.get_extra_block_count(actual_rootfs_size)
-+            if extra_blocks < self.extra_space:
-+                extra_blocks = self.extra_space
-+
-+            rootfs_size = actual_rootfs_size + extra_blocks
-+            rootfs_size *= self.overhead_factor
-+
-+            msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
-+                        (extra_blocks, self.mountpoint, rootfs_size))
-+
-+        return rootfs_size
-+
-+    @property
-+    def disk_size(self):
-+        """
-+        Obtain on-disk size of partition taking into consideration
-+        --size/--fixed-size options.
-+
-+        """
-+        return self.fixed_size if self.fixed_size else self.size
-+
-     def prepare(self, creator, cr_workdir, oe_builddir, rootfs_dir,
-                 bootimg_dir, kernel_dir, native_sysroot):
-         """
-@@ -97,9 +133,9 @@ class Partition():
-             self.sourceparams_dict = parse_sourceparams(self.sourceparams)
- 
-         if not self.source:
--            if not self.size:
--                msger.error("The %s partition has a size of zero.  Please "
--                            "specify a non-zero --size for that partition." % \
-+            if not self.size and not self.fixed_size:
-+                msger.error("The %s partition has a size of zero. Please "
-+                            "specify a non-zero --size/--fixed-size for that partition." % \
-                             self.mountpoint)
-             if self.fstype and self.fstype == "swap":
-                 self.prepare_swap_partition(cr_workdir, oe_builddir,
-@@ -146,6 +182,7 @@ class Partition():
-                                                      oe_builddir,
-                                                      bootimg_dir, kernel_dir, rootfs_dir,
-                                                      native_sysroot)
-+
-         # further processing required Partition.size to be an integer, make
-         # sure that it is one
-         if type(self.size) is not int:
-@@ -153,6 +190,12 @@ class Partition():
-                           "This a bug in source plugin %s and needs to be fixed." \
-                           % (self.mountpoint, self.source))
- 
-+        if self.fixed_size and self.size > self.fixed_size:
-+            msger.error("File system image of partition %s is larger (%d kB) than its"\
-+                        "allowed size %d kB" % (self.mountpoint,
-+                                                self.size, self.fixed_size))
++    def __call__(self,f):
++        @wraps(f)
++        def wrapped_f(*args, **kwargs):
++            arch = get_bb_var('HOST_ARCH', 'core-image-minimal')
++            if self.archs and arch not in self.archs :
++                raise unittest.SkipTest("Testcase arch dependency not met: %s" % arch)
++            return f(*args, **kwargs)
++        wrapped_f.__name__ = f.__name__
++        return wrapped_f
 +
 +
-     def prepare_rootfs_from_fs_image(self, cr_workdir, oe_builddir,
-                                      rootfs_dir):
-         """
-@@ -228,15 +271,7 @@ class Partition():
-         out = exec_cmd(du_cmd)
-         actual_rootfs_size = int(out.split()[0])
+ class Wic(oeSelfTest):
+     """Wic test class."""
  
--        extra_blocks = self.get_extra_block_count(actual_rootfs_size)
--        if extra_blocks < self.extra_space:
--            extra_blocks = self.extra_space
--
--        rootfs_size = actual_rootfs_size + extra_blocks
--        rootfs_size *= self.overhead_factor
--
--        msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
--                    (extra_blocks, self.mountpoint, rootfs_size))
-+        rootfs_size = self.get_rootfs_size(actual_rootfs_size)
+@@ -41,16 +59,23 @@ class Wic(oeSelfTest):
  
-         with open(rootfs, 'w') as sparse:
-             os.ftruncate(sparse.fileno(), rootfs_size * 1024)
-@@ -262,15 +297,7 @@ class Partition():
-         out = exec_cmd(du_cmd)
-         actual_rootfs_size = int(out.split()[0])
+     def setUpLocal(self):
+         """This code is executed before each test method."""
+-        self.write_config('IMAGE_FSTYPES += " hddimg"\n'
+-                          'MACHINE_FEATURES_append = " efi"\n'
+-                          'WKS_FILE = "wic-image-minimal"\n')
++        arch = get_bb_var('HOST_ARCH', 'core-image-minimal')
++        is_x86 = arch in ['i586', 'i686', 'x86_64']
++        if is_x86:
++            self.write_config('IMAGE_FSTYPES += " hddimg"\n' \
++                              'MACHINE_FEATURES_append = " efi"\n'
++                              'WKS_FILE = "wic-image-minimal"\n')
  
--        extra_blocks = self.get_extra_block_count(actual_rootfs_size)
--        if extra_blocks < self.extra_space:
--            extra_blocks = self.extra_space
--
--        rootfs_size = actual_rootfs_size + extra_blocks
--        rootfs_size *= self.overhead_factor
--
--        msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
--                    (extra_blocks, self.mountpoint, rootfs_size))
-+        rootfs_size = self.get_rootfs_size(actual_rootfs_size)
+         # Do this here instead of in setUpClass as the base setUp does some
+         # clean up which can result in the native tools built earlier in
+         # setUpClass being unavailable.
+         if not Wic.image_is_ready:
+-            bitbake('syslinux syslinux-native parted-native gptfdisk-native '
+-                    'dosfstools-native mtools-native bmap-tools-native')
++            tools = 'parted-native gptfdisk-native ' \
++                    'dosfstools-native mtools-native bmap-tools-native'
++            if is_x86:
++                tools += ' syslinux syslinux-native'
++            bitbake(tools)
++
+             bitbake('core-image-minimal')
+             Wic.image_is_ready = True
  
-         with open(rootfs, 'w') as sparse:
-             os.ftruncate(sparse.fileno(), rootfs_size * 1024)
-@@ -292,20 +319,13 @@ class Partition():
-         out = exec_cmd(du_cmd)
-         blocks = int(out.split()[0])
+@@ -72,6 +97,7 @@ class Wic(oeSelfTest):
+         self.assertEqual(0, runCmd('wic list --help').status)
  
--        extra_blocks = self.get_extra_block_count(blocks)
--        if extra_blocks < self.extra_space:
--            extra_blocks = self.extra_space
--
--        blocks += extra_blocks
--
--        msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
--                    (extra_blocks, self.mountpoint, blocks))
-+        rootfs_size = self.get_rootfs_size(blocks)
+     @testcase(1211)
++    @onlyForArch('i586', 'i686', 'x86_64')
+     def test_build_image_name(self):
+         """Test wic create directdisk --image-name core-image-minimal"""
+         self.assertEqual(0, runCmd("wic create directdisk "
+@@ -79,6 +105,7 @@ class Wic(oeSelfTest):
+         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
  
-         label_str = "-n boot"
-         if self.label:
-             label_str = "-n %s" % self.label
+     @testcase(1212)
++    @onlyForArch('i586', 'i686', 'x86_64')
+     def test_build_artifacts(self):
+         """Test wic create directdisk providing all artifacts."""
+         bbvars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
+@@ -93,6 +120,7 @@ class Wic(oeSelfTest):
+         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
  
--        dosfs_cmd = "mkdosfs %s -S 512 -C %s %d" % (label_str, rootfs, blocks)
-+        dosfs_cmd = "mkdosfs %s -S 512 -C %s %d" % (label_str, rootfs, rootfs_size)
-         exec_native_cmd(dosfs_cmd, native_sysroot)
+     @testcase(1157)
++    @onlyForArch('i586', 'i686', 'x86_64')
+     def test_gpt_image(self):
+         """Test creation of core-image-minimal with gpt table and UUID boot"""
+         self.assertEqual(0, runCmd("wic create directdisk-gpt "
+@@ -126,6 +154,7 @@ class Wic(oeSelfTest):
+         self.assertEqual(0, runCmd('wic help kickstart').status)
  
-         mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (rootfs, rootfs_dir)
-@@ -328,8 +348,9 @@ class Partition():
-         """
-         Prepare an empty ext2/3/4 partition.
-         """
-+        size = self.disk_size
-         with open(rootfs, 'w') as sparse:
--            os.ftruncate(sparse.fileno(), self.size * 1024)
-+            os.ftruncate(sparse.fileno(), size * 1024)
+     @testcase(1264)
++    @onlyForArch('i586', 'i686', 'x86_64')
+     def test_compress_gzip(self):
+         """Test compressing an image with gzip"""
+         self.assertEqual(0, runCmd("wic create directdisk "
+@@ -135,6 +164,7 @@ class Wic(oeSelfTest):
+                                          "directdisk-*.direct.gz")))
  
-         extra_imagecmd = "-i 8192"
+     @testcase(1265)
++    @onlyForArch('i586', 'i686', 'x86_64')
+     def test_compress_bzip2(self):
+         """Test compressing an image with bzip2"""
+         self.assertEqual(0, runCmd("wic create directdisk "
+@@ -144,6 +174,7 @@ class Wic(oeSelfTest):
+                                          "directdisk-*.direct.bz2")))
  
-@@ -346,8 +367,9 @@ class Partition():
-         """
-         Prepare an empty btrfs partition.
-         """
-+        size = self.disk_size
-         with open(rootfs, 'w') as sparse:
--            os.ftruncate(sparse.fileno(), self.size * 1024)
-+            os.ftruncate(sparse.fileno(), size * 1024)
+     @testcase(1266)
++    @onlyForArch('i586', 'i686', 'x86_64')
+     def test_compress_xz(self):
+         """Test compressing an image with xz"""
+         self.assertEqual(0, runCmd("wic create directdisk "
+@@ -153,6 +184,7 @@ class Wic(oeSelfTest):
+                                          "directdisk-*.direct.xz")))
  
-         label_str = ""
-         if self.label:
-@@ -362,7 +384,7 @@ class Partition():
-         """
-         Prepare an empty vfat partition.
-         """
--        blocks = self.size
-+        blocks = self.disk_size
+     @testcase(1267)
++    @onlyForArch('i586', 'i686', 'x86_64')
+     def test_wrong_compressor(self):
+         """Test how wic breaks if wrong compressor is provided"""
+         self.assertEqual(2, runCmd("wic create directdisk "
+@@ -160,6 +192,7 @@ class Wic(oeSelfTest):
+                                    "-c wrong", ignore_status=True).status)
  
-         label_str = "-n boot"
-         if self.label:
-diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/utils/partitionedfs.py
-index 9ea4a30cbb1cc66be66651653814c60b17bad2f9..68301f0b476ed48edfcb4dcad0df903474d13b50 100644
---- a/scripts/lib/wic/utils/partitionedfs.py
-+++ b/scripts/lib/wic/utils/partitionedfs.py
-@@ -210,7 +210,7 @@ class Image():
-             msger.debug("Assigned %s to %s%d, sectors range %d-%d size %d "
-                         "sectors (%d bytes)." \
-                             % (part['mountpoint'], part['disk_name'], part['num'],
--                               part['start'], part['start'] + part['size'] - 1,
-+                               part['start'], disk['offset'] - 1,
-                                part['size'], part['size'] * self.sector_size))
+     @testcase(1268)
++    @onlyForArch('i586', 'i686', 'x86_64')
+     def test_rootfs_indirect_recipes(self):
+         """Test usage of rootfs plugin with rootfs recipes"""
+         wks = "directdisk-multi-rootfs"
+@@ -171,6 +204,7 @@ class Wic(oeSelfTest):
+         self.assertEqual(1, len(glob(self.resultdir + "%s*.direct" % wks)))
  
-         # Once all the partitions have been layed out, we can calculate the
+     @testcase(1269)
++    @onlyForArch('i586', 'i686', 'x86_64')
+     def test_rootfs_artifacts(self):
+         """Test usage of rootfs plugin with rootfs paths"""
+         bbvars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
+@@ -189,6 +223,7 @@ class Wic(oeSelfTest):
+                                      "%(wks)s-*.direct" % bbvars)))
+ 
+     @testcase(1346)
++    @onlyForArch('i586', 'i686', 'x86_64')
+     def test_iso_image(self):
+         """Test creation of hybrid iso image with legacy and EFI boot"""
+         self.assertEqual(0, runCmd("wic create mkhybridiso "
+@@ -221,6 +256,7 @@ class Wic(oeSelfTest):
+                 self.assertTrue(content[var])
+ 
+     @testcase(1351)
++    @onlyForArch('i586', 'i686', 'x86_64')
+     def test_wic_image_type(self):
+         """Test building wic images by bitbake"""
+         self.assertEqual(0, bitbake('wic-image-minimal').status)
+@@ -236,6 +272,7 @@ class Wic(oeSelfTest):
+             self.assertTrue(os.path.isfile(os.path.realpath(path)))
+ 
+     @testcase(1348)
++    @onlyForArch('i586', 'i686', 'x86_64')
+     def test_qemux86_directdisk(self):
+         """Test creation of qemux-86-directdisk image"""
+         image = "qemux86-directdisk"
+@@ -244,6 +281,7 @@ class Wic(oeSelfTest):
+         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
+ 
+     @testcase(1349)
++    @onlyForArch('i586', 'i686', 'x86_64')
+     def test_mkgummidisk(self):
+         """Test creation of mkgummidisk image"""
+         image = "mkgummidisk"
+@@ -252,6 +290,7 @@ class Wic(oeSelfTest):
+         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
+ 
+     @testcase(1350)
++    @onlyForArch('i586', 'i686', 'x86_64')
+     def test_mkefidisk(self):
+         """Test creation of mkefidisk image"""
+         image = "mkefidisk"
+@@ -260,6 +299,7 @@ class Wic(oeSelfTest):
+         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
+ 
+     @testcase(1385)
++    @onlyForArch('i586', 'i686', 'x86_64')
+     def test_directdisk_bootloader_config(self):
+         """Test creation of directdisk-bootloader-config image"""
+         image = "directdisk-bootloader-config"
+@@ -268,6 +308,7 @@ class Wic(oeSelfTest):
+         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
+ 
+     @testcase(1422)
++    @onlyForArch('i586', 'i686', 'x86_64')
+     def test_qemu(self):
+         """Test wic-image-minimal under qemu"""
+         self.assertEqual(0, bitbake('wic-image-minimal').status)
+@@ -278,6 +319,7 @@ class Wic(oeSelfTest):
+             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (command, output))
+             self.assertEqual(output, '/dev/root /\r\n/dev/vda3 /mnt')
+ 
++    @onlyForArch('i586', 'i686', 'x86_64')
+     def test_bmap(self):
+         """Test generation of .bmap file"""
+         image = "directdisk"
+@@ -286,6 +328,7 @@ class Wic(oeSelfTest):
+         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
+         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct.bmap" % image)))
+ 
++    @onlyForArch('i586', 'i686', 'x86_64')
+     def test_systemd_bootdisk(self):
+         """Test creation of systemd-bootdisk image"""
+         image = "systemd-bootdisk"
 -- 
 2.5.5
 
