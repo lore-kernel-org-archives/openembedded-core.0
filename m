@@ -1,23 +1,25 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 52ACC731CD
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 893D47726D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 13:35:40 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga101.jf.intel.com with ESMTP; 19 Dec 2016 05:35:42 -0800
+	Mon, 19 Dec 2016 13:35:52 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 19 Dec 2016 05:35:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,373,1477983600"; d="scan'208";a="44181033"
+X-IronPort-AV: E=Sophos;i="5.33,373,1477983600"; d="scan'208";a="1073989362"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 19 Dec 2016 05:35:42 -0800
+	by orsmga001.jf.intel.com with ESMTP; 19 Dec 2016 05:35:53 -0800
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 525686A4080;
-	Mon, 19 Dec 2016 05:34:53 -0800 (PST)
+	by linux.intel.com (Postfix) with ESMTP id 4B1BE6A4082;
+	Mon, 19 Dec 2016 05:35:04 -0800 (PST)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Dec 2016 15:35:32 +0200
-Message-Id: <cover.1482154012.git.jussi.kukkonen@intel.com>
+Date: Mon, 19 Dec 2016 15:35:39 +0200
+Message-Id: <7ac9aab551a501fab0e4190a059250c6bddfa5a6.1482154012.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/8] Small upgrades around the GNOME stack
+In-Reply-To: <cover.1482154012.git.jussi.kukkonen@intel.com>
+References: <cover.1482154012.git.jussi.kukkonen@intel.com>
+Subject: [PATCH 1/8] gtk+3: Upgrade 3.22.1 -> 3.22.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,51 +32,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 13:35:41 -0000
+X-List-Received-Date: Mon, 19 Dec 2016 13:35:52 -0000
 
-
-The following changes since commit d0d260b0b85790ceb136dd6b0445e8e33d038f5e:
-
-  u-boot/beaglebone: Select Beaglebone Black target specifically. (2016-12-17 09:57:37 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib jku/gtk-etc
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/gtk-etc
-
-Jussi Kukkonen (8):
-  gtk+3: Upgrade 3.22.1 -> 3.22.5
-  gsettings-desktop-schemas: Upgrade 3.20.0 -> 3.22.0
-  glib-2.0: Upgrade 2.50.1 -> 2.50.2
-  gdk-pixbuf: Upgrade 2.36.0 -> 2.36.1
-  cairo: Upgrade 1.14.6 -> 1.14.8
-  clutter-gst-3.0: Upgrade 3.0.20 -> 3.0.22
-  cogl-1.0: Upgrade 1.22.0 -> 1.22.2
-  mirrors.bbclass: Fix gnutls mirror directory
-
- meta/classes/mirrors.bbclass                       |  2 +-
- .../{glib-2.0_2.50.1.bb => glib-2.0_2.50.2.bb}     |  4 +--
- .../{gdk-pixbuf_2.36.0.bb => gdk-pixbuf_2.36.1.bb} |  8 ++++--
- ...20.0.bb => gsettings-desktop-schemas_3.22.0.bb} |  4 +--
- .../gtk+/{gtk+3_3.22.1.bb => gtk+3_3.22.5.bb}      |  4 +--
- ...e_3.22.1.bb => gtk-icon-utils-native_3.22.5.bb} |  4 +--
- .../cairo/{cairo_1.14.6.bb => cairo_1.14.8.bb}     |  4 +--
- ...gst-3.0_3.0.20.bb => clutter-gst-3.0_3.0.22.bb} |  4 +--
- ...Fix-an-incorrect-preprocessor-conditional.patch | 32 ++++++++++++++++++++++
- meta/recipes-graphics/cogl/cogl-1.0_1.22.0.bb      |  7 -----
- meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb      |  8 ++++++
- 11 files changed, 58 insertions(+), 23 deletions(-)
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.50.1.bb => glib-2.0_2.50.2.bb} (86%)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.36.0.bb => gdk-pixbuf_2.36.1.bb} (92%)
- rename meta/recipes-gnome/gsettings-desktop-schemas/{gsettings-desktop-schemas_3.20.0.bb => gsettings-desktop-schemas_3.22.0.bb} (70%)
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+ meta/recipes-gnome/gtk+/{gtk+3_3.22.1.bb => gtk+3_3.22.5.bb}          | 4 ++--
+ ...tk-icon-utils-native_3.22.1.bb => gtk-icon-utils-native_3.22.5.bb} | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
  rename meta/recipes-gnome/gtk+/{gtk+3_3.22.1.bb => gtk+3_3.22.5.bb} (84%)
  rename meta/recipes-gnome/gtk+/{gtk-icon-utils-native_3.22.1.bb => gtk-icon-utils-native_3.22.5.bb} (93%)
- rename meta/recipes-graphics/cairo/{cairo_1.14.6.bb => cairo_1.14.8.bb} (92%)
- rename meta/recipes-graphics/clutter/{clutter-gst-3.0_3.0.20.bb => clutter-gst-3.0_3.0.22.bb} (58%)
- create mode 100644 meta/recipes-graphics/cogl/cogl-1.0/0001-Fix-an-incorrect-preprocessor-conditional.patch
- delete mode 100644 meta/recipes-graphics/cogl/cogl-1.0_1.22.0.bb
- create mode 100644 meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb
 
+diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.22.1.bb b/meta/recipes-gnome/gtk+/gtk+3_3.22.5.bb
+similarity index 84%
+rename from meta/recipes-gnome/gtk+/gtk+3_3.22.1.bb
+rename to meta/recipes-gnome/gtk+/gtk+3_3.22.5.bb
+index 5fb0edd..b772fe0 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3_3.22.1.bb
++++ b/meta/recipes-gnome/gtk+/gtk+3_3.22.5.bb
+@@ -8,8 +8,8 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar
+            file://0003-Add-disable-opengl-configure-option.patch \
+            file://0004-configure.ac-Fix-wayland-protocols-path.patch \
+           "
+-SRC_URI[md5sum] = "ebfa5e52167f2b8a4ec6024d51d86f1f"
+-SRC_URI[sha256sum] = "127c8c5cfc32681f9ab3cb542eb0d5c16c1c02faba68bf8fcac9a3cf278ef471"
++SRC_URI[md5sum] = "55e0198f100db98f31d1b0f9dc403794"
++SRC_URI[sha256sum] = "693fa0ac643c59ccd51db99cabe476b4e0a41fd4f0c3c8b3e3ef38f94b2e7334"
+ 
+ S = "${WORKDIR}/gtk+-${PV}"
+ 
+diff --git a/meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.1.bb b/meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.5.bb
+similarity index 93%
+rename from meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.1.bb
+rename to meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.5.bb
+index e6ffc55..878b484 100644
+--- a/meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.1.bb
++++ b/meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.5.bb
+@@ -10,8 +10,8 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+ 
+ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar.xz \
+           file://Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch"
+-SRC_URI[md5sum] = "ebfa5e52167f2b8a4ec6024d51d86f1f"
+-SRC_URI[sha256sum] = "127c8c5cfc32681f9ab3cb542eb0d5c16c1c02faba68bf8fcac9a3cf278ef471"
++SRC_URI[md5sum] = "55e0198f100db98f31d1b0f9dc403794"
++SRC_URI[sha256sum] = "693fa0ac643c59ccd51db99cabe476b4e0a41fd4f0c3c8b3e3ef38f94b2e7334"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2 \
+                     file://gtk/gtk.h;endline=25;md5=1d8dc0fccdbfa26287a271dce88af737 \
 -- 
 2.1.4
 
