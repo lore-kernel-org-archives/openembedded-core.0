@@ -1,50 +1,54 @@
 Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-lf0-f54.google.com (mail-lf0-f54.google.com
-	[209.85.215.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D202719C3
+Received: from mail-lf0-f45.google.com (mail-lf0-f45.google.com
+	[209.85.215.45])
+	by mail.openembedded.org (Postfix) with ESMTP id A02E8719C3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 11:21:27 +0000 (UTC)
-Received: by mail-lf0-f54.google.com with SMTP id y21so51677561lfa.1
+	Mon, 19 Dec 2016 11:21:29 +0000 (UTC)
+Received: by mail-lf0-f45.google.com with SMTP id b14so51656615lfg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 03:21:29 -0800 (PST)
+	Mon, 19 Dec 2016 03:21:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=rndity-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=BsKUik13rONrdGNCDzDXZ9GmVlAPCdXDtKvxWimc07Y=;
-	b=IFhiiD/VZZAWuN0CzvVVRs52WQT+qoqntulVt1LZxSyfXzUo4Yat4wMVNKouBPoTmo
-	VtNgNBMF2kn7p+wU1IBk27fU/lgNGOu7x/z5IFRbwyhpLwOW0akdN87y0AW4pFL6uEDe
-	Hus8LuBMWtqoeA/OewjKg6zZZ/7H7l81JxlP1fdLQKOYc2w1S8TmxlvP3Qqy/d+eVEO3
-	JqqHOvQpTk7F/IaIyJJh5rhYkCWnMcWaaKzTsEjHhmVd+hZO1adPIDXRj4aImQEyRCMO
-	atkyWtOXbon6spnkjizeAXZMstXTiEg1/F+5tyath5t7brXXO3+VyBc8Uv5qx7OIDAbq
-	BEow==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:in-reply-to:references;
+	bh=jhHgUWh7y0C2iFXn/F3yZpUz1K6g4SldU9/xeBSXCtQ=;
+	b=Mnr/d4G3ev8xnczNLxlAAKOrDr6b6HfJQbTS2TNj+vQ38a/SWyGEL95sN0r4ktohsy
+	tylEFlVLJfLLc45aLfPgFwKwLwgRPV5kl6+VtwXVAo2BouqQXHildEWjG6UdQzdOAJHE
+	cOptzJGLoqOkVZcN28xhW+/mMyOO8wKEKaOEljXpVzn6YYfi27if1roMXA5MMuAAP+4u
+	ui3oiORIWBOZsu4re2sKinxcUTnSw71XaUn4/NKgjRIyClIEV6GTKvFAT2TK8fy+m150
+	n1Vi7LuT6tDjLcV8E56psViWONqJvsHBgyo2xfgo6C+0HcKiVU9T7zZZYYx5NVBD9ZRe
+	MR1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=BsKUik13rONrdGNCDzDXZ9GmVlAPCdXDtKvxWimc07Y=;
-	b=BtJiGTnRLRA0Ue6r0dRR4m9Z8R+JzuEg+1u4maeZPXKnQ7NFSiPrYsB/tv959SqdtF
-	iBjPy14fIxstgNfNn0f4E9G2Vh79XLhRJUpAwpnTgrQ1XHFrszl7cHsWWf+gzFEv7Zcm
-	0Mq8aFAf8nzcOAaF9dL6S5ffLB2OTUhDM898TX+1XdNIIVmHZStUtiuKOUjcUI/e831R
-	PVhEPkUo0QGXywtF3QdLAkPx77PbAUbhbaD0xs+w5SJAu8bdBstwwPmJsg+7rxahi/SU
-	HonGvixsIH9En4pwQ35rn0SXkE8Yqw+pzBi3SJnw14Ud9eMQNrMADKFdi6lYE/inT33G
-	a9fw==
-X-Gm-Message-State: AIkVDXJ4+9MlfAj970VcEm53GFGrTFTyMpRPnvF0n2GBx8qUNoFHuBXAeVnvChd5pfd+lQ==
-X-Received: by 10.46.70.17 with SMTP id t17mr858154lja.38.1482146488918;
-	Mon, 19 Dec 2016 03:21:28 -0800 (PST)
+	:references:in-reply-to:references;
+	bh=jhHgUWh7y0C2iFXn/F3yZpUz1K6g4SldU9/xeBSXCtQ=;
+	b=rT1yJ++1Z6aI5QF8Mfk3g81wv55uFbzBAF4nzDserNVyevL0hADY5HzLREl+RAGAxe
+	wLvUo4DZgZh8Q1OEnDvPkt9XdX2Ppc76OaMVPi3BuRP7SY5SS96j4WTXstCw1YD+8JNa
+	bS6rV8Yivamf5xPnrpBgkC68AamEKclwlWIJbaibn197IFPDoT0r8/++a3aSBtmBNmMF
+	CAiCOyPbKs7G2nmzJwl1boymq+ScGfJIEkwfhqTqCe7mfPwLKZR0ElKYewf413S8wLik
+	sH6YdHjhPBOO1NG6O7ZkPSCiT8MeQioBjgHwU+Frdh/neQegMsYnpOEgFmdh2ygIVcjO
+	huQA==
+X-Gm-Message-State: AKaTC02xcC2Moyhe0eOu7s96Wp4ry23nm1dkS+RBrhHT3LUlGAcCcHLN0kdel63HkPcnFg==
+X-Received: by 10.25.20.23 with SMTP id k23mr5225990lfi.136.1482146490209;
+	Mon, 19 Dec 2016 03:21:30 -0800 (PST)
 Received: from comp_016_pc_buildenv.localdomain
 	(staticline-31-182-60-238.toya.net.pl. [31.182.60.238])
-	by smtp.gmail.com with ESMTPSA id c2sm3681892ljb.8.2016.12.19.03.21.27
+	by smtp.gmail.com with ESMTPSA id c2sm3681892ljb.8.2016.12.19.03.21.28
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 19 Dec 2016 03:21:27 -0800 (PST)
+	Mon, 19 Dec 2016 03:21:29 -0800 (PST)
 From: Maciej Borzecki <maciej.borzecki@rndity.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Dec 2016 12:20:56 +0100
-Message-Id: <cover.1482145354.git.maciej.borzecki@rndity.com>
+Date: Mon, 19 Dec 2016 12:20:57 +0100
+Message-Id: <06471cdc58e6d6ec1878601103bd6f602b4a5780.1482145354.git.maciej.borzecki@rndity.com>
 X-Mailer: git-send-email 2.5.5
-In-Reply-To: <20161213185317.GA6550@linux.intel.com>
+In-Reply-To: <cover.1482145354.git.maciej.borzecki@rndity.com>
 References: <20161213185317.GA6550@linux.intel.com>
+	<cover.1482145354.git.maciej.borzecki@rndity.com>
+In-Reply-To: <cover.1482145354.git.maciej.borzecki@rndity.com>
+References: <cover.1482145354.git.maciej.borzecki@rndity.com>
 Cc: Maciej Borzecki <maciek.borzecki@gmail.com>
-Subject: [PATCH v6 0/5] wic: bugfixes & --fixed-size support, tests, oeqa: enhancements
+Subject: [PATCH v6 1/5] oeqa/utils/commands.py: allow use of binaries from native sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,35 +61,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 11:21:29 -0000
+X-List-Received-Date: Mon, 19 Dec 2016 11:21:30 -0000
 
-v6 of a patch series previously posted here [1].
+Tests may need to run a native tool that is not available on the host
+filesystem, but can be built using one of the *-native recipes. In such case,
+the tool will be available in native sysroot, and running in from that location
+will require adjustments to PATH.
 
-Changes since v5:
+runCmd() can now take a path to native sysroot as one of its arguments and
+setup PATH accordingly.
 
-* `oe-selftest: enforce en_US.UTF-8 locale` was merged to master, hence it's no
-  longer part of this series
+Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
+---
+ meta/lib/oeqa/utils/commands.py | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-* rebased on top of master (d0d260b0b85790ceb136dd6b0445e8e33d038f5e)
-
-[1]. http://lists.openembedded.org/pipermail/openembedded-core/2016-November/129187.html
-
-Maciej Borzecki (5):
-  oeqa/utils/commands.py: allow use of binaries from native sysroot
-  wic: add --fixed-size wks option
-  wic: selftest: avoid COMPATIBLE_HOST issues
-  wic: selftest: do not assume bzImage kernel image
-  wic: selftest: add tests for --fixed-size partition flags
-
- meta/lib/oeqa/selftest/wic.py          | 117 +++++++++++++++++++++++++++++++--
- meta/lib/oeqa/utils/commands.py        |   9 ++-
- scripts/lib/wic/help.py                |  14 +++-
- scripts/lib/wic/imager/direct.py       |   2 +-
- scripts/lib/wic/ksparser.py            |  41 ++++++++++--
- scripts/lib/wic/partition.py           |  88 +++++++++++++++----------
- scripts/lib/wic/utils/partitionedfs.py |   2 +-
- 7 files changed, 224 insertions(+), 49 deletions(-)
-
+diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
+index 3a68b001b76ca89df17545912e2f75ca2cca6a38..0425c9fd98c7e8074ced6222156f5a1c2a393f50 100644
+--- a/meta/lib/oeqa/utils/commands.py
++++ b/meta/lib/oeqa/utils/commands.py
+@@ -97,9 +97,16 @@ class Result(object):
+     pass
+ 
+ 
+-def runCmd(command, ignore_status=False, timeout=None, assert_error=True, **options):
++def runCmd(command, ignore_status=False, timeout=None, assert_error=True, native_sysroot=None, **options):
+     result = Result()
+ 
++    if native_sysroot:
++        extra_paths = "%s/sbin:%s/usr/sbin:%s/usr/bin" % \
++                      (native_sysroot, native_sysroot, native_sysroot)
++        nenv = dict(options.get('env', os.environ))
++        nenv['PATH'] = extra_paths + ':' + nenv.get('PATH', '')
++        options['env'] = nenv
++
+     cmd = Command(command, timeout=timeout, **options)
+     cmd.run()
+ 
 -- 
 2.5.5
 
