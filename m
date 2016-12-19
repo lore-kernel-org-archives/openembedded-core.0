@@ -1,47 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id ABA65755C2
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 18DBE755C2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 06:40:08 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id p66so17444828pga.2
+	Mon, 19 Dec 2016 06:40:07 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id w68so1431418pgw.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Dec 2016 22:40:10 -0800 (PST)
+	Sun, 18 Dec 2016 22:40:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=R66S8zhe18XQa308bbJ3wLDgrQc0rsE5UIZbTmA4OKA=;
-	b=IkQaB4tidYJ9vPdt9sJrL+lx7ZxPZaz1u7ucUhEtiYgy+uo6IdcTOs8/7etDCwiq/b
-	mMROrldF8iuir1ruHxGOgZyMZmH+9z2S0cfzolUbXJ2eVpYlLBgWIH0qVTywZ7jwXSFP
-	GUzxUjMuR4ajvGGNNLEeA4BWeMp3/zoLv0vGTtjI3F6aX0B11h1DPHWT/Y3ZWRa+lyS5
-	X2OtAt9/rsgd/jL3+tth4cUby9NGGw0FMWUxDH8EyDmtx9uAjbrPtB8gJsS61fwnz+pB
-	josPbMiGsM5wOlS8Tpy0FvXpxJWI/nu1/9PYQmcBBhQrgB/8ZDUyNcNKca2nvepKiv5y
-	mlrg==
+	bh=k707jF/N7hRIjpuP00MNWqCfLwjJzl4Cl8SUVurxcVg=;
+	b=B4Wnl3DLbrqRmMOLnjhU3SprhsnYY/eZ/mA4BUSTbX9yZqAlbXtc7/5YTNu1o0YlCl
+	vXWzlmgQekK2n/B89IDXFXAnhSno4qRZcXI1+vnFJ6U2dpJHD1xo95I6cb5lkH1TX0b9
+	FCJ6aEgHq9/tZhoAl3YqX+iqrevfGgi9ESEQ1UDuBmm32i6UhOdhpQh2n+41dUnKViSJ
+	0X+mJtz3n1rrv+lUMN6FjGtDwlqWKry5+6yXfN74CyzbHtlw0wH3yWssIDujAAu7pR0G
+	pxUWTXC6eLeRVuD68B77wuSiQAOwt3GflSR1THG+xYUE5YlzWz9I9vyZ/CuWvzIBQujM
+	WdVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=R66S8zhe18XQa308bbJ3wLDgrQc0rsE5UIZbTmA4OKA=;
-	b=GrwWPKx+6iHq96QY20e5qcwW39D4YcTr5IrTWgFHkwiTw0Xxna1qnAnosvGDrk6bVl
-	9sw4dFumzNAjm739hsdMjqh638FjnCNsPgwbUJqkzheGxg/etOmc343CgUIh9BozNoo2
-	N9Ho6OoeA1M9MVaIcgy6NcUIX760G5Cf/ekHDGyDbgiOGs1a1WBUOkj9ea4ENfF4ot8C
-	siVSKVvEqQs2jDzCKrvIzfvP4Y1cGVZPIjos0ATUi4mKm3nWLzL6DxPXJGQLHC5gkdK4
-	/azCVPX8lox7u7h5Vwk7Ew+cNlSx+WUT7HaM4/YCkBw6pw8pO4hWECWlwmNHcPksMxxK
-	wX4A==
-X-Gm-Message-State: AIkVDXLSfrKUuXhJ4h2jKOytn+pgNsiFf6IfOR/tWm85yMBKS1kiS8OW7OnKJkRejf5gjQ==
-X-Received: by 10.84.216.9 with SMTP id m9mr12117443pli.126.1482129610220;
-	Sun, 18 Dec 2016 22:40:10 -0800 (PST)
+	bh=k707jF/N7hRIjpuP00MNWqCfLwjJzl4Cl8SUVurxcVg=;
+	b=BbILtQPV2QLcyR6b+z5+Og74S2XCAbJTBDB3oKUAm93G0yzGHc4OCnQMM9WVmHlTLe
+	SW/wAnlqB1lIlEOi1djFvdmaZfEvoxZ36J1Cjml1Zs0NGyiSnicJ2kq+mfskL+eby5EZ
+	KoPiNffPsNH4juAdO13pNI30u6cfmrXSRYn6qY5t9On8HzwAWmgk4/vT19Gvj+2oR5tx
+	TCqzKO4vCKL6pgBXcRXNpK310PTFWNjq74wCN1Abb7NnxwLSvtrRA9HvnDT6yR03W+9M
+	qnsu9NIC9GAripcfZK88Wh8I0yfAv/p+AuEtXUqjwLtVVR5wqIHEK11e9Ss04SM1rA5k
+	PwrQ==
+X-Gm-Message-State: AIkVDXLJUqQYAXYuAfAkiV8whl4ej8oOxLs4WSRSwCoCH72fTK4kFSsOOaIuHcOmVsl6yA==
+X-Received: by 10.84.225.6 with SMTP id t6mr389651plj.168.1482129609411;
+	Sun, 18 Dec 2016 22:40:09 -0800 (PST)
 Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	72sm28238304pfw.37.2016.12.18.22.40.09
+	72sm28238304pfw.37.2016.12.18.22.40.08
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 18 Dec 2016 22:40:09 -0800 (PST)
+	Sun, 18 Dec 2016 22:40:08 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 18 Dec 2016 22:39:53 -0800
-Message-Id: <20161219063957.18716-6-raj.khem@gmail.com>
+Date: Sun, 18 Dec 2016 22:39:52 -0800
+Message-Id: <20161219063957.18716-5-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20161219063957.18716-1-raj.khem@gmail.com>
 References: <20161219063957.18716-1-raj.khem@gmail.com>
-Subject: [V2 06/10] pax: Fix build with glibc 2.25
+Subject: [V2 05/10] mdadm: Fix build with glibc 2.25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,101 +54,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 06:40:08 -0000
+X-List-Received-Date: Mon, 19 Dec 2016 06:40:09 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...s-sysmacros.h-for-major-minor-definitions.patch | 65 ++++++++++++++++++++++
- meta/recipes-extended/pax/pax_3.4.bb               |  4 +-
- 2 files changed, 68 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/pax/pax/0001-include-sys-sysmacros.h-for-major-minor-definitions.patch
+ ...ys-sysmacros.h-for-major-minor-defintions.patch | 48 ++++++++++++++++++++++
+ meta/recipes-extended/mdadm/mdadm_3.4.bb           |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-include-sys-sysmacros.h-for-major-minor-defintions.patch
 
-diff --git a/meta/recipes-extended/pax/pax/0001-include-sys-sysmacros.h-for-major-minor-definitions.patch b/meta/recipes-extended/pax/pax/0001-include-sys-sysmacros.h-for-major-minor-definitions.patch
+diff --git a/meta/recipes-extended/mdadm/files/0001-include-sys-sysmacros.h-for-major-minor-defintions.patch b/meta/recipes-extended/mdadm/files/0001-include-sys-sysmacros.h-for-major-minor-defintions.patch
 new file mode 100644
-index 0000000000..1d969bc34a
+index 0000000000..acd64ada22
 --- /dev/null
-+++ b/meta/recipes-extended/pax/pax/0001-include-sys-sysmacros.h-for-major-minor-definitions.patch
-@@ -0,0 +1,65 @@
-+From 7f4f379f8343c0ce92aa30f3f9037288a089a902 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-extended/mdadm/files/0001-include-sys-sysmacros.h-for-major-minor-defintions.patch
+@@ -0,0 +1,48 @@
++From 943616e5dffb79f307e4bd9b249d316212998750 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 18 Dec 2016 08:24:56 +0000
-+Subject: [PATCH] include <sys/sysmacros.h> for major/minor definitions
++Date: Sun, 18 Dec 2016 08:30:51 +0000
++Subject: [PATCH] include <sys/sysmacros.h> for major/minor defintions
 +
-+glibc 2.25 will error out if the applications are expecting
-+this to come from sys/types.h, it is being removed from
-+there.
++glibc 2.25 is warning about it if applications depend on
++sys/types.h for these macros, it expects to be included
++from <sys/sysmacros.h>
 +
 +Fixes
-+
-+error: In the GNU C Library, "minor" is defined
++| Grow.c:3534:13: error: In the GNU C Library, "minor" is defined
 +|  by <sys/sysmacros.h>. For historical compatibility, it is
 +|  currently defined by <sys/types.h> as well, but we plan to
 +|  remove this soon. To use "minor", include <sys/sysmacros.h>
 +|  directly. If you did not intend to use a system-defined macro
 +|  "minor", you should undefine it after including <sys/types.h>. [-Werror]
-+|        ul_oct ((u_long) MINOR (arcn->sb.st_rdev), hd->devminor,
-+|              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++| Query.c: In function 'Query':
++| Query.c:105:13: error: In the GNU C Library, "makedev" is defined
++|  by <sys/sysmacros.h>. For historical compatibility, it is
++|  currently defined by <sys/types.h> as well, but we plan to
++|  remove this soon. To use "makedev", include <sys/sysmacros.h>
++|  directly. If you did not intend to use a system-defined macro
++|  "makedev", you should undefine it after including <sys/types.h>. [-Werror]
++|           makedev((unsigned)disc.major,(unsigned)disc.minor) == stb.st_rdev)
++|              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
 +Upstream-Status: Pending
 +
-+ src/cpio.c     | 2 +-
-+ src/gen_subs.c | 2 +-
-+ src/tar.c      | 2 +-
-+ 3 files changed, 3 insertions(+), 3 deletions(-)
++ mdadm.h | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+Index: pax-3.4/src/cpio.c
-+===================================================================
-+--- pax-3.4.orig/src/cpio.c
-++++ pax-3.4/src/cpio.c
-+@@ -36,6 +36,7 @@
-+ #include "config.h"
++diff --git a/mdadm.h b/mdadm.h
++index 8c8f4d1..3ce13b5 100755
++--- a/mdadm.h
+++++ b/mdadm.h
++@@ -34,6 +34,7 @@ extern __off64_t lseek64 __P ((int __fd, __off64_t __offset, int __whence));
 + #endif
 + 
-++#include <sys/sysmacros.h>
-+ #include <sys/types.h>
-+ #include <sys/time.h>
-+ #include <sys/stat.h>
-+Index: pax-3.4/src/gen_subs.c
-+===================================================================
-+--- pax-3.4.orig/src/gen_subs.c
-++++ pax-3.4/src/gen_subs.c
-+@@ -37,6 +37,7 @@
-+ #include "config.h"
-+ #endif
-+ 
-++#include <sys/sysmacros.h>
-+ #include <sys/types.h>
-+ #include <sys/time.h>
-+ #include <sys/stat.h>
-+Index: pax-3.4/src/tar.c
-+===================================================================
-+--- pax-3.4.orig/src/tar.c
-++++ pax-3.4/src/tar.c
-+@@ -37,6 +37,7 @@
-+ #include "config.h"
-+ #endif
-+ 
-++#include <sys/sysmacros.h>
-+ #include <sys/types.h>
-+ #include <sys/time.h>
-+ #include <sys/stat.h>
-diff --git a/meta/recipes-extended/pax/pax_3.4.bb b/meta/recipes-extended/pax/pax_3.4.bb
-index 9d1abfbb54..9b4e17b3df 100644
---- a/meta/recipes-extended/pax/pax_3.4.bb
-+++ b/meta/recipes-extended/pax/pax_3.4.bb
-@@ -16,7 +16,9 @@ DEPENDS_append_libc-musl = " fts "
- 
- SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/${BPN}/${BP}.tar.bz2/fbd9023b590b45ac3ade95870702a0d6/${BP}.tar.bz2 \
- 	file://fix_for_compile_with_gcc-4.6.0.patch \
--	file://pax-3.4_fix_for_x32.patch"
-+	file://pax-3.4_fix_for_x32.patch \
-+        file://0001-include-sys-sysmacros.h-for-major-minor-definitions.patch \
-+"
- 
- SRC_URI_append_libc-musl = " file://0001-Fix-build-with-musl.patch \
-                              file://0001-use-strtoll-instead-of-strtoq.patch \
++ #include	<sys/types.h>
+++#include	<sys/sysmacros.h>
++ #include	<sys/stat.h>
++ #include	<stdint.h>
++ #include	<stdlib.h>
++-- 
++1.9.1
++
+diff --git a/meta/recipes-extended/mdadm/mdadm_3.4.bb b/meta/recipes-extended/mdadm/mdadm_3.4.bb
+index d34b885076..7bf15b51be 100644
+--- a/meta/recipes-extended/mdadm/mdadm_3.4.bb
++++ b/meta/recipes-extended/mdadm/mdadm_3.4.bb
+@@ -21,6 +21,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+            file://run-ptest \
+            file://0001-raid6check-Fix-if-else-indentation.patch \
+            file://0001-mdadm.h-Undefine-dprintf-before-redefining.patch \
++           file://0001-include-sys-sysmacros.h-for-major-minor-defintions.patch \
+            "
+ SRC_URI[md5sum] = "04b8b21f637540350f8517c7e68d3c63"
+ SRC_URI[sha256sum] = "27d0be4627d38a12ddcd1c1c3721d649d4e89e1093914497e22b57245cda8808"
 -- 
 2.11.0
 
