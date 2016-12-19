@@ -1,20 +1,51 @@
-Return-Path: <edwin.plauchu.camacho@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id A957277237
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
+	[209.85.218.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A7787732C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 18:05:52 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Dec 2016 10:05:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,374,1477983600"; d="scan'208";a="1074086309"
-Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
-	by orsmga001.jf.intel.com with ESMTP; 19 Dec 2016 10:05:53 -0800
-From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Dec 2016 12:07:10 -0600
-Message-Id: <1482170830-15830-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH V3] dpkg: upgrade to 1.18.15
+	Mon, 19 Dec 2016 18:46:27 +0000 (UTC)
+Received: by mail-oi0-f46.google.com with SMTP id v84so153861671oie.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Dec 2016 10:46:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=gko9WxsknoiBx1ER2pZLWiIZEINDO+/APSVl9gYrzGw=;
+	b=NrR54I6CC4X1UIr7JLJaObE18nKbpDexYJ2o/270ZSf2mycE3EFSx87b+J1SyACftB
+	u7j3STiEEKJo7a/CNy519da+YEWt28dYIOq/DaMaw+yIX20X3Pp/rm/g8SCJl2HhMci+
+	7FnRDOb0W/DljPY+GYVO6qAIHYw8fUWIwjGRSgeeSzY3TrgdTmYIWXDphFAWyJxYyT1P
+	hI8GgkpH8mR31zquVhhlbAzweY/twJjQis48qGKITSYFdItfCow+1sJ1OO3L2VKiYlae
+	mA7azuCC/S1fGEAN2qd6+GfiqKETIUN1GtXBIntt2NWBv0Dmfa2hCSqQuMvtP+PsAwSU
+	1AwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=gko9WxsknoiBx1ER2pZLWiIZEINDO+/APSVl9gYrzGw=;
+	b=jeDIlPhG9ez3ubYCuUHUoozHVwBO0kf66EM8eHLD/oj0Lb8+uLBuc8YVjra2UkSyfy
+	xaZ3k/PvxYb1wQo9d3M6Yv53cvKag5+DAEAZiWaCeJSbWXQxcWJd2HVn5aAS+yxuM+TT
+	UgF+cJL10stM5G+W9dZrB7EAaXoQERth+uNj0K/Ti3ANadBPg2Gb8Gf9ivGVxlxD+Ufx
+	bsg1qMeCg6FDrIS6GVt3R6xBcpL38753rQKRkcYYGcj3Z+rZ7Rn5Jh0qOMI8zNemlb6u
+	BwB6A9GAR0KKUWtB7BhxlLz2jiuWJIGw4s86zrnFG9Zz5eb39Q9ioyF+PUL+QLb83a8i
+	o/Nw==
+X-Gm-Message-State: AKaTC01ZjpBfOf28eEHtt1Sc+ohMTMH/TB5is7L3hcr7e6nbnyaC3HpKF/WiITOglAPRpAysqevJLZ5XXkVPug==
+X-Received: by 10.157.17.174 with SMTP id v43mr9072996otf.251.1482173188748;
+	Mon, 19 Dec 2016 10:46:28 -0800 (PST)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.157.19.10 with HTTP; Mon, 19 Dec 2016 10:46:08 -0800 (PST)
+In-Reply-To: <alpine.LFD.2.20.1612191246350.4848@localhost.localdomain>
+References: <alpine.LFD.2.20.1612190527590.8267@localhost.localdomain>
+	<CABcZANnv7=zxZ7MNT4kDPKxScTYkJa44qAxt5Lvfc-L4=-Kb0A@mail.gmail.com>
+	<CABcZAN=X+O23y=utG3iBvsdPNo1g9qM7H2JAT1PUpt-R=AYCBg@mail.gmail.com>
+	<alpine.LFD.2.20.1612191246350.4848@localhost.localdomain>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Mon, 19 Dec 2016 11:46:08 -0700
+X-Google-Sender-Auth: rRgi3_39qhRZxATwRMqfQc7IjCU
+Message-ID: <CABcZANnkk64RWAw4vHVc92QXQmuaBXD9yK0x95u2fw=SOh7jUQ@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: a few questions about "COMPATIBLE_MACHINE" variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,308 +58,215 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 18:05:53 -0000
+X-List-Received-Date: Mon, 19 Dec 2016 18:46:27 -0000
+Content-Type: multipart/alternative; boundary=94eb2c18fcd4693bba0544075694
 
-triplets file is no longer available.
-As of now using files data/tupletable and data/ostable
+--94eb2c18fcd4693bba0544075694
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
----
- ...tinsts-expect-D-to-be-set-when-running-in.patch | 30 ++++++++--------
- ...0006-add-musleabi-to-known-target-tripets.patch | 42 ----------------------
- .../0006-add-musleabi-to-known-target-tuples.patch | 40 +++++++++++++++++++++
- ...let_entry.patch => add_armeb_tuple_entry.patch} | 27 +++++++-------
- meta/recipes-devtools/dpkg/dpkg/arch_pm.patch      | 12 +++----
- meta/recipes-devtools/dpkg/dpkg/noman.patch        |  9 ++---
- .../dpkg/{dpkg_1.18.7.bb => dpkg_1.18.15.bb}       | 10 +++---
- 7 files changed, 85 insertions(+), 85 deletions(-)
- delete mode 100644 meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tripets.patch
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tuples.patch
- rename meta/recipes-devtools/dpkg/dpkg/{add_armeb_triplet_entry.patch => add_armeb_tuple_entry.patch} (69%)
- rename meta/recipes-devtools/dpkg/{dpkg_1.18.7.bb => dpkg_1.18.15.bb} (63%)
+On Mon, Dec 19, 2016 at 10:56 AM, Robert P. J. Day <rpjday@crashcourse.ca>
+wrote:
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0003-Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch b/meta/recipes-devtools/dpkg/dpkg/0003-Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch
-index 80504ce..673e3f3 100644
---- a/meta/recipes-devtools/dpkg/dpkg/0003-Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/0003-Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch
-@@ -18,26 +18,31 @@ diff --git a/src/script.c b/src/script.c
- index 3c88be8..ce66a86 100644
- --- a/src/script.c
- +++ b/src/script.c
--@@ -97,43 +97,10 @@ setexecute(const char *path, struct stat *stab)
-+@@ -97,48 +97,10 @@
-  static const char *
-  maintscript_pre_exec(struct command *cmd)
-  {
- -	const char *admindir = dpkg_db_get_dir();
---	const char *changedir = fc_script_chrootless ? instdir : "/";
---	size_t instdirl = strlen(instdir);
-+-	const char *changedir;
-+-	size_t instdirlen = strlen(instdir);
- -
---	if (*instdir && !fc_script_chrootless) {
---		if (strncmp(admindir, instdir, instdirl) != 0)
-+-	if (instdirlen > 0 && fc_script_chrootless)
-+-		changedir = instdir;
-+-	else
-+-		changedir = "/";
-+-
-+-	if (instdirlen > 0 && !fc_script_chrootless) {
-+-		if (strncmp(admindir, instdir, instdirlen) != 0)
- -			ohshit(_("admindir must be inside instdir for dpkg to work properly"));
---		if (setenv("DPKG_ADMINDIR", admindir + instdirl, 1) < 0)
-+-		if (setenv("DPKG_ADMINDIR", admindir + instdirlen, 1) < 0)
- -			ohshite(_("unable to setenv for subprocesses"));
- -		if (setenv("DPKG_ROOT", "", 1) < 0)
- -			ohshite(_("unable to setenv for subprocesses"));
- -
- -		if (chroot(instdir))
- -			ohshite(_("failed to chroot to '%.250s'"), instdir);
--+	if (*instdir) {
--+		setenv("D", instdir, 1);
-++       if (*instdir) {
-++              setenv("D", instdir, 1);
-  	}
- -	/* Switch to a known good directory to give the maintainer script
- -	 * a saner environment, also needed after the chroot(). */
-@@ -56,15 +61,12 @@ index 3c88be8..ce66a86 100644
- -		      args.buf);
- -		varbuf_destroy(&args);
- -	}
---	if (!instdirl || fc_script_chrootless)
-+-	if (instdirlen == 0 || fc_script_chrootless)
- -		return cmd->filename;
- -
---	assert(strlen(cmd->filename) >= instdirl);
---	return cmd->filename + instdirl;
-+-	assert(strlen(cmd->filename) >= instdirlen);
-+-	return cmd->filename + instdirlen;
- +	return cmd->filename;
-  }
-  
-  /**
---- 
--2.1.4
--
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tripets.patch b/meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tripets.patch
-deleted file mode 100644
-index a6b0088..0000000
---- a/meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tripets.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--From f8910022dc3ec622272f168cd0022dbdf6dff93a Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 30 Dec 2015 23:05:41 +0000
--Subject: [PATCH] add musleabi to known target tripets
--
--helps compiling dpkg for musl/arm-softfloat
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Pending
--
-- ostable      | 1 +
-- triplettable | 1 +
-- 2 files changed, 2 insertions(+)
--
--diff --git a/ostable b/ostable
--index 3bb6819..d0ffdc7 100644
----- a/ostable
--+++ b/ostable
--@@ -15,6 +15,7 @@
-- uclibceabi-linux	linux-uclibceabi	linux[^-]*-uclibceabi
-- uclibc-linux		linux-uclibc		linux[^-]*-uclibc
-- musleabihf-linux	linux-musleabihf	linux[^-]*-musleabihf
--+musleabi-linux		linux-musleabi		linux[^-]*-musleabi
-- musl-linux		linux-musl		linux[^-]*-musl
-- gnueabihf-linux		linux-gnueabihf		linux[^-]*-gnueabihf
-- gnueabi-linux		linux-gnueabi		linux[^-]*-gnueabi
--diff --git a/triplettable b/triplettable
--index 1213584..70d24c1 100644
----- a/triplettable
--+++ b/triplettable
--@@ -6,6 +6,7 @@
-- uclibceabi-linux-arm	uclibc-linux-armel
-- uclibc-linux-<cpu>	uclibc-linux-<cpu>
-- musleabihf-linux-arm	musl-linux-armhf
--+musleabi-linux-arm	musl-linux-armel
-- musl-linux-<cpu>	musl-linux-<cpu>
-- gnueabihf-linux-arm	armhf
-- gnueabi-linux-arm	armel
---- 
--2.6.4
--
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tuples.patch b/meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tuples.patch
-new file mode 100644
-index 0000000..ccf0ca4
---- /dev/null
-+++ b/meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tuples.patch
-@@ -0,0 +1,40 @@
-+From 6be4743d9a04c27a592acdc3fd3d6f3dd6f4ae9a Mon Sep 17 00:00:00 2001
-+From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-+Date: Thu, 15 Dec 2016 19:29:25 -0600
-+Subject: [PATCH] add musleabi to known target tripets
-+
-+helps compiling dpkg for musl/arm-softfloat
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ data/ostable    | 1 +
-+ data/tupletable | 1 +
-+ 2 files changed, 2 insertions(+)
-+
-+diff --git a/data/ostable b/data/ostable
-+index 09007da..6be797a 100644
-+--- a/data/ostable
-++++ b/data/ostable
-+@@ -17,6 +17,7 @@
-+ eabi-uclibc-linux	linux-uclibceabi	linux[^-]*-uclibceabi
-+ base-uclibc-linux	linux-uclibc		linux[^-]*-uclibc
-+ eabihf-musl-linux	linux-musleabihf	linux[^-]*-musleabihf
-++eabi-musl-linux         linux-musleabi          linux[^-]*-musleabi
-+ base-musl-linux		linux-musl		linux[^-]*-musl
-+ eabihf-gnu-linux	linux-gnueabihf		linux[^-]*-gnueabihf
-+ eabi-gnu-linux		linux-gnueabi		linux[^-]*-gnueabi
-+diff --git a/dpkg-1.18.15/data/tupletable b/dpkg-1.18.15/data/tupletable
-+index 63cca14..3c215a9 100644
-+--- a/data/tupletable
-++++ b/data/tupletable
-+@@ -8,6 +8,7 @@
-+ eabi-uclibc-linux-arm		uclibc-linux-armel
-+ base-uclibc-linux-<cpu>		uclibc-linux-<cpu>
-+ eabihf-musl-linux-arm		musl-linux-armhf
-++eabi-musl-linux-arm		musl-linux-armel
-+ base-musl-linux-<cpu>		musl-linux-<cpu>
-+ eabihf-gnu-linux-arm		armhf
-+ eabi-gnu-linux-arm		armel
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-devtools/dpkg/dpkg/add_armeb_triplet_entry.patch b/meta/recipes-devtools/dpkg/dpkg/add_armeb_tuple_entry.patch
-similarity index 69%
-rename from meta/recipes-devtools/dpkg/dpkg/add_armeb_triplet_entry.patch
-rename to meta/recipes-devtools/dpkg/dpkg/add_armeb_tuple_entry.patch
-index dc69eb2..b7d5547 100644
---- a/meta/recipes-devtools/dpkg/dpkg/add_armeb_triplet_entry.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/add_armeb_tuple_entry.patch
-@@ -24,23 +24,22 @@ empty in configure script.
- Upstream-Status: Pending
- 
- Signed-off-by: Krishnanjanappa, Jagadeesh <jagadeesh.krishnanjanappa@caviumnetworks.com>
--
- ---
-- triplettable | 1 +
-+ data/tupletable | 1 +
-  1 file changed, 1 insertion(+)
- 
--diff --git a/triplettable b/triplettable
--index abe4726..1e9c247 100644
----- a/triplettable
--+++ b/triplettable
--@@ -11,6 +11,7 @@ gnueabihf-linux-arm	armhf
-- gnueabi-linux-arm	armel
-- gnuabin32-linux-mips64r6el	mipsn32r6el
-- gnuabin32-linux-mips64r6	mipsn32r6
--+gnueabi-linux-armeb	armeb
-- gnuabin32-linux-mips64el	mipsn32el
-- gnuabin32-linux-mips64	mipsn32
-- gnuabi64-linux-mips64r6el	mips64r6el
-+diff --git a/data/tupletable b/data/tupletable
-+index 2692f2d..63cca14 100644
-+--- a/data/tupletable
-++++ b/data/tupletable
-+@@ -13,6 +13,7 @@ eabihf-gnu-linux-arm		armhf
-+ eabi-gnu-linux-arm		armel
-+ abin32-gnu-linux-mips64r6el	mipsn32r6el
-+ abin32-gnu-linux-mips64r6	mipsn32r6
-++eabi-gnu-linux-armeb            armeb
-+ abin32-gnu-linux-mips64el	mipsn32el
-+ abin32-gnu-linux-mips64		mipsn32
-+ abi64-gnu-linux-mips64r6el	mips64r6el
- -- 
- 2.1.4
- 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/arch_pm.patch b/meta/recipes-devtools/dpkg/dpkg/arch_pm.patch
-index cad4c0f..922df98 100644
---- a/meta/recipes-devtools/dpkg/dpkg/arch_pm.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/arch_pm.patch
-@@ -10,13 +10,13 @@ Signed-off-by: Joe Slater <jslater@windriver.com>
- 
- --- a/scripts/Dpkg/Arch.pm
- +++ b/scripts/Dpkg/Arch.pm
--@@ -233,9 +233,6 @@ sub read_triplettable()
-- 		    (my $dt = $debtriplet) =~ s/<cpu>/$_cpu/;
-+@@ -286,9 +286,6 @@
-+ 		    (my $dt = $debtuple) =~ s/<cpu>/$_cpu/;
-  		    (my $da = $debarch) =~ s/<cpu>/$_cpu/;
-  
---		    next if exists $debarch_to_debtriplet{$da}
---		         or exists $debtriplet_to_debarch{$dt};
-+-		    next if exists $debarch_to_debtuple{$da}
-+-		         or exists $debtuple_to_debarch{$dt};
- -
-- 		    $debarch_to_debtriplet{$da} = $dt;
-- 		    $debtriplet_to_debarch{$dt} = $da;
-+ 		    $debarch_to_debtuple{$da} = $dt;
-+ 		    $debtuple_to_debarch{$dt} = $da;
-  		}
-diff --git a/meta/recipes-devtools/dpkg/dpkg/noman.patch b/meta/recipes-devtools/dpkg/dpkg/noman.patch
-index d30c150..0012401 100644
---- a/meta/recipes-devtools/dpkg/dpkg/noman.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/noman.patch
-@@ -1,14 +1,15 @@
- Upstream-Status: Inappropriate [disable feature]
- 
- diff -ruN dpkg-1.15.8.5-orig/Makefile.am dpkg-1.15.8.5/Makefile.am
----- dpkg-1.15.8.5-orig/Makefile.am	2010-10-08 12:27:15.042083703 +0800
--+++ dpkg-1.15.8.5/Makefile.am	2010-10-08 12:27:27.755148228 +0800
--@@ -12,8 +12,7 @@
-- 	utils \
-+--- dpkg-1.15.8.5-orig/Makefile.am      2010-10-08 12:27:15.042083703 +0800
-++++ dpkg-1.15.8.5/Makefile.am   2010-10-08 12:27:27.755148228 +0800
-+@@ -13,8 +13,7 @@
-  	$(MAYBE_DSELECT) \
-  	scripts \
-+ 	t-func \
- -	po \
- -	man
- +	po
-  
-  ACLOCAL_AMFLAGS = -I m4
-+ 
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.18.7.bb b/meta/recipes-devtools/dpkg/dpkg_1.18.15.bb
-similarity index 63%
-rename from meta/recipes-devtools/dpkg/dpkg_1.18.7.bb
-rename to meta/recipes-devtools/dpkg/dpkg_1.18.15.bb
-index 28fdc13..c735195 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.18.7.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.18.15.bb
-@@ -1,19 +1,19 @@
- require dpkg.inc
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
- 
--SRC_URI = "http://snapshot.debian.org/archive/debian/20160509T100042Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz \
-+SRC_URI = "http://snapshot.debian.org/archive/debian/20161219T091623Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz \
-            file://noman.patch \
-            file://remove-tar-no-timestamp.patch \
-            file://arch_pm.patch \
-            file://dpkg-configure.service \
--           file://add_armeb_triplet_entry.patch \
-+           file://add_armeb_tuple_entry.patch \
-            file://0002-Adapt-to-linux-wrs-kernel-version-which-has-characte.patch \
-            file://0003-Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch \
-            file://0004-The-lutimes-function-doesn-t-work-properly-for-all-s.patch \
-            file://0005-dpkg-compiler.m4-remove-Wvla.patch \
--           file://0006-add-musleabi-to-known-target-tripets.patch \
-+           file://0006-add-musleabi-to-known-target-tuples.patch \
-            "
- SRC_URI_append_class-native = " file://glibc2.5-sync_file_range.patch "
- 
--SRC_URI[md5sum] = "073dbf2129a54b0fc627464bf8af4a1b"
--SRC_URI[sha256sum] = "ace36d3a6dc750a42baf797f9e75ec580a21f92bb9ff96b482100755d6d9b87b"
-+SRC_URI[md5sum] = "7aa1b61da5bff4cbc5a1d2cb5a30d546"
-+SRC_URI[sha256sum] = "aee936653b9c39403160c0a331ee7934563fbfa4e1f5adbc14a289c803cda371"
--- 
-2.1.4
+> i suspected as much. still, would consistency dictate using
+> parentheses or not? just a style thing.
+>
+
+I think it=E2=80=99s largely personal preference. Personally, using a captu=
+re when
+we don=E2=80=99t need one is ugly to me, so I=E2=80=99d rather see it only =
+used when
+needed, but that=E2=80=99s just my opinion. The upside to always using a ca=
+pture is
+it makes it clearer, at a glance, to a new user that it=E2=80=99s not just =
+a word
+or list of words, but a regular expression.
 
 
+> >       next, if the possibilities in a list are REs, what is the
+> >       point of explicitly listing, say, "qemuarm|qemuarm64"? would
+> >       not the RE "qemuarm" subsume the more explicit "qemuarm64"?
+> >       same for the other architectures. (one could suggest that that
+> >       entire line could be shortened to "... =3D (^qemu)".)
+> >
+> > Just qemu would potentially match future qemu machines which aren=E2=80=
+=99t
+> > actually supported, so I don=E2=80=99t think that would be appropriate.=
+ It=E2=80=99d
+> > match too much.
+>
+>   i realized that, i was just being technical. :-) in any event, as it
+> is, it would *still* match too much, anything starting with
+> "qemuarm", for example.
+>
+
+Good point, yes.
+
+>         the above seems pretty clear since the following lines would
+> appear
+> >       to say that *only* the qemux86 is compatible:
+> >
+> >         linux-yocto-tiny_4.1.bb:COMPATIBLE_MACHINE =3D "(qemux86$)"
+> >         linux-yocto-tiny_4.4.bb:COMPATIBLE_MACHINE =3D "(qemux86$)"
+> >         linux-yocto-tiny_4.8.bb:COMPATIBLE_MACHINE =3D "(qemux86$)"
+> >
+> >       which suggests the following passage from the YP kernel dev manua=
+l
+> is
+> >       a bit misleading:
+> >
+> >         "You must change it to match a list of the machines that your n=
+ew
+> >         recipe supports. For example, to support the qemux86 and
+> qemux86-64
+> >         machines, use the following form:
+> >
+> >              COMPATIBLE_MACHINE =3D "qemux86|qemux86-64"
+> >
+> >       and if all this is true, then if you're introducing a new machine=
+,
+> to
+> >       be magnificently pedantic, one should not use:
+> >
+> >         COMPATIBLE_MACHINE_machinename =3D "machinename"
+> >
+> >       but
+> >
+> >         COMPATIBLE_MACHINE_machinename =3D "^machinename$"
+> >
+> >       just to play it safe. am i reading all this correctly?
+> >
+> >
+> > Yes, that=E2=80=99s correct, though we need the trailing $ but not the
+> > leading ^, as it=E2=80=99s using re.match, not re.search =E2=80=94 mean=
+ing it only
+> > matches at the beginning of the string, it doesn=E2=80=99t search the s=
+tring
+> > to find a match.
+>
+>   ah, quite right, i had forgotten that. again, in any event, both the
+> code and documentation could probably be tweaked to make all of this
+> more obvious.
+>
+
+Absolutely agreed. For this regex specifically, an argument could be made
+that a lack of a trailing $ is almost certainly a bug. I could argue that
+it should either be implicit, though that would be limiting, or failing to
+include it could trigger a warning unless you explicitly state you know
+what you=E2=80=99re doing :) Hmm..
+--=20
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--94eb2c18fcd4693bba0544075694
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Mon, Dec 19, 2016 at 10:56 AM, Robert P. J. Day <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcourse=
+.ca</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":34m=
+" class=3D"a3s aXjCH m159183ba2b4bc17d">i suspected as much. still, would c=
+onsistency dictate using<br>
+parentheses or not? just a style thing.<br></div></blockquote><div><br></di=
+v><div>I think it=E2=80=99s largely personal preference. Personally, using =
+a capture when we don=E2=80=99t need one is ugly to me, so I=E2=80=99d rath=
+er see it only used when needed, but that=E2=80=99s just my opinion. The up=
+side to always using a capture is it makes it clearer, at a glance, to a ne=
+w user that it=E2=80=99s not just a word or list of words, but a regular ex=
+pression.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":=
+34m" class=3D"a3s aXjCH m159183ba2b4bc17d"><span class=3D"">
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 next, if the possibilities in a list are REs=
+, what is the<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0point of explicitly listing, say, &quot;qemu=
+arm|qemuarm64&quot;? would<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0not the RE &quot;qemuarm&quot; subsume the m=
+ore explicit &quot;qemuarm64&quot;?<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0same for the other architectures. (one could=
+ suggest that that<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0entire line could be shortened to &quot;... =
+=3D (^qemu)&quot;.)<br>
+&gt;<br>
+&gt; Just qemu would potentially match future qemu machines which aren=E2=
+=80=99t<br>
+&gt; actually supported, so I don=E2=80=99t think that would be appropriate=
+. It=E2=80=99d<br>
+&gt; match too much.<br>
+<br>
+</span>=C2=A0 i realized that, i was just being technical. :-) in any event=
+, as it<br>
+is, it would *still* match too much, anything starting with<br>
+&quot;qemuarm&quot;, for example.<br></div></blockquote><div><br></div><div=
+>Good point, yes.=C2=A0</div><div><br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+<div id=3D":34m" class=3D"a3s aXjCH m159183ba2b4bc17d"><span class=3D"">
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 the above seems pretty clear since th=
+e following lines would appear<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0to say that *only* the qemux86 is compatible=
+:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 linux-yocto-tiny_4.1.bb:COMPAT<wbr>IB=
+LE_MACHINE =3D &quot;(qemux86$)&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 linux-yocto-tiny_4.4.bb:COMPAT<wbr>IB=
+LE_MACHINE =3D &quot;(qemux86$)&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 linux-yocto-tiny_4.8.bb:COMPAT<wbr>IB=
+LE_MACHINE =3D &quot;(qemux86$)&quot;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0which suggests the following passage from th=
+e YP kernel dev manual is<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0a bit misleading:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 &quot;You must change it to match a l=
+ist of the machines that your new<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 recipe supports. For example, to supp=
+ort the qemux86 and qemux86-64<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 machines, use the following form:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0COMPATIBLE_MACHIN=
+E =3D &quot;qemux86|qemux86-64&quot;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0and if all this is true, then if you&#39;re =
+introducing a new machine, to<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0be magnificently pedantic, one should not us=
+e:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 COMPATIBLE_MACHINE_machinename =3D &q=
+uot;machinename&quot;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0but<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 COMPATIBLE_MACHINE_machinename =3D &q=
+uot;^machinename$&quot;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0just to play it safe. am i reading all this =
+correctly?<br>
+&gt;<br>
+&gt;<br>
+&gt; Yes, that=E2=80=99s correct, though we need the trailing $ but not the=
+<br>
+&gt; leading ^, as it=E2=80=99s using re.match, not re.search =E2=80=94 mea=
+ning it only<br>
+&gt; matches at the beginning of the string, it doesn=E2=80=99t search the =
+string<br>
+&gt; to find a match.<br>
+<br>
+</span>=C2=A0 ah, quite right, i had forgotten that. again, in any event, b=
+oth the<br>
+code and documentation could probably be tweaked to make all of this<br>
+more obvious.</div></blockquote></div><br>Absolutely agreed. For this regex=
+ specifically, an argument could be made that a lack of a trailing $ is alm=
+ost certainly a bug. I could argue that it should either be implicit, thoug=
+h that would be limiting, or failing to include it could trigger a warning =
+unless you explicitly state you know what you=E2=80=99re doing :) Hmm..<br>=
+-- <br><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">Ch=
+ristopher Larson<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEm=
+bedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mento=
+r Graphics</div>
+</div></div>
+
+--94eb2c18fcd4693bba0544075694--
