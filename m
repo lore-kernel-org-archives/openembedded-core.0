@@ -1,29 +1,51 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B30077269
+Return-Path: <twoerner@gmail.com>
+Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
+	[209.85.223.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CD9E73163
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 15:18:29 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
-	via TCP (outbound) with ESMTPS id 20161219151829132_0685
+	Mon, 19 Dec 2016 15:23:26 +0000 (UTC)
+Received: by mail-io0-f195.google.com with SMTP id b194so19335314ioa.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 07:18:29 -0800
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [216.191.234.70] (port=29719 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1cIzhn-0003H1-6Y for openembedded-core@lists.openembedded.org;
-	Mon, 19 Dec 2016 10:18:23 -0500
-Date: Mon, 19 Dec 2016 10:17:01 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1612190527590.8267@localhost.localdomain>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Mon, 19 Dec 2016 07:23:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=xDBs+ILTqSdUGsJL2BooPU9BkFaOPltMPP7zPX4iteY=;
+	b=W+c/B1yJMZhceMX9UesVcXd/msmHCcG4glXjslf+Eu+at44toM0SM6P5G4GZnzBDpv
+	KlBiEGaJ38hkl/uJ+uaNn0hQ0onbDLg7lIv2A8ByYjbcVqHzeehuO1n46bHjNG90QrgV
+	2OHokIauoZ7mAlU6K8oM5Fhcf2SyPFiA2x4RxgzscCAM822r22eb/d1JEvxOR6MID3ox
+	ygbTaOQ5g8jarwvAPK+yzf/kr1h82riQ1iZYFSTH69sr1xk9u4AWvpu5q2phjgFx30Vo
+	TMBEFQcmkjvDJ8n3RyIHjGCvGO9nUHv1tHyiW+YNmCCK7eR48V57ehhF63cvRkMyKL5q
+	xNEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=xDBs+ILTqSdUGsJL2BooPU9BkFaOPltMPP7zPX4iteY=;
+	b=KUk6Fv6/0oqTXqEZDhTG0cxhQaEKyYieMeUJ1DxSXzOO2gyY89HhAXJGttpriKRO7C
+	TV9qLyDQtLl8FToz7Dy86SkOxKG3J0YUNHxQuR10zuPj5hnnKRlaLdi55+t2uz219AG0
+	M+VEtgind8fktkTVThDdxmo5fOobCq7PQyiGng5gkfI4y3MJzBW3tKK+asfZEwosyku0
+	Ly51bUqQMb1fvv+wtUr+RTWOIeKtMx2Gfx7pO66IYQgYiYEe0xZfdKSffy4hQZKJ727u
+	ilZHmF7E7FmJzxccMfmvnBmdhcDq3gtsgW7rd686ymwgAqTVdAvHHVYqLKcxqt+ZD6JA
+	DTuw==
+X-Gm-Message-State: AIkVDXLr10ZAzCExfUyEgpKw135LQTC1N5iCdGBi4jDKvNy5U6joh0shYf9tyAuHHLVIvA==
+X-Received: by 10.107.166.145 with SMTP id p139mr15494058ioe.228.1482161007443;
+	Mon, 19 Dec 2016 07:23:27 -0800 (PST)
+Received: from openSUSE-i7.site (dsl-67-55-28-109.acanac.net. [67.55.28.109])
+	by smtp.gmail.com with ESMTPSA id
+	w17sm8403995iod.22.2016.12.19.07.23.26
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 19 Dec 2016 07:23:26 -0800 (PST)
+Date: Mon, 19 Dec 2016 10:23:24 -0500
+From: Trevor Woerner <twoerner@gmail.com>
+To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+Message-ID: <20161219152324.GA1056@openSUSE-i7.site>
+References: <1481599839-114211-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: a few questions about "COMPATIBLE_MACHINE" variable
+In-Reply-To: <1481599839-114211-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+User-Agent: Mutt/1.6.0 (2016-04-01)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] util-linux: 2.28.1 -> 2.29
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,93 +58,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 15:18:30 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Mon, 19 Dec 2016 15:23:26 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
+Is anyone else seeing build failures as a result of this commit?
 
-  as a starting point, COMPATIBLE_MACHINE is processed on a per-recipe
-basis, and if it has no value, then there is no machine restriction
-being applied to that recipe, correct? that's based on this snippet
-from base.bbclass:
-
-  need_machine = d.getVar('COMPATIBLE_MACHINE')
-  if need_machine:
-      import re
-      compat_machines = (d.getVar('MACHINEOVERRIDES') or "").split(":")
-      for m in compat_machines:
-          if re.match(need_machine, m):
-              break
-      else:
-          raise bb.parse.SkipPackage("incompatible with machine %s (not in COMPATIBLE_MACHINE)" % d.getVar('MACHINE'))
-
-so far, so good?
-
-  next, the documentation describes the value of that variable as a
-regular expression, so the values are processed as RE patterns, but
-some of the actual uses are confusing. from
-poky/meta/recipes-kernel/linux:
-
-$ grep -r COMPATIBLE_MACHINE *
-linux-dummy.bb:#COMPATIBLE_MACHINE = "your_machine"
-linux-yocto_4.1.bb:COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
-linux-yocto_4.4.bb:COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
-linux-yocto_4.8.bb:COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
-linux-yocto-dev.bb:COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemumips64|qemux86-64)"
-linux-yocto-rt_4.1.bb:COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuppc|qemumips)"
-linux-yocto-rt_4.4.bb:COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuppc|qemumips)"
-linux-yocto-rt_4.8.bb:COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuppc|qemumips)"
-linux-yocto-tiny_4.1.bb:COMPATIBLE_MACHINE = "(qemux86$)"
-linux-yocto-tiny_4.4.bb:COMPATIBLE_MACHINE = "(qemux86$)"
-linux-yocto-tiny_4.8.bb:COMPATIBLE_MACHINE = "(qemux86$)"
-$
-
-  first, what is best practice -- to use parentheses or not? i'm
-assuming it makes no difference, but it does seem inconsistent and
-could cause some confusion.
-
-  next, if the possibilities in a list are REs, what is the point of
-explicitly listing, say, "qemuarm|qemuarm64"? would not the RE
-"qemuarm" subsume the more explicit "qemuarm64"? same for the other
-architectures. (one could suggest that that entire line could be
-shortened to "... = (^qemu)".)
-
-  the above seems pretty clear since the following lines would appear
-to say that *only* the qemux86 is compatible:
-
-  linux-yocto-tiny_4.1.bb:COMPATIBLE_MACHINE = "(qemux86$)"
-  linux-yocto-tiny_4.4.bb:COMPATIBLE_MACHINE = "(qemux86$)"
-  linux-yocto-tiny_4.8.bb:COMPATIBLE_MACHINE = "(qemux86$)"
-
-which suggests the following passage from the YP kernel dev manual is
-a bit misleading:
-
-  "You must change it to match a list of the machines that your new
-  recipe supports. For example, to support the qemux86 and qemux86-64
-  machines, use the following form:
-
-       COMPATIBLE_MACHINE = "qemux86|qemux86-64"
-
-and if all this is true, then if you're introducing a new machine, to
-be magnificently pedantic, one should not use:
-
-  COMPATIBLE_MACHINE_machinename = "machinename"
-
-but
-
-  COMPATIBLE_MACHINE_machinename = "^machinename$"
-
-just to play it safe. am i reading all this correctly?
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+	... [lots of lines omitted] ...
+	| cfdisk.c:(.text+0x207b): undefined reference to `_nc_stdscr'
+	| cfdisk.c:(.text+0x20a4): undefined reference to `_nc_stdscr'
+	| cfdisk.c:(.text+0x2268): undefined reference to `_nc_stdscr'
+	| cfdisk.c:(.text+0x2284): undefined reference to `_nc_acs_map'
+	| cfdisk.c:(.text+0x2290): undefined reference to `_nc_stdscr'
+	| cfdisk.c:(.text+0x22b9): undefined reference to `_nc_stdscr'
+	| cfdisk.c:(.text+0x22d4): undefined reference to `_nc_acs_map'
+	| cfdisk.c:(.text+0x22e5): undefined reference to `_nc_stdscr'
+	| cfdisk.c:(.text+0x2304): undefined reference to `_nc_stdscr'
+	| cfdisk.c:(.text+0x231d): undefined reference to `_nc_acs_map'
+	| cfdisk.c:(.text+0x2329): undefined reference to `_nc_stdscr'
+	| cfdisk.c:(.text+0x2374): undefined reference to `_nc_stdscr'
+	| cfdisk.c:(.text+0x2392): undefined reference to `_nc_acs_map'
+	| cfdisk.c:(.text+0x239e): undefined reference to `_nc_stdscr'
+	| disk-utils/cfdisk-cfdisk.o: In function `ui_menu_resize':
+	| cfdisk.c:(.text+0x244a): undefined reference to `_nc_stdscr'
+	| disk-utils/cfdisk-cfdisk.o: In function `ui_refresh':
+	| cfdisk.c:(.text+0x24c5): undefined reference to `_nc_stdscr'
+	| cfdisk.c:(.text+0x24d2): undefined reference to `_nc_stdscr'
+	| cfdisk.c:(.text+0x24ff): undefined reference to `_nc_stdscr'
+	| disk-utils/cfdisk-cfdisk.o:cfdisk.c:(.text+0x2587): more undefined references to `_nc_stdscr' follow
+	| disk-utils/cfdisk-cfdisk.o: In function `main':
+	| cfdisk.c:(.text.startup+0x334): undefined reference to `_nc_LINES'
+	| cfdisk.c:(.text.startup+0x342): undefined reference to `_nc_COLS'
+	| cfdisk.c:(.text.startup+0x39d): undefined reference to `_nc_stdscr'
+	| cfdisk.c:(.text.startup+0x45b): undefined reference to `_nc_stdscr'
+	| cfdisk.c:(.text.startup+0x4d3): undefined reference to `_nc_stdscr'
+	| cfdisk.c:(.text.startup+0x4e0): undefined reference to `_nc_stdscr'
+	| cfdisk.c:(.text.startup+0x77d): undefined reference to `_nc_stdscr'
+	| disk-utils/cfdisk-cfdisk.o:cfdisk.c:(.text.startup+0x8fd): more undefined references to `_nc_stdscr' follow
+	| collect2: error: ld returned 1 exit status
+	| Makefile:5737: recipe for target 'cfdisk' failed
+	| make[2]: *** [cfdisk] Error 1
+	| make[2]: Leaving directory '/z/layerindex-master/raspi3/tmp-glibc/work/x86_64-linux/util-linux-native/2.29-r0/build'
+	| Makefile:11450: recipe for target 'all-recursive' failed
+	| make[1]: *** [all-recursive] Error 1
+	| make[1]: Leaving directory '/z/layerindex-master/raspi3/tmp-glibc/work/x86_64-linux/util-linux-native/2.29-r0/build'
+	| Makefile:4781: recipe for target 'all' failed
+	| make: *** [all] Error 2
+	| ERROR: Function failed: do_compile (log file is located at /z/layerindex-master/raspi3/tmp-glibc/work/x86_64-linux/util-linux-native/2.29-r0/temp/log.do_compile.18807)
+	ERROR: Task (virtual:native:/z/layerindex-master/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.29.bb:do_compile) failed with exit code '1'
 
