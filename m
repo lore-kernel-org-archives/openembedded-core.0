@@ -1,48 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id BF43F770A6
+Return-Path: <Wenlin.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2ECD0771D5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 06:40:11 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id 144so7062436pfv.0
+	Mon, 19 Dec 2016 07:01:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uBJ71noK007685
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Dec 2016 22:40:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=UQ5ChITtv32bo077nUBSkZEnoSNTXmuSK8zrVAu7qTE=;
-	b=KSJffHwegEaoYaOsfp6FvVj3hztHUKtcufaeljxc5Iq0ADQSLaIesh4pcvT7/YHR5i
-	C7C4h708JPZNcBT0DKBdmTq7bFO70i8K5YJNIWT2gV+Nb2NVcA6GtIJZ4riuRh9PXgO6
-	BHmb8c7fpqnSC7AfQBjOwkpjByvrfCA7kHP9SiX2hR7TUrLe/BcNdq1POggahZ5q5ZcN
-	MPr8Br/QzmgzO80vUdtFYwEfqOHkEGdJhvc5/ATuHQUscohBVL3z1dKBf450WXgSL0k2
-	hHcXTskV8bNrGd8/ofJvA1CbgpYYt+TM6wLMFnIK1Q5rISogvrAydjDoxrbaWPrbGy0M
-	+oDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=UQ5ChITtv32bo077nUBSkZEnoSNTXmuSK8zrVAu7qTE=;
-	b=EexbD0TRwal5Ld/OW8JjWCpNVBbngWwlcvTBryF++PkdZQGXKXASjfpBQmxUd0k9yi
-	URNEeqgF17zGD8eNRNbe04Sh2xY29+1pLBzovbIeYDRz7Q8DWrMCEUjtL4BEBeHjpC7T
-	2lnLBVGAWmnQlAzsr27KhPr4ZcfTF84MheIdVvOV3I1cO2XAU1yXIBpJmd+Czt1P3wdv
-	NFruC7Hrg/A9q+lJGW49STeUBDITdjfBsnAQ7A+/4sUVfHQwUlgQqqVCqjMVA/b043ag
-	qiZ3B5s2+qnsvDYWbLkvgqmBXEeZrgHhKnsrex4x8BRQSDjDc0QiHsuqFbDb78OPRIsH
-	Jy/g==
-X-Gm-Message-State: AKaTC00S9XIn4WbU6qrpCSqyy8PLizmZnyX7nNyFrF8zK+CcLLqFB3kIZS3sLNdO9j4Aag==
-X-Received: by 10.99.116.25 with SMTP id p25mr26274286pgc.161.1482129613209;
-	Sun, 18 Dec 2016 22:40:13 -0800 (PST)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	72sm28238304pfw.37.2016.12.18.22.40.12
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 18 Dec 2016 22:40:12 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 18 Dec 2016 22:39:57 -0800
-Message-Id: <20161219063957.18716-10-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20161219063957.18716-1-raj.khem@gmail.com>
-References: <20161219063957.18716-1-raj.khem@gmail.com>
-Subject: [V2 10/10] gdk-pixbuf: Update to 2.36.1
+	Sun, 18 Dec 2016 23:01:53 -0800 (PST)
+Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Sun, 18 Dec 2016 23:01:48 -0800
+From: Wenlin Kang <wenlin.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 19 Dec 2016 15:01:22 +0800
+Message-ID: <1482130882-148241-1-git-send-email-wenlin.kang@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] gnupg: specify explicitly tar path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,43 +31,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 06:40:12 -0000
+X-List-Received-Date: Mon, 19 Dec 2016 07:01:55 -0000
+Content-Type: text/plain
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+On cross-compile platform, automatic check of ustar is unreliable, so we
+specify explicitly tar path after check manually.
+
+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
 ---
- .../gdk-pixbuf/{gdk-pixbuf_2.36.0.bb => gdk-pixbuf_2.36.1.bb}      | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.36.0.bb => gdk-pixbuf_2.36.1.bb} (95%)
+ .../fix-ustar-and-tar-path-check-issue.patch       | 46 ++++++++++++++++++++++
+ meta/recipes-support/gnupg/gnupg_1.4.7.bb          |  2 +
+ 2 files changed, 48 insertions(+)
+ create mode 100644 meta/recipes-support/gnupg/gnupg-1.4.7/fix-ustar-and-tar-path-check-issue.patch
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.0.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.1.bb
-similarity index 95%
-rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.0.bb
-rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.1.bb
-index 9efe374c0d..debc2d706a 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.0.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.1.bb
-@@ -18,9 +18,8 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://run-ptest \
-            file://fatal-loader.patch \
-            "
--
--SRC_URI[md5sum] = "1a3baf91956c7923dab49ee3de100ce1"
--SRC_URI[sha256sum] = "85ab52ce9f2c26327141b3dcf21cca3da6a3f8de84b95fa1e727d8871a23245c"
-+SRC_URI[md5sum] = "fe30b0420e013f2c4590ae6226d895d4"
-+SRC_URI[sha256sum] = "9d5ba72070460c1b5b74115d395a3e33daeb7b7b67fb256cdccc9d7187c42a38"
+diff --git a/meta/recipes-support/gnupg/gnupg-1.4.7/fix-ustar-and-tar-path-check-issue.patch b/meta/recipes-support/gnupg/gnupg-1.4.7/fix-ustar-and-tar-path-check-issue.patch
+new file mode 100644
+index 0000000..fca8d64
+--- /dev/null
++++ b/meta/recipes-support/gnupg/gnupg-1.4.7/fix-ustar-and-tar-path-check-issue.patch
+@@ -0,0 +1,46 @@
++Remove automatic detection of tar path and ustar format
++
++Remove automatic detection of tar path and ustar format, because they 
++are unreliable and inappropriate for cross-compile platform.
++
++Upstream status: Inappropriate [cross-compile platform specific]
++
++Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
++
++diff -uarN gnupg-1.4.7-org/m4/tar-ustar.m4 gnupg-1.4.7/m4/tar-ustar.m4
++--- gnupg-1.4.7-org/m4/tar-ustar.m4	2016-12-19 11:06:58.621838069 +0800
+++++ gnupg-1.4.7/m4/tar-ustar.m4	2016-12-19 11:13:31.721840809 +0800
++@@ -15,22 +15,22 @@
++ 
++   if test x$_do_tar != xno ; then
++ 
++-     if test x$_do_tar = x ; then
++-        AC_PATH_PROG(TAR,"tar")
++-        _mytar=$ac_cv_path_TAR
++-     fi
++-
++      # Check if our tar is ustar format.  If so, it's good.  TODO: Add some
++      # code to check various options, etc, to try and create ustar
++      # format.
++ 
++-     if test x$_mytar != x ; then
++-        AC_MSG_CHECKING([whether $_mytar speaks USTAR])
++-        echo hithere > conftest.txt
++-        $_mytar -cf - conftest.txt | (dd skip=257 bs=1 count=5 2>/dev/null || cat) | grep ustar > /dev/null
++-        _tar_bad=$?
++-        rm conftest.txt
+++     if test x$_do_tar != x ; then 
+++        AC_SUBST(TAR,$_do_tar)
+++        AC_MSG_CHECKING([whether $_do_tar speaks USTAR])
+++
+++        # Here, we ignore the check code, because it isn't indeed applicable for
+++        # cross-compile platform.
+++        # Now our tar support ustar, so we say directly yes, but once the tar is changed, 
+++        # you should check whether it suppport ustar, and please reference the follow command:
+++        # echo hithere > conftest.txt
+++        # tar -cf - conftest.txt | (dd skip=257 bs=1 count=5 2>/dev/null || cat) | grep ustar > /dev/null
++ 
+++        _tar_bad=0
++ 	if test x$_tar_bad = x0 ; then
++ 	   AC_MSG_RESULT([yes])
++ 	else
+diff --git a/meta/recipes-support/gnupg/gnupg_1.4.7.bb b/meta/recipes-support/gnupg/gnupg_1.4.7.bb
+index 6ccffd5..6ea6fe3 100644
+--- a/meta/recipes-support/gnupg/gnupg_1.4.7.bb
++++ b/meta/recipes-support/gnupg/gnupg_1.4.7.bb
+@@ -18,6 +18,7 @@ SRC_URI = "${GNUPG_MIRROR}/gnupg/gnupg-${PV}.tar.bz2 \
+            file://CVE-2013-4351.patch \
+            file://CVE-2013-4576.patch \
+            file://CVE-2013-4242.patch \
++           file://fix-ustar-and-tar-path-check-issue.patch \
+ 	  "
  
- inherit autotools pkgconfig gettext pixbufcache ptest-gnome upstream-version-is-even gobject-introspection gtk-doc
+ SRC_URI[md5sum] = "b06a141cca5cd1a55bbdd25ab833303c"
+@@ -79,6 +80,7 @@ EXTRA_OECONF = "--disable-ldap \
+ 		--disable-selinux-support \
+                 --with-readline=${STAGING_LIBDIR}/.. \
+                 ac_cv_sys_symbol_underscore=no \
++                --with-tar=${base_bindir}/tar \
+ 		"
  
-@@ -46,7 +45,7 @@ PACKAGES =+ "${PN}-xlib"
- FILES_${PN}-xlib = "${libdir}/*pixbuf_xlib*${SOLIBS}"
- ALLOW_EMPTY_${PN}-xlib = "1"
- 
--FILES_${PN} += "${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders"
-+FILES_${PN} += "${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders ${datadir}/thumbnailers"
- 
- FILES_${PN}-dev += " \
- 	${bindir}/gdk-pixbuf-csource \
+ # Force gcc's traditional handling of inline to avoid issues with gcc 5
 -- 
-2.11.0
+1.9.1
 
 
