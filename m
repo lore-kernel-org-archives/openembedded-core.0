@@ -1,26 +1,26 @@
 Return-Path: <Dengke.Du@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BF3CD73204
+	by mail.openembedded.org (Postfix) with ESMTP id 0C2D670016
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 05:40:19 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBJ5eKl3022663
+	Mon, 19 Dec 2016 06:07:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBJ67GxQ024197
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Dec 2016 21:40:20 -0800 (PST)
+	Sun, 18 Dec 2016 22:07:16 -0800 (PST)
 Received: from pek-lpgtest20.wrs.com (128.224.179.28) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Sun, 18 Dec 2016 21:40:19 -0800
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Sun, 18 Dec 2016 22:07:16 -0800
 From: Dengke Du <dengke.du@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 19 Dec 2016 13:40:15 +0800
-Message-ID: <b462c405d5967bc06c0cb6e7b984c95852739480.1482125840.git.dengke.du@windriver.com>
+Date: Mon, 19 Dec 2016 14:07:13 +0800
+Message-ID: <1d8d15e8fd9c4c9c1eeb6f13e5b069df6d995dce.1482127585.git.dengke.du@windriver.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1482125840.git.dengke.du@windriver.com>
-References: <cover.1482125840.git.dengke.du@windriver.com>
+In-Reply-To: <cover.1482127585.git.dengke.du@windriver.com>
+References: <cover.1482127585.git.dengke.du@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 2/2] apr: fix off_t size can't match when configure and in target glibc
+Subject: [PATCH 1/1] cdrtools-native: update 3.01 -> 3.02
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,106 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 05:40:19 -0000
+X-List-Received-Date: Mon, 19 Dec 2016 06:07:16 -0000
 Content-Type: text/plain
 
-When subversion run on x86 and lib32 on x86-64, it use the APR's
-apr.h header file. But when configure the APR, APR meets the cross
-compiling, it was hardcoded in configure.in in apr source code. As
-the following:
-
-	APR_CHECK_SIZEOF_EXTENDED([#include <sys/types.h>], off_t, 8)
-
-It pass 8 bytes to off_t when meets cross compiling, but on x86 or lib32
-the off_t in glibc was 4 bytes, so it let the application who use apr.h
-go to wrong.
-
-Such as subversion:
-
-	svnadmin create test
-
-So we should let the APR detect the correct off_t when cross compiling,
-change it to the following:
-
-	AC_CHECK_SIZEOF(off_t)
+3.01a31 -> 3.02a07
 
 Signed-off-by: Dengke Du <dengke.du@windriver.com>
 ---
- ..._t-size-doesn-t-match-in-glibc-when-cross.patch | 52 ++++++++++++++++++++++
- meta/recipes-support/apr/apr_1.5.2.bb              |  1 +
- 2 files changed, 53 insertions(+)
- create mode 100644 meta/recipes-support/apr/apr/0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch
+ .../{cdrtools-native_3.01.bb => cdrtools-native_3.02.bb}       | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-devtools/cdrtools/{cdrtools-native_3.01.bb => cdrtools-native_3.02.bb} (69%)
 
-diff --git a/meta/recipes-support/apr/apr/0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch b/meta/recipes-support/apr/apr/0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch
-new file mode 100644
-index 0000000..56673f4
---- /dev/null
-+++ b/meta/recipes-support/apr/apr/0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch
-@@ -0,0 +1,52 @@
-+From 537f5b415677b49a52f01bca9f60937654fb9cca Mon Sep 17 00:00:00 2001
-+From: Dengke Du <dengke.du@windriver.com>
-+Date: Wed, 14 Dec 2016 18:13:08 +0800
-+Subject: [PATCH] apr: fix off_t size doesn't match in glibc when cross
-+ compiling
-+
-+In configure.in, it contains the following:
-+
-+	APR_CHECK_SIZEOF_EXTENDED([#include <sys/types.h>], off_t, 8)
-+
-+the macro "APR_CHECK_SIZEOF_EXTENDED" was defined in build/apr_common.m4,
-+it use the "AC_TRY_RUN" macro, this macro let the off_t to 8, when cross
-+compiling enable.
-+
-+So it was hardcoded for cross compiling, we should detect it dynamic based on
-+the sysroot's glibc. We change it to the following:
-+
-+	AC_CHECK_SIZEOF(off_t)
-+
-+I have send a discussing for the upstream, the maintainer said the macro in
-+APR designed with only any attention paid to the build platform, considering
-+cross compiling less, we can check the discussing from:
-+
-+	http://mail-archives.apache.org/mod_mbox/apr-dev/201612.mbox/browser
-+
-+text/plain:
-+
-+	http://mail-archives.apache.org/mod_mbox/apr-dev/201612.mbox/raw/%3CCACsi250oDaqf%2BG4-KoT_0QWhSZdKCJhNZYhWRBqOx5WcmtYO8Q%40mail.gmail.com%3E/1
-+
-+Upstream-Status: Submitted
-+
-+Signed-off-by: Dengke Du <dengke.du@windriver.com>
-+---
-+ configure.in | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/configure.in b/configure.in
-+index 9d57ae6..fcc647e 100644
-+--- a/configure.in
-++++ b/configure.in
-+@@ -1784,7 +1784,7 @@ fi
-+ 
-+ size_t_fmt="#define APR_SIZE_T_FMT \"$size_t_fmt\""
-+ 
-+-APR_CHECK_SIZEOF_EXTENDED([#include <sys/types.h>], off_t, 8)
-++AC_CHECK_SIZEOF(off_t)
-+ 
-+ if test "${ac_cv_sizeof_off_t}${apr_cv_use_lfs64}" = "4yes"; then
-+     # Enable LFS
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-support/apr/apr_1.5.2.bb b/meta/recipes-support/apr/apr_1.5.2.bb
-index 302c935..f560c8b 100644
---- a/meta/recipes-support/apr/apr_1.5.2.bb
-+++ b/meta/recipes-support/apr/apr_1.5.2.bb
-@@ -17,6 +17,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
-            file://upgrade-and-fix-1.5.1.patch \
-            file://Fix-packet-discards-HTTP-redirect.patch \
-            file://configure.in-fix-LTFLAGS-to-make-it-work-with-ccache.patch \
-+           file://0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch \
- "
+diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb b/meta/recipes-devtools/cdrtools/cdrtools-native_3.02.bb
+similarity index 69%
+rename from meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
+rename to meta/recipes-devtools/cdrtools/cdrtools-native_3.02.bb
+index ff4d5ac..f8b9386 100644
+--- a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
++++ b/meta/recipes-devtools/cdrtools/cdrtools-native_3.02.bb
+@@ -7,17 +7,17 @@ SECTION = "console/utils"
+ LICENSE = "GPLv2 & CDDL-1.0 & LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=32f68170be424c2cd64804337726b312"
  
- SRC_URI[md5sum] = "4e9769f3349fe11fc0a5e1b224c236aa"
+-SRC_URI = "${SOURCEFORGE_MIRROR}/project/cdrtools/cdrtools-${REALPV}.tar.bz2"
++SRC_URI = "${SOURCEFORGE_MIRROR}/project/cdrtools/alpha/cdrtools-${PV}.tar.bz2"
+ 
+-SRC_URI[md5sum] = "7d45c5b7e1f78d85d1583b361aee6e8b"
+-SRC_URI[sha256sum] = "ed282eb6276c4154ce6a0b5dee0bdb81940d0cbbfc7d03f769c4735ef5f5860f"
++SRC_URI[md5sum] = "ea362a6a42d8aa0d5fc154d195f47926"
++SRC_URI[sha256sum] = "49c1a67fa7ad3d7c0b05d41d18cb6677b40d4811faba111f0c01145d3ef0491b"
+ 
+ EXTRA_OEMAKE = "-e MAKEFLAGS="
+ 
+ inherit native
+ 
+-PV = "3.01a31+really3.01"
+-REALPV = "3.01"
++PV = "3.02a07"
++REALPV = "3.02"
+ 
+ S = "${WORKDIR}/${BPN}-${REALPV}"
+ 
 -- 
 2.7.4
 
