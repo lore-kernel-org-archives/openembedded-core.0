@@ -1,50 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
-	[209.85.217.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 31AF9772DB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 870636011F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 16:44:27 +0000 (UTC)
-Received: by mail-ua0-f196.google.com with SMTP id b35so9139568uaa.0
+	Mon, 19 Dec 2016 17:18:55 +0000 (UTC)
+Received: by mail-qt0-f177.google.com with SMTP id w33so153120842qtc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 08:44:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Mon, 19 Dec 2016 09:18:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=0hMQzkpu9SPjzS2ylempbXhd3AJj3c4yvPceJK8Fexo=;
-	b=e6PiT99FbOfL9cGEXhWMO5xPLfonTrzWPTdOScEE1bsi+PLWWmJCBCQC1cDk+DNW80
-	YNAzPedG7XD7gh1rQjtERKT7zu7mbVmLy7p9zA8oFiT4TPFuAnJEZEiSeO8Dqw0Mjb/t
-	P2phz4jlDDT3IOjXwH7yWkSOTFoKL7vWY02lqrTXZ7MOoMEyviwr+puO9Rozxj7R/a9c
-	MhzVfpOAgL4FHnHvtiyLXmUJ2IefYRELVMZKt4jyUkfaX7h+lDGmQ2Y48i9E8StfTGwP
-	c1uYnKFxx7CQ76sdD3ouQNvOaSUVhg0VL19DFHAqDYMwHsoGPJZ7qp5pKrPS04Nrd+8w
-	NmTg==
+	:cc; bh=vaNezwEShYc/4pmCnAu/IzbfprSaOXdMelzbmGp65nw=;
+	b=vlYFjBABT5O63c4A919PSiWoGLneaKobXYk9KtSrOBnC9xkkpHoB7tatVj5r6LUIwL
+	rvEFnVt+l3PvRIB7giB+IguPDGej7v8FTmzmdvOvPouUIC36yfw1+BGsjbgIiTPLUqRJ
+	uj5EFF+gavIuKr/1RVarR8m5GdgEgBWOfr0ojE2K1vGyg46bv8HjX+qoIZzp+f23dmw3
+	QS0P0pTDjOuxNdlOhx2OsXCw2aelH9IdpXVCzHpCGpxIIGbqvbITV7/IjXLANNBiZxRc
+	Sr5b99Q728nMTJws5GKdXDSTvsAYagQVke4T42wlftaO1bJixdzfCC2d5LwPR/CJo+Oe
+	XfCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=0hMQzkpu9SPjzS2ylempbXhd3AJj3c4yvPceJK8Fexo=;
-	b=bpktB2AGfmMWb5+lsCST1pnLuGFQyIOFJlSBwf1u5tLgZEHQIOXFpwG2gjCZqXG1uu
-	15UDzXrNFKeO95YRM0ICBXtT5eNYWlNhlaf3eWRwZQDfQ9++Cjks9hoHTUwjJN8jfqAY
-	4DSYgI79/tx07siy/3Xdm0NyFws45Mat5pel3K9rWNGjdR2czVzeDdumP/qBmt++A/lp
-	SJ8QJOZRgostEAohs4CbyL6a5suEOne0o5Ca/G/4dB7YTGUq2JsIDkOkUafVX0QhBXq6
-	jjoyKa9Ly2PGNxpNj1usMrYSlyxceMKck8JmaE43sxlIp5SmDdnrQ/qMIRgzSJ9DwdhH
-	V0+g==
-X-Gm-Message-State: AKaTC00QL1YI4Z46lLjZRngw0qTcvRR9r0kWXavGVsYiM4wgL1Vc5zfhbBK9t6EFL7iIHl/MEXXyMCrl5U/8mg==
-X-Received: by 10.176.84.8 with SMTP id n8mr13594673uaa.29.1482165869291; Mon,
-	19 Dec 2016 08:44:29 -0800 (PST)
+	:message-id:subject:to:cc;
+	bh=vaNezwEShYc/4pmCnAu/IzbfprSaOXdMelzbmGp65nw=;
+	b=cqQnprvkCTPtjyEn5/XazXBTkryDTmShMMHQoVpi239rEie9xvjMd1x6Q8m4ovmbRG
+	JDFmJtZGrSbRC+vDpTR27S+DnW7CbC8MnFZZdthfr0g1uvAOv89aBpUnvdWenEtYul13
+	+maWeMAfocrc0MXvHmR1YY2EwT9LZR3IJMag2vpxSngde1gDLoJQGOjXL/L0ExCgnUG5
+	YJ7WX+e3Rf8Iq/MN+0Eu2eaOOT+6cOqnGPRG8w/f6pxfFDmPTyNXHJmcVKxmRfZ3+9yx
+	RFptA7ADXkLBeDKfQD7flFyop58xlqv2oN+2Ltbfa/Z5apD5nZmiowX2vxnwztIpGrjl
+	vXlg==
+X-Gm-Message-State: AIkVDXIoFO6IX38TLMpYgM2y2wvJ7hrzhlXXYKUkpA9NieR/Fw4HLJi0g6a0CPgw2/7htSJ0DtCr3rmGVAdofwZk
+X-Received: by 10.237.34.46 with SMTP id n43mr18154901qtc.105.1482167936351;
+	Mon, 19 Dec 2016 09:18:56 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.159.48.87 with HTTP; Mon, 19 Dec 2016 08:43:58 -0800 (PST)
-In-Reply-To: <1482144048.27847.19.camel@andred.net>
+Received: by 10.140.106.99 with HTTP; Mon, 19 Dec 2016 09:18:35 -0800 (PST)
+In-Reply-To: <CAMKF1sohfFT=+-ZTuSmOjL96+ktQZ+oeqiivJDg84XvUq-8HGQ@mail.gmail.com>
 References: <20161219063957.18716-1-raj.khem@gmail.com>
-	<20161219063957.18716-7-raj.khem@gmail.com>
-	<1482143598.27847.17.camel@andred.net>
-	<1482144048.27847.19.camel@andred.net>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 19 Dec 2016 08:43:58 -0800
-Message-ID: <CAMKF1sp0VZAaM40STArYA5DejMSW89SS8NNyZWMGM4V3Qtn-Cw@mail.gmail.com>
-To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [V2 07/10] x264: Fix build on mips architectures
+	<20161219063957.18716-2-raj.khem@gmail.com>
+	<CAJTo0LY1m20z=4SmyHJg0v1DVS=PukdGvYkkHT=V7ii9rTgzYA@mail.gmail.com>
+	<CAMKF1sohfFT=+-ZTuSmOjL96+ktQZ+oeqiivJDg84XvUq-8HGQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 19 Dec 2016 17:18:35 +0000
+Message-ID: <CAJTo0Lasey4rdJiZ-u88SmvcpR45t3yr03YKV7FGzWQuSr70Vg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [V2 02/10] gdb: Upgrade to 7.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,64 +56,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 16:44:28 -0000
+X-List-Received-Date: Mon, 19 Dec 2016 17:18:57 -0000
+Content-Type: multipart/alternative; boundary=001a11377e18588af30544061dba
+
+--001a11377e18588af30544061dba
 Content-Type: text/plain; charset=UTF-8
+
+On 19 December 2016 at 16:42, Khem Raj <raj.khem@gmail.com> wrote:
+
+> it is rebased on master but I am carrying a glibc 2.25 upgrade patch
+> which I am not yet proposing thats why you see conflict
+>
+
+Yeah.  No need to resent, I got it applying with -C0.
+
+Ross
+
+--001a11377e18588af30544061dba
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 19, 2016 at 2:40 AM, Andr=C3=A9 Draszik <git@andred.net> wrote:
-> On Mon, 2016-12-19 at 10:33 +0000, Andr=C3=A9 Draszik wrote:
->> On Sun, 2016-12-18 at 22:39 -0800, Khem Raj wrote:
->> > Disable asm to fix
->> >
->> > > You specified a pre-MSA CPU in your CFLAGS.
->> > > If you really want to run on such a CPU, configure with --disable-as=
-m.
->> >
->> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> > ---
->> >  meta/recipes-multimedia/x264/x264_git.bb | 2 ++
->> >  1 file changed, 2 insertions(+)
->> >
->> > diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-
->> > multimedia/x264/x264_git.bb
->> > index e790681ad3..240a19661f 100644
->> > --- a/meta/recipes-multimedia/x264/x264_git.bb
->> > +++ b/meta/recipes-multimedia/x264/x264_git.bb
->> > @@ -23,6 +23,8 @@ inherit lib_package pkgconfig perlnative
->> >  X264_DISABLE_ASM =3D ""
->> >  X264_DISABLE_ASM_armv4 =3D "--disable-asm"
->> >  X264_DISABLE_ASM_armv5 =3D "--disable-asm"
->> > +X264_DISABLE_ASM_mips =3D "--disable-asm"
->> > +X264_DISABLE_ASM_mipsel =3D "--disable-asm"
->>
->> I think you can use _mipsarch these days, which covers all MIPS. Equally=
-,
->> mips32r5 and later have MSA, so I think the override should be:
->>
->> X264_DISABLE_ASM_mipsarch =3D "--disable-asm"
->> X264_DISABLE_ASM_mipsarchr6 =3D ""
->>
->> or just
->>
->> X264_DISABLE_ASM_mipsarch =3D "${@bb.utils.contains("AVAILTUNES", "mips3=
-2r6", "", "--disable-asm", d)}"
->
-> or
->
-> X264_DISABLE_ASM_mipsarch =3D "${@bb.utils.contains("TUNE_FEATURES", "r6"=
-, "", "--disable-asm", d)}"
->
->
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 December 2016 at 16:42, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex"><div id=3D":3b9" class=3D"a3s aXj=
+CH m15917f7c71341d10">it is rebased on master but I am carrying a glibc 2.2=
+5 upgrade patch<br>
+which I am not yet proposing thats why you see conflict<br></div></blockquo=
+te></div><br>Yeah.=C2=A0 No need to resent, I got it applying with -C0.</di=
+v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div=
+></div>
 
-Yeah using misparch is right approach here.
-
->> not sure, and completely untested.
->
-> A.
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+--001a11377e18588af30544061dba--
