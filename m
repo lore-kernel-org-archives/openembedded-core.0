@@ -1,26 +1,46 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 50697771F1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id C35AF73181
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 12:48:14 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga103.fm.intel.com with ESMTP; 19 Dec 2016 04:48:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,373,1477983600"; d="scan'208";a="41481048"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga004.jf.intel.com with ESMTP; 19 Dec 2016 04:48:14 -0800
-To: openembedded-core@lists.openembedded.org
-References: <cover.1482127585.git.dengke.du@windriver.com>
-	<1d8d15e8fd9c4c9c1eeb6f13e5b069df6d995dce.1482127585.git.dengke.du@windriver.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <21713566-e80c-78fe-6525-38e327ada14e@linux.intel.com>
-Date: Mon, 19 Dec 2016 14:48:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.4.0
+	Mon, 19 Dec 2016 13:04:08 +0000 (UTC)
+Received: by mail-qk0-f175.google.com with SMTP id u25so3107785qki.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Dec 2016 05:04:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=QZycEAmSommSBCJi6u70PL1KuLV8ee9V5sDNvRh3zP0=;
+	b=SRkFPidq9FRbpngh96zyKk2jyoml3O7Gn/WkcKPuQ7aJ85HUySC8X2PrQmSyb1BILx
+	LczwxOZ68BTC1tilhyKMZyCG/xlecWwXL/c/Ge/+TQ2a7O0Uulyv8BxL89a+gncrZ+Rh
+	/NxAr19SdkowJSp8Ay5AhS0pCvycTTZGontxSv6z9EaJFqiewUsK7XD5Yw0Xgjq7Bm3u
+	dVp2dyneyyz8zYUB6TMlmJPk2q9tTysdd3Oy+mR3dr55iGkZTPAK6HB5gLVqQRl3E2Cc
+	X512C983ogoNhCKqF1ky02/5RA1yv83snJxeEWC57HFLHVFAp4X9pXWgkvKAr0NGU+qd
+	s7nA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=QZycEAmSommSBCJi6u70PL1KuLV8ee9V5sDNvRh3zP0=;
+	b=F+rPlURZn9XZRzmi764RUr7tWOrAdB8VH5IS0Pf88wtbbeSO4qFOG1mbDEp4NIZ6Vp
+	I9LObI2zgbT9wLniqBWR1gW854Vk4jv9uUJs4oOGFpxboJ3uzSeUMaUjrvDshUrUouGj
+	L7bPmHgIZt2EqVBa5ywejl3fXbzWYi98UV5ZXDak4tzmVEAcN+BW4IX6JnaUJelXPcgm
+	4ajW/ESrcYmoNkvfHs6evtoP8W099dQbEYoyd6AzJPcTGpvz9cjhxS1sm3TpuxgUQ9Y+
+	pzOXUyavbp2N9aUcTLjrgp3RKFoeOwHobmVRXc6nreaMN0hhbnJIvz0gWvtM/I14WsE+
+	tCzA==
+X-Gm-Message-State: AIkVDXLHMZN7CFoYBFt/IrJEs+2zE7uYDznKuXQ4PEQokozoZ26pbWk/xJX2Nync/N/sHTDmAu9cp2VynWtHRyE0
+X-Received: by 10.55.8.20 with SMTP id 20mr1966786qki.3.1482152650387; Mon, 19
+	Dec 2016 05:04:10 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1d8d15e8fd9c4c9c1eeb6f13e5b069df6d995dce.1482127585.git.dengke.du@windriver.com>
-Subject: Re: [PATCH 1/1] cdrtools-native: update 3.01 -> 3.02
+Received: by 10.140.106.99 with HTTP; Mon, 19 Dec 2016 05:03:49 -0800 (PST)
+In-Reply-To: <1481901072-25196-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+References: <1481901072-25196-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 19 Dec 2016 13:03:50 +0000
+Message-ID: <CAJTo0LYepxcF1a2E=djGwQUvcATyw9+G6vp9G8FEQXEGx_RDZQ@mail.gmail.com>
+To: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] dpkg: upgrade to 1.18.15
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,19 +53,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 12:48:16 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 19 Dec 2016 13:04:10 -0000
+Content-Type: multipart/alternative; boundary=001a114c9d603b4e4e0544028ecc
 
-On 12/19/2016 08:07 AM, Dengke Du wrote:
-> 3.01a31 -> 3.02a07
+--001a114c9d603b4e4e0544028ecc
+Content-Type: text/plain; charset=UTF-8
 
-This is incorrect. We actually ship the final 3.01 version, and 
-previously agreed to wait for the final 3.02. The recipe says 'a31' 
-because we didn't want to make the version go back when going from alpha 
-3.01 to final 3.01. The upstream seems to make regular 3.02 
-pre-releases, so the final version should hopefully appear soon.
+On 16 December 2016 at 15:11, Edwin Plauchu <
+edwin.plauchu.camacho@linux.intel.com> wrote:
 
-Alex
+> -SRC_URI = "http://snapshot.debian.org/archive/debian/
+> 20160509T100042Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz \
+> +SRC_URI = "http://ftp.debian.org/debian/pool/main/d/${BPN}/${BPN}_${
+> PV}.tar.xz \
+>
 
+Please always use snapshot.debian.org links as ftp.debian.org URLs are only
+valid whilst the version you're after is actually shipped in a Debian
+release.  The moment 1.18.15 is replaced by 1.18.16, the old tarball will
+be deleted.
 
+Ross
+
+--001a114c9d603b4e4e0544028ecc
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 16 December 2016 at 15:11, Edwin Plauchu <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:edwin.plauchu.camacho@linux.intel.com" target=3D"_blank">edwin.p=
+lauchu.camacho@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex"><div id=3D":28i" class=3D"a3s aXjCH m159082f2c6e605cb">-SRC_U=
+RI =3D &quot;<a href=3D"http://snapshot.debian.org/archive/debian/20160509T=
+100042Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz" rel=3D"noreferrer" target=
+=3D"_blank">http://snapshot.debian.org/<wbr>archive/debian/<wbr>20160509T10=
+0042Z/pool/main/d/$<wbr>{BPN}/${BPN}_${PV}.tar.xz</a> \<br>
++SRC_URI =3D &quot;<a href=3D"http://ftp.debian.org/debian/pool/main/d/${BP=
+N}/${BPN}_${PV}.tar.xz" rel=3D"noreferrer" target=3D"_blank">http://ftp.deb=
+ian.org/debian/<wbr>pool/main/d/${BPN}/${BPN}_${<wbr>PV}.tar.xz</a> \<br></=
+div></blockquote></div><br>Please always use <a href=3D"http://snapshot.deb=
+ian.org">snapshot.debian.org</a> links as <a href=3D"http://ftp.debian.org"=
+>ftp.debian.org</a> URLs are only valid whilst the version you&#39;re after=
+ is actually shipped in a Debian release.=C2=A0 The moment 1.18.15 is repla=
+ced by 1.18.16, the old tarball will be deleted.</div><div class=3D"gmail_e=
+xtra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a114c9d603b4e4e0544028ecc--
