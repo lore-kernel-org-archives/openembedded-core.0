@@ -1,49 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
-	[209.85.216.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 870636011F
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id E205B77331
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 17:18:55 +0000 (UTC)
-Received: by mail-qt0-f177.google.com with SMTP id w33so153120842qtc.3
+	Mon, 19 Dec 2016 17:19:22 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id b1so9011044pgc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 09:18:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=vaNezwEShYc/4pmCnAu/IzbfprSaOXdMelzbmGp65nw=;
-	b=vlYFjBABT5O63c4A919PSiWoGLneaKobXYk9KtSrOBnC9xkkpHoB7tatVj5r6LUIwL
-	rvEFnVt+l3PvRIB7giB+IguPDGej7v8FTmzmdvOvPouUIC36yfw1+BGsjbgIiTPLUqRJ
-	uj5EFF+gavIuKr/1RVarR8m5GdgEgBWOfr0ojE2K1vGyg46bv8HjX+qoIZzp+f23dmw3
-	QS0P0pTDjOuxNdlOhx2OsXCw2aelH9IdpXVCzHpCGpxIIGbqvbITV7/IjXLANNBiZxRc
-	Sr5b99Q728nMTJws5GKdXDSTvsAYagQVke4T42wlftaO1bJixdzfCC2d5LwPR/CJo+Oe
-	XfCQ==
+	Mon, 19 Dec 2016 09:19:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=bIxT3c8tOfQ+IjGiqXmQJHkHdbPwLbw4/KudeAbd39Q=;
+	b=Zhn2mQZ97SOpuqbBb6WSGvZrCU16tyP+lJUQ8T/OceVt4FpBcZvc0i+ptP+av11+L7
+	VVMl/zSh6pKmFKfSYHFVTZEDmjoL7emJTOsFCoXZqqvZmI+g75aUQK8x/LuaAXQttAOh
+	/en8vpx42ytl7aBw7cih8mMYpyExELPX0rgQUJLNAStV99jkv+xryBLeotpVOSvFZQUz
+	YArVdhKei3ll4dAsnKHgDJmqxlUWQQXS+96MppEgrQjGfxwGZCiehCFiJbTQ3F5DDRZV
+	cSl8x/dCi7nmPRDHS0VWBMTQN5E0OG0KxHktDKFCpRlsqlP8/fejvMzCCaBxZYD13uJF
+	+Jgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=vaNezwEShYc/4pmCnAu/IzbfprSaOXdMelzbmGp65nw=;
-	b=cqQnprvkCTPtjyEn5/XazXBTkryDTmShMMHQoVpi239rEie9xvjMd1x6Q8m4ovmbRG
-	JDFmJtZGrSbRC+vDpTR27S+DnW7CbC8MnFZZdthfr0g1uvAOv89aBpUnvdWenEtYul13
-	+maWeMAfocrc0MXvHmR1YY2EwT9LZR3IJMag2vpxSngde1gDLoJQGOjXL/L0ExCgnUG5
-	YJ7WX+e3Rf8Iq/MN+0Eu2eaOOT+6cOqnGPRG8w/f6pxfFDmPTyNXHJmcVKxmRfZ3+9yx
-	RFptA7ADXkLBeDKfQD7flFyop58xlqv2oN+2Ltbfa/Z5apD5nZmiowX2vxnwztIpGrjl
-	vXlg==
-X-Gm-Message-State: AIkVDXIoFO6IX38TLMpYgM2y2wvJ7hrzhlXXYKUkpA9NieR/Fw4HLJi0g6a0CPgw2/7htSJ0DtCr3rmGVAdofwZk
-X-Received: by 10.237.34.46 with SMTP id n43mr18154901qtc.105.1482167936351;
-	Mon, 19 Dec 2016 09:18:56 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Mon, 19 Dec 2016 09:18:35 -0800 (PST)
-In-Reply-To: <CAMKF1sohfFT=+-ZTuSmOjL96+ktQZ+oeqiivJDg84XvUq-8HGQ@mail.gmail.com>
-References: <20161219063957.18716-1-raj.khem@gmail.com>
-	<20161219063957.18716-2-raj.khem@gmail.com>
-	<CAJTo0LY1m20z=4SmyHJg0v1DVS=PukdGvYkkHT=V7ii9rTgzYA@mail.gmail.com>
-	<CAMKF1sohfFT=+-ZTuSmOjL96+ktQZ+oeqiivJDg84XvUq-8HGQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 19 Dec 2016 17:18:35 +0000
-Message-ID: <CAJTo0Lasey4rdJiZ-u88SmvcpR45t3yr03YKV7FGzWQuSr70Vg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [V2 02/10] gdb: Upgrade to 7.12
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=bIxT3c8tOfQ+IjGiqXmQJHkHdbPwLbw4/KudeAbd39Q=;
+	b=g0K1s3L8rfIkamdcG8TdSBMUOKdXikCeXnPd+vot2lH9ldstITtYCjynXUca7Fdk4E
+	X7Iv1rLAHR2zGDGHVqSkdwostlGTm07fNFKrg4uX0e4BHznOM74PKTbje7fC1i34c1ri
+	Yo1We88TTJvuUBCV14Knfd8NFT6Z1jSsCyN9+y5IUYcaJ08RUKNlMQI6xS/yJ0JF6jQZ
+	z+1WKXSzeFvuBHgLkA82bTi/AbLmui9ZdH4V3Mi04NmUge0aDtjvrOtVsLTiDCpeFIZL
+	K2LUQ+HmzIAchIx70gdEpWHuNHR/dAOBlBXcwnQWR3Phj1DkAi09dqo8jpo9kKUYXyT8
+	90ag==
+X-Gm-Message-State: AKaTC00i3cpSbd1s1hZCfaU2BdVo3bPZ8tElp3mdr9jLmo4XCgxgmkyX8H7TB2hg/n3EUA==
+X-Received: by 10.84.179.165 with SMTP id b34mr36664091plc.162.1482167963439; 
+	Mon, 19 Dec 2016 09:19:23 -0800 (PST)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	f132sm32846180pfa.72.2016.12.19.09.19.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 19 Dec 2016 09:19:23 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Dec 2016 09:19:14 -0800
+Message-Id: <20161219171915.10651-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [V3 07/10] x264: Fix build on mips architectures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,36 +51,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 17:18:57 -0000
-Content-Type: multipart/alternative; boundary=001a11377e18588af30544061dba
+X-List-Received-Date: Mon, 19 Dec 2016 17:19:23 -0000
 
---001a11377e18588af30544061dba
-Content-Type: text/plain; charset=UTF-8
+Disable asm to fix
 
-On 19 December 2016 at 16:42, Khem Raj <raj.khem@gmail.com> wrote:
+| You specified a pre-MSA CPU in your CFLAGS.
+| If you really want to run on such a CPU, configure with --disable-asm.
 
-> it is rebased on master but I am carrying a glibc 2.25 upgrade patch
-> which I am not yet proposing thats why you see conflict
->
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-multimedia/x264/x264_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Yeah.  No need to resent, I got it applying with -C0.
+diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
+index e790681ad3..1dafdd53ae 100644
+--- a/meta/recipes-multimedia/x264/x264_git.bb
++++ b/meta/recipes-multimedia/x264/x264_git.bb
+@@ -24,6 +24,7 @@ X264_DISABLE_ASM = ""
+ X264_DISABLE_ASM_armv4 = "--disable-asm"
+ X264_DISABLE_ASM_armv5 = "--disable-asm"
+ X264_DISABLE_ASM_powerpc = "${@bb.utils.contains("TUNE_FEATURES", "spe", "--disable-asm", "", d)}"
++X264_DISABLE_ASM_mipsarch = "${@bb.utils.contains("TUNE_FEATURES", "r6", "", "--disable-asm", d)}"
+ 
+ EXTRA_OECONF = '--prefix=${prefix} \
+                 --host=${HOST_SYS} \
+-- 
+2.11.0
 
-Ross
 
---001a11377e18588af30544061dba
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 December 2016 at 16:42, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><div id=3D":3b9" class=3D"a3s aXj=
-CH m15917f7c71341d10">it is rebased on master but I am carrying a glibc 2.2=
-5 upgrade patch<br>
-which I am not yet proposing thats why you see conflict<br></div></blockquo=
-te></div><br>Yeah.=C2=A0 No need to resent, I got it applying with -C0.</di=
-v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div=
-></div>
-
---001a11377e18588af30544061dba--
