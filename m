@@ -1,48 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id C4D0071C86
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id A5EE471DF7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 03:06:16 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id i88so6745988pfk.2
+	Mon, 19 Dec 2016 03:06:17 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id w68so852888pgw.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Dec 2016 19:06:18 -0800 (PST)
+	Sun, 18 Dec 2016 19:06:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=y5J4MC1p0z7+lJDkSlssxClVo/EgTuY9ELDmwzM0az8=;
-	b=EnZqRg6xYRdMs0hcpS0AwMXKEpPvnoptZqLM2B+6QZ30aXKaC+mUyqjCDie2x/a5ZN
-	ZbomZifduwk4oFgym0Ro9Z9stfrk1PWXnj9pQ+UPtHI9/qD7PtS5IACbUIGUeSdXxMi1
-	h3EoYeK3zHBzAfeX5t+Cn9bVRh+IYLOkaZdvD3NcPmYUlBVQojHhdLROWrWver9fcOlM
-	mmv6GAu2hzYFC/Dliz8FHx8M3HJn5TG3Fb19xW1uqjvZOecmwQ2sw0b4PDM1R0suvR8Z
-	6JGShVblHGFLJrSURX7TWyKTx4hk2tvaQ6bTVUVx/Doh7CfpMr6QSlu3N2mFFPzc/hye
-	F2ag==
+	bh=xv6ooZ+QQragLwHli4HST83nRF4Wt9xOH+Srox+lm8w=;
+	b=tgselQonmcOoqohNCv9WHP9GdBKeUreEJGohB5ObwU7aNv59kEYtG0DjawkkzZzUMW
+	nyIloYyp3D0EkT2kiXiy88nYYtRjPcPqSCfVGgLITuuyo4ltudeEAPFrD07peTiaH7lb
+	b5eXr/w7khLOpAawGPMWc0l5mWsnGBccsqn6rTq/gtXd0IKL/sL1TewUqpzglpaoCzfl
+	Z933oZvWIewx3Mdjbke6M3N6TJ9iyHZ3oWUhAsxrKOA4EHZS/anQ+AEf8mDisOiIzdfH
+	VKsmWmQT19rFMrhlZUyXD7elvbQvhDtHuHwapepNH/8+2pxhalP1wpxtdIkYFPCy1jyX
+	/5Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=y5J4MC1p0z7+lJDkSlssxClVo/EgTuY9ELDmwzM0az8=;
-	b=r0i3ay9pYZDKB5NU17xsRE5+/XDAmfO/weKa/D2s12+/so4UzRRe+tMFJLVDhKj6X6
-	0IdAiyeraFDX2kLa5ai9ITuKcdFGZA9LPUoj0Oi3Y5wmPl4ZCPwm2oGB2RqIt3XK1spq
-	2RXaK2559vDKvAA8XLOUq5laszRCXSYpk0uQIr0oFAe8M+Q66nFQpV4/oOjOBPsXGh66
-	9R7z7vjae/Ke4BHGw8h+Fb0sTWEI4mULCR7RWRHYWFmbDRuFMBnP4ntp8lGphFbm4wfP
-	qrOJ0HOo5851jEwG9r99L+gd01iAASCPOvBlNLOXQK2SrF74CE0X+nn0uoTkqLIMjTmh
-	XnQA==
-X-Gm-Message-State: AKaTC00WUfNyrG8uKH3t0VH41dAbdGaUFm3jjvX/R3caW4ATuqjghQQ287Gb+63TTO7ILw==
-X-Received: by 10.98.4.134 with SMTP id 128mr13221800pfe.156.1482116778350;
-	Sun, 18 Dec 2016 19:06:18 -0800 (PST)
+	bh=xv6ooZ+QQragLwHli4HST83nRF4Wt9xOH+Srox+lm8w=;
+	b=cA1nk9zlbZ+eqcbKiamAHUyXBo0HAsGUKriWFdZGBFuGnPg7cnnjFU2NvGtvrOFJ0/
+	yV83556ya5mh/LRKsNpSlR1ZekWSJlphtIgpgTE/5MrLdWjwHyE68afxg3wHu0NqHBWK
+	pMSESiViC5A00/QMTTG2+7uaqYY7N+SW2okuJaf28cicAQxD9dG75DYZOcLNDKYdAbmi
+	eyb0vEuwoZWP84Fkqxh9JyLUNZrtwroSvGrMoL0sSi662cSTJ7jhZzI8e7QPRot9iEPQ
+	t6DAJ37hc0khZ+yw4IrMlLNtyEUAQM/BYk2fQdWGAnKYLdHihreZz1qOJW41NXVX+iZI
+	ULzA==
+X-Gm-Message-State: AKaTC00yWRYGC+REAYJ2IugzSyLZGWGohNooNc02CqtxajOSEwr00Ffs/VZxdYcL2PyXtw==
+X-Received: by 10.98.133.9 with SMTP id u9mr12969530pfd.137.1482116779207;
+	Sun, 18 Dec 2016 19:06:19 -0800 (PST)
 Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	65sm26830276pfn.12.2016.12.18.19.06.17
+	65sm26830276pfn.12.2016.12.18.19.06.18
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 18 Dec 2016 19:06:17 -0800 (PST)
+	Sun, 18 Dec 2016 19:06:18 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 18 Dec 2016 19:05:59 -0800
-Message-Id: <20161219030600.1284-7-raj.khem@gmail.com>
+Date: Sun, 18 Dec 2016 19:06:00 -0800
+Message-Id: <20161219030600.1284-8-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20161219030600.1284-1-raj.khem@gmail.com>
 References: <20161219030600.1284-1-raj.khem@gmail.com>
-Subject: [PATCH 7/8] x264: Fix build on mips architectures
+Subject: [PATCH 8/8] autoconf: Fix AC_HEADER_MAJOR with glibc 2.25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,29 +56,180 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 19 Dec 2016 03:06:17 -0000
 
-Disable asm to fix
-
-| You specified a pre-MSA CPU in your CFLAGS.
-| If you really want to run on such a CPU, configure with --disable-asm.
+Backport the patch from master for 2.69
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-multimedia/x264/x264_git.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ .../AC_HEADER_MAJOR-port-to-glibc-2.25.patch       | 147 +++++++++++++++++++++
+ meta/recipes-devtools/autoconf/autoconf_2.69.bb    |   1 +
+ 2 files changed, 148 insertions(+)
+ create mode 100644 meta/recipes-devtools/autoconf/autoconf/AC_HEADER_MAJOR-port-to-glibc-2.25.patch
 
-diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
-index e790681ad3..240a19661f 100644
---- a/meta/recipes-multimedia/x264/x264_git.bb
-+++ b/meta/recipes-multimedia/x264/x264_git.bb
-@@ -23,6 +23,8 @@ inherit lib_package pkgconfig perlnative
- X264_DISABLE_ASM = ""
- X264_DISABLE_ASM_armv4 = "--disable-asm"
- X264_DISABLE_ASM_armv5 = "--disable-asm"
-+X264_DISABLE_ASM_mips = "--disable-asm"
-+X264_DISABLE_ASM_mipsel = "--disable-asm"
- X264_DISABLE_ASM_powerpc = "${@bb.utils.contains("TUNE_FEATURES", "spe", "--disable-asm", "", d)}"
+diff --git a/meta/recipes-devtools/autoconf/autoconf/AC_HEADER_MAJOR-port-to-glibc-2.25.patch b/meta/recipes-devtools/autoconf/autoconf/AC_HEADER_MAJOR-port-to-glibc-2.25.patch
+new file mode 100644
+index 0000000000..8af6c0fdca
+--- /dev/null
++++ b/meta/recipes-devtools/autoconf/autoconf/AC_HEADER_MAJOR-port-to-glibc-2.25.patch
+@@ -0,0 +1,147 @@
++From e17a30e987d7ee695fb4294a82d987ec3dc9b974 Mon Sep 17 00:00:00 2001
++From: Eric Blake <eblake@redhat.com>
++Date: Wed, 14 Sep 2016 08:17:06 -0500
++Subject: [PATCH] AC_HEADER_MAJOR: port to glibc 2.25
++
++glibc 2.25 is deprecating the namespace pollution of <sys/types.h>
++injecting major(), minor(), and makedev() into the compilation
++environment, with a warning that insists that users include
++<sys/sysmacros.h> instead.  However, because the expansion of
++AC_HEADER_MAJOR didn't bother checking sys/sysmacros.h until
++after probing whether sys/types.h pollutes the namespace, it was
++not defining MAJOR_IN_SYSMACROS, with the result that code
++compiled with -Werror chokes on the deprecation warnings because
++it was not including sysmacros.h.
++
++In addition to fixing autoconf (which only benefits projects
++that rebuild configure after this fix is released), we can also
++give a hint to distros on how they can populate config.site with
++a cache variable to force pre-existing configure scripts without
++the updated macro to behave sanely in the presence of glibc 2.25
++(the documentation is especially useful since that cache variable
++is no longer present in autoconf after this patch).
++
++Note that mingw lacks major/minor/makedev in any of its standard
++headers; for that platform, the behavior of this macro is unchanged
++(code using the recommended include formula will get a compile error
++when trying to use major(), whether before or after this patch); but
++for now, it is assumed that programs actually concerned with
++creating devices are not worried about portability to mingw.  If
++desired, a later patch could tighten AC_HEADER_MAJOR to fail at
++configure time if the macros are unavailable in any of the three
++system headers, but that semantic change is not worth mixing into
++this patch.
++
++* lib/autoconf/headers.m4 (AC_HEADER_MAJOR): Drop check for
++major within sys/types.h; it interferes with the need to check
++sysmacros.h first.
++* doc/autoconf.texi (Particular Headers) <AC_HEADER_MAJOR>: Expand
++details on usage, and on workarounds for non-updated projects.
++
++Signed-off-by: Eric Blake <eblake@redhat.com>
++---
++Upstream-Status: Backport
++
++ doc/autoconf.texi       |   35 +++++++++++++++++++++++++++++++----
++ lib/autoconf/headers.m4 |   30 ++++++++++++++----------------
++ 2 files changed, 45 insertions(+), 20 deletions(-)
++
++diff --git a/doc/autoconf.texi b/doc/autoconf.texi
++index 9ad7dc1..4f041bd 100644
++--- a/doc/autoconf.texi
+++++ b/doc/autoconf.texi
++@@ -5970,10 +5970,37 @@ Also see @code{AC_STRUCT_DIRENT_D_INO} and
++ @cvindex MAJOR_IN_SYSMACROS
++ @hdrindex{sys/mkdev.h}
++ @hdrindex{sys/sysmacros.h}
++-If @file{sys/types.h} does not define @code{major}, @code{minor}, and
++-@code{makedev}, but @file{sys/mkdev.h} does, define
++-@code{MAJOR_IN_MKDEV}; otherwise, if @file{sys/sysmacros.h} does, define
++-@code{MAJOR_IN_SYSMACROS}.
+++Detect the headers required to use @code{makedev}, @code{major}, and
+++@code{minor}.  These functions may be defined by @file{sys/mkdev.h},
+++@code{sys/sysmacros.h}, or @file{sys/types.h}.
+++
+++@code{AC_HEADER_MAJOR} defines @code{MAJOR_IN_MKDEV} if they are in
+++@file{sys/mkdev.h}, or @code{MAJOR_IN_SYSMACROS} if they are in
+++@file{sys/sysmacros.h}.  If neither macro is defined, they are either in
+++@file{sys/types.h} or unavailable.
+++
+++To properly use these functions, your code should contain something
+++like:
+++
+++@verbatim
+++#include <sys/types.h>
+++#ifdef MAJOR_IN_MKDEV
+++# include <sys/mkdev.h>
+++#elif defined MAJOR_IN_SYSMACROS
+++# include <sys/sysmacros.h>
+++#endif
+++@end verbatim
+++
+++Note: Configure scripts built with Autoconf 2.69 or earlier will not
+++detect a problem if @file{sys/types.h} contains definitions of
+++@code{major}, @code{minor}, and/or @code{makedev} that trigger compiler
+++warnings upon use.  This is known to occur with GNU libc 2.25, where
+++those definitions are being deprecated to reduce namespace pollution.
+++If it is not practical to use Autoconf 2.70 to regenerate the configure
+++script of affected software, you can work around the problem by setting
+++@samp{ac_cv_header_sys_types_h_makedev=no}, as an argument to
+++@command{configure} or as part of a @file{config.site} site default file
+++(@pxref{Site Defaults}).
++ @end defmac
++ 
++ @defmac AC_HEADER_RESOLV
++diff --git a/lib/autoconf/headers.m4 b/lib/autoconf/headers.m4
++index 0c44973..72262c1 100644
++--- a/lib/autoconf/headers.m4
+++++ b/lib/autoconf/headers.m4
++@@ -427,31 +427,29 @@ fi
++ 
++ # AC_HEADER_MAJOR
++ # ---------------
+++# Thanks to glibc 2.25 deprecating macros in sys/types.h, coupled with
+++# back-compat to autoconf 2.69, we need the following logic:
+++# Check whether <sys/types.h> compiles.
+++# If <sys/mkdev.h> compiles, assume it provides major/minor/makedev.
+++# Otherwise, if <sys/sysmacros.h> compiles, assume it provides the macros.
+++# Otherwise, either the macros were provided by <sys/types.h>, or do
+++# not exist on the platform.  Code trying to use these three macros is
+++# assumed to not care about platforms that lack the macros.
++ AN_FUNCTION([major],     [AC_HEADER_MAJOR])
++ AN_FUNCTION([makedev],   [AC_HEADER_MAJOR])
++ AN_FUNCTION([minor],     [AC_HEADER_MAJOR])
++ AN_HEADER([sys/mkdev.h], [AC_HEADER_MAJOR])
++ AC_DEFUN([AC_HEADER_MAJOR],
++-[AC_CACHE_CHECK(whether sys/types.h defines makedev,
++-		ac_cv_header_sys_types_h_makedev,
++-[AC_LINK_IFELSE([AC_LANG_PROGRAM([[@%:@include <sys/types.h>]],
++-				 [[return makedev(0, 0);]])],
++-		[ac_cv_header_sys_types_h_makedev=yes],
++-		[ac_cv_header_sys_types_h_makedev=no])
++-])
++-
++-if test $ac_cv_header_sys_types_h_makedev = no; then
+++[AC_CHECK_HEADERS_ONCE([sys/types.h])
++ AC_CHECK_HEADER(sys/mkdev.h,
++ 		[AC_DEFINE(MAJOR_IN_MKDEV, 1,
++ 			   [Define to 1 if `major', `minor', and `makedev' are
++ 			    declared in <mkdev.h>.])])
++-
++-  if test $ac_cv_header_sys_mkdev_h = no; then
++-    AC_CHECK_HEADER(sys/sysmacros.h,
++-		    [AC_DEFINE(MAJOR_IN_SYSMACROS, 1,
++-			       [Define to 1 if `major', `minor', and `makedev'
++-				are declared in <sysmacros.h>.])])
++-  fi
+++if test $ac_cv_header_sys_mkdev_h = no; then
+++  AC_CHECK_HEADER(sys/sysmacros.h,
+++		  [AC_DEFINE(MAJOR_IN_SYSMACROS, 1,
+++			     [Define to 1 if `major', `minor', and `makedev'
+++			      are declared in <sysmacros.h>.])])
++ fi
++ ])# AC_HEADER_MAJOR
++ 
++-- 
++1.7.10.4
++
+diff --git a/meta/recipes-devtools/autoconf/autoconf_2.69.bb b/meta/recipes-devtools/autoconf/autoconf_2.69.bb
+index aa1877a1fb..fd01585441 100644
+--- a/meta/recipes-devtools/autoconf/autoconf_2.69.bb
++++ b/meta/recipes-devtools/autoconf/autoconf_2.69.bb
+@@ -14,6 +14,7 @@ SRC_URI += "file://check-automake-cross-warning.patch \
+             file://autotest-automake-result-format.patch \
+             file://add_musl_config.patch \
+             file://performance.patch \
++            file://AC_HEADER_MAJOR-port-to-glibc-2.25.patch \
+            "
  
- EXTRA_OECONF = '--prefix=${prefix} \
+ SRC_URI[md5sum] = "82d05e03b93e45f5a39b828dc9c6c29b"
 -- 
 2.11.0
 
