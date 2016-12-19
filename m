@@ -1,51 +1,47 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
-	[209.85.214.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A5CB3772AE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 22B74772B5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 21:42:59 +0000 (UTC)
-Received: by mail-it0-f65.google.com with SMTP id n68so11820575itn.3
+	Mon, 19 Dec 2016 21:47:40 +0000 (UTC)
+Received: by mail-qk0-f182.google.com with SMTP id q68so29912361qki.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 13:43:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=ch8m82Gz8/RvqrpbYZQ7It+qMziHyEDirs4+hULwqYw=;
-	b=LC9EkMoiILPq3PcHm2s4+jg6r7wfTsyeiX4BDiZT7OIlp/JPURBT1fnRA74yrBGnrU
-	xKTGNamZlqgUA51Xeco7tMwxJxvm7BKdXRVENTr9VtYN9mTKW7HhaYjgYdTmfux+utIO
-	BBQ6Oy5f94avCRc9e59qrk6LoJBdXNAQADToDX6V7QivQO79ehMaYyUfQ75jshqSVBgN
-	dCx/40LZBiOgS6uryHgpkr0FbchMlTIaGao7FzTD3kNUPUgXIsfeXb51ZlJr8aaRlqT6
-	d0Xh9j/M81CSeBj2cD6LZUSKtmVqCnvgY1o4XnoyxiQmh3AerdCSoDvvPGCu+oB4TqYX
-	5THQ==
+	Mon, 19 Dec 2016 13:47:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=s+woDmkRUX9DwNGsLZX6sXxQfqUZT94zrPb61qe3Y3w=;
+	b=RUgIlRTMCFXk3F/a92LFn1vJ69QJAVx6ai9kpJ3dkWVV4lWlOdx4b66ThaarGS7VyC
+	lh5KKJeH7W3no9HLfqau6Gq9LFhnHTUnpnBzZS1gJRnMm5nqfZRWLuJpCgkJtFxK24pw
+	WFtLCdQKY4gPCiyagrRHsDmZ4RlD9NrhxgFo1zfGXcDukWhfXD3dG8ca10z483rxi6VO
+	XV7cSBbtiV2sK2RJUeYgKrBGYEgtOCHmsnD9loPupx407BGLW60xJAOI8x1l567/V0vA
+	WmwmlGch2iaYlxWjiu928+n4kd+4pgbzvDwroQ0imqajKj1VzKvQzafxMBwxbW4NCfnI
+	VXBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=ch8m82Gz8/RvqrpbYZQ7It+qMziHyEDirs4+hULwqYw=;
-	b=mqTIKpd8XKwlG1uASPJA3vhwWq+s8y01bE3lPe6pA38nl8naKsT0tDWuN2rCKX8DfK
-	QVy0rqjC5UnI8RMhMqJfQe8M+u8BNAHawvj21zIDPRm8k3/NK1Hfo197qNS/BG5KejfN
-	TFw5t3mDM1Bn7xtIJ9KgMYdeu54z3BCeJ5Y088DvACGIvGfOAAN7lih6Ew+LYV+9Q9f6
-	nE2jZkU/oHFc7ctwuLwB0y9yEBxUswnjdUq9giMaCKJl2hSbv8jJXIMo1bu6DIR3bnwE
-	9MlY2lkNbFpZiy306xsE42gqvcCw3pgIfgAV9sYORAaKSJ7CGFJQCQe0MTdOfdNlESxV
-	Ns9g==
-X-Gm-Message-State: AKaTC01iSFf0Mfv8ghSfgQu1X1jkR9DcBEv9VcSgN1YohGEAbMwfWfCLl779+SJ3Ot8BJw==
-X-Received: by 10.36.215.197 with SMTP id y188mr18702141itg.71.1482183780795; 
-	Mon, 19 Dec 2016 13:43:00 -0800 (PST)
-Received: from openSUSE-i7.site (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.gmail.com with ESMTPSA id
-	m9sm8954155ioa.12.2016.12.19.13.42.59
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 19 Dec 2016 13:43:00 -0800 (PST)
-Date: Mon, 19 Dec 2016 16:42:58 -0500
-From: Trevor Woerner <twoerner@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20161219214258.GA16333@openSUSE-i7.site>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=s+woDmkRUX9DwNGsLZX6sXxQfqUZT94zrPb61qe3Y3w=;
+	b=ZgNLo9a+Izn0S16uAoZh6hA5EmhDG7F5EUt91pOJqGvOcdPTa2NRN5KPXjXck3YjfA
+	fRinOM+pe1apdaB1pGQ+rZHLGuFKPoKI5BON385IeIBhHn6JaXN9ERULePr50QqpucId
+	W/COMcOqHeJDYlPdbPQKzyLzagkJr0Tqti8/8m6K0AdW5cBOK9b0jAFcBNliqUyxdPn2
+	JTd875DvyiX2EPSR7qz5kQ30dMW2b9bvN/jSZ6NV4rGZdxcxcuO2M4UdrBWRS2vqECBQ
+	tsDcs7dkQSjMa3giWAs+IXFwKnrfHW4R5rG7nxDKHsuhJhzMr6342i++k1H/7Wh8/TY/
+	08UQ==
+X-Gm-Message-State: AIkVDXLOsPE7ZqhshWmKsncdj+DuJT8mCMQDM2iCfFy6BSKnWPfiv02jVy4UX6FV0L/k50Lw720q29747J5WzEQA
+X-Received: by 10.55.207.78 with SMTP id e75mr3681712qkj.36.1482184061641;
+	Mon, 19 Dec 2016 13:47:41 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.106.99 with HTTP; Mon, 19 Dec 2016 13:47:21 -0800 (PST)
+In-Reply-To: <20161219214258.GA16333@openSUSE-i7.site>
 References: <1481599839-114211-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 	<20161219152324.GA1056@openSUSE-i7.site>
 	<CAJTo0LYV2qMTBVpm8ASDb7BdwwezWfysAn6fJbM7Xwh6FXCcyg@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYV2qMTBVpm8ASDb7BdwwezWfysAn6fJbM7Xwh6FXCcyg@mail.gmail.com>
-User-Agent: Mutt/1.6.0 (2016-04-01)
+	<20161219214258.GA16333@openSUSE-i7.site>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 19 Dec 2016 21:47:21 +0000
+Message-ID: <CAJTo0La1zRwQspKAgPvRxaTryEZSjSSwXf+O0XLadAe5p0VnDA@mail.gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] util-linux: 2.28.1 -> 2.29
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -60,55 +56,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 21:42:59 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Mon, 19 Dec 2016 21:47:41 -0000
+Content-Type: multipart/alternative; boundary=001a1145b7b87c7abb054409deef
 
-On Mon 2016-12-19 @ 08:31:25 PM, Burton, Ross wrote:
-> On 19 December 2016 at 15:23, Trevor Woerner <twoerner@gmail.com> wrote:
-> 
-> > Is anyone else seeing build failures as a result of this commit?
-> >
-> 
-> Can you reproduce this on demand?
+--001a1145b7b87c7abb054409deef
+Content-Type: text/plain; charset=UTF-8
 
-Yes. Last night's raspi2 and minnow/turbot builds failed, and trying with qemu
-(x86-64 and x86) all failed.
+On 19 December 2016 at 21:42, Trevor Woerner <twoerner@gmail.com> wrote:
 
-A fresh build in a new directory fails readily:
+> A fresh build in a new directory fails readily:
+>
 
-$ git clone git://git.openembedded.org/openembedded-core.git
-(e82a7f879419828b42b5cc71e6229c8235090f21)
-$ git clone git://git.openembedded.org/bitbake.git
-(50633012a64a3b5f0662145e29ff426374fb7683)
-$ . openembedded-core/oe-init-build-env build bitbake
-$ bitbake util-linux-native
+Ah, interesting, because I can't replicate that. :/
 
+Can you share the do_configure log?
 
-Build Configuration:
-BB_VERSION        = "1.32.0"
-BUILD_SYS         = "x86_64-linux"
-NATIVELSBSTRING   = "opensuse-42.2"
-TARGET_SYS        = "i586-oe-linux"
-MACHINE           = "qemux86"
-DISTRO            = "nodistro"
-DISTRO_VERSION    = "nodistro.0"
-TUNE_FEATURES     = "m32 i586"
-TARGET_FPU        = ""
-meta              = "master:e82a7f879419828b42b5cc71e6229c8235090f21"
+Ross
 
-*BOOM!* ;-)
+--001a1145b7b87c7abb054409deef
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-| disk-utils/cfdisk-cfdisk.o:cfdisk.c:(.text.startup+0x8fd): more undefined references to `_nc_stdscr' follow
-| collect2: error: ld returned 1 exit status
-| Makefile:5737: recipe for target 'cfdisk' failed
-| make[2]: *** [cfdisk] Error 1
-| make[2]: Leaving directory '/z/qemu/build/tmp-glibc/work/x86_64-linux/util-linux-native/2.29-r0/build'
-| Makefile:11450: recipe for target 'all-recursive' failed
-| make[1]: *** [all-recursive] Error 1
-| make[1]: Leaving directory '/z/qemu/build/tmp-glibc/work/x86_64-linux/util-linux-native/2.29-r0/build'
-| Makefile:4781: recipe for target 'all' failed
-| make: *** [all] Error 2
-| ERROR: Function failed: do_compile (log file is located at /z/qemu/build/tmp-glibc/work/x86_64-linux/util-linux-native/2.29-r0/temp/log.do_compile.28460)
-ERROR: Task (virtual:native:/z/qemu/openembedded-core/meta/recipes-core/util-linux/util-linux_2.29.bb:do_compile) failed with exit code '1'
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 December 2016 at 21:42, Trevor Woerner <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:twoerner@gmail.com" target=3D"_blank">twoerner@gmail.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":41e" class=3D"=
+a3s aXjCH m1591909ba5caa759">A fresh build in a new directory fails readily=
+:<br></div></blockquote></div><br>Ah, interesting, because I can&#39;t repl=
+icate that. :/</div><div class=3D"gmail_extra"><br></div><div class=3D"gmai=
+l_extra">Can you share the do_configure log?</div><div class=3D"gmail_extra=
+"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
+--001a1145b7b87c7abb054409deef--
