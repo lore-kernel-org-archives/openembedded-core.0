@@ -1,46 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AEA26011F
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ua0-f181.google.com (mail-ua0-f181.google.com
+	[209.85.217.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FDBC6011F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 11:25:33 +0000 (UTC)
-Received: by mail-qk0-f174.google.com with SMTP id u25so681960qki.2
+	Mon, 19 Dec 2016 11:26:44 +0000 (UTC)
+Received: by mail-ua0-f181.google.com with SMTP id 3so83356071uaz.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 03:25:35 -0800 (PST)
+	Mon, 19 Dec 2016 03:26:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	d=googlemail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=XzBp+N2m1/z2pcvFu2fvBTrHZbTe5F38ATxGTKHHdAE=;
-	b=aZLIC7hnfji1lJXyNpfKVv0SR2RxnjD7U3TMcVTx+HFD5qXoG/wRi0ni5OJ2uufKyi
-	Y/37OTQ6CqYbQt/5I56/zShCHfbNPKCnICRHG+yLT4OAAAYsiyb4BAMrJazkBF0p+wBv
-	IZ3lqw4OAL8AGeiKyNnXQvEX3UApqLmbzVRFDgr20toT20WKp0lhYZjCevyH/8t/gTNc
-	3oRb1FmKZYgOHqizd1GY7gJxS/VvPhJqay76lKeLZ6hFW2IE4z1j/Kw4wEl5CJhkj83L
-	SjlEhNMwXG7C/NXGPiuNwJzc/GxcpZnEsgYFeS7xixrfj1CVaqHy59nB++QOHcLgfVZm
-	FvVQ==
+	:cc:content-transfer-encoding;
+	bh=V6unozIVgfj0Phu/4l+7Aw9wPb7h32i+8db/DhL54K8=;
+	b=Eya401QafezrAQUFrSI0KvhWIT/JIcX9v/MywauLhKojoNE3Nx84Ip8sk+swjrFLbx
+	MHelBcsbImCDcBNLrRVsfWJf+SQK3nAbePornWEXbH4yc0p5HD7lgtvK1KKpJaCLY1H9
+	xSBTcbhIa7NMDd0x1QdBw7EAwd5PkO0TgvXDi9Sczi/2pmX3DIWejq5qJIzsEr+WOC0m
+	wcIinmhO7nDJ4SzXopZ+w1SF/L7nmtf7/yqZu6FoQpbvOtJipdR4kjt9XEr2LLWAEmFe
+	DpMjqA8K2EZ+GXS730nhRx1sGlJpUuguwp05RgDbInFeP7Uf9fGXKw3+DxEhxfB7fubP
+	4G/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=XzBp+N2m1/z2pcvFu2fvBTrHZbTe5F38ATxGTKHHdAE=;
-	b=ZpyRjquMZNcN90WraQ+pEcBTNqb6F/v5khDqqFnlxvj5XDO+3eN6xZa/axAYkK7l4E
-	34kE64fLwb3T3GjUS5bFAK/reo0CfGm+39xqQiWyuQjftYQXFpOgpSWOF6+bTBlQiqzH
-	t3Ze7MEaoVn/sNcPfz76l1usUa/EMxrm9CYPLnPIh/CjyLp2UsKI0DC/F/l+6TE3hvlJ
-	QqmqJApemWgTNHR6y+sBgtJdDync5mBPlQl+L22muvujqt7MKrwIeJsZovCmiCTcnj5f
-	1KOQzwXLh42mi6Zp7+Y7SgW0oWatTyvQSsxU8hlg9eF21Kkn4WhyVr1e1NLlCwgKFAvQ
-	z8Iw==
-X-Gm-Message-State: AIkVDXLIkse3dHtjBNa7pyE/4grwSALWs7Eq2ArHaNAVp6rX4HuYUhlPhNTYDdwRXjo+Rl7zcjBzAgx7x8MOE5t4
-X-Received: by 10.55.31.24 with SMTP id f24mr2195120qkf.221.1482146735132;
-	Mon, 19 Dec 2016 03:25:35 -0800 (PST)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=V6unozIVgfj0Phu/4l+7Aw9wPb7h32i+8db/DhL54K8=;
+	b=hdeIca6YqfFmfOeCkUpZBVyMTxWR7e8I7k8aLCLJoFoZusBZBkovYzYXfHAHjmwCtg
+	GtqZucHQKg1rX+RN/yt2CuTGJj7fUq+6HKcHGTdMvHRWHCZ9nHwDFtmdVfZ0zP1+puXU
+	p+C4c5QwsNbXldIdTUjSdJS4VEnIdovK+wEm5jSu4lrZs2MgtRTnOAE9+PyR9Er3ynFD
+	N9zJEJFFTkOa61MToTBk72oiM6H2Qp/5DC15dZeIl6QazVW1lnY9LjwpXJG/sZ5kNc/i
+	9L1IGx6CKTE76MJao4WAsPV6lqsQ4OJJ8KNtTtZJ18vrK8yASCuZQXci44z4LcbNrAH4
+	VO0Q==
+X-Gm-Message-State: AIkVDXKZwPVnEQE5eyN401eDAf6tNJ3rmeG7jHHOZGdf933CCs9kJ0/4KEse7qRHVlD0gcHAXRRztJUd1SduWQ==
+X-Received: by 10.159.35.19 with SMTP id 19mr4582431uae.47.1482146806003; Mon,
+	19 Dec 2016 03:26:46 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Mon, 19 Dec 2016 03:25:14 -0800 (PST)
-In-Reply-To: <CALbNGRQ+hDgM+AsRFq3YYidr4S-7yDXbx+abbfA5tpLqKTD9JQ@mail.gmail.com>
+Received: by 10.176.85.157 with HTTP; Mon, 19 Dec 2016 03:26:45 -0800 (PST)
+In-Reply-To: <CAJTo0LawS5UMdCeXmzg=Ff0N+8H7MKGB9wwwn0iQaXwnK0stWw@mail.gmail.com>
 References: <CALbNGRThWRoOfZjN1BaQpT2hAGzuRCfHUnfG89gxQcDE=6cgUw@mail.gmail.com>
 	<CAJTo0LZbgGV9kd0bw8jGgfg0kLbJn0ANgETon7_gJxG5fWML7g@mail.gmail.com>
 	<CALbNGRQ+hDgM+AsRFq3YYidr4S-7yDXbx+abbfA5tpLqKTD9JQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 19 Dec 2016 11:25:14 +0000
-Message-ID: <CAJTo0LawS5UMdCeXmzg=Ff0N+8H7MKGB9wwwn0iQaXwnK0stWw@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+	<CAJTo0LawS5UMdCeXmzg=Ff0N+8H7MKGB9wwwn0iQaXwnK0stWw@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Mon, 19 Dec 2016 12:26:45 +0100
+Message-ID: <CALbNGRRVNNBCKsCSf9m+HmeF6DBUSDtb2N8Gr7qzWFVU4=bb9A@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: 'From OE-Core rev: <commit-id>' in recent master commits
@@ -56,75 +58,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 11:25:35 -0000
-Content-Type: multipart/alternative; boundary=001a1147e2baa72acb0544012d37
-
---001a1147e2baa72acb0544012d37
+X-List-Received-Date: Mon, 19 Dec 2016 11:26:45 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On 19 December 2016 at 11:22, Andreas M=C3=BCller <schnitzeltony@googlemail=
-.com>
-wrote:
-
-> commit c87361fc886432a9db584712bf3e41ecd0541960
-> Author: Ross Burton <ross.burton@intel.com>
-> Date:   Thu Dec 15 17:19:46 2016 +0000
+On Mon, Dec 19, 2016 at 12:25 PM, Burton, Ross <ross.burton@intel.com> wrot=
+e:
 >
->     lib/oe/package_manager: bail if createrepo can't be found
+> On 19 December 2016 at 11:22, Andreas M=C3=BCller <schnitzeltony@googlema=
+il.com>
+> wrote:
+>>
+>> commit c87361fc886432a9db584712bf3e41ecd0541960
+>> Author: Ross Burton <ross.burton@intel.com>
+>> Date:   Thu Dec 15 17:19:46 2016 +0000
+>>
+>>     lib/oe/package_manager: bail if createrepo can't be found
+>>
+>>     If createrepo isn't found then the errors later are mysterious, so
+>> explicitly
+>>     check and error out early if it isn't there.
+>>
+>>     (From OE-Core rev: e09636bbb3ea8ec58984197fd9c691bb908efe00)
+>>
+>>     Signed-off-by: Ross Burton <ross.burton@intel.com>
+>>     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 >
->     If createrepo isn't found then the errors later are mysterious, so
-> explicitly
->     check and error out early if it isn't there.
 >
->     (From OE-Core rev: e09636bbb3ea8ec58984197fd9c691bb908efe00)
+> Looks like there was a bit of mess with patches going from Richard's poky
+> clone's master-next to my poky clone's mut branch back to oe-core master.=
+  I
+> believe Richard generally ensures these get stripped out but obviously th=
+is
+> didn't happen.  Human error, sorry!
 >
->     Signed-off-by: Ross Burton <ross.burton@intel.com>
->     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
+Shit happens :)
 
-Looks like there was a bit of mess with patches going from Richard's poky
-clone's master-next to my poky clone's mut branch back to oe-core master.
-I believe Richard generally ensures these get stripped out but obviously
-this didn't happen.  Human error, sorry!
+Andreas
 
-Ross
-
---001a1147e2baa72acb0544012d37
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 December 2016 at 11:22, Andreas M=C3=BCller <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:schnitzeltony@googlemail.com" target=3D"_blank">schnitzelton=
-y@googlemail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
- style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><d=
-iv id=3D":1xo" class=3D"a3s aXjCH m15916d2359ac387c">commit c87361fc886432a=
-9db584712bf3e41<wbr>ecd0541960<br>
-Author: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burto=
-n@intel.com</a>&gt;<br>
-Date:=C2=A0 =C2=A0Thu Dec 15 17:19:46 2016 +0000<br>
-<br>
-=C2=A0 =C2=A0 lib/oe/package_manager: bail if createrepo can&#39;t be found=
-<br>
-<br>
-=C2=A0 =C2=A0 If createrepo isn&#39;t found then the errors later are myste=
-rious, so<br>
-explicitly<br>
-=C2=A0 =C2=A0 check and error out early if it isn&#39;t there.<br>
-<br>
-=C2=A0 =C2=A0 (From OE-Core rev: e09636bbb3ea8ec58984197fd9c691<wbr>bb908ef=
-e00)<br>
-<br>
-=C2=A0 =C2=A0 Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@=
-intel.com">ross.burton@intel.com</a>&gt;<br>
-=C2=A0 =C2=A0 Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.p=
-urdie@linuxfoundation.org">richard.purdie@<wbr>linuxfoundation.org</a>&gt;<=
-/div></blockquote></div><br>Looks like there was a bit of mess with patches=
- going from Richard&#39;s poky clone&#39;s master-next to my poky clone&#39=
-;s mut branch back to oe-core master.=C2=A0 I believe Richard generally ens=
-ures these get stripped out but obviously this didn&#39;t happen.=C2=A0 Hum=
-an error, sorry!</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
-ail_extra">Ross</div></div>
-
---001a1147e2baa72acb0544012d37--
