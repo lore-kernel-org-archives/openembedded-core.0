@@ -1,26 +1,26 @@
 Return-Path: <Dengke.Du@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 43BC460750
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BF3CD73204
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2016 05:40:17 +0000 (UTC)
+	Mon, 19 Dec 2016 05:40:19 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uBJ5eJrM003597
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBJ5eKl3022663
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Dec 2016 21:40:19 -0800
+	Sun, 18 Dec 2016 21:40:20 -0800 (PST)
 Received: from pek-lpgtest20.wrs.com (128.224.179.28) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Sun, 18 Dec 2016 21:40:18 -0800
+	14.3.294.0; Sun, 18 Dec 2016 21:40:19 -0800
 From: Dengke Du <dengke.du@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 19 Dec 2016 13:40:14 +0800
-Message-ID: <026c4a899d74d55373639b9e4d22e097fdce6843.1482125840.git.dengke.du@windriver.com>
+Date: Mon, 19 Dec 2016 13:40:15 +0800
+Message-ID: <b462c405d5967bc06c0cb6e7b984c95852739480.1482125840.git.dengke.du@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1482125840.git.dengke.du@windriver.com>
 References: <cover.1482125840.git.dengke.du@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 1/2] Revert "subversion: fix "svnadmin create" fail on x86"
+Subject: [PATCH V2 2/2] apr: fix off_t size can't match when configure and in target glibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,118 +33,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 05:40:18 -0000
+X-List-Received-Date: Mon, 19 Dec 2016 05:40:19 -0000
 Content-Type: text/plain
 
-This reverts commit cfe6f3e251240c9d9a70354be0501600357f0b87.
-
-This is because the apr configure wrong, when the apr configure meets the
-cross compiling, it pass 8 bytes to "off_t", in apr source code configure.in,
-it was hardcoded:
+When subversion run on x86 and lib32 on x86-64, it use the APR's
+apr.h header file. But when configure the APR, APR meets the cross
+compiling, it was hardcoded in configure.in in apr source code. As
+the following:
 
 	APR_CHECK_SIZEOF_EXTENDED([#include <sys/types.h>], off_t, 8)
 
-The macro "APR_CHECK_SIZEOF_EXTENDED" was defined in build/apr_common.m4,
-it use the "AC_TRY_RUN" macro, this macro let the off_t to 8, when cross
-compiling enable.
+It pass 8 bytes to off_t when meets cross compiling, but on x86 or lib32
+the off_t in glibc was 4 bytes, so it let the application who use apr.h
+go to wrong.
 
-But in glibc on the x86 or multilib target the "off_t" was 4 bytes, so this
-cases dismatch for softwares which use the apr.h, such as subversion, run this:
+Such as subversion:
 
 	svnadmin create test
 
-It failed because the "APR_OFF_T_FMT" was "lld" in apr.h when apr configure,
-but the "apr_off_t" was 4 bytes, in the apr source code: apr_snprintf.c
+So we should let the APR detect the correct off_t when cross compiling,
+change it to the following:
 
-	i_quad = va_arg(ap, apr_int64_t);
-
-When the function apr_vformatter meets "lld", it would use the above to parse,
-but the above read 8 bytes, so the follow-up data go to wrong.
-
-So we should configure the apr correct when cross compiling. I do this on the
-following patchs.
+	AC_CHECK_SIZEOF(off_t)
 
 Signed-off-by: Dengke Du <dengke.du@windriver.com>
 ---
- .../0001-fix-svnadmin-create-fail-on-x86.patch     | 56 ----------------------
- .../subversion/subversion_1.9.4.bb                 |  1 -
- 2 files changed, 57 deletions(-)
- delete mode 100644 meta/recipes-devtools/subversion/subversion/0001-fix-svnadmin-create-fail-on-x86.patch
+ ..._t-size-doesn-t-match-in-glibc-when-cross.patch | 52 ++++++++++++++++++++++
+ meta/recipes-support/apr/apr_1.5.2.bb              |  1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-support/apr/apr/0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch
 
-diff --git a/meta/recipes-devtools/subversion/subversion/0001-fix-svnadmin-create-fail-on-x86.patch b/meta/recipes-devtools/subversion/subversion/0001-fix-svnadmin-create-fail-on-x86.patch
-deleted file mode 100644
-index d440528..0000000
---- a/meta/recipes-devtools/subversion/subversion/0001-fix-svnadmin-create-fail-on-x86.patch
-+++ /dev/null
-@@ -1,56 +0,0 @@
--From 09475e0befca8d120c957177ce8568fa2209a1a9 Mon Sep 17 00:00:00 2001
--From: Dengke Du <dengke.du@windriver.com>
--Date: Wed, 2 Nov 2016 11:09:44 +0800
--Subject: [PATCH] fix "svnadmin create" fail on x86
--
--When run the following command on x86:
--
--        svnadmin create /var/test_repo
--
--It cause segmentation fault error like the following:
--
--        [16499.751837] svnadmin[21117]: segfault at 83 ip 00000000f74bf7f6 sp 00000000ffdd9b34 error 4 in libc-2.24.so[f7441000+1af000]
--        Segmentation fault (core dumped)
--
--This is because in source code ./subversion/libsvn_fs_fs/low_level.c,
--function svn_fs_fs__unparse_footer, when:
--
--        target arch:    x86
--        apr_off_t:      4 bytes
--
--if the "APR_OFF_T_FMT" is "lld", it still use type "apr_off_t" to pass
--data to apr, but in apr source code file apr_snprintf.c the function
--apr_vformatter meet "lld", it would use the:
--
--        i_quad = va_arg(ap, apr_int64_t);
--
--It uses the apr_int64_t to deal data, it read 8 bytes, so the follow-up
--data may be error.
--
--Upstream-Status: Pending
--
--Signed-off-by: Dengke Du <dengke.du@windriver.com>
-----
-- subversion/libsvn_fs_fs/low_level.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/subversion/libsvn_fs_fs/low_level.c b/subversion/libsvn_fs_fs/low_level.c
--index a27bbcc..6ddbe28 100644
----- a/subversion/libsvn_fs_fs/low_level.c
--+++ b/subversion/libsvn_fs_fs/low_level.c
--@@ -250,10 +250,10 @@ svn_fs_fs__unparse_footer(apr_off_t l2p_offset,
-- {
--   return svn_stringbuf_createf(result_pool,
--                                "%" APR_OFF_T_FMT " %s %" APR_OFF_T_FMT " %s",
---                               l2p_offset,
--+                               (APR_OFF_T_FMT=="lld") ? (apr_int64_t)l2p_offset : l2p_offset,
--                                svn_checksum_to_cstring(l2p_checksum,
--                                                        scratch_pool),
---                               p2l_offset,
--+                               (APR_OFF_T_FMT=="lld") ? (apr_int64_t)p2l_offset : p2l_offset,
--                                svn_checksum_to_cstring(p2l_checksum,
--                                                        scratch_pool));
-- }
---- 
--2.7.4
--
-diff --git a/meta/recipes-devtools/subversion/subversion_1.9.4.bb b/meta/recipes-devtools/subversion/subversion_1.9.4.bb
-index 3e35940..460f8d0 100644
---- a/meta/recipes-devtools/subversion/subversion_1.9.4.bb
-+++ b/meta/recipes-devtools/subversion/subversion_1.9.4.bb
-@@ -14,7 +14,6 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://disable_macos.patch \
-            file://serf.m4-Regex-modified-to-allow-D-in-paths.patch \
-            file://0001-Fix-libtool-name-in-configure.ac.patch \
--           file://0001-fix-svnadmin-create-fail-on-x86.patch \
-            file://serfmacro.patch \
-            "
+diff --git a/meta/recipes-support/apr/apr/0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch b/meta/recipes-support/apr/apr/0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch
+new file mode 100644
+index 0000000..56673f4
+--- /dev/null
++++ b/meta/recipes-support/apr/apr/0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch
+@@ -0,0 +1,52 @@
++From 537f5b415677b49a52f01bca9f60937654fb9cca Mon Sep 17 00:00:00 2001
++From: Dengke Du <dengke.du@windriver.com>
++Date: Wed, 14 Dec 2016 18:13:08 +0800
++Subject: [PATCH] apr: fix off_t size doesn't match in glibc when cross
++ compiling
++
++In configure.in, it contains the following:
++
++	APR_CHECK_SIZEOF_EXTENDED([#include <sys/types.h>], off_t, 8)
++
++the macro "APR_CHECK_SIZEOF_EXTENDED" was defined in build/apr_common.m4,
++it use the "AC_TRY_RUN" macro, this macro let the off_t to 8, when cross
++compiling enable.
++
++So it was hardcoded for cross compiling, we should detect it dynamic based on
++the sysroot's glibc. We change it to the following:
++
++	AC_CHECK_SIZEOF(off_t)
++
++I have send a discussing for the upstream, the maintainer said the macro in
++APR designed with only any attention paid to the build platform, considering
++cross compiling less, we can check the discussing from:
++
++	http://mail-archives.apache.org/mod_mbox/apr-dev/201612.mbox/browser
++
++text/plain:
++
++	http://mail-archives.apache.org/mod_mbox/apr-dev/201612.mbox/raw/%3CCACsi250oDaqf%2BG4-KoT_0QWhSZdKCJhNZYhWRBqOx5WcmtYO8Q%40mail.gmail.com%3E/1
++
++Upstream-Status: Submitted
++
++Signed-off-by: Dengke Du <dengke.du@windriver.com>
++---
++ configure.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/configure.in b/configure.in
++index 9d57ae6..fcc647e 100644
++--- a/configure.in
+++++ b/configure.in
++@@ -1784,7 +1784,7 @@ fi
++ 
++ size_t_fmt="#define APR_SIZE_T_FMT \"$size_t_fmt\""
++ 
++-APR_CHECK_SIZEOF_EXTENDED([#include <sys/types.h>], off_t, 8)
+++AC_CHECK_SIZEOF(off_t)
++ 
++ if test "${ac_cv_sizeof_off_t}${apr_cv_use_lfs64}" = "4yes"; then
++     # Enable LFS
++-- 
++2.7.4
++
+diff --git a/meta/recipes-support/apr/apr_1.5.2.bb b/meta/recipes-support/apr/apr_1.5.2.bb
+index 302c935..f560c8b 100644
+--- a/meta/recipes-support/apr/apr_1.5.2.bb
++++ b/meta/recipes-support/apr/apr_1.5.2.bb
+@@ -17,6 +17,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
+            file://upgrade-and-fix-1.5.1.patch \
+            file://Fix-packet-discards-HTTP-redirect.patch \
+            file://configure.in-fix-LTFLAGS-to-make-it-work-with-ccache.patch \
++           file://0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch \
+ "
  
+ SRC_URI[md5sum] = "4e9769f3349fe11fc0a5e1b224c236aa"
 -- 
 2.7.4
 
