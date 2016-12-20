@@ -1,29 +1,47 @@
-Return-Path: <Wenlin.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 608FD71A66
+Return-Path: <freesilicon@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 02124772E1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 09:47:51 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBK9ll8v021391
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 20 Dec 2016 01:47:47 -0800 (PST)
-Received: from [128.224.162.177] (128.224.162.177) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Tue, 20 Dec 2016 01:47:47 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1482130882-148241-1-git-send-email-wenlin.kang@windriver.com>
-	<CAJTo0LYgLj4o1srO59zCz5KhSio-C5-GFTnLaAmKcripb04Sgg@mail.gmail.com>
-From: Wenlin Kang <wenlin.kang@windriver.com>
-Message-ID: <60c61d77-2b93-8b94-007d-ff185fb8c68f@windriver.com>
-Date: Tue, 20 Dec 2016 17:47:35 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.1
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYgLj4o1srO59zCz5KhSio-C5-GFTnLaAmKcripb04Sgg@mail.gmail.com>
-X-Originating-IP: [128.224.162.177]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gnupg: specify explicitly tar path
+	Tue, 20 Dec 2016 09:48:39 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id a20so23325550wme.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Dec 2016 01:48:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=/pfpCooJrz9IGnJA5hENqrBYCdQrrocSIaDql+5YkRo=;
+	b=kze5bWTQRD847r1o08KSAdRyaqr+v5eV7U91Krn0meokg2x2xJwQlXxELtduva7hvF
+	0+h4nYFMbw5JKlXxcLk+a4oDXPGKXsUnKaCR4mNG0oUlZmTGNgZ/1G3rymcX1yC8u1gw
+	Ena7Xh86qDSOm9c/vNFuZn5NURpy9rTo/+cKZ8uVdKDv+ZSQnTvdxe1eagWy1wP7E0Vm
+	Ff1TuFOE+hBKPkOgXePhK6wIqZAp0Rxiki7vVTla8O/82oIHHmzG1NHTVJt7NKgzbtdL
+	8ibzfmUUMYZMGf5Tm6Bu2Rn25It/UX7bOw22oeOcIkBJsDCwgzKR0EAUZQbBGkQmwT1B
+	M+og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=/pfpCooJrz9IGnJA5hENqrBYCdQrrocSIaDql+5YkRo=;
+	b=DA1C4lfDNN27cfXT+oBMxVpS5aR0vUPs90XWPt2FUwtdshD2r3tgEaBCUTBSW8nIB4
+	4u8vjwRWKrJ0zUssqq/9bT0u3GhMIrwAwoX3c19twpetqW43xjZ9L7m7jKYdH/PHSDxw
+	Q/NKxFoUYlRE6tnMeF8k9Z9NylHIYpJhskc72HIKUbizSstfcdqF2fr2npbXREzeG5po
+	qsuuNZ0WovDt6ftSCnJhJ0lCioc8OtnAzTewqszVPGVXYkkpX/nSXGrFuAnCIOkk/YE7
+	mRQ8GyW3H6/UL/A5DQBX1kwVfe7UCVWBCPkFm1OabGPFoibrzEp/xUK/LcItlCdMzhoU
+	6omw==
+X-Gm-Message-State: AIkVDXICGNmSHTruJf0v8trHRjjAIzQJ8yuFpsN8aIdpEmFPhWf+MGcz+SR4UV/RJFIUAA==
+X-Received: by 10.28.60.5 with SMTP id j5mr1127751wma.119.1482227320704;
+	Tue, 20 Dec 2016 01:48:40 -0800 (PST)
+Received: from localhost.localdomain ([185.47.80.46])
+	by smtp.gmail.com with ESMTPSA id y4sm24705707wjp.0.2016.12.20.01.48.39
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 20 Dec 2016 01:48:40 -0800 (PST)
+From: David Vincent <freesilicon@gmail.com>
+To: openembedded-core@lists.openembedded.org, haris.okanovic@ni.com,
+	markus.lehtonen@linux.intel.com
+Date: Tue, 20 Dec 2016 10:47:45 +0100
+Message-Id: <20161220094745.11485-1-freesilicon@gmail.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20161212160148.9248-1-freesilicon@gmail.com>
+References: <20161212160148.9248-1-freesilicon@gmail.com>
+Subject: [PATCH v6] classes: Fix alternatives and rc.d ordering
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,93 +54,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Dec 2016 09:47:53 -0000
-Content-Type: multipart/alternative;
-	boundary="------------E53D2AA2B34AF00A64A5A412"
+X-List-Received-Date: Tue, 20 Dec 2016 09:48:40 -0000
 
---------------E53D2AA2B34AF00A64A5A412
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+When using an alternative as an initscript, the ordering between
+update-rc.d and update-alternatives tasks during prerm and postinst
+tasks must always be the following in order to work:
+  * prerm:
+    - stop daemon
+    - remove alternative
 
-On 2016年12月19日 19:39, Burton, Ross wrote:
->
-> On 19 December 2016 at 07:01, Wenlin Kang <wenlin.kang@windriver.com 
-> <mailto:wenlin.kang@windriver.com>> wrote:
->
->     +-   AC_PATH_PROG(TAR,"tar")
->     +-        _mytar=$ac_cv_path_TAR
->
->
-> You don't need to patch configure.ac <http://configure.ac> as you can 
-> just set pass ac_cv_path_TAR=${base_bindir/tar in EXTRA_OECONF.
->
-> Ross
+  * postinst:
+    - add alternative
+    - start daemon
 
-Your means is that we should only set  --with-tar=${base_bindir}/tar in 
-EXTRA_OECONF, not to modify configure.ac, right?
-If that, the configure code will skip directly "ustar format check 
-code", not check whether tar supports "ustar format",
-and think it doesn't support ustar format, so I think we need to modify 
-the configure(related m4/tar-ustar.m4 file)
-when set  --with-tar=${base_bindir}/tar in EXTRA_OECONF.
+This patchset adds comments to the scripts generated by both classes and
+organize the generated sections based on those comments.
 
+[YOCTO #10433]
+
+Changes since v5:
+    - Remove boolean in d.getVar() calls
+
+Signed-off-by: David Vincent <freesilicon@gmail.com>
+---
+ meta/classes/update-alternatives.bbclass | 29 ++++++++++++++++++++++-------
+ meta/classes/update-rc.d.bbclass         | 20 ++++++++++++++++++--
+ 2 files changed, 40 insertions(+), 9 deletions(-)
+
+diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
+index 0460bf0241..a90ef19e45 100644
+--- a/meta/classes/update-alternatives.bbclass
++++ b/meta/classes/update-alternatives.bbclass
+@@ -195,8 +195,8 @@ python populate_packages_updatealternatives () {
+     pkgdest = d.getVar('PKGD')
+     for pkg in (d.getVar('PACKAGES') or "").split():
+         # Create post install/removal scripts
+-        alt_setup_links = ""
+-        alt_remove_links = ""
++        alt_setup_links = "# Begin section update-alternatives\n"
++        alt_remove_links = "# Begin section update-alternatives\n"
+         for alt_name in (d.getVar('ALTERNATIVE_%s' % pkg) or "").split():
+             alt_link     = d.getVarFlag('ALTERNATIVE_LINK_NAME', alt_name)
+             alt_target   = d.getVarFlag('ALTERNATIVE_TARGET_%s' % pkg, alt_name) or d.getVarFlag('ALTERNATIVE_TARGET', alt_name)
+@@ -219,10 +219,13 @@ python populate_packages_updatealternatives () {
+             # Default to generate shell script.. eventually we may want to change this...
+             alt_target = os.path.normpath(alt_target)
+ 
+-            alt_setup_links  += '\tupdate-alternatives --install %s %s %s %s\n' % (alt_link, alt_name, alt_target, alt_priority)
+-            alt_remove_links += '\tupdate-alternatives --remove  %s %s\n' % (alt_name, alt_target)
++            alt_setup_links  += 'update-alternatives --install %s %s %s %s\n' % (alt_link, alt_name, alt_target, alt_priority)
++            alt_remove_links += 'update-alternatives --remove  %s %s\n' % (alt_name, alt_target)
+ 
+-        if alt_setup_links:
++        alt_setup_links += "# End section update-alternatives\n"
++        alt_remove_links += "# End section update-alternatives\n"
++
++        if len(alt_setup_links.splitlines()) > 2:
+             # RDEPENDS setup
+             provider = d.getVar('VIRTUAL-RUNTIME_update-alternatives')
+             if provider:
+@@ -232,12 +235,24 @@ python populate_packages_updatealternatives () {
+             bb.note('adding update-alternatives calls to postinst/prerm for %s' % pkg)
+             bb.note('%s' % alt_setup_links)
+             postinst = d.getVar('pkg_postinst_%s' % pkg) or '#!/bin/sh\n'
+-            postinst += alt_setup_links
++            postinst = postinst.splitlines(True)
++            try:
++                index = postinst.index('# Begin section update-rc.d\n')
++                postinst.insert(index, alt_setup_links)
++            except ValueError:
++                postinst.append(alt_setup_links)
++            postinst = ''.join(postinst)
+             d.setVar('pkg_postinst_%s' % pkg, postinst)
+ 
+             bb.note('%s' % alt_remove_links)
+             prerm = d.getVar('pkg_prerm_%s' % pkg) or '#!/bin/sh\n'
+-            prerm += alt_remove_links
++            prerm = prerm.splitlines(True)
++            try:
++                index = prerm.index('# End section update-rc.d\n')
++                prerm.insert(index + 1, alt_remove_links)
++            except ValueError:
++                prerm.append(alt_remove_links)
++            prerm = ''.join(prerm)
+             d.setVar('pkg_prerm_%s' % pkg, prerm)
+ }
+ 
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index 2746c360fe..9d3a7bc0c7 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -35,6 +35,7 @@ fi
+ }
+ 
+ updatercd_postinst() {
++# Begin section update-rc.d
+ if ${@use_updatercd(d)} && type update-rc.d >/dev/null 2>/dev/null; then
+ 	if [ -n "$D" ]; then
+ 		OPT="-r $D"
+@@ -43,12 +44,15 @@ if ${@use_updatercd(d)} && type update-rc.d >/dev/null 2>/dev/null; then
+ 	fi
+ 	update-rc.d $OPT ${INITSCRIPT_NAME} ${INITSCRIPT_PARAMS}
+ fi
++# End section update-rc.d
+ }
+ 
+ updatercd_prerm() {
++# Begin section update-rc.d
+ if ${@use_updatercd(d)} && [ -z "$D" -a -x "${INIT_D_DIR}/${INITSCRIPT_NAME}" ]; then
+ 	${INIT_D_DIR}/${INITSCRIPT_NAME} stop || :
+ fi
++# End section update-rc.d
+ }
+ 
+ updatercd_postrm() {
+@@ -111,13 +115,25 @@ python populate_packages_updatercd () {
+         postinst = d.getVar('pkg_postinst_%s' % pkg)
+         if not postinst:
+             postinst = '#!/bin/sh\n'
+-        postinst += localdata.getVar('updatercd_postinst')
++        postinst = postinst.splitlines(True)
++        try:
++            index = postinst.index('# End section update-alternatives\n')
++            postinst.insert(index + 1, localdata.getVar('updatercd_postinst'))
++        except ValueError:
++            postinst.append(localdata.getVar('updatercd_postinst'))
++        postinst = ''.join(postinst)
+         d.setVar('pkg_postinst_%s' % pkg, postinst)
+ 
+         prerm = d.getVar('pkg_prerm_%s' % pkg)
+         if not prerm:
+             prerm = '#!/bin/sh\n'
+-        prerm += localdata.getVar('updatercd_prerm')
++        prerm = prerm.splitlines(True)
++        try:
++            index = prerm.index('# Begin section update-alternatives\n')
++            prerm.insert(index, localdata.getVar('updatercd_prerm'))
++        except ValueError:
++            prerm.append(localdata.getVar('updatercd_prerm'))
++        prerm = ''.join(prerm)
+         d.setVar('pkg_prerm_%s' % pkg, prerm)
+ 
+         postrm = d.getVar('pkg_postrm_%s' % pkg)
 -- 
-Thanks,
-Wenlin Kang
+2.11.0
 
 
---------------E53D2AA2B34AF00A64A5A412
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 2016年12月19日 19:39, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LYgLj4o1srO59zCz5KhSio-C5-GFTnLaAmKcripb04Sgg@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 19 December 2016 at 07:01, Wenlin
-            Kang <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:wenlin.kang@windriver.com" target="_blank">wenlin.kang@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":1z8" class="a3s aXjCH m15915e3c168c1608">+-     
-                  AC_PATH_PROG(TAR,"tar")<br>
-                +-        _mytar=$ac_cv_path_TAR<br>
-              </div>
-            </blockquote>
-          </div>
-          <br>
-          You don't need to patch <a moz-do-not-send="true"
-            href="http://configure.ac">configure.ac</a> as you can just
-          set pass ac_cv_path_TAR=${base_bindir/tar in EXTRA_OECONF.</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-    Your means is that we should only set  --with-tar=${base_bindir}/tar
-    in EXTRA_OECONF, not to modify configure.ac, right?<br>
-    If that, the configure code will skip directly "ustar format check
-    code", not check whether tar supports "ustar format",<br>
-    and think it doesn't support ustar format, so I think we need to
-    modify the configure(related m4/tar-ustar.m4 file) <br>
-    when set  --with-tar=${base_bindir}/tar in EXTRA_OECONF.<br>
-    <br>
-    <pre class="moz-signature" cols="72">-- 
-Thanks,
-Wenlin Kang</pre>
-  </body>
-</html>
-
---------------E53D2AA2B34AF00A64A5A412--
