@@ -1,26 +1,45 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D1E0D6007A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 408F677272
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 05:53:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBK5rMoR019498
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 19 Dec 2016 21:53:22 -0800 (PST)
-Received: from pek-lpgtest20.wrs.com (128.224.179.28) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Mon, 19 Dec 2016 21:53:21 -0800
-From: Dengke Du <dengke.du@windriver.com>
-To: <ross.burton@intel.com>
-Date: Tue, 20 Dec 2016 13:53:16 +0800
-Message-ID: <47053394f7baedc5e343fc82bb144d6d7abae7e8.1482212391.git.dengke.du@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1482212391.git.dengke.du@windriver.com>
-References: <cover.1482212391.git.dengke.du@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH V3 2/2] apr: fix off_t size can't match when configure and in target glibc
+	Tue, 20 Dec 2016 08:47:07 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id c4so8672231pfb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Dec 2016 00:47:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=RP0w0TVYMtJLmmXXPRiPxU3qYfAIv9DGi+pRiXNM3xo=;
+	b=B06xen5V8gvoFHsbif+FSL1+1L903QAlWoCi8w7e+gGZ2MRYTE2kAEjRCO+n+FXUSm
+	9QpGS0X6StDPi9jXnqEmaSb99fUD1bgFlmhuWGfPJagWywwn1bgwbGlc8dw7lMvR/lPR
+	hWKZZUfVKtt8mfyplCL9jrALL13K/EZUW2SzEYdC1sOWwO11bqtax4N4KOZ9BQ8+AWpi
+	iqk6MSfQiz9/5ODYDPGauNhTJ046coVcIwmdaMNBftYwljU8zUCijSfEaT3oVwmPt25J
+	7OkrtPMscsz2zKq8Nj+yb4lnporfAPg5sFEEoDuIR3RENgK5jW9e9ypmd95nGhSlj7Ac
+	1SiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=RP0w0TVYMtJLmmXXPRiPxU3qYfAIv9DGi+pRiXNM3xo=;
+	b=X1NJL9pybDhZbxV3QBmvAMAoVp7Cchr59K4EqxJ1eJeRefXWamQvVcdggFmOE5J0ha
+	wpx4dHUEdW3PyhOx72TK32oMN4cK8lEUt82RLA8IRylsDDZF571oqgYaoJAH8dVAIYxh
+	Qm2LLokxOT8h7wbZE5BuB6EnFB7+MAyoLP8usAIn3efiU1ioNzOL0fM0txxE8bPS7Xxd
+	Qly1rjXbv6F4noomNE8nkiAMdOJfgeITWDrhJG15nCM71dwJqiF784m+VhXl6ybtLUfu
+	gBopqedG2+ZYBi6bUh8OwmEY3g1oMI+MlVh4tUcGDdPzxprNX3y5rvthD4MGIbCfPoBt
+	nPmQ==
+X-Gm-Message-State: AKaTC03r/bnZUPQtfeSkuF3Wk4AtFHOAhNqryFEwKMAui1PQoAhA0PNYiXwxgg12+3U7Sg==
+X-Received: by 10.99.37.2 with SMTP id l2mr34479683pgl.160.1482223629369;
+	Tue, 20 Dec 2016 00:47:09 -0800 (PST)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	i11sm37304769pgn.17.2016.12.20.00.47.08
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 20 Dec 2016 00:47:08 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Dec 2016 00:47:01 -0800
+Message-Id: <20161220084701.28462-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] gstreamer1.0-libav: Fix build on mips64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,139 +52,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Dec 2016 05:53:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 20 Dec 2016 08:47:08 -0000
 
-When subversion run on x86 and lib32 on x86-64, it use the APR's
-apr.h header file. But when configure the APR, APR meets the cross
-compiling, it was hardcoded in configure.in in apr source code. As
-the following:
-
-	APR_CHECK_SIZEOF_EXTENDED([#include <sys/types.h>], off_t, 8)
-
-It pass 8 bytes to off_t when meets cross compiling, but on x86 or lib32
-the off_t in glibc was 4 bytes, so it let the application who use apr.h
-go to wrong.
-
-Such as subversion:
-
-	svnadmin create test
-
-So we should let the APR detect the correct off_t when cross compiling,
-change it to the following:
-
-	AC_CHECK_SIZEOF(off_t)
-
-The same for the following hardcoded types for cross compiling:
-
-	pid_t	8
-	size_t	8
-	ssize_t	8
-
-Change the above correspondingly.
-
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ..._t-size-doesn-t-match-in-glibc-when-cross.patch | 76 ++++++++++++++++++++++
- meta/recipes-support/apr/apr_1.5.2.bb              |  1 +
- 2 files changed, 77 insertions(+)
- create mode 100644 meta/recipes-support/apr/apr/0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch
+ .../gstreamer1.0-libav/mips64_cpu_detection.patch  | 32 ++++++++++++++++++++++
+ .../gstreamer/gstreamer1.0-libav_1.10.1.bb         |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/mips64_cpu_detection.patch
 
-diff --git a/meta/recipes-support/apr/apr/0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch b/meta/recipes-support/apr/apr/0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/mips64_cpu_detection.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/mips64_cpu_detection.patch
 new file mode 100644
-index 0000000..1237142
+index 0000000000..7a0b448888
 --- /dev/null
-+++ b/meta/recipes-support/apr/apr/0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch
-@@ -0,0 +1,76 @@
-+From f26e8b88d2c90ed7eb9d4e276412b0923c23d10f Mon Sep 17 00:00:00 2001
-+From: Dengke Du <dengke.du@windriver.com>
-+Date: Wed, 14 Dec 2016 18:13:08 +0800
-+Subject: [PATCH] apr: fix off_t size doesn't match in glibc when cross
-+ compiling
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/mips64_cpu_detection.patch
+@@ -0,0 +1,32 @@
++It will add -mips64r6 and -mips64r2 to cmdline which will
++cause conflicts
 +
-+In configure.in, it contains the following:
++in OE we user mips32r2 and mips64r2 for mips arch versions
++so there is no benefit of detecting it automatically by
++poking at tools especially in cross env
 +
-+	APR_CHECK_SIZEOF_EXTENDED([#include <sys/types.h>], off_t, 8)
++Fixes errors like
 +
-+the macro "APR_CHECK_SIZEOF_EXTENDED" was defined in build/apr_common.m4,
-+it use the "AC_TRY_RUN" macro, this macro let the off_t to 8, when cross
-+compiling enable.
++linking -mnan=2008 module with previous -mnan=legacy modules
++failed to merge target specific data of file
 +
-+So it was hardcoded for cross compiling, we should detect it dynamic based on
-+the sysroot's glibc. We change it to the following:
++-Khem
++Upstream-Status: Inappropriate [OE-Specific]
 +
-+	AC_CHECK_SIZEOF(off_t)
-+
-+The same for the following hardcoded types for cross compiling:
-+
-+	pid_t	8
-+	ssize_t	8
-+	size_t	8
-+	off_t	8
-+
-+Change the above correspondingly.
-+
-+Signed-off-by: Dengke Du <dengke.du@windriver.com>
-+---
-+ configure.in | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/configure.in b/configure.in
-+index 9d57ae6..5b19940 100644
-+--- a/configure.in
-++++ b/configure.in
-+@@ -1681,7 +1681,7 @@ else
-+     socklen_t_value="int"
-+ fi
++Index: gst-libav-1.10.1/gst-libs/ext/libav/configure
++===================================================================
++--- gst-libav-1.10.1.orig/gst-libs/ext/libav/configure
+++++ gst-libav-1.10.1/gst-libs/ext/libav/configure
++@@ -5269,12 +5269,9 @@ elif enabled mips; then
 + 
-+-APR_CHECK_SIZEOF_EXTENDED([#include <sys/types.h>], pid_t, 8)
-++AC_CHECK_SIZEOF(pid_t)
-+ 
-+ if test "$ac_cv_sizeof_pid_t" = "$ac_cv_sizeof_short"; then
-+     pid_t_fmt='#define APR_PID_T_FMT "hd"'
-+@@ -1750,7 +1750,7 @@ APR_CHECK_TYPES_COMPATIBLE(ssize_t, long, [ssize_t_fmt="ld"])
-+ APR_CHECK_TYPES_COMPATIBLE(size_t, unsigned int, [size_t_fmt="u"])
-+ APR_CHECK_TYPES_COMPATIBLE(size_t, unsigned long, [size_t_fmt="lu"])
-+ 
-+-APR_CHECK_SIZEOF_EXTENDED([#include <sys/types.h>], ssize_t, 8)
-++AC_CHECK_SIZEOF(ssize_t)
-+ 
-+ AC_MSG_CHECKING([which format to use for apr_ssize_t])
-+ if test -n "$ssize_t_fmt"; then
-+@@ -1767,7 +1767,7 @@ fi
-+ 
-+ ssize_t_fmt="#define APR_SSIZE_T_FMT \"$ssize_t_fmt\""
-+ 
-+-APR_CHECK_SIZEOF_EXTENDED([#include <stddef.h>], size_t, 8)
-++AC_CHECK_SIZEOF(size_t)
-+ 
-+ AC_MSG_CHECKING([which format to use for apr_size_t])
-+ if test -n "$size_t_fmt"; then
-+@@ -1784,7 +1784,7 @@ fi
-+ 
-+ size_t_fmt="#define APR_SIZE_T_FMT \"$size_t_fmt\""
-+ 
-+-APR_CHECK_SIZEOF_EXTENDED([#include <sys/types.h>], off_t, 8)
-++AC_CHECK_SIZEOF(off_t)
-+ 
-+ if test "${ac_cv_sizeof_off_t}${apr_cv_use_lfs64}" = "4yes"; then
-+     # Enable LFS
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-support/apr/apr_1.5.2.bb b/meta/recipes-support/apr/apr_1.5.2.bb
-index 302c935..f560c8b 100644
---- a/meta/recipes-support/apr/apr_1.5.2.bb
-+++ b/meta/recipes-support/apr/apr_1.5.2.bb
-@@ -17,6 +17,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
-            file://upgrade-and-fix-1.5.1.patch \
-            file://Fix-packet-discards-HTTP-redirect.patch \
-            file://configure.in-fix-LTFLAGS-to-make-it-work-with-ccache.patch \
-+           file://0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch \
++     # Enable minimum ISA based on selected options
++     if enabled mips64; then
++-        enabled mips64r6 && check_inline_asm_flags mips64r6 '"dlsa $0, $0, $0, 1"' '-mips64r6'
++         enabled mips64r2 && check_inline_asm_flags mips64r2 '"dext $0, $0, 0, 1"' '-mips64r2'
++         disabled mips64r6 && disabled mips64r2 && check_inline_asm_flags mips64r1 '"daddi $0, $0, 0"' '-mips64'
++     else
++-        enabled mips32r6 && check_inline_asm_flags mips32r6 '"aui $0, $0, 0"' '-mips32r6'
++-        enabled mips32r5 && check_inline_asm_flags mips32r5 '"eretnc"' '-mips32r5'
++         enabled mips32r2 && check_inline_asm_flags mips32r2 '"ext $0, $0, 0, 1"' '-mips32r2'
++         disabled mips32r6 && disabled mips32r5 && disabled mips32r2 && check_inline_asm_flags mips32r1 '"addi $0, $0, 0"' '-mips32'
++     fi
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.10.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.10.1.bb
+index 98f5a50a9a..d44a5b24cb 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.10.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.10.1.bb
+@@ -12,6 +12,7 @@ SRC_URI = " \
+     http://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz \
+     file://0001-Disable-yasm-for-libav-when-disable-yasm.patch \
+     file://workaround-to-build-gst-libav-for-i586-with-gcc.patch \
++    file://mips64_cpu_detection.patch \
  "
- 
- SRC_URI[md5sum] = "4e9769f3349fe11fc0a5e1b224c236aa"
+ SRC_URI[md5sum] = "9dc8fb8dd01818c27230a1ed6ba9f4de"
+ SRC_URI[sha256sum] = "27b28b8de0e6dff1e3952428e8ed8ba4a12f452f789ac0ae9bbe50f00a5c72c7"
 -- 
-2.7.4
+2.11.0
 
 
