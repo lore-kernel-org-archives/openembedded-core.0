@@ -1,42 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f181.google.com (mail-qt0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E15D77375
+Return-Path: <twoerner@gmail.com>
+Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
+	[209.85.223.194])
+	by mail.openembedded.org (Postfix) with ESMTP id A99A777338
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 15:05:39 +0000 (UTC)
-Received: by mail-qt0-f181.google.com with SMTP id w33so178893243qtc.3
+	Tue, 20 Dec 2016 15:14:03 +0000 (UTC)
+Received: by mail-io0-f194.google.com with SMTP id y124so22806393iof.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 07:05:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=zV4X3l7/96PdSeyUcy4+zT1LQnuauYiA4WG+PaptwPA=;
-	b=r/h+Z/7uGcJXiI/7jSL3SceTl7a5JVojSH3stZYO03w9B28CbszXDXilDsbZXFxOjs
-	JfBl2bvMpX5y94u+VQBAMkfte4R0yMZuPL2HnlaTFAeaTNYgVKm413dyIt01O5RW5MMC
-	xSy4hg6c1UP9cPw4z+BxJwcu1NIFZrKMTxcGxqcFpo96ycJ4KsClUGihQw/bbKLXe9aO
-	It0RGzV9854wKdi0mpXYiZ+Dzt70PLS4quQaJxQM2PLaXvooxn0L2EQrKmDMRBJ8GysR
-	glQQ6iRGeiS7QZtiIiTHIuHPBb2pWdZw6GQyhoDJy+22n6tpjKvAGGjC/gLHYoknRvl+
-	TdnQ==
+	Tue, 20 Dec 2016 07:14:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=K9RGte2rgMjhd2fsdb8Ag/qUMOLBTxk3G5dVMzUcB7I=;
+	b=tPCqPGaKciuhhtSFc4fTpB7aGTymuMqQn60iRuoxQMfui3qynSo1HnKYhiWVCF8tLh
+	9R+kbAq6ArOBLJqXUtXKZ8IV+kOgJf5jELwcPslyoFgEjekXBPmlKDZC2GPcwDzW+SSu
+	xNw7Ab4qZsNsOC+ZkmxQuv9YBMtsZjDi6RhTu/COFgWVp0I0YfL1oZVQoVd4FJWBD1vL
+	qXcXYpCFN7CttlHqNDeidjDf5cUHOYThWey5T6yXlinyKxegEYrqUHA7t8ZjZgyzdq1Z
+	ToxvqKqpzlJ2duUvO6iuuJXUUJr0A1eEZNiwWNqWMbihAM4PH8gsC9GPilImeNp7fnv0
+	+8cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=zV4X3l7/96PdSeyUcy4+zT1LQnuauYiA4WG+PaptwPA=;
-	b=LDf61RiyT//0+ZC+qxUpfszR+/qgNxLi6U8XdW42Ug+fDH0QN7ecLSwKALz/p3YDNw
-	l/xdZKmP1ZVyQI+SjiOhlJKYaN7EIgRDfSC6BJ06A3BXV+o7+YAnXyeWnDqI0obUer5g
-	4FV2Uq9u2fXX027kifY9by3SmMqmV59gPCW1+DHp2/7xuVnrr/nH7zjdBTQPHkSiB0XF
-	tA26izgETZlWUgKrKgl+k/DAPwHOksAX03tR4M5zygogxNcesEyBAIaDY7XMxRTVvOns
-	apzP9sqZzkpQVwJmesjHGpcFCq/ZwTx3BVlbgHobReW+FZGdqaUzfaajuFVtJ4lmb3U5
-	fqDA==
-X-Gm-Message-State: AIkVDXLYYzK1b5pViBNHyDxtcaROCxZEMWwayZl8w7lqa/VX5JnupYWlNBEJlET4ryFkooW+lVYIh36O55DurLwj
-X-Received: by 10.237.36.154 with SMTP id t26mr4626175qtc.188.1482246340401;
-	Tue, 20 Dec 2016 07:05:40 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Tue, 20 Dec 2016 07:05:20 -0800 (PST)
-In-Reply-To: <CAJTo0LajFQ85DckLMqS7Tbza4NJNNc4A6QMuACa4XDb6PiHJnQ@mail.gmail.com>
-References: <1481599839-114211-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-	<20161219152324.GA1056@openSUSE-i7.site>
-	<CAJTo0LYV2qMTBVpm8ASDb7BdwwezWfysAn6fJbM7Xwh6FXCcyg@mail.gmail.com>
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=K9RGte2rgMjhd2fsdb8Ag/qUMOLBTxk3G5dVMzUcB7I=;
+	b=cIi6MZaLzmyCOWa7VIrwTxDqltQgZkScflErJoB/Jm94X/+rhjWEXp88kc4sK/EVO0
+	IsZiCd/y9lsuhbfFLbIk+/c2cJRf17iyVMVPsz6/I0T5BfuFMNkW8gNDd/KiAuUFPAI/
+	jg+6dQ3Jvo06YtyvTGjFcMGGc9B6JUMzCy9ibggghWtJLk4gL30cpuvT1axcYnyHkEQu
+	Pm9EGITJO2Yi2KQnYIIv3OwlrkDn3ahZLVJg8CsDY5YA50GKVQQTSWeNm9P3SKOQyQuu
+	1AVLbhlkxvRb8Z8fao8AtteHdMhOniF1mhZ4trq39n82Jq/SLcu27n3c3klZMFr5pTs6
+	Xztg==
+X-Gm-Message-State: AIkVDXKstabVlrJYVHW53W6XK5uU4wLP6vMd8j6Nvd7IC2dZ/6MiqraEtoLf1AHIQ9R4mA==
+X-Received: by 10.107.10.11 with SMTP id u11mr477849ioi.29.1482246844624;
+	Tue, 20 Dec 2016 07:14:04 -0800 (PST)
+Received: from openSUSE-i7.site ([45.72.129.229])
+	by smtp.gmail.com with ESMTPSA id
+	w192sm9029576itw.3.2016.12.20.07.14.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 20 Dec 2016 07:14:03 -0800 (PST)
+Date: Tue, 20 Dec 2016 10:14:01 -0500
+From: Trevor Woerner <twoerner@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20161220151401.GB11748@openSUSE-i7.site>
+References: <CAJTo0LYV2qMTBVpm8ASDb7BdwwezWfysAn6fJbM7Xwh6FXCcyg@mail.gmail.com>
 	<20161219214258.GA16333@openSUSE-i7.site>
 	<CAJTo0La1zRwQspKAgPvRxaTryEZSjSSwXf+O0XLadAe5p0VnDA@mail.gmail.com>
 	<CAJTo0LYuH==F4jbo3chSbaJHkCu8VWmOS+PxT3A6qwTzJoxwXA@mail.gmail.com>
@@ -45,10 +49,10 @@ References: <1481599839-114211-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 	<CAJTo0LbZYcPK-9E=+pw9ZB-H9Yb7gNxeQMxLQsoRsZ1CWU4pgQ@mail.gmail.com>
 	<20161220145554.GA11748@openSUSE-i7.site>
 	<CAJTo0LajFQ85DckLMqS7Tbza4NJNNc4A6QMuACa4XDb6PiHJnQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 20 Dec 2016 15:05:20 +0000
-Message-ID: <CAJTo0LYzEZpgspkijcDOUUwPSRBaiWsYbts02NkBy4FJW28jOg@mail.gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
+	<CAJTo0LYzEZpgspkijcDOUUwPSRBaiWsYbts02NkBy4FJW28jOg@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LYzEZpgspkijcDOUUwPSRBaiWsYbts02NkBy4FJW28jOg@mail.gmail.com>
+User-Agent: Mutt/1.6.0 (2016-04-01)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] util-linux: 2.28.1 -> 2.29
@@ -64,67 +68,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Dec 2016 15:05:39 -0000
-Content-Type: multipart/alternative; boundary=001a1141058e97625a0544185ebc
+X-List-Received-Date: Tue, 20 Dec 2016 15:14:04 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
---001a1141058e97625a0544185ebc
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Tue 2016-12-20 @ 03:05:20 PM, Burton, Ross wrote:
+> On 20 December 2016 at 15:00, Burton, Ross <ross.burton@intel.com> wrote:
+> 
+> > This would be the autoconf macro UL_NCURSES_CHECK in m4/ul.m4, which calls
+> > ncurses6-config.  I thought the sysroot was ahead of the host so it should
+> > find our broken script before the hosts...
+> >
+> 
+> $ bitbake -e util-linux-native -e
+> ...
+> export
+> PATH="/home/ross/Yocto/poky/scripts/native-intercept:/data/poky-master/tmp-glibc/sysroots-uninative/x86_64-linux/usr/bin:/home/ross/Yocto/poky/scripts:/data/poky-master/tmp-glibc/sysroots/x86_64-linux/usr/bin/x86_64-linux:/data/poky-master/tmp-glibc/sysroots/x86_64-linux/usr/bin:/data/poky-master/tmp-glibc/sysroots/x86_64-linux/usr/sbin:/data/poky-master/tmp-glibc/sysroots/x86_64-linux/usr/bin:/data/poky-master/tmp-glibc/sysroots/x86_64-linux/sbin:/data/poky-master/tmp-glibc/sysroots/x86_64-linux/bin:/home/ross/Yocto/poky/scripts:/home/ross/Yocto/poky/bitbake/bin:/home/ross/BUILD/bin:/home/ross/bin:/home/ross/Yocto/bb/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games"
+> 
+> Definitely the sysroot before the host.
 
-On 20 December 2016 at 15:00, Burton, Ross <ross.burton@intel.com> wrote:
+I have:
 
-> This would be the autoconf macro UL_NCURSES_CHECK in m4/ul.m4, which call=
-s
-> ncurses6-config.  I thought the sysroot was ahead of the host so it shoul=
-d
-> find our broken script before the hosts...
->
+	export PATH="/z/layerindex-master/layers/openembedded-core/scripts/native-intercept:/z/layerindex-master/raspi3/tmp-glibc/sysroots-uninative/x86_64-linux/usr/bin:/z/layerindex-master/layers/openembedded-core/scripts:/z/layerindex-master/raspi3/tmp-glibc/sysroots/x86_64-linux/usr/bin/x86_64-linux:/z/layerindex-master/raspi3/tmp-glibc/sysroots/x86_64-linux/usr/bin:/z/layerindex-master/raspi3/tmp-glibc/sysroots/x86_64-linux/usr/sbin:/z/layerindex-master/raspi3/tmp-glibc/sysroots/x86_64-linux/usr/bin:/z/layerindex-master/raspi3/tmp-glibc/sysroots/x86_64-linux/sbin:/z/layerindex-master/raspi3/tmp-glibc/sysroots/x86_64-linux/bin:/z/layerindex-master/layers/openembedded-core/scripts:/z/layerindex-master/layers/bitbake/bin:/home/trevor/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/home/trevor/local/packages/apache-maven-2.2.1/bin"
 
-$ bitbake -e util-linux-native -e
-...
-export
-PATH=3D"/home/ross/Yocto/poky/scripts/native-intercept:/data/poky-master/tm=
-p-glibc/sysroots-uninative/x86_64-linux/usr/bin:/home/ross/Yocto/poky/scrip=
-ts:/data/poky-master/tmp-glibc/sysroots/x86_64-linux/usr/bin/x86_64-linux:/=
-data/poky-master/tmp-glibc/sysroots/x86_64-linux/usr/bin:/data/poky-master/=
-tmp-glibc/sysroots/x86_64-linux/usr/sbin:/data/poky-master/tmp-glibc/sysroo=
-ts/x86_64-linux/usr/bin:/data/poky-master/tmp-glibc/sysroots/x86_64-linux/s=
-bin:/data/poky-master/tmp-glibc/sysroots/x86_64-linux/bin:/home/ross/Yocto/=
-poky/scripts:/home/ross/Yocto/poky/bitbake/bin:/home/ross/BUILD/bin:/home/r=
-oss/bin:/home/ross/Yocto/bb/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/gam=
-es:/usr/games"
+which also shows my sysroots before the host.
 
-Definitely the sysroot before the host.
+In my sysroot I have:
 
-Ross
+	$ find . -name "*curse*" -print | grep config
+	./x86_64-linux/usr/share/x86_64-linux_config_site.d/ncurses_config
+	./x86_64-linux/usr/lib/pkgconfig/ncurses++.pc
+	./x86_64-linux/usr/lib/pkgconfig/ncurses.pc
+	./x86_64-linux/usr/lib/pkgconfig/ncursesw.pc
+	./x86_64-linux/usr/lib/pkgconfig/ncurses++w.pc
+	./x86_64-linux/usr/bin/crossscripts/ncurses5-config
+	./x86_64-linux/usr/bin/crossscripts/ncursesw5-config
+	./x86_64-linux/usr/bin/ncurses5-config
+	./x86_64-linux/usr/bin/ncursesw5-config
+	./raspberrypi3/usr/share/arm-oe-linux-gnueabi_config_site.d/ncurses_config
+	./raspberrypi3/usr/lib/pkgconfig/ncurses++.pc
+	./raspberrypi3/usr/lib/pkgconfig/ncurses.pc
+	./raspberrypi3/usr/lib/pkgconfig/ncursesw.pc
+	./raspberrypi3/usr/lib/pkgconfig/ncurses++w.pc
+	./raspberrypi3/usr/bin/crossscripts/ncurses5-config
+	./raspberrypi3/usr/bin/crossscripts/ncursesw5-config
 
---001a1141058e97625a0544185ebc
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+So I only have the version 5 -config scripts, but my host has version 5 and
+version 6 -config scripts. I'm guessing we need a dummy ncurses{w}6-config
+script in the sysroot too (?)
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 20 December 2016 at 15:00, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bord=
-er-left-style:solid;padding-left:1ex"><div class=3D"gmail_extra">This would=
- be the autoconf macro UL_NCURSES_CHECK=C2=A0in m4/ul.m4, which calls ncurs=
-es6-config.=C2=A0 I thought the sysroot was ahead of the host so it should =
-find our broken script before the hosts...</div><div class=3D"gmail-yj6qo g=
-mail-ajU"><div id=3D"gmail-:2xh" class=3D"gmail-ajR" tabindex=3D"0"></div><=
-/div></blockquote></div><div class=3D"gmail_extra"><br></div>$ bitbake -e u=
-til-linux-native -e</div><div class=3D"gmail_extra">...<br>export PATH=3D&q=
-uot;/home/ross/Yocto/poky/scripts/native-intercept:/data/poky-master/tmp-gl=
-ibc/sysroots-uninative/x86_64-linux/usr/bin:/home/ross/Yocto/poky/scripts:/=
-data/poky-master/tmp-glibc/sysroots/x86_64-linux/usr/bin/x86_64-linux:/data=
-/poky-master/tmp-glibc/sysroots/x86_64-linux/usr/bin:/data/poky-master/tmp-=
-glibc/sysroots/x86_64-linux/usr/sbin:/data/poky-master/tmp-glibc/sysroots/x=
-86_64-linux/usr/bin:/data/poky-master/tmp-glibc/sysroots/x86_64-linux/sbin:=
-/data/poky-master/tmp-glibc/sysroots/x86_64-linux/bin:/home/ross/Yocto/poky=
-/scripts:/home/ross/Yocto/poky/bitbake/bin:/home/ross/BUILD/bin:/home/ross/=
-bin:/home/ross/Yocto/bb/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/=
-usr/games&quot;</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
-il_extra">Definitely the sysroot before the host.</div><div class=3D"gmail_=
-extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a1141058e97625a0544185ebc--
