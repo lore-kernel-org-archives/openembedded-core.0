@@ -1,44 +1,49 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 094AA772D4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f174.google.com (mail-qt0-f174.google.com
+	[209.85.216.174])
+	by mail.openembedded.org (Postfix) with ESMTP id E2FFD71C90
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 09:54:21 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id g23so23319505wme.1
+	Tue, 20 Dec 2016 10:08:57 +0000 (UTC)
+Received: by mail-qt0-f174.google.com with SMTP id w33so171978355qtc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 01:54:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=KP0Kk3sO5LJcx3mx7rmKM+Zh2/VO1xz7JHVp3bOsPZw=;
-	b=JbC5y5+F7izOQGOQdTSOONAaq+vAWN1XEg6pXzDoJwK+l2ggo3otu6WCOaG/mWTQp4
-	q6lA3uKXQsYx9dOnRemPUFlP63dztt+kFd1vxOtd7cd0UkhPu4SOQA5x//gLJ7ukfZyP
-	KOxYZK6vleysTIRM2KukhfoWwUC2S9zV/4/tLcc7uFbi0lvEu/a9Pb0y2k+TeBRDuk1R
-	cQQXRiuqdv0GmEQ4PciIs3nur8LreeoOmNVERcRxtPHxCvnPdy12oMPaBxUgz6G1LU++
-	deIfSTrJcXcFsy4YQncpKAn/9Z1Hwh3lOdpLkiNQ484APjeVklZr5CS23jAWgbT9KACW
-	tWgg==
+	Tue, 20 Dec 2016 02:08:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=5H7FqE204wjHHDB1B9yePYUoAJ1ZJTFFvKbgoOzfQp0=;
+	b=Auc6uukkAhGIfUKBfbwPnD5BxWiLxIBeacpX0ZAFWtgXH8ncrA52wmoQMKRfiq6Kxl
+	YBGSa/vUqWec/JTicH9XbIvmh+JwMNY/CJ2l23O7c0jVklMisZ17DS+83zbEPAq45ZiP
+	8l03QiJvrnDv2TvOSmmuGUwQfKcUJMgpTxMu/utE9Kzvzug2HTGz6B+URQ9Zy5zdx7x0
+	kKoEHpF4BvnoscBEwWtRN2iYvpNOiGnuovTMtJMy/4JBXzZg6tpS+e2kUJf1vrvT20lL
+	VeYvQEnQ2c9a8qxf4Gl+JMqAhqFZ1IPb4kmfuJYeRKnWAULyo7fTSMILwqxvaFLmbEsv
+	4o4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=KP0Kk3sO5LJcx3mx7rmKM+Zh2/VO1xz7JHVp3bOsPZw=;
-	b=n2jBFBSFCnowqC9U9GCDJFFa1jzKBTT4S2z9zqYeNw+PUzutDhZ+ICjOs+SaZJ8EAn
-	PANgLhd3ttsSB6IZsYjrtIJm21fN+3ebhTtHEQ4BPYxoD+Y50wFFmBAgStn7ddXoZROZ
-	++SNirLNZahLtMG04jhTjWNOk/E5b0YTu08gTeGmzUeJ5+l2bcBhH9aSxvH6f8WwKunM
-	rTHYpThmE3Kg594uVGM/Tqxo5e8PrnFTyD/CDdrsRA5pPOdtwMDaqS1QmDAYtzSVVaUd
-	7xO+y/1XQcVKy6G9qZtog/c3B50cWRV8rBSP7kEeQ2ns8KcXbsyIy9rmJJoJcZ/pVd6r
-	59sg==
-X-Gm-Message-State: AIkVDXKzoJ17erxyIossfMbXkiOc5Znt3PUSurLqmftSrYRhHX1YYCA5u62pXjf2A0HRDQ==
-X-Received: by 10.28.62.141 with SMTP id l135mr1234488wma.20.1482227662612;
-	Tue, 20 Dec 2016 01:54:22 -0800 (PST)
-Received: from localhost.localdomain ([185.47.80.46])
-	by smtp.gmail.com with ESMTPSA id
-	w197sm21258039wmd.11.2016.12.20.01.54.21
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 20 Dec 2016 01:54:22 -0800 (PST)
-From: David Vincent <freesilicon@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Dec 2016 10:53:29 +0100
-Message-Id: <20161220095329.12238-1-freesilicon@gmail.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] kernel: Fix symlinks
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=5H7FqE204wjHHDB1B9yePYUoAJ1ZJTFFvKbgoOzfQp0=;
+	b=BnJ0n1ACUb6LbJ1M2FZ/gSa1EV0o0x90R1R5K2Z80a+SAGgcEMcOU8wKXcHEFnPYxu
+	eW+UW8vJscD4Bwvz13wSDAUJxg2dZT301+dnpFBjiZlpbM8jFOutMq5VW7UoRwxNRhDI
+	MclhvIqi4Uvp8LA60p0VxLNIV4pd9dcg0haCOHBfPtxPnPg6Oggqnu+WwbOsjU1HPIVv
+	+kDch9Sc3mlU5c0UH1Hml2zbXgPjDPjzKB4JqZrMww5aJnPV//7U5kAxS8KluVufD13J
+	rmQ6n6PdcugpIDkWJ69lQ09GDLXAucy5XGItCNNEhCyba5PA/RByYNEoxChn+CdLCMqA
+	Ti+Q==
+X-Gm-Message-State: AIkVDXLlG4g+cRyP7ZOhRTiTqJxbnE7xQMQBPstX1xqRdlZA1JVZ0rSD3PalcNYLThEGAIe+n7Ej+0bLlr/ncV2D
+X-Received: by 10.237.61.42 with SMTP id g39mr21310525qtf.65.1482228538859;
+	Tue, 20 Dec 2016 02:08:58 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.106.99 with HTTP; Tue, 20 Dec 2016 02:08:38 -0800 (PST)
+In-Reply-To: <224071e0-f86e-e4dd-f83c-593c5a22a3b4@windriver.com>
+References: <cover.1482125840.git.dengke.du@windriver.com>
+	<b462c405d5967bc06c0cb6e7b984c95852739480.1482125840.git.dengke.du@windriver.com>
+	<CAJTo0LaPw5z2W5-rx3DJrNj0w1APeTCsAhwGq8GEGC6_zAW4fg@mail.gmail.com>
+	<224071e0-f86e-e4dd-f83c-593c5a22a3b4@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 20 Dec 2016 10:08:38 +0000
+Message-ID: <CAJTo0LarSg6dtLe41kyyAYOm2idXQchud5Dea_p5Ks1PReo-YA@mail.gmail.com>
+To: Dengke Du <dengke.du@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 2/2] apr: fix off_t size can't match when configure and in target glibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,72 +56,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Dec 2016 09:54:22 -0000
+X-List-Received-Date: Tue, 20 Dec 2016 10:08:58 -0000
+Content-Type: multipart/alternative; boundary=001a1142a3ea88fc260544143917
 
-When installing a kernel package, the symlinks created by
-update-alternatives should point to a path relative to KERNEL_IMAGEDEST
-and not an absolute path to '/boot'.
+--001a1142a3ea88fc260544143917
+Content-Type: text/plain; charset=UTF-8
 
-Failing to do so causes problems when resolving the symlink inside some
-bootloaders which mount the boot partition elsewhere.
+On 20 December 2016 at 02:03, Dengke Du <dengke.du@windriver.com> wrote:
 
-Signed-off-by: David Vincent <freesilicon@gmail.com>
----
- meta/classes/kernel.bbclass             | 6 +++---
- meta/recipes-kernel/linux/linux-dtb.inc | 4 ++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
+> Thank you for reminding, the following types were hardcoded in apr source
+> code when cross compiling:
+>
+>     pid_t     8
+>
+>     ssize_t  8
+>
+>     size_t    8
+>
+>     off_t      8
+>
+> I will send V3.
+>
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index fa598cff7f..3630042dbd 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -45,10 +45,11 @@ python __anonymous () {
- 
-     for type in types.split():
-         typelower = type.lower()
-+        imagedest = d.getVar('KERNEL_IMAGEDEST')
- 
-         d.appendVar('PACKAGES', ' ' + 'kernel-image-' + typelower)
- 
--        d.setVar('FILES_kernel-image-' + typelower, '/boot/' + type + '-${KERNEL_VERSION_NAME}')
-+        d.setVar('FILES_kernel-image-' + typelower, '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME}')
- 
-         d.appendVar('RDEPENDS_kernel-image', ' ' + 'kernel-image-' + typelower)
- 
-@@ -56,9 +57,8 @@ python __anonymous () {
- 
-         d.setVar('ALLOW_EMPTY_kernel-image-' + typelower, '1')
- 
--        imagedest = d.getVar('KERNEL_IMAGEDEST')
-         priority = d.getVar('KERNEL_PRIORITY')
--        postinst = '#!/bin/sh\n' + 'update-alternatives --install /' + imagedest + '/' + type + ' ' + type + ' ' + '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME} ' + priority + ' || true' + '\n'
-+        postinst = '#!/bin/sh\n' + 'update-alternatives --install /' + imagedest + '/' + type + ' ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} ' + priority + ' || true' + '\n'
-         d.setVar('pkg_postinst_kernel-image-' + typelower, postinst)
- 
-         postrm = '#!/bin/sh\n' + 'update-alternatives --remove' + ' ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} || true' + '\n'
-diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
-index 8528d646dd..668f6342b5 100644
---- a/meta/recipes-kernel/linux/linux-dtb.inc
-+++ b/meta/recipes-kernel/linux/linux-dtb.inc
-@@ -70,7 +70,7 @@ pkg_postinst_kernel-devicetree () {
- 			DTB_EXT=${DTB##*.}
- 			DTB_BASE_NAME=`basename ${DTB} | awk -F "." '{print $1}'`
- 			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
--			update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT} ${DTB_BASE_NAME}.${DTB_EXT} /boot/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
-+			update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT} ${DTB_BASE_NAME}.${DTB_EXT} devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
- 		done
- 	done
- }
-@@ -83,7 +83,7 @@ pkg_postrm_kernel-devicetree () {
- 			DTB_EXT=${DTB##*.}
- 			DTB_BASE_NAME=`basename ${DTB} | awk -F "." '{print $1}'`
- 			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
--			update-alternatives --remove ${DTB_BASE_NAME}.${DTB_EXT} /boot/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
-+			update-alternatives --remove ${DTB_BASE_NAME}.${DTB_EXT} devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
- 		done
- 	done
- }
--- 
-2.11.0
+(facepalms at apr)
 
+Thanks!
 
+Ross
+
+--001a1142a3ea88fc260544143917
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 December 2016 at 02:03, Dengke Du <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:dengke.du@windriver.com" target=3D"_blank">dengke.du@windriver.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><p>Thank you for remin=
+ding, the following types were hardcoded in
+      apr source code when cross compiling:</p>
+    <p>=C2=A0=C2=A0=C2=A0 pid_t=C2=A0=C2=A0=C2=A0=C2=A0 8</p>
+    <p>=C2=A0=C2=A0=C2=A0 ssize_t=C2=A0 8</p>
+    <p>=C2=A0=C2=A0=C2=A0 size_t=C2=A0=C2=A0=C2=A0 8</p>
+    <p>=C2=A0=C2=A0=C2=A0 off_t=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 8</p>
+    <p>I will send V3.</p></blockquote></div><br>(facepalms at apr)</div><d=
+iv class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Thanks!</div>=
+<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div><=
+/div>
+
+--001a1142a3ea88fc260544143917--
