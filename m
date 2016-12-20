@@ -1,45 +1,39 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
-	[209.85.223.194])
-	by mail.openembedded.org (Postfix) with ESMTP id A99A777338
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f174.google.com (mail-qt0-f174.google.com
+	[209.85.216.174])
+	by mail.openembedded.org (Postfix) with ESMTP id D3D6677338
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 15:14:03 +0000 (UTC)
-Received: by mail-io0-f194.google.com with SMTP id y124so22806393iof.1
+	Tue, 20 Dec 2016 15:17:13 +0000 (UTC)
+Received: by mail-qt0-f174.google.com with SMTP id c47so179391702qtc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 07:14:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=K9RGte2rgMjhd2fsdb8Ag/qUMOLBTxk3G5dVMzUcB7I=;
-	b=tPCqPGaKciuhhtSFc4fTpB7aGTymuMqQn60iRuoxQMfui3qynSo1HnKYhiWVCF8tLh
-	9R+kbAq6ArOBLJqXUtXKZ8IV+kOgJf5jELwcPslyoFgEjekXBPmlKDZC2GPcwDzW+SSu
-	xNw7Ab4qZsNsOC+ZkmxQuv9YBMtsZjDi6RhTu/COFgWVp0I0YfL1oZVQoVd4FJWBD1vL
-	qXcXYpCFN7CttlHqNDeidjDf5cUHOYThWey5T6yXlinyKxegEYrqUHA7t8ZjZgyzdq1Z
-	ToxvqKqpzlJ2duUvO6iuuJXUUJr0A1eEZNiwWNqWMbihAM4PH8gsC9GPilImeNp7fnv0
-	+8cA==
+	Tue, 20 Dec 2016 07:17:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Y8/HbSDM2/nR9+QqKAmk9+mt18/bb8/eMkW9VVsWjRE=;
+	b=EzLPYsoViu3euB7HlkuQl9v/bENEGSxw2Y0mnWE4gzRIBTPBqgP+WRpzb2yq037uSh
+	w9dicvx1c5k3BYFhnmJZ3um1gIuRvvmN6u+zienuTNGKaflsnTbwfYg6veIePjE0NR7a
+	FkfkRBsuwl5g8dv9+jTxk/Sys8R7ikF+4kK9D6eEEywhhovVsKMMA+eJmOdAlMP6XDjZ
+	wM/e6IkuXAPr/0Vas0Ytuk/AXhvB2LO+TtMTv0Xdx/qIvKafQ262a7YtJ9U1xSL4ThFf
+	LL8ie/NbrFLXGszBLIlnvjsOfJZ5mKBR7wtx/MzrKZVQVsFLGWaDq83n0QJJVqNyXGYL
+	hOcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=K9RGte2rgMjhd2fsdb8Ag/qUMOLBTxk3G5dVMzUcB7I=;
-	b=cIi6MZaLzmyCOWa7VIrwTxDqltQgZkScflErJoB/Jm94X/+rhjWEXp88kc4sK/EVO0
-	IsZiCd/y9lsuhbfFLbIk+/c2cJRf17iyVMVPsz6/I0T5BfuFMNkW8gNDd/KiAuUFPAI/
-	jg+6dQ3Jvo06YtyvTGjFcMGGc9B6JUMzCy9ibggghWtJLk4gL30cpuvT1axcYnyHkEQu
-	Pm9EGITJO2Yi2KQnYIIv3OwlrkDn3ahZLVJg8CsDY5YA50GKVQQTSWeNm9P3SKOQyQuu
-	1AVLbhlkxvRb8Z8fao8AtteHdMhOniF1mhZ4trq39n82Jq/SLcu27n3c3klZMFr5pTs6
-	Xztg==
-X-Gm-Message-State: AIkVDXKstabVlrJYVHW53W6XK5uU4wLP6vMd8j6Nvd7IC2dZ/6MiqraEtoLf1AHIQ9R4mA==
-X-Received: by 10.107.10.11 with SMTP id u11mr477849ioi.29.1482246844624;
-	Tue, 20 Dec 2016 07:14:04 -0800 (PST)
-Received: from openSUSE-i7.site ([45.72.129.229])
-	by smtp.gmail.com with ESMTPSA id
-	w192sm9029576itw.3.2016.12.20.07.14.03
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 20 Dec 2016 07:14:03 -0800 (PST)
-Date: Tue, 20 Dec 2016 10:14:01 -0500
-From: Trevor Woerner <twoerner@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20161220151401.GB11748@openSUSE-i7.site>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Y8/HbSDM2/nR9+QqKAmk9+mt18/bb8/eMkW9VVsWjRE=;
+	b=Pkw85eCAMT/2b4MMSBU4LKcVAeGr9TRlBo2pRh1Uw/Ai6skO03Asef71+h5oNFP92u
+	wKki1WEYErrd+Hx1ohUZOpn3WQs62Z7FnZN8jcQOPy61X7DVQct1pIW8rMiTaTRhoavu
+	so0TzRUa5rqd0SBsZ3Kde3ipSFqOxBtCCseXKKRtxlRWQFh8+6vNwFbLMi18w3qvjHLZ
+	A+YPCK4zmsaXsEqE3+FYUCW5+Jo2HcdyuxEohBisNZ1BgTih6K3VQI6vg9kd9JlvhnHY
+	FkAfGfFU5IfrnOq23hGPu3+IRx4D/rdWQa8m6U3eHuV+n2mrthUdC35abD0H2l5a0gHv
+	4A7Q==
+X-Gm-Message-State: AIkVDXIvWp7H2HPkVSwta6VnC5V+1e8bRzBEidDxv+RWaYvWTymWVEgLdhXaZ438SZU9wb85GkEAcOZr+IAGXke2
+X-Received: by 10.237.34.46 with SMTP id n43mr23232744qtc.105.1482247034720;
+	Tue, 20 Dec 2016 07:17:14 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.106.99 with HTTP; Tue, 20 Dec 2016 07:16:54 -0800 (PST)
+In-Reply-To: <20161220151401.GB11748@openSUSE-i7.site>
 References: <CAJTo0LYV2qMTBVpm8ASDb7BdwwezWfysAn6fJbM7Xwh6FXCcyg@mail.gmail.com>
 	<20161219214258.GA16333@openSUSE-i7.site>
 	<CAJTo0La1zRwQspKAgPvRxaTryEZSjSSwXf+O0XLadAe5p0VnDA@mail.gmail.com>
@@ -50,9 +44,11 @@ References: <CAJTo0LYV2qMTBVpm8ASDb7BdwwezWfysAn6fJbM7Xwh6FXCcyg@mail.gmail.com>
 	<20161220145554.GA11748@openSUSE-i7.site>
 	<CAJTo0LajFQ85DckLMqS7Tbza4NJNNc4A6QMuACa4XDb6PiHJnQ@mail.gmail.com>
 	<CAJTo0LYzEZpgspkijcDOUUwPSRBaiWsYbts02NkBy4FJW28jOg@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYzEZpgspkijcDOUUwPSRBaiWsYbts02NkBy4FJW28jOg@mail.gmail.com>
-User-Agent: Mutt/1.6.0 (2016-04-01)
+	<20161220151401.GB11748@openSUSE-i7.site>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 20 Dec 2016 15:16:54 +0000
+Message-ID: <CAJTo0LY1_qFxKqnQC4hggAL=g4iqf6a_iXfUXgv7-SdCX5b+yQ@mail.gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] util-linux: 2.28.1 -> 2.29
@@ -68,52 +64,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Dec 2016 15:14:04 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Tue, 20 Dec 2016 15:17:14 -0000
+Content-Type: multipart/alternative; boundary=001a11377e18f9824b054418870e
 
-On Tue 2016-12-20 @ 03:05:20 PM, Burton, Ross wrote:
-> On 20 December 2016 at 15:00, Burton, Ross <ross.burton@intel.com> wrote:
-> 
-> > This would be the autoconf macro UL_NCURSES_CHECK in m4/ul.m4, which calls
-> > ncurses6-config.  I thought the sysroot was ahead of the host so it should
-> > find our broken script before the hosts...
-> >
-> 
-> $ bitbake -e util-linux-native -e
-> ...
-> export
-> PATH="/home/ross/Yocto/poky/scripts/native-intercept:/data/poky-master/tmp-glibc/sysroots-uninative/x86_64-linux/usr/bin:/home/ross/Yocto/poky/scripts:/data/poky-master/tmp-glibc/sysroots/x86_64-linux/usr/bin/x86_64-linux:/data/poky-master/tmp-glibc/sysroots/x86_64-linux/usr/bin:/data/poky-master/tmp-glibc/sysroots/x86_64-linux/usr/sbin:/data/poky-master/tmp-glibc/sysroots/x86_64-linux/usr/bin:/data/poky-master/tmp-glibc/sysroots/x86_64-linux/sbin:/data/poky-master/tmp-glibc/sysroots/x86_64-linux/bin:/home/ross/Yocto/poky/scripts:/home/ross/Yocto/poky/bitbake/bin:/home/ross/BUILD/bin:/home/ross/bin:/home/ross/Yocto/bb/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games"
-> 
-> Definitely the sysroot before the host.
+--001a11377e18f9824b054418870e
+Content-Type: text/plain; charset=UTF-8
 
-I have:
+On 20 December 2016 at 15:14, Trevor Woerner <twoerner@gmail.com> wrote:
 
-	export PATH="/z/layerindex-master/layers/openembedded-core/scripts/native-intercept:/z/layerindex-master/raspi3/tmp-glibc/sysroots-uninative/x86_64-linux/usr/bin:/z/layerindex-master/layers/openembedded-core/scripts:/z/layerindex-master/raspi3/tmp-glibc/sysroots/x86_64-linux/usr/bin/x86_64-linux:/z/layerindex-master/raspi3/tmp-glibc/sysroots/x86_64-linux/usr/bin:/z/layerindex-master/raspi3/tmp-glibc/sysroots/x86_64-linux/usr/sbin:/z/layerindex-master/raspi3/tmp-glibc/sysroots/x86_64-linux/usr/bin:/z/layerindex-master/raspi3/tmp-glibc/sysroots/x86_64-linux/sbin:/z/layerindex-master/raspi3/tmp-glibc/sysroots/x86_64-linux/bin:/z/layerindex-master/layers/openembedded-core/scripts:/z/layerindex-master/layers/bitbake/bin:/home/trevor/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/home/trevor/local/packages/apache-maven-2.2.1/bin"
+> So I only have the version 5 -config scripts, but my host has version 5 and
+> version 6 -config scripts. I'm guessing we need a dummy ncurses{w}6-config
+> script in the sysroot too (?)
+>
 
-which also shows my sysroots before the host.
+Yeah, that seems like a good diagnosis.  Can you knock up a patch as you
+can replicate?
 
-In my sysroot I have:
+Ross
 
-	$ find . -name "*curse*" -print | grep config
-	./x86_64-linux/usr/share/x86_64-linux_config_site.d/ncurses_config
-	./x86_64-linux/usr/lib/pkgconfig/ncurses++.pc
-	./x86_64-linux/usr/lib/pkgconfig/ncurses.pc
-	./x86_64-linux/usr/lib/pkgconfig/ncursesw.pc
-	./x86_64-linux/usr/lib/pkgconfig/ncurses++w.pc
-	./x86_64-linux/usr/bin/crossscripts/ncurses5-config
-	./x86_64-linux/usr/bin/crossscripts/ncursesw5-config
-	./x86_64-linux/usr/bin/ncurses5-config
-	./x86_64-linux/usr/bin/ncursesw5-config
-	./raspberrypi3/usr/share/arm-oe-linux-gnueabi_config_site.d/ncurses_config
-	./raspberrypi3/usr/lib/pkgconfig/ncurses++.pc
-	./raspberrypi3/usr/lib/pkgconfig/ncurses.pc
-	./raspberrypi3/usr/lib/pkgconfig/ncursesw.pc
-	./raspberrypi3/usr/lib/pkgconfig/ncurses++w.pc
-	./raspberrypi3/usr/bin/crossscripts/ncurses5-config
-	./raspberrypi3/usr/bin/crossscripts/ncursesw5-config
+--001a11377e18f9824b054418870e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-So I only have the version 5 -config scripts, but my host has version 5 and
-version 6 -config scripts. I'm guessing we need a dummy ncurses{w}6-config
-script in the sysroot too (?)
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 December 2016 at 15:14, Trevor Woerner <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:twoerner@gmail.com" target=3D"_blank">twoerner@gmail.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4m7" class=3D"=
+a3s aXjCH m1591ccc2d265360f">So I only have the version 5 -config scripts, =
+but my host has version 5 and<br>
+version 6 -config scripts. I&#39;m guessing we need a dummy ncurses{w}6-con=
+fig<br>
+script in the sysroot too (?)</div></blockquote><div><br></div><div>Yeah, t=
+hat seems like a good diagnosis.=C2=A0 Can you knock up a patch as you can =
+replicate?</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
 
+--001a11377e18f9824b054418870e--
