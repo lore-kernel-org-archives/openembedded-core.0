@@ -1,30 +1,26 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 648BA600E3
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4FB9D76643
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 05:12:40 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="14081814"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 20 Dec 2016 13:12:34 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 572314670074
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 13:12:29 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.226.109) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Tue, 20 Dec 2016 13:12:28 +0800
-From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 20 Dec 2016 13:12:11 +0800
-Message-ID: <1482210731-2668-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+	Tue, 20 Dec 2016 05:53:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uBK5rKuv005850
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 19 Dec 2016 21:53:21 -0800
+Received: from pek-lpgtest20.wrs.com (128.224.179.28) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Mon, 19 Dec 2016 21:53:20 -0800
+From: Dengke Du <dengke.du@windriver.com>
+To: <ross.burton@intel.com>
+Date: Tue, 20 Dec 2016 13:53:15 +0800
+Message-ID: <98f01bc4f3b2acec91130e78467d044664771e1c.1482212391.git.dengke.du@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1482212391.git.dengke.du@windriver.com>
+References: <cover.1482212391.git.dengke.du@windriver.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.109]
-X-yoursite-MailScanner-ID: 572314670074.A2C47
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] shared-mime-info 1.6 -> 1.8
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH V3 1/2] Revert "subversion: fix "svnadmin create" fail on x86"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,48 +33,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Dec 2016 05:12:42 -0000
+X-List-Received-Date: Tue, 20 Dec 2016 05:53:20 -0000
 Content-Type: text/plain
 
-Upgrade shared-mime-info from 1.6 to 1.8
+This reverts commit cfe6f3e251240c9d9a70354be0501600357f0b87.
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+This is because the apr configure wrong, when the apr configure meets the
+cross compiling, it pass 8 bytes to "off_t", in apr source code configure.in,
+it was hardcoded:
+
+	APR_CHECK_SIZEOF_EXTENDED([#include <sys/types.h>], off_t, 8)
+
+The macro "APR_CHECK_SIZEOF_EXTENDED" was defined in build/apr_common.m4,
+it use the "AC_TRY_RUN" macro, this macro let the off_t to 8, when cross
+compiling enable.
+
+But in glibc on the x86 or multilib target the "off_t" was 4 bytes, so this
+cases dismatch for softwares which use the apr.h, such as subversion, run this:
+
+	svnadmin create test
+
+It failed because the "APR_OFF_T_FMT" was "lld" in apr.h when apr configure,
+but the "apr_off_t" was 4 bytes, in the apr source code: apr_snprintf.c
+
+	i_quad = va_arg(ap, apr_int64_t);
+
+When the function apr_vformatter meets "lld", it would use the above to parse,
+but the above read 8 bytes, so the follow-up data go to wrong.
+
+So we should configure the apr correct when cross compiling. I do this on the
+following patchs.
+
+Signed-off-by: Dengke Du <dengke.du@windriver.com>
 ---
- meta/recipes-support/shared-mime-info/shared-mime-info_1.6.bb | 7 -------
- meta/recipes-support/shared-mime-info/shared-mime-info_1.8.bb | 7 +++++++
- 2 files changed, 7 insertions(+), 7 deletions(-)
- delete mode 100644 meta/recipes-support/shared-mime-info/shared-mime-info_1.6.bb
- create mode 100644 meta/recipes-support/shared-mime-info/shared-mime-info_1.8.bb
+ .../0001-fix-svnadmin-create-fail-on-x86.patch     | 56 ----------------------
+ .../subversion/subversion_1.9.5.bb                 |  1 -
+ 2 files changed, 57 deletions(-)
+ delete mode 100644 meta/recipes-devtools/subversion/subversion/0001-fix-svnadmin-create-fail-on-x86.patch
 
-diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info_1.6.bb b/meta/recipes-support/shared-mime-info/shared-mime-info_1.6.bb
+diff --git a/meta/recipes-devtools/subversion/subversion/0001-fix-svnadmin-create-fail-on-x86.patch b/meta/recipes-devtools/subversion/subversion/0001-fix-svnadmin-create-fail-on-x86.patch
 deleted file mode 100644
-index 2cf5041..0000000
---- a/meta/recipes-support/shared-mime-info/shared-mime-info_1.6.bb
+index d440528..0000000
+--- a/meta/recipes-devtools/subversion/subversion/0001-fix-svnadmin-create-fail-on-x86.patch
 +++ /dev/null
-@@ -1,7 +0,0 @@
--require shared-mime-info.inc
+@@ -1,56 +0,0 @@
+-From 09475e0befca8d120c957177ce8568fa2209a1a9 Mon Sep 17 00:00:00 2001
+-From: Dengke Du <dengke.du@windriver.com>
+-Date: Wed, 2 Nov 2016 11:09:44 +0800
+-Subject: [PATCH] fix "svnadmin create" fail on x86
 -
--SRC_URI += "file://parallelmake.patch \
--	    file://install-data-hook.patch"
+-When run the following command on x86:
 -
--SRC_URI[md5sum] = "10abc5c4e6b22223ff05c3bd70ff9e8f"
--SRC_URI[sha256sum] = "b2f8f85b6467933824180d0252bbcaee523f550a8fbc95cc4391bd43c03bc34c"
-diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info_1.8.bb b/meta/recipes-support/shared-mime-info/shared-mime-info_1.8.bb
-new file mode 100644
-index 0000000..849d999
---- /dev/null
-+++ b/meta/recipes-support/shared-mime-info/shared-mime-info_1.8.bb
-@@ -0,0 +1,7 @@
-+require shared-mime-info.inc
-+
-+SRC_URI += "file://parallelmake.patch \
-+	    file://install-data-hook.patch"
-+
-+SRC_URI[md5sum] = "f6dcadce764605552fc956563efa058c"
-+SRC_URI[sha256sum] = "2af55ef1a0319805b74ab40d331a3962c905477d76c086f49e34dc96363589e9"
+-        svnadmin create /var/test_repo
+-
+-It cause segmentation fault error like the following:
+-
+-        [16499.751837] svnadmin[21117]: segfault at 83 ip 00000000f74bf7f6 sp 00000000ffdd9b34 error 4 in libc-2.24.so[f7441000+1af000]
+-        Segmentation fault (core dumped)
+-
+-This is because in source code ./subversion/libsvn_fs_fs/low_level.c,
+-function svn_fs_fs__unparse_footer, when:
+-
+-        target arch:    x86
+-        apr_off_t:      4 bytes
+-
+-if the "APR_OFF_T_FMT" is "lld", it still use type "apr_off_t" to pass
+-data to apr, but in apr source code file apr_snprintf.c the function
+-apr_vformatter meet "lld", it would use the:
+-
+-        i_quad = va_arg(ap, apr_int64_t);
+-
+-It uses the apr_int64_t to deal data, it read 8 bytes, so the follow-up
+-data may be error.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Dengke Du <dengke.du@windriver.com>
+----
+- subversion/libsvn_fs_fs/low_level.c | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/subversion/libsvn_fs_fs/low_level.c b/subversion/libsvn_fs_fs/low_level.c
+-index a27bbcc..6ddbe28 100644
+---- a/subversion/libsvn_fs_fs/low_level.c
+-+++ b/subversion/libsvn_fs_fs/low_level.c
+-@@ -250,10 +250,10 @@ svn_fs_fs__unparse_footer(apr_off_t l2p_offset,
+- {
+-   return svn_stringbuf_createf(result_pool,
+-                                "%" APR_OFF_T_FMT " %s %" APR_OFF_T_FMT " %s",
+--                               l2p_offset,
+-+                               (APR_OFF_T_FMT=="lld") ? (apr_int64_t)l2p_offset : l2p_offset,
+-                                svn_checksum_to_cstring(l2p_checksum,
+-                                                        scratch_pool),
+--                               p2l_offset,
+-+                               (APR_OFF_T_FMT=="lld") ? (apr_int64_t)p2l_offset : p2l_offset,
+-                                svn_checksum_to_cstring(p2l_checksum,
+-                                                        scratch_pool));
+- }
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-devtools/subversion/subversion_1.9.5.bb b/meta/recipes-devtools/subversion/subversion_1.9.5.bb
+index 575bbca..05fba67 100644
+--- a/meta/recipes-devtools/subversion/subversion_1.9.5.bb
++++ b/meta/recipes-devtools/subversion/subversion_1.9.5.bb
+@@ -14,7 +14,6 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://disable_macos.patch \
+            file://serf.m4-Regex-modified-to-allow-D-in-paths.patch \
+            file://0001-Fix-libtool-name-in-configure.ac.patch \
+-           file://0001-fix-svnadmin-create-fail-on-x86.patch \
+            file://serfmacro.patch \
+            "
+ 
 -- 
 2.7.4
-
-
 
 
