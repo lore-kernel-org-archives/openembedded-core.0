@@ -1,45 +1,46 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id E656D772CF
+Received: from mail-wj0-f196.google.com (mail-wj0-f196.google.com
+	[209.85.210.196])
+	by mail.openembedded.org (Postfix) with ESMTP id D3E5B60722
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 11:20:06 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id g23so23753397wme.1
+	Tue, 20 Dec 2016 12:12:34 +0000 (UTC)
+Received: by mail-wj0-f196.google.com with SMTP id he10so27439466wjc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 03:20:08 -0800 (PST)
+	Tue, 20 Dec 2016 04:12:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=q6ug5uIqFsDueXe49vZ/ImfzZoy35x784hyDc2rI1p0=;
-	b=p/UvcFXSFWy3JbDii2K8fDq1wRfWGwI8YHccFiW0Nc8MNDvc1jYpEF2vAKXyxttA1I
-	ga8/QRtZfAl4m2B5ohg06i4rWsEz5WZ2yy9j2flIE8wsc7yQeJL3HkEnbhHexWZT+cyZ
-	/RKg+6mQyhwbdVVX763GEOqX++9m8Hk5E7c7H8Uph6FUEcGC3VL6Rj9AZ4+4l5wkTSaj
-	ytNAxnqCrGmEHq5Wy2lwjHZ3UDOPaLOVXIZRrLXknODG4aPtc9ijs3f0CoeraS2qt+aP
-	RxeMOeoaom4lL5ZvzvBjT59kFK29eKMWWl5ivfgL31Jt3B57j5eK7A/CwnLP0nQNa8VB
-	SnYQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=s2rEaMvXF835kQRTQUh9NdJw2RxMaIapOQ/Hof9tfM0=;
+	b=XVj21zLJe1YM1UCCVhyxSG7uUqlgY4FvnsrA6PW0E79/8xfp4EwQIJLTZIOsIGl/ts
+	o2kQWpPI6UCLSMmyGpKyskwToVvwU9AUTkH/I5JV9MF8aa3/l0VP1y4dofW5wAE49LlB
+	NY2xgVFWscvB2C/ula4ry60juUfrPsD+v3hzi0cRVSs16IeQKbpaJnyuIBO8IsqZ9ppT
+	KTQHfIU9Tr4YRN1zrY+D8PtNZZqVD7ylQzNky89clrXAtPByKNI36qUCfTzOzx3StxbO
+	YZm9iV1XvvCjicpFvM8+ZrTdF0/fhst69P5ZckuDUzdG75PrviAuchS0dxrPckzMJRF1
+	NDTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=q6ug5uIqFsDueXe49vZ/ImfzZoy35x784hyDc2rI1p0=;
-	b=WWF2cA35ev6VrfLKzYg/05dc3GHd3hsZRlOLkCvnENuN1yyhkPUFAibfX2tOL/Qrtz
-	/jdXRhJb4eoBXCt+pL9ojiagKg68O9dCSGON+9NCdzzwtD9MD9/y9YzfbCA/VbF3r4qg
-	9drJOtQUoYW7jI/cbHCypysLJS+13CcmniJfEl/V5chljyByD7MuiS6AlZlqYG/5NN2n
-	i8V/nHofybCZ9QW8lZWt8qKoXAHH37qV0bF8cf23KfdAWxTl1Ke6ndb6QliNRIzVzIB8
-	HQVdjYPAbllDw7/C+HL21tzFPh8AXUv03PAgbYvv+g+kJyd5mfRktk6CilDBvXFSHPT0
-	UCPg==
-X-Gm-Message-State: AIkVDXKXq5XxZ1hZN5dyJMomfbP3kDd5kNQvAUPRpB0sGh2GLkNYxQV/QjyATA7I3OboxxrpN8arUV1w1fkIGA==
-X-Received: by 10.28.157.137 with SMTP id g131mr1363333wme.29.1482232807279;
-	Tue, 20 Dec 2016 03:20:07 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.194.162.33 with HTTP; Tue, 20 Dec 2016 03:20:06 -0800 (PST)
-In-Reply-To: <CAJTo0LanT+4BoWYAoVCrwM5_y0pU1bw_xY8ZGKYHTwiSJ3jH8g@mail.gmail.com>
-References: <1482080556-4642-1-git-send-email-armccurdy@gmail.com>
-	<CAJTo0LanT+4BoWYAoVCrwM5_y0pU1bw_xY8ZGKYHTwiSJ3jH8g@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=s2rEaMvXF835kQRTQUh9NdJw2RxMaIapOQ/Hof9tfM0=;
+	b=m2ionHxBakZbCYTVMoUR05BQKtJ4DhWJ5qm80tlKWRqvjOA9dM517vU9rZtOw29i+k
+	6X6bgSApWCow/aIlqllLE7QiPVwKCu4l33ZzVPqaJ20a8Yp68kmFAjpIBSr8JqXlweXn
+	rNbc0IDNzXjBad/MntwU5Pig1C16ODH9rthCImeYuPtccdgIgihaHolZQiVLq5d99pUL
+	UkgKRjs7Axl4jybfjabTo3fhfhhTy7OAfBrTmaATJ944906muRq9lRjcLWZIqlS3+VaB
+	mjJw+o66oHcNUaK5Ej4bDnUd1tRXIljUy3euM83LBvNnMm0hMZBo9tc+v5t4bvIYKbW7
+	QyGw==
+X-Gm-Message-State: AKaTC03cwac9IbxPrtipBbBM96vmTIFsuApNU0642fhvsRP4CvKk5SnoXaMqMQxCZgwqwQ==
+X-Received: by 10.194.246.131 with SMTP id xw3mr17408969wjc.217.1482235955376; 
+	Tue, 20 Dec 2016 04:12:35 -0800 (PST)
+Received: from localhost.localdomain
+	(ip-217-103-177-37.ip.prioritytelecom.net. [217.103.177.37])
+	by smtp.gmail.com with ESMTPSA id
+	o132sm21783087wmo.17.2016.12.20.04.12.33
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 20 Dec 2016 04:12:33 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 20 Dec 2016 03:20:06 -0800
-Message-ID: <CAJ86T=VkDc=QfPp-+GqJvqmo2-b0eTjm8COFbP8EZ3nNYOb0+w@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glew: build for EGL in non-X11 distros
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Dec 2016 04:12:27 -0800
+Message-Id: <1482235947-4523-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH v2] glew: build for EGL in non-X11 distros
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,39 +53,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Dec 2016 11:20:07 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 20 Dec 2016 12:12:35 -0000
 
-On Tue, Dec 20, 2016 at 2:23 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 18 December 2016 at 17:02, Andre McCurdy <armccurdy@gmail.com> wrote:
->>
->> The glew 2.0.0 release added support for building for EGL:
->>
->>   http://glew.sourceforge.net/log.html
->>
->> Add PACKAGECONFIG options for 'opengl' (ie the previous default, with
->> dependencies on opengl and X11) and 'egl', which depends on EGL only
->> and allows glew to be built for non-X11 distros.
->
-> This failed on the nightly-no-x11 build on the AB:
->
-> tmp/linux-egl/default/shared/visualinfo.o: In function `main':
-> /usr/src/debug/glew/2.0.0-r0/glew-2.0.0/src/visualinfo.c:177: undefined
-> reference to `glGetString'
-> /usr/src/debug/glew/2.0.0-r0/glew-2.0.0/src/visualinfo.c:178: undefined
-> reference to `glGetString'
-> /usr/src/debug/glew/2.0.0-r0/glew-2.0.0/src/visualinfo.c:179: undefined
-> reference to `glGetString'
-> /usr/src/debug/glew/2.0.0-r0/glew-2.0.0/src/visualinfo.c:181: undefined
-> reference to `glGetString'
-> collect2: error: ld returned 1 exit status
->
-> (which is DISTRO=poky, DISTRO_FEATURES_remove=x11)
+The glew 2.0.0 release added support for building for EGL:
 
-Sorry about that. I was testing against an embedded 3D driver which
-blurs the lines a little between libEGL and libGLESv2. With mesa
-LDFLAGS needs to explicitly include either libGL, libGLESv1, libGLESv2
-or libGLESv3. I'll send a v2 patch which adds PACKAGECONFIG options
-for each case.
+  http://glew.sourceforge.net/log.html
+
+Add PACKAGECONFIG options for 'opengl' (ie the previous default, with
+dependencies on opengl and X11) and 'egl-gles2', which depends on EGL
+and GLESv2 and allow glew to be built for non-X11 distros.
+
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-graphics/glew/glew_2.0.0.bb | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
+
+diff --git a/meta/recipes-graphics/glew/glew_2.0.0.bb b/meta/recipes-graphics/glew/glew_2.0.0.bb
+index 489dd7c..1c93ca0 100644
+--- a/meta/recipes-graphics/glew/glew_2.0.0.bb
++++ b/meta/recipes-graphics/glew/glew_2.0.0.bb
+@@ -2,12 +2,9 @@ SUMMARY = "OpenGL extension loading library"
+ DESCRIPTION = "The OpenGL Extension Wrangler Library (GLEW) is a cross-platform open-source C/C++ extension loading library."
+ HOMEPAGE = "http://glew.sourceforge.net/"
+ BUGTRACKER = "http://sourceforge.net/tracker/?group_id=67586"
+-SECTION = "x11"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2ac251558de685c6b9478d89be3149c2"
+ 
+-DEPENDS = "virtual/libx11 virtual/libgl libglu libxext libxi libxmu"
+-
+ SRC_URI = "${SOURCEFORGE_MIRROR}/project/glew/glew/${PV}/glew-${PV}.tgz \
+            file://no-strip.patch"
+ 
+@@ -19,12 +16,18 @@ UPSTREAM_CHECK_REGEX = "/glew/(?P<pver>(\d+[\.\-_]*)+)/"
+ 
+ inherit lib_package pkgconfig distro_features_check
+ 
+-REQUIRED_DISTRO_FEATURES = "x11"
++REQUIRED_DISTRO_FEATURES = "opengl"
++
++PACKAGECONFIG ?= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'opengl', 'egl-gles2', d)}"
++
++# The opengl and egl-XXX options are exclusive, enable only one.
++PACKAGECONFIG[opengl] = "SYSTEM='linux',,virtual/libx11 virtual/libgl libglu libxext libxi libxmu"
++PACKAGECONFIG[egl-gles2] = "SYSTEM='linux-egl' GLEW_NO_GLU='-DGLEW_NO_GLU' LDFLAGS.GL='-lEGL -lGLESv2',,virtual/egl virtual/libgles2"
+ 
+-# Override SYSTEM to avoid calling config.guess, we're cross-compiling.  Pass
+-# our CFLAGS via POPT as that's the optimisation variable and safely
+-# overwritten.
+-EXTRA_OEMAKE = "SYSTEM='linux' \
++# Override SYSTEM (via PACKAGECONFIG_CONFARGS) to avoid calling config.guess,
++# we're cross-compiling. Pass our CFLAGS via POPT as that's the optimisation
++# variable and safely overwritten.
++EXTRA_OEMAKE = "${PACKAGECONFIG_CONFARGS} \
+                 CC='${CC}' LD='${CC}' STRIP='' \
+                 LDFLAGS.EXTRA='${LDFLAGS}' \
+                 POPT='${CFLAGS}' \
+-- 
+1.9.1
+
 
