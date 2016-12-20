@@ -1,26 +1,24 @@
 Return-Path: <Dengke.Du@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FB9D76643
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 119B176643
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 05:53:19 +0000 (UTC)
+	Tue, 20 Dec 2016 05:53:20 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uBK5rKuv005850
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 19 Dec 2016 21:53:21 -0800
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uBK5rJok019538
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 19 Dec 2016 21:53:19 -0800 (PST)
 Received: from pek-lpgtest20.wrs.com (128.224.179.28) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Mon, 19 Dec 2016 21:53:20 -0800
+	14.3.294.0; Mon, 19 Dec 2016 21:53:18 -0800
 From: Dengke Du <dengke.du@windriver.com>
 To: <ross.burton@intel.com>
-Date: Tue, 20 Dec 2016 13:53:15 +0800
-Message-ID: <98f01bc4f3b2acec91130e78467d044664771e1c.1482212391.git.dengke.du@windriver.com>
+Date: Tue, 20 Dec 2016 13:53:14 +0800
+Message-ID: <cover.1482212391.git.dengke.du@windriver.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1482212391.git.dengke.du@windriver.com>
-References: <cover.1482212391.git.dengke.du@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH V3 1/2] Revert "subversion: fix "svnadmin create" fail on x86"
+Subject: [PATCH V3 0/2] apr: fix off_t size can't match when configure and in target glibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,118 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Dec 2016 05:53:20 -0000
+X-List-Received-Date: Tue, 20 Dec 2016 05:53:21 -0000
 Content-Type: text/plain
 
-This reverts commit cfe6f3e251240c9d9a70354be0501600357f0b87.
+Changed in V3:
+	As Ross said, remove other instances of the APR_CHECK_SIZEOF_EXTENDED
+macros in configure.in, this include "pid_t size_t ssize_t" types.
 
-This is because the apr configure wrong, when the apr configure meets the
-cross compiling, it pass 8 bytes to "off_t", in apr source code configure.in,
-it was hardcoded:
+The following changes since commit d0d260b0b85790ceb136dd6b0445e8e33d038f5e:
 
-	APR_CHECK_SIZEOF_EXTENDED([#include <sys/types.h>], off_t, 8)
+  u-boot/beaglebone: Select Beaglebone Black target specifically. (2016-12-17 09:57:37 +0000)
 
-The macro "APR_CHECK_SIZEOF_EXTENDED" was defined in build/apr_common.m4,
-it use the "AC_TRY_RUN" macro, this macro let the off_t to 8, when cross
-compiling enable.
+are available in the git repository at:
 
-But in glibc on the x86 or multilib target the "off_t" was 4 bytes, so this
-cases dismatch for softwares which use the apr.h, such as subversion, run this:
+  git://git.openembedded.org/openembedded-core-contrib dengke/fix-apr-configure-error-for-cross-compiling
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=dengke/fix-apr-configure-error-for-cross-compiling
 
-	svnadmin create test
+Dengke Du (2):
+  Revert "subversion: fix "svnadmin create" fail on x86"
+  apr: fix off_t size can't match when configure and in target glibc
 
-It failed because the "APR_OFF_T_FMT" was "lld" in apr.h when apr configure,
-but the "apr_off_t" was 4 bytes, in the apr source code: apr_snprintf.c
-
-	i_quad = va_arg(ap, apr_int64_t);
-
-When the function apr_vformatter meets "lld", it would use the above to parse,
-but the above read 8 bytes, so the follow-up data go to wrong.
-
-So we should configure the apr correct when cross compiling. I do this on the
-following patchs.
-
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
----
- .../0001-fix-svnadmin-create-fail-on-x86.patch     | 56 ----------------------
+ .../0001-fix-svnadmin-create-fail-on-x86.patch     | 56 ----------------
  .../subversion/subversion_1.9.5.bb                 |  1 -
- 2 files changed, 57 deletions(-)
+ ..._t-size-doesn-t-match-in-glibc-when-cross.patch | 76 ++++++++++++++++++++++
+ meta/recipes-support/apr/apr_1.5.2.bb              |  1 +
+ 4 files changed, 77 insertions(+), 57 deletions(-)
  delete mode 100644 meta/recipes-devtools/subversion/subversion/0001-fix-svnadmin-create-fail-on-x86.patch
+ create mode 100644 meta/recipes-support/apr/apr/0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch
 
-diff --git a/meta/recipes-devtools/subversion/subversion/0001-fix-svnadmin-create-fail-on-x86.patch b/meta/recipes-devtools/subversion/subversion/0001-fix-svnadmin-create-fail-on-x86.patch
-deleted file mode 100644
-index d440528..0000000
---- a/meta/recipes-devtools/subversion/subversion/0001-fix-svnadmin-create-fail-on-x86.patch
-+++ /dev/null
-@@ -1,56 +0,0 @@
--From 09475e0befca8d120c957177ce8568fa2209a1a9 Mon Sep 17 00:00:00 2001
--From: Dengke Du <dengke.du@windriver.com>
--Date: Wed, 2 Nov 2016 11:09:44 +0800
--Subject: [PATCH] fix "svnadmin create" fail on x86
--
--When run the following command on x86:
--
--        svnadmin create /var/test_repo
--
--It cause segmentation fault error like the following:
--
--        [16499.751837] svnadmin[21117]: segfault at 83 ip 00000000f74bf7f6 sp 00000000ffdd9b34 error 4 in libc-2.24.so[f7441000+1af000]
--        Segmentation fault (core dumped)
--
--This is because in source code ./subversion/libsvn_fs_fs/low_level.c,
--function svn_fs_fs__unparse_footer, when:
--
--        target arch:    x86
--        apr_off_t:      4 bytes
--
--if the "APR_OFF_T_FMT" is "lld", it still use type "apr_off_t" to pass
--data to apr, but in apr source code file apr_snprintf.c the function
--apr_vformatter meet "lld", it would use the:
--
--        i_quad = va_arg(ap, apr_int64_t);
--
--It uses the apr_int64_t to deal data, it read 8 bytes, so the follow-up
--data may be error.
--
--Upstream-Status: Pending
--
--Signed-off-by: Dengke Du <dengke.du@windriver.com>
-----
-- subversion/libsvn_fs_fs/low_level.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/subversion/libsvn_fs_fs/low_level.c b/subversion/libsvn_fs_fs/low_level.c
--index a27bbcc..6ddbe28 100644
----- a/subversion/libsvn_fs_fs/low_level.c
--+++ b/subversion/libsvn_fs_fs/low_level.c
--@@ -250,10 +250,10 @@ svn_fs_fs__unparse_footer(apr_off_t l2p_offset,
-- {
--   return svn_stringbuf_createf(result_pool,
--                                "%" APR_OFF_T_FMT " %s %" APR_OFF_T_FMT " %s",
---                               l2p_offset,
--+                               (APR_OFF_T_FMT=="lld") ? (apr_int64_t)l2p_offset : l2p_offset,
--                                svn_checksum_to_cstring(l2p_checksum,
--                                                        scratch_pool),
---                               p2l_offset,
--+                               (APR_OFF_T_FMT=="lld") ? (apr_int64_t)p2l_offset : p2l_offset,
--                                svn_checksum_to_cstring(p2l_checksum,
--                                                        scratch_pool));
-- }
---- 
--2.7.4
--
-diff --git a/meta/recipes-devtools/subversion/subversion_1.9.5.bb b/meta/recipes-devtools/subversion/subversion_1.9.5.bb
-index 575bbca..05fba67 100644
---- a/meta/recipes-devtools/subversion/subversion_1.9.5.bb
-+++ b/meta/recipes-devtools/subversion/subversion_1.9.5.bb
-@@ -14,7 +14,6 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://disable_macos.patch \
-            file://serf.m4-Regex-modified-to-allow-D-in-paths.patch \
-            file://0001-Fix-libtool-name-in-configure.ac.patch \
--           file://0001-fix-svnadmin-create-fail-on-x86.patch \
-            file://serfmacro.patch \
-            "
- 
 -- 
 2.7.4
 
