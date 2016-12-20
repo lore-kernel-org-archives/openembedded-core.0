@@ -1,49 +1,44 @@
 Return-Path: <freesilicon@gmail.com>
-Received: from mail-wj0-f195.google.com (mail-wj0-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DFEE772D4
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 094AA772D4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 09:52:05 +0000 (UTC)
-Received: by mail-wj0-f195.google.com with SMTP id kp2so26864311wjc.0
+	Tue, 20 Dec 2016 09:54:21 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id g23so23319505wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 01:52:07 -0800 (PST)
+	Tue, 20 Dec 2016 01:54:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=k+R6tOC6X7ofJp8y9ueSmkcCk2lxWfmXkqDfnwcXrUY=;
-	b=DhiBR/tthsqmTbtydEssOlala7v82VD5rCNAaKmPYLTkks56c4fzdYcnbmH8v5wpsb
-	1Z9IcFJFWkbUMBxtMhCMzuDZatQjAgML5No3w1FicWdbdDBsMVWTUGeNTDO4pljTXoy/
-	jTOP3npo5lxRSdyEqLy+xVs9rjTNXp0M8AcOt2CzYdP66q4DZHn09PnLW0sNtXnXaRgm
-	7fcMeQC/Cd4yV42S4OxYrJVoxr1lsrQHiYAAnlbrp+bSSSnsiYKo/bOx3cj7bhyVs1vY
-	JbpFj1jbaAA84LRh6J7pw424uZyda0yQOQFawIxvRxMbkg9XVtQS08Tsi/IMP3QU08kQ
-	1msA==
+	h=from:to:cc:subject:date:message-id;
+	bh=KP0Kk3sO5LJcx3mx7rmKM+Zh2/VO1xz7JHVp3bOsPZw=;
+	b=JbC5y5+F7izOQGOQdTSOONAaq+vAWN1XEg6pXzDoJwK+l2ggo3otu6WCOaG/mWTQp4
+	q6lA3uKXQsYx9dOnRemPUFlP63dztt+kFd1vxOtd7cd0UkhPu4SOQA5x//gLJ7ukfZyP
+	KOxYZK6vleysTIRM2KukhfoWwUC2S9zV/4/tLcc7uFbi0lvEu/a9Pb0y2k+TeBRDuk1R
+	cQQXRiuqdv0GmEQ4PciIs3nur8LreeoOmNVERcRxtPHxCvnPdy12oMPaBxUgz6G1LU++
+	deIfSTrJcXcFsy4YQncpKAn/9Z1Hwh3lOdpLkiNQ484APjeVklZr5CS23jAWgbT9KACW
+	tWgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=k+R6tOC6X7ofJp8y9ueSmkcCk2lxWfmXkqDfnwcXrUY=;
-	b=nSdlYYx9G6d/Tu2dQdNWnVvQWMxdz92JqxIQRq6AyNxzee/3CFcmTaJS+LJtx/R82F
-	ieOSA1nK87v7Z+pqib6BLCx6ujnDGKvoCzCJ0ow720z0INawyHoQ7sfygdN5XN4P6S+P
-	EkUQRq5klpxrIjANQm7PmX1Vpig5EdKXj7qLF7viGl1xo52REuejN28BG7PBHD8ETNyX
-	zoww0QG+FfvazUIXxbTwSCjLLna/R0e2HsbR0hLoDNfTekCn9KMTFgjevmMiFLxGCmQI
-	6Kk8H6/Q2EJ22ECXCWN4riO4LjxaHJgTjPxuck7n9LAxO0nKMqPXLfS5BxDNjCcTgeWg
-	B9WA==
-X-Gm-Message-State: AKaTC005oGLomUUBi03VqyWObn4zOz4irgq7VCGAI0vc30O9Dmcaeqz6JAwVxD94u44uEw==
-X-Received: by 10.194.222.132 with SMTP id qm4mr20908897wjc.150.1482227526893; 
-	Tue, 20 Dec 2016 01:52:06 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=KP0Kk3sO5LJcx3mx7rmKM+Zh2/VO1xz7JHVp3bOsPZw=;
+	b=n2jBFBSFCnowqC9U9GCDJFFa1jzKBTT4S2z9zqYeNw+PUzutDhZ+ICjOs+SaZJ8EAn
+	PANgLhd3ttsSB6IZsYjrtIJm21fN+3ebhTtHEQ4BPYxoD+Y50wFFmBAgStn7ddXoZROZ
+	++SNirLNZahLtMG04jhTjWNOk/E5b0YTu08gTeGmzUeJ5+l2bcBhH9aSxvH6f8WwKunM
+	rTHYpThmE3Kg594uVGM/Tqxo5e8PrnFTyD/CDdrsRA5pPOdtwMDaqS1QmDAYtzSVVaUd
+	7xO+y/1XQcVKy6G9qZtog/c3B50cWRV8rBSP7kEeQ2ns8KcXbsyIy9rmJJoJcZ/pVd6r
+	59sg==
+X-Gm-Message-State: AIkVDXKzoJ17erxyIossfMbXkiOc5Znt3PUSurLqmftSrYRhHX1YYCA5u62pXjf2A0HRDQ==
+X-Received: by 10.28.62.141 with SMTP id l135mr1234488wma.20.1482227662612;
+	Tue, 20 Dec 2016 01:54:22 -0800 (PST)
 Received: from localhost.localdomain ([185.47.80.46])
 	by smtp.gmail.com with ESMTPSA id
-	r7sm24672578wjp.43.2016.12.20.01.52.05
+	w197sm21258039wmd.11.2016.12.20.01.54.21
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 20 Dec 2016 01:52:06 -0800 (PST)
+	Tue, 20 Dec 2016 01:54:22 -0800 (PST)
 From: David Vincent <freesilicon@gmail.com>
-To: openembedded-core@lists.openembedded.org, ross.burton@intel.com,
-	leonardo.sandoval.gonzalez@linux.intel.com, daniela.plascencia@intel.com
-Date: Tue, 20 Dec 2016 10:51:22 +0100
-Message-Id: <20161220095122.11831-1-freesilicon@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Dec 2016 10:53:29 +0100
+Message-Id: <20161220095329.12238-1-freesilicon@gmail.com>
 X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20161212155909.8946-1-freesilicon@gmail.com>
-References: <20161212155909.8946-1-freesilicon@gmail.com>
-Subject: [PATCH v5] rootfs: Modify RPM installation
+Subject: [PATCH] kernel: Fix symlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,137 +51,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Dec 2016 09:52:06 -0000
+X-List-Received-Date: Tue, 20 Dec 2016 09:54:22 -0000
 
-When using a custom RPM data directory instead of the default dir
-'/var/lib/rpm', the final image did not contain any of the database
-files in the expected location. This commit takes into account the
-'rpmlibdir' variable set into 'rootfs_rpm.bbclass'.
+When installing a kernel package, the symlinks created by
+update-alternatives should point to a path relative to KERNEL_IMAGEDEST
+and not an absolute path to '/boot'.
 
-Changes since v4:
-    - Remove boolean in d.getVar() calls.
+Failing to do so causes problems when resolving the symlink inside some
+bootloaders which mount the boot partition elsewhere.
 
 Signed-off-by: David Vincent <freesilicon@gmail.com>
 ---
- meta/lib/oe/package_manager.py | 23 +++++++++++++----------
- meta/lib/oe/rootfs.py          |  3 ++-
- 2 files changed, 15 insertions(+), 11 deletions(-)
+ meta/classes/kernel.bbclass             | 6 +++---
+ meta/recipes-kernel/linux/linux-dtb.inc | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index e557473999..4299220eec 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -356,7 +356,8 @@ class RpmPkgsList(PkgsList):
-         super(RpmPkgsList, self).__init__(d, rootfs_dir)
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index fa598cff7f..3630042dbd 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -45,10 +45,11 @@ python __anonymous () {
  
-         self.rpm_cmd = bb.utils.which(os.getenv('PATH'), "rpm")
--        self.image_rpmlib = os.path.join(self.rootfs_dir, 'var/lib/rpm')
-+        self.rpm_libdir = self.d.getVar('rpmlibdir')
-+        self.image_rpmlib = os.path.join(self.rootfs_dir, self.rpm_libdir[1:])
+     for type in types.split():
+         typelower = type.lower()
++        imagedest = d.getVar('KERNEL_IMAGEDEST')
  
-         self.ml_prefix_list, self.ml_os_list = \
-             RpmIndexer(d, rootfs_dir).get_ml_prefix_and_os_list(arch_var, os_var)
-@@ -416,7 +417,7 @@ class RpmPkgsList(PkgsList):
+         d.appendVar('PACKAGES', ' ' + 'kernel-image-' + typelower)
  
-     def list_pkgs(self):
-         cmd = [self.rpm_cmd, '--root', self.rootfs_dir]
--        cmd.extend(['-D', '_dbpath /var/lib/rpm'])
-+        cmd.extend(['-D', '_dbpath', self.rpm_libdir])
-         cmd.extend(['-qa', '--qf', '[%{NAME} %{ARCH} %{VERSION} %{PACKAGEORIGIN}\n]'])
+-        d.setVar('FILES_kernel-image-' + typelower, '/boot/' + type + '-${KERNEL_VERSION_NAME}')
++        d.setVar('FILES_kernel-image-' + typelower, '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME}')
  
-         try:
-@@ -683,7 +684,8 @@ class RpmPM(PackageManager):
-         self.solution_manifest = self.d.expand('${T}/saved/%s_solution' %
-                                                self.task_name)
-         self.saved_rpmlib = self.d.expand('${T}/saved/%s' % self.task_name)
--        self.image_rpmlib = os.path.join(self.target_rootfs, 'var/lib/rpm')
-+        self.rpm_libdir = self.d.getVar('rpmlibdir')
-+        self.image_rpmlib = os.path.join(self.target_rootfs, self.rpm_libdir[1:])
+         d.appendVar('RDEPENDS_kernel-image', ' ' + 'kernel-image-' + typelower)
  
-         if not os.path.exists(self.d.expand('${T}/saved')):
-             bb.utils.mkdirhier(self.d.expand('${T}/saved'))
-@@ -954,7 +956,7 @@ class RpmPM(PackageManager):
-             open(db_config_dir, 'w+').write(DB_CONFIG_CONTENT)
+@@ -56,9 +57,8 @@ python __anonymous () {
  
-         # Create database so that smart doesn't complain (lazy init)
--        cmd = [self.rpm_cmd, '--root', self.target_rootfs, '--dbpath', '/var/lib/rpm', '-qa']
-+        cmd = [self.rpm_cmd, '--root', self.target_rootfs, '--dbpath', self.rpm_libdir, '-qa']
-         try:
-             subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-         except subprocess.CalledProcessError as e:
-@@ -963,20 +965,19 @@ class RpmPM(PackageManager):
-         # Import GPG key to RPM database of the target system
-         if self.d.getVar('RPM_SIGN_PACKAGES') == '1':
-             pubkey_path = self.d.getVar('RPM_GPG_PUBKEY')
--            cmd = [self.rpm_cmd, '--root', self.target_rootfs, '--dbpath', '/var/lib/rpm', '--import', pubkey_path]
-+            cmd = [self.rpm_cmd, '--root', self.target_rootfs, '--dbpath', self.rpm_libdir, '--import', pubkey_path]
-             try:
-                 subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-             except subprocess.CalledProcessError as e:
-                 bb.fatal("Import GPG key failed. Command '%s' "
-                         "returned %d:\n%s" % (' '.join(cmd), e.returncode, e.output.decode("utf-8")))
+         d.setVar('ALLOW_EMPTY_kernel-image-' + typelower, '1')
  
--
-         # Configure smart
-         bb.note("configuring Smart settings")
-         bb.utils.remove(os.path.join(self.target_rootfs, 'var/lib/smart'),
-                         True)
-         self._invoke_smart(['config', '--set', 'rpm-root=%s' % self.target_rootfs])
--        self._invoke_smart(['config', '--set', 'rpm-dbpath=/var/lib/rpm'])
-+        self._invoke_smart(['config', '--set', 'rpm-dbpath=%s' % self.rpm_libdir])
-         self._invoke_smart(['config', '--set', 'rpm-extra-macros._var=%s' %
-                            self.d.getVar('localstatedir')])
-         cmd = ["config", "--set", "rpm-extra-macros._tmppath=/%s/tmp" % self.install_dir_name]
-@@ -1236,7 +1237,7 @@ class RpmPM(PackageManager):
+-        imagedest = d.getVar('KERNEL_IMAGEDEST')
+         priority = d.getVar('KERNEL_PRIORITY')
+-        postinst = '#!/bin/sh\n' + 'update-alternatives --install /' + imagedest + '/' + type + ' ' + type + ' ' + '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME} ' + priority + ' || true' + '\n'
++        postinst = '#!/bin/sh\n' + 'update-alternatives --install /' + imagedest + '/' + type + ' ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} ' + priority + ' || true' + '\n'
+         d.setVar('pkg_postinst_kernel-image-' + typelower, postinst)
  
-         if not with_dependencies:
-             cmd = [self.rpm_cmd] + ["-e", "--nodeps", "--root=%s" %
--                    self.target_rootfs, "--dbpath=/var/lib/rpm",
-+                    self.target_rootfs, "--dbpath=%s" % self.rpm_libdir,
-                     "--define='_cross_scriptlet_wrapper %s'" %
-                     self.scriptlet_wrapper,
-                     "--define='_tmppath /%s/tmp'" % self.install_dir_name] + pkgs
-@@ -1384,7 +1385,8 @@ class RpmPM(PackageManager):
-         saved_dir = self.target_rootfs + self.d.expand('${sysconfdir}/rpm-postinsts/') + new_pkg
- 
-         cmd = self.rpm_cmd + ' -q --scripts --root ' + self.target_rootfs
--        cmd += ' --dbpath=/var/lib/rpm ' + new_pkg
-+        cmd += ' --dbpath=%s ' %  self.rpm_libdir
-+        cmd += new_pkg
-         cmd += ' | sed -n -e "/^postinstall scriptlet (using .*):$/,/^.* scriptlet (using .*):$/ {/.*/p}"'
-         cmd += ' | sed -e "/postinstall scriptlet (using \(.*\)):$/d"'
-         cmd += ' -e "/^.* scriptlet (using .*):$/d" > %s' % saved_dir
-@@ -1416,7 +1418,8 @@ class RpmPM(PackageManager):
-     '''
-     def unlock_rpm_db(self):
-         # Remove rpm db lock files
--        rpm_db_locks = glob.glob('%s/var/lib/rpm/__db.*' % self.target_rootfs)
-+        rpm_db_locks = glob.glob('%s%s/__db.*' % (self.target_rootfs,
-+            self.rpm_libdir))
-         for f in rpm_db_locks:
-             bb.utils.remove(f, True)
- 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index d9a473006a..8730025816 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -429,6 +429,7 @@ class RpmRootfs(Rootfs):
- 
-     def _create(self):
-         pkgs_to_install = self.manifest.parse_initial_manifest()
-+        rpm_libdir = self.d.getVar('rpmlibdir')
-         rpm_pre_process_cmds = self.d.getVar('RPM_PREPROCESS_COMMANDS')
-         rpm_post_process_cmds = self.d.getVar('RPM_POSTPROCESS_COMMANDS')
- 
-@@ -476,7 +477,7 @@ class RpmRootfs(Rootfs):
-         if self.progress_reporter:
-             self.progress_reporter.next_stage()
- 
--        self._setup_dbg_rootfs(['/etc/rpm', '/var/lib/rpm', '/var/lib/smart'])
-+        self._setup_dbg_rootfs(['/etc/rpm', rpm_libdir, '/var/lib/smart'])
- 
-         execute_pre_post_process(self.d, rpm_post_process_cmds)
- 
+         postrm = '#!/bin/sh\n' + 'update-alternatives --remove' + ' ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} || true' + '\n'
+diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
+index 8528d646dd..668f6342b5 100644
+--- a/meta/recipes-kernel/linux/linux-dtb.inc
++++ b/meta/recipes-kernel/linux/linux-dtb.inc
+@@ -70,7 +70,7 @@ pkg_postinst_kernel-devicetree () {
+ 			DTB_EXT=${DTB##*.}
+ 			DTB_BASE_NAME=`basename ${DTB} | awk -F "." '{print $1}'`
+ 			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+-			update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT} ${DTB_BASE_NAME}.${DTB_EXT} /boot/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
++			update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT} ${DTB_BASE_NAME}.${DTB_EXT} devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
+ 		done
+ 	done
+ }
+@@ -83,7 +83,7 @@ pkg_postrm_kernel-devicetree () {
+ 			DTB_EXT=${DTB##*.}
+ 			DTB_BASE_NAME=`basename ${DTB} | awk -F "." '{print $1}'`
+ 			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+-			update-alternatives --remove ${DTB_BASE_NAME}.${DTB_EXT} /boot/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
++			update-alternatives --remove ${DTB_BASE_NAME}.${DTB_EXT} devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
+ 		done
+ 	done
+ }
 -- 
 2.11.0
 
