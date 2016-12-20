@@ -1,35 +1,46 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 46466772DE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 0BD66772E0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 10:22:33 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Dec 2016 02:22:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,378,1477983600"; d="scan'208";a="44877199"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga005.fm.intel.com with ESMTP; 20 Dec 2016 02:22:35 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 532E56A4082;
-	Tue, 20 Dec 2016 02:21:45 -0800 (PST)
-Date: Tue, 20 Dec 2016 12:22:20 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20161220102220.GA15090@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <1741618.15EvijL4zK@peggleto-mobl.ger.corp.intel.com>
-	<1482151262-22674-1-git-send-email-ed.bartosh@linux.intel.com>
-	<CAMKF1sqPsmaOfKHLeTVqsWUMY+jkNByV-ONMV7EnHLnOj=B0gw@mail.gmail.com>
+	Tue, 20 Dec 2016 10:24:10 +0000 (UTC)
+Received: by mail-qk0-f175.google.com with SMTP id u25so32869767qki.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Dec 2016 02:24:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=wTQ7XY1h+UFrQ/t0S9Mb+dR70xprB5fILL+Gahn+zMc=;
+	b=GWKw01mSravGmMoe6op2PsRxCovBcFTt+17qu0fUNzPxBEaGvi50anZ9NjJ3sbqZc0
+	3zYCO8n72cX50oJYMnwkP191i9fabHqIajDoL+qdpJIhwFO0xh6iWo8ZXpt3QGh4gqnS
+	bgCIWhtRZnIxUUdps2NPgaa1A3943/pQmqa7gE45pIdnI8hCwn/RaIYqp6B+Ch+VixE/
+	l5MWBkq6Jhh+00J8ZNCTQDzw7uhtquhbG+Zf/z7r5kJ/sfb40+2IKxMnyj1d58xvoABf
+	z9IMwH8ZmKGicFdFxG7TzizgrSy4uo46AUK/zpKafZq1vXHGCsjs6ro9Nf5BYgXI3tFF
+	Gd9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=wTQ7XY1h+UFrQ/t0S9Mb+dR70xprB5fILL+Gahn+zMc=;
+	b=LF7OqWyFQRGbhMHIwRisc4sDLIN9hgGWRBgjFmT7BmOGf+7REkeiiSL9GcCIPBJLk1
+	22sb7aVSbolzQAHap/FawvUve/0zY0d9mC+jCdlbC7QpMrM4JzWOGRcOBjirRm/HkfzH
+	l0TwTGVzdYQXxGF60eil3g75z/sqCUt/gxA7YQlqa9k78qgoroLlV3bCSGTPyedC7LfV
+	6V1qAkTd+xzxrSiRYbMMSsgGSZOuzAZi4Yj8uUsrVWy8UK9uRQJ40Xd+e+kgPUTOIq56
+	zfHLBWdv7s7wUHTnAnUPBgU7vxfhQyyf07AdsFobqdnWbF1uzyf1F58WWtN92ETT8dga
+	ZHSg==
+X-Gm-Message-State: AIkVDXKG0E7XMF60mVIqjO80geuCjlu7YSwKHdcvAMWBfz9jUFG+SM/fT4UTSvgz1a+xhIvfT4um4Wa33XUomGQF
+X-Received: by 10.55.106.134 with SMTP id f128mr5244560qkc.121.1482229451614; 
+	Tue, 20 Dec 2016 02:24:11 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sqPsmaOfKHLeTVqsWUMY+jkNByV-ONMV7EnHLnOj=B0gw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] wic: look for wks files in <layer>/wic
+Received: by 10.140.106.99 with HTTP; Tue, 20 Dec 2016 02:23:51 -0800 (PST)
+In-Reply-To: <1482080556-4642-1-git-send-email-armccurdy@gmail.com>
+References: <1482080556-4642-1-git-send-email-armccurdy@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 20 Dec 2016 10:23:51 +0000
+Message-ID: <CAJTo0LanT+4BoWYAoVCrwM5_y0pU1bw_xY8ZGKYHTwiSJ3jH8g@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glew: build for EGL in non-X11 distros
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,69 +53,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Dec 2016 10:22:34 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 20 Dec 2016 10:24:11 -0000
+Content-Type: multipart/alternative; boundary=001a114fddf6f087dc0544146fd7
 
-On Mon, Dec 19, 2016 at 03:31:29PM -0800, Khem Raj wrote:
-> On Mon, Dec 19, 2016 at 4:41 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
-> > Currently wic looks for wks files in
-> > <layer dir>/scripts/lib/wic/canned-wks/ directories.
-> > This path is too nested and doesn't look consistent with the
-> > naming scheme of layer directories.
-> >
-> > Added <layer>/wic directory to the list of paths
-> > to look for wks files.
-> 
-> Does it also affect documentation ?
-> 
+--001a114fddf6f087dc0544146fd7
+Content-Type: text/plain; charset=UTF-8
 
-Yes, in a way. There is only indirect mentioning of
-scripts/lib/wic/canned-wks/ in the documentation. I'm going to add new
-path there or even directly mention both paths in dev manual.
+On 18 December 2016 at 17:02, Andre McCurdy <armccurdy@gmail.com> wrote:
 
-> >
-> > Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> > ---
-> >  scripts/lib/wic/engine.py | 7 +++++--
-> >  1 file changed, 5 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-> > index 5b10463..2adef2f 100644
-> > --- a/scripts/lib/wic/engine.py
-> > +++ b/scripts/lib/wic/engine.py
-> > @@ -52,6 +52,7 @@ def verify_build_env():
-> >
-> >  CANNED_IMAGE_DIR = "lib/wic/canned-wks" # relative to scripts
-> >  SCRIPTS_CANNED_IMAGE_DIR = "scripts/" + CANNED_IMAGE_DIR
-> > +WIC_DIR = "wic"
-> >
-> >  def build_canned_image_list(path):
-> >      layers_path = misc.get_bitbake_var("BBLAYERS")
-> > @@ -59,8 +60,10 @@ def build_canned_image_list(path):
-> >
-> >      if layers_path is not None:
-> >          for layer_path in layers_path.split():
-> > -            cpath = os.path.join(layer_path, SCRIPTS_CANNED_IMAGE_DIR)
-> > -            canned_wks_layer_dirs.append(cpath)
-> > +            for wks_path in (WIC_DIR, SCRIPTS_CANNED_IMAGE_DIR):
-> > +                cpath = os.path.join(layer_path, wks_path)
-> > +                if os.path.isdir(cpath):
-> > +                    canned_wks_layer_dirs.append(cpath)
-> >
-> >      cpath = os.path.join(path, CANNED_IMAGE_DIR)
-> >      canned_wks_layer_dirs.append(cpath)
-> > --
-> > 2.1.4
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> The glew 2.0.0 release added support for building for EGL:
+>
+>   http://glew.sourceforge.net/log.html
+>
+> Add PACKAGECONFIG options for 'opengl' (ie the previous default, with
+> dependencies on opengl and X11) and 'egl', which depends on EGL only
+> and allows glew to be built for non-X11 distros.
+>
 
--- 
---
-Regards,
-Ed
+This failed on the nightly-no-x11 build on the AB:
 
+tmp/linux-egl/default/shared/visualinfo.o: In function `main':
+/usr/src/debug/glew/2.0.0-r0/glew-2.0.0/src/visualinfo.c:177: undefined
+reference to `glGetString'
+/usr/src/debug/glew/2.0.0-r0/glew-2.0.0/src/visualinfo.c:178: undefined
+reference to `glGetString'
+/usr/src/debug/glew/2.0.0-r0/glew-2.0.0/src/visualinfo.c:179: undefined
+reference to `glGetString'
+/usr/src/debug/glew/2.0.0-r0/glew-2.0.0/src/visualinfo.c:181: undefined
+reference to `glGetString'
+collect2: error: ld returned 1 exit status
+
+(which is DISTRO=poky, DISTRO_FEATURES_remove=x11)
+
+Ross
+
+--001a114fddf6f087dc0544146fd7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 18 December 2016 at 17:02, Andre McCurdy <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);borde=
+r-left-style:solid;padding-left:1ex"><div id=3D"gmail-:3ks" class=3D"gmail-=
+a3s gmail-aXjCH gmail-m15912e3c58cb7f14">The <span class=3D"gmail-il">glew<=
+/span> 2.0.0 release added support for building for EGL:<br>
+<br>
+=C2=A0 <a href=3D"http://glew.sourceforge.net/log.html" rel=3D"noreferrer" =
+target=3D"_blank">http://<span class=3D"gmail-il">glew</span>.sourceforge.n=
+et/<wbr>log.html</a><br>
+<br>
+Add PACKAGECONFIG options for &#39;opengl&#39; (ie the previous default, wi=
+th<br>
+dependencies on opengl and X11) and &#39;egl&#39;, which depends on EGL onl=
+y<br>
+and allows <span class=3D"gmail-il">glew</span> to be built for non-X11 dis=
+tros.</div></blockquote></div><div class=3D"gmail_extra"><br></div>This fai=
+led on the nightly-no-x11 build on the AB:</div><div class=3D"gmail_extra">=
+<br>tmp/linux-egl/default/shared/visualinfo.o: In function `main&#39;:<br>/=
+usr/src/debug/glew/2.0.0-r0/glew-2.0.0/src/visualinfo.c:177: undefined refe=
+rence to `glGetString&#39;<br>/usr/src/debug/glew/2.0.0-r0/glew-2.0.0/src/v=
+isualinfo.c:178: undefined reference to `glGetString&#39;<br>/usr/src/debug=
+/glew/2.0.0-r0/glew-2.0.0/src/visualinfo.c:179: undefined reference to `glG=
+etString&#39;<br>/usr/src/debug/glew/2.0.0-r0/glew-2.0.0/src/visualinfo.c:1=
+81: undefined reference to `glGetString&#39;<br>collect2: error: ld returne=
+d 1 exit status</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
+il_extra">(which is DISTRO=3Dpoky, DISTRO_FEATURES_remove=3Dx11)</div><div =
+class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a114fddf6f087dc0544146fd7--
