@@ -1,45 +1,46 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D69071D97;
-	Tue, 20 Dec 2016 12:28:51 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id u144so24022757wmu.0;
-	Tue, 20 Dec 2016 04:28:53 -0800 (PST)
+Received: from mail-wj0-f194.google.com (mail-wj0-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 03D1271D97;
+	Tue, 20 Dec 2016 12:30:18 +0000 (UTC)
+Received: by mail-wj0-f194.google.com with SMTP id he10so27503172wjc.2;
+	Tue, 20 Dec 2016 04:30:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:date:to:subject:message-id:mime-version:content-disposition
-	:user-agent; bh=oBYmOnnJVacrTfEPD03Id+q4E/wSeMMWAPGPcqJdvbc=;
-	b=H3f1jbcoVAJVXBmBaTvrX6drawc0ODQrCAyTd5/X4OGSTCY1J61KoEBDA+XsHSBczF
-	5CrpPqAaFro2n5PO0dm7k6b2Lxt5dCFJaLzg+RJ8VUBAGzt2RPKNuDyNQK+9g2SfRp0+
-	lNAZIbK9fC9GUUtLFxliSkJpOEEeivTwuTQ7i6RDtysEX57DJJvnP1dYMtp27RLZ9WCJ
-	L7P2D2tQGoXosOCHDYyFSL4NRL0caZcR3I1cYZ3ixKi0suvzui9YayYIJykMLAM+ggTD
-	fZ/F+WAnGowi1QYkdgjFptyVo2Q5XXJkQYvanY1OI9N7h5S9gTnSMSbAP/86dJq9QJNo
-	n93g==
+	:user-agent; bh=3l3l7EHNZeTRTvU8S61i+I7DxSLAjwkIsq6QwFHKmP8=;
+	b=XgjS23yoSHD0ZVAVlsVD1ZwYeYIaBWqZw59rYV83pdtX6ic5ttMnT4LInvAnmIL0DT
+	cQrCzCYJ4cilCCIfU6Y61WfTm76+E0WkfAp5aiViJqk4CPBtbKkWR9Py2vRGNlX9Wz5q
+	UTC+QsXUdgOEOlmgsRirV+LA1HTHdw7Rj5bLy3MEHpeJI300SAvnFJZTVhL/OKbtOxO4
+	EHiOJy3Aewu5DALy6A+FuyY7gOuIQ0sboAqIBbIuKUoCqWQv83iBBN2dsmiKsmmKePBT
+	pql6FygCUFv2dF2dLynFrRAFtKv8iZ8V0uKM5ChSSgxOhjHjx8nIAhC28JMtXNlqm+sz
+	KmMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:date:to:subject:message-id:mime-version
 	:content-disposition:user-agent;
-	bh=oBYmOnnJVacrTfEPD03Id+q4E/wSeMMWAPGPcqJdvbc=;
-	b=RrlNTTcZtb3BMbLMiuC4RA+2hdC7VR42NmSeTdJ0Ie9xUNFxO54bs6OtLCUV+lStgA
-	5wkqMx2VdaGNOVEFIGO1dQi1+pY299wC7+Sgv4LwenDisnkr/4Dkh0pLQMyCkOLSPrLf
-	BvlCk3mPKr2U5wQKRVci9BOwlbvEOXM5lJW+4fJTkNvQIrT9N+SDfDc6F8WFSIO9/Jk3
-	M4GmtjDoX7ViqXR/JEho5GmuE8us67o1aPU2I/9xAGLjXrZotAKWYVHtO4bodicy2+Kg
-	w+kgoMCWZXfWn6TaoZqu/x5Nt0xHxEDEwX613juORRzkBkrtrGlHyQRBRbcrc/MN35LT
-	XsHg==
-X-Gm-Message-State: AIkVDXI2mS/79eGdhhkaNhXrhHMwXSPOiHkkzP4U0aplrKVEvHHnV2HFkFtVviCZ06abtg==
-X-Received: by 10.28.55.203 with SMTP id e194mr1670790wma.6.1482236932217;
-	Tue, 20 Dec 2016 04:28:52 -0800 (PST)
+	bh=3l3l7EHNZeTRTvU8S61i+I7DxSLAjwkIsq6QwFHKmP8=;
+	b=mq0KtSIK2LubVFi+tcgJB5c0rNg3I96GvLbGG8aHjjFLPqPJ+ir75nsOsIQkh42s4o
+	WHI7Fzkyv2TboAvgOWeiRRzOJb7X+irXZ3OFo8IfQLXnlyJ+I+lB4VhsxQiXA87bBs/A
+	Se0ZtVq0e1q0V7giggNUV4y8iBKLElyJXsEE8AgwCe5AOrmKcMjas49EhMOSQNrSjaAV
+	2gUuxxvsGoymjYVmlmetx5mh5R7whVB9QqOsEIC0HOHMvqCtQBnp8rQ739RQ2vOnJSZH
+	WRb3xC4nYTdUvFFi/fDd7p3R2ah5CxMzSMp11isQUyRLt5vyujN9MO108yTYo9xrl45Z
+	zwxg==
+X-Gm-Message-State: AKaTC007+wHVFv27a2NhwSWNlp5JMX7pXPEY49EnGts04FBez7MMT8So7tEmG+Nzx/dn1w==
+X-Received: by 10.194.103.100 with SMTP id fv4mr18042107wjb.102.1482237019393; 
+	Tue, 20 Dec 2016 04:30:19 -0800 (PST)
 Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	ke6sm25302127wjb.21.2016.12.20.04.28.51
+	g17sm25379589wjs.38.2016.12.20.04.30.18
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 20 Dec 2016 04:28:51 -0800 (PST)
+	Tue, 20 Dec 2016 04:30:18 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 20 Dec 2016 13:28:51 +0100
+Date: Tue, 20 Dec 2016 13:30:18 +0100
 To: openembedded-core@lists.openembedded.org,
 	openembedded-devel@lists.openembedded.org
-Message-ID: <20161220122851.GA3275@jama>
+Message-ID: <20161220123018.GB3275@jama>
 MIME-Version: 1.0
 User-Agent: Mutt/1.7.2 (2016-11-26)
-Subject: State of bitbake world, Failed tasks 2016-12-15
+Subject: State of bitbake world, Failed tasks 2016-12-18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,13 +53,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Dec 2016 12:28:53 -0000
-X-Groupsio-MsgNum: 91038
+X-List-Received-Date: Tue, 20 Dec 2016 12:30:19 -0000
+X-Groupsio-MsgNum: 91039
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="pWyiEgJYm5f9v55/"
+	protocol="application/pgp-signature"; boundary="f2QGlHpHGjS2mn6Y"
 Content-Disposition: inline
 
---pWyiEgJYm5f9v55/
+--f2QGlHpHGjS2mn6Y
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -74,66 +75,43 @@ version-going-backwards	||host-user-contaminated	||installed-vs-shipped	||u=
 nknown-configure-option	||symlink-to-sysroot	||invalid-pkgconfig	||pkgname	=
 ||=09
 |-
-||2016-12-15	||6	||9	||6	||13	||6	||6	||21	||10	||10	||0	||0		||0		||2		||7=
-		||4		||0		||4		||0		||0		||0		||0		||0		||=09
+||2016-12-18	||0	||0	||0	||33	||8	||8	||45	||11	||11	||0	||0		||0		||2		||8=
+		||4		||0		||1		||0		||0		||0		||0		||0		||=09
 |}
 
 http://www.openembedded.org/wiki/Bitbake_World_Status
 
-=3D=3D Failed tasks 2016-12-15 =3D=3D
+=3D=3D Failed tasks 2016-12-18 =3D=3D
 
 INFO: jenkins-job.sh-1.8.12 Complete log available at http://logs.nslu2-lin=
-ux.org/buildlogs/oe/world/pyro/log.report.20161217_135043.log
+ux.org/buildlogs/oe/world/pyro/log.report.20161220_022924.log
 
-=3D=3D=3D common (4) =3D=3D=3D
-    * meta-openembedded/meta-multimedia/recipes-mediacenter/kodi/kodi_16.bb=
-:do_configure
-    * meta-openembedded/meta-oe/recipes-devtools/php/php_7.0.1.bb:do_fetch
-    * meta-openembedded/meta-oe/recipes-extended/hplip/hplip_3.12.6.bb:do_c=
-ompile
-    * meta-openembedded/meta-oe/recipes-graphics/xorg-driver/xf86-video-gla=
-mo_git.bb:do_compile
+=3D=3D=3D common () =3D=3D=3D
 
-=3D=3D=3D common-x86 (2) =3D=3D=3D
-    * meta-openembedded/meta-oe/recipes-graphics/xorg-driver/xf86-video-ati=
-_7.6.1.bb:do_compile
-    * meta-openembedded/meta-oe/recipes-graphics/xorg-driver/xf86-video-nou=
-veau_1.0.12.bb:do_compile
+=3D=3D=3D common-x86 (0) =3D=3D=3D
 
-=3D=3D=3D qemuarm (2) =3D=3D=3D
-    * meta-openembedded/meta-oe/recipes-support/loop-aes/loop-aes_v3.7j.bb:=
-do_packagedata
-    * openembedded-core/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb:do_com=
-pile
+=3D=3D=3D qemuarm (0) =3D=3D=3D
 
-=3D=3D=3D qemux86 (3) =3D=3D=3D
-    * meta-browser/recipes-browser/chromium/chromium_52.0.2743.76.bb:do_com=
-pile
-    * meta-openembedded/meta-oe/recipes-extended/tiptop/tiptop_2.3.bb:do_co=
-mpile
-    * meta-qt5/recipes-qt/qt5/qtwebengine_git.bb:do_compile
+=3D=3D=3D qemux86 (0) =3D=3D=3D
 
 =3D=3D=3D qemux86_64 (0) =3D=3D=3D
 
-=3D=3D=3D Number of failed tasks (21) =3D=3D=3D
+=3D=3D=3D Number of failed tasks (0) =3D=3D=3D
 {| class=3Dwikitable
 |-
-|| qemuarm 	|| 6	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/lo=
-g.world.qemuarm.20161214_234358.log/ || http://errors.yoctoproject.org/Erro=
-rs/Build/26552/
+|| qemuarm 	|| 0	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/lo=
+g.world.qemuarm.20161217_135213.log/ ||=20
 |-
-|| qemux86 	|| 9	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/lo=
-g.world.qemux86.20161214_233829.log/ || http://errors.yoctoproject.org/Erro=
-rs/Build/26553/
+|| qemux86 	|| 0	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/lo=
+g.world.qemux86.20161217_135113.log/ ||=20
 |-
-|| qemux86_64 	|| 6	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro=
-/log.world.qemux86-64.20161215_224537.log/ || http://errors.yoctoproject.or=
-g/Errors/Build/26709/
+|| qemux86_64 	|| 0	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro=
+/log.world.qemux86-64.20161218_150814.log/ ||=20
 |}
 
 =3D=3D=3D PNBLACKLISTs (115) =3D=3D=3D
 
-=3D=3D=3D QA issues (17) =3D=3D=3D
+=3D=3D=3D QA issues (15) =3D=3D=3D
 {| class=3Dwikitable
 !| Count		||Issue
 |-
@@ -153,126 +131,144 @@ g/Errors/Build/26709/
 |-
 ||0	||version-going-backwards
 |-
+||1	||host-user-contaminated
+|-
 ||2	||textrel
 |-
 ||4	||file-rdeps
 |-
-||4	||host-user-contaminated
-|-
-||7	||build-deps
+||8	||build-deps
 |}
 
 
 
-=3D=3D=3D Failed dependencies for qemuarm (13) =3D=3D=3D
+=3D=3D=3D Failed dependencies for qemuarm (33) =3D=3D=3D
 
 Complete log: http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.depen=
-dencies.qemuarm.20161215_221357.log/
+dencies.qemuarm.20161218_140914.log/
 Found differences:=20
 Found errors:=20
-    * ERROR: 13 issues were found in these recipes: hplip kodi loop-aes php=
- webkitgtk xf86-video-glamo
+    * ERROR: 33 issues were found in these recipes: firefox hplip kodi php =
+qtwayland usrsctp webkitgtk xf86-video-glamo
 
-=3D=3D=3D Recipes failing with maximal dependencies for qemuarm (6) =3D=3D=
+=3D=3D=3D Recipes failing with maximal dependencies for qemuarm (8) =3D=3D=
 =3D
+    * firefox -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.de=
+pendencies.qemuarm.20161218_140914.log//2_max/failed/firefox.log
     * hplip -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.depe=
-ndencies.qemuarm.20161215_221357.log//2_max/failed/hplip.log
+ndencies.qemuarm.20161218_140914.log//2_max/failed/hplip.log
     * kodi -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.depen=
-dencies.qemuarm.20161215_221357.log//2_max/failed/kodi.log
-    * loop-aes -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.d=
-ependencies.qemuarm.20161215_221357.log//2_max/failed/loop-aes.log
+dencies.qemuarm.20161218_140914.log//2_max/failed/kodi.log
     * php -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.depend=
-encies.qemuarm.20161215_221357.log//2_max/failed/php.log
+encies.qemuarm.20161218_140914.log//2_max/failed/php.log
+    * qtwayland -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.=
+dependencies.qemuarm.20161218_140914.log//2_max/failed/qtwayland.log
+    * usrsctp -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.de=
+pendencies.qemuarm.20161218_140914.log//2_max/failed/usrsctp.log
     * webkitgtk -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.=
-dependencies.qemuarm.20161215_221357.log//2_max/failed/webkitgtk.log
+dependencies.qemuarm.20161218_140914.log//2_max/failed/webkitgtk.log
     * xf86-video-glamo -- http://logs.nslu2-linux.org/buildlogs/oe/world/py=
-ro/log.dependencies.qemuarm.20161215_221357.log//2_max/failed/xf86-video-gl=
+ro/log.dependencies.qemuarm.20161218_140914.log//2_max/failed/xf86-video-gl=
 amo.log
 
-=3D=3D=3D Recipes failing with minimal dependencies for qemuarm (6) =3D=3D=
+=3D=3D=3D Recipes failing with minimal dependencies for qemuarm (8) =3D=3D=
 =3D
+    * firefox -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.de=
+pendencies.qemuarm.20161218_140914.log//3_min/failed/firefox.log
     * hplip -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.depe=
-ndencies.qemuarm.20161215_221357.log//3_min/failed/hplip.log
+ndencies.qemuarm.20161218_140914.log//3_min/failed/hplip.log
     * kodi -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.depen=
-dencies.qemuarm.20161215_221357.log//3_min/failed/kodi.log
-    * loop-aes -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.d=
-ependencies.qemuarm.20161215_221357.log//3_min/failed/loop-aes.log
+dencies.qemuarm.20161218_140914.log//3_min/failed/kodi.log
     * php -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.depend=
-encies.qemuarm.20161215_221357.log//3_min/failed/php.log
+encies.qemuarm.20161218_140914.log//3_min/failed/php.log
+    * qtwayland -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.=
+dependencies.qemuarm.20161218_140914.log//3_min/failed/qtwayland.log
+    * usrsctp -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.de=
+pendencies.qemuarm.20161218_140914.log//3_min/failed/usrsctp.log
     * webkitgtk -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.=
-dependencies.qemuarm.20161215_221357.log//3_min/failed/webkitgtk.log
+dependencies.qemuarm.20161218_140914.log//3_min/failed/webkitgtk.log
     * xf86-video-glamo -- http://logs.nslu2-linux.org/buildlogs/oe/world/py=
-ro/log.dependencies.qemuarm.20161215_221357.log//3_min/failed/xf86-video-gl=
+ro/log.dependencies.qemuarm.20161218_140914.log//3_min/failed/xf86-video-gl=
 amo.log
 
-=3D=3D=3D Failed dependencies for qemux86 (21) =3D=3D=3D
+=3D=3D=3D Failed dependencies for qemux86 (45) =3D=3D=3D
 
 Complete log: http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.depen=
-dencies.qemux86.20161216_222721.log/
+dencies.qemux86.20161219_145746.log/
 Found differences:=20
 Found errors:=20
-    * ERROR: 21 issues were found in these recipes: chromium hplip kodi php=
- qtwayland qtwebengine usrsctp xf86-video-ati xf86-video-glamo xf86-video-n=
-ouveau
+    * ERROR: 45 issues were found in these recipes: chromium firefox hplip =
+kodi php qtwayland qtwebengine usrsctp xf86-video-ati xf86-video-glamo xf86=
+-video-nouveau
 
-=3D=3D=3D Recipes failing with maximal dependencies for qemux86 (10) =3D=3D=
+=3D=3D=3D Recipes failing with maximal dependencies for qemux86 (11) =3D=3D=
 =3D
     * chromium -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.d=
-ependencies.qemux86.20161216_222721.log//2_max/failed/chromium.log
+ependencies.qemux86.20161219_145746.log//2_max/failed/chromium.log
+    * firefox -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.de=
+pendencies.qemux86.20161219_145746.log//2_max/failed/firefox.log
     * hplip -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.depe=
-ndencies.qemux86.20161216_222721.log//2_max/failed/hplip.log
+ndencies.qemux86.20161219_145746.log//2_max/failed/hplip.log
     * kodi -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.depen=
-dencies.qemux86.20161216_222721.log//2_max/failed/kodi.log
+dencies.qemux86.20161219_145746.log//2_max/failed/kodi.log
     * php -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.depend=
-encies.qemux86.20161216_222721.log//2_max/failed/php.log
+encies.qemux86.20161219_145746.log//2_max/failed/php.log
     * qtwayland -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.=
-dependencies.qemux86.20161216_222721.log//2_max/failed/qtwayland.log
+dependencies.qemux86.20161219_145746.log//2_max/failed/qtwayland.log
     * qtwebengine -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/lo=
-g.dependencies.qemux86.20161216_222721.log//2_max/failed/qtwebengine.log
+g.dependencies.qemux86.20161219_145746.log//2_max/failed/qtwebengine.log
     * usrsctp -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.de=
-pendencies.qemux86.20161216_222721.log//2_max/failed/usrsctp.log
+pendencies.qemux86.20161219_145746.log//2_max/failed/usrsctp.log
     * xf86-video-ati -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro=
-/log.dependencies.qemux86.20161216_222721.log//2_max/failed/xf86-video-ati.=
+/log.dependencies.qemux86.20161219_145746.log//2_max/failed/xf86-video-ati.=
 log
     * xf86-video-glamo -- http://logs.nslu2-linux.org/buildlogs/oe/world/py=
-ro/log.dependencies.qemux86.20161216_222721.log//2_max/failed/xf86-video-gl=
+ro/log.dependencies.qemux86.20161219_145746.log//2_max/failed/xf86-video-gl=
 amo.log
     * xf86-video-nouveau -- http://logs.nslu2-linux.org/buildlogs/oe/world/=
-pyro/log.dependencies.qemux86.20161216_222721.log//2_max/failed/xf86-video-=
+pyro/log.dependencies.qemux86.20161219_145746.log//2_max/failed/xf86-video-=
 nouveau.log
 
-=3D=3D=3D Recipes failing with minimal dependencies for qemux86 (10) =3D=3D=
+=3D=3D=3D Recipes failing with minimal dependencies for qemux86 (11) =3D=3D=
 =3D
     * chromium -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.d=
-ependencies.qemux86.20161216_222721.log//3_min/failed/chromium.log
+ependencies.qemux86.20161219_145746.log//3_min/failed/chromium.log
+    * firefox -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.de=
+pendencies.qemux86.20161219_145746.log//3_min/failed/firefox.log
     * hplip -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.depe=
-ndencies.qemux86.20161216_222721.log//3_min/failed/hplip.log
+ndencies.qemux86.20161219_145746.log//3_min/failed/hplip.log
     * kodi -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.depen=
-dencies.qemux86.20161216_222721.log//3_min/failed/kodi.log
+dencies.qemux86.20161219_145746.log//3_min/failed/kodi.log
     * php -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.depend=
-encies.qemux86.20161216_222721.log//3_min/failed/php.log
+encies.qemux86.20161219_145746.log//3_min/failed/php.log
     * qtwayland -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.=
-dependencies.qemux86.20161216_222721.log//3_min/failed/qtwayland.log
+dependencies.qemux86.20161219_145746.log//3_min/failed/qtwayland.log
     * qtwebengine -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/lo=
-g.dependencies.qemux86.20161216_222721.log//3_min/failed/qtwebengine.log
+g.dependencies.qemux86.20161219_145746.log//3_min/failed/qtwebengine.log
     * usrsctp -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.de=
-pendencies.qemux86.20161216_222721.log//3_min/failed/usrsctp.log
+pendencies.qemux86.20161219_145746.log//3_min/failed/usrsctp.log
     * xf86-video-ati -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro=
-/log.dependencies.qemux86.20161216_222721.log//3_min/failed/xf86-video-ati.=
+/log.dependencies.qemux86.20161219_145746.log//3_min/failed/xf86-video-ati.=
 log
     * xf86-video-glamo -- http://logs.nslu2-linux.org/buildlogs/oe/world/py=
-ro/log.dependencies.qemux86.20161216_222721.log//3_min/failed/xf86-video-gl=
+ro/log.dependencies.qemux86.20161219_145746.log//3_min/failed/xf86-video-gl=
 amo.log
     * xf86-video-nouveau -- http://logs.nslu2-linux.org/buildlogs/oe/world/=
-pyro/log.dependencies.qemux86.20161216_222721.log//3_min/failed/xf86-video-=
+pyro/log.dependencies.qemux86.20161219_145746.log//3_min/failed/xf86-video-=
 nouveau.log
 
 =3D=3D=3D Incorrect PACKAGE_ARCH or sstate signatures (0) =3D=3D=3D
 
 Complete log: http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.signa=
-tures.20161216_042447.log/
+tures.20161218_200958.log/
 
-No issues detected
+
+    * ERROR: Execution of event handler 'buildhistory_eventhandler' failed
+    * ERROR: Running idle function
+    * ERROR: Execution of event handler 'buildhistory_eventhandler' failed
+    * ERROR: Running idle function
+    * ERROR: Execution of event handler 'buildhistory_eventhandler' failed
+    * ERROR: Running idle function
 
 
 PNBLACKLISTs:
@@ -530,10 +526,15 @@ meta-shr/recipes-shr/3rdparty/iliwi_git.bb:PNBLACKLIST[iliwi] =3D "Doesn't =
 build after vala upgrade from 0.24.0 to 0.26.1"
 meta-shr/recipes-shr/3rdparty/intone_git.bb:PNBLACKLIST[intone] =3D "rdepen=
 ds on blacklisted mplayer2"
-meta-shr/recipes-shr/3rdparty/jefliks_git.bb:PNBLACKLIST[jefliks] ?=3D "dep=
-ends on blacklisted iksemel"
-meta-shr/recipes-shr/3rdparty/openmoko-gpsecipes-shr/shr/shr-installer_git.=
-bb:PNBLACKLIST[shr-installer] ?=3D "Depends on blacklisted packagekit"
+meta-shr/recipes-shr/3rdparty/jefliks_git.bb:', d)}"
+meta-shr/recipes-shr/3rdparty/sensmon_git.bb:PNBLACKLIST[sensmon] =3D "Does=
+n't build after vala upgrade from 0.24.0 to 0.26.1"
+meta-shr/recipes-shr/3rdparty/valacompass_git.bb:PNBLACKLIST[valacompass] =
+=3D "Doesn't build after vala upgrade from 0.24.0 to 0.26.1"
+meta-shr/recipes-shr/games/aceofpenguins_1.4.bb:PNBLACKLIST[aceofpenguins] =
+?=3D "BROKEN: fails to build with new binutils-2.27"
+meta-shr/recipes-shr/shr/shr-installer_git.bb:PNBLACKLIST[shr-installer] ?=
+=3D "Depends on blacklisted packagekit"
 meta-webos-ports:
 meta-luneos/recipes-luneos/luna-webappmanager/luna-webappmanager.bb:PNBLACK=
 LIST[luna-webappmanager] ?=3D "BROKEN: needs to be adapted to new qt-5.7"
@@ -574,7 +575,7 @@ r2491+gitAUTOINC+86b71982e1-r0/packages-split/x264/usr/lib/libx264.so.148' =
 has relocations in .text [textrel]
 
 
-count: 7	issue: build-deps
+count: 8	issue: build-deps
 directfb-1.7.7: directfb rdepends on libvdpau, but it isn't a build depende=
 ncy, missing libvdpau in DEPENDS or PACKAGECONFIG? [build-deps]
 directfb-1.7.7: directfb rdepends on libx11, but it isn't a build dependenc=
@@ -589,6 +590,8 @@ directfb-1.7.7: directfb rdepends on libxext, but it isn't a build dependen=
 cy, missing libxext in DEPENDS or PACKAGECONFIG? [build-deps]
 gst-plugins-bad-0.10.23: gst-plugins-bad-zbar rdepends on zbar, but it isn'=
 t a build dependency, missing zbar in DEPENDS or PACKAGECONFIG? [build-deps]
+mpd-0.19.15: mpd rdepends on audiofile, but it isn't a build dependency, mi=
+ssing audiofile in DEPENDS or PACKAGECONFIG? [build-deps]
 
 
 count: 4	issue: file-rdeps
@@ -597,21 +600,20 @@ ule-build-perl requires /tmp/sysroots/x86_64-linux/usr/bin/perl-native/perl=
 =2Ereal, but no providers found in RDEPENDS_libmodule-build-perl? [file-rde=
 ps]
 numptyphysics-0.2+svnr109: /usr/share/numptyphysics/convert_all.sh containe=
-d in package numptyphysics requires /bin/bash, but no providers found in RD=
-EPENDS_numptyphysics? [file-rdeps]
-numptyphysics-0.2+svnr109: /usr/share/numptyphysics/convert.pl contained in=
- package numptyphysics requires /usr/bin/perl, but no providers found in RD=
-EPENDS_numptyphysics? [file-rdeps]
-ubx-utils-0.0.0+gitrAUTOINC+b63c0932dd: /usr/bin/memory-map.sh contained in=
- package ubx-utils requires /bin/bash, but no providers found in RDEPENDS_u=
-bx-utils? [file-rdeps]
+d in package numptyphoing-backwards
 
 
-count: 0	issue: version-going-backwards
+count: 1	issue: host-user-contaminated
+glibc-locale-2.24: glibc-locale: /glibc-binary-localedata-anp-in/usr/lib/lo=
+cale/anp_IN/LC_COLLATE is owned by uid 3004, which is the same as the user =
+running bitbake. This may be due to host contamination [host-user-contamina=
+ted]
 
 
-count: 4	issue: host-user-contaminated
-glibcption
+count: 0	issue: installed-vs-shipped
+
+
+count: 0	issue: unknown-configure-option
 
 
 count: 0	issue: symlink-to-sysroot
@@ -622,83 +624,84 @@ count: 0	issue: invalid-pkgconfig
 
 count: 0	issue: pkgname
 
+
+
 =3D=3D Tested changes (not included in master yet) - bitbake =3D=3D
 latest upstream commit:=20
-f1cd6fa lib/bb/build: enable access to logger within tasks
+5063301 BBHandler: use with instead of open/close
 not included in master yet:=20
-6f2b825 world-image: add extra target
+aadcd35 world-image: add extra target
 
 =3D=3D Tested changes (not included in master yet) - openembedded-core =3D=
 =3D
 latest upstream commit:=20
-91f8564 oeqa/utils/commands.py: Fix get_bb_vars() when called without argum=
-ents
+f3e7533 utils: Always use datastore's PATH for host_gcc_version
 not included in master yet:=20
-82df8be qemux86: Add identical qemux86copy variant for tests
-31962d9 sstate-sysroot-cruft.sh: Extend the whitelist
-221fe88 recipes: Replace "cp -a" with "cp -R --no-dereference --preserve=3D=
+87cf364 qemux86: Add identical qemux86copy variant for tests
+f3a1c1a sstate-sysroot-cruft.sh: Extend the whitelist
+1ddf2ae recipes: Replace "cp -a" with "cp -R --no-dereference --preserve=3D=
 mode,links"
-d7bf593 buildhistory.bbclass: metadata-revs show repo parent
-4203a2f metadata-revs: provide more information
-153aad5 report-error: Allow to upload reports automatically
-500ab0d Revert "libsdl2: update to 2.0.5"
+c3c9bec buildhistory.bbclass: metadata-revs show repo parent
+d96db92 metadata-revs: provide more information
+2e8ea89 report-error: Allow to upload reports automatically
 
 =3D=3D Tested changes (not included in master yet) - meta-openembedded =3D=
 =3D
 latest upstream commit:=20
-e6c7a66 wireshark: 2.2.1 -> 2.2.2
+1c8720a ifenslave: make option '-h' work
 not included in master yet:=20
-1570683 lksctp-tools: 1.0.16 -> 1.0.17
-4952f78 drbd-utils: 8.9.3 -> 8.9.6
-d431e8b opensaf: fix QA Issue
-3d92f36 ifenslave: make option '-h' work
-b8e11c8 syslog-ng: don't use update-alternatives to manage init script
-b2098e0 rsyslog: don't use update-alternatives to manage init script
-aca32ef kodi: Add krypton/17.x Jarvis/16.x recipes
-bbb3f24 kodi: Fix build with pic on x86_64
-b9740c6 kodi-17: Add packageconfig for lcms support
-363c65d kodi-17: Fix build with musl
-751e7f0 kodi-17: Update to latest
-70716f0 kodi-17: Fix build for qemuarm and update to latest
-7ea2a12 makedumpfile: add ARM into COMPATIBLE_HOST
-456b1b4 libupnp: Fix out-of-bound access in create_url_list() (CVE-2016-886=
+3c464a2 syslog-ng: don't use update-alternatives to manage init script
+43eead5 rsyslog: don't use update-alternatives to manage init script
+2099d5c kodi: Add krypton/17.x Jarvis/16.x recipes
+f51f13b kodi: Fix build with pic on x86_64
+96b7e37 kodi-17: Add packageconfig for lcms support
+c971a7c kodi-17: Fix build with musl
+dab9304 kodi-17: Update to latest
+eb83119 kodi-17: Fix build for qemuarm and update to latest
+93afe70 makedumpfile: add ARM into COMPATIBLE_HOST
+f5ee5c1 libupnp: Fix out-of-bound access in create_url_list() (CVE-2016-886=
 3)
-4bb1246 protobuf: switch from mips16 to mips32 due to in-line assembler
-72bdcdc php: add 7.1.0
-3b9534f opencv: Update repository location
-9c02385 opencv: Metapkg should not rdepend on -staticdev
-2e75821 opencv: Add missing depends
-359cff3 opencv: Add support for OpenJDK
-a36b929 opencv: Add support for python3
-bc93379 opencv: Add missing DEPEND for opencl PKGCFG
-c9b7a06 opencv: Add new PACKAGECONFIG dnn
-3a1b458 opencv: Merge dbg packages and Fix QA Issues
-7f290da tinymembench: fix QA warning for GNU_HASH
-8a08d32 cifs-utils 6.4->6.6
-7e172f9 inetutils: Disable rsh, rcp, rlogin on musl
-a207aa5 libmng: Add recipe
-e90d975 zbar: Add recipe
-e9ae45d avro: Add recipe
-7082105 liboop: Add recipe
-7e257e5 gimp: Enable libmng plugins
-a62a7b3 libtdb 1.3.10 -> 1.3.12
-3d9093d libldb 1.1.27 -> 1.1.29
-37f2e08 libtevent: 0.9.29 -> 0.9.31
-28495ac loop-aes: Add recipe
+ed37053 protobuf: switch from mips16 to mips32 due to in-line assembler
+ac437b6 php: add 7.1.0
+a1f5340 opencv: Update repository location
+35042c3 opencv: Metapkg should not rdepend on -staticdev
+492c8ca opencv: Add missing depends
+4177714 opencv: Add support for OpenJDK
+e207612 opencv: Add support for python3
+e356909 opencv: Add missing DEPEND for opencl PKGCFG
+b994608 opencv: Add new PACKAGECONFIG dnn
+80e9562 opencv: Merge dbg packages and Fix QA Issues
+dd651a7 tinymembench: fix QA warning for GNU_HASH
+1fc294e libmng: Add recipe
+62d1908 zbar: Add recipe
+d6f98d5 avro: Add recipe
+928996e liboop: Add recipe
+d3f5211 gimp: Enable libmng plugins
+1d515cd gtest, gmock: update 1.7.0 -> 1.8.0
+f4460c8 dibbler: add initial recipe, dibbler 1.0.1
+ae67be3 zlog: Add recipe
+aee6b7d usrsctp: Add recipe
+527ee9b popplet: Disable PIE, it does not compile
+23e7ba2 audiofile: update to 0.3.6
+59ff316 esound: fix build after update of audiofile
+80c4c42 hplip: Fix build with clang
+f7d7c71 samba: rename initscript from 'samba.sh' to more common 'samba'
+82e7e5a samba: install systemd units and initscripts unconditionally
+5008770 samba: add smbclient package
+8803596 samba: install manpages
+d62a496 samba: simplify files list for samba-python
+dfe5cd4 samba: split libraries into their own packages
+b8f1ee3 samba: move /etc/sysconfig to more common /etc/default, package tmp=
+files.d in samba-common
+efdcafc samba: add packages samba-dsdb-modules, samba-testsuite and registr=
+y-tools
+65ac31d samba: start on boot with systemd
+af547b7 samba: simplify LSB handling
 
 =3D=3D Tested changes (not included in master yet) - meta-qt5 =3D=3D
 latest upstream commit:=20
-81fb771 Update Qt5's git repositories to match new locations
-not included in master yet:=20
-2542e2c Upgrade to Qt 5.8
-825231c qtwebengine: use QT_GIT_PROTOCOL variable
-e5095fa qtwebkit: Always enable icu in QT_CONFIG
-49290f1 qtbase: Remove comments about ICU and QtWebKit
-
-=3D=3D Tested changes (not included in master yet) - meta-browser =3D=3D
-latest upstream commit:=20
-c8774d1 Merge pull request #16 from geiseri/update_firefox_45esr
-not included in master yet:=20
+c0ba8ab: use pkg-config to find nspr
+3d896d5 firefox: do not link against crmf library - it is not there
 
 =3D=3D Tested changes (not included in master yet) - meta-webos-ports =3D=3D
 latest upstream commit:=20
@@ -712,15 +715,15 @@ not included in master yet:=20
 0ad046f meta-fso: replace deprecated bb.data.getVar('PV',d,1) with d.getVar=
 ('PV', True)
 
---pWyiEgJYm5f9v55/
+--f2QGlHpHGjS2mn6Y
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWFkkAgAKCRA3VSO3ZXaA
-HAUcAJ44xOZ1NGRnkn3cn1M95BPg6ciDDgCfcUFnFbYTjlS5H2cnjv8J9SvY7hM=
-=pkv7
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWFkkWQAKCRA3VSO3ZXaA
+HH/7AJ4oH/BBTDAlT72gMB7dzaf66/q8WgCfSoHXyJnZ33xZ4uCeVqYUk1njdRg=
+=vUUQ
 -----END PGP SIGNATURE-----
 
---pWyiEgJYm5f9v55/--
+--f2QGlHpHGjS2mn6Y--
