@@ -1,23 +1,30 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id DEA9A7733D
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 648BA600E3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 03:47:56 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga104.jf.intel.com with ESMTP; 19 Dec 2016 19:47:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,377,1477983600"; d="scan'208";a="914246777"
-Received: from cdu2-mobl1.ccr.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com.fritz.box) ([10.255.186.22])
-	by orsmga003.jf.intel.com with ESMTP; 19 Dec 2016 19:47:56 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Dec 2016 16:47:49 +1300
-Message-Id: <f6aeb6238456fb923b1717c4522bc23b0b05bac3.1482205653.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.5
-In-Reply-To: <cover.1482205653.git.paul.eggleton@linux.intel.com>
-References: <cover.1482205653.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] packagegroup-core-standalone-sdk-target: add libssp
+	Tue, 20 Dec 2016 05:12:40 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="14081814"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 20 Dec 2016 13:12:34 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 572314670074
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Dec 2016 13:12:29 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.226.109) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Tue, 20 Dec 2016 13:12:28 +0800
+From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 20 Dec 2016 13:12:11 +0800
+Message-ID: <1482210731-2668-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.226.109]
+X-yoursite-MailScanner-ID: 572314670074.A2C47
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] shared-mime-info 1.6 -> 1.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,33 +37,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Dec 2016 03:47:57 -0000
+X-List-Received-Date: Tue, 20 Dec 2016 05:12:42 -0000
+Content-Type: text/plain
 
-If you want to be able to use -fstack-protector then you need the
-runtime support - you can either write this yourself or use libssp
-supplied with GCC. If you're using GCC then it seems likely that you'd
-just be using libssp, so include in the SDK by default; however use
-RRECOMMENDS just in case it's been disabled or you aren't using GCC.
+Upgrade shared-mime-info from 1.6 to 1.8
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 ---
- .../packagegroups/packagegroup-core-standalone-sdk-target.bb         | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/recipes-support/shared-mime-info/shared-mime-info_1.6.bb | 7 -------
+ meta/recipes-support/shared-mime-info/shared-mime-info_1.8.bb | 7 +++++++
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+ delete mode 100644 meta/recipes-support/shared-mime-info/shared-mime-info_1.6.bb
+ create mode 100644 meta/recipes-support/shared-mime-info/shared-mime-info_1.8.bb
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
-index 274e11a..43fc599 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
-@@ -12,3 +12,8 @@ RDEPENDS_${PN} = "\
-     libstdc++-dev \
-     ${LIBC_DEPENDENCIES} \
-     "
+diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info_1.6.bb b/meta/recipes-support/shared-mime-info/shared-mime-info_1.6.bb
+deleted file mode 100644
+index 2cf5041..0000000
+--- a/meta/recipes-support/shared-mime-info/shared-mime-info_1.6.bb
++++ /dev/null
+@@ -1,7 +0,0 @@
+-require shared-mime-info.inc
+-
+-SRC_URI += "file://parallelmake.patch \
+-	    file://install-data-hook.patch"
+-
+-SRC_URI[md5sum] = "10abc5c4e6b22223ff05c3bd70ff9e8f"
+-SRC_URI[sha256sum] = "b2f8f85b6467933824180d0252bbcaee523f550a8fbc95cc4391bd43c03bc34c"
+diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info_1.8.bb b/meta/recipes-support/shared-mime-info/shared-mime-info_1.8.bb
+new file mode 100644
+index 0000000..849d999
+--- /dev/null
++++ b/meta/recipes-support/shared-mime-info/shared-mime-info_1.8.bb
+@@ -0,0 +1,7 @@
++require shared-mime-info.inc
 +
-+RRECOMMENDS_${PN} = "\
-+    libssp \
-+    libssp-dev \
-+    "
++SRC_URI += "file://parallelmake.patch \
++	    file://install-data-hook.patch"
++
++SRC_URI[md5sum] = "f6dcadce764605552fc956563efa058c"
++SRC_URI[sha256sum] = "2af55ef1a0319805b74ab40d331a3962c905477d76c086f49e34dc96363589e9"
 -- 
-2.5.5
+2.7.4
+
+
 
 
