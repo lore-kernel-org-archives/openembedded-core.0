@@ -1,41 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f174.google.com (mail-qt0-f174.google.com
-	[209.85.216.174])
-	by mail.openembedded.org (Postfix) with ESMTP id D3D6677338
+Return-Path: <twoerner@gmail.com>
+Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
+	[209.85.214.65])
+	by mail.openembedded.org (Postfix) with ESMTP id BD21877338
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 15:17:13 +0000 (UTC)
-Received: by mail-qt0-f174.google.com with SMTP id c47so179391702qtc.2
+	Tue, 20 Dec 2016 15:17:56 +0000 (UTC)
+Received: by mail-it0-f65.google.com with SMTP id b123so14284047itb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 07:17:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Y8/HbSDM2/nR9+QqKAmk9+mt18/bb8/eMkW9VVsWjRE=;
-	b=EzLPYsoViu3euB7HlkuQl9v/bENEGSxw2Y0mnWE4gzRIBTPBqgP+WRpzb2yq037uSh
-	w9dicvx1c5k3BYFhnmJZ3um1gIuRvvmN6u+zienuTNGKaflsnTbwfYg6veIePjE0NR7a
-	FkfkRBsuwl5g8dv9+jTxk/Sys8R7ikF+4kK9D6eEEywhhovVsKMMA+eJmOdAlMP6XDjZ
-	wM/e6IkuXAPr/0Vas0Ytuk/AXhvB2LO+TtMTv0Xdx/qIvKafQ262a7YtJ9U1xSL4ThFf
-	LL8ie/NbrFLXGszBLIlnvjsOfJZ5mKBR7wtx/MzrKZVQVsFLGWaDq83n0QJJVqNyXGYL
-	hOcw==
+	Tue, 20 Dec 2016 07:17:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=a0PfvhlvS/hFz3/4aQTn49W6cQk1lDqW+rchyCyK0qo=;
+	b=V0XeHJXmsD1Prhyz/v2mEb9bcYLrJa5eyWU0qDdaoNlrmQSRnWnSaiOGmvxLs9TMCQ
+	iOA+XjZ63283GhkUYJoaTDWkkKI0mjgKletyERz75TtaT+u31EdtFyaV9NP3Z0NNPWnA
+	k2+tboud2/DVNy3o+j4LNuG56VyihyNm3LYDbDpLUYFyP26oPceiFHiNnjSPsxGgHjqD
+	805bPyjU9Y+rmb62ikXzsUvCN5K7nUOyo7DjiiGGOoRkWFpkXKHCJhZfnovjtIE1b2SO
+	22SpWkMq5wtsyeeoW5H2Va4WkAUDLKDMAu28mzm4hvHGQf5wZMIN7mfvwb3KPsL/yrAb
+	oGyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Y8/HbSDM2/nR9+QqKAmk9+mt18/bb8/eMkW9VVsWjRE=;
-	b=Pkw85eCAMT/2b4MMSBU4LKcVAeGr9TRlBo2pRh1Uw/Ai6skO03Asef71+h5oNFP92u
-	wKki1WEYErrd+Hx1ohUZOpn3WQs62Z7FnZN8jcQOPy61X7DVQct1pIW8rMiTaTRhoavu
-	so0TzRUa5rqd0SBsZ3Kde3ipSFqOxBtCCseXKKRtxlRWQFh8+6vNwFbLMi18w3qvjHLZ
-	A+YPCK4zmsaXsEqE3+FYUCW5+Jo2HcdyuxEohBisNZ1BgTih6K3VQI6vg9kd9JlvhnHY
-	FkAfGfFU5IfrnOq23hGPu3+IRx4D/rdWQa8m6U3eHuV+n2mrthUdC35abD0H2l5a0gHv
-	4A7Q==
-X-Gm-Message-State: AIkVDXIvWp7H2HPkVSwta6VnC5V+1e8bRzBEidDxv+RWaYvWTymWVEgLdhXaZ438SZU9wb85GkEAcOZr+IAGXke2
-X-Received: by 10.237.34.46 with SMTP id n43mr23232744qtc.105.1482247034720;
-	Tue, 20 Dec 2016 07:17:14 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Tue, 20 Dec 2016 07:16:54 -0800 (PST)
-In-Reply-To: <20161220151401.GB11748@openSUSE-i7.site>
-References: <CAJTo0LYV2qMTBVpm8ASDb7BdwwezWfysAn6fJbM7Xwh6FXCcyg@mail.gmail.com>
-	<20161219214258.GA16333@openSUSE-i7.site>
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=a0PfvhlvS/hFz3/4aQTn49W6cQk1lDqW+rchyCyK0qo=;
+	b=tA9T7lCP0iQqcnGToLTKI0RHjwooDfFpzBfRX3RGDUA59+5X429lfswZyyPDjcf7be
+	g1+u/rAbhLwjqV7/9pYhZdhC8BFSPCssjcaat4+OYVd4TZfdrjHJLjTaDS/e8AgU2YwS
+	aaEKD1XRCNJCVqSjl/9ztX5TrHBMA4CejmpWJV04rVWa+8qO9Xyc97AdyyyOzrkW7lWP
+	t69OGvgc6oTaalYVMslc2LaTVGOH3GT1ptSUzk8EwoqTGpnLMWFtKviXbijH7W+wla/x
+	/jKcP0Z+ism29Qy61hK5wzdK/0qKqxvGj9LWXALi7LafzbxUX9AfMx96aAfd0YnkZsxX
+	yygQ==
+X-Gm-Message-State: AIkVDXJGvjjgi5ZtsdqaJuOS8TzTQ/Q1+kIoBY+hJC6xAZPpqMTXA2vsrtnZu7Od7sSgMg==
+X-Received: by 10.36.160.134 with SMTP id o128mr2647275ite.26.1482247077954;
+	Tue, 20 Dec 2016 07:17:57 -0800 (PST)
+Received: from openSUSE-i7.site (dsl-67-55-28-109.acanac.net. [67.55.28.109])
+	by smtp.gmail.com with ESMTPSA id
+	p140sm9014119itc.22.2016.12.20.07.17.57
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 20 Dec 2016 07:17:57 -0800 (PST)
+Date: Tue, 20 Dec 2016 10:17:55 -0500
+From: Trevor Woerner <twoerner@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20161220151755.GC11748@openSUSE-i7.site>
+References: <20161219214258.GA16333@openSUSE-i7.site>
 	<CAJTo0La1zRwQspKAgPvRxaTryEZSjSSwXf+O0XLadAe5p0VnDA@mail.gmail.com>
 	<CAJTo0LYuH==F4jbo3chSbaJHkCu8VWmOS+PxT3A6qwTzJoxwXA@mail.gmail.com>
 	<CAHUNapSAEd4zuvQCna+QOMxaGDFck5OQbjvsVe6hr9voN7o1=w@mail.gmail.com>
@@ -45,10 +50,9 @@ References: <CAJTo0LYV2qMTBVpm8ASDb7BdwwezWfysAn6fJbM7Xwh6FXCcyg@mail.gmail.com>
 	<CAJTo0LajFQ85DckLMqS7Tbza4NJNNc4A6QMuACa4XDb6PiHJnQ@mail.gmail.com>
 	<CAJTo0LYzEZpgspkijcDOUUwPSRBaiWsYbts02NkBy4FJW28jOg@mail.gmail.com>
 	<20161220151401.GB11748@openSUSE-i7.site>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 20 Dec 2016 15:16:54 +0000
-Message-ID: <CAJTo0LY1_qFxKqnQC4hggAL=g4iqf6a_iXfUXgv7-SdCX5b+yQ@mail.gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <20161220151401.GB11748@openSUSE-i7.site>
+User-Agent: Mutt/1.6.0 (2016-04-01)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] util-linux: 2.28.1 -> 2.29
@@ -64,39 +68,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Dec 2016 15:17:14 -0000
-Content-Type: multipart/alternative; boundary=001a11377e18f9824b054418870e
+X-List-Received-Date: Tue, 20 Dec 2016 15:17:56 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
---001a11377e18f9824b054418870e
-Content-Type: text/plain; charset=UTF-8
-
-On 20 December 2016 at 15:14, Trevor Woerner <twoerner@gmail.com> wrote:
-
+On Tue 2016-12-20 @ 10:14:01 AM, Trevor Woerner wrote:
 > So I only have the version 5 -config scripts, but my host has version 5 and
 > version 6 -config scripts. I'm guessing we need a dummy ncurses{w}6-config
 > script in the sysroot too (?)
->
 
-Yeah, that seems like a good diagnosis.  Can you knock up a patch as you
-can replicate?
+YES!
 
-Ross
+Going into my sysroot and creating v6 -config scripts by simply copying the v5
+ones allows util-linux-native to build successfully :-D
 
---001a11377e18f9824b054418870e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 20 December 2016 at 15:14, Trevor Woerner <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:twoerner@gmail.com" target=3D"_blank">twoerner@gmail.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4m7" class=3D"=
-a3s aXjCH m1591ccc2d265360f">So I only have the version 5 -config scripts, =
-but my host has version 5 and<br>
-version 6 -config scripts. I&#39;m guessing we need a dummy ncurses{w}6-con=
-fig<br>
-script in the sysroot too (?)</div></blockquote><div><br></div><div>Yeah, t=
-hat seems like a good diagnosis.=C2=A0 Can you knock up a patch as you can =
-replicate?</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
-
---001a11377e18f9824b054418870e--
