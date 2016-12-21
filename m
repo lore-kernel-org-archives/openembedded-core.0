@@ -1,26 +1,24 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A2D8B77338
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6186B71BFE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2016 04:31:32 +0000 (UTC)
+	Wed, 21 Dec 2016 04:31:30 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uBL4VXJ0005809
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBL4VUTm018911
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 20:31:33 -0800
+	Tue, 20 Dec 2016 20:31:30 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.184) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 20 Dec 2016 20:31:32 -0800
+	14.3.294.0; Tue, 20 Dec 2016 20:31:30 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Dec 2016 12:32:47 +0800
-Message-ID: <8829487e98adb89f68c9ef56371d7044184e0078.1482294710.git.Qi.Chen@windriver.com>
+Date: Wed, 21 Dec 2016 12:32:45 +0800
+Message-ID: <cover.1482294710.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1482294710.git.Qi.Chen@windriver.com>
-References: <cover.1482294710.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] opkg-utils: warn if update-alternatives finds priority conflict
+Subject: [PATCH 0/2] warn when ALTERNATIVE_PRIORITY are the same
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,72 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2016 04:31:32 -0000
+X-List-Received-Date: Wed, 21 Dec 2016 04:31:45 -0000
 Content-Type: text/plain
 
-If multiple providers for a utility have the same alternatives priority,
-which one would be chosen is determined by which one is installed later.
-Our alternatives system should be able to detect such problem and warn users
-so that potential problems could be avoided.
+The following changes since commit 5e21afc9395060b489156d3f90505a372b713f37:
 
-Modify update-alternatives to warn users when detecting multiple providers
-with the same priority.
+  Revert "selftest/wic: extending test coverage for WIC script options" (2016-12-20 17:06:01 +0000)
 
-[YOCTO #8314]
+are available in the git repository at:
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/BUG8314
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/BUG8314
+
+Chen Qi (2):
+  package_manager: default to have scriptlet output captured in log
+  opkg-utils: warn if update-alternatives finds priority conflict
+
+ meta/lib/oe/package_manager.py                     |  9 ++++----
  ...rnatives-warn-when-multiple-providers-hav.patch | 26 ++++++++++++++++++++++
  meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |  3 ++-
- 2 files changed, 28 insertions(+), 1 deletion(-)
+ 3 files changed, 33 insertions(+), 5 deletions(-)
  create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-warn-when-multiple-providers-hav.patch
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-warn-when-multiple-providers-hav.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-warn-when-multiple-providers-hav.patch
-new file mode 100644
-index 0000000..afce1e1
---- /dev/null
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-warn-when-multiple-providers-hav.patch
-@@ -0,0 +1,26 @@
-+Subject: update-alternatives: warn when multiple providers have the same priority
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ update-alternatives | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/update-alternatives b/update-alternatives
-+index ca01d5d..ffad853 100644
-+--- a/update-alternatives
-++++ b/update-alternatives
-+@@ -90,6 +90,9 @@ add_alt() {
-+ 	local path="$2"
-+ 	local priority="$3"
-+ 	remove_alt $name $path
-++	if grep -qw "$priority" $ad/$name; then
-++		echo "Warn: update-alternatives: $name has multiple providers with the same priority, please check $ad/$name for details"
-++	fi
-+ 	echo "$path $priority" >> $ad/$name
-+ }
-+ 
-+-- 
-+2.8.3
-+
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-index 19a852e..7b01bfc 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-@@ -10,7 +10,8 @@ PROVIDES += "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'virtu
- SRCREV = "3ffece9bf19a844edacc563aa092fd1fbfcffeee"
- PV = "0.3.2+git${SRCPV}"
- 
--SRC_URI = "git://git.yoctoproject.org/opkg-utils"
-+SRC_URI = "git://git.yoctoproject.org/opkg-utils \
-+           file://0001-update-alternatives-warn-when-multiple-providers-hav.patch"
- SRC_URI_append_class-native = " file://tar_ignore_error.patch"
- 
- S = "${WORKDIR}/git"
 -- 
 1.9.1
 
