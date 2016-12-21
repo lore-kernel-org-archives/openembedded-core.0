@@ -1,25 +1,25 @@
 Return-Path: <alejandro.hernandez@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 892BC77400
+	by mail.openembedded.org (Postfix) with ESMTP id 3CB4977499
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2016 17:08:42 +0000 (UTC)
+	Wed, 21 Dec 2016 17:08:46 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 21 Dec 2016 09:08:13 -0800
+	by fmsmga103.fm.intel.com with ESMTP; 21 Dec 2016 09:08:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,384,1477983600"; d="scan'208";a="1074896776"
+X-IronPort-AV: E=Sophos;i="5.33,384,1477983600"; d="scan'208";a="1074896787"
 Received: from mlbaldwi-mobl3.amr.corp.intel.com (HELO
 	aehernan-MOBL1.amr.corp.intel.com) ([10.252.255.50])
-	by orsmga001.jf.intel.com with ESMTP; 21 Dec 2016 09:08:11 -0800
+	by orsmga001.jf.intel.com with ESMTP; 21 Dec 2016 09:08:14 -0800
 From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Dec 2016 11:08:05 -0600
-Message-Id: <73f28b0aa183538fd3471df4e5d748488a5c30d2.1482339995.git.alejandro.hernandez@linux.intel.com>
+Date: Wed, 21 Dec 2016 11:08:06 -0600
+Message-Id: <6870bd0a4805674681f60fe2f12f01e273c1d0b3.1482339995.git.alejandro.hernandez@linux.intel.com>
 X-Mailer: git-send-email 2.10.1
 In-Reply-To: <96e26386eebc378d799bdb8dfec73d1ce44c2df1.1482339995.git.alejandro.hernandez@linux.intel.com>
 References: <96e26386eebc378d799bdb8dfec73d1ce44c2df1.1482339995.git.alejandro.hernandez@linux.intel.com>
 In-Reply-To: <cover.1482339995.git.alejandro.hernandez@linux.intel.com>
 References: <cover.1482339995.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH 2/3] gummiboot: Remove old gummiboot recipe, related class and wks file
+Subject: [PATCH 3/3] gummiboot: Remove gummiboot tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,348 +32,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2016 17:08:42 -0000
+X-List-Received-Date: Wed, 21 Dec 2016 17:08:46 -0000
 
-Since the gummiboot project is no longer being maintained
-and we are using systemd-boot as a replacement instead,
-we can now clean up all remaining gummiboot files.
+Since we replaced gummiboot with systemd-boot
+along with its tests, the gummiboot tests are
+no longer necessary.
 
 [YOCTO #10332]
 
 Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 ---
- meta/classes/gummiboot.bbclass                     | 121 ---------------------
- ...-C-syntax-errors-for-function-declaration.patch |  74 -------------
- .../gummiboot/gummiboot/fix-objcopy.patch          |  45 --------
- meta/recipes-bsp/gummiboot/gummiboot_git.bb        |  39 -------
- scripts/lib/wic/canned-wks/mkgummidisk.wks         |  11 --
- 5 files changed, 290 deletions(-)
- delete mode 100644 meta/classes/gummiboot.bbclass
- delete mode 100644 meta/recipes-bsp/gummiboot/gummiboot/0001-console-Fix-C-syntax-errors-for-function-declaration.patch
- delete mode 100644 meta/recipes-bsp/gummiboot/gummiboot/fix-objcopy.patch
- delete mode 100644 meta/recipes-bsp/gummiboot/gummiboot_git.bb
- delete mode 100644 scripts/lib/wic/canned-wks/mkgummidisk.wks
+ meta-yocto-bsp/lib/oeqa/selftest/gummiboot.py | 83 ---------------------------
+ 1 file changed, 83 deletions(-)
+ delete mode 100644 meta-yocto-bsp/lib/oeqa/selftest/gummiboot.py
 
-diff --git a/meta/classes/gummiboot.bbclass b/meta/classes/gummiboot.bbclass
+diff --git a/meta-yocto-bsp/lib/oeqa/selftest/gummiboot.py b/meta-yocto-bsp/lib/oeqa/selftest/gummiboot.py
 deleted file mode 100644
-index 4f2dea6..0000000
---- a/meta/classes/gummiboot.bbclass
+index 00aa36f..0000000
+--- a/meta-yocto-bsp/lib/oeqa/selftest/gummiboot.py
 +++ /dev/null
-@@ -1,121 +0,0 @@
--# Copyright (C) 2014 Intel Corporation
--#
--# Released under the MIT license (see COPYING.MIT)
+@@ -1,83 +0,0 @@
+-from oeqa.selftest.base import oeSelfTest
+-from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu
+-from oeqa.utils.decorators import testcase
+-import re
+-import os
+-import sys
+-import logging
 -
--# gummiboot.bbclass - equivalent of grub-efi.bbclass
--# Set EFI_PROVIDER = "gummiboot" to use gummiboot on your live images instead of grub-efi
--# (images built by image-live.bbclass or image-vm.bbclass)
 -
--do_bootimg[depends] += "${MLPREFIX}gummiboot:do_deploy"
--do_bootdirectdisk[depends] += "${MLPREFIX}gummiboot:do_deploy"
+-class Gummiboot(oeSelfTest):
 -
--EFIDIR = "/EFI/BOOT"
+-    def _common_setup(self):
+-        """
+-        Common setup for test cases: 1101, 1103
+-        """
 -
--GUMMIBOOT_CFG ?= "${S}/loader.conf"
--GUMMIBOOT_ENTRIES ?= ""
--GUMMIBOOT_TIMEOUT ?= "10"
+-        # Set EFI_PROVIDER = "gummiboot" and MACHINE = "genericx86-64" in conf/local.conf
+-        features = 'EFI_PROVIDER = "gummiboot"\n'
+-        features += 'MACHINE = "genericx86-64"'
+-        self.append_config(features)
 -
--# Need UUID utility code.
--inherit fs-uuid
+-    def _common_build(self):
+-        """
+-        Common build for test cases: 1101, 1103
+-        """
 -
--efi_populate() {
--        DEST=$1
+-        # Build a genericx86-64/efi gummiboot image
+-        bitbake('syslinux syslinux-native parted-native dosfstools-native mtools-native core-image-minimal')
 -
--        EFI_IMAGE="gummibootia32.efi"
--        DEST_EFI_IMAGE="bootia32.efi"
--        if [ "${TARGET_ARCH}" = "x86_64" ]; then
--            EFI_IMAGE="gummibootx64.efi"
--            DEST_EFI_IMAGE="bootx64.efi"
--        fi
 -
--        install -d ${DEST}${EFIDIR}
--        # gummiboot requires these paths for configuration files
--        # they are not customizable so no point in new vars
--        install -d ${DEST}/loader
--        install -d ${DEST}/loader/entries
--        install -m 0644 ${DEPLOY_DIR_IMAGE}/${EFI_IMAGE} ${DEST}${EFIDIR}/${DEST_EFI_IMAGE}
--        EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
--        printf 'fs0:%s\%s\n' "$EFIPATH" "$DEST_EFI_IMAGE" >${DEST}/startup.nsh
--        install -m 0644 ${GUMMIBOOT_CFG} ${DEST}/loader/loader.conf
--        for i in ${GUMMIBOOT_ENTRIES}; do
--            install -m 0644 ${i} ${DEST}/loader/entries
--        done
--}
+-    @testcase(1101)
+-    def test_efi_gummiboot_images_can_be_built(self):
+-        """
+-        Summary:     Check if efi/gummiboot images can be built
+-        Expected:    1. File gummibootx64.efi should be available in build/tmp/deploy/images/genericx86-64
+-                     2. Efi/gummiboot images can be built
+-        Product:     oe-core
+-        Author:      Ionut Chisanovici <ionutx.chisanovici@intel.com>
+-        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+-        """
 -
--efi_iso_populate() {
--        iso_dir=$1
--        efi_populate $iso_dir
--        mkdir -p ${EFIIMGDIR}/${EFIDIR}
--        cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
--        cp $iso_dir/vmlinuz ${EFIIMGDIR}
--        EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
--        echo "fs0:${EFIPATH}\\${DEST_EFI_IMAGE}" > ${EFIIMGDIR}/startup.nsh
--        if [ -f "$iso_dir/initrd" ] ; then
--            cp $iso_dir/initrd ${EFIIMGDIR}
--        fi
--}
+-        # We'd use DEPLOY_DIR_IMAGE here, except that we need its value for
+-        # MACHINE="genericx86-64 which is probably not the one configured
+-        gummibootfile = os.path.join(get_bb_var('DEPLOY_DIR'), 'images', 'genericx86-64', 'gummibootx64.efi')
 -
--efi_hddimg_populate() {
--        efi_populate $1
--}
+-        self._common_setup()
 -
--python build_efi_cfg() {
--    s = d.getVar("S", True)
--    labels = d.getVar('LABELS', True)
--    if not labels:
--        bb.debug(1, "LABELS not defined, nothing to do")
--        return
+-        # Ensure we're actually testing that this gets built and not that
+-        # it was around from an earlier build
+-        bitbake('-c cleansstate gummiboot')
+-        runCmd('rm -f %s' % gummibootfile)
 -
--    if labels == []:
--        bb.debug(1, "No labels, nothing to do")
--        return
+-        self._common_build()
 -
--    cfile = d.getVar('GUMMIBOOT_CFG', True)
--    try:
--         cfgfile = open(cfile, 'w')
--    except OSError:
--        bb.fatal('Unable to open %s' % cfile)
+-        found = os.path.isfile(gummibootfile)
+-        self.assertTrue(found, 'Gummiboot file %s not found' % gummibootfile)
 -
--    cfgfile.write('# Automatically created by OE\n')
--    cfgfile.write('default %s\n' % (labels.split()[0]))
--    timeout = d.getVar('GUMMIBOOT_TIMEOUT', True)
--    if timeout:
--        cfgfile.write('timeout %s\n' % timeout)
--    else:
--        cfgfile.write('timeout 10\n')
--    cfgfile.close()
+-    @testcase(1103)
+-    def test_wic_command_can_create_efi_gummiboot_installation_images(self):
+-        """
+-        Summary:     Check that wic command can create efi/gummiboot installation images
+-        Expected:    A .direct file in folder /var/tmp/wic/ must be created.
+-        Product:     oe-core
+-        Author:      Ionut Chisanovici <ionutx.chisanovici@intel.com>
+-        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+-        """
 -
--    for label in labels.split():
--        localdata = d.createCopy()
+-        self._common_setup()
+-        self._common_build()
 -
--        overrides = localdata.getVar('OVERRIDES', True)
--        if not overrides:
--            bb.fatal('OVERRIDES not defined')
+-        # Create efi/gummiboot installation images
+-        wic_create_cmd = 'wic create mkgummidisk -e core-image-minimal'
+-        result = runCmd(wic_create_cmd)
 -
--        entryfile = "%s/%s.conf" % (s, label)
--        d.appendVar("GUMMIBOOT_ENTRIES", " " + entryfile)
--        try:
--            entrycfg = open(entryfile, "w")
--        except OSError:
--            bb.fatal('Unable to open %s' % entryfile)
--        localdata.setVar('OVERRIDES', label + ':' + overrides)
--        bb.data.update_data(localdata)
--
--        entrycfg.write('title %s\n' % label)
--        entrycfg.write('linux /vmlinuz\n')
--
--        append = localdata.getVar('APPEND', True)
--        initrd = localdata.getVar('INITRD', True)
--
--        if initrd:
--            entrycfg.write('initrd /initrd\n')
--        lb = label
--        if label == "install":
--            lb = "install-efi"
--        entrycfg.write('options LABEL=%s ' % lb)
--        if append:
--            append = replace_rootfs_uuid(d, append)
--            entrycfg.write('%s' % append)
--        entrycfg.write('\n')
--        entrycfg.close()
--}
-diff --git a/meta/recipes-bsp/gummiboot/gummiboot/0001-console-Fix-C-syntax-errors-for-function-declaration.patch b/meta/recipes-bsp/gummiboot/gummiboot/0001-console-Fix-C-syntax-errors-for-function-declaration.patch
-deleted file mode 100644
-index fa50bc4..0000000
---- a/meta/recipes-bsp/gummiboot/gummiboot/0001-console-Fix-C-syntax-errors-for-function-declaration.patch
-+++ /dev/null
-@@ -1,74 +0,0 @@
--From 55957faf1272c8f5f304909faeebf647a78e3701 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 9 Sep 2015 07:19:45 +0000
--Subject: [PATCH] console: Fix C syntax errors for function declaration
--
--To address this, the semicolons after the function parameters should be
--replaced by commas, and the last one should be omitted
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Pending
--
-- src/efi/console.c | 26 +++++++++++++-------------
-- 1 file changed, 13 insertions(+), 13 deletions(-)
--
--diff --git a/src/efi/console.c b/src/efi/console.c
--index 6206c80..66aa88f 100644
----- a/src/efi/console.c
--+++ b/src/efi/console.c
--@@ -27,8 +27,8 @@
-- struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL;
-- 
-- typedef EFI_STATUS (EFIAPI *EFI_INPUT_RESET_EX)(
---        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This;
---        BOOLEAN ExtendedVerification;
--+        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This,
--+        BOOLEAN ExtendedVerification
-- );
-- 
-- typedef UINT8 EFI_KEY_TOGGLE_STATE;
--@@ -44,29 +44,29 @@ typedef struct {
-- } EFI_KEY_DATA;
-- 
-- typedef EFI_STATUS (EFIAPI *EFI_INPUT_READ_KEY_EX)(
---        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This;
---        EFI_KEY_DATA *KeyData;
--+        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This,
--+        EFI_KEY_DATA *KeyData
-- );
-- 
-- typedef EFI_STATUS (EFIAPI *EFI_SET_STATE)(
---        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This;
---        EFI_KEY_TOGGLE_STATE *KeyToggleState;
--+        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This,
--+        EFI_KEY_TOGGLE_STATE *KeyToggleState
-- );
-- 
-- typedef EFI_STATUS (EFIAPI *EFI_KEY_NOTIFY_FUNCTION)(
---        EFI_KEY_DATA *KeyData;
--+        EFI_KEY_DATA *KeyData
-- );
-- 
-- typedef EFI_STATUS (EFIAPI *EFI_REGISTER_KEYSTROKE_NOTIFY)(
---        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This;
---        EFI_KEY_DATA KeyData;
---        EFI_KEY_NOTIFY_FUNCTION KeyNotificationFunction;
---        VOID **NotifyHandle;
--+        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This,
--+        EFI_KEY_DATA KeyData,
--+        EFI_KEY_NOTIFY_FUNCTION KeyNotificationFunction,
--+        VOID **NotifyHandle
-- );
-- 
-- typedef EFI_STATUS (EFIAPI *EFI_UNREGISTER_KEYSTROKE_NOTIFY)(
---        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This;
---        VOID *NotificationHandle;
--+        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This,
--+        VOID *NotificationHandle
-- );
-- 
-- typedef struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL {
---- 
--2.5.1
--
-diff --git a/meta/recipes-bsp/gummiboot/gummiboot/fix-objcopy.patch b/meta/recipes-bsp/gummiboot/gummiboot/fix-objcopy.patch
-deleted file mode 100644
-index 49f5593..0000000
---- a/meta/recipes-bsp/gummiboot/gummiboot/fix-objcopy.patch
-+++ /dev/null
-@@ -1,45 +0,0 @@
--From 0f7f9e3bb1d0e1b93f3ad8a1d5d7bdd3fbf27494 Mon Sep 17 00:00:00 2001
--From: Robert Yang <liezhi.yang@windriver.com>
--Date: Thu, 27 Mar 2014 07:20:33 +0000
--Subject: [PATCH] Makefile.am: use objcopy from the env
--
--It uses the "objcopy" directly, which is not suitable for cross compile.
--
--Upstream-Status: Pending
--
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-----
-- Makefile.am | 4 +++-
-- 1 file changed, 3 insertions(+), 1 deletion(-)
--
--Index: git/Makefile.am
--===================================================================
----- git.orig/Makefile.am
--+++ git/Makefile.am
--@@ -19,6 +19,8 @@
-- ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
-- AM_MAKEFLAGS = --no-print-directory
-- 
--+OBJCOPY ?= objcopy
--+
-- gummibootlibdir = $(prefix)/lib/gummiboot
-- 
-- AM_CPPFLAGS = -include config.h
--@@ -148,7 +150,7 @@ $(gummiboot_solib): $(gummiboot_objects)
-- .DELETE_ON_ERROR: $(gummboot_solib)
-- 
-- $(gummiboot): $(gummiboot_solib)
---	$(AM_V_GEN) objcopy -j .text -j .sdata -j .data -j .dynamic \
--+	$(AM_V_GEN) $(OBJCOPY) -j .text -j .sdata -j .data -j .dynamic \
-- 	  -j .dynsym -j .rel -j .rela -j .reloc \
-- 	  --target=efi-app-$(ARCH) $< $@
-- 
--@@ -183,7 +185,7 @@ $(stub_solib): $(stub_objects)
-- .DELETE_ON_ERROR: $(gummboot_solib)
-- 
-- $(stub): $(stub_solib)
---	$(AM_V_GEN) objcopy -j .text -j .sdata -j .data -j .dynamic \
--+	$(AM_V_GEN) $(OBJCOPY) -j .text -j .sdata -j .data -j .dynamic \
-- 	  -j .dynsym -j .rel -j .rela -j .reloc \
-- 	  --target=efi-app-$(ARCH) $< $@
-- 
-diff --git a/meta/recipes-bsp/gummiboot/gummiboot_git.bb b/meta/recipes-bsp/gummiboot/gummiboot_git.bb
-deleted file mode 100644
-index c684b83..0000000
---- a/meta/recipes-bsp/gummiboot/gummiboot_git.bb
-+++ /dev/null
-@@ -1,39 +0,0 @@
--SUMMARY = "Gummiboot is a simple UEFI boot manager which executes configured EFI images."
--HOMEPAGE = "http://freedesktop.org/wiki/Software/gummiboot"
--
--LICENSE = "LGPLv2.1"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=4fbd65380cdd255951079008b364516c"
--
--DEPENDS = "gnu-efi util-linux"
--
--inherit autotools pkgconfig manpages
--inherit deploy
--
--PV = "48+git${SRCPV}"
--SRCREV = "2bcd919c681c952eb867ef1bdb458f1bc49c2d55"
--SRC_URI = "git://anongit.freedesktop.org/gummiboot \
--           file://fix-objcopy.patch \
--           file://0001-console-Fix-C-syntax-errors-for-function-declaration.patch \
--          "
--
--PACKAGECONFIG[manpages] = "--enable-manpages, --disable-manpages, libxslt-native xmlto-native"
--
--# Note: Add COMPATIBLE_HOST here is only because it depends on gnu-efi
--# which has set the COMPATIBLE_HOST, the gummiboot itself may work on
--# more hosts.
--COMPATIBLE_HOST = "(x86_64.*|i.86.*)-linux"
--
--S = "${WORKDIR}/git"
--
--EXTRA_OECONF = "--with-efi-includedir=${STAGING_INCDIR} \
--                --with-efi-ldsdir=${STAGING_LIBDIR} \
--                --with-efi-libdir=${STAGING_LIBDIR}"
--
--EXTRA_OEMAKE += "gummibootlibdir=${libdir}/gummiboot"
--
--TUNE_CCARGS_remove = "-mfpmath=sse"
--
--do_deploy () {
--        install ${B}/gummiboot*.efi ${DEPLOYDIR}
--}
--addtask deploy before do_build after do_compile
-diff --git a/scripts/lib/wic/canned-wks/mkgummidisk.wks b/scripts/lib/wic/canned-wks/mkgummidisk.wks
-deleted file mode 100644
-index f3ae090..0000000
---- a/scripts/lib/wic/canned-wks/mkgummidisk.wks
-+++ /dev/null
-@@ -1,11 +0,0 @@
--# short-description: Create an EFI disk image
--# long-description: Creates a partitioned EFI disk image that the user
--# can directly dd to boot media.
--
--part /boot --source bootimg-efi --sourceparams="loader=gummiboot" --ondisk sda --label msdos --active --align 1024
--
--part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
--
--part swap --ondisk sda --size 44 --label swap1 --fstype=swap
--
--bootloader --ptable gpt --timeout=5  --append="rootwait rootfstype=ext4 console=ttyS0,115200 console=tty0"
+-        # Find file written by wic from output
+-        res = re.search('(/var/tmp/wic/.*\.direct)', result.output)
+-        if res:
+-            direct_file = res.group(1)
+-            # Check it actually exists
+-            if not os.path.exists(direct_file):
+-                self.fail('wic reported direct file "%s" does not exist; wic output:\n%s' % (direct_file, result.output))
+-        else:
+-            self.fail('No .direct file reported in wic output:\n%s' % result.output)
 -- 
 2.10.1
 
