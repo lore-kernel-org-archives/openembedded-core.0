@@ -1,26 +1,28 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D7010772CF
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C160773EA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2016 06:34:48 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uBL6Yovh002176
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 21 Dec 2016 07:00:46 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uBL70lDX009138
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 22:34:50 -0800 (PST)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 20 Dec 2016 22:34:49 -0800
-From: <kai.kang@windriver.com>
+	Tue, 20 Dec 2016 23:00:48 -0800
+Received: from [128.224.163.136] (128.224.163.136) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Tue, 20 Dec 2016 23:00:46 -0800
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Dec 2016 14:32:41 +0800
-Message-ID: <a98703a19e21390fa241869318237cd2b57fe874.1482301919.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.10.1
-In-Reply-To: <cover.1482301919.git.kai.kang@windriver.com>
-References: <cover.1482301919.git.kai.kang@windriver.com>
+References: <1480413407-22659-1-git-send-email-zhe.he@windriver.com>
+From: He Zhe <zhe.he@windriver.com>
+Message-ID: <88c4f824-4fdf-b6bc-3c16-07d1bcbf8fd1@windriver.com>
+Date: Wed, 21 Dec 2016 15:01:14 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.5.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] bootchart2-native: correct python3 path
+In-Reply-To: <1480413407-22659-1-git-send-email-zhe.he@windriver.com>
+X-Originating-IP: [128.224.163.136]
+Subject: Re: [PATCH] qemu: Fix pci-assign
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +35,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2016 06:34:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 21 Dec 2016 07:00:47 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-From: Kai Kang <kai.kang@windriver.com>
+Ping.
 
-Correct python3 path in script pybootchartgui from bootchart2-native.
+Zhe
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb | 4 ++++
- 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb b/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb
-index 4f01734..dfd3c09 100644
---- a/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb
-+++ b/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb
-@@ -137,6 +137,10 @@ do_install () {
-    sed -i -e '1s,#!.*python.*,#!${bindir}/python3,' ${D}${bindir}/pybootchartgui
- }
- 
-+do_install_append_class-native () {
-+    sed -i '1s,#!.*,#!${PYTHON},' ${D}${bindir}/pybootchartgui
-+}
-+
- PACKAGES =+ "pybootchartgui"
- FILES_pybootchartgui += "${PYTHON_SITEPACKAGES_DIR}/pybootchartgui ${bindir}/pybootchartgui"
- RDEPENDS_pybootchartgui = "python3-pycairo python3-compression python3-image python3-textutils python3-shell python3-compression python3-codecs"
--- 
-2.10.1
+On 11/29/2016 05:56 PM, zhe.he@windriver.com wrote:
+> From: He Zhe <zhe.he@windriver.com>
+>
+> Fix iommu pci device assignment failure.
+>
+> "qemu-system-x86_64: -device pci-assign,host=02:00.0: No IOMMU found.
+> Unable to assign device "(null)""
+>
+> Signed-off-by: He Zhe <zhe.he@windriver.com>
+> ---
+>  ...sync-MSI-MSI-X-cap-and-table-with-PCIDevi.patch | 71 ++++++++++++++++++++++
+>  meta/recipes-devtools/qemu/qemu_2.7.0.bb           |  1 +
+>  2 files changed, 72 insertions(+)
+>  create mode 100644 meta/recipes-devtools/qemu/qemu/0001-pci-assign-sync-MSI-MSI-X-cap-and-table-with-PCIDevi.patch
+>
+> diff --git a/meta/recipes-devtools/qemu/qemu/0001-pci-assign-sync-MSI-MSI-X-cap-and-table-with-PCIDevi.patch b/meta/recipes-devtools/qemu/qemu/0001-pci-assign-sync-MSI-MSI-X-cap-and-table-with-PCIDevi.patch
+> new file mode 100644
+> index 0000000..03472dd
+> --- /dev/null
+> +++ b/meta/recipes-devtools/qemu/qemu/0001-pci-assign-sync-MSI-MSI-X-cap-and-table-with-PCIDevi.patch
+> @@ -0,0 +1,71 @@
+> +From 6baa545df93253fced4fc0d52b14b98447e00473 Mon Sep 17 00:00:00 2001
+> +From: Peter Xu <peterx@redhat.com>
+> +Date: Mon, 28 Nov 2016 15:02:44 +0800
+> +Subject: [PATCH] pci-assign: sync MSI/MSI-X cap and table with PCIDevice
+> +
+> +Since commit e1d4fb2d ("kvm-irqchip: x86: add msi route notify fn"),
+> +kvm_irqchip_add_msi_route() starts to use pci_get_msi_message() to fetch
+> +MSI info. This requires that we setup MSI related fields in PCIDevice.
+> +For most devices, that won't be a problem, as long as we are using
+> +general interfaces like msi_init()/msix_init().
+> +
+> +However, for pci-assign devices, MSI/MSI-X is treated differently - PCI
+> +assign devices are maintaining its own MSI table and cap information in
+> +AssignedDevice struct. however that's not synced up with PCIDevice's
+> +fields. That will leads to pci_get_msi_message() failed to find correct
+> +MSI capability, even with an NULL msix_table.
+> +
+> +A quick fix is to sync up the two places: both the capability bits and
+> +table address for MSI/MSI-X.
+> +
+> +Upstream-Status: Backport [https://lists.gnu.org/archive/html/qemu-devel/2016-11/msg04649.html]
+> +
+> +Reported-by: Changlimin <address@hidden>
+> +Tested-by: Changlimin <address@hidden>
+> +Cc: address@hidden
+> +Fixes: e1d4fb2d ("kvm-irqchip: x86: add msi route notify fn")
+> +Signed-off-by: Peter Xu <address@hidden>
+> +Signed-off-by: He Zhe <zhe.he@windriver.com>
+> +---
+> + hw/i386/kvm/pci-assign.c | 4 ++++
+> + 1 file changed, 4 insertions(+)
+> +
+> +diff --git a/hw/i386/kvm/pci-assign.c b/hw/i386/kvm/pci-assign.c
+> +index 8238fbc..87dcbdd 100644
+> +--- a/hw/i386/kvm/pci-assign.c
+> ++++ b/hw/i386/kvm/pci-assign.c
+> +@@ -1251,6 +1251,7 @@ static int assigned_device_pci_cap_init(PCIDevice *pci_dev, Error **errp)
+> +             error_propagate(errp, local_err);
+> +             return -ENOTSUP;
+> +         }
+> ++        dev->dev.cap_present |= QEMU_PCI_CAP_MSI;
+> +         dev->cap.available |= ASSIGNED_DEVICE_CAP_MSI;
+> +         /* Only 32-bit/no-mask currently supported */
+> +         ret = pci_add_capability2(pci_dev, PCI_CAP_ID_MSI, pos, 10,
+> +@@ -1285,6 +1286,7 @@ static int assigned_device_pci_cap_init(PCIDevice *pci_dev, Error **errp)
+> +             error_propagate(errp, local_err);
+> +             return -ENOTSUP;
+> +         }
+> ++        dev->dev.cap_present |= QEMU_PCI_CAP_MSIX;
+> +         dev->cap.available |= ASSIGNED_DEVICE_CAP_MSIX;
+> +         ret = pci_add_capability2(pci_dev, PCI_CAP_ID_MSIX, pos, 12,
+> +                                   &local_err);
+> +@@ -1648,6 +1650,7 @@ static void assigned_dev_register_msix_mmio(AssignedDevice *dev, Error **errp)
+> +         dev->msix_table = NULL;
+> +         return;
+> +     }
+> ++    dev->dev.msix_table = (uint8_t *)dev->msix_table;
+> + 
+> +     assigned_dev_msix_reset(dev);
+> + 
+> +@@ -1665,6 +1668,7 @@ static void assigned_dev_unregister_msix_mmio(AssignedDevice *dev)
+> +         error_report("error unmapping msix_table! %s", strerror(errno));
+> +     }
+> +     dev->msix_table = NULL;
+> ++    dev->dev.msix_table = NULL;
+> + }
+> + 
+> + static const VMStateDescription vmstate_assigned_device = {
+> +-- 
+> +2.8.3
+> +
+> diff --git a/meta/recipes-devtools/qemu/qemu_2.7.0.bb b/meta/recipes-devtools/qemu/qemu_2.7.0.bb
+> index cef181d..9da5134 100644
+> --- a/meta/recipes-devtools/qemu/qemu_2.7.0.bb
+> +++ b/meta/recipes-devtools/qemu/qemu_2.7.0.bb
+> @@ -13,6 +13,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+>              file://0002-fix-CVE-2016-7423.patch \
+>              file://0003-fix-CVE-2016-7908.patch \
+>              file://0004-fix-CVE-2016-7909.patch \
+> +            file://0001-pci-assign-sync-MSI-MSI-X-cap-and-table-with-PCIDevi.patch \
+>  "
+>  
+>  SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
 
 
