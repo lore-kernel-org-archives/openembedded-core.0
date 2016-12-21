@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C78360721
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 33A107391A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2016 12:16:03 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga105.jf.intel.com with ESMTP; 21 Dec 2016 04:16:04 -0800
+	Wed, 21 Dec 2016 12:21:27 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 21 Dec 2016 04:21:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,383,1477983600"; d="scan'208";a="914778538"
+X-IronPort-AV: E=Sophos;i="5.33,383,1477983600"; d="scan'208";a="1074806956"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
 	([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 21 Dec 2016 04:16:04 -0800
+	by orsmga001.jf.intel.com with ESMTP; 21 Dec 2016 04:21:27 -0800
 To: openembedded-core@lists.openembedded.org
-References: <20161221070238.8554-1-raj.khem@gmail.com>
+References: <1482314183-15786-1-git-send-email-zhe.he@windriver.com>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <0e2947f3-9729-a463-3bb8-a11062749ac2@linux.intel.com>
-Date: Wed, 21 Dec 2016 14:16:06 +0200
+Message-ID: <55a581fd-5a9b-0b97-cd2e-630798e44ab8@linux.intel.com>
+Date: Wed, 21 Dec 2016 14:21:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Icedove/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <20161221070238.8554-1-raj.khem@gmail.com>
-Subject: Re: [PATCH] gstreamer: Upgrade to 1.10.2
+In-Reply-To: <1482314183-15786-1-git-send-email-zhe.he@windriver.com>
+Subject: Re: [PATCH] kexec-tools: Update to 2.0.14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,16 +32,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2016 12:16:04 -0000
+X-List-Received-Date: Wed, 21 Dec 2016 12:21:28 -0000
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/21/2016 09:02 AM, Khem Raj wrote:
->  .../gstreamer/gstreamer1.0-omx_1.10.2.bb           | 10 +++++++
+On 12/21/2016 11:56 AM, zhe.he@windriver.com wrote:
+> Remove kexec-aarch64.patch since it has been merged upstream
+> Remove kexec-x32.patch since it has been reverted upstream
 
-You should remove the file with previous version, so it becomes a file 
-rename like the others.
+You should also remove the actual files, not just drop them from the recipe.
+
+> Backport patches for kdump arm64 from:
+> https://git.linaro.org/people/takahiro.akashi/kexec-tools.git
+
+If the patches are coming from a different repository, they are not a 
+backport. Change the upstream-status to 'pending' please, or 'submitted 
+(link)' if they have been submitted upstream.
+
+>  meta/recipes-kernel/kexec/kexec-tools_2.0.12.bb    |  37 ----
+>  meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb    |  44 +++++
+
+Please use git's rename detection when submitting patches, so we can see 
+what is the difference between the two files.
+
 
 Alex
-
 
