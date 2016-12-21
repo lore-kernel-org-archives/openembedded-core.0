@@ -1,59 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id B173471E15
+Received: from mail-pg0-f41.google.com (mail-pg0-f41.google.com [74.125.83.41])
+	by mail.openembedded.org (Postfix) with ESMTP id C155771E15
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2016 01:38:43 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id b1so14193678pgc.1
+	Wed, 21 Dec 2016 01:41:32 +0000 (UTC)
+Received: by mail-pg0-f41.google.com with SMTP id f188so79078870pgc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 17:38:45 -0800 (PST)
+	Tue, 20 Dec 2016 17:41:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:references:cc:from:message-id:date:user-agent
 	:mime-version:in-reply-to;
-	bh=15UkST3q/3kJbwIBIDcdNxDWZydMtckAzVJ7STqiasc=;
-	b=cgCxps1o+i/IUUWUW+ZOssWHZRVdGE6WPYUAjKKly9dnOLlYidkivq7s2ogK0e8uzn
-	FYRx8iSsATW5ZEtxuHA+qUJDcjdKZDYwcOU7DbZy7joF+5sZQtQ2IqJeHtofeceT6hO2
-	c9N6IqLHVWzv4Kwsyym2nB9GY4fAklPCFyHieyrj0fZezeonS75fqrh68vGwSnGe37wR
-	7ZP/gGeMRe8dgcMhYjfzPWnhRO4Yb1BNUNOPIxwhzVezjSwIEs9cIQjrw3vs78/05Ye+
-	7h9DT9ijyFNup2d+eDQYxrl2j/4a9Mp39e648bTQ693LjdvBZQNYTAC6fMcfixh1s2E4
-	dd+w==
+	bh=Ke9MBBbA42ExpuYRE3cbIR1+6l7ma+4tJml7qL2QFmw=;
+	b=dbwPM0/AkwZE6j+TaNg0MMolpLh3UJCGyBUvnHAZVVhEQ6QMSRkorp0C6X8wZOplcO
+	TEC2rlsQhY7hofj4Vs40ZvDWVAkvhaXfWg6vgzexTiTt2whXLVyesuo+ZNjfHOdIQZ9A
+	mvxBtPLk7qXhCLEzz0PjayU0dXltCAPYPR1wGZidSLbk2uVwV5eh2DcCZ//fqFZXb16s
+	abIQpPfAQgQjkuX6pQ/DT2czMgex1N7CbNZu2RTuokh8b88i6/n937mJv7VDXWXMi+ho
+	Fm5jeYSMLUP6BFi4ZmO2a8NgNfbCozGLpaUlXtRypBGzGF3mYWl/znBKKLvZiazHqXje
+	lw3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
 	:user-agent:mime-version:in-reply-to;
-	bh=15UkST3q/3kJbwIBIDcdNxDWZydMtckAzVJ7STqiasc=;
-	b=oE9WVLCNhxs5ZRHvM6UNaZZltr9yY3hAz6PkYrEJRg7YmLx3+6lT1R5/ziTgeu4Cwe
-	LlOAbRrA51PJ3v2iZI61Qg1hPdaCtTiniX66l6Xu/BLdUH/JQXP5CMqeWoe2hT6JnoPR
-	f2hHSeHrYDMj5LsFvHV3V1o+9GndjQIRZuqdS5eii2tX5ZweT6ndHv6mO8aZLqGaI8J4
-	uxzKHUlrH0UMdxyG8JFkqTpEhxn4ciWaWJ0uW0QC+N4ztyr9VLxPb5suI9Fx9P1vKDWC
-	WwSpKt2v0fN6JRRzKDkwFKgAz6oQ7pqRyj/tBIgsI6CPLbRkqruLaF3QQ1uxgKlgCobr
-	v0ag==
-X-Gm-Message-State: AIkVDXJAKPH+kKvJij2vWbl50uF7iSQjn5XpTs+o782fhiKbRIZ3r/P269OsXBoE+j8iqg==
-X-Received: by 10.99.113.23 with SMTP id m23mr3483519pgc.115.1482284324994;
-	Tue, 20 Dec 2016 17:38:44 -0800 (PST)
+	bh=Ke9MBBbA42ExpuYRE3cbIR1+6l7ma+4tJml7qL2QFmw=;
+	b=IP0pvHUwmPc3fiVGNY0zHPUpFABpEq675a1/uUBanXWj8ABoAWSuTiJ5MiekZj3Xd3
+	cyfctkvNXZ3PjiJSsj503FY5iZ0iLggB8G9HeW3YUQccLwMZjJxQ//ESlnsfU3Fcz4/O
+	eAGghfsWYVHeAnOkEvoKo02ObxYudFqDCIRyPpBzxTHLPtn5Lr6z3owwGApEF8Ii8KJU
+	HDVxWIQB9xkD7Pk3mm0369rJMDEc5/Q4av22z6vqoBuH6X+luXfvOmWM81KdklYZUnkp
+	+CgQAyEZEBZKSx0vs1aeZym97nuf6ZEfiaqkdDF3cygBiL7i+ySA4JX/0t/fKi3URBzN
+	17fg==
+X-Gm-Message-State: AIkVDXLoVJr81X1DGS8PtHIFMauvs+fR7OJ3mtyBmexyLKxQVUWo/KcqO271SmiQNzMycg==
+X-Received: by 10.99.158.18 with SMTP id s18mr3590003pgd.88.1482284493965;
+	Tue, 20 Dec 2016 17:41:33 -0800 (PST)
 Received: from [10.22.11.123] (50-233-148-156-static.hfc.comcastbusiness.net.
 	[50.233.148.156]) by smtp.gmail.com with ESMTPSA id
-	l11sm41851623pfb.28.2016.12.20.17.38.44
+	x4sm42188061pgc.14.2016.12.20.17.41.33
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 20 Dec 2016 17:38:44 -0800 (PST)
-To: "Ahsan, Noor" <Noor_Ahsan@mentor.com>,
-	"Burton, Ross" <ross.burton@intel.com>
-References: <1481548821-15878-1-git-send-email-andrej.valek@siemens.com>
-	<1481548821-15878-2-git-send-email-andrej.valek@siemens.com>
-	<c5a2e55512d944e0855c7dd2658ad256@svr-ies-mbx-01.mgc.mentorg.com>
-	<CAJTo0LbAgwJbNpiONVMP_udObfJMBhCs5SPS7so+073MjtYKTA@mail.gmail.com>
-	<0e43b6ba2a2f48a4aac664939ffd027a@svr-ies-mbx-01.mgc.mentorg.com>
+	Tue, 20 Dec 2016 17:41:33 -0800 (PST)
+To: "Burton, Ross" <ross.burton@intel.com>,
+	Robert Yang <liezhi.yang@windriver.com>
+References: <cover.1481700149.git.liezhi.yang@windriver.com>
+	<CAJTo0LbWYxOFm578U4c=c=Dy0ChF-VehMk3pUB3kAT-puCntFA@mail.gmail.com>
 From: akuster808 <akuster808@gmail.com>
-Message-ID: <7eba88c9-3e79-c5f7-ab5d-a76f0f73564d@gmail.com>
-Date: Tue, 20 Dec 2016 17:38:43 -0800
+Message-ID: <15e9ceff-a480-1cb4-1375-58cbbb2258d1@gmail.com>
+Date: Tue, 20 Dec 2016 17:41:32 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.5.1
 MIME-Version: 1.0
-In-Reply-To: <0e43b6ba2a2f48a4aac664939ffd027a@svr-ies-mbx-01.mgc.mentorg.com>
-Cc: Andrej Valek <andrej.valek@siemens.com>, "Larson,
-	Chris" <Chris_Larson@mentor.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] libxml2: fix CVE-2016-4658 Disallow namespace nodes in XPointer points and ranges
+In-Reply-To: <CAJTo0LbWYxOFm578U4c=c=Dy0ChF-VehMk3pUB3kAT-puCntFA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 0/8] Fixes for eSDK and testsdkext
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,53 +60,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2016 01:38:43 -0000
+X-List-Received-Date: Wed, 21 Dec 2016 01:41:34 -0000
 Content-Type: multipart/alternative;
-	boundary="------------C6AD1354B4F46F15354BCB33"
+	boundary="------------AA3BAF8766794985406752A1"
 
---------------C6AD1354B4F46F15354BCB33
+--------------AA3BAF8766794985406752A1
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 12/20/2016 01:06 AM, Ahsan, Noor wrote:
->
-> Armin Kuster,
->
-> Can you merge this on morty branch?
->
+On 12/20/2016 07:41 AM, Burton, Ross wrote:
+> This doesn't apply to master since Josh's getVar() changes landed, can 
+> you please rebase?
 
-yep. its sitting in my stagging.
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=akuster/morty-next&id=ef5b3d9a69b6a807abb6b3e997128d484728e9ed
-
--armin
-
-> Noor
->
-> *From:*Burton, Ross [mailto:ross.burton@intel.com]
-> *Sent:* Friday, December 16, 2016 12:33 AM
-> *To:* Ahsan, Noor <Noor_Ahsan@mentor.com>
-> *Cc:* Andrej Valek <andrej.valek@siemens.com>; 
-> openembedded-core@lists.openembedded.org
-> *Subject:* Re: [OE-core] [PATCH 2/3] libxml2: fix CVE-2016-4658 
-> Disallow namespace nodes in XPointer points and ranges
->
-> On 15 December 2016 at 19:05, Ahsan, Noor <Noor_Ahsan@mentor.com 
-> <mailto:Noor_Ahsan@mentor.com>> wrote:
->
->     Can we merge this on morty branch as well?
->
->
-> Yes, if you ping the morty maintainer.
+Would this appropriate for Morty in its current version?
+- Armin
 >
 > Ross
 >
+> On 14 December 2016 at 07:24, Robert Yang <liezhi.yang@windriver.com 
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>     * V2
+>       1) Fix Paul's comments:
+>          - Drop "don't reset when the test is failed"
+>          - Update bug id for "oe-publish-sdk: add pyshtables.py to
+>     .gitignore"
+>          - Split "install multilib targets as populate_sdk does" into
+>     2 commits:
+>            "break the long lines"
+>            "install multilib SDKs"
+>       2) Use shorter subject lines
+>
+>     * V1
+>       Initial version
+>
+>     // Robert
+>
+>     The following changes since commit
+>     4e412234c37efec42b3962c11d44903c0c58c92e:
+>
+>       libpcap: Disable exposed bits of WinPCAP remote capture support
+>     (2016-12-13 22:47:35 +0000)
+>
+>     are available in the git repository at:
+>
+>       git://git.openembedded.org/openembedded-core-contrib
+>     <http://git.openembedded.org/openembedded-core-contrib> rbt/eSDK
+>     http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/eSDK
+>     <http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/eSDK>
+>
+>     Robert Yang (8):
+>       populate_sdk_ext.bbclass: break the long lines
+>       populate_sdk_ext.bbclass: install multilib SDKs
+>       oeqa/sdkext/devtool.py: remove sources before run test cases
+>       oe-publish-sdk: make cmd easier to read
+>       oe-publish-sdk: add pyshtables.py to .gitignore
+>       oeqa/oetest.py: add hasLockedSig()
+>       oeqa/sdkext/devtool.py: skip a testcase when no libxml2
+>       oe/copy_buildsystem.py: add SDK_LAYERS_EXCLUDE_PATTERN
+>
+>      meta/classes/populate_sdk_ext.bbclass | 63
+>     ++++++++++++++++++++++++-----------
+>      meta/lib/oe/copy_buildsystem.py       | 18 ++++++++++
+>      meta/lib/oeqa/oetest.py               | 13 ++++++++
+>      meta/lib/oeqa/sdkext/devtool.py       |  8 ++++-
+>      scripts/oe-publish-sdk                | 19 +++++++++--
+>      5 files changed, 98 insertions(+), 23 deletions(-)
+>
+>     --
+>     2.10.2
+>
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+>
+>
 >
 >
 
 
---------------C6AD1354B4F46F15354BCB33
+--------------AA3BAF8766794985406752A1
 Content-Type: text/html; charset=windows-1252
 Content-Transfer-Encoding: 8bit
 
@@ -125,124 +158,97 @@ Content-Transfer-Encoding: 8bit
     <p><br>
     </p>
     <br>
-    <div class="moz-cite-prefix">On 12/20/2016 01:06 AM, Ahsan, Noor
+    <div class="moz-cite-prefix">On 12/20/2016 07:41 AM, Burton, Ross
       wrote:<br>
     </div>
     <blockquote
-cite="mid:0e43b6ba2a2f48a4aac664939ffd027a@svr-ies-mbx-01.mgc.mentorg.com"
+cite="mid:CAJTo0LbWYxOFm578U4c=c=Dy0ChF-VehMk3pUB3kAT-puCntFA@mail.gmail.com"
       type="cite">
-      <meta http-equiv="Content-Type" content="text/html;
-        charset=windows-1252">
-      <meta name="Generator" content="Microsoft Word 15 (filtered
-        medium)">
-      <style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:12.0pt;
-	font-family:"Times New Roman",serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-reply;
-	font-family:"Calibri",sans-serif;
-	color:#1F497D;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext="edit" spidmax="1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext="edit">
-<o:idmap v:ext="edit" data="1" />
-</o:shapelayout></xml><![endif]-->
-      <div class="WordSection1">
-        <p class="MsoNormal"><span
-style="font-size:9.5pt;font-family:&quot;Arial&quot;,sans-serif;color:black;background:#F9F9F9">Armin
-            Kuster,<o:p></o:p></span></p>
-        <p class="MsoNormal"><span
-style="font-size:9.5pt;font-family:&quot;Arial&quot;,sans-serif;color:black;background:#F9F9F9"><o:p> </o:p></span></p>
-        <p class="MsoNormal"><span
-style="font-size:9.5pt;font-family:&quot;Arial&quot;,sans-serif;color:black;background:#F9F9F9">Can
-            you merge this on morty branch?</span></p>
-      </div>
+      <div dir="ltr">This doesn't apply to master since Josh's getVar()
+        changes landed, can you please rebase?</div>
     </blockquote>
     <br>
-    yep. its sitting in my stagging.<br>
-<a class="moz-txt-link-freetext" href="http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=akuster/morty-next&amp;id=ef5b3d9a69b6a807abb6b3e997128d484728e9ed">http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=akuster/morty-next&amp;id=ef5b3d9a69b6a807abb6b3e997128d484728e9ed</a><br>
-    <br>
-    -armin<br>
-    <br>
+    Would this appropriate for Morty in its current version?<br>
+    - Armin<br>
     <blockquote
-cite="mid:0e43b6ba2a2f48a4aac664939ffd027a@svr-ies-mbx-01.mgc.mentorg.com"
+cite="mid:CAJTo0LbWYxOFm578U4c=c=Dy0ChF-VehMk3pUB3kAT-puCntFA@mail.gmail.com"
       type="cite">
-      <div class="WordSection1">
-        <p class="MsoNormal"><span
-style="font-size:9.5pt;font-family:&quot;Arial&quot;,sans-serif;color:black;background:#F9F9F9"><o:p></o:p></span></p>
-        <p class="MsoNormal"><a moz-do-not-send="true"
-            name="_MailEndCompose"><span
-style="font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif;color:#1F497D"><o:p> </o:p></span></a></p>
-        <p class="MsoNormal"><span
-style="font-size:9.5pt;font-family:&quot;Arial&quot;,sans-serif;color:black;background:#F9F9F9">Noor<o:p></o:p></span></p>
-        <p class="MsoNormal"><b><span
-              style="font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif">From:</span></b><span
-style="font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif">
-            Burton, Ross [<a class="moz-txt-link-freetext" href="mailto:ross.burton@intel.com">mailto:ross.burton@intel.com</a>]
-            <br>
-            <b>Sent:</b> Friday, December 16, 2016 12:33 AM<br>
-            <b>To:</b> Ahsan, Noor <a class="moz-txt-link-rfc2396E" href="mailto:Noor_Ahsan@mentor.com">&lt;Noor_Ahsan@mentor.com&gt;</a><br>
-            <b>Cc:</b> Andrej Valek <a class="moz-txt-link-rfc2396E" href="mailto:andrej.valek@siemens.com">&lt;andrej.valek@siemens.com&gt;</a>;
-            <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core@lists.openembedded.org">openembedded-core@lists.openembedded.org</a><br>
-            <b>Subject:</b> Re: [OE-core] [PATCH 2/3] libxml2: fix
-            CVE-2016-4658 Disallow namespace nodes in XPointer points
-            and ranges<o:p></o:p></span></p>
-        <p class="MsoNormal"><o:p> </o:p></p>
-        <div>
-          <div>
-            <p class="MsoNormal"><o:p> </o:p></p>
-            <div>
-              <p class="MsoNormal">On 15 December 2016 at 19:05, Ahsan,
-                Noor &lt;<a moz-do-not-send="true"
-                  href="mailto:Noor_Ahsan@mentor.com" target="_blank">Noor_Ahsan@mentor.com</a>&gt;
-                wrote:<o:p></o:p></p>
-              <blockquote style="border:none;border-left:solid #CCCCCC
-                1.0pt;padding:0in 0in 0in
-                6.0pt;margin-left:4.8pt;margin-right:0in">
-                <div id=":8gv">
-                  <p class="MsoNormal">Can we merge this on morty branch
-                    as well?<o:p></o:p></p>
-                </div>
-              </blockquote>
-            </div>
-            <p class="MsoNormal"><br>
-              Yes, if you ping the morty maintainer.<o:p></o:p></p>
-          </div>
-          <div>
-            <p class="MsoNormal"><o:p> </o:p></p>
-          </div>
-          <div>
-            <p class="MsoNormal">Ross<o:p></o:p></p>
-          </div>
+      <div dir="ltr">
+        <div><br>
         </div>
+        <div>Ross</div>
+      </div>
+      <div class="gmail_extra"><br>
+        <div class="gmail_quote">On 14 December 2016 at 07:24, Robert
+          Yang <span dir="ltr">&lt;<a moz-do-not-send="true"
+              href="mailto:liezhi.yang@windriver.com" target="_blank">liezhi.yang@windriver.com</a>&gt;</span>
+          wrote:<br>
+          <blockquote class="gmail_quote" style="margin:0 0 0
+            .8ex;border-left:1px #ccc solid;padding-left:1ex">* V2<br>
+              1) Fix Paul's comments:<br>
+                 - Drop "don't reset when the test is failed"<br>
+                 - Update bug id for "oe-publish-sdk: add pyshtables.py
+            to .gitignore"<br>
+                 - Split "install multilib targets as populate_sdk does"
+            into 2 commits:<br>
+                   "break the long lines"<br>
+                   "install multilib SDKs"<br>
+              2) Use shorter subject lines<br>
+            <br>
+            * V1<br>
+              Initial version<br>
+            <br>
+            // Robert<br>
+            <br>
+            The following changes since commit
+            4e412234c37efec42b3962c11d4490<wbr>3c0c58c92e:<br>
+            <br>
+              libpcap: Disable exposed bits of WinPCAP remote capture
+            support (2016-12-13 22:47:35 +0000)<br>
+            <br>
+            are available in the git repository at:<br>
+            <br>
+              git://<a moz-do-not-send="true"
+              href="http://git.openembedded.org/openembedded-core-contrib"
+              rel="noreferrer" target="_blank">git.openembedded.org/<wbr>openembedded-core-contrib</a>
+            rbt/eSDK<br>
+              <a moz-do-not-send="true"
+href="http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/eSDK"
+              rel="noreferrer" target="_blank">http://cgit.openembedded.org/<wbr>cgit.cgi/openembedded-core-<wbr>contrib/log/?h=rbt/eSDK</a><br>
+            <br>
+            Robert Yang (8):<br>
+              populate_sdk_ext.bbclass: break the long lines<br>
+              populate_sdk_ext.bbclass: install multilib SDKs<br>
+              oeqa/sdkext/devtool.py: remove sources before run test
+            cases<br>
+              oe-publish-sdk: make cmd easier to read<br>
+              oe-publish-sdk: add pyshtables.py to .gitignore<br>
+              oeqa/oetest.py: add hasLockedSig()<br>
+              oeqa/sdkext/devtool.py: skip a testcase when no libxml2<br>
+              oe/copy_buildsystem.py: add SDK_LAYERS_EXCLUDE_PATTERN<br>
+            <br>
+             meta/classes/populate_sdk_ext.<wbr>bbclass | 63
+            ++++++++++++++++++++++++------<wbr>-----<br>
+             meta/lib/oe/copy_buildsystem.<wbr>py       | 18 ++++++++++<br>
+             meta/lib/oeqa/oetest.py               | 13 ++++++++<br>
+             meta/lib/oeqa/sdkext/devtool.<wbr>py       |  8 ++++-<br>
+             scripts/oe-publish-sdk                | 19 +++++++++--<br>
+             5 files changed, 98 insertions(+), 23 deletions(-)<br>
+            <span class="HOEnZb"><font color="#888888"><br>
+                --<br>
+                2.10.2<br>
+                <br>
+                --<br>
+                ______________________________<wbr>_________________<br>
+                Openembedded-core mailing list<br>
+                <a moz-do-not-send="true"
+                  href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.<wbr>openembedded.org</a><br>
+                <a moz-do-not-send="true"
+                  href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+                  rel="noreferrer" target="_blank">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+              </font></span></blockquote>
+        </div>
+        <br>
       </div>
       <br>
       <fieldset class="mimeAttachmentHeader"></fieldset>
@@ -252,4 +258,4 @@ style="font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif">
   </body>
 </html>
 
---------------C6AD1354B4F46F15354BCB33--
+--------------AA3BAF8766794985406752A1--
