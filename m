@@ -1,24 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6186B71BFE
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 601D86076F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2016 04:31:30 +0000 (UTC)
+	Wed, 21 Dec 2016 06:17:11 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBL4VUTm018911
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uBL6HDo1002112
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 20:31:30 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.184) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 20 Dec 2016 20:31:30 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
+	Tue, 20 Dec 2016 22:17:13 -0800 (PST)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 20 Dec 2016 22:17:12 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Dec 2016 12:32:45 +0800
-Message-ID: <cover.1482294710.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
+Date: Tue, 20 Dec 2016 22:17:07 -0800
+Message-ID: <cover.1482300982.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.11.0.rc2.dirty
 MIME-Version: 1.0
-Subject: [PATCH 0/2] warn when ALTERNATIVE_PRIORITY are the same
+Subject: [PATCH 0/5] Packages Upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2016 04:31:45 -0000
+X-List-Received-Date: Wed, 21 Dec 2016 06:17:12 -0000
 Content-Type: text/plain
 
 The following changes since commit 5e21afc9395060b489156d3f90505a372b713f37:
@@ -40,20 +40,38 @@ The following changes since commit 5e21afc9395060b489156d3f90505a372b713f37:
 
 are available in the git repository at:
 
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/BUG8314
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/BUG8314
+  git://git.openembedded.org/openembedded-core-contrib rbt/pu
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/pu
 
-Chen Qi (2):
-  package_manager: default to have scriptlet output captured in log
-  opkg-utils: warn if update-alternatives finds priority conflict
+Robert Yang (5):
+  debianutils: 4.8 -> 4.8.1
+  mklibs-native: 0.1.41 -> 0.1.43
+  quilt: 0.64 -> 0.65
+  guile: 2.0.12 -> 2.0.13
+  hdparm: 9.48 -> 9.50
 
- meta/lib/oe/package_manager.py                     |  9 ++++----
- ...rnatives-warn-when-multiple-providers-hav.patch | 26 ++++++++++++++++++++++
- meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |  3 ++-
- 3 files changed, 33 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-warn-when-multiple-providers-hav.patch
+ ...002-Recognize-nios2-as-compilation-target.patch | 32 ----------------------
+ .../guile/{guile_2.0.12.bb => guile_2.0.13.bb}     |  5 ++--
+ ...bs-native_0.1.41.bb => mklibs-native_0.1.43.bb} |  8 ++++--
+ .../{quilt-native_0.64.bb => quilt-native_0.65.bb} |  0
+ meta/recipes-devtools/quilt/quilt.inc              |  7 ++---
+ meta/recipes-devtools/quilt/quilt/install.patch    | 13 ---------
+ .../quilt/{quilt_0.64.bb => quilt_0.65.bb}         |  0
+ ...-Makefile-use-weak-assignment-for-LDFALGS.patch | 30 ++++++++++++++++++++
+ .../hdparm/{hdparm_9.48.bb => hdparm_9.50.bb}      |  8 ++++--
+ .../{debianutils_4.8.bb => debianutils_4.8.1.bb}   |  7 +++--
+ 10 files changed, 49 insertions(+), 61 deletions(-)
+ delete mode 100644 meta/recipes-devtools/guile/files/0002-Recognize-nios2-as-compilation-target.patch
+ rename meta/recipes-devtools/guile/{guile_2.0.12.bb => guile_2.0.13.bb} (95%)
+ rename meta/recipes-devtools/mklibs/{mklibs-native_0.1.41.bb => mklibs-native_0.1.43.bb} (71%)
+ rename meta/recipes-devtools/quilt/{quilt-native_0.64.bb => quilt-native_0.65.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/quilt/quilt/install.patch
+ rename meta/recipes-devtools/quilt/{quilt_0.64.bb => quilt_0.65.bb} (100%)
+ create mode 100644 meta/recipes-extended/hdparm/hdparm/0001-Makefile-use-weak-assignment-for-LDFALGS.patch
+ rename meta/recipes-extended/hdparm/{hdparm_9.48.bb => hdparm_9.50.bb} (80%)
+ rename meta/recipes-support/debianutils/{debianutils_4.8.bb => debianutils_4.8.1.bb} (86%)
 
 -- 
-1.9.1
+2.11.0.rc2.dirty
 
 
