@@ -1,43 +1,42 @@
 Return-Path: <fathi.boudra@linaro.org>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 82250772C0
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C3D877327
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2016 14:11:23 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id g23so149529502wme.1
+	Wed, 21 Dec 2016 14:19:37 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id t79so160011109wmt.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2016 06:11:25 -0800 (PST)
+	Wed, 21 Dec 2016 06:19:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=bc4QwLY+hLbPK+6qWJot0SY1YLTLoIVAz+/2KRpZKCQ=;
-	b=gLZzK6d0yQfiv3Nlnv6OFFipoM5oKWTGGTdfBh0a1KlMlUH9FYe4sva/wPYGexAO/3
-	MLAtaUPREZkAyO6Q+PIbbo0lSB6AsihuLmPcfsMibt4Dc7ZBjHzTiSJ77FQSrrbprEKN
-	mUPR2O7IDGu1gGYx8yVmB1Oe+5EFV2N1mIM6I=
+	:cc; bh=DlWKGsbQmYVepPMZeb266wQsJC/M5Ph3qI7mr27T9Jo=;
+	b=E9agMaJtAJugBxM0o2cVpOnUP4tq9wsAlXZQZ07nJwGGl8iTby1pRTioLRzBz+zMoy
+	cEFrwujwuUhRkWnZKKqyscdWSdyH774S28KUKmYFwFrzWqfq0t5LoQ0I2sSti06of8HS
+	ydZzkQAUuZn6YjZMnRMcVfM3IbvYkvpRKzyT8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=bc4QwLY+hLbPK+6qWJot0SY1YLTLoIVAz+/2KRpZKCQ=;
-	b=NXL6mC1HK6WOUqTyfuHhV1PexPUMhRsUPYdhenXHnNE3fejmsu7bqHG7tL53N3ZLIa
-	JdBqR0o3XxXuUr2T+4EwNuBoaLn62DhBGIax2jJNZt7HhN7LQduttW6kGxAyUQumbrR5
-	V4eG4nEuRY0AvADJB8p8i1jmjFN7ItK3BmXjhwI6B+k7Tet2CJLQ0pt1JYCBX9lFjZiO
-	wtgfL8J/Wm9biXsAHDabvIB3+zT0JDTk94z3lOlAvOVIpPkd2OooXBzsnQrdYjgXXZkg
-	kNuDucF+x23qyyyuaHCniPN76nr8svXEMWRunJpZoXas2KN/gYXwmjDIqWv0GioTGQ1A
-	mgLw==
-X-Gm-Message-State: AIkVDXJWlFzfq1EdCmrwqhyH3UgBg/3k13m+lEyFpzeBE6LtVOxkdUGqR/jTlNKtcF+G1W40Fdus2PjhqRr2ksl0
-X-Received: by 10.28.15.138 with SMTP id 132mr4835325wmp.41.1482329484175;
-	Wed, 21 Dec 2016 06:11:24 -0800 (PST)
+	bh=DlWKGsbQmYVepPMZeb266wQsJC/M5Ph3qI7mr27T9Jo=;
+	b=X4whaPwJR2ZnaGfU8CIWsdUXebbjIbehLk86TdiWes482QIBFeDFPCLEhntkd4tZ4a
+	5viNJQ6INfXK8p3CcXqvBY7m8UBk6SluyMDlxWgrWojp5vYXLSjo/73qnx9vUFZa1ba7
+	oHHfoUDmMgHTFGQ6xMvv5wyYWH9cS9qNewSgd+zsWkUq2pz/WXEeNcp+1ISM3UAm/GW/
+	/Mve5AFb9ddE2CH4xxwMOOSLn0awkZOc4FgDf4QhaXQMn6ExKttYO6zAZNdQG6DzPqjU
+	dUCDiH5pfWj/PlprHVGa0DMxr6DMsn2gnmCNP4Ub33vdCdOpKM4ZqQxn+UJDikUY4QX0
+	Cdgg==
+X-Gm-Message-State: AIkVDXJj/th3mexPlmtt3rNLukOcvOZ1HLmi9isRTeZOmmSVpkkrV9YQo1N0vvt3iD+euISAZ+yzz6msYwOZZNnk
+X-Received: by 10.28.15.138 with SMTP id 132mr4867080wmp.41.1482329978598;
+	Wed, 21 Dec 2016 06:19:38 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.28.19.69 with HTTP; Wed, 21 Dec 2016 06:11:23 -0800 (PST)
-In-Reply-To: <374bb6a728f368a801f961fb524290f205bb4625.1482324587.git.patrick.ohly@intel.com>
+Received: by 10.28.19.69 with HTTP; Wed, 21 Dec 2016 06:19:37 -0800 (PST)
+In-Reply-To: <cover.1482324587.git.patrick.ohly@intel.com>
 References: <cover.1482324587.git.patrick.ohly@intel.com>
-	<374bb6a728f368a801f961fb524290f205bb4625.1482324587.git.patrick.ohly@intel.com>
 From: Fathi Boudra <fathi.boudra@linaro.org>
-Date: Wed, 21 Dec 2016 16:11:23 +0200
-Message-ID: <CAGNsrLBx=+yvgDAsaqz8mYm30WG0TVEV3eR2PNMj+VHK4ceSOw@mail.gmail.com>
+Date: Wed, 21 Dec 2016 16:19:37 +0200
+Message-ID: <CAGNsrLAhdfQ7KGvBGCtSype2niB7AvqXGtWqFYOVd7e2GqvJfg@mail.gmail.com>
 To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: meta-luv <luv@lists.01.org>, "Neri, Ricardo" <ricardo.neri@intel.com>,
+Cc: "Neri, Ricardo" <ricardo.neri@intel.com>,
 	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/9] iasl: move from meta-luv to OE-core
+Subject: Re: [PATCH 0/9] UEFI + Secure Boot + qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,138 +49,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2016 14:11:23 -0000
+X-List-Received-Date: Wed, 21 Dec 2016 14:19:38 -0000
 Content-Type: text/plain; charset=UTF-8
 
-Hi Patrick,
+Hi,
 
 On 21 December 2016 at 15:11, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> From: meta-luv <luv@lists.01.org>
+> There seems to be a consensus that supporting UEFI in OE-core for qemu
+> would be valuable, and there have been some (stalled) attempts to add
+> it. For reference, see:
+>    [OE-core] [PATCH V3 0/3] Add UEFI firmware for qemux86*
+>    [OE-core] Add ovmf-native to make qemu-native/runqemu support boot UEFI image?
+>    https://bugzilla.yoctoproject.org/show_bug.cgi?id=5654
+>    https://github.com/01org/luv-yocto/issues/38
 >
-> This is an unmodified copy of
-> github.com/01org/luv-yocto/meta-luv/recipes-extended/iasl revision
-> 4be4329.
+> This patch set includes the necessary recipes (ovmf and iasl from
+> meta-luv), some improvements to them (in particular, enabling Secure
+> Boot), and changes to runqemu to make it easier to boot with UEFI. A
+> special image recipes builds an image which can be used to lock down a
+> virtual machine by enrolling the "normal" pre-installed certificates.
 >
-> iasl is also provided by the meta-oe layer's acpica recipe. iasl is a
-> bit simpler and thus seems more suitable for OE-core.
+> I decided to keep the setup simple and use just a single file for UEFI
+> code and variables because that makes the usage via runqemu very
+> easy. See the "runqemu: support UEFI with OVMF firmware" patch for
+> details. The downside is that the firmware can't be updated without
+> loosing variables. I don't see a big need for long-lived virtual
+> machine instances, but would like to hear from others about that.
+>
+> What's missing is automated testing of this new feature. I'm open for
+> suggestions here; right now I don't know enough about the automated
+> testing in the AB to propose something.
+>
+> I've discussed the usage of ovmf/iasl with Ricardo and he agreed that
+> moving ovmf and iasl from meta-luv to OE-core makes sense. Ricardo,
+> would you be willing to act as maintainer of it there, like you did in
+> meta-luv?
 
-Simpler in what sense? acpica recipe is trivial and provide fully acpica tools.
-Would you mind to import meta-oe acpica recipe instead of providing a
-reduced set of acpica for not much benefit?
+fwiw, I've been maintaining acpica recipe in meta-oe, and will keep an
+eye here as well.
+meta-luv supports both x86* and arm*, and we have an interest in
+having the same features available and working for qemuaarch64.
 
-> When the meta-oe layer is active, PREFERRED_PROVIDER_iasl-native must
-> be set to avoid a warning. It can be set to "acpica-native" when
-> something from acpica besides just iasl is needed.
+> Beware that "git am --keep-cr" must be used to import the ovmf patches
+> correctly.
 >
-> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
-> ---
->  meta/recipes-extended/iasl/iasl_20120215.bb | 27 +++++++++++++++++++++++++++
->  meta/recipes-extended/iasl/iasl_20150410.bb | 27 +++++++++++++++++++++++++++
->  meta/recipes-extended/iasl/iasl_20150515.bb | 27 +++++++++++++++++++++++++++
->  3 files changed, 81 insertions(+)
+> The following changes since commit 5e21afc9395060b489156d3f90505a372b713f37:
+>
+>   Revert "selftest/wic: extending test coverage for WIC script options" (2016-12-20 17:06:01 +0000)
+>
+> are available in the git repository at:
+>
+>   git://github.com/pohly/openembedded-core secure-boot
+>   https://github.com/pohly/openembedded-core/tree/secure-boot
+>
+> Patrick Ohly (7):
+>   ovmf: explicitly depend on nasm-native
+>   ovmf: deploy firmware in image directory
+>   ovmf_git.bb: enable parallel compilation
+>   ovmf_git.bb: enable Secure Boot
+>   runqemu: let command line parameters override defaults
+>   runqemu: support UEFI with OVMF firmware
+>   ovmf: build image which enrolls standard keys
+>
+> meta-luv (2):
+>   ovmf: move from meta-luv to OE-core
+>   iasl: move from meta-luv to OE-core
+>
+>  meta/recipes-core/ovmf/ovmf-shell-image.bb         |   22 +
+>  ...s-Force-tools-variables-to-host-toolchain.patch |   48 +
+>  .../ovmf/0001-OvmfPkg-Enable-BGRT-in-OVMF.patch    |  110 ++
+>  ...0002-ovmf-update-path-to-native-BaseTools.patch |   32 +
+>  ...makefile-adjust-to-build-in-under-bitbake.patch |   39 +
+>  ...ollDefaultKeys-application-for-enrolling-.patch | 1123 ++++++++++++++++++++
+>  meta/recipes-core/ovmf/ovmf/ovmf-shell-image.wks   |    4 +
+>  meta/recipes-core/ovmf/ovmf_git.bb                 |  178 ++++
+>  meta/recipes-extended/iasl/iasl_20120215.bb        |   27 +
+>  meta/recipes-extended/iasl/iasl_20150410.bb        |   27 +
+>  meta/recipes-extended/iasl/iasl_20150515.bb        |   27 +
+>  scripts/runqemu                                    |   37 +-
+>  12 files changed, 1673 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-core/ovmf/ovmf-shell-image.bb
+>  create mode 100644 meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch
+>  create mode 100644 meta/recipes-core/ovmf/ovmf/0001-OvmfPkg-Enable-BGRT-in-OVMF.patch
+>  create mode 100644 meta/recipes-core/ovmf/ovmf/0002-ovmf-update-path-to-native-BaseTools.patch
+>  create mode 100644 meta/recipes-core/ovmf/ovmf/0003-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch
+>  create mode 100644 meta/recipes-core/ovmf/ovmf/0007-OvmfPkg-EnrollDefaultKeys-application-for-enrolling-.patch
+>  create mode 100644 meta/recipes-core/ovmf/ovmf/ovmf-shell-image.wks
+>  create mode 100644 meta/recipes-core/ovmf/ovmf_git.bb
 >  create mode 100644 meta/recipes-extended/iasl/iasl_20120215.bb
 >  create mode 100644 meta/recipes-extended/iasl/iasl_20150410.bb
 >  create mode 100644 meta/recipes-extended/iasl/iasl_20150515.bb
 >
-> diff --git a/meta/recipes-extended/iasl/iasl_20120215.bb b/meta/recipes-extended/iasl/iasl_20120215.bb
-> new file mode 100644
-> index 0000000..a14d2ec
-> --- /dev/null
-> +++ b/meta/recipes-extended/iasl/iasl_20120215.bb
-> @@ -0,0 +1,27 @@
-> +DESCRIPTION = "This is a cross development C compiler, assembler and linker environment for the production of 8086 executables (Optionally MSDOS COM)"
-> +HOMEPAGE = "http://www.acpica.org/"
-> +LICENSE = "Intel-ACPI"
-> +LIC_FILES_CHKSUM = "file://asldefine.h;endline=115;md5=d4d7cf809b8b5e03131327b3f718e8f0"
-> +SECTION = "console/tools"
-> +PR="r1"
-> +
-> +DEPENDS="flex-native bison-native"
-> +
-> +SRC_URI="https://acpica.org/sites/acpica/files/acpica-unix-${PV}.tar.gz"
-> +
-> +SRC_URI[md5sum] = "324c89e5bb9002e2711e0494290ceacc"
-> +SRC_URI[sha256sum] = "b2b497415f29ddbefe7be8b9429b62c1f1f6e1ec11456928e4e7da86578e5b8d"
-> +
-> +S="${WORKDIR}/acpica-unix-${PV}/source/compiler"
-> +
-> +NATIVE_INSTALL_WORKS = "1"
-> +BBCLASSEXTEND = "native"
-> +
-> +do_compile() {
-> +       CFLAGS="-Wno-error=redundant-decls" $MAKE
-> +}
-> +
-> +do_install() {
-> +       mkdir -p ${D}${prefix}/bin
-> +       cp ${S}/iasl ${D}${prefix}/bin
-> +}
-> diff --git a/meta/recipes-extended/iasl/iasl_20150410.bb b/meta/recipes-extended/iasl/iasl_20150410.bb
-> new file mode 100644
-> index 0000000..4e44817
-> --- /dev/null
-> +++ b/meta/recipes-extended/iasl/iasl_20150410.bb
-> @@ -0,0 +1,27 @@
-> +DESCRIPTION = "This is a cross development C compiler, assembler and linker environment for the production of 8086 executables (Optionally MSDOS COM)"
-> +HOMEPAGE = "http://www.acpica.org/"
-> +LICENSE = "Intel-ACPI"
-> +LIC_FILES_CHKSUM = "file://Makefile;endline=22;md5=b15414d545d190713f1bab9023dba3be"
-> +SECTION = "console/tools"
-> +PR="r1"
-> +
-> +DEPENDS="flex-native bison-native"
-> +
-> +SRC_URI="https://acpica.org/sites/acpica/files/acpica-unix-${PV}.tar.gz"
-> +
-> +SRC_URI[md5sum] = "7b49c79728dde65ab1ba4edbee6f0b22"
-> +SRC_URI[sha256sum] = "1dce8d9edeb234fd553806987471f6206f429c2aab45556f62a5b2bfe2464875"
-> +
-> +S="${WORKDIR}/acpica-unix-${PV}"
-> +
-> +NATIVE_INSTALL_WORKS = "1"
-> +BBCLASSEXTEND = "native"
-> +
-> +do_compile() {
-> +       make iasl
-> +}
-> +
-> +do_install() {
-> +       mkdir -p ${D}${prefix}/bin
-> +       cp ${S}/generate/unix/bin/iasl ${D}${prefix}/bin
-> +}
-> diff --git a/meta/recipes-extended/iasl/iasl_20150515.bb b/meta/recipes-extended/iasl/iasl_20150515.bb
-> new file mode 100644
-> index 0000000..c7e1cd5
-> --- /dev/null
-> +++ b/meta/recipes-extended/iasl/iasl_20150515.bb
-> @@ -0,0 +1,27 @@
-> +DESCRIPTION = "This is a cross development C compiler, assembler and linker environment for the production of 8086 executables (Optionally MSDOS COM)"
-> +HOMEPAGE = "http://www.acpica.org/"
-> +LICENSE = "Intel-ACPI"
-> +LIC_FILES_CHKSUM = "file://Makefile;endline=22;md5=b15414d545d190713f1bab9023dba3be"
-> +SECTION = "console/tools"
-> +PR="r1"
-> +
-> +DEPENDS="flex-native bison-native"
-> +
-> +SRC_URI="https://acpica.org/sites/acpica/files/acpica-unix-${PV}.tar.gz"
-> +
-> +SRC_URI[md5sum] = "c8c128b2d4859b52bc9c802faba2e908"
-> +SRC_URI[sha256sum] = "bfa1f296a3cc13421331dbaad3b62e0184678cc312104c3e8ac799ead0742c45"
-> +
-> +S="${WORKDIR}/acpica-unix-${PV}"
-> +
-> +NATIVE_INSTALL_WORKS = "1"
-> +BBCLASSEXTEND = "native"
-> +
-> +do_compile() {
-> +       make iasl
-> +}
-> +
-> +do_install() {
-> +       mkdir -p ${D}${prefix}/bin
-> +       cp ${S}/generate/unix/bin/iasl ${D}${prefix}/bin
-> +}
 > --
 > 2.1.4
 >
@@ -190,6 +148,7 @@ reduced set of acpica for not much benefit?
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
 Cheers,
 -- 
