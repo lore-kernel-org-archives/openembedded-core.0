@@ -1,42 +1,52 @@
-Return-Path: <fathi.boudra@linaro.org>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C3D877327
+Return-Path: <maciej.borzecki@rndity.com>
+Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id DCDE0773EF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2016 14:19:37 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id t79so160011109wmt.0
+	Wed, 21 Dec 2016 14:20:08 +0000 (UTC)
+Received: by mail-wm0-f44.google.com with SMTP id g23so149751057wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2016 06:19:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	Wed, 21 Dec 2016 06:20:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=rndity-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=DlWKGsbQmYVepPMZeb266wQsJC/M5Ph3qI7mr27T9Jo=;
-	b=E9agMaJtAJugBxM0o2cVpOnUP4tq9wsAlXZQZ07nJwGGl8iTby1pRTioLRzBz+zMoy
-	cEFrwujwuUhRkWnZKKqyscdWSdyH774S28KUKmYFwFrzWqfq0t5LoQ0I2sSti06of8HS
-	ydZzkQAUuZn6YjZMnRMcVfM3IbvYkvpRKzyT8=
+	:cc:content-transfer-encoding;
+	bh=7oSGeYj6yK8IF2XbNt2Gkx6WiPZv1cKDGyiXWe2j0y8=;
+	b=1FYvVHdKx//3vO6Xx2YF3BBFKM09U9kOTjWou32K4scFjnwacYuwhimc0BIa8qIrfi
+	QW8VQM/VhWDULoNMLcO6Gm3Ob/30g68lRJx/b3I3StAe+TV2LDTa2izVR+FpMrdkPWJX
+	ORo7x3w9HqT5MD28spYXvf1JLKMvyfXPGE5rZ4u6Drn6dGaR5w/3FkGf7DlrrMm8n7G+
+	AYwKlgTPkQBWtlRYuB1GFq2M3FujKBgNnEp9HkBiXFxzhLw6sH8+fyg5aNBhvaxbD6y4
+	nxBS0GjVl55sbLfh5QFytojCyKJ666uzhSJvs2gKJScTEE3Lo1PpDvqtabsbWAzDUcHp
+	lV1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=DlWKGsbQmYVepPMZeb266wQsJC/M5Ph3qI7mr27T9Jo=;
-	b=X4whaPwJR2ZnaGfU8CIWsdUXebbjIbehLk86TdiWes482QIBFeDFPCLEhntkd4tZ4a
-	5viNJQ6INfXK8p3CcXqvBY7m8UBk6SluyMDlxWgrWojp5vYXLSjo/73qnx9vUFZa1ba7
-	oHHfoUDmMgHTFGQ6xMvv5wyYWH9cS9qNewSgd+zsWkUq2pz/WXEeNcp+1ISM3UAm/GW/
-	/Mve5AFb9ddE2CH4xxwMOOSLn0awkZOc4FgDf4QhaXQMn6ExKttYO6zAZNdQG6DzPqjU
-	dUCDiH5pfWj/PlprHVGa0DMxr6DMsn2gnmCNP4Ub33vdCdOpKM4ZqQxn+UJDikUY4QX0
-	Cdgg==
-X-Gm-Message-State: AIkVDXJj/th3mexPlmtt3rNLukOcvOZ1HLmi9isRTeZOmmSVpkkrV9YQo1N0vvt3iD+euISAZ+yzz6msYwOZZNnk
-X-Received: by 10.28.15.138 with SMTP id 132mr4867080wmp.41.1482329978598;
-	Wed, 21 Dec 2016 06:19:38 -0800 (PST)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=7oSGeYj6yK8IF2XbNt2Gkx6WiPZv1cKDGyiXWe2j0y8=;
+	b=YwKqu3fRqa9Scd8i8X9QcddNoXChJFpuyl6gQUU43/vxp2jcgeAqZUWITmBjb/RFDo
+	qcYjd/tZH/cTSZb0m5RPQL1fTvMkucB2hi9B3NVQYK+/ibywjWI0WocGvAF4EVtlrDKQ
+	vegumkS+FxdBD9ZkkdE7Eubg/a/naaS29iY6KZrZ2VvyZBF+Zuzvjg6hsKbu4R+xXGN7
+	vKg+AMtOd+wAuK6JinaIEol/3nEyffvNn6UO8+d7TvSTVzDZH3ZZH/3mwgqJEwicKmDI
+	DLlpECfUA9p9JVSA7w9PvpOUpKSj0IByH9qXw7shnrYs73pu0tIvNPxt7YhgmreJbLsM
+	XWAw==
+X-Gm-Message-State: AIkVDXK1Qlf4YdAz2WJCQZIGSzGia+QxQ45XB3XBEcfXbek5/KHchxyviPEXiFmyU2sEO2fSRrHSthbIaETD+Q==
+X-Received: by 10.28.66.7 with SMTP id p7mr5198349wma.64.1482330009499; Wed,
+	21 Dec 2016 06:20:09 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.28.19.69 with HTTP; Wed, 21 Dec 2016 06:19:37 -0800 (PST)
-In-Reply-To: <cover.1482324587.git.patrick.ohly@intel.com>
-References: <cover.1482324587.git.patrick.ohly@intel.com>
-From: Fathi Boudra <fathi.boudra@linaro.org>
-Date: Wed, 21 Dec 2016 16:19:37 +0200
-Message-ID: <CAGNsrLAhdfQ7KGvBGCtSype2niB7AvqXGtWqFYOVd7e2GqvJfg@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: "Neri, Ricardo" <ricardo.neri@intel.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/9] UEFI + Secure Boot + qemu
+Received: by 10.28.10.69 with HTTP; Wed, 21 Dec 2016 06:19:49 -0800 (PST)
+In-Reply-To: <20161221130043.GA9628@linux.intel.com>
+References: <20161213185317.GA6550@linux.intel.com>
+	<cover.1482145354.git.maciej.borzecki@rndity.com>
+	<20161220140412.GA16406@linux.intel.com>
+	<CAD4b0_JGK0zGsNEOSN1T_w-jKMFRnnbzTxVdYkxE=+1cQu5nRw@mail.gmail.com>
+	<20161221130043.GA9628@linux.intel.com>
+From: =?UTF-8?Q?Maciej_Borz=C4=99cki?= <maciej.borzecki@rndity.com>
+Date: Wed, 21 Dec 2016 15:19:49 +0100
+Message-ID: <CAD4b0_+YOtJukqBN0QFZ9oVtip0i4m9sgKv5X_v=D=Ajq8XGaw@mail.gmail.com>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Cc: Maciej Borzecki <maciek.borzecki@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v6 0/5] wic: bugfixes & --fixed-size support, tests, oeqa: enhancements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,108 +59,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2016 14:19:38 -0000
+X-List-Received-Date: Wed, 21 Dec 2016 14:20:09 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Wed, Dec 21, 2016 at 2:00 PM, Ed Bartosh <ed.bartosh@linux.intel.com> wr=
+ote:
+> On Tue, Dec 20, 2016 at 07:27:04PM +0100, Maciej Borz=C4=99cki wrote:
+>> On Tue, Dec 20, 2016 at 3:04 PM, Ed Bartosh <ed.bartosh@linux.intel.com>=
+ wrote:
+>> > On Mon, Dec 19, 2016 at 12:20:56PM +0100, Maciej Borzecki wrote:
+>> >> v6 of a patch series previously posted here [1].
+>> >>
+>> >> Changes since v5:
+>> >>
+>> >> * `oe-selftest: enforce en_US.UTF-8 locale` was merged to master, hen=
+ce it's no
+>> >>   longer part of this series
+>> >>
+>> >> * rebased on top of master (d0d260b0b85790ceb136dd6b0445e8e33d038f5e)
+>> >>
+>> >
+>> > The patchset looks good to me. Thank you.
+>> >
+>> > Couple of questions:
+>> > - did you test if Lars' change
+>> >   https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3Ddb08ffe=
+e0ad1451f3bf710f4d1b623938ba9aefb
+>> >   works with your patchset?
+>>
+>> Yes. The series was rebased on top of
+>> d0d260b0b85790ceb136dd6b0445e8e33d038f5e, which includes Lars' patch.
+>
+> The series causes conflicts on the latest master. Can you check if it's
+> really the case or it's just something wrong with my setup?
 
-On 21 December 2016 at 15:11, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> There seems to be a consensus that supporting UEFI in OE-core for qemu
-> would be valuable, and there have been some (stalled) attempts to add
-> it. For reference, see:
->    [OE-core] [PATCH V3 0/3] Add UEFI firmware for qemux86*
->    [OE-core] Add ovmf-native to make qemu-native/runqemu support boot UEFI image?
->    https://bugzilla.yoctoproject.org/show_bug.cgi?id=5654
->    https://github.com/01org/luv-yocto/issues/38
->
-> This patch set includes the necessary recipes (ovmf and iasl from
-> meta-luv), some improvements to them (in particular, enabling Secure
-> Boot), and changes to runqemu to make it easier to boot with UEFI. A
-> special image recipes builds an image which can be used to lock down a
-> virtual machine by enrolling the "normal" pre-installed certificates.
->
-> I decided to keep the setup simple and use just a single file for UEFI
-> code and variables because that makes the usage via runqemu very
-> easy. See the "runqemu: support UEFI with OVMF firmware" patch for
-> details. The downside is that the firmware can't be updated without
-> loosing variables. I don't see a big need for long-lived virtual
-> machine instances, but would like to hear from others about that.
->
-> What's missing is automated testing of this new feature. I'm open for
-> suggestions here; right now I don't know enough about the automated
-> testing in the AB to propose something.
->
-> I've discussed the usage of ovmf/iasl with Ricardo and he agreed that
-> moving ovmf and iasl from meta-luv to OE-core makes sense. Ricardo,
-> would you be willing to act as maintainer of it there, like you did in
-> meta-luv?
+Just rebased on top current master d41d2fd and pushed to
+https://github.com/bboozzoo/poky branch bboozzoo/wic-fixed-size-v7 in
+case you want to test locally. I guess the conflict was with patch
+aa1c50a `selftest/wic: extending test coverage for WIC script
+options`, which has been reverted yesterday by RP.
 
-fwiw, I've been maintaining acpica recipe in meta-oe, and will keep an
-eye here as well.
-meta-luv supports both x86* and arm*, and we have an interest in
-having the same features available and working for qemuaarch64.
+Jair has posted a v2 yesterday and I expect it to be merged soon. So,
+I think I'll just wait a couple of days (actually more like until the
+beginning of January) before publishing a rebased version of my
+series.
 
-> Beware that "git am --keep-cr" must be used to import the ovmf patches
-> correctly.
+<snip>
 >
-> The following changes since commit 5e21afc9395060b489156d3f90505a372b713f37:
+>>
+>> I've run it on beaglebone, vexpress-qemu, qemux86 and qemuarm. Agree
+>> with your observation though. I think that at least these TCs could be
+>> made machine agnostic:
+>>
+>> - test_build_artifacts
+>> - test_build_image_name
+>> - test_compress_*
+>> - test_gpt_image
+>> - test_wic_image_type
+>> - test_wrong_compressor
+>> - test_rootfs_*
+>>
+>>
 >
->   Revert "selftest/wic: extending test coverage for WIC script options" (2016-12-20 17:06:01 +0000)
+> Yes, that's exactly my point. We should make generic tests work on any
+> machine.
 >
-> are available in the git repository at:
+> Would you be willing to do this in a separate patchset together with
+> your oe-selftest core fixes?
 >
->   git://github.com/pohly/openembedded-core secure-boot
->   https://github.com/pohly/openembedded-core/tree/secure-boot
+> I'd suggest to only include new testcase that works on qemu-x86* into
+> this patchset. It will make it faster to get merged.
 >
-> Patrick Ohly (7):
->   ovmf: explicitly depend on nasm-native
->   ovmf: deploy firmware in image directory
->   ovmf_git.bb: enable parallel compilation
->   ovmf_git.bb: enable Secure Boot
->   runqemu: let command line parameters override defaults
->   runqemu: support UEFI with OVMF firmware
->   ovmf: build image which enrolls standard keys
->
-> meta-luv (2):
->   ovmf: move from meta-luv to OE-core
->   iasl: move from meta-luv to OE-core
->
->  meta/recipes-core/ovmf/ovmf-shell-image.bb         |   22 +
->  ...s-Force-tools-variables-to-host-toolchain.patch |   48 +
->  .../ovmf/0001-OvmfPkg-Enable-BGRT-in-OVMF.patch    |  110 ++
->  ...0002-ovmf-update-path-to-native-BaseTools.patch |   32 +
->  ...makefile-adjust-to-build-in-under-bitbake.patch |   39 +
->  ...ollDefaultKeys-application-for-enrolling-.patch | 1123 ++++++++++++++++++++
->  meta/recipes-core/ovmf/ovmf/ovmf-shell-image.wks   |    4 +
->  meta/recipes-core/ovmf/ovmf_git.bb                 |  178 ++++
->  meta/recipes-extended/iasl/iasl_20120215.bb        |   27 +
->  meta/recipes-extended/iasl/iasl_20150410.bb        |   27 +
->  meta/recipes-extended/iasl/iasl_20150515.bb        |   27 +
->  scripts/runqemu                                    |   37 +-
->  12 files changed, 1673 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-core/ovmf/ovmf-shell-image.bb
->  create mode 100644 meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch
->  create mode 100644 meta/recipes-core/ovmf/ovmf/0001-OvmfPkg-Enable-BGRT-in-OVMF.patch
->  create mode 100644 meta/recipes-core/ovmf/ovmf/0002-ovmf-update-path-to-native-BaseTools.patch
->  create mode 100644 meta/recipes-core/ovmf/ovmf/0003-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch
->  create mode 100644 meta/recipes-core/ovmf/ovmf/0007-OvmfPkg-EnrollDefaultKeys-application-for-enrolling-.patch
->  create mode 100644 meta/recipes-core/ovmf/ovmf/ovmf-shell-image.wks
->  create mode 100644 meta/recipes-core/ovmf/ovmf_git.bb
->  create mode 100644 meta/recipes-extended/iasl/iasl_20120215.bb
->  create mode 100644 meta/recipes-extended/iasl/iasl_20150410.bb
->  create mode 100644 meta/recipes-extended/iasl/iasl_20150515.bb
->
-> --
-> 2.1.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+I would prefer to post these changes as a separate patchset. It looks
+like there's already a couple of potentially conflicting patches
+floating on the mailing list, so I would prefer to get --fixed-size
+merged before starting another one.
 
-Cheers,
--- 
-Fathi
+Regards,
+--=20
+Maciej Borzecki
+RnDity
 
