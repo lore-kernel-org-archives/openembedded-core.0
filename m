@@ -1,30 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id A738B773EC
+	by mail.openembedded.org (Postfix) with ESMTP id A825C77404
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 21 Dec 2016 17:05:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	uBLH5vdH001264; Wed, 21 Dec 2016 17:05:57 GMT
+	uBLH5wWn001270; Wed, 21 Dec 2016 17:05:58 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id UrFn1sztC3tQ; Wed, 21 Dec 2016 17:05:57 +0000 (GMT)
+	with LMTP id FhU39B6A3a2t; Wed, 21 Dec 2016 17:05:57 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	uBLH5qrY001236
+	uBLH5qE8001238
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Wed, 21 Dec 2016 17:05:53 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cJkKu-0006ss-2M; Wed, 21 Dec 2016 17:05:52 +0000
+	id 1cJkKu-0006t2-48; Wed, 21 Dec 2016 17:05:52 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Dec 2016 17:05:43 +0000
-Message-Id: <1482339945-26418-2-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Wed, 21 Dec 2016 17:05:45 +0000
+Message-Id: <1482339945-26418-4-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1482339945-26418-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1482339945-26418-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 2/4] bitbake.conf: Add inclusion of BB_CURRENT_MC.conf after local.conf
+Subject: [PATCH 4/4] lib/oe/utils: Drop python2 compatibility code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,30 +39,38 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 21 Dec 2016 17:06:00 -0000
 
-People are strugling with multiconfig as the up front inclusion of the
-configuration file doesn't do what people expect. The only way to meet
-user expectations is to include the file immediately after local.conf.
-
-We add BB_CURRENT_MC to bitbake so that the metadata can determine when
-to include the extra configuration.
+We've moved to python3, we don't need this compatibility code which just makes
+the code less readable.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/bitbake.conf | 1 +
- 1 file changed, 1 insertion(+)
+ meta/lib/oe/utils.py | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index aee9919..7b0ae65 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -701,6 +701,7 @@ require conf/abi_version.conf
- include conf/site.conf
- include conf/auto.conf
- include conf/local.conf
-+include conf/multiconfig/${BB_CURRENT_MC}.conf
- include conf/build/${BUILD_SYS}.conf
- include conf/target/${TARGET_SYS}.conf
- include conf/machine/${MACHINE}.conf
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index bf440ec..3de21fc 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -1,9 +1,4 @@
+-try:
+-    # Python 2
+-    import commands as cmdstatus
+-except ImportError:
+-    # Python 3
+-    import subprocess as cmdstatus
++import subprocess
+ 
+ def read_file(filename):
+     try:
+@@ -144,7 +139,7 @@ def packages_filter_out_system(d):
+     return pkgs
+ 
+ def getstatusoutput(cmd):
+-    return cmdstatus.getstatusoutput(cmd)
++    return subprocess.getstatusoutput(cmd)
+ 
+ 
+ def trim_version(version, num_parts=2):
 -- 
 2.7.4
 
