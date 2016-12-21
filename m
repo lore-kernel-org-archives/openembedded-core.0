@@ -1,28 +1,23 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id A9F5A77479
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 09A5B77400
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2016 17:05:57 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	uBLH5wru001272; Wed, 21 Dec 2016 17:05:58 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id SNYaLMYbGw3z; Wed, 21 Dec 2016 17:05:57 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	uBLH5q6H001235
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 21 Dec 2016 17:05:53 GMT
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1cJkKu-0006sp-1T; Wed, 21 Dec 2016 17:05:52 +0000
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Wed, 21 Dec 2016 17:08:41 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP; 21 Dec 2016 09:08:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,384,1477983600"; d="scan'208";a="1074896764"
+Received: from mlbaldwi-mobl3.amr.corp.intel.com (HELO
+	aehernan-MOBL1.amr.corp.intel.com) ([10.252.255.50])
+	by orsmga001.jf.intel.com with ESMTP; 21 Dec 2016 09:08:09 -0800
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Dec 2016 17:05:42 +0000
-Message-Id: <1482339945-26418-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 1/4] uninative: Parameterise the use of STAGING_DIR
+Date: Wed, 21 Dec 2016 11:08:04 -0600
+Message-Id: <96e26386eebc378d799bdb8dfec73d1ce44c2df1.1482339995.git.alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 2.10.1
+In-Reply-To: <cover.1482339995.git.alejandro.hernandez@linux.intel.com>
+References: <cover.1482339995.git.alejandro.hernandez@linux.intel.com>
+Subject: [PATCH 1/3] gummiboot: Remove/change gummiboot references with systemd-boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,47 +30,293 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2016 17:06:00 -0000
+X-List-Received-Date: Wed, 21 Dec 2016 17:08:42 -0000
 
-This means that a user can change TMPDIR in a multiconfig situation
-and still only have one path to the uninative setup. Without this change
-its not possile to make such a setup work.
+After systemd-boot was introduced, its been tested for a while with no major
+issues being found until now, this patch completely replaces all gummiboot
+instances with systemd-boot ones, taking the next step into cleaning
+up systemd-boot/gummiboot.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+[YOCTO #10332]
+
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 ---
- meta/classes/uninative.bbclass | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ meta/classes/fs-uuid.bbclass                       |  2 +-
+ meta/classes/systemd-boot.bbclass                  |  4 +---
+ meta/conf/distro/include/distro_alias.inc          |  2 +-
+ meta/lib/oeqa/controllers/masterimage.py           |  4 ++--
+ meta/recipes-bsp/systemd-boot/systemd-boot_232.bb  |  2 +-
+ .../initrdscripts/files/init-install-efi-testfs.sh | 12 +++++-----
+ .../initrdscripts/files/init-install-efi.sh        | 12 +++++-----
+ scripts/contrib/mkefidisk.sh                       | 26 +++++++++++-----------
+ scripts/lib/wic/plugins/source/bootimg-efi.py      | 22 +++++++++---------
+ 9 files changed, 41 insertions(+), 45 deletions(-)
 
-diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
-index 177af73..03ad5d6 100644
---- a/meta/classes/uninative.bbclass
-+++ b/meta/classes/uninative.bbclass
-@@ -1,4 +1,5 @@
--UNINATIVE_LOADER ?= "${STAGING_DIR}-uninative/${BUILD_ARCH}-linux/lib/${@bb.utils.contains('BUILD_ARCH', 'x86_64', 'ld-linux-x86-64.so.2', 'ld-linux.so.2', d)}"
-+UNINATIVE_LOADER ?= "${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux/lib/${@bb.utils.contains('BUILD_ARCH', 'x86_64', 'ld-linux-x86-64.so.2', 'ld-linux.so.2', d)}"
-+UNINATIVE_STAGING_DIR ?= "${STAGING_DIR}"
+diff --git a/meta/classes/fs-uuid.bbclass b/meta/classes/fs-uuid.bbclass
+index 313c5a3..9b53dfb 100644
+--- a/meta/classes/fs-uuid.bbclass
++++ b/meta/classes/fs-uuid.bbclass
+@@ -13,7 +13,7 @@ def get_rootfs_uuid(d):
+     bb.fatal('Could not determine filesystem UUID of %s' % rootfs)
  
- UNINATIVE_URL ?= "unset"
- UNINATIVE_TARBALL ?= "${BUILD_ARCH}-nativesdk-libc.tar.bz2"
-@@ -58,7 +59,7 @@ python uninative_event_fetchloader() {
-             if localpath != tarballpath and os.path.exists(localpath) and not os.path.exists(tarballpath):
-                     os.symlink(localpath, tarballpath)
+ # Replace the special <<uuid-of-rootfs>> inside a string (like the
+-# root= APPEND string in a syslinux.cfg or gummiboot entry) with the
++# root= APPEND string in a syslinux.cfg or systemd-boot entry) with the
+ # actual UUID of the rootfs. Does nothing if the special string
+ # is not used.
+ def replace_rootfs_uuid(d, string):
+diff --git a/meta/classes/systemd-boot.bbclass b/meta/classes/systemd-boot.bbclass
+index 60729a7..6718783 100644
+--- a/meta/classes/systemd-boot.bbclass
++++ b/meta/classes/systemd-boot.bbclass
+@@ -4,9 +4,7 @@
  
--        cmd = d.expand("mkdir -p ${STAGING_DIR}-uninative; cd ${STAGING_DIR}-uninative; tar -xjf ${UNINATIVE_DLDIR}/%s/${UNINATIVE_TARBALL}; ${STAGING_DIR}-uninative/relocate_sdk.py ${STAGING_DIR}-uninative/${BUILD_ARCH}-linux ${UNINATIVE_LOADER} ${UNINATIVE_LOADER} ${STAGING_DIR}-uninative/${BUILD_ARCH}-linux/${bindir_native}/patchelf-uninative ${STAGING_DIR}-uninative/${BUILD_ARCH}-linux${base_libdir_native}/libc*.so" % chksum)
-+        cmd = d.expand("mkdir -p ${UNINATIVE_STAGING_DIR}-uninative; cd ${UNINATIVE_STAGING_DIR}-uninative; tar -xjf ${UNINATIVE_DLDIR}/%s/${UNINATIVE_TARBALL}; ${UNINATIVE_STAGING_DIR}-uninative/relocate_sdk.py ${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux ${UNINATIVE_LOADER} ${UNINATIVE_LOADER} ${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux/${bindir_native}/patchelf-uninative ${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux${base_libdir_native}/libc*.so" % chksum)
-         subprocess.check_call(cmd, shell=True)
+ # systemd-boot.bbclass - The "systemd-boot" is essentially the gummiboot merged into systemd.
+ #                        The original standalone gummiboot project is dead without any more
+-#                        maintenance. As a start point, we replace all gummitboot occurrences
+-#                        with systemd-boot in gummiboot.bbclass to have a base version of this
+-#                        systemd-boot.bbclass.
++#                        maintenance.
+ #
+ # Set EFI_PROVIDER = "systemd-boot" to use systemd-boot on your live images instead of grub-efi
+ # (images built by image-live.bbclass or image-vm.bbclass)
+diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
+index a59265a..489f5ea 100644
+--- a/meta/conf/distro/include/distro_alias.inc
++++ b/meta/conf/distro/include/distro_alias.inc
+@@ -135,7 +135,7 @@ DISTRO_PN_ALIAS_pn-gtk-doc = "Fedora=gtk-doc Ubuntu=gtk-doc"
+ DISTRO_PN_ALIAS_pn-gtk-engines = "Fedora=gtk2-engines OpenSuSE=gtk2-engines Ubuntu=gtk2-engines Mandriva=gtk-engines2 Debian=gtk2-engines"
+ DISTRO_PN_ALIAS_pn-gtk-sato-engine = "OpenedHand"
+ DISTRO_PN_ALIAS_pn-gtk-icon-utils-native = "OSPDT"
+-DISTRO_PN_ALIAS_pn-gummiboot = "Debian=gummiboot Fedora=gummiboot"
++DISTRO_PN_ALIAS_pn-systemd-boot = "Ubuntu=systemd-boot Fedora=systemd-boot"
+ DISTRO_PN_ALIAS_pn-hello-mod = "OE-Core"
+ DISTRO_PN_ALIAS_pn-hostap-conf = "OE-Core"
+ DISTRO_PN_ALIAS_pn-hwlatdetect = "OSPDT"
+diff --git a/meta/lib/oeqa/controllers/masterimage.py b/meta/lib/oeqa/controllers/masterimage.py
+index d796fc3..07418fc 100644
+--- a/meta/lib/oeqa/controllers/masterimage.py
++++ b/meta/lib/oeqa/controllers/masterimage.py
+@@ -159,10 +159,10 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta
+         self.power_cycle(self.connection)
  
-         with open(loaderchksum, "w") as f:
-@@ -90,7 +91,7 @@ def enable_uninative(d):
-         bb.debug(2, "Enabling uninative")
-         d.setVar("NATIVELSBSTRING", "universal%s" % oe.utils.host_gcc_version(d))
-         d.appendVar("SSTATEPOSTUNPACKFUNCS", " uninative_changeinterp")
--        d.prependVar("PATH", "${STAGING_DIR}-uninative/${BUILD_ARCH}-linux${bindir_native}:")
-+        d.prependVar("PATH", "${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux${bindir_native}:")
  
- python uninative_changeinterp () {
-     import subprocess
+-class GummibootTarget(MasterImageHardwareTarget):
++class SystemdbootTarget(MasterImageHardwareTarget):
+ 
+     def __init__(self, d):
+-        super(GummibootTarget, self).__init__(d)
++        super(SystemdbootTarget, self).__init__(d)
+         # this the value we need to set in the LoaderEntryOneShot EFI variable
+         # so the system boots the 'test' bootloader label and not the default
+         # The first four bytes are EFI bits, and the rest is an utf-16le string
+diff --git a/meta/recipes-bsp/systemd-boot/systemd-boot_232.bb b/meta/recipes-bsp/systemd-boot/systemd-boot_232.bb
+index 7036664..602052c 100644
+--- a/meta/recipes-bsp/systemd-boot/systemd-boot_232.bb
++++ b/meta/recipes-bsp/systemd-boot/systemd-boot_232.bb
+@@ -15,7 +15,7 @@ EXTRA_OECONF = " --enable-gnuefi \
+                  --disable-manpages \
+                "
+ 
+-# Imported from gummiboot recipe
++# Imported from the old gummiboot recipe
+ TUNE_CCARGS_remove = "-mfpmath=sse"
+ COMPATIBLE_HOST = "(x86_64.*|i.86.*)-linux"
+ 
+diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi-testfs.sh b/meta/recipes-core/initrdscripts/files/init-install-efi-testfs.sh
+index b562109..9c4b263 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install-efi-testfs.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install-efi-testfs.sh
+@@ -171,19 +171,19 @@ if [ -f /run/media/$1/EFI/BOOT/grub.cfg ]; then
+ fi
+ 
+ if [ -d /run/media/$1/loader ]; then
+-    GUMMIBOOT_CFGS="/ssd/loader/entries/*.conf"
+-    # copy config files for gummiboot
++    SYSTEMDBOOT_CFGS="/ssd/loader/entries/*.conf"
++    # copy config files for systemd-boot
+     cp -dr /run/media/$1/loader /ssd
+     # delete the install entry
+     rm -f /ssd/loader/entries/install.conf
+     # delete the initrd lines
+-    sed -i "/initrd /d" $GUMMIBOOT_CFGS
++    sed -i "/initrd /d" $SYSTEMDBOOT_CFGS
+     # delete any LABEL= strings
+-    sed -i "s/ LABEL=[^ ]*/ /" $GUMMIBOOT_CFGS
++    sed -i "s/ LABEL=[^ ]*/ /" $SYSTEMDBOOT_CFGS
+     # delete any root= strings
+-    sed -i "s/ root=[^ ]*/ /" $GUMMIBOOT_CFGS
++    sed -i "s/ root=[^ ]*/ /" $SYSTEMDBOOT_CFGS
+     # add the root= and other standard boot options
+-    sed -i "s@options *@options root=$rootfs rw $rootwait quiet @" $GUMMIBOOT_CFGS
++    sed -i "s@options *@options root=$rootfs rw $rootwait quiet @" $SYSTEMDBOOT_CFGS
+     # Add the test label
+     echo -ne "title test\nlinux /test-kernel\noptions root=$testfs rw $rootwait quiet\n" > /ssd/loader/entries/test.conf
+ fi
+diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+index ffb709c..5ad3a60 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+@@ -245,19 +245,19 @@ fi
+ 
+ if [ -d /run/media/$1/loader ]; then
+     rootuuid=$(blkid -o value -s PARTUUID ${rootfs})
+-    GUMMIBOOT_CFGS="/boot/loader/entries/*.conf"
+-    # copy config files for gummiboot
++    SYSTEMDBOOT_CFGS="/boot/loader/entries/*.conf"
++    # copy config files for systemd-boot
+     cp -dr /run/media/$1/loader /boot
+     # delete the install entry
+     rm -f /boot/loader/entries/install.conf
+     # delete the initrd lines
+-    sed -i "/initrd /d" $GUMMIBOOT_CFGS
++    sed -i "/initrd /d" $SYSTEMDBOOT_CFGS
+     # delete any LABEL= strings
+-    sed -i "s/ LABEL=[^ ]*/ /" $GUMMIBOOT_CFGS
++    sed -i "s/ LABEL=[^ ]*/ /" $SYSTEMDBOOT_CFGS
+     # delete any root= strings
+-    sed -i "s/ root=[^ ]*/ /" $GUMMIBOOT_CFGS
++    sed -i "s/ root=[^ ]*/ /" $SYSTEMDBOOT_CFGS
+     # add the root= and other standard boot options
+-    sed -i "s@options *@options root=PARTUUID=$rootuuid rw $rootwait quiet @" $GUMMIBOOT_CFGS
++    sed -i "s@options *@options root=PARTUUID=$rootuuid rw $rootwait quiet @" $SYSTEMDBOOT_CFGS
+ fi
+ 
+ umount /tgt_root
+diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
+index a175895..800733f 100755
+--- a/scripts/contrib/mkefidisk.sh
++++ b/scripts/contrib/mkefidisk.sh
+@@ -384,7 +384,7 @@ EFIDIR="$BOOTFS_MNT/EFI/BOOT"
+ cp $HDDIMG_MNT/vmlinuz $BOOTFS_MNT >$OUT 2>&1 || error "Failed to copy vmlinuz"
+ # Copy the efi loader and configs (booti*.efi and grub.cfg if it exists)
+ cp -r $HDDIMG_MNT/EFI $BOOTFS_MNT >$OUT 2>&1 || error "Failed to copy EFI dir"
+-# Silently ignore a missing gummiboot loader dir (we might just be a GRUB image)
++# Silently ignore a missing systemd-boot loader dir (we might just be a GRUB image)
+ cp -r $HDDIMG_MNT/loader $BOOTFS_MNT >$OUT 2>&1
+ 
+ # Update the boot loaders configurations for an installed image
+@@ -410,25 +410,25 @@ if [ -e "$GRUB_CFG" ]; then
+ 	sed -i "s@vmlinuz @vmlinuz root=$TARGET_ROOTFS ro rootwait console=ttyS0 console=tty0 @" $GRUB_CFG
+ fi
+ 
+-# Look for a gummiboot installation
+-GUMMI_ENTRIES="$BOOTFS_MNT/loader/entries"
+-GUMMI_CFG="$GUMMI_ENTRIES/boot.conf"
+-if [ -d "$GUMMI_ENTRIES" ]; then
+-	info "Configuring Gummiboot"
++# Look for a systemd-boot installation
++SYSTEMD_BOOT_ENTRIES="$BOOTFS_MNT/loader/entries"
++SYSTEMD_BOOT_CFG="$SYSTEMD_BOOT_ENTRIES/boot.conf"
++if [ -d "$SYSTEMD_BOOT_ENTRIES" ]; then
++	info "Configuring SystemD-boot"
+ 	# remove the install target if it exists
+-	rm $GUMMI_ENTRIES/install.conf >$OUT 2>&1
++	rm $SYSTEMD_BOOT_ENTRIES/install.conf >$OUT 2>&1
+ 
+-	if [ ! -e "$GUMMI_CFG" ]; then
+-		echo "ERROR: $GUMMI_CFG not found"
++	if [ ! -e "$SYSTEMD_BOOT_CFG" ]; then
++		echo "ERROR: $SYSTEMD_BOOT_CFG not found"
+ 	fi
+ 
+-	sed -i "/initrd /d" $GUMMI_CFG
+-	sed -i "s@ root=[^ ]*@ @" $GUMMI_CFG
+-	sed -i "s@options *LABEL=boot @options LABEL=Boot root=$TARGET_ROOTFS ro rootwait console=ttyS0 console=tty0 @" $GUMMI_CFG
++	sed -i "/initrd /d" $SYSTEMD_BOOT_CFG
++	sed -i "s@ root=[^ ]*@ @" $SYSTEMD_BOOT_CFG
++	sed -i "s@options *LABEL=boot @options LABEL=Boot root=$TARGET_ROOTFS ro rootwait console=ttyS0 console=tty0 @" $SYSTEMD_BOOT_CFG
+ fi
+ 
+ # Ensure we have at least one EFI bootloader configured
+-if [ ! -e $GRUB_CFG ] && [ ! -e $GUMMI_CFG ]; then
++if [ ! -e $GRUB_CFG ] && [ ! -e $SYSTEMD_BOOT_CFG ]; then
+ 	die "No EFI bootloader configuration found"
+ fi
+ 
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+index 4adb80b..305e910 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -36,7 +36,7 @@ from wic.utils.oe.misc import exec_cmd, exec_native_cmd, get_bitbake_var, \
+ class BootimgEFIPlugin(SourcePlugin):
+     """
+     Create EFI boot partition.
+-    This plugin supports GRUB 2 and gummiboot bootloaders.
++    This plugin supports GRUB 2 and systemd-boot bootloaders.
+     """
+ 
+     name = 'bootimg-efi'
+@@ -82,7 +82,7 @@ class BootimgEFIPlugin(SourcePlugin):
+         cfg.close()
+ 
+     @classmethod
+-    def do_configure_gummiboot(cls, hdddir, creator, cr_workdir):
++    def do_configure_systemdboot(cls, hdddir, creator, cr_workdir):
+         """
+         Create loader-specific systemd-boot/gummiboot config
+         """
+@@ -98,7 +98,7 @@ class BootimgEFIPlugin(SourcePlugin):
+         loader_conf += "default boot\n"
+         loader_conf += "timeout %d\n" % bootloader.timeout
+ 
+-        msger.debug("Writing gummiboot config %s/hdd/boot/loader/loader.conf" \
++        msger.debug("Writing systemd-boot config %s/hdd/boot/loader/loader.conf" \
+                         % cr_workdir)
+         cfg = open("%s/hdd/boot/loader/loader.conf" % cr_workdir, "w")
+         cfg.write(loader_conf)
+@@ -109,16 +109,16 @@ class BootimgEFIPlugin(SourcePlugin):
+         if configfile:
+             custom_cfg = get_custom_config(configfile)
+             if custom_cfg:
+-                # Use a custom configuration for gummiboot
++                # Use a custom configuration for systemd-boot
+                 boot_conf = custom_cfg
+                 msger.debug("Using custom configuration file "
+-                        "%s for gummiboots's boot.conf" % configfile)
++                        "%s for systemd-boots's boot.conf" % configfile)
+             else:
+                 msger.error("configfile is specified but failed to "
+                         "get it from %s." % configfile)
+ 
+         if not custom_cfg:
+-            # Create gummiboot configuration using parameters from wks file
++            # Create systemd-boot configuration using parameters from wks file
+             kernel = "/bzImage"
+ 
+             boot_conf = ""
+@@ -127,7 +127,7 @@ class BootimgEFIPlugin(SourcePlugin):
+             boot_conf += "options LABEL=Boot root=%s %s\n" % \
+                              (creator.rootdev, bootloader.append)
+ 
+-        msger.debug("Writing gummiboot config %s/hdd/boot/loader/entries/boot.conf" \
++        msger.debug("Writing systemd-boot config %s/hdd/boot/loader/entries/boot.conf" \
+                         % cr_workdir)
+         cfg = open("%s/hdd/boot/loader/entries/boot.conf" % cr_workdir, "w")
+         cfg.write(boot_conf)
+@@ -149,9 +149,8 @@ class BootimgEFIPlugin(SourcePlugin):
+         try:
+             if source_params['loader'] == 'grub-efi':
+                 cls.do_configure_grubefi(hdddir, creator, cr_workdir)
+-            elif source_params['loader'] == 'gummiboot' \
+-                 or source_params['loader'] == 'systemd-boot':
+-                cls.do_configure_gummiboot(hdddir, creator, cr_workdir)
++            elif source_params['loader'] == 'systemd-boot':
++                cls.do_configure_systemdboot(hdddir, creator, cr_workdir)
+             else:
+                 msger.error("unrecognized bootimg-efi loader: %s" % source_params['loader'])
+         except KeyError:
+@@ -190,8 +189,7 @@ class BootimgEFIPlugin(SourcePlugin):
+                 exec_cmd(cp_cmd, True)
+                 shutil.move("%s/grub.cfg" % cr_workdir,
+                             "%s/hdd/boot/EFI/BOOT/grub.cfg" % cr_workdir)
+-            elif source_params['loader'] == 'gummiboot' \
+-                 or source_params['loader'] == 'systemd-boot':
++            elif source_params['loader'] == 'systemd-boot':
+                 cp_cmd = "cp %s/EFI/BOOT/* %s/EFI/BOOT" % (bootimg_dir, hdddir)
+                 exec_cmd(cp_cmd, True)
+             else:
 -- 
-2.7.4
+2.10.1
 
 
