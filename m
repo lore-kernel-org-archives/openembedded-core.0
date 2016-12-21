@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C65D77310
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A2D8B77338
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 21 Dec 2016 04:31:32 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uBL4VW0x001603
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uBL4VXJ0005809
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2016 20:31:32 -0800 (PST)
+	Tue, 20 Dec 2016 20:31:33 -0800
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.184) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 20 Dec 2016 20:31:31 -0800
+	14.3.294.0; Tue, 20 Dec 2016 20:31:32 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Dec 2016 12:32:46 +0800
-Message-ID: <4e33a8311af3ea53162e3c9a8ed0848b4a8250cc.1482294710.git.Qi.Chen@windriver.com>
+Date: Wed, 21 Dec 2016 12:32:47 +0800
+Message-ID: <8829487e98adb89f68c9ef56371d7044184e0078.1482294710.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1482294710.git.Qi.Chen@windriver.com>
 References: <cover.1482294710.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] package_manager: default to have scriptlet output captured in log
+Subject: [PATCH 2/2] opkg-utils: warn if update-alternatives finds priority conflict
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,48 +36,69 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 21 Dec 2016 04:31:32 -0000
 Content-Type: text/plain
 
-We need to have scriptlet output captured in log. If we don't do so,
-some useful information from scriptlets (especially postinstall script)
-would be missing. In case a script has a warning message but it does not
-necessarily have to fail, the message should be captured.
+If multiple providers for a utility have the same alternatives priority,
+which one would be chosen is determined by which one is installed later.
+Our alternatives system should be able to detect such problem and warn users
+so that potential problems could be avoided.
 
-Opkg has already done that. Change for rpm and dpkg so that scriptlet
-output is captured and no warning message is missing.
+Modify update-alternatives to warn users when detecting multiple providers
+with the same priority.
+
+[YOCTO #8314]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/lib/oe/package_manager.py | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ ...rnatives-warn-when-multiple-providers-hav.patch | 26 ++++++++++++++++++++++
+ meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |  3 ++-
+ 2 files changed, 28 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-warn-when-multiple-providers-hav.patch
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index e557473..6892106 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -669,11 +669,11 @@ class RpmPM(PackageManager):
-         self.install_dir_path = os.path.join(self.target_rootfs, self.install_dir_name)
-         self.rpm_cmd = bb.utils.which(os.getenv('PATH'), "rpm")
-         self.smart_cmd = bb.utils.which(os.getenv('PATH'), "smart")
--        # 0 = default, only warnings
--        # 1 = --log-level=info (includes information about executing scriptlets and their output)
-+        # 0 = --log-level=warning, only warnings
-+        # 1 = --log-level=info (includes information about executing scriptlets and their output), default
-         # 2 = --log-level=debug
-         # 3 = --log-level=debug plus dumps of scriplet content and command invocation
--        self.debug_level = int(d.getVar('ROOTFS_RPM_DEBUG') or "0")
-+        self.debug_level = int(d.getVar('ROOTFS_RPM_DEBUG') or "1")
-         self.smart_opt = ["--log-level=%s" %
-                          ("warning" if self.debug_level == 0 else
-                           "info" if self.debug_level == 1 else
-@@ -2025,7 +2025,8 @@ class DpkgPM(OpkgDpkgPM):
-                         bb.note("Executing %s for package: %s ..." %
-                                  (control_script.name.lower(), pkg_name))
-                         subprocess.check_output([p_full, control_script.argument],
--                                stderr=subprocess.STDOUT)
-+                                stderr=subprocess.STDOUT).decode("utf-8")
-+                        bb.note(output)
-                     except subprocess.CalledProcessError as e:
-                         bb.note("%s for package %s failed with %d:\n%s" %
-                                 (control_script.name, pkg_name, e.returncode,
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-warn-when-multiple-providers-hav.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-warn-when-multiple-providers-hav.patch
+new file mode 100644
+index 0000000..afce1e1
+--- /dev/null
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-warn-when-multiple-providers-hav.patch
+@@ -0,0 +1,26 @@
++Subject: update-alternatives: warn when multiple providers have the same priority
++
++Upstream-Status: Pending
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ update-alternatives | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/update-alternatives b/update-alternatives
++index ca01d5d..ffad853 100644
++--- a/update-alternatives
+++++ b/update-alternatives
++@@ -90,6 +90,9 @@ add_alt() {
++ 	local path="$2"
++ 	local priority="$3"
++ 	remove_alt $name $path
+++	if grep -qw "$priority" $ad/$name; then
+++		echo "Warn: update-alternatives: $name has multiple providers with the same priority, please check $ad/$name for details"
+++	fi
++ 	echo "$path $priority" >> $ad/$name
++ }
++ 
++-- 
++2.8.3
++
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+index 19a852e..7b01bfc 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+@@ -10,7 +10,8 @@ PROVIDES += "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'virtu
+ SRCREV = "3ffece9bf19a844edacc563aa092fd1fbfcffeee"
+ PV = "0.3.2+git${SRCPV}"
+ 
+-SRC_URI = "git://git.yoctoproject.org/opkg-utils"
++SRC_URI = "git://git.yoctoproject.org/opkg-utils \
++           file://0001-update-alternatives-warn-when-multiple-providers-hav.patch"
+ SRC_URI_append_class-native = " file://tar_ignore_error.patch"
+ 
+ S = "${WORKDIR}/git"
 -- 
 1.9.1
 
