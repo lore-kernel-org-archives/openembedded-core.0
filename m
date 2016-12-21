@@ -1,50 +1,50 @@
 Return-Path: <patrick.ohly@intel.com>
 Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
 	[209.85.214.46])
-	by mail.openembedded.org (Postfix) with ESMTP id E4015772C7
+	by mail.openembedded.org (Postfix) with ESMTP id 77437772C7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2016 13:11:46 +0000 (UTC)
-Received: by mail-it0-f46.google.com with SMTP id o141so29829999itc.0
+	Wed, 21 Dec 2016 13:11:49 +0000 (UTC)
+Received: by mail-it0-f46.google.com with SMTP id 75so78680976ite.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2016 05:11:48 -0800 (PST)
+	Wed, 21 Dec 2016 05:11:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=rVv/kq8x39BPMqdQjP2LmeSeAFKqM9Le7RBCWkFTr64=;
-	b=ddUwSqzmsGxdZzaCvjw2OIG8+cMSh5HvxDnkkOCXG1/7guo8RMbT+fF2OUeQpm1jBC
-	JN41RJ7Bn5QxK2lCkxfhovkvIyPKWCnPHIuf97VwuyjYUugDANGRBXYKFbQD0p6prG+e
-	RR9GjJRdbTYQJlF5oKWCGuREWZmLpUTdGAqJCYQ5UUKfQ34A/1oPTRDgFuFikvRVMGCL
-	HjrRkriXLo/S+rDx+2Vr5Gt6zM4ObLduSkRpCHMFhh97wH2I00RzJmLwm90ywS6D64aY
-	U9UmTv10zrcfbvvgL44lC4jIDhse1+Iz73XNZXQMfwzsJcH0sm1ChMJhK2d8gR3TxtB2
-	qPFQ==
+	bh=lbs/vqhj2czx+E3EUPe5dDq22qE0SgFYSp9N8Rp6Wv0=;
+	b=ckLvNQnB9la/xj6/Uu237dJtvmpQrifhS8YPvWGzx2XcDEt7bBXpS08azWo+LKSVEF
+	urZobwfUMIyUA/GCSYoawb3hTy1zrpo21uMgyihy8IJTk5StLRA8MqSYSO6PxBj4fkG9
+	LKNdHTkjM24HpmimaQQxtwFPxz90zNI8jNBKSeeJ2GeN0u+HtXVBYm4vt7SFLNMtD679
+	bo89ms8KxP5oWol/p8cW4oJzwsS9U0vQ4RsZeUIOtHmprL4rLQGpkd9CgYFRQeMm1jgV
+	pztIa/2hkz41xngB7OLSEEGlRUC3AAsHH6Knv5Ar6HpYEQARRhAX8ubBqR+hp5AcTDEm
+	ezUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=rVv/kq8x39BPMqdQjP2LmeSeAFKqM9Le7RBCWkFTr64=;
-	b=K72fE3BtboVAA6QW2C/CVTs8kiasNinYJcKRhqUtpmDHn/VMR7J52MCrqGZqYuVsu8
-	7/TFvsDzarTgv0d+4N+ECjJZUFBJsUSmGOF9xT9UySU94LkcaYZKX8X4JEKbTOFJUnne
-	r+DhW1zJ6haIJbENnTTd4/T576YPvALo/LiNq7qVFRcjqcGlbhh6yeiTOslhoZVfl+w1
-	ccdgxq2iHdz4o5FztlYc6Y+wf3ZU+8a3ZDB2ufBL3Tbp0UPtvf5/J8bAH8b2btNlCUJM
-	+JWW2ntLaW1YOFgmfn2i+03TCcwpT5JbQgn8At7bJnwYiQERubYSCWnc7Blsv/zE5gp4
-	701g==
-X-Gm-Message-State: AIkVDXJCDZQEuGQA1XK4bDGOaWcnCGQiXyesyri4Q/4cBkm6TVK9n+L9npGTFI8f5dkSjpAN
-X-Received: by 10.36.60.7 with SMTP id m7mr7444093ita.7.1482325907715;
-	Wed, 21 Dec 2016 05:11:47 -0800 (PST)
+	bh=lbs/vqhj2czx+E3EUPe5dDq22qE0SgFYSp9N8Rp6Wv0=;
+	b=nUKafjVOrK9UyFcNkU4KPwNaEWU578BmORvr/h7DxQc3VtHoVoksYxSfT0b/gcTzfv
+	AcgloMJjNDqcuWoz14wWs7Rk7x5F/HXc23EZ6cADQWGJgPQcxDRZmTZRFoNmOEN4vEuR
+	a/iJHnzOfUwLm5ap+AUiw7FvbkVLO5Zzz36ALztR2BKNj2W6NbqqEyNfx35BpYNK9GJV
+	u8XrAtMc8sSwtdTpohH4KnpMP2ddtqH23p+OhXArtd3QyyCHZiavUIY9FgwJZAy9by9p
+	BU+6SuCnDKcchUbt/uJmswc6e87X+tvLh+azglrZ3rt3UltAHpqfQEuCxhb/8Pf/CUs7
+	b6vw==
+X-Gm-Message-State: AIkVDXLIpC6aDaWM1GEHBCw3uqlF+9mWc1q39VUEwxnHJHloFrgOxZT2zZK8dLTnbcQJjObV
+X-Received: by 10.36.68.130 with SMTP id o124mr7441737ita.62.1482325910408;
+	Wed, 21 Dec 2016 05:11:50 -0800 (PST)
 Received: from pohly-desktop.fritz.box (p5DE8F3CB.dip0.t-ipconnect.de.
 	[93.232.243.203]) by smtp.gmail.com with ESMTPSA id
-	o65sm12103726ioe.15.2016.12.21.05.11.45
+	o65sm12103726ioe.15.2016.12.21.05.11.48
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 21 Dec 2016 05:11:46 -0800 (PST)
+	Wed, 21 Dec 2016 05:11:49 -0800 (PST)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org,
 	ricardo.neri@intel.com
-Date: Wed, 21 Dec 2016 14:11:26 +0100
-Message-Id: <3b1fda1a385e78c1ef5692b123fafd66078a2a5e.1482324587.git.patrick.ohly@intel.com>
+Date: Wed, 21 Dec 2016 14:11:27 +0100
+Message-Id: <12e72d8f27d856bcc2007ca5226a693a68fe2ae0.1482324587.git.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1482324587.git.patrick.ohly@intel.com>
 References: <cover.1482324587.git.patrick.ohly@intel.com>
-Subject: [PATCH 5/9] ovmf_git.bb: enable parallel compilation
+Subject: [PATCH 6/9] ovmf_git.bb: enable Secure Boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,54 +57,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2016 13:11:47 -0000
+X-List-Received-Date: Wed, 21 Dec 2016 13:11:49 -0000
 
-The Fedora srpm [1] seems to have no problems with parallel
-compilation, so let's also use that for the target. The native
-tools however indeed have dependency problems:
+The recipe now compiles OVMF twice, once without Secure Boot, once
+with. This is the same approach as in
+https://src.fedoraproject.org/cgit/rpms/edk2.git/tree/edk2.spec
 
-| test_Ecc_CParser (CheckPythonSyntax.Tests) ... gcc -o ../bin/EfiRom -L/fast/build/ostro/x86/tmp-glibc/sysroots/x86_64-linux/usr/lib -L/fast/build/ostro/x86/tmp-glibc/sysroots/x86_64-linux/lib -Wl,-rpath-link,/fast/build/ostro/x86/tmp-glibc/sysroots/x86_64-linux/usr/lib -Wl,-rpath-link,/fast/build/ostro/x86/tmp-glibc/sysroots/x86_64-linux/lib -Wl,-rpath,/fast/build/ostro/x86/tmp-glibc/sysroots/x86_64-linux/usr/lib -Wl,-rpath,/fast/build/ostro/x86/tmp-glibc/sysroots/x86_64-linux/lib -Wl,-O1 EfiRom.o -L../libs -lCommon
-| /usr/bin/ld: cannot find -lCommon
-| collect2: error: ld returned 1 exit status
+The results are "ovmf.qcow2" and "ovmf.secboot.qcow2" in the
+image deploy directory, so
+  runqemu <machine> <image> ovmf.secboot
+will boot with Secure Boot enabled.
 
-ERROR: Task (virtual:native:.../meta/recipes-core/ovmf/ovmf_git.bb:do_compile) failed with exit code '1'
+In contrast to Fedora, no attempt is made to strip potentially patent
+encumbered algorithms out of the OpenSSL archive. OVMF does not use
+the ones considered problematic for Fedora, so this shouldn't be a
+problem.
 
-[1] https://src.fedoraproject.org/cgit/rpms/edk2.git/tree/edk2.spec
+Fixes: luv-yocto/#38
 
 Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- meta/recipes-core/ovmf/ovmf_git.bb | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/recipes-core/ovmf/ovmf_git.bb | 27 ++++++++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
 diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
-index d0441d1..67e65b8 100644
+index 67e65b8..c4eedf0 100644
 --- a/meta/recipes-core/ovmf/ovmf_git.bb
 +++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -12,7 +12,7 @@ SRC_URI = "git://github.com/tianocore/edk2.git;branch=master \
+@@ -1,6 +1,6 @@
+ DESCRIPTION = "OVMF - UEFI firmware for Qemu and KVM"
+ HOMEPAGE = "http://sourceforge.net/apps/mediawiki/tianocore/index.php?title=OVMF"
+-LICENSE = "BSD"
++LICENSE = "BSD & OpenSSL"
+ LIC_FILES_CHKSUM = "file://OvmfPkg/License.txt;md5=343dc88e82ff33d042074f62050c3496"
  
+ SRC_URI = "git://github.com/tianocore/edk2.git;branch=master \
+@@ -10,7 +10,13 @@ SRC_URI = "git://github.com/tianocore/edk2.git;branch=master \
+ 	file://0003-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch \
+         "
+ 
++SRC_URI_append_class-target = " \
++	http://www.openssl.org/source/openssl-1.0.2j.tar.gz;name=openssl;subdir=${S}/CryptoPkg/Library/OpensslLib \
++"
++
  SRCREV="4575a602ca6072ee9d04150b38bfb143cbff8588"
++SRC_URI[openssl.md5sum] = "96322138f0b69e61b7212bc53d5e912b"
++SRC_URI[openssl.sha256sum] = "e7aff292be21c259c6af26469c7a9b3ba26e9abaaffd325e3dccc9785256c431"
  
--PARALLEL_MAKE = ""
-+PARALLEL_MAKE_class-native = ""
+ PARALLEL_MAKE_class-native = ""
  
- S = "${WORKDIR}/git"
+@@ -30,6 +36,10 @@ BUILD_OPTIMIZATION="-pipe"
+ # OVMF supports IA only, although it could conceivably support ARM someday.
+ COMPATIBLE_HOST='(i.86|x86_64).*'
  
-@@ -92,6 +92,7 @@ do_compile_class-native() {
- 
- do_compile_class-target() {
-     export LFLAGS="${LDFLAGS}"
-+    PARALLEL_JOBS="${@ '${PARALLEL_MAKE}'.replace('-j', '-n')}"
-     OVMF_ARCH="X64"
-     if [ "${TARGET_ARCH}" != "x86_64" ] ; then
-         OVMF_ARCH="IA32"
-@@ -109,7 +110,7 @@ do_compile_class-target() {
++# Additional build flags for OVMF with Secure Boot.
++# Fedora also uses "-D SMM_REQUIRE -D EXCLUDE_SHELL_FROM_FD".
++OVMF_SECURE_BOOT_FLAGS = "-DSECURE_BOOT_ENABLE=TRUE"
++
+ do_patch_append_class-native() {
+     bb.build.exec_func('do_fix_iasl', d)
+     bb.build.exec_func('do_fix_toolchain', d)
+@@ -110,8 +120,22 @@ do_compile_class-target() {
      bbnote FIXED_GCCVER is ${FIXED_GCCVER}
      build_dir="${S}/Build/Ovmf$OVMF_DIR_SUFFIX/RELEASE_${FIXED_GCCVER}"
  
--    ${S}/OvmfPkg/build.sh -a $OVMF_ARCH -b RELEASE -t ${FIXED_GCCVER}
-+    ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b RELEASE -t ${FIXED_GCCVER}
++    bbnote "Building without Secure Boot."
++    rm -rf ${S}/Build/Ovmf$OVMF_DIR_SUFFIX
+     ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b RELEASE -t ${FIXED_GCCVER}
      ln ${build_dir}/FV/OVMF.fd ${WORKDIR}/ovmf/OVMF.fd
++
++    # See CryptoPkg/Library/OpensslLib/Patch-HOWTO.txt and
++    # https://src.fedoraproject.org/cgit/rpms/edk2.git/tree/ for
++    # building with Secure Boot enabled.
++    bbnote "Building with Secure Boot."
++    rm -rf ${S}/Build/Ovmf$OVMF_DIR_SUFFIX
++    if ! [ -f ${S}/CryptoPkg/Library/OpensslLib/openssl-*/edk2-patch-applied ]; then
++        ( cd ${S}/CryptoPkg/Library/OpensslLib/openssl-* && patch -p1 <$(echo ../EDKII_openssl-*.patch) && touch edk2-patch-applied )
++    fi
++    ( cd ${S}/CryptoPkg/Library/OpensslLib/ && ./Install.sh )
++    ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b RELEASE -t ${FIXED_GCCVER} ${OVMF_SECURE_BOOT_FLAGS}
++    ln ${build_dir}/FV/OVMF.fd ${WORKDIR}/ovmf/OVMF.secboot.fd
  }
+ 
+ do_install_class-native() {
+@@ -131,6 +155,7 @@ do_deploy() {
+ do_deploy_class-target() {
+     # For use with "runqemu ovmf".
+     qemu-img convert -f raw -O qcow2 ${WORKDIR}/ovmf/OVMF.fd ${DEPLOYDIR}/ovmf.qcow2
++    qemu-img convert -f raw -O qcow2 ${WORKDIR}/ovmf/OVMF.secboot.fd ${DEPLOYDIR}/ovmf.secboot.qcow2
+ }
+ addtask do_deploy after do_compile before do_build
  
 -- 
 2.1.4
