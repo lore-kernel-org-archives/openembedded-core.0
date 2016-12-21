@@ -1,45 +1,35 @@
-Return-Path: <fathi.boudra@linaro.org>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 02C2D774A5
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 09493774A2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2016 18:17:58 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id g23so155738003wme.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2016 10:18:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=49jz5ncFSJQ4uodwTdDOb5OaigrmZcZyNsT/wYo6Atc=;
-	b=Jjir6TqpokXRhXJLh7HqNMJ0wUQTqwgZm9BlcDIUGowHfNgbebJDR3r81wtg6HH4TE
-	csZ7WmQNz4JBOBe5ZATspQlOiJg1hsTdfrCUT+qvWe0soizs+oZBbMqceMcMdShBXBI8
-	5zDgAinH6sxbqCeozQrwhDOHM1FJ+xSRr3+EI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=49jz5ncFSJQ4uodwTdDOb5OaigrmZcZyNsT/wYo6Atc=;
-	b=KNgsRBFzeXQ/EIH+w8OWTgWvTzzwdwYhJlbPX/ITPsNopgclrw9mRKebaj/8vHlrjD
-	qShU4zlc/9xSSQMX02fzIppP8+cDWGP1giy0nvJldvBWXCENkTQF2e6LR+NUB4DQAhXf
-	c81ZAYdElIo/UXDlzVp3Axsqfn3oozoC5U0uIUpfqb0fH+g8MgwDjlVreBY3Xp+z6/pH
-	c+/fJNJacvfICXVe8T6hQCR1cuba89TwhgAv5Cityh3DFvbl7xdrgjczBXB16sOYRle1
-	KZhH49VSXKfbNBWCAYbgksGMO6LLizOn0vGYYK+xnboFnjLGUFkjIzaIeut3KExpL/6f
-	Oq3g==
-X-Gm-Message-State: AIkVDXKhTqFUo1u/MZ1rb+7xc9OZ24uWOFJp3nWXRGd1DY+hkSCvsSWKjjcHVdyFbJ8u/ATo1BIFw6yhTNVEnOdJ
-X-Received: by 10.28.64.136 with SMTP id n130mr3318837wma.45.1482344279229;
-	Wed, 21 Dec 2016 10:17:59 -0800 (PST)
+	Wed, 21 Dec 2016 19:10:33 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 27FB520B20;
+	Wed, 21 Dec 2016 19:10:34 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id Z54Ln_ID1cuI; Wed, 21 Dec 2016 19:10:34 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-95-79.washdc.fios.verizon.net
+	[100.15.95.79])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id F38B3208B1;
+	Wed, 21 Dec 2016 19:10:31 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id E2D5F1621E3; Wed, 21 Dec 2016 14:10:30 -0500 (EST)
+Date: Wed, 21 Dec 2016 14:10:30 -0500
+From: Denys Dmytriyenko <denis@denix.org>
+To: Christopher Larson <kergoth@gmail.com>
+Message-ID: <20161221191030.GF30576@denix.org>
+References: <cover.1447371049.git.chris_larson@mentor.com>
+	<130d9a6c1f4ecea86748a44b73f51d8ddb2e63da.1447371049.git.chris_larson@mentor.com>
 MIME-Version: 1.0
-Received: by 10.28.19.69 with HTTP; Wed, 21 Dec 2016 10:17:58 -0800 (PST)
-In-Reply-To: <1482334714.6937.34.camel@intel.com>
-References: <cover.1482324587.git.patrick.ohly@intel.com>
-	<374bb6a728f368a801f961fb524290f205bb4625.1482324587.git.patrick.ohly@intel.com>
-	<CAGNsrLBx=+yvgDAsaqz8mYm30WG0TVEV3eR2PNMj+VHK4ceSOw@mail.gmail.com>
-	<1482334714.6937.34.camel@intel.com>
-From: Fathi Boudra <fathi.boudra@linaro.org>
-Date: Wed, 21 Dec 2016 20:17:58 +0200
-Message-ID: <CAGNsrLDcdnhghoQOPcAtdmEQ9hTBHM0GHmFErzTYc5Jv0-Y8ug@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: meta-luv <luv@lists.01.org>, "Neri, Ricardo" <ricardo.neri@intel.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/9] iasl: move from meta-luv to OE-core
+In-Reply-To: <130d9a6c1f4ecea86748a44b73f51d8ddb2e63da.1447371049.git.chris_larson@mentor.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/4] linux-dtb.inc: use absolute upd-alt paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,37 +42,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2016 18:17:59 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 21 Dec 2016 19:10:34 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 21 December 2016 at 17:38, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> On Wed, 2016-12-21 at 16:11 +0200, Fathi Boudra wrote:
->> On 21 December 2016 at 15:11, Patrick Ohly <patrick.ohly@intel.com> wrote:
->> > iasl is also provided by the meta-oe layer's acpica recipe. iasl is a
->> > bit simpler and thus seems more suitable for OE-core.
->>
->> Simpler in what sense?
->
-> Less code to compile, which might matter for people who just want a
-> working UEFI for qemu and nothing else. I haven't measured the
-> difference, though.
+On Thu, Nov 12, 2015 at 04:41:28PM -0700, Christopher Larson wrote:
+> From: Christopher Larson <chris_larson@mentor.com>
+> 
+> This works around a limitation of the chkconfig update-alternatives, so it
+> works with all our update-alternatives providers.
 
-to build, it's taking 3-4 minutes on a 3 year old laptop (i5-2520m @ 2.5 Ghz).
+I know this change is old and has been in for over a year...
 
->>  acpica recipe is trivial and provide fully acpica tools.
->> Would you mind to import meta-oe acpica recipe instead of providing a
->> reduced set of acpica for not much benefit?
->
-> I don't have a strong opinion about this and would be fine with moving
-> acpica to OE-core instead, too.
+But the side-effect of it is that it breaks NFS-boot due to absolute DTB 
+symlinks. We had to implement a local workaround to switch them back to 
+relative links.
 
-It would be nice. thanks.
+Is there another way to fix the original issue w/o absolute links?
 
-> --
-> Best Regards, Patrick Ohly
->
-> The content of this message is my personal opinion only and although
-> I am an employee of Intel, the statements I make here in no way
-> represent Intel's position on the issue, nor am I authorized to speak
-> on behalf of Intel on this matter.
+-- 
+Denys
+
+
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> ---
+>  meta/recipes-kernel/linux/linux-dtb.inc | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
+> index ee3a5e1..5810b10 100644
+> --- a/meta/recipes-kernel/linux/linux-dtb.inc
+> +++ b/meta/recipes-kernel/linux/linux-dtb.inc
+> @@ -64,7 +64,7 @@ pkg_postinst_kernel-devicetree () {
+>  	do
+>  		DTB_BASE_NAME=`basename ${DTB_FILE} | awk -F "." '{print $1}'`
+>  		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+> -		update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.dtb ${DTB_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+> +		update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.dtb ${DTB_BASE_NAME}.dtb /boot/devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+>  	done
+>  }
+>  
+> @@ -74,6 +74,6 @@ pkg_postrm_kernel-devicetree () {
+>  	do
+>  		DTB_BASE_NAME=`basename ${DTB_FILE} | awk -F "." '{print $1}'`
+>  		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+> -		update-alternatives --remove ${DTB_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+> +		update-alternatives --remove ${DTB_BASE_NAME}.dtb /boot/devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+>  	done
+>  }
+> -- 
+> 2.2.1
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
