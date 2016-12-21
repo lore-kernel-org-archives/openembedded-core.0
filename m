@@ -1,50 +1,50 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
-	[209.85.214.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 77437772C7
+Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
+	[209.85.214.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 42BF3773F9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2016 13:11:49 +0000 (UTC)
-Received: by mail-it0-f46.google.com with SMTP id 75so78680976ite.1
+	Wed, 21 Dec 2016 13:11:55 +0000 (UTC)
+Received: by mail-it0-f50.google.com with SMTP id x2so51089727itf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2016 05:11:51 -0800 (PST)
+	Wed, 21 Dec 2016 05:11:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=lbs/vqhj2czx+E3EUPe5dDq22qE0SgFYSp9N8Rp6Wv0=;
-	b=ckLvNQnB9la/xj6/Uu237dJtvmpQrifhS8YPvWGzx2XcDEt7bBXpS08azWo+LKSVEF
-	urZobwfUMIyUA/GCSYoawb3hTy1zrpo21uMgyihy8IJTk5StLRA8MqSYSO6PxBj4fkG9
-	LKNdHTkjM24HpmimaQQxtwFPxz90zNI8jNBKSeeJ2GeN0u+HtXVBYm4vt7SFLNMtD679
-	bo89ms8KxP5oWol/p8cW4oJzwsS9U0vQ4RsZeUIOtHmprL4rLQGpkd9CgYFRQeMm1jgV
-	pztIa/2hkz41xngB7OLSEEGlRUC3AAsHH6Knv5Ar6HpYEQARRhAX8ubBqR+hp5AcTDEm
-	ezUg==
+	bh=EVizroGq0kjGVrNUIVJij71NFAFevlslM7mh2oTQ+r4=;
+	b=btN/NdCwDMxFMYrqia43i5of2T/wO70qhgGWP4zJNVGD+a9HtIim/Yxs12BkT78sxf
+	D1GJ04xZuSF7H3TRl/f7zbiBV43jc5EUU257FKreoD58LeQoBiqk0W5XVsh+apobdBko
+	oKsPiXICh9PeYbgp4r0nfshmqgeXTtcK2riEe7bOgzaGmwtO/hbmOkQJr/MGnwU3FH3H
+	tIZ9t4Tx+p3y0VTvyQrEununJ4cXHQxJlHLQk+aLkQaH/9q0Qodz86K5YoMn8dH8DXEN
+	zC49DZ4sVwGpPAN4w6ODktw/IzSWBDhaKMai1UOF+rvwkjHW29LKYDhBJ+iegnYGFFmx
+	eIYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=lbs/vqhj2czx+E3EUPe5dDq22qE0SgFYSp9N8Rp6Wv0=;
-	b=nUKafjVOrK9UyFcNkU4KPwNaEWU578BmORvr/h7DxQc3VtHoVoksYxSfT0b/gcTzfv
-	AcgloMJjNDqcuWoz14wWs7Rk7x5F/HXc23EZ6cADQWGJgPQcxDRZmTZRFoNmOEN4vEuR
-	a/iJHnzOfUwLm5ap+AUiw7FvbkVLO5Zzz36ALztR2BKNj2W6NbqqEyNfx35BpYNK9GJV
-	u8XrAtMc8sSwtdTpohH4KnpMP2ddtqH23p+OhXArtd3QyyCHZiavUIY9FgwJZAy9by9p
-	BU+6SuCnDKcchUbt/uJmswc6e87X+tvLh+azglrZ3rt3UltAHpqfQEuCxhb/8Pf/CUs7
-	b6vw==
-X-Gm-Message-State: AIkVDXLIpC6aDaWM1GEHBCw3uqlF+9mWc1q39VUEwxnHJHloFrgOxZT2zZK8dLTnbcQJjObV
-X-Received: by 10.36.68.130 with SMTP id o124mr7441737ita.62.1482325910408;
-	Wed, 21 Dec 2016 05:11:50 -0800 (PST)
+	bh=EVizroGq0kjGVrNUIVJij71NFAFevlslM7mh2oTQ+r4=;
+	b=mczyhJ0KvrxRBPtFwDwpXmpVPLoYnMfjL7UNlTnZ6F+ES98iV5VJBHAO+mjtdtrwTZ
+	C1v2VlMZGlk4uGDnL9nR5uihFNwI7w57Dqx96+tI5DTXeqgDzlh87f+Sdak5ujJ6ijLR
+	MucDsGN4ywB77O0hZPnlL1mymSvV1wg1+Ptikzs2IZO9rhqlImO2QnXfqdYLEdiPQP6z
+	NDm1Wfm6+k7UZvNelN0x8EW8WJAjbzcg7Rq/bXEi0HosDZUSkN5V4Z7tsytUUG11yUaq
+	9v17eTv296hNiu+YTyiiw2C1tjnwy5/LdmivZIi+WFRi1XVOnpyA3wDottBwgOYfC418
+	lLCw==
+X-Gm-Message-State: AIkVDXLEsb4w2u/z595sxllhBGgg8qHulTEViQ4Jv/TQBgJL2nK34n9PuUbVV4/ZofWKEHnV
+X-Received: by 10.36.210.11 with SMTP id z11mr7913011itf.84.1482325917232;
+	Wed, 21 Dec 2016 05:11:57 -0800 (PST)
 Received: from pohly-desktop.fritz.box (p5DE8F3CB.dip0.t-ipconnect.de.
 	[93.232.243.203]) by smtp.gmail.com with ESMTPSA id
-	o65sm12103726ioe.15.2016.12.21.05.11.48
+	o65sm12103726ioe.15.2016.12.21.05.11.55
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 21 Dec 2016 05:11:49 -0800 (PST)
+	Wed, 21 Dec 2016 05:11:56 -0800 (PST)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org,
 	ricardo.neri@intel.com
-Date: Wed, 21 Dec 2016 14:11:27 +0100
-Message-Id: <12e72d8f27d856bcc2007ca5226a693a68fe2ae0.1482324587.git.patrick.ohly@intel.com>
+Date: Wed, 21 Dec 2016 14:11:29 +0100
+Message-Id: <66377b2510edebf997b04812ff93c9ef0bb3c47f.1482324587.git.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1482324587.git.patrick.ohly@intel.com>
 References: <cover.1482324587.git.patrick.ohly@intel.com>
-Subject: [PATCH 6/9] ovmf_git.bb: enable Secure Boot
+Subject: [PATCH 8/9] runqemu: support UEFI with OVMF firmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,97 +57,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2016 13:11:49 -0000
+X-List-Received-Date: Wed, 21 Dec 2016 13:11:56 -0000
 
-The recipe now compiles OVMF twice, once without Secure Boot, once
-with. This is the same approach as in
-https://src.fedoraproject.org/cgit/rpms/edk2.git/tree/edk2.spec
+In the simplest case, "runqemu qemux86 <some-image> qcow2 ovmf" for an
+EFI-enabled image in the qcow2 format will locate the OVMF firmware file,
+override the graphics hardware with "-vga std" because that is all
+that OVMF supports, and boot with UEFI enabled. This depends on
+"bitbake ovmf" deploying a "ovmf.qcow2" firmware file in the image deploy
+directory.
 
-The results are "ovmf.qcow2" and "ovmf.secboot.qcow2" in the
-image deploy directory, so
-  runqemu <machine> <image> ovmf.secboot
-will boot with Secure Boot enabled.
+The firmware file is activated as a flash drive instead of using the
+qemu BIOS parameters, because that is the recommended method
+(https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=764918#47) as it
+allows storing UEFI variables in the file.
 
-In contrast to Fedora, no attempt is made to strip potentially patent
-encumbered algorithms out of the OpenSSL archive. OVMF does not use
-the ones considered problematic for Fedora, so this shouldn't be a
-problem.
-
-Fixes: luv-yocto/#38
+Instead of just "ovmf", a full path to an existing file can also be
+used, just as with the rootfs. That may be useful when making a
+permanent copy of the virtual machine data files.
 
 Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- meta/recipes-core/ovmf/ovmf_git.bb | 27 ++++++++++++++++++++++++++-
- 1 file changed, 26 insertions(+), 1 deletion(-)
+ scripts/runqemu | 37 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 36 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
-index 67e65b8..c4eedf0 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -1,6 +1,6 @@
- DESCRIPTION = "OVMF - UEFI firmware for Qemu and KVM"
- HOMEPAGE = "http://sourceforge.net/apps/mediawiki/tianocore/index.php?title=OVMF"
--LICENSE = "BSD"
-+LICENSE = "BSD & OpenSSL"
- LIC_FILES_CHKSUM = "file://OvmfPkg/License.txt;md5=343dc88e82ff33d042074f62050c3496"
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 203992a..257dcec 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -74,6 +74,7 @@ of the following environment variables (in any order):
+     kvm-vhost - enable KVM with vhost when running x86/x86_64 (VT-capable CPU required)
+     publicvnc - enable a VNC server open to all hosts
+     audio - enable audio
++    [*/]ovmf* - OVMF BIOS file or base name for booting with UEFI
+   tcpserial=<port> - specify tcp serial port number
+   biosdir=<dir> - specify custom bios dir
+   biosfilename=<filename> - specify bios filename
+@@ -162,6 +163,12 @@ class BaseConfig(object):
+         self.clean_nfs_dir = False
+         self.nfs_server = ''
+         self.rootfs = ''
++        # File name of a OVMF BIOS file, to be added with -drive if=pflash.
++        # Found in the same places as the rootfs, with or without one of
++        # these suffices: qcow2, bin.
++        # Setting one also adds "-vga std" because that is all that
++        # OVMF supports.
++        self.ovmf_bios = ''
+         self.qemuboot = ''
+         self.qbconfload = False
+         self.kernel = ''
+@@ -369,6 +376,8 @@ class BaseConfig(object):
+                 self.qemu_opt_script += ' %s' % arg[len('qemuparams='):]
+             elif arg.startswith('bootparams='):
+                 self.kernel_cmdline_script += ' %s' % arg[len('bootparams='):]
++            elif os.path.basename(arg).startswith('ovmf'):
++                self.ovmf_bios = arg
+             elif os.path.exists(arg) or (re.search(':', arg) and re.search('/', arg)):
+                 self.check_arg_path(os.path.abspath(arg))
+             elif re.search('-image-', arg):
+@@ -472,6 +481,20 @@ class BaseConfig(object):
+         if not os.path.exists(self.rootfs):
+             raise Exception("Can't find rootfs: %s" % self.rootfs)
  
- SRC_URI = "git://github.com/tianocore/edk2.git;branch=master \
-@@ -10,7 +10,13 @@ SRC_URI = "git://github.com/tianocore/edk2.git;branch=master \
- 	file://0003-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch \
-         "
- 
-+SRC_URI_append_class-target = " \
-+	http://www.openssl.org/source/openssl-1.0.2j.tar.gz;name=openssl;subdir=${S}/CryptoPkg/Library/OpensslLib \
-+"
++    def check_ovmf(self):
++        """Check and set full path for OVMF BIOS file."""
 +
- SRCREV="4575a602ca6072ee9d04150b38bfb143cbff8588"
-+SRC_URI[openssl.md5sum] = "96322138f0b69e61b7212bc53d5e912b"
-+SRC_URI[openssl.sha256sum] = "e7aff292be21c259c6af26469c7a9b3ba26e9abaaffd325e3dccc9785256c431"
- 
- PARALLEL_MAKE_class-native = ""
- 
-@@ -30,6 +36,10 @@ BUILD_OPTIMIZATION="-pipe"
- # OVMF supports IA only, although it could conceivably support ARM someday.
- COMPATIBLE_HOST='(i.86|x86_64).*'
- 
-+# Additional build flags for OVMF with Secure Boot.
-+# Fedora also uses "-D SMM_REQUIRE -D EXCLUDE_SHELL_FROM_FD".
-+OVMF_SECURE_BOOT_FLAGS = "-DSECURE_BOOT_ENABLE=TRUE"
++        if self.ovmf_bios is None or os.path.exists(self.ovmf_bios):
++            return
 +
- do_patch_append_class-native() {
-     bb.build.exec_func('do_fix_iasl', d)
-     bb.build.exec_func('do_fix_toolchain', d)
-@@ -110,8 +120,22 @@ do_compile_class-target() {
-     bbnote FIXED_GCCVER is ${FIXED_GCCVER}
-     build_dir="${S}/Build/Ovmf$OVMF_DIR_SUFFIX/RELEASE_${FIXED_GCCVER}"
- 
-+    bbnote "Building without Secure Boot."
-+    rm -rf ${S}/Build/Ovmf$OVMF_DIR_SUFFIX
-     ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b RELEASE -t ${FIXED_GCCVER}
-     ln ${build_dir}/FV/OVMF.fd ${WORKDIR}/ovmf/OVMF.fd
++        for suffix in ('qcow2', 'bin'):
++            ovmf_bios = '%s/%s.%s' % (self.get('DEPLOY_DIR_IMAGE'), self.ovmf_bios, suffix)
++            if os.path.exists(ovmf_bios):
++                self.ovmf_bios = ovmf_bios
++                return
 +
-+    # See CryptoPkg/Library/OpensslLib/Patch-HOWTO.txt and
-+    # https://src.fedoraproject.org/cgit/rpms/edk2.git/tree/ for
-+    # building with Secure Boot enabled.
-+    bbnote "Building with Secure Boot."
-+    rm -rf ${S}/Build/Ovmf$OVMF_DIR_SUFFIX
-+    if ! [ -f ${S}/CryptoPkg/Library/OpensslLib/openssl-*/edk2-patch-applied ]; then
-+        ( cd ${S}/CryptoPkg/Library/OpensslLib/openssl-* && patch -p1 <$(echo ../EDKII_openssl-*.patch) && touch edk2-patch-applied )
-+    fi
-+    ( cd ${S}/CryptoPkg/Library/OpensslLib/ && ./Install.sh )
-+    ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b RELEASE -t ${FIXED_GCCVER} ${OVMF_SECURE_BOOT_FLAGS}
-+    ln ${build_dir}/FV/OVMF.fd ${WORKDIR}/ovmf/OVMF.secboot.fd
- }
++        raise Exception("Can't find OVMF BIOS: %s" % self.ovmf_bios)
++
+     def check_kernel(self):
+         """Check and set kernel, dtb"""
+         # The vm image doesn't need a kernel
+@@ -562,6 +585,7 @@ class BaseConfig(object):
+         self.check_kvm()
+         self.check_fstype()
+         self.check_rootfs()
++        self.check_ovmf()
+         self.check_kernel()
+         self.check_biosdir()
+         self.check_mem()
+@@ -670,6 +694,8 @@ class BaseConfig(object):
+             print('NFS_DIR: [%s]' % self.nfs_dir)
+         else:
+             print('ROOTFS: [%s]' % self.rootfs)
++        if self.ovmf_bios:
++            print('OVMF: [%s]' % self.ovmf_bios)
+         print('CONFFILE: [%s]' % self.qemuboot)
+         print('')
  
- do_install_class-native() {
-@@ -131,6 +155,7 @@ do_deploy() {
- do_deploy_class-target() {
-     # For use with "runqemu ovmf".
-     qemu-img convert -f raw -O qcow2 ${WORKDIR}/ovmf/OVMF.fd ${DEPLOYDIR}/ovmf.qcow2
-+    qemu-img convert -f raw -O qcow2 ${WORKDIR}/ovmf/OVMF.secboot.fd ${DEPLOYDIR}/ovmf.secboot.qcow2
- }
- addtask do_deploy after do_compile before do_build
+@@ -926,7 +952,16 @@ class BaseConfig(object):
  
+         check_libgl(qemu_bin)
+ 
+-        self.qemu_opt = "%s %s %s %s %s" % (qemu_bin, self.get('NETWORK_CMD'), self.get('ROOTFS_OPTIONS'), self.get('QB_OPT_APPEND'), self.qemu_opt_script)
++        self.qemu_opt = "%s %s %s %s" % (qemu_bin, self.get('NETWORK_CMD'), self.get('ROOTFS_OPTIONS'), self.get('QB_OPT_APPEND'))
++
++        if self.ovmf_bios:
++            format = self.ovmf_bios.rsplit('.', 1)[-1]
++            self.qemu_opt += ' -drive if=pflash,format=%s,file=%s' % (format, self.ovmf_bios)
++            # OVMF only supports normal VGA, i.e. we need to override a -vga vmware
++            # that gets added for example for normal qemux86.
++            self.qemu_opt += ' -vga std'
++
++        self.qemu_opt += ' ' + self.qemu_opt_script
+ 
+         if self.snapshot:
+             self.qemu_opt += " -snapshot"
 -- 
 2.1.4
 
