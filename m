@@ -1,33 +1,47 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 18899731B8
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 326116071F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2016 13:06:29 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga101.jf.intel.com with ESMTP; 21 Dec 2016 05:06:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,383,1477983600"; d="scan'208";a="45358587"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga005.fm.intel.com with ESMTP; 21 Dec 2016 05:06:30 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 3C0E56A4080;
-	Wed, 21 Dec 2016 05:05:41 -0800 (PST)
-Date: Wed, 21 Dec 2016 15:06:16 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Jair Gonzalez <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
-Message-ID: <20161221130616.GB9628@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <cover.1482179865.git.jair.de.jesus.gonzalez.plascencia@linux.intel.com>
-	<20161220130651.GA16237@linux.intel.com>
-	<017801d25b0c$fbd79330$f386b990$@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <017801d25b0c$fbd79330$f386b990$@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 0/4] selftest/wic: extending test coverage for WIC script options
+	Wed, 21 Dec 2016 13:11:28 +0000 (UTC)
+Received: by mail-io0-f175.google.com with SMTP id 15so22254008iom.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Dec 2016 05:11:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=hFuWvHJcjTlr3GL8WlbrWrS7lguRQPtfHuqgGU2eiUY=;
+	b=jZ3SiaZCPg/3ls5NCnFddUEkBbRpuOU/nAKuNzhpzx+EN0EUWx/ClGek+/HExQnFyj
+	0J3HOi9NuJhMLFOABovE1w7DwbS8EjbidIpKqpzTxu8tx6GVtZtsy44xtCYZMFeypWiv
+	4vyneUJONmWjSYwzvxokh3RTuFi2OvPJlnfbSrI4YF5OOzks18hy3hbUXfgvxQ8Q5WU/
+	Y7Q+I5N6I1Tb5yQJV3iJmQIvMiNcw7ZvET724iarPPiXIFtfWMK/u0vaXlx0nKCPaU8i
+	RkFGO5gqhUDE9QdUIcigw2JnJfPkCRjr2wDtpjwqpR4MkrDfunM6nrbXLjJzpTPC3IZF
+	g//w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=hFuWvHJcjTlr3GL8WlbrWrS7lguRQPtfHuqgGU2eiUY=;
+	b=Y3vty1NlUO5iLrD6c9oiR5IW5eGOe3xEwY70zIoUkEMrzXoODyQhE1XXU2/MT1MzVy
+	vMG2rf6c1G74xeX3BIRQIff2xPiBzm2sgGg83Dvkf3f7C+24bWBPp3j8XP8YS+URcfgJ
+	d7QqpX51AJpBFyggvLjX0bZ6AQ10WhFORQScSLBq2FoRlPGQtuKyvwg3xAuJgcF/jqR9
+	U9pfeSr6102hJrgSRKlqNaYI+1DgN84VKbAu9YTTUNBCb3VKOh1Q4dD62OQ7fwl+Yqhb
+	Q4E3uoMRT/HzkwMvfZ5tnBop9Yje5LOJ7eErXVRolS/2U/RSusZQ718OKaw9JnLELTLE
+	PgSg==
+X-Gm-Message-State: AIkVDXIk9cdehwlEj+YGqZs4GkXr9ACdDS8F8+ptErn50W4cYsV9Tf7UfF6PeDJva2zgAXiM
+X-Received: by 10.107.168.168 with SMTP id e40mr993242ioj.40.1482325889919;
+	Wed, 21 Dec 2016 05:11:29 -0800 (PST)
+Received: from pohly-desktop.fritz.box (p5DE8F3CB.dip0.t-ipconnect.de.
+	[93.232.243.203])
+	by smtp.gmail.com with ESMTPSA id 81sm10730988itj.6.2016.12.21.05.11.27
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 21 Dec 2016 05:11:28 -0800 (PST)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org,
+	ricardo.neri@intel.com
+Date: Wed, 21 Dec 2016 14:11:24 +0100
+Message-Id: <cover.1482324587.git.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/9] UEFI + Secure Boot + qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,91 +54,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2016 13:06:39 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 21 Dec 2016 13:11:30 -0000
 
-On Tue, Dec 20, 2016 at 04:04:06PM -0600, Jair Gonzalez wrote:
-> > -----Original Message-----
-> > From: Ed Bartosh [mailto:ed.bartosh@linux.intel.com]
-> > Sent: Tuesday, December 20, 2016 7:07 AM
-> > To: Jair Gonzalez <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
-> > Cc: openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH v2 0/4] selftest/wic: extending test
-> coverage
-> > for WIC script options
-> > 
-> > On Mon, Dec 19, 2016 at 03:07:30PM -0600, Jair Gonzalez wrote:
-> > > Changed in V2:
-> > >
-> > > The original patch was splitted and updated according to the
-> discussion on:
-> > > http://lists.openembedded.org/pipermail/openembedded-core/2016-
-> > Decembe
-> > > r/130131.html
-> > > NOTE: The WKS_FILE entry deletion was ommitted from this patch set as
-> > > it was introduced on the first patch by mistake.
-> > >
-> > > The following changes since commit
-> > 573c646d4cc62dcd0c230381df4940bdf314d495:
-> > >
-> > >   bitbake: BBHandler: use with instead of open/close (2016-12-16
-> > > 10:23:24 +0000)
-> > >
-> > > are available in the git repository at:
-> > >
-> > >   git://git.yoctoproject.org/poky-contrib jairglez/wictest
-> > >
-> > > http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jairglez/wict
-> > > est
-> > >
-> > > Jair Gonzalez (4):
-> > >   selftest/wic: adding Testopia ID numbers to test cases missing it
-> > >   selftest/wic: code cleanup
-> > >   selftest/wic: reorganizing test methods by functionality
-> > >   selftest/wic: extending test coverage for WIC script options
-> > >
-> > >  meta/lib/oeqa/selftest/wic.py | 370
-> > > +++++++++++++++++++++++++++---------------
-> > >  1 file changed, 238 insertions(+), 132 deletions(-)
-> > >
-> > 
-> > Thank you for the updated patchset!
-> > It looks good to me.
-> > 
-> > BTW, did you measure its impact on the test run time?
-> > 
-> > --
-> > Regards,
-> > Ed
-> 
-> Hi Ed,
-> 
-> Thanks. Regarding the impact, I tested it on my local machine after cleaning
-> the cache, sstate-cache, downloads and tmp directories, and the difference
-> between them was about 130 seconds after I applied my commits:
-> Before:
-> Ran 28 tests in 4446.939s
-> After:
-> Ran 39 tests in 4578.604s
-> Difference:
-> 131.665s
-> 
-> I also tried with a source repository with existing cache and the difference
-> was about 70 seconds:
-> Before:
-> Ran 28 tests in 272.170s
-> After:
-> Ran 39 tests in 339.637s
-> Difference:
-> 67.467s
-> 
+There seems to be a consensus that supporting UEFI in OE-core for qemu
+would be valuable, and there have been some (stalled) attempts to add
+it. For reference, see:
+   [OE-core] [PATCH V3 0/3] Add UEFI firmware for qemux86*
+   [OE-core] Add ovmf-native to make qemu-native/runqemu support boot UEFI image?
+   https://bugzilla.yoctoproject.org/show_bug.cgi?id=5654
+   https://github.com/01org/luv-yocto/issues/38
 
-Hi Jair,
+This patch set includes the necessary recipes (ovmf and iasl from
+meta-luv), some improvements to them (in particular, enabling Secure
+Boot), and changes to runqemu to make it easier to boot with UEFI. A
+special image recipes builds an image which can be used to lock down a
+virtual machine by enrolling the "normal" pre-installed certificates.
 
-Thanks. The difference is acceptable from my point of view.
+I decided to keep the setup simple and use just a single file for UEFI
+code and variables because that makes the usage via runqemu very
+easy. See the "runqemu: support UEFI with OVMF firmware" patch for
+details. The downside is that the firmware can't be updated without
+loosing variables. I don't see a big need for long-lived virtual
+machine instances, but would like to hear from others about that.
 
---
-Regards,
-Ed
+What's missing is automated testing of this new feature. I'm open for
+suggestions here; right now I don't know enough about the automated
+testing in the AB to propose something.
+
+I've discussed the usage of ovmf/iasl with Ricardo and he agreed that
+moving ovmf and iasl from meta-luv to OE-core makes sense. Ricardo,
+would you be willing to act as maintainer of it there, like you did in
+meta-luv?
+
+Beware that "git am --keep-cr" must be used to import the ovmf patches
+correctly.
+
+The following changes since commit 5e21afc9395060b489156d3f90505a372b713f37:
+
+  Revert "selftest/wic: extending test coverage for WIC script options" (2016-12-20 17:06:01 +0000)
+
+are available in the git repository at:
+
+  git://github.com/pohly/openembedded-core secure-boot
+  https://github.com/pohly/openembedded-core/tree/secure-boot
+
+Patrick Ohly (7):
+  ovmf: explicitly depend on nasm-native
+  ovmf: deploy firmware in image directory
+  ovmf_git.bb: enable parallel compilation
+  ovmf_git.bb: enable Secure Boot
+  runqemu: let command line parameters override defaults
+  runqemu: support UEFI with OVMF firmware
+  ovmf: build image which enrolls standard keys
+
+meta-luv (2):
+  ovmf: move from meta-luv to OE-core
+  iasl: move from meta-luv to OE-core
+
+ meta/recipes-core/ovmf/ovmf-shell-image.bb         |   22 +
+ ...s-Force-tools-variables-to-host-toolchain.patch |   48 +
+ .../ovmf/0001-OvmfPkg-Enable-BGRT-in-OVMF.patch    |  110 ++
+ ...0002-ovmf-update-path-to-native-BaseTools.patch |   32 +
+ ...makefile-adjust-to-build-in-under-bitbake.patch |   39 +
+ ...ollDefaultKeys-application-for-enrolling-.patch | 1123 ++++++++++++++++++++
+ meta/recipes-core/ovmf/ovmf/ovmf-shell-image.wks   |    4 +
+ meta/recipes-core/ovmf/ovmf_git.bb                 |  178 ++++
+ meta/recipes-extended/iasl/iasl_20120215.bb        |   27 +
+ meta/recipes-extended/iasl/iasl_20150410.bb        |   27 +
+ meta/recipes-extended/iasl/iasl_20150515.bb        |   27 +
+ scripts/runqemu                                    |   37 +-
+ 12 files changed, 1673 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/ovmf/ovmf-shell-image.bb
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0001-OvmfPkg-Enable-BGRT-in-OVMF.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0002-ovmf-update-path-to-native-BaseTools.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0003-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0007-OvmfPkg-EnrollDefaultKeys-application-for-enrolling-.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/ovmf-shell-image.wks
+ create mode 100644 meta/recipes-core/ovmf/ovmf_git.bb
+ create mode 100644 meta/recipes-extended/iasl/iasl_20120215.bb
+ create mode 100644 meta/recipes-extended/iasl/iasl_20150410.bb
+ create mode 100644 meta/recipes-extended/iasl/iasl_20150515.bb
+
+-- 
+2.1.4
+
 
