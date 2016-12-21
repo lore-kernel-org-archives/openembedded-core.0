@@ -1,30 +1,46 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 9535A71BFE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f174.google.com (mail-qt0-f174.google.com
+	[209.85.216.174])
+	by mail.openembedded.org (Postfix) with ESMTP id B9D86731C6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2016 10:33:05 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
-	via TCP (outbound) with ESMTPS id 20161221103304064_0484;
-	Wed, 21 Dec 2016 10:33:04 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [174.118.92.171] (port=46888 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1cJeCe-0005YE-CJ; Wed, 21 Dec 2016 05:32:56 -0500
-Date: Wed, 21 Dec 2016 05:31:32 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: "Burton, Ross" <ross.burton@intel.com>
-In-Reply-To: <CAJTo0LbWx_xHVAL9O9xVRybW8tZY9a0uDVVArOMzfB1s5R0qwg@mail.gmail.com>
-Message-ID: <alpine.LFD.2.20.1612210529550.13691@localhost.localdomain>
-References: <alpine.LFD.2.20.1612201321490.5281@localhost.localdomain>
-	<CAJTo0LbWx_xHVAL9O9xVRybW8tZY9a0uDVVArOMzfB1s5R0qwg@mail.gmail.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Wed, 21 Dec 2016 11:15:10 +0000 (UTC)
+Received: by mail-qt0-f174.google.com with SMTP id n6so202999953qtd.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Dec 2016 03:15:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=BBuVj3wWcXnYBIGuIyp82vKt1U0VEdVU+0H5xJwLbAM=;
+	b=v04S36XCsTMGKtxjsB+H64xOoQ+UdZIlk555QEjltCk4NSxzrBKS7gAuf2FEXz8M3N
+	aRFQhVQK5bKgxwgJFm7DJ7nRCsqTIK1s97QOiVkPbMNtTo6WTWf11Tb3p7AvphI64yjW
+	Ibr1Tn69G4lkLAIqyOrIBAHFvB7w336H0pgqb7WuuS0Vp0JLsWhPPzT46esng/7T4Qrl
+	6lUMb+0sBgR8iQxu0zpM38eRKPsHwp2g55ZiPGqlgq8U2t9+h1iZ4wfIdhTcPwCYhZQJ
+	AfnfVxZkdKTWN4AMmLgd/rY3N2Hsv+nzcXzaq2QwfOzmaOsj6ubfJHxhalT8EKFQ+XRL
+	XBGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=BBuVj3wWcXnYBIGuIyp82vKt1U0VEdVU+0H5xJwLbAM=;
+	b=dVpbYBca3SKJpj5sl8X1F1yT58aqzm0Zk/BZQHusGloZXxGqFZXk8MFWFBshpqyv+p
+	eQXqi0YzvQgLgLRHugyAZFH3si/cdYk9PWlgamrZv2Xur3X2tJkxZtyjyOVeglq2ioSm
+	F0kT5tKjkU+RmB/a1zkqDmFeKslAaYEqP12To9Y3RruMDXp+9EacW+1G1u8G3d7Hg4HQ
+	SKkOE/PZYnRSCsf0p9uUD+4Jupnuvq1MmGK75p+TCEEVu11gw94ONC1XhNyONj4O2k05
+	ME5e8CpV4CdQrvYCPNwf4kSvWmSA3V01kGHumQKWJz2Gg44buamcHNs1KTavwI77wQhy
+	cX/w==
+X-Gm-Message-State: AIkVDXKBOvLXB8gNtTuw3vlCymjns/HVNAhbS1UUo2WvZiGR8vvjoLoJFuGMMImx2l9cjSMeFJ36xvwWdpGxkyYB
+X-Received: by 10.237.49.230 with SMTP id 93mr3785024qth.109.1482318911695;
+	Wed, 21 Dec 2016 03:15:11 -0800 (PST)
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: $50 bounty for an OE recipe for libfilesys-smbclient-perl. seriously.
+Received: by 10.140.106.99 with HTTP; Wed, 21 Dec 2016 03:14:51 -0800 (PST)
+In-Reply-To: <1482308378-15213-1-git-send-email-mingli.yu@windriver.com>
+References: <1482308378-15213-1-git-send-email-mingli.yu@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 21 Dec 2016 11:14:51 +0000
+Message-ID: <CAJTo0LYT4YrWxex7mOLhBsWqKR_9cmJgO66dxzCoJT-U6kWDqQ@mail.gmail.com>
+To: Mingli Yu <mingli.yu@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gpgme: add GPGME_STATUS_KEY_CONSIDERED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,48 +53,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2016 10:33:07 -0000
-Content-Type: multipart/mixed; BOUNDARY="8323328-829467069-1482316296=:13691"
+X-List-Received-Date: Wed, 21 Dec 2016 11:15:11 -0000
+Content-Type: multipart/alternative; boundary=94eb2c1251e22d761d0544294423
 
---8323328-829467069-1482316296=:13691
+--94eb2c1251e22d761d0544294423
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
 
-On Tue, 20 Dec 2016, Burton, Ross wrote:
+On 21 December 2016 at 08:19, <mingli.yu@windriver.com> wrote:
 
-> On 20 December 2016 at 18:32, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->         really, i just don't have time to mess with this anymore and
->       i'm more than happy to pay someone $50 CAD (interac transfer)
->       to provide me with a proper recipe and essential patches for
->       the perl module Filesys-SmbClient-3.2 here:
+> From: Mingli Yu <Mingli.Yu@windriver.com>
 >
+> * src/gpgme.h.in (GPGME_STATUS_KEY_CONSIDERED): New.
+> * src/status-table.c (KEY_CONSIDERED): New.
+> * src/op-support.c (_gpgme_parse_inv_recp): Add argc KC_FPR and
+>   KC_FLAGS.  Use calloc.
+>   (_gpgme_parse_key_considered): New.
+> * src/sign.c (op_data_t): Add fields KC_FPR and KC_FLAGS.
+>   (release_op_data): Free KC_FPR.
+>   (_gpgme_sign_status_handler): Handle STATUS_KEY_CONSIDERED.
+> * src/encrypt.c (op_data_t): Add fields KC_FPR and KC_FLAGS.
+>   (release_op_data): Free KC_FPR.
+>   (_gpgme_encrypt_status_handler): Handle STATUS_KEY_CONSIDERED.
 >
-> FWIW I had a quick look at this.  I'm certainly no perl guru and can
-> barely understand it, but it does *so much* wrong that if you really
-> need this then it would be easier to just rewrite the makefile.pl
-> from scratch.  Once you remove the hunting for the headers in the
-> wrong place, it then invokes an autoconf script...  which needs to
-> be passed the right options.
+> Reference: https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gpgme.git;a=
+> commitdiff;h=315fb73d4a774e2c699ac1804f5377559b4d0027
 >
-> Do you really need this module?  It's not been updated for many
-> years, so surely there's something better.
 
-  i have been *told* that this module is necessary, i don't know
-enough about the context to know what for. if there is something more
-recent that has the same capability, then i'd love to see it.
+Can you explain *why* we should cherry pick a patch from upstream?
 
-  until then, $50 is still up for grabs.
+Ross
 
-rday
+--94eb2c1251e22d761d0544294423
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
--- 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 21 December 2016 at 08:19,  <span dir=3D"ltr">&lt;<a href=3D"mailto:ming=
+li.yu@windriver.com" target=3D"_blank">mingli.yu@windriver.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex"><div id=3D":3ai" class=3D"a3s a=
+XjCH m1592079c20da5032">From: Mingli Yu &lt;<a href=3D"mailto:Mingli.Yu@win=
+driver.com">Mingli.Yu@windriver.com</a>&gt;<br>
+<br>
+* src/<a href=3D"http://gpgme.h.in" rel=3D"noreferrer" target=3D"_blank">gp=
+gme.h.in</a> (GPGME_STATUS_KEY_CONSIDERED): New.<br>
+* src/status-table.c (KEY_CONSIDERED): New.<br>
+* src/op-support.c (_gpgme_parse_inv_recp): Add argc KC_FPR and<br>
+=C2=A0 KC_FLAGS.=C2=A0 Use calloc.<br>
+=C2=A0 (_gpgme_parse_key_considered): New.<br>
+* src/sign.c (op_data_t): Add fields KC_FPR and KC_FLAGS.<br>
+=C2=A0 (release_op_data): Free KC_FPR.<br>
+=C2=A0 (_gpgme_sign_status_handler): Handle STATUS_KEY_CONSIDERED.<br>
+* src/encrypt.c (op_data_t): Add fields KC_FPR and KC_FLAGS.<br>
+=C2=A0 (release_op_data): Free KC_FPR.<br>
+=C2=A0 (_gpgme_encrypt_status_<wbr>handler): Handle STATUS_KEY_CONSIDERED.<=
+br>
+<br>
+Reference: <a href=3D"https://git.gnupg.org/cgi-bin/gitweb.cgi?p=3Dgpgme.gi=
+t;a=3Dcommitdiff;h=3D315fb73d4a774e2c699ac1804f5377559b4d0027" rel=3D"noref=
+errer" target=3D"_blank">https://git.gnupg.org/cgi-bin/<wbr>gitweb.cgi?p=3D=
+gpgme.git;a=3D<wbr>commitdiff;h=3D<wbr>315fb73d4a774e2c699ac1804f5377<wbr>5=
+59b4d0027</a></div></blockquote></div><br>Can you explain *why* we should c=
+herry pick a patch from upstream?</div><div class=3D"gmail_extra"><br></div=
+><div class=3D"gmail_extra">Ross</div></div>
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
---8323328-829467069-1482316296=:13691--
+--94eb2c1251e22d761d0544294423--
