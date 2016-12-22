@@ -1,49 +1,49 @@
 Return-Path: <ola.x.nilsson@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id E275D77626
+	by mail.openembedded.org (Postfix) with ESMTP id A697F7762A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2016 13:16:47 +0000 (UTC)
+	Thu, 22 Dec 2016 13:16:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 439632E616
+	by bes.se.axis.com (Postfix) with ESMTP id D4E922E0BD
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 22 Dec 2016 14:16:49 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id NtS67Hbv82dL
+	port 10024) with LMTP id v1tvTHCdH+WD
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Dec 2016 14:16:49 +0100 (CET)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bes.se.axis.com (Postfix) with ESMTPS id C631B2E614
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 22 Dec 2016 14:16:48 +0100 (CET)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id 32B752E5FD
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id AD5761E072
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 22 Dec 2016 14:16:48 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1FDD61A075
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2016 14:16:48 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 14EF11A072
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A2AC51E064
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 22 Dec 2016 14:16:48 +0100 (CET)
 Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP
+	by boulder03.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 22 Dec 2016 14:16:48 +0100 (CET)
 Received: from lnxolani.se.axis.com (lnxolani.se.axis.com [10.88.67.1])
-	by thoth.se.axis.com (Postfix) with ESMTP id 08E88718;
+	by thoth.se.axis.com (Postfix) with ESMTP id 966A2718;
 	Thu, 22 Dec 2016 14:16:48 +0100 (CET)
 Received: by lnxolani.se.axis.com (Postfix, from userid 20853)
-	id DE3FC7C066; Thu, 22 Dec 2016 14:16:47 +0100 (CET)
+	id 82DDC7C066; Thu, 22 Dec 2016 14:16:48 +0100 (CET)
 From: Ola x Nilsson <ola.x.nilsson@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Dec 2016 14:16:33 +0100
-Message-Id: <1482412594-22508-2-git-send-email-ola.x.nilsson@axis.com>
+Date: Thu, 22 Dec 2016 14:16:34 +0100
+Message-Id: <1482412594-22508-3-git-send-email-ola.x.nilsson@axis.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1482412594-22508-1-git-send-email-ola.x.nilsson@axis.com>
 References: <1482412594-22508-1-git-send-email-ola.x.nilsson@axis.com>
 X-TM-AS-GCONF: 00
 Cc: Ola x Nilsson <olani@axis.com>
-Subject: [PATCH 1/2] oe-selftest: devtool: Reverting a change should trigger rebuild
+Subject: [PATCH 2/2] externalsrc: Set STAMPCLEAN to match STAMP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,97 +56,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2016 13:16:48 -0000
+X-List-Received-Date: Thu, 22 Dec 2016 13:16:49 -0000
 
-Add code to verify that not only does a change trigger a build, but so
-does reverting that change.
-
-Reverting a change in a devtool managed git repo may cause the current
-checksum to match the checksum of a previous build, which will cause
-bitbake to skip builds that are needed.
+Only the last stamp file should be kept, but unless STAMPCLEAN matches
+files generated using STAMP old stamp files may linger.  This may
+cause false positives for skipping tasks.
 ---
- meta/lib/oeqa/selftest/devtool.py | 54 +++++++++++++++++++++++++++------------
- 1 file changed, 38 insertions(+), 16 deletions(-)
+ meta/classes/externalsrc.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
-index 19c5ccf..a3beefa 100644
---- a/meta/lib/oeqa/selftest/devtool.py
-+++ b/meta/lib/oeqa/selftest/devtool.py
-@@ -437,17 +437,33 @@ class DevtoolTests(DevtoolBase):
-         # Check git repo
-         self._check_src_repo(tempdir)
-         # Try building
--        bitbake('mdadm')
-+        def list_stamps(globsuffix='*'):
-+            stampprefix = get_bb_var('STAMP', 'mdadm')
-+            self.assertTrue(stampprefix, 'Unable to get STAMP value for recipe mdadm')
-+            return glob.glob(stampprefix + globsuffix)
-+
-+        numstamps = len(list_stamps('.do_compile.*'))
-+        self.assertEqual(numstamps, 0, 'do_compile stamps before first build')
-+        for x in range(10):
-+            bitbake('mdadm')
-+            nowstamps = len(list_stamps('.do_compile.*'))
-+            if nowstamps == numstamps:
-+                break
-+            numstamps = nowstamps
-+        else:
-+            self.fail('build did not stabilize in 10 iterations')
-+
-         # Try making (minor) modifications to the source
-         modfile = os.path.join(tempdir, 'mdadm.8.in')
-         result = runCmd("sed -i 's!^\.TH.*!.TH MDADM 8 \"\" v9.999-custom!' %s" % modfile)
--        sedline = ''
--        with open(modfile, 'r') as f:
--            for line in f:
--                if line.startswith('.TH'):
--                    sedline = line.rstrip()
--                    break
--        self.assertEqual(sedline, '.TH MDADM 8 "" v9.999-custom', 'man .in file not modified (sed failed)')
-+
-+        def check_TH_line(checkfile, expected, message):
-+            with open(checkfile, 'r') as f:
-+                for line in f:
-+                    if line.startswith('.TH'):
-+                        self.assertEqual(line.rstrip(), expected, message)
-+
-+        check_TH_line(modfile, '.TH MDADM 8 "" v9.999-custom', 'man .in file not modified (sed failed)')
-         bitbake('mdadm -c package')
-         pkgd = get_bb_var('PKGD', 'mdadm')
-         self.assertTrue(pkgd, 'Could not query PKGD variable')
-@@ -456,18 +472,24 @@ class DevtoolTests(DevtoolBase):
-         if mandir[0] == '/':
-             mandir = mandir[1:]
-         manfile = os.path.join(pkgd, mandir, 'man8', 'mdadm.8')
--        with open(manfile, 'r') as f:
--            for line in f:
--                if line.startswith('.TH'):
--                    self.assertEqual(line.rstrip(), '.TH MDADM 8 "" v9.999-custom', 'man file not modified. man searched file path: %s' % manfile)
-+        check_TH_line(manfile, '.TH MDADM 8 "" v9.999-custom', 'man file not modified. man searched file path: %s' % manfile)
-+        # Test reverting the change
-+        result = runCmd("git -C %s checkout -- %s" % (tempdir, modfile))
-+        check_TH_line(modfile, '.TH MDADM 8 "" v3.4', 'man .in file not restored (git failed)')
-+        bitbake('mdadm -c package')
-+        pkgd = get_bb_var('PKGD', 'mdadm')
-+        self.assertTrue(pkgd, 'Could not query PKGD variable')
-+        mandir = get_bb_var('mandir', 'mdadm')
-+        self.assertTrue(mandir, 'Could not query mandir variable')
-+        if mandir[0] == '/':
-+            mandir = mandir[1:]
-+        manfile = os.path.join(pkgd, mandir, 'man8', 'mdadm.8')
-+        check_TH_line(manfile, '.TH MDADM 8 "" v3.4', 'man file not updated. man searched file path: %s' % manfile)
-         # Test devtool reset
--        stampprefix = get_bb_var('STAMP', 'mdadm')
-         result = runCmd('devtool reset mdadm')
-         result = runCmd('devtool status')
-         self.assertNotIn('mdadm', result.output)
--        self.assertTrue(stampprefix, 'Unable to get STAMP value for recipe mdadm')
--        matches = glob.glob(stampprefix + '*')
--        self.assertFalse(matches, 'Stamp files exist for recipe mdadm that should have been cleaned')
-+        self.assertFalse(list_stamps(), 'Stamp files exist for recipe mdadm that should have been cleaned')
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+index e115a47..eec5e61 100644
+--- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -116,6 +116,7 @@ python () {
+             configstamp = '${TMPDIR}/work-shared/${PN}/${EXTENDPE}${PV}-${PR}/configure.sstate'
+             d.setVar('CONFIGURESTAMPFILE', configstamp)
+             d.setVar('STAMP', '${STAMPS_DIR}/work-shared/${PN}/${EXTENDPE}${PV}-${PR}')
++            d.setVar('STAMPCLEAN', '${STAMPS_DIR}/work-shared/${PN}/*-*')
+ }
  
-     @testcase(1166)
-     def test_devtool_modify_invalid(self):
+ python externalsrc_configure_prefunc() {
 -- 
 2.1.4
 
