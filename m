@@ -1,31 +1,23 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 742F0776C0
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 65F0177729
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2016 20:19:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 997AE20A48;
-	Thu, 22 Dec 2016 20:19:03 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id KD-90rEJlxZZ; Thu, 22 Dec 2016 20:19:03 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-95-79.washdc.fios.verizon.net
-	[100.15.95.79])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 71BC5207BD;
-	Thu, 22 Dec 2016 20:19:01 +0000 (UTC)
-Received: from sam.denix (sam [192.168.0.5])
-	by mail.denix.org (Postfix) with ESMTP id 856851621ED;
-	Thu, 22 Dec 2016 15:19:00 -0500 (EST)
-From: Denys Dmytriyenko <denis@denix.org>
+	Thu, 22 Dec 2016 23:42:33 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga105.jf.intel.com with ESMTP; 22 Dec 2016 15:42:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,390,1477983600"; d="scan'208";a="45976596"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga005.fm.intel.com with ESMTP; 22 Dec 2016 15:42:35 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 06D276A4080;
+	Thu, 22 Dec 2016 15:41:44 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Dec 2016 15:19:00 -0500
-Message-Id: <1482437940-4194-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [morty][PATCH] systemtap: remove explicit msgfmt check
+Date: Fri, 23 Dec 2016 01:42:14 +0200
+Message-Id: <1482450134-32049-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] image_types.bbclass: look for wks files in <layer>/wic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,59 +30,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2016 20:19:03 -0000
+X-List-Received-Date: Thu, 22 Dec 2016 23:42:34 -0000
 
-From: Ross Burton <ross.burton@intel.com>
+Added <layer>/wic directory to the list of paths to look
+for wks files. This makes wic behaviour consistent when
+invoked manually and by bitbake.
 
-Passing --disable-nls should be enough to disable the requirement for a full
-gettext to be present, but the upstream configure explicitly checks for msgfmt
-even if it isn't going to be used.  To avoid having to depend on gettext-native,
-patch this check out.
-
-(From OE-Core rev: 2f8d2a74f73490c1ae35131d3eb3592f7ee0a1e4)
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- .../systemtap/systemtap/no-msgfmt-check.patch             | 15 +++++++++++++++
- meta/recipes-kernel/systemtap/systemtap_git.inc           |  1 +
- 2 files changed, 16 insertions(+)
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/no-msgfmt-check.patch
+ meta/classes/image_types.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap/no-msgfmt-check.patch b/meta/recipes-kernel/systemtap/systemtap/no-msgfmt-check.patch
-new file mode 100644
-index 0000000..471e62c
---- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/no-msgfmt-check.patch
-@@ -0,0 +1,15 @@
-+There is no need to explicitly check that msgfmt was found as the gettext macros
-+handle this for us if NLS is enabled.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+diff --git a/configure.ac b/configure.ac
-+index e56079a..284bbe0 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -39,4 +38,0 @@ AM_GNU_GETTEXT_VERSION([0.19.4])
-+-if test "x$GMSGFMT" = "x:"; then
-+-   AC_MSG_ERROR([missing gnu /usr/bin/msgfmt])
-+-fi
-+-
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index 304eb99..34cf227 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -9,6 +9,7 @@ SRC_URI = "git://sourceware.org/git/systemtap.git \
-            file://configure-allow-to-disable-libvirt.patch \
-            file://x32_abi_time.patch \
-            file://monitor-option.patch \
-+           file://no-msgfmt-check.patch \
-           "
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 8f04849..b526cfa 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -186,7 +186,7 @@ IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${IMGDEPLOYDIR}/${IMAGE_NAME
  
- # systemtap doesn't support mips
+ WKS_FILE ??= "${IMAGE_BASENAME}.${MACHINE}.wks"
+ WKS_FILES ?= "${WKS_FILE} ${IMAGE_BASENAME}.wks"
+-WKS_SEARCH_PATH ?= "${THISDIR}:${@':'.join('%s/scripts/lib/wic/canned-wks' % l for l in '${BBPATH}:${COREBASE}'.split(':'))}"
++WKS_SEARCH_PATH ?= "${THISDIR}:${@':'.join('%s/wic' % p for p in '${BBPATH}'.split(':'))}:${@':'.join('%s/scripts/lib/wic/canned-wks' % l for l in '${BBPATH}:${COREBASE}'.split(':'))}"
+ WKS_FULL_PATH = "${@wks_search('${WKS_FILES}'.split(), '${WKS_SEARCH_PATH}') or ''}"
+ 
+ def wks_search(files, search_path):
 -- 
-2.7.4
+2.1.4
 
 
