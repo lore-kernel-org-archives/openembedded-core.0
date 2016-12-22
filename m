@@ -1,30 +1,29 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 81F2D7742E
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C1187742E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2016 01:47:46 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="14155653"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 22 Dec 2016 09:47:44 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id C3DE347E2FF2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2016 09:47:41 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.81) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Thu, 22 Dec 2016 09:47:42 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Dec 2016 09:47:24 +0800
-Message-ID: <1482371244-2166-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+	Thu, 22 Dec 2016 01:53:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uBM1rMof012838
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 21 Dec 2016 17:53:22 -0800 (PST)
+Received: from [128.224.162.168] (128.224.162.168) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Wed, 21 Dec 2016 17:53:21 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1482308378-15213-1-git-send-email-mingli.yu@windriver.com>
+	<CAJTo0LYT4YrWxex7mOLhBsWqKR_9cmJgO66dxzCoJT-U6kWDqQ@mail.gmail.com>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <585B31E8.60704@windriver.com>
+Date: Thu, 22 Dec 2016 09:52:40 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.81]
-X-yoursite-MailScanner-ID: C3DE347E2FF2.A7BC5
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] quilt: 0.64 -> 0.65
+In-Reply-To: <CAJTo0LYT4YrWxex7mOLhBsWqKR_9cmJgO66dxzCoJT-U6kWDqQ@mail.gmail.com>
+X-Originating-IP: [128.224.162.168]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gpgme: add GPGME_STATUS_KEY_CONSIDERED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,75 +36,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2016 01:47:50 -0000
-Content-Type: text/plain
-
-1)Upgrade quilt from 0.64 to 0.65.
-2)Upgrade quilt-native from 0.64 to 0.65.
-3)Delete install.patch, since it is integrated upstream.
-
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
----
- .../quilt/{quilt-native_0.64.bb => quilt-native_0.65.bb}    |  0
- meta/recipes-devtools/quilt/quilt.inc                       |  5 ++---
- meta/recipes-devtools/quilt/quilt/install.patch             | 13 -------------
- .../recipes-devtools/quilt/{quilt_0.64.bb => quilt_0.65.bb} |  0
- 4 files changed, 2 insertions(+), 16 deletions(-)
- rename meta/recipes-devtools/quilt/{quilt-native_0.64.bb => quilt-native_0.65.bb} (100%)
- delete mode 100644 meta/recipes-devtools/quilt/quilt/install.patch
- rename meta/recipes-devtools/quilt/{quilt_0.64.bb => quilt_0.65.bb} (100%)
-
-diff --git a/meta/recipes-devtools/quilt/quilt-native_0.64.bb b/meta/recipes-devtools/quilt/quilt-native_0.65.bb
-similarity index 100%
-rename from meta/recipes-devtools/quilt/quilt-native_0.64.bb
-rename to meta/recipes-devtools/quilt/quilt-native_0.65.bb
-diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
-index 512b798..026109a 100644
---- a/meta/recipes-devtools/quilt/quilt.inc
-+++ b/meta/recipes-devtools/quilt/quilt.inc
-@@ -5,14 +5,13 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- 
- SRC_URI = "${SAVANNAH_GNU_MIRROR}/quilt/quilt-${PV}.tar.gz \
--        file://install.patch \
-         file://run-ptest \
-         file://Makefile \
- 	file://test.sh \
- "
- 
--SRC_URI[md5sum] = "fc0310db5868a0873d602d4332a76d43"
--SRC_URI[sha256sum] = "c4bfd3282214a288e8d3e921ae4d52e73e24c4fead72b5446752adee99a7affd"
-+SRC_URI[md5sum] = "c67ba0228f5b7b8bbe469474661f92d6"
-+SRC_URI[sha256sum] = "f6cbc788e5cbbb381a3c6eab5b9efce67c776a8662a7795c7432fd27aa096819"
- 
- inherit autotools-brokensep ptest
- 
-diff --git a/meta/recipes-devtools/quilt/quilt/install.patch b/meta/recipes-devtools/quilt/quilt/install.patch
-deleted file mode 100644
-index e2a7af6..0000000
---- a/meta/recipes-devtools/quilt/quilt/install.patch
-+++ /dev/null
-@@ -1,13 +0,0 @@
--Upstream-Status: Pending
--
----- quilt-0.47/Makefile.in	2008-12-31 19:09:13.000000000 +0000
--+++ quilt-0.47/Makefile.in.orig	2008-08-21 13:21:32.000000000 +0100
--@@ -13,7 +13,7 @@
-- mandir :=	@mandir@
-- localedir :=	$(datadir)/locale
-- emacsdir :=	$(datadir)/emacs/site-lisp
---etcdir :=	$(subst /usr/etc,/etc,$(prefix)/etc)
--+etcdir :=	@sysconfdir@
-- 
-- INSTALL :=	@INSTALL@
-- POD2MAN :=	@POD2MAN@
-diff --git a/meta/recipes-devtools/quilt/quilt_0.64.bb b/meta/recipes-devtools/quilt/quilt_0.65.bb
-similarity index 100%
-rename from meta/recipes-devtools/quilt/quilt_0.64.bb
-rename to meta/recipes-devtools/quilt/quilt_0.65.bb
--- 
-2.7.4
+X-List-Received-Date: Thu, 22 Dec 2016 01:53:26 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
 
+On 2016年12月21日 19:14, Burton, Ross wrote:
+>
+> On 21 December 2016 at 08:19, <mingli.yu@windriver.com
+> <mailto:mingli.yu@windriver.com>> wrote:
+>
+>     From: Mingli Yu <Mingli.Yu@windriver.com
+>     <mailto:Mingli.Yu@windriver.com>>
+>
+>     * src/gpgme.h.in <http://gpgme.h.in> (GPGME_STATUS_KEY_CONSIDERED): New.
+>     * src/status-table.c (KEY_CONSIDERED): New.
+>     * src/op-support.c (_gpgme_parse_inv_recp): Add argc KC_FPR and
+>        KC_FLAGS.  Use calloc.
+>        (_gpgme_parse_key_considered): New.
+>     * src/sign.c (op_data_t): Add fields KC_FPR and KC_FLAGS.
+>        (release_op_data): Free KC_FPR.
+>        (_gpgme_sign_status_handler): Handle STATUS_KEY_CONSIDERED.
+>     * src/encrypt.c (op_data_t): Add fields KC_FPR and KC_FLAGS.
+>        (release_op_data): Free KC_FPR.
+>        (_gpgme_encrypt_status_handler): Handle STATUS_KEY_CONSIDERED.
+>
+>     Reference:
+>     https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gpgme.git;a=commitdiff;h=315fb73d4a774e2c699ac1804f5377559b4d0027
+>     <https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gpgme.git;a=commitdiff;h=315fb73d4a774e2c699ac1804f5377559b4d0027>
+>
+>
+> Can you explain *why* we should cherry pick a patch from upstream?
+
+Thanks Ross!
+The reason why I cherry pick this patch as there are three failed ptest 
+cases as below for python-pygpgme which depends on gpgme.
+FAIL: test_edit_ownertrust (tests.test_editkey.EditKeyTestCase)
+FAIL: test_edit_quit (tests.test_editkey.EditKeyTestCase)
+FAIL: test_edit_sign (tests.test_editkey.EditKeyTestCase)
+
+And also found the solution from 
+https://pagure.io/pygpgme/c/f14699792622715c9cec372400f9dc38f1122f63?branch=master 
+to fix the failed ptest cases for python-pygpgme, and this solution for 
+python-pygpgme also needs we update accordingly for gpgme.
+
+Thanks,
+Mingli
+
+>
+> Ross
 
