@@ -1,27 +1,55 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D867776B3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id C869460722
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2016 17:20:49 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 22 Dec 2016 09:20:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,389,1477983600"; d="scan'208";a="801356308"
-Received: from stseng1-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.156.43])
-	by FMSMGA003.fm.intel.com with ESMTP; 22 Dec 2016 09:20:48 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Ola x Nilsson <ola.x.nilsson@axis.com>
-Date: Fri, 23 Dec 2016 06:20:41 +1300
-Message-ID: <2932563.snhXiro51n@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.8.13-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <1482413283-25405-1-git-send-email-ola.x.nilsson@axis.com>
-References: <1482413283-25405-1-git-send-email-ola.x.nilsson@axis.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] externalsrc.bbclass: Add task buildclean
+	Thu, 22 Dec 2016 17:28:21 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id i88so12698474pfk.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Dec 2016 09:28:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=7xriPMdSO/O3Hw/hPHRA2PQj0jxFN84YWDE535HtKcY=;
+	b=vOLpBxgESWO+6edvvozhW9qQOOfY3mSo4wogc2HKYXTLTa8lrlEwgm8c1jvOPC+ZR2
+	PcpoIYh1KyyPT5MQbdYtMy12qy1h7Buyp0fJOg94emch3tlHAtI73Pqct1LXXMTKmbBp
+	w1kE120yLx2bI1fYkIriMiMuH9g14jDdfSqHSpgekv/nS0LqQ6VhwKJvl3jTBfQbBpY9
+	O3NYUphKTUteWlJmO7xUmf8q7NaRA4Roa+vuPf82sKoVgLkjN6b/Zz/7MKE9B4230E+E
+	n5p/tA/pArVYOO/jJwNRIZeEjGy5z0cw6KhbzsEwZEQ7xdUjjpc9IsjIz81P1sw8xGnW
+	KYPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=7xriPMdSO/O3Hw/hPHRA2PQj0jxFN84YWDE535HtKcY=;
+	b=AEVqh/8GZos8srIDbqmAIlZVW6tbVgXOyrE65IkiykEMdMsdsDYZiiuufbIy/hPVsJ
+	C7NXpu49G+kxsl85D1abULji6Tya6bYaCX8NFHzJSvTmJ4p+hVjkbTerJrx7+lRqZDm6
+	gfgeUEBxUbiatzl231Wvs5j/dwQuuM0SJZp6EwWayURbO/13Xfeh149v7TEZ7gQqRT41
+	Q7zR63WodwY0JY1iCV27S/wlloik1dDrYPVAWrofOwAT+7CTTB99thKLzzt/1x4h3NCl
+	7Atx85iDsRWdMcAsLPRbSTZMQ+l7l9pQb+U8SuJcIfT/T6MwB9KJluHzd+qZ+y33c8mp
+	73xw==
+X-Gm-Message-State: AIkVDXKj/UcLh+49Kbbf5dWCdi9Ock1acmUMEqX4EZh78/kSKF/OEXCBRszaTox8Gkoxkg==
+X-Received: by 10.84.218.197 with SMTP id g5mr21446982plm.173.1482427703646;
+	Thu, 22 Dec 2016 09:28:23 -0800 (PST)
+Received: from ?IPv6:2601:646:8882:b8c:dc6c:df58:7743:431c?
+	([2601:646:8882:b8c:dc6c:df58:7743:431c])
+	by smtp.gmail.com with ESMTPSA id
+	w11sm56195680pfk.75.2016.12.22.09.28.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 22 Dec 2016 09:28:23 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 10.2 \(3259\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <3230301C09DEF9499B442BBE162C5E48AC0FF12F@SESTOEX04.enea.se>
+Date: Thu, 22 Dec 2016 09:28:23 -0800
+Message-Id: <84598796-18B6-4415-8139-696137203834@gmail.com>
+References: <1466986302-33565-1-git-send-email-leimaohui@cn.fujitsu.com>
+	<1466986302-33565-2-git-send-email-leimaohui@cn.fujitsu.com>
+	<3230301C09DEF9499B442BBE162C5E48AC0FF12F@SESTOEX04.enea.se>
+To: Sona Sarmadi <sona.sarmadi@enea.com>
+X-Mailer: Apple Mail (2.3259)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Made spdx support SPDX2.0 SPEC Signed-off-by: Lei	Maohui <leimaohui@cn.fujitsu.com>
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,86 +62,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2016 17:20:59 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 22 Dec 2016 17:28:22 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Hi Ola,
 
-I like this, thanks. Just one thing commented below.
+> On Dec 22, 2016, at 1:07 AM, Sona Sarmadi <sona.sarmadi@enea.com> =
+wrote:
+>=20
+> Hi Lei, all,
+>=20
+>> --- a/meta/classes/spdx.bbclass
+>> +++ b/meta/classes/spdx.bbclass
+>> @@ -1,12 +1,9 @@
+>> # This class integrates real-time license scanning, generation of =
+SPDX
+>> standard  # output and verifiying license info during the building =
+process.
+>> -# It is a combination of efforts from the OE-Core, SPDX and =
+Fossology
+>> projects.
+>> +# It is a combination of efforts from the OE-Core, SPDX and DoSOCSv2
+>> projects.
+>=20
+> Why replace Fossology with DoSOCSv2? Why not make it optional?
+>=20
+> Has anyone any comments on this suggestion? AFAI see this patch has =
+not been accepted yet. Is there any plan to do it?
 
-On Thu, 22 Dec 2016 14:28:03 Ola x Nilsson wrote:
-> The buildclean task should call the package build system clean
-> command, just implemented for Make for now.
-> 
-> This is meant for recipes where S == B, but can be useful as a
-> standalone task for other recipes too.
-> 
-> Setting it to run before do_clean will do what most developers expect
-> when calling bitbake -c clean.
-> 
-> Signed-off-by: Ola x Nilsson <ola.x.nilsson@axis.com>
-> ---
->  meta/classes/externalsrc.bbclass | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/externalsrc.bbclass
-> b/meta/classes/externalsrc.bbclass index e115a47..bc82f1f 100644
-> --- a/meta/classes/externalsrc.bbclass
-> +++ b/meta/classes/externalsrc.bbclass
-> @@ -4,7 +4,7 @@
->  # Copyright (C) 2009 Chris Larson <clarson@kergoth.com>
->  # Released under the MIT license (see COPYING.MIT for the terms)
->  #
-> -# externalsrc.bbclass enables use of an existing source tree, usually
-> external to 
-> +# externalsrc.bbclass enables use of an existing source tree,
-> usually external to 
-> # the build system to build a piece of software rather
-> than the usual fetch/unpack/patch # process.
->  #
-> @@ -108,6 +108,8 @@ python () {
->          # We don't want the workdir to go away
->          d.appendVar('RM_WORK_EXCLUDE', ' ' + d.getVar('PN'))
-> 
-> +        bb.build.addtask('do_makeclean', 'do_clean', None, d)
-> +
+I think DoSOCSv2 is more integratabtle into Yocto/OE infra and seems to =
+be having, fossology setups are complex and is
+slow too. so it might be a good option to have.
 
-Shouldn't this be do_buildclean here?
+>=20
+> Cheers
+> //Sona
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
->          # If B=S the same builddir is used even for different
-> architectures. # Thus, use a shared CONFIGURESTAMPFILE and STAMP directory
-> so that # change of do_configure task hash is correctly detected and stamps
-> are @@ -142,6 +144,17 @@ python externalsrc_compile_prefunc() {
->      bb.plain('NOTE: %s: compiling from external source tree %s' %
-> (d.getVar('PN'), d.getVar('EXTERNALSRC'))) }
-> 
-> +do_buildclean[dirs] = "${S} ${B}"
-> +do_buildclean[nostamp] = "1"
-> +do_buildclean[doc] = "Call 'make clean' or equivalent in ${B}"
-> +externalsrc_do_buildclean() {
-> +	if [ -e Makefile -o -e makefile -o -e GNUmakefile ]; then
-> +		oe_runmake clean || die "make failed"
-> +	else
-> +		bbnote "nothing to compile - no makefile found"
-> +	fi
-> +}
-> +
->  def srctree_hash_files(d):
->      import shutil
->      import subprocess
-> @@ -188,3 +201,5 @@ def srctree_configure_hash_files(d):
->                  if f in search_files:
->                      out_items.append('%s:True' % os.path.join(root, f))
->      return ' '.join(out_items)
-> +
-> +EXPORT_FUNCTIONS do_buildclean
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
