@@ -1,32 +1,30 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 318F77736F
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id EAB79774FD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2016 03:14:42 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uBM3EgDo013356
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 21 Dec 2016 19:14:43 -0800 (PST)
-Received: from [128.224.162.160] (128.224.162.160) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 21 Dec 2016 19:14:41 -0800
-To: Andreas Oberritter <obi@opendreambox.org>, Andre McCurdy
-	<armccurdy@gmail.com>
-References: <cover.1482300982.git.liezhi.yang@windriver.com>
-	<6efb8d002491cd1e736b9126e09a5a63b4acd4d1.1482300982.git.liezhi.yang@windriver.com>
-	<CAJ86T=X_cPiiTWb_mdrcWre=XmAkB=kk7QE0kJ-SKu9Z1B1Fxw@mail.gmail.com>
-	<67916363-806f-7f9e-e9e8-941bb2614cfb@windriver.com>
-	<02079360-2340-5cdb-b23c-db371383d408@opendreambox.org>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <ea7ce818-05fa-a41d-c70e-b94260328d09@windriver.com>
-Date: Thu, 22 Dec 2016 11:14:40 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Thu, 22 Dec 2016 04:55:20 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="14162078"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 22 Dec 2016 12:55:14 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 36220477B1CF
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Dec 2016 12:55:11 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.81) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Thu, 22 Dec 2016 12:55:11 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 22 Dec 2016 12:54:54 +0800
+Message-ID: <1482382494-2614-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <02079360-2340-5cdb-b23c-db371383d408@opendreambox.org>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] hdparm: 9.48 -> 9.50
+X-Originating-IP: [10.167.226.81]
+X-yoursite-MailScanner-ID: 36220477B1CF.A58B2
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] ncurses: 6.0+20160625 -> 6.0+20161126
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,47 +37,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2016 03:14:43 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Dec 2016 04:55:21 -0000
+Content-Type: text/plain
+
+Upgrade ncurses from 6.0+20160625 to 6.0+20161126.
+
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+---
+ .../ncurses/{ncurses_6.0+20160625.bb => ncurses_6.0+20161126.bb}        | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/ncurses/{ncurses_6.0+20160625.bb => ncurses_6.0+20161126.bb} (84%)
+
+diff --git a/meta/recipes-core/ncurses/ncurses_6.0+20160625.bb b/meta/recipes-core/ncurses/ncurses_6.0+20161126.bb
+similarity index 84%
+rename from meta/recipes-core/ncurses/ncurses_6.0+20160625.bb
+rename to meta/recipes-core/ncurses/ncurses_6.0+20161126.bb
+index 6514613..7328e78 100644
+--- a/meta/recipes-core/ncurses/ncurses_6.0+20160625.bb
++++ b/meta/recipes-core/ncurses/ncurses_6.0+20161126.bb
+@@ -4,7 +4,7 @@ SRC_URI += "file://tic-hang.patch \
+             file://config.cache \
+ "
+ # commit id corresponds to the revision in package version
+-SRCREV = "63dd558cb8e888d6fab5f00bbf7842736a2356b9"
++SRCREV = "3db0bd19cb50e3d9b4f2cf15b7a102fe11302068"
+ S = "${WORKDIR}/git"
+ EXTRA_OECONF += "--with-abi-version=5"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+(\+\d+)*)"
+-- 
+2.7.4
 
 
 
-On 12/22/2016 11:09 AM, Andreas Oberritter wrote:
-> On 22.12.2016 03:47, Robert Yang wrote:
->> On 12/21/2016 09:27 PM, Andre McCurdy wrote:
->>> Passing LDFLAGS on the make command line might be a cleaner solution
->>> than patching the Makefile.
->>
->> We can't do that since there is a "-e MAKEFLAGS=" in EXTRA_OEMAKE, and its
->> Makefile is:
->>
->> all:
->>     make -j2 hdparm
->>
->> hdparm: hdparm.h sgio.h $(OBJS)
->>     $(CC) $(LDFLAGS) -o hdparm $(OBJS)
->>     $(STRIP) hdparm
->>
->> The "make -j2 hdparm" doesn't pass any env vars to sub make since
->> MAKEFLAGS=,
->> so that need use weak assignment "?=" here.
->
-> You don't need to use target 'all'. Try this:
->
-> do_compile() {
->     oe_runmake hdparm
-> }
-
-I know this will work, but "make hdparm" rather than "all" may cause other
-issues in the future when hdparm gets ugpraded, for example, "all" doesn't
-only contain "hdmarm". And do we have really have to add a do_compile()
-here ?
-
-// Robert
-
->
-> Regards,
-> Andreas
->
 
