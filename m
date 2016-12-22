@@ -1,54 +1,24 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-wj0-f194.google.com (mail-wj0-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id B81C177667
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 218F07768B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2016 14:45:36 +0000 (UTC)
-Received: by mail-wj0-f194.google.com with SMTP id j10so36588631wjb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2016 06:45:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:user-agent:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=/P8FAYgVHrlKtDtCSGUzXVs+9ldRYz6uYx+k5G+pO34=;
-	b=Ux/dQg32J1CWy2eWGEYHnr8CY1oSigDOoU/fTgAmF3Xzd2zilnkHJl/tx9Ffr2AYf0
-	EhY94o0pm126j12HS/5rzl9u45eG7PjN0T9Rd2k+ZlrxyNfLHMHYez/d+P45o3ZnxYkf
-	Jp17l1PRTDGEZcA399VjzbQof/PSkwhxESZT9tB5nFINsumv92Ya7ZsDDmnEmiBZVHLY
-	fuoQrx8kz+RDs/mnzNRTvlycPVd7clrzmM+xiIKHyb5NR/tGIs9uNf8CFl+etZoM8CW7
-	iBHm/X5SkEOdch/oDp8mON/xuTtYTt3e3jY/TFGqpBqpo2MyuBq2K0Q4c1cqN2KzgHxf
-	42RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:user-agent
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	bh=/P8FAYgVHrlKtDtCSGUzXVs+9ldRYz6uYx+k5G+pO34=;
-	b=NUXIuwz3loJU8+cDAsLUIs8xpCmgYuqOWSJ2/h6yHYLbxNIGSfR92uJzRZFmT7DHBd
-	4f2j0KwFgO/EZK4OyzL8VLHRgqCgDhhnYkX5SQCNHBruNG5m5xq/h727GRPpFljC9a8p
-	O3RsmJ6N/GHnaIyodaPNLPGWHO4fIKXWIYfUMKQMdUB1C5/wWN0tLGw7MziHAJ+QPWpR
-	WwbrcWpWy1DyLOcuZWf5nGCWdNBsiei/e9z6PEFtfsnbSuRe1cp6OPC8qFbnP4HXmgVz
-	i9C9D8fh7tFBhPako00RIqUAu9i+7od7scN9o3jKSg3eVs8QLtKbaKWvHbkvCWiTpqEU
-	2R2A==
-X-Gm-Message-State: AIkVDXI59or0wIzUjYZTIUggEf8WQeadW8YfSm/SK9wXHs+KZP1bzrF5bc3LCnA8D7uuMA==
-X-Received: by 10.195.12.1 with SMTP id em1mr8231561wjd.134.1482417937466;
-	Thu, 22 Dec 2016 06:45:37 -0800 (PST)
-Received: from crde-port-20.cahors.local ([185.47.80.46])
-	by smtp.gmail.com with ESMTPSA id
-	d8sm32499558wmi.21.2016.12.22.06.45.36
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 22 Dec 2016 06:45:36 -0800 (PST)
-From: David Vincent <freesilicon@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 22 Dec 2016 15:45:34 +0100
-Message-ID: <5460018.mmGskV4KOr@crde-port-20.cahors.local>
-User-Agent: KMail/5.3.3 (Linux/4.8.13-1-default; KDE/5.28.0; x86_64; ; )
-In-Reply-To: <CAJTo0LY5hHkOfQuzSO-W6TjDFPXY5N=J0x5DKoCT1Rn2ZU+4TA@mail.gmail.com>
-References: <20161220095122.11831-1-freesilicon@gmail.com>
-	<20161222102320.15247-1-freesilicon@gmail.com>
-	<CAJTo0LY5hHkOfQuzSO-W6TjDFPXY5N=J0x5DKoCT1Rn2ZU+4TA@mail.gmail.com>
+	Thu, 22 Dec 2016 14:49:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uBMEnLQu020139
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 22 Dec 2016 06:49:22 -0800 (PST)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Thu, 22 Dec 2016 06:49:21 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Thu, 22 Dec 2016 09:49:18 -0500
+Message-ID: <cover.1482415485.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
 MIME-Version: 1.0
-Cc: "Plascencia, Daniela" <daniela.plascencia@intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v6] rootfs: Modify RPM installation
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/2] kernel-yocto: 4.9 goodness
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,35 +31,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2016 14:45:37 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 22 Dec 2016 14:49:23 -0000
+Content-Type: text/plain
 
-On jeudi 22 d=C3=A9cembre 2016 14:09:32 CET Burton, Ross wrote:
-> Small problem: we always build rpm-native as we need it for some tools, b=
-ut
-> rpmlibdir is only defined in package_rpm.bbclass which doesn't have to be
-> inherited.
+Hi all,
 
-I didn't know that rpm-native was built in any case, rpm being selected as=
-=20
-package manager or not.
-=20
-> This leads to just --with-path-database=3D being passed to configure.  Wh=
-at's
-> the behaviour of RPM when this happens? What does it default to?  If it's
-> going to be safe (ie a sane default is used), please update the commit
-> message to explain this.
+I'm sending this out so it can get some extra test cycles. I've built and
+booted core-image-kernel-dev/sato on qemu* with the 4.9 kernel and 4.9
+libc-headers.
 
-Indeed, this can lead to undefined behavior. I can propose some solutions b=
-ut=20
-which one would you find better :
-	- Setting a weak assignment for rpmlibdir inside rpm recipe
-	- Setting a default assignment for rpmlibdir_class-native inside rpm recipe
-	- Another option I didn't think of
+I didn't see any issues .. but there always seems to be one lurking.
 
-> Ross
->=20
+I'm heading out of town for the holidays, so this commit does not switch
+qemu* to use 4.9 by default, but it does put the recipes and trees in
+place for upcoming work on new targets and -rt support.
 
-David
+So assuming that the libc-headers change survives some autobuilder cycles,
+this should be safe for merge.
+
+Cheers,
+
+Bruce
+
+The following changes since commit d0d260b0b85790ceb136dd6b0445e8e33d038f5e:
+
+  u-boot/beaglebone: Select Beaglebone Black target specifically. (2016-12-17 09:57:37 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (2):
+  linux-libc-headers: introduce 4.9 headers
+  kernel: introduce linux-yocto v4.9 recipes
+
+ meta/conf/distro/include/tcmode-default.inc        |  2 +-
+ ...bc-headers_4.8.bb => linux-libc-headers_4.9.bb} |  6 +--
+ meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb    | 38 +++++++++++++++++++
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb  | 25 ++++++++++++
+ meta/recipes-kernel/linux/linux-yocto_4.9.bb       | 44 ++++++++++++++++++++++
+ 5 files changed, 110 insertions(+), 5 deletions(-)
+ rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_4.8.bb => linux-libc-headers_4.9.bb} (64%)
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto_4.9.bb
+
+-- 
+2.5.0
+
 
