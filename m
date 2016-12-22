@@ -1,23 +1,31 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 5159860111
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 742F0776C0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2016 19:11:58 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga103.fm.intel.com with ESMTP; 22 Dec 2016 11:11:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,389,1477983600"; d="scan'208";a="42561059"
-Received: from mavelasc-mobl.amr.corp.intel.com (HELO
-	aehernan-MOBL1.amr.corp.intel.com) ([10.252.251.108])
-	by orsmga004.jf.intel.com with ESMTP; 22 Dec 2016 11:11:56 -0800
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+	Thu, 22 Dec 2016 20:19:02 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 997AE20A48;
+	Thu, 22 Dec 2016 20:19:03 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id KD-90rEJlxZZ; Thu, 22 Dec 2016 20:19:03 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-95-79.washdc.fios.verizon.net
+	[100.15.95.79])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 71BC5207BD;
+	Thu, 22 Dec 2016 20:19:01 +0000 (UTC)
+Received: from sam.denix (sam [192.168.0.5])
+	by mail.denix.org (Postfix) with ESMTP id 856851621ED;
+	Thu, 22 Dec 2016 15:19:00 -0500 (EST)
+From: Denys Dmytriyenko <denis@denix.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Dec 2016 13:11:54 -0600
-Message-Id: <b6643e03bbb8e6c83cbd5f6c913f4d841f7ec45f.1482433885.git.alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 2.10.1
-In-Reply-To: <cover.1482433885.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1482433885.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH 1/1] wic: Remove gummiboot test
+Date: Thu, 22 Dec 2016 15:19:00 -0500
+Message-Id: <1482437940-4194-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.7.4
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [morty][PATCH] systemtap: remove explicit msgfmt check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,34 +38,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2016 19:12:01 -0000
+X-List-Received-Date: Thu, 22 Dec 2016 20:19:03 -0000
 
-Weve now migrated to systemd-boot, the gummiboot test on wic is no longer necessary
+From: Ross Burton <ross.burton@intel.com>
 
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Passing --disable-nls should be enough to disable the requirement for a full
+gettext to be present, but the upstream configure explicitly checks for msgfmt
+even if it isn't going to be used.  To avoid having to depend on gettext-native,
+patch this check out.
+
+(From OE-Core rev: 2f8d2a74f73490c1ae35131d3eb3592f7ee0a1e4)
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
 ---
- meta/lib/oeqa/selftest/wic.py | 7 -------
- 1 file changed, 7 deletions(-)
+ .../systemtap/systemtap/no-msgfmt-check.patch             | 15 +++++++++++++++
+ meta/recipes-kernel/systemtap/systemtap_git.inc           |  1 +
+ 2 files changed, 16 insertions(+)
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/no-msgfmt-check.patch
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index 3db00a6..49bbfe3 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -162,13 +162,6 @@ class Wic(oeSelfTest):
-         self.assertEqual(0, runCmd(cmd).status)
-         self.assertEqual(1, len(glob(self.resultdir + "qemux86-directdisk-*direct")))
+diff --git a/meta/recipes-kernel/systemtap/systemtap/no-msgfmt-check.patch b/meta/recipes-kernel/systemtap/systemtap/no-msgfmt-check.patch
+new file mode 100644
+index 0000000..471e62c
+--- /dev/null
++++ b/meta/recipes-kernel/systemtap/systemtap/no-msgfmt-check.patch
+@@ -0,0 +1,15 @@
++There is no need to explicitly check that msgfmt was found as the gettext macros
++handle this for us if NLS is enabled.
++
++Upstream-Status: Pending
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++diff --git a/configure.ac b/configure.ac
++index e56079a..284bbe0 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -39,4 +38,0 @@ AM_GNU_GETTEXT_VERSION([0.19.4])
++-if test "x$GMSGFMT" = "x:"; then
++-   AC_MSG_ERROR([missing gnu /usr/bin/msgfmt])
++-fi
++-
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index 304eb99..34cf227 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -9,6 +9,7 @@ SRC_URI = "git://sourceware.org/git/systemtap.git \
+            file://configure-allow-to-disable-libvirt.patch \
+            file://x32_abi_time.patch \
+            file://monitor-option.patch \
++           file://no-msgfmt-check.patch \
+           "
  
--    @testcase(1349)
--    def test_mkgummidisk(self):
--        """Test creation of mkgummidisk image"""
--        cmd = "wic create mkgummidisk --image-name core-image-minimal"
--        self.assertEqual(0, runCmd(cmd).status)
--        self.assertEqual(1, len(glob(self.resultdir + "mkgummidisk-*direct")))
--
-     @testcase(1350)
-     def test_mkefidisk(self):
-         """Test creation of mkefidisk image"""
+ # systemtap doesn't support mips
 -- 
-2.10.1
+2.7.4
 
 
