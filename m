@@ -1,47 +1,39 @@
-Return-Path: <ola.x.nilsson@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B54077762D
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id EB04677628
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2016 13:28:04 +0000 (UTC)
+	Thu, 22 Dec 2016 13:34:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 5B53E18367
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2016 14:28:05 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id hQuf9DsunPT4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2016 14:28:03 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id BE82018231
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2016 14:28:03 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 687B41E072
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2016 14:28:03 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5D8B01E064
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2016 14:28:03 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2016 14:28:03 +0100 (CET)
-Received: from lnxolani.se.axis.com (lnxolani.se.axis.com [10.88.67.1])
-	by thoth.se.axis.com (Postfix) with ESMTP id 5115F755
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2016 14:28:03 +0100 (CET)
-Received: by lnxolani.se.axis.com (Postfix, from userid 20853)
-	id 3FCA97C066; Thu, 22 Dec 2016 14:28:03 +0100 (CET)
-From: Ola x Nilsson <ola.x.nilsson@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Dec 2016 14:28:03 +0100
-Message-Id: <1482413283-25405-1-git-send-email-ola.x.nilsson@axis.com>
-X-Mailer: git-send-email 2.1.4
-X-TM-AS-GCONF: 00
-Subject: [PATCH] externalsrc.bbclass: Add task buildclean
+	by mail.dream-property.net (Postfix) with ESMTP id C502331C3482;
+	Thu, 22 Dec 2016 14:34:38 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id ZZfDw7V8WOVR; Thu, 22 Dec 2016 14:34:36 +0100 (CET)
+Received: from [172.22.22.61] (55d4194f.access.ecotel.net [85.212.25.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 63DCB31C353E;
+	Thu, 22 Dec 2016 14:34:36 +0100 (CET)
+To: Robert Yang <liezhi.yang@windriver.com>,
+	Andre McCurdy <armccurdy@gmail.com>
+References: <cover.1482300982.git.liezhi.yang@windriver.com>
+	<6efb8d002491cd1e736b9126e09a5a63b4acd4d1.1482300982.git.liezhi.yang@windriver.com>
+	<CAJ86T=X_cPiiTWb_mdrcWre=XmAkB=kk7QE0kJ-SKu9Z1B1Fxw@mail.gmail.com>
+	<67916363-806f-7f9e-e9e8-941bb2614cfb@windriver.com>
+	<02079360-2340-5cdb-b23c-db371383d408@opendreambox.org>
+	<ea7ce818-05fa-a41d-c70e-b94260328d09@windriver.com>
+From: Andreas Oberritter <obi@opendreambox.org>
+Message-ID: <d99876dc-4982-496b-2b9d-34540ce09b01@opendreambox.org>
+Date: Thu, 22 Dec 2016 14:34:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.5.1
+MIME-Version: 1.0
+In-Reply-To: <ea7ce818-05fa-a41d-c70e-b94260328d09@windriver.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/5] hdparm: 9.48 -> 9.50
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,69 +46,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2016 13:28:09 -0000
+X-List-Received-Date: Thu, 22 Dec 2016 13:34:38 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-The buildclean task should call the package build system clean
-command, just implemented for Make for now.
+On 22.12.2016 04:14, Robert Yang wrote:
+> On 12/22/2016 11:09 AM, Andreas Oberritter wrote:
+>> On 22.12.2016 03:47, Robert Yang wrote:
+>>> On 12/21/2016 09:27 PM, Andre McCurdy wrote:
+>>>> Passing LDFLAGS on the make command line might be a cleaner solution
+>>>> than patching the Makefile.
+>>>
+>>> We can't do that since there is a "-e MAKEFLAGS=" in EXTRA_OEMAKE,
+>>> and its
+>>> Makefile is:
+>>>
+>>> all:
+>>>     make -j2 hdparm
+>>>
+>>> hdparm: hdparm.h sgio.h $(OBJS)
+>>>     $(CC) $(LDFLAGS) -o hdparm $(OBJS)
+>>>     $(STRIP) hdparm
+>>>
+>>> The "make -j2 hdparm" doesn't pass any env vars to sub make since
+>>> MAKEFLAGS=,
+>>> so that need use weak assignment "?=" here.
+>>
+>> You don't need to use target 'all'. Try this:
+>>
+>> do_compile() {
+>>     oe_runmake hdparm
+>> }
+> 
+> I know this will work, but "make hdparm" rather than "all" may cause other
+> issues in the future when hdparm gets ugpraded, for example, "all" doesn't
+> only contain "hdmarm". And do we have really have to add a do_compile()
+> here ?
 
-This is meant for recipes where S == B, but can be useful as a
-standalone task for other recipes too.
+It's certainly easier to delete do_compile in a future version's recipe
+than regenerating patches. hdparm is looking for a new maintainer, btw.
 
-Setting it to run before do_clean will do what most developers expect
-when calling bitbake -c clean.
+'hdparm' has been the only target built by 'all' since at least version
+3.1, which dates back to 1996.
 
-Signed-off-by: Ola x Nilsson <ola.x.nilsson@axis.com>
----
- meta/classes/externalsrc.bbclass | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index e115a47..bc82f1f 100644
---- a/meta/classes/externalsrc.bbclass
-+++ b/meta/classes/externalsrc.bbclass
-@@ -4,7 +4,7 @@
- # Copyright (C) 2009 Chris Larson <clarson@kergoth.com>
- # Released under the MIT license (see COPYING.MIT for the terms)
- #
--# externalsrc.bbclass enables use of an existing source tree, usually external to 
-+# externalsrc.bbclass enables use of an existing source tree, usually external to
- # the build system to build a piece of software rather than the usual fetch/unpack/patch
- # process.
- #
-@@ -108,6 +108,8 @@ python () {
-         # We don't want the workdir to go away
-         d.appendVar('RM_WORK_EXCLUDE', ' ' + d.getVar('PN'))
- 
-+        bb.build.addtask('do_makeclean', 'do_clean', None, d)
-+
-         # If B=S the same builddir is used even for different architectures.
-         # Thus, use a shared CONFIGURESTAMPFILE and STAMP directory so that
-         # change of do_configure task hash is correctly detected and stamps are
-@@ -142,6 +144,17 @@ python externalsrc_compile_prefunc() {
-     bb.plain('NOTE: %s: compiling from external source tree %s' % (d.getVar('PN'), d.getVar('EXTERNALSRC')))
- }
- 
-+do_buildclean[dirs] = "${S} ${B}"
-+do_buildclean[nostamp] = "1"
-+do_buildclean[doc] = "Call 'make clean' or equivalent in ${B}"
-+externalsrc_do_buildclean() {
-+	if [ -e Makefile -o -e makefile -o -e GNUmakefile ]; then
-+		oe_runmake clean || die "make failed"
-+	else
-+		bbnote "nothing to compile - no makefile found"
-+	fi
-+}
-+
- def srctree_hash_files(d):
-     import shutil
-     import subprocess
-@@ -188,3 +201,5 @@ def srctree_configure_hash_files(d):
-                 if f in search_files:
-                     out_items.append('%s:True' % os.path.join(root, f))
-     return ' '.join(out_items)
-+
-+EXPORT_FUNCTIONS do_buildclean
--- 
-2.1.4
-
+Regards,
+Andreas
 
