@@ -1,37 +1,21 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 8913F774F4
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B3F17736F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2016 03:09:49 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 87D8331C317E;
-	Thu, 22 Dec 2016 04:09:49 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id lpuHbBwz2w0i; Thu, 22 Dec 2016 04:09:47 +0100 (CET)
-Received: from [172.22.22.61] (55d404f0.access.ecotel.net [85.212.4.240])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 322AE31C347A;
-	Thu, 22 Dec 2016 04:09:47 +0100 (CET)
-To: Robert Yang <liezhi.yang@windriver.com>,
-	Andre McCurdy <armccurdy@gmail.com>
-References: <cover.1482300982.git.liezhi.yang@windriver.com>
-	<6efb8d002491cd1e736b9126e09a5a63b4acd4d1.1482300982.git.liezhi.yang@windriver.com>
-	<CAJ86T=X_cPiiTWb_mdrcWre=XmAkB=kk7QE0kJ-SKu9Z1B1Fxw@mail.gmail.com>
-	<67916363-806f-7f9e-e9e8-941bb2614cfb@windriver.com>
-From: Andreas Oberritter <obi@opendreambox.org>
-Message-ID: <02079360-2340-5cdb-b23c-db371383d408@opendreambox.org>
-Date: Thu, 22 Dec 2016 04:09:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.1
-MIME-Version: 1.0
-In-Reply-To: <67916363-806f-7f9e-e9e8-941bb2614cfb@windriver.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] hdparm: 9.48 -> 9.50
+	Thu, 22 Dec 2016 03:14:03 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga104.jf.intel.com with ESMTP; 21 Dec 2016 19:14:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,386,1477983600"; d="scan'208";a="45278491"
+Received: from afzalahm-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com.fritz.box) ([10.255.181.112])
+	by orsmga005.jf.intel.com with ESMTP; 21 Dec 2016 19:14:02 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Dec 2016 16:13:55 +1300
+Message-Id: <cover.1482376395.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.5.5
+Subject: [PATCH 0/3] Misc correctness fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,35 +28,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2016 03:09:50 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Dec 2016 03:14:03 -0000
 
-On 22.12.2016 03:47, Robert Yang wrote:
-> On 12/21/2016 09:27 PM, Andre McCurdy wrote:
->> Passing LDFLAGS on the make command line might be a cleaner solution
->> than patching the Makefile.
-> 
-> We can't do that since there is a "-e MAKEFLAGS=" in EXTRA_OEMAKE, and its
-> Makefile is:
-> 
-> all:
->     make -j2 hdparm
-> 
-> hdparm: hdparm.h sgio.h $(OBJS)
->     $(CC) $(LDFLAGS) -o hdparm $(OBJS)
->     $(STRIP) hdparm
-> 
-> The "make -j2 hdparm" doesn't pass any env vars to sub make since
-> MAKEFLAGS=,
-> so that need use weak assignment "?=" here.
+The following changes since commit 5e21afc9395060b489156d3f90505a372b713f37:
 
-You don't need to use target 'all'. Try this:
+  Revert "selftest/wic: extending test coverage for WIC script options" (2016-12-20 17:06:01 +0000)
 
-do_compile() {
-    oe_runmake hdparm
-}
+are available in the git repository at:
 
-Regards,
-Andreas
+  git://git.openembedded.org/openembedded-core-contrib paule/correctness-fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/correctness-fixes
+
+Paul Eggleton (3):
+  meta: use require instead of include when file should exist
+  oe-selftest: fix behaviour if oe-selftest.log is a dangling symlink
+  classes/buildstats: don't expand variable pointing to SystemStats
+
+ meta/classes/buildstats.bbclass                                       | 2 +-
+ meta/recipes-core/glibc/glibc-locale.inc                              | 2 +-
+ meta/recipes-core/glibc/glibc-mtrace.inc                              | 2 +-
+ meta/recipes-core/glibc/glibc-scripts.inc                             | 2 +-
+ meta/recipes-extended/cpio/cpio_2.12.bb                               | 2 +-
+ meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.0.bb                     | 2 +-
+ meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.0.bb                    | 2 +-
+ meta/recipes-graphics/xorg-driver/xorg-driver-input.inc               | 2 +-
+ meta/recipes-graphics/xorg-driver/xorg-driver-video.inc               | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.10.1.bb        | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_git.bb           | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.2.0.bb           | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_git.bb             | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.1.bb  | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb     | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.10.1.bb | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_git.bb    | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.10.1.bb | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_git.bb    | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.10.1.bb | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_git.bb    | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.1.bb  | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0_1.10.1.bb              | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb                 | 2 +-
+ meta/recipes-support/boost/bjam-native_1.62.0.bb                      | 2 +-
+ meta/recipes-support/boost/boost_1.62.0.bb                            | 4 ++--
+ scripts/oe-selftest                                                   | 3 ++-
+ 27 files changed, 29 insertions(+), 28 deletions(-)
+
+-- 
+2.5.5
+
 
