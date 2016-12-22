@@ -1,26 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A73977697
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B48E57769B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2016 14:49:23 +0000 (UTC)
+	Thu, 22 Dec 2016 14:49:24 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uBMEnNjM022609
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Thu, 22 Dec 2016 06:49:23 -0800
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBMEnP8S025354
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 22 Dec 2016 06:49:25 -0800 (PST)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Thu, 22 Dec 2016 06:49:23 -0800
+	14.3.294.0; Thu, 22 Dec 2016 06:49:24 -0800
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 22 Dec 2016 09:49:19 -0500
-Message-ID: <81c86de3aa3411f52e74b41b324c0713b347f245.1482415485.git.bruce.ashfield@windriver.com>
+Date: Thu, 22 Dec 2016 09:49:20 -0500
+Message-ID: <29cf2a369d29655b3c9e3f607b579f96a774fe13.1482415485.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1482415485.git.bruce.ashfield@windriver.com>
 References: <cover.1482415485.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] linux-libc-headers: introduce 4.9 headers
+Subject: [PATCH 2/2] kernel: introduce linux-yocto v4.9 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,57 +33,154 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2016 14:49:24 -0000
+X-List-Received-Date: Thu, 22 Dec 2016 14:49:25 -0000
 Content-Type: text/plain
 
-Bumping the linux-libc-headers to the 4.9 kernel variant. Since 4.9
-will be a LTSI kernel, and there will be an associated linux-yocto
-it is worth moving to these headers sooner rather than later.
+Introducing the 4.9 kernel recipes. 4.9 will be a LTSI kernel, so we
+introduce these recipes with the intent that they'll replace 4.1 as
+the LTSI kernel, and other older kernels (i.e 4.4/4.8)  once 4.9
+shown to be stable.
 
-This commit also drops the 4.8 headers and sets 4.9 to be the default.
+linux-yocto-tiny and linux-yocto-rt are also part of this commit, but
+are placeholders while we wait for their content to be available. They
+will build, but provide nothing above the standard kernel at the
+moment.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/conf/distro/include/tcmode-default.inc                         | 2 +-
- .../{linux-libc-headers_4.8.bb => linux-libc-headers_4.9.bb}        | 6 ++----
- 2 files changed, 3 insertions(+), 5 deletions(-)
- rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_4.8.bb => linux-libc-headers_4.9.bb} (64%)
+ meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb   | 38 ++++++++++++++++++++
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb | 25 +++++++++++++
+ meta/recipes-kernel/linux/linux-yocto_4.9.bb      | 44 +++++++++++++++++++++++
+ 3 files changed, 107 insertions(+)
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto_4.9.bb
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index ca3c5ec90a5f..836adaf9dddb 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -28,7 +28,7 @@ BINUVERSION ?= "2.27%"
- GDBVERSION ?= "7.11%"
- GLIBCVERSION ?= "2.24"
- UCLIBCVERSION ?= "1.0%"
--LINUXLIBCVERSION ?= "4.8%"
-+LINUXLIBCVERSION ?= "4.9%"
- 
- PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
- PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?= "${GCCVERSION}"
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.8.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.9.bb
-similarity index 64%
-rename from meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.8.bb
-rename to meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.9.bb
-index 77e0870d326f..0a44018f880b 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.8.bb
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.9.bb
-@@ -1,12 +1,10 @@
- require linux-libc-headers.inc
- 
--PV = "4.8"
--
- SRC_URI_append_libc-musl = "\
-     file://0001-libc-compat.h-fix-some-issues-arising-from-in6.h.patch \
-     file://0002-libc-compat.h-prevent-redefinition-of-struct-ethhdr.patch \
-     file://0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch \
-    "
- 
--SRC_URI[md5sum] = "c1af0afbd3df35c1ccdc7a5118cd2d07"
--SRC_URI[sha256sum] = "3e9150065f193d3d94bcf46a1fe9f033c7ef7122ab71d75a7fb5a2f0c9a7e11a"
-+SRC_URI[md5sum] = "0a68ef3615c64bd5ee54a3320e46667d"
-+SRC_URI[sha256sum] = "029098dcffab74875e086ae970e3828456838da6e0ba22ce3f64ef764f3d7f1a"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
+new file mode 100644
+index 000000000000..2f1c6523147c
+--- /dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
+@@ -0,0 +1,38 @@
++KBRANCH ?= "standard/preempt-rt/base"
++
++require recipes-kernel/linux/linux-yocto.inc
++
++# Skip processing of this recipe if it is not explicitly specified as the
++# PREFERRED_PROVIDER for virtual/kernel. This avoids errors when trying
++# to build multiple virtual/kernel providers, e.g. as dependency of
++# core-image-rt-sdk, core-image-rt.
++python () {
++    if d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
++        raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
++}
++
++SRCREV_machine ?= "617635e43afee1aaf98a8f8300596f7a112513c0"
++SRCREV_meta ?= "c56f2da94e4773ea25eebfd14200164ef21730a3"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.9.git;branch=${KBRANCH};name=machine \
++           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.9;destsuffix=${KMETA}"
++
++LINUX_VERSION ?= "4.9"
++
++PV = "${LINUX_VERSION}+git${SRCPV}"
++
++KMETA = "kernel-meta"
++KCONF_BSP_AUDIT_LEVEL = "2"
++
++LINUX_KERNEL_TYPE = "preempt-rt"
++
++COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuppc|qemumips)"
++
++KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
++
++# Functionality flags
++KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
++KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
++KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
++KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb
+new file mode 100644
+index 000000000000..62df631f3539
+--- /dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb
+@@ -0,0 +1,25 @@
++KBRANCH ?= "standard/tiny/common-pc"
++LINUX_KERNEL_TYPE = "tiny"
++KCONFIG_MODE = "--allnoconfig"
++
++require recipes-kernel/linux/linux-yocto.inc
++
++LINUX_VERSION ?= "4.9"
++
++KMETA = "kernel-meta"
++KCONF_BSP_AUDIT_LEVEL = "2"
++
++SRCREV_machine ?= "617635e43afee1aaf98a8f8300596f7a112513c0"
++SRCREV_meta ?= "c56f2da94e4773ea25eebfd14200164ef21730a3"
++
++PV = "${LINUX_VERSION}+git${SRCPV}"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.9.git;branch=${KBRANCH};name=machine \
++           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.9;destsuffix=${KMETA}"
++
++COMPATIBLE_MACHINE = "(qemux86$)"
++
++# Functionality flags
++KERNEL_FEATURES = ""
++
++KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.9.bb b/meta/recipes-kernel/linux/linux-yocto_4.9.bb
+new file mode 100644
+index 000000000000..d84400a323eb
+--- /dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto_4.9.bb
+@@ -0,0 +1,44 @@
++KBRANCH ?= "standard/base"
++
++require recipes-kernel/linux/linux-yocto.inc
++
++# board specific branches
++KBRANCH_qemuarm  ?= "standard/arm-versatile-926ejs"
++KBRANCH_qemuarm64 ?= "standard/qemuarm64"
++KBRANCH_qemumips ?= "standard/mti-malta32"
++KBRANCH_qemuppc  ?= "standard/qemuppc"
++KBRANCH_qemux86  ?= "standard/base"
++KBRANCH_qemux86-64 ?= "standard/base"
++KBRANCH_qemumips64 ?= "standard/mti-malta64"
++
++SRCREV_machine_qemuarm ?= "0fda844a4c8da3d987b8173128c2b14948133b2e"
++SRCREV_machine_qemuarm64 ?= "617635e43afee1aaf98a8f8300596f7a112513c0"
++SRCREV_machine_qemumips ?= "22f2f6de114cf1fc58e068d1aff220d633aeaddf"
++SRCREV_machine_qemuppc ?= "617635e43afee1aaf98a8f8300596f7a112513c0"
++SRCREV_machine_qemux86 ?= "617635e43afee1aaf98a8f8300596f7a112513c0"
++SRCREV_machine_qemux86-64 ?= "617635e43afee1aaf98a8f8300596f7a112513c0"
++SRCREV_machine_qemumips64 ?= "3183d61d4d00d8b7faf10d11b3da8cf3db432e6f"
++SRCREV_machine ?= "617635e43afee1aaf98a8f8300596f7a112513c0"
++SRCREV_meta ?= "c56f2da94e4773ea25eebfd14200164ef21730a3"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.9.git;name=machine;branch=${KBRANCH}; \
++           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.9;destsuffix=${KMETA}"
++
++LINUX_VERSION ?= "4.9"
++
++PV = "${LINUX_VERSION}+git${SRCPV}"
++
++KMETA = "kernel-meta"
++KCONF_BSP_AUDIT_LEVEL = "2"
++
++KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
++
++COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
++
++# Functionality flags
++KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
++KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
++KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
++KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
 -- 
 2.5.0
 
