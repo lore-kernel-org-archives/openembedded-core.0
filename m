@@ -1,46 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id A0ABE77616
+Return-Path: <ola.x.nilsson@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 60DFC77626
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2016 12:59:39 +0000 (UTC)
-Received: by mail-qk0-f171.google.com with SMTP id n21so107439223qka.3
+	Thu, 22 Dec 2016 13:16:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 359202E5FB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2016 04:59:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=XsMxvOXlu2vcmjB1H/uaj9pNqTUXrHLGXA3V0dStjrA=;
-	b=nGO7RipxPLRIa2be8iWrrsd6y29UObeGLNn0F4NPHHGMcpXV0uG+2LM45eyL5Fsf6b
-	SqTwYmw/ZHld12l6+14LAKmPD+iONFABI0bpy2h+B3vVfKFhjY4tZ+57SEvJRoaZNUJu
-	XEjkHCGLjZKhD+WTz8PFjTF9/So7AS07iH/Qr92cuCohUXLVQOi9YSxoQifSe9pnRetZ
-	pbOCdQMgrp8o6BollOGihYAqeE5kgezwqMfKYwte/KRr2oOtTy5Xv+FvuY7OrnhnTh80
-	6XVopdO6x2FBuqoIQs4YeNvnGGGCMmNwhQ22/FbKYmxHPTqgtMqddOzGaDJWo/PX56Ib
-	RIJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=XsMxvOXlu2vcmjB1H/uaj9pNqTUXrHLGXA3V0dStjrA=;
-	b=Lwkq89NYUoHToQPbMZ1UQ0IVOwhkxr7qrPhr3Xj54RVP1ompj+4FPsI/6TqvB49Kfk
-	wIHHU+sz8whOlNfozvJCuPAFYLRV3eRdfsx/QJY3JgL2u2EElSkXEOogNbbOP1edtIzB
-	iTExuLapGJFtHcyfowCvhmBLsAI8JknlBVpptMlJcJbYzhpZuyeKJPOCrtLL09N6L6Co
-	fbP90WEZ2pOxLpi6iHNWNCnbApj6PTmsKjzTXq74Yr0U+12vYVxWfbvBIqH0UB1eIgE0
-	NwOBzFVM2Pw1gNzEgm7VAMgLrYzaMUShjJGMn/0TbpTa+cYPOcuqfy+pUsAckdcTbEe8
-	3Xaw==
-X-Gm-Message-State: AIkVDXLElfKM7YviT1qSJ3MPLuIucyf4DAMZHaTbZhHV4i6X/xr+Gse6wOuU1feRSl/ZUKtL2GeVRixfdRd9jJLn
-X-Received: by 10.55.75.17 with SMTP id y17mr9618039qka.26.1482411580774; Thu,
-	22 Dec 2016 04:59:40 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Thu, 22 Dec 2016 04:59:20 -0800 (PST)
-In-Reply-To: <1482373460-40914-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-References: <1482373460-40914-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 22 Dec 2016 12:59:20 +0000
-Message-ID: <CAJTo0LYRpvnTveDpj7oavGA2X0OAzk8akDG17JPFo48MY9VR-g@mail.gmail.com>
-To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] elfutils 0.166->0.167
+	Thu, 22 Dec 2016 14:16:47 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id L+4CjJth9WKT
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Dec 2016 14:16:46 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bes.se.axis.com (Postfix) with ESMTPS id A05D22E0BD
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Dec 2016 14:16:46 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8A69E1A075
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Dec 2016 14:16:46 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7F7591A072
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Dec 2016 14:16:46 +0100 (CET)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Dec 2016 14:16:46 +0100 (CET)
+Received: from lnxolani.se.axis.com (lnxolani.se.axis.com [10.88.67.1])
+	by thoth.se.axis.com (Postfix) with ESMTP id 72F90734;
+	Thu, 22 Dec 2016 14:16:46 +0100 (CET)
+Received: by lnxolani.se.axis.com (Postfix, from userid 20853)
+	id 26CB07C066; Thu, 22 Dec 2016 14:16:45 +0100 (CET)
+From: Ola x Nilsson <ola.x.nilsson@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Dec 2016 14:16:32 +0100
+Message-Id: <1482412594-22508-1-git-send-email-ola.x.nilsson@axis.com>
+X-Mailer: git-send-email 2.1.4
+X-TM-AS-GCONF: 00
+Cc: Ola x Nilsson <olani@axis.com>
+Subject: [PATCH 0/2] Set STAMPCLEAN for externalsrc when S == B
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,91 +54,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2016 12:59:41 -0000
-Content-Type: multipart/alternative; boundary=001a114a88c8aeffe705443ed707
+X-List-Received-Date: Thu, 22 Dec 2016 13:16:47 -0000
 
---001a114a88c8aeffe705443ed707
-Content-Type: text/plain; charset=UTF-8
+When using devtool modify and changing code back and forth bitbake
+sometimes does not realize that a rebuild is required.  This is
+because STAMP and STAMPCLEAN doesn't match.  Old stamps confuse
+bitbake and when the files in ${S} happen to match something we've
+seen before bitbake decides to do nothing.
 
-This patch is removed as you say it is merged upstream:
+Fix by setting STAMPCLEAN.
+Add tests.
 
-On 22 December 2016 at 02:24, Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-wrote:
+Ola x Nilsson (2):
+  oe-selftest: devtool: Reverting a change should trigger rebuild
+  externalsrc: Set STAMPCLEAN to match STAMP
 
-> --- a/meta/recipes-devtools/elfutils/elfutils-0.166/0001-
-> fix-a-stack-usage-warning.patch
-> +++ /dev/null
-> -diff --git a/backends/ppc_initreg.c b/backends/ppc_initreg.c
-> -index 64f5379..52dde3e 100644
-> ---- a/backends/ppc_initreg.c
-> -+++ b/backends/ppc_initreg.c
-> -@@ -93,7 +93,7 @@ ppc_set_initial_registers_tid (pid_t tid __attribute__
-> ((unused)),
-> -       return false;
-> -     }
-> -   const size_t gprs = sizeof (user_regs.r.gpr) / sizeof
-> (*user_regs.r.gpr);
-> --  Dwarf_Word dwarf_regs[gprs];
-> -+  Dwarf_Word dwarf_regs[sizeof (user_regs.r.gpr) / sizeof
-> (*user_regs.r.gpr)];
->
+ meta/classes/externalsrc.bbclass  |  1 +
+ meta/lib/oeqa/selftest/devtool.py | 54 +++++++++++++++++++++++++++------------
+ 2 files changed, 39 insertions(+), 16 deletions(-)
+
+-- 
+2.1.4
 
 
-However the upstream code
-(https://git.fedorahosted.org/cgit/elfutils.git/tree/backends/ppc_initreg.c?h=elfutils-0.167#n95)
-still says:
-
-
-  const size_t gprs = sizeof (user_regs.r.gpr) / sizeof (*user_regs.r.gpr);
-  Dwarf_Word dwarf_regs[gprs];
-
-So this wasn't merged.  Please re-review the patches (and maybe this is a
-good opportunity to push more of them upstream).
-
-Ross
-
---001a114a88c8aeffe705443ed707
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra">This patch is removed as you sa=
-y it is merged upstream:</div><div class=3D"gmail_extra"><br></div><div cla=
-ss=3D"gmail_extra">On 22 December 2016 at 02:24, Zheng Ruoqin <span dir=3D"=
-ltr">&lt;<a href=3D"mailto:zhengrq.fnst@cn.fujitsu.com" target=3D"_blank">z=
-hengrq.fnst@cn.fujitsu.com</a>&gt;</span> wrote:<br><div class=3D"gmail_quo=
-te"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:sol=
-id;padding-left:1ex"><div id=3D"gmail-:e2" class=3D"gmail-a3s gmail-aXjCH g=
-mail-m1592459f2e5d6967">--- a/meta/recipes-devtools/<wbr>elfutils/elfutils-=
-0.166/0001-<wbr>fix-a-stack-usage-warning.<wbr>patch<br>
-+++ /dev/null<br>-diff --git a/backends/ppc_initreg.c b/backends/ppc_initre=
-g.c<br>
--index 64f5379..52dde3e 100644<br>
----- a/backends/ppc_initreg.c<br>
--+++ b/backends/ppc_initreg.c<br>
--@@ -93,7 +93,7 @@ ppc_set_initial_registers_tid (pid_t tid __attribute__ (=
-(unused)),<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0return false;<br>
--=C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0const size_t gprs =3D sizeof (user_regs.r.gpr) / sizeof (*use=
-r_regs.r.gpr);<br>
---=C2=A0 Dwarf_Word dwarf_regs[gprs];<br>
--+=C2=A0 Dwarf_Word dwarf_regs[sizeof (user_regs.r.gpr) / sizeof (*user_reg=
-s.r.gpr)];</div></blockquote></div><div class=3D"gmail_extra"><br></div><di=
-v class=3D"gmail_extra"><br></div><pre style=3D"margin-top:0px;margin-botto=
-m:0px;padding:0px"><code><font face=3D"arial, sans-serif"><span style=3D"wh=
-ite-space:normal">However the upstream code (</span></font></code><span sty=
-le=3D"font-family:arial,sans-serif"><a href=3D"https://git.fedorahosted.org=
-/cgit/elfutils.git/tree/backends/ppc_initreg.c?h=3Delfutils-0.167#n95">http=
-s://git.fedorahosted.org/cgit/elfutils.git/tree/backends/ppc_initreg.c?h=3D=
-elfutils-0.167#n95</a>) still says:</span></pre><pre style=3D"margin-top:0p=
-x;margin-bottom:0px;padding:0px"><font color=3D"#000000" size=3D"3" style=
-=3D"font-family:arial,sans-serif"><br></font></pre>=C2=A0 const size_t gprs=
- =3D sizeof (user_regs.r.gpr) / sizeof (*user_regs.r.gpr);<br>=C2=A0 Dwarf_=
-Word dwarf_regs[gprs];</div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">So this wasn&#39;t merged.=C2=A0 Please re-review the patc=
-hes (and maybe this is a good opportunity to push more of them upstream).</=
-div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</d=
-iv></div>
-
---001a114a88c8aeffe705443ed707--
