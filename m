@@ -1,48 +1,35 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
-	[209.85.220.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 237D46FF7B
+Return-Path: <marcel@ziswiler.com>
+Received: from mout.perfora.net (mout.perfora.net [74.208.4.197])
+	by mail.openembedded.org (Postfix) with ESMTP id A09E471DC1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Dec 2016 10:23:29 +0000 (UTC)
-Received: by mail-qk0-f172.google.com with SMTP id t184so139513091qkd.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Dec 2016 02:23:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ApusevE1fOwag7XvUwwNgUqi8WUpqgGXIEkmdLtR+Pw=;
-	b=ZksPjSx9YRKnXyxZxP1j/Ol6nko8SA3d9pds5mTLgpkymT2aecxARCDKrNZG7fCKmU
-	5/Hzr6ehJ2OsHJ7nVeWmo7k6W79DEolaO7mUKdeH6mywOMu4veLitk4VnIc4b3qdxaVv
-	zB6wgu8CoAOWKBpabu2usnQzD0MomjW+PQBDZ7O6oMcRIzGOAaE4qHyOcuELhSuoYkxe
-	FcFKDM/G25YJH8m36Qboo6RNUmd28wo+4lIhDfPbCCPJRkuIwte7ZNIycYmaM8VOyCgO
-	tbaoOUA0sLxOtQPgqpLmPGx7rjV8UFK+Y0Wf4+YA1Tl751+WGPwkBUtHOjSQj7hxxh/H
-	gnYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ApusevE1fOwag7XvUwwNgUqi8WUpqgGXIEkmdLtR+Pw=;
-	b=kKm9pHk9cUeiUnTIro4lPbtOKQwITMzP/u2+5SXOQbUjJPrlJ08TX6tB0fKrqLbULp
-	VnXw0gPoSXI7EwN6xp2cOMAeDay+kOzKDhrcGmq8iQd6h0sLKKrUO1nLZAhA3/7nL/Ry
-	MLtDJo/e0pl1yFPS8k32QGPuc5qIl8XK034xIlSDBJl/LlwIujK7XTrgFP0zYUj/vvOz
-	MmcFl9ProZVvJU3ciJ3PO7uJXyzM8UEq8uMRAi3Fnj31o2/SRdUYngvoMKMxIXYYi9Vf
-	/rc1SQNQF/Gk8qx3cIY6ZqBI38if2A62G3tdwlWrULJj42DBGPUK4xFQjvX7R2MgJ842
-	e1mQ==
-X-Gm-Message-State: AIkVDXJQni+4B426k+TijgS69iw1jnhPBVMZJP8EQ54BaFI/09fcs5jmcy+QlaxGSEotLilUSGE2LbTJxJFpLMjq
-X-Received: by 10.55.97.75 with SMTP id v72mr12770830qkb.80.1482488611133;
-	Fri, 23 Dec 2016 02:23:31 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.237.34.74 with HTTP; Fri, 23 Dec 2016 02:23:00 -0800 (PST)
-In-Reply-To: <81c86de3aa3411f52e74b41b324c0713b347f245.1482415485.git.bruce.ashfield@windriver.com>
-References: <cover.1482415485.git.bruce.ashfield@windriver.com>
-	<81c86de3aa3411f52e74b41b324c0713b347f245.1482415485.git.bruce.ashfield@windriver.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Fri, 23 Dec 2016 12:23:00 +0200
-Message-ID: <CAHiDW_E+G1JAEODj3w6Xda4CJkjHGOnBB0h035p093ZGP7WTqA@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] linux-libc-headers: introduce 4.9 headers
+	Fri, 23 Dec 2016 12:43:11 +0000 (UTC)
+Received: from marcel-pc.toradex.int.net ([84.227.37.153]) by
+	mrelay.perfora.net (mreueus001 [74.208.5.2]) with ESMTPA (Nemesis) id
+	0M6DOO-1cW8Ey0uOg-00yAFk; Fri, 23 Dec 2016 13:43:06 +0100
+From: Marcel Ziswiler <marcel@ziswiler.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 23 Dec 2016 13:43:00 +0100
+Message-Id: <20161223124300.27778-1-marcel@ziswiler.com>
+X-Mailer: git-send-email 2.9.3
+X-Provags-ID: V03:K0:WStX0puaH0CvU9h+c40Hberla6yWQkQWlZ34xN3ZAr3EJOTYVlZ
+	zuaxvp0HwpwF8iiPOGrH2E5y/tSTiwV2KkWk0DflsgX74qTxZRjRxlqkyvrx+PDsssXjLf3
+	Nk+emD/S4w7TT7FTGMz8fDoIeyfY8OI1KXq9CuBTmk3TiMvHMSxO+hVXFJcCrMSfcmLk0nx
+	bA7CziS7ryrqdMpoj/nYQ==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:sqNbQo0Q7MI=:q4oqXDsqLZvxhYFYEjoT4P
+	Tl3LkW99hoRCYrBPA2IkFZMnWocpW+cie2hTW+u4vTy/84x7DPhkkZ+MajQ8ZHuwpAPVexLR/
+	fSW5tlaKcsnvzM2T/WecogoTcc/85hxPkMul4+F13dXHNEbvEpsyUx6dLl8fGLfIyoXfVbFaJ
+	4yopC7fyDEt1jksIBuXOU+ej2G0UI7HIvCyY6S6QvheYqoHiJ5KXZoi9qSRUhyAoyft6K8ykc
+	Y1+55XcamTLMeziIGcHxFZttiV+fRJX+y3ZSxahLNb6p3Yq5RREXDIATKlHoLsXWHDGoFOO0e
+	65I2o+2fBhSDEuBMX/cHFiL4GYTKbdHZ+bE4HXfdzJCPcHdhrJeTpv79bvrCzVHg79umx0P58
+	ywaXXHqi/YxgcGOWbuDJWMrZ8xzCv46dxVuSy+q1kN80NuqTm1KX6OlkAgPbC4QhgQoRVO7WB
+	WNPdmsqCHhp/mzwJEN6B37AobIS1RF0TifrV0JV0U0YWeE8c+VvOjOomx7u3tUd/t7B9F2aSU
+	oIbMpkagDsXUI6xIicpQgbuPxK9iIpkSckpPysyi6IdWvStujmb1Eu4kKkgLoiuTNPNKl4i8s
+	mZ50v1XMqrF+Ta876k9knt2aRdQWlbbDM7+oQh/rUTS+JKyr/IWnjXGKXJgqw237C6T0yUGu0
+	JNHa0vkz3jiX8F9Ut5nI8grUFH0/tfrkFaFN+jq2iQ5Ddthbl7FP97hzLRu3fCtnNp4A=
+Cc: Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+	Stefan Agner <stefan.agner@toradex.com>,
+	Max Krummenacher <max.krummenacher@toradex.com>
+Subject: [PATCH] xinput-calibrator: fix operation on multihead configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,84 +42,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Dec 2016 10:23:30 -0000
-Content-Type: multipart/alternative; boundary=001a114808fa0d0541054450c7b9
+X-List-Received-Date: Fri, 23 Dec 2016 12:43:11 -0000
 
---001a114808fa0d0541054450c7b9
-Content-Type: text/plain; charset=UTF-8
+From: Marcel Ziswiler <marcel.ziswiler@toradex.com>
 
-On 22 December 2016 at 16:49, Bruce Ashfield <bruce.ashfield@windriver.com>
-wrote:
->
-> Bumping the linux-libc-headers to the 4.9 kernel variant. Since 4.9
-> will be a LTSI kernel, and there will be an associated linux-yocto
-> it is worth moving to these headers sooner rather than later.
->
-> This commit also drops the 4.8 headers and sets 4.9 to be the default.
+As e.g. the Toradex Colibri T20, Apalis/Colibri T30 and Apalis TK1
+modules are multihead capable and if HDMI is plugged in while the xinput
+calibrator was run this led to the following error message:
 
-The autobuilder run (ross/mut 1dc1894e05) with this had a couple of issues:
+root@apalis-t30:~# xinput_calibrator_once.sh
+Unknown option: 640x480
 
-*** ppp fails to build on musl:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=10853
+Fix this by just using the first detected heads geometry definition.
 
-*** ncurses fails in several builds, all gnu/stubs.h related:
-ncurses was also upgraded in this AB run (CCing Huang Qiyu) but the
-failures seem more like libc related...
+Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
 
-x32:
-|
-nightly-x32/build/build/tmp/sysroots/qemux86-64/usr/include/gnu/stubs.h:10:27:
-fatal error: gnu/stubs-64.h: No such file or directory
-|  # include <gnu/stubs-64.h>
+---
 
-arm:
-|
-nightly-arm/build/build/tmp/sysroots/beaglebone/usr/include/gnu/stubs.h:7:29:
-fatal error: gnu/stubs-soft.h: No such file or directory
-|  # include <gnu/stubs-soft.h>
+Re-send after having subscribed.
 
-multilib:
-|
-nightly-multilib/build/build/tmp/sysroots/qemumips64/usr/include/gnu/stubs.h:35:33:
-fatal error: gnu/stubs-n64_hard.h: No such file or directory
-|  # include <gnu/stubs-n64_hard.h>
+ .../add-geometry-input-when-calibrating.patch                 | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-The full build log links can be found in "nightly 1121" section here:
-https://wiki.yoctoproject.org/wiki/BuildLog#nightly_1121_-_ross.2Fmut_1dc1894e05ef0f3aeeefa61ed89613f17bba2e83
+diff --git a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/add-geometry-input-when-calibrating.patch b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/add-geometry-input-when-calibrating.patch
+index 9dc94ae..296b075 100644
+--- a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/add-geometry-input-when-calibrating.patch
++++ b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/add-geometry-input-when-calibrating.patch
+@@ -1,6 +1,6 @@
+-From 1cb83759632bb218559c4d0d65ff79f868c03dc5 Mon Sep 17 00:00:00 2001
+-From: "Maxin B. John" <maxin.john@intel.com>
+-Date: Tue, 9 Aug 2016 17:03:31 +0300
++From d4699c60c773e75a68227f82afea0b607667a4c0 Mon Sep 17 00:00:00 2001
++From: "Marcel Ziswiler" <marcel.ziswiler@toradex.com>>
++Date: Thu, 22 Dec 2016 11:34:31 +0100
+ Subject: [PATCH] add geometry input when calibrating
+ 
+ Send monitor geometry to xinput_calibrator when running the script
+@@ -9,8 +9,11 @@ Update:
+ 
+ Upstream-Status: Inappropriate [no longer maintained]
+ 
++Multihead capability update curtsy Toradex.
++
+ Signed-off-by: Jonathan David <jonathan.david@ni.com>
+ Signed-off-by: Maxin B. John <maxin.john@intel.com>
++Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
+ ---
+  scripts/xinput_calibrator_pointercal.sh | 3 ++-
+  1 file changed, 2 insertions(+), 1 deletion(-)
+@@ -24,7 +27,7 @@ index fccb197..fea7c2f 100755
+  fi
+  
+ -CALDATA=`$BINARY --output-type xinput -v | tee $LOGFILE | grep '    xinput set' | sed 's/^    //g; s/$/;/g'`
+-+RESOLUTION=$(xrandr | awk -F '[[:space:]+]' '/ connected/ { if ($3 != "primary") print $3; if ($3 == "primary") print $4 }')
+++RESOLUTION=$(xrandr | awk -F '[[:space:]+]' '/ connected/ { if ($3 != "primary") print $3; if ($3 == "primary") print $4 }' | sed q)
+ +CALDATA=`$BINARY --geometry $RESOLUTION --output-type xinput -v | tee $LOGFILE | grep '    xinput set' | sed 's/^    //g; s/$/;/g'`
+  if [ ! -z "$CALDATA" ] ; then
+    echo $CALDATA > $CALFILE
+-- 
+2.9.3
 
 
-Cheers,
-  Jussi
-
---001a114808fa0d0541054450c7b9
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 22 December 2016 at 16:49, Bruce Ashfield &lt;<a href=
-=3D"mailto:bruce.ashfield@windriver.com">bruce.ashfield@windriver.com</a>&g=
-t; wrote:<br>&gt;<br>&gt; Bumping the linux-libc-headers to the 4.9 kernel =
-variant. Since 4.9<br>&gt; will be a LTSI kernel, and there will be an asso=
-ciated linux-yocto<br>&gt; it is worth moving to these headers sooner rathe=
-r than later.<br>&gt;<br>&gt; This commit also drops the 4.8 headers and se=
-ts 4.9 to be the default.<br><br>The autobuilder run (ross/mut 1dc1894e05) =
-with this had a couple of issues:<br><br>*** ppp fails to build on musl: <a=
- href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D10853">https:/=
-/bugzilla.yoctoproject.org/show_bug.cgi?id=3D10853</a><br><br>*** ncurses f=
-ails in several builds, all gnu/stubs.h related:<br>ncurses was also upgrad=
-ed in this AB run (CCing Huang Qiyu) but the failures seem more like libc r=
-elated...<br><br>x32:<br>| nightly-x32/build/build/tmp/sysroots/qemux86-64/=
-usr/include/gnu/stubs.h:10:27: fatal error: gnu/stubs-64.h: No such file or=
- directory<br>| =C2=A0# include &lt;gnu/stubs-64.h&gt;<br><br>arm:<br>| nig=
-htly-arm/build/build/tmp/sysroots/beaglebone/usr/include/gnu/stubs.h:7:29: =
-fatal error: gnu/stubs-soft.h: No such file or directory<br>| =C2=A0# inclu=
-de &lt;gnu/stubs-soft.h&gt;<br><br>multilib:<br>| nightly-multilib/build/bu=
-ild/tmp/sysroots/qemumips64/usr/include/gnu/stubs.h:35:33: fatal error: gnu=
-/stubs-n64_hard.h: No such file or directory<br>| =C2=A0# include &lt;gnu/s=
-tubs-n64_hard.h&gt;<br><br>The full build log links can be found in &quot;n=
-ightly 1121&quot; section here:<br><a href=3D"https://wiki.yoctoproject.org=
-/wiki/BuildLog#nightly_1121_-_ross.2Fmut_1dc1894e05ef0f3aeeefa61ed89613f17b=
-ba2e83">https://wiki.yoctoproject.org/wiki/BuildLog#nightly_1121_-_ross.2Fm=
-ut_1dc1894e05ef0f3aeeefa61ed89613f17bba2e83</a><br><br><br>Cheers,<br>=C2=
-=A0 Jussi</div>
-
---001a114808fa0d0541054450c7b9--
