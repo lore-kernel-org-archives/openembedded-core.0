@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DD77F71C84
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6DCBB6FF76
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Dec 2016 02:58:01 +0000 (UTC)
+	Fri, 23 Dec 2016 02:58:03 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBN2w2mY022476
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uBN2w43Z025117
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2016 18:58:02 -0800 (PST)
+	Thu, 22 Dec 2016 18:58:05 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.184) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Thu, 22 Dec 2016 18:58:01 -0800
+	14.3.294.0; Thu, 22 Dec 2016 18:58:03 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 23 Dec 2016 10:59:20 +0800
-Message-ID: <cover.1482461845.git.Qi.Chen@windriver.com>
+Date: Fri, 23 Dec 2016 10:59:21 +0800
+Message-ID: <525bc19d379cb5f2b774a7593f213de26dc2ae18.1482461845.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1482461845.git.Qi.Chen@windriver.com>
+References: <cover.1482461845.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 0/2] warn when ALTERNATIVE_PRIORITY are the same
+Subject: [PATCH V2 1/2] package_manager: default to have scriptlet output captured in log
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +33,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Dec 2016 02:58:02 -0000
+X-List-Received-Date: Fri, 23 Dec 2016 02:58:04 -0000
 Content-Type: text/plain
 
-Changes since V1:
-Fixed do_rootfs failure for deb package backend.
+We need to have scriptlet output captured in log. If we don't do so,
+some useful information from scriptlets (especially postinstall script)
+would be missing. In case a script has a warning message but it does not
+necessarily have to fail, the message should be captured.
 
-The following changes since commit 425afe2484707640ac71194885fdb263e95e9950:
+Opkg has already done that. Change for rpm and dpkg so that scriptlet
+output is captured and no warning message is missing.
 
-  lib/oe/utils: Drop python2 compatibility code (2016-12-22 08:50:21 +0000)
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/lib/oe/package_manager.py | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/BUG8314
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/BUG8314
-
-Chen Qi (2):
-  package_manager: default to have scriptlet output captured in log
-  opkg-utils: warn if update-alternatives finds priority conflict
-
- meta/lib/oe/package_manager.py                     | 11 ++++-----
- ...rnatives-warn-when-multiple-providers-hav.patch | 26 ++++++++++++++++++++++
- meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |  3 ++-
- 3 files changed, 34 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-warn-when-multiple-providers-hav.patch
-
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index e557473..19364f6 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -669,11 +669,11 @@ class RpmPM(PackageManager):
+         self.install_dir_path = os.path.join(self.target_rootfs, self.install_dir_name)
+         self.rpm_cmd = bb.utils.which(os.getenv('PATH'), "rpm")
+         self.smart_cmd = bb.utils.which(os.getenv('PATH'), "smart")
+-        # 0 = default, only warnings
+-        # 1 = --log-level=info (includes information about executing scriptlets and their output)
++        # 0 = --log-level=warning, only warnings
++        # 1 = --log-level=info (includes information about executing scriptlets and their output), default
+         # 2 = --log-level=debug
+         # 3 = --log-level=debug plus dumps of scriplet content and command invocation
+-        self.debug_level = int(d.getVar('ROOTFS_RPM_DEBUG') or "0")
++        self.debug_level = int(d.getVar('ROOTFS_RPM_DEBUG') or "1")
+         self.smart_opt = ["--log-level=%s" %
+                          ("warning" if self.debug_level == 0 else
+                           "info" if self.debug_level == 1 else
+@@ -2024,8 +2024,9 @@ class DpkgPM(OpkgDpkgPM):
+                     try:
+                         bb.note("Executing %s for package: %s ..." %
+                                  (control_script.name.lower(), pkg_name))
+-                        subprocess.check_output([p_full, control_script.argument],
+-                                stderr=subprocess.STDOUT)
++                        output = subprocess.check_output([p_full, control_script.argument],
++                                stderr=subprocess.STDOUT).decode("utf-8")
++                        bb.note(output)
+                     except subprocess.CalledProcessError as e:
+                         bb.note("%s for package %s failed with %d:\n%s" %
+                                 (control_script.name, pkg_name, e.returncode,
 -- 
 1.9.1
 
