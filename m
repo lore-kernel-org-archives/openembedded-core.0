@@ -1,31 +1,37 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DC9977237
+Return-Path: <straka.derek@gmail.com>
+Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F2F671A5E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Dec 2016 19:34:37 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 2DBAA209CE;
-	Fri, 23 Dec 2016 19:34:38 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id H_XfrktAWLEu; Fri, 23 Dec 2016 19:34:38 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-95-79.washdc.fios.verizon.net
-	[100.15.95.79])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 09302208D7;
-	Fri, 23 Dec 2016 19:34:36 +0000 (UTC)
-Received: from sam.denix (sam [192.168.0.5])
-	by mail.denix.org (Postfix) with ESMTP id 6C8AD1621E3;
-	Fri, 23 Dec 2016 14:34:35 -0500 (EST)
-From: Denys Dmytriyenko <denis@denix.org>
+	Fri, 23 Dec 2016 23:20:57 +0000 (UTC)
+Received: by mail-qt0-f177.google.com with SMTP id k15so32287266qtg.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Dec 2016 15:20:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Mp0YxdbXNTSFA92zgcq8AH/tJzwcsr0/HchMYBGfLpg=;
+	b=JpbBsm4T5+XjWX/jhWtx6WoQSntr8PD/OgwHKrDm8OEFDx0QFETLTy1RWd9ly3oYsk
+	Rf7bKcGJoj4QgryEzc/5HgRI1vdBZQR3zjWcwE05LX1mR/KTxySwWI6QgiTP+QrgVnDY
+	J792B07W8pkmKfh7iqD0mTTcpzx661U/DQsTjLFZUSxMOOhHSfRUdPpJjkHorngj3JD6
+	ea0XeV6CoaOiF61+WGzLZCBGQqtIsnx9WeMk2vhWbQ0rx8JqXPeGyqM3TMzFp5/c6t7K
+	yeqbUNarzoHHWcvuwLGUAK39EaA5gXaVsCGy6Oktf0wpW01AH1VbiOLSUJf/hFETSV3N
+	90UA==
+X-Gm-Message-State: AIkVDXIUn/TUn1fb+cVDae/CO7Xno0qGQKpKPf2f9kiYvFKsazBgW6T+iWEH/GWN/5Whlw==
+X-Received: by 10.237.53.56 with SMTP id a53mr16153333qte.85.1482535258585;
+	Fri, 23 Dec 2016 15:20:58 -0800 (PST)
+Received: from sparta.ny.asterius.io (ool-457cd903.dyn.optonline.net.
+	[69.124.217.3]) by smtp.gmail.com with ESMTPSA id
+	y52sm21265210qty.11.2016.12.23.15.20.57
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 23 Dec 2016 15:20:57 -0800 (PST)
+From: Derek Straka <derek@asterius.io>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Dec 2016 14:34:31 -0500
-Message-Id: <1482521671-10899-1-git-send-email-denis@denix.org>
+Date: Fri, 23 Dec 2016 18:20:48 -0500
+Message-Id: <1482535248-23164-1-git-send-email-derek@asterius.io>
 X-Mailer: git-send-email 2.7.4
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH] attr/ea-acl: pass --disable-gettext when USE_NLS=no
+Cc: Derek Straka <derek@asterius.io>
+Subject: [PATCH] python-3.5-manifest: Add http module to the netclient package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,31 +44,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Dec 2016 19:34:38 -0000
+X-List-Received-Date: Fri, 23 Dec 2016 23:21:08 -0000
 
-From: Denys Dmytriyenko <denys@ti.com>
+Adding http module from Python's standard library. This allow use
+of the http module without installing all python-misc modules.
 
-Fixes following error in configure:
-  FATAL ERROR: msgfmt does not seem to be installed.
-  attr cannot be built without a working gettext installation.
-
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+Signed-off-by: Derek Straka <derek@asterius.io>
 ---
- meta/recipes-support/attr/ea-acl.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/python/python-3.5-manifest.inc | 2 +-
+ scripts/contrib/python/generate-manifest-3.5.py      | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/attr/ea-acl.inc b/meta/recipes-support/attr/ea-acl.inc
-index 8750c3b..e77cf3e 100644
---- a/meta/recipes-support/attr/ea-acl.inc
-+++ b/meta/recipes-support/attr/ea-acl.inc
-@@ -10,6 +10,7 @@ inherit autotools-brokensep gettext
- EXTRA_AUTORECONF += "--exclude=autoheader"
- EXTRA_OECONF = "INSTALL_USER=root INSTALL_GROUP=root"
- EXTRA_OECONF_append_class-native = " --enable-gettext=no"
-+EXTRA_OECONF_append_class-target = "${@['', ' --disable-gettext '][(d.getVar('USE_NLS') == 'no')]}"
+diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/recipes-devtools/python/python-3.5-manifest.inc
+index 7fcd871..b92048f 100644
+--- a/meta/recipes-devtools/python/python-3.5-manifest.inc
++++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
+@@ -155,7 +155,7 @@ FILES_${PN}-multiprocessing="${libdir}/python3.5/lib-dynload/_multiprocessing.*.
  
- EXTRA_OEMAKE = "PKG_LIB_DIR=${base_libdir} PKG_DEVLIB_DIR=${libdir}"
+ SUMMARY_${PN}-netclient="Python Internet Protocol clients"
+ RDEPENDS_${PN}-netclient="${PN}-core ${PN}-crypt ${PN}-datetime ${PN}-io ${PN}-lang ${PN}-logging ${PN}-mime"
+-FILES_${PN}-netclient="${libdir}/python3.5/*Cookie*.* ${libdir}/python3.5/__pycache__/*Cookie*.* ${libdir}/python3.5/base64.* ${libdir}/python3.5/__pycache__/base64.* ${libdir}/python3.5/cookielib.* ${libdir}/python3.5/__pycache__/cookielib.* ${libdir}/python3.5/ftplib.* ${libdir}/python3.5/__pycache__/ftplib.* ${libdir}/python3.5/gopherlib.* ${libdir}/python3.5/__pycache__/gopherlib.* ${libdir}/python3.5/hmac.* ${libdir}/python3.5/__pycache__/hmac.* ${libdir}/python3.5/httplib.* ${libdir}/python3.5/__pycache__/httplib.* ${libdir}/python3.5/mimetypes.* ${libdir}/python3.5/__pycache__/mimetypes.* ${libdir}/python3.5/nntplib.* ${libdir}/python3.5/__pycache__/nntplib.* ${libdir}/python3.5/poplib.* ${libdir}/python3.5/__pycache__/poplib.* ${libdir}/python3.5/smtplib.* ${libdir}/python3.5/__pycache__/smtplib.* ${libdir}/python3.5/telnetlib.* ${libdir}/python3.5/__pycache__/telnetlib.* ${libdir}/python3.5/urllib ${libdir}/python3.5/urllib/__pycache__ ${libdir}/python3.5/uuid.* ${libdir}/python3.5/__pycache__/uuid.* ${libdir}/python3.5/rfc822.* ${libdir}/python3.5/__pycache__/rfc822.* ${libdir}/python3.5/mimetools.* ${libdir}/python3.5/__pycache__/mimetools.* "
++FILES_${PN}-netclient="${libdir}/python3.5/*Cookie*.* ${libdir}/python3.5/__pycache__/*Cookie*.* ${libdir}/python3.5/base64.* ${libdir}/python3.5/__pycache__/base64.* ${libdir}/python3.5/cookielib.* ${libdir}/python3.5/__pycache__/cookielib.* ${libdir}/python3.5/ftplib.* ${libdir}/python3.5/__pycache__/ftplib.* ${libdir}/python3.5/gopherlib.* ${libdir}/python3.5/__pycache__/gopherlib.* ${libdir}/python3.5/hmac.* ${libdir}/python3.5/__pycache__/hmac.* ${libdir}/python3.5/http* ${libdir}/python3.5/http*/__pycache__ ${libdir}/python3.5/httplib.* ${libdir}/python3.5/__pycache__/httplib.* ${libdir}/python3.5/mimetypes.* ${libdir}/python3.5/__pycache__/mimetypes.* ${libdir}/python3.5/nntplib.* ${libdir}/python3.5/__pycache__/nntplib.* ${libdir}/python3.5/poplib.* ${libdir}/python3.5/__pycache__/poplib.* ${libdir}/python3.5/smtplib.* ${libdir}/python3.5/__pycache__/smtplib.* ${libdir}/python3.5/telnetlib.* ${libdir}/python3.5/__pycache__/telnetlib.* ${libdir}/python3.5/urllib ${libdir}/python3.5/urllib/__pycache__ ${libdir}/python3.5/uuid.* ${libdir}/python3.5/__pycache__/uuid.* ${libdir}/python3.5/rfc822.* ${libdir}/python3.5/__pycache__/rfc822.* ${libdir}/python3.5/mimetools.* ${libdir}/python3.5/__pycache__/mimetools.* "
  
+ SUMMARY_${PN}-netserver="Python Internet Protocol servers"
+ RDEPENDS_${PN}-netserver="${PN}-core ${PN}-netclient ${PN}-shell ${PN}-threading"
+diff --git a/scripts/contrib/python/generate-manifest-3.5.py b/scripts/contrib/python/generate-manifest-3.5.py
+index 897768f..7259543 100755
+--- a/scripts/contrib/python/generate-manifest-3.5.py
++++ b/scripts/contrib/python/generate-manifest-3.5.py
+@@ -320,7 +320,7 @@ if __name__ == "__main__":
+ 
+     m.addPackage( "${PN}-netclient", "Python Internet Protocol clients", "${PN}-core ${PN}-crypt ${PN}-datetime ${PN}-io ${PN}-lang ${PN}-logging ${PN}-mime",
+     "*Cookie*.* " +
+-    "base64.* cookielib.* ftplib.* gopherlib.* hmac.* httplib.* mimetypes.* nntplib.* poplib.* smtplib.* telnetlib.* urllib  uuid.* rfc822.* mimetools.*" )
++    "base64.* cookielib.* ftplib.* gopherlib.* hmac.* http* httplib.* mimetypes.* nntplib.* poplib.* smtplib.* telnetlib.* urllib  uuid.* rfc822.* mimetools.*" )
+ 
+     m.addPackage( "${PN}-netserver", "Python Internet Protocol servers", "${PN}-core ${PN}-netclient ${PN}-shell ${PN}-threading",
+     "cgi.* *HTTPServer.* SocketServer.*" )
 -- 
 2.7.4
 
