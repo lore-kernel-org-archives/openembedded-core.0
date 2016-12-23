@@ -1,35 +1,64 @@
-Return-Path: <marcel@ziswiler.com>
-Received: from mout.perfora.net (mout.perfora.net [74.208.4.197])
-	by mail.openembedded.org (Postfix) with ESMTP id A09E471DC1
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C51C60722
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Dec 2016 12:43:11 +0000 (UTC)
-Received: from marcel-pc.toradex.int.net ([84.227.37.153]) by
-	mrelay.perfora.net (mreueus001 [74.208.5.2]) with ESMTPA (Nemesis) id
-	0M6DOO-1cW8Ey0uOg-00yAFk; Fri, 23 Dec 2016 13:43:06 +0100
-From: Marcel Ziswiler <marcel@ziswiler.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Dec 2016 13:43:00 +0100
-Message-Id: <20161223124300.27778-1-marcel@ziswiler.com>
-X-Mailer: git-send-email 2.9.3
-X-Provags-ID: V03:K0:WStX0puaH0CvU9h+c40Hberla6yWQkQWlZ34xN3ZAr3EJOTYVlZ
-	zuaxvp0HwpwF8iiPOGrH2E5y/tSTiwV2KkWk0DflsgX74qTxZRjRxlqkyvrx+PDsssXjLf3
-	Nk+emD/S4w7TT7FTGMz8fDoIeyfY8OI1KXq9CuBTmk3TiMvHMSxO+hVXFJcCrMSfcmLk0nx
-	bA7CziS7ryrqdMpoj/nYQ==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:sqNbQo0Q7MI=:q4oqXDsqLZvxhYFYEjoT4P
-	Tl3LkW99hoRCYrBPA2IkFZMnWocpW+cie2hTW+u4vTy/84x7DPhkkZ+MajQ8ZHuwpAPVexLR/
-	fSW5tlaKcsnvzM2T/WecogoTcc/85hxPkMul4+F13dXHNEbvEpsyUx6dLl8fGLfIyoXfVbFaJ
-	4yopC7fyDEt1jksIBuXOU+ej2G0UI7HIvCyY6S6QvheYqoHiJ5KXZoi9qSRUhyAoyft6K8ykc
-	Y1+55XcamTLMeziIGcHxFZttiV+fRJX+y3ZSxahLNb6p3Yq5RREXDIATKlHoLsXWHDGoFOO0e
-	65I2o+2fBhSDEuBMX/cHFiL4GYTKbdHZ+bE4HXfdzJCPcHdhrJeTpv79bvrCzVHg79umx0P58
-	ywaXXHqi/YxgcGOWbuDJWMrZ8xzCv46dxVuSy+q1kN80NuqTm1KX6OlkAgPbC4QhgQoRVO7WB
-	WNPdmsqCHhp/mzwJEN6B37AobIS1RF0TifrV0JV0U0YWeE8c+VvOjOomx7u3tUd/t7B9F2aSU
-	oIbMpkagDsXUI6xIicpQgbuPxK9iIpkSckpPysyi6IdWvStujmb1Eu4kKkgLoiuTNPNKl4i8s
-	mZ50v1XMqrF+Ta876k9knt2aRdQWlbbDM7+oQh/rUTS+JKyr/IWnjXGKXJgqw237C6T0yUGu0
-	JNHa0vkz3jiX8F9Ut5nI8grUFH0/tfrkFaFN+jq2iQ5Ddthbl7FP97hzLRu3fCtnNp4A=
-Cc: Marcel Ziswiler <marcel.ziswiler@toradex.com>,
-	Stefan Agner <stefan.agner@toradex.com>,
-	Max Krummenacher <max.krummenacher@toradex.com>
-Subject: [PATCH] xinput-calibrator: fix operation on multihead configuration
+	Fri, 23 Dec 2016 17:32:28 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 6A89918202
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Dec 2016 18:32:27 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id qFMoTUIOCXaq
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Dec 2016 18:32:26 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 4D24A181B5
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Dec 2016 18:32:26 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 36EBA1A08E
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Dec 2016 18:32:26 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2C3031A08C
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Dec 2016 18:32:26 +0100 (CET)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Dec 2016 18:32:26 +0100 (CET)
+Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
+	by thoth.se.axis.com (Postfix) with ESMTP id 2019B342
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Dec 2016 18:32:26 +0100 (CET)
+Received: from xbox11.axis.com (10.0.5.25) by XBOX03.axis.com (10.0.5.17) with
+	Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Fri, 23 Dec 2016 18:32:26 +0100
+Received: from XBOX02.axis.com (10.0.5.16) by xbox11.axis.com (10.0.5.25) with
+	Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Fri, 23 Dec 2016 18:32:25 +0100
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1210.000; Fri, 23 Dec 2016 18:32:25 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Ola x Nilsson <olani@axis.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] externalsrc.bbclass: Add task buildclean
+Thread-Index: AQHSXFdGXG22n6SNJEaZBAnl6vk1bqEVy7vg
+Date: Fri, 23 Dec 2016 17:32:25 +0000
+Message-ID: <3b53052e54c2420dac83b62cd6eb2d33@XBOX02.axis.com>
+References: <1482413283-25405-1-git-send-email-ola.x.nilsson@axis.com>
+In-Reply-To: <1482413283-25405-1-git-send-email-ola.x.nilsson@axis.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH] externalsrc.bbclass: Add task buildclean
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,64 +71,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Dec 2016 12:43:11 -0000
+X-List-Received-Date: Fri, 23 Dec 2016 17:32:30 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Marcel Ziswiler <marcel.ziswiler@toradex.com>
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Ola x Nilsson
+> Sent: den 22 december 2016 14:28
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH] externalsrc.bbclass: Add task buildclean
+>=20
+> The buildclean task should call the package build system clean
+> command, just implemented for Make for now.
+>=20
+> This is meant for recipes where S =3D=3D B, but can be useful as a
+> standalone task for other recipes too.
+>=20
+> Setting it to run before do_clean will do what most developers expect
+> when calling bitbake -c clean.
+>=20
+> Signed-off-by: Ola x Nilsson <ola.x.nilsson@axis.com>
+> ---
+>  meta/classes/externalsrc.bbclass | 17 ++++++++++++++++-
+>  1 file changed, 16 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes/externalsrc.bbclass
+> b/meta/classes/externalsrc.bbclass
+> index e115a47..bc82f1f 100644
+> --- a/meta/classes/externalsrc.bbclass
+> +++ b/meta/classes/externalsrc.bbclass
+> @@ -4,7 +4,7 @@
+>  # Copyright (C) 2009 Chris Larson <clarson@kergoth.com>
+>  # Released under the MIT license (see COPYING.MIT for the terms)
+>  #
+> -# externalsrc.bbclass enables use of an existing source tree, usually ex=
+ternal to
+> +# externalsrc.bbclass enables use of an existing source tree, usually ex=
+ternal to
+>  # the build system to build a piece of software rather than the usual fe=
+tch/unpack/patch
+>  # process.
+>  #
+> @@ -108,6 +108,8 @@ python () {
+>          # We don't want the workdir to go away
+>          d.appendVar('RM_WORK_EXCLUDE', ' ' + d.getVar('PN'))
+>=20
+> +        bb.build.addtask('do_makeclean', 'do_clean', None, d)
+> +
+>          # If B=3DS the same builddir is used even for different architec=
+tures.
+>          # Thus, use a shared CONFIGURESTAMPFILE and STAMP directory so t=
+hat
+>          # change of do_configure task hash is correctly detected and sta=
+mps are
+> @@ -142,6 +144,17 @@ python externalsrc_compile_prefunc() {
+>      bb.plain('NOTE: %s: compiling from external source tree %s' % (d.get=
+Var('PN'), d.getVar('EXTERNALSRC')))
+>  }
+>=20
+> +do_buildclean[dirs] =3D "${S} ${B}"
+> +do_buildclean[nostamp] =3D "1"
+> +do_buildclean[doc] =3D "Call 'make clean' or equivalent in ${B}"
+> +externalsrc_do_buildclean() {
+> +	if [ -e Makefile -o -e makefile -o -e GNUmakefile ]; then
+> +		oe_runmake clean || die "make failed"
+> +	else
+> +		bbnote "nothing to compile - no makefile found"
 
-As e.g. the Toradex Colibri T20, Apalis/Colibri T30 and Apalis TK1
-modules are multihead capable and if HDMI is plugged in while the xinput
-calibrator was run this led to the following error message:
+Change "compile" to "clean" to avoid confusion.
 
-root@apalis-t30:~# xinput_calibrator_once.sh
-Unknown option: 640x480
+> +	fi
+> +}
+> +
+>  def srctree_hash_files(d):
+>      import shutil
+>      import subprocess
+> @@ -188,3 +201,5 @@ def srctree_configure_hash_files(d):
+>                  if f in search_files:
+>                      out_items.append('%s:True' % os.path.join(root, f))
+>      return ' '.join(out_items)
+> +
+> +EXPORT_FUNCTIONS do_buildclean
+> --
+> 2.1.4
 
-Fix this by just using the first detected heads geometry definition.
-
-Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
-
----
-
-Re-send after having subscribed.
-
- .../add-geometry-input-when-calibrating.patch                 | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
-
-diff --git a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/add-geometry-input-when-calibrating.patch b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/add-geometry-input-when-calibrating.patch
-index 9dc94ae..296b075 100644
---- a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/add-geometry-input-when-calibrating.patch
-+++ b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/add-geometry-input-when-calibrating.patch
-@@ -1,6 +1,6 @@
--From 1cb83759632bb218559c4d0d65ff79f868c03dc5 Mon Sep 17 00:00:00 2001
--From: "Maxin B. John" <maxin.john@intel.com>
--Date: Tue, 9 Aug 2016 17:03:31 +0300
-+From d4699c60c773e75a68227f82afea0b607667a4c0 Mon Sep 17 00:00:00 2001
-+From: "Marcel Ziswiler" <marcel.ziswiler@toradex.com>>
-+Date: Thu, 22 Dec 2016 11:34:31 +0100
- Subject: [PATCH] add geometry input when calibrating
- 
- Send monitor geometry to xinput_calibrator when running the script
-@@ -9,8 +9,11 @@ Update:
- 
- Upstream-Status: Inappropriate [no longer maintained]
- 
-+Multihead capability update curtsy Toradex.
-+
- Signed-off-by: Jonathan David <jonathan.david@ni.com>
- Signed-off-by: Maxin B. John <maxin.john@intel.com>
-+Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
- ---
-  scripts/xinput_calibrator_pointercal.sh | 3 ++-
-  1 file changed, 2 insertions(+), 1 deletion(-)
-@@ -24,7 +27,7 @@ index fccb197..fea7c2f 100755
-  fi
-  
- -CALDATA=`$BINARY --output-type xinput -v | tee $LOGFILE | grep '    xinput set' | sed 's/^    //g; s/$/;/g'`
--+RESOLUTION=$(xrandr | awk -F '[[:space:]+]' '/ connected/ { if ($3 != "primary") print $3; if ($3 == "primary") print $4 }')
-++RESOLUTION=$(xrandr | awk -F '[[:space:]+]' '/ connected/ { if ($3 != "primary") print $3; if ($3 == "primary") print $4 }' | sed q)
- +CALDATA=`$BINARY --geometry $RESOLUTION --output-type xinput -v | tee $LOGFILE | grep '    xinput set' | sed 's/^    //g; s/$/;/g'`
-  if [ ! -z "$CALDATA" ] ; then
-    echo $CALDATA > $CALFILE
--- 
-2.9.3
+//Peter
 
 
