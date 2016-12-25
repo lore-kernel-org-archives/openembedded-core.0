@@ -1,37 +1,48 @@
-Return-Path: <straka.derek@gmail.com>
-Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
-	[209.85.216.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F2F671A5E
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
+	[209.85.220.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 2566071B5F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Dec 2016 23:20:57 +0000 (UTC)
-Received: by mail-qt0-f177.google.com with SMTP id k15so32287266qtg.3
+	Sun, 25 Dec 2016 03:33:03 +0000 (UTC)
+Received: by mail-qk0-f194.google.com with SMTP id h201so21569069qke.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Dec 2016 15:20:59 -0800 (PST)
+	Sat, 24 Dec 2016 19:33:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=BjOBZ5amNxTLhpJvdkCaDIvJNny8d01DflubsZhji1g=;
+	b=t/YT1BMSB02LXFUFAYHES/8fayjl6965N1UNIqK+fmLIx+PyE74YxwIlPApEPDAAmO
+	cmYeU0I631p0PMpKE3N77IYxU64UL2weJAFBfEmEFlK2y8IryAYe96+jUqVIKeno22yZ
+	d1PhS7dja6ooOEI9BpiCrh+y6GeVN1lVtdxhwNJkLrXkpL7rn8esPjo+Ydds4Wa5866Y
+	xr7PVjnDzMRgAMJ+GkXxkjsuC/2fxZJdPmKgsICTLYCXyN1WO49SKsJa6AVlQugyQNMu
+	8CPfUJHE0+LnC64G3CKq1VVGph/2lo1/RF8sgtFG8m+Ax4JkKCQ7EAkqdFJIGXII9e5C
+	8A7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Mp0YxdbXNTSFA92zgcq8AH/tJzwcsr0/HchMYBGfLpg=;
-	b=JpbBsm4T5+XjWX/jhWtx6WoQSntr8PD/OgwHKrDm8OEFDx0QFETLTy1RWd9ly3oYsk
-	Rf7bKcGJoj4QgryEzc/5HgRI1vdBZQR3zjWcwE05LX1mR/KTxySwWI6QgiTP+QrgVnDY
-	J792B07W8pkmKfh7iqD0mTTcpzx661U/DQsTjLFZUSxMOOhHSfRUdPpJjkHorngj3JD6
-	ea0XeV6CoaOiF61+WGzLZCBGQqtIsnx9WeMk2vhWbQ0rx8JqXPeGyqM3TMzFp5/c6t7K
-	yeqbUNarzoHHWcvuwLGUAK39EaA5gXaVsCGy6Oktf0wpW01AH1VbiOLSUJf/hFETSV3N
-	90UA==
-X-Gm-Message-State: AIkVDXIUn/TUn1fb+cVDae/CO7Xno0qGQKpKPf2f9kiYvFKsazBgW6T+iWEH/GWN/5Whlw==
-X-Received: by 10.237.53.56 with SMTP id a53mr16153333qte.85.1482535258585;
-	Fri, 23 Dec 2016 15:20:58 -0800 (PST)
-Received: from sparta.ny.asterius.io (ool-457cd903.dyn.optonline.net.
-	[69.124.217.3]) by smtp.gmail.com with ESMTPSA id
-	y52sm21265210qty.11.2016.12.23.15.20.57
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 23 Dec 2016 15:20:57 -0800 (PST)
-From: Derek Straka <derek@asterius.io>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Dec 2016 18:20:48 -0500
-Message-Id: <1482535248-23164-1-git-send-email-derek@asterius.io>
-X-Mailer: git-send-email 2.7.4
-Cc: Derek Straka <derek@asterius.io>
-Subject: [PATCH] python-3.5-manifest: Add http module to the netclient package
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=BjOBZ5amNxTLhpJvdkCaDIvJNny8d01DflubsZhji1g=;
+	b=eDDClgYiy4ZwlWKy/XOd+GmIDXm+g1dVGQjkQcjcaD03qqB68DLTfdmpeX5EAb/wkT
+	HljShOxA+QaCigonSc4b5wj2HOemDCXUOf9vN4XbReFsXm0liiy/wtA5FAE6qcFB7Cnv
+	M/EO98eZQa0/XuzqJ9IyspqfJ4j4HYjoNLLyKptDotI2dXZIVoWRO7YJl06RO6N4kkNl
+	dOV9iVUUlaASb+HoGZrGwM/GolEvO0lNIuGGyoTOY8xmdM3Z3hlaNpDrOgLsYrb7E31r
+	048+K0TgufOf1tNDiVThEkUQclTRfHOY9KAZlQzKIEEfQtn1+gtOsTeSe6+0UcdsAME1
+	fkZQ==
+X-Gm-Message-State: AIkVDXKVDbsVP4ft5D+GU1zre/s2T+JOZWnwo+12p7BoeHRPXENXB3/opqrGgMsCdXsabfqNXjJfveOKj3TWKQ==
+X-Received: by 10.55.77.134 with SMTP id a128mr24684073qkb.157.1482636784923; 
+	Sat, 24 Dec 2016 19:33:04 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.12.129.227 with HTTP; Sat, 24 Dec 2016 19:33:04 -0800 (PST)
+In-Reply-To: <CAHiDW_E+G1JAEODj3w6Xda4CJkjHGOnBB0h035p093ZGP7WTqA@mail.gmail.com>
+References: <cover.1482415485.git.bruce.ashfield@windriver.com>
+	<81c86de3aa3411f52e74b41b324c0713b347f245.1482415485.git.bruce.ashfield@windriver.com>
+	<CAHiDW_E+G1JAEODj3w6Xda4CJkjHGOnBB0h035p093ZGP7WTqA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Sat, 24 Dec 2016 22:33:04 -0500
+Message-ID: <CADkTA4O2Hm9yLxNk8wsvi-v0pHWrTqmnrqj0CR6xj0bsuD8hng@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] linux-libc-headers: introduce 4.9 headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,44 +55,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Dec 2016 23:21:08 -0000
+X-List-Received-Date: Sun, 25 Dec 2016 03:33:06 -0000
+Content-Type: multipart/alternative; boundary=001a114884b2e578e0054473462c
 
-Adding http module from Python's standard library. This allow use
-of the http module without installing all python-misc modules.
+--001a114884b2e578e0054473462c
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Derek Straka <derek@asterius.io>
----
- meta/recipes-devtools/python/python-3.5-manifest.inc | 2 +-
- scripts/contrib/python/generate-manifest-3.5.py      | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+On Fri, Dec 23, 2016 at 5:23 AM, Jussi Kukkonen <jussi.kukkonen@intel.com>
+wrote:
 
-diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/recipes-devtools/python/python-3.5-manifest.inc
-index 7fcd871..b92048f 100644
---- a/meta/recipes-devtools/python/python-3.5-manifest.inc
-+++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
-@@ -155,7 +155,7 @@ FILES_${PN}-multiprocessing="${libdir}/python3.5/lib-dynload/_multiprocessing.*.
- 
- SUMMARY_${PN}-netclient="Python Internet Protocol clients"
- RDEPENDS_${PN}-netclient="${PN}-core ${PN}-crypt ${PN}-datetime ${PN}-io ${PN}-lang ${PN}-logging ${PN}-mime"
--FILES_${PN}-netclient="${libdir}/python3.5/*Cookie*.* ${libdir}/python3.5/__pycache__/*Cookie*.* ${libdir}/python3.5/base64.* ${libdir}/python3.5/__pycache__/base64.* ${libdir}/python3.5/cookielib.* ${libdir}/python3.5/__pycache__/cookielib.* ${libdir}/python3.5/ftplib.* ${libdir}/python3.5/__pycache__/ftplib.* ${libdir}/python3.5/gopherlib.* ${libdir}/python3.5/__pycache__/gopherlib.* ${libdir}/python3.5/hmac.* ${libdir}/python3.5/__pycache__/hmac.* ${libdir}/python3.5/httplib.* ${libdir}/python3.5/__pycache__/httplib.* ${libdir}/python3.5/mimetypes.* ${libdir}/python3.5/__pycache__/mimetypes.* ${libdir}/python3.5/nntplib.* ${libdir}/python3.5/__pycache__/nntplib.* ${libdir}/python3.5/poplib.* ${libdir}/python3.5/__pycache__/poplib.* ${libdir}/python3.5/smtplib.* ${libdir}/python3.5/__pycache__/smtplib.* ${libdir}/python3.5/telnetlib.* ${libdir}/python3.5/__pycache__/telnetlib.* ${libdir}/python3.5/urllib ${libdir}/python3.5/urllib/__pycache__ ${libdir}/python3.5/uuid.* ${libdir}/python3.5/__pycache__/uuid.* ${libdir}/python3.5/rfc822.* ${libdir}/python3.5/__pycache__/rfc822.* ${libdir}/python3.5/mimetools.* ${libdir}/python3.5/__pycache__/mimetools.* "
-+FILES_${PN}-netclient="${libdir}/python3.5/*Cookie*.* ${libdir}/python3.5/__pycache__/*Cookie*.* ${libdir}/python3.5/base64.* ${libdir}/python3.5/__pycache__/base64.* ${libdir}/python3.5/cookielib.* ${libdir}/python3.5/__pycache__/cookielib.* ${libdir}/python3.5/ftplib.* ${libdir}/python3.5/__pycache__/ftplib.* ${libdir}/python3.5/gopherlib.* ${libdir}/python3.5/__pycache__/gopherlib.* ${libdir}/python3.5/hmac.* ${libdir}/python3.5/__pycache__/hmac.* ${libdir}/python3.5/http* ${libdir}/python3.5/http*/__pycache__ ${libdir}/python3.5/httplib.* ${libdir}/python3.5/__pycache__/httplib.* ${libdir}/python3.5/mimetypes.* ${libdir}/python3.5/__pycache__/mimetypes.* ${libdir}/python3.5/nntplib.* ${libdir}/python3.5/__pycache__/nntplib.* ${libdir}/python3.5/poplib.* ${libdir}/python3.5/__pycache__/poplib.* ${libdir}/python3.5/smtplib.* ${libdir}/python3.5/__pycache__/smtplib.* ${libdir}/python3.5/telnetlib.* ${libdir}/python3.5/__pycache__/telnetlib.* ${libdir}/python3.5/urllib ${libdir}/python3.5/urllib/__pycache__ ${libdir}/python3.5/uuid.* ${libdir}/python3.5/__pycache__/uuid.* ${libdir}/python3.5/rfc822.* ${libdir}/python3.5/__pycache__/rfc822.* ${libdir}/python3.5/mimetools.* ${libdir}/python3.5/__pycache__/mimetools.* "
- 
- SUMMARY_${PN}-netserver="Python Internet Protocol servers"
- RDEPENDS_${PN}-netserver="${PN}-core ${PN}-netclient ${PN}-shell ${PN}-threading"
-diff --git a/scripts/contrib/python/generate-manifest-3.5.py b/scripts/contrib/python/generate-manifest-3.5.py
-index 897768f..7259543 100755
---- a/scripts/contrib/python/generate-manifest-3.5.py
-+++ b/scripts/contrib/python/generate-manifest-3.5.py
-@@ -320,7 +320,7 @@ if __name__ == "__main__":
- 
-     m.addPackage( "${PN}-netclient", "Python Internet Protocol clients", "${PN}-core ${PN}-crypt ${PN}-datetime ${PN}-io ${PN}-lang ${PN}-logging ${PN}-mime",
-     "*Cookie*.* " +
--    "base64.* cookielib.* ftplib.* gopherlib.* hmac.* httplib.* mimetypes.* nntplib.* poplib.* smtplib.* telnetlib.* urllib  uuid.* rfc822.* mimetools.*" )
-+    "base64.* cookielib.* ftplib.* gopherlib.* hmac.* http* httplib.* mimetypes.* nntplib.* poplib.* smtplib.* telnetlib.* urllib  uuid.* rfc822.* mimetools.*" )
- 
-     m.addPackage( "${PN}-netserver", "Python Internet Protocol servers", "${PN}-core ${PN}-netclient ${PN}-shell ${PN}-threading",
-     "cgi.* *HTTPServer.* SocketServer.*" )
+> On 22 December 2016 at 16:49, Bruce Ashfield <bruce.ashfield@windriver.com>
+> wrote:
+> >
+> > Bumping the linux-libc-headers to the 4.9 kernel variant. Since 4.9
+> > will be a LTSI kernel, and there will be an associated linux-yocto
+> > it is worth moving to these headers sooner rather than later.
+> >
+> > This commit also drops the 4.8 headers and sets 4.9 to be the default.
+>
+> The autobuilder run (ross/mut 1dc1894e05) with this had a couple of issues:
+>
+> *** ppp fails to build on musl: https://bugzilla.yoctoproject.
+> org/show_bug.cgi?id=10853
+>
+
+
+Thanks for the update. Not knowing much about musl, others have jumped in
+on these
+in the past. I'll loop around and have a look at it if one of the musl
+users doesn't have an
+idea as to what is up with ppp.
+
+
+>
+>
+> *** ncurses fails in several builds, all gnu/stubs.h related:
+> ncurses was also upgraded in this AB run (CCing Huang Qiyu) but the
+> failures seem more like libc related...
+>
+> x32:
+> | nightly-x32/build/build/tmp/sysroots/qemux86-64/usr/include/gnu/stubs.h:10:27:
+> fatal error: gnu/stubs-64.h: No such file or directory
+> |  # include <gnu/stubs-64.h>
+>
+> arm:
+> | nightly-arm/build/build/tmp/sysroots/beaglebone/usr/include/gnu/stubs.h:7:29:
+> fatal error: gnu/stubs-soft.h: No such file or directory
+> |  # include <gnu/stubs-soft.h>
+>
+> multilib:
+> | nightly-multilib/build/build/tmp/sysroots/qemumips64/usr/include/gnu/stubs.h:35:33:
+> fatal error: gnu/stubs-n64_hard.h: No such file or directory
+> |  # include <gnu/stubs-n64_hard.h>
+>
+> The full build log links can be found in "nightly 1121" section here:
+> https://wiki.yoctoproject.org/wiki/BuildLog#nightly_1121_-_r
+> oss.2Fmut_1dc1894e05ef0f3aeeefa61ed89613f17bba2e83
+>
+>
+I'll have a look at these when I'm back in the office in January. x32 isn't
+something that I build, but I did build sato, so this is something specific
+to that config. Should be easy enough to reproduce on my builder.
+
+Cheers,
+
+Bruce
+
+
+>
+> Cheers,
+>   Jussi
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+
+
 -- 
-2.7.4
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
 
+--001a114884b2e578e0054473462c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Fri, Dec 23, 2016 at 5:23 AM, Jussi Kukkonen <span dir=3D"ltr">&lt;<=
+a href=3D"mailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen=
+@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=
+=3D"ltr"><span>On 22 December 2016 at 16:49, Bruce Ashfield &lt;<a href=3D"=
+mailto:bruce.ashfield@windriver.com" target=3D"_blank">bruce.ashfield@windr=
+iver.com</a>&gt; wrote:<br>&gt;<br>&gt; Bumping the linux-libc-headers to t=
+he 4.9 kernel variant. Since 4.9<br>&gt; will be a LTSI kernel, and there w=
+ill be an associated linux-yocto<br>&gt; it is worth moving to these header=
+s sooner rather than later.<br>&gt;<br>&gt; This commit also drops the 4.8 =
+headers and sets 4.9 to be the default.<br><br></span>The autobuilder run (=
+ross/mut 1dc1894e05) with this had a couple of issues:<br><br>*** ppp fails=
+ to build on musl: <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cg=
+i?id=3D10853" target=3D"_blank">https://bugzilla.yoctoproject.<wbr>org/show=
+_bug.cgi?id=3D10853</a></div></blockquote><div><br></div><div><br></div><di=
+v>Thanks for the update. Not knowing much about musl, others have jumped in=
+ on these</div><div>in the past. I&#39;ll loop around and have a look at it=
+ if one of the musl users doesn&#39;t have an</div><div>idea as to what is =
+up with ppp.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=
+=3D"ltr"><br><br>*** ncurses fails in several builds, all gnu/stubs.h relat=
+ed:<br>ncurses was also upgraded in this AB run (CCing Huang Qiyu) but the =
+failures seem more like libc related...<br><br>x32:<br>| nightly-x32/build/=
+build/tmp/sy<wbr>sroots/qemux86-64/usr/include/<wbr>gnu/stubs.h:10:27: fata=
+l error: gnu/stubs-64.h: No such file or directory<br>| =C2=A0# include &lt=
+;gnu/stubs-64.h&gt;<br><br>arm:<br>| nightly-arm/build/build/tmp/sy<wbr>sro=
+ots/beaglebone/usr/include/<wbr>gnu/stubs.h:7:29: fatal error: gnu/stubs-so=
+ft.h: No such file or directory<br>| =C2=A0# include &lt;gnu/stubs-soft.h&g=
+t;<br><br>multilib:<br>| nightly-multilib/build/build/t<wbr>mp/sysroots/qem=
+umips64/usr/inc<wbr>lude/gnu/stubs.h:35:33: fatal error: gnu/stubs-n64_hard=
+.h: No such file or directory<br>| =C2=A0# include &lt;gnu/stubs-n64_hard.h=
+&gt;<br><br>The full build log links can be found in &quot;nightly 1121&quo=
+t; section here:<br><a href=3D"https://wiki.yoctoproject.org/wiki/BuildLog#=
+nightly_1121_-_ross.2Fmut_1dc1894e05ef0f3aeeefa61ed89613f17bba2e83" target=
+=3D"_blank">https://wiki.yoctoproject.org/<wbr>wiki/BuildLog#nightly_1121_-=
+_r<wbr>oss.2Fmut_1dc1894e05ef0f3aeeef<wbr>a61ed89613f17bba2e83</a><br><br><=
+/div></blockquote><div><br></div><div>I&#39;ll have a look at these when I&=
+#39;m back in the office in January. x32 isn&#39;t something that I build, =
+but I did build sato, so this is something specific to that config. Should =
+be easy enough to reproduce on my builder.</div><div><br></div><div>Cheers,=
+</div><div><br></div><div>Bruce</div><div>=C2=A0</div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
+left:1ex"><div dir=3D"ltr"><br>Cheers,<br>=C2=A0 Jussi</div>
+<br>--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+<br></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div cla=
+ss=3D"m_-2806279877652530839gmail_signature" data-smartmail=3D"gmail_signat=
+ure">&quot;Thou shalt not follow the NULL pointer, for chaos and madness aw=
+ait thee at its end&quot;</div>
+</div></div>
+
+--001a114884b2e578e0054473462c--
