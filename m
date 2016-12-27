@@ -1,38 +1,25 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 4808A607F8
+Return-Path: <maxin.john@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 92946700F3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Dec 2016 12:15:42 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-MBX-03.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1cLqfP-0002Mb-Px from Awais_Belal@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Dec 2016 04:15:44 -0800
-Received: from SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) by
-	SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) with Microsoft SMTP
-	Server (TLS) id 15.0.1210.3; Tue, 27 Dec 2016 12:15:40 +0000
-Received: from SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17]) by
-	SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17%22]) with
-	mapi id 15.00.1210.000; Tue, 27 Dec 2016 12:15:40 +0000
-From: "Belal, Awais" <Awais_Belal@mentor.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v2 2/2] grub-efi/live-vm-common: allow grub as
-	EFI_PROVIDER
-Thread-Index: AQHSV5bVNKa/s+g9XUCKtdxsqwZoyqEbxqkU
-Date: Tue, 27 Dec 2016 12:15:40 +0000
-Message-ID: <1482840941211.2620@mentor.com>
-References: <1481890756-18807-1-git-send-email-awais_belal@mentor.com>,
-	<1481890756-18807-2-git-send-email-awais_belal@mentor.com>
-In-Reply-To: <1481890756-18807-2-git-send-email-awais_belal@mentor.com>
-Accept-Language: en-US, en-IE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [192.94.31.225]
+	Tue, 27 Dec 2016 14:32:07 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 27 Dec 2016 06:32:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,416,1477983600"; d="scan'208";a="23249878"
+Received: from mbabyjoh-desk.fi.intel.com (HELO
+	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
+	by orsmga002.jf.intel.com with ESMTP; 27 Dec 2016 06:32:08 -0800
+Date: Tue, 27 Dec 2016 16:33:29 +0200
+From: "Maxin B. John" <maxin.john@intel.com>
+To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+Message-ID: <20161227143328.GA17129@mbabyjoh-desk.ger.corp.intel.com>
+References: <1482382494-2614-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 2/2] grub-efi/live-vm-common: allow grub as	EFI_PROVIDER
+In-Reply-To: <1482382494-2614-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] ncurses: 6.0+20160625 -> 6.0+20161126
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,105 +32,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Dec 2016 12:15:42 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 27 Dec 2016 14:32:08 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Ping!=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-b=
-ounces@lists.openembedded.org> on behalf of Belal, Awais=0A=
-Sent: Friday, December 16, 2016 5:19 PM=0A=
-To: openembedded-core@lists.openembedded.org=0A=
-Subject: [OE-core] [PATCH v2 2/2] grub-efi/live-vm-common: allow grub as   =
-     EFI_PROVIDER=0A=
-=0A=
-This allows grub to be used as EFI_PROVIDER and=0A=
-extends the grub-efi class so it can be used as is=0A=
-when EFI_PROVIDER is grub.=0A=
-Currently this can only be leveraged if you are=0A=
-using the grub_git recipe and GRUBPLATFORM plus=0A=
-EFI_PROVIDER are set correctly.=0A=
-=0A=
-Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
----=0A=
- meta/classes/grub-efi.bbclass       | 23 +++++++++++++++++------=0A=
- meta/classes/live-vm-common.bbclass |  2 +-=0A=
- 2 files changed, 18 insertions(+), 7 deletions(-)=0A=
-=0A=
-diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass=
-=0A=
-index 17417ba..c847645 100644=0A=
---- a/meta/classes/grub-efi.bbclass=0A=
-+++ b/meta/classes/grub-efi.bbclass=0A=
-@@ -16,8 +16,8 @@=0A=
- # ${GRUB_TIMEOUT} - timeout before executing the deault label (optional)=
-=0A=
- # ${GRUB_ROOT} - grub's root device.=0A=
-=0A=
--do_bootimg[depends] +=3D "${MLPREFIX}grub-efi:do_deploy"=0A=
--do_bootdirectdisk[depends] +=3D "${MLPREFIX}grub-efi:do_deploy"=0A=
-+do_bootimg[depends] +=3D "${MLPREFIX}${EFI_PROVIDER}:do_deploy"=0A=
-+do_bootdirectdisk[depends] +=3D "${MLPREFIX}${EFI_PROVIDER}:do_deploy"=0A=
-=0A=
- GRUB_SERIAL ?=3D "console=3DttyS0,115200"=0A=
- GRUB_CFG_VM =3D "${S}/grub_vm.cfg"=0A=
-@@ -40,10 +40,21 @@ efi_populate() {=0A=
-=0A=
-        install -d ${DEST}${EFIDIR}=0A=
-=0A=
--       GRUB_IMAGE=3D"bootia32.efi"=0A=
--       if [ "${TARGET_ARCH}" =3D "x86_64" ]; then=0A=
--               GRUB_IMAGE=3D"bootx64.efi"=0A=
--       fi=0A=
-+    if [ "${EFI_PROVIDER}" =3D "grub" ]; then=0A=
-+           GRUB_IMAGE=3D"bootia32.${GRUBPLATFORM}"=0A=
-+           if [ "${TARGET_ARCH}" =3D "x86_64" ]; then=0A=
-+                   GRUB_IMAGE=3D"bootx64.${GRUBPLATFORM}"=0A=
-+           elif [ "${TARGET_ARCH}" =3D "arm" ]; then=0A=
-+            grubimage =3D "bootarm.${GRUBPLATFORM}"=0A=
-+           elif [ "${TARGET_ARCH}" =3D "aarch64" ]; then=0A=
-+            grubimage =3D "bootaa64.${GRUBPLATFORM}"=0A=
-+        fi=0A=
-+    else=0A=
-+        GRUB_IMAGE=3D"bootia32.efi"=0A=
-+           if [ "${TARGET_ARCH}" =3D "x86_64" ]; then=0A=
-+                   GRUB_IMAGE=3D"bootx64.efi"=0A=
-+        fi=0A=
-+    fi=0A=
-        install -m 0644 ${DEPLOY_DIR_IMAGE}/${GRUB_IMAGE} ${DEST}${EFIDIR}=
-=0A=
-        EFIPATH=3D$(echo "${EFIDIR}" | sed 's/\//\\/g')=0A=
-        printf 'fs0:%s\%s\n' "$EFIPATH" "$GRUB_IMAGE" >${DEST}/startup.nsh=
-=0A=
-diff --git a/meta/classes/live-vm-common.bbclass b/meta/classes/live-vm-com=
-mon.bbclass=0A=
-index 734697f..0af228b 100644=0A=
---- a/meta/classes/live-vm-common.bbclass=0A=
-+++ b/meta/classes/live-vm-common.bbclass=0A=
-@@ -13,7 +13,7 @@ def set_live_vm_vars(d, suffix):=0A=
-=0A=
- EFI =3D "${@bb.utils.contains("MACHINE_FEATURES", "efi", "1", "0", d)}"=0A=
- EFI_PROVIDER ?=3D "grub-efi"=0A=
--EFI_CLASS =3D "${@bb.utils.contains("MACHINE_FEATURES", "efi", "${EFI_PROV=
-IDER}", "", d)}"=0A=
-+EFI_CLASS =3D "${@bb.utils.contains("EFI_PROVIDER", "grub", "grub-efi", "$=
-{EFI_PROVIDER}", d)}"=0A=
-=0A=
- # Include legacy boot if MACHINE_FEATURES includes "pcbios" or if it does =
-not=0A=
- # contain "efi". This way legacy is supported by default if neither is=0A=
---=0A=
-1.9.1=0A=
-=0A=
---=0A=
-_______________________________________________=0A=
-Openembedded-core mailing list=0A=
-Openembedded-core@lists.openembedded.org=0A=
-http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
+Hi,
+
+On Thu, Dec 22, 2016 at 12:54:54PM +0800, Huang Qiyu wrote:
+> Upgrade ncurses from 6.0+20160625 to 6.0+20161126.
+
+This causes build failures for beaglebone and qemumips64 targets:
+
+http://errors.yoctoproject.org/Errors/Details/115740/
+http://errors.yoctoproject.org/Errors/Details/115738/
+
+Please look into that.
+
+> Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+> ---
+>  .../ncurses/{ncurses_6.0+20160625.bb => ncurses_6.0+20161126.bb}        | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-core/ncurses/{ncurses_6.0+20160625.bb => ncurses_6.0+20161126.bb} (84%)
+> 
+> diff --git a/meta/recipes-core/ncurses/ncurses_6.0+20160625.bb b/meta/recipes-core/ncurses/ncurses_6.0+20161126.bb
+> similarity index 84%
+> rename from meta/recipes-core/ncurses/ncurses_6.0+20160625.bb
+> rename to meta/recipes-core/ncurses/ncurses_6.0+20161126.bb
+> index 6514613..7328e78 100644
+> --- a/meta/recipes-core/ncurses/ncurses_6.0+20160625.bb
+> +++ b/meta/recipes-core/ncurses/ncurses_6.0+20161126.bb
+> @@ -4,7 +4,7 @@ SRC_URI += "file://tic-hang.patch \
+>              file://config.cache \
+>  "
+>  # commit id corresponds to the revision in package version
+> -SRCREV = "63dd558cb8e888d6fab5f00bbf7842736a2356b9"
+> +SRCREV = "3db0bd19cb50e3d9b4f2cf15b7a102fe11302068"
+>  S = "${WORKDIR}/git"
+>  EXTRA_OECONF += "--with-abi-version=5"
+>  UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+(\+\d+)*)"
+> --
+Best Regards,
+Maxin
 
