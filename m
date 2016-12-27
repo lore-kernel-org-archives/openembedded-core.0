@@ -1,24 +1,21 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1752C6011B
+Return-Path: <jonathan.yong@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id DEB4071D06
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Dec 2016 06:47:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uBR6lf3k007884
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Dec 2016 22:47:41 -0800
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Mon, 26 Dec 2016 22:47:40 -0800
-From: <zhe.he@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 Dec 2016 14:43:32 +0800
-Message-ID: <cover.1482820791.git.zhe.he@windriver.com>
-X-Mailer: git-send-email 2.8.3
-MIME-Version: 1.0
-Subject: [PATCH v2 0/1] kexec-tools: Upgrade to 2.0.14
+	Tue, 27 Dec 2016 06:47:41 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP; 26 Dec 2016 22:47:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,415,1477983600"; d="scan'208";a="1076585853"
+Received: from vanguard-01.png.intel.com ([10.221.118.162])
+	by orsmga001.jf.intel.com with ESMTP; 26 Dec 2016 22:47:41 -0800
+From: "Yong, Jonathan" <jonathan.yong@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 27 Dec 2016 06:47:35 +0000
+Message-Id: <20161227064735.6552-1-jonathan.yong@intel.com>
+X-Mailer: git-send-email 2.10.2
+Cc: kim.tatt.chuah@intel.com
+Subject: [PATCH] sysvinit-inittab: Make sure new shell from start_getty gets a controlling tty
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,46 +28,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Dec 2016 06:47:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 27 Dec 2016 06:47:42 -0000
 
-From: He Zhe <zhe.he@windriver.com>
+Without exec, the processes from the new shell do not get a ctty:
 
-Remove kexec-aarch64.patch since it has been merged upstream
-Remove kexec-x32.patch since it has been reverted upstream
-Backport patches for kdump arm64 from:
-https://git.linaro.org/people/takahiro.akashi/kexec-tools.git
+	root@intel-corei7-64:~# ps -x | grep getty
+	  755 tty1     Ss+    0:00 /sbin/getty 38400 tty1
+	  791 ?        Ss     0:00 /bin/sh /bin/start_getty 115200 ttyS0
+	  804 ?        S      0:00 grep getty
 
-v1 to v2: Remove redundant tarball link in SRC_URI
+In particular, the openssh client fails:
 
-He Zhe (1):
-  kexec-tools: Upgrade to 2.0.14
+	root@intel-corei7-64:~# ssh -v <target>
+	<truncated>
+	debug1: read_passphrase: can't open /dev/tty: No such device or address
+	Host key verification failed.
 
- ...nd-the-semantics-of-kexec_iomem_for_each_.patch |  78 ++++++++
- ...eneralize-and-rename-get_kernel_stext_sym.patch | 194 ++++++++++++++++++++
- ...0003-arm64-identify-PHYS_OFFSET-correctly.patch |  76 ++++++++
- .../0004-arm64-kdump-identify-memory-regions.patch | 202 +++++++++++++++++++++
- ...5-arm64-kdump-add-elf-core-header-segment.patch | 191 +++++++++++++++++++
- ...6-arm64-kdump-set-up-kernel-image-segment.patch | 137 ++++++++++++++
- .../0007-arm64-kdump-set-up-other-segments.patch   |  35 ++++
- ...-add-DT-properties-to-crash-dump-kernel-s.patch | 150 +++++++++++++++
- ...-kdump-Add-support-for-binary-image-files.patch |  52 ++++++
- meta/recipes-kernel/kexec/kexec-tools_2.0.12.bb    |  37 ----
- meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb    |  44 +++++
- 11 files changed, 1159 insertions(+), 37 deletions(-)
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0001-kexec-exntend-the-semantics-of-kexec_iomem_for_each_.patch
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0002-kexec-generalize-and-rename-get_kernel_stext_sym.patch
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0003-arm64-identify-PHYS_OFFSET-correctly.patch
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0004-arm64-kdump-identify-memory-regions.patch
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0005-arm64-kdump-add-elf-core-header-segment.patch
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0006-arm64-kdump-set-up-kernel-image-segment.patch
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0007-arm64-kdump-set-up-other-segments.patch
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0008-arm64-kdump-add-DT-properties-to-crash-dump-kernel-s.patch
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0009-arm64-kdump-Add-support-for-binary-image-files.patch
- delete mode 100644 meta/recipes-kernel/kexec/kexec-tools_2.0.12.bb
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb
+This patch fixes those errors.
 
+Signed-off-by: Yong, Jonathan <jonathan.yong@intel.com>
+---
+ meta/recipes-core/sysvinit/sysvinit-inittab/start_getty | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty b/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
+index e3d052a..ab238f6 100644
+--- a/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
++++ b/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
+@@ -1,5 +1,5 @@
+ #!/bin/sh
+ if [ -c /dev/$2 ]
+ then 
+-	/sbin/getty -L $1 $2 $3
++	exec /sbin/getty -L $1 $2 $3
+ fi
 -- 
-2.8.3
+2.10.2
 
 
