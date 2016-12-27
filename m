@@ -1,26 +1,47 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D104A71D06
+Return-Path: <skrishnakar@gmail.com>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 43C8B60589
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Dec 2016 06:47:43 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBR6lib2023126
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 27 Dec 2016 09:49:29 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id a197so258041941wmd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Dec 2016 22:47:44 -0800 (PST)
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Mon, 26 Dec 2016 22:47:42 -0800
-From: <zhe.he@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 Dec 2016 14:43:33 +0800
-Message-ID: <a90915b447699536814743698a1e8fe08e37a0d0.1482820529.git.zhe.he@windriver.com>
-X-Mailer: git-send-email 2.8.3
-In-Reply-To: <cover.1482820529.git.zhe.he@windriver.com>
-References: <cover.1482820529.git.zhe.he@windriver.com>
+	Tue, 27 Dec 2016 01:49:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=iTDMqDOLy7gsTbNy7wZl2/AL7CDpy6NuWlAz5oDeZXM=;
+	b=VJTPwc4WdCfNb6Qh8jDaky+JRNlZcqkDh4e6A30Y/nnBlKmvtd+1x9MbxGrgCRKBMn
+	dhuo8t6/4elBq5PMZn5qLoXmKKdVOCz6ejwvrARxTlqVVkM9x++1pwaEnaX75sG8mnRB
+	JpxeU9jToMY3ULq40Imj7+silXKtH5qj8KyItKcxzivIGs/MuQAquOM8Ols+n7ElTp4E
+	SzhTleHr7tHPG83rQImWX6FwAx8JN2fGLfU8NE2/oexgv6GcXhry91OxOL+IbfidSvpa
+	GY0IWwb/wmhk4lald+OsVjPAfhd+n/t941KzeaNl3oCbPAqW0owkWNE0OE8gtN3irJxT
+	Zahg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=iTDMqDOLy7gsTbNy7wZl2/AL7CDpy6NuWlAz5oDeZXM=;
+	b=ooRRDrA0hpBrhj4jUOafIouC3gww6IWNnR0m0zSBK/PicEGeRdlW6sgr0ghwSgZGSo
+	iEQ5kE1iu7W6eZMabtG6xDlv/0kaiim6UJih047yeZpTWCEqX6VDej7Ot0FvLTL/znT2
+	DMinLHNxiLAflg2543VG7zIj+furbAObucF4Kf4aqt3RiACbU3Nw4Mk4Yqs4i1LofSXR
+	B7Htdo0KKAuLoTWCkBQm+Kg5IbUFgbWjBn99i0siFw7njlhIxddNn0j0xV2n/ou/Mfdt
+	ZfDZukCIMzKqY/rUX0KphIX0G14HOzkp1rQwNquecrjAFL64kJySURzrfBhtsBeRcfP/
+	ukqA==
+X-Gm-Message-State: AIkVDXLOa6qLNMp9cYhfRZBN1UFGU4T5cxV2Ap0TR6pRYdxEVjLSlJL6/se9PqsT5oh1HxrWJYYc78GX/tAssg==
+X-Received: by 10.28.136.198 with SMTP id k189mr26745913wmd.24.1482832170747; 
+	Tue, 27 Dec 2016 01:49:30 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH v2 1/1] kexec-tools: Upgrade to 2.0.14
+Received: by 10.28.134.9 with HTTP; Tue, 27 Dec 2016 01:48:50 -0800 (PST)
+In-Reply-To: <CALDxG5hjMaUwmRTR9GLoYb7nmvMUKi08ZMNog5jviJrnJ42naw@mail.gmail.com>
+References: <CALDxG5gxGqHP7S1fK-NmFrvQt9KRgjH+u4t+xHF=3m=UvUY=bQ@mail.gmail.com>
+	<1482748609.9843.136.camel@linuxfoundation.org>
+	<CALDxG5h=3iZTJp=d_4RKGs6pOC=W6MJeFeJ6_-ykayqWv1i3nw@mail.gmail.com>
+	<CALDxG5hjMaUwmRTR9GLoYb7nmvMUKi08ZMNog5jviJrnJ42naw@mail.gmail.com>
+From: srikanth krishnakar <skrishnakar@gmail.com>
+Date: Tue, 27 Dec 2016 15:18:50 +0530
+Message-ID: <CALDxG5ihGZU3f4ipau1nm19_p-C+XRTGxq71OvapTC6J4-8yMQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Yocto-2.2 build failures on Ubuntu 14.04.5 & 16.04.x hosts due to crash of unity-settings-daemon followed by restart of lightdm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,1305 +54,651 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Dec 2016 06:47:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 27 Dec 2016 09:49:30 -0000
+Content-Type: multipart/alternative; boundary=001a11443a8acc8d5b0544a0c41e
 
-From: He Zhe <zhe.he@windriver.com>
+--001a11443a8acc8d5b0544a0c41e
+Content-Type: text/plain; charset=UTF-8
 
-Remove kexec-aarch64.patch since it has been merged upstream
-Remove kexec-x32.patch since it has been reverted upstream
-Backport patches for kdump arm64 from:
-https://git.linaro.org/people/takahiro.akashi/kexec-tools.git
+Hello Richard,
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
- ...nd-the-semantics-of-kexec_iomem_for_each_.patch |  78 ++++++++
- ...eneralize-and-rename-get_kernel_stext_sym.patch | 194 ++++++++++++++++++++
- ...0003-arm64-identify-PHYS_OFFSET-correctly.patch |  76 ++++++++
- .../0004-arm64-kdump-identify-memory-regions.patch | 202 +++++++++++++++++++++
- ...5-arm64-kdump-add-elf-core-header-segment.patch | 191 +++++++++++++++++++
- ...6-arm64-kdump-set-up-kernel-image-segment.patch | 137 ++++++++++++++
- .../0007-arm64-kdump-set-up-other-segments.patch   |  35 ++++
- ...-add-DT-properties-to-crash-dump-kernel-s.patch | 150 +++++++++++++++
- ...-kdump-Add-support-for-binary-image-files.patch |  52 ++++++
- meta/recipes-kernel/kexec/kexec-tools_2.0.12.bb    |  37 ----
- meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb    |  44 +++++
- 11 files changed, 1159 insertions(+), 37 deletions(-)
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0001-kexec-exntend-the-semantics-of-kexec_iomem_for_each_.patch
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0002-kexec-generalize-and-rename-get_kernel_stext_sym.patch
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0003-arm64-identify-PHYS_OFFSET-correctly.patch
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0004-arm64-kdump-identify-memory-regions.patch
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0005-arm64-kdump-add-elf-core-header-segment.patch
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0006-arm64-kdump-set-up-kernel-image-segment.patch
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0007-arm64-kdump-set-up-other-segments.patch
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0008-arm64-kdump-add-DT-properties-to-crash-dump-kernel-s.patch
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0009-arm64-kdump-Add-support-for-binary-image-files.patch
- delete mode 100644 meta/recipes-kernel/kexec/kexec-tools_2.0.12.bb
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb
+I was under impression that installing Ubuntu-14.04.4 (+lastest updates)
+would give me stable build environment, unfortunately that is not the case
+! I could see the logout issue on this installation too. So I believe that
+issue should be reproducible on any 14.04.x installation including 16.04.x
+with all latest updates installed. The second attempt of build on
+"Ubuntu-14.04.4" shows the status of bitbake as halted at libvorbis when
+logout happened:
 
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/0001-kexec-exntend-the-semantics-of-kexec_iomem_for_each_.patch b/meta/recipes-kernel/kexec/kexec-tools/0001-kexec-exntend-the-semantics-of-kexec_iomem_for_each_.patch
-new file mode 100644
-index 0000000..822f28c
---- /dev/null
-+++ b/meta/recipes-kernel/kexec/kexec-tools/0001-kexec-exntend-the-semantics-of-kexec_iomem_for_each_.patch
-@@ -0,0 +1,78 @@
-+From 02eed0f8f2748fd7579f69e5373445b52b2b8754 Mon Sep 17 00:00:00 2001
-+From: AKASHI Takahiro <takahiro.akashi@linaro.org>
-+Date: Mon, 17 Oct 2016 13:56:58 +0900
-+Subject: [PATCH 1/9] kexec: exntend the semantics of kexec_iomem_for_each_line
-+
-+The current kexec_iomem_for_each_line() counts up all the lines for which
-+a callback function returns zero(0) or positive, and otherwise it stops
-+further scanning.
-+This behavior is incovenient in some cases. For instance, on arm64, we want
-+to count up "System RAM" entries, but need to skip "reserved" entries.
-+
-+So this patch extends the semantics so that we will continue to scan
-+succeeding entries but not count lines for which a callback function
-+returns positive.
-+
-+The current users of kexec_iomem_for_each_line(), arm, sh and x86, will not
-+be affected by this change because
-+* arm
-+  The callback function only returns -1 or 0, and the return value of
-+  kexec_iomem_for_each_line() will never be used.
-+* sh, x86
-+  The callback function may return (-1 for sh,) 0 or 1, but always returns
-+  1 once we have reached the maximum number of entries allowed.
-+  Even so the current kexec_iomem_for_each_line() counts them up.
-+  This change actually fixes this bug.
-+
-+Upstream-Status: Backport [https://git.linaro.org/people/takahiro.akashi/kexec-tools.git]
-+
-+Signed-off-by: AKASHI Takahiro <takahiro.akashi@linaro.org>
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+---
-+ kexec/kexec-iomem.c | 15 ++++++++++-----
-+ 1 file changed, 10 insertions(+), 5 deletions(-)
-+
-+diff --git a/kexec/kexec-iomem.c b/kexec/kexec-iomem.c
-+index 485a2e8..0a0277a 100644
-+--- a/kexec/kexec-iomem.c
-++++ b/kexec/kexec-iomem.c
-+@@ -18,6 +18,9 @@
-+  * Iterate over each line in the file returned by proc_iomem(). If match is
-+  * NULL or if the line matches with our match-pattern then call the
-+  * callback if non-NULL.
-++ * If match is NULL, callback should return a negative if error.
-++ * Otherwise the interation goes on, incrementing nr but only if callback
-++ * returns 0 (matched).
-+  *
-+  * Return the number of lines matched.
-+  */
-+@@ -37,7 +40,7 @@ int kexec_iomem_for_each_line(char *match,
-+ 	char *str;
-+ 	int consumed;
-+ 	int count;
-+-	int nr = 0;
-++	int nr = 0, ret;
-+ 
-+ 	fp = fopen(iomem, "r");
-+ 	if (!fp)
-+@@ -50,11 +53,13 @@ int kexec_iomem_for_each_line(char *match,
-+ 		str = line + consumed;
-+ 		size = end - start + 1;
-+ 		if (!match || memcmp(str, match, strlen(match)) == 0) {
-+-			if (callback
-+-			    && callback(data, nr, str, start, size) < 0) {
-+-				break;
-++			if (callback) {
-++				ret = callback(data, nr, str, start, size);
-++				if (ret < 0)
-++					break;
-++				else if (ret == 0)
-++					nr++;
-+ 			}
-+-			nr++;
-+ 		}
-+ 	}
-+ 
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/0002-kexec-generalize-and-rename-get_kernel_stext_sym.patch b/meta/recipes-kernel/kexec/kexec-tools/0002-kexec-generalize-and-rename-get_kernel_stext_sym.patch
-new file mode 100644
-index 0000000..953f13b
---- /dev/null
-+++ b/meta/recipes-kernel/kexec/kexec-tools/0002-kexec-generalize-and-rename-get_kernel_stext_sym.patch
-@@ -0,0 +1,194 @@
-+From d29f37bb6e9114aba96c606103b110f511bee9a1 Mon Sep 17 00:00:00 2001
-+From: Pratyush Anand <panand@redhat.com>
-+Date: Wed, 2 Nov 2016 15:05:25 +0530
-+Subject: [PATCH 2/9] kexec: generalize and rename get_kernel_stext_sym()
-+
-+get_kernel_stext_sym() has been defined for both arm and i386. Other
-+architecture might need some other kernel symbol address. Therefore rewrite
-+this function as generic function to get any kernel symbol address.
-+
-+More over, kallsyms is not arch specific representation, therefore have
-+common function for all arches.
-+
-+Upstream-Status: Backport [https://git.linaro.org/people/takahiro.akashi/kexec-tools.git]
-+
-+Signed-off-by: Pratyush Anand <panand@redhat.com>
-+[created symbols.c]
-+Signed-off-by: AKASHI Takahiro <takahiro.akashi@linaro.org>
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+---
-+ kexec/Makefile                  |  1 +
-+ kexec/arch/arm/crashdump-arm.c  | 40 +---------------------------------------
-+ kexec/arch/i386/crashdump-x86.c | 29 -----------------------------
-+ kexec/kexec.h                   |  2 ++
-+ kexec/symbols.c                 | 41 +++++++++++++++++++++++++++++++++++++++++
-+ 5 files changed, 45 insertions(+), 68 deletions(-)
-+ create mode 100644 kexec/symbols.c
-+
-+diff --git a/kexec/Makefile b/kexec/Makefile
-+index 39f365f..2b4fb3d 100644
-+--- a/kexec/Makefile
-++++ b/kexec/Makefile
-+@@ -26,6 +26,7 @@ KEXEC_SRCS_base += kexec/kernel_version.c
-+ KEXEC_SRCS_base += kexec/lzma.c
-+ KEXEC_SRCS_base += kexec/zlib.c
-+ KEXEC_SRCS_base += kexec/kexec-xen.c
-++KEXEC_SRCS_base += kexec/symbols.c
-+ 
-+ KEXEC_GENERATED_SRCS += $(PURGATORY_HEX_C)
-+ 
-+diff --git a/kexec/arch/arm/crashdump-arm.c b/kexec/arch/arm/crashdump-arm.c
-+index 4a89b5e..245c21a 100644
-+--- a/kexec/arch/arm/crashdump-arm.c
-++++ b/kexec/arch/arm/crashdump-arm.c
-+@@ -73,48 +73,10 @@ static struct crash_elf_info elf_info = {
-+ 
-+ extern unsigned long long user_page_offset;
-+ 
-+-/* Retrieve kernel _stext symbol virtual address from /proc/kallsyms */
-+-static unsigned long long get_kernel_stext_sym(void)
-+-{
-+-	const char *kallsyms = "/proc/kallsyms";
-+-	const char *stext = "_stext";
-+-	char sym[128];
-+-	char line[128];
-+-	FILE *fp;
-+-	unsigned long long vaddr = 0;
-+-	char type;
-+-
-+-	fp = fopen(kallsyms, "r");
-+-	if (!fp) {
-+-		fprintf(stderr, "Cannot open %s\n", kallsyms);
-+-		return 0;
-+-	}
-+-
-+-	while(fgets(line, sizeof(line), fp) != NULL) {
-+-		unsigned long long addr;
-+-
-+-		if (sscanf(line, "%Lx %c %s", &addr, &type, sym) != 3)
-+-			continue;
-+-
-+-		if (strcmp(sym, stext) == 0) {
-+-			dbgprintf("kernel symbol %s vaddr = %#llx\n", stext, addr);
-+-			vaddr = addr;
-+-			break;
-+-		}
-+-	}
-+-
-+-	fclose(fp);
-+-
-+-	if (vaddr == 0)
-+-		fprintf(stderr, "Cannot get kernel %s symbol address\n", stext);
-+-
-+-	return vaddr;
-+-}
-+-
-+ static int get_kernel_page_offset(struct kexec_info *info,
-+ 		struct crash_elf_info *elf_info)
-+ {
-+-	unsigned long long stext_sym_addr = get_kernel_stext_sym();
-++	unsigned long long stext_sym_addr = get_kernel_sym("_stext");
-+ 	if (stext_sym_addr == 0) {
-+ 		if (user_page_offset != (-1ULL)) {
-+ 			elf_info->page_offset = user_page_offset;
-+diff --git a/kexec/arch/i386/crashdump-x86.c b/kexec/arch/i386/crashdump-x86.c
-+index ab833d4..abf82a5 100644
-+--- a/kexec/arch/i386/crashdump-x86.c
-++++ b/kexec/arch/i386/crashdump-x86.c
-+@@ -102,35 +102,6 @@ static int get_kernel_paddr(struct kexec_info *UNUSED(info),
-+ 	return -1;
-+ }
-+ 
-+-/* Retrieve kernel symbol virtual address from /proc/kallsyms */
-+-static unsigned long long get_kernel_sym(const char *symbol)
-+-{
-+-	const char *kallsyms = "/proc/kallsyms";
-+-	char sym[128];
-+-	char line[128];
-+-	FILE *fp;
-+-	unsigned long long vaddr;
-+-	char type;
-+-
-+-	fp = fopen(kallsyms, "r");
-+-	if (!fp) {
-+-		fprintf(stderr, "Cannot open %s\n", kallsyms);
-+-		return 0;
-+-	}
-+-
-+-	while(fgets(line, sizeof(line), fp) != NULL) {
-+-		if (sscanf(line, "%Lx %c %s", &vaddr, &type, sym) != 3)
-+-			continue;
-+-		if (strcmp(sym, symbol) == 0) {
-+-			dbgprintf("kernel symbol %s vaddr = %16llx\n", symbol, vaddr);
-+-			return vaddr;
-+-		}
-+-	}
-+-
-+-	fprintf(stderr, "Cannot get kernel %s symbol address\n", symbol);
-+-	return 0;
-+-}
-+-
-+ /* Retrieve info regarding virtual address kernel has been compiled for and
-+  * size of the kernel from /proc/kcore. Current /proc/kcore parsing from
-+  * from kexec-tools fails because of malformed elf notes. A kernel patch has
-+diff --git a/kexec/kexec.h b/kexec/kexec.h
-+index 9194f1c..b4fafad 100644
-+--- a/kexec/kexec.h
-++++ b/kexec/kexec.h
-+@@ -312,4 +312,6 @@ int xen_kexec_load(struct kexec_info *info);
-+ int xen_kexec_unload(uint64_t kexec_flags);
-+ void xen_kexec_exec(void);
-+ 
-++extern unsigned long long get_kernel_sym(const char *text);
-++
-+ #endif /* KEXEC_H */
-+diff --git a/kexec/symbols.c b/kexec/symbols.c
-+new file mode 100644
-+index 0000000..ea6e327
-+--- /dev/null
-++++ b/kexec/symbols.c
-+@@ -0,0 +1,41 @@
-++#include <stdio.h>
-++#include <string.h>
-++#include "kexec.h"
-++
-++/* Retrieve kernel symbol virtual address from /proc/kallsyms */
-++unsigned long long get_kernel_sym(const char *text)
-++{
-++	const char *kallsyms = "/proc/kallsyms";
-++	char sym[128];
-++	char line[128];
-++	FILE *fp;
-++	unsigned long long vaddr = 0;
-++	char type;
-++
-++	fp = fopen(kallsyms, "r");
-++	if (!fp) {
-++		fprintf(stderr, "Cannot open %s\n", kallsyms);
-++		return 0;
-++	}
-++
-++	while (fgets(line, sizeof(line), fp) != NULL) {
-++		unsigned long long addr;
-++
-++		if (sscanf(line, "%Lx %c %s", &addr, &type, sym) != 3)
-++			continue;
-++
-++		if (strcmp(sym, text) == 0) {
-++			dbgprintf("kernel symbol %s vaddr = %#llx\n",
-++								text, addr);
-++			vaddr = addr;
-++			break;
-++		}
-++	}
-++
-++	fclose(fp);
-++
-++	if (vaddr == 0)
-++		fprintf(stderr, "Cannot get kernel %s symbol address\n", text);
-++
-++	return vaddr;
-++}
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/0003-arm64-identify-PHYS_OFFSET-correctly.patch b/meta/recipes-kernel/kexec/kexec-tools/0003-arm64-identify-PHYS_OFFSET-correctly.patch
-new file mode 100644
-index 0000000..1a1c317
---- /dev/null
-+++ b/meta/recipes-kernel/kexec/kexec-tools/0003-arm64-identify-PHYS_OFFSET-correctly.patch
-@@ -0,0 +1,76 @@
-+From 16df170ad4808d12acd5e919ac4f6e7f33a247b3 Mon Sep 17 00:00:00 2001
-+From: AKASHI Takahiro <takahiro.akashi@linaro.org>
-+Date: Thu, 1 Sep 2016 10:57:42 +0900
-+Subject: [PATCH 3/9] arm64: identify PHYS_OFFSET correctly
-+
-+Due to the kernel patch, commit e7cd190385d1 ("arm64: mark reserved
-+memblock regions explicitly in iomem"), the current code will not be able
-+to identify the correct value of PHYS_OFFSET if some "reserved" memory
-+region, which is likely to be UEFI runtime services code/data, exists at
-+an address below the first "System RAM" regions.
-+
-+This patch fixes this issue.
-+
-+Upstream-Status: Backport [https://git.linaro.org/people/takahiro.akashi/kexec-tools.git]
-+
-+Signed-off-by: AKASHI Takahiro <takahiro.akashi@linaro.org>
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+---
-+ kexec/arch/arm64/iomem.h       |  7 +++++++
-+ kexec/arch/arm64/kexec-arm64.c | 12 ++++++++++--
-+ 2 files changed, 17 insertions(+), 2 deletions(-)
-+ create mode 100644 kexec/arch/arm64/iomem.h
-+
-+diff --git a/kexec/arch/arm64/iomem.h b/kexec/arch/arm64/iomem.h
-+new file mode 100644
-+index 0000000..7fd66eb
-+--- /dev/null
-++++ b/kexec/arch/arm64/iomem.h
-+@@ -0,0 +1,7 @@
-++#ifndef IOMEM_H
-++#define IOMEM_H
-++
-++#define SYSTEM_RAM		"System RAM\n"
-++#define IOMEM_RESERVED		"reserved\n"
-++
-++#endif
-+diff --git a/kexec/arch/arm64/kexec-arm64.c b/kexec/arch/arm64/kexec-arm64.c
-+index 2e8839a..8ac811d 100644
-+--- a/kexec/arch/arm64/kexec-arm64.c
-++++ b/kexec/arch/arm64/kexec-arm64.c
-+@@ -21,6 +21,7 @@
-+ #include "crashdump-arm64.h"
-+ #include "dt-ops.h"
-+ #include "fs2dt.h"
-++#include "iomem.h"
-+ #include "kexec-syscall.h"
-+ #include "arch/options.h"
-+ 
-+@@ -475,7 +476,14 @@ static int get_memory_ranges_iomem_cb(void *data, int nr, char *str,
-+ 		return -1;
-+ 
-+ 	r = (struct memory_range *)data + nr;
-+-	r->type = RANGE_RAM;
-++
-++	if (!strncmp(str, SYSTEM_RAM, strlen(SYSTEM_RAM)))
-++		r->type = RANGE_RAM;
-++	else if (!strncmp(str, IOMEM_RESERVED, strlen(IOMEM_RESERVED)))
-++		r->type = RANGE_RESERVED;
-++	else
-++		return 1;
-++
-+ 	r->start = base;
-+ 	r->end = base + length - 1;
-+ 
-+@@ -494,7 +502,7 @@ static int get_memory_ranges_iomem_cb(void *data, int nr, char *str,
-+ static int get_memory_ranges_iomem(struct memory_range *array,
-+ 	unsigned int *count)
-+ {
-+-	*count = kexec_iomem_for_each_line("System RAM\n",
-++	*count = kexec_iomem_for_each_line(NULL,
-+ 		get_memory_ranges_iomem_cb, array);
-+ 
-+ 	if (!*count) {
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/0004-arm64-kdump-identify-memory-regions.patch b/meta/recipes-kernel/kexec/kexec-tools/0004-arm64-kdump-identify-memory-regions.patch
-new file mode 100644
-index 0000000..66600f3
---- /dev/null
-+++ b/meta/recipes-kernel/kexec/kexec-tools/0004-arm64-kdump-identify-memory-regions.patch
-@@ -0,0 +1,202 @@
-+From 48a4c7874d8264ddbfaec2e9858d7866a2d2eb60 Mon Sep 17 00:00:00 2001
-+From: AKASHI Takahiro <takahiro.akashi@linaro.org>
-+Date: Wed, 5 Aug 2015 13:16:30 +0900
-+Subject: [PATCH 4/9] arm64: kdump: identify memory regions
-+
-+The following regions need to be identified for later use:
-+ a) memory regions which belong to the 1st kernel
-+ b) usable memory reserved for crash dump kernel
-+
-+We go through /proc/iomem to find out a) and b) which are marked
-+as "System RAM" and "Crash kernel", respectively.
-+
-+Upstream-Status: Backport [https://git.linaro.org/people/takahiro.akashi/kexec-tools.git]
-+
-+Signed-off-by: AKASHI Takahiro <takahiro.akashi@linaro.org>
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+---
-+ kexec/arch/arm64/Makefile          |   2 +
-+ kexec/arch/arm64/crashdump-arm64.c | 100 ++++++++++++++++++++++++++++++++++++-
-+ kexec/arch/arm64/crashdump-arm64.h |  14 +++++-
-+ kexec/arch/arm64/iomem.h           |   1 +
-+ 4 files changed, 114 insertions(+), 3 deletions(-)
-+
-+diff --git a/kexec/arch/arm64/Makefile b/kexec/arch/arm64/Makefile
-+index 74b677f..2d4ae0e 100644
-+--- a/kexec/arch/arm64/Makefile
-++++ b/kexec/arch/arm64/Makefile
-+@@ -6,6 +6,8 @@ arm64_FS2DT_INCLUDE += \
-+ 
-+ arm64_DT_OPS += kexec/dt-ops.c
-+ 
-++arm64_MEM_REGIONS = kexec/mem_regions.c
-++
-+ arm64_CPPFLAGS += -I $(srcdir)/kexec/
-+ 
-+ arm64_KEXEC_SRCS += \
-+diff --git a/kexec/arch/arm64/crashdump-arm64.c b/kexec/arch/arm64/crashdump-arm64.c
-+index d2272c8..dcaca43 100644
-+--- a/kexec/arch/arm64/crashdump-arm64.c
-++++ b/kexec/arch/arm64/crashdump-arm64.c
-+@@ -1,5 +1,13 @@
-+ /*
-+  * ARM64 crashdump.
-++ *     partly derived from arm implementation
-++ *
-++ * Copyright (c) 2014-2016 Linaro Limited
-++ * Author: AKASHI Takahiro <takahiro.akashi@linaro.org>
-++ *
-++ * This program is free software; you can redistribute it and/or modify
-++ * it under the terms of the GNU General Public License version 2 as
-++ * published by the Free Software Foundation.
-+  */
-+ 
-+ #define _GNU_SOURCE
-+@@ -10,12 +18,102 @@
-+ #include "kexec.h"
-+ #include "crashdump.h"
-+ #include "crashdump-arm64.h"
-++#include "iomem.h"
-+ #include "kexec-arm64.h"
-+ #include "kexec-elf.h"
-++#include "mem_regions.h"
-+ 
-+-struct memory_ranges usablemem_rgns = {};
-++/* memory ranges on crashed kernel */
-++static struct memory_range crash_memory_ranges[CRASH_MAX_MEMORY_RANGES];
-++static struct memory_ranges crash_memory_rgns = {
-++	.size = 0,
-++	.max_size = CRASH_MAX_MEMORY_RANGES,
-++	.ranges = crash_memory_ranges,
-++};
-++
-++/* memory range reserved for crashkernel */
-++struct memory_range crash_reserved_mem;
-++struct memory_ranges usablemem_rgns = {
-++	.size = 0,
-++	.max_size = 1,
-++	.ranges = &crash_reserved_mem,
-++};
-++
-++/*
-++ * iomem_range_callback() - callback called for each iomem region
-++ * @data: not used
-++ * @nr: not used
-++ * @str: name of the memory region
-++ * @base: start address of the memory region
-++ * @length: size of the memory region
-++ *
-++ * This function is called once for each memory region found in /proc/iomem.
-++ * It locates system RAM and crashkernel reserved memory and places these to
-++ * variables, respectively, crash_memory_ranges and crash_reserved_mem.
-++ */
-++
-++static int iomem_range_callback(void *UNUSED(data), int UNUSED(nr),
-++				char *str, unsigned long long base,
-++				unsigned long long length)
-++{
-++	if (strncmp(str, CRASH_KERNEL, strlen(CRASH_KERNEL)) == 0)
-++		return mem_regions_add(&usablemem_rgns,
-++				       base, length, RANGE_RAM);
-++	else if (strncmp(str, SYSTEM_RAM, strlen(SYSTEM_RAM)) == 0)
-++		return mem_regions_add(&crash_memory_rgns,
-++				       base, length, RANGE_RAM);
-++
-++	return 0;
-++}
-+ 
-+ int is_crashkernel_mem_reserved(void)
-+ {
-++	if (!crash_reserved_mem.end)
-++		kexec_iomem_for_each_line(NULL, iomem_range_callback, NULL);
-++
-++	return crash_reserved_mem.start != crash_reserved_mem.end;
-++}
-++
-++/*
-++ * crash_get_memory_ranges() - read system physical memory
-++ *
-++ * Function reads through system physical memory and stores found memory
-++ * regions in crash_memory_ranges.
-++ * Regions are sorted in ascending order.
-++ *
-++ * Returns 0 in case of success and -1 otherwise (errno is set).
-++ */
-++static int crash_get_memory_ranges(void)
-++{
-++	/*
-++	 * First read all memory regions that can be considered as
-++	 * system memory including the crash area.
-++	 */
-++	if (!usablemem_rgns.size)
-++		kexec_iomem_for_each_line(NULL, iomem_range_callback, NULL);
-++
-++	/* allow only a single region for crash dump kernel */
-++	if (usablemem_rgns.size != 1) {
-++		errno = EINVAL;
-++		return -1;
-++	}
-++
-++	dbgprint_mem_range("Reserved memory range", &crash_reserved_mem, 1);
-++
-++	if (mem_regions_exclude(&crash_memory_rgns, &crash_reserved_mem)) {
-++		fprintf(stderr,
-++			"Error: Number of crash memory ranges excedeed the max limit\n");
-++		errno = ENOMEM;
-++		return -1;
-++	}
-++
-++	/*
-++	 * Make sure that the memory regions are sorted.
-++	 */
-++	mem_regions_sort(&crash_memory_rgns);
-++
-++	dbgprint_mem_range("Coredump memory ranges",
-++			   crash_memory_rgns.ranges, crash_memory_rgns.size);
-++
-+ 	return 0;
-+ }
-+diff --git a/kexec/arch/arm64/crashdump-arm64.h b/kexec/arch/arm64/crashdump-arm64.h
-+index f33c7a2..07a0ed0 100644
-+--- a/kexec/arch/arm64/crashdump-arm64.h
-++++ b/kexec/arch/arm64/crashdump-arm64.h
-+@@ -1,12 +1,22 @@
-+ /*
-+  * ARM64 crashdump.
-++ *
-++ * Copyright (c) 2014-2016 Linaro Limited
-++ * Author: AKASHI Takahiro <takahiro.akashi@linaro.org>
-++ *
-++ * This program is free software; you can redistribute it and/or modify
-++ * it under the terms of the GNU General Public License version 2 as
-++ * published by the Free Software Foundation.
-+  */
-+ 
-+-#if !defined(CRASHDUMP_ARM64_H)
-++#ifndef CRASHDUMP_ARM64_H
-+ #define CRASHDUMP_ARM64_H
-+ 
-+ #include "kexec.h"
-+ 
-++#define CRASH_MAX_MEMORY_RANGES	32
-++
-+ extern struct memory_ranges usablemem_rgns;
-++extern struct memory_range crash_reserved_mem;
-+ 
-+-#endif
-++#endif /* CRASHDUMP_ARM64_H */
-+diff --git a/kexec/arch/arm64/iomem.h b/kexec/arch/arm64/iomem.h
-+index 7fd66eb..20cda87 100644
-+--- a/kexec/arch/arm64/iomem.h
-++++ b/kexec/arch/arm64/iomem.h
-+@@ -2,6 +2,7 @@
-+ #define IOMEM_H
-+ 
-+ #define SYSTEM_RAM		"System RAM\n"
-++#define CRASH_KERNEL		"Crash kernel\n"
-+ #define IOMEM_RESERVED		"reserved\n"
-+ 
-+ #endif
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/0005-arm64-kdump-add-elf-core-header-segment.patch b/meta/recipes-kernel/kexec/kexec-tools/0005-arm64-kdump-add-elf-core-header-segment.patch
-new file mode 100644
-index 0000000..fe535b6
---- /dev/null
-+++ b/meta/recipes-kernel/kexec/kexec-tools/0005-arm64-kdump-add-elf-core-header-segment.patch
-@@ -0,0 +1,191 @@
-+From 769da25627cebb2a53caee5d5be78a32d376adc1 Mon Sep 17 00:00:00 2001
-+From: AKASHI Takahiro <takahiro.akashi@linaro.org>
-+Date: Wed, 5 Aug 2015 13:45:15 +0900
-+Subject: [PATCH 5/9] arm64: kdump: add elf core header segment
-+
-+Elf core header contains the information necessary for the coredump of
-+the 1st kernel, including its physcal memory layout as well as cpu register
-+states at the panic.
-+The segment is allocated inside the reserved memory of crash dump kernel.
-+
-+Upstream-Status: Backport [https://git.linaro.org/people/takahiro.akashi/kexec-tools.git]
-+
-+Signed-off-by: AKASHI Takahiro <takahiro.akashi@linaro.org>
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+---
-+ kexec/arch/arm64/crashdump-arm64.c | 96 ++++++++++++++++++++++++++++++++++++++
-+ kexec/arch/arm64/crashdump-arm64.h |  3 ++
-+ kexec/arch/arm64/iomem.h           |  2 +
-+ kexec/arch/arm64/kexec-elf-arm64.c | 10 ++++
-+ 4 files changed, 111 insertions(+)
-+
-+diff --git a/kexec/arch/arm64/crashdump-arm64.c b/kexec/arch/arm64/crashdump-arm64.c
-+index dcaca43..8346131 100644
-+--- a/kexec/arch/arm64/crashdump-arm64.c
-++++ b/kexec/arch/arm64/crashdump-arm64.c
-+@@ -39,6 +39,39 @@ struct memory_ranges usablemem_rgns = {
-+ 	.ranges = &crash_reserved_mem,
-+ };
-+ 
-++struct memory_range elfcorehdr_mem;
-++
-++static struct crash_elf_info elf_info = {
-++	.class		= ELFCLASS64,
-++#if (__BYTE_ORDER == __LITTLE_ENDIAN)
-++	.data		= ELFDATA2LSB,
-++#else
-++	.data		= ELFDATA2MSB,
-++#endif
-++	.machine	= EM_AARCH64,
-++};
-++
-++/*
-++ * Note: The returned value is correct only if !CONFIG_RANDOMIZE_BASE.
-++ */
-++static uint64_t get_kernel_page_offset(void)
-++{
-++	int i;
-++
-++	if (elf_info.kern_vaddr_start == UINT64_MAX)
-++		return UINT64_MAX;
-++
-++	/* Current max virtual memory range is 48-bits. */
-++	for (i = 48; i > 0; i--)
-++		if (!(elf_info.kern_vaddr_start & (1UL << i)))
-++			break;
-++
-++	if (i <= 0)
-++		return UINT64_MAX;
-++	else
-++		return UINT64_MAX << i;
-++}
-++
-+ /*
-+  * iomem_range_callback() - callback called for each iomem region
-+  * @data: not used
-+@@ -62,6 +95,10 @@ static int iomem_range_callback(void *UNUSED(data), int UNUSED(nr),
-+ 	else if (strncmp(str, SYSTEM_RAM, strlen(SYSTEM_RAM)) == 0)
-+ 		return mem_regions_add(&crash_memory_rgns,
-+ 				       base, length, RANGE_RAM);
-++	else if (strncmp(str, KERNEL_CODE, strlen(KERNEL_CODE)) == 0)
-++		elf_info.kern_paddr_start = base;
-++	else if (strncmp(str, KERNEL_DATA, strlen(KERNEL_DATA)) == 0)
-++		elf_info.kern_size = base + length - elf_info.kern_paddr_start;
-+ 
-+ 	return 0;
-+ }
-+@@ -115,5 +152,64 @@ static int crash_get_memory_ranges(void)
-+ 	dbgprint_mem_range("Coredump memory ranges",
-+ 			   crash_memory_rgns.ranges, crash_memory_rgns.size);
-+ 
-++	/*
-++	 * For additional kernel code/data segment.
-++	 * kern_paddr_start/kern_size are determined in iomem_range_callback
-++	 */
-++	elf_info.kern_vaddr_start = get_kernel_sym("_text");
-++	if (!elf_info.kern_vaddr_start)
-++		elf_info.kern_vaddr_start = UINT64_MAX;
-++
-++	return 0;
-++}
-++
-++/*
-++ * load_crashdump_segments() - load the elf core header
-++ * @info: kexec info structure
-++ *
-++ * This function creates and loads an additional segment of elf core header
-++ : which is used to construct /proc/vmcore on crash dump kernel.
-++ *
-++ * Return 0 in case of success and -1 in case of error.
-++ */
-++
-++int load_crashdump_segments(struct kexec_info *info)
-++{
-++	unsigned long elfcorehdr;
-++	unsigned long bufsz;
-++	void *buf;
-++	int err;
-++
-++	/*
-++	 * First fetch all the memory (RAM) ranges that we are going to
-++	 * pass to the crash dump kernel during panic.
-++	 */
-++
-++	err = crash_get_memory_ranges();
-++
-++	if (err)
-++		return err;
-++
-++	elf_info.page_offset = get_kernel_page_offset();
-++	dbgprintf("%s: page_offset:   %016llx\n", __func__,
-++			elf_info.page_offset);
-++
-++	err = crash_create_elf64_headers(info, &elf_info,
-++			crash_memory_rgns.ranges, crash_memory_rgns.size,
-++			&buf, &bufsz, ELF_CORE_HEADER_ALIGN);
-++
-++	if (err)
-++		return err;
-++
-++	elfcorehdr = add_buffer_phys_virt(info, buf, bufsz, bufsz, 0,
-++		crash_reserved_mem.start, crash_reserved_mem.end,
-++		-1, 0);
-++
-++	elfcorehdr_mem.start = elfcorehdr;
-++	elfcorehdr_mem.end = elfcorehdr + bufsz - 1;
-++
-++	dbgprintf("%s: elfcorehdr 0x%llx-0x%llx\n", __func__,
-++			elfcorehdr_mem.start, elfcorehdr_mem.end);
-++
-+ 	return 0;
-+ }
-+diff --git a/kexec/arch/arm64/crashdump-arm64.h b/kexec/arch/arm64/crashdump-arm64.h
-+index 07a0ed0..da75a2d 100644
-+--- a/kexec/arch/arm64/crashdump-arm64.h
-++++ b/kexec/arch/arm64/crashdump-arm64.h
-+@@ -18,5 +18,8 @@
-+ 
-+ extern struct memory_ranges usablemem_rgns;
-+ extern struct memory_range crash_reserved_mem;
-++extern struct memory_range elfcorehdr_mem;
-++
-++extern int load_crashdump_segments(struct kexec_info *info);
-+ 
-+ #endif /* CRASHDUMP_ARM64_H */
-+diff --git a/kexec/arch/arm64/iomem.h b/kexec/arch/arm64/iomem.h
-+index 20cda87..d4864bb 100644
-+--- a/kexec/arch/arm64/iomem.h
-++++ b/kexec/arch/arm64/iomem.h
-+@@ -2,6 +2,8 @@
-+ #define IOMEM_H
-+ 
-+ #define SYSTEM_RAM		"System RAM\n"
-++#define KERNEL_CODE		"Kernel code\n"
-++#define KERNEL_DATA		"Kernel data\n"
-+ #define CRASH_KERNEL		"Crash kernel\n"
-+ #define IOMEM_RESERVED		"reserved\n"
-+ 
-+diff --git a/kexec/arch/arm64/kexec-elf-arm64.c b/kexec/arch/arm64/kexec-elf-arm64.c
-+index daf8bf0..c70a37a 100644
-+--- a/kexec/arch/arm64/kexec-elf-arm64.c
-++++ b/kexec/arch/arm64/kexec-elf-arm64.c
-+@@ -119,6 +119,16 @@ int elf_arm64_load(int argc, char **argv, const char *kernel_buf,
-+ 	dbgprintf("%s: PE format:      %s\n", __func__,
-+ 		(arm64_header_check_pe_sig(header) ? "yes" : "no"));
-+ 
-++	if (info->kexec_flags & KEXEC_ON_CRASH) {
-++		/* create and initialize elf core header segment */
-++		result = load_crashdump_segments(info);
-++		if (result) {
-++			dbgprintf("%s: Creating eflcorehdr failed.\n",
-++								__func__);
-++			goto exit;
-++		}
-++	}
-++
-+ 	/* load the kernel */
-+ 	result = elf_exec_load(&ehdr, info);
-+ 
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/0006-arm64-kdump-set-up-kernel-image-segment.patch b/meta/recipes-kernel/kexec/kexec-tools/0006-arm64-kdump-set-up-kernel-image-segment.patch
-new file mode 100644
-index 0000000..4149551
---- /dev/null
-+++ b/meta/recipes-kernel/kexec/kexec-tools/0006-arm64-kdump-set-up-kernel-image-segment.patch
-@@ -0,0 +1,137 @@
-+From 4079c93ac5453ef5f7889ab64920c1e9427690ef Mon Sep 17 00:00:00 2001
-+From: AKASHI Takahiro <takahiro.akashi@linaro.org>
-+Date: Tue, 17 Feb 2015 16:06:55 +0900
-+Subject: [PATCH 6/9] arm64: kdump: set up kernel image segment
-+
-+On arm64, we can use the same kernel image as 1st kernel, but
-+we have to modify the entry point as well as segments' addresses
-+in the kernel's elf header in order to load them into correct places.
-+
-+Upstream-Status: Backport [https://git.linaro.org/people/takahiro.akashi/kexec-tools.git]
-+
-+Signed-off-by: AKASHI Takahiro <takahiro.akashi@linaro.org>
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+---
-+ kexec/arch/arm64/crashdump-arm64.c | 23 +++++++++++++++++++++++
-+ kexec/arch/arm64/crashdump-arm64.h |  1 +
-+ kexec/arch/arm64/kexec-arm64.c     | 25 ++++++++++++++++++++-----
-+ kexec/arch/arm64/kexec-elf-arm64.c | 10 +++++++++-
-+ 4 files changed, 53 insertions(+), 6 deletions(-)
-+
-+diff --git a/kexec/arch/arm64/crashdump-arm64.c b/kexec/arch/arm64/crashdump-arm64.c
-+index 8346131..9517329 100644
-+--- a/kexec/arch/arm64/crashdump-arm64.c
-++++ b/kexec/arch/arm64/crashdump-arm64.c
-+@@ -213,3 +213,26 @@ int load_crashdump_segments(struct kexec_info *info)
-+ 
-+ 	return 0;
-+ }
-++
-++/*
-++ * e_entry and p_paddr are actually in virtual address space.
-++ * Those values will be translated to physcal addresses by
-++ * using virt_to_phys().
-++ * So let's get ready for later use so the memory base (phys_offset)
-++ * will be correctly replaced with crash_reserved_mem.start.
-++ */
-++void modify_ehdr_for_crashdump(struct mem_ehdr *ehdr)
-++{
-++	struct mem_phdr *phdr;
-++	int i;
-++
-++	ehdr->e_entry += - arm64_mem.phys_offset + crash_reserved_mem.start;
-++
-++	for (i = 0; i < ehdr->e_phnum; i++) {
-++		phdr = &ehdr->e_phdr[i];
-++		if (phdr->p_type != PT_LOAD)
-++			continue;
-++		phdr->p_paddr +=
-++			(-arm64_mem.phys_offset + crash_reserved_mem.start);
-++	}
-++}
-+diff --git a/kexec/arch/arm64/crashdump-arm64.h b/kexec/arch/arm64/crashdump-arm64.h
-+index da75a2d..382f571 100644
-+--- a/kexec/arch/arm64/crashdump-arm64.h
-++++ b/kexec/arch/arm64/crashdump-arm64.h
-+@@ -21,5 +21,6 @@ extern struct memory_range crash_reserved_mem;
-+ extern struct memory_range elfcorehdr_mem;
-+ 
-+ extern int load_crashdump_segments(struct kexec_info *info);
-++extern void modify_ehdr_for_crashdump(struct mem_ehdr *ehdr);
-+ 
-+ #endif /* CRASHDUMP_ARM64_H */
-+diff --git a/kexec/arch/arm64/kexec-arm64.c b/kexec/arch/arm64/kexec-arm64.c
-+index 8ac811d..cec4e41 100644
-+--- a/kexec/arch/arm64/kexec-arm64.c
-++++ b/kexec/arch/arm64/kexec-arm64.c
-+@@ -307,12 +307,27 @@ unsigned long arm64_locate_kernel_segment(struct kexec_info *info)
-+ {
-+ 	unsigned long hole;
-+ 
-+-	hole = locate_hole(info,
-+-		arm64_mem.text_offset + arm64_mem.image_size,
-+-		MiB(2), 0, ULONG_MAX, 1);
-++	if (info->kexec_flags & KEXEC_ON_CRASH) {
-++		unsigned long hole_end;
-++
-++		hole = (crash_reserved_mem.start < mem_min ?
-++				mem_min : crash_reserved_mem.start);
-++		hole = _ALIGN_UP(hole, MiB(2));
-++		hole_end = hole + arm64_mem.text_offset + arm64_mem.image_size;
-++
-++		if ((hole_end > mem_max) ||
-++		    (hole_end > crash_reserved_mem.end)) {
-++			dbgprintf("%s: Crash kernel out of range\n", __func__);
-++			hole = ULONG_MAX;
-++		}
-++	} else {
-++		hole = locate_hole(info,
-++			arm64_mem.text_offset + arm64_mem.image_size,
-++			MiB(2), 0, ULONG_MAX, 1);
-+ 
-+-	if (hole == ULONG_MAX)
-+-		dbgprintf("%s: locate_hole failed\n", __func__);
-++		if (hole == ULONG_MAX)
-++			dbgprintf("%s: locate_hole failed\n", __func__);
-++	}
-+ 
-+ 	return hole;
-+ }
-+diff --git a/kexec/arch/arm64/kexec-elf-arm64.c b/kexec/arch/arm64/kexec-elf-arm64.c
-+index c70a37a..842ce21 100644
-+--- a/kexec/arch/arm64/kexec-elf-arm64.c
-++++ b/kexec/arch/arm64/kexec-elf-arm64.c
-+@@ -9,6 +9,7 @@
-+ #include <stdlib.h>
-+ #include <linux/elf.h>
-+ 
-++#include "crashdump-arm64.h"
-+ #include "kexec-arm64.h"
-+ #include "kexec-elf.h"
-+ #include "kexec-syscall.h"
-+@@ -105,7 +106,8 @@ int elf_arm64_load(int argc, char **argv, const char *kernel_buf,
-+ 	}
-+ 
-+ 	arm64_mem.vp_offset = _ALIGN_DOWN(ehdr.e_entry, MiB(2));
-+-	arm64_mem.vp_offset -= kernel_segment - get_phys_offset();
-++	if (!(info->kexec_flags & KEXEC_ON_CRASH))
-++		arm64_mem.vp_offset -= kernel_segment - get_phys_offset();
-+ 
-+ 	dbgprintf("%s: kernel_segment: %016lx\n", __func__, kernel_segment);
-+ 	dbgprintf("%s: text_offset:    %016lx\n", __func__,
-+@@ -127,6 +129,12 @@ int elf_arm64_load(int argc, char **argv, const char *kernel_buf,
-+ 								__func__);
-+ 			goto exit;
-+ 		}
-++
-++		/*
-++		 * offset addresses in order to fit vmlinux
-++		 * (elf_exec) into crash kernel's memory
-++		 */
-++		modify_ehdr_for_crashdump(&ehdr);
-+ 	}
-+ 
-+ 	/* load the kernel */
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/0007-arm64-kdump-set-up-other-segments.patch b/meta/recipes-kernel/kexec/kexec-tools/0007-arm64-kdump-set-up-other-segments.patch
-new file mode 100644
-index 0000000..2745466
---- /dev/null
-+++ b/meta/recipes-kernel/kexec/kexec-tools/0007-arm64-kdump-set-up-other-segments.patch
-@@ -0,0 +1,35 @@
-+From 07ad14e12665221d754fde8e47c32ac18c24586a Mon Sep 17 00:00:00 2001
-+From: AKASHI Takahiro <takahiro.akashi@linaro.org>
-+Date: Fri, 31 Jul 2015 20:01:39 +0900
-+Subject: [PATCH 7/9] arm64: kdump: set up other segments
-+
-+We make sure that all the other segments, initrd and device-tree blob,
-+also be loaded into the reserved memory of crash dump kernel.
-+
-+Upstream-Status: Backport [https://git.linaro.org/people/takahiro.akashi/kexec-tools.git]
-+
-+Signed-off-by: AKASHI Takahiro <takahiro.akashi@linaro.org>
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+---
-+ kexec/arch/arm64/kexec-arm64.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/kexec/arch/arm64/kexec-arm64.c b/kexec/arch/arm64/kexec-arm64.c
-+index cec4e41..78a0035 100644
-+--- a/kexec/arch/arm64/kexec-arm64.c
-++++ b/kexec/arch/arm64/kexec-arm64.c
-+@@ -374,7 +374,10 @@ int arm64_load_other_segments(struct kexec_info *info,
-+ 	/* Put the other segments after the image. */
-+ 
-+ 	hole_min = image_base + arm64_mem.image_size;
-+-	hole_max = ULONG_MAX;
-++	if (info->kexec_flags & KEXEC_ON_CRASH)
-++		hole_max = crash_reserved_mem.end;
-++	else
-++		hole_max = ULONG_MAX;
-+ 
-+ 	if (arm64_opts.initrd) {
-+ 		initrd_buf = slurp_file(arm64_opts.initrd, &initrd_size);
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/0008-arm64-kdump-add-DT-properties-to-crash-dump-kernel-s.patch b/meta/recipes-kernel/kexec/kexec-tools/0008-arm64-kdump-add-DT-properties-to-crash-dump-kernel-s.patch
-new file mode 100644
-index 0000000..31c3d85
---- /dev/null
-+++ b/meta/recipes-kernel/kexec/kexec-tools/0008-arm64-kdump-add-DT-properties-to-crash-dump-kernel-s.patch
-@@ -0,0 +1,150 @@
-+From 23bf7ac189cc3b87ceb9d1d3b69b5c4815354add Mon Sep 17 00:00:00 2001
-+From: AKASHI Takahiro <takahiro.akashi@linaro.org>
-+Date: Wed, 27 Jan 2016 13:38:39 +0900
-+Subject: [PATCH 8/9] arm64: kdump: add DT properties to crash dump kernel's
-+ dtb
-+
-+We pass the following properties to crash dump kernel:
-+linux,elfcorehdr: elf core header segment,
-+		  same as "elfcorehdr=" kernel parameter on other archs
-+linux,usable-memory-range: usable memory reserved for crash dump kernel
-+
-+Upstream-Status: Backport [https://git.linaro.org/people/takahiro.akashi/kexec-tools.git]
-+
-+Signed-off-by: AKASHI Takahiro <takahiro.akashi@linaro.org>
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+---
-+ kexec/arch/arm64/kexec-arm64.c     | 76 +++++++++++++++++++++++++++++++++++---
-+ kexec/arch/arm64/kexec-elf-arm64.c |  5 ---
-+ 2 files changed, 71 insertions(+), 10 deletions(-)
-+
-+diff --git a/kexec/arch/arm64/kexec-arm64.c b/kexec/arch/arm64/kexec-arm64.c
-+index 78a0035..a8fb64f 100644
-+--- a/kexec/arch/arm64/kexec-arm64.c
-++++ b/kexec/arch/arm64/kexec-arm64.c
-+@@ -128,9 +128,6 @@ int arch_process_options(int argc, char **argv)
-+ 		case OPT_INITRD:
-+ 			arm64_opts.initrd = optarg;
-+ 			break;
-+-		case OPT_PANIC:
-+-			die("load-panic (-p) not supported");
-+-			break;
-+ 		default:
-+ 			break; /* Ignore core and unknown options. */
-+ 		}
-+@@ -285,8 +282,12 @@ on_success:
-+  * setup_2nd_dtb - Setup the 2nd stage kernel's dtb.
-+  */
-+ 
-+-static int setup_2nd_dtb(struct dtb *dtb, char *command_line)
-++static int setup_2nd_dtb(struct dtb *dtb, char *command_line, int on_crash)
-+ {
-++	char *new_buf;
-++	int new_size;
-++	int nodeoffset;
-++	uint64_t range[2];
-+ 	int result;
-+ 
-+ 	result = fdt_check_header(dtb->buf);
-+@@ -298,8 +299,72 @@ static int setup_2nd_dtb(struct dtb *dtb, char *command_line)
-+ 
-+ 	result = set_bootargs(dtb, command_line);
-+ 
-++	/* remove those anyway */
-++	nodeoffset = fdt_path_offset(dtb->buf, "/chosen");
-++	fdt_delprop(dtb->buf, nodeoffset, "linux,crashkernel-base");
-++	fdt_delprop(dtb->buf, nodeoffset, "linux,crashkernel-size");
-++
-++	if (on_crash) {
-++		nodeoffset = fdt_path_offset(dtb->buf, "/chosen");
-++		fdt_delprop(dtb->buf, nodeoffset, "linux,elfcorehdr");
-++		fdt_delprop(dtb->buf, nodeoffset, "linux,usable-memory-range");
-++		new_size = fdt_totalsize(dtb->buf)
-++			+ 2 * (sizeof(struct fdt_property)
-++					+ FDT_TAGALIGN(sizeof(range)))
-++			+ strlen("linux,elfcorehdr") + 1
-++			+ strlen("linux,usable-memory-range") + 1;
-++
-++		new_buf = xmalloc(new_size);
-++		result = fdt_open_into(dtb->buf, new_buf, new_size);
-++		if (result) {
-++			dbgprintf("%s: fdt_open_into failed: %s\n", __func__,
-++				fdt_strerror(result));
-++			result = -ENOSPC;
-++			goto on_error;
-++		}
-++
-++		range[0] = cpu_to_be64(elfcorehdr_mem.start);
-++		range[1] = cpu_to_be64(elfcorehdr_mem.end
-++				- elfcorehdr_mem.start + 1);
-++		nodeoffset = fdt_path_offset(new_buf, "/chosen");
-++		result = fdt_setprop(new_buf, nodeoffset, "linux,elfcorehdr",
-++				(void *)range, sizeof(range));
-++		if (result) {
-++			dbgprintf("%s: fdt_setprop failed: %s\n", __func__,
-++				fdt_strerror(result));
-++			result = -EINVAL;
-++			goto on_error;
-++		}
-++
-++		range[0] = cpu_to_be64(crash_reserved_mem.start);
-++		range[1] = cpu_to_be64(crash_reserved_mem.end
-++				- crash_reserved_mem.start + 1);
-++		nodeoffset = fdt_path_offset(new_buf, "/chosen");
-++		result = fdt_setprop(new_buf, nodeoffset,
-++				"linux,usable-memory-range",
-++				(void *)range, sizeof(range));
-++		if (result) {
-++			dbgprintf("%s: fdt_setprop failed: %s\n", __func__,
-++				fdt_strerror(result));
-++			result = -EINVAL;
-++			goto on_error;
-++		}
-++
-++		fdt_pack(new_buf);
-++		dtb->buf = new_buf;
-++		dtb->size = fdt_totalsize(new_buf);
-++	}
-++
-+ 	dump_reservemap(dtb);
-+ 
-++
-++	return result;
-++
-++on_error:
-++	fprintf(stderr, "kexec: %s failed.\n", __func__);
-++	if (new_buf)
-++		free(new_buf);
-++
-+ 	return result;
-+ }
-+ 
-+@@ -366,7 +431,8 @@ int arm64_load_other_segments(struct kexec_info *info,
-+ 		}
-+ 	}
-+ 
-+-	result = setup_2nd_dtb(&dtb, command_line);
-++	result = setup_2nd_dtb(&dtb, command_line,
-++			info->kexec_flags & KEXEC_ON_CRASH);
-+ 
-+ 	if (result)
-+ 		return -EFAILED;
-+diff --git a/kexec/arch/arm64/kexec-elf-arm64.c b/kexec/arch/arm64/kexec-elf-arm64.c
-+index 842ce21..b17a31a 100644
-+--- a/kexec/arch/arm64/kexec-elf-arm64.c
-++++ b/kexec/arch/arm64/kexec-elf-arm64.c
-+@@ -47,11 +47,6 @@ int elf_arm64_load(int argc, char **argv, const char *kernel_buf,
-+ 	int result;
-+ 	int i;
-+ 
-+-	if (info->kexec_flags & KEXEC_ON_CRASH) {
-+-		fprintf(stderr, "kexec: kdump not yet supported on arm64\n");
-+-		return -EFAILED;
-+-	}
-+-
-+ 	result = build_elf_exec_info(kernel_buf, kernel_size, &ehdr, 0);
-+ 
-+ 	if (result < 0) {
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/0009-arm64-kdump-Add-support-for-binary-image-files.patch b/meta/recipes-kernel/kexec/kexec-tools/0009-arm64-kdump-Add-support-for-binary-image-files.patch
-new file mode 100644
-index 0000000..8b1c018
---- /dev/null
-+++ b/meta/recipes-kernel/kexec/kexec-tools/0009-arm64-kdump-Add-support-for-binary-image-files.patch
-@@ -0,0 +1,52 @@
-+From 5a4958f01a793c3e7f440f5bae75666a4349cc50 Mon Sep 17 00:00:00 2001
-+From: Pratyush Anand <panand@redhat.com>
-+Date: Thu, 14 May 2015 11:25:37 +0530
-+Subject: [PATCH 9/9] arm64: kdump: Add support for binary image files
-+
-+This patch adds support to use binary image ie arch/arm64/boot/Image with
-+kdump.
-+
-+Upstream-Status: Backport [https://git.linaro.org/people/takahiro.akashi/kexec-tools.git]
-+
-+Signed-off-by: Pratyush Anand <panand@redhat.com>
-+[takahiro.akashi@linaro.org: a bit reworked]
-+Signed-off-by: AKASHI Takahiro <takahiro.akashi@linaro.org>
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+---
-+ kexec/arch/arm64/kexec-image-arm64.c | 12 ++++++++++++
-+ 1 file changed, 12 insertions(+)
-+
-+diff --git a/kexec/arch/arm64/kexec-image-arm64.c b/kexec/arch/arm64/kexec-image-arm64.c
-+index 960ed96..982e431 100644
-+--- a/kexec/arch/arm64/kexec-image-arm64.c
-++++ b/kexec/arch/arm64/kexec-image-arm64.c
-+@@ -4,7 +4,9 @@
-+ 
-+ #define _GNU_SOURCE
-+ 
-++#include "crashdump-arm64.h"
-+ #include "kexec-arm64.h"
-++#include "kexec-syscall.h"
-+ #include <limits.h>
-+ 
-+ int image_arm64_probe(const char *kernel_buf, off_t kernel_size)
-+@@ -58,6 +60,16 @@ int image_arm64_load(int argc, char **argv, const char *kernel_buf,
-+ 	dbgprintf("%s: PE format:      %s\n", __func__,
-+ 		(arm64_header_check_pe_sig(header) ? "yes" : "no"));
-+ 
-++	if (info->kexec_flags & KEXEC_ON_CRASH) {
-++		/* create and initialize elf core header segment */
-++		result = load_crashdump_segments(info);
-++		if (result) {
-++			dbgprintf("%s: Creating eflcorehdr failed.\n",
-++								__func__);
-++			goto exit;
-++		}
-++	}
-++
-+ 	/* load the kernel */
-+ 	add_segment_phys_virt(info, kernel_buf, kernel_size,
-+ 			kernel_segment + arm64_mem.text_offset,
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.12.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.12.bb
-deleted file mode 100644
-index 59376c8..0000000
---- a/meta/recipes-kernel/kexec/kexec-tools_2.0.12.bb
-+++ /dev/null
-@@ -1,37 +0,0 @@
--require kexec-tools.inc
--export LDFLAGS = "-L${STAGING_LIBDIR}"
--EXTRA_OECONF = " --with-zlib=yes"
--
--SRC_URI += " \
--            file://kexec-aarch64.patch \
--            file://kexec-x32.patch \
--            file://0002-powerpc-change-the-memory-size-limit.patch \
--            file://0001-purgatory-Pass-r-directly-to-linker.patch \
--            file://0001-vmcore-dmesg-Define-_GNU_SOURCE.patch \
--         "
--
--SRC_URI[md5sum] = "10ddaae0e86af54407b164a1f5a39cc3"
--SRC_URI[sha256sum] = "cc7b60dad0da202004048a6179d8a53606943062dd627a2edba45a8ea3a85135"
--
--PACKAGES =+ "kexec kdump vmcore-dmesg"
--
--ALLOW_EMPTY_${PN} = "1"
--RRECOMMENDS_${PN} = "kexec kdump vmcore-dmesg"
--
--FILES_kexec = "${sbindir}/kexec"
--FILES_kdump = "${sbindir}/kdump ${sysconfdir}/init.d/kdump \
--               ${sysconfdir}/sysconfig/kdump.conf"
--FILES_vmcore-dmesg = "${sbindir}/vmcore-dmesg"
--
--inherit update-rc.d
--
--INITSCRIPT_PACKAGES = "kdump"
--INITSCRIPT_NAME_kdump = "kdump"
--INITSCRIPT_PARAMS_kdump = "start 56 2 3 4 5 . stop 56 0 1 6 ."
--
--do_install_append () {
--        install -d ${D}${sysconfdir}/init.d
--        install -m 0755 ${WORKDIR}/kdump ${D}${sysconfdir}/init.d/kdump
--        install -d ${D}${sysconfdir}/sysconfig
--        install -m 0644 ${WORKDIR}/kdump.conf ${D}${sysconfdir}/sysconfig
--}
-diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb
-new file mode 100644
-index 0000000..de5ce44
---- /dev/null
-+++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb
-@@ -0,0 +1,44 @@
-+require kexec-tools.inc
-+export LDFLAGS = "-L${STAGING_LIBDIR}"
-+EXTRA_OECONF = " --with-zlib=yes"
-+
-+SRC_URI += " \
-+            file://0002-powerpc-change-the-memory-size-limit.patch \
-+            file://0001-purgatory-Pass-r-directly-to-linker.patch \
-+            file://0001-vmcore-dmesg-Define-_GNU_SOURCE.patch \
-+            file://0001-kexec-exntend-the-semantics-of-kexec_iomem_for_each_.patch \
-+            file://0002-kexec-generalize-and-rename-get_kernel_stext_sym.patch \
-+            file://0003-arm64-identify-PHYS_OFFSET-correctly.patch \
-+            file://0004-arm64-kdump-identify-memory-regions.patch \
-+            file://0005-arm64-kdump-add-elf-core-header-segment.patch \
-+            file://0006-arm64-kdump-set-up-kernel-image-segment.patch \
-+            file://0007-arm64-kdump-set-up-other-segments.patch \
-+            file://0008-arm64-kdump-add-DT-properties-to-crash-dump-kernel-s.patch \
-+            file://0009-arm64-kdump-Add-support-for-binary-image-files.patch \
-+         "
-+
-+SRC_URI[md5sum] = "b2b2c5e6b29d467d6e99d587fb6b7cf5"
-+SRC_URI[sha256sum] = "b3e69519d2acced256843b1e8f1ecfa00d9b54fa07449ed78f05b9193f239370"
-+
-+PACKAGES =+ "kexec kdump vmcore-dmesg"
-+
-+ALLOW_EMPTY_${PN} = "1"
-+RRECOMMENDS_${PN} = "kexec kdump vmcore-dmesg"
-+
-+FILES_kexec = "${sbindir}/kexec"
-+FILES_kdump = "${sbindir}/kdump ${sysconfdir}/init.d/kdump \
-+               ${sysconfdir}/sysconfig/kdump.conf"
-+FILES_vmcore-dmesg = "${sbindir}/vmcore-dmesg"
-+
-+inherit update-rc.d
-+
-+INITSCRIPT_PACKAGES = "kdump"
-+INITSCRIPT_NAME_kdump = "kdump"
-+INITSCRIPT_PARAMS_kdump = "start 56 2 3 4 5 . stop 56 0 1 6 ."
-+
-+do_install_append () {
-+        install -d ${D}${sysconfdir}/init.d
-+        install -m 0755 ${WORKDIR}/kdump ${D}${sysconfdir}/init.d/kdump
-+        install -d ${D}${sysconfdir}/sysconfig
-+        install -m 0644 ${WORKDIR}/kdump.conf ${D}${sysconfdir}/sysconfig
-+}
--- 
-2.8.3
+---------------------------------------------------------
+NOTE: Running task 2460 of 4212
+(/home/poky/meta/recipes-core/ncurses/ncurses_6.0+20160625.bb:
+do_packagedata)
+NOTE: recipe ncurses-6.0+20160625-r0: task do_packagedata: Started
+NOTE: recipe ncurses-6.0+20160625-r0: task do_packagedata: Succeeded
+NOTE: Running task 2461 of 4212
+(/home/poky/meta/recipes-core/readline/readline_6.3.bb:do_package)
+NOTE: recipe libjpeg-turbo-1_1.5.0-r0: task do_package: Succeeded
+NOTE: Running task 2462 of 4212
+(/home/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.0.bb:
+do_packagedata)
+NOTE: recipe libjpeg-turbo-1_1.5.0-r0: task do_packagedata: Started
+NOTE: recipe libjpeg-turbo-1_1.5.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2463 of 4212
+(/home/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb:do_package)
+NOTE: recipe readline-6.3-r0: task do_package: Started
+NOTE: recipe libvorbis-1.3.5-r0: task do_package: Started
+---------------------------------------------------------
 
+The "$HOME/.xsession-errors.old" file shows the message:
+---------------------------------------------------------
+Script for ibus started at run_im.
+Script for auto started at run_im.
+Script for default started at run_im.
+init: at-spi2-registryd main process ended, respawning
+init: at-spi2-registryd main process ended, respawning
+init: at-spi2-registryd main process ended, respawning
+init: at-spi2-registryd respawning too fast, stopped
+init: indicator-messages main process (17542) killed by SEGV signal
+init: indicator-messages main process ended, respawning
+init: update-notifier-crash
+(/var/crash/_usr_lib_x86_64-linux-gnu_indicator-messages_indicator-messages-service.1000.crash)
+main process (18792) terminated with status 1
+init: update-notifier-crash
+(/var/crash/_usr_share_apport_apport-gtk.1000.crash) main process (21151)
+terminated with status 1
+init: unity-panel-service-lockscreen main process (29904) killed by KILL
+signal
+---------------------------------------------------------
 
+It appears that lightdm is unable the handle the SIGNAL and restarting when
+it receives them. Some of the most anticipated bugfixes patches for lightdm
+yet to arrive in ubuntu-14.04.6 which are not released yet can be found
+here:
+
+https://launchpad.net/lightdm/+milestone/1.10.7
+
+Current version of lightdm in ubuntu-14.04.4/5 -> 1.10.6
+
+Thanks,
+Srikant
+
+On Mon, Dec 26, 2016 at 6:59 PM, srikanth krishnakar <skrishnakar@gmail.com>
+wrote:
+
+> Hello Richard,
+>
+> bitbake | cat shows that when this logout happened during build, log file
+> captured below packages in process:
+>
+> ------------------------------------------------------------
+> --------------------------------
+> NOTE: Running task 1886 of 4212 (/home/builder/poky/meta/
+> recipes-graphics/xorg-proto/kbproto_1.0.7.bb:do_packagedata)
+> NOTE: recipe kbproto-1_1.0.7-r0: task do_packagedata: Started
+> NOTE: recipe kbproto-1_1.0.7-r0: task do_packagedata: Succeeded
+> NOTE: Running task 1887 of 4212 (/home/builder/poky/meta/
+> recipes-support/libffi/libffi_3.2.1.bb:do_package)
+> NOTE: recipe ncurses-6.0+20160625-r0: task do_package: Started
+> NOTE: recipe libffi-3.2.1-r0: task do_package: Started
+> NOTE: recipe libffi-3.2.1-r0: task do_package: Succeeded
+> NOTE: Running task 1888 of 4212 (/home/builder/poky/meta/
+> recipes-support/libffi/libffi_3.2.1.bb:do_packagedata)
+> NOTE: recipe libffi-3.2.1-r0: task do_packagedata: Started
+> NOTE: recipe libffi-3.2.1-r0: task do_packagedata: Succeeded
+> NOTE: Running task 1889 of 4212 (/home/builder/poky/meta/
+> recipes-extended/bzip2/bzip2_1.0.6.bb:do_package)
+> NOTE: recipe bzip2-1.0.6-r5: task do_package: Started
+> ------------------------------------------------------------
+> -----------------------------------
+>
+> Also there was a crash file generated in "/var/crash" folder:
+> /var/crash/_usr_lib_accountsservice_accounts-daemon.0.crash
+>
+> That has following information in it:
+> ------------------------------------------------------------
+> -------------------------------------
+> ProblemType: Crash
+> Architecture: amd64
+> Date: Mon Dec 26 18:23:22 2016
+> DistroRelease: Ubuntu 14.04
+> ExecutablePath: /usr/lib/accountsservice/accounts-daemon
+> ExecutableTimestamp: 1478200365
+> ProcCmdline: /usr/lib/accountsservice/accounts-daemon
+> ProcCwd: /
+> ProcEnviron:
+> ProcMaps:
+>  00400000-00426000 r-xp 00000000 08:01 2626520
+> /usr/lib/accountsservice/accounts-daemon
+>  00625000-00628000 r--p 00025000 08:01 2626520
+> /usr/lib/accountsservice/accounts-daemon
+>  00628000-00629000 rw-p 00028000 08:01 2626520
+> /usr/lib/accountsservice/accounts-daemon
+>  024aa000-0252a000 rw-p 00000000 00:00 0
+> [heap]
+>  7fe460000000-7fe460022000 rw-p 00000000 00:00 0
+>  7fe460022000-7fe464000000 ---p 00000000 00:00 0
+>  7fe464000000-7fe464021000 rw-p 00000000 00:00 0
+>  7fe464021000-7fe468000000 ---p 00000000 00:00 0
+>  7fe469f56000-7fe469f60000 r-xp 00000000 08:01 1839849
+> /lib/x86_64-linux-gnu/libnss_files-2.19.so
+>  7fe469f60000-7fe46a15f000 ---p 0000a000 08:01 1839849
+> /lib/x86_64-linux-gnu/libnss_files-2.19.so
+>  7fe46a15f000-7fe46a160000 r--p 00009000 08:01 1839849
+> /lib/x86_64-linux-gnu/libnss_files-2.19.so
+> ...
+> ...
+>  7fe474b3e000-7fe474b40000 rw-p 00000000 00:00 0
+>  7fe474b40000-7fe474b41000 r--p 00022000 08:01 1839750
+> /lib/x86_64-linux-gnu/ld-2.19.so
+>  7fe474b41000-7fe474b42000 rw-p 00023000 08:01 1839750
+> /lib/x86_64-linux-gnu/ld-2.19.so
+>  7fe474b42000-7fe474b43000 rw-p 00000000 00:00 0
+>  7ffcaca64000-7ffcaca85000 rw-p 00000000 00:00 0
+> [stack]
+>  7ffcacaf5000-7ffcacaf7000 r--p 00000000 00:00 0
+> [vvar]
+>  7ffcacaf7000-7ffcacaf9000 r-xp 00000000 00:00 0
+> [vdso]
+>  ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0
+> [vsyscall]
+> ProcStatus:
+>  Name:  accounts-daemon
+>  State: D (disk sleep)
+>  Tgid:  1248
+>  Ngid:  0
+>  Pid:   1248
+>  PPid:  1
+>  TracerPid:     0
+>  Uid:   0       0       0       0
+>  Gid:   0       0       0       0
+>  FDSize:        64
+>  Groups:        0
+>  NStgid:        1248
+>  NSpid: 1248
+>  NSpgid:        795
+>  NSsid: 795
+>  VmPeak:          302404 kB
+>  VmSize:          302368 kB
+>  VmPin:        0 kB
+>  VmHWM:    10128 kB
+>  VmRSS:     4464 kB
+>  VmData:          221944 kB
+>  VmStk:      136 kB
+>  VmExe:      152 kB
+>  VmLib:    10140 kB
+>  VmPTE:      200 kB
+>  VmPMD:       12 kB
+>  VmSwap:            2976 kB
+>  HugetlbPages:         0 kB
+>  Threads:       3
+>  SigQ:  0/31670
+>  SigPnd:        0000000000000000
+>  ShdPnd:        0000000000000000
+>  SigBlk:        0000000000000000
+>  SigIgn:        0000000000001000
+>  SigCgt:        0000000180004002
+>  CapInh:        0000000000000000
+>  CapPrm:        0000003fffffffff
+>  CapEff:        0000003fffffffff
+>  CapBnd:        0000003fffffffff
+>  CapAmb:        0000000000000000
+>  Seccomp:       0
+>  Cpus_allowed:  ff
+>  Cpus_allowed_list:     0-7
+>  Mems_allowed:  00000000,00000001
+>  Mems_allowed_list:     0
+>  voluntary_ctxt_switches:       152
+>  nonvoluntary_ctxt_switches:    2
+> Signal: 7
+> Uname: Linux 4.4.0-57-generic x86_64
+> UserGroups:
+> CoreDump: base64
+> ------------------------------------------------------------
+> -------------------------------------
+>
+> My machine is:
+>
+> *Quad-Core:* (0-8)
+> ---------------------------------------
+> $ cat /proc/cpuinfo
+> processor    : 0
+> vendor_id    : GenuineIntel
+> cpu family    : 6
+> model        : 42
+> model name    : Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz
+> -----
+> $ cat /proc/meminfo
+> MemTotal:        8132472 kB
+> ----------------------------------------
+>
+> When I checked free memory just before the logout was about "125MB" out of
+> 8GB RAM.
+>
+> NOTE: The Ubuntu-14.04.4 that had older graphics stack seem to work
+> normally without any issue. The "ubuntu-14.04.5" & "16.04" came with latest
+> graphics stack & kernel with removal of non-opensource fglrx drivers.
+>
+> Thanks for your patience!
+>
+> --
+> Regards,
+> Srikant
+>
+>
+> On Mon, Dec 26, 2016 at 4:28 PM, srikanth krishnakar <
+> skrishnakar@gmail.com> wrote:
+>
+>> Hello Richard,
+>>
+>> Sure, watching is best thing we can do, but it happens somewhere after
+>> 2900 tasks i.e just after linux-yocto.
+>> Screen recorders usually ask for file name and destination folder for
+>> saving the file, will try to see if it works as you said.
+>> "bitbake | cat" is the best method that we can get info from.
+>>
+>> The issue is noticeable only in ubuntu (unity) desktop's and not in
+>> Kubuntu (KDE), Ubuntu-gnome (Gnome-3) or Xubuntu (XFCE) desktops.
+>>
+>> Will fetch more details as per your suggestion.
+>>
+>> Thank you !
+>>
+>> On Mon, Dec 26, 2016 at 4:06 PM, Richard Purdie <
+>> richard.purdie@linuxfoundation.org> wrote:
+>>
+>>> On Mon, 2016-12-26 at 15:11 +0530, srikanth krishnakar wrote:
+>>> > Environment: Ubuntu-14.04.5/16.04.1 (64-bit)
+>>> > Yocto build: qemuarm
+>>> > Target image: core-image-sato
+>>> > Error nature: The lightdm restarts on its own and logs out by killing
+>>> > processes running and brings up a login UI.
+>>> >
+>>> >
+>>> > We have been observing yocto-2.2 build failures on Ubuntu 14.04.5 and
+>>> > Ubuntu-16.04.1 hosts due to restart of "lightdm" (Light Desktop
+>>> > Manager)  that is triggered by crash of "unity-settings-daemon", we
+>>> > couldn't figure out any workaround so far to overcome the issue. The
+>>> > build goes fine in the beginning but eventually the unity desktop
+>>> > logs out and kills all the processes running in the user session
+>>> > (including bitbake) and lands us into "Login screen" and when we
+>>> > login its a new session where as the bitbake running in previous
+>>> > session is killed and we need to continue the build. This is
+>>> > happening consistently when the user logs into desktop via lightdm
+>>> > and triggers a build.
+>>> >
+>>> > Another interesting thing to notice is the build goes fine if we
+>>> > connect to host via. SSH session and invoke a bitbake build. We are
+>>> > suspecting on unity-settings-daemon that is crashing consistently and
+>>> > is evident from the ".xsession-errors" log file as shown below:
+>>> >
+>>> > builder@ubuntu:~$ cat .xsession-errors.old
+>>> > Script for ibus started at run_im.
+>>> > Script for auto started at run_im.
+>>> > Script for default started at run_im.
+>>> > init: Disconnected from notified D-Bus bus
+>>> > init:"unity-settings-daemon main process (2076) terminated with
+>>> > status 1"
+>>> > init: indicator-bluetooth main process (2212) killed by TERM signal
+>>> > init: indicator-power main process (2214) killed by TERM signal
+>>> > init: indicator-datetime main process (2215) killed by TERM signal
+>>> > init: indicator-printers main process (2222) killed by TERM signal
+>>> > init: indicator-session main process (2245) killed by TERM signal
+>>> > init: indicator-application main process (2270) killed by TERM signal
+>>> >
+>>> > Corresponding unity-settings-daemon bug reported in Launchpad:
+>>> >
+>>> > https://bugs.launchpad.net/ubuntu/+source/unity-settings-daemon/+bug/
+>>> > 1546641
+>>> >
+>>> > Would anyone kindly confirm the logout behaviour during bitbake
+>>> > process on Ubuntu-14.04.5 & Ubuntu-16.04.1 ? Since Yocto 2.2 mentions
+>>> > both Ubuntu-14.04 & 16.04 as supported distributions this blocker
+>>> > issue must be resolved at earliest.
+>>> >
+>>> > Appreciate your Inputs !
+>>>
+>>> What would really help is knowing what recipe is being built when this
+>>> happens. There are a few ways you might be able to figure this out:
+>>>
+>>> a) Watching the screen to see which recipes were building when it
+>>> happens
+>>> b) Perhaps using some kind of screen recorder to automate this, you'd
+>>> be able to review the recording to see when it breaks
+>>> c) Looking at the bitbake/build logs to see what it was doing when the
+>>> build broke (assuming bitbake stops when the session dies).
+>>>
+>>> "bitbake | cat" can provide better output for this since it will
+>>> produce a scrolling log rather than the more interactive UI.
+>>>
+>>> Once you find the problematic recipe, a "bitbake XXX -c clean; bitbake
+>>> XXX" should hopefully reproduce this more easily.
+>>>
+>>> Cheers,
+>>>
+>>> Richard
+>>>
+>>
+>>
+>
+
+--001a11443a8acc8d5b0544a0c41e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><span style=3D"font-family:monospace,monospace">Hello Rich=
+ard,</span><div><span style=3D"font-family:monospace,monospace"><br></span>=
+</div><div><span style=3D"font-family:monospace,monospace">I was under impr=
+ession that installing Ubuntu-14.04.4 (+lastest updates) would give me stab=
+le build environment, unfortunately that is not the case ! I could see the =
+logout issue on this installation too. So I believe that issue should be re=
+producible on any 14.04.x installation including 16.04.x with all latest up=
+dates installed. The second attempt of build on &quot;Ubuntu-14.04.4&quot; =
+shows the status of bitbake as halted at libvorbis when logout happened:<br=
+><br>---------------------------------------------------------<br>NOTE: Run=
+ning task 2460 of 4212 (/home/poky/meta/recipes-core/ncurses/ncurses_6.0+20=
+160625.bb:do_packagedata)<br>NOTE: recipe ncurses-6.0+20160625-r0: task do_=
+packagedata: Started<br>NOTE: recipe ncurses-6.0+20160625-r0: task do_packa=
+gedata: Succeeded<br>NOTE: Running task 2461 of 4212 (/home/poky/meta/recip=
+es-core/readline/readline_6.3.bb:do_package)<br>NOTE: recipe libjpeg-turbo-=
+1_1.5.0-r0: task do_package: Succeeded<br>NOTE: Running task 2462 of 4212 (=
+/home/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.0.bb:do_packagedata=
+)<br>NOTE: recipe libjpeg-turbo-1_1.5.0-r0: task do_packagedata: Started<br=
+>NOTE: recipe libjpeg-turbo-1_1.5.0-r0: task do_packagedata: Succeeded<br>N=
+OTE: Running task 2463 of 4212 (/home/poky/meta/recipes-multimedia/libvorbi=
+s/libvorbis_1.3.5.bb:do_package)<br>NOTE: recipe readline-6.3-r0: task do_p=
+ackage: Started<br>NOTE: recipe libvorbis-1.3.5-r0: task do_package: Starte=
+d<br>---------------------------------------------------------<br><br></spa=
+n></div><div><span style=3D"font-family:monospace,monospace">The &quot;$HOM=
+E/.xsession-errors.old&quot; file shows the message:<br>-------------------=
+--------------------------------------<br>Script for ibus started at run_im=
+.<br>Script for auto started at run_im.<br>Script for default started at ru=
+n_im.<br>init: at-spi2-registryd main process ended, respawning<br>init: at=
+-spi2-registryd main process ended, respawning<br>init: at-spi2-registryd m=
+ain process ended, respawning<br>init: at-spi2-registryd respawning too fas=
+t, stopped<br>init: indicator-messages main process (17542) killed by SEGV =
+signal<br>init: indicator-messages main process ended, respawning<br>init: =
+update-notifier-crash (/var/crash/_usr_lib_x86_64-linux-gnu_indicator-messa=
+ges_indicator-messages-service.1000.crash) main process (18792) terminated =
+with status 1<br>init: update-notifier-crash (/var/crash/_usr_share_apport_=
+apport-gtk.1000.crash) main process (21151) terminated with status 1<br>ini=
+t: unity-panel-service-lockscreen main process (29904) killed by KILL signa=
+l<br>---------------------------------------------------------<br><br></spa=
+n></div><div><span style=3D"font-family:monospace,monospace">It appears tha=
+t lightdm is unable the handle the SIGNAL and restarting when it receives t=
+hem. Some of the most anticipated bugfixes patches for lightdm yet to arriv=
+e in ubuntu-14.04.6 which are not released yet can be found here:<br><br><a=
+ href=3D"https://launchpad.net/lightdm/+milestone/1.10.7">https://launchpad=
+.net/lightdm/+milestone/1.10.7</a><br><br></span></div><div><span style=3D"=
+font-family:monospace,monospace">Current version of lightdm in ubuntu-14.04=
+.4/5 -&gt; 1.10.6<br><br></span></div><div><span style=3D"font-family:monos=
+pace,monospace">Thanks,<br></span></div><div><span style=3D"font-family:mon=
+ospace,monospace">Srikant</span><br></div></div><div class=3D"gmail_extra">=
+<br><div class=3D"gmail_quote">On Mon, Dec 26, 2016 at 6:59 PM, srikanth kr=
+ishnakar <span dir=3D"ltr">&lt;<a href=3D"mailto:skrishnakar@gmail.com" tar=
+get=3D"_blank">skrishnakar@gmail.com</a>&gt;</span> wrote:<br><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;=
+padding-left:1ex"><div dir=3D"ltr"><div><div><div><span style=3D"font-famil=
+y:monospace,monospace">Hello Richard,<br><br></span></div><span style=3D"fo=
+nt-family:monospace,monospace">bitbake | cat shows that when this logout ha=
+ppened during build, log file captured below packages in process: <br><br>-=
+-----------------------------<wbr>------------------------------<wbr>------=
+------------------------<wbr>--<br>NOTE: Running task 1886 of 4212 (/home/b=
+uilder/poky/meta/<wbr>recipes-graphics/xorg-proto/<wbr>kbproto_1.0.7.bb:do_=
+<wbr>packagedata)<br>NOTE: recipe kbproto-1_1.0.7-r0: task do_packagedata: =
+Started<br>NOTE: recipe kbproto-1_1.0.7-r0: task do_packagedata: Succeeded<=
+br>NOTE: Running task 1887 of 4212 (/home/builder/poky/meta/<wbr>recipes-su=
+pport/libffi/libffi_<wbr>3.2.1.bb:do_package)<br>NOTE: recipe ncurses-6.0+2=
+0160625-r0: task do_package: Started<br>NOTE: recipe libffi-3.2.1-r0: task =
+do_package: Started<br>NOTE: recipe libffi-3.2.1-r0: task do_package: Succe=
+eded<br>NOTE: Running task 1888 of 4212 (/home/builder/poky/meta/<wbr>recip=
+es-support/libffi/libffi_<wbr>3.2.1.bb:do_packagedata)<br>NOTE: recipe libf=
+fi-3.2.1-r0: task do_packagedata: Started<br>NOTE: recipe libffi-3.2.1-r0: =
+task do_packagedata: Succeeded<br>NOTE: Running task 1889 of 4212 (/home/bu=
+ilder/poky/meta/<wbr>recipes-extended/bzip2/bzip2_<wbr>1.0.6.bb:do_package)=
+<br>NOTE: recipe bzip2-1.0.6-r5: task do_package: Started<br>--------------=
+----------------<wbr>------------------------------<wbr>-------------------=
+-----------<wbr>-----<br><br></span></div><span style=3D"font-family:monosp=
+ace,monospace">Also there was a crash file generated in &quot;/var/crash&qu=
+ot; folder: /var/crash/_usr_lib_<wbr>accountsservice_accounts-<wbr>daemon.0=
+.crash<br><br></span></div><span style=3D"font-family:monospace,monospace">=
+That has following information in it: <br>------------------------------<wb=
+r>------------------------------<wbr>------------------------------<wbr>---=
+----<br>ProblemType: Crash<br>Architecture: amd64<br>Date: Mon Dec 26 18:23=
+:22 2016<br>DistroRelease: Ubuntu 14.04<br>ExecutablePath: /usr/lib/account=
+sservice/<wbr>accounts-daemon<br>ExecutableTimestamp: 1478200365<br>ProcCmd=
+line: /usr/lib/accountsservice/<wbr>accounts-daemon<br>ProcCwd: /<br>ProcEn=
+viron:<br>ProcMaps:<br>=C2=A000400000-00426000 r-xp 00000000 08:01 2626520=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<wbr>=C2=A0=
+=C2=A0=C2=A0=C2=A0 /usr/lib/accountsservice/<wbr>accounts-daemon<br>=C2=A00=
+0625000-00628000 r--p 00025000 08:01 2626520=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<wbr>=C2=A0=C2=A0=C2=A0=C2=A0 /usr/lib/acc=
+ountsservice/<wbr>accounts-daemon<br>=C2=A000628000-00629000 rw-p 00028000 =
+08:01 2626520=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0<wbr>=C2=A0=C2=A0=C2=A0=C2=A0 /usr/lib/accountsservice/<wbr>accounts-dae=
+mon<br>=C2=A0024aa000-0252a000 rw-p 00000000 00:00 0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0<wbr>=C2=A0=C2=A0=C2=A0=C2=A0 [heap]<br>=C2=A07fe460000000-7fe460022000 =
+rw-p 00000000 00:00 0<br>=C2=A07fe460022000-7fe464000000 ---p 00000000 00:0=
+0 0<br>=C2=A07fe464000000-7fe464021000 rw-p 00000000 00:00 0<br>=C2=A07fe46=
+4021000-7fe468000000 ---p 00000000 00:00 0<br>=C2=A07fe469f56000-7fe469f600=
+00 r-xp 00000000 08:01 1839849=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /lib/=
+x86_64-linux-gnu/<a href=3D"http://libnss_files-2.19.so" target=3D"_blank">=
+libnss_<wbr>files-2.19.so</a><br>=C2=A07fe469f60000-7fe46a15f000 ---p 0000a=
+000 08:01 1839849=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /lib/x86_64-linux=
+-gnu/<a href=3D"http://libnss_files-2.19.so" target=3D"_blank">libnss_<wbr>=
+files-2.19.so</a><br>=C2=A07fe46a15f000-7fe46a160000 r--p 00009000 08:01 18=
+39849=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /lib/x86_64-linux-gnu/<a href=
+=3D"http://libnss_files-2.19.so" target=3D"_blank">libnss_<wbr>files-2.19.s=
+o</a><br>...<br>...<br>=C2=A07fe474b3e000-7fe474b40000 rw-p 00000000 00:00 =
+0<br>=C2=A07fe474b40000-7fe474b41000 r--p 00022000 08:01 1839750=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /lib/x86_64-linux-gnu/<a href=3D"http://ld-2=
+.19.so" target=3D"_blank">ld-2.19.<wbr>so</a><br>=C2=A07fe474b41000-7fe474b=
+42000 rw-p 00023000 08:01 1839750=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /l=
+ib/x86_64-linux-gnu/<a href=3D"http://ld-2.19.so" target=3D"_blank">ld-2.19=
+.<wbr>so</a><br>=C2=A07fe474b42000-7fe474b43000 rw-p 00000000 00:00 0<br>=
+=C2=A07ffcaca64000-7ffcaca85000 rw-p 00000000 00:00 0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [stack]<br>=C2=A07ff=
+cacaf5000-7ffcacaf7000 r--p 00000000 00:00 0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [vvar]<br>=C2=A07ffcacaf7000-=
+7ffcacaf9000 r-xp 00000000 00:00 0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [vdso]<br>=C2=A0ffffffffff600000-<wbr>=
+ffffffffff601000 r-xp 00000000 00:00 0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [vsyscal=
+l]<br>ProcStatus:<br>=C2=A0Name:=C2=A0 accounts-daemon<br>=C2=A0State: D (d=
+isk sleep)<br>=C2=A0Tgid:=C2=A0 1248<br>=C2=A0Ngid:=C2=A0 0<br>=C2=A0Pid:=
+=C2=A0=C2=A0 1248<br>=C2=A0PPid:=C2=A0 1<br>=C2=A0TracerPid:=C2=A0=C2=A0=C2=
+=A0=C2=A0 0<br>=C2=A0Uid:=C2=A0=C2=A0 0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ 0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 0<br>=C2=A0Gid:=C2=A0=C2=A0 0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0<b=
+r>=C2=A0FDSize:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 64<br>=C2=A0Group=
+s:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0<br>=C2=A0NStgid:=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 1248<br>=C2=A0NSpid: 1248<br>=C2=A0NSpgid:=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 795<br>=C2=A0NSsid: 795<br>=C2=
+=A0VmPeak:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 302404 kB<=
+br>=C2=A0VmSize:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 3023=
+68 kB<br>=C2=A0VmPin:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0 kB<br>=C2=
+=A0VmHWM:=C2=A0=C2=A0=C2=A0 10128 kB<br>=C2=A0VmRSS:=C2=A0=C2=A0=C2=A0=C2=
+=A0 4464 kB<br>=C2=A0VmData:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 221944 kB<br>=C2=A0VmStk:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 136 kB<br=
+>=C2=A0VmExe:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 152 kB<br>=C2=A0VmLib:=C2=A0=C2=
+=A0=C2=A0 10140 kB<br>=C2=A0VmPTE:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 200 kB<br>=
+=C2=A0VmPMD:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 12 kB<br>=C2=A0VmSwap:=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2976 kB<br>=
+=C2=A0HugetlbPages:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0 kB<br=
+>=C2=A0Threads:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 3<br>=C2=A0SigQ:=C2=A0 =
+0/31670<br>=C2=A0SigPnd:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 00000000=
+00000000<br>=C2=A0ShdPnd:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0000000=
+000000000<br>=C2=A0SigBlk:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 000000=
+0000000000<br>=C2=A0SigIgn:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 00000=
+00000001000<br>=C2=A0SigCgt:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0000=
+000180004002<br>=C2=A0CapInh:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 000=
+0000000000000<br>=C2=A0CapPrm:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 00=
+00003fffffffff<br>=C2=A0CapEff:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0=
+000003fffffffff<br>=C2=A0CapBnd:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+0000003fffffffff<br>=C2=A0CapAmb:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ 0000000000000000<br>=C2=A0Seccomp:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0<b=
+r>=C2=A0Cpus_allowed:=C2=A0 ff<br>=C2=A0Cpus_allowed_list:=C2=A0=C2=A0=C2=
+=A0=C2=A0 0-7<br>=C2=A0Mems_allowed:=C2=A0 00000000,00000001<br>=C2=A0Mems_=
+allowed_list:=C2=A0=C2=A0=C2=A0=C2=A0 0<br>=C2=A0voluntary_ctxt_switches:=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<wbr>=C2=A0 152<br>=C2=A0nonvoluntary_ctxt_sw=
+itches:=C2=A0=C2=A0<wbr>=C2=A0 2<br>Signal: 7<br>Uname: Linux 4.4.0-57-gene=
+ric x86_64<br>UserGroups:<br>CoreDump: base64<br>--------------------------=
+----<wbr>------------------------------<wbr>------------------------------<=
+wbr>-------<br><br></span><div><div><span style=3D"font-family:monospace,mo=
+nospace">My machine is: <br><br></span></div><div><span style=3D"font-famil=
+y:monospace,monospace"><b>Quad-Core:</b> (0-8)<br></span></div><div><span s=
+tyle=3D"font-family:monospace,monospace">------------------------------<wbr=
+>---------<br>$ cat /proc/cpuinfo <br>processor=C2=A0=C2=A0=C2=A0 : 0<br>ve=
+ndor_id=C2=A0=C2=A0=C2=A0 : GenuineIntel<br>cpu family=C2=A0=C2=A0=C2=A0 : =
+6<br>model=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 : 42<br>model name=C2=A0=C2=
+=A0=C2=A0 : Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz<br>-----<br>$ cat /proc=
+/meminfo<br>MemTotal:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 8132472 kB<=
+br>------------------------------<wbr>----------<br><br></span></div><div><=
+span style=3D"font-family:monospace,monospace">When I checked free memory j=
+ust before the logout was about &quot;125MB&quot; out of 8GB RAM. <br><br><=
+/span></div><div><span style=3D"font-family:monospace,monospace">NOTE: The =
+Ubuntu-14.04.4 that had older graphics stack seem to work normally without =
+any issue. The &quot;ubuntu-14.04.5&quot; &amp; &quot;16.04&quot; came with=
+ latest graphics stack &amp; kernel with removal of non-opensource fglrx dr=
+ivers. <br><br></span></div><div><span style=3D"font-family:monospace,monos=
+pace">Thanks for your patience! <br><br>--<br></span></div><div><span style=
+=3D"font-family:monospace,monospace">Regards,<br></span></div><div><span st=
+yle=3D"font-family:monospace,monospace">Srikant</span><br></div><div><br></=
+div></div></div><div class=3D"HOEnZb"><div class=3D"h5"><div class=3D"gmail=
+_extra"><br><div class=3D"gmail_quote">On Mon, Dec 26, 2016 at 4:28 PM, sri=
+kanth krishnakar <span dir=3D"ltr">&lt;<a href=3D"mailto:skrishnakar@gmail.=
+com" target=3D"_blank">skrishnakar@gmail.com</a>&gt;</span> wrote:<br><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
+c solid;padding-left:1ex"><div dir=3D"ltr"><font face=3D"monospace, monospa=
+ce">Hello Richard,</font><div><font face=3D"monospace, monospace"><br></fon=
+t></div><div><font face=3D"monospace, monospace">Sure, watching is best thi=
+ng we can do, but it happens somewhere after 2900 tasks i.e just after linu=
+x-yocto.=C2=A0</font></div><div><font face=3D"monospace, monospace">Screen =
+recorders usually ask for file name and destination folder for saving the f=
+ile, will try to see if it works as you said.=C2=A0</font></div><div><font =
+face=3D"monospace, monospace">&quot;bitbake | cat&quot; is the best method =
+that we can get info from.=C2=A0</font></div><div><font face=3D"monospace, =
+monospace"><br></font></div><div><font face=3D"monospace, monospace">The is=
+sue is noticeable=C2=A0only in ubuntu (unity) desktop&#39;s and not in Kubu=
+ntu (KDE), Ubuntu-gnome (Gnome-3) or Xubuntu (XFCE) desktops.=C2=A0</font><=
+/div><div><font face=3D"monospace, monospace"><br></font></div><div><font f=
+ace=3D"monospace, monospace">Will fetch more details as per your suggestion=
+.=C2=A0</font></div><div><font face=3D"monospace, monospace"><br></font></d=
+iv><div><font face=3D"monospace, monospace">Thank you !</font></div></div><=
+div class=3D"m_55862884651501980HOEnZb"><div class=3D"m_55862884651501980h5=
+"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Mon, Dec 26,=
+ 2016 at 4:06 PM, Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"mailto:ri=
+chard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfou=
+ndatio<wbr>n.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><d=
+iv class=3D"m_55862884651501980m_-395161690401130742HOEnZb"><div class=3D"m=
+_55862884651501980m_-395161690401130742h5">On Mon, 2016-12-26 at 15:11 +053=
+0, srikanth krishnakar wrote:<br>
+&gt; Environment: Ubuntu-14.04.5/16.04.1 (64-bit)<br>
+&gt; Yocto build: qemuarm<br>
+&gt; Target image: core-image-sato<br>
+&gt; Error nature: The lightdm restarts on its own and logs out by killing<=
+br>
+&gt; processes running and brings up a login UI.=C2=A0<br>
+&gt;<br>
+&gt;<br>
+&gt; We have been observing yocto-2.2 build failures on Ubuntu 14.04.5 and<=
+br>
+&gt; Ubuntu-16.04.1 hosts due to restart of &quot;lightdm&quot; (Light Desk=
+top<br>
+&gt; Manager) =C2=A0that is triggered by crash of &quot;unity-settings-daem=
+on&quot;, we<br>
+&gt; couldn&#39;t figure out any workaround so far to overcome the issue. T=
+he<br>
+&gt; build goes fine in the beginning but eventually the unity desktop<br>
+&gt; logs out and kills all the processes running in the user session<br>
+&gt; (including bitbake) and lands us into &quot;Login screen&quot; and whe=
+n we<br>
+&gt; login its a new session where as the bitbake running in previous<br>
+&gt; session is killed and we need to continue the build. This is<br>
+&gt; happening consistently when the user logs into desktop via lightdm<br>
+&gt; and triggers a build.=C2=A0<br>
+&gt;<br>
+&gt; Another interesting thing to notice is the build goes fine if we<br>
+&gt; connect to host via. SSH session and invoke a bitbake build. We are<br=
+>
+&gt; suspecting on unity-settings-daemon that is crashing consistently and<=
+br>
+&gt; is evident from the &quot;.xsession-errors&quot; log file as shown bel=
+ow:<br>
+&gt;<br>
+&gt; builder@ubuntu:~$ cat .xsession-errors.old<br>
+&gt; Script for ibus started at run_im.<br>
+&gt; Script for auto started at run_im.<br>
+&gt; Script for default started at run_im.<br>
+&gt; init: Disconnected from notified D-Bus bus<br>
+&gt; init:&quot;unity-settings-daemon main process (2076) terminated with<b=
+r>
+&gt; status 1&quot;<br>
+&gt; init: indicator-bluetooth main process (2212) killed by TERM signal<br=
+>
+&gt; init: indicator-power main process (2214) killed by TERM signal<br>
+&gt; init: indicator-datetime main process (2215) killed by TERM signal<br>
+&gt; init: indicator-printers main process (2222) killed by TERM signal<br>
+&gt; init: indicator-session main process (2245) killed by TERM signal<br>
+&gt; init: indicator-application main process (2270) killed by TERM signal<=
+br>
+&gt;<br>
+&gt; Corresponding unity-settings-daemon bug reported in Launchpad:<br>
+&gt;<br>
+&gt; <a href=3D"https://bugs.launchpad.net/ubuntu/+source/unity-settings-da=
+emon/+bug/" rel=3D"noreferrer" target=3D"_blank">https://bugs.launchpad.net=
+/ubu<wbr>ntu/+source/unity-settings-dae<wbr>mon/+bug/</a><br>
+&gt; 1546641<br>
+&gt;<br>
+&gt; Would anyone kindly confirm the logout behaviour during bitbake<br>
+&gt; process on Ubuntu-14.04.5 &amp; Ubuntu-16.04.1 ? Since Yocto 2.2 menti=
+ons<br>
+&gt; both Ubuntu-14.04 &amp; 16.04 as supported distributions this blocker<=
+br>
+&gt; issue must be resolved at earliest.=C2=A0<br>
+&gt;<br>
+&gt; Appreciate your Inputs !<br>
+<br>
+</div></div>What would really help is knowing what recipe is being built wh=
+en this<br>
+happens. There are a few ways you might be able to figure this out:<br>
+<br>
+a) Watching the screen to see which recipes were building when it<br>
+happens<br>
+b) Perhaps using some kind of screen recorder to automate this, you&#39;d<b=
+r>
+be able to review the recording to see when it breaks<br>
+c) Looking at the bitbake/build logs to see what it was doing when the<br>
+build broke (assuming bitbake stops when the session dies).<br>
+<br>
+&quot;bitbake | cat&quot; can provide better output for this since it will<=
+br>
+produce a scrolling log rather than the more interactive UI.<br>
+<br>
+Once you find the problematic recipe, a &quot;bitbake XXX -c clean; bitbake=
+<br>
+XXX&quot; should hopefully reproduce this more easily.<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+</blockquote></div><br></div>
+</div></div></blockquote></div><br></div>
+</div></div></blockquote></div><br></div>
+
+--001a11443a8acc8d5b0544a0c41e--
