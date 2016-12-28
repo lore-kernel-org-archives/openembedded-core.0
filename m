@@ -1,30 +1,26 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B09E71974
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 14CEF60685
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Dec 2016 03:27:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uBS3Rjiw002784
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 27 Dec 2016 19:27:45 -0800
-Received: from [128.224.162.184] (128.224.162.184) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Tue, 27 Dec 2016 19:27:44 -0800
-To: Alejandro del Castillo <alejandro.delcastillo@ni.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1482461845.git.Qi.Chen@windriver.com>
-	<95643e3c862b04090093f9806cbd0486ace51013.1482461845.git.Qi.Chen@windriver.com>
-	<3e663ecd-0b33-5374-74bf-454d546ea6e2@ni.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <d505c93f-94e5-13e8-a562-74b93fbaffef@windriver.com>
-Date: Wed, 28 Dec 2016 11:29:10 +0800
+	Wed, 28 Dec 2016 12:15:44 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP; 28 Dec 2016 04:15:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,422,1477983600"; d="scan'208";a="916825348"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga003.jf.intel.com with ESMTP; 28 Dec 2016 04:15:44 -0800
+To: zhe.he@windriver.com, openembedded-core@lists.openembedded.org
+References: <cover.1482820791.git.zhe.he@windriver.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <1fad67ac-8ae2-e242-9830-e89311f14b12@linux.intel.com>
+Date: Wed, 28 Dec 2016 14:15:55 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Icedove/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <3e663ecd-0b33-5374-74bf-454d546ea6e2@ni.com>
-X-Originating-IP: [128.224.162.184]
-Subject: Re: [PATCH V2 2/2] opkg-utils: warn if update-alternatives finds priority conflict
+In-Reply-To: <cover.1482820791.git.zhe.he@windriver.com>
+Cc: "Purdie, Richard" <richard.purdie@intel.com>
+Subject: Re: [PATCH v2 0/1] kexec-tools: Upgrade to 2.0.14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,23 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Dec 2016 03:27:45 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Wed, 28 Dec 2016 12:15:45 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/28/2016 01:12 AM, Alejandro del Castillo wrote:
-> Hi Chen,
+On 12/27/2016 08:43 AM, zhe.he@windriver.com wrote:
+> From: He Zhe <zhe.he@windriver.com>
 >
-> Could you send the opkg-utils patch to opkg-devel@googlegroups.com too?
+> Remove kexec-aarch64.patch since it has been merged upstream
+> Remove kexec-x32.patch since it has been reverted upstream
+> Backport patches for kdump arm64 from:
+> https://git.linaro.org/people/takahiro.akashi/kexec-tools.git
 >
-> I would gladly pull it in
->
-Done.
+> v1 to v2: Remove redundant tarball link in SRC_URI
 
-Thanks for reminding me about it.
+None of my comments are addressed in this new version of the patch. 
+Specifically:
 
-Best Regards,
+ > Remove kexec-aarch64.patch since it has been merged upstream
+ > Remove kexec-x32.patch since it has been reverted upstream
 
-Chen Qi
+You should also remove the actual files, not just drop them from the recipe.
+
+ > Backport patches for kdump arm64 from:
+ > https://git.linaro.org/people/takahiro.akashi/kexec-tools.git
+
+If the patches are coming from a different repository, they are not a 
+backport. Change the upstream-status to 'pending' please, or 'submitted 
+(link)' if they have been submitted upstream.
+
+ >  meta/recipes-kernel/kexec/kexec-tools_2.0.12.bb    |  37 ----
+ >  meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb    |  44 +++++
+
+Please use git's rename detection when submitting patches, so we can see 
+what is the difference between the two files.
+
+
+Alex
 
 
