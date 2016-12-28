@@ -1,24 +1,20 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id C941B605C3
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 30B5E719ED
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Dec 2016 13:01:35 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-02.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1cMDrM-00034F-I6 from Awais_Belal@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Dec 2016 05:01:36 -0800
-Received: from awais-Precision-M4700.pkl.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-02.mgc.mentorg.com (137.202.0.106) with Microsoft SMTP
-	Server id 14.3.224.2; Wed, 28 Dec 2016 13:01:35 +0000
-From: Awais Belal <awais_belal@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 28 Dec 2016 18:01:30 +0500
-Message-ID: <1482930090-10835-1-git-send-email-awais_belal@mentor.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] core-image-minimal-initramfs: fix extrausers functionality
+	Wed, 28 Dec 2016 13:02:44 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga104.fm.intel.com with ESMTP; 28 Dec 2016 05:02:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,422,1477983600"; d="scan'208";a="802981675"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by FMSMGA003.fm.intel.com with ESMTP; 28 Dec 2016 05:02:45 -0800
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 28 Dec 2016 15:02:36 +0200
+Message-Id: <1482930164-15721-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Subject: [PATCH 0/8] oeqa.utils.metadata: update xml schema
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +27,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Dec 2016 13:01:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 28 Dec 2016 13:02:45 -0000
 
-The extrausers functionality requires base-passwd and shadow
-to be installed before it can be leveraged. Otherwise while
-using the features of the class we get into build errors
-like the following
-ERROR: core-image-minimal-initramfs-1.0-r0 do_rootfs: core-image-minimal-initramfs: useradd command did not succeed.
+This patchset extends and modifies the xml format of the test metadata report.
+The goal is to make the data more comprehensive in slightly more consistent
+format.
 
-Signed-off-by: Awais Belal <awais_belal@mentor.com>
----
- meta/recipes-core/images/core-image-minimal-initramfs.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The following changes since commit 425afe2484707640ac71194885fdb263e95e9950:
 
-diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-index 5794a25..8186ddc 100644
---- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
-+++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "Small image capable of booting a device. The kernel includes \
- the Minimal RAM-based Initial Root Filesystem (initramfs), which finds the \
- first 'init' program more efficiently."
- 
--PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi ${VIRTUAL-RUNTIME_base-utils} udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
-+PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi ${VIRTUAL-RUNTIME_base-utils} udev base-passwd shadow ${ROOTFS_BOOTSTRAP_INSTALL}"
- 
- # Do not pollute the initrd image with rootfs features
- IMAGE_FEATURES = ""
+  lib/oe/utils: Drop python2 compatibility code (2016-12-22 08:50:21 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib marquiz/oeqa-metaxml
+  http://git.openembedded.org/openembedded-core-contrib/log/?h=marquiz/oeqa-metaxml
+
+
+Markus Lehtonen (8):
+  oeqa.utils.metadata: re-organise host distro information
+  oeqa.utils.metadata: re-organise distro information
+  oeqa.utils.metadata: drop 'unknown' git data elements
+  oeqa.utils.metadata: fix retrieval of git branch and revision
+  oeqa.utils.metadata: rename 'revision' to 'commit'
+  oeqa.utils.metadata: add commit count information
+  oeqa.utils.metadata: have layer name as an attribute in xml
+  oeqa.utils.metadata: add bitbake revision information
+
+ meta/lib/oeqa/utils/metadata.py | 81 ++++++++++++++++++++++++++++-------------
+ scripts/oe-selftest             |  8 ++--
+ 2 files changed, 59 insertions(+), 30 deletions(-)
+
 -- 
-1.9.1
+2.6.6
 
 
