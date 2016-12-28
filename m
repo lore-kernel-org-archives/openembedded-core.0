@@ -1,25 +1,25 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id A098D71A22
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 5661F71A75
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 28 Dec 2016 14:45:48 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga101.jf.intel.com with ESMTP; 28 Dec 2016 06:45:48 -0800
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 28 Dec 2016 06:45:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,422,1477983600"; d="scan'208";a="47468184"
+X-IronPort-AV: E=Sophos;i="5.33,422,1477983600"; d="scan'208";a="23724334"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga005.fm.intel.com with ESMTP; 28 Dec 2016 06:45:49 -0800
+	by orsmga002.jf.intel.com with ESMTP; 28 Dec 2016 06:45:50 -0800
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id A1BF36A4006;
-	Wed, 28 Dec 2016 06:44:57 -0800 (PST)
+	by linux.intel.com (Postfix) with ESMTP id EA1166A4006;
+	Wed, 28 Dec 2016 06:44:58 -0800 (PST)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Dec 2016 16:45:44 +0200
-Message-Id: <e2afc0ede07972eba63e90507a25c381ff89b3b8.1482936066.git.jussi.kukkonen@intel.com>
+Date: Wed, 28 Dec 2016 16:45:45 +0200
+Message-Id: <182900f26a2e61e3a9aa06bd05632509b0e98aa8.1482936066.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1482936066.git.jussi.kukkonen@intel.com>
 References: <cover.1482936066.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 1/2] ppp: Partly remove patch that doesn't make sense any more
+Subject: [PATCH 2/2] ppp: Add patch to fix build with musl and 4.9 headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,90 +32,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Dec 2016 14:45:48 -0000
+X-List-Received-Date: Wed, 28 Dec 2016 14:45:49 -0000
 
-ppp no longer provides the duplicate if_pppox.h header so no need to patch that
-out of the Makefile.
+Removing unused includes fixes the build.
+
+Fixes [YOCTO #10853].
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- ...01-ppp-Fix-compilation-errors-in-Makefile.patch | 51 ++--------------------
- 1 file changed, 3 insertions(+), 48 deletions(-)
+ .../ppp/ppp/0001-ppp-Remove-unneeded-include.patch | 43 ++++++++++++++++++++++
+ meta/recipes-connectivity/ppp/ppp_2.4.7.bb         |  1 +
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-connectivity/ppp/ppp/0001-ppp-Remove-unneeded-include.patch
 
-diff --git a/meta/recipes-connectivity/ppp/ppp/0001-ppp-Fix-compilation-errors-in-Makefile.patch b/meta/recipes-connectivity/ppp/ppp/0001-ppp-Fix-compilation-errors-in-Makefile.patch
-index 8aa2d2e..ea4969b 100644
---- a/meta/recipes-connectivity/ppp/ppp/0001-ppp-Fix-compilation-errors-in-Makefile.patch
-+++ b/meta/recipes-connectivity/ppp/ppp/0001-ppp-Fix-compilation-errors-in-Makefile.patch
-@@ -3,34 +3,14 @@ From: Lu Chong <Chong.Lu@windriver.com>
- Date: Tue, 5 Nov 2013 17:32:56 +0800
- Subject: [PATCH] ppp: Fix compilation errors in Makefile
+diff --git a/meta/recipes-connectivity/ppp/ppp/0001-ppp-Remove-unneeded-include.patch b/meta/recipes-connectivity/ppp/ppp/0001-ppp-Remove-unneeded-include.patch
+new file mode 100644
+index 0000000..a32f89f
+--- /dev/null
++++ b/meta/recipes-connectivity/ppp/ppp/0001-ppp-Remove-unneeded-include.patch
+@@ -0,0 +1,43 @@
++commit cd90fd147844a0cfec101f1e2db7a3c59d236621
++Author: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Date:   Wed Dec 28 14:11:22 2016 +0200
++
++pppol2tp plugin: Remove unneeded include
++
++The include is not required and will break compile on musl libc with
++    
++| In file included from pppol2tp.c:34:0:
++| /usr/include/linux/if.h:97:2: error: expected identifier before numeric constant
++|   IFF_LOWER_UP   = 1<<16, /* __volatile__ */
++
++Patch originally from Khem Raj.
++
++Upstream-Status: Pending [https://github.com/paulusmack/ppp/issues/73]
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++
++diff --git a/pppd/plugins/pppol2tp/openl2tp.c b/pppd/plugins/pppol2tp/openl2tp.c
++index 9643b96..458316b 100644
++--- a/pppd/plugins/pppol2tp/openl2tp.c
+++++ b/pppd/plugins/pppol2tp/openl2tp.c
++@@ -47,7 +47,6 @@
++ #include <linux/if_ether.h>
++ #include <linux/ppp_defs.h>
++ #include <linux/if_ppp.h>
++-#include <linux/if_pppox.h>
++ #include <linux/if_pppol2tp.h>
++ 
++ #include "l2tp_event.h"
++diff --git a/pppd/plugins/pppol2tp/pppol2tp.c b/pppd/plugins/pppol2tp/pppol2tp.c
++index 0e28606..4f6d98c 100644
++--- a/pppd/plugins/pppol2tp/pppol2tp.c
+++++ b/pppd/plugins/pppol2tp/pppol2tp.c
++@@ -46,7 +46,6 @@
++ #include <linux/if_ether.h>
++ #include <linux/ppp_defs.h>
++ #include <linux/if_ppp.h>
++-#include <linux/if_pppox.h>
++ #include <linux/if_pppol2tp.h>
++ 
++ /* should be added to system's socket.h... */
++---
++
+diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
+index 56dbd98..86ada69 100644
+--- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
++++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
+@@ -31,6 +31,7 @@ SRC_URI = "http://ppp.samba.org/ftp/ppp/ppp-${PV}.tar.gz \
+            file://ppp@.service \
+            file://fix-CVE-2015-3310.patch \
+            file://ppp-fix-building-with-linux-4.8.patch \
++           file://0001-ppp-Remove-unneeded-include.patch \
+ "
  
--This patch fixes below issues:
--
--1. Make can't exit while compilation error occurs in subdir for plugins building.
--
--2. If build ppp with newer kernel (3.10.10), it will pick 'if_pppox.h' from sysroot-dir and
--   'if_pppol2tp.h' from its own source dir, this cause below build errors:
--
--        bitbake_build/tmp/sysroots/intel-x86-64/usr/include/linux/if_pppox.h:84:26:
--        error: field 'pppol2tp' has incomplete type
--          struct pppol2tpin6_addr pppol2tp;
--                                  ^
--        bitbake_build/tmp/sysroots/intel-x86-64/usr/include/linux/if_pppox.h:99:28:
--        error: field 'pppol2tp' has incomplete type
--          struct pppol2tpv3in6_addr pppol2tp;
--                                    ^
--
--The 'sysroot-dir/if_pppox.h' enabled ipv6 support but the 'source-dir/if_pppol2tp.h' lost
--related structure definitions, we should use both header files from sysroots to fix this
--build failure.
-+Make can't exit while compilation error occurs in subdir for plugins building.
- 
- Upstream-Status: Pending
- 
- Signed-off-by: Lu Chong <Chong.Lu@windriver.com>
- ---
-- pppd/plugins/Makefile.linux          |    2 +-
-- pppd/plugins/pppol2tp/Makefile.linux |    2 +-
-- pppd/plugins/rp-pppoe/Makefile.linux |    2 +-
-- 3 files changed, 3 insertions(+), 3 deletions(-)
-+ pppd/plugins/Makefile.linux          |    1 +-
-+ 1 files changed, 1 insertions(+), 1 deletions(-)
- 
- diff --git a/pppd/plugins/Makefile.linux b/pppd/plugins/Makefile.linux
- index 0a7ec7b..2a2c15a 100644
-@@ -45,31 +25,6 @@ index 0a7ec7b..2a2c15a 100644
-  
-  %.so: %.c
-  	$(CC) -o $@ $(LDFLAGS) $(CFLAGS) $^
--diff --git a/pppd/plugins/pppol2tp/Makefile.linux b/pppd/plugins/pppol2tp/Makefile.linux
--index 19eff67..feb2f52 100644
----- a/pppd/plugins/pppol2tp/Makefile.linux
--+++ b/pppd/plugins/pppol2tp/Makefile.linux
--@@ -1,6 +1,6 @@
-- #CC	= gcc
-- COPTS	= -O2 -g
---CFLAGS	= $(COPTS) -I. -I../.. -I../../../include -fPIC
--+CFLAGS	= $(COPTS) -I. -I../.. -fPIC
-- LDFLAGS	= -shared
-- INSTALL	= install
-- 
--diff --git a/pppd/plugins/rp-pppoe/Makefile.linux b/pppd/plugins/rp-pppoe/Makefile.linux
--index f078991..15b9118 100644
----- a/pppd/plugins/rp-pppoe/Makefile.linux
--+++ b/pppd/plugins/rp-pppoe/Makefile.linux
--@@ -26,7 +26,7 @@ INSTALL	= install
-- RP_VERSION=3.8p
-- 
-- COPTS=-O2 -g
---CFLAGS=$(COPTS) -I../../../include '-DRP_VERSION="$(RP_VERSION)"'
--+CFLAGS=$(COPTS) '-DRP_VERSION="$(RP_VERSION)"'
-- all: rp-pppoe.so pppoe-discovery
-- 
-- pppoe-discovery: pppoe-discovery.o debug.o
- -- 
- 1.7.9.5
- 
+ SRC_URI_append_libc-musl = "\
 -- 
 2.1.4
 
