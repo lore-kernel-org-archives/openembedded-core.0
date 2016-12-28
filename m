@@ -1,55 +1,26 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
-	[209.85.214.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 1624F605C3
+Return-Path: <ricardo.neri-calderon@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 4864B600BB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Dec 2016 19:27:21 +0000 (UTC)
-Received: by mail-it0-f45.google.com with SMTP id o141so175551268itc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Dec 2016 11:27:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=8TSs/t+oLt9Q62Cn11cKjjSkbglDSxwpMBRGTxaxqs8=;
-	b=yCVncX79YimlsXw7xQlMPnZeTZa93WppqgXgXsiQ47BtZ8127BKIxu7+PnXYHGbt2H
-	xK5GvCW92R1zmUJ47mPWsRuKUhTvFXeCqoi9/4mLNPF14rfuBWuh6VQP3+k01Au3RWfJ
-	CBJQ2kxLtcFtuBIP1Jo52U3XvYdKJoFyDtcJktpbNwtv6pBpIWNguSmU/0ZVoL93FBQW
-	P7iikihB/vwR4boLirQBRxIdMgOz+vLFgH86hQe5dvzGxS6Qe7kvqq9hcfT/H8YLkCng
-	KiOhOvjX/fh6keaqyEMqP8BFGovFv3te4axFRrJyzpUkM0M9OAa+larhOXTgug3jzm+1
-	LEBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=8TSs/t+oLt9Q62Cn11cKjjSkbglDSxwpMBRGTxaxqs8=;
-	b=bBT13NToe4VXPEedfw5ptlMfvfUKUEOgPs5BFZfQzHR0mKyFilITIR9+Pkc+4mjz/0
-	LwrmxGs7GsfKiLxVLQJnq7qJIzUiZwSDL32RqvvbAQ3kInsHnvKhZOpoUtXWhRIvRyS8
-	YgXfw30gPDTPcm7hplT1fktu2jBvCT03gtJJrfvhLIYk4MC7z6849wRD9GM1bxGAh9XQ
-	dW+eyaFi9ZzPjLBRzJttd1bklT+XAG8jzBt5bdfhPE0f+WAx9oyoCKDclO3YjzoqpE4w
-	7Z8Rgy/KLH1PRR9eo0gUbxuJU4kk/U+o8lzELkp5SAZhBeTAIbRhDm7UF/OcsAFZLX5W
-	hbLw==
-X-Gm-Message-State: AIkVDXIVHV8TKec/6EX/HKHzMA8FkAywEeDXqDhksOy1G5id87YH2tVJaz+1AtlHRZ1wz84r
-X-Received: by 10.36.77.207 with SMTP id l198mr30891360itb.18.1482953243451;
-	Wed, 28 Dec 2016 11:27:23 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8FC9C.dip0.t-ipconnect.de. [93.232.252.156])
-	by smtp.gmail.com with ESMTPSA id
-	96sm10249384ioh.27.2016.12.28.11.27.21
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 28 Dec 2016 11:27:22 -0800 (PST)
-Message-ID: <1482953240.32048.21.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-Date: Wed, 28 Dec 2016 20:27:20 +0100
-In-Reply-To: <1482893793.106950.42.camel@ranerica-desktop>
+	Wed, 28 Dec 2016 21:38:43 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga105.fm.intel.com with ESMTP; 28 Dec 2016 13:38:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,423,1477983600"; d="scan'208";a="1087599027"
+Received: from ranerica-desktop.sc.intel.com (HELO [10.3.52.169])
+	([10.3.52.169])
+	by fmsmga001.fm.intel.com with ESMTP; 28 Dec 2016 13:38:44 -0800
+Message-ID: <1482961124.106950.55.camel@ranerica-desktop>
+From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Date: Wed, 28 Dec 2016 13:38:44 -0800
+In-Reply-To: <ce57b729e9ac830d808040b7e3ff1fc128475420.1482324587.git.patrick.ohly@intel.com>
 References: <cover.1482324587.git.patrick.ohly@intel.com>
-	<CAGNsrLAhdfQ7KGvBGCtSype2niB7AvqXGtWqFYOVd7e2GqvJfg@mail.gmail.com>
-	<1482893793.106950.42.camel@ranerica-desktop>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
+	<ce57b729e9ac830d808040b7e3ff1fc128475420.1482324587.git.patrick.ohly@intel.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/9] UEFI + Secure Boot + qemu
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/9] ovmf: deploy firmware in image directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,34 +33,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Dec 2016 19:27:23 -0000
+X-List-Received-Date: Wed, 28 Dec 2016 21:38:44 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2016-12-27 at 18:56 -0800, Ricardo Neri wrote:
-> On Wed, 2016-12-21 at 16:19 +0200, Fathi Boudra wrote:
-> > 
-> > fwiw, I've been maintaining acpica recipe in meta-oe, and will keep an
-> > eye here as well.
-> > meta-luv supports both x86* and arm*, and we have an interest in
-> > having the same features available and working for qemuaarch64.
+On Wed, 2016-12-21 at 14:11 +0100, Patrick Ohly wrote:
+> When used with '-drive if=pflash', qemu will store UEFI variables
+> inside the firmware image file. That is unexpected for a file located in
+> the sysroot, which should be read-only, while it is normal for image
+> files in the deploy/images directory. Therefore that directory is a
+> better place for use with runqemu.
 > 
-> I was not aware of this. Perhaps there is no need for us to maintain a
-> separate recipe in meta-luv.
+> The name was chose so that "runqemu ovmf" can be used as shorthand for
+> "runqemu <full path>/ovmf.qcow2" by treating "ovmf" as the base name
+> of the BIOS file. "ovmf_secboot.qcow2" is meant to be used for the
+> Secure Boot enabled BIOS. qcow2 is used because it is needed for
+> "savevm" snapshots of a virtual machine.
+> 
+> Alternatively, OVMF_CODE.fd (read-only) and OVMF_VARS.fd (read/write)
+> could be used. That would then allow updating the firmware of an
+> existing machine without wiping out the variables set
+> earlier. Configuring that in qemu would be more complicated, so for
+> now the simpler approach with combined code and variable store is
+> used.
+> 
+> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+> ---
+>  meta/recipes-core/ovmf/ovmf_git.bb | 33 +++++++++++++++++++++++----------
+>  1 file changed, 23 insertions(+), 10 deletions(-)
+> 
+> diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
+> index 13b583b..d0441d1 100644
+> --- a/meta/recipes-core/ovmf/ovmf_git.bb
+> +++ b/meta/recipes-core/ovmf/ovmf_git.bb
+> @@ -16,7 +16,7 @@ PARALLEL_MAKE = ""
+>  
+>  S = "${WORKDIR}/git"
+>  
+> -DEPENDS_class-native="util-linux-native iasl-native ossp-uuid-native"
+> +DEPENDS_class-native="util-linux-native iasl-native ossp-uuid-native qemu-native"
+>  
+>  DEPENDS_class-target="ovmf-native"
+>  
+> @@ -97,9 +97,20 @@ do_compile_class-target() {
+>          OVMF_ARCH="IA32"
+>      fi
+>  
+> +    # ${WORKDIR}/ovmf is a well-known location where do_install and
+> +    # do_deploy will be able to find the files.
+> +    rm -rf ${WORKDIR}/ovmf
+> +    mkdir ${WORKDIR}/ovmf
+> +    OVMF_DIR_SUFFIX="X64"
+> +    if [ "${TARGET_ARCH}" != "x86_64" ] ; then
+> +        OVMF_DIR_SUFFIX="Ia32" # Note the different capitalization
+> +    fi
+>      FIXED_GCCVER=$(fixup_target_tools ${GCC_VER})
+> -    echo FIXED_GCCVER is ${FIXED_GCCVER}
+> +    bbnote FIXED_GCCVER is ${FIXED_GCCVER}
+> +    build_dir="${S}/Build/Ovmf$OVMF_DIR_SUFFIX/RELEASE_${FIXED_GCCVER}"
+> +
+>      ${S}/OvmfPkg/build.sh -a $OVMF_ARCH -b RELEASE -t ${FIXED_GCCVER}
+> +    ln ${build_dir}/FV/OVMF.fd ${WORKDIR}/ovmf/OVMF.fd
+>  }
+>  
+>  do_install_class-native() {
+> @@ -108,16 +119,18 @@ do_install_class-native() {
+>  }
+>  
+>  do_install_class-target() {
+> -    OVMF_DIR_SUFFIX="X64"
+> -    if [ "${TARGET_ARCH}" != "x86_64" ] ; then
+> -        OVMF_DIR_SUFFIX="Ia32" # Note the different capitalization
+> -    fi
+> +    # Traditional location.
+>      install -d ${D}${datadir}/ovmf
+> +    install -m 0755 ${WORKDIR}/ovmf/OVMF.fd ${D}${datadir}/ovmf/bios.bin
 
-Looks like there is consensus that maintaining an acpica recipe in
-OE-core is the right approach. I'll prepare a revision of this patch
-series that includes acpica instead of iasl and also addresses the other
-points that Ricardo raised.
+Now that I think about it. Installing here does not sever any purpose.
+Thus, I think this can be removed by perhaps doing do_install[noexec] =
+"1"
 
--- 
-Best Regards, Patrick Ohly
+> +}
+>  
+> -    FIXED_GCCVER=$(fixup_target_tools ${GCC_VER})
+> -    build_dir="${S}/Build/Ovmf$OVMF_DIR_SUFFIX/RELEASE_${FIXED_GCCVER}"
+> -    install -m 0755 ${build_dir}/FV/OVMF.fd \
+> -	${D}${datadir}/ovmf/bios.bin
+> +inherit deploy
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+I am not sure if there is a right way for inheriting in bitbake.
+However, a quick grep -n inherit reveals that the majority of the
+recipes put their inheritances towards the top of the recipe.
 
+Thanks and BR,
+Ricardo
+> +do_deploy() {
+> +}
+> +do_deploy_class-target() {
+> +    # For use with "runqemu ovmf".
+> +    qemu-img convert -f raw -O qcow2 ${WORKDIR}/ovmf/OVMF.fd ${DEPLOYDIR}/ovmf.qcow2
+>  }
+> +addtask do_deploy after do_compile before do_build
+>  
+>  BBCLASSEXTEND = "native"
 
 
 
