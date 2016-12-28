@@ -1,26 +1,24 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 14CEF60685
+Return-Path: <Awais_Belal@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id C941B605C3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Dec 2016 12:15:44 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Dec 2016 04:15:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,422,1477983600"; d="scan'208";a="916825348"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 28 Dec 2016 04:15:44 -0800
-To: zhe.he@windriver.com, openembedded-core@lists.openembedded.org
-References: <cover.1482820791.git.zhe.he@windriver.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <1fad67ac-8ae2-e242-9830-e89311f14b12@linux.intel.com>
-Date: Wed, 28 Dec 2016 14:15:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.4.0
+	Wed, 28 Dec 2016 13:01:35 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-02.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1cMDrM-00034F-I6 from Awais_Belal@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Wed, 28 Dec 2016 05:01:36 -0800
+Received: from awais-Precision-M4700.pkl.mentorg.com (137.202.0.76) by
+	SVR-IES-FEM-02.mgc.mentorg.com (137.202.0.106) with Microsoft SMTP
+	Server id 14.3.224.2; Wed, 28 Dec 2016 13:01:35 +0000
+From: Awais Belal <awais_belal@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 28 Dec 2016 18:01:30 +0500
+Message-ID: <1482930090-10835-1-git-send-email-awais_belal@mentor.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <cover.1482820791.git.zhe.he@windriver.com>
-Cc: "Purdie, Richard" <richard.purdie@intel.com>
-Subject: Re: [PATCH v2 0/1] kexec-tools: Upgrade to 2.0.14
+Subject: [PATCH] core-image-minimal-initramfs: fix extrausers functionality
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,42 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Dec 2016 12:15:45 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 28 Dec 2016 13:01:36 -0000
+Content-Type: text/plain
 
-On 12/27/2016 08:43 AM, zhe.he@windriver.com wrote:
-> From: He Zhe <zhe.he@windriver.com>
->
-> Remove kexec-aarch64.patch since it has been merged upstream
-> Remove kexec-x32.patch since it has been reverted upstream
-> Backport patches for kdump arm64 from:
-> https://git.linaro.org/people/takahiro.akashi/kexec-tools.git
->
-> v1 to v2: Remove redundant tarball link in SRC_URI
+The extrausers functionality requires base-passwd and shadow
+to be installed before it can be leveraged. Otherwise while
+using the features of the class we get into build errors
+like the following
+ERROR: core-image-minimal-initramfs-1.0-r0 do_rootfs: core-image-minimal-initramfs: useradd command did not succeed.
 
-None of my comments are addressed in this new version of the patch. 
-Specifically:
+Signed-off-by: Awais Belal <awais_belal@mentor.com>
+---
+ meta/recipes-core/images/core-image-minimal-initramfs.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- > Remove kexec-aarch64.patch since it has been merged upstream
- > Remove kexec-x32.patch since it has been reverted upstream
-
-You should also remove the actual files, not just drop them from the recipe.
-
- > Backport patches for kdump arm64 from:
- > https://git.linaro.org/people/takahiro.akashi/kexec-tools.git
-
-If the patches are coming from a different repository, they are not a 
-backport. Change the upstream-status to 'pending' please, or 'submitted 
-(link)' if they have been submitted upstream.
-
- >  meta/recipes-kernel/kexec/kexec-tools_2.0.12.bb    |  37 ----
- >  meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb    |  44 +++++
-
-Please use git's rename detection when submitting patches, so we can see 
-what is the difference between the two files.
-
-
-Alex
+diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+index 5794a25..8186ddc 100644
+--- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
++++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Small image capable of booting a device. The kernel includes \
+ the Minimal RAM-based Initial Root Filesystem (initramfs), which finds the \
+ first 'init' program more efficiently."
+ 
+-PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi ${VIRTUAL-RUNTIME_base-utils} udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
++PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi ${VIRTUAL-RUNTIME_base-utils} udev base-passwd shadow ${ROOTFS_BOOTSTRAP_INSTALL}"
+ 
+ # Do not pollute the initrd image with rootfs features
+ IMAGE_FEATURES = ""
+-- 
+1.9.1
 
 
