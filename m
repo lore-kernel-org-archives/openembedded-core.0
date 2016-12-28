@@ -1,41 +1,25 @@
-Return-Path: <alejandro.delcastillo@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 955AA71975
+Return-Path: <ricardo.neri-calderon@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 943016FF73
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Dec 2016 21:12:45 +0000 (UTC)
-Received: from us-aus-exhub2.ni.corp.natinst.com
-	(us-aus-exhub2.ni.corp.natinst.com [130.164.68.32])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTPS id
-	uBRKo46G025570
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Dec 2016 14:50:04 -0600
-Received: from us-aus-exch5.ni.corp.natinst.com (130.164.68.15) by
-	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Tue, 27 Dec 2016 14:50:03 -0600
-Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
-	us-aus-exch5.ni.corp.natinst.com (130.164.68.15) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Tue, 27 Dec 2016 14:50:03 -0600
-Received: from delcastillo2.amer.corp.natinst.com (130.164.49.7) by
-	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
-	Server
-	id 15.0.1156.6 via Frontend Transport; Tue, 27 Dec 2016 14:50:03 -0600
-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 Dec 2016 14:50:01 -0600
-Message-ID: <1482871801-4357-3-git-send-email-alejandro.delcastillo@ni.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1482871801-4357-1-git-send-email-alejandro.delcastillo@ni.com>
-References: <1482871801-4357-1-git-send-email-alejandro.delcastillo@ni.com>
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-12-27_17:, , signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
-	suspectscore=1
-	malwarescore=0 phishscore=0 adultscore=0 bulkscore=0 classifier=spam
-	adjust=0 reason=mlx scancount=1 engine=8.0.1-1612050000
-	definitions=main-1612270333
-Subject: [PATCH 2/2] opkg-utils: bump SRCREV to 0.3.4 tag
+	Wed, 28 Dec 2016 02:55:36 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga103.fm.intel.com with ESMTP; 27 Dec 2016 18:55:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,420,1477983600"; d="scan'208";a="47041775"
+Received: from ranerica-desktop.sc.intel.com (HELO [10.3.52.169])
+	([10.3.52.169])
+	by orsmga005.jf.intel.com with ESMTP; 27 Dec 2016 18:55:37 -0800
+Message-ID: <1482893737.106950.41.camel@ranerica-desktop>
+From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Date: Tue, 27 Dec 2016 18:55:37 -0800
+In-Reply-To: <cover.1482324587.git.patrick.ohly@intel.com>
+References: <cover.1482324587.git.patrick.ohly@intel.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/9] UEFI + Secure Boot + qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,89 +32,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Dec 2016 21:12:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 28 Dec 2016 02:55:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* Add patch that removes hardcoded installation directories.
+On Wed, 2016-12-21 at 14:11 +0100, Patrick Ohly wrote:
+> There seems to be a consensus that supporting UEFI in OE-core for qemu
+> would be valuable, and there have been some (stalled) attempts to add
+> it. For reference, see:
+>    [OE-core] [PATCH V3 0/3] Add UEFI firmware for qemux86*
+>    [OE-core] Add ovmf-native to make qemu-native/runqemu support boot UEFI image?
+>    https://bugzilla.yoctoproject.org/show_bug.cgi?id=5654
+>    https://github.com/01org/luv-yocto/issues/38
+> 
+> This patch set includes the necessary recipes (ovmf and iasl from
+> meta-luv), some improvements to them (in particular, enabling Secure
+> Boot), and changes to runqemu to make it easier to boot with UEFI. A
+> special image recipes builds an image which can be used to lock down a
+> virtual machine by enrolling the "normal" pre-installed certificates.
+> 
+> I decided to keep the setup simple and use just a single file for UEFI
+> code and variables because that makes the usage via runqemu very
+> easy. See the "runqemu: support UEFI with OVMF firmware" patch for
+> details. The downside is that the firmware can't be updated without
+> loosing variables. I don't see a big need for long-lived virtual
+> machine instances, but would like to hear from others about that.
+> 
+> What's missing is automated testing of this new feature. I'm open for
+> suggestions here; right now I don't know enough about the automated
+> testing in the AB to propose something.
 
-Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
----
- ...e-defined-bindir-and-mandir-as-installati.patch | 30 ++++++++++++++++++++++
- .../opkg-utils/opkg-utils/tar_ignore_error.patch   |  2 +-
- meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |  8 +++---
- 3 files changed, 36 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0001-Makefile-use-defined-bindir-and-mandir-as-installati.patch
+I guess that tests could be written for buildbot. In the LUV buildbot,
+we build OVMF as part of our sanity tests for LUV. We do it mostly
+because we need to boot some UEFI firmware in qemu, though. We don't
+extensively test OVMF. We also build OVMF with Secure Boot separately.
+Now that you have kindly written the recipe, we want to leverage it. :)
+> 
+> I've discussed the usage of ovmf/iasl with Ricardo and he agreed that
+> moving ovmf and iasl from meta-luv to OE-core makes sense. Ricardo,
+> would you be willing to act as maintainer of it there, like you did in
+> meta-luv?
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-Makefile-use-defined-bindir-and-mandir-as-installati.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-Makefile-use-defined-bindir-and-mandir-as-installati.patch
-new file mode 100644
-index 0000000..6259f00
---- /dev/null
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-Makefile-use-defined-bindir-and-mandir-as-installati.patch
-@@ -0,0 +1,30 @@
-+From af4a6e4666264661769e32874e9654e02e5eb019 Mon Sep 17 00:00:00 2001
-+From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-+Date: Thu, 22 Dec 2016 16:15:56 -0600
-+Subject: [opkg-utils PATCH] Makefile: use defined bindir and mandir as
-+ installation dirs
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-+---
-+ Makefile | 3 ---
-+ 1 file changed, 3 deletions(-)
-+
-+diff --git a/Makefile b/Makefile
-+index 92b45f1..9f0531c 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -5,9 +5,6 @@ UTILS = opkg-build opkg-unbuild opkg-make-index opkg.py opkg-list-fields \
-+ MANPAGES = opkg-build.1
-+ 
-+ DESTDIR=
-+-PREFIX=/usr/local
-+-bindir=$(PREFIX)/bin
-+-mandir=$(PREFIX)/man
-+ 
-+ .SUFFIXES: .1
-+ 
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch
-index 4dddb08..3824eb3 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch
-@@ -25,7 +25,7 @@ Index: git/opkg-build
-  mkdir $tmp_dir
-  
-  echo $CONTROL > $tmp_dir/tarX
---( cd $pkg_dir && tar $ogargs -X $tmp_dir/tarX -cz $tarformat -f $tmp_dir/data.tar.gz . )
-+-( cd $pkg_dir && tar $ogargs -X $tmp_dir/tarX -c --$compressor $tarformat -f $tmp_dir/data.tar.$cext . )
- -( cd $pkg_dir/$CONTROL && tar $ogargs -cz $tarformat -f $tmp_dir/control.tar.gz . )
- +
- +
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-index 19a852e..457405a 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-@@ -7,10 +7,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://opkg.py;beginline=1;endline=18;md5=15917491ad6bf7acc666ca5f7cc1e083"
- PROVIDES += "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'virtual/update-alternatives', '', d)}"
- 
--SRCREV = "3ffece9bf19a844edacc563aa092fd1fbfcffeee"
--PV = "0.3.2+git${SRCPV}"
-+SRCREV = "9228b38a81c94bd95ada3a6334404923d67bea66"
-+PV = "0.3.4+git${SRCPV}"
- 
--SRC_URI = "git://git.yoctoproject.org/opkg-utils"
-+SRC_URI = "git://git.yoctoproject.org/opkg-utils \
-+           file://0001-Makefile-use-defined-bindir-and-mandir-as-installati.patch \
-+"
- SRC_URI_append_class-native = " file://tar_ignore_error.patch"
- 
- S = "${WORKDIR}/git"
--- 
-2.7.4
+Yes, I can keep doing the same work I did in meta-luv for OVMF now in
+OE-core.
+
+Thanks and BR,
+Ricardo
+> 
+> Beware that "git am --keep-cr" must be used to import the ovmf patches
+> correctly.
+> 
+> The following changes since commit 5e21afc9395060b489156d3f90505a372b713f37:
+> 
+>   Revert "selftest/wic: extending test coverage for WIC script options" (2016-12-20 17:06:01 +0000)
+> 
+> are available in the git repository at:
+> 
+>   git://github.com/pohly/openembedded-core secure-boot
+>   https://github.com/pohly/openembedded-core/tree/secure-boot
+> 
+> Patrick Ohly (7):
+>   ovmf: explicitly depend on nasm-native
+>   ovmf: deploy firmware in image directory
+>   ovmf_git.bb: enable parallel compilation
+>   ovmf_git.bb: enable Secure Boot
+>   runqemu: let command line parameters override defaults
+>   runqemu: support UEFI with OVMF firmware
+>   ovmf: build image which enrolls standard keys
+> 
+> meta-luv (2):
+>   ovmf: move from meta-luv to OE-core
+>   iasl: move from meta-luv to OE-core
+> 
+>  meta/recipes-core/ovmf/ovmf-shell-image.bb         |   22 +
+>  ...s-Force-tools-variables-to-host-toolchain.patch |   48 +
+>  .../ovmf/0001-OvmfPkg-Enable-BGRT-in-OVMF.patch    |  110 ++
+>  ...0002-ovmf-update-path-to-native-BaseTools.patch |   32 +
+>  ...makefile-adjust-to-build-in-under-bitbake.patch |   39 +
+>  ...ollDefaultKeys-application-for-enrolling-.patch | 1123 ++++++++++++++++++++
+>  meta/recipes-core/ovmf/ovmf/ovmf-shell-image.wks   |    4 +
+>  meta/recipes-core/ovmf/ovmf_git.bb                 |  178 ++++
+>  meta/recipes-extended/iasl/iasl_20120215.bb        |   27 +
+>  meta/recipes-extended/iasl/iasl_20150410.bb        |   27 +
+>  meta/recipes-extended/iasl/iasl_20150515.bb        |   27 +
+>  scripts/runqemu                                    |   37 +-
+>  12 files changed, 1673 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-core/ovmf/ovmf-shell-image.bb
+>  create mode 100644 meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch
+>  create mode 100644 meta/recipes-core/ovmf/ovmf/0001-OvmfPkg-Enable-BGRT-in-OVMF.patch
+>  create mode 100644 meta/recipes-core/ovmf/ovmf/0002-ovmf-update-path-to-native-BaseTools.patch
+>  create mode 100644 meta/recipes-core/ovmf/ovmf/0003-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch
+>  create mode 100644 meta/recipes-core/ovmf/ovmf/0007-OvmfPkg-EnrollDefaultKeys-application-for-enrolling-.patch
+>  create mode 100644 meta/recipes-core/ovmf/ovmf/ovmf-shell-image.wks
+>  create mode 100644 meta/recipes-core/ovmf/ovmf_git.bb
+>  create mode 100644 meta/recipes-extended/iasl/iasl_20120215.bb
+>  create mode 100644 meta/recipes-extended/iasl/iasl_20150410.bb
+>  create mode 100644 meta/recipes-extended/iasl/iasl_20150515.bb
+> 
+> -- 
+> 2.1.4
+> 
+
 
 
