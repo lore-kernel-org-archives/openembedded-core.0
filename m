@@ -1,30 +1,24 @@
 Return-Path: <Zhe.He@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AF806FFA4
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E6B8C6FFA4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Dec 2016 02:05:19 +0000 (UTC)
+	Thu, 29 Dec 2016 02:06:09 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uBT25JwV000823
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 28 Dec 2016 18:05:19 -0800
-Received: from [128.224.163.136] (128.224.163.136) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Wed, 28 Dec 2016 18:05:18 -0800
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1482820791.git.zhe.he@windriver.com>
-	<1fad67ac-8ae2-e242-9830-e89311f14b12@linux.intel.com>
-From: He Zhe <zhe.he@windriver.com>
-Message-ID: <afdc76ed-6600-6292-c927-89e240a0e325@windriver.com>
-Date: Thu, 29 Dec 2016 10:05:38 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.1
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBT26AWI014740
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Dec 2016 18:06:10 -0800 (PST)
+Received: from PEK-ZHE-D1.wrs.com (128.224.163.136) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Wed, 28 Dec 2016 18:06:09 -0800
+From: <zhe.he@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 29 Dec 2016 10:06:29 +0800
+Message-ID: <cover.1482975938.git.zhe.he@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <1fad67ac-8ae2-e242-9830-e89311f14b12@linux.intel.com>
-X-Originating-IP: [128.224.163.136]
-Cc: "Purdie, Richard" <richard.purdie@intel.com>
-Subject: Re: [PATCH v2 0/1] kexec-tools: Upgrade to 2.0.14
+Subject: [PATCH v3 0/1] kexec-tools: Upgrade to 2.0.14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,50 +31,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Dec 2016 02:05:20 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 29 Dec 2016 02:06:10 -0000
+Content-Type: text/plain
 
+From: He Zhe <zhe.he@windriver.com>
 
+v1 to v2: Remove redundant tarball link in SRC_URI
+v2 to v3: Address Alex's comments:
+          Remove kexec-aarch64.patch and kexec-x32.patch files
+          Correct Upstream-Status
+          Regenerate patch with git's rename detection enabled
 
-On 12/28/2016 08:15 PM, Alexander Kanavin wrote:
-> On 12/27/2016 08:43 AM, zhe.he@windriver.com wrote:
->> From: He Zhe <zhe.he@windriver.com>
->>
->> Remove kexec-aarch64.patch since it has been merged upstream
->> Remove kexec-x32.patch since it has been reverted upstream
->> Backport patches for kdump arm64 from:
->> https://git.linaro.org/people/takahiro.akashi/kexec-tools.git
->>
->> v1 to v2: Remove redundant tarball link in SRC_URI
->
-> None of my comments are addressed in this new version of the patch. Specifically:
->
-> > Remove kexec-aarch64.patch since it has been merged upstream
-> > Remove kexec-x32.patch since it has been reverted upstream
->
-> You should also remove the actual files, not just drop them from the recipe.
->
-> > Backport patches for kdump arm64 from:
-> > https://git.linaro.org/people/takahiro.akashi/kexec-tools.git
->
-> If the patches are coming from a different repository, they are not a backport. Change the upstream-status to 'pending' please, or 'submitted (link)' if they have been submitted upstream.
->
-> >  meta/recipes-kernel/kexec/kexec-tools_2.0.12.bb    |  37 ----
-> >  meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb    |  44 +++++
->
-> Please use git's rename detection when submitting patches, so we can see what is the difference between the two files.
->
+He Zhe (1):
+  kexec-tools: Upgrade to 2.0.14
 
-Thank you for your careful review. Sorry for missing your comments for v1 since I just filter mails specifically sent to me...
-I'll send v3 soon.
+ ...nd-the-semantics-of-kexec_iomem_for_each_.patch |  78 ++
+ ...eneralize-and-rename-get_kernel_stext_sym.patch | 194 +++++
+ ...0003-arm64-identify-PHYS_OFFSET-correctly.patch |  76 ++
+ .../0004-arm64-kdump-identify-memory-regions.patch | 202 ++++++
+ ...5-arm64-kdump-add-elf-core-header-segment.patch | 191 +++++
+ ...6-arm64-kdump-set-up-kernel-image-segment.patch | 137 ++++
+ .../0007-arm64-kdump-set-up-other-segments.patch   |  35 +
+ ...-add-DT-properties-to-crash-dump-kernel-s.patch | 150 ++++
+ ...-kdump-Add-support-for-binary-image-files.patch |  52 ++
+ .../kexec/kexec-tools/kexec-aarch64.patch          | 801 ---------------------
+ .../kexec/kexec-tools/kexec-x32.patch              |  88 ---
+ ...kexec-tools_2.0.12.bb => kexec-tools_2.0.14.bb} |  15 +-
+ 12 files changed, 1126 insertions(+), 893 deletions(-)
+ create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0001-kexec-exntend-the-semantics-of-kexec_iomem_for_each_.patch
+ create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0002-kexec-generalize-and-rename-get_kernel_stext_sym.patch
+ create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0003-arm64-identify-PHYS_OFFSET-correctly.patch
+ create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0004-arm64-kdump-identify-memory-regions.patch
+ create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0005-arm64-kdump-add-elf-core-header-segment.patch
+ create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0006-arm64-kdump-set-up-kernel-image-segment.patch
+ create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0007-arm64-kdump-set-up-other-segments.patch
+ create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0008-arm64-kdump-add-DT-properties-to-crash-dump-kernel-s.patch
+ create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0009-arm64-kdump-Add-support-for-binary-image-files.patch
+ delete mode 100644 meta/recipes-kernel/kexec/kexec-tools/kexec-aarch64.patch
+ delete mode 100644 meta/recipes-kernel/kexec/kexec-tools/kexec-x32.patch
+ rename meta/recipes-kernel/kexec/{kexec-tools_2.0.12.bb => kexec-tools_2.0.14.bb} (55%)
 
-Thanks,
-Zhe
-
->
-> Alex
->
->
+-- 
+2.8.3
 
 
