@@ -1,49 +1,49 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com
-	[209.85.218.50])
-	by mail.openembedded.org (Postfix) with ESMTP id B004C601F1
+Return-Path: <piotr.lewicki@elfin.de>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 45595601D4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Dec 2016 18:23:39 +0000 (UTC)
-Received: by mail-oi0-f50.google.com with SMTP id v84so404297654oie.3
+	Fri, 30 Dec 2016 10:09:32 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id t79so352190830wmt.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Dec 2016 10:23:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=trIsEVdJ1Kn9YpU/vRHOBP/sbe1Ko20ZzFy/+umzwD4=;
-	b=BihJNeTjrc1jhcTXckC26cqT7ZMUkk36poTlMgw4BW12Xtc8mweHNB/f+/n4lG4nuT
-	1juP+nD0GFYVbl3aXELP9okYpttaN4zbjTzKxlh1L9GcGI0zte/FBW6PKc7gzgdyPr42
-	exymsVxFZ93scgZhOfRhf/0G3YTDMcIE5Urr9NNL2biVzEVUvYdhZ7fyhL7mlQy9Jfsx
-	g6Aqtizd0bQyu4i5OJEBMwAsTa4EoH7EvLjo9kCknOjjtbiHlUNHdSv+9eGQ3wRfuulj
-	eUH/HdsyL615DWpTkodgwXF0J8kID8N7H2mFnAiA40CAx5JN4RhlozX7KXz5kv+Pyhi/
-	mIpg==
+	Fri, 30 Dec 2016 02:09:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=elfin.de; s=google;
+	h=to:from:subject:message-id:date:user-agent:mime-version
+	:content-transfer-encoding;
+	bh=R5zmdVSfU/78+sbFRQqi5/xNAwBXjSikXnsvK6cZb84=;
+	b=W5SYSDuz1irPI9TnZ7ZW4RBeQje5vmQgdvXUuD3w+GH41j2d6lFkkCTXr2x0ydbkm2
+	NYEbZj2P4aEKlSEBma34h9MxYD3DxtB4i4BHeY6ez9+QgdAmzd9dQ7GxI58FQItUD41+
+	LJnaLdhNbwkOsLsdl7+eVFoC2hm9VY3+AkuW9DXWPvz+r5W4SgG9TsIPwzotKr1N3TMZ
+	2MshQIOE9yKM8XHB3GxT7d4Wnddg8V6/nJkVeUtX/Bck0XCrRtpAEm2kFCwfl1KKpq4n
+	62YOP+e8ajt1znjzWSS+0qjkWXfom4NrtZpZ4+ygoYaMW+bPrT2cBF/5sEypx2Ej54aV
+	6mxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=trIsEVdJ1Kn9YpU/vRHOBP/sbe1Ko20ZzFy/+umzwD4=;
-	b=IWEvMP30vTva8xefag1mYugKU1uhjY44einrmoUIaT58rrh+gikwCc1onDSxE22D+f
-	oSr7DnJHD/ykJPqEJsFWBV9scMTEXhL5odHeHMx6AKtiBC4f59i+kiJx09HCsW2e4dcf
-	u/7t1bDIoxxV25WjyBlpnQQJP2pLwAIVwo3PuGLiXhDGBAh8hNpo48s14qPKeo0j0Hy2
-	yX/qfbZ8t73KVoeZrL9ZIOkbpQOGMkcsIqUym6Ypaf6mjsZVpXoSp6VL8e09Cfpdoq7l
-	Ll0AqYzuJdNkgxTUOrtrBvqQzP2b5uBZgY3gDrWGeur/lJ5wdijX1SJe92bxRr1g2lZv
-	cQmQ==
-X-Gm-Message-State: AIkVDXIOMUnwOZV267Mzb0zvLB+H+o4gsSPxRNvWvNI3VqeWLMdHeEyB+e0YFpvkUBMxL+L06KDXAzSYOq1PXg==
-X-Received: by 10.157.60.99 with SMTP id j32mr24416281ote.70.1483035821055;
-	Thu, 29 Dec 2016 10:23:41 -0800 (PST)
+	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=R5zmdVSfU/78+sbFRQqi5/xNAwBXjSikXnsvK6cZb84=;
+	b=gEGAK9Bnbaqp31c9w8B5v5ijfNJBveOnT8zwWvKLrX/Q/TWsl6eSuazYZMMY9faY7Z
+	9YJDamoKoHt/Pxe+y29PCfd1lN08pghaunn2hV6XnvdI3E/uciDR0oZx2SjZb8ZRLqXI
+	8cv4fpYUvOHBNxGIhW6cfzk83AcEqWnocZmri9IeQ7uLr+cLhEUx5ex0ESrGfJsNgJhw
+	kQwbACTduXDwf0B/GPCvJWIOk+sdN+UVSemIFJzCfPXBduQjjrExD3zsitA4a24LbadD
+	SPf2TQLRDLv7CErkjRpLl5NIzt8/drhM+7qLLnIw+9WuKUgb8bOWdMW4pjk4O3K/JIFV
+	09pA==
+X-Gm-Message-State: AIkVDXIWNvOlJYIJVwdRxXcPNqIL/eCYsbDzLN9vxGC3gAzQtVTkIgmNhguBhfch6P8+/w==
+X-Received: by 10.28.41.5 with SMTP id p5mr43413995wmp.38.1483092573445;
+	Fri, 30 Dec 2016 02:09:33 -0800 (PST)
+Received: from [192.168.2.176] (b2b-94-79-174-114.unitymedia.biz.
+	[94.79.174.114]) by smtp.gmail.com with ESMTPSA id
+	gj6sm72932031wjb.29.2016.12.30.02.09.32
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 30 Dec 2016 02:09:33 -0800 (PST)
+To: openembedded-core@lists.openembedded.org
+From: Piotr Lewicki <piotr.lewicki@elfin.de>
+Message-ID: <48290aa8-5fc0-097e-54b8-03bb6f97966b@elfin.de>
+Date: Fri, 30 Dec 2016 11:09:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.5.1
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.157.19.10 with HTTP; Thu, 29 Dec 2016 10:23:20 -0800 (PST)
-In-Reply-To: <1483034769-15179-1-git-send-email-kergoth@gmail.com>
-References: <1483034769-15179-1-git-send-email-kergoth@gmail.com>
-From: Christopher Larson <chris_larson@mentor.com>
-Date: Thu, 29 Dec 2016 11:23:20 -0700
-X-Google-Sender-Auth: xFY5aQA9zXjvdZ3anrLGV55bRx8
-Message-ID: <CABcZANnM5rGrhwaWMUXfgQZzdL1vU+QCvajCYdbZD_EEmmOgFQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: Re: [PATCH] sysroot-relativelinks: also consider links to dirs on the host
+Subject: [morty] apache2 does not build anymore
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,71 +56,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Dec 2016 18:23:41 -0000
-Content-Type: multipart/alternative; boundary=001a11c04a804da5da0544d02ff5
+X-List-Received-Date: Fri, 30 Dec 2016 10:09:34 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a11c04a804da5da0544d02ff5
-Content-Type: text/plain; charset=UTF-8
+Hi there,
 
-On Thu, Dec 29, 2016 at 11:06 AM, Christopher Larson <kergoth@gmail.com>
-wrote:
+I have noticed that apache2 recipe is not building anymore because of 
+the wrong SRC_URI.
 
-> From: Christopher Larson <chris_larson@mentor.com>
->
-> Dead symlinks, or symlinks to existing files will show up in 'files' of an
-> os.walk, but symlinks to existing directories show up in 'dirs', so we
-> need to
-> consider both.
->
-> As one specific example, the symlink from /usr/lib/ssl/certs was left
-> pointing
-> to /etc/ssl/certs rather than the relative path when the sdk was built on
-> hosts where the latter exists.
->
-> JIRA: SB-8374
->
-> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
->
+This is fixed by Derek Straka's patch sent to oe-devel in mail "[oe] 
+[meta-webserver][PATCH] apache2: always use the archive.apache.org to 
+ensure older releases are always available"
 
-Erm, sorry about the JIRA:, remnant from our fork.
--- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Senior Software Engineer, Mentor Graphics
 
---001a11c04a804da5da0544d02ff5
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Whom should I contact to apply this patch to morty branch?
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Thu, Dec 29, 2016 at 11:06 AM, Christopher Larson <span dir=3D"ltr">&lt;=
-<a href=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":pe" class=
-=3D"a3s aXjCH m1594bc2d34ab531f">From: Christopher Larson &lt;<a href=3D"ma=
-ilto:chris_larson@mentor.com">chris_larson@mentor.com</a>&gt;<br>
-<br>
-Dead symlinks, or symlinks to existing files will show up in &#39;files&#39=
-; of an<br>
-os.walk, but symlinks to existing directories show up in &#39;dirs&#39;, so=
- we need to<br>
-consider both.<br>
-<br>
-As one specific example, the symlink from /usr/lib/ssl/certs was left point=
-ing<br>
-to /etc/ssl/certs rather than the relative path when the sdk was built on<b=
-r>
-hosts where the latter exists.<br>
-<br>
-JIRA: SB-8374<br>
-<br>
-Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor=
-.com">chris_larson@mentor.com</a>&gt;</div></blockquote></div><br>Erm, sorr=
-y about the JIRA:, remnant from our fork.<br>-- <br><div class=3D"gmail_sig=
-nature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr">Christopher Lar=
-son<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded, OpenZau=
-rus<br>Senior Software Engineer, Mentor Graphics</div></div>
-</div></div>
 
---001a11c04a804da5da0544d02ff5--
+BR,
+
+Piotr
+
+
