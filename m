@@ -1,45 +1,45 @@
 Return-Path: <piotr.lewicki@elfin.de>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 45595601D4
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C9B1601D4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Dec 2016 10:09:32 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id t79so352190830wmt.0
+	Fri, 30 Dec 2016 10:10:04 +0000 (UTC)
+Received: by mail-wm0-f54.google.com with SMTP id k184so156438775wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Dec 2016 02:09:34 -0800 (PST)
+	Fri, 30 Dec 2016 02:10:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=elfin.de; s=google;
 	h=to:from:subject:message-id:date:user-agent:mime-version
 	:content-transfer-encoding;
 	bh=R5zmdVSfU/78+sbFRQqi5/xNAwBXjSikXnsvK6cZb84=;
-	b=W5SYSDuz1irPI9TnZ7ZW4RBeQje5vmQgdvXUuD3w+GH41j2d6lFkkCTXr2x0ydbkm2
-	NYEbZj2P4aEKlSEBma34h9MxYD3DxtB4i4BHeY6ez9+QgdAmzd9dQ7GxI58FQItUD41+
-	LJnaLdhNbwkOsLsdl7+eVFoC2hm9VY3+AkuW9DXWPvz+r5W4SgG9TsIPwzotKr1N3TMZ
-	2MshQIOE9yKM8XHB3GxT7d4Wnddg8V6/nJkVeUtX/Bck0XCrRtpAEm2kFCwfl1KKpq4n
-	62YOP+e8ajt1znjzWSS+0qjkWXfom4NrtZpZ4+ygoYaMW+bPrT2cBF/5sEypx2Ej54aV
-	6mxQ==
+	b=NvH1iNOp3+8PjxlM63Mp5SPV7sbluNOh+uj9IO3G5+5omN3tdNUL3pXeZYrjN4ty1p
+	qk9QClWjD1KjdWKHrdIwYdAYZRdVCsk2VNP1oHUylrw9zSslQmwOKRMUV8ybSmW9gRsJ
+	+1aX+ktl5kuIPN+URWolvXP2ndjoLULLUW0bx8x32n7kkk0/GN/Gdbidiw48jsA1OAFF
+	x5RST2iTlC71VAhzhXchf/7HuU+nRhEOAWkWzMtdVkc03Eg7a24N3+tGSXXaxRZeHgEx
+	A5bmZxqeAT6v1CSZ8ycT4OpsGSPREKnjNX6YCbE+wJapgmaYlE2IxbBCTBWZNGTdb2qI
+	Fkog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
 	:mime-version:content-transfer-encoding;
 	bh=R5zmdVSfU/78+sbFRQqi5/xNAwBXjSikXnsvK6cZb84=;
-	b=gEGAK9Bnbaqp31c9w8B5v5ijfNJBveOnT8zwWvKLrX/Q/TWsl6eSuazYZMMY9faY7Z
-	9YJDamoKoHt/Pxe+y29PCfd1lN08pghaunn2hV6XnvdI3E/uciDR0oZx2SjZb8ZRLqXI
-	8cv4fpYUvOHBNxGIhW6cfzk83AcEqWnocZmri9IeQ7uLr+cLhEUx5ex0ESrGfJsNgJhw
-	kQwbACTduXDwf0B/GPCvJWIOk+sdN+UVSemIFJzCfPXBduQjjrExD3zsitA4a24LbadD
-	SPf2TQLRDLv7CErkjRpLl5NIzt8/drhM+7qLLnIw+9WuKUgb8bOWdMW4pjk4O3K/JIFV
-	09pA==
-X-Gm-Message-State: AIkVDXIWNvOlJYIJVwdRxXcPNqIL/eCYsbDzLN9vxGC3gAzQtVTkIgmNhguBhfch6P8+/w==
-X-Received: by 10.28.41.5 with SMTP id p5mr43413995wmp.38.1483092573445;
-	Fri, 30 Dec 2016 02:09:33 -0800 (PST)
+	b=oDOhDEtrUX0zCzN8t+qWBaBJW7yRlumBwavwqdcDkyVDhF2i+gk2BWkuooICGJDPMJ
+	vvZ6zPIncKo3Ow180iFupbKFREEEHEpSVLREXcOFt0zhc+1XO5Y1gDvyv90EtA/3mW3p
+	yyrFwWjZRaLQD3OXw41GBLbKwTtkBn2uwGLFTBS0D2Rvw/TR+jr6TIYu4g2uKcWIsAZN
+	ikSj0mltEOXQw7cVB7oOPh2P72pxlEl90GrfpJbGT59hRPWXfXFv+3NnMN2wjsb6+MSS
+	9gJqEAwpcaptNyq4Cobb2qoKOjQajx/t6l9e7o1YgoGIW3eSC3NUZ6VDV5J+rw6NAB4r
+	gIsQ==
+X-Gm-Message-State: AIkVDXKqEv6l3z6lh7Mqf1c3KW77139bhve2nxfurKhYCu8ZRcdPuAS3uSE3dEXe3R4CAw==
+X-Received: by 10.28.189.136 with SMTP id n130mr43093832wmf.133.1483092605047; 
+	Fri, 30 Dec 2016 02:10:05 -0800 (PST)
 Received: from [192.168.2.176] (b2b-94-79-174-114.unitymedia.biz.
-	[94.79.174.114]) by smtp.gmail.com with ESMTPSA id
-	gj6sm72932031wjb.29.2016.12.30.02.09.32
+	[94.79.174.114])
+	by smtp.gmail.com with ESMTPSA id y4sm72827270wjp.0.2016.12.30.02.10.04
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 30 Dec 2016 02:09:33 -0800 (PST)
+	Fri, 30 Dec 2016 02:10:04 -0800 (PST)
 To: openembedded-core@lists.openembedded.org
 From: Piotr Lewicki <piotr.lewicki@elfin.de>
-Message-ID: <48290aa8-5fc0-097e-54b8-03bb6f97966b@elfin.de>
-Date: Fri, 30 Dec 2016 11:09:32 +0100
+Message-ID: <6d31bd50-dac1-5064-1c7d-cd45fa471cf8@elfin.de>
+Date: Fri, 30 Dec 2016 11:10:04 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.5.1
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Dec 2016 10:09:34 -0000
+X-List-Received-Date: Fri, 30 Dec 2016 10:10:05 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
