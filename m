@@ -1,52 +1,52 @@
 Return-Path: <schnitzeltony@googlemail.com>
 Received: from mail-wj0-f194.google.com (mail-wj0-f194.google.com
 	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FE8865C5B
+	by mail.openembedded.org (Postfix) with ESMTP id 80C9D65CB5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Jan 2017 19:53:36 +0000 (UTC)
-Received: by mail-wj0-f194.google.com with SMTP id j10so66687386wjb.3
+	Sun,  1 Jan 2017 19:53:37 +0000 (UTC)
+Received: by mail-wj0-f194.google.com with SMTP id hb5so33412327wjc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 01 Jan 2017 11:53:36 -0800 (PST)
+	Sun, 01 Jan 2017 11:53:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=googlemail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=Z/Hm2A3eqwg29O1Vlh/AuexC2oUefndy3LVD/w26go8=;
-	b=ei1ehY3XZq92vwgKg8GcABLbogmV1zU4ky4tyiK5b6AlOzQgZtPz4ki01hadsjZkWs
-	Gf7ZmDGkKXzHxN3JT4pw3FmVf+5rcP75xuMMqxXn8a4nmGwJFkkwed2fPzQqD73KvQCM
-	Te/fPTyXTp5XcM8yxL060W+O0/R1fIGYt5Raur6BVFywKInsrRPzQgElj7ven0rs7/4O
-	yTnJyx4KnChfjcqvbok6VEkdinFMFxOtsQ2c0nE9bp73urJeIT5TPWo0AgXxCke2e131
-	hS3Yb1wq9lIVoMs9QE0YoSAu6vBU8qtwjflhlWWMZothADoMMZWxrV00PodZ5bgaduSd
-	dH+g==
+	bh=PjAclFCUEK2toEWEFGejLv2KXH1c/ce7OJFEYjlfK44=;
+	b=kyIHkj+ne/xZf07Msyv9WnKfqWVNcXxmzaMLbTwbarWBU4+TdxBdzp8IaYlr3N60U3
+	d3HansgpBH5ensu0xhE63TV9C4fM0VjTBmD1OXzVHDFDMawUOIEv9yWbhDiIQG798vpU
+	+/9zQ/Mk+Uvz3LTIsjS+ElqLs1AKJD77fOh9dcc8DnF75Ds1U1SIEaYYknnFZTL7OyZL
+	VDhFtJQR0IE9HXjsgsA+Lrd29Xz3SZZg4+0imt7+bYbSmtXp3baqws38SI66g2yBkhxO
+	wJuIRkhhcjn+5rsJ1LRVPPamJIoCUiavv5jhhdj3fp0v3yb7ZBGxBaK6r48LGJBcB2Xf
+	Hj1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=Z/Hm2A3eqwg29O1Vlh/AuexC2oUefndy3LVD/w26go8=;
-	b=bU0sPw9VWBFP+O6kRmpXdSjgi4h3R38MFUFb8jQWR10IneE2t13FktTdsO8ZTZ+1gM
-	q483nUDn7l9b0uuNF2doiLHPvJJx3Zgs6gbwP7sBhRbiUkt+UTY3qUSyizls1RS5I2la
-	fkVuSR9snkZ35i7g5Cb7WZYGHA3sbV1TXyQNMSJnXuU9Wuaqybg2TmJGwmP9gh0lRGsu
-	L8hdpMrPw1HkHZQfbJ4WBG/Avwx4k/onw9b8XCojQtKQh0tPxBzrPhZXHtuQ5Ecv5XN1
-	yF6Snt3W/SMACT2KeuyT1zOe3k892pB3o4CWKXXOJLESQNAz/LutWtkDIQVK8/lKgfjD
-	mROA==
-X-Gm-Message-State: AIkVDXJDbLnjEx3Erpk/F9yE+mYmX3aOaeI4+s7RL3LzhXoBaFMuT0RM73IDuf6S/2PPnA==
-X-Received: by 10.194.123.103 with SMTP id lz7mr54464108wjb.100.1483300415880; 
-	Sun, 01 Jan 2017 11:53:35 -0800 (PST)
+	bh=PjAclFCUEK2toEWEFGejLv2KXH1c/ce7OJFEYjlfK44=;
+	b=Oq6EmSBflFuLNle1gfXyVL+mGSnCWt1GUokL7JP8mEP2hHgW4/S1q/XaKRiLkk+DmA
+	cCdwq6gBmORfscXOiVQVfTaB6GVxL1usGDSzUXliK7pMuuE9KWE0J5DSlX02P5VtD0oi
+	Zypit66Ab3qJ1/H+uSFJ+qsQuw5K50l8Sp3UZiPHJxLoG1Xk+BKLYTrzI7bfEgCe1YjX
+	HjmJxCY/bpol/rzg2YvrGLqbyRoBcDwC6BcI+4bzxNs8+PYQy/7fcmVtcmwbVpxx6tys
+	9mq3C555bCgHl4oDLOcrXQQb36Wv0Yl2IBQKxtkvHOUPalAX6uOf78FzJ1Gf9qCr1L/v
+	4DQg==
+X-Gm-Message-State: AIkVDXLHEy8PJkTD6rpOoJ0Tr2TA0dfbgM0J49obYo5R354WNJew2VRLRwHLTSxPE2aWnQ==
+X-Received: by 10.194.249.72 with SMTP id ys8mr54749791wjc.92.1483300417750;
+	Sun, 01 Jan 2017 11:53:37 -0800 (PST)
 Received: from localhost.localdomain (p579F77E4.dip0.t-ipconnect.de.
 	[87.159.119.228]) by smtp.googlemail.com with ESMTPSA id
-	t194sm63631951wmd.1.2017.01.01.11.53.34
+	t194sm63631951wmd.1.2017.01.01.11.53.35
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 01 Jan 2017 11:53:35 -0800 (PST)
+	Sun, 01 Jan 2017 11:53:36 -0800 (PST)
 From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  1 Jan 2017 20:53:12 +0100
-Message-Id: <1483300393-10174-2-git-send-email-schnitzeltony@googlemail.com>
+Date: Sun,  1 Jan 2017 20:53:13 +0100
+Message-Id: <1483300393-10174-3-git-send-email-schnitzeltony@googlemail.com>
 X-Mailer: git-send-email 2.5.5
 In-Reply-To: <1483300393-10174-1-git-send-email-schnitzeltony@googlemail.com>
 References: <1483300393-10174-1-git-send-email-schnitzeltony@googlemail.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] alsa-utils: update 1.1.2 -> 1.1.3
+Subject: [PATCH 3/3] alsa-utils-scripts: update 1.1.2 -> 1.1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,28 +65,14 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
 ---
- .../alsa/{alsa-utils_1.1.2.bb => alsa-utils_1.1.3.bb}                 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/alsa/{alsa-utils_1.1.2.bb => alsa-utils_1.1.3.bb} (97%)
+ .../alsa/{alsa-utils-scripts_1.1.2.bb => alsa-utils-scripts_1.1.3.bb}     | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename meta/recipes-multimedia/alsa/{alsa-utils-scripts_1.1.2.bb => alsa-utils-scripts_1.1.3.bb} (100%)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.1.2.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.1.3.bb
-similarity index 97%
-rename from meta/recipes-multimedia/alsa/alsa-utils_1.1.2.bb
-rename to meta/recipes-multimedia/alsa/alsa-utils_1.1.3.bb
-index e1651ae..07c25c4 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.1.2.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.1.3.bb
-@@ -23,8 +23,8 @@ SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
-            file://0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch \
-           "
- 
--SRC_URI[md5sum] = "38ac7c781f80c41c02b4664d8cbafa87"
--SRC_URI[sha256sum] = "7af603c0877d1251599d65b4fbc372e63a54371b888f5c26c6a86ac1d0519071"
-+SRC_URI[md5sum] = "2bf94d3e3410dcc74bb0dae10d46a979"
-+SRC_URI[sha256sum] = "127217a54eea0f9a49700a2f239a2d4f5384aa094d68df04a8eb80132eb6167c"
- 
- # lazy hack. needs proper fixing in gettext.m4, see
- # http://bugs.openembedded.org/show_bug.cgi?id=2348
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.2.bb b/meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.3.bb
+similarity index 100%
+rename from meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.2.bb
+rename to meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.3.bb
 -- 
 2.5.5
 
