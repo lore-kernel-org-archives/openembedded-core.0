@@ -1,35 +1,34 @@
 Return-Path: <stephen.k.jolley@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E5D956AC00
+	by mail.openembedded.org (Postfix) with ESMTP id 7B1616B6EA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jan 2017 15:38:55 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga103.jf.intel.com with ESMTP; 03 Jan 2017 07:38:56 -0800
+	Tue,  3 Jan 2017 15:51:52 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga103.jf.intel.com with ESMTP; 03 Jan 2017 07:51:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,455,1477983600"; 
-	d="scan'208,217";a="209182237"
-Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
-	by fmsmga004.fm.intel.com with ESMTP; 03 Jan 2017 07:38:55 -0800
-Received: from fmsmsx123.amr.corp.intel.com (10.18.125.38) by
-	FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Tue, 3 Jan 2017 07:38:55 -0800
+X-IronPort-AV: E=Sophos;i="5.33,455,1477983600"; d="scan'208,217";a="49042078"
+Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
+	by fmsmga005.fm.intel.com with ESMTP; 03 Jan 2017 07:51:52 -0800
+Received: from fmsmsx117.amr.corp.intel.com (10.18.116.17) by
+	FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server
+	(TLS) id 14.3.248.2; Tue, 3 Jan 2017 07:51:52 -0800
 Received: from fmsmsx111.amr.corp.intel.com ([169.254.12.234]) by
-	fmsmsx123.amr.corp.intel.com ([169.254.7.244]) with mapi id
-	14.03.0248.002; Tue, 3 Jan 2017 07:38:55 -0800
+	fmsmsx117.amr.corp.intel.com ([169.254.3.34]) with mapi id
+	14.03.0248.002; Tue, 3 Jan 2017 07:51:52 -0800
 From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
 To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Thread-Topic: Yocto Project Status WW01
 Thread-Index: AdJl11ak5fBtpDXhRbC8UXIcoXZzFQ==
-Date: Tue, 3 Jan 2017 15:38:54 +0000
-Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155E5732C4B8@fmsmsx111.amr.corp.intel.com>
+Date: Tue, 3 Jan 2017 15:51:51 +0000
+Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155E5732C512@fmsmsx111.amr.corp.intel.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.200.107]
 x-ctpclassification: CTP_IC
 x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMjQ4ZmRmOTItYWM0OS00NTE4LTg0YTUtZTY5ZTE5ZDg4MzRmIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX0lDIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE1LjkuNi42IiwiVHJ1c3RlZExhYmVsSGFzaCI6IkpvaWt6K2hEaFd6RytLTWtFZkU1UFdUcWF1TnZDVzV3dHM5cXZBMXdxOUk9In0=
-x-originating-ip: [10.1.200.107]
 MIME-Version: 1.0
 Subject: Yocto Project Status WW01
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -44,12 +43,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jan 2017 15:38:57 -0000
+X-List-Received-Date: Tue, 03 Jan 2017 15:51:55 -0000
 Content-Language: en-US
 Content-Type: multipart/alternative;
-	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155E5732C4B8fmsmsx111amrcor_"
+	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155E5732C512fmsmsx111amrcor_"
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E5732C4B8fmsmsx111amrcor_
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155E5732C512fmsmsx111amrcor_
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
@@ -75,9 +74,9 @@ er the holidays so things have not really changed much over the past couple=
  through this week.
 
 *        M2 will be upon us sooner than we realize and there are some key c=
-hanges such as recipe specific sysroots pending with some potential for dis=
-ruption. Wider testing of these patch sets as they're published would be ap=
-preciated.
+hanges such as recipe specific sysroots and the oeqa framework rework pendi=
+ng with some potential for disruption. Wider testing of these patch sets as=
+ they're published would be appreciated.
 
 
 Proposed upcoming dot releases:
@@ -119,6 +118,7 @@ https://wiki.yoctoproject.org/wiki/Yocto_2.3_Schedule
 
 https://wiki.yoctoproject.org/wiki/Yocto_2.3_Features
 
+
 [If anyone has suggestions for other information you'd like to see on this =
 weekly status update, let us know!]
 
@@ -132,7 +132,7 @@ INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
 * Email:                            stephen.k.jolley@intel.com
 
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E5732C4B8fmsmsx111amrcor_
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155E5732C512fmsmsx111amrcor_
 Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
@@ -188,7 +188,7 @@ p
 	margin-left:0in;
 	font-size:12.0pt;
 	font-family:"Times New Roman",serif;}
-span.EmailStyle17
+span.EmailStyle18
 	{mso-style-type:personal-compose;
 	font-family:"Calibri",sans-serif;
 	color:windowtext;}
@@ -196,7 +196,7 @@ span.apple-tab-span
 	{mso-style-name:apple-tab-span;}
 .MsoChpDefault
 	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
+	font-size:10.0pt;}
 @page WordSection1
 	{size:8.5in 11.0in;
 	margin:1.0in 1.0in 1.0in 1.0in;}
@@ -204,8 +204,8 @@ div.WordSection1
 	{page:WordSection1;}
 /* List Definitions */
 @list l0
-	{mso-list-id:2121563132;
-	mso-list-template-ids:-1332188546;}
+	{mso-list-id:1486050210;
+	mso-list-template-ids:1753246066;}
 @list l0:level1
 	{mso-level-number-format:bullet;
 	mso-level-text:\F0B7;
@@ -279,6 +279,82 @@ div.WordSection1
 	text-indent:-.25in;
 	mso-ansi-font-size:10.0pt;
 	font-family:Wingdings;}
+@list l1
+	{mso-list-id:2121563132;
+	mso-list-template-ids:-1332188546;}
+@list l1:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l1:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l1:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
 ol
 	{margin-bottom:0in;}
 ul
@@ -312,7 +388,7 @@ pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key Status/Updates=
 :</span><o:p></o:p></p>
 <p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
 n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-1;vertical-align:baseline">
+3;vertical-align:baseline">
 <![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
 or:black"><span style=3D"mso-list:Ignore">&middot;<span style=3D"font:7.0pt=
  &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -324,7 +400,7 @@ e&#8217;re waiting until people are back from vacation
 /p>
 <p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
 n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-1;vertical-align:baseline">
+3;vertical-align:baseline">
 <![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
 or:black"><span style=3D"mso-list:Ignore">&middot;<span style=3D"font:7.0pt=
  &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -336,16 +412,16 @@ changed much over the past couple of weeks,
 his week.<o:p></o:p></span></p>
 <p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
 n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-1;vertical-align:baseline">
+3;vertical-align:baseline">
 <![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
 or:black"><span style=3D"mso-list:Ignore">&middot;<span style=3D"font:7.0pt=
  &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
 &quot;Arial&quot;,sans-serif;color:black">M2 will be upon us sooner than we=
- realize and there are some key changes such as recipe specific sysroots pe=
-nding with some potential for disruption. Wider
- testing of these patch sets as they&#8217;re published would be appreciate=
-d.<o:p></o:p></span></p>
+ realize and there are some key changes such as recipe specific sysroots an=
+d the oeqa framework rework pending with some
+ potential for disruption. Wider testing of these patch sets as they&#8217;=
+re published would be appreciated.<o:p></o:p></span></p>
 <p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
 mes New Roman&quot;,serif"><o:p>&nbsp;</o:p></span></p>
 <p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
@@ -414,10 +490,11 @@ Schedule</span></a><o:p></o:p></p>
 project.org/wiki/Yocto_2.3_Features"><span style=3D"font-size:11.0pt;font-f=
 amily:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.3_=
 Features</span></a><o:p></o:p></p>
-<p class=3D"MsoNormal"><br>
-<span style=3D"font-family:&quot;Arial&quot;,sans-serif;color:black">[If an=
-yone has suggestions for other information you&#8217;d like to see on this =
-weekly status update, let us know!]<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">[If anyone has sug=
+gestions for other information you&#8217;d like to see on this weekly statu=
+s update, let us know!]</span><o:p></o:p></p>
 <p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,sans-se=
 rif;color:black"><o:p>&nbsp;</o:p></span></p>
 <p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,sans-se=
@@ -470,4 +547,4 @@ ns-serif"><o:p></o:p></span></p>
 </body>
 </html>
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E5732C4B8fmsmsx111amrcor_--
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155E5732C512fmsmsx111amrcor_--
