@@ -1,46 +1,49 @@
 Return-Path: <ola.redell@gmail.com>
-Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
-	[209.85.215.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 98CC96022E
+Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
+	[209.85.215.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 638EF6E650
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jan 2017 13:43:28 +0000 (UTC)
-Received: by mail-lf0-f65.google.com with SMTP id d16so30190117lfb.1
+	Tue,  3 Jan 2017 13:43:30 +0000 (UTC)
+Received: by mail-lf0-f67.google.com with SMTP id t196so25831211lff.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Jan 2017 05:43:29 -0800 (PST)
+	Tue, 03 Jan 2017 05:43:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=O3WBG6Ix5qm90wdsJauWvt312tT+o0nic9NzKZiu6fI=;
-	b=Pzfb6S2ctL27zusYf3BmVhExqpeNPZPt+6uLnlTi8JivKi4/o5YtSmi/dHIwJfJuyp
-	hoTNYUTL47IQd6P+I6x51U7nH5GhOKYpSNm5rDnAHLlRedg8pEa8vDEerxgaf75wj3cV
-	F40mQl7d7u8F8q46ELAMmAjHBuz2uOQQa0fUTUk6yE/oYt6NLi/qahbanY93i1gWZlA+
-	oRIVDhUO0ghmEdIl5glnl0dTnNC9EMdK47yyWh3b0Zt5bh2dEnPsnZjT3DVM8cubOo4U
-	ONoBl/kpMBjFXUH4Sl5/tU8euvQU0rWid+1gDsFhA4t4Tu42eBXNgJv/ugZRp94paVJr
-	j7MA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=HCRgo7xvSqdq1QES6avwpjWD84CBEMUmoYLmtcTB70o=;
+	b=emqBd6JNc8TkRG9Lsghq8CNdVR2OAgpgz6cumm7CjylET6abH2P97pdWwnNRTS6XM8
+	IU/oDlNVOEwygN5SlGSJ8tFam+bP3ZTU2w6sd9+LdeDH7TRnyODDPnnO4YlCueqgcApZ
+	aQNmfUgjEOmYNvlbqkvdv4PCDhKPmBCioEUDPLz+9lPhFRAFBhlucBy+EGrFG64M6P6r
+	VQQVEyVKL66SToqaYHwHG5jHQ4n8+w9qA7KEyOUegHrKUD9P6/G48WguLjY5+KuU5Nct
+	nQ+/QiCEJObNPjYKsDQCBweJAMLS/tWOrde8WWzfLDhkjQHOXckOCoLoSppSdIseDiqq
+	CElQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=O3WBG6Ix5qm90wdsJauWvt312tT+o0nic9NzKZiu6fI=;
-	b=ljGS1PDuSbgD4UNzT7X0LpqUMaUBTAx4t3z/zdGB5NmD20M1JhopBvz5fzBNsPLuRr
-	YVM9WmC+7MABp0Iy7ghdxMS2T44WOTefiedvp39uNKb//a7iW2tPTni5vHVpjvtuTtIF
-	AurPGOwaziDb1VSE/MHuIBUU+HEDPASz6pnt+pp9lxdo5AQ3rNSMuOeIh3vUj1iXikGH
-	XFlwWfQxWYnMaxuuDXilF4ieNr2Gj6xl+43Ol6YOrhGpfcTj3aehppyjSmoaGmInxcZc
-	yt2JWPodAWjAy3yuceK6laQUQ6zfyvt9q7MXIE9OzsgJh6LfzI0xXgJFJYn/3ET7avTp
-	0D1Q==
-X-Gm-Message-State: AIkVDXLUKUs2ewomnwaOrdySde1CiL/8Jp5HAMlDFX1CFfLLn2G0/SHWVq+1L3+5InYMsQ==
-X-Received: by 10.25.158.143 with SMTP id h137mr622336lfe.142.1483451008349;
-	Tue, 03 Jan 2017 05:43:28 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=HCRgo7xvSqdq1QES6avwpjWD84CBEMUmoYLmtcTB70o=;
+	b=TT+/mj2O1xydJ+zRsFiLSuNCIFgy95JsaPESa87DGbj7HOtKMGbJItVmibKZsaN9pj
+	2iMowuez0H4R1mU38D8oqSz74TI/XaKNDH0eymayB5d2jg0w34GP3RYSpAsGvGazBP2G
+	KB9rZbX099QbFu4Vl/sYK3Pbxdf5dstAhAJwfj3tKbfkR1ct8AWsaQj33nE0ke1ys6le
+	q1SuL5V2cNBKGO1RbsysomfPjF6TYDYfc3tMmxNFPex3lqsrJwS0C8anjX7NrkDiHSHR
+	zj24YNTzQfue96B1l0ZVSkf6i0qHjygLV0pEasg5Jupv0vMRw/vqH2H5kqMPWDSdSliO
+	IkSw==
+X-Gm-Message-State: AIkVDXJkBva8WvgLuSgBjTcSt13klIqet29BdghVkCS14bCe/YFWyLpuJyfzKuGPs1j+TQ==
+X-Received: by 10.25.44.66 with SMTP id s63mr23364011lfs.159.1483451010887;
+	Tue, 03 Jan 2017 05:43:30 -0800 (PST)
 Received: from thinny.lan (81-230-13-64-no94.tbcn.telia.com. [81.230.13.64])
 	by smtp.gmail.com with ESMTPSA id
-	u203sm16802712lff.9.2017.01.03.05.43.26
+	u203sm16802712lff.9.2017.01.03.05.43.30
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 03 Jan 2017 05:43:26 -0800 (PST)
+	Tue, 03 Jan 2017 05:43:30 -0800 (PST)
 From: ola.redell@gmail.com
 X-Google-Original-From: ola.redell@retotech.se
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Jan 2017 14:42:55 +0100
-Message-Id: <1483450976-22741-1-git-send-email-ola.redell@retotech.se>
+Date: Tue,  3 Jan 2017 14:42:56 +0100
+Message-Id: <1483450976-22741-2-git-send-email-ola.redell@retotech.se>
 X-Mailer: git-send-email 1.9.1
-Subject: Kernel module package naming
+In-Reply-To: <1483450976-22741-1-git-send-email-ola.redell@retotech.se>
+References: <1483450976-22741-1-git-send-email-ola.redell@retotech.se>
+Subject: [PATCH] Append KERNEL_VERSION string to kernel module package names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,37 +56,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jan 2017 13:43:30 -0000
+X-List-Received-Date: Tue, 03 Jan 2017 13:43:31 -0000
 
 From: Ola Redell <ola.redell@retotech.se>
 
-Hi,
+The KERNEL_VERSION string is added to kernel module package names in order to
+make the kernel modules for different kernel versions distinct packages instead
+of different versions of the same package. With this change, when a new kernel
+is installed together with its kernel modules (e.g. by upgrade of the packages
+kernel and kernel-modules) using some package manager such as apt-get or rpm,
+the kernel modules for the older kernel will not be removed. This enables a
+fall back to the older kernel if the new one fails.
 
-I have been working on a problem with safe kernel and kernel-module upgrade 
-on a system using .deb packages and apt-get as package manager.
-
-My problem has been that I need to be able to fall back to an earlier kernel
-if a newly installed kernel fails to boot for some reason. The basic support
-for this is handled in U-boot, but my problem has been with the upgrade of kernel
-modules. Today, the same kernel module for different kernel versions has the
-same name for both kernels and differ only in its package version. This
-makes package managers remove the old kernel module when the newer one is
-installed. As a result a safe fall back to the older kernel, whith its (old) 
-modules is very difficult.
-
-I have a solution that works for me by changing the kernel-module-split.bbclass 
-to add the KERNEL_VERSION string to the kernel module package name. I assume 
-this could be useful also in the general case. I am not a package management 
-expert though, so let me know what you think.
-
-/Ola
-
-Ola Redell (1):
-  Append KERNEL_VERSION string to kernel module package names
-
+Signed-off-by: Ola Redell <ola.redell@retotech.se>
+---
  meta/classes/kernel-module-split.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
+index efe1b42..8365448 100644
+--- a/meta/classes/kernel-module-split.bbclass
++++ b/meta/classes/kernel-module-split.bbclass
+@@ -122,7 +122,7 @@ python split_kernel_module_packages () {
+     module_regex = '^(.*)\.k?o$'
+ 
+     module_pattern_prefix = d.getVar('KERNEL_MODULE_PACKAGE_PREFIX')
+-    module_pattern = module_pattern_prefix + 'kernel-module-%s'
++    module_pattern = 'kernel-module-%s-' + d.getVar("KERNEL_VERSION", True)
+ 
+     postinst = d.getVar('pkg_postinst_modules')
+     postrm = d.getVar('pkg_postrm_modules')
 -- 
 1.9.1
 
