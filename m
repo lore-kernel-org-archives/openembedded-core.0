@@ -1,28 +1,29 @@
-Return-Path: <geoffrey.levillain@smile.fr>
-X-Greylist: delayed 331 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 03 Jan 2017 11:18:05 UTC
-Received: from idris.smile.fr (idris.smile.fr [91.216.209.19])
-	by mail.openembedded.org (Postfix) with ESMTP id B44DF6612D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id D9CAE60621
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jan 2017 11:18:05 +0000 (UTC)
+	Tue,  3 Jan 2017 11:49:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by idris.smile.fr (Postfix) with ESMTP id 1B49B1EE1B55;
-	Tue,  3 Jan 2017 12:12:34 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at smile.fr
-Received: from idris.smile.fr ([127.0.0.1])
-	by localhost (bluemind-mta.prod.vitry.intranet [127.0.0.1])
-	(amavisd-new, port 10024)
-	with ESMTP id 9+ORbuvufOWX; Tue,  3 Jan 2017 12:12:34 +0100 (CET)
-Received: from Mirage.daviel.idf.intranet (gre92-5-82-237-199-7.fbx.proxad.net
-	[82.237.199.7])
-	by idris.smile.fr (Postfix) with ESMTPA id BD0DE1EE1B28;
-	Tue,  3 Jan 2017 12:12:33 +0100 (CET)
-From: Geoffrey Levillain <geoffrey.levillain@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Jan 2017 12:12:03 +0100
-Message-Id: <20170103111203.25132-1-geoffrey.levillain@smile.fr>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH 1/1] image.bbclass: reactivate do_fetch, do_unpack and do_patch
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v03Bn7Pa009916; Tue, 3 Jan 2017 11:49:07 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id DhraeBudxPAp; Tue,  3 Jan 2017 11:49:07 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v03Bn4jL009913
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 3 Jan 2017 11:49:05 GMT
+Message-ID: <1483444144.4367.48.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Geoffrey Levillain <geoffrey.levillain@smile.fr>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 03 Jan 2017 11:49:04 +0000
+In-Reply-To: <20170103111203.25132-1-geoffrey.levillain@smile.fr>
+References: <20170103111203.25132-1-geoffrey.levillain@smile.fr>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/1] image.bbclass: reactivate do_fetch, do_unpack and do_patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,35 +36,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jan 2017 11:18:07 -0000
+X-List-Received-Date: Tue, 03 Jan 2017 11:49:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Running fetch/unpack/patch can be used to get some image-specific
-configurations files to apply with a function in the
-ROOTFS_POSTPROCESS_COMMAND variable.
+On Tue, 2017-01-03 at 12:12 +0100, Geoffrey Levillain wrote:
+> Running fetch/unpack/patch can be used to get some image-specific
+> configurations files to apply with a function in the
+> ROOTFS_POSTPROCESS_COMMAND variable.
+> 
+> Hence delete the "noexec" line corresponding to these tasks so we can
+> run them when needed.
 
-Hence delete the "noexec" line corresponding to these tasks so we can
-run them when needed.
+You could make this argument for the other noexec lines too and nothing
+does this by default as far as I'm aware. Could you not do something
+like:
 
-Signed-off-by: Geoffrey Levillain <geoffrey.levillain@smile.fr>
----
- meta/classes/image.bbclass | 3 ---
- 1 file changed, 3 deletions(-)
+python () {
+    d.delVarFlag("do_fetch", "noexec")
+}
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 04fd5f9961..8b8ea40964 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -615,9 +615,6 @@ MULTILIBRE_ALLOW_REP =. "${base_bindir}|${base_sbindir}|${bindir}|${sbindir}|${l
- MULTILIB_CHECK_FILE = "${WORKDIR}/multilib_check.py"
- MULTILIB_TEMP_ROOTFS = "${WORKDIR}/multilib"
- 
--do_fetch[noexec] = "1"
--do_unpack[noexec] = "1"
--do_patch[noexec] = "1"
- do_configure[noexec] = "1"
- do_compile[noexec] = "1"
- do_install[noexec] = "1"
--- 
-2.11.0
+in your specific recipes which need this?
 
+Cheers,
+
+Richard
 
