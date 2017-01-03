@@ -1,39 +1,31 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id CC9B06071F
+Return-Path: <geoffrey.levillain@smile.fr>
+Received: from idris.smile.fr (idris.smile.fr [91.216.209.19])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E0A4606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jan 2017 12:34:54 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-MBX-03.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1cOOIp-0006uy-CH from Awais_Belal@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jan 2017 04:34:55 -0800
-Received: from SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) by
-	SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) with Microsoft SMTP
-	Server (TLS) id 15.0.1210.3; Tue, 3 Jan 2017 12:34:52 +0000
-Received: from SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17]) by
-	SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17%22]) with
-	mapi id 15.00.1210.000; Tue, 3 Jan 2017 12:34:52 +0000
-From: "Belal, Awais" <Awais_Belal@mentor.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v2 2/2] grub-efi/live-vm-common: allow grub	as
-	EFI_PROVIDER
-Thread-Index: AQHSYDsOKEquuhBXcESzggQqKQNJV6Emuwly
-Date: Tue, 3 Jan 2017 12:34:51 +0000
-Message-ID: <1483446891372.91851@mentor.com>
-References: <1481890756-18807-1-git-send-email-awais_belal@mentor.com>,
-	<1481890756-18807-2-git-send-email-awais_belal@mentor.com>,
-	<1482840941211.2620@mentor.com>
-In-Reply-To: <1482840941211.2620@mentor.com>
-Accept-Language: en-US, en-IE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [137.202.0.87]
+	Tue,  3 Jan 2017 13:23:15 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by idris.smile.fr (Postfix) with ESMTP id 412201EE0B78;
+	Tue,  3 Jan 2017 14:23:15 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at smile.fr
+Received: from idris.smile.fr ([127.0.0.1])
+	by localhost (bluemind-mta.prod.vitry.intranet [127.0.0.1])
+	(amavisd-new, port 10024)
+	with ESMTP id NQYOA5PP6BdN; Tue,  3 Jan 2017 14:23:15 +0100 (CET)
+Received: from [10.1.75.240] (fw-alt.idf.smile.fr [109.190.187.143])
+	by idris.smile.fr (Postfix) with ESMTPSA id 1E3211EE0F30;
+	Tue,  3 Jan 2017 14:23:15 +0100 (CET)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <20170103111203.25132-1-geoffrey.levillain@smile.fr>
+	<1483444144.4367.48.camel@linuxfoundation.org>
+From: Geoffrey Levillain <geoffrey.levillain@smile.fr>
+Message-ID: <791f2aff-f9cf-03e6-8dff-9319a5dee775@smile.fr>
+Date: Tue, 3 Jan 2017 14:23:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.5.1
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 2/2] grub-efi/live-vm-common: allow grub	as	EFI_PROVIDER
+In-Reply-To: <1483444144.4367.48.camel@linuxfoundation.org>
+Subject: Re: [PATCH 1/1] image.bbclass: reactivate do_fetch, do_unpack and do_patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,123 +38,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jan 2017 12:34:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 03 Jan 2017 13:23:16 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-ping!=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-b=
-ounces@lists.openembedded.org> on behalf of Belal, Awais=0A=
-Sent: Tuesday, December 27, 2016 5:15 PM=0A=
-To: openembedded-core@lists.openembedded.org=0A=
-Subject: Re: [OE-core] [PATCH v2 2/2] grub-efi/live-vm-common: allow grub  =
-     as      EFI_PROVIDER=0A=
-=0A=
-Ping!=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-b=
-ounces@lists.openembedded.org> on behalf of Belal, Awais=0A=
-Sent: Friday, December 16, 2016 5:19 PM=0A=
-To: openembedded-core@lists.openembedded.org=0A=
-Subject: [OE-core] [PATCH v2 2/2] grub-efi/live-vm-common: allow grub as   =
-     EFI_PROVIDER=0A=
-=0A=
-This allows grub to be used as EFI_PROVIDER and=0A=
-extends the grub-efi class so it can be used as is=0A=
-when EFI_PROVIDER is grub.=0A=
-Currently this can only be leveraged if you are=0A=
-using the grub_git recipe and GRUBPLATFORM plus=0A=
-EFI_PROVIDER are set correctly.=0A=
-=0A=
-Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
----=0A=
- meta/classes/grub-efi.bbclass       | 23 +++++++++++++++++------=0A=
- meta/classes/live-vm-common.bbclass |  2 +-=0A=
- 2 files changed, 18 insertions(+), 7 deletions(-)=0A=
-=0A=
-diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass=
-=0A=
-index 17417ba..c847645 100644=0A=
---- a/meta/classes/grub-efi.bbclass=0A=
-+++ b/meta/classes/grub-efi.bbclass=0A=
-@@ -16,8 +16,8 @@=0A=
- # ${GRUB_TIMEOUT} - timeout before executing the deault label (optional)=
-=0A=
- # ${GRUB_ROOT} - grub's root device.=0A=
-=0A=
--do_bootimg[depends] +=3D "${MLPREFIX}grub-efi:do_deploy"=0A=
--do_bootdirectdisk[depends] +=3D "${MLPREFIX}grub-efi:do_deploy"=0A=
-+do_bootimg[depends] +=3D "${MLPREFIX}${EFI_PROVIDER}:do_deploy"=0A=
-+do_bootdirectdisk[depends] +=3D "${MLPREFIX}${EFI_PROVIDER}:do_deploy"=0A=
-=0A=
- GRUB_SERIAL ?=3D "console=3DttyS0,115200"=0A=
- GRUB_CFG_VM =3D "${S}/grub_vm.cfg"=0A=
-@@ -40,10 +40,21 @@ efi_populate() {=0A=
-=0A=
-        install -d ${DEST}${EFIDIR}=0A=
-=0A=
--       GRUB_IMAGE=3D"bootia32.efi"=0A=
--       if [ "${TARGET_ARCH}" =3D "x86_64" ]; then=0A=
--               GRUB_IMAGE=3D"bootx64.efi"=0A=
--       fi=0A=
-+    if [ "${EFI_PROVIDER}" =3D "grub" ]; then=0A=
-+           GRUB_IMAGE=3D"bootia32.${GRUBPLATFORM}"=0A=
-+           if [ "${TARGET_ARCH}" =3D "x86_64" ]; then=0A=
-+                   GRUB_IMAGE=3D"bootx64.${GRUBPLATFORM}"=0A=
-+           elif [ "${TARGET_ARCH}" =3D "arm" ]; then=0A=
-+            grubimage =3D "bootarm.${GRUBPLATFORM}"=0A=
-+           elif [ "${TARGET_ARCH}" =3D "aarch64" ]; then=0A=
-+            grubimage =3D "bootaa64.${GRUBPLATFORM}"=0A=
-+        fi=0A=
-+    else=0A=
-+        GRUB_IMAGE=3D"bootia32.efi"=0A=
-+           if [ "${TARGET_ARCH}" =3D "x86_64" ]; then=0A=
-+                   GRUB_IMAGE=3D"bootx64.efi"=0A=
-+        fi=0A=
-+    fi=0A=
-        install -m 0644 ${DEPLOY_DIR_IMAGE}/${GRUB_IMAGE} ${DEST}${EFIDIR}=
-=0A=
-        EFIPATH=3D$(echo "${EFIDIR}" | sed 's/\//\\/g')=0A=
-        printf 'fs0:%s\%s\n' "$EFIPATH" "$GRUB_IMAGE" >${DEST}/startup.nsh=
-=0A=
-diff --git a/meta/classes/live-vm-common.bbclass b/meta/classes/live-vm-com=
-mon.bbclass=0A=
-index 734697f..0af228b 100644=0A=
---- a/meta/classes/live-vm-common.bbclass=0A=
-+++ b/meta/classes/live-vm-common.bbclass=0A=
-@@ -13,7 +13,7 @@ def set_live_vm_vars(d, suffix):=0A=
-=0A=
- EFI =3D "${@bb.utils.contains("MACHINE_FEATURES", "efi", "1", "0", d)}"=0A=
- EFI_PROVIDER ?=3D "grub-efi"=0A=
--EFI_CLASS =3D "${@bb.utils.contains("MACHINE_FEATURES", "efi", "${EFI_PROV=
-IDER}", "", d)}"=0A=
-+EFI_CLASS =3D "${@bb.utils.contains("EFI_PROVIDER", "grub", "grub-efi", "$=
-{EFI_PROVIDER}", d)}"=0A=
-=0A=
- # Include legacy boot if MACHINE_FEATURES includes "pcbios" or if it does =
-not=0A=
- # contain "efi". This way legacy is supported by default if neither is=0A=
---=0A=
-1.9.1=0A=
-=0A=
---=0A=
-_______________________________________________=0A=
-Openembedded-core mailing list=0A=
-Openembedded-core@lists.openembedded.org=0A=
-http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
---=0A=
-_______________________________________________=0A=
-Openembedded-core mailing list=0A=
-Openembedded-core@lists.openembedded.org=0A=
-http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
+On 03/01/2017 12:49, Richard Purdie wrote :
+> On Tue, 2017-01-03 at 12:12 +0100, Geoffrey Levillain wrote:
+>> Running fetch/unpack/patch can be used to get some image-specific
+>> configurations files to apply with a function in the
+>> ROOTFS_POSTPROCESS_COMMAND variable.
+>>
+>> Hence delete the "noexec" line corresponding to these tasks so we can
+>> run them when needed.
+> You could make this argument for the other noexec lines too and nothing
+> does this by default as far as I'm aware. Could you not do something
+> like:
+>
+> python () {
+>      d.delVarFlag("do_fetch", "noexec")
+> }
+>
+> in your specific recipes which need this?
+>
+> Cheers,
+>
+> Richard
+
+Other noexec lines are more related to program compilation,
+I think that fetch configuration files to apply is a more generic case
+for images.
+
+The argument could work for do_install but there is a risk of overwrite
+with other version of same config files, image-specific configuration
+must be on higher priority, so there is a need to install them after
+every other task (to eventually overwrite less specific config. files).
+
+I could do the delVarFlag thing but I think that fetch image-specific file
+is generic, and that the noexec flag here doesn't save much time anyway.
+
+Regards,
+
+Geoffrey Levillain
 
