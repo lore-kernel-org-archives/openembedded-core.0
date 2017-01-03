@@ -1,25 +1,25 @@
 Return-Path: <alejandro.hernandez@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 20D0B7017B
+	by mail.openembedded.org (Postfix) with ESMTP id 2409B71957
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  3 Jan 2017 22:33:29 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
 	by orsmga103.jf.intel.com with ESMTP; 03 Jan 2017 14:33:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,457,1477983600"; d="scan'208";a="209315232"
+X-IronPort-AV: E=Sophos;i="5.33,457,1477983600"; d="scan'208";a="209315238"
 Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
 	([10.54.69.56])
-	by fmsmga004.fm.intel.com with ESMTP; 03 Jan 2017 14:33:28 -0800
+	by fmsmga004.fm.intel.com with ESMTP; 03 Jan 2017 14:33:29 -0800
 From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Jan 2017 22:30:39 +0000
-Message-Id: <5e3840aa19de9b634469c852a7c1446262ab73ab.1482363237.git.alejandro.hernandez@linux.intel.com>
+Date: Tue,  3 Jan 2017 22:30:41 +0000
+Message-Id: <9109ffe031aa3ec4addf92c5b8cf13b82801ae37.1482363237.git.alejandro.hernandez@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
 In-Reply-To: <cover.1482363237.git.alejandro.hernandez@linux.intel.com>
 References: <cover.1482363237.git.alejandro.hernandez@linux.intel.com>
 In-Reply-To: <cover.1482363237.git.alejandro.hernandez@linux.intel.com>
 References: <cover.1482363237.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH 3/6] ksize.py: Python 3 fixes
+Subject: [PATCH 5/6] bootimg-efi: Look for image artifacts in a common location
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,63 +36,96 @@ X-List-Received-Date: Tue, 03 Jan 2017 22:33:30 -0000
 
 From: Tom Zanussi <tom.zanussi@linux.intel.com>
 
-String errors and partial __cmp__ fix.
+Rather than have each image type look for artifacts in image-specific
+locations, move towards having them look for artifacts in a common
+location, in this case DEPLOY_DIR_IMAGE/artifacts.
 
+This currently only applies to bootimg-efi images, and only if the
+oe-core image classes have been modified to generate artifacts there
+(e.g. using image-live-artifacts).
+
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
 ---
- scripts/tiny/ksize.py | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+ scripts/lib/wic/plugins/source/bootimg-efi.py | 28 +++++++++++++++++++++------
+ 1 file changed, 22 insertions(+), 6 deletions(-)
 
-diff --git a/scripts/tiny/ksize.py b/scripts/tiny/ksize.py
-index b9d2b19..ea1ca7f 100755
---- a/scripts/tiny/ksize.py
-+++ b/scripts/tiny/ksize.py
-@@ -41,7 +41,7 @@ def usage():
- class Sizes:
-     def __init__(self, glob):
-         self.title = glob
--        p = Popen("size -t " + glob, shell=True, stdout=PIPE, stderr=PIPE)
-+        p = Popen("size -t " + str(glob), shell=True, stdout=PIPE, stderr=PIPE)
-         output = p.communicate()[0].splitlines()
-         if len(output) > 2:
-             sizes = output[-1].split()[0:4]
-@@ -62,18 +62,18 @@ class Report:
-         r = Report(filename, title)
-         path = os.path.dirname(filename)
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+index 305e910..2c16a0f 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -42,7 +42,7 @@ class BootimgEFIPlugin(SourcePlugin):
+     name = 'bootimg-efi'
  
--        p = Popen("ls " + path + "/*.o | grep -v built-in.o",
-+        p = Popen("ls " + str(path) + "/*.o | grep -v built-in.o",
-                   shell=True, stdout=PIPE, stderr=PIPE)
-         glob = ' '.join(p.communicate()[0].splitlines())
--        oreport = Report(glob, path + "/*.o")
--        oreport.sizes.title = path + "/*.o"
-+        oreport = Report(glob, str(path) + "/*.o")
-+        oreport.sizes.title = str(path) + "/*.o"
-         r.parts.append(oreport)
+     @classmethod
+-    def do_configure_grubefi(cls, hdddir, creator, cr_workdir):
++    def do_configure_grubefi(cls, hdddir, creator, cr_workdir, source_params):
+         """
+         Create loader-specific (grub-efi) config
+         """
+@@ -82,7 +82,7 @@ class BootimgEFIPlugin(SourcePlugin):
+         cfg.close()
  
-         if subglob:
-             p = Popen("ls " + subglob, shell=True, stdout=PIPE, stderr=PIPE)
-             for f in p.communicate()[0].splitlines():
-                 path = os.path.dirname(f)
--                r.parts.append(Report.create(f, path, path + "/*/built-in.o"))
-+                r.parts.append(Report.create(f, path, str(path) + "/*/built-in.o"))
-             r.parts.sort(reverse=True)
+     @classmethod
+-    def do_configure_systemdboot(cls, hdddir, creator, cr_workdir):
++    def do_configure_systemdboot(cls, hdddir, creator, cr_workdir, source_params):
+         """
+         Create loader-specific systemd-boot/gummiboot config
+         """
+@@ -98,6 +98,18 @@ class BootimgEFIPlugin(SourcePlugin):
+         loader_conf += "default boot\n"
+         loader_conf += "timeout %d\n" % bootloader.timeout
  
-         for b in r.parts:
-@@ -116,6 +116,13 @@ class Report:
-                self.deltas["data"], self.deltas["bss"]))
-         print("\n")
- 
-+    def __lt__(this, that):
-+        if that is None:
-+            return 1
-+        if not isinstance(that, Report):
-+            raise TypeError
-+        return this.sizes.total < that.sizes.total
++        initrd = ""
 +
-     def __cmp__(this, that):
-         if that is None:
-             return 1
++        if source_params['initrd']:
++	    initrd = source_params['initrd']
++            # obviously we need to have a common common deploy var
++            bootimg_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
++            if not bootimg_dir:
++                msger.error("Couldn't find DEPLOY_DIR_IMAGE, exiting\n")
++
++            cp_cmd = "cp %s/%s %s" % (bootimg_dir, initrd, hdddir)
++            exec_cmd(cp_cmd, True)
++
+         msger.debug("Writing systemd-boot config %s/hdd/boot/loader/loader.conf" \
+                         % cr_workdir)
+         cfg = open("%s/hdd/boot/loader/loader.conf" % cr_workdir, "w")
+@@ -127,6 +139,9 @@ class BootimgEFIPlugin(SourcePlugin):
+             boot_conf += "options LABEL=Boot root=%s %s\n" % \
+                              (creator.rootdev, bootloader.append)
+ 
++           if initrd:
++                boot_conf += "initrd /%s\n" % initrd
++
+         msger.debug("Writing systemd-boot config %s/hdd/boot/loader/entries/boot.conf" \
+                         % cr_workdir)
+         cfg = open("%s/hdd/boot/loader/entries/boot.conf" % cr_workdir, "w")
+@@ -148,9 +163,9 @@ class BootimgEFIPlugin(SourcePlugin):
+ 
+         try:
+             if source_params['loader'] == 'grub-efi':
+-                cls.do_configure_grubefi(hdddir, creator, cr_workdir)
++                cls.do_configure_grubefi(hdddir, creator, cr_workdir, source_params)
+             elif source_params['loader'] == 'systemd-boot':
+-                cls.do_configure_systemdboot(hdddir, creator, cr_workdir)
++                cls.do_configure_systemdboot(hdddir, creator, cr_workdir, source_params)
+             else:
+                 msger.error("unrecognized bootimg-efi loader: %s" % source_params['loader'])
+         except KeyError:
+@@ -167,9 +182,10 @@ class BootimgEFIPlugin(SourcePlugin):
+         In this case, prepare content for an EFI (grub) boot partition.
+         """
+         if not bootimg_dir:
+-            bootimg_dir = get_bitbake_var("HDDDIR")
++	    bootimg_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
+             if not bootimg_dir:
+-                msger.error("Couldn't find HDDDIR, exiting\n")
++                 msger.error("Couldn't find DEPLOY_DIR_IMAGE, exiting\n")
++            bootimg_dir += "/artifacts"
+             # just so the result notes display it
+             creator.set_bootimg_dir(bootimg_dir)
+ 
 -- 
 2.6.6
 
