@@ -1,47 +1,47 @@
 Return-Path: <kergoth@gmail.com>
 Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B47660762
+	by mail.openembedded.org (Postfix) with ESMTP id 556B060762
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jan 2017 22:58:08 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id c85so55464831wmi.1
+	Wed,  4 Jan 2017 22:58:10 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id c85so55464904wmi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Jan 2017 14:58:09 -0800 (PST)
+	Wed, 04 Jan 2017 14:58:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=0xHhKsCmcehowEikDqBNSA+I5B+dZrhkScWn7xX4MIA=;
-	b=KRk8cWxKiOvK19IIWoFYNp7VB0EVa8Tn9JdMCfeY1SQAN/aoZzaeC2PWhR87I0n1YD
-	Bz0oWbA8ForSMgIwN3Az9smZZ/rMhnESFLmOXsa62ajVTmYwiNvkK929K2gyJ0p3VpeT
-	0aRgbUO8IOuOGIVXMuVg84h3pGJryBpTGWxtzQ0AtkwBbfnaVsnARMF4z5kj+ZSqj5nQ
-	+xRdoTyk2YcSv8fP+9N5xXmzDeKWjPDItBVD6gtPpEJnktnek/oMmI12XSZcr+mZa2wt
-	yRrF69OIys6yjqcUQQeVlNDKGgCKK2Lvw3CExDCF8ytIHjPMRQvw8ZRoScDEt/MKIzIA
-	Ketw==
+	bh=Y0hs1FYk4nCmwiElW0tlk8mHoBm6kADosRNyTv7vPuM=;
+	b=amo23Kefkrt7cIV/5QnJ2zdR4dFE1gRq2yZCuNTqSl7uIOIML+oTfpeDM8WgVIq+Jg
+	+hMMYEuH+POx0t/D4/QeUxAr1AEGtGP7CKbdRqPNXtPuFHyVIh61b9OqvA6WpE1Cv+3z
+	xNw+ZHe13+MXe7K3IYtTGo61gzV3P5niUkMII/QLLoXViJ9ldceGuH2n50sXFyjYt+U4
+	BumklLjI+GdTNaD8xJpCrNYFAiaSKPU6Ecl4ySSVXnIchOvADChjDs/ceQCCspdC3iKG
+	9PE9ZPok3Kq1UUIePy6Jl4QaZBCS/PEj2Nk1iQLSahgppBCH+K4n20ZKHSyGXbOJtQOF
+	yOoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=0xHhKsCmcehowEikDqBNSA+I5B+dZrhkScWn7xX4MIA=;
-	b=NzJXHaOz8MV4riSZdRNDcXkAJMjd0SxVl64Cmn/1ZHw+V9II1s/QNtR4Skr4C0kttX
-	ZtSGypDLE3QVKE9cItmZYDRhOTLRxVJHYCSvcc0Eok1/Xd62IAGyTSeY9MG9U8LB72pA
-	blXy9tJKmFgsqlYVJjD1c+M6W5Pr+tJaSBqwNTLJuKyQoeZQVllSf6x2W516VUQgFVLC
-	sgM5t7KEMfzB9jAW1WqnnmH9qFh9UOyClH0XYLneA67wauEV6EWpr7n9PZCge8lV69tG
-	c3LFZP+HszqSJSbEhD0Oz3XuxTT8Y6lhm6nlOadm0Y/OWsLmLoux7fIpwHsyFMTxn3il
-	Mhcw==
-X-Gm-Message-State: AIkVDXKWOPYCiJmwwQi5qqMh9tUcydQyOtkpKgN410PJrPSKg8Z2fyfIMV5MpKogXh9Stg==
-X-Received: by 10.28.211.72 with SMTP id k69mr58231184wmg.138.1483570688224;
-	Wed, 04 Jan 2017 14:58:08 -0800 (PST)
+	bh=Y0hs1FYk4nCmwiElW0tlk8mHoBm6kADosRNyTv7vPuM=;
+	b=fFKBHUbMTmT8HTo97NSoMvTo9KL8xC3HIdC8YFgBGp2LPW5FFde2dm3HRklSFcEfai
+	hhGX7g/bEQswRv7HQeJGvAH5ncgCQUqFiPTyE98/O3lc84FCTDLEW/pvszlCncKqejMT
+	ko9oKTZ2OWsx6ibs5C1KwVKeo+XDqTQvW4es911AK75JEyKdI0PTLzp71fJG75Ls7f+t
+	Mu5h8zSTU2n98S6eonZvWKs1+EjOj5cINBhD/5T1EfpH6YL7L5Wjq0p2SbM+3zeYwiIQ
+	/VY+BqrkXYcjKfE4XEultt28z8S0+474ir4p+HY+d0xHYWuuN8YZKrh8zUtita3FQ2/Y
+	jHVg==
+X-Gm-Message-State: AIkVDXJYvVGcg0RfW+sQb++bDdZErdPKtlRrGV/90KnzfXZq9cXDHfkbLZ30nxm74XXmMA==
+X-Received: by 10.28.173.131 with SMTP id w125mr58266741wme.0.1483570690422;
+	Wed, 04 Jan 2017 14:58:10 -0800 (PST)
 Received: from quark.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id 6sm100453855wjt.5.2017.01.04.14.58.06
+	by smtp.gmail.com with ESMTPSA id 6sm100453855wjt.5.2017.01.04.14.58.08
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 04 Jan 2017 14:58:07 -0800 (PST)
+	Wed, 04 Jan 2017 14:58:09 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Jan 2017 15:57:53 -0700
-Message-Id: <49ea0e7ba64de9f79d3f082defee7bd510a137f6.1483570577.git.chris_larson@mentor.com>
+Date: Wed,  4 Jan 2017 15:57:54 -0700
+Message-Id: <197a588e306cab0f5e14b60b3aefea4b1919e709.1483570577.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.8.0
 In-Reply-To: <cover.1483570577.git.chris_larson@mentor.com>
 References: <cover.1483570577.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 4/6] eglinfo-x11: add opengl to REQUIRED_DISTRO_FEATURES
+Subject: [PATCH 5/6] packagegroup-self-hosted: add opengl to REQUIRED_DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,33 +54,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2017 22:58:09 -0000
+X-List-Received-Date: Wed, 04 Jan 2017 22:58:10 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-The .inc already included this, but the x11 version was overriding it. This is
-a problem, as the x11 version still needs opengl as well as x11. Append
-instead.
+This rdepends on libgl.
 
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.0.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-core/packagegroups/packagegroup-self-hosted.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.0.bb b/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.0.bb
-index 3427fdf..db00f76 100644
---- a/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.0.bb
-+++ b/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.0.bb
-@@ -6,7 +6,8 @@ include eglinfo.inc
- DEPENDS += "virtual/libx11"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+index 73430b8..c1bbdfc 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+@@ -10,6 +10,9 @@ inherit packagegroup  distro_features_check
+ # rdepends on libx11-dev
+ REQUIRED_DISTRO_FEATURES = "x11"
  
- inherit distro_features_check
++# rdepends on libgl
++REQUIRED_DISTRO_FEATURES += "opengl"
 +
- # depends on virtual/libx11
--REQUIRED_DISTRO_FEATURES = "x11"
-+REQUIRED_DISTRO_FEATURES += "x11"
- 
- SUMMARY += "(X11 version)"
+ PACKAGES = "\
+     packagegroup-self-hosted \
+     packagegroup-self-hosted-debug \
 -- 
 2.8.0
 
