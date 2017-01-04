@@ -1,48 +1,24 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-wj0-f194.google.com (mail-wj0-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id C81C7719B9
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id BF25A719B4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jan 2017 22:58:12 +0000 (UTC)
-Received: by mail-wj0-f194.google.com with SMTP id j10so77354119wjb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Jan 2017 14:58:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=51L/no2n18KDS1PQlaLFkuySvE6Zij6Rm4kWuR+4MVs=;
-	b=YBdno0JqBG4ZJE3oxNhWotXR5jm9Wh0+YBpiA4fWCeB1HTB1o0eA/W1JEZTFF7B/EK
-	O2bLhJkrSNU9KM3+wkpUShIXbWv/9L/yxrwV46YilaVoU2zLOIVgZKVEjeAkCmXWYAhm
-	7LKgIrQoQFZBN6qTPVJgBKWyUky9pf+WVjkAGpCKg6VWJjI62dkwxh6yDS31QAnbmBO3
-	ovUElP9sAkF5gEiixjKSFAgVhYzI6pDWlZ9Foaq2Gkod/ORREqzYeDvWi9SSeKojymEm
-	8GAtGbUDp3vDWVcrdwH4PIqcXGK1J/OHSn8Yihb3VQLG6kYD3CegO53xzejRwwqlp5Ti
-	9UFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=51L/no2n18KDS1PQlaLFkuySvE6Zij6Rm4kWuR+4MVs=;
-	b=l8tmbJra+xCMvnk5BTdg3X+W3V96jAX1VyHmTpD0u9FotaIErQ+ITT8V+M9hmXbaoB
-	FoPPhnlSEsUqHB6FGshE+ejNXYGatAdA72BeYa1u4IHPdjLAd8jXch0460sox++YzyrG
-	13aqsx9dDfTTl0hrA4uFfxiI6zu9n3cSdr8wS8vmpkxQfWS5cAat25fYql4elqKppg/N
-	i5IvFPlhxdzKnC8WGv57CgBsonr3wB21357g7eXdNfWhgHMkSjfvCRDzOv3X9ZzPlx48
-	NAI09+153seQj/f/m87m1GF2sffZuz5L6zNTVjSCyJP/uNRBuGSeF7+U2geDL1+EfNxJ
-	3HUQ==
-X-Gm-Message-State: AIkVDXKSm5fbxIciYQjmuVioYutcEFeuNIhaZrTbrGOYnfi3XjfxvI6NNGJT2z/uSOZtWw==
-X-Received: by 10.194.158.229 with SMTP id wx5mr2224576wjb.174.1483570692586; 
-	Wed, 04 Jan 2017 14:58:12 -0800 (PST)
-Received: from quark.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id 6sm100453855wjt.5.2017.01.04.14.58.10
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 04 Jan 2017 14:58:11 -0800 (PST)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Jan 2017 15:57:55 -0700
-Message-Id: <fa3c45aa387da08e2a3c4831c30444191a943974.1483570577.git.chris_larson@mentor.com>
-X-Mailer: git-send-email 2.8.0
-In-Reply-To: <cover.1483570577.git.chris_larson@mentor.com>
+	Wed,  4 Jan 2017 23:34:10 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=tp13)
+	by hetzner.pbcl.net with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.87)
+	(envelope-from <pb@pbcl.net>)
+	id 1cOv4K-0002Jv-CK; Thu, 05 Jan 2017 00:34:10 +0100
+Message-ID: <1483572844.4360.177.camel@pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Christopher Larson <kergoth@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 04 Jan 2017 23:34:04 +0000
+In-Reply-To: <0f858d235ef2116b29251f6e471abdb62490532d.1483570577.git.chris_larson@mentor.com>
 References: <cover.1483570577.git.chris_larson@mentor.com>
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 6/6] packagegroup-core-lsb: add opengl to REQUIRED_DISTRO_FEATURES
+	<0f858d235ef2116b29251f6e471abdb62490532d.1483570577.git.chris_larson@mentor.com>
+X-Mailer: Evolution 3.20.5-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 3/6] libglu: add opengl to REQUIRED_DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,33 +31,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2017 22:58:13 -0000
+X-List-Received-Date: Wed, 04 Jan 2017 23:34:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Christopher Larson <chris_larson@mentor.com>
+On Wed, 2017-01-04 at 15:57 -0700, Christopher Larson wrote:
+> 
+>  # Requires libGL.so which is provided by mesa when x11 in
+> DISTRO_FEATURES
+> -REQUIRED_DISTRO_FEATURES = "x11"
+> +REQUIRED_DISTRO_FEATURES = "x11 opengl"
 
-This group pulls in libglu, which needs virtual/libgl, whose providers require
-opengl in DISTRO_FEATURES.
+I sort of have the sense that something has gone a bit wrong with the
+way {REQUIRED_}DISTRO_FEATURES is now being used.
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb | 3 +++
- 1 file changed, 3 insertions(+)
+The original concept with DISTRO_FEATURES was that it would just be a
+global way of controlling the PACKAGECONFIG options for each recipe.
+ That is, if you have x11 in DISTRO_FEATURES then PACKAGECONFIG[x11]
+would be turned on automatically for every recipe that supports it, and
+so on.  It was never really intended to be, and I still feel it
+probably ought not to be, a filtering mechanism.
 
-diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-index 734dda1..3aedf6b 100644
---- a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-+++ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-@@ -11,6 +11,9 @@ inherit packagegroup distro_features_check
- # The libxt, libxtst and others require x11 in DISTRO_FEATURES
- REQUIRED_DISTRO_FEATURES = "x11"
- 
-+# libglu needs virtual/libgl, which requires opengl in DISTRO_FEATURES
-+REQUIRED_DISTRO_FEATURES += "opengl"
-+
- #
- # We will skip parsing this packagegeoup for non-glibc systems
- #
--- 
-2.8.0
+Or, to put it another way, just because you don't have x11 in
+DISTRO_FEATURES doesn't necessarily mean that your distro refuses to
+support x11 at all.  It ought simply to mean that you don't
+want packages compiled with X11 support where this is avoidable.
+
+But in the particular case above, if the comment is correct then the
+presence of x11 in REQUIRED_DISTRO_FEATURES seems bogus by any
+interpretation.  If it's really true that libGLU simply "Requires
+libGL.so" then either:
+
+a) it ought to have nothing at all in REQUIRED_DISTRO_FEATURES and
+simply express a dependency on virtual/libgl (which would be my
+preference); or
+
+b) it ought to mention only opengl in REQUIRED_DISTRO_FEATURES
+
+p.
 
 
