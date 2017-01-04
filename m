@@ -1,27 +1,40 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 84B3A71985
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 58F0871998
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jan 2017 18:29:59 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga105.fm.intel.com with ESMTP; 04 Jan 2017 10:30:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,459,1477983600"; d="scan'208";a="45728033"
-Received: from lsandov1-mobl2.zpn.intel.com (HELO [10.219.128.142])
-	([10.219.128.142])
-	by orsmga004.jf.intel.com with ESMTP; 04 Jan 2017 10:29:59 -0800
-To: Moritz Fischer <moritz.fischer@ettus.com>,
-	openembedded-core@lists.openembedded.org
-References: <1483512355-27961-1-git-send-email-moritz.fischer@ettus.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Message-ID: <740a7531-d635-8191-d901-ffaa0deffae4@linux.intel.com>
-Date: Wed, 4 Jan 2017 12:36:28 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.6.0
+	Wed,  4 Jan 2017 18:37:04 +0000 (UTC)
+Received: from us-aus-exhub2.ni.corp.natinst.com
+	(us-aus-exhub2.ni.corp.natinst.com [130.164.68.32])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTPS id
+	v04Ib3x0006921
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 4 Jan 2017 12:37:04 -0600
+Received: from us-aus-exch7.ni.corp.natinst.com (130.164.68.17) by
+	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Wed, 4 Jan 2017 12:37:02 -0600
+Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
+	us-aus-exch7.ni.corp.natinst.com (130.164.68.17) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Wed, 4 Jan 2017 12:37:03 -0600
+Received: from adi-pc-linux.natinst.com (130.164.49.7) by
+	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
+	Server
+	id 15.0.1156.6 via Frontend Transport; Wed, 4 Jan 2017 12:37:02 -0600
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 4 Jan 2017 20:34:58 +0200
+Message-ID: <20170104183458.2518-1-adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-In-Reply-To: <1483512355-27961-1-git-send-email-moritz.fischer@ettus.com>
-Cc: koen@dominion.thruhere.net, mdf@kernel.org
-Subject: Re: [meta-oe][PATCH v3] devtools: Add recipe for Chromium Embedded Controller utilities
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2017-01-04_15:, , signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+	suspectscore=6
+	malwarescore=0 phishscore=0 adultscore=0 bulkscore=0 classifier=spam
+	adjust=0 reason=mlx scancount=1 engine=8.0.1-1612050000
+	definitions=main-1701040280
+Cc: ken.sharp@ni.com
+Subject: [PATCH] wic/isoimage-isohybrid: check for grub-mkimage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,33 +47,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2017 18:30:00 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Jan 2017 18:37:06 -0000
+Content-Type: text/plain
 
+The isohybrid plugin uses grub-mkimage but doesn't make sure it gets built.
+Add a check to avoid the following error:
 
-> +}
-> diff --git a/meta/recipes-devtools/chromium-utils/files/0001-build-Add-HOST_LDFLAGS.patch b/meta/recipes-devtools/chromium-utils/files/0001-build-Add-HOST_LDFLAGS.patch
-> new file mode 100644
-> index 0000000..46e8cad
-> --- /dev/null
-> +++ b/meta/recipes-devtools/chromium-utils/files/0001-build-Add-HOST_LDFLAGS.patch
-> @@ -0,0 +1,26 @@
-> +From 56ffeeffea735a6a8f69fc111278ebabe3c7e2d8 Mon Sep 17 00:00:00 2001
-> +From: Moritz Fischer <moritz.fischer@ettus.com>
-> +Date: Tue, 27 Dec 2016 22:24:07 -0800
-> +Subject: [PATCH] build Add HOST_LDFLAGS
-> +
+Error: A native program grub-mkimage required to build the image was not found (see details above).
 
-what is the Upstream Status of this patch? At least for oe-core, you 
-need to provide it. More info at 
-http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Wic failed to find a recipe to build native grub-mkimage. Please file a bug against wic.
 
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+---
+ scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-
-> +Signed-off-by: Moritz Fischer <moritz.fischer@ettus.com>
-> +---
-> + Makefile.rules | 2 +-
->
+diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+index 3858fd439b..9c408d046f 100644
+--- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
++++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+@@ -242,6 +242,11 @@ class IsoImagePlugin(SourcePlugin):
+             msger.info("Building mtools-native...\n")
+             exec_cmd("bitbake mtools-native")
+ 
++        # Make sure grub-mkconfig is available in native sysroot
++        if not os.path.isfile("%s/usr/bin/grub-mkimage" % native_sysroot):
++            msger.info("Building grub-native...\n")
++            exec_cmd("bitbake grub-native")
++
+     @classmethod
+     def do_configure_partition(cls, part, source_params, creator, cr_workdir,
+                                oe_builddir, bootimg_dir, kernel_dir,
+-- 
+2.11.0
 
 
