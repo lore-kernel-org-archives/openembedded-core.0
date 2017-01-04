@@ -1,47 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
-	[209.85.213.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F6A9605FF
+Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
+	[209.85.213.68])
+	by mail.openembedded.org (Postfix) with ESMTP id A1E0371989
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jan 2017 06:39:20 +0000 (UTC)
-Received: by mail-vk0-f65.google.com with SMTP id x186so32449111vkd.2
+	Wed,  4 Jan 2017 06:40:03 +0000 (UTC)
+Received: by mail-vk0-f68.google.com with SMTP id 19so16006125vko.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Jan 2017 22:39:21 -0800 (PST)
+	Tue, 03 Jan 2017 22:40:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=WhpN2ueFPWBCZmI1YGNBybUNXdZzBOaFA7gfM18Qe6Y=;
-	b=N0T+eB2pS+uyM9k56V3rx4YHqleJhmxeoj++F0WfuHyEjydJvTXURZK217hVAbztY4
-	BCn7jO4td2vo8ccP7XHcEEHhbidK2m1FvWYMkli3vEWkPEirl92n/JHxBnd/qdVU4fZP
-	e4M1W52YpIjMadE0VofnMLPbKJuGq9ttlHaBMGlmLz6+R0gnsx5DSMqDl2HUiN1xVo/A
-	dGTjAFgg0OFqAzCVonKNW20/eEafzGojASoOLtLM1mYFRmoepQDjXTUlhp0W/QOzmUub
-	1Anyvuk5cr7FixNKI1qewvdaVCfMWYfYJb7QwRSrUiz/hVdayKrhszVmIa5oVIavv1vO
-	E4pQ==
+	:cc; bh=hsxnLnI5GCGvpbKYfiWoG0GmdheEGS/Gpfbv01GcnhE=;
+	b=Svf96M2HjCI50LFfZ4njHq2yv7ngyu1+BwsHkiG+YC0pKRHA+t2sjnNKr2ySh3CZhA
+	Y26KeBrilIHYwuVHjcbKatcl2NnK8mgr/e3xgVbpV9XNdErQEThEF9wF1jDCnZtc4fxv
+	MksKxL5XRZ81AylIYOtgzI6VZ3uh1KvKZ4Vw8ZS9i0xat7oaONsk4I3bGdE4TKmi8uez
+	PJkQDB4FecnkgK2WASCtlaxr1sWFuXmLO53RkEe7gz6S2hSz+vHpV4T7j+3ulRR4IQK4
+	x8hN9QcDZUMFIdttqM2oK6cRACxnmyDVD1YY823ovhpJcHJ1bTIiMP5gHP7u1p2BpDWx
+	rJpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=WhpN2ueFPWBCZmI1YGNBybUNXdZzBOaFA7gfM18Qe6Y=;
-	b=WxajZ6jXXU70MBmb8UsQ31KgDioXkRf2eF1kxxZod5RdS5PVKRWNPNApf8Mhi6D+CN
-	nVAngU2hBAjilznTQpl2ENSXiSvwaeY7UtI26qetuRkT3vmuoUBRrcDdHMDwKiE+kyit
-	21AFpYv/I7BSBEb7osOliAMBNfZG28UKh8fW/hGOLfn/6bWh7HmXboQo4W9IbypP3otZ
-	TqrLtnzmXnmfvNgxxlpkTP3hYc0XzjTqyNlGM9Q5OrseNhBrUWTtYKG9Jv5Xwq9s0dqL
-	aep/ImTFKnHs/4Q6NViH9nIryf92OCM9Dapg+ZnNZs603P4yn4Jz2a8kplOi3jjmdcrM
-	QfUA==
-X-Gm-Message-State: AIkVDXIej635VJ7aMc4gxk8sKWgRQXE/3nv1KDEECqCUvkGGHobg5j1+tlC/ohUgehsgQvf6bJdL9jmH97DGjQ==
-X-Received: by 10.31.26.193 with SMTP id a184mr14705356vka.173.1483511960248; 
-	Tue, 03 Jan 2017 22:39:20 -0800 (PST)
+	bh=hsxnLnI5GCGvpbKYfiWoG0GmdheEGS/Gpfbv01GcnhE=;
+	b=gPLwIlxQ3g2TQa6MIL7mr9f5LC7YozJq2XbWRA42Z+b93bpN411MD/CdS3O/NA6E2D
+	GBaZ82+jKT380YAeDRu4EBGZeinXUOE3gvMVC0GXYkWmR+X85grHQfhRSs70dw1FSU+J
+	x1CYivjGXCKWISjiR7oOVR/jXSCMoC4F4wjlFeMxqS1porKSaFgQAdhZ4L2fPMOspCo+
+	Sws9WWzaK07QQbuuazByBUBtX0loSkZrqm20aUeJZCmKrShPfVN0coBy8lm3xOcIXR3z
+	j/uelpbNVBD2SF/m5zv+0ia4XSVshhVzl5Zf5iAQyHeYeHz0XXb8qkxukcoHAno4BVLa
+	yM5w==
+X-Gm-Message-State: AIkVDXKW5uJ3SMngRIUbCEUIMiQuGwmrbEdGVze9Bl/kuv8ewwnjrzXGSDe0BIiPq0eEmzyWOvOObwt1zCIFvg==
+X-Received: by 10.31.168.7 with SMTP id r7mr22540237vke.148.1483512003656;
+	Tue, 03 Jan 2017 22:40:03 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.159.48.87 with HTTP; Tue, 3 Jan 2017 22:38:49 -0800 (PST)
-In-Reply-To: <0960cf70d3357819843e693eb13c1e7c1f93da8e.1482363237.git.alejandro.hernandez@linux.intel.com>
+Received: by 10.159.48.87 with HTTP; Tue, 3 Jan 2017 22:39:33 -0800 (PST)
+In-Reply-To: <5e3840aa19de9b634469c852a7c1446262ab73ab.1482363237.git.alejandro.hernandez@linux.intel.com>
 References: <cover.1482363237.git.alejandro.hernandez@linux.intel.com>
-	<0960cf70d3357819843e693eb13c1e7c1f93da8e.1482363237.git.alejandro.hernandez@linux.intel.com>
+	<5e3840aa19de9b634469c852a7c1446262ab73ab.1482363237.git.alejandro.hernandez@linux.intel.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 3 Jan 2017 22:38:49 -0800
-Message-ID: <CAMKF1soMf35-VzMr9rE5uOmGTu-3NhdhbykQrp0KBOVN=x1+Ag@mail.gmail.com>
+Date: Tue, 3 Jan 2017 22:39:33 -0800
+Message-ID: <CAMKF1soP7afwicknqti_muFYwGrMgNZE+n3rfnVQ8Hg8NeU2aw@mail.gmail.com>
 To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/6] scripts/tiny/ksum.py: New tool
+Subject: Re: [PATCH 3/6] ksize.py: Python 3 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,202 +54,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2017 06:39:20 -0000
+X-List-Received-Date: Wed, 04 Jan 2017 06:40:04 -0000
 Content-Type: text/plain; charset=UTF-8
 
 On Tue, Jan 3, 2017 at 2:30 PM, Alejandro Hernandez
 <alejandro.hernandez@linux.intel.com> wrote:
 > From: Tom Zanussi <tom.zanussi@linux.intel.com>
 >
-> 'ksum.py' generates a combined summary of vmlinux and module sizes for
-> a built kernel, as a quick tool for comparing the overall effects of
-> systemic tinification changes.  Execute from the base directory of the
-> kernel build you want to summarize.  Setting the 'verbose' flag will
-> display the sizes for each file included in the summary.
+> String errors and partial __cmp__ fix.
+
+may be fold it into previous patch.
+
 >
-
-Does this work with python3 as well?
-
 > Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
 > ---
->  scripts/tiny/ksum.py | 168 +++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 168 insertions(+)
->  create mode 100755 scripts/tiny/ksum.py
+>  scripts/tiny/ksize.py | 17 ++++++++++++-----
+>  1 file changed, 12 insertions(+), 5 deletions(-)
 >
-> diff --git a/scripts/tiny/ksum.py b/scripts/tiny/ksum.py
-> new file mode 100755
-> index 0000000..d4f3892
-> --- /dev/null
-> +++ b/scripts/tiny/ksum.py
-> @@ -0,0 +1,168 @@
-> +#!/usr/bin/env python
-> +# ex:ts=4:sw=4:sts=4:et
-> +# -*- tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil -*-
-> +#
-> +# Copyright (c) 2016, Intel Corporation.
-> +# All rights reserved.
-> +#
-> +# This program is free software; you can redistribute it and/or modify
-> +# it under the terms of the GNU General Public License version 2 as
-> +# published by the Free Software Foundation.
-> +#
-> +# This program is distributed in the hope that it will be useful,
-> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> +# GNU General Public License for more details.
-> +#
-> +# You should have received a copy of the GNU General Public License along
-> +# with this program; if not, write to the Free Software Foundation, Inc.,
-> +# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-> +#
-> +# DESCRIPTION 'ksum.py' generates a combined summary of vmlinux and
-> +# module sizes for a built kernel, as a quick tool for comparing the
-> +# overall effects of systemic tinification changes.  Execute from the
-> +# base directory of the kernel build you want to summarize.  Setting
-> +# the 'verbose' flag will display the sizes for each file included in
-> +# the summary.
-> +#
-> +# AUTHORS
-> +# Tom Zanussi <tom.zanussi (at] linux.intel.com>
-> +#
+> diff --git a/scripts/tiny/ksize.py b/scripts/tiny/ksize.py
+> index b9d2b19..ea1ca7f 100755
+> --- a/scripts/tiny/ksize.py
+> +++ b/scripts/tiny/ksize.py
+> @@ -41,7 +41,7 @@ def usage():
+>  class Sizes:
+>      def __init__(self, glob):
+>          self.title = glob
+> -        p = Popen("size -t " + glob, shell=True, stdout=PIPE, stderr=PIPE)
+> +        p = Popen("size -t " + str(glob), shell=True, stdout=PIPE, stderr=PIPE)
+>          output = p.communicate()[0].splitlines()
+>          if len(output) > 2:
+>              sizes = output[-1].split()[0:4]
+> @@ -62,18 +62,18 @@ class Report:
+>          r = Report(filename, title)
+>          path = os.path.dirname(filename)
+>
+> -        p = Popen("ls " + path + "/*.o | grep -v built-in.o",
+> +        p = Popen("ls " + str(path) + "/*.o | grep -v built-in.o",
+>                    shell=True, stdout=PIPE, stderr=PIPE)
+>          glob = ' '.join(p.communicate()[0].splitlines())
+> -        oreport = Report(glob, path + "/*.o")
+> -        oreport.sizes.title = path + "/*.o"
+> +        oreport = Report(glob, str(path) + "/*.o")
+> +        oreport.sizes.title = str(path) + "/*.o"
+>          r.parts.append(oreport)
+>
+>          if subglob:
+>              p = Popen("ls " + subglob, shell=True, stdout=PIPE, stderr=PIPE)
+>              for f in p.communicate()[0].splitlines():
+>                  path = os.path.dirname(f)
+> -                r.parts.append(Report.create(f, path, path + "/*/built-in.o"))
+> +                r.parts.append(Report.create(f, path, str(path) + "/*/built-in.o"))
+>              r.parts.sort(reverse=True)
+>
+>          for b in r.parts:
+> @@ -116,6 +116,13 @@ class Report:
+>                 self.deltas["data"], self.deltas["bss"]))
+>          print("\n")
+>
+> +    def __lt__(this, that):
+> +        if that is None:
+> +            return 1
+> +        if not isinstance(that, Report):
+> +            raise TypeError
+> +        return this.sizes.total < that.sizes.total
 > +
-> +__version__ = "0.1.0"
-> +
-> +# Python Standard Library modules
-> +import os
-> +import sys
-> +import getopt
-> +from subprocess import *
-> +
-> +def usage():
-> +    prog = os.path.basename(sys.argv[0])
-> +    print('Usage: %s [OPTION]...' % prog)
-> +    print('  -v,                 display sizes for each file')
-> +    print('  -h, --help          display this help and exit')
-> +    print('')
-> +    print('Run %s from the top-level Linux kernel build directory.' % prog)
-> +
-> +verbose = False
-> +
-> +n_ko_files = 0
-> +ko_file_list = []
-> +
-> +ko_text = 0
-> +ko_data = 0
-> +ko_bss = 0
-> +ko_total = 0
-> +
-> +vmlinux_file = ""
-> +vmlinux_level = 0
-> +
-> +vmlinux_text = 0
-> +vmlinux_data = 0
-> +vmlinux_bss = 0
-> +vmlinux_total = 0
-> +
-> +def is_vmlinux_file(filename):
-> +    global vmlinux_level
-> +    if filename == ("vmlinux") and vmlinux_level == 0:
-> +        vmlinux_level += 1
-> +        return True
-> +    return False
-> +
-> +def is_ko_file(filename):
-> +    if filename.endswith(".ko"):
-> +        return True
-> +    return False
-> +
-> +def collect_object_files():
-> +    print "Collecting object files recursively from %s..." % os.getcwd()
-> +    for dirpath, dirs, files in os.walk(os.getcwd()):
-> +        for filename in files:
-> +            if is_ko_file(filename):
-> +                ko_file_list.append(os.path.join(dirpath, filename))
-> +            elif is_vmlinux_file(filename):
-> +                global vmlinux_file
-> +                vmlinux_file = os.path.join(dirpath, filename)
-> +    print "Collecting object files [DONE]"
-> +
-> +def add_ko_file(filename):
-> +        p = Popen("size -t " + filename, shell=True, stdout=PIPE, stderr=PIPE)
-> +        output = p.communicate()[0].splitlines()
-> +        if len(output) > 2:
-> +            sizes = output[-1].split()[0:4]
-> +            if verbose:
-> +                print "     %10d %10d %10d %10d\t" % \
-> +                    (int(sizes[0]), int(sizes[1]), int(sizes[2]), int(sizes[3])),
-> +                print "%s" % filename[len(os.getcwd()) + 1:]
-> +            global n_ko_files, ko_text, ko_data, ko_bss, ko_total
-> +            ko_text += int(sizes[0])
-> +            ko_data += int(sizes[1])
-> +            ko_bss += int(sizes[2])
-> +            ko_total += int(sizes[3])
-> +            n_ko_files += 1
-> +
-> +def get_vmlinux_totals():
-> +        p = Popen("size -t " + vmlinux_file, shell=True, stdout=PIPE, stderr=PIPE)
-> +        output = p.communicate()[0].splitlines()
-> +        if len(output) > 2:
-> +            sizes = output[-1].split()[0:4]
-> +            if verbose:
-> +                print "     %10d %10d %10d %10d\t" % \
-> +                    (int(sizes[0]), int(sizes[1]), int(sizes[2]), int(sizes[3])),
-> +                print "%s" % vmlinux_file[len(os.getcwd()) + 1:]
-> +            global vmlinux_text, vmlinux_data, vmlinux_bss, vmlinux_total
-> +            vmlinux_text += int(sizes[0])
-> +            vmlinux_data += int(sizes[1])
-> +            vmlinux_bss += int(sizes[2])
-> +            vmlinux_total += int(sizes[3])
-> +
-> +def sum_ko_files():
-> +    for ko_file in ko_file_list:
-> +        add_ko_file(ko_file)
-> +
-> +def main():
-> +    try:
-> +        opts, args = getopt.getopt(sys.argv[1:], "vh", ["help"])
-> +    except getopt.GetoptError as err:
-> +        print('%s' % str(err))
-> +        usage()
-> +        sys.exit(2)
-> +
-> +    for o, a in opts:
-> +        if o == '-v':
-> +            global verbose
-> +            verbose = True
-> +        elif o in ('-h', '--help'):
-> +            usage()
-> +            sys.exit(0)
-> +        else:
-> +            assert False, "unhandled option"
-> +
-> +    collect_object_files()
-> +    sum_ko_files()
-> +    get_vmlinux_totals()
-> +
-> +    print "\nTotals:"
-> +    print "\nvmlinux:"
-> +    print "    text\tdata\t\tbss\t\ttotal"
-> +    print "    %-10d\t%-10d\t%-10d\t%-10d" % \
-> +        (vmlinux_text, vmlinux_data, vmlinux_bss, vmlinux_total)
-> +    print "\nmodules (%d):" % n_ko_files
-> +    print "    text\tdata\t\tbss\t\ttotal"
-> +    print "    %-10d\t%-10d\t%-10d\t%-10d" % \
-> +        (ko_text, ko_data, ko_bss, ko_total)
-> +    print "\nvmlinux + modules:"
-> +    print "    text\tdata\t\tbss\t\ttotal"
-> +    print "    %-10d\t%-10d\t%-10d\t%-10d" % \
-> +        (vmlinux_text + ko_text, vmlinux_data + ko_data, \
-> +         vmlinux_bss + ko_bss, vmlinux_total + ko_total)
-> +
-> +if __name__ == "__main__":
-> +    try:
-> +        ret = main()
-> +    except Exception:
-> +        ret = 1
-> +        import traceback
-> +        traceback.print_exc(5)
-> +    sys.exit(ret)
+>      def __cmp__(this, that):
+>          if that is None:
+>              return 1
 > --
 > 2.6.6
 >
