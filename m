@@ -1,48 +1,47 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-wj0-f195.google.com (mail-wj0-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DEC260762
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B47660762
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jan 2017 22:58:06 +0000 (UTC)
-Received: by mail-wj0-f195.google.com with SMTP id qs7so39599632wjc.1
+	Wed,  4 Jan 2017 22:58:08 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id c85so55464831wmi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Jan 2017 14:58:06 -0800 (PST)
+	Wed, 04 Jan 2017 14:58:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=rWgzvWrFgpoUuwG4a9zl8WtaNcPBvY/siew0eapvceU=;
-	b=dnGDMlSplv55svQDMvHd42CK9Sc/cjdz49KUXUO0LZtRX19ynITYs2wIl8fdTmv6CQ
-	S7bQWqDofWMTjIiXsRBU0a1hu2UVpNaUmKnjnpWBD8U9kBsAa7vnX4X+yJttQ13TEdSs
-	ZXE4rURSW/R/xMalVPMZYrCh7gP+crSXC87OuS81vcWJRi5qEjy027RWmly/Tk3uTHKd
-	Fwgi9Mb8OaW5B1An4tAQEs822Eyvq1fy3S0k5BsnEkxVvPcyDQde/uE4hPT29rifzYmV
-	yjHhX4zqkKKxQ1HqrOxk8l3hwwXhRMbhVlhADUxcKnqgPi8nvWwynw/pPVdYoxrfS0NM
-	IQuA==
+	bh=0xHhKsCmcehowEikDqBNSA+I5B+dZrhkScWn7xX4MIA=;
+	b=KRk8cWxKiOvK19IIWoFYNp7VB0EVa8Tn9JdMCfeY1SQAN/aoZzaeC2PWhR87I0n1YD
+	Bz0oWbA8ForSMgIwN3Az9smZZ/rMhnESFLmOXsa62ajVTmYwiNvkK929K2gyJ0p3VpeT
+	0aRgbUO8IOuOGIVXMuVg84h3pGJryBpTGWxtzQ0AtkwBbfnaVsnARMF4z5kj+ZSqj5nQ
+	+xRdoTyk2YcSv8fP+9N5xXmzDeKWjPDItBVD6gtPpEJnktnek/oMmI12XSZcr+mZa2wt
+	yRrF69OIys6yjqcUQQeVlNDKGgCKK2Lvw3CExDCF8ytIHjPMRQvw8ZRoScDEt/MKIzIA
+	Ketw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=rWgzvWrFgpoUuwG4a9zl8WtaNcPBvY/siew0eapvceU=;
-	b=FhCSYLgfSbWsnhVD9witj9ylQdt47qwjtXnOf0Q4PhKhAZH0p7189wvUQvZsH7iGjU
-	2k2glknMgyXvSQF9pl7Z9irDscMZGy/sHjdbiKrEJi1keVIK9gfS3mD8F/jH4g1rgn++
-	mbb2n9mn8oPuE7p3iUjvDI1ZWCkvV3rrLPmQze7sK21fgp65EQ1Kat9ymtmNq8N70LT5
-	1+Q5fwTci6IwvI9+G10YzcKAjsuT9Wlv67hzfT73cIU1V+ZtAwNU5A52eMCiGztGc170
-	7nnKVffaUWfFUS7W2dEbdiiAUrXgFF66zVlDc4Rbt/AQmq0XrCfna8pXLCjk/xkdQqE9
-	Qo3g==
-X-Gm-Message-State: AIkVDXLlgQZa6ThbvinIIHIIlxgHOvORrNYFqQQZkLE+LsxCC7fMq2MA5W+Aq6PpGd/Jxw==
-X-Received: by 10.194.242.101 with SMTP id wp5mr58851573wjc.11.1483570686090; 
-	Wed, 04 Jan 2017 14:58:06 -0800 (PST)
+	bh=0xHhKsCmcehowEikDqBNSA+I5B+dZrhkScWn7xX4MIA=;
+	b=NzJXHaOz8MV4riSZdRNDcXkAJMjd0SxVl64Cmn/1ZHw+V9II1s/QNtR4Skr4C0kttX
+	ZtSGypDLE3QVKE9cItmZYDRhOTLRxVJHYCSvcc0Eok1/Xd62IAGyTSeY9MG9U8LB72pA
+	blXy9tJKmFgsqlYVJjD1c+M6W5Pr+tJaSBqwNTLJuKyQoeZQVllSf6x2W516VUQgFVLC
+	sgM5t7KEMfzB9jAW1WqnnmH9qFh9UOyClH0XYLneA67wauEV6EWpr7n9PZCge8lV69tG
+	c3LFZP+HszqSJSbEhD0Oz3XuxTT8Y6lhm6nlOadm0Y/OWsLmLoux7fIpwHsyFMTxn3il
+	Mhcw==
+X-Gm-Message-State: AIkVDXKWOPYCiJmwwQi5qqMh9tUcydQyOtkpKgN410PJrPSKg8Z2fyfIMV5MpKogXh9Stg==
+X-Received: by 10.28.211.72 with SMTP id k69mr58231184wmg.138.1483570688224;
+	Wed, 04 Jan 2017 14:58:08 -0800 (PST)
 Received: from quark.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id 6sm100453855wjt.5.2017.01.04.14.58.04
+	by smtp.gmail.com with ESMTPSA id 6sm100453855wjt.5.2017.01.04.14.58.06
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 04 Jan 2017 14:58:05 -0800 (PST)
+	Wed, 04 Jan 2017 14:58:07 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Jan 2017 15:57:52 -0700
-Message-Id: <0f858d235ef2116b29251f6e471abdb62490532d.1483570577.git.chris_larson@mentor.com>
+Date: Wed,  4 Jan 2017 15:57:53 -0700
+Message-Id: <49ea0e7ba64de9f79d3f082defee7bd510a137f6.1483570577.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.8.0
 In-Reply-To: <cover.1483570577.git.chris_larson@mentor.com>
 References: <cover.1483570577.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 3/6] libglu: add opengl to REQUIRED_DISTRO_FEATURES
+Subject: [PATCH 4/6] eglinfo-x11: add opengl to REQUIRED_DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,30 +54,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2017 22:58:06 -0000
+X-List-Received-Date: Wed, 04 Jan 2017 22:58:09 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-This requires libgl, and mesa requires the opengl distro feature.
+The .inc already included this, but the x11 version was overriding it. This is
+a problem, as the x11 version still needs opengl as well as x11. Append
+instead.
 
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/recipes-graphics/mesa/libglu_9.0.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.0.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/mesa/libglu_9.0.0.bb b/meta/recipes-graphics/mesa/libglu_9.0.0.bb
-index 010998d..8b94613 100644
---- a/meta/recipes-graphics/mesa/libglu_9.0.0.bb
-+++ b/meta/recipes-graphics/mesa/libglu_9.0.0.bb
-@@ -24,7 +24,7 @@ DEPENDS = "virtual/libgl"
- inherit autotools pkgconfig distro_features_check
+diff --git a/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.0.bb b/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.0.bb
+index 3427fdf..db00f76 100644
+--- a/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.0.bb
++++ b/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.0.bb
+@@ -6,7 +6,8 @@ include eglinfo.inc
+ DEPENDS += "virtual/libx11"
  
- # Requires libGL.so which is provided by mesa when x11 in DISTRO_FEATURES
+ inherit distro_features_check
++
+ # depends on virtual/libx11
 -REQUIRED_DISTRO_FEATURES = "x11"
-+REQUIRED_DISTRO_FEATURES = "x11 opengl"
++REQUIRED_DISTRO_FEATURES += "x11"
  
- # Remove the mesa-glu dependency in mesa-glu-dev, as mesa-glu is empty
- RDEPENDS_${PN}-dev = ""
+ SUMMARY += "(X11 version)"
 -- 
 2.8.0
 
