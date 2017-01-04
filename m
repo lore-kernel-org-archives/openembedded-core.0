@@ -1,34 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 38F95605C3
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 887E86AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jan 2017 02:12:43 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v042CgcP018142
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 3 Jan 2017 18:12:43 -0800 (PST)
-Received: from [128.224.162.160] (128.224.162.160) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 3 Jan 2017 18:12:41 -0800
-To: Andreas Oberritter <obi@opendreambox.org>, Andre McCurdy
-	<armccurdy@gmail.com>
-References: <cover.1482300982.git.liezhi.yang@windriver.com>
-	<6efb8d002491cd1e736b9126e09a5a63b4acd4d1.1482300982.git.liezhi.yang@windriver.com>
-	<CAJ86T=X_cPiiTWb_mdrcWre=XmAkB=kk7QE0kJ-SKu9Z1B1Fxw@mail.gmail.com>
-	<67916363-806f-7f9e-e9e8-941bb2614cfb@windriver.com>
-	<02079360-2340-5cdb-b23c-db371383d408@opendreambox.org>
-	<ea7ce818-05fa-a41d-c70e-b94260328d09@windriver.com>
-	<d99876dc-4982-496b-2b9d-34540ce09b01@opendreambox.org>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <0f5cdc36-9eda-e73a-5c10-ab5c09ec2712@windriver.com>
-Date: Wed, 4 Jan 2017 10:12:40 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Wed,  4 Jan 2017 03:22:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v043MitG029272
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 3 Jan 2017 19:22:45 -0800
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.184) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Tue, 3 Jan 2017 19:22:43 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 4 Jan 2017 11:22:43 +0800
+Message-ID: <cover.1483500113.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <d99876dc-4982-496b-2b9d-34540ce09b01@opendreambox.org>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] hdparm: 9.48 -> 9.50
+Subject: [PATCH 0/1] busybox: upgrade to 1.26.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,112 +31,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2017 02:12:44 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Jan 2017 03:22:45 -0000
+Content-Type: text/plain
 
+The following changes since commit dbb247cac5fbf7b037e4955f9793828451723924:
 
-Thanks, updated in the repo:
+  bitbake: cookerdata: Convert multiconfig to use BB_CURRENT_MC (2016-12-22 12:36:40 +0000)
 
-   git://git.openembedded.org/openembedded-core-contrib rbt/pu
-   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/pu
+are available in the git repository at:
 
-Robert Yang (5):
-   debianutils: 4.8 -> 4.8.1
-   mklibs-native: 0.1.41 -> 0.1.43
-   quilt: 0.64 -> 0.65
-   guile: 2.0.12 -> 2.0.13
-   hdparm: 9.48 -> 9.50
+  git://git.pokylinux.org/poky-contrib ChenQi/busybox-1.26.1
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/busybox-1.26.1
 
+Chen Qi (1):
+  busybox: upgrade to 1.26.1
 
+ ...e-the-behaviour-of-c-parameter-to-match-u.patch |  73 -----------
+ ...biproute-handle-table-ids-larger-than-255.patch | 134 -------------------
+ ...-n-flushes-pattern-space-terminates-early.patch |  72 -----------
+ .../busybox/busybox/CVE-2016-2147.patch            |  57 --------
+ .../busybox/busybox/CVE-2016-2147_2.patch          |  32 -----
+ .../busybox/busybox/CVE-2016-2148.patch            |  74 -----------
+ .../busybox-1.24.1-truncate-open-mode.patch        |  81 ------------
+ .../busybox/busybox-1.24.1-unzip-regression.patch  | 143 ---------------------
+ .../busybox/busybox/busybox-1.24.1-unzip.patch     | 118 -----------------
+ .../busybox/busybox/busybox-cross-menuconfig.patch |  71 ----------
+ .../busybox-kbuild-race-fix-commit-d8e61bb.patch   |  53 --------
+ .../busybox/busybox-udhcpc-no_deconfig.patch       |  75 ++++++-----
+ .../commit-applet_tables-fix-commit-0dddbc1.patch  |  61 ---------
+ ...lem_on_mips64_n64_big_endian_musl_systems.patch |  90 -------------
+ .../busybox/busybox/makefile-fix-backport.patch    |  40 ------
+ .../{busybox_1.24.1.bb => busybox_1.26.1.bb}       |  18 +--
+ meta/recipes-core/busybox/busybox_git.bb           |   6 +-
+ 17 files changed, 42 insertions(+), 1156 deletions(-)
+ delete mode 100644 meta/recipes-core/busybox/busybox/0001-flock-update-the-behaviour-of-c-parameter-to-match-u.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/0001-libiproute-handle-table-ids-larger-than-255.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/0001-sed-fix-sed-n-flushes-pattern-space-terminates-early.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/CVE-2016-2147.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/CVE-2016-2147_2.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/CVE-2016-2148.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/busybox-1.24.1-truncate-open-mode.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/busybox-1.24.1-unzip-regression.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/busybox-1.24.1-unzip.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/busybox-cross-menuconfig.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/busybox-kbuild-race-fix-commit-d8e61bb.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/commit-applet_tables-fix-commit-0dddbc1.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/ip_fix_problem_on_mips64_n64_big_endian_musl_systems.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/makefile-fix-backport.patch
+ rename meta/recipes-core/busybox/{busybox_1.24.1.bb => busybox_1.26.1.bb} (62%)
 
-Author: Robert Yang <liezhi.yang@windriver.com>
-Date:   Tue Dec 20 03:09:45 2016 +0000
+-- 
+1.9.1
 
-     hdparm: 9.48 -> 9.50
-
-     Remove "-e MAKEFLAGS=" from EXTRA_OEMAKE to fix:
-     ERROR: hdparm-9.50-r0 do_package: QA Issue: File '/sbin/hdparm.hdparm' from 
-hdparm was already stripped, this will prevent future debugging! [already-stripped]
-     ERROR: hdparm-9.50-r0 do_package: Fatal QA errors found, failing task.
-
-     The "-e MAKEFLAGS=" would cause submake can't get vars from environment,
-     The git log said that it was added for fixing a QA warning, but
-     everything is OK after remove it now.
-
-     Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-
-diff --git a/meta/recipes-extended/hdparm/hdparm_9.48.bb 
-b/meta/recipes-extended/hdparm/hdparm_9.50.bb
-similarity index 81%
-rename from meta/recipes-extended/hdparm/hdparm_9.48.bb
-rename to meta/recipes-extended/hdparm/hdparm_9.50.bb
-index cd85776cf8f..f89c30e4dda 100644
---- a/meta/recipes-extended/hdparm/hdparm_9.48.bb
-+++ b/meta/recipes-extended/hdparm/hdparm_9.50.bb
-@@ -20,12 +20,12 @@ FILES_wiper = "${bindir}/wiper.sh"
-
-  RDEPENDS_wiper = "bash gawk stat"
-
--SRC_URI = "${SOURCEFORGE_MIRROR}/hdparm/${BP}.tar.gz "
-+SRC_URI = "${SOURCEFORGE_MIRROR}/hdparm/${BP}.tar.gz"
-
--SRC_URI[md5sum] = "213efdbe7471fad3408198918e164354"
--SRC_URI[sha256sum] = 
-"ce97b4a71cb04146f54cf6f69787e7f97ddfda9836dc803b459d3b3df3a4fbee"
-+SRC_URI[md5sum] = "d380062ad6c4b40076736efbb640f1f5"
-+SRC_URI[sha256sum] = 
-"0892b44bd817c251264a24f6ecbbb010958033e0395d2030f25f1c5608ac780e"
-
--EXTRA_OEMAKE = '-e MAKEFLAGS= STRIP="echo"'
-+EXTRA_OEMAKE = 'STRIP="echo" LDFLAGS="${LDFLAGS}"'
-
-  inherit update-alternatives
-
-
-// Robert
-
-On 12/22/2016 09:34 PM, Andreas Oberritter wrote:
-> On 22.12.2016 04:14, Robert Yang wrote:
->> On 12/22/2016 11:09 AM, Andreas Oberritter wrote:
->>> On 22.12.2016 03:47, Robert Yang wrote:
->>>> On 12/21/2016 09:27 PM, Andre McCurdy wrote:
->>>>> Passing LDFLAGS on the make command line might be a cleaner solution
->>>>> than patching the Makefile.
->>>>
->>>> We can't do that since there is a "-e MAKEFLAGS=" in EXTRA_OEMAKE,
->>>> and its
->>>> Makefile is:
->>>>
->>>> all:
->>>>     make -j2 hdparm
->>>>
->>>> hdparm: hdparm.h sgio.h $(OBJS)
->>>>     $(CC) $(LDFLAGS) -o hdparm $(OBJS)
->>>>     $(STRIP) hdparm
->>>>
->>>> The "make -j2 hdparm" doesn't pass any env vars to sub make since
->>>> MAKEFLAGS=,
->>>> so that need use weak assignment "?=" here.
->>>
->>> You don't need to use target 'all'. Try this:
->>>
->>> do_compile() {
->>>     oe_runmake hdparm
->>> }
->>
->> I know this will work, but "make hdparm" rather than "all" may cause other
->> issues in the future when hdparm gets ugpraded, for example, "all" doesn't
->> only contain "hdmarm". And do we have really have to add a do_compile()
->> here ?
->
-> It's certainly easier to delete do_compile in a future version's recipe
-> than regenerating patches. hdparm is looking for a new maintainer, btw.
->
-> 'hdparm' has been the only target built by 'all' since at least version
-> 3.1, which dates back to 1996.
->
-> Regards,
-> Andreas
->
 
