@@ -1,29 +1,49 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EF8E60116
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FFF965CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jan 2017 17:50:01 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
-	via TCP (outbound) with ESMTPS id 20170104175000802_0684
+	Wed,  4 Jan 2017 17:56:05 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id l2so67272634wml.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Jan 2017 17:50:00 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [216.191.234.70] (port=13523 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1cOphD-0005e2-4i for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jan 2017 12:49:55 -0500
-Date: Wed, 4 Jan 2017 12:49:52 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@ca624034.mitel.com
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1701041245200.30769@ca624034.mitel.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Wed, 04 Jan 2017 09:56:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=90NSVf8HegKS9CBzr44tRc6M2xcvHLK+00SjjlIs8u8=;
+	b=Vbj8jsZkHZDGhNwIH7OjNLbQQaAKkEzv3QAzyUY/QZHA5/cWeECw8+dyj4AOuakEJS
+	HIwiqfnT4O1u027lw/v6iT4R1AoWOQ8nn1yLasqBvJXfdcvf/RHntPlirGauzSHtPud4
+	kVTshm8uZbm86hHINK7zQcXUbN6J0ZNNFc8ozu27K11+NjJSxBJ3iVwtrqiuxhr0xO+g
+	j+HBjFJ85NQqHBYqmADBsAYBmZmV3i/k3h80v8qkYcXDaP5aCKbhwdWbQ9NlVMxScCXq
+	6UazlsifXbImYJcYXf/dJ/1Upy5PMi+VaR8t0aIjPV206gPoJQzwLsH5mqujUPOKrHz1
+	FBaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=90NSVf8HegKS9CBzr44tRc6M2xcvHLK+00SjjlIs8u8=;
+	b=CYCZb0OIP3Gx1t6NSid7ooJdp14W412RnYR9d3uGjjHCciUH2IS0Yp8yntm830ojFT
+	sbF6f8Uim9SYXkoVTvSYiyJ2Xe8L37ku5pQsUsmcJlzb5j05uldwIorJI+YOQ+ZXtD2k
+	4kEWAvQhd2lv5Z+dObBLLQdIUn7r4+p9gzZqHQrjljD2Epzj0eVhq2g1HtjLmeMjpkeY
+	0LjqCwmvozwRnbVL/NQ2qFKAG64rARJNqS/pRsKZSxgE7DpIVUmudzBGlL6kZDzZVbc/
+	+XWE7TThHhgRmmTmqCRkKN/rtVUEg4pdBiTI7hcyBwPhL2ZcBGYMKl5u9lSdhadJ0kRN
+	UFOw==
+X-Gm-Message-State: AIkVDXJHaC+OveUisJeAdNg+gitqb7DaKuJm+Ja0FqkWzvuMHzYlociOKtCfyq2CaUIaaQ==
+X-Received: by 10.28.238.70 with SMTP id m67mr2306908wmh.123.1483552564891;
+	Wed, 04 Jan 2017 09:56:04 -0800 (PST)
+Received: from localhost.localdomain (p579F760B.dip0.t-ipconnect.de.
+	[87.159.118.11]) by smtp.googlemail.com with ESMTPSA id
+	di9sm99538997wjc.37.2017.01.04.09.56.04
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 04 Jan 2017 09:56:04 -0800 (PST)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Jan 2017 18:55:53 +0100
+Message-Id: <1483552554-25685-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 2.5.5
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: is there a current recipe to support pptpd?
+Subject: [PATCH 0/1] follow-up for alsa-utils update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,32 +56,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2017 17:50:04 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Wed, 04 Jan 2017 17:56:05 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+This should fix build as reported by Ross [1]
 
-  a colleague wants to add a pptpd server to his build image, and was
-using "poptop" on a red hat system previously. i see a fairly old
-poptop recipe for OE here:
+[1] http://lists.openembedded.org/pipermail/openembedded-core/2017-January/130726.html
 
-https://github.com/openembedded/openembedded/tree/master/recipes/poptop
+Andreas Müller (1):
+  alsa-utils(-scripts): fix compile on build machines with
+    python-docutils installed
 
-and newer source here:
-
-https://sourceforge.net/p/poptop/git/ci/master/tree/
-
-is there some other recipe that supplies the same functionality?
-
-rday
+ meta/recipes-multimedia/alsa/alsa-utils_1.1.3.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+2.5.5
 
 
