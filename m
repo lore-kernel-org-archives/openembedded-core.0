@@ -1,50 +1,34 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
-	[209.85.217.194])
-	by mail.openembedded.org (Postfix) with ESMTP id CF52E71978;
-	Wed,  4 Jan 2017 01:13:11 +0000 (UTC)
-Received: by mail-ua0-f194.google.com with SMTP id 2so751485uax.3;
-	Tue, 03 Jan 2017 17:13:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=3obOw5r5mIbxNSqRVInmALHpvRjZtXv4N6n6gKT0J0w=;
-	b=DD423+WcYBaY3I48uctFCOW7wNiZgv2VmYfeiKUx0sEX5E42i++K/xCELZLhg5+L1N
-	Mg3EuJroVoWE9dhI+BIg1dWvkeepUhfef3l5P//I+H7G3itJgWfCyoL/0eNgSNFpPYnr
-	UPKkgJn18O+BXUKs7TXcPNtjsq001/TfQFLRiuj4/DJAdQpgtIXEUDv14TWNfJhK0cMx
-	ZAXWEyjmB2YKsx6Cim2MiwhEmq2p9mVBMEhUZf5fFfMCnP78Lja92bsrkovWy0zhjSUX
-	3QzPnnn9k0hAuetoWhzEVBgZM8uBiVKdo4/lVliNHvBmh+pfG3EDPqoGsxzAln2Qe+Sf
-	cLbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=3obOw5r5mIbxNSqRVInmALHpvRjZtXv4N6n6gKT0J0w=;
-	b=b2RCpnRUcVBwOZpjOj9pYq1wI5z3zGkAphvZJdqYJD53r76GSuAOxAiM+ITwfnLa4Y
-	oReKosutPBmaGiEgzgYt8m7VhdtMo3SXtRA4AkfVSGWdZc2U6zsd65MnxeV7GgTle/+s
-	PPxpYhB657TskzAhzHGKaUdSEAZEVG5SNqEOR1GerWHALdYdmZubLmvzbwDS0Y8x+wUc
-	CB2DpOjI26fQZgzAMxH+/yvfnZOjCWUfWviu+2uPYK82KScbeLfkn6cZ7XahJzuYYnZk
-	GBxzYp8jDf8U3UqHihdH806fryX+418+2NwvI5tSDTA28qi7al3RRShpJNVjyZzAkxZ5
-	LCdA==
-X-Gm-Message-State: AIkVDXJliWKAXQgtOrcP4A7m+CWVLN99a1probEKemhv3IVEesW6Fc+cJqeRVaLFtnLeVEPbE5gSnaqR3fVq/g==
-X-Received: by 10.159.37.227 with SMTP id 90mr47837279uaf.67.1483492391633;
-	Tue, 03 Jan 2017 17:13:11 -0800 (PST)
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 38F95605C3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  4 Jan 2017 02:12:43 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v042CgcP018142
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 3 Jan 2017 18:12:43 -0800 (PST)
+Received: from [128.224.162.160] (128.224.162.160) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 3 Jan 2017 18:12:41 -0800
+To: Andreas Oberritter <obi@opendreambox.org>, Andre McCurdy
+	<armccurdy@gmail.com>
+References: <cover.1482300982.git.liezhi.yang@windriver.com>
+	<6efb8d002491cd1e736b9126e09a5a63b4acd4d1.1482300982.git.liezhi.yang@windriver.com>
+	<CAJ86T=X_cPiiTWb_mdrcWre=XmAkB=kk7QE0kJ-SKu9Z1B1Fxw@mail.gmail.com>
+	<67916363-806f-7f9e-e9e8-941bb2614cfb@windriver.com>
+	<02079360-2340-5cdb-b23c-db371383d408@opendreambox.org>
+	<ea7ce818-05fa-a41d-c70e-b94260328d09@windriver.com>
+	<d99876dc-4982-496b-2b9d-34540ce09b01@opendreambox.org>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <0f5cdc36-9eda-e73a-5c10-ab5c09ec2712@windriver.com>
+Date: Wed, 4 Jan 2017 10:12:40 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Received: by 10.176.85.157 with HTTP; Tue, 3 Jan 2017 17:13:11 -0800 (PST)
-In-Reply-To: <65082de4-2ba6-3b18-1845-00b2d637404e@balister.org>
-References: <65082de4-2ba6-3b18-1845-00b2d637404e@balister.org>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Date: Wed, 4 Jan 2017 02:13:11 +0100
-Message-ID: <CALbNGRSrXLdfUK3U2bXr20P+fFm4ROArGPRi9Ag=AhXbGjUv+g@mail.gmail.com>
-To: Philip Balister <philip@balister.org>
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	"openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>, openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: OpenEmbedded Stand at FOSDEM
+In-Reply-To: <d99876dc-4982-496b-2b9d-34540ce09b01@opendreambox.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/5] hdparm: 9.48 -> 9.50
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,42 +41,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2017 01:13:12 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 04 Jan 2017 02:12:44 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 3, 2017 at 4:32 PM, Philip Balister <philip@balister.org> wrote:
-> Every year since 2007, OpenEmbedded has a stand at FOSDEM
-> (http://www.fosdem.org)
->
-> From the first year:
->
-> https://www.flickr.com/photos/32615155@N00/405229708/in/album-72157594561002629/
->
-> Belen and I are sort of organizing this, but both of us are also
-> involved in devrooms, so we will need a lot of help manning the stand
-> and getting some demos together.
->
-> Demos should try and show how the project makes embedded work easier, by
-> showing tools and/or cool examples of devices using Linux built with
-> OpenEmbedded. In previous years, we've shown toaster with data collected
-> from demos on the table. Collections of devices running images built
-> from the same recipe and interesting products using Linux by OpenEmbedded.
->
-> I'm happy to try and organize demos and staffing, but I could really use
-> some help this year, so if you are in a position to tak ethe lead on
-> operating the stand, that would be a huge help to me and the rest of the
-> project.
->
-> Thanks,
->
-> Philip
-> --
-I could bring along
 
-1. Raspi2 + Hifiberry + Speakers + Midi-Keyboard + Xbox-controller
-2. a SDCard full of desktops/multimedia/office/games using 1.
-3. 2 days time
-4. ?? - let me know
+Thanks, updated in the repo:
 
-Andreas
+   git://git.openembedded.org/openembedded-core-contrib rbt/pu
+   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/pu
+
+Robert Yang (5):
+   debianutils: 4.8 -> 4.8.1
+   mklibs-native: 0.1.41 -> 0.1.43
+   quilt: 0.64 -> 0.65
+   guile: 2.0.12 -> 2.0.13
+   hdparm: 9.48 -> 9.50
+
+
+
+Author: Robert Yang <liezhi.yang@windriver.com>
+Date:   Tue Dec 20 03:09:45 2016 +0000
+
+     hdparm: 9.48 -> 9.50
+
+     Remove "-e MAKEFLAGS=" from EXTRA_OEMAKE to fix:
+     ERROR: hdparm-9.50-r0 do_package: QA Issue: File '/sbin/hdparm.hdparm' from 
+hdparm was already stripped, this will prevent future debugging! [already-stripped]
+     ERROR: hdparm-9.50-r0 do_package: Fatal QA errors found, failing task.
+
+     The "-e MAKEFLAGS=" would cause submake can't get vars from environment,
+     The git log said that it was added for fixing a QA warning, but
+     everything is OK after remove it now.
+
+     Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+
+diff --git a/meta/recipes-extended/hdparm/hdparm_9.48.bb 
+b/meta/recipes-extended/hdparm/hdparm_9.50.bb
+similarity index 81%
+rename from meta/recipes-extended/hdparm/hdparm_9.48.bb
+rename to meta/recipes-extended/hdparm/hdparm_9.50.bb
+index cd85776cf8f..f89c30e4dda 100644
+--- a/meta/recipes-extended/hdparm/hdparm_9.48.bb
++++ b/meta/recipes-extended/hdparm/hdparm_9.50.bb
+@@ -20,12 +20,12 @@ FILES_wiper = "${bindir}/wiper.sh"
+
+  RDEPENDS_wiper = "bash gawk stat"
+
+-SRC_URI = "${SOURCEFORGE_MIRROR}/hdparm/${BP}.tar.gz "
++SRC_URI = "${SOURCEFORGE_MIRROR}/hdparm/${BP}.tar.gz"
+
+-SRC_URI[md5sum] = "213efdbe7471fad3408198918e164354"
+-SRC_URI[sha256sum] = 
+"ce97b4a71cb04146f54cf6f69787e7f97ddfda9836dc803b459d3b3df3a4fbee"
++SRC_URI[md5sum] = "d380062ad6c4b40076736efbb640f1f5"
++SRC_URI[sha256sum] = 
+"0892b44bd817c251264a24f6ecbbb010958033e0395d2030f25f1c5608ac780e"
+
+-EXTRA_OEMAKE = '-e MAKEFLAGS= STRIP="echo"'
++EXTRA_OEMAKE = 'STRIP="echo" LDFLAGS="${LDFLAGS}"'
+
+  inherit update-alternatives
+
+
+// Robert
+
+On 12/22/2016 09:34 PM, Andreas Oberritter wrote:
+> On 22.12.2016 04:14, Robert Yang wrote:
+>> On 12/22/2016 11:09 AM, Andreas Oberritter wrote:
+>>> On 22.12.2016 03:47, Robert Yang wrote:
+>>>> On 12/21/2016 09:27 PM, Andre McCurdy wrote:
+>>>>> Passing LDFLAGS on the make command line might be a cleaner solution
+>>>>> than patching the Makefile.
+>>>>
+>>>> We can't do that since there is a "-e MAKEFLAGS=" in EXTRA_OEMAKE,
+>>>> and its
+>>>> Makefile is:
+>>>>
+>>>> all:
+>>>>     make -j2 hdparm
+>>>>
+>>>> hdparm: hdparm.h sgio.h $(OBJS)
+>>>>     $(CC) $(LDFLAGS) -o hdparm $(OBJS)
+>>>>     $(STRIP) hdparm
+>>>>
+>>>> The "make -j2 hdparm" doesn't pass any env vars to sub make since
+>>>> MAKEFLAGS=,
+>>>> so that need use weak assignment "?=" here.
+>>>
+>>> You don't need to use target 'all'. Try this:
+>>>
+>>> do_compile() {
+>>>     oe_runmake hdparm
+>>> }
+>>
+>> I know this will work, but "make hdparm" rather than "all" may cause other
+>> issues in the future when hdparm gets ugpraded, for example, "all" doesn't
+>> only contain "hdmarm". And do we have really have to add a do_compile()
+>> here ?
+>
+> It's certainly easier to delete do_compile in a future version's recipe
+> than regenerating patches. hdparm is looking for a new maintainer, btw.
+>
+> 'hdparm' has been the only target built by 'all' since at least version
+> 3.1, which dates back to 1996.
+>
+> Regards,
+> Andreas
+>
 
