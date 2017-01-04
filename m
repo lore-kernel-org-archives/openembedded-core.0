@@ -1,30 +1,46 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AF96606A8
+Return-Path: <kergoth@gmail.com>
+Received: from mail-wj0-f174.google.com (mail-wj0-f174.google.com
+	[209.85.210.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 49C4960762
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jan 2017 22:18:45 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga105.fm.intel.com with ESMTP; 04 Jan 2017 14:18:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,317,1477983600"; d="scan'208";a="49595066"
-Received: from aehernan-mobl1.zpn.intel.com (HELO [10.219.5.148])
-	([10.219.5.148])
-	by fmsmga005.fm.intel.com with ESMTP; 04 Jan 2017 14:18:46 -0800
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1482363237.git.alejandro.hernandez@linux.intel.com>
-	<5e3840aa19de9b634469c852a7c1446262ab73ab.1482363237.git.alejandro.hernandez@linux.intel.com>
-	<CAMKF1soP7afwicknqti_muFYwGrMgNZE+n3rfnVQ8Hg8NeU2aw@mail.gmail.com>
-	<2122f031-db47-1dc5-7080-1271e6fc1527@linux.intel.com>
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Message-ID: <3bafb872-955d-88a1-a627-243c8fe40fa3@linux.intel.com>
-Date: Wed, 4 Jan 2017 16:18:45 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <2122f031-db47-1dc5-7080-1271e6fc1527@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/6] ksize.py: Python 3 fixes
+	Wed,  4 Jan 2017 22:57:46 +0000 (UTC)
+Received: by mail-wj0-f174.google.com with SMTP id tq7so243704051wjb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 04 Jan 2017 14:57:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=30XAwR8/F4kstOVBfObPAj6GCutAB8PDf/PxPrFkiWg=;
+	b=C8K1BmubaiZpYtm+G1icQnqf/4wGhh34NkQvzpxv11a9IUO2brrMXCAdOALrIBu+ap
+	YiNtXvbBuPYSIw2JhXkBTfam58/68Mldsh5RIZHZW9r4BsXViMlI8vV/S4DMITY8UC9t
+	+y2VWeNnimBVD2lSRTq+HQlFubDTZcNP+iTWnzA8GPErNiwbsi+bCXVzkRLv4nuiCIkJ
+	THs3OXfEfaI/HzORQuZ7hUTfSIkTtPLcmO4oZLCoD7ysnYKPCNv8Uv4nV0eMUz2pC1qE
+	nMfshV3sg+VtG+/Xsja/WYqw3jSmcITQOOaA1548AWsH0EQn4tC0QdKbAVYVvG5fYfe+
+	pI+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=30XAwR8/F4kstOVBfObPAj6GCutAB8PDf/PxPrFkiWg=;
+	b=nRXRx4Kw54LhUEnXk8LFzfSRQjjLjLUzMrUqJjTg+9qZsihx4djdH3coUIFYWTLk3u
+	L/Ao6PyyE+jpsqj1ajKTqQvwA/axVksipKNC1eX8l6OUAFJ1LvB/f9ufIGq3lzSIBOES
+	lxK9YvTSQ8hAg1/ocjrukGgnGcsXVVuoWeeuDmL06BJooVW2SbMyOXWDt8khlXFdxgzb
+	hAOOanavboqq7xsjaEFVcnjn/8z7JQv/vtlE1WSVww47CLv3prfo2I0sZ14H9L6WReG/
+	HA3ci344Zc5lWV256J/LFmE1oZxcYf1qurXmMIRZxfyt6cn+zCIUdBpkMf09n2CA6yCR
+	fegA==
+X-Gm-Message-State: AIkVDXLFubbvhM6UNKkeoGiNciowgpmUAZpqcnl6ctj+xT7a5sWUoHmTN3Tr/btxibaOkQ==
+X-Received: by 10.194.115.226 with SMTP id jr2mr57499361wjb.75.1483570667027; 
+	Wed, 04 Jan 2017 14:57:47 -0800 (PST)
+Received: from quark.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id
+	jd9sm84797429wjb.9.2017.01.04.14.57.44
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 04 Jan 2017 14:57:45 -0800 (PST)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Jan 2017 15:57:38 -0700
+Message-Id: <cover.1483570577.git.chris_larson@mentor.com>
+X-Mailer: git-send-email 2.8.0
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH 0/6] Add opengl to REQUIRED_DISTRO_FEATURES for some recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,104 +53,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2017 22:18:47 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Jan 2017 22:57:47 -0000
 
-Hey Khem,
+From: Christopher Larson <chris_larson@mentor.com>
 
-Ok, now I'm actually awake when reading this, are you saying these 
-changes should go in the same patch as the one for ksum.py?
+These aren't buildable without it, and adding it fixes oe-core world builds
+with nodistro (which does not have the opengl feature by default).
 
+The following changes since commit 425afe2484707640ac71194885fdb263e95e9950:
 
-On 01/04/2017 12:21 PM, Alejandro Hernandez wrote:
-> Hey Khem,
->
->
-> Its an old script fro Tom, but as far as I remember it worked fine on 
-> python3, although thanks for checking and sending the patch!
->
-> Cheers
->
-> Alejandro
->
->
-> On 01/04/2017 12:39 AM, Khem Raj wrote:
->> On Tue, Jan 3, 2017 at 2:30 PM, Alejandro Hernandez
->> <alejandro.hernandez@linux.intel.com> wrote:
->>> From: Tom Zanussi <tom.zanussi@linux.intel.com>
->>>
->>> String errors and partial __cmp__ fix.
->> may be fold it into previous patch.
->>
->>> Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
->>> ---
->>>   scripts/tiny/ksize.py | 17 ++++++++++++-----
->>>   1 file changed, 12 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/scripts/tiny/ksize.py b/scripts/tiny/ksize.py
->>> index b9d2b19..ea1ca7f 100755
->>> --- a/scripts/tiny/ksize.py
->>> +++ b/scripts/tiny/ksize.py
->>> @@ -41,7 +41,7 @@ def usage():
->>>   class Sizes:
->>>       def __init__(self, glob):
->>>           self.title = glob
->>> -        p = Popen("size -t " + glob, shell=True, stdout=PIPE, 
->>> stderr=PIPE)
->>> +        p = Popen("size -t " + str(glob), shell=True, stdout=PIPE, 
->>> stderr=PIPE)
->>>           output = p.communicate()[0].splitlines()
->>>           if len(output) > 2:
->>>               sizes = output[-1].split()[0:4]
->>> @@ -62,18 +62,18 @@ class Report:
->>>           r = Report(filename, title)
->>>           path = os.path.dirname(filename)
->>>
->>> -        p = Popen("ls " + path + "/*.o | grep -v built-in.o",
->>> +        p = Popen("ls " + str(path) + "/*.o | grep -v built-in.o",
->>>                     shell=True, stdout=PIPE, stderr=PIPE)
->>>           glob = ' '.join(p.communicate()[0].splitlines())
->>> -        oreport = Report(glob, path + "/*.o")
->>> -        oreport.sizes.title = path + "/*.o"
->>> +        oreport = Report(glob, str(path) + "/*.o")
->>> +        oreport.sizes.title = str(path) + "/*.o"
->>>           r.parts.append(oreport)
->>>
->>>           if subglob:
->>>               p = Popen("ls " + subglob, shell=True, stdout=PIPE, 
->>> stderr=PIPE)
->>>               for f in p.communicate()[0].splitlines():
->>>                   path = os.path.dirname(f)
->>> -                r.parts.append(Report.create(f, path, path + 
->>> "/*/built-in.o"))
->>> +                r.parts.append(Report.create(f, path, str(path) + 
->>> "/*/built-in.o"))
->>>               r.parts.sort(reverse=True)
->>>
->>>           for b in r.parts:
->>> @@ -116,6 +116,13 @@ class Report:
->>>                  self.deltas["data"], self.deltas["bss"]))
->>>           print("\n")
->>>
->>> +    def __lt__(this, that):
->>> +        if that is None:
->>> +            return 1
->>> +        if not isinstance(that, Report):
->>> +            raise TypeError
->>> +        return this.sizes.total < that.sizes.total
->>> +
->>>       def __cmp__(this, that):
->>>           if that is None:
->>>               return 1
->>> -- 
->>> 2.6.6
->>>
->>> -- 
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+  lib/oe/utils: Drop python2 compatibility code (2016-12-22 08:50:21 +0000)
+
+are available in the git repository at:
+
+  git://github.com/kergoth/openembedded-core without-opengl-fixes
+  https://github.com/kergoth/openembedded-core/tree/without-opengl-fixes
+
+Christopher Larson (6):
+  waffle: add opengl to REQUIRED_DISTRO_FEATURES
+  piglit: add opengl to REQUIRED_DISTRO_FEATURES
+  libglu: add opengl to REQUIRED_DISTRO_FEATURES
+  eglinfo-x11: add opengl to REQUIRED_DISTRO_FEATURES
+  packagegroup-self-hosted: add opengl to REQUIRED_DISTRO_FEATURES
+  packagegroup-core-lsb: add opengl to REQUIRED_DISTRO_FEATURES
+
+ meta/recipes-core/packagegroups/packagegroup-self-hosted.bb  | 3 +++
+ meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb | 3 +++
+ meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.0.bb           | 3 ++-
+ meta/recipes-graphics/mesa/libglu_9.0.0.bb                   | 2 +-
+ meta/recipes-graphics/piglit/piglit_git.bb                   | 3 +++
+ meta/recipes-graphics/waffle/waffle_1.5.2.bb                 | 3 +++
+ 6 files changed, 15 insertions(+), 2 deletions(-)
+
+-- 
+2.8.0
 
 
