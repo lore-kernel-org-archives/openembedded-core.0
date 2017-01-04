@@ -1,42 +1,25 @@
-Return-Path: <Jochen.Jaegers@riedel-at.de>
-X-Greylist: delayed 308 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 04 Jan 2017 18:06:12 UTC
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EF8071994
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 98C4C71994
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jan 2017 18:06:12 +0000 (UTC)
-Received: from remote.riedel-at.de ([91.64.58.240]) by
-	mrelayeu.kundenserver.de (mreue004 [212.227.15.167]) with ESMTPSA
-	(Nemesis) id 0MAysS-1cEuEm1Zdk-009xDa for
-	<openembedded-core@lists.openembedded.org>; 
-	Wed, 04 Jan 2017 19:01:04 +0100
-Received: from yocto.riedel-at.local (172.30.1.177) by DC-2010.riedel-at.local
-	(172.30.1.8) with Microsoft SMTP Server id 8.3.485.1; Wed, 4 Jan 2017
-	19:01:02 +0100
-From: Jochen Jaegers <jochen.jaegers@riedel-at.de>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 4 Jan 2017 19:00:24 +0100
-Message-ID: <1483552824-9362-1-git-send-email-jochen.jaegers@riedel-at.de>
-X-Mailer: git-send-email 1.9.1
+	Wed,  4 Jan 2017 18:16:40 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga104.jf.intel.com with ESMTP; 04 Jan 2017 10:16:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,459,1477983600"; d="scan'208";a="49518249"
+Received: from lsandov1-mobl2.zpn.intel.com (HELO [10.219.128.142])
+	([10.219.128.142])
+	by fmsmga005.fm.intel.com with ESMTP; 04 Jan 2017 10:16:39 -0800
+To: ola.redell@gmail.com, openembedded-core@lists.openembedded.org
+References: <1483453287-32323-1-git-send-email-ola.redell@retotech.se>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Message-ID: <c3d25549-eb1a-4d25-a4ef-27f815dcc1e0@linux.intel.com>
+Date: Wed, 4 Jan 2017 12:23:08 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.6.0
 MIME-Version: 1.0
-X-Provags-ID: V03:K0:jvvxoQcsTWn+L/zxgaJfJ1G4huXHqiCIn0Sd0FKqjKup5u4EJ8s
-	3JJ1gHpqylU5CAO0MMofwGmRvc9523gYi3MMqro/wOQm6Kp/1kQjMspScH2Bk/kdqDrCXKW
-	n94EI34RyDZJNng84JsM36PUUeMYlTwn1v1rQZBEWMAYeMen7dRq/DZfgqKbiV7yLbZo5Yq
-	RQ+vNStKh3DM8O724G85Q==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:Wm6Bs6tBZhM=:7XIlHu7Rc0w+jrOqEzHxZy
-	eDVpShhJF5MpHBSgPntBPATXAcPGfaoVVDR6JUM94G5P71+yBkrpMgwJNZddFcH8HukmTnzwe
-	5ICMRWd+3qGm0+EGjykaiuzELdHuRWDfu1jyacwqXeQa5eMrzjuJMV1B8Ngq87cmNE+Ntz/An
-	W80gMIoJ6FOhZ/6NakDqdCtHVP5dUmPxYaBzYJ1Bn+nfaMJ51+MqVQQbrXHUG0eUfBDEiKCvB
-	r8gabw1YxN1W8ZjknIRhy7gljVWrxK5sJTkcZDitgFFDuSf3kBpuz95FR6E2PIjT06v0Kxt4J
-	yF3XYHEE2bb5jbR5Yb0pDJpRYl2K+DSjNXFTDOq5EsqXeJdiDpz+mhmjLPpBlE+eKmFbGlFdq
-	14qAdoin78eQ1WtbO92d0a7IhE0j9TtlKCJ2M5KDrdB8ToTNEUzzVDLTEMspQVQJwK4lpgWrZ
-	3t7WixvQp802n1Ey+vhhWBvk/ReL4E5pbEOjIIncigndrMjHfJiySdXVsAbnufWz7GyIWVGri
-	BbG8M0imgPv8vCT+jbITOgqtS5f6y4mSzYoPhvmQQgbD/+kk4jIsT1VNkGn47fRb5AdXM8hHM
-	YQRDSUf0g5pD5z9TRZe5GMRcE4iPE+zrmDtOmwAAbsuuiw1IzjQ+EONYQ0xB+9uY81aD+45sO
-	FoNzIxMslGJsyPjRyP5W40QD6nbbINY2bcBzNu16Z7GFcERZ3rqsf7/vdKkqu1jxcGGgpzqbc
-	5YVMaZnQMpN70+T2
-Cc: Jochen Jaegers <jochen.jaegers@riedel-at.de>
-Subject: [PATCH] Changed order of lines to prevent use of unset variable BUILDSTATS_BASE
+In-Reply-To: <1483453287-32323-1-git-send-email-ola.redell@retotech.se>
+Subject: Re: [PATCH v2] Append KERNEL_VERSION string to kernel module package names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,39 +32,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2017 18:06:13 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 04 Jan 2017 18:16:41 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
----
- meta/classes/toaster.bbclass | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Ola, please follow the commit short log guidelines when submitting 
+patches. Basically you need to prefix the target where this change is 
+applying then a brief description, for example
 
-diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
-index 4ea2056..a685578 100644
---- a/meta/classes/toaster.bbclass
-+++ b/meta/classes/toaster.bbclass
-@@ -157,11 +157,11 @@ python toaster_collect_task_stats() {
-     import bb.utils
-     import os
- 
--    toaster_statlist_file = os.path.join(e.data.getVar('BUILDSTATS_BASE'), "toasterstatlist")
--
-     if not e.data.getVar('BUILDSTATS_BASE'):
-         return  # if we don't have buildstats, we cannot collect stats
- 
-+    toaster_statlist_file = os.path.join(e.data.getVar('BUILDSTATS_BASE'), "toasterstatlist")
-+
-     def stat_to_float(value):
-         return float(value.strip('% \n\r'))
- 
-@@ -361,4 +361,4 @@ do_populate_sdk[postfuncs] += "toaster_artifact_dumpdata "
- do_populate_sdk[vardepsexclude] += "toaster_artifact_dumpdata "
- 
- do_populate_sdk_ext[postfuncs] += "toaster_artifact_dumpdata "
--do_populate_sdk_ext[vardepsexclude] += "toaster_artifact_dumpdata "
-\ No newline at end of file
-+do_populate_sdk_ext[vardepsexclude] += "toaster_artifact_dumpdata "
--- 
-1.9.1
+kernel-module-split: Append KERNEL_VERSION string to kernel module
+
+More info at 
+http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+
+
+On 01/03/2017 08:21 AM, ola.redell@gmail.com wrote:
+> From: Ola Redell <ola.redell@retotech.se>
+>
+> The KERNEL_VERSION string is added to kernel module package names in order to
+> make the kernel modules for different kernel versions distinct packages instead
+> of different versions of the same package. With this change, when a new kernel
+> is installed together with its kernel modules (e.g. by upgrade of the packages
+> kernel and kernel-modules) using some package manager such as apt-get or rpm,
+> the kernel modules for the older kernel will not be removed. This enables a
+> fall back to the older kernel if the new one fails.
+>
+> Signed-off-by: Ola Redell <ola.redell@retotech.se>
+> ---
+>   meta/classes/kernel-module-split.bbclass | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
+> index efe1b42..13cff51 100644
+> --- a/meta/classes/kernel-module-split.bbclass
+> +++ b/meta/classes/kernel-module-split.bbclass
+> @@ -122,7 +122,7 @@ python split_kernel_module_packages () {
+>       module_regex = '^(.*)\.k?o$'
+>   
+>       module_pattern_prefix = d.getVar('KERNEL_MODULE_PACKAGE_PREFIX')
+> -    module_pattern = module_pattern_prefix + 'kernel-module-%s'
+> +    module_pattern = module_pattern_prefix + 'kernel-module-%s-' + d.getVar("KERNEL_VERSION", True)
+>   
+>       postinst = d.getVar('pkg_postinst_modules')
+>       postrm = d.getVar('pkg_postrm_modules')
 
 
