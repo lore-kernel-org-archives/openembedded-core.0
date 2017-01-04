@@ -1,40 +1,23 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 58F0871998
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id B3D8D7199D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jan 2017 18:37:04 +0000 (UTC)
-Received: from us-aus-exhub2.ni.corp.natinst.com
-	(us-aus-exhub2.ni.corp.natinst.com [130.164.68.32])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTPS id
-	v04Ib3x0006921
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Jan 2017 12:37:04 -0600
-Received: from us-aus-exch7.ni.corp.natinst.com (130.164.68.17) by
-	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Wed, 4 Jan 2017 12:37:02 -0600
-Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
-	us-aus-exch7.ni.corp.natinst.com (130.164.68.17) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Wed, 4 Jan 2017 12:37:03 -0600
-Received: from adi-pc-linux.natinst.com (130.164.49.7) by
-	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
-	Server
-	id 15.0.1156.6 via Frontend Transport; Wed, 4 Jan 2017 12:37:02 -0600
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 4 Jan 2017 20:34:58 +0200
-Message-ID: <20170104183458.2518-1-adrian.ratiu@ni.com>
-X-Mailer: git-send-email 2.11.0
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2017-01-04_15:, , signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
-	suspectscore=6
-	malwarescore=0 phishscore=0 adultscore=0 bulkscore=0 classifier=spam
-	adjust=0 reason=mlx scancount=1 engine=8.0.1-1612050000
-	definitions=main-1701040280
-Cc: ken.sharp@ni.com
-Subject: [PATCH] wic/isoimage-isohybrid: check for grub-mkimage
+	Wed,  4 Jan 2017 19:01:33 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga105.jf.intel.com with ESMTP; 04 Jan 2017 11:01:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,317,1477983600"; d="scan'208";a="45737568"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga004.jf.intel.com with ESMTP; 04 Jan 2017 11:01:33 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 2F6166A4006;
+	Wed,  4 Jan 2017 11:00:40 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Jan 2017 20:48:17 +0200
+Message-Id: <1483555698-27838-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 1/2] populate_sdk_ext: fix working with uninative sstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,38 +30,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2017 18:37:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 04 Jan 2017 19:01:35 -0000
 
-The isohybrid plugin uses grub-mkimage but doesn't make sure it gets built.
-Add a check to avoid the following error:
+Mapped uninative sstate directories to make ext SDK installer to
+use them when it's run on systems with gcc version different from
+gcc version used to build installer.
 
-Error: A native program grub-mkimage required to build the image was not found (see details above).
+[YOCTO #10832]
 
-Wic failed to find a recipe to build native grub-mkimage. Please file a bug against wic.
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
----
- scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-index 3858fd439b..9c408d046f 100644
---- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-+++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-@@ -242,6 +242,11 @@ class IsoImagePlugin(SourcePlugin):
-             msger.info("Building mtools-native...\n")
-             exec_cmd("bitbake mtools-native")
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index 0812eea..fc9cc22 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -308,7 +308,10 @@ python copy_buildsystem () {
+             f.write('BB_SETSCENE_ENFORCE_WHITELIST = "%:* *:do_shared_workdir *:do_rm_work"\n\n')
  
-+        # Make sure grub-mkconfig is available in native sysroot
-+        if not os.path.isfile("%s/usr/bin/grub-mkimage" % native_sysroot):
-+            msger.info("Building grub-native...\n")
-+            exec_cmd("bitbake grub-native")
+             # Hide the config information from bitbake output (since it's fixed within the SDK)
+-            f.write('BUILDCFG_HEADER = ""\n')
++            f.write('BUILDCFG_HEADER = ""\n\n')
 +
-     @classmethod
-     def do_configure_partition(cls, part, source_params, creator, cr_workdir,
-                                oe_builddir, bootimg_dir, kernel_dir,
++            # Map gcc-dependent uninative sstate cache for installer usage
++            f.write('SSTATE_MIRRORS = "file://universal/(.*) file://universal-4.9/\\1\\nfile://universal-4.9/(.*) file://universal-4.8/\\1"\n\n')
+ 
+             # Allow additional config through sdk-extra.conf
+             fn = bb.cookerdata.findConfigFile('sdk-extra.conf', d)
 -- 
-2.11.0
+2.1.4
 
 
