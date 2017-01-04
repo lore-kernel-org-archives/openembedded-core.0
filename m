@@ -1,47 +1,31 @@
-Return-Path: <moritz.fischer@ettus.com>
-Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
-	[209.85.220.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 7346F6022E
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 53D31719A9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jan 2017 20:25:26 +0000 (UTC)
-Received: by mail-qk0-f182.google.com with SMTP id a20so23248511qkc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Jan 2017 12:25:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ettus-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Z1P7te4P2020wv9ZdAhEbdsZqy7bPBN3+a9tWDBTGzk=;
-	b=eIKHqUjeJL/0HxNvt+uASjr7zpuHhXSc3Unqs59mSgitCnq+7iF4/x0E+BKxcwNdUS
-	cZhpGD7M/LEkAK9cRGFpQhZ+NPFbX679m2mTU1m/FUxLfgDKKttrew33MqSiXucBKwRq
-	XiM979JXqVax7PdYOOIou9EWBMtz3yapkLysJSve4kZXk653yRcstxR42nUPuo2vVKef
-	9h/VYLbpkPhkD9qlXlt9W2ZP/hXu2vyvtEMIi2s2J2NiDa5ir6OdqcS6P/0E4zttedf2
-	aR2wJgTpwo2JoS0cgA5FMNudhdYgFGweyzjXxELxT2OQzfBqx0N0hUJnBnmHl8lUsVSu
-	hTcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Z1P7te4P2020wv9ZdAhEbdsZqy7bPBN3+a9tWDBTGzk=;
-	b=efaQAyojMx0WqZjTZkilT49RSYDgg3yus9GhhdjBrl+bCUhbjgd4LwNPJUkZkaMsHl
-	STpUS+mLC63iGudKf/u32+DdpK5o791I9YEE+09GbagFB8UhSbrjsSaBs5PhkUT00Sf/
-	YBjMer/P09dUqp+1lGvd0Age5rqPcRBrb07ZfxvA0GdWG4i4w1S5HIzqF5inLGGXFUHH
-	ZzObLv3qoNq8rfA3/7NLDfzr7OhRdXoncRDJpYaqyOSo6ok+i5ysS/vY6K99BoZUbjKb
-	499kJLUvRW+9/tI6VF2dHPPts2J6KXk23VARtnicLnOOCldAPkiX2Cjm3bbtwTzlvWTs
-	pJkw==
-X-Gm-Message-State: AIkVDXJH96Ojp04uKy+fdeSvoStCVqviTQ9alKIKYjPYUINBD16wrCHw2do2GFr657eH3dX+CoxYq6N1WIvy8lQh
-X-Received: by 10.233.237.13 with SMTP id c13mr7932177qkg.227.1483561527286;
-	Wed, 04 Jan 2017 12:25:27 -0800 (PST)
+	Wed,  4 Jan 2017 20:26:05 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP; 04 Jan 2017 12:26:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,317,1477983600"; d="scan'208";a="918969157"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga003.jf.intel.com with ESMTP; 04 Jan 2017 12:26:04 -0800
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 9A2746A408D;
+	Wed,  4 Jan 2017 12:25:13 -0800 (PST)
+Date: Wed, 4 Jan 2017 22:12:55 +0200
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Message-ID: <20170104201255.GA28112@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <20170104190443.25931-1-adrian.ratiu@ni.com>
 MIME-Version: 1.0
-Received: by 10.12.160.163 with HTTP; Wed, 4 Jan 2017 12:25:26 -0800 (PST)
-In-Reply-To: <740a7531-d635-8191-d901-ffaa0deffae4@linux.intel.com>
-References: <1483512355-27961-1-git-send-email-moritz.fischer@ettus.com>
-	<740a7531-d635-8191-d901-ffaa0deffae4@linux.intel.com>
-From: Moritz Fischer <moritz.fischer@ettus.com>
-Date: Wed, 4 Jan 2017 12:25:26 -0800
-Message-ID: <CAAtXAHe=ob8N-Z6OzVPm_Fbc91Z3Ve+=K4Mubp79PJhik8a+bA@mail.gmail.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Cc: koen@dominion.thruhere.net, openembedded-core@lists.openembedded.org
-Subject: Re: [meta-oe][PATCH v3] devtools: Add recipe for Chromium Embedded Controller utilities
+In-Reply-To: <20170104190443.25931-1-adrian.ratiu@ni.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: ken.sharp@ni.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] wic/isoimage-isohybrid: check for grub-mkimage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,38 +38,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2017 20:25:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 04 Jan 2017 20:26:06 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Leonardo,
+On Wed, Jan 04, 2017 at 09:04:43PM +0200, Ioan-Adrian Ratiu wrote:
+> The isohybrid plugin uses grub-mkimage but doesn't make sure it gets built.
+> Add a check to avoid the following error:
+> 
+> Error: A native program grub-mkimage required to build the image was not found (see details above).
+> 
+> Wic failed to find a recipe to build native grub-mkimage. Please file a bug against wic.
+> 
+> Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+> ---
+>  scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+> index 849fd8bea3..d616316d61 100644
+> --- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+> +++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+> @@ -242,6 +242,11 @@ class IsoImagePlugin(SourcePlugin):
+>              msger.info("Building mtools-native...\n")
+>              exec_cmd("bitbake mtools-native")
+>  
+> +        # Make sure grub-mkimage is available in native sysroot
+> +        if not os.path.isfile("%s/usr/bin/grub-mkimage" % native_sysroot):
+> +            msger.info("Building grub-native...\n")
+> +            exec_cmd("bitbake grub-native")
+> +
+>      @classmethod
+>      def do_configure_partition(cls, part, source_params, creator, cr_workdir,
+>                                 oe_builddir, bootimg_dir, kernel_dir,
 
-On Wed, Jan 4, 2017 at 10:36 AM, Leonardo Sandoval
-<leonardo.sandoval.gonzalez@linux.intel.com> wrote:
->
->> +}
->> diff --git
->> a/meta/recipes-devtools/chromium-utils/files/0001-build-Add-HOST_LDFLAGS.patch
->> b/meta/recipes-devtools/chromium-utils/files/0001-build-Add-HOST_LDFLAGS.patch
->> new file mode 100644
->> index 0000000..46e8cad
->> --- /dev/null
->> +++
->> b/meta/recipes-devtools/chromium-utils/files/0001-build-Add-HOST_LDFLAGS.patch
->> @@ -0,0 +1,26 @@
->> +From 56ffeeffea735a6a8f69fc111278ebabe3c7e2d8 Mon Sep 17 00:00:00 2001
->> +From: Moritz Fischer <moritz.fischer@ettus.com>
->> +Date: Tue, 27 Dec 2016 22:24:07 -0800
->> +Subject: [PATCH] build Add HOST_LDFLAGS
->> +
->
->
-> what is the Upstream Status of this patch? At least for oe-core, you need to
-> provide it. More info at
-> http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Unfortunately this approach will not work if wic is run from bitbake.
 
-Good catch, thanks. I submitted it upstream. I'll just wait for that
-to resubmit my v4 here, maybe by then I don't need the patch anymore
-then.
+I'd suggest to simply add grub-native to NATIVE_RECIPES dictionary in
+scripts/lib/wic/utils/oe/misc.py
+It will make error message more informative and useful.
 
-Moritz
+--
+Regards,
+Ed
 
