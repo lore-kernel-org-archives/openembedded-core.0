@@ -1,46 +1,47 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-wj0-f174.google.com (mail-wj0-f174.google.com
-	[209.85.210.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 49C4960762
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 259D760762
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jan 2017 22:57:46 +0000 (UTC)
-Received: by mail-wj0-f174.google.com with SMTP id tq7so243704051wjb.0
+	Wed,  4 Jan 2017 22:58:01 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id l2so68371399wml.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Jan 2017 14:57:47 -0800 (PST)
+	Wed, 04 Jan 2017 14:58:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=30XAwR8/F4kstOVBfObPAj6GCutAB8PDf/PxPrFkiWg=;
-	b=C8K1BmubaiZpYtm+G1icQnqf/4wGhh34NkQvzpxv11a9IUO2brrMXCAdOALrIBu+ap
-	YiNtXvbBuPYSIw2JhXkBTfam58/68Mldsh5RIZHZW9r4BsXViMlI8vV/S4DMITY8UC9t
-	+y2VWeNnimBVD2lSRTq+HQlFubDTZcNP+iTWnzA8GPErNiwbsi+bCXVzkRLv4nuiCIkJ
-	THs3OXfEfaI/HzORQuZ7hUTfSIkTtPLcmO4oZLCoD7ysnYKPCNv8Uv4nV0eMUz2pC1qE
-	nMfshV3sg+VtG+/Xsja/WYqw3jSmcITQOOaA1548AWsH0EQn4tC0QdKbAVYVvG5fYfe+
-	pI+w==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=M4CI86VloY6h31Q1M5E5+r8WHVXFssFNwky/OS83rG4=;
+	b=fk2n22nPnl2v0rOCHKf7ppLn9XrEkWoa6nXvg5J31qI72FEhDJeyEXd0Y1PL/6aAhX
+	cRFmBVTNbK/8oflPmaSZhsQs532iOK3QLK8uPQulrfbdlYpZGEGPj0SPDH/d/t10xbYc
+	IJ1JNTuhu74wnLWq3K8w9Rej//DA3Wz6IOkI5PT/sgOPYuD5z5fCppxSPuipgZv8H/iv
+	a+YIOOZejrgrPPTZ1q2meDD0fU6/CxZcITsi2zAsZ4324OSofpGxc70ZuGgeBaBDcaDV
+	t1t6ZPNxK4+NK67O+suw7xEnT6O38x44+4O+1IUCi9EsImeN0i4I51FR1N/pJnpr1p19
+	jp6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=30XAwR8/F4kstOVBfObPAj6GCutAB8PDf/PxPrFkiWg=;
-	b=nRXRx4Kw54LhUEnXk8LFzfSRQjjLjLUzMrUqJjTg+9qZsihx4djdH3coUIFYWTLk3u
-	L/Ao6PyyE+jpsqj1ajKTqQvwA/axVksipKNC1eX8l6OUAFJ1LvB/f9ufIGq3lzSIBOES
-	lxK9YvTSQ8hAg1/ocjrukGgnGcsXVVuoWeeuDmL06BJooVW2SbMyOXWDt8khlXFdxgzb
-	hAOOanavboqq7xsjaEFVcnjn/8z7JQv/vtlE1WSVww47CLv3prfo2I0sZ14H9L6WReG/
-	HA3ci344Zc5lWV256J/LFmE1oZxcYf1qurXmMIRZxfyt6cn+zCIUdBpkMf09n2CA6yCR
-	fegA==
-X-Gm-Message-State: AIkVDXLFubbvhM6UNKkeoGiNciowgpmUAZpqcnl6ctj+xT7a5sWUoHmTN3Tr/btxibaOkQ==
-X-Received: by 10.194.115.226 with SMTP id jr2mr57499361wjb.75.1483570667027; 
-	Wed, 04 Jan 2017 14:57:47 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=M4CI86VloY6h31Q1M5E5+r8WHVXFssFNwky/OS83rG4=;
+	b=g88r+5haIgT62zBPQlvuzs7XoOnwY7BBmMcXcpb4vUfWshyLs+l8Sirko7HK83w+yo
+	WhFlTNowSLA3do/XPvlb/86pjhMnEidYC3vhRdxHnVxY/gQFtylxwgKx4Q/QPMc2Tbzl
+	OpXIqzfC/WA+47/w2AwHEpqKCf3EyzTHTWMmDYu/WOXHnUIKgsgSPrqvFgbR7g0j8m3A
+	L+kzfTQ8XT0c6/DXQwuBkcyyGbYQbIweg6RIdwGW6qhrugd3D2MdX9KKlyMKERpMEaRA
+	oyi7KgFHUXvnhkjwu7g7QtFzL2F6ULGbE3SrI6dVfeC8tB+nN5nYMklu6lOCqKckfJGE
+	KnHQ==
+X-Gm-Message-State: AIkVDXI36y+C3dY3w0270jfVQiHjpoIp782as8WCs6eBBBfXHwJvVE+k3J2EdaRHP5AJew==
+X-Received: by 10.28.9.80 with SMTP id 77mr60639485wmj.68.1483570681857;
+	Wed, 04 Jan 2017 14:58:01 -0800 (PST)
 Received: from quark.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id
-	jd9sm84797429wjb.9.2017.01.04.14.57.44
+	by smtp.gmail.com with ESMTPSA id 6sm100453855wjt.5.2017.01.04.14.57.59
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 04 Jan 2017 14:57:45 -0800 (PST)
+	Wed, 04 Jan 2017 14:58:00 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Jan 2017 15:57:38 -0700
-Message-Id: <cover.1483570577.git.chris_larson@mentor.com>
+Date: Wed,  4 Jan 2017 15:57:50 -0700
+Message-Id: <6ce9c1475cc06356d75f23d1fe01f9766dbe6c5c.1483570577.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.8.0
+In-Reply-To: <cover.1483570577.git.chris_larson@mentor.com>
+References: <cover.1483570577.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 0/6] Add opengl to REQUIRED_DISTRO_FEATURES for some recipes
+Subject: [PATCH 1/6] waffle: add opengl to REQUIRED_DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,38 +54,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2017 22:57:47 -0000
+X-List-Received-Date: Wed, 04 Jan 2017 22:58:02 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-These aren't buildable without it, and adding it fixes oe-core world builds
-with nodistro (which does not have the opengl feature by default).
+Multiple packageconfigs depend upon virtual/libgl, whose providers require the
+opengl distro feature.
 
-The following changes since commit 425afe2484707640ac71194885fdb263e95e9950:
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ meta/recipes-graphics/waffle/waffle_1.5.2.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-  lib/oe/utils: Drop python2 compatibility code (2016-12-22 08:50:21 +0000)
-
-are available in the git repository at:
-
-  git://github.com/kergoth/openembedded-core without-opengl-fixes
-  https://github.com/kergoth/openembedded-core/tree/without-opengl-fixes
-
-Christopher Larson (6):
-  waffle: add opengl to REQUIRED_DISTRO_FEATURES
-  piglit: add opengl to REQUIRED_DISTRO_FEATURES
-  libglu: add opengl to REQUIRED_DISTRO_FEATURES
-  eglinfo-x11: add opengl to REQUIRED_DISTRO_FEATURES
-  packagegroup-self-hosted: add opengl to REQUIRED_DISTRO_FEATURES
-  packagegroup-core-lsb: add opengl to REQUIRED_DISTRO_FEATURES
-
- meta/recipes-core/packagegroups/packagegroup-self-hosted.bb  | 3 +++
- meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb | 3 +++
- meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.0.bb           | 3 ++-
- meta/recipes-graphics/mesa/libglu_9.0.0.bb                   | 2 +-
- meta/recipes-graphics/piglit/piglit_git.bb                   | 3 +++
- meta/recipes-graphics/waffle/waffle_1.5.2.bb                 | 3 +++
- 6 files changed, 15 insertions(+), 2 deletions(-)
-
+diff --git a/meta/recipes-graphics/waffle/waffle_1.5.2.bb b/meta/recipes-graphics/waffle/waffle_1.5.2.bb
+index f7db1bc..9d6b0e0 100644
+--- a/meta/recipes-graphics/waffle/waffle_1.5.2.bb
++++ b/meta/recipes-graphics/waffle/waffle_1.5.2.bb
+@@ -20,6 +20,9 @@ PACKAGECONFIG ??= "glx"
+ # libx11 requires x11 in DISTRO_FEATURES.
+ REQUIRED_DISTRO_FEATURES = "${@bb.utils.contains('PACKAGECONFIG', 'glx', 'x11', '', d)}"
+ 
++# virtual/libgl requires opengl in DISTRO_FEATURES.
++REQUIRED_DISTRO_FEATURES += "${@bb.utils.contains('DEPENDS', 'virtual/libgl', 'opengl', '', d)}"
++
+ # I say virtual/libgl, actually wants gl.pc
+ PACKAGECONFIG[glx] = "-Dwaffle_has_glx=1,-Dwaffle_has_glx=0,virtual/libgl libx11"
+ 
 -- 
 2.8.0
 
