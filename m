@@ -1,35 +1,46 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id DD3ED719B3
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com
+	[209.85.218.41])
+	by mail.openembedded.org (Postfix) with ESMTP id CF73F71A62
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jan 2017 19:17:14 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 0B20920AF1
+	Thu,  5 Jan 2017 19:42:03 +0000 (UTC)
+Received: by mail-oi0-f41.google.com with SMTP id b126so592445070oia.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jan 2017 19:17:15 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024) with ESMTP id Wh2n7hCzbBed
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jan 2017 19:17:15 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-95-79.washdc.fios.verizon.net
-	[100.15.95.79])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id EDCBF20862
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jan 2017 19:17:14 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id A774B16231A; Thu,  5 Jan 2017 14:17:14 -0500 (EST)
-Date: Thu, 5 Jan 2017 14:17:14 -0500
-From: Denys Dmytriyenko <denis@denix.org>
+	Thu, 05 Jan 2017 11:42:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=4y6avLjaeAnZts0rR/tnum3RMsbMZ+RBAZRxxfBrt+Y=;
+	b=hQ9r3NrG4cDNMSFZ5Hh7ycl9mm6lhwPCq42bo6ZQ4R/WA3FNBr+hb2uLB3aCwon39A
+	viZj6hM2O4MUqYwv0Ts9vf/SnJCQZixP1a3UZE1X79CBhTDwIJMPoK3sZAgsI6wroJpW
+	eITor+KSg6JLwBFySh51Wai15BQ+JvOEBDTjUOtCS2bcxYwVdtxSj1WXfBMK7eMdhIMh
+	8hm6BVJh0+JSpXihBgyO4pMZyvBty3WuzUfwAldzVBHNIjW7RyTNKpeZQW6XPWU1RAzp
+	Xsl1A4QQ74vdIcF+Zc6WWRK7G3TQ8soMN6l1UQ6SNFBkWQfm1u70dD9pQh1uqn8n2pv5
+	xL2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=4y6avLjaeAnZts0rR/tnum3RMsbMZ+RBAZRxxfBrt+Y=;
+	b=TyCna9Xmqce2lt0+bdqAUhRWOYf5QIOIplJcxCPVFIjs9YmplORm9Uhozc08LBn42H
+	FnBDlugEDTINVtLWkckEy1C9INfmy0RPkn5onZGLoCEf+AcXWkoVkXKD7L1BOM+P8IUM
+	yNUXjkj6hHmsky6jnSn3/lqTZ71rFWSgg54d4PDDKGtKAiEPDnAXGTZ/JWZRpnlAkbt7
+	5/llnDptIlzQspiWZfGyCWQhkq3idVztUqtQT0eqGGU2xgoWdH/9ByXn9Z725suzf+YP
+	BXOknX7TgKIok7B8LzPsiecomZuhW4+qXTD3/g7Xcu8ePRVVjCrhMB8hHCDFigDtmSC5
+	WulA==
+X-Gm-Message-State: AIkVDXKNkhbuLM3BPT2SoQZH6jJ/CuSrqjQJXcCp7QK8jnauoM9qigaZ+o+f+0LAXUiQzw==
+X-Received: by 10.202.181.70 with SMTP id e67mr30744060oif.3.1483645323971;
+	Thu, 05 Jan 2017 11:42:03 -0800 (PST)
+Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id
+	o133sm18121294oia.11.2017.01.05.11.42.02
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 05 Jan 2017 11:42:02 -0800 (PST)
+From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20170105191714.GO30576@denix.org>
-References: <1482521671-10899-1-git-send-email-denis@denix.org>
-MIME-Version: 1.0
-In-Reply-To: <1482521671-10899-1-git-send-email-denis@denix.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: [PATCH] attr/ea-acl: pass --disable-gettext when USE_NLS=no
+Date: Thu,  5 Jan 2017 12:41:59 -0700
+Message-Id: <1483645319-29257-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 2.8.0
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH] webkitgtk: add missing python-native dep
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,42 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2017 19:17:15 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 05 Jan 2017 19:42:04 -0000
 
-Ping.
+From: Christopher Larson <chris_larson@mentor.com>
 
-On Fri, Dec 23, 2016 at 02:34:31PM -0500, Denys Dmytriyenko wrote:
-> From: Denys Dmytriyenko <denys@ti.com>
-> 
-> Fixes following error in configure:
->   FATAL ERROR: msgfmt does not seem to be installed.
->   attr cannot be built without a working gettext installation.
-> 
-> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-> ---
->  meta/recipes-support/attr/ea-acl.inc | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/meta/recipes-support/attr/ea-acl.inc b/meta/recipes-support/attr/ea-acl.inc
-> index 8750c3b..e77cf3e 100644
-> --- a/meta/recipes-support/attr/ea-acl.inc
-> +++ b/meta/recipes-support/attr/ea-acl.inc
-> @@ -10,6 +10,7 @@ inherit autotools-brokensep gettext
->  EXTRA_AUTORECONF += "--exclude=autoheader"
->  EXTRA_OECONF = "INSTALL_USER=root INSTALL_GROUP=root"
->  EXTRA_OECONF_append_class-native = " --enable-gettext=no"
-> +EXTRA_OECONF_append_class-target = "${@['', ' --disable-gettext '][(d.getVar('USE_NLS') == 'no')]}"
->  
->  EXTRA_OEMAKE = "PKG_LIB_DIR=${base_libdir} PKG_DEVLIB_DIR=${libdir}"
->  
-> -- 
-> 2.7.4
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Since we can't inherit pythonnative, we need this dep explicitly.
+
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ meta/recipes-sato/webkit/webkitgtk_2.14.2.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
+index 46b5468..3059e17 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
+@@ -40,6 +40,7 @@ DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn gnutls \
+ 	   pango icu bison-native gawk intltool-native libwebp \
+ 	   atk udev harfbuzz jpeg libpng pulseaudio librsvg libtheora libvorbis libxcomposite libxtst \
+ 	   ruby-native libnotify gstreamer1.0-plugins-bad \
++	   python-native \
+           "
+ 
+ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'wayland' ,d)} \
+-- 
+2.8.0
+
 
