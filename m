@@ -1,32 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 768186E5FB
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id E0894719DD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jan 2017 08:54:17 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v058sEaO027855; Thu, 5 Jan 2017 08:54:14 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id MfVTzZbrxXR2; Thu,  5 Jan 2017 08:54:14 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v058sBdY027852
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 5 Jan 2017 08:54:12 GMT
-Message-ID: <1483606451.4367.78.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>, Christopher Larson
-	<kergoth@gmail.com>
-Date: Thu, 05 Jan 2017 08:54:11 +0000
-In-Reply-To: <CAJTo0LYepu3mAAc=Y76RxBW20w1gEVH1+ms7gpfmSTB-ePfrcQ@mail.gmail.com>
-References: <cover.1483570577.git.chris_larson@mentor.com>
-	<CAJTo0LYepu3mAAc=Y76RxBW20w1gEVH1+ms7gpfmSTB-ePfrcQ@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3 
-Mime-Version: 1.0
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/6] Add opengl to REQUIRED_DISTRO_FEATURES for some recipes
+	Thu,  5 Jan 2017 09:19:01 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Jan 2017 01:19:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; d="scan'208";a="209893510"
+Received: from mjtierna-mobl4.ger.corp.intel.com (HELO [10.252.21.200])
+	([10.252.21.200])
+	by fmsmga004.fm.intel.com with ESMTP; 05 Jan 2017 01:18:59 -0800
+User-Agent: Microsoft-MacOutlook/14.7.1.161129
+Date: Thu, 05 Jan 2017 11:19:03 +0200
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: Mariano Lopez <mariano.lopez@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <D493DC27.6E783%markus.lehtonen@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH 3/8] oeqa.utils.metadata: drop 'unknown' git
+	data elements
+References: <1482930164-15721-1-git-send-email-markus.lehtonen@linux.intel.com>
+	<1482930164-15721-4-git-send-email-markus.lehtonen@linux.intel.com>
+	<edb7398f-c7f9-8ec4-daf5-c5c350c0d671@linux.intel.com>
+In-Reply-To: <edb7398f-c7f9-8ec4-daf5-c5c350c0d671@linux.intel.com>
+Mime-version: 1.0
+Subject: Re: [PATCH 3/8] oeqa.utils.metadata: drop 'unknown' git data elements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,33 +36,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2017 08:54:19 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Jan 2017 09:19:02 -0000
+Content-type: text/plain;
+	charset="US-ASCII"
+Content-transfer-encoding: 7bit
 
-On Wed, 2017-01-04 at 23:49 +0000, Burton, Ross wrote:
-> 
-> On 4 January 2017 at 22:57, Christopher Larson <kergoth@gmail.com>
-> wrote:
-> > These aren't buildable without it, and adding it fixes oe-core
-> > world builds
-> > with nodistro (which does not have the opengl feature by default).
-> > 
-> Am I still the only person who thinks skipping of recipes should be
-> recursive, so if say libx11 throws a SkipRecipe then everything else
-> that depends on it is also magically skipped?
+On 04/01/2017, 17.30, "Mariano Lopez" <mariano.lopez@linux.intel.com>
+wrote:
+>On 28/12/16 07:02, Markus Lehtonen wrote:
+>> It's better just to not have the xml elements than to have elements with
+>> faux data. One could have git branch named 'unknown', for example.
+>>
+>>
+>
+>I don't think is a good idea to completely remove the layer from the
+>metadata when such layer is not a repository, it would remove valuable
+>information for later analysis. And if you ask would do such a thing, I
+>would, I have my own debug layers that can mess with testing.
 
-Just to highlight the challenge here, the provider of virtual/libc
-raises a SkipRecipe, therefore every target recipe which isn't allarch
-gets skipped and "bitbake world" returns success. We have SkipRecipe
-code in the libcs so this isn't even that unlikely. I suspect you'd
-argue that is broken.
+I'm not removing the entire layer. I'm just removing the
+<branch>unknown</branch> and <revisio>unknown</revision> elements. So the
+layer elements are still there.
 
-How do you tell the difference between this case which is a clear error
-and your case of X11 being disabled?
+Thanks,
+   Markus
 
-Cheers,
-
-Richard
 
 
