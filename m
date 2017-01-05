@@ -1,48 +1,48 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
-	[209.85.218.66])
-	by mail.openembedded.org (Postfix) with ESMTP id E316671B0B
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 67C5B71B2D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jan 2017 19:46:33 +0000 (UTC)
-Received: by mail-oi0-f66.google.com with SMTP id u143so3178202oif.3
+	Thu,  5 Jan 2017 19:46:35 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id f201so80669249oib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Jan 2017 11:46:34 -0800 (PST)
+	Thu, 05 Jan 2017 11:46:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=BQqataomkdbErGLuH/lHyCTBAaKbax0NgBXkAukEevg=;
-	b=RnUHiFwl+aVCDqxiKLQiqI1zD+sopaC1wgo38YrDHNG9ekxMiqJifYSi1w7OTVsp/e
-	PaVU0EG7vMUURiuf1W2DsZfnLa8fKIXA4i4maHdDSu5wNTWwo5cor6zcUMKqrrJiRyfk
-	v0hXV3AouPijWikEeyfgHupu/SBOQ3GPiqwwd7MUgSUQk8Rck2FHOse8MfhvpdedBLqV
-	Wgxd9C4OhalzP8JoJTZ0GpOX19NeKlKoVrPgB6hjwq1alFvjsHe+DOaoWn/JnoBzBjXF
-	ECfg8AsqScvvfNEQZKXc+Lyh4vD/XM80NVGFOXSQMxNAqdgVS/mu4D6fC3pY1ueuz4eq
-	iEdw==
+	bh=ww3YlI7wwmKLUtBxgHLhrLpuRQVQVylN92NP3BpcluM=;
+	b=PK8uOlCFMDTlW8A53+f9nQaLL2xMqGl+Mz/e+beLa+tjybFsUJkLgiSNhgNPaDjoQJ
+	Cz3uB4z4COqr3uFFlYZbzGMnR9znNgGU4B3rw5IosNSgIhAQIdbphB7gAad9KCu2xGQV
+	cmAclT25RX8CRDauKRGWTcCrWBuCdi6iNBkJbs1x9m+h70aCEw8P+SAvNcFTX2gaiNZi
+	NRcK/sgLb4uVRF5277eETEKKmDcXkbU8X6gib6oxl0+OBI/JhlW3tSRdc+u661/YbTrB
+	W3eI3PY3hUKl+6fQkUaIYDRP2zDFo4Bw4MT+LAixNJEyAkZTY4WRZDOtys6LkdejDu38
+	t6IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=BQqataomkdbErGLuH/lHyCTBAaKbax0NgBXkAukEevg=;
-	b=glyAkwhUpoCun8893dQawQUxiIMLMZZK9GCOC6gaLI+H4AJ3U/In3x+l3Unhx5z0A2
-	wvClv7qKwNn6K2GayvPK5tsbYLC+CKEQscCaXMHVHc/Gdd8MGqGaiTu0tRC5B73OjiiA
-	5W+We8BtndEvN9pPaB+k1hEK7dQXR6UjXWw7jgazUUtT3dyfzs4RChkqGb8vR0yFy3oE
-	zS5ZiS8ecdiIpLkKSQ6CrWhroOEUVRrjXuDjQB0GfSwRKwDCSDf9BHi1r8sPN3ZC+8tG
-	CbRVW52/rOvMdEJDgiS3ibu9ZgWDnXyA1prkXe19bgStGmh8owzPWB6arKRM7bCj3PJZ
-	p+hw==
-X-Gm-Message-State: AIkVDXIAjQtfc7wAoorF+9+JFoDw2USbFBNUcyhVS1ISZmqQgf7NgFaN3occ3l4igWRsXA==
-X-Received: by 10.157.51.42 with SMTP id f39mr7004675otc.27.1483645594457;
-	Thu, 05 Jan 2017 11:46:34 -0800 (PST)
+	bh=ww3YlI7wwmKLUtBxgHLhrLpuRQVQVylN92NP3BpcluM=;
+	b=WuZUVzQ9w4wrUTAS7QnUdGjJJ9lKYHsnigmklQCHYbSh5O4jy5huz2vize4sfMiq3I
+	gctgZN3wOMTsgxZrX9ROBYfblL/22xG5JYsIUJH3oFJCDg/zZ7Jymcwh18Rhm4DVq31R
+	hDGt81zZaD4PaCuWuTRd6vQKjPvv3BENJvUMl7A8dfn1mcEj5CAgEy8MwBsib4NLxyC6
+	enccfHut3ZsWJbvjKqziQD2KusLHEjWasHMieGwVQ7wxP1AHifwOXiOqoV21I4EiYkn4
+	brgxCqw/A+KHtqdtRUQLvhQ3/IwYKY69tz8Z43d1CgSMAw+kR3nV98geSiRjU9P318qM
+	mFMA==
+X-Gm-Message-State: AIkVDXKbyq/dq3sztZ6blCXBRIR/aqOwxD2m9j8npPZleywTfAm1NGBnJvER3K9ysbAkog==
+X-Received: by 10.202.85.77 with SMTP id j74mr32076606oib.108.1483645595858;
+	Thu, 05 Jan 2017 11:46:35 -0800 (PST)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id d10sm153783otb.4.2017.01.05.11.46.32
+	by smtp.gmail.com with ESMTPSA id d10sm153783otb.4.2017.01.05.11.46.34
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 Jan 2017 11:46:33 -0800 (PST)
+	Thu, 05 Jan 2017 11:46:34 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jan 2017 12:46:14 -0700
-Message-Id: <9a0317a1b78a890d39a03cdde3ccafb8fb79f467.1483645446.git.chris_larson@mentor.com>
+Date: Thu,  5 Jan 2017 12:46:15 -0700
+Message-Id: <b649d4ceff139f17938a3f842a73d8ca4fa51146.1483645446.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.8.0
 In-Reply-To: <cover.1483645446.git.chris_larson@mentor.com>
 References: <cover.1483645446.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 02/16] packagegroup-core-tools-profile: exclude valgrind for x32
+Subject: [PATCH 03/16] grub-efi: ignore arch mismatch for x32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,29 +55,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2017 19:46:34 -0000
+X-List-Received-Date: Thu, 05 Jan 2017 19:46:35 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-valgrind doesn't seem to support x32 at this time, even in current upstream.
+Ordinary 64-bit binaries are expected for the bootloader.
 
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-bsp/grub/grub-efi_2.00.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-index 31ad82b..946c947 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-@@ -68,6 +68,7 @@ VALGRIND_armv4 = ""
- VALGRIND_armv5 = ""
- VALGRIND_armv6 = ""
- VALGRIND_aarch64 = ""
-+VALGRIND_linux-gnux32 = ""
+diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+index 531482b..03d273d 100644
+--- a/meta/recipes-bsp/grub/grub-efi_2.00.bb
++++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+@@ -65,5 +65,8 @@ FILES_${PN} += "${libdir}/grub/${GRUB_TARGET}-efi \
+                 ${datadir}/grub \
+                 "
  
- RDEPENDS_${PN} = "\
-     ${PROFILETOOLS} \
+-BBCLASSEXTEND = "native"
++# 64-bit binaries are expected for the bootloader with an x32 userland
++INSANE_SKIP_${PN}_append_linux-gnux32 = " arch"
++INSANE_SKIP_${PN}-dbg_append_linux-gnux32 = " arch"
+ 
++BBCLASSEXTEND = "native"
 -- 
 2.8.0
 
