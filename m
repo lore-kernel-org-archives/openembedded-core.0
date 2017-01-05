@@ -1,48 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f195.google.com (mail-ua0-f195.google.com
-	[209.85.217.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 9580160620
+Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
+	[209.85.217.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 61BEC60620
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jan 2017 01:27:52 +0000 (UTC)
-Received: by mail-ua0-f195.google.com with SMTP id 96so32062116uaq.2
+	Thu,  5 Jan 2017 01:29:59 +0000 (UTC)
+Received: by mail-ua0-f193.google.com with SMTP id d5so31106294uag.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Jan 2017 17:27:53 -0800 (PST)
+	Wed, 04 Jan 2017 17:29:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=OqNlCrTzUGF5yNhg/YCLHvoFe/Sw/cYFtrxMTy27g6g=;
-	b=VdydUj/BC+9LBRApvg+V83LfOONLHzYGyKcYSn77s4ZgLTffTCmE22YJ/5clN77wpb
-	ut+LelmX4xIXhd6vDdosKq+kEnn4Ew5zcz6v/uMygp9lcyL5CGOToZdmJcFrd9fvXwg7
-	41g6iv3JxkcHFOp7Gbe7e2GiT7VWDRtm3vnw6KiIHrH62Myh61q6BUKzIz/zVr8PNlsp
-	ZYwPPzyzwWqfPx5xSduhQu2oYNLy9DYkWWpOJmnKIu2TJhGb2jEYjqqBuFOf6zpk/z4z
-	VPDqdvjihAt4rZvrDAcyHG29sv76Yc0sYa370qBs/yqIfqdKy+hR6WonnbbgxyxJpEBL
-	Bnaw==
+	:cc; bh=8hDvkRWzUCWvp/vp/PWVAcbydzase9gAbd8DVbO7THw=;
+	b=b2qrrpC7OgNPvX4tQFQiw5uyLcc6n+lrFrmi5ZavQzDwmLsBe+TJM7A/jS6vb3cx8L
+	GZsWDQOOs65SQFG91pi4FPbTXrQoEvU2TR7vaCBwYUEaWlc8VhuqDMhWdOBs/WBXHe4X
+	PS9gHuIGs8/SMKcS7eKa/82Mcc+Z2ME8np0rNJZEvFsiNqEBKVzNDlRUUIdg+uy28+TL
+	QrkZKbTepqA7hpyWoa+tvqmTyvCUi/Y3GBt+pC/zZINZJF8nI+BrKI4PE81O8SGrQntT
+	ii6rPr8jLwuZtsCNecA8jV9ut+cyEri70/nOkChMsYGOC5K7vlManZ+93wulqvdh1cJQ
+	ICPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=OqNlCrTzUGF5yNhg/YCLHvoFe/Sw/cYFtrxMTy27g6g=;
-	b=iwwAPnqvi1kHUvSyuI9yOkNqWDn+UqbW6GyTbLK/NNxZslDA7H8WmPXX1OO9IryycN
-	GUMiZpTY0Hvhp0A+AjPkyAufNbZQxeZtYqn0bYazHJXYCl/5oWP9GrIiavMmE650PGmQ
-	kaxxLZtfi+0BqRdOnUmIbyj9gKTn2xp4fnT1VyXWVrhDV1x6E9vPTw3ZppM9P4LGt1r8
-	L4nbC0cN7mb4guVMGG/7cpTL86s+2Jb5hGxugSLM4eACqq4oRLaLqQeW9jmFdi1Rn+TE
-	6jj3dfTpurLTK/C3beYUAF0UIQK8xPjT2wIYqrc6G6R96EA6FQPC4Jby/9ZH75jmhOl3
-	VW4w==
-X-Gm-Message-State: AIkVDXJPrUt1TrH2ZX6RG5TtOp99GkAhHWehKHnXfosrFpMpYR3lMNPobP4OslKEjyier1MdWC6Y3+jWxtCbIg==
-X-Received: by 10.159.32.99 with SMTP id 90mr43852117uam.138.1483579672706;
-	Wed, 04 Jan 2017 17:27:52 -0800 (PST)
+	:message-id:subject:to:cc;
+	bh=8hDvkRWzUCWvp/vp/PWVAcbydzase9gAbd8DVbO7THw=;
+	b=sQcCaars98GFbpiHLyfHt4YPntd9GvCR/TyffAB7L1HNILYtVsvUdaG4PSe6We0+L9
+	dTpCYaVLIiVI5J3Hz6UUSSQPoOeMvNiz97s254LKi1GmvcitSITflfqrLbAEqJMCdlJZ
+	806fnRWojZL+aXAXjeBK7Wfs/eoBHc18rkv5eBKdR1Ks5gzthKPLW3ncE4Ktjy5KrdsJ
+	TIZrYbKEcb9piK7rd7ZomPV2K6aOCRDnumNEHA0xTFXtOuSbosqItb0ROm9JM5zW7AN6
+	X4G3V37/GxTLcgCSSOf5KeKZQq9dMlD2c3KtM/6wvzaQdGbPx8/nV7Wr8L3n/EJKy2AU
+	1nVA==
+X-Gm-Message-State: AIkVDXJuWXir1JaDGGk+pYfk088KrEbHWJmc49tbhyq6zWG3pFBrkX8hzThxjxw8JnXZ7tKm+wtWzieGpKgQgg==
+X-Received: by 10.176.1.17 with SMTP id 17mr42963390uak.143.1483579799617;
+	Wed, 04 Jan 2017 17:29:59 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.159.48.87 with HTTP; Wed, 4 Jan 2017 17:27:22 -0800 (PST)
-In-Reply-To: <CABcZAN=yV3qbbQVVcSeWjdEBpf9uSd-f93LDFs-HsEYDjb6tDQ@mail.gmail.com>
-References: <cover.1483570577.git.chris_larson@mentor.com>
-	<CAJTo0LYepu3mAAc=Y76RxBW20w1gEVH1+ms7gpfmSTB-ePfrcQ@mail.gmail.com>
-	<CABcZAN=yV3qbbQVVcSeWjdEBpf9uSd-f93LDFs-HsEYDjb6tDQ@mail.gmail.com>
+Received: by 10.159.48.87 with HTTP; Wed, 4 Jan 2017 17:29:29 -0800 (PST)
+In-Reply-To: <CAJTo0Lah1nRgbaVcFokUQZEr1zbDgyACrfvxP50vo9y8dv5DBw@mail.gmail.com>
+References: <1483512355-27961-1-git-send-email-moritz.fischer@ettus.com>
+	<740a7531-d635-8191-d901-ffaa0deffae4@linux.intel.com>
+	<CAAtXAHe=ob8N-Z6OzVPm_Fbc91Z3Ve+=K4Mubp79PJhik8a+bA@mail.gmail.com>
+	<CAJTo0Lah1nRgbaVcFokUQZEr1zbDgyACrfvxP50vo9y8dv5DBw@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 4 Jan 2017 17:27:22 -0800
-Message-ID: <CAMKF1sqYQ6nkODo-24KGQrfG=q=ZbbErgfo3_bUtNgP4JH5GnQ@mail.gmail.com>
-To: Christopher Larson <kergoth@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/6] Add opengl to REQUIRED_DISTRO_FEATURES for some recipes
+Date: Wed, 4 Jan 2017 17:29:29 -0800
+Message-ID: <CAMKF1spFejnAugO6tVUjRS49QA2-PNHzNmDLLFK9akQsKoGbxA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH v3] devtools: Add recipe for Chromium Embedded Controller utilities
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,45 +56,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2017 01:27:52 -0000
+X-List-Received-Date: Thu, 05 Jan 2017 01:29:59 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 4, 2017 at 5:13 PM, Christopher Larson <kergoth@gmail.com> wrot=
-e:
+On Wed, Jan 4, 2017 at 12:39 PM, Burton, Ross <ross.burton@intel.com> wrote:
 >
-> On Wed, Jan 4, 2017 at 4:49 PM, Burton, Ross <ross.burton@intel.com> wrot=
-e:
+> On 4 January 2017 at 20:25, Moritz Fischer <moritz.fischer@ettus.com> wrote:
 >>
->> On 4 January 2017 at 22:57, Christopher Larson <kergoth@gmail.com> wrote=
-:
->>>
->>> These aren't buildable without it, and adding it fixes oe-core world
->>> builds
->>> with nodistro (which does not have the opengl feature by default).
->>
->>
->> Am I still the only person who thinks skipping of recipes should be
->> recursive, so if say libx11 throws a SkipRecipe then everything else tha=
-t
->> depends on it is also magically skipped?
+>> Good catch, thanks. I submitted it upstream. I'll just wait for that
+>> to resubmit my v4 here, maybe by then I don't need the patch anymore
+>> then.
 >
 >
-> I=E2=80=99d agree with that. It=E2=80=99d be a nice improvement. The user=
- would see an
-> explicit error if they try to build it, as is always the case with skippe=
-d
-> recipes, but it=E2=80=99d be silently excluded from world the way skipped=
- recipes
-> usually are.
+> Is there a good rationale to put this in oe-core, instead of a BSP layer or
+> meta-oe?  How widespread are boards that use this tool?
 
-excluding from world builds is a fair argument.
+it should be in meta-oe imo
 
-> --
-> Christopher Larson
-> kergoth at gmail dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Senior Software Engineer, Mentor Graphics
+>
+> Ross
+>
 >
 > --
 > _______________________________________________
