@@ -1,24 +1,27 @@
-Return-Path: <Haiqing.Bai@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3467C60248
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 615036022F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jan 2017 03:37:27 +0000 (UTC)
+	Thu,  5 Jan 2017 03:50:28 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v053bR7F032657
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Jan 2017 19:37:27 -0800
-Received: from pek-lpgtest5.wrs.com (128.224.153.85) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Wed, 4 Jan 2017 19:37:27 -0800
-From: Haiqing Bai <Haiqing.Bai@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Jan 2017 11:32:54 +0800
-Message-ID: <1483587175-2873-1-git-send-email-Haiqing.Bai@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v053oSiZ009463
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 4 Jan 2017 19:50:28 -0800 (PST)
+Received: from server.local (128.224.20.231) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Wed, 4 Jan 2017 19:50:27 -0800
+To: California Sullivan <california.l.sullivan@intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1483563479-4673-1-git-send-email-california.l.sullivan@intel.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <476dc218-767f-83c6-2e66-7529469b4ddd@windriver.com>
+Date: Wed, 4 Jan 2017 22:50:26 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.6.0
 MIME-Version: 1.0
-Subject: [PATCH] nettle: Modify configure script to get consistent build.
+In-Reply-To: <1483563479-4673-1-git-send-email-california.l.sullivan@intel.com>
+Subject: Re: [PATCH RFC] kernel.bbclass: symlink initramfs kernel bundle to kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,139 +34,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2017 03:37:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 05 Jan 2017 03:50:29 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The original configure script detects the header files
-of openssl to set variable like 'HAVE_OPENSSL_AES_H' in
-config.h and ignore the value of '--enable-openssl', this
-may cause inconsistent build.
+On 2017-01-04 3:57 PM, California Sullivan wrote:
+> Image creation seems to always grab ${type} (usually bzImage), even if
+> we specifically use INITRAMFS_IMAGE_BUNDLE to create a bundled
+> initramfs/kernel. Work around this by linking ${type}.initramfs to
+> ${type} as a final step when it exists.
+>
+> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+> ---
+> I've been experimenting with initramfs stuff lately and discovered that
+> despite the bundled initramfs being built, it isn't being used by image
+> creation by default. This is one way to solve the issue, but ultimately
+> its probably a deficiency with image creation. Anyone with more
+> knowledge in this area have some thoughts?
 
-Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
----
- ...k-header-files-of-openssl-only-if-enable_.patch | 38 ++++++++++++++++++++++
- ...k-header-files-of-openssl-only-if-enable_.patch | 38 ++++++++++++++++++++++
- meta/recipes-support/nettle/nettle_2.7.1.bb        |  1 +
- meta/recipes-support/nettle/nettle_3.3.bb          |  4 +++
- 4 files changed, 81 insertions(+)
- create mode 100644 meta/recipes-support/nettle/nettle-2.7.1/check-header-files-of-openssl-only-if-enable_.patch
- create mode 100644 meta/recipes-support/nettle/nettle-3.3/check-header-files-of-openssl-only-if-enable_.patch
+I'm also not clear why the image creation wouldn't be grabbing whatever
+is named in the INITRAMFS variables.
 
-diff --git a/meta/recipes-support/nettle/nettle-2.7.1/check-header-files-of-openssl-only-if-enable_.patch b/meta/recipes-support/nettle/nettle-2.7.1/check-header-files-of-openssl-only-if-enable_.patch
-new file mode 100644
-index 0000000..38d9107
---- /dev/null
-+++ b/meta/recipes-support/nettle/nettle-2.7.1/check-header-files-of-openssl-only-if-enable_.patch
-@@ -0,0 +1,38 @@
-+From c369dd7049f5a198f8b6c96fde6e294ce5146c2f Mon Sep 17 00:00:00 2001
-+From: Haiqing Bai <Haiqing.Bai@windriver.com>
-+Date: Fri, 9 Dec 2016 16:16:45 +0800
-+Subject: [PATCH] nettle: check header files of openssl only if
-+ 'enable_openssl=yes'.
-+
-+The original configure script checks openssl header files to generate
-+config.h even if 'enable_openssl' is not set to yes, this made inconsistent
-+building for nettle.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
-+---
-+ configure.ac | 8 +++++---
-+ 1 file changed, 5 insertions(+), 3 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 78a3d4e..4f16a98 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -603,9 +603,11 @@ AC_CHECK_ALIGNOF(uint64_t)
-+ ALIGNOF_UINT64_T="$ac_cv_alignof_uint64_t"
-+ AC_SUBST(ALIGNOF_UINT64_T)
-+ 
-+-AC_CHECK_HEADERS([openssl/blowfish.h openssl/des.h openssl/cast.h openssl/aes.h],,
-+-[enable_openssl=no
-+- break])
-++if test "x$enable_openssl" = "xyes"; then
-++  AC_CHECK_HEADERS([openssl/blowfish.h openssl/des.h openssl/cast.h openssl/aes.h],,
-++  [enable_openssl=no
-++  break])
-++fi
-+ 
-+ LSH_FUNC_ALLOCA
-+ LSH_FUNC_STRERROR
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-support/nettle/nettle-3.3/check-header-files-of-openssl-only-if-enable_.patch b/meta/recipes-support/nettle/nettle-3.3/check-header-files-of-openssl-only-if-enable_.patch
-new file mode 100644
-index 0000000..e7216ba
---- /dev/null
-+++ b/meta/recipes-support/nettle/nettle-3.3/check-header-files-of-openssl-only-if-enable_.patch
-@@ -0,0 +1,38 @@
-+From ffee6b5f6204a0210f717968ec6ce514d70acca1 Mon Sep 17 00:00:00 2001
-+From: Haiqing Bai <Haiqing.Bai@windriver.com>
-+Date: Fri, 9 Dec 2016 15:23:17 +0800
-+Subject: [PATCH] nettle: check header files of openssl only if
-+ 'enable_openssl=yes'.
-+
-+The original configure script checks openssl header files to generate
-+config.h even if 'enable_openssl' is not set to yes, this made inconsistent
-+building for nettle.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
-+---
-+ configure.ac | 8 +++++---
-+ 1 file changed, 5 insertions(+), 3 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 4ead52c..982760f 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -185,9 +185,11 @@ AC_HEADER_TIME
-+ AC_CHECK_SIZEOF(long)
-+ AC_CHECK_SIZEOF(size_t)
-+ 
-+-AC_CHECK_HEADERS([openssl/blowfish.h openssl/des.h openssl/cast.h openssl/aes.h openssl/ecdsa.h],,
-+-[enable_openssl=no
-+- break])
-++if test "x$enable_openssl" = "xyes"; then
-++  AC_CHECK_HEADERS([openssl/blowfish.h openssl/des.h openssl/cast.h openssl/aes.h openssl/ecdsa.h],,
-++  [enable_openssl=no
-++  break])
-++fi
-+ 
-+ AC_CHECK_HEADERS([valgrind/memcheck.h])
-+ 
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-support/nettle/nettle_2.7.1.bb b/meta/recipes-support/nettle/nettle_2.7.1.bb
-index ae8e311..2006146 100644
---- a/meta/recipes-support/nettle/nettle_2.7.1.bb
-+++ b/meta/recipes-support/nettle/nettle_2.7.1.bb
-@@ -13,6 +13,7 @@ SRC_URI[sha256sum] = "bc71ebd43435537d767799e414fce88e521b7278d48c860651216e1fc6
- SRC_URI += "\
-             file://CVE-2015-8803_8805.patch \
-             file://CVE-2015-8804.patch \
-+            file://check-header-files-of-openssl-only-if-enable_.patch \
-             "
- 
- DISABLE_STATIC = ""
-diff --git a/meta/recipes-support/nettle/nettle_3.3.bb b/meta/recipes-support/nettle/nettle_3.3.bb
-index c723e27..b76babf 100644
---- a/meta/recipes-support/nettle/nettle_3.3.bb
-+++ b/meta/recipes-support/nettle/nettle_3.3.bb
-@@ -7,5 +7,9 @@ LIC_FILES_CHKSUM = "file://COPYING.LESSERv3;md5=6a6a8e020838b23406c81b19c1d46df6
-                     file://serpent-decrypt.c;beginline=14;endline=36;md5=ca0d220bc413e1842ecc507690ce416e \
-                     file://serpent-set-key.c;beginline=14;endline=36;md5=ca0d220bc413e1842ecc507690ce416e"
- 
-+SRC_URI += "\
-+            file://check-header-files-of-openssl-only-if-enable_.patch \
-+            "
-+
- SRC_URI[md5sum] = "10f969f78a463704ae73529978148dbe"
- SRC_URI[sha256sum] = "46942627d5d0ca11720fec18d81fc38f7ef837ea4197c1f630e71ce0d470b11e"
--- 
-1.9.1
+Is there some interaction between the python in image.bbclass and 
+kernel.bbclass ? I see both trying to set the depends on
+do_image_complete when INITRAMFS_IMAGE is defined.
+
+.. but yah, other than creating the dependency on the initramfs build,
+I don't see the image creation with any extra conditionals to switch to
+the initramfs bundled kernel.
+
+So your change should hold up, but I agree it doesn't feel right.
+
+Bruce
+
+>
+>  meta/classes/kernel.bbclass | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 3630042..5b5a642 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -618,6 +618,10 @@ kernel_do_deploy() {
+>  			initramfs_symlink_name=${type}-initramfs-${MACHINE}
+>  			install -m 0644 ${KERNEL_OUTPUT_DIR}/${type}.initramfs ${DEPLOYDIR}/${initramfs_base_name}.bin
+>  			ln -sf ${initramfs_base_name}.bin ${DEPLOYDIR}/${initramfs_symlink_name}.bin
+> +			if [ x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
+> +				echo "INITRAMFS_IMAGE_BUNDLE is set. Linking to ${type}..."
+> +				ln -sf ${initramfs_base_name}.bin ${DEPLOYDIR}/${type}
+> +			fi
+>  		fi
+>  	done
+>  }
+>
 
 
