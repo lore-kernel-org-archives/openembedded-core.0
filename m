@@ -1,26 +1,45 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EBBC5601A4
+Return-Path: <oleksandr.kravchuk@pelagicore.com>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 93D776071F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jan 2017 05:03:29 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v0553TBv014062
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  5 Jan 2017 07:00:54 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id u144so112683258wmu.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Jan 2017 21:03:29 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.184) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Wed, 4 Jan 2017 21:03:28 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Jan 2017 13:03:28 +0800
-Message-ID: <a235cbaf529750d9a35e0ff36523d8e7f56e29c1.1483592527.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1483592527.git.Qi.Chen@windriver.com>
-References: <cover.1483592527.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] selftest/eSDK.py: fix sstate dir not found error
+	Wed, 04 Jan 2017 23:00:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=pelagicore-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=bwbG+34khv23+0BMb3FTgqX+33X+MNMg5HyGZjJ3QK4=;
+	b=PLH4v4t87nxJO3QiZC32boO7JfshP0Cf2IttkA7AxoaKMPyYI1jyCW/10fBF3yNRmP
+	3Tg9ngVp2e344OThNyhCddMTSkKlIntd+2ky1k8jC54oOAMOP8byJRurXIghNqtXZgsg
+	SHGbkyGScPuvWRzaARfiZJjTnJqATyk/hGmSGbBkOboXIzacbN3hiAZ/XdC8uIjMlz9v
+	jUybMMf3gj4AsF8kM05NhF+qJoxEvJ+DZc1LOFF30gICXf0OOiM+TVpjDGrJOlfpcgFO
+	tqnievVtcweCZKw1o5Wosk6KZClY1CRurYBD5skbGBVhRNR64DVLt08fwCy4w2NbrHVD
+	x4hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=bwbG+34khv23+0BMb3FTgqX+33X+MNMg5HyGZjJ3QK4=;
+	b=cse8BL+phDv2Df+vINp1TJ1zF6Lkl5bkeLixEodsYU+Wb4f6fzKAIOuOF3sT3CSiyf
+	Y230sR/UY59GUQrD3ezXRjsDCoui+bRvQt6I9OMSGEgpRLlJ3GZtxuL2CrCahmcnFIAj
+	AS+4slVEtSiN6pMG8rh6atUyj/kgpKLGvpP0ANrJRgGlefn4k1kak3y14LxLdUn3zA0K
+	jMS4JBc3rg21ivajxgwmg/W6+aAIREkoGsgka33PZs6i8SOFFbakCQNuhy1eg8HK11Ar
+	Nz/pbtnaFBPRwMwDIl3kyABy0wj/qMMs296JGjH237Z4/V8AHw26ZgJS0BipVsxcbdbM
+	Rm5g==
+X-Gm-Message-State: AIkVDXJuqNjL0hcCFDk2FRoXxOr5wxNZ7wpFqWPT/airqBJBGbIFhwK3IpDHZNYK4JTQnQ0Q
+X-Received: by 10.28.229.72 with SMTP id c69mr65380298wmh.110.1483599653813;
+	Wed, 04 Jan 2017 23:00:53 -0800 (PST)
+Received: from stout.office.pelagicore.net ([83.218.80.242])
+	by smtp.gmail.com with ESMTPSA id
+	q65sm98374207wmd.6.2017.01.04.23.00.52
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 04 Jan 2017 23:00:53 -0800 (PST)
+From: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Jan 2017 08:00:50 +0100
+Message-Id: <1483599650-29293-1-git-send-email-oleksandr.kravchuk@pelagicore.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] curl: upgrade to 7.52.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,32 +52,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2017 05:03:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 05 Jan 2017 07:00:55 -0000
 
-Fix the error below when SSTATE_DIR is not "${BUILDDIR}/sstate-cache".
-
-  FileNotFoundError: [Errno 2] No such file or directory: '/xxx/../sstate-cache'
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
 ---
- meta/lib/oeqa/selftest/eSDK.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-support/curl/{curl_7.51.0.bb => curl_7.52.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/curl/{curl_7.51.0.bb => curl_7.52.1.bb} (94%)
 
-diff --git a/meta/lib/oeqa/selftest/eSDK.py b/meta/lib/oeqa/selftest/eSDK.py
-index 9d5c680..b43a452 100644
---- a/meta/lib/oeqa/selftest/eSDK.py
-+++ b/meta/lib/oeqa/selftest/eSDK.py
-@@ -55,7 +55,7 @@ class oeSDKExtSelfTest(oeSelfTest):
-     @classmethod
-     def setUpClass(cls):
-         # Start to serve sstate dir
--        sstate_dir = os.path.join(os.environ['BUILDDIR'], 'sstate-cache')
-+        sstate_dir = get_bb_var('SSTATE_DIR')
-         cls.http_service = HTTPService(sstate_dir)
-         cls.http_service.start()
+diff --git a/meta/recipes-support/curl/curl_7.51.0.bb b/meta/recipes-support/curl/curl_7.52.1.bb
+similarity index 94%
+rename from meta/recipes-support/curl/curl_7.51.0.bb
+rename to meta/recipes-support/curl/curl_7.52.1.bb
+index a9589b8..2882bc0 100644
+--- a/meta/recipes-support/curl/curl_7.51.0.bb
++++ b/meta/recipes-support/curl/curl_7.52.1.bb
+@@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+ #
+ SRC_URI += " file://configure_ac.patch"
  
+-SRC_URI[md5sum] = "09a7c5769a7eae676d5e2c86d51f167e"
+-SRC_URI[sha256sum] = "7f8240048907e5030f67be0a6129bc4b333783b9cca1391026d700835a788dde"
++SRC_URI[md5sum] = "dd014df06ff1d12e173de86873f9f77a"
++SRC_URI[sha256sum] = "d16185a767cb2c1ba3d5b9096ec54e5ec198b213f45864a38b3bda4bbf87389b"
+ 
+ CVE_PRODUCT = "libcurl"
+ inherit autotools pkgconfig binconfig multilib_header
 -- 
-1.9.1
+2.7.4
 
 
