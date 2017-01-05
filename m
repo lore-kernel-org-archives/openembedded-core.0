@@ -1,30 +1,55 @@
-Return-Path: <Wenlin.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AF08600B3
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B1EF719F7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jan 2017 07:15:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v057FPQF025956
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 4 Jan 2017 23:15:25 -0800 (PST)
-Received: from [128.224.162.177] (128.224.162.177) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Wed, 4 Jan 2017 23:15:24 -0800
+	Thu,  5 Jan 2017 07:32:47 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id v96so2901501ioi.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 04 Jan 2017 23:32:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=WxYf7posXfj/6vvkxHkDKGbtjIS77Gcil1t5c8/a3YQ=;
+	b=mvhwbe0W8j7uitjxgWJBGWax3d9jG8P6ZMnmugqkmAVlhfD9n7PZuzjto3FjG3R+Mi
+	yCiVf3nVjuzpR7xHuZLP3kpVY0V3a5B+tyGMYBHhh6bqAMLFd41HYPEqWnrVMV0010wK
+	Re8v6xXnj6UrmifRgi63MPUpDXsUdaCIYkgn2MKft7BvBJ/d2fQsyIynE+F536IBWmBc
+	N2s9ja8iRlym570PLLlY4Z0y+mJnEtSKdV8EWZhZEyxpTowXE3+95Ss1ZiweQs/BPxWd
+	Fpv4XrIqy/9JxLvvX94fSmbpp05clHLAFRtEO4h/yA1+U6/1+WHIpBgAx+pGiT9pT76i
+	Eu8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=WxYf7posXfj/6vvkxHkDKGbtjIS77Gcil1t5c8/a3YQ=;
+	b=NPbgYq0DAohzzhfjDQWRYnHlqJHP0wa23xX8UeT7Jl7oOzV0yC+bqQ69fpf7UFsLXn
+	i/0MueBwVv8od+0ayzIezxmIskKf1xDT6Xi4JewWAS6niqNb1MeNZXm83XWUuyM+YLwy
+	ACQk8GFNZ/vxu9qIEsCQ1Ru5HGcTt1nhHsXUEbDXmz8fuwCo2w1RLLnI0ZrTwRFNgTBP
+	J6Wcqnsyf7HFGleooaJEYMbY5MtSGh6Dcy/RpjyAx2KjGj5ZkRurseeVQYa0UZA34G9I
+	9ZBq+IIhxTFXn5V4QSXzf8LaMsOuYbuQS/OWCgFNktK483HX0QHF8o7wRk6vhVQJKVq1
+	mvVQ==
+X-Gm-Message-State: AIkVDXLmAhc85Y2UP5NHyxoFIavw+5BKrg2zVCjvJirFO3L1hESYR3oaKg+hWOdUOkz6nG0E
+X-Received: by 10.107.33.10 with SMTP id h10mr40019227ioh.201.1483601568444;
+	Wed, 04 Jan 2017 23:32:48 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8FAB5.dip0.t-ipconnect.de. [93.232.250.181])
+	by smtp.gmail.com with ESMTPSA id
+	k130sm35693309ita.20.2017.01.04.23.32.45
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 04 Jan 2017 23:32:47 -0800 (PST)
+Message-ID: <1483601563.28169.69.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
 To: "Burton, Ross" <ross.burton@intel.com>
-References: <1482130882-148241-1-git-send-email-wenlin.kang@windriver.com>
-	<CAJTo0LYgLj4o1srO59zCz5KhSio-C5-GFTnLaAmKcripb04Sgg@mail.gmail.com>
-	<60c61d77-2b93-8b94-007d-ff185fb8c68f@windriver.com>
-From: Wenlin Kang <wenlin.kang@windriver.com>
-Message-ID: <ed8ec4c7-4845-f574-abfd-c2c54496b9a0@windriver.com>
-Date: Thu, 5 Jan 2017 15:15:21 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.1
-MIME-Version: 1.0
-In-Reply-To: <60c61d77-2b93-8b94-007d-ff185fb8c68f@windriver.com>
-X-Originating-IP: [128.224.162.177]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gnupg: specify explicitly tar path
+Date: Thu, 05 Jan 2017 08:32:43 +0100
+In-Reply-To: <CAJTo0LYepu3mAAc=Y76RxBW20w1gEVH1+ms7gpfmSTB-ePfrcQ@mail.gmail.com>
+References: <cover.1483570577.git.chris_larson@mentor.com>
+	<CAJTo0LYepu3mAAc=Y76RxBW20w1gEVH1+ms7gpfmSTB-ePfrcQ@mail.gmail.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/6] Add opengl to REQUIRED_DISTRO_FEATURES for some recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,121 +62,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2017 07:15:27 -0000
-Content-Type: multipart/alternative;
-	boundary="------------75AAC99B0C50FF6C66F09E0C"
+X-List-Received-Date: Thu, 05 Jan 2017 07:32:49 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---------------75AAC99B0C50FF6C66F09E0C
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+On Wed, 2017-01-04 at 23:49 +0000, Burton, Ross wrote:
+> 
+> On 4 January 2017 at 22:57, Christopher Larson <kergoth@gmail.com>
+> wrote:
+>         These aren't buildable without it, and adding it fixes oe-core
+>         world builds
+>         with nodistro (which does not have the opengl feature by
+>         default).
+>         
+> 
+> Am I still the only person who thinks skipping of recipes should be
+> recursive, so if say libx11 throws a SkipRecipe then everything else
+> that depends on it is also magically skipped?
 
-On 2016年12月20日 17:47, Wenlin Kang wrote:
-> On 2016年12月19日 19:39, Burton, Ross wrote:
->>
->> On 19 December 2016 at 07:01, Wenlin Kang <wenlin.kang@windriver.com 
->> <mailto:wenlin.kang@windriver.com>> wrote:
->>
->>     +-     AC_PATH_PROG(TAR,"tar")
->>     +-        _mytar=$ac_cv_path_TAR
->>
->>
->> You don't need to patch configure.ac <http://configure.ac> as you can 
->> just set pass ac_cv_path_TAR=${base_bindir/tar in EXTRA_OECONF.
->>
->> Ross
->
-> Your means is that we should only set --with-tar=${base_bindir}/tar in 
-> EXTRA_OECONF, not to modify configure.ac, right?
-> If that, the configure code will skip directly "ustar format check 
-> code", not check whether tar supports "ustar format",
-> and think it doesn't support ustar format, so I think we need to 
-> modify the configure(related m4/tar-ustar.m4 file)
-> when set  --with-tar=${base_bindir}/tar in EXTRA_OECONF.
->
-> -- 
-> Thanks,
-> Wenlin Kang
->
->
+Not at all, I'd also prefer that. If recipe "foo" has some obscure
+conditions when it can be built, then repeating those conditions in any
+recipe depending on "foo" is a maintenance headache.
 
-ping ......
+Last time I brought this up, it was mentioned as advantage of the
+current approach that conditions are explicit and thus less surprising.
+There's some truth to that, but I don't believe that it outweighs the
+disadvantages.
 
 -- 
-Thanks,
-Wenlin Kang
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
 
---------------75AAC99B0C50FF6C66F09E0C
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-<html>
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 2016年12月20日 17:47, Wenlin Kang
-      wrote:<br>
-    </div>
-    <blockquote
-      cite="mid:60c61d77-2b93-8b94-007d-ff185fb8c68f@windriver.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <div class="moz-cite-prefix">On 2016年12月19日 19:39, Burton, Ross
-        wrote:<br>
-      </div>
-      <blockquote
-cite="mid:CAJTo0LYgLj4o1srO59zCz5KhSio-C5-GFTnLaAmKcripb04Sgg@mail.gmail.com"
-        type="cite">
-        <div dir="ltr">
-          <div class="gmail_extra"><br>
-            <div class="gmail_quote">On 19 December 2016 at 07:01,
-              Wenlin Kang <span dir="ltr">&lt;<a moz-do-not-send="true"
-                  href="mailto:wenlin.kang@windriver.com"
-                  target="_blank">wenlin.kang@windriver.com</a>&gt;</span>
-              wrote:<br>
-              <blockquote class="gmail_quote" style="margin:0 0 0
-                .8ex;border-left:1px #ccc solid;padding-left:1ex">
-                <div id=":1z8" class="a3s aXjCH m15915e3c168c1608">+-   
-                      AC_PATH_PROG(TAR,"tar")<br>
-                  +-        _mytar=$ac_cv_path_TAR<br>
-                </div>
-              </blockquote>
-            </div>
-            <br>
-            You don't need to patch <a moz-do-not-send="true"
-              href="http://configure.ac">configure.ac</a> as you can
-            just set pass ac_cv_path_TAR=${base_bindir/tar in
-            EXTRA_OECONF.</div>
-          <div class="gmail_extra"><br>
-          </div>
-          <div class="gmail_extra">Ross</div>
-        </div>
-      </blockquote>
-      <br>
-      Your means is that we should only set 
-      --with-tar=${base_bindir}/tar in EXTRA_OECONF, not to modify
-      configure.ac, right?<br>
-      If that, the configure code will skip directly "ustar format check
-      code", not check whether tar supports "ustar format",<br>
-      and think it doesn't support ustar format, so I think we need to
-      modify the configure(related m4/tar-ustar.m4 file) <br>
-      when set  --with-tar=${base_bindir}/tar in EXTRA_OECONF.<br>
-      <br>
-      <pre class="moz-signature" cols="72">-- 
-Thanks,
-Wenlin Kang</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-    </blockquote>
-    <br>
-    <p>ping ......<br>
-    </p>
-    <pre class="moz-signature" cols="72">-- 
-Thanks,
-Wenlin Kang</pre>
-  </body>
-</html>
 
---------------75AAC99B0C50FF6C66F09E0C--
