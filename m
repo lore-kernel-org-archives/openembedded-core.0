@@ -1,29 +1,31 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 33DAF60111
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 1518965CB6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jan 2017 09:40:29 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 05 Jan 2017 01:40:14 -0800
+	Thu,  5 Jan 2017 09:53:20 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga104.fm.intel.com with ESMTP; 05 Jan 2017 01:53:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; d="scan'208";a="1079453920"
-Received: from mjtierna-mobl4.ger.corp.intel.com (HELO [10.252.21.200])
-	([10.252.21.200])
-	by orsmga001.jf.intel.com with ESMTP; 05 Jan 2017 01:40:12 -0800
-User-Agent: Microsoft-MacOutlook/14.7.1.161129
-Date: Thu, 05 Jan 2017 11:40:18 +0200
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: Mariano Lopez <mariano.lopez@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <D493E01E.6E7A8%markus.lehtonen@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH 8/8] oeqa.utils.metadata: add bitbake revision
-	information
-References: <1482930164-15721-1-git-send-email-markus.lehtonen@linux.intel.com>
-	<1482930164-15721-9-git-send-email-markus.lehtonen@linux.intel.com>
-	<de81809e-103a-4260-a198-a1897e2a9894@linux.intel.com>
-In-Reply-To: <de81809e-103a-4260-a198-a1897e2a9894@linux.intel.com>
-Mime-version: 1.0
-Subject: Re: [PATCH 8/8] oeqa.utils.metadata: add bitbake revision information
+X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; d="scan'208";a="919180959"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga003.jf.intel.com with ESMTP; 05 Jan 2017 01:53:21 -0800
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id AD2A16A4006;
+	Thu,  5 Jan 2017 01:52:26 -0800 (PST)
+Date: Thu, 5 Jan 2017 11:40:09 +0200
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20170105094009.GA30427@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <1483573733-10014-1-git-send-email-richard.purdie@linuxfoundation.org>
+MIME-Version: 1.0
+In-Reply-To: <1483573733-10014-1-git-send-email-richard.purdie@linuxfoundation.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] oe-selftest: Improve BUILDDIR environment handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,45 +38,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2017 09:40:30 -0000
-Content-type: text/plain;
-	charset="US-ASCII"
-Content-transfer-encoding: 7bit
+X-List-Received-Date: Thu, 05 Jan 2017 09:53:21 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 04/01/2017, 17.45, "Mariano Lopez" <mariano.lopez@linux.intel.com>
-wrote:
->On 28/12/16 07:02, Markus Lehtonen wrote:
->> [YOCTO #10590]
->>
->> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
->> ---
->>  meta/lib/oeqa/utils/metadata.py | 32 +++++++++++++++++++-------------
->>  1 file changed, 19 insertions(+), 13 deletions(-)
->>
->> diff --git a/meta/lib/oeqa/utils/metadata.py
->>b/meta/lib/oeqa/utils/metadata.py
->> index 6331c21..23449fc 100644
->> --- a/meta/lib/oeqa/utils/metadata.py
->> +++ b/meta/lib/oeqa/utils/metadata.py
->> @@ -10,6 +10,8 @@ from collections.abc import MutableMapping
->>  from xml.dom.minidom import parseString
->>  from xml.etree.ElementTree import Element, tostring
->>  
->> +from git import Repo, InvalidGitRepositoryError, NoSuchPathError
->> +
->
->It seems not every user running selftest appreciated the requirement of
->gitpython, so there was a patch to keep this dependency out. This will
->introduce the need of gitpython again.
+On Wed, Jan 04, 2017 at 11:48:53PM +0000, Richard Purdie wrote:
+> Its possible something (like bitbake/tinfoil2) may mess around with the
+> environment and using the enviroment as a global variable store isn't
+> particularly nice anyway.
+> 
+> This patch changes the BUILDDIR usages so that the environment isn't used
+> as a global store and a global variable is used instead. Whilst that
+> is still not perfect, it does avoid the current double and triple backtraces
+> we're seeing where tinfoil2/bitbake has trampled the enviroment leading
+> to failures of failures making debugging even harder.
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  scripts/oe-selftest | 19 +++++++++++++------
+>  1 file changed, 13 insertions(+), 6 deletions(-)
+> 
+> diff --git a/scripts/oe-selftest b/scripts/oe-selftest
+> index bfcea66..e166521 100755
+> --- a/scripts/oe-selftest
+> +++ b/scripts/oe-selftest
+> @@ -111,9 +111,13 @@ def get_args_parser():
+>                          help='Submit test results to a repository')
+>      return parser
+>  
+> +builddir = None
+> +
+>  
+>  def preflight_check():
+>  
+> +    global builddir
+> +
+>      log.info("Checking that everything is in order before running the tests")
+>  
+>      if not os.environ.get("BUILDDIR"):
+> @@ -135,7 +139,7 @@ def preflight_check():
+>      return True
+>  
+>  def add_include():
+> -    builddir = os.environ.get("BUILDDIR")
+> +    global builddir
+You don't need to use 'global' here. It's only mandatory if
+you change variable value:
+https://docs.python.org/3/reference/simple_stmts.html#the-global-statement
 
-Yes. I don't know why I moved this import to module level in the first
-place. A corrected version of the patch in now found  in my
-oe-core-contrib branch
-(git://git.openembedded.org/openembedded-core-contrib marquiz/oeqa-metaxml)
+Would it be more readable to use name in upper case: BUILDDIR?
 
+>      if "#include added by oe-selftest.py" \
+>          not in ftools.read_file(os.path.join(builddir, "conf/local.conf")):
+>              log.info("Adding: \"include selftest.inc\" in local.conf")
+> @@ -149,7 +153,7 @@ def add_include():
+>                      "\n#include added by oe-selftest.py\ninclude bblayers.inc")
+>  
+>  def remove_include():
+> -    builddir = os.environ.get("BUILDDIR")
+> +    global builddir
+>      if builddir is None:
+>          return
+>      if "#include added by oe-selftest.py" \
+> @@ -165,18 +169,21 @@ def remove_include():
+>                      "\n#include added by oe-selftest.py\ninclude bblayers.inc")
+>  
+>  def remove_inc_files():
+> +    global builddir
+> +    if builddir is None:
+> +        return
+>      try:
+> -        os.remove(os.path.join(os.environ.get("BUILDDIR"), "conf/selftest.inc"))
+> +        os.remove(os.path.join(builddir, "conf/selftest.inc"))
+>          for root, _, files in os.walk(get_test_layer()):
+>              for f in files:
+>                  if f == 'test_recipe.inc':
+>                      os.remove(os.path.join(root, f))
+> -    except (AttributeError, OSError,) as e:    # AttributeError may happen if BUILDDIR is not set
+> +    except OSError as e:
+>          pass
+>  
+>      for incl_file in ['conf/bblayers.inc', 'conf/machine.inc']:
+>          try:
+> -            os.remove(os.path.join(os.environ.get("BUILDDIR"), incl_file))
+> +            os.remove(os.path.join(builddir, incl_file))
+>          except:
+>              pass
+>  
+> @@ -394,7 +401,7 @@ def coverage_setup(coverage_source, coverage_include, coverage_omit):
+>      """ Set up the coverage measurement for the testcases to be run """
+>      import datetime
+>      import subprocess
+> -    builddir = os.environ.get("BUILDDIR")
+> +    global builddir
+>      pokydir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+>      curcommit= subprocess.check_output(["git", "--git-dir", os.path.join(pokydir, ".git"), "rev-parse", "HEAD"]).decode('utf-8')
+>      coveragerc = "%s/.coveragerc" % builddir
+> -- 
+> 2.7.4
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Thanks,
-  Markus
-
-
+-- 
+--
+Regards,
+Ed
 
