@@ -1,22 +1,22 @@
 Return-Path: <randy.e.witt@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C22571B45
+	by mail.openembedded.org (Postfix) with ESMTP id 8E1D871B48
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  5 Jan 2017 23:15:53 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP; 05 Jan 2017 15:15:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,322,1477983600"; d="scan'208";a="1079696747"
+X-IronPort-AV: E=Sophos;i="5.33,322,1477983600"; d="scan'208";a="1079696746"
 Received: from bitbang.jf.intel.com ([10.7.199.68])
 	by orsmga001.jf.intel.com with ESMTP; 05 Jan 2017 15:15:48 -0800
 From: Randy Witt <randy.e.witt@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jan 2017 15:15:44 -0800
-Message-Id: <e9bc9ce5c76b5978e5336ab69f6739d4fb18aa98.1483658030.git.randy.e.witt@linux.intel.com>
+Date: Thu,  5 Jan 2017 15:15:43 -0800
+Message-Id: <65157013adbdef81ba06ad57187e598a0af1287e.1483658030.git.randy.e.witt@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1483658030.git.randy.e.witt@linux.intel.com>
 References: <cover.1483658030.git.randy.e.witt@linux.intel.com>
-Subject: [PATCH 2/2] image_types.bbclass: IMAGE_TYPEDEP_ now adds deps for conversion types
+Subject: [PATCH 1/2] image_typedep.py: Add a test that ensures conversion type deps get added
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,50 +31,73 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 05 Jan 2017 23:15:54 -0000
 
-Previously if IMAGE_TYPEDEP_* contained a conversion type of the form,
-"foo.bar", the dependency on CONVERSION_DEPENDS_bar would not get added
-to the task depends for do_rootfs.
-
-[YOCTO #10883]
+Add a test that ensures if IMAGE_TYPEDEP_* contains a conversion type,
+that the corresponding CONVERSION_DEPENDS_ for that type gets added to
+the dependency tree for do_rootfs.
 
 Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
 ---
- meta/classes/image_types.bbclass | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ meta/lib/oeqa/selftest/image_typedep.py | 51 +++++++++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/image_typedep.py
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 8f04849..c2ad141 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -17,17 +17,25 @@ def imagetypes_getdepends(d):
-                 d += ":do_populate_sysroot"
-             deps.add(d)
- 
-+    # Take a type in the form of foo.bar.car and split it into the items
-+    # needed for the image deps "foo", and the conversion deps ["bar", "car"]
-+    def split_types(typestring):
-+        types = typestring.split(".")
-+        return types[0], types[1:]
+diff --git a/meta/lib/oeqa/selftest/image_typedep.py b/meta/lib/oeqa/selftest/image_typedep.py
+new file mode 100644
+index 0000000..256142d25
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/image_typedep.py
+@@ -0,0 +1,51 @@
++import os
 +
-     fstypes = set((d.getVar('IMAGE_FSTYPES') or "").split())
-     fstypes |= set((d.getVar('IMAGE_FSTYPES_DEBUGFS') or "").split())
- 
-     deps = set()
-     for typestring in fstypes:
--        types = typestring.split(".")
--        basetype, resttypes = types[0], types[1:]
--
-+        basetype, resttypes = split_types(typestring)
-         adddep(d.getVar('IMAGE_DEPENDS_%s' % basetype) , deps)
++from oeqa.selftest.base import oeSelfTest
++from oeqa.utils.commands import bitbake
 +
-         for typedepends in (d.getVar("IMAGE_TYPEDEP_%s" % basetype) or "").split():
-+            base, rest = split_types(typedepends)
-+            resttypes += rest
-             adddep(d.getVar('IMAGE_DEPENDS_%s' % typedepends) , deps)
++class ImageTypeDepTests(oeSelfTest):
 +
-         for ctype in resttypes:
-             adddep(d.getVar("CONVERSION_DEPENDS_%s" % ctype), deps)
-             adddep(d.getVar("COMPRESS_DEPENDS_%s" % ctype), deps)
++    # Verify that when specifying a IMAGE_TYPEDEP_ of the form "foo.bar" that
++    # the conversion type bar gets added as a dep as well
++    def test_conversion_typedep_added(self):
++
++        self.write_recipeinc('emptytest', """
++# Try to empty out the default dependency list
++PACKAGE_INSTALL = ""
++DISTRO_EXTRA_RDEPENDS=""
++
++LICENSE = "MIT"
++IMAGE_FSTYPES = "testfstype"
++
++IMAGE_TYPES_MASKED += "testfstype"
++IMAGE_TYPEDEP_testfstype = "tar.bz2"
++
++inherit image
++
++""")
++        # First get the dependency that should exist for bz2, it will look
++        # like CONVERSION_DEPENDS_bz2="somedep"
++        result = bitbake('-e emptytest')
++
++        for line in result.output.split('\n'):
++            if line.startswith('CONVERSION_DEPENDS_bz2'):
++                dep = line.split('=')[1].strip('"')
++                break
++
++        # Now get the dependency task list and check for the expected task
++        # dependency
++        bitbake('-g emptytest')
++
++        taskdependsfile = os.path.join(self.builddir, 'task-depends.dot')
++        dep =  dep + ".do_populate_sysroot"
++        depfound = False
++        expectedline = '"emptytest.do_rootfs" -> "{}"'.format(dep)
++
++        with open(taskdependsfile, "r") as f:
++            for line in f:
++                if line.strip() == expectedline:
++                    depfound = True
++                    break
++
++        if not depfound:
++            raise AssertionError("\"{}\" not found".format(expectedline))
 -- 
 2.7.4
 
