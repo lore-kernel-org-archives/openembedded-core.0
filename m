@@ -1,20 +1,22 @@
 Return-Path: <randy.e.witt@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E4D860116
+	by mail.openembedded.org (Postfix) with ESMTP id 5C22571B45
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jan 2017 23:15:48 +0000 (UTC)
+	Thu,  5 Jan 2017 23:15:53 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP; 05 Jan 2017 15:15:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,322,1477983600"; d="scan'208";a="1079696745"
+X-IronPort-AV: E=Sophos;i="5.33,322,1477983600"; d="scan'208";a="1079696747"
 Received: from bitbang.jf.intel.com ([10.7.199.68])
 	by orsmga001.jf.intel.com with ESMTP; 05 Jan 2017 15:15:48 -0800
 From: Randy Witt <randy.e.witt@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jan 2017 15:15:42 -0800
-Message-Id: <cover.1483658030.git.randy.e.witt@linux.intel.com>
+Date: Thu,  5 Jan 2017 15:15:44 -0800
+Message-Id: <e9bc9ce5c76b5978e5336ab69f6739d4fb18aa98.1483658030.git.randy.e.witt@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 0/2] Fix depends for conversion types in IMAGE_TYPEDEP_*
+In-Reply-To: <cover.1483658030.git.randy.e.witt@linux.intel.com>
+References: <cover.1483658030.git.randy.e.witt@linux.intel.com>
+Subject: [PATCH 2/2] image_types.bbclass: IMAGE_TYPEDEP_ now adds deps for conversion types
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,28 +31,50 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 05 Jan 2017 23:15:54 -0000
 
-Fix conversion type dependencies missing when set in IMAGE_TYPEDEP_*. This
-also adds a test.
+Previously if IMAGE_TYPEDEP_* contained a conversion type of the form,
+"foo.bar", the dependency on CONVERSION_DEPENDS_bar would not get added
+to the task depends for do_rootfs.
 
-The following changes since commit 9f6a1043f68580ed9604e750fd0f993f933bb66e:
+[YOCTO #10883]
 
-  bitbake: prserv/serv: Tweak stdout manipulation to be stream safe (2017-01-05 13:54:07 +0000)
+Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+---
+ meta/classes/image_types.bbclass | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib rewitt/image_typedep
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=rewitt/image_typedep
-
-Randy Witt (2):
-  image_typedep.py: Add a test that ensures conversion type deps get
-    added
-  image_types.bbclass: IMAGE_TYPEDEP_ now adds deps for conversion types
-
- meta/classes/image_types.bbclass        | 14 +++++++--
- meta/lib/oeqa/selftest/image_typedep.py | 51 +++++++++++++++++++++++++++++++++
- 2 files changed, 62 insertions(+), 3 deletions(-)
- create mode 100644 meta/lib/oeqa/selftest/image_typedep.py
-
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 8f04849..c2ad141 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -17,17 +17,25 @@ def imagetypes_getdepends(d):
+                 d += ":do_populate_sysroot"
+             deps.add(d)
+ 
++    # Take a type in the form of foo.bar.car and split it into the items
++    # needed for the image deps "foo", and the conversion deps ["bar", "car"]
++    def split_types(typestring):
++        types = typestring.split(".")
++        return types[0], types[1:]
++
+     fstypes = set((d.getVar('IMAGE_FSTYPES') or "").split())
+     fstypes |= set((d.getVar('IMAGE_FSTYPES_DEBUGFS') or "").split())
+ 
+     deps = set()
+     for typestring in fstypes:
+-        types = typestring.split(".")
+-        basetype, resttypes = types[0], types[1:]
+-
++        basetype, resttypes = split_types(typestring)
+         adddep(d.getVar('IMAGE_DEPENDS_%s' % basetype) , deps)
++
+         for typedepends in (d.getVar("IMAGE_TYPEDEP_%s" % basetype) or "").split():
++            base, rest = split_types(typedepends)
++            resttypes += rest
+             adddep(d.getVar('IMAGE_DEPENDS_%s' % typedepends) , deps)
++
+         for ctype in resttypes:
+             adddep(d.getVar("CONVERSION_DEPENDS_%s" % ctype), deps)
+             adddep(d.getVar("COMPRESS_DEPENDS_%s" % ctype), deps)
 -- 
 2.7.4
 
