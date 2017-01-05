@@ -1,45 +1,30 @@
-Return-Path: <oleksandr.kravchuk@pelagicore.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 93D776071F
+Return-Path: <Wenlin.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AF08600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jan 2017 07:00:54 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id u144so112683258wmu.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Jan 2017 23:00:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=pelagicore-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=bwbG+34khv23+0BMb3FTgqX+33X+MNMg5HyGZjJ3QK4=;
-	b=PLH4v4t87nxJO3QiZC32boO7JfshP0Cf2IttkA7AxoaKMPyYI1jyCW/10fBF3yNRmP
-	3Tg9ngVp2e344OThNyhCddMTSkKlIntd+2ky1k8jC54oOAMOP8byJRurXIghNqtXZgsg
-	SHGbkyGScPuvWRzaARfiZJjTnJqATyk/hGmSGbBkOboXIzacbN3hiAZ/XdC8uIjMlz9v
-	jUybMMf3gj4AsF8kM05NhF+qJoxEvJ+DZc1LOFF30gICXf0OOiM+TVpjDGrJOlfpcgFO
-	tqnievVtcweCZKw1o5Wosk6KZClY1CRurYBD5skbGBVhRNR64DVLt08fwCy4w2NbrHVD
-	x4hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=bwbG+34khv23+0BMb3FTgqX+33X+MNMg5HyGZjJ3QK4=;
-	b=cse8BL+phDv2Df+vINp1TJ1zF6Lkl5bkeLixEodsYU+Wb4f6fzKAIOuOF3sT3CSiyf
-	Y230sR/UY59GUQrD3ezXRjsDCoui+bRvQt6I9OMSGEgpRLlJ3GZtxuL2CrCahmcnFIAj
-	AS+4slVEtSiN6pMG8rh6atUyj/kgpKLGvpP0ANrJRgGlefn4k1kak3y14LxLdUn3zA0K
-	jMS4JBc3rg21ivajxgwmg/W6+aAIREkoGsgka33PZs6i8SOFFbakCQNuhy1eg8HK11Ar
-	Nz/pbtnaFBPRwMwDIl3kyABy0wj/qMMs296JGjH237Z4/V8AHw26ZgJS0BipVsxcbdbM
-	Rm5g==
-X-Gm-Message-State: AIkVDXJuqNjL0hcCFDk2FRoXxOr5wxNZ7wpFqWPT/airqBJBGbIFhwK3IpDHZNYK4JTQnQ0Q
-X-Received: by 10.28.229.72 with SMTP id c69mr65380298wmh.110.1483599653813;
-	Wed, 04 Jan 2017 23:00:53 -0800 (PST)
-Received: from stout.office.pelagicore.net ([83.218.80.242])
-	by smtp.gmail.com with ESMTPSA id
-	q65sm98374207wmd.6.2017.01.04.23.00.52
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 04 Jan 2017 23:00:53 -0800 (PST)
-From: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jan 2017 08:00:50 +0100
-Message-Id: <1483599650-29293-1-git-send-email-oleksandr.kravchuk@pelagicore.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] curl: upgrade to 7.52.1
+	Thu,  5 Jan 2017 07:15:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v057FPQF025956
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 4 Jan 2017 23:15:25 -0800 (PST)
+Received: from [128.224.162.177] (128.224.162.177) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Wed, 4 Jan 2017 23:15:24 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1482130882-148241-1-git-send-email-wenlin.kang@windriver.com>
+	<CAJTo0LYgLj4o1srO59zCz5KhSio-C5-GFTnLaAmKcripb04Sgg@mail.gmail.com>
+	<60c61d77-2b93-8b94-007d-ff185fb8c68f@windriver.com>
+From: Wenlin Kang <wenlin.kang@windriver.com>
+Message-ID: <ed8ec4c7-4845-f574-abfd-c2c54496b9a0@windriver.com>
+Date: Thu, 5 Jan 2017 15:15:21 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.5.1
+MIME-Version: 1.0
+In-Reply-To: <60c61d77-2b93-8b94-007d-ff185fb8c68f@windriver.com>
+X-Originating-IP: [128.224.162.177]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gnupg: specify explicitly tar path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,33 +37,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2017 07:00:55 -0000
+X-List-Received-Date: Thu, 05 Jan 2017 07:15:27 -0000
+Content-Type: multipart/alternative;
+	boundary="------------75AAC99B0C50FF6C66F09E0C"
 
-Signed-off-by: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
----
- meta/recipes-support/curl/{curl_7.51.0.bb => curl_7.52.1.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/curl/{curl_7.51.0.bb => curl_7.52.1.bb} (94%)
+--------------75AAC99B0C50FF6C66F09E0C
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-diff --git a/meta/recipes-support/curl/curl_7.51.0.bb b/meta/recipes-support/curl/curl_7.52.1.bb
-similarity index 94%
-rename from meta/recipes-support/curl/curl_7.51.0.bb
-rename to meta/recipes-support/curl/curl_7.52.1.bb
-index a9589b8..2882bc0 100644
---- a/meta/recipes-support/curl/curl_7.51.0.bb
-+++ b/meta/recipes-support/curl/curl_7.52.1.bb
-@@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
- #
- SRC_URI += " file://configure_ac.patch"
- 
--SRC_URI[md5sum] = "09a7c5769a7eae676d5e2c86d51f167e"
--SRC_URI[sha256sum] = "7f8240048907e5030f67be0a6129bc4b333783b9cca1391026d700835a788dde"
-+SRC_URI[md5sum] = "dd014df06ff1d12e173de86873f9f77a"
-+SRC_URI[sha256sum] = "d16185a767cb2c1ba3d5b9096ec54e5ec198b213f45864a38b3bda4bbf87389b"
- 
- CVE_PRODUCT = "libcurl"
- inherit autotools pkgconfig binconfig multilib_header
+On 2016年12月20日 17:47, Wenlin Kang wrote:
+> On 2016年12月19日 19:39, Burton, Ross wrote:
+>>
+>> On 19 December 2016 at 07:01, Wenlin Kang <wenlin.kang@windriver.com 
+>> <mailto:wenlin.kang@windriver.com>> wrote:
+>>
+>>     +-     AC_PATH_PROG(TAR,"tar")
+>>     +-        _mytar=$ac_cv_path_TAR
+>>
+>>
+>> You don't need to patch configure.ac <http://configure.ac> as you can 
+>> just set pass ac_cv_path_TAR=${base_bindir/tar in EXTRA_OECONF.
+>>
+>> Ross
+>
+> Your means is that we should only set --with-tar=${base_bindir}/tar in 
+> EXTRA_OECONF, not to modify configure.ac, right?
+> If that, the configure code will skip directly "ustar format check 
+> code", not check whether tar supports "ustar format",
+> and think it doesn't support ustar format, so I think we need to 
+> modify the configure(related m4/tar-ustar.m4 file)
+> when set  --with-tar=${base_bindir}/tar in EXTRA_OECONF.
+>
+> -- 
+> Thanks,
+> Wenlin Kang
+>
+>
+
+ping ......
+
 -- 
-2.7.4
+Thanks,
+Wenlin Kang
 
 
+--------------75AAC99B0C50FF6C66F09E0C
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 2016年12月20日 17:47, Wenlin Kang
+      wrote:<br>
+    </div>
+    <blockquote
+      cite="mid:60c61d77-2b93-8b94-007d-ff185fb8c68f@windriver.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <div class="moz-cite-prefix">On 2016年12月19日 19:39, Burton, Ross
+        wrote:<br>
+      </div>
+      <blockquote
+cite="mid:CAJTo0LYgLj4o1srO59zCz5KhSio-C5-GFTnLaAmKcripb04Sgg@mail.gmail.com"
+        type="cite">
+        <div dir="ltr">
+          <div class="gmail_extra"><br>
+            <div class="gmail_quote">On 19 December 2016 at 07:01,
+              Wenlin Kang <span dir="ltr">&lt;<a moz-do-not-send="true"
+                  href="mailto:wenlin.kang@windriver.com"
+                  target="_blank">wenlin.kang@windriver.com</a>&gt;</span>
+              wrote:<br>
+              <blockquote class="gmail_quote" style="margin:0 0 0
+                .8ex;border-left:1px #ccc solid;padding-left:1ex">
+                <div id=":1z8" class="a3s aXjCH m15915e3c168c1608">+-   
+                      AC_PATH_PROG(TAR,"tar")<br>
+                  +-        _mytar=$ac_cv_path_TAR<br>
+                </div>
+              </blockquote>
+            </div>
+            <br>
+            You don't need to patch <a moz-do-not-send="true"
+              href="http://configure.ac">configure.ac</a> as you can
+            just set pass ac_cv_path_TAR=${base_bindir/tar in
+            EXTRA_OECONF.</div>
+          <div class="gmail_extra"><br>
+          </div>
+          <div class="gmail_extra">Ross</div>
+        </div>
+      </blockquote>
+      <br>
+      Your means is that we should only set 
+      --with-tar=${base_bindir}/tar in EXTRA_OECONF, not to modify
+      configure.ac, right?<br>
+      If that, the configure code will skip directly "ustar format check
+      code", not check whether tar supports "ustar format",<br>
+      and think it doesn't support ustar format, so I think we need to
+      modify the configure(related m4/tar-ustar.m4 file) <br>
+      when set  --with-tar=${base_bindir}/tar in EXTRA_OECONF.<br>
+      <br>
+      <pre class="moz-signature" cols="72">-- 
+Thanks,
+Wenlin Kang</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <br>
+    </blockquote>
+    <br>
+    <p>ping ......<br>
+    </p>
+    <pre class="moz-signature" cols="72">-- 
+Thanks,
+Wenlin Kang</pre>
+  </body>
+</html>
+
+--------------75AAC99B0C50FF6C66F09E0C--
