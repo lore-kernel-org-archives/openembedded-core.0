@@ -1,48 +1,48 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
-	[209.85.218.67])
-	by mail.openembedded.org (Postfix) with ESMTP id F0D4071C00
+Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
+	[209.85.218.68])
+	by mail.openembedded.org (Postfix) with ESMTP id B58C871B2B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jan 2017 19:46:48 +0000 (UTC)
-Received: by mail-oi0-f67.google.com with SMTP id 3so51662634oih.1
+	Thu,  5 Jan 2017 19:46:50 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id 3so51662824oih.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Jan 2017 11:46:49 -0800 (PST)
+	Thu, 05 Jan 2017 11:46:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=tUpmokNVrsqV+WaFKFI83titX4XEV4TnxFslGRw9l/M=;
-	b=lcw6tB2B1GYBEAbbY3uMRX/AYHeZRA64Iqxm5qRhGKkQhFdDPF5uzYpxCUvHpcypCc
-	GlQz3qtxc2Nc+1Jxewl81rJNy5QjqdYZ4SlZ0ahXzeGHUcWPfJKbGG+LzKVIkj4FIV54
-	OdKBM+kT3yw06LIPILSaAQlVkrAT0kf1Yr/XGWQ6BoEod9PvdicKgvMJfWVMleTiKFst
-	uqXGo5O6wAZIIssmwe2E0n412rFbuVo8yp0a/+x+qi+tQAJNVcEAZ6rL8ub+bpLi4DC0
-	o/c56RNVxNg6WJ6gF/utsxyilEIbRsMtxJ7QTthamHmOAgKWvf5WAX77iRvGuGJdkgNH
-	yVfA==
+	bh=zeWw1oyuNmPrnrLBZgLSWWjXxmYMAGEuF6J3pZ67D+k=;
+	b=WE5U6E1ZRV6dOkm/cz/u2sJDs8QxYPJn4DK1fvE0+LQ2KOOATK5trBkiUTsPnR01J4
+	VfKSAig4MggFmi1z5nH2yzH6y35UYkrHM025pcPAbrdmuLQQPXRIwm4Mx1QUULYySnVP
+	Np5MZ8sY3bWwzv9vWABhDEV8KCU+MA8R/iOKaHg1eOIeKrMvlyAGk7byj9vqGOM0mRL4
+	EnTFGmXp6VqxBv41r3ZjUmKLe3Qao12MaB9b3YsF6X39ohpyaQs5CiBKt8MLdMDlfm7b
+	GC0ygKTxOHZMBDWMyzY9/mVyaLQPR1aNyVMwjSLe+u3cIC2rxSGET94PVtfrFUaTVEjL
+	v7CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=tUpmokNVrsqV+WaFKFI83titX4XEV4TnxFslGRw9l/M=;
-	b=OOhWs24z1b40cF5UvWPv05r1ujXJ5kqk5zNLSyu2aR0sSEmKLw0ZfwRnfAb2bmKYOX
-	LddTCEuoVZNISqCqEHtuzvenaX/P8DuTzC5GEfFp7DC+2mH0eXEBrCev1KcsBUGdk6rA
-	3ILJ0/qhLemkII9v0bIlJEbIDtX4tGGtcKJ+wuMCLgmi7v+8Uh1kB3Ce0gg+xEZpuHUo
-	1Zmj457DMA3Ux+jboiRTmCM1o/d17KPczlyonerEhiGMFeM1SVfHqBnF6u0QhWrWMPNv
-	S1h5gjZT5CcBTMT1Od9DSd2mEJ4FBl+rsve9TuuLkfU48TErp9HtCqoVj/urL2m1bOAk
-	KluQ==
-X-Gm-Message-State: AIkVDXLOOeHwqFrqvRqUG68INP3f8fc22FV/ZshwOsMM39WTc1j8+Qvs4z7U+Ud16+I4Zg==
-X-Received: by 10.202.102.227 with SMTP id m96mr29447366oik.5.1483645609033;
-	Thu, 05 Jan 2017 11:46:49 -0800 (PST)
+	bh=zeWw1oyuNmPrnrLBZgLSWWjXxmYMAGEuF6J3pZ67D+k=;
+	b=Vt8dT2FU88V3G7u8S2S5HpWJ3iWEClUjnIyEVzSaF1P8CKiKpzqtZSsY3oduVOOGsR
+	MMI+qxLgkxo7C4/IzgdaFTHGGopxI+CEaBZjG2359GZ2Ns8W294q1PEdPjUUGS1vT9b/
+	63oM4P8vZhZV1v9QsZP8lmMUoliJTMnMoirFo2rDx9+06ojRjzrWpwWCvnECg+uZAXeb
+	hmbNXo3r1Sd3FUxDHPFaRCx8cJHA3O/aXjzz+lLBlOUBgWOS7ReQjxsTGT/vvrG/2/TQ
+	mmOqMDo8QSGjKmd7CnN87Z8GSQFWymVINTtpZzvpnCanWF0rqi7cyV9cARLGtrGX4lsB
+	IJlA==
+X-Gm-Message-State: AIkVDXIKfPse+AACtoKeftUuwArKOjxscTTYRP2+WzReoQ/1cr16BcSZkule1KiyoaaO0w==
+X-Received: by 10.157.43.55 with SMTP id o52mr1223263otb.206.1483645610679;
+	Thu, 05 Jan 2017 11:46:50 -0800 (PST)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id d10sm153783otb.4.2017.01.05.11.46.47
+	by smtp.gmail.com with ESMTPSA id d10sm153783otb.4.2017.01.05.11.46.49
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 Jan 2017 11:46:47 -0800 (PST)
+	Thu, 05 Jan 2017 11:46:49 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jan 2017 12:46:24 -0700
-Message-Id: <836cf586634175ef4e02e6aecad69de2a0a251dc.1483645446.git.chris_larson@mentor.com>
+Date: Thu,  5 Jan 2017 12:46:25 -0700
+Message-Id: <b5bfb6c132f84ec8070a224b735695efa7cb9a9a.1483645446.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.8.0
 In-Reply-To: <cover.1483645446.git.chris_larson@mentor.com>
 References: <cover.1483645446.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 12/16] x264: for x32, disable asm and pass -mx32
+Subject: [PATCH 13/16] nss: fix for x32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,91 +55,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2017 19:46:49 -0000
+X-List-Received-Date: Thu, 05 Jan 2017 19:46:51 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-We should probably patch it to stop adding the -m argument to CFLAGS/LDFLAGS
-in the first place, since we pass it in via CC, but this will do for now.
+This was casting to a pointer, and the pointer sizes are 32-bit on X32, not
+64-bit. Adjust as appropriate.
 
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- .../x264/x264/Fix-X32-build-by-disabling-asm.patch | 53 ++++++++++++++++++++++
- meta/recipes-multimedia/x264/x264_git.bb           |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-multimedia/x264/x264/Fix-X32-build-by-disabling-asm.patch
+ .../nss/nss/Fix-compilation-for-X32.patch          | 31 ++++++++++++++++++++++
+ meta/recipes-support/nss/nss_3.27.1.bb             |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-support/nss/nss/Fix-compilation-for-X32.patch
 
-diff --git a/meta/recipes-multimedia/x264/x264/Fix-X32-build-by-disabling-asm.patch b/meta/recipes-multimedia/x264/x264/Fix-X32-build-by-disabling-asm.patch
+diff --git a/meta/recipes-support/nss/nss/Fix-compilation-for-X32.patch b/meta/recipes-support/nss/nss/Fix-compilation-for-X32.patch
 new file mode 100644
-index 0000000..087a448
+index 0000000..f7f2c21
 --- /dev/null
-+++ b/meta/recipes-multimedia/x264/x264/Fix-X32-build-by-disabling-asm.patch
-@@ -0,0 +1,53 @@
-+From 66b120079fb21ed38cab0900c63360b0a7853eaa Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/nss/nss/Fix-compilation-for-X32.patch
+@@ -0,0 +1,31 @@
++From c8eadfcdfbc1d5a4799e9a264b0f859cb5954c05 Mon Sep 17 00:00:00 2001
 +From: Christopher Larson <chris_larson@mentor.com>
-+Date: Tue, 13 Dec 2016 14:22:32 -0700
-+Subject: [PATCH] Fix X32 build by disabling asm
++Date: Tue, 13 Dec 2016 11:40:47 -0700
++Subject: [PATCH 7/7] Fix compilation for X32
 +
-+This applies gentoo's x32 patch, adjusted slightly, which disables asm support
-+for x32 as well as correcting -m.
++X32 uses 32-bit pointers, not 64-bit.
 +
-+Debian has a different patch which does the same, and there's a superior yet
-+out of date patch series on the x264 list which keeps asm support enabled, but
-+doesn't successfully build at this time, and my assembly is very rusty.
-+
-+Upstream-Status: Pending
 +Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 +---
-+ configure | 14 ++++++++++++--
-+ 1 file changed, 12 insertions(+), 2 deletions(-)
++ nss/lib/freebl/poly1305-donna-x64-sse2-incremental-source.c | 4 ++++
++ 1 file changed, 4 insertions(+)
 +
-+diff --git a/configure b/configure
-+index 3109ec4..844aeae 100755
-+--- a/configure
-++++ b/configure
-+@@ -703,7 +703,13 @@ case $host_cpu in
-+         AS_EXT=".asm"
-+         ASFLAGS="$ASFLAGS -DARCH_X86_64=1 -I\$(SRCPATH)/common/x86/"
-+         stack_alignment=16
-+-        [ $compiler = GNU ] && CFLAGS="-m64 $CFLAGS" && LDFLAGS="-m64 $LDFLAGS"
-++        if [ $compiler = GNU ]; then
-++            if cpp_check "" "" "__ILP32__" ; then
-++                CFLAGS="-mx32 $CFLAGS" && LDFLAGS="-mx32 $LDFLAGS"
-++            else
-++                CFLAGS="-m64 $CFLAGS" && LDFLAGS="-m64 $LDFLAGS"
-++            fi
-++        fi
-+         if [ "$SYS" = MACOSX ]; then
-+             ASFLAGS="$ASFLAGS -f macho64 -DPIC -DPREFIX"
-+             if cc_check '' "-arch x86_64"; then
-+@@ -722,7 +728,11 @@ case $host_cpu in
-+                 RCFLAGS="--target=pe-x86-64 $RCFLAGS"
-+             fi
-+         else
-+-            ASFLAGS="$ASFLAGS -f elf64"
-++            if cpp_check "" "" "__ILP32__" ; then
-++                asm=no
-++            else
-++                ASFLAGS="$ASFLAGS -f elf64"
-++            fi
-+         fi
-+         ;;
-+     powerpc*)
++diff --git a/nss/lib/freebl/poly1305-donna-x64-sse2-incremental-source.c b/nss/lib/freebl/poly1305-donna-x64-sse2-incremental-source.c
++index 2a3301e..d4ade41 100644
++--- a/nss/lib/freebl/poly1305-donna-x64-sse2-incremental-source.c
+++++ b/nss/lib/freebl/poly1305-donna-x64-sse2-incremental-source.c
++@@ -87,7 +87,11 @@ static poly1305_state_internal INLINE
++     *
++     poly1305_aligned_state(poly1305_state *state)
++ {
+++#ifdef __ILP32__
+++    return (poly1305_state_internal *)(((uint32_t)state + 63) & ~63);
+++#else
++     return (poly1305_state_internal *)(((uint64_t)state + 63) & ~63);
+++#endif
++ }
++ 
++ /* copy 0-63 bytes */
 +-- 
 +2.8.0
 +
-diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
-index 1dafdd5..64193dc 100644
---- a/meta/recipes-multimedia/x264/x264_git.bb
-+++ b/meta/recipes-multimedia/x264/x264_git.bb
-@@ -10,6 +10,7 @@ DEPENDS = "yasm-native"
- 
- SRC_URI = "git://github.com/mirror/x264;branch=stable \
-            file://don-t-default-to-cortex-a9-with-neon.patch \
-+           file://Fix-X32-build-by-disabling-asm.patch \
-            "
- 
- SRCREV = "86b71982e131eaa70125f8d0e725fcade9c4c677"
+diff --git a/meta/recipes-support/nss/nss_3.27.1.bb b/meta/recipes-support/nss/nss_3.27.1.bb
+index 0917938..0b4b5f9 100644
+--- a/meta/recipes-support/nss/nss_3.27.1.bb
++++ b/meta/recipes-support/nss/nss_3.27.1.bb
+@@ -22,6 +22,7 @@ SRC_URI = "\
+     file://nss-fix-nsinstall-build.patch \
+     file://disable-Wvarargs-with-clang.patch \
+     file://pqg.c-ULL_addend.patch \
++    file://Fix-compilation-for-X32.patch \
+     file://nss.pc.in \
+     file://signlibs.sh \
+ "
 -- 
 2.8.0
 
