@@ -1,46 +1,46 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com
-	[209.85.218.41])
-	by mail.openembedded.org (Postfix) with ESMTP id CF73F71A62
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 985B071A62
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jan 2017 19:42:03 +0000 (UTC)
-Received: by mail-oi0-f41.google.com with SMTP id b126so592445070oia.2
+	Thu,  5 Jan 2017 19:46:21 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id f201so80668241oib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Jan 2017 11:42:04 -0800 (PST)
+	Thu, 05 Jan 2017 11:46:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=4y6avLjaeAnZts0rR/tnum3RMsbMZ+RBAZRxxfBrt+Y=;
-	b=hQ9r3NrG4cDNMSFZ5Hh7ycl9mm6lhwPCq42bo6ZQ4R/WA3FNBr+hb2uLB3aCwon39A
-	viZj6hM2O4MUqYwv0Ts9vf/SnJCQZixP1a3UZE1X79CBhTDwIJMPoK3sZAgsI6wroJpW
-	eITor+KSg6JLwBFySh51Wai15BQ+JvOEBDTjUOtCS2bcxYwVdtxSj1WXfBMK7eMdhIMh
-	8hm6BVJh0+JSpXihBgyO4pMZyvBty3WuzUfwAldzVBHNIjW7RyTNKpeZQW6XPWU1RAzp
-	Xsl1A4QQ74vdIcF+Zc6WWRK7G3TQ8soMN6l1UQ6SNFBkWQfm1u70dD9pQh1uqn8n2pv5
-	xL2g==
+	bh=SN20lpbiujAD4aS77j4tgeoP+8IgyiNJ6AItispqjEI=;
+	b=OLap8sO3ryp7trFXCZkshYdAPn8zxBfXuzazdQ4bUwQm2lVqxte6U0ZLETHp9908I/
+	dRMK7sYnHrTYYT5wXl0oRSnFVWeoPZBJklaldqgkMOqm+GOiKiZmwkj9MUTZRA2lLG5L
+	I/wtpULaA/u9VGaxGw2vZ5Bq46DFBhjZR0zqv2KA+rEI1Kz0wQg1SlyVQUjjB+3fc5pz
+	ESWjZN0AaAzybUhUU70PJ/cARhLJ9LaeGtFHkBcw8HoJGNuKEQO5QL8sy8do63DXs5cB
+	atSp3zhKeMSDOX9ITGer7E8kGgCd3tg2er7Vl6L2rmHHN7p/v3DrHRKdqnzPj9QuOc8E
+	ED/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=4y6avLjaeAnZts0rR/tnum3RMsbMZ+RBAZRxxfBrt+Y=;
-	b=TyCna9Xmqce2lt0+bdqAUhRWOYf5QIOIplJcxCPVFIjs9YmplORm9Uhozc08LBn42H
-	FnBDlugEDTINVtLWkckEy1C9INfmy0RPkn5onZGLoCEf+AcXWkoVkXKD7L1BOM+P8IUM
-	yNUXjkj6hHmsky6jnSn3/lqTZ71rFWSgg54d4PDDKGtKAiEPDnAXGTZ/JWZRpnlAkbt7
-	5/llnDptIlzQspiWZfGyCWQhkq3idVztUqtQT0eqGGU2xgoWdH/9ByXn9Z725suzf+YP
-	BXOknX7TgKIok7B8LzPsiecomZuhW4+qXTD3/g7Xcu8ePRVVjCrhMB8hHCDFigDtmSC5
-	WulA==
-X-Gm-Message-State: AIkVDXKNkhbuLM3BPT2SoQZH6jJ/CuSrqjQJXcCp7QK8jnauoM9qigaZ+o+f+0LAXUiQzw==
-X-Received: by 10.202.181.70 with SMTP id e67mr30744060oif.3.1483645323971;
-	Thu, 05 Jan 2017 11:42:03 -0800 (PST)
+	bh=SN20lpbiujAD4aS77j4tgeoP+8IgyiNJ6AItispqjEI=;
+	b=QUY3Lq+ZaGHyUQq493ntjkmYB89Wce2GXBnC/wCEH5oYXC4trtXd0wO+Ha/eE/gzbC
+	5zWQPpFw0N+JAACKPSyMcBJWp/PiXHDL8vn5aSUdKS7bIZc0i4P3thRe17OXENXS1sAZ
+	XkGyGTdAxs6vdNxnbf+1Dr7cYLNAKd9S12kS9MVJyNrIPneGE61LkR/k05ZNnn80EKnY
+	SSgKDDrkuNduETEEatG3YtMm9dUTZE/Asaqj8N4kYPsbRqcmq/EkBNGM2vIxBGYKzNh2
+	LA+AzH6qNqe3Je4JrXCgGv3+7A2xTAEJQFyNRhRLzmtGLzFSe82LV6xehJzBDG41woAe
+	NRMQ==
+X-Gm-Message-State: AIkVDXIdIAaS+FggBF1WmHs6me8NLU1FDm7zaxv81bt9wryorRyk/q167rc7CvEtitTWyw==
+X-Received: by 10.202.80.203 with SMTP id e194mr36790193oib.188.1483645581886; 
+	Thu, 05 Jan 2017 11:46:21 -0800 (PST)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
 	by smtp.gmail.com with ESMTPSA id
-	o133sm18121294oia.11.2017.01.05.11.42.02
+	f68sm36856464oih.20.2017.01.05.11.46.20
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 Jan 2017 11:42:02 -0800 (PST)
+	Thu, 05 Jan 2017 11:46:20 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jan 2017 12:41:59 -0700
-Message-Id: <1483645319-29257-1-git-send-email-kergoth@gmail.com>
+Date: Thu,  5 Jan 2017 12:46:16 -0700
+Message-Id: <cover.1483645446.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.8.0
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] webkitgtk: add missing python-native dep
+Subject: [PATCH 00/16] Various fixes for x32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,29 +53,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2017 19:42:04 -0000
+X-List-Received-Date: Thu, 05 Jan 2017 19:46:23 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-Since we can't inherit pythonnative, we need this dep explicitly.
+Tested both qemux86-64 and intel-corei7-64 (plus the meta-intel fix) with:
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/recipes-sato/webkit/webkitgtk_2.14.2.bb | 1 +
- 1 file changed, 1 insertion(+)
+    DEFAULTTUNE_intel-corei7-64 = "corei7-64-x32"
+    DEFAULTTUNE_qemux86-64 = "core2-64-x32"
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
-index 46b5468..3059e17 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
-@@ -40,6 +40,7 @@ DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn gnutls \
- 	   pango icu bison-native gawk intltool-native libwebp \
- 	   atk udev harfbuzz jpeg libpng pulseaudio librsvg libtheora libvorbis libxcomposite libxtst \
- 	   ruby-native libnotify gstreamer1.0-plugins-bad \
-+	   python-native \
-           "
- 
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'wayland' ,d)} \
+The following changes since commit af330fc0087692039d4256a6fb1e122742e8ec1a:
+
+  packagegroup-core-lsb: add opengl to REQUIRED_DISTRO_FEATURES (2017-01-05 13:53:45 +0000)
+
+are available in the git repository at:
+
+  git://github.com/kergoth/openembedded-core x32
+  https://github.com/kergoth/openembedded-core/tree/x32
+
+Christopher Larson (16):
+  valgrind: skip for linux-gnux32
+  packagegroup-core-tools-profile: exclude valgrind for x32
+  grub-efi: ignore arch mismatch for x32
+  lttng-tools: fix for x32
+  gnu-efi: build 64-bit for x32
+  gnu-efi: ignore arch mismatch for x32
+  gummiboot: fix for x32 from systemd-boot
+  ltp: fix build for x32
+  boost: drop flags bits, fix for x32
+  gstreamer1.0-libav: disable asm for x32
+  ffmpeg: disable asm for x32
+  x264: for x32, disable asm and pass -mx32
+  nss: fix for x32
+  libunwind: apply a patch to fix x32
+  gnome-desktop3: fix for x32
+  webkitgtk: patch & disable JIT for x32
+
+ meta/recipes-bsp/gnu-efi/gnu-efi_3.0.4.bb          |  12 ++
+ meta/recipes-bsp/grub/grub-efi_2.00.bb             |   5 +-
+ .../gummiboot/configure-allow-setting-EFI_CC.patch |  28 ++++
+ meta/recipes-bsp/gummiboot/gummiboot_git.bb        |   1 +
+ .../packagegroup-core-tools-profile.bb             |   1 +
+ meta/recipes-devtools/valgrind/valgrind_3.12.0.bb  |   3 +
+ .../ltp/fcntl-fix-the-time-def-to-use-time_t.patch |  28 ++++
+ meta/recipes-extended/ltp/ltp_20160126.bb          |   1 +
+ ...op-thumbnail-don-t-convert-time_t-to-long.patch |  72 +++++++++++
+ .../gnome-desktop/gnome-desktop3_3.22.2.bb         |   2 +
+ meta/recipes-kernel/lttng/lttng-tools/x32.patch    |  16 +++
+ meta/recipes-kernel/lttng/lttng-tools_git.bb       |   1 +
+ meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.2.bb     |   2 +
+ .../gstreamer/gstreamer1.0-libav.inc               |   4 +
+ .../x264/x264/Fix-X32-build-by-disabling-asm.patch |  53 ++++++++
+ meta/recipes-multimedia/x264/x264_git.bb           |   1 +
+ .../webkit/webkitgtk/x32_support.patch             |  22 ++++
+ meta/recipes-sato/webkit/webkitgtk_2.14.2.bb       |   7 +
+ meta/recipes-support/boost/boost.inc               |   3 +
+ ...-Apply-boost-1.62.0-no-forced-flags.patch.patch | 101 +++++++++++++++
+ ...Don-t-set-up-m32-m64-we-do-that-ourselves.patch |  98 ++++++++++++++
+ ...p-arch-instruction-set-flags-we-do-that-o.patch | 144 +++++++++++++++++++++
+ meta/recipes-support/boost/boost_1.62.0.bb         |   3 +
+ .../libunwind/libunwind/libunwind-1.1-x32.patch    |  31 +++++
+ meta/recipes-support/libunwind/libunwind_git.bb    |   1 +
+ .../nss/nss/Fix-compilation-for-X32.patch          |  31 +++++
+ meta/recipes-support/nss/nss_3.27.1.bb             |   1 +
+ 27 files changed, 671 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-bsp/gummiboot/gummiboot/configure-allow-setting-EFI_CC.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/fcntl-fix-the-time-def-to-use-time_t.patch
+ create mode 100644 meta/recipes-gnome/gnome-desktop/gnome-desktop/gnome-desktop-thumbnail-don-t-convert-time_t-to-long.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-tools/x32.patch
+ create mode 100644 meta/recipes-multimedia/x264/x264/Fix-X32-build-by-disabling-asm.patch
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/x32_support.patch
+ create mode 100644 meta/recipes-support/boost/boost/0001-Apply-boost-1.62.0-no-forced-flags.patch.patch
+ create mode 100644 meta/recipes-support/boost/boost/0002-Don-t-set-up-m32-m64-we-do-that-ourselves.patch
+ create mode 100644 meta/recipes-support/boost/boost/0003-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch
+ create mode 100644 meta/recipes-support/libunwind/libunwind/libunwind-1.1-x32.patch
+ create mode 100644 meta/recipes-support/nss/nss/Fix-compilation-for-X32.patch
+
 -- 
 2.8.0
 
