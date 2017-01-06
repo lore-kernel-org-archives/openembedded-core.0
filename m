@@ -1,46 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id E9DF96E668
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 584D96069C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jan 2017 12:40:17 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id c85so23576211wmi.1
+	Fri,  6 Jan 2017 13:35:07 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
+	via TCP (outbound) with ESMTPS id 20170106133506607_0684
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jan 2017 04:40:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=MJLoUMH7ud2KbaLgMwFyhsSYjHT74g959OAHR5I42P4=;
-	b=trCjUarhOWApouAtFE20Lqgkpt+g0gEtBPB+EIsYEBXfPl8VLUQVuRoVYantKlVtOd
-	uNyXzkb7GP58KKDvLxpVcfFXASY2/EF3jo8z+e2cireYeIX40h5E9Ac83fyuoR83sdav
-	DtUWhM3vVUCLudc9vD3deuRpKimyB0ctB06jKrGfTFCPqov1EoEZO+b8R94xJcXNIXQ1
-	0TnxhSG7Prg950X6qVP5wVXP0iXUTnq7OegRBydnrnvUkT8/D+Tan5ZBTiEyqzc7mVwU
-	wW8e5KXUYqu2J/UlZiwNN7+36TWjDios0yUP+27oA7lLmQ4MdXrqPSkt4+SkmgCftAeM
-	jJGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=MJLoUMH7ud2KbaLgMwFyhsSYjHT74g959OAHR5I42P4=;
-	b=FFVi+giOP0y19gMLUDk+eDsFZIEOxJzR83xsCZRgcXbuYiGlDhPqN1EC2mVRMwIFbB
-	w39lMqzqQc7pLgmlQb4SksQ3AHmwXyaV2QtUEprZcYHEwuq3shi3U5gYd3YQ5hhqRT78
-	+8+mkpIjy6ugF7GgmF7j8ULecB9TwPmc+ciFZk6ZL4+xt9FMcof3PtdD8Vn2cksdoryp
-	C6DUBrCSijJtIHt4PTx1ASqqYcEnVxGpNfhTV586XVJTLejquSCjOctiG6uZXUDCDMAh
-	8xEjgcD1KHg+j8N6qOMNpZbWGqlipnrHweAk4OxBnDJWSSNCbpIKUAcneXDk7OG0wDjI
-	ohBg==
-X-Gm-Message-State: AIkVDXKC/GqPRF/Tx8yKcGsz39ZuoYp5O6gsYKnTZ9sMmB/mHuayXdOtDvvCGEk1NfzysdzF
-X-Received: by 10.28.48.145 with SMTP id w139mr3695673wmw.113.1483706417459;
-	Fri, 06 Jan 2017 04:40:17 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	i132sm3182149wmf.14.2017.01.06.04.40.16
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 06 Jan 2017 04:40:16 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Jan 2017 12:40:14 +0000
-Message-Id: <1483706414-6903-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] selftest/devtool: update test to work with new mtd-utils
+	Fri, 06 Jan 2017 13:35:06 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [216.191.234.70] (port=19018 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1cPUfd-0008Ey-1F for openembedded-core@lists.openembedded.org;
+	Fri, 06 Jan 2017 08:35:01 -0500
+Date: Fri, 6 Jan 2017 08:34:59 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@ca624034.mitel.com
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1701060831140.32403@ca624034.mitel.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: could OE maybe point out when a recipe has upper case letters in it?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,39 +36,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2017 12:40:18 -0000
+X-List-Received-Date: Fri, 06 Jan 2017 13:35:08 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-The new mtd-utils (version 2.0) has been autotooled so the test needs to touch
-Makefile.am instead of Makefile.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oeqa/selftest/devtool.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+  in a fit of silliness, i created some packagegroup recipes and,
+without thinking, had the string "OE" as part of the recipe file name,
+and was baffled when i kept getting errors that trying to add that
+packagegroup to my image was failing due to an "empty" package.
 
-diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
-index a3beefa..2512c69 100644
---- a/meta/lib/oeqa/selftest/devtool.py
-+++ b/meta/lib/oeqa/selftest/devtool.py
-@@ -688,7 +688,7 @@ class DevtoolTests(DevtoolBase):
-         self._check_src_repo(tempdir)
-         # Add a couple of commits
-         # FIXME: this only tests adding, need to also test update and remove
--        result = runCmd('echo "# Additional line" >> Makefile', cwd=tempdir)
-+        result = runCmd('echo "# Additional line" >> Makefile.am', cwd=tempdir)
-         result = runCmd('git commit -a -m "Change the Makefile"', cwd=tempdir)
-         result = runCmd('echo "A new file" > devtool-new-file', cwd=tempdir)
-         result = runCmd('git add devtool-new-file', cwd=tempdir)
-@@ -825,7 +825,7 @@ class DevtoolTests(DevtoolBase):
-         # Check git repo
-         self._check_src_repo(tempsrcdir)
-         # Add a commit
--        result = runCmd('echo "# Additional line" >> Makefile', cwd=tempsrcdir)
-+        result = runCmd('echo "# Additional line" >> Makefile.am', cwd=tempsrcdir)
-         result = runCmd('git commit -a -m "Change the Makefile"', cwd=tempsrcdir)
-         self.add_command_to_tearDown('cd %s; rm -f %s/*.patch; git checkout .' % (os.path.dirname(recipefile), testrecipe))
-         # Create a temporary layer
+  it was doubly mystifying since i had been using wind river linux
+where the packagegroup names contained the string "WRL" and that
+worked just fine. changing the "OE" to "oe" appears to have solved the
+problem.
+
+  thoughts? why "WRL" worked with wind river linux, and "OE" failed
+with a poky build? i don't plan on making that mistake again.
+
+rday
+
 -- 
-2.8.1
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
