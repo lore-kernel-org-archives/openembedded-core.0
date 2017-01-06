@@ -1,22 +1,30 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E1D871B48
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 12BD760777
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jan 2017 23:15:53 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 05 Jan 2017 15:15:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,322,1477983600"; d="scan'208";a="1079696746"
-Received: from bitbang.jf.intel.com ([10.7.199.68])
-	by orsmga001.jf.intel.com with ESMTP; 05 Jan 2017 15:15:48 -0800
-From: Randy Witt <randy.e.witt@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jan 2017 15:15:43 -0800
-Message-Id: <65157013adbdef81ba06ad57187e598a0af1287e.1483658030.git.randy.e.witt@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1483658030.git.randy.e.witt@linux.intel.com>
-References: <cover.1483658030.git.randy.e.witt@linux.intel.com>
-Subject: [PATCH 1/2] image_typedep.py: Add a test that ensures conversion type deps get added
+	Fri,  6 Jan 2017 01:49:59 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v061nxNj012746
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 5 Jan 2017 17:49:59 -0800 (PST)
+Received: from [128.224.162.184] (128.224.162.184) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Thu, 5 Jan 2017 17:49:58 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1483500113.git.Qi.Chen@windriver.com>
+	<898ed8805458cc57a90ec929c7405ac1fbc06080.1483500113.git.Qi.Chen@windriver.com>
+	<CAJTo0LZtLv5YeANvJYGV1ut4a9q-n5ZWtbGb3znYzvjtVGxwvQ@mail.gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <71cebdd1-b564-34f2-5e4a-da2e8fdfa316@windriver.com>
+Date: Fri, 6 Jan 2017 09:49:59 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZtLv5YeANvJYGV1ut4a9q-n5ZWtbGb3znYzvjtVGxwvQ@mail.gmail.com>
+X-Originating-IP: [128.224.162.184]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] busybox: upgrade to 1.26.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,76 +37,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2017 23:15:54 -0000
+X-List-Received-Date: Fri, 06 Jan 2017 01:50:00 -0000
+Content-Type: multipart/alternative;
+	boundary="------------482644EE9F66924ED115E448"
 
-Add a test that ensures if IMAGE_TYPEDEP_* contains a conversion type,
-that the corresponding CONVERSION_DEPENDS_ for that type gets added to
-the dependency tree for do_rootfs.
+--------------482644EE9F66924ED115E448
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
----
- meta/lib/oeqa/selftest/image_typedep.py | 51 +++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/image_typedep.py
-
-diff --git a/meta/lib/oeqa/selftest/image_typedep.py b/meta/lib/oeqa/selftest/image_typedep.py
-new file mode 100644
-index 0000000..256142d25
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/image_typedep.py
-@@ -0,0 +1,51 @@
-+import os
-+
-+from oeqa.selftest.base import oeSelfTest
-+from oeqa.utils.commands import bitbake
-+
-+class ImageTypeDepTests(oeSelfTest):
-+
-+    # Verify that when specifying a IMAGE_TYPEDEP_ of the form "foo.bar" that
-+    # the conversion type bar gets added as a dep as well
-+    def test_conversion_typedep_added(self):
-+
-+        self.write_recipeinc('emptytest', """
-+# Try to empty out the default dependency list
-+PACKAGE_INSTALL = ""
-+DISTRO_EXTRA_RDEPENDS=""
-+
-+LICENSE = "MIT"
-+IMAGE_FSTYPES = "testfstype"
-+
-+IMAGE_TYPES_MASKED += "testfstype"
-+IMAGE_TYPEDEP_testfstype = "tar.bz2"
-+
-+inherit image
-+
-+""")
-+        # First get the dependency that should exist for bz2, it will look
-+        # like CONVERSION_DEPENDS_bz2="somedep"
-+        result = bitbake('-e emptytest')
-+
-+        for line in result.output.split('\n'):
-+            if line.startswith('CONVERSION_DEPENDS_bz2'):
-+                dep = line.split('=')[1].strip('"')
-+                break
-+
-+        # Now get the dependency task list and check for the expected task
-+        # dependency
-+        bitbake('-g emptytest')
-+
-+        taskdependsfile = os.path.join(self.builddir, 'task-depends.dot')
-+        dep =  dep + ".do_populate_sysroot"
-+        depfound = False
-+        expectedline = '"emptytest.do_rootfs" -> "{}"'.format(dep)
-+
-+        with open(taskdependsfile, "r") as f:
-+            for line in f:
-+                if line.strip() == expectedline:
-+                    depfound = True
-+                    break
-+
-+        if not depfound:
-+            raise AssertionError("\"{}\" not found".format(expectedline))
--- 
-2.7.4
+On 01/05/2017 06:21 PM, Burton, Ross wrote:
+>
+> On 4 January 2017 at 03:22, Chen Qi <Qi.Chen@windriver.com 
+> <mailto:Qi.Chen@windriver.com>> wrote:
+>
+>     Upgrade busybox to 1.26.1. Also upgrade the git version to the
+>     corresponding
+>     commit.
+>
+>
+> Did you examine the changes that this introduces?
+>
+> The packages grow a fairly large amount, and a number of new symlinks 
+> are introduced. Interestingly /bin/sh is now provided by both 
+> busybox.nosuid and busybox.suid.
+>
+> Ross
 
 
+Hi Ross,
+
+When I made this patch, my criteria are:
+
+1) image with systemd as init manager and busybox installed works well
+
+2) image with sysvinit as init manager and busybox installed works well
+
+3) image with busybox as init manager works well
+
+I didn't check the package size of busybox, nor did I check the symlinks.
+
+I'll compare the old version of busybox and the new version ASAP to find 
+out whether there would be potential problems in our system.
+
+Best Regards,
+
+Chen Qi
+
+
+--------------482644EE9F66924ED115E448
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 01/05/2017 06:21 PM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LZtLv5YeANvJYGV1ut4a9q-n5ZWtbGb3znYzvjtVGxwvQ@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 4 January 2017 at 03:22, Chen Qi <span
+              dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:Qi.Chen@windriver.com" target="_blank">Qi.Chen@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id="m_-5806657399527285488:38m"
+                class="m_-5806657399527285488a3s
+                m_-5806657399527285488aXjCH
+                m_-5806657399527285488m1596780f2e5e8286">Upgrade <span
+                  class="m_-5806657399527285488il">busybox</span> to
+                1.26.1. Also upgrade the git version to the
+                corresponding<br>
+                commit.<br>
+              </div>
+            </blockquote>
+          </div>
+          <br>
+          Did you examine the changes that this introduces?</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">The packages grow a fairly large
+          amount, and a number of new symlinks are introduced. 
+          Interestingly /bin/sh is now provided by both busybox.nosuid
+          and busybox.suid.</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>Hi Ross,<br>
+    </p>
+    <p>When I made this patch, my criteria are:</p>
+    <p>1) image with systemd as init manager and busybox installed works
+      well</p>
+    <p>2) image with sysvinit as init manager and busybox installed
+      works well</p>
+    <p>3) image with busybox as init manager works well</p>
+    <p>I didn't check the package size of busybox, nor did I check the
+      symlinks.</p>
+    <p>I'll compare the old version of busybox and the new version ASAP
+      to find out whether there would be potential problems in our
+      system.</p>
+    <p>Best Regards,</p>
+    <p>Chen Qi<br>
+    </p>
+  </body>
+</html>
+
+--------------482644EE9F66924ED115E448--
