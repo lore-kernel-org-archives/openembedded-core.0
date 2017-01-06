@@ -1,20 +1,48 @@
-Return-Path: <jose.perez.carranza@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B621D6003C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D7D271B2B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jan 2017 20:33:56 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 06 Jan 2017 12:33:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,326,1477983600"; d="scan'208";a="919732086"
-Received: from jgperezc.zpn.intel.com ([10.219.5.150])
-	by orsmga003.jf.intel.com with ESMTP; 06 Jan 2017 12:33:55 -0800
-From: jose.perez.carranza@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Jan 2017 14:45:28 -0600
-Message-Id: <1483735528-419-1-git-send-email-jose.perez.carranza@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] runtime: Add cleanup for logrotate tests
+	Fri,  6 Jan 2017 20:59:24 +0000 (UTC)
+Received: by mail-qk0-f171.google.com with SMTP id u25so471489194qki.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 Jan 2017 12:59:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=gSv/+8BUq1BqgqAnM+qZJOfbf0+XtfqrE53sf/IQFv4=;
+	b=A7F2usRJbuYerOxIy4Z3stqqW8sFiyFEWE+PBtyVQERzsUd0L13rBww79gq89Kd+Um
+	5HAAZKlGvCJlK+QWtkuF5TJ7OvveqUjELjWkLMNv68I0B+z03a30sRJOu1egHZcc6P+k
+	NfjW235Xx91oADFFx4P2R6lRsy9aCM0uH7r/I0Yf1ua84A+Iao8jeHpL5UcMdckb+0C+
+	0qPXC9f9+fZhLjS0wPpYwraJyHz0t0TzjAouXJTfLrzUOn0ja3mqHGC1X+syTVBxz0FA
+	3G8JvOpwMQcN4p2IK9D31/U6A8QPbNOXoK6mC8opre+ZsbyhdY3BSXEjXq820CIb2fZx
+	QBxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=gSv/+8BUq1BqgqAnM+qZJOfbf0+XtfqrE53sf/IQFv4=;
+	b=SCxlzWyhwBLsqpCTlNpEEheNG65D+eTSFPWKj3UckkK26ad8e2Pfg2wxbYZaMMFPi0
+	3soqA5xd0Ff3ARXGdoS4xPzcBSwRw9/c4YCBjSzlBhHF1nP1Ft4FJ+ckdW5IhG0v+4Yz
+	kpD7aONKEbF70rvLWxeIrE/luZ0txuDI8gGbdfNIYwhib4LSIVEW+Pa05FZWV6Q+oGoz
+	MbgNkWWJHlBsP0xSGtsgGpxMp4+oRVNqTubKH9P42ObLPy+r3KnyfEoNIt829xEm6vef
+	obT33wVjQhctZ1y80sFZAPFqIjim8XAaCjJJgOYdyUMxT1oKLiozZLXnwEC0RzJ+lhaO
+	hJPQ==
+X-Gm-Message-State: AIkVDXK4/kALIpoQ6iPE8EblQZH1Zwf/oYz4TNXIpMlnbCS4nXWOPYP1W5d9D+/clqhqUFbpGHBS6CmySJ4kzQXc
+X-Received: by 10.55.207.78 with SMTP id e75mr88219988qkj.36.1483736364939;
+	Fri, 06 Jan 2017 12:59:24 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.106.99 with HTTP; Fri, 6 Jan 2017 12:59:04 -0800 (PST)
+In-Reply-To: <1483733506.5388.2.camel@intel.com>
+References: <1482451659-8896-1-git-send-email-sgw@linux.intel.com>
+	<1483733506.5388.2.camel@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 6 Jan 2017 20:59:04 +0000
+Message-ID: <CAJTo0La_HmCGRzBEZYdc73B+bLO_AG76JKoRRXn2Q5T=K7NprQ@mail.gmail.com>
+To: "Wold, Saul" <saul.wold@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] nfs-utils: remove -f exports from nfsserver
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,29 +55,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2017 20:33:58 -0000
+X-List-Received-Date: Fri, 06 Jan 2017 20:59:25 -0000
+Content-Type: multipart/alternative; boundary=001a1145b7b8f91d030545734af1
 
-From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+--001a1145b7b8f91d030545734af1
+Content-Type: text/plain; charset=UTF-8
 
-Delete logrotate dir to avoid errors
-when test are executed more than 1
-time on the same target.
+On 6 January 2017 at 20:11, Wold, Saul <saul.wold@intel.com> wrote:
 
-Signed-off-by: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
----
- meta/lib/oeqa/runtime/logrotate.py | 1 +
- 1 file changed, 1 insertion(+)
+> Ross: Ping
+>
 
-diff --git a/meta/lib/oeqa/runtime/logrotate.py b/meta/lib/oeqa/runtime/logrotate.py
-index cf88c54..063280b 100644
---- a/meta/lib/oeqa/runtime/logrotate.py
-+++ b/meta/lib/oeqa/runtime/logrotate.py
-@@ -27,3 +27,4 @@ class LogrotateTest(oeRuntimeTest):
-         self.assertEqual(status, 0, msg = "logrotate service could not be reloaded. Status and output: %s and %s" % (status, output))
-         output = self.target.run('ls -la $HOME/logrotate_dir/ | wc -l')[1]
-         self.assertTrue(int(output)>=3, msg = "new logfile could not be created. List of files within log directory: %s" %(self.target.run('ls -la $HOME/logrotate_dir')[1]))
-+        self.target.run('rm -rf $HOME/logrotate_dir')
--- 
-2.1.4
+Merged into ross/mut2 a few hours ago :)
 
+Ross
 
+--001a1145b7b8f91d030545734af1
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 6 January 2017 at 20:11, Wold, Saul <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:saul.wold@intel.com" target=3D"_blank">saul.wold@intel.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex"><div id=3D":1hf" class=3D"a3s a=
+XjCH m159756946df6f7da">Ross: Ping<br></div></blockquote></div><br>Merged i=
+nto ross/mut2 a few hours ago :)</div><div class=3D"gmail_extra"><br></div>=
+<div class=3D"gmail_extra">Ross</div></div>
+
+--001a1145b7b8f91d030545734af1--
