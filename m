@@ -1,48 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D7D271B2B
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id B5A366093A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jan 2017 20:59:24 +0000 (UTC)
-Received: by mail-qk0-f171.google.com with SMTP id u25so471489194qki.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jan 2017 12:59:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=gSv/+8BUq1BqgqAnM+qZJOfbf0+XtfqrE53sf/IQFv4=;
-	b=A7F2usRJbuYerOxIy4Z3stqqW8sFiyFEWE+PBtyVQERzsUd0L13rBww79gq89Kd+Um
-	5HAAZKlGvCJlK+QWtkuF5TJ7OvveqUjELjWkLMNv68I0B+z03a30sRJOu1egHZcc6P+k
-	NfjW235Xx91oADFFx4P2R6lRsy9aCM0uH7r/I0Yf1ua84A+Iao8jeHpL5UcMdckb+0C+
-	0qPXC9f9+fZhLjS0wPpYwraJyHz0t0TzjAouXJTfLrzUOn0ja3mqHGC1X+syTVBxz0FA
-	3G8JvOpwMQcN4p2IK9D31/U6A8QPbNOXoK6mC8opre+ZsbyhdY3BSXEjXq820CIb2fZx
-	QBxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=gSv/+8BUq1BqgqAnM+qZJOfbf0+XtfqrE53sf/IQFv4=;
-	b=SCxlzWyhwBLsqpCTlNpEEheNG65D+eTSFPWKj3UckkK26ad8e2Pfg2wxbYZaMMFPi0
-	3soqA5xd0Ff3ARXGdoS4xPzcBSwRw9/c4YCBjSzlBhHF1nP1Ft4FJ+ckdW5IhG0v+4Yz
-	kpD7aONKEbF70rvLWxeIrE/luZ0txuDI8gGbdfNIYwhib4LSIVEW+Pa05FZWV6Q+oGoz
-	MbgNkWWJHlBsP0xSGtsgGpxMp4+oRVNqTubKH9P42ObLPy+r3KnyfEoNIt829xEm6vef
-	obT33wVjQhctZ1y80sFZAPFqIjim8XAaCjJJgOYdyUMxT1oKLiozZLXnwEC0RzJ+lhaO
-	hJPQ==
-X-Gm-Message-State: AIkVDXK4/kALIpoQ6iPE8EblQZH1Zwf/oYz4TNXIpMlnbCS4nXWOPYP1W5d9D+/clqhqUFbpGHBS6CmySJ4kzQXc
-X-Received: by 10.55.207.78 with SMTP id e75mr88219988qkj.36.1483736364939;
-	Fri, 06 Jan 2017 12:59:24 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Fri, 6 Jan 2017 12:59:04 -0800 (PST)
-In-Reply-To: <1483733506.5388.2.camel@intel.com>
-References: <1482451659-8896-1-git-send-email-sgw@linux.intel.com>
-	<1483733506.5388.2.camel@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 6 Jan 2017 20:59:04 +0000
-Message-ID: <CAJTo0La_HmCGRzBEZYdc73B+bLO_AG76JKoRRXn2Q5T=K7NprQ@mail.gmail.com>
-To: "Wold, Saul" <saul.wold@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] nfs-utils: remove -f exports from nfsserver
+	Fri,  6 Jan 2017 21:17:32 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=tp13)
+	by hetzner.pbcl.net with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.87)
+	(envelope-from <pb@pbcl.net>)
+	id 1cPbtC-0007eJ-D3; Fri, 06 Jan 2017 22:17:31 +0100
+Message-ID: <1483737447.4360.180.camel@pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Patrick Ohly <patrick.ohly@intel.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 06 Jan 2017 21:17:27 +0000
+In-Reply-To: <1483630732-3560-1-git-send-email-patrick.ohly@intel.com>
+References: <1483630732-3560-1-git-send-email-patrick.ohly@intel.com>
+X-Mailer: Evolution 3.20.5-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/1] rootfs-postcommands.bbclass: sort passwd entries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,32 +30,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2017 20:59:25 -0000
-Content-Type: multipart/alternative; boundary=001a1145b7b8f91d030545734af1
+X-List-Received-Date: Fri, 06 Jan 2017 21:17:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---001a1145b7b8f91d030545734af1
-Content-Type: text/plain; charset=UTF-8
+On Thu, 2017-01-05 at 16:38 +0100, Patrick Ohly wrote:
+> The /etc passwd files in a rootfs consist of the default entries from
+> base-passwd plus anything that gets added by preinst scripts or
+> extrausers.bbclass.
+> 
+> The execution order of preinst scripts is not perfectly
+> deterministic,
+> or at least unrelated changes caused it to change in a
+> non-deterministic way, resulting in irrelevant changes in the order
+> of
+> passwd entries.
+> 
+> Such re-ordering is bad for reproducible builds and file-based update
+> mechanisms like swupd which work best if changes are as minimal as
+> possible.
+> 
+> To achieve that, the files get sorted in a post-processing command,
+> enabled by default.
 
-On 6 January 2017 at 20:11, Wold, Saul <saul.wold@intel.com> wrote:
+Won't the numeric UIDs still be non-deterministic, though?  If the goal
+is reproducible builds then it doesn't sound as though this quite fixes
+the problem.
 
-> Ross: Ping
->
+p.
 
-Merged into ross/mut2 a few hours ago :)
 
-Ross
-
---001a1145b7b8f91d030545734af1
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 6 January 2017 at 20:11, Wold, Saul <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:saul.wold@intel.com" target=3D"_blank">saul.wold@intel.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex"><div id=3D":1hf" class=3D"a3s a=
-XjCH m159756946df6f7da">Ross: Ping<br></div></blockquote></div><br>Merged i=
-nto ross/mut2 a few hours ago :)</div><div class=3D"gmail_extra"><br></div>=
-<div class=3D"gmail_extra">Ross</div></div>
-
---001a1145b7b8f91d030545734af1--
