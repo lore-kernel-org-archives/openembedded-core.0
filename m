@@ -1,23 +1,34 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id B5A366093A
+Return-Path: <rewitt@declaratino.com>
+Received: from p3plsmtpa07-02.prod.phx3.secureserver.net
+	(p3plsmtpa07-02.prod.phx3.secureserver.net [173.201.192.231])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B4937197E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jan 2017 21:17:32 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=tp13)
-	by hetzner.pbcl.net with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.87)
-	(envelope-from <pb@pbcl.net>)
-	id 1cPbtC-0007eJ-D3; Fri, 06 Jan 2017 22:17:31 +0100
-Message-ID: <1483737447.4360.180.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Patrick Ohly <patrick.ohly@intel.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 06 Jan 2017 21:17:27 +0000
-In-Reply-To: <1483630732-3560-1-git-send-email-patrick.ohly@intel.com>
-References: <1483630732-3560-1-git-send-email-patrick.ohly@intel.com>
-X-Mailer: Evolution 3.20.5-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] rootfs-postcommands.bbclass: sort passwd entries
+	Fri,  6 Jan 2017 21:30:20 +0000 (UTC)
+Received: from mail-lf0-f41.google.com ([209.85.215.41])
+	by :SMTPAUTH: with SMTP
+	id Pc57cclUPIBqWPc58cY3tu; Fri, 06 Jan 2017 14:29:50 -0700
+Received: by mail-lf0-f41.google.com with SMTP id v186so7220264lfa.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 Jan 2017 13:29:49 -0800 (PST)
+X-Gm-Message-State: AIkVDXLnqZkVxdp700/AeC50bCf7YXzpqbU3lZWX/PhxcMMURluxKdA0Ug79B22GNOzuE8nhJUVWHEKcxXsCJQ==
+X-Received: by 10.25.159.78 with SMTP id i75mr27216904lfe.123.1483738188891;
+	Fri, 06 Jan 2017 13:29:48 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.25.223.84 with HTTP; Fri, 6 Jan 2017 13:29:18 -0800 (PST)
+In-Reply-To: <1483730551.4383.19.camel@intel.com>
+References: <cover.1483696378.git.patrick.ohly@intel.com>
+	<8002ec38c29d685bd369fd1d2382298ca33f7b68.1483696378.git.patrick.ohly@intel.com>
+	<CAP5N7XEQs7acZPGpbY+fHbU5ehCoG6sAE+rwgL5GzSRsMk0nNA@mail.gmail.com>
+	<1483730551.4383.19.camel@intel.com>
+From: Randy Witt <rewitt@declaratino.com>
+Date: Fri, 6 Jan 2017 13:29:18 -0800
+X-Gmail-Original-Message-ID: <CAP5N7XH56aXsVvqVns=Pa4mbmHOZvGecD638nApM94LHibpDqQ@mail.gmail.com>
+Message-ID: <CAP5N7XH56aXsVvqVns=Pa4mbmHOZvGecD638nApM94LHibpDqQ@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+X-CMAE-Envelope: MS4wfGEks+72Udt7jZkIyXGs+JfA1hggl7xZ3FM1EZXkEGIJqr3os1Yn0IAJYWwEj7J77Q4Zn4+3ecWTETAWGLgXIDstoEJ8yQq0JqZdYD5A+3+TVxA3NPmj
+	O3qCH8I6lnEsJsKekKSwudli7NHsLZWkzHB7wHKewvMppKxsehr+rgfN+R64cT6Qm6r1f+aIWsC3MzGLT4RruDg/C/YviX0adII=
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] rm_work_and_downloads.bbclass: more aggressively minimize disk usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,33 +41,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2017 21:17:35 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 06 Jan 2017 21:30:21 -0000
+Content-Type: multipart/alternative; boundary=001a114116e6b04d04054573b775
 
-On Thu, 2017-01-05 at 16:38 +0100, Patrick Ohly wrote:
-> The /etc passwd files in a rootfs consist of the default entries from
-> base-passwd plus anything that gets added by preinst scripts or
-> extrausers.bbclass.
-> 
-> The execution order of preinst scripts is not perfectly
-> deterministic,
-> or at least unrelated changes caused it to change in a
-> non-deterministic way, resulting in irrelevant changes in the order
-> of
-> passwd entries.
-> 
-> Such re-ordering is bad for reproducible builds and file-based update
-> mechanisms like swupd which work best if changes are as minimal as
-> possible.
-> 
-> To achieve that, the files get sorted in a post-processing command,
-> enabled by default.
+--001a114116e6b04d04054573b775
+Content-Type: text/plain; charset=UTF-8
 
-Won't the numeric UIDs still be non-deterministic, though?  If the goal
-is reproducible builds then it doesn't sound as though this quite fixes
-the problem.
+On Fri, Jan 6, 2017 at 11:22 AM, Patrick Ohly <patrick.ohly@intel.com>
+wrote:
 
-p.
+> On Fri, 2017-01-06 at 10:31 -0800, Randy Witt wrote:
+>
+> >
+> > I'd rather see this be a new class independent from rm_work. People
+> > can always in inherit both rm_work and rm_download.
+>
+> I'm not sure whether it's worth supporting that mode: what would be the
+> motivation for removing downloads, but not the work directory?
+>
+>
+There are times that the work directories help with the debugging of build
+failures. The logs aren't always enough. So a person might want to do
+something like remove the downloads, but preserve the actual work,
+especially in the case of failures.
+
+I'll admit it is a fabricated scenario, but in general I'm against one knob
+requiring the turning of another knob.
 
 
+> The motivation for rm_work_and_downloads.bbclass is the same as for
+> rm_work.bbclass: reducing the required disk space *during* the build, to
+> get builds to succeed which otherwise would run out of disk space.
+>
+>
+Disk space isn't the only motivation for rm_work. It also allows for
+deletion of large amounts of inodes before they've been flushed to disk. So
+rather than taking minutes worth of time to clean up post build, and
+thrashing media that other tasks may be using, it is almost instantaneous
+because everything is still in the page cache.
+
+Also the build itself can be faster for the same reason, there is no
+waiting for data to be flushed out to disk( because it was deleted while
+still in the page cache) and thus impacting reads in other parts of the
+build.
+
+
+> A "rm -rf downloads" at the end of the build doesn't help achieve that
+> goal.
+>
+>
+That's true, I hadn't yet processed it completely. Ignore that comment. :)
+
+As an overall comment though, I really like the idea of rm_work not being
+deferred for so long. It always seemed strange to me to see the thundering
+herd of rm_works after certain do_builds would finish.
+
+--001a114116e6b04d04054573b775
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Fri, Jan 6, 2017 at 11:22 AM, Patrick Ohly <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel=
+.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span>On Fri, =
+2017-01-06 at 10:31 -0800, Randy Witt wrote:<br>
+<br>
+&gt;<br>
+&gt; I&#39;d rather see this be a new class independent from rm_work. Peopl=
+e<br>
+&gt; can always in inherit both rm_work and rm_download.<br>
+<br>
+</span>I&#39;m not sure whether it&#39;s worth supporting that mode: what w=
+ould be the<br>
+motivation for removing downloads, but not the work directory?<br>
+<br></blockquote><div><br></div><div>There are times that the work director=
+ies help with the debugging of build failures. The logs aren&#39;t always e=
+nough. So a person might want to do something like remove the downloads, bu=
+t preserve the actual work, especially in the case of failures.</div><div><=
+br></div><div>I&#39;ll admit it is a fabricated scenario, but in general I&=
+#39;m against one knob requiring the turning of another knob.</div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex">The motivation for rm_work_and_down=
+loads.bbclass is the same as for<br>
+rm_work.bbclass: reducing the required disk space *during* the build, to<br=
+>
+get builds to succeed which otherwise would run out of disk space.<br>
+<br></blockquote><div><br></div><div>Disk space isn&#39;t the only motivati=
+on for rm_work. It also allows for deletion of large amounts of inodes befo=
+re they&#39;ve been flushed to disk. So rather than taking minutes worth of=
+ time to clean up post build, and thrashing media that other tasks may be u=
+sing, it is almost instantaneous because everything is still in the page ca=
+che.</div><div><br></div><div>Also the build itself can be faster for the s=
+ame reason, there is no waiting for data to be flushed out to disk( because=
+ it was deleted while still in the page cache) and thus impacting reads in =
+other parts of the build.</div><div>=C2=A0</div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
+ex">
+A &quot;rm -rf downloads&quot; at the end of the build doesn&#39;t help ach=
+ieve that<br>
+goal.<br>
+<span class=3D"m_7274032114801509996HOEnZb"><font color=3D"#888888"><br></f=
+ont></span></blockquote><div><br></div><div>That&#39;s true, I hadn&#39;t y=
+et processed it completely. Ignore that comment. :)</div><div><br></div><di=
+v>As an overall comment though, I really like the idea of rm_work not being=
+ deferred for so long. It always seemed strange to me to see the thundering=
+ herd of rm_works after certain do_builds would finish.</div><div>=C2=A0</d=
+iv><div><br></div></div></div></div>
+
+--001a114116e6b04d04054573b775--
