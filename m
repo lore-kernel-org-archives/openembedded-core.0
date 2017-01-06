@@ -1,47 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f174.google.com (mail-qt0-f174.google.com
-	[209.85.216.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 7249665CB6
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
+	[209.85.213.66])
+	by mail.openembedded.org (Postfix) with ESMTP id B7E937199F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jan 2017 15:00:10 +0000 (UTC)
-Received: by mail-qt0-f174.google.com with SMTP id l7so31538445qtd.1
+	Fri,  6 Jan 2017 16:45:06 +0000 (UTC)
+Received: by mail-vk0-f66.google.com with SMTP id j12so460869vkd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jan 2017 07:00:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Fri, 06 Jan 2017 08:45:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=H6FafaadQfoctN33PbjGRaNnSZHuaP49CGd4Ywn2Iik=;
-	b=G1UlJ6ycNWdhoXI4NOWXAPKQQaOAm2MZiHAs2FMEkYk5gEdYXQmJjyRa3MMlL8+Jgp
-	8zbbe/qx16Y70XeVl3IHdeUypQSpMgOheaGlm5tFm5iDBJpYb3mPT6YB8s2yLgz+y1nS
-	dTbIFU1evCYo0YWSYAwf0kEi18iySNNCk+4pEjcOkM03SNFrpCeXhTdyMxL/NYjye66O
-	77ySh+h3EnEfyKCP0pPxj6mJrF8xySeLE+9FeDaVQbeeOKdHupzhTHVo3k4odbGyrS7Q
-	/rzYoks90CpwvW+Yn9XfHjdDse2PeBkFMtWqXHS0JJBDUnnYhW1eF7+8mhg5+NCw21aH
-	aeFA==
+	:cc; bh=L7N3M+qsZGTwtNV/SfeL4/05AjEPTlA5v1qXBewa/l0=;
+	b=ffxRdzj3BDQvMLRStM2oA9WHKLjtWAgEHPEMJzdUOv94WY1iKZCXiTtBigankO5nO8
+	kklwNG4cPmbIyV/LzGjEE3Ep0xpoo13LmAPhT35Jx2O1CVj8DeTUY+5MOGGRAtOd3oKG
+	yP6Cre40geSrX6Ln12cGlUqJKyo8X5Ka9V1PUh/iPxdBQMOV4Fv5nJVtFGu9sbW9kQ+x
+	7lDMFEGNfd5mykdIR+qSlD8ul13JqkcEzE+rk1rRSDb9hU2nbmWqr+lga0fxo/swYv4j
+	cWQiLV57f/IYjDVbK596wWz4mYs+2+ocr+GYzHM1+Fid+VVGVfr/JWNcVO5YORpbU3C0
+	dXaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=H6FafaadQfoctN33PbjGRaNnSZHuaP49CGd4Ywn2Iik=;
-	b=mxAksXUPV6LYZDI14jSVpWu43bEfLYix4LkwkQ6WG/zlwE0BXga6TFzvX+vwKPhOeB
-	mJ4Hue97dg5YbU1oBaTDDDNEWzj5jmInEs7k4PI1S0Z+ULMcNRD1GPno4FdTvucePGWr
-	bu3DFcUzoqKLb//dYpXZCB7Grbr7qJM2yNA1NFiq/6okvxBdfwYbnmmCMZVRLf3TktVD
-	KX4f62vQxBHRMcI0JgbGSq6A1FyRn9Q7ohEzwXLSjMbdCmUpUTwzSSqKbUhhbYeDX2pc
-	rCtjB5W0eQtHI8T7h4rZYIGFI3vwZFHyGAya6KYZTH6u+D+4FatVTe+WUXe/msw5LkHW
-	SVHQ==
-X-Gm-Message-State: AIkVDXIEUhju/V/Onv8nosUY8KlJ0sGksDvlfqKInqkanLRTt52TSE/AN7Jw23ITOpg90Lzg90aET8myDwgtlsc7
-X-Received: by 10.237.39.148 with SMTP id a20mr7810886qtd.65.1483714811295;
-	Fri, 06 Jan 2017 07:00:11 -0800 (PST)
+	bh=L7N3M+qsZGTwtNV/SfeL4/05AjEPTlA5v1qXBewa/l0=;
+	b=VUkjf//6KfRp5R8LfbFOKMjFrIHm4vsZF3WrVE8Tj9t4vIFP58CQI6vQV8Dkd5ltxt
+	KB6/usPG5NIGk0x6MuwKJEmFV/T9bdFJ1Kc+8krXN9BKTSn+9rcFtksMJgu1HgMn91mg
+	J/IEstmUvZfV2phkk9MHAxuhXUnSRcT/HU2dwJSrcEBeVIeNQ1lBvHrCfmaYH3JS43Sl
+	IfcTqlpWNNtR6tMYfJow+vgVaQlCFV/wHVdfyiTd3HeBbKYlGs4jOPEAuTR64w0x0Med
+	8+i/hhiBRi8MRlfznW/diOpQnWoT7JNhREYb0u3NeF28g3dVzyb1IJOISFyBwH9XvFMA
+	okEg==
+X-Gm-Message-State: AIkVDXKUeJPYanQDJD1MamWGdGYfwobl2I243dE7FkrJSama9O83SE+9zWYY7ZJr95Y1vDEIAY3YBUik1GNR7A==
+X-Received: by 10.31.168.7 with SMTP id r7mr26804951vke.148.1483721106336;
+	Fri, 06 Jan 2017 08:45:06 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Fri, 6 Jan 2017 06:59:50 -0800 (PST)
-In-Reply-To: <46d94601d67973b17516241cea3b6afce9a2914d.1482739038.git.Qi.Chen@windriver.com>
-References: <cover.1482739038.git.Qi.Chen@windriver.com>
-	<46d94601d67973b17516241cea3b6afce9a2914d.1482739038.git.Qi.Chen@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 6 Jan 2017 14:59:50 +0000
-Message-ID: <CAJTo0LaqVCZMyHhB30c=-yKmWMapkM+HYiDfNv1uD89pUgqEqA@mail.gmail.com>
-To: Chen Qi <Qi.Chen@windriver.com>
+Received: by 10.159.48.222 with HTTP; Fri, 6 Jan 2017 08:44:35 -0800 (PST)
+In-Reply-To: <CAJTo0LYyvqUP+gE=mcbkgF9u7ZEqDPEQL15=M6gtr=AtKL33tw@mail.gmail.com>
+References: <20170103015528.29635-1-raj.khem@gmail.com>
+	<CAJTo0LYyvqUP+gE=mcbkgF9u7ZEqDPEQL15=M6gtr=AtKL33tw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 6 Jan 2017 08:44:35 -0800
+Message-ID: <CAMKF1sotQbOB9TMCDqa8cNhiD3QsKdgrQmVzHcw=yCbywzeROQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/7] flex: upgrade to 2.6.2
+Subject: Re: [PATCH] musl: Upgrade to 1.1.16+ on master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,35 +53,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2017 15:00:11 -0000
-Content-Type: multipart/alternative; boundary=f403045ee6d846c1ed05456e4640
-
---f403045ee6d846c1ed05456e4640
+X-List-Received-Date: Fri, 06 Jan 2017 16:45:07 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 26 December 2016 at 08:10, Chen Qi <Qi.Chen@windriver.com> wrote:
-
-> +       cp ${B}/src/stage1flex ${D}/${bindir}
+On Fri, Jan 6, 2017 at 3:45 AM, Burton, Ross <ross.burton@intel.com> wrote:
 >
+> On 3 January 2017 at 01:55, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> summary of changes
+>>
+>>
+>> http://git.musl-libc.org/cgit/musl/commit/?id=8fe1f2d79b275b7f7fb0d41c99e379357df63cd9
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>
+>
+> Looks like this is to blame for connman failing last in my test builds:
+>
+> http://errors.yoctoproject.org/Errors/Details/116506/
 
-Can this not just use the flex from flex-native directly instead of having
-to install the stage1flex?
+I think its the kernel 4.9 headers thats causing it not musl. Do you have that
+patch also staged along with this ?
 
-Ross
+>
+> Ross
 
---f403045ee6d846c1ed05456e4640
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 26 December 2016 at 08:10, Chen Qi <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":777" class=3D"a3=
-s aXjCH m1593a2e26ecad7ee">+=C2=A0 =C2=A0 =C2=A0 =C2=A0cp ${B}/src/stage1fl=
-ex ${D}/${bindir}<br></div></blockquote></div><br></div><div class=3D"gmail=
-_extra">Can this not just use the flex from flex-native directly instead of=
- having to install the stage1flex?</div><div class=3D"gmail_extra"><br></di=
-v><div class=3D"gmail_extra">Ross</div></div>
-
---f403045ee6d846c1ed05456e4640--
