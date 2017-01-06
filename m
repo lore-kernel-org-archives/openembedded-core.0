@@ -1,46 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id F0D8271A1A
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id A2FE57199D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jan 2017 17:12:19 +0000 (UTC)
-Received: by mail-qk0-f174.google.com with SMTP id a20so81521200qkc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jan 2017 09:12:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=obVEwPrD5D6g/tQNRbeujwGyq93GDlUmy/+H+qAxgPg=;
-	b=Lef4pRGh4DY2y8GYeoTgJd/bmd7NS4FyAuE7pmSUivLgoh3AIi7dFQLlnumXDdECH1
-	7gFJKZxzdwgGj3e6CQEK1S22GizWIDcVG2pbv+VQ/Ehor7AeyXQCu6+DbyfwJIbp/HrL
-	IpNyHCP9VEc+lkGJc9dNFaCKiAdAsAVPdrQF1cpjmDdw+ul9tisfgx2nZe0MxxUmIubB
-	rV8VqaD+ELrE/xR/2E512GjWnoU2y4bnIqT9TGQjSVNiyN59WPFa/l0gMD4z7fph8mq4
-	z13ODWr6X6ZwKanjKfPyhOeXjfb4L+EkXV7TFakdYQY2ianxIuQZL358BsKTBAnu5Kc3
-	38kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=obVEwPrD5D6g/tQNRbeujwGyq93GDlUmy/+H+qAxgPg=;
-	b=s1YTH/XIhNdirQr40NNok4BcOphSos9j5y6KkMcP0L5vh6Ykjf43C+Vk8oV+tB8/8G
-	4zbJ8AN6cILKBw5wYW8kdagW3SVtL9/GlURXCbqd68ab4s8jVk581MCk0P8C7nESMJ/c
-	lwcrX8vcNl7j6ARBWZGJylx6T4RUB0sDBlnUnhINKW5a5Y00s5Z6fQJiBR7MI7gsKPvB
-	4lLBdl5FZX8Eie436UY23sXkhnh30fSswoZe+r1HsJ44qAAMktRughXDz/zTt/XfvVoC
-	gjZThAMf9fWGNeeD7gOXy4z5EdDQXxaNaYbx/xL54X+P7ghnvYKAVjtFxtzdwD978Ug2
-	AqyA==
-X-Gm-Message-State: AIkVDXJ0EKJWBkXnkX1zPQy4lsI2VLG+SDRMmkt0zN9/tpBARDBYINYxSdBIMF2v45a1pr8DVAz4AsQD/qLCHF73
-X-Received: by 10.55.15.231 with SMTP id 100mr70039018qkp.244.1483722739832;
-	Fri, 06 Jan 2017 09:12:19 -0800 (PST)
+	Fri,  6 Jan 2017 17:53:45 +0000 (UTC)
+Received: from us-aus-exhub2.ni.corp.natinst.com
+	(us-aus-exhub2.ni.corp.natinst.com [130.164.68.32])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTPS id
+	v06Hrjf1025816
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+	Fri, 6 Jan 2017 11:53:45 -0600
+Received: from us-aus-exch3.ni.corp.natinst.com (130.164.68.13) by
+	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Fri, 6 Jan 2017 11:53:44 -0600
+Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
+	us-aus-exch3.ni.corp.natinst.com (130.164.68.13) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Fri, 6 Jan 2017 11:53:44 -0600
+Received: from adi-pc-linux.natinst.com (130.164.49.7) by
+	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
+	Server
+	id 15.0.1156.6 via Frontend Transport; Fri, 6 Jan 2017 11:53:43 -0600
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 6 Jan 2017 19:51:36 +0200
+Message-ID: <20170106175136.19262-1-adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Fri, 6 Jan 2017 09:11:59 -0800 (PST)
-In-Reply-To: <1482732918-8881-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-References: <1482732918-8881-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 6 Jan 2017 17:11:59 +0000
-Message-ID: <CAJTo0LZoYUtoD-J1HWkZ4kZ_GmCWf3p9ekqQjiZYLax=snsTcQ@mail.gmail.com>
-To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] iproute2 4.7.0 -> 4.9.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2017-01-06_14:, , signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+	suspectscore=6
+	malwarescore=0 phishscore=0 adultscore=0 bulkscore=0 classifier=spam
+	adjust=0 reason=mlx scancount=1 engine=8.0.1-1612050000
+	definitions=main-1701060265
+Cc: haris.okanovic@ni.com, ken.sharp@ni.com
+Subject: [PATCH v2] wic/isoimage-isohybrid: remove do_stage_partition()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,43 +46,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2017 17:12:20 -0000
-Content-Type: multipart/alternative; boundary=001a11476032da6c3b0545701ef9
+X-List-Received-Date: Fri, 06 Jan 2017 17:53:46 -0000
+Content-Type: text/plain
 
---001a11476032da6c3b0545701ef9
-Content-Type: text/plain; charset=UTF-8
+The purpouse of this function was to check dependencies for building a
+hybrid iso and build them using bitbake if not found. Calling bitbake in
+this context means this wic plugin itself cannot be instrumented inside
+bitbake recipes which is undesirable, the benefits of this are clear:
+there is no need to maintain outside scripts to generate an iso using wic
+and the isohybrid building logic can be further abstracted away into an
+isohybrid.bbclass in the future which can be easily inherited or something
+similar.
 
-On 26 December 2016 at 06:15, Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-wrote:
+So remove the function and add all dependencies to NATIVE_RECIPES so that
+wic can print useful errors when they're not built.
 
-> +Subject: [PATCH] fix 4.9.0  musl compile problem
-> +
-> +Avoid in6_addr redefinition
-> +
-> +Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
->
+To automate building the isohybrid image dependencies, add the following
+somewhere in your image build inheritence hierarcy (or maybe create a
+bbclass in the future to do these sort of things automatically):
 
-This is missing an Upstream-Status tag.
+DEPENDS += "syslinux syslinux-native cdrtools-native e2fsprogs-native \
+            parted-native dosfstools-native mtools-native"
 
-Ross
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+---
+ .../lib/wic/plugins/source/isoimage-isohybrid.py   | 49 ----------------------
+ scripts/lib/wic/utils/oe/misc.py                   |  3 ++
+ 2 files changed, 3 insertions(+), 49 deletions(-)
 
---001a11476032da6c3b0545701ef9
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+index 3858fd439b..15fd858d22 100644
+--- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
++++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+@@ -194,55 +194,6 @@ class IsoImagePlugin(SourcePlugin):
+         return initrd
+ 
+     @classmethod
+-    def do_stage_partition(cls, part, source_params, creator, cr_workdir,
+-                           oe_builddir, bootimg_dir, kernel_dir,
+-                           native_sysroot):
+-        """
+-        Special content staging called before do_prepare_partition().
+-        It cheks if all necessary tools are available, if not
+-        tries to instal them.
+-        """
+-        # Make sure parted is available in native sysroot
+-        if not os.path.isfile("%s/usr/sbin/parted" % native_sysroot):
+-            msger.info("Building parted-native...\n")
+-            exec_cmd("bitbake parted-native")
+-
+-        # Make sure mkfs.ext2/3/4 is available in native sysroot
+-        if not os.path.isfile("%s/sbin/mkfs.ext2" % native_sysroot):
+-            msger.info("Building e2fsprogs-native...\n")
+-            exec_cmd("bitbake e2fsprogs-native")
+-
+-        # Make sure syslinux is available in sysroot and in native sysroot
+-        syslinux_dir = get_bitbake_var("STAGING_DATADIR")
+-        if not syslinux_dir:
+-            msger.error("Couldn't find STAGING_DATADIR, exiting.\n")
+-        if not os.path.exists("%s/syslinux" % syslinux_dir):
+-            msger.info("Building syslinux...\n")
+-            exec_cmd("bitbake syslinux")
+-        if not os.path.exists("%s/syslinux" % syslinux_dir):
+-            msger.error("Please build syslinux first\n")
+-
+-        # Make sure syslinux is available in native sysroot
+-        if not os.path.exists("%s/usr/bin/syslinux" % native_sysroot):
+-            msger.info("Building syslinux-native...\n")
+-            exec_cmd("bitbake syslinux-native")
+-
+-        #Make sure mkisofs is available in native sysroot
+-        if not os.path.isfile("%s/usr/bin/mkisofs" % native_sysroot):
+-            msger.info("Building cdrtools-native...\n")
+-            exec_cmd("bitbake cdrtools-native")
+-
+-        # Make sure mkfs.vfat is available in native sysroot
+-        if not os.path.isfile("%s/sbin/mkfs.vfat" % native_sysroot):
+-            msger.info("Building dosfstools-native...\n")
+-            exec_cmd("bitbake dosfstools-native")
+-
+-        # Make sure mtools is available in native sysroot
+-        if not os.path.isfile("%s/usr/bin/mcopy" % native_sysroot):
+-            msger.info("Building mtools-native...\n")
+-            exec_cmd("bitbake mtools-native")
+-
+-    @classmethod
+     def do_configure_partition(cls, part, source_params, creator, cr_workdir,
+                                oe_builddir, bootimg_dir, kernel_dir,
+                                native_sysroot):
+diff --git a/scripts/lib/wic/utils/oe/misc.py b/scripts/lib/wic/utils/oe/misc.py
+index fe188c9d26..288c058d2c 100644
+--- a/scripts/lib/wic/utils/oe/misc.py
++++ b/scripts/lib/wic/utils/oe/misc.py
+@@ -35,8 +35,10 @@ from wic.utils import runner
+ 
+ # executable -> recipe pairs for exec_native_cmd
+ NATIVE_RECIPES = {"bmaptool": "bmap-tools",
++                  "isohybrid": "syslinux",
+                   "mcopy": "mtools",
+                   "mkdosfs": "dosfstools",
++                  "mkisofs": "cdrtools",
+                   "mkfs.btrfs": "btrfs-tools",
+                   "mkfs.ext2": "e2fsprogs",
+                   "mkfs.ext3": "e2fsprogs",
+@@ -44,6 +46,7 @@ NATIVE_RECIPES = {"bmaptool": "bmap-tools",
+                   "mkfs.vfat": "dosfstools",
+                   "mksquashfs": "squashfs-tools",
+                   "mkswap": "util-linux",
++                  "mmd": "syslinux",
+                   "parted": "parted",
+                   "sfdisk": "util-linux",
+                   "sgdisk": "gptfdisk",
+-- 
+2.11.0
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 26 December 2016 at 06:15, Zheng Ruoqin <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:zhengrq.fnst@cn.fujitsu.com" target=3D"_blank">zhengrq.fnst@cn.fuji=
-tsu.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D"=
-:1p6" class=3D"a3s aXjCH m15939c6cb98bd940">+Subject: [PATCH] fix 4.9.0=C2=
-=A0 musl compile problem<br>
-+<br>
-+Avoid in6_addr redefinition<br>
-+<br>
-+Signed-off-by: Zheng Ruoqin &lt;<a href=3D"mailto:zhengrq.fnst@cn.fujitsu.=
-com">zhengrq.fnst@cn.fujitsu.com</a>&gt;</div></blockquote></div><br>This i=
-s missing an Upstream-Status tag.</div><div class=3D"gmail_extra"><br></div=
-><div class=3D"gmail_extra">Ross</div></div>
 
---001a11476032da6c3b0545701ef9--
