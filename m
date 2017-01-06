@@ -1,50 +1,51 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
-	[209.85.214.47])
-	by mail.openembedded.org (Postfix) with ESMTP id A83E271A17
+Return-Path: <freesilicon@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id D3E576AC00
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jan 2017 10:01:05 +0000 (UTC)
-Received: by mail-it0-f47.google.com with SMTP id x2so12421729itf.1
+	Fri,  6 Jan 2017 11:37:56 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id u144so4360358wmu.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jan 2017 02:01:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=YRdrub6kMB663Ds7BtecACmLK+dRV4Au+MoKq6kbh6E=;
-	b=Rk3rURyAsRi9AGPDwTZyzbvHGz0iJi1NgOT14cQfMzjRH9VRm4RjBrXpk2VdOOHEoV
-	ltvyltuchVnf3osNggtu//BlHaZcU/wLkfejXX6iCH5FCYaCwRL4+7UHvTk9GJcdcj5V
-	wJBvYjWDcVIe0neoJ4xDIsvBfSsThJ9PJIkXeZrO9IKLW87xfLf7QAYdZavs75YKZWos
-	9j8mKbfKjRnN5c3g9ZYSujaJb0ZMRDsbUwCTXI0ktuYMevg/or9XDiJAhyQvsR78Z5fK
-	mFCRW3BT4cMAENB8Ll+IwAHa1xbUbjZiPXt/yd0gjTlTJevIsfJdPW9oh3r+2yxvKt52
-	SHNg==
+	Fri, 06 Jan 2017 03:37:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=Gt46EgeHAbm46dHnQ8jR/As0eC1T74tJ6HZDOBdjCjI=;
+	b=rcd2SLnC9or/ljLfiA9VSqoYXB2ktgQ+5g1iNXxOMulrekcVvXHNfUNQUk5fTi4QgM
+	gLPyNdSym1VKCr3VXK4NHzktuJqDQBBWZ0SlM8ZUe0nmal3zge/KBIrUbIORu+Uyovng
+	l0qBaS3SIbP8nyf9AQc4OeBCXbKgYTccbfyrOeFR/s4Wqp+KBHCTHnJaD81cW7SZmHLI
+	OPo+s8WBBvkzEjY+ry11XiXGNTS6sbR+zNlIEZRHbrOnFuiSCQSOfsZusKwDldLNWhoV
+	5aOtjHLmf2EQAyT+jA3sCSfFj0v6JeygfVuDS9SizPLSpZn6gldmYozsl2jCoMstYI8B
+	tSRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=YRdrub6kMB663Ds7BtecACmLK+dRV4Au+MoKq6kbh6E=;
-	b=fPc7KQ4Z7C0TAjk2b9cC/zqFMpbXh2bWlCsBEnw+zna0csfnGI2UrqrV3tPYpz0/w6
-	yTYu26fbBxt/aJTuTn48AwiK0S2C/Pf7OxQPDcIeT47neWM1j8FdBBZnE4i0EpwQw7KH
-	JZAM3rcy9EdDn2SeRSINqZNryvM9hoI0EM4HXqU08H4Lnb5acEsyGakml4M1e0rc0cGT
-	1oTwLZC20uX5WYqM4B4Codke9Ck6C7Te8vWur14BjFIdxsYeY1USIhDn4dopp5Z98qUs
-	lHZT+UnOLFNyvvsmjCh3ErIhf3k2EK2S8kIJtQPfGcVMRTErYDstSle/XZTH5fKX8v3e
-	+BfA==
-X-Gm-Message-State: AIkVDXI5RLwt/IX5lyUk33WMAR18Lf8OoleIx1fobMjKtoQ43Cl+SdqC42jpKOL0GmFI2TqG
-X-Received: by 10.36.170.68 with SMTP id y4mr1710597iti.7.1483696520690;
-	Fri, 06 Jan 2017 01:55:20 -0800 (PST)
-Received: from pohly-desktop.fritz.box (p5DE8F5BD.dip0.t-ipconnect.de.
-	[93.232.245.189]) by smtp.gmail.com with ESMTPSA id
-	m128sm1157680itm.16.2017.01.06.01.55.19
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 06 Jan 2017 01:55:19 -0800 (PST)
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Jan 2017 10:55:03 +0100
-Message-Id: <6787329b6c24642352cd015ae22b5dfa579ca010.1483696378.git.patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1483696378.git.patrick.ohly@intel.com>
-References: <cover.1483696378.git.patrick.ohly@intel.com>
-Subject: [PATCH 3/3] rm_work.bbclass: clean up sooner
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=Gt46EgeHAbm46dHnQ8jR/As0eC1T74tJ6HZDOBdjCjI=;
+	b=U0aUFQWDxgsw4cuuw4YkDlB6bIuvp5yRWVD5/7lRhtKsdL1jzSk282f983WRY/qpno
+	WPfHoAQ6OhxZpz/sjSRAjJxbsZu5aF47sHNUYtlKPEVsx1W5K2JcWcv4QaMr+0hJ3cHA
+	RP3fe/ts9YpgwmQgyUC2q2b4kL5kiOmREwqYwdLCd4JVwJUCy6nH05+rS5B7/u74CLR7
+	3J3xiqb55K0D7w0rjHFeSROtvscbnGo/rXy+8/0X1oIitgSxpBt9izmT52OsUVwyjkgy
+	LiEfUjiqBxxgFeGrKDe6TXitMlhp/Dt7+FJJB6OcBGAv3T2Tar4+mBDpN4t7ggzAn23R
+	q/OQ==
+X-Gm-Message-State: AIkVDXLb8dXjUKmhJ0qM7wqTVdsYO6yesUU5ehVg3NrxIrgmEEXa1tzQOYaJyV7xy/GVhw==
+X-Received: by 10.28.18.194 with SMTP id 185mr3117923wms.124.1483702676203;
+	Fri, 06 Jan 2017 03:37:56 -0800 (PST)
+Received: from crde-port-20.cahors.local ([185.47.80.46])
+	by smtp.gmail.com with ESMTPSA id yy7sm3006344wjc.3.2017.01.06.03.37.55
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 06 Jan 2017 03:37:55 -0800 (PST)
+From: David Vincent <freesilicon@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 06 Jan 2017 12:37:52 +0100
+Message-ID: <1783266.JR8gGWXSdn@crde-port-20.cahors.local>
+In-Reply-To: <5460018.mmGskV4KOr@crde-port-20.cahors.local>
+References: <20161220095122.11831-1-freesilicon@gmail.com>
+	<CAJTo0LY5hHkOfQuzSO-W6TjDFPXY5N=J0x5DKoCT1Rn2ZU+4TA@mail.gmail.com>
+	<5460018.mmGskV4KOr@crde-port-20.cahors.local>
+MIME-Version: 1.0
+Cc: "Plascencia, Daniela" <daniela.plascencia@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v6] rootfs: Modify RPM installation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,106 +58,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2017 10:01:05 -0000
+X-List-Received-Date: Fri, 06 Jan 2017 11:37:57 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-Having do_rm_work depend on do_build had one major disadvantage:
-do_build depends on the do_build of other recipes, to ensure that
-runtime dependencies also get built. The effect is that when work on a
-recipe is complete and it could get cleaned up, do_rm_work still
-doesn't run because it waits for those other recipes, thus leading to
-more temporary disk space usage than really needed.
+On jeudi 22 d=C3=A9cembre 2016 15:45:34 CET David Vincent wrote:
+> On jeudi 22 d=C3=A9cembre 2016 14:09:32 CET Burton, Ross wrote:
+> > Small problem: we always build rpm-native as we need it for some tools,
+> > but
+> > rpmlibdir is only defined in package_rpm.bbclass which doesn't have to =
+be
+> > inherited.
+>=20
+> I didn't know that rpm-native was built in any case, rpm being selected as
+> package manager or not.
+>=20
+> > This leads to just --with-path-database=3D being passed to configure.=20
+> > What's
+> > the behaviour of RPM when this happens? What does it default to?  If it=
+'s
+> > going to be safe (ie a sane default is used), please update the commit
+> > message to explain this.
+>=20
+> Indeed, this can lead to undefined behavior. I can propose some solutions
+> but which one would you find better :
+> 	- Setting a weak assignment for rpmlibdir inside rpm recipe
+> 	- Setting a default assignment for rpmlibdir_class-native inside rpm=20
+recipe
+> - Another option I didn't think of
 
-The right solution is to inject do_rm_work before do_build and after
-all tasks of the recipe. Achieving that depends on the new bitbake
-support for prioritizing anonymous functions to ensure that
-rm_work.bbclass gets to see a full set of existing tasks when adding
-its own one. This is relevant, for example, for do_analyseimage in
-meta-security-isafw's isafw.bbclass.
+Any news on that ?
 
-In addition, the new "rm_work" scheduler is used by default. It
-prioritizes finishing recipes over continuing with the more
-important recipes (with "importance" determined by the number of
-reverse-dependencies).
+>=20
+> > Ross
+>=20
 
-Benchmarking (see "rm_work + pybootchart enhancements" on the OE-core
-mailing list) showed that builds with the modified rm_work.bbclass
-were both faster (albeit not by much) and required considerably less
-disk space (14230MiB instead of 18740MiB for core-image-sato).
-Interestingly enough, builds with rm_work.bbclass were also faster
-than those without.
-
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
----
- meta/classes/rm_work.bbclass | 31 ++++++++++++++++++-------------
- 1 file changed, 18 insertions(+), 13 deletions(-)
-
-diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
-index 3516c7e..1205104 100644
---- a/meta/classes/rm_work.bbclass
-+++ b/meta/classes/rm_work.bbclass
-@@ -11,16 +11,13 @@
- # RM_WORK_EXCLUDE += "icu-native icu busybox"
- #
- 
--# Use the completion scheduler by default when rm_work is active
-+# Use the dedicated rm_work scheduler by default when rm_work is active
- # to try and reduce disk usage
--BB_SCHEDULER ?= "completion"
-+BB_SCHEDULER ?= "rm_work"
- 
- # Run the rm_work task in the idle scheduling class
- BB_TASK_IONICE_LEVEL_task-rm_work = "3.0"
- 
--RMWORK_ORIG_TASK := "${BB_DEFAULT_TASK}"
--BB_DEFAULT_TASK = "rm_work_all"
--
- do_rm_work () {
-     # If the recipe name is in the RM_WORK_EXCLUDE, skip the recipe.
-     for p in ${RM_WORK_EXCLUDE}; do
-@@ -97,13 +94,6 @@ do_rm_work () {
-         rm -f $i
-     done
- }
--addtask rm_work after do_${RMWORK_ORIG_TASK}
--
--do_rm_work_all () {
--    :
--}
--do_rm_work_all[recrdeptask] = "do_rm_work"
--addtask rm_work_all after do_rm_work
- 
- do_populate_sdk[postfuncs] += "rm_work_populatesdk"
- rm_work_populatesdk () {
-@@ -117,7 +107,7 @@ rm_work_rootfs () {
- }
- rm_work_rootfs[cleandirs] = "${WORKDIR}/rootfs"
- 
--python () {
-+python __anonymous_rm_work() {
-     if bb.data.inherits_class('kernel', d):
-         d.appendVar("RM_WORK_EXCLUDE", ' ' + d.getVar("PN"))
-     # If the recipe name is in the RM_WORK_EXCLUDE, skip the recipe.
-@@ -126,4 +116,19 @@ python () {
-     if pn in excludes:
-         d.delVarFlag('rm_work_rootfs', 'cleandirs')
-         d.delVarFlag('rm_work_populatesdk', 'cleandirs')
-+    else:
-+        # Inject do_rm_work into the tasks of the current recipe such that do_build
-+        # depends on it and that it runs after all other tasks that block do_build,
-+        # i.e. after all work on the current recipe is done. The reason for taking
-+        # this approach instead of making do_rm_work depend on do_build is that
-+        # do_build inherits additional runtime dependencies on
-+        # other recipes and thus will typically run much later than completion of
-+        # work in the recipe itself.
-+        deps = bb.build.preceedtask('do_build', True, d)
-+        if 'do_build' in deps:
-+            deps.remove('do_build')
-+        bb.build.addtask('do_rm_work', 'do_build', ' '.join(deps), d)
- }
-+# Higher priority than the normal 100, and thus we run after other
-+# classes like package_rpm.bbclass which also add custom tasks.
-+__anonymous_rm_work[__anonprio] = "1000"
--- 
-2.1.4
-
+David
 
