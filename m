@@ -1,54 +1,57 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
-	[209.85.223.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 7325F719C8
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id C1093719C8
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Jan 2017 08:06:59 +0000 (UTC)
-Received: by mail-io0-f169.google.com with SMTP id p127so72808878iop.3
+	Sat,  7 Jan 2017 08:10:02 +0000 (UTC)
+Received: by mail-io0-f181.google.com with SMTP id j18so2217294ioe.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Jan 2017 00:07:00 -0800 (PST)
+	Sat, 07 Jan 2017 00:10:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:organization:mime-version:content-transfer-encoding;
-	bh=1q7AA5GMLzaCJI8E3qm92sI8PrJb8obPz3S8FiqYB6A=;
-	b=W5iPiD8L93D+pNLJgWWGzJu6mPZLDRd/7zU5S7NG6GPAO19sLU4NvGK7szMxtLXSfO
-	CpKjrPPsK7MUvMLPsOLE3c7CEbtyO5sYD8W/WA2Se9ajEg4Qs+wnabCWljhkOUQg6zv0
-	dcFD3RwDv2kwBTPBlecQT8Z3jfY77v6369N/rDWXYMN8pb1rj2FVEOgUqYO5ot5vw5Ek
-	+kx7emSUaECaxG3otaV9BZdUEHUbGBB3lXDFHHdVflC9i7o8URnBbMSV3wJg5kxUHlYw
-	wxk8pGN4aqS5oiRRubnPKpAmCsQOy993WxIRUa5mljkN24nyeO8KNkNvCzXhvairfQ7k
-	5sDg==
+	bh=/bV/OX0jCxJ738cxq3ZE+gbel/r/q/LBLtTtYVhxoyM=;
+	b=Ovzbz2iPPzHLGe2+QZ9oCVXNHYifx6p3MXRCvRJIUeQtfx12v1/AlBWhas9Ngk9IyL
+	SJleyiyRJzRWTzC+zjzhkp7Tuq01lzGEP6iRkMMEDrsLG2HD4tVLhL6JenKDCbGDKS4y
+	LAOFzJmQETzRL1J2ucYzXHOIXWVUqvkbbUO1CRYj3UeApdEOpv++AY9ONPBSBF0lSRx5
+	agR0ybsB9aOSGmbBWaAGMZbv3s8NHmS/snJD3BK5La/8d0CZ6EHyM+yNjE/4OSr4pdU6
+	LnZDCrOeuu6QYyBoOHRQVBKHHcK16z4RwU6Z9puzuho+v/ZeFLFoDkqP3amNvDVXfbTf
+	l8qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:organization:mime-version:content-transfer-encoding;
-	bh=1q7AA5GMLzaCJI8E3qm92sI8PrJb8obPz3S8FiqYB6A=;
-	b=SP5cIi7ZV4gk/fY7OGbYwYcJrvy4a20a1FQmOoj+ghPg6367znRDyzc1eb0XCF4FT2
-	E7S77q2xzOgxltuc9374yINm5n4rqNKeiZsv5RXwmE73hbSE4oYHvzsvwQ0llh2sfn2h
-	w06qbZqwE3qzDWTLC5U+v83qrf51wpBxgWzmdhM4bg8ZVuQXzOCACUDe1dSnqrS2nmnA
-	sCOGOxGSyd0pf5iVv3sGWxdja5NdNsPDM19SfD1x7qblEaw1voEIF8xHvyEoahuSZnl+
-	S26Y69jP1E0fzO9RJmBonbsB2zvm6hNRRbg7aHlvX1wkQ3qwRtKpI2W9chUyg4Xcozbx
-	+Dmw==
-X-Gm-Message-State: AIkVDXLvFwothq2Th2rsZ09bxeqPFjybFbZRQKesmKV5Vgnlj0IUXXP3N2mcqJ5ZD1GP32C+
-X-Received: by 10.107.171.4 with SMTP id u4mr60938635ioe.102.1483776420008;
-	Sat, 07 Jan 2017 00:07:00 -0800 (PST)
+	bh=/bV/OX0jCxJ738cxq3ZE+gbel/r/q/LBLtTtYVhxoyM=;
+	b=P43EJj6icGhPXAT6JC99AHgsvcOCG98nIVozXYlZqyx4k2w5Y2I1H2dcNx0n3/tVYg
+	wvWlOTE9oopVYP8ysWCnA3vIcfPi521zrA9YCdWQZH46p4FLAOWIIKAC3E4NSdfH2Lwd
+	ACL1PHg3/T2OZIWQEFJcGjYNlM4dWxBcC1EpVTKh1uWiYQweG4vG6G5ADveaSl7ODQLG
+	nGPGMpv5AE6SlHZpDsgjUkpBzT9Y4zdg+nNNADQ3JpeA9+MMvNc6o41fwMgden7Y+rNc
+	K/7a9smSt97B+4wMZDYwmZBbtOETqm6CfIduE7zfTUYBV2HouOhXng+Ya/Wjkj+fIaF9
+	g9gA==
+X-Gm-Message-State: AIkVDXLQVSbnWGnvHIwaroBcPvtTp47AIt1qAnmlhLUX/TRN9naiD+LTqEH7NcMeZEA7Zeaf
+X-Received: by 10.107.170.133 with SMTP id g5mr36952395ioj.148.1483776603030; 
+	Sat, 07 Jan 2017 00:10:03 -0800 (PST)
 Received: from pohly-mobl1 (p5DE8F82B.dip0.t-ipconnect.de. [93.232.248.43])
 	by smtp.gmail.com with ESMTPSA id
-	m128sm2843110itm.16.2017.01.07.00.06.57
+	j201sm2848587ita.20.2017.01.07.00.10.00
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 07 Jan 2017 00:06:58 -0800 (PST)
-Message-ID: <1483776414.4383.22.camel@intel.com>
+	Sat, 07 Jan 2017 00:10:01 -0800 (PST)
+Message-ID: <1483776598.4383.24.camel@intel.com>
 From: Patrick Ohly <patrick.ohly@intel.com>
-To: Phil Blundell <pb@pbcl.net>
-Date: Sat, 07 Jan 2017 09:06:54 +0100
-In-Reply-To: <1483737447.4360.180.camel@pbcl.net>
-References: <1483630732-3560-1-git-send-email-patrick.ohly@intel.com>
-	<1483737447.4360.180.camel@pbcl.net>
+To: Randy Witt <rewitt@declaratino.com>
+Date: Sat, 07 Jan 2017 09:09:58 +0100
+In-Reply-To: <CAP5N7XH56aXsVvqVns=Pa4mbmHOZvGecD638nApM94LHibpDqQ@mail.gmail.com>
+References: <cover.1483696378.git.patrick.ohly@intel.com>
+	<8002ec38c29d685bd369fd1d2382298ca33f7b68.1483696378.git.patrick.ohly@intel.com>
+	<CAP5N7XEQs7acZPGpbY+fHbU5ehCoG6sAE+rwgL5GzSRsMk0nNA@mail.gmail.com>
+	<1483730551.4383.19.camel@intel.com>
+	<CAP5N7XH56aXsVvqVns=Pa4mbmHOZvGecD638nApM94LHibpDqQ@mail.gmail.com>
 Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
 X-Mailer: Evolution 3.12.9-1+b1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] rootfs-postcommands.bbclass: sort passwd entries
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] rm_work_and_downloads.bbclass: more aggressively minimize disk usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,39 +64,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Jan 2017 08:07:00 -0000
+X-List-Received-Date: Sat, 07 Jan 2017 08:10:03 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2017-01-06 at 21:17 +0000, Phil Blundell wrote:
-> On Thu, 2017-01-05 at 16:38 +0100, Patrick Ohly wrote:
-> > The /etc passwd files in a rootfs consist of the default entries from
-> > base-passwd plus anything that gets added by preinst scripts or
-> > extrausers.bbclass.
-> > 
-> > The execution order of preinst scripts is not perfectly
-> > deterministic,
-> > or at least unrelated changes caused it to change in a
-> > non-deterministic way, resulting in irrelevant changes in the order
-> > of
-> > passwd entries.
-> > 
-> > Such re-ordering is bad for reproducible builds and file-based update
-> > mechanisms like swupd which work best if changes are as minimal as
-> > possible.
-> > 
-> > To achieve that, the files get sorted in a post-processing command,
-> > enabled by default.
+On Fri, 2017-01-06 at 13:29 -0800, Randy Witt wrote:
+
+
+> There are times that the work directories help with the debugging of
+> build failures. The logs aren't always enough. So a person might want
+> to do something like remove the downloads, but preserve the actual
+> work, especially in the case of failures.
 > 
-> Won't the numeric UIDs still be non-deterministic, though?  If the goal
-> is reproducible builds then it doesn't sound as though this quite fixes
-> the problem.
+> 
+> I'll admit it is a fabricated scenario, but in general I'm against one
+> knob requiring the turning of another knob.
 
-Yes, but there's already a solution for that problem:
-useradd-staticids.bbclass
-
-I was assuming that someone who wants identical files is already using
-that. Should it be mentioned in a comment next to the new feature?
+In principle I agree. Okay, let's separate the two.
 
 -- 
 Best Regards, Patrick Ohly
