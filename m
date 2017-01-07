@@ -1,39 +1,56 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B11B6AC00
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
+	[209.85.214.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 23A6060684
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Jan 2017 18:05:12 +0000 (UTC)
-Received: from us-aus-exhub2.ni.corp.natinst.com
-	(us-aus-exhub2.ni.corp.natinst.com [130.164.68.32])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTPS id
-	v07I5BG1020360
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-	Sat, 7 Jan 2017 12:05:11 -0600
-Received: from us-aus-exch7.ni.corp.natinst.com (130.164.68.17) by
-	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Sat, 7 Jan 2017 12:05:10 -0600
-Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
-	us-aus-exch7.ni.corp.natinst.com (130.164.68.17) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Sat, 7 Jan 2017 12:05:10 -0600
-Received: from adi-pc-linux.natinst.com (130.164.49.7) by
-	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
-	Server
-	id 15.0.1156.6 via Frontend Transport; Sat, 7 Jan 2017 12:05:09 -0600
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 7 Jan 2017 20:03:01 +0200
-Message-ID: <20170107180301.1935-1-adrian.ratiu@ni.com>
-X-Mailer: git-send-email 2.11.0
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2017-01-07_13:, , signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
-	suspectscore=6
-	malwarescore=0 phishscore=0 adultscore=0 bulkscore=0 classifier=spam
-	adjust=0 reason=mlx scancount=1 engine=8.0.1-1612050000
-	definitions=main-1701070284
-Cc: ken.sharp@ni.com
-Subject: [PATCH v4] wic/isoimage-isohybrid: remove do_stage_partition()
+	Sat,  7 Jan 2017 19:00:57 +0000 (UTC)
+Received: by mail-it0-f52.google.com with SMTP id 192so32557881itl.1
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 07 Jan 2017 11:00:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=kMmiUbKIHFV7b1cJ4qTwvZ9WZz9OaNCFnf0j3MwAdP0=;
+	b=ei01oceGdTD5zooIfIAZd/P5OcKAWhRDCuZs9y95LKaI1ocICOwiG9Iw77s/fGwc/W
+	DDHaV3bugmdkYpGHtskSDyeu+xqjY7LK3jKb9XGIvKjHVatcy+fLX75Yxxx8mVSQHJDp
+	cP4F1cVoXaXf+w/dhX8YyJZWaP0aoYf4QlRfO3T+5wG+aR/N7T5HZ6H+o+UyUZ+czrjN
+	w01g1uDZEE30z8tBwvpAI+ks+Sz7VVlI5xbpsOwdtz2UtbmkqHvCR4zW4Bud9uf5uGlc
+	+kphrlP/uKebqrShDsdxGmwDWvGB4I9I8bfJ3OwM2r8+rOdFmtUreSWCRXHaOmx11iXK
+	W4vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=kMmiUbKIHFV7b1cJ4qTwvZ9WZz9OaNCFnf0j3MwAdP0=;
+	b=lIsQ3Tqu30LjtfqHTSPWXFZKjlGm+jDR9Q2VSb00ZhZQHaZbwVMHKO2y1zZ9E4ZvEE
+	WD9nkjXgGVVBBHlF80Vt9S3Dkvo85xeae3uTQXkFsItWbWoCHWeSBhDIzun2h7fKc3jp
+	2pDO7zPvrU/LHMNynmYYXN3QxpUbr2lagL3gPew8N08/epw78n7BJ8+o4CmMBmLocE03
+	yrXbKpnokxT72Z/SXn/VeuRwJ4+G2QKmSf+ZJdh5+WZgebYT3/mTbK4A5GgHCm4G22so
+	aQE/M7Qtd24TI5hwnDqZnP5mpfgZqO42nXaplqGz2fm1QTBBln2ujpXmU9Gja9pvy/PS
+	9GJw==
+X-Gm-Message-State: AIkVDXLSkrDibvcKAJhaX6avqHI0rGPCJXNUyWZ2t1CKfIuTvQ+w6AggIhMj+VOw21twKUV8
+X-Received: by 10.36.47.197 with SMTP id j188mr3865027itj.68.1483815658050;
+	Sat, 07 Jan 2017 11:00:58 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8F82B.dip0.t-ipconnect.de. [93.232.248.43])
+	by smtp.gmail.com with ESMTPSA id
+	96sm27595700ioh.27.2017.01.07.11.00.55
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 07 Jan 2017 11:00:56 -0800 (PST)
+Message-ID: <1483815653.4383.28.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Phil Blundell <pb@pbcl.net>
+Date: Sat, 07 Jan 2017 20:00:53 +0100
+In-Reply-To: <1483783158.4360.182.camel@pbcl.net>
+References: <1483630732-3560-1-git-send-email-patrick.ohly@intel.com>
+	<1483737447.4360.180.camel@pbcl.net>
+	<1483776414.4383.22.camel@intel.com>
+	<1483783158.4360.182.camel@pbcl.net>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] rootfs-postcommands.bbclass: sort passwd entries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,119 +63,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Jan 2017 18:05:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 07 Jan 2017 19:00:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The purpouse of this function was to check dependencies for building a
-hybrid iso and build them using bitbake if not found. Calling bitbake in
-this context means this wic plugin itself cannot be instrumented inside
-bitbake recipes which is undesirable, the benefits of this are clear:
-there is no need to maintain outside scripts to generate an iso using wic
-and the isohybrid building logic can be further abstracted away into an
-isohybrid.bbclass in the future which can be easily inherited or something
-similar.
+On Sat, 2017-01-07 at 09:59 +0000, Phil Blundell wrote:
+> On Sat, 2017-01-07 at 09:06 +0100, Patrick Ohly wrote:
+> > 
+> Yes, but there's already a solution for that problem:
+> > useradd-staticids.bbclass
+> > 
+> > I was assuming that someone who wants identical files is already
+> > using
+> > that. Should it be mentioned in a comment next to the new feature?
+> 
+> That sounds like a good idea.  And in that case, maybe it would be
+> better to sort on uid rather than username?  That would preserve the
+> "traditional" ordering in the file, i.e. root first.
 
-So remove the function and add all dependencies to NATIVE_RECIPES so that
-wic can print useful errors when they're not built.
+I had thought about that, but then did not pursue that further because
+it would have made sorting quite a bit more complex (needs to know about
+line content, id not present in each file).
 
-To automate building the isohybrid image dependencies, add the following
-somewhere in your image build inheritence hierarcy (or maybe create a
-bbclass in the future to do these sort of things automatically):
+I can give it a try, though, if that's considered worth some additional
+complexity.
 
-DEPENDS += "syslinux syslinux-native cdrtools-native e2fsprogs-native \
-            parted-native dosfstools-native mtools-native grub-efi-native"
-
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
----
- .../lib/wic/plugins/source/isoimage-isohybrid.py   | 49 ----------------------
- scripts/lib/wic/utils/oe/misc.py                   |  4 ++
- 2 files changed, 4 insertions(+), 49 deletions(-)
-
-diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-index 3858fd439b..15fd858d22 100644
---- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-+++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-@@ -194,55 +194,6 @@ class IsoImagePlugin(SourcePlugin):
-         return initrd
- 
-     @classmethod
--    def do_stage_partition(cls, part, source_params, creator, cr_workdir,
--                           oe_builddir, bootimg_dir, kernel_dir,
--                           native_sysroot):
--        """
--        Special content staging called before do_prepare_partition().
--        It cheks if all necessary tools are available, if not
--        tries to instal them.
--        """
--        # Make sure parted is available in native sysroot
--        if not os.path.isfile("%s/usr/sbin/parted" % native_sysroot):
--            msger.info("Building parted-native...\n")
--            exec_cmd("bitbake parted-native")
--
--        # Make sure mkfs.ext2/3/4 is available in native sysroot
--        if not os.path.isfile("%s/sbin/mkfs.ext2" % native_sysroot):
--            msger.info("Building e2fsprogs-native...\n")
--            exec_cmd("bitbake e2fsprogs-native")
--
--        # Make sure syslinux is available in sysroot and in native sysroot
--        syslinux_dir = get_bitbake_var("STAGING_DATADIR")
--        if not syslinux_dir:
--            msger.error("Couldn't find STAGING_DATADIR, exiting.\n")
--        if not os.path.exists("%s/syslinux" % syslinux_dir):
--            msger.info("Building syslinux...\n")
--            exec_cmd("bitbake syslinux")
--        if not os.path.exists("%s/syslinux" % syslinux_dir):
--            msger.error("Please build syslinux first\n")
--
--        # Make sure syslinux is available in native sysroot
--        if not os.path.exists("%s/usr/bin/syslinux" % native_sysroot):
--            msger.info("Building syslinux-native...\n")
--            exec_cmd("bitbake syslinux-native")
--
--        #Make sure mkisofs is available in native sysroot
--        if not os.path.isfile("%s/usr/bin/mkisofs" % native_sysroot):
--            msger.info("Building cdrtools-native...\n")
--            exec_cmd("bitbake cdrtools-native")
--
--        # Make sure mkfs.vfat is available in native sysroot
--        if not os.path.isfile("%s/sbin/mkfs.vfat" % native_sysroot):
--            msger.info("Building dosfstools-native...\n")
--            exec_cmd("bitbake dosfstools-native")
--
--        # Make sure mtools is available in native sysroot
--        if not os.path.isfile("%s/usr/bin/mcopy" % native_sysroot):
--            msger.info("Building mtools-native...\n")
--            exec_cmd("bitbake mtools-native")
--
--    @classmethod
-     def do_configure_partition(cls, part, source_params, creator, cr_workdir,
-                                oe_builddir, bootimg_dir, kernel_dir,
-                                native_sysroot):
-diff --git a/scripts/lib/wic/utils/oe/misc.py b/scripts/lib/wic/utils/oe/misc.py
-index fe188c9d26..489393a24e 100644
---- a/scripts/lib/wic/utils/oe/misc.py
-+++ b/scripts/lib/wic/utils/oe/misc.py
-@@ -35,8 +35,11 @@ from wic.utils import runner
- 
- # executable -> recipe pairs for exec_native_cmd
- NATIVE_RECIPES = {"bmaptool": "bmap-tools",
-+                  "grub-mkimage": "grub-efi",
-+                  "isohybrid": "syslinux",
-                   "mcopy": "mtools",
-                   "mkdosfs": "dosfstools",
-+                  "mkisofs": "cdrtools",
-                   "mkfs.btrfs": "btrfs-tools",
-                   "mkfs.ext2": "e2fsprogs",
-                   "mkfs.ext3": "e2fsprogs",
-@@ -44,6 +47,7 @@ NATIVE_RECIPES = {"bmaptool": "bmap-tools",
-                   "mkfs.vfat": "dosfstools",
-                   "mksquashfs": "squashfs-tools",
-                   "mkswap": "util-linux",
-+                  "mmd": "syslinux",
-                   "parted": "parted",
-                   "sfdisk": "util-linux",
-                   "sgdisk": "gptfdisk",
 -- 
-2.11.0
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
