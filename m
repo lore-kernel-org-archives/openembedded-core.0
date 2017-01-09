@@ -1,26 +1,24 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AA46671A71
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 07F6C71A40
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jan 2017 07:08:58 +0000 (UTC)
+	Mon,  9 Jan 2017 07:08:56 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v0978wGY002743
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v0978uUU011694
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 8 Jan 2017 23:08:58 -0800
+	Sun, 8 Jan 2017 23:08:57 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.184) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Sun, 8 Jan 2017 23:08:57 -0800
+	14.3.294.0; Sun, 8 Jan 2017 23:08:56 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 9 Jan 2017 15:09:02 +0800
-Message-ID: <0925f43d1c572fdcff50db50ba67207d0b0459fc.1483945688.git.Qi.Chen@windriver.com>
+Date: Mon, 9 Jan 2017 15:09:01 +0800
+Message-ID: <cover.1483945688.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1483945688.git.Qi.Chen@windriver.com>
-References: <cover.1483945688.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] selftest/bbtests.py: do not hardcode 'tmp' for TMPDIR
+Subject: [PATCH 0/2] selftest: fix to not hardcode 'tmp' for TMPDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,35 +34,23 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 09 Jan 2017 07:08:58 -0000
 Content-Type: text/plain
 
-Use the value of TMPDIR instead of hardcoding 'tmp'.
+The following changes since commit e016eb10b075e280b4e78a04e47b59a173386421:
 
-In fact, in OE, we have:
-  TCLIBCAPPEND ?= "-${TCLIBC}"
-  TMPDIR .= "${TCLIBCAPPEND}"
+  bitbake: bb/cooker: BBCooker stops notifier at shutdown (2017-01-06 00:01:07 +0000)
 
-So the TMPDIR defaults to have ${TCLIBC} in it.
+are available in the git repository at:
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/lib/oeqa/selftest/bbtests.py | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+  git://git.pokylinux.org/poky-contrib ChenQi/selftest-tmp_dir
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/selftest-tmp_dir
 
-diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
-index 08cc401..cd36dd8 100644
---- a/meta/lib/oeqa/selftest/bbtests.py
-+++ b/meta/lib/oeqa/selftest/bbtests.py
-@@ -235,8 +235,9 @@ INHERIT_remove = \"report-error\"
-         self.addCleanup(ftools.remove_from_file, conf ,data)
-         result = bitbake('readline', ignore_status=True)
-         self.assertEqual(result.status, 0, "Bitbake failed, exit code %s, output %s" % (result.status, result.output))
--        self.assertFalse(os.path.isfile(os.path.join(self.builddir, 'tmp/deploy/licenses/readline/generic_GPLv3')))
--        self.assertTrue(os.path.isfile(os.path.join(self.builddir, 'tmp/deploy/licenses/readline/generic_GPLv2')))
-+        tmp_dir = get_bb_var('TMPDIR')
-+        self.assertFalse(os.path.isfile(os.path.join(tmp_dir, 'deploy/licenses/readline/generic_GPLv3')))
-+        self.assertTrue(os.path.isfile(os.path.join(tmp_dir, 'deploy/licenses/readline/generic_GPLv2')))
- 
-     @testcase(1422)
-     def test_setscene_only(self):
+Chen Qi (2):
+  selftest/bbtests.py: do not hardcode 'tmp' for TMPDIR
+  selftest/buildoptions.py: do not hardcode 'tmp' for TMPDIR
+
+ meta/lib/oeqa/selftest/bbtests.py      | 5 +++--
+ meta/lib/oeqa/selftest/buildoptions.py | 5 +++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
+
 -- 
 1.9.1
 
