@@ -1,31 +1,45 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id C5ED360123
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EA8A71A81
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jan 2017 10:41:00 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga102.jf.intel.com with ESMTP; 09 Jan 2017 02:41:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,339,1477983600"; d="scan'208";a="51084225"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga005.fm.intel.com with ESMTP; 09 Jan 2017 02:41:00 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 2E8036A4006;
-	Mon,  9 Jan 2017 02:40:05 -0800 (PST)
-Date: Mon, 9 Jan 2017 12:18:39 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-Message-ID: <20170109101839.GA13582@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <20170107180301.1935-1-adrian.ratiu@ni.com>
-MIME-Version: 1.0
-In-Reply-To: <20170107180301.1935-1-adrian.ratiu@ni.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: ken.sharp@ni.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v4] wic/isoimage-isohybrid: remove do_stage_partition()
+	Mon,  9 Jan 2017 11:02:28 +0000 (UTC)
+Received: by mail-wm0-f44.google.com with SMTP id c206so26337257wme.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 09 Jan 2017 03:02:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=EXUTd2mVyzzj+gkxzqqK5w/59+9xPzrdgz0W/bfJfus=;
+	b=KepcdSseW2PWkUbdM5ve1883J99b1BldIsxTz8FCENeHvqytsQ0geTNq/e0SQcuEla
+	YotrZOAEws/4f8uLWBih1M5ertRHb1P5makT42uuMK/oVJBQgSeJx6n6PhB5ZB+zJ/5z
+	3HavHi2841ERqzeaq2mWhbsZXrMZB7JL5H9O81qKBZ9HCZNAWj/XStkX6LHOsjJw7B/b
+	z8ntYQLRJOu0lIAjtetRR3BAzA+dwZi3aE9xo4ni8sfx2mDkdCLI+hGYljv9s2fOw0qc
+	dMDXeGcOCsfdcfvYPl7896JPzQoemkZHcWXsqtof7+z0anZAtlFt1IBpeoCguCivIQpc
+	YMOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=EXUTd2mVyzzj+gkxzqqK5w/59+9xPzrdgz0W/bfJfus=;
+	b=BykvxcPvV4oi7z6Ha/Y04nWFIPZyUib9tjZKuc7Btp3eczaoAZfjuBqBJmc99yNOB8
+	t8I0dMATkqEprANaeK2HjJ+IoFj++ye0tN9/6Mar1chT+dQlFKOghIiP3BRTGVO0eka4
+	pH2UECa4gj4v6jlS9/axVY8DXryAJenp9t+o4DQf0w1zrA0olA58NK65S8DM69LydJkQ
+	RZ0yCsq++VlOGhsnK2TIoEx0JqTi+aYH9nsrZKs9GEoXFAEloVFSW3a7xy3eR5e48PuU
+	xuR0mYATBdPC0O7wqUNEOpNEfyIUDXL+Y4oa/S70uTXW4VtEkB3V5H7CmXK/NCAyddNS
+	yB+Q==
+X-Gm-Message-State: AIkVDXLSxv9pmXUgKq8ooIqziRBrCvzDGggFzaw/VKYV4GHySuGQHZLWijfsk23vt2RW53xQ
+X-Received: by 10.28.11.208 with SMTP id 199mr4559353wml.97.1483959748266;
+	Mon, 09 Jan 2017 03:02:28 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id 6sm122984148wjt.5.2017.01.09.03.02.26
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 09 Jan 2017 03:02:27 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  9 Jan 2017 11:02:20 +0000
+Message-Id: <1483959740-15564-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] linux-firmware: remove alternatives for brcmfmac-stdio.bin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,133 +52,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jan 2017 10:41:05 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 09 Jan 2017 11:02:32 -0000
 
-Hi Ioan-Adrian,
+These alternatives are only used to provide an unversioned brcmfmac-sdio.bin,
+which was required by kernels prior to 3.13.  As these alternatives all have the
+same priority there's no determinism in which one is selected, and current
+kernels (since January 2014) use the appropriately versioned firmware names.
 
-Thank you for the patch!
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../linux-firmware/linux-firmware_git.bb           | 24 +---------------------
+ 1 file changed, 1 insertion(+), 23 deletions(-)
 
-It looks good to me.
-+1
-
-On Sat, Jan 07, 2017 at 08:03:01PM +0200, Ioan-Adrian Ratiu wrote:
-> The purpouse of this function was to check dependencies for building a
-> hybrid iso and build them using bitbake if not found. Calling bitbake in
-> this context means this wic plugin itself cannot be instrumented inside
-> bitbake recipes which is undesirable, the benefits of this are clear:
-> there is no need to maintain outside scripts to generate an iso using wic
-> and the isohybrid building logic can be further abstracted away into an
-> isohybrid.bbclass in the future which can be easily inherited or something
-> similar.
-> 
-> So remove the function and add all dependencies to NATIVE_RECIPES so that
-> wic can print useful errors when they're not built.
-> 
-> To automate building the isohybrid image dependencies, add the following
-> somewhere in your image build inheritence hierarcy (or maybe create a
-> bbclass in the future to do these sort of things automatically):
-> 
-> DEPENDS += "syslinux syslinux-native cdrtools-native e2fsprogs-native \
->             parted-native dosfstools-native mtools-native grub-efi-native"
-> 
-> Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-> ---
->  .../lib/wic/plugins/source/isoimage-isohybrid.py   | 49 ----------------------
->  scripts/lib/wic/utils/oe/misc.py                   |  4 ++
->  2 files changed, 4 insertions(+), 49 deletions(-)
-> 
-> diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> index 3858fd439b..15fd858d22 100644
-> --- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> +++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> @@ -194,55 +194,6 @@ class IsoImagePlugin(SourcePlugin):
->          return initrd
->  
->      @classmethod
-> -    def do_stage_partition(cls, part, source_params, creator, cr_workdir,
-> -                           oe_builddir, bootimg_dir, kernel_dir,
-> -                           native_sysroot):
-> -        """
-> -        Special content staging called before do_prepare_partition().
-> -        It cheks if all necessary tools are available, if not
-> -        tries to instal them.
-> -        """
-> -        # Make sure parted is available in native sysroot
-> -        if not os.path.isfile("%s/usr/sbin/parted" % native_sysroot):
-> -            msger.info("Building parted-native...\n")
-> -            exec_cmd("bitbake parted-native")
-> -
-> -        # Make sure mkfs.ext2/3/4 is available in native sysroot
-> -        if not os.path.isfile("%s/sbin/mkfs.ext2" % native_sysroot):
-> -            msger.info("Building e2fsprogs-native...\n")
-> -            exec_cmd("bitbake e2fsprogs-native")
-> -
-> -        # Make sure syslinux is available in sysroot and in native sysroot
-> -        syslinux_dir = get_bitbake_var("STAGING_DATADIR")
-> -        if not syslinux_dir:
-> -            msger.error("Couldn't find STAGING_DATADIR, exiting.\n")
-> -        if not os.path.exists("%s/syslinux" % syslinux_dir):
-> -            msger.info("Building syslinux...\n")
-> -            exec_cmd("bitbake syslinux")
-> -        if not os.path.exists("%s/syslinux" % syslinux_dir):
-> -            msger.error("Please build syslinux first\n")
-> -
-> -        # Make sure syslinux is available in native sysroot
-> -        if not os.path.exists("%s/usr/bin/syslinux" % native_sysroot):
-> -            msger.info("Building syslinux-native...\n")
-> -            exec_cmd("bitbake syslinux-native")
-> -
-> -        #Make sure mkisofs is available in native sysroot
-> -        if not os.path.isfile("%s/usr/bin/mkisofs" % native_sysroot):
-> -            msger.info("Building cdrtools-native...\n")
-> -            exec_cmd("bitbake cdrtools-native")
-> -
-> -        # Make sure mkfs.vfat is available in native sysroot
-> -        if not os.path.isfile("%s/sbin/mkfs.vfat" % native_sysroot):
-> -            msger.info("Building dosfstools-native...\n")
-> -            exec_cmd("bitbake dosfstools-native")
-> -
-> -        # Make sure mtools is available in native sysroot
-> -        if not os.path.isfile("%s/usr/bin/mcopy" % native_sysroot):
-> -            msger.info("Building mtools-native...\n")
-> -            exec_cmd("bitbake mtools-native")
-> -
-> -    @classmethod
->      def do_configure_partition(cls, part, source_params, creator, cr_workdir,
->                                 oe_builddir, bootimg_dir, kernel_dir,
->                                 native_sysroot):
-> diff --git a/scripts/lib/wic/utils/oe/misc.py b/scripts/lib/wic/utils/oe/misc.py
-> index fe188c9d26..489393a24e 100644
-> --- a/scripts/lib/wic/utils/oe/misc.py
-> +++ b/scripts/lib/wic/utils/oe/misc.py
-> @@ -35,8 +35,11 @@ from wic.utils import runner
->  
->  # executable -> recipe pairs for exec_native_cmd
->  NATIVE_RECIPES = {"bmaptool": "bmap-tools",
-> +                  "grub-mkimage": "grub-efi",
-> +                  "isohybrid": "syslinux",
->                    "mcopy": "mtools",
->                    "mkdosfs": "dosfstools",
-> +                  "mkisofs": "cdrtools",
->                    "mkfs.btrfs": "btrfs-tools",
->                    "mkfs.ext2": "e2fsprogs",
->                    "mkfs.ext3": "e2fsprogs",
-> @@ -44,6 +47,7 @@ NATIVE_RECIPES = {"bmaptool": "bmap-tools",
->                    "mkfs.vfat": "dosfstools",
->                    "mksquashfs": "squashfs-tools",
->                    "mkswap": "util-linux",
-> +                  "mmd": "syslinux",
->                    "parted": "parted",
->                    "sfdisk": "util-linux",
->                    "sgdisk": "gptfdisk",
-> -- 
-> 2.11.0
-> 
-
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index 1d881d7..4fedcfb 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -186,7 +186,7 @@ SRC_URI[iwlwifi-19.sha256sum] = "2034470df64d323b827c4f2d4d0d55be2846b7360179b55
+ 
+ S = "${WORKDIR}/git"
+ 
+-inherit allarch update-alternatives
++inherit allarch
+ 
+ CLEANBROKEN = "1"
+ 
+@@ -413,10 +413,6 @@ FILES_${PN}-vt6656 = " \
+ RDEPENDS_${PN}-vt6656 = "${PN}-vt6656-license"
+ 
+ # For broadcom
+-#
+-# WARNING: The ALTERNATIVE_* variables are not using ${PN} because of
+-# a bug in bitbake; when this is fixed and bitbake learns how to proper
+-# pass variable flags with expansion we can rework this patch.
+ 
+ LICENSE_${PN}-bcm4329 = "Firmware-broadcom_bcm43xx"
+ LICENSE_${PN}-bcm4330 = "Firmware-broadcom_bcm43xx"
+@@ -452,24 +448,6 @@ FILES_${PN}-bcm4354 = " \
+   /lib/firmware/brcm/brcmfmac4354-sdio.bin \
+ "
+ 
+-ALTERNATIVE_LINK_NAME[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac-sdio.bin"
+-
+-ALTERNATIVE_linux-firmware-bcm4334 = "brcmfmac-sdio.bin"
+-ALTERNATIVE_TARGET_linux-firmware-bcm4334[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4334-sdio.bin"
+-ALTERNATIVE_linux-firmware-bcm43340 = "brcmfmac-sdio.bin"
+-ALTERNATIVE_TARGET_linux-firmware-bcm43340[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac43340-sdio.bin"
+-ALTERNATIVE_linux_firmware-bcm4354 = "brcmfmac-sdio.bin"
+-ALTERNATIVE_TARGET_linux-firmware-bcm4354[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4354-sdio.bin"
+-ALTERNATIVE_linux-firmware-bcm4329 = "brcmfmac-sdio.bin"
+-ALTERNATIVE_TARGET_linux-firmware-bcm4329[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4329-sdio.bin"
+-ALTERNATIVE_linux-firmware-bcm4330 = "brcmfmac-sdio.bin"
+-ALTERNATIVE_TARGET_linux-firmware-bcm4330[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4330-sdio.bin"
+-ALTERNATIVE_linux-firmware-bcm4339 = "brcmfmac-sdio.bin"
+-ALTERNATIVE_TARGET_linux-firmware-bcm4339[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4339-sdio.bin"
+-ALTERNATIVE_PRIORITY_linux-firmware-bcm4339[brcmfmac-sdio.bin] = "20"
+-ALTERNATIVE_linux-firmware-bcm43430 = "brcmfmac-sdio.bin"
+-ALTERNATIVE_TARGET_linux-firmware-bcm43430[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac43430-sdio.bin"
+-
+ RDEPENDS_${PN}-bcm4329 += "${PN}-broadcom-license"
+ RDEPENDS_${PN}-bcm4330 += "${PN}-broadcom-license"
+ RDEPENDS_${PN}-bcm4334 += "${PN}-broadcom-license"
 -- 
---
-Regards,
-Ed
+2.8.1
+
 
