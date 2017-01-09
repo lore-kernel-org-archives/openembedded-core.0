@@ -1,49 +1,26 @@
-Return-Path: <ola.x.nilsson@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 79E7171A15
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AA46671A71
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jan 2017 06:51:54 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id B9A972E465
+	Mon,  9 Jan 2017 07:08:58 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v0978wGY002743
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jan 2017 07:51:54 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 2Y0T5VmlJs3F
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jan 2017 07:51:54 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id 0BF3E2E444
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jan 2017 07:51:54 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id EE7D61E070
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jan 2017 07:51:53 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E3BF71E06E
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jan 2017 07:51:53 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jan 2017 07:51:53 +0100 (CET)
-Received: from lnxolani.se.axis.com (lnxolani.se.axis.com [10.88.67.1])
-	by seth.se.axis.com (Postfix) with ESMTP id D8532477
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jan 2017 07:51:53 +0100 (CET)
-Received: by lnxolani.se.axis.com (Postfix, from userid 20853)
-	id C8D2D7C066; Mon,  9 Jan 2017 07:51:53 +0100 (CET)
-From: Ola x Nilsson <ola.x.nilsson@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Jan 2017 07:51:28 +0100
-Message-Id: <1483944688-7756-3-git-send-email-ola.x.nilsson@axis.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1483944688-7756-1-git-send-email-ola.x.nilsson@axis.com>
-References: <1483944688-7756-1-git-send-email-ola.x.nilsson@axis.com>
-X-TM-AS-GCONF: 00
-Subject: [PATCH v2 2/2] externalsrc: Set STAMPCLEAN to match STAMP
+	Sun, 8 Jan 2017 23:08:58 -0800
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.184) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.294.0; Sun, 8 Jan 2017 23:08:57 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 9 Jan 2017 15:09:02 +0800
+Message-ID: <0925f43d1c572fdcff50db50ba67207d0b0459fc.1483945688.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1483945688.git.Qi.Chen@windriver.com>
+References: <cover.1483945688.git.Qi.Chen@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/2] selftest/bbtests.py: do not hardcode 'tmp' for TMPDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,30 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jan 2017 06:51:54 -0000
+X-List-Received-Date: Mon, 09 Jan 2017 07:08:58 -0000
+Content-Type: text/plain
 
-Only the last stamp file should be kept, but unless STAMPCLEAN matches
-files generated using STAMP old stamp files may linger.  This may
-cause false positives for skipping tasks.
+Use the value of TMPDIR instead of hardcoding 'tmp'.
 
-Signed-off-by: Ola x Nilsson <ola.x.nilsson@axis.com>
+In fact, in OE, we have:
+  TCLIBCAPPEND ?= "-${TCLIBC}"
+  TMPDIR .= "${TCLIBCAPPEND}"
+
+So the TMPDIR defaults to have ${TCLIBC} in it.
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/classes/externalsrc.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/lib/oeqa/selftest/bbtests.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index e115a47..eec5e61 100644
---- a/meta/classes/externalsrc.bbclass
-+++ b/meta/classes/externalsrc.bbclass
-@@ -116,6 +116,7 @@ python () {
-             configstamp = '${TMPDIR}/work-shared/${PN}/${EXTENDPE}${PV}-${PR}/configure.sstate'
-             d.setVar('CONFIGURESTAMPFILE', configstamp)
-             d.setVar('STAMP', '${STAMPS_DIR}/work-shared/${PN}/${EXTENDPE}${PV}-${PR}')
-+            d.setVar('STAMPCLEAN', '${STAMPS_DIR}/work-shared/${PN}/*-*')
- }
+diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
+index 08cc401..cd36dd8 100644
+--- a/meta/lib/oeqa/selftest/bbtests.py
++++ b/meta/lib/oeqa/selftest/bbtests.py
+@@ -235,8 +235,9 @@ INHERIT_remove = \"report-error\"
+         self.addCleanup(ftools.remove_from_file, conf ,data)
+         result = bitbake('readline', ignore_status=True)
+         self.assertEqual(result.status, 0, "Bitbake failed, exit code %s, output %s" % (result.status, result.output))
+-        self.assertFalse(os.path.isfile(os.path.join(self.builddir, 'tmp/deploy/licenses/readline/generic_GPLv3')))
+-        self.assertTrue(os.path.isfile(os.path.join(self.builddir, 'tmp/deploy/licenses/readline/generic_GPLv2')))
++        tmp_dir = get_bb_var('TMPDIR')
++        self.assertFalse(os.path.isfile(os.path.join(tmp_dir, 'deploy/licenses/readline/generic_GPLv3')))
++        self.assertTrue(os.path.isfile(os.path.join(tmp_dir, 'deploy/licenses/readline/generic_GPLv2')))
  
- python externalsrc_configure_prefunc() {
+     @testcase(1422)
+     def test_setscene_only(self):
 -- 
-2.1.4
+1.9.1
 
 
