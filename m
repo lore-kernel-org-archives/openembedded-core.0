@@ -1,28 +1,28 @@
 Return-Path: <ola.x.nilsson@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 93B9871ABF
+	by mail.openembedded.org (Postfix) with ESMTP id 92D8F60069
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  9 Jan 2017 16:45:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id D55CB2E330
+	by bes.se.axis.com (Postfix) with ESMTP id 8CB702E3B7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jan 2017 17:45:00 +0100 (CET)
+	Mon,  9 Jan 2017 17:44:59 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id dXP8T3QbVruz
+	port 10024) with LMTP id mNCpXzM7UvV3
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  9 Jan 2017 17:44:58 +0100 (CET)
 Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id CCAE12E36F
+	by bes.se.axis.com (Postfix) with ESMTPS id B96882E330
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  9 Jan 2017 17:44:58 +0100 (CET)
 Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 933011E087
+	by IMSVA (Postfix) with ESMTP id 9CB951E088
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  9 Jan 2017 17:44:58 +0100 (CET)
 Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 884C41E085
+	by IMSVA (Postfix) with ESMTP id 920241E086
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  9 Jan 2017 17:44:58 +0100 (CET)
 Received: from thoth.se.axis.com (unknown [10.0.2.173])
@@ -30,18 +30,20 @@ Received: from thoth.se.axis.com (unknown [10.0.2.173])
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  9 Jan 2017 17:44:58 +0100 (CET)
 Received: from lnxolani.se.axis.com (lnxolani.se.axis.com [10.88.67.1])
-	by thoth.se.axis.com (Postfix) with ESMTP id 7CB875F6
+	by thoth.se.axis.com (Postfix) with ESMTP id 864FF8A1
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  9 Jan 2017 17:44:58 +0100 (CET)
 Received: by lnxolani.se.axis.com (Postfix, from userid 20853)
-	id 686C97C066; Mon,  9 Jan 2017 17:44:58 +0100 (CET)
+	id 7A06F7C065; Mon,  9 Jan 2017 17:44:58 +0100 (CET)
 From: Ola x Nilsson <ola.x.nilsson@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Jan 2017 17:44:57 +0100
-Message-Id: <1483980298-3647-1-git-send-email-olani@axis.com>
+Date: Mon,  9 Jan 2017 17:44:58 +0100
+Message-Id: <1483980298-3647-2-git-send-email-olani@axis.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1483980298-3647-1-git-send-email-olani@axis.com>
+References: <1483980298-3647-1-git-send-email-olani@axis.com>
 X-TM-AS-GCONF: 00
-Subject: [PATCH v3 1/2] externalsrc.bbclass: Add task buildclean
+Subject: [PATCH v3 2/2] oe-selftest: devtool: Add test for externalsrc buildclean
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,69 +58,70 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 09 Jan 2017 16:45:02 -0000
 
-The buildclean task should call the package build system clean
-command, just implemented for Make for now.
-
-This is meant for recipes where S == B, but can be useful as a
-standalone task for other recipes too.
-
-When S == B, set it to run before do_clean which will do what most
-developers expect when calling bitbake -c clean.  For S != B, do not
-add it before clean as it is not needed and may take some time.
+Test both for S == B and S != B.
 
 Signed-off-by: Ola x Nilsson <olani@axis.com>
 ---
- meta/classes/externalsrc.bbclass | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/devtool.py | 46 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
-diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index 6ec46a6..bdf23ec 100644
---- a/meta/classes/externalsrc.bbclass
-+++ b/meta/classes/externalsrc.bbclass
-@@ -4,7 +4,7 @@
- # Copyright (C) 2009 Chris Larson <clarson@kergoth.com>
- # Released under the MIT license (see COPYING.MIT for the terms)
- #
--# externalsrc.bbclass enables use of an existing source tree, usually external to 
-+# externalsrc.bbclass enables use of an existing source tree, usually external to
- # the build system to build a piece of software rather than the usual fetch/unpack/patch
- # process.
- #
-@@ -108,6 +108,10 @@ python () {
-         # We don't want the workdir to go away
-         d.appendVar('RM_WORK_EXCLUDE', ' ' + d.getVar('PN'))
+diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
+index 2512c69..abe6090 100644
+--- a/meta/lib/oeqa/selftest/devtool.py
++++ b/meta/lib/oeqa/selftest/devtool.py
+@@ -491,6 +491,52 @@ class DevtoolTests(DevtoolBase):
+         self.assertNotIn('mdadm', result.output)
+         self.assertFalse(list_stamps(), 'Stamp files exist for recipe mdadm that should have been cleaned')
  
-+        bb.build.addtask('do_buildclean',
-+                         'do_clean' if d.getVar('S') == d.getVar('B') else None,
-+                         None, d)
++    def test_devtool_buildclean(self):
++        def assertFile(path, *paths):
++            f = os.path.join(path, *paths)
++            self.assertTrue(os.path.exists(f), "%r does not exist" % f)
++        def assertNoFile(path, *paths):
++            f = os.path.join(path, *paths)
++            self.assertFalse(os.path.exists(os.path.join(f)), "%r exists" % f)
 +
-         # If B=S the same builddir is used even for different architectures.
-         # Thus, use a shared CONFIGURESTAMPFILE and STAMP directory so that
-         # change of do_configure task hash is correctly detected and stamps are
-@@ -143,6 +147,17 @@ python externalsrc_compile_prefunc() {
-     bb.plain('NOTE: %s: compiling from external source tree %s' % (d.getVar('PN'), d.getVar('EXTERNALSRC')))
- }
- 
-+do_buildclean[dirs] = "${S} ${B}"
-+do_buildclean[nostamp] = "1"
-+do_buildclean[doc] = "Call 'make clean' or equivalent in ${B}"
-+externalsrc_do_buildclean() {
-+	if [ -e Makefile -o -e makefile -o -e GNUmakefile ]; then
-+		oe_runmake clean || die "make failed"
-+	else
-+		bbnote "nothing to do - no makefile found"
-+	fi
-+}
++        # Clean up anything in the workdir/sysroot/sstate cache
++        bitbake('mdadm m4 -c cleansstate')
++        # Try modifying a recipe
++        tempdir_mdadm = tempfile.mkdtemp(prefix='devtoolqa')
++        tempdir_m4 = tempfile.mkdtemp(prefix='devtoolqa')
++        builddir_m4 = tempfile.mkdtemp(prefix='devtoolqa')
++        self.track_for_cleanup(tempdir_mdadm)
++        self.track_for_cleanup(tempdir_m4)
++        #self.track_for_cleanup(builddir_m4)
++        self.track_for_cleanup(self.workspacedir)
++        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
++        self.add_command_to_tearDown('bitbake -c clean mdadm m4')
++        self.write_recipeinc('m4', 'EXTERNALSRC_BUILD = "%s"\ndo_clean() {\n\t:\n}\n' % builddir_m4)
++        try:
++            runCmd('devtool modify mdadm -x %s' % tempdir_mdadm)
++            runCmd('devtool modify m4 -x %s' % tempdir_m4)
++            assertNoFile(tempdir_mdadm, 'mdadm')
++            assertNoFile(builddir_m4, 'src/m4')
++            result = bitbake('m4 -e')
++            result = bitbake('mdadm m4 -c compile')
++            self.assertEqual(result.status, 0)
++            assertFile(tempdir_mdadm, 'mdadm')
++            assertFile(builddir_m4, 'src/m4')
++            # Check that buildclean task exists and does call make clean
++            bitbake('mdadm m4 -c buildclean')
++            assertNoFile(tempdir_mdadm, 'mdadm')
++            assertNoFile(builddir_m4, 'src/m4')
++            bitbake('mdadm m4 -c compile')
++            assertFile(tempdir_mdadm, 'mdadm')
++            assertFile(builddir_m4, 'src/m4')
++            bitbake('mdadm m4 -c clean')
++            # Check that buildclean task is run before clean for B == S
++            assertNoFile(tempdir_mdadm, 'mdadm')
++            # Check that buildclean task is not run before clean for B != S
++            assertFile(builddir_m4, 'src/m4')
++        finally:
++            self.delete_recipeinc('m4')
 +
- def srctree_hash_files(d, srcdir=None):
-     import shutil
-     import subprocess
-@@ -189,3 +204,5 @@ def srctree_configure_hash_files(d):
-                 if f in search_files:
-                     out_items.append('%s:True' % os.path.join(root, f))
-     return ' '.join(out_items)
-+
-+EXPORT_FUNCTIONS do_buildclean
+     @testcase(1166)
+     def test_devtool_modify_invalid(self):
+         # Try modifying some recipes
 -- 
 2.1.4
 
