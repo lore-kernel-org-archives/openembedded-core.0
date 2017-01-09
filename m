@@ -1,36 +1,49 @@
-Return-Path: <stephen.k.jolley@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id C930160103
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B9136FF56
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jan 2017 15:41:29 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 09 Jan 2017 07:41:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,340,1477983600"; d="scan'208,217";a="28060016"
-Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
-	by orsmga002.jf.intel.com with ESMTP; 09 Jan 2017 07:41:29 -0800
-Received: from fmsmsx156.amr.corp.intel.com (10.18.116.74) by
-	FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Mon, 9 Jan 2017 07:41:29 -0800
-Received: from fmsmsx111.amr.corp.intel.com ([169.254.12.234]) by
-	fmsmsx156.amr.corp.intel.com ([169.254.13.248]) with mapi id
-	14.03.0248.002; Mon, 9 Jan 2017 07:41:28 -0800
-From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
-To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Yocto Project Status WW02
-Thread-Index: AdJqjoNd7bZtT+CMSJ+TRzZ8zlU48g==
-Date: Mon, 9 Jan 2017 15:41:28 +0000
-Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155E57336462@fmsmsx111.amr.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_IC
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiM2Y2ODUxODAtNzdmMS00OGIyLWI5YTEtOGUwMWY0MjFiMDkyIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX0lDIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE1LjkuNi42IiwiVHJ1c3RlZExhYmVsSGFzaCI6IlJKbkJLTUlGKzB3b09TSFloaisyUFc2dldGYWdWaGF1cFpvdzVXdEJuM1U9In0=
-x-originating-ip: [10.1.200.108]
+	Mon,  9 Jan 2017 15:59:45 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id c85so102281656wmi.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 09 Jan 2017 07:59:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=fAVz5MCX230PgwNHqhaRHlzhD7hle3xaxbK1CT3YjpU=;
+	b=Z/yrGa9ALnKe3D5atj+JuQ/c3hYdcGOS8JDEHbuD4DwTe+nZxnISnYqEhoijN3gab9
+	fO+jz8si8PFewlSub9NLGKHic88EWIJknneTKGgo3+Kt8RXRKtIU1yzDvT23H/kVp/fh
+	TVvUSj3Om2gPYeA0xo0tkr8vfdTL+r9S4x4oxWOPFY5grcqItMghLsNzsh7fri3kdyeL
+	8/JiMzn3PdEPHXYk+ypABlXv3Bn8yvCblmu7cIDofmHOnD8LEk2roOlV16nVWsW/Sfzj
+	OCOKyoYzyjVbhzquHaRPMHEBLQqRTOX+sHHdxgRJH5FkCH5PYkNDe+S91qB0wMNnKhwi
+	q9tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=fAVz5MCX230PgwNHqhaRHlzhD7hle3xaxbK1CT3YjpU=;
+	b=bQ3SRXaTpXfKqe40DC7FmacWTZjN2Niy0JBvAjDyF1TRFugxIqTWEYq8iGsqNGH4vb
+	qUcFKgdwckmRuPklG6eQZ/bhq+rvrbWAyLhkwwIlGvchG6r4Ev3I7NCZmRnp/osTAjK0
+	LtW10sLJmAbFcyiId/fPRe84RHzI0VQO4UKw57cB/xtXXac6LyTEtcAOt5Gz+4LDK+Td
+	++Hn2Mcaq1yQfKSztvB3SE72bGews7eV+KPVGSKDi16GPj9EyB0merE0ple2pBcU7b2n
+	Bu8S2AsJyzkjIa0wLAOhOLXnBoTHRVEA4Q/DGSSzgDHo0f24rOXjh2K2/VF0g8Xbje2A
+	AGNg==
+X-Gm-Message-State: AIkVDXJvkpO//jqW6Usj2E2iMwxfKlgzaoavULJJT/waV7S4b7rN5KUyY/Tz067tRVk1jvTi
+X-Received: by 10.223.154.132 with SMTP id a4mr256326wrc.188.1483977585324;
+	Mon, 09 Jan 2017 07:59:45 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	jv8sm28678694wjc.32.2017.01.09.07.59.43
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 09 Jan 2017 07:59:44 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  9 Jan 2017 15:59:40 +0000
+Message-Id: <1483977580-11236-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Subject: Yocto Project Status WW02
+Subject: [PATCH] flex: upgrade to 2.6.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,458 +56,445 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jan 2017 15:41:31 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155E57336462fmsmsx111amrcor_"
+X-List-Received-Date: Mon, 09 Jan 2017 15:59:46 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E57336462fmsmsx111amrcor_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Patches dropped as they are merged upstream:
+- CVE-2016-6354.patch
+- 0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch
+- do_not_create_pdf_doc.patch
 
-Current Dev Position: YP 2.3 M2 -> M3
+Apply a patch from github to simplify cross-compilation and not need a
+flex-native to bootstrap.
 
-Next Deadline: YP 2.3 M2 by Jan 23, 2017
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ ...oid-c-comments-in-c-code-fails-with-gcc-6.patch |  64 ------
+ .../recipes-devtools/flex/flex/CVE-2016-6354.patch |  59 ------
+ meta/recipes-devtools/flex/flex/crosscompile.patch | 214 +++++++++++++++++++++
+ .../flex/flex/do_not_create_pdf_doc.patch          |  17 --
+ .../flex/{flex_2.6.0.bb => flex_2.6.2.bb}          |  11 +-
+ 5 files changed, 219 insertions(+), 146 deletions(-)
+ delete mode 100644 meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch
+ delete mode 100644 meta/recipes-devtools/flex/flex/CVE-2016-6354.patch
+ create mode 100644 meta/recipes-devtools/flex/flex/crosscompile.patch
+ delete mode 100644 meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch
+ rename meta/recipes-devtools/flex/{flex_2.6.0.bb => flex_2.6.2.bb} (84%)
+
+diff --git a/meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch b/meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch
+deleted file mode 100644
+index 438ca5f..0000000
+--- a/meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch
++++ /dev/null
+@@ -1,64 +0,0 @@
+-From 7072befe1397af4eb01c3ff7edf99f0cd5076089 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+-Date: Tue, 30 Aug 2016 14:25:32 +0200
+-Subject: [PATCH] avoid c++ comments in c-code - fails with gcc-6
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-fixes:
+-
+-| error: C++ style comments are not allowed in ISO C90
+-| num_to_alloc = 1; // After all that talk, this was set to 1 anyways...
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+----
+- src/flex.skl | 2 +-
+- src/scan.c   | 2 +-
+- src/skel.c   | 2 +-
+- 3 files changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/src/flex.skl b/src/flex.skl
+-index 73a0b9e..ed71627 100644
+---- a/src/flex.skl
+-+++ b/src/flex.skl
+-@@ -2350,7 +2350,7 @@ void yyFlexLexer::yyensure_buffer_stack(void)
+- 		 * scanner will even need a stack. We use 2 instead of 1 to avoid an
+- 		 * immediate realloc on the next call.
+-          */
+--		num_to_alloc = 1; // After all that talk, this was set to 1 anyways...
+-+		num_to_alloc = 1; /* After all that talk, this was set to 1 anyways... */
+- 		YY_G(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc
+- 								(num_to_alloc * sizeof(struct yy_buffer_state*)
+- 								M4_YY_CALL_LAST_ARG);
+-diff --git a/src/scan.c b/src/scan.c
+-index b55df2d..f1dce75 100644
+---- a/src/scan.c
+-+++ b/src/scan.c
+-@@ -4672,7 +4672,7 @@ static void yyensure_buffer_stack (void)
+- 		 * scanner will even need a stack. We use 2 instead of 1 to avoid an
+- 		 * immediate realloc on the next call.
+-          */
+--		num_to_alloc = 1; // After all that talk, this was set to 1 anyways...
+-+		num_to_alloc = 1; /* After all that talk, this was set to 1 anyways...*/
+- 		(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc
+- 								(num_to_alloc * sizeof(struct yy_buffer_state*)
+- 								);
+-diff --git a/src/skel.c b/src/skel.c
+-index ef657d3..26cc889 100644
+---- a/src/skel.c
+-+++ b/src/skel.c
+-@@ -2561,7 +2561,7 @@ const char *skel[] = {
+-   "		 * scanner will even need a stack. We use 2 instead of 1 to avoid an",
+-   "		 * immediate realloc on the next call.",
+-   "         */",
+--  "		num_to_alloc = 1; // After all that talk, this was set to 1 anyways...",
+-+  "		num_to_alloc = 1; /* After all that talk, this was set to 1 anyways... */",
+-   "		YY_G(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc",
+-   "								(num_to_alloc * sizeof(struct yy_buffer_state*)",
+-   "								M4_YY_CALL_LAST_ARG);",
+--- 
+-2.5.5
+-
+diff --git a/meta/recipes-devtools/flex/flex/CVE-2016-6354.patch b/meta/recipes-devtools/flex/flex/CVE-2016-6354.patch
+deleted file mode 100644
+index 216ac7a..0000000
+--- a/meta/recipes-devtools/flex/flex/CVE-2016-6354.patch
++++ /dev/null
+@@ -1,59 +0,0 @@
+-From 3939eccdff598f47e5b37b05d58bf1b44d3796e7 Mon Sep 17 00:00:00 2001
+-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Date: Fri, 7 Oct 2016 14:15:38 +0300
+-Subject: [PATCH] Prevent buffer overflow in yy_get_next_buffer
+-
+-This is upstream commit a5cbe929ac3255d371e698f62dc256afe7006466
+-with some additional backporting to make binutils build again.
+-
+-Upstream-Status: Backport
+-CVE: CVE-2016-6354
+-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+----
+- src/flex.skl | 2 +-
+- src/scan.c   | 2 +-
+- src/skel.c   | 2 +-
+- 3 files changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/src/flex.skl b/src/flex.skl
+-index ed71627..814d562 100644
+---- a/src/flex.skl
+-+++ b/src/flex.skl
+-@@ -1718,7 +1718,7 @@ int yyFlexLexer::yy_get_next_buffer()
+- 
+- 	else
+- 		{
+--			yy_size_t num_to_read =
+-+			int num_to_read =
+- 			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;
+- 
+- 		while ( num_to_read <= 0 )
+-diff --git a/src/scan.c b/src/scan.c
+-index f1dce75..1949872 100644
+---- a/src/scan.c
+-+++ b/src/scan.c
+-@@ -4181,7 +4181,7 @@ static int yy_get_next_buffer (void)
+- 
+- 	else
+- 		{
+--			yy_size_t num_to_read =
+-+			int num_to_read =
+- 			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;
+- 
+- 		while ( num_to_read <= 0 )
+-diff --git a/src/skel.c b/src/skel.c
+-index 26cc889..0344d18 100644
+---- a/src/skel.c
+-+++ b/src/skel.c
+-@@ -1929,7 +1929,7 @@ const char *skel[] = {
+-   "",
+-   "	else",
+-   "		{",
+--  "			yy_size_t num_to_read =",
+-+  "			int num_to_read =",
+-   "			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;",
+-   "",
+-   "		while ( num_to_read <= 0 )",
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-devtools/flex/flex/crosscompile.patch b/meta/recipes-devtools/flex/flex/crosscompile.patch
+new file mode 100644
+index 0000000..14463d9
+--- /dev/null
++++ b/meta/recipes-devtools/flex/flex/crosscompile.patch
+@@ -0,0 +1,214 @@
++Add this patch from https://github.com/westes/flex/pull/153 with minor changes
++to fix cross compilation.
++
++Upstream-Status: Submitted
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++From 52d4a3ca249be984614d9204dcc7b957bc04b2ac Mon Sep 17 00:00:00 2001
++From: Alastair Hughes <hobbitalastair@gmail.com>
++Date: Fri, 6 Jan 2017 19:06:03 +1300
++Subject: [PATCH] build: support cross compiling
++
++Check for cross compiling. If cross compiling, build stage1flex using a
++custom link command.
++We also override LDADD since that adds the replacement implementations
++that are cross compiled, and instead always use the replacement library
++implementations.
++
++We don't use BUILD_OBJEXT and BUILD_EXEEXT since it seems that automake
++does not support these.
++
++Fixes #78.
++
++Signed-off-by: Alastair Hughes <hobbitalastair@gmail.com>
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++---
++ configure.ac               |   3 ++
++ m4/ax_prog_cc_for_build.m4 | 125 +++++++++++++++++++++++++++++++++++++++++++++
++ src/Makefile.am            |  17 ++++++
++ 3 files changed, 145 insertions(+)
++ create mode 100644 m4/ax_prog_cc_for_build.m4
++
++diff --git a/configure.ac b/configure.ac
++index 901339f..2a7dce2 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -42,6 +42,7 @@ AM_GNU_GETTEXT_VERSION([0.19])
++ AC_PROG_YACC
++ AM_PROG_LEX
++ AC_PROG_CC
+++AX_PROG_CC_FOR_BUILD
++ AC_PROG_CXX
++ AM_PROG_CC_C_O
++ AC_PROG_LN_S
++@@ -75,6 +76,8 @@ AC_ARG_ENABLE([bootstrap],
++   [], [enable_bootstrap=yes])
++ AM_CONDITIONAL([ENABLE_BOOTSTRAP], [test "x$enable_bootstrap" = xyes])
++ 
+++AM_CONDITIONAL([CROSS], [test "x$cross_compiling" = xyes])
+++
++ AC_PATH_PROG([BISON], bison, no)
++ AS_IF([test "$BISON" != no],[],
++ 	[ AC_SUBST([BISON], [\${top_srcdir}/build-aux/missing bison])
++diff --git a/m4/ax_prog_cc_for_build.m4 b/m4/ax_prog_cc_for_build.m4
++new file mode 100644
++index 0000000..77fd346
++--- /dev/null
+++++ b/m4/ax_prog_cc_for_build.m4
++@@ -0,0 +1,125 @@
+++# ===========================================================================
+++#   http://www.gnu.org/software/autoconf-archive/ax_prog_cc_for_build.html
+++# ===========================================================================
+++#
+++# SYNOPSIS
+++#
+++#   AX_PROG_CC_FOR_BUILD
+++#
+++# DESCRIPTION
+++#
+++#   This macro searches for a C compiler that generates native executables,
+++#   that is a C compiler that surely is not a cross-compiler. This can be
+++#   useful if you have to generate source code at compile-time like for
+++#   example GCC does.
+++#
+++#   The macro sets the CC_FOR_BUILD and CPP_FOR_BUILD macros to anything
+++#   needed to compile or link (CC_FOR_BUILD) and preprocess (CPP_FOR_BUILD).
+++#   The value of these variables can be overridden by the user by specifying
+++#   a compiler with an environment variable (like you do for standard CC).
+++#
+++#   It also sets BUILD_EXEEXT and BUILD_OBJEXT to the executable and object
+++#   file extensions for the build platform, and GCC_FOR_BUILD to `yes' if
+++#   the compiler we found is GCC. All these variables but GCC_FOR_BUILD are
+++#   substituted in the Makefile.
+++#
+++# LICENSE
+++#
+++#   Copyright (c) 2008 Paolo Bonzini <bonzini@gnu.org>
+++#
+++#   Copying and distribution of this file, with or without modification, are
+++#   permitted in any medium without royalty provided the copyright notice
+++#   and this notice are preserved. This file is offered as-is, without any
+++#   warranty.
+++
+++#serial 8
+++
+++AU_ALIAS([AC_PROG_CC_FOR_BUILD], [AX_PROG_CC_FOR_BUILD])
+++AC_DEFUN([AX_PROG_CC_FOR_BUILD], [dnl
+++AC_REQUIRE([AC_PROG_CC])dnl
+++AC_REQUIRE([AC_PROG_CPP])dnl
+++AC_REQUIRE([AC_EXEEXT])dnl
+++AC_REQUIRE([AC_CANONICAL_HOST])dnl
+++
+++dnl Use the standard macros, but make them use other variable names
+++dnl
+++pushdef([ac_cv_prog_CPP], ac_cv_build_prog_CPP)dnl
+++pushdef([ac_cv_prog_gcc], ac_cv_build_prog_gcc)dnl
+++pushdef([ac_cv_prog_cc_works], ac_cv_build_prog_cc_works)dnl
+++pushdef([ac_cv_prog_cc_cross], ac_cv_build_prog_cc_cross)dnl
+++pushdef([ac_cv_prog_cc_g], ac_cv_build_prog_cc_g)dnl
+++pushdef([ac_cv_exeext], ac_cv_build_exeext)dnl
+++pushdef([ac_cv_objext], ac_cv_build_objext)dnl
+++pushdef([ac_exeext], ac_build_exeext)dnl
+++pushdef([ac_objext], ac_build_objext)dnl
+++pushdef([CC], CC_FOR_BUILD)dnl
+++pushdef([CPP], CPP_FOR_BUILD)dnl
+++pushdef([CFLAGS], CFLAGS_FOR_BUILD)dnl
+++pushdef([CPPFLAGS], CPPFLAGS_FOR_BUILD)dnl
+++pushdef([LDFLAGS], LDFLAGS_FOR_BUILD)dnl
+++pushdef([host], build)dnl
+++pushdef([host_alias], build_alias)dnl
+++pushdef([host_cpu], build_cpu)dnl
+++pushdef([host_vendor], build_vendor)dnl
+++pushdef([host_os], build_os)dnl
+++pushdef([ac_cv_host], ac_cv_build)dnl
+++pushdef([ac_cv_host_alias], ac_cv_build_alias)dnl
+++pushdef([ac_cv_host_cpu], ac_cv_build_cpu)dnl
+++pushdef([ac_cv_host_vendor], ac_cv_build_vendor)dnl
+++pushdef([ac_cv_host_os], ac_cv_build_os)dnl
+++pushdef([ac_cpp], ac_build_cpp)dnl
+++pushdef([ac_compile], ac_build_compile)dnl
+++pushdef([ac_link], ac_build_link)dnl
+++
+++save_cross_compiling=$cross_compiling
+++save_ac_tool_prefix=$ac_tool_prefix
+++cross_compiling=no
+++ac_tool_prefix=
+++
+++AC_PROG_CC
+++AC_PROG_CPP
+++AC_EXEEXT
+++
+++ac_tool_prefix=$save_ac_tool_prefix
+++cross_compiling=$save_cross_compiling
+++
+++dnl Restore the old definitions
+++dnl
+++popdef([ac_link])dnl
+++popdef([ac_compile])dnl
+++popdef([ac_cpp])dnl
+++popdef([ac_cv_host_os])dnl
+++popdef([ac_cv_host_vendor])dnl
+++popdef([ac_cv_host_cpu])dnl
+++popdef([ac_cv_host_alias])dnl
+++popdef([ac_cv_host])dnl
+++popdef([host_os])dnl
+++popdef([host_vendor])dnl
+++popdef([host_cpu])dnl
+++popdef([host_alias])dnl
+++popdef([host])dnl
+++popdef([LDFLAGS])dnl
+++popdef([CPPFLAGS])dnl
+++popdef([CFLAGS])dnl
+++popdef([CPP])dnl
+++popdef([CC])dnl
+++popdef([ac_objext])dnl
+++popdef([ac_exeext])dnl
+++popdef([ac_cv_objext])dnl
+++popdef([ac_cv_exeext])dnl
+++popdef([ac_cv_prog_cc_g])dnl
+++popdef([ac_cv_prog_cc_cross])dnl
+++popdef([ac_cv_prog_cc_works])dnl
+++popdef([ac_cv_prog_gcc])dnl
+++popdef([ac_cv_prog_CPP])dnl
+++
+++dnl Finally, set Makefile variables
+++dnl
+++BUILD_EXEEXT=$ac_build_exeext
+++BUILD_OBJEXT=$ac_build_objext
+++AC_SUBST(BUILD_EXEEXT)dnl
+++AC_SUBST(BUILD_OBJEXT)dnl
+++AC_SUBST([CFLAGS_FOR_BUILD])dnl
+++AC_SUBST([CPPFLAGS_FOR_BUILD])dnl
+++AC_SUBST([LDFLAGS_FOR_BUILD])dnl
+++])
++diff --git a/src/Makefile.am b/src/Makefile.am
++index 3b5e362..05fe8d3 100644
++--- a/src/Makefile.am
+++++ b/src/Makefile.am
++@@ -22,7 +22,24 @@ stage1flex_SOURCES = \
++ 	scan.l \
++ 	$(COMMON_SOURCES)
++ 
+++if CROSS
+++stage1flex_LDADD =
+++stage1flex_SOURCES += \
+++		      ../lib/malloc.c \
+++		      ../lib/realloc.c \
+++		      ../lib/reallocarray.c
+++stage1flex_LINK = $(LIBTOOL) --tag=CC --mode=link $(CC_FOR_BUILD) \
+++		  $(CFLAGS_FOR_BUILD) $(LDFLAGS_FOR_BUILD) -o $@
+++
+++$(stage1flex_OBJECTS): CC=$(CC_FOR_BUILD)
+++$(stage1flex_OBJECTS): CFLAGS=$(CFLAGS_FOR_BUILD)
+++$(stage1flex_OBJECTS): CPP=$(CPP_FOR_BUILD)
+++$(stage1flex_OBJECTS): CPPFLAGS=$(CPPFLAGS_FOR_BUILD)
+++$(stage1flex_OBJECTS): LDFLAGS=$(LDFLAGS_FOR_BUILD)
+++else
++ stage1flex_CFLAGS = $(AM_CFLAGS)
+++stage1flex_LINK = $(LINK)
+++endif
++ 
++ flex_SOURCES = \
++ 	$(COMMON_SOURCES)
++-- 
++2.8.1
+diff --git a/meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch b/meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch
+deleted file mode 100644
+index 032833ae..0000000
+--- a/meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch
++++ /dev/null
+@@ -1,17 +0,0 @@
+-Upstream-Status: Inappropriate (embedded specific)
+-
+-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+-
+-Index: flex-2.5.37/doc/Makefile.am
+-===================================================================
+---- flex-2.5.37.orig/doc/Makefile.am	2012-07-21 04:18:27.000000000 +0300
+-+++ flex-2.5.37/doc/Makefile.am	2013-07-30 17:57:09.834834531 +0300
+-@@ -2,7 +2,7 @@
+- 
+- info_TEXINFOS =	flex.texi
+- dist_man_MANS = flex.1
+--dist_doc_DATA= flex.pdf
+-+EXTRA_DIST= flex.pdf
+- 
+- CLEANFILES = \
+- 	flex.hks \
+diff --git a/meta/recipes-devtools/flex/flex_2.6.0.bb b/meta/recipes-devtools/flex/flex_2.6.2.bb
+similarity index 84%
+rename from meta/recipes-devtools/flex/flex_2.6.0.bb
+rename to meta/recipes-devtools/flex/flex_2.6.2.bb
+index ab35b09..1780cab 100644
+--- a/meta/recipes-devtools/flex/flex_2.6.0.bb
++++ b/meta/recipes-devtools/flex/flex_2.6.2.bb
+@@ -6,21 +6,20 @@ SECTION = "devel"
+ LICENSE = "BSD"
+ 
+ DEPENDS = "${@bb.utils.contains('PTEST_ENABLED', '1', 'bison-native flex-native', '', d)}"
++
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e4742cf92e89040b39486a6219b68067"
+ 
+-SRC_URI = "${SOURCEFORGE_MIRROR}/flex/flex-${PV}.tar.bz2 \
++SRC_URI = "https://github.com/westes/flex/releases/download/v${PV}/flex-${PV}.tar.gz \
++           file://crosscompile.patch;apply=1 \
+            file://run-ptest \
+-           file://do_not_create_pdf_doc.patch \
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+-           file://0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch \
+-           file://CVE-2016-6354.patch \
+            ${@bb.utils.contains('PTEST_ENABLED', '1', '', 'file://disable-tests.patch', d)} \
+            "
+ 
+-SRC_URI[md5sum] = "266270f13c48ed043d95648075084d59"
+-SRC_URI[sha256sum] = "24e611ef5a4703a191012f80c1027dc9d12555183ce0ecd46f3636e587e9b8e9"
++SRC_URI[md5sum] = "cc6d76c333db7653d5caf423a3335239"
++SRC_URI[sha256sum] = "9a01437a1155c799b7dc2508620564ef806ba66250c36bf5f9034b1c207cb2c9"
+ 
+ # Flex has moved to github from 2.6.1 onwards
+ UPSTREAM_CHECK_URI = "https://github.com/westes/flex/releases"
+-- 
+2.8.1
 
 
-SWAT team rotation: Joshua -> Armin
-
-https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
-
-
-Key Status/Updates:
-
-*        The M1 issues proved tricky to debug and potentially meant there w=
-ere widespread problems however once we understood the specifics, we decide=
-d the rc1 M1 build could be released as built since the issues were primari=
-ly limited to the QA systems with specific host dependencies installed. The=
-re are patches in master to address the problems.
-
-*        M1 delivers some key improvements in multiconfig builds and tinfoi=
-l2 which should make memory resident bitbake more usable.
-
-*        The patch backlog is being worked through but we continue to strug=
-gle trying to deal with the amount of breakage introduced by submitted patc=
-hes. We're working on speeding up the turnaround time of tests like oe-self=
-test but this takes time.
-
-*        We should have a build of the 2.2.1 release imminently which would=
- go into QA when built.
-
-*        M2 will be upon us sooner than we realize (two weeks!) and there a=
-re some key changes such as recipe specific sysroots and the oeqa framework=
- rework pending with some potential for disruption. Wider testing of these =
-patchsets as they're published would be appreciated. There remains a fundam=
-ental design issue with recipe specific sysroots which we've not been able =
-to figure out a workaround for as yet.
-
-
-Proposed upcoming dot releases:
-
-YP 2.2.1 Release by Jan. 20, 2017
-
-YP 2.1.3 Release by May. 19, 2017
-
-
-Key YP 2.3 Dates:
-
-YP 2.3 M2 Cutoff is Jan. 23, 2017
-
-YP 2.3 M2 Release is Feb. 3, 2017
-
-YP 2.3 M3 Cutoff is Feb 27, 2017
-
-YP 2.3 M3 Release is Mar. 10, 2017
-
-YP 2.3 M4 Cutoff is April 3, 2017
-
-YP 2.3 M4 Release is April 28, 2017
-
-
-Tracking Metrics:
-
-            WDD 2632 (last week 2594)
-
-(https://wiki.yoctoproject.org/charts/combo.html)
-
-
-Key Status Links for YP:
-
-https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.3_Status
-
-https://wiki.yoctoproject.org/wiki/Yocto_2.3_Schedule
-
-https://wiki.yoctoproject.org/wiki/Yocto_2.3_Features
-
-
-[If anyone has suggestions for other information you'd like to see on this =
-weekly status update, let us know!]
-
-Thanks,
-
-Stephen K. Jolley
-Yocto Project Program Manager
-INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-*   Work Telephone:        (503) 712-0534
-*    Cell:               (208) 244-4460
-* Email:                            stephen.k.jolley@intel.com
-
-
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E57336462fmsmsx111amrcor_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-@font-face
-	{font-family:Consolas;
-	panose-1:2 11 6 9 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p
-	{mso-style-priority:99;
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	font-size:12.0pt;
-	font-family:"Times New Roman",serif;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-span.apple-tab-span
-	{mso-style-name:apple-tab-span;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
-/* List Definitions */
-@list l0
-	{mso-list-id:63455966;
-	mso-list-template-ids:176860242;}
-@list l0:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l0:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l0:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-ol
-	{margin-bottom:0in;}
-ul
-	{margin-bottom:0in;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Current Dev Positi=
-on: YP 2.3 M2 -&gt; M3</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Next Deadline: YP =
-2.3 M2 by Jan 23, 2017</span><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">SWAT team rotation=
-: Joshua -&gt; Armin</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
-project.org/wiki/Yocto_Build_Failure_Swat_Team"><span style=3D"font-size:11=
-.0pt;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki=
-/Yocto_Build_Failure_Swat_Team</span></a><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key Status/Updates=
-:</span><o:p></o:p></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-1;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">&middot;<span style=3D"font:7.0pt=
- &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">The M1 issues proved tricky to de=
-bug and potentially meant there were widespread problems however once we un=
-derstood the specifics, we decided the rc1 M1
- build could be released as built since the issues were primarily limited t=
-o the QA systems with specific host dependencies installed. There are patch=
-es in master to address the problems.<o:p></o:p></span></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-1;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">&middot;<span style=3D"font:7.0pt=
- &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">M1 delivers some key improvements=
- in multiconfig builds and tinfoil2 which should make memory resident bitba=
-ke more usable.<o:p></o:p></span></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-1;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">&middot;<span style=3D"font:7.0pt=
- &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">The patch backlog is being worked=
- through but we continue to struggle trying to deal with the amount of brea=
-kage introduced by submitted patches. We&#8217;re
- working on speeding up the turnaround time of tests like oe-selftest but t=
-his takes time.<o:p></o:p></span></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-1;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">&middot;<span style=3D"font:7.0pt=
- &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">We should have a build of the 2.2=
-.1 release imminently which would go into QA when built.<o:p></o:p></span><=
-/p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-1;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">&middot;<span style=3D"font:7.0pt=
- &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">M2 will be upon us sooner than we=
- realize (two weeks!) and there are some key changes such as recipe specifi=
-c sysroots and the oeqa framework rework pending
- with some potential for disruption. Wider testing of these patchsets as th=
-ey&#8217;re published would be appreciated. There remains a fundamental des=
-ign issue with recipe specific sysroots which we&#8217;ve not been able to =
-figure out a workaround for as yet.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,serif"><o:p>&nbsp;</o:p></span></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Proposed upcoming =
-dot releases:</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.2.1 Release b=
-y Jan. 20, 2017</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.1.3 Release b=
-y May. 19, 2017</span><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key YP 2.3 Dates:<=
-/span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.3 M2 Cutoff i=
-s Jan. 23, 2017</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.3 M2 Release =
-is Feb. 3, 2017</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.3 M3 Cutoff i=
-s Feb 27, 2017</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.3 M3 Release =
-is Mar. 10, 2017</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.3 M4 Cutoff i=
-s April 3, 2017</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.3 M4 Release =
-is April 28, 2017</span><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Tracking Metrics:<=
-/span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span class=3D"apple-tab-span=
-"><span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;=
-color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;
-</span></span><span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;=
-,sans-serif;color:black">WDD 2632 (last week 2594)</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt;text-indent:.5in"><span style=
-=3D"font-size:11.0pt;font-family:Consolas;color:black">(</span><a href=3D"h=
-ttps://wiki.yoctoproject.org/charts/combo.html"><span style=3D"font-size:11=
-.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1155CC">https://wiki.y=
-octoproject.org/charts/combo.html</span></a><span style=3D"font-size:11.0pt=
-;font-family:Consolas;color:black">)</span><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key Status Links f=
-or YP:</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
-project.org/wiki/Yocto_Project_v2.3_Status"><span style=3D"font-size:11.0pt=
-;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yoc=
-to_Project_v2.3_Status</span></a><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
-project.org/wiki/Yocto_2.3_Schedule"><span style=3D"font-size:11.0pt;font-f=
-amily:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.3_=
-Schedule</span></a><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
-project.org/wiki/Yocto_2.3_Features"><span style=3D"font-size:11.0pt;font-f=
-amily:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.3_=
-Features</span></a><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">[If anyone has sug=
-gestions for other information you&#8217;d like to see on this weekly statu=
-s update, let us know!]</span><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
-ot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span style=
-=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple=
-"><o:p></o:p></span></i></b></p>
-<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
-Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
-n></b></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
-or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-<o:p></o:p></span></b></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:Wingdings;color:black">(<=
-/span><span style=3D"font-family:&quot;MS Sans Serif&quot;;color:teal">
-</span><span style=3D"font-size:8.0pt;font-family:&quot;MS Sans Serif&quot;=
-;color:teal">&nbsp;&nbsp;</span><b><span style=3D"font-size:8.0pt;font-fami=
-ly:&quot;Comic Sans MS&quot;;color:teal">Work Telephone</span></b><span sty=
-le=3D"font-family:&quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
-">(503) 712-0534<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
-ans Serif&quot;;color:teal">&nbsp;&nbsp;&nbsp;
-</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
-ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
-quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
-">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-">* </span>
-<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
-MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
-.0pt;font-family:&quot;MS Sans Serif&quot;;color:teal">:</span><span lang=
-=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;">&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;
-<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
-span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,sa=
-ns-serif"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
-
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E57336462fmsmsx111amrcor_--
