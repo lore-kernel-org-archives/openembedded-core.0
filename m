@@ -1,28 +1,23 @@
-Return-Path: <philip@balister.org>
-Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
-	[216.168.135.167])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A5D071AC2
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 65EEB62133
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jan 2017 21:04:59 +0000 (UTC)
-Received: (qmail 11385 invoked by uid 1003); 9 Jan 2017 21:04:58 -0000
-Received: from unknown (HELO ?192.168.11.142?)
-	(philip@opensdr.com@108.4.175.67)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	9 Jan 2017 21:04:58 -0000
-To: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	"openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>, openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	Yocto Project <yocto@yoctoproject.org>
-From: Philip Balister <philip@balister.org>
-Message-ID: <c93f2baf-e05d-fc8a-0789-9651dc5a1fd4@balister.org>
-Date: Mon, 9 Jan 2017 16:04:57 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.1
-MIME-Version: 1.0
-Subject: OpenEmbedded Developers Meeting in Portland before ELC
+	Mon,  9 Jan 2017 21:24:10 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga105.fm.intel.com with ESMTP; 09 Jan 2017 13:24:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,341,1477983600"; d="scan'208";a="1081064592"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga001.jf.intel.com with ESMTP; 09 Jan 2017 13:24:11 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 3A77C6A4080;
+	Mon,  9 Jan 2017 13:23:17 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  9 Jan 2017 23:01:46 +0200
+Message-Id: <1483995706-20293-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] canned-wks: remove mpc8315e-rdb.wks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,29 +30,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jan 2017 21:04:59 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 09 Jan 2017 21:24:11 -0000
 
-As we do around each Embedded Linux Conference, OpenEmbedded will host a
-developer meeting to discuss the state of OpenEmbedded and what efforts
-we should focus on over the next six months or so.
+This file has been moved to meta-yocto-bsp/wic/
 
-All developers and users are welcome to attend. We like to hear feedback
-from a variety of people over what works, doesn't work, and is useful to
-people using OpenEmbedded for all sort of applications.
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/lib/wic/canned-wks/mpc8315e-rdb.wks | 6 ------
+ 1 file changed, 6 deletions(-)
+ delete mode 100644 scripts/lib/wic/canned-wks/mpc8315e-rdb.wks
 
-The meeting will be held Monday, Feb 20 at a location we can almost
-announce. Based on prior years, the meeting will run from 9AM to 5PM.
+diff --git a/scripts/lib/wic/canned-wks/mpc8315e-rdb.wks b/scripts/lib/wic/canned-wks/mpc8315e-rdb.wks
+deleted file mode 100644
+index af587b2..0000000
+--- a/scripts/lib/wic/canned-wks/mpc8315e-rdb.wks
++++ /dev/null
+@@ -1,6 +0,0 @@
+-# short-description: Create SD card image with a boot partition
+-# long-description: Creates a partitioned SD card image. Boot files
+-# are located in the first partition.
+-
+-part /boot --source bootimg-partition --ondisk sdb --fstype=ext3 --label boot
+-part / --source rootfs --ondisk sdb --fstype=ext3 --label root
+-- 
+2.1.4
 
-If you are going to attend add your name to:
-
-http://openembedded.org/wiki/OEDAM_2017
-
-Also, go ahead and add ideas for the agenda. We'll organize them better
-just before the actual meeting.
-
-See you all in Portland,
-
-Philip
 
