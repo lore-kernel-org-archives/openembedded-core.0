@@ -1,37 +1,29 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 47C4965D00
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 894E960670
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jan 2017 01:23:57 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208,217";a="14577909"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 09 Jan 2017 09:23:47 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 5C51547AD1C3;
-	Mon,  9 Jan 2017 09:23:44 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
-	14.03.0319.002; Mon, 9 Jan 2017 09:23:55 +0800
-From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] iproute2 4.7.0 -> 4.9.0
-Thread-Index: AQHSXz+J1ffHAvM+HU62GqO4ciiOzaErO1+AgAQxINA=
-Date: Mon, 9 Jan 2017 01:23:55 +0000
-Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF73204A3A8F@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1482732918-8881-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-	<CAJTo0LZoYUtoD-J1HWkZ4kZ_GmCWf3p9ekqQjiZYLax=snsTcQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LZoYUtoD-J1HWkZ4kZ_GmCWf3p9ekqQjiZYLax=snsTcQ@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.109]
+	Mon,  9 Jan 2017 01:50:42 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga101.jf.intel.com with ESMTP; 08 Jan 2017 17:50:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,338,1477983600"; d="scan'208";a="46936558"
+Received: from aupadhye-mobl2.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.185.80])
+	by orsmga004.jf.intel.com with ESMTP; 08 Jan 2017 17:50:40 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Date: Mon, 09 Jan 2017 14:50:38 +1300
+Message-ID: <2771269.x2rcQKjYlC@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.8.13-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <1483535103.28169.52.camel@intel.com>
+References: <cover.1482376395.git.paul.eggleton@linux.intel.com>
+	<af03426da1f2d00149a2021b8d681b2dcef3a1ea.1482376395.git.paul.eggleton@linux.intel.com>
+	<1483535103.28169.52.camel@intel.com>
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 5C51547AD1C3.A7AF5
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] iproute2 4.7.0 -> 4.9.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] classes/buildstats: don't expand variable pointing to SystemStats
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,138 +36,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jan 2017 01:24:00 -0000
-Content-Language: zh-CN
-Content-Type: multipart/alternative;
-	boundary="_000_33D4DBCAC5F2D74E96B07F6E7632BF73204A3A8FG08CNEXMBPEKD01_"
+X-List-Received-Date: Mon, 09 Jan 2017 01:50:43 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---_000_33D4DBCAC5F2D74E96B07F6E7632BF73204A3A8FG08CNEXMBPEKD01_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Hi Patrick,
 
-SSBqdXN0IHJlZmVyIHRvIHByZXZpb3VzIOKAnGlwcm91dGUyLTQuMy4wLW11
-c2wucGF0Y2jigJ0gcGF0Y2ggdG8gcHJvZHVjZSB0aGlzIHBhdGNoLCBTbyBz
-aG91bGQgSSB3cml0ZSBVcHN0cmVhbS1TdGF0dXMgdGFnIGFzIHNhbWUgYXMg
-bGFzdCBwYXRjaCBvciBtZXJnZSBpcHJvdXRlMi00LjkuMC1tdXNsLnBhdGNo
-IHRvIGlwcm91dGUyLTQuMy4wLW11c2wucGF0Y2gg77yfDQoNClpoZW5nDQoN
-CkZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVs
-LmNvbV0NClNlbnQ6IFNhdHVyZGF5LCBKYW51YXJ5IDA3LCAyMDE3IDE6MTIg
-QU0NClRvOiBaaGVuZywgUnVvcWluL+mDkSDoi6XpkqYgPHpoZW5ncnEuZm5z
-dEBjbi5mdWppdHN1LmNvbT4NCkNjOiBPRS1jb3JlIDxvcGVuZW1iZWRkZWQt
-Y29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KU3ViamVjdDogUmU6IFtP
-RS1jb3JlXSBbUEFUQ0hdIGlwcm91dGUyIDQuNy4wIC0+IDQuOS4wDQoNCg0K
-T24gMjYgRGVjZW1iZXIgMjAxNiBhdCAwNjoxNSwgWmhlbmcgUnVvcWluIDx6
-aGVuZ3JxLmZuc3RAY24uZnVqaXRzdS5jb208bWFpbHRvOnpoZW5ncnEuZm5z
-dEBjbi5mdWppdHN1LmNvbT4+IHdyb3RlOg0KK1N1YmplY3Q6IFtQQVRDSF0g
-Zml4IDQuOS4wICBtdXNsIGNvbXBpbGUgcHJvYmxlbQ0KKw0KK0F2b2lkIGlu
-Nl9hZGRyIHJlZGVmaW5pdGlvbg0KKw0KK1NpZ25lZC1vZmYtYnk6IFpoZW5n
-IFJ1b3FpbiA8emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPG1haWx0bzp6
-aGVuZ3JxLmZuc3RAY24uZnVqaXRzdS5jb20+Pg0KDQpUaGlzIGlzIG1pc3Np
-bmcgYW4gVXBzdHJlYW0tU3RhdHVzIHRhZy4NCg0KUm9zcw0KCgo=
+On Wed, 04 Jan 2017 14:05:03 Patrick Ohly wrote:
+> On Thu, 2016-12-22 at 16:13 +1300, Paul Eggleton wrote:
+> > We're placing an object into the datastore - it's very definitely not
+> > something we want to be expanding.
+> 
+> Why does it matter? Is it faster to tell getVar() that expansion isn't
+> necessary?
+> 
+> I'm fine with the change, I'm just trying to understand whether this
+> merely cosmetic or has some real impact.
 
---_000_33D4DBCAC5F2D74E96B07F6E7632BF73204A3A8FG08CNEXMBPEKD01_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+It will be very slightly faster if we say expand=False since the preamble to 
+the expansion code won't be run - though I doubt the speed difference is 
+actually significant outside of a tight loop. There is a guard to prevent 
+actually doing the expansion on a non-string value though so expanding it 
+doesn't do any actual harm (and having that guard is a good thing since it 
+saves us pain if we want to write code to get the expanded value of any 
+variable).
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwi
-IHhtbG5zOm89InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9m
-ZmljZSIgeG1sbnM6dz0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTpvZmZp
-Y2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNv
-bS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5v
-cmcvVFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9
-IkNvbnRlbnQtVHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0
-Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRvciIgY29udGVudD0iTWljcm9z
-b2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxlPjwhLS0N
-Ci8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1m
-YW1pbHk65a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7
-fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsN
-CglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0O30NCkBmb250LWZhY2UN
-Cgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAy
-IDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOWu
-i+S9kyI7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBT
-dHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1h
-bCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0
-b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5
-OuWui+S9kzt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1z
-dHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3Jh
-dGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFuLk1zb0h5cGVybGlu
-a0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVt
-YWlsU3R5bGUxNw0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsN
-Cglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjoj
-MUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4
-cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlm
-O30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBw
-dDsNCgltYXJnaW46NzIuMHB0IDkwLjBwdCA3Mi4wcHQgOTAuMHB0O30NCmRp
-di5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9z
-dHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVs
-dHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtl
-bmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5
-b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRh
-PSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0K
-PC9oZWFkPg0KPGJvZHkgbGFuZz0iWkgtQ04iIGxpbms9ImJsdWUiIHZsaW5r
-PSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNs
-YXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJ0ZXh0LWluZGVudDoyNC4wcHQiPjxz
-cGFuIGxhbmc9IkVOLVVTIj5JIGp1c3QgcmVmZXIgdG8gcHJldmlvdXMg4oCc
-aXByb3V0ZTItNC4zLjAtbXVzbC5wYXRjaOKAnSBwYXRjaCB0byBwcm9kdWNl
-IHRoaXMgcGF0Y2gsIFNvIHNob3VsZCBJIHdyaXRlIFVwc3RyZWFtLVN0YXR1
-cyB0YWcgYXMgc2FtZSBhcyBsYXN0IHBhdGNoIG9yIG1lcmdlIGlwcm91dGUy
-LTQuOS4wLW11c2wucGF0Y2ggdG8gaXByb3V0ZTItNC4zLjAtbXVzbC5wYXRj
-aA0KPC9zcGFuPu+8nzxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1z
-aXplOjEwLjVwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNh
-bnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD48L286cD48L3NwYW4+PC9w
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0
-eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGli
-cmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNw
-OzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
-biBsYW5nPSJFTi1VUyI+Wmhlbmc8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9
-ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
-dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9v
-OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFu
-IGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
-bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPkZyb206PC9z
-cGFuPjwvYj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZTox
-MS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNl
-cmlmIj4gQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwu
-Y29tXQ0KPGJyPg0KPGI+U2VudDo8L2I+IFNhdHVyZGF5LCBKYW51YXJ5IDA3
-LCAyMDE3IDE6MTIgQU08YnI+DQo8Yj5Ubzo8L2I+IFpoZW5nLCBSdW9xaW4v
-PC9zcGFuPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0Ij7pg5E8L3Nw
-YW4+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6
-JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj4NCjwvc3Bhbj48c3Bh
-biBzdHlsZT0iZm9udC1zaXplOjExLjBwdCI+6Iul6ZKmPC9zcGFuPjxzcGFu
-IGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
-bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPiAmbHQ7emhl
-bmdycS5mbnN0QGNuLmZ1aml0c3UuY29tJmd0Ozxicj4NCjxiPkNjOjwvYj4g
-T0UtY29yZSAmbHQ7b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZyZndDs8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1jb3Jl
-XSBbUEFUQ0hdIGlwcm91dGUyIDQuNy4wIC0mZ3Q7IDQuOS4wPG86cD48L286
-cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFu
-Zz0iRU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXY+
-DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4t
-VVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXY+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+T24gMjYgRGVj
-ZW1iZXIgMjAxNiBhdCAwNjoxNSwgWmhlbmcgUnVvcWluICZsdDs8YSBocmVm
-PSJtYWlsdG86emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tIiB0YXJnZXQ9
-Il9ibGFuayI+emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPC9hPiZndDsg
-d3JvdGU6PG86cD48L286cD48L3NwYW4+PC9wPg0KPGJsb2NrcXVvdGUgc3R5
-bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4w
-cHQ7cGFkZGluZzowY20gMGNtIDBjbSA2LjBwdDttYXJnaW4tbGVmdDo0Ljhw
-dDttYXJnaW4tcmlnaHQ6MGNtIj4NCjxkaXYgaWQ9IjoxcDYiPg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPiYjNDM7U3ViamVj
-dDogW1BBVENIXSBmaXggNC45LjAmbmJzcDsgbXVzbCBjb21waWxlIHByb2Js
-ZW08YnI+DQomIzQzOzxicj4NCiYjNDM7QXZvaWQgaW42X2FkZHIgcmVkZWZp
-bml0aW9uPGJyPg0KJiM0Mzs8YnI+DQomIzQzO1NpZ25lZC1vZmYtYnk6IFpo
-ZW5nIFJ1b3FpbiAmbHQ7PGEgaHJlZj0ibWFpbHRvOnpoZW5ncnEuZm5zdEBj
-bi5mdWppdHN1LmNvbSI+emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPC9h
-PiZndDs8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvYmxvY2tx
-dW90ZT4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFu
-Zz0iRU4tVVMiPjxicj4NClRoaXMgaXMgbWlzc2luZyBhbiBVcHN0cmVhbS1T
-dGF0dXMgdGFnLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGRp
-dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj48
-bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+Um9zczxv
-OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4N
-CjwvYm9keT4NCjwvaHRtbD4NCg==
+However, to my mind the patch is more about correctness - in this case we know 
+for sure that the value isn't a string, so we should avoid trying to expand 
+it.
 
---_000_33D4DBCAC5F2D74E96B07F6E7632BF73204A3A8FG08CNEXMBPEKD01_--
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
+
