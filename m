@@ -1,59 +1,37 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
-	[209.85.214.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 17FDA719AF
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 47C4965D00
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Jan 2017 14:04:15 +0000 (UTC)
-Received: by mail-it0-f43.google.com with SMTP id c20so40328874itb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 08 Jan 2017 06:04:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=wS77L4P/phlDa2ot29+cPxiMqSQIZpn0lD7rHBL7nzo=;
-	b=F9DjJtFkD7ICIIQjSbX+V5Rnp32YKj/9AvU8GrnPrWhOGdi1gMfgvg6al2CKYCxE72
-	YZfDwFYz2McDWIxP3F+q7L5AiTMCKghwBaqmzp0sURf3TAVPB2f/0IFF55MUvMlUZI69
-	bH0GqIuWxNj0n+u++PkDM8tx9miQHMeMnyGjZIjrsiz+gU20Q5KTEIWJDUeo+arxoN9C
-	t37pPCYNqlLuqx0VaLrlCTlCb21fqZgrXQGqfPC3AoCe8O7Z3znNcpRbOkI39+YMypC4
-	gRIogmpiSzE8HKjjpRwCQiXotu/NIKq31ODIXULffU5cDXSkaLX6R4/YEbaPpDXIzzeI
-	GU3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=wS77L4P/phlDa2ot29+cPxiMqSQIZpn0lD7rHBL7nzo=;
-	b=Y0AG9d0a/kz2qYpE7hd6RUB00E0RZ9MVnGvUu6iIEZ0qXImU0IGWl2uzPMhxu+bFJS
-	eh5xV1zq7raFUZ2bGQFgMQMxEpJ/lmTm/f2kSRqBcYK+eBusFKRSyT/vQ1V7N5p6uRzv
-	x+vZkoj855IXOWpiaQdLQ4Hvs70BiomS400XUk4xG3WyNlspmh1+1f/VMHotsHwEgm0Q
-	XSC3hDMTpxZwNwJiVdJp8Vk23/oi9YHO6jWBSKeWH+9xxMLm+vRmU8IYWeUdzCd+p04F
-	bR+6FPEDikK6F/a38HcRk+bKDkaUxbQl6bPYfauNuPu4GOimHKZu7jPP9nnYVtv9elG8
-	kmUw==
-X-Gm-Message-State: AIkVDXJ+CouI15RmbUu5P453/NCRW0do0mYvjADGa/WY7f8q1NAkImFdMxh0aBcTdci76OIo
-X-Received: by 10.36.170.79 with SMTP id y15mr6254819iti.46.1483884255732;
-	Sun, 08 Jan 2017 06:04:15 -0800 (PST)
-Received: from pohly-mobl1 (p57A56C72.dip0.t-ipconnect.de. [87.165.108.114])
-	by smtp.gmail.com with ESMTPSA id
-	f4sm42613898ioa.18.2017.01.08.06.04.12
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 08 Jan 2017 06:04:13 -0800 (PST)
-Message-ID: <1483884249.4383.31.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Phil Blundell <pb@pbcl.net>
-Date: Sun, 08 Jan 2017 15:04:09 +0100
-In-Reply-To: <1483868215.4360.185.camel@pbcl.net>
-References: <1483630732-3560-1-git-send-email-patrick.ohly@intel.com>
-	<1483737447.4360.180.camel@pbcl.net>
-	<1483776414.4383.22.camel@intel.com>
-	<1483783158.4360.182.camel@pbcl.net>
-	<1483815653.4383.28.camel@intel.com>
-	<1483829528.4367.142.camel@linuxfoundation.org>
-	<1483868215.4360.185.camel@pbcl.net>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] rootfs-postcommands.bbclass: sort passwd entries
+	Mon,  9 Jan 2017 01:23:57 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208,217";a="14577909"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 09 Jan 2017 09:23:47 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 5C51547AD1C3;
+	Mon,  9 Jan 2017 09:23:44 +0800 (CST)
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
+	14.03.0319.002; Mon, 9 Jan 2017 09:23:55 +0800
+From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] iproute2 4.7.0 -> 4.9.0
+Thread-Index: AQHSXz+J1ffHAvM+HU62GqO4ciiOzaErO1+AgAQxINA=
+Date: Mon, 9 Jan 2017 01:23:55 +0000
+Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF73204A3A8F@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1482732918-8881-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<CAJTo0LZoYUtoD-J1HWkZ4kZ_GmCWf3p9ekqQjiZYLax=snsTcQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LZoYUtoD-J1HWkZ4kZ_GmCWf3p9ekqQjiZYLax=snsTcQ@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.226.109]
+MIME-Version: 1.0
+X-yoursite-MailScanner-ID: 5C51547AD1C3.A7AF5
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] iproute2 4.7.0 -> 4.9.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,33 +44,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Jan 2017 14:04:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Jan 2017 01:24:00 -0000
+Content-Language: zh-CN
+Content-Type: multipart/alternative;
+	boundary="_000_33D4DBCAC5F2D74E96B07F6E7632BF73204A3A8FG08CNEXMBPEKD01_"
 
-On Sun, 2017-01-08 at 09:36 +0000, Phil Blundell wrote:
-> I'm not sure it's that complicated.  Maybe I'm overlooking something
-> obvious, but something like "sort -t: -k3n" seems like it ought to
-> suffice for sorting /etc/passwd and /etc/group on numeric id.
-> 
-> I didn't understand Patrick's comment about "id not present in each
-> file" though, maybe that's the key to the extra complexity.
+--_000_33D4DBCAC5F2D74E96B07F6E7632BF73204A3A8FG08CNEXMBPEKD01_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-/etc/gshadow doesn't contain numeric IDs, so sorting has to be done
-based on information gathered from /etc/groups. Not terribly difficult,
-just more code.
+SSBqdXN0IHJlZmVyIHRvIHByZXZpb3VzIOKAnGlwcm91dGUyLTQuMy4wLW11
+c2wucGF0Y2jigJ0gcGF0Y2ggdG8gcHJvZHVjZSB0aGlzIHBhdGNoLCBTbyBz
+aG91bGQgSSB3cml0ZSBVcHN0cmVhbS1TdGF0dXMgdGFnIGFzIHNhbWUgYXMg
+bGFzdCBwYXRjaCBvciBtZXJnZSBpcHJvdXRlMi00LjkuMC1tdXNsLnBhdGNo
+IHRvIGlwcm91dGUyLTQuMy4wLW11c2wucGF0Y2gg77yfDQoNClpoZW5nDQoN
+CkZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVs
+LmNvbV0NClNlbnQ6IFNhdHVyZGF5LCBKYW51YXJ5IDA3LCAyMDE3IDE6MTIg
+QU0NClRvOiBaaGVuZywgUnVvcWluL+mDkSDoi6XpkqYgPHpoZW5ncnEuZm5z
+dEBjbi5mdWppdHN1LmNvbT4NCkNjOiBPRS1jb3JlIDxvcGVuZW1iZWRkZWQt
+Y29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KU3ViamVjdDogUmU6IFtP
+RS1jb3JlXSBbUEFUQ0hdIGlwcm91dGUyIDQuNy4wIC0+IDQuOS4wDQoNCg0K
+T24gMjYgRGVjZW1iZXIgMjAxNiBhdCAwNjoxNSwgWmhlbmcgUnVvcWluIDx6
+aGVuZ3JxLmZuc3RAY24uZnVqaXRzdS5jb208bWFpbHRvOnpoZW5ncnEuZm5z
+dEBjbi5mdWppdHN1LmNvbT4+IHdyb3RlOg0KK1N1YmplY3Q6IFtQQVRDSF0g
+Zml4IDQuOS4wICBtdXNsIGNvbXBpbGUgcHJvYmxlbQ0KKw0KK0F2b2lkIGlu
+Nl9hZGRyIHJlZGVmaW5pdGlvbg0KKw0KK1NpZ25lZC1vZmYtYnk6IFpoZW5n
+IFJ1b3FpbiA8emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPG1haWx0bzp6
+aGVuZ3JxLmZuc3RAY24uZnVqaXRzdS5jb20+Pg0KDQpUaGlzIGlzIG1pc3Np
+bmcgYW4gVXBzdHJlYW0tU3RhdHVzIHRhZy4NCg0KUm9zcw0KCgo=
 
-I also wonder how to handle comment lines - remove them (easy) or
-associate with the following entry (nicer)?
+--_000_33D4DBCAC5F2D74E96B07F6E7632BF73204A3A8FG08CNEXMBPEKD01_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
--- 
-Best Regards, Patrick Ohly
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwi
+IHhtbG5zOm89InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9m
+ZmljZSIgeG1sbnM6dz0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTpvZmZp
+Y2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNv
+bS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5v
+cmcvVFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9
+IkNvbnRlbnQtVHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0
+Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRvciIgY29udGVudD0iTWljcm9z
+b2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxlPjwhLS0N
+Ci8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1m
+YW1pbHk65a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7
+fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsN
+CglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0O30NCkBmb250LWZhY2UN
+Cgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAy
+IDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOWu
+i+S9kyI7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBT
+dHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1h
+bCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0
+b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5
+OuWui+S9kzt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1z
+dHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3Jh
+dGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFuLk1zb0h5cGVybGlu
+a0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
+dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVt
+YWlsU3R5bGUxNw0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsN
+Cglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjoj
+MUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4
+cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlm
+O30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBw
+dDsNCgltYXJnaW46NzIuMHB0IDkwLjBwdCA3Mi4wcHQgOTAuMHB0O30NCmRp
+di5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9z
+dHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVs
+dHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtl
+bmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5
+b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRh
+PSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0K
+PC9oZWFkPg0KPGJvZHkgbGFuZz0iWkgtQ04iIGxpbms9ImJsdWUiIHZsaW5r
+PSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJ0ZXh0LWluZGVudDoyNC4wcHQiPjxz
+cGFuIGxhbmc9IkVOLVVTIj5JIGp1c3QgcmVmZXIgdG8gcHJldmlvdXMg4oCc
+aXByb3V0ZTItNC4zLjAtbXVzbC5wYXRjaOKAnSBwYXRjaCB0byBwcm9kdWNl
+IHRoaXMgcGF0Y2gsIFNvIHNob3VsZCBJIHdyaXRlIFVwc3RyZWFtLVN0YXR1
+cyB0YWcgYXMgc2FtZSBhcyBsYXN0IHBhdGNoIG9yIG1lcmdlIGlwcm91dGUy
+LTQuOS4wLW11c2wucGF0Y2ggdG8gaXByb3V0ZTItNC4zLjAtbXVzbC5wYXRj
+aA0KPC9zcGFuPu+8nzxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1z
+aXplOjEwLjVwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNh
+bnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD48L286cD48L3NwYW4+PC9w
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0
+eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGli
+cmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNw
+OzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
+biBsYW5nPSJFTi1VUyI+Wmhlbmc8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9
+ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
+dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9v
+OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFu
+IGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
+bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPkZyb206PC9z
+cGFuPjwvYj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZTox
+MS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNl
+cmlmIj4gQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwu
+Y29tXQ0KPGJyPg0KPGI+U2VudDo8L2I+IFNhdHVyZGF5LCBKYW51YXJ5IDA3
+LCAyMDE3IDE6MTIgQU08YnI+DQo8Yj5Ubzo8L2I+IFpoZW5nLCBSdW9xaW4v
+PC9zcGFuPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0Ij7pg5E8L3Nw
+YW4+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6
+JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj4NCjwvc3Bhbj48c3Bh
+biBzdHlsZT0iZm9udC1zaXplOjExLjBwdCI+6Iul6ZKmPC9zcGFuPjxzcGFu
+IGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
+bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPiAmbHQ7emhl
+bmdycS5mbnN0QGNuLmZ1aml0c3UuY29tJmd0Ozxicj4NCjxiPkNjOjwvYj4g
+T0UtY29yZSAmbHQ7b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZyZndDs8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1jb3Jl
+XSBbUEFUQ0hdIGlwcm91dGUyIDQuNy4wIC0mZ3Q7IDQuOS4wPG86cD48L286
+cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFu
+Zz0iRU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXY+
+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4t
+VVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXY+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+T24gMjYgRGVj
+ZW1iZXIgMjAxNiBhdCAwNjoxNSwgWmhlbmcgUnVvcWluICZsdDs8YSBocmVm
+PSJtYWlsdG86emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tIiB0YXJnZXQ9
+Il9ibGFuayI+emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPC9hPiZndDsg
+d3JvdGU6PG86cD48L286cD48L3NwYW4+PC9wPg0KPGJsb2NrcXVvdGUgc3R5
+bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4w
+cHQ7cGFkZGluZzowY20gMGNtIDBjbSA2LjBwdDttYXJnaW4tbGVmdDo0Ljhw
+dDttYXJnaW4tcmlnaHQ6MGNtIj4NCjxkaXYgaWQ9IjoxcDYiPg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPiYjNDM7U3ViamVj
+dDogW1BBVENIXSBmaXggNC45LjAmbmJzcDsgbXVzbCBjb21waWxlIHByb2Js
+ZW08YnI+DQomIzQzOzxicj4NCiYjNDM7QXZvaWQgaW42X2FkZHIgcmVkZWZp
+bml0aW9uPGJyPg0KJiM0Mzs8YnI+DQomIzQzO1NpZ25lZC1vZmYtYnk6IFpo
+ZW5nIFJ1b3FpbiAmbHQ7PGEgaHJlZj0ibWFpbHRvOnpoZW5ncnEuZm5zdEBj
+bi5mdWppdHN1LmNvbSI+emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPC9h
+PiZndDs8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvYmxvY2tx
+dW90ZT4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFu
+Zz0iRU4tVVMiPjxicj4NClRoaXMgaXMgbWlzc2luZyBhbiBVcHN0cmVhbS1T
+dGF0dXMgdGFnLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGRp
+dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj48
+bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+Um9zczxv
+OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4N
+CjwvYm9keT4NCjwvaHRtbD4NCg==
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
-
+--_000_33D4DBCAC5F2D74E96B07F6E7632BF73204A3A8FG08CNEXMBPEKD01_--
