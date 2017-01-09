@@ -1,30 +1,40 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 31B1C71A92
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C4A171A92
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jan 2017 09:39:35 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v099dYi2010703
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 9 Jan 2017 01:39:34 -0800 (PST)
-Received: from [128.224.162.184] (128.224.162.184) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Mon, 9 Jan 2017 01:39:33 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1482739038.git.Qi.Chen@windriver.com>
-	<46d94601d67973b17516241cea3b6afce9a2914d.1482739038.git.Qi.Chen@windriver.com>
-	<CAJTo0LaqVCZMyHhB30c=-yKmWMapkM+HYiDfNv1uD89pUgqEqA@mail.gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <30f94fc0-e3b6-9ccf-8e03-f6c7f2f81086@windriver.com>
-Date: Mon, 9 Jan 2017 17:39:40 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaqVCZMyHhB30c=-yKmWMapkM+HYiDfNv1uD89pUgqEqA@mail.gmail.com>
-X-Originating-IP: [128.224.162.184]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/7] flex: upgrade to 2.6.2
+	Mon,  9 Jan 2017 09:43:34 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id c85so92021553wmi.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 09 Jan 2017 01:43:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=49djZ1tCtYz4p1Jb+cAvEnKs/LjcVXSpWBuPlllcad0=;
+	b=ftTV6olzGBEuNimQjjVmrulSgzgqbhFdKHZlu6aumEGZhlYpsz4QZNM0pRVCttn3AJ
+	Hd0d/xTSXDdsXHW3VcK2WOwef0C0kjF2T+qn8utN1M9PXQE2lhFo3trz+v4fTRIyza7/
+	92tUpqSCIQe6Dlw2sHNItjKbXfyW8FweBT5UJXkgqkrt+p9mYUV+oKRdhLmUEE44qQcU
+	0O7h5pf2LDdwjAOrlH4tCPqlS/TTVyx53TPPKHXY4Zxr/DheT5wKqkCrOcZ0NWwKnqo2
+	k3XHzNwk75cgIGmSwJ+ove67wFLskxGRKvKg/rcYMZzZIjZebdwGP7oe3ySf1onGscWW
+	Z4MQ==
+X-Gm-Message-State: AIkVDXKSVS7ZICoIX9BQsuwwSD8gRxfaE9VlTqtmZomroMHyevV1MkdgkuYmvkRQ7Sv9Lw==
+X-Received: by 10.223.128.77 with SMTP id 71mr11419381wrk.48.1483955014443;
+	Mon, 09 Jan 2017 01:43:34 -0800 (PST)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	x188sm17824940wmx.4.2017.01.09.01.43.33
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 09 Jan 2017 01:43:33 -0800 (PST)
+Message-ID: <1483955012.7594.4.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Date: Mon, 09 Jan 2017 09:43:32 +0000
+In-Reply-To: <alpine.LFD.2.20.1701060831140.32403@ca624034.mitel.com>
+References: <alpine.LFD.2.20.1701060831140.32403@ca624034.mitel.com>
+X-Mailer: Evolution 3.22.3-1 
+Mime-Version: 1.0
+Subject: Re: could OE maybe point out when a recipe has upper case letters in it?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,101 +47,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jan 2017 09:39:37 -0000
-Content-Type: multipart/alternative;
-	boundary="------------2EA1A75CDD1EC9D3A0DE98F6"
-
---------------2EA1A75CDD1EC9D3A0DE98F6
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 01/06/2017 10:59 PM, Burton, Ross wrote:
->
-> On 26 December 2016 at 08:10, Chen Qi <Qi.Chen@windriver.com 
-> <mailto:Qi.Chen@windriver.com>> wrote:
->
->     +  cp ${B}/src/stage1flex ${D}/${bindir}
->
->
-> Can this not just use the flex from flex-native directly instead of 
-> having to install the stage1flex?
->
-> Ross
-
-
-Hi Ross,
-
-I just found that nativesdk-flex also needs the following patch to 
-compile correctly.
-
-0001-use-stage1flex-from-flex-native-to-fix-cross-compili.patch
-
-I've fixed the problem and updated the remote branch.
-
-   git://git.pokylinux.org/poky-contrib ChenQi/PU-20161226
-   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/PU-20161226
-
-
-Best Regards,
-Chen Qi
-
-
---------------2EA1A75CDD1EC9D3A0DE98F6
-Content-Type: text/html; charset="utf-8"
+X-List-Received-Date: Mon, 09 Jan 2017 09:43:38 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 01/06/2017 10:59 PM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LaqVCZMyHhB30c=-yKmWMapkM+HYiDfNv1uD89pUgqEqA@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 26 December 2016 at 08:10, Chen Qi
-            <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:Qi.Chen@windriver.com" target="_blank">Qi.Chen@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":777" class="a3s aXjCH m1593a2e26ecad7ee">+     
-                 cp ${B}/src/stage1flex ${D}/${bindir}<br>
-              </div>
-            </blockquote>
-          </div>
-          <br>
-        </div>
-        <div class="gmail_extra">Can this not just use the flex from
-          flex-native directly instead of having to install the
-          stage1flex?</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>Hi Ross,</p>
-    <p>I just found that nativesdk-flex also needs the following patch
-      to compile correctly.</p>
-    <pre wrap="">0001-use-stage1flex-from-flex-native-to-fix-cross-compili.patch</pre>
-    <p>I've fixed the problem and updated the remote branch.</p>
-    <pre wrap="">  git://git.pokylinux.org/poky-contrib ChenQi/PU-20161226
-  <a class="moz-txt-link-freetext" href="http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/PU-20161226">http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/PU-20161226</a>
+On Fri, 2017-01-06 at 08:34 -0500, Robert P. J. Day wrote:
+>   in a fit of silliness, i created some packagegroup recipes and,
+> without thinking, had the string "OE" as part of the recipe file name,
+> and was baffled when i kept getting errors that trying to add that
+> packagegroup to my image was failing due to an "empty" package.
+> 
+>   it was doubly mystifying since i had been using wind river linux
+> where the packagegroup names contained the string "WRL" and that
+> worked just fine. changing the "OE" to "oe" appears to have solved the
+> problem.
+> 
+>   thoughts? why "WRL" worked with wind river linux, and "OE" failed
+> with a poky build? i don't plan on making that mistake again.
+
+I think this depends on the package format used - AFAIR rpm allows capital
+letters in package names, whereas ipk and deb don't.
+
+Cheers,
+A.
 
 
-Best Regards,
-Chen Qi
-</pre>
-    <pre wrap="">
-</pre>
-  </body>
-</html>
-
---------------2EA1A75CDD1EC9D3A0DE98F6--
