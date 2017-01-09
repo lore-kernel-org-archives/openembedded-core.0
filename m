@@ -1,40 +1,46 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C4A171A92
+Return-Path: <ola.redell@gmail.com>
+Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
+	[209.85.215.67])
+	by mail.openembedded.org (Postfix) with ESMTP id A092C7198F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jan 2017 09:43:34 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id c85so92021553wmi.1
+	Mon,  9 Jan 2017 09:55:00 +0000 (UTC)
+Received: by mail-lf0-f67.google.com with SMTP id k62so8528646lfg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Jan 2017 01:43:35 -0800 (PST)
+	Mon, 09 Jan 2017 01:55:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=f6Nm9QcNQhgQui/v33jLzfon3/rN7dHm2Lngicfh834=;
+	b=hSP4LatyxeO1bbGqcddUErLIyn0d4nQ0m1zB4NM5vD84poqcZCQ7FR+1qBu9XOKBR6
+	qBA3WjRUXQ0LSLg5PrtSfACsGW98Yei8o4pPZoMkMjvtm9OXcxhEo6Xw+eVXG+9fSa9G
+	fzWazNV9sjgHIkPx8KHCo7BB8xD8BkfOOG2uBHo8lrIuEj69aElHroMfWHs7/3MAh2+7
+	nl4GtVvXwMvkn5z7BYpsNXRGU1XejlSp0IcUJcCl10z4aU7A468FnKquGif740iXq093
+	HHsa15BeL62Gs6ND8S0AIRMuQjQp92Ps8m3jg4H/TXxjJWPA7+HuUjKwEbylp2osGjTY
+	zFxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=49djZ1tCtYz4p1Jb+cAvEnKs/LjcVXSpWBuPlllcad0=;
-	b=ftTV6olzGBEuNimQjjVmrulSgzgqbhFdKHZlu6aumEGZhlYpsz4QZNM0pRVCttn3AJ
-	Hd0d/xTSXDdsXHW3VcK2WOwef0C0kjF2T+qn8utN1M9PXQE2lhFo3trz+v4fTRIyza7/
-	92tUpqSCIQe6Dlw2sHNItjKbXfyW8FweBT5UJXkgqkrt+p9mYUV+oKRdhLmUEE44qQcU
-	0O7h5pf2LDdwjAOrlH4tCPqlS/TTVyx53TPPKHXY4Zxr/DheT5wKqkCrOcZ0NWwKnqo2
-	k3XHzNwk75cgIGmSwJ+ove67wFLskxGRKvKg/rcYMZzZIjZebdwGP7oe3ySf1onGscWW
-	Z4MQ==
-X-Gm-Message-State: AIkVDXKSVS7ZICoIX9BQsuwwSD8gRxfaE9VlTqtmZomroMHyevV1MkdgkuYmvkRQ7Sv9Lw==
-X-Received: by 10.223.128.77 with SMTP id 71mr11419381wrk.48.1483955014443;
-	Mon, 09 Jan 2017 01:43:34 -0800 (PST)
-Received: from tfsielt31850 ([77.107.218.170])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=f6Nm9QcNQhgQui/v33jLzfon3/rN7dHm2Lngicfh834=;
+	b=rTaVJ2KGeXmogIeQpH6jD6EpfcWftiLCee+Bv3bHGBbV48DRRRDN32vcytLdeHpup2
+	0Zd65NIgJL+JNYEKy1/DzfnmmTBxFus/bOz4l7MuAWKYWNfzN0nQZ768zDqnSeUdR+y6
+	FXs9mH4dcutc38V1iUBKQgLyJ4wJ4Zy6gtH0GOAZOMknpKUXH1AGWVMtXl0v4VWoIyxZ
+	Wp7jE05wtfusD+y6JDjWH3oHFcVQJYJfeNjnZLH/oA64NhDXPnOhtmW2cH4soL98N9Nx
+	R+Osfijx2DUuhpvFqrGS5ks+q7qHFyRJmSbqdE4RISRuQ5LuETvLKgxVUoE+OQD3ypOV
+	zYHg==
+X-Gm-Message-State: AIkVDXJcNqFrmUr1MbNbvAFnDQuxq3/OV41IKMgoTbxHmEF70fooRLWclI6zinFSVICVog==
+X-Received: by 10.25.79.30 with SMTP id d30mr19774388lfb.38.1483955699829;
+	Mon, 09 Jan 2017 01:54:59 -0800 (PST)
+Received: from thinny.lan (81-230-13-64-no94.tbcn.telia.com. [81.230.13.64])
 	by smtp.gmail.com with ESMTPSA id
-	x188sm17824940wmx.4.2017.01.09.01.43.33
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 09 Jan 2017 01:43:33 -0800 (PST)
-Message-ID: <1483955012.7594.4.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Date: Mon, 09 Jan 2017 09:43:32 +0000
-In-Reply-To: <alpine.LFD.2.20.1701060831140.32403@ca624034.mitel.com>
-References: <alpine.LFD.2.20.1701060831140.32403@ca624034.mitel.com>
-X-Mailer: Evolution 3.22.3-1 
-Mime-Version: 1.0
-Subject: Re: could OE maybe point out when a recipe has upper case letters in it?
+	204sm21647874ljj.33.2017.01.09.01.54.58
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 09 Jan 2017 01:54:59 -0800 (PST)
+From: ola.redell@gmail.com
+X-Google-Original-From: ola.redell@retotech.se
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  9 Jan 2017 10:54:40 +0100
+Message-Id: <1483955680-18110-1-git-send-email-ola.redell@retotech.se>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH v3] kernel-module-split: Append KERNEL_VERSION string to kernel module name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,28 +53,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jan 2017 09:43:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 09 Jan 2017 09:55:02 -0000
 
-On Fri, 2017-01-06 at 08:34 -0500, Robert P. J. Day wrote:
->   in a fit of silliness, i created some packagegroup recipes and,
-> without thinking, had the string "OE" as part of the recipe file name,
-> and was baffled when i kept getting errors that trying to add that
-> packagegroup to my image was failing due to an "empty" package.
-> 
->   it was doubly mystifying since i had been using wind river linux
-> where the packagegroup names contained the string "WRL" and that
-> worked just fine. changing the "OE" to "oe" appears to have solved the
-> problem.
-> 
->   thoughts? why "WRL" worked with wind river linux, and "OE" failed
-> with a poky build? i don't plan on making that mistake again.
+From: Ola Redell <ola.redell@retotech.se>
 
-I think this depends on the package format used - AFAIR rpm allows capital
-letters in package names, whereas ipk and deb don't.
+The KERNEL_VERSION string is added to kernel module package names in order to
+make the kernel modules for different kernel versions distinct packages instead
+of different versions of the same package. With this change, when a new kernel
+is installed together with its kernel modules (e.g. by upgrade of the packages
+kernel and kernel-modules) using some package manager such as apt-get or rpm,
+the kernel modules for the older kernel will not be removed. This enables a
+fall back to the older kernel if the new one fails.
 
-Cheers,
-A.
+Signed-off-by: Ola Redell <ola.redell@retotech.se>
+---
+ meta/classes/kernel-module-split.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
+index efe1b42..13cff51 100644
+--- a/meta/classes/kernel-module-split.bbclass
++++ b/meta/classes/kernel-module-split.bbclass
+@@ -122,7 +122,7 @@ python split_kernel_module_packages () {
+     module_regex = '^(.*)\.k?o$'
+ 
+     module_pattern_prefix = d.getVar('KERNEL_MODULE_PACKAGE_PREFIX')
+-    module_pattern = module_pattern_prefix + 'kernel-module-%s'
++    module_pattern = module_pattern_prefix + 'kernel-module-%s-' + d.getVar("KERNEL_VERSION", True)
+ 
+     postinst = d.getVar('pkg_postinst_modules')
+     postrm = d.getVar('pkg_postrm_modules')
+-- 
+1.9.1
 
 
