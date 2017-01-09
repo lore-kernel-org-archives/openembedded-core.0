@@ -1,47 +1,30 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-yw0-f179.google.com (mail-yw0-f179.google.com
-	[209.85.161.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DBD671AC2
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 31B1C71A92
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jan 2017 09:31:55 +0000 (UTC)
-Received: by mail-yw0-f179.google.com with SMTP id v81so318807369ywb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Jan 2017 01:31:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=qNOTsStgZC1gPsnzC/JJuhdXA5znwwOBzbx3ce9XIcY=;
-	b=yHst7tCjHAB8T1Sj/r6FucADPC9p3Athtq7IOob4J25VDPi5MNXhO/H4RMS1EJnlvO
-	8ppebCiH4zK+ouPBYybTLsUfC3Aq0acvMaiAx8tS03LLlh6qOB3XqxATvrBw96dhZfo/
-	2Y0gdNZAca/gixiviqFgxcDAHW9xINJXVhzFYrOxyOs9FOVhl3Or4oLUrnLn41q04JGn
-	AaWIrocGJbJaDsiT51nf+/7zDBDLKYGFPlTqH7cOqxT4Vt+3ty0nYJcYrz2qF/T7eZ4P
-	UxrNmqm+2PbcXzMhIsBUqXgz21quYt5tfHWjeoArSgyp6YkQBE96jSzR2Yy+NgGudSJ4
-	0VKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=qNOTsStgZC1gPsnzC/JJuhdXA5znwwOBzbx3ce9XIcY=;
-	b=mK+xs1rBkgBjxHWE1hunos/KMIxqLzePmZKMvJZXDu2ufiY8hdwYKGnI4Rf/rXGEW1
-	TyspzKi6wrypd79tFL7LOBHsxx6ZhBmXONZhpmZSRcX9eMReiuO4+VkcUHBIFYM0pngI
-	lTL3XKQtC2wutvCcxDkJBXGgr2bUACRAKBBNYE0FC1sy6AcvCxmScy0ErefPM8zVAsLk
-	QWHLM6/n8mFaSKa1djT36WO3dU0A8wma6Dqx7zAaqb8w4UZnDky50NZ3SK713m6+Dy/w
-	WRdvzlpS2fvuSf5uuMqJ0oW7UN62NotFR/kZK59Nb0JX5t5cYIyXkH7beDvUvleX9HdZ
-	1JcQ==
-X-Gm-Message-State: AIkVDXKOZ10tUl6cpIr44cNsnz5dHFw/agmLuPRItMs9y7GfiwgDbfgpeGkZwAXA+p4QRVKFzUquKLCxyWGB3+e1
-X-Received: by 10.13.205.4 with SMTP id p4mr86027589ywd.337.1483954315676;
-	Mon, 09 Jan 2017 01:31:55 -0800 (PST)
+	Mon,  9 Jan 2017 09:39:35 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v099dYi2010703
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 9 Jan 2017 01:39:34 -0800 (PST)
+Received: from [128.224.162.184] (128.224.162.184) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Mon, 9 Jan 2017 01:39:33 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1482739038.git.Qi.Chen@windriver.com>
+	<46d94601d67973b17516241cea3b6afce9a2914d.1482739038.git.Qi.Chen@windriver.com>
+	<CAJTo0LaqVCZMyHhB30c=-yKmWMapkM+HYiDfNv1uD89pUgqEqA@mail.gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <30f94fc0-e3b6-9ccf-8e03-f6c7f2f81086@windriver.com>
+Date: Mon, 9 Jan 2017 17:39:40 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Received: by 10.13.234.11 with HTTP; Mon, 9 Jan 2017 01:31:25 -0800 (PST)
-In-Reply-To: <1483930443-12454-1-git-send-email-Haiqing.Bai@windriver.com>
-References: <1483930443-12454-1-git-send-email-Haiqing.Bai@windriver.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Mon, 9 Jan 2017 11:31:25 +0200
-Message-ID: <CAHiDW_FHs0Vnu9ofMZ10LFrhM9ntRqVTC3HoDj1+9eoeeoDeBA@mail.gmail.com>
-To: Haiqing Bai <Haiqing.Bai@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glib-2.0: add configure option to control dbus related checking
+In-Reply-To: <CAJTo0LaqVCZMyHhB30c=-yKmWMapkM+HYiDfNv1uD89pUgqEqA@mail.gmail.com>
+X-Originating-IP: [128.224.162.184]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/7] flex: upgrade to 2.6.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,44 +37,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jan 2017 09:31:55 -0000
-Content-Type: multipart/alternative; boundary=94eb2c08b380d982f30545a60938
+X-List-Received-Date: Mon, 09 Jan 2017 09:39:37 -0000
+Content-Type: multipart/alternative;
+	boundary="------------2EA1A75CDD1EC9D3A0DE98F6"
 
---94eb2c08b380d982f30545a60938
-Content-Type: text/plain; charset=UTF-8
+--------------2EA1A75CDD1EC9D3A0DE98F6
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 9 January 2017 at 04:54, Haiqing Bai <Haiqing.Bai@windriver.com> wrote:
-
-> Fixed the issue that checking dbus modules is not controlled by switch
-> '--enable-dbus/--disable-dbus" which causes the inconsistent building
-> output by the package building sequence of glib-2.0 and dbus.
-> Also add PACKAGECONFIG line to automatically get the right configure
-> option.
+On 01/06/2017 10:59 PM, Burton, Ross wrote:
 >
+> On 26 December 2016 at 08:10, Chen Qi <Qi.Chen@windriver.com 
+> <mailto:Qi.Chen@windriver.com>> wrote:
+>
+>     +  cp ${B}/src/stage1flex ${D}/${bindir}
+>
+>
+> Can this not just use the flex from flex-native directly instead of 
+> having to install the stage1flex?
+>
+> Ross
 
-Since the PACKAGECONFIG is not set by default does this mean our test
-images used to get gdbus tests in ptests (even if by accident) but would
-not have them with this patch?
 
- - Jussi
+Hi Ross,
 
---94eb2c08b380d982f30545a60938
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+I just found that nativesdk-flex also needs the following patch to 
+compile correctly.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 9=
- January 2017 at 04:54, Haiqing Bai <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:Haiqing.Bai@windriver.com" target=3D"_blank">Haiqing.Bai@windriver.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Fixed the issue that c=
-hecking dbus modules is not controlled by switch<br>
-&#39;--enable-dbus/--disable-dbus&quot; which causes the inconsistent build=
-ing<br>
-output by the package building sequence of glib-2.0 and dbus.<br>
-Also add PACKAGECONFIG line to automatically get the right configure option=
-.<br></blockquote><div><br></div><div>Since the PACKAGECONFIG is not set by=
- default does this mean our test images used to get gdbus tests in ptests (=
-even if by accident) but would not have them with this patch?</div><div>=C2=
-=A0</div><div>=C2=A0- Jussi</div></div></div></div>
+0001-use-stage1flex-from-flex-native-to-fix-cross-compili.patch
 
---94eb2c08b380d982f30545a60938--
+I've fixed the problem and updated the remote branch.
+
+   git://git.pokylinux.org/poky-contrib ChenQi/PU-20161226
+   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/PU-20161226
+
+
+Best Regards,
+Chen Qi
+
+
+--------------2EA1A75CDD1EC9D3A0DE98F6
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 01/06/2017 10:59 PM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LaqVCZMyHhB30c=-yKmWMapkM+HYiDfNv1uD89pUgqEqA@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 26 December 2016 at 08:10, Chen Qi
+            <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:Qi.Chen@windriver.com" target="_blank">Qi.Chen@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":777" class="a3s aXjCH m1593a2e26ecad7ee">+     
+                 cp ${B}/src/stage1flex ${D}/${bindir}<br>
+              </div>
+            </blockquote>
+          </div>
+          <br>
+        </div>
+        <div class="gmail_extra">Can this not just use the flex from
+          flex-native directly instead of having to install the
+          stage1flex?</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>Hi Ross,</p>
+    <p>I just found that nativesdk-flex also needs the following patch
+      to compile correctly.</p>
+    <pre wrap="">0001-use-stage1flex-from-flex-native-to-fix-cross-compili.patch</pre>
+    <p>I've fixed the problem and updated the remote branch.</p>
+    <pre wrap="">  git://git.pokylinux.org/poky-contrib ChenQi/PU-20161226
+  <a class="moz-txt-link-freetext" href="http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/PU-20161226">http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/PU-20161226</a>
+
+
+Best Regards,
+Chen Qi
+</pre>
+    <pre wrap="">
+</pre>
+  </body>
+</html>
+
+--------------2EA1A75CDD1EC9D3A0DE98F6--
