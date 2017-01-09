@@ -1,47 +1,46 @@
-Return-Path: <anders@openpuma.org>
-Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com
-	[209.85.218.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A52671B26
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
+	[209.85.220.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 19D3E719C3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jan 2017 16:45:12 +0000 (UTC)
-Received: by mail-oi0-f47.google.com with SMTP id b126so697367548oia.2
+	Mon,  9 Jan 2017 17:20:57 +0000 (UTC)
+Received: by mail-qk0-f193.google.com with SMTP id 11so7289784qkl.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Jan 2017 08:45:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=openpuma-org.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=JK4V0hXnN2YZ954Cmkh1QXzfoburYsLXClkR1OfWKHc=;
-	b=MdCStTRwLJK3OnkSWWhihsqzadNo7a62IFHWU2njFwp9Onku8Fh2wK75DzWJkdtdyn
-	17vdDuk9Rry6ycqIe7mCPjgVavEblQbNLv0uFkTAzbVUZnHEA3O7qjw9zTWSYZcgP3TV
-	xHHMe2JXmqK/csNF4PLJYRevFso+ZrfOYiSuS86w+e6Ib9+d048bB/edxxm/ior8EYL8
-	mVLExawOqFx0Wp+qePszXgbLRwwVSXna8kkLScSQoljNj61642fgsxaF9bEo0DhSaOiE
-	7PZ0TgkDZ5hCaOjnByv1QKEAeWR7LHM+TNylEGCRvI/ubmE8MrITEWywlWB8Y62EJh7N
-	UcDA==
+	Mon, 09 Jan 2017 09:20:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=dMDgFiY5nSXkVLd5aGZCq7mEWk8nsq00oDVo7RI0zc4=;
+	b=jPXexEOpLerLIEHdb5EahCz2o5hJzj7BlUC0FMwlTTuDPk6kZ1/7zQBR+zTX7HjZQ9
+	N9IzitomFLa19GDbyUagyE6yAi9WlNbM5bimuycAqtcEc5axOwS/ohtvmSufKHYe9zdZ
+	hpdEQ5W+S0cWWk1wOqZhh90oxXOteR/XlWGaMkvNv6VKB0B+WVC0wkG4ryiJO8LpyUjf
+	JvL0DGSisxFIbQUfxlk7IlPaxj6++r8H3x4BDsXVhTc60Hko6lXyLL8hGUhLTuwjPVbZ
+	29hTWSCpFIS55i6lRRYNQboRLqR3ER4wwjfkIQw0cLZ44rOIQOQrfN8A7CXXzbnwqipS
+	NOww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=JK4V0hXnN2YZ954Cmkh1QXzfoburYsLXClkR1OfWKHc=;
-	b=PKC+1F89dekh9QER7QanQImwvh/jlR0YaIqWZ6j9BVqVk5KcYz9OiU5pnWL1MjIc+9
-	wPyC172fvMZUQuqVZN7z32TAK8dPM68A5mAl9Rx9Do0L5bKFi+MgpPrFKxa33g0g0WkJ
-	R6tW6TK5BUKvjEZ7TuqccsDoD5ZtLSja0KqPnzoHy+umkR9NkFYb6FZXK1W3NWS42Kpc
-	B3IzGoxn+HUvvOZA0G9rHrOsQDmogPGXzkPS4svjF4u5vlPCEyHbFjo93aY2PE+8ba7u
-	hAYwA3w82jhaEJtQ0+gVVVhU+5SF6AWo/DGDCHVi69uxj1z5seeZ0j3DK0X7gb3vveLX
-	nRSA==
-X-Gm-Message-State: AIkVDXL2PXI5mMYkYYVZ3VtsAZavcs/XjRvmNt9sq2berU6ENDnLmvtdCRt3XpLh2EiC9JCf0aQrW4G4ykURBA==
-X-Received: by 10.202.181.70 with SMTP id e67mr37599639oif.3.1483980312885;
-	Mon, 09 Jan 2017 08:45:12 -0800 (PST)
+	:message-id:subject:to:cc;
+	bh=dMDgFiY5nSXkVLd5aGZCq7mEWk8nsq00oDVo7RI0zc4=;
+	b=KgQNE8xt8wMoyBqOGNlSBZHKlkJ+rEcDWeGjNw2Uc1zg9olIw+T6cqk33R22s6Qpg7
+	RcbomvL7YzOgkLeYO4GBIXWe5EeToa5PkNrqgwXYaiXvRMedf1VIw3dRdXT/R+nv8aTM
+	10TJliv89L+h8CxTq0ktJ/nGVrDhuEn//TxLtLwkz0eypU8pz363yvLwmXT8s7xhSxcz
+	xTe1aX88wMbyAKQe8v3NDLzWL0lLR38fZQ5BIW68GMTaaZigJn3SKzH76eg25Zs6PW+7
+	CPGS3/jB3ui2kS4hRl3XrC2ntmlPqdkuu0X10w4dbqHvkMxFdAzDWumqSAdDO/E3920Z
+	EImQ==
+X-Gm-Message-State: AIkVDXI2L0GMq4q9A97kiMBkk3Z7yLhzTuoxCmAFjpRaF89JNT7z/Pmqbt32DpXE0gRCZEsyHLHwOv4o4pjV8A==
+X-Received: by 10.55.114.2 with SMTP id n2mr65258981qkc.318.1483982457900;
+	Mon, 09 Jan 2017 09:20:57 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.202.79.80 with HTTP; Mon, 9 Jan 2017 08:45:12 -0800 (PST)
-X-Originating-IP: [172.88.176.4]
-In-Reply-To: <CAKTo2Enih-V=anW13QCVkeq_F+BM=COeOyHzasBum=GSt-SsyA@mail.gmail.com>
-References: <CAKTo2Em1Lcs19L0M=WpGOJv3aQkQLJuetFsgm6nq_0sVix1X3A@mail.gmail.com>
-	<CAKTo2Enih-V=anW13QCVkeq_F+BM=COeOyHzasBum=GSt-SsyA@mail.gmail.com>
-From: Anders Oleson <anders@openpuma.org>
-Date: Mon, 9 Jan 2017 08:45:12 -0800
-Message-ID: <CAKTo2En-3AoLW6oPRcZq7TrZ_DfYbJO8XD6D07S0D2NOh4vXYg@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: bug with dpkg-native and sstate-cache mirrors
+Received: by 10.12.135.153 with HTTP; Mon, 9 Jan 2017 09:20:57 -0800 (PST)
+In-Reply-To: <1483955680-18110-1-git-send-email-ola.redell@retotech.se>
+References: <1483955680-18110-1-git-send-email-ola.redell@retotech.se>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 9 Jan 2017 12:20:57 -0500
+Message-ID: <CADkTA4PFOUmv3W8stkhDmewwDfBE+efZEVym903937jz6eAo7g@mail.gmail.com>
+To: ola.redell@gmail.com
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] kernel-module-split: Append KERNEL_VERSION string to kernel module name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,159 +53,163 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jan 2017 16:45:13 -0000
+X-List-Received-Date: Mon, 09 Jan 2017 17:20:58 -0000
+Content-Type: multipart/alternative; boundary=94eb2c05be6841995e0545ac9774
+
+--94eb2c05be6841995e0545ac9774
 Content-Type: text/plain; charset=UTF-8
 
-Bump. Can anyone comment on this? Does this sound like a bug? Right forum?
+On Mon, Jan 9, 2017 at 4:54 AM, <ola.redell@gmail.com> wrote:
 
-On Tue, Dec 20, 2016 at 7:45 PM, Anders Oleson <anders@openpuma.org> wrote:
-> Should I open a bug report for this?
-> Does this make sense and does it sound like a problem?
-> Are you interested in a patch or fixes? I see some activity with dpkg,
-> so I know there's a maintainer out there?
+> From: Ola Redell <ola.redell@retotech.se>
 >
-> On Fri, Dec 16, 2016 at 11:31 AM, Anders Oleson <anders@openpuma.org> wrote:
->> I originally posted this here:
->> https://lists.yoctoproject.org/pipermail/yocto/2016-December/033542.html.
->> Apologies, I did not know to report OE core issues here.
->>
->> Also, following Jussi's advice I started reading the submission
->> guidelines and I posted the patch to dpkg itself to their list to see
->> if it was something that could be upstreamed. Led to a good discussion
->> here: https://lists.debian.org/debian-dpkg/2016/12/msg00013.html.
->> While this was an expedient way to fix my problem, it probably isn't
->> the best way forward as a real change to dpkg. They have offered to
->> look at submissions to fix what I think is the true root cause - the
->> non-override-able, hard-coded CONFIGDIR.
->>
->> Problem description:
->> 1. user "joe" clones the build repo, ex. poky from Yocto and builds
->> everything, ex. core-system-minimal completely clean build from
->> scratch. The local.conf is set to use package_deb for our system.
->> 2. "joe" is the build master and then publishes the resultant
->> "sstate-cache" in a shared directory to be used as a mirror for the
->> other users. Makes the sstate-cache-mirror directory read-only, etc.
->> 3. "joe" deletes the build directory creates a new one and tests the
->> build in a new directory which works fine and runs quickly using the
->> sstate-cache-mirror.
->> 3. user "bob" clones a similar revision and builds using the
->> SSTATE_MIRROR pointing at the mirror.
->> 4. During "do_rootfs" dpkg (dpkg-native) fails with the message:
->> dpkg: error: error opening configuration directory
->> '/home/net/joe/work/sysgen-mrp/build/tmp/sysroots/x86_64-linux/etc/dpkg/dpkg.cfg.d':
->> Permission denied
->> E: Sub-process dpkg returned an error code (2)
->>
->> What happened is that in dpkg-native, the CONFIGDIR is compiled in and
->> hard-coded to the failing path. dpkg does not currently have a way to
->> override this at runtime in the same way as --instdir and --admindir.
->> So dpkg is still looking for config files user "joes" directory which
->> may:
->> - have wrong permissions
->> - be missing or parent dirs missing
->> - contain malicious garbage because "joe" wants to screw with "bob" :)
->> - any/all of the above (we had a combination)
->>
->> Normally /etc/dpkg/dpkg.d is empty for the native sysroot, so our
->> quick fix was to modify dpkg to just ignore ANY error reading that
->> directory and pretend it was empty (which for Yocto builds it was
->> anyway). This was preferable to removing the whole package from the
->> SSTATE_MIRROR to force rebuilds in each work directory. See the patch
->> I posted to the Yocto list linked above. Debian dpkg developers don't
->> want to remove those checks and that seems advisable.
->>
->> So that leaves two options that I can see (is there an easier/better fix?):
->> - we can carry a patch to dpkg-native similar to what I posted. For
->> Yocto/OE it probably is good enough, at least if we limit it to
->> dpkg-native
->> - add something like a --configdir command line switch to dpkg so that
->> we can point it toward the proper sysroot rather than use the compiled
->> in default
->>
->> I'd actually prefer the second option because, for one thing, it would
->> eliminate the baked in paths that contain user names, etc. I'd suggest
->> that if we pass in --configdir we should configure/compile dpkg-native
->> with the default paths pointing to neutral, constant, invalid paths to
->> avoid leaking build specific information into sstate and to catch
->> errors.
->>
->> Does this sound like I'm on the right track or like something that
->> could be included? I'd like to fix this so that it doesn't sneak up on
->> someone else.
->>
->> I'm willing to take a hack at it and test it in the scenario where
->> this bit us. It would involve steps:
->> 1. develop a patch to dpkg to add the option
->> 2. develop a patch for OE to change the configure for dpkg-native
->> 3. a patch for OE to pass --configdir to dpkg in all the right places.
->> I could use help to insure I find them all.
->>
->> Thanks,
->>
->> Anders
->>
->> error log below:
->> ----------------------
->> ERROR: system-image-1.0-r0 do_rootfs: Unable to install packages.
->> Command '/home/local/MrProductName/mrp-system/build/tmp/sysroots/x86_64-linux/usr/bin/apt-get
->>  install --force-yes --allow-unauthenticated bash run-postinsts
->> packagegroup-core-eclipse-debug mrp-ofp dosfstools apt e2fsprogs dpkg
->> packagegroup-core-boot' returned 100:
->> Reading package lists...
->> Building dependency tree...
->> The following extra packages will be installed:
->>   base-files base-passwd busybox busybox-hwclock busybox-syslog busybox-udhcpc
->>   ca-certificates debianutils debianutils-run-parts e2fsprogs-badblocks
->>   e2fsprogs-e2fsck e2fsprogs-mke2fs eudev gdbserver init-ifupdown initscripts
->>   initscripts-functions kernel-4.4.26-yocto-standard kernel-module-uvesafb
->>   libblkid1 libbz2-1 libc6 libc6-thread-db libcom-err2 libcrypto1.0.0 libcurl4
->>   libe2p2 libext2fs2 libgcc1 libgmp10 libgnutls30 libidn11 libkmod2 liblzma5
->>   libperl5 libss2 libssl1.0.0 libstdc++6 libtinfo5 libuuid1 libz1
->>   modutils-initscripts ncurses-terminfo-base netbase nettle
->>   openssh-sftp-server openssl-conf perl sysvinit sysvinit-inittab
->>   sysvinit-pidof tcf-agent udev-cache update-alternatives-opkg update-rc.d
->>   v86d xz
->> Suggested packages:
->>   ncurses-terminfo
->> The following NEW packages will be installed:
->>   apt mrp-ofp base-files base-passwd bash busybox busybox-hwclock
->>   busybox-syslog busybox-udhcpc ca-certificates debianutils
->>   debianutils-run-parts dosfstools dpkg e2fsprogs e2fsprogs-badblocks
->>   e2fsprogs-e2fsck e2fsprogs-mke2fs eudev gdbserver init-ifupdown initscripts
->>   initscripts-functions kernel-4.4.26-yocto-standard kernel-module-uvesafb
->>   libblkid1 libbz2-1 libc6 libc6-thread-db libcom-err2 libcrypto1.0.0 libcurl4
->>   libe2p2 libext2fs2 libgcc1 libgmp10 libgnutls30 libidn11 libkmod2 liblzma5
->>   libperl5 libss2 libssl1.0.0 libstdc++6 libtinfo5 libuuid1 libz1
->>   modutils-initscripts ncurses-terminfo-base netbase nettle
->>   openssh-sftp-server openssl-conf packagegroup-core-boot
->>   packagegroup-core-eclipse-debug perl run-postinsts sysvinit sysvinit-inittab
->>   sysvinit-pidof tcf-agent udev-cache update-alternatives-opkg update-rc.d
->>   v86d xz
->> 0 upgraded, 66 newly installed, 0 to remove and 0 not upgraded.
->> Need to get 0 B/7850 kB of archives.
->> After this operation, 0 B of additional disk space will be used.
->> WARNING: The following packages cannot be authenticated!
->>   libc6 libgcc1 libstdc++6 liblzma5 libz1 libgmp10 nettle libidn11 libgnutls30
->>   libcurl4 update-alternatives-opkg libtinfo5 base-files bash run-postinsts
->>   libperl5 perl xz libbz2-1 dpkg debianutils-run-parts debianutils apt mrp-ofp
->>   base-passwd busybox busybox-hwclock busybox-syslog busybox-udhcpc
->>   ca-certificates dosfstools libcom-err2 libss2 libuuid1 libblkid1 libe2p2
->>   libext2fs2 e2fsprogs-badblocks e2fsprogs e2fsprogs-e2fsck e2fsprogs-mke2fs
->>   libkmod2 eudev gdbserver netbase init-ifupdown initscripts-functions
->>   initscripts kernel-4.4.26-yocto-standard kernel-module-uvesafb
->>   libc6-thread-db libcrypto1.0.0 libssl1.0.0 modutils-initscripts
->>   ncurses-terminfo-base openssh-sftp-server openssl-conf v86d sysvinit-pidof
->>   sysvinit-inittab sysvinit packagegroup-core-boot tcf-agent
->>   packagegroup-core-eclipse-debug udev-cache update-rc.d
->> Authentication warning overridden.
->> dpkg: error: error opening configuration directory
->> '/home/net/joe/work/sysgen-mrp/build/tmp/sysroots/x86_64-linux/etc/dpkg/dpkg.cfg.d':
->> Permission denied
->> E: Sub-process dpkg returned an error code (2)
->>
->> ERROR: system-image-1.0-r0 do_rootfs: Function failed: do_rootfs
->> ERROR: Logfile of failure stored in:
->> /home/local/MrProductName/mrp-system/build/tmp/work/qemux86-hbdc-linux/system-image/1.0-r0/temp/log.do_rootfs.31848
->> ERROR: Task 9 (/home/local/MrProductName/mrp-system/poky/../meta-system/recipes-core/images/system-image.bb,
->> do_rootfs) failed with exit code '1'
+> The KERNEL_VERSION string is added to kernel module package names in order
+> to
+> make the kernel modules for different kernel versions distinct packages
+> instead
+> of different versions of the same package. With this change, when a new
+> kernel
+> is installed together with its kernel modules (e.g. by upgrade of the
+> packages
+> kernel and kernel-modules) using some package manager such as apt-get or
+> rpm,
+> the kernel modules for the older kernel will not be removed. This enables a
+> fall back to the older kernel if the new one fails.
+>
 
+
+The functionality you describe is a good thing, but I have a few questions
+to make
+sure I understand the change, and confirm that existing functionality isn't
+broken ..
+and that the internals of the package management do the right thing (I'm
+not an
+expert on those internals .. so bear with me).
+
+With this change, do you know if RDEPENDS="kernel-module-foo" still works ?
+or
+does it now have to be RDEPENDS="kernel-module-foo-<version>" ?
+
+On a similar thought, "smart install kernel-module-foo" would also work ?
+or does it
+now require a version ?
+
+Bruce
+
+
+>
+> Signed-off-by: Ola Redell <ola.redell@retotech.se>
+> ---
+>  meta/classes/kernel-module-split.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/kernel-module-split.bbclass
+> b/meta/classes/kernel-module-split.bbclass
+> index efe1b42..13cff51 100644
+> --- a/meta/classes/kernel-module-split.bbclass
+> +++ b/meta/classes/kernel-module-split.bbclass
+> @@ -122,7 +122,7 @@ python split_kernel_module_packages () {
+>      module_regex = '^(.*)\.k?o$'
+>
+>      module_pattern_prefix = d.getVar('KERNEL_MODULE_PACKAGE_PREFIX')
+> -    module_pattern = module_pattern_prefix + 'kernel-module-%s'
+> +    module_pattern = module_pattern_prefix + 'kernel-module-%s-' +
+> d.getVar("KERNEL_VERSION", True)
+>
+>      postinst = d.getVar('pkg_postinst_modules')
+>      postrm = d.getVar('pkg_postrm_modules')
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
+
+--94eb2c05be6841995e0545ac9774
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Mon, Jan 9, 2017 at 4:54 AM,  <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:ola.redell@gmail.com" target=3D"_blank">ola.redell@gmail.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex">From: Ola Redell &lt;<a href=3D=
+"mailto:ola.redell@retotech.se">ola.redell@retotech.se</a>&gt;<br>
+<br>
+The KERNEL_VERSION string is added to kernel module package names in order =
+to<br>
+make the kernel modules for different kernel versions distinct packages ins=
+tead<br>
+of different versions of the same package. With this change, when a new ker=
+nel<br>
+is installed together with its kernel modules (e.g. by upgrade of the packa=
+ges<br>
+kernel and kernel-modules) using some package manager such as apt-get or rp=
+m,<br>
+the kernel modules for the older kernel will not be removed. This enables a=
+<br>
+fall back to the older kernel if the new one fails.<br></blockquote><div><b=
+r><br></div><div>The functionality you describe is a good thing, but I have=
+ a few questions to make<br></div><div>sure I understand the change, and co=
+nfirm that existing functionality isn&#39;t broken .. <br></div><div>and th=
+at the internals of the package management do the right thing (I&#39;m not =
+an<br></div><div>expert on those internals .. so bear with me).<br><br></di=
+v><div>With this change, do you know if RDEPENDS=3D&quot;kernel-module-foo&=
+quot; still works ? or<br></div><div>does it now have to be RDEPENDS=3D&quo=
+t;kernel-module-foo-&lt;version&gt;&quot; ?<br><br></div><div>On a similar =
+thought, &quot;smart install kernel-module-foo&quot; would also work ? or d=
+oes it<br></div><div>now require a version ?<br><br></div><div>Bruce<br></d=
+iv><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+Signed-off-by: Ola Redell &lt;<a href=3D"mailto:ola.redell@retotech.se">ola=
+.redell@retotech.se</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/kernel-module-<wbr>split.bbclass | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/classes/kernel-module-<wbr>split.bbclass b/meta/classes/k=
+ernel-module-<wbr>split.bbclass<br>
+index efe1b42..13cff51 100644<br>
+--- a/meta/classes/kernel-module-<wbr>split.bbclass<br>
++++ b/meta/classes/kernel-module-<wbr>split.bbclass<br>
+@@ -122,7 +122,7 @@ python split_kernel_module_packages () {<br>
+=C2=A0 =C2=A0 =C2=A0module_regex =3D &#39;^(.*)\.k?o$&#39;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0module_pattern_prefix =3D d.getVar(&#39;KERNEL_MODULE_<=
+wbr>PACKAGE_PREFIX&#39;)<br>
+-=C2=A0 =C2=A0 module_pattern =3D module_pattern_prefix + &#39;kernel-modul=
+e-%s&#39;<br>
++=C2=A0 =C2=A0 module_pattern =3D module_pattern_prefix + &#39;kernel-modul=
+e-%s-&#39; + d.getVar(&quot;KERNEL_VERSION&quot;, True)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0postinst =3D d.getVar(&#39;pkg_postinst_<wbr>modules&#3=
+9;)<br>
+=C2=A0 =C2=A0 =C2=A0postrm =3D d.getVar(&#39;pkg_postrm_modules&#39;)<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+1.9.1<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br><br clear=3D"all"><br>-- <br><div clas=
+s=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt n=
+ot follow the NULL pointer, for chaos and madness await thee at its end&quo=
+t;</div>
+</div></div>
+
+--94eb2c05be6841995e0545ac9774--
