@@ -1,56 +1,57 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
-	[209.85.214.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 56AA760806
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A2906079E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jan 2017 07:29:52 +0000 (UTC)
-Received: by mail-it0-f45.google.com with SMTP id x2so81963558itf.1
+	Tue, 10 Jan 2017 07:32:21 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id j18so52208598ioe.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Jan 2017 23:29:53 -0800 (PST)
+	Mon, 09 Jan 2017 23:32:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:organization:mime-version:content-transfer-encoding;
-	bh=X5i70e3PSe23DIGjqGiq/3SqEamBj8g+9UDHFua56pk=;
-	b=XlO/eo4Jp7mEeuqEpnLUqzF8xrcmzH66++7DnolfcVvxq+IpAbFahHNg12+XnXfNWj
-	p2n46/a7FXmEm8D763gJgVXeaZD4F60Gnz5ejf2CVN//56/kRC5761zZHP81eUtT0iOU
-	niAh6RKLHKo2CWbEwIhvTn+TlO67WsGjtqBDDe8DBWAUt24+eS1DhJVl4PLzXI8LqWMU
-	MD/xVmDtUZ/bKs8tDsha3dAjJCp1nQkiS8/VIAtRyteW7zS7twnzs6ABON/2FanEo3iF
-	R3nlr7nyFgAXxQwFEj0+pn+C+Hjx2ijoFM43hZl004JKFW155R34F+5NPJIH4eA3Mngc
-	zPfw==
+	bh=CPXm82O/yzbuzavvrnzQugy4py3vcZLMcnoY/vF2L70=;
+	b=WQXLQnqBj7KPiyDz31uj8I+AS1/psLm8wE4kzGg06kErqTgTVxcm5eUpWS3De9jS6t
+	9XeuUTe4d+/ZTq7z4KHljq8Q3n35jOPsiX4jtBTEGsBU0ELVWIW6sBxZ4WbcFRrnSk1m
+	8zol029o/qwL+kldWYM9s9F1jEdgPfnJKRWKyeWmnM9myZ5rgC3P5LfHHQjDlIIUB3Mz
+	OtEGD9vP7zSscz5jiSJ8pvH4vSQ+Zfgvp30yUjXvxzcyVo1oxcvnDtmEvj95eTHzsMP3
+	9fUhXlQbatQsvckL3Xc0Hr5yx9nXMbaGNNduGKXgykm9EgTAotE2totFd4rjQhHMXxeM
+	s8SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:organization:mime-version:content-transfer-encoding;
-	bh=X5i70e3PSe23DIGjqGiq/3SqEamBj8g+9UDHFua56pk=;
-	b=SEyFQTxN4fFMSqU05P2PfZTkhE3i5irlg52SHbhO72nT8aRORMImfo/3C43M+arjao
-	e0lmtsnS7i9LnnD++mG1urOYNVG5GhAck1Hal1BCo1nONURd/6FFHz2kgjyItmsmOX5m
-	JIz/T0U+2CAGyqT5E/2mcFnPAwbJelC8gucgqDZ9yKZh035i01aA1aGsXUBqjME+0UgI
-	m97dt2HS2QTekfKGLyL+Bz9x8YPiUwwQYA4C/9JpA4R//bryGg8BsLvsoXswBXaCFx+C
-	0ITqDtuuzvjjBmt03M/LFE8zWT5Q4AqSBn12kAuOR2o9oZYrxPrxFHq7GwSAA1IEYkhx
-	HczQ==
-X-Gm-Message-State: AIkVDXJSGo8Y6XQ85x9zJZvh1DE+Nw2FU1NnQRR+2euRxLtBw7G/F0JTE5Ba5KY9o2M7ou7h
-X-Received: by 10.36.227.198 with SMTP id d189mr12404052ith.36.1484033393147; 
-	Mon, 09 Jan 2017 23:29:53 -0800 (PST)
+	bh=CPXm82O/yzbuzavvrnzQugy4py3vcZLMcnoY/vF2L70=;
+	b=dhsF51nj/t71f5afHV3OuCeroBXVqYKTulnyAcsVMmJ4iq3kF4PBkFtHztedzqif6z
+	GBoegRQMBm07w94iSVZC9abRCsEEo3DXcBnac9Bhegdaf20QvBvauxKGEJbrrXESz47R
+	saVil6kCROv6kJZD5+p1ROHPunSPkLAuRfHhrSQcj+b+tkUXgYy60/6Vqw4VVHWm3ui+
+	uuAkim4hlak8k8WP1ePAYn+7RGTR/44quBP6QWufB/kOM5doFdkvt6p68ot/WqhnA5E1
+	n0GiFst+RWd5/fSD9RCeZKjx1oKWK1Pi95JJkulPm8/+q4h8Qeqo+psX0yjFKn7emruq
+	uz6w==
+X-Gm-Message-State: AIkVDXJqdnqh40QL9t3Ycps2ub/cz3GsTgtX0vkm7fxSEnTEqnrhV1EUvOZWO4/JAKfbjrjD
+X-Received: by 10.107.164.147 with SMTP id d19mr1994113ioj.79.1484033542341;
+	Mon, 09 Jan 2017 23:32:22 -0800 (PST)
 Received: from pohly-mobl1 (p57A56084.dip0.t-ipconnect.de. [87.165.96.132])
-	by smtp.gmail.com with ESMTPSA id e24sm5024005itd.6.2017.01.09.23.29.50
+	by smtp.gmail.com with ESMTPSA id
+	g186sm7766117itb.4.2017.01.09.23.32.20
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 09 Jan 2017 23:29:51 -0800 (PST)
-Message-ID: <1484033387.2137.106.camel@intel.com>
+	Mon, 09 Jan 2017 23:32:21 -0800 (PST)
+Message-ID: <1484033538.2137.108.camel@intel.com>
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-Date: Tue, 10 Jan 2017 08:29:47 +0100
-In-Reply-To: <1484020237.65791.26.camel@ranerica-desktop>
+Date: Tue, 10 Jan 2017 08:32:18 +0100
+In-Reply-To: <1484020254.65791.27.camel@ranerica-desktop>
 References: <cover.1482324587.git.patrick.ohly@intel.com>
-	<66377b2510edebf997b04812ff93c9ef0bb3c47f.1482324587.git.patrick.ohly@intel.com>
-	<1482968017.106950.76.camel@ranerica-desktop>
-	<1483523017.28169.27.camel@intel.com>
-	<1484020237.65791.26.camel@ranerica-desktop>
+	<ce57b729e9ac830d808040b7e3ff1fc128475420.1482324587.git.patrick.ohly@intel.com>
+	<1482961124.106950.55.camel@ranerica-desktop>
+	<1483524116.28169.33.camel@intel.com>
+	<1484020254.65791.27.camel@ranerica-desktop>
 Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
 X-Mailer: Evolution 3.12.9-1+b1 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 8/9] runqemu: support UEFI with OVMF firmware
+Subject: Re: [PATCH 4/9] ovmf: deploy firmware in image directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,105 +64,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2017 07:29:54 -0000
+X-List-Received-Date: Tue, 10 Jan 2017 07:32:22 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 On Mon, 2017-01-09 at 19:50 -0800, Ricardo Neri wrote:
-> On Wed, 2017-01-04 at 10:43 +0100, Patrick Ohly wrote:
-> > To
-> > test that supporting separate code and variables also works, I've
-> > implemented that locally so that ovmf.fd ovmf_secboot.fd, ovmf_code.fd,
-> > ovmf_secboot_code.fd and ovmf_vars.fd get deployed and runqemu supports
-> > more than one "ovmf" parameter - this worked nicely. Full change below.
-> 
-> ... Now that you have took the time to prototype the solution, we could
-> put it to use.
-> 
+> On Wed, 2017-01-04 at 11:01 +0100, Patrick Ohly wrote:
+> > On Wed, 2016-12-28 at 13:38 -0800, Ricardo Neri wrote:
+> > > >  do_install_class-target() {
+> > > > -    OVMF_DIR_SUFFIX="X64"
+> > > > -    if [ "${TARGET_ARCH}" != "x86_64" ] ; then
+> > > > -        OVMF_DIR_SUFFIX="Ia32" # Note the different capitalization
+> > > > -    fi
+> > > > +    # Traditional location.
+> > > >      install -d ${D}${datadir}/ovmf
+> > > > +    install -m 0755 ${WORKDIR}/ovmf/OVMF.fd ${D}${datadir}/ovmf/bios.bin
+> > > 
+> > > Now that I think about it. Installing here does not sever any purpose.
+> > > Thus, I think this can be removed by perhaps doing do_install[noexec] =
+> > > "1"
 > > 
-> > Now that I've implemented it, I wonder whether it would be worth
-> > submitting that as part of rev2 of this patch series. Any opinions?
-> > 
-> > diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
-> > index ef61b16..391274b 100644
-> > --- a/meta/recipes-core/ovmf/ovmf_git.bb
-> > +++ b/meta/recipes-core/ovmf/ovmf_git.bb
-> > @@ -125,6 +125,8 @@ do_compile_class-target() {
-> >      rm -rf ${S}/Build/Ovmf$OVMF_DIR_SUFFIX
-> >      ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b RELEASE -t ${FIXED_GCCVER}
-> >      ln ${build_dir}/FV/OVMF.fd ${WORKDIR}/ovmf/OVMF.fd
-> > +    ln ${build_dir}/FV/OVMF_CODE.fd ${WORKDIR}/ovmf/OVMF.code.fd
-> > +    ln ${build_dir}/FV/OVMF_VARS.fd ${WORKDIR}/ovmf/OVMF.vars.fd
-> >  
-> >      # See CryptoPkg/Library/OpensslLib/Patch-HOWTO.txt and
-> >      # https://src.fedoraproject.org/cgit/rpms/edk2.git/tree/ for
-> > @@ -137,6 +139,7 @@ do_compile_class-target() {
-> >      ( cd ${S}/CryptoPkg/Library/OpensslLib/ && ./Install.sh )
-> >      ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b RELEASE -t ${FIXED_GCCVER} ${OVMF_SECURE_BOOT_FLAGS}
-> >      ln ${build_dir}/FV/OVMF.fd ${WORKDIR}/ovmf/OVMF.secboot.fd
-> > +    ln ${build_dir}/FV/OVMF_CODE.fd ${WORKDIR}/ovmf/OVMF.code.secboot.fd
-> >      for i in Shell.efi EnrollDefaultKeys.efi; do
-> >          ln ${build_dir}/${OVMF_ARCH}/$i ${WORKDIR}/ovmf/$i
-> >      done
-> > @@ -170,8 +173,9 @@ do_deploy() {
-> >  }
-> >  do_deploy_class-target() {
-> >      # For use with "runqemu ovmf".
-> > -    qemu-img convert -f raw -O qcow2 ${WORKDIR}/ovmf/OVMF.fd ${DEPLOYDIR}/ovmf.qcow2
-> > -    qemu-img convert -f raw -O qcow2 ${WORKDIR}/ovmf/OVMF.secboot.fd ${DEPLOYDIR}/ovmf.secboot.qcow2
-> > +    for i in OVMF OVMF.secboot OVMF.code OVMF.vars OVMF.code.secboot; do
-> > +        qemu-img convert -f raw -O qcow2 ${WORKDIR}/ovmf/$i.fd ${DEPLOYDIR}/`echo $i | tr A-Z a-z`.qcow2
+> > I was trying not to break traditional usage patterns. If we keep the
+> > "bios" runqemu parameters, then we should also keep the bios.bin file.
 > 
-> Will this preserve any previous OVMF_vars.fd that might exist in the
-> directory.
+> I think OVMF is not a traditional recipe. There are two use cases to
+> ponder. 1) a Yocto Project disk image wants to include OVMF along with
+> qemu to run a VM from the YP image. 2) we want to run a YP image in a
+> host system. I am not sure if someone is interested in 1) and I think
+> your use case and LUV's is 2). I think that putting things in the deploy
+> directory makes more sense because, as you said, these images will be
+> written to. I reckon the the "bios" parameters in runqemu should look
+> there. This is not a must for this patchset but something nice to have.
 
-No, it will overwrite ovmf.vars.qcow2 and any variables stored in that
-get lost. That is consistent with rebuilding the disk image: a user who
-wants to have a "persistent" virtual machine must copy the relevant file
-and then use the full file paths. In this case, that means invoking
-runqemu with the file path to the copy of ovmf.vars.qcow2 instead of
-just "ovmf.vars".
-
-> >          if self.ovmf_bios:
-> > -            print('OVMF: [%s]' % self.ovmf_bios)
-> > +            print('OVMF: %s' % self.ovmf_bios)
-> 
-> Is there a reason to remove the brackets here?
-
-self.ovmf_bios is a list, so formatting it as string will add the
-brackets. I found that more readable than the (from a semantic point of
-view more correct) double brackets: [['.../ovmf.code.qcow2',
-'.../ovmf.vars.qcow2']]
-
-> > +        for ovmf in self.ovmf_bios:
-> > +            format = ovmf.rsplit('.', 1)[-1]
-> > +            self.qemu_opt += ' -drive if=pflash,format=%s,file=%s' % (format, ovmf)
-> >          if self.ovmf_bios:
-> > -            format = self.ovmf_bios.rsplit('.', 1)[-1]
-> > -            self.qemu_opt += ' -drive if=pflash,format=%s,file=%s' % (format, self.ovmf_bios)
-> >              # OVMF only supports normal VGA, i.e. we need to override a -vga vmware
-> >              # that gets added for example for normal qemux86.
-> >              self.qemu_opt += ' -vga std'
-> > 
-> > 
-> I think this solution looks good as having separate file does not pose
-> an extra hassle in the user: the recipe builds all that is needed and
-> runqemu takes all that it needs.
-
-But not automatically. "runqemu ovmf" would expand "ovmf" to
-tmp/deploy/images/.../ovmf.qcow2 and thus use the combined file while
-"runqemu ovmf.code ovmf.vars" tells runqemu that it is supposed to use
-two flash drives, one with the code and one with the variables.
-
-
->  If in the future people shows an
-> interest in having unified images, maybe that can be added as another
-> PACKAGECONFIG?
-
-As the unified code+vars is slightly easier to use, I'd prefer to keep
-it around and just offer both. That's not such a big deal in terms of
-performance and disk usage.
-
+Okay, so let's remove that "traditional location" already in this patch
+set. I still want to keep the "bios" parameters in runqemu (because they
+might have some other uses), but for OVMF, the only supported approach
+will be via the "ovmf" parameters and the deploy directory.
 
 -- 
 Best Regards, Patrick Ohly
