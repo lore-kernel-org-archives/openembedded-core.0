@@ -1,27 +1,31 @@
-Return-Path: <Nathan_Lynch@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id AA580719B5
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id D8C59719B5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jan 2017 23:07:28 +0000 (UTC)
-Received: from svr-orw-mbx-02.mgc.mentorg.com ([147.34.90.202])
-	by relay1.mentorg.com with esmtp 
-	id 1cR5Vp-0002x8-I9 from Nathan_Lynch@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2017 15:07:29 -0800
-Received: from localhost (147.34.91.1) by svr-orw-mbx-02.mgc.mentorg.com
-	(147.34.90.202) with Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Tue, 10 Jan 2017 15:07:27 -0800
-From: Nathan Lynch <nathan_lynch@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Jan 2017 17:07:00 -0600
-Message-ID: <1484089620-19725-6-git-send-email-nathan_lynch@mentor.com>
+	Tue, 10 Jan 2017 23:11:44 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 45BD120B1D;
+	Tue, 10 Jan 2017 23:11:44 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id Pu8lWjVJpBek; Tue, 10 Jan 2017 23:11:44 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-95-79.washdc.fios.verizon.net
+	[100.15.95.79])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 1DA5E20866;
+	Tue, 10 Jan 2017 23:11:41 +0000 (UTC)
+Received: from sam.denix (sam [192.168.0.5])
+	by mail.denix.org (Postfix) with ESMTP id AC0E816231A;
+	Tue, 10 Jan 2017 18:11:40 -0500 (EST)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Jan 2017 18:11:39 -0500
+Message-Id: <1484089899-29284-1-git-send-email-denis@denix.org>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1484089620-19725-1-git-send-email-nathan_lynch@mentor.com>
-References: <1484089620-19725-1-git-send-email-nathan_lynch@mentor.com>
-MIME-Version: 1.0
-X-ClientProxiedBy: svr-orw-mbx-02.mgc.mentorg.com (147.34.90.202) To
-	svr-orw-mbx-02.mgc.mentorg.com (147.34.90.202)
-Subject: [PATCH 5/5] babeltrace: upgrade to 1.5.1
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [morty][PATCH] linux-dtb: strip DTB extension properly in postinst/postrm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,31 +38,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2017 23:07:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 10 Jan 2017 23:11:45 -0000
 
-Signed-off-by: Nathan Lynch <nathan_lynch@mentor.com>
+From: Denys Dmytriyenko <denys@ti.com>
+
+The use of awk -F "." in do_install/do_deploy to strip filename extension
+was deprecated long time ago in 72980d5bb465f0640ed451d1ebb9c5d2a210ad0c.
+
+Make a similar change in postinst/postrm to properly use basename command.
+
+Otherwise DTB files that contain dots in the name result in broken symlinks
+that point to non-existent truncated files.
+
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+
+(From OE-Core rev: 40c2addf0f0ee16b1c1334cf00f1490ffeaac475)
+
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
 ---
- .../lttng/{babeltrace_1.5.0.bb => babeltrace_1.5.1.bb}               | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-kernel/lttng/{babeltrace_1.5.0.bb => babeltrace_1.5.1.bb} (81%)
+ meta/recipes-kernel/linux/linux-dtb.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/lttng/babeltrace_1.5.0.bb b/meta/recipes-kernel/lttng/babeltrace_1.5.1.bb
-similarity index 81%
-rename from meta/recipes-kernel/lttng/babeltrace_1.5.0.bb
-rename to meta/recipes-kernel/lttng/babeltrace_1.5.1.bb
-index 695b61f9c4a2..c22b3a01b4ac 100644
---- a/meta/recipes-kernel/lttng/babeltrace_1.5.0.bb
-+++ b/meta/recipes-kernel/lttng/babeltrace_1.5.1.bb
-@@ -15,6 +15,5 @@ SRC_URI = "http://www.efficios.com/files/babeltrace/babeltrace-${PV}.tar.bz2 \
- 
- EXTRA_OECONF = "--disable-debug-info"
- 
--SRC_URI[md5sum] = "43696383e44d1b85173db7cbd0335f06"
--SRC_URI[sha256sum] = "354e75d74562f5228ab89e5fa16a3b4dffa95e7230c5086b74ffcf11fef60353"
--
-+SRC_URI[md5sum] = "3f7d29ba2821a966d24759a928a15cdf"
-+SRC_URI[sha256sum] = "379e96f1cf867f0a198cf1c315c52ec7d7ad67898402bbe22d1404fc38d19d98"
+diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
+index 8528d64..2f378a1 100644
+--- a/meta/recipes-kernel/linux/linux-dtb.inc
++++ b/meta/recipes-kernel/linux/linux-dtb.inc
+@@ -68,7 +68,7 @@ pkg_postinst_kernel-devicetree () {
+ 		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+ 			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+ 			DTB_EXT=${DTB##*.}
+-			DTB_BASE_NAME=`basename ${DTB} | awk -F "." '{print $1}'`
++			DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
+ 			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+ 			update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT} ${DTB_BASE_NAME}.${DTB_EXT} /boot/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
+ 		done
+@@ -81,7 +81,7 @@ pkg_postrm_kernel-devicetree () {
+ 		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+ 			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+ 			DTB_EXT=${DTB##*.}
+-			DTB_BASE_NAME=`basename ${DTB} | awk -F "." '{print $1}'`
++			DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
+ 			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+ 			update-alternatives --remove ${DTB_BASE_NAME}.${DTB_EXT} /boot/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
+ 		done
 -- 
 2.7.4
 
