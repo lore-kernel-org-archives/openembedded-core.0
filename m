@@ -1,30 +1,30 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id DE9D86093A
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A76860777
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jan 2017 01:59:55 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="14610659"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 10 Jan 2017 09:59:50 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 171A747AD1C4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jan 2017 09:59:48 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.226.109) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Tue, 10 Jan 2017 09:59:59 +0800
-From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Jan 2017 09:59:06 +0800
-Message-ID: <1484013546-60559-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+	Tue, 10 Jan 2017 02:24:34 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v0A2OYs6030669
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 9 Jan 2017 18:24:34 -0800
+Received: from [128.224.162.184] (128.224.162.184) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Mon, 9 Jan 2017 18:24:33 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1483945688.git.Qi.Chen@windriver.com>
+	<98f949d52acc91f155bbc79bbea80a964b2300f0.1483945688.git.Qi.Chen@windriver.com>
+	<CAJTo0LZoa9zpwiMVyR0ZDk8aOHztjUgYrp20k3YiRUTtDvc1Gw@mail.gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <a2497776-da8b-fe44-3e21-013d4adc7dda@windriver.com>
+Date: Tue, 10 Jan 2017 10:24:41 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.109]
-X-yoursite-MailScanner-ID: 171A747AD1C4.A7EBE
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH V2] iproute2 4.7->4.9
+In-Reply-To: <CAJTo0LZoa9zpwiMVyR0ZDk8aOHztjUgYrp20k3YiRUTtDvc1Gw@mail.gmail.com>
+X-Originating-IP: [128.224.162.184]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] selftest/buildoptions.py: do not hardcode 'tmp' for TMPDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,274 +37,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2017 01:59:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 10 Jan 2017 02:24:36 -0000
+Content-Type: multipart/alternative;
+	boundary="------------35581D87F3584F40507CC142"
 
-Upgrade iproute2 from 4.7 to 4.9
+--------------35581D87F3584F40507CC142
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
----
- .../iproute2/iproute2/iproute2-4.3.0-musl.patch    |  85 -------------
- .../iproute2/iproute2/iproute2-4.9.0-musl.patch    | 131 +++++++++++++++++++++
- .../{iproute2_4.7.0.bb => iproute2_4.9.0.bb}       |   7 +-
- 3 files changed, 135 insertions(+), 88 deletions(-)
- delete mode 100644 meta/recipes-connectivity/iproute2/iproute2/iproute2-4.3.0-musl.patch
- create mode 100644 meta/recipes-connectivity/iproute2/iproute2/iproute2-4.9.0-musl.patch
- rename meta/recipes-connectivity/iproute2/{iproute2_4.7.0.bb => iproute2_4.9.0.bb} (61%)
-
-diff --git a/meta/recipes-connectivity/iproute2/iproute2/iproute2-4.3.0-musl.patch b/meta/recipes-connectivity/iproute2/iproute2/iproute2-4.3.0-musl.patch
-deleted file mode 100644
-index 8c078f6..0000000
---- a/meta/recipes-connectivity/iproute2/iproute2/iproute2-4.3.0-musl.patch
-+++ /dev/null
-@@ -1,85 +0,0 @@
--Subject: [PATCH] Avoid in6_addr redefinition
--
--Due to both <netinet/in.h> and <linux/in6.h> being included, the
--in6_addr is being redefined: once from the C library headers and once
--from the kernel headers. This causes some build failures with for
--example the musl C library.
--
--In order to fix this, use just the C library header <netinet/in.h>.
--Original patch taken from
--http://git.alpinelinux.org/cgit/aports/tree/main/iproute2/musl-fixes.patch.
--
--(Refreshed the patch for 4.6 release)
--
--Upstream-Status: Pending
--
--Signed-off-by: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
--Signed-off-by: Maxin B. John <maxin.john@intel.com>
------
--diff -Naur iproute2-4.6.0-orig/include/libiptc/ipt_kernel_headers.h iproute2-4.6.0/include/libiptc/ipt_kernel_headers.h
----- iproute2-4.6.0-orig/include/libiptc/ipt_kernel_headers.h	2016-05-23 12:03:23.821826910 +0300
--+++ iproute2-4.6.0/include/libiptc/ipt_kernel_headers.h	2016-05-23 12:04:23.714078154 +0300
--@@ -6,7 +6,6 @@
-- #include <limits.h>
-- 
-- #include <netinet/ip.h>
---#include <netinet/in.h>
-- #include <netinet/ip_icmp.h>
-- #include <netinet/tcp.h>
-- #include <netinet/udp.h>
--diff -Naur iproute2-4.6.0-orig/include/linux/if_bridge.h iproute2-4.6.0/include/linux/if_bridge.h
----- iproute2-4.6.0-orig/include/linux/if_bridge.h	2016-05-23 12:03:23.821826910 +0300
--+++ iproute2-4.6.0/include/linux/if_bridge.h	2016-05-23 12:04:23.716078129 +0300
--@@ -15,7 +15,6 @@
-- 
-- #include <linux/types.h>
-- #include <linux/if_ether.h>
---#include <linux/in6.h>
-- 
-- #define SYSFS_BRIDGE_ATTR	"bridge"
-- #define SYSFS_BRIDGE_FDB	"brforward"
--diff -Naur iproute2-4.6.0-orig/include/linux/netfilter.h iproute2-4.6.0/include/linux/netfilter.h
----- iproute2-4.6.0-orig/include/linux/netfilter.h	2016-05-23 12:03:23.821826910 +0300
--+++ iproute2-4.6.0/include/linux/netfilter.h	2016-05-23 12:04:23.717078117 +0300
--@@ -4,8 +4,6 @@
-- #include <linux/types.h>
-- 
-- #include <linux/sysctl.h>
---#include <linux/in.h>
---#include <linux/in6.h>
-- 
-- /* Responses from hook functions. */
-- #define NF_DROP 0
--diff -Naur iproute2-4.6.0-orig/include/linux/netfilter_ipv4/ip_tables.h iproute2-4.6.0/include/linux/netfilter_ipv4/ip_tables.h
----- iproute2-4.6.0-orig/include/linux/netfilter_ipv4/ip_tables.h	2016-05-18 21:56:02.000000000 +0300
--+++ iproute2-4.6.0/include/linux/netfilter_ipv4/ip_tables.h	2016-05-23 12:09:22.888337961 +0300
--@@ -17,7 +17,6 @@
-- 
-- #include <linux/types.h>
-- 
---#include <linux/if.h>
-- #include <linux/netfilter_ipv4.h>
-- 
-- #include <linux/netfilter/x_tables.h>
--diff -Naur iproute2-4.6.0-orig/include/linux/xfrm.h iproute2-4.6.0/include/linux/xfrm.h
----- iproute2-4.6.0-orig/include/linux/xfrm.h	2016-05-23 12:03:23.821826910 +0300
--+++ iproute2-4.6.0/include/linux/xfrm.h	2016-05-23 12:04:23.718078104 +0300
--@@ -1,7 +1,6 @@
-- #ifndef _LINUX_XFRM_H
-- #define _LINUX_XFRM_H
-- 
---#include <linux/in6.h>
-- #include <linux/types.h>
-- 
-- /* All of the structures in this file may not change size as they are
--diff -Naur iproute2-4.6.0-orig/include/utils.h iproute2-4.6.0/include/utils.h
----- iproute2-4.6.0-orig/include/utils.h	2016-05-23 12:03:23.821826910 +0300
--+++ iproute2-4.6.0/include/utils.h	2016-05-23 12:04:23.718078104 +0300
--@@ -1,6 +1,7 @@
-- #ifndef __UTILS_H__
-- #define __UTILS_H__ 1
-- 
--+#include <sys/param.h>  /* MAXPATHLEN */
-- #include <sys/types.h>
-- #include <asm/types.h>
-- #include <resolv.h>
-diff --git a/meta/recipes-connectivity/iproute2/iproute2/iproute2-4.9.0-musl.patch b/meta/recipes-connectivity/iproute2/iproute2/iproute2-4.9.0-musl.patch
-new file mode 100644
-index 0000000..737a90c
---- /dev/null
-+++ b/meta/recipes-connectivity/iproute2/iproute2/iproute2-4.9.0-musl.patch
-@@ -0,0 +1,131 @@
-+Subject: [PATCH] Avoid in6_addr redefinition
-+
-+Due to both <netinet/in.h> and <linux/in6.h> being included, the 
-+in6_addr is being redefined: once from the C library headers and once
-+from the kernel headers. This causes some build failures with for 
-+example the musl C library.
-+
-+In order to fix this, use just the C library header <netinet/in.h>.
-+Original patch taken from
-+http://git.alpinelinux.org/cgit/aports/tree/main/iproute2/musl-fixes.patch.
-+
-+(Refreshed the patch for 4.9 release)
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
-+Signed-off-by: Maxin B. John <maxin.john@intel.com>
-+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-+---
-+ include/libiptc/ipt_kernel_headers.h     | 1 -
-+ include/linux/if_bridge.h                | 1 -
-+ include/linux/if_tunnel.h                | 2 --
-+ include/linux/netfilter.h                | 2 --
-+ include/linux/netfilter_ipv4/ip_tables.h | 1 -
-+ include/linux/xfrm.h                     | 1 -
-+ include/utils.h                          | 1 +
-+ ip/ip6tunnel.c                           | 1 -
-+ 8 files changed, 1 insertion(+), 9 deletions(-)
-+
-+diff --git a/include/libiptc/ipt_kernel_headers.h b/include/libiptc/ipt_kernel_headers.h
-+index a5963e9..42f8610 100644
-+--- a/include/libiptc/ipt_kernel_headers.h
-++++ b/include/libiptc/ipt_kernel_headers.h
-+@@ -6,7 +6,6 @@
-+ #include <limits.h>
-+ 
-+ #include <netinet/ip.h>
-+-#include <netinet/in.h>
-+ #include <netinet/ip_icmp.h>
-+ #include <netinet/tcp.h>
-+ #include <netinet/udp.h>
-+diff --git a/include/linux/if_bridge.h b/include/linux/if_bridge.h
-+index b7393dd..a7028ab 100644
-+--- a/include/linux/if_bridge.h
-++++ b/include/linux/if_bridge.h
-+@@ -15,7 +15,6 @@
-+ 
-+ #include <linux/types.h>
-+ #include <linux/if_ether.h>
-+-#include <linux/in6.h>
-+ 
-+ #define SYSFS_BRIDGE_ATTR	"bridge"
-+ #define SYSFS_BRIDGE_FDB	"brforward"
-+diff --git a/include/linux/if_tunnel.h b/include/linux/if_tunnel.h
-+index 4f975f5..2680646 100644
-+--- a/include/linux/if_tunnel.h
-++++ b/include/linux/if_tunnel.h
-+@@ -2,9 +2,7 @@
-+ #define _IF_TUNNEL_H_
-+ 
-+ #include <linux/types.h>
-+-#include <linux/if.h>
-+ #include <linux/ip.h>
-+-#include <linux/in6.h>
-+ #include <asm/byteorder.h>
-+ 
-+ 
-+diff --git a/include/linux/netfilter.h b/include/linux/netfilter.h
-+index b71b4c9..3e4e6ae 100644
-+--- a/include/linux/netfilter.h
-++++ b/include/linux/netfilter.h
-+@@ -4,8 +4,6 @@
-+ #include <linux/types.h>
-+ 
-+ #include <linux/sysctl.h>
-+-#include <linux/in.h>
-+-#include <linux/in6.h>
-+ 
-+ /* Responses from hook functions. */
-+ #define NF_DROP 0
-+diff --git a/include/linux/netfilter_ipv4/ip_tables.h b/include/linux/netfilter_ipv4/ip_tables.h
-+index 456fb86..38542b4 100644
-+--- a/include/linux/netfilter_ipv4/ip_tables.h
-++++ b/include/linux/netfilter_ipv4/ip_tables.h
-+@@ -17,7 +17,6 @@
-+ 
-+ #include <linux/types.h>
-+ 
-+-#include <linux/if.h>
-+ #include <linux/netfilter_ipv4.h>
-+ 
-+ #include <linux/netfilter/x_tables.h>
-+diff --git a/include/linux/xfrm.h b/include/linux/xfrm.h
-+index d2dd1fd..8c72966 100644
-+--- a/include/linux/xfrm.h
-++++ b/include/linux/xfrm.h
-+@@ -1,7 +1,6 @@
-+ #ifndef _LINUX_XFRM_H
-+ #define _LINUX_XFRM_H
-+ 
-+-#include <linux/in6.h>
-+ #include <linux/types.h>
-+ 
-+ /* All of the structures in this file may not change size as they are
-+diff --git a/include/utils.h b/include/utils.h
-+index 1b4f939..d10840b 100644
-+--- a/include/utils.h
-++++ b/include/utils.h
-+@@ -1,6 +1,7 @@
-+ #ifndef __UTILS_H__
-+ #define __UTILS_H__ 1
-+ 
-++#include <sys/param.h>  /* MAXPATHLEN */
-+ #include <sys/types.h>
-+ #include <asm/types.h>
-+ #include <resolv.h>
-+diff --git a/ip/ip6tunnel.c b/ip/ip6tunnel.c
-+index b1c0ae6..8fa4eb2 100644
-+--- a/ip/ip6tunnel.c
-++++ b/ip/ip6tunnel.c
-+@@ -28,7 +28,6 @@
-+ #include <arpa/inet.h>
-+ #include <sys/ioctl.h>
-+ #include <linux/ip.h>
-+-#include <linux/if.h>
-+ #include <linux/if_arp.h>
-+ #include <linux/if_tunnel.h>
-+ #include <linux/ip6_tunnel.h>
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_4.7.0.bb b/meta/recipes-connectivity/iproute2/iproute2_4.9.0.bb
-similarity index 61%
-rename from meta/recipes-connectivity/iproute2/iproute2_4.7.0.bb
-rename to meta/recipes-connectivity/iproute2/iproute2_4.9.0.bb
-index 426f989..808e550 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_4.7.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_4.9.0.bb
-@@ -3,10 +3,11 @@ require iproute2.inc
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
-            file://configure-cross.patch \
-            file://0001-iproute2-de-bash-scripts.patch \
--           file://iproute2-4.3.0-musl.patch \
-+           file://iproute2-4.9.0-musl.patch \
-           "
--SRC_URI[md5sum] = "d4b205830cdc2702f8a0cbd6232129cd"
--SRC_URI[sha256sum] = "8f60dbcfb33a79daae0638f53bdcaa4310c0aa59ae39af8a234020dc69bb7b92"
-+
-+SRC_URI[md5sum] = "44a8371a4b2c40e48e4c9f98cbd41391"
-+SRC_URI[sha256sum] = "c0f30f043f7767cc1b2cd2197b08d4e9b2392c95823fabe30bbce308c30116c4"
- 
- # CFLAGS are computed in Makefile and reference CCOPTS
- #
--- 
-2.7.4
+On 01/09/2017 06:35 PM, Burton, Ross wrote:
+>
+> On 9 January 2017 at 07:09, Chen Qi <Qi.Chen@windriver.com 
+> <mailto:Qi.Chen@windriver.com>> wrote:
+>
+>     -        pkgs_path = g.glob(str(self.builddir) +
+>     "/tmp/deploy/sources/allarch*/xcurs*")
+>     +        tmp_dir = get_bb_var('TMPDIR')
+>     +        pkgs_path = g.glob(str(tmp_dir) +
+>     "/deploy/sources/allarch*/xcurs*")
+>
+>
+> I think you meant DEPLOY_DIR_SRC :)
+>
+> Ross
 
 
+Thanks.
+
+I've sent out a new patchset. The title is "[PATCH 0/2] selftest: fix 
+path assumption".
+
+And the remote branch is also changed to:
+
+   git://git.pokylinux.org/poky-contrib ChenQi/selftest-path-assumption
+http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/selftest-path-assumption
 
 
+Best Regards,
+
+Chen Qi
+
+
+--------------35581D87F3584F40507CC142
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 01/09/2017 06:35 PM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LZoa9zpwiMVyR0ZDk8aOHztjUgYrp20k3YiRUTtDvc1Gw@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 9 January 2017 at 07:09, Chen Qi <span
+              dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:Qi.Chen@windriver.com" target="_blank">Qi.Chen@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0px 0px 0px
+0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">
+              <div id="gmail-:gu" class="gmail-a3s gmail-aXjCH
+                gmail-m159820fbc12f9764">-        pkgs_path =
+                g.glob(str(self.builddir) +
+                "/tmp/deploy/sources/allarch*/<wbr>xcurs*")<br>
+                +        tmp_dir = get_bb_var('TMPDIR')<br>
+                +        pkgs_path = g.glob(str(tmp_dir) +
+                "/deploy/sources/allarch*/<wbr>xcurs*")<br>
+              </div>
+            </blockquote>
+          </div>
+          <br>
+          I think you meant DEPLOY_DIR_SRC :)</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>Thanks.</p>
+    <p>I've sent out a new patchset. The title is "[PATCH 0/2] selftest:
+      fix path assumption".</p>
+    <p>And the remote branch is also changed to:</p>
+    <p>  git://git.pokylinux.org/poky-contrib
+      ChenQi/selftest-path-assumption<br>
+       
+<a class="moz-txt-link-freetext" href="http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/selftest-path-assumption">http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/selftest-path-assumption</a></p>
+    <p><br>
+    </p>
+    <p>Best Regards,</p>
+    <p>Chen Qi<br>
+    </p>
+  </body>
+</html>
+
+--------------35581D87F3584F40507CC142--
