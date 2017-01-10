@@ -1,43 +1,25 @@
-Return-Path: <sona.sarmadi@enea.com>
-X-Greylist: delayed 948 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 10 Jan 2017 11:26:44 UTC
-Received: from smtp-out10.electric.net (smtp-out10.electric.net
-	[185.38.180.32])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E0A2605BE
+Return-Path: <maxin.john@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 60E8F605BF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jan 2017 11:26:44 +0000 (UTC)
-Received: from 1cQuKM-0006kn-Vr by out10c.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1cQuKN-0006lO-T8
-	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2017 03:10:55 -0800
-Received: by emcmailer; Tue, 10 Jan 2017 03:10:55 -0800
-Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out10c.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1cQuKM-0006kn-Vr
-	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2017 03:10:54 -0800
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.319.2;
-	Tue, 10 Jan 2017 12:10:54 +0100
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Jan 2017 12:10:51 +0100
-Message-ID: <1484046651-61364-1-git-send-email-sona.sarmadi@enea.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
-	designate permitted sender hosts)
-X-Outbound-IP: 192.36.1.72
-X-Env-From: sona.sarmadi@enea.com
-X-Proto: esmtps
-X-Revdns: mx-3.enea.com
-X-HELO: mx-3.enea.com
-X-TLS: TLSv1:AES128-SHA:128
-X-Authenticated_ID: 
-X-PolicySMART: 6551647
-X-Virus-Status: Scanned by VirusSMART (c)
-X-Virus-Status: Scanned by VirusSMART (s)
-Subject: [PATCH][morty] libxtst: 1.2.2 -> 1.2.3
+	Tue, 10 Jan 2017 12:18:24 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 10 Jan 2017 04:18:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,344,1477983600"; d="scan'208";a="920868945"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga003.jf.intel.com with ESMTP; 10 Jan 2017 04:18:23 -0800
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	by linux.intel.com (Postfix) with ESMTP id 38CD06A4080
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jan 2017 04:17:31 -0800 (PST)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Jan 2017 14:18:38 +0200
+Message-Id: <1484050718-30306-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] sqlite3: upgrade to 3.16.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,38 +32,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2017 11:26:47 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 10 Jan 2017 12:18:25 -0000
 
-Upgrade libxtst from 1.2.2 to 1.2.3 to address:
-Out of Bounds Write Denial of Service Vulnerability, CVE-2016-7951
+3.15.2 -> 3.16.2
 
-References:
-https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-7951
-https://cgit.freedesktop.org/xorg/lib/libXtst/commit/?id=9556ad67af3129ec4a7a4f4b54a0d59701beeae3
+1. Updated the SRC_URI for releases in 2017
+2. Removed the following revert patch as the fix is present in this release:
+        a) 0001-revert-ad601c7962-that-brings-2-increase-of-build-ti.patch
 
-Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+[YOCTO #10695]
+
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/recipes-graphics/xorg-lib/{libxtst_1.2.2.bb => libxtst_1.2.3.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxtst_1.2.2.bb => libxtst_1.2.3.bb} (78%)
+ ...1c7962-that-brings-2-increase-of-build-ti.patch | 56 ----------------------
+ meta/recipes-support/sqlite/sqlite3_3.15.2.bb      | 12 -----
+ meta/recipes-support/sqlite/sqlite3_3.16.2.bb      | 11 +++++
+ 3 files changed, 11 insertions(+), 68 deletions(-)
+ delete mode 100644 meta/recipes-support/sqlite/files/0001-revert-ad601c7962-that-brings-2-increase-of-build-ti.patch
+ delete mode 100644 meta/recipes-support/sqlite/sqlite3_3.15.2.bb
+ create mode 100644 meta/recipes-support/sqlite/sqlite3_3.16.2.bb
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxtst_1.2.2.bb b/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb
-similarity index 78%
-rename from meta/recipes-graphics/xorg-lib/libxtst_1.2.2.bb
-rename to meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb
-index 1b0bcf3..31ea439 100644
---- a/meta/recipes-graphics/xorg-lib/libxtst_1.2.2.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb
-@@ -16,5 +16,5 @@ PE = "1"
- 
- XORG_PN = "libXtst"
- 
--SRC_URI[md5sum] = "25c6b366ac3dc7a12c5d79816ce96a59"
--SRC_URI[sha256sum] = "ef0a7ffd577e5f1a25b1663b375679529663a1880151beaa73e9186c8309f6d9"
-+SRC_URI[md5sum] = "ef8c2c1d16a00bd95b9fdcef63b8a2ca"
-+SRC_URI[sha256sum] = "4655498a1b8e844e3d6f21f3b2c4e2b571effb5fd83199d428a6ba7ea4bf5204"
+diff --git a/meta/recipes-support/sqlite/files/0001-revert-ad601c7962-that-brings-2-increase-of-build-ti.patch b/meta/recipes-support/sqlite/files/0001-revert-ad601c7962-that-brings-2-increase-of-build-ti.patch
+deleted file mode 100644
+index 26540b2..0000000
+--- a/meta/recipes-support/sqlite/files/0001-revert-ad601c7962-that-brings-2-increase-of-build-ti.patch
++++ /dev/null
+@@ -1,56 +0,0 @@
+-From 4b286b441e8efa9a34eb0db8227748ebffd91c35 Mon Sep 17 00:00:00 2001
+-From: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+-Date: Thu, 13 Oct 2016 09:24:21 -0700
+-Subject: [PATCH] revert ad601c7962 that brings 2% increase of build time.
+-
+-The comment of the change in sqlite fossil project is:
+-"For in-memory databases, it does not matter if pcache
+-entries are marked "clean" or "writable"."
+-
+-Upstream Status: Inappropriate
+-
+-Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+----
+- sqlite3.c | 12 +++---------
+- 1 file changed, 3 insertions(+), 9 deletions(-)
+-
+-diff --git a/sqlite3.c b/sqlite3.c
+-index ccddfe6..ecae550 100644
+---- a/sqlite3.c
+-+++ b/sqlite3.c
+-@@ -13146,7 +13146,7 @@ struct PgHdr {
+-   sqlite3_pcache_page *pPage;    /* Pcache object page handle */
+-   void *pData;                   /* Page data */
+-   void *pExtra;                  /* Extra content */
+--  PgHdr *pDirty;                 /* Transient list of dirty sorted by pgno */
+-+  PgHdr *pDirty;                 /* Transient list of dirty pages */
+-   Pager *pPager;                 /* The pager this page is part of */
+-   Pgno pgno;                     /* Page number for this page */
+- #ifdef SQLITE_CHECK_PAGES
+-@@ -43504,13 +43504,7 @@ bitvec_end:
+- /* #include "sqliteInt.h" */
+- 
+- /*
+--** A complete page cache is an instance of this structure.  Every
+--** entry in the cache holds a single page of the database file.  The
+--** btree layer only operates on the cached copy of the database pages.
+--**
+--** A page cache entry is "clean" if it exactly matches what is currently
+--** on disk.  A page is "dirty" if it has been modified and needs to be
+--** persisted to disk.
+-+** A complete page cache is an instance of this structure.
+- **
+- ** pDirty, pDirtyTail, pSynced:
+- **   All dirty pages are linked into the doubly linked list using
+-@@ -48314,7 +48308,7 @@ static int pager_end_transaction(Pager *pPager, int hasMaster, int bCommit){
+-   pPager->pInJournal = 0;
+-   pPager->nRec = 0;
+-   if( rc==SQLITE_OK ){
+--    if( pagerFlushOnCommit(pPager, bCommit) ){
+-+    if( MEMDB || pagerFlushOnCommit(pPager, bCommit) ){
+-       sqlite3PcacheCleanAll(pPager->pPCache);
+-     }else{
+-       sqlite3PcacheClearWritable(pPager->pPCache);
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.15.2.bb b/meta/recipes-support/sqlite/sqlite3_3.15.2.bb
+deleted file mode 100644
+index 20bc515..0000000
+--- a/meta/recipes-support/sqlite/sqlite3_3.15.2.bb
++++ /dev/null
+@@ -1,12 +0,0 @@
+-require sqlite3.inc
+-
+-LICENSE = "PD"
+-LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=65f0a57ca6928710b418c094b3570bb0"
+-
+-SRC_URI = "\
+-  http://www.sqlite.org/2016/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+-  file://0001-revert-ad601c7962-that-brings-2-increase-of-build-ti.patch \
+-  "
+-
+-SRC_URI[md5sum] = "6b4fc0d8f7f02dd56bbde10a7c497a05"
+-SRC_URI[sha256sum] = "07b35063b9386865b78226cdaca9a299d938a87aaa8fdc4d73edb0cef30f3149"
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.16.2.bb b/meta/recipes-support/sqlite/sqlite3_3.16.2.bb
+new file mode 100644
+index 0000000..cfbe198
+--- /dev/null
++++ b/meta/recipes-support/sqlite/sqlite3_3.16.2.bb
+@@ -0,0 +1,11 @@
++require sqlite3.inc
++
++LICENSE = "PD"
++LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=65f0a57ca6928710b418c094b3570bb0"
++
++SRC_URI = "\
++  http://www.sqlite.org/2017/sqlite-autoconf-${SQLITE_PV}.tar.gz \
++  "
++SRC_URI[md5sum] = "5a153ef1fd2fa5845ada74deabc68e32"
++SRC_URI[sha256sum] = "65cc0c3e9366f50c0679c5ccd31432cea894bc4a3e8947dabab88c8693263615"
++
 -- 
-1.9.1
+2.4.0
 
 
