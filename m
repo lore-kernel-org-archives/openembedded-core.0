@@ -1,26 +1,28 @@
 Return-Path: <sona.sarmadi@enea.com>
-Received: from smtp-out11.electric.net (smtp-out11.electric.net
-	[185.38.181.35])
-	by mail.openembedded.org (Postfix) with ESMTP id BD151601A4
+X-Greylist: delayed 948 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 10 Jan 2017 11:26:44 UTC
+Received: from smtp-out10.electric.net (smtp-out10.electric.net
+	[185.38.180.32])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E0A2605BE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jan 2017 11:11:18 +0000 (UTC)
-Received: from 1cQuKd-0005q7-V2 by out11b.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1cQuKj-00060I-Vp
+	Tue, 10 Jan 2017 11:26:44 +0000 (UTC)
+Received: from 1cQuKM-0006kn-Vr by out10c.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1cQuKN-0006lO-T8
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2017 03:11:17 -0800
-Received: by emcmailer; Tue, 10 Jan 2017 03:11:17 -0800
+	Tue, 10 Jan 2017 03:10:55 -0800
+Received: by emcmailer; Tue, 10 Jan 2017 03:10:55 -0800
 Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out11b.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1cQuKd-0005q7-V2
+	by out10c.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1cQuKM-0006kn-Vr
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2017 03:11:11 -0800
+	Tue, 10 Jan 2017 03:10:54 -0800
 Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.3.319.2;
-	Tue, 10 Jan 2017 12:11:11 +0100
+	Tue, 10 Jan 2017 12:10:54 +0100
 From: Sona Sarmadi <sona.sarmadi@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Jan 2017 12:11:05 +0100
-Message-ID: <1484046665-61406-1-git-send-email-sona.sarmadi@enea.com>
+Date: Tue, 10 Jan 2017 12:10:51 +0100
+Message-ID: <1484046651-61364-1-git-send-email-sona.sarmadi@enea.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
@@ -35,7 +37,7 @@ X-Authenticated_ID:
 X-PolicySMART: 6551647
 X-Virus-Status: Scanned by VirusSMART (c)
 X-Virus-Status: Scanned by VirusSMART (s)
-Subject: [PATCH][krogoth] libxtst: 1.2.2 -> 1.2.3
+Subject: [PATCH][morty] libxtst: 1.2.2 -> 1.2.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,7 +50,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2017 11:11:19 -0000
+X-List-Received-Date: Tue, 10 Jan 2017 11:26:47 -0000
 Content-Type: text/plain
 
 Upgrade libxtst from 1.2.2 to 1.2.3 to address:
