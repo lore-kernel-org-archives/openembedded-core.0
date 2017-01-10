@@ -1,38 +1,41 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id A7D2F6022E
+Return-Path: <sona.sarmadi@enea.com>
+Received: from smtp-out11.electric.net (smtp-out11.electric.net
+	[185.38.181.35])
+	by mail.openembedded.org (Postfix) with ESMTP id BD151601A4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jan 2017 10:14:29 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=svr-ies-mbx-02.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1cQtRm-0005a5-0Z from Awais_Belal@mentor.com 
+	Tue, 10 Jan 2017 11:11:18 +0000 (UTC)
+Received: from 1cQuKd-0005q7-V2 by out11b.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1cQuKj-00060I-Vp
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2017 02:14:30 -0800
-Received: from SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) by
-	svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2) with Microsoft SMTP
-	Server (TLS) id 15.0.1210.3; Tue, 10 Jan 2017 10:14:12 +0000
-Received: from SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17]) by
-	SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17%22]) with
-	mapi id 15.00.1210.000; Tue, 10 Jan 2017 10:14:13 +0000
-From: "Belal, Awais" <Awais_Belal@mentor.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v2 1/2] grub_git: extend recipe for proper
-	target	deployment
-Thread-Index: AQHSV5a0y1Z09goc0EWPp0qxN+IZRaEbxpmagAsFq2aACtkXjw==
-Date: Tue, 10 Jan 2017 10:14:13 +0000
-Message-ID: <1484043253234.5319@mentor.com>
-References: <1481890756-18807-1-git-send-email-awais_belal@mentor.com>,
-	<1482840926804.77705@mentor.com>,<1483446874461.46009@mentor.com>
-In-Reply-To: <1483446874461.46009@mentor.com>
-Accept-Language: en-US, en-IE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [137.202.0.87]
+	Tue, 10 Jan 2017 03:11:17 -0800
+Received: by emcmailer; Tue, 10 Jan 2017 03:11:17 -0800
+Received: from [192.36.1.72] (helo=mx-3.enea.com)
+	by out11b.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1cQuKd-0005q7-V2
+	for openembedded-core@lists.openembedded.org;
+	Tue, 10 Jan 2017 03:11:11 -0800
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.319.2;
+	Tue, 10 Jan 2017 12:11:11 +0100
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Jan 2017 12:11:05 +0100
+Message-ID: <1484046665-61406-1-git-send-email-sona.sarmadi@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 1/2] grub_git: extend recipe for proper target	deployment
+Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
+	designate permitted sender hosts)
+X-Outbound-IP: 192.36.1.72
+X-Env-From: sona.sarmadi@enea.com
+X-Proto: esmtps
+X-Revdns: mx-3.enea.com
+X-HELO: mx-3.enea.com
+X-TLS: TLSv1:AES128-SHA:128
+X-Authenticated_ID: 
+X-PolicySMART: 6551647
+X-Virus-Status: Scanned by VirusSMART (c)
+X-Virus-Status: Scanned by VirusSMART (s)
+Subject: [PATCH][krogoth] libxtst: 1.2.2 -> 1.2.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,189 +48,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2017 10:14:31 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 10 Jan 2017 11:11:19 -0000
+Content-Type: text/plain
 
-ping!=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-b=
-ounces@lists.openembedded.org> on behalf of Belal, Awais=0A=
-Sent: Tuesday, January 3, 2017 5:34 PM=0A=
-To: openembedded-core@lists.openembedded.org=0A=
-Subject: Re: [OE-core] [PATCH v2 1/2] grub_git: extend recipe for proper ta=
-rget deployment=0A=
-=0A=
-ping!=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-b=
-ounces@lists.openembedded.org> on behalf of Belal, Awais=0A=
-Sent: Tuesday, December 27, 2016 5:15 PM=0A=
-To: openembedded-core@lists.openembedded.org=0A=
-Subject: Re: [OE-core] [PATCH v2 1/2] grub_git: extend recipe for proper ta=
-rget deployment=0A=
-=0A=
-ping!=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-b=
-ounces@lists.openembedded.org> on behalf of Belal, Awais=0A=
-Sent: Friday, December 16, 2016 5:19 PM=0A=
-To: openembedded-core@lists.openembedded.org=0A=
-Subject: [OE-core] [PATCH v2 1/2] grub_git: extend recipe for proper target=
-     deployment=0A=
-=0A=
-This extends the grub_git recipe so it can deploy grub=0A=
-on the target boot disk just like grub-efi. Mainly=0A=
-this copies stuff from the grub-efi recipe and then=0A=
-adjusts some bits accordingly. This would allow=0A=
-using the latest and greatest versions of grub=0A=
-on the target.=0A=
-=0A=
-Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
----=0A=
- meta/recipes-bsp/grub/grub_git.bb | 60 +++++++++++++++++++++++++++++++++++=
-----=0A=
- 1 file changed, 54 insertions(+), 6 deletions(-)=0A=
-=0A=
-diff --git a/meta/recipes-bsp/grub/grub_git.bb b/meta/recipes-bsp/grub/grub=
-_git.bb=0A=
-index eb824cc..13c48c7 100644=0A=
---- a/meta/recipes-bsp/grub/grub_git.bb=0A=
-+++ b/meta/recipes-bsp/grub/grub_git.bb=0A=
-@@ -3,11 +3,15 @@ require grub2.inc=0A=
- DEFAULT_PREFERENCE =3D "-1"=0A=
- DEFAULT_PREFERENCE_arm =3D "1"=0A=
-=0A=
-+DEPENDS +=3D "grub-native"=0A=
-+RDEPENDS_${PN}_class-target =3D "diffutils freetype"=0A=
-+=0A=
- FILESEXTRAPATHS =3D. "${FILE_DIRNAME}/grub-git:"=0A=
-=0A=
- PV =3D "2.00+${SRCPV}"=0A=
- SRCREV =3D "7a5b301e3adb8e054288518a325135a1883c1c6c"=0A=
- SRC_URI =3D "git://git.savannah.gnu.org/grub.git \=0A=
-+           file://cfg \=0A=
-            file://0001-Disable-mfpmath-sse-as-well-when-SSE-is-disabled.pa=
-tch \=0A=
-            file://autogen.sh-exclude-pc.patch \=0A=
-            file://0001-grub.d-10_linux.in-add-oe-s-kernel-name.patch \=0A=
-@@ -19,29 +23,73 @@ COMPATIBLE_HOST =3D '(x86_64.*|i.86.*|arm.*|aarch64.*)-=
-(linux.*|freebsd.*)'=0A=
- COMPATIBLE_HOST_armv7a =3D 'null'=0A=
- COMPATIBLE_HOST_armv7ve =3D 'null'=0A=
-=0A=
--inherit autotools gettext texinfo=0A=
-+inherit autotools gettext texinfo deploy=0A=
-=0A=
- # configure.ac has code to set this automagically from the target tuple=0A=
- # but the OE freeform one (core2-foo-bar-linux) don't work with that.=0A=
--=0A=
- GRUBPLATFORM_arm =3D "uboot"=0A=
- GRUBPLATFORM_aarch64 =3D "efi"=0A=
- GRUBPLATFORM ??=3D "pc"=0A=
-=0A=
-+CACHED_CONFIGUREVARS +=3D "ac_cv_path_HELP2MAN=3D"=0A=
- EXTRA_OECONF =3D "--with-platform=3D${GRUBPLATFORM} --disable-grub-mkfont =
---program-prefix=3D"" \=0A=
-                 --enable-liblzma=3Dno --enable-device-mapper=3Dno --enable=
--libzfs=3Dno"=0A=
--=0A=
-+EXTRA_OECONF +=3D "${@bb.utils.contains('GRUBPLATFORM', 'efi', '--enable-e=
-fiemu=3Dno', '', d)}"=0A=
- EXTRA_OECONF +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', '-=
--enable-largefile', '--disable-largefile', d)}"=0A=
-=0A=
--do_install_append () {=0A=
-+# Determine the target arch for the grub modules=0A=
-+python __anonymous () {=0A=
-+    import re=0A=
-+    target =3D d.getVar('TARGET_ARCH', True)=0A=
-+    platform =3D d.getVar('GRUBPLATFORM', True)=0A=
-+    if target =3D=3D "x86_64":=0A=
-+        grubtarget =3D 'x86_64'=0A=
-+        grubimage =3D "bootx64." + platform=0A=
-+    elif re.match('i.86', target):=0A=
-+        grubtarget =3D 'i386'=0A=
-+        grubimage =3D "bootia32." + platform=0A=
-+    elif re.match('arm', target):=0A=
-+        grubtarget =3D 'arm'=0A=
-+        grubimage =3D "bootarm." + platform=0A=
-+    elif re.match('aarch64', target):=0A=
-+        grubtarget =3D 'arm64'=0A=
-+        grubimage =3D "bootaa64." + platform=0A=
-+    else:=0A=
-+        raise bb.parse.SkipPackage("grub is incompatible with target %s" %=
- target)=0A=
-+    d.setVar("GRUB_TARGET", grubtarget)=0A=
-+    d.setVar("GRUB_IMAGE", grubimage)=0A=
-+}=0A=
-+=0A=
-+do_install_class-native() {=0A=
-+    install -d ${D}${bindir}=0A=
-+    install -m 755 grub-mkimage ${D}${bindir}=0A=
-+}=0A=
-+=0A=
-+do_install_append() {=0A=
-     install -d ${D}${sysconfdir}/grub.d=0A=
-     rm -rf ${D}${libdir}/charset.alias=0A=
- }=0A=
-=0A=
-+GRUB_BUILDIN ?=3D "boot linux ext2 fat serial part_msdos part_gpt normal e=
-fi_gop iso9660 search"=0A=
-+do_deploy() {=0A=
-+    # Search for the grub.cfg on the local boot media by using the=0A=
-+    # built in cfg file provided via this recipe=0A=
-+    grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \=0A=
-+                   -O ${GRUB_TARGET}-${GRUBPLATFORM} -o ./${GRUB_IMAGE} \=
-=0A=
-+                   ${GRUB_BUILDIN}=0A=
-+    install -m 644 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}=0A=
-+}=0A=
-+=0A=
-+do_deploy_class-native() {=0A=
-+    :=0A=
-+}=0A=
-+=0A=
-+addtask deploy after do_install before do_build=0A=
-+=0A=
- # debugedit chokes on bare metal binaries=0A=
- INHIBIT_PACKAGE_DEBUG_SPLIT =3D "1"=0A=
-=0A=
--RDEPENDS_${PN} =3D "diffutils freetype"=0A=
--=0A=
- INSANE_SKIP_${PN} =3D "arch"=0A=
- INSANE_SKIP_${PN}-dbg =3D "arch"=0A=
-+=0A=
-+BBCLASSEXTEND =3D "native"=0A=
---=0A=
-1.9.1=0A=
-=0A=
---=0A=
-_______________________________________________=0A=
-Openembedded-core mailing list=0A=
-Openembedded-core@lists.openembedded.org=0A=
-http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
---=0A=
-_______________________________________________=0A=
-Openembedded-core mailing list=0A=
-Openembedded-core@lists.openembedded.org=0A=
-http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
---=0A=
-_______________________________________________=0A=
-Openembedded-core mailing list=0A=
-Openembedded-core@lists.openembedded.org=0A=
-http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
+Upgrade libxtst from 1.2.2 to 1.2.3 to address:
+Out of Bounds Write Denial of Service Vulnerability, CVE-2016-7951
+
+References:
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-7951
+https://cgit.freedesktop.org/xorg/lib/libXtst/commit/?id=9556ad67af3129ec4a7a4f4b54a0d59701beeae3
+
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+---
+ meta/recipes-graphics/xorg-lib/{libxtst_1.2.2.bb => libxtst_1.2.3.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxtst_1.2.2.bb => libxtst_1.2.3.bb} (78%)
+
+diff --git a/meta/recipes-graphics/xorg-lib/libxtst_1.2.2.bb b/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb
+similarity index 78%
+rename from meta/recipes-graphics/xorg-lib/libxtst_1.2.2.bb
+rename to meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb
+index 1b0bcf3..31ea439 100644
+--- a/meta/recipes-graphics/xorg-lib/libxtst_1.2.2.bb
++++ b/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb
+@@ -16,5 +16,5 @@ PE = "1"
+ 
+ XORG_PN = "libXtst"
+ 
+-SRC_URI[md5sum] = "25c6b366ac3dc7a12c5d79816ce96a59"
+-SRC_URI[sha256sum] = "ef0a7ffd577e5f1a25b1663b375679529663a1880151beaa73e9186c8309f6d9"
++SRC_URI[md5sum] = "ef8c2c1d16a00bd95b9fdcef63b8a2ca"
++SRC_URI[sha256sum] = "4655498a1b8e844e3d6f21f3b2c4e2b571effb5fd83199d428a6ba7ea4bf5204"
+-- 
+1.9.1
+
 
