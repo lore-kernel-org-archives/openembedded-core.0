@@ -1,57 +1,54 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A2906079E
+Return-Path: <ola.redell@gmail.com>
+Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
+	[209.85.215.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 77EBF6003C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jan 2017 07:32:21 +0000 (UTC)
-Received: by mail-io0-f177.google.com with SMTP id j18so52208598ioe.2
+	Tue, 10 Jan 2017 08:44:08 +0000 (UTC)
+Received: by mail-lf0-f68.google.com with SMTP id q89so7897699lfi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Jan 2017 23:32:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=CPXm82O/yzbuzavvrnzQugy4py3vcZLMcnoY/vF2L70=;
-	b=WQXLQnqBj7KPiyDz31uj8I+AS1/psLm8wE4kzGg06kErqTgTVxcm5eUpWS3De9jS6t
-	9XeuUTe4d+/ZTq7z4KHljq8Q3n35jOPsiX4jtBTEGsBU0ELVWIW6sBxZ4WbcFRrnSk1m
-	8zol029o/qwL+kldWYM9s9F1jEdgPfnJKRWKyeWmnM9myZ5rgC3P5LfHHQjDlIIUB3Mz
-	OtEGD9vP7zSscz5jiSJ8pvH4vSQ+Zfgvp30yUjXvxzcyVo1oxcvnDtmEvj95eTHzsMP3
-	9fUhXlQbatQsvckL3Xc0Hr5yx9nXMbaGNNduGKXgykm9EgTAotE2totFd4rjQhHMXxeM
-	s8SA==
+	Tue, 10 Jan 2017 00:44:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to;
+	bh=YIiVMokNznp2E25ar2mygDCIUrZHXDNNdAEpQ4nWIvA=;
+	b=GpkPr7hRCk+jrvCoPkGOeJAcjA+cZab5E8TxBrT4TtfZkpLG2lDu5SroApfilwvfGm
+	tkvKR1E6cy93ZJ2iwsL7ddBPZPqOnhpvluGpgSTxcumucQYCqzbzhXfbM+P+0fHyrP2n
+	dkKs9W534JhIrGtze2AN8G6RazNVCI/c4yKmDUhZwjrr0q4HIPdL1NxSSO2zybUjyW/J
+	ltscFYu27Gj4kDwFFwaqNvd4BQ5V6gqlLHPT+M1TqKeQlD8YSSb9qCQqkQDMt1XPp/h8
+	p4mOPic2fT5ww4WBbu8EEOfIoqVBxH//GTtKsy9igiE5vcNnBhj+gyz3NwWF5d/0ZLWu
+	wb9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=CPXm82O/yzbuzavvrnzQugy4py3vcZLMcnoY/vF2L70=;
-	b=dhsF51nj/t71f5afHV3OuCeroBXVqYKTulnyAcsVMmJ4iq3kF4PBkFtHztedzqif6z
-	GBoegRQMBm07w94iSVZC9abRCsEEo3DXcBnac9Bhegdaf20QvBvauxKGEJbrrXESz47R
-	saVil6kCROv6kJZD5+p1ROHPunSPkLAuRfHhrSQcj+b+tkUXgYy60/6Vqw4VVHWm3ui+
-	uuAkim4hlak8k8WP1ePAYn+7RGTR/44quBP6QWufB/kOM5doFdkvt6p68ot/WqhnA5E1
-	n0GiFst+RWd5/fSD9RCeZKjx1oKWK1Pi95JJkulPm8/+q4h8Qeqo+psX0yjFKn7emruq
-	uz6w==
-X-Gm-Message-State: AIkVDXJqdnqh40QL9t3Ycps2ub/cz3GsTgtX0vkm7fxSEnTEqnrhV1EUvOZWO4/JAKfbjrjD
-X-Received: by 10.107.164.147 with SMTP id d19mr1994113ioj.79.1484033542341;
-	Mon, 09 Jan 2017 23:32:22 -0800 (PST)
-Received: from pohly-mobl1 (p57A56084.dip0.t-ipconnect.de. [87.165.96.132])
-	by smtp.gmail.com with ESMTPSA id
-	g186sm7766117itb.4.2017.01.09.23.32.20
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to;
+	bh=YIiVMokNznp2E25ar2mygDCIUrZHXDNNdAEpQ4nWIvA=;
+	b=Y5mEKfkEHbCUKnDlTp30ivsD+muqpRwRlUPIhRq7bOldLkFmSX8TRYYqLVn+PdzGL2
+	kCbx8vr7kTOon8xsANaIiOHJES9xgYT+kdEZboM6kuQIsIg3IkirMHfYsf7q9bFaixuo
+	Gdmij7VPdCTr67jetvgRKrq4J9D0Er8fuw1z7opDNi/1Vco6XXsEYu1ecWOLNmnFuP6H
+	hGyOX7x5QTZ4KHgN09J/Zrj3WSKZ+MwextM2PWdi7lmCmiEmRHnPWQESRjUjDsuaKrlD
+	GsqlKnfs1dsrWtGz8KkalQ4aJ9TfZhPltucqnkoDB/kdOUQUAjAR/X4KQsyfKNFtChpQ
+	RlaA==
+X-Gm-Message-State: AIkVDXLOeCCt9zqhgx06i2qRPhXj3Sys6+RKQonSoZQSYuzBJeP0b0bLay3VC9+zXGrq7Q==
+X-Received: by 10.25.79.30 with SMTP id d30mr718034lfb.38.1484037848181;
+	Tue, 10 Jan 2017 00:44:08 -0800 (PST)
+Received: from [192.168.1.122] (81-230-13-64-no94.tbcn.telia.com.
+	[81.230.13.64]) by smtp.googlemail.com with ESMTPSA id
+	c78sm284069lfc.39.2017.01.10.00.44.07
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 09 Jan 2017 23:32:21 -0800 (PST)
-Message-ID: <1484033538.2137.108.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-Date: Tue, 10 Jan 2017 08:32:18 +0100
-In-Reply-To: <1484020254.65791.27.camel@ranerica-desktop>
-References: <cover.1482324587.git.patrick.ohly@intel.com>
-	<ce57b729e9ac830d808040b7e3ff1fc128475420.1482324587.git.patrick.ohly@intel.com>
-	<1482961124.106950.55.camel@ranerica-desktop>
-	<1483524116.28169.33.camel@intel.com>
-	<1484020254.65791.27.camel@ranerica-desktop>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/9] ovmf: deploy firmware in image directory
+	Tue, 10 Jan 2017 00:44:07 -0800 (PST)
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+References: <1483955680-18110-1-git-send-email-ola.redell@retotech.se>
+	<CADkTA4PFOUmv3W8stkhDmewwDfBE+efZEVym903937jz6eAo7g@mail.gmail.com>
+From: Ola Redell <ola.redell@gmail.com>
+Message-ID: <314ad0bd-0cab-723a-520b-2db8b6e3b9f7@gmail.com>
+Date: Tue, 10 Jan 2017 09:44:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <CADkTA4PFOUmv3W8stkhDmewwDfBE+efZEVym903937jz6eAo7g@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] kernel-module-split: Append KERNEL_VERSION string to kernel module name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,51 +61,164 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2017 07:32:22 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 10 Jan 2017 08:44:09 -0000
+Content-Type: multipart/alternative;
+	boundary="------------4856298D7F8F3C6FDD85C378"
+
+--------------4856298D7F8F3C6FDD85C378
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2017-01-09 at 19:50 -0800, Ricardo Neri wrote:
-> On Wed, 2017-01-04 at 11:01 +0100, Patrick Ohly wrote:
-> > On Wed, 2016-12-28 at 13:38 -0800, Ricardo Neri wrote:
-> > > >  do_install_class-target() {
-> > > > -    OVMF_DIR_SUFFIX="X64"
-> > > > -    if [ "${TARGET_ARCH}" != "x86_64" ] ; then
-> > > > -        OVMF_DIR_SUFFIX="Ia32" # Note the different capitalization
-> > > > -    fi
-> > > > +    # Traditional location.
-> > > >      install -d ${D}${datadir}/ovmf
-> > > > +    install -m 0755 ${WORKDIR}/ovmf/OVMF.fd ${D}${datadir}/ovmf/bios.bin
-> > > 
-> > > Now that I think about it. Installing here does not sever any purpose.
-> > > Thus, I think this can be removed by perhaps doing do_install[noexec] =
-> > > "1"
-> > 
-> > I was trying not to break traditional usage patterns. If we keep the
-> > "bios" runqemu parameters, then we should also keep the bios.bin file.
-> 
-> I think OVMF is not a traditional recipe. There are two use cases to
-> ponder. 1) a Yocto Project disk image wants to include OVMF along with
-> qemu to run a VM from the YP image. 2) we want to run a YP image in a
-> host system. I am not sure if someone is interested in 1) and I think
-> your use case and LUV's is 2). I think that putting things in the deploy
-> directory makes more sense because, as you said, these images will be
-> written to. I reckon the the "bios" parameters in runqemu should look
-> there. This is not a must for this patchset but something nice to have.
-
-Okay, so let's remove that "traditional location" already in this patch
-set. I still want to keep the "bios" parameters in runqemu (because they
-might have some other uses), but for OVMF, the only supported approach
-will be via the "ovmf" parameters and the deploy directory.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
 
 
+On 01/09/2017 06:20 PM, Bruce Ashfield wrote:
+>
+> The functionality you describe is a good thing, but I have a few 
+> questions to make
+> sure I understand the change, and confirm that existing functionality 
+> isn't broken ..
+> and that the internals of the package management do the right thing 
+> (I'm not an
+> expert on those internals .. so bear with me).
+I am not an expert either so I thought I'd suggest this since it works 
+for me and see how it is received.
+>
+> With this change, do you know if RDEPENDS="kernel-module-foo" still 
+> works ? or
+> does it now have to be RDEPENDS="kernel-module-foo-<version>" ?
+>
+No, the old writing would not work. You would need to add the version as 
+in your second example. That will break things, true.
+> On a similar thought, "smart install kernel-module-foo" would also 
+> work ? or does it
+> now require a version ?
+>
+Also in this example you would need to add the version, even though I 
+have only used apt-get and not smart.
+
+The meta package "kernel-modules" will work as before, without a version 
+postfix.
+
+So basically, as I understand it, this may be a blocker for this change. 
+Alternatives I can come up with are:
+
+1) For all packaged kernel modules, add meta packages that depend on the 
+correct version of the kernel module itself. Then "kernel-module-foo" 
+would depend on "kernel-module-foo-<version>". The package 
+"kernel-modules" would then still be made depending on 
+"kernel-module-foo-<version>" and the likes.
+
+2) Make the version postfix configurable with a 
+KERNEL_MODULE_PACKAGE_POSTFIX, exactly like the prefix (which was added 
+recently). The default would be an empty postfix, but it could be used 
+to achieve this functionality for those who need it.
+
+No. 2 is a very simple change. No. 1 is more uncertain (to me at least).
+
+/Ola
 
 
+--------------4856298D7F8F3C6FDD85C378
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <br>
+    <br>
+    <div class="moz-cite-prefix">On 01/09/2017 06:20 PM, Bruce Ashfield
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CADkTA4PFOUmv3W8stkhDmewwDfBE+efZEVym903937jz6eAo7g@mail.gmail.com"
+      type="cite">
+      <div dir="ltr"><br>
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <div>The functionality you describe is a good thing, but I
+              have a few questions to make<br>
+            </div>
+            <div>sure I understand the change, and confirm that existing
+              functionality isn't broken .. <br>
+            </div>
+            <div>and that the internals of the package management do the
+              right thing (I'm not an<br>
+            </div>
+            <div>expert on those internals .. so bear with me).<br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    I am not an expert either so I thought I'd suggest this since it
+    works for me and see how it is received.<br>
+    <blockquote
+cite="mid:CADkTA4PFOUmv3W8stkhDmewwDfBE+efZEVym903937jz6eAo7g@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <div><br>
+            </div>
+            <div>With this change, do you know if
+              RDEPENDS="kernel-module-foo" still works ? or<br>
+            </div>
+            <div>does it now have to be
+              RDEPENDS="kernel-module-foo-&lt;version&gt;" ?<br>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    No, the old writing would not work. You would need to add the
+    version as in your second example. That will break things, true.<br>
+    <blockquote
+cite="mid:CADkTA4PFOUmv3W8stkhDmewwDfBE+efZEVym903937jz6eAo7g@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <div>On a similar thought, "smart install kernel-module-foo"
+              would also work ? or does it<br>
+            </div>
+            <div>now require a version ?<br>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    Also in this example you would need to add the version, even though
+    I have only used apt-get and not smart.<br>
+    <br>
+    The meta package "kernel-modules" will work as before, without a
+    version postfix.<br>
+    <br>
+    So basically, as I understand it, this may be a blocker for this
+    change. Alternatives I can come up with are:<br>
+    <br>
+    1) For all packaged kernel modules, add meta packages that depend on
+    the correct version of the kernel module itself. Then
+    "kernel-module-foo" would depend on
+    "kernel-module-foo-&lt;version&gt;". The package "kernel-modules"
+    would then still be made depending on
+    "kernel-module-foo-&lt;version&gt;" and the likes.<br>
+    <br>
+    2) Make the version postfix configurable with a
+    KERNEL_MODULE_PACKAGE_POSTFIX, exactly like the prefix (which was
+    added recently). The default would be an empty postfix, but it could
+    be used to achieve this functionality for those who need it.<br>
+    <br>
+    No. 2 is a very simple change. No. 1 is more uncertain (to me at
+    least).<br>
+    <br>
+    /Ola<br>
+    <br>
+  </body>
+</html>
+
+--------------4856298D7F8F3C6FDD85C378--
