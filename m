@@ -1,27 +1,48 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 51B3660685
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
+	[209.85.213.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 0EFF7719A5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jan 2017 20:40:41 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga101.jf.intel.com with ESMTP; 10 Jan 2017 12:40:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,344,1477983600"; d="scan'208,217";a="51501827"
-Received: from lsandov1-mobl2.zpn.intel.com (HELO [10.219.128.142])
-	([10.219.128.142])
-	by orsmga005.jf.intel.com with ESMTP; 10 Jan 2017 12:40:41 -0800
-To: openembedded-core@lists.openembedded.org,
-	Jose Lamego <jose.a.lamego@linux.intel.com>
-References: <1481841885-2197-1-git-send-email-jose.a.lamego@linux.intel.com>
-	<20170110203242.28226.40870@patchwork-staging.openembedded.org>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Message-ID: <5e43e33a-3d15-1ae5-7c45-687c87875904@linux.intel.com>
-Date: Tue, 10 Jan 2017 14:47:19 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.6.0
+	Tue, 10 Jan 2017 21:09:32 +0000 (UTC)
+Received: by mail-vk0-f68.google.com with SMTP id n19so226375vkd.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jan 2017 13:09:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=J4ihIHIpmk4EG6DF7A7jZTn31TnlIwnrYFv0imHgmD4=;
+	b=gC0BfquWYbGmJZK7Rr+SCLvSl6EsOFlb5OJI5IBRzLgxcUx3xHDQDi/MPYE1EG0jb7
+	lJhnGprwZzEBgteWUnQKH0uR7t1B71eVvbaDURGlewuDPO+J9KiJ7b8jrR2KQMu597+I
+	fukdg93oBEy4W65yGqUsxviWzacMcHRjIo5N+u86CLlKOEC9GLvzeqXREEqkHyLh7aNe
+	o5GrUsiUGg8itaTJuqy090FwgfbYhfvt7oX9Iym7f8thRszw9TGcd5hj9T/rDpR1KG7I
+	Lf8J8jszngeh56I4bzO41yB9VCjllmcTatZmjbrtgGwwhJqhTGLwfvdbZzu7K0yquLyg
+	r8cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=J4ihIHIpmk4EG6DF7A7jZTn31TnlIwnrYFv0imHgmD4=;
+	b=d8atiENCM+aQ0h9wt7DvPgiw7XYihSAyAVHqHNxBIcI38VquTUysfjDCGL98e1HR5u
+	PtsHm9O6ODTxDp/Wivx7a6vJKnaFp3FT+xyJc6sJadytYNi849yd/0rewmzLS3ousxrF
+	1C6MpMsGaZD1yCrT/zoj5q0uaQp7SWFe3weviV037yAL9nDiHa8aKm2DmtKCkz9ggLpW
+	VBmC0vtNixe5KxjZlqL6PurUidssK1iXs9TKi3zEuxqnMMuO97AiRe/mJn39h2H99i9E
+	+rBMEXnxGJpEl7WEGocjiT9SC6O5LMPDNd2H9IWU4c08Fm33iBoe9IAybZIcKM/f+xQx
+	u9Lg==
+X-Gm-Message-State: AIkVDXJHfUPN0Ptj26aj9tgvTHxxiPz2OEzv+9GXAoexKXG46FTGyeEwCkV0OVvOK55ckckHW+2UZB3JecnvBw==
+X-Received: by 10.31.201.7 with SMTP id z7mr2098793vkf.67.1484082572620; Tue,
+	10 Jan 2017 13:09:32 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20170110203242.28226.40870@patchwork-staging.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIHB5dGhvbiotZ2l0OiBVcGdyYWRlIHRvIHZlcnNpb24gMi4xLjEgKHJldjIp?=
+Received: by 10.176.69.246 with HTTP; Tue, 10 Jan 2017 13:09:32 -0800 (PST)
+In-Reply-To: <CAJTo0LZA_r=H8_Nchybr+7+bZu0Ka35MXd_AqvbYNZ9Db6VRLg@mail.gmail.com>
+References: <1484070799-19031-1-git-send-email-schnitzeltony@googlemail.com>
+	<CAJTo0LZA_r=H8_Nchybr+7+bZu0Ka35MXd_AqvbYNZ9Db6VRLg@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Tue, 10 Jan 2017 22:09:32 +0100
+Message-ID: <CALbNGRRtQYDs_-KqD7TPeQKdWX7UQrYp1DKLfHkt5SJa-Ca17g@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] python3-pygobject: add PACKAGECONFIG for cairo - enabled by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,76 +55,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2017 20:40:42 -0000
-Content-Type: multipart/alternative;
-	boundary="------------9A922BC46E8252ACE11A5C6E"
+X-List-Received-Date: Tue, 10 Jan 2017 21:09:33 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---------------9A922BC46E8252ACE11A5C6E
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-Sorry for the spam. We are doing some tests on a patchwork staging 
-instance and by mistake we indicate the latter to send the /patch 
-failures/ to the mailing list. We will soon provide more detail about 
-this new testing tool.
-
-Leo
-
-
-On 01/10/2017 02:32 PM, Patchwork wrote:
-> == Series Details ==
+On Tue, Jan 10, 2017 at 8:57 PM, Burton, Ross <ross.burton@intel.com> wrote=
+:
 >
-> Series: python*-git: Upgrade to version 2.1.1 (rev2)
-> Revision 2
-> URL   : https://patchwork-staging.openembedded.org/series/3924/
-> State : failure
->
-> == Summary ==
->
-> simple failure
+> On 10 January 2017 at 17:53, Andreas M=C3=BCller <schnitzeltony@googlemai=
+l.com>
+> wrote:
+>>
+>> Have onboard (onscreen-keyboard) in the pipe for meta-oe. For that worki=
+ng
+>> properly we need python3-pygobject build with cairo support.
 >
 >
+> Does v2 solve the problems that the autobuilder is seeing?
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-qa-pam/builds/=
+1023/steps/BuildImages/logs/stdio
+>
+Yes: we need python3-pycairo in DEPENDS and RDEPENDS. V1 had
+python3-pycairo in RDEPENDS only.
 
+Andreas
 
---------------9A922BC46E8252ACE11A5C6E
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p>Sorry for the spam. We are doing some tests on a patchwork
-      staging instance and by mistake we indicate the latter to send the
-      <i>patch failures</i> to the mailing list. We will soon provide
-      more detail about this new testing tool.<br>
-    </p>
-    <p>Leo<br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">On 01/10/2017 02:32 PM, Patchwork
-      wrote:<br>
-    </div>
-    <blockquote
-      cite="mid:20170110203242.28226.40870@patchwork-staging.openembedded.org"
-      type="cite">
-      <pre wrap="">== Series Details ==
-
-Series: python*-git: Upgrade to version 2.1.1 (rev2)
-Revision 2
-URL   : <a class="moz-txt-link-freetext" href="https://patchwork-staging.openembedded.org/series/3924/">https://patchwork-staging.openembedded.org/series/3924/</a>
-State : failure
-
-== Summary ==
-
-simple failure
-
-
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------9A922BC46E8252ACE11A5C6E--
