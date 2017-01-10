@@ -1,51 +1,49 @@
 Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-wj0-f195.google.com (mail-wj0-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id B298971AEF
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 60BD171A5E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jan 2017 16:38:50 +0000 (UTC)
-Received: by mail-wj0-f195.google.com with SMTP id ey1so9014005wjd.2
+	Tue, 10 Jan 2017 17:53:32 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id c206so83106008wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jan 2017 08:38:50 -0800 (PST)
+	Tue, 10 Jan 2017 09:53:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=googlemail.com; s=20161025;
 	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=asRhg0QkZTeyDqz9vwudegxgkS7xuSR6/cUVDCA4dtc=;
-	b=Uu1gxKYtoBUiaGNFoYoYgzJf8nWB4uSfdqV0Vl9nI2tswjQpTFLqail9RLKPM9w0wK
-	OzXVsS0uhV3jdTp5Rqy92TFNlBX90keFWSnQ368M2pvuV6f+4Zact+T0HpCr3Hrbi/Uh
-	IxnI2b1zw6KI2XQ8vP3HEdyQRz6rKyfTNSFZu7ArS+eoah2JI5YP1FqkGltmdcR7ATHV
-	0uGRQ7yOf7xvm/l9Nnc7M7qKtAVavjQ26CvByyAxS9mBYZpgWNFJ4mZbVhNXErG5JF7A
-	/jJGW1fIQbfiQDRxUQzzP0i1yaRIe8uoleOmxW2qhOu6rjo13rFsASwxSJ3vrEs7CQ32
-	HlvQ==
+	bh=mdFGW+D4y9xyzo8Dh+RTCYK95/T1WCsmFESOk2q1z3M=;
+	b=TORkYd4Q3Ls+8kpn/XYSjRybF9VbgkAbe3rJIfcfDKvhnTvRD9AxabSd4QCatU3KYo
+	LhN0FECrGPMs/RfyZf8dZRP6OA45QxgDfKanw61fq1ICNfXoxgorrGRvsjQN8N5RlMLX
+	FJ8ugAhiobFRuxwuzM+hgHklPeqmQO6NRkzFX3eT6ValVJT5SV22fhlfi4KS5Wjs2mVl
+	H1kM9Pz6/sMtT7hkRBaLTw7PuLtxzg1uPW8pin926uRT9sbsHAYUaiDgbNSB3T1HAwsK
+	6Yf57L0WTWPsYZiDB3TAKGRWe2oHmsGt/8HkY0jrW7YW7XHPScsicXHD7KnUjNHTquZi
+	3glw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=asRhg0QkZTeyDqz9vwudegxgkS7xuSR6/cUVDCA4dtc=;
-	b=lJu0Fjc3Mma+q1MGjjaCLTFGn42SJYFecazoGCtDURuSkILAffQku13xyAm1Igkq1e
-	gmhypNOAl1+69rb5dK9dOfvpZAJrYGwWiYmyHcITAJz+xSUyrv2leI349HZobBXGRE8h
-	7X0hZ3WBMbr/WhevFuPcGvtA8QGVzZlatI90JEWaBXX+2bHZirbhWJD4Jx0eNwOIjOtE
-	8Dkd1s07hiPWdNnwE5h5vWXV4FUqcUuC1aVklmMDhC3wxRln+fM8fT8C7nGkTjxz38QW
-	HjRUGboyHq6+ZfYDXy87NIC6uerXY0L4uvZcpMghG/fAMg9XQBTwt7fL2C40li1p4Wui
-	0UWQ==
-X-Gm-Message-State: AIkVDXIKMdqP5ZAu8YSyxGl7//gI+rf4t49+9nOTW3cKc5YeBWRaZo9FCMwFkWcg+ok/kw==
-X-Received: by 10.194.205.73 with SMTP id le9mr2327414wjc.31.1484066329896;
-	Tue, 10 Jan 2017 08:38:49 -0800 (PST)
-Received: from mueller-a-nb-linux.zera.local
-	(ip-109-91-251-48.hsi12.unitymediagroup.de. [109.91.251.48])
-	by smtp.googlemail.com with ESMTPSA id
-	a13sm25605776wma.18.2017.01.10.08.38.49
+	bh=mdFGW+D4y9xyzo8Dh+RTCYK95/T1WCsmFESOk2q1z3M=;
+	b=HPD2ySR0Vrtdgiko2xkIBwQKiWJi4ZvvT3NRWN+P/wK/jgfbQKK5Cw+71tPvRBKSB4
+	Cs5F/CgwXO7DZismlQXZD2POjVlzB1MFdZ6L9tjAQcv5U03Vl9pZ0unx4cXKcYKyEcym
+	UnvoDG4LU0ecyfFHps7MHMRLndxAdkancf2Pc+3H/ZoI7eLCqwCOlP/OiSlqptZQfOys
+	kVhNljT20J/rW8R9EorKUrflAVCm9NUhigN2hGjw0ZJXUW93QRvM8jQ1l1ipJRlbrwEE
+	K4ginaJsM61GCflwEokILBdgJrahEbWWzGGKdvOhlF9PLKPugKL3yggBcIWkEHHxHE74
+	ugfw==
+X-Gm-Message-State: AIkVDXKixF1sirNoPaXGQziBMxlUFylsyBCZkOH7+K9oBiYckM1U5rAi3V6crctOo5uR9Q==
+X-Received: by 10.28.207.70 with SMTP id f67mr2501546wmg.72.1484070812666;
+	Tue, 10 Jan 2017 09:53:32 -0800 (PST)
+Received: from localhost.localdomain (p579F7DD6.dip0.t-ipconnect.de.
+	[87.159.125.214]) by smtp.googlemail.com with ESMTPSA id
+	w7sm25607628wmd.24.2017.01.10.09.53.31
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 10 Jan 2017 08:38:49 -0800 (PST)
+	Tue, 10 Jan 2017 09:53:32 -0800 (PST)
 From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Jan 2017 17:38:34 +0100
-Message-Id: <1484066314-31508-1-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 2.7.4
+Date: Tue, 10 Jan 2017 18:53:19 +0100
+Message-Id: <1484070799-19031-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 2.5.5
 MIME-Version: 1.0
-Subject: [PATCH] python3-pygobject: add PACKAGECONFIG for cairo - enabled by default
+Subject: [PATCH V2] python3-pygobject: add PACKAGECONFIG for cairo - enabled by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,7 +56,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2017 16:38:51 -0000
+X-List-Received-Date: Tue, 10 Jan 2017 17:53:33 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -67,14 +65,14 @@ properly we need python3-pygobject build with cairo support.
 
 Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
 ---
- meta/recipes-devtools/python/python3-pygobject_3.22.0.bb | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/python/python3-pygobject_3.22.0.bb | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-devtools/python/python3-pygobject_3.22.0.bb b/meta/recipes-devtools/python/python3-pygobject_3.22.0.bb
-index 1c8dc20..b6a7e98 100644
+index 1c8dc20..5a89544 100644
 --- a/meta/recipes-devtools/python/python3-pygobject_3.22.0.bb
 +++ b/meta/recipes-devtools/python/python3-pygobject_3.22.0.bb
-@@ -18,8 +18,11 @@ SRC_URI[sha256sum] = "08b29cfb08efc80f7a8630a2734dec65a99c1b59f1e5771c671d2e4ed8
+@@ -18,8 +18,14 @@ SRC_URI[sha256sum] = "08b29cfb08efc80f7a8630a2734dec65a99c1b59f1e5771c671d2e4ed8
  
  S = "${WORKDIR}/${SRCNAME}-${PV}"
  
@@ -82,13 +80,16 @@ index 1c8dc20..b6a7e98 100644
  
 -EXTRA_OECONF = "--disable-cairo"
 +PACKAGECONFIG ??= "cairo"
-+PACKAGECONFIG[cairo] = "--enable-cairo,--disable-cairo,cairo,python3-pycairo"
++
++# python3-pycairo is checked on configuration -> DEPENDS
++# we don't link against python3-pycairo -> RDEPENDS
++PACKAGECONFIG[cairo] = "--enable-cairo,--disable-cairo,cairo python3-pycairo, python3-pycairo"
  
  RDEPENDS_${PN} += "python3-setuptools python3-importlib"
 +
 +BBCLASSEXTEND = "native"
 +PACKAGECONFIG_class-native = ""
 -- 
-2.7.4
+2.5.5
 
 
