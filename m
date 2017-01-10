@@ -1,53 +1,47 @@
 Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-lf0-f54.google.com (mail-lf0-f54.google.com
-	[209.85.215.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E68B71A50
+Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 0247C71A62
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jan 2017 12:51:00 +0000 (UTC)
-Received: by mail-lf0-f54.google.com with SMTP id m78so93470973lfg.2
+	Tue, 10 Jan 2017 12:50:56 +0000 (UTC)
+Received: by mail-lf0-f42.google.com with SMTP id m78so93469771lfg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jan 2017 04:51:01 -0800 (PST)
+	Tue, 10 Jan 2017 04:50:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=rndity-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=PfGM/kQHXYKCSqDtzEJalcOP9wLEo25MX8SyCWNtRRg=;
-	b=NVs7N75ehD5d3CsGtvrgmIMzJREmHeW+qEFY9VcSLWKkImSifHsdYAPnuj1HrEQa1A
-	85of3ZokIAlF1RszmX6LAlxH2JUBpBKIIPABGfMmX3q93IOTyl2p3MkYF5rdAzGmZ7kB
-	GVpDhdIK1i0VJtGoRI6AD9F70nTZ8kkUUX7vSlDmZjeIHdWx0uDARhqay2vJXNb+JO40
-	Nl1Dk1Gbnc5p0gcihX3YbjB7OcqwRNSI1L2pPgUvO3yG48qHkKZyeXaLqt6JiPr6/DBP
-	ILj+lSuynm6mbMnN0/cNv4VrPk3M1ZXIb63jeren4aeDMddfeS/t0InB5eiMt1hQPIpV
-	AzVg==
+	h=from:to:cc:subject:date:message-id;
+	bh=Ppe24g+yibr6E48G4hQVZjXvCnhJqSsSf51JF6vVwCs=;
+	b=mqtC8dZbYK43CdoDKcVqagHI6YA+i/bjYnl6WC4VNZe+CEZmuS38CNDXhUHyKYOK0T
+	htZvgpYNkUJxFNq1EMj0tVByMkUeTsuDKmBgl85zdv2T1/SDlJlWQqml8fVhtWs8yWSo
+	RqXpZ1Nznrji0kcmiPmdMTbswUYE3QTORS/jFyDUEvmHq5qA9plRT7vCeLEYIWC+WC8f
+	3zssTv0jIiI03P6jIWCfeIxhKUePb3zKwQifOSoHWqssOnVIoqTGHOoOkKWb+JWxdMqY
+	gKotApsmAks/8d7/RNd61SGN9mg4OYZJEADlug+361TrucaLHdpEoYYNt2NvlC2DXOZJ
+	TzTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=PfGM/kQHXYKCSqDtzEJalcOP9wLEo25MX8SyCWNtRRg=;
-	b=QrNKT5FBAetP98EEyQAbXhZJlqow4hhP/KTsYBrYnpcTv26zSYEyQGPde3GbEEceyE
-	779Vi/xk4yBSVRCFISulx/yy7kSB0q6KdxfdLFWQqncAd82gT5GhhB5q8bm5hCjvc+Gk
-	ZIYE93tvoPteLrskkK9cJVtCnK81Ku4oUSfWbmwEMjNDYKWniL55kcvvQ8pI8UX3hr5i
-	OrWacNegnb+NLj1uHjfNrV7MsWt5PnES8CQcKKn3/2u96VuNSizpgeK85KmObayK7wjt
-	jM/MyXWCXjRoyOXJa/7HWmdW++WPDhgFrdqMecpExU4+nXs1jLadeYTYFh1K4uuj09Gh
-	/2Ew==
-X-Gm-Message-State: AIkVDXINUy8QvK8Ua72zGzaOfA9OOHA1G9IvvPFwGV2biX9AEUADdJI7yAIMrsaU7mq7lg==
-X-Received: by 10.25.22.104 with SMTP id m101mr957447lfi.17.1484052660335;
-	Tue, 10 Jan 2017 04:51:00 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Ppe24g+yibr6E48G4hQVZjXvCnhJqSsSf51JF6vVwCs=;
+	b=kQFQzxiV/S+fQcgM6yeC9okcfIB1xzIAnMtdxSmU7mA8MxWXcZSr4t6VCC5xymlEV9
+	j00T4NaU+9R8QKjB9CJ09vPvaDkTDPlB/HRJhGrndH3VQwjogK14leLmwSoRq/UEG30y
+	Z201EB7G4T3KrYE/pEuqs6aPRycYCgEtnWHV/2h3fLpe9+ji6QScy1j9/R194oqDBdNs
+	tAPedio1xB1FqgWkb1c6enMNALaeCXqZvawMt3AuCRA3e5EcmnxDpzQXn0QESvuiv2LA
+	fYFVoOpiPo+p5Z1rAUoSqE0HHIFjjg5i6UMC2qxjTRuFfRzAp0xh1V/5XZtD1VUw6NkT
+	rgvg==
+X-Gm-Message-State: AIkVDXKECKqTdbey+jAW0KXvSh5+dY3Z3jJmTZn8ptSYxQTSTdKxSFBHcFW+pk2ocJLeAA==
+X-Received: by 10.25.79.71 with SMTP id a7mr1198100lfk.67.1484052655872;
+	Tue, 10 Jan 2017 04:50:55 -0800 (PST)
 Received: from comp_016_pc_buildenv.localdomain
 	(staticline-31-182-60-238.toya.net.pl. [31.182.60.238])
-	by smtp.gmail.com with ESMTPSA id c75sm450711lfe.28.2017.01.10.04.50.58
+	by smtp.gmail.com with ESMTPSA id c75sm450711lfe.28.2017.01.10.04.50.53
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 10 Jan 2017 04:50:58 -0800 (PST)
+	Tue, 10 Jan 2017 04:50:54 -0800 (PST)
 From: Maciej Borzecki <maciej.borzecki@rndity.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Jan 2017 13:50:13 +0100
-Message-Id: <a74215b11c5a556cd813ba0063a1b48a8aa858d7.1484051596.git.maciej.borzecki@rndity.com>
+Date: Tue, 10 Jan 2017 13:50:10 +0100
+Message-Id: <cover.1484051596.git.maciej.borzecki@rndity.com>
 X-Mailer: git-send-email 2.5.5
-In-Reply-To: <cover.1484051596.git.maciej.borzecki@rndity.com>
-References: <cover.1484051596.git.maciej.borzecki@rndity.com>
-In-Reply-To: <cover.1484051596.git.maciej.borzecki@rndity.com>
-References: <cover.1484051596.git.maciej.borzecki@rndity.com>
 Cc: Maciej Borzecki <maciek.borzecki@gmail.com>
-Subject: [PATCH 3/5] wic: selftest: avoid COMPATIBLE_HOST issues
+Subject: [PATCH 0/5] wic: selftest: enhancements for non-x86 MACHINE support & fixes-size tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,180 +56,59 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 10 Jan 2017 12:51:01 -0000
 
-wic tests will unconditionally attempt to build syslinux and add
-configuration options that may not be compatible with current machine.
+A series with enhancements and new test cases for wic selftest. The
+enhancements mostly allow for running wic selftest on non-x86 MACHINE,
+such as qemuarm (the whole series was verified on qemux86 and
+qemuarm).
 
-Resolve this by consulting HOST_ARCH (which defaults to TARGET_ARCH) and build
-recipes, add configuration options or skip tests conditionally.
+Patches in this series were previously a part of [1], but since then
+--fixed-size was merged upstream. The remaining selftest patches were
+rebased and received performance enhancements.
 
-A convenience decorator onlyForArch() can be used to skip test cases for
-specific architectures.
+The first patch adds a machine independent kickstart file - wictestdisk.
+Most of test cases build a disk image using one of the kickstart files
+shipped in Poky (mostly directdisk. These are usually x86 oriented due
+to use of syslinux and cannot be used when running with non-x86
+compatible MACHINE. On the other hand, the image built during tests does
+not need to be bootable (with exception of TCs that verify if the image
+is indeed bootable).
 
-Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
----
- meta/lib/oeqa/selftest/wic.py | 51 ++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 46 insertions(+), 5 deletions(-)
+Patch 2 introduces wictestdisk in test cases where its use is possible.
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index 1a5c6a7e88bf2c4194f2da87cfe36078848fa397..f7aac44a9ae91e8287f868540b8ca2e9ecf3409c 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -24,15 +24,38 @@
- """Test cases for wic."""
- 
- import os
-+import unittest
- 
- from glob import glob
- from shutil import rmtree
-+from functools import wraps, lru_cache
- 
- from oeqa.selftest.base import oeSelfTest
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu
- from oeqa.utils.decorators import testcase
- 
- 
-+@lru_cache(maxsize=32)
-+def get_host_arch(target='core-image-minimal'):
-+    return get_bb_var('HOST_ARCH', target)
-+
-+
-+class onlyForArch(object):
-+
-+    def __init__(self, *args):
-+        self.archs = args
-+
-+    def __call__(self,f):
-+        @wraps(f)
-+        def wrapped_f(*args, **kwargs):
-+            arch = get_host_arch()
-+            if self.archs and arch not in self.archs :
-+                raise unittest.SkipTest("Testcase arch dependency not met: %s" % arch)
-+            return f(*args, **kwargs)
-+        wrapped_f.__name__ = f.__name__
-+        return wrapped_f
-+
-+
- class Wic(oeSelfTest):
-     """Wic test class."""
- 
-@@ -43,16 +66,23 @@ class Wic(oeSelfTest):
- 
-     def setUpLocal(self):
-         """This code is executed before each test method."""
--        self.write_config('IMAGE_FSTYPES += " hddimg"\n'
--                          'MACHINE_FEATURES_append = " efi"\n'
--                          'WKS_FILE = "wic-image-minimal"\n')
-+        arch = get_host_arch()
-+        is_x86 = arch in ['i586', 'i686', 'x86_64']
-+        if is_x86:
-+            self.write_config('IMAGE_FSTYPES += " hddimg"\n' \
-+                              'MACHINE_FEATURES_append = " efi"\n'
-+                              'WKS_FILE = "wic-image-minimal"\n')
- 
-         # Do this here instead of in setUpClass as the base setUp does some
-         # clean up which can result in the native tools built earlier in
-         # setUpClass being unavailable.
-         if not Wic.image_is_ready:
--            bitbake('syslinux syslinux-native parted-native gptfdisk-native '
--                    'dosfstools-native mtools-native bmap-tools-native')
-+            tools = 'parted-native gptfdisk-native ' \
-+                    'dosfstools-native mtools-native bmap-tools-native'
-+            if is_x86:
-+                tools += ' syslinux syslinux-native'
-+            bitbake(tools)
-+
-             bitbake('core-image-minimal')
-             Wic.image_is_ready = True
- 
-@@ -141,6 +171,7 @@ class Wic(oeSelfTest):
-         self.assertEqual(1, len(glob(self.resultdir + "wictestdisk-*.direct")))
- 
-     @testcase(1157)
-+    @onlyForArch('i586', 'i686', 'x86_64')
-     def test_gpt_image(self):
-         """Test creation of core-image-minimal with gpt table and UUID boot"""
-         cmd = "wic create directdisk-gpt --image-name core-image-minimal"
-@@ -148,6 +179,7 @@ class Wic(oeSelfTest):
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
- 
-     @testcase(1346)
-+    @onlyForArch('i586', 'i686', 'x86_64')
-     def test_iso_image(self):
-         """Test creation of hybrid iso image with legacy and EFI boot"""
-         cmd = "wic create mkhybridiso --image-name core-image-minimal"
-@@ -156,6 +188,7 @@ class Wic(oeSelfTest):
-         self.assertEqual(1, len(glob(self.resultdir + "HYBRID_ISO_IMG-*.iso")))
- 
-     @testcase(1348)
-+    @onlyForArch('i586', 'i686', 'x86_64')
-     def test_qemux86_directdisk(self):
-         """Test creation of qemux-86-directdisk image"""
-         cmd = "wic create qemux86-directdisk -e core-image-minimal"
-@@ -163,6 +196,7 @@ class Wic(oeSelfTest):
-         self.assertEqual(1, len(glob(self.resultdir + "qemux86-directdisk-*direct")))
- 
-     @testcase(1350)
-+    @onlyForArch('i586', 'i686', 'x86_64')
-     def test_mkefidisk(self):
-         """Test creation of mkefidisk image"""
-         cmd = "wic create mkefidisk -e core-image-minimal"
-@@ -170,6 +204,7 @@ class Wic(oeSelfTest):
-         self.assertEqual(1, len(glob(self.resultdir + "mkefidisk-*direct")))
- 
-     @testcase(1385)
-+    @onlyForArch('i586', 'i686', 'x86_64')
-     def test_directdisk_bootloader_config(self):
-         """Test creation of directdisk-bootloader-config image"""
-         cmd = "wic create directdisk-bootloader-config -e core-image-minimal"
-@@ -177,6 +212,7 @@ class Wic(oeSelfTest):
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-bootloader-config-*direct")))
- 
-     @testcase(1560)
-+    @onlyForArch('i586', 'i686', 'x86_64')
-     def test_systemd_bootdisk(self):
-         """Test creation of systemd-bootdisk image"""
-         cmd = "wic create systemd-bootdisk -e core-image-minimal"
-@@ -192,6 +228,7 @@ class Wic(oeSelfTest):
-         self.assertEqual(1, len(glob(self.resultdir + "sdimage-bootpart-*direct")))
- 
-     @testcase(1562)
-+    @onlyForArch('i586', 'i686', 'x86_64')
-     def test_alternate_output_dir(self):
-         """Test alternate output directory"""
-         self.assertEqual(0, runCmd("wic create directdisk "
-@@ -289,6 +326,7 @@ class Wic(oeSelfTest):
-         self.assertEqual(1, len(glob(self.resultdir + "wictestdisk-*.direct")))
- 
-     @testcase(1268)
-+    @onlyForArch('i586', 'i686', 'x86_64')
-     def test_rootfs_indirect_recipes(self):
-         """Test usage of rootfs plugin with rootfs recipes"""
-         status = runCmd("wic create directdisk-multi-rootfs "
-@@ -299,6 +337,7 @@ class Wic(oeSelfTest):
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-multi-rootfs*.direct")))
- 
-     @testcase(1269)
-+    @onlyForArch('i586', 'i686', 'x86_64')
-     def test_rootfs_artifacts(self):
-         """Test usage of rootfs plugin with rootfs paths"""
-         bbvars = dict((var.lower(), get_bb_var(var, 'core-image-minimal'))
-@@ -375,6 +414,7 @@ class Wic(oeSelfTest):
-                                    % (image, imgenvdir)).status)
- 
-     @testcase(1351)
-+    @onlyForArch('i586', 'i686', 'x86_64')
-     def test_wic_image_type(self):
-         """Test building wic images by bitbake"""
-         self.assertEqual(0, bitbake('wic-image-minimal').status)
-@@ -390,6 +430,7 @@ class Wic(oeSelfTest):
-             self.assertTrue(os.path.isfile(os.path.realpath(path)))
- 
-     @testcase(1422)
-+    @onlyForArch('i586', 'i686', 'x86_64')
-     def test_qemu(self):
-         """Test wic-image-minimal under qemu"""
-         self.assertEqual(0, bitbake('wic-image-minimal').status)
+Patch 3 adds onlyForArch() convenience decorator and applies it to test
+cases where x86 specific image must be used. Changes since previous
+versions:
+- only 11 TCs are skipped on non-x86 targets, 17 previously
+- performance improvements due to lru_cache() wrapped helper for get_bb_var()
+
+Patch 4 removes some assumptions about kernel image.
+
+Patch 5 adds tests for --fixed-size partition flags, changes:
+- cache native sysroot path in class
+
+
+The changes in this series depend on the following commit
+(https://patchwork.openembedded.org/patch/135482/):
+
+commit 4299a3de6789833a27cce4f7e4bc79f48946f171
+Author: Ed Bartosh <ed.bartosh@linux.intel.com>
+Date:   Fri Dec 23 01:42:14 2016 +0200
+
+    image_types.bbclass: look for wks files in <layer>/wic
+
+
+Maciej Borzecki (5):
+  selftest: wictestdisk: machine agnostic WKS for use with selftest
+  selftest: wic: replace directdisk with wictestdisk where possible
+  wic: selftest: avoid COMPATIBLE_HOST issues
+  wic: selftest: do not assume bzImage kernel image
+  wic: selftest: add tests for --fixed-size partition flags
+
+ meta-selftest/wic/wictestdisk.wks |   7 ++
+ meta/lib/oeqa/selftest/wic.py     | 183 ++++++++++++++++++++++++++++++--------
+ 2 files changed, 151 insertions(+), 39 deletions(-)
+ create mode 100644 meta-selftest/wic/wictestdisk.wks
+
 -- 
 2.5.5
 
