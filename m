@@ -1,46 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
-	[209.85.220.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 30EFA71A81
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 58D8971AC8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jan 2017 15:53:20 +0000 (UTC)
-Received: by mail-qk0-f178.google.com with SMTP id s140so190155092qke.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jan 2017 07:53:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=mSMLZcx+//7/CHKIloh8sOlewUFhwoPcckU1OkPFArU=;
-	b=dkm8QQS49hzZr2CmcFUuh3PKdggEHmEqy2VR0HMBuARfAvIEczh+CtnQ+082lVFZJd
-	5D3MaEOI0cihQH7fuSe7pTDM5+2QnjLK20Ybr3xntWd5RZIozCp1m8gCHO4eTnn66vGB
-	/Dcr+gk6FxiCVoAVR9xfqTUA2yb3V79YtHpKgvoblM0Zw8l6V+GnqkN/5qCwXssS1deu
-	STU7RTOlNAu4IVumQJW79PC4IuFYusAcyrTNYI8EZEGPUwj6bqbRJ0HYp6Ptu0SK3IFz
-	0UVWp2kBTye3raf7NK4nSukRYICZ9hfwveJyByVunyGUqGIzdBfOJcbDNwWYywrj542w
-	KzLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=mSMLZcx+//7/CHKIloh8sOlewUFhwoPcckU1OkPFArU=;
-	b=n/NfPBTu/IuFgy69iM+f16K7VP8OuygU6OFQrPXotXoNCIHv1mqLMS6DhZISvRnMcT
-	g2Dv7t4AH/GICLA3pFbDAlYZlakM1ARUzBvm4z1jE0nXxfg5OmXmYx8JtIoWJkgdq7Ij
-	WLHvKPbsIQNZV7hTGcCJ65wB366SEmRCCY4ZoqRBHe50qV/3LnmvpcMeRi/3gF8MNoNR
-	RsbEwQC17Oi4mxyCTX4wHgxwI0pPTMHw+GUGpCXCC179WP7cVdcpUTyOgY/hk8Pp89Qk
-	FwOjkfbjXFsM6nUm34Lv3xSnoq/yD/aGhC6oG7Yt5+I6bC27F33/TJgPEXzyqbxqaqbc
-	BRSw==
-X-Gm-Message-State: AIkVDXKzMUFG57i8LaAci+srR2kfLfFHoz3dv2UmDzRuH//9eUbADl5x8mPOqL8wvCWNXFYJT+hZGrWkf7wJ/SVg
-X-Received: by 10.55.207.78 with SMTP id e75mr10114736qkj.36.1484150001143;
-	Wed, 11 Jan 2017 07:53:21 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Wed, 11 Jan 2017 07:53:00 -0800 (PST)
-In-Reply-To: <1484149497.3966.17.camel@pbcl.net>
+	Wed, 11 Jan 2017 15:57:04 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=tp13)
+	by hetzner.pbcl.net with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.87)
+	(envelope-from <pb@pbcl.net>)
+	id 1cRLGj-0005AX-25; Wed, 11 Jan 2017 16:57:02 +0100
+Message-ID: <1484150216.3966.19.camel@pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: "Burton, Ross" <ross.burton@intel.com>, Khem Raj <raj.khem@gmail.com>
+Date: Wed, 11 Jan 2017 15:56:56 +0000
+In-Reply-To: <CAJTo0LZYiqp+b7hwsGaZDKbpwo4UPxyLLw7Eje1-Y5Fg-=Jwow@mail.gmail.com>
 References: <20170111035102.18447-1-raj.khem@gmail.com>
 	<20170111035102.18447-2-raj.khem@gmail.com>
-	<1484149497.3966.17.camel@pbcl.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 11 Jan 2017 15:53:00 +0000
-Message-ID: <CAJTo0LbXhWycY34OB=_nqRLDZJ1+Nge69sBc7KQPFUWphewsfw@mail.gmail.com>
-To: Phil Blundell <pb@pbcl.net>
+	<CAJTo0LZYiqp+b7hwsGaZDKbpwo4UPxyLLw7Eje1-Y5Fg-=Jwow@mail.gmail.com>
+X-Mailer: Evolution 3.20.5-1 
+Mime-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/2] glibc: Upgrade to 2.25
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,43 +32,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jan 2017 15:53:21 -0000
-Content-Type: multipart/alternative; boundary=001a1145b7b89ca6a00545d39967
+X-List-Received-Date: Wed, 11 Jan 2017 15:57:05 -0000
+Content-Type: multipart/alternative; boundary="=-w8ldDBn0iVH0ZIBGTws7"
 
---001a1145b7b89ca6a00545d39967
-Content-Type: text/plain; charset=UTF-8
+--=-w8ldDBn0iVH0ZIBGTws7
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 11 January 2017 at 15:44, Phil Blundell <pb@pbcl.net> wrote:
+On Wed, 2017-01-11 at 12:19 +0000, Burton, Ross wrote:
+> 
+> > On 11 January 2017 at 03:51, Khem Raj <raj.khem@gmail.com> wrote:
+> > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> 
+> > This fails when building gdk-pixbuf for x86-64 with gobject-
+introspection enabled:
+> 
+> > > > > > > > > > > > | /data/poky-master/tmp-glibc/work/corei7-64-poky-linux/gdk-
+pixbuf/2.36.1-r0/build/gdk-pixbuf/tmp-
+introspectylz98kc7/.libs/GdkPixbuf-2.0: Relink `/data/poky-
+master/tmp-glibc/sysroots/intel-corei7-64//usr/lib/libpng16.so.16'
+with `/data/poky-master/tmp-glibc/sysroots/intel-corei7-
+64//lib/libpthread.so.0' for IFUNC symbol `longjmp'
+> > > The gdk-pixbuf link does use -lpthread, is this saying that libpng
+should be linked against pthread too?  I can replicate on demand if
+you have any suggestions.
+> 
+> 
 
-> The log message for this commit is a bit misleading.  Glibc 2.25 has
-> not been released (and the release is not scheduled for another three
-> weeks) and we clearly can't upgrade to a version that doesn't yet
-> exist.
->
->
-I'll admit that I threw it my build machine before looking closely at the
-patch.  Yes, this message isn't correct.
+That's what it's saying, and this was introduced by the fix for:
 
-Ross
+https://sourceware.org/bugzilla/show_bug.cgi?id=20019
 
---001a1145b7b89ca6a00545d39967
-Content-Type: text/html; charset=UTF-8
+But I think this new behaviour is in itself a bug.  It isn't reasonable
+to expect any library that calls longjmp() to link -lpthread just in
+case it might end up coexisting with another library that does.  (The
+fact that libpthread defines longjmp is arguably a bug in itself, but
+one that we are stuck with.)
+
+p.
+
+
+--=-w8ldDBn0iVH0ZIBGTws7
+Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 11 January 2017 at 15:44, Phil Blundell <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:pb@pbcl.net" target=3D"_blank">pb@pbcl.net</a>&gt;</span> wrote:<br=
-><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
-px #ccc solid;padding-left:1ex"><div id=3D":4q6" class=3D"a3s aXjCH m1598e3=
-4f92aabd43">The log message for this commit is a bit misleading.=C2=A0 Glib=
-c 2.25 has<br>
-not been released (and the release is not scheduled for another three<br>
-weeks) and we clearly can&#39;t upgrade to a version that doesn&#39;t yet<b=
-r>
-exist.<br>
-<br></div></blockquote></div><br>I&#39;ll admit that I threw it my build ma=
-chine before looking closely at the patch.=C2=A0 Yes, this message isn&#39;=
-t correct.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ex=
-tra">Ross</div></div>
+<html><head></head><body><div>On Wed, 2017-01-11 at 12:19 +0000, Burton, Ro=
+ss wrote:</div><blockquote type=3D"cite"><div dir=3D"ltr"><div class=3D"gma=
+il_extra"><br><div class=3D"gmail_quote">On 11 January 2017 at 03:51, Khem =
+Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_=
+blank">raj.khem@gmail.com</a>&gt;</span> wrote:<br><blockquote type=3D"cite=
+"><div id=3D"gmail-:5cu" class=3D"gmail-a3s gmail-aXjCH gmail-m1598ba80a384=
+f278">Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj=
+.khem@gmail.com</a>&gt;<br></div><br></blockquote></div><br>This fails when=
+ building gdk-pixbuf for x86-64 with gobject-introspection enabled:<br></di=
+v><div class=3D"gmail_extra"><br></div><blockquote type=3D"cite">| /data/po=
+ky-master/tmp-glibc/work/corei7-64-poky-linux/gdk-pixbuf/2.36.1-r0/build/gd=
+k-pixbuf/tmp-introspectylz98kc7/.libs/GdkPixbuf-2.0: Relink `/data/poky-mas=
+ter/tmp-glibc/sysroots/intel-corei7-64//usr/lib/libpng16.so.16' with `/data=
+/poky-master/tmp-glibc/sysroots/intel-corei7-64//lib/libpthread.so.0' for I=
+FUNC symbol `longjmp'<br></blockquote><div class=3D"gmail_extra"><br></div>=
+<div>The gdk-pixbuf link does use -lpthread, is this saying that libpng sho=
+uld be linked against pthread too?&nbsp; I can replicate on demand if you h=
+ave any suggestions.</div></div>
+</blockquote><div><br></div><div>That's what it's saying, and this was intr=
+oduced by the fix for:</div><div><br></div><div><a href=3D"https://sourcewa=
+re.org/bugzilla/show_bug.cgi?id=3D20019">https://sourceware.org/bugzilla/sh=
+ow_bug.cgi?id=3D20019</a></div><div><br></div><div>But I think this new beh=
+aviour is in itself a bug. &nbsp;It isn't reasonable to expect any library =
+that calls longjmp() to link -lpthread just in case it might end up coexist=
+ing with another library that does. &nbsp;(The fact that libpthread defines=
+ longjmp is arguably a bug in itself, but one that we are stuck with.)</div=
+><div><br></div><div>p.</div><div><br></div></body></html>
 
---001a1145b7b89ca6a00545d39967--
+--=-w8ldDBn0iVH0ZIBGTws7--
