@@ -1,31 +1,24 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BBD97199D
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BD01271A5E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jan 2017 00:21:31 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 6847220B1D;
-	Wed, 11 Jan 2017 00:21:31 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id Ol7pkMImCi3j; Wed, 11 Jan 2017 00:21:31 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-95-79.washdc.fios.verizon.net
-	[100.15.95.79])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 4146120866;
-	Wed, 11 Jan 2017 00:21:29 +0000 (UTC)
-Received: from sam.denix (sam [192.168.0.5])
-	by mail.denix.org (Postfix) with ESMTP id 95F5716231D;
-	Tue, 10 Jan 2017 19:21:28 -0500 (EST)
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Jan 2017 19:21:28 -0500
-Message-Id: <1484094088-5338-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [morty][PATCH v2] attr/ea-acl: pass --disable-gettext when USE_NLS=no
+	Wed, 11 Jan 2017 01:44:31 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v0B1iUUm032170
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 10 Jan 2017 17:44:30 -0800
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 10 Jan 2017 17:44:29 -0800
+From: Dengke Du <dengke.du@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Jan 2017 20:44:27 -0500
+Message-ID: <cover.1484098871.git.dengke.du@windriver.com>
+X-Mailer: git-send-email 2.8.1
+MIME-Version: 1.0
+Cc: randy.e.witt@intel.com
+Subject: [PATCH 0/1] Fix RPM backend does not honor package overrides for PACKAGE_ARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,39 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jan 2017 00:21:32 -0000
+X-List-Received-Date: Wed, 11 Jan 2017 01:44:32 -0000
+Content-Type: text/plain
 
-From: Denys Dmytriyenko <denys@ti.com>
+The following changes since commit e016eb10b075e280b4e78a04e47b59a173386421:
 
-Fixes following error in configure:
-  FATAL ERROR: msgfmt does not seem to be installed.
-  attr cannot be built without a working gettext installation.
+  bitbake: bb/cooker: BBCooker stops notifier at shutdown (2017-01-06 00:01:07 +0000)
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+are available in the git repository at:
 
-(From OE-Core rev: d044fad8a0ac5d57deb88b25106f3a39cb7c1636)
+  git://git.openembedded.org/openembedded-core-contrib dengke/fix-yocto-bug-7984
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=dengke/fix-yocto-bug-7984
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
----
-v2 - morty still requires expand option to d.getVar()
+Dengke Du (1):
+  Fix RPM backend does not honor package overrides for PACKAGE_ARCH
 
- meta/recipes-support/attr/ea-acl.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/package_rpm.bbclass | 202 ++++++++++++++++++++++++++-------------
+ 1 file changed, 134 insertions(+), 68 deletions(-)
 
-diff --git a/meta/recipes-support/attr/ea-acl.inc b/meta/recipes-support/attr/ea-acl.inc
-index 370e16f..4d6ad20 100644
---- a/meta/recipes-support/attr/ea-acl.inc
-+++ b/meta/recipes-support/attr/ea-acl.inc
-@@ -10,6 +10,7 @@ inherit autotools-brokensep gettext
- EXTRA_AUTORECONF += "--exclude=autoheader"
- EXTRA_OECONF = "INSTALL_USER=root INSTALL_GROUP=root"
- EXTRA_OECONF_append_class-native = " --enable-gettext=no"
-+EXTRA_OECONF_append_class-target = "${@['', ' --disable-gettext '][(d.getVar('USE_NLS', True) == 'no')]}"
- 
- EXTRA_OEMAKE = "PKG_LIB_DIR=${base_libdir} PKG_DEVLIB_DIR=${libdir}"
- 
 -- 
-2.7.4
+2.8.1
 
 
