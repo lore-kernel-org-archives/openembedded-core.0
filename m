@@ -1,52 +1,47 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
-	[209.85.214.50])
-	by mail.openembedded.org (Postfix) with ESMTP id B17E971A8C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
+	[209.85.220.172])
+	by mail.openembedded.org (Postfix) with ESMTP id A472F71A8C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jan 2017 11:10:47 +0000 (UTC)
-Received: by mail-it0-f50.google.com with SMTP id c7so60484452itd.1
+	Wed, 11 Jan 2017 12:20:06 +0000 (UTC)
+Received: by mail-qk0-f172.google.com with SMTP id 11so107769192qkl.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jan 2017 03:10:48 -0800 (PST)
+	Wed, 11 Jan 2017 04:20:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=Fmh8zRBgmDAxdDwRN565mzfWfLn5D3c/TILA7cBcGy4=;
-	b=QBtWWeUcYiN/JXJqGtfXQwVqbT0JkcJvYTJhnuK7nf1TwlG4iMTqcipXC3qOeuBRYW
-	gDsurxYQkLcgfI7KajDKXzfnshIaCW/Sqv+7egxbR6gFUJ6+ovIyq8kRpTwV2xB235Wl
-	fBffOYgCTfYZtrxfppTV65wo4TI/bwEuMWlqvv8lntdux1orvfg+N/jAPJkYLqXjyKAr
-	wuD0fqOJ0neqsNQso4cn0gwS2jFKygwl7I6QQXdwRR2rJytwli+oo/uZGuzBnXC3BNnx
-	hFu5tjzvnimJnaEgkzptg7YuGM73hZJZNKHO7Z6o+vVJcNjhbSp7GU5b/y/hyx2+T79x
-	Lh9g==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=tFfpp6ZnPYSPm8448SM8FCkCKrKLnHKjeLZ/ibWRrjQ=;
+	b=g0OwEnRj37z+EzJzbTRNmlgUxn7v0MZkkW7DmVEacADfg8VWXzarR6g7ipP/zUvE+K
+	rVOfr7kmKpSEGUUuK0jxOZ/H1M7M1oKbAHvoPEdfCUq7mpo5xzL/JtlDF6ZsKNtuQfpw
+	/fI9WaFvIryLLT1+8vgwBTyO8G8yQ025GpSbD9ylOoirbvMqMDorbYLXKjgQrlsJgE2E
+	cczB//M0Ht6wbFkJ002MUVU76PuVpuGEJx1OHvKhedvfFaSjaJ8AnxXwcHPiQDdZKBBG
+	pG33YiMZVvx3P0RfV+FJ6m749h/TiFhNX+m0iTy7+Syfz1NN9Nbjx5IiH7ggvQisDzyS
+	SrIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=Fmh8zRBgmDAxdDwRN565mzfWfLn5D3c/TILA7cBcGy4=;
-	b=IKQiCyBACErQ+ahopykMONuVxJkyIZUeOnOF9sxk+wHUJFIbXjhSEViMIIK2jw9PI1
-	G+x3Y4Lgbb0y0I0zRaNt3FoqxS4VKtXEAVeONw1IYUaflEy8yBoj8lTgrAmfqQFDSj8I
-	ruFRD4DmF57RHyEwAev07VH2edX1ERVay7db2rcfMyjhEdRUVM2XDh5iEhL2fNX7MbtY
-	4D0flqmZENlsfmFse6Yl+JHLrSQCAOWwxGVI/jIUSDAg5Y0oCZH2DLP11bLR99bz5xJz
-	uiegN971q7e5oy2lL5X0tINDhdneE6Cm5WtmeNrpQkHzo/XnE7CvyuvqbPdUGBuJNK1T
-	eVDw==
-X-Gm-Message-State: AIkVDXI2DvfeedaRZHObEJkMwcXDV9/WN0jZJqlB+b8RNVhTB7+6kPOEF1c/ixpJW37LW/i4
-X-Received: by 10.36.37.199 with SMTP id g190mr4391193itg.12.1484133047817;
-	Wed, 11 Jan 2017 03:10:47 -0800 (PST)
-Received: from pohly-desktop.fritz.box (p5DE8EC30.dip0.t-ipconnect.de.
-	[93.232.236.48]) by smtp.gmail.com with ESMTPSA id
-	n134sm2881019itg.19.2017.01.11.03.10.46
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 11 Jan 2017 03:10:46 -0800 (PST)
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Jan 2017 12:10:33 +0100
-Message-Id: <7d1790c10e9bd3e1be46d50d3a9008e1b517e946.1484132929.git-series.patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.eecd085acd37cef2ce0793e6bb962bf87f107b05.1484132929.git-series.patrick.ohly@intel.com>
-References: <cover.eecd085acd37cef2ce0793e6bb962bf87f107b05.1484132929.git-series.patrick.ohly@intel.com>
-In-Reply-To: <cover.eecd085acd37cef2ce0793e6bb962bf87f107b05.1484132929.git-series.patrick.ohly@intel.com>
-References: <cover.eecd085acd37cef2ce0793e6bb962bf87f107b05.1484132929.git-series.patrick.ohly@intel.com>
-Subject: [PATCH 1/1] insane.bbclass: print license text as part of QA message
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=tFfpp6ZnPYSPm8448SM8FCkCKrKLnHKjeLZ/ibWRrjQ=;
+	b=pZ6pwNpIZh9jqlXFwOe5GuYZb1ZJktnTb7B3TWgq71Zp9scyyN2tXBwMaq9mxRjRxa
+	vg9PQKEo7EJ8DvgQrbGLJm0sEeTQw0ihrwhG1uU1ct82XE9c06+rXaD9ERBWIxEabYiM
+	CNWwNctI728nnyLJLJUpDfyIMxxkJasUmkgVyK6d8re88TAVqmrx9dYIYIwTsNeuPoNi
+	BBROZrrAiijRyxa7zy1P0ieC+NVk88NToY5K5yHKXWs//lCgS0gvPMzLwNmvVyOdu1AJ
+	H4+n6CXjISx74A8/MeT4MEDRg5uoEuXwm9DkRNgV1ywdFxWWWVNl/1mAkVFgEHAAhZ52
+	g7/A==
+X-Gm-Message-State: AIkVDXJZYLw2CwXduME7x3dkN5KNE9wQIh7ctju4nhGOhy1LmZNT3ooZnuWRdt4NocHCkWrxBOb6oItcFWzy1dw5
+X-Received: by 10.55.16.11 with SMTP id a11mr8669492qkh.3.1484137207296; Wed,
+	11 Jan 2017 04:20:07 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.106.99 with HTTP; Wed, 11 Jan 2017 04:19:46 -0800 (PST)
+In-Reply-To: <20170111035102.18447-2-raj.khem@gmail.com>
+References: <20170111035102.18447-1-raj.khem@gmail.com>
+	<20170111035102.18447-2-raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 11 Jan 2017 12:19:46 +0000
+Message-ID: <CAJTo0LZYiqp+b7hwsGaZDKbpwo4UPxyLLw7Eje1-Y5Fg-=Jwow@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] glibc: Upgrade to 2.25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,105 +54,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jan 2017 11:10:47 -0000
+X-List-Received-Date: Wed, 11 Jan 2017 12:20:07 -0000
+Content-Type: multipart/alternative; boundary=001a11475cbc0a2e410545d09f89
 
-It it is hard to select exactly the right lines from a file, in
-particular because the documentation did not specify the exact
-semantic (YOCTO #10898).
+--001a11475cbc0a2e410545d09f89
+Content-Type: text/plain; charset=UTF-8
 
-When the QA license check fails, it now includes the license text for
-which the md5sum was calculated. When adding a new entry to
-LIC_FILES_CHKSUM, developers can then verify that they picked the
-desired lines. When the checksum of an older entry changes, the developer
-does not have to manually look up the changed text.
+On 11 January 2017 at 03:51, Khem Raj <raj.khem@gmail.com> wrote:
 
-Here's an example which probably has an endline which is too large
-(message triggered by changing the md5sum in the recipe):
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>
 
-ERROR: cmake-native-3.7.1-r0 do_populate_lic: QA Issue: cmake-native: The LIC_FILES_CHKSUM does not match for file://Source/cmake.h;beginline=1;endline=3;md5=deadbeef
-cmake-native: The new md5 checksum is 4494dee184212fc89c469c3acd555a14
-cmake-native: Here is the selected license text:
-vvvvvvvvvvvvvvvvvvvvvvvvvvvv beginline=1 vvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-/* Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
-   file Copyright.txt or https://cmake.org/licensing for details.  */
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ endline=3 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-cmake-native: Check if the license information has changed in .../cmake.h (lines 1 through to 3) to verify that the LICENSE value "BSD" remains valid [license-checksum]
+This fails when building gdk-pixbuf for x86-64 with gobject-introspection
+enabled:
 
-The beginline/endline values are only repeated in the borders if set.
+|
+> /data/poky-master/tmp-glibc/work/corei7-64-poky-linux/gdk-pixbuf/2.36.1-r0/build/gdk-pixbuf/tmp-introspectylz98kc7/.libs/GdkPixbuf-2.0:
+> Relink
+> `/data/poky-master/tmp-glibc/sysroots/intel-corei7-64//usr/lib/libpng16.so.16'
+> with
+> `/data/poky-master/tmp-glibc/sysroots/intel-corei7-64//lib/libpthread.so.0'
+> for IFUNC symbol `longjmp'
 
-License snippets larger larger than 20 lines (configurable with
-QA_MAX_LICENSE_LINES) are truncated in the middle.
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
----
- meta/classes/insane.bbclass | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+The gdk-pixbuf link does use -lpthread, is this saying that libpng should
+be linked against pthread too?  I can replicate on demand if you have any
+suggestions.
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index f8f6e00..c172e72 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -740,17 +740,21 @@ python populate_lic_qa_checksum() {
- 
-         if (not beginline) and (not endline):
-             md5chksum = bb.utils.md5_file(srclicfile)
-+            with open(srclicfile, 'rb') as f:
-+                license = f.read()
-         else:
-             fi = open(srclicfile, 'rb')
-             fo = tempfile.NamedTemporaryFile(mode='wb', prefix='poky.', suffix='.tmp', delete=False)
-             tmplicfile = fo.name;
-             lineno = 0
-             linesout = 0
-+            license = []
-             for line in fi:
-                 lineno += 1
-                 if (lineno >= beginline):
-                     if ((lineno <= endline) or not endline):
-                         fo.write(line)
-+                        license.append(line)
-                         linesout += 1
-                     else:
-                         break
-@@ -758,6 +762,7 @@ python populate_lic_qa_checksum() {
-             fo.close()
-             fi.close()
-             md5chksum = bb.utils.md5_file(tmplicfile)
-+            license = b''.join(license)
-             os.unlink(tmplicfile)
- 
-         if recipemd5 == md5chksum:
-@@ -766,6 +771,30 @@ python populate_lic_qa_checksum() {
-             if recipemd5:
-                 msg = pn + ": The LIC_FILES_CHKSUM does not match for " + url
-                 msg = msg + "\n" + pn + ": The new md5 checksum is " + md5chksum
-+                try:
-+                    license_lines = license.decode('utf-8').split('\n')
-+                except:
-+                    # License text might not be valid UTF-8, in which
-+                    # case we don't know how to include it in our output
-+                    # and have to skip it.
-+                    pass
-+                else:
-+                    max_lines = int(d.getVar('QA_MAX_LICENSE_LINES') or 20)
-+                    if not license_lines or license_lines[-1] != '':
-+                        # Ensure that our license text ends with a line break
-+                        # (will be added with join() below).
-+                        license_lines.append('')
-+                    remove = len(license_lines) - max_lines
-+                    if remove > 0:
-+                        start = max_lines // 2
-+                        end = start + remove - 1
-+                        del license_lines[start:end]
-+                        license_lines.insert(start, '...')
-+                    msg = msg + "\n" + pn + ": Here is the selected license text:" + \
-+                          "\n" + \
-+                          "{:v^70}".format(" beginline=%d " % beginline if beginline else "") + \
-+                          "\n" + "\n".join(license_lines) + \
-+                          "{:^^70}".format(" endline=%d " % endline if endline else "")
-                 if beginline:
-                     if endline:
-                         srcfiledesc = "%s (lines %d through to %d)" % (srclicfile, beginline, endline)
--- 
-git-series 0.9.1
+Ross
 
+--001a11475cbc0a2e410545d09f89
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 11 January 2017 at 03:51, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> =
+wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-sty=
+le:solid;padding-left:1ex"><div id=3D"gmail-:5cu" class=3D"gmail-a3s gmail-=
+aXjCH gmail-m1598ba80a384f278">Signed-off-by: Khem Raj &lt;<a href=3D"mailt=
+o:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt;<br></div></blockquote></di=
+v><br>This fails when building gdk-pixbuf for x86-64 with gobject-introspec=
+tion enabled:<br></div><div class=3D"gmail_extra"><br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;=
+border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex=
+">| /data/poky-master/tmp-glibc/work/corei7-64-poky-linux/gdk-pixbuf/2.36.1=
+-r0/build/gdk-pixbuf/tmp-introspectylz98kc7/.libs/GdkPixbuf-2.0: Relink `/d=
+ata/poky-master/tmp-glibc/sysroots/intel-corei7-64//usr/lib/libpng16.so.16&=
+#39; with `/data/poky-master/tmp-glibc/sysroots/intel-corei7-64//lib/libpth=
+read.so.0&#39; for IFUNC symbol `longjmp&#39;</blockquote><div class=3D"gma=
+il_extra"><br></div><div class=3D"gmail_extra">The gdk-pixbuf link does use=
+ -lpthread, is this saying that libpng should be linked against pthread too=
+?=C2=A0 I can replicate on demand if you have any suggestions.</div><div cl=
+ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11475cbc0a2e410545d09f89--
