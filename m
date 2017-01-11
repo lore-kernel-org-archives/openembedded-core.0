@@ -1,48 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
-	[209.85.220.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C65260107
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BBD97199D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jan 2017 23:30:53 +0000 (UTC)
-Received: by mail-qk0-f178.google.com with SMTP id u25so575865092qki.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jan 2017 15:30:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=rx2zgtpWkbOUM6Ylq3914T94CwgDINr0YC/8pHOTLrY=;
-	b=s57fCcMe+BOjFHTmaRBGdxIsxMQom8QTmXy7YPuzmSCeOKim4N7bfYxX747xp3wjDa
-	Lf5ltyj1aT1Z3rOfEntekIzTb8cAH23o9/dkAMlMQWv+6bJyy3wt3/KmlXQLx6hZXH0d
-	d/9UYrHPuPrtKI3OzHdCq5mzkwPxsszGsw2wHwgGWhJoeQ+wLg6igGkVKXM566uctOnn
-	upu9YjYAmorgT7Pf2+KN2KLi46BxWbRWlNqLfWZCZQxTSBoBCkZgWhnZdTrd5z/+Jzjv
-	rDYpoVv0boRDWF5eVpv8vK8C9Bjby9h2wtpbi5di80n4O6LJpk4wHGbrCbgdcS6ALlz2
-	mh7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=rx2zgtpWkbOUM6Ylq3914T94CwgDINr0YC/8pHOTLrY=;
-	b=tutqGAEP9E5doqVFuwEpiJERT3UvD+9lOrHtG6WNDZgHMoHqE8k40jvpVILrkjkafn
-	/uVue23ZZ2k1gjypy55LtHX+E7TLEau3sO8v5z9Gs2jzVsrXIA/aqHynf6/t565mphmJ
-	E7FT+ipYIcFpCyUc9UC+mMITxYkjHN2mUPJJXranWMtnRkZARBNgw8V1hJSHt7ApM7WV
-	j255D0yhyLN0jEC3LHA8JVK58HkGwt57W7TBHhQHXlAx3CSgrMdD/a/S63/a+SyRCNid
-	SIiWOCCFYpN/1bIFL7nO/bA4f/2BF9Pp5ZRvz+0TfvW6OTsUtmb5LG0ByWYcbaIsz6zS
-	Z3yw==
-X-Gm-Message-State: AIkVDXKf/oi4Du5zU+7c7W3U18BjFXIotS8tjJYfyyN3LtCFUgnG6U29IdEsxALZ338+b+FQyhWRdaAeraiVWTK3
-X-Received: by 10.55.16.11 with SMTP id a11mr6109222qkh.3.1484091053946; Tue,
-	10 Jan 2017 15:30:53 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Tue, 10 Jan 2017 15:30:33 -0800 (PST)
-In-Reply-To: <CALbNGRRtQYDs_-KqD7TPeQKdWX7UQrYp1DKLfHkt5SJa-Ca17g@mail.gmail.com>
-References: <1484070799-19031-1-git-send-email-schnitzeltony@googlemail.com>
-	<CAJTo0LZA_r=H8_Nchybr+7+bZu0Ka35MXd_AqvbYNZ9Db6VRLg@mail.gmail.com>
-	<CALbNGRRtQYDs_-KqD7TPeQKdWX7UQrYp1DKLfHkt5SJa-Ca17g@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 10 Jan 2017 23:30:33 +0000
-Message-ID: <CAJTo0LaEh+C-bFCwfAe8_E8VGoHtaYNXBPo4wVNXcaPkAnYwYg@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] python3-pygobject: add PACKAGECONFIG for cairo - enabled by default
+	Wed, 11 Jan 2017 00:21:31 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 6847220B1D;
+	Wed, 11 Jan 2017 00:21:31 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id Ol7pkMImCi3j; Wed, 11 Jan 2017 00:21:31 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-95-79.washdc.fios.verizon.net
+	[100.15.95.79])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 4146120866;
+	Wed, 11 Jan 2017 00:21:29 +0000 (UTC)
+Received: from sam.denix (sam [192.168.0.5])
+	by mail.denix.org (Postfix) with ESMTP id 95F5716231D;
+	Tue, 10 Jan 2017 19:21:28 -0500 (EST)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Jan 2017 19:21:28 -0500
+Message-Id: <1484094088-5338-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.7.4
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [morty][PATCH v2] attr/ea-acl: pass --disable-gettext when USE_NLS=no
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,38 +38,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2017 23:30:55 -0000
-Content-Type: multipart/alternative; boundary=001a11475cbc15cc9a0545c5e06e
+X-List-Received-Date: Wed, 11 Jan 2017 00:21:32 -0000
 
---001a11475cbc15cc9a0545c5e06e
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+From: Denys Dmytriyenko <denys@ti.com>
 
-On 10 January 2017 at 21:09, Andreas M=C3=BCller <schnitzeltony@googlemail.=
-com>
-wrote:
+Fixes following error in configure:
+  FATAL ERROR: msgfmt does not seem to be installed.
+  attr cannot be built without a working gettext installation.
 
-> Yes: we need python3-pycairo in DEPENDS and RDEPENDS. V1 had
-> python3-pycairo in RDEPENDS only.
->
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 
-Thanks Andreas,
+(From OE-Core rev: d044fad8a0ac5d57deb88b25106f3a39cb7c1636)
 
-Ross
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+---
+v2 - morty still requires expand option to d.getVar()
 
---001a11475cbc15cc9a0545c5e06e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+ meta/recipes-support/attr/ea-acl.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 January 2017 at 21:09, Andreas M=C3=BCller <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:schnitzeltony@googlemail.com" target=3D"_blank">schnitzeltony=
-@googlemail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" =
-style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><di=
-v id=3D":45b" class=3D"a3s aXjCH m1598a36f72fa2ad1">Yes: we need python3-py=
-cairo in DEPENDS and RDEPENDS. V1 had<br>
-python3-pycairo in RDEPENDS only.<br></div></blockquote><div><br></div><div=
->Thanks Andreas,</div><div><br></div><div>Ross=C2=A0</div></div><br></div><=
-/div>
+diff --git a/meta/recipes-support/attr/ea-acl.inc b/meta/recipes-support/attr/ea-acl.inc
+index 370e16f..4d6ad20 100644
+--- a/meta/recipes-support/attr/ea-acl.inc
++++ b/meta/recipes-support/attr/ea-acl.inc
+@@ -10,6 +10,7 @@ inherit autotools-brokensep gettext
+ EXTRA_AUTORECONF += "--exclude=autoheader"
+ EXTRA_OECONF = "INSTALL_USER=root INSTALL_GROUP=root"
+ EXTRA_OECONF_append_class-native = " --enable-gettext=no"
++EXTRA_OECONF_append_class-target = "${@['', ' --disable-gettext '][(d.getVar('USE_NLS', True) == 'no')]}"
+ 
+ EXTRA_OEMAKE = "PKG_LIB_DIR=${base_libdir} PKG_DEVLIB_DIR=${libdir}"
+ 
+-- 
+2.7.4
 
---001a11475cbc15cc9a0545c5e06e--
+
