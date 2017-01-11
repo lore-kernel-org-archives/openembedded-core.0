@@ -1,28 +1,46 @@
-Return-Path: <christoph.settgast@methodpark.de>
-X-Greylist: delayed 348 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 11 Jan 2017 09:03:48 UTC
-Received: from mail.methodpark.de (mail.methodpark.de [212.204.89.242])
-	by mail.openembedded.org (Postfix) with ESMTP id 851676FF7F
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f48.google.com (mail-it0-f48.google.com
+	[209.85.214.48])
+	by mail.openembedded.org (Postfix) with ESMTP id B5FC76AC3C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jan 2017 09:03:48 +0000 (UTC)
-Received: from localhost (virusgate [212.204.89.246])
-	by mail.methodpark.de (Postfix) with ESMTP id 1441A2B95A2;
-	Wed, 11 Jan 2017 09:58:02 +0100 (CET)
-X-Virus-Scanned: by amavisd-new-2.6.6 (20110518) (Debian) at methodpark.de
-Received: from mail.methodpark.de ([IPv6:::ffff:212.204.89.242])
-	by localhost (virusgate.methodpark.de [::ffff:212.204.89.246])
-	(amavisd-new, port 10024)
-	with ESMTP id N-WANFXcs95m; Wed, 11 Jan 2017 09:57:59 +0100 (CET)
-Received: from bob.er.methodpark.de (unknown [10.10.101.95])
-	by mail.methodpark.de (Postfix) with ESMTP id F10E314A60B;
-	Wed, 11 Jan 2017 09:58:00 +0100 (CET)
-From: Christoph Settgast <christoph.settgast@methodpark.de>
+	Wed, 11 Jan 2017 11:10:42 +0000 (UTC)
+Received: by mail-it0-f48.google.com with SMTP id c20so93837501itb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Jan 2017 03:10:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=we+axMCUFfLRa1GbnpFYVoQMt+JYvIyIlOY7+92tC4A=;
+	b=HAeK4y2y6/ZXrEoJbJZcJhOBS2UlMk4ZvSr69VKpPOutsnvzMXwKloyNHYuNn1WAXS
+	nxPviKmT/C+i/yGEunq6LD4ZjP6tXAo1vZXDGtHWsp/0wH0m8G33K9MHYfhfq2ArHBNS
+	f/MnhD0G0W2O/yQ+QFSYawWgWD9XEHfvWFFYMpOvDjbEfDtbOP61aGHompygwvA8X1a7
+	mZxx0m4Yi1w3jVLHRo21xTN2dciwfLtkZDLIb5clX1gOLNuMeWmzqgXfhGPmTad7E5Lg
+	cZ0OOM6XpFQCuP2ELPg9ieRk0INS7DbSa2FSPzZnXF8bkKoln1PyqZp6DEWgxuweNelg
+	LUkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=we+axMCUFfLRa1GbnpFYVoQMt+JYvIyIlOY7+92tC4A=;
+	b=r9mvzHJtNaU/hGbmzAIKqIovQsVK2ESokrIbJsZKa6TSNVd1kH+7JOSAczE7eNdHFj
+	ey+cAqcSswhd5Ds9PeOdfGr+zQe/ycTZaoSj1is1dvSBhM8Sd7tRr4BYHa69O4oXtLtZ
+	ex0fpDHBt0oAjm9n2v5Z5/Al+JWefamPaHd0+5twoFTyS37V/P3dWG024AJrBm6w6bJX
+	wEmECiwgiPrN3NWpSGi4t5vQ3PdnxPwaYm63ylNt0/EQif4jOf2d+5JVDjaYmLV4cm32
+	M488T0ldjh2JVN+n6dWRFgiVL9SDOMwP486tEQw82GVyIj/q4O4gUmh0TScBBD5qvIBr
+	GKag==
+X-Gm-Message-State: AIkVDXLuPm4i+3olkByAKXsjXjcEzP69y7JZWZtv+K8jMy21CIirZeSK5i8XznyQSEtz5d7x
+X-Received: by 10.36.193.135 with SMTP id e129mr4528327itg.69.1484133042827;
+	Wed, 11 Jan 2017 03:10:42 -0800 (PST)
+Received: from pohly-desktop.fritz.box (p5DE8EC30.dip0.t-ipconnect.de.
+	[93.232.236.48]) by smtp.gmail.com with ESMTPSA id
+	n134sm2881019itg.19.2017.01.11.03.10.40
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 11 Jan 2017 03:10:41 -0800 (PST)
+From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Jan 2017 09:54:39 +0100
-Message-Id: <1484124879-20734-1-git-send-email-christoph.settgast@methodpark.de>
-X-Mailer: git-send-email 1.9.1
-Cc: Christoph Settgast <christoph.settgast@methodpark.com>
-Subject: [PATCH] libdrm: enable etnaviv experimental support
+Date: Wed, 11 Jan 2017 12:10:32 +0100
+Message-Id: <cover.eecd085acd37cef2ce0793e6bb962bf87f107b05.1484132929.git-series.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/1] improve LIC_FILES_CHKSUM QA check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,53 +53,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jan 2017 09:03:50 -0000
+X-List-Received-Date: Wed, 11 Jan 2017 11:10:44 -0000
 
-From: Christoph Settgast <christoph.settgast@methodpark.com>
+In YOCTO #10898 I pointed out that the documentation for
+LIC_FILES_CHKSUM beginline and endline does not specify whether
+the numbering starts at 0 or 1 (it's 1) and whether the endline
+is inclusive or exclusive (it's inclusive), and I offered the bet
+that developers happened to use values that are off by one.
 
-The etnaviv project is a free and open source linux driver for Vivante
-2D/3D GPUs in i.MX SoCs.
+I also showed how to extract the right lines from a file with
+tail and head and calculate the md5sum. Paul argued that this
+isn't necessary: one could just pick some lines, trigger the QA
+error message, and then use the md5sum from that message.
 
-Support for etnaviv in libdrm was added in 2.4.71.
+But when doing that, developers will not notice when they pick
+the wrong lines. Therefore I'd like to propose the following
+patch which adds the selected license text directly to the error
+message. That's also useful when the text changes, because then
+developers have the change right in front of them, without having
+to look it up in the file manually.
 
-Signed-off-by: Christoph Settgast <christoph.settgast@methodpark.com>
----
- meta/recipes-graphics/drm/libdrm_2.4.74.bb | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+Just for the sake of closure (and so that I win my bet ;-), here's an
+example which is probably an off-by-one error (there's no reason
+to include the "#ifndef cmake_h"):
 
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.74.bb b/meta/recipes-graphics/drm/libdrm_2.4.74.bb
-index c67d356..06d7642 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.74.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.74.bb
-@@ -24,6 +24,7 @@ inherit autotools pkgconfig manpages
- EXTRA_OECONF += "--disable-cairo-tests \
-                  --without-cunit \
-                  --enable-omap-experimental-api \
-+                 --enable-etnaviv-experimental-api \
-                  --enable-install-test-programs \
-                  --disable-valgrind \
-                 "
-@@ -31,10 +32,12 @@ PACKAGECONFIG[manpages] = "--enable-manpages, --disable-manpages, libxslt-native
- 
- ALLOW_EMPTY_${PN}-drivers = "1"
- PACKAGES =+ "${PN}-tests ${PN}-drivers ${PN}-radeon ${PN}-nouveau ${PN}-omap \
--             ${PN}-intel ${PN}-exynos ${PN}-kms ${PN}-freedreno ${PN}-amdgpu"
-+             ${PN}-intel ${PN}-exynos ${PN}-kms ${PN}-freedreno ${PN}-amdgpu \
-+             ${PN}-etnaviv"
- 
- RRECOMMENDS_${PN}-drivers = "${PN}-radeon ${PN}-nouveau ${PN}-omap ${PN}-intel \
--                             ${PN}-exynos ${PN}-freedreno ${PN}-amdgpu"
-+                             ${PN}-exynos ${PN}-freedreno ${PN}-amdgpu \
-+                             ${PN}-etnaviv"
- 
- FILES_${PN}-tests = "${bindir}/*"
- FILES_${PN}-radeon = "${libdir}/libdrm_radeon.so.*"
-@@ -45,3 +48,4 @@ FILES_${PN}-exynos = "${libdir}/libdrm_exynos.so.*"
- FILES_${PN}-kms = "${libdir}/libkms*.so.*"
- FILES_${PN}-freedreno = "${libdir}/libdrm_freedreno.so.*"
- FILES_${PN}-amdgpu = "${libdir}/libdrm_amdgpu.so.*"
-+FILES_${PN}-etnaviv = "${libdir}/libdrm_etnaviv.so.*"
+meta/recipes-devtools/cmake/cmake_3.7.1.bb:
+LIC_FILES_CHKSUM = "file://Copyright.txt;md5=7a64bc564202bf7401d9a8ef33c9564d \
+                    file://Source/cmake.h;beginline=1;endline=3;md5=4494dee184212fc89c469c3acd555a14"
+
+vvvvvvvvvvvvvvvvvvvvvvvvvvvv beginline=1 vvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+/* Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
+   file Copyright.txt or https://cmake.org/licensing for details.  */
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ endline=3 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+I also found examples where endline was used without beginline,
+leading to snippets that included the copyright line and thus
+leading to more churn when upstream developers bump the copyright
+year without actually changing the license.
+
+I'm not going to propose patches for those recipes: including the
+copyright years can be fixed as part of the next update that
+requires changing the checksum, and the off-by-one problems
+probably aren't that relevant (although I can also imagine cases
+where a one-line license comment was meant to be picked and was
+missed entirely).
+
+Patrick Ohly (1):
+  insane.bbclass: print license text as part of QA message
+
+ meta/classes/insane.bbclass | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
+
+base-commit: 425afe2484707640ac71194885fdb263e95e9950
 -- 
-1.9.1
-
+git-series 0.9.1
 
