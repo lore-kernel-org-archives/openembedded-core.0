@@ -1,48 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A89770016
+Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com
+	[209.85.216.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 0407465CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2017 12:57:59 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id c206so18337441wme.0
+	Thu, 12 Jan 2017 13:20:09 +0000 (UTC)
+Received: by mail-qt0-f171.google.com with SMTP id x49so17257183qtc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2017 04:58:00 -0800 (PST)
+	Thu, 12 Jan 2017 05:20:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=VRrF5t0oTFWvec9mJCQzyNXe44NTZVWezl1oOwW1AnU=;
-	b=l8N3cT86Vww54BxmbZ79XNi+uxWkLbyCRzmJMjeRAK2j0h31t4CXBYkkghUkOnCpfx
-	yTGeOk+fmhPTPQ8t1xtLysVurAbWf/7n3iUAMuOIH4KNgHEuAuLf00gm0iGjE1DXtW2L
-	oNfxoJd60srl0AXOxQMAwsdW5L8C1V7Wu3cHcIs+q+KiZk6wtSK4faMhctJ5+Bm6bL42
-	z5SI/gGqiEb1j+xDbHD//hzT33OuRw30104+/6xcbo8TdDmNxZF4AcF2W76FKtXSCVI7
-	mYRDKat1f4E6sWTsOFLmF65JqgQbjUcPTuj6qE+wvJGgH4xtERzsyeGa4lIKjttphaBc
-	yYFQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Q9rHf8oWZk9/YfUtFjNxBhq99ZmtlTcMYN6yKAEwRYI=;
+	b=TuoK7EQUjz6/5zUdYOInTnHkV/72qfyVhor/1kMBLD+GTqcRjAZwxdoAk66qMvQ1dx
+	o09jZYFb7LhkR+XcP2oVreeJdwlSu1YnnqHnEIKNZSYZ9KQNAr32gZV9vW7LCVP7Ilxz
+	60TCJNqA/mc+EtxOXi/gbVj7+DcHd6BSRkHG8vOh6owUayL0+wz3c02uAhxd+ksYJM5O
+	aNgTJNPW6e3IGFN1Zu64r6xKUaGr3ZqeTa7KCjaZU/6Rd9VHj2Y/PxPilfb8byG6owtj
+	VAj+o/Yj5MW9CBilEdxht2/lM01O/W7+2BDUZn7HCKEkqq2oAGPUFJhvYdyAo0POrDjV
+	NxhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=VRrF5t0oTFWvec9mJCQzyNXe44NTZVWezl1oOwW1AnU=;
-	b=YKVrdmweikhlQeyu1Facgh2MMfsDq4c7Fuw37faw180Jxk10Eac5W0V4H6yc7fKxVI
-	iIlHYOpQ97KfaoyMD0eSxqoF+0XecqK1zXaDKTGrpEkV5V3VEd1Ik3AFu4lBTuWVDTkz
-	tDZxMbRE2dWG3uHahz7S5KCSPDvXnStGplznrJd5zBC9Z/0qFITNXnYfByBcmJ8u5lfS
-	AArSTfkkhjvcsj6U9NJPITvqZixtiz59//A+HeNYJKfv3kuXEjO4Cindnjoz+ZnrmE0s
-	6ZsRe2YSBS5396dH495mbzs8whMGlOO/Sxc5fTv+w3+xjVpytj0F8pJkhlfY/Lx8OS6u
-	FgpQ==
-X-Gm-Message-State: AIkVDXI2uISDW9kAo3KImeLGqIPhieykhFSi9Cf/mEi3KG541LNbAVFRqim5XpCwitEgjZ3Q
-X-Received: by 10.223.161.222 with SMTP id v30mr8228587wrv.80.1484225879028;
-	Thu, 12 Jan 2017 04:57:59 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id y4sm13584936wjp.0.2017.01.12.04.57.58
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 12 Jan 2017 04:57:58 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Jan 2017 12:57:53 +0000
-Message-Id: <1484225873-23702-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1484225873-23702-1-git-send-email-ross.burton@intel.com>
-References: <1484225873-23702-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/2] selftest/base: don't fetch DISTRO variable in constructor
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Q9rHf8oWZk9/YfUtFjNxBhq99ZmtlTcMYN6yKAEwRYI=;
+	b=jiuUyQ3iJGE+0cjw6Raic253Dnibb5iRVOlo9tFf4Wew2XsK9lGwag6n0RR79+LP10
+	jnKdzTLMDfDUUfQA3epiYPVU/HpkbgBODIMJ9itKJ0D9VmwO5Q8wpGO3O3Bp1MfA2eCc
+	QhVrr/MCfaafzAu4/o8wqDmAYw8HnpuYo1OLCXVsRxoj9/7BQhs5cCO1lqQplEY03MDi
+	zcg0QQIExrFUNzONHH0PUTjLdIAKd3WnpoTsveuRBuY/6FcjMJQHFTD9dzX8KASIHHWV
+	0HsKCQkgrCeyr+BBr2UFSlSAEUXb7icU8/tihFUWbenPEYMBx9/8EiFida/qCZ7aKdZc
+	iFuQ==
+X-Gm-Message-State: AIkVDXIxQ4ZK4PUdhrM2dqTI0F7W7MhfN5K7dMX7XNz2w7+8HrcnopxP6uRi0zuQv4rqQPy3pVpmaALpKgOs6eWm
+X-Received: by 10.237.62.232 with SMTP id o37mr12072221qtf.188.1484227209904; 
+	Thu, 12 Jan 2017 05:20:09 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.106.99 with HTTP; Thu, 12 Jan 2017 05:19:49 -0800 (PST)
+In-Reply-To: <7761b4f4-aa4b-bf5b-646a-e5af208a8d7e@linux.intel.com>
+References: <cover.1483983534.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<bd50489338d4e001bc7f5511db02792b311a3672.1483983534.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<CAJTo0LYDAbGZ4E_adYLFGCQ84Fq7Cfs6PJsBqJmapzkemTnAdw@mail.gmail.com>
+	<7761b4f4-aa4b-bf5b-646a-e5af208a8d7e@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 12 Jan 2017 13:19:49 +0000
+Message-ID: <CAJTo0LaFjA8H5WueuYXVVXwKFFTWuH20MrU32U0DxYYZRS16jA@mail.gmail.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V3 2/4] selftest: imagefeatures: skip tests based on distro features and supported fstypes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,29 +56,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2017 12:57:59 -0000
+X-List-Received-Date: Thu, 12 Jan 2017 13:20:11 -0000
+Content-Type: multipart/alternative; boundary=001a11406f0e9ce5950545e5931c
 
-Fetching the DISTRO variable in the base constructor means that we have to start
-bitbake for every test case instance, which adds minutes to the startup time.
+--001a11406f0e9ce5950545e5931c
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oeqa/selftest/base.py | 1 -
- 1 file changed, 1 deletion(-)
+On 11 January 2017 at 20:06, Leonardo Sandoval <
+leonardo.sandoval.gonzalez@linux.intel.com> wrote:
 
-diff --git a/meta/lib/oeqa/selftest/base.py b/meta/lib/oeqa/selftest/base.py
-index b477db3..26c93f9 100644
---- a/meta/lib/oeqa/selftest/base.py
-+++ b/meta/lib/oeqa/selftest/base.py
-@@ -41,7 +41,6 @@ class oeSelfTest(unittest.TestCase):
-             self.testinc_path, self.testinc_bblayers_path,
-             self.machineinc_path, self.localconf_backup,
-             self.local_bblayers_backup]
--        self.distro = get_bb_var('DISTRO')
-         super(oeSelfTest, self).__init__(methodName)
- 
-     def setUp(self):
--- 
-2.8.1
+> This test is pretty pointless, lets just delete it.
+>
+>
+> why is this pointless? if this is the case, we should then remove the
+> core-image-clutter.bb target
+>
 
+The test just builds an image that contains clutter, but core-image-weston
+already does that and we dont really need to treat clutter any differently
+to any other library.
 
+Yes, removing core-image-clutter would make sense too.
+
+Ross
+
+--001a11406f0e9ce5950545e5931c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 11 January 2017 at 20:06, Leonardo Sandoval <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:leonardo.sandoval.gonzalez@linux.intel.com" target=3D"_blank">l=
+eonardo.sandoval.gonzalez@linux.intel.com</a>&gt;</span> wrote:<br><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
+olid;padding-left:1ex"><span class=3D""><blockquote type=3D"cite"><div dir=
+=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote"><div>This te=
+st is pretty pointless, lets just delete it.</div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br></span>
+    why is this pointless? if this is the case, we should then remove
+    the <a href=3D"http://core-image-clutter.bb" target=3D"_blank">core-ima=
+ge-clutter.bb</a> target<br></blockquote><div><br></div><div>The test just =
+builds an image that contains clutter, but core-image-weston already does t=
+hat and we dont really need to treat clutter any differently to any other l=
+ibrary.</div><div><br></div><div>Yes, removing core-image-clutter would mak=
+e sense too.</div><div><br></div><div>Ross=C2=A0</div></div><br></div></div=
+>
+
+--001a11406f0e9ce5950545e5931c--
