@@ -1,43 +1,52 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id BD569719C8
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 1FBFC719E7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2017 07:04:04 +0000 (UTC)
-Received: by mail-qk0-f169.google.com with SMTP id 11so11386888qkl.3
+	Thu, 12 Jan 2017 07:42:46 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id j13so12281322iod.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jan 2017 23:04:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=SOm8TWFMQt/LN7jx56jw/WN6hsCbrMEk8wiDXkUYV38=;
-	b=S0GKCZeq446JAX9ZqdJwR/LubRETJQz3l5FX37LUKsr/A94sdg3Iz6KbyHw54bKO/Y
-	uFNXhAk6G4Aoa3iaicsfoozy69YJortP25NgAbRC/ZQKh8LzJhcHlYaHRBMKwAWGXhN6
-	hUO5HOl9Y4CTTdHokFAJdaqDNpx9ISt+8Tuf8=
+	Wed, 11 Jan 2017 23:42:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=NIycw8+9iA1ZeYsZlWWFMvBn8zFRNwadEfQGXVkKsdY=;
+	b=rWKdzoBF7f8w0xSOn5EsYNBEkK+fqy+8BUr7tgss+XmvI4db/7+UpyddmowYxQA0ug
+	0Ie6WEdDwL/QHtYjbuku7kc4yG01O9WVR7K9HSXiEg9gGWCR6vImS0AompvKQ14SfD4x
+	3VIAW0mfYIARbzInGy67h/TTlnKybdt/9sRFk0efjQz7SdVCsi3DS4iWgqfvR5dFr+Mk
+	V4P/Q7O4o+qxaSszW0Wo31424GmXD5De0/0DN8Xd5VoEpNhjWBXwNMJuS2CimW5qF7m4
+	IugGBBMiB4MX4hP2dU8caFZ8nKIGLtkmRnQhP/Cxv61/ia3tQFY1HZubN2cUHCXq5OQz
+	7Mvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=SOm8TWFMQt/LN7jx56jw/WN6hsCbrMEk8wiDXkUYV38=;
-	b=lPvJyXBPREZQzSnUh/HbvHwzjmogajqMaWgmeApdyGtdAHFZscAUmYNEuQ5/Eb3FjL
-	Q0ylwT1d+cCvtxmy3SB7yxoaAw5d6THw00HhTJl/i1WBVVXHhxyD0tRzLjIoCvp6N7Ma
-	3ObCgNbs0Wq3RyI/or6g3Imgpq6KHd+ft6lOna/Rc0aQfRt8lW+WWeyo3xGhFudbvxuM
-	vrSPS9X0tYZRaVl3M2e4xI/d54/y+T0Howqc9UpXu8/AhtEhRIQncrufdwV0YL6kFDGM
-	JZFnjBCWZr0ZIH3pVBVS8HK26ZYvHnXBU+w+6j2xh3qKfdiF/LMqqoH9GNOWtbkovDe+
-	IjsQ==
-X-Gm-Message-State: AIkVDXIQb7sfpDCOQ5cpJwOPpgBi+hf5CfU4jMSSPlubDSkvooyYKk7+hJq5pxfFw2YpxzLWNnEK+vNX19Hv5261
-X-Received: by 10.55.181.198 with SMTP id e189mr13138199qkf.231.1484204644941; 
-	Wed, 11 Jan 2017 23:04:04 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.19.82 with HTTP; Wed, 11 Jan 2017 23:03:44 -0800 (PST)
-In-Reply-To: <1484200338-27391-1-git-send-email-sgw@linux.intel.com>
-References: <1484200338-27391-1-git-send-email-sgw@linux.intel.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Thu, 12 Jan 2017 08:03:44 +0100
-Message-ID: <CAP71WjxSDG0_XdT4D_jjKr+L2wN2haez0rsricomUQ+Pj6cBCA@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xserver-xorg: Enable glamor by default
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=NIycw8+9iA1ZeYsZlWWFMvBn8zFRNwadEfQGXVkKsdY=;
+	b=O40Tmp75xrN696o2flpnxqgv22UpamhVTv+MupYCpoDM+QJzTc5yKaRAn73Q98ECFc
+	Hnu4DcseaUN++w37fJ+aoOxDCM436rRYojq06XkdUvY6X/I+BiR3FeigHcTJoiuMSYJj
+	4614pcjwWs/gAdyC58Sla1vurFmRBZGdk+3nr4zcidySEk6aavgVGQAuUpX8Bb+WX/K3
+	Nc4ykd00BcuHE3vzHnJlAWQ9mwnW1VpTi5Brc04kXy7oYDbZ5DrBWZDxFTe/UFRR1b9h
+	HIYiC+3MiHuneKYnmP02ZOyZgxxQDAauLEZ5hMTnq9/EudCEDdKCAVzab9npwudC4T6D
+	3y4w==
+X-Gm-Message-State: AIkVDXKy0392SM1nBjvX8YbXi2qcYO+/Pfse//BfI7czy7aYJjzALinNckw5Cmd2+eBkqnpw
+X-Received: by 10.107.84.2 with SMTP id i2mr13362207iob.176.1484206966986;
+	Wed, 11 Jan 2017 23:42:46 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8F981.dip0.t-ipconnect.de. [93.232.249.129])
+	by smtp.gmail.com with ESMTPSA id k6sm4450976ioe.1.2017.01.11.23.42.44
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 11 Jan 2017 23:42:45 -0800 (PST)
+Message-ID: <1484206962.2137.129.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Jan 2017 08:42:42 +0100
+In-Reply-To: <cb54fa727d09a3ae86d5205ed3b784cd69726ef3.1484063948.git.patrick.ohly@intel.com>
+References: <cover.1484063948.git.patrick.ohly@intel.com>
+	<cb54fa727d09a3ae86d5205ed3b784cd69726ef3.1484063948.git.patrick.ohly@intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Subject: Re: [PATCH v2 09/11] runqemu: support UEFI with OVMF firmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,46 +59,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2017 07:04:08 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 12 Jan 2017 07:42:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jan 12, 2017 at 6:52 AM, Saul Wold <sgw@linux.intel.com> wrote:
-> To enable glamor, we need to also enable both dri3 and xshmfence as dependencies.
->
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-> index 6a13380..16d9747 100644
-> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-> @@ -122,6 +122,7 @@ EXTRA_OECONF += "--with-fop=no \
->  EXTRA_OECONF[vardepsexclude] = "MACHINE"
->
->  PACKAGECONFIG ??= "dri2 udev ${XORG_CRYPTO} \
-> +                   xshmfence dri3 glamor \
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri glx', '', d)} \
->                     ${@bb.utils.contains("DISTRO_FEATURES", "wayland", "xwayland", "", d)} \
->                     ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "systemd", "", d)} \
+On Tue, 2017-01-10 at 17:07 +0100, Patrick Ohly wrote:
+> ovmf is not built by default. Either do it explicitly ("bitbake ovmf")
+> or make it a part of the normal build
+> ("MACHINE_ESSENTIAL_EXTRA_RDEPENDS_append = ' ovmf'").
 
-I fully agree with this change, and I am definitely willing to have
-glamor enabled by default (I even thought I had sent that patch
-already..)
+Wrong advice in the commit message: MACHINE_ESSENTIAL_EXTRA_RDEPENDS
+doesn't work (it tries to install a non-existent ovmf package into the
+rootfs and fails), use EXTRA_IMAGEDEPENDS instead (same mechanism that
+also triggers building qemu-native).
 
-however i think you need it done this way:
+I'll fix this if a v3 of this series becomes necessary, but wouldn't do
+that just for this fix alone.
 
-${@bb.utils.contains('DISTRO_FEATURES', 'opengl', ' dri3 xshmfence
-glamor', '', d)}"
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
 
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
