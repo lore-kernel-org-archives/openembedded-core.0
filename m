@@ -1,38 +1,47 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wj0-f196.google.com (mail-wj0-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id AC5B56FEFA
+Return-Path: <sona.sarmadi@enea.com>
+Received: from smtp-out11.electric.net (smtp-out11.electric.net
+	[185.38.181.33])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B48A600E3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2017 10:42:27 +0000 (UTC)
-Received: by mail-wj0-f196.google.com with SMTP id ey1so1404419wjd.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2017 02:42:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=wOUPh4gApORh7X0BeklLx+I3CJpd/H+FLUXMY6tCqiM=;
-	b=iote8uoYbIxhADTnrD992Xz4Qeu4luL/XHahJNV3yFgukUG7wqMYnT1fb2N5aUg8JE
-	aaFk6dnRXz5b7dWQ6XknZyHTABs6QWtdZk7HfnH/xqbyIxZNeJMexBjgMnJla1exMHW8
-	8TD4kuPyh9ACQnisiKqILT9pkjLw+dR7uMJjBlBEEE5FRfsuLWtrKx65QzlcjqbwskWd
-	7iQM8r7XmhfoiAathP5XPu9JTrShlBeeAgYCJrGpCZTvDLuXVuLygHDhW155lgt5zfP2
-	pShzeFVy+vUfYyBiARc57evDEakBKmHNFGCN/ULyPkW1dKxz9JiHmHhrVLgpd0z0/weP
-	kzEA==
-X-Gm-Message-State: AIkVDXJk28VapnjEG0MKwk0henP+2GHwWPySPGImoxo7a+cqQRaZ60AQ9Z9hhtbpTx59yQ==
-X-Received: by 10.194.23.67 with SMTP id k3mr7926708wjf.215.1484217747712;
-	Thu, 12 Jan 2017 02:42:27 -0800 (PST)
-Received: from tfsielt31850.tycofs.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id w18sm2493498wme.9.2017.01.12.02.42.26
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 12 Jan 2017 02:42:26 -0800 (PST)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Jan 2017 10:42:25 +0000
-Message-Id: <20170112104225.26253-1-git@andred.net>
-X-Mailer: git-send-email 2.11.0
+	Thu, 12 Jan 2017 11:34:06 +0000 (UTC)
+Received: from 1cRdds-0002bf-Vw by out11d.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>)
+	id 1cRddt-0002cJ-TU; Thu, 12 Jan 2017 03:34:05 -0800
+Received: by emcmailer; Thu, 12 Jan 2017 03:34:05 -0800
+Received: from [192.36.1.72] (helo=mx-3.enea.com)
+	by out11d.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>)
+	id 1cRdds-0002bf-Vw; Thu, 12 Jan 2017 03:34:04 -0800
+Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
+	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
+	14.03.0319.002; Thu, 12 Jan 2017 12:34:04 +0100
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: akuster808 <akuster808@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH][morty] libxtst: 1.2.2 -> 1.2.3
+Thread-Index: AQHSazSAc5fBqB0n/EGOVf8znZEj5KEzSNUAgAEaRRA=
+Date: Thu, 12 Jan 2017 11:34:03 +0000
+Message-ID: <3230301C09DEF9499B442BBE162C5E48AC10E985@SESTOEX04.enea.se>
+References: <1484046651-61364-1-git-send-email-sona.sarmadi@enea.com>
+	<e5f879c8-8ea6-d2a6-0e4f-9da16d838f6b@gmail.com>
+In-Reply-To: <e5f879c8-8ea6-d2a6-0e4f-9da16d838f6b@gmail.com>
+Accept-Language: sv-SE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.16.142.231]
 MIME-Version: 1.0
-Subject: [PATCH] opkg-utils: use D instead of OPKG_OFFLINE_ROOT in postrm
+X-Outbound-IP: 192.36.1.72
+X-Env-From: sona.sarmadi@enea.com
+X-Proto: esmtps
+X-Revdns: mx-3.enea.com
+X-HELO: mx-3.enea.com
+X-TLS: TLSv1:AES128-SHA:128
+X-Authenticated_ID: 
+X-PolicySMART: 6551647
+X-Virus-Status: Scanned by VirusSMART (c)
+X-Virus-Status: Scanned by VirusSMART (s)
+Subject: Re: [PATCH][morty] libxtst: 1.2.2 -> 1.2.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,37 +54,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2017 10:42:28 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 12 Jan 2017 11:34:07 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: André Draszik <adraszik@tycoint.com>
 
-While both result in the same in this case, postrm
-should really be referring to $D as we do everywhere
-else.
+> On 01/10/2017 03:10 AM, Sona Sarmadi wrote:
+> > Upgrade libxtst from 1.2.2 to 1.2.3 to address:
+> What else changed in this update?
+> - armin
 
-Signed-off-by: André Draszik <adraszik@tycoint.com>
----
- meta/recipes-devtools/opkg-utils/opkg-utils_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Hi Armin,
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-index 4f90bcd13a..f6265959e9 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-@@ -45,8 +45,8 @@ RREPLACES_update-alternatives-opkg = "update-alternatives-cworth"
- RCONFLICTS_update-alternatives-opkg = "update-alternatives-cworth"
- 
- pkg_postrm_update-alternatives-opkg() {
--	rm -rf $OPKG_OFFLINE_ROOT${nonarch_libdir}/opkg/alternatives
--	rmdir $OPKG_OFFLINE_ROOT${nonarch_libdir}/opkg || true
-+	rm -rf $D${nonarch_libdir}/opkg/alternatives
-+	rmdir $D${nonarch_libdir}/opkg || true
- }
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.11.0
+I believe the only changes between 1.2.2 and 1.2.3 is one commit=20
+" Remove fallback for _XEatDataWords, require libX11 1.6 for it" see below:
+
+https://cgit.freedesktop.org/xorg/lib/libXtst/
+Age	Commit message	Author	Files	Lines
+2016-10-04	libXtst 1.2.3	HEADlibXtst-1.2.3master	Matthieu Herrb	1	-1/+1
+2016-09-25	Out of boundary access and endless loop in libXtst	Tobias Stoeck=
+mann	1	-4/+39
+2013-11-23	Remove fallback for _XEatDataWords, require libX11 1.6 for it	Mi=
+chael Joost	2	-18/+1
+2013-05-31	libXtst 1.2.2libXtst-1.2.2
+
+//Sona
+
+
 
 
