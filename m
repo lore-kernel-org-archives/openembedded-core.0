@@ -1,48 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
-	[209.85.220.177])
-	by mail.openembedded.org (Postfix) with ESMTP id C062C719B2
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D9026FEFA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2017 10:28:14 +0000 (UTC)
-Received: by mail-qk0-f177.google.com with SMTP id s140so15709026qke.0
+	Thu, 12 Jan 2017 10:34:41 +0000 (UTC)
+Received: by mail-wm0-f48.google.com with SMTP id r126so13174976wmr.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2017 02:28:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=5dvgT6o3/dEz1mSHuYG4/45zYS/Tk62Rmk0gD4RyY/I=;
-	b=szjchOVp3Hz4oN53NMx2xcxs+B+COiRAqjyVIpFzMkffT4pw2KZxDhj+Ybr7/IvlZ6
-	FlUsmf7K6BhIepu2xfQ/4nNz7RC4BXljyKV6tTKLxTualUgXraeKr+QIxEwp7iDBVPwa
-	Pq0o0uKZN9Y+rc4Gc7WhsVovIxqyJVglMdzGG2/8V0aHp7sVb06kJQTZur74oOMABvIz
-	BRezWM+QIee20J3b1tO+DvX3D1tvkldG/DLK5Gu/nXQctzHg4wzRJaBH6LEv2qMjnekL
-	VxRS13x2aCoEk140jFGJGUGyV4K476I6jxgNEfQ/PfKuso4R2veEDejzbd2qlwb2UaZe
-	5G6w==
+	Thu, 12 Jan 2017 02:34:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=5dvgT6o3/dEz1mSHuYG4/45zYS/Tk62Rmk0gD4RyY/I=;
-	b=YXOrSgfZ0HC2/Cn5bVW5B0DgpHh+f2g+uenvlbsmgM6QDZG08Hi/+srfMLLzkndkYk
-	o4Gp690hhJCh/ivmUnq+2Mm+GxdD8HTrHjvLaZWTNrFZA5xBnKcDzE2jUeoOhY/BYEBd
-	CPiNFrMVlDelZsDJA02p5NSAjDKP2T2XYj8x8nDXYwUvEnzpZzM8+L7wDnNRAAQVrNqo
-	t6xKoK2pMbaC8fJT9oVS1NRlM5Ptj7oqqweWxVxQO+i6Z+px+zZAohsO0PFBxIZMI5cm
-	4AZFYT5BUY5w+gkzkOzRe2kY/+vMrwXRB4F8iueUbemDK35KpniUHR2P+jPo/8woHopL
-	VsDw==
-X-Gm-Message-State: AIkVDXLjpOvyNOr5Nyb+QpZDShiOTRKchGl9X5fRrCmvrPuYnq4ybpeFo/lZGHaOqzgeQak7s9wLwbODtHdw7BWP
-X-Received: by 10.55.31.24 with SMTP id f24mr11876693qkf.221.1484216894667;
-	Thu, 12 Jan 2017 02:28:14 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=S0qrJ8UoyqgrFg7NTdMrXmkfp45IBtsHh1f6t1Xlhl4=;
+	b=TL0E1bhErZCyxOoUeSnewetssYRhiqRzAJ8sCXA0obReaOxR6qObTu+A9J5wRkaj/8
+	ekar9AhEXOnb7syB5jb/T2kQNv3eBgVAvB+vrrQP5o38JYpKgpkNtfqDBqK+cmhI48oA
+	bVMef9c7DPT/V8rij/BlBrNFp/OvHEWNoclX8dgmMs1wJU71X9FOwFf6ZBNdGc69oJjm
+	ersJSLxQxI/mL6hnMs6KI90Hje3fxcp3mGtPd81q059Phpsv5ES2xrjQ24PJbLlA6QeL
+	1JMmUZV7F6wEr80KVpetgmDWOLLZkPueqJlq4rEZidDeSbi2DD1Yyr7piQdgDmBkCZBd
+	/ecA==
+X-Gm-Message-State: AIkVDXIHHHdcoxeKGGcDAqkkbgJfm7yz7/brQbIN/GCjggp3fb6z8AW5PPn1Avc8Unap+w==
+X-Received: by 10.28.11.11 with SMTP id 11mr5642540wml.80.1484217281108;
+	Thu, 12 Jan 2017 02:34:41 -0800 (PST)
+Received: from tfsielt31850.tycofs.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	yo9sm12869427wjc.14.2017.01.12.02.34.39
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 12 Jan 2017 02:34:40 -0800 (PST)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Jan 2017 10:34:39 +0000
+Message-Id: <20170112103439.24779-1-git@andred.net>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Thu, 12 Jan 2017 02:27:54 -0800 (PST)
-In-Reply-To: <CAP71WjxSDG0_XdT4D_jjKr+L2wN2haez0rsricomUQ+Pj6cBCA@mail.gmail.com>
-References: <1484200338-27391-1-git-send-email-sgw@linux.intel.com>
-	<CAP71WjxSDG0_XdT4D_jjKr+L2wN2haez0rsricomUQ+Pj6cBCA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 12 Jan 2017 10:27:54 +0000
-Message-ID: <CAJTo0LbvNGujUD53urqPPThpMg85D_33zh_xjigUoKO=UMpEuw@mail.gmail.com>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xserver-xorg: Enable glamor by default
+Subject: [PATCH] lib/oe/rootfs: reliably handle alternative symlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,36 +45,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2017 10:28:15 -0000
-Content-Type: multipart/alternative; boundary=001a1147e2bac6d4ab0545e32cc9
-
---001a1147e2bac6d4ab0545e32cc9
+X-List-Received-Date: Thu, 12 Jan 2017 10:34:42 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 12 January 2017 at 07:03, Nicolas Dechesne <nicolas.dechesne@linaro.org>
-wrote:
+From: André Draszik <adraszik@tycoint.com>
 
-> ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', ' dri3 xshmfence
-> glamor', '', d)}"
->
+When removing unneeded packages from a (read-only) rootfs
+during rootfs creation, alternative symlinks from those
+packages may or may not be removed.
 
-Yes, glamor is obviously triggered by opengl.
+The reason is as follows:
 
-Ross
+update-alternatives(-native) is used during package
+installation as part of the image creation. It uses
+a database which contains entries for all the
+alternative symlinks possible, and the -native version
+uses the target's database by means of $OPKG_OFFLINE_ROOT,
+i.e. the rootfs we're in the process of creating.
 
---001a1147e2bac6d4ab0545e32cc9
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Once the rootfs has been created, OE removes certain
+packages because we have a read-only rootfs - in
+particular ROOTFS_RO_UNNEEDED which includes
+VIRTUAL-RUNTIME_update-alternatives, i.e. the
+update-alternatives. Recently, a change was made in
+OE, where uninstallation of update-alternatives from the
+rootfs causes removal of its database, too, to save space
+(700KiB (uncompressed) in a busybox system)
+  b24a63d71b517af701dfedbc7f7b541d25af708f
+  http://git.openembedded.org/openembedded-core/commit/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb?id=b24a63d71b517af701dfedbc7f7b541d25af708f
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 12 January 2017 at 07:03, Nicolas Dechesne <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:nicolas.dechesne@linaro.org" target=3D"_blank">nicolas.dechesne@=
-linaro.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
-=3D":6il" class=3D"a3s aXjCH m159917e92e1248e7">${@bb.utils.contains(&#39;D=
-ISTRO_<wbr>FEATURES&#39;, &#39;opengl&#39;, &#39; dri3 xshmfence<br>
-glamor&#39;, &#39;&#39;, d)}&quot;</div></blockquote></div><br>Yes, glamor =
-is obviously triggered by opengl.</div><div class=3D"gmail_extra"><br></div=
-><div class=3D"gmail_extra">Ross</div></div>
+Following from that, if update-alternatives is removed
+from the target file system, update-alternatives-native
+has no database anymore, meaning it can't manage any of
+the alternative symlinks anymore.
 
---001a1147e2bac6d4ab0545e32cc9--
+Because the order of packages to uninstall is
+non-deterministic, and update-alternatives could well
+be removed before any packages that use the mechanism
+provided, sometimes the extra symlinks are removed,
+sometimes not.
+
+By sorting the list of packages to be removed such that
+update-alternatives is removed last, we can ensure that
+that tings work reliably. (Certainly opkg seems to
+uninstall packages in the order given on the command
+line.)
+
+[YOCTO #10916]
+
+Signed-off-by: André Draszik <adraszik@tycoint.com>
+---
+ meta/lib/oe/rootfs.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index d9a473006a..b848e1cf2c 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -262,7 +262,12 @@ class Rootfs(object, metaclass=ABCMeta):
+             # Remove components that we don't need if it's a read-only rootfs
+             unneeded_pkgs = self.d.getVar("ROOTFS_RO_UNNEEDED").split()
+             pkgs_installed = image_list_installed_packages(self.d)
+-            pkgs_to_remove = [pkg for pkg in pkgs_installed if pkg in unneeded_pkgs]
++            # Make sure update-alternatives is last on the command line, so
++            # that it is removed last. This makes sure that its database is
++            # available while uninstalling packages, allowing alternative
++            # symlinks of packages to be uninstalled to be managed correctly.
++            provider = self.d.getVar("VIRTUAL-RUNTIME_update-alternatives")
++            pkgs_to_remove = sorted([pkg for pkg in pkgs_installed if pkg in unneeded_pkgs], key=lambda x: x == provider)
+ 
+             if len(pkgs_to_remove) > 0:
+                 self.pm.remove(pkgs_to_remove, False)
+-- 
+2.11.0
+
+
