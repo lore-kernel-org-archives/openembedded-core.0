@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D656160116
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EB0071B04
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2017 01:51:33 +0000 (UTC)
+	Thu, 12 Jan 2017 01:51:35 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v0C1pXh1001424
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v0C1pZIu014936
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jan 2017 17:51:33 -0800
+	Wed, 11 Jan 2017 17:51:35 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.184) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Wed, 11 Jan 2017 17:51:32 -0800
+	14.3.294.0; Wed, 11 Jan 2017 17:51:34 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Jan 2017 09:51:41 +0800
-Message-ID: <cover.1484185744.git.Qi.Chen@windriver.com>
+Date: Thu, 12 Jan 2017 09:51:42 +0800
+Message-ID: <b784d95f7ce2152ee0ca0879558237faeaac7325.1484185744.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1484185744.git.Qi.Chen@windriver.com>
+References: <cover.1484185744.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] scripts/oe-selftest: fix typo
+Subject: [PATCH 1/1] scripts/oe-selftest: fix typo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,24 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2017 01:51:34 -0000
+X-List-Received-Date: Thu, 12 Jan 2017 01:51:36 -0000
 Content-Type: text/plain
 
-The following changes since commit 81021bc0aa0f64e67535f6a9551e921a64fe4395:
+Change 'agains' to 'against'.
 
-  yocto-project-qs, ref-manual: Added note for "resources temporarily unavailable" error (2017-01-11 17:23:18 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib ChenQi/selftest-typo
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/selftest-typo
-
-Chen Qi (1):
-  scripts/oe-selftest: fix typo
-
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  scripts/oe-selftest | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/scripts/oe-selftest b/scripts/oe-selftest
+index adfa92f..120a6c2 100755
+--- a/scripts/oe-selftest
++++ b/scripts/oe-selftest
+@@ -87,7 +87,7 @@ def logger_create():
+ log = logger_create()
+ 
+ def get_args_parser():
+-    description = "Script that runs unit tests agains bitbake and other Yocto related tools. The goal is to validate tools functionality and metadata integrity. Refer to https://wiki.yoctoproject.org/wiki/Oe-selftest for more information."
++    description = "Script that runs unit tests against bitbake and other Yocto related tools. The goal is to validate tools functionality and metadata integrity. Refer to https://wiki.yoctoproject.org/wiki/Oe-selftest for more information."
+     parser = argparse_oe.ArgumentParser(description=description)
+     group = parser.add_mutually_exclusive_group(required=True)
+     group.add_argument('-r', '--run-tests', required=False, action='store', nargs='*', dest="run_tests", default=None, help='Select what tests to run (modules, classes or test methods). Format should be: <module>.<class>.<test_method>')
 -- 
 1.9.1
 
