@@ -1,20 +1,20 @@
 Return-Path: <edwin.plauchu.camacho@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 889996FFD3
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 4601D71C92
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2017 20:50:25 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 12 Jan 2017 12:50:26 -0800
+	Thu, 12 Jan 2017 20:50:50 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga104.fm.intel.com with ESMTP; 12 Jan 2017 12:50:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,219,1477983600"; d="scan'208";a="1111769356"
+X-IronPort-AV: E=Sophos;i="5.33,219,1477983600"; d="scan'208";a="808182677"
 Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.47])
-	by fmsmga002.fm.intel.com with ESMTP; 12 Jan 2017 12:50:25 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 12 Jan 2017 12:50:42 -0800
 From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Jan 2017 14:51:56 -0600
-Message-Id: <1484254316-30723-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+Date: Thu, 12 Jan 2017 14:52:13 -0600
+Message-Id: <1484254333-30774-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] python3-setuptools: upgrade to 31.1.1
+Subject: [PATCH V2] python3-setuptools: upgrade to 31.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,7 +27,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2017 20:50:26 -0000
+X-List-Received-Date: Thu, 12 Jan 2017 20:50:51 -0000
 
 It is a simultaneous upgrade for python 2 and 3 over setuptools.
 
