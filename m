@@ -1,29 +1,21 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 70E2971C84
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 49AA460103
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2017 22:04:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v0CM4B2F030874
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2017 14:04:11 -0800
-Received: from soho-mhatle-m.local (172.25.36.235) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 12 Jan 2017 14:04:10 -0800
-To: <openembedded-core@lists.openembedded.org>
-References: <1484249086-36492-1-git-send-email-juro.bystricky@intel.com>
-	<1484257321.4367.238.camel@linuxfoundation.org>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <704d3ba6-03aa-e4b6-7a94-76b247c0efce@windriver.com>
-Date: Thu, 12 Jan 2017 16:04:09 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.6.0
-MIME-Version: 1.0
-In-Reply-To: <1484257321.4367.238.camel@linuxfoundation.org>
-Subject: Re: [PATCH] sanity.bbclass: Improved error message
+	Thu, 12 Jan 2017 22:11:41 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga103.jf.intel.com with ESMTP; 12 Jan 2017 14:11:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,220,1477983600"; d="scan'208";a="52376122"
+Received: from juro-precision-t5610.jf.intel.com ([10.7.198.149])
+	by orsmga005.jf.intel.com with ESMTP; 12 Jan 2017 14:11:42 -0800
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Jan 2017 14:07:58 -0800
+Message-Id: <1484258878-40594-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: jurobystricky@hotmail.com
+Subject: [PATCH v2] sanity.bbclass: Improved error message
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,47 +28,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2017 22:04:12 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 Jan 2017 22:11:44 -0000
 
-On 1/12/17 3:42 PM, Richard Purdie wrote:
-> On Thu, 2017-01-12 at 11:24 -0800, Juro Bystricky wrote:
->> When a non-existing MACHINE is specified, sanity check issues
->> the following message:
->>
->>     Please set a valid MACHINE in your local.conf or environment
->>
->> However, MACHINE can also be set in multiconfig .conf file(s).
->> Hence we may have several different MACHINE settings within one
->> (multiconfig) build, so the present error message is fairly
->> ambiguous.
->>
->> This patch remedies this by explicitly naming the offending MACHINE
->> and
->> adding conf/multiconfig/*.conf to the list of places where this
->> erroneous
->> MACHINE definition could have originated.
->>
->>     Invalid MACHINE=xyz. Please set a valid MACHINE in your
->> local.conf, conf/multiconfig/*.conf or environment
-> 
-> Can we change this to:
-> 
-> "MACHINE=xyz is invalid. Please set a valid MACHINE in your local.conf,
-> environment or other configuration file."
+When a non-existing MACHINE is specified, sanity check issues
+the following message:
 
-I commented elsewhere as well -- but is there any way to see where MACHINE was
-actually set and display that -- or is it limited to 'bitbake -e' usage?
+    Please set a valid MACHINE in your local.conf or environment
 
---Mark
+However, MACHINE can also be set in multiconfig .conf file(s).
+Hence we may have several different MACHINE settings within one
+(multiconfig) build, so the present error message is fairly
+ambiguous.
 
-> I don't want to have to list all the possible places you could set
-> MACHINE.
-> 
-> Cheers,
-> 
-> Richard
-> 
+This patch remedies this by explicitly naming the offending MACHINE and
+by amending the list of places where this erroneous MACHINE definition
+could have originated.
+
+    MACHINE=xyz is invalid. Please set a valid MACHINE in your local.conf, environment or other configuration file.
+
+[YOCTO#10810]
+
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+---
+ meta/classes/sanity.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index c876dc6..c9bb034 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -823,7 +823,7 @@ def check_sanity_everybuild(status, d):
+     machinevalid = True
+     if d.getVar('MACHINE'):
+         if not check_conf_exists("conf/machine/${MACHINE}.conf", d):
+-            status.addresult('Please set a valid MACHINE in your local.conf or environment\n')
++            status.addresult('MACHINE=%s is invalid. Please set a valid MACHINE in your local.conf, environment or other configuration file.\n' % (d.getVar('MACHINE')))
+             machinevalid = False
+         else:
+             status.addresult(check_sanity_validmachine(d))
+-- 
+2.7.4
 
 
