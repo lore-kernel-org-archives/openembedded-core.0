@@ -1,51 +1,46 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D16E71985
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id A043E71985
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2017 14:32:34 +0000 (UTC)
-Received: by mail-io0-f180.google.com with SMTP id l66so19565112ioi.1
+	Thu, 12 Jan 2017 14:41:09 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id r126so4152542wmr.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2017 06:32:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:date:organization:mime-version
-	:content-transfer-encoding;
-	bh=vVvD39XkHsSgVdQT2DqfrobVET3DBRHcH9QonH6fqC0=;
-	b=RahH8PM3qzkjdmRe5SdQFsRvH80dYtUWzF+WRq7l9khU8pSubQxToKjuZGjh+Dauuc
-	gIjyRHnN67zGu+mw6WpgYtxQA4IJewYvhdOjzKVphT+PoLnSR9fDvAQslwWKHc9G4Njt
-	LVLYmq4V/FGg3V8u6f09YJKj7QKqe+18+WEAuwSfxZSgsd4/X8Rjl6tH1j0ain2irrSX
-	4s6rQvhQw7pXo4j/NEJy/X36M8gTFS2bbH8Lqde3Ctg6fLfiTo2ljPO2za21TmInvVKA
-	cJvlMnv+iwfcUyoYrWlES7uxZ17tVFHxxTveKCuFFDbLY6+ouoGzRckU4H8SuFj4C8A6
-	PN5A==
+	Thu, 12 Jan 2017 06:41:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:organization
-	:mime-version:content-transfer-encoding;
-	bh=vVvD39XkHsSgVdQT2DqfrobVET3DBRHcH9QonH6fqC0=;
-	b=jjRwMXWO1pSmQUfyOgioJGuRnqlWaefVav50N/gTQVGUEgKXn1+FLp/zf3MosnHuK0
-	/DbBFKNF1tCwLyPBKHBF8JpEIxY5bYInAps6GWJVU8kxRkO1CbtncXBgmfaCLRjGMjd5
-	hJgCxvdxisgrmzsCnwWn/fLyOGm4xokMbad6W+3ILsU0V1oavbW+FT5NSPo3a7suiur9
-	1FOhcgESLfTZZdgSI8VIoTIbX5L5MkJctQq7/5H3p39YKrfBfjC5NuiYEM1Z6v3g/1OA
-	UtuRe+C7qX5GNvHKp5/2jl8OA1+1Viw/EdHVqE0FWg1tnPdBMXFRaoIKmJfDob7bY1gg
-	0GWg==
-X-Gm-Message-State: AIkVDXLJ/CtlId3PlRXczrq00fdGEjH+xgPMOrCjI7ZLGul+qivTFhSoubu4CsKLfVgUBJ/j
-X-Received: by 10.107.178.5 with SMTP id b5mr7050707iof.230.1484231554133;
-	Thu, 12 Jan 2017 06:32:34 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8F981.dip0.t-ipconnect.de. [93.232.249.129])
-	by smtp.gmail.com with ESMTPSA id
-	w192sm1146418itw.3.2017.01.12.06.32.32
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=Vqy8FlsfhUTOFAhwqWfXbThO4jUzgVKST4epPvmaM/s=;
+	b=iF4jvhCmd75SIHLGPZv4Wb9IbYDpI8b6oYVOMWEM8KTaGsmUCC5uioYsCPCYBZEB61
+	DCzCw1K3fXEXqx8V4EE2kX/jL5772k1FdzK055oFKpZ9kqRItaPO8KkQKM0u0xhfng9d
+	mm07SoXW6Zcs7YBjoZRxXLZzWdbwfMVhErs7IzcqPOxYYc0h6F6YyvmmKCYakP43OeK/
+	BdY3SEsJApD1buZc+3G4v+2vuRbz4mhc7u6yoinaTN49uvTwg6T3KrmoZ2ywLMztPQCM
+	/MFdwOoUP1K7Gyqm6ZcwGNprAeYUjdhFoMwvJY3Tv9oKm33efINhMTVmBWtHvvKiKREH
+	3ZHw==
+X-Gm-Message-State: AIkVDXIxSlyW9HC/DElABDpxv1vd2SE4ULWxQUMpaSaKeDITkqT+xs9vnhIeeoPgyb10xA==
+X-Received: by 10.194.85.165 with SMTP id i5mr8806692wjz.147.1484232069428;
+	Thu, 12 Jan 2017 06:41:09 -0800 (PST)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id l9sm3477458wmf.18.2017.01.12.06.41.08
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 12 Jan 2017 06:32:32 -0800 (PST)
-Message-ID: <1484231550.2137.141.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: OpenEmbedded <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Jan 2017 15:32:30 +0100
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 12 Jan 2017 06:41:08 -0800 (PST)
+Message-ID: <1484232067.7594.32.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 12 Jan 2017 14:41:07 +0000
+In-Reply-To: <2c9e6f87-d5dc-6a00-cd51-538182565468@linux.intel.com>
+References: <1484167889-3198-1-git-send-email-anibal.limon@linux.intel.com>
+	<1484211839.7594.16.camel@andred.net>
+	<a2754fb6-0fda-fb36-eb3e-7f9ae50fd8b2@linux.intel.com>
+	<1484229650.7594.26.camel@andred.net>
+	<b391d833-f6fd-13d6-209e-03c3cf406248@linux.intel.com>
+	<1484230587.7594.30.camel@andred.net>
+	<CAJTo0LZk0A+un28Andm77ypitNKynUhgHXw2PF5c2dgHxbz3uw@mail.gmail.com>
+	<2c9e6f87-d5dc-6a00-cd51-538182565468@linux.intel.com>
+X-Mailer: Evolution 3.22.3-1 
 Mime-Version: 1.0
-Subject: runqemu + multiconfig
+Subject: Re: [PATCH] qemu: Upgrade to 2.8.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,59 +53,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2017 14:32:35 -0000
+X-List-Received-Date: Thu, 12 Jan 2017 14:41:16 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hello!
+On Thu, 2017-01-12 at 16:22 +0200, Alexander Kanavin wrote:
+> On 01/12/2017 04:20 PM, Burton, Ross wrote:
+> >     Looks like it. I'd say you'd have two entries with the same contents
+> >     next to
+> >     each other in the array after applying the patch.
+> > 
+> > 
+> > How's that series to force the fuzz to 0 going, Alex?
+> 
+> It's blocked by https://bugzilla.yoctoproject.org/show_bug.cgi?id=8325#c4
+> 
+> You need to ask this question from Paul.
 
-runqemu works okay in a multiconfig setup, but one has to be careful
-about how one sets MACHINE in the base configuration (aka local.conf):
-it has to be done with ?= and not =
+Actually, I am not sure if fuzz=0 would even help in a case where the
+context is exactly the same, and only offsets are different...
 
-Example:
-
-local.conf:
-MACHINE ?= "intel-corei7-64"
-BBMULTICONFIG = "core2 quark"
-
-conf/multiconfig/quark.conf:
-MACHINE = "intel-quark"
-
-conf/multiconfig/core2.conf:
-MACHINE = "intel-core2-32"
-
-$ runqemu refkit-image-noswupd dsk intel-core2-32 ovmf
-runqemu - INFO - Assuming MACHINE = intel-core2-32
-runqemu - INFO - Running MACHINE=intel-core2-32 bitbake -e...
-runqemu - INFO - MACHINE: intel-core2-32
-runqemu - INFO - DEPLOY_DIR_IMAGE: .../tmp-glibc/deploy/images/intel-core2-32
-runqemu - INFO - CONFFILE: .../tmp-glibc/deploy/images/intel-core2-32/...-intel-core2-32.qemuboot.conf
-
-When using MACHINE = "intel-corei7-64" in local.conf, overriding the
-MACHINE with "MACHINE=intel-core2-32 bitbake -e..." fails and runqemu
-ends up using the image directory of the base configuration:
-
-$ runqemu refkit-image-noswupd dsk intel-core2-32 ovmf
-runqemu - INFO - Assuming MACHINE = intel-core2-32
-runqemu - INFO - Running MACHINE=intel-core2-32 bitbake -e...
-runqemu - INFO - MACHINE: intel-core2-32
-runqemu - INFO - DEPLOY_DIR_IMAGE: .../tmp-glibc/deploy/images/intel-corei7-64
-Traceback (most recent call last):
-....
-Exception: Failed to find <image>.qemuboot.conf!
-
-This was with the patch for qemu support in meta-intel and the OVMF
-firmware, but should also apply to the normal qemux86/qemux86-64.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+Cheers,
+Andre'
 
 
