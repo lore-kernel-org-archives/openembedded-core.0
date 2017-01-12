@@ -1,47 +1,47 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 488B4719A1
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 267E0601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2017 03:25:24 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id f144so1197677pfa.2
+	Thu, 12 Jan 2017 03:27:37 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id f4so900423qte.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jan 2017 19:25:25 -0800 (PST)
+	Wed, 11 Jan 2017 19:27:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
-	h=from:mime-version:content-transfer-encoding:date:subject:message-id
-	:cc:to; bh=mm7A4i5aaVO3yEAKDrP4aok/co56RTyrzKbWLpYZ6Ic=;
-	b=X0ZzEXCigBhME1tL//xV1/nSExswIaypBntLB+GCpZ6nBbiD3EOondVsSPNpi/KUQH
-	k4xb1KAiPeBvFzr1yOtwTGlJPPezGRyECKXBCvhr41oGBKErWsyX9b80ko9hL3J+w8Bx
-	nq2ziWs7BxfdxVgLnG/N1IAItmkyeYjs4qu3RrGRjbA+4zRLwtQidk37+ZiYwnAI2lUN
-	vfcHEnEbrpgXH5flAd7Eh60zNTwlQMOmyups3WWdIvVNyYIsMKO9bdgHO2QOhVnmNT3k
-	IMzzAoRIV/86h5pK7oMeRIO7zk8VcOUqnUGP2zZr1/EPmItu6O03yRaYzXBy1vSqh7rk
-	XHRQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=PibvZcvYd3kV0eTmJYf266r+om1OOknrfjD947M3K7c=;
+	b=cTzo9wmRSK8lrLKJFs1EZ8ReSNSlCgvTz/21mmYsXWeix31LHMzjz+jSOr09WM9Syf
+	EtWfOy0UH/rMfEJ0hVfB7aTgjwP8LU/G8emSv+xxcdprQ7t9yFzcXIxPpaESR+kHzCbA
+	uF1fOK62XECnynA5dgIYa8Ns5YgwP8HMQzhfqilr1sdZU9IWrEM0Z5iQQGLLK9ezImSY
+	gF+aZz13IXHTIj1cCuqx6Hryn9lDB/K5CwTwncCswueg9k/Y2T9AzbPyCVxnN2GYQevN
+	/FCnFpyClt+b/2kicqgr4SrBaryfsACMwgRTRy4vT4cWmbk7y2QS+d5swfrVTCfBP+2W
+	cp9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:content-transfer-encoding:date
-	:subject:message-id:cc:to;
-	bh=mm7A4i5aaVO3yEAKDrP4aok/co56RTyrzKbWLpYZ6Ic=;
-	b=Xz+P0JfHlV8t0ACGrFHyjkudO9/WsA+yOb3IShVyf3le4tBIG5ZezYpMIxc8uxK36m
-	UKuPCerQsmSwnTc28Y3uE/C9h1ym/XhIgwaufoMTzfMspdAE3wmyOEkTIAidZLo7qPL9
-	6hevarUiO3sISr2KL4oTorg9uICYHjPxdmZMJwwKvKNZ6tKN+pQCKjjqzzi+uhvUq5lt
-	CcCgxlL9DwC9IQ6FREK7PebeVGLW2R+x/gLPOpufzjevBbdGrX6pQijWj8JNUs5LVrAp
-	ydDkTLxVmcum0yCK1oxNBn1LMZan/HZRbBE8GdpSGW3a0V+AsQcgkgpVhyajyMsHVTuK
-	s3VQ==
-X-Gm-Message-State: AIkVDXIV97m1utm5yhiaQpuoX09F7nPg0JlDniNVHV+PgfcVi/HT4ge+b3S9zB631pPJ9g==
-X-Received: by 10.99.158.18 with SMTP id s18mr14858287pgd.88.1484191525040;
-	Wed, 11 Jan 2017 19:25:25 -0800 (PST)
-Received: from [127.0.1.1] ([121.222.109.132])
-	by smtp.gmail.com with ESMTPSA id
-	l63sm16827843pfl.83.2017.01.11.19.25.23
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 11 Jan 2017 19:25:24 -0800 (PST)
-From: Nathan Rossi <nathan@nathanrossi.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=PibvZcvYd3kV0eTmJYf266r+om1OOknrfjD947M3K7c=;
+	b=kYmpqvOtHeGDNeon5ytIF/85hQxeMhgIJFW468X6xUvVPqiX/hl2Cq9cNW8s+cwWgg
+	yXVv4CKnGe54l0WS5Wgh41uWHPcVkB3g2wtWdVfSBwo93MvjzUlh6dogycQnaV5P+ERV
+	weRait0EcI/KcqdCoUu2IRyb6GXapKr5up1loG0zCoU5AHB2oKigj44ddSjXmnQY8iTS
+	HAo23kt9tRceyouw8LIIyv+u6NmAY1qHQFPzLqL8qQDvDUFvZCgOl/ZKjZe3rp0z6Tpl
+	af7fh/xAQ3spR+aoq0hQlGac89muLSnDt0d2Cqcno3wJFpjRoevdWuTbaXHvbZwS0uBn
+	bFwg==
+X-Gm-Message-State: AIkVDXKs47En02sHXfhE6zzTALgnl9OWNfcjqua3GYLlELm1fRcjvNNrdsonkF0/usKwL07l9RhOGaxRjJujag==
+X-Received: by 10.200.33.162 with SMTP id 31mr11651530qty.166.1484191657710;
+	Wed, 11 Jan 2017 19:27:37 -0800 (PST)
 MIME-Version: 1.0
-Date: Thu, 12 Jan 2017 13:24:36 +1000
-Message-Id: <20170112032436.7717-1-nathan@nathanrossi.com>
+Received: by 10.12.139.69 with HTTP; Wed, 11 Jan 2017 19:27:37 -0800 (PST)
+In-Reply-To: <CA+aJhH3sEgMX2WSGkawn-eY08+-L8NMK8mV1OOfghCgfJ6mqKA@mail.gmail.com>
+References: <20161021120728.22639-1-nathan@nathanrossi.com>
+	<20161021120728.22639-2-nathan@nathanrossi.com>
+	<CA+aJhH3sEgMX2WSGkawn-eY08+-L8NMK8mV1OOfghCgfJ6mqKA@mail.gmail.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
+Date: Thu, 12 Jan 2017 13:27:37 +1000
+Message-ID: <CA+aJhH06ByFfBvqOTCfRoZHKpQHz1C9Jv7sCHOa59GDGAMY_Og@mail.gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] kernel-fitimage.bbclass: Check value of UBOOT_SIGN_ENABLE
+Subject: Re: [PATCH] kernel-fitimage.bbclass: Allow unset load/entry addresses for ramdisks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,34 +54,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2017 03:25:25 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 Jan 2017 03:27:38 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Check the value of UBOOT_SIGN_ENABLE, as it is defaulted to "0" which
-for matches as True in python due to being a non-empty string.
+On 23 November 2016 at 15:29, Nathan Rossi <nathan@nathanrossi.com> wrote:
+> Just pinging these patches, to see if there were any issues or
+> comments. I realize I sent them just before a release so it was very
+> likely they would get lost in the noise.
 
-Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
----
-Changes in v2: rebase on master
----
- meta/classes/kernel-fitimage.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Pinging these three patches again.
 
-diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index 2934b3a31a..3312bc494f 100644
---- a/meta/classes/kernel-fitimage.bbclass
-+++ b/meta/classes/kernel-fitimage.bbclass
-@@ -26,7 +26,7 @@ python __anonymous () {
-         # Verified boot will sign the fitImage and append the public key to
-         # U-boot dtb. We ensure the U-Boot dtb is deployed before assembling
-         # the fitImage:
--        if d.getVar('UBOOT_SIGN_ENABLE'):
-+        if d.getVar('UBOOT_SIGN_ENABLE') == "1":
-             uboot_pn = d.getVar('PREFERRED_PROVIDER_u-boot') or 'u-boot'
-             d.appendVarFlag('do_assemble_fitimage', 'depends', ' %s:do_deploy' % uboot_pn)
- }
--- 
-2.11.0
+https://patchwork.openembedded.org/patch/133134/
+https://patchwork.openembedded.org/patch/133135/ (another patch was
+just sent by someone else which does the same change,
+https://lists.yoctoproject.org/pipermail/yocto/2017-January/033840.html)
 
+And I've updated the third one, sent a v2 so that it applies cleanly to master.
+
+https://patchwork.openembedded.org/patch/135805/
+
+Thanks,
+Nathan
+
+>
+> Thanks,
+> Nathan
+>
+> On 21 October 2016 at 22:07, Nathan Rossi <nathan@nathanrossi.com> wrote:
+>> Allow the load and entry addresses to remain unset if the UBOOT_RD_*
+>> variables are also unset for ramdisk entries in the image tree. This
+>> allows for U-Boot to decide dynamically where to load the ramdisk.
+>>
+>> Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+>> ---
+>>  meta/classes/kernel-fitimage.bbclass | 13 +++++++++++--
+>>  1 file changed, 11 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+>> index 3bbf91f65a..5c9e76b9ac 100644
+>> --- a/meta/classes/kernel-fitimage.bbclass
+>> +++ b/meta/classes/kernel-fitimage.bbclass
+>> @@ -178,6 +178,15 @@ EOF
+>>  fitimage_emit_section_ramdisk() {
+>>
+>>         ramdisk_csum="sha1"
+>> +       ramdisk_loadline=""
+>> +       ramdisk_entryline=""
+>> +
+>> +       if [ -n "${UBOOT_RD_LOADADDRESS}" ]; then
+>> +               ramdisk_loadline="load = <${UBOOT_RD_LOADADDRESS}>;"
+>> +       fi
+>> +       if [ -n "${UBOOT_RD_ENTRYPOINT}" ]; then
+>> +               ramdisk_entryline="entry = <${UBOOT_RD_ENTRYPOINT}>;"
+>> +       fi
+>>
+>>         cat << EOF >> ${1}
+>>                  ramdisk@${2} {
+>> @@ -187,8 +196,8 @@ fitimage_emit_section_ramdisk() {
+>>                          arch = "${UBOOT_ARCH}";
+>>                          os = "linux";
+>>                          compression = "none";
+>> -                        load = <${UBOOT_RD_LOADADDRESS}>;
+>> -                        entry = <${UBOOT_RD_ENTRYPOINT}>;
+>> +                        ${ramdisk_loadline}
+>> +                        ${ramdisk_entryline}
+>>                          hash@1 {
+>>                                  algo = "${ramdisk_csum}";
+>>                          };
+>> --
+>> 2.9.3
 
