@@ -1,52 +1,45 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C7B371DBE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f175.google.com (mail-qt0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 333D071D45
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 15:05:45 +0000 (UTC)
-Received: by mail-io0-f181.google.com with SMTP id v96so45305656ioi.0
+	Fri, 13 Jan 2017 15:10:13 +0000 (UTC)
+Received: by mail-qt0-f175.google.com with SMTP id x49so49594527qtc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 07:05:46 -0800 (PST)
+	Fri, 13 Jan 2017 07:10:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:date:in-reply-to:references:organization
-	:mime-version:content-transfer-encoding;
-	bh=B9rqX9OEXcp+uayxIJafUWielnF1bMXAe+/hVw0F+Go=;
-	b=I3EXL79NFyud7hePlQP5VuvYamHiSNJo/wIf33gHnHSNoCLJ1fDJr06GA6YYwRuJme
-	7BRzmx6bWPED7Ovzk2dubx79oe0p44yM1MjVsCQCF4TL+AbexZbSpLVB44RxP5BPBua8
-	FFjsTo4bWEIevTsEl4PNYkWPGOLozRzg1NMzFvgN517dqPad/nQW/CVI4rFFcrrTeznt
-	QF/w7ehdd523PC1bpYV+YwKZUqzKoIJgNTNEshHX3Bgj362b8Ut6I/AKMm9SMshEddkU
-	5HRJ/T7XTqGLuAyGXU0V+7Myz/EBXoUrgMB5YbF9FT329NvLpQ1ubRM58dLKhb/GIYiY
-	LSvw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
+	bh=ua1XdXXUth1g/8vne/iJOlHwGbAx0UvJO3G3vyqkGdo=;
+	b=eaOp25g2wxCw888FXTPch6cc+Bp9nCbeWnePq0UbZFC5rmTDugEnlJa804dq70KEDz
+	Vwhg+WX33CZ8oDel0CJmoQ5Hg9HXKNr4QQCT4srzTMbNeWFxgwpJX5RubTfN696VHMa+
+	ErETJ4n97b584JYwoVHpE5MlaIilIWsFmGiLwLuglvJcABCiprMLl1H9OaOO9u9x82G3
+	6mpO8NSntgGInTKNBecp5PGmUkcCNdaXCIoT+P/eBVU5aPRoZqS0cKVArrvCV4rbHyYX
+	PYAv8v7KikmowgD+qpJMNuMyt6aS4mPp+6zyOd84ePyF8mZA23B749pYBedVSx472q5+
+	8TXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=B9rqX9OEXcp+uayxIJafUWielnF1bMXAe+/hVw0F+Go=;
-	b=shUiScW/xBTyXDyTOyc16FC13RdU2MnvbdyGAdy/6hl1Lh7CgvqXNNgY5plFJfhnGW
-	LXYVojXRXbRiyj8JfMVCN1C0g+EksVAUYq3zH6QsfcmbNgkrck3ALCbn2KZKMKv2FZZx
-	ZqCVzZJOZD/Plh4ZBNAOdeTO2Mqyw7gQZIE2qxX06jRCwLx5wbAnl0OdQMBVqHNDy88d
-	L7AOawAqKdFJUhjdhj1JYE8FT2bX8okXmXJyfzwF1CkXd4wANjRneRCjNXOcCK43jTeV
-	+SCAUQIkNVE7tWFlQjsWZWp8gjvctGrRb7rNayPHhjy2O7t6uuaTNWE+cwkFSKxCk4pR
-	GctA==
-X-Gm-Message-State: AIkVDXLRoXbB8XT8B/D8ZFqkPFyMqIjxKktdGIcqxDZjghWVRNvtAZol05ohAIGDF0hOzfOC
-X-Received: by 10.107.57.131 with SMTP id g125mr21983326ioa.108.1484319945767; 
-	Fri, 13 Jan 2017 07:05:45 -0800 (PST)
-Received: from pohly-mobl1 (p57A56056.dip0.t-ipconnect.de. [87.165.96.86])
-	by smtp.gmail.com with ESMTPSA id v7sm6732325iod.0.2017.01.13.07.05.44
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 13 Jan 2017 07:05:44 -0800 (PST)
-Message-ID: <1484319942.21036.6.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Jan 2017 16:05:42 +0100
-In-Reply-To: <1484317436-13263-1-git-send-email-patrick.ohly@intel.com>
-References: <1484317436-13263-1-git-send-email-patrick.ohly@intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/2] rm_work.bbclass: allow preserving additional content
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to;
+	bh=ua1XdXXUth1g/8vne/iJOlHwGbAx0UvJO3G3vyqkGdo=;
+	b=go473IOmE/pK1DSebfXS3hMvDFceVij1DOFWFua4j32vUx/hBXOt4kg+gOXhvLOWEu
+	OTgUjF1Skf/oEgfNOgmlVzuq0v+QjW3Md/GxMHU4Kq4VqjNGDrG8p8J+/XjujKwOoO4x
+	FQ5VUNWsEscZt8ctHz1+onz/mjGEoZiQkH9NAxa9nZHmw5z0RNFg8s+kXxBCpO/V7xRf
+	Rn5GURoc0bT/Tbx78lr0cZzBNHx36Cc44pDE8rouExaUfZ9KuPYtbuAdAucbaLwCIST/
+	7bfNZVYDVt/k2gGKbdvHTBLEABGYyytOMKtEQUwlzcXqJr7VoCUlmi4v1qkztrFS46ll
+	YTHw==
+X-Gm-Message-State: AIkVDXKPg6DkLOHXQuNCcreRR3ZbAOiSNC64joTv1VRU4Qwtdnv+JYIwXxGxgqf4B2LqaW4gSP0PfAq9AKnKRJt9
+X-Received: by 10.200.39.212 with SMTP id x20mr17332667qtx.109.1484320213910; 
+	Fri, 13 Jan 2017 07:10:13 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.106.99 with HTTP; Fri, 13 Jan 2017 07:09:53 -0800 (PST)
+In-Reply-To: <cover.1484312322.git.ross.burton@intel.com>
+References: <cover.1484312322.git.ross.burton@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 13 Jan 2017 15:09:53 +0000
+Message-ID: <CAJTo0Lb=d7-mZLh=NqQRyXknytV1tm+ivi1QTR9W5vEbdiU2DQ@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/80] Consolidated pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,23 +52,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2017 15:05:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Jan 2017 15:10:14 -0000
+Content-Type: multipart/alternative; boundary=001a1135b542155a2e0545fb3b5e
 
-Hello!
+--001a1135b542155a2e0545fb3b5e
+Content-Type: text/plain; charset=UTF-8
 
-Please ignored the 1/2 in the subject. There's just one patch for
-OE-core, the other one I had locally needs to go into meta-swupd.
+On 13 January 2017 at 13:00, Ross Burton <ross.burton@intel.com> wrote:
 
--- 
-Best Regards, Patrick Ohly
+> Patrick Ohly (8):
+>       recipes: anonymous functions with priorities
+>       build.py: add preceedtask() API
+>       runqueue.py: alternative rm_work scheduler
+>       gcc-source.inc: cleanly disable do_rm_work
+>       rm_work_and_downloads.bbclass: more aggressively minimize disk usage
+>       rm_work.bbclass: clean up sooner
+>       rootfs-postcommands.bbclass: sort passwd entries
+>       insane.bbclass: print license text as part of QA message
+>
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+This was retracted so please drop these too!
 
+Ross
 
+--001a1135b542155a2e0545fb3b5e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 13 January 2017 at 13:00, Ross Burton <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2t4" class=3D=
+"a3s aXjCH m15997eaab7b53979">Patrick Ohly (8):<br>
+=C2=A0 =C2=A0 =C2=A0 recipes: anonymous functions with priorities<br>
+=C2=A0 =C2=A0 =C2=A0 build.py: add preceedtask() API<br>
+=C2=A0 =C2=A0 =C2=A0 runqueue.py: alternative rm_work scheduler<br>
+=C2=A0 =C2=A0 =C2=A0 gcc-source.inc: cleanly disable do_rm_work<br>
+=C2=A0 =C2=A0 =C2=A0 rm_work_and_downloads.bbclass: more aggressively minim=
+ize disk usage<br>
+=C2=A0 =C2=A0 =C2=A0 rm_work.bbclass: clean up sooner<br>
+=C2=A0 =C2=A0 =C2=A0 rootfs-postcommands.bbclass: sort passwd entries<br>
+=C2=A0 =C2=A0 =C2=A0 insane.bbclass: print license text as part of QA messa=
+ge</div></blockquote></div><br>This was retracted so please drop these too!=
+</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross<=
+/div></div>
 
+--001a1135b542155a2e0545fb3b5e--
