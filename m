@@ -1,57 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 014F771D9E
+Return-Path: <ola.redell@gmail.com>
+Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
+	[209.85.215.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 8742665C90
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 17:14:43 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id y143so9185093pfb.1
+	Fri, 13 Jan 2017 17:23:00 +0000 (UTC)
+Received: by mail-lf0-f67.google.com with SMTP id x1so1180151lff.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 09:14:44 -0800 (PST)
+	Fri, 13 Jan 2017 09:23:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-language:content-transfer-encoding;
-	bh=B8vRGCxYN4TFV466EAg3IOF8DaXL9rJ1qCbjl1noYRk=;
-	b=hDKjMhOuwrtVUtZZnQblFynIco5GhHAD9Cmj1SMgNzwg+x11iFKrnWHDq4bpNqT2lm
-	L8onuAMZe/lFiEk0M0czgYyE2aLbGNT2C+b9NYPhAVB/D/8C0bKU6syJNIiCC1JpFKNe
-	//HSfBowdQilph6JYFLG3RJbvGOtHg/gx4/mSHmzSjAanmgZqe2fpLe8jun3Dn2o1B+r
-	Yt+WfPMKLYpvkHLmmRe0imWbuYCPPwPCnulU7JCsC8NYo2pwrMZA896Qj6Py/Wg2Zgmn
-	wLtLVF49fFxCzWvzppHYQX0kP7RjZO3YNIJ71/uE1AGqc0zKXd6GhSGkeIhcSYFYY59Q
-	j3Tw==
+	h=from:to:cc:subject:date:message-id;
+	bh=BMxQ/c6mwR1eeeSunPztLDHcBoDpEegz+RW2FVXRBG8=;
+	b=P16AgaDOO7QGMBAZnVAw1TZugWgfmtkRRsCSnfspM3wz0Daau2W7l1Zziaz7aFl7YY
+	0l1SXZd9vxIsPOsFCpKaBHIEgBexObeiX7J3ps+MKeOCoPXGsFLIZUUIlD7iDlTAk3LJ
+	AQzkM3AWCLKRSFMUnDXdzqskGpNOWjZ9cXo5x4rzZZaCoDIkCBZEqJttb+80gaXbkKFT
+	WObi4aGWKtmZkDj2VHXXZiwXiBRiq1pX704Wvhi+qEixZBNjZcZ3W0OjXpOzt4/HG94v
+	D5IvjEvxjYY9cXlvuPZWRgPXBkOnalWO4uVJRFEqjLASShWLiMf71O84ljnwjX2ETqZg
+	4JLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=B8vRGCxYN4TFV466EAg3IOF8DaXL9rJ1qCbjl1noYRk=;
-	b=RPbNcunvGpwBXg/jp+Bzb0AHF9PnTSR7RL4Djjj+BLfmBRLzy14oe1icrb9RS5g+LK
-	6WvtBaYgNF6b0RfyrYrTEyj8qKP49r25iZUefle1OYqW3GTIrY4pqCp/gkRl0FPbdBN+
-	V4/PYLn7krSe8psRmDwTDjdD5pJYgCNg5TlsZ9+t3Ic9P++mC2906NIDUsJZPuj9f0O9
-	oJ5vZD0EB067h/B5xOkuD0sGub69SSA6zP1XfRzv3O50rNTuGAJUKAEwUeR+hbdqoN+f
-	0oXvCnDTn7G4HAzZRZJP7Z7ediyFUIY6QoCORivB/S9xTqg+Urlfwy8r8S+MY9vTXUjG
-	8ZYg==
-X-Gm-Message-State: AIkVDXKXsl0deNUq9eapnUtmrhxEwAe59R0YCENBUHBGgjFcR1wLqcT4HIkd83qXp4SuvQ==
-X-Received: by 10.99.113.82 with SMTP id b18mr25780268pgn.118.1484327683987;
-	Fri, 13 Jan 2017 09:14:43 -0800 (PST)
-Received: from CACSVMO-14452.local ([2601:646:8882:b8c:4198:472b:7988:3451])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=BMxQ/c6mwR1eeeSunPztLDHcBoDpEegz+RW2FVXRBG8=;
+	b=JeKLMpvk4MtFLhd6Z0yzVho7N8vPIv0TlAERx5Zh1Ib13V9IS+YYJwdXn1l5DTSBZB
+	yTgksHTgmaw484mgLVw02hPar8nPjPuwCKNQHTpWbpWvApzp9HCbAHCuyBAXPQDP+cFb
+	J89YgTC9LHf3+mU7t9goyJNKZGGuCC8aj9lQ0Ot7iIwgMEGBkJfWyH6rMb1Eso5sOIFg
+	8s98xTnY6xRlTx4ycDcM8r1ey9REpxJeKaT8bqyZrWtUvpaaRGRFmCn0OyM7Phofn95d
+	g74WgT38+X/RMqmf5Icsrtk9RUfGyksc8MidyWcPqVx7quw31iRpB4NaoLiSX9t3RVOa
+	huiw==
+X-Gm-Message-State: AIkVDXIID/msk3UXGjOzgcAbvlrZsmlTTje6Rkz8QmJwJ8K9cpR+ekhNBUrcESAIKpNr+w==
+X-Received: by 10.46.71.140 with SMTP id u134mr7434492lja.16.1484328180528;
+	Fri, 13 Jan 2017 09:23:00 -0800 (PST)
+Received: from thinny.lan (81-230-13-64-no94.tbcn.telia.com. [81.230.13.64])
 	by smtp.gmail.com with ESMTPSA id
-	n84sm30575714pfk.25.2017.01.13.09.14.43
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 13 Jan 2017 09:14:43 -0800 (PST)
+	a71sm4216399lfe.36.2017.01.13.09.22.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 13 Jan 2017 09:22:59 -0800 (PST)
+From: ola.redell@gmail.com
+X-Google-Original-From: ola.redell@retotech.se
 To: openembedded-core@lists.openembedded.org
-References: <cover.1484312322.git.ross.burton@intel.com>
-	<CADkTA4NpPn78=SB+b2zO=Vd8z2SG+BtBLQi1ciKjXyEruoQ1rQ@mail.gmail.com>
-	<CAHiDW_Fs4B1B2qzqsJqVdVuEZa40boKH8zGnON04W7L8=bfgSA@mail.gmail.com>
-	<CADkTA4O0vhL8k+nvvwMsyBGt-YToan0KiSpMtSYOh+Qkwms6SQ@mail.gmail.com>
-	<CAJTo0LZcdu=N99Brb5zocN9w2cROjDU6dgT-1HwXvkJKpxe6cw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <35e72a1e-a77a-ee73-cd8b-7ee62db7ddd4@gmail.com>
-Date: Fri, 13 Jan 2017 09:14:42 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:50.0)
-	Gecko/20100101 Thunderbird/50.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZcdu=N99Brb5zocN9w2cROjDU6dgT-1HwXvkJKpxe6cw@mail.gmail.com>
-Subject: Re: [PATCH 00/80] Consolidated pull
+Date: Fri, 13 Jan 2017 18:22:23 +0100
+Message-Id: <1484328143-2775-1-git-send-email-ola.redell@retotech.se>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH v4] kernel-module-split: Append KERNEL_VERSION string to kernel module name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,44 +53,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2017 17:14:44 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Jan 2017 17:23:01 -0000
 
+From: Ola Redell <ola.redell@retotech.se>
 
+The KERNEL_VERSION string is added to kernel module package names in order
+to make the kernel modules for different kernel versions distinct packages
+instead of different versions of the same package. With this change, when
+a new kernel is installed together with its kernel modules (e.g. by upgrade
+of the packages kernel and kernel-modules) using some package manager such
+as apt-get or rpm, the kernel modules for the older kernel will not be
+removed. This enables a fall back to the older kernel if the new one fails.
 
-On 1/13/17 6:25 AM, Burton, Ross wrote:
-> 
-> On 13 January 2017 at 14:19, Bruce Ashfield <bruce.ashfield@gmail.com
-> <mailto:bruce.ashfield@gmail.com>> wrote:
-> 
->     I'm not much good with musl unfortunately, but honestly, I'm
->     wondering how long we
->     can keep this out with relatively few build issues. In tree, they'll
->     get more attention.
-> 
-> 
-> This is a greater problem - the kernel guys seem to think that glibc is
-> the only C library worth thinking about.  Khem took the action to talk
-> with musl and get their headers fixed - which I believe is just adding a
-> new #define to them.
+Also, for backwards compatibility and to enable kernel version agnostic
+dependencies to kernel modules, create a virtual package with the old
+(shorter) kernel module package name using RPROVIDES.
 
-There is an idea to preprocess the kernel headers for musl systems, I
-will replicate whatever action community decides on.
+Signed-off-by: Ola Redell <ola.redell@retotech.se>
+---
+ meta/classes/kernel-module-split.bbclass | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-> 
->     I'll continue stacking on 4.9 changes until they get sorted out. 
->     I'll probably have some
->     cycles near the end of next week to get lost in c library #ifdef's,
->     if the issues are still
->     around.
-> 
-> 
-> I keep on pushing the kernel bits to mut2, so feel free to send an
-> updated branch and I can merge that in too.
-> 
-> Ross
-> 
-> 
+diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
+index efe1b42..742320c 100644
+--- a/meta/classes/kernel-module-split.bbclass
++++ b/meta/classes/kernel-module-split.bbclass
+@@ -31,6 +31,7 @@ PACKAGESPLITFUNCS_prepend = "split_kernel_module_packages "
+ KERNEL_MODULES_META_PACKAGE ?= "kernel-modules"
+ 
+ KERNEL_MODULE_PACKAGE_PREFIX ?= ""
++KERNEL_MODULE_PROVIDE_VIRTUAL ?= "1"
+ 
+ python split_kernel_module_packages () {
+     import re
+@@ -119,10 +120,16 @@ python split_kernel_module_packages () {
+         # Avoid automatic -dev recommendations for modules ending with -dev.
+         d.setVarFlag('RRECOMMENDS_' + pkg, 'nodeprrecs', 1)
+ 
++        # Provide virtual package without postfix
++        providevirt = d.getVar('KERNEL_MODULE_PROVIDE_VIRTUAL', True)
++        if providevirt == "1":
++           postfix = format.split('%s')[1]
++           d.setVar('RPROVIDES_' + pkg, pkg.replace(postfix, ''))
++
+     module_regex = '^(.*)\.k?o$'
+ 
+     module_pattern_prefix = d.getVar('KERNEL_MODULE_PACKAGE_PREFIX')
+-    module_pattern = module_pattern_prefix + 'kernel-module-%s'
++    module_pattern = module_pattern_prefix + 'kernel-module-%s-' + d.getVar("KERNEL_VERSION", True)
+ 
+     postinst = d.getVar('pkg_postinst_modules')
+     postrm = d.getVar('pkg_postrm_modules')
+-- 
+1.9.1
+
 
