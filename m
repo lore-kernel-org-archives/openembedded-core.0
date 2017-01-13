@@ -1,45 +1,43 @@
-Return-Path: <ross.burton@intel.com>
+Return-Path: <mikko.ylinen@intel.com>
 Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
 	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id D0D4560616
+	by mail.openembedded.org (Postfix) with ESMTP id 359A071D61
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 13:16:39 +0000 (UTC)
-Received: by mail-qk0-f175.google.com with SMTP id s140so53648127qke.0
+	Fri, 13 Jan 2017 13:17:09 +0000 (UTC)
+Received: by mail-qk0-f175.google.com with SMTP id s140so53661393qke.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 05:16:40 -0800 (PST)
+	Fri, 13 Jan 2017 05:17:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=DgUrjpCUq0O1KoI5stzWqP2Z/4ftF2sTxefnInN9Tlc=;
-	b=n/eAkTPKoObsfJGBMp3+gTLvQJkk+kLDKUCH2uvwhwJZy+ikWX/7hzylr6mFz/rh87
-	qmJjbalDzi+fwIHZ7T75pcCD/KUkH3t4bJfIZBO3IjcMJRcQjxRr/CnCUnJVz/DvKUhp
-	/YI4QsYJ+uvhNThKfSzx7RoGi6oAxWz2M6TdfNK3uTU+jvBK6UBEPym+MbM0q1RROp3T
-	MGxqLsCpomUzqSP4TbvG7Hf97KWCYP0vk1ulXA/0ULUWE+cX9Z4kZA3p9JPaMP/ar9tQ
-	QvuMW6/wRx4WNHjF5jvQ6GyqPYGIANEYdaZzaOhsjpZyNk2hX862q+xXSfmx9LmqCmO7
-	4F6w==
+	h=mime-version:from:date:message-id:subject:to:cc;
+	bh=oozVCcv/tmY2e6yqRGFI3Lu9d1ycAPFeVybm16oCsao=;
+	b=iz3gYk9faNaA/BmUrLdQE/gmM4Q/CsqKWzAfk8DSGGPgry/xLueonUmonIlvon6FyS
+	HwbBs116g1Lxgoj4vcMW7A7A+IK2CAqd7lA9yKnYuP8MUMERWwLc8Exy1Y+LtZOrtbQ2
+	M+mXpW8DfQ4IBVNfaV1PBWbfjoIQbg7dSuBHTq3PS7gdDt0EA31HAsJpFKocohEdATCw
+	T7sNvr4VCozK9sKGxidPWGEp0IFFEA4qx4l1/YVqWNRsFFxhUgsBYridQnRjP3aMfoTS
+	YV8Vhcf510SPECqyMAhssGd/vUHbUmSt8f4y40vxoX66xFKxqYSdi2B14OD/ok0FvpC7
+	Gw+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=DgUrjpCUq0O1KoI5stzWqP2Z/4ftF2sTxefnInN9Tlc=;
-	b=t3wFLEt4C03SzRMKf20euL0QanjU2vukzGfRaBjCu6p5wFUvN8UplIZwUIzYqB2cbX
-	Se+iv+f/p8rFXcjPHtMN9flkZ+i9KosfyS3F6WG4ByUH0LwTG0zIBXFY+BBInis03k91
-	2RZ3RuaElW4KpdW1pqPZ2P6LaUGjytmz3YshfBsrbsoT+H5OEeDDqRmOPWKaBI32ZVuX
-	+iUtpYOpRV1prCq1i6iccWbWaZ66xatNJWxMsQD/HkWyMnbw8qUj4nE5LU7bN9bpn9sq
-	5wh60yov4GeXPlpSlrPjfvoSOL4h9VqGJ+aoZhFdX8PVjz4ZR5yi8giU/uq22CNozNF3
-	cz6g==
-X-Gm-Message-State: AIkVDXIkM/nZHyY7UYoo65LlRANUSgRL02glF+VR3hxGBm/xQtI1sVAyUSOzRZ+sLnrSKsybr62+j1WrHs0QRJNo
-X-Received: by 10.55.47.4 with SMTP id v4mr18171830qkh.77.1484313399281; Fri,
-	13 Jan 2017 05:16:39 -0800 (PST)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+	bh=oozVCcv/tmY2e6yqRGFI3Lu9d1ycAPFeVybm16oCsao=;
+	b=S1f6iwpJaWy40QosJBCdjFTLucY/1oh6hcHNzOLcDgQWoEqizLNbPF63wleeqWcX+z
+	Z6OxUWMkkjneaM1nrLNPy3MXPkOGvVoUdQhA0BN2qS0rI0AkdSFG9y8jQbJ+JsmTbOqo
+	E2oZ5uEcQBZUYT3hoClf7GaOvkHbjdLunPSeUZCG/VBbViGb15Z1r0tDaASy6x3lZrcu
+	z3DfzR7RbqFfxWT0gZ6NDGt3BWiVHiA1di8sFMIQefldapU6uyV+VevtRD0tylqjL5Po
+	A3pWQiV7bcAr3LT/dupnfoKir6T001xU/u30Ju1AbUkmAr2/OCpmRLkX4O5MGamJdwqN
+	TWkA==
+X-Gm-Message-State: AIkVDXJjll311U2gAq0gZ+Gkzc+UnL8/CEz4SR5KvTQcs1yCsgjH+pEWCkYjR8eH55/UiTD6/4PivxZKfZF3jRiC
+X-Received: by 10.55.79.212 with SMTP id d203mr20128404qkb.110.1484313429725; 
+	Fri, 13 Jan 2017 05:17:09 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Fri, 13 Jan 2017 05:16:18 -0800 (PST)
-In-Reply-To: <cover.1484312322.git.ross.burton@intel.com>
-References: <cover.1484312322.git.ross.burton@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 13 Jan 2017 13:16:18 +0000
-Message-ID: <CAJTo0LY2yy+XT73gB8xg=2AK8zQQKsb+Z2_ho6eCJkU1oNCKRA@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/80] Consolidated pull
+Received: by 10.12.173.200 with HTTP; Fri, 13 Jan 2017 05:17:09 -0800 (PST)
+From: "Ylinen, Mikko" <mikko.ylinen@intel.com>
+Date: Fri, 13 Jan 2017 15:17:09 +0200
+Message-ID: <CAHZ0fbFX9AiuQAxXmQbgLevTh9KXE82APqcUBywiBvvKLvs0mQ@mail.gmail.com>
+To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/7] image-live-artifacts: Add support for creating image artifacts only
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,62 +50,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2017 13:16:40 -0000
-Content-Type: multipart/alternative; boundary=001a114f4108e67f590545f9a4af
+X-List-Received-Date: Fri, 13 Jan 2017 13:17:09 -0000
+Content-Type: multipart/alternative; boundary=001a114a9a9cb6e86e0545f9a6e2
 
---001a114f4108e67f590545f9a4af
+--001a114a9a9cb6e86e0545f9a6e2
 Content-Type: text/plain; charset=UTF-8
 
-On 13 January 2017 at 13:00, Ross Burton <ross.burton@intel.com> wrote:
+On Fri, Jan 13, 2017 at 12:34 AM, Alejandro Hernandez <
+alejandro.hernandez@linux.intel.com> wrote:
 
-> Markus Lehtonen (10):
->       oeqa.utils.metadata: re-organise host distro information
->       oeqa.utils.metadata: re-organise distro information
->       oeqa.utils.metadata: drop 'unknown' git data elements
->       oeqa.utils.metadata: fix retrieval of git branch and revision
->       oeqa.utils.metadata: rename 'revision' to 'commit'
->       oeqa.utils.metadata: add commit count information
->       oeqa.utils.metadata: have layer name as an attribute in xml
->       oeqa.utils.metadata: add bitbake revision information
->       oeqa.utils.metadata: allow storing any bitbake config variables
->       oeqa.utils.metadata: include BB_NUMBER_THREADS and PARALLEL_MAKE
+[snip]
+
+>
+> Not as far as I know, but so that would work when building something AND
+> the artifacts, but what if you want to build the artifacts only?, you would
+> have to build everything else as well wouldn't you?
 >
 
-Markus just sent a V2, so please drop these.  I'll remove them from my
-branch shortly.
+My only feedback was: we could target something that gives the necessary
+artifacts
+without depending on any other IMAGE_FSTYPES than wic (and I was assuming
+wic
+is the reason why the patch exists).
 
-Ross
+Currently, for example, all "live" artifacts (including rootfs.img) are
+built first to get a
+wic image created. The same applies with this patch still: one would need
+to specify
+another image type first to get the artifacts to get wic image type built.
+Furthermore, that
+image type would give unnecessary build dependencies (depending on your
+configuration).
 
---001a114f4108e67f590545f9a4af
+It can also be argued whether the build_*_cfg() are needed here because the
+wic source
+plugins write their own configs.
+
+The desired outcome (IMO) would be independent from "live" (naming wise
+also).
+
+-- Mikko
+
+--001a114a9a9cb6e86e0545f9a6e2
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 13 January 2017 at 13:00, Ross Burton <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1og" class=3D=
-"a3s aXjCH m15997eaab7b53979">Markus Lehtonen (10):<br>
-=C2=A0 =C2=A0 =C2=A0 oeqa.utils.metadata: re-organise host distro informati=
-on<br>
-=C2=A0 =C2=A0 =C2=A0 oeqa.utils.metadata: re-organise distro information<br=
->
-=C2=A0 =C2=A0 =C2=A0 oeqa.utils.metadata: drop &#39;unknown&#39; git data e=
-lements<br>
-=C2=A0 =C2=A0 =C2=A0 oeqa.utils.metadata: fix retrieval of git branch and r=
-evision<br>
-=C2=A0 =C2=A0 =C2=A0 oeqa.utils.metadata: rename &#39;revision&#39; to &#39=
-;commit&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 oeqa.utils.metadata: add commit count information<br>
-=C2=A0 =C2=A0 =C2=A0 oeqa.utils.metadata: have layer name as an attribute i=
-n xml<br>
-=C2=A0 =C2=A0 =C2=A0 oeqa.utils.metadata: add bitbake revision information<=
-br>
-=C2=A0 =C2=A0 =C2=A0 oeqa.utils.metadata: allow storing any bitbake config =
-variables<br>
-=C2=A0 =C2=A0 =C2=A0 oeqa.utils.metadata: include BB_NUMBER_THREADS and PAR=
-ALLEL_MAKE</div></blockquote></div><br>Markus just sent a V2, so please dro=
-p these.=C2=A0 I&#39;ll remove them from my branch shortly.</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Fri, Jan 13, 2017 at 12:34 AM, Alejandro Hernandez <span dir=3D"ltr"=
+>&lt;<a href=3D"mailto:alejandro.hernandez@linux.intel.com" target=3D"_blan=
+k">alejandro.hernandez@linux.intel.com</a>&gt;</span> wrote:<br><div>=C2=A0=
+</div><div>[snip]</div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><d=
+iv bgcolor=3D"#FFFFFF"><div><div class=3D"gmail-h5"><blockquote type=3D"cit=
+e"><div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote"><=
+blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex">
+            </blockquote>
+            <div><br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </blockquote></div></div>
+    Not as far as I know, but so that would work when building something
+    AND the artifacts, but what if you want to build the artifacts
+    only?, you would have to build everything else as well wouldn&#39;t you=
+?<br></div></blockquote><div><br></div><div>My only feedback was: we could =
+target something that gives the necessary artifacts</div><div>without depen=
+ding on any other IMAGE_FSTYPES than wic (and I was assuming wic=C2=A0</div=
+><div>is the reason why the patch exists).</div><div><br></div><div>Current=
+ly, for example, all &quot;live&quot; artifacts (including rootfs.img) are =
+built first to get a</div><div>wic image created. The same applies with thi=
+s patch still: one would need to specify</div><div>another image type first=
+ to get the artifacts to get wic image type built. Furthermore, that</div><=
+div>image type would give unnecessary build dependencies=C2=A0(depending on=
+ your configuration).</div><div><br></div><div><div>It can also be argued w=
+hether the build_*_cfg() are needed here because the wic source</div><div>p=
+lugins write their own configs.</div></div><div><br></div><div>The desired =
+outcome (IMO) would be independent from &quot;live&quot; (naming wise also)=
+.</div><div><br></div><div>-- Mikko</div><div><br></div></div></div></div>
 
---001a114f4108e67f590545f9a4af--
+--001a114a9a9cb6e86e0545f9a6e2--
