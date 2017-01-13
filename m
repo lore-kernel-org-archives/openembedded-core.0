@@ -1,29 +1,52 @@
-Return-Path: <Nathan_Lynch@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id CFCCD71D45
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C7B371DBE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 15:01:27 +0000 (UTC)
-Received: from svr-orw-mbx-02.mgc.mentorg.com ([147.34.90.202])
-	by relay1.mentorg.com with esmtp 
-	id 1cS3M7-0000La-87 from Nathan_Lynch@mentor.com ;
-	Fri, 13 Jan 2017 07:01:27 -0800
-Received: from localhost (147.34.91.1) by svr-orw-mbx-02.mgc.mentorg.com
-	(147.34.90.202) with Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Fri, 13 Jan 2017 07:01:24 -0800
-From: Nathan Lynch <nathan_lynch@mentor.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-In-Reply-To: <87o9zctazq.fsf@wedge.i-did-not-set--mail-host-address--so-tickle-me>
-References: <1484089620-19725-1-git-send-email-nathan_lynch@mentor.com>
-	<1484089620-19725-5-git-send-email-nathan_lynch@mentor.com>
-	<CAJTo0LZKcoocQ3wBjG78jakD6wsJE79Cnkq5N1n5hkv__8WmEw@mail.gmail.com>
-	<87o9zctazq.fsf@wedge.i-did-not-set--mail-host-address--so-tickle-me>
-Date: Fri, 13 Jan 2017 09:01:22 -0600
-Message-ID: <87lguft35p.fsf@wedge.i-did-not-set--mail-host-address--so-tickle-me>
-MIME-Version: 1.0
-X-ClientProxiedBy: svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203) To
-	svr-orw-mbx-02.mgc.mentorg.com (147.34.90.202)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/5] lttng-tools: upgrade to 2.9.3
+	Fri, 13 Jan 2017 15:05:45 +0000 (UTC)
+Received: by mail-io0-f181.google.com with SMTP id v96so45305656ioi.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jan 2017 07:05:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:date:in-reply-to:references:organization
+	:mime-version:content-transfer-encoding;
+	bh=B9rqX9OEXcp+uayxIJafUWielnF1bMXAe+/hVw0F+Go=;
+	b=I3EXL79NFyud7hePlQP5VuvYamHiSNJo/wIf33gHnHSNoCLJ1fDJr06GA6YYwRuJme
+	7BRzmx6bWPED7Ovzk2dubx79oe0p44yM1MjVsCQCF4TL+AbexZbSpLVB44RxP5BPBua8
+	FFjsTo4bWEIevTsEl4PNYkWPGOLozRzg1NMzFvgN517dqPad/nQW/CVI4rFFcrrTeznt
+	QF/w7ehdd523PC1bpYV+YwKZUqzKoIJgNTNEshHX3Bgj362b8Ut6I/AKMm9SMshEddkU
+	5HRJ/T7XTqGLuAyGXU0V+7Myz/EBXoUrgMB5YbF9FT329NvLpQ1ubRM58dLKhb/GIYiY
+	LSvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=B9rqX9OEXcp+uayxIJafUWielnF1bMXAe+/hVw0F+Go=;
+	b=shUiScW/xBTyXDyTOyc16FC13RdU2MnvbdyGAdy/6hl1Lh7CgvqXNNgY5plFJfhnGW
+	LXYVojXRXbRiyj8JfMVCN1C0g+EksVAUYq3zH6QsfcmbNgkrck3ALCbn2KZKMKv2FZZx
+	ZqCVzZJOZD/Plh4ZBNAOdeTO2Mqyw7gQZIE2qxX06jRCwLx5wbAnl0OdQMBVqHNDy88d
+	L7AOawAqKdFJUhjdhj1JYE8FT2bX8okXmXJyfzwF1CkXd4wANjRneRCjNXOcCK43jTeV
+	+SCAUQIkNVE7tWFlQjsWZWp8gjvctGrRb7rNayPHhjy2O7t6uuaTNWE+cwkFSKxCk4pR
+	GctA==
+X-Gm-Message-State: AIkVDXLRoXbB8XT8B/D8ZFqkPFyMqIjxKktdGIcqxDZjghWVRNvtAZol05ohAIGDF0hOzfOC
+X-Received: by 10.107.57.131 with SMTP id g125mr21983326ioa.108.1484319945767; 
+	Fri, 13 Jan 2017 07:05:45 -0800 (PST)
+Received: from pohly-mobl1 (p57A56056.dip0.t-ipconnect.de. [87.165.96.86])
+	by smtp.gmail.com with ESMTPSA id v7sm6732325iod.0.2017.01.13.07.05.44
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 13 Jan 2017 07:05:44 -0800 (PST)
+Message-ID: <1484319942.21036.6.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Jan 2017 16:05:42 +0100
+In-Reply-To: <1484317436-13263-1-git-send-email-patrick.ohly@intel.com>
+References: <1484317436-13263-1-git-send-email-patrick.ohly@intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/2] rm_work.bbclass: allow preserving additional content
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,52 +59,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2017 15:01:28 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 13 Jan 2017 15:05:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Nathan Lynch <nathan_lynch@mentor.com> writes:
-> "Burton, Ross" <ross.burton@intel.com> writes:
->
->> This upgrade is failing on the autobuilders:
->>
->> DEBUG: Executing shell function do_install_ptest_base
->> install: failed to access
->> =E2=80=98TOPDIR/tmp/work/mips64-poky-linux/lttng-tools/2.9.3-r0/image/us=
-r/lib/lttng-tools/ptest/tests/destructive=E2=80=99:
->> No such file or directory
->
-> I'm unable to recreate this so far.  Any idea what's going on here?
->
-> Here's the relevant code from the recipe's do_install_ptest:
->
->     # Copy the tests directory tree and the executables and
->     # Makefiles found within.
->     for d in $(find "${B}/tests" -type d -not -name .libs -printf '%P ') =
-; do
->         find "${B}/tests/$d" -maxdepth 1 -executable -type f \
->             -exec install -D -t "${D}${PTEST_PATH}/tests/$d" {} +
->         test -r "${B}/tests/$d/Makefile" && \
->             install -D -t "${D}${PTEST_PATH}/tests/$d" "${B}/tests/$d/Mak=
-efile"
->     done
->
-> And the contents of ${B}/tests/destructive/:
-> -rwxr-xr-x. 3 nathanl nathanl 19298 Jan 12 10:42 Makefile
-> -rwxr-xr-x. 3 nathanl nathanl  6547 Jan 12 10:44 metadata-regeneration
->
-> I'm guessing it's something like a directory creation race but I can't
-> see it.
+Hello!
 
-This seems like a plausible explanation (a difference in install -D
-behavior):
+Please ignored the 1/2 in the subject. There's just one patch for
+OE-core, the other one I had locally needs to go into meta-swupd.
 
-http://git.savannah.gnu.org/cgit/coreutils.git/commit/?id=3D6c65ce4c643b038=
-c61bd332aab5ea87a75117273
+-- 
+Best Regards, Patrick Ohly
 
-I've got coreutils 8.25 here; I assume the version on the autobuilder is
-older than that but newer than 6.2.
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
-I'll verify this theory and likely respin to work around the old
-coreutils.
+
+
 
