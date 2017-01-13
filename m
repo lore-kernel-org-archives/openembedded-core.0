@@ -1,30 +1,52 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D88260107
+Return-Path: <prvs=0186a4dae7=mike.looijmans@topicproducts.com>
+X-Greylist: delayed 5071 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 13 Jan 2017 09:50:58 UTC
+Received: from mx6-09.smtp.antispamcloud.com (mx6-09.smtp.antispamcloud.com
+	[95.211.2.200])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D3B56FF80
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 06:24:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v0D6O9dG000460
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 12 Jan 2017 22:24:09 -0800 (PST)
-Received: from [128.224.162.184] (128.224.162.184) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Thu, 12 Jan 2017 22:24:09 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1482739038.git.Qi.Chen@windriver.com>
-	<ca764bbf717c216d58b7622911621e928615189e.1482739038.git.Qi.Chen@windriver.com>
-	<CAJTo0LZUoxeKVP6MikAgjJYgbDg365zRTq+F_EpqZcouPx5LWg@mail.gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <f43f688e-f8e8-f9dc-ab8f-0b5438d0f364@windriver.com>
-Date: Fri, 13 Jan 2017 14:24:07 +0800
+	Fri, 13 Jan 2017 09:50:58 +0000 (UTC)
+Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
+	by mx6.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
+	(Exim 4.86) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1cRxBj-0002Ua-Qe for openembedded-core@lists.openembedded.org;
+	Fri, 13 Jan 2017 09:26:23 +0100
+Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
+	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
+	Fri, 13 Jan 2017 09:26:18 +0100
+To: OE-core <openembedded-core@lists.openembedded.org>
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: TOPIC
+Message-ID: <6d93383f-2dfe-e3ea-d9ae-c25919f236d5@topic.nl>
+Date: Fri, 13 Jan 2017 09:26:18 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZUoxeKVP6MikAgjJYgbDg365zRTq+F_EpqZcouPx5LWg@mail.gmail.com>
-X-Originating-IP: [128.224.162.184]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/7] byacc: upgrade to 20161202
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Originating-IP: 37.74.225.130
+X-SpamExperts-Domain: topic.nl
+X-SpamExperts-Username: 37.74.225.128/28
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=37.74.225.128/28@topic.nl
+X-SpamExperts-Outgoing-Class: unsure
+X-SpamExperts-Outgoing-Evidence: Combined (0.28)
+X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W/95+6ZE6dI+d
+	FNTaLLKrTD4PkK8WOoKuw32u9iEtZmisSr42qUwvK7U11fJ5smF5bE7GwnNXTE7JFCR1ojdwNA8a
+	WsnlKLcRmV1lVnz/fjxjM0y/WcWr0R3RMXTbejcayqwJVe4RkcXIFXAMlxmmJGbjO41FyBEqIaDu
+	dcVplPGNaieKxw/vh63RdlaW2Zj1hcQD6Dxo9kokFZNwiacNPxeTCKssqlJePCDBHWfCYUvWOATT
+	vnG+QUCcfrSs6FZc7tZ3vKwSN7Mv0HNteAusUZ8BuYwGqmI8Tx/Ism0pnCcmlWACu0WC7nIKSPYV
+	aBAAdpU0oUDqng6Dyy2mQeofiWY6NKlqecEiE5yVHbZdrEt1el35jO+WJBgrWGjAavfuifnL+9wg
+	oTj4ygNPw1XfN1IUJ2+rCMPpQhII5VkEVC//8GRISD+lYCwA5l6/Q4nfg8y63jKKBrO1BroJmvb9
+	eW6r2rlUSNsSKfXWKXbAnTtpwWXpE+sdjNmnXWjiNaLzU4EFnW2XgX+M1ZN6UZmlFVODLzPsd/iT
+	v744WiqgNunTiEw2ui8TVPldBCj8jBATaV0f1JQTj5AK4Kl1rn2kX7xCh4uqVodKdv1rgD9r0i+u
+	FNKu9VJ1rLap0blNKeOv2YI5PogHEGUWoL6eStEYApwKXoD4iJBsNfB/QPOzo3NC59y3EFXUwBcT
+	DQ0nlghOTckC4oN5XN7BzTWQhrf/s2FXG+RlRk606220Tay5bvowkOgRglJOpXrCHulns4cnitzI
+	/N0Yci5ag97FkmIyM9BqLkXGaznuCfaQ1w/JpOE=
+X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
+X-Recommended-Action: accept
+Subject: [morty] Please include the binutils-2.27 alignment frags for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,93 +59,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2017 06:24:11 -0000
-Content-Type: multipart/alternative;
-	boundary="------------430F7F96F0271D069F916BC1"
-
---------------430F7F96F0271D069F916BC1
+X-List-Received-Date: Fri, 13 Jan 2017 09:50:59 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On 01/13/2017 07:18 AM, Burton, Ross wrote:
->
-> On 26 December 2016 at 08:10, Chen Qi <Qi.Chen@windriver.com 
-> <mailto:Qi.Chen@windriver.com>> wrote:
->
->     Signed-off-by: Chen Qi <Qi.Chen@windriver.com
->     <mailto:Qi.Chen@windriver.com>>
->
->
-> I haven't yet looked into why it could be happening, but it appears 
-> the upgraded byacc doesn't like building for beaglebone on poky-lsb:
->
-> https://autobuilder.yoctoproject.org/main/builders/nightly-arm-lsb/builds/1002/steps/BuildImages_1/logs/stdio
->
-> Ross
+=EF=BB=BFCould this oe-core master commit be included in the "morty" branch=
+ please:
+f6f87019073d4f3caa7766aca89faa6781690fba "binutils-2.27.inc: Fix alignment=
+=20
+frags for aarch64"
+
+Without this patch, arm-trusted-firmware (apparently a requirement to get=20
+arm64 machines to boot these days) fails to build in the morty branch.
 
 
-Hi Ross,
+Kind regards,
 
-I've reproduced it. I'm now looking into this problem.
+Mike Looijmans
+System Expert
 
-Best Regards,
+TOPIC Products
+Materiaalweg 4, NL-5681 RJ Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
 
-Chen Qi
+Please consider the environment before printing this e-mail
 
 
---------------430F7F96F0271D069F916BC1
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 7bit
 
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 01/13/2017 07:18 AM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LZUoxeKVP6MikAgjJYgbDg365zRTq+F_EpqZcouPx5LWg@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 26 December 2016 at 08:10, Chen Qi
-            <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:Qi.Chen@windriver.com" target="_blank">Qi.Chen@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0px 0px 0px
-0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">
-              <div id="gmail-:15v" class="gmail-a3s gmail-aXjCH
-                gmail-m1593a2e5ee9c3799">Signed-off-by: Chen Qi &lt;<a
-                  moz-do-not-send="true"
-                  href="mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.com</a>&gt;<br>
-              </div>
-            </blockquote>
-          </div>
-          <br>
-          I haven't yet looked into why it could be happening, but it
-          appears the upgraded byacc doesn't like building for
-          beaglebone on poky-lsb:</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra"><a moz-do-not-send="true"
-href="https://autobuilder.yoctoproject.org/main/builders/nightly-arm-lsb/builds/1002/steps/BuildImages_1/logs/stdio">https://autobuilder.yoctoproject.org/main/builders/nightly-arm-lsb/builds/1002/steps/BuildImages_1/logs/stdio</a><br>
-        </div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>Hi Ross,</p>
-    <p>I've reproduced it. I'm now looking into this problem.</p>
-    <p>Best Regards,</p>
-    <p>Chen Qi<br>
-    </p>
-  </body>
-</html>
 
---------------430F7F96F0271D069F916BC1--
+
+
