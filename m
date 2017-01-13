@@ -1,47 +1,20 @@
-Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id A7C5571D7E
+Return-Path: <edwin.plauchu.camacho@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 5682E71DDC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 19:57:12 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id e1so8550475qkh.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 11:57:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:organization;
-	bh=0oMidxyCoUkzhEb6ac3smlzXpUucbGHGPoPNe1LjQIw=;
-	b=djUjWYpvjzdZoyPMlKDQzGqa6wPgqpUiDj4nxRY1pPfKSci+v9K09NWMrXVRFYQshx
-	4jHwkqf5bqTU8b3eCnLU8oAADI+2tKFDDAIvYfKQFpRNA1PTCIU7sw8qJbnaEnelCpt9
-	RoAg3+fLXk78u09VcruBiu39UHOMqYwObmMLKtqWB+QzG1b0M+hvkm2uonM1k7a4yRXZ
-	SByXAZ9auernrHhsdokEpiQL33Vmx6cEJFUpJQ4miAWDLGzo1mGxyNSguRIMATlx1oDU
-	LA/Rq9zggGeWNEFYHTJ7FpkOXTeruzL3+cBVE52Wwq5UcDHqA5ydGtxW4MUz+89OUSUS
-	0dyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=0oMidxyCoUkzhEb6ac3smlzXpUucbGHGPoPNe1LjQIw=;
-	b=LBj6+mulA81VnosNEfVwlDtG0nnlqUqp7ESBZOVGZz6dLSzNM72HaK0PN0ShF1ZwvM
-	Y7lIpGVk9i48e7CKlZ8Y2xI+wbFanUiEX16Q8KteQBekoWeDX4//OhtWwVOpMrxSOmJx
-	yD8j5fPJFImXFYDElHPvCUSJKl0DLlPUIotKM1MrT04nnZNzBlrmoTPUDB4DSLkmbeMA
-	2RMAPlGdsbovGpO1s74Bi2xoIGoKiE7MYp8g+s1OOp6OQCzgEC3+HFu1edGpz2Kv7xUv
-	QhSjenUBozs4GdHD6VHZZCY4x+DIlzDWbKW0kuXsrhO9ocsawbC0+HrE4c40mrsr6bvc
-	v6dQ==
-X-Gm-Message-State: AIkVDXKpTnhGH1VDfSbS5uEGqRbdbcMYUMtKUdpBbab4iuQRUx4JAIodmX1C0+MIFHT90w==
-X-Received: by 10.55.99.85 with SMTP id x82mr18856849qkb.147.1484337433197;
-	Fri, 13 Jan 2017 11:57:13 -0800 (PST)
-Received: from monster.lab.ossystems.com.br ([189.114.111.135])
-	by smtp.gmail.com with ESMTPSA id
-	h184sm9907640qkf.23.2017.01.13.11.57.10
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 13 Jan 2017 11:57:12 -0800 (PST)
-From: Fabio Berton <fabio.berton@ossystems.com.br>
+	Fri, 13 Jan 2017 20:16:26 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga105.jf.intel.com with ESMTP; 13 Jan 2017 12:16:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,223,1477983600"; d="scan'208";a="30168192"
+Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.47])
+	by orsmga002.jf.intel.com with ESMTP; 13 Jan 2017 12:16:26 -0800
+From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Jan 2017 17:56:49 -0200
-Message-Id: <20170113195649.17518-1-fabio.berton@ossystems.com.br>
-X-Mailer: git-send-email 2.11.0
-Organization: O.S. Systems Software LTDA.
-Subject: [PATCH] openssl: Use linux-aarch64 target for aarch64
+Date: Fri, 13 Jan 2017 14:17:57 -0600
+Message-Id: <1484338677-12172-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH V3] python3-docutils: upgrade to 0.13.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,30 +27,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2017 19:57:14 -0000
+X-List-Received-Date: Fri, 13 Jan 2017 20:16:32 -0000
 
-aarch64 target was being configured for linux-generic64 but openssl has
-linux-aarch64 target. Change to use linux-aarch64 as default.
+Changed document date field and roman.py notes
+https://fossies.org/diffs/docutils/0.12_vs_0.13.1/COPYING.txt-diff.html
 
-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
 ---
- meta/recipes-connectivity/openssl/openssl.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../python/{python3-docutils_0.12.bb => python3-docutils_0.13.1.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python3-docutils_0.12.bb => python3-docutils_0.13.1.bb} (60%)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 2ef8b38be8..5cca019e1d 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -84,7 +84,7 @@ do_configure () {
- 		target=linux-elf-armeb
- 		;;
- 	linux-aarch64*)
--		target=linux-generic64
-+		target=linux-aarch64
- 		;;
- 	linux-sh3)
- 		target=debian-sh3
+diff --git a/meta/recipes-devtools/python/python3-docutils_0.12.bb b/meta/recipes-devtools/python/python3-docutils_0.13.1.bb
+similarity index 60%
+rename from meta/recipes-devtools/python/python3-docutils_0.12.bb
+rename to meta/recipes-devtools/python/python3-docutils_0.13.1.bb
+index e78fa3b..e36388c 100644
+--- a/meta/recipes-devtools/python/python3-docutils_0.12.bb
++++ b/meta/recipes-devtools/python/python3-docutils_0.13.1.bb
+@@ -2,13 +2,13 @@ SUMMARY = "Text processing system for documentation"
+ HOMEPAGE = "http://docutils.sourceforge.net"
+ SECTION = "devel/python"
+ LICENSE = "PSF & BSD-2-Clause & GPLv3"
+-LIC_FILES_CHKSUM = "file://COPYING.txt;md5=a722fbdc20347db7b69223594dd54574"
++LIC_FILES_CHKSUM = "file://COPYING.txt;md5=7a4646907ab9083c826280b19e103106"
+ 
+ DEPENDS = "python3"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/docutils/docutils-${PV}.tar.gz"
+-SRC_URI[md5sum] = "4622263b62c5c771c03502afa3157768"
+-SRC_URI[sha256sum] = "c7db717810ab6965f66c8cf0398a98c9d8df982da39b4cd7f162911eb89596fa"
++SRC_URI[md5sum] = "ea4a893c633c788be9b8078b6b305d53"
++SRC_URI[sha256sum] = "718c0f5fb677be0f34b781e04241c4067cbd9327b66bdd8e763201130f5175be"
+ 
+ S = "${WORKDIR}/docutils-${PV}"
+ 
 -- 
-2.11.0
+2.1.4
 
 
