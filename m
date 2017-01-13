@@ -1,24 +1,30 @@
-Return-Path: <sveinse@seldal.com>
-X-Greylist: delayed 411 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 13 Jan 2017 01:12:23 UTC
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
-	by mail.openembedded.org (Postfix) with ESMTP id 8380B608B7
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D88260107
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 01:12:23 +0000 (UTC)
-Received: from 156.92-221-160.customer.lyse.net ([92.221.160.156]:53922
-	helo=[10.5.5.172]) by smtp.domeneshop.no with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84_2)
-	(envelope-from <sveinse@seldal.com>) id 1cRqJA-0004pH-7L
-	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jan 2017 02:05:32 +0100
-To: openembedded-core@lists.openembedded.org
-From: Svein Seldal <sveinse@seldal.com>
-Message-ID: <bc6b43d0-edd2-fec7-b54b-9261cc0e9027@seldal.com>
-Date: Fri, 13 Jan 2017 02:05:31 +0100
+	Fri, 13 Jan 2017 06:24:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v0D6O9dG000460
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 12 Jan 2017 22:24:09 -0800 (PST)
+Received: from [128.224.162.184] (128.224.162.184) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Thu, 12 Jan 2017 22:24:09 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1482739038.git.Qi.Chen@windriver.com>
+	<ca764bbf717c216d58b7622911621e928615189e.1482739038.git.Qi.Chen@windriver.com>
+	<CAJTo0LZUoxeKVP6MikAgjJYgbDg365zRTq+F_EpqZcouPx5LWg@mail.gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <f43f688e-f8e8-f9dc-ab8f-0b5438d0f364@windriver.com>
+Date: Fri, 13 Jan 2017 14:24:07 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.1
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: uim recipe errors?
+In-Reply-To: <CAJTo0LZUoxeKVP6MikAgjJYgbDg365zRTq+F_EpqZcouPx5LWg@mail.gmail.com>
+X-Originating-IP: [128.224.162.184]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/7] byacc: upgrade to 20161202
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,27 +37,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2017 01:12:25 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Fri, 13 Jan 2017 06:24:11 -0000
+Content-Type: multipart/alternative;
+	boundary="------------430F7F96F0271D069F916BC1"
+
+--------------430F7F96F0271D069F916BC1
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi
+On 01/13/2017 07:18 AM, Burton, Ross wrote:
+>
+> On 26 December 2016 at 08:10, Chen Qi <Qi.Chen@windriver.com 
+> <mailto:Qi.Chen@windriver.com>> wrote:
+>
+>     Signed-off-by: Chen Qi <Qi.Chen@windriver.com
+>     <mailto:Qi.Chen@windriver.com>>
+>
+>
+> I haven't yet looked into why it could be happening, but it appears 
+> the upgraded byacc doesn't like building for beaglebone on poky-lsb:
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-arm-lsb/builds/1002/steps/BuildImages_1/logs/stdio
+>
+> Ross
 
-When looking at the uim recipe:
 
-meta-openembedded/meta-oe/recipes-support/uim/uim_1.8.6.bb
+Hi Ross,
 
-I see that it defines quite many packages that end up empty, e.g. 
-uim-anthy. The files the FILES_uim-anthy does exist in the installation, 
-but they are gobbled up by the FILES_${PN} rule in package splitting.
+I've reproduced it. I'm now looking into this problem.
 
-Can I assume that is unintentional?
+Best Regards,
 
-While I'm at it, FYI, we have experienced that this recipe is often 
-failing installation when doing massive parallel builds, so we had to 
-add PARALLEL_MAKEINST = "" to it.
+Chen Qi
 
 
-Best regards,
-Svein
+--------------430F7F96F0271D069F916BC1
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 01/13/2017 07:18 AM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LZUoxeKVP6MikAgjJYgbDg365zRTq+F_EpqZcouPx5LWg@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 26 December 2016 at 08:10, Chen Qi
+            <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:Qi.Chen@windriver.com" target="_blank">Qi.Chen@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0px 0px 0px
+0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">
+              <div id="gmail-:15v" class="gmail-a3s gmail-aXjCH
+                gmail-m1593a2e5ee9c3799">Signed-off-by: Chen Qi &lt;<a
+                  moz-do-not-send="true"
+                  href="mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.com</a>&gt;<br>
+              </div>
+            </blockquote>
+          </div>
+          <br>
+          I haven't yet looked into why it could be happening, but it
+          appears the upgraded byacc doesn't like building for
+          beaglebone on poky-lsb:</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra"><a moz-do-not-send="true"
+href="https://autobuilder.yoctoproject.org/main/builders/nightly-arm-lsb/builds/1002/steps/BuildImages_1/logs/stdio">https://autobuilder.yoctoproject.org/main/builders/nightly-arm-lsb/builds/1002/steps/BuildImages_1/logs/stdio</a><br>
+        </div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>Hi Ross,</p>
+    <p>I've reproduced it. I'm now looking into this problem.</p>
+    <p>Best Regards,</p>
+    <p>Chen Qi<br>
+    </p>
+  </body>
+</html>
+
+--------------430F7F96F0271D069F916BC1--
