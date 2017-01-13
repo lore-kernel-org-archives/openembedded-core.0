@@ -1,26 +1,20 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id C61C971996
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F01F6071F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 20:20:43 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=tp13)
-	by hetzner.pbcl.net with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.87)
-	(envelope-from <pb@pbcl.net>)
-	id 1cS8L3-0003uI-N9; Fri, 13 Jan 2017 21:20:43 +0100
-Message-ID: <1484338839.3966.89.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Fri, 13 Jan 2017 20:20:39 +0000
-In-Reply-To: <3441a3d4-be4e-1f6a-6a4b-9b556796d83d@gmail.com>
-References: <20170111035102.18447-1-raj.khem@gmail.com>
-	<20170111035102.18447-2-raj.khem@gmail.com>
-	<CAJTo0LZYiqp+b7hwsGaZDKbpwo4UPxyLLw7Eje1-Y5Fg-=Jwow@mail.gmail.com>
-	<1484333133.3966.76.camel@pbcl.net>
-	<3441a3d4-be4e-1f6a-6a4b-9b556796d83d@gmail.com>
-X-Mailer: Evolution 3.20.5-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 2/2] glibc: Upgrade to 2.25
+	Fri, 13 Jan 2017 22:37:30 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga101.jf.intel.com with ESMTP; 13 Jan 2017 14:37:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,223,1477983600"; d="scan'208";a="53643584"
+Received: from yctb01.ostc.intel.com ([10.54.69.55])
+	by fmsmga006.fm.intel.com with ESMTP; 13 Jan 2017 14:37:30 -0800
+From: mariano.lopez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Jan 2017 14:33:53 +0000
+Message-Id: <cover.1484317844.git.mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Subject: [PATCH 0/2] Be sure to kill qemu-system on testimage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,19 +27,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2017 20:20:45 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 13 Jan 2017 22:37:33 -0000
 
-On Fri, 2017-01-13 at 10:52 -0800, Khem Raj wrote:
-> 
-> I have sent a patchset with IFUNC change reverted for now until its
-> fixed.
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-Yeah, I saw that.  But in light of recent developments it seems like it
-might be better to revert the earlier NPTL patch that apparently
-introduced the real problem.
+With refactor of runqemu to use python instead of shel scripting,
+the qemu-system process keeps running if runqemu fails. This series
+will fix this and will terminate qemu-system explicity.
 
-p.
+The following changes since commit 81021bc0aa0f64e67535f6a9551e921a64fe4395:
+
+  yocto-project-qs, ref-manual: Added note for "resources temporarily unavailable" error (2017-01-11 17:23:18 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib mariano/qemu_fix
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mariano/qemu_fix
+
+Mariano Lopez (2):
+  oeqa/utils/qemurunner.py: Add missing sys module
+  oeqa/utils/qemurunner.py: Be sure to stop qemu-system
+
+ meta/classes/testimage.bbclass    |  2 ++
+ meta/lib/oeqa/utils/qemurunner.py | 10 ++++++++++
+ 2 files changed, 12 insertions(+)
+
+-- 
+2.6.6
 
 
