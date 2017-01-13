@@ -1,52 +1,52 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
-	[209.85.214.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 21FBD71DB2
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F97E71DBE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 14:52:44 +0000 (UTC)
-Received: by mail-it0-f49.google.com with SMTP id 203so33947908ith.0
+	Fri, 13 Jan 2017 14:52:48 +0000 (UTC)
+Received: by mail-io0-f173.google.com with SMTP id l66so45065497ioi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 06:52:45 -0800 (PST)
+	Fri, 13 Jan 2017 06:52:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=wOtOAKiiIqQkm1k9g8S7nUsyy2i0QNNWqy4uwtwzdMY=;
-	b=e08DvWqW5yTOmbKqfTM8qxY36XT+f35I9opfJHlhz+0MeFPgzXqAgC65yOWUZCbyD9
-	3uVHTzy4AJK9SxB/b+2z3MtbfPEkwxT4SuJCp36DGd1MWRaGqmpC9aBrwtNuY6sghLEn
-	PXPQI8nGd2+qsOgy5c7fza/6V3Z21xkrSuOUW/6scn5HB8zslmuP82V0SQIfY87/jrZG
-	2xOn0mZPNpIdY2nyoG28okQwbqAaFVRZKQ47mepBl604S9X/uOxfmq9Kj5AAHdSmB+do
-	99xrk5OvPnF7CYxd4TUek69yzia9ekqnniABGCZkboMhcUxIImH1NuC9RGoqs+k6bWoA
-	Serg==
+	bh=nYT+z1eZmJ8HonXxjP8c5enLpj+c3Aj6emFIlqdy5VQ=;
+	b=f+N8/pNYQ9gYQa/x0wT/TMLFCo7E9Od4dDVPa0FvguZEIjU3Qf+cAAgjyHjIVAl5zi
+	dGzpVmZLlOjfQYK1FaEpBbq11IFVqnF2yEDm98zZaUvoicFIreF5/zYdnhIagXNmQVWG
+	23KWIl65uCZOhbeMlqVHMBybVx4DWzyb77srl/S76RoATU6Xh4pNmCEo42WbivFzNMFk
+	0/r7Y7cnclXIUGC2qcNEpCInxdSVf/7HHGd8ln7FQLbuIMU5e0pDM2WQe4z6JqJ0pK7v
+	8DHbQKsulr2DIJ9G/v2I2NRpMagiGM9mTKR0KCdrywPdsXe0JOUmwbWq2i06Uxr7Gqpa
+	Gp0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=wOtOAKiiIqQkm1k9g8S7nUsyy2i0QNNWqy4uwtwzdMY=;
-	b=FstwARK88s/5wxr/oSKDUYFyLyL2r0qqL3HihWeJcBVfowE/kX1u551P+eCBHgedQQ
-	gMPKVQXHo/BCHrTvAoJOGFXNKp5nPpY7ebLc+AMMrIv8rE6ZlxaBmjLz+zwLyW7Z9zsU
-	4hYmdQHQl4JXC6MRrkwiHrJIUO5hGHEtpXtKyvpGjScPi26l0HEFDT/AqaNVr+M1GQrO
-	+cKT4qYYd7Blre5xgAqrG7oOk4pC7zoG0KfElgAiJOExNXd920O/XuJiEIUOLyAK542y
-	V9nwvAJ66NwllU86FqWStz83IT2T3f0+6jZ5r4qrkKFyWwTxYmcqMZhOjBPdADeRZh67
-	2QDw==
-X-Gm-Message-State: AIkVDXLjXX5bBcdSwA4MYfrw0KVW6nWApogK0X3MSs5liOJYjyBDYsW0Uww+laqnsR4rse7S
-X-Received: by 10.36.48.208 with SMTP id q199mr2969308itq.28.1484319165233;
-	Fri, 13 Jan 2017 06:52:45 -0800 (PST)
+	bh=nYT+z1eZmJ8HonXxjP8c5enLpj+c3Aj6emFIlqdy5VQ=;
+	b=VN7y7rhbqzyDIk+ZgNigoBtyHawzKhE2pQAD5WVHhXluZETn+vd8TqT3OST+6I8DZr
+	JAZ1MitIwKWMS/OQkuwPR3CG3s/j5nKd+WL77+rfIQhbR+Tx0k2wlXM+VrTcB8w5hvnr
+	5oUX00XQgpTuu8a5phEJM4oWC4nOwkeS+sZhKXUOdR+1FUrebdKRwvnWnar3UW89DMDC
+	B/DlKUtjE3IEkyewYCkONmfHddqCr7+IeHnZdyowEpe378E1OfVjQ5SalzFGmzbH1DSF
+	0SQg3z/+w/AJ8bmizcTMEn4oJF8Im/e7rhM2YjmmBKHOSrjxPMdR3p2l+KW43IZqDKij
+	405g==
+X-Gm-Message-State: AIkVDXKoKrKNvHaVYnmuEHq1YlFYi5lAkf3rB5z1ncilIidGAgKbJ5vGjizOiCQvvvLyEh7a
+X-Received: by 10.107.52.204 with SMTP id b195mr6206590ioa.59.1484319168183;
+	Fri, 13 Jan 2017 06:52:48 -0800 (PST)
 Received: from pohly-desktop.fritz.box (p57A56056.dip0.t-ipconnect.de.
 	[87.165.96.86]) by smtp.gmail.com with ESMTPSA id
-	o138sm989394itc.18.2017.01.13.06.52.43
+	o138sm989394itc.18.2017.01.13.06.52.46
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 13 Jan 2017 06:52:43 -0800 (PST)
+	Fri, 13 Jan 2017 06:52:46 -0800 (PST)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Jan 2017 15:52:32 +0100
-Message-Id: <08feb6bda643440a1a8c468a09ac7876f7d6d69b.1484318722.git-series.patrick.ohly@intel.com>
+Date: Fri, 13 Jan 2017 15:52:33 +0100
+Message-Id: <ab94bd9c9f3c7170e2a0e40afaec42d5ec9397fd.1484318722.git-series.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.d193014fd573473058a6d28217d27ca47bc60792.1484318722.git-series.patrick.ohly@intel.com>
 References: <cover.d193014fd573473058a6d28217d27ca47bc60792.1484318722.git-series.patrick.ohly@intel.com>
 In-Reply-To: <cover.d193014fd573473058a6d28217d27ca47bc60792.1484318722.git-series.patrick.ohly@intel.com>
 References: <cover.d193014fd573473058a6d28217d27ca47bc60792.1484318722.git-series.patrick.ohly@intel.com>
-Subject: [PATCH v2 2/3] rm_work_and_downloads.bbclass: more aggressively minimize disk usage
+Subject: [PATCH v2 3/3] rm_work.bbclass: clean up sooner
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,65 +59,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2017 14:52:45 -0000
+X-List-Received-Date: Fri, 13 Jan 2017 14:52:48 -0000
 
-rm_work.bbclass never deletes downloaded files, even if they are not
-going to be needed again during the
-build. rm_work_and_downloads.bbclass is more aggressive in minimizing
-the used disk space during a build, but has other disadvantages:
-- sources required by different recipes need to be fetched once per
-  recipe, not once per build
-- incremental builds do not work reliably because sources get
-  removed without ensuring that sources gets fetched again
+Having do_rm_work depend on do_build had one major disadvantage:
+do_build depends on the do_build of other recipes, to ensure that
+runtime dependencies also get built. The effect is that when work on a
+recipe is complete and it could get cleaned up, do_rm_work still
+doesn't run because it waits for those other recipes, thus leading to
+more temporary disk space usage than really needed.
 
-That makes rm_work_and_downloads.bbclass useful for one-time builds in
-a constrained environment (like a CI system), but not for general use.
+The right solution is to inject do_rm_work before do_build and after
+all tasks of the recipe. Achieving that depends on the new bitbake
+bb.event.RecipeTaskPreProcess and bb.build.preceedtask().
+
+It can't just run in an anonymous function, because other anonymous
+functions that run later may add more tasks. There's still such a
+potential conflict when some future RecipeTaskPreProcess event handler
+also wants to change task dependencies, but that's not a problem
+now. Should it ever occur, the two handlers will have to know about
+each other and cooperate to resolve the conflict.
+
+Benchmarking (see "rm_work + pybootchart enhancements" on the OE-core
+mailing list) showed that builds with the modified rm_work.bbclass
+were both faster (albeit not by much) and required considerably less
+disk space (14230MiB instead of 18740MiB for core-image-sato).
+Interestingly enough, builds with rm_work.bbclass were also faster
+than those without.
 
 Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- meta/classes/rm_work_and_downloads.bbclass | 33 +++++++++++++++++++++++-
- 1 file changed, 33 insertions(+)
- create mode 100644 meta/classes/rm_work_and_downloads.bbclass
+ meta/classes/rm_work.bbclass | 31 ++++++++++++++++++++-----------
+ 1 file changed, 20 insertions(+), 11 deletions(-)
 
-diff --git a/meta/classes/rm_work_and_downloads.bbclass b/meta/classes/rm_work_and_downloads.bbclass
-new file mode 100644
-index 0000000..7c00bea
---- /dev/null
-+++ b/meta/classes/rm_work_and_downloads.bbclass
-@@ -0,0 +1,33 @@
-+# Author:       Patrick Ohly <patrick.ohly@intel.com>
-+# Copyright:    Copyright (C) 2015 Intel Corporation
-+#
-+# This file is licensed under the MIT license, see COPYING.MIT in
-+# this source distribution for the terms.
-+
-+# This class is used like rm_work:
-+# INHERIT += "rm_work_and_downloads"
-+#
-+# In addition to removing local build directories of a recipe, it also
-+# removes the downloaded source. This is achieved by making the DL_DIR
-+# recipe-specific. While reducing disk usage, it increases network usage (for
-+# example, compiling the same source for target and host implies downloading
-+# the source twice).
-+#
-+# Because the "do_fetch" task does not get re-run after removing the downloaded
-+# sources, this class is also not suitable for incremental builds.
-+#
-+# Where it works well is in well-connected build environments with limited
-+# disk space (like TravisCI).
-+
-+inherit rm_work
-+
-+# This would ensure that the existing do_rm_work() removes the downloads,
-+# but does not work because some recipes have a circular dependency between
-+# WORKDIR and DL_DIR (via ${SRCPV}?).
-+# DL_DIR = "${WORKDIR}/downloads"
-+
-+# Instead go up one level and remove ourself.
-+DL_DIR = "${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}/${PN}/downloads"
-+do_rm_work_append () {
-+    rm -rf ${DL_DIR}
-+}
+diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
+index 3516c7e..fda7bd6 100644
+--- a/meta/classes/rm_work.bbclass
++++ b/meta/classes/rm_work.bbclass
+@@ -18,9 +18,6 @@ BB_SCHEDULER ?= "completion"
+ # Run the rm_work task in the idle scheduling class
+ BB_TASK_IONICE_LEVEL_task-rm_work = "3.0"
+ 
+-RMWORK_ORIG_TASK := "${BB_DEFAULT_TASK}"
+-BB_DEFAULT_TASK = "rm_work_all"
+-
+ do_rm_work () {
+     # If the recipe name is in the RM_WORK_EXCLUDE, skip the recipe.
+     for p in ${RM_WORK_EXCLUDE}; do
+@@ -97,13 +94,6 @@ do_rm_work () {
+         rm -f $i
+     done
+ }
+-addtask rm_work after do_${RMWORK_ORIG_TASK}
+-
+-do_rm_work_all () {
+-    :
+-}
+-do_rm_work_all[recrdeptask] = "do_rm_work"
+-addtask rm_work_all after do_rm_work
+ 
+ do_populate_sdk[postfuncs] += "rm_work_populatesdk"
+ rm_work_populatesdk () {
+@@ -117,7 +107,13 @@ rm_work_rootfs () {
+ }
+ rm_work_rootfs[cleandirs] = "${WORKDIR}/rootfs"
+ 
+-python () {
++# We have to add the do_rmwork task already now, because all tasks are
++# meant to be defined before the RecipeTaskPreProcess event triggers.
++# The inject_rm_work event handler then merely changes task dependencies.
++addtask do_rm_work
++addhandler inject_rm_work
++inject_rm_work[eventmask] = "bb.event.RecipeTaskPreProcess"
++python inject_rm_work() {
+     if bb.data.inherits_class('kernel', d):
+         d.appendVar("RM_WORK_EXCLUDE", ' ' + d.getVar("PN"))
+     # If the recipe name is in the RM_WORK_EXCLUDE, skip the recipe.
+@@ -126,4 +122,17 @@ python () {
+     if pn in excludes:
+         d.delVarFlag('rm_work_rootfs', 'cleandirs')
+         d.delVarFlag('rm_work_populatesdk', 'cleandirs')
++    else:
++        # Inject do_rm_work into the tasks of the current recipe such that do_build
++        # depends on it and that it runs after all other tasks that block do_build,
++        # i.e. after all work on the current recipe is done. The reason for taking
++        # this approach instead of making do_rm_work depend on do_build is that
++        # do_build inherits additional runtime dependencies on
++        # other recipes and thus will typically run much later than completion of
++        # work in the recipe itself.
++        deps = bb.build.preceedtask('do_build', True, d)
++        if 'do_build' in deps:
++            deps.remove('do_build')
++        # In practice, addtask() here merely updates the dependencies.
++        bb.build.addtask('do_rm_work', 'do_build', ' '.join(deps), d)
+ }
 -- 
 git-series 0.9.1
 
