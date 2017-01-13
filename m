@@ -1,20 +1,53 @@
-Return-Path: <edwin.plauchu.camacho@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 024D771DA1
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f175.google.com (mail-pf0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E5E671DA1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 17:52:02 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 13 Jan 2017 09:52:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,222,1477983600"; d="scan'208";a="1082646214"
-Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.47])
-	by orsmga001.jf.intel.com with ESMTP; 13 Jan 2017 09:52:01 -0800
-From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+	Fri, 13 Jan 2017 18:02:22 +0000 (UTC)
+Received: by mail-pf0-f175.google.com with SMTP id f144so34489468pfa.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jan 2017 10:02:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-language:content-transfer-encoding;
+	bh=Cb00qjRk1VEnR1caHMQoAl7g9g58AyWlpqudDb7sPdw=;
+	b=gPUMl24luxyyFe4evUDC1gqly8uLKosR3rpKREQIgoJ/ILrgDStnfRsPyy2ttNN+MO
+	8SjCFYJqE+AbhRIULvitrqQVpbGcLyVkcyTeA/euRlyiTK6XzN/Xaa2jK+CNUjRkMg2b
+	11HlX4qw7yQVlL41dMeBGRanNrZO3LHSqPPS2he9gFW8/mga1D6BH8Y8ArdUxLh896o+
+	xkMPsPuGqUYSCNWcIUl9ojlYQNd2fXGowcPuYiEfDJHPVn3ZhY/3cojFRackEjs0HduQ
+	IiTf7OYLuB9HeXaEOjaKJ5nCI4PX0c3pkJGfSEv9ARDJm4dImHK8wWT6nco9GCsjisQl
+	0zlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=Cb00qjRk1VEnR1caHMQoAl7g9g58AyWlpqudDb7sPdw=;
+	b=igIRl2A0KlhIowkYDeDu2/C2fWYnhAk5dUQlHK09cr58lrWaiR3ho3+uBSTmgbFVbF
+	4iOBSzhPyovZNs1R510OTMsu5kxj1nJGBu+8DafGxMxXFO5ezoETMWOAslkKHdIpCbwg
+	0DGBkJdDOz82z+HDfw6E+NI9EjaLetzmcCYIGGCSSQAk1jrIRftYbcBarlLYfobM6QIm
+	4d4OiY/GkNXx3cTLFLO1QzWGKbiZyiCPdfkW6RnD/KurAAckuQRANOhAGptivFmMuTQm
+	KjjfJhxOeKHd6gtykySLupGOU0I7yRS069mkAOr86jHwyVbTukdxRZSjUOcd+3oXv1yf
+	XOIQ==
+X-Gm-Message-State: AIkVDXJiMcGQkz8UmbKw+4XQhs9qylWy+wW5ml/yKK4lJl6kKJJY/644eboIVywCs3hQKg==
+X-Received: by 10.99.237.17 with SMTP id d17mr25943934pgi.82.1484330542910;
+	Fri, 13 Jan 2017 10:02:22 -0800 (PST)
+Received: from CACSVMO-14452.local ([2601:646:8882:b8c:4198:472b:7988:3451])
+	by smtp.gmail.com with ESMTPSA id
+	q5sm30907723pgf.45.2017.01.13.10.02.22
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 13 Jan 2017 10:02:22 -0800 (PST)
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Jan 2017 11:53:32 -0600
-Message-Id: <1484330012-11592-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] python3-docutils: upgrade to 0.13.1
+References: <1484330012-11592-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Message-ID: <3c68d638-ed3b-429b-2090-df53161b40a2@gmail.com>
+Date: Fri, 13 Jan 2017 10:02:21 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:50.0)
+	Gecko/20100101 Thunderbird/50.0
+MIME-Version: 1.0
+In-Reply-To: <1484330012-11592-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+Subject: Re: [PATCH] python3-docutils: upgrade to 0.13.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,39 +60,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2017 17:52:03 -0000
+X-List-Received-Date: Fri, 13 Jan 2017 18:02:24 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
----
- .../python/{python3-docutils_0.12.bb => python3-docutils_0.13.1.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python3-docutils_0.12.bb => python3-docutils_0.13.1.bb} (60%)
 
-diff --git a/meta/recipes-devtools/python/python3-docutils_0.12.bb b/meta/recipes-devtools/python/python3-docutils_0.13.1.bb
-similarity index 60%
-rename from meta/recipes-devtools/python/python3-docutils_0.12.bb
-rename to meta/recipes-devtools/python/python3-docutils_0.13.1.bb
-index e78fa3b..e36388c 100644
---- a/meta/recipes-devtools/python/python3-docutils_0.12.bb
-+++ b/meta/recipes-devtools/python/python3-docutils_0.13.1.bb
-@@ -2,13 +2,13 @@ SUMMARY = "Text processing system for documentation"
- HOMEPAGE = "http://docutils.sourceforge.net"
- SECTION = "devel/python"
- LICENSE = "PSF & BSD-2-Clause & GPLv3"
--LIC_FILES_CHKSUM = "file://COPYING.txt;md5=a722fbdc20347db7b69223594dd54574"
-+LIC_FILES_CHKSUM = "file://COPYING.txt;md5=7a4646907ab9083c826280b19e103106"
- 
- DEPENDS = "python3"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/docutils/docutils-${PV}.tar.gz"
--SRC_URI[md5sum] = "4622263b62c5c771c03502afa3157768"
--SRC_URI[sha256sum] = "c7db717810ab6965f66c8cf0398a98c9d8df982da39b4cd7f162911eb89596fa"
-+SRC_URI[md5sum] = "ea4a893c633c788be9b8078b6b305d53"
-+SRC_URI[sha256sum] = "718c0f5fb677be0f34b781e04241c4067cbd9327b66bdd8e763201130f5175be"
- 
- S = "${WORKDIR}/docutils-${PV}"
- 
--- 
-2.1.4
 
+On 1/13/17 9:53 AM, Edwin Plauchu wrote:
+> -LIC_FILES_CHKSUM = "file://COPYING.txt;md5=a722fbdc20347db7b69223594dd54574"
+> +LIC_FILES_CHKSUM = "file://COPYING.txt;md5=7a4646907ab9083c826280b19e103106"
+
+whatever is causign this change in checksums, document that in commit
+message
 
