@@ -1,45 +1,29 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id DC2FA6FEFA
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 1987560069
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2017 23:52:39 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id f144so5445253pfa.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2017 15:52:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=xP71MEI2z8r58xPo5XYodVVtZuuvUba/QLekLaRvd8Y=;
-	b=VNhxQGClC3MkRgowBv+2JyuL8AtNjgle3b77u/hzAWrRdzy7CWCQfhdLuAYv9765HY
-	ku19Cz6w3nYibOxzJPl4VT+8w8r7PvD2BFlUGvZzgLTZR+uhVDdXJjXyyg9Wxvi+iIJf
-	V6d21xaR++jmV4hPDVvZ6nVrvkVLbrHq1uavkaUvXbme9xovNwtTZRse4Wf92LZb1jTS
-	ulYucvlq6pVowvqQGIUAUes3rQCkxgTZdp4dA1BQ9GJchBq/r11ipfUiBLgV/iYZlC+8
-	dter/qmd5xiH/IT8oWylBjZhiTu1CEFqOSQ09XOVH3C9SufJamg42c5c3bUekPSPWbOs
-	ozDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=xP71MEI2z8r58xPo5XYodVVtZuuvUba/QLekLaRvd8Y=;
-	b=K0zFjzb7fQSv7bDUIairC+34PFUqJoF++hXWql4ovdKrHmC+u60SwpUuvqMraxFKqc
-	QKQ9R8QhrKOpUTrr2BrBcqO2ZUyiHA+7c2QiKBVuxa48k6hWfWThXZtyXrfc3b5vvf9g
-	q7fMfTG9l91cCrC0j+MR4d0DNXAP2HbDBpXpLeTYQyCc3eWkDLqyIkVhEIguUrFF6uZV
-	c0QWVP0cy6Mts3OveBys/j112N0bC3HqHBAwjN+aJtWtSDwWTNUZdzoXjpS4H7ukuQVT
-	kMvQZXIanQzvmO0BoZdyZZFO6rs3BBjcdaCm8xVnwkn9aF0FXh6xWWLHME+J9F065pf7
-	O3KA==
-X-Gm-Message-State: AIkVDXKZUZTJgkhkHUTdOmo50V4VXdQgUq04Tzl9aQveRiO3H8SOgi7AZximZ7Pd5GuqZQ==
-X-Received: by 10.84.225.20 with SMTP id t20mr25637523plj.154.1484265159577;
-	Thu, 12 Jan 2017 15:52:39 -0800 (PST)
-Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	y6sm24310201pge.16.2017.01.12.15.52.38
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 12 Jan 2017 15:52:38 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Jan 2017 15:52:32 -0800
-Message-Id: <1484265152-5892-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] gstreamer1.0-plugins-good: fix qtdemux_parse_svq3_stsd_data() memory leak
+	Fri, 13 Jan 2017 00:36:29 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 12 Jan 2017 16:36:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,220,1477983600"; d="scan'208";a="29766987"
+Received: from hhteoh-mobl1.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.157.122])
+	by orsmga002.jf.intel.com with ESMTP; 12 Jan 2017 16:36:27 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Fri, 13 Jan 2017 13:36:26 +1300
+Message-ID: <1595933.P5cmfVrMqa@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.8.13-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <704d3ba6-03aa-e4b6-7a94-76b247c0efce@windriver.com>
+References: <1484249086-36492-1-git-send-email-juro.bystricky@intel.com>
+	<1484257321.4367.238.camel@linuxfoundation.org>
+	<704d3ba6-03aa-e4b6-7a94-76b247c0efce@windriver.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] sanity.bbclass: Improved error message
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,71 +36,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2017 23:52:40 -0000
+X-List-Received-Date: Fri, 13 Jan 2017 00:36:32 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Backport from 1.11.1
+On Thu, 12 Jan 2017 16:04:09 Mark Hatle wrote:
+> On 1/12/17 3:42 PM, Richard Purdie wrote:
+> > On Thu, 2017-01-12 at 11:24 -0800, Juro Bystricky wrote:
+> >> When a non-existing MACHINE is specified, sanity check issues
+> >> 
+> >> the following message:
+> >>     Please set a valid MACHINE in your local.conf or environment
+> >> 
+> >> However, MACHINE can also be set in multiconfig .conf file(s).
+> >> Hence we may have several different MACHINE settings within one
+> >> (multiconfig) build, so the present error message is fairly
+> >> ambiguous.
+> >> 
+> >> This patch remedies this by explicitly naming the offending MACHINE
+> >> and
+> >> adding conf/multiconfig/*.conf to the list of places where this
+> >> erroneous
+> >> MACHINE definition could have originated.
+> >> 
+> >>     Invalid MACHINE=xyz. Please set a valid MACHINE in your
+> >> 
+> >> local.conf, conf/multiconfig/*.conf or environment
+> > 
+> > Can we change this to:
+> > 
+> > "MACHINE=xyz is invalid. Please set a valid MACHINE in your local.conf,
+> > environment or other configuration file."
+> 
+> I commented elsewhere as well -- but is there any way to see where MACHINE
+> was actually set and display that -- or is it limited to 'bitbake -e'
+> usage?
 
-  https://cgit.freedesktop.org/gstreamer/gst-plugins-good/commit/?id=29433495d697e4dcb3bc50ff0e0d866acb949890
+You need to have history enabled in the datastore to be able to retrieve that, 
+and we don't during normal mode for performance over the entire run. It's 
+possible we could enable it reparse the configuration when errors like this 
+occur to get it though - it probably wouldn't take too long, but I don't know 
+if there are other practical barriers.
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- ...e-seqh-after-calling-qtdemux_parse_svq3_s.patch | 33 ++++++++++++++++++++++
- .../gstreamer/gstreamer1.0-plugins-good_1.10.2.bb  |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/qtdemux-free-seqh-after-calling-qtdemux_parse_svq3_s.patch
-
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/qtdemux-free-seqh-after-calling-qtdemux_parse_svq3_s.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/qtdemux-free-seqh-after-calling-qtdemux_parse_svq3_s.patch
-new file mode 100644
-index 0000000..3428790
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/qtdemux-free-seqh-after-calling-qtdemux_parse_svq3_s.patch
-@@ -0,0 +1,33 @@
-+From 29433495d697e4dcb3bc50ff0e0d866acb949890 Mon Sep 17 00:00:00 2001
-+From: Andre McCurdy <armccurdy@gmail.com>
-+Date: Wed, 11 Jan 2017 17:53:32 -0800
-+Subject: [PATCH] qtdemux: free seqh after calling
-+ qtdemux_parse_svq3_stsd_data()
-+
-+The seqh buffer allocated in qtdemux_parse_svq3_stsd_data() needs to
-+be freed by the caller after use.
-+
-+https://bugzilla.gnome.org/show_bug.cgi?id=777157
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-+---
-+ gst/isomp4/qtdemux.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/gst/isomp4/qtdemux.c b/gst/isomp4/qtdemux.c
-+index e105809..7a431e0 100644
-+--- a/gst/isomp4/qtdemux.c
-++++ b/gst/isomp4/qtdemux.c
-+@@ -10375,6 +10375,7 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+              * than its own fourcc */
-+             gst_caps_set_simple (stream->caps, "seqh", GST_TYPE_BUFFER, seqh,
-+                 NULL);
-++            gst_buffer_unref (seqh);
-+           }
-+ 
-+           GST_DEBUG_OBJECT (qtdemux, "found codec_data in stsd");
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.10.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.10.2.bb
-index 18262d0..6c119e5 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.10.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.10.2.bb
-@@ -10,6 +10,7 @@ SRC_URI = " \
-     file://avoid-including-sys-poll.h-directly.patch \
-     file://ensure-valid-sentinel-for-gst_structure_get.patch \
-     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
-+    file://qtdemux-free-seqh-after-calling-qtdemux_parse_svq3_s.patch \
- "
- SRC_URI[md5sum] = "65c4ff9d406c3ea9383b4d38a6504349"
- SRC_URI[sha256sum] = "198f325bcce982dce1ebeb36929a5f430b8bf9528e0d519e18df0b29e1d23313"
+Cheers,
+Paul
 -- 
-1.9.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
