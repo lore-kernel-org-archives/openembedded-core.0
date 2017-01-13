@@ -1,52 +1,44 @@
-Return-Path: <prvs=0186a4dae7=mike.looijmans@topicproducts.com>
-X-Greylist: delayed 5071 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 13 Jan 2017 09:50:58 UTC
-Received: from mx6-09.smtp.antispamcloud.com (mx6-09.smtp.antispamcloud.com
-	[95.211.2.200])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D3B56FF80
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-qt0-f182.google.com (mail-qt0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id EAB3F605C2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 09:50:58 +0000 (UTC)
-Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
-	by mx6.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
-	(Exim 4.86) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1cRxBj-0002Ua-Qe for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jan 2017 09:26:23 +0100
-Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
-	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
-	Fri, 13 Jan 2017 09:26:18 +0100
-To: OE-core <openembedded-core@lists.openembedded.org>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-Message-ID: <6d93383f-2dfe-e3ea-d9ae-c25919f236d5@topic.nl>
-Date: Fri, 13 Jan 2017 09:26:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Fri, 13 Jan 2017 10:52:22 +0000 (UTC)
+Received: by mail-qt0-f182.google.com with SMTP id v23so43907789qtb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jan 2017 02:52:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=mSNQtaZVkzMsugxssFH2lGP+8hl3IIjh2dNvd2yNFqk=;
+	b=KZ3ATh+JcmY1+jottX5KEuyyw69mxyzhLqLAPm1L1eZRV5t6RCQbiphWE3tG3lTtzN
+	RqsbN7wgEo9D9q5J6vXFrXYUMuhhMJvcUl6SVmTwAn7GRWY7mRKEobMeSKN3phm7fGwt
+	1g5QRBW5+iXqvSCUwPM57IDBCDcE4O/3HzFtE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=mSNQtaZVkzMsugxssFH2lGP+8hl3IIjh2dNvd2yNFqk=;
+	b=BkOCKY1qGunxcPRSQY97Hp5K9SNyCmEuqCHHKorowKcEXORjyc9byzIoyWfv1WPArR
+	CZkC3elSMSKmo7OegGEBIPlSc86Nfsw0uwiXpYMIYRy1ZiTSzQ/rs7oYtf8OZNr5ae0o
+	kiD8S8aK8kpiWehpJ8Lv3WeGJf420kgcx9Jc+LdR99B5ZqzElnTZ/ZYxYYyp6Kk/A7UV
+	RXumJzeotdfZCtywR64wzpA56b/73sKUkxSrYX/dnbOJI434j4Y+rK5jzORtCsOrgul5
+	nyn1OBex6pBHzGN9TbNMWc3Czd9gio1jSozmSrnyQzfkf3qR5xQ7odcdS4TJtG2+NywW
+	fSgw==
+X-Gm-Message-State: AIkVDXIdRAW8xqBn88B2lHyOhhnl9q9/foBabuHHlfACksRJI+6XdksuFNj5iYI9tNZY1A3Gd291hFDTCL3I0k8i
+X-Received: by 10.200.53.71 with SMTP id z7mr16828074qtb.203.1484304742725;
+	Fri, 13 Jan 2017 02:52:22 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Originating-IP: 37.74.225.130
-X-SpamExperts-Domain: topic.nl
-X-SpamExperts-Username: 37.74.225.128/28
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=37.74.225.128/28@topic.nl
-X-SpamExperts-Outgoing-Class: unsure
-X-SpamExperts-Outgoing-Evidence: Combined (0.28)
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W/95+6ZE6dI+d
-	FNTaLLKrTD4PkK8WOoKuw32u9iEtZmisSr42qUwvK7U11fJ5smF5bE7GwnNXTE7JFCR1ojdwNA8a
-	WsnlKLcRmV1lVnz/fjxjM0y/WcWr0R3RMXTbejcayqwJVe4RkcXIFXAMlxmmJGbjO41FyBEqIaDu
-	dcVplPGNaieKxw/vh63RdlaW2Zj1hcQD6Dxo9kokFZNwiacNPxeTCKssqlJePCDBHWfCYUvWOATT
-	vnG+QUCcfrSs6FZc7tZ3vKwSN7Mv0HNteAusUZ8BuYwGqmI8Tx/Ism0pnCcmlWACu0WC7nIKSPYV
-	aBAAdpU0oUDqng6Dyy2mQeofiWY6NKlqecEiE5yVHbZdrEt1el35jO+WJBgrWGjAavfuifnL+9wg
-	oTj4ygNPw1XfN1IUJ2+rCMPpQhII5VkEVC//8GRISD+lYCwA5l6/Q4nfg8y63jKKBrO1BroJmvb9
-	eW6r2rlUSNsSKfXWKXbAnTtpwWXpE+sdjNmnXWjiNaLzU4EFnW2XgX+M1ZN6UZmlFVODLzPsd/iT
-	v744WiqgNunTiEw2ui8TVPldBCj8jBATaV0f1JQTj5AK4Kl1rn2kX7xCh4uqVodKdv1rgD9r0i+u
-	FNKu9VJ1rLap0blNKeOv2YI5PogHEGUWoL6eStEYApwKXoD4iJBsNfB/QPOzo3NC59y3EFXUwBcT
-	DQ0nlghOTckC4oN5XN7BzTWQhrf/s2FXG+RlRk606220Tay5bvowkOgRglJOpXrCHulns4cnitzI
-	/N0Yci5ag97FkmIyM9BqLkXGaznuCfaQ1w/JpOE=
-X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
-X-Recommended-Action: accept
-Subject: [morty] Please include the binutils-2.27 alignment frags for aarch64
+Received: by 10.140.19.82 with HTTP; Fri, 13 Jan 2017 02:52:02 -0800 (PST)
+In-Reply-To: <aebeba45c22d2749a821849d93ee99e40712601a.1481549486.git.jussi.kukkonen@intel.com>
+References: <cover.1481549486.git.jussi.kukkonen@intel.com>
+	<aebeba45c22d2749a821849d93ee99e40712601a.1481549486.git.jussi.kukkonen@intel.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Fri, 13 Jan 2017 11:52:02 +0100
+Message-ID: <CAP71Wjyn-=gb2bLYrmNxw-Yngxy1=dVssCna=OtD8ktJoTWj3A@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] piglit: Package tests in compressed form as well
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,36 +51,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2017 09:50:59 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 13 Jan 2017 10:52:25 -0000
+Content-Type: text/plain; charset=UTF-8
 
-=EF=BB=BFCould this oe-core master commit be included in the "morty" branch=
- please:
-f6f87019073d4f3caa7766aca89faa6781690fba "binutils-2.27.inc: Fix alignment=
-=20
-frags for aarch64"
+On Mon, Dec 12, 2016 at 2:35 PM, Jussi Kukkonen
+<jussi.kukkonen@intel.com> wrote:
+> Modify packaging so that generated tests are available in two forms:
+> * piglit-generated-tests contains the tests as they are now (1.5GB
+>   when installed)
+> * piglit-generated-tests-compressed contains a tar.gz with the same
+>   files (45 MB when installed)
+>
+> Add wrapper script that decompresses the tests at runtime: this
+> requires 1.5GB free space.
+>
+> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 
-Without this patch, arm-trusted-firmware (apparently a requirement to get=20
-arm64 machines to boot these days) fails to build in the morty branch.
+What is the status of this patch? looks like a good thing to get
+afaik. is there anything needed to get it merged?
 
-
-Kind regards,
-
-Mike Looijmans
-System Expert
-
-TOPIC Products
-Materiaalweg 4, NL-5681 RJ Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
-
-
-
+thx!
 
