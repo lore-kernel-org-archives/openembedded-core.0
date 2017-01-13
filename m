@@ -1,52 +1,29 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F97E71DBE
+Return-Path: <Nathan_Lynch@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id CFCCD71D45
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 14:52:48 +0000 (UTC)
-Received: by mail-io0-f173.google.com with SMTP id l66so45065497ioi.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 06:52:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=nYT+z1eZmJ8HonXxjP8c5enLpj+c3Aj6emFIlqdy5VQ=;
-	b=f+N8/pNYQ9gYQa/x0wT/TMLFCo7E9Od4dDVPa0FvguZEIjU3Qf+cAAgjyHjIVAl5zi
-	dGzpVmZLlOjfQYK1FaEpBbq11IFVqnF2yEDm98zZaUvoicFIreF5/zYdnhIagXNmQVWG
-	23KWIl65uCZOhbeMlqVHMBybVx4DWzyb77srl/S76RoATU6Xh4pNmCEo42WbivFzNMFk
-	0/r7Y7cnclXIUGC2qcNEpCInxdSVf/7HHGd8ln7FQLbuIMU5e0pDM2WQe4z6JqJ0pK7v
-	8DHbQKsulr2DIJ9G/v2I2NRpMagiGM9mTKR0KCdrywPdsXe0JOUmwbWq2i06Uxr7Gqpa
-	Gp0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=nYT+z1eZmJ8HonXxjP8c5enLpj+c3Aj6emFIlqdy5VQ=;
-	b=VN7y7rhbqzyDIk+ZgNigoBtyHawzKhE2pQAD5WVHhXluZETn+vd8TqT3OST+6I8DZr
-	JAZ1MitIwKWMS/OQkuwPR3CG3s/j5nKd+WL77+rfIQhbR+Tx0k2wlXM+VrTcB8w5hvnr
-	5oUX00XQgpTuu8a5phEJM4oWC4nOwkeS+sZhKXUOdR+1FUrebdKRwvnWnar3UW89DMDC
-	B/DlKUtjE3IEkyewYCkONmfHddqCr7+IeHnZdyowEpe378E1OfVjQ5SalzFGmzbH1DSF
-	0SQg3z/+w/AJ8bmizcTMEn4oJF8Im/e7rhM2YjmmBKHOSrjxPMdR3p2l+KW43IZqDKij
-	405g==
-X-Gm-Message-State: AIkVDXKoKrKNvHaVYnmuEHq1YlFYi5lAkf3rB5z1ncilIidGAgKbJ5vGjizOiCQvvvLyEh7a
-X-Received: by 10.107.52.204 with SMTP id b195mr6206590ioa.59.1484319168183;
-	Fri, 13 Jan 2017 06:52:48 -0800 (PST)
-Received: from pohly-desktop.fritz.box (p57A56056.dip0.t-ipconnect.de.
-	[87.165.96.86]) by smtp.gmail.com with ESMTPSA id
-	o138sm989394itc.18.2017.01.13.06.52.46
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 13 Jan 2017 06:52:46 -0800 (PST)
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Jan 2017 15:52:33 +0100
-Message-Id: <ab94bd9c9f3c7170e2a0e40afaec42d5ec9397fd.1484318722.git-series.patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.d193014fd573473058a6d28217d27ca47bc60792.1484318722.git-series.patrick.ohly@intel.com>
-References: <cover.d193014fd573473058a6d28217d27ca47bc60792.1484318722.git-series.patrick.ohly@intel.com>
-In-Reply-To: <cover.d193014fd573473058a6d28217d27ca47bc60792.1484318722.git-series.patrick.ohly@intel.com>
-References: <cover.d193014fd573473058a6d28217d27ca47bc60792.1484318722.git-series.patrick.ohly@intel.com>
-Subject: [PATCH v2 3/3] rm_work.bbclass: clean up sooner
+	Fri, 13 Jan 2017 15:01:27 +0000 (UTC)
+Received: from svr-orw-mbx-02.mgc.mentorg.com ([147.34.90.202])
+	by relay1.mentorg.com with esmtp 
+	id 1cS3M7-0000La-87 from Nathan_Lynch@mentor.com ;
+	Fri, 13 Jan 2017 07:01:27 -0800
+Received: from localhost (147.34.91.1) by svr-orw-mbx-02.mgc.mentorg.com
+	(147.34.90.202) with Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Fri, 13 Jan 2017 07:01:24 -0800
+From: Nathan Lynch <nathan_lynch@mentor.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+In-Reply-To: <87o9zctazq.fsf@wedge.i-did-not-set--mail-host-address--so-tickle-me>
+References: <1484089620-19725-1-git-send-email-nathan_lynch@mentor.com>
+	<1484089620-19725-5-git-send-email-nathan_lynch@mentor.com>
+	<CAJTo0LZKcoocQ3wBjG78jakD6wsJE79Cnkq5N1n5hkv__8WmEw@mail.gmail.com>
+	<87o9zctazq.fsf@wedge.i-did-not-set--mail-host-address--so-tickle-me>
+Date: Fri, 13 Jan 2017 09:01:22 -0600
+Message-ID: <87lguft35p.fsf@wedge.i-did-not-set--mail-host-address--so-tickle-me>
+MIME-Version: 1.0
+X-ClientProxiedBy: svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203) To
+	svr-orw-mbx-02.mgc.mentorg.com (147.34.90.202)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/5] lttng-tools: upgrade to 2.9.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,99 +36,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2017 14:52:48 -0000
+X-List-Received-Date: Fri, 13 Jan 2017 15:01:28 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Having do_rm_work depend on do_build had one major disadvantage:
-do_build depends on the do_build of other recipes, to ensure that
-runtime dependencies also get built. The effect is that when work on a
-recipe is complete and it could get cleaned up, do_rm_work still
-doesn't run because it waits for those other recipes, thus leading to
-more temporary disk space usage than really needed.
+Nathan Lynch <nathan_lynch@mentor.com> writes:
+> "Burton, Ross" <ross.burton@intel.com> writes:
+>
+>> This upgrade is failing on the autobuilders:
+>>
+>> DEBUG: Executing shell function do_install_ptest_base
+>> install: failed to access
+>> =E2=80=98TOPDIR/tmp/work/mips64-poky-linux/lttng-tools/2.9.3-r0/image/us=
+r/lib/lttng-tools/ptest/tests/destructive=E2=80=99:
+>> No such file or directory
+>
+> I'm unable to recreate this so far.  Any idea what's going on here?
+>
+> Here's the relevant code from the recipe's do_install_ptest:
+>
+>     # Copy the tests directory tree and the executables and
+>     # Makefiles found within.
+>     for d in $(find "${B}/tests" -type d -not -name .libs -printf '%P ') =
+; do
+>         find "${B}/tests/$d" -maxdepth 1 -executable -type f \
+>             -exec install -D -t "${D}${PTEST_PATH}/tests/$d" {} +
+>         test -r "${B}/tests/$d/Makefile" && \
+>             install -D -t "${D}${PTEST_PATH}/tests/$d" "${B}/tests/$d/Mak=
+efile"
+>     done
+>
+> And the contents of ${B}/tests/destructive/:
+> -rwxr-xr-x. 3 nathanl nathanl 19298 Jan 12 10:42 Makefile
+> -rwxr-xr-x. 3 nathanl nathanl  6547 Jan 12 10:44 metadata-regeneration
+>
+> I'm guessing it's something like a directory creation race but I can't
+> see it.
 
-The right solution is to inject do_rm_work before do_build and after
-all tasks of the recipe. Achieving that depends on the new bitbake
-bb.event.RecipeTaskPreProcess and bb.build.preceedtask().
+This seems like a plausible explanation (a difference in install -D
+behavior):
 
-It can't just run in an anonymous function, because other anonymous
-functions that run later may add more tasks. There's still such a
-potential conflict when some future RecipeTaskPreProcess event handler
-also wants to change task dependencies, but that's not a problem
-now. Should it ever occur, the two handlers will have to know about
-each other and cooperate to resolve the conflict.
+http://git.savannah.gnu.org/cgit/coreutils.git/commit/?id=3D6c65ce4c643b038=
+c61bd332aab5ea87a75117273
 
-Benchmarking (see "rm_work + pybootchart enhancements" on the OE-core
-mailing list) showed that builds with the modified rm_work.bbclass
-were both faster (albeit not by much) and required considerably less
-disk space (14230MiB instead of 18740MiB for core-image-sato).
-Interestingly enough, builds with rm_work.bbclass were also faster
-than those without.
+I've got coreutils 8.25 here; I assume the version on the autobuilder is
+older than that but newer than 6.2.
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
----
- meta/classes/rm_work.bbclass | 31 ++++++++++++++++++++-----------
- 1 file changed, 20 insertions(+), 11 deletions(-)
-
-diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
-index 3516c7e..fda7bd6 100644
---- a/meta/classes/rm_work.bbclass
-+++ b/meta/classes/rm_work.bbclass
-@@ -18,9 +18,6 @@ BB_SCHEDULER ?= "completion"
- # Run the rm_work task in the idle scheduling class
- BB_TASK_IONICE_LEVEL_task-rm_work = "3.0"
- 
--RMWORK_ORIG_TASK := "${BB_DEFAULT_TASK}"
--BB_DEFAULT_TASK = "rm_work_all"
--
- do_rm_work () {
-     # If the recipe name is in the RM_WORK_EXCLUDE, skip the recipe.
-     for p in ${RM_WORK_EXCLUDE}; do
-@@ -97,13 +94,6 @@ do_rm_work () {
-         rm -f $i
-     done
- }
--addtask rm_work after do_${RMWORK_ORIG_TASK}
--
--do_rm_work_all () {
--    :
--}
--do_rm_work_all[recrdeptask] = "do_rm_work"
--addtask rm_work_all after do_rm_work
- 
- do_populate_sdk[postfuncs] += "rm_work_populatesdk"
- rm_work_populatesdk () {
-@@ -117,7 +107,13 @@ rm_work_rootfs () {
- }
- rm_work_rootfs[cleandirs] = "${WORKDIR}/rootfs"
- 
--python () {
-+# We have to add the do_rmwork task already now, because all tasks are
-+# meant to be defined before the RecipeTaskPreProcess event triggers.
-+# The inject_rm_work event handler then merely changes task dependencies.
-+addtask do_rm_work
-+addhandler inject_rm_work
-+inject_rm_work[eventmask] = "bb.event.RecipeTaskPreProcess"
-+python inject_rm_work() {
-     if bb.data.inherits_class('kernel', d):
-         d.appendVar("RM_WORK_EXCLUDE", ' ' + d.getVar("PN"))
-     # If the recipe name is in the RM_WORK_EXCLUDE, skip the recipe.
-@@ -126,4 +122,17 @@ python () {
-     if pn in excludes:
-         d.delVarFlag('rm_work_rootfs', 'cleandirs')
-         d.delVarFlag('rm_work_populatesdk', 'cleandirs')
-+    else:
-+        # Inject do_rm_work into the tasks of the current recipe such that do_build
-+        # depends on it and that it runs after all other tasks that block do_build,
-+        # i.e. after all work on the current recipe is done. The reason for taking
-+        # this approach instead of making do_rm_work depend on do_build is that
-+        # do_build inherits additional runtime dependencies on
-+        # other recipes and thus will typically run much later than completion of
-+        # work in the recipe itself.
-+        deps = bb.build.preceedtask('do_build', True, d)
-+        if 'do_build' in deps:
-+            deps.remove('do_build')
-+        # In practice, addtask() here merely updates the dependencies.
-+        bb.build.addtask('do_rm_work', 'do_build', ' '.join(deps), d)
- }
--- 
-git-series 0.9.1
+I'll verify this theory and likely respin to work around the old
+coreutils.
 
