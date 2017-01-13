@@ -1,48 +1,46 @@
-Return-Path: <yannick.gicquel@iot.bzh>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id DBDCB71D9A
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id A303071DA0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 14:23:44 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id f73so12378982wmf.1
+	Fri, 13 Jan 2017 14:24:04 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id j13so44226645iod.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 06:23:45 -0800 (PST)
+	Fri, 13 Jan 2017 06:24:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=iot-bzh.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=/2kFR/l0FzJYcDd6Gohd7qE5Jkk8n3zpzDcB+U0HqCc=;
-	b=S0aO/caKGy18CcYarY0UPwoDlhqg+nGsSa0rlbQCfNLxnzX3Dr5hIgZYkbGUtszC+m
-	+ZI2f8Ljw33SYhKKXCg4tyeB+MMPd+zswrbkxQ5oJm2UEtZT2+LZMCPbbObCIBFTPrEB
-	kjqklqM2XCgjEMh4xQR9E+X89YCCgNUpYRaafGAK4aiwLb6TpBoSUW4eVtOmvYi0Tk81
-	Nlfox97nQbIV9TLBKLhtTzGkYnjPtuzbEU2iDq+g6NJbPrABk2jT03ik5BBKVm8exYa7
-	k+Uerqh7xjAYpOV1LYpiIilQpzk80bmZnzMeTMqm+41zTjEeBZ83YnrGaRLdR16B4kiB
-	j+DA==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=Ki63rM3JJ1dgpht3XH9EaziudYxsXShbjpVUv/BMuuU=;
+	b=rfmuu6ZSdxOBQRW+6/S0eQel4Et+cTMH5UOmJgh2RC0tjFqLtKmKd+4y2ouN0Toy+o
+	iK4YTaHI90m2afltU0oOvejg3fmjRUdXwF2UGvy6Sx8fyS7pCFhFeAzlbBX9tLCnx1ss
+	5MQi+bOWH2jekm1GDZdqQaVmEaPRYVcFXownbeuMSQJGnPrPEkB6i9Tbsh7X+C9eR5pF
+	8y5OwVqI/oboyuhpFfSzJJLstBZXuKOwlb3XYFwNICkX1eSPqhfZmdgvg0SiOdLId8kA
+	/uLR1CMjHYPB/bbttWvPlTAHDhE+IXElUXmo9oURKlNeN5ztH6PneleKVFmIacbH/khO
+	HsxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=/2kFR/l0FzJYcDd6Gohd7qE5Jkk8n3zpzDcB+U0HqCc=;
-	b=cHnxE6D3juPkP+SwdkkmCxGSvInHlFgOsOXpy76Au4IxTEoVKS6AX0MFpQvoksmghy
-	wsPr+HXmsbBFy+nmcu6Du0eksEn5Qh5sWM23JQHiBsKVbg1UdHBhD/wrxasZQF4/lw9u
-	47+xtyhupg7IR8cIMHaBSvLXZEpq5BtHI5HN7z2mnJothmbcgSzQpwQ5tNOXzJzHEj9U
-	ydKZe17UAMKxOx7w5OOhrMCs8rmfjjJGbjldx4SHQpfVM9wfjT3226VBXpVV1BqudcUQ
-	tUc8UyznII0uoHAFusfYOg+kByx4zA63uPyfWm387A15eCKBoT8TdOsVe6M3Xh3uoQsf
-	eI1Q==
-X-Gm-Message-State: AIkVDXKwewD49SDAqSAgrvzeKUvXMIi9Im+Q/VvehPdP8WyQkG5o6/339dXdOeACoVnevA==
-X-Received: by 10.223.163.199 with SMTP id m7mr12030012wrb.60.1484317424726;
-	Fri, 13 Jan 2017 06:23:44 -0800 (PST)
-Received: from pollux.vannes.iot (lns-bzn-38-82-253-123-24.adsl.proxad.net.
-	[82.253.123.24])
-	by smtp.gmail.com with ESMTPSA id 204sm4638837wmj.7.2017.01.13.06.23.43
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Ki63rM3JJ1dgpht3XH9EaziudYxsXShbjpVUv/BMuuU=;
+	b=df/dOyjaYFh0Fsen/rsmFnc8276PxJRT9C+4Un487fRn35P/QYJ2w7zfq39iTVGBw8
+	uYZLVe8bPjn2bwqhXSZnHtig7orlSC+1BbElCZTNX/C4pd1czQDs52hyQ1j/d8BjUWtd
+	isY9R8GIW7jAw/P6pBruGM/L9w0rXy7a8+X+bbwpBTCchS3823Fmo0yhNxFI7CjOTWgK
+	jtJTtuJ6hx9EoMgm0SUxOl6ZIf5nlJfynL/HkNF5C8Bh4gcgYtI07U6lf5DgSFABbSoW
+	5NYxEqFXe4NImt2HoZks8jBCQQUxqdSvIxHnLI48LlJxNrFZbY+MDUa0BC5CafHd6hJM
+	bcYA==
+X-Gm-Message-State: AIkVDXLLCZVyxeiUH6QRmN29sf+p3GewMQqJaVFGHkaQZsqLgLlS5a9gFAF/w6yoQ9ozwIRE
+X-Received: by 10.107.15.196 with SMTP id 65mr19524913iop.141.1484317444490;
+	Fri, 13 Jan 2017 06:24:04 -0800 (PST)
+Received: from pohly-desktop.fritz.box (p57A56056.dip0.t-ipconnect.de.
+	[87.165.96.86])
+	by smtp.gmail.com with ESMTPSA id w192sm978252itw.3.2017.01.13.06.24.02
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 13 Jan 2017 06:23:43 -0800 (PST)
-From: Yannick Gicquel <yannick.gicquel@iot.bzh>
+	Fri, 13 Jan 2017 06:24:03 -0800 (PST)
+From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Jan 2017 15:23:18 +0100
-Message-Id: <1484317398-25452-2-git-send-email-yannick.gicquel@iot.bzh>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1484317398-25452-1-git-send-email-yannick.gicquel@iot.bzh>
-References: <1484317398-25452-1-git-send-email-yannick.gicquel@iot.bzh>
-Subject: [PATCH 2/2] cmake.bbclass: enable usage of ccache
+Date: Fri, 13 Jan 2017 15:23:56 +0100
+Message-Id: <1484317436-13263-1-git-send-email-patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 1/2] rm_work.bbclass: allow preserving additional content
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,71 +53,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2017 14:23:45 -0000
+X-List-Received-Date: Fri, 13 Jan 2017 14:24:04 -0000
 
-This allows ccache usage for recipes which inherit cmake.bbclass.
-Since cmake v3.4, it can be enabled using some "-D" options.
+By default, do_rm_work either skips recipes entirely (when listed in
+RM_WORK_EXCLUDE) or removes everything except for temp.
 
-Here below are some metrics while using it for webkitgtk recipe.
-(machine is a 4x core i7 @ 3.4GHz)
+In meta-swupd, virtual image recipes collaborate on producing update
+data for the base recipe. Tasks running in the base recipe need some
+information from the virtual images.
 
-$ bitbake -c fetchall webkitgtk
-$ time bitbake webkitgtk
-<snip>
-real	56m25.191s
-user	359m32.003s
-sys	34m49.356s
+Those files could be passed via a new shared work directory, but that
+scatters data in even more places. It's simpler to use the normal
+WORKDIR and teach rm_work.bbclass to not remove the special output
+with the new RM_WORK_EXCLUDE_ITEMS.
 
-$ bitbake -c clean webkitgtk
-$ bitbake -c cleansstate webkitgtk
-$ time bitbake webkitgtk
-<snip>
-real	25m19.298s
-user	17m57.861s
-sys	6m20.157s
-
-Signed-off-by: Yannick Gicquel <yannick.gicquel@iot.bzh>
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- meta/classes/cmake.bbclass | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ meta/classes/rm_work.bbclass | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index 9e74599..737a4e0 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -4,12 +4,9 @@ OECMAKE_SOURCEPATH ?= "${S}"
- DEPENDS_prepend = "cmake-native "
- B = "${WORKDIR}/build"
+diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
+index 64b6981..1ec63b4 100644
+--- a/meta/classes/rm_work.bbclass
++++ b/meta/classes/rm_work.bbclass
+@@ -10,6 +10,14 @@
+ #
+ # RM_WORK_EXCLUDE += "icu-native icu busybox"
+ #
++# Recipes can also configure which entries in their ${WORKDIR}
++# are preserved besides temp, which already gets excluded by default
++# because it contains logs:
++# do_install_append () {
++#     echo "bar" >${WORKDIR}/foo
++# }
++# RM_WORK_EXCLUDE_ITEMS += "foo"
++RM_WORK_EXCLUDE_ITEMS = "temp"
  
--# We need to unset CCACHE otherwise cmake gets too confused
--CCACHE = ""
--
- # C/C++ Compiler (without cpu arch/tune arguments)
--OECMAKE_C_COMPILER ?= "`echo ${CC} | sed 's/^\([^ ]*\).*/\1/'`"
--OECMAKE_CXX_COMPILER ?= "`echo ${CXX} | sed 's/^\([^ ]*\).*/\1/'`"
-+OECMAKE_C_COMPILER ?= "${@'${CC}'.replace('${CCACHE}','',1).split(' ')[0]}"
-+OECMAKE_CXX_COMPILER ?= "${@'${CXX}'.replace('${CCACHE}','',1).split(' ')[0]}"
- OECMAKE_AR ?= "${AR}"
- 
- # Compiler flags
-@@ -108,9 +105,16 @@ cmake_do_configure() {
- 		OECMAKE_SITEFILE=""
- 	fi
- 
-+	if [ -n "${CCACHE}" ]; then
-+		OECMAKE_CCACHE="-DCMAKE_C_COMPILER_LAUNCHER=${CCACHE} -DCMAKE_CXX_COMPILER_LAUNCHER=${CCACHE}"
-+	else
-+		OECMAKE_CCACHE=""
-+	fi
-+
- 	cmake \
- 	  ${OECMAKE_SITEFILE} \
- 	  ${OECMAKE_SOURCEPATH} \
-+	  ${OECMAKE_CCACHE} \
- 	  -DCMAKE_INSTALL_PREFIX:PATH=${prefix} \
- 	  -DCMAKE_INSTALL_BINDIR:PATH=${@os.path.relpath(d.getVar('bindir'), d.getVar('prefix'))} \
- 	  -DCMAKE_INSTALL_SBINDIR:PATH=${@os.path.relpath(d.getVar('sbindir'), d.getVar('prefix'))} \
+ # Use the completion scheduler by default when rm_work is active
+ # to try and reduce disk usage
+@@ -37,7 +45,7 @@ do_rm_work () {
+         # failures of removing pseudo folers on NFS2/3 server.
+         if [ $dir = 'pseudo' ]; then
+             rm -rf $dir 2> /dev/null || true
+-        elif [ $dir != 'temp' ]; then
++        elif ! echo '${RM_WORK_EXCLUDE_ITEMS}' | grep -q -w "$dir"; then
+             rm -rf $dir
+         fi
+     done
 -- 
-1.9.1
+2.1.4
 
 
