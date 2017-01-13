@@ -1,48 +1,30 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-yb0-f182.google.com (mail-yb0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 62F7065C90
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D3CB71D9A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 14:17:12 +0000 (UTC)
-Received: by mail-yb0-f182.google.com with SMTP id c125so15362051ybf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 06:17:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=2NquLLr53Q90e7LeAP+JpTb8ARWOuP8Gz0OfTrht/pE=;
-	b=FZd4ThUQ1oEb9s0laZS1+I4icSsqUL/ikGYfmyV7QKeK3qwY/JLkaFp4uow6WcdSBC
-	bY1ac/rQyYP4bU4LQRCiFa1fBZY447FV1jNVWzVnBeS5YZg0eo0/K4L3gCcqPld32FdB
-	LneBSTdy4Djz6l3EKAURBTp49vy9v5WRb+VsPvcUAlJEYTJw0IcrIOWfnhtvpVVIelzX
-	gGlUXmoPrQ+hb6ZNp2G7u4UwNuAhRCKm1lTR1SdrYx4BYMYoBXSzQfHo8CtpG398DMX/
-	ELLRvC2r8CVVA7UJv+P8iALPibgxA3Mxv3v5mf+CMlMbIcILdY8YwlCufrtcKyNZCQKF
-	L7Yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=2NquLLr53Q90e7LeAP+JpTb8ARWOuP8Gz0OfTrht/pE=;
-	b=FmP+e/tOS+1g+tqJ1QjS26hi9SIJixxbIxp7V/FERL3GsyATQyfTvgmM6GRHa/XbjW
-	nTvKD+RUh2zCNOtujlI/90028r0yP5DeatVMsBhaLG/xjcZzLvraWmDvwLgXbD+5/vLo
-	p1vGc0NoyW/2OfMj+bdbWpVSwhT1Nf3LoT2aXFpFxBCHcE9sxc+tF5y62DPFQ+fqNxuU
-	RK+SsdbiHP2uVCUX47bkOYYzBY1rivR3dpDHUdAugQ06fuQH2ebUAfeZFAG4pTf0lj98
-	E5PPZj+ltJ2LrpCMrSqknEYGVI74Ubsg81FeuPBm2EY5ejZufXnoGBmn+53ecBaJyKli
-	UW2Q==
-X-Gm-Message-State: AIkVDXJa9Y0QUTX+/QF5+XTOWN5060/K7hp/8KipA0ynlbERJL8TMk6ZDU8dYtwcq/sJFB57YLWuzI3gdTp+DCOe
-X-Received: by 10.37.25.10 with SMTP id 10mr12727054ybz.103.1484317032808;
-	Fri, 13 Jan 2017 06:17:12 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.13.234.11 with HTTP; Fri, 13 Jan 2017 06:16:42 -0800 (PST)
-In-Reply-To: <CADkTA4NpPn78=SB+b2zO=Vd8z2SG+BtBLQi1ciKjXyEruoQ1rQ@mail.gmail.com>
-References: <cover.1484312322.git.ross.burton@intel.com>
-	<CADkTA4NpPn78=SB+b2zO=Vd8z2SG+BtBLQi1ciKjXyEruoQ1rQ@mail.gmail.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Fri, 13 Jan 2017 16:16:42 +0200
-Message-ID: <CAHiDW_Fs4B1B2qzqsJqVdVuEZa40boKH8zGnON04W7L8=bfgSA@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Patches and discussions about the oe-core layer
+	Fri, 13 Jan 2017 14:18:26 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga102.fm.intel.com with ESMTP; 13 Jan 2017 06:18:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,221,1477983600"; d="scan'208";a="48486653"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga004.jf.intel.com with ESMTP; 13 Jan 2017 06:18:26 -0800
+To: "Lock, Joshua G" <joshua.g.lock@intel.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/80] Consolidated pull
+References: <20170105163423.8776-1-joshua.g.lock@intel.com>
+	<35878aed-24bd-6129-54bb-f1dd68bf09a8@linux.intel.com>
+	<1b59a012-5943-d763-975f-764a6247121b@linux.intel.com>
+	<1484315514.3828.2.camel@intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <7e7e15bd-9481-efa8-80af-60300016575e@linux.intel.com>
+Date: Fri, 13 Jan 2017 16:18:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <1484315514.3828.2.camel@intel.com>
+Subject: Re: [PATCH] zlib: update SRC_URI to fix fetching
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,80 +37,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2017 14:17:14 -0000
-Content-Type: multipart/alternative; boundary=001a113ed35c79cfdd0545fa7de4
+X-List-Received-Date: Fri, 13 Jan 2017 14:18:27 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a113ed35c79cfdd0545fa7de4
-Content-Type: text/plain; charset=UTF-8
+On 01/13/2017 03:51 PM, Lock, Joshua G wrote:
 
-On 13 January 2017 at 15:39, Bruce Ashfield <bruce.ashfield@gmail.com>
-wrote:
->
->
->
-> On Fri, Jan 13, 2017 at 8:00 AM, Ross Burton <ross.burton@intel.com>
-wrote:
->>
->> Hi,
->>
->> Another consolidated pull.  Last run on the AB was mostly green:
->> - byacc on beaglebone-lsb failed (upgrade removed)
->> - checkuri failed (transient, works now)
->> - selftest failed (fixed in branch, tests work locally now)
->
->
->
-> Should I re-send my kernel queue ? It is now about 13 patches long, and
-I'm stacking
-> a few more on every couple of days.
->
-> I assume there are still some outstanding issues with the 4.9 kernel, or
-more specifically
-> the 4.9 kernel headers ?
->
-> If there's a pointer to the list of issues, that would be great, so I can
-help prod things
-> along (assuming I can sort out the build issues .. c libraries give me
-headaches ;)
+> Noted, thanks. Do we maintain a list of things we'd like people to
+> check, and how to do it, when making updates to recipes?
+
+I don't think there's such a list, perhaps we should make one and place 
+it in patch guidelines wiki.
+
+> checkpkg isn't available by default (had to add distrodata to INHERITS)
+> and it took me a while to realise the results are written to a file I
+> have to check. If we expect people to run these checks before
+> submitting updates we'd best make it as easy as possible to know what
+> the checks are and how to run them.
+
+I think this particular check should be automated and run in package_qa, 
+if it's okay to access the network in that step. Is it?
+
+Alternatively, if checkuri is regularly run somewhere, then checkpkg 
+should be as well.
 
 
-There's at least the connman build issue on musl with 4.9 headers:
-http://errors.yoctoproject.org/Errors/Details/116506/
+Alex
 
-Musl defines IFF_LOWER_UP which breaks compilation with linux/if.h.
-kernel has uapi/linux/libc-compat.h for similar issues with glibc but at
-least currently it does not check for musl...
 
-See other discussion "musl: Upgrade to 1.1.16+ on master".
-
- - Jussi
-
---001a113ed35c79cfdd0545fa7de4
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 13 January 2017 at 15:39, Bruce Ashfield &lt;<a href=3D=
-"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail.com</a>&gt; wrote:<b=
-r>&gt;<br>&gt;<br>&gt;<br>&gt; On Fri, Jan 13, 2017 at 8:00 AM, Ross Burton=
- &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt;=
- wrote:<br>&gt;&gt;<br>&gt;&gt; Hi,<br>&gt;&gt;<br>&gt;&gt; Another consoli=
-dated pull.=C2=A0 Last run on the AB was mostly green:<br>&gt;&gt; - byacc =
-on beaglebone-lsb failed (upgrade removed)<br>&gt;&gt; - checkuri failed (t=
-ransient, works now)<br>&gt;&gt; - selftest failed (fixed in branch, tests =
-work locally now)<br>&gt;<br>&gt;<br>&gt;<br>&gt; Should I re-send my kerne=
-l queue ? It is now about 13 patches long, and I&#39;m stacking<br>&gt; a f=
-ew more on every couple of days.<br>&gt;<br>&gt; I assume there are still s=
-ome outstanding issues with the 4.9 kernel, or more specifically<br>&gt; th=
-e 4.9 kernel headers ?<br>&gt;<br>&gt; If there&#39;s a pointer to the list=
- of issues, that would be great, so I can help prod things<br>&gt; along (a=
-ssuming I can sort out the build issues .. c libraries give me headaches ;)=
-<br><br><br>There&#39;s at least the connman build issue on musl with 4.9 h=
-eaders:<br><a href=3D"http://errors.yoctoproject.org/Errors/Details/116506/=
-">http://errors.yoctoproject.org/Errors/Details/116506/</a><br><br>Musl def=
-ines IFF_LOWER_UP which breaks compilation with linux/if.h.<div>kernel has =
-uapi/linux/libc-compat.h for similar issues with glibc but at least current=
-ly it does not check for musl...<br><div><br></div><div>See other discussio=
-n &quot;musl: Upgrade to 1.1.16+ on master&quot;.<br><br>=C2=A0- Jussi<br><=
-br><br></div></div></div>
-
---001a113ed35c79cfdd0545fa7de4--
