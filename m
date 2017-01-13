@@ -1,46 +1,20 @@
-Return-Path: <ola.redell@gmail.com>
-Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
-	[209.85.215.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 8742665C90
+Return-Path: <edwin.plauchu.camacho@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 024D771DA1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 17:23:00 +0000 (UTC)
-Received: by mail-lf0-f67.google.com with SMTP id x1so1180151lff.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 09:23:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=BMxQ/c6mwR1eeeSunPztLDHcBoDpEegz+RW2FVXRBG8=;
-	b=P16AgaDOO7QGMBAZnVAw1TZugWgfmtkRRsCSnfspM3wz0Daau2W7l1Zziaz7aFl7YY
-	0l1SXZd9vxIsPOsFCpKaBHIEgBexObeiX7J3ps+MKeOCoPXGsFLIZUUIlD7iDlTAk3LJ
-	AQzkM3AWCLKRSFMUnDXdzqskGpNOWjZ9cXo5x4rzZZaCoDIkCBZEqJttb+80gaXbkKFT
-	WObi4aGWKtmZkDj2VHXXZiwXiBRiq1pX704Wvhi+qEixZBNjZcZ3W0OjXpOzt4/HG94v
-	D5IvjEvxjYY9cXlvuPZWRgPXBkOnalWO4uVJRFEqjLASShWLiMf71O84ljnwjX2ETqZg
-	4JLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=BMxQ/c6mwR1eeeSunPztLDHcBoDpEegz+RW2FVXRBG8=;
-	b=JeKLMpvk4MtFLhd6Z0yzVho7N8vPIv0TlAERx5Zh1Ib13V9IS+YYJwdXn1l5DTSBZB
-	yTgksHTgmaw484mgLVw02hPar8nPjPuwCKNQHTpWbpWvApzp9HCbAHCuyBAXPQDP+cFb
-	J89YgTC9LHf3+mU7t9goyJNKZGGuCC8aj9lQ0Ot7iIwgMEGBkJfWyH6rMb1Eso5sOIFg
-	8s98xTnY6xRlTx4ycDcM8r1ey9REpxJeKaT8bqyZrWtUvpaaRGRFmCn0OyM7Phofn95d
-	g74WgT38+X/RMqmf5Icsrtk9RUfGyksc8MidyWcPqVx7quw31iRpB4NaoLiSX9t3RVOa
-	huiw==
-X-Gm-Message-State: AIkVDXIID/msk3UXGjOzgcAbvlrZsmlTTje6Rkz8QmJwJ8K9cpR+ekhNBUrcESAIKpNr+w==
-X-Received: by 10.46.71.140 with SMTP id u134mr7434492lja.16.1484328180528;
-	Fri, 13 Jan 2017 09:23:00 -0800 (PST)
-Received: from thinny.lan (81-230-13-64-no94.tbcn.telia.com. [81.230.13.64])
-	by smtp.gmail.com with ESMTPSA id
-	a71sm4216399lfe.36.2017.01.13.09.22.59
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 13 Jan 2017 09:22:59 -0800 (PST)
-From: ola.redell@gmail.com
-X-Google-Original-From: ola.redell@retotech.se
+	Fri, 13 Jan 2017 17:52:02 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 13 Jan 2017 09:52:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,222,1477983600"; d="scan'208";a="1082646214"
+Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.47])
+	by orsmga001.jf.intel.com with ESMTP; 13 Jan 2017 09:52:01 -0800
+From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Jan 2017 18:22:23 +0100
-Message-Id: <1484328143-2775-1-git-send-email-ola.redell@retotech.se>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH v4] kernel-module-split: Append KERNEL_VERSION string to kernel module name
+Date: Fri, 13 Jan 2017 11:53:32 -0600
+Message-Id: <1484330012-11592-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] python3-docutils: upgrade to 0.13.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,58 +27,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2017 17:23:01 -0000
+X-List-Received-Date: Fri, 13 Jan 2017 17:52:03 -0000
 
-From: Ola Redell <ola.redell@retotech.se>
-
-The KERNEL_VERSION string is added to kernel module package names in order
-to make the kernel modules for different kernel versions distinct packages
-instead of different versions of the same package. With this change, when
-a new kernel is installed together with its kernel modules (e.g. by upgrade
-of the packages kernel and kernel-modules) using some package manager such
-as apt-get or rpm, the kernel modules for the older kernel will not be
-removed. This enables a fall back to the older kernel if the new one fails.
-
-Also, for backwards compatibility and to enable kernel version agnostic
-dependencies to kernel modules, create a virtual package with the old
-(shorter) kernel module package name using RPROVIDES.
-
-Signed-off-by: Ola Redell <ola.redell@retotech.se>
+Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
 ---
- meta/classes/kernel-module-split.bbclass | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ .../python/{python3-docutils_0.12.bb => python3-docutils_0.13.1.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python3-docutils_0.12.bb => python3-docutils_0.13.1.bb} (60%)
 
-diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
-index efe1b42..742320c 100644
---- a/meta/classes/kernel-module-split.bbclass
-+++ b/meta/classes/kernel-module-split.bbclass
-@@ -31,6 +31,7 @@ PACKAGESPLITFUNCS_prepend = "split_kernel_module_packages "
- KERNEL_MODULES_META_PACKAGE ?= "kernel-modules"
+diff --git a/meta/recipes-devtools/python/python3-docutils_0.12.bb b/meta/recipes-devtools/python/python3-docutils_0.13.1.bb
+similarity index 60%
+rename from meta/recipes-devtools/python/python3-docutils_0.12.bb
+rename to meta/recipes-devtools/python/python3-docutils_0.13.1.bb
+index e78fa3b..e36388c 100644
+--- a/meta/recipes-devtools/python/python3-docutils_0.12.bb
++++ b/meta/recipes-devtools/python/python3-docutils_0.13.1.bb
+@@ -2,13 +2,13 @@ SUMMARY = "Text processing system for documentation"
+ HOMEPAGE = "http://docutils.sourceforge.net"
+ SECTION = "devel/python"
+ LICENSE = "PSF & BSD-2-Clause & GPLv3"
+-LIC_FILES_CHKSUM = "file://COPYING.txt;md5=a722fbdc20347db7b69223594dd54574"
++LIC_FILES_CHKSUM = "file://COPYING.txt;md5=7a4646907ab9083c826280b19e103106"
  
- KERNEL_MODULE_PACKAGE_PREFIX ?= ""
-+KERNEL_MODULE_PROVIDE_VIRTUAL ?= "1"
+ DEPENDS = "python3"
  
- python split_kernel_module_packages () {
-     import re
-@@ -119,10 +120,16 @@ python split_kernel_module_packages () {
-         # Avoid automatic -dev recommendations for modules ending with -dev.
-         d.setVarFlag('RRECOMMENDS_' + pkg, 'nodeprrecs', 1)
+ SRC_URI = "${SOURCEFORGE_MIRROR}/docutils/docutils-${PV}.tar.gz"
+-SRC_URI[md5sum] = "4622263b62c5c771c03502afa3157768"
+-SRC_URI[sha256sum] = "c7db717810ab6965f66c8cf0398a98c9d8df982da39b4cd7f162911eb89596fa"
++SRC_URI[md5sum] = "ea4a893c633c788be9b8078b6b305d53"
++SRC_URI[sha256sum] = "718c0f5fb677be0f34b781e04241c4067cbd9327b66bdd8e763201130f5175be"
  
-+        # Provide virtual package without postfix
-+        providevirt = d.getVar('KERNEL_MODULE_PROVIDE_VIRTUAL', True)
-+        if providevirt == "1":
-+           postfix = format.split('%s')[1]
-+           d.setVar('RPROVIDES_' + pkg, pkg.replace(postfix, ''))
-+
-     module_regex = '^(.*)\.k?o$'
+ S = "${WORKDIR}/docutils-${PV}"
  
-     module_pattern_prefix = d.getVar('KERNEL_MODULE_PACKAGE_PREFIX')
--    module_pattern = module_pattern_prefix + 'kernel-module-%s'
-+    module_pattern = module_pattern_prefix + 'kernel-module-%s-' + d.getVar("KERNEL_VERSION", True)
- 
-     postinst = d.getVar('pkg_postinst_modules')
-     postrm = d.getVar('pkg_postrm_modules')
 -- 
-1.9.1
+2.1.4
 
 
