@@ -1,56 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 18BE371D7B
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
+	[209.85.214.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 64E8F71DDE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 18:52:21 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id y143so9465701pfb.1
+	Fri, 13 Jan 2017 19:32:28 +0000 (UTC)
+Received: by mail-it0-f41.google.com with SMTP id r185so44904250ita.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2017 10:52:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-language:content-transfer-encoding;
-	bh=6XZcgs/o3I0//xunRk4k7X02D5GUVyZ3DdIae5aCkpI=;
-	b=S4a96rXNkMbnMJR/KpemlWF47+9KCrh1f0ncwmJY6f7IGAG+amrzXHqC7t93tHNLN7
-	zF00kbWGU1Zii2KYlsPyIvimMP3AgmQRE6Dou9qYu3tomcwcVoN1aEnpoJfQik0bBb/Y
-	v5Gd1hxxa5daYNvbKYqggUtr3A9MaBBOKGKe7Gb5V+3wPDpWoGciuUsulTXeNE5m4hQd
-	DgQmG+kEGDvU5u/eZymGcB7KfexMHCL6dSpz+sInVwstTv+yeEQwYh/3tqHNJTaWWcji
-	yJY1GLDBs3N16GTXDWD/rCEHJpSRCtl+x859KzTGVCn263j01cBf2D2KILGXAoWYa28b
-	uf1w==
+	Fri, 13 Jan 2017 11:32:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=4o0hmDDYc4hnZSrk7zx7p+wgUg141D3AuVjvLWwDk+U=;
+	b=Ha0Jb0SwIxjO2beSZvA3VvLxQPNShLuxK1Pw+sy/NfObZs4Pa2XdvSXmC42VJlFBmT
+	4ycGDDrkw7kSV4S5+iEmABQgL2hoQOofpJ+IOdSSSN2nqpYUfIOcvpKD66Xns1DoaanI
+	xzZeC1glyBr6YGTrZdtzP46jayGvROvLiLgFsP51l8QQgz6D/umVpT4zgmPf34f1dCC3
+	6Jd9PSLsIV+Oz1HdCgbzefCqhLJoP65ZFJbq4+EcwqFvfGnS1B1Z0asdaZOCuFSWM8wW
+	g2S6+LgSPYpi9BWqHT8veoUY298AsnBf8V56+R+7Gs4xhyx3MpfITllAoWYNdEyNFXNJ
+	pNmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=6XZcgs/o3I0//xunRk4k7X02D5GUVyZ3DdIae5aCkpI=;
-	b=K8IrBkk0Q4B+p56ctcv7N0+XHIQE1TID0jbYIq3EGuKMmuz0hJO7bhxhIQBsdbO2Ia
-	486a5084XQCkG7HSCgllT8NJ7IyERMAUdvBbH5y8zBS7aNiqslqw1+KWNE1kFqwmjCEG
-	L9OVjgY7+lTZs7J01VFKvCUCc4JjQR+YFBCpGZu1aWe70RynOX+Gl7dfYrC71VGh/Ib4
-	RMpHyeZoJtpaCoWmK7eX3pmP3OanHPqHSsRC5pw6Yn6xQ74u8RWO3GWa6kV/k7pH8Hxo
-	TRt651XgY4VpvWgi2e10X+m8tmPO5Qv8e9IbSCqorn3lfLPr9pP17Bi3Z+Z9y5MsZFi3
-	vQtg==
-X-Gm-Message-State: AIkVDXI/M2HRzIp5JiOtGkv19XBiFm6PxkIjnUERBw0xv0DTC3bzfoymmqnjI3JhSnp7Ow==
-X-Received: by 10.99.134.199 with SMTP id x190mr3689459pgd.68.1484333541673;
-	Fri, 13 Jan 2017 10:52:21 -0800 (PST)
-Received: from CACSVMO-14452.local ([2601:646:8882:b8c:4198:472b:7988:3451])
-	by smtp.gmail.com with ESMTPSA id
-	j130sm31111793pgc.2.2017.01.13.10.52.20
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=4o0hmDDYc4hnZSrk7zx7p+wgUg141D3AuVjvLWwDk+U=;
+	b=SfdVWcEnxeiHHr0ufTlEO3EgSpnsYJyREXynMkQ5qJEJNDdyTXy+DPKW14i+k9el7p
+	Phmz+qmkP6yMuy2oucMHKztSvNEmQoQIIsjVcs2LlPED6/9c9oObOA31NFxRYnOCz5ty
+	FajayFN+hBUg2HdFYkkLjKcShh+u+V7F6kkvmtqyQjMyWiG2CBKyrHXi2lCkF7KaQo3y
+	RSO9GiZdmgd7tFaSTQXBygLyFq+AuaxTjkHxXb8yXh3B7B3BBYSblZgA1qOok3L3SCEk
+	/tDeTrD5rNEoLpYf7eDT8INjPqST4R96NspoukNBquejlba61ACYSi2jgJ2o//Wok43j
+	RmIQ==
+X-Gm-Message-State: AIkVDXJom+sr4RF6B5g9AkPMgcZHqj4kLP+kZkgI6jKR6PrZC7HXX2bVGbBpKlr39gSykC0J
+X-Received: by 10.36.80.145 with SMTP id m139mr4258316itb.24.1484335948459;
+	Fri, 13 Jan 2017 11:32:28 -0800 (PST)
+Received: from pohly-mobl1 (p57A56056.dip0.t-ipconnect.de. [87.165.96.86])
+	by smtp.gmail.com with ESMTPSA id o13sm1367607ith.5.2017.01.13.11.32.26
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 13 Jan 2017 10:52:20 -0800 (PST)
-To: openembedded-core@lists.openembedded.org
-References: <20170111035102.18447-1-raj.khem@gmail.com>
-	<20170111035102.18447-2-raj.khem@gmail.com>
-	<CAJTo0LZYiqp+b7hwsGaZDKbpwo4UPxyLLw7Eje1-Y5Fg-=Jwow@mail.gmail.com>
-	<1484333133.3966.76.camel@pbcl.net>
-From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <3441a3d4-be4e-1f6a-6a4b-9b556796d83d@gmail.com>
-Date: Fri, 13 Jan 2017 10:52:19 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:50.0)
-	Gecko/20100101 Thunderbird/50.0
-MIME-Version: 1.0
-In-Reply-To: <1484333133.3966.76.camel@pbcl.net>
-Subject: Re: [PATCH 2/2] glibc: Upgrade to 2.25
+	Fri, 13 Jan 2017 11:32:27 -0800 (PST)
+Message-ID: <1484335945.21036.8.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+Date: Fri, 13 Jan 2017 20:32:25 +0100
+In-Reply-To: <1484331195-11919-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+References: <1484331195-11919-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2] python3-docutils: upgrade to 0.13.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,38 +59,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2017 18:52:22 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
+X-List-Received-Date: Fri, 13 Jan 2017 19:32:30 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Fri, 2017-01-13 at 12:13 -0600, Edwin Plauchu wrote:
+> Changed document date field and several notes about folders
+
+Perhaps now would be a good time to start using beginline/endline
+parameters?
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
 
-On 1/13/17 10:45 AM, Phil Blundell wrote:
-> On Wed, 2017-01-11 at 12:19 +0000, Burton, Ross wrote:
->> The gdk-pixbuf link does use -lpthread, is this saying that libpng
->> should be linked against pthread too?  I can replicate on demand if
->> you have any suggestions.
-> 
-> So, amusingly, it now appears that libpng in pthread-using programs has
-> actually been a bit broken for a long time, since about glibc 2.22.
->  It's just that the failure has now become more obvious, because ld.so
-> will refuse to load the binary at all rather than allowing it to load
-> and having it crash later under some circumstances.
-> 
-> Whether the circumstances that would cause the crash (libpng calling
-> longjmp) can ever arise with gdk-pixbuf is another question and I don't
-> know the answer offhand.  If this can happen then it would probably be
-> when dealing with a corrupted input file.
-> 
-> Anyway, this is definitely a glibc bug and it is now on the list of
-> blockers for 2.25.  Good work by Ross in finding it!
 
-I have sent a patchset with IFUNC change reverted for now until its fixed.
-
-> 
-> p.
-> 
-> 
-> 
 
