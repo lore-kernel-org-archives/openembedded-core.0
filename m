@@ -1,49 +1,21 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id B91236FFFB
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EADE6E64A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Jan 2017 01:02:57 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id r144so21428353wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Jan 2017 17:02:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=Lipp/eem7IhCdySwtzG0aJkDI0oVnndbH02R7IfnRvY=;
-	b=tfIveVX7NbwpfXHCgCaabJ2nZsm/kY4pXbkxynRTqZC2KEXD6gk2CfDTIwoNKpcKPq
-	MzZ8OqNr3zQmnhSOALmw2d0UvdKtVupEQQIgqJa/Gl6ouaZnlxhtCp/ByuL1EAIVsxQh
-	H9smT8Sib98ypHEMcoTwAIidsX4MGdwJ2xHRVYxFlGvU7PetNhp2jIgDIq2YXFadyC0M
-	7McO2vz/mSGxxobucHqgEIx9hicH2P/ZUQVif2ZNdwlkC32GCPpfdoB3WhSRNBBLYhr1
-	douErr///vfsOr8OoydGDWIXNe52Tllh63GcU7u9Qk+g0EXvzih6vF/st10H/mjTmVE0
-	8Q+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=Lipp/eem7IhCdySwtzG0aJkDI0oVnndbH02R7IfnRvY=;
-	b=QMkLX/RCEUDIsUKMHUo9TisPVi5reXPiiFfP6OB25vgLuQ3AW90omDGmoX6XHnTLIm
-	sOWVTcCIDC/B0fOCB3Dde+lN6yWhkAAEUh1njZBAVCUfTBafXq00JiFgK4V+86oz4Q53
-	8OdD8NvZ190ocokqY2VkSMlh6elUfwtM//hxcmGeE9x9qnE1CqDkU3x64LjgdLlD1LT0
-	Z2Zgpsgd3JUWB6lmcILxRPR3k00lDYd5OJF6ygd/dxvD3Jd9h0yxpFA/Vssj7isgEFQe
-	YYLm/IpaWE6c6OjTciG7YTYQ07foSNJFCiJyvFX2eE43iS5TgjRqlnPlrNDn7+BvlLwI
-	zZeA==
-X-Gm-Message-State: AIkVDXI5p1h+i0om9dAhEkoOjaM2pPLvDUlXS8AFh5C40oGVmD+JObBgC0Jyc+np3PmO5Q==
-X-Received: by 10.28.140.130 with SMTP id o124mr6858768wmd.48.1484442176835;
-	Sat, 14 Jan 2017 17:02:56 -0800 (PST)
-Received: from localhost.localdomain (p579F7295.dip0.t-ipconnect.de.
-	[87.159.114.149]) by smtp.googlemail.com with ESMTPSA id
-	r129sm16748182wmd.8.2017.01.14.17.02.55
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 14 Jan 2017 17:02:55 -0800 (PST)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+	Sun, 15 Jan 2017 18:45:43 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga105.jf.intel.com with ESMTP; 15 Jan 2017 10:45:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,234,1477983600"; d="scan'208";a="53316555"
+Received: from juro-precision-t5610.jf.intel.com ([10.7.198.149])
+	by orsmga005.jf.intel.com with ESMTP; 15 Jan 2017 10:45:44 -0800
+From: Juro Bystricky <juro.bystricky@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 15 Jan 2017 02:02:39 +0100
-Message-Id: <1484442159-32655-1-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 2.5.5
-MIME-Version: 1.0
-Subject: [PATCH] waf.bbclass: handle PACKAGECONFIG
+Date: Sun, 15 Jan 2017 10:41:51 -0800
+Message-Id: <1484505711-6341-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: jurobystricky@hotmail.com
+Subject: [PATCH] bitbake.conf: require conf/multiconfig/${BB_CURRENT_MC}.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,29 +28,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Jan 2017 01:02:59 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 15 Jan 2017 18:45:44 -0000
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+Presently there is no check to verify the existence of configuration
+files as listed in BBMULTICONFIG.
+For example, BBMULTICONFIG = "foobar" in local.conf does not trigger
+an error or even a warning when there is no conf/multiconfig/foobar.conf.
+The missing file is silently ignored.
+
+This patch changes the inclusion of all multiconfig configuration files as
+a non-optional requirement. If the file is missing, we get an error such as:
+
+ERROR: ParseError at /data/master-multi/poky/meta/conf/bitbake.conf:704: Could not include required file conf/multiconfig/foobar.conf
+
+Although the "default" configuration is not listed in BBMULTICONFIG,
+this change also requires the file multiconfig/default.conf to exist.
+The "default" (non-multiconfig) configuration is normally configured via local.conf,
+so although this file is required, it can/should be empty. This patch creates
+an empty file default.conf in meta/conf/multiconfig.
+
+[YOCTO#10917]
+
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 ---
- meta/classes/waf.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/conf/bitbake.conf             | 2 +-
+ meta/conf/multiconfig/default.conf | 0
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ create mode 100644 meta/conf/multiconfig/default.conf
 
-diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
-index 95f5240..c4698e9 100644
---- a/meta/classes/waf.bbclass
-+++ b/meta/classes/waf.bbclass
-@@ -1,6 +1,8 @@
- # avoids build breaks when using no-static-libs.inc
- DISABLE_STATIC = ""
- 
-+EXTRA_OECONF_append = " ${PACKAGECONFIG_CONFARGS}"
-+
- def get_waf_parallel_make(d):
-     pm = d.getVar('PARALLEL_MAKE')
-     if pm:
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 40efb95..c8516a8 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -701,7 +701,7 @@ require conf/abi_version.conf
+ include conf/site.conf
+ include conf/auto.conf
+ include conf/local.conf
+-include conf/multiconfig/${BB_CURRENT_MC}.conf
++require conf/multiconfig/${BB_CURRENT_MC}.conf
+ include conf/build/${BUILD_SYS}.conf
+ include conf/target/${TARGET_SYS}.conf
+ include conf/machine/${MACHINE}.conf
+diff --git a/meta/conf/multiconfig/default.conf b/meta/conf/multiconfig/default.conf
+new file mode 100644
+index 0000000..e69de29
 -- 
-2.5.5
+2.7.4
 
 
