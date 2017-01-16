@@ -1,50 +1,51 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BECD71AC1
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id B03F171AC1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jan 2017 14:16:35 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id 204so5487924pge.2
+	Mon, 16 Jan 2017 14:16:40 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id 19so3497690pfo.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jan 2017 06:16:36 -0800 (PST)
+	Mon, 16 Jan 2017 06:16:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:in-reply-to:references:from:to:cc:subject
 	:mime-version:content-transfer-encoding;
-	bh=u+7r5BlfASInBv3/sJOKkfnCj085BOZpA24umgPgbyM=;
-	b=bS2l78svZqpvmO9G3YuBy7nSG6jJ0L89LkyPPiDrdf5mQ2CEUazqivdBUDny8hs+yo
-	m559/jiQRwaxv1IW1rsqZ89yhaYOVFqXW0Wbu4WTau9ZoBpacEt8XDZHBuxc2sT4/jUG
-	PBDdDMOQle+FnIeVm54lVowINbHWhUxYB5UnqZPYTi7G8KOQB0+gqzrhAMtylz5iolxw
-	C2/yrSWYRDgWQ/8MHTFUUloYg8T4ag2uftMpRiGa877xsmS0mrLCSIpa02frDRdXb1C0
-	Hu779OZgmnFSm30ILam8WgHSekEJ6sVZzpTz/IdG/LfZ+Mmkvd7zZzhaXr9bKGd3Q0La
-	A3KA==
+	bh=7XP/HAzI+nM4UFJrglaQf7E5/zF7QKbQB6QWdvKa4rY=;
+	b=aIUS4Qisp0Lx8Y+CS8OvUT2pjL5R2FuPcot9L6xhYMTIEoHo5BHl7P8dY6u2r0GewZ
+	uYv2pLAihbvu8HT7+trPyKntpRtLkoakxz0jzyQyjKKCN7D17k8jquHxSGTdiO2EFatj
+	yshDI9NZzXVEGUqIR0km70Yqbkn30o2ow8X9nSTi7e9lN5c05unUm5jplbKRPbiz5RN+
+	EkkRRvF5p2yrT/Z4sut9l68yRjcWRKWlYozIIa8AysvSXZakDNX0tUHInA+pV1fet/TL
+	CLcPxxTFK1erneWJQ2A2wDgpMKEbfT9s6nmohV+i93CJgFiZORhPu9ZMj+0fRiL8UQYy
+	mD1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
 	:cc:subject:mime-version:content-transfer-encoding;
-	bh=u+7r5BlfASInBv3/sJOKkfnCj085BOZpA24umgPgbyM=;
-	b=NbDNsxRqO118YigBNjL7B8yJfavh7FPZVrL4m31pYdV00CEtrFR29NR5SUYSgZ1DD6
-	81g+HYlBRDY7WfVOnLxosbrW6odi0Ki5yO1BLkJ/q00GFywu5Li00A25rhrxYyEjX/Pe
-	wjMExbHyUuVwc/WHOcYcM0vOSqCZtxkekvIY9I0+DDpWjh4ESjH7KAO/DzTxOZXiDIBp
-	Lz91BJ7vwLuLg/nU5xkky8z2YAqulsHM3NOImr7B5P9XXhaHCKZtmlScFBPWLsvsM7bE
-	ig02mEad6Is5Jp7YEk4RED2WUXPetNDNvSTJ6li9W0VNtjejHii3kHjFS1dkhfmp0hLr
-	H1Gw==
-X-Gm-Message-State: AIkVDXJ3s8L7S6T29E3FhW6graMQXC64G9pzZ77vOM6Ri2OyYgmmYlPE4IJo3wEtNuCvuA==
-X-Received: by 10.84.215.194 with SMTP id g2mr51053361plj.16.1484576195639;
-	Mon, 16 Jan 2017 06:16:35 -0800 (PST)
+	bh=7XP/HAzI+nM4UFJrglaQf7E5/zF7QKbQB6QWdvKa4rY=;
+	b=uJrOpIrsl2ToWSSm0JGTe0m9lJhorMBxN1QxJ+DzqgkZBYZJ6uzShO3qpvRrxBDUhj
+	sHEO5uaV0oXLxoIc+5DZWI+RfzjIzQcTzREydJNsJyjgRpR3ohPm9cXmSqi7nnKwNSFj
+	Lly2NVnzZiALKkvF7MGhYNbeGaLiPXfqP0lu/b5RQtk2NjN1eRj2/tIKg0ZihmXT7vOo
+	tYICOEh4ZRF5HNRlPoCd0WGGl0qviCvYySAxLOXBMedKtdKiWN04F8M1BqyslUmeV4PQ
+	kfcA3dBJ35wLo4tXXgSxY/vj13/XmH8x+l5hZRsOCDvbssJqvDKBXqDNd4ZKJRyzEkWc
+	IL6w==
+X-Gm-Message-State: AIkVDXIOvaEokv3eGmYGIdL/MaeUqD/O15Y3mawQ/6U8g/gkPxujntvhXPpixYWScuQuzQ==
+X-Received: by 10.98.17.4 with SMTP id z4mr38017520pfi.43.1484576201316;
+	Mon, 16 Jan 2017 06:16:41 -0800 (PST)
 Received: from [127.0.1.1] (CPE-58-165-45-185.lns1.lon.bigpond.net.au.
 	[58.165.45.185]) by smtp.gmail.com with ESMTPSA id
-	g87sm27205808pfj.20.2017.01.16.06.16.33
+	r1sm48621628pgn.48.2017.01.16.06.16.39
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 16 Jan 2017 06:16:35 -0800 (PST)
+	Mon, 16 Jan 2017 06:16:40 -0800 (PST)
 Date: Tue, 17 Jan 2017 00:15:10 +1000
-Message-Id: <20170116141510.3321-12-nathan@nathanrossi.com>
+Message-Id: <20170116141510.3321-13-nathan@nathanrossi.com>
 In-Reply-To: <20170116141510.3321-0-nathan@nathanrossi.com>
 References: <20170116141510.3321-0-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
 Cc: Alistair Francis <alistai@xilinx.com>
-Subject: [PATCH 12/30] libsdl_1.2.15.bb: Add 'stdio-redirect' PACKAGECONFIG
+Subject: [PATCH 13/30] glib-2.0/glib.inc: Disable libmount support for mingw32 targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,31 +58,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jan 2017 14:16:35 -0000
+X-List-Received-Date: Mon, 16 Jan 2017 14:16:40 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-Add a PACKAGECONFIG for 'stdio-redirect'. This configure option
-enables/disables the Windows only option for redirecting the
-stdout/stderr to files instead of to the console.
+MinGW/Windows does not have support for libmount, so disable it when
+targeting mingw32.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- meta/recipes-graphics/libsdl/libsdl_1.2.15.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-core/glib-2.0/glib.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-index 21dfb9fdb9..591aa81343 100644
---- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-+++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-@@ -57,6 +57,7 @@ PACKAGECONFIG[directfb] = "--enable-video-directfb, --disable-video-directfb, di
- PACKAGECONFIG[opengl] = "--enable-video-opengl, --disable-video-opengl, virtual/libgl libglu"
- PACKAGECONFIG[x11] = "--enable-video-x11 --disable-x11-shared, --disable-video-x11, virtual/libx11 libxext libxrandr libxrender"
- PACKAGECONFIG[directx] = "--enable-directx,--disable-directx"
-+PACKAGECONFIG[stdio-redirect] = "--enable-stdio-redirect,--disable-stdio-redirect"
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index cb6aca702f..0f8535b1b3 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -31,6 +31,8 @@ inherit autotools gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even
+ S = "${WORKDIR}/glib-${PV}"
  
- EXTRA_AUTORECONF += "--include=acinclude --exclude=autoheader"
- 
+ PACKAGECONFIG ??= "system-pcre libmount"
++PACKAGECONFIG_remove_mingw32 = "libmount"
++
+ # To use the system pcre it must be configured with --enable-unicode-properties
+ PACKAGECONFIG[system-pcre] = "--with-pcre=system,--with-pcre=internal,libpcre"
+ PACKAGECONFIG[libmount] = "--enable-libmount,--disable-libmount,util-linux"
 -- 
 2.11.0
 
