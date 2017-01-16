@@ -1,49 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 49FBD71998
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 6DE64700F3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jan 2017 13:44:20 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id r144so175606348wme.1
+	Mon, 16 Jan 2017 14:15:30 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id e4so3919844pfg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jan 2017 05:44:21 -0800 (PST)
+	Mon, 16 Jan 2017 06:15:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=lrPnWy0ixSe0jR7x69QVhJB6EboA2k7c3CiZf42XFVg=;
-	b=yv8KM9zTAdecUitAutgCibfKAe09xeLObtG9Wa1WoUGNxF5SUZct1Tn5Foffu+g68g
-	nlZwCyMjD4bEjiAC1LmcfeMkstEj3kQq1FsCWUf2MLupjyl6HbtGZL/M/tSUwECZ0B8W
-	UhIdiR6glO+NguO3h7GcCkWgGVWTgdtemm6n6VGBb6qMow6WAUutMdGYRxZQ8wgicSbo
-	tFAwcc3YNAqsqs5Xs8k6vJ68CjY2tGnnr6iGITbP9af2sTMUfFsiorXSCvYOJFjBo77o
-	tqLT2X6j3+96OzjrRtaVgDNTxZ1gfCZS2v0MuFYOW0LGgE2VILc97F34eeggWK5AC19j
-	SteA==
+	d=nathanrossi.com; s=google;
+	h=date:message-id:from:to:cc:subject:mime-version
+	:content-transfer-encoding;
+	bh=L/exrWU1U1u9AbaCs1vCP8RO7QgWAd5nPHPmtM/YEPI=;
+	b=OcUhoX9BMyggc7nXPCPMm3cVVjTSCVEJW1JpDNP4QNZj45U83XSfYSBt7PGzbOzEeL
+	/avUqF00laxGG7dQ6b2a0JIYiFn4coEf9B/+Kp2c3aiLxmvId4VMRX7NXvRhLxfnb8mo
+	E/gOmxOPDFxWLlHztjnoczWPQq+muvohUyV3mfXcWXHW5Jbk9djsznXrO+ixEKP/ZeYg
+	QcugQAtROcD9b97PlouTB08SGL0fYJvpV6cQYXpgymKc5lwJvbHHuEGoUODG0NsRx6/5
+	9fhTcO8DK5T+5ewpu6l2M8O5qAuyklQUJGgQ+KCojnZ7XRcT1w47I+tjfhlZa8AsrD4T
+	3X7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=lrPnWy0ixSe0jR7x69QVhJB6EboA2k7c3CiZf42XFVg=;
-	b=BRE5TPamlll9NBmBcjLyTqBlocyT/3xgRtpI5T6FQ18pj+tZ/od+fu+HFT9qrygYx0
-	beOCBqJps+wecWffbJNDL/SvOMBrkFl2bZrePLNDGpo1m7lbo51/GohplCq6h55CniTD
-	BuOLmgCGnS3V5UWUScQanmu8yKuUUMsGfXQvvv5m7YO80HDZC4HzSX4cAm6bHJftuCiT
-	LIsOsFjcbOqmgbKAaFglkLCd/cqtYdiYDDSXwJz6Tf2qcm7ml2Z5Bd7H7QPL1Xz5C/MX
-	Ov6tnquMHBOaRFBZc0onvnKdzQ6q+gIsZx8au0xCy2W9JpX1kM3H9rI1+BR0LmbEShsL
-	sgfA==
-X-Gm-Message-State: AIkVDXIhjbCbHyAmVtc1d4b2loyxBVCgQG0RfmaWuyTLj1HI9u7W6PPqLLyXq5RoNmLEM9VZ
-X-Received: by 10.223.133.132 with SMTP id 4mr26917604wrt.136.1484574260844;
-	Mon, 16 Jan 2017 05:44:20 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	l67sm21925064wmf.1.2017.01.16.05.44.20
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 16 Jan 2017 05:44:20 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	h=x-gm-message-state:date:message-id:from:to:cc:subject:mime-version
+	:content-transfer-encoding;
+	bh=L/exrWU1U1u9AbaCs1vCP8RO7QgWAd5nPHPmtM/YEPI=;
+	b=DlbszOTJMbXx1JpknBHbTEAbgV2nXPV+rrzey52yRUaJhgouJ0gXUkzdJm3JMZonae
+	9TPC3QfJqgfJAGY/NsPWkAXQn9oUhwrnQaAXbz/egkAT5pPnJjdx0IqIRB7RIGJGlb5y
+	9hyVNBIcaJAYIk7hSLOn3DJJzZzf6SD3IQ0tHNYdRZRlOfVkw6A12tJ6qrENx3Jl01Hw
+	Iooa/vUbGPq/yYpsqG4We3UxYEeZVgEtt/zsF2zxu/lxYzMunSiyMt01xxiAfxA9CP+J
+	4eYwkIgyusi54j/CmD2498VO6DGmWeY+cx/TCfRuQOFWHWWaK7oLzbSxCJIxy6USFZVj
+	w85w==
+X-Gm-Message-State: AIkVDXK4GMz3MxHYXKleztkL48jO13nQm7o1izNYtGgT1RLmERpaSwdZpiPqZJZ82LoStw==
+X-Received: by 10.99.123.3 with SMTP id w3mr40105505pgc.155.1484576130337;
+	Mon, 16 Jan 2017 06:15:30 -0800 (PST)
+Received: from [127.0.1.1] (CPE-58-165-45-185.lns1.lon.bigpond.net.au.
+	[58.165.45.185]) by smtp.gmail.com with ESMTPSA id
+	b67sm16580221pfj.81.2017.01.16.06.15.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 16 Jan 2017 06:15:29 -0800 (PST)
+Date: Tue, 17 Jan 2017 00:15:10 +1000
+Message-Id: <20170116141510.3321-0-nathan@nathanrossi.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Jan 2017 13:44:13 +0000
-Message-Id: <1484574253-30817-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1484574253-30817-1-git-send-email-ross.burton@intel.com>
-References: <1484574253-30817-1-git-send-email-ross.burton@intel.com>
-Cc: bruce.ashfield@windriver.com
-Subject: [PATCH 2/2] perf: add PACKAGECONFIG for systemtap
+MIME-Version: 1.0
+Cc: Alistair Francis <alistai@xilinx.com>
+Subject: [PATCH 0/30] Adding support for building QEMU for Windows (with meta-mingw)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,33 +56,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jan 2017 13:44:21 -0000
+X-List-Received-Date: Mon, 16 Jan 2017 14:15:30 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Otherwise it's possible to race with systemtap headers being present during the autodetection and disappearing during the build:
+This series is paired with a series that is sent for the meta-mingw
+layer. That series depends on changes in this series and vice-versa.
 
-tests/sdt.c:14:21: fatal error: sys/sdt.h: No such file or directory
- #include <sys/sdt.h>
-                     ^
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+The following series is a number of patches to improve mingw32 support
+both in oe-core itself as well as for individual recipes. The goal is to
+enable the building of QEMU for Windows such that the oe-core QEMU
+targets (qemu* machines) will execute on Windows with and without
+graphics (SDL/VNC and nographic). The series includes the following
+major changes:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-kernel/perf/perf.bb | 1 +
- 1 file changed, 1 insertion(+)
+ * Support for detecting DLL runtime dependencies (aka shared objects)
+   in both DLLs and EXEs
+ * Extending of FILES_* defaults for cleaner packaging of mingw32 built
+   components
+ * Disabling of update-alternatives for mingw32 (not supported on
+   Windows, and not all versions of Windows have symlink support)
+ * Addition of PACKAGECONFIG options for a number of packages to handle
+   Windows only features and or ability to disable features that do not
+   support mingw32/Windows
+ * Changes to recipes for proper packaging of DLLs (convention is to
+   ship DLLs in the bindir), EXEs and other files
+ * Changes to the QEMU include, to clean up configuration and move
+   version specific patches changes into the versioned QEMU recipe
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 8b5028e..acbb1d9 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -20,6 +20,7 @@ PACKAGECONFIG[scripting] = ",NO_LIBPERL=1 NO_LIBPYTHON=1,perl python"
- PACKAGECONFIG[tui] = ",NO_NEWT=1,libnewt slang"
- PACKAGECONFIG[libunwind] = ",NO_LIBUNWIND=1 NO_LIBDW_DWARF_UNWIND=1,libunwind"
- PACKAGECONFIG[libnuma] = ",NO_LIBNUMA=1"
-+PACKAGECONFIG[systemtap] = ",NO_SDT=1,systemtap"
- 
- DEPENDS = " \
-     virtual/${MLPREFIX}libc \
+The intended build execution is to allow for 'buildtools-tarball' (or
+any populate_sdk target with 'nativesdk-qemu' in TOOLCHAIN_HOST_TASK) to
+create an output that includes all dependent nativesdk binaries as well
+as a nativesdk QEMU binaries. This series does not however address
+fixing the environment setup script or self-extracting installer shell
+script that is normally provided by buildtools-tarball.
+
+This series has been tested on the following Windows targets, executing
+QEMU 2.7.0 with all qemu* oe-core machines and all qemu machines in
+meta-xilinx:
+
+ * Windows 10 (64-bit)
+ * Windows 8.1 (64-bit)
+ * Windows 7 SP1 (64-bit)
+
+Additionally this series has been build tested on the following Linux
+build hosts:
+
+ * Debian 8 (64-bit)
+ * Ubuntu 16.04 (64-bit)
+ * CentOS 7 (64-bit)
+
+There are a number of patches in this series which could be applied in
+oe-core/meta or meta-mingw. Depending the patch it may be desired for
+the change to be in meta-mingw instead of oe-core. If this is a case I
+can modify and make the changes for meta-mingw. This is the reason
+behind the segmentation of changes as small individual patches.
+
+This work is contracted by Xilinx, and it intended to allow for the
+building of the Xilinx QEMU fork for Windows (recipe is in the
+meta-xilinx layer ->
+http://git.yoctoproject.org/cgit/cgit.cgi/meta-xilinx/tree/recipes-devtools/qemu/qemu-xilinx_2016.4.bb).
+The desired configuration for this QEMU fork is to have libgcrypt
+support in addition to what is needed for the default oe-core QEMU
+configuration, this is the reason for the inclusion of libgpg-error and
+libgcrypt changes.
+
+For convenience this series is also available in the git repository:
+
+  https://github.com/nathanrossi/openembedded-core nrossi/mingw-qemu-v1
+
+
+Nathan Rossi (30):
+  gcc-configure-common.inc: Change 'initfini-array' to PACKAGECONFIG
+  update-alternatives.bbclass: Disable for mingw32 targets
+  package.bbclass: Add SHLIB detection support for mingw targets
+  bitbake.conf: Add '${libdir}/*.def' to FILES_${PN}-dev defaults
+  bitbake.conf: Override FILES_${PN}-bin for mingw32
+  libpcre_8.39.bb: Handle shipping .exe and .dll files for mingw32
+  gettext_0.19.8.1.bb: Fix shared building of gettext for mingw32
+  gettext_0.19.8.1.bb: Handle packaging .dll's for mingw32
+  gettext_0.19.8.1.bb: Add 'gettext-libintl' package
+  libsdl_1.2.16.bb: Disable x11 for nativesdk mingw32
+  libsdl_1.2.15.bb: Add 'directx' PACKAGECONFIG
+  libsdl_1.2.15.bb: Add 'stdio-redirect' PACKAGECONFIG
+  glib-2.0/glib.inc: Disable libmount support for mingw32 targets
+  glib-2.0/glib.inc: Only apply MLPREFIX renaming to class-target
+  glib-2.0/glib.inc: If 'charset.alias' exists drop it
+  glib-2.0/glib.inc: Handle packaging .dll and .exe files for mingw32
+  libgpg-error_1.25.bb: Enable nativesdk
+  libgpg-error_1.25.bb: Add patch to resolve configure bug for mingw32
+  libgpg-error_1.25.bb: Don't replace the syscfg header for mingw32
+  libgpg-error_1.25.bb: Handle packaging .exe files
+  libgcrypt.inc: Enable nativesdk
+  libgcrypt.inc: Add PACKAGECONFIG for 'capabilities' and 'asm'
+  libgcrypt.inc: Disable 'capabilities' for mingw32
+  libgcrypt.inc: Add patch to resolve configure bug for mingw32
+  libgcrypt.inc: Enable use of binconfig
+  libgcrypt.inc: Handle packaging of .exe files
+  qemu: Improve and add PACKAGECONFIG options
+  qemu: Consolidate EXTRA_OECONF
+  qemu: Convert KVMOPTS to PACKAGECONFIG
+  qemu: Move recipe version specific patches and features to recipe
+
+ meta/classes/package.bbclass                       | 21 ++++++
+ meta/classes/update-alternatives.bbclass           |  4 +
+ meta/conf/bitbake.conf                             |  5 +-
+ .../fix-gl_cv_prog_as_underscore-test.patch        | 67 +++++++++++++++++
+ meta/recipes-core/gettext/gettext_0.19.8.1.bb      | 17 +++--
+ meta/recipes-core/glib-2.0/glib.inc                | 23 ++++--
+ meta/recipes-devtools/gcc/gcc-configure-common.inc |  8 +-
+ meta/recipes-devtools/qemu/qemu.inc                | 85 +++++++++-------------
+ meta/recipes-devtools/qemu/qemu_2.7.0.bb           | 34 ++++++++-
+ meta/recipes-graphics/libsdl/libsdl_1.2.15.bb      |  3 +
+ ...c-Set-mym4_revision-to-0-if-not-a-git-rep.patch | 46 ++++++++++++
+ meta/recipes-support/libgcrypt/libgcrypt.inc       | 17 +++--
+ ...c-Set-mym4_revision-to-0-if-not-a-git-rep.patch | 46 ++++++++++++
+ .../libgpg-error/libgpg-error_1.25.bb              | 17 +++--
+ meta/recipes-support/libpcre/libpcre_8.39.bb       |  8 +-
+ 15 files changed, 313 insertions(+), 88 deletions(-)
+ create mode 100644 meta/recipes-core/gettext/gettext-0.19.8.1/fix-gl_cv_prog_as_underscore-test.patch
+ create mode 100644 meta/recipes-support/libgcrypt/files/configure.ac-Set-mym4_revision-to-0-if-not-a-git-rep.patch
+ create mode 100644 meta/recipes-support/libgpg-error/libgpg-error/configure.ac-Set-mym4_revision-to-0-if-not-a-git-rep.patch
+
 -- 
-2.8.1
-
+2.11.0
 
