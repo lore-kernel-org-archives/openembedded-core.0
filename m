@@ -1,50 +1,51 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BFF1071AB3
+Received: from mail-pf0-f170.google.com (mail-pf0-f170.google.com
+	[209.85.192.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 7888671AB3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jan 2017 14:16:57 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id t6so1384709pgt.1
+	Mon, 16 Jan 2017 14:17:03 +0000 (UTC)
+Received: by mail-pf0-f170.google.com with SMTP id e4so15561238pfg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jan 2017 06:16:58 -0800 (PST)
+	Mon, 16 Jan 2017 06:17:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:in-reply-to:references:from:to:cc:subject
 	:mime-version:content-transfer-encoding;
-	bh=5e7xDiqwicC8cBMZ5S22Z4mLVXiSF06XzEFRzucAXIU=;
-	b=A/PncAerhuoA62EzIWevLDPP4Ew/tFb5cdH/43Q/LJ+G6nEoOIiIwn/BOYmD0jU6NK
-	MQaYGcwAiSWAzTOnluZo1lxwF6uLtOANypLGnovuxuV945cWtxxUcTvXnauYwr8zsIOg
-	Q07Cumjy5d2i7ilHEmq8IBzOSVJzUuOXFE59eny0GuVyGNqvozC8ECDsM9vP+LwDeLra
-	FvL5reRfbZ65wa6x1r7aSTQitOlMlP8ZPvzFNW1GXA38Q1CgiyyOQQZ3w+pz0UsGVTZO
-	6cLbLjHKHcIKPvi1QD26Uzxa4hcGrnUdI7yUh+G37j/jFavIfKHre7xjje7asbMC44hh
-	Kf4Q==
+	bh=61aEQxtlaXloQ65BxbIJ8njR8YjMI6i+oDK8Ah7odAE=;
+	b=Kr+13J+pWylAc8cpSkQCTjs1ZxqcG0C56AhSku7cfiLVFwymCW0lrDiOWtolecaoqw
+	Z97aTs3+HebvnbgkdM9VI2td1/40A5VsaGj+h4jLJ6uRzAG+OnziRiybtVAlNteQ3pgX
+	wNx443f5iC+jcJcUZpxxoL+ENA4OAqgo6FArztAuynZUCunQ9JkTdy0U9SEBzC6eja3o
+	7pV/yxoLglhbIV0And+tcWc0SzjIOogG3psg4mfMtll6VErZ91/F64O8TtnX8o/5VfVM
+	g5C5FKKBgfdb1KQRdaE7APUjSeZChhiY4V/MAjorRsn1m/eM0dIp/1TSlxR+IDBs0cpX
+	WTlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
 	:cc:subject:mime-version:content-transfer-encoding;
-	bh=5e7xDiqwicC8cBMZ5S22Z4mLVXiSF06XzEFRzucAXIU=;
-	b=kSrqgZYNeabyvzFUrKURBPyCEETi3qiMya24lK9kL4T9AFDkhSyQXd8ZoMlXCs+xCy
-	OlXeP5dIE93XwNcCIfpwpbe2VfwTjE2+k5Vz158GOXt2b+03xgbiqIn2VTkgUR9Ut2/m
-	d2rwvXlgooUQnvZsSEOS6iYKYya0PhOjk2NYT7HHN5MyBxzas2i8Il9SK0IxtsiQdoK8
-	Ac6/EyMACR5r+oprc2DF72Qwf3Mb6TXsUZI1jMyLSnULuYSdGv1SlU23GJG0oJGqOH95
-	uSUdOFYYmdFkFVOSu0ZWrfrfbfrq8JHCZZw9nEy+nevxk09u3YKShJbprcJV0DdYMjfX
-	IrqA==
-X-Gm-Message-State: AIkVDXLX7F2rpnRlfXE02Vxu634+WBkZTlG4HfXlFR6j94xjmOJLxLJfnaeO9jkZT+mpJw==
-X-Received: by 10.98.214.73 with SMTP id r70mr37238754pfg.89.1484576218303;
-	Mon, 16 Jan 2017 06:16:58 -0800 (PST)
+	bh=61aEQxtlaXloQ65BxbIJ8njR8YjMI6i+oDK8Ah7odAE=;
+	b=qDrzJDA/0azCd1u/pOkptNIZH0YbbK1yZCfigo8kgxVz0UhhsNAYW/cYb4Vn2GNFBp
+	8q2d4rYbUMHYAadaaC8GlS6sXRKVzRUUQirQUguQS4GvrJlwGcpw0DFgPhc332jIjz40
+	+0sFIVjw9QkzlgE+dnGHXO2gQLSg6sgS67NZJHyyHj8RwpCHRFrwUY0/c8/Iq1ef+nRj
+	7dxr3TwxEEbYrCK/pVAj5wGdnutz2gZ/suIoTYeYISntoVUOeWxvS3yqHUOu/U3SgS8d
+	KzDXosHLydKnf05euKNOU7wt8fvLhnI+J6LTnWn/rO86+xosGjVpiOsxokVWAAX6PVk5
+	kL6Q==
+X-Gm-Message-State: AIkVDXJjaA2R1ABwsLFpTLY5phyOHnAe5QWorKm4MF+ZMyU4eSo3NkoMjf7PyofPiNAlog==
+X-Received: by 10.98.137.73 with SMTP id v70mr37755671pfd.125.1484576223657;
+	Mon, 16 Jan 2017 06:17:03 -0800 (PST)
 Received: from [127.0.1.1] (CPE-58-165-45-185.lns1.lon.bigpond.net.au.
 	[58.165.45.185]) by smtp.gmail.com with ESMTPSA id
-	q145sm48244765pfq.22.2017.01.16.06.16.56
+	p5sm48560726pgk.23.2017.01.16.06.17.01
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 16 Jan 2017 06:16:57 -0800 (PST)
+	Mon, 16 Jan 2017 06:17:03 -0800 (PST)
 Date: Tue, 17 Jan 2017 00:15:10 +1000
-Message-Id: <20170116141510.3321-16-nathan@nathanrossi.com>
+Message-Id: <20170116141510.3321-17-nathan@nathanrossi.com>
 In-Reply-To: <20170116141510.3321-0-nathan@nathanrossi.com>
 References: <20170116141510.3321-0-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
 Cc: Alistair Francis <alistai@xilinx.com>
-Subject: [PATCH 16/30] glib-2.0/glib.inc: Handle packaging .dll and .exe files for mingw32
+Subject: [PATCH 17/30] libgpg-error_1.25.bb: Enable nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,52 +58,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jan 2017 14:16:57 -0000
+X-List-Received-Date: Mon, 16 Jan 2017 14:17:03 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-Handle the packaging of .dll files into the ${PN} package, this is
-required due to the mingw/windows convention where .dll's are shipped in
-the bindir.
-
-Wildcard the suffix of '*gio-querymodules' so that the .exe versions are
-also included in the ${PN} package.
-
-Also handle the packaging of only .exe files into the ${PN}-utils
-package. As mentioned above, bindir includes more than just binary
-executables.
+Enable nativesdk on this recipe.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- meta/recipes-core/glib-2.0/glib.inc | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ meta/recipes-support/libgpg-error/libgpg-error_1.25.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 24b31a7f9f..4ed2808d0f 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -52,9 +52,11 @@ do_configure_prepend() {
- }
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.25.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.25.bb
+index 9d402ffbb6..d4ce224948 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error_1.25.bb
++++ b/meta/recipes-support/libgpg-error/libgpg-error_1.25.bb
+@@ -51,4 +51,4 @@ do_install_append() {
  
- FILES_${PN} = "${libdir}/lib*${SOLIBS} \
-+               ${bindir}/lib*.dll \
-                ${libdir}/gio \
--               ${libexecdir}/*gio-querymodules \
--               ${datadir}/glib-2.0/schemas"
-+               ${libexecdir}/*gio-querymodules* \
-+               ${datadir}/glib-2.0/schemas \
-+               "
- FILES_${PN}-dev += "${libdir}/glib-2.0/include \
-                     ${libdir}/gio/modules/lib*${SOLIBSDEV} \
-                     ${libdir}/gio/modules/*.la \
-@@ -69,6 +71,7 @@ FILES_${PN}-dbg += "${datadir}/glib-2.0/gdb ${datadir}/gdb"
- FILES_${PN}-codegen = "${datadir}/glib-2.0/codegen/*.py \
-                        ${bindir}/gdbus-codegen"
- FILES_${PN}-utils = "${bindir}/*"
-+FILES_${PN}-utils_mingw32 = "${bindir}/*.exe"
+ FILES_${PN}-dev += "${bindir}/gpg-error"
  
- ARM_INSTRUCTION_SET_armv4 = "arm"
- ARM_INSTRUCTION_SET_armv5 = "arm"
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.11.0
 
