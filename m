@@ -1,48 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 72F8D71BA0
+Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B59A71C2F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jan 2017 16:47:23 +0000 (UTC)
-Received: by mail-qt0-f179.google.com with SMTP id k15so109703835qtg.3
+	Mon, 16 Jan 2017 17:40:05 +0000 (UTC)
+Received: by mail-qt0-f178.google.com with SMTP id k15so112296453qtg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jan 2017 08:47:24 -0800 (PST)
+	Mon, 16 Jan 2017 09:40:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=DfM58UqWMUOmpRpAoBqNJ0Jn63AkBPoH6d3Fokd2TeA=;
-	b=fjIAOugQTNy2tYL41gfRsoWpAuB03Zn9LMg9A+Sb2zrM+GU8Lg5wax5CMDGyXsu/Bo
-	TEHNr7LI5osiBC5UEZdGsaZxFbjzXwiznNVAPkNI3fBqdGC/6Bq02L8VAlXjUh3OExbG
-	kJ5tMHvKMr8HWhenM4PeoOXJ9DpwwPgwfS2+rrHRmiZWZxY+Ik0k5fVVnwKhnfLxs4QL
-	SgXgF9mXL34cjrkAEL0byUouDTXjqqnKST5PWPsPsq9iWPaWVkPivi/mLkIKXDvE3RHY
-	/OcxOmSdKkD3htK15Md7bkEG9RTe6FYjwenz2FrfT0YyV2ITdag6uOSrdvYIvOym5EDM
-	HoSg==
+	:cc; bh=s9AvET+d/zHn1ogJdkBKTcgZ0QzAg8lTfbb/3NLRVNE=;
+	b=CcGh05H/1qb/B6MhZYNMis3HlmDIrEbeQsqsQAcq9cy9skakRrsE3wz1nywI8z1k0b
+	OLfQEC5Uzq2eREITZKOX2DSyIkjISnFh92LC3nlQRK/+1e1UPRghMKvrv1v2WLg2aI5D
+	HGM6UUYiTpXIJhegavMZ+6a5oDDnfjCsFqqdM9dytl2VdrmjKZJ9oOnvL7w4H+pfLNzf
+	DPsa7R8nP74xd2GLLSkVKAQQd2DNS5Pel9hIdasJeF1KetjyHXuNYoEPOZI1fAAGnEMV
+	6ir9fQaOPZK6Brky6XxKDEXQHgU6hfHiqYJgQ8ph0rLobwm986lahoR8vuDkDMsW/jwM
+	hP7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=DfM58UqWMUOmpRpAoBqNJ0Jn63AkBPoH6d3Fokd2TeA=;
-	b=GTNqcWutNkYoNQFKCEBRnc1lTYL/jl7rVpSq7B552vSLRFIMbVbfWkbLSGlqcG7oIg
-	0oEkXqnHjPhfw2ZUSJfXGGcjG/s1So4BEywspmVmDfFAwxkztDSB/7XpSeBb4tyZinyx
-	iywKru6qk1p94CmQbuasKFVkrqJe3spFaCoN1T1gaWzCHzbnyFIJ8qOqP7LXkurdhK33
-	uCI3KBXCu4OTuLfW/PDzoMr5wXifBnmX4Ij9FcJ5Ho3i9GhXFagxl1rZpXITKR0z0c5v
-	fvh4ASKUYR1ry6kfmGoeli7r8upetr+7dk1k1wFsIalzIgIBaaau8Ospq0pcQlWfnZN6
-	RE6Q==
-X-Gm-Message-State: AIkVDXLYUdXFZS/uVUV2j/Qb7+iNA1WA9ScPBECLJaxQa8rpE6LjOoFZ6ll0oILeERnumGUwgnu0spC2B0QsbrTP
-X-Received: by 10.55.16.11 with SMTP id a11mr35374324qkh.3.1484585244209; Mon,
-	16 Jan 2017 08:47:24 -0800 (PST)
+	bh=s9AvET+d/zHn1ogJdkBKTcgZ0QzAg8lTfbb/3NLRVNE=;
+	b=bvtQ26fssmBuomaULgiCi2tQtdqVo61zNN80HcYn6lx7G62S2YLDzCrCii3gaEvwf7
+	DJPic5HOGxEZ+vkY88xiFc9nL2mvvccfC5CQWLIqxSpeTj5Yzy1dT0vXHHv0X+Dh/5nI
+	Fh35rgcfwJX3veSJennkdhKCVZoNyGEWzSQ0vwiTiAEsFp2st7881xKgapTf0s6hzNg1
+	pJ/TiH4marhqBlxkESSZI94ITbGg0nLi1jc2uNrCXZYipToKdR+K723d3ujLpgT69ukH
+	XyiMF9bIDTs+mdPS5S1v9MjX/WtY6B1CnWSZE6ysn+si5HWlYZaQ9I8ZNcv0C0z5sVw6
+	N9Nw==
+X-Gm-Message-State: AIkVDXKy33kRpn0rQq63AzQ66EygV2w0fNJPtL9YFEnIGPgxSmLcO3sigVOFkuPu8glvBHHCkK2d+9+LeUmXkbFB
+X-Received: by 10.200.53.247 with SMTP id l52mr25030012qtb.144.1484588406115; 
+	Mon, 16 Jan 2017 09:40:06 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Mon, 16 Jan 2017 08:47:03 -0800 (PST)
-In-Reply-To: <587CF82F.9090207@linux.intel.com>
-References: <1484237986-31888-1-git-send-email-anibal.limon@linux.intel.com>
-	<CAJTo0LYtE6TECPVqOfsdwdXnOFyvxEhXj2SHD79N1jmsScJkGA@mail.gmail.com>
-	<587CF82F.9090207@linux.intel.com>
+Received: by 10.140.103.233 with HTTP; Mon, 16 Jan 2017 09:39:45 -0800 (PST)
+In-Reply-To: <20170112090847.26850-1-freesilicon@gmail.com>
+References: <20161222102320.15247-1-freesilicon@gmail.com>
+	<20170112090847.26850-1-freesilicon@gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 16 Jan 2017 16:47:03 +0000
-Message-ID: <CAJTo0LaB5jYL2rjU3AHXAzzYeM49tcsb1dY3K+XH2=mv_x3T4w@mail.gmail.com>
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] qemu: Upgrade to 2.8.0
+Date: Mon, 16 Jan 2017 17:39:45 +0000
+Message-ID: <CAJTo0LaA8i2sVcXm+5J=Y_VMFCbp=kpaLtd+B9ypCpCx5e068Q@mail.gmail.com>
+To: David Vincent <freesilicon@gmail.com>
+Cc: "Plascencia, Daniela" <daniela.plascencia@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v7] rootfs: Modify RPM installation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,40 +55,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jan 2017 16:47:26 -0000
-Content-Type: multipart/alternative; boundary=001a11475cbc1ec7c9054638f08f
+X-List-Received-Date: Mon, 16 Jan 2017 17:40:06 -0000
+Content-Type: multipart/alternative; boundary=001a1142ba2095bc6c054639ac05
 
---001a11475cbc1ec7c9054638f08f
+--001a1142ba2095bc6c054639ac05
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On 16 January 2017 at 16:43, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.int=
-el.com>
-wrote:
+On 12 January 2017 at 09:08, David Vincent <freesilicon@gmail.com> wrote:
 
-> It's weird, i'll review it, but i don't imagine what is failing
-> gobject-introspection because a qemu upgrade.
+> When using a custom RPM data directory instead of the default dir
+> '/var/lib/rpm', the final image did not contain any of the database
+> files in the expected location. This commit takes into account the
+> 'rpmlibdir' variable set into 'rootfs_rpm.bbclass'.
 >
 
-The g-i build runs largely inside a qemu-user instance (the crash is inside
-qemu).
+Something changed and this is now breaking rootfs generation for me:
+
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:license_create_manifest(d)
+     0003:
+File:
+'/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-64/build/meta/classes/license.bbclass',
+lineno: 48, function: license_create_manifest
+     0044:    pkg_dic = {}
+     0045:    for pkg in sorted(image_list_installed_packages(d)):
+     0046:        pkg_info = os.path.join(d.getVar('PKGDATA_DIR'),
+     0047:                                'runtime-reverse', pkg)
+ *** 0048:        pkg_name = os.path.basename(os.readlink(pkg_info))
+     0049:
+     0050:        pkg_dic[pkg_name] =
+oe.packagedata.read_pkgdatafile(pkg_info)
+     0051:        if not "LICENSE" in pkg_dic[pkg_name].keys():
+     0052:            pkg_lic_name = "LICENSE_" + pkg_name
+Exception: FileNotFoundError: [Errno 2] No such file or directory:
+'/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-64/build/build/tmp/sysroots/qemux86-64/pkgdata/runtime-reverse/error:'
+
+Note how pkg is set to "error:".
+
+Clearly the error handling in image_list_installed_packages() needs work,
+but I can make this problem appear/disappear by adding/removing this patch.
 
 Ross
 
---001a11475cbc1ec7c9054638f08f
+--001a1142ba2095bc6c054639ac05
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 16 January 2017 at 16:43, An=C3=ADbal Lim=C3=B3n <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:anibal.limon@linux.intel.com" target=3D"_blank">anibal.lim=
-on@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
-<div id=3D":4yp" class=3D"a3s aXjCH m159a8270190999b2">It&#39;s weird, i&#3=
-9;ll review it, but i don&#39;t imagine what is failing<br>
-gobject-introspection because a qemu upgrade.<br></div></blockquote></div><=
-br>The g-i build runs largely inside a qemu-user instance (the crash is ins=
-ide qemu).</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ex=
-tra">Ross</div></div>
+On 12 January 2017 at 09:08, David Vincent <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:freesilicon@gmail.com" target=3D"_blank">freesilicon@gmail.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bord=
+er-left-style:solid;padding-left:1ex"><span class=3D"gmail-">When using a c=
+ustom RPM data directory instead of the default dir<br>
+&#39;/var/lib/rpm&#39;, the final image did not contain any of the database=
+<br>
+files in the expected location. This commit takes into account the<br>
+&#39;rpmlibdir&#39; variable set into &#39;rootfs_rpm.bbclass&#39;.<br></sp=
+an></blockquote></div><br>Something changed and this is now breaking rootfs=
+ generation for me:</div><div class=3D"gmail_extra"><br></div>File: &#39;ex=
+ec_python_func() autogenerated&#39;, lineno: 2, function: &lt;module&gt;<br=
+>=C2=A0 =C2=A0 =C2=A00001:<br>=C2=A0*** 0002:license_create_manifest(d)<br>=
+=C2=A0 =C2=A0 =C2=A00003:<br>File: &#39;/home/pokybuild/yocto-autobuilder/y=
+octo-worker/nightly-x86-64/build/meta/classes/license.bbclass&#39;, lineno:=
+ 48, function: license_create_manifest<br>=C2=A0 =C2=A0 =C2=A00044: =C2=A0 =
+=C2=A0pkg_dic =3D {}<br>=C2=A0 =C2=A0 =C2=A00045: =C2=A0 =C2=A0for pkg in s=
+orted(image_list_installed_packages(d)):<br>=C2=A0 =C2=A0 =C2=A00046: =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0pkg_info =3D os.path.join(d.getVar(&#39;PKGDATA_DIR=
+&#39;),<br>=C2=A0 =C2=A0 =C2=A00047: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#=
+39;runtime-reverse&#39;, pkg)<br>=C2=A0*** 0048: =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0pkg_name =3D os.path.basename(os.readlink(pkg_info))<br>=C2=A0 =C2=A0 =
+=C2=A00049:<br>=C2=A0 =C2=A0 =C2=A00050: =C2=A0 =C2=A0 =C2=A0 =C2=A0pkg_dic=
+[pkg_name] =3D oe.packagedata.read_pkgdatafile(pkg_info)<br>=C2=A0 =C2=A0 =
+=C2=A00051: =C2=A0 =C2=A0 =C2=A0 =C2=A0if not &quot;LICENSE&quot; in pkg_di=
+c[pkg_name].keys():<br>=C2=A0 =C2=A0 =C2=A00052: =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0pkg_lic_name =3D &quot;LICENSE_&quot; + pkg_name<br>Except=
+ion: FileNotFoundError: [Errno 2] No such file or directory: &#39;/home/pok=
+ybuild/yocto-autobuilder/yocto-worker/nightly-x86-64/build/build/tmp/sysroo=
+ts/qemux86-64/pkgdata/runtime-reverse/error:&#39;<br><br><div>Note how pkg =
+is set to &quot;error:&quot;.</div><div><br></div><div>Clearly the error ha=
+ndling in image_list_installed_packages() needs work, but I can make this p=
+roblem appear/disappear by adding/removing this patch.</div><div><br></div>=
+<div>Ross</div></div>
 
---001a11475cbc1ec7c9054638f08f--
+--001a1142ba2095bc6c054639ac05--
