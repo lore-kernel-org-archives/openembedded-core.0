@@ -1,44 +1,23 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id BC5AC60291
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 28B5771BF2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jan 2017 14:31:29 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id r144so31227940wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jan 2017 06:31:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=9dwNPghob4Ssu6rwSsKvxOHds7v3i8MAjdV9k+QcL7s=;
-	b=hE+c+yv4pyctaRSXw6ziRVzUGhrEOsSbFHfDosJtmchLbgsPeVIAMFEThH3eQEy4eZ
-	Fl0FaeBPgkAf7nYo4mmOJEkDGIflSI8J38ol7lZDWvt8hKxlRDe9QNDcjdWvrQLUcG79
-	da9m3WdECk6IsFCx4gKk9jEUNs56n4zo5EsP0RVk5JVgTZZZo8NYfW20TBqzXcOUVm9G
-	+34W9p9aQP2qRJDSZFDo0NBzfwASBuqMME92vk8bpV1gLjG685EHsFhZZYGlLIt2nqH4
-	tLSTzPBRIyCCfXaxnTiOOyLrzoulcpraTHhTgTPFQ8dN3stFvfzQlxTjbPz7HDZvuwaS
-	EKgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=9dwNPghob4Ssu6rwSsKvxOHds7v3i8MAjdV9k+QcL7s=;
-	b=lWqBasu4/ypwrInnpCj2FxteSR8AiZbJppcUWsZmMcZxvIRoCDHZpYrzeFoTHCZxXm
-	3xDk9GWT4nqeP/cBAy3uJKL7WiMWr5Pg/DJatcH/AXgk31EwYIt/yT96Q6wj6OHHs3et
-	DW5x9V0oGeh91gA9EpbrgyLVdvq2oTnMchSWuzVK8+4UFd4Z44EjrwCCLxxQaYEgNqFy
-	AVDvqb7J9VejIlPNa3IU0f9meA8A2yRUCSI79Aq+MkwXO4aicwn3Yo9kIGPZIl5sXeIB
-	CORdF0ZviDOyB/Z/QwUXEgoOhQBWhVB916WIhknI22BgitVQ3csiK9BQ3HRsMjOsiOFF
-	iwvw==
-X-Gm-Message-State: AIkVDXIRckHPSpb7bLZ0DJ4GmF6Nq882dF6Uf6mYNM3/HdhDtE0jJnxvDyJs8X/i9pZSAQ==
-X-Received: by 10.28.220.135 with SMTP id t129mr13456597wmg.97.1484577089330; 
-	Mon, 16 Jan 2017 06:31:29 -0800 (PST)
-Received: from localhost.localdomain ([185.47.80.46])
-	by smtp.gmail.com with ESMTPSA id
-	y65sm25934089wmb.5.2017.01.16.06.31.28
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 16 Jan 2017 06:31:28 -0800 (PST)
-From: David Vincent <freesilicon@gmail.com>
+	Mon, 16 Jan 2017 16:09:07 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga104.fm.intel.com with ESMTP; 16 Jan 2017 08:09:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,239,1477983600"; d="scan'208";a="923124878"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga003.jf.intel.com with ESMTP; 16 Jan 2017 08:09:07 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id E63816A4006;
+	Mon, 16 Jan 2017 08:08:11 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Jan 2017 15:30:16 +0100
-Message-Id: <20170116143016.20152-1-freesilicon@gmail.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] extrausers: Use static ids when available
+Date: Mon, 16 Jan 2017 17:46:29 +0200
+Message-Id: <cover.1484581112.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH 00/14] Fix for #10835 - WIC should not rely on hddimg creation for finding all needed artifacts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,115 +30,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jan 2017 14:31:30 -0000
+X-List-Received-Date: Mon, 16 Jan 2017 16:09:08 -0000
 
-When creating users at the image level using extrausers class, the
-current behavior is to ignore the status of USERADDEXTENSION. This could
-lead to undefined behavior when static ids are expected but the system
-falls back to dynamic ones.
+Hi,
 
-Signed-off-by: David Vincent <freesilicon@gmail.com>
----
- meta/classes/extrausers.bbclass        |  4 ++++
- meta/classes/useradd-staticids.bbclass | 37 ++++++++++++++++++++++++++++------
- 2 files changed, 35 insertions(+), 6 deletions(-)
+This patchset usage of hddimg from wic codebase due to planned deprecation of hddimg.
 
-diff --git a/meta/classes/extrausers.bbclass b/meta/classes/extrausers.bbclass
-index 402fc7d808..7709407b69 100644
---- a/meta/classes/extrausers.bbclass
-+++ b/meta/classes/extrausers.bbclass
-@@ -63,3 +63,7 @@ set_user_group () {
- 		remaining=`echo $remaining | cut -d ';' -f2-`
- 	done
- }
-+
-+USERADDEXTENSION ?= ""
-+
-+inherit ${USERADDEXTENSION}
-diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
-index 94bcbaa3d7..f7f6057ac3 100644
---- a/meta/classes/useradd-staticids.bbclass
-+++ b/meta/classes/useradd-staticids.bbclass
-@@ -58,7 +58,7 @@ def update_useradd_static_config(d):
-             bb.warn("%s - %s: %sname %s does not have a static ID defined." % (d.getVar('PN'), pkg, type, id))
- 
-     # We parse and rewrite the useradd components
--    def rewrite_useradd(params):
-+    def rewrite_useradd(params, is_pkg):
-         # The following comes from --help on useradd from shadow
-         parser = myArgumentParser(prog='useradd')
-         parser.add_argument("-b", "--base-dir", metavar="BASE_DIR", help="base directory for the home directory of the new account")
-@@ -162,7 +162,7 @@ def update_useradd_static_config(d):
- 
-                 uaargs.gid = uaargs.groupid
-                 uaargs.user_group = None
--                if newgroup:
-+                if newgroup and is_pkg:
-                     groupadd = d.getVar("GROUPADD_PARAM_%s" % pkg)
-                     if groupadd:
-                         d.setVar("GROUPADD_PARAM_%s" % pkg, "%s; %s" % (groupadd, newgroup))
-@@ -206,7 +206,7 @@ def update_useradd_static_config(d):
-         return ";".join(newparams).strip()
- 
-     # We parse and rewrite the groupadd components
--    def rewrite_groupadd(params):
-+    def rewrite_groupadd(params, is_pkg):
-         # The following comes from --help on groupadd from shadow
-         parser = myArgumentParser(prog='groupadd')
-         parser.add_argument("-f", "--force", help="exit successfully if the group already exists, and cancel -g if the GID is already used", action="store_true")
-@@ -298,7 +298,7 @@ def update_useradd_static_config(d):
-             bb.parse.mark_dependency(d, bb.utils.which(bbpath, conf_file))
- 
-     # Load and process the users and groups, rewriting the adduser/addgroup params
--    useradd_packages = d.getVar('USERADD_PACKAGES')
-+    useradd_packages = d.getVar('USERADD_PACKAGES') or ""
- 
-     for pkg in useradd_packages.split():
-         # Groupmems doesn't have anything we might want to change, so simply validating
-@@ -306,15 +306,40 @@ def update_useradd_static_config(d):
-         useradd_param = d.getVar('USERADD_PARAM_%s' % pkg)
-         if useradd_param:
-             #bb.warn("Before: 'USERADD_PARAM_%s' - '%s'" % (pkg, useradd_param))
--            d.setVar('USERADD_PARAM_%s' % pkg, rewrite_useradd(useradd_param))
-+            d.setVar('USERADD_PARAM_%s' % pkg, rewrite_useradd(useradd_param, True))
-             #bb.warn("After:  'USERADD_PARAM_%s' - '%s'" % (pkg, d.getVar('USERADD_PARAM_%s' % pkg)))
- 
-         groupadd_param = d.getVar('GROUPADD_PARAM_%s' % pkg)
-         if groupadd_param:
-             #bb.warn("Before: 'GROUPADD_PARAM_%s' - '%s'" % (pkg, groupadd_param))
--            d.setVar('GROUPADD_PARAM_%s' % pkg, rewrite_groupadd(groupadd_param))
-+            d.setVar('GROUPADD_PARAM_%s' % pkg, rewrite_groupadd(groupadd_param, True))
-             #bb.warn("After:  'GROUPADD_PARAM_%s' - '%s'" % (pkg, d.getVar('GROUPADD_PARAM_%s' % pkg)))
- 
-+    # Load and process extra users and groups, rewriting only adduser/addgroup params
-+    pkg = d.getVar('PN')
-+    extrausers = d.getVar('EXTRA_USERS_PARAMS') or ""
-+
-+    #bb.warn("Before:  'EXTRA_USERS_PARAMS' - '%s'" % (d.getVar('EXTRA_USERS_PARAMS')))
-+    new_extrausers = []
-+    for cmd in re.split('''[ \t]*;[ \t]*(?=(?:[^'"]|'[^']*'|"[^"]*")*$)''', extrausers):
-+        cmd = cmd.strip()
-+        if not cmd:
-+            continue
-+
-+        if re.match('''useradd (.*)''', cmd):
-+            useradd_param = re.match('''useradd (.*)''', cmd).group(1)
-+            useradd_param = rewrite_useradd(useradd_param, False)
-+            cmd = 'useradd %s' % useradd_param
-+        elif re.match('''groupadd (.*)''', cmd):
-+            groupadd_param = re.match('''groupadd (.*)''', cmd).group(1)
-+            groupadd_param = rewrite_groupadd(groupadd_param, False)
-+            cmd = 'groupadd %s' % groupadd_param
-+
-+        new_extrausers.append(cmd)
-+
-+    new_extrausers.append('')
-+    d.setVar('EXTRA_USERS_PARAMS', ';'.join(new_extrausers))
-+    #bb.warn("After:  'EXTRA_USERS_PARAMS' - '%s'" % (d.getVar('EXTRA_USERS_PARAMS')))
- 
- 
- python __anonymous() {
+Wic used hddimg to get 2 types of artifacts - efi and iso artifacts.
+This dependency is resolved by introducing new tasks to build efi and iso artifacts.
+This removes dependency to hddimg and also speeds up wic image creation as producing
+artifacts is faster than building hddimg.
+
+While working on this wic-related code in meta/classes/ has been moved to
+image-wic.bbclass to make it more maintainable.
+
+The following changes since commit 2d1a68265cda3ad8f36f1d2138c308e9b08114f6:
+
+  wic: _exec_cmd: produce error if exit code is not 0 (2017-01-16 17:26:21 +0200)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ed/wic/dont-use-hddimg-10835
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wic/dont-use-hddimg-10835
+
+Ed Bartosh (14):
+  image-wic: move wic-related code to image-wic
+  grub-efi: set default desination dir
+  systemd-boot: set default desination dir
+  image-wic.bbclas: add task do_efi_populate
+  grub-efi: make do_efi_populate depend on do_deploy
+  systemd-boot: make do_efi_populate depend on do_deploy
+  wic: use EFI artifacts from $WORKDIR/efi
+  image-wic: add task do_build_iso
+  wic: use INITRD_LIVE in isoimage-isohybrid
+  wic: isoimage-isohybrid: stop using HDDDIR
+  image-wic: remove HDDDIR from WICVARS
+  isoimage-isohybrid: use TRANSLATED_TARGET_ARCH instead of MACHINE_ARCH
+  selftest: stop using hddimg in the wic test suite
+  selftest: wic: fix test_iso_image test case
+
+ meta/classes/grub-efi.bbclass                      |   3 +-
+ meta/classes/image-wic.bbclass                     | 142 +++++++++++++++++++++
+ meta/classes/image.bbclass                         |  25 +---
+ meta/classes/image_types.bbclass                   |  89 -------------
+ meta/classes/systemd-boot.bbclass                  |   3 +-
+ meta/lib/oeqa/selftest/wic.py                      |   6 +-
+ scripts/lib/wic/plugins/source/bootimg-efi.py      |   4 +-
+ .../lib/wic/plugins/source/isoimage-isohybrid.py   |  20 +--
+ 8 files changed, 159 insertions(+), 133 deletions(-)
+ create mode 100644 meta/classes/image-wic.bbclass
+
 -- 
-2.11.0
+2.1.4
 
 
