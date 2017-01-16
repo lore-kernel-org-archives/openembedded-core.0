@@ -1,50 +1,50 @@
 Return-Path: <nathan@nathanrossi.com>
 Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E59171AC1
+	by mail.openembedded.org (Postfix) with ESMTP id 933C3700F3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jan 2017 14:17:19 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id 75so5492126pgf.3
+	Mon, 16 Jan 2017 14:17:25 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id 194so5493516pgd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jan 2017 06:17:20 -0800 (PST)
+	Mon, 16 Jan 2017 06:17:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:in-reply-to:references:from:to:cc:subject
 	:mime-version:content-transfer-encoding;
-	bh=4Kgqc/nnEbXYzZOL2uiJ19F2DtWuGZEYYTgiHsMQFi8=;
-	b=EgWvVi7C7LgJ1S/MKhe4hBIGxzQo/COkSVzsQkSRN1ryPEblaoMN0ttITmiZLEHRJN
-	WtfJmAQATkRMX5SuM08p42hcoME4XH9hP51R9/f2wApQGigkOSFdUNpr02gs5+4hJ0dF
-	sFORrwd9allfHBHOyQiUPIbyKTrffYezCb+GFCFrTF4ZHs6tepCBD88k16iiJtxNDrOs
-	ZoYHjr+T0+JmWz+cg45312k7rXkJI8wI593zd9H/SGuQeKbACCFEzWHTXVVtGqTM3H1r
-	A2qh9k2mnXqtSeDOLQ8gYRGLr2EkYO86w4mvkSZ0dMiVTDSUbseAIxKqYwqugkXeqvLC
-	ro5w==
+	bh=BaFTxTBwJCKLKsnQvewqtMXa42h+uSelFiVXzs0hk8Y=;
+	b=f02xmazp11wCYccm5qfn77XirfMfcFHklYResiwVbBRpf5kM6ECfmu3LuKbh860je1
+	mY78S15ghgWGH+L7lqHVgxsvheILbCIrlTtTMjkVXdPFjKlbuEojQac9HaR4mr2HdGDY
+	psxpbk+DGlCQ6W7DruTtQHf+jUEXpOEz3sQV9aKtbavJOFISVMaDAOog8t4lF3oNTMj1
+	zytsLGcTCwo+aYdh3sOMg1msQyhsqN0tg2ElzU4cT9wRhCIWatUcCqCZIz1KwC8o070t
+	gZv+jUwnpKiZ4hw+SWuXQ87VqiUD4K4iFrVxJkrQXdMN6pAxliYasZ0EVWNFlkzpb9CS
+	/5jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
 	:cc:subject:mime-version:content-transfer-encoding;
-	bh=4Kgqc/nnEbXYzZOL2uiJ19F2DtWuGZEYYTgiHsMQFi8=;
-	b=LO8Yf0UyjZLlWqvkiSgrR0S2TaE4fKX34CRWJf4tfQf2QY1vmlVa0sTeoW2VDjwZZY
-	fkAcavmB5v8UkvWdVDskHda46zNu6FIESHH6gwUjSnxxmip9zvziz333yQ9bdRN5GCkK
-	bigQoGQvuXN2WKpjUQnMUAfadneQ7CZ1jwSccXaL+46sxkbWJy3tlvNhFDv1sk5WV9jj
-	scpS1QD9o/ro3z+9lBJzzHajMzuZvxZ1J2SFnInEgRBuUwc67MB+LR4q+sXZfMH9+dm0
-	orlaPujzzDXsrsG5Q5yh9zBGiw/aokJbYJMwHm/VCF6+vDXOYDWnz2RAsX75lVvw47Nq
-	jiwQ==
-X-Gm-Message-State: AIkVDXIMsAkvjPnYaMpEM2Auz626WuGBr9G81DKeBI90P+9ovoou2UCN8MwZ6fayPMNkzA==
-X-Received: by 10.98.150.88 with SMTP id c85mr37683687pfe.68.1484576239863;
-	Mon, 16 Jan 2017 06:17:19 -0800 (PST)
+	bh=BaFTxTBwJCKLKsnQvewqtMXa42h+uSelFiVXzs0hk8Y=;
+	b=tFDFEaYpyNwExj8XNY/PUMTo7BdIxAbrPPMucAc+cokpoK0RK44HfOVQbP2SFR9x4q
+	NRAE3McyQxnlVUn24SquxRLxyxaroNnva6ykxRJTT4FLmV4UCKGrbFMJct23JjN9YWIP
+	csBVoOWRSB5BRePVUlg0oEfimmPL7ISh/sNQ35599MgsrAM2kgyBJDyPbxQHhrBT+fBU
+	NgtRn8bfTawqb7ll2aIX5VSHSmUEc6EP/bHbTw6kcwlrawFcQgMqKepgcfv59DNsALy4
+	a3tPlf+QLuZVtu/fj43sSW/5agB09jSHUroUyisChCaGIY3FxPHJWT+pfhAW28rJdyWV
+	SyXg==
+X-Gm-Message-State: AIkVDXJOecs0CqAH0DUBzznFXwiT0z7U7oEWinFg5oVz0ILrMdiLvIdUPhy6l6iVGMeeQA==
+X-Received: by 10.84.234.23 with SMTP id m23mr50368351plk.89.1484576246054;
+	Mon, 16 Jan 2017 06:17:26 -0800 (PST)
 Received: from [127.0.1.1] (CPE-58-165-45-185.lns1.lon.bigpond.net.au.
 	[58.165.45.185]) by smtp.gmail.com with ESMTPSA id
-	w76sm42592111pfd.74.2017.01.16.06.17.17
+	t21sm48262880pfa.1.2017.01.16.06.17.23
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 16 Jan 2017 06:17:19 -0800 (PST)
+	Mon, 16 Jan 2017 06:17:25 -0800 (PST)
 Date: Tue, 17 Jan 2017 00:15:10 +1000
-Message-Id: <20170116141510.3321-20-nathan@nathanrossi.com>
+Message-Id: <20170116141510.3321-21-nathan@nathanrossi.com>
 In-Reply-To: <20170116141510.3321-0-nathan@nathanrossi.com>
 References: <20170116141510.3321-0-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
 Cc: Alistair Francis <alistai@xilinx.com>
-Subject: [PATCH 20/30] libgpg-error_1.25.bb: Handle packaging .exe files
+Subject: [PATCH 21/30] libgcrypt.inc: Enable nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,29 +57,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jan 2017 14:17:19 -0000
+X-List-Received-Date: Mon, 16 Jan 2017 14:17:26 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-Handle packaging gpg-error.exe in the -dev package.
+Enable nativesdk on this recipe.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- meta/recipes-support/libgpg-error/libgpg-error_1.25.bb | 2 +-
+ meta/recipes-support/libgcrypt/libgcrypt.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.25.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.25.bb
-index 278ec63bd1..3d142a1609 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.25.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.25.bb
-@@ -56,6 +56,6 @@ do_install_append() {
- 	rm -rf "${D}${datadir}/common-lisp/"
- }
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt.inc b/meta/recipes-support/libgcrypt/libgcrypt.inc
+index 15805cd436..c8a48623b4 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt.inc
++++ b/meta/recipes-support/libgcrypt/libgcrypt.inc
+@@ -46,4 +46,4 @@ FILES_dumpsexp-dev += "${bindir}/dumpsexp"
  
--FILES_${PN}-dev += "${bindir}/gpg-error"
-+FILES_${PN}-dev += "${bindir}/gpg-error*"
+ ARM_INSTRUCTION_SET = "arm"
  
- BBCLASSEXTEND = "native nativesdk"
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.11.0
 
