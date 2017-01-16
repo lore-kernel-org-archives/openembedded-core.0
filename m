@@ -1,51 +1,50 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id B03F171AC1
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E894271AC8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jan 2017 14:16:40 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id 19so3497690pfo.3
+	Mon, 16 Jan 2017 14:16:45 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id 75so5491278pgf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jan 2017 06:16:41 -0800 (PST)
+	Mon, 16 Jan 2017 06:16:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:in-reply-to:references:from:to:cc:subject
 	:mime-version:content-transfer-encoding;
-	bh=7XP/HAzI+nM4UFJrglaQf7E5/zF7QKbQB6QWdvKa4rY=;
-	b=aIUS4Qisp0Lx8Y+CS8OvUT2pjL5R2FuPcot9L6xhYMTIEoHo5BHl7P8dY6u2r0GewZ
-	uYv2pLAihbvu8HT7+trPyKntpRtLkoakxz0jzyQyjKKCN7D17k8jquHxSGTdiO2EFatj
-	yshDI9NZzXVEGUqIR0km70Yqbkn30o2ow8X9nSTi7e9lN5c05unUm5jplbKRPbiz5RN+
-	EkkRRvF5p2yrT/Z4sut9l68yRjcWRKWlYozIIa8AysvSXZakDNX0tUHInA+pV1fet/TL
-	CLcPxxTFK1erneWJQ2A2wDgpMKEbfT9s6nmohV+i93CJgFiZORhPu9ZMj+0fRiL8UQYy
-	mD1g==
+	bh=+4meqZSsinulyEJGZxqD3xDRgfAiaTp8d67qRj4rnOQ=;
+	b=d492ZxhsA4fd0YbkihDBP7sMa3Ta6+s9ClFcyyMlBym+HpH262XFjVHiikTJvyCqsq
+	02QCiSINX9EceXQOwBBYgMW33oPQNRXmIG7kGXB2CrNoDXBrYphsTPzOLZBjRkZ8mx/e
+	tdHH174X+kxDYoVG11iCDhbI2DK5aG1i0gsPj96yMfI/WfbK5IICSVsiqJrbkaW/tejX
+	ghevXPzif5x1dQn3VNCQ2TlYe+2KAjfi3Ni+Sp/MfcEolGikuWfjSQhkgpQYnp1CeKgS
+	lyIENFFZ0JlcuB9/4pyodT9pd/IezXHv+Q1lr4VoMidcfKSQ6BVUxjnpMmCz4Qb4uyJp
+	l42w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
 	:cc:subject:mime-version:content-transfer-encoding;
-	bh=7XP/HAzI+nM4UFJrglaQf7E5/zF7QKbQB6QWdvKa4rY=;
-	b=uJrOpIrsl2ToWSSm0JGTe0m9lJhorMBxN1QxJ+DzqgkZBYZJ6uzShO3qpvRrxBDUhj
-	sHEO5uaV0oXLxoIc+5DZWI+RfzjIzQcTzREydJNsJyjgRpR3ohPm9cXmSqi7nnKwNSFj
-	Lly2NVnzZiALKkvF7MGhYNbeGaLiPXfqP0lu/b5RQtk2NjN1eRj2/tIKg0ZihmXT7vOo
-	tYICOEh4ZRF5HNRlPoCd0WGGl0qviCvYySAxLOXBMedKtdKiWN04F8M1BqyslUmeV4PQ
-	kfcA3dBJ35wLo4tXXgSxY/vj13/XmH8x+l5hZRsOCDvbssJqvDKBXqDNd4ZKJRyzEkWc
-	IL6w==
-X-Gm-Message-State: AIkVDXIOvaEokv3eGmYGIdL/MaeUqD/O15Y3mawQ/6U8g/gkPxujntvhXPpixYWScuQuzQ==
-X-Received: by 10.98.17.4 with SMTP id z4mr38017520pfi.43.1484576201316;
-	Mon, 16 Jan 2017 06:16:41 -0800 (PST)
+	bh=+4meqZSsinulyEJGZxqD3xDRgfAiaTp8d67qRj4rnOQ=;
+	b=F8vYiBnS1pS6s1nT5rTm2kVkLjdX24z3YnWSe6gt+iaG6UDa6hJdfaKbMDPMgEfNbT
+	HnSI2mEjeoATNILuviiiPa1dOeU5baSnkKe+CXf+u+I0W38IlGZoYmMRJZS+8MwmPb9h
+	4P/8jQnyVfn3WA9kV2L3mCrqIeQ392hp3VSfkAiK8rQQ91lofzcdUhev0KClHV/isj2f
+	BXOviPEf9McggizOhRGvwYfi5nwL4NoWQPcyzHScC2aGpb1umtulAs5XKlsQKZspoz/O
+	PJNfLi7QVZ8VMpp2o60iueMJHoQmVXE6zIjW0eqHnUL7C3x4tq0gkp+T4TO5r1JaQK6+
+	emzQ==
+X-Gm-Message-State: AIkVDXJ6B9VV5YCC5jqL838fl1BX95kjP8DGHSDEu+qhpXEpSqNVlK2UHdku70WPzf7HzA==
+X-Received: by 10.99.53.195 with SMTP id c186mr40199047pga.24.1484576206708;
+	Mon, 16 Jan 2017 06:16:46 -0800 (PST)
 Received: from [127.0.1.1] (CPE-58-165-45-185.lns1.lon.bigpond.net.au.
 	[58.165.45.185]) by smtp.gmail.com with ESMTPSA id
-	r1sm48621628pgn.48.2017.01.16.06.16.39
+	d68sm16365526pfj.92.2017.01.16.06.16.44
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 16 Jan 2017 06:16:40 -0800 (PST)
+	Mon, 16 Jan 2017 06:16:46 -0800 (PST)
 Date: Tue, 17 Jan 2017 00:15:10 +1000
-Message-Id: <20170116141510.3321-13-nathan@nathanrossi.com>
+Message-Id: <20170116141510.3321-14-nathan@nathanrossi.com>
 In-Reply-To: <20170116141510.3321-0-nathan@nathanrossi.com>
 References: <20170116141510.3321-0-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
 Cc: Alistair Francis <alistai@xilinx.com>
-Subject: [PATCH 13/30] glib-2.0/glib.inc: Disable libmount support for mingw32 targets
+Subject: [PATCH 14/30] glib-2.0/glib.inc: Only apply MLPREFIX renaming to class-target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,31 +57,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jan 2017 14:16:40 -0000
+X-List-Received-Date: Mon, 16 Jan 2017 14:16:46 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-MinGW/Windows does not have support for libmount, so disable it when
-targeting mingw32.
+When renaming the 'gio-querymodules' binary to prefix with the current
+MLPREFIX, only do this for target packages where the MLPREFIX makes
+sense. This skips renaming for nativesdk targets which have MLPREFIX set
+to 'nativesdk-'.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- meta/recipes-core/glib-2.0/glib.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-core/glib-2.0/glib.inc | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index cb6aca702f..0f8535b1b3 100644
+index 0f8535b1b3..b892989b87 100644
 --- a/meta/recipes-core/glib-2.0/glib.inc
 +++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -31,6 +31,8 @@ inherit autotools gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even
- S = "${WORKDIR}/glib-${PV}"
+@@ -99,11 +99,13 @@ do_install_append () {
+ 			rm ${D}${datadir}/installed-tests/glib/gdbus-serialization.test
+ 		fi
+ 	fi
++}
  
- PACKAGECONFIG ??= "system-pcre libmount"
-+PACKAGECONFIG_remove_mingw32 = "libmount"
-+
- # To use the system pcre it must be configured with --enable-unicode-properties
- PACKAGECONFIG[system-pcre] = "--with-pcre=system,--with-pcre=internal,libpcre"
- PACKAGECONFIG[libmount] = "--enable-libmount,--disable-libmount,util-linux"
+-        # Make sure gio-querymodules is unique among multilibs
+-        if test "x${MLPREFIX}" != "x"; then
+-                mv ${D}${libexecdir}/gio-querymodules ${D}${libexecdir}/${MLPREFIX}gio-querymodules
+-        fi
++do_install_append_class-target () {
++	# Make sure gio-querymodules is unique among multilibs
++	if test "x${MLPREFIX}" != "x"; then
++		mv ${D}${libexecdir}/gio-querymodules ${D}${libexecdir}/${MLPREFIX}gio-querymodules
++	fi
+ }
+ 
+ do_install_append_libc-musl () {
 -- 
 2.11.0
 
