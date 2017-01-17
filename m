@@ -1,34 +1,24 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FC2471A9B
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jan 2017 17:28:53 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 840DF20B3A;
-	Tue, 17 Jan 2017 17:28:54 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id SCat70TcciPH; Tue, 17 Jan 2017 17:28:54 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-95-79.washdc.fios.verizon.net
-	[100.15.95.79])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 63A75208D7;
-	Tue, 17 Jan 2017 17:28:53 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id A47AC162320; Tue, 17 Jan 2017 12:28:52 -0500 (EST)
-Date: Tue, 17 Jan 2017 12:28:52 -0500
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20170117172852.GP15833@denix.org>
-References: <1484089920-29356-1-git-send-email-denis@denix.org>
-	<20170117172637.GN15833@denix.org>
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AF3A71AE6;
+	Tue, 17 Jan 2017 18:06:31 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga101.jf.intel.com with ESMTP; 17 Jan 2017 10:06:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,245,1477983600"; d="scan'208";a="54347034"
+Received: from jayyinch-mobl6.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.188.18])
+	by fmsmga005.fm.intel.com with ESMTP; 17 Jan 2017 10:06:00 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-architecture@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org, yocto@yoctoproject.org
+Date: Wed, 18 Jan 2017 07:05:58 +1300
+Message-ID: <2683342.SVnRAGIE1W@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.8.13-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
 MIME-Version: 1.0
-In-Reply-To: <20170117172637.GN15833@denix.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [morty][PATCH] attr/ea-acl: pass --disable-gettext when USE_NLS=no
+Subject: Patchwork and incoming patch testing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,56 +31,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jan 2017 17:28:54 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 17 Jan 2017 18:06:32 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-Sorry, ignore this one - there was v2 previously submitted specifically for 
-morty.
+Hi all,
 
-On Tue, Jan 17, 2017 at 12:26:37PM -0500, Denys Dmytriyenko wrote:
-> Ping
-> 
-> On Tue, Jan 10, 2017 at 06:12:00PM -0500, Denys Dmytriyenko wrote:
-> > From: Denys Dmytriyenko <denys@ti.com>
-> > 
-> > Fixes following error in configure:
-> >   FATAL ERROR: msgfmt does not seem to be installed.
-> >   attr cannot be built without a working gettext installation.
-> > 
-> > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-> > Signed-off-by: Ross Burton <ross.burton@intel.com>
-> > 
-> > (From OE-Core rev: d044fad8a0ac5d57deb88b25106f3a39cb7c1636)
-> > 
-> > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-> > ---
-> >  meta/recipes-support/attr/ea-acl.inc | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/meta/recipes-support/attr/ea-acl.inc b/meta/recipes-support/attr/ea-acl.inc
-> > index 370e16f..0e2ede3 100644
-> > --- a/meta/recipes-support/attr/ea-acl.inc
-> > +++ b/meta/recipes-support/attr/ea-acl.inc
-> > @@ -10,6 +10,7 @@ inherit autotools-brokensep gettext
-> >  EXTRA_AUTORECONF += "--exclude=autoheader"
-> >  EXTRA_OECONF = "INSTALL_USER=root INSTALL_GROUP=root"
-> >  EXTRA_OECONF_append_class-native = " --enable-gettext=no"
-> > +EXTRA_OECONF_append_class-target = "${@['', ' --disable-gettext '][(d.getVar('USE_NLS') == 'no')]}"
-> >  
-> >  EXTRA_OEMAKE = "PKG_LIB_DIR=${base_libdir} PKG_DEVLIB_DIR=${libdir}"
-> >  
-> > -- 
-> > 2.7.4
-> > 
-> > -- 
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+As some of you are aware some of my colleagues and I have been working =
+on=20
+improving how incoming patches are handled - initially for OE-Core but =
+we hope=20
+to arrive at something that will be useful for other layers as well. Th=
+e aim=20
+was to do so without adversely affecting existing workflows, so that me=
+ans=20
+building on top of the things we already have. It's taken a bit longer =
+than=20
+we'd originally planned - we embarked on this a little over a year ago =
+[1] -=20
+but now I am happy to be able to show some meaningful progress.
+
+A few months ago we upgraded OE's patchwork instance [2], moving not ju=
+st to a=20
+later version but to a fork of patchwork where a bunch of new functiona=
+lity=20
+was being developed for freedesktop.org [3], notably support for captur=
+ing and=20
+presenting patch series instead of just individual patches. There were =
+some=20
+teething problems but we've now resolved most of them. Unfortunately wo=
+rk on=20
+said freedesktop.org fork appears to have stalled so for now we have fo=
+rked it=20
+ourselves [4]; long term we'll have to see if we can merge back with pa=
+tchwork=20
+upstream - at least for small fixes we'll try to push those back up=20
+independent of any wholesale merge. In any event we are now finally in =
+the=20
+position where our patchwork instance can be relied upon to collect ema=
+ils,=20
+and the UI is much improved. This should give us a bit more visibility =
+into=20
+where patches are at in the process, although we are still working on a=
+ few=20
+places where patch series status needs to be updated (e.g. when a patch=
+ goes=20
+into testing).
+
+On top of patchwork we have built a simple smoke-testing framework call=
+ed=20
+"patchtest" [5] along with a suite of corresponding tests for OE [6]. T=
+hese=20
+tests are fairly simplistic at this point but check the basics such as =
+whether=20
+a patch has been properly signed off, etc. We should soon start seeing =
+replies=20
+sent to the mailing list and to submitters with results if there are an=
+y=20
+failures, saving us from noticing and pointing out some of the more obv=
+ious=20
+classes of mistakes. The tests are easy to run locally without the rest=
+ of the=20
+infrastructure and can be extended without difficulty, and I expect we'=
+ll=20
+continue to work on those as time progresses. Contributions would be ve=
+ry=20
+welcome.
+
+My sincere thanks to Jos=E9 Lamego, Leonardo Sandoval, Daniela Plascenc=
+ia,=20
+Belen Barros Pena, Michael Halstead, Damien Lespiau, Patrick Ohly and o=
+thers=20
+that have been part of implementing this, and to everyone else who has =
+put up=20
+with the delays.
+
+Please let us know if you have issues with any part of this process or=20=
+
+suggestions on how to improve it. We're tracking improvements in the Yo=
+cto=20
+Project bugzilla [7] so you can see what's being worked on there if you=
+'re=20
+interested.
+
+Cheers,
+Paul
+
+[1] Earlier announcement:
+    https://www.mail-archive.com/openembedded-core@lists.openembedded.o=
+rg/msg72952.html
+
+[2] OE's patchwork instance:
+    http://patchwork.openembedded.org
+
+[3] Freedesktop.org patchwork fork:
+    https://github.com/dlespiau/patchwork
+
+[4] Our patchwork fork:
+    http://git.yoctoproject.org/cgit/cgit.cgi/patchwork/
+
+[5] Patchtest main repository:
+    http://git.yoctoproject.org/cgit/cgit.cgi/patchtest/
+
+[6] OE test suite for patchtest:
+    http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe/
+
+[7] Yocto Project bugzilla area for patchwork/patchtest:
+    https://bugzilla.yoctoproject.org/describecomponents.cgi?product=3D=
+Patchwork%2FPatchtest
+
+--=20
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
