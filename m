@@ -1,52 +1,29 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id B3F346E668
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 458A260621
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jan 2017 09:00:17 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id d140so20436728wmd.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jan 2017 01:00:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=TxHgYHRHgXfHGvi+OpYriPNafZFvd/ABz+Hz8NDwgQA=;
-	b=CzcE1XpMEDSXs1BgSkEbezmn1Ao3ihNV9QiR4RwlSBcX4a0aT1oTTgeO34V4E2KNj2
-	CdhdLewKMzA+4DZaAM3jFPlmcdD8+ceIqkdayzIT1taBR2KiEzdfuUvMJvMUlDmFdDDF
-	mfqyXgUPfVPzVB2Gy9m2ZjsqBiFRC6RnPfEFVNo6wDLNZRSTMPEP6BhkUndU/6K0adZB
-	GtTr1h98GgXw/v8oN+h/CziVuz4LMRn7DAun1chmcNMO4+PkHVQufIaZS68N051aqAEt
-	0e0vF3D7l0KoiRfqMVsXW1vZiyWRtlECZ/3CkQ5lBWZuMv6+9DOEwMJ3DALnXU/Qy9x6
-	9YKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=TxHgYHRHgXfHGvi+OpYriPNafZFvd/ABz+Hz8NDwgQA=;
-	b=KPCAongT74MYEpMprbU2Ekj6VfKd8+VotoVgij3Hn6qg9PGpuwrMxqdH7UZqjm9d1j
-	qflZZWkNofQm+poOqcYv0Xd81+ip53aZi7XHr6XBX/qTXtMOP9TDUD28iQkkw8mORggH
-	JovFH33ZP3uBcVPpZoIeqcy/cnMMV4pZn01aGsPTCB4CaqaxjpgNnD5u2WzZErA10oGC
-	xXTwnFYH0+Y6wEBOuttHpuP/ZQzU4NP3pxpfD55EkeCMQ9pL920wPrZ51eWT95tCENTt
-	TwYCh6lJNiM/1M90M8T2c5maqo7fJUNnF+ftGyMKM47F+DNEmZ2MmEgluQvDS9LCcYse
-	/vdQ==
-X-Gm-Message-State: AIkVDXLxcH8Fw1OFSSCQW3iKPWTwPyiqtmT4Ov6DpBNKp9qvjIlS5eBEYmvtlLgTmlgzVQ==
-X-Received: by 10.28.155.199 with SMTP id d190mr706659wme.31.1484643617097;
-	Tue, 17 Jan 2017 01:00:17 -0800 (PST)
-Received: from crde-port-20.cahors.local ([185.47.80.46])
-	by smtp.gmail.com with ESMTPSA id
-	u78sm35511604wma.11.2017.01.17.01.00.16
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 Jan 2017 01:00:16 -0800 (PST)
-From: David Vincent <freesilicon@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 17 Jan 2017 10:00:08 +0100
-Message-ID: <2216495.QWYccC7yTY@crde-port-20.cahors.local>
-In-Reply-To: <CAJTo0LaA8i2sVcXm+5J=Y_VMFCbp=kpaLtd+B9ypCpCx5e068Q@mail.gmail.com>
-References: <20161222102320.15247-1-freesilicon@gmail.com>
-	<20170112090847.26850-1-freesilicon@gmail.com>
-	<CAJTo0LaA8i2sVcXm+5J=Y_VMFCbp=kpaLtd+B9ypCpCx5e068Q@mail.gmail.com>
+	Tue, 17 Jan 2017 12:04:21 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Jan 2017 04:04:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,244,1477983600"; d="scan'208";a="49661930"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga004.jf.intel.com with ESMTP; 17 Jan 2017 04:04:21 -0800
+To: openembedded-core@lists.openembedded.org
+References: <1484237986-31888-1-git-send-email-anibal.limon@linux.intel.com>
+	<CAJTo0LYtE6TECPVqOfsdwdXnOFyvxEhXj2SHD79N1jmsScJkGA@mail.gmail.com>
+	<587CF82F.9090207@linux.intel.com>
+	<CAJTo0LaB5jYL2rjU3AHXAzzYeM49tcsb1dY3K+XH2=mv_x3T4w@mail.gmail.com>
+	<587D3E59.30206@linux.intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <8bce3503-07a2-d37f-0f3f-e71524058ef0@linux.intel.com>
+Date: Tue, 17 Jan 2017 14:04:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.4.0
 MIME-Version: 1.0
-Cc: "Plascencia, Daniela" <daniela.plascencia@intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v7] rootfs: Modify RPM installation
+In-Reply-To: <587D3E59.30206@linux.intel.com>
+Subject: Re: [PATCHv2] qemu: Upgrade to 2.8.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,60 +36,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jan 2017 09:00:19 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 17 Jan 2017 12:04:22 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On lundi 16 janvier 2017 17:39:45 CET Burton, Ross wrote:
-> On 12 January 2017 at 09:08, David Vincent <freesilicon@gmail.com> wrote:
-> > When using a custom RPM data directory instead of the default dir
-> > '/var/lib/rpm', the final image did not contain any of the database
-> > files in the expected location. This commit takes into account the
-> > 'rpmlibdir' variable set into 'rootfs_rpm.bbclass'.
-> 
-> Something changed and this is now breaking rootfs generation for me:
+On 01/16/2017 11:42 PM, Aníbal Limón wrote:
 
-It becomes weirder and weirder...
+> (gdb) info threds
+>   Id   Target Id         Frame
+>   1    Thread 0x7ffff7fd0780 (LWP 25006) "qemu-ppc"
+> pthread_cond_wait@@GLIBC_2.3.2 () at
+> ../nptl/sysdeps/unix/sysv/linux/x86_64/pthread_cond_wait.S:185
+>   2    Thread 0x7ffff647e700 (LWP 25010) "qemu-ppc" syscall () at
+> ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+> * 3    Thread 0x7ffff7f4d700 (LWP 25011) "qemu-ppc" 0x000000000086e204
+> in static_code_gen_buffer ()
+>
+> I'll send an email to the qemu mailing list.
 
-> 
-> File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
->      0001:
->  *** 0002:license_create_manifest(d)
->      0003:
-> File:
-> '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-64/build/meta/cl
-> asses/license.bbclass', lineno: 48, function: license_create_manifest
->      0044:    pkg_dic = {}
->      0045:    for pkg in sorted(image_list_installed_packages(d)):
->      0046:        pkg_info = os.path.join(d.getVar('PKGDATA_DIR'),
->      0047:                                'runtime-reverse', pkg)
->  *** 0048:        pkg_name = os.path.basename(os.readlink(pkg_info))
->      0049:
->      0050:        pkg_dic[pkg_name] =
-> oe.packagedata.read_pkgdatafile(pkg_info)
->      0051:        if not "LICENSE" in pkg_dic[pkg_name].keys():
->      0052:            pkg_lic_name = "LICENSE_" + pkg_name
-> Exception: FileNotFoundError: [Errno 2] No such file or directory:
-> '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-64/build/build/t
-> mp/sysroots/qemux86-64/pkgdata/runtime-reverse/error:'
-> 
-> Note how pkg is set to "error:".
+If this isn't fixed in reasonable time, we should probably disable qemu 
+usermode on ppc - unfortunate, but that's the deal with using it for 
+anything.
 
-I found that the RpmPkgsList is also using 'rpmlibdir'. Could it be possible 
-that it must be defined for class-native and class-target ? Therefore, maybe 
-setting a default value in each case could solve the problem ?
-I'm using this patch on a daily basis and I don't have problems but, in my 
-case, I set a default value for rpmlibdir at the distro level which I override 
-for class-target in some of my BSP layers.
+You would need to just copy/tweak the corresponding line from 
+meta/conf/machine/include/powerpc/arch-powerpc64.inc
 
-I can fall back to v6 and set a default value using a weak assignment for 
-rpmlibdir.
+Alex
 
-> 
-> Clearly the error handling in image_list_installed_packages() needs work,
-> but I can make this problem appear/disappear by adding/removing this patch.
-> 
-> Ross
-
-David
 
