@@ -1,37 +1,20 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B53ED601F1
+Return-Path: <jose.a.lamego@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 02B7E71A92
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jan 2017 15:28:30 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id c85so6748604wmi.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jan 2017 07:28:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=iGlqxbxyIpcU/ZSOEPdYXFw44569Pc9K9LbPAtshOg4=;
-	b=EhAZNAizwfdiV2fXk+UvMeDwTOClm7an5mrv+jd6wU4cc/EgW599VXK8KyHWkvog7w
-	pvqDEY8UYYgHZxC+hxdqLW0U3ke3I96NVQFlf29h+NuAuLvEt3CWYlZkHl5Fek7IQtA7
-	KDVMgktS7A4d8Hfy37BcYGPh+QKdn1FakifC+2meOnSCb53905PZiEvrTUGGmomIWIBc
-	2cCR5Qa3OH4J13KPQ0ViXiVpF3XXFEK4qvOHa7DkdKwePdyfl1u3WLN+bRVRrZNST/bU
-	9X9mCmadbagsMVHqVYaMtcCqhCrinPdiFphQKUQr0rugM3A8e7vYgr58nA53wuooSz9l
-	mNfg==
-X-Gm-Message-State: AIkVDXLg/RPAdPfCAXfr2RCUHPALpuSsDQA9mJeKlmnX0dU/l0Hh63Aji0JOymSul3ocAA==
-X-Received: by 10.28.165.199 with SMTP id o190mr17396484wme.113.1484666910392; 
-	Tue, 17 Jan 2017 07:28:30 -0800 (PST)
-Received: from tfsielt31850.tycofs.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	204sm37846973wmj.7.2017.01.17.07.28.29
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 Jan 2017 07:28:29 -0800 (PST)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+	Tue, 17 Jan 2017 15:42:28 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga103.jf.intel.com with ESMTP; 17 Jan 2017 07:42:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,245,1477983600"; d="scan'208";a="49719728"
+Received: from yocto-ab04.ostc.intel.com ([10.54.69.51])
+	by orsmga004.jf.intel.com with ESMTP; 17 Jan 2017 07:42:23 -0800
+From: Jose Lamego <jose.a.lamego@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jan 2017 15:28:28 +0000
-Message-Id: <20170117152828.10729-1-git@andred.net>
-X-Mailer: git-send-email 2.11.0
-MIME-Version: 1.0
-Subject: [PATCH] python3-pygobject: enable cairo only when a display is available
+Date: Tue, 17 Jan 2017 07:42:08 -0800
+Message-Id: <cover.1484667160.git.jose.a.lamego@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH 0/3] distutils3: add egg files to path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,39 +27,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jan 2017 15:28:30 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 17 Jan 2017 15:42:30 -0000
 
-From: André Draszik <adraszik@tycoint.com>
+Packages that use egg files or directories for installation may
+not be found when imported at the python3 interpreter.
+egg files/directories path must be included in a pth file to
+be appropriately included in python path.
 
-It doesn't seem to make sense to unconditionally enable cairo
-support, as this pulls in lots of other dependencies, where
-none of these can actually be used without some sort of
-graphical interface.
+These changes handle the egg files from the distutils3 class to avoid
+the need to perform it individually at each recipe.
 
-Not having a generic distro feature to detect this, we just
-use any of DirectFB / Wayland / X11
+[YOCTO #8673]
 
-Signed-off-by: André Draszik <adraszik@tycoint.com>
----
- meta/recipes-devtools/python/python3-pygobject_3.22.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The following changes since commit 63f899a950daf1018999455bafa7a2be8b22f164:
 
-diff --git a/meta/recipes-devtools/python/python3-pygobject_3.22.0.bb b/meta/recipes-devtools/python/python3-pygobject_3.22.0.bb
-index 5a895441fc..143048d9ef 100644
---- a/meta/recipes-devtools/python/python3-pygobject_3.22.0.bb
-+++ b/meta/recipes-devtools/python/python3-pygobject_3.22.0.bb
-@@ -19,7 +19,7 @@ SRC_URI[sha256sum] = "08b29cfb08efc80f7a8630a2734dec65a99c1b59f1e5771c671d2e4ed8
- S = "${WORKDIR}/${SRCNAME}-${PV}"
- 
- 
--PACKAGECONFIG ??= "cairo"
-+PACKAGECONFIG ??= "${@bb.utils.contains_any('DISTRO_FEATURES', [ 'directfb', 'wayland', 'x11' ], 'cairo', '', d)}"
- 
- # python3-pycairo is checked on configuration -> DEPENDS
- # we don't link against python3-pycairo -> RDEPENDS
+  bitbake: toaster: bin/toaster whitelist TOASTER_DIR (2017-01-17 13:18:47 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lamego/bug8673
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lamego/bug8673
+
+Jose Lamego (3):
+  distutils3.bbclass: add egg files/directories to python path
+  python3-pip: Remove pth file creation at recipe level
+  python3-setuptools: Remove pth file creation at recipe level
+
+ meta/classes/distutils3.bbclass                           | 10 ++++++++++
+ meta/recipes-devtools/python/python3-pip_9.0.1.bb         |  3 ---
+ meta/recipes-devtools/python/python3-setuptools_31.0.0.bb |  3 ---
+ 3 files changed, 10 insertions(+), 6 deletions(-)
+
 -- 
-2.11.0
+1.8.3.1
 
 
