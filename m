@@ -1,25 +1,48 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F24E71AC2
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-vk0-f51.google.com (mail-vk0-f51.google.com
+	[209.85.213.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C8DB71ADE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jan 2017 16:20:16 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga101.jf.intel.com with ESMTP; 17 Jan 2017 08:20:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,245,1477983600"; d="scan'208";a="54043098"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 17 Jan 2017 08:20:14 -0800
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.71])
-	by linux.intel.com (Postfix) with ESMTP id AA7006A4080
+	Tue, 17 Jan 2017 16:20:20 +0000 (UTC)
+Received: by mail-vk0-f51.google.com with SMTP id x75so95597219vke.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jan 2017 08:19:18 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jan 2017 18:20:34 +0200
-Message-Id: <1484670034-4647-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [morty][PATCH] busybox: refresh the flock patch
+	Tue, 17 Jan 2017 08:20:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=wMpI9tb4w62Qsd0N0eI+xO/6NjEUW804B90H0WUIXVI=;
+	b=b7u22OBMq1K6Dl9cHpPFNJ70HX1GCuOdBkWvxg37cuLlEvVDPRUMsCd2HNTvfJZMwn
+	2REsF7Z9ESJwd7IvukkdlAaZ93AcjGHMIxd5dty0VQt7wd3N1Uy55UjYmbMOfeuU238D
+	giDHgV8MRwiuqp09l8pX0Jj6KtCCwXwGwih6nqMdrJoHQXwDGr58IpTwxU93atTTOmPH
+	ecrAQp5ex120A3Z784hjxb8xPHtRpOVkKO2j5TlQeruB13FptEPN907v0XbGi/tDGiJD
+	d77rbQUTGAtTmXlapc+EFWr0xEYwMud+6OsS+RQe3p91NCavZJ5TJnENkxOZB5Nsrwf5
+	Zg9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=wMpI9tb4w62Qsd0N0eI+xO/6NjEUW804B90H0WUIXVI=;
+	b=GTJIPbRmxXjQQwvrJNhEO+Dsp9Yn60ZxeBWjnntSzWsB+xRv+Ezwm0TDDGNY/EVuRL
+	h16pTqzGnQ+Ia+zQFwZqeGTeMXOrLuskO0y+j/MSJd2CaWDOShk4KsiZ2ACPhFHg51Lr
+	1J4rO1HlBikoXIkv9NN0i/aNdD3g7VoLJj90/ZjwDBc1abQkTzVjN40qOs5+z1ucSvPK
+	1SE+ybZVEPeRF0gqRk1v8XL3587095aMYuOzNBCFTJI8ulHg2op9bLtyMDgy6ttFM20S
+	jcuXeHKFo3UIKv6s0+flvozEo4c27vAApxdq6tMRwKZgprOQyDSOqD78JUVCLAaWlKaL
+	TyCw==
+X-Gm-Message-State: AIkVDXLnLpxrD10vPWEDcCaaonJdLccE3KtNmMXfxxPpxIIG8kkC2L/h+6MpVuvFXPGmG+74izoPXDDjTkP9bg==
+X-Received: by 10.31.36.151 with SMTP id k145mr13444604vkk.29.1484670020788;
+	Tue, 17 Jan 2017 08:20:20 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.176.69.246 with HTTP; Tue, 17 Jan 2017 08:20:20 -0800 (PST)
+In-Reply-To: <20170117152828.10729-1-git@andred.net>
+References: <20170117152828.10729-1-git@andred.net>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Tue, 17 Jan 2017 17:20:20 +0100
+Message-ID: <CALbNGRRUhGWsDwr8WdVnaZmuqj8W+aaY8fQ41bXYzYoT1rT1cQ@mail.gmail.com>
+To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] python3-pygobject: enable cairo only when a display is available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,127 +55,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jan 2017 16:20:17 -0000
+X-List-Received-Date: Tue, 17 Jan 2017 16:20:21 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Upstream accepted the flock fix with some improvements. Backport those
-changes.
+On Tue, Jan 17, 2017 at 4:28 PM, Andr=C3=A9 Draszik <git@andred.net> wrote:
+> From: Andr=C3=A9 Draszik <adraszik@tycoint.com>
+>
+> It doesn't seem to make sense to unconditionally enable cairo
+> support, as this pulls in lots of other dependencies, where
+> none of these can actually be used without some sort of
+> graphical interface.
+>
+> Not having a generic distro feature to detect this, we just
+> use any of DirectFB / Wayland / X11
+>
+> Signed-off-by: Andr=C3=A9 Draszik <adraszik@tycoint.com>
+> ---
+>  meta/recipes-devtools/python/python3-pygobject_3.22.0.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/python/python3-pygobject_3.22.0.bb b/m=
+eta/recipes-devtools/python/python3-pygobject_3.22.0.bb
+> index 5a895441fc..143048d9ef 100644
+> --- a/meta/recipes-devtools/python/python3-pygobject_3.22.0.bb
+> +++ b/meta/recipes-devtools/python/python3-pygobject_3.22.0.bb
+> @@ -19,7 +19,7 @@ SRC_URI[sha256sum] =3D "08b29cfb08efc80f7a8630a2734dec6=
+5a99c1b59f1e5771c671d2e4ed8
+>  S =3D "${WORKDIR}/${SRCNAME}-${PV}"
+>
+>
+> -PACKAGECONFIG ??=3D "cairo"
+> +PACKAGECONFIG ??=3D "${@bb.utils.contains_any('DISTRO_FEATURES', [ 'dire=
+ctfb', 'wayland', 'x11' ], 'cairo', '', d)}"
+>
+>  # python3-pycairo is checked on configuration -> DEPENDS
+>  # we don't link against python3-pycairo -> RDEPENDS
+> --
+> 2.11.0
+>
+Looks good
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- ...e-the-behaviour-of-c-parameter-to-match-u.patch | 77 ++++++++++------------
- 1 file changed, 34 insertions(+), 43 deletions(-)
-
-diff --git a/meta/recipes-core/busybox/busybox/0001-flock-update-the-behaviour-of-c-parameter-to-match-u.patch b/meta/recipes-core/busybox/busybox/0001-flock-update-the-behaviour-of-c-parameter-to-match-u.patch
-index 8bcbd73..78520f0 100644
---- a/meta/recipes-core/busybox/busybox/0001-flock-update-the-behaviour-of-c-parameter-to-match-u.patch
-+++ b/meta/recipes-core/busybox/busybox/0001-flock-update-the-behaviour-of-c-parameter-to-match-u.patch
-@@ -1,35 +1,24 @@
--From 198f18addf1d814c2fefcb492f3b9fbd221669bb Mon Sep 17 00:00:00 2001
--From: "Maxin B. John" <maxin.john@intel.com>
--Date: Wed, 20 Apr 2016 18:24:45 +0300
--Subject: [PATCH] flock: update the behaviour of -c parameter to match upstream
--
--In upstream, -c 'PROG ARGS' means "run sh -c 'PROG ARGS'"
-+From e1d426fd65c00a6d01a10d85edf8a294ae8a2d2b Mon Sep 17 00:00:00 2001
-+From: Denys Vlasenko <vda.linux@googlemail.com>
-+Date: Sun, 24 Apr 2016 18:19:49 +0200
-+Subject: [PATCH] flock: fix -c; improve error handling of fork+exec
- 
- function                                             old     new   delta
--flock_main                                           286     377     +91
--.rodata                                           155849  155890     +41
-+flock_main                                           254     334     +80
- 
--Upstream-Status: Submitted
--[ http://lists.busybox.net/pipermail/busybox/2016-April/084142.html ]
-+Upstream-Status: Backport
- 
-+Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
- Signed-off-by: Maxin B. John <maxin.john@intel.com>
- ---
-- util-linux/flock.c | 20 ++++++++++++++------
-- 1 file changed, 14 insertions(+), 6 deletions(-)
-+ util-linux/flock.c | 19 +++++++++++++++++--
-+ 1 file changed, 17 insertions(+), 2 deletions(-)
- 
- diff --git a/util-linux/flock.c b/util-linux/flock.c
--index 05a747f..c85a25d 100644
-+index 05a747f..539a835 100644
- --- a/util-linux/flock.c
- +++ b/util-linux/flock.c
--@@ -20,6 +20,7 @@ int flock_main(int argc, char **argv) MAIN_EXTERNALLY_VISIBLE;
-- int flock_main(int argc UNUSED_PARAM, char **argv)
-- {
-- 	int mode, opt, fd;
--+    char *cmd_args[4];
-- 	enum {
-- 		OPT_s = (1 << 0),
-- 		OPT_x = (1 << 1),
--@@ -57,7 +58,6 @@ int flock_main(int argc UNUSED_PARAM, char **argv)
-+@@ -57,7 +57,6 @@ int flock_main(int argc UNUSED_PARAM, char **argv)
-  	/* If it is "flock FILE -c PROG", then -c isn't caught by getopt32:
-  	 * we use "+" in order to support "flock -opt FILE PROG -with-opts",
-  	 * we need to remove -c by hand.
-@@ -37,35 +26,37 @@ index 05a747f..c85a25d 100644
-  	 */
-  	if (argv[0]
-  	 && argv[0][0] == '-'
--@@ -65,7 +65,10 @@ int flock_main(int argc UNUSED_PARAM, char **argv)
-- 	    || (ENABLE_LONG_OPTS && strcmp(argv[0] + 1, "-command") == 0)
-+@@ -66,6 +65,9 @@ int flock_main(int argc UNUSED_PARAM, char **argv)
-  	    )
-  	) {
---		argv++;
--+        if (argc != optind + 3)
--+            bb_error_msg_and_die("-c requires exactly one command argument");
--+        else
--+            argv++;
-+ 		argv++;
-++		if (argv[1])
-++			bb_error_msg_and_die("-c takes only one argument");
-++		opt |= OPT_c;
-  	}
-  
-  	if (OPT_s == LOCK_SH && OPT_x == LOCK_EX && OPT_n == LOCK_NB && OPT_u == LOCK_UN) {
--@@ -89,9 +92,14 @@ int flock_main(int argc UNUSED_PARAM, char **argv)
-- 			return EXIT_FAILURE;
-+@@ -90,8 +92,21 @@ int flock_main(int argc UNUSED_PARAM, char **argv)
-  		bb_perror_nomsg_and_die();
-  	}
---
-+ 
- -	if (argv[0])
---		return spawn_and_wait(argv);
---
--+    if (argv[0]) {
--+        cmd_args[0] = getenv("SHELL");
--+        if (!cmd_args[0])
--+            cmd_args[0] = (char*)DEFAULT_SHELL;
--+        cmd_args[1] = (char*)"-c";
--+        cmd_args[2] = argv[0];
--+        cmd_args[3] = NULL;
--+        return spawn_and_wait(cmd_args);
--+    }
-++	if (argv[0]) {
-++		if (!(opt & OPT_c)) {
-++			int rc = spawn_and_wait(argv);
-++			if (rc < 0)
-++				bb_simple_perror_msg(argv[0]);
-++			return rc;
-++		}
-++		/* -c 'PROG ARGS' means "run sh -c 'PROG ARGS'" */
-++		argv -= 2;
-++		argv[0] = (char*)get_shell_name();
-++		argv[1] = (char*)"-c";
-++		/* argv[2] = "PROG ARGS"; */
-++		/* argv[3] = NULL; */
-+ 		return spawn_and_wait(argv);
-++	}
-+ 
-  	return EXIT_SUCCESS;
-  }
- -- 
--- 
-2.4.0
-
+Andreas
 
