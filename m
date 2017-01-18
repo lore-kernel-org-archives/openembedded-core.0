@@ -1,22 +1,26 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 33BBF71A30
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jan 2017 18:31:57 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga101.jf.intel.com with ESMTP; 18 Jan 2017 10:31:56 -0800
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 76B4B60684;
+	Wed, 18 Jan 2017 19:50:06 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 18 Jan 2017 11:50:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,250,1477983600"; d="scan'208";a="54537364"
-Received: from bitbang.jf.intel.com ([10.7.199.68])
-	by orsmga005.jf.intel.com with ESMTP; 18 Jan 2017 10:31:56 -0800
-From: Randy Witt <randy.e.witt@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Jan 2017 10:31:50 -0800
-Message-Id: <023e14ed9eb107b5487e142049eb1c74c898cb2b.1484764234.git.randy.e.witt@linux.intel.com>
-X-Mailer: git-send-email 2.9.3
-In-Reply-To: <cover.1484764234.git.randy.e.witt@linux.intel.com>
-References: <cover.1484764234.git.randy.e.witt@linux.intel.com>
-Subject: [PATCH 1/3] image-container.bbclass: Add the "container" IMAGE_FSTYPES
+X-IronPort-AV: E=Sophos;i="5.33,250,1477983600"; d="scan'208";a="810498519"
+Received: from mbadrulh-mobl1.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.134.14])
+	by FMSMGA003.fm.intel.com with ESMTP; 18 Jan 2017 11:50:05 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-architecture@lists.openembedded.org
+Date: Thu, 19 Jan 2017 08:50:03 +1300
+Message-ID: <9459934.WN0IuyjPMC@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.8.13-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <8251941.rtFFyTMRIg@peggleto-mobl.ger.corp.intel.com>
+References: <8251941.rtFFyTMRIg@peggleto-mobl.ger.corp.intel.com>
+MIME-Version: 1.0
+Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [Openembedded-architecture] Layer index enhancements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,57 +33,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jan 2017 18:31:57 -0000
+X-List-Received-Date: Wed, 18 Jan 2017 19:50:07 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The "container" fstype does very little other than pick tar.bz2 as the
-actual image type and disable installation of ROOTFS_BOOTSTRAP_INSTALL.
+On Wed, 18 Jan 2017 23:02:00 Paul Eggleton wrote:
+> * We now pick up layer dependencies (and recommends) specified in the
+> layer.conf, but only if they match the layer name - we don't handle
+> collection names yet, so this won't currently work where the collection
+> name doesn't match the layer name (e.g. oe-core, meta-oe...).
 
-[YOCTO #9502]
+I was wrong about this - the collection name is collected and used in the 
+dependency resolution. New layers / branches should have this information 
+populated, however we haven't collected collection names for all of the 
+existing layers. I have just gone in and checked meta-oe and oe-core are set 
+up for master, morty, krogoth & jethro.
 
-Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
----
- meta/classes/image-container.bbclass | 3 +++
- meta/classes/image.bbclass           | 3 +++
- meta/classes/image_types.bbclass     | 1 +
- 3 files changed, 7 insertions(+)
- create mode 100644 meta/classes/image-container.bbclass
+Cheers,
+Paul
 
-diff --git a/meta/classes/image-container.bbclass b/meta/classes/image-container.bbclass
-new file mode 100644
-index 0000000..a10ee32
---- /dev/null
-+++ b/meta/classes/image-container.bbclass
-@@ -0,0 +1,3 @@
-+ROOTFS_BOOTSTRAP_INSTALL = ""
-+IMAGE_TYPES_MASKED += "container"
-+IMAGE_TYPEDEP_container = "tar.bz2"
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 04fd5f9..b2c2a28 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -144,6 +144,9 @@ inherit ${IMAGE_TYPE_live}
- IMAGE_TYPE_vm = '${@bb.utils.contains_any("IMAGE_FSTYPES", ["vmdk", "vdi", "qcow2", "hdddirect"], "image-vm", "", d)}'
- inherit ${IMAGE_TYPE_vm}
- 
-+IMAGE_TYPE_container = '${@bb.utils.contains("IMAGE_FSTYPES", "container", "image-container", "", d)}'
-+inherit ${IMAGE_TYPE_container}
-+
- def build_uboot(d):
-     if 'u-boot' in (d.getVar('IMAGE_FSTYPES') or ''):
-         return "image_types_uboot"
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 7748dee..727a87e 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -328,6 +328,7 @@ IMAGE_TYPES = " \
-     hdddirect \
-     elf \
-     wic wic.gz wic.bz2 wic.lzma \
-+    container \
- "
- 
- # Compression is a special case of conversion. The old variable
 -- 
-2.9.3
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
