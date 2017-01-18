@@ -1,49 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BFF971A17
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
+	[209.85.216.194])
+	by mail.openembedded.org (Postfix) with ESMTP id F032371AC2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jan 2017 11:25:01 +0000 (UTC)
-Received: by mail-qk0-f173.google.com with SMTP id u25so9723617qki.2
+	Wed, 18 Jan 2017 12:08:23 +0000 (UTC)
+Received: by mail-qt0-f194.google.com with SMTP id a29so1299983qtb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jan 2017 03:25:02 -0800 (PST)
+	Wed, 18 Jan 2017 04:08:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	d=nathanrossi.com; s=google;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=8j0mF0g+H1K+rEaplAxTQqYL2LMAtrr5DFuQef04kDE=;
-	b=I/FGGSe8UonGNIqPtAzlxwzseXrZXtxXI+NiYfR+h4gMcCPJjcnGnLZvoLUq12PRCg
-	rquvlx1afRhx+iJXSIAPucbxY6Go01db2bl8XdJhjyahyEvlmBUpoHT+2a7NDPmLXaZW
-	8GZ5h/LVkf6IlCI8tO/C4KvBN9W9D9FOI2v3AyvLjpxugiME4LLQ9688iolUJF/92gM/
-	SjcFJ01h8B6iJ8ptmXzgZoBJUwK0Ss7Vv9XvrwCqpgIQoRDtudn0hzYP4bhxFUwOek5o
-	FYW4FIRy8eExC5E/f16PCvVhvjRdMGMsEJ5C1/g31cYa4ker4u64vW7uyeYxFV3YtNj0
-	4qPg==
+	:cc; bh=TXugbSHxaVzl3+76z7jCtVLm2wKcyP6bO4hSaVlkn1c=;
+	b=a2QLVSHjk47VIdaWMhNokYIzU3ECiYsfQs4FO2AD8CBd4EvbwGDtPCCioYeWhAcnk+
+	5k92bab3t5layOuh9LANLk4WjXgETeSAQRHia8ocnUdJv9hRI5ZYm3JbX+VpPiw6KZ+2
+	HtPndQ+pokZTyJ7+fEG1qbS/eWZQlIOApaKoIJ8womkIU7Znu6vQxGRjkf38N3UMZk6N
+	sYLbDolVpD2cqjMP3pMcwk662laQW+Zo1MnC/RvlqifTHTOBZ1qIQF7+3+JU5oPBFJKa
+	vStQ6gPlnoZRAwFNQ9tT+ONtGzJyk8Va4A4DMs3rBI5coZVP+KHk8cqYhNzxCUVkzq/U
+	mqaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=8j0mF0g+H1K+rEaplAxTQqYL2LMAtrr5DFuQef04kDE=;
-	b=NVeEHz3IYKIiJJTIK6zk9bVospnYT2jCGW15lDD9kT6lFxmxwWG1Vd8PIYf71nT1xE
-	Xod7LOWuWVQpsXZG33bIRxx13JfKocHZ+kKm0UJ0vvtJzOeTWdVI6fhLmcApMQlkIzCT
-	zi2XgWQ85p2csUEegt9OzNde+YYHwljy7E5YZf9xHi46Kbr3voJjy3lgjfOqaCAjQTeR
-	slli54lS/GdU+K8zJJDyhFRv7YcWvBrjA030H9EhWeqqXLn/k0lRmL18G+Vzv97NqAwM
-	4Sierl6ZpZcBuznmZ7v/vwNMJOwnT6/xl8OyMPGhqFXwuPlpE8v4t9dxQcm6v8IAMUY4
-	7FjQ==
-X-Gm-Message-State: AIkVDXI/FoHIMn09FAY9nsE+u3bC8oRQ4T30IutpJVynXQQK+suon1/uqBA59Qyqkhu1LQILCcmZRC7hm4JwACd5
-X-Received: by 10.55.15.231 with SMTP id 100mr2304573qkp.244.1484738702389;
-	Wed, 18 Jan 2017 03:25:02 -0800 (PST)
+	bh=TXugbSHxaVzl3+76z7jCtVLm2wKcyP6bO4hSaVlkn1c=;
+	b=s0aMA4GOYRLjfc3nutih4+plOS0XKPdHiONThdAyUiMJD1yykLbmUdUND0ltgzoEFF
+	IpPIdGGiU7hCcjL9ZnsdugphBtKdMz4oOENGPINpeD5wurx94oyumedSyMq8RFsHczQP
+	Uxzaqhw0KOylINvqb/rI+6gUF4jDOoR5Xd47owpbGG1RDjknEC+BYhCPhxyLAmD4vAyX
+	ZC+bsvaRyVhWm0wtYR+Z7E7BUHy7+SsNFpD00kUWqU3DOcQ5PcxBoMn5A34OEstjCRAu
+	bYMipao6x18SNpivWbfc1gz/hURC3882eEB7YqNI3cVzs/YOfKGYoeVCjvmWFdwo6r+f
+	bncg==
+X-Gm-Message-State: AIkVDXLS3m5+zBHF9E7F3XTeJZjfm/hEH2r7vvLCCBeITkHjMsdrhf01icsvmV/q0JaWA19C34YMUArNzwwWjw==
+X-Received: by 10.237.46.162 with SMTP id k31mr2560016qtd.133.1484741304189;
+	Wed, 18 Jan 2017 04:08:24 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Wed, 18 Jan 2017 03:24:42 -0800 (PST)
-In-Reply-To: <CAP71WjyY0oH=j3ApVZhrc6sQ7YDw4bfnrAc1V9okencZLhjVBw@mail.gmail.com>
-References: <cover.1484733982.git.ross.burton@intel.com>
-	<CAP71WjyY0oH=j3ApVZhrc6sQ7YDw4bfnrAc1V9okencZLhjVBw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 18 Jan 2017 11:24:42 +0000
-Message-ID: <CAJTo0LbbY2VA55oZ=1A4K-QEyOtrZ3NoxsLbLOOz6Gcy4Cwd_w@mail.gmail.com>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>,
-	Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/56] Consolidated pul
+Received: by 10.12.137.175 with HTTP; Wed, 18 Jan 2017 04:08:23 -0800 (PST)
+In-Reply-To: <05c7dfd0-38f3-b684-db94-38121b086a67@topic.nl>
+References: <1479848501-5451-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
+	<CAMKF1spiS9_qTRf2_01rVRTfwKLoZ+WDYm7Hy4_Dr5On7eDLXw@mail.gmail.com>
+	<14EB1FFCA0C8D24A8B04EDEC1EA78C2453DBB31E@XSJ-PSEXMBX01.xlnx.xilinx.com>
+	<05c7dfd0-38f3-b684-db94-38121b086a67@topic.nl>
+From: Nathan Rossi <nathan@nathanrossi.com>
+Date: Wed, 18 Jan 2017 22:08:23 +1000
+Message-ID: <CA+aJhH03XW19tEX5nP7WgoV6au9xmms6GuASEHMmRvA-1qhh8w@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+Cc: Mike Looijmans <mike.looijmans@topic.nl>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH][Morty] binutils-2.27.inc: Fix alignment frags for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,57 +57,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jan 2017 11:25:02 -0000
-Content-Type: multipart/alternative; boundary=001a11476032f0c70805465caa5a
-
---001a11476032f0c70805465caa5a
+X-List-Received-Date: Wed, 18 Jan 2017 12:08:24 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 18 January 2017 at 10:15, Nicolas Dechesne <nicolas.dechesne@linaro.org>
-wrote:
-
-> > Khem Raj (1):
-> >       gstreamer1.0-plugins-bad: Backport patches for improving live
-> playback
-> >
+On 18 January 2017 at 19:37, Mike Looijmans <mike.looijmans@topic.nl> wrote:
+> Could someone at least please say "yes" or "no"?
 >
-> I was under the impression that this one would be dropped.. at least
-> based on last emails. maybe it was discussed separately.. did you
-> conclude that we need these patches?
+> I now have three projects waiting for this patch to be included in morty. If
+> it's not going to happen, I'll have to add a bbappend to these layers to fix
+> it.
+>
+> On 16-01-17 18:49, Manjukumar Harthikote Matha wrote:
+>>
+>> Ping, this has been applied to master
 
+Armin, you mentioned on IRC ~1 week ago that you had merged it to your
+staging branch? Any updates?
 
-Personally I'm easy either way.  It's not a giant patch and can be removed
-when the upgrade happens.  Then again it's churn that interested parties
-can equally hold in their own distro layer.
+Also I had a look and could not find the change in
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=akuster/morty-next?
+Maybe I am looking in the wrong place though for your staging tree?
 
-CCing Khem for his opinion.
+Thanks,
+Nathan
 
-Ross
-
---001a11476032f0c70805465caa5a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 January 2017 at 10:15, Nicolas Dechesne <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:nicolas.dechesne@linaro.org" target=3D"_blank">nicolas.dechesne@=
-linaro.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span cl=
-ass=3D"">&gt; Khem Raj (1):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0gstreamer1.0-plugins-bad: Backport patches f=
-or improving <span class=3D"il">live</span> <span class=3D"il">playback</sp=
-an><br>
-&gt;<br>
-<br>
-</span>I was under the impression that this one would be dropped.. at least=
-<br>
-based on last emails. maybe it was discussed separately.. did you<br>
-conclude that we need these patches?</blockquote></div><br>Personally I&#39=
-;m easy either way.=C2=A0 It&#39;s not a giant patch and can be removed whe=
-n the upgrade happens.=C2=A0 Then again it&#39;s churn that interested part=
-ies can equally hold in their own distro layer.</div><div class=3D"gmail_ex=
-tra"><br></div><div class=3D"gmail_extra">CCing Khem for his opinion.</div>=
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div><=
-/div>
-
---001a11476032f0c70805465caa5a--
