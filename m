@@ -1,24 +1,27 @@
-Return-Path: <francisco.j.pedraza.gonzalez@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id B8FE771A3E
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id C1CA371AE4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jan 2017 02:09:09 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 17 Jan 2017 18:09:09 -0800
+	Wed, 18 Jan 2017 02:10:51 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga104.fm.intel.com with ESMTP; 17 Jan 2017 18:10:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,247,1477983600"; d="scan'208";a="1084237044"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 17 Jan 2017 18:09:09 -0800
-Received: from fjpedraz-MOBL3.zpn.intel.com (unknown [10.219.5.153])
-	by linux.intel.com (Postfix) with ESMTP id BCD2A6A4006;
-	Tue, 17 Jan 2017 18:08:13 -0800 (PST)
-From: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jan 2017 20:09:02 -0600
-Message-Id: <1484705342-13494-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
-X-Mailer: git-send-email 2.5.0
-Cc: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
-Subject: [PATCH v2] oeqa/selftest: Adds test case for sdk-update eSDK
+X-IronPort-AV: E=Sophos;i="5.33,247,1477983600"; d="scan'208";a="214594640"
+Received: from jayyinch-mobl6.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.188.18])
+	by fmsmga004.fm.intel.com with ESMTP; 17 Jan 2017 18:10:46 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Slater, Joseph" <joe.slater@windriver.com>
+Date: Wed, 18 Jan 2017 15:10:44 +1300
+Message-ID: <2668960.BEK5IJKGgR@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.8.13-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <007BD92917A2324FA403BCF9A464CF84C2FCC058@ALA-MBA.corp.ad.wrs.com>
+References: <007BD92917A2324FA403BCF9A464CF84C2FCC058@ALA-MBA.corp.ad.wrs.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: SRCPV and git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,103 +34,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jan 2017 02:09:10 -0000
+X-List-Received-Date: Wed, 18 Jan 2017 02:10:52 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-1. Test case adds perl recipe before build eSDK.
-2. After this added recipe, the script verifies the update:
+Hi Joe,
 
-    ${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.sh
-    oe-publish-sdk [esdk] [path-to-http]
-    CORE_IMAGE_EXTRA_INSTALL = "perl"
-    bitbake -c populate-sdk-ext [some-image]
-    devtool sdk-update
+On Wed, 18 Jan 2017 01:07:15 Slater, Joseph wrote:
+> I believe that SRCPV for a git SRC_URI always contains the string AUTOINC. 
+> This could be considered wrong, or just misleading, since SRCREV can be set
+> to a sha.  I think I might have brought this up in the past, but I cannot
+> remember if there is some reason to retain the AUTOINC unconditionally.
 
-This should fix [YOCTO #9369]
+I'll just paste this FAQ link - not that I'd expect anyone to have found this 
+since it's still an unofficial FAQ, just to save me typing out the same thing:
 
-Signed-off-by: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
----
- meta/lib/oeqa/selftest/eSDK.py | 42 ++++++++++++++++++++++++++++++++++++------
- 1 file changed, 36 insertions(+), 6 deletions(-)
+  https://wiki.yoctoproject.org/wiki/Technical_FAQ#Why_is_bitbake_showing_.22AUTOINC.22_in_the_version_for_some_recipes.3F
 
-diff --git a/meta/lib/oeqa/selftest/eSDK.py b/meta/lib/oeqa/selftest/eSDK.py
-index b43a452..c95ca6d 100644
---- a/meta/lib/oeqa/selftest/eSDK.py
-+++ b/meta/lib/oeqa/selftest/eSDK.py
-@@ -51,6 +51,29 @@ class oeSDKExtSelfTest(oeSelfTest):
-         toolchain_name = get_bb_var('TOOLCHAINEXT_OUTPUTNAME', pn_task)
-         return os.path.join(sdk_deploy, toolchain_name + '.sh')
-     
-+    @staticmethod
-+    def update_configuration(cls, image, tmpdir_eSDKQA, env_eSDK, ext_sdk_path):
-+        sstate_dir = os.path.join(os.environ['BUILDDIR'], 'sstate-cache')
-+        cls.http_service = HTTPService(sstate_dir)
-+        cls.http_service.start()
-+        cls.http_url = "http://127.0.0.1:%d" % cls.http_service.port
-+
-+        oeSDKExtSelfTest.generate_eSDK(cls.image)
-+
-+        cls.ext_sdk_path = oeSDKExtSelfTest.get_eSDK_toolchain(cls.image)
-+        runCmd("%s -y -d \"%s\"" % (cls.ext_sdk_path, cls.tmpdir_eSDKQA))
-+
-+        cls.env_eSDK = oeSDKExtSelfTest.get_esdk_environment('', cls.tmpdir_eSDKQA)
-+       
-+        sstate_config="""
-+SDK_LOCAL_CONF_WHITELIST = "SSTATE_MIRRORS"
-+SSTATE_MIRRORS =  "file://.* http://%s/PATH"
-+CORE_IMAGE_EXTRA_INSTALL = "perl"
-+        """ % cls.http_url
-+
-+        with open(os.path.join(cls.tmpdir_eSDKQA, 'conf', 'local.conf'), 'a+') as f:
-+            f.write(sstate_config)
-+    
- 
-     @classmethod
-     def setUpClass(cls):
-@@ -59,16 +82,16 @@ class oeSDKExtSelfTest(oeSelfTest):
-         cls.http_service = HTTPService(sstate_dir)
-         cls.http_service.start()
- 
--        http_url = "127.0.0.1:%d" % cls.http_service.port
-+        cls.http_url = "http://127.0.0.1:%d" % cls.http_service.port
-  
--        image = 'core-image-minimal'
-+        cls.image = 'core-image-minimal'
- 
-         cls.tmpdir_eSDKQA = tempfile.mkdtemp(prefix='eSDKQA')
--        oeSDKExtSelfTest.generate_eSDK(image)
-+        oeSDKExtSelfTest.generate_eSDK(cls.image)
- 
-         # Install eSDK
--        ext_sdk_path = oeSDKExtSelfTest.get_eSDK_toolchain(image)
--        runCmd("%s -y -d \"%s\"" % (ext_sdk_path, cls.tmpdir_eSDKQA))
-+        cls.ext_sdk_path = oeSDKExtSelfTest.get_eSDK_toolchain(cls.image)
-+        runCmd("%s -y -d \"%s\"" % (cls.ext_sdk_path, cls.tmpdir_eSDKQA))
- 
-         cls.env_eSDK = oeSDKExtSelfTest.get_esdk_environment('', cls.tmpdir_eSDKQA)
- 
-@@ -76,7 +99,7 @@ class oeSDKExtSelfTest(oeSelfTest):
-         sstate_config="""
- SDK_LOCAL_CONF_WHITELIST = "SSTATE_MIRRORS"
- SSTATE_MIRRORS =  "file://.* http://%s/PATH"
--        """ % http_url
-+        """ % cls.http_url
-         with open(os.path.join(cls.tmpdir_eSDKQA, 'conf', 'local.conf'), 'a+') as f:
-             f.write(sstate_config)
- 
-@@ -99,5 +122,12 @@ SSTATE_MIRRORS =  "file://.* http://%s/PATH"
-         cmd = "devtool build-image %s" % image
-         oeSDKExtSelfTest.run_esdk_cmd(self.env_eSDK, self.tmpdir_eSDKQA, cmd)
- 
-+    @testcase(1567)
-+    def test_sdk_update_http(self):
-+        cmd = "devtool sdk-update %s" % self.http_url
-+        oeSDKExtSelfTest.update_configuration(self, self.image, self.tmpdir_eSDKQA, self.env_eSDK, self.ext_sdk_path)
-+        oeSDKExtSelfTest.run_esdk_cmd(self.env_eSDK, self.tmpdir_eSDKQA, cmd)
-+        self.http_service.stop()
-+
- if __name__ == '__main__':
-     unittest.main()
+Cheers,
+Paul
+
 -- 
-2.5.0
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
