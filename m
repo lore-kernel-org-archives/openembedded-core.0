@@ -1,50 +1,46 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
-	[209.85.216.194])
-	by mail.openembedded.org (Postfix) with ESMTP id F032371AC2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f169.google.com (mail-qt0-f169.google.com
+	[209.85.216.169])
+	by mail.openembedded.org (Postfix) with ESMTP id AC93471A6B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jan 2017 12:08:23 +0000 (UTC)
-Received: by mail-qt0-f194.google.com with SMTP id a29so1299983qtb.1
+	Wed, 18 Jan 2017 13:54:28 +0000 (UTC)
+Received: by mail-qt0-f169.google.com with SMTP id k15so12049799qtg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jan 2017 04:08:24 -0800 (PST)
+	Wed, 18 Jan 2017 05:54:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=TXugbSHxaVzl3+76z7jCtVLm2wKcyP6bO4hSaVlkn1c=;
-	b=a2QLVSHjk47VIdaWMhNokYIzU3ECiYsfQs4FO2AD8CBd4EvbwGDtPCCioYeWhAcnk+
-	5k92bab3t5layOuh9LANLk4WjXgETeSAQRHia8ocnUdJv9hRI5ZYm3JbX+VpPiw6KZ+2
-	HtPndQ+pokZTyJ7+fEG1qbS/eWZQlIOApaKoIJ8womkIU7Znu6vQxGRjkf38N3UMZk6N
-	sYLbDolVpD2cqjMP3pMcwk662laQW+Zo1MnC/RvlqifTHTOBZ1qIQF7+3+JU5oPBFJKa
-	vStQ6gPlnoZRAwFNQ9tT+ONtGzJyk8Va4A4DMs3rBI5coZVP+KHk8cqYhNzxCUVkzq/U
-	mqaQ==
+	:cc; bh=BHYsWbIY89zBxaGDzbmXIKDqzsFUelL7nH9saWuutl0=;
+	b=WiB5Lf4VWGkp2FQV4ddG4/k3RUE399LapQdOyKHQBRSd2xL6Z7xv/VLYxOcJh4gG8i
+	N7ZtoTK325t8s/wqz8lKDJBhZ9s+GXiK1gFlRSoN2Y0KpkfihWSRzhCVwslAkM+ochZ9
+	FCnpw7En/6zeBvasc+SO+qVyPjGUD1Owj16+bpvk4VBoUwoPfG6hK8TlwGMfmdPFrEc1
+	Vbs+rVEiYLdvWTlkA2X4ynx/WpDBW9oMJzFV+6LUAHGXYv/0VUqoJa+MLTYZUmynSHx3
+	y8Gu5pVgz0rntSeU3baYGmUGDPV/L6Hvfl+VqZV3p1+7SX6GDaMbztGIiJ+YvGeq93Un
+	X58g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=TXugbSHxaVzl3+76z7jCtVLm2wKcyP6bO4hSaVlkn1c=;
-	b=s0aMA4GOYRLjfc3nutih4+plOS0XKPdHiONThdAyUiMJD1yykLbmUdUND0ltgzoEFF
-	IpPIdGGiU7hCcjL9ZnsdugphBtKdMz4oOENGPINpeD5wurx94oyumedSyMq8RFsHczQP
-	Uxzaqhw0KOylINvqb/rI+6gUF4jDOoR5Xd47owpbGG1RDjknEC+BYhCPhxyLAmD4vAyX
-	ZC+bsvaRyVhWm0wtYR+Z7E7BUHy7+SsNFpD00kUWqU3DOcQ5PcxBoMn5A34OEstjCRAu
-	bYMipao6x18SNpivWbfc1gz/hURC3882eEB7YqNI3cVzs/YOfKGYoeVCjvmWFdwo6r+f
-	bncg==
-X-Gm-Message-State: AIkVDXLS3m5+zBHF9E7F3XTeJZjfm/hEH2r7vvLCCBeITkHjMsdrhf01icsvmV/q0JaWA19C34YMUArNzwwWjw==
-X-Received: by 10.237.46.162 with SMTP id k31mr2560016qtd.133.1484741304189;
-	Wed, 18 Jan 2017 04:08:24 -0800 (PST)
+	bh=BHYsWbIY89zBxaGDzbmXIKDqzsFUelL7nH9saWuutl0=;
+	b=RnjAL8ARmhOH1zO8EhINuT8uxsDsddBFD3jn5j0t0eP5UoXtyb+6HmmrdV70is1Lip
+	u0ZFQNQMYLeOHmR8SIYXOT15EoFna5FoYFQWlLbQVJ2MV7S2yFAkeVjItQXCYif4bYH6
+	FD1nTc+UWaDo2pZrFXzCEJidqkn/RvQgjuPoGpkJYdDwRqvARxXIP7Exb73X9GHteUqd
+	HHwtKCx0owvpa1saRplenTqqz4fWn9aKhqMxqSgjc1wKuxYJLHoPs1kfkXFlg/kwwcNG
+	ISqPeQXRnEO+8rAWtRj7xNTJKupWA7bxBSPOwAvzAHSF6RtHF6MI+6OjK7QbT4Xan/OO
+	c3cA==
+X-Gm-Message-State: AIkVDXKshwTi+EFmKbUciYyK0lHrS6hZNZWt32IGfLH9iNpXrQG/aorjakK3AhqSsvlA74yd+0Tl0CLt5w+IBmbQ
+X-Received: by 10.200.53.247 with SMTP id l52mr2898937qtb.144.1484747668455;
+	Wed, 18 Jan 2017 05:54:28 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.12.137.175 with HTTP; Wed, 18 Jan 2017 04:08:23 -0800 (PST)
-In-Reply-To: <05c7dfd0-38f3-b684-db94-38121b086a67@topic.nl>
-References: <1479848501-5451-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
-	<CAMKF1spiS9_qTRf2_01rVRTfwKLoZ+WDYm7Hy4_Dr5On7eDLXw@mail.gmail.com>
-	<14EB1FFCA0C8D24A8B04EDEC1EA78C2453DBB31E@XSJ-PSEXMBX01.xlnx.xilinx.com>
-	<05c7dfd0-38f3-b684-db94-38121b086a67@topic.nl>
-From: Nathan Rossi <nathan@nathanrossi.com>
-Date: Wed, 18 Jan 2017 22:08:23 +1000
-Message-ID: <CA+aJhH03XW19tEX5nP7WgoV6au9xmms6GuASEHMmRvA-1qhh8w@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
-Cc: Mike Looijmans <mike.looijmans@topic.nl>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH][Morty] binutils-2.27.inc: Fix alignment frags for aarch64
+Received: by 10.140.103.233 with HTTP; Wed, 18 Jan 2017 05:54:08 -0800 (PST)
+In-Reply-To: <20170112202050.22808-1-raj.khem@gmail.com>
+References: <20170112202050.22808-1-raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 18 Jan 2017 13:54:08 +0000
+Message-ID: <CAJTo0Law0LLbHdy6_dUoEnmd1amMJRygw-k=uspKDdxsve3kcQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2 V2] glibc: Upgrade to 2.25 snapshot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,27 +53,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jan 2017 12:08:24 -0000
+X-List-Received-Date: Wed, 18 Jan 2017 13:54:29 -0000
+Content-Type: multipart/alternative; boundary=001a1142ba205c2b6c05465ec1ab
+
+--001a1142ba205c2b6c05465ec1ab
 Content-Type: text/plain; charset=UTF-8
 
-On 18 January 2017 at 19:37, Mike Looijmans <mike.looijmans@topic.nl> wrote:
-> Could someone at least please say "yes" or "no"?
+On 12 January 2017 at 20:20, Khem Raj <raj.khem@gmail.com> wrote:
+
+>  .../glibc/{glibc_2.24.bb => glibc_2.25.bb}         |  23 ++--
 >
-> I now have three projects waiting for this patch to be included in morty. If
-> it's not going to happen, I'll have to add a bbappend to these layers to fix
-> it.
->
-> On 16-01-17 18:49, Manjukumar Harthikote Matha wrote:
->>
->> Ping, this has been applied to master
 
-Armin, you mentioned on IRC ~1 week ago that you had merged it to your
-staging branch? Any updates?
+I was wondering what the actual version was as this isn't 2.25 yet.  The
+libraries are actually libc-2.24.90.so, so I think the recipe version
+should reflect that, if only for clarity when 2.25 is actually released.
 
-Also I had a look and could not find the change in
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=akuster/morty-next?
-Maybe I am looking in the wrong place though for your staging tree?
+Ross
 
-Thanks,
-Nathan
+--001a1142ba205c2b6c05465ec1ab
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 12 January 2017 at 20:20, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> =
+wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex"><div id=3D":2xh" class=3D"a3s aXjC=
+H m1599457b32a34db4">=C2=A0.../<span class=3D"il">glibc</span>/{<a href=3D"=
+http://glibc_2.24.bb" rel=3D"noreferrer" target=3D"_blank">glibc_2.24.bb</a=
+> =3D&gt; <a href=3D"http://glibc_2.25.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">glibc_2.25.bb</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 23 ++--<br=
+></div></blockquote></div><br>I was wondering what the actual version was a=
+s this isn&#39;t 2.25 yet.=C2=A0 The libraries are actually <a href=3D"http=
+://libc-2.24.90.so">libc-2.24.90.so</a>, so I think the recipe version shou=
+ld reflect that, if only for clarity when 2.25 is actually released.</div><=
+div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></=
+div>
+
+--001a1142ba205c2b6c05465ec1ab--
