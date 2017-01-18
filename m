@@ -1,30 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AC5071A99
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jan 2017 09:25:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v0I9PQVI022039
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 18 Jan 2017 01:25:26 -0800 (PST)
-Received: from [128.224.162.160] (128.224.162.160) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 18 Jan 2017 01:25:25 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1481014270.git.liezhi.yang@windriver.com>
-	<85bd069e-f17f-fc71-d5e0-28d775df5c2c@windriver.com>
-	<91ce45c8-3887-70f5-2b6f-b6cc1c1ce43c@windriver.com>
-	<CAJTo0LYZoAa4mHVBh45L6Fpniwt-E67ykV_5M11-cV1gF-ZR0w@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <298bbdc1-b6f7-62cd-ab04-f9b644c8e22a@windriver.com>
-Date: Wed, 18 Jan 2017 17:25:24 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 17A586FF0E;
+	Wed, 18 Jan 2017 10:02:03 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga104.fm.intel.com with ESMTP; 18 Jan 2017 02:02:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,249,1477983600"; d="scan'208";a="214722695"
+Received: from jayyinch-mobl6.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.188.18])
+	by fmsmga004.fm.intel.com with ESMTP; 18 Jan 2017 02:02:02 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-architecture@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org, yocto@yoctoproject.org
+Date: Wed, 18 Jan 2017 23:02 +1300
+Message-ID: <8251941.rtFFyTMRIg@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.8.13-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYZoAa4mHVBh45L6Fpniwt-E67ykV_5M11-cV1gF-ZR0w@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 0/6] runqemu: fix for slirp, network device and hostfwd
+Subject: Layer index enhancements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,116 +31,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jan 2017 09:25:28 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 18 Jan 2017 10:02:04 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+
+Hi all,
+
+We've done some work recently on the OE layer index [1] and I thought it might 
+be useful to give a summary of what's been implemented:
+
+* Upgraded to Django 1.8. This was a bunch of work without much visible 
+impact, however it does mean we are now on an LTS version of Django which is 
+much easier to maintain and will receive security updates until some time in 
+2018.
+
+* Added the ability to search for recipes inheriting a specific class - just 
+add inherits:classname to the search text. For example [2] - you can even 
+search for recipes inheriting several classes [3] (i.e. all specified classes 
+must be inherited in order to match). Note: any other search words are 
+interpreted as part of a string that must be present - we haven't switched to 
+doing keyword-based searching.
+
+* Distros provided by each layer are now collected. I still have to sort out 
+an issue with the collection so most of them aren't showing up in the index 
+yet, but the capability exists.
+
+* Update records - each time we do an update (every three hours) or when a 
+manual update is triggered by Michael, we record the output against the layer 
+plus a separate overall record for the update showing the output for all 
+layers (if you log in this is available from Tools -> Updates, but anyone can 
+access it at [4]). The latter also lets us see how long updates are taking. If 
+you look over the recent update logs you can see we still have to fix up some 
+issues with the data (e.g. because of branches and repos going away, missing 
+dependencies or other metadata issues, etc.). Hopefully making this more 
+visible will help us to tidy these up.
+
+* The layer submission/editing page now lets you select a git web interface, 
+so if you're submitting a layer that's hosted on a server providing a cgit, 
+gitweb or gitlab web interface that isn't one of the common servers we know 
+about (e.g. git.openembedded.org, github, etc.) then you won't have to figure 
+out the syntax for the file/tree URLs, you just select the type and it'll set 
+those fields automatically.
+
+* Fixed a bug that caused recipes to show up twice in the search results if 
+the searched string appeared in both the name and description. Exact matches 
+on name now show up first in the search results as well.
+
+* Fixed a recently introduced bug in the OE-Classic search that resulted in 
+Internal Server errors when searching by name
+
+* We now pick up layer dependencies (and recommends) specified in the 
+layer.conf, but only if they match the layer name - we don't handle collection 
+names yet, so this won't currently work where the collection name doesn't 
+match the layer name (e.g. oe-core, meta-oe...).
+
+* Counts for recipes, machines, classes, appends, and distros are now shown on 
+each tab on the layer detail page
+
+Thanks to Michael Halstead, Liam Howlett and Mark Hatle for helping me with 
+these.
+
+Cheers,
+Paul
 
 
-Hi Ross,
+[1] https://layers.openembedded.org/
 
-Sorry, my fault, something was wrong with qemuppc.conf, it should not
-set "-device virtio-net-pci,netdev=net0,mac=@MAC@" since it is already
-in QB_NETWORK_DEVICE.
+[2] 
+http://layers.openembedded.org/layerindex/branch/master/recipes/?q=inherits%3Acmake
 
-Fixed in the repo:
+[3]
+http://layers.openembedded.org/layerindex/branch/master/recipes/?q=inherits%3Acmake+inherits%3Apkgconfig
 
-   git://git.openembedded.org/openembedded-core-contrib rbt/runqemu
- 
-http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/runqemu
+[4] https://layers.openembedded.org/layerindex/updates/
 
-Robert Yang (6):
-   scripts/runqemu: fix checking for <file>.cpio.gz
-   qemuboot.bbclass: use IMGDEPLOYDIR
-   runqemu-export-rootfs: fix inconsistent var names
-   runqemu: support mutiple qemus running when nfs
-   runqemu: fixes for slirp, network device and hostfwd
-   qemuboot.bbclass: add blank lines in comments
 
-// Robert
+-- 
 
-On 01/17/2017 09:14 PM, Burton, Ross wrote:
-> Hi Robert,
->
-> I merged these into my staging branch but then the autobuilder failed in an
-> interesting way:
->
-> https://autobuilder.yoctoproject.org/main/builders/nightly-ppc/builds/1053/steps/Running%20Sanity%20Tests/logs/stdio
->
-> Would that be related to your series, or is it a coincidence?
->
-> Ross
->
-> On 11 January 2017 at 01:47, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
->
->     ping.
->
->     // Robert
->
->
->     On 12/21/2016 02:24 PM, Robert Yang wrote:
->
->         Hi Ross,
->
->         I rebased in the repo:
->
->          git://git.openembedded.org/openembedded-core-contrib
->         <http://git.openembedded.org/openembedded-core-contrib> rbt/runqemu
->
->         http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/runqemu
->         <http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/runqemu>
->
->         Robert Yang (6):
->           scripts/runqemu: fix checking for <file>.cpio.gz
->           qemuboot.bbclass: use IMGDEPLOYDIR
->           runqemu-export-rootfs: fix inconsistent var names
->           runqemu: support mutiple qemus running when nfs
->           runqemu: fixes for slirp, network device and hostfwd
->           qemuboot.bbclass: add blank lines in comments
->
->
->         // Robert
->
->         On 12/06/2016 04:55 PM, Robert Yang wrote:
->
->             * V2
->               - Add QB_NETWORK_DEVICE to set network device for both slirp and tap,
->                 the idea is from Randy and Nathan.
->               - Use different mac sections for slirp and tap to fix conflicts when
->                 running both of them on the same host.
->
->             * V1
->               - Initial version
->
->             The following changes since commit
->             11063a01d4511b2688ea7ba2d7359e4e07328c66:
->
->               ruby: upgrade to 2.3.1 (2016-11-30 15:47:17 +0000)
->
->             are available in the git repository at:
->
->               git://git.openembedded.org/openembedded-core-contrib
->             <http://git.openembedded.org/openembedded-core-contrib> rbt/runqemu
->
->             http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/runqemu
->             <http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/runqemu>
->
->
->             Robert Yang (6):
->               scripts/runqemu: fix checking for <file>.cpio.gz
->               qemuboot.bbclass: use IMGDEPLOYDIR
->               runqemu-export-rootfs: fix inconsistent var names
->               runqemu: support mutiple qemus running when nfs
->               runqemu: fixes for slirp, network device and hostfwd
->               qemuboot.bbclass: add blank lines in comments
->
->              meta/classes/qemuboot.bbclass              |  34 ++++++--
->              meta/conf/machine/include/qemuboot-x86.inc |   1 -
->              meta/conf/machine/qemuarm64.conf           |   1 -
->              scripts/runqemu                            | 133
->             ++++++++++++++++++++++-------
->              scripts/runqemu-export-rootfs              |  21 ++---
->              5 files changed, 140 insertions(+), 50 deletions(-)
->
->
+Paul Eggleton
+Intel Open Source Technology Centre
 
