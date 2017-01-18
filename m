@@ -1,46 +1,45 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by mail.openembedded.org (Postfix) with ESMTP id B02FC601F6
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F62265D00
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jan 2017 22:47:55 +0000 (UTC)
-Received: by mail-qk0-f181.google.com with SMTP id 11so123812094qkl.3
+	Wed, 18 Jan 2017 00:12:53 +0000 (UTC)
+Received: by mail-wm0-f50.google.com with SMTP id r144so51344wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jan 2017 14:47:56 -0800 (PST)
+	Tue, 17 Jan 2017 16:12:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Zw8uqhRZ/yu3MJ/4OrchM8gzPcqveEHEQEl8a46Szv4=;
-	b=sds06Hl39ZoVms6oJfyjL6vmy5YbW/lEvV7g8fCeYtGOGUIf+WBb02ynj4PhoB5US1
-	J8pi5xqr/cdKPHOrzZY6tIDrneaigvmGIPCvZfK1CAVO4SoBwk7Brqda+7cOZpDSj3Rp
-	nBbL8pTKFwm+fCzWx2CXQ/PpUnSgc5NQBJ8Uxc7XSVz8Cptsy3nMGMobbCmqUcuAq4PE
-	+qtQuSjVHXb7UObCVh/XOh5BQLEDikuBZ4iWYnxpJGg3ZMn3M29013UlOD7bA2m4MlBE
-	hVGHi37QOfwNNboFJJHmde07BAD8kX4IewaKTSsTFszSXIpNLUltl0YrbobMUq3tOfjD
-	Zirg==
+	h=from:to:subject:date:message-id;
+	bh=UDdMzXCdc7vnls488XI+wLMdheT/5Y4LJGH16M7LZX0=;
+	b=zH+9nRuzbIC5Su4tsqLGCbN+lyne4OrX/00n02PSoxPkQRm5JiQDcPf4ZFnskFqEL7
+	ipL0RXKrat2Q0IZzprxQK5Sfnr9v/lwrtWPfGZ2TCT8vylRmXLWsVTZsxSVVer/bgmB4
+	oqtQ1dVNfwAzIVXqBHil5jOHvzJLStz8wRLDNc2cs/nWBnWfco0AKMD3/fvsFTcw9mpW
+	VJAY6CIQHJ76eU1Z+4kXLW2m3heIQ3L4/3aYZ3yB7l1Vr88t8VgRD/ksU7zFucBUAtdC
+	Nk2LkRUZM9msKTAN861FS7e8mSYoZn+9E/iNrmeVBItDs05vlNa70z2DfIMVwEfE7tjx
+	uM9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Zw8uqhRZ/yu3MJ/4OrchM8gzPcqveEHEQEl8a46Szv4=;
-	b=OpsCQ5gQuoJUMeUew9KA5DgPltAXnWTUhAlw2vSJOYZsnwz26CsAh9rKoELIgDpGCq
-	6K8M4hWekKj9d4zoNkG7l3dgmnDuEuk3qK6wuSdJD9FDrHv5MQDnkSWrEfg6V3qK8SOm
-	foMR0HfBOcL3+To35U+vXZFgrurdkSRQDYTDPWogeBIbeqm90pqvnPtjY/yYMPjADVxC
-	oc9leV9P4OaaSm477KZPdDk1milWENyOsxr2sA/C5EbBOGcOJ1KntK0mo2tLlgQ5FNUd
-	Rkx5dSpeN95xUT5y/4COkc2eMf4hrrfKD1Zm8s3HDCPGuYUKllk8VgUK4MobmmgUd+SO
-	lVFQ==
-X-Gm-Message-State: AIkVDXJRRGHg+v97TmYn3bkJBGCtAlDVdrUdUPU3/tKL8fEqLgIDy7+BP86Ickx8QgTaeEMbtRgps/92c10e+Rpi
-X-Received: by 10.55.183.133 with SMTP id h127mr35572qkf.121.1484693275699;
-	Tue, 17 Jan 2017 14:47:55 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Tue, 17 Jan 2017 14:47:35 -0800 (PST)
-In-Reply-To: <1484264021-28569-1-git-send-email-sgw@linux.intel.com>
-References: <1484264021-28569-1-git-send-email-sgw@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 17 Jan 2017 22:47:35 +0000
-Message-ID: <CAJTo0Lapvqydn_Yv8Cqg5tqYwgZDN299sWc3Pu-EQH1Ja6K5oQ@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] xserver-xorg: Enable glamor by default
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=UDdMzXCdc7vnls488XI+wLMdheT/5Y4LJGH16M7LZX0=;
+	b=qF4jTepxiCFjen5I4Kd768b8LvPYK19X1FHnWppif8oM18wFh1cj+/IiVOw/n18Gsm
+	x1yHyNy/GjfxeBkDQnPvvTTriEXBIWWOrW4Kb+XeBl793S5L0ACOD8RJmEHuiegbN8sJ
+	DMV7jzNLoqHV5/ZhunAKUBSH85tT8Ef5AU3I9KnQV3HmpipfU09rGPioNh3qQosBk9eL
+	nCwqGIFn7ePAqKfh97+Px/sZZ1Cq0D+3otiRg6zG+XmmfTmR+k3KzbfElfpWkzO7I9Up
+	AQb1fHemgV+9iLb5BtFRIJCWyKziJTj5YrbIfwmljYN+zeCYvpJpgV+Umek9hjfpft/U
+	9GfQ==
+X-Gm-Message-State: AIkVDXL/EZsI43/4hMEqsDniKe46LQGZnAHIvjj4/hbUu4B1VTQHTzJPQd+ITHzqNWcmof+C
+X-Received: by 10.28.211.205 with SMTP id k196mr13339167wmg.124.1484698372883; 
+	Tue, 17 Jan 2017 16:12:52 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id o143sm329837wmd.3.2017.01.17.16.12.52
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 17 Jan 2017 16:12:52 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 18 Jan 2017 00:12:50 +0000
+Message-Id: <1484698370-16673-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] oeqa/selftest/devtool: rewrite modify testcase
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,48 +52,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jan 2017 22:47:55 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0600564c90680546521714
+X-List-Received-Date: Wed, 18 Jan 2017 00:12:53 -0000
 
---94eb2c0600564c90680546521714
-Content-Type: text/plain; charset=UTF-8
+The modify testcase had to be updated as it started failing when mdadm was
+upgraded due to hardcoding version numbers in the test.  I then noticed how
+inefficient the test was and mostly rewrote it.
 
-On 12 January 2017 at 23:33, Saul Wold <sgw@linux.intel.com> wrote:
+Start by changing the minor modification to change "Linux Software RAID" (the
+subtitle of the man page) to "antique pin sardine" (a nonsense phrase that is
+unlikely to appear upstream), and neaten the logic.
 
-> To enable glamor, we need to also enable both dri3 and xshmfence as
-> dependencies.
->
+Start by not removing sstate at the beginning of the test. To ensure builds
+happen we can use -f and -C, and iterating the sstate cache is time consuming.
 
-Of course musl's lack of lazy loading bits xserver again:
+Don't bitbake mdadm repeatedly until it stabilizes, we can start with bitbake -C
+unpack to ensure that a full build is done from scratch.
 
-[     8.655] (EE) Failed to load
-/usr/lib/xorg/modules/drivers/modesetting_drv.so: Error relocating
-/usr/lib/xorg/modules/drivers/modesetting_drv.so: glamor_set_screen_pixmap:
-symbol not found
+os.path.join has the interesting quirk that join(/foo, /bar) results in /bar, so
+use oe.path.join instead of working around that manually.
 
-xserver-xf86-config has a config fragment that loads a set of modules on
-startup if musl is enabled, I'm guessing glamoregl should be on that list?
+Don't repeatedly call get_bb_var(), each call results in a call to bitbake.
 
-Ross
+These changes reduce the runtime of the test from over 600 seconds to around 160
+seconds on my machine.
 
---94eb2c0600564c90680546521714
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/lib/oeqa/selftest/devtool.py | 73 +++++++++++++++------------------------
+ 1 file changed, 27 insertions(+), 46 deletions(-)
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 12 January 2017 at 23:33, Saul Wold <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:sgw@linux.intel.com" target=3D"_blank">sgw@linux.intel.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-=
-style:solid;padding-left:1ex"><div id=3D"gmail-:g0" class=3D"gmail-a3s gmai=
-l-aXjCH gmail-m15995088f719b7e3">To enable <span class=3D"gmail-il">glamor<=
-/span>, we need to also enable both dri3 and xshmfence as dependencies.<br>=
-</div></blockquote></div><br></div>Of course musl&#39;s lack of lazy loadin=
-g bits xserver again:<br><br>[ =C2=A0 =C2=A0 8.655] (EE) Failed to load /us=
-r/lib/xorg/modules/drivers/modesetting_drv.so: Error relocating /usr/lib/xo=
-rg/modules/drivers/modesetting_drv.so: glamor_set_screen_pixmap: symbol not=
- found<div><br></div><div>xserver-xf86-config has a config fragment that lo=
-ads a set of modules on startup if musl is enabled, I&#39;m guessing glamor=
-egl should be on that list?</div><div><br></div><div>Ross</div></div>
+diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
+index 94b6b39..887c1e6 100644
+--- a/meta/lib/oeqa/selftest/devtool.py
++++ b/meta/lib/oeqa/selftest/devtool.py
+@@ -416,9 +416,8 @@ class DevtoolTests(DevtoolBase):
+ 
+     @testcase(1164)
+     def test_devtool_modify(self):
+-        # Clean up anything in the workdir/sysroot/sstate cache
+-        bitbake('mdadm -c cleansstate')
+-        # Try modifying a recipe
++        import oe.path
++
+         tempdir = tempfile.mkdtemp(prefix='devtoolqa')
+         self.track_for_cleanup(tempdir)
+         self.track_for_cleanup(self.workspacedir)
+@@ -429,66 +428,48 @@ class DevtoolTests(DevtoolBase):
+         self.assertTrue(os.path.exists(os.path.join(self.workspacedir, 'conf', 'layer.conf')), 'Workspace directory not created')
+         matches = glob.glob(os.path.join(self.workspacedir, 'appends', 'mdadm_*.bbappend'))
+         self.assertTrue(matches, 'bbappend not created %s' % result.output)
++
+         # Test devtool status
+         result = runCmd('devtool status')
+         self.assertIn('mdadm', result.output)
+         self.assertIn(tempdir, result.output)
+-        # Check git repo
+         self._check_src_repo(tempdir)
+-        # Try building
+-        def list_stamps(globsuffix='*'):
+-            stampprefix = get_bb_var('STAMP', 'mdadm')
+-            self.assertTrue(stampprefix, 'Unable to get STAMP value for recipe mdadm')
+-            return glob.glob(stampprefix + globsuffix)
+-
+-        numstamps = len(list_stamps('.do_compile.*'))
+-        self.assertEqual(numstamps, 0, 'do_compile stamps before first build')
+-        for x in range(10):
+-            bitbake('mdadm')
+-            nowstamps = len(list_stamps('.do_compile.*'))
+-            if nowstamps == numstamps:
+-                break
+-            numstamps = nowstamps
+-        else:
+-            self.fail('build did not stabilize in 10 iterations')
+ 
+-        # Try making (minor) modifications to the source
+-        modfile = os.path.join(tempdir, 'mdadm.8.in')
+-        result = runCmd("sed -i 's!^\.TH.*!.TH MDADM 8 \"\" v9.999-custom!' %s" % modfile)
++        bitbake('mdadm -C unpack')
+ 
+-        def check_TH_line(checkfile, expected, message):
++        def check_line(checkfile, expected, message, present=True):
++            # Check for $expected, on a line on its own, in checkfile.
+             with open(checkfile, 'r') as f:
+-                for line in f:
+-                    if line.startswith('.TH'):
+-                        self.assertEqual(line.rstrip(), expected, message)
++                if present:
++                    self.assertIn(expected + '\n', f, message)
++                else:
++                    self.assertNotIn(expected + '\n', f, message)
+ 
+-        check_TH_line(modfile, '.TH MDADM 8 "" v9.999-custom', 'man .in file not modified (sed failed)')
+-        bitbake('mdadm -c package')
++        modfile = os.path.join(tempdir, 'mdadm.8.in')
+         pkgd = get_bb_var('PKGD', 'mdadm')
+         self.assertTrue(pkgd, 'Could not query PKGD variable')
+         mandir = get_bb_var('mandir', 'mdadm')
+         self.assertTrue(mandir, 'Could not query mandir variable')
+-        if mandir[0] == '/':
+-            mandir = mandir[1:]
+-        manfile = os.path.join(pkgd, mandir, 'man8', 'mdadm.8')
+-        check_TH_line(manfile, '.TH MDADM 8 "" v9.999-custom', 'man file not modified. man searched file path: %s' % manfile)
+-        # Test reverting the change
+-        result = runCmd("git -C %s checkout -- %s" % (tempdir, modfile))
+-        check_TH_line(modfile, '.TH MDADM 8 "" v3.4', 'man .in file not restored (git failed)')
++        manfile = oe.path.join(pkgd, mandir, 'man8', 'mdadm.8')
++
++        check_line(modfile, 'Linux Software RAID', 'Could not find initial string')
++        check_line(modfile, 'antique pin sardine', 'Unexpectedly found replacement string', present=False)
++
++        result = runCmd("sed -i 's!^Linux Software RAID$!antique pin sardine!' %s" % modfile)
++        check_line(modfile, 'antique pin sardine', 'mdadm.8.in file not modified (sed failed)')
++
+         bitbake('mdadm -c package')
+-        pkgd = get_bb_var('PKGD', 'mdadm')
+-        self.assertTrue(pkgd, 'Could not query PKGD variable')
+-        mandir = get_bb_var('mandir', 'mdadm')
+-        self.assertTrue(mandir, 'Could not query mandir variable')
+-        if mandir[0] == '/':
+-            mandir = mandir[1:]
+-        manfile = os.path.join(pkgd, mandir, 'man8', 'mdadm.8')
+-        check_TH_line(manfile, '.TH MDADM 8 "" v3.4', 'man file not updated. man searched file path: %s' % manfile)
+-        # Test devtool reset
++        check_line(manfile, 'antique pin sardine', 'man file not modified. man searched file path: %s' % manfile)
++
++        result = runCmd('git -C %s checkout -- %s' % (tempdir, modfile))
++        check_line(modfile, 'Linux Software RAID', 'man .in file not restored (git failed)')
++
++        bitbake('mdadm -c package')
++        check_line(manfile, 'Linux Software RAID', 'man file not updated. man searched file path: %s' % manfile)
++
+         result = runCmd('devtool reset mdadm')
+         result = runCmd('devtool status')
+         self.assertNotIn('mdadm', result.output)
+-        self.assertFalse(list_stamps(), 'Stamp files exist for recipe mdadm that should have been cleaned')
+ 
+     def test_devtool_buildclean(self):
+         def assertFile(path, *paths):
+-- 
+2.8.1
 
---94eb2c0600564c90680546521714--
+
