@@ -1,22 +1,22 @@
 Return-Path: <randy.e.witt@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 10C9D71A2D
+	by mail.openembedded.org (Postfix) with ESMTP id 33BBF71A30
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 18 Jan 2017 18:31:57 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
 	by orsmga101.jf.intel.com with ESMTP; 18 Jan 2017 10:31:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,250,1477983600"; d="scan'208";a="54537366"
+X-IronPort-AV: E=Sophos;i="5.33,250,1477983600"; d="scan'208";a="54537364"
 Received: from bitbang.jf.intel.com ([10.7.199.68])
 	by orsmga005.jf.intel.com with ESMTP; 18 Jan 2017 10:31:56 -0800
 From: Randy Witt <randy.e.witt@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Jan 2017 10:31:52 -0800
-Message-Id: <cc6a7fcca781a3a153ba5cfbfe7a45282a55f917.1484764234.git.randy.e.witt@linux.intel.com>
+Date: Wed, 18 Jan 2017 10:31:50 -0800
+Message-Id: <023e14ed9eb107b5487e142049eb1c74c898cb2b.1484764234.git.randy.e.witt@linux.intel.com>
 X-Mailer: git-send-email 2.9.3
 In-Reply-To: <cover.1484764234.git.randy.e.witt@linux.intel.com>
 References: <cover.1484764234.git.randy.e.witt@linux.intel.com>
-Subject: [PATCH 3/3] selftest/containerimage.py: Add container IMAGE_FSTYPES test
+Subject: [PATCH 1/3] image-container.bbclass: Add the "container" IMAGE_FSTYPES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,117 +31,54 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 18 Jan 2017 18:31:57 -0000
 
-This test checks to make sure only the files expected exist in a
-container image. Currently only ROOTFS_BOOTSTRAP_INSTALL, gets added to
-all images without the user specifying it.
-
-But this test should help if a developer in the future ever silently
-adds more than just ROOTFS_BOOTSTRAP_INSTALL, and that the developer can
-make sure it also gets removed from a container image.
+The "container" fstype does very little other than pick tar.bz2 as the
+actual image type and disable installation of ROOTFS_BOOTSTRAP_INSTALL.
 
 [YOCTO #9502]
 
 Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
 ---
- .../container-image/container-image-testpkg.bb     |  8 +++
- .../container-image/container-test-image.bb        |  8 +++
- meta/lib/oeqa/selftest/containerimage.py           | 57 ++++++++++++++++++++++
- 3 files changed, 73 insertions(+)
- create mode 100644 meta-selftest/recipes-test/container-image/container-image-testpkg.bb
- create mode 100644 meta-selftest/recipes-test/container-image/container-test-image.bb
- create mode 100644 meta/lib/oeqa/selftest/containerimage.py
+ meta/classes/image-container.bbclass | 3 +++
+ meta/classes/image.bbclass           | 3 +++
+ meta/classes/image_types.bbclass     | 1 +
+ 3 files changed, 7 insertions(+)
+ create mode 100644 meta/classes/image-container.bbclass
 
-diff --git a/meta-selftest/recipes-test/container-image/container-image-testpkg.bb b/meta-selftest/recipes-test/container-image/container-image-testpkg.bb
+diff --git a/meta/classes/image-container.bbclass b/meta/classes/image-container.bbclass
 new file mode 100644
-index 0000000..42014dd
+index 0000000..a10ee32
 --- /dev/null
-+++ b/meta-selftest/recipes-test/container-image/container-image-testpkg.bb
-@@ -0,0 +1,8 @@
-+LICENSE = "MIT"
++++ b/meta/classes/image-container.bbclass
+@@ -0,0 +1,3 @@
++ROOTFS_BOOTSTRAP_INSTALL = ""
++IMAGE_TYPES_MASKED += "container"
++IMAGE_TYPEDEP_container = "tar.bz2"
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 04fd5f9..b2c2a28 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -144,6 +144,9 @@ inherit ${IMAGE_TYPE_live}
+ IMAGE_TYPE_vm = '${@bb.utils.contains_any("IMAGE_FSTYPES", ["vmdk", "vdi", "qcow2", "hdddirect"], "image-vm", "", d)}'
+ inherit ${IMAGE_TYPE_vm}
+ 
++IMAGE_TYPE_container = '${@bb.utils.contains("IMAGE_FSTYPES", "container", "image-container", "", d)}'
++inherit ${IMAGE_TYPE_container}
 +
-+INHIBIT_DEFAULT_DEPS = "1"
-+
-+do_install_append() {
-+	install -d ${D}${base_bindir}
-+        touch ${D}${base_bindir}/theapp
-+}
-diff --git a/meta-selftest/recipes-test/container-image/container-test-image.bb b/meta-selftest/recipes-test/container-image/container-test-image.bb
-new file mode 100644
-index 0000000..d5f939c
---- /dev/null
-+++ b/meta-selftest/recipes-test/container-image/container-test-image.bb
-@@ -0,0 +1,8 @@
-+IMAGE_INSTALL += "container-image-testpkg"
-+
-+LICENSE = "MIT"
-+
-+IMAGE_FSTYPES = "container"
-+IMAGE_LINGUAS = ""
-+
-+inherit core-image
-diff --git a/meta/lib/oeqa/selftest/containerimage.py b/meta/lib/oeqa/selftest/containerimage.py
-new file mode 100644
-index 0000000..54e792a
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/containerimage.py
-@@ -0,0 +1,57 @@
-+import os
-+
-+from oeqa.selftest.base import oeSelfTest
-+from oeqa.utils.commands import bitbake, runCmd
-+
-+# This test builds an image with using the "container" IMAGE_FSTYPE, and
-+# ensures that then files in the image are only the ones expected.
-+#
-+# The only package added to the image is container_image_testpkg, which
-+# contains one file. However, due to some other things not cleaning up during
-+# rootfs creation, there is some kruft. Ideally bugs will be filed and the
-+# kruft removed, but for now we whitelist some known set.
-+#
-+# Also for performance reason we're only checking the kruft when using ipk.
-+# When using deb, and rpm it is a bit different and we could test all
-+# of them, but this test is more to catch if other packages get added by
-+# default other than what is in ROOTFS_BOOTSTRAP_INSTALL.
-+#
-+class ContainerImageTests(oeSelfTest):
-+
-+    # Verify that when specifying a IMAGE_TYPEDEP_ of the form "foo.bar" that
-+    # the conversion type bar gets added as a dep as well
-+    def test_expected_files(self):
-+
-+        expected_files = [
-+                    './',
-+                    './bin/',
-+                    './bin/theapp',
-+                    './etc/',
-+                    './etc/default/',
-+                    './etc/default/postinst',
-+                    './etc/ld.so.cache',
-+                    './etc/timestamp',
-+                    './etc/version',
-+                    './run/',
-+                    './var/',
-+                    './var/cache/',
-+                    './var/cache/ldconfig/',
-+                    './var/cache/ldconfig/aux-cache',
-+                    './var/cache/opkg/',
-+                    './var/lib/',
-+                    './var/lib/opkg/'
-+                ]
-+
-+        self.write_config('PREFERRED_PROVIDER_virtual/kernel = "linux-dummy"')
-+        self.append_config('MACHINE = "qemux86"')
-+        self.append_config('IMAGE_FSTYPES = "container"')
-+        self.append_config('PACKAGE_CLASSES = "package_ipk"')
-+
-+        # Build the image of course
-+        bitbake('container-test-image')
-+
-+        image = os.path.join(self.builddir, "tmp/deploy/images/qemux86/container-test-image-qemux86.tar.bz2")
-+
-+        # Ensure the files in the image are what we expect
-+        result = runCmd("tar tf {} | sort".format(image), shell=True)
-+        self.assertEqual(result.output.split('\n'), expected_files)
+ def build_uboot(d):
+     if 'u-boot' in (d.getVar('IMAGE_FSTYPES') or ''):
+         return "image_types_uboot"
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 7748dee..727a87e 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -328,6 +328,7 @@ IMAGE_TYPES = " \
+     hdddirect \
+     elf \
+     wic wic.gz wic.bz2 wic.lzma \
++    container \
+ "
+ 
+ # Compression is a special case of conversion. The old variable
 -- 
 2.9.3
 
