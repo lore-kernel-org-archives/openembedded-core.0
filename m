@@ -1,30 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 36EA271E09
+	by mail.openembedded.org (Postfix) with ESMTP id 5BCC3731A1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2017 22:53:37 +0000 (UTC)
+	Thu, 19 Jan 2017 22:53:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0JMrQi1005703; Thu, 19 Jan 2017 22:53:28 GMT
+	v0JMrRYH005705; Thu, 19 Jan 2017 22:53:27 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id y3cQeqG5HErF; Thu, 19 Jan 2017 22:53:28 +0000 (GMT)
+	with LMTP id Ej0AfrnnmoCm; Thu, 19 Jan 2017 22:53:27 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0JMrNc8005668
+	v0JMrOuc005676
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 19 Jan 2017 22:53:24 GMT
+	Thu, 19 Jan 2017 22:53:25 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cULa7-0004iZ-SC; Thu, 19 Jan 2017 22:53:23 +0000
+	id 1cULa8-0004jE-0P; Thu, 19 Jan 2017 22:53:24 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2017 22:53:02 +0000
-Message-Id: <1484866395-17971-20-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Thu, 19 Jan 2017 22:53:10 +0000
+Message-Id: <1484866395-17971-28-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1484866395-17971-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1484866395-17971-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 20/33] shadow: Add PACKAGE_WRITE_DEPS for postinst
+Subject: [PATCH 28/33] gsettings: Add PACKAGE_WRITE_DEPS for postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,33 +41,32 @@ X-List-Received-Date: Thu, 19 Jan 2017 22:53:39 -0000
 
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 
-pwconv and grpconv are used in the postinstall script.
+glib-compile-schemas is needed during postinstall.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-extended/shadow/shadow.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/gsettings.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index f79565b..4c4db00 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -6,7 +6,6 @@ LICENSE = "BSD | Artistic-1.0"
- LIC_FILES_CHKSUM = "file://COPYING;md5=ed80ff1c2b40843cf5768e5229cf16e5 \
-                     file://src/passwd.c;beginline=8;endline=30;md5=d83888ea14ae61951982d77125947661"
+diff --git a/meta/classes/gsettings.bbclass b/meta/classes/gsettings.bbclass
+index e6d1c8a..eae3dc7 100644
+--- a/meta/classes/gsettings.bbclass
++++ b/meta/classes/gsettings.bbclass
+@@ -7,12 +7,13 @@
  
--DEPENDS = "shadow-native"
- DEPENDS_class-native = ""
- DEPENDS_class-nativesdk = ""
+ # TODO use a trigger so that this runs once per package operation run
  
-@@ -187,6 +186,7 @@ ALTERNATIVE_LINK_NAME[groups.1] = "${mandir}/man1/groups.1"
- ALTERNATIVE_LINK_NAME[su.1] = "${mandir}/man1/su.1"
- ALTERNATIVE_LINK_NAME[nologin.8] = "${mandir}/man8/nologin.8"
+-DEPENDS += "glib-2.0-native"
  
-+PACKAGE_WRITE_DEPS += "shadow-native"
- pkg_postinst_${PN} () {
- 	if [ "x$D" != "x" ]; then
- 	  rootarg="--root $D"
+ RDEPENDS_${PN} += "glib-2.0-utils"
+ 
+ FILES_${PN} += "${datadir}/glib-2.0/schemas"
+ 
++PACKAGE_WRITE_DEPS += "glib-2.0-native"
++
+ gsettings_postinstrm () {
+ 	glib-compile-schemas $D${datadir}/glib-2.0/schemas
+ }
 -- 
 2.7.4
 
