@@ -1,20 +1,22 @@
 Return-Path: <randy.e.witt@linux.intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id AECA971CAA
+	by mail.openembedded.org (Postfix) with ESMTP id 91D8E71CAA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2017 22:52:58 +0000 (UTC)
+	Thu, 19 Jan 2017 22:53:01 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga105.fm.intel.com with ESMTP; 19 Jan 2017 14:52:59 -0800
+	by fmsmga105.fm.intel.com with ESMTP; 19 Jan 2017 14:53:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,256,1477983600"; d="scan'208";a="924551102"
+X-IronPort-AV: E=Sophos;i="5.33,256,1477983600"; d="scan'208";a="924551107"
 Received: from bitbang.jf.intel.com ([10.7.199.68])
-	by orsmga003.jf.intel.com with ESMTP; 19 Jan 2017 14:52:59 -0800
+	by orsmga003.jf.intel.com with ESMTP; 19 Jan 2017 14:53:02 -0800
 From: Randy Witt <randy.e.witt@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2017 14:52:50 -0800
-Message-Id: <cover.1484866303.git.randy.e.witt@linux.intel.com>
+Date: Thu, 19 Jan 2017 14:52:51 -0800
+Message-Id: <f98b0f2cbd447af38260e66babf1202d63954ae3.1484866303.git.randy.e.witt@linux.intel.com>
 X-Mailer: git-send-email 2.9.3
-Subject: [PATCH v2 0/3] Add initial container IMAGE_FSTYPES support
+In-Reply-To: <cover.1484866303.git.randy.e.witt@linux.intel.com>
+References: <cover.1484866303.git.randy.e.witt@linux.intel.com>
+Subject: [PATCH v2 1/3] image-container.bbclass: Add the "container" IMAGE_FSTYPES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,34 +31,54 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 19 Jan 2017 22:53:02 -0000
 
-Updated with Ross' requests.
+The "container" fstype does very little other than pick tar.bz2 as the
+actual image type and disable installation of ROOTFS_BOOTSTRAP_INSTALL.
 
-The following changes since commit a304b94eae99ade6d99800eeaf588c48d01506f6:
+[YOCTO #9502]
 
-  oeqa/selftest/devtool: rewrite modify testcase (2017-01-19 22:47:22 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib rewitt/contwip
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=rewitt/contwip
-
-Randy Witt (3):
-  image-container.bbclass: Add the "container" IMAGE_FSTYPES
-  image-container.bbclass: Error if not using linux-dummy
-  selftest/containerimage.py: Add container IMAGE_FSTYPES test
-
- .../container-image/container-image-testpkg.bb     |  8 +++
- .../container-image/container-test-image.bb        |  8 +++
- meta/classes/image-container.bbclass               | 21 ++++++
- meta/classes/image.bbclass                         |  3 +
- meta/classes/image_types.bbclass                   |  1 +
- meta/lib/oeqa/selftest/containerimage.py           | 82 ++++++++++++++++++++++
- 6 files changed, 123 insertions(+)
- create mode 100644 meta-selftest/recipes-test/container-image/container-image-testpkg.bb
- create mode 100644 meta-selftest/recipes-test/container-image/container-test-image.bb
+Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+---
+ meta/classes/image-container.bbclass | 3 +++
+ meta/classes/image.bbclass           | 3 +++
+ meta/classes/image_types.bbclass     | 1 +
+ 3 files changed, 7 insertions(+)
  create mode 100644 meta/classes/image-container.bbclass
- create mode 100644 meta/lib/oeqa/selftest/containerimage.py
 
+diff --git a/meta/classes/image-container.bbclass b/meta/classes/image-container.bbclass
+new file mode 100644
+index 0000000..a10ee32
+--- /dev/null
++++ b/meta/classes/image-container.bbclass
+@@ -0,0 +1,3 @@
++ROOTFS_BOOTSTRAP_INSTALL = ""
++IMAGE_TYPES_MASKED += "container"
++IMAGE_TYPEDEP_container = "tar.bz2"
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 04fd5f9..b2c2a28 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -144,6 +144,9 @@ inherit ${IMAGE_TYPE_live}
+ IMAGE_TYPE_vm = '${@bb.utils.contains_any("IMAGE_FSTYPES", ["vmdk", "vdi", "qcow2", "hdddirect"], "image-vm", "", d)}'
+ inherit ${IMAGE_TYPE_vm}
+ 
++IMAGE_TYPE_container = '${@bb.utils.contains("IMAGE_FSTYPES", "container", "image-container", "", d)}'
++inherit ${IMAGE_TYPE_container}
++
+ def build_uboot(d):
+     if 'u-boot' in (d.getVar('IMAGE_FSTYPES') or ''):
+         return "image_types_uboot"
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 7748dee..727a87e 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -328,6 +328,7 @@ IMAGE_TYPES = " \
+     hdddirect \
+     elf \
+     wic wic.gz wic.bz2 wic.lzma \
++    container \
+ "
+ 
+ # Compression is a special case of conversion. The old variable
 -- 
 2.9.3
 
