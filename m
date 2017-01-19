@@ -1,30 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A80471DDE
+	by mail.openembedded.org (Postfix) with ESMTP id AD96871E10
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 19 Jan 2017 22:53:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0JMrQhu005703; Thu, 19 Jan 2017 22:53:26 GMT
+	v0JMrUqX005765; Thu, 19 Jan 2017 22:53:31 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id FA-QNV5LXggU; Thu, 19 Jan 2017 22:53:26 +0000 (GMT)
+	with LMTP id U7QOqCbU-p86; Thu, 19 Jan 2017 22:53:31 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0JMrNMJ005665
+	v0JMrNIM005663
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Thu, 19 Jan 2017 22:53:24 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cULa7-0004iK-QT; Thu, 19 Jan 2017 22:53:23 +0000
+	id 1cULa7-0004iA-PM; Thu, 19 Jan 2017 22:53:23 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2017 22:52:59 +0000
-Message-Id: <1484866395-17971-17-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Thu, 19 Jan 2017 22:52:57 +0000
+Message-Id: <1484866395-17971-15-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1484866395-17971-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1484866395-17971-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 17/33] nss: Add PACKAGE_WRITE_DEPS
+Subject: [PATCH 15/33] ca-certificates: Add PACKAGE_WRITE_DEPS for postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,28 +39,25 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 19 Jan 2017 22:53:35 -0000
 
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+The postinstall needs ca-certificates-native, mark the dependency
 
-nss-native is required in postinst. It's also needed during
-build so not removed from DEPENDS.
-
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-support/nss/nss_3.27.1.bb | 1 +
+ meta/recipes-support/ca-certificates/ca-certificates_20161130.bb | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-support/nss/nss_3.27.1.bb b/meta/recipes-support/nss/nss_3.27.1.bb
-index 2a4f4d6..9aad5bd 100644
---- a/meta/recipes-support/nss/nss_3.27.1.bb
-+++ b/meta/recipes-support/nss/nss_3.27.1.bb
-@@ -207,6 +207,7 @@ do_install_append_class-target() {
-     rm ./empty_password
- }
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
+index e0b2e41..e47bad1 100644
+--- a/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
++++ b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
+@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://debian/copyright;md5=e7358b9541ccf3029e9705ed8de57968
+ DEPENDS = "ca-certificates-native"
+ DEPENDS_class-native = "openssl-native"
+ DEPENDS_class-nativesdk = "ca-certificates-native openssl-native"
++PACKAGE_WRITE_DEPS += "ca-certificates-native"
  
-+PACKAGE_WRITE_DEPS += "nss-native"
- pkg_postinst_${PN} () {
-     if [ -n "$D" ]; then
-         for I in $D${libdir}/lib*.chk; do
+ SRCREV = "61b70a1007dc269d56881a0d480fc841daacc77c"
+ 
 -- 
 2.7.4
 
