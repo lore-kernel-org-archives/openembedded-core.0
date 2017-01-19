@@ -1,23 +1,45 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D44371D06
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
+	[209.85.215.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 61DB071C7A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2017 18:29:27 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 19 Jan 2017 10:29:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,255,1477983600"; d="scan'208";a="32818936"
-Received: from zpchu5-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com.fritz.box) ([10.255.128.210])
-	by orsmga002.jf.intel.com with ESMTP; 19 Jan 2017 10:29:26 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2017 07:29:17 +1300
-Message-Id: <95451fccdfefabfe196786303be959ac22888ce5.1484850485.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.5
-In-Reply-To: <cover.1484850485.git.paul.eggleton@linux.intel.com>
-References: <cover.1484850485.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/2] Revert "classes/sstate: add a mode to error if sstate package unavailable"
+	Thu, 19 Jan 2017 19:02:17 +0000 (UTC)
+Received: by mail-lf0-f65.google.com with SMTP id q89so6451882lfi.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Jan 2017 11:02:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=RYXs3BUUGPAwp1Z7sPq0FrWqAMWCl0VI9LhLh2pGapo=;
+	b=hS4+3Q8nQxCsGeL89mp9z9csozMtjAG0nxEhCxdgx0/nUdLXiAxMw66hxLe4e+WBOp
+	uOugbjSzEDfE3ZMup1iDBmSrJW9/6ag9UqkJualoAw77iy4BVIkWzFbf2s6bypkuPFOE
+	tkx/0SAbn71DZXE4MukaUzP2cQwxUl1OpJgyUCbjpUV+tyxqiJ0TtJNqvybXWXnVVnuw
+	RV0ts1s9nNFBVbKkuZej/18siUxFRTruzXw9Mlmp9xb6m1guCHQvfeno8h2GDJ+FRMZQ
+	sLtVK/Ve5RCWl8ynHjc96bEIsZntOnsHKrXXjHfm3lFvtVF6F60SNdYNEw4XmWRRmdGe
+	mxKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=RYXs3BUUGPAwp1Z7sPq0FrWqAMWCl0VI9LhLh2pGapo=;
+	b=ntBn1zA+bbTzH9QUaOvMpsv1oV+HKUnIi/ByTBNXg3Fvi3fYVGrDi2ggWhMJbG9ujq
+	8JD8ln0OZVCNHYY9hrLWKQzsSaX6VTA1bAwYiuQrcX5P70slR7AuGmXmNMle26FYLHuH
+	bNtx2uj2cLztOaobuLZSov+d/CYL8NW/kFWjQMts0z/y5l9hETd2PztQ2SGwEsJCxO4w
+	h2W5XqYpOsxyrx/N5rwJPXedzq9aRQNJPJH9XkiscHpT3PQi/sKy8kU7XRNYXodgjXUj
+	EPUZhyPL+osfsqKNRH727eZ/52UlV7gTBVcqHDN/5Plfl3WSJWpUweY4xzTxGeShXWQ3
+	uklA==
+X-Gm-Message-State: AIkVDXIYh+orKrn6JitffYh7zcc992eWMijZnunRBFpF89TLxS/+KDeD8zUAvtWKsLQvCEn9Aj05HtV+ifvgxA==
+X-Received: by 10.223.149.39 with SMTP id 36mr1676041wrs.125.1484852537846;
+	Thu, 19 Jan 2017 11:02:17 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.194.248.129 with HTTP; Thu, 19 Jan 2017 11:02:17 -0800 (PST)
+In-Reply-To: <1484838091-13265-1-git-send-email-yannick.gicquel@iot.bzh>
+References: <1484838091-13265-1-git-send-email-yannick.gicquel@iot.bzh>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 19 Jan 2017 11:02:17 -0800
+Message-ID: <CAJ86T=W=moB9EoX+7dby4qCFM7+5+3Y7j_3=jSxAiUunHc1PpQ@mail.gmail.com>
+To: Yannick Gicquel <yannick.gicquel@iot.bzh>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/3] ccache.bbclass: enable max size setup for ccache dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,90 +52,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2017 18:29:27 -0000
+X-List-Received-Date: Thu, 19 Jan 2017 19:02:19 -0000
+Content-Type: text/plain; charset=UTF-8
 
-It turns out that this check cannot work. We don't have the information
-to know whether an sstate package is really needed at this point in the
-execution, so we check the availability for things that we won't
-actually end up needing later on. Thus we can't fail if some of these
-aren't found or we'll get needless failures.
+On Thu, Jan 19, 2017 at 7:01 AM, Yannick Gicquel
+<yannick.gicquel@iot.bzh> wrote:
+> ccache directories are limited to 1G by default.
 
-This check was intended to give earlier more accurate errors when sstate
-artifacts failed to download, but that's not practical so we'll rely
-solely on the task execution check that was added within the runqueue.
+1G has been the default for a long time, so maybe it's time to propose
+an upstream change to increase, e.g. to 10G, giving the size of the
+webkitgtk build as justification?
 
-This reverts most of commit 9e711b54487c3141d7264b8cf0d74f9465020190 (we
-still need to allow BB_SETSCENE_ENFORCE through from the external
-environment since the eSDK relies upon that.)
+Since we build ccache-native within oe-core, any such patch could be
+applied to our version of ccache right now (ie we don't need to wait
+for it to be accepted and merged upstream).
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/sstate.bbclass | 23 -----------------------
- 1 file changed, 23 deletions(-)
-
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index afdb4a3..dff530f 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -738,7 +738,6 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d, siginfo=False):
- 
-     ret = []
-     missed = []
--    missing = []
-     extension = ".tgz"
-     if siginfo:
-         extension = extension + ".siginfo"
-@@ -760,18 +759,6 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d, siginfo=False):
- 
-         return spec, extrapath, tname
- 
--    def sstate_pkg_to_pn(pkg, d):
--        """
--        Translate an sstate filename to a PN value by way of SSTATE_PKGSPEC. This is slightly hacky but
--        we don't have access to everything in this context.
--        """
--        pkgspec = d.getVar('SSTATE_PKGSPEC', False)
--        try:
--            idx = pkgspec.split(':').index('${PN}')
--        except ValueError:
--            bb.fatal('Unable to find ${PN} in SSTATE_PKGSPEC')
--        return pkg.split(':')[idx]
--
- 
-     for task in range(len(sq_fn)):
- 
-@@ -806,8 +793,6 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d, siginfo=False):
-         if localdata.getVar('BB_NO_NETWORK') == "1" and localdata.getVar('SSTATE_MIRROR_ALLOW_NETWORK') == "1":
-             localdata.delVar('BB_NO_NETWORK')
- 
--        whitelist = bb.runqueue.get_setscene_enforce_whitelist(d)
--
-         from bb.fetch2 import FetchConnectionCache
-         def checkstatus_init(thread_worker):
-             thread_worker.connection_cache = FetchConnectionCache()
-@@ -834,12 +819,6 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d, siginfo=False):
-             except:
-                 missed.append(task)
-                 bb.debug(2, "SState: Unsuccessful fetch test for %s" % srcuri)
--                if whitelist:
--                    pn = sstate_pkg_to_pn(sstatefile, d)
--                    taskname = sq_task[task]
--                    if not bb.runqueue.check_setscene_enforce_whitelist(pn, taskname, whitelist):
--                        missing.append(task)
--                        bb.error('Sstate artifact unavailable for %s.%s' % (pn, taskname))
-                 pass
-             bb.event.fire(bb.event.ProcessProgress("Checking sstate mirror object availability", len(tasklist) - thread_worker.tasks.qsize()), d)
- 
-@@ -867,8 +846,6 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d, siginfo=False):
-             bb.event.disable_threadlock()
- 
-             bb.event.fire(bb.event.ProcessFinished("Checking sstate mirror object availability"), d)
--            if whitelist and missing:
--                bb.fatal('Required artifacts were unavailable - exiting')
- 
-     inheritlist = d.getVar("INHERIT")
-     if "toaster" in inheritlist:
--- 
-2.5.5
-
+> This patch enables the configuration of their limits, and as default
+> location is TMPDIR, it proposes a size limit to "0" (unlimited).
+>
+> The setup can be overloaded in local.conf by setting
+> CCACHE_MAX_SIZE to a custom value if needed.
+>
+> Signed-off-by: Yannick Gicquel <yannick.gicquel@iot.bzh>
+> ---
+>  meta/classes/ccache.bbclass | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>
+> diff --git a/meta/classes/ccache.bbclass b/meta/classes/ccache.bbclass
+> index 93fcaca..b6643a1 100644
+> --- a/meta/classes/ccache.bbclass
+> +++ b/meta/classes/ccache.bbclass
+> @@ -1,6 +1,14 @@
+>  CCACHE = "${@bb.utils.which(d.getVar('PATH'), 'ccache') and 'ccache '}"
+>  export CCACHE_DIR ?= "${TMPDIR}/ccache/${MULTIMACH_HOST_SYS}/${PN}"
+>  CCACHE_DISABLE[unexport] = "1"
+> +CCACHE_MAX_SIZE ?= "0"
+>
+>  do_configure[dirs] =+ "${CCACHE_DIR}"
+>  do_kernel_configme[dirs] =+ "${CCACHE_DIR}"
+> +
+> +ccache_init() {
+> +    if [ -n "${CCACHE}" ]; then
+> +        ${CCACHE} -M ${CCACHE_MAX_SIZE}
+> +    fi
+> +}
+> +do_configure[postfuncs] += "ccache_init"
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
