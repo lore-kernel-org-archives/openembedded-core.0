@@ -1,47 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-yw0-f178.google.com (mail-yw0-f178.google.com
-	[209.85.161.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 28ECD71A18
+Received: from mail-yb0-f178.google.com (mail-yb0-f178.google.com
+	[209.85.213.178])
+	by mail.openembedded.org (Postfix) with ESMTP id B00F871A18
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2017 11:52:33 +0000 (UTC)
-Received: by mail-yw0-f178.google.com with SMTP id v200so29289095ywc.3
+	Thu, 19 Jan 2017 12:01:22 +0000 (UTC)
+Received: by mail-yb0-f178.google.com with SMTP id w194so14883248ybe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2017 03:52:34 -0800 (PST)
+	Thu, 19 Jan 2017 04:01:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=U98QBBtIORyx7WmzTYTmcGT514tZ9deFlh6mTIPEZ6Y=;
-	b=WeGZM6QEpVnx+sPSw43pwPtAA1brNG/i7goQB5b5LVIpeHPslZo42eHRfUxRayD+nJ
-	qpWAIZCBdb5iTZmeaCMkBWO5tKxIgPX+cYPmLu/AIvmvc2pFREB9And+YKBPeyO5Eetl
-	lJKGl8vg5NP6PNVONusGgTmwkSSe2J3sUTSvtXr+eCz6wGMTHdMG0oizRti68JpMkWsA
-	yKCVb9Aw+5dXumsQDKAhLbZGrcr0npOPxjP8BnaxuxY89RMLEdZeKEBxjEwf4wN3iP1i
-	9V43XCoCju3p4nMlKHV9Mteqi2Lj3mNef7s3HjrQpWtpIeoneC6oep7GS8mqYU5w0fFh
-	OhBQ==
+	:cc; bh=jALXN9HTwASHIqlRupOYtHCIwSgPwdcUjT1INwK+kt8=;
+	b=OfI/ZtWiGgHUqw2oCcjUcdHfZABd4Iqho8kYXBejfgaA6rE/Wbh2kV/ncRiKOgFvnn
+	L55UC3e/u3vCXtoG3vvlk7jPHZm51RdAUx9DZqaIN/lVhsTORT1eUk63IS7+08xQPEuE
+	s6RnjMcaXqGp/WnZh4HkiTe2qmQrv///kux2HnX3XLRu4Gjaf1o2UyLPolYnEE++Qomr
+	IhzAPtd4J8wLQe+6IhGt/X3CHr2oJl+JT1vhsyqto0wPOhmRE+84sP3qGigm3RUmVUFn
+	/xQfDCUO3ns8Bh4a6lH38uqjcSFoGIARhgel8bZuMDtNVsjwjKfKmVDLAPDOr6yVYFeW
+	ysEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=U98QBBtIORyx7WmzTYTmcGT514tZ9deFlh6mTIPEZ6Y=;
-	b=E90bz9QLLyaLUFPz4pwVWyYpjyYwwMgc4+TMFnnVbbISvmu6Ngn7hNHPac4g7kc75N
-	q7dTUlv2YrD7hF+yloRtYyQdJiAQuxulHusLT5PKUNmP38WXbCwEShWc1G4IQk/co9Tk
-	k0BOAi4hWzVrQMTq4H3S1V1SBYXvsVc1i6/n2dQDqHrqVYWBznnKjuJcWXJCI+hbhlz6
-	FT8teHp2L6ygPdomy9A3aRNSoh/xAzIdR3CrshhJZ/P/aaxV4LDnlDXMT+ZvTLNnwgAs
-	8iLNKOVtL4emwfzw2QUCt/ldn4PSQN+wm6KoZr8ccAvPRfpatZFbazTIqcQnh1Golqw/
-	6PFA==
-X-Gm-Message-State: AIkVDXKlgaJbMgR7lZUp6GqiULut7aOQkdlAlm/0Mo3ghhNpjsxqK9kTw4Ge5s+Vcll9TtVeyXYEEdYJE6kD1t4R
-X-Received: by 10.55.16.11 with SMTP id a11mr8130704qkh.3.1484826754050; Thu,
-	19 Jan 2017 03:52:34 -0800 (PST)
+	bh=jALXN9HTwASHIqlRupOYtHCIwSgPwdcUjT1INwK+kt8=;
+	b=DueDG9Bdl2l3Q3zmU+E73rZmqtzRljBOknOWwKiaB5DwK00r6tjVUwvjl5i4ghE7nN
+	4NoyFwqzdMPSm2aIbPiLZiVPoIfWLlGhMnI8qcjHx66rLukw+Rt7b6EAH0F9f+ikNq4v
+	Zh3I2sebBYJnYWSuWEuy7qZDo7F1vRDZYDXAgRjQ/5yUPEkQ6d7WderUTB/1cJOLS0R1
+	r4BFFqLe4yv5o//W+p3aq/5d6YxYcM+WhI4b+dP6u4HzuWpsZc6hgAhdRJ+MDB04EpDZ
+	YgW/KAqyed/R7c5jJsmz/ytOTyNvLFZGTRB6Tia3YXAo02On37GK3w/XKJZvkqVg4G5S
+	SVYQ==
+X-Gm-Message-State: AIkVDXIVp/PcRvGunPXr/bDWjh66okgUcLSGz1lfgg8PyzwhBehgtuum56C2FQlBAnfrGcasqNBL9c+ufiv8h0YP
+X-Received: by 10.237.54.1 with SMTP id e1mr6929511qtb.68.1484827282968; Thu,
+	19 Jan 2017 04:01:22 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Thu, 19 Jan 2017 03:52:13 -0800 (PST)
-In-Reply-To: <5f146756851fbbddb0b37c85b2705857495d38e0.1484819263.git.dengke.du@windriver.com>
-References: <cover.1484819263.git.dengke.du@windriver.com>
-	<5f146756851fbbddb0b37c85b2705857495d38e0.1484819263.git.dengke.du@windriver.com>
+Received: by 10.140.103.233 with HTTP; Thu, 19 Jan 2017 04:01:02 -0800 (PST)
+In-Reply-To: <cc6a7fcca781a3a153ba5cfbfe7a45282a55f917.1484764234.git.randy.e.witt@linux.intel.com>
+References: <cover.1484764234.git.randy.e.witt@linux.intel.com>
+	<cc6a7fcca781a3a153ba5cfbfe7a45282a55f917.1484764234.git.randy.e.witt@linux.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 19 Jan 2017 11:52:13 +0000
-Message-ID: <CAJTo0LbhNAXNKTYX8CwFYvXGbjthTpsVQ-ddsO7Za6E0tfW0iQ@mail.gmail.com>
-To: Dengke Du <dengke.du@windriver.com>
+Date: Thu, 19 Jan 2017 12:01:02 +0000
+Message-ID: <CAJTo0LZ3u-+2SGOL=SgHG=14xSJn_9koEyCoOMDStXUmDsuDLg@mail.gmail.com>
+To: Randy Witt <randy.e.witt@linux.intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] openssh: upgrade to 7.4p1
+Subject: Re: [PATCH 3/3] selftest/containerimage.py: Add container IMAGE_FSTYPES test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,93 +54,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2017 11:52:34 -0000
-Content-Type: multipart/alternative; boundary=001a11475cbc3a76b20546712b92
+X-List-Received-Date: Thu, 19 Jan 2017 12:01:26 -0000
+Content-Type: multipart/alternative; boundary=001a1142dcf0c138f40546714acf
 
---001a11475cbc3a76b20546712b92
+--001a1142dcf0c138f40546714acf
 Content-Type: text/plain; charset=UTF-8
 
-You're removing this patch:
+On 18 January 2017 at 18:31, Randy Witt <randy.e.witt@linux.intel.com>
+wrote:
 
-On 19 January 2017 at 09:50, Dengke Du <dengke.du@windriver.com> wrote:
+> +        expected_files = [
+> +                    './',
+> +                    './bin/',
+> +                    './bin/theapp',
+> +                    './etc/',
+> +                    './etc/default/',
+> +                    './etc/default/postinst',
+> +                    './etc/ld.so.cache',
+> +                    './etc/timestamp',
+> +                    './etc/version',
+> +                    './run/',
+> +                    './var/',
+> +                    './var/cache/',
+> +                    './var/cache/ldconfig/',
+> +                    './var/cache/ldconfig/aux-cache',
+> +                    './var/cache/opkg/',
+> +                    './var/lib/',
+> +                    './var/lib/opkg/'
+> +                ]
+>
+> These should use ${bindir} etc so they're resilient to distros changing
+the paths (please use get_bb_vars() to only invoke bitbake once).
 
-> --- a/meta/recipes-connectivity/openssh/openssh/add-test-
-> support-for-busybox.patch
-> +++ /dev/null
-> @@ -1,69 +0,0 @@
-> -Adjust test cases to work with busybox.
-> -
-> -- Replace dd parameter "obs" with "bs".
-> -- Replace "head -<num>" with "head -n <num>".
-> -
-> -Signed-off-by: Maxin B. John <maxin.john@enea.com>
-> -Upstream-Status: Pending
-> -
-> -Index: openssh-6.8p1/regress/cipher-speed.sh
-> -===================================================================
-> ---- openssh-6.8p1.orig/regress/cipher-speed.sh
-> -+++ openssh-6.8p1/regress/cipher-speed.sh
-> -@@ -17,7 +17,7 @@ for c in `${SSH} -Q cipher`; do n=0; for
-> -               printf "%-60s" "$c/$m:"
-> -               ( ${SSH} -o 'compression no' \
-> -                       -F $OBJ/ssh_proxy -2 -m $m -c $c somehost \
-> --                      exec sh -c \'"dd of=/dev/null obs=32k"\' \
-> -+                      exec sh -c \'"dd of=/dev/null bs=32k"\' \
++        image = os.path.join(self.builddir, "tmp/deploy/images/qemux86/
+> container-test-image-qemux86.tar.bz2")
 >
 
-But upstream still has exec sh -c \'"dd of=/dev/null obs=32k"\', so this
-patch is still needed.
-
-Please always explain why patches are being removed in the commit message.
+Don't hardcode this path, use ${DEPLOY_DIR_IMAGE} (fetch it with the paths
+above for speed) which will get you to tmp/deploy/images/[machine].  Again,
+these paths can change (poky sets TMPDIR to tmp, nodistro uses
+tmp-${TCLIBC}).
 
 Ross
 
---001a11475cbc3a76b20546712b92
+--001a1142dcf0c138f40546714acf
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">You&#39;re removing this patch:=
-</div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 19 Janua=
-ry 2017 at 09:50, Dengke Du <span dir=3D"ltr">&lt;<a href=3D"mailto:dengke.=
-du@windriver.com" target=3D"_blank">dengke.du@windriver.com</a>&gt;</span> =
-wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-sty=
-le:solid;padding-left:1ex"><div id=3D"gmail-:g0" class=3D"gmail-a3s gmail-a=
-XjCH gmail-m159b623a3630db7c">--- a/meta/recipes-connectivity/<wbr>openssh/=
-openssh/add-test-<wbr>support-for-busybox.patch<br>
-+++ /dev/null<br>
-@@ -1,69 +0,0 @@<br>
--Adjust test cases to work with busybox.<br>
--<br>
--- Replace dd parameter &quot;obs&quot; with &quot;bs&quot;.<br>
--- Replace &quot;head -&lt;num&gt;&quot; with &quot;head -n &lt;num&gt;&quo=
-t;.<br>
--<br>
--Signed-off-by: Maxin B. John &lt;<a href=3D"mailto:maxin.john@enea.com">ma=
-xin.john@enea.com</a>&gt;<br>
--Upstream-Status: Pending<br>
--<br>
--Index: openssh-6.8p1/regress/cipher-<wbr>speed.sh<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- openssh-6.8p1.orig/regress/<wbr>cipher-speed.sh<br>
--+++ openssh-6.8p1/regress/cipher-<wbr>speed.sh<br>
--@@ -17,7 +17,7 @@ for c in `${SSH} -Q cipher`; do n=3D0; for<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0printf &quot;%-60s&=
-quot; &quot;$c/$m:&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0( ${SSH} -o &#39;co=
-mpression no&#39; \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0-F $OBJ/ssh_proxy -2 -m $m -c $c somehost \<br>
---=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 exec sh -c \&#39;&quot;dd of=3D/dev/null obs=3D32k&quot;\&#39; \<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 exec sh -c \&#39;&quot;dd of=3D/dev/null bs=3D32k&quot;\&#39; \</div></=
-blockquote></div><br>But upstream still has exec sh -c \&#39;&quot;dd of=3D=
-/dev/null obs=3D32k&quot;\&#39;, so this patch is still needed.</div><div c=
-lass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Please always exp=
-lain why patches are being removed in the commit message.</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 18 January 2017 at 18:31, Randy Witt <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:randy.e.witt@linux.intel.com" target=3D"_blank">randy.e.witt@linux.int=
+el.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":=
+2ne" class=3D"a3s aXjCH m159b2db3be1e4392">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 exp=
+ected_files =3D [<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;./&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;./bin/&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;./bin/theapp&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;./etc/&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;./etc/default/&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;./etc/default/postinst&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;./etc/ld.so.cache&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;./etc/timestamp&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;./etc/version&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;./run/&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;./var/&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;./var/cache/&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;./var/cache/ldconfig/&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;./var/cache/ldconfig/aux-<wbr>cache&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;./var/cache/opkg/&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;./var/lib/&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;./var/lib/opkg/&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ]<br><br></div></b=
+lockquote><div>These should use ${bindir} etc so they&#39;re resilient to d=
+istros changing the paths (please use get_bb_vars() to only invoke bitbake =
+once).</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2ne" =
+class=3D"a3s aXjCH m159b2db3be1e4392">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 image =
+=3D os.path.join(self.builddir, &quot;tmp/deploy/images/qemux86/<wbr>contai=
+ner-test-image-qemux86.<wbr>tar.bz2&quot;)<br></div></blockquote></div><br>=
+Don&#39;t hardcode this path, use ${DEPLOY_DIR_IMAGE} (fetch it with the pa=
+ths above for speed) which will get you to tmp/deploy/images/[machine].=C2=
+=A0 Again, these paths can change (poky sets TMPDIR to tmp, nodistro uses t=
+mp-${TCLIBC}).</div><div class=3D"gmail_extra"><br></div><div class=3D"gmai=
+l_extra">Ross</div></div>
 
---001a11475cbc3a76b20546712b92--
+--001a1142dcf0c138f40546714acf--
