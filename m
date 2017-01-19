@@ -1,30 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D538F731D3
+	by mail.openembedded.org (Postfix) with ESMTP id E1046731D8
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 19 Jan 2017 22:53:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0JMrQi2005703; Thu, 19 Jan 2017 22:53:29 GMT
+	v0JMrRYF005705; Thu, 19 Jan 2017 22:53:27 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 3IaNYh4gWpxz; Thu, 19 Jan 2017 22:53:29 +0000 (GMT)
+	with LMTP id xvzwihkoEB1q; Thu, 19 Jan 2017 22:53:26 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0JMrN4A005671
+	v0JMrN8E005672
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Thu, 19 Jan 2017 22:53:24 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cULa7-0004io-Tp; Thu, 19 Jan 2017 22:53:23 +0000
+	id 1cULa7-0004it-UR; Thu, 19 Jan 2017 22:53:23 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2017 22:53:05 +0000
-Message-Id: <1484866395-17971-23-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Thu, 19 Jan 2017 22:53:06 +0000
+Message-Id: <1484866395-17971-24-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1484866395-17971-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1484866395-17971-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 23/33] dbus: Add PACKAGE_WRITE_DEPS for postinst
+Subject: [PATCH 24/33] update-rc.d: Add PACKAGE_WRITE_DEPS for postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,26 +41,35 @@ X-List-Received-Date: Thu, 19 Jan 2017 22:53:42 -0000
 
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 
-systemctl is needed if both systemd and sysvinit are in distro
-features.
+use_updatercd() will always return true in rootfs generation so
+checking that is not required.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-core/dbus/dbus_1.10.14.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/update-rc.d.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/dbus/dbus_1.10.14.bb b/meta/recipes-core/dbus/dbus_1.10.14.bb
-index 2ffd8b0..e4f54ec 100644
---- a/meta/recipes-core/dbus/dbus_1.10.14.bb
-+++ b/meta/recipes-core/dbus/dbus_1.10.14.bb
-@@ -76,6 +76,7 @@ FILES_${PN}-lib = "${libdir}/lib*.so.*"
- RRECOMMENDS_${PN}-lib = "${PN}"
- FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-test-tool"
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index 9d3a7bc..36f9009 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -1,6 +1,6 @@
+ UPDATERCPN ?= "${PN}"
  
-+PACKAGE_WRITE_DEPS += "${@bb.utils.contains('DISTRO_FEATURES','systemd sysvinit','systemd-systemctl-native','',d)}"
- pkg_postinst_dbus() {
- 	# If both systemd and sysvinit are enabled, mask the dbus-1 init script
-         if ${@bb.utils.contains('DISTRO_FEATURES','systemd sysvinit','true','false',d)}; then
+-DEPENDS_append_class-target = "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', ' update-rc.d-native update-rc.d initscripts', '', d)}"
++DEPENDS_append_class-target = "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', ' update-rc.d initscripts', '', d)}"
+ 
+ UPDATERCD = "update-rc.d"
+ UPDATERCD_class-cross = ""
+@@ -34,6 +34,8 @@ if ${@use_updatercd(d)} && type update-rc.d >/dev/null 2>/dev/null; then
+ fi
+ }
+ 
++PACKAGE_WRITE_DEPS += "update-rc.d-native"
++
+ updatercd_postinst() {
+ # Begin section update-rc.d
+ if ${@use_updatercd(d)} && type update-rc.d >/dev/null 2>/dev/null; then
 -- 
 2.7.4
 
