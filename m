@@ -1,30 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EF2271E5F
+	by mail.openembedded.org (Postfix) with ESMTP id 3E2BE71E5A
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 19 Jan 2017 22:53:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0JMrQi7005703; Thu, 19 Jan 2017 22:53:31 GMT
+	v0JMrQi5005703; Thu, 19 Jan 2017 22:53:30 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 4FUh3UbxfF3V; Thu, 19 Jan 2017 22:53:31 +0000 (GMT)
+	with LMTP id 4sIwjSoZCIyu; Thu, 19 Jan 2017 22:53:30 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0JMrOcf005677
+	v0JMrN2e005673
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Thu, 19 Jan 2017 22:53:25 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cULa8-0004jJ-0s; Thu, 19 Jan 2017 22:53:24 +0000
+	id 1cULa7-0004iy-Uu; Thu, 19 Jan 2017 22:53:23 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2017 22:53:11 +0000
-Message-Id: <1484866395-17971-29-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Thu, 19 Jan 2017 22:53:07 +0000
+Message-Id: <1484866395-17971-25-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1484866395-17971-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1484866395-17971-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 29/33] gio-module-cache: Add PACKAGE_WRITE_DEPS for postinst
+Subject: [PATCH 25/33] update-alternatives.bbclass: Add PACKAGE_WRITE_DEPS for postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,23 +41,24 @@ X-List-Received-Date: Thu, 19 Jan 2017 22:53:38 -0000
 
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 
-Qemu is used to run gio-querymodules on postinstall.
-
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/classes/gio-module-cache.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/update-alternatives.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/gio-module-cache.bbclass b/meta/classes/gio-module-cache.bbclass
-index 39b7bef..a8190b7 100644
---- a/meta/classes/gio-module-cache.bbclass
-+++ b/meta/classes/gio-module-cache.bbclass
-@@ -1,4 +1,4 @@
--DEPENDS += "qemu-native"
-+PACKAGE_WRITE_DEPS += "qemu-native"
- inherit qemu
+diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
+index a90ef19..ca7fe43 100644
+--- a/meta/classes/update-alternatives.bbclass
++++ b/meta/classes/update-alternatives.bbclass
+@@ -65,6 +65,8 @@ ALTERNATIVE_PRIORITY = "10"
+ # and include that vairable in the set.
+ UPDALTVARS  = "ALTERNATIVE ALTERNATIVE_LINK_NAME ALTERNATIVE_TARGET ALTERNATIVE_PRIORITY"
  
- GIO_MODULE_PACKAGES ??= "${PN}"
++PACKAGE_WRITE_DEPS += "virtual/update-alternatives-native"
++
+ def gen_updatealternativesvardeps(d):
+     pkgs = (d.getVar("PACKAGES") or "").split()
+     vars = (d.getVar("UPDALTVARS") or "").split()
 -- 
 2.7.4
 
