@@ -1,28 +1,22 @@
-Return-Path: <jason.wessel@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C737E719AC
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2017 21:24:00 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v0JLO1d3001656
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2017 13:24:01 -0800
-Received: from [172.25.59.218] (172.25.59.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 19 Jan 2017 13:24:00 -0800
-To: <Openembedded-core@lists.openembedded.org>
-References: <20170119211441.126457-1-jason.wessel@windriver.com>
-	<20170119211441.126457-2-jason.wessel@windriver.com>
-From: Jason Wessel <jason.wessel@windriver.com>
-Message-ID: <f97e0ddf-dd9d-06d3-831c-fa47349a1e66@windriver.com>
-Date: Thu, 19 Jan 2017 15:24:00 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <20170119211441.126457-2-jason.wessel@windriver.com>
-Subject: Re: [PATCH 2/2] Revert "kernel: Modify kernel modules installation path."
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 09D0071CB1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Jan 2017 21:52:41 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga105.fm.intel.com with ESMTP; 19 Jan 2017 13:52:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,255,1477983600"; d="scan'208";a="55052544"
+Received: from bitbang.jf.intel.com ([10.7.199.68])
+	by orsmga005.jf.intel.com with ESMTP; 19 Jan 2017 13:52:42 -0800
+From: Randy Witt <randy.e.witt@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 19 Jan 2017 13:52:36 -0800
+Message-Id: <20170119215236.11012-1-randy.e.witt@linux.intel.com>
+X-Mailer: git-send-email 2.9.3
+In-Reply-To: <cc6a7fcca781a3a153ba5cfbfe7a45282a55f917.1484764234.git.randy.e.witt@linux.intel.com>
+References: <cc6a7fcca781a3a153ba5cfbfe7a45282a55f917.1484764234.git.randy.e.witt@linux.intel.com>
+Subject: [PATCH] selftest/containerimage.py: Add container IMAGE_FSTYPES test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,83 +29,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2017 21:24:02 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 19 Jan 2017 21:52:42 -0000
 
+This test checks to make sure only the files expected exist in a
+container image. Currently only ROOTFS_BOOTSTRAP_INSTALL, gets added to
+all images without the user specifying it.
 
-The issue here is that in a multilib build the ${base_libdir} is resolving to /lib64 which completely breaks some tools that fully expect /lib/modules to be a fixed location regardless if the target is 32/64 or something else.
+But this test should help if a developer in the future ever silently
+adds more than just ROOTFS_BOOTSTRAP_INSTALL, and that the developer can
+make sure it also gets removed from a container image.
 
-It may be fixable by using, ${nonarch_base_libdir}, but it wasn't quite that simple because it didn't fully work for the firmware loader so for now it would be best to just revert the two patches and keep oe-core working.
+[YOCTO #9502]
 
-Cheers,
-Jason.
+Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+---
+ .../container-image/container-image-testpkg.bb     |  8 +++
+ .../container-image/container-test-image.bb        |  8 +++
+ meta/lib/oeqa/selftest/containerimage.py           | 82 ++++++++++++++++++++++
+ 3 files changed, 98 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/container-image/container-image-testpkg.bb
+ create mode 100644 meta-selftest/recipes-test/container-image/container-test-image.bb
+ create mode 100644 meta/lib/oeqa/selftest/containerimage.py
 
-
-On 01/19/2017 03:14 PM, Jason Wessel wrote:
-> This reverts commit 0ccb2efe9837e2915c093341a662dffc1df00866.
->
-> The OVS fails to function and the kernel modules cannot be found by
-> any of the kernel tools such as depmod because they are installed
-> into the wrong directory in multilib 64bit/32bit bulids.
->
-> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-> ---
->   meta/classes/kernel-module-split.bbclass |  2 +-
->   meta/classes/kernel.bbclass              | 12 ++++++------
->   2 files changed, 7 insertions(+), 7 deletions(-)
->
-> diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
-> index 0e4e110f0c..efe1b42656 100644
-> --- a/meta/classes/kernel-module-split.bbclass
-> +++ b/meta/classes/kernel-module-split.bbclass
-> @@ -127,7 +127,7 @@ python split_kernel_module_packages () {
->       postinst = d.getVar('pkg_postinst_modules')
->       postrm = d.getVar('pkg_postrm_modules')
->   
-> -    modules = do_split_packages(d, root='${base_libdir}/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='kernel-%s' % (d.getVar("KERNEL_VERSION")))
-> +    modules = do_split_packages(d, root='/lib/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='kernel-%s' % (d.getVar("KERNEL_VERSION")))
->       if modules:
->           metapkg = d.getVar('KERNEL_MODULES_META_PACKAGE')
->           d.appendVar('RDEPENDS_' + metapkg, ' '+' '.join(modules))
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 74517e8d92..3630042dbd 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -296,11 +296,11 @@ kernel_do_install() {
->   	#
->   	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
->   	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
-> -		oe_runmake DEPMOD=echo MODLIB=${D}${base_libdir}/modules/${KERNEL_VERSION} INSTALL_FW_PATH=${D}${base_libdir}/firmware modules_install
-> -		rm "${D}${base_libdir}/modules/${KERNEL_VERSION}/build"
-> -		rm "${D}${base_libdir}/modules/${KERNEL_VERSION}/source"
-> +		oe_runmake DEPMOD=echo INSTALL_MOD_PATH="${D}" modules_install
-> +		rm "${D}/lib/modules/${KERNEL_VERSION}/build"
-> +		rm "${D}/lib/modules/${KERNEL_VERSION}/source"
->   		# If the kernel/ directory is empty remove it to prevent QA issues
-> -		rmdir --ignore-fail-on-non-empty "${D}${base_libdir}/modules/${KERNEL_VERSION}/kernel"
-> +		rmdir --ignore-fail-on-non-empty "${D}/lib/modules/${KERNEL_VERSION}/kernel"
->   	else
->   		bbnote "no modules to install"
->   	fi
-> @@ -478,7 +478,7 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
->   # kernel-image becomes kernel-image-${KERNEL_VERSION}
->   PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev kernel-modules"
->   FILES_${PN} = ""
-> -FILES_kernel-base = "${base_libdir}/modules/${KERNEL_VERSION}/modules.order ${base_libdir}/modules/${KERNEL_VERSION}/modules.builtin"
-> +FILES_kernel-base = "/lib/modules/${KERNEL_VERSION}/modules.order /lib/modules/${KERNEL_VERSION}/modules.builtin"
->   FILES_kernel-image = ""
->   FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH} /lib/modules/${KERNEL_VERSION}/build"
->   FILES_kernel-vmlinux = "/boot/vmlinux-${KERNEL_VERSION_NAME}"
-> @@ -511,7 +511,7 @@ pkg_postinst_kernel-base () {
->   PACKAGESPLITFUNCS_prepend = "split_kernel_packages "
->   
->   python split_kernel_packages () {
-> -    do_split_packages(d, root='${base_libdir}/firmware', file_regex='^(.*)\.(bin|fw|cis|csp|dsp)$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
-> +    do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.(bin|fw|cis|csp|dsp)$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
->   }
->   
->   # Many scripts want to look in arch/$arch/boot for the bootable
-
+diff --git a/meta-selftest/recipes-test/container-image/container-image-testpkg.bb b/meta-selftest/recipes-test/container-image/container-image-testpkg.bb
+new file mode 100644
+index 0000000..f8dd229
+--- /dev/null
++++ b/meta-selftest/recipes-test/container-image/container-image-testpkg.bb
+@@ -0,0 +1,8 @@
++LICENSE = "MIT"
++
++INHIBIT_DEFAULT_DEPS = "1"
++
++do_install_append() {
++    install -d ${D}${bindir}
++    touch ${D}${bindir}/theapp
++}
+diff --git a/meta-selftest/recipes-test/container-image/container-test-image.bb b/meta-selftest/recipes-test/container-image/container-test-image.bb
+new file mode 100644
+index 0000000..d5f939c
+--- /dev/null
++++ b/meta-selftest/recipes-test/container-image/container-test-image.bb
+@@ -0,0 +1,8 @@
++IMAGE_INSTALL += "container-image-testpkg"
++
++LICENSE = "MIT"
++
++IMAGE_FSTYPES = "container"
++IMAGE_LINGUAS = ""
++
++inherit core-image
+diff --git a/meta/lib/oeqa/selftest/containerimage.py b/meta/lib/oeqa/selftest/containerimage.py
+new file mode 100644
+index 0000000..6a85222
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/containerimage.py
+@@ -0,0 +1,82 @@
++import os
++
++from oeqa.selftest.base import oeSelfTest
++from oeqa.utils.commands import bitbake, get_bb_vars, runCmd
++
++# This test builds an image with using the "container" IMAGE_FSTYPE, and
++# ensures that then files in the image are only the ones expected.
++#
++# The only package added to the image is container_image_testpkg, which
++# contains one file. However, due to some other things not cleaning up during
++# rootfs creation, there is some cruft. Ideally bugs will be filed and the
++# cruft removed, but for now we whitelist some known set.
++#
++# Also for performance reasons we're only checking the cruft when using ipk.
++# When using deb, and rpm it is a bit different and we could test all
++# of them, but this test is more to catch if other packages get added by
++# default other than what is in ROOTFS_BOOTSTRAP_INSTALL.
++#
++class ContainerImageTests(oeSelfTest):
++
++    # Verify that when specifying a IMAGE_TYPEDEP_ of the form "foo.bar" that
++    # the conversion type bar gets added as a dep as well
++    def test_expected_files(self):
++
++        def get_each_path_part(path):
++            if path:
++                part = [ '.' + path + '/' ]
++                result = get_each_path_part(path.rsplit('/', 1)[0])
++                if result:
++                    return part + result
++                else:
++                    return part
++            else:
++                return None
++
++        bbvars = get_bb_vars(['bindir', 'sysconfdir', 'localstatedir',
++                              'DEPLOY_DIR_IMAGE'])
++        expected_files = [
++                    './',
++                    '.{bindir}/theapp',
++                    '.{sysconfdir}/default/',
++                    '.{sysconfdir}/default/postinst',
++                    '.{sysconfdir}/ld.so.cache',
++                    '.{sysconfdir}/timestamp',
++                    '.{sysconfdir}/version',
++                    './run/',
++                    '.{localstatedir}/cache/',
++                    '.{localstatedir}/cache/ldconfig/',
++                    '.{localstatedir}/cache/ldconfig/aux-cache',
++                    '.{localstatedir}/cache/opkg/',
++                    '.{localstatedir}/lib/',
++                    '.{localstatedir}/lib/opkg/'
++                ]
++
++        expected_files = [ x.format(bindir=bbvars['bindir'],
++                                    sysconfdir=bbvars['sysconfdir'],
++                                    localstatedir=bbvars['localstatedir'])
++                                    for x in expected_files ]
++
++        # Since tar lists all directories individually, make sure each element
++        # from bindir, sysconfdir, etc is added
++        expected_files += get_each_path_part(bbvars['bindir'])
++        expected_files += get_each_path_part(bbvars['sysconfdir'])
++        expected_files += get_each_path_part(bbvars['localstatedir'])
++
++        expected_files = sorted(expected_files)
++
++
++        self.write_config('PREFERRED_PROVIDER_virtual/kernel = "linux-dummy"')
++        self.append_config('MACHINE = "qemux86"')
++        self.append_config('IMAGE_FSTYPES = "container"')
++        self.append_config('PACKAGE_CLASSES = "package_ipk"')
++
++        # Build the image of course
++        bitbake('container-test-image')
++
++        image = os.path.join(bbvars['DEPLOY_DIR_IMAGE'],
++                             'container-test-image-qemux86.tar.bz2')
++
++        # Ensure the files in the image are what we expect
++        result = runCmd("tar tf {} | sort".format(image), shell=True)
++        self.assertEqual(result.output.split('\n'), expected_files)
+-- 
+2.9.3
 
 
