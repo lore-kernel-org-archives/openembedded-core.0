@@ -1,22 +1,22 @@
 Return-Path: <randy.e.witt@linux.intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 91D8E71CAA
+	by mail.openembedded.org (Postfix) with ESMTP id 8453F71D9E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2017 22:53:01 +0000 (UTC)
+	Thu, 19 Jan 2017 22:53:03 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga105.fm.intel.com with ESMTP; 19 Jan 2017 14:53:02 -0800
+	by fmsmga105.fm.intel.com with ESMTP; 19 Jan 2017 14:53:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,256,1477983600"; d="scan'208";a="924551107"
+X-IronPort-AV: E=Sophos;i="5.33,256,1477983600"; d="scan'208";a="924551118"
 Received: from bitbang.jf.intel.com ([10.7.199.68])
-	by orsmga003.jf.intel.com with ESMTP; 19 Jan 2017 14:53:02 -0800
+	by orsmga003.jf.intel.com with ESMTP; 19 Jan 2017 14:53:03 -0800
 From: Randy Witt <randy.e.witt@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2017 14:52:51 -0800
-Message-Id: <f98b0f2cbd447af38260e66babf1202d63954ae3.1484866303.git.randy.e.witt@linux.intel.com>
+Date: Thu, 19 Jan 2017 14:52:52 -0800
+Message-Id: <7376b1203a2dc1a41f8199722fec86ddb6b7788f.1484866303.git.randy.e.witt@linux.intel.com>
 X-Mailer: git-send-email 2.9.3
 In-Reply-To: <cover.1484866303.git.randy.e.witt@linux.intel.com>
 References: <cover.1484866303.git.randy.e.witt@linux.intel.com>
-Subject: [PATCH v2 1/3] image-container.bbclass: Add the "container" IMAGE_FSTYPES
+Subject: [PATCH v2 2/3] image-container.bbclass: Error if not using linux-dummy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,56 +29,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2017 22:53:02 -0000
+X-List-Received-Date: Thu, 19 Jan 2017 22:53:03 -0000
 
-The "container" fstype does very little other than pick tar.bz2 as the
-actual image type and disable installation of ROOTFS_BOOTSTRAP_INSTALL.
+In the typical case of a container, the user doesn't particularly care
+about the kernel version used. Since using linux-dummy prevents building
+a kernel in the most common case, alert the user if they choose a
+container image, but don't also specify linux-dummy.
+
+In the cases the user actually does want to build against particular
+kernel headers, etc, they can override by setting
+IMAGE_CONTAINER_NO_DUMMY = "1".
 
 [YOCTO #9502]
 
 Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
 ---
- meta/classes/image-container.bbclass | 3 +++
- meta/classes/image.bbclass           | 3 +++
- meta/classes/image_types.bbclass     | 1 +
- 3 files changed, 7 insertions(+)
- create mode 100644 meta/classes/image-container.bbclass
+ meta/classes/image-container.bbclass | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
 diff --git a/meta/classes/image-container.bbclass b/meta/classes/image-container.bbclass
-new file mode 100644
-index 0000000..a10ee32
---- /dev/null
+index a10ee32..f002858 100644
+--- a/meta/classes/image-container.bbclass
 +++ b/meta/classes/image-container.bbclass
-@@ -0,0 +1,3 @@
-+ROOTFS_BOOTSTRAP_INSTALL = ""
-+IMAGE_TYPES_MASKED += "container"
-+IMAGE_TYPEDEP_container = "tar.bz2"
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 04fd5f9..b2c2a28 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -144,6 +144,9 @@ inherit ${IMAGE_TYPE_live}
- IMAGE_TYPE_vm = '${@bb.utils.contains_any("IMAGE_FSTYPES", ["vmdk", "vdi", "qcow2", "hdddirect"], "image-vm", "", d)}'
- inherit ${IMAGE_TYPE_vm}
- 
-+IMAGE_TYPE_container = '${@bb.utils.contains("IMAGE_FSTYPES", "container", "image-container", "", d)}'
-+inherit ${IMAGE_TYPE_container}
+@@ -1,3 +1,21 @@
+ ROOTFS_BOOTSTRAP_INSTALL = ""
+ IMAGE_TYPES_MASKED += "container"
+ IMAGE_TYPEDEP_container = "tar.bz2"
 +
- def build_uboot(d):
-     if 'u-boot' in (d.getVar('IMAGE_FSTYPES') or ''):
-         return "image_types_uboot"
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 7748dee..727a87e 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -328,6 +328,7 @@ IMAGE_TYPES = " \
-     hdddirect \
-     elf \
-     wic wic.gz wic.bz2 wic.lzma \
-+    container \
- "
- 
- # Compression is a special case of conversion. The old variable
++python __anonymous() {
++    if "container" in d.getVar("IMAGE_FSTYPES") and \
++       d.getVar("IMAGE_CONTAINER_NO_DUMMY") != "1" and \
++       "linux-dummy" not in d.getVar("PREFERRED_PROVIDER_virtual/kernel"):
++        msg = '"container" is in IMAGE_FSTYPES, but ' \
++              'PREFERRED_PROVIDER_virtual/kernel is not "linux-dummy". ' \
++              'Unless a particular kernel is needed, using linux-dummy will ' \
++              'prevent a kernel from being built, which can reduce ' \
++              'build times. If you don\'t want to use "linux-dummy", set ' \
++              '"IMAGE_CONTAINER_NO_DUMMY" to "1".'
++
++        # Raising skip recipe was Paul's clever idea. It causes the error to
++        # only be shown for the recipes actually requested to build, rather
++        # than bb.fatal which would appear for all recipes inheriting the
++        # class.
++        raise bb.parse.SkipRecipe(msg)
++}
 -- 
 2.9.3
 
