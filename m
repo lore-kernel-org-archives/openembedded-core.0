@@ -1,30 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 33FE571DF7
+	by mail.openembedded.org (Postfix) with ESMTP id 6370F71E50
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2017 22:53:34 +0000 (UTC)
+	Thu, 19 Jan 2017 22:53:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0JMrRYM005705; Thu, 19 Jan 2017 22:53:29 GMT
+	v0JMrQi3005703; Thu, 19 Jan 2017 22:53:29 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ugkKZXYFwmV2; Thu, 19 Jan 2017 22:53:29 +0000 (GMT)
+	with LMTP id lMnf6WlPs3Iv; Thu, 19 Jan 2017 22:53:29 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0JMrN8u005670
+	v0JMrOp3005678
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 19 Jan 2017 22:53:24 GMT
+	Thu, 19 Jan 2017 22:53:25 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cULa7-0004ij-TH; Thu, 19 Jan 2017 22:53:23 +0000
+	id 1cULa8-0004jO-1T; Thu, 19 Jan 2017 22:53:24 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2017 22:53:04 +0000
-Message-Id: <1484866395-17971-22-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Thu, 19 Jan 2017 22:53:12 +0000
+Message-Id: <1484866395-17971-30-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1484866395-17971-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1484866395-17971-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 22/33] systemd: Add PACKAGE_WRITE_DEPS for postinst
+Subject: [PATCH 30/33] gconf.bbclass: Add PACKAGE_WRITE_DEPS for postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,34 +41,24 @@ X-List-Received-Date: Thu, 19 Jan 2017 22:53:37 -0000
 
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 
-Qemu is used to run udevadm in postinstall.
+gconftool-2 is used during postinstall.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-core/systemd/systemd_232.bb | 3 ++-
+ meta/classes/gconf.bbclass | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_232.bb b/meta/recipes-core/systemd/systemd_232.bb
-index 9b76b69..cc8781e 100644
---- a/meta/recipes-core/systemd/systemd_232.bb
-+++ b/meta/recipes-core/systemd/systemd_232.bb
-@@ -4,7 +4,7 @@ PROVIDES = "udev"
+diff --git a/meta/classes/gconf.bbclass b/meta/classes/gconf.bbclass
+index d07bead..4e0ee2e 100644
+--- a/meta/classes/gconf.bbclass
++++ b/meta/classes/gconf.bbclass
+@@ -1,4 +1,5 @@
+-DEPENDS += "gconf gconf-native"
++DEPENDS += "gconf"
++PACKAGE_WRITE_DEPS += "gconf-native"
  
- PE = "1"
- 
--DEPENDS = "kmod intltool-native gperf-native acl readline libcap libcgroup qemu-native util-linux"
-+DEPENDS = "kmod intltool-native gperf-native acl readline libcap libcgroup util-linux"
- 
- SECTION = "base/shell"
- 
-@@ -571,6 +571,7 @@ pkg_prerm_${PN} () {
- 		-i $D${sysconfdir}/nsswitch.conf
- }
- 
-+PACKAGE_WRITE_DEPS += "qemu-native"
- pkg_postinst_udev-hwdb () {
- 	if test -n "$D"; then
- 		${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
+ # These are for when gconftool is used natively and the prefix isn't necessarily
+ # the sysroot.  TODO: replicate the postinst logic for -native packages going
 -- 
 2.7.4
 
