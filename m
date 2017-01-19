@@ -1,48 +1,46 @@
 Return-Path: <ross.burton@intel.com>
 Received: from mail-yw0-f178.google.com (mail-yw0-f178.google.com
 	[209.85.161.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 85EFF71DC9
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2017 23:43:32 +0000 (UTC)
-Received: by mail-yw0-f178.google.com with SMTP id v200so55736398ywc.3
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2017 15:43:33 -0800 (PST)
+	by mail.openembedded.org (Postfix) with ESMTP id 5F50971D8C
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Jan 2017 23:45:33 +0000 (UTC)
+Received: by mail-yw0-f178.google.com with SMTP id l19so55938299ywc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Jan 2017 15:45:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=SwIaHYJvgQFZlBNgxoKaZibZubBfLWdJ3hsQcLPXV4g=;
-	b=1k/66NkMARNSJHNgMElZ3r2RQcu8zjX8BJsa+XWyy/aucgEugNZbCWbcqBsM8f6FbX
-	MJ/Wo038u0Kc5fS0u3MC7Sqs/acO+lQfx0zOKvHMQN1cAjFymGSppIP8OLG0yMCv2JZK
-	LyR5rIvlPHiPag750fe9dTqTVGrDxZAzaVCK71ur4TcHltObdpjEqud8RGqPrLf33d25
-	Gt+TPJQGXa+FODoVdpP8l5YlIwsFa0dPmxnpec7SDGSqz0i069hIpmrQIXxvaygnk2d9
-	1J0Y42hmeaCarUUIflXp4gy3hGA6gP2DoSLV49Kd6OMka8doFsDHpHKBs0oLiSZlxVgI
-	EGEg==
+	:cc; bh=OaJkc8JIr0U/LQ6FP3cZizD4xssn72/8evlIgam/yTY=;
+	b=wcKS9wSQ6YdKKYNEviuVtDXsbReKEbaRDtYTXSxdHqeEccSajzrBIGdm46G+7SqmfI
+	GghLZOluuPNYhHmd9fR4WgAdalxVMEb2Ft2vss50Q9y7zXKr6A9msxumEMF97iFED0yg
+	6X4Mh/g5i9c7RTfEuAn7EQhl9CmCWzkC+RhX9NTM3jPWAx7Uj1AeAM9sLYwC7eScUWxF
+	xjMUtRp1clgWacsWyPgH3FvSzDs/V4ic6awH/VTo4nUxpRvLQqlF1HNDBGwagnzECnmN
+	eyW5xEzb2Zj+KOXzz/Ai/xKeMZhoHCqBe3o/d7ZPKxs71QDf7FSmiH7RHVTXEW3FWNh0
+	qejA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=SwIaHYJvgQFZlBNgxoKaZibZubBfLWdJ3hsQcLPXV4g=;
-	b=mRJr+XTycwsQuiKkX/vJK9ghk+Elw45hzJIv2eLveK0hQZKxyk+/NQWuA9+Xavgjk/
-	3fa14KodXJMaEoJvLtzW75rX+MU8XDNI5gp20ikhVTZ130h95JzI9g2JL1uoEvQeS/KG
-	e4KDh7O4wIxdWaGW4sWBK0oXzDSyZK5UrvU/8t1DpQiHTTTqXGAyZOPvBKMbU1t971jb
-	bznylev3Qa+WgmaJ7PCP+cGlbLQbP8gHMz2VFKnvsoFuXzhc2tvcb0Q7LP2CH9UhQgyN
-	SI0kmQh3pQFODY1KQJI4PADd5kAgvrX5Bss20hhhSnsMU7+OLh9DcniX0NXF5FiEPa6U
-	ZdZw==
-X-Gm-Message-State: AIkVDXIEH2loFimmL3K2PA1EQrxHKD/d0QtdeH5pq9Y9ZB4MEbovm7hQD8rxrw2ouKOaXNV1jO5IcQs7e9WgY6JK
-X-Received: by 10.237.39.148 with SMTP id a20mr10230557qtd.65.1484869413310;
-	Thu, 19 Jan 2017 15:43:33 -0800 (PST)
+	bh=OaJkc8JIr0U/LQ6FP3cZizD4xssn72/8evlIgam/yTY=;
+	b=Geyhw5q950kDXbYjAADQqTUZIYhXu5vi337Q6IVVqfaZhfjtfpGf3hMP4xu9m/fHlu
+	VfzdeN4SwV+7V7tm/gnoXP8avZEAK2iogmqoVXYGT+xZlW8FIGOiFKGGXTPrwXSRKMI5
+	Nnadub+RaaHSz5je0K9bZSrMlPoJ0ulN39eQD7Uu5OZux7VgKawQz4u23ZU8EhLnEIan
+	WCRGM1s0RN6sfHBb5D5MQ/2kOhedKEG7OCqljyg1BqeMEneXDx0oK8iH89FnUpnRZyD5
+	gZUbMo9tNJRKfK+DBz8KPPeqlZZ3+s7vz7dP/29cmocsU1GHUrtiBbbxi+SqIxaGMGhe
+	gRSA==
+X-Gm-Message-State: AIkVDXKv2L8CdJKBCNfwkkRE/6eDPvOyRGjFwNWX+WTihHIsXVtu8z2D9tIGf34MOixymhDB4LUnzKwm2MNt8e/2
+X-Received: by 10.200.53.247 with SMTP id l52mr10105814qtb.144.1484869534297; 
+	Thu, 19 Jan 2017 15:45:34 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Thu, 19 Jan 2017 15:43:12 -0800 (PST)
-In-Reply-To: <f97e0ddf-dd9d-06d3-831c-fa47349a1e66@windriver.com>
-References: <20170119211441.126457-1-jason.wessel@windriver.com>
-	<20170119211441.126457-2-jason.wessel@windriver.com>
-	<f97e0ddf-dd9d-06d3-831c-fa47349a1e66@windriver.com>
+Received: by 10.140.103.233 with HTTP; Thu, 19 Jan 2017 15:45:13 -0800 (PST)
+In-Reply-To: <alpine.LFD.2.20.1701191542230.6131@localhost.localdomain>
+References: <alpine.LFD.2.20.1701191542230.6131@localhost.localdomain>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 19 Jan 2017 23:43:12 +0000
-Message-ID: <CAJTo0Lb61vPhtOQ4V5k5cdPKZfWdSyotzn_6+BXN+P0J8FCiRg@mail.gmail.com>
-To: Jason Wessel <jason.wessel@windriver.com>
-Cc: OE-core <Openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] Revert "kernel: Modify kernel modules installation path."
+Date: Thu, 19 Jan 2017 23:45:13 +0000
+Message-ID: <CAJTo0LZyLf=U99wpLC9ROCYVSm0rQwb3qX0E7J1MxGH+PqA6Kg@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: still fighting to get an OE recipe for "libfilesys-smbclient-perl"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,44 +53,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2017 23:43:33 -0000
-Content-Type: multipart/alternative; boundary=f403045ee6d8eb259c05467b19c2
+X-List-Received-Date: Thu, 19 Jan 2017 23:45:34 -0000
+Content-Type: multipart/alternative; boundary=001a1142ba20214d4b05467b21e8
 
---f403045ee6d8eb259c05467b19c2
+--001a1142ba20214d4b05467b21e8
 Content-Type: text/plain; charset=UTF-8
 
-On 19 January 2017 at 21:24, Jason Wessel <jason.wessel@windriver.com>
-wrote:
+On 19 January 2017 at 20:58, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
 
-> It may be fixable by using, ${nonarch_base_libdir}, but it wasn't quite
-> that simple because it didn't fully work for the firmware loader so for now
-> it would be best to just revert the two patches and keep oe-core working.
+>   beyond this, i'm not sure how to use an OE patch to adjust this
+> source the right way, given that dozens and dozens of other modules
+> cross-compiled just fine.
+>
+>   thoughts? i am in now way a perl expert so i really have no idea
+> where to go from here
 >
 
-I saw the first commit message, slapped my forehead and thought
-nonarch_base_libdir.  What was the problem this approach had?
+Is this the module you asked about earlier that I had a quick look at?  I'd
+say that basically it can't be cross-compiled easily - or with moderate
+effort - because of various pieces of crazy in the way it builds.
 
-We obviously need to do more real hardware testing of multilib...
+My recommendation is to either find or become a Perl build system expert
+and entirely rewrite the build to use something modern and sane, instead of
+something archaic, hand-coded and crazy.
 
 Ross
 
---f403045ee6d8eb259c05467b19c2
+--001a1142ba20214d4b05467b21e8
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 January 2017 at 21:24, Jason Wessel <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:jason.wessel@windriver.com" target=3D"_blank">jason.wessel@windriver=
-.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3c=
-" class=3D"a3s aXjCH m159b89dbb0b5bc19">It may be fixable by using, ${nonar=
-ch_base_libdir}, but it wasn&#39;t quite that simple because it didn&#39;t =
-fully work for the firmware loader so for now it would be best to just reve=
-rt the two patches and keep oe-core working.<br></div></blockquote></div><b=
-r>I saw the first commit message, slapped my forehead and thought nonarch_b=
-ase_libdir.=C2=A0 What was the problem this approach had?</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">We obviously need to =
-do more real hardware testing of multilib...</div><div class=3D"gmail_extra=
-"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On 19 January 2017 at 20:58, Robert P. J. Day <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcourse.ca</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3f9" cla=
+ss=3D"a3s aXjCH m159b886ddd73285c">=C2=A0 beyond this, i&#39;m not sure how=
+ to use an OE patch to adjust this<br>
+source the right way, given that dozens and dozens of other modules<br>
+cross-compiled just fine.<br>
+<br>
+=C2=A0 thoughts? i am in now way a perl expert so i really have no idea<br>
+where to go from here<br></div></blockquote><div><br></div><div>Is this the=
+ module you asked about earlier that I had a quick look at?=C2=A0 I&#39;d s=
+ay that basically it can&#39;t be cross-compiled easily - or with moderate =
+effort - because of various pieces of crazy in the way it builds.</div><div=
+><br></div><div>My recommendation is to either find or become a Perl build =
+system expert and entirely rewrite the build to use something modern and sa=
+ne, instead of something archaic, hand-coded and crazy.</div><div><br></div=
+><div>Ross=C2=A0</div></div></div></div>
 
---f403045ee6d8eb259c05467b19c2--
+--001a1142ba20214d4b05467b21e8--
