@@ -1,27 +1,20 @@
 Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 042CD71CAA
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id AECA971CAA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2017 22:50:16 +0000 (UTC)
+	Thu, 19 Jan 2017 22:52:58 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga104.fm.intel.com with ESMTP; 19 Jan 2017 14:50:17 -0800
+	by fmsmga105.fm.intel.com with ESMTP; 19 Jan 2017 14:52:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,256,1477983600"; d="scan'208";a="924550216"
-Received: from bitbang.jf.intel.com (HELO [10.7.199.68]) ([10.7.199.68])
-	by orsmga003.jf.intel.com with ESMTP; 19 Jan 2017 14:50:16 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1484764234.git.randy.e.witt@linux.intel.com>
-	<cc6a7fcca781a3a153ba5cfbfe7a45282a55f917.1484764234.git.randy.e.witt@linux.intel.com>
-	<CAJTo0LZ3u-+2SGOL=SgHG=14xSJn_9koEyCoOMDStXUmDsuDLg@mail.gmail.com>
+X-IronPort-AV: E=Sophos;i="5.33,256,1477983600"; d="scan'208";a="924551102"
+Received: from bitbang.jf.intel.com ([10.7.199.68])
+	by orsmga003.jf.intel.com with ESMTP; 19 Jan 2017 14:52:59 -0800
 From: Randy Witt <randy.e.witt@linux.intel.com>
-Message-ID: <c80f8a75-c4b1-a2b5-92ba-f05461a62205@linux.intel.com>
-Date: Thu, 19 Jan 2017 14:50:16 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.6.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZ3u-+2SGOL=SgHG=14xSJn_9koEyCoOMDStXUmDsuDLg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] selftest/containerimage.py: Add container IMAGE_FSTYPES test
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 19 Jan 2017 14:52:50 -0800
+Message-Id: <cover.1484866303.git.randy.e.witt@linux.intel.com>
+X-Mailer: git-send-email 2.9.3
+Subject: [PATCH v2 0/3] Add initial container IMAGE_FSTYPES support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,50 +27,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2017 22:50:17 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 19 Jan 2017 22:53:02 -0000
 
-On 01/19/2017 04:01 AM, Burton, Ross wrote:
-> On 18 January 2017 at 18:31, Randy Witt <randy.e.witt@linux.intel.com>
-> wrote:
->
->> +        expected_files = [
->> +                    './',
->> +                    './bin/',
->> +                    './bin/theapp',
->> +                    './etc/',
->> +                    './etc/default/',
->> +                    './etc/default/postinst',
->> +                    './etc/ld.so.cache',
->> +                    './etc/timestamp',
->> +                    './etc/version',
->> +                    './run/',
->> +                    './var/',
->> +                    './var/cache/',
->> +                    './var/cache/ldconfig/',
->> +                    './var/cache/ldconfig/aux-cache',
->> +                    './var/cache/opkg/',
->> +                    './var/lib/',
->> +                    './var/lib/opkg/'
->> +                ]
->>
->> These should use ${bindir} etc so they're resilient to distros changing
-> the paths (please use get_bb_vars() to only invoke bitbake once).
->
-> +        image = os.path.join(self.builddir, "tmp/deploy/images/qemux86/
->> container-test-image-qemux86.tar.bz2")
->>
->
-> Don't hardcode this path, use ${DEPLOY_DIR_IMAGE} (fetch it with the paths
-> above for speed) which will get you to tmp/deploy/images/[machine].  Again,
-> these paths can change (poky sets TMPDIR to tmp, nodistro uses
-> tmp-${TCLIBC}).
->
-> Ross
->
+Updated with Ross' requests.
 
-I just sent a v2, but screwed up the subject. I'll resend the whole series again 
-even though only 3/3 changed, to hopefully make it easier on you.
+The following changes since commit a304b94eae99ade6d99800eeaf588c48d01506f6:
+
+  oeqa/selftest/devtool: rewrite modify testcase (2017-01-19 22:47:22 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib rewitt/contwip
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=rewitt/contwip
+
+Randy Witt (3):
+  image-container.bbclass: Add the "container" IMAGE_FSTYPES
+  image-container.bbclass: Error if not using linux-dummy
+  selftest/containerimage.py: Add container IMAGE_FSTYPES test
+
+ .../container-image/container-image-testpkg.bb     |  8 +++
+ .../container-image/container-test-image.bb        |  8 +++
+ meta/classes/image-container.bbclass               | 21 ++++++
+ meta/classes/image.bbclass                         |  3 +
+ meta/classes/image_types.bbclass                   |  1 +
+ meta/lib/oeqa/selftest/containerimage.py           | 82 ++++++++++++++++++++++
+ 6 files changed, 123 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/container-image/container-image-testpkg.bb
+ create mode 100644 meta-selftest/recipes-test/container-image/container-test-image.bb
+ create mode 100644 meta/classes/image-container.bbclass
+ create mode 100644 meta/lib/oeqa/selftest/containerimage.py
+
+-- 
+2.9.3
 
 
