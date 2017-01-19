@@ -1,30 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CF1071DA3
+	by mail.openembedded.org (Postfix) with ESMTP id 9D07771DB6
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 19 Jan 2017 22:53:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0JMrQhx005703; Thu, 19 Jan 2017 22:53:28 GMT
+	v0JMrQi0005703; Thu, 19 Jan 2017 22:53:28 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id gDoUmdA1RA5U; Thu, 19 Jan 2017 22:53:28 +0000 (GMT)
+	with LMTP id LzZScVvmJGlq; Thu, 19 Jan 2017 22:53:28 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0JMrNFk005659
+	v0JMrN7t005657
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Thu, 19 Jan 2017 22:53:24 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cULa7-0004hp-N4; Thu, 19 Jan 2017 22:53:23 +0000
+	id 1cULa7-0004hf-Lv; Thu, 19 Jan 2017 22:53:23 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2017 22:52:53 +0000
-Message-Id: <1484866395-17971-11-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Thu, 19 Jan 2017 22:52:51 +0000
+Message-Id: <1484866395-17971-9-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1484866395-17971-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1484866395-17971-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 11/33] psplash: Add PACKAGE_WRITE_DEPS for postinst
+Subject: [PATCH 09/33] v86d: Add PACKAGE_WRITE_DEPS for postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,21 +43,21 @@ The postinstall needs systemd-systemctl-native, mark the dependency
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/psplash/psplash_git.bb | 2 +-
+ meta/recipes-bsp/v86d/v86d_0.1.10.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
-index b0d6bb4..44297e1 100644
---- a/meta/recipes-core/psplash/psplash_git.bb
-+++ b/meta/recipes-core/psplash/psplash_git.bb
-@@ -110,7 +110,7 @@ FILES_${PN} += "/mnt/.psplash"
- INITSCRIPT_NAME = "psplash.sh"
- INITSCRIPT_PARAMS = "start 0 S . stop 20 0 1 6 ."
+diff --git a/meta/recipes-bsp/v86d/v86d_0.1.10.bb b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
+index 1046d63..eab466d 100644
+--- a/meta/recipes-bsp/v86d/v86d_0.1.10.bb
++++ b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
+@@ -60,7 +60,7 @@ python __anonymous() {
+ 
+ inherit update-rc.d
  
 -DEPENDS_append = " ${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd-systemctl-native','',d)}"
 +PACKAGE_WRITE_DEPS_append = " ${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd-systemctl-native','',d)}"
  pkg_postinst_${PN} () {
- 	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+ 	if ${@bb.utils.contains('DISTRO_FEATURES','systemd sysvinit','true','false',d)}; then
  		if [ -n "$D" ]; then
 -- 
 2.7.4
