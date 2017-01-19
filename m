@@ -1,30 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D557F71DEE
+	by mail.openembedded.org (Postfix) with ESMTP id C6446731D1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2017 22:53:39 +0000 (UTC)
+	Thu, 19 Jan 2017 22:53:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0JMrQiB005703; Thu, 19 Jan 2017 22:53:32 GMT
+	v0JMrQi4005703; Thu, 19 Jan 2017 22:53:30 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 84iHJblr8i0z; Thu, 19 Jan 2017 22:53:32 +0000 (GMT)
+	with LMTP id Gk-Qbzjobwmf; Thu, 19 Jan 2017 22:53:30 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0JMrOkg005680
+	v0JMrNbV005669
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 19 Jan 2017 22:53:25 GMT
+	Thu, 19 Jan 2017 22:53:24 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cULa8-0004jY-2Y; Thu, 19 Jan 2017 22:53:24 +0000
+	id 1cULa7-0004ie-Si; Thu, 19 Jan 2017 22:53:23 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2017 22:53:14 +0000
-Message-Id: <1484866395-17971-32-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Thu, 19 Jan 2017 22:53:03 +0000
+Message-Id: <1484866395-17971-21-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1484866395-17971-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1484866395-17971-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 32/33] cantarell-fonts: inherit pkgconfig
+Subject: [PATCH 21/33] eudev: Add PACKAGE_WRITE_DEPS for postinstall
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2017 22:53:40 -0000
+X-List-Received-Date: Thu, 19 Jan 2017 22:53:41 -0000
 
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 
-configure fails without pkg-config.
+Qemu is used to run udevadm in postinstall.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-graphics/cantarell-fonts/cantarell-fonts_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/udev/eudev_3.2.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_git.bb b/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_git.bb
-index e3e4cde..c71ab11 100644
---- a/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_git.bb
-+++ b/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_git.bb
-@@ -18,7 +18,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(?!0\.13)(?!0\.10\.1)\d+\.\d+(\.\d+)+)"
+diff --git a/meta/recipes-core/udev/eudev_3.2.bb b/meta/recipes-core/udev/eudev_3.2.bb
+index 211252c..385ee7a 100644
+--- a/meta/recipes-core/udev/eudev_3.2.bb
++++ b/meta/recipes-core/udev/eudev_3.2.bb
+@@ -87,6 +87,7 @@ python () {
+         raise bb.parse.SkipPackage("'systemd' in DISTRO_FEATURES")
+ }
  
- S = "${WORKDIR}/git"
- 
--inherit autotools allarch fontcache
-+inherit autotools allarch fontcache pkgconfig
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[fontforge] = "--enable-source-rebuild=yes,--enable-source-rebuild=no,fontforge-native"
++PACKAGE_WRITE_DEPS += "qemu-native"
+ pkg_postinst_eudev-hwdb () {
+     if test -n "$D"; then
+         ${@qemu_run_binary(d, '$D', '${bindir}/udevadm')} hwdb --update --root $D
 -- 
 2.7.4
 
