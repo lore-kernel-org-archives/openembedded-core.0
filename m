@@ -1,22 +1,22 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id DD35271B27
+	by mail.openembedded.org (Postfix) with ESMTP id 81BEF71B13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2017 11:12:43 +0000 (UTC)
+	Thu, 19 Jan 2017 11:12:44 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Jan 2017 03:12:44 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 19 Jan 2017 03:12:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,253,1477983600"; d="scan'208";a="1114934240"
+X-IronPort-AV: E=Sophos;i="5.33,253,1477983600"; d="scan'208";a="1114934243"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Jan 2017 03:12:43 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 19 Jan 2017 03:12:44 -0800
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2017 13:12:31 +0200
-Message-Id: <20170119111239.22506-4-markus.lehtonen@linux.intel.com>
+Date: Thu, 19 Jan 2017 13:12:32 +0200
+Message-Id: <20170119111239.22506-5-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <20170119111239.22506-1-markus.lehtonen@linux.intel.com>
 References: <20170119111239.22506-1-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 03/11] oeqa.buildperf: include error details in json report
+Subject: [PATCH 04/11] oe-build-perf-test: enable xml reporting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,66 +31,113 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 19 Jan 2017 11:12:44 -0000
 
-This will typically mean assert message and exception type plus a
-traceback. In case of skipped tests the reason (i.e. skip message) is
-included.
+Add --xml command line option to oe-build-perf-test script for producing
+a test report in JUnit XML format instead of JSON.
 
 [YOCTO #10590]
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- meta/lib/oeqa/buildperf/base.py | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ meta/lib/oeqa/buildperf/base.py | 43 ++++++++++++++++++++++++++++++++++++++++-
+ scripts/oe-build-perf-test      |  6 ++++++
+ 2 files changed, 48 insertions(+), 1 deletion(-)
 
 diff --git a/meta/lib/oeqa/buildperf/base.py b/meta/lib/oeqa/buildperf/base.py
-index 71f3382..668e822 100644
+index 668e822..de0ee40 100644
 --- a/meta/lib/oeqa/buildperf/base.py
 +++ b/meta/lib/oeqa/buildperf/base.py
-@@ -139,6 +139,21 @@ class BuildPerfTestResult(unittest.TextTestResult):
-         super(BuildPerfTestResult, self).addSuccess(test)
-         self.successes.append(test)
+@@ -21,10 +21,12 @@ import socket
+ import time
+ import traceback
+ import unittest
++import xml.etree.ElementTree as ET
+ from datetime import datetime, timedelta
+ from functools import partial
+ from multiprocessing import Process
+ from multiprocessing import SimpleQueue
++from xml.dom import minidom
  
-+    def addError(self, test, err):
-+        """Record results from crashed test"""
-+        test.err = err
-+        super(BuildPerfTestResult, self).addError(test, err)
-+
-+    def addFailure(self, test, err):
-+        """Record results from failed test"""
-+        test.err = err
-+        super(BuildPerfTestResult, self).addFailure(test, err)
-+
-+    def addExpectedFailure(self, test, err):
-+        """Record results from expectedly failed test"""
-+        test.err = err
-+        super(BuildPerfTestResult, self).addExpectedFailure(test, err)
-+
-     def startTest(self, test):
-         """Pre-test hook"""
-         test.base_dir = self.out_dir
-@@ -226,6 +241,13 @@ class BuildPerfTestResult(unittest.TextTestResult):
-                                 'cmd_log_file': os.path.relpath(test.cmd_log_file,
-                                                                 self.out_dir),
-                                 'measurements': test.measurements}
-+            if status in ('ERROR', 'FAILURE', 'EXPECTED_FAILURE'):
-+                tests[test.name]['message'] = str(test.err[1])
-+                tests[test.name]['err_type'] = test.err[0].__name__
-+                tests[test.name]['err_output'] = reason
-+            elif reason:
-+                tests[test.name]['message'] = reason
-+
-         results['tests'] = tests
+ import oe.path
+ from oeqa.utils.commands import CommandError, runCmd, get_bb_vars
+@@ -169,7 +171,6 @@ class BuildPerfTestResult(unittest.TextTestResult):
+     def stopTestRun(self):
+         """Pre-run hook"""
+         self.elapsed_time = datetime.utcnow() - self.start_time
+-        self.write_results_json()
  
-         with open(os.path.join(self.out_dir, 'results.json'), 'w') as fobj:
-@@ -307,6 +329,8 @@ class BuildPerfTestCase(unittest.TestCase):
-         self.start_time = None
-         self.elapsed_time = None
-         self.measurements = []
-+        # self.err is supposed to be a tuple from sys.exc_info()
-+        self.err = None
-         self.bb_vars = get_bb_vars()
-         # TODO: remove 'times' and 'sizes' arrays when globalres support is
-         # removed
+     def all_results(self):
+         result_map = {'SUCCESS': self.successes,
+@@ -254,6 +255,46 @@ class BuildPerfTestResult(unittest.TextTestResult):
+             json.dump(results, fobj, indent=4, sort_keys=True,
+                       cls=ResultsJsonEncoder)
+ 
++    def write_results_xml(self):
++        """Write test results into a JUnit XML file"""
++        top = ET.Element('testsuites')
++        suite = ET.SubElement(top, 'testsuite')
++        suite.set('name', 'oeqa.buildperf')
++        suite.set('timestamp', self.start_time.isoformat())
++        suite.set('time', str(self.elapsed_time.total_seconds()))
++        suite.set('hostname', self.hostname)
++        suite.set('failures', str(len(self.failures) + len(self.expectedFailures)))
++        suite.set('errors', str(len(self.errors)))
++        suite.set('skipped', str(len(self.skipped)))
++
++        test_cnt = 0
++        for status, (test, reason) in self.all_results():
++            testcase = ET.SubElement(suite, 'testcase')
++            testcase.set('classname', test.__module__ + '.' + test.__class__.__name__)
++            testcase.set('name', test.name)
++            testcase.set('timestamp', test.start_time.isoformat())
++            testcase.set('time', str(test.elapsed_time.total_seconds()))
++            if status in ('ERROR', 'FAILURE', 'EXP_FAILURE'):
++                if status in ('FAILURE', 'EXP_FAILURE'):
++                    result = ET.SubElement(testcase, 'failure')
++                else:
++                    result = ET.SubElement(testcase, 'error')
++                result.set('message', str(test.err[1]))
++                result.set('type', test.err[0].__name__)
++                result.text = reason
++            elif status == 'SKIPPED':
++                result = ET.SubElement(testcase, 'skipped')
++                result.text = reason
++            elif status not in ('SUCCESS', 'UNEXPECTED_SUCCESS'):
++                raise TypeError("BUG: invalid test status '%s'" % status)
++            test_cnt += 1
++        suite.set('tests', str(test_cnt))
++
++        # Use minidom for pretty-printing
++        dom_doc = minidom.parseString(ET.tostring(top, 'utf-8'))
++        with open(os.path.join(self.out_dir, 'results.xml'), 'w') as fobj:
++            dom_doc.writexml(fobj, addindent='  ', newl='\n', encoding='utf-8')
++        return
+ 
+     def git_commit_results(self, repo_path, branch=None, tag=None):
+         """Commit results into a Git repository"""
+diff --git a/scripts/oe-build-perf-test b/scripts/oe-build-perf-test
+index 638e195..4ec9f14 100755
+--- a/scripts/oe-build-perf-test
++++ b/scripts/oe-build-perf-test
+@@ -131,6 +131,8 @@ def parse_args(argv):
+     parser.add_argument('-o', '--out-dir', default='results-{date}',
+                         type=os.path.abspath,
+                         help="Output directory for test results")
++    parser.add_argument('-x', '--xml', action='store_true',
++                        help='Enable JUnit xml output')
+     parser.add_argument('--log-file',
+                         default='{out_dir}/oe-build-perf-test.log',
+                         help="Log file of this script")
+@@ -194,6 +196,10 @@ def main(argv=None):
+     # Restore logger output to stderr
+     log.handlers[0].setLevel(log.level)
+ 
++    if args.xml:
++        result.write_results_xml()
++    else:
++        result.write_results_json()
+     if args.globalres_file:
+         result.update_globalres_file(args.globalres_file)
+     if args.commit_results:
 -- 
 2.10.2
 
