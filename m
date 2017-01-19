@@ -1,48 +1,24 @@
-Return-Path: <yannick.gicquel@iot.bzh>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id D617C719BA
+Return-Path: <marex@denx.de>
+X-Greylist: delayed 366 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 19 Jan 2017 15:28:01 UTC
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A8F071B86
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2017 15:02:23 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id r144so81378249wme.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2017 07:02:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=iot-bzh.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=/2kFR/l0FzJYcDd6Gohd7qE5Jkk8n3zpzDcB+U0HqCc=;
-	b=N00uyhhTBjmPFBnILEG/qkk2lOotcMOB4gUNl4f9SGonlUIdkQfyax23zmIBhTUa0J
-	moFP93IvnM0ZV23b770zU5bQt5Z5xbkbOR17Iu2UylYZOmX7/Bl43sBrbD2aNkqFOCHF
-	cZjFuOfaH/ZhB9eTRrAjJbzcBWW7dRUN4tSOxwUYpnM7lYLst+aLdNtgVS5Q43PQXSVZ
-	FtQ4+Fx/F8t+dT/xf3B+V22M2FW3bOfS82QWuIC4xdTM86DX0vu4l/X6oZ9qR878EQex
-	0gNVYsuin/up+yXfYfEIP3Ej2HgB7r+nlogGJtygdRXcJc/PBBXLqJv9Nu2eHN/XOINr
-	8Ixg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=/2kFR/l0FzJYcDd6Gohd7qE5Jkk8n3zpzDcB+U0HqCc=;
-	b=YDhL5BLnoXwLaThUIPQryjRnJmoV6V6aP7Fi/WZI5hemYTfnE5XUAtHK99/lJWXF5z
-	WGp0+qJcKO2Q2VmACKT+i0WQvgqlk7zcxdrTO6T2H/P4+xnzv2RTI9Lkb2Zi3A3QrUaI
-	vdhypu3pOEo4s2JcDk2UZlg0F0nL+41eyNYg1mk2Ag/10ccJao3hTr/SL9AcGJEevNMa
-	ASdje9VuTFBMVPQsyQShm139eMtngX/CPK+Ap+yJQnhhii5SRDnaBaZuAEuwWSdQr2av
-	tPYdFK5vJyVA+J2p0E12m6rUBT5wEHNm3gqNQz1/h+WZcPzkdm86br/VbrQwuY7GMMmT
-	cDnQ==
-X-Gm-Message-State: AIkVDXLC/jl5d4TWVbZlT7V9yzLGiqAN82lk+05We8YzBfi/8Nq8ibwGlH3ZCusF+LlD6A==
-X-Received: by 10.28.189.134 with SMTP id n128mr23810853wmf.77.1484838143641; 
-	Thu, 19 Jan 2017 07:02:23 -0800 (PST)
-Received: from pollux.vannes.iot (lns-bzn-38-82-253-123-24.adsl.proxad.net.
-	[82.253.123.24]) by smtp.gmail.com with ESMTPSA id
-	o132sm13329243wmo.17.2017.01.19.07.02.22
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 19 Jan 2017 07:02:22 -0800 (PST)
-From: Yannick Gicquel <yannick.gicquel@iot.bzh>
+	Thu, 19 Jan 2017 15:28:01 +0000 (UTC)
+Received: from mail.nefkom.net (unknown [192.168.6.184])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3v46yD0ttrz3hjJ1;
+	Thu, 19 Jan 2017 16:21:56 +0100 (CET)
+X-Auth-Info: LG7r/b+Sz6JlvtpV7BCjIzxRY+dY9D+EZoPC3wuawXo=
+Received: from kurokawa.lan (unknown [195.140.253.167])
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3v46yC5cZBzvdWV;
+	Thu, 19 Jan 2017 16:21:55 +0100 (CET)
+From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2017 16:01:31 +0100
-Message-Id: <1484838091-13265-3-git-send-email-yannick.gicquel@iot.bzh>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1484838091-13265-1-git-send-email-yannick.gicquel@iot.bzh>
-References: <1484838091-13265-1-git-send-email-yannick.gicquel@iot.bzh>
-Subject: [PATCH v2 3/3] cmake.bbclass: enable usage of ccache
+Date: Thu, 19 Jan 2017 16:21:51 +0100
+Message-Id: <20170119152151.15814-1-marex@denx.de>
+X-Mailer: git-send-email 2.11.0
+Cc: Marek Vasut <marex@denx.de>
+Subject: [PATCH] u-boot: Update to 2017.01 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,71 +31,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2017 15:02:24 -0000
+X-List-Received-Date: Thu, 19 Jan 2017 15:28:02 -0000
 
-This allows ccache usage for recipes which inherit cmake.bbclass.
-Since cmake v3.4, it can be enabled using some "-D" options.
+Upgrade U-Boot to the latest version.
 
-Here below are some metrics while using it for webkitgtk recipe.
-(machine is a 4x core i7 @ 3.4GHz)
-
-$ bitbake -c fetchall webkitgtk
-$ time bitbake webkitgtk
-<snip>
-real	56m25.191s
-user	359m32.003s
-sys	34m49.356s
-
-$ bitbake -c clean webkitgtk
-$ bitbake -c cleansstate webkitgtk
-$ time bitbake webkitgtk
-<snip>
-real	25m19.298s
-user	17m57.861s
-sys	6m20.157s
-
-Signed-off-by: Yannick Gicquel <yannick.gicquel@iot.bzh>
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Denys Dmytriyenko <denis@denix.org>
 ---
- meta/classes/cmake.bbclass | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ .../u-boot/{u-boot-common_2016.11.inc => u-boot-common_2017.01.inc}     | 2 +-
+ .../u-boot/{u-boot-fw-utils_2016.11.bb => u-boot-fw-utils_2017.01.bb}   | 0
+ .../u-boot/{u-boot-mkimage_2016.11.bb => u-boot-mkimage_2017.01.bb}     | 0
+ meta/recipes-bsp/u-boot/{u-boot_2016.11.bb => u-boot_2017.01.bb}        | 0
+ 4 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-bsp/u-boot/{u-boot-common_2016.11.inc => u-boot-common_2017.01.inc} (86%)
+ rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2016.11.bb => u-boot-fw-utils_2017.01.bb} (100%)
+ rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2016.11.bb => u-boot-mkimage_2017.01.bb} (100%)
+ rename meta/recipes-bsp/u-boot/{u-boot_2016.11.bb => u-boot_2017.01.bb} (100%)
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index 9e74599..737a4e0 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -4,12 +4,9 @@ OECMAKE_SOURCEPATH ?= "${S}"
- DEPENDS_prepend = "cmake-native "
- B = "${WORKDIR}/build"
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2016.11.inc b/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc
+similarity index 86%
+rename from meta/recipes-bsp/u-boot/u-boot-common_2016.11.inc
+rename to meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc
+index 84adc1c56a..df24c853dd 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common_2016.11.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc
+@@ -7,7 +7,7 @@ PE = "1"
  
--# We need to unset CCACHE otherwise cmake gets too confused
--CCACHE = ""
--
- # C/C++ Compiler (without cpu arch/tune arguments)
--OECMAKE_C_COMPILER ?= "`echo ${CC} | sed 's/^\([^ ]*\).*/\1/'`"
--OECMAKE_CXX_COMPILER ?= "`echo ${CXX} | sed 's/^\([^ ]*\).*/\1/'`"
-+OECMAKE_C_COMPILER ?= "${@'${CC}'.replace('${CCACHE}','',1).split(' ')[0]}"
-+OECMAKE_CXX_COMPILER ?= "${@'${CXX}'.replace('${CCACHE}','',1).split(' ')[0]}"
- OECMAKE_AR ?= "${AR}"
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "29e0cfb4f77f7aa369136302cee14a91e22dca71"
++SRCREV = "a705ebc81b7f91bbd0ef7c634284208342901149"
  
- # Compiler flags
-@@ -108,9 +105,16 @@ cmake_do_configure() {
- 		OECMAKE_SITEFILE=""
- 	fi
+ SRC_URI = "git://git.denx.de/u-boot.git"
  
-+	if [ -n "${CCACHE}" ]; then
-+		OECMAKE_CCACHE="-DCMAKE_C_COMPILER_LAUNCHER=${CCACHE} -DCMAKE_CXX_COMPILER_LAUNCHER=${CCACHE}"
-+	else
-+		OECMAKE_CCACHE=""
-+	fi
-+
- 	cmake \
- 	  ${OECMAKE_SITEFILE} \
- 	  ${OECMAKE_SOURCEPATH} \
-+	  ${OECMAKE_CCACHE} \
- 	  -DCMAKE_INSTALL_PREFIX:PATH=${prefix} \
- 	  -DCMAKE_INSTALL_BINDIR:PATH=${@os.path.relpath(d.getVar('bindir'), d.getVar('prefix'))} \
- 	  -DCMAKE_INSTALL_SBINDIR:PATH=${@os.path.relpath(d.getVar('sbindir'), d.getVar('prefix'))} \
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.11.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.01.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.11.bb
+rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.01.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.11.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.01.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2016.11.bb
+rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2017.01.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2016.11.bb b/meta/recipes-bsp/u-boot/u-boot_2017.01.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot_2016.11.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2017.01.bb
 -- 
-1.9.1
+2.11.0
 
 
