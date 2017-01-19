@@ -1,30 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C59E731A5
+	by mail.openembedded.org (Postfix) with ESMTP id 9857171E14
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 19 Jan 2017 22:53:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0JMrRYN005705; Thu, 19 Jan 2017 22:53:30 GMT
+	v0JMrUqY005765; Thu, 19 Jan 2017 22:53:31 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id zXQyClqrrpqZ; Thu, 19 Jan 2017 22:53:30 +0000 (GMT)
+	with LMTP id ETlSC1TX-EyY; Thu, 19 Jan 2017 22:53:31 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0JMrNln005667
+	v0JMrOL0005675
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 19 Jan 2017 22:53:24 GMT
+	Thu, 19 Jan 2017 22:53:25 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cULa7-0004iU-Rd; Thu, 19 Jan 2017 22:53:23 +0000
+	id 1cULa7-0004j8-W1; Thu, 19 Jan 2017 22:53:23 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2017 22:53:01 +0000
-Message-Id: <1484866395-17971-19-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Thu, 19 Jan 2017 22:53:09 +0000
+Message-Id: <1484866395-17971-27-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1484866395-17971-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1484866395-17971-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 19/33] xorg-font-common: Add PACKAGE_WRITE_DEPS for postinst
+Subject: [PATCH 27/33] gtk-immodules-cache: Add PACKAGE_WRITE_DEPS for postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,34 +41,26 @@ X-List-Received-Date: Thu, 19 Jan 2017 22:53:40 -0000
 
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 
-mkfontdir and mkfontscale are used in the postinstall script.
+Qemu is used to run gtk-query-immodules-* on postinstall.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-graphics/xorg-font/xorg-font-common.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes/gtk-immodules-cache.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-font/xorg-font-common.inc b/meta/recipes-graphics/xorg-font/xorg-font-common.inc
-index d5267f59..cdbebcf 100644
---- a/meta/recipes-graphics/xorg-font/xorg-font-common.inc
-+++ b/meta/recipes-graphics/xorg-font/xorg-font-common.inc
-@@ -4,7 +4,7 @@ BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=xorg"
- SECTION = "x11/fonts"
- LICENSE = "MIT-X"
+diff --git a/meta/classes/gtk-immodules-cache.bbclass b/meta/classes/gtk-immodules-cache.bbclass
+index baea959..3d82dbe 100644
+--- a/meta/classes/gtk-immodules-cache.bbclass
++++ b/meta/classes/gtk-immodules-cache.bbclass
+@@ -2,7 +2,7 @@
+ #
+ # Usage: Set GTKIMMODULES_PACKAGES to the packages that needs to update the inputmethod modules
  
--DEPENDS = " encodings font-alias font-util-native mkfontdir-native mkfontscale-native"
-+DEPENDS = " encodings font-alias font-util-native"
- RDEPENDS_${PN} = "encodings font-util font-alias"
+-DEPENDS =+ "qemu-native"
++PACKAGE_WRITE_DEPS += "qemu-native"
  
- XORG_PN = "${BPN}"
-@@ -30,6 +30,7 @@ do_install_append() {
+ inherit qemu
  
- FILES_${PN} += " ${libdir}/X11/fonts ${datadir}"
- 
-+PACKAGE_WRITE_DEPS += "mkfontdir-native mkfontscale-native"
- pkg_postinst_${PN} () {
-         for fontdir in `find $D/usr/lib/X11/fonts -type d`; do
-                 mkfontdir $fontdir
 -- 
 2.7.4
 
