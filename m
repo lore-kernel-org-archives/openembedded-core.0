@@ -1,30 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D14AE71E02
+	by mail.openembedded.org (Postfix) with ESMTP id D538F731D3
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 19 Jan 2017 22:53:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0JMrRYK005705; Thu, 19 Jan 2017 22:53:29 GMT
+	v0JMrQi2005703; Thu, 19 Jan 2017 22:53:29 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id aG7UWsbQJ4Om; Thu, 19 Jan 2017 22:53:28 +0000 (GMT)
+	with LMTP id 3IaNYh4gWpxz; Thu, 19 Jan 2017 22:53:29 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0JMrOVc005679
+	v0JMrN4A005671
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 19 Jan 2017 22:53:25 GMT
+	Thu, 19 Jan 2017 22:53:24 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cULa8-0004jT-1y; Thu, 19 Jan 2017 22:53:24 +0000
+	id 1cULa7-0004io-Tp; Thu, 19 Jan 2017 22:53:23 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2017 22:53:13 +0000
-Message-Id: <1484866395-17971-31-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Thu, 19 Jan 2017 22:53:05 +0000
+Message-Id: <1484866395-17971-23-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1484866395-17971-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1484866395-17971-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 31/33] fontcache.bbclass: Add PACKAGE_WRITE_DEPS for postinst
+Subject: [PATCH 23/33] dbus: Add PACKAGE_WRITE_DEPS for postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +37,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2017 22:53:41 -0000
+X-List-Received-Date: Thu, 19 Jan 2017 22:53:42 -0000
 
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 
-Qemu is used to run fc-cache on postinstall.
+systemctl is needed if both systemd and sysvinit are in distro
+features.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/classes/fontcache.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/dbus/dbus_1.10.14.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/fontcache.bbclass b/meta/classes/fontcache.bbclass
-index d047a79..e763311 100644
---- a/meta/classes/fontcache.bbclass
-+++ b/meta/classes/fontcache.bbclass
-@@ -3,7 +3,7 @@
- # packages.
- #
+diff --git a/meta/recipes-core/dbus/dbus_1.10.14.bb b/meta/recipes-core/dbus/dbus_1.10.14.bb
+index 2ffd8b0..e4f54ec 100644
+--- a/meta/recipes-core/dbus/dbus_1.10.14.bb
++++ b/meta/recipes-core/dbus/dbus_1.10.14.bb
+@@ -76,6 +76,7 @@ FILES_${PN}-lib = "${libdir}/lib*.so.*"
+ RRECOMMENDS_${PN}-lib = "${PN}"
+ FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-test-tool"
  
--DEPENDS += "qemu-native"
-+PACKAGE_WRITE_DEPS += "qemu-native"
- inherit qemu
- 
- FONT_PACKAGES ??= "${PN}"
++PACKAGE_WRITE_DEPS += "${@bb.utils.contains('DISTRO_FEATURES','systemd sysvinit','systemd-systemctl-native','',d)}"
+ pkg_postinst_dbus() {
+ 	# If both systemd and sysvinit are enabled, mask the dbus-1 init script
+         if ${@bb.utils.contains('DISTRO_FEATURES','systemd sysvinit','true','false',d)}; then
 -- 
 2.7.4
 
