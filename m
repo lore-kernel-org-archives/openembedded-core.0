@@ -1,30 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 45D1F71DDF
+	by mail.openembedded.org (Postfix) with ESMTP id 45F3371DF7
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 19 Jan 2017 22:53:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0JMrQi6005703; Thu, 19 Jan 2017 22:53:30 GMT
+	v0JMrUqV005765; Thu, 19 Jan 2017 22:53:30 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id GzQo027oHL1I; Thu, 19 Jan 2017 22:53:30 +0000 (GMT)
+	with LMTP id IxVETd4-29bZ; Thu, 19 Jan 2017 22:53:30 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0JMrNdZ005656
+	v0JMrNRm005664
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Thu, 19 Jan 2017 22:53:24 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cULa7-0004ha-LL; Thu, 19 Jan 2017 22:53:23 +0000
+	id 1cULa7-0004iF-Pr; Thu, 19 Jan 2017 22:53:23 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2017 22:52:50 +0000
-Message-Id: <1484866395-17971-8-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Thu, 19 Jan 2017 22:52:58 +0000
+Message-Id: <1484866395-17971-16-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1484866395-17971-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1484866395-17971-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 08/33] keymaps: Add PACKAGE_WRITE_DEPS for postinst
+Subject: [PATCH 16/33] useradd: Add PACKAGE_WRITE_DEPS for postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,28 +37,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2017 22:53:34 -0000
+X-List-Received-Date: Thu, 19 Jan 2017 22:53:35 -0000
 
-The postinstall needs systemd-systemctl-native, mark the dependency
+The postinstall needs shadow-native, mark the dependency
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-bsp/keymaps/keymaps_1.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/useradd.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-bsp/keymaps/keymaps_1.0.bb b/meta/recipes-bsp/keymaps/keymaps_1.0.bb
-index 5793a76..34b208c 100644
---- a/meta/recipes-bsp/keymaps/keymaps_1.0.bb
-+++ b/meta/recipes-bsp/keymaps/keymaps_1.0.bb
-@@ -37,7 +37,7 @@ do_install () {
-     fi
- }
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index fd59969..82f4d52 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -4,6 +4,7 @@ inherit useradd_base
+ # target sysroot, and shadow -native and -sysroot provide the utilities
+ # and support files needed to add and modify user and group accounts
+ DEPENDS_append_class-target = " base-files shadow-native shadow-sysroot shadow"
++PACKAGE_WRITE_DEPS += "shadow-native"
  
--DEPENDS_append = " ${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd-systemctl-native','',d)}"
-+PACKAGE_WRITE_DEPS_append = " ${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd-systemctl-native','',d)}"
- pkg_postinst_${PN} () {
- 	if ${@bb.utils.contains('DISTRO_FEATURES','systemd sysvinit','true','false',d)}; then
- 		if [ -n "$D" ]; then
+ # This preinstall function can be run in four different contexts:
+ #
 -- 
 2.7.4
 
