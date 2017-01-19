@@ -1,46 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ua0-f169.google.com (mail-ua0-f169.google.com
-	[209.85.217.169])
-	by mail.openembedded.org (Postfix) with ESMTP id B01A7602D9
+Return-Path: <yannick.gicquel@iot.bzh>
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id CDD15719BA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2017 14:53:01 +0000 (UTC)
-Received: by mail-ua0-f169.google.com with SMTP id y9so35014186uae.2
+	Thu, 19 Jan 2017 15:02:21 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id c206so81535956wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2017 06:53:02 -0800 (PST)
+	Thu, 19 Jan 2017 07:02:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=80kxAJRQPKRGKn6qNKWfPYPSzmtsFNCE6CbNeh0/HHg=;
-	b=TUo4ycUTTF/tK+fDuau/2C40R9Iv6khsdx50L6k3+gHwczwny++qjrGhE+t/NZnSy/
-	+U9ITZueXWdZbfeDRusIBo4noBXKgsn+ZPWW/FVvvOXWZgl9wP5Ajcgyw/Qari2nFS09
-	+L598MSUNZ8FxJ+WSJ7r7A/Nyx3GC103tnhMkDJ/BcISFaaNUV8OaI5/hCG6f+266vxu
-	tcH4D1ycIfOvmiao4Tnm1I6+CSaUJEBgMJwx6UYm6fKPmf86IiX+9BN/+ugqlFpTyZrk
-	mBvU71jNUox6ntIyjctX7iI3v22HcSAeWXrzp1r2RM97HkzlgmanylGHpZKBle63o2JY
-	uf/A==
+	d=iot-bzh.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=TTfehFJtHp2na4pJrVgu94C8KVH2MXdWPXLG+Fm5exQ=;
+	b=TBpLzk3V9RNHu1ZxDFwTsAgC2m+19/XJQ/dMHn42nmzZ8LogYhxa17Q047Uigox2gg
+	I2M2CAnMiYKeg4dQfilOCdAugNOiNkx4QaiprRt5TQXHzEMyBWdrmvMadcuPImrki7d7
+	s/zXoGWZ2vyXGkHAQiHcVINYu8FrBvEQCypmjaShM3QpkZ5XfxHd6ao0QZfaqO5hCMda
+	JInpz1zBtb6I56m9s/mDuw+kuGlYTvvYlLU74KRqFIPd/0Xo9hf6P020RvxH79vHykd2
+	h8I/Bgx1LU2Ce3PrAG0+l8dvhqg3KePzdVmpRBncn5g7ZeZGQiMSmcQCfwILWjQE8+0c
+	nT+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=80kxAJRQPKRGKn6qNKWfPYPSzmtsFNCE6CbNeh0/HHg=;
-	b=pFgHd9Vj85eol0Ax5skTpD1r7nDuOx5zfyQHcAgnIf3k6ORBgm+YUsOrDflBlM96DG
-	TVjVxsapQH+w1KVqFMEpdVh+AM54tSpgALPdNnotocNxikYfqIImCKJNEmNpQPHwC2PD
-	cqCwiZDwQLS+0Bm9+mjFXua9PSUseWRn6tS6LoP7OUR1WeJPfex/VVcknr/RexHmEyBj
-	NY7QIyDg02qQ5tXv1oFDOxmnZs64xaSOMiEtk/WB9FwuCkgbsH384odOwqaCBVC5e3Eu
-	WabD1UaRT1bkTd7zY8xQOV84YAJ9krQBrYu83SjhL1xOB+nYgx58tgE0zJYqL8tWpWo4
-	dB8g==
-X-Gm-Message-State: AIkVDXKU6kTY1xeLD7jJg9hAFZXCK9CEoQ33yKTyIP037N12QPKcAVB+ov2mT0nJc80bLKTxO4ooyo7n/Cdc97io
-X-Received: by 10.237.62.232 with SMTP id o37mr7603042qtf.188.1484837581601;
-	Thu, 19 Jan 2017 06:53:01 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Thu, 19 Jan 2017 06:52:40 -0800 (PST)
-In-Reply-To: <1482459368-72764-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-References: <1482459368-72764-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 19 Jan 2017 14:52:40 +0000
-Message-ID: <CAJTo0LYfffDPNuW4rqGLvSrfJ07FJgKftnzoLzm0LktMRNbO-w@mail.gmail.com>
-To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] elfutils 0.166->0.167
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=TTfehFJtHp2na4pJrVgu94C8KVH2MXdWPXLG+Fm5exQ=;
+	b=MgaXpe2Yu8AUqv9hkFXFXlkMD9m/fL5jCD4sjGKXQW9UIS0ho22ch1FtcGoZFw29bT
+	+HVEVjrY2g4W4/Ph3liyDY5R1h1N1LGQSz6kMyIQBZZVl+r4X44imS3iZZpPF+4B7qK7
+	NkVemAwuNgByv5B+QZiGfOA++0pzDd1Y61gKyCofVtoYGHE7qsZhqf3Wql1DmawMzLPB
+	1Je+yRzc3ko0+W1CbFcxHkNo1ewKkov4ZHpOGRXLoz+x7Yw2a+SKOxRIslww/8EkfvZ1
+	Ni8Scsr0XxNmjZ2tayg3JuJg2iKVcbLh/rJ18Lr4zJTm9nQuDd4KKXdjNS2lxM8t8GkH
+	gvvQ==
+X-Gm-Message-State: AIkVDXIaQOFRNpEWXHgFyl4i0DWkuet0IYfy2ZoKhYPpVzhAEPcKX0Rq4nulwc/t9SiLSw==
+X-Received: by 10.223.174.199 with SMTP id y65mr9517725wrc.19.1484838141141;
+	Thu, 19 Jan 2017 07:02:21 -0800 (PST)
+Received: from pollux.vannes.iot (lns-bzn-38-82-253-123-24.adsl.proxad.net.
+	[82.253.123.24]) by smtp.gmail.com with ESMTPSA id
+	o132sm13329243wmo.17.2017.01.19.07.02.19
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 19 Jan 2017 07:02:20 -0800 (PST)
+From: Yannick Gicquel <yannick.gicquel@iot.bzh>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 19 Jan 2017 16:01:29 +0100
+Message-Id: <1484838091-13265-1-git-send-email-yannick.gicquel@iot.bzh>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH v2 1/3] ccache.bbclass: enable max size setup for ccache dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,83 +52,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2017 14:53:02 -0000
-Content-Type: multipart/alternative; boundary=001a11406f0e99d00f054673b027
+X-List-Received-Date: Thu, 19 Jan 2017 15:02:22 -0000
 
---001a11406f0e99d00f054673b027
-Content-Type: text/plain; charset=UTF-8
+ccache directories are limited to 1G by default.
+This patch enables the configuration of their limits, and as default
+location is TMPDIR, it proposes a size limit to "0" (unlimited).
 
-On 23 December 2016 at 02:16, Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-wrote:
+The setup can be overloaded in local.conf by setting
+CCACHE_MAX_SIZE to a custom value if needed.
 
-> 2) Delete 5 patches below, since they are integrated upstream.
->     elfutils-0.166/0001-elf_getarsym-Silence-Werror-maybe-
-> uninitialized-fals.patch
->     elfutils-0.166/0001-remove-the-unneed-checking.patch
->     elfutils-0.166/aarch64_uio.patch
->     elfutils-0.166/fixheadercheck.patch
->     elfutils-0.166/shadow.patch
->
+Signed-off-by: Yannick Gicquel <yannick.gicquel@iot.bzh>
+---
+ meta/classes/ccache.bbclass | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Picking on a random patch, fixheadercheck.patch.  The patch is just this:
+diff --git a/meta/classes/ccache.bbclass b/meta/classes/ccache.bbclass
+index 93fcaca..b6643a1 100644
+--- a/meta/classes/ccache.bbclass
++++ b/meta/classes/ccache.bbclass
+@@ -1,6 +1,14 @@
+ CCACHE = "${@bb.utils.which(d.getVar('PATH'), 'ccache') and 'ccache '}"
+ export CCACHE_DIR ?= "${TMPDIR}/ccache/${MULTIMACH_HOST_SYS}/${PN}"
+ CCACHE_DISABLE[unexport] = "1"
++CCACHE_MAX_SIZE ?= "0"
+ 
+ do_configure[dirs] =+ "${CCACHE_DIR}"
+ do_kernel_configme[dirs] =+ "${CCACHE_DIR}"
++
++ccache_init() {
++    if [ -n "${CCACHE}" ]; then
++        ${CCACHE} -M ${CCACHE_MAX_SIZE}
++    fi
++}
++do_configure[postfuncs] += "ccache_init"
+-- 
+1.9.1
 
--                if (unlikely (! powerof2 (shdr->sh_addralign))
--                    || unlikely ((shdr->sh_addralign ?: 1) < sh_align))
-+                if (shdr->sh_size && (unlikely (! powerof2
-(shdr->sh_addralign))
-+                    || unlikely ((shdr->sh_addralign ?: 1) < sh_align)))
 
-And upstream the code is:
-
-                  if (unlikely (! powerof2 (shdr->sh_addralign))
-                      || unlikely ((shdr->sh_addralign ?: 1) < sh_align))
-
-Have there been other changes to mean this patch isn't needed any more? Or
-should it not be deleted after all?
-
-Ross
-
---001a11406f0e99d00f054673b027
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 December 2016 at 02:16, Zheng Ruoqin <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:zhengrq.fnst@cn.fujitsu.com" target=3D"_blank">zhengrq.fnst@cn.fuji=
-tsu.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,2=
-04,204);border-left-style:solid;padding-left:1ex"><div id=3D"gmail-:3c7" cl=
-ass=3D"gmail-a3s gmail-aXjCH gmail-m1592977ee394f9c4">2) Delete 5 patches b=
-elow, since they are integrated upstream.<br>
-=C2=A0 =C2=A0 <span class=3D"gmail-il">elfutils</span>-0.166/0001-elf_<wbr>=
-getarsym-Silence-Werror-maybe-<wbr>uninitialized-fals.patch<br>
-=C2=A0 =C2=A0 <span class=3D"gmail-il">elfutils</span>-0.166/0001-remove-<w=
-br>the-unneed-checking.patch<br>
-=C2=A0 =C2=A0 <span class=3D"gmail-il">elfutils</span>-0.166/aarch64_uio.<w=
-br>patch<br>
-=C2=A0 =C2=A0 <span class=3D"gmail-il">elfutils</span>-0.166/fixheadercheck=
-.<wbr>patch<br>
-=C2=A0 =C2=A0 <span class=3D"gmail-il">elfutils</span>-0.166/shadow.patch</=
-div></blockquote></div><br>Picking on a random patch, fixheadercheck.patch.=
-=C2=A0 The patch is just this:</div><div class=3D"gmail_extra"><br></div><d=
-iv class=3D"gmail_extra">- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0if (unlikely (! powerof2 (shdr-&gt;sh_addralign))<br></div><div clas=
-s=3D"gmail_extra"><div class=3D"gmail_extra">- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|| unlikely ((shdr-&gt;sh_addralig=
-n ?: 1) &lt; sh_align))</div><div class=3D"gmail_extra">+ =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (shdr-&gt;sh_size &amp;&amp; (unli=
-kely (! powerof2 (shdr-&gt;sh_addralign))</div><div class=3D"gmail_extra">+=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|| un=
-likely ((shdr-&gt;sh_addralign ?: 1) &lt; sh_align)))</div><div class=3D"gm=
-ail_extra"><br></div><div class=3D"gmail_extra">And upstream the code is:</=
-div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><div cl=
-ass=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 if (unlikely (! powerof2 (shdr-&gt;sh_addralign))</div><div class=
-=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 || unlikely ((shdr-&gt;sh_addralign ?: 1) &lt; sh_alig=
-n))</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ha=
-ve there been other changes to mean this patch isn&#39;t needed any more? O=
-r should it not be deleted after all?</div><div class=3D"gmail_extra"><br><=
-/div><div class=3D"gmail_extra">Ross</div></div></div></div>
-
---001a11406f0e99d00f054673b027--
