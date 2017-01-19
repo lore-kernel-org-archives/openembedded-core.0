@@ -1,30 +1,28 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D07771DB6
+	by mail.openembedded.org (Postfix) with ESMTP id 9E89171DBA
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 19 Jan 2017 22:53:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0JMrQi0005703; Thu, 19 Jan 2017 22:53:28 GMT
+	v0JMrRYI005705; Thu, 19 Jan 2017 22:53:28 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id LzZScVvmJGlq; Thu, 19 Jan 2017 22:53:28 +0000 (GMT)
+	with LMTP id XIE0s_e9lapC; Thu, 19 Jan 2017 22:53:28 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0JMrN7t005657
+	v0JMrN81005649
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Thu, 19 Jan 2017 22:53:24 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cULa7-0004hf-Lv; Thu, 19 Jan 2017 22:53:23 +0000
+	id 1cULa7-0004h3-HH; Thu, 19 Jan 2017 22:53:23 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2017 22:52:51 +0000
-Message-Id: <1484866395-17971-9-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Thu, 19 Jan 2017 22:52:43 +0000
+Message-Id: <1484866395-17971-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1484866395-17971-1-git-send-email-richard.purdie@linuxfoundation.org>
-References: <1484866395-17971-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 09/33] v86d: Add PACKAGE_WRITE_DEPS for postinst
+Subject: [PATCH 01/33] lib/oe/utils: Add build_depends_string function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,26 +37,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 19 Jan 2017 22:53:32 -0000
 
-The postinstall needs systemd-systemctl-native, mark the dependency
+This is useful when manipulating depends strings for task [depends]
+flags and is slightly easier to parse than some inline python.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-bsp/v86d/v86d_0.1.10.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oe/utils.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-bsp/v86d/v86d_0.1.10.bb b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-index 1046d63..eab466d 100644
---- a/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-+++ b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-@@ -60,7 +60,7 @@ python __anonymous() {
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index 76806b5..330a5ff 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -97,6 +97,10 @@ def param_bool(cfg, field, dflt = None):
+         return False
+     raise ValueError("invalid value for boolean parameter '%s': '%s'" % (field, value))
  
- inherit update-rc.d
- 
--DEPENDS_append = " ${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd-systemctl-native','',d)}"
-+PACKAGE_WRITE_DEPS_append = " ${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd-systemctl-native','',d)}"
- pkg_postinst_${PN} () {
- 	if ${@bb.utils.contains('DISTRO_FEATURES','systemd sysvinit','true','false',d)}; then
- 		if [ -n "$D" ]; then
++def build_depends_string(depends, task):
++    """Append a taskname to a string of dependencies as used by the [depends] flag"""
++    return " ".join(dep + ":" + task for dep in depends.split())
++
+ def inherits(d, *classes):
+     """Return True if the metadata inherits any of the specified classes"""
+     return any(bb.data.inherits_class(cls, d) for cls in classes)
 -- 
 2.7.4
 
