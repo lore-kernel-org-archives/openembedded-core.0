@@ -1,24 +1,38 @@
-Return-Path: <marex@denx.de>
-X-Greylist: delayed 366 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 19 Jan 2017 15:28:01 UTC
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A8F071B86
+Return-Path: <saul.wold@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id E416471B86
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2017 15:28:01 +0000 (UTC)
-Received: from mail.nefkom.net (unknown [192.168.6.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3v46yD0ttrz3hjJ1;
-	Thu, 19 Jan 2017 16:21:56 +0100 (CET)
-X-Auth-Info: LG7r/b+Sz6JlvtpV7BCjIzxRY+dY9D+EZoPC3wuawXo=
-Received: from kurokawa.lan (unknown [195.140.253.167])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3v46yC5cZBzvdWV;
-	Thu, 19 Jan 2017 16:21:55 +0100 (CET)
-From: Marek Vasut <marex@denx.de>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2017 16:21:51 +0100
-Message-Id: <20170119152151.15814-1-marex@denx.de>
-X-Mailer: git-send-email 2.11.0
-Cc: Marek Vasut <marex@denx.de>
-Subject: [PATCH] u-boot: Update to 2017.01 release
+	Thu, 19 Jan 2017 15:32:30 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga101.jf.intel.com with ESMTP; 19 Jan 2017 07:32:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,254,1477983600"; d="scan'208";a="55193879"
+Received: from orsmsx104.amr.corp.intel.com ([10.22.225.131])
+	by fmsmga005.fm.intel.com with ESMTP; 19 Jan 2017 07:32:30 -0800
+Received: from orsmsx163.amr.corp.intel.com (10.22.240.88) by
+	ORSMSX104.amr.corp.intel.com (10.22.225.131) with Microsoft SMTP Server
+	(TLS) id 14.3.248.2; Thu, 19 Jan 2017 07:32:29 -0800
+Received: from orsmsx113.amr.corp.intel.com ([169.254.9.27]) by
+	ORSMSX163.amr.corp.intel.com ([169.254.9.132]) with mapi id
+	14.03.0248.002; Thu, 19 Jan 2017 07:32:29 -0800
+From: "Wold, Saul" <saul.wold@intel.com>
+To: "kergoth@gmail.com" <kergoth@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 05/16] gnu-efi: build 64-bit for x32
+Thread-Index: AQHScmk+S38G/2xCUEa4O0K0o68Nmg==
+Date: Thu, 19 Jan 2017 15:32:28 +0000
+Message-ID: <1484839946.5377.209.camel@intel.com>
+References: <cover.1483645446.git.chris_larson@mentor.com>
+	<f776bb458e8570ec6f6c9fff1dada3ecd7a36090.1483645446.git.chris_larson@mentor.com>
+In-Reply-To: <f776bb458e8570ec6f6c9fff1dada3ecd7a36090.1483645446.git.chris_larson@mentor.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.254.102.206]
+MIME-Version: 1.0
+Cc: "chris_larson@mentor.com" <chris_larson@mentor.com>
+Subject: Re: [PATCH 05/16] gnu-efi: build 64-bit for x32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,53 +45,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2017 15:28:02 -0000
+X-List-Received-Date: Thu, 19 Jan 2017 15:32:31 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <91B5862A2F5F6B47A8CBE83392F1D3C0@intel.com>
+Content-Transfer-Encoding: base64
 
-Upgrade U-Boot to the latest version.
-
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Denys Dmytriyenko <denis@denix.org>
----
- .../u-boot/{u-boot-common_2016.11.inc => u-boot-common_2017.01.inc}     | 2 +-
- .../u-boot/{u-boot-fw-utils_2016.11.bb => u-boot-fw-utils_2017.01.bb}   | 0
- .../u-boot/{u-boot-mkimage_2016.11.bb => u-boot-mkimage_2017.01.bb}     | 0
- meta/recipes-bsp/u-boot/{u-boot_2016.11.bb => u-boot_2017.01.bb}        | 0
- 4 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-bsp/u-boot/{u-boot-common_2016.11.inc => u-boot-common_2017.01.inc} (86%)
- rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2016.11.bb => u-boot-fw-utils_2017.01.bb} (100%)
- rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2016.11.bb => u-boot-mkimage_2017.01.bb} (100%)
- rename meta/recipes-bsp/u-boot/{u-boot_2016.11.bb => u-boot_2017.01.bb} (100%)
-
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2016.11.inc b/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc
-similarity index 86%
-rename from meta/recipes-bsp/u-boot/u-boot-common_2016.11.inc
-rename to meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc
-index 84adc1c56a..df24c853dd 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common_2016.11.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common_2017.01.inc
-@@ -7,7 +7,7 @@ PE = "1"
- 
- # We use the revision in order to avoid having to fetch it from the
- # repo during parse
--SRCREV = "29e0cfb4f77f7aa369136302cee14a91e22dca71"
-+SRCREV = "a705ebc81b7f91bbd0ef7c634284208342901149"
- 
- SRC_URI = "git://git.denx.de/u-boot.git"
- 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.11.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.01.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.11.bb
-rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.01.bb
-diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.11.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.01.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2016.11.bb
-rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2017.01.bb
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2016.11.bb b/meta/recipes-bsp/u-boot/u-boot_2017.01.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot_2016.11.bb
-rename to meta/recipes-bsp/u-boot/u-boot_2017.01.bb
--- 
-2.11.0
-
+T24gVGh1LCAyMDE3LTAxLTA1IGF0IDEyOjQ2IC0wNzAwLCBDaHJpc3RvcGhlciBMYXJzb24gd3Jv
+dGU6DQo+IEZyb206IENocmlzdG9waGVyIExhcnNvbiA8Y2hyaXNfbGFyc29uQG1lbnRvci5jb20+
+DQo+IA0KPiBXZSdyZSB0YXJnZXRpbmcgdGhlIHg4Nl82NCBFRkkgQUJJLg0KPiANCkNocmlzLMKg
+DQoNCkZpcnN0bHksIHRoYW5rcyBmb3IgYWxsIHRoZSB4MzIgcGF0Y2hlcyENCg0KSSB0cmllZCB0
+byBidWlsZCBnbnUtZWZpIGZvciB4MzIgdmlhIGdlbmVyaWN4ODYtNjQgYW5kIHN0aWxsIGdvdCBh
+DQpmYWlsdXJlIGFib3V0IG1pc3NpbmcgdGhlIGdudS9zdHVicy02NC5oLiBJIGFtIGJ1aWxkaW5n
+IHB1cmUgeDMyLCBpcyBpdA0KcG9zc2libHkgeW91IGJ1aWxkIHgzMiBpbiBhIFRNUERJUiB0aGF0
+IGFscmVhZHkgaGFkIGEgNjRiaXQgYnVpbGQ/DQoNClRoZXJlIGlzIGEgZ2VuZXJhdGVkIHN0dWJz
+LXgzMi5oLCBidXQgbm90IHRoZSByZXF1aXJlZCAtNjQgdmFyaWFudC4NCg0KQ2FuIHlvdSBjb25m
+aXJtIHRoaXMgYnVpbGRzIGNvcnJlY3RseT8NCg0KVGhhbmtzDQoNClNhdSENCg0KPiBTaWduZWQt
+b2ZmLWJ5OiBDaHJpc3RvcGhlciBMYXJzb24gPGNocmlzX2xhcnNvbkBtZW50b3IuY29tPg0KPiAt
+LS0NCj4gwqBtZXRhL3JlY2lwZXMtYnNwL2dudS1lZmkvZ251LWVmaV8zLjAuNC5iYiB8IDkgKysr
+KysrKysrDQo+IMKgMSBmaWxlIGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1ic3AvZ251LWVmaS9nbnUtZWZpXzMuMC40LmJiDQo+IGIvbWV0
+YS9yZWNpcGVzLWJzcC9nbnUtZWZpL2dudS1lZmlfMy4wLjQuYmINCj4gaW5kZXggOWRkYzRiYS4u
+ZTU1YWI3ZiAxMDA2NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWJzcC9nbnUtZWZpL2dudS1lZmlf
+My4wLjQuYmINCj4gKysrIGIvbWV0YS9yZWNpcGVzLWJzcC9nbnUtZWZpL2dudS1lZmlfMy4wLjQu
+YmINCj4gQEAgLTUyLDMgKzUyLDEyIEBAIEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIg0KPiDCoCMg
+Q0ZMQUdTICs9IC1tbm8tbW14IC1tbm8tc3NlDQo+IMKgIyBTbyBhbHNvIHJlbW92ZSAtbWZwbWF0
+aD1zc2UgZnJvbSBUVU5FX0NDQVJHUw0KPiDCoFRVTkVfQ0NBUkdTX3JlbW92ZSA9ICItbWZwbWF0
+aD1zc2UiDQo+ICsNCj4gK3B5dGhvbiAoKSB7DQo+ICvCoMKgwqDCoGNjYXJncyA9IGQuZ2V0VmFy
+KCdUVU5FX0NDQVJHUycsIFRydWUpLnNwbGl0KCkNCj4gK8KgwqDCoMKgaWYgJy1teDMyJyBpbiBj
+Y2FyZ3M6DQo+ICvCoMKgwqDCoMKgwqDCoMKgIyB1c2UgeDg2XzY0IEVGSSBBQkkNCj4gK8KgwqDC
+oMKgwqDCoMKgwqBjY2FyZ3MucmVtb3ZlKCctbXgzMicpDQo+ICvCoMKgwqDCoMKgwqDCoMKgY2Nh
+cmdzLmFwcGVuZCgnLW02NCcpDQo+ICvCoMKgwqDCoMKgwqDCoMKgZC5zZXRWYXIoJ1RVTkVfQ0NB
+UkdTJywgJyAnLmpvaW4oY2NhcmdzKSkNCj4gK30NCj4gLS3CoA0KPiAyLjguMA0KPiA=
 
