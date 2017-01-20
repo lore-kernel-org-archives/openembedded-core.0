@@ -1,23 +1,23 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 20791771D4
+	by mail.openembedded.org (Postfix) with ESMTP id 8C0B9771D4
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 20 Jan 2017 17:07:48 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga105.fm.intel.com with ESMTP; 20 Jan 2017 09:07:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,259,1477983600"; d="scan'208";a="1115567455"
+X-IronPort-AV: E=Sophos;i="5.33,259,1477983600"; d="scan'208";a="1115567461"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.143])
 	by fmsmga002.fm.intel.com with ESMTP; 20 Jan 2017 09:07:48 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2017 11:09:59 -0600
-Message-Id: <2cb534518dbd7634076a282e1cc80b6e8a9ff8de.1484929088.git.anibal.limon@linux.intel.com>
+Date: Fri, 20 Jan 2017 11:10:00 -0600
+Message-Id: <9048c0abcec229dccea9963a1fe8366098e8f54d.1484929088.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1484929088.git.anibal.limon@linux.intel.com>
 References: <cover.1484929088.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 28/55] classes/testsdk: Migrate to use the new OESDKExtTestContext
+Subject: [PATCH 29/55] oeqa/sdkext/cases: Migrate test case to new OEQA framework
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,158 +34,193 @@ X-List-Received-Date: Fri, 20 Jan 2017 17:07:48 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+Summary,
+
+- Changes base case class to OESDKExtTest.
+- Changes decorator classes to new ones.
+- Chnages variable names sdktestdir -> sdk_dir.
+- Added missing license to MIT.
+
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/classes/testsdk.bbclass | 98 ++++++++++++++++++++------------------------
- 1 file changed, 45 insertions(+), 53 deletions(-)
+ meta/lib/oeqa/sdk/cases/buildgalculator.py |  2 +-
+ meta/lib/oeqa/sdk/cases/gcc.py             |  3 +-
+ meta/lib/oeqa/sdkext/cases/devtool.py      | 49 ++++++++++++++++--------------
+ meta/lib/oeqa/sdkext/cases/sdk_update.py   | 17 ++++++-----
+ 4 files changed, 38 insertions(+), 33 deletions(-)
 
-diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
-index 176dafd..69689a1 100644
---- a/meta/classes/testsdk.bbclass
-+++ b/meta/classes/testsdk.bbclass
-@@ -16,37 +16,6 @@
+diff --git a/meta/lib/oeqa/sdk/cases/buildgalculator.py b/meta/lib/oeqa/sdk/cases/buildgalculator.py
+index bdc8b6a..42e8ddb 100644
+--- a/meta/lib/oeqa/sdk/cases/buildgalculator.py
++++ b/meta/lib/oeqa/sdk/cases/buildgalculator.py
+@@ -10,7 +10,7 @@ class GalculatorTest(OESDKTestCase):
+     def setUpClass(self):
+         if not (self.tc.hasTargetPackage("gtk+3") or\
+                 self.tc.hasTargetPackage("libgtk-3.0")):
+-            raise unittest.SkipTest("%s class: SDK don't support gtk+3" % self.__name__)
++            raise unittest.SkipTest("GalculatorTest class: SDK don't support gtk+3")
  
- TESTSDKLOCK = "${TMPDIR}/testsdk.lock"
+     def test_galculator(self):
+         dl_dir = self.td.get('DL_DIR', None)
+diff --git a/meta/lib/oeqa/sdk/cases/gcc.py b/meta/lib/oeqa/sdk/cases/gcc.py
+index e06af4c..74ad2a2 100644
+--- a/meta/lib/oeqa/sdk/cases/gcc.py
++++ b/meta/lib/oeqa/sdk/cases/gcc.py
+@@ -19,8 +19,7 @@ class GccCompileTest(OESDKTestCase):
+     def setUp(self):
+         machine = self.td.get("MACHINE")
+         if not self.tc.hasHostPackage("packagegroup-cross-canadian-%s" % machine):
+-            raise unittest.SkipTest("%s class: SDK doesn't contain a cross-canadian toolchain",
+-                    self.__name__)
++            raise unittest.SkipTest("GccCompileTest class: SDK doesn't contain a cross-canadian toolchain")
  
--def run_test_context(CTestContext, d, testdir, tcname, pn, *args):
--    import glob
--    import time
+     def test_gcc_compile(self):
+         self._run('$CC %s/test.c -o %s/test -lm' % (self.tc.sdk_dir, self.tc.sdk_dir))
+diff --git a/meta/lib/oeqa/sdkext/cases/devtool.py b/meta/lib/oeqa/sdkext/cases/devtool.py
+index 65f41f6..da0050c 100644
+--- a/meta/lib/oeqa/sdkext/cases/devtool.py
++++ b/meta/lib/oeqa/sdkext/cases/devtool.py
+@@ -1,18 +1,22 @@
++# Copyright (C) 2016 Intel Corporation
++# Released under the MIT license (see COPYING.MIT)
++
+ import shutil
+ import subprocess
+-import urllib.request
+-from oeqa.oetest import oeSDKExtTest
+-from oeqa.utils.decorators import *
+ 
+-class DevtoolTest(oeSDKExtTest):
++from oeqa.sdkext.case import OESDKExtTestCase
++from oeqa.core.decorator.depends import OETestDepends
++from oeqa.core.decorator.oeid import OETestID
++
++class DevtoolTest(OESDKExtTestCase):
+     @classmethod
+     def setUpClass(self):
+-        self.myapp_src = os.path.join(self.tc.sdkextfilesdir, "myapp")
+-        self.myapp_dst = os.path.join(self.tc.sdktestdir, "myapp")
++        self.myapp_src = os.path.join(self.tc.esdk_files_dir, "myapp")
++        self.myapp_dst = os.path.join(self.tc.sdk_dir, "myapp")
+         shutil.copytree(self.myapp_src, self.myapp_dst)
+ 
+-        self.myapp_cmake_src = os.path.join(self.tc.sdkextfilesdir, "myapp_cmake")
+-        self.myapp_cmake_dst = os.path.join(self.tc.sdktestdir, "myapp_cmake")
++        self.myapp_cmake_src = os.path.join(self.tc.esdk_files_dir, "myapp_cmake")
++        self.myapp_cmake_dst = os.path.join(self.tc.sdk_dir, "myapp_cmake")
+         shutil.copytree(self.myapp_cmake_src, self.myapp_cmake_dst)
+ 
+     def _test_devtool_build(self, directory):
+@@ -37,31 +41,31 @@ class DevtoolTest(oeSDKExtTest):
+ 
+     def test_devtool_location(self):
+         output = self._run('which devtool')
+-        self.assertEqual(output.startswith(self.tc.sdktestdir), True, \
++        self.assertEqual(output.startswith(self.tc.sdk_dir), True, \
+             msg="Seems that devtool isn't the eSDK one: %s" % output)
+     
+-    @skipUnlessPassed('test_devtool_location')
++    @OETestDepends(['test_devtool_location'])
+     def test_devtool_add_reset(self):
+         self._run('devtool add myapp %s' % self.myapp_dst)
+         self._run('devtool reset myapp')
+     
+-    @testcase(1473)
+-    @skipUnlessPassed('test_devtool_location')
++    @OETestID(1473)
++    @OETestDepends(['test_devtool_location'])
+     def test_devtool_build_make(self):
+         self._test_devtool_build(self.myapp_dst)
+     
+-    @testcase(1474)
+-    @skipUnlessPassed('test_devtool_location')
++    @OETestID(1474)
++    @OETestDepends(['test_devtool_location'])
+     def test_devtool_build_esdk_package(self):
+         self._test_devtool_build_package(self.myapp_dst)
+ 
+-    @testcase(1479)
+-    @skipUnlessPassed('test_devtool_location')
++    @OETestID(1479)
++    @OETestDepends(['test_devtool_location'])
+     def test_devtool_build_cmake(self):
+         self._test_devtool_build(self.myapp_cmake_dst)
+     
+-    @testcase(1482)
+-    @skipUnlessPassed('test_devtool_location')
++    @OETestID(1482)
++    @OETestDepends(['test_devtool_location'])
+     def test_extend_autotools_recipe_creation(self):
+         req = 'https://github.com/rdfa/librdfa'
+         recipe = "bbexample"
+@@ -74,8 +78,8 @@ class DevtoolTest(oeSDKExtTest):
+             raise e
+         self._run('devtool reset %s' % recipe)
+ 
+-    @testcase(1484)
+-    @skipUnlessPassed('test_devtool_location')
++    @OETestID(1484)
++    @OETestDepends(['test_devtool_location'])
+     def test_devtool_kernelmodule(self):
+         docfile = 'https://github.com/umlaeute/v4l2loopback.git'
+         recipe = 'v4l2loopback-driver'
+@@ -88,8 +92,8 @@ class DevtoolTest(oeSDKExtTest):
+             raise e
+         self._run('devtool reset %s' % recipe)
+ 
+-    @testcase(1478)
+-    @skipUnlessPassed('test_devtool_location')
++    @OETestID(1478)
++    @OETestDepends(['test_devtool_location'])
+     def test_recipes_for_nodejs(self):
+         package_nodejs = "npm://registry.npmjs.org;name=winston;version=2.2.0"
+         self._run('devtool add %s ' % package_nodejs)
+@@ -101,7 +105,6 @@ class DevtoolTest(oeSDKExtTest):
+             raise e
+         self._run('devtool reset %s '% package_nodejs)
+ 
 -
--    targets = glob.glob(d.expand(testdir + "/tc/environment-setup-*"))
--    for sdkenv in targets:
--        bb.plain("Testing %s" % sdkenv)
--        tc = CTestContext(d, testdir, sdkenv, tcname, args)
+     @classmethod
+     def tearDownClass(self):
+         shutil.rmtree(self.myapp_dst)
+diff --git a/meta/lib/oeqa/sdkext/cases/sdk_update.py b/meta/lib/oeqa/sdkext/cases/sdk_update.py
+index 2ade839..2f8598b 100644
+--- a/meta/lib/oeqa/sdkext/cases/sdk_update.py
++++ b/meta/lib/oeqa/sdkext/cases/sdk_update.py
+@@ -1,23 +1,26 @@
++# Copyright (C) 2016 Intel Corporation
++# Released under the MIT license (see COPYING.MIT)
++
+ import os
+ import shutil
+ import subprocess
+ 
+-from oeqa.oetest import oeSDKExtTest
++from oeqa.sdkext.case import OESDKExtTestCase
+ from oeqa.utils.httpserver import HTTPService
+ 
+-class SdkUpdateTest(oeSDKExtTest):
 -
--        # this is a dummy load of tests
--        # we are doing that to find compile errors in the tests themselves
--        # before booting the image
--        try:
--            tc.loadTests()
--        except Exception as e:
--            import traceback
--            bb.fatal("Loading tests failed:\n%s" % traceback.format_exc())
--
--        starttime = time.time()
--        result = tc.runTests()
--        stoptime = time.time()
--        if result.wasSuccessful():
--            bb.plain("%s SDK(%s):%s - Ran %d test%s in %.3fs" % (pn, os.path.basename(tcname), os.path.basename(sdkenv),result.testsRun, result.testsRun != 1 and "s" or "", stoptime - starttime))
--            msg = "%s - OK - All required tests passed" % pn
--            skipped = len(result.skipped)
--            if skipped:
--                msg += " (skipped=%d)" % skipped
--            bb.plain(msg)
--        else:
--            bb.fatal("%s - FAILED - check the task log and the commands log" % pn)
--
- def testsdk_main(d):
-     import os
-     import subprocess
-@@ -122,7 +91,6 @@ addtask testsdk
- do_testsdk[nostamp] = "1"
- do_testsdk[lockfiles] += "${TESTSDKLOCK}"
++class SdkUpdateTest(OESDKExtTestCase):
+     @classmethod
+     def setUpClass(self):
+-        self.publish_dir = os.path.join(self.tc.sdktestdir, 'esdk_publish')
++        self.publish_dir = os.path.join(self.tc.sdk_dir, 'esdk_publish')
+         if os.path.exists(self.publish_dir):
+             shutil.rmtree(self.publish_dir)
+         os.mkdir(self.publish_dir)
  
--TEST_LOG_SDKEXT_DIR ?= "${WORKDIR}/testsdkext"
- TESTSDKEXTLOCK = "${TMPDIR}/testsdkext.lock"
+-        tcname_new = self.tc.d.expand(
+-            "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}-new.sh")
++        base_tcname = "%s/%s" % (self.td.get("SDK_DEPLOY", ''),
++            self.td.get("TOOLCHAINEXT_OUTPUTNAME", ''))
++        tcname_new = "%s-new.sh" % base_tcname
+         if not os.path.exists(tcname_new):
+-            tcname_new = self.tc.tcname
++            tcname_new = "%s.sh" % base_tcname
  
- def testsdkext_main(d):
-@@ -132,7 +100,11 @@ def testsdkext_main(d):
-     import logging
- 
-     from bb.utils import export_proxies
--    from oeqa.utils import avoid_paths_in_environ
-+    from oeqa.utils import avoid_paths_in_environ, make_logger_bitbake_compatible
-+    from oeqa.sdkext.context import OESDKExtTestContext, OESDKExtTestContextExecutor
-+
-+    pn = d.getVar("PN", True)
-+    logger = make_logger_bitbake_compatible(logging.getLogger("BitBake"))
- 
-     # extensible sdk use network
-     export_proxies(d)
-@@ -143,23 +115,27 @@ def testsdkext_main(d):
-                       d.getVar('BASE_WORKDIR')]
-     os.environ['PATH'] = avoid_paths_in_environ(paths_to_avoid)
- 
--    pn = d.getVar("PN")
--    bb.utils.mkdirhier(d.getVar("TEST_LOG_SDKEXT_DIR"))
--
-     tcname = d.expand("${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.sh")
-     if not os.path.exists(tcname):
-         bb.fatal("The toolchain ext %s is not built. Build it before running the" \
-                  " tests: 'bitbake <image> -c populate_sdk_ext' ." % tcname)
- 
--    testdir = d.expand("${WORKDIR}/testsdkext/")
--    bb.utils.remove(testdir, True)
--    bb.utils.mkdirhier(testdir)
--    sdkdir = os.path.join(testdir, 'tc')
-+    tdname = d.expand("${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.testdata.json")
-+    test_data = json.load(open(tdname, "r"))
-+
-+    target_pkg_manifest = OESDKExtTestContextExecutor._load_manifest(
-+        d.expand("${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.target.manifest"))
-+    host_pkg_manifest = OESDKExtTestContextExecutor._load_manifest(
-+        d.expand("${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.host.manifest"))
-+
-+    sdk_dir = d.expand("${WORKDIR}/testsdkext/")
-+    bb.utils.remove(sdk_dir, True)
-+    bb.utils.mkdirhier(sdk_dir)
-     try:
--        subprocess.check_output("%s -y -d %s" % (tcname, sdkdir), shell=True)
-+        subprocess.check_output("%s -y -d %s" % (tcname, sdk_dir), shell=True)
-     except subprocess.CalledProcessError as e:
-         msg = "Couldn't install the extensible SDK:\n%s" % e.output.decode("utf-8")
--        logfn = os.path.join(sdkdir, 'preparing_build_system.log')
-+        logfn = os.path.join(sdk_dir, 'preparing_build_system.log')
-         if os.path.exists(logfn):
-             msg += '\n\nContents of preparing_build_system.log:\n'
-             with open(logfn, 'r') as f:
-@@ -167,19 +143,35 @@ def testsdkext_main(d):
-                     msg += line
-         bb.fatal(msg)
- 
--    try:
--        bb.plain("Running SDK Compatibility tests ...")
--        run_test_context(SDKExtTestContext, d, testdir, tcname, pn, True)
--    finally:
--        pass
-+    fail = False
-+    sdk_envs = OESDKExtTestContextExecutor._get_sdk_environs(sdk_dir)
-+    for s in sdk_envs:
-+        bb.plain("Extensible SDK testing environment: %s" % s)
- 
--    try:
--        bb.plain("Running Extensible SDK tests ...")
--        run_test_context(SDKExtTestContext, d, testdir, tcname, pn)
--    finally:
--        pass
-+        sdk_env = sdk_envs[s]
-+        tc = OESDKExtTestContext(td=test_data, logger=logger, sdk_dir=sdk_dir,
-+            sdk_env=sdk_env, target_pkg_manifest=target_pkg_manifest,
-+            host_pkg_manifest=host_pkg_manifest)
-+
-+        try:
-+            tc.loadTests(OESDKExtTestContextExecutor.default_cases)
-+        except Exception as e:
-+            import traceback
-+            bb.fatal("Loading tests failed:\n%s" % traceback.format_exc())
-+
-+        result = tc.runTests()
- 
--    bb.utils.remove(testdir, True)
-+        component = "%s %s" % (pn, OESDKExtTestContextExecutor.name)
-+        context_msg = "%s:%s" % (os.path.basename(tcname), os.path.basename(sdk_env))
-+
-+        tc.logSummary(result, component, context_msg)
-+        tc.logDetails()
-+
-+        if not result.wasSuccessful():
-+            fail = True
-+
-+    if fail:
-+        bb.fatal("%s - FAILED - check the task log and the commands log" % pn)
- 
- testsdkext_main[vardepsexclude] =+ "BB_ORIGENV"
- 
+         cmd = 'oe-publish-sdk %s %s' % (tcname_new, self.publish_dir)
+         subprocess.check_output(cmd, shell=True)
 -- 
 2.1.4
 
