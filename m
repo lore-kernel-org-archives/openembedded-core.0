@@ -1,30 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E17A1772EF
+	by mail.openembedded.org (Postfix) with ESMTP id 8B6CA772DB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 18:05:16 +0000 (UTC)
+	Fri, 20 Jan 2017 18:05:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0KI5E7h019641; Fri, 20 Jan 2017 18:05:15 GMT
+	v0KI5EYq019639; Fri, 20 Jan 2017 18:05:16 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id k8WcZ7715xcL; Fri, 20 Jan 2017 18:05:15 +0000 (GMT)
+	with LMTP id es6HD8oESSVf; Fri, 20 Jan 2017 18:05:16 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0KI5Ar0019619
+	v0KI5AcE019622
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Fri, 20 Jan 2017 18:05:11 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cUdYk-0000uY-ID; Fri, 20 Jan 2017 18:05:10 +0000
+	id 1cUdYk-0000uo-K2; Fri, 20 Jan 2017 18:05:10 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2017 18:04:59 +0000
-Message-Id: <1484935506-3419-7-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Fri, 20 Jan 2017 18:05:02 +0000
+Message-Id: <1484935506-3419-10-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1484935506-3419-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1484935506-3419-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 07/14] partition.py: use FAKEROOTCMD variable to get path to pseudo
+Subject: [PATCH 10/14] selftest: wic: don't set WKS_FILE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,29 +41,30 @@ X-List-Received-Date: Fri, 20 Jan 2017 18:05:18 -0000
 
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 
-wic used native sysroot to get path to pseudo utility.
-This approach doesn't work with recipe specific sysroots.
-
-Using FAKEROOTCMD should fix the issue.
+Setting WKS_FILE variable should be done only when
+wic image is expected to be built by bitbake.
+If it's set for all images it breaks image building in
+some cases.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/partition.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/wic.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index aa8f8a7..49d1327 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -226,7 +226,7 @@ class Partition():
-         pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % p_localstatedir
-         pseudo += "export PSEUDO_PASSWD=%s;" % p_passwd
-         pseudo += "export PSEUDO_NOSYMLINKEXP=%s;" % p_nosymlinkexp
--        pseudo += "%s/usr/bin/pseudo " % native_sysroot
-+        pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index 14109c4..32b7446 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -44,8 +44,7 @@ class Wic(oeSelfTest):
+     def setUpLocal(self):
+         """This code is executed before each test method."""
+         self.write_config('IMAGE_FSTYPES += " hddimg"\n'
+-                          'MACHINE_FEATURES_append = " efi"\n'
+-                          'WKS_FILE = "wic-image-minimal"\n')
++                          'MACHINE_FEATURES_append = " efi"\n')
  
-         rootfs = "%s/rootfs_%s.%s.%s" % (cr_workdir, self.label,
-                                          self.lineno, self.fstype)
+         # Do this here instead of in setUpClass as the base setUp does some
+         # clean up which can result in the native tools built earlier in
 -- 
 2.7.4
 
