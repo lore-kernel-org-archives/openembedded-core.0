@@ -1,53 +1,47 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
-	[209.85.214.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C3DD77250
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-vk0-f48.google.com (mail-vk0-f48.google.com
+	[209.85.213.48])
+	by mail.openembedded.org (Postfix) with ESMTP id EC4CA71C0F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 19:44:30 +0000 (UTC)
-Received: by mail-it0-f50.google.com with SMTP id c7so28012257itd.1
+	Fri, 20 Jan 2017 20:26:40 +0000 (UTC)
+Received: by mail-vk0-f48.google.com with SMTP id k127so57223925vke.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 11:44:31 -0800 (PST)
+	Fri, 20 Jan 2017 12:26:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=j+nyOlqy+TNmGSXusMUzxmhuGRwIYMWLQ/mMqHgnwY8=;
-	b=XTfOE2CGrfuIRVzwaLU0QAfQ6na8EUvzdHy1o+8Vc5cLtlEQcJCdSIlneQpEUCbEFq
-	szXRJ4z6UWsx5R0XfSS54aOKPlKOXGWSUiVt5cPlyNoLupCRdHKUW+W5y3CF+V8zBt8z
-	oMmCp/bij7+Z1VK4uwHiKKpVWIHaON2ZLH9r590BhyguhdvA/PXthVNVw3UaUjQaEL/6
-	taqSh4WjKNxWMYZ6YEv1/sFzO56TBihrWSSRvJnbk7ERBFNLfkUN6dB7djdZUlkqcIfY
-	Rno0UzkGO7AI8ZBTEqU4pjY3s6qYpC7WjYPtdDwNJJubxqw4rzdoJPD9L7IQVkjixvDh
-	t3kA==
+	d=googlemail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Jg2VxYTvLvPOzdr7B9Rh6/2+p4xmD91Ol4e6bZ7g5CY=;
+	b=VImBKAFuNVSQjlg/p6Z1PUoPOm1RyIENnMmH3GSpRFaNVwXAVHwziJjjpN0uh7VIn3
+	uiQvPuEbLkHxRxYx1nGcQJFcgn5HwmdJGzBgp2OI3hElPwywpIUxQxg+NKurtDpKEqt8
+	++3uTX1MHlDCC4rJ4qKDhDmNGW7LhZGcdMv2dC/LemxK7SylFb06+n1mdCGk3piwV1M+
+	Y3S+6AFK5vYU5oPz4u6dCdey0SofApWxiRoGlNZ9hYLx7XQsZIWwZ5FaX1DG6E1ab9+R
+	f5eOc8BLwH1FV3U/OqHndXXHW037Q2DMt2gAWhcJ26H6twVaBfToyJUdRHjQgtEgB0Hz
+	ZV2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=j+nyOlqy+TNmGSXusMUzxmhuGRwIYMWLQ/mMqHgnwY8=;
-	b=oTF5NgMJtCOL/QzTGKevQ0De6cBnPJvP18iDLSCj//4wAGGz6ZJjEIcMVnsiqaSC6D
-	uHb89EFPIpy8Op/1kU5hkvK3Zzaq5ZYgi1z3gA5/cuTVR8SWEN6KtNJ1JtcRcvsTiSu+
-	r9JAHIr87fDB1pZXv6yBlnS7+iZJfZKBYMjbhKFRm/3rFB3z5Io/aHsYTXXB3BHEFUh+
-	TtfITXxt0QS+Y+247VGGl6WyoKoQMxrp6BJr9XIB+6rDAyaxZAjorAWsY5wh/7FFUeYA
-	6I21JG6OeXED7X2ljqKAVY/NFNLv7q+POCS+zBZEQVtCWkipMX+ZTWnDhVJP1yArS41q
-	pJ3w==
-X-Gm-Message-State: AIkVDXIaxUWO7EekWowlErJX/aZvDFQ+CmQQ+60JssLUtI+CURN9iRelgGxY7Itj6hzMZbjA
-X-Received: by 10.36.190.68 with SMTP id i65mr5293956itf.118.1484941471322;
-	Fri, 20 Jan 2017 11:44:31 -0800 (PST)
-Received: from pohly-mobl1 (p57A56DD5.dip0.t-ipconnect.de. [87.165.109.213])
-	by smtp.gmail.com with ESMTPSA id
-	l31sm5003677iod.17.2017.01.20.11.44.28
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 20 Jan 2017 11:44:30 -0800 (PST)
-Message-ID: <1484941467.20333.3.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
-Date: Fri, 20 Jan 2017 20:44:27 +0100
-In-Reply-To: <1484935979-328-1-git-send-email-anibal.limon@linux.intel.com>
-References: <1484935979-328-1-git-send-email-anibal.limon@linux.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2] qemu: Upgrade to 2.7.1
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Jg2VxYTvLvPOzdr7B9Rh6/2+p4xmD91Ol4e6bZ7g5CY=;
+	b=iwTCIxEdL3+PF/oxIlxYVWIVRupu0mdiVHKVqQklA1syrXA0yXfRlB+MHhu0EAq17S
+	1Wwn8v3UiiT/O+AnuoMDZXhSrObnAJyq3DqNUTFjKhkh7aylr2aNMYkTIWA9AW+K+tf4
+	6swzeHWY3enIY+hqHPBjCVQKpOYI+0tSXfd9/HsXj9qwEZQCCuioWcvfrALdv2kpUml1
+	o4wHA9u85VzAM23wxPK6jUs/3JtPyMiJyCOjfYUpBjqVZX5mXDuQFZEbP1d8JFhowNq9
+	cjBqGqzwPIpv2tlDMX1gRYFcIkbNaxT/BWkAkwx9dFExWDfH6cx1xgkFGGdRuMNoz+zp
+	YfYw==
+X-Gm-Message-State: AIkVDXIl3HkG0CWs0tGC6v398r6f25UBYhN/UtoeOopdLXv7VW9DruOiwI1yaS0WdFXgrF5Vn2DPHreLjOR8HA==
+X-Received: by 10.31.179.73 with SMTP id c70mr6480152vkf.81.1484944000833;
+	Fri, 20 Jan 2017 12:26:40 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.176.69.246 with HTTP; Fri, 20 Jan 2017 12:26:40 -0800 (PST)
+In-Reply-To: <20170120182400.23276.727@do.openembedded.org>
+References: <1484935378-1881-1-git-send-email-richard.purdie@linuxfoundation.org>
+	<20170120182400.23276.727@do.openembedded.org>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Fri, 20 Jan 2017 21:26:40 +0100
+Message-ID: <CALbNGRQp1oM0dmYULiM7ywBFkFS64GC68vAGUYCRLOXZkJdCzA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yICJTd2l0Y2ggdG8gUmVjaXBlIFNwZWNpZmljIFN5c3IuLi4iIGFuZCAyIG1vcmU=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,54 +54,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 19:44:31 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 20 Jan 2017 20:26:41 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Fri, 2017-01-20 at 12:12 -0600, Aníbal Limón wrote:
-> --- a/meta/recipes-devtools/qemu/qemu.inc
-> +++ b/meta/recipes-devtools/qemu/qemu.inc
-> @@ -9,12 +9,11 @@ require qemu-targets.inc
->  inherit autotools ptest
->  BBCLASSEXTEND = "native nativesdk"
->  
-> -PR = "r1"
-> -
->  # QEMU_TARGETS is overridable variable
->  QEMU_TARGETS ?= "arm aarch64 i386 mips mipsel mips64 mips64el ppc sh4
-> x86_64"
->  
->  SRC_URI = "\
-> +    http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
->      file://powerpc_rom.bin \
->      file://disable-grabs.patch \
->      file://exclude-some-arm-EABI-obsolete-syscalls.patch \
-> @@ -24,6 +23,9 @@ SRC_URI = "\
->      file://0001-target-mips-add-24KEc-CPU-definition.patch \
->      "
->  
-> +SRC_URI[md5sum] = "a315bc51ed443a08d2cf1416d76b9ab4"
-> +SRC_URI[sha256sum] =
-> "68636788eb69bcb0b44ba220b32b50495d6bd5712a934c282217831c4822958f"
-
-Slight misunderstanding, I suppose. The *URL* is independent of the
-version and could be added in qemu.inc, but the hashes are version
-dependent and are better suited for qemu_2.7.1.bb. At least that's how I
-would do it.
-
-In contrast to Alexander, I would also keep
-http://wiki.qemu-project.org/download/${BP}.tar.bz2 in qemu_2.7.1.bb
-with SRC_URI =+ because then there can be a qemu_git.bb with a different
-URL than the one above.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+On Fri, Jan 20, 2017 at 7:24 PM, Patchwork
+<patchwork@patchwork.openembedded.org> wrote:
+> == Series Details ==
+>
+> Series: "Switch to Recipe Specific Sysr..." and 2 more
+> Revision: 1
+> URL   : https://patchwork.openembedded.org/series/4877/
+> State : failure
+>
+> == Summary ==
+>
+>
+> Thank you for submitting this patch series to OpenEmbedded Core. This is
+> an automated response. Several tests have been executed on the proposed
+> series by patchtest resulting in the following failures:
+>
+>
+>
+> * Patch            [1/3] Switch to Recipe Specific Sysroots
+>  Issue             Shortlog does not follow expected format [test_shortlog_format]
+>   Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+>
+>
+>
+> If you believe any of these test results are incorrect, please reply to the
+> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+> Otherwise we would appreciate you correcting the issues and submitting a new
+> version of the patchset if applicable. Please ensure you add/increment the
+> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+> [PATCH v3] -> ...).
+>
+> ---
+> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+>
+LOL
 
