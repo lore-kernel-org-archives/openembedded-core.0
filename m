@@ -1,22 +1,45 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 471EC71E50
+Return-Path: <raltherr@google.com>
+Received: from mail-pg0-f42.google.com (mail-pg0-f42.google.com [74.125.83.42])
+	by mail.openembedded.org (Postfix) with ESMTP id C71C471E50
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 19:17:19 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga105.jf.intel.com with ESMTP; 20 Jan 2017 11:17:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,259,1477983600"; d="scan'208";a="33310463"
-Received: from bitbang.jf.intel.com ([10.7.199.68])
-	by orsmga002.jf.intel.com with ESMTP; 20 Jan 2017 11:17:20 -0800
-From: Randy Witt <randy.e.witt@linux.intel.com>
+	Fri, 20 Jan 2017 19:28:55 +0000 (UTC)
+Received: by mail-pg0-f42.google.com with SMTP id 204so25868133pge.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jan 2017 11:28:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=E3efkH9ZSbPd9eEEHKWmLl46YxYwYEnnYmNJr/e6lRk=;
+	b=mk3KlljXXdzISWg/mFseQE/68SxhqlLFtRBiIEhw8YF8Curu3x8n9cN+X/4yEF7uYx
+	nyp97VaGuK4YbdV+HkTj4P4ZIeMqHy+2UGHL/gUjbD/15xpAp2loyR4cKj0C/WDibk4f
+	OMr1JPnxVXfXlkJjqjkfKNba7bKV9j/Khl5NhEqOZSTCUwW2ZEApxIaVVEEK07TFh7tq
+	TqgFBn2jDKkefmOA+CHPGz9RRDvhLm2qDfezZuHkXXEHuRAD7TVeuU/0W7Da4vu5vwm1
+	Zj+2zGwwsvxwzI6CMvq0hvt2LIws8zpASc9YM6gkeT2Ma+XZ6vBM1Aeafj4KIC1exm0P
+	/3bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=E3efkH9ZSbPd9eEEHKWmLl46YxYwYEnnYmNJr/e6lRk=;
+	b=iUwtpPCcf6G0NBf05qtHWc5V0Joc1zXKlg08jcv0nMS9ILWs2LIvQjqLdpCGmMikzk
+	jU1JTzCsbEUExa/+MUu1dBdyhccOUYjqojA1pbCbr69/kXbUAjSYwkKUcE/W77gN7IKg
+	INeosRzCQXlv7qbsSKa3zpYTA5gONkpTUsuTtnL5ciMGlp9am9/hhfdn/KMh3ExsgkBN
+	WosCB7mKScC0nhDyvZmQ9EctTtIwHOQZxI8GQvMYNZ9TEgqxgk4TQDDsgmoCXtP8Ao70
+	hxhw16DYwQ4IZToTsgpt6Eo1uh/BJr880go68boMnQaspilZjM/H9vzFh0/k+6dtGGIk
+	7Msg==
+X-Gm-Message-State: AIkVDXJ2s+Qb06ab0E2WdOB+mH+WMuwxTCL1nG5YC9dcsJq03rgpbombfbtfotmUfHDHIXP4
+X-Received: by 10.84.206.37 with SMTP id f34mr24115370ple.127.1484940535592;
+	Fri, 20 Jan 2017 11:28:55 -0800 (PST)
+Received: from raltherr-linux.svl.corp.google.com ([100.123.242.49])
+	by smtp.gmail.com with ESMTPSA id
+	r74sm18644288pfb.67.2017.01.20.11.28.54
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 20 Jan 2017 11:28:55 -0800 (PST)
+From: Rick Altherr <raltherr@google.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2017 11:17:10 -0800
-Message-Id: <20170120191710.17968-1-randy.e.witt@linux.intel.com>
-X-Mailer: git-send-email 2.9.3
-In-Reply-To: <be9e6961aeb991fc0e0acc1118aa01cefe945593.1484866303.git.randy.e.witt@linux.intel.com>
-References: <be9e6961aeb991fc0e0acc1118aa01cefe945593.1484866303.git.randy.e.witt@linux.intel.com>
-Subject: [PATCH v3 3/3] selftest/containerimage.py: Add container IMAGE_FSTYPES test
+Date: Fri, 20 Jan 2017 11:28:53 -0800
+Message-Id: <20170120192853.959-1-raltherr@google.com>
+X-Mailer: git-send-email 2.11.0.483.g087da7b7c-goog
+Subject: [PATCH] kernel-fitimage: Use compressed ramdisks in FIT images if available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,145 +52,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 19:17:21 -0000
+X-List-Received-Date: Fri, 20 Jan 2017 19:28:56 -0000
 
-This test checks to make sure only the files expected exist in a
-container image. Currently only ROOTFS_BOOTSTRAP_INSTALL, gets added to
-all images without the user specifying it.
+kernel-fitimage:fitimage_assemble() was calling copy_initramfs from
+kernel.bbclass which decompresses the initramfs cpio.  Assume that if
+INITRAMFS_FSTYPES includes a compressed cpio, that is what it desired in
+the FIT image.
 
-But this test should help if a developer in the future ever silently
-adds more than just ROOTFS_BOOTSTRAP_INSTALL, and that the developer can
-make sure it also gets removed from a container image.
-
-[YOCTO #9502]
-
-Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+Signed-off-by: Rick Altherr <raltherr@google.com>
 ---
- .../container-image/container-image-testpkg.bb     |  8 +++
- .../container-image/container-test-image.bb        |  8 +++
- meta/lib/oeqa/selftest/containerimage.py           | 82 ++++++++++++++++++++++
- 3 files changed, 98 insertions(+)
- create mode 100644 meta-selftest/recipes-test/container-image/container-image-testpkg.bb
- create mode 100644 meta-selftest/recipes-test/container-image/container-test-image.bb
- create mode 100644 meta/lib/oeqa/selftest/containerimage.py
+ meta/classes/kernel-fitimage.bbclass | 34 ++++++++++++++++++++++++++++++----
+ 1 file changed, 30 insertions(+), 4 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/container-image/container-image-testpkg.bb b/meta-selftest/recipes-test/container-image/container-image-testpkg.bb
-new file mode 100644
-index 0000000..f8dd229
---- /dev/null
-+++ b/meta-selftest/recipes-test/container-image/container-image-testpkg.bb
-@@ -0,0 +1,8 @@
-+LICENSE = "MIT"
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index c15ded523c..1c3b4b7fb3 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -178,6 +178,7 @@ EOF
+ fitimage_emit_section_ramdisk() {
+ 
+ 	ramdisk_csum="sha1"
++	ramdisk_ctype="none"
+ 	ramdisk_loadline=""
+ 	ramdisk_entryline=""
+ 
+@@ -188,14 +189,32 @@ fitimage_emit_section_ramdisk() {
+ 		ramdisk_entryline="entry = <${UBOOT_RD_ENTRYPOINT}>;"
+ 	fi
+ 
++	case $3 in
++		*.gz)
++			ramdisk_ctype="gzip"
++			;;
++		*.bz2)
++			ramdisk_ctype="bzip2"
++			;;
++		*.lzma)
++			ramdisk_ctype="lzma"
++			;;
++		*.lzo)
++			ramdisk_ctype="lzo"
++			;;
++		*.lz4)
++			ramdisk_ctype="lz4"
++			;;
++	esac
 +
-+INHIBIT_DEFAULT_DEPS = "1"
-+
-+do_install_append() {
-+    install -d ${D}${bindir}
-+    touch ${D}${bindir}/theapp
-+}
-diff --git a/meta-selftest/recipes-test/container-image/container-test-image.bb b/meta-selftest/recipes-test/container-image/container-test-image.bb
-new file mode 100644
-index 0000000..d5f939c
---- /dev/null
-+++ b/meta-selftest/recipes-test/container-image/container-test-image.bb
-@@ -0,0 +1,8 @@
-+IMAGE_INSTALL += "container-image-testpkg"
-+
-+LICENSE = "MIT"
-+
-+IMAGE_FSTYPES = "container"
-+IMAGE_LINGUAS = ""
-+
-+inherit core-image
-diff --git a/meta/lib/oeqa/selftest/containerimage.py b/meta/lib/oeqa/selftest/containerimage.py
-new file mode 100644
-index 0000000..109f61b
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/containerimage.py
-@@ -0,0 +1,82 @@
-+import os
-+
-+from oeqa.selftest.base import oeSelfTest
-+from oeqa.utils.commands import bitbake, get_bb_vars, runCmd
-+
-+# This test builds an image with using the "container" IMAGE_FSTYPE, and
-+# ensures that then files in the image are only the ones expected.
-+#
-+# The only package added to the image is container_image_testpkg, which
-+# contains one file. However, due to some other things not cleaning up during
-+# rootfs creation, there is some cruft. Ideally bugs will be filed and the
-+# cruft removed, but for now we whitelist some known set.
-+#
-+# Also for performance reasons we're only checking the cruft when using ipk.
-+# When using deb, and rpm it is a bit different and we could test all
-+# of them, but this test is more to catch if other packages get added by
-+# default other than what is in ROOTFS_BOOTSTRAP_INSTALL.
-+#
-+class ContainerImageTests(oeSelfTest):
-+
-+    # Verify that when specifying a IMAGE_TYPEDEP_ of the form "foo.bar" that
-+    # the conversion type bar gets added as a dep as well
-+    def test_expected_files(self):
-+
-+        def get_each_path_part(path):
-+            if path:
-+                part = [ '.' + path + '/' ]
-+                result = get_each_path_part(path.rsplit('/', 1)[0])
-+                if result:
-+                    return part + result
-+                else:
-+                    return part
-+            else:
-+                return None
-+
-+        self.write_config("""PREFERRED_PROVIDER_virtual/kernel = "linux-dummy"
-+IMAGE_FSTYPES = "container"
-+PACKAGE_CLASSES = "package_ipk"
-+IMAGE_FEATURES = ""
-+""")
-+
-+        bbvars = get_bb_vars(['bindir', 'sysconfdir', 'localstatedir',
-+                              'DEPLOY_DIR_IMAGE'])
-+        expected_files = [
-+                    './',
-+                    '.{bindir}/theapp',
-+                    '.{sysconfdir}/default/',
-+                    '.{sysconfdir}/default/postinst',
-+                    '.{sysconfdir}/ld.so.cache',
-+                    '.{sysconfdir}/timestamp',
-+                    '.{sysconfdir}/version',
-+                    './run/',
-+                    '.{localstatedir}/cache/',
-+                    '.{localstatedir}/cache/ldconfig/',
-+                    '.{localstatedir}/cache/ldconfig/aux-cache',
-+                    '.{localstatedir}/cache/opkg/',
-+                    '.{localstatedir}/lib/',
-+                    '.{localstatedir}/lib/opkg/'
-+                ]
-+
-+        expected_files = [ x.format(bindir=bbvars['bindir'],
-+                                    sysconfdir=bbvars['sysconfdir'],
-+                                    localstatedir=bbvars['localstatedir'])
-+                                    for x in expected_files ]
-+
-+        # Since tar lists all directories individually, make sure each element
-+        # from bindir, sysconfdir, etc is added
-+        expected_files += get_each_path_part(bbvars['bindir'])
-+        expected_files += get_each_path_part(bbvars['sysconfdir'])
-+        expected_files += get_each_path_part(bbvars['localstatedir'])
-+
-+        expected_files = sorted(expected_files)
-+
-+        # Build the image of course
-+        bitbake('container-test-image')
-+
-+        image = os.path.join(bbvars['DEPLOY_DIR_IMAGE'],
-+                             'container-test-image-qemux86.tar.bz2')
-+
-+        # Ensure the files in the image are what we expect
-+        result = runCmd("tar tf {} | sort".format(image), shell=True)
-+        self.assertEqual(result.output.split('\n'), expected_files)
+ 	cat << EOF >> ${1}
+                 ramdisk@${2} {
+-                        description = "ramdisk image";
++                        description = "${INITRAMFS_IMAGE}";
+                         data = /incbin/("${3}");
+                         type = "ramdisk";
+                         arch = "${UBOOT_ARCH}";
+                         os = "linux";
+-                        compression = "none";
++                        compression = "${ramdisk_ctype}";
+                         ${ramdisk_loadline}
+                         ${ramdisk_entryline}
+                         hash@1 {
+@@ -341,8 +360,15 @@ fitimage_assemble() {
+ 	# Step 4: Prepare a ramdisk section.
+ 	#
+ 	if [ "x${ramdiskcount}" = "x1" ] ; then
+-		copy_initramfs
+-		fitimage_emit_section_ramdisk ${1} "${ramdiskcount}" usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
++		# Find and use the first initramfs image archive type we find
++		for img in cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.gz cpio; do
++			initramfs_path="${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.${img}"
++			echo "Using $initramfs_path"
++			if [ -e "${initramfs_path}" ]; then
++				fitimage_emit_section_ramdisk ${1} "${ramdiskcount}" "${initramfs_path}"
++				break
++			fi
++		done
+ 	fi
+ 
+ 	fitimage_emit_section_maint ${1} sectend
 -- 
-2.9.3
+2.11.0.483.g087da7b7c-goog
 
 
