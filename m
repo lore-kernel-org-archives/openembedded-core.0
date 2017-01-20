@@ -1,18 +1,21 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 210EA71DEF;
-	Fri, 20 Jan 2017 02:23:39 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Fri, 20 Jan 2017 02:23:39 -0000
-Message-ID: <20170120022339.23272.15008@do.openembedded.org>
-References: <cover.1484877853.git.paul.eggleton@linux.intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1484877853.git.paul.eggleton@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb2Utc2VsZnRlc3Q6IGRldnRvb2w6IHJlbW92ZSB1c2Ugb2YgZ2l0IC1D?=
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 4CECE605BA
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jan 2017 03:21:19 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga104.fm.intel.com with ESMTP; 19 Jan 2017 19:21:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,257,1477983600"; d="scan'208";a="55150067"
+Received: from zpchu5-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com.fritz.box) ([10.255.128.210])
+	by orsmga005.jf.intel.com with ESMTP; 19 Jan 2017 19:21:17 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Jan 2017 16:21:14 +1300
+Message-Id: <cover.1484882455.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.5.5
+Subject: [PATCH v2 0/1] oe-selftest: devtool: remove use of git -C
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +28,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 02:23:39 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Jan 2017 03:21:23 -0000
 
-== Series Details ==
+The following changes since commit fc97963bc61bf16112859fe1d7e460a13d34baca:
 
-Series: oe-selftest: devtool: remove use of git -C
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/4861/
-State : failure
+  oeqa/selftest/devtool: rewrite modify testcase (2017-01-19 22:45:46 +0000)
 
-== Summary ==
+are available in the git repository at:
 
+  git://git.openembedded.org/openembedded-core-contrib paule/devtool-git-fix1
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/devtool-git-fix1
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+Paul Eggleton (1):
+  oe-selftest: devtool: remove use of git -C
 
+ meta/lib/oeqa/selftest/devtool.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at fc97963bc6)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+-- 
+2.5.5
 
 
