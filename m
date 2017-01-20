@@ -1,21 +1,23 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DD9671DBE
+	by mail.openembedded.org (Postfix) with ESMTP id 0EF4E71DEF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 02:06:14 +0000 (UTC)
+	Fri, 20 Jan 2017 02:06:17 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga105.jf.intel.com with ESMTP; 19 Jan 2017 18:06:15 -0800
+	by orsmga105.jf.intel.com with ESMTP; 19 Jan 2017 18:06:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,256,1477983600"; d="scan'208";a="56079796"
+X-IronPort-AV: E=Sophos;i="5.33,256,1477983600"; d="scan'208";a="56079807"
 Received: from zpchu5-mobl.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com.fritz.box) ([10.255.128.210])
-	by fmsmga006.fm.intel.com with ESMTP; 19 Jan 2017 18:06:13 -0800
+	by fmsmga006.fm.intel.com with ESMTP; 19 Jan 2017 18:06:15 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2017 15:06:03 +1300
-Message-Id: <cover.1484877853.git.paul.eggleton@linux.intel.com>
+Date: Fri, 20 Jan 2017 15:06:04 +1300
+Message-Id: <f9ef8e0e73c37ca5cbb452dadeecf291c6b9e68e.1484877853.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
-Subject: [PATCH 0/1] oe-selftest: devtool: remove use of git -C
+In-Reply-To: <cover.1484877853.git.paul.eggleton@linux.intel.com>
+References: <cover.1484877853.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/1] oe-selftest: devtool: remove use of git -C
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,23 +30,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 02:06:15 -0000
+X-List-Received-Date: Fri, 20 Jan 2017 02:06:17 -0000
 
-The following changes since commit a7cb408dd784178197687a2129e936620bf6a0d3:
+The -C option isn't available in versions of git older than 1.8.5,
+and officially we only require git 1.8.3.1 or newer (and the latter is
+the version you'll find on CentOS 7, so the test fails there). In any
+case we can simply specify the working directory to runCmd() so just
+do that instead.
 
-  sanity.bbclass: Improved error message (2017-01-17 11:31:31 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/devtool-git-fix1
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/devtool-git-fix1
-
-Paul Eggleton (1):
-  oe-selftest: devtool: remove use of git -C
-
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
  meta/lib/oeqa/selftest/devtool.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
+index 94b6b39..face8b8 100644
+--- a/meta/lib/oeqa/selftest/devtool.py
++++ b/meta/lib/oeqa/selftest/devtool.py
+@@ -473,7 +473,7 @@ class DevtoolTests(DevtoolBase):
+         manfile = os.path.join(pkgd, mandir, 'man8', 'mdadm.8')
+         check_TH_line(manfile, '.TH MDADM 8 "" v9.999-custom', 'man file not modified. man searched file path: %s' % manfile)
+         # Test reverting the change
+-        result = runCmd("git -C %s checkout -- %s" % (tempdir, modfile))
++        result = runCmd("git checkout -- %s" % modfile, cwd=tempdir)
+         check_TH_line(modfile, '.TH MDADM 8 "" v3.4', 'man .in file not restored (git failed)')
+         bitbake('mdadm -c package')
+         pkgd = get_bb_var('PKGD', 'mdadm')
 -- 
 2.5.5
 
