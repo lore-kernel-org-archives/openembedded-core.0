@@ -1,22 +1,22 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 271EF771E8
+	by mail.openembedded.org (Postfix) with ESMTP id 9BE8B771E8
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 20 Jan 2017 17:07:53 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga105.fm.intel.com with ESMTP; 20 Jan 2017 09:07:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,259,1477983600"; d="scan'208";a="1115567489"
+X-IronPort-AV: E=Sophos;i="5.33,259,1477983600"; d="scan'208";a="1115567493"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.143])
 	by fmsmga002.fm.intel.com with ESMTP; 20 Jan 2017 09:07:53 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2017 11:10:10 -0600
-Message-Id: <b7a38eaad4015f2de9cb8824cd6110bd7209be09.1484929088.git.anibal.limon@linux.intel.com>
+Date: Fri, 20 Jan 2017 11:10:11 -0600
+Message-Id: <1ed29ba3a707158522aafc133b6ef439c992d2fb.1484929088.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1484929088.git.anibal.limon@linux.intel.com>
 References: <cover.1484929088.git.anibal.limon@linux.intel.com>
-Subject: [PATCH 39/55] oeqa/core/decorator: Add skipIfNotDataVar and skipIfNotInDataVar
+Subject: [PATCH 40/55] oeqa/core/context: Add option to select tests to run
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,71 +29,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 17:07:53 -0000
+X-List-Received-Date: Fri, 20 Jan 2017 17:07:54 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-skipIfNotDataVar will skip a test if a variable doesn't have certain value.
+This add the option to select what tests to run in the
+<module>[.<class>[.<test>]] format.
 
-skipIfNotInDataVar will skip a test if a value is not in a certain variable.
+Currently it just support modules
 
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/lib/oeqa/core/decorator/data.py | 36 +++++++++++++++++++++++++++++++++++-
- 1 file changed, 35 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/core/context.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/lib/oeqa/core/decorator/data.py b/meta/lib/oeqa/core/decorator/data.py
-index fdeba9f..ff7bdd9 100644
---- a/meta/lib/oeqa/core/decorator/data.py
-+++ b/meta/lib/oeqa/core/decorator/data.py
-@@ -28,12 +28,46 @@ class skipIfDataVar(OETestDecorator):
-     attrs = ('var', 'value', 'msg')
+diff --git a/meta/lib/oeqa/core/context.py b/meta/lib/oeqa/core/context.py
+index ba6ccf8..efed4e6 100644
+--- a/meta/lib/oeqa/core/context.py
++++ b/meta/lib/oeqa/core/context.py
+@@ -157,6 +157,7 @@ class OETestContextExecutor(object):
+     default_cases = [os.path.join(os.path.abspath(os.path.dirname(__file__)),
+             'cases/example')]
+     default_test_data = os.path.join(default_cases[0], 'data.json')
++    default_tests = None
  
-     def setUpDecorator(self):
--        msg = 'Checking if %r value is %r to skip test' % (self.var, self.value)
-+        msg = ('Checking if %r value is %r to skip test' %
-+               (self.var, self.value))
-         self.logger.debug(msg)
-         if self.case.td.get(self.var) == self.value:
-             self.case.skipTest(self.msg)
+     def register_commands(self, logger, subparsers):
+         self.parser = subparsers.add_parser(self.name, help=self.help,
+@@ -167,6 +168,9 @@ class OETestContextExecutor(object):
+         self.parser.add_argument('--output-log', action='store',
+                 default=self.default_output_log,
+                 help="results output log, default: %s" % self.default_output_log)
++        self.parser.add_argument('--run-tests', action='store',
++                default=self.default_tests,
++                help="tests to run in <module>[.<class>[.<name>]] format. Just works for modules now")
  
- @registerDecorator
-+class skipIfNotDataVar(OETestDecorator):
-+    """
-+        Skip test based on value of a data store's variable.
-+
-+        It will get the info of var from the data store and will
-+        check it against value; if are not equal it will skip the
-+        test with msg as the reason.
-+    """
-+
-+    attrs = ('var', 'value', 'msg')
-+
-+    def setUpDecorator(self):
-+        msg = ('Checking if %r value is not %r to skip test' %
-+               (self.var, self.value))
-+        self.logger.debug(msg)
-+        if not self.case.td.get(self.var) == self.value:
-+            self.case.skipTest(self.msg)
-+
-+@registerDecorator
-+class skipIfNotInDataVar(OETestDecorator):
-+    """
-+        Skip test if value is not in data store's variable.
-+    """
-+
-+    attrs = ('var', 'value', 'msg')
-+    def setUpDecorator(self):
-+        msg = ('Checking if %r value is in %r to run '
-+              'the test' % (self.var, self.value))
-+        self.logger.debug(msg)
-+        if not self.value in self.case.td.get(self.var):
-+            self.case.skipTest(self.msg)
-+
-+@registerDecorator
- class OETestDataDepends(OETestDecorator):
-     attrs = ('td_depends',)
+         if self.default_test_data:
+             self.parser.add_argument('--test-data-file', action='store',
+@@ -211,6 +215,8 @@ class OETestContextExecutor(object):
+         else:
+             self.tc_kwargs['init']['td'] = {}
  
++        self.tc_kwargs['load']['modules'] = args.run_tests.split()
++
+         self.module_paths = args.CASES_PATHS
+ 
+     def run(self, logger, args):
 -- 
 2.1.4
 
