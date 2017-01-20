@@ -1,23 +1,23 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D3F1772CF
+	by mail.openembedded.org (Postfix) with ESMTP id 8794B772D1
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 20 Jan 2017 17:07:54 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga105.fm.intel.com with ESMTP; 20 Jan 2017 09:07:54 -0800
+	by fmsmga105.fm.intel.com with ESMTP; 20 Jan 2017 09:07:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,259,1477983600"; d="scan'208";a="1115567496"
+X-IronPort-AV: E=Sophos;i="5.33,259,1477983600"; d="scan'208";a="1115567498"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.143])
 	by fmsmga002.fm.intel.com with ESMTP; 20 Jan 2017 09:07:54 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2017 11:10:12 -0600
-Message-Id: <060d3dc98a21dd3edb382d247d12e0f1c605b8b8.1484929088.git.anibal.limon@linux.intel.com>
+Date: Fri, 20 Jan 2017 11:10:13 -0600
+Message-Id: <3963de5452c58315e51bcb9b863ee4b616f577b9.1484929088.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1484929088.git.anibal.limon@linux.intel.com>
 References: <cover.1484929088.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 41/55] oeqa/runtime/context: Add runtime option group and options for target type and server ip.
+Subject: [PATCH 42/55] oeqa/runtime/context: Move helper functions for process args to executor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,58 +36,97 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/lib/oeqa/runtime/context.py | 22 ++++++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/runtime/context.py | 56 ++++++++++++++++++++++++++--------------
+ 1 file changed, 36 insertions(+), 20 deletions(-)
 
 diff --git a/meta/lib/oeqa/runtime/context.py b/meta/lib/oeqa/runtime/context.py
-index 10a8872..e692bc0 100644
+index e692bc0..ec378bb 100644
 --- a/meta/lib/oeqa/runtime/context.py
 +++ b/meta/lib/oeqa/runtime/context.py
-@@ -44,17 +44,34 @@ class OERuntimeTestContextExecutor(OETestContextExecutor):
-     name = 'runtime'
-     help = 'runtime test component'
-     description = 'executes runtime tests over targets'
-+
-     default_cases = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-             'cases')
-+    default_data = None
-+
-+    default_target_type = 'simpleremote'
-+    default_server_ip = '192.168.7.1'
-     default_target_ip = '192.168.7.2'
+@@ -12,10 +12,10 @@ class OERuntimeTestContext(OETestContext):
+     runtime_files_dir = os.path.join(
+                         os.path.dirname(os.path.abspath(__file__)), "files")
  
-     def register_commands(self, logger, subparsers):
-         super(OERuntimeTestContextExecutor, self).register_commands(logger, subparsers)
--        self.parser.add_argument('--target-ip', action='store',
-+
-+        runtime_group = self.parser.add_argument_group('runtime options')
-+
-+        runtime_group.add_argument('--target-type', action='store',
-+                default=self.default_target_type, choices=['simpleremote', 'qemu'],
-+                help="Target type of device under test, default: %s" \
-+                % self.default_target_type)
-+        runtime_group.add_argument('--target-ip', action='store',
-                 default=self.default_target_ip,
-                 help="IP address of device under test, default: %s" \
-                 % self.default_target_ip)
--        self.parser.add_argument('--packages-manifest', action='store',
-+        runtime_group.add_argument('--server-ip', action='store',
-+                default=self.default_target_ip,
-+                help="IP address of device under test, default: %s" \
-+                % self.default_server_ip)
-+
-+        runtime_group.add_argument('--packages-manifest', action='store',
+-    def __init__(self, td, logger, target, packages_manifest):
++    def __init__(self, td, logger, target, image_packages):
+         super(OERuntimeTestContext, self).__init__(td, logger)
+         self.target = target
+-        self.image_packages = self.readPackagesManifest(packages_manifest)
++        self.image_packages = image_packages
+         self._set_target_cmds()
+ 
+     def _set_target_cmds(self):
+@@ -25,19 +25,6 @@ class OERuntimeTestContext(OETestContext):
+         if 'procps' in self.image_packages:
+             self.target_cmds['ps'] = self.target_cmds['ps'] + ' -ef'
+ 
+-    def readPackagesManifest(self, manifest):
+-        if not os.path.exists(manifest):
+-            raise OSError("Couldn't find manifest file: %s" % manifest)
+-
+-        image_packages = set()
+-        with open(manifest, 'r') as f:
+-            for line in f.readlines():
+-                line = line.strip()
+-                if line and not line.startswith("#"):
+-                    image_packages.add(line.split()[0])
+-
+-        return image_packages
+-
+ class OERuntimeTestContextExecutor(OETestContextExecutor):
+     _context_class = OERuntimeTestContext
+ 
+@@ -74,16 +61,45 @@ class OERuntimeTestContextExecutor(OETestContextExecutor):
+         runtime_group.add_argument('--packages-manifest', action='store',
                  help="Package manifest of the image under test")
  
++
++    @staticmethod
++    def getTarget(target_type, target_ip, server_ip):
++        target = None
++
++        if target_type == 'simpleremote':
++            target = OESSHTarget(target_ip)
++        elif target_type == 'qemu':
++            raise NotImplementedError("target_type %s isn't implemented yet" % \
++                    target_type)
++        else:
++            raise TypeError("target_type %s isn't supported" % target_type)
++
++        return target
++
++    @staticmethod
++    def readPackagesManifest(manifest):
++        if not os.path.exists(manifest):
++            raise OSError("Manifest file not exists: %s" % manifest)
++
++        image_packages = set()
++        with open(manifest, 'r') as f:
++            for line in f.readlines():
++                line = line.strip()
++                if line and not line.startswith("#"):
++                    image_packages.add(line.split()[0])
++
++        return image_packages
++
      def _process_args(self, logger, args):
-@@ -63,6 +80,7 @@ class OERuntimeTestContextExecutor(OETestContextExecutor):
+         if not args.packages_manifest:
+             raise TypeError('Manifest file not provided')
  
          super(OERuntimeTestContextExecutor, self)._process_args(logger, args)
-         target = OESSHTarget(args.target_ip)
-+
-         self.tc_kwargs['init']['target'] = target
+-        target = OESSHTarget(args.target_ip)
+-
+-        self.tc_kwargs['init']['target'] = target
  
-         packages_manifest = os.path.join(os.getcwd(), args.packages_manifest)
+-        packages_manifest = os.path.join(os.getcwd(), args.packages_manifest)
+-        self.tc_kwargs['init']['packages_manifest'] = packages_manifest
++        self.tc_kwargs['init']['target'] = \
++                OERuntimeTestContextExecutor.getTarget(args.target_type)
++        self.tc_kwargs['init']['image_packages'] = \
++                OERuntimeTestContextExecutor.readPackagesManifest(
++                        args.packages_manifest)
+ 
+ _executor_class = OERuntimeTestContextExecutor
 -- 
 2.1.4
 
