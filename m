@@ -1,52 +1,53 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 09984731C2
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id ECC7673173
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 14:54:09 +0000 (UTC)
-Received: by mail-io0-f171.google.com with SMTP id l66so63026537ioi.1
+	Fri, 20 Jan 2017 15:13:24 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id f144so5649913pfa.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 06:54:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=+iN4jjAHGkoCVcqihXNSxmcas8duk/wsNE6fRHxFV/0=;
-	b=KlbLwGZTk2tv/dpYM+EuqA6cmrnXRCk0RfmAzdei8Zbu2A/QQzLnH8S4Ka+R31xW6w
-	kFW07V1y6rsntLoqQJ9qEbtKmw3eXbqZ9TA7lQrwGSA6ghh569uR+DQeFUXsASGben2D
-	l4FrEGUIPHBIFE3tk9MLS8f4g3mK514I7z+/aBpnTbtCRsWb+du+cOs/niA+IkaeuopY
-	5XBfG5ITHGhDPCvM1ByUkahcElkanKiPqLLwmNj6CZbmAf2yQPtEisbYrIADj2k2nXa+
-	AMx1Y68VGHijOBSzuwtHgy3l763ckiKs28esNInb3uQ61UCQBVfJCPOHBnZDNWrIlOOe
-	vQ6w==
+	Fri, 20 Jan 2017 07:13:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=XBpezQVQkFt64hvV7y3wujVeAge53hzSBfcWvSXl1Jw=;
+	b=g6tphCytCnOe1Zx4D1Yt2K3wa0FAzDIDZzolqqZ7SZxjiouvbQwPCKCWFUR06azO7q
+	kc41oymRk3xCrmN59tT/Fs41YYgNa4WCVgdScoA5qcHGlWzNNe7aQHLZOcp7S2TsIXGG
+	TtHUcJmx7WbS8Y5+2wc1LLX4/YtQkn/zDdkDwZ1avuAznFWC0JgYJXXeZjk2UeP4z9E1
+	BYxgBsuXIAD5jpg8sP6tIE6fcVj8zvIQ0vwqIZwXpvVQGpYCwLoycr/7U/WKfTz0XQru
+	a00CO0k9McVBsfaY0fKNrAXZF1mPkpAFhon6JwDRK/2MQeUl9or0WiEiID/sZnEjAE/r
+	Ohjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=+iN4jjAHGkoCVcqihXNSxmcas8duk/wsNE6fRHxFV/0=;
-	b=YhSy2UDQstmG6LUTjrlPTtPvChXdg/rEtfUC50jGD0S5X2Rk5u6NordFyLMxM9Qoal
-	ZIT+SKYzvB1ZpZ4kW0kRUerESrdX7THvaW7gsZ5JxWS8Y68oP87j6MOSAdwt/k1Omi84
-	D7tQ7uj4kaWbC4i+kSD6pYmDJSAqUtuMwOWV/xLuv2zRIsMF/H0W2mEG01/hgcKUBoO0
-	1tXZzhitWi2AZR98sVCc5BkbbffxfzH72lJgZu3Lz8RX0R/Mlf/X2phuLwIiAq1N0d3r
-	tv26XfatFzUJ5EOPS7LcGc3giCjHl3BFT61aakEu9eet0uw5/OwKjXlbf8diKZhE/CrQ
-	dCJA==
-X-Gm-Message-State: AIkVDXIbj+AcHMEpNHBnb2LfRTPsb+v7GU93IG8aFGARnWmLDI8pwoU57ssyulkln2gDK/8F
-X-Received: by 10.107.130.35 with SMTP id e35mr15069798iod.7.1484924049588;
-	Fri, 20 Jan 2017 06:54:09 -0800 (PST)
-Received: from pohly-mobl1 (p57A56DD5.dip0.t-ipconnect.de. [87.165.109.213])
-	by smtp.gmail.com with ESMTPSA id u63sm1471084ita.1.2017.01.20.06.54.07
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=XBpezQVQkFt64hvV7y3wujVeAge53hzSBfcWvSXl1Jw=;
+	b=eYZjC182CLkxkWE64KCalSp444oMmnlr/NuNaqpeFOKy6v0wjc1xGifjKA94BzQ2D1
+	ySpy7FgHlPpmNxiJ/UxJdAiY7EzOdAsZU96gmq9C4yHiZyYqx/H6ax/yr7zhW9FOC1aY
+	xEL2YPEGp+PEKmDRMYHxLlT0Z1StyH0WAhYgTKzNJPo5eSuCuNU6E+OXekWV61SGwpFM
+	xQWjodRPzPmefK9nQ9lGPxj+hLE2O57w2tdDCBsArgs4IB1ngTIpCaqHX1K1N9I1gxLU
+	iGs/06/TaVneaK9unP60X4Ry4k75fnFGYg3aQQECX60kLBmajTE1V32oVGL7JOlyULHQ
+	V+Tw==
+X-Gm-Message-State: AIkVDXJUjyRxO8D4aFACqjEaVkYQgpyhTobneY1fpWZ68N+1nnAJemi6ML+SDWx2zDSuWQ==
+X-Received: by 10.84.210.35 with SMTP id z32mr22514752plh.112.1484925204695;
+	Fri, 20 Jan 2017 07:13:24 -0800 (PST)
+Received: from ?IPv6:2601:202:4001:9ea0:ea2a:eaff:fe0e:629e?
+	([2601:202:4001:9ea0:ea2a:eaff:fe0e:629e])
+	by smtp.gmail.com with ESMTPSA id
+	195sm17703407pfa.6.2017.01.20.07.13.23
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 20 Jan 2017 06:54:08 -0800 (PST)
-Message-ID: <1484924046.23233.126.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2017 15:54:06 +0100
-In-Reply-To: <ef36ec5c696cc690af21e560c82924e5dab51a1e.1484921498.git-series.patrick.ohly@intel.com>
-References: <cover.bbc01c1227afdba3edc41dc7d7356f56e51be400.1484921498.git-series.patrick.ohly@intel.com>
-	<ef36ec5c696cc690af21e560c82924e5dab51a1e.1484921498.git-series.patrick.ohly@intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Subject: Re: [PATCH v4 02/12] acpica: work around flex 2.6.2 code generation issue
+	Fri, 20 Jan 2017 07:13:24 -0800 (PST)
+To: Max Krummenacher <max.oss.09@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <1484915651.4907.9.camel@gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <d08ba5b3-380e-a315-80dd-4a374150cdd1@gmail.com>
+Date: Fri, 20 Jan 2017 07:13:22 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.5.1
+MIME-Version: 1.0
+In-Reply-To: <1484915651.4907.9.camel@gmail.com>
+Subject: Re: [morty] backport request: nspr: set correct version in pkg-config file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,32 +60,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 14:54:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 20 Jan 2017 15:13:25 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2017-01-20 at 15:12 +0100, Patrick Ohly wrote:
-> Without this patch, linking fails with a missing implementation of
-> yy_scan_string. This looks like a regression in flex, because 2.6.0 generated
-> different code that called PrParser_scan_string
-> resp. DtParser_scan_string.
-> 
-> Working around that in acpica until this is better understood or fixed
-> in flex is the easiest solution for now.
-
-It turned out that flex 2.6.3 has a fix for the problem. But the github
-issue tracker for flex has several people who reported issues with 2.6.3
-(affecting gdb, binutils, grub) that we probably should wait a bit
-before trying to update to that release.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
 
 
+On 01/20/2017 04:34 AM, Max Krummenacher wrote:
+> Hi
+>
+> Can we backport the following commit to morty?
+got it.
+Thanks,
+Armin
+> http://cgit.openembedded.org/openembedded-core/commit/?id=cb4f5ecf32006192baaf41218a3d7b43ca1c2951
+>
+> It fixes pkgconfig to no longer report an old version.
+>
+> Currently this breaks firefox in meta-browser morty branch.
+>
+> Thanks
+> Max
 
 
