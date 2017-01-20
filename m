@@ -1,30 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9ACE5772DB
+	by mail.openembedded.org (Postfix) with ESMTP id B65E0772E7
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 20 Jan 2017 18:05:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0KI5EYo019639; Fri, 20 Jan 2017 18:05:15 GMT
+	v0KI5EYl019639; Fri, 20 Jan 2017 18:05:14 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 8Yg4riTiPF7j; Fri, 20 Jan 2017 18:05:15 +0000 (GMT)
+	with LMTP id 4xfGtyUnfiAn; Fri, 20 Jan 2017 18:05:14 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0KI5A86019624
+	v0KI5A5T019618
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Fri, 20 Jan 2017 18:05:11 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cUdYk-0000uy-LD; Fri, 20 Jan 2017 18:05:10 +0000
+	id 1cUdYk-0000uT-Hb; Fri, 20 Jan 2017 18:05:10 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2017 18:05:04 +0000
-Message-Id: <1484935506-3419-12-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Fri, 20 Jan 2017 18:04:58 +0000
+Message-Id: <1484935506-3419-6-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1484935506-3419-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1484935506-3419-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 12/14] wic: misc.py: add parameter 'cache' to get_bitbake_vars
+Subject: [PATCH 06/14] image.bbclass: put .env files to ${STAGING_DIR}/imgdata/
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,62 +41,59 @@ X-List-Received-Date: Fri, 20 Jan 2017 18:05:17 -0000
 
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 
-This parameter will be used to allow or prevent variable caching.
+As STAGING_DIR_TARGET started to point to a recipe specific
+sysroot wic is not able to add .env files when .wks file refers
+to multiple rootfs recipes.
 
-For example, we don't want to cache value of RECIPE_SYSROOT_NATIVE
-wic-tools variable as we may decide to rebuild wic-tools.
+Used STAGING_DIR instead of STAGING_DIR_TARGET to make the
+directory with .env files the same for all recipes.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/utils/oe/misc.py | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
+ meta/classes/image.bbclass       | 2 +-
+ meta/classes/image_types.bbclass | 2 +-
+ meta/lib/oeqa/selftest/wic.py    | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/lib/wic/utils/oe/misc.py b/scripts/lib/wic/utils/oe/misc.py
-index 445109a..3737c4b 100644
---- a/scripts/lib/wic/utils/oe/misc.py
-+++ b/scripts/lib/wic/utils/oe/misc.py
-@@ -160,7 +160,7 @@ class BitbakeVars(defaultdict):
-         key, val = match.groups()
-         self[image][key] = val.strip('"')
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 021c432..59a7688 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -342,7 +342,7 @@ python do_rootfs_wicenv () {
+     if not wicvars:
+         return
  
--    def get_var(self, var, image=None):
-+    def get_var(self, var, image=None, cache=True):
-         """
-         Get bitbake variable from 'bitbake -e' output or from .env file.
-         This is a lazy method, i.e. it runs bitbake or parses file only when
-@@ -202,21 +202,26 @@ class BitbakeVars(defaultdict):
-                     self._parse_line(line, image)
+-    stdir = d.getVar('STAGING_DIR_TARGET')
++    stdir = d.getVar('STAGING_DIR')
+     outdir = os.path.join(stdir, 'imgdata')
+     bb.utils.mkdirhier(outdir)
+     basename = d.getVar('IMAGE_BASENAME')
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index bac7ff5..5b1746a 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -216,7 +216,7 @@ IMAGE_CMD_wic () {
+ 		bbfatal "No kickstart files from WKS_FILES were found: ${WKS_FILES}. Please set WKS_FILE or WKS_FILES appropriately."
+ 	fi
  
-             # Make first image a default set of variables
--            images = [key for key in self if key]
--            if len(images) == 1:
--                self[None] = self[image]
-+            if cache:
-+                images = [key for key in self if key]
-+                if len(images) == 1:
-+                    self[None] = self[image]
+-	BUILDDIR="${TOPDIR}" wic create "$wks" --vars "${STAGING_DIR_TARGET}/imgdata/" -e "${IMAGE_BASENAME}" -o "$out/" ${WIC_CREATE_EXTRA_ARGS}
++	BUILDDIR="${TOPDIR}" wic create "$wks" --vars "${STAGING_DIR}/imgdata/" -e "${IMAGE_BASENAME}" -o "$out/" ${WIC_CREATE_EXTRA_ARGS}
+ 	mv "$out/build/$(basename "${wks%.wks}")"*.direct "$out${IMAGE_NAME_SUFFIX}.wic"
+ 	rm -rf "$out/"
+ }
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index 77f1bdc..6a61ba6 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -332,7 +332,7 @@ class Wic(oeSelfTest):
+         """Generate and obtain the path to <image>.env"""
+         if image not in self.wicenv_cache:
+             self.assertEqual(0, bitbake('%s -c do_rootfs_wicenv' % image).status)
+-            stdir = get_bb_var('STAGING_DIR_TARGET', image)
++            stdir = get_bb_var('STAGING_DIR', image)
+             self.wicenv_cache[image] = os.path.join(stdir, 'imgdata')
+         return self.wicenv_cache[image]
  
--        return self[image].get(var)
-+        result = self[image].get(var)
-+        if not cache:
-+            self.pop(image, None)
-+
-+        return result
- 
- # Create BB_VARS singleton
- BB_VARS = BitbakeVars()
- 
--def get_bitbake_var(var, image=None):
-+def get_bitbake_var(var, image=None, cache=True):
-     """
-     Provide old get_bitbake_var API by wrapping
-     get_var method of BB_VARS singleton.
-     """
--    return BB_VARS.get_var(var, image)
-+    return BB_VARS.get_var(var, image, cache)
- 
- def parse_sourceparams(sourceparams):
-     """
 -- 
 2.7.4
 
