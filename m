@@ -1,18 +1,30 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C21D7316D;
-	Fri, 20 Jan 2017 14:23:44 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Date: Fri, 20 Jan 2017 14:23:45 -0000
-Message-ID: <20170120142345.23276.75505@do.openembedded.org>
-References: <cover.bbc01c1227afdba3edc41dc7d7356f56e51be400.1484921498.git-series.patrick.ohly@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <cover.bbc01c1227afdba3edc41dc7d7356f56e51be400.1484921498.git-series.patrick.ohly@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgVUVGSSArIFNlY3VyZSBCb290ICsgcWVtdSAocmV2NSk=?=
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id EA2867316D
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jan 2017 14:29:06 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v0KET5OY030340; Fri, 20 Jan 2017 14:29:05 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id t-HeFmEAqZew; Fri, 20 Jan 2017 14:29:05 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v0KET1gY030334
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 20 Jan 2017 14:29:02 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1cUaBZ-000843-7D; Fri, 20 Jan 2017 14:29:01 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Jan 2017 14:28:57 +0000
+Message-Id: <1484922537-30954-2-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1484922537-30954-1-git-send-email-richard.purdie@linuxfoundation.org>
+References: <1484922537-30954-1-git-send-email-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/2] meta-environment: Ensure all multilib dependencies are accounted for
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 14:23:44 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Jan 2017 14:29:07 -0000
 
-== Series Details ==
+Currently the recipe depends on the mulitlib libcs all being built
+but the dependencies don't account for this. Fix the DEPENDS so
+that the requires pieces are all built first rather than relying on
+luck.
 
-Series: UEFI + Secure Boot + qemu (rev5)
-Revision: 5
-URL   : https://patchwork.openembedded.org/series/4506/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-extended/acpica/acpitests/aapits-linux.patch)
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
-  Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-extended/acpica/acpitests/aapits-linux.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-core/meta/meta-environment.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/recipes-core/meta/meta-environment.bb b/meta/recipes-core/meta/meta-environment.bb
+index a250cc8..a2ed229 100644
+--- a/meta/recipes-core/meta/meta-environment.bb
++++ b/meta/recipes-core/meta/meta-environment.bb
+@@ -19,6 +19,10 @@ SDKTARGETSYSROOT = "${SDKPATH}/sysroots/${REAL_MULTIMACH_TARGET_SYS}"
+ 
+ inherit cross-canadian
+ 
++# Need to ensure we have the virtual mappings and site files for all multtilib 
++# variants
++DEPENDS += "${@all_multilib_tune_values(d, 'TOOLCHAIN_NEED_CONFIGSITE_CACHE')}"
++
+ do_generate_content[cleandirs] = "${SDK_OUTPUT}"
+ do_generate_content[dirs] = "${SDK_OUTPUT}/${SDKPATH}"
+ python do_generate_content() {
+-- 
+2.7.4
 
 
