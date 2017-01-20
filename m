@@ -1,23 +1,23 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id DC950771D4
+	by mail.openembedded.org (Postfix) with ESMTP id 4EB1B771D4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 17:07:49 +0000 (UTC)
+	Fri, 20 Jan 2017 17:07:50 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga105.fm.intel.com with ESMTP; 20 Jan 2017 09:07:50 -0800
+	by fmsmga105.fm.intel.com with ESMTP; 20 Jan 2017 09:07:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,259,1477983600"; d="scan'208";a="1115567472"
+X-IronPort-AV: E=Sophos;i="5.33,259,1477983600"; d="scan'208";a="1115567474"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.143])
 	by fmsmga002.fm.intel.com with ESMTP; 20 Jan 2017 09:07:50 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2017 11:10:03 -0600
-Message-Id: <a4d0cbb7f848d7dba0b54344733792ee1efabb65.1484929088.git.anibal.limon@linux.intel.com>
+Date: Fri, 20 Jan 2017 11:10:04 -0600
+Message-Id: <664d3f4e3f52c0c3f492aeb3ff1451972df9b3d0.1484929088.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1484929088.git.anibal.limon@linux.intel.com>
 References: <cover.1484929088.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 32/55] oeqa/runtime: Move to runtime_cases
+Subject: [PATCH 33/55] oeqa/core/target Add OESSHTarget to sent commands to targets using SSH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,200 +34,333 @@ X-List-Received-Date: Fri, 20 Jan 2017 17:07:50 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The new oeqa core framework will modify the structure of the runtime
-folder the new runtime folder will have python code inside to support
-runtime test cases.
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+With this commit now it is possible to add targets with SSH for testing.
+Most of it was imported for existing code, with improvements in log
+handling.
+
+[YOCTO #10234]
+
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/lib/oeqa/{runtime => runtime_cases}/_ptest.py               | 0
- meta/lib/oeqa/{runtime => runtime_cases}/_qemutiny.py            | 0
- meta/lib/oeqa/{runtime => runtime_cases}/buildcvs.py             | 0
- meta/lib/oeqa/{runtime => runtime_cases}/buildgalculator.py      | 0
- meta/lib/oeqa/{runtime => runtime_cases}/buildiptables.py        | 0
- meta/lib/oeqa/{runtime => runtime_cases}/connman.py              | 0
- meta/lib/oeqa/{runtime => runtime_cases}/date.py                 | 0
- meta/lib/oeqa/{runtime => runtime_cases}/df.py                   | 0
- meta/lib/oeqa/{runtime => runtime_cases}/files/hellomod.c        | 0
- meta/lib/oeqa/{runtime => runtime_cases}/files/hellomod_makefile | 0
- meta/lib/oeqa/{runtime => runtime_cases}/files/testmakefile      | 0
- meta/lib/oeqa/{runtime => runtime_cases}/gcc.py                  | 0
- meta/lib/oeqa/{runtime => runtime_cases}/kernelmodule.py         | 0
- meta/lib/oeqa/{runtime => runtime_cases}/ldd.py                  | 0
- meta/lib/oeqa/{runtime => runtime_cases}/logrotate.py            | 0
- meta/lib/oeqa/{runtime => runtime_cases}/multilib.py             | 0
- meta/lib/oeqa/{runtime => runtime_cases}/pam.py                  | 0
- meta/lib/oeqa/{runtime => runtime_cases}/parselogs.py            | 0
- meta/lib/oeqa/{runtime => runtime_cases}/perl.py                 | 0
- meta/lib/oeqa/{runtime => runtime_cases}/ping.py                 | 0
- meta/lib/oeqa/{runtime => runtime_cases}/python.py               | 0
- meta/lib/oeqa/{runtime => runtime_cases}/rpm.py                  | 0
- meta/lib/oeqa/{runtime => runtime_cases}/scanelf.py              | 0
- meta/lib/oeqa/{runtime => runtime_cases}/scp.py                  | 0
- meta/lib/oeqa/{runtime => runtime_cases}/skeletoninit.py         | 0
- meta/lib/oeqa/{runtime => runtime_cases}/smart.py                | 0
- meta/lib/oeqa/{runtime => runtime_cases}/ssh.py                  | 0
- meta/lib/oeqa/{runtime => runtime_cases}/syslog.py               | 0
- meta/lib/oeqa/{runtime => runtime_cases}/systemd.py              | 0
- meta/lib/oeqa/{runtime => runtime_cases}/x32lib.py               | 0
- meta/lib/oeqa/{runtime => runtime_cases}/xorg.py                 | 0
- 31 files changed, 0 insertions(+), 0 deletions(-)
- rename meta/lib/oeqa/{runtime => runtime_cases}/_ptest.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/_qemutiny.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/buildcvs.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/buildgalculator.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/buildiptables.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/connman.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/date.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/df.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/files/hellomod.c (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/files/hellomod_makefile (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/files/testmakefile (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/gcc.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/kernelmodule.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/ldd.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/logrotate.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/multilib.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/pam.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/parselogs.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/perl.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/ping.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/python.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/rpm.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/scanelf.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/scp.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/skeletoninit.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/smart.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/ssh.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/syslog.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/systemd.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/x32lib.py (100%)
- rename meta/lib/oeqa/{runtime => runtime_cases}/xorg.py (100%)
+ meta/lib/oeqa/core/target/__init__.py |  33 +++++
+ meta/lib/oeqa/core/target/ssh.py      | 266 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 299 insertions(+)
+ create mode 100644 meta/lib/oeqa/core/target/__init__.py
+ create mode 100644 meta/lib/oeqa/core/target/ssh.py
 
-diff --git a/meta/lib/oeqa/runtime/_ptest.py b/meta/lib/oeqa/runtime_cases/_ptest.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/_ptest.py
-rename to meta/lib/oeqa/runtime_cases/_ptest.py
-diff --git a/meta/lib/oeqa/runtime/_qemutiny.py b/meta/lib/oeqa/runtime_cases/_qemutiny.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/_qemutiny.py
-rename to meta/lib/oeqa/runtime_cases/_qemutiny.py
-diff --git a/meta/lib/oeqa/runtime/buildcvs.py b/meta/lib/oeqa/runtime_cases/buildcvs.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/buildcvs.py
-rename to meta/lib/oeqa/runtime_cases/buildcvs.py
-diff --git a/meta/lib/oeqa/runtime/buildgalculator.py b/meta/lib/oeqa/runtime_cases/buildgalculator.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/buildgalculator.py
-rename to meta/lib/oeqa/runtime_cases/buildgalculator.py
-diff --git a/meta/lib/oeqa/runtime/buildiptables.py b/meta/lib/oeqa/runtime_cases/buildiptables.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/buildiptables.py
-rename to meta/lib/oeqa/runtime_cases/buildiptables.py
-diff --git a/meta/lib/oeqa/runtime/connman.py b/meta/lib/oeqa/runtime_cases/connman.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/connman.py
-rename to meta/lib/oeqa/runtime_cases/connman.py
-diff --git a/meta/lib/oeqa/runtime/date.py b/meta/lib/oeqa/runtime_cases/date.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/date.py
-rename to meta/lib/oeqa/runtime_cases/date.py
-diff --git a/meta/lib/oeqa/runtime/df.py b/meta/lib/oeqa/runtime_cases/df.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/df.py
-rename to meta/lib/oeqa/runtime_cases/df.py
-diff --git a/meta/lib/oeqa/runtime/files/hellomod.c b/meta/lib/oeqa/runtime_cases/files/hellomod.c
-similarity index 100%
-rename from meta/lib/oeqa/runtime/files/hellomod.c
-rename to meta/lib/oeqa/runtime_cases/files/hellomod.c
-diff --git a/meta/lib/oeqa/runtime/files/hellomod_makefile b/meta/lib/oeqa/runtime_cases/files/hellomod_makefile
-similarity index 100%
-rename from meta/lib/oeqa/runtime/files/hellomod_makefile
-rename to meta/lib/oeqa/runtime_cases/files/hellomod_makefile
-diff --git a/meta/lib/oeqa/runtime/files/testmakefile b/meta/lib/oeqa/runtime_cases/files/testmakefile
-similarity index 100%
-rename from meta/lib/oeqa/runtime/files/testmakefile
-rename to meta/lib/oeqa/runtime_cases/files/testmakefile
-diff --git a/meta/lib/oeqa/runtime/gcc.py b/meta/lib/oeqa/runtime_cases/gcc.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/gcc.py
-rename to meta/lib/oeqa/runtime_cases/gcc.py
-diff --git a/meta/lib/oeqa/runtime/kernelmodule.py b/meta/lib/oeqa/runtime_cases/kernelmodule.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/kernelmodule.py
-rename to meta/lib/oeqa/runtime_cases/kernelmodule.py
-diff --git a/meta/lib/oeqa/runtime/ldd.py b/meta/lib/oeqa/runtime_cases/ldd.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/ldd.py
-rename to meta/lib/oeqa/runtime_cases/ldd.py
-diff --git a/meta/lib/oeqa/runtime/logrotate.py b/meta/lib/oeqa/runtime_cases/logrotate.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/logrotate.py
-rename to meta/lib/oeqa/runtime_cases/logrotate.py
-diff --git a/meta/lib/oeqa/runtime/multilib.py b/meta/lib/oeqa/runtime_cases/multilib.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/multilib.py
-rename to meta/lib/oeqa/runtime_cases/multilib.py
-diff --git a/meta/lib/oeqa/runtime/pam.py b/meta/lib/oeqa/runtime_cases/pam.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/pam.py
-rename to meta/lib/oeqa/runtime_cases/pam.py
-diff --git a/meta/lib/oeqa/runtime/parselogs.py b/meta/lib/oeqa/runtime_cases/parselogs.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/parselogs.py
-rename to meta/lib/oeqa/runtime_cases/parselogs.py
-diff --git a/meta/lib/oeqa/runtime/perl.py b/meta/lib/oeqa/runtime_cases/perl.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/perl.py
-rename to meta/lib/oeqa/runtime_cases/perl.py
-diff --git a/meta/lib/oeqa/runtime/ping.py b/meta/lib/oeqa/runtime_cases/ping.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/ping.py
-rename to meta/lib/oeqa/runtime_cases/ping.py
-diff --git a/meta/lib/oeqa/runtime/python.py b/meta/lib/oeqa/runtime_cases/python.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/python.py
-rename to meta/lib/oeqa/runtime_cases/python.py
-diff --git a/meta/lib/oeqa/runtime/rpm.py b/meta/lib/oeqa/runtime_cases/rpm.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/rpm.py
-rename to meta/lib/oeqa/runtime_cases/rpm.py
-diff --git a/meta/lib/oeqa/runtime/scanelf.py b/meta/lib/oeqa/runtime_cases/scanelf.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/scanelf.py
-rename to meta/lib/oeqa/runtime_cases/scanelf.py
-diff --git a/meta/lib/oeqa/runtime/scp.py b/meta/lib/oeqa/runtime_cases/scp.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/scp.py
-rename to meta/lib/oeqa/runtime_cases/scp.py
-diff --git a/meta/lib/oeqa/runtime/skeletoninit.py b/meta/lib/oeqa/runtime_cases/skeletoninit.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/skeletoninit.py
-rename to meta/lib/oeqa/runtime_cases/skeletoninit.py
-diff --git a/meta/lib/oeqa/runtime/smart.py b/meta/lib/oeqa/runtime_cases/smart.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/smart.py
-rename to meta/lib/oeqa/runtime_cases/smart.py
-diff --git a/meta/lib/oeqa/runtime/ssh.py b/meta/lib/oeqa/runtime_cases/ssh.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/ssh.py
-rename to meta/lib/oeqa/runtime_cases/ssh.py
-diff --git a/meta/lib/oeqa/runtime/syslog.py b/meta/lib/oeqa/runtime_cases/syslog.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/syslog.py
-rename to meta/lib/oeqa/runtime_cases/syslog.py
-diff --git a/meta/lib/oeqa/runtime/systemd.py b/meta/lib/oeqa/runtime_cases/systemd.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/systemd.py
-rename to meta/lib/oeqa/runtime_cases/systemd.py
-diff --git a/meta/lib/oeqa/runtime/x32lib.py b/meta/lib/oeqa/runtime_cases/x32lib.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/x32lib.py
-rename to meta/lib/oeqa/runtime_cases/x32lib.py
-diff --git a/meta/lib/oeqa/runtime/xorg.py b/meta/lib/oeqa/runtime_cases/xorg.py
-similarity index 100%
-rename from meta/lib/oeqa/runtime/xorg.py
-rename to meta/lib/oeqa/runtime_cases/xorg.py
+diff --git a/meta/lib/oeqa/core/target/__init__.py b/meta/lib/oeqa/core/target/__init__.py
+new file mode 100644
+index 0000000..d2468bc
+--- /dev/null
++++ b/meta/lib/oeqa/core/target/__init__.py
+@@ -0,0 +1,33 @@
++# Copyright (C) 2016 Intel Corporation
++# Released under the MIT license (see COPYING.MIT)
++
++from abc import abstractmethod
++
++class OETarget(object):
++
++    def __init__(self, logger, *args, **kwargs):
++        self.logger = logger
++
++    @abstractmethod
++    def start(self):
++        pass
++
++    @abstractmethod
++    def stop(self):
++        pass
++
++    @abstractmethod
++    def run(self, cmd, timeout=None):
++        pass
++
++    @abstractmethod
++    def copyTo(self, localSrc, remoteDst):
++        pass
++
++    @abstractmethod
++    def copyFrom(self, remoteSrc, localDst):
++        pass
++
++    @abstractmethod
++    def copyDirTo(self, localSrc, remoteDst):
++        pass
+diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/core/target/ssh.py
+new file mode 100644
+index 0000000..b80939c
+--- /dev/null
++++ b/meta/lib/oeqa/core/target/ssh.py
+@@ -0,0 +1,266 @@
++# Copyright (C) 2016 Intel Corporation
++# Released under the MIT license (see COPYING.MIT)
++
++import os
++import time
++import select
++import logging
++import subprocess
++
++from . import OETarget
++
++class OESSHTarget(OETarget):
++    def __init__(self, logger, ip, server_ip, timeout=300, user='root',
++                 port=None, **kwargs):
++        if not logger:
++            logger = logging.getLogger('target')
++            logger.setLevel(logging.INFO)
++            filePath = os.path.join(os.getcwd(), 'remoteTarget.log')
++            fileHandler = logging.FileHandler(filePath, 'w', 'utf-8')
++            formatter = logging.Formatter(
++                        '%(asctime)s.%(msecs)03d %(levelname)s: %(message)s',
++                        '%H:%M:%S')
++            fileHandler.setFormatter(formatter)
++            logger.addHandler(fileHandler)
++
++        super(OESSHTarget, self).__init__(logger)
++        self.ip = ip
++        self.server_ip = server_ip
++        self.timeout = timeout
++        self.user = user
++        ssh_options = [
++                '-o', 'UserKnownHostsFile=/dev/null',
++                '-o', 'StrictHostKeyChecking=no',
++                '-o', 'LogLevel=ERROR'
++                ]
++        self.ssh = ['ssh', '-l', self.user ] + ssh_options
++        self.scp = ['scp'] + ssh_options
++        if port:
++            self.ssh = self.ssh + [ '-p', port ]
++            self.scp = self.scp + [ '-P', port ]
++
++    def start(self, **kwargs):
++        pass
++
++    def stop(self, **kwargs):
++        pass
++
++    def _run(self, command, timeout=None, ignore_status=True):
++        """
++            Runs command in target using SSHProcess.
++        """
++        self.logger.debug("[Running]$ %s" % " ".join(command))
++
++        starttime = time.time()
++        status, output = SSHCall(command, self.logger, timeout)
++        self.logger.debug("[Command returned '%d' after %.2f seconds]"
++                 "" % (status, time.time() - starttime))
++
++        if status and not ignore_status:
++            raise AssertionError("Command '%s' returned non-zero exit "
++                                 "status %d:\n%s" % (command, status, output))
++
++        return (status, output)
++
++    def run(self, command, timeout=None):
++        """
++            Runs command in target.
++
++            command:    Command to run on target.
++            timeout:    <value>:    Kill command after <val> seconds.
++                        None:       Kill command default value seconds.
++                        0:          No timeout, runs until return.
++        """
++        targetCmd = 'export PATH=/usr/sbin:/sbin:/usr/bin:/bin; %s' % command
++        sshCmd = self.ssh + [self.ip, targetCmd]
++
++        if timeout:
++            processTimeout = timeout
++        elif timeout==0:
++            processTimeout = None
++        else:
++            processTimeout = self.timeout
++
++        status, output = self._run(sshCmd, processTimeout, True)
++        self.logger.info('\nCommand: %s\nOutput:  %s\n' % (command, output))
++        return (status, output)
++
++    def copyTo(self, localSrc, remoteDst):
++        """
++            Copy file to target.
++
++            If local file is symlink, recreate symlink in target.
++        """
++        if os.path.islink(localSrc):
++            link = os.readlink(localSrc)
++            dstDir, dstBase = os.path.split(remoteDst)
++            sshCmd = 'cd %s; ln -s %s %s' % (dstDir, link, dstBase)
++            return self.run(sshCmd)
++
++        else:
++            remotePath = '%s@%s:%s' % (self.user, self.ip, remoteDst)
++            scpCmd = self.scp + [localSrc, remotePath]
++            return self._run(scpCmd, ignore_status=False)
++
++    def copyFrom(self, remoteSrc, localDst):
++        """
++            Copy file from target.
++        """
++        remotePath = '%s@%s:%s' % (self.user, self.ip, remoteSrc)
++        scpCmd = self.scp + [remotePath, localDst]
++        return self._run(scpCmd, ignore_status=False)
++
++    def copyDirTo(self, localSrc, remoteDst):
++        """
++            Copy recursively localSrc directory to remoteDst in target.
++        """
++
++        for root, dirs, files in os.walk(localSrc):
++            # Create directories in the target as needed
++            for d in dirs:
++                tmpDir = os.path.join(root, d).replace(localSrc, "")
++                newDir = os.path.join(remoteDst, tmpDir.lstrip("/"))
++                cmd = "mkdir -p %s" % newDir
++                self.run(cmd)
++
++            # Copy files into the target
++            for f in files:
++                tmpFile = os.path.join(root, f).replace(localSrc, "")
++                dstFile = os.path.join(remoteDst, tmpFile.lstrip("/"))
++                srcFile = os.path.join(root, f)
++                self.copyTo(srcFile, dstFile)
++
++    def deleteFiles(self, remotePath, files):
++        """
++            Deletes files in target's remotePath.
++        """
++
++        cmd = "rm"
++        if not isinstance(files, list):
++            files = [files]
++
++        for f in files:
++            cmd = "%s %s" % (cmd, os.path.join(remotePath, f))
++
++        self.run(cmd)
++
++
++    def deleteDir(self, remotePath):
++        """
++            Deletes target's remotePath directory.
++        """
++
++        cmd = "rmdir %s" % remotePath
++        self.run(cmd)
++
++
++    def deleteDirStructure(self, localPath, remotePath):
++        """
++        Delete recursively localPath structure directory in target's remotePath.
++
++        This function is very usefult to delete a package that is installed in
++        the DUT and the host running the test has such package extracted in tmp
++        directory.
++
++        Example:
++            pwd: /home/user/tmp
++            tree:   .
++                    └── work
++                        ├── dir1
++                        │   └── file1
++                        └── dir2
++
++            localpath = "/home/user/tmp" and remotepath = "/home/user"
++
++            With the above variables this function will try to delete the
++            directory in the DUT in this order:
++                /home/user/work/dir1/file1
++                /home/user/work/dir1        (if dir is empty)
++                /home/user/work/dir2        (if dir is empty)
++                /home/user/work             (if dir is empty)
++        """
++
++        for root, dirs, files in os.walk(localPath, topdown=False):
++            # Delete files first
++            tmpDir = os.path.join(root).replace(localPath, "")
++            remoteDir = os.path.join(remotePath, tmpDir.lstrip("/"))
++            self.deleteFiles(remoteDir, files)
++
++            # Remove dirs if empty
++            for d in dirs:
++                tmpDir = os.path.join(root, d).replace(localPath, "")
++                remoteDir = os.path.join(remotePath, tmpDir.lstrip("/"))
++                self.deleteDir(remoteDir)
++
++def SSHCall(command, logger, timeout=None, **opts):
++
++    def run():
++        nonlocal output
++        nonlocal process
++        starttime = time.time()
++        process = subprocess.Popen(command, **options)
++        if timeout:
++            endtime = starttime + timeout
++            eof = False
++            while time.time() < endtime and not eof:
++                logger.debug('time: %s, endtime: %s' % (time.time(), endtime))
++                try:
++                    if select.select([process.stdout], [], [], 5)[0] != []:
++                        data = os.read(process.stdout.fileno(), 1024)
++                        if not data:
++                            process.stdout.close()
++                            eof = True
++                        else:
++                            data = data.decode("utf-8")
++                            output += data
++                            logger.debug('Partial data from SSH call: %s' % data)
++                            endtime = time.time() + timeout
++                except InterruptedError:
++                    continue
++
++            # process hasn't returned yet
++            if not eof:
++                process.terminate()
++                time.sleep(5)
++                try:
++                    process.kill()
++                except OSError:
++                    pass
++                endtime = time.time() - starttime
++                lastline = ("\nProcess killed - no output for %d seconds. Total"
++                            " running time: %d seconds." % (timeout, endtime))
++                logger.debug('Received data from SSH call %s ' % lastline)
++                output += lastline
++
++        else:
++            output = process.communicate()[0].decode("utf-8")
++            logger.debug('Data from SSH call: %s' % output.rstrip())
++
++    options = {
++        "stdout": subprocess.PIPE,
++        "stderr": subprocess.STDOUT,
++        "stdin": None,
++        "shell": False,
++        "bufsize": -1,
++        "preexec_fn": os.setsid,
++    }
++    options.update(opts)
++    output = ''
++    process = None
++
++    # Unset DISPLAY which means we won't trigger SSH_ASKPASS
++    env = os.environ.copy()
++    if "DISPLAY" in env:
++        del env['DISPLAY']
++    options['env'] = env
++
++    try:
++        run()
++    except:
++        # Need to guard against a SystemExit or other exception ocurring
++        # whilst running and ensure we don't leave a process behind.
++        if process.poll() is None:
++            process.kill()
++        logger.debug('Something went wrong, killing SSH process')
++        raise
++    return (process.wait(), output.rstrip())
 -- 
 2.1.4
 
