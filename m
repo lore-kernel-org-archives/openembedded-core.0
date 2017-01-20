@@ -1,20 +1,21 @@
-Return-Path: <benjamin.esquivel@linux.intel.com>
+Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 7976571D8C
+	by mail.openembedded.org (Postfix) with ESMTP id 6DD9671DBE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2017 23:49:56 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga105.jf.intel.com with ESMTP; 19 Jan 2017 15:49:56 -0800
+	Fri, 20 Jan 2017 02:06:14 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga105.jf.intel.com with ESMTP; 19 Jan 2017 18:06:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,256,1477983600"; d="scan'208";a="50581054"
-Received: from yctb04.ostc.intel.com ([10.54.69.58])
-	by orsmga004.jf.intel.com with ESMTP; 19 Jan 2017 15:49:56 -0800
-From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.33,256,1477983600"; d="scan'208";a="56079796"
+Received: from zpchu5-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com.fritz.box) ([10.255.128.210])
+	by fmsmga006.fm.intel.com with ESMTP; 19 Jan 2017 18:06:13 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2017 15:55:52 +0000
-Message-Id: <1484841352-10441-1-git-send-email-benjamin.esquivel@linux.intel.com>
-X-Mailer: git-send-email 2.5.1
-Subject: [PATCH] selftest: automatically add the meta-selftest layer
+Date: Fri, 20 Jan 2017 15:06:03 +1300
+Message-Id: <cover.1484877853.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.5.5
+Subject: [PATCH 0/1] oe-selftest: devtool: remove use of git -C
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,41 +28,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2017 23:49:58 -0000
+X-List-Received-Date: Fri, 20 Jan 2017 02:06:15 -0000
 
-adding the meta-selftest layer is a small bump you always encounter
-when you want to run selftest. Adding an automatic procedure to include
-the layer if it is not yet present.
+The following changes since commit a7cb408dd784178197687a2129e936620bf6a0d3:
 
-Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
----
- scripts/oe-selftest | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+  sanity.bbclass: Improved error message (2017-01-17 11:31:31 +0000)
 
-diff --git a/scripts/oe-selftest b/scripts/oe-selftest
-index 120a6c2..b81e58c 100755
---- a/scripts/oe-selftest
-+++ b/scripts/oe-selftest
-@@ -131,8 +131,16 @@ def preflight_check():
-         os.chdir(builddir)
- 
-     if not "meta-selftest" in get_bb_var("BBLAYERS"):
--        log.error("You don't seem to have the meta-selftest layer in BBLAYERS")
--        return False
-+        log.warn("meta-selftest layer not found in BBLAYERS, adding it")
-+        meta_selftestdir = os.path.join(
-+                get_bb_var("BBLAYERS_FETCH_DIR"),
-+                'meta-selftest')
-+        if os.path.isdir(meta_selftestdir):
-+            runCmd("bitbake-layers add-layer %s" %meta_selftestdir)
-+        else:
-+            log.error("could not locate meta-selftest in:\n%s"
-+                    %meta_selftestdir)
-+            return False
- 
-     log.info("Running bitbake -p")
-     runCmd("bitbake -p")
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/devtool-git-fix1
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/devtool-git-fix1
+
+Paul Eggleton (1):
+  oe-selftest: devtool: remove use of git -C
+
+ meta/lib/oeqa/selftest/devtool.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
-2.5.1
+2.5.5
 
 
