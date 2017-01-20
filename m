@@ -1,47 +1,54 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
-	[209.85.213.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E95C719AA
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
+	[209.85.214.41])
+	by mail.openembedded.org (Postfix) with ESMTP id A173A731A5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 13:36:50 +0000 (UTC)
-Received: by mail-vk0-f68.google.com with SMTP id r136so6158160vke.1
+	Fri, 20 Jan 2017 13:37:14 +0000 (UTC)
+Received: by mail-it0-f41.google.com with SMTP id 203so20085908ith.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 05:36:51 -0800 (PST)
+	Fri, 20 Jan 2017 05:37:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=XszGCtMtMu6UCpIiW+V2NU+ZPskq/WHvjekmta9Kfg4=;
-	b=m9XKENzuNghjhGViu7HbMzyXLDvSXjwoYAWqMgHXvuw/rq1qeo0MqP1y5kCNmPzvh/
-	Iq3WsWzWKJQSm35i1jxWV18Br/CqJUR4o049Dbcq7aVEYgfezKFZs+zvWUz8ojB/b6Mq
-	9KsxNXo3Jc/RJWnJ3QIdY/XNyPN66z85H8mq8iJmInMHd5pqdE6cwG/VnxVAaQqkewkA
-	PF422OBU1ySV45Bysj5+3CQxUEMiddG9+a4ps+9glgyiwWWy97AQPmJWSBuhJsFIEKgb
-	ZQ+YQu169KuIOkuF6APM7KfbfKVu1wqH9uoWmGGhdTfgtIKgvMZNy4+UMkxvc3HvPO2u
-	CUNg==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=gPgAPw3fwNm5zmecA2t3Qx6u3YDGtRVZalE9YEUfbEo=;
+	b=ZeqXCooRQQNCMcV7Y5ZApkD0i3YnQ1PC03zDiTPJFERke/zxI5HvXihqtc/IuUcSzc
+	NpzxV9t2JH+uD6F1nXSvgEDonNn73aJ4If7bJAYSmqjO8OYYF7TyUzsfT5737ulcRn8Y
+	EFNxwJsNZB6COvJt8Am0CVX3jFjMOf/NzuJ9A+6+XYUg/IHkuo5DaUT+1qhgYs6Iv48y
+	thfDjJZVMj6pp+qRcXtCntycEjFznR+qjJ5F8K284LZkOQH0CYgPVaB9aHc35kMNJu7i
+	hbxO0T5Uukmi0BeC1AK6nxei57dHQx1fIl7iv0IBcg1IeoG2TZRXQtzT6Odud3TfSTED
+	06tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=XszGCtMtMu6UCpIiW+V2NU+ZPskq/WHvjekmta9Kfg4=;
-	b=SAy+qyYL/4wJueuDT8mahyNJoeBZisMSpDgPJxW8srcNFLS6kjYJMDb8/Rv16LpQ6D
-	UDwsjxfr5cP8jv1rBRFq8jq5HzzTtJLgRuRtr1DVxrsKovUfRVHjE+PIUEYKoh+G+Tvt
-	zNKTqDSkZ3AhjnBeMPZXA+r7SXOR6ccdDqVUlXurcaHfm9oPXYAuMTqMDIacGdg4oXVM
-	RScFQJMiT08l1O/gN6A4z1WCyaDXVV5KoC66xsgQFmUmF7hf0RsYRX8eZugPThf7DUT2
-	tnA/7jl04bGz7x/qo/cZJWTMSwd++qBrEGwlqlK/8JG2iUpNYI2t48rAE6/aWMW1BohU
-	4yBA==
-X-Gm-Message-State: AIkVDXJZv78/CNQJurUwd48bRI+Kh6ed8E3JL3O+R/1+zjMc5EHMhLK4s9xMODASWUNAlA5/8vKanW8pUjxYjw==
-X-Received: by 10.31.161.205 with SMTP id k196mr7399762vke.12.1484919410738;
-	Fri, 20 Jan 2017 05:36:50 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.176.69.246 with HTTP; Fri, 20 Jan 2017 05:36:50 -0800 (PST)
-In-Reply-To: <1484505711-6341-1-git-send-email-juro.bystricky@intel.com>
-References: <1484505711-6341-1-git-send-email-juro.bystricky@intel.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Date: Fri, 20 Jan 2017 14:36:50 +0100
-Message-ID: <CALbNGRS1L24_fJK3D14vacfRAKcxUfftR4BA8G8hxzHhuYgrFA@mail.gmail.com>
-To: Juro Bystricky <juro.bystricky@intel.com>
-Cc: jurobystricky@hotmail.com, Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bitbake.conf: require conf/multiconfig/${BB_CURRENT_MC}.conf
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=gPgAPw3fwNm5zmecA2t3Qx6u3YDGtRVZalE9YEUfbEo=;
+	b=eyV1/R6dkzm6kshYuzL2LiFn+7PMv4ggmK+0idLmjPNtvZ1eeiwFrst10oJ85lh33J
+	xcP85JLfGDo9sg/IqsBkT2BRdukuLODAsGkJvPFrJesHXYmWmg1HHnOmj0MAX9FH0r+b
+	C8owCbwlPZzj+SvPV/+F6IputM3xk37cls+0/KFZ6y2NqgJ4B1cVExjil2NHcxZTA2eG
+	yE+s4+zRM478vObCIz+RhzTa7cxYGS7j8qlFY/8sONdC1BXAr2lMHWk2Yz8vae2eULJa
+	B/AzS3sxCVzSp3o0utY+EbvB9lqeT2YW0dwHgR1hcxiFyROby98SLi5wM8pTnu2HfZVy
+	cD/g==
+X-Gm-Message-State: AIkVDXKMh7wtaE0PBxFwqMAKB/V+cYfTKZASHTnPdqcJJ1yKcFMyOP5jSduwIzLV3CoAAj6e
+X-Received: by 10.107.10.156 with SMTP id 28mr13446163iok.18.1484919434307;
+	Fri, 20 Jan 2017 05:37:14 -0800 (PST)
+Received: from pohly-mobl1 (p57A56DD5.dip0.t-ipconnect.de. [87.165.109.213])
+	by smtp.gmail.com with ESMTPSA id
+	g186sm1347983itb.21.2017.01.20.05.37.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 20 Jan 2017 05:37:13 -0800 (PST)
+Message-ID: <1484919430.23233.118.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Ross Burton <ross.burton@intel.com>
+Date: Fri, 20 Jan 2017 14:37:10 +0100
+In-Reply-To: <1484846629.23233.83.camel@intel.com>
+References: <1483977580-11236-1-git-send-email-ross.burton@intel.com>
+	<1484846629.23233.83.camel@intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] flex: upgrade to 2.6.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,63 +61,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 13:36:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 20 Jan 2017 13:37:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jan 15, 2017 at 7:41 PM, Juro Bystricky
-<juro.bystricky@intel.com> wrote:
-> Presently there is no check to verify the existence of configuration
-> files as listed in BBMULTICONFIG.
-> For example, BBMULTICONFIG = "foobar" in local.conf does not trigger
-> an error or even a warning when there is no conf/multiconfig/foobar.conf.
-> The missing file is silently ignored.
->
-> This patch changes the inclusion of all multiconfig configuration files as
-> a non-optional requirement. If the file is missing, we get an error such as:
->
-> ERROR: ParseError at /data/master-multi/poky/meta/conf/bitbake.conf:704: Could not include required file conf/multiconfig/foobar.conf
->
-> Although the "default" configuration is not listed in BBMULTICONFIG,
-> this change also requires the file multiconfig/default.conf to exist.
-> The "default" (non-multiconfig) configuration is normally configured via local.conf,
-> so although this file is required, it can/should be empty. This patch creates
-> an empty file default.conf in meta/conf/multiconfig.
->
-> [YOCTO#10917]
->
-> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-> ---
->  meta/conf/bitbake.conf             | 2 +-
->  meta/conf/multiconfig/default.conf | 0
->  2 files changed, 1 insertion(+), 1 deletion(-)
->  create mode 100644 meta/conf/multiconfig/default.conf
->
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 40efb95..c8516a8 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -701,7 +701,7 @@ require conf/abi_version.conf
->  include conf/site.conf
->  include conf/auto.conf
->  include conf/local.conf
-> -include conf/multiconfig/${BB_CURRENT_MC}.conf
-> +require conf/multiconfig/${BB_CURRENT_MC}.conf
->  include conf/build/${BUILD_SYS}.conf
->  include conf/target/${TARGET_SYS}.conf
->  include conf/machine/${MACHINE}.conf
-> diff --git a/meta/conf/multiconfig/default.conf b/meta/conf/multiconfig/default.conf
-> new file mode 100644
-> index 0000000..e69de29
-> --
-> 2.7.4
->
-This makes multiconfig mandatory for me:
+On Thu, 2017-01-19 at 18:23 +0100, Patrick Ohly wrote:
+> Perhaps someone with more knowledge about flex can provide some
+> guidance?
+> 
+> Fathi, is that something that you or upstream have come across?
 
-| ERROR: ParseError at
-/home/superandy/oe-core/sources/openembedded-core/meta/conf/bitbake.conf:704:
-Could not include required file conf/multiconfig/${BB_CURRENT_MC}.conf
+After looking into this some more I've come to the conclusion that this
+looks like a bug in flex, so I have filed
+https://github.com/westes/flex/issues/164
 
-What am I missing - e.g bitbake update?
+I also have a workaround for acpica, which I am going to add to V3 of
+the UEFI/OVMF patch series.
 
-Andreas
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
+
 
