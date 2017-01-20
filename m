@@ -1,47 +1,52 @@
-Return-Path: <ticotimo@gmail.com>
-Received: from mail-ua0-f169.google.com (mail-ua0-f169.google.com
-	[209.85.217.169])
-	by mail.openembedded.org (Postfix) with ESMTP id BDA02731C2
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 09984731C2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 14:53:03 +0000 (UTC)
-Received: by mail-ua0-f169.google.com with SMTP id i68so62342671uad.0
+	Fri, 20 Jan 2017 14:54:09 +0000 (UTC)
+Received: by mail-io0-f171.google.com with SMTP id l66so63026537ioi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 06:53:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=KWuBA5Mg+ZgFESDzjy/rw6gFDhq+c3oqrUEI1GF2Qec=;
-	b=TiaHJ/hMURNPrmbGqV3aPyFEATPQke7SggM0uIUk0Vs7HP8NH2j1QeTqTpK8wZaDAW
-	Y5JEvXLEVnSoqWN58ss5tWuao/UlpEEoXhvL8rLuCc3+afxQKXQqi1BRJkWKNiNFt69c
-	ZKbOyn5dwfylbQYCSh4Mxg7Q+AX9K8ImFr+yL2IjUKaiMWhyVjZ2pcHRNKwHvVOc1kLE
-	yGO6f9GOKu+dhPu+sH3nCEeH0k++D3sb17/CSvcItQixXWzXbEEogwkoe++v9JFVQWW8
-	g1KwgOktSrdQ6whjBn8ULQVyEUVXtPwQABrpNb1cfnHcbMaCh4zsRTYWmiI95axLG2v/
-	JRWw==
+	Fri, 20 Jan 2017 06:54:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=+iN4jjAHGkoCVcqihXNSxmcas8duk/wsNE6fRHxFV/0=;
+	b=KlbLwGZTk2tv/dpYM+EuqA6cmrnXRCk0RfmAzdei8Zbu2A/QQzLnH8S4Ka+R31xW6w
+	kFW07V1y6rsntLoqQJ9qEbtKmw3eXbqZ9TA7lQrwGSA6ghh569uR+DQeFUXsASGben2D
+	l4FrEGUIPHBIFE3tk9MLS8f4g3mK514I7z+/aBpnTbtCRsWb+du+cOs/niA+IkaeuopY
+	5XBfG5ITHGhDPCvM1ByUkahcElkanKiPqLLwmNj6CZbmAf2yQPtEisbYrIADj2k2nXa+
+	AMx1Y68VGHijOBSzuwtHgy3l763ckiKs28esNInb3uQ61UCQBVfJCPOHBnZDNWrIlOOe
+	vQ6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=KWuBA5Mg+ZgFESDzjy/rw6gFDhq+c3oqrUEI1GF2Qec=;
-	b=SAr6FU+WYVF2JwtuHwyOQ5UqwYPhWlT0uHRxJ1XVRYTCXeDP8IreLfRFJ5ALMvWF0D
-	kJEcKIv7FDYDW4eBGV421a81SNrDp27NaZ10phhm1vA0GZDJ8khqD6lrxbgG1XtZSzNd
-	pIPx52LlcBARibWTbhdYdF+2VLvCEQI6pLyPGvhem8wxyDEzY4u1nSfEPoVGZQN+RJ3C
-	cfv1uN609BxaEjxXs0V07nO0mbTtlJGI7aCgwrJUaGcbkmgNji4/5ERkdkqijxJ4JjRm
-	DPz9d4yYv92y00t+wLi4gkwupuPSE2P8PW0NXzoJ3HWb0w0D9qF7RC04fspbduuR6qRy
-	6n/g==
-X-Gm-Message-State: AIkVDXJM4/zA7kE7zQf89QyV8Y5CfTs21Tasn8A2LjcTunZxD54ivFLvTMxY1VLlNN6t/vwIZ6GZ9TbO32wSJQ==
-X-Received: by 10.176.91.155 with SMTP id y27mr8333285uae.151.1484923984113;
-	Fri, 20 Jan 2017 06:53:04 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.31.159.149 with HTTP; Fri, 20 Jan 2017 06:53:03 -0800 (PST)
-In-Reply-To: <alpine.LFD.2.20.1701200648260.13268@uk63952.mitel.com>
-References: <alpine.LFD.2.20.1612201321490.5281@localhost.localdomain>
-	<CAJTo0LbWx_xHVAL9O9xVRybW8tZY9a0uDVVArOMzfB1s5R0qwg@mail.gmail.com>
-	<alpine.LFD.2.20.1701200648260.13268@uk63952.mitel.com>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Fri, 20 Jan 2017 06:53:03 -0800
-Message-ID: <CANx9H-CJSSWta6gZaeQ_6hHh3WP1VeDFN5hCzW8tPmk7GJbB1g@mail.gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: $50 bounty for an OE recipe for libfilesys-smbclient-perl. seriously.
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=+iN4jjAHGkoCVcqihXNSxmcas8duk/wsNE6fRHxFV/0=;
+	b=YhSy2UDQstmG6LUTjrlPTtPvChXdg/rEtfUC50jGD0S5X2Rk5u6NordFyLMxM9Qoal
+	ZIT+SKYzvB1ZpZ4kW0kRUerESrdX7THvaW7gsZ5JxWS8Y68oP87j6MOSAdwt/k1Omi84
+	D7tQ7uj4kaWbC4i+kSD6pYmDJSAqUtuMwOWV/xLuv2zRIsMF/H0W2mEG01/hgcKUBoO0
+	1tXZzhitWi2AZR98sVCc5BkbbffxfzH72lJgZu3Lz8RX0R/Mlf/X2phuLwIiAq1N0d3r
+	tv26XfatFzUJ5EOPS7LcGc3giCjHl3BFT61aakEu9eet0uw5/OwKjXlbf8diKZhE/CrQ
+	dCJA==
+X-Gm-Message-State: AIkVDXIbj+AcHMEpNHBnb2LfRTPsb+v7GU93IG8aFGARnWmLDI8pwoU57ssyulkln2gDK/8F
+X-Received: by 10.107.130.35 with SMTP id e35mr15069798iod.7.1484924049588;
+	Fri, 20 Jan 2017 06:54:09 -0800 (PST)
+Received: from pohly-mobl1 (p57A56DD5.dip0.t-ipconnect.de. [87.165.109.213])
+	by smtp.gmail.com with ESMTPSA id u63sm1471084ita.1.2017.01.20.06.54.07
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 20 Jan 2017 06:54:08 -0800 (PST)
+Message-ID: <1484924046.23233.126.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Jan 2017 15:54:06 +0100
+In-Reply-To: <ef36ec5c696cc690af21e560c82924e5dab51a1e.1484921498.git-series.patrick.ohly@intel.com>
+References: <cover.bbc01c1227afdba3edc41dc7d7356f56e51be400.1484921498.git-series.patrick.ohly@intel.com>
+	<ef36ec5c696cc690af21e560c82924e5dab51a1e.1484921498.git-series.patrick.ohly@intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Subject: Re: [PATCH v4 02/12] acpica: work around flex 2.6.2 code generation issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,136 +59,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 14:53:05 -0000
-Content-Type: multipart/alternative; boundary=f403045f8ec8977567054687cee3
+X-List-Received-Date: Fri, 20 Jan 2017 14:54:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---f403045f8ec8977567054687cee3
-Content-Type: text/plain; charset=UTF-8
+On Fri, 2017-01-20 at 15:12 +0100, Patrick Ohly wrote:
+> Without this patch, linking fails with a missing implementation of
+> yy_scan_string. This looks like a regression in flex, because 2.6.0 generated
+> different code that called PrParser_scan_string
+> resp. DtParser_scan_string.
+> 
+> Working around that in acpica until this is better understood or fixed
+> in flex is the easiest solution for now.
 
-On Fri, Jan 20, 2017 at 3:52 AM, Robert P. J. Day <rpjday@crashcourse.ca>
-wrote:
+It turned out that flex 2.6.3 has a fix for the problem. But the github
+issue tracker for flex has several people who reported issues with 2.6.3
+(affecting gdb, binutils, grub) that we probably should wait a bit
+before trying to update to that release.
 
->
->   the earlier note from ross i had totally forgotten about ...
->
-> On Tue, 20 Dec 2016, Burton, Ross wrote:
->
-> > FWIW I had a quick look at this.  I'm certainly no perl guru and can
-> > barely understand it, but it does *so much* wrong that if you really
-> > need this then it would be easier to just rewrite the makefile.pl
-> > from scratch.  Once you remove the hunting for the headers in the
-> > wrong place, it then invokes an autoconf script...  which needs to
-> > be passed the right options.
-> >
-> > Do you really need this module?  It's not been updated for many
-> > years, so surely there's something better.
->
->   and that's the question ... is there something better? is there not
-> a single person who needs this feature in their OE/YP build? perhaps
-> not. maybe i really do need to hire a contractor to take care of this.
->
->
-In my mind the question is deeper than that. The question is "is there not
-a single person who needs this feature in perl?". The upstream is the
-problem. It is just not ready to cross-compile.
+-- 
+Best Regards, Patrick Ohly
 
---Tim
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
-> rday
->
-> --
->
-> ========================================================================
-> Robert P. J. Day                                 Ottawa, Ontario, CANADA
->                         http://crashcourse.ca
->
-> Twitter:                                       http://twitter.com/rpjday
-> LinkedIn:                               http://ca.linkedin.com/in/rpjday
-> ========================================================================
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---f403045f8ec8977567054687cee3
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Fri, Jan 20, 2017 at 3:52 AM, Robert P. J. Day <span dir=3D"ltr">&lt=
-;<a href=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcou=
-rse.ca</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-=C2=A0 the earlier note from ross i had totally forgotten about ...<br>
-<span class=3D""><br>
-On Tue, 20 Dec 2016, Burton, Ross wrote:<br>
-<br>
-</span><span class=3D"">&gt; FWIW I had a quick look at this.=C2=A0 I&#39;m=
- certainly no perl guru and can<br>
-&gt; barely understand it, but it does *so much* wrong that if you really<b=
-r>
-&gt; need this then it would be easier to just rewrite the <a href=3D"http:=
-//makefile.pl" rel=3D"noreferrer" target=3D"_blank">makefile.pl</a><br>
-&gt; from scratch.=C2=A0 Once you remove the hunting for the headers in the=
-<br>
-&gt; wrong place, it then invokes an autoconf script...=C2=A0 which needs t=
-o<br>
-&gt; be passed the right options.<br>
-&gt;<br>
-&gt; Do you really need this module?=C2=A0 It&#39;s not been updated for ma=
-ny<br>
-&gt; years, so surely there&#39;s something better.<br>
-<br>
-</span>=C2=A0 and that&#39;s the question ... is there something better? is=
- there not<br>
-a single person who needs this feature in their OE/YP build? perhaps<br>
-not. maybe i really do need to hire a contractor to take care of this.<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br></div></div></blockquote><div><=
-br></div><div>In my mind the question is deeper than that. The question is =
-&quot;is there not</div><div>a single person who needs this feature in perl=
-?&quot;. The upstream is the</div><div>problem. It is just not ready to cro=
-ss-compile.</div><div><br></div><div>--Tim=C2=A0</div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex"><div class=3D"HOEnZb"><div class=3D"h5">
-rday<br>
-<br>
---<br>
-<br>
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D<br>
-Robert P. J. Day=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Ottawa, Ontario,=
- CANADA<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 <a href=3D"http://crashcourse.ca" rel=3D"noreferrer" target=3D"_=
-blank">http://crashcourse.ca</a><br>
-<br>
-Twitter:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a=
- href=3D"http://twitter.com/rpjday" rel=3D"noreferrer" target=3D"_blank">ht=
-tp://twitter.com/rpjday</a><br>
-LinkedIn:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://ca.linkedin.=
-com/in/rpjday" rel=3D"noreferrer" target=3D"_blank">http://ca.linkedin.com/=
-in/<wbr>rpjday</a><br>
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</div></div></blockquote></div><br></div></div>
 
---f403045f8ec8977567054687cee3--
