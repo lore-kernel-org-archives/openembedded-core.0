@@ -1,30 +1,21 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EDA27727F
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 5571A7727F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 18:07:17 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0KI5EYp019639; Fri, 20 Jan 2017 18:05:16 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id TLtXNJySfJyh; Fri, 20 Jan 2017 18:05:16 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0KI5A0M019621
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 20 Jan 2017 18:05:11 GMT
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1cUdYk-0000uj-JU; Fri, 20 Jan 2017 18:05:10 +0000
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 20 Jan 2017 18:10:28 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga105.fm.intel.com with ESMTP; 20 Jan 2017 10:10:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,259,1477983600"; d="scan'208";a="55403049"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.143])
+	by orsmga005.jf.intel.com with ESMTP; 20 Jan 2017 10:10:04 -0800
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2017 18:05:01 +0000
-Message-Id: <1484935506-3419-9-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1484935506-3419-1-git-send-email-richard.purdie@linuxfoundation.org>
-References: <1484935506-3419-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 09/14] wic: fixed test_iso_image test case
+Date: Fri, 20 Jan 2017 12:12:59 -0600
+Message-Id: <1484935979-328-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+MIME-Version: 1.0
+Subject: [PATCHv2] qemu: Upgrade to 2.7.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,57 +28,276 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 18:07:18 -0000
+X-List-Received-Date: Fri, 20 Jan 2017 18:10:29 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+Minor upgrade contains fixes from 2.7.0.
 
-Fixed isoimage-isohybrid plulgin and correspondent wic tet case:
-- used wic-tools target when getting varlue of STAGING_LIBDIR variable
-- ensured that image is built with efi and hddimg enabled
+Removed patches (already in upstream):
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+- 0001-pci-assign-sync-MSI-MSI-X-cap-and-table-with-PCIDevi.patch
+- 0001-virtio-zero-vq-inuse-in-virtio_reset.patch
+- 0002-fix-CVE-2016-7423.patch
+
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/wic.py                        | 4 ++++
- scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 5 +----
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc                |  6 +-
+ ...sync-MSI-MSI-X-cap-and-table-with-PCIDevi.patch | 71 ----------------------
+ ...0001-virtio-zero-vq-inuse-in-virtio_reset.patch | 57 -----------------
+ .../qemu/qemu/0002-fix-CVE-2016-7423.patch         | 45 --------------
+ .../qemu/{qemu_2.7.0.bb => qemu_2.7.1.bb}          |  7 ---
+ 5 files changed, 4 insertions(+), 182 deletions(-)
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/0001-pci-assign-sync-MSI-MSI-X-cap-and-table-with-PCIDevi.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/0001-virtio-zero-vq-inuse-in-virtio_reset.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/0002-fix-CVE-2016-7423.patch
+ rename meta/recipes-devtools/qemu/{qemu_2.7.0.bb => qemu_2.7.1.bb} (66%)
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index 6a61ba6..14109c4 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -149,6 +149,10 @@ class Wic(oeSelfTest):
-     @testcase(1346)
-     def test_iso_image(self):
-         """Test creation of hybrid iso image with legacy and EFI boot"""
-+        config = 'IMAGE_FSTYPES += " hddimg "\nMACHINE_FEATURES_append = " efi"\n'
-+        self.append_config(config)
-+        bitbake('core-image-minimal')
-+        self.remove_config(config)
-         cmd = "wic create mkhybridiso --image-name core-image-minimal"
-         self.assertEqual(0, runCmd(cmd).status)
-         self.assertEqual(1, len(glob(self.resultdir + "HYBRID_ISO_IMG-*.direct")))
-diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-index 15fd858..a8a5dc0 100644
---- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-+++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-@@ -336,15 +336,12 @@ class IsoImagePlugin(SourcePlugin):
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index b46e7f7..0d91fde 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -9,12 +9,11 @@ require qemu-targets.inc
+ inherit autotools ptest
+ BBCLASSEXTEND = "native nativesdk"
  
-                 if not os.path.isfile("%s/EFI/BOOT/%s" \
-                                 % (bootimg_dir, grub_image)):
--                    grub_path = get_bitbake_var("STAGING_LIBDIR")
-+                    grub_path = get_bitbake_var("STAGING_LIBDIR", "wic-tools")
-                     if not grub_path:
-                         msger.error("Couldn't find STAGING_LIBDIR, exiting.\n")
+-PR = "r1"
+-
+ # QEMU_TARGETS is overridable variable
+ QEMU_TARGETS ?= "arm aarch64 i386 mips mipsel mips64 mips64el ppc sh4 x86_64"
  
-                     grub_core = "%s/grub/%s" % (grub_path, grub_target)
-                     if not os.path.exists(grub_core):
--                        msger.info("Building grub-efi...\n")
--                        exec_cmd("bitbake grub-efi")
--                    if not os.path.exists(grub_core):
-                         msger.error("Please build grub-efi first\n")
+ SRC_URI = "\
++    http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
+     file://powerpc_rom.bin \
+     file://disable-grabs.patch \
+     file://exclude-some-arm-EABI-obsolete-syscalls.patch \
+@@ -24,6 +23,9 @@ SRC_URI = "\
+     file://0001-target-mips-add-24KEc-CPU-definition.patch \
+     "
  
-                     grub_cmd = "grub-mkimage -p '/EFI/BOOT' "
++SRC_URI[md5sum] = "a315bc51ed443a08d2cf1416d76b9ab4"
++SRC_URI[sha256sum] = "68636788eb69bcb0b44ba220b32b50495d6bd5712a934c282217831c4822958f"
++
+ SRC_URI_append_class-native = "\
+     file://fix-libcap-header-issue-on-some-distro.patch \
+     file://cpus.c-qemu_cpu_kick_thread_debugging.patch \
+diff --git a/meta/recipes-devtools/qemu/qemu/0001-pci-assign-sync-MSI-MSI-X-cap-and-table-with-PCIDevi.patch b/meta/recipes-devtools/qemu/qemu/0001-pci-assign-sync-MSI-MSI-X-cap-and-table-with-PCIDevi.patch
+deleted file mode 100644
+index 03472dd..0000000
+--- a/meta/recipes-devtools/qemu/qemu/0001-pci-assign-sync-MSI-MSI-X-cap-and-table-with-PCIDevi.patch
++++ /dev/null
+@@ -1,71 +0,0 @@
+-From 6baa545df93253fced4fc0d52b14b98447e00473 Mon Sep 17 00:00:00 2001
+-From: Peter Xu <peterx@redhat.com>
+-Date: Mon, 28 Nov 2016 15:02:44 +0800
+-Subject: [PATCH] pci-assign: sync MSI/MSI-X cap and table with PCIDevice
+-
+-Since commit e1d4fb2d ("kvm-irqchip: x86: add msi route notify fn"),
+-kvm_irqchip_add_msi_route() starts to use pci_get_msi_message() to fetch
+-MSI info. This requires that we setup MSI related fields in PCIDevice.
+-For most devices, that won't be a problem, as long as we are using
+-general interfaces like msi_init()/msix_init().
+-
+-However, for pci-assign devices, MSI/MSI-X is treated differently - PCI
+-assign devices are maintaining its own MSI table and cap information in
+-AssignedDevice struct. however that's not synced up with PCIDevice's
+-fields. That will leads to pci_get_msi_message() failed to find correct
+-MSI capability, even with an NULL msix_table.
+-
+-A quick fix is to sync up the two places: both the capability bits and
+-table address for MSI/MSI-X.
+-
+-Upstream-Status: Backport [https://lists.gnu.org/archive/html/qemu-devel/2016-11/msg04649.html]
+-
+-Reported-by: Changlimin <address@hidden>
+-Tested-by: Changlimin <address@hidden>
+-Cc: address@hidden
+-Fixes: e1d4fb2d ("kvm-irqchip: x86: add msi route notify fn")
+-Signed-off-by: Peter Xu <address@hidden>
+-Signed-off-by: He Zhe <zhe.he@windriver.com>
+----
+- hw/i386/kvm/pci-assign.c | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/hw/i386/kvm/pci-assign.c b/hw/i386/kvm/pci-assign.c
+-index 8238fbc..87dcbdd 100644
+---- a/hw/i386/kvm/pci-assign.c
+-+++ b/hw/i386/kvm/pci-assign.c
+-@@ -1251,6 +1251,7 @@ static int assigned_device_pci_cap_init(PCIDevice *pci_dev, Error **errp)
+-             error_propagate(errp, local_err);
+-             return -ENOTSUP;
+-         }
+-+        dev->dev.cap_present |= QEMU_PCI_CAP_MSI;
+-         dev->cap.available |= ASSIGNED_DEVICE_CAP_MSI;
+-         /* Only 32-bit/no-mask currently supported */
+-         ret = pci_add_capability2(pci_dev, PCI_CAP_ID_MSI, pos, 10,
+-@@ -1285,6 +1286,7 @@ static int assigned_device_pci_cap_init(PCIDevice *pci_dev, Error **errp)
+-             error_propagate(errp, local_err);
+-             return -ENOTSUP;
+-         }
+-+        dev->dev.cap_present |= QEMU_PCI_CAP_MSIX;
+-         dev->cap.available |= ASSIGNED_DEVICE_CAP_MSIX;
+-         ret = pci_add_capability2(pci_dev, PCI_CAP_ID_MSIX, pos, 12,
+-                                   &local_err);
+-@@ -1648,6 +1650,7 @@ static void assigned_dev_register_msix_mmio(AssignedDevice *dev, Error **errp)
+-         dev->msix_table = NULL;
+-         return;
+-     }
+-+    dev->dev.msix_table = (uint8_t *)dev->msix_table;
+- 
+-     assigned_dev_msix_reset(dev);
+- 
+-@@ -1665,6 +1668,7 @@ static void assigned_dev_unregister_msix_mmio(AssignedDevice *dev)
+-         error_report("error unmapping msix_table! %s", strerror(errno));
+-     }
+-     dev->msix_table = NULL;
+-+    dev->dev.msix_table = NULL;
+- }
+- 
+- static const VMStateDescription vmstate_assigned_device = {
+--- 
+-2.8.3
+-
+diff --git a/meta/recipes-devtools/qemu/qemu/0001-virtio-zero-vq-inuse-in-virtio_reset.patch b/meta/recipes-devtools/qemu/qemu/0001-virtio-zero-vq-inuse-in-virtio_reset.patch
+deleted file mode 100644
+index 86955d0..0000000
+--- a/meta/recipes-devtools/qemu/qemu/0001-virtio-zero-vq-inuse-in-virtio_reset.patch
++++ /dev/null
+@@ -1,57 +0,0 @@
+-Upstream-Status: Backport
+-
+-Supplementary fix of CVE-2016-5403 which is backported from:
+-
+-http://git.qemu.org/?p=qemu.git;a=commit;h=4b7f91e
+-
+-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+----
+-From 4b7f91ed0270a371e1933efa21ba600b6da23ab9 Mon Sep 17 00:00:00 2001
+-From: Stefan Hajnoczi <stefanha@redhat.com>
+-Date: Wed, 7 Sep 2016 11:51:25 -0400
+-Subject: [PATCH] virtio: zero vq->inuse in virtio_reset()
+-
+-vq->inuse must be zeroed upon device reset like most other virtqueue
+-fields.
+-
+-In theory, virtio_reset() just needs assert(vq->inuse == 0) since
+-devices must clean up in-flight requests during reset (requests cannot
+-not be leaked!).
+-
+-In practice, it is difficult to achieve vq->inuse == 0 across reset
+-because balloon, blk, 9p, etc implement various different strategies for
+-cleaning up requests.  Most devices call g_free(elem) directly without
+-telling virtio.c that the VirtQueueElement is cleaned up.  Therefore
+-vq->inuse is not decremented during reset.
+-
+-This patch zeroes vq->inuse and trusts that devices are not leaking
+-VirtQueueElements across reset.
+-
+-I will send a follow-up series that refactors request life-cycle across
+-all devices and converts vq->inuse = 0 into assert(vq->inuse == 0) but
+-this more invasive approach is not appropriate for stable trees.
+-
+-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+-Cc: qemu-stable <qemu-stable@nongnu.org>
+-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+-Reviewed-by: Ladi Prosek <lprosek@redhat.com>
+----
+- hw/virtio/virtio.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+-index 74c085c..e8a13a5 100644
+---- a/hw/virtio/virtio.c
+-+++ b/hw/virtio/virtio.c
+-@@ -822,6 +822,7 @@ void virtio_reset(void *opaque)
+-         vdev->vq[i].signalled_used_valid = false;
+-         vdev->vq[i].notification = true;
+-         vdev->vq[i].vring.num = vdev->vq[i].vring.num_default;
+-+        vdev->vq[i].inuse = 0;
+-     }
+- }
+- 
+--- 
+-2.9.3
+-
+diff --git a/meta/recipes-devtools/qemu/qemu/0002-fix-CVE-2016-7423.patch b/meta/recipes-devtools/qemu/qemu/0002-fix-CVE-2016-7423.patch
+deleted file mode 100644
+index fdf58a3..0000000
+--- a/meta/recipes-devtools/qemu/qemu/0002-fix-CVE-2016-7423.patch
++++ /dev/null
+@@ -1,45 +0,0 @@
+-Upstream-Status: Backport
+-
+-Backport patch to fix CVE-2016-7423 from:
+-
+-http://git.qemu.org/?p=qemu.git;a=commit;h=670e56d3ed
+-
+-CVE: CVE-2016-7423
+-
+-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+----
+-From 670e56d3ed2918b3861d9216f2c0540d9e9ae0d5 Mon Sep 17 00:00:00 2001
+-From: Li Qiang <liqiang6-s@360.cn>
+-Date: Mon, 12 Sep 2016 18:14:11 +0530
+-Subject: [PATCH] scsi: mptsas: use g_new0 to allocate MPTSASRequest object
+-
+-When processing IO request in mptsas, it uses g_new to allocate
+-a 'req' object. If an error occurs before 'req->sreq' is
+-allocated, It could lead to an OOB write in mptsas_free_request
+-function. Use g_new0 to avoid it.
+-
+-Reported-by: Li Qiang <liqiang6-s@360.cn>
+-Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+-Message-Id: <1473684251-17476-1-git-send-email-ppandit@redhat.com>
+-Cc: qemu-stable@nongnu.org
+-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+----
+- hw/scsi/mptsas.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
+-index 0e0a22f..eaae1bb 100644
+---- a/hw/scsi/mptsas.c
+-+++ b/hw/scsi/mptsas.c
+-@@ -304,7 +304,7 @@ static int mptsas_process_scsi_io_request(MPTSASState *s,
+-         goto bad;
+-     }
+- 
+--    req = g_new(MPTSASRequest, 1);
+-+    req = g_new0(MPTSASRequest, 1);
+-     QTAILQ_INSERT_TAIL(&s->pending, req, next);
+-     req->scsi_io = *scsi_io;
+-     req->dev = s;
+--- 
+-2.9.3
+-
+diff --git a/meta/recipes-devtools/qemu/qemu_2.7.0.bb b/meta/recipes-devtools/qemu/qemu_2.7.1.bb
+similarity index 66%
+rename from meta/recipes-devtools/qemu/qemu_2.7.0.bb
+rename to meta/recipes-devtools/qemu/qemu_2.7.1.bb
+index 0d680a7..387eee1 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.7.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.7.1.bb
+@@ -9,17 +9,10 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+             file://no-valgrind.patch \
+             file://pathlimit.patch \
+             file://qemu-2.5.0-cflags.patch \
+-            file://0001-virtio-zero-vq-inuse-in-virtio_reset.patch \
+-            file://0002-fix-CVE-2016-7423.patch \
+             file://0003-fix-CVE-2016-7908.patch \
+             file://0004-fix-CVE-2016-7909.patch \
+-            file://0001-pci-assign-sync-MSI-MSI-X-cap-and-table-with-PCIDevi.patch \
+ "
+ 
+-SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+-SRC_URI[md5sum] = "08d4d06d1cb598efecd796137f4844ab"
+-SRC_URI[sha256sum] = "326e739506ba690daf69fc17bd3913a6c313d9928d743bd8eddb82f403f81e53"
+-
+ COMPATIBLE_HOST_mipsarchn32 = "null"
+ COMPATIBLE_HOST_mipsarchn64 = "null"
+ 
 -- 
-2.7.4
+2.1.4
 
 
