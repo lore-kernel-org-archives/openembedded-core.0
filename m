@@ -1,31 +1,36 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 17A936093A
+Return-Path: <tanuk@iki.fi>
+X-Greylist: delayed 567 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 20 Jan 2017 09:36:03 UTC
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+	[66.111.4.25])
+	by mail.openembedded.org (Postfix) with ESMTP id A03CC71E30
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 07:13:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v0K7DFkQ015697
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 19 Jan 2017 23:13:15 -0800 (PST)
-Received: from [128.224.162.211] (128.224.162.211) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 19 Jan 2017 23:13:15 -0800
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>, "Burton, Ross"
-	<ross.burton@intel.com>
-References: <cover.1484819263.git.dengke.du@windriver.com>
-	<5f146756851fbbddb0b37c85b2705857495d38e0.1484819263.git.dengke.du@windriver.com>
-	<CAJTo0LbhNAXNKTYX8CwFYvXGbjthTpsVQ-ddsO7Za6E0tfW0iQ@mail.gmail.com>
-	<CAHiDW_FMcOb2-Rmh0bgJ7jksK47WUDxNzZwGJHG42Tp0QE08yw@mail.gmail.com>
-From: Dengke Du <dengke.du@windriver.com>
-Message-ID: <0901b20b-af67-9e20-5b66-63a36d7779c8@windriver.com>
-Date: Fri, 20 Jan 2017 15:13:13 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.1
-MIME-Version: 1.0
-In-Reply-To: <CAHiDW_FMcOb2-Rmh0bgJ7jksK47WUDxNzZwGJHG42Tp0QE08yw@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] openssh: upgrade to 7.4p1
+	Fri, 20 Jan 2017 09:36:03 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id E8C2B2073F
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jan 2017 04:26:35 -0500 (EST)
+Received: from frontend1 ([10.202.2.160])
+	by compute5.internal (MEProxy); Fri, 20 Jan 2017 04:26:35 -0500
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=date:from:message-id:subject:to
+	:x-me-sender:x-me-sender:x-sasl-enc:x-sasl-enc; s=smtpout; bh=Uf
+	CkoHEl6kkYbtA6BksCyJ4n4l8=; b=AqfDbxo/JOfd3+sTDafJBmzTA88xHZOJtN
+	8qIyWWZpqxuIv4Hoc8/KU2ZV1MtV8/XMmwYKHVmarf2aFiDEwRyCbl/uZd4laTyz
+	8WS3u3QdZNJ3e6Wh/8quv8lqxByuHP/ytp1T7KnhDoeApHvMV3akE86YOMrp8L+O
+	cZFwSdtqM=
+X-ME-Sender: <xms:y9eBWKcsdzUH5h69enb3LFIjsd60k0aQPxOxKyjS95XYs3PL-sO8xQ>
+X-Sasl-enc: ikDgC7yC4gy3moAOKLab3b8XXFik2wl3Btp4urgjr93A 1484904395
+Received: from localhost.localdomain (unknown [192.40.95.5])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 618937EA6A
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jan 2017 04:26:35 -0500 (EST)
+From: Tanu Kaskinen <tanuk@iki.fi>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Jan 2017 11:26:28 +0200
+Message-Id: <20170120092629.15146-1-tanuk@iki.fi>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/2] alsa-tools: 1.1.0 -> 1.1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,175 +43,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 07:13:17 -0000
-Content-Type: multipart/alternative;
-	boundary="------------0DD8F8556C3EF5DDFF7F85CB"
+X-List-Received-Date: Fri, 20 Jan 2017 09:36:04 -0000
 
---------------0DD8F8556C3EF5DDFF7F85CB
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Drop 0001-Cus428Midi-Explicitly-cast-constant-to-char-type.patch,
+because the new release has an equivalent fix (and that's actually the
+only change in the new release).
 
-Hi Jussi
+Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
+---
+ ...idi-Explicitly-cast-constant-to-char-type.patch | 75 ----------------------
+ .../{alsa-tools_1.1.0.bb => alsa-tools_1.1.3.bb}   |  5 +-
+ 2 files changed, 2 insertions(+), 78 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/alsa/alsa-tools/0001-Cus428Midi-Explicitly-cast-constant-to-char-type.patch
+ rename meta/recipes-multimedia/alsa/{alsa-tools_1.1.0.bb => alsa-tools_1.1.3.bb} (87%)
 
-The remaining patch are still useful, I just rebase those patchs on 
-version 74.p1. I will explain it.
+diff --git a/meta/recipes-multimedia/alsa/alsa-tools/0001-Cus428Midi-Explicitly-cast-constant-to-char-type.patch b/meta/recipes-multimedia/alsa/alsa-tools/0001-Cus428Midi-Explicitly-cast-constant-to-char-type.patch
+deleted file mode 100644
+index bf95cac440..0000000000
+--- a/meta/recipes-multimedia/alsa/alsa-tools/0001-Cus428Midi-Explicitly-cast-constant-to-char-type.patch
++++ /dev/null
+@@ -1,75 +0,0 @@
+-From 1cc0aa4dbd3c7f1267809e0e1ca57d46f4803bfd Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sun, 17 Apr 2016 23:25:18 +0000
+-Subject: [PATCH] Cus428Midi: Explicitly cast constant to char type
+-
+-This is flagged by gcc6
+-Cus428Midi.cc:83:1: error: narrowing conversion of '-1' from 'int' to 'char' inside { } [-Wnarrowing]
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+-Upstream-Status: Pending
+-
+- us428control/Cus428Midi.cc | 30 +++++++++++++++---------------
+- 1 file changed, 15 insertions(+), 15 deletions(-)
+-
+-diff --git a/us428control/Cus428Midi.cc b/us428control/Cus428Midi.cc
+-index b9e6783..bef7bb1 100644
+---- a/us428control/Cus428Midi.cc
+-+++ b/us428control/Cus428Midi.cc
+-@@ -32,22 +32,22 @@ char Cus428Midi::KnobParam[] = {
+- 	0x2A,
+- 	0x29,
+- 	0x28,
+--	-1,
+-+	static_cast<char>(-1),
+- 	0x10,
+- 	0x11,
+- 	0x18,
+- 	0x19,
+- 	0x1A,
+--	-1,
+--	-1,
+--	-1,
+--	-1,
+-+	static_cast<char>(-1),
+-+	static_cast<char>(-1),
+-+	static_cast<char>(-1),
+-+	static_cast<char>(-1),
+- 	0x2C,
+- 	0x2D,
+- 	0x2E,
+- 	0x2F,
+--	-1,
+--	-1,
+-+	static_cast<char>(-1),
+-+	static_cast<char>(-1),
+- 	0x20,
+- 	0x21,
+- 	0x22,
+-@@ -64,14 +64,14 @@ char Cus428Midi::KnobParam[] = {
+- 	5,
+- 	6,
+- 	7,
+--	-1,
+--	-1,
+--	-1,
+--	-1,
+--	-1,
+--	-1,
+--	-1,
+--	-1,
+-+	static_cast<char>(-1),
+-+	static_cast<char>(-1),
+-+	static_cast<char>(-1),
+-+	static_cast<char>(-1),
+-+	static_cast<char>(-1),
+-+	static_cast<char>(-1),
+-+	static_cast<char>(-1),
+-+	static_cast<char>(-1),
+- 	0x30,
+- 	0x31,
+- 	0x32,
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.1.0.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.1.3.bb
+similarity index 87%
+rename from meta/recipes-multimedia/alsa/alsa-tools_1.1.0.bb
+rename to meta/recipes-multimedia/alsa/alsa-tools_1.1.3.bb
+index 8d4a146580..1955fec618 100644
+--- a/meta/recipes-multimedia/alsa/alsa-tools_1.1.0.bb
++++ b/meta/recipes-multimedia/alsa/alsa-tools_1.1.3.bb
+@@ -13,11 +13,10 @@ SRC_URI = "ftp://ftp.alsa-project.org/pub/tools/${BP}.tar.bz2 \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'file://makefile_no_gtk.patch', d)} \
+            file://gitcompile_hdajacksensetest \
+            file://0001-as10k1-Make-output_tram_line-static-inline.patch \
+-           file://0001-Cus428Midi-Explicitly-cast-constant-to-char-type.patch \
+            "
+ 
+-SRC_URI[md5sum] = "b476a5afaa3ea3230855553ad59d259d"
+-SRC_URI[sha256sum] = "7d34558c590a50294b36576d257316a1ac5cd951eb8cd7d330e09f8cc757ab51"
++SRC_URI[md5sum] = "b23eaae687d55410b92587c2053b301f"
++SRC_URI[sha256sum] = "d88f1dcd6872121383eded5fa24e328e68c54e527db4547e1435d5eabc2b6709"
+ 
+ inherit autotools-brokensep pkgconfig
+ 
+-- 
+2.11.0
 
-Thanks.
 
-
-On 2017年01月19日 20:32, Jussi Kukkonen wrote:
->
->
-> On 19 January 2017 at 13:52, Burton, Ross <ross.burton@intel.com 
-> <mailto:ross.burton@intel.com>> wrote:
->
->     You're removing this patch:
->
->     On 19 January 2017 at 09:50, Dengke Du <dengke.du@windriver.com
->     <mailto:dengke.du@windriver.com>> wrote:
->
->         ---
->         a/meta/recipes-connectivity/openssh/openssh/add-test-support-for-busybox.patch
->         +++ /dev/null
->         @@ -1,69 +0,0 @@
->         -Adjust test cases to work with busybox.
->         -
->         -- Replace dd parameter "obs" with "bs".
->         -- Replace "head -<num>" with "head -n <num>".
->         -
->         -Signed-off-by: Maxin B. John <maxin.john@enea.com
->         <mailto:maxin.john@enea.com>>
->         -Upstream-Status: Pending
->         -
->         -Index: openssh-6.8p1/regress/cipher-speed.sh
->         -===================================================================
->         ---- openssh-6.8p1.orig/regress/cipher-speed.sh
->         -+++ openssh-6.8p1/regress/cipher-speed.sh
->         -@@ -17,7 +17,7 @@ for c in `${SSH} -Q cipher`; do n=0; for
->         -               printf "%-60s" "$c/$m:"
->         -               ( ${SSH} -o 'compression no' \
->         -                       -F $OBJ/ssh_proxy -2 -m $m -c $c
->         somehost \
->         --                      exec sh -c \'"dd of=/dev/null obs=32k"\' \
->         -+                      exec sh -c \'"dd of=/dev/null bs=32k"\' \
->
->
->     But upstream still has exec sh -c \'"dd of=/dev/null obs=32k"\',
->     so this patch is still needed.
->
->     Please always explain why patches are being removed in the commit
->     message.
->
->
-> There's also lots of changes to the remaining patches. Some of them 
-> look weird -- possibly they're just whitespace changes? Please mention 
-> what the patch changes are in the commit message.
->
-> Jussi
-
-
---------------0DD8F8556C3EF5DDFF7F85CB
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <p>Hi Jussi</p>
-    <p>The remaining patch are still useful, I just rebase those patchs
-      on version 74.p1. I will explain it.</p>
-    <p>Thanks.<br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">On 2017年01月19日 20:32, Jussi Kukkonen
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAHiDW_FMcOb2-Rmh0bgJ7jksK47WUDxNzZwGJHG42Tp0QE08yw@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr"><br>
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 19 January 2017 at 13:52, Burton,
-            Ross <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:ross.burton@intel.com" target="_blank">ross.burton@intel.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div dir="ltr">
-                <div class="gmail_extra">You're removing this patch:</div>
-                <div class="gmail_extra"><span class=""><br>
-                    <div class="gmail_quote">On 19 January 2017 at
-                      09:50, Dengke Du <span dir="ltr">&lt;<a
-                          moz-do-not-send="true"
-                          href="mailto:dengke.du@windriver.com"
-                          target="_blank"><a class="moz-txt-link-abbreviated" href="mailto:dengke.du@windriver.com">dengke.du@windriver.com</a></a>&gt;</span>
-                      wrote:<br>
-                      <blockquote class="gmail_quote" style="margin:0px
-                        0px 0px
-0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">
-                        <div id="m_-6663932194610955239gmail-:g0"
-                          class="m_-6663932194610955239gmail-a3s
-                          m_-6663932194610955239gmail-aXjCH
-                          m_-6663932194610955239gmail-m159b623a3630db7c">---
-                          a/meta/recipes-connectivity/op<wbr>enssh/openssh/add-test-support<wbr>-for-busybox.patch<br>
-                          +++ /dev/null<br>
-                          @@ -1,69 +0,0 @@<br>
-                          -Adjust test cases to work with busybox.<br>
-                          -<br>
-                          -- Replace dd parameter "obs" with "bs".<br>
-                          -- Replace "head -&lt;num&gt;" with "head -n
-                          &lt;num&gt;".<br>
-                          -<br>
-                          -Signed-off-by: Maxin B. John &lt;<a
-                            moz-do-not-send="true"
-                            href="mailto:maxin.john@enea.com"
-                            target="_blank"><a class="moz-txt-link-abbreviated" href="mailto:maxin.john@enea.com">maxin.john@enea.com</a></a>&gt;<br>
-                          -Upstream-Status: Pending<br>
-                          -<br>
-                          -Index: openssh-6.8p1/regress/cipher-s<wbr>peed.sh<br>
-                          -=============================<wbr>==============================<wbr>========<br>
-                          ---- openssh-6.8p1.orig/regress/cip<wbr>her-speed.sh<br>
-                          -+++ openssh-6.8p1/regress/cipher-s<wbr>peed.sh<br>
-                          -@@ -17,7 +17,7 @@ for c in `${SSH} -Q
-                          cipher`; do n=0; for<br>
-                          -               printf "%-60s" "$c/$m:"<br>
-                          -               ( ${SSH} -o 'compression no' \<br>
-                          -                       -F $OBJ/ssh_proxy -2
-                          -m $m -c $c somehost \<br>
-                          --                      exec sh -c \'"dd
-                          of=/dev/null obs=32k"\' \<br>
-                          -+                      exec sh -c \'"dd
-                          of=/dev/null bs=32k"\' \</div>
-                      </blockquote>
-                    </div>
-                    <br>
-                  </span>But upstream still has exec sh -c \'"dd
-                  of=/dev/null obs=32k"\', so this patch is still
-                  needed.</div>
-                <div class="gmail_extra"><br>
-                </div>
-                <div class="gmail_extra">Please always explain why
-                  patches are being removed in the commit message.</div>
-              </div>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>There's also lots of changes to the remaining patches.
-              Some of them look weird -- possibly they're just
-              whitespace changes? Please mention what the patch changes
-              are in the commit message.</div>
-            <div><br>
-            </div>
-            <div>Jussi</div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------0DD8F8556C3EF5DDFF7F85CB--
