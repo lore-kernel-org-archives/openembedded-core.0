@@ -1,48 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-yb0-f173.google.com (mail-yb0-f173.google.com
-	[209.85.213.173])
-	by mail.openembedded.org (Postfix) with ESMTP id D4ACE73173
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F6C87316D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 14:08:36 +0000 (UTC)
-Received: by mail-yb0-f173.google.com with SMTP id 123so54819536ybe.3
+	Fri, 20 Jan 2017 14:12:55 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id j13so61998874iod.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 06:08:37 -0800 (PST)
+	Fri, 20 Jan 2017 06:12:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Ot8eH2RWs8L9wexnGJfJ4CbjjFkN+ZRnCh2sv65n5Zg=;
-	b=DEBeZTaw1GV45UmvzMYA2NPCtDjzuxgYy9e7kBfUZEwCxdncwvlU/VUzCyYst6jfXO
-	34xEXqWxu8D4aZOjZ9gDAop57gpPyzGg6QreITr7pnsmospi1P7mU/+tWIj6skR99yLL
-	HN+5L7hd6PvC8zhLPv+WftcVo+dba/qJ5AUTCNUDP1+3+T8hNosyqH6grQdkHIyagUE9
-	Pt7dfgIM6Q7jyTLglmqB8q7yR4rqA3exIF1boNtW2WXhvHsgsvUJyvB3HIAz1OLIx4tJ
-	1U9HlfySUMOHsox0zVvIRKKRKzqt2e5MqHfEmONHdK53tSnixop+PHOClNuUgWG1mv/2
-	3bZQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=A3nj0LHk8BFPfhBn7a3RldD0FT3yYyeelxMI5TfiJcE=;
+	b=CzlLliMU3t7sTGAEEzkohDAC4rj/7azsWQRP4x08uoXgL00rrId5esfWmmnUL5mEdz
+	AXj3byDPtOrWWeqPT6zZXKIe/n6jSo4spaWW3h20SZhifIq6p92I/1nYOuAG1rRJ9JPv
+	LJOZeD45cxm+1jCe2lmwy+WlANicnNlpi+VlYsGT/kC/OdcHhYnBAMeQ3rnCKE8x7MvO
+	6QbMFDFNRFeGNnRYIQ4AAf1vqlEq2Ly7gS2VdwwGQ1VWVaq9yqtSLpze0in7xMPCgc2S
+	UwQBVsjiYAvfrNfhf81Sl/LPG1BB8W+9PZDefUiCEAnsVtdAsq8ZCsyFE8PMLdYcZkqn
+	bz1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Ot8eH2RWs8L9wexnGJfJ4CbjjFkN+ZRnCh2sv65n5Zg=;
-	b=ow4shOe3/ZejaMqZZX5Ehf00yZjbZW/Umd3w7IQ57NK14kq2EQfH+n40sNTolb7ysQ
-	4NgWx3O6Cxq7W/ndGHdLAATtu9xBaC1tDykmMysMC80/W6Oyk9YyEXQVdTlFtICI733t
-	7AHDmaqZIkVQ5wZn3evgxzgw+wROjcCgV3YRCr8rbKvGSbK5YJWLah7DS/v8OXDrFil6
-	J3kRIV/LuuwhWxE6OZN0xvA/SGaeCUj7q95LFqISJjbe5Tg5Fcn6PZJHlO+80BBifNIp
-	KWM3DQAD8OYlnXvBW31KYd5Nm/xp6l6wxidPNIODmET+zNN1TG/ykM8RA/pznvjqgtym
-	A+1Q==
-X-Gm-Message-State: AIkVDXLLSjHeZ43LIygjIuEjct+DLW4+pPlfbQTjpWWeeY2D8RH1chBhcqLwSgH9GXhmm6dX4ykraBmJ6m79Izj9
-X-Received: by 10.237.39.148 with SMTP id a20mr12413370qtd.65.1484921316616;
-	Fri, 20 Jan 2017 06:08:36 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Fri, 20 Jan 2017 06:08:16 -0800 (PST)
-In-Reply-To: <1484921224.23233.123.camel@intel.com>
-References: <cover.c4c1bf3452da11cfcc8b08c59ba9a17e2035b400.1484919259.git-series.patrick.ohly@intel.com>
-	<20170120135343.23276.63313@do.openembedded.org>
-	<1484921224.23233.123.camel@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 20 Jan 2017 14:08:16 +0000
-Message-ID: <CAJTo0LZbR=p5Ge7YLjbeY-GzHC3sV6igQTLxDQ=yX3NpDpwyew@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIFVFRkkgKyBTZWN1cmUgQm9vdCArIHFlbXUgKHJldjQp?=
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=A3nj0LHk8BFPfhBn7a3RldD0FT3yYyeelxMI5TfiJcE=;
+	b=DLuboewljaSMFg260sFtMzsqNpWgsgb/iyzLsN78nI9c9rPYBRvsA6+BwDLqmmMqrS
+	FOxCRbFrm7d5lJ+IGSpc9k+/V5S87UkOWzcP9NN6ht8XZLNIwDiuEutP8IR0STRJW9x5
+	qHiiI2wG/tIBPx6Hhe2EUw+KuCArqi1PsVrTOmWvfOOKqNcd8sRx3wnxyWhUkoNYEhJ/
+	Ufp0QoS1UKBxH5Hu3f+ryKaR7JvG+cN9RhfHQ0aoY50RFp/5+GNtR6zjtNWSn+dYd4be
+	WKlNyyImW/nSz7uAmKHAMEjJCPTrorbE6XFLp7hh65yBNwzPqUbnn17nxeqx6LuU8kEl
+	/2Hg==
+X-Gm-Message-State: AIkVDXI89aAL5wSyl5ud/0sMHw6arvC+fEM2ogMP2cKJYOz4cFMdC2iPcalPAZ955bEs3T/n
+X-Received: by 10.107.47.97 with SMTP id j94mr14977980ioo.8.1484921576090;
+	Fri, 20 Jan 2017 06:12:56 -0800 (PST)
+Received: from pohly-desktop.fritz.box (p57A56DD5.dip0.t-ipconnect.de.
+	[87.165.109.213])
+	by smtp.gmail.com with ESMTPSA id k6sm4573464ioe.1.2017.01.20.06.12.53
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 20 Jan 2017 06:12:54 -0800 (PST)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Jan 2017 15:12:31 +0100
+Message-Id: <cover.bbc01c1227afdba3edc41dc7d7356f56e51be400.1484921498.git-series.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH v4 00/12] UEFI + Secure Boot + qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,37 +53,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 14:08:37 -0000
-Content-Type: multipart/alternative; boundary=f403045ee6d898d4500546872f0e
+X-List-Received-Date: Fri, 20 Jan 2017 14:12:56 -0000
 
---f403045ee6d898d4500546872f0e
-Content-Type: text/plain; charset=UTF-8
+There seems to be a consensus that supporting UEFI in OE-core for qemu
+would be valuable, and there have been some (stalled) attempts to add
+it. For reference, see:
+   [OE-core] [PATCH V3 0/3] Add UEFI firmware for qemux86*
+   [OE-core] Add ovmf-native to make qemu-native/runqemu support boot UEFI image?
+   https://bugzilla.yoctoproject.org/show_bug.cgi?id=5654
+   https://github.com/01org/luv-yocto/issues/38
 
-On 20 January 2017 at 14:07, Patrick Ohly <patrick.ohly@intel.com> wrote:
+This patch set includes the necessary recipes (ovmf from meta-luv, acpica from
+meta-oe), some improvements to them (in particular, enabling Secure
+Boot), and changes to runqemu to make it easier to boot with UEFI. A
+special image recipes builds an image which can be used to lock down a
+virtual machine by enrolling the "normal" pre-installed certificates.
 
-> This is intentional: I'm not the original author and didn't want to mess
-> too much with the recipe. Should I add Upstream-Status in a separate
-> commit?
->
+In contrast to the first version of this patch series, one can now use
+both a single OVMF firmware file as well as set up persistent
+variables for a virtual machine by using two files.
 
-Sneak it in, it's just a minor change.
+Eduardo promised to add automated testing for this once it is in OE-core.
+As it stands now, ovmf-shell-image and ovmf without Secure Boot enabled
+should at least be part of a world build.
 
-Ross
+As discussed on this list, Ricardo and Fathi volunteered to help with
+maintaining the ovmf and acpica recipes in OE-core.
 
---f403045ee6d898d4500546872f0e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Beware that "git am --keep-cr" must be used to import the ovmf patches
+correctly.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 20 January 2017 at 14:07, Patrick Ohly <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":mj" class=
-=3D"a3s aXjCH m159bc342c8423aff">This is intentional: I&#39;m not the origi=
-nal author and didn&#39;t want to mess<br>
-too much with the recipe. Should I add Upstream-Status in a separate<br>
-commit?<br></div></blockquote></div><br>Sneak it in, it&#39;s just a minor =
-change.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
-">Ross</div></div>
+Changes since V1:
+- support both combined code+vars ("ovmf") and separate code
+  and vars flash drives ("ovmf.code ovmf.vars")
+- OVMF firmware no longer installed in the target sysroot
+- slightly simpler renaming from OVMF (uppercase, underscore)
+  to OE naming convention (lowercase, dots): now the different
+  ln invocation directly create files with the final name
+- DEPLOYDIR needs to be cleaned explicitly (done via cleandirs varflag)
+- Secure Boot support in ovmf is controlled by a PACKAGECONFIG option,
+  off by default
+- distros and developers can add additional Secure Boot compile flags
+  with OVMF_SECURE_BOOT_EXTRA_FLAGS
+- explain how to get ovmf built for use with runqemu via MACHINE_ESSENTIAL_EXTRA_RDEPENDS
+- IMAGE_FSTYPES_forcevariable = "wic" used in ovmf-shell-image
+- remove OVMF BGRT patch
+- location of "inherit deploy"
 
---f403045ee6d898d4500546872f0e--
+Changes since V2:
+- rebased onto current master
+- workaround for acpica compile issue with flex 2.6.2
+
+Changes since V3:
+- rebased onto current master (for real, this time!)
+- reordered patches a bit
+
+Fathi Boudra (1):
+  acpica: move from meta-oe to OE-core
+
+Patrick Ohly (10):
+  acpica: work around flex 2.6.2 code generation issue
+  ovmf: explicitly depend on nasm-native
+  ovmf: deploy firmware in image directory
+  ovmf_git.bb: enable parallel compilation
+  ovmf_git.bb: enable Secure Boot
+  runqemu: fix undefined variable reference in check_arg_path()
+  runqemu: also accept -image suffix for rootfs parameter
+  runqemu: support UEFI with OVMF firmware
+  ovmf: build image which enrolls standard keys
+  ovmf: remove BGRT patch
+
+meta-luv (1):
+  ovmf: move from meta-luv to OE-core
+
+ meta/recipes-core/ovmf/ovmf-shell-image.bb                                                  |   17 +-
+ meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch    |   48 +++-
+ meta/recipes-core/ovmf/ovmf/0002-ovmf-update-path-to-native-BaseTools.patch                 |   32 ++-
+ meta/recipes-core/ovmf/ovmf/0003-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch  |   39 ++-
+ meta/recipes-core/ovmf/ovmf/0007-OvmfPkg-EnrollDefaultKeys-application-for-enrolling-.patch | 1124 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ meta/recipes-core/ovmf/ovmf/ovmf-shell-image.wks                                            |    4 +-
+ meta/recipes-core/ovmf/ovmf_git.bb                                                          |  201 +++++++++++++-
+ meta/recipes-extended/acpica/acpica_20150515.bb                                             |   47 +++-
+ meta/recipes-extended/acpica/acpitests/aapits-linux.patch                                   |  336 ++++++++++++++++++++++-
+ meta/recipes-extended/acpica/acpitests/aapits-makefile.patch                                |   34 ++-
+ meta/recipes-extended/acpica/acpitests_20140828.bb                                          |   35 ++-
+ meta/recipes-extended/acpica/files/no-werror.patch                                          |   32 ++-
+ meta/recipes-extended/acpica/files/rename-yy_scan_string-manually.patch                     |   64 ++++-
+ scripts/runqemu                                                                             |   50 ++-
+ 14 files changed, 2058 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-core/ovmf/ovmf-shell-image.bb
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0002-ovmf-update-path-to-native-BaseTools.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0003-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0007-OvmfPkg-EnrollDefaultKeys-application-for-enrolling-.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/ovmf-shell-image.wks
+ create mode 100644 meta/recipes-core/ovmf/ovmf_git.bb
+ create mode 100644 meta/recipes-extended/acpica/acpica_20150515.bb
+ create mode 100644 meta/recipes-extended/acpica/acpitests/aapits-linux.patch
+ create mode 100644 meta/recipes-extended/acpica/acpitests/aapits-makefile.patch
+ create mode 100644 meta/recipes-extended/acpica/acpitests_20140828.bb
+ create mode 100644 meta/recipes-extended/acpica/files/no-werror.patch
+ create mode 100644 meta/recipes-extended/acpica/files/rename-yy_scan_string-manually.patch
+
+base-commit: ce5c7075d530c0950f2feed35f95fbcd9f50721f
+-- 
+git-series 0.9.1
+
