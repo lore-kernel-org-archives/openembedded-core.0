@@ -1,52 +1,36 @@
-Return-Path: <prvs=0193ebffb4=mike.looijmans@topicproducts.com>
-Received: from mx6-09.smtp.antispamcloud.com (mx6-09.smtp.antispamcloud.com
-	[95.211.2.200])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DE8A719DD
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 83D0271E10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 06:25:45 +0000 (UTC)
-Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
-	by mx6.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
-	(Exim 4.86) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1cUSdp-0006kJ-05 for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jan 2017 07:25:42 +0100
-Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
-	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
-	Fri, 20 Jan 2017 07:25:40 +0100
-To: <openembedded-core@lists.openembedded.org>
-References: <alpine.LFD.2.20.1701191542230.6131@localhost.localdomain>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-Message-ID: <38f99bff-e9e4-ef57-caef-a47573fc5362@topic.nl>
-Date: Fri, 20 Jan 2017 07:25:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Fri, 20 Jan 2017 06:54:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 36E4A20AD6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jan 2017 06:54:46 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024) with ESMTP id PPvpaa0Co617
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jan 2017 06:54:46 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-95-79.washdc.fios.verizon.net
+	[100.15.95.79])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 1E00620645
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jan 2017 06:54:46 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 70F7816232A; Fri, 20 Jan 2017 01:54:45 -0500 (EST)
+Date: Fri, 20 Jan 2017 01:54:45 -0500
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20170120065445.GZ15833@denix.org>
+References: <1484794373-111668-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<20170119032342.23274.93140@do.openembedded.org>
 MIME-Version: 1.0
-In-Reply-To: <alpine.LFD.2.20.1701191542230.6131@localhost.localdomain>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Originating-IP: 37.74.225.130
-X-SpamExperts-Domain: topic.nl
-X-SpamExperts-Username: 37.74.225.128/28
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=37.74.225.128/28@topic.nl
-X-SpamExperts-Outgoing-Class: unsure
-X-SpamExperts-Outgoing-Evidence: Combined (0.36)
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W/95+6ZE6dI+d
-	FNTaLLKrTD4PkK8WOoKuw32u9iEtZmisSr42qUwvK7U11fJ5smF5bE7GwnNXTE7JFCR1ojdwNAuw
-	Yq3FcmsAmnyw7RCKiQH1kW5MtGkkVO9ekePfYFBA6/4+32Jixy3a8RsV1KH+pWbjO41FyBEqIaDu
-	dcVplPGNaieKxw/vh63RdlaW2Zj1hcQD6Dxo9kokFZNwiacNPxeTCKssqlJePCDBHWfCYUvWOATT
-	vnG+QUCcfrSs6FZc7tZ3vKwSN7Mv0HNteAusUZ8BuYwGqmI8Tx/Ism0pnCcmlWACu0WC7nIKSPYV
-	aBAAdpU0oUDqng6Dyy2mQeofiazRcrLcqLLVNe9BtpgnU3R1el35jO+WJBgrWGjAavfuifnL+9wg
-	oTj4ygNPw1XfN1IUJ2+rCMPpQhII5VkEVC//8GRISD+lYCwA5l6/Q4nfg8y63jKKBrO1BroJmvb9
-	eW6r2rlUSNsSKfXWKXbAnTtpwWXpE+sdjNmnXWjiNaLzU4EFnW2XgX+M1ZN6UZmlFVODLzPsd/iT
-	v744WiqgNunTiEw2ui8TVPldBCj8jBATaV0f1JQTj5AK4Kl1rn2kX88E/p9BurLOIHTmW3gH2nZg
-	/fwtBtXydNqayyyV7KOX2YI5PogHEGUWoL6eStEYApwKXoD4iJBsNfB/QPOzo3NC59y3EFXUwBcT
-	DQ0nlghOTckC4oN5XN7BzTWQhrf/s2FXG+RlRk606220Tay5bvowkOgRglJOpXrCHulns4cnitzI
-	/N0Yci5ag97FkmIyM9BqLkXGaznuCfaQ1w/JpOE=
-X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
-X-Recommended-Action: accept
-Subject: Re: still fighting to get an OE recipe for "libfilesys-smbclient-perl"
+In-Reply-To: <20170119032342.23274.93140@do.openembedded.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGJhc2ggNC4zLjMwIC0+IDQuNA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,130 +43,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 06:25:46 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 20 Jan 2017 06:54:46 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-=EF=BB=BFOn 19-01-17 21:58, Robert P. J. Day wrote:
->
->   following up on the whining i did a while back to finish off a few
-> perl recipes for OE, i have just a few left to resolve, and this is
-> one of them. i managed to get several dozen perl recipes to work
-> simply by throwing together recipes based on very little understanding
-> of perl cpan mechanics and just mindlessly cribbing boilerplate from
-> other recipes. if it worked, yee ha, move on.
->
->   here's my current recipe for this module (again, slapped together
-> without really understanding what's going on under the hood):
->
-> ///// start /////
->
-> DESCRIPTION =3D "Filesys::SmbClient"
->
-> SECTION =3D "libs"
-> LICENSE =3D "Artisticv1 | GPLv1+"
-> PR =3D "r0"
->
-> MAINTAINER=3D	"rday"
-> HOMEPAGE=3D	"https://metacpan.org/pod/Filesys::SmbClient"
->
-> LIC_FILES_CHKSUM =3D "file://${COMMON_LICENSE_DIR}/Artistic-1.0;md5=3Dcda=
-03bbdc3c1951996392b872397b798 \
-> file://${COMMON_LICENSE_DIR}/GPL-1.0;md5=3De9e36a9de734199567a4d769498f74=
-3d"
->
-> DEPENDS +=3D "samba"
->
-> SRC_URI =3D "https://cpan.metacpan.org/authors/id/A/AL/ALIAN/Filesys-SmbC=
-lient-3.2.tar.gz"
->
-> SRC_URI[md5sum] =3D "8a4205fe748aac7f43fb2a0e8ef502b2"
-> SRC_URI[sha256sum] =3D "a9f2f3d4675de76f9dcae2be40bda93495cd5fafb1bb6326d=
-71833cea451bc6e"
->
-> S =3D "${WORKDIR}/Filesys-SmbClient-${PV}"
->
-> inherit cpan
->
-> EXTRA_CPANFLAGS =3D "INC=3D'-I${STAGING_INCDIR}/samba-4.0' LIBS=3D'-L${ST=
-AGING_LIBDIR}'"
->
-> BBCLASSEXTEND =3D "native"
->
-> ///// end /////
->
-> and the error i get when i try to build makes it *clear* that the
-> configuration is failing to set up properly for cross-compiling for my
-> powerpc target:
->
-> $ bitbake libfilesys-smbclient-perl
-> ... snip ...
-> | Where can I find libsmbclient.h ? []
-> *************************************************************
-> | ** WHAT !!!!
-> | ** I Can't find /libsmbclient.h : No such file or directory.
-> | *************************************************************
-> ... snip ...
-> | Where can I find libsmbclient.so ? []
-> *************************************************************
-> | ** WHAT !!!!
-> | ** I Can't find libsmbclient.so : No such file or directory.
-> ... snip ...
-> | checking for C compiler default output... a.out
-> | checking whether the C compiler works... configure: error: cannot
-> run C compiled programs.
-> | If you meant to cross compile, use `--host'.
-> | See `config.log' for more details.
->
->
->   and sure enough, the config.log for this build contains:
->
-> Target: powerpc-poky-linux
-> Configured with:
-> ../../../../../../work-shared/gcc-6.3.0-r0/gcc-6.3.0/configure
-> --build=3Dx86_64-linux --host=3Dx86_64-linux --target=3Dpowerpc-poky-linu=
-x
-> ...
+On Thu, Jan 19, 2017 at 03:23:42AM -0000, Patchwork wrote:
+> == Series Details ==
+> 
+> Series: bash 4.3.30 -> 4.4
+> Revision: 1
+> URL   : https://patchwork.openembedded.org/series/4836/
+> State : failure
+> 
+> == Summary ==
+> 
+> 
+> Thank you for submitting this patch series to OpenEmbedded Core. This is
+> an automated response. Several tests have been executed on the proposed
+> series by patchtest resulting in the following failures:
 
-Quick observation: I think host and target are wrong. The "host" is where t=
-he=20
-software will run. The line above builds something that runs on x86_64 and=
-=20
-that compiles for a powerpc target (target only makes sense if you're=20
-compiling a compiler). You probably wanted --host=3Dpowerpc-poky-linux and =
-no=20
-"--target" at all.
+Wow, nice report from Patchwork!
+
+May I suggest adding corresponding Wiki links to "Suggested fix" field? E.g.
+http://openembedded.org/wiki/Commit_Patch_Message_Guidelines
 
 
->
->   beyond this, i'm not sure how to use an OE patch to adjust this
-> source the right way, given that dozens and dozens of other modules
-> cross-compiled just fine.
->
->   thoughts? i am in now way a perl expert so i really have no idea
-> where to go from here.
->
-> rday
->
-
-
-
-Kind regards,
-
-Mike Looijmans
-System Expert
-
-TOPIC Products
-Materiaalweg 4, NL-5681 RJ Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
-
-
-
+> * Patch            bash 4.3.30 -> 4.4
+>  Issue             Shortlog does not follow expected format [test_shortlog_format] 
+>   Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+> 
+> * Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
+>   Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-extended/bash/bash/0001-patch-to-obtain-pkgconfig-sanity.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
+> 
+> * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+>   Suggested fix    Rebase your series on top of targeted branch
+>   Targeted branch  master (currently at a7cb408dd7)
+> 
+> 
+> 
+> If you believe any of these test results are incorrect, please reply to the
+> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+> Otherwise we would appreciate you correcting the issues and submitting a new
+> version of the patchset if applicable. Please ensure you add/increment the
+> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+> [PATCH v3] -> ...).
+> 
+> ---
+> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
