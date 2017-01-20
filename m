@@ -1,36 +1,30 @@
-Return-Path: <tanuk@iki.fi>
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
-	[66.111.4.25])
-	by mail.openembedded.org (Postfix) with ESMTP id 9ED3F719B4
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BB11719AC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 09:36:03 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 1273B20786
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 04:26:38 -0500 (EST)
-Received: from frontend1 ([10.202.2.160])
-	by compute5.internal (MEProxy); Fri, 20 Jan 2017 04:26:38 -0500
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=date:from:in-reply-to:message-id
-	:references:subject:to:x-me-sender:x-me-sender:x-sasl-enc
-	:x-sasl-enc; s=smtpout; bh=7ZLa3bEtu4mIL5g92se1qeEbXb4=; b=VMexd
-	y4c4NagJF6GqBjH4PYqeAL0fCY6rh5APqWFr22Rlfj7EhOTX3p3lIgg9cPJY8cmm
-	lcSmo1GOAO3lF/XH2yrOAAg/WsZ8B2+6Vys/YsmQLQbxshRRh6M3siYh/levXrmE
-	pvWn1xC3QdW4uxrYz8JQzuAbJNnBvkq3kwTDFA=
-X-ME-Sender: <xms:zteBWEErnFCyhNxMU8zc5S5iyMyRg42z-lu3Du1aOIMKXxLPZQqa0A>
-X-Sasl-enc: y4HtJ+HAA4utcKqqmHm0CE5dZ+tSQWerZugbbtp0CAGj 1484904397
-Received: from localhost.localdomain (unknown [192.40.95.5])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 8C4227EA90
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 04:26:37 -0500 (EST)
-From: Tanu Kaskinen <tanuk@iki.fi>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2017 11:26:29 +0200
-Message-Id: <20170120092629.15146-2-tanuk@iki.fi>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20170120092629.15146-1-tanuk@iki.fi>
-References: <20170120092629.15146-1-tanuk@iki.fi>
-Subject: [PATCH 2/2] flac: 1.3.1 -> 1.3.2
+	Fri, 20 Jan 2017 11:35:13 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
+	via TCP (outbound) with ESMTPS id 20170120113501987_0486;
+	Fri, 20 Jan 2017 11:35:01 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [216.191.234.70] (port=52269 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1cUXT4-0004kj-2h; Fri, 20 Jan 2017 06:34:54 -0500
+Date: Fri, 20 Jan 2017 06:34:53 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@uk63952.mitel.com
+To: Mike Looijmans <mike.looijmans@topic.nl>
+In-Reply-To: <38f99bff-e9e4-ef57-caef-a47573fc5362@topic.nl>
+Message-ID: <alpine.LFD.2.20.1701200632250.12889@uk63952.mitel.com>
+References: <alpine.LFD.2.20.1701191542230.6131@localhost.localdomain>
+	<38f99bff-e9e4-ef57-caef-a47573fc5362@topic.nl>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: still fighting to get an OE recipe for "libfilesys-smbclient-perl"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,52 +37,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 09:36:04 -0000
+X-List-Received-Date: Fri, 20 Jan 2017 11:35:15 -0000
+Content-Type: multipart/mixed;
+	BOUNDARY="587868445-1134473589-1484912094=:12889"
 
-Changelog: https://xiph.org/flac/changelog.html
+--587868445-1134473589-1484912094=:12889
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-The license checksum changes are due to simple copyright year updates.
+On Fri, 20 Jan 2017, Mike Looijmans wrote:
 
-Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
----
- .../recipes-multimedia/flac/{flac_1.3.1.bb => flac_1.3.2.bb} | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-multimedia/flac/{flac_1.3.1.bb => flac_1.3.2.bb} (83%)
+> ﻿On 19-01-17 21:58, Robert P. J. Day wrote:
+> >
+> >   following up on the whining i did a while back to finish off a few
+> > perl recipes for OE, i have just a few left to resolve, and this is
+> > one of them. i managed to get several dozen perl recipes to work
+> > simply by throwing together recipes based on very little understanding
+> > of perl cpan mechanics and just mindlessly cribbing boilerplate from
+> > other recipes. if it worked, yee ha, move on.
+> >
+> >   here's my current recipe for this module (again, slapped together
+> > without really understanding what's going on under the hood):
+> >
+> > ///// start /////
+> >
+> > DESCRIPTION = "Filesys::SmbClient"
+> >
+> > SECTION = "libs"
+> > LICENSE = "Artisticv1 | GPLv1+"
+> > PR = "r0"
+> >
+> > MAINTAINER=	"rday"
+> > HOMEPAGE=	"https://metacpan.org/pod/Filesys::SmbClient"
+> >
+> > LIC_FILES_CHKSUM =
+> > "file://${COMMON_LICENSE_DIR}/Artistic-1.0;md5=cda03bbdc3c1951996392b872397b798
+> > \
+> > file://${COMMON_LICENSE_DIR}/GPL-1.0;md5=e9e36a9de734199567a4d769498f743d"
+> >
+> > DEPENDS += "samba"
+> >
+> > SRC_URI =
+> > "https://cpan.metacpan.org/authors/id/A/AL/ALIAN/Filesys-SmbClient-3.2.tar.gz"
+> >
+> > SRC_URI[md5sum] = "8a4205fe748aac7f43fb2a0e8ef502b2"
+> > SRC_URI[sha256sum] =
+> > "a9f2f3d4675de76f9dcae2be40bda93495cd5fafb1bb6326d71833cea451bc6e"
+> >
+> > S = "${WORKDIR}/Filesys-SmbClient-${PV}"
+> >
+> > inherit cpan
+> >
+> > EXTRA_CPANFLAGS = "INC='-I${STAGING_INCDIR}/samba-4.0'
+> > LIBS='-L${STAGING_LIBDIR}'"
+> >
+> > BBCLASSEXTEND = "native"
+> >
+> > ///// end /////
+> >
+> > and the error i get when i try to build makes it *clear* that the
+> > configuration is failing to set up properly for cross-compiling for my
+> > powerpc target:
+> >
+> > $ bitbake libfilesys-smbclient-perl
+> > ... snip ...
+> > | Where can I find libsmbclient.h ? []
+> > *************************************************************
+> > | ** WHAT !!!!
+> > | ** I Can't find /libsmbclient.h : No such file or directory.
+> > | *************************************************************
+> > ... snip ...
+> > | Where can I find libsmbclient.so ? []
+> > *************************************************************
+> > | ** WHAT !!!!
+> > | ** I Can't find libsmbclient.so : No such file or directory.
+> > ... snip ...
+> > | checking for C compiler default output... a.out
+> > | checking whether the C compiler works... configure: error: cannot
+> > run C compiled programs.
+> > | If you meant to cross compile, use `--host'.
+> > | See `config.log' for more details.
+> >
+> >
+> >   and sure enough, the config.log for this build contains:
+> >
+> > Target: powerpc-poky-linux
+> > Configured with:
+> > ../../../../../../work-shared/gcc-6.3.0-r0/gcc-6.3.0/configure
+> > --build=x86_64-linux --host=x86_64-linux --target=powerpc-poky-linux
+> > ...
+>
+> Quick observation: I think host and target are wrong. The "host" is where the
+> software will run. The line above builds something that runs on x86_64 and
+> that compiles for a powerpc target (target only makes sense if you're
+> compiling a compiler). You probably wanted --host=powerpc-poky-linux and no
+> "--target" at all.
 
-diff --git a/meta/recipes-multimedia/flac/flac_1.3.1.bb b/meta/recipes-multimedia/flac/flac_1.3.2.bb
-similarity index 83%
-rename from meta/recipes-multimedia/flac/flac_1.3.1.bb
-rename to meta/recipes-multimedia/flac/flac_1.3.2.bb
-index f25271f879..8a7fc5e190 100644
---- a/meta/recipes-multimedia/flac/flac_1.3.1.bb
-+++ b/meta/recipes-multimedia/flac/flac_1.3.2.bb
-@@ -5,19 +5,19 @@ BUGTRACKER = "http://sourceforge.net/p/flac/bugs/"
- SECTION = "libs"
- LICENSE = "GFDL-1.2 & GPLv2+ & LGPLv2.1+ & BSD"
- LIC_FILES_CHKSUM = "file://COPYING.FDL;md5=ad1419ecc56e060eccf8184a87c4285f \
--                    file://src/Makefile.am;beginline=1;endline=17;md5=0a853b81d9d43d8aad3b53b05cfcc37e \
-+                    file://src/Makefile.am;beginline=1;endline=17;md5=09501c864f89dfc7ead65553129817ca \
-                     file://COPYING.GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--                    file://src/flac/main.c;beginline=1;endline=18;md5=d03a766558d233f9cc3ac5dfafd49deb \
-+                    file://src/flac/main.c;beginline=1;endline=18;md5=09777e2934947a36f13568d0beb81199 \
-                     file://COPYING.LGPL;md5=fbc093901857fcd118f065f900982c24 \
--                    file://src/plugin_common/all.h;beginline=1;endline=18;md5=7c8a3b9e1e66ed0aba765bc6f35da85d \
--                    file://COPYING.Xiph;md5=a2c4b71c0198682376d483eb5bcc9197 \
-+                    file://src/plugin_common/all.h;beginline=1;endline=18;md5=f56cb4ba9a3bc9ec6102e8df03215271 \
-+                    file://COPYING.Xiph;md5=b59c1b6d7fc0fb7965f821a3d36505e3 \
-                     file://include/FLAC/all.h;beginline=65;endline=70;md5=64474f2b22e9e77b28d8b8b25c983a48"
- DEPENDS = "libogg"
- 
- SRC_URI = "http://downloads.xiph.org/releases/flac/${BP}.tar.xz"
- 
--SRC_URI[md5sum] = "b9922c9a0378c88d3e901b234f852698"
--SRC_URI[sha256sum] = "4773c0099dba767d963fd92143263be338c48702172e8754b9bc5103efe1c56c"
-+SRC_URI[md5sum] = "454f1bfa3f93cc708098d7890d0499bd"
-+SRC_URI[sha256sum] = "91cfc3ed61dc40f47f050a109b08610667d73477af6ef36dcad31c31a4a8d53f"
- 
- inherit autotools gettext
- 
+  right, that was why i reproduced that bit ... to show that the
+"--host" value is clearly wrong, and even suggests that problem a few
+lines earlier:
+
+> > | checking whether the C compiler works... configure: error: cannot
+> > run C compiled programs.
+> > | If you meant to cross compile, use `--host'.
+
+rday
+
 -- 
-2.11.0
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+--587868445-1134473589-1484912094=:12889--
