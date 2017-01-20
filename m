@@ -1,52 +1,52 @@
 Return-Path: <patrick.ohly@intel.com>
 Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
 	[209.85.214.44])
-	by mail.openembedded.org (Postfix) with ESMTP id EEBB8731D3
+	by mail.openembedded.org (Postfix) with ESMTP id 1ADEE731C8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 13:38:28 +0000 (UTC)
-Received: by mail-it0-f44.google.com with SMTP id r185so20828952ita.0
+	Fri, 20 Jan 2017 13:38:32 +0000 (UTC)
+Received: by mail-it0-f44.google.com with SMTP id 203so20131875ith.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 05:38:29 -0800 (PST)
+	Fri, 20 Jan 2017 05:38:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=RQ8bwL+8dE5/3eqjWcgeEd6mObrf2vj9ClR9S679XKw=;
-	b=By88xCH9iA2+BmrlJCwzux1TyukWYVPEH5jsclaUdhJginDQ82i0vpwY4Kp/EV06Cs
-	0thw0gv9VXL4YLhEWOhqbO3i3p+9zKk4HFnf6Su3b8XqhjJ6QSqHlycDgr98Cx9FZEKE
-	iWwthotSx7DbCfmqP2z3PlRCP9xxK4sEDES6jV/lKUXcuyOZ4SfUfmjp8UBKIvr0kYGy
-	7vI9hX74lT5zWnTXF06G4tHpcI1oPW7JK1vcZZv7iUdVtCXifCOOtKHMZUYI1+SF8r3T
-	g0q8w5jC3rj6OuFAHPPd/ryfm0D9YhYnXb/+8XXNPf1K9FnA8QiJ3jjOzVWwpobf8jPK
-	fnvw==
+	bh=+rnZs7SjxPFy0Zwasf4y5/jWfgDdABe6LP5LG7F+uww=;
+	b=XkOOSN4Suq4NpL2zuRYANh+SJbd+S6nuYW4gPJUuOOnAcZpWx0xnIXd/JY31HdlEJO
+	Ky6qhV9d+pFeEPPOWPJU0pEQAGZYRvWjasJg8PLoKAHWobl81gcZzAAZHKZhI9XKSjDx
+	aZWSarUi1tKHFWYUJfVeOLOB+3oFmBI6j3WfNi+jTPPNX7ptLdlt4rOO5cJZ23j+aajP
+	L9a8HTIoTyFscukvccHyce3CM1Xb1eS57z5MjWX8wUySGWtS+YMLhAN2Jc281SfFN8eR
+	xesBlQFTmas4CyZYmvKUDqACsFZNcNwfcEPg4AozOzl8WEM7Wka68Xc5eP2/zjNf741j
+	PJ6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=RQ8bwL+8dE5/3eqjWcgeEd6mObrf2vj9ClR9S679XKw=;
-	b=jn8zs/NmxBkixNF/4Caf+o+mGe3JdRyEs8PAIH6QGdUQyf72/a049Igim7oFx2BaqC
-	1Qnb9+0HyCaCzNzJTntzrm6MDiGQVkd6RvAD+W4ELo8OXvMqcC5Zis7FgN1ael/fLDpV
-	CHjfSQx+IU+OPwkwXKEHhlHsEZja20UHJzKl0+hFrSBuqaDINvvQjYO+4VmQMzhfuh+s
-	Iya1jKWGD1ajZ281tVIQgUh7aXImXSE1xRsGiR3TuXM0OabAaEU3dF8NWgMW1q1qUPTT
-	GXZfW89dZp6LxWmjFbWL2HEBSBAUedHsGWL7UD4ZrChkIaAlOj3VXhdu8ctf4L+lce3Z
-	1NTQ==
-X-Gm-Message-State: AIkVDXIhgJv4fJSmgfGghfenN1N+s/3w9yjjlw58e1OCYBCvpsLlfrY4yGk0/fm/TmOExhGP
-X-Received: by 10.36.130.66 with SMTP id t63mr3643305itd.90.1484919509542;
-	Fri, 20 Jan 2017 05:38:29 -0800 (PST)
+	bh=+rnZs7SjxPFy0Zwasf4y5/jWfgDdABe6LP5LG7F+uww=;
+	b=a4Puqr+xTG6YVEthois4mTIGUjzBQNnrqZgpRctLcb7gUvgKtVTzCAUKirPceQLb7Q
+	PjBckMQG9pZqB+Gm7BYzI78m16Qo3d6lGC8NAZfnFRYrIp2G6xjxJ2hEXUFW/w/X1rfw
+	mn1/iQ8+TKKcOJUFjYDs30MIHKuIQV8rK8Ou8kyGao9AOTJisCRE175yCRYoYLS7hi6i
+	sRGBDSa8YPaaPgza0poK5+LQwkd9YPyyW1/4KTFIXu1Ja4Ik957M77mQs/up+tz6jLvY
+	5qDX15Pd+SaUsJA4qePDFDrs3V9nIuXFd7wL8TznQWzoCTOME3DRmRx5FosMyjNpm29E
+	25SA==
+X-Gm-Message-State: AIkVDXIbt0DoqDUWw5EArTwtf6Mm8jMGYQDyWbFdPLAHXUludT9C0kgb9sCXiliQ5lu4EcNb
+X-Received: by 10.36.104.15 with SMTP id v15mr1380987itb.104.1484919512708;
+	Fri, 20 Jan 2017 05:38:32 -0800 (PST)
 Received: from pohly-desktop.fritz.box (p57A56DD5.dip0.t-ipconnect.de.
 	[87.165.109.213])
-	by smtp.gmail.com with ESMTPSA id e24sm1362361itd.6.2017.01.20.05.38.27
+	by smtp.gmail.com with ESMTPSA id e24sm1362361itd.6.2017.01.20.05.38.30
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 20 Jan 2017 05:38:28 -0800 (PST)
+	Fri, 20 Jan 2017 05:38:31 -0800 (PST)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2017 14:38:01 +0100
-Message-Id: <619b009e5819d3fdb6d911bcf9b21e8e2d55438d.1484919259.git-series.patrick.ohly@intel.com>
+Date: Fri, 20 Jan 2017 14:38:02 +0100
+Message-Id: <32c71c6e0510c09fa47a8f6fe01555bf8655bf53.1484919259.git-series.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.c4c1bf3452da11cfcc8b08c59ba9a17e2035b400.1484919259.git-series.patrick.ohly@intel.com>
 References: <cover.c4c1bf3452da11cfcc8b08c59ba9a17e2035b400.1484919259.git-series.patrick.ohly@intel.com>
 In-Reply-To: <cover.c4c1bf3452da11cfcc8b08c59ba9a17e2035b400.1484919259.git-series.patrick.ohly@intel.com>
 References: <cover.c4c1bf3452da11cfcc8b08c59ba9a17e2035b400.1484919259.git-series.patrick.ohly@intel.com>
-Subject: [PATCH v3 04/12] ovmf: deploy firmware in image directory
+Subject: [PATCH v3 05/12] ovmf_git.bb: enable parallel compilation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,111 +59,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 13:38:29 -0000
+X-List-Received-Date: Fri, 20 Jan 2017 13:38:32 -0000
 
-When used with '-drive if=pflash', qemu will store UEFI variables
-inside the firmware image file. That is unexpected for a file located in
-the sysroot, which should be read-only, while it is normal for image
-files in the deploy/images directory. Therefore that directory is a
-better place for use with runqemu.
+The Fedora srpm [1] seems to have no problems with parallel
+compilation, so let's also use that for the target. The native
+tools however indeed have dependency problems:
 
-The name was chose so that "runqemu ovmf" can be used as shorthand for
-"runqemu <full path>/ovmf.qcow2" by treating "ovmf" as the base name
-of the BIOS file. "ovmf.secboot.qcow2" is meant to be used for the
-Secure Boot enabled firmware.
+| test_Ecc_CParser (CheckPythonSyntax.Tests) ... gcc -o ../bin/EfiRom -L/fast/build/ostro/x86/tmp-glibc/sysroots/x86_64-linux/usr/lib -L/fast/build/ostro/x86/tmp-glibc/sysroots/x86_64-linux/lib -Wl,-rpath-link,/fast/build/ostro/x86/tmp-glibc/sysroots/x86_64-linux/usr/lib -Wl,-rpath-link,/fast/build/ostro/x86/tmp-glibc/sysroots/x86_64-linux/lib -Wl,-rpath,/fast/build/ostro/x86/tmp-glibc/sysroots/x86_64-linux/usr/lib -Wl,-rpath,/fast/build/ostro/x86/tmp-glibc/sysroots/x86_64-linux/lib -Wl,-O1 EfiRom.o -L../libs -lCommon
+| /usr/bin/ld: cannot find -lCommon
+| collect2: error: ld returned 1 exit status
 
-qcow2 is used because it is needed for "savevm" snapshots of a virtual
-machine.
+ERROR: Task (virtual:native:.../meta/recipes-core/ovmf/ovmf_git.bb:do_compile) failed with exit code '1'
 
-With code and variables stored in the same ovmf.qcow2 it is not
-possible to update the firmware code without also overwriting the
-variables. For users who care about persistent variables, the code and
-variables are also provided as separate files, in ovmf.code.qcow2 and
-ovmf.vars.qcow2.
-
-The traditional usage of ovmf via the qemu bios parameter is no longer
-supported and therefore it is not necessary to create a "bios.bin"
-file in the target sysroot.
+[1] https://src.fedoraproject.org/cgit/rpms/edk2.git/tree/edk2.spec
 
 Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- meta/recipes-core/ovmf/ovmf_git.bb | 42 ++++++++++++++++++++++---------
- 1 file changed, 31 insertions(+), 11 deletions(-)
+ meta/recipes-core/ovmf/ovmf_git.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
-index 13b583b..895ed6c 100644
+index 895ed6c..9989025 100644
 --- a/meta/recipes-core/ovmf/ovmf_git.bb
 +++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -12,11 +12,13 @@ SRC_URI = "git://github.com/tianocore/edk2.git;branch=master \
+@@ -14,7 +14,7 @@ SRCREV="4575a602ca6072ee9d04150b38bfb143cbff8588"
  
- SRCREV="4575a602ca6072ee9d04150b38bfb143cbff8588"
+ inherit deploy
  
-+inherit deploy
-+
- PARALLEL_MAKE = ""
+-PARALLEL_MAKE = ""
++PARALLEL_MAKE_class-native = ""
  
  S = "${WORKDIR}/git"
  
--DEPENDS_class-native="util-linux-native iasl-native ossp-uuid-native"
-+DEPENDS_class-native="util-linux-native iasl-native ossp-uuid-native qemu-native"
+@@ -94,6 +94,7 @@ do_compile_class-native() {
  
- DEPENDS_class-target="ovmf-native"
- 
-@@ -97,9 +99,22 @@ do_compile_class-target() {
+ do_compile_class-target() {
+     export LFLAGS="${LDFLAGS}"
++    PARALLEL_JOBS="${@ '${PARALLEL_MAKE}'.replace('-j', '-n')}"
+     OVMF_ARCH="X64"
+     if [ "${TARGET_ARCH}" != "x86_64" ] ; then
          OVMF_ARCH="IA32"
-     fi
+@@ -111,7 +112,7 @@ do_compile_class-target() {
+     bbnote FIXED_GCCVER is ${FIXED_GCCVER}
+     build_dir="${S}/Build/Ovmf$OVMF_DIR_SUFFIX/RELEASE_${FIXED_GCCVER}"
  
-+    # ${WORKDIR}/ovmf is a well-known location where do_install and
-+    # do_deploy will be able to find the files.
-+    rm -rf ${WORKDIR}/ovmf
-+    mkdir ${WORKDIR}/ovmf
-+    OVMF_DIR_SUFFIX="X64"
-+    if [ "${TARGET_ARCH}" != "x86_64" ] ; then
-+        OVMF_DIR_SUFFIX="Ia32" # Note the different capitalization
-+    fi
-     FIXED_GCCVER=$(fixup_target_tools ${GCC_VER})
--    echo FIXED_GCCVER is ${FIXED_GCCVER}
-+    bbnote FIXED_GCCVER is ${FIXED_GCCVER}
-+    build_dir="${S}/Build/Ovmf$OVMF_DIR_SUFFIX/RELEASE_${FIXED_GCCVER}"
-+
-     ${S}/OvmfPkg/build.sh -a $OVMF_ARCH -b RELEASE -t ${FIXED_GCCVER}
-+    ln ${build_dir}/FV/OVMF.fd ${WORKDIR}/ovmf/ovmf.fd
-+    ln ${build_dir}/FV/OVMF_CODE.fd ${WORKDIR}/ovmf/ovmf.code.fd
-+    ln ${build_dir}/FV/OVMF_VARS.fd ${WORKDIR}/ovmf/ovmf.vars.fd
- }
- 
- do_install_class-native() {
-@@ -108,16 +123,21 @@ do_install_class-native() {
- }
- 
- do_install_class-target() {
--    OVMF_DIR_SUFFIX="X64"
--    if [ "${TARGET_ARCH}" != "x86_64" ] ; then
--        OVMF_DIR_SUFFIX="Ia32" # Note the different capitalization
--    fi
--    install -d ${D}${datadir}/ovmf
-+}
- 
--    FIXED_GCCVER=$(fixup_target_tools ${GCC_VER})
--    build_dir="${S}/Build/Ovmf$OVMF_DIR_SUFFIX/RELEASE_${FIXED_GCCVER}"
--    install -m 0755 ${build_dir}/FV/OVMF.fd \
--	${D}${datadir}/ovmf/bios.bin
-+do_deploy() {
-+}
-+do_deploy[cleandirs] = "${DEPLOYDIR}"
-+do_deploy_class-target() {
-+    # For use with "runqemu ovmf".
-+    for i in \
-+        ovmf \
-+        ovmf.code \
-+        ovmf.vars \
-+        ; do
-+        qemu-img convert -f raw -O qcow2 ${WORKDIR}/ovmf/$i.fd ${DEPLOYDIR}/$i.qcow2
-+    done
- }
-+addtask do_deploy after do_compile before do_build
- 
- BBCLASSEXTEND = "native"
+-    ${S}/OvmfPkg/build.sh -a $OVMF_ARCH -b RELEASE -t ${FIXED_GCCVER}
++    ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b RELEASE -t ${FIXED_GCCVER}
+     ln ${build_dir}/FV/OVMF.fd ${WORKDIR}/ovmf/ovmf.fd
+     ln ${build_dir}/FV/OVMF_CODE.fd ${WORKDIR}/ovmf/ovmf.code.fd
+     ln ${build_dir}/FV/OVMF_VARS.fd ${WORKDIR}/ovmf/ovmf.vars.fd
 -- 
 git-series 0.9.1
 
