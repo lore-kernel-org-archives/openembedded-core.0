@@ -1,30 +1,52 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BB11719AC
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
+	[209.85.214.51])
+	by mail.openembedded.org (Postfix) with ESMTP id AA3CE719AC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 11:35:13 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
-	via TCP (outbound) with ESMTPS id 20170120113501987_0486;
-	Fri, 20 Jan 2017 11:35:01 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [216.191.234.70] (port=52269 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1cUXT4-0004kj-2h; Fri, 20 Jan 2017 06:34:54 -0500
-Date: Fri, 20 Jan 2017 06:34:53 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@uk63952.mitel.com
-To: Mike Looijmans <mike.looijmans@topic.nl>
-In-Reply-To: <38f99bff-e9e4-ef57-caef-a47573fc5362@topic.nl>
-Message-ID: <alpine.LFD.2.20.1701200632250.12889@uk63952.mitel.com>
-References: <alpine.LFD.2.20.1701191542230.6131@localhost.localdomain>
-	<38f99bff-e9e4-ef57-caef-a47573fc5362@topic.nl>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+	Fri, 20 Jan 2017 11:35:22 +0000 (UTC)
+Received: by mail-it0-f51.google.com with SMTP id 203so17105195ith.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jan 2017 03:35:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=VsomMFhTO+he076p0AKN6saOuL/Mzf7RI86wweKqXew=;
+	b=tTnqHu5BdwAzUB6e4WO6ifk+QYOrglh6GKmxZLFnFamJUDaKG0NqWS58OgUNn+jve6
+	cNQfDu/lN77MAhd5BNr4aVh/j2Fj5pR7rscnlbK1RknHyahFwwQwXwtEQp9dISn0TFsZ
+	PZCkAVvtz/GU4lCOHg5FitTD5+t94egSgWLFe+DFtIwkReiAIyChh6Vq/L8tBmqyWsvz
+	acW57er4/lXhvt3ZNy0vxiEYmeF6L13HyHeWVi7QbbvmgemvMnVsWCDtQbPhy+qZUtvf
+	ZpWT17pLZDh4eMSuveblN0yRXIvwQCl/lil1w8VdU3Nt/BlSC1mVn1iwQQHgOSLSVkVY
+	9qHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=VsomMFhTO+he076p0AKN6saOuL/Mzf7RI86wweKqXew=;
+	b=HhUJupEoHz9BAzX/dG7n+CV9l+hGKLsNzjxPWE7FFqnpYzQXGnYPw+n8n6MHal2JPC
+	Mh066y5St5Ttn3W9dbxucBUTpNd5oerO+GmUQV5prZw0+pY9DZsluLn+Ub0yhzprRdDo
+	fpNjMrhoedRO2YmYt7/kDHSZNmERvXa6R1AuMM85uLbxBd5qZ/pkgwvpZCDoDXWJp5mb
+	O0QzwMcODy53H9q3QHb1LzfW2gA/5LAihJ7Okoc9l5HTK6HN7lc8RnhWoww8CtuAkg9s
+	dVXQcZeLKQ8InLBBbdk/oSTIl2ry9EVNAMK6HYr+aXa4JeaRVkUZsDLyMCkZtzJyHPd4
+	ReYA==
+X-Gm-Message-State: AIkVDXLQ2KQPK/Qs+BDtSONYwRxVjNmNW2ab5f97YfXmBGKbchlIVHJiJJCXbtTvdvbaSbND
+X-Received: by 10.36.141.2 with SMTP id w2mr3067158itd.114.1484912122765;
+	Fri, 20 Jan 2017 03:35:22 -0800 (PST)
+Received: from pohly-mobl1 (p57A56DD5.dip0.t-ipconnect.de. [87.165.109.213])
+	by smtp.gmail.com with ESMTPSA id y71sm1228336itb.1.2017.01.20.03.35.19
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 20 Jan 2017 03:35:20 -0800 (PST)
+Message-ID: <1484912118.23233.113.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
+Date: Fri, 20 Jan 2017 12:35:18 +0100
+In-Reply-To: <1484866006-25611-1-git-send-email-anibal.limon@linux.intel.com>
+References: <1484866006-25611-1-git-send-email-anibal.limon@linux.intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: still fighting to get an OE recipe for "libfilesys-smbclient-perl"
+Subject: Re: [PATCH] qemu: Upgrade to 2.7.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,120 +59,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 11:35:15 -0000
-Content-Type: multipart/mixed;
-	BOUNDARY="587868445-1134473589-1484912094=:12889"
+X-List-Received-Date: Fri, 20 Jan 2017 11:35:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---587868445-1134473589-1484912094=:12889
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+On Thu, 2017-01-19 at 16:46 -0600, Aníbal Limón wrote:
+>  SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+> -SRC_URI[md5sum] = "08d4d06d1cb598efecd796137f4844ab"
+> -SRC_URI[sha256sum] = "326e739506ba690daf69fc17bd3913a6c313d9928d743bd8eddb82f403f81e53"
+> +SRC_URI[md5sum] = "a315bc51ed443a08d2cf1416d76b9ab4"
+> +SRC_URI[sha256sum] = "68636788eb69bcb0b44ba220b32b50495d6bd5712a934c282217831c4822958f"
 
-On Fri, 20 Jan 2017, Mike Looijmans wrote:
+_prepend without trailing space is broken. It just happens to work
+because the SRC_URI it prepends to usually has a leading space.
 
-> ﻿On 19-01-17 21:58, Robert P. J. Day wrote:
-> >
-> >   following up on the whining i did a while back to finish off a few
-> > perl recipes for OE, i have just a few left to resolve, and this is
-> > one of them. i managed to get several dozen perl recipes to work
-> > simply by throwing together recipes based on very little understanding
-> > of perl cpan mechanics and just mindlessly cribbing boilerplate from
-> > other recipes. if it worked, yee ha, move on.
-> >
-> >   here's my current recipe for this module (again, slapped together
-> > without really understanding what's going on under the hood):
-> >
-> > ///// start /////
-> >
-> > DESCRIPTION = "Filesys::SmbClient"
-> >
-> > SECTION = "libs"
-> > LICENSE = "Artisticv1 | GPLv1+"
-> > PR = "r0"
-> >
-> > MAINTAINER=	"rday"
-> > HOMEPAGE=	"https://metacpan.org/pod/Filesys::SmbClient"
-> >
-> > LIC_FILES_CHKSUM =
-> > "file://${COMMON_LICENSE_DIR}/Artistic-1.0;md5=cda03bbdc3c1951996392b872397b798
-> > \
-> > file://${COMMON_LICENSE_DIR}/GPL-1.0;md5=e9e36a9de734199567a4d769498f743d"
-> >
-> > DEPENDS += "samba"
-> >
-> > SRC_URI =
-> > "https://cpan.metacpan.org/authors/id/A/AL/ALIAN/Filesys-SmbClient-3.2.tar.gz"
-> >
-> > SRC_URI[md5sum] = "8a4205fe748aac7f43fb2a0e8ef502b2"
-> > SRC_URI[sha256sum] =
-> > "a9f2f3d4675de76f9dcae2be40bda93495cd5fafb1bb6326d71833cea451bc6e"
-> >
-> > S = "${WORKDIR}/Filesys-SmbClient-${PV}"
-> >
-> > inherit cpan
-> >
-> > EXTRA_CPANFLAGS = "INC='-I${STAGING_INCDIR}/samba-4.0'
-> > LIBS='-L${STAGING_LIBDIR}'"
-> >
-> > BBCLASSEXTEND = "native"
-> >
-> > ///// end /////
-> >
-> > and the error i get when i try to build makes it *clear* that the
-> > configuration is failing to set up properly for cross-compiling for my
-> > powerpc target:
-> >
-> > $ bitbake libfilesys-smbclient-perl
-> > ... snip ...
-> > | Where can I find libsmbclient.h ? []
-> > *************************************************************
-> > | ** WHAT !!!!
-> > | ** I Can't find /libsmbclient.h : No such file or directory.
-> > | *************************************************************
-> > ... snip ...
-> > | Where can I find libsmbclient.so ? []
-> > *************************************************************
-> > | ** WHAT !!!!
-> > | ** I Can't find libsmbclient.so : No such file or directory.
-> > ... snip ...
-> > | checking for C compiler default output... a.out
-> > | checking whether the C compiler works... configure: error: cannot
-> > run C compiled programs.
-> > | If you meant to cross compile, use `--host'.
-> > | See `config.log' for more details.
-> >
-> >
-> >   and sure enough, the config.log for this build contains:
-> >
-> > Target: powerpc-poky-linux
-> > Configured with:
-> > ../../../../../../work-shared/gcc-6.3.0-r0/gcc-6.3.0/configure
-> > --build=x86_64-linux --host=x86_64-linux --target=powerpc-poky-linux
-> > ...
->
-> Quick observation: I think host and target are wrong. The "host" is where the
-> software will run. The line above builds something that runs on x86_64 and
-> that compiles for a powerpc target (target only makes sense if you're
-> compiling a compiler). You probably wanted --host=powerpc-poky-linux and no
-> "--target" at all.
+I just ran into a situation where it didn't (due to some _remove
+operation being interposed, which did a split/join, see YOCTO #10945).
 
-  right, that was why i reproduced that bit ... to show that the
-"--host" value is clearly wrong, and even suggests that problem a few
-lines earlier:
+I was about to send a fix, but it would just conflict with your version
+update. Can you include a fix by revising your proposal, perhaps by
+turning it into a patch series with two changes?
 
-> > | checking whether the C compiler works... configure: error: cannot
-> > run C compiled programs.
-> > | If you meant to cross compile, use `--host'.
-
-rday
+IMHO SRC_URI =+ "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+should be fine. There's no need for the more complex _prepend.
 
 -- 
+Best Regards, Patrick Ohly
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
---587868445-1134473589-1484912094=:12889--
+
+
