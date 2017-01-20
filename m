@@ -1,48 +1,23 @@
-Return-Path: <max.oss.09@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E47160269
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 660C3719AA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 12:34:13 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id d140so6423680wmd.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 04:34:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=message-id:subject:from:to:cc:date:mime-version
-	:content-transfer-encoding;
-	bh=jcaD8mrx84Mz4qczb69gOdlch26CKWPAzhpmeNVBRCc=;
-	b=Q8AUYTYC3oVlhSPg9poFkJcIHmkKJznSkjDvA0yY8Klvos13ryEZ0aa0wqWoQNvEDB
-	NKHiEzM/dkRFbzxwIcv330sIH53CkXjgF6Q7d5HU9eJaQPQkTgb08BwEcpwfjm/6UqIH
-	KydTd7EuX6yrPlpn74RTYvrhvK7EbkwaWRbjmwh39Vn2gNzQkcGbBjqdhQOsdxR8CIjn
-	XDOWDXbNNEHfXfXj/jmNkTMwWzUyzjeabuTvm2n5wUiwpfhiP5wBzD3NZjwLBeT4oQUF
-	PScJRmRDbsoVMcNUv+AHkFXd2mMBcM0ia5ivGMnbgW3lc36T99L/kzlt1erNE3gmyFfg
-	5OWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:mime-version
-	:content-transfer-encoding;
-	bh=jcaD8mrx84Mz4qczb69gOdlch26CKWPAzhpmeNVBRCc=;
-	b=N/MwsZqLwuL1XDcZjqGWIbpklGczunktG/G3lPg1d4u4qEllKPhaas1VKIfOoljGH5
-	NAOQPkDCqgrm8P9z4UTAuI9lWn3F/cwsjhCdcj3kY1qhtbd1bgUc0Ufgd0AiFG0EYo6c
-	FX41/OF0xWYq8pDn7CyFmRxDyjcxh83v50oyTG+Ij1R9cXC8TkfI9V8lCXho1k20v9B4
-	5ttQM52p3RnlSPwDBxNSuq4D6pDGAk5+YACjPCo/ujsAmWrw+91KIYJQHzTjbKLYuxiM
-	eHaaTJ35KCksEbgHaAvtgMjtJ5kLIkECft/26jCA8AbYGpikCFGGd2/GtQ/1LCxTkqam
-	MGEA==
-X-Gm-Message-State: AIkVDXLG83cfmgIh/bWclcpwTrq4SOLU2jWTZ8qH28gjM5jVs3/MGFTb8cSN8Zeh5tGniA==
-X-Received: by 10.28.156.151 with SMTP id f145mr3458717wme.8.1484915653336;
-	Fri, 20 Jan 2017 04:34:13 -0800 (PST)
-Received: from Saturn.local.all ([194.191.225.83])
-	by smtp.gmail.com with ESMTPSA id
-	u78sm5834909wma.11.2017.01.20.04.34.12
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 20 Jan 2017 04:34:12 -0800 (PST)
-Message-ID: <1484915651.4907.9.camel@gmail.com>
-From: Max Krummenacher <max.oss.09@gmail.com>
-To: openembedded-core@lists.openembedded.org, Armin Kuster
-	<akuster808@gmail.com>
-Date: Fri, 20 Jan 2017 13:34:11 +0100
-X-Mailer: Evolution 3.16.5 
-Mime-Version: 1.0
-Subject: [morty] backport request: nspr: set correct version in pkg-config file
+	Fri, 20 Jan 2017 13:10:03 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga104.fm.intel.com with ESMTP; 20 Jan 2017 05:10:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,258,1477983600"; d="scan'208";a="811249561"
+Received: from linux.intel.com ([10.54.29.200])
+	by FMSMGA003.fm.intel.com with ESMTP; 20 Jan 2017 05:10:04 -0800
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id 9D9116A4006;
+	Fri, 20 Jan 2017 05:09:07 -0800 (PST)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Jan 2017 15:09:38 +0200
+Message-Id: <1484917778-4178-1-git-send-email-jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] epiphany: Fix dependencies for recipe specific sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,19 +30,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 12:34:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Jan 2017 13:10:04 -0000
 
-Hi
+gettext and glib-2.0 tools are required during build.
 
-Can we backport the following commit to morty?
-http://cgit.openembedded.org/openembedded-core/commit/?id=cb4f5ecf32006192baaf41218a3d7b43ca1c2951
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
 
-It fixes pkgconfig to no longer report an old version.
+This should fix the build issues epiphany is having with the RSS
+patchset.
 
-Currently this breaks firefox in meta-browser morty branch.
+ meta/recipes-gnome/epiphany/epiphany_3.22.3.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Thanks
-Max
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.22.3.bb b/meta/recipes-gnome/epiphany/epiphany_3.22.3.bb
+index 9803a16..78a5bc7 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.22.3.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.22.3.bb
+@@ -3,9 +3,10 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ 
+ DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes avahi libnotify gcr \
+-	   gsettings-desktop-schemas gnome-desktop3 libxml2-native intltool-native"
++	   gsettings-desktop-schemas gnome-desktop3 libxml2-native \
++	   intltool-native glib-2.0 glib-2.0-native"
+ 
+-inherit gnomebase gsettings distro_features_check upstream-version-is-even
++inherit gnomebase gsettings distro_features_check upstream-version-is-even gettext
+ REQUIRED_DISTRO_FEATURES = "x11"
+ 
+ SRC_URI += "file://0001-yelp.m4-drop-the-check-for-itstool.patch"
+-- 
+2.1.4
+
 
