@@ -1,46 +1,52 @@
 Return-Path: <patrick.ohly@intel.com>
 Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
 	[209.85.214.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 5977771E52
+	by mail.openembedded.org (Postfix) with ESMTP id 50B31731A5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 13:38:14 +0000 (UTC)
-Received: by mail-it0-f51.google.com with SMTP id c7so20038057itd.1
+	Fri, 20 Jan 2017 13:38:20 +0000 (UTC)
+Received: by mail-it0-f51.google.com with SMTP id c7so20041395itd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 05:38:15 -0800 (PST)
+	Fri, 20 Jan 2017 05:38:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=UZsFeRBGArqJh+2e2912buB23o/fjAojNqM10HtSR6M=;
-	b=ntNW/6BQVa54ZuH52uto4udesUB+3OpAfln7b1M8eLEknMB+9Ijx1Oa9YdY8aDNdJE
-	h8C66KVbjJGnlJ5d0r2Hosx3QvLhWUB6CbBcivwyC34DkaAyAMaK/oHPa4TJIkiefO5m
-	5XBuzy7jJsXtFcHGEKoNXipvU62aRyS5B2NoP8Lm34Nc/WXxufQNuNmbworh3GPFOpLi
-	uHgua48owWzzXMakw8D5cILOyPY03Yc1w6ZK+5tr/RpKPdIiMG4GuoySjCBnTA05m3RQ
-	6aesM5T0HUF5XNnTIR2Mp9FpL9K6dZ83jEmjoMgxYDlojl8FYt6IxmhWkPV8Hz6j0SMw
-	C9wQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:in-reply-to:references;
+	bh=+j0B95qYg112lae8bSlK75zzvjlligG6+DkVhw3JVrs=;
+	b=xD3RINKoE3sv25okdoKhQvXG/VBEbLXdqnNrc5k/ozizZ7qKr4oJzuVylAchdfeIp/
+	I/+7NVFWt40d0i0Jb3YwDCvrgukF8kBRLkNPDwZmRqw4ZGxH0Di/hARlnPzzSKdyryd0
+	WzsJjmif+FOlR3JNnA+FKzsoly7Ue/xZj+l07CuJ1BKgd4w5QPBNwddMVViQSqNBUmEb
+	pDs6b1eR2UbHiBBjy3iw4+Pcn1xln4/Y/bnb5a60ZgwFXQPbF+YnBVWugwrapJddjyy+
+	VKJJkkc2N50aaoGUJEujs8/wDrDX5B1oUql8GwIkLg8vuWEu2hUbSYMLdplo8oK41j7b
+	ud6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=UZsFeRBGArqJh+2e2912buB23o/fjAojNqM10HtSR6M=;
-	b=dxbpIUZj7yjSeYzbC+DdiT/UTtl+aBWayoiZRm20a8KGIuGVNV9mnYupda8aW35XWx
-	DPOKnPGXsyrmU12ykEaDYax4Qs+84FJl7dxdQMxScnV9VJKK7fb0R6yTlFMSjN6gs9e3
-	N5Q7gupiYaN/+R12tLI9ffWkk6Zg8j/QTvxElbKKLsca6Mh4DsLCDNHvh7UgvuJ20j1q
-	nIELR14BYAjNo10GjQo8p1p4ovmsmONV/ij5lUwhTiVXbqfC4Uc17Nhkkg0/ON3sHaSe
-	yw9lx6849uvfFGljReC2TTp95ZOLrDPbSmEFJf2ERpXzQx+Cv85vvmbLXMsErMUaH+u2
-	2mvQ==
-X-Gm-Message-State: AIkVDXIKBqOl7VprnKjkf/su0cLNXfAE+eklVKlc0MPeDVF4+EFCsMafCjxQwKf9tAKMc1Y4
-X-Received: by 10.107.185.65 with SMTP id j62mr12315094iof.3.1484919495147;
-	Fri, 20 Jan 2017 05:38:15 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:in-reply-to:references;
+	bh=+j0B95qYg112lae8bSlK75zzvjlligG6+DkVhw3JVrs=;
+	b=nYd71zXpCTw/p1wfcTFkQY8hNS/GYovGV6A2DqWMg5kKGQ3/wn7CwRxhCImi6WPMfn
+	L4xh6hju3TilQWb1nyoEfblkgpVgEXycxrpt0g57JE9/Jz1n5/Ze05miSDz8JPNfIH86
+	EV3MG0wNyhLLFFvMWjPtPaOTwW+ougOlN9MK0c9LdKuw4XHrnMEGW4mBhk4OupEvUTGN
+	t/SIhCGL1O+kUrkgFJaUrY0as/M2WKylC2Akf0ZM7UlHTvJWZ1m9fOHVIRl1DMdBW7vx
+	10TDyWSM4fWH0a3h15ptg/EESzFt5WIBz1Xi5Ue0HqLa+g+VrFOfU4viLrGfsflVFDyj
+	qYKQ==
+X-Gm-Message-State: AIkVDXJPj3apqdWRzZ76WOqZs1o6X6sNNSvZyTPRiW7HB4mEirRL7UFjbr1H/YX60V8hyPOL
+X-Received: by 10.107.20.13 with SMTP id 13mr12961850iou.0.1484919500141;
+	Fri, 20 Jan 2017 05:38:20 -0800 (PST)
 Received: from pohly-desktop.fritz.box (p57A56DD5.dip0.t-ipconnect.de.
 	[87.165.109.213])
-	by smtp.gmail.com with ESMTPSA id e24sm1362361itd.6.2017.01.20.05.38.13
+	by smtp.gmail.com with ESMTPSA id e24sm1362361itd.6.2017.01.20.05.38.17
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 20 Jan 2017 05:38:14 -0800 (PST)
+	Fri, 20 Jan 2017 05:38:18 -0800 (PST)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2017 14:37:57 +0100
-Message-Id: <cover.c4c1bf3452da11cfcc8b08c59ba9a17e2035b400.1484919259.git-series.patrick.ohly@intel.com>
+Date: Fri, 20 Jan 2017 14:37:58 +0100
+Message-Id: <5d3bddab512a68e512b0121f34680eae40dbd9d2.1484919259.git-series.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH v3 00/12] UEFI + Secure Boot + qemu
+In-Reply-To: <cover.c4c1bf3452da11cfcc8b08c59ba9a17e2035b400.1484919259.git-series.patrick.ohly@intel.com>
+References: <cover.c4c1bf3452da11cfcc8b08c59ba9a17e2035b400.1484919259.git-series.patrick.ohly@intel.com>
+In-Reply-To: <cover.c4c1bf3452da11cfcc8b08c59ba9a17e2035b400.1484919259.git-series.patrick.ohly@intel.com>
+References: <cover.c4c1bf3452da11cfcc8b08c59ba9a17e2035b400.1484919259.git-series.patrick.ohly@intel.com>
+Subject: [PATCH v3 01/12] acpica: move from meta-oe to OE-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,105 +59,544 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 13:38:15 -0000
+X-List-Received-Date: Fri, 20 Jan 2017 13:38:20 -0000
 
-There seems to be a consensus that supporting UEFI in OE-core for qemu
-would be valuable, and there have been some (stalled) attempts to add
-it. For reference, see:
-   [OE-core] [PATCH V3 0/3] Add UEFI firmware for qemux86*
-   [OE-core] Add ovmf-native to make qemu-native/runqemu support boot UEFI image?
-   https://bugzilla.yoctoproject.org/show_bug.cgi?id=5654
-   https://github.com/01org/luv-yocto/issues/38
+From: Fathi Boudra <fathi.boudra@linaro.org>
 
-This patch set includes the necessary recipes (ovmf from meta-luv, acpica from
-meta-oe), some improvements to them (in particular, enabling Secure
-Boot), and changes to runqemu to make it easier to boot with UEFI. A
-special image recipes builds an image which can be used to lock down a
-virtual machine by enrolling the "normal" pre-installed certificates.
+qemu support for UEFI in OE-core depends on OVMF, which needs the iasl
+tools provided by this recipe. There's also an iasl recipe in
+meta-luv, but than can and will be replaced by this one, thus reducing
+overall maintenance work.
 
-In contrast to the first version of this patch series, one can now use
-both a single OVMF firmware file as well as set up persistent
-variables for a virtual machine by using two files.
+Copied from meta-openembedded rev fa65be9ba (current master).
 
-Eduardo promised to add automated testing for this once it is in OE-core.
-As it stands now, ovmf-shell-image and ovmf without Secure Boot enabled
-should at least be part of a world build.
-
-As discussed on this list, Ricardo and Fathi volunteered to help with
-maintaining the ovmf and acpica recipes in OE-core.
-
-Beware that "git am --keep-cr" must be used to import the ovmf patches
-correctly.
-
-Changes since V1:
-- support both combined code+vars ("ovmf") and separate code
-  and vars flash drives ("ovmf.code ovmf.vars")
-- OVMF firmware no longer installed in the target sysroot
-- slightly simpler renaming from OVMF (uppercase, underscore)
-  to OE naming convention (lowercase, dots): now the different
-  ln invocation directly create files with the final name
-- DEPLOYDIR needs to be cleaned explicitly (done via cleandirs varflag)
-- Secure Boot support in ovmf is controlled by a PACKAGECONFIG option,
-  off by default
-- distros and developers can add additional Secure Boot compile flags
-  with OVMF_SECURE_BOOT_EXTRA_FLAGS
-- explain how to get ovmf built for use with runqemu via MACHINE_ESSENTIAL_EXTRA_RDEPENDS
-- IMAGE_FSTYPES_forcevariable = "wic" used in ovmf-shell-image
-- remove OVMF BGRT patch
-- location of "inherit deploy"
-
-Changes since V2:
-- rebased onto current master
-- workaround for acpica compile issue with flex 2.6.2
-
-Fathi Boudra (1):
-  acpica: move from meta-oe to OE-core
-
-Patrick Ohly (10):
-  ovmf: explicitly depend on nasm-native
-  ovmf: deploy firmware in image directory
-  ovmf_git.bb: enable parallel compilation
-  ovmf_git.bb: enable Secure Boot
-  runqemu: also accept -image suffix for rootfs parameter
-  runqemu: fix undefined variable reference in check_arg_path()
-  runqemu: support UEFI with OVMF firmware
-  ovmf: build image which enrolls standard keys
-  ovmf: remove BGRT patch
-  acpica: work around flex 2.6.2 code generation issue
-
-meta-luv (1):
-  ovmf: move from meta-luv to OE-core
-
- meta/recipes-core/ovmf/ovmf-shell-image.bb                                                  |   17 +-
- meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch    |   48 +++-
- meta/recipes-core/ovmf/ovmf/0002-ovmf-update-path-to-native-BaseTools.patch                 |   32 ++-
- meta/recipes-core/ovmf/ovmf/0003-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch  |   39 ++-
- meta/recipes-core/ovmf/ovmf/0007-OvmfPkg-EnrollDefaultKeys-application-for-enrolling-.patch | 1124 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
- meta/recipes-core/ovmf/ovmf/ovmf-shell-image.wks                                            |    4 +-
- meta/recipes-core/ovmf/ovmf_git.bb                                                          |  201 +++++++++++++-
- meta/recipes-extended/acpica/acpica_20150515.bb                                             |   47 +++-
- meta/recipes-extended/acpica/acpitests/aapits-linux.patch                                   |  336 ++++++++++++++++++++++-
- meta/recipes-extended/acpica/acpitests/aapits-makefile.patch                                |   34 ++-
- meta/recipes-extended/acpica/acpitests_20140828.bb                                          |   35 ++-
- meta/recipes-extended/acpica/files/no-werror.patch                                          |   32 ++-
- meta/recipes-extended/acpica/files/rename-yy_scan_string-manually.patch                     |   64 ++++-
- scripts/runqemu                                                                             |   50 ++-
- 14 files changed, 2058 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-core/ovmf/ovmf-shell-image.bb
- create mode 100644 meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/0002-ovmf-update-path-to-native-BaseTools.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/0003-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/0007-OvmfPkg-EnrollDefaultKeys-application-for-enrolling-.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/ovmf-shell-image.wks
- create mode 100644 meta/recipes-core/ovmf/ovmf_git.bb
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ meta/recipes-extended/acpica/acpica_20150515.bb              |  46 +-
+ meta/recipes-extended/acpica/acpitests/aapits-linux.patch    | 336 +++++++-
+ meta/recipes-extended/acpica/acpitests/aapits-makefile.patch |  34 +-
+ meta/recipes-extended/acpica/acpitests_20140828.bb           |  35 +-
+ meta/recipes-extended/acpica/files/no-werror.patch           |  32 +-
+ 5 files changed, 483 insertions(+)
  create mode 100644 meta/recipes-extended/acpica/acpica_20150515.bb
  create mode 100644 meta/recipes-extended/acpica/acpitests/aapits-linux.patch
  create mode 100644 meta/recipes-extended/acpica/acpitests/aapits-makefile.patch
  create mode 100644 meta/recipes-extended/acpica/acpitests_20140828.bb
  create mode 100644 meta/recipes-extended/acpica/files/no-werror.patch
- create mode 100644 meta/recipes-extended/acpica/files/rename-yy_scan_string-manually.patch
 
-base-commit: a7cb408dd784178197687a2129e936620bf6a0d3
+diff --git a/meta/recipes-extended/acpica/acpica_20150515.bb b/meta/recipes-extended/acpica/acpica_20150515.bb
+new file mode 100644
+index 0000000..de897e1
+--- /dev/null
++++ b/meta/recipes-extended/acpica/acpica_20150515.bb
+@@ -0,0 +1,46 @@
++SUMMARY = "ACPICA tools for the development and debug of ACPI tables"
++DESCRIPTION = "The ACPI Component Architecture (ACPICA) project provides an \
++OS-independent reference implementation of the Advanced Configuration and \
++Power Interface Specification (ACPI). ACPICA code contains those portions of \
++ACPI meant to be directly integrated into the host OS as a kernel-resident \
++subsystem, and a small set of tools to assist in developing and debugging \
++ACPI tables."
++
++HOMEPAGE = "http://www.acpica.org/"
++SECTION = "console/tools"
++
++LICENSE = "BSD | GPLv2"
++LIC_FILES_CHKSUM = "file://generate/unix/readme.txt;md5=204407e197c1a01154a48f6c6280c3aa"
++
++COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
++
++DEPENDS = "bison flex"
++
++SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix2-${PV}.tar.gz \
++    file://no-werror.patch \
++    "
++SRC_URI[md5sum] = "2bc4a7ccc82de9df9fa964f784ecb29c"
++SRC_URI[sha256sum] = "61204ec56d71bc9bfa2ee2ade4c66f7e8541772ac72ef8ccc20b3f339cc96374"
++
++S = "${WORKDIR}/acpica-unix2-${PV}"
++
++EXTRA_OEMAKE = "CC='${CC}' 'OPT_CFLAGS=-Wall'"
++
++do_install() {
++    install -D -p -m0755 generate/unix/bin*/iasl ${D}${bindir}/iasl
++    install -D -p -m0755 generate/unix/bin*/acpibin ${D}${bindir}/acpibin
++    install -D -p -m0755 generate/unix/bin*/acpiexec ${D}${bindir}/acpiexec
++    install -D -p -m0755 generate/unix/bin*/acpihelp ${D}${bindir}/acpihelp
++    install -D -p -m0755 generate/unix/bin*/acpinames ${D}${bindir}/acpinames
++    install -D -p -m0755 generate/unix/bin*/acpisrc ${D}${bindir}/acpisrc
++    install -D -p -m0755 generate/unix/bin*/acpixtract ${D}${bindir}/acpixtract
++}
++
++# iasl*.bb is a subset of this recipe, so RREPLACE it
++PROVIDES = "iasl"
++RPROVIDES_${PN} += "iasl"
++RREPLACES_${PN} += "iasl"
++RCONFLIGHTS_${PN} += "iasl"
++
++NATIVE_INSTALL_WORKS = "1"
++BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-extended/acpica/acpitests/aapits-linux.patch b/meta/recipes-extended/acpica/acpitests/aapits-linux.patch
+new file mode 100644
+index 0000000..7c5d6b0
+--- /dev/null
++++ b/meta/recipes-extended/acpica/acpitests/aapits-linux.patch
+@@ -0,0 +1,336 @@
++From: Al Stone <ahs3@ahs3.net>
++Date: Mon, 7 Apr 2014 19:09:37 +0000
++Subject: [PATCH 1/2] Fixup aapits build
++
++From http://git.linaro.org/people/al.stone/acpica-tools.git
++Upstream-status: Unknown
++
++diff -urN acpica-unix2-20130626/tests/aapits/atexec.c acpica-unix2-20130626-aapits/tests/aapits/atexec.c
++--- acpica-unix2-20130626/tests/aapits/atexec.c	2013-01-17 12:48:28.000000000 -0700
+++++ acpica-unix2-20130626-aapits/tests/aapits/atexec.c	2013-07-25 13:44:23.023894441 -0600
++@@ -639,6 +639,7 @@
++ }
++ 
++ 
+++#if ACPI_MACHINE_WIDTH == 32
++ /*******************************************************************************
++  *
++  * FUNCTION:    AtBuildLocalRSDT
++@@ -757,8 +758,9 @@
++         LocalRSDT->Header.Checksum = (UINT8)~LocalRSDT->Header.Checksum;
++     }
++ }
+++#endif
++ 
++ 
++ /*******************************************************************************
++  *
++  * FUNCTION:    AtBuildLocalXSDT
++@@ -1424,7 +1426,7 @@
++         ACPI_WARNING ((AE_INFO,
++             "Request on [%4.4s] is beyond region limit Req-%X+%X, Base=%X, Len-%X\n",
++             (RegionObject->Region.Node)->Name.Ascii, (UINT32) Address,
++-            ByteWidth, (UINT32) BufferAddress, Length));
+++            ByteWidth, (UINT32) BufferAddress, (UINT32) Length));
++ 
++         return (AE_AML_REGION_LIMIT);
++     }
++@@ -1792,7 +1796,9 @@
++             Path, Obj.Integer.Value, Value);
++ #else
++         printf ("API Error: Value of %s is 0x%llx instead of expected 0x%llx\n",
++-            Path, Obj.Integer.Value, Value);
+++            Path,
+++	    (long long unsigned int) Obj.Integer.Value,
+++	    (long long unsigned int) Value);
++ #endif
++         Status = AE_ERROR;
++     }
++@@ -1871,7 +1877,7 @@
++     {
++         TestErrors++;
++         printf ("Test Error: cannot allocate buffer of %d bytes\n",
++-            Results.Length);
+++                (int) Results.Length);
++         return (AE_NO_MEMORY);
++     }
++     Results.Pointer = Object;
++@@ -1952,7 +1956,8 @@
++     {
++         printf ("AtCheckBuffer: unexpected length %d of Buffer vs"
++             " calculated %d bytes\n",
++-            Results.Length, ACPI_ROUND_UP_TO_NATIVE_WORD(sizeof (ACPI_OBJECT) + Length));
+++            (int)Results.Length,
+++	    (int)(ACPI_ROUND_UP_TO_NATIVE_WORD(sizeof (ACPI_OBJECT) + Length)));
++     }
++ 
++     /* Initialize the return buffer structure */
++@@ -1961,7 +1968,7 @@
++     {
++         TestErrors++;
++         printf ("Test Error: cannot allocate buffer of %d bytes\n",
++-            Results.Length);
+++            (int) Results.Length);
++         return (AE_NO_MEMORY);
++     }
++     Results.Pointer = Object;
++diff -urN acpica-unix2-20130626/tests/aapits/atinit.c acpica-unix2-20130626-aapits/tests/aapits/atinit.c
++--- acpica-unix2-20130626/tests/aapits/atinit.c	2013-01-17 12:48:28.000000000 -0700
+++++ acpica-unix2-20130626-aapits/tests/aapits/atinit.c	2013-07-25 13:20:19.706705960 -0600
++@@ -3024,7 +3024,7 @@
++             AapiErrors++;
++             printf ("API Error: AcpiGetSystemInfo() returned"
++                 " Length %d, expected %d\n",
++-                OutBuffer.Length, sizeof (Info));
+++                (int) OutBuffer.Length, (int) sizeof (Info));
++             return (AE_ERROR);
++         }
++ 
++@@ -3046,7 +3046,7 @@
++             AapiErrors++;
++             printf ("API Error: AcpiGetSystemInfo() returned"
++                 " Length %d, expected %d\n",
++-                OutBuffer.Length, sizeof (Info));
+++                (int) OutBuffer.Length, (int) sizeof (Info));
++             return (AE_ERROR);
++         }
++ 
++@@ -3066,7 +3066,7 @@
++             AapiErrors++;
++             printf ("API Error: AcpiGetSystemInfo() returned"
++                 " Length %d, expected %d\n",
++-                OutBuffer.Length, sizeof (Info));
+++                (int) OutBuffer.Length, (int) sizeof (Info));
++             return (AE_ERROR);
++         }
++         else if (OutBuffer.Pointer != &Info)
++@@ -3149,7 +3149,7 @@
++             AapiErrors++;
++             printf ("API Error: AcpiGetSystemInfo() returned"
++                 " Length %d, expected %d\n",
++-                OutBuffer.Length, sizeof (Info));
+++                (int) OutBuffer.Length, (int) sizeof (Info));
++             return (AE_ERROR);
++         }
++         else if (OutBuffer.Pointer != &Info)
++@@ -3214,7 +3214,7 @@
++             AapiErrors++;
++             printf ("API Error: AcpiGetSystemInfo() returned"
++                 " Length %d, expected %d\n",
++-                OutBuffer.Length, sizeof (ACPI_SYSTEM_INFO));
+++                (int) OutBuffer.Length, (int) sizeof (ACPI_SYSTEM_INFO));
++             return (AE_ERROR);
++         }
++         else
++diff -urN acpica-unix2-20130626/tests/aapits/atmain.c acpica-unix2-20130626-aapits/tests/aapits/atmain.c
++--- acpica-unix2-20130626/tests/aapits/atmain.c	2013-01-17 12:48:28.000000000 -0700
+++++ acpica-unix2-20130626-aapits/tests/aapits/atmain.c	2013-07-25 13:18:22.083323948 -0600
++@@ -315,7 +315,7 @@
++     {
++         printf ("ACPICA API TS err: test num %ld of test case %ld"
++             " is not implemented\n",
++-            test_num, test_case);
+++            (long int) test_num, (long int) test_case);
++         return (AtRetNotImpl);
++     }
++ 
++@@ -430,7 +432,7 @@
++     if (test_case < 1 || test_case > AT_TEST_CASE_NUM)
++     {
++         printf ("ACPICA API TS err: test case %ld is out of range 1 - %d\n",
++-            test_case, AT_TEST_CASE_NUM);
+++            (long int) test_case, (int) AT_TEST_CASE_NUM);
++         return (AtRetBadParam);
++     }
++ 
++@@ -438,7 +440,7 @@
++     if (test_num < 0 || test_num > AtTestCase[test_case].TestsNum)
++     {
++         printf ("ACPICA API TS err: test num %ld is out of range 0 - %d\n",
++-            test_num, AtTestCase[test_case].TestsNum);
+++            (long int) test_num, AtTestCase[test_case].TestsNum);
++         return (AtRetBadParam);
++     }
++
++diff -urN acpica-unix2-20130626/tests/aapits/atnamespace.c acpica-unix2-20130626-aapits/tests/aapits/atnamespace.c
++--- acpica-unix2-20130626/tests/aapits/atnamespace.c	2013-01-17 12:48:28.000000000 -0700
+++++ acpica-unix2-20130626-aapits/tests/aapits/atnamespace.c	2013-07-25 13:24:15.366466707 -0600
++@@ -2535,7 +2535,8 @@
++ #else
++                 printf ("API Error: Address of %s (0x%llX) != (0x%llX)\n",
++                     PathNames[2 * i + 1],
++-                    Info->Address, ExpectedInfo[i].Address);
+++                    (long long unsigned int) Info->Address,
+++		    (long long unsigned int) ExpectedInfo[i].Address);
++ #endif
++ #else
++                 printf ("API Error: Address of %s (0x%X) != (0x%X)\n",
++@@ -2908,7 +2909,8 @@
++         TestErrors++;
++         printf ("AtGetNextObjectTypeCommon: different numbers of entities"
++             "in TypesNames (%d) and LevelTypes0000 (%d)\n",
++-            TypesCount, sizeof (LevelTypes0000) / sizeof (ACPI_OBJECT_TYPE));
+++            TypesCount,
+++	    (int) (sizeof (LevelTypes0000) / sizeof (ACPI_OBJECT_TYPE)));
++         return (AE_ERROR);
++     }
++ 
++@@ -4192,7 +4194,9 @@
++             Pathname, Obj.Integer.Value, Value);
++ #else
++         printf ("API Error: Value of %s is 0x%llx instead of expected 0x%llx\n",
++-            Pathname, Obj.Integer.Value, Value);
+++            Pathname,
+++	    (long long unsigned int) Obj.Integer.Value,
+++	    (long long unsigned int) Value);
++ #endif
++         Status = AE_ERROR;
++     }
++@@ -5199,7 +5203,7 @@
++             {
++                 AapiErrors++;
++                 printf ("API Error: AcpiOsAllocate(%d) returned NULL\n",
++-                    OutName.Length);
+++                    (int) OutName.Length);
++                 return (AE_ERROR);
++             }
++         }
++diff -urN acpica-unix2-20130626/tests/aapits/atosxfctrl.c acpica-unix2-20130626-aapits/tests/aapits/atosxfctrl.c
++--- acpica-unix2-20130626/tests/aapits/atosxfctrl.c	2013-01-17 12:48:28.000000000 -0700
+++++ acpica-unix2-20130626-aapits/tests/aapits/atosxfctrl.c	2013-07-25 13:30:00.375492751 -0600
++@@ -737,13 +737,15 @@
++ #if ACPI_MACHINE_WIDTH == 64
++ #ifdef    _MSC_VER
++         printf("OsxfCtrlFingReg: unexpected Width %d of Reg 0x%I64x\n",
+++            Width, Address);
++ #else
++         printf("OsxfCtrlFingReg: unexpected Width %d of Reg 0x%llx\n",
+++            Width, (long long unsigned int) Address);
++ #endif
++ #else
++         printf("OsxfCtrlFingReg: unexpected Width %d of Reg 0x%x\n",
++-#endif
++             Width, Address);
+++#endif
++         return (NULL);
++     }
++ 
++@@ -764,15 +766,19 @@
++ #ifdef    _MSC_VER
++                 printf("OsxfCtrlFingReg: intersection Regs (0x%I64x: 0x%x)"
++                     " and (0x%I64x: 0x%x)\n",
+++                    Reg->Address, Reg->Width, Address, Width);
++ #else
++                 printf("OsxfCtrlFingReg: intersection Regs (0x%llx: 0x%x)"
++                     " and (0x%llx: 0x%x)\n",
+++                    (long long unsigned int) Reg->Address,
+++		    Reg->Width,
+++		    (long long unsigned int) Address, Width);
++ #endif
++ #else
++                 printf("OsxfCtrlFingReg: intersection Regs (0x%x: 0x%x)"
++                     " and (0x%x: 0x%x)\n",
++-#endif
++                     Reg->Address, Reg->Width, Address, Width);
+++#endif
++                 return (NULL);
++             }
++         }
++@@ -786,13 +792,15 @@
++ #if ACPI_MACHINE_WIDTH == 64
++ #ifdef    _MSC_VER
++             printf("OsxfCtrlFingReg: no memory for Reg (0x%I64x: 0x%x)\n",
+++                Reg->Address, Reg->Width);
++ #else
++             printf("OsxfCtrlFingReg: no memory for Reg (0x%llx: 0x%x)\n",
+++                (long long unsigned int) Reg->Address, Reg->Width);
++ #endif
++ #else
++             printf("OsxfCtrlFingReg: no memory for Reg (0x%x: 0x%x)\n",
++-#endif
++                 Reg->Address, Reg->Width);
+++#endif
++             return (NULL);
++         }
++         Reg->Type = Type;
++@@ -932,14 +940,19 @@
++ #if ACPI_MACHINE_WIDTH == 64
++ #ifdef    _MSC_VER
++             printf("%.2u (%s Address 0x%I64x: Width %.2u) r/w counts: %u/%u\n",
+++                i, (Reg->Type == EMUL_REG_SYS)? "SYS": "IO",
+++                Reg->Address, Reg->Width, Reg->ReadCount, Reg->WriteCount);
++ #else
++             printf("%.2u (%s Address 0x%llx: Width %.2u) r/w counts: %u/%u\n",
+++                i, (Reg->Type == EMUL_REG_SYS)? "SYS": "IO",
+++                (long long unsigned int) Reg->Address,
+++		Reg->Width, Reg->ReadCount, Reg->WriteCount);
++ #endif
++ #else
++             printf("%.2u (%s Address 0x%.4x: Width %.2u) r/w counts: %u/%u\n",
++-#endif
++                 i, (Reg->Type == EMUL_REG_SYS)? "SYS": "IO",
++                 Reg->Address, Reg->Width, Reg->ReadCount, Reg->WriteCount);
+++#endif
++             Reg = Reg->Next;
++             i++;
++         }
++diff -urN acpica-unix2-20130626/tests/aapits/atresource.c acpica-unix2-20130626-aapits/tests/aapits/atresource.c
++--- acpica-unix2-20130626/tests/aapits/atresource.c	2013-01-17 12:48:29.000000000 -0700
+++++ acpica-unix2-20130626-aapits/tests/aapits/atresource.c	2013-07-25 13:25:49.423565947 -0600
++@@ -174,7 +174,7 @@
++         AapiErrors++;
++         printf ("API Error: AcpiGetCurrentResources(%s) returned Length %d,"
++             " expected %d\n",
++-            Pathname, OutBuffer.Length, RT0000_DEV0_CRS_LEN);
+++            Pathname, (int) OutBuffer.Length, RT0000_DEV0_CRS_LEN);
++         return (AE_ERROR);
++     }
++ 
++@@ -490,7 +490,7 @@
++         AapiErrors++;
++         printf ("API Error: AcpiGetCurrentResources(%s) returned Length %d,"
++             " expected %d\n",
++-            Pathname, OutBuffer.Length, RT0000_DEV0_CRS_LEN);
+++            Pathname, (int) OutBuffer.Length, RT0000_DEV0_CRS_LEN);
++         return (AE_ERROR);
++     }
++ 
++@@ -689,7 +689,7 @@
++         AapiErrors++;
++         printf ("Api Error: Resource->Length (%d) != %d\n",
++             CurrentResource->Length,
++-            ACPI_ROUND_UP_TO_NATIVE_WORD (ACPI_RS_SIZE (ACPI_RESOURCE_IRQ)));
+++            (int) (ACPI_ROUND_UP_TO_NATIVE_WORD (ACPI_RS_SIZE (ACPI_RESOURCE_IRQ))));
++     }
++ 
++     if (CurrentResource->Data.Irq.Triggering != 0) /* Level-Triggered */
++@@ -981,7 +981,7 @@
++         AapiErrors++;
++         printf ("API Error: AcpiGetPossibleResources(%s) returned Length %d,"
++             " expected %d\n",
++-            Pathname, OutBuffer.Length, RT0000_DEV0_CRS_LEN);
+++            Pathname, (int) OutBuffer.Length, RT0000_DEV0_CRS_LEN);
++         return (AE_ERROR);
++     }
++ 
++@@ -1923,7 +1923,7 @@
++         AapiErrors++;
++         printf ("API Error: AcpiGetIrqRoutingTable(%s) returned Length %d,"
++             " expected %d\n",
++-            Pathname, OutBuffer.Length, 0xA48);
+++            Pathname, (int) OutBuffer.Length, 0xA48);
++         return (AE_ERROR);
++     }
++
++diff -urN acpica-unix2-20130626/tests/aapits/Makefile acpica-unix2-20130626-aapits/tests/aapits/Makefile
++--- acpica-unix2-20130626/tests/aapits/Makefile	2013-01-17 12:48:29.000000000 -0700
+++++ acpica-unix2-20130626-aapits/tests/aapits/Makefile	2013-07-25 15:17:09.309236422 -0600
++@@ -194,7 +194,7 @@
++ CFLAGS+= -Wall -g -D_LINUX -DNDEBUG -D_CONSOLE -DACPI_APITS -DACPI_EXEC_APP -D_MULTI_THREADED -Wstrict-prototypes -I../../source/include
++
++ 
++-acpiexec : $(patsubst %.c,%.o, $(SRCS))
+++$(PROG) : $(patsubst %.c,%.o, $(SRCS))
++ 	$(CC) $(LDFLAGS) $(patsubst %.c,%.o, $(SRCS)) -o $(PROG)
++ 
++ CLEANFILES= $(PROG)
+diff --git a/meta/recipes-extended/acpica/acpitests/aapits-makefile.patch b/meta/recipes-extended/acpica/acpitests/aapits-makefile.patch
+new file mode 100644
+index 0000000..4d9e997
+--- /dev/null
++++ b/meta/recipes-extended/acpica/acpitests/aapits-makefile.patch
+@@ -0,0 +1,34 @@
++From: Al Stone <ahs3@ahs3.net>
++Date: Mon, 7 Apr 2014 19:09:37 +0000
++Subject: [PATCH 1/2] Fixup aapits build
++
++From http://git.linaro.org/people/al.stone/acpica-tools.git
++Upstream-status: Unknown
++
++diff -urN acpica-unix2-20140325/tests/aapits/Makefile acpica-unix2-20140325/tests/aapits/Makefile
++--- acpica-unix2-20140325/tests/aapits/Makefile	2014-04-05 14:23:14.683636794 -0600
+++++ acpica-unix2-20140325-aapits/tests/aapits/Makefile	2014-04-05 15:10:57.879184598 -0600
++@@ -16,6 +16,7 @@
++ 	atosxfwrap.c \
++ 	osunixxf.c \
++ 	../../source/common/ahids.c \
+++	../../source/common/ahuuids.c \
++ 	../../source/common/cmfsize.c \
++ 	../../source/common/getopt.c \
++ 	../../source/components/hardware/hwtimer.c \
++@@ -174,6 +175,7 @@
++ 	../../source/components/utilities/utexcep.c \
++ 	../../source/components/utilities/utfileio.c \
++ 	../../source/components/utilities/utglobal.c \
+++	../../source/components/utilities/uthex.c \
++ 	../../source/components/utilities/utids.c \
++ 	../../source/components/utilities/utinit.c \
++ 	../../source/components/utilities/utlock.c \
++@@ -189,6 +191,7 @@
++ 	../../source/components/utilities/utstate.c \
++ 	../../source/components/utilities/utstring.c \
++ 	../../source/components/utilities/uttrack.c \
+++	../../source/components/utilities/utuuid.c \
++ 	../../source/components/utilities/utxface.c \
++ 	../../source/components/utilities/utxferror.c \
++ 	../../source/components/utilities/utxfinit.c \
+diff --git a/meta/recipes-extended/acpica/acpitests_20140828.bb b/meta/recipes-extended/acpica/acpitests_20140828.bb
+new file mode 100644
+index 0000000..1f6f190
+--- /dev/null
++++ b/meta/recipes-extended/acpica/acpitests_20140828.bb
+@@ -0,0 +1,35 @@
++SUMMARY = "Test suite used to validate ACPICA"
++HOMEPAGE = "http://www.acpica.org/"
++
++LICENSE = "Intel"
++LIC_FILES_CHKSUM = "file://tests/aapits/atexec.c;beginline=1;endline=115;md5=e92bcdfcd01d117d1bda3e814bb2030a"
++
++DEPENDS = "bison flex"
++
++SRC_URI = "https://acpica.org/sites/acpica/files/acpitests-unix-${PV}.tar.gz;name=acpitests \
++           https://acpica.org/sites/acpica/files/acpica-unix2-${PV}.tar.gz;name=acpica \
++           file://aapits-linux.patch \
++           file://aapits-makefile.patch \
++"
++SRC_URI[acpitests.md5sum] = "db9d6fdaa8e3eb101d700ee5ba4938ed"
++SRC_URI[acpitests.sha256sum] = "e576c74bf1bf1c9f7348bf9419e05c8acfece7105abcdc052e66670c7af2cf00"
++SRC_URI[acpica.md5sum] = "6f05f0d10166a1b1ff6107f3d1cdf1e5"
++SRC_URI[acpica.sha256sum] = "01d8867656c5ba41dec307c4383ce676196ad4281ac2c9dec9f5be5fac6d888e"
++
++S = "${WORKDIR}/acpitests-unix-${PV}"
++
++EXTRA_OEMAKE = "'CC=${TARGET_PREFIX}gcc ${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}' 'OPT_CFLAGS=-Wall'"
++
++# The Makefiles expect a specific layout
++do_compile() {
++    cp -af ${WORKDIR}/acpica-unix2-${PV}/source ${S}
++    cd tests/aapits
++    oe_runmake
++}
++
++do_install() {
++    install -d ${D}${bindir}
++    install -m0755 tests/aapits/bin/aapits ${D}${bindir}
++}
++
++COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
+diff --git a/meta/recipes-extended/acpica/files/no-werror.patch b/meta/recipes-extended/acpica/files/no-werror.patch
+new file mode 100644
+index 0000000..5d28f47
+--- /dev/null
++++ b/meta/recipes-extended/acpica/files/no-werror.patch
+@@ -0,0 +1,32 @@
++Description: remove -Werror flag
++Forwarded: not-needed
++Author: Fathi Boudra <fathi.boudra@linaro.org>
++
++---
++ generate/unix/iasl/Makefile |   12 ++++++------
++ 1 file changed, 6 insertions(+), 6 deletions(-)
++
++--- a/generate/unix/iasl/Makefile
+++++ b/generate/unix/iasl/Makefile
++@@ -266,19 +266,19 @@ $(OBJDIR)/prparser.y.h: $(OBJDIR)/prpars
++ # by the utilities above and they are not necessarily ANSI C, etc.
++ #
++ $(OBJDIR)/aslcompilerlex.o :   $(OBJDIR)/aslcompilerlex.c
++-	$(CC) -c $(CFLAGS) -Wall -Werror -o$@ $<
+++	$(CC) -c $(CFLAGS) -Wall -o$@ $<
++ 
++ $(OBJDIR)/aslcompilerparse.o : $(OBJDIR)/aslcompilerparse.c
++-	$(CC) -c $(CFLAGS) -Wall -Werror -o$@ $<
+++	$(CC) -c $(CFLAGS) -Wall -o$@ $<
++ 
++ $(OBJDIR)/dtparserlex.o :      $(OBJDIR)/dtparserlex.c
++-	$(CC) -c $(CFLAGS) -Wall -Werror -o$@ $<
+++	$(CC) -c $(CFLAGS) -Wall -o$@ $<
++ 
++ $(OBJDIR)/dtparserparse.o :    $(OBJDIR)/dtparserparse.c
++-	$(CC) -c $(CFLAGS) -Wall -Werror -o$@ $<
+++	$(CC) -c $(CFLAGS) -Wall -o$@ $<
++ 
++ $(OBJDIR)/prparserlex.o :      $(OBJDIR)/prparserlex.c
++-	$(CC) -c $(CFLAGS) -Wall -Werror -o$@ $<
+++	$(CC) -c $(CFLAGS) -Wall -o$@ $<
 -- 
 git-series 0.9.1
 
