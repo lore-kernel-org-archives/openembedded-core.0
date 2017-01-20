@@ -1,52 +1,47 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 037857316D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-yb0-f173.google.com (mail-yb0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id D4ACE73173
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 14:07:07 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id v96so61889610ioi.0
+	Fri, 20 Jan 2017 14:08:36 +0000 (UTC)
+Received: by mail-yb0-f173.google.com with SMTP id 123so54819536ybe.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 06:07:08 -0800 (PST)
+	Fri, 20 Jan 2017 06:08:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:date:in-reply-to:references:organization
-	:mime-version:content-transfer-encoding;
-	bh=RqXEtBiFAWYldUnIg5K7M7EMOm4gwcTmBGlv1x/LESQ=;
-	b=sYIVFKcB9E6K104VdgK0NmcPXW53ZKUx3l4x3GdxXNJrP1kDqF1NCfbFtyC0acHV97
-	quJoXY1sowaoyB1MMcu+KEAjbHJYRcV8EaynLFle3y9elS6HJEbFXOK3j9XQWAJOgoLP
-	V2YlIrcAFAr4GQu/IMZis68M+lilB8FlwQqAwTU2fFgEw9vL1/FytzmjWuiBaR5Jtp/K
-	7MbSt4uEA9rsp4NJFv2ZQOy8OMrX1wQxL/meelKHHC/SqGO990biAlpc4WndwUh1Og9l
-	oMOgUFKxX2KSOKXS6RUN9ALsQuCTH1nW7QoWO4Lnb+KPiaMqMtEHWkpyFJJEui94xHRE
-	7QNg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Ot8eH2RWs8L9wexnGJfJ4CbjjFkN+ZRnCh2sv65n5Zg=;
+	b=DEBeZTaw1GV45UmvzMYA2NPCtDjzuxgYy9e7kBfUZEwCxdncwvlU/VUzCyYst6jfXO
+	34xEXqWxu8D4aZOjZ9gDAop57gpPyzGg6QreITr7pnsmospi1P7mU/+tWIj6skR99yLL
+	HN+5L7hd6PvC8zhLPv+WftcVo+dba/qJ5AUTCNUDP1+3+T8hNosyqH6grQdkHIyagUE9
+	Pt7dfgIM6Q7jyTLglmqB8q7yR4rqA3exIF1boNtW2WXhvHsgsvUJyvB3HIAz1OLIx4tJ
+	1U9HlfySUMOHsox0zVvIRKKRKzqt2e5MqHfEmONHdK53tSnixop+PHOClNuUgWG1mv/2
+	3bZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=RqXEtBiFAWYldUnIg5K7M7EMOm4gwcTmBGlv1x/LESQ=;
-	b=gcKmjCfVLT7ub2FWar4bbB2cZSaOlFoNiVejPWo6sgxR78O9QUHuIwyJzjoX59CREC
-	ZTg0fOQz3HuumBhn4nc83yxsU5WCulOijk7uVzU/gKUhT41yI5HhIK2denCj2Elivbfh
-	cPck26aO3T9oCu210cQZNzdFa2cDdLPtLjkPxLBn8onhtRQAOHpWHqgdAzTeUm0dkUft
-	4git+yK3C7WRtCcdn0H8JyZ5lK53mi605lSBPBps/NiLIbOawVYh5V5AtM/9dKc+xenx
-	Yl0IOoW2gVGwsicXvjK/v/XNTQIbywTAefL5pYM4TQCZUQW5+yviXSmQo2zFa82Vbps9
-	VMVQ==
-X-Gm-Message-State: AIkVDXKZIXkrjFO23qpgxoa1uo21Uvb7ncZo8b2RMyl9ZJRNemQCtUFmzoWOPU4Fs7tKyS+C
-X-Received: by 10.107.167.204 with SMTP id q195mr14881674ioe.170.1484921227407;
-	Fri, 20 Jan 2017 06:07:07 -0800 (PST)
-Received: from pohly-mobl1 (p57A56DD5.dip0.t-ipconnect.de. [87.165.109.213])
-	by smtp.gmail.com with ESMTPSA id 62sm3102283itl.1.2017.01.20.06.07.05
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 20 Jan 2017 06:07:06 -0800 (PST)
-Message-ID: <1484921224.23233.123.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2017 15:07:04 +0100
-In-Reply-To: <20170120135343.23276.63313@do.openembedded.org>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Ot8eH2RWs8L9wexnGJfJ4CbjjFkN+ZRnCh2sv65n5Zg=;
+	b=ow4shOe3/ZejaMqZZX5Ehf00yZjbZW/Umd3w7IQ57NK14kq2EQfH+n40sNTolb7ysQ
+	4NgWx3O6Cxq7W/ndGHdLAATtu9xBaC1tDykmMysMC80/W6Oyk9YyEXQVdTlFtICI733t
+	7AHDmaqZIkVQ5wZn3evgxzgw+wROjcCgV3YRCr8rbKvGSbK5YJWLah7DS/v8OXDrFil6
+	J3kRIV/LuuwhWxE6OZN0xvA/SGaeCUj7q95LFqISJjbe5Tg5Fcn6PZJHlO+80BBifNIp
+	KWM3DQAD8OYlnXvBW31KYd5Nm/xp6l6wxidPNIODmET+zNN1TG/ykM8RA/pznvjqgtym
+	A+1Q==
+X-Gm-Message-State: AIkVDXLLSjHeZ43LIygjIuEjct+DLW4+pPlfbQTjpWWeeY2D8RH1chBhcqLwSgH9GXhmm6dX4ykraBmJ6m79Izj9
+X-Received: by 10.237.39.148 with SMTP id a20mr12413370qtd.65.1484921316616;
+	Fri, 20 Jan 2017 06:08:36 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.103.233 with HTTP; Fri, 20 Jan 2017 06:08:16 -0800 (PST)
+In-Reply-To: <1484921224.23233.123.camel@intel.com>
 References: <cover.c4c1bf3452da11cfcc8b08c59ba9a17e2035b400.1484919259.git-series.patrick.ohly@intel.com>
 	<20170120135343.23276.63313@do.openembedded.org>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
+	<1484921224.23233.123.camel@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 20 Jan 2017 14:08:16 +0000
+Message-ID: <CAJTo0LZbR=p5Ge7YLjbeY-GzHC3sV6igQTLxDQ=yX3NpDpwyew@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIFVFRkkgKyBTZWN1cmUgQm9vdCArIHFlbXUgKHJldjQp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -60,38 +55,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 14:07:08 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Jan 2017 14:08:37 -0000
+Content-Type: multipart/alternative; boundary=f403045ee6d898d4500546872f0e
 
-On Fri, 2017-01-20 at 13:53 +0000, Patchwork wrote:
-> * Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
->   Suggested fix    Sign off the added patch file (meta/recipes-extended/acpica/acpitests/aapits-linux.patch)
-> 
-> * Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
->   Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-extended/acpica/acpitests/aapits-linux.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
+--f403045ee6d898d4500546872f0e
+Content-Type: text/plain; charset=UTF-8
 
-This is intentional: I'm not the original author and didn't want to mess
-too much with the recipe. Should I add Upstream-Status in a separate
-commit?
+On 20 January 2017 at 14:07, Patrick Ohly <patrick.ohly@intel.com> wrote:
 
-> * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
->   Suggested fix    Rebase your series on top of targeted branch
->   Targeted branch  master (currently at ce5c7075d5)
+> This is intentional: I'm not the original author and didn't want to mess
+> too much with the recipe. Should I add Upstream-Status in a separate
+> commit?
+>
 
-Argh, apparently I only meant to rebase and then didn't. Will resolve
-this and send V4.
+Sneak it in, it's just a minor change.
 
-But it's good that patchtest is finding this promptly, kudos!
+Ross
 
--- 
-Best Regards, Patrick Ohly
+--f403045ee6d898d4500546872f0e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 January 2017 at 14:07, Patrick Ohly <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":mj" class=
+=3D"a3s aXjCH m159bc342c8423aff">This is intentional: I&#39;m not the origi=
+nal author and didn&#39;t want to mess<br>
+too much with the recipe. Should I add Upstream-Status in a separate<br>
+commit?<br></div></blockquote></div><br>Sneak it in, it&#39;s just a minor =
+change.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
+">Ross</div></div>
 
-
-
-
+--f403045ee6d898d4500546872f0e--
