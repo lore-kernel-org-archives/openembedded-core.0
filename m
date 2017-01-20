@@ -1,33 +1,53 @@
-Return-Path: <jason.wessel@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A59CD7316D
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 14:04:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v0KE4dXF028185
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 20 Jan 2017 06:04:39 -0800 (PST)
-Received: from [172.25.59.218] (172.25.59.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 20 Jan 2017 06:04:38 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20170119211441.126457-1-jason.wessel@windriver.com>
-	<20170119211441.126457-2-jason.wessel@windriver.com>
-	<f97e0ddf-dd9d-06d3-831c-fa47349a1e66@windriver.com>
-	<20170120132920.GA8341@mbabyjoh-desk.ger.corp.intel.com>
-	<CAJTo0LaFMD3cFHR2d_1W4pM3cy7ekhM21UpBRz_Ec+C4tYigQQ@mail.gmail.com>
-	<63d74901-4f7e-292f-8163-445006e226d2@windriver.com>
-	<CAJTo0LZ+C=_cz3wdvtqmYJBrNHR-UBX9fasrg_T632G_u43itA@mail.gmail.com>
-From: Jason Wessel <jason.wessel@windriver.com>
-Message-ID: <869ff8ea-8803-2751-3d2f-187eff4755b5@windriver.com>
-Date: Fri, 20 Jan 2017 08:04:38 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZ+C=_cz3wdvtqmYJBrNHR-UBX9fasrg_T632G_u43itA@mail.gmail.com>
-Cc: OE-core <Openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] Revert "kernel: Modify kernel modules installation path."
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 037857316D
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jan 2017 14:07:07 +0000 (UTC)
+Received: by mail-io0-f172.google.com with SMTP id v96so61889610ioi.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jan 2017 06:07:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:date:in-reply-to:references:organization
+	:mime-version:content-transfer-encoding;
+	bh=RqXEtBiFAWYldUnIg5K7M7EMOm4gwcTmBGlv1x/LESQ=;
+	b=sYIVFKcB9E6K104VdgK0NmcPXW53ZKUx3l4x3GdxXNJrP1kDqF1NCfbFtyC0acHV97
+	quJoXY1sowaoyB1MMcu+KEAjbHJYRcV8EaynLFle3y9elS6HJEbFXOK3j9XQWAJOgoLP
+	V2YlIrcAFAr4GQu/IMZis68M+lilB8FlwQqAwTU2fFgEw9vL1/FytzmjWuiBaR5Jtp/K
+	7MbSt4uEA9rsp4NJFv2ZQOy8OMrX1wQxL/meelKHHC/SqGO990biAlpc4WndwUh1Og9l
+	oMOgUFKxX2KSOKXS6RUN9ALsQuCTH1nW7QoWO4Lnb+KPiaMqMtEHWkpyFJJEui94xHRE
+	7QNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=RqXEtBiFAWYldUnIg5K7M7EMOm4gwcTmBGlv1x/LESQ=;
+	b=gcKmjCfVLT7ub2FWar4bbB2cZSaOlFoNiVejPWo6sgxR78O9QUHuIwyJzjoX59CREC
+	ZTg0fOQz3HuumBhn4nc83yxsU5WCulOijk7uVzU/gKUhT41yI5HhIK2denCj2Elivbfh
+	cPck26aO3T9oCu210cQZNzdFa2cDdLPtLjkPxLBn8onhtRQAOHpWHqgdAzTeUm0dkUft
+	4git+yK3C7WRtCcdn0H8JyZ5lK53mi605lSBPBps/NiLIbOawVYh5V5AtM/9dKc+xenx
+	Yl0IOoW2gVGwsicXvjK/v/XNTQIbywTAefL5pYM4TQCZUQW5+yviXSmQo2zFa82Vbps9
+	VMVQ==
+X-Gm-Message-State: AIkVDXKZIXkrjFO23qpgxoa1uo21Uvb7ncZo8b2RMyl9ZJRNemQCtUFmzoWOPU4Fs7tKyS+C
+X-Received: by 10.107.167.204 with SMTP id q195mr14881674ioe.170.1484921227407;
+	Fri, 20 Jan 2017 06:07:07 -0800 (PST)
+Received: from pohly-mobl1 (p57A56DD5.dip0.t-ipconnect.de. [87.165.109.213])
+	by smtp.gmail.com with ESMTPSA id 62sm3102283itl.1.2017.01.20.06.07.05
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 20 Jan 2017 06:07:06 -0800 (PST)
+Message-ID: <1484921224.23233.123.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Jan 2017 15:07:04 +0100
+In-Reply-To: <20170120135343.23276.63313@do.openembedded.org>
+References: <cover.c4c1bf3452da11cfcc8b08c59ba9a17e2035b400.1484919259.git-series.patrick.ohly@intel.com>
+	<20170120135343.23276.63313@do.openembedded.org>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIFVFRkkgKyBTZWN1cmUgQm9vdCArIHFlbXUgKHJldjQp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,141 +60,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 14:04:40 -0000
-Content-Type: multipart/alternative;
-	boundary="------------548C08B3DCEF3B0FCA9C681C"
-
---------------548C08B3DCEF3B0FCA9C681C
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Fri, 20 Jan 2017 14:07:08 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 01/20/2017 07:52 AM, Burton, Ross wrote:
->
-> On 20 January 2017 at 13:48, Jason Wessel <jason.wessel@windriver.com <mailto:jason.wessel@windriver.com>> wrote:
->
->     WARNING: linux-yocto-4.8.12+gitAUTOINC+3edb4de355_9bcb4ea3fa-r0 do_package: QA Issue: linux-yocto: Files/directories were installed but not shipped in any package:
->       /lib64
->       /lib/modules/4.8.17-yocto-standard/modules.builtin
->       /lib64/firmware
->       /lib64/firmware/cpia2
->       /lib64/firmware/cpia2/stv0672_vp4.bin
->     Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
->     linux-yocto: 5 installed and not shipped files. [installed-vs-shipped]
->
-> I suspect this is trivial with fresh eyes.  What multilib configuration are you using?  My usual "test multilib" stanza is:
->
-> #require conf/multilib.conf
-> #MULTILIBS_x86-64 = "multilib:lib32"
-> #DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
->
-> I'm guessing this isn't going to produce the same paths that you're seeing problems with.
->
-> Ross
+On Fri, 2017-01-20 at 13:53 +0000, Patchwork wrote:
+> * Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+>   Suggested fix    Sign off the added patch file (meta/recipes-extended/acpica/acpitests/aapits-linux.patch)
+> 
+> * Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
+>   Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-extended/acpica/acpitests/aapits-linux.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
+
+This is intentional: I'm not the original author and didn't want to mess
+too much with the recipe. Should I add Upstream-Status in a separate
+commit?
+
+> * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+>   Suggested fix    Rebase your series on top of targeted branch
+>   Targeted branch  master (currently at ce5c7075d5)
+
+Argh, apparently I only meant to rebase and then didn't. Will resolve
+this and send V4.
+
+But it's good that patchtest is finding this promptly, kudos!
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
 
-It looks like it probably should.
-
-MULTILIBS = "multilib:lib32"
-DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
 
 
-If for some reason you wanted to perform the exact same build I have the instructions to do so:
-
-https://github.com/WindRiver-OpenSourceLabs/wr-core/blob/master/docs/README-intel-x86.TXT
-
-That basically amounts to:
-
-git clone -b master --recurse-submodules https://github.com/WindRiver-OpenSourceLabs/wr-core
-
-cd wr-core
-
-. init-intel-x86-env
-
-
-Jason.
-
-
---------------548C08B3DCEF3B0FCA9C681C
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 01/20/2017 07:52 AM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LZ+C=_cz3wdvtqmYJBrNHR-UBX9fasrg_T632G_u43itA@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Context-Type" content="text/html; charset=UTF-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 20 January 2017 at 13:48, Jason
-            Wessel <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:jason.wessel@windriver.com" target="_blank">jason.wessel@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote">
-              <p>WARNING: linux-yocto-4.8.12+gitAUTOINC+<wbr>3edb4de355_9bcb4ea3fa-r0
-                do_package: QA Issue: linux-yocto: Files/directories
-                were installed but not shipped in any package:<br>
-                  /lib64<br>
-                  /lib/modules/4.8.17-yocto-<wbr>standard/modules.builtin<br>
-                  /lib64/firmware<br>
-                  /lib64/firmware/cpia2<br>
-                  /lib64/firmware/cpia2/stv0672_<wbr>vp4.bin<br>
-                Please set FILES such that these items are packaged.
-                Alternatively if they are unneeded, avoid installing
-                them or delete them within do_install.<br>
-                linux-yocto: 5 installed and not shipped files.
-                [installed-vs-shipped]</p>
-            </blockquote>
-          </div>
-          I suspect this is trivial with fresh eyes.  What multilib
-          configuration are you using?  My usual "test multilib" stanza
-          is:</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">
-          <div class="gmail_extra">#require conf/multilib.conf</div>
-          <div class="gmail_extra">#MULTILIBS_x86-64 = "multilib:lib32"</div>
-          <div class="gmail_extra">#DEFAULTTUNE_virtclass-multilib-lib32
-            = "x86"</div>
-          <div class="gmail_extra"><br>
-          </div>
-          <div class="gmail_extra">I'm guessing this isn't going to
-            produce the same paths that you're seeing problems with.</div>
-          <div class="gmail_extra"><br>
-          </div>
-          <div class="gmail_extra">Ross</div>
-        </div>
-      </div>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>It looks like it probably should. <br>
-    </p>
-    <p>MULTILIBS = "multilib:lib32"<br>
-      DEFAULTTUNE_virtclass-multilib-lib32 = "x86"<br>
-    </p>
-    <p><br>
-    </p>
-    <p>If for some reason you wanted to perform the exact same build I
-      have the instructions to do so:</p>
-    <p><a class="moz-txt-link-freetext" href="https://github.com/WindRiver-OpenSourceLabs/wr-core/blob/master/docs/README-intel-x86.TXT">https://github.com/WindRiver-OpenSourceLabs/wr-core/blob/master/docs/README-intel-x86.TXT</a><br>
-    </p>
-    <p>That basically amounts to:</p>
-    <p>git clone -b master --recurse-submodules
-      <a class="moz-txt-link-freetext" href="https://github.com/WindRiver-OpenSourceLabs/wr-core">https://github.com/WindRiver-OpenSourceLabs/wr-core</a></p>
-    <p>cd wr-core</p>
-    <p>. init-intel-x86-env</p>
-    <p><br>
-    </p>
-    <p>Jason. <br>
-    </p>
-  </body>
-</html>
-
---------------548C08B3DCEF3B0FCA9C681C--
