@@ -1,30 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6007E772BB
+	by mail.openembedded.org (Postfix) with ESMTP id 62499772BC
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 20 Jan 2017 18:05:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0KI5E7g019641; Fri, 20 Jan 2017 18:05:14 GMT
+	v0KI5EYm019639; Fri, 20 Jan 2017 18:05:14 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id SMpNFaFIyhtF; Fri, 20 Jan 2017 18:05:14 +0000 (GMT)
+	with LMTP id Thx37JjlUb1o; Fri, 20 Jan 2017 18:05:14 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0KI5Avh019616
+	v0KI5AOl019625
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Fri, 20 Jan 2017 18:05:11 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cUdYk-0000uI-GP; Fri, 20 Jan 2017 18:05:10 +0000
+	id 1cUdYk-0000v3-Ls; Fri, 20 Jan 2017 18:05:10 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2017 18:04:56 +0000
-Message-Id: <1484935506-3419-4-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Fri, 20 Jan 2017 18:05:05 +0000
+Message-Id: <1484935506-3419-13-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1484935506-3419-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1484935506-3419-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 04/14] wic: fix getting path of native sysroot
+Subject: [PATCH 13/14] wic: rebuild wic-tools if its sysroot doesn't exist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,70 +41,43 @@ X-List-Received-Date: Fri, 20 Jan 2017 18:05:16 -0000
 
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 
-wic used STAGING_DIR_NATIVE variable as a path to native sysroot.
-This doesn't work with recipe specific sysroots as STAGING_DIR_NATIVE
-points to the native sysroot of the current recipe.
-
-Used RECIPE_SYSROOT_NATIVE variable of wic-tools recipe
-to fix the issue.
+Rebuild wic-tools if its native sysroot doesn't exist to ensure
+that all required tools are available.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/wic.py | 12 ++++++------
- scripts/wic                   |  3 +--
- 2 files changed, 7 insertions(+), 8 deletions(-)
+ scripts/wic | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index e45594f..77f1bdc 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -210,12 +210,12 @@ class Wic(oeSelfTest):
-     def test_build_artifacts(self):
-         """Test wic create directdisk providing all artifacts."""
-         bbvars = dict((var.lower(), get_bb_var(var, 'core-image-minimal'))
--                      for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE',
--                                  'STAGING_DIR_NATIVE', 'IMAGE_ROOTFS'))
-+                      for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE', 'IMAGE_ROOTFS'))
-+        bbvars['recipe_sysroot_native'] = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
-         status = runCmd("wic create directdisk "
-                         "-b %(staging_datadir)s "
-                         "-k %(deploy_dir_image)s "
--                        "-n %(staging_dir_native)s "
-+                        "-n %(recipe_sysroot_native)s "
-                         "-r %(image_rootfs)s" % bbvars).status
-         self.assertEqual(0, status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
-@@ -301,13 +301,13 @@ class Wic(oeSelfTest):
-     def test_rootfs_artifacts(self):
-         """Test usage of rootfs plugin with rootfs paths"""
-         bbvars = dict((var.lower(), get_bb_var(var, 'core-image-minimal'))
--                      for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE',
--                                  'STAGING_DIR_NATIVE', 'IMAGE_ROOTFS'))
-+                      for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE', 'IMAGE_ROOTFS'))
-+        bbvars['recipe_sysroot_native'] = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
-         bbvars['wks'] = "directdisk-multi-rootfs"
-         status = runCmd("wic create %(wks)s "
-                         "--bootimg-dir=%(staging_datadir)s "
-                         "--kernel-dir=%(deploy_dir_image)s "
--                        "--native-sysroot=%(staging_dir_native)s "
-+                        "--native-sysroot=%(recipe_sysroot_native)s "
-                         "--rootfs-dir rootfs1=%(image_rootfs)s "
-                         "--rootfs-dir rootfs2=%(image_rootfs)s"
-                         % bbvars).status
 diff --git a/scripts/wic b/scripts/wic
-index 1ad1666..f09dbc2 100755
+index f09dbc2..8918cb4 100755
 --- a/scripts/wic
 +++ b/scripts/wic
-@@ -175,8 +175,7 @@ def wic_create_subcommand(args, usage_str):
+@@ -175,11 +175,23 @@ def wic_create_subcommand(args, usage_str):
  
          rootfs_dir = get_bitbake_var("IMAGE_ROOTFS", options.image_name)
          kernel_dir = get_bitbake_var("DEPLOY_DIR_IMAGE", options.image_name)
--        native_sysroot = get_bitbake_var("STAGING_DIR_NATIVE",
--                                         options.image_name)
-+        native_sysroot = os.path.join(get_bitbake_var("RECIPE_SYSROOT_NATIVE", "wic-tools"))
+-        native_sysroot = os.path.join(get_bitbake_var("RECIPE_SYSROOT_NATIVE", "wic-tools"))
++        native_sysroot = get_bitbake_var("RECIPE_SYSROOT_NATIVE",
++                                         "wic-tools", cache=False)
      else:
          if options.build_rootfs:
              print("Image name is not specified, exiting. (Use -e/--image-name to specify it)\n")
+             sys.exit(1)
++        native_sysroot = options.native_sysroot
++
++    if not native_sysroot or not os.path.isdir(native_sysroot):
++        print("Building wic-tools...\n")
++        if bitbake_main(BitBakeConfigParameters("bitbake wic-tools".split()),
++                        cookerdata.CookerConfiguration()):
++            sys.exit(1)
++        native_sysroot = get_bitbake_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
++        if not native_sysroot:
++            print("Unable to find the location of the native tools sysroot to use\n")
++            sys.exit(1)
+ 
+     wks_file = args[0]
+ 
 -- 
 2.7.4
 
