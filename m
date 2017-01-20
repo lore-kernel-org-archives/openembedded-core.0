@@ -1,45 +1,53 @@
-Return-Path: <raltherr@google.com>
-Received: from mail-pg0-f42.google.com (mail-pg0-f42.google.com [74.125.83.42])
-	by mail.openembedded.org (Postfix) with ESMTP id C71C471E50
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
+	[209.85.214.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C3DD77250
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 19:28:55 +0000 (UTC)
-Received: by mail-pg0-f42.google.com with SMTP id 204so25868133pge.0
+	Fri, 20 Jan 2017 19:44:30 +0000 (UTC)
+Received: by mail-it0-f50.google.com with SMTP id c7so28012257itd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 11:28:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=E3efkH9ZSbPd9eEEHKWmLl46YxYwYEnnYmNJr/e6lRk=;
-	b=mk3KlljXXdzISWg/mFseQE/68SxhqlLFtRBiIEhw8YF8Curu3x8n9cN+X/4yEF7uYx
-	nyp97VaGuK4YbdV+HkTj4P4ZIeMqHy+2UGHL/gUjbD/15xpAp2loyR4cKj0C/WDibk4f
-	OMr1JPnxVXfXlkJjqjkfKNba7bKV9j/Khl5NhEqOZSTCUwW2ZEApxIaVVEEK07TFh7tq
-	TqgFBn2jDKkefmOA+CHPGz9RRDvhLm2qDfezZuHkXXEHuRAD7TVeuU/0W7Da4vu5vwm1
-	Zj+2zGwwsvxwzI6CMvq0hvt2LIws8zpASc9YM6gkeT2Ma+XZ6vBM1Aeafj4KIC1exm0P
-	/3bQ==
+	Fri, 20 Jan 2017 11:44:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=j+nyOlqy+TNmGSXusMUzxmhuGRwIYMWLQ/mMqHgnwY8=;
+	b=XTfOE2CGrfuIRVzwaLU0QAfQ6na8EUvzdHy1o+8Vc5cLtlEQcJCdSIlneQpEUCbEFq
+	szXRJ4z6UWsx5R0XfSS54aOKPlKOXGWSUiVt5cPlyNoLupCRdHKUW+W5y3CF+V8zBt8z
+	oMmCp/bij7+Z1VK4uwHiKKpVWIHaON2ZLH9r590BhyguhdvA/PXthVNVw3UaUjQaEL/6
+	taqSh4WjKNxWMYZ6YEv1/sFzO56TBihrWSSRvJnbk7ERBFNLfkUN6dB7djdZUlkqcIfY
+	Rno0UzkGO7AI8ZBTEqU4pjY3s6qYpC7WjYPtdDwNJJubxqw4rzdoJPD9L7IQVkjixvDh
+	t3kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=E3efkH9ZSbPd9eEEHKWmLl46YxYwYEnnYmNJr/e6lRk=;
-	b=iUwtpPCcf6G0NBf05qtHWc5V0Joc1zXKlg08jcv0nMS9ILWs2LIvQjqLdpCGmMikzk
-	jU1JTzCsbEUExa/+MUu1dBdyhccOUYjqojA1pbCbr69/kXbUAjSYwkKUcE/W77gN7IKg
-	INeosRzCQXlv7qbsSKa3zpYTA5gONkpTUsuTtnL5ciMGlp9am9/hhfdn/KMh3ExsgkBN
-	WosCB7mKScC0nhDyvZmQ9EctTtIwHOQZxI8GQvMYNZ9TEgqxgk4TQDDsgmoCXtP8Ao70
-	hxhw16DYwQ4IZToTsgpt6Eo1uh/BJr880go68boMnQaspilZjM/H9vzFh0/k+6dtGGIk
-	7Msg==
-X-Gm-Message-State: AIkVDXJ2s+Qb06ab0E2WdOB+mH+WMuwxTCL1nG5YC9dcsJq03rgpbombfbtfotmUfHDHIXP4
-X-Received: by 10.84.206.37 with SMTP id f34mr24115370ple.127.1484940535592;
-	Fri, 20 Jan 2017 11:28:55 -0800 (PST)
-Received: from raltherr-linux.svl.corp.google.com ([100.123.242.49])
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=j+nyOlqy+TNmGSXusMUzxmhuGRwIYMWLQ/mMqHgnwY8=;
+	b=oTF5NgMJtCOL/QzTGKevQ0De6cBnPJvP18iDLSCj//4wAGGz6ZJjEIcMVnsiqaSC6D
+	uHb89EFPIpy8Op/1kU5hkvK3Zzaq5ZYgi1z3gA5/cuTVR8SWEN6KtNJ1JtcRcvsTiSu+
+	r9JAHIr87fDB1pZXv6yBlnS7+iZJfZKBYMjbhKFRm/3rFB3z5Io/aHsYTXXB3BHEFUh+
+	TtfITXxt0QS+Y+247VGGl6WyoKoQMxrp6BJr9XIB+6rDAyaxZAjorAWsY5wh/7FFUeYA
+	6I21JG6OeXED7X2ljqKAVY/NFNLv7q+POCS+zBZEQVtCWkipMX+ZTWnDhVJP1yArS41q
+	pJ3w==
+X-Gm-Message-State: AIkVDXIaxUWO7EekWowlErJX/aZvDFQ+CmQQ+60JssLUtI+CURN9iRelgGxY7Itj6hzMZbjA
+X-Received: by 10.36.190.68 with SMTP id i65mr5293956itf.118.1484941471322;
+	Fri, 20 Jan 2017 11:44:31 -0800 (PST)
+Received: from pohly-mobl1 (p57A56DD5.dip0.t-ipconnect.de. [87.165.109.213])
 	by smtp.gmail.com with ESMTPSA id
-	r74sm18644288pfb.67.2017.01.20.11.28.54
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 20 Jan 2017 11:28:55 -0800 (PST)
-From: Rick Altherr <raltherr@google.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2017 11:28:53 -0800
-Message-Id: <20170120192853.959-1-raltherr@google.com>
-X-Mailer: git-send-email 2.11.0.483.g087da7b7c-goog
-Subject: [PATCH] kernel-fitimage: Use compressed ramdisks in FIT images if available
+	l31sm5003677iod.17.2017.01.20.11.44.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 20 Jan 2017 11:44:30 -0800 (PST)
+Message-ID: <1484941467.20333.3.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
+Date: Fri, 20 Jan 2017 20:44:27 +0100
+In-Reply-To: <1484935979-328-1-git-send-email-anibal.limon@linux.intel.com>
+References: <1484935979-328-1-git-send-email-anibal.limon@linux.intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2] qemu: Upgrade to 2.7.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,84 +60,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 19:28:56 -0000
+X-List-Received-Date: Fri, 20 Jan 2017 19:44:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-kernel-fitimage:fitimage_assemble() was calling copy_initramfs from
-kernel.bbclass which decompresses the initramfs cpio.  Assume that if
-INITRAMFS_FSTYPES includes a compressed cpio, that is what it desired in
-the FIT image.
+On Fri, 2017-01-20 at 12:12 -0600, Aníbal Limón wrote:
+> --- a/meta/recipes-devtools/qemu/qemu.inc
+> +++ b/meta/recipes-devtools/qemu/qemu.inc
+> @@ -9,12 +9,11 @@ require qemu-targets.inc
+>  inherit autotools ptest
+>  BBCLASSEXTEND = "native nativesdk"
+>  
+> -PR = "r1"
+> -
+>  # QEMU_TARGETS is overridable variable
+>  QEMU_TARGETS ?= "arm aarch64 i386 mips mipsel mips64 mips64el ppc sh4
+> x86_64"
+>  
+>  SRC_URI = "\
+> +    http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
+>      file://powerpc_rom.bin \
+>      file://disable-grabs.patch \
+>      file://exclude-some-arm-EABI-obsolete-syscalls.patch \
+> @@ -24,6 +23,9 @@ SRC_URI = "\
+>      file://0001-target-mips-add-24KEc-CPU-definition.patch \
+>      "
+>  
+> +SRC_URI[md5sum] = "a315bc51ed443a08d2cf1416d76b9ab4"
+> +SRC_URI[sha256sum] =
+> "68636788eb69bcb0b44ba220b32b50495d6bd5712a934c282217831c4822958f"
 
-Signed-off-by: Rick Altherr <raltherr@google.com>
----
- meta/classes/kernel-fitimage.bbclass | 34 ++++++++++++++++++++++++++++++----
- 1 file changed, 30 insertions(+), 4 deletions(-)
+Slight misunderstanding, I suppose. The *URL* is independent of the
+version and could be added in qemu.inc, but the hashes are version
+dependent and are better suited for qemu_2.7.1.bb. At least that's how I
+would do it.
 
-diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index c15ded523c..1c3b4b7fb3 100644
---- a/meta/classes/kernel-fitimage.bbclass
-+++ b/meta/classes/kernel-fitimage.bbclass
-@@ -178,6 +178,7 @@ EOF
- fitimage_emit_section_ramdisk() {
- 
- 	ramdisk_csum="sha1"
-+	ramdisk_ctype="none"
- 	ramdisk_loadline=""
- 	ramdisk_entryline=""
- 
-@@ -188,14 +189,32 @@ fitimage_emit_section_ramdisk() {
- 		ramdisk_entryline="entry = <${UBOOT_RD_ENTRYPOINT}>;"
- 	fi
- 
-+	case $3 in
-+		*.gz)
-+			ramdisk_ctype="gzip"
-+			;;
-+		*.bz2)
-+			ramdisk_ctype="bzip2"
-+			;;
-+		*.lzma)
-+			ramdisk_ctype="lzma"
-+			;;
-+		*.lzo)
-+			ramdisk_ctype="lzo"
-+			;;
-+		*.lz4)
-+			ramdisk_ctype="lz4"
-+			;;
-+	esac
-+
- 	cat << EOF >> ${1}
-                 ramdisk@${2} {
--                        description = "ramdisk image";
-+                        description = "${INITRAMFS_IMAGE}";
-                         data = /incbin/("${3}");
-                         type = "ramdisk";
-                         arch = "${UBOOT_ARCH}";
-                         os = "linux";
--                        compression = "none";
-+                        compression = "${ramdisk_ctype}";
-                         ${ramdisk_loadline}
-                         ${ramdisk_entryline}
-                         hash@1 {
-@@ -341,8 +360,15 @@ fitimage_assemble() {
- 	# Step 4: Prepare a ramdisk section.
- 	#
- 	if [ "x${ramdiskcount}" = "x1" ] ; then
--		copy_initramfs
--		fitimage_emit_section_ramdisk ${1} "${ramdiskcount}" usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
-+		# Find and use the first initramfs image archive type we find
-+		for img in cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.gz cpio; do
-+			initramfs_path="${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.${img}"
-+			echo "Using $initramfs_path"
-+			if [ -e "${initramfs_path}" ]; then
-+				fitimage_emit_section_ramdisk ${1} "${ramdiskcount}" "${initramfs_path}"
-+				break
-+			fi
-+		done
- 	fi
- 
- 	fitimage_emit_section_maint ${1} sectend
+In contrast to Alexander, I would also keep
+http://wiki.qemu-project.org/download/${BP}.tar.bz2 in qemu_2.7.1.bb
+with SRC_URI =+ because then there can be a qemu_git.bb with a different
+URL than the one above.
+
 -- 
-2.11.0.483.g087da7b7c-goog
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
