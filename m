@@ -1,51 +1,51 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
-	[209.85.213.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B11E72002
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 13:51:32 +0000 (UTC)
-Received: by mail-vk0-f65.google.com with SMTP id n19so6177420vkd.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 05:51:33 -0800 (PST)
+Return-Path: <ross.burton@intel.com>
+Received: from mail-yb0-f169.google.com (mail-yb0-f169.google.com
+	[209.85.213.169])
+	by mail.openembedded.org (Postfix) with ESMTP id B8AC772002
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jan 2017 13:52:32 +0000 (UTC)
+Received: by mail-yb0-f169.google.com with SMTP id w194so54465099ybe.0
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jan 2017 05:52:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20161025;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=9MMZO6ipZGM8I5dSn8xSEhpsfNWzSfKWH3uvmwUbp/8=;
-	b=vO/B3t1gdr0tpdlgzCCNrqslUAIY7Xib2NxTF9p41zEGjSlRKpaf8IixwXXy4xKuOy
-	mwhoovm0XOhMP8RN6bqmfE28h4UQRLNvWpvOJMDvEC0642zTeL7muDIZZw4bgO12xZKD
-	PryPhBaPZN3pWUUckJzGaXgSmfHg8a5Z9//l6b2d0qsfGWYTioKKieDU760TdhdlJz45
-	IB4sPDpl2WSJSLRBG+wByVfynmQqtFXYQOc5U3MZ14E5xqiHbQoxGOmwT3YXmeOvLNfJ
-	uac7A9HLJKBJ0dW8GQeBXQpjrQDL/FvpQtHRDd9Pc5PZzQjJNVhaeblTIkj5U5aNcF9m
-	96VQ==
+	:cc; bh=ovQ4fps/nQFT1kc7ZOYhQVIiunhvTtF7evO7NDr66L8=;
+	b=JLViF740/OV1NEmzeETcmvfRhwq0LzQCfUT4iJilNNrtaOfyqrE9pbGnyXe3QUDnn7
+	MAhpnuRzG5bBmAIs93GPS1W1N8jiODHBl6WHdsRKHiDoyd0IM8MTS8z7CQEnpv2uu1KN
+	j4GnT1cNBF0M/0Z5gpQfHub27hDzlJGJNUQJbfJ3/EWM3itMBjRq8RztWgrKSXCj2nU1
+	sznFGR1ZdG7hS/hlLj74/1rLzXf5bIfwMe/twRoCXBPwCTzIb6PrwM/hJflXIEt4bL0d
+	et7yrZ5vcCcRFu8sOVFBikwae2gsmKtuZSY6gPj8pM9BjycdcCxRViSkGVBT/F2eiaNg
+	B1mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=9MMZO6ipZGM8I5dSn8xSEhpsfNWzSfKWH3uvmwUbp/8=;
-	b=VtZA38js9kdKjE7qqqNb9Gt4fEh62JlOo4En9yAQJHDwbZPzm4FZ3Arvfy8PtsPbNb
-	NhgykKwKH8I451v563JjlBDkyp03DLSRgFFB/CgdcosgNuPZoL8+DFfzjuEELo5dxPVT
-	j4ibXmclUQuotHb1BpNXaR1sfYA42Z2wCUzn9wKGaCnMFpumYw6VnPcKHDSKArNNoRHH
-	mCQnORfMojK3RqUXY9Zm1ppGMu4LTHl6ZFnrCFSk6KGzn2zn/ZR7fl0KUUu6o8YLO1F3
-	sndInm/vBbDCmc7chqY0b+QwFa+HIkAi6cz6XhKu+7nKTcmY9Abiqwqwhb3A5kse6LE7
-	qW9A==
-X-Gm-Message-State: AIkVDXK6FO3Ln+itDxmQ6074sgl9gvjJRyZaSMdrFJrmNVsmIkdUVe/FwRU4iFLE8BtU8dwdzTyUwJtu5R5YHQ==
-X-Received: by 10.31.36.151 with SMTP id k145mr7322657vkk.29.1484920292476;
-	Fri, 20 Jan 2017 05:51:32 -0800 (PST)
+	:message-id:subject:to:cc;
+	bh=ovQ4fps/nQFT1kc7ZOYhQVIiunhvTtF7evO7NDr66L8=;
+	b=YPeEklLyiNQWtEqH6kjtHtvazCgAcLpmmhdcuatGXDeAujgwo21KHm9SwESE+ZHa3u
+	ZowenChcenD5iB+Wy23dUHc5Y4khDJbuKvhadvGjLQgiCAL+em+Quw88+lD/ri+Cee3x
+	8ZN1nqKAmqM/W2B7RAOluKmNoLqQV5CKdf7s6FCiHjDY9k5YThAJBw/AIEKll5r7vLSu
+	B6vSvsIR6XVZRkSWRWs+LrK/wdtyF54vb9SVdR+JrWCCQkOA555Uc4jh/+u5LQ6bhiVH
+	Sjk/cNZ9SMu71h2i4ysjaYlfFruH8LpWA1yulWJOttOZjTOi7bRsbxH8J7R34tlViGKH
+	ctTQ==
+X-Gm-Message-State: AIkVDXJMj9awz5ETqoNiNvkM3/WZwbbLs9Xs+ZZQN66oDHK5Sst8N2X0zgGsyXPdx1PAGiDFIpGxObxxizQcgA34
+X-Received: by 10.200.45.247 with SMTP id q52mr12541922qta.197.1484920352571; 
+	Fri, 20 Jan 2017 05:52:32 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.176.69.246 with HTTP; Fri, 20 Jan 2017 05:51:32 -0800 (PST)
-In-Reply-To: <CAJTo0LZ3kywd2HR7bNTburb-7Ef9z0kW+NCfXRJEdsb98taBgg@mail.gmail.com>
-References: <1484505711-6341-1-git-send-email-juro.bystricky@intel.com>
-	<CALbNGRS1L24_fJK3D14vacfRAKcxUfftR4BA8G8hxzHhuYgrFA@mail.gmail.com>
-	<CAJTo0LZ3kywd2HR7bNTburb-7Ef9z0kW+NCfXRJEdsb98taBgg@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Date: Fri, 20 Jan 2017 14:51:32 +0100
-Message-ID: <CALbNGRR6h4WCqsGRdL7MizdU=kjgB9hdYi-0jD_aoVD1M_d5zw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Juro Bystricky <jurobystricky@hotmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bitbake.conf: require conf/multiconfig/${BB_CURRENT_MC}.conf
+Received: by 10.140.103.233 with HTTP; Fri, 20 Jan 2017 05:52:12 -0800 (PST)
+In-Reply-To: <63d74901-4f7e-292f-8163-445006e226d2@windriver.com>
+References: <20170119211441.126457-1-jason.wessel@windriver.com>
+	<20170119211441.126457-2-jason.wessel@windriver.com>
+	<f97e0ddf-dd9d-06d3-831c-fa47349a1e66@windriver.com>
+	<20170120132920.GA8341@mbabyjoh-desk.ger.corp.intel.com>
+	<CAJTo0LaFMD3cFHR2d_1W4pM3cy7ekhM21UpBRz_Ec+C4tYigQQ@mail.gmail.com>
+	<63d74901-4f7e-292f-8163-445006e226d2@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 20 Jan 2017 13:52:12 +0000
+Message-ID: <CAJTo0LZ+C=_cz3wdvtqmYJBrNHR-UBX9fasrg_T632G_u43itA@mail.gmail.com>
+To: Jason Wessel <jason.wessel@windriver.com>
+Cc: OE-core <Openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] Revert "kernel: Modify kernel modules installation path."
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,36 +58,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 13:51:36 -0000
+X-List-Received-Date: Fri, 20 Jan 2017 13:52:33 -0000
+Content-Type: multipart/alternative; boundary=001a1139cdf022bd47054686f6a1
+
+--001a1139cdf022bd47054686f6a1
 Content-Type: text/plain; charset=UTF-8
+
+On 20 January 2017 at 13:48, Jason Wessel <jason.wessel@windriver.com>
+wrote:
+
+> WARNING: linux-yocto-4.8.12+gitAUTOINC+3edb4de355_9bcb4ea3fa-r0
+> do_package: QA Issue: linux-yocto: Files/directories were installed but not
+> shipped in any package:
+>   /lib64
+>   /lib/modules/4.8.17-yocto-standard/modules.builtin
+>   /lib64/firmware
+>   /lib64/firmware/cpia2
+>   /lib64/firmware/cpia2/stv0672_vp4.bin
+> Please set FILES such that these items are packaged. Alternatively if they
+> are unneeded, avoid installing them or delete them within do_install.
+> linux-yocto: 5 installed and not shipped files. [installed-vs-shipped]
+>
+I suspect this is trivial with fresh eyes.  What multilib configuration are
+you using?  My usual "test multilib" stanza is:
+
+#require conf/multilib.conf
+#MULTILIBS_x86-64 = "multilib:lib32"
+#DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+
+I'm guessing this isn't going to produce the same paths that you're seeing
+problems with.
+
+Ross
+
+--001a1139cdf022bd47054686f6a1
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 20, 2017 at 2:42 PM, Burton, Ross <ross.burton@intel.com> wrote=
-:
->
-> On 20 January 2017 at 13:36, Andreas M=C3=BCller <schnitzeltony@googlemai=
-l.com>
-> wrote:
->>
->> | ERROR: ParseError at
->>
->> /home/superandy/oe-core/sources/openembedded-core/meta/conf/bitbake.conf=
-:704:
->> Could not include required file conf/multiconfig/${BB_CURRENT_MC}.conf
->
->
-> The patch creates the file that it requires:
->
->  meta/conf/bitbake.conf             | 2 +-
->  meta/conf/multiconfig/default.conf | 0
->
-> Did it really look for /multiconfig/default.conf or is the fact that the
-> path is not expanded the problem here?  oe-core master needs bitbake from
-> git, which has changed the behaviour for getVar() (expands by default).
->
-> Ross
-Ahh - I was missing latest bitbake. It sets BB_CURRENT_MC to 'default'
-by default. Am back to build - thanks
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 January 2017 at 13:48, Jason Wessel <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:jason.wessel@windriver.com" target=3D"_blank">jason.wessel@windriver=
+.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,=
+204);border-left-style:solid;padding-left:1ex"><p>WARNING: linux-yocto-4.8.=
+12+gitAUTOINC+<wbr>3edb4de355_9bcb4ea3fa-r0
+      do_package: QA Issue: linux-yocto: Files/directories were
+      installed but not shipped in any package:<br>
+      =C2=A0 /lib64<br>
+      =C2=A0 /lib/modules/4.8.17-yocto-<wbr>standard/modules.builtin<br>
+      =C2=A0 /lib64/firmware<br>
+      =C2=A0 /lib64/firmware/cpia2<br>
+      =C2=A0 /lib64/firmware/cpia2/stv0672_<wbr>vp4.bin<br>
+      Please set FILES such that these items are packaged. Alternatively
+      if they are unneeded, avoid installing them or delete them within
+      do_install.<br>
+      linux-yocto: 5 installed and not shipped files.
+      [installed-vs-shipped]</p></blockquote></div>I suspect this is trivia=
+l with fresh eyes.=C2=A0 What multilib configuration are you using?=C2=A0 M=
+y usual &quot;test multilib&quot; stanza is:</div><div class=3D"gmail_extra=
+"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_extra">#require =
+conf/multilib.conf</div><div class=3D"gmail_extra">#MULTILIBS_x86-64 =3D &q=
+uot;multilib:lib32&quot;</div><div class=3D"gmail_extra">#DEFAULTTUNE_virtc=
+lass-multilib-lib32 =3D &quot;x86&quot;</div><div class=3D"gmail_extra"><br=
+></div><div class=3D"gmail_extra">I&#39;m guessing this isn&#39;t going to =
+produce the same paths that you&#39;re seeing problems with.</div><div clas=
+s=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div></di=
+v>
 
-Andreas
-
+--001a1139cdf022bd47054686f6a1--
