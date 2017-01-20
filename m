@@ -1,22 +1,22 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id BC68E771D4
+	by mail.openembedded.org (Postfix) with ESMTP id 3AF2E771E0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 17:07:50 +0000 (UTC)
+	Fri, 20 Jan 2017 17:07:51 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga105.fm.intel.com with ESMTP; 20 Jan 2017 09:07:51 -0800
+	by fmsmga105.fm.intel.com with ESMTP; 20 Jan 2017 09:07:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,259,1477983600"; d="scan'208";a="1115567477"
+X-IronPort-AV: E=Sophos;i="5.33,259,1477983600"; d="scan'208";a="1115567480"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.143])
 	by fmsmga002.fm.intel.com with ESMTP; 20 Jan 2017 09:07:51 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2017 11:10:05 -0600
-Message-Id: <cba9c0db89b510e7af38e5330bff6f4db34c8786.1484929088.git.anibal.limon@linux.intel.com>
+Date: Fri, 20 Jan 2017 11:10:06 -0600
+Message-Id: <77b1b9d1febd4af16e040d49a774a6e7aec79999.1484929088.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1484929088.git.anibal.limon@linux.intel.com>
 References: <cover.1484929088.git.anibal.limon@linux.intel.com>
-Subject: [PATCH 34/55] oeqa/runtime: Add case, context and loader classes for runtime testing
+Subject: [PATCH 35/55] oeqa/runtime: Add OEHasPackage decorator
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,142 +33,77 @@ X-List-Received-Date: Fri, 20 Jan 2017 17:07:51 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-This adds OERuntimeTestCase, OERuntimeTestContext, and OERuntimeTestLoader
-to be used for runtime testing.
-
-As expected there are some changes in runtime context:
-
-- Adds the target to be used for runtime testing, the default
-is a SSH connection to the device under test running a OE image.
-- Runtime context requires image manifest because several
-tests are skipped if a package is missing or installed.
-- Several tests require the output of the ps command and it changes
-its output and arguments if busybox o procps is installed, so the
-case must use the correct ps command.
+This new decorator will be used to skip the test
+if the image under test doesn't have the required
+packages installed.
 
 [YOCTO #10234]
 
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/lib/oeqa/runtime/case.py    |  8 +++++
- meta/lib/oeqa/runtime/context.py | 69 ++++++++++++++++++++++++++++++++++++++++
- meta/lib/oeqa/runtime/loader.py  | 16 ++++++++++
- 3 files changed, 93 insertions(+)
- create mode 100644 meta/lib/oeqa/runtime/case.py
- create mode 100644 meta/lib/oeqa/runtime/context.py
- create mode 100644 meta/lib/oeqa/runtime/loader.py
+ meta/lib/oeqa/runtime/decorator/package.py | 53 ++++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
+ create mode 100644 meta/lib/oeqa/runtime/decorator/package.py
 
-diff --git a/meta/lib/oeqa/runtime/case.py b/meta/lib/oeqa/runtime/case.py
+diff --git a/meta/lib/oeqa/runtime/decorator/package.py b/meta/lib/oeqa/runtime/decorator/package.py
 new file mode 100644
-index 0000000..43f1b2f
+index 0000000..aa6ecb6
 --- /dev/null
-+++ b/meta/lib/oeqa/runtime/case.py
-@@ -0,0 +1,8 @@
++++ b/meta/lib/oeqa/runtime/decorator/package.py
+@@ -0,0 +1,53 @@
 +# Copyright (C) 2016 Intel Corporation
 +# Released under the MIT license (see COPYING.MIT)
 +
-+from oeqa.core.case import OETestCase
++from oeqa.core.decorator import OETestDecorator, registerDecorator
++from oeqa.core.utils.misc import strToSet
 +
-+class OERuntimeTestCase(OETestCase):
-+    # target instance set by OERuntimeTestLoader.
-+    target = None
-diff --git a/meta/lib/oeqa/runtime/context.py b/meta/lib/oeqa/runtime/context.py
-new file mode 100644
-index 0000000..496730d
---- /dev/null
-+++ b/meta/lib/oeqa/runtime/context.py
-@@ -0,0 +1,69 @@
-+# Copyright (C) 2016 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT)
++@registerDecorator
++class OEHasPackage(OETestDecorator):
++    """
++        Checks if image has packages (un)installed.
 +
-+import os
++        The argument must be a string, set, or list of packages that must be
++        installed or not present in the image.
 +
-+from oeqa.core.context import OETestContext, OETestContextExecutor
-+from oeqa.core.target.ssh import OESSHTarget
-+from oeqa.runtime.loader import OERuntimeTestLoader
++        The way to tell a package must not be in an image is using an
++        exclamation point ('!') before the name of the package.
 +
-+class OERuntimeTestContext(OETestContext):
-+    loaderClass = OERuntimeTestLoader
++        If test depends on pkg1 or pkg2 you need to use:
++        @OEHasPackage({'pkg1', 'pkg2'})
 +
-+    def __init__(self, td, logger, target, packages_manifest):
-+        super(OERuntimeTestContext, self).__init__(td, logger)
-+        self.target = target
-+        self.image_packages = self.readPackagesManifest(packages_manifest)
-+        self._set_target_cmds()
++        If test depends on pkg1 and pkg2 you need to use:
++        @OEHasPackage('pkg1')
++        @OEHasPackage('pkg2')
 +
-+    def _set_target_cmds(self):
-+        self.target_cmds = {}
++        If test depends on pkg1 but pkg2 must not be present use:
++        @OEHasPackage({'pkg1', '!pkg2'})
++    """
 +
-+        self.target_cmds['ps'] = 'ps'
-+        if 'procps' in self.image_packages:
-+            self.target_cmds['ps'] = self.target_cmds['ps'] + ' -ef'
++    attrs = ('need_pkgs',)
 +
-+    def readPackagesManifest(self, manifest):
-+        if not os.path.exists(manifest):
-+            raise OSError("Couldn't find manifest file: %s" % manifest)
++    def setUpDecorator(self):
++        need_pkgs = set()
++        unneed_pkgs = set()
++        pkgs = strToSet(self.need_pkgs)
++        for pkg in pkgs:
++            if pkg.startswith('!'):
++                unneed_pkgs.add(pkg[1:])
++            else:
++                need_pkgs.add(pkg)
 +
-+        image_packages = set()
-+        with open(manifest, 'r') as f:
-+            for line in f.readlines():
-+                line = line.strip()
-+                if line and not line.startswith("#"):
-+                    image_packages.add(line.split()[0])
++        if unneed_pkgs:
++            msg = 'Checking if %s is not installed' % ', '.join(unneed_pkgs)
++            self.logger.debug(msg)
++            if not self.case.tc.image_packages.isdisjoint(unneed_pkgs):
++                msg = "Test can't run with %s installed" % ', or'.join(unneed_pkgs)
++                self.case.skipTest(msg)
 +
-+        return image_packages
-+
-+class OERuntimeTestContextExecutor(OETestContextExecutor):
-+    _context_class = OERuntimeTestContext
-+
-+    name = 'runtime'
-+    help = 'runtime test component'
-+    description = 'executes runtime tests over targets'
-+    default_cases = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-+            'cases')
-+    default_target_ip = '192.168.7.2'
-+
-+    def register_commands(self, logger, subparsers):
-+        super(OERuntimeTestContextExecutor, self).register_commands(logger, subparsers)
-+        self.parser.add_argument('--target-ip', action='store',
-+                default=self.default_target_ip,
-+                help="IP address of device under test, default: %s" \
-+                % self.default_target_ip)
-+        self.parser.add_argument('--packages-manifest', action='store',
-+                help="Package manifest of the image under test")
-+
-+    def _process_args(self, logger, args):
-+        if not args.packages_manifest:
-+            raise TypeError('Manifest file not provided')
-+
-+        super(OERuntimeTestContextExecutor, self)._process_args(logger, args)
-+        target = OESSHTarget(args.target_ip)
-+        self.tc_kwargs['init']['target'] = target
-+
-+        packages_manifest = os.path.join(os.getcwd(), args.packages_manifest)
-+        self.tc_kwargs['init']['packages_manifest'] = packages_manifest
-+
-+_executor_class = OERuntimeTestContextExecutor
-diff --git a/meta/lib/oeqa/runtime/loader.py b/meta/lib/oeqa/runtime/loader.py
-new file mode 100644
-index 0000000..041ef97
---- /dev/null
-+++ b/meta/lib/oeqa/runtime/loader.py
-@@ -0,0 +1,16 @@
-+# Copyright (C) 2016 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT)
-+
-+from oeqa.core.loader import OETestLoader
-+from oeqa.runtime.case import OERuntimeTestCase
-+
-+class OERuntimeTestLoader(OETestLoader):
-+    caseClass = OERuntimeTestCase
-+
-+    def _getTestCase(self, testCaseClass, tcName):
-+        case = super(OERuntimeTestLoader, self)._getTestCase(testCaseClass, tcName)
-+
-+        # Adds custom attributes to the OERuntimeTestCase
-+        setattr(case, 'target', self.tc.target)
-+
-+        return case
++        if need_pkgs:
++            msg = 'Checking if at least one of %s is installed' % ', '.join(need_pkgs)
++            self.logger.debug(msg)
++            if self.case.tc.image_packages.isdisjoint(need_pkgs):
++                msg = "Test requires %s to be installed" % ', or'.join(need_pkgs)
++                self.case.skipTest(msg)
 -- 
 2.1.4
 
