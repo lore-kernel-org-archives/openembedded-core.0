@@ -1,32 +1,51 @@
-Return-Path: <jason.wessel@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 250A6731C8
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 13:48:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v0KDmNgW024590
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Fri, 20 Jan 2017 05:48:23 -0800
-Received: from [172.25.59.218] (172.25.59.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 20 Jan 2017 05:48:22 -0800
-To: "Burton, Ross" <ross.burton@intel.com>, "Maxin B. John"
-	<maxin.john@intel.com>
-References: <20170119211441.126457-1-jason.wessel@windriver.com>
-	<20170119211441.126457-2-jason.wessel@windriver.com>
-	<f97e0ddf-dd9d-06d3-831c-fa47349a1e66@windriver.com>
-	<20170120132920.GA8341@mbabyjoh-desk.ger.corp.intel.com>
-	<CAJTo0LaFMD3cFHR2d_1W4pM3cy7ekhM21UpBRz_Ec+C4tYigQQ@mail.gmail.com>
-From: Jason Wessel <jason.wessel@windriver.com>
-Message-ID: <63d74901-4f7e-292f-8163-445006e226d2@windriver.com>
-Date: Fri, 20 Jan 2017 07:48:22 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
+	[209.85.213.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B11E72002
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jan 2017 13:51:32 +0000 (UTC)
+Received: by mail-vk0-f65.google.com with SMTP id n19so6177420vkd.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jan 2017 05:51:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=9MMZO6ipZGM8I5dSn8xSEhpsfNWzSfKWH3uvmwUbp/8=;
+	b=vO/B3t1gdr0tpdlgzCCNrqslUAIY7Xib2NxTF9p41zEGjSlRKpaf8IixwXXy4xKuOy
+	mwhoovm0XOhMP8RN6bqmfE28h4UQRLNvWpvOJMDvEC0642zTeL7muDIZZw4bgO12xZKD
+	PryPhBaPZN3pWUUckJzGaXgSmfHg8a5Z9//l6b2d0qsfGWYTioKKieDU760TdhdlJz45
+	IB4sPDpl2WSJSLRBG+wByVfynmQqtFXYQOc5U3MZ14E5xqiHbQoxGOmwT3YXmeOvLNfJ
+	uac7A9HLJKBJ0dW8GQeBXQpjrQDL/FvpQtHRDd9Pc5PZzQjJNVhaeblTIkj5U5aNcF9m
+	96VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=9MMZO6ipZGM8I5dSn8xSEhpsfNWzSfKWH3uvmwUbp/8=;
+	b=VtZA38js9kdKjE7qqqNb9Gt4fEh62JlOo4En9yAQJHDwbZPzm4FZ3Arvfy8PtsPbNb
+	NhgykKwKH8I451v563JjlBDkyp03DLSRgFFB/CgdcosgNuPZoL8+DFfzjuEELo5dxPVT
+	j4ibXmclUQuotHb1BpNXaR1sfYA42Z2wCUzn9wKGaCnMFpumYw6VnPcKHDSKArNNoRHH
+	mCQnORfMojK3RqUXY9Zm1ppGMu4LTHl6ZFnrCFSk6KGzn2zn/ZR7fl0KUUu6o8YLO1F3
+	sndInm/vBbDCmc7chqY0b+QwFa+HIkAi6cz6XhKu+7nKTcmY9Abiqwqwhb3A5kse6LE7
+	qW9A==
+X-Gm-Message-State: AIkVDXK6FO3Ln+itDxmQ6074sgl9gvjJRyZaSMdrFJrmNVsmIkdUVe/FwRU4iFLE8BtU8dwdzTyUwJtu5R5YHQ==
+X-Received: by 10.31.36.151 with SMTP id k145mr7322657vkk.29.1484920292476;
+	Fri, 20 Jan 2017 05:51:32 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaFMD3cFHR2d_1W4pM3cy7ekhM21UpBRz_Ec+C4tYigQQ@mail.gmail.com>
-Cc: OE-core <Openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] Revert "kernel: Modify kernel modules installation path."
+Received: by 10.176.69.246 with HTTP; Fri, 20 Jan 2017 05:51:32 -0800 (PST)
+In-Reply-To: <CAJTo0LZ3kywd2HR7bNTburb-7Ef9z0kW+NCfXRJEdsb98taBgg@mail.gmail.com>
+References: <1484505711-6341-1-git-send-email-juro.bystricky@intel.com>
+	<CALbNGRS1L24_fJK3D14vacfRAKcxUfftR4BA8G8hxzHhuYgrFA@mail.gmail.com>
+	<CAJTo0LZ3kywd2HR7bNTburb-7Ef9z0kW+NCfXRJEdsb98taBgg@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Fri, 20 Jan 2017 14:51:32 +0100
+Message-ID: <CALbNGRR6h4WCqsGRdL7MizdU=kjgB9hdYi-0jD_aoVD1M_d5zw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Juro Bystricky <jurobystricky@hotmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bitbake.conf: require conf/multiconfig/${BB_CURRENT_MC}.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,143 +58,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 13:48:26 -0000
-Content-Type: multipart/alternative;
-	boundary="------------9232DA37A899F8FCDBD14F27"
+X-List-Received-Date: Fri, 20 Jan 2017 13:51:36 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---------------9232DA37A899F8FCDBD14F27
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 01/20/2017 07:30 AM, Burton, Ross wrote:
+On Fri, Jan 20, 2017 at 2:42 PM, Burton, Ross <ross.burton@intel.com> wrote=
+:
 >
-> On 20 January 2017 at 13:29, Maxin B. John <maxin.john@intel.com <mailto:maxin.john@intel.com>> wrote:
+> On 20 January 2017 at 13:36, Andreas M=C3=BCller <schnitzeltony@googlemai=
+l.com>
+> wrote:
+>>
+>> | ERROR: ParseError at
+>>
+>> /home/superandy/oe-core/sources/openembedded-core/meta/conf/bitbake.conf=
+:704:
+>> Could not include required file conf/multiconfig/${BB_CURRENT_MC}.conf
 >
->     > The issue here is that in a multilib build the ${base_libdir} is resolving to /lib64 which completely breaks some tools that fully expect /lib/modules to be a fixed location regardless if the target is 32/64 or something else.
->     >
 >
->     I would expect the kernel to be ok with this change if we provide the kernel command
->     line parameter: "firmware_class.path=${base_libdir}" or similar.
+> The patch creates the file that it requires:
 >
+>  meta/conf/bitbake.conf             | 2 +-
+>  meta/conf/multiconfig/default.conf | 0
 >
-
-You are correct that this could work, but that is not a parameter I would expect to set in the default case.  It would only be something I used to execute a system rollback where I need firmware to get the device running again.
-
-
-> I believe that using nonarch_base_libdir is the proper fix here, we need to understand why this didn't just work.
+> Did it really look for /multiconfig/default.conf or is the fact that the
+> path is not expanded the problem here?  oe-core master needs bitbake from
+> git, which has changed the behaviour for getVar() (expands by default).
 >
 > Ross
+Ahh - I was missing latest bitbake. It sets BB_CURRENT_MC to 'default'
+by default. Am back to build - thanks
 
+Andreas
 
-When I had tried the search and replace I still ended up with the following problem, which is why I elected to just revert to what worked previously.
-
-
-WARNING: linux-yocto-4.8.12+gitAUTOINC+3edb4de355_9bcb4ea3fa-r0 do_package: QA Issue: linux-yocto: Files/directories were installed but not shipped in any package:
-   /lib64
-   /lib/modules/4.8.17-yocto-standard/modules.builtin
-   /lib64/firmware
-   /lib64/firmware/cpia2
-   /lib64/firmware/cpia2/stv0672_vp4.bin
-Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
-linux-yocto: 5 installed and not shipped files. [installed-vs-shipped]
-
-I am sure this problem can be corrected and debugged.
-
-
-Cheers,
-
-Jason.
-
-
---------------9232DA37A899F8FCDBD14F27
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 01/20/2017 07:30 AM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LaFMD3cFHR2d_1W4pM3cy7ekhM21UpBRz_Ec+C4tYigQQ@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Context-Type" content="text/html; charset=UTF-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 20 January 2017 at 13:29, Maxin B.
-            John <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:maxin.john@intel.com" target="_blank">maxin.john@intel.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote"><span class="">&gt; The
-                issue here is that in a multilib build the
-                ${base_libdir} is resolving to /lib64 which completely
-                breaks some tools that fully expect /lib/modules to be a
-                fixed location regardless if the target is 32/64 or
-                something else.<br>
-                &gt;<br>
-                <br>
-              </span>I would expect the kernel to be ok with this change
-              if we provide the kernel command<br>
-              line parameter: "firmware_class.path=${base_<wbr>libdir}"
-              or similar.<br>
-            </blockquote>
-          </div>
-          <br>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    You are correct that this could work, but that is not a parameter I
-    would expect to set in the default case.  It would only be something
-    I used to execute a system rollback where I need firmware to get the
-    device running again. <br>
-    <br>
-    <br>
-    <blockquote
-cite="mid:CAJTo0LaFMD3cFHR2d_1W4pM3cy7ekhM21UpBRz_Ec+C4tYigQQ@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra">I believe that using
-          nonarch_base_libdir is the proper fix here, we need to
-          understand why this didn't just work.</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>When I had tried the search and replace I still ended up with the
-      following problem, which is why I elected to just revert to what
-      worked previously. <br>
-    </p>
-    <p><br>
-    </p>
-    <p>WARNING: linux-yocto-4.8.12+gitAUTOINC+3edb4de355_9bcb4ea3fa-r0
-      do_package: QA Issue: linux-yocto: Files/directories were
-      installed but not shipped in any package:<br>
-        /lib64<br>
-        /lib/modules/4.8.17-yocto-standard/modules.builtin<br>
-        /lib64/firmware<br>
-        /lib64/firmware/cpia2<br>
-        /lib64/firmware/cpia2/stv0672_vp4.bin<br>
-      Please set FILES such that these items are packaged. Alternatively
-      if they are unneeded, avoid installing them or delete them within
-      do_install.<br>
-      linux-yocto: 5 installed and not shipped files.
-      [installed-vs-shipped]<br>
-    </p>
-    <p>I am sure this problem can be corrected and debugged. <br>
-    </p>
-    <p><br>
-    </p>
-    <p>Cheers,</p>
-    <p>Jason.<br>
-    </p>
-  </body>
-</html>
-
---------------9232DA37A899F8FCDBD14F27--
