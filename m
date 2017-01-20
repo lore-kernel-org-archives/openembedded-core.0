@@ -1,41 +1,22 @@
-Return-Path: <raltherr@google.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E21F772E5
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 471EC71E50
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 18:37:15 +0000 (UTC)
-Received: by mail-io0-f175.google.com with SMTP id j18so67958487ioe.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 10:37:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=2GGaq+ssC8jMOQBwLUtBIFCyN1WjSiUs+hFCyaoYqw0=;
-	b=PY9s0EMdqg/4ud+Mmr5m0x8AEDZasaXyNGLMClPrjnS9UIq6MoS2tA6Kx0vM0sdj88
-	YxztGU10O74ZuuqkD0l2MJLk5q26aalDPKHoFDKMaRnKd3wiAYws28WbaeGTnD+dSddr
-	Wy0m6PKYgkpgfI3SZQ0ieNLceLzIsTzCkWE7dwrSujYKJOuI04wjiDEpYMHgy8RnN2UC
-	ubiTVkXra0cWM8bd5blQhYe0Dq2T2cRjTEhujO4wcpyESljnVdqYJbnLZEgK97XpAAXE
-	mIg4EJs3RzQvUpKUpqOATPQElteTZjooDQ9Z9IvBM3RSMjiH4mbe9LN7aXpad54Yj7qy
-	r9jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=2GGaq+ssC8jMOQBwLUtBIFCyN1WjSiUs+hFCyaoYqw0=;
-	b=S5S7L5OEIfWFfXdnsYoswaWHpPTU+Un9kEo5HO300P7VIzLvljHcp/QXlPyqCvJfJt
-	h3r3bBmzt6kSgj1AwdItQtG8U6hiLz1YmAzgYMOcfkVbMX6RlqSJQypnZheKSbFG35Mw
-	fzH+vRi8eXA98/agBGsTcCPWEcEAx8chZLTQgP2fltVtHTDLVb5c6vXSiOE56YkxHilu
-	kLfC/X+1do2/wfx5RLxUUO1DdvlED6Kpo9KUDjqHksAd1PixHZrEv8yTxZnYR8O19sV5
-	7zDD9nnZhlYmpdftFJr+7Eu2sfuihia4wRgNEF6SYeTTmPKWAQxHJ+W7h2GJ5IJrFxft
-	DlJQ==
-X-Gm-Message-State: AIkVDXJtuldIwtd3elWX2q8V9J3oCiFXr0i3/tIP1111Go3L7TUYMag5dzwuX3iMKebgYWDpmD/6G8Q+4uaF0FTY
-X-Received: by 10.107.17.101 with SMTP id z98mr17673470ioi.226.1484937435789; 
-	Fri, 20 Jan 2017 10:37:15 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.130.106 with HTTP; Fri, 20 Jan 2017 10:37:15 -0800 (PST)
-From: Rick Altherr <raltherr@google.com>
-Date: Fri, 20 Jan 2017 10:37:15 -0800
-Message-ID: <CAPLgG=muXdcmCcFCC7NY8Zk9ANH5yf616T5b9Bc31OCJq=AD3w@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: How to use WIC to generate raw flash images
+	Fri, 20 Jan 2017 19:17:19 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga105.jf.intel.com with ESMTP; 20 Jan 2017 11:17:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,259,1477983600"; d="scan'208";a="33310463"
+Received: from bitbang.jf.intel.com ([10.7.199.68])
+	by orsmga002.jf.intel.com with ESMTP; 20 Jan 2017 11:17:20 -0800
+From: Randy Witt <randy.e.witt@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Jan 2017 11:17:10 -0800
+Message-Id: <20170120191710.17968-1-randy.e.witt@linux.intel.com>
+X-Mailer: git-send-email 2.9.3
+In-Reply-To: <be9e6961aeb991fc0e0acc1118aa01cefe945593.1484866303.git.randy.e.witt@linux.intel.com>
+References: <be9e6961aeb991fc0e0acc1118aa01cefe945593.1484866303.git.randy.e.witt@linux.intel.com>
+Subject: [PATCH v3 3/3] selftest/containerimage.py: Add container IMAGE_FSTYPES test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,51 +29,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 18:37:17 -0000
-Content-Type: multipart/alternative; boundary=001a113f3190602b5905468af04d
+X-List-Received-Date: Fri, 20 Jan 2017 19:17:21 -0000
 
---001a113f3190602b5905468af04d
-Content-Type: text/plain; charset=UTF-8
+This test checks to make sure only the files expected exist in a
+container image. Currently only ROOTFS_BOOTSTRAP_INSTALL, gets added to
+all images without the user specifying it.
 
-For OpenBMC (based on Yocto), the target is an SoC that has an external
-boot flash connected via SPI.  Right now, we have a class (
-https://github.com/openbmc/openbmc/blob/master/meta-phosphor/classes/image-overlay.bbclass)
-used by our top-level image recipe (
-https://github.com/openbmc/openbmc/blob/master/meta-phosphor/common/recipes-phosphor/images/obmc-phosphor-image.bb)
-that manually constructs a flash image from the kernel, rootfs, etc.  I'd
-like to move to an upstream-supported approach and I think that is WIC.
-What I don't understand is:
-- How do I build a raw flash image where it is divided into partitions but
-has no partition table?
-- How do I set padding to be 0xFF instead of 0x00?
-- How do I include u-boot in the image?
+But this test should help if a developer in the future ever silently
+adds more than just ROOTFS_BOOTSTRAP_INSTALL, and that the developer can
+make sure it also gets removed from a container image.
 
-Do I need to add a new imager plugin to support writing raw images with
-non-zero padding and no partition table?  For U-Boot, do I add a new
-bootimg plugin?
+[YOCTO #9502]
 
-Rick
+Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+---
+ .../container-image/container-image-testpkg.bb     |  8 +++
+ .../container-image/container-test-image.bb        |  8 +++
+ meta/lib/oeqa/selftest/containerimage.py           | 82 ++++++++++++++++++++++
+ 3 files changed, 98 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/container-image/container-image-testpkg.bb
+ create mode 100644 meta-selftest/recipes-test/container-image/container-test-image.bb
+ create mode 100644 meta/lib/oeqa/selftest/containerimage.py
 
---001a113f3190602b5905468af04d
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta-selftest/recipes-test/container-image/container-image-testpkg.bb b/meta-selftest/recipes-test/container-image/container-image-testpkg.bb
+new file mode 100644
+index 0000000..f8dd229
+--- /dev/null
++++ b/meta-selftest/recipes-test/container-image/container-image-testpkg.bb
+@@ -0,0 +1,8 @@
++LICENSE = "MIT"
++
++INHIBIT_DEFAULT_DEPS = "1"
++
++do_install_append() {
++    install -d ${D}${bindir}
++    touch ${D}${bindir}/theapp
++}
+diff --git a/meta-selftest/recipes-test/container-image/container-test-image.bb b/meta-selftest/recipes-test/container-image/container-test-image.bb
+new file mode 100644
+index 0000000..d5f939c
+--- /dev/null
++++ b/meta-selftest/recipes-test/container-image/container-test-image.bb
+@@ -0,0 +1,8 @@
++IMAGE_INSTALL += "container-image-testpkg"
++
++LICENSE = "MIT"
++
++IMAGE_FSTYPES = "container"
++IMAGE_LINGUAS = ""
++
++inherit core-image
+diff --git a/meta/lib/oeqa/selftest/containerimage.py b/meta/lib/oeqa/selftest/containerimage.py
+new file mode 100644
+index 0000000..109f61b
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/containerimage.py
+@@ -0,0 +1,82 @@
++import os
++
++from oeqa.selftest.base import oeSelfTest
++from oeqa.utils.commands import bitbake, get_bb_vars, runCmd
++
++# This test builds an image with using the "container" IMAGE_FSTYPE, and
++# ensures that then files in the image are only the ones expected.
++#
++# The only package added to the image is container_image_testpkg, which
++# contains one file. However, due to some other things not cleaning up during
++# rootfs creation, there is some cruft. Ideally bugs will be filed and the
++# cruft removed, but for now we whitelist some known set.
++#
++# Also for performance reasons we're only checking the cruft when using ipk.
++# When using deb, and rpm it is a bit different and we could test all
++# of them, but this test is more to catch if other packages get added by
++# default other than what is in ROOTFS_BOOTSTRAP_INSTALL.
++#
++class ContainerImageTests(oeSelfTest):
++
++    # Verify that when specifying a IMAGE_TYPEDEP_ of the form "foo.bar" that
++    # the conversion type bar gets added as a dep as well
++    def test_expected_files(self):
++
++        def get_each_path_part(path):
++            if path:
++                part = [ '.' + path + '/' ]
++                result = get_each_path_part(path.rsplit('/', 1)[0])
++                if result:
++                    return part + result
++                else:
++                    return part
++            else:
++                return None
++
++        self.write_config("""PREFERRED_PROVIDER_virtual/kernel = "linux-dummy"
++IMAGE_FSTYPES = "container"
++PACKAGE_CLASSES = "package_ipk"
++IMAGE_FEATURES = ""
++""")
++
++        bbvars = get_bb_vars(['bindir', 'sysconfdir', 'localstatedir',
++                              'DEPLOY_DIR_IMAGE'])
++        expected_files = [
++                    './',
++                    '.{bindir}/theapp',
++                    '.{sysconfdir}/default/',
++                    '.{sysconfdir}/default/postinst',
++                    '.{sysconfdir}/ld.so.cache',
++                    '.{sysconfdir}/timestamp',
++                    '.{sysconfdir}/version',
++                    './run/',
++                    '.{localstatedir}/cache/',
++                    '.{localstatedir}/cache/ldconfig/',
++                    '.{localstatedir}/cache/ldconfig/aux-cache',
++                    '.{localstatedir}/cache/opkg/',
++                    '.{localstatedir}/lib/',
++                    '.{localstatedir}/lib/opkg/'
++                ]
++
++        expected_files = [ x.format(bindir=bbvars['bindir'],
++                                    sysconfdir=bbvars['sysconfdir'],
++                                    localstatedir=bbvars['localstatedir'])
++                                    for x in expected_files ]
++
++        # Since tar lists all directories individually, make sure each element
++        # from bindir, sysconfdir, etc is added
++        expected_files += get_each_path_part(bbvars['bindir'])
++        expected_files += get_each_path_part(bbvars['sysconfdir'])
++        expected_files += get_each_path_part(bbvars['localstatedir'])
++
++        expected_files = sorted(expected_files)
++
++        # Build the image of course
++        bitbake('container-test-image')
++
++        image = os.path.join(bbvars['DEPLOY_DIR_IMAGE'],
++                             'container-test-image-qemux86.tar.bz2')
++
++        # Ensure the files in the image are what we expect
++        result = runCmd("tar tf {} | sort".format(image), shell=True)
++        self.assertEqual(result.output.split('\n'), expected_files)
+-- 
+2.9.3
 
-<div dir=3D"ltr">For OpenBMC (based on Yocto), the target is an SoC that ha=
-s an external boot flash connected via SPI.=C2=A0 Right now, we have a clas=
-s (<a href=3D"https://github.com/openbmc/openbmc/blob/master/meta-phosphor/=
-classes/image-overlay.bbclass">https://github.com/openbmc/openbmc/blob/mast=
-er/meta-phosphor/classes/image-overlay.bbclass</a>) used by our top-level i=
-mage recipe (<a href=3D"https://github.com/openbmc/openbmc/blob/master/meta=
--phosphor/common/recipes-phosphor/images/obmc-phosphor-image.bb">https://gi=
-thub.com/openbmc/openbmc/blob/master/meta-phosphor/common/recipes-phosphor/=
-images/obmc-phosphor-image.bb</a>) that manually constructs a flash image f=
-rom the kernel, rootfs, etc.=C2=A0 I&#39;d like to move to an upstream-supp=
-orted approach and I think that is WIC.=C2=A0 What I don&#39;t understand i=
-s:<div>- How do I build a raw flash image where it is divided into partitio=
-ns but has no partition table?</div><div>- How do I set padding to be 0xFF =
-instead of 0x00?</div><div>- How do I include u-boot in the image?</div><di=
-v><br></div><div>Do I need to add a new imager plugin to support writing ra=
-w images with non-zero padding and no partition table?=C2=A0 For U-Boot, do=
- I add a new bootimg plugin?</div><div><br></div><div>Rick</div></div>
 
---001a113f3190602b5905468af04d--
