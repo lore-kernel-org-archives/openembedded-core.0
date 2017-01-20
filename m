@@ -1,30 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EA1D772B8
+	by mail.openembedded.org (Postfix) with ESMTP id 4DB2177235
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 20 Jan 2017 18:03:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0KI3A0I019285; Fri, 20 Jan 2017 18:03:10 GMT
+	v0KI3ADu019284; Fri, 20 Jan 2017 18:03:10 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id dVXM-GotX4fR; Fri, 20 Jan 2017 18:03:10 +0000 (GMT)
+	with LMTP id IywRu_HvLDr6; Fri, 20 Jan 2017 18:03:10 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0KI34AD019277
+	v0KI34CF019276
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Fri, 20 Jan 2017 18:03:05 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cUdWi-0000VD-Mw; Fri, 20 Jan 2017 18:03:04 +0000
+	id 1cUdWi-0000V8-MN; Fri, 20 Jan 2017 18:03:04 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2017 18:02:58 +0000
-Message-Id: <1484935378-1881-3-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Fri, 20 Jan 2017 18:02:57 +0000
+Message-Id: <1484935378-1881-2-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1484935378-1881-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1484935378-1881-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 3/3] bitbake.conf: Exclude extend_recipe_sysroot function from sstate checksums
+Subject: [PATCH 2/3] selftest/devtool: Update to account for recipe specific sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,30 +39,44 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 20 Jan 2017 18:03:13 -0000
 
-The extend_recipe_sysroot itself is excluded from the task hashes. This is
-because it only ever acts upon the contents of the task dependencies and hence
-those checksums accurately relfect what its doing. It does mean sysroots don't
-repopulate if this function changes but there are other easy ways to achieve
-that if needed.
+There is no common sysroot any more so add the libusb dependency using DEPENDS
+and check for the output in the sysroot output directory so the tests
+work with recipe specific sysroots.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/devtool.py | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index ee8bd8b..e421650 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -813,7 +813,7 @@ BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH BBSERVER DL_DI
-     PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE \
-     CCACHE_DIR EXTERNAL_TOOLCHAIN CCACHE CCACHE_DISABLE LICENSE_PATH SDKPKGSUFFIX \
-     WARN_QA ERROR_QA WORKDIR STAMPCLEAN PKGDATA_DIR BUILD_ARCH SSTATE_PKGARCH \
--    BB_WORKERCONTEXT BB_LIMITEDDEPS"
-+    BB_WORKERCONTEXT BB_LIMITEDDEPS extend_recipe_sysroot"
- BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SSH_AGENT_PID \
-     SSH_AUTH_SOCK PSEUDO_BUILD BB_ENV_EXTRAWHITE DISABLE_SANITY_CHECKS \
-     PARALLEL_MAKE BB_NUMBER_THREADS BB_ORIGENV BB_INVALIDCONF BBINCLUDED \
+diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
+index dc3435f..79a4b1f 100644
+--- a/meta/lib/oeqa/selftest/devtool.py
++++ b/meta/lib/oeqa/selftest/devtool.py
+@@ -247,8 +247,6 @@ class DevtoolTests(DevtoolBase):
+ 
+     @testcase(1162)
+     def test_devtool_add_library(self):
+-        # We don't have the ability to pick up this dependency automatically yet...
+-        bitbake('libusb1')
+         # Fetch source
+         tempdir = tempfile.mkdtemp(prefix='devtoolqa')
+         self.track_for_cleanup(tempdir)
+@@ -277,10 +275,13 @@ class DevtoolTests(DevtoolBase):
+         result = runCmd('recipetool setvar %s EXTRA_OECMAKE -- \'-DPYTHON_BINDINGS=OFF -DLIBFTDI_CMAKE_CONFIG_DIR=${datadir}/cmake/Modules\'' % recipefile)
+         with open(recipefile, 'a') as f:
+             f.write('\nFILES_${PN}-dev += "${datadir}/cmake/Modules"\n')
++            # We don't have the ability to pick up this dependency automatically yet...
++            f.write('\nDEPENDS += "libusb1"\n')
++            f.write('\nTESTLIBOUTPUT = "${STAGING_DIR}-components/${TUNE_PKGARCH}/${PN}/${libdir}"\n')
+         # Test devtool build
+         result = runCmd('devtool build libftdi')
+-        staging_libdir = get_bb_var('STAGING_LIBDIR', 'libftdi')
+-        self.assertTrue(staging_libdir, 'Could not query STAGING_LIBDIR variable')
++        staging_libdir = get_bb_var('TESTLIBOUTPUT', 'libftdi')
++        self.assertTrue(staging_libdir, 'Could not query TESTLIBOUTPUT variable')
+         self.assertTrue(os.path.isfile(os.path.join(staging_libdir, 'libftdi1.so.2.1.0')), "libftdi binary not found in STAGING_LIBDIR. Output of devtool build libftdi %s" % result.output)
+         # Test devtool reset
+         stampprefix = get_bb_var('STAMP', 'libftdi')
 -- 
 2.7.4
 
