@@ -1,49 +1,49 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D05373204
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id ACD98731F9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 14:13:26 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id v96so62028404ioi.0
+	Fri, 20 Jan 2017 14:13:29 +0000 (UTC)
+Received: by mail-io0-f181.google.com with SMTP id j13so62011138iod.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 06:13:27 -0800 (PST)
+	Fri, 20 Jan 2017 06:13:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=cuOTWIncSEHotszjkSqObU5AM5MgeLgq1KA6KRAFubA=;
-	b=p0ozq+S2Y9erTB8zn8V788tP/7WVXv9v11b0//ICweXYjKCb4ERdt/F3eNNb3iFYLs
-	bpKdfwTNE3gi9ggaW3z9ifLpapI0nGJ41VvqTVNfBAxqw9hrL19viuX1OEMHApH2vC/O
-	NeDUdK7SR4F74Uy+8kRnAdJF2zLXNDhgpkQSMOXkEXrUdx5pUEYvNE2jT7EKtShGBkj2
-	BAtnj3akDviB4+T0dL6GQp1VG/2QOOBQnyQZh8tJLE/UG07AhSF5n7xC9z9YyYa6Q9Jc
-	PXQH0cwBiCrApuRuxNskVQiFldj9rvCN0Ikt8yiI/sqjCCe0xH0Tgu+nIn+2KsVCjJix
-	YqPQ==
+	bh=AGTVFgJ+NUl+ydgSO4otcbilQiD0d1EF/nRmiCky6Fs=;
+	b=rj5AffFPcz5BGc55Df7xx03V657GP8wtWbHxdxCvxUTE3iXWjlCL0jzfK0uw9MJFwF
+	TLzD6Bp0F+kvl0ty7pj9dxDcLynCWBhJSNit9Kf9XReg3LJLwGrb/Meia7EdoykBBbSO
+	khFLVnhf6f1PFEFSx/DKujCJsnQ9J+GM69aJAkkXL4P9kmASm5VdO6SrV/l7YQMm8nIn
+	tO2D7YCf5Ziyz0uItu41alS9Jrjut8i43B32yrJRkBDhswir9DLKIEvyQXgs8SJ6PZLW
+	sOLH0UkT0cUDzdCcRz+Bii+EuLgjOiT46q0FuXSJGs45jmD5h+veYVh8mPP5i13OWYW2
+	Zc4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=cuOTWIncSEHotszjkSqObU5AM5MgeLgq1KA6KRAFubA=;
-	b=h3e64vYoTesKIkUe2KMhPPGpLIyTalPMULja5QHyZV8L8aBo/evnism8zywrMnAc7Q
-	o835jkmnFcRw7/vH8hDTZ2ggv6KYOj6mRwcY18Jg66b7O3mel+sy5m6QIiIPtvvPTYTt
-	x6YmJdVwOhmzebMqxYOUXQv2Jf6fgm61Mq3YmbC0CVKzJ/A+n2jBSoL2C224BqFtmags
-	WzxNsG2XdLeDLq+h3Nh/Qv9Tvu+x85mu974x4pFpp3ZJd98k8BPwoxBmBPphXTt8rnHm
-	tQYB2RG6Pjq9R3kXGUa7SWTqoSGWfjXzLCPFgGGgE0sZtxNV+Rj0RqU+o29lC5QIs0pK
-	+fIg==
-X-Gm-Message-State: AIkVDXJ2QCwa3Sgz4bcWEt3uTwStSYn3QvRdUZG3eu/QoMQU+3vYTesk9xcwQrNWQ5EAQeEx
-X-Received: by 10.107.6.210 with SMTP id f79mr14823103ioi.140.1484921606761;
-	Fri, 20 Jan 2017 06:13:26 -0800 (PST)
+	bh=AGTVFgJ+NUl+ydgSO4otcbilQiD0d1EF/nRmiCky6Fs=;
+	b=puowjDfVMO/fYKKCErjLpRMf5LKSylA54kU5txFJ3mn0CJYJ2kjaUFeMrEtkjnOYbs
+	xzM3qEpLOYi8M3FXaPyXs9Igfl5QGRSPQMRPh6ODLrRd4D/VqZcSkWwogrYIV8dh0wY0
+	pzHNZTFuIW/whCYDcogwDubsM1cvCjtLSKcOSP3MxXXxZoIMkRC6CBbNpq/x6Np+aFzC
+	6jx+y2i68euIjP19LIMy+4foW8mvTpOYHt0to3cMgcJQDHWx/yrDp5f+awwKAEzYAAu+
+	Ve2kKFr8sq7TmTQfurieXb+mjF8SLqZKZcmOuc/a4OJpIQBFyOK64tf0NLcanhMKvmOo
+	e3VQ==
+X-Gm-Message-State: AIkVDXKlPaFGMUA44zyArymZBAOCEoP8I0r5Cbxki6KituEW6wT17lvdj78E4QdPqMs8nK6T
+X-Received: by 10.107.167.204 with SMTP id q195mr14921405ioe.170.1484921609805;
+	Fri, 20 Jan 2017 06:13:29 -0800 (PST)
 Received: from pohly-desktop.fritz.box (p57A56DD5.dip0.t-ipconnect.de.
 	[87.165.109.213])
-	by smtp.gmail.com with ESMTPSA id k6sm4573464ioe.1.2017.01.20.06.13.24
+	by smtp.gmail.com with ESMTPSA id k6sm4573464ioe.1.2017.01.20.06.13.27
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 20 Jan 2017 06:13:25 -0800 (PST)
+	Fri, 20 Jan 2017 06:13:28 -0800 (PST)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2017 15:12:39 +0100
-Message-Id: <29708b62f2d3fb50cc605e1581cd2f384fb2a33e.1484921498.git-series.patrick.ohly@intel.com>
+Date: Fri, 20 Jan 2017 15:12:40 +0100
+Message-Id: <0b717f1d7ec9feb2165145e43cdbbbbce957886f.1484921498.git-series.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.bbc01c1227afdba3edc41dc7d7356f56e51be400.1484921498.git-series.patrick.ohly@intel.com>
 References: <cover.bbc01c1227afdba3edc41dc7d7356f56e51be400.1484921498.git-series.patrick.ohly@intel.com>
-Subject: [PATCH v4 08/12] runqemu: fix undefined variable reference in check_arg_path()
+Subject: [PATCH v4 09/12] runqemu: also accept -image suffix for rootfs parameter
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,35 +56,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 14:13:26 -0000
+X-List-Received-Date: Fri, 20 Jan 2017 14:13:29 -0000
 
-'arg' isn't defined, the right name there is 'p'.
+The magic detection of the rootfs parameter only worked for image
+recipes which embedd the "image" string in the middle, as in
+"core-image-minimal".
 
-This fixes a rather obscure error message when that code path
-ends up being taken:
+Sometimes it is more natural to call an image "something-image". To
+get such an image detected by runqemu, "-image" at the end of a
+parameter must also cause that parameter to be treated as the rootfs
+parameter.
 
-$ runqemu some/existing-file-name
-runqemu - ERROR - name 'arg' is not defined
-runqemu - ERROR - Try 'runqemu help' on how to use it
+Inside the image directory, "something-image" has an -<arch> suffix
+and thus no change is needed for those usages of
+re.search('-image-'). However, while at it also enhance those string
+searches a bit (no need for re; any()+map() a bit closer to the
+intended logic).
 
 Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- scripts/runqemu | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/runqemu | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/runqemu b/scripts/runqemu
-index 434b1c2..17d79e9 100755
+index 17d79e9..4d7168c 100755
 --- a/scripts/runqemu
 +++ b/scripts/runqemu
-@@ -292,7 +292,7 @@ class BaseConfig(object):
+@@ -218,7 +218,7 @@ class BaseConfig(object):
+             if not re.search('.qemuboot.conf$', '\n'.join(os.listdir(p)), re.M):
+                 logger.info("Can't find required *.qemuboot.conf in %s" % p)
+                 return False
+-            if not re.search('-image-', '\n'.join(os.listdir(p))):
++            if not any(map(lambda name: '-image-' in name, os.listdir(p))):
+                 logger.info("Can't find *-image-* in %s" % p)
+                 return False
+             return True
+@@ -267,7 +267,7 @@ class BaseConfig(object):
+              re.search('zImage', p) or re.search('vmlinux', p) or \
+              re.search('fitImage', p) or re.search('uImage', p):
+             self.kernel =  p
+-        elif os.path.exists(p) and (not os.path.isdir(p)) and re.search('-image-', os.path.basename(p)):
++        elif os.path.exists(p) and (not os.path.isdir(p)) and '-image-' in os.path.basename(p):
+             self.rootfs = p
+             # Check filename against self.fstypes can hanlde <file>.cpio.gz,
+             # otherwise, its type would be "gz", which is incorrect.
+@@ -381,7 +381,7 @@ class BaseConfig(object):
+                 self.kernel_cmdline_script += ' %s' % arg[len('bootparams='):]
+             elif os.path.exists(arg) or (re.search(':', arg) and re.search('/', arg)):
+                 self.check_arg_path(os.path.abspath(arg))
+-            elif re.search('-image-', arg):
++            elif re.search(r'-image-|-image$', arg):
+                 # Lazy rootfs
+                 self.rootfs = arg
              else:
-                 raise Exception("Can't find FSTYPE from: %s" % p)
- 
--        elif os.path.isdir(p) or re.search(':', arg) and re.search('/', arg):
-+        elif os.path.isdir(p) or re.search(':', p) and re.search('/', p):
-             if self.is_deploy_dir_image(p):
-                 logger.info('DEPLOY_DIR_IMAGE: %s' % p)
-                 self.set("DEPLOY_DIR_IMAGE", p)
 -- 
 git-series 0.9.1
 
