@@ -1,22 +1,22 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 10148772D1
+	by mail.openembedded.org (Postfix) with ESMTP id 78A44772CA
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 20 Jan 2017 17:07:56 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga105.fm.intel.com with ESMTP; 20 Jan 2017 09:07:56 -0800
+	by fmsmga105.fm.intel.com with ESMTP; 20 Jan 2017 09:07:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,259,1477983600"; d="scan'208";a="1115567507"
+X-IronPort-AV: E=Sophos;i="5.33,259,1477983600"; d="scan'208";a="1115567509"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.143])
 	by fmsmga002.fm.intel.com with ESMTP; 20 Jan 2017 09:07:56 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2017 11:10:16 -0600
-Message-Id: <ed6e36c93d6b4f79f580fc40d1ab5a352ca6ab79.1484929088.git.anibal.limon@linux.intel.com>
+Date: Fri, 20 Jan 2017 11:10:17 -0600
+Message-Id: <5c6c8f72ec1fed7b1d5977d505dea2297c9e85d5.1484929088.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1484929088.git.anibal.limon@linux.intel.com>
 References: <cover.1484929088.git.anibal.limon@linux.intel.com>
-Subject: [PATCH 45/55] oeqa/runtime/context.py: Add logger to getTarget
+Subject: [PATCH 46/55] core/target/qemu.py Adds qemu target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +33,69 @@ X-List-Received-Date: Fri, 20 Jan 2017 17:07:56 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-Current targets (ssh and qemu) require a logger in their
-constructors, so in order to get a new target we need
-to provide the logger.
+This adds qemu target to be used in testimage.
+It uses the current QemuRunner class in order
+to boot and control qemu.
 
-[YOCTO #10686]
+[YOCTO #10231]
 
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/lib/oeqa/runtime/context.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/lib/oeqa/core/target/qemu.py | 45 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
+ create mode 100644 meta/lib/oeqa/core/target/qemu.py
 
-diff --git a/meta/lib/oeqa/runtime/context.py b/meta/lib/oeqa/runtime/context.py
-index f0f6e62..bc8abd0 100644
---- a/meta/lib/oeqa/runtime/context.py
-+++ b/meta/lib/oeqa/runtime/context.py
-@@ -76,13 +76,13 @@ class OERuntimeTestContextExecutor(OETestContextExecutor):
-                 help="Qemu boot configuration, only needed when target_type is QEMU.")
- 
-     @staticmethod
--    def getTarget(target_type, target_ip, server_ip, **kwargs):
-+    def getTarget(target_type, logger, target_ip, server_ip, **kwargs):
-         target = None
- 
-         if target_type == 'simpleremote':
--            target = OESSHTarget(target_ip, server_ip, kwargs)
-+            target = OESSHTarget(logger, target_ip, server_ip, **kwargs)
-         elif target_type == 'qemu':
--            target = OEQemuTarget(target_ip, server_ip, kwargs)
-+            target = OEQemuTarget(logger, target_ip, server_ip, **kwargs)
-         else:
-             # TODO: Implement custom target module loading
-             raise TypeError("target_type %s isn't supported" % target_type)
+diff --git a/meta/lib/oeqa/core/target/qemu.py b/meta/lib/oeqa/core/target/qemu.py
+new file mode 100644
+index 0000000..641dd6a
+--- /dev/null
++++ b/meta/lib/oeqa/core/target/qemu.py
+@@ -0,0 +1,45 @@
++# Copyright (C) 2016 Intel Corporation
++# Released under the MIT license (see COPYING.MIT)
++
++import os
++import sys
++import signal
++import time
++
++from .ssh import OESSHTarget
++from oeqa.utils.qemurunner import QemuRunner
++
++supported_fstypes = ['ext3', 'ext4', 'cpio.gz', 'wic']
++
++class OEQemuTarget(OESSHTarget):
++    def __init__(self, logger, ip, server_ip, timeout=300, user='root',
++            port=None, machine='', rootfs='', kernel='', kvm=False,
++            dump_dir='', dump_host_cmds='', display='', bootlog='',
++            tmpdir='', dir_image='', boottime=60):
++
++        super(OEQemuTarget, self).__init__(logger, ip, server_ip, timeout,
++                user, port)
++
++        self.ip = ip
++        self.server_ip = server_ip
++        self.machine = machine
++        self.rootfs = rootfs
++        self.kernel = kernel
++        self.kvm = kvm
++
++        self.runner = QemuRunner(machine=machine, rootfs=rootfs, tmpdir=tmpdir,
++                                 deploy_dir_image=dir_image, display=display,
++                                 logfile=bootlog, boottime=boottime,
++                                 use_kvm=kvm, dump_dir=dump_dir,
++                                 dump_host_cmds=dump_host_cmds)
++
++    def start(self, params=None, extra_bootparams=None):
++        if self.runner.start(params, extra_bootparams=extra_bootparams):
++            self.ip = self.runner.ip
++            self.server_ip = self.runner.server_ip
++        else:
++            self.stop()
++            raise RuntimeError("FAILED to start qemu - check the task log and the boot log")
++
++    def stop(self):
++        self.runner.stop()
 -- 
 2.1.4
 
