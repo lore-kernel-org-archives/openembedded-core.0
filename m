@@ -1,30 +1,28 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2432A77225
+	by mail.openembedded.org (Postfix) with ESMTP id 62B607722A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Jan 2017 14:35:53 +0000 (UTC)
+	Sat, 21 Jan 2017 14:35:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0LEZqKo001021; Sat, 21 Jan 2017 14:35:52 GMT
+	v0LEZqKp001021; Sat, 21 Jan 2017 14:35:53 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id bssK8FjkpoWj; Sat, 21 Jan 2017 14:35:52 +0000 (GMT)
+	with LMTP id kecleUf--Y3C; Sat, 21 Jan 2017 14:35:53 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0LEZlUc001008
+	v0LEZlIK001002
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Sat, 21 Jan 2017 14:35:48 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cUwlf-0000yP-JH; Sat, 21 Jan 2017 14:35:47 +0000
+	id 1cUwlf-0000xw-Fm; Sat, 21 Jan 2017 14:35:47 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 21 Jan 2017 14:35:44 +0000
-Message-Id: <1485009344-3664-7-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Sat, 21 Jan 2017 14:35:38 +0000
+Message-Id: <1485009344-3664-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1485009344-3664-1-git-send-email-richard.purdie@linuxfoundation.org>
-References: <1485009344-3664-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 7/7] package_rpm: Clean up pointless exception handling
+Subject: [PATCH 1/7] Revert "populate_sdk_ext: whitelist do_package tasks"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,55 +37,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 21 Jan 2017 14:35:55 -0000
 
-The exception handling in this function seemed mildly crazy. Python will
-given perfectly good or in several cases better information if we let its
-standard traceback/exception handling happen. Remove the pointless code.
+Since Paul reverted the sstate.bbclass change which was checking the sstate
+mirror test results, this change should also not be needed anymore.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+This reverts commit e30f5002c4f216757ace27ad8d06164716ca46b5.
 ---
- meta/classes/package_rpm.bbclass | 15 +++------------
- 1 file changed, 3 insertions(+), 12 deletions(-)
+ meta/classes/populate_sdk_ext.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index c978ec5..bde0453 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -55,10 +55,7 @@ def write_rpm_perfiledata(srcname, d):
-     # OE-core dependencies a.k.a. RPM requires
-     outdepends = workdir + "/" + srcname + ".requires"
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index 9b711d1..b383bed 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -306,7 +306,7 @@ python copy_buildsystem () {
+             f.write('SIGGEN_LOCKEDSIGS_TASKSIG_CHECK = "warn"\n\n')
  
--    try:
--        dependsfile = open(outdepends, 'w')
--    except OSError:
--        bb.fatal("unable to open spec file for writing")
-+    dependsfile = open(outdepends, 'w')
+             # Set up whitelist for run on install
+-            f.write('BB_SETSCENE_ENFORCE_WHITELIST = "%:* *:do_shared_workdir *:do_rm_work *:do_package"\n\n')
++            f.write('BB_SETSCENE_ENFORCE_WHITELIST = "%:* *:do_shared_workdir *:do_rm_work"\n\n')
  
-     dump_filerdeps('RDEPENDS', dependsfile, d)
- 
-@@ -68,10 +65,7 @@ def write_rpm_perfiledata(srcname, d):
-     # OE-core / RPM Provides
-     outprovides = workdir + "/" + srcname + ".provides"
- 
--    try:
--        providesfile = open(outprovides, 'w')
--    except OSError:
--        bb.fatal("unable to open spec file for writing")
-+    providesfile = open(outprovides, 'w')
- 
-     dump_filerdeps('RPROVIDES', providesfile, d)
- 
-@@ -620,10 +614,7 @@ python write_specfile () {
-         spec_scriptlets_top.append('')
- 
-     # Write the SPEC file
--    try:
--        specfile = open(outspecfile, 'w')
--    except OSError:
--        bb.fatal("unable to open spec file for writing")
-+    specfile = open(outspecfile, 'w')
- 
-     # RPMSPEC_PREAMBLE is a way to add arbitrary text to the top
-     # of the generated spec file
+             # Hide the config information from bitbake output (since it's fixed within the SDK)
+             f.write('BUILDCFG_HEADER = ""\n\n')
 -- 
 2.7.4
 
