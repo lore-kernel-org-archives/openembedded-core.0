@@ -1,29 +1,30 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C0AEC60670
+	by mail.openembedded.org (Postfix) with ESMTP id 2077C71A17
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Jan 2017 12:30:56 +0000 (UTC)
+	Sat, 21 Jan 2017 14:35:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0LCSsiX028542; Sat, 21 Jan 2017 12:28:54 GMT
+	v0LEZqKn001021; Sat, 21 Jan 2017 14:35:52 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id uYAZmbB6rE1r; Sat, 21 Jan 2017 12:28:54 +0000 (GMT)
+	with LMTP id BtVYlS0hm5rS; Sat, 21 Jan 2017 14:35:52 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0LCSq1h028536
+	v0LEZlim001006
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sat, 21 Jan 2017 12:28:54 GMT
-Message-ID: <1485001732.30673.0.camel@linuxfoundation.org>
+	Sat, 21 Jan 2017 14:35:48 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1cUwlf-0000yE-I3; Sat, 21 Jan 2017 14:35:47 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Sat, 21 Jan 2017 12:28:52 +0000
-In-Reply-To: <cover.1484929088.git.anibal.limon@linux.intel.com>
-References: <cover.1484929088.git.anibal.limon@linux.intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 00/55] OEQA Framework Refactor & Improvements
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 21 Jan 2017 14:35:42 +0000
+Message-Id: <1485009344-3664-5-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1485009344-3664-1-git-send-email-richard.purdie@linuxfoundation.org>
+References: <1485009344-3664-1-git-send-email-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 5/7] package_ipk: Improve failure debug output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,34 +37,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Jan 2017 12:31:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 21 Jan 2017 14:35:54 -0000
 
-On Fri, 2017-01-20 at 11:09 -0600, Aníbal Limón wrote:
-> This patchset is related to OEQA Framework for details read the RFC
-> send to the
-> Openembedded architecture ML.
-> 
-> http://lists.openembedded.org/pipermail/openembedded-architecture/201
-> 6-December/000351.html
-> 
-> Also adds the migration of the runtime testing leaving only selftest
-> remains
-> to migrate.
-> 
-> The testing was made using GDC Autobuilder building in different
-> archs and running selftest.
+Currently if the dpkg-deb command fails you see an error message like this:
 
-Thanks, I'm testing this on the autobuilder, it seems mostly good but
-so far we've seen this issue:
+ERROR: nss-3.27.1-r0 do_package_write_ipk: opkg-build execution failed
+ERROR: nss-3.27.1-r0 do_package_write_ipk: Function failed: do_package_ipk
 
-https://autobuilder.yocto.io/builders/nightly-qa-skeleton/builds/145/st
-eps/Running%20Sanity%20Tests/logs/stdio
+which is pretty much useless. If we use subprocess.check_output, we see a
+traceback and then:
 
-Please send any further patches on top of this series.
+Exception: subprocess.CalledProcessError: Command '<cmd>' returned non-zero exit status 1
 
-Cheers,
+Subprocess output:
+<output>
 
-Richard
+which is much easier to debug from.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/package_ipk.bbclass | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index 039b6ab..9fb128b 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -244,11 +244,8 @@ python do_package_ipk () {
+             conffiles.close()
+ 
+         os.chdir(basedir)
+-        ret = subprocess.call("PATH=\"%s\" %s %s %s" % (localdata.getVar("PATH"),
++        subprocess.check_output("PATH=\"%s\" %s %s %s" % (localdata.getVar("PATH"),
+                                                           d.getVar("OPKGBUILDCMD"), pkg, pkgoutdir), shell=True)
+-        if ret != 0:
+-            bb.utils.unlockfile(lf)
+-            bb.fatal("opkg-build execution failed")
+ 
+         if d.getVar('IPK_SIGN_PACKAGES') == '1':
+             ipkver = "%s-%s" % (d.getVar('PKGV'), d.getVar('PKGR'))
+-- 
+2.7.4
+
 
