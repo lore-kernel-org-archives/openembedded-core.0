@@ -1,46 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id B8F8E772D1
+Return-Path: <tanuk@iki.fi>
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+	[66.111.4.25])
+	by mail.openembedded.org (Postfix) with ESMTP id 55D8771B86
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Jan 2017 00:16:50 +0000 (UTC)
-Received: by mail-qk0-f173.google.com with SMTP id u25so25752147qki.2
+	Sat, 21 Jan 2017 00:47:48 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 8D695207D7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 16:16:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ar6Nlq9wqNfI9JQj1ElXwxRCKjbzKkN/4RQvFHbrkmU=;
-	b=EKyeG1GAAfTl2U6Hdav06ULbVYC15jq4tfxbXG7Vv/gaGfylTXWWMsaVM1LOgCrqN0
-	EHp7OZtndyUljDDeYnlw4pcJ7aR6GQGE5dcaKQWjld7ZznUiBaMFxhaKaVsGS87MaxW1
-	rfTt+IxWIevlIU1dsnGhzG6Uq4X32nQAffpBOB6QTkFQf4NsIpCF7dMnz1i4DXSJ1U8T
-	JQP/kTIFt0sVbOsFA3Zw5cJLm/hf3IYKBHRJ6qyr2570tO+NngqPofVulj9c1kwE79bJ
-	PGItXNWr9Xf8N69A5ujNGZrP8yps3HRkzQnVWrZAig3jUhtqhq1GcEuHjysrBrWJaGvy
-	0gYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ar6Nlq9wqNfI9JQj1ElXwxRCKjbzKkN/4RQvFHbrkmU=;
-	b=eT61bOVT0jIoeCFg7VRQXCFok9k0UAnKjh6zHoQ0ZLUkpRdgUbzfTHBhENCZm+58ci
-	qkoADkHqhitexmWMjYmMjZysPCCz1Uy5mPJncJ2jZoOA/L0OtTokJMNVq8eOApJn059x
-	cFuKUbjsJx9aIz8zYzWGfwsWzKnt+n7dew8hWnMLe1M1NxeI4nb27/xp89MUeVYk25jQ
-	5g7SBvU1sNUuPpQGVXJ8p4lIzPQYp6cBkE9t3ZIZpWB/UvQ2KZJ/feJhBy6EoKOBrrix
-	0k2IuyWOwPQjjXzPmWK30d084jvYKI0riWEozXVR/dsZL8OPxRl43bxuswvTj4PTe0pR
-	gvEg==
-X-Gm-Message-State: AIkVDXLCZA3zTKdxxFLV48sqlFaCYiwSk9fPpzOGQfw4jJZn4BXZ1OxSg1cohhbhR+1dtry9tHXPdInUuPq5Dic6
-X-Received: by 10.237.54.1 with SMTP id e1mr13884031qtb.68.1484957810790; Fri,
-	20 Jan 2017 16:16:50 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Fri, 20 Jan 2017 16:16:30 -0800 (PST)
-In-Reply-To: <CAJTo0LbjMd+wJtgGePXRTy7YZVBb4rfr69jhcfeawiUGAYLrCQ@mail.gmail.com>
+	Fri, 20 Jan 2017 19:47:48 -0500 (EST)
+Received: from frontend1 ([10.202.2.160])
+	by compute5.internal (MEProxy); Fri, 20 Jan 2017 19:47:48 -0500
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-sender:x-me-sender:x-sasl-enc:x-sasl-enc; s=
+	smtpout; bh=lALGWrISaopnhrdO0kT8dZ/6E4g=; b=aaB8pVSCrebQNkt+s8vV
+	+2oiV0SQVOX+5QhucHujO/kyngBUbuTMxESRPTs8s3j8CfOlB764+nvZ7tUdAXie
+	98KjZKYCFZWWwebQeE6ulg+rFQdGof/JxdF8Mrcd6ZvBexH4Qnsp7EfRUqyowUkC
+	5JlUIAWnOqaLe3ADOIygxUM=
+X-ME-Sender: <xms:tK-CWA14f1AlwaWjoY7MeoDZp0ucIur7CsgkYg7O7-oX378v7Um3wg>
+X-Sasl-enc: Rlz8OIEQoxnEsht41uTypOeue/E7kGC2xNXDGoACAhEg 1484959668
+Received: from laptop (unknown [192.40.95.2])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 0F9AF7EC41
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jan 2017 19:47:47 -0500 (EST)
+Message-ID: <1484959666.17033.1.camel@iki.fi>
+From: Tanu Kaskinen <tanuk@iki.fi>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 21 Jan 2017 02:47:46 +0200
+In-Reply-To: <CAJTo0LazMARfg0pFQjC8+=v3xnQcD0P=-8ByrrSnddOSUmriNg@mail.gmail.com>
 References: <1484917866-24351-1-git-send-email-schnitzeltony@googlemail.com>
 	<CAJTo0LbjMd+wJtgGePXRTy7YZVBb4rfr69jhcfeawiUGAYLrCQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 21 Jan 2017 00:16:30 +0000
-Message-ID: <CAJTo0LazMARfg0pFQjC8+=v3xnQcD0P=-8ByrrSnddOSUmriNg@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+	<CAJTo0LazMARfg0pFQjC8+=v3xnQcD0P=-8ByrrSnddOSUmriNg@mail.gmail.com>
+X-Mailer: Evolution 3.22.3-1 
+Mime-Version: 1.0
 Subject: Re: [PATCH V2] alsa-lib: update 1.1.2 -> 1.1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -54,43 +47,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Jan 2017 00:16:51 -0000
-Content-Type: multipart/alternative; boundary=001a1142dcf0d1add805468faebd
+X-List-Received-Date: Sat, 21 Jan 2017 00:47:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a1142dcf0d1add805468faebd
-Content-Type: text/plain; charset=UTF-8
+On Sat, 2017-01-21 at 00:16 +0000, Burton, Ross wrote:
+> On 21 January 2017 at 00:12, Burton, Ross <ross.burton@intel.com> wrote:
+> 
+> > Computing transaction...warning: Can't install
+> > alsa-lib-dev-1.1.3-r0.0@core2_32: Can't install
+> > alsa-lib-dev-1.1.3-r0.0@core2_32: no package provides alsa-lib =
+> > 1.1.3-r0.0
+> > 
+> 
+> Had a ten second look at 1.1.2, there's an alsa-lib package that contains
+> /usr/lib/alsa-lib/smixer/*.so.  If these disappeared (or were
+> non-deterministic) in the 1.1.3 build alsa-lib itself would be empty, and
+> the dependency would break.
 
-On 21 January 2017 at 00:12, Burton, Ross <ross.burton@intel.com> wrote:
+The smixer libraries indeed disappeared in 1.1.3 (when python support
+isn't enabled):
+http://git.alsa-project.org/?p=alsa-lib.git;a=commit;h=a668a94238dc67b19ae187b52a161e027d79ee5d
 
-> Computing transaction...warning: Can't install
-> alsa-lib-dev-1.1.3-r0.0@core2_32: Can't install
-> alsa-lib-dev-1.1.3-r0.0@core2_32: no package provides alsa-lib =
-> 1.1.3-r0.0
->
+-- 
+Tanu
 
-Had a ten second look at 1.1.2, there's an alsa-lib package that contains
-/usr/lib/alsa-lib/smixer/*.so.  If these disappeared (or were
-non-deterministic) in the 1.1.3 build alsa-lib itself would be empty, and
-the dependency would break.
+https://www.patreon.com/tanuk
 
-Ross
-
---001a1142dcf0d1add805468faebd
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 21 January 2017 at 00:12, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">Computi=
-ng transaction...warning: Can&#39;t install alsa-lib-dev-1.1.3-r0.0@core2_<=
-wbr>32: Can&#39;t install alsa-lib-dev-1.1.3-r0.0@core2_<wbr>32: no package=
- provides alsa-lib =3D 1.1.3-r0.0<br></div></blockquote></div><br>Had a ten=
- second look at 1.1.2, there&#39;s an alsa-lib package that contains /usr/l=
-ib/alsa-lib/smixer/*.so.=C2=A0 If these disappeared (or were non-determinis=
-tic) in the 1.1.3 build alsa-lib itself would be empty, and the dependency =
-would break.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
-extra">Ross</div></div>
-
---001a1142dcf0d1add805468faebd--
