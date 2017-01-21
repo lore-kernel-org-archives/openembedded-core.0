@@ -1,30 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2077C71A17
+	by mail.openembedded.org (Postfix) with ESMTP id 218057721D
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 21 Jan 2017 14:35:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0LEZqKn001021; Sat, 21 Jan 2017 14:35:52 GMT
+	v0LEZq2p001024; Sat, 21 Jan 2017 14:35:52 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id BtVYlS0hm5rS; Sat, 21 Jan 2017 14:35:52 +0000 (GMT)
+	with LMTP id w_7HTmdCUNU3; Sat, 21 Jan 2017 14:35:52 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0LEZlim001006
+	v0LEZlRg001003
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Sat, 21 Jan 2017 14:35:48 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cUwlf-0000yE-I3; Sat, 21 Jan 2017 14:35:47 +0000
+	id 1cUwlf-0000xz-GN; Sat, 21 Jan 2017 14:35:47 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 21 Jan 2017 14:35:42 +0000
-Message-Id: <1485009344-3664-5-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Sat, 21 Jan 2017 14:35:39 +0000
+Message-Id: <1485009344-3664-2-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1485009344-3664-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1485009344-3664-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 5/7] package_ipk: Improve failure debug output
+Subject: [PATCH 2/7] populate_sdk_ext: Add wic-tools to BB_SETSCENE_ENFORCE_WHITELIST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,43 +39,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 21 Jan 2017 14:35:54 -0000
 
-Currently if the dpkg-deb command fails you see an error message like this:
-
-ERROR: nss-3.27.1-r0 do_package_write_ipk: opkg-build execution failed
-ERROR: nss-3.27.1-r0 do_package_write_ipk: Function failed: do_package_ipk
-
-which is pretty much useless. If we use subprocess.check_output, we see a
-traceback and then:
-
-Exception: subprocess.CalledProcessError: Command '<cmd>' returned non-zero exit status 1
-
-Subprocess output:
-<output>
-
-which is much easier to debug from.
+wic-tools has tasks which would always rerun and not come from sstate
+to ensure we have a correctly populated sysroot. This is low overhead
+and can be ignored from an eSDK perspective.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/package_ipk.bbclass | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ meta/classes/populate_sdk_ext.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-index 039b6ab..9fb128b 100644
---- a/meta/classes/package_ipk.bbclass
-+++ b/meta/classes/package_ipk.bbclass
-@@ -244,11 +244,8 @@ python do_package_ipk () {
-             conffiles.close()
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index b383bed..39e0c83 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -306,7 +306,7 @@ python copy_buildsystem () {
+             f.write('SIGGEN_LOCKEDSIGS_TASKSIG_CHECK = "warn"\n\n')
  
-         os.chdir(basedir)
--        ret = subprocess.call("PATH=\"%s\" %s %s %s" % (localdata.getVar("PATH"),
-+        subprocess.check_output("PATH=\"%s\" %s %s %s" % (localdata.getVar("PATH"),
-                                                           d.getVar("OPKGBUILDCMD"), pkg, pkgoutdir), shell=True)
--        if ret != 0:
--            bb.utils.unlockfile(lf)
--            bb.fatal("opkg-build execution failed")
+             # Set up whitelist for run on install
+-            f.write('BB_SETSCENE_ENFORCE_WHITELIST = "%:* *:do_shared_workdir *:do_rm_work"\n\n')
++            f.write('BB_SETSCENE_ENFORCE_WHITELIST = "%:* *:do_shared_workdir *:do_rm_work wic-tools:*"\n\n')
  
-         if d.getVar('IPK_SIGN_PACKAGES') == '1':
-             ipkver = "%s-%s" % (d.getVar('PKGV'), d.getVar('PKGR'))
+             # Hide the config information from bitbake output (since it's fixed within the SDK)
+             f.write('BUILDCFG_HEADER = ""\n\n')
 -- 
 2.7.4
 
