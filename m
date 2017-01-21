@@ -1,40 +1,30 @@
-Return-Path: <tanuk@iki.fi>
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
-	[66.111.4.25])
-	by mail.openembedded.org (Postfix) with ESMTP id 55D8771B86
+Return-Path: <gthomas@mlbassoc.com>
+X-Greylist: delayed 589 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sat, 21 Jan 2017 05:12:13 UTC
+Received: from mail.analogue-micro.com (mail.analogue-micro.com
+	[217.144.149.242])
+	by mail.openembedded.org (Postfix) with ESMTP id BABDE60762
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Jan 2017 00:47:48 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 8D695207D7
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 19:47:48 -0500 (EST)
-Received: from frontend1 ([10.202.2.160])
-	by compute5.internal (MEProxy); Fri, 20 Jan 2017 19:47:48 -0500
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-sender:x-me-sender:x-sasl-enc:x-sasl-enc; s=
-	smtpout; bh=lALGWrISaopnhrdO0kT8dZ/6E4g=; b=aaB8pVSCrebQNkt+s8vV
-	+2oiV0SQVOX+5QhucHujO/kyngBUbuTMxESRPTs8s3j8CfOlB764+nvZ7tUdAXie
-	98KjZKYCFZWWwebQeE6ulg+rFQdGof/JxdF8Mrcd6ZvBexH4Qnsp7EfRUqyowUkC
-	5JlUIAWnOqaLe3ADOIygxUM=
-X-ME-Sender: <xms:tK-CWA14f1AlwaWjoY7MeoDZp0ucIur7CsgkYg7O7-oX378v7Um3wg>
-X-Sasl-enc: Rlz8OIEQoxnEsht41uTypOeue/E7kGC2xNXDGoACAhEg 1484959668
-Received: from laptop (unknown [192.40.95.2])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 0F9AF7EC41
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2017 19:47:47 -0500 (EST)
-Message-ID: <1484959666.17033.1.camel@iki.fi>
-From: Tanu Kaskinen <tanuk@iki.fi>
+	Sat, 21 Jan 2017 05:12:13 +0000 (UTC)
+Received: by mail.analogue-micro.com (Postfix, from userid 999)
+	id 4EC6868A01C; Sat, 21 Jan 2017 05:02:23 +0000 (GMT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	loki.analogue-micro-ltd.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-0.2 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
+	by mail.analogue-micro.com (Postfix) with ESMTP id DB23F68A019;
+	Sat, 21 Jan 2017 05:02:22 +0000 (GMT)
+Received: by zeus.mlbassoc.com (Postfix, from userid 1000)
+	id 5D5AA67403E8; Sat, 21 Jan 2017 06:02:21 +0100 (CET)
+From: Gary Thomas <gary@mlbassoc.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 21 Jan 2017 02:47:46 +0200
-In-Reply-To: <CAJTo0LazMARfg0pFQjC8+=v3xnQcD0P=-8ByrrSnddOSUmriNg@mail.gmail.com>
-References: <1484917866-24351-1-git-send-email-schnitzeltony@googlemail.com>
-	<CAJTo0LbjMd+wJtgGePXRTy7YZVBb4rfr69jhcfeawiUGAYLrCQ@mail.gmail.com>
-	<CAJTo0LazMARfg0pFQjC8+=v3xnQcD0P=-8ByrrSnddOSUmriNg@mail.gmail.com>
-X-Mailer: Evolution 3.22.3-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH V2] alsa-lib: update 1.1.2 -> 1.1.3
+Date: Sat, 21 Jan 2017 06:02:18 +0100
+Message-Id: <1484974938-6497-1-git-send-email-gary@mlbassoc.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Gary Thomas <gary@mlbassoc.com>
+Subject: [PATCH] glib-2.0: native package should not depend on DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,30 +37,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Jan 2017 00:47:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 21 Jan 2017 05:12:14 -0000
 
-On Sat, 2017-01-21 at 00:16 +0000, Burton, Ross wrote:
-> On 21 January 2017 at 00:12, Burton, Ross <ross.burton@intel.com> wrote:
-> 
-> > Computing transaction...warning: Can't install
-> > alsa-lib-dev-1.1.3-r0.0@core2_32: Can't install
-> > alsa-lib-dev-1.1.3-r0.0@core2_32: no package provides alsa-lib =
-> > 1.1.3-r0.0
-> > 
-> 
-> Had a ten second look at 1.1.2, there's an alsa-lib package that contains
-> /usr/lib/alsa-lib/smixer/*.so.  If these disappeared (or were
-> non-deterministic) in the 1.1.3 build alsa-lib itself would be empty, and
-> the dependency would break.
+xxx-native packages should not depend on ${DISTRO} settings.  Doing
+so feels inherently wrong and limits the usefulness of sstate-cache.
 
-The smixer libraries indeed disappeared in 1.1.3 (when python support
-isn't enabled):
-http://git.alsa-project.org/?p=alsa-lib.git;a=commit;h=a668a94238dc67b19ae187b52a161e027d79ee5d
+This patch changes how this package is installed, in particular
+removing the dependency on the ${DISTRO_FEATURES} variable in
+glib-2.0-native.  This will further improve the ability to share
+native packages between builds with differences in ${DISTRO_FEATURES}
 
+Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+---
+ meta/recipes-core/glib-2.0/glib.inc | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index cb6aca7..a5db455 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -92,16 +92,20 @@ do_install_append () {
+ 		sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/env perl,' ${D}${bindir}/glib-mkenums
+ 	fi
+ 
++        # Make sure gio-querymodules is unique among multilibs
++        if test "x${MLPREFIX}" != "x"; then
++                mv ${D}${libexecdir}/gio-querymodules ${D}${libexecdir}/${MLPREFIX}gio-querymodules
++        fi
++}
++
++do_install_append_class-target () {
++	# Tests are only installed on targets, not native builds.  Separating this out
++	# keeps glib-2.0-native from depending on ${DISTRO_FEATURES}
+ 	if [ -f ${D}${datadir}/installed-tests/glib/gdbus-serialization.test ]; then
+ 		if ${@bb.utils.contains("DISTRO_FEATURES", "x11", "false", "true", d)}; then
+ 			rm ${D}${datadir}/installed-tests/glib/gdbus-serialization.test
+ 		fi
+ 	fi
+-
+-        # Make sure gio-querymodules is unique among multilibs
+-        if test "x${MLPREFIX}" != "x"; then
+-                mv ${D}${libexecdir}/gio-querymodules ${D}${libexecdir}/${MLPREFIX}gio-querymodules
+-        fi
+ }
+ 
+ do_install_append_libc-musl () {
 -- 
-Tanu
+2.7.4
 
-https://www.patreon.com/tanuk
 
