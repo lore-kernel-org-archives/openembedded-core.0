@@ -1,30 +1,29 @@
-Return-Path: <gthomas@mlbassoc.com>
-X-Greylist: delayed 589 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 21 Jan 2017 05:12:13 UTC
-Received: from mail.analogue-micro.com (mail.analogue-micro.com
-	[217.144.149.242])
-	by mail.openembedded.org (Postfix) with ESMTP id BABDE60762
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B87F605FF
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Jan 2017 05:12:13 +0000 (UTC)
-Received: by mail.analogue-micro.com (Postfix, from userid 999)
-	id 4EC6868A01C; Sat, 21 Jan 2017 05:02:23 +0000 (GMT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	loki.analogue-micro-ltd.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.2 required=5.0 tests=ALL_TRUSTED,BAYES_00,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
-	by mail.analogue-micro.com (Postfix) with ESMTP id DB23F68A019;
-	Sat, 21 Jan 2017 05:02:22 +0000 (GMT)
-Received: by zeus.mlbassoc.com (Postfix, from userid 1000)
-	id 5D5AA67403E8; Sat, 21 Jan 2017 06:02:21 +0100 (CET)
-From: Gary Thomas <gary@mlbassoc.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 21 Jan 2017 06:02:18 +0100
-Message-Id: <1484974938-6497-1-git-send-email-gary@mlbassoc.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Gary Thomas <gary@mlbassoc.com>
-Subject: [PATCH] glib-2.0: native package should not depend on DISTRO_FEATURES
+	Sat, 21 Jan 2017 11:44:38 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v0LBibLo026866; Sat, 21 Jan 2017 11:44:37 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id kGH4vlkrlf_O; Sat, 21 Jan 2017 11:44:37 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v0LBiWMt026860
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sat, 21 Jan 2017 11:44:34 GMT
+Message-ID: <1484999072.9391.1.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Pascal Bach <pascal.bach@siemens.com>,
+	openembedded-core@lists.openembedded.org
+Date: Sat, 21 Jan 2017 11:44:32 +0000
+In-Reply-To: <1484817397-7308-1-git-send-email-pascal.bach@siemens.com>
+References: <1484817397-7308-1-git-send-email-pascal.bach@siemens.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+Mime-Version: 1.0
+Subject: Re: Passing additional data from packages to be used during image creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,52 +36,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Jan 2017 05:12:14 -0000
+X-List-Received-Date: Sat, 21 Jan 2017 11:44:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-xxx-native packages should not depend on ${DISTRO} settings.  Doing
-so feels inherently wrong and limits the usefulness of sstate-cache.
+On Thu, 2017-01-19 at 10:16 +0100, Pascal Bach wrote:
+> I would like to pass some additional data generated during the
+> creation of a package to the image creation step.
+> The idea is to use this data to generate a more detailed manifest of
+> what is included in the image. In the concrete case
+> I would like to pass a list of required copyright files that need to
+> be checked for during image creation.
+> 
+> My current approach is to add this list as a new variable COPYRIGHTS
+> to the pkgdata of each package.
+> Using the image manifest to determine the package this allows me to
+> compile a list of all required copyrights.
+> 
+> The following patch allows to add extra variables to pkgdata and thus
+> allows to pass additional data
+> 
+> - [PATCH] package.bbclass: allow additional variables to be added to
+> 
+> Is this a valid approach or did a miss a simpler way to access any
+> package data during image creation?
 
-This patch changes how this package is installed, in particular
-removing the dependency on the ${DISTRO_FEATURES} variable in
-glib-2.0-native.  This will further improve the ability to share
-native packages between builds with differences in ${DISTRO_FEATURES}
+I'm curious if adding something to PACKAGEVARS would work or if not,
+why not?
 
-Signed-off-by: Gary Thomas <gary@mlbassoc.com>
----
- meta/recipes-core/glib-2.0/glib.inc | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+Cheers,
 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index cb6aca7..a5db455 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -92,16 +92,20 @@ do_install_append () {
- 		sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/env perl,' ${D}${bindir}/glib-mkenums
- 	fi
- 
-+        # Make sure gio-querymodules is unique among multilibs
-+        if test "x${MLPREFIX}" != "x"; then
-+                mv ${D}${libexecdir}/gio-querymodules ${D}${libexecdir}/${MLPREFIX}gio-querymodules
-+        fi
-+}
-+
-+do_install_append_class-target () {
-+	# Tests are only installed on targets, not native builds.  Separating this out
-+	# keeps glib-2.0-native from depending on ${DISTRO_FEATURES}
- 	if [ -f ${D}${datadir}/installed-tests/glib/gdbus-serialization.test ]; then
- 		if ${@bb.utils.contains("DISTRO_FEATURES", "x11", "false", "true", d)}; then
- 			rm ${D}${datadir}/installed-tests/glib/gdbus-serialization.test
- 		fi
- 	fi
--
--        # Make sure gio-querymodules is unique among multilibs
--        if test "x${MLPREFIX}" != "x"; then
--                mv ${D}${libexecdir}/gio-querymodules ${D}${libexecdir}/${MLPREFIX}gio-querymodules
--        fi
- }
- 
- do_install_append_libc-musl () {
--- 
-2.7.4
-
+Richard
 
