@@ -1,26 +1,28 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D3C466076F
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 76733600E2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Jan 2017 07:12:44 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v0M7ChqC006035
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Jan 2017 23:12:45 -0800 (PST)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Sat, 21 Jan 2017 23:12:43 -0800
-From: Dengke Du <dengke.du@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 22 Jan 2017 02:12:40 -0500
-Message-ID: <2063e2e996b41b766289b946d6585202094c211a.1485068874.git.dengke.du@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <cover.1485068874.git.dengke.du@windriver.com>
-References: <cover.1485068874.git.dengke.du@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH V2 1/1] openssh: upgrade to 7.4p1
+	Sun, 22 Jan 2017 11:27:44 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v0MBRfs2011210; Sun, 22 Jan 2017 11:27:41 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id QF8g8OCnsd7w; Sun, 22 Jan 2017 11:27:41 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v0MBRbBu011206
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sun, 22 Jan 2017 11:27:38 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1cVGJ7-0005k7-Gp; Sun, 22 Jan 2017 11:27:37 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 22 Jan 2017 11:27:33 +0000
+Message-Id: <1485084453-22035-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] python3: Add upstream random.c fixes for recent glibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,246 +35,762 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Jan 2017 07:12:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 22 Jan 2017 11:27:48 -0000
 
-1. Drop CVE patch: fix-CVE-2016-8858.patch, because the version 7.4p1 have
-   been fixed it.
+python3 fails to work with recent glibc versions on older hosts, giving
+errors like:
 
-2. Rebase the remaining patchs on the version 7.4p1.
+Fatal Python error: getentropy() failed
+Aborted
 
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
+This breaks buildtools-tarball and hence eSDK. This patch backports the
+changes to random.c from upstream that address the problem.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../openssh/openssh/fix-CVE-2016-8858.patch        | 39 ----------------------
- ...h-7.1p1-conditional-compile-des-in-cipher.patch | 39 +++++++++++-----------
- ...h-7.1p1-conditional-compile-des-in-pkcs11.patch | 12 +++----
- .../openssh/{openssh_7.3p1.bb => openssh_7.4p1.bb} |  5 ++-
- 4 files changed, 28 insertions(+), 67 deletions(-)
- delete mode 100644 meta/recipes-connectivity/openssh/openssh/fix-CVE-2016-8858.patch
- rename meta/recipes-connectivity/openssh/{openssh_7.3p1.bb => openssh_7.4p1.bb} (97%)
+ .../python/python3/uptream-random-fixes.patch      | 719 +++++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.5.2.bb      |   1 +
+ 2 files changed, 720 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/uptream-random-fixes.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/fix-CVE-2016-8858.patch b/meta/recipes-connectivity/openssh/openssh/fix-CVE-2016-8858.patch
-deleted file mode 100644
-index b26ee81..0000000
---- a/meta/recipes-connectivity/openssh/openssh/fix-CVE-2016-8858.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--Fix CVE-2016-8858 of openssh
--
--Backport patch from upstream and drop the change of comment which can NOT be applied.
--
--Upstream-Status: Backport [ https://anongit.mindrot.org/openssh.git/commit/?id=ec165c3 ]
--CVE: CVE-2016-8858
--
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
-----
--From ec165c392ca54317dbe3064a8c200de6531e89ad Mon Sep 17 00:00:00 2001
--From: "markus@openbsd.org" <markus@openbsd.org>
--Date: Mon, 10 Oct 2016 19:28:48 +0000
--Subject: [PATCH] upstream commit
--
--Unregister the KEXINIT handler after message has been
--received. Otherwise an unauthenticated peer can repeat the KEXINIT and cause
--allocation of up to 128MB -- until the connection is closed. Reported by
--shilei-c at 360.cn
--
--Upstream-ID: 43649ae12a27ef94290db16d1a98294588b75c05
-----
-- kex.c | 3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
--
--diff --git a/kex.c b/kex.c
--index 3f97f8c..6a94bc5 100644
----- a/kex.c
--+++ b/kex.c
--@@ -481,6 +481,7 @@ kex_input_kexinit(int type, u_int32_t seq, void *ctxt)
-- 	if (kex == NULL)
-- 		return SSH_ERR_INVALID_ARGUMENT;
-- 
--+	ssh_dispatch_set(ssh, SSH2_MSG_KEXINIT, NULL);
-- 	ptr = sshpkt_ptr(ssh, &dlen);
-- 	if ((r = sshbuf_put(kex->peer, ptr, dlen)) != 0)
-- 		return r;
---- 
--2.10.1
--
-diff --git a/meta/recipes-connectivity/openssh/openssh/openssh-7.1p1-conditional-compile-des-in-cipher.patch b/meta/recipes-connectivity/openssh/openssh/openssh-7.1p1-conditional-compile-des-in-cipher.patch
-index 2773c14..1098b97 100644
---- a/meta/recipes-connectivity/openssh/openssh/openssh-7.1p1-conditional-compile-des-in-cipher.patch
-+++ b/meta/recipes-connectivity/openssh/openssh/openssh-7.1p1-conditional-compile-des-in-cipher.patch
-@@ -1,18 +1,19 @@
--From d7eb26785ad4f25fb09fae46726ab8ca3fe16921 Mon Sep 17 00:00:00 2001
--From: Haiqing Bai <Haiqing.Bai@windriver.com>
--Date: Mon, 22 Aug 2016 14:11:16 +0300
--Subject: [PATCH] Remove des in cipher.
-+From 27740c918fe5d78441bcf69e7d2eefb23ddeca4c Mon Sep 17 00:00:00 2001
-+From: Dengke Du <dengke.du@windriver.com>
-+Date: Thu, 19 Jan 2017 03:00:08 -0500
-+Subject: [PATCH 1/3] Remove des in cipher.
- 
- Upstream-Status: Pending
- 
- Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
- Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Signed-off-by: Dengke Du <dengke.du@windriver.com>
- ---
-  cipher.c | 18 ++++++++++++++++++
-  1 file changed, 18 insertions(+)
- 
- diff --git a/cipher.c b/cipher.c
--index 031bda9..6cd667a 100644
-+index 2def333..59f6792 100644
- --- a/cipher.c
- +++ b/cipher.c
- @@ -53,8 +53,10 @@
-@@ -25,8 +26,8 @@ index 031bda9..6cd667a 100644
- +#endif /* OPENSSL_NO_DES */
-  #endif
-  
-- struct sshcipher {
--@@ -79,15 +81,19 @@ struct sshcipher {
-+ struct sshcipher_ctx {
-+@@ -88,15 +90,19 @@ struct sshcipher {
-  
-  static const struct sshcipher ciphers[] = {
-  #ifdef WITH_SSH1
-@@ -39,14 +40,14 @@ index 031bda9..6cd667a 100644
-  # endif /* OPENSSL_NO_BF */
-  #endif /* WITH_SSH1 */
-  #ifdef WITH_OPENSSL
-- 	{ "none",	SSH_CIPHER_NONE, 8, 0, 0, 0, 0, 0, EVP_enc_null },
- +#ifndef OPENSSL_NO_DES
-+ 	{ "none",	SSH_CIPHER_NONE, 8, 0, 0, 0, 0, 0, EVP_enc_null },
-  	{ "3des-cbc",	SSH_CIPHER_SSH2, 8, 24, 0, 0, 0, 1, EVP_des_ede3_cbc },
- +#endif /* OPENSSL_NO_DES */
-  # ifndef OPENSSL_NO_BF
-  	{ "blowfish-cbc",
-  			SSH_CIPHER_SSH2, 8, 16, 0, 0, 0, 1, EVP_bf_cbc },
--@@ -171,8 +177,10 @@ cipher_keylen(const struct sshcipher *c)
-+@@ -180,8 +186,10 @@ cipher_keylen(const struct sshcipher *c)
-  u_int
-  cipher_seclen(const struct sshcipher *c)
-  {
-@@ -57,7 +58,7 @@ index 031bda9..6cd667a 100644
-  	return cipher_keylen(c);
-  }
-  
--@@ -209,11 +217,13 @@ u_int
-+@@ -230,11 +238,13 @@ u_int
-  cipher_mask_ssh1(int client)
-  {
-  	u_int mask = 0;
-@@ -71,7 +72,7 @@ index 031bda9..6cd667a 100644
-  	return mask;
-  }
-  
--@@ -553,7 +563,9 @@ cipher_get_keyiv(struct sshcipher_ctx *cc, u_char *iv, u_int len)
-+@@ -606,7 +616,9 @@ cipher_get_keyiv(struct sshcipher_ctx *cc, u_char *iv, u_int len)
-  	switch (c->number) {
-  #ifdef WITH_OPENSSL
-  	case SSH_CIPHER_SSH2:
-@@ -79,20 +80,20 @@ index 031bda9..6cd667a 100644
-  	case SSH_CIPHER_DES:
- +#endif /* OPENSSL_NO_DES */
-  	case SSH_CIPHER_BLOWFISH:
-- 		evplen = EVP_CIPHER_CTX_iv_length(&cc->evp);
-+ 		evplen = EVP_CIPHER_CTX_iv_length(cc->evp);
-  		if (evplen == 0)
--@@ -576,8 +588,10 @@ cipher_get_keyiv(struct sshcipher_ctx *cc, u_char *iv, u_int len)
-+@@ -629,8 +641,10 @@ cipher_get_keyiv(struct sshcipher_ctx *cc, u_char *iv, u_int len)
-  		break;
-  #endif
-  #ifdef WITH_SSH1
- +#ifndef OPENSSL_NO_DES
-  	case SSH_CIPHER_3DES:
-- 		return ssh1_3des_iv(&cc->evp, 0, iv, 24);
-+ 		return ssh1_3des_iv(cc->evp, 0, iv, 24);
- +#endif /* OPENSSL_NO_DES */
-  #endif
-  	default:
-  		return SSH_ERR_INVALID_ARGUMENT;
--@@ -601,7 +615,9 @@ cipher_set_keyiv(struct sshcipher_ctx *cc, const u_char *iv)
-+@@ -654,7 +668,9 @@ cipher_set_keyiv(struct sshcipher_ctx *cc, const u_char *iv)
-  	switch (c->number) {
-  #ifdef WITH_OPENSSL
-  	case SSH_CIPHER_SSH2:
-@@ -100,19 +101,19 @@ index 031bda9..6cd667a 100644
-  	case SSH_CIPHER_DES:
- +#endif /* OPENSSL_NO_DES */
-  	case SSH_CIPHER_BLOWFISH:
-- 		evplen = EVP_CIPHER_CTX_iv_length(&cc->evp);
-+ 		evplen = EVP_CIPHER_CTX_iv_length(cc->evp);
-  		if (evplen <= 0)
--@@ -616,8 +632,10 @@ cipher_set_keyiv(struct sshcipher_ctx *cc, const u_char *iv)
-+@@ -675,8 +691,10 @@ cipher_set_keyiv(struct sshcipher_ctx *cc, const u_char *iv)
-  		break;
-  #endif
-  #ifdef WITH_SSH1
- +#ifndef OPENSSL_NO_DES
-  	case SSH_CIPHER_3DES:
-- 		return ssh1_3des_iv(&cc->evp, 1, (u_char *)iv, 24);
-+ 		return ssh1_3des_iv(cc->evp, 1, (u_char *)iv, 24);
- +#endif /* OPENSSL_NO_DES */
-  #endif
-  	default:
-  		return SSH_ERR_INVALID_ARGUMENT;
- -- 
--2.1.4
-+2.8.1
- 
-diff --git a/meta/recipes-connectivity/openssh/openssh/openssh-7.1p1-conditional-compile-des-in-pkcs11.patch b/meta/recipes-connectivity/openssh/openssh/openssh-7.1p1-conditional-compile-des-in-pkcs11.patch
-index 815af42..47dc73b 100644
---- a/meta/recipes-connectivity/openssh/openssh/openssh-7.1p1-conditional-compile-des-in-pkcs11.patch
-+++ b/meta/recipes-connectivity/openssh/openssh/openssh-7.1p1-conditional-compile-des-in-pkcs11.patch
-@@ -1,12 +1,12 @@
--From 04cfd84423f693d879dc3ffebb0f6fe2680c254f Mon Sep 17 00:00:00 2001
--From: Haiqing Bai <Haiqing.Bai@windriver.com>
--Date: Fri, 18 Mar 2016 15:59:21 +0800
--Subject: [PATCH 3/3] remove des in pkcs11.
-+From e816fc06e4f8070b09e677ead4d21768784e4c99 Mon Sep 17 00:00:00 2001
-+From: Dengke Du <dengke.du@windriver.com>
-+Date: Thu, 19 Jan 2017 03:21:40 -0500
-+Subject: [PATCH 2/3] remove des in pkcs11.
- 
- Upstream-Status: Pending
- 
- Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
--
-+Signed-off-by: Dengke Du <dengke.du@windriver.com>
- ---
-  pkcs11.h | 8 ++++++++
-  1 file changed, 8 insertions(+)
-@@ -66,5 +66,5 @@ index b01d58f..98b36e6 100644
-  #define CKM_PBE_SHA1_RC2_40_CBC		(0x3ab)
-  #define CKM_PKCS5_PBKD2			(0x3b0)
- -- 
--1.9.1
-+2.8.1
- 
-diff --git a/meta/recipes-connectivity/openssh/openssh_7.3p1.bb b/meta/recipes-connectivity/openssh/openssh_7.4p1.bb
-similarity index 97%
-rename from meta/recipes-connectivity/openssh/openssh_7.3p1.bb
-rename to meta/recipes-connectivity/openssh/openssh_7.4p1.bb
-index 94eb0ed..3b3d667 100644
---- a/meta/recipes-connectivity/openssh/openssh_7.3p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_7.4p1.bb
-@@ -25,13 +25,12 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://openssh-7.1p1-conditional-compile-des-in-cipher.patch \
-            file://openssh-7.1p1-conditional-compile-des-in-pkcs11.patch \
-            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
--           file://fix-CVE-2016-8858.patch \
+diff --git a/meta/recipes-devtools/python/python3/uptream-random-fixes.patch b/meta/recipes-devtools/python/python3/uptream-random-fixes.patch
+new file mode 100644
+index 0000000..e1eeaba
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/uptream-random-fixes.patch
+@@ -0,0 +1,719 @@
++This patch updates random.c to match upstream python's code at revision 
++8125d9a8152b. This addresses various issues around problems with glibc 2.24 
++and 2.25 such that python would fail to start with:
++
++[rpurdie@centos7 ~]$ /tmp/t2/sysroots/x86_64-pokysdk-linux/usr/bin/python3
++Fatal Python error: getentropy() failed
++Aborted
++
++(taken from our buildtools-tarball also breaks eSDK)
++
++Upstream-Status: Backport
++
++# HG changeset patch
++# User Victor Stinner <victor.stinner@gmail.com>
++# Date 1483957133 -3600
++# Node ID 8125d9a8152b79e712cb09c7094b9129b9bcea86
++# Parent  337461574c90281630751b6095c4e1baf380cf7d
++Issue #29157: Prefer getrandom() over getentropy()
++
++Copy and then adapt Python/random.c from default branch. Difference between 3.5
++and default branches:
++
++* Python 3.5 only uses getrandom() in non-blocking mode: flags=GRND_NONBLOCK
++* If getrandom() fails with EAGAIN: py_getrandom() immediately fails and
++  remembers that getrandom() doesn't work.
++* Python 3.5 has no _PyOS_URandomNonblock() function: _PyOS_URandom()
++  works in non-blocking mode on Python 3.5
++
++Index: Python-3.5.2/Python/random.c
++===================================================================
++--- Python-3.5.2.orig/Python/random.c
+++++ Python-3.5.2/Python/random.c
++@@ -1,6 +1,9 @@
++ #include "Python.h"
++ #ifdef MS_WINDOWS
++ #  include <windows.h>
+++/* All sample MSDN wincrypt programs include the header below. It is at least
+++ * required with Min GW. */
+++#  include <wincrypt.h>
++ #else
++ #  include <fcntl.h>
++ #  ifdef HAVE_SYS_STAT_H
++@@ -36,10 +39,9 @@ win32_urandom_init(int raise)
++     return 0;
++ 
++ error:
++-    if (raise)
+++    if (raise) {
++         PyErr_SetFromWindowsErr(0);
++-    else
++-        Py_FatalError("Failed to initialize Windows random API (CryptoGen)");
+++    }
++     return -1;
++ }
++ 
++@@ -52,8 +54,9 @@ win32_urandom(unsigned char *buffer, Py_
++ 
++     if (hCryptProv == 0)
++     {
++-        if (win32_urandom_init(raise) == -1)
+++        if (win32_urandom_init(raise) == -1) {
++             return -1;
+++        }
++     }
++ 
++     while (size > 0)
++@@ -62,11 +65,9 @@ win32_urandom(unsigned char *buffer, Py_
++         if (!CryptGenRandom(hCryptProv, (DWORD)chunk, buffer))
++         {
++             /* CryptGenRandom() failed */
++-            if (raise)
+++            if (raise) {
++                 PyErr_SetFromWindowsErr(0);
++-            else
++-                Py_FatalError("Failed to initialized the randomized hash "
++-                        "secret using CryptoGen)");
+++            }
++             return -1;
++         }
++         buffer += chunk;
++@@ -75,55 +76,29 @@ win32_urandom(unsigned char *buffer, Py_
++     return 0;
++ }
++ 
++-/* Issue #25003: Don't use getentropy() on Solaris (available since
++- * Solaris 11.3), it is blocking whereas os.urandom() should not block. */
++-#elif defined(HAVE_GETENTROPY) && !defined(sun)
++-#define PY_GETENTROPY 1
++-
++-/* Fill buffer with size pseudo-random bytes generated by getentropy().
++-   Return 0 on success, or raise an exception and return -1 on error.
++-
++-   If fatal is nonzero, call Py_FatalError() instead of raising an exception
++-   on error. */
++-static int
++-py_getentropy(unsigned char *buffer, Py_ssize_t size, int fatal)
++-{
++-    while (size > 0) {
++-        Py_ssize_t len = Py_MIN(size, 256);
++-        int res;
++-
++-        if (!fatal) {
++-            Py_BEGIN_ALLOW_THREADS
++-            res = getentropy(buffer, len);
++-            Py_END_ALLOW_THREADS
++-
++-            if (res < 0) {
++-                PyErr_SetFromErrno(PyExc_OSError);
++-                return -1;
++-            }
++-        }
++-        else {
++-            res = getentropy(buffer, len);
++-            if (res < 0)
++-                Py_FatalError("getentropy() failed");
++-        }
++-
++-        buffer += len;
++-        size -= len;
++-    }
++-    return 0;
++-}
++-
++-#else
+++#else /* !MS_WINDOWS */
++ 
++ #if defined(HAVE_GETRANDOM) || defined(HAVE_GETRANDOM_SYSCALL)
++ #define PY_GETRANDOM 1
++ 
+++/* Call getrandom() to get random bytes:
+++
+++   - Return 1 on success
+++   - Return 0 if getrandom() is not available (failed with ENOSYS or EPERM),
+++     or if getrandom(GRND_NONBLOCK) failed with EAGAIN (system urandom not
+++     initialized yet).
+++   - Raise an exception (if raise is non-zero) and return -1 on error:
+++     if getrandom() failed with EINTR, raise is non-zero and the Python signal
+++     handler raised an exception, or if getrandom() failed with a different
+++     error.
+++
+++   getrandom() is retried if it failed with EINTR: interrupted by a signal. */
++ static int
++ py_getrandom(void *buffer, Py_ssize_t size, int raise)
++ {
++-    /* Is getrandom() supported by the running kernel?
++-     * Need Linux kernel 3.17 or newer, or Solaris 11.3 or newer */
+++    /* Is getrandom() supported by the running kernel? Set to 0 if getrandom()
+++       failed with ENOSYS or EPERM. Need Linux kernel 3.17 or newer, or Solaris
+++       11.3 or newer */
++     static int getrandom_works = 1;
++ 
++     /* getrandom() on Linux will block if called before the kernel has
++@@ -132,84 +107,165 @@ py_getrandom(void *buffer, Py_ssize_t si
++      * see https://bugs.python.org/issue26839. To avoid this, use the
++      * GRND_NONBLOCK flag. */
++     const int flags = GRND_NONBLOCK;
++-    int n;
+++    char *dest;
+++    long n;
++ 
++-    if (!getrandom_works)
+++    if (!getrandom_works) {
++         return 0;
+++    }
++ 
+++    dest = buffer;
++     while (0 < size) {
++ #ifdef sun
++         /* Issue #26735: On Solaris, getrandom() is limited to returning up
++-           to 1024 bytes */
+++           to 1024 bytes. Call it multiple times if more bytes are
+++           requested. */
++         n = Py_MIN(size, 1024);
++ #else
++-        n = size;
+++        n = Py_MIN(size, LONG_MAX);
++ #endif
++ 
++         errno = 0;
++ #ifdef HAVE_GETRANDOM
++         if (raise) {
++             Py_BEGIN_ALLOW_THREADS
++-            n = getrandom(buffer, n, flags);
+++            n = getrandom(dest, n, flags);
++             Py_END_ALLOW_THREADS
++         }
++         else {
++-            n = getrandom(buffer, n, flags);
+++            n = getrandom(dest, n, flags);
++         }
++ #else
++         /* On Linux, use the syscall() function because the GNU libc doesn't
++-         * expose the Linux getrandom() syscall yet. See:
++-         * https://sourceware.org/bugzilla/show_bug.cgi?id=17252 */
+++           expose the Linux getrandom() syscall yet. See:
+++           https://sourceware.org/bugzilla/show_bug.cgi?id=17252 */
++         if (raise) {
++             Py_BEGIN_ALLOW_THREADS
++-            n = syscall(SYS_getrandom, buffer, n, flags);
+++            n = syscall(SYS_getrandom, dest, n, flags);
++             Py_END_ALLOW_THREADS
++         }
++         else {
++-            n = syscall(SYS_getrandom, buffer, n, flags);
+++            n = syscall(SYS_getrandom, dest, n, flags);
++         }
++ #endif
++ 
++         if (n < 0) {
++-            if (errno == ENOSYS) {
+++            /* ENOSYS: the syscall is not supported by the kernel.
+++               EPERM: the syscall is blocked by a security policy (ex: SECCOMP)
+++               or something else. */
+++            if (errno == ENOSYS || errno == EPERM) {
++                 getrandom_works = 0;
++                 return 0;
++             }
+++
++             if (errno == EAGAIN) {
++-                /* If we failed with EAGAIN, the entropy pool was
++-                 * uninitialized. In this case, we return failure to fall
++-                 * back to reading from /dev/urandom.
++-                 *
++-                 * Note: In this case the data read will not be random so
++-                 * should not be used for cryptographic purposes. Retaining
++-                 * the existing semantics for practical purposes. */
+++                /* getrandom(GRND_NONBLOCK) fails with EAGAIN if the system
+++                   urandom is not initialiazed yet. In this case, fall back on
+++                   reading from /dev/urandom.
+++
+++                   Note: In this case the data read will not be random so
+++                   should not be used for cryptographic purposes. Retaining
+++                   the existing semantics for practical purposes. */
++                 getrandom_works = 0;
++                 return 0;
++             }
++ 
++             if (errno == EINTR) {
++-                if (PyErr_CheckSignals()) {
++-                    if (!raise)
++-                        Py_FatalError("getrandom() interrupted by a signal");
++-                    return -1;
+++                if (raise) {
+++                    if (PyErr_CheckSignals()) {
+++                        return -1;
+++                    }
++                 }
++-                /* retry getrandom() */
+++
+++                /* retry getrandom() if it was interrupted by a signal */
++                 continue;
++             }
++ 
++-            if (raise)
+++            if (raise) {
++                 PyErr_SetFromErrno(PyExc_OSError);
++-            else
++-                Py_FatalError("getrandom() failed");
+++            }
++             return -1;
++         }
++ 
++-        buffer += n;
+++        dest += n;
++         size -= n;
++     }
++     return 1;
++ }
++-#endif
+++
+++#elif defined(HAVE_GETENTROPY)
+++#define PY_GETENTROPY 1
+++
+++/* Fill buffer with size pseudo-random bytes generated by getentropy():
+++
+++   - Return 1 on success
+++   - Return 0 if getentropy() syscall is not available (failed with ENOSYS or
+++     EPERM).
+++   - Raise an exception (if raise is non-zero) and return -1 on error:
+++     if getentropy() failed with EINTR, raise is non-zero and the Python signal
+++     handler raised an exception, or if getentropy() failed with a different
+++     error.
+++
+++   getentropy() is retried if it failed with EINTR: interrupted by a signal. */
+++static int
+++py_getentropy(char *buffer, Py_ssize_t size, int raise)
+++{
+++    /* Is getentropy() supported by the running kernel? Set to 0 if
+++       getentropy() failed with ENOSYS or EPERM. */
+++    static int getentropy_works = 1;
+++
+++    if (!getentropy_works) {
+++        return 0;
+++    }
+++
+++    while (size > 0) {
+++        /* getentropy() is limited to returning up to 256 bytes. Call it
+++           multiple times if more bytes are requested. */
+++        Py_ssize_t len = Py_MIN(size, 256);
+++        int res;
+++
+++        if (raise) {
+++            Py_BEGIN_ALLOW_THREADS
+++            res = getentropy(buffer, len);
+++            Py_END_ALLOW_THREADS
+++        }
+++        else {
+++            res = getentropy(buffer, len);
+++        }
+++
+++        if (res < 0) {
+++            /* ENOSYS: the syscall is not supported by the running kernel.
+++               EPERM: the syscall is blocked by a security policy (ex: SECCOMP)
+++               or something else. */
+++            if (errno == ENOSYS || errno == EPERM) {
+++                getentropy_works = 0;
+++                return 0;
+++            }
+++
+++            if (errno == EINTR) {
+++                if (raise) {
+++                    if (PyErr_CheckSignals()) {
+++                        return -1;
+++                    }
+++                }
+++
+++                /* retry getentropy() if it was interrupted by a signal */
+++                continue;
+++            }
+++
+++            if (raise) {
+++                PyErr_SetFromErrno(PyExc_OSError);
+++            }
+++            return -1;
+++        }
+++
+++        buffer += len;
+++        size -= len;
+++    }
+++    return 1;
+++}
+++#endif /* defined(HAVE_GETENTROPY) && !defined(sun) */
+++
++ 
++ static struct {
++     int fd;
++@@ -217,127 +273,123 @@ static struct {
++     ino_t st_ino;
++ } urandom_cache = { -1 };
++ 
+++/* Read random bytes from the /dev/urandom device:
++ 
++-/* Read size bytes from /dev/urandom into buffer.
++-   Call Py_FatalError() on error. */
++-static void
++-dev_urandom_noraise(unsigned char *buffer, Py_ssize_t size)
++-{
++-    int fd;
++-    Py_ssize_t n;
+++   - Return 0 on success
+++   - Raise an exception (if raise is non-zero) and return -1 on error
++ 
++-    assert (0 < size);
+++   Possible causes of errors:
++ 
++-#ifdef PY_GETRANDOM
++-    if (py_getrandom(buffer, size, 0) == 1)
++-        return;
++-    /* getrandom() is not supported by the running kernel, fall back
++-     * on reading /dev/urandom */
++-#endif
+++   - open() failed with ENOENT, ENXIO, ENODEV, EACCES: the /dev/urandom device
+++     was not found. For example, it was removed manually or not exposed in a
+++     chroot or container.
+++   - open() failed with a different error
+++   - fstat() failed
+++   - read() failed or returned 0
++ 
++-    fd = _Py_open_noraise("/dev/urandom", O_RDONLY);
++-    if (fd < 0)
++-        Py_FatalError("Failed to open /dev/urandom");
+++   read() is retried if it failed with EINTR: interrupted by a signal.
++ 
++-    while (0 < size)
++-    {
++-        do {
++-            n = read(fd, buffer, (size_t)size);
++-        } while (n < 0 && errno == EINTR);
++-        if (n <= 0)
++-        {
++-            /* stop on error or if read(size) returned 0 */
++-            Py_FatalError("Failed to read bytes from /dev/urandom");
++-            break;
++-        }
++-        buffer += n;
++-        size -= (Py_ssize_t)n;
++-    }
++-    close(fd);
++-}
+++   The file descriptor of the device is kept open between calls to avoid using
+++   many file descriptors when run in parallel from multiple threads:
+++   see the issue #18756.
+++
+++   st_dev and st_ino fields of the file descriptor (from fstat()) are cached to
+++   check if the file descriptor was replaced by a different file (which is
+++   likely a bug in the application): see the issue #21207.
++ 
++-/* Read size bytes from /dev/urandom into buffer.
++-   Return 0 on success, raise an exception and return -1 on error. */
+++   If the file descriptor was closed or replaced, open a new file descriptor
+++   but don't close the old file descriptor: it probably points to something
+++   important for some third-party code. */
++ static int
++-dev_urandom_python(char *buffer, Py_ssize_t size)
+++dev_urandom(char *buffer, Py_ssize_t size, int raise)
++ {
++     int fd;
++     Py_ssize_t n;
++-    struct _Py_stat_struct st;
++-#ifdef PY_GETRANDOM
++-    int res;
++-#endif
++ 
++-    if (size <= 0)
++-        return 0;
+++    if (raise) {
+++        struct _Py_stat_struct st;
++ 
++-#ifdef PY_GETRANDOM
++-    res = py_getrandom(buffer, size, 1);
++-    if (res < 0)
++-        return -1;
++-    if (res == 1)
++-        return 0;
++-    /* getrandom() is not supported by the running kernel, fall back
++-     * on reading /dev/urandom */
++-#endif
++-
++-    if (urandom_cache.fd >= 0) {
++-        /* Does the fd point to the same thing as before? (issue #21207) */
++-        if (_Py_fstat_noraise(urandom_cache.fd, &st)
++-            || st.st_dev != urandom_cache.st_dev
++-            || st.st_ino != urandom_cache.st_ino) {
++-            /* Something changed: forget the cached fd (but don't close it,
++-               since it probably points to something important for some
++-               third-party code). */
++-            urandom_cache.fd = -1;
++-        }
++-    }
++-    if (urandom_cache.fd >= 0)
++-        fd = urandom_cache.fd;
++-    else {
++-        fd = _Py_open("/dev/urandom", O_RDONLY);
++-        if (fd < 0) {
++-            if (errno == ENOENT || errno == ENXIO ||
++-                errno == ENODEV || errno == EACCES)
++-                PyErr_SetString(PyExc_NotImplementedError,
++-                                "/dev/urandom (or equivalent) not found");
++-            /* otherwise, keep the OSError exception raised by _Py_open() */
++-            return -1;
++-        }
++         if (urandom_cache.fd >= 0) {
++-            /* urandom_fd was initialized by another thread while we were
++-               not holding the GIL, keep it. */
++-            close(fd);
++-            fd = urandom_cache.fd;
+++            /* Does the fd point to the same thing as before? (issue #21207) */
+++            if (_Py_fstat_noraise(urandom_cache.fd, &st)
+++                || st.st_dev != urandom_cache.st_dev
+++                || st.st_ino != urandom_cache.st_ino) {
+++                /* Something changed: forget the cached fd (but don't close it,
+++                   since it probably points to something important for some
+++                   third-party code). */
+++                urandom_cache.fd = -1;
+++            }
++         }
+++        if (urandom_cache.fd >= 0)
+++            fd = urandom_cache.fd;
++         else {
++-            if (_Py_fstat(fd, &st)) {
++-                close(fd);
+++            fd = _Py_open("/dev/urandom", O_RDONLY);
+++            if (fd < 0) {
+++                if (errno == ENOENT || errno == ENXIO ||
+++                    errno == ENODEV || errno == EACCES) {
+++                    PyErr_SetString(PyExc_NotImplementedError,
+++                                    "/dev/urandom (or equivalent) not found");
+++                }
+++                /* otherwise, keep the OSError exception raised by _Py_open() */
++                 return -1;
++             }
+++            if (urandom_cache.fd >= 0) {
+++                /* urandom_fd was initialized by another thread while we were
+++                   not holding the GIL, keep it. */
+++                close(fd);
+++                fd = urandom_cache.fd;
+++            }
++             else {
++-                urandom_cache.fd = fd;
++-                urandom_cache.st_dev = st.st_dev;
++-                urandom_cache.st_ino = st.st_ino;
+++                if (_Py_fstat(fd, &st)) {
+++                    close(fd);
+++                    return -1;
+++                }
+++                else {
+++                    urandom_cache.fd = fd;
+++                    urandom_cache.st_dev = st.st_dev;
+++                    urandom_cache.st_ino = st.st_ino;
+++                }
++             }
++         }
++-    }
++ 
++-    do {
++-        n = _Py_read(fd, buffer, (size_t)size);
++-        if (n == -1)
++-            return -1;
++-        if (n == 0) {
++-            PyErr_Format(PyExc_RuntimeError,
++-                    "Failed to read %zi bytes from /dev/urandom",
++-                    size);
+++        do {
+++            n = _Py_read(fd, buffer, (size_t)size);
+++            if (n == -1)
+++                return -1;
+++            if (n == 0) {
+++                PyErr_Format(PyExc_RuntimeError,
+++                        "Failed to read %zi bytes from /dev/urandom",
+++                        size);
+++                return -1;
+++            }
+++
+++            buffer += n;
+++            size -= n;
+++        } while (0 < size);
+++    }
+++    else {
+++        fd = _Py_open_noraise("/dev/urandom", O_RDONLY);
+++        if (fd < 0) {
++             return -1;
++         }
++ 
++-        buffer += n;
++-        size -= n;
++-    } while (0 < size);
+++        while (0 < size)
+++        {
+++            do {
+++                n = read(fd, buffer, (size_t)size);
+++            } while (n < 0 && errno == EINTR);
++ 
+++            if (n <= 0) {
+++                /* stop on error or if read(size) returned 0 */
+++                close(fd);
+++                return -1;
+++            }
+++
+++            buffer += n;
+++            size -= n;
+++        }
+++        close(fd);
+++    }
++     return 0;
++ }
++ 
++@@ -349,8 +401,8 @@ dev_urandom_close(void)
++         urandom_cache.fd = -1;
++     }
++ }
+++#endif /* !MS_WINDOWS */
++ 
++-#endif
++ 
++ /* Fill buffer with pseudo-random bytes generated by a linear congruent
++    generator (LCG):
++@@ -373,29 +425,98 @@ lcg_urandom(unsigned int x0, unsigned ch
++     }
++ }
++ 
++-/* Fill buffer with size pseudo-random bytes from the operating system random
++-   number generator (RNG). It is suitable for most cryptographic purposes
++-   except long living private keys for asymmetric encryption.
+++/* Read random bytes:
++ 
++-   Return 0 on success, raise an exception and return -1 on error. */
++-int
++-_PyOS_URandom(void *buffer, Py_ssize_t size)
+++   - Return 0 on success
+++   - Raise an exception (if raise is non-zero) and return -1 on error
+++
+++   Used sources of entropy ordered by preference, preferred source first:
+++
+++   - CryptGenRandom() on Windows
+++   - getrandom() function (ex: Linux and Solaris): call py_getrandom()
+++   - getentropy() function (ex: OpenBSD): call py_getentropy()
+++   - /dev/urandom device
+++
+++   Read from the /dev/urandom device if getrandom() or getentropy() function
+++   is not available or does not work.
+++
+++   Prefer getrandom() over getentropy() because getrandom() supports blocking
+++   and non-blocking mode and Python requires non-blocking RNG at startup to
+++   initialize its hash secret: see the PEP 524.
+++
+++   Prefer getrandom() and getentropy() over reading directly /dev/urandom
+++   because these functions don't need file descriptors and so avoid ENFILE or
+++   EMFILE errors (too many open files): see the issue #18756.
+++
+++   Only use RNG running in the kernel. They are more secure because it is
+++   harder to get the internal state of a RNG running in the kernel land than a
+++   RNG running in the user land. The kernel has a direct access to the hardware
+++   and has access to hardware RNG, they are used as entropy sources.
+++
+++   Note: the OpenSSL RAND_pseudo_bytes() function does not automatically reseed
+++   its RNG on fork(), two child processes (with the same pid) generate the same
+++   random numbers: see issue #18747. Kernel RNGs don't have this issue,
+++   they have access to good quality entropy sources.
+++
+++   If raise is zero:
+++
+++   - Don't raise an exception on error
+++   - Don't call the Python signal handler (don't call PyErr_CheckSignals()) if
+++     a function fails with EINTR: retry directly the interrupted function
+++   - Don't release the GIL to call functions.
+++*/
+++static int
+++pyurandom(void *buffer, Py_ssize_t size, int raise)
++ {
+++#if defined(PY_GETRANDOM) || defined(PY_GETENTROPY)
+++    int res;
+++#endif
+++
++     if (size < 0) {
++-        PyErr_Format(PyExc_ValueError,
++-                     "negative argument not allowed");
+++        if (raise) {
+++            PyErr_Format(PyExc_ValueError,
+++                         "negative argument not allowed");
+++        }
++         return -1;
++     }
++-    if (size == 0)
+++
+++    if (size == 0) {
++         return 0;
+++    }
++ 
++ #ifdef MS_WINDOWS
++-    return win32_urandom((unsigned char *)buffer, size, 1);
++-#elif defined(PY_GETENTROPY)
++-    return py_getentropy(buffer, size, 0);
+++    return win32_urandom((unsigned char *)buffer, size, raise);
+++#else
+++
+++#if defined(PY_GETRANDOM) || defined(PY_GETENTROPY)
+++#ifdef PY_GETRANDOM
+++    res = py_getrandom(buffer, size, raise);
++ #else
++-    return dev_urandom_python((char*)buffer, size);
+++    res = py_getentropy(buffer, size, raise);
++ #endif
+++    if (res < 0) {
+++        return -1;
+++    }
+++    if (res == 1) {
+++        return 0;
+++    }
+++    /* getrandom() or getentropy() function is not available: failed with
+++       ENOSYS, EPERM or EAGAIN. Fall back on reading from /dev/urandom. */
+++#endif
+++
+++    return dev_urandom(buffer, size, raise);
+++#endif
+++}
+++
+++/* Fill buffer with size pseudo-random bytes from the operating system random
+++   number generator (RNG). It is suitable for most cryptographic purposes
+++   except long living private keys for asymmetric encryption.
+++
+++   Return 0 on success. Raise an exception and return -1 on error. */
+++int
+++_PyOS_URandom(void *buffer, Py_ssize_t size)
+++{
+++    return pyurandom(buffer, size, 1);
++ }
++ 
++ void
++@@ -436,13 +557,14 @@ _PyRandom_Init(void)
++         }
++     }
++     else {
++-#ifdef MS_WINDOWS
++-        (void)win32_urandom(secret, secret_size, 0);
++-#elif defined(PY_GETENTROPY)
++-        (void)py_getentropy(secret, secret_size, 1);
++-#else
++-        dev_urandom_noraise(secret, secret_size);
++-#endif
+++        int res;
+++
+++        /* _PyRandom_Init() is called very early in the Python initialization
+++           and so exceptions cannot be used (use raise=0). */
+++        res = pyurandom(secret, secret_size, 0);
+++        if (res < 0) {
+++            Py_FatalError("failed to get random numbers to initialize Python");
+++        }
++     }
++ }
++ 
++@@ -454,8 +576,6 @@ _PyRandom_Fini(void)
++         CryptReleaseContext(hCryptProv, 0);
++         hCryptProv = 0;
++     }
++-#elif defined(PY_GETENTROPY)
++-    /* nothing to clean */
++ #else
++     dev_urandom_close();
++ #endif
+diff --git a/meta/recipes-devtools/python/python3_3.5.2.bb b/meta/recipes-devtools/python/python3_3.5.2.bb
+index bde9c95..2ff7c9e 100644
+--- a/meta/recipes-devtools/python/python3_3.5.2.bb
++++ b/meta/recipes-devtools/python/python3_3.5.2.bb
+@@ -36,6 +36,7 @@ SRC_URI += "\
+             file://setup.py-find-libraries-in-staging-dirs.patch \
+             file://configure.ac-fix-LIBPL.patch \
+             file://python3-fix-CVE-2016-1000110.patch \
++            file://upstream-random-fixes.patch \
             "
- 
- PAM_SRC_URI = "file://sshd"
- 
--SRC_URI[md5sum] = "dfadd9f035d38ce5d58a3bf130b86d08"
--SRC_URI[sha256sum] = "3ffb989a6dcaa69594c3b550d4855a5a2e1718ccdde7f5e36387b424220fbecc"
-+SRC_URI[md5sum] = "b2db2a83caf66a208bb78d6d287cdaa3"
-+SRC_URI[sha256sum] = "1b1fc4a14e2024293181924ed24872e6f2e06293f3e8926a376b8aec481f19d1"
- 
- inherit useradd update-rc.d update-alternatives systemd
- 
+ SRC_URI[md5sum] = "8906efbacfcdc7c3c9198aeefafd159e"
+ SRC_URI[sha256sum] = "0010f56100b9b74259ebcd5d4b295a32324b58b517403a10d1a2aa7cb22bca40"
 -- 
-2.8.1
+2.7.4
 
 
