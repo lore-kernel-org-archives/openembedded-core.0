@@ -1,31 +1,46 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AE0271A84
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
+	[209.85.214.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 31829605FF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 10:56:27 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 23 Jan 2017 02:56:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,274,1477983600"; d="scan'208";a="812202725"
-Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 23 Jan 2017 02:56:27 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id D4F4E6A4080;
-	Mon, 23 Jan 2017 02:55:29 -0800 (PST)
-Date: Mon, 23 Jan 2017 12:34:03 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Rick Altherr <raltherr@google.com>
-Message-ID: <20170123103403.GA15174@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <CAPLgG=muXdcmCcFCC7NY8Zk9ANH5yf616T5b9Bc31OCJq=AD3w@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAPLgG=muXdcmCcFCC7NY8Zk9ANH5yf616T5b9Bc31OCJq=AD3w@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: How to use WIC to generate raw flash images
+	Mon, 23 Jan 2017 11:12:29 +0000 (UTC)
+Received: by mail-it0-f52.google.com with SMTP id r185so63330872ita.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Jan 2017 03:12:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=ZyoKbAQu/rB7j3oeu7jRYubDSoanm6H1LdoqLiLuc3I=;
+	b=jZxWQlAJyRUuNJHeTjmhRWtemX4oHcotSYtoH0xabVbphg2hkIAIaYaTdJVaJdNIsM
+	J8AIlzW95QrjWLCPC8ZrWT3lAmb779Zm3cR+KAkSS/YTl07cJdYgYmucU8fecV5ODBtC
+	SaKPv3G3iXhfcfYyqjo1heffGhn/hhTXZ3e5kXEJFa0+HkNOvbWLpFgyH1tUaPDIBljk
+	RN5gbbnN1yTzrp1cNNtJj7bcXUwEd9Y6eOQx4XqO1TPlUopV1a+YE/zbK0r+MuK5DKl1
+	0FrOz+27FGkA1X7i1iKQFuYdvBRU4HXSzyeK8+++iTAPe4jsfyY3SXu7u2PwCWFgTpMj
+	qmGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=ZyoKbAQu/rB7j3oeu7jRYubDSoanm6H1LdoqLiLuc3I=;
+	b=oYOjs+1ljUNfErSWO2jYNs7gkuyw0TKUlPrSU4sNTxinPybGu7j4+OjngzzlnET1rP
+	ejDhBWWXVZIMOfZvfiNtzZP2W/LRqIDs/kAZi9Popc5sqS+Eh7XC1QsZY61aoUPPzjmC
+	gmlj09NKtMzA9C6WckvD5zm0e85Rb3y4r8FH6tq4uEoFG9wWhTTnfDJqUIQ7sNB/rsMa
+	uFE7wFzPhusDaJCZK1P/wOZ4WYU0vg3iVr8OGvRiaCIFy5eZwFTS6YI6CP1ZInH61DlI
+	vdNQIV40I027YHPWwbokekjDJRrYKZxw98uTulDd8FfrrdNg81Lm9YxtoKqhHbbtBx2t
+	BK2w==
+X-Gm-Message-State: AIkVDXIXmi5eRpP1Yjm8PJmhpMdpybAOj5DbkB9qRPVOipTE39b0byN1eUgXbumlweuX6rrt
+X-Received: by 10.36.53.78 with SMTP id k75mr14765529ita.45.1485169949902;
+	Mon, 23 Jan 2017 03:12:29 -0800 (PST)
+Received: from pohly-desktop.fritz.box (p5DE8FC12.dip0.t-ipconnect.de.
+	[93.232.252.18]) by smtp.gmail.com with ESMTPSA id
+	z125sm9389271iod.23.2017.01.23.03.12.27
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 23 Jan 2017 03:12:28 -0800 (PST)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Jan 2017 12:12:21 +0100
+Message-Id: <20170123111221.10509-1-patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] runqemu: more verbose error message about missing qemuboot.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,45 +53,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2017 10:56:34 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 23 Jan 2017 11:12:30 -0000
 
-On Fri, Jan 20, 2017 at 10:37:15AM -0800, Rick Altherr wrote:
-> For OpenBMC (based on Yocto), the target is an SoC that has an external
-> boot flash connected via SPI.  Right now, we have a class (
-> https://github.com/openbmc/openbmc/blob/master/meta-phosphor/classes/image-overlay.bbclass)
-> used by our top-level image recipe (
-> https://github.com/openbmc/openbmc/blob/master/meta-phosphor/common/recipes-phosphor/images/obmc-phosphor-image.bb)
-> that manually constructs a flash image from the kernel, rootfs, etc.
+When invoking "runqemu" with a mistyped image or architecture name,
+the resulting error message is about the missing qemuboot.conf,
+without any indication about the root cause:
 
-This is indeed very interesting work. We definitely need support of flash images in oe-core.
+ $ runqemu core-image-mimimal ext4 intel-corei7-64
+ runqemu - INFO - Assuming MACHINE = intel-corei7-64
+ runqemu - INFO - Running MACHINE=intel-corei7-64 bitbake -e...
+ runqemu - INFO - MACHINE: intel-corei7-64
+ runqemu - INFO - DEPLOY_DIR_IMAGE: /fast/build/refkit/intel-corei7-64/tmp-glibc/deploy/images/intel-corei7-64
+ Traceback (most recent call last):
+   File "/work/openembedded-core/scripts/runqemu", line 1095, in <module>
+     ret = main()
+   File "/work/openembedded-core/scripts/runqemu", line 1082, in main
+     config.read_qemuboot()
+   File "/work/openembedded-core/scripts/runqemu", line 643, in read_qemuboot
+     raise Exception("Failed to find <image>.qemuboot.conf!")
+ Exception: Failed to find <image>.qemuboot.conf!
 
-> I'd like to move to an upstream-supported approach and I think that is WIC.
+Including the name of the actual file the scripts expects to find plus
+adding some hints what to check for might help. The error now is:
 
-> What I don't understand is:
-> - How do I build a raw flash image where it is divided into partitions but
-> has no partition table?
+ $ runqemu core-image-mimimal ext4 intel-corei7-64
+ ...
+ Exception: Failed to find <image>.qemuboot.conf = .../tmp-glibc/deploy/images/intel-corei7-64/core-image-mimimal-intel-corei7-64.qemuboot.conf (wrong image name or BSP does not support running under qemu?).
 
-Wic doesn't support this type of images, but it shouldn't be hard to add
-option to skip partitioning to .wks syntax and wic code.
+The comment about the BSP is included because that would be the real
+reason why the file might be missing.
 
-> - How do I set padding to be 0xFF instead of 0x00?
-The same thing here. Currently wic images are sparse files created by
-os.ftruncate, but it's not a big deal to fill them with 0xFF
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ scripts/runqemu | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> - How do I include u-boot in the image?
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 10947bb3edc..eaf38384a5b 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -640,7 +640,7 @@ class BaseConfig(object):
+             return
+ 
+         if not os.path.exists(self.qemuboot):
+-            raise Exception("Failed to find <image>.qemuboot.conf!")
++            raise Exception("Failed to find <image>.qemuboot.conf = %s (wrong image name or BSP does not support running under qemu?)." % self.qemuboot)
+ 
+         logger.info('CONFFILE: %s' % self.qemuboot)
+ 
+-- 
+2.11.0
 
-This can be done by using/extending rawcopy plugin or writing similar
-one.
-
-> Do I need to add a new imager plugin to support writing raw images with
-> non-zero padding and no partition table?  For U-Boot, do I add a new
-> bootimg plugin?
-
-This sounds reasonable. Can you create a bug for this in bugzilla to discuss design and implementation details?
-
---
-Regards,
-Ed
 
