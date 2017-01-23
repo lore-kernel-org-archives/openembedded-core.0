@@ -1,22 +1,27 @@
 Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 91F3F7723B
+	by mail.openembedded.org (Postfix) with ESMTP id E2E4771B40
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 20:34:43 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP; 23 Jan 2017 12:34:43 -0800
+	Mon, 23 Jan 2017 21:05:53 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga104.fm.intel.com with ESMTP; 23 Jan 2017 13:05:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,275,1477983600"; d="scan'208";a="1086413515"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.142])
-	by orsmga001.jf.intel.com with ESMTP; 23 Jan 2017 12:34:43 -0800
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jan 2017 14:41:32 -0600
-Message-Id: <d0a46721e1ce54b3446270dfc15ffa5e6fa896c7.1485203593.git.leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1485203593.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1485203593.git.leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: [PATCH v4 2/2] selftest: sstatetests: skip glibc-initial tests in case of non-glibc distro
+X-IronPort-AV: E=Sophos;i="5.33,275,1477983600"; d="scan'208";a="34425228"
+Received: from lsandov1-mobl2.zpn.intel.com (HELO [10.219.128.142])
+	([10.219.128.142])
+	by orsmga002.jf.intel.com with ESMTP; 23 Jan 2017 13:05:53 -0800
+To: openembedded-core@lists.openembedded.org,
+	Jair Gonzalez <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
+References: <cover.1485193773.git.jair.de.jesus.gonzalez.plascencia@linux.intel.com>
+	<20170123185334.23275.18839@do.openembedded.org>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Message-ID: <77e394cd-16df-205b-cc20-a88ef3817038@linux.intel.com>
+Date: Mon, 23 Jan 2017 15:12:51 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.6.0
+MIME-Version: 1.0
+In-Reply-To: <20170123185334.23275.18839@do.openembedded.org>
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIFFBOiBjcmVhdGUgdW5pdCB0ZXN0cyBmb3IgZXZlbnQgbW9kdWxl?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,84 +34,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2017 20:34:43 -0000
+X-List-Received-Date: Mon, 23 Jan 2017 21:05:55 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Jair, patchtest failed because your series is intended for bitbake 
+project, not oe-core. Please send your series to
 
-Some distros uses non-glibc so skip those tests requiring glibc-initial as target
+     Mailing list: bitbake-devel@lists.openembedded.org
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
----
- meta/lib/oeqa/selftest/sstate.py      |  1 +
- meta/lib/oeqa/selftest/sstatetests.py | 25 +++++++++++++++++++------
- 2 files changed, 20 insertions(+), 6 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/sstate.py b/meta/lib/oeqa/selftest/sstate.py
-index d27a45c..742f4d0 100644
---- a/meta/lib/oeqa/selftest/sstate.py
-+++ b/meta/lib/oeqa/selftest/sstate.py
-@@ -16,6 +16,7 @@ class SStateBase(oeSelfTest):
-         self.sstate_path = get_bb_var('SSTATE_DIR')
-         self.hostdistro = get_bb_var('NATIVELSBSTRING')
-         self.distro_specific_sstate = os.path.join(self.sstate_path, self.hostdistro)
-+        self.tclibc = get_bb_var('TCLIBC')
- 
-     # Creates a special sstate configuration with the option to add sstate mirrors
-     def config_sstate(self, temp_sstate_location=False, add_local_mirrors=[]):
-diff --git a/meta/lib/oeqa/selftest/sstatetests.py b/meta/lib/oeqa/selftest/sstatetests.py
-index 6642539..e3f819c 100644
---- a/meta/lib/oeqa/selftest/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/sstatetests.py
-@@ -51,12 +51,15 @@ class SStateTests(SStateBase):
- 
-     @testcase(976)
-     def test_sstate_creation_distro_nonspecific_pass(self):
--        self.run_test_sstate_creation(['glibc-initial'], distro_specific=False, distro_nonspecific=True, temp_sstate_location=True)
-+        # glibc-initial is intended only for the glibc C library
-+        if self.tclibc == 'glibc':
-+            self.run_test_sstate_creation(['glibc-initial'], distro_specific=False, distro_nonspecific=True, temp_sstate_location=True)
- 
-     @testcase(1375)
-     def test_sstate_creation_distro_nonspecific_fail(self):
--        self.run_test_sstate_creation(['glibc-initial'], distro_specific=True, distro_nonspecific=False, temp_sstate_location=True, should_pass=False)
--
-+        # glibc-initial is intended only for the glibc C library
-+        if self.tclibc == 'glibc':
-+            self.run_test_sstate_creation(['glibc-initial'], distro_specific=True, distro_nonspecific=False, temp_sstate_location=True, should_pass=False)
- 
-     # Test the sstate files deletion part of the do_cleansstate task
-     def run_test_cleansstate_task(self, targets, distro_specific=True, distro_nonspecific=True, temp_sstate_location=True):
-@@ -78,16 +81,26 @@ class SStateTests(SStateBase):
-     @testcase(977)
-     def test_cleansstate_task_distro_specific_nonspecific(self):
-         targetarch = get_bb_var('TUNE_ARCH')
--        self.run_test_cleansstate_task(['binutils-cross-' + targetarch, 'binutils-native', 'glibc-initial'], distro_specific=True, distro_nonspecific=True, temp_sstate_location=True)
-+        targets = ['binutils-cross-'+ targetarch, 'binutils-native']
-+        # glibc-initial is intended only for the glibc C library
-+        if self.tclibc == 'glibc':
-+            targets.append('glibc-initial')
-+        self.run_test_cleansstate_task(targets, distro_specific=True, distro_nonspecific=True, temp_sstate_location=True)
- 
-     @testcase(1376)
-     def test_cleansstate_task_distro_nonspecific(self):
--        self.run_test_cleansstate_task(['glibc-initial'], distro_specific=False, distro_nonspecific=True, temp_sstate_location=True)
-+        # glibc-initial is intended only for the glibc C library
-+        if self.tclibc == 'glibc':
-+            self.run_test_cleansstate_task(['glibc-initial'], distro_specific=False, distro_nonspecific=True, temp_sstate_location=True)
- 
-     @testcase(1377)
-     def test_cleansstate_task_distro_specific(self):
-         targetarch = get_bb_var('TUNE_ARCH')
--        self.run_test_cleansstate_task(['binutils-cross-'+ targetarch, 'binutils-native', 'glibc-initial'], distro_specific=True, distro_nonspecific=False, temp_sstate_location=True)
-+        targets = ['binutils-cross-'+ targetarch, 'binutils-native']
-+        # glibc-initial is intended only for the glibc C library
-+        if self.tclibc == 'glibc':
-+            targets.append('glibc-initial')
-+        self.run_test_cleansstate_task(targets, distro_specific=True, distro_nonspecific=False, temp_sstate_location=True)
- 
- 
-     # Test rebuilding of distro-specific sstate files
--- 
-2.1.4
+
+On 01/23/2017 12:53 PM, Patchwork wrote:
+> == Series Details ==
+>
+> Series: QA: create unit tests for event module
+> Revision: 1
+> URL   : https://patchwork.openembedded.org/series/4918/
+> State : failure
+>
+> == Summary ==
+>
+>
+> Thank you for submitting this patch series to OpenEmbedded Core. This is
+> an automated response. Several tests have been executed on the proposed
+> series by patchtest resulting in the following failures:
+>
+>
+>
+> * Issue             Series does not apply on top of target branch [test_series_merge_on_head]
+>    Suggested fix    Rebase your series on top of targeted branch
+>    Targeted branch  master (currently at 842ad404b3)
+>
+>
+>
+> If you believe any of these test results are incorrect, please reply to the
+> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+> Otherwise we would appreciate you correcting the issues and submitting a new
+> version of the patchset if applicable. Please ensure you add/increment the
+> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+> [PATCH v3] -> ...).
+>
+> ---
+> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+>
 
 
