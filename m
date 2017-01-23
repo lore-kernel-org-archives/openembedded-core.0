@@ -1,28 +1,18 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C9DF77218
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 23:29:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0NNT29A001892; Mon, 23 Jan 2017 23:29:02 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id uCRvBU_u3e0S; Mon, 23 Jan 2017 23:29:02 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0NNSxFa001888
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 23 Jan 2017 23:29:00 GMT
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1cVo2l-0003B9-Eh; Mon, 23 Jan 2017 23:28:59 +0000
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jan 2017 23:28:56 +0000
-Message-Id: <1485214136-12180-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] sanity/abi-version: Force a clean TMPDIR after recipe specific sysroot changes
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 605D470100;
+	Mon, 23 Jan 2017 23:53:40 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Mon, 23 Jan 2017 23:53:41 -0000
+Message-ID: <20170123235341.23272.52536@do.openembedded.org>
+References: <1485213875-12052-1-git-send-email-richard.purdie@linuxfoundation.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1485213875-12052-1-git-send-email-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ29iamVjdC1pbnRyb3NwZWN0aW9uOiBGaXggc3lzcm9vdCBwb3N0aW5zdCBzY3JpcHRpbmcgZXJyb3I=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,46 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2017 23:29:03 -0000
+X-List-Received-Date: Mon, 23 Jan 2017 23:53:40 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-With the recipe specific sysroots, we need a clean tmpdir, else pseudo-native,
-openssl-native, subversion-native and serf-native need to be manually cleaned.
-After these there are probably more places where software doesn't rebuild correctly
-even if we pass in new parameters to it.
+== Series Details ==
 
-The simplest solution is to force people to start from a clean TMPDIR since
-everything would rebuild anyway.
+Series: gobject-introspection: Fix sysroot postinst scripting error
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/4924/
+State : failure
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 40463f9d80)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/classes/sanity.bbclass | 2 ++
- meta/conf/abi_version.conf  | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index c9bb034..7bcceee 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -630,6 +630,8 @@ def sanity_handle_abichanges(status, d):
-             subprocess.call(d.expand("rm ${TMPDIR}/sysroots/*/usr/lib/xorg/modules/drivers/modesetting_drv.so ${TMPDIR}/sysroots/*/pkgdata/runtime/xf86-video-modesetting* ${TMPDIR}/sysroots/*/pkgdata/runtime-reverse/xf86-video-modesetting* ${TMPDIR}/sysroots/*/pkgdata/shlibs2/xf86-video-modesetting*"), shell=True)
-             with open(abifile, "w") as f:
-                 f.write(current_abi)
-+        elif abi == "11" and current_abi == "12":
-+            status.addresult("The layout of TMPDIR changed for Recipe Specific Sysroots.\nConversion doesn't make sense and this change will rebuild everything so please start with a clean TMPDIR.\n")
-         elif (abi != current_abi):
-             # Code to convert from one ABI to another could go here if possible.
-             status.addresult("Error, TMPDIR has changed its layout version number (%s to %s) and you need to either rebuild, revert or adjust it at your own risk.\n" % (abi, current_abi))
-diff --git a/meta/conf/abi_version.conf b/meta/conf/abi_version.conf
-index a829687..4964880 100644
---- a/meta/conf/abi_version.conf
-+++ b/meta/conf/abi_version.conf
-@@ -4,4 +4,4 @@
- # that breaks the format and have been previously discussed on the mailing list 
- # with general agreement from the core team.
- #
--OELAYOUT_ABI = "11"
-+OELAYOUT_ABI = "12"
--- 
-2.7.4
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
