@@ -1,23 +1,28 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 44A1C771D4
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id C35F0730BE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 16:00:37 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga104.fm.intel.com with ESMTP; 23 Jan 2017 08:00:37 -0800
+	Mon, 23 Jan 2017 16:01:06 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga103.fm.intel.com with ESMTP; 23 Jan 2017 08:01:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,274,1477983600"; d="scan'208";a="34307143"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga002.jf.intel.com with ESMTP; 23 Jan 2017 08:00:37 -0800
-Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 43D8E6A4080;
-	Mon, 23 Jan 2017 07:59:40 -0800 (PST)
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jan 2017 18:00:16 +0200
-Message-Id: <1485187216-17666-1-git-send-email-jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] connman: Add workaround to build with musl & 4.9 headers
+X-IronPort-AV: E=Sophos;i="5.33,274,1477983600"; d="scan'208";a="56249728"
+Received: from lsandov1-mobl2.zpn.intel.com (HELO [10.219.128.142])
+	([10.219.128.142])
+	by orsmga005.jf.intel.com with ESMTP; 23 Jan 2017 08:01:05 -0800
+To: David Vincent <freesilicon@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <20170123145508.9252-1-freesilicon@gmail.com>
+	<20170123152336.23276.57694@do.openembedded.org>
+	<4532053.H3eoubo94G@crde-port-20.cahors.local>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Message-ID: <7663fdf5-3dce-1147-e3f5-5460986d72c2@linux.intel.com>
+Date: Mon, 23 Jan 2017 10:08:04 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.6.0
+MIME-Version: 1.0
+In-Reply-To: <4532053.H3eoubo94G@crde-port-20.cahors.local>
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIG9wZW5zc2g6IE1ha2Ugc3NoZC1jb25maWcgYSBwYWNrYWdl?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,107 +35,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2017 16:00:44 -0000
+X-List-Received-Date: Mon, 23 Jan 2017 16:01:06 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Kernel headers break when musl defines IFF_LOWER_UP. While
-waiting for more proper fix in musl, add a workaround to connman.
+David, This is what I get from the command line
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
+oe-core$ git pw mbox 4904 | git apply --check
+error: documentation/ref-manual/ref-variables.xml: No such file or directory
 
-This was tested on top of ross/mut.
+Meaning that you have a patch on your series that is targeted for the 
+documentation folder, which is not part of the oe-core project. The 
+latter need to be sent to:
+
+documentation:
+     Git repository: http://git.yoctoproject.org/cgit/cgit.cgi/yocto-docs/
+     Mailing list: yocto@yoctoproject.org
 
 
- ...x-compile-on-musl-with-kernel-4.9-headers.patch | 64 ++++++++++++++++++++++
- meta/recipes-connectivity/connman/connman_1.33.bb  |  3 +-
- 2 files changed, 66 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-connectivity/connman/connman/0001-Fix-compile-on-musl-with-kernel-4.9-headers.patch
-
-diff --git a/meta/recipes-connectivity/connman/connman/0001-Fix-compile-on-musl-with-kernel-4.9-headers.patch b/meta/recipes-connectivity/connman/connman/0001-Fix-compile-on-musl-with-kernel-4.9-headers.patch
-new file mode 100644
-index 0000000..bf3b86d
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/0001-Fix-compile-on-musl-with-kernel-4.9-headers.patch
-@@ -0,0 +1,64 @@
-+From c8bfad4ee9d2c505c00ccbb8b2139543b5ad6fcb Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Mon, 23 Jan 2017 17:41:39 +0200
-+Subject: [PATCH] Fix compile on musl with kernel 4.9 headers
-+
-+Kernel headers break when musl defines IFF_LOWER_UP. While
-+waiting for more proper fix in musl, add a hack to connman.
-+
-+Upstream-Status: Inappropriate [Workaround]
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+---
-+ src/6to4.c     | 4 ++++
-+ src/firewall.c | 4 ++++
-+ src/iptables.c | 4 ++++
-+ 3 files changed, 12 insertions(+)
-+
-+diff --git a/src/6to4.c b/src/6to4.c
-+index 71a2882..1938afb 100644
-+--- a/src/6to4.c
-++++ b/src/6to4.c
-+@@ -24,6 +24,10 @@
-+ #include <config.h>
-+ #endif
-+ 
-++/* hack to make sure kernel headers understand that libc (musl)
-++   does define IFF_LOWER_UP et al. */
-++#define __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO 0
-++
-+ #include <errno.h>
-+ #include <stdio.h>
-+ #include <stdlib.h>
-+diff --git a/src/firewall.c b/src/firewall.c
-+index c440df6..c83def9 100644
-+--- a/src/firewall.c
-++++ b/src/firewall.c
-+@@ -23,6 +23,10 @@
-+ #include <config.h>
-+ #endif
-+ 
-++/* hack to make sure kernel headers understand that libc (musl)
-++   does define IFF_LOWER_UP et al. */
-++#define __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO 0
-++
-+ #include <errno.h>
-+ 
-+ #include <xtables.h>
-+diff --git a/src/iptables.c b/src/iptables.c
-+index 82e3ac4..46ad9e2 100644
-+--- a/src/iptables.c
-++++ b/src/iptables.c
-+@@ -23,6 +23,10 @@
-+ #include <config.h>
-+ #endif
-+ 
-++/* hack to make sure kernel headers understand that libc (musl)
-++   does define IFF_LOWER_UP et al. */
-++#define __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO 0
-++
-+ #include <getopt.h>
-+ #include <stdlib.h>
-+ #include <stdio.h>
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-connectivity/connman/connman_1.33.bb b/meta/recipes-connectivity/connman/connman_1.33.bb
-index 56a0a0f..4129b05 100644
---- a/meta/recipes-connectivity/connman/connman_1.33.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.33.bb
-@@ -7,7 +7,8 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-             file://includes.patch \
-             file://0003-stats-Fix-bad-file-descriptor-initialisation.patch \
-             "
--SRC_URI_append_libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
-+SRC_URI_append_libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch \
-+                             file://0001-Fix-compile-on-musl-with-kernel-4.9-headers.patch"
- 
- SRC_URI[md5sum] = "c51903fd3e7a6a371d12ac5d72a1fa01"
- SRC_URI[sha256sum] = "bc8946036fa70124d663136f9f6b6238d897ca482782df907b07a428b09df5a0"
--- 
-2.1.4
+On 01/23/2017 09:45 AM, David Vincent wrote:
+> On lundi 23 janvier 2017 15:23:36 CET Patchwork wrote:
+>> == Series Details ==
+>>
+>> Series: openssh: Make sshd-config a package
+>> Revision: 1
+>> URL   : https://patchwork.openembedded.org/series/4904/
+>> State : failure
+>>
+>> == Summary ==
+>>
+>>
+>> Thank you for submitting this patch series to OpenEmbedded Core. This is
+>> an automated response. Several tests have been executed on the proposed
+>> series by patchtest resulting in the following failures:
+>>
+>>
+>>
+>> * Issue             Series does not apply on top of target branch
+>> [test_series_merge_on_head] Suggested fix    Rebase your series on top of
+>> targeted branch
+>>    Targeted branch  master (currently at 842ad404b3)
+>>
+>>
+>>
+>> If you believe any of these test results are incorrect, please reply to the
+>> mailing list (openembedded-core@lists.openembedded.org) raising your
+>> concerns. Otherwise we would appreciate you correcting the issues and
+>> submitting a new version of the patchset if applicable. Please ensure you
+>> add/increment the version number when sending the new version (i.e. [PATCH]
+>> -> [PATCH v2] -> [PATCH v3] -> ...).
+>>
+>> ---
+>> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+>> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+> This result seems to be an error since I rebased my patches on top of current
+> HEAD before submitting it. I just checked again to see if some other patches
+> were left behind but my branch is currently up-to-date.
+>
+> David
+>
 
 
