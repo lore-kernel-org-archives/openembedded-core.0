@@ -1,18 +1,20 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 442B077227;
-	Mon, 23 Jan 2017 18:53:33 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Jair Gonzalez <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
-Date: Mon, 23 Jan 2017 18:53:34 -0000
-Message-ID: <20170123185334.23275.18839@do.openembedded.org>
-References: <cover.1485193773.git.jair.de.jesus.gonzalez.plascencia@linux.intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1485193773.git.jair.de.jesus.gonzalez.plascencia@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgUUE6IGNyZWF0ZSB1bml0IHRlc3RzIGZvciBldmVudCBtb2R1bGU=?=
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 873BE71B40
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Jan 2017 20:34:38 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 23 Jan 2017 12:34:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,275,1477983600"; d="scan'208";a="925786964"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.142])
+	by orsmga003.jf.intel.com with ESMTP; 23 Jan 2017 12:34:20 -0800
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Jan 2017 14:41:13 -0600
+Message-Id: <cover.1485203593.git.leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH v4 0/2] Skip imagefeature and sstatetest tests depending on distro
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +27,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2017 18:53:33 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 Jan 2017 20:34:39 -0000
 
-== Series Details ==
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-Series: QA: create unit tests for event module
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/4918/
-State : failure
+Originally, the selftests were defined for the 'poky' distro. However, there
+are more supported distros, including nodistro, poky-lsb and poky-tiny.
+This series just focus on two test cases: imagefeatures and sstatetests.
 
-== Summary ==
+[YOCTO #8525]
 
+The following changes since commit 4aa6644f92975ded908ef99cf313466e0845e071:
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+  kernel-fitimage: Use compressed ramdisks in FIT images if available (2017-01-23 12:05:23 +0000)
 
+are available in the git repository at:
 
+  git://git.yoctoproject.org/poky-contrib lsandov1/selftest-imagefeatures-sstatetest-distro-agnostic
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lsandov1/selftest-imagefeatures-sstatetest-distro-agnostic
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 842ad404b3)
+Leonardo Sandoval (2):
+  selftest/imagefeatures: skip weston test if required features are not
+    present
+  selftest: sstatetests: skip glibc-initial tests in case of non-glibc
+    distro
 
+ meta/lib/oeqa/selftest/imagefeatures.py |  6 +++---
+ meta/lib/oeqa/selftest/sstate.py        |  1 +
+ meta/lib/oeqa/selftest/sstatetests.py   | 25 +++++++++++++++++++------
+ 3 files changed, 23 insertions(+), 9 deletions(-)
 
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+-- 
+2.1.4
 
 
