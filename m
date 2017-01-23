@@ -1,33 +1,31 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id BC62973281
+Return-Path: <mario@parenteses.org>
+Received: from mx2.mailbox.org (mx2.mailbox.org [80.241.60.215])
+	by mail.openembedded.org (Postfix) with ESMTP id 74DF173D27
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 14:32:40 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0NEWKXJ022206; Mon, 23 Jan 2017 14:32:36 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Ms7orxhECz8k; Mon, 23 Jan 2017 14:32:36 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0NEWWwZ022263
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 23 Jan 2017 14:32:33 GMT
-Message-ID: <1485181952.30673.22.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patrick Ohly <patrick.ohly@intel.com>, Alexander Kanavin
-	<alexander.kanavin@linux.intel.com>
-Date: Mon, 23 Jan 2017 14:32:32 +0000
-In-Reply-To: <1485181781.20333.39.camel@intel.com>
-References: <1484935979-328-1-git-send-email-anibal.limon@linux.intel.com>
-	<1484941467.20333.3.camel@intel.com>
-	<8c0f5529-3dbb-1049-dc59-0cb368e04359@linux.intel.com>
-	<1485181781.20333.39.camel@intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
+	Mon, 23 Jan 2017 14:37:42 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [80.241.60.240])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx2.mailbox.org (Postfix) with ESMTPS id 1E1DD45A37;
+	Mon, 23 Jan 2017 15:37:42 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp1.mailbox.org ([80.241.60.240])
+	by hefe.heinlein-support.de (hefe.heinlein-support.de [91.198.250.172])
+	(amavisd-new, port 10030)
+	with ESMTP id S4qU2QqOwBEU; Mon, 23 Jan 2017 15:37:38 +0100 (CET)
+From: Mario Domenech Goulart <mario@parenteses.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1485174363-32506-1-git-send-email-richard.purdie@linuxfoundation.org>
+	<1485174952.30673.15.camel@linuxfoundation.org>
+	<87r33u3pfi.fsf@parenteses.org>
+	<1485176748.30673.16.camel@linuxfoundation.org>
+Date: Mon, 23 Jan 2017 15:37:37 +0100
+In-Reply-To: <1485176748.30673.16.camel@linuxfoundation.org> (Richard Purdie's
+	message of "Mon, 23 Jan 2017 13:05:48 +0000")
+Message-ID: <87mveh4zbi.fsf@parenteses.org>
+MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2] qemu: Upgrade to 2.7.1
+Subject: Re: [PATCH] busybox: Guard against interrupted compiles
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,46 +38,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2017 14:32:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 23 Jan 2017 14:37:42 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2017-01-23 at 15:29 +0100, Patrick Ohly wrote:
-> On Mon, 2017-01-23 at 16:01 +0200, Alexander Kanavin wrote:
-> > 
-> > On 01/20/2017 09:44 PM, Patrick Ohly wrote:
-> > 
-> > > 
-> > > In contrast to Alexander, I would also keep
-> > > http://wiki.qemu-project.org/download/${BP}.tar.bz2 in
-> > > qemu_2.7.1.bb
-> > > with SRC_URI =+ because then there can be a qemu_git.bb with a
-> > > different
-> > > URL than the one above.
-> > I would discourage creation of such separate _git recipes, unless
-> > there 
-> > is a clear benefit to the whole of oe-core. They are almost always 
-> > untested and neglected, and eventually removed because they're
-> > outdated 
-> > and broken and no one cares.
-> I wasn't suggesting to add one, just using the possibility that one
-> might want to add one as the rationale for keeping the download URL
-> for
-> the tarball out of the .inc file.
-> 
-> It's all rather subjective and hinges on the likelihood of adding a
-> _git.bb (don't include it in the .inc) vs. adding more than one
-> versioned .bb (then including the common download in the .inc reduces
-> duplication).
+On Mon, 23 Jan 2017 13:05:48 +0000 Richard Purdie <richard.purdie@linuxfoun=
+dation.org> wrote:
 
-There is actually an alternative proposal somewhere in bugzilla which
-would be to leave enough markup that we can easily enable a git
-version. That markup mostly being the git:// url in a variable. Ross
-was looking at that.
+> On Mon, 2017-01-23 at 13:56 +0100, Mario Domenech Goulart wrote:
+>>=20
+>> On Mon, 23 Jan 2017 12:35:52 +0000 Richard Purdie <richard.purdie@linuxf=
+oundation.org> wrote:
+>>
+>> > On Mon, 2017-01-23 at 12:26 +0000, Richard Purdie wrote:
+>> > >=20
+>> > > diff --git a/meta/recipes-core/busybox/busybox.inc
+>> > > b/meta/recipes-
+>> > > core/busybox/busybox.inc
+>> > > index 1f4a48c..f247e8d 100644
+>> > > --- a/meta/recipes-core/busybox/busybox.inc
+>> > > +++ b/meta/recipes-core/busybox/busybox.inc
+>> > > @@ -141,6 +141,10 @@ do_compile() {
+>> > > =C2=A0	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+>> > > =C2=A0	if [ "${BUSYBOX_SPLIT_SUID}" =3D "1" -a x`grep
+>> > > "CONFIG_FEATURE_INDIVIDUAL=3Dy" .config` =3D x ]; then
+>> > > =C2=A0	# split the .config into two parts, and make two busybox
+>> > > binaries
+>> > > +		if [ -e .config.org ]; then
+>> > > +			# Need to guard again an interrupted
+>> > > do_compile - restore any backup
+>> > > +			cp .config.orig .config
+>> > > +		fi
+>> > I have fixed the typo...
+>> Wouldn't it be better to have something like
+>>=20
+>> =C2=A0=C2=A0=C2=A0cp .config.orig .config || true
+>>=20
+>> instead, to prevent race conditions?
+>
+> Prevent which race condition? I'd hope at this point we're the only
+> thing touching the .config file?
 
-Cheers,
+Yeah, I hope so.
 
-Richard
+I mean, the "if exists(file){ do_something_with(file) }" idiom is
+intrinsically subject to race conditions (time of check to time of use).
+If we can [easily] avoid them, why not?
 
-
+All the best.
+Mario
+--=20
+http://parenteses.org/mario
 
