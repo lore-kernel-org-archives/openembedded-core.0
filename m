@@ -1,22 +1,29 @@
-Return-Path: <jose.perez.carranza@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E3F3605FE
+Return-Path: <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id C4C6771DD0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 22:13:50 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga103.jf.intel.com with ESMTP; 23 Jan 2017 14:13:51 -0800
+	Mon, 23 Jan 2017 22:25:50 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga103.fm.intel.com with ESMTP; 23 Jan 2017 14:25:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,275,1477983600"; d="scan'208";a="216745438"
-Received: from jgperezc.zpn.intel.com ([10.219.5.150])
-	by fmsmga004.fm.intel.com with ESMTP; 23 Jan 2017 14:13:50 -0800
-From: jose.perez.carranza@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jan 2017 16:13:31 -0600
-Message-Id: <1485209611-23858-1-git-send-email-jose.perez.carranza@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Cc: Jose Perez Carranza <jose.perez.carranza@linux-ntel.com>,
-	paul.eggleton@intel.com
-Subject: [PATCH] selftest/devtool: Add test to verify "modify virtual/kernel"
+X-IronPort-AV: E=Sophos;i="5.33,275,1477983600"; d="scan'208";a="57334300"
+Received: from unknown (HELO jairdejeMOBL3) ([10.219.17.214])
+	by fmsmga006.fm.intel.com with ESMTP; 23 Jan 2017 14:25:50 -0800
+From: "Jair Gonzalez" <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
+To: "'Leonardo Sandoval'" <leonardo.sandoval.gonzalez@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1485193773.git.jair.de.jesus.gonzalez.plascencia@linux.intel.com>
+	<20170123185334.23275.18839@do.openembedded.org>
+	<77e394cd-16df-205b-cc20-a88ef3817038@linux.intel.com>
+In-Reply-To: <77e394cd-16df-205b-cc20-a88ef3817038@linux.intel.com>
+Date: Mon, 23 Jan 2017 16:25:49 -0600
+Message-ID: <00db01d275c7$a6db7e70$f4927b50$@linux.intel.com>
+MIME-Version: 1.0
+X-Mailer: Microsoft Outlook 15.0
+Thread-Index: AQK80hzxTEWfBANOpt00Q9Dfazff6QG0vp52AzGji/afSrG84A==
+x-ctpclassification: CTP_IC
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiODA4ZDIzYjUtZTdlNi00MmYzLWE2MGQtYmUyYjYzYzk1ZGU2IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX0lDIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE1LjkuNi42IiwiVHJ1c3RlZExhYmVsSGFzaCI6IldXcElDWUdhZm9zaTVBZWJrd0xoRTZsbVphZSt6TE5DZUorZkNaSjd3UE09In0=
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIFFBOiBjcmVhdGUgdW5pdCB0ZXN0cyBmb3IgZXZlbnQgbW9kdWxl?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,115 +36,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2017 22:13:51 -0000
+X-List-Received-Date: Mon, 23 Jan 2017 22:25:51 -0000
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-us
 
-From: Jose Perez Carranza <jose.perez.carranza@linux-ntel.com>
+Leonardo,
 
-The purpose of this test case is to verify that
-devtool modify works correctly when building
-the kernel.
+Thank you for the clarification and sorry for the error. I'll re-submit =
+it to the correct list.
 
-[YOCTO #10817]
+Regards,
+Jair
 
-Signed-off-by: Jose Perez Carranza <jose.perez.carranza@linux-ntel.com>
----
- meta/lib/oeqa/selftest/devtool.py | 85 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 85 insertions(+)
+> -----Original Message-----
+> From: Leonardo Sandoval
+> [mailto:leonardo.sandoval.gonzalez@linux.intel.com]
+> Sent: Monday, January 23, 2017 3:13 PM
+> To: openembedded-core@lists.openembedded.org; Jair Gonzalez
+> <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
+> Subject: Re: [OE-core] =E2=9C=97 patchtest: failure for QA: create =
+unit tests for event
+> module
+>=20
+> Jair, patchtest failed because your series is intended for bitbake =
+project, not
+> oe-core. Please send your series to
+>=20
+>      Mailing list: bitbake-devel@lists.openembedded.org
+>=20
+>=20
+>=20
+> On 01/23/2017 12:53 PM, Patchwork wrote:
+> > =3D=3D Series Details =3D=3D
+> >
+> > Series: QA: create unit tests for event module
+> > Revision: 1
+> > URL   : https://patchwork.openembedded.org/series/4918/
+> > State : failure
+> >
+> > =3D=3D Summary =3D=3D
+> >
+> >
+> > Thank you for submitting this patch series to OpenEmbedded Core. =
+This
+> > is an automated response. Several tests have been executed on the
+> > proposed series by patchtest resulting in the following failures:
+> >
+> >
+> >
+> > * Issue             Series does not apply on top of target branch
+> [test_series_merge_on_head]
+> >    Suggested fix    Rebase your series on top of targeted branch
+> >    Targeted branch  master (currently at 842ad404b3)
+> >
+> >
+> >
+> > If you believe any of these test results are incorrect, please reply
+> > to the mailing list (openembedded-core@lists.openembedded.org) =
+raising
+> your concerns.
+> > Otherwise we would appreciate you correcting the issues and =
+submitting
+> > a new version of the patchset if applicable. Please ensure you
+> > add/increment the version number when sending the new version (i.e.
+> > [PATCH] -> [PATCH v2] -> [PATCH v3] -> ...).
+> >
+> > ---
+> > Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+> > Test suite:     =
+http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+> >
 
-diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
-index 79a4b1f..1ba8e00 100644
---- a/meta/lib/oeqa/selftest/devtool.py
-+++ b/meta/lib/oeqa/selftest/devtool.py
-@@ -1579,3 +1579,88 @@ class DevtoolTests(DevtoolBase):
-         checkvars['S'] = '${WORKDIR}/${BPN}-%s' % recipever
-         checkvars['SRC_URI'] = url
-         self._test_recipe_contents(newrecipefile, checkvars, [])
-+
-+    @testcase(1577)
-+    def test_devtool_virtual_kernel_modify(self):
-+        """
-+        Summary:        The purpose of this test case is to verify that
-+                        devtool modify works correctly when building
-+                        the kernel.
-+        Dependencies:   NA
-+        Steps:          1. Build kernel with bitbake.
-+                        2. Save the config file generated.
-+                        3. Clean the environment.
-+                        4. Use `devtool modify virtual/kernel` to validate following:
-+                           4.1 The source is checked out correctly.
-+                           4.2 The resulting configuration is the same as
-+                               what was get on step 2.
-+                           4.3 The Kernel can be build correctly.
-+                           4.4 Changes made on the source are reflected on the
-+                               subsequent builds.
-+                           4.5 Changes on the configuration are reflected on the
-+                               subsequent builds
-+         Expected:       devtool modify is able to checkout the source of the kernel
-+                         and modification to the source and configurations are reflected
-+                         when building the kernel.
-+         """
-+        #Set machine to qemxu86 to be able to modify the kernel and
-+        #verify the modification.
-+        features = 'MACHINE = "qemux86"\n'
-+        self.write_config(features)
-+        # Clean up the enviroment
-+        bitbake('linux-yocto -c cleansstate')
-+        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-+        self.track_for_cleanup(tempdir)
-+        self.track_for_cleanup(self.workspacedir)
-+        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
-+        self.add_command_to_tearDown('bitbake -c clean linux-yocto')
-+        #Step 1
-+        #Here is just generated the config file instead of all the kernel to optimize the
-+        #time of executing this test case.
-+        bitbake('linux-yocto -c configure')
-+        bbconfig = os.path.join(get_bb_var('B',"linux-yocto"),'.config')
-+        buildir= get_bb_var('TOPDIR')
-+        #Step 2
-+        runCmd('cp %s %s' % (bbconfig, buildir))
-+        self.assertTrue(os.path.exists(os.path.join(buildir, '.config')),
-+                        'Could not copy .config file from kernel')
-+
-+        tmpconfig = os.path.join(buildir, '.config')
-+        #Step 3
-+        bitbake('linux-yocto -c cleanall')
-+        #Step 4.1
-+        runCmd('devtool modify virtual/kernel -x %s' % tempdir)
-+        self.assertTrue(os.path.exists(os.path.join(tempdir, 'Makefile')),
-+                        'Extracted source could not be found')
-+        #Step 4.2
-+        configfile = os.path.join(tempdir,'.config')
-+        diff = runCmd('diff %s %s' % (tmpconfig, configfile))
-+        self.assertEqual(0,diff.status,'Kernel .config file is not the same using bitbake and devtool')
-+        #Step 4.3
-+        #NOTE: virtual/kernel is mapped to linux-yocto
-+        result = runCmd('devtool build linux-yocto')
-+        self.assertEqual(0,result.status,'Cannot build kernel using `devtool build`')
-+        kernelfile = os.path.join(get_bb_var('KBUILD_OUTPUT',"linux-yocto"), 'vmlinux')
-+        self.assertTrue(os.path.exists(kernelfile),'Kernel was not build correctly')
-+
-+        #Modify the kernel source, this is specific for qemux86
-+        modfile = os.path.join(tempdir,'arch/x86/boot/header.S')
-+        modstring = "use a boot loader - Devtool kernel testing"
-+        modapplied = runCmd("sed -i 's/boot loader/%s/' %s" % (modstring, modfile))
-+        self.assertEqual(0,modapplied.status,'Modification to %s on kernel source failed' % modfile)
-+        #Modify the configuration
-+        codeconfigfile = os.path.join(tempdir,'.config.new')
-+        modconfopt = "CONFIG_SG_POOL=n"
-+        modconf = runCmd("sed -i 's/CONFIG_SG_POOL=y/%s/' %s" % (modconfopt, codeconfigfile))
-+        self.assertEqual(0,modconf.status,'Modification to %s failed' % codeconfigfile)
-+        #Build again kernel with devtool
-+        rebuild = runCmd('devtool build linux-yocto')
-+        self.assertEqual(0,rebuild.status,'Fail to build kernel after modification of source and config')
-+        #Step 4.4
-+        bzimagename = 'bzImage-' + get_bb_var('KERNEL_VERSION_NAME',"linux-yocto")
-+        bzimagefile = os.path.join(get_bb_var('D',"linux-yocto"),'boot', bzimagename)
-+        checkmodcode = runCmd("strings %s | head -n 10 | grep '%s'" % (bzimagefile, modstring))
-+        self.assertEqual(0,checkmodcode.status,'Modification on kernel source failed')
-+        #Step 4.5
-+        checkmodconfg = runCmd("grep %s %s" % (modconfopt, codeconfigfile))
-+        self.assertEqual(0,checkmodconfg.status,'Modification to configuration file failed')
--- 
-2.1.4
 
 
