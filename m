@@ -1,29 +1,47 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EE3F27665F
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
+	[209.85.213.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B7B44771D7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 16:48:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v0NGmSVY021455
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 23 Jan 2017 16:59:56 +0000 (UTC)
+Received: by mail-vk0-f65.google.com with SMTP id n19so11586150vkd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 08:48:28 -0800 (PST)
-Received: from soho-mhatle-m.local (172.25.36.235) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 23 Jan 2017 08:48:27 -0800
-To: Paul Gortmaker <paul.gortmaker@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <20170123164454.GT29778@windriver.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <25726cb2-3125-5ad5-e69a-9ae4269fed53@windriver.com>
-Date: Mon, 23 Jan 2017 10:48:26 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.6.0
+	Mon, 23 Jan 2017 08:59:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=1f3TAJ2IHWBo2PdTSx55sM9abT7tHs0a04wrHRCyeSM=;
+	b=khVXg4YYK1dqfaQh64td14Ry4WRwpAJQPf5f2aPKQE7+QexgraQklWGTA7xC1P6D2j
+	qtRTsq2eES/rezWx94vMwebO1+XBayppz9RvEjWno+enoDZqaf7aeRfDuOHaXpnVkH9u
+	AjtqTEbf9EphQxbGZvcdGHHzn58uqLnMPNKt1U3r6q5CqA/fTFB+tcflzX6iqOJbu7qj
+	PddIoJBXbBW/7XvrZMAINMk6Ency4gAJheI0C0HZ3QfhmQPsyweVOOKYHR06yKYU+S8Y
+	clSJKvlSGrPnClr4fC3TkYuSS7lY//rQA4kh8fIwaGAy1AIUaatVZgRFUBo0A+zMoCIR
+	8nhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=1f3TAJ2IHWBo2PdTSx55sM9abT7tHs0a04wrHRCyeSM=;
+	b=NGUcUGC3l8MkCOzT1BjEL/hi63Xt7U2S/TBI7OTmvkgBe+pLH4hoO6Mhxo74vxfX3f
+	uGP11/4oY8rFyHbcAHR89Ah3k9HGwZ9XAKiXAMaXYuaSs8u8+8bkSzabLOO5ctc0VDqo
+	P9dRN66NQM4AZV4gl004XfzsDg4XzUw7lxqMTRENMcYZ9A572e9pldIfV22XVa1xGg5v
+	Toco6Z+M+N+C3RNTVLLrIiUhnXpBchyUdjnEI3TTvvFVCOMyqtp+PoNefi7oBS3MjCf1
+	uumgvOghvpNE9OgjVc2f3bE7TSuBvEvpxiIZCdFNWK9Fj/KI67xEJo/cpTPmL4MUJCoQ
+	PIHA==
+X-Gm-Message-State: AIkVDXL0Tu7ZrbGs9DSAhvGruDG+DzBLqKX1SB1CD/jZcrYh0guhcPXOQ89hrR/4KLuDMivqv7T4Pgl0rpTPGg==
+X-Received: by 10.31.115.142 with SMTP id o136mr13764919vkc.139.1485190796534; 
+	Mon, 23 Jan 2017 08:59:56 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20170123164454.GT29778@windriver.com>
-Subject: Re: do_populate_sysroot: Function failed: relocatable_binaries_preprocess
+Received: by 10.159.48.222 with HTTP; Mon, 23 Jan 2017 08:59:26 -0800 (PST)
+In-Reply-To: <CAJTo0LYogrcREAzmPUdBwcP6Yx5e-oZEBOTL1EnpVD9jwg=XiA@mail.gmail.com>
+References: <1485178169-27145-1-git-send-email-schnitzeltony@googlemail.com>
+	<CAJTo0LYogrcREAzmPUdBwcP6Yx5e-oZEBOTL1EnpVD9jwg=XiA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 23 Jan 2017 08:59:26 -0800
+Message-ID: <CAMKF1so7OY5b8eQaQmgyL0ktNkT2kR=JGfMtxEsusSMR=5zH+w@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V3] alsa-lib: update 1.1.2 -> 1.1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,59 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2017 16:48:29 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 Jan 2017 16:59:57 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 1/23/17 10:44 AM, Paul Gortmaker wrote:
-> After updating this morning (everything on master, re-using the existing
-> build dir that was built OK within the last 48h) I saw this:
-> 
-> ERROR: pseudo-native-1.8.1-r0 do_populate_sysroot: pseudo-native: chrpath command failed with exit code 7:
-> b'/home/paul/poky/build/tmp/work/x86_64-linux/pseudo-native/1.8.1-r0/sysroot-destdir/home/paul/poky/build/tmp/work/x86_64-linux/pseudo-native/1.8.1-r0/recipe-sysroot-native/usr/bin/pseudodb:
-> RPATH=/home/paul/poky/build/tmp/sysroots/x86_64-linux/usr/lib:/home/paul/poky/build/tmp/sysroots/x86_64-linux/lib\n'b"new
-> rpath
-> '$ORIGIN/../../../../../../../sysroots/x86_64-linux/usr/lib:$ORIGIN/../../../../../../../sysroots/x86_64-linux/lib' too large; maximum length 107\n"
-> ERROR: pseudo-native-1.8.1-r0 do_populate_sysroot: Function failed: relocatable_binaries_preprocess
-> ERROR: Logfile of failure stored in: /home/paul/poky/build/tmp/work/x86_64-linux/pseudo-native/1.8.1-r0/temp/log.do_populate_sysroot.11
+On Mon, Jan 23, 2017 at 6:04 AM, Burton, Ross <ross.burton@intel.com> wrote=
+:
+>
+> On 23 January 2017 at 13:29, Andreas M=C3=BCller <schnitzeltony@googlemai=
+l.com>
+> wrote:
+>>
+>> +# no python -> smixer is not build
+>> +ALLOW_EMPTY_${PN} =3D "1"
+>
+>
+> Not sure this is the right fix.  What package does the Python support go
+> into?  The smixer files should be in that package, and the real dependenc=
+y
+> on PN-dev is to libasound, not PN.  Can we fiddle the PN-dev RDEPENDS to
+> ensure that it depends on libasound instead of PN?
 
-Looking at it, the error from chrpath is easy to explain.  The original RPATH
-value is shorted then the new RPATH value that was calculated.
+shouldn't shlibs notice and add this dep automatically ?
 
-i.e.:
-/home/paul/poky/build/tmp/sysroots/x86_64-linux/usr/lib
-
-vs
-
-$ORIGIN/../../../../../../../sysroots/x86_64-linux/usr/lib
-
-So the system errors because it would overflow the buffer inside of the ELF object.
-
-What is strange is this issue is new.  It means something has changed in the
-origin processing of native packages over the weekend.
-
-I'm wondering if this has something to do with the new recipe specific sysroot.
-
-It should hopefully be easy to _workaround_ this issue, by having the build
-directory in a deeper path  (something with more characters in it.)
-
-But this is a big enough program we're going to have to figure out how to solve it.
-
---Mark
-
-> I did a cleansstate on that and then it was fine but then openssl died
-> in the same way:
-> 
-> ERROR: openssl-native-1.0.2j-r0 do_populate_sysroot: openssl-native: chrpath command failed with exit code 7:
-> b'/home/paul/poky/build/tmp/work/x86_64-linux/openssl-native/1.0.2j-r0/sysroot-destdir/home/paul/poky/build/tmp/work/x86_64-linux/openssl-native/1.0.2j-r0/recipe-sysroot-native/usr/lib/libssl.so.1.0.0: RPATH=/home/paul/poky/build/tmp/sysroots/x86_64-linux/usr/lib:/home/paul/poky/build/tmp/sysroots/x86_64-linux/lib\n'b"new rpath '$ORIGIN/../../../../../../../sysroots/x86_64-linux/usr/lib:$ORIGIN/../../../../../../../sysroots/x86_64-linux/lib' too large; maximum length 107\n"
-> ERROR: openssl-native-1.0.2j-r0 do_populate_sysroot: Function failed: relocatable_binaries_preprocess
-> ERROR: Logfile of failure stored in: /home/paul/poky/build/tmp/work/x86_64-linux/openssl-native/1.0.2j-r0/temp/log.do_populate_sysroot.7182
-> ERROR: Task (virtual:native:/home/paul/poky/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb:do_populate_sysroot) failed with exit code '1'
-> 
-> I mentioned it to Mark and he suggested I should mention it here.
-> 
-> P.
-> 
-> 
-
+>
+> Ross
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
