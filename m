@@ -1,48 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f181.google.com (mail-qt0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id CBDF2731D8
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 84681771DE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 17:19:46 +0000 (UTC)
-Received: by mail-qt0-f181.google.com with SMTP id x49so134580640qtc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 09:19:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=rln/CKK3lPKJjbDwU1kRdePzBNq3AK7NeOXwUzKej2U=;
-	b=iFZnwOx141A0rnlteP1NbBAaDgMAywM/njim2J372vDhG3TuDpOp8DlFua3eTkUVvm
-	lZrggaaRxnJ69B7RNpxfbtZkQ6+VHLD9rgUWQhJl3bA1GIK8cWZB17vpo9pkE8s/j0kS
-	pPoYQ2YRG9FF6gp+1VwreamByiICaz0Frs3kdOBv2xrWvyDMHP/WSshAecQb85pTXz6U
-	fAmzbTsK4Shpk3mMKKRKtRCPfjYNKU7cE6EUdTJMlilOUsuSuVh50CwzzF9m6g4wJbr3
-	3ly1P0y9XflWg0Iq6NFyqU2SVataa++FQvCIW0s8jhcpasLgRHoXjKuc0MR/uDWx53FT
-	qPnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=rln/CKK3lPKJjbDwU1kRdePzBNq3AK7NeOXwUzKej2U=;
-	b=lQjCSw+8h5v9DWeKxP55eiALe0NENkC0FFrnBA3Yl3mKd9BDpgEOtOV/xPiWqq36us
-	GdSKSjp6XRLGA5Hivjej+NhVB0G7ngYYw6UNLQmJPHmIune8MccPoV13inScG4H6FWRM
-	18iGpb/DoENtL7/GPf1kl9l2ClEGfeSPKf+KssoF3KMP5EnnaVJvs5zPBlLDFy8eCdhJ
-	qzaASvdqUJY7J862zbI0lOME9/fUak+mq6flBbwcmfd2sEb9clX6Hm7YEH4ZmDSQn5ba
-	goOQtRuXMEspP/TUavZ3+mlh7rB+mP2t7Mr4XeDiCu1+EWyO1GLgYzE911n7a5X7uk81
-	oxHQ==
-X-Gm-Message-State: AIkVDXIlX6WTKFWmRPuZrSGNfKd/RySVeSEeXYtWd5rbzrzUU8M5CaOFzJKWSVvL1uiRVe2Nbp44l6Am7fd+8NDg
-X-Received: by 10.200.39.212 with SMTP id x20mr24482221qtx.109.1485191986391; 
-	Mon, 23 Jan 2017 09:19:46 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Mon, 23 Jan 2017 09:19:26 -0800 (PST)
-In-Reply-To: <CAMKF1socZ7RtN+0UcLtmGF9GQVcEP8LXjCVxA3Y3feeHKtokhQ@mail.gmail.com>
-References: <1485176279-1373-1-git-send-email-richard.purdie@linuxfoundation.org>
-	<CAMKF1socZ7RtN+0UcLtmGF9GQVcEP8LXjCVxA3Y3feeHKtokhQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 23 Jan 2017 17:19:26 +0000
-Message-ID: <CAJTo0LaBCwwZqYVW5UwhydZQJZMU0rpJ63umNzRjaJToveinLQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] tremor: Use mirror tarball instead of svn url
+	Mon, 23 Jan 2017 17:47:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v0NHlSQv008649; Mon, 23 Jan 2017 17:47:28 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id uiYK1W_aPWzF; Mon, 23 Jan 2017 17:47:28 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v0NHlQit008645
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 23 Jan 2017 17:47:27 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1cViiE-0001Td-GG; Mon, 23 Jan 2017 17:47:26 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Jan 2017 17:47:24 +0000
+Message-Id: <1485193644-5639-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] classes/oeqa: Replace subprocess.check_call() with check_output()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,47 +35,155 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2017 17:19:47 -0000
-Content-Type: multipart/alternative; boundary=001a1135b542c5e0e40546c63488
+X-List-Received-Date: Mon, 23 Jan 2017 17:47:33 -0000
 
---001a1135b542c5e0e40546c63488
-Content-Type: text/plain; charset=UTF-8
+If you use subprocess.check_output() the traceback will contain the output
+when the command fails which is very useful for debugging. There is no
+good reason not to use this everywhere.
 
-On 23 January 2017 at 17:11, Khem Raj <raj.khem@gmail.com> wrote:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/sstate.bbclass                | 4 ++--
+ meta/classes/staging.bbclass               | 6 +++---
+ meta/classes/uninative.bbclass             | 2 +-
+ meta/lib/oe/rootfs.py                      | 6 +++---
+ meta/lib/oeqa/sdk/utils/sdkbuildproject.py | 2 +-
+ meta/lib/oeqa/utils/buildproject.py        | 2 +-
+ meta/lib/oeqa/utils/targetbuild.py         | 4 ++--
+ 7 files changed, 13 insertions(+), 13 deletions(-)
 
-> Do we explicitly add subversion-native to builds ?  or is it going to
-> be removed automatically now that there is nothing needed it ?
-> subversion-native should still remain though for other layers to use.
->
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index a767a02..0fdeb9d 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -573,14 +573,14 @@ python sstate_hardcode_path () {
+     sstate_hardcode_cmd = "%s | xargs %s | %s | xargs %s %s" % (sstate_scan_cmd, sstate_grep_cmd, sstate_filelist_cmd, xargs_no_empty_run_cmd, sstate_sed_cmd)
+ 
+     bb.note("Removing hardcoded paths from sstate package: '%s'" % (sstate_hardcode_cmd))
+-    subprocess.check_call(sstate_hardcode_cmd, shell=True, cwd=sstate_builddir)
++    subprocess.check_output(sstate_hardcode_cmd, shell=True, cwd=sstate_builddir)
+ 
+         # If the fixmefn is empty, remove it..
+     if os.stat(fixmefn).st_size == 0:
+         os.remove(fixmefn)
+     else:
+         bb.note("Replacing absolute paths in fixmepath file: '%s'" % (sstate_filelist_relative_cmd))
+-        subprocess.check_call(sstate_filelist_relative_cmd, shell=True)
++        subprocess.check_output(sstate_filelist_relative_cmd, shell=True)
+ }
+ 
+ def sstate_package(ss, d):
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index 1a4668e..fc387ea 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -290,7 +290,7 @@ def staging_processfixme(fixme, target, recipesysroot, recipesysrootnative, d):
+         fixme_path = d.getVar(fixmevar)
+         cmd += " -e 's:FIXME_%s:%s:g'" % (fixmevar, fixme_path)
+     bb.note(cmd)
+-    subprocess.check_call(cmd, shell=True)
++    subprocess.check_output(cmd, shell=True)
+ 
+ 
+ def staging_populate_sysroot_dir(targetsysroot, nativesysroot, native, d):
+@@ -333,7 +333,7 @@ def staging_populate_sysroot_dir(targetsysroot, nativesysroot, native, d):
+ 
+     staging_processfixme(fixme, targetdir, targetsysroot, nativesysroot, d)
+     for p in postinsts:
+-        subprocess.check_call(p, shell=True)
++        subprocess.check_output(p, shell=True)
+ 
+ #
+ # Manifests here are complicated. The main sysroot area has the unpacked sstate
+@@ -561,7 +561,7 @@ python extend_recipe_sysroot() {
+             staging_processfixme(fixme[f], multilibs[f].getVar("RECIPE_SYSROOT"), recipesysroot, recipesysrootnative, d)
+ 
+     for p in postinsts:
+-        subprocess.check_call(p, shell=True)
++        subprocess.check_output(p, shell=True)
+ 
+     for dep in configuredeps:
+         c = setscenedeps[dep][0]
+diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
+index ba7ca63..410fb72 100644
+--- a/meta/classes/uninative.bbclass
++++ b/meta/classes/uninative.bbclass
+@@ -60,7 +60,7 @@ python uninative_event_fetchloader() {
+                     os.symlink(localpath, tarballpath)
+ 
+         cmd = d.expand("mkdir -p ${UNINATIVE_STAGING_DIR}-uninative; cd ${UNINATIVE_STAGING_DIR}-uninative; tar -xjf ${UNINATIVE_DLDIR}/%s/${UNINATIVE_TARBALL}; ${UNINATIVE_STAGING_DIR}-uninative/relocate_sdk.py ${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux ${UNINATIVE_LOADER} ${UNINATIVE_LOADER} ${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux/${bindir_native}/patchelf-uninative ${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux${base_libdir_native}/libc*.so" % chksum)
+-        subprocess.check_call(cmd, shell=True)
++        subprocess.check_output(cmd, shell=True)
+ 
+         with open(loaderchksum, "w") as f:
+             f.write(chksum)
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 5b842ba..9c8a0eb 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -303,10 +303,10 @@ class Rootfs(object, metaclass=ABCMeta):
+             bb.note("> Executing %s intercept ..." % script)
+ 
+             try:
+-                subprocess.check_call(script_full)
++                subprocess.check_output(script_full)
+             except subprocess.CalledProcessError as e:
+-                bb.warn("The postinstall intercept hook '%s' failed (exit code: %d)! See log for details!" %
+-                        (script, e.returncode))
++                bb.warn("The postinstall intercept hook '%s' failed (exit code: %d)! See log for details! (Output: %s)" %
++                        (script, e.returncode, e.output))
+ 
+                 with open(script_full) as intercept:
+                     registered_pkgs = None
+diff --git a/meta/lib/oeqa/sdk/utils/sdkbuildproject.py b/meta/lib/oeqa/sdk/utils/sdkbuildproject.py
+index cc34e0c..4e4e507 100644
+--- a/meta/lib/oeqa/sdk/utils/sdkbuildproject.py
++++ b/meta/lib/oeqa/sdk/utils/sdkbuildproject.py
+@@ -24,7 +24,7 @@ class SDKBuildProject(BuildProject):
+         self._download_archive()
+ 
+         cmd = 'tar xf %s%s -C %s' % (self.targetdir, self.archive, self.targetdir)
+-        subprocess.check_call(cmd, shell=True)
++        subprocess.check_output(cmd, shell=True)
+ 
+         #Change targetdir to project folder
+         self.targetdir = os.path.join(self.targetdir, self.fname)
+diff --git a/meta/lib/oeqa/utils/buildproject.py b/meta/lib/oeqa/utils/buildproject.py
+index 386a927..b3c487b 100644
+--- a/meta/lib/oeqa/utils/buildproject.py
++++ b/meta/lib/oeqa/utils/buildproject.py
+@@ -29,7 +29,7 @@ class BuildProject(metaclass=ABCMeta):
+             return
+ 
+         cmd = "wget -O %s %s" % (self.localarchive, self.uri)
+-        subprocess.check_call(cmd, shell=True)
++        subprocess.check_output(cmd, shell=True)
+ 
+     # This method should provide a way to run a command in the desired environment.
+     @abstractmethod
+diff --git a/meta/lib/oeqa/utils/targetbuild.py b/meta/lib/oeqa/utils/targetbuild.py
+index c001602..6f237b5 100644
+--- a/meta/lib/oeqa/utils/targetbuild.py
++++ b/meta/lib/oeqa/utils/targetbuild.py
+@@ -45,7 +45,7 @@ class BuildProject(metaclass=ABCMeta):
+                 cmd = 'export ' + var + '=\"%s\"; %s' % (val, cmd)
+ 
+         cmd = cmd + "wget -O %s %s" % (self.localarchive, self.uri)
+-        subprocess.check_call(cmd, shell=True)
++        subprocess.check_output(cmd, shell=True)
+ 
+     # This method should provide a way to run a command in the desired environment.
+     @abstractmethod
+@@ -114,7 +114,7 @@ class SDKBuildProject(BuildProject):
+         self._download_archive()
+ 
+         cmd = 'tar xf %s%s -C %s' % (self.targetdir, self.archive, self.targetdir)
+-        subprocess.check_call(cmd, shell=True)
++        subprocess.check_output(cmd, shell=True)
+ 
+         #Change targetdir to project folder
+         self.targetdir = os.path.join(self.targetdir, self.fname)
+-- 
+2.7.4
 
-It's automatic:
 
-        if scheme == "svn":
-            d.appendVarFlag('do_fetch', 'depends', '
-subversion-native:do_populate_sysroot')
-
-(base.bbclass)
-
---001a1135b542c5e0e40546c63488
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 January 2017 at 17:11, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> =
-wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-sty=
-le:solid;padding-left:1ex"><div id=3D"gmail-:15a" class=3D"gmail-a3s gmail-=
-aXjCH gmail-m159cc505ebf98d28">Do we explicitly add subversion-native to bu=
-ilds ?=C2=A0 or is it going to<br>
-be removed automatically now that there is nothing needed it ?<br>
-subversion-native should still remain though for other layers to use.</div>=
-</blockquote></div><br>It&#39;s automatic:</div><div class=3D"gmail_extra">=
-<br></div><div class=3D"gmail_extra"><div class=3D"gmail_extra">=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 if scheme =3D=3D &quot;svn&quot;:<br></div><div class=3D"=
-gmail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.appendVarFlag(&#39=
-;do_fetch&#39;, &#39;depends&#39;, &#39; subversion-native:do_populate_sysr=
-oot&#39;)<br></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
-_extra">(base.bbclass)</div></div></div>
-
---001a1135b542c5e0e40546c63488--
