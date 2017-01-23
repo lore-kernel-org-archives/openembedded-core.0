@@ -1,28 +1,46 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id C35F0730BE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CC0D71DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 16:01:06 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga103.fm.intel.com with ESMTP; 23 Jan 2017 08:01:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,274,1477983600"; d="scan'208";a="56249728"
-Received: from lsandov1-mobl2.zpn.intel.com (HELO [10.219.128.142])
-	([10.219.128.142])
-	by orsmga005.jf.intel.com with ESMTP; 23 Jan 2017 08:01:05 -0800
-To: David Vincent <freesilicon@gmail.com>,
-	openembedded-core@lists.openembedded.org
-References: <20170123145508.9252-1-freesilicon@gmail.com>
-	<20170123152336.23276.57694@do.openembedded.org>
-	<4532053.H3eoubo94G@crde-port-20.cahors.local>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Message-ID: <7663fdf5-3dce-1147-e3f5-5460986d72c2@linux.intel.com>
-Date: Mon, 23 Jan 2017 10:08:04 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.6.0
-MIME-Version: 1.0
-In-Reply-To: <4532053.H3eoubo94G@crde-port-20.cahors.local>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIG9wZW5zc2g6IE1ha2Ugc3NoZC1jb25maWcgYSBwYWNrYWdl?=
+	Mon, 23 Jan 2017 16:20:49 +0000 (UTC)
+Received: by mail-wm0-f48.google.com with SMTP id r126so140786079wmr.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Jan 2017 08:20:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=Yh3DfcltbPk0fVzhMcLRJAvQE22elLQ7ESjUGrSniM0=;
+	b=06PFpv0XE+3k9pOXtrIZ2BVXgkGqIJ+OZONHA+6/A/baZ+eHRV+P4u08LOin+vjj+F
+	EQFFSx9+3HQ+UtDercj9m8gRK2vmbdSFDv3HXK3PfLwP+ea6XdlnBoa+U60XSXpr08iw
+	cQ0ZaEKR3AoIm4Mxnio8zoJjUxsU4KeO9ws3RveeKYTDCexz8i0xovU8yDUwLPY3fnYd
+	8WdeqaTNSOFmsBycncNLtINR9LBggX/hjWY+e6mrB4Xs5xnw22h9ZVxegdg8fFwIHbOh
+	uYzIl/w/3cZ8Z/xPHANWjMqbLDNNVCa2H8TdMsXwF0RAIeayx4HsrpUeu+ASpY/z9ZnM
+	cb5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Yh3DfcltbPk0fVzhMcLRJAvQE22elLQ7ESjUGrSniM0=;
+	b=pMFJxxz1DBVvqxvOgkn4ZCUXzPuTCgZm2KgxmvPteRdIQL1Ngq8bL12/V+bZQv/DuR
+	KhpwIx5rSyDB1JmW5TNqrUSOBtplDqwoF7T7z/A+msltAi+2WIqfrp4+GXBN6nwoOLpD
+	UG9HolEDGkyPcJu0WGSPGjHRDjcBLTB+L9nqTznNco1OW/HXl2RSps788XKDsBKaZBUT
+	QVpgx7JHHKzVdD10mxptzSJ0LCn/zwbsZDwjDa3SRezoguZOm4ATFp391+faqes80hUD
+	SGYQo6DVzJk7urqd6S/2NC2MpkbCEA/IOudGdj/wP0Jfrt5OMwSkh+uokd9nBgh0Fw++
+	7caQ==
+X-Gm-Message-State: AIkVDXI97Gy7O8bjHzmlKnRWna9yqrQ3yyb0+pnah1xG6uo9sfC1aJok8a9O4ufGoq5D31yu
+X-Received: by 10.28.188.9 with SMTP id m9mr13841997wmf.79.1485188449015;
+	Mon, 23 Jan 2017 08:20:49 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	e16sm15524837wra.36.2017.01.23.08.20.48
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 23 Jan 2017 08:20:48 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Jan 2017 16:20:45 +0000
+Message-Id: <1485188445-19983-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] ed: use yoctoproject mirror for SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,64 +53,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2017 16:01:06 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 Jan 2017 16:20:50 -0000
 
-David, This is what I get from the command line
+Upstream has removed a number of releases from the canonical download site,
+including the 1.9 release we were using.
 
-oe-core$ git pw mbox 4904 | git apply --check
-error: documentation/ref-manual/ref-variables.xml: No such file or directory
+We shoud upgrade to the latest release but as new releases are only compressed
+using lzip that means adding lzip-native to oe-core, so this is a suitable
+short-term fix.
 
-Meaning that you have a patch on your series that is targeted for the 
-documentation folder, which is not part of the oe-core project. The 
-latter need to be sent to:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-extended/ed/ed_1.9.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-documentation:
-     Git repository: http://git.yoctoproject.org/cgit/cgit.cgi/yocto-docs/
-     Mailing list: yocto@yoctoproject.org
-
-
-On 01/23/2017 09:45 AM, David Vincent wrote:
-> On lundi 23 janvier 2017 15:23:36 CET Patchwork wrote:
->> == Series Details ==
->>
->> Series: openssh: Make sshd-config a package
->> Revision: 1
->> URL   : https://patchwork.openembedded.org/series/4904/
->> State : failure
->>
->> == Summary ==
->>
->>
->> Thank you for submitting this patch series to OpenEmbedded Core. This is
->> an automated response. Several tests have been executed on the proposed
->> series by patchtest resulting in the following failures:
->>
->>
->>
->> * Issue             Series does not apply on top of target branch
->> [test_series_merge_on_head] Suggested fix    Rebase your series on top of
->> targeted branch
->>    Targeted branch  master (currently at 842ad404b3)
->>
->>
->>
->> If you believe any of these test results are incorrect, please reply to the
->> mailing list (openembedded-core@lists.openembedded.org) raising your
->> concerns. Otherwise we would appreciate you correcting the issues and
->> submitting a new version of the patchset if applicable. Please ensure you
->> add/increment the version number when sending the new version (i.e. [PATCH]
->> -> [PATCH v2] -> [PATCH v3] -> ...).
->>
->> ---
->> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
->> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-> This result seems to be an error since I rebased my patches on top of current
-> HEAD before submitting it. I just checked again to see if some other patches
-> were left behind but my branch is currently up-to-date.
->
-> David
->
+diff --git a/meta/recipes-extended/ed/ed_1.9.bb b/meta/recipes-extended/ed/ed_1.9.bb
+index f2ec42a..83c31fc 100644
+--- a/meta/recipes-extended/ed/ed_1.9.bb
++++ b/meta/recipes-extended/ed/ed_1.9.bb
+@@ -11,7 +11,7 @@ SECTION = "base"
+ # LSB states that ed should be in /bin/
+ bindir = "${base_bindir}"
+ 
+-SRC_URI = "${GNU_MIRROR}/ed/ed-${PV}.tar.gz"
++SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/${BP}.tar.gz"
+ 
+ SRC_URI[md5sum] = "565b6d1d5a9a8816b9b304fc4ed9405d"
+ SRC_URI[sha256sum] = "d5b372cfadf073001823772272fceac2cfa87552c5cd5a8efc1c8aae61f45a88"
+-- 
+2.8.1
 
 
