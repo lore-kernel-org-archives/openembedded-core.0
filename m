@@ -1,26 +1,26 @@
-Return-Path: <Yuanjie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BC55571B86
+Return-Path: <ricardo.neri-calderon@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D9FA70101
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 04:11:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v0N4BpLh006622
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Jan 2017 20:11:51 -0800 (PST)
-Received: from ala-lpd-susbld2.wrs.com (147.11.105.122) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.294.0; Sun, 22 Jan 2017 20:11:50 -0800
-From: Yuanjie Huang <yuanjie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 22 Jan 2017 20:11:50 -0800
-Message-ID: <20170123041150.209060-1-yuanjie.huang@windriver.com>
-X-Mailer: git-send-email 2.9.3
-In-Reply-To: <20170123034808.6311-1-Yuanjie.Huang@windriver.com>
-References: <20170123034808.6311-1-Yuanjie.Huang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH v2] libgcc-common.inc: Fix symbol link to mutilib directories
+	Mon, 23 Jan 2017 07:23:16 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga104.fm.intel.com with ESMTP; 22 Jan 2017 23:23:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,273,1477983600"; d="scan'208";a="1116460570"
+Received: from ranerica-desktop.sc.intel.com (HELO [10.3.52.169])
+	([10.3.52.169])
+	by fmsmga002.fm.intel.com with ESMTP; 22 Jan 2017 23:23:17 -0800
+Message-ID: <1485156197.41148.8.camel@ranerica-desktop>
+From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Date: Sun, 22 Jan 2017 23:23:17 -0800
+In-Reply-To: <9d68428a1d2b7234a1a7ea6057e3b027e454db61.1484921498.git-series.patrick.ohly@intel.com>
+References: <cover.bbc01c1227afdba3edc41dc7d7356f56e51be400.1484921498.git-series.patrick.ohly@intel.com>
+	<9d68428a1d2b7234a1a7ea6057e3b027e454db61.1484921498.git-series.patrick.ohly@intel.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v4 05/12] ovmf: deploy firmware in image directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,71 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2017 04:11:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 23 Jan 2017 07:23:17 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The multilib symbol links are created for gcc to locate libgcc files.
-Its source path contains TARGET_SYS of multilib libgcc. However, a
-multilib's TARGET_SYS is not generated correctly all the time now.
-For example,
+On Fri, 2017-01-20 at 15:12 +0100, Patrick Ohly wrote:
+> The traditional usage of ovmf via the qemu bios parameter is no longer
+> supported
 
-  MACHINE = "qemumips64"
-  DEFAULTTUNE = "mips64-n32"
-  MULTILIBS = "multilib:lib64"
-  DEFAULTTUNE_virtclass-multilib-lib64 = "mips64"
+I don't see dropping support for this option in this series. Is part of
+another series? I just checked the poky repo and I still the the option
+supported. Or do you mean that only the ovmf recipe will not support
+exporting bios.bin?
 
-In N32 libgcc, the symbol link for N64 is created as:
+> and therefore it is not necessary to create a "bios.bin"
+> file in the target sysroot.
 
-  64 -> ../../../lib64/mips64-wrsmllib64-linux-gnun32/5.2.0/
+Wouldn't this particular part of the patch break the existing runqemu.
+If this is the case, perhaps the last patch (or a patch towards the end
+of the series) can remove this functionality in both places.
 
-while it should be:
+On the other hand, this is a new recipe and this may not be super
+critical. Especially if you meant that only OVMF will not support
+installing bios.bin in sysroot. Maybe all is needed is some
+clarification in the commit message.
 
-  64 -> ../../../lib64/mips64-wrsmllib64-linux/5.2.0/
-
-This issue sometimes won't break compiler, since gcc also searches paths
-calculated with OS multilib directories beside multilib directories .
-
-This patch resolve the problem by reading TARGET_SYS from a localdata
-environment with proper multilib overrides.
-
-Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
----
- meta/recipes-devtools/gcc/libgcc-common.inc | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
-
-diff --git a/meta/recipes-devtools/gcc/libgcc-common.inc b/meta/recipes-devtools/gcc/libgcc-common.inc
-index 7a3b410..4ccdfb9 100644
---- a/meta/recipes-devtools/gcc/libgcc-common.inc
-+++ b/meta/recipes-devtools/gcc/libgcc-common.inc
-@@ -106,20 +106,19 @@ fakeroot python do_multilib_install() {
-             bb.warn("Tune %s doesn't have a baselib set. Skipping..." % tune)
-             continue
- 
--        tune_arch = tune_parameters['arch']
-         tune_bitness = tune_baselib.replace('lib', '')
-         if not tune_bitness:
-             tune_bitness = '32' # /lib => 32bit lib
- 
--        tune_abiextension = tune_parameters['abiextension']
--        if tune_abiextension:
--            libcextension = '-gnu' + tune_abiextension
--        else:
--            libcextension = ''
-+        localdata = bb.data.createCopy(d)
-+        overrides = localdata.getVar("OVERRIDES", False) + ":virtclass-multilib-" + ml
-+        localdata.setVar("OVERRIDES", overrides)
-+        localdata.setVar("MLPREFIX", ml + "-")
-+        bb.data.update_data(localdata)
-+        ml_target_sys = localdata.getVar('TARGET_SYS') or ''
- 
-         src = '../../../' + tune_baselib + '/' + \
--            tune_arch + d.getVar('TARGET_VENDOR') + 'ml' + ml + \
--            '-' + d.getVar('TARGET_OS') + libcextension +  '/' + binv + '/'
-+            ml_target_sys + '/' + binv + '/'
- 
-         dest = d.getVar('D') + d.getVar('libdir') + '/' + \
-             d.getVar('TARGET_SYS') + '/' + binv + '/' + tune_bitness
--- 
-2.9.3
+Thanks and BR,
+Ricardo
 
 
