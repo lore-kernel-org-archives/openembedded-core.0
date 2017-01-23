@@ -1,29 +1,29 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 348F971C9B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 4476F72002
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 17:49:28 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP; 23 Jan 2017 09:49:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,275,1477983600"; d="scan'208";a="1086359429"
-Received: from lsandov1-mobl2.zpn.intel.com (HELO [10.219.128.142])
-	([10.219.128.142])
-	by orsmga001.jf.intel.com with ESMTP; 23 Jan 2017 09:49:28 -0800
-To: David Vincent <freesilicon@gmail.com>
-References: <20170123145508.9252-1-freesilicon@gmail.com>
-	<4532053.H3eoubo94G@crde-port-20.cahors.local>
-	<7663fdf5-3dce-1147-e3f5-5460986d72c2@linux.intel.com>
-	<3671180.cChI1EznzE@crde-port-20.cahors.local>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Message-ID: <b8c86614-375b-cfca-8863-9ee9bb7d59d6@linux.intel.com>
-Date: Mon, 23 Jan 2017 11:56:26 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.6.0
-MIME-Version: 1.0
-In-Reply-To: <3671180.cChI1EznzE@crde-port-20.cahors.local>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIG9wZW5zc2g6IE1ha2Ugc3NoZC1jb25maWcgYSBwYWNrYWdl?=
+	Mon, 23 Jan 2017 17:53:38 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v0NHrcMs009192; Mon, 23 Jan 2017 17:53:38 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id DGXWOP7-qFgV; Mon, 23 Jan 2017 17:53:37 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v0NHrar1009188
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 23 Jan 2017 17:53:37 GMT
+Message-ID: <1485194016.30673.45.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Gortmaker <paul.gortmaker@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 23 Jan 2017 17:53:36 +0000
+In-Reply-To: <20170123164454.GT29778@windriver.com>
+References: <20170123164454.GT29778@windriver.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: do_populate_sysroot: Function failed: relocatable_binaries_preprocess
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,44 +36,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2017 17:49:29 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Mon, 23 Jan 2017 17:53:40 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Mon, 2017-01-23 at 11:44 -0500, Paul Gortmaker wrote:
+> After updating this morning (everything on master, re-using the
+> existing
+> build dir that was built OK within the last 48h) I saw this:
+> 
+> ERROR: pseudo-native-1.8.1-r0 do_populate_sysroot: pseudo-native:
+> chrpath command failed with exit code 7:
+> b'/home/paul/poky/build/tmp/work/x86_64-linux/pseudo-native/1.8.1-
+> r0/sysroot-destdir/home/paul/poky/build/tmp/work/x86_64-linux/pseudo-
+> native/1.8.1-r0/recipe-sysroot-native/usr/bin/pseudodb:
+> RPATH=/home/paul/poky/build/tmp/sysroots/x86_64-
+> linux/usr/lib:/home/paul/poky/build/tmp/sysroots/x86_64-
+> linux/lib\n'b"new
+> rpath
+> '$ORIGIN/../../../../../../../sysroots/x86_64-
+> linux/usr/lib:$ORIGIN/../../../../../../../sysroots/x86_64-linux/lib' 
+> too large; maximum length 107\n"
+> ERROR: pseudo-native-1.8.1-r0 do_populate_sysroot: Function failed:
+> relocatable_binaries_preprocess
+> ERROR: Logfile of failure stored in:
+> /home/paul/poky/build/tmp/work/x86_64-linux/pseudo-native/1.8.1-
+> r0/temp/log.do_populate_sysroot.11
 
+To follow up we've figured out this is the error you see if you take an
+existing build directory, pre recipe specific sysroot and then update
+to post recipe specific sysroot.
 
-On 01/23/2017 10:39 AM, David Vincent wrote:
-> On lundi 23 janvier 2017 10:08:04 CET Leonardo Sandoval wrote:
->> David, This is what I get from the command line
->>
->> oe-core$ git pw mbox 4904 | git apply --check
->> error: documentation/ref-manual/ref-variables.xml: No such file or directory
->>
->> Meaning that you have a patch on your series that is targeted for the
->> documentation folder, which is not part of the oe-core project. The
->> latter need to be sent to:
->>
->> documentation:
->>       Git repository: http://git.yoctoproject.org/cgit/cgit.cgi/yocto-docs/
->>       Mailing list: yocto@yoctoproject.org
->>
-> OK, my bad, I patched directly against my poky clone. I didn't know that
-> documentation was handled elsewhere. So, I will resubmit it removing the
-> latest patch.
->
-> But since these patches are related, is there a specific procedure to follow ?
-> I didn't found anything in the contribution guidelines on the wiki...
-I do not think so. Go ahead and send to the patches to the correct ML 
-and perhaps include a cover letter indicating the patch relationship.
+It seems that pseudo-native, openssl-native and subversion-native have
+issues where you can pass in new configuration but they don't recompile
+the binaries, despite those binaries depending on the paths you pass
+in.
 
-> Sorry for the inconvenience,
-no problem.
+We're seeing how widespread the problem is before deciding exactly how
+to handle this. It might be a case of some PR bumps, obvioulsy wiping
+TMPDIR is the comprehensive solution.
 
-By the way, there is enhancement (to be included during 2.3) that will 
-target this type of problem: patch sent to the wrong ML; once 
-implemented, the fail report will be more specific.
+Cheers,
 
-> David
->
+Richard
 
 
