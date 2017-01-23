@@ -1,27 +1,27 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D6E97319F
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id A703771E43
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 09:58:40 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga104.jf.intel.com with ESMTP; 23 Jan 2017 01:58:41 -0800
+	Mon, 23 Jan 2017 09:58:44 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga103.fm.intel.com with ESMTP; 23 Jan 2017 01:58:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,274,1477983600"; d="scan'208";a="1086210969"
+X-IronPort-AV: E=Sophos;i="5.33,274,1477983600"; d="scan'208";a="51517188"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 23 Jan 2017 01:58:41 -0800
+	by orsmga004.jf.intel.com with ESMTP; 23 Jan 2017 01:58:44 -0800
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.71])
-	by linux.intel.com (Postfix) with ESMTP id 590316A4080
+	by linux.intel.com (Postfix) with ESMTP id E35766A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 01:57:44 -0800 (PST)
+	Mon, 23 Jan 2017 01:57:47 -0800 (PST)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jan 2017 11:58:59 +0200
-Message-Id: <1485165540-16646-3-git-send-email-maxin.john@intel.com>
+Date: Mon, 23 Jan 2017 11:59:00 +0200
+Message-Id: <1485165540-16646-4-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
 In-Reply-To: <1485165540-16646-1-git-send-email-maxin.john@intel.com>
 References: <1485165540-16646-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 3/4] libpng: Upgrade 1.6.26 -> 1.6.28
+Subject: [PATCH 4/4] libpng12: Upgrade 1.2.56 -> 1.2.57
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,46 +34,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2017 09:58:41 -0000
+X-List-Received-Date: Mon, 23 Jan 2017 09:58:44 -0000
 
 This upgrade fixes the vulnerability: CVE-2016-10087
 
-License file changes are due to updates in Package Version
-and Copyright date. ie:
- 'libpng version 1.6.28, January 5, 2017'
+License file changes are due to updates in Version and Copyright date. ie:
+'libpng versions 1.0.7, July 1, 2000, through 1.2.57, December 29, 2016, are
+ Copyright (c) 2000-2002, 2004, 2006-2016 Glenn Randers-Pehrson'
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- .../libpng/{libpng_1.6.26.bb => libpng_1.6.28.bb}                 | 8 ++++----
+ .../libpng/{libpng12_1.2.56.bb => libpng12_1.2.57.bb}             | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-multimedia/libpng/{libpng_1.6.26.bb => libpng_1.6.28.bb} (67%)
+ rename meta/recipes-lsb4/libpng/{libpng12_1.2.56.bb => libpng12_1.2.57.bb} (73%)
 
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.26.bb b/meta/recipes-multimedia/libpng/libpng_1.6.28.bb
-similarity index 67%
-rename from meta/recipes-multimedia/libpng/libpng_1.6.26.bb
-rename to meta/recipes-multimedia/libpng/libpng_1.6.28.bb
-index 8c1cb8c..9cb2967 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.26.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.28.bb
-@@ -2,14 +2,14 @@ SUMMARY = "PNG image format decoding library"
+diff --git a/meta/recipes-lsb4/libpng/libpng12_1.2.56.bb b/meta/recipes-lsb4/libpng/libpng12_1.2.57.bb
+similarity index 73%
+rename from meta/recipes-lsb4/libpng/libpng12_1.2.56.bb
+rename to meta/recipes-lsb4/libpng/libpng12_1.2.57.bb
+index 10c350a..0d5a2c4 100644
+--- a/meta/recipes-lsb4/libpng/libpng12_1.2.56.bb
++++ b/meta/recipes-lsb4/libpng/libpng12_1.2.57.bb
+@@ -2,8 +2,8 @@ SUMMARY = "PNG image format decoding library"
  HOMEPAGE = "http://www.libpng.org/"
  SECTION = "libs"
  LICENSE = "Libpng"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=ce8d0bd8303802e5492f064ddddef0e7 \
--                    file://png.h;endline=149;md5=8cca27e71fd88e1fe1adad7d9e841b5f"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=67d8837410863f9821bbd606536f0329 \
-+                    file://png.h;endline=144;md5=abfa0497feb393b5842d3d82c1009520"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=e7f289af309d98b46321d0f9892def16 \
+-                    file://png.h;beginline=19;endline=109;md5=10c940148fe379a535b310c1c54e609c"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=597b8a91994a3e27ae6aa79bf02677d9 \
++                    file://png.h;beginline=19;endline=109;md5=166406397718925b660f0033f7558ef7"
  DEPENDS = "zlib"
  
- SRC_URI = "${GENTOO_MIRROR}/libpng-${PV}.tar.xz \
-           "
--SRC_URI[md5sum] = "faed9bb495d2e12dd0c9ec561ca60cd8"
--SRC_URI[sha256sum] = "266743a326986c3dbcee9d89b640595f6b16a293fd02b37d8c91348d317b73f9"
-+SRC_URI[md5sum] = "425354f86c392318d31aedca71019372"
-+SRC_URI[sha256sum] = "d8d3ec9de6b5db740fefac702c37ffcf96ae46cb17c18c1544635a3852f78f7a"
+ PN = "libpng12"
+@@ -11,8 +11,8 @@ S = "${WORKDIR}/libpng-${PV}"
  
- BINCONFIG = "${bindir}/libpng-config ${bindir}/libpng16-config"
+ SRC_URI = "${GENTOO_MIRROR}/libpng-${PV}.tar.xz"
  
+-SRC_URI[md5sum] = "868562bd1c58b76ed8703f135a2e439a"
+-SRC_URI[sha256sum] = "24ce54581468b937734a6ecc86f7e121bc46a90d76a0d948dca08f32ee000dbe"
++SRC_URI[md5sum] = "307052e5e8af97b82b17b64fb1b3677a"
++SRC_URI[sha256sum] = "0f4620e11fa283fedafb474427c8e96bf149511a1804bdc47350963ae5cf54d8"
+ 
+ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/libpng/files/libpng12/"
+ UPSTREAM_CHECK_REGEX = "/libpng12/(?P<pver>(\d+[\.\-_]*)+)/"
 -- 
 2.4.0
 
