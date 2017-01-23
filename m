@@ -1,46 +1,30 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
-	[209.85.214.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 31829605FF
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 384C371B31
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 11:12:29 +0000 (UTC)
-Received: by mail-it0-f52.google.com with SMTP id r185so63330872ita.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 03:12:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=ZyoKbAQu/rB7j3oeu7jRYubDSoanm6H1LdoqLiLuc3I=;
-	b=jZxWQlAJyRUuNJHeTjmhRWtemX4oHcotSYtoH0xabVbphg2hkIAIaYaTdJVaJdNIsM
-	J8AIlzW95QrjWLCPC8ZrWT3lAmb779Zm3cR+KAkSS/YTl07cJdYgYmucU8fecV5ODBtC
-	SaKPv3G3iXhfcfYyqjo1heffGhn/hhTXZ3e5kXEJFa0+HkNOvbWLpFgyH1tUaPDIBljk
-	RN5gbbnN1yTzrp1cNNtJj7bcXUwEd9Y6eOQx4XqO1TPlUopV1a+YE/zbK0r+MuK5DKl1
-	0FrOz+27FGkA1X7i1iKQFuYdvBRU4HXSzyeK8+++iTAPe4jsfyY3SXu7u2PwCWFgTpMj
-	qmGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ZyoKbAQu/rB7j3oeu7jRYubDSoanm6H1LdoqLiLuc3I=;
-	b=oYOjs+1ljUNfErSWO2jYNs7gkuyw0TKUlPrSU4sNTxinPybGu7j4+OjngzzlnET1rP
-	ejDhBWWXVZIMOfZvfiNtzZP2W/LRqIDs/kAZi9Popc5sqS+Eh7XC1QsZY61aoUPPzjmC
-	gmlj09NKtMzA9C6WckvD5zm0e85Rb3y4r8FH6tq4uEoFG9wWhTTnfDJqUIQ7sNB/rsMa
-	uFE7wFzPhusDaJCZK1P/wOZ4WYU0vg3iVr8OGvRiaCIFy5eZwFTS6YI6CP1ZInH61DlI
-	vdNQIV40I027YHPWwbokekjDJRrYKZxw98uTulDd8FfrrdNg81Lm9YxtoKqhHbbtBx2t
-	BK2w==
-X-Gm-Message-State: AIkVDXIXmi5eRpP1Yjm8PJmhpMdpybAOj5DbkB9qRPVOipTE39b0byN1eUgXbumlweuX6rrt
-X-Received: by 10.36.53.78 with SMTP id k75mr14765529ita.45.1485169949902;
-	Mon, 23 Jan 2017 03:12:29 -0800 (PST)
-Received: from pohly-desktop.fritz.box (p5DE8FC12.dip0.t-ipconnect.de.
-	[93.232.252.18]) by smtp.gmail.com with ESMTPSA id
-	z125sm9389271iod.23.2017.01.23.03.12.27
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 23 Jan 2017 03:12:28 -0800 (PST)
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jan 2017 12:12:21 +0100
-Message-Id: <20170123111221.10509-1-patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] runqemu: more verbose error message about missing qemuboot.conf
+	Mon, 23 Jan 2017 12:22:18 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v0NCLspI012799; Mon, 23 Jan 2017 12:22:16 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id vTlDPJZJ1Ayp; Mon, 23 Jan 2017 12:22:16 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v0NCM991012829
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 23 Jan 2017 12:22:11 GMT
+Message-ID: <1485174129.30673.14.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Yuanjie Huang <yuanjie.huang@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 23 Jan 2017 12:22:09 +0000
+In-Reply-To: <20170123082922.243238-1-yuanjie.huang@windriver.com>
+References: <1485159339.30673.10.camel@linuxfoundation.org>
+	<20170123082922.243238-1-yuanjie.huang@windriver.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH V3] libgcc-common.inc: Fix symbol link to mutilib directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,55 +37,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2017 11:12:30 -0000
+X-List-Received-Date: Mon, 23 Jan 2017 12:22:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-When invoking "runqemu" with a mistyped image or architecture name,
-the resulting error message is about the missing qemuboot.conf,
-without any indication about the root cause:
+On Mon, 2017-01-23 at 00:29 -0800, Yuanjie Huang wrote:
+> The multilib symbol links are created for gcc to locate libgcc files.
+> Its source path contains TARGET_SYS of multilib libgcc. However, a
+> multilib's TARGET_SYS is not generated correctly all the time now.
+> For example,
+> 
+>   MACHINE = "qemumips64"
+>   DEFAULTTUNE = "mips64-n32"
+>   MULTILIBS = "multilib:lib64"
+>   DEFAULTTUNE_virtclass-multilib-lib64 = "mips64"
+> 
+> In N32 libgcc, the symbol link for N64 is created as:
+> 
+>   64 -> ../../../lib64/mips64-wrsmllib64-linux-gnun32/5.2.0/
+> 
+> while it should be:
+> 
+>   64 -> ../../../lib64/mips64-wrsmllib64-linux/5.2.0/
+> 
+> This issue sometimes won't break compiler, since gcc also searches
+> paths
+> calculated with OS multilib directories beside multilib directories .
+> 
+> This patch resolve the problem by reading TARGET_SYS from a localdata
+> environment with proper multilib overrides.
+> 
+> Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+> ---
+>  meta/recipes-devtools/gcc/libgcc-common.inc | 11 +++--------
+>  1 file changed, 3 insertions(+), 8 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/gcc/libgcc-common.inc
+> b/meta/recipes-devtools/gcc/libgcc-common.inc
+> index 7a3b410..7198664 100644
+> --- a/meta/recipes-devtools/gcc/libgcc-common.inc
+> +++ b/meta/recipes-devtools/gcc/libgcc-common.inc
+> @@ -106,20 +106,15 @@ fakeroot python do_multilib_install() {
+>              bb.warn("Tune %s doesn't have a baselib set.
+> Skipping..." % tune)
+>              continue
+>  
+> -        tune_arch = tune_parameters['arch']
+>          tune_bitness = tune_baselib.replace('lib', '')
+>          if not tune_bitness:
+>              tune_bitness = '32' # /lib => 32bit lib
+>  
+> -        tune_abiextension = tune_parameters['abiextension']
+> -        if tune_abiextension:
+> -            libcextension = '-gnu' + tune_abiextension
+> -        else:
+> -            libcextension = ''
+> +        localdata = get_multilib_datastore(ml, d)
+> +        ml_target_sys = localdata.getVar('TARGET_SYS') or ''
+>  
+>          src = '../../../' + tune_baselib + '/' + \
+> -            tune_arch + d.getVar('TARGET_VENDOR') + 'ml' + ml + \
+> -            '-' + d.getVar('TARGET_OS') + libcextension +  '/' +
+> binv + '/'
+> +            ml_target_sys + '/' + binv + '/'
+>  
+>          dest = d.getVar('D') + d.getVar('libdir') + '/' + \
+>              d.getVar('TARGET_SYS') + '/' + binv + '/' + tune_bitness
 
- $ runqemu core-image-mimimal ext4 intel-corei7-64
- runqemu - INFO - Assuming MACHINE = intel-corei7-64
- runqemu - INFO - Running MACHINE=intel-corei7-64 bitbake -e...
- runqemu - INFO - MACHINE: intel-corei7-64
- runqemu - INFO - DEPLOY_DIR_IMAGE: /fast/build/refkit/intel-corei7-64/tmp-glibc/deploy/images/intel-corei7-64
- Traceback (most recent call last):
-   File "/work/openembedded-core/scripts/runqemu", line 1095, in <module>
-     ret = main()
-   File "/work/openembedded-core/scripts/runqemu", line 1082, in main
-     config.read_qemuboot()
-   File "/work/openembedded-core/scripts/runqemu", line 643, in read_qemuboot
-     raise Exception("Failed to find <image>.qemuboot.conf!")
- Exception: Failed to find <image>.qemuboot.conf!
+This looks better, thanks. Looking at the function a bit more, I
+suspect we should probably do something like:
 
-Including the name of the actual file the scripts expects to find plus
-adding some hints what to check for might help. The error now is:
+tune_bitness = (localdata.getVar('baselib') or '').replace('lib', '')
 
- $ runqemu core-image-mimimal ext4 intel-corei7-64
- ...
- Exception: Failed to find <image>.qemuboot.conf = .../tmp-glibc/deploy/images/intel-corei7-64/core-image-mimimal-intel-corei7-64.qemuboot.conf (wrong image name or BSP does not support running under qemu?).
+and then drop the get_tune_parameters call entirely.
 
-The comment about the BSP is included because that would be the real
-reason why the file might be missing.
+Cheers,
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
----
- scripts/runqemu | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 10947bb3edc..eaf38384a5b 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -640,7 +640,7 @@ class BaseConfig(object):
-             return
- 
-         if not os.path.exists(self.qemuboot):
--            raise Exception("Failed to find <image>.qemuboot.conf!")
-+            raise Exception("Failed to find <image>.qemuboot.conf = %s (wrong image name or BSP does not support running under qemu?)." % self.qemuboot)
- 
-         logger.info('CONFFILE: %s' % self.qemuboot)
- 
--- 
-2.11.0
+Richard
 
 
