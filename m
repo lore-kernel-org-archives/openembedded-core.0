@@ -1,52 +1,47 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-wj0-f194.google.com (mail-wj0-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id AFFEA771EB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f181.google.com (mail-qt0-f181.google.com
+	[209.85.216.181])
+	by mail.openembedded.org (Postfix) with ESMTP id ADD97760AC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 16:39:24 +0000 (UTC)
-Received: by mail-wj0-f194.google.com with SMTP id i7so2382909wjf.2
+	Mon, 23 Jan 2017 16:41:27 +0000 (UTC)
+Received: by mail-qt0-f181.google.com with SMTP id k15so133642008qtg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 08:39:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=Za+Uk0MtB8zqa+Xtvb02yqorxplP2w4z66i5OgUBcRU=;
-	b=jvRi44Mtq6aWuSVoOmxM8LnqPu8N3H4lWNUiSUGveTQRWteubk+zKX2sxDrfW6TAjB
-	Cd4yyaoG8vutByE8B3BgqqQLPzuTRO466Iv2UH5u7RVpjtoWF22L6qfIe69fGQGTh6IE
-	1Osl00Jv/wEFraDyWh7dbWfAglccIprGZX3I0TicH3DiHKoltx1tZCOImF06jfRnc1XV
-	bq3PwuP/dkPKLsZnZ640KjsGGCJxDN1NLeVJP1wrSg4zZToBMqqm9kOjdappdzLp7CF4
-	Ae0c+KEaHXGxPLNE30tjvSZ9euzddO5K+M/BZOxwC2crh0gVGQ3OaAL31KIjlAioDgCo
-	hbtA==
+	Mon, 23 Jan 2017 08:41:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ujCdcW2rkq/q9KISkw9N5J20laOG6oN0nhpP5MObbEY=;
+	b=yRqdWvz40w69opYmibETxtJ1wEZnmUQ3r9b2yXfW+gw6xieilOxsz0FnHKrwNqV38+
+	wWLOV3kNaZ0VXJtHDoo9lsZE71h969gthfJzUcKddMufjoj0o8gHHjNEYEif0E+RHKkq
+	8a84d8HzfkckIWewt4I4mGKD/sWZF/6UBxiw+r9OWns4CIEgXMsZKlcvscaPZQv9RUmw
+	aKtLrPWh4L3qt2lLyENsymEAPE1HhZVCNoCoam+vyt+5Wv6opeoxr1scbeCuZp0p9F2W
+	/JUJFLJHg3FHxNqEWB6cuj7lt8EIS0S640v+BiQ9eH75rjY4BoRXtNdB4gZRbrwfiyvx
+	Lq7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=Za+Uk0MtB8zqa+Xtvb02yqorxplP2w4z66i5OgUBcRU=;
-	b=cD43ZBQWX8sAvhJ7kAobeCkNoR6/tR09zy5B2XpgdE5nkRsatFPDaCrrMd40LvocFw
-	uzuOmtWZ3vc0Gr9W8NSSKKJclR4+k14vGGjbBsnMoVjhtgQacqtPrSftiw1dGpEkM2/R
-	d+XaaIeA3P1mVQKkOJel8Suba3FQNNONY7azZZlZ9rRVI3uxl3sByUVLkUPyMQwdEWFb
-	2zSe7JYXHz34Nr/67LXJJQIp4/xBxtpe+3clyytfxWNZnnqLUM2EAebPqtWBF+h2wt55
-	HHV+fPzRrH+LTEGWuLDIWimm0Z/PFogi7a0peYhXCUAuI3qGWpZj+YF0kp0sIQ9aNyDW
-	jQ8g==
-X-Gm-Message-State: AIkVDXKx9mmBqfx+P2gJWzoeYp1AVPzFS3IuctayzG+DBkgWSDrvDjhIGUydceoYUbarYw==
-X-Received: by 10.223.152.18 with SMTP id v18mr24446916wrb.78.1485189564410;
-	Mon, 23 Jan 2017 08:39:24 -0800 (PST)
-Received: from crde-port-20.cahors.local ([185.47.80.46])
-	by smtp.gmail.com with ESMTPSA id
-	z90sm15598792wrc.24.2017.01.23.08.39.23
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 23 Jan 2017 08:39:23 -0800 (PST)
-From: David Vincent <freesilicon@gmail.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Date: Mon, 23 Jan 2017 17:39:21 +0100
-Message-ID: <3671180.cChI1EznzE@crde-port-20.cahors.local>
-In-Reply-To: <7663fdf5-3dce-1147-e3f5-5460986d72c2@linux.intel.com>
-References: <20170123145508.9252-1-freesilicon@gmail.com>
-	<4532053.H3eoubo94G@crde-port-20.cahors.local>
-	<7663fdf5-3dce-1147-e3f5-5460986d72c2@linux.intel.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ujCdcW2rkq/q9KISkw9N5J20laOG6oN0nhpP5MObbEY=;
+	b=BPsEkyyR/2CXqhFH4ZCoMAtOz4izVNZ4xVptGsGLECgPP0zyXXKqgwLPSJowvDqna8
+	kzEujpabrLe1k5zfGzAIPOh1SHvKMiPK8PFebv+2tj/4DRH1OjeIhRXF3QF9wpB6xnDT
+	fgkbPC8CIEJye6ihFIdeEzNYnYgdCsgUpwJ5KdKq1omAIbtNdXYuQFf+3mbjyDe7sCcE
+	nQ991ryAIse0h7TWZBQNOhennPyoRK8nBxPeHnsc2D2b/QYDW+cmY/stcwwdEjOxQpAV
+	iX/wv6CF8ZrCTDq5fqIUm1dNOpDIX6r9gENAwe8g8nZKIGajy+d6rTXB3Xm3b6Ab7kzf
+	id1g==
+X-Gm-Message-State: AIkVDXJsynGFbDxC/pOCP9sRabant+RcUnT3wzikvG7NEi3eIMUx96th18B38ITwGDuIQ/NNFLxNhdDu42gko6Kt
+X-Received: by 10.237.62.232 with SMTP id o37mr23828490qtf.188.1485189687775; 
+	Mon, 23 Jan 2017 08:41:27 -0800 (PST)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIG9wZW5zc2g6IE1ha2Ugc3NoZC1jb25maWcgYSBwYWNrYWdl?=
+Received: by 10.140.103.233 with HTTP; Mon, 23 Jan 2017 08:41:07 -0800 (PST)
+In-Reply-To: <db53afb0-1592-a5fe-6f0e-6b15c9a10664@linux.intel.com>
+References: <1485188445-19983-1-git-send-email-ross.burton@intel.com>
+	<db53afb0-1592-a5fe-6f0e-6b15c9a10664@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 23 Jan 2017 16:41:07 +0000
+Message-ID: <CAJTo0LbbgFhQmMaLp4Lm3YqFyCSqyiVZUAeqOR7nfg=QB1=p+Q@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ed: use yoctoproject mirror for SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,32 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2017 16:39:25 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 23 Jan 2017 16:41:28 -0000
+Content-Type: multipart/alternative; boundary=001a11406f0ec3abfa0546c5ab2e
 
-On lundi 23 janvier 2017 10:08:04 CET Leonardo Sandoval wrote:
-> David, This is what I get from the command line
-> 
-> oe-core$ git pw mbox 4904 | git apply --check
-> error: documentation/ref-manual/ref-variables.xml: No such file or directory
-> 
-> Meaning that you have a patch on your series that is targeted for the
-> documentation folder, which is not part of the oe-core project. The
-> latter need to be sent to:
-> 
-> documentation:
->      Git repository: http://git.yoctoproject.org/cgit/cgit.cgi/yocto-docs/
->      Mailing list: yocto@yoctoproject.org
-> 
+--001a11406f0ec3abfa0546c5ab2e
+Content-Type: text/plain; charset=UTF-8
 
-OK, my bad, I patched directly against my poky clone. I didn't know that 
-documentation was handled elsewhere. So, I will resubmit it removing the 
-latest patch.
+On 23 January 2017 at 16:38, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
 
-But since these patches are related, is there a specific procedure to follow ? 
-I didn't found anything in the contribution guidelines on the wiki...
+> Add UPSTREAM_CHECK_URI please (or file a bug), as I'll surely forget about
+> the update if the RRS is going to report 'Up-to-date' for this.
+>
 
-Sorry for the inconvenience,
-David
+Yes, was literally just filing a bug for this now.
 
+(#10955)
+
+Ross
+
+--001a11406f0ec3abfa0546c5ab2e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 23 January 2017 at 16:38, Alexander Kanavin <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.=
+kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
+_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
+1ex"><div id=3D":1ag" class=3D"a3s aXjCH m159cc320ac002f31">Add UPSTREAM_CH=
+ECK_URI please (or file a bug), as I&#39;ll surely forget about the update =
+if the RRS is going to report &#39;Up-to-date&#39; for this.<br></div></blo=
+ckquote></div><br>Yes, was literally just filing a bug for this now.</div><=
+div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">(#10955)</di=
+v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div=
+></div>
+
+--001a11406f0ec3abfa0546c5ab2e--
