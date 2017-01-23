@@ -1,25 +1,52 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BAB8C760AC
+Return-Path: <freesilicon@gmail.com>
+Received: from mail-wj0-f194.google.com (mail-wj0-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id AFFEA771EB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 16:38:15 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 23 Jan 2017 08:38:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,274,1477983600"; d="scan'208";a="34324026"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 23 Jan 2017 08:38:13 -0800
-To: openembedded-core@lists.openembedded.org
-References: <1485188445-19983-1-git-send-email-ross.burton@intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <db53afb0-1592-a5fe-6f0e-6b15c9a10664@linux.intel.com>
-Date: Mon, 23 Jan 2017 18:38:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.4.0
+	Mon, 23 Jan 2017 16:39:24 +0000 (UTC)
+Received: by mail-wj0-f194.google.com with SMTP id i7so2382909wjf.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Jan 2017 08:39:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=Za+Uk0MtB8zqa+Xtvb02yqorxplP2w4z66i5OgUBcRU=;
+	b=jvRi44Mtq6aWuSVoOmxM8LnqPu8N3H4lWNUiSUGveTQRWteubk+zKX2sxDrfW6TAjB
+	Cd4yyaoG8vutByE8B3BgqqQLPzuTRO466Iv2UH5u7RVpjtoWF22L6qfIe69fGQGTh6IE
+	1Osl00Jv/wEFraDyWh7dbWfAglccIprGZX3I0TicH3DiHKoltx1tZCOImF06jfRnc1XV
+	bq3PwuP/dkPKLsZnZ640KjsGGCJxDN1NLeVJP1wrSg4zZToBMqqm9kOjdappdzLp7CF4
+	Ae0c+KEaHXGxPLNE30tjvSZ9euzddO5K+M/BZOxwC2crh0gVGQ3OaAL31KIjlAioDgCo
+	hbtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=Za+Uk0MtB8zqa+Xtvb02yqorxplP2w4z66i5OgUBcRU=;
+	b=cD43ZBQWX8sAvhJ7kAobeCkNoR6/tR09zy5B2XpgdE5nkRsatFPDaCrrMd40LvocFw
+	uzuOmtWZ3vc0Gr9W8NSSKKJclR4+k14vGGjbBsnMoVjhtgQacqtPrSftiw1dGpEkM2/R
+	d+XaaIeA3P1mVQKkOJel8Suba3FQNNONY7azZZlZ9rRVI3uxl3sByUVLkUPyMQwdEWFb
+	2zSe7JYXHz34Nr/67LXJJQIp4/xBxtpe+3clyytfxWNZnnqLUM2EAebPqtWBF+h2wt55
+	HHV+fPzRrH+LTEGWuLDIWimm0Z/PFogi7a0peYhXCUAuI3qGWpZj+YF0kp0sIQ9aNyDW
+	jQ8g==
+X-Gm-Message-State: AIkVDXKx9mmBqfx+P2gJWzoeYp1AVPzFS3IuctayzG+DBkgWSDrvDjhIGUydceoYUbarYw==
+X-Received: by 10.223.152.18 with SMTP id v18mr24446916wrb.78.1485189564410;
+	Mon, 23 Jan 2017 08:39:24 -0800 (PST)
+Received: from crde-port-20.cahors.local ([185.47.80.46])
+	by smtp.gmail.com with ESMTPSA id
+	z90sm15598792wrc.24.2017.01.23.08.39.23
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 23 Jan 2017 08:39:23 -0800 (PST)
+From: David Vincent <freesilicon@gmail.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Mon, 23 Jan 2017 17:39:21 +0100
+Message-ID: <3671180.cChI1EznzE@crde-port-20.cahors.local>
+In-Reply-To: <7663fdf5-3dce-1147-e3f5-5460986d72c2@linux.intel.com>
+References: <20170123145508.9252-1-freesilicon@gmail.com>
+	<4532053.H3eoubo94G@crde-port-20.cahors.local>
+	<7663fdf5-3dce-1147-e3f5-5460986d72c2@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1485188445-19983-1-git-send-email-ross.burton@intel.com>
-Subject: Re: [PATCH] ed: use yoctoproject mirror for SRC_URI
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIG9wZW5zc2g6IE1ha2Ugc3NoZC1jb25maWcgYSBwYWNrYWdl?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,21 +59,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2017 16:38:16 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 Jan 2017 16:39:25 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="UTF-8"
 
-On 01/23/2017 06:20 PM, Ross Burton wrote:
-> We shoud upgrade to the latest release but as new releases are only compressed
-> using lzip that means adding lzip-native to oe-core, so this is a suitable
-> short-term fix.
+On lundi 23 janvier 2017 10:08:04 CET Leonardo Sandoval wrote:
+> David, This is what I get from the command line
+> 
+> oe-core$ git pw mbox 4904 | git apply --check
+> error: documentation/ref-manual/ref-variables.xml: No such file or directory
+> 
+> Meaning that you have a patch on your series that is targeted for the
+> documentation folder, which is not part of the oe-core project. The
+> latter need to be sent to:
+> 
+> documentation:
+>      Git repository: http://git.yoctoproject.org/cgit/cgit.cgi/yocto-docs/
+>      Mailing list: yocto@yoctoproject.org
+> 
 
-> -SRC_URI = "${GNU_MIRROR}/ed/ed-${PV}.tar.gz"
-> +SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/${BP}.tar.gz"
+OK, my bad, I patched directly against my poky clone. I didn't know that 
+documentation was handled elsewhere. So, I will resubmit it removing the 
+latest patch.
 
-Add UPSTREAM_CHECK_URI please (or file a bug), as I'll surely forget 
-about the update if the RRS is going to report 'Up-to-date' for this.
+But since these patches are related, is there a specific procedure to follow ? 
+I didn't found anything in the contribution guidelines on the wiki...
 
-Alex
-
+Sorry for the inconvenience,
+David
 
