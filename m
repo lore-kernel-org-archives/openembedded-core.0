@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 605D470100;
-	Mon, 23 Jan 2017 23:53:40 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 582A377240;
+	Mon, 23 Jan 2017 23:53:43 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Mon, 23 Jan 2017 23:53:41 -0000
-Message-ID: <20170123235341.23272.52536@do.openembedded.org>
-References: <1485213875-12052-1-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Mon, 23 Jan 2017 23:53:44 -0000
+Message-ID: <20170123235344.23276.29362@do.openembedded.org>
+References: <1485214136-12180-1-git-send-email-richard.purdie@linuxfoundation.org>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1485213875-12052-1-git-send-email-richard.purdie@linuxfoundation.org>
+In-Reply-To: <1485214136-12180-1-git-send-email-richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ29iamVjdC1pbnRyb3NwZWN0aW9uOiBGaXggc3lzcm9vdCBwb3N0aW5zdCBzY3JpcHRpbmcgZXJyb3I=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc2FuaXR5L2FiaS12ZXJzaW9uOiBGb3JjZSBhIGNsZWFuIFRNUERJUiBhZnRlciByZWNpcGUgc3BlY2lmaWMgc3lzcm9vdCBjaGFuZ2Vz?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2017 23:53:40 -0000
+X-List-Received-Date: Mon, 23 Jan 2017 23:53:43 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: gobject-introspection: Fix sysroot postinst scripting error
+Series: sanity/abi-version: Force a clean TMPDIR after recipe specific sysroot changes
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/4924/
+URL   : https://patchwork.openembedded.org/series/4926/
 State : failure
 
 == Summary ==
