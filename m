@@ -1,20 +1,22 @@
 Return-Path: <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D68657721D
+	by mail.openembedded.org (Postfix) with ESMTP id 446B87723C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 18:23:26 +0000 (UTC)
+	Mon, 23 Jan 2017 18:23:27 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Jan 2017 10:23:26 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 23 Jan 2017 10:23:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,275,1477983600"; d="scan'208";a="57252189"
+X-IronPort-AV: E=Sophos;i="5.33,275,1477983600"; d="scan'208";a="57252194"
 Received: from jairdeje-mobl1.zpn.intel.com ([10.219.128.79])
-	by fmsmga006.fm.intel.com with ESMTP; 23 Jan 2017 10:23:26 -0800
+	by fmsmga006.fm.intel.com with ESMTP; 23 Jan 2017 10:23:27 -0800
 From: Jair Gonzalez <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jan 2017 12:23:00 -0600
-Message-Id: <cover.1485193773.git.jair.de.jesus.gonzalez.plascencia@linux.intel.com>
+Date: Mon, 23 Jan 2017 12:23:02 -0600
+Message-Id: <68979356f918f819a41f6ed6bf407fa3a2726a07.1485193773.git.jair.de.jesus.gonzalez.plascencia@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [bitbake-selftest][PATCH 0/2] QA: create unit tests for event module
+In-Reply-To: <cover.1485193773.git.jair.de.jesus.gonzalez.plascencia@linux.intel.com>
+References: <cover.1485193773.git.jair.de.jesus.gonzalez.plascencia@linux.intel.com>
+Subject: [bitbake-selftest][PATCH 2/2] bitbake: selftest: add bb.tests.event to bitbake-selftest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,28 +31,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 23 Jan 2017 18:23:27 -0000
 
-This patch set adds a test unit to the bitbake event module and appends it
-to the bitbake-selftest script's dictionary containing the list of the default
-tests to execute when the script is run.
+Tests for bitbake event module were created on bb.tests.event.
+This change is to include them on the default test list in
+bitbake-selftest script.
 
-The following changes since commit b47ecf28775830efab423fa12f0addb68671cc06:
+[YOCTO #10368]
 
-  poky.ent: Added "pip3" as an essential host installation package (2017-01-20 11:57:25 +0000)
+Signed-off-by: Jair Gonzalez <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
+---
+ bitbake/bin/bitbake-selftest | 1 +
+ 1 file changed, 1 insertion(+)
 
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib jairglez/bbevents
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jairglez/bbevents
-
-Jair Gonzalez (2):
-  bitbake: tests: create unit tests for event module
-  bitbake: selftest: add bb.tests.event to bitbake-selftest
-
- bitbake/bin/bitbake-selftest  |   1 +
- bitbake/lib/bb/tests/event.py | 324 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 325 insertions(+)
- create mode 100644 bitbake/lib/bb/tests/event.py
-
+diff --git a/bitbake/bin/bitbake-selftest b/bitbake/bin/bitbake-selftest
+index 380e003..afe1603 100755
+--- a/bitbake/bin/bitbake-selftest
++++ b/bitbake/bin/bitbake-selftest
+@@ -28,6 +28,7 @@ except RuntimeError as exc:
+ tests = ["bb.tests.codeparser",
+          "bb.tests.cow",
+          "bb.tests.data",
++         "bb.tests.event",
+          "bb.tests.fetch",
+          "bb.tests.parse",
+          "bb.tests.utils"]
 -- 
 2.7.4
 
