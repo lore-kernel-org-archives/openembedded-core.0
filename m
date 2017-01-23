@@ -1,46 +1,49 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f42.google.com (mail-it0-f42.google.com
-	[209.85.214.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 811F273180
+Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
+	[209.85.214.46])
+	by mail.openembedded.org (Postfix) with ESMTP id F3096730BC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 14:17:12 +0000 (UTC)
-Received: by mail-it0-f42.google.com with SMTP id r185so66478254ita.0
+	Mon, 23 Jan 2017 14:17:16 +0000 (UTC)
+Received: by mail-it0-f46.google.com with SMTP id r185so66479644ita.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 06:17:13 -0800 (PST)
+	Mon, 23 Jan 2017 06:17:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=eoBJT4URt281bj1U1yuw2CKyNWlOwlgrnQIPpaB07X8=;
-	b=i980Q8RJjLc4wOkHy0qv+z983p2BgARc6Gz2ohbnvK6Jqi+6D/z67SAvjxdksk5+jR
-	TuSKo2PCbbgQb+zfKgiyIjlnDufsPinM15Eu7YljS09IBHVMeZIToBaXpBLYDNFp33hz
-	BfZ4G1nJaiy2DhcuFQ7Lq2HCQAUVAZ+n1iOo7WKXLpxM49JZ5ce5tZG0YO4pv21zh0iS
-	Qvqhtp3lKVLAUEoKorrkUcywZ1ihIMw+MEIkSYV9kZ+Gh6p9YknbgwuIUW49wQN/1q/A
-	ONBno1x/gcfcawJ22bInp/oTqDuj7rEsvuS6avxy90Qyn/pWF4CNjBDUgSZogu7W+jqn
-	lcZA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=+t5Fm7TqGWqOE5TMqqllJXo6Na4YCj+eUf181xs/4Qo=;
+	b=s8NMcevMaX8odquwm2SywB1bBl33zax3cHF6NXDKd40vHEG0+OUsza8ISJjGvxDlVo
+	xzAQx3oOs/aBurXY59epCszr8xeuBzyGBxI2AfQXv2KLykQfHX2oqOECWHlBMcqAGElL
+	pAcbV/kLlyNReLQHoCFs7dIvkjROzwOL7APyUpMXPQWtzW/JcjACZlMi9SIhNsNXO9aH
+	D1dvnfkRwpQKikpyfWVUZzgG8ioN11+xiJlFtkI0YXq58qhfoiNkgdO1KpQJVuBrIQue
+	vznYTYdP+f9KSmIlu1Oh8QVVQc7FY4D3I78aL2Y2+vMDBSgJRfRydYRGfb5S/oyiBMR8
+	eXKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=eoBJT4URt281bj1U1yuw2CKyNWlOwlgrnQIPpaB07X8=;
-	b=CBqaYVgPOp4CN3lxtQUrl9bqcsNG1+edPhKoLr0nu5PT7e0T4kFxrqdNqKu2IMItHN
-	A822kPpbloXUgf5zH2y45AAZBlsApBsqOw3emhegSbhTj4V6NWZgMn6wPC5cilgDvUXD
-	gWfTsghVaDcqLMLX7Slo6BbqCUn4PytG4ksrYrqaiZvsMcqUVHw1/icmLqiVdjXV+siY
-	JgcTgMH6N1Gc15Vaw17HcahoTAfoIIc5teqhZB+WsUnb8DsDX62tKCr9YJjPgM+tROYi
-	6akSnN4zj2LSv1izz/ndnPSObdULcEpCszQ+AZktoemfpm3JA3dhBiYUKqOAxU6Q6kxb
-	yWiA==
-X-Gm-Message-State: AIkVDXJWJAQJ+74CKYl6UrRrSMzqo9JBkhDOdHwHP/M2AsmN2W55x96z7xVAo0hdKAfQ9pCc
-X-Received: by 10.36.73.211 with SMTP id e80mr14106744itd.88.1485181033000;
-	Mon, 23 Jan 2017 06:17:13 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=+t5Fm7TqGWqOE5TMqqllJXo6Na4YCj+eUf181xs/4Qo=;
+	b=MoHfuzILuJ4N3ctEJj5djqDc34mvihwgZowURrS52Nh9qzfA5rAmt4AlP50Rf6DAtE
+	Dq4opoRGVbGmTnF6ZcvMxZmc2bLgTbtUJmgTKxx7muWhYnEaNQfNqwg7Gf7F+QpVlkC9
+	1gE8AK6tx8lEhKeQ39Pd91GthS/VoiX5nXdQ7bNHHMrkhj5wA+lppbW9WQketaF8+vY/
+	+pTDASNWgoIymBMOWrKeo1FgYTWMX/ZLpehoqbt8fxe449W9wEX5phxKe5xPj40Nol9X
+	PlrfxPZhwo5tiVfZqMndUjtAcmSz0LUEi6CUf6TLp7QgzzDhftQtbtWytGo8xKwGc+CL
+	sc1Q==
+X-Gm-Message-State: AIkVDXK9ZMeuIKweOuGpm3P8pGaXqSnwVDVbpW/T1/PiT0LVWvwHgOImyvHY2rDcZn6WJGTo
+X-Received: by 10.36.90.194 with SMTP id v185mr14355613ita.85.1485181036802;
+	Mon, 23 Jan 2017 06:17:16 -0800 (PST)
 Received: from pohly-desktop.fritz.box (p5DE8FC12.dip0.t-ipconnect.de.
 	[93.232.252.18]) by smtp.gmail.com with ESMTPSA id
-	v68sm9608633ioi.20.2017.01.23.06.17.10
+	v68sm9608633ioi.20.2017.01.23.06.17.14
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 23 Jan 2017 06:17:11 -0800 (PST)
+	Mon, 23 Jan 2017 06:17:15 -0800 (PST)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jan 2017 15:17:02 +0100
-Message-Id: <cover.a45e50ea4fcbfdc1b4f78df0b3380d397b353cf6.1485180970.git-series.patrick.ohly@intel.com>
+Date: Mon, 23 Jan 2017 15:17:03 +0100
+Message-Id: <67716074c5e277bd08b6ab194866196addf14b85.1485180970.git-series.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH 0/2] enable swtpm-native
+In-Reply-To: <cover.a45e50ea4fcbfdc1b4f78df0b3380d397b353cf6.1485180970.git-series.patrick.ohly@intel.com>
+References: <cover.a45e50ea4fcbfdc1b4f78df0b3380d397b353cf6.1485180970.git-series.patrick.ohly@intel.com>
+Subject: [PATCH 1/2] expect: support native compilation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,21 +56,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2017 14:17:14 -0000
+X-List-Received-Date: Mon, 23 Jan 2017 14:17:17 -0000
 
-swtpm (from meta-security) can be compiled for the host and then be
-used to provide a virtual TPM device in qemu. However, it depends on
-the native flavor of some recipes in OE-core.
+This is needed for building the swtpm TPM simulator (recipe
+in meta-security).
 
-Patrick Ohly (2):
-  expect: support native compilation
-  socat: support native compilation
+"nativesdk" is added just in case that someone also wants this
+in an SDK.
 
- meta/recipes-connectivity/socat/socat_1.7.3.1.bb |  5 ++++-
- meta/recipes-devtools/expect/expect_5.45.bb      |  9 ++++++++-
- 2 files changed, 12 insertions(+), 2 deletions(-)
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ meta/recipes-devtools/expect/expect_5.45.bb |  9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-base-commit: 5ecdab6c2589a83bbbc522074052ff4438782102
+diff --git a/meta/recipes-devtools/expect/expect_5.45.bb b/meta/recipes-devtools/expect/expect_5.45.bb
+index b4dfe15..ab22a61 100644
+--- a/meta/recipes-devtools/expect/expect_5.45.bb
++++ b/meta/recipes-devtools/expect/expect_5.45.bb
+@@ -43,11 +43,16 @@ do_install_append() {
+         sed -e 's|$dir|${libdir}|' -i ${D}${libdir}/expect${PV}/pkgIndex.tcl
+ }
+ 
++# Apparently the public Tcl headers are only in /usr/include/tcl8.6
++# when building for the target.
++TCL_INCLUDE_PATH = ""
++TCL_INCLUDE_PATH_class-target = "--with-tclinclude=${STAGING_INCDIR}/tcl8.6"
++
+ EXTRA_OECONF += "--with-tcl=${STAGING_LIBDIR} \
+-                 --with-tclinclude=${STAGING_INCDIR}/tcl8.6 \
+                  --enable-shared \
+                  --enable-threads \
+                  --disable-rpath \
++                 ${TCL_INCLUDE_PATH} \
+                 "
+ EXTRA_OEMAKE_install = " 'SCRIPTS=' "
+ 
+@@ -62,3 +67,5 @@ FILES_${PN}-dev = "${libdir_native}/expect${PV}/libexpect*.so \
+ FILES_${PN} += "${libdir}/libexpect${PV}.so \
+                 ${libdir}/expect${PV}/* \
+                "
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 git-series 0.9.1
 
