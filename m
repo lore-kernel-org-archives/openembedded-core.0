@@ -1,44 +1,28 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E21A731DA
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id E0BC0731DA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 14:00:06 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id r126so26651970wmr.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 06:00:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=tN+q0YxKQ3TC6U0tTOJe2cRo6wjhCDhOmfdgvad3xRA=;
-	b=Cb6256Z3gD3zJYjiJ12zZ6FOnPKocimNxLR1BoZYjsVv0PNrGFkuzknk8dL+8Lzwzr
-	cUbG5qKpgYYFUhIIICEVjKz2/iEOsiYBjWvHqwVlHmeXqWt33FZBB6Xj8F/cQf0+UisR
-	QXrtx5my/FAyGcrSxTLIF2tez7qPANezLYm+sn/pL8tAG5NxViiPgsuruFFXwjqwofgo
-	bpafzXmUYgp4wUOhRvW8L6zWQYQRhe1aiYsEX5jT1IhRKnO1OQx6vuvV1L3/aQlIErzv
-	w5LOrPJ6SzsN5sAEuf7RcC/vf9+DNTO11oVK1NLcHgY0+g9PnjP9/5K0+hcaU8ZLwbf0
-	Jpsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=tN+q0YxKQ3TC6U0tTOJe2cRo6wjhCDhOmfdgvad3xRA=;
-	b=G71Shfk8AxlffGYrRlbpBNVt758u4v5egc+NE9grmlMJn+kiZM4JHDjZXriX5x+9tl
-	ZUOihs+33YfeyqHaD8S7cZutgeX9wdJyk9y1EJbKEKh2rp5nP8y+1inKgDg75MsCMN4Q
-	D0eN3iSPInNa1U3OgU7jEOiNW2IQTCv8KzaPSLYLHRIfL+h6v3BS+6ubmKMF6z6KKuKw
-	pM0j6WlFdQyA1Yshei7fg/6JuyZbhVK4O6oKk6UEfvC9n3vrFr3xSWQGU0fGHDl4ysnE
-	j1HoIxL2wUXz9UY3MD/+43FccVzdRZE6aakpSDtOCBd4Rc31iLgxV0pXdSMiq4DO3Irn
-	zuIw==
-X-Gm-Message-State: AIkVDXLIO8gITdn0AYT9RJ/PfLhVN3sSJgXIkfM5DuoDlmw1wTFxLTxILQMBWpjli2GtEw==
-X-Received: by 10.28.126.12 with SMTP id z12mr15546283wmc.84.1485180005322;
-	Mon, 23 Jan 2017 06:00:05 -0800 (PST)
-Received: from localhost.localdomain ([185.47.80.46])
-	by smtp.gmail.com with ESMTPSA id
-	186sm21178735wmw.24.2017.01.23.06.00.04
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 23 Jan 2017 06:00:04 -0800 (PST)
-From: David Vincent <freesilicon@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jan 2017 14:59:16 +0100
-Message-Id: <20170123135916.4618-1-freesilicon@gmail.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] openssl: Fix symlink creation
+	Mon, 23 Jan 2017 14:01:27 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga105.fm.intel.com with ESMTP; 23 Jan 2017 06:01:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,274,1477983600"; d="scan'208";a="1086281712"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 23 Jan 2017 06:01:25 -0800
+To: Patrick Ohly <patrick.ohly@intel.com>,
+	=?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+References: <1484935979-328-1-git-send-email-anibal.limon@linux.intel.com>
+	<1484941467.20333.3.camel@intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <8c0f5529-3dbb-1049-dc59-0cb368e04359@linux.intel.com>
+Date: Mon, 23 Jan 2017 16:01:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <1484941467.20333.3.camel@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2] qemu: Upgrade to 2.7.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,48 +35,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2017 14:00:07 -0000
+X-List-Received-Date: Mon, 23 Jan 2017 14:01:28 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Symlinking the openssl configuration file at install time results in
-errors when overriding it using an external package which also provides
-openssl-conf. This should be done as a postinstall task for such
-packages.
+On 01/20/2017 09:44 PM, Patrick Ohly wrote:
 
-Signed-off-by: David Vincent <freesilicon@gmail.com>
----
- meta/recipes-connectivity/openssl/openssl.inc | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+> In contrast to Alexander, I would also keep
+> http://wiki.qemu-project.org/download/${BP}.tar.bz2 in qemu_2.7.1.bb
+> with SRC_URI =+ because then there can be a qemu_git.bb with a different
+> URL than the one above.
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 5cca019e1d..696b564cdd 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -201,7 +201,6 @@ do_install () {
- 	   ${D}${sysconfdir}/ssl/
- 	ln -sf ${sysconfdir}/ssl/certs ${D}${libdir}/ssl/certs
- 	ln -sf ${sysconfdir}/ssl/private ${D}${libdir}/ssl/private
--	ln -sf ${sysconfdir}/ssl/openssl.cnf ${D}${libdir}/ssl/openssl.cnf
- }
- 
- do_install_ptest () {
-@@ -245,4 +244,16 @@ do_install_append_class-native() {
- 	    OPENSSL_ENGINES=${libdir}/ssl/engines
- }
- 
-+pkg_postinst_openssl-conf () {
-+#!/bin/sh
-+if [ -e $D${libdir}/ssl/openssl.cnf ]; then
-+	rm -f $D${libdir}/ssl/openssl.cnf
-+fi
-+
-+# If openssl-conf is installed before openssl, we must ensure that the symlink
-+# destination exists
-+mkdir -p $D${libdir}/ssl/
-+ln -s ${sysconfdir}/ssl/openssl.cnf $D${libdir}/ssl/openssl.cnf
-+}
-+
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.11.0
+I would discourage creation of such separate _git recipes, unless there 
+is a clear benefit to the whole of oe-core. They are almost always 
+untested and neglected, and eventually removed because they're outdated 
+and broken and no one cares.
 
+Alex
 
