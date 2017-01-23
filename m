@@ -1,29 +1,40 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 4476F72002
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id BDC2777235
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 17:53:38 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0NHrcMs009192; Mon, 23 Jan 2017 17:53:38 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id DGXWOP7-qFgV; Mon, 23 Jan 2017 17:53:37 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0NHrar1009188
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 23 Jan 2017 17:53:37 GMT
-Message-ID: <1485194016.30673.45.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Paul Gortmaker <paul.gortmaker@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jan 2017 17:53:36 +0000
-In-Reply-To: <20170123164454.GT29778@windriver.com>
-References: <20170123164454.GT29778@windriver.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: do_populate_sysroot: Function failed: relocatable_binaries_preprocess
+	Mon, 23 Jan 2017 18:11:11 +0000 (UTC)
+Received: from us-aus-exch2.ni.corp.natinst.com
+	(us-aus-exch2.ni.corp.natinst.com [130.164.68.12])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTPS id
+	v0NIBBIl032481
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Jan 2017 12:11:11 -0600
+Received: from us-aus-exch3.ni.corp.natinst.com (130.164.68.13) by
+	us-aus-exch2.ni.corp.natinst.com (130.164.68.12) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Mon, 23 Jan 2017 12:11:11 -0600
+Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
+	us-aus-exch3.ni.corp.natinst.com (130.164.68.13) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Mon, 23 Jan 2017 12:11:10 -0600
+Received: from adi-pc-linux.natinst.com (130.164.49.7) by
+	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
+	Server
+	id 15.0.1156.6 via Frontend Transport; Mon, 23 Jan 2017 12:11:10 -0600
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 23 Jan 2017 20:09:23 +0200
+Message-ID: <20170123180923.7658-1-adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.11.0
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2017-01-23_15:, , signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+	suspectscore=1
+	malwarescore=0 phishscore=0 adultscore=0 bulkscore=0 classifier=spam
+	adjust=0 reason=mlx scancount=1 engine=8.0.1-1612050000
+	definitions=main-1701230239
+Cc: ken.sharp@ni.com
+Subject: [PATCH] useradd_base: keep group if it still has users
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,48 +47,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2017 17:53:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 Jan 2017 18:11:12 -0000
+Content-Type: text/plain
 
-On Mon, 2017-01-23 at 11:44 -0500, Paul Gortmaker wrote:
-> After updating this morning (everything on master, re-using the
-> existing
-> build dir that was built OK within the last 48h) I saw this:
-> 
-> ERROR: pseudo-native-1.8.1-r0 do_populate_sysroot: pseudo-native:
-> chrpath command failed with exit code 7:
-> b'/home/paul/poky/build/tmp/work/x86_64-linux/pseudo-native/1.8.1-
-> r0/sysroot-destdir/home/paul/poky/build/tmp/work/x86_64-linux/pseudo-
-> native/1.8.1-r0/recipe-sysroot-native/usr/bin/pseudodb:
-> RPATH=/home/paul/poky/build/tmp/sysroots/x86_64-
-> linux/usr/lib:/home/paul/poky/build/tmp/sysroots/x86_64-
-> linux/lib\n'b"new
-> rpath
-> '$ORIGIN/../../../../../../../sysroots/x86_64-
-> linux/usr/lib:$ORIGIN/../../../../../../../sysroots/x86_64-linux/lib' 
-> too large; maximum length 107\n"
-> ERROR: pseudo-native-1.8.1-r0 do_populate_sysroot: Function failed:
-> relocatable_binaries_preprocess
-> ERROR: Logfile of failure stored in:
-> /home/paul/poky/build/tmp/work/x86_64-linux/pseudo-native/1.8.1-
-> r0/temp/log.do_populate_sysroot.11
+perform_groupdel() tries to delete a group irrespective if other
+users have it as their primary group, thus the call to groupdel will
+fail with the following error error:
 
-To follow up we've figured out this is the error you see if you take an
-existing build directory, pre recipe specific sysroot and then update
-to post recipe specific sysroot.
+groupdel: cannot remove the primary group of user '<user>'
 
-It seems that pseudo-native, openssl-native and subversion-native have
-issues where you can pass in new configuration but they don't recompile
-the binaries, despite those binaries depending on the paths you pass
-in.
+Add a check to perform_groupdel() to determine if there are other
+users and keep the group, printing a warning. This is called right
+after a user is deleted to delete it's group. If the last user is
+deleted, only then the group is also deleted.
 
-We're seeing how widespread the problem is before deciding exactly how
-to handle this. It might be a case of some PR bumps, obvioulsy wiping
-TMPDIR is the comprehensive solution.
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+---
+ meta/classes/useradd_base.bbclass | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/classes/useradd_base.bbclass b/meta/classes/useradd_base.bbclass
+index ba87edc57a..551c82c322 100644
+--- a/meta/classes/useradd_base.bbclass
++++ b/meta/classes/useradd_base.bbclass
+@@ -69,11 +69,21 @@ perform_groupdel () {
+ 	bbnote "${PN}: Performing groupdel with [$opts]"
+ 	local groupname=`echo "$opts" | awk '{ print $NF }'`
+ 	local group_exists="`grep "^$groupname:" $rootdir/etc/group || true`"
++
+ 	if test "x$group_exists" != "x"; then
+-		eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO groupdel \$opts\" || true
+-		group_exists="`grep "^$groupname:" $rootdir/etc/group || true`"
+-		if test "x$group_exists" != "x"; then
+-			bbfatal "${PN}: groupdel command did not succeed."
++		local awk_input='BEGIN {FS=":"}; $1=="'$groupname'" { print $3 }'
++		local groupid=`echo "$awk_input" | awk -f- $rootdir/etc/group`
++		local awk_check_users='BEGIN {FS=":"}; $4=="'$groupid'" {print $1}'
++		local other_users=`echo "$awk_check_users" | awk -f- $rootdir/etc/passwd`
++
++		if test "x$other_users" = "x"; then
++			eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO groupdel \$opts\" || true
++			group_exists="`grep "^$groupname:" $rootdir/etc/group || true`"
++			if test "x$group_exists" != "x"; then
++				bbfatal "${PN}: groupdel command did not succeed."
++			fi
++		else
++			bbnote "${PN}: '$groupname' is primary group for users '$other_users', not removing it"
+ 		fi
+ 	else
+ 		bbnote "${PN}: group $groupname doesn't exist, not removing it"
+-- 
+2.11.0
 
 
