@@ -1,45 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
-	[209.85.213.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B7B44771D7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f173.google.com (mail-qt0-f173.google.com
+	[209.85.216.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 49B48771D7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 16:59:56 +0000 (UTC)
-Received: by mail-vk0-f65.google.com with SMTP id n19so11586150vkd.3
+	Mon, 23 Jan 2017 17:01:29 +0000 (UTC)
+Received: by mail-qt0-f173.google.com with SMTP id l7so134842219qtd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 08:59:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Mon, 23 Jan 2017 09:01:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=1f3TAJ2IHWBo2PdTSx55sM9abT7tHs0a04wrHRCyeSM=;
-	b=khVXg4YYK1dqfaQh64td14Ry4WRwpAJQPf5f2aPKQE7+QexgraQklWGTA7xC1P6D2j
-	qtRTsq2eES/rezWx94vMwebO1+XBayppz9RvEjWno+enoDZqaf7aeRfDuOHaXpnVkH9u
-	AjtqTEbf9EphQxbGZvcdGHHzn58uqLnMPNKt1U3r6q5CqA/fTFB+tcflzX6iqOJbu7qj
-	PddIoJBXbBW/7XvrZMAINMk6Ency4gAJheI0C0HZ3QfhmQPsyweVOOKYHR06yKYU+S8Y
-	clSJKvlSGrPnClr4fC3TkYuSS7lY//rQA4kh8fIwaGAy1AIUaatVZgRFUBo0A+zMoCIR
-	8nhg==
+	:cc; bh=JKexv3awlwWrA5nY/NNixfFNIjSP8QpblB6UkQ8tEr0=;
+	b=q550Ciix13dDBnaAP32b2tmrm/CwDjsNMBk2mPgcYpdk+FdcazI1aj0+2oFrIGJSAr
+	qNFi62fmC0wq79qw01GLrYj5xEKHCUfJkdAql1Z8iuGywOuXzOJ6zs+js/ewc+p3O6BS
+	2aZklAdz+zxRQwuPaGR1U7JBu85QBs0NSjJlzGEILnX6nkzyU3uLJMilX1DvWWM2diVE
+	yGW7Y8BfmYaLjF2HWqz6KBDRvaQMb/wXXWleSY7YM9dGbqwd94jlDmoQZAeI87tNk5vK
+	VYkpkJb5LI2SUPRBU8R/z2KpOgM7dxZVTdJqeQuQr4CxXsKech+4PTRtiuR6jRteCwXt
+	KoIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=1f3TAJ2IHWBo2PdTSx55sM9abT7tHs0a04wrHRCyeSM=;
-	b=NGUcUGC3l8MkCOzT1BjEL/hi63Xt7U2S/TBI7OTmvkgBe+pLH4hoO6Mhxo74vxfX3f
-	uGP11/4oY8rFyHbcAHR89Ah3k9HGwZ9XAKiXAMaXYuaSs8u8+8bkSzabLOO5ctc0VDqo
-	P9dRN66NQM4AZV4gl004XfzsDg4XzUw7lxqMTRENMcYZ9A572e9pldIfV22XVa1xGg5v
-	Toco6Z+M+N+C3RNTVLLrIiUhnXpBchyUdjnEI3TTvvFVCOMyqtp+PoNefi7oBS3MjCf1
-	uumgvOghvpNE9OgjVc2f3bE7TSuBvEvpxiIZCdFNWK9Fj/KI67xEJo/cpTPmL4MUJCoQ
-	PIHA==
-X-Gm-Message-State: AIkVDXL0Tu7ZrbGs9DSAhvGruDG+DzBLqKX1SB1CD/jZcrYh0guhcPXOQ89hrR/4KLuDMivqv7T4Pgl0rpTPGg==
-X-Received: by 10.31.115.142 with SMTP id o136mr13764919vkc.139.1485190796534; 
-	Mon, 23 Jan 2017 08:59:56 -0800 (PST)
+	:message-id:subject:to:cc;
+	bh=JKexv3awlwWrA5nY/NNixfFNIjSP8QpblB6UkQ8tEr0=;
+	b=loA9LQDHifkyrfQfkZB1PvsHUgBUp1UM4jPVexLggcOhNK3xj+rDD/AgDmFgKz/fRV
+	9KE181wz/nAbttlkGrRKGh5uDr0GkeHYpovY5CG/gGm4joXiA4/FWBKVqe9ZFO83Cdc3
+	guZ+EIsj9Owt7bgMdXzS1pLgGS7YXpXFDb67LRyX7eT5OlictR3rm7shwt4UO0op0nhs
+	h4qm1MNUQz8KL4BGVluIK/Yyt6eiaGjywa6QcVutkiW5rhs1OApyQYA6WsvpTPwujuy3
+	4EGV8pD/KgJzCogQ1n8eIyal8TefOZHHB8JJ7DMBGV8MX90/KGu5h9V2EGn5nxEClm5M
+	SIfg==
+X-Gm-Message-State: AIkVDXIZe1pYJUnvuzgftN70BheXQz1oRBZQgL70t9+XIjL39EEIRvK5lT8c5TERY/MSn++R1yeucvbkGyFh1VLq
+X-Received: by 10.237.62.232 with SMTP id o37mr23908304qtf.188.1485190889692; 
+	Mon, 23 Jan 2017 09:01:29 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.159.48.222 with HTTP; Mon, 23 Jan 2017 08:59:26 -0800 (PST)
-In-Reply-To: <CAJTo0LYogrcREAzmPUdBwcP6Yx5e-oZEBOTL1EnpVD9jwg=XiA@mail.gmail.com>
+Received: by 10.140.103.233 with HTTP; Mon, 23 Jan 2017 09:01:00 -0800 (PST)
+In-Reply-To: <CAMKF1so7OY5b8eQaQmgyL0ktNkT2kR=JGfMtxEsusSMR=5zH+w@mail.gmail.com>
 References: <1485178169-27145-1-git-send-email-schnitzeltony@googlemail.com>
 	<CAJTo0LYogrcREAzmPUdBwcP6Yx5e-oZEBOTL1EnpVD9jwg=XiA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 23 Jan 2017 08:59:26 -0800
-Message-ID: <CAMKF1so7OY5b8eQaQmgyL0ktNkT2kR=JGfMtxEsusSMR=5zH+w@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CAMKF1so7OY5b8eQaQmgyL0ktNkT2kR=JGfMtxEsusSMR=5zH+w@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 23 Jan 2017 17:01:00 +0000
+Message-ID: <CAJTo0LZawp0OUSUCZ89nmqqjw7e5Se_acuT-q71CsmiNxXtJjQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH V3] alsa-lib: update 1.1.2 -> 1.1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -54,36 +55,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2017 16:59:57 -0000
+X-List-Received-Date: Mon, 23 Jan 2017 17:01:31 -0000
+Content-Type: multipart/alternative; boundary=001a11406f0e6772b60546c5f37c
+
+--001a11406f0e6772b60546c5f37c
 Content-Type: text/plain; charset=UTF-8
+
+On 23 January 2017 at 16:59, Khem Raj <raj.khem@gmail.com> wrote:
+
+> shouldn't shlibs notice and add this dep automatically ?
+>
+
+Yes, but it's the incorrect dependency on PN that is the problem.
+
+Ross
+
+--001a11406f0e6772b60546c5f37c
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 23, 2017 at 6:04 AM, Burton, Ross <ross.burton@intel.com> wrote=
-:
->
-> On 23 January 2017 at 13:29, Andreas M=C3=BCller <schnitzeltony@googlemai=
-l.com>
-> wrote:
->>
->> +# no python -> smixer is not build
->> +ALLOW_EMPTY_${PN} =3D "1"
->
->
-> Not sure this is the right fix.  What package does the Python support go
-> into?  The smixer files should be in that package, and the real dependenc=
-y
-> on PN-dev is to libasound, not PN.  Can we fiddle the PN-dev RDEPENDS to
-> ensure that it depends on libasound instead of PN?
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 23 January 2017 at 16:59, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> =
+wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex"><div id=3D":1aa" class=3D"a3s aXjC=
+H m159cc45200868c3f">shouldn&#39;t shlibs notice and add this dep automatic=
+ally ?<br></div></blockquote></div><br>Yes, but it&#39;s the incorrect depe=
+ndency on PN that is the problem.</div><div class=3D"gmail_extra"><br></div=
+><div class=3D"gmail_extra">Ross</div></div>
 
-shouldn't shlibs notice and add this dep automatically ?
-
->
-> Ross
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
+--001a11406f0e6772b60546c5f37c--
