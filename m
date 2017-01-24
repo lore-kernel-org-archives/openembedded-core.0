@@ -1,50 +1,51 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
-	[209.85.218.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D848731CF
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 03E1571CA6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 18:52:32 +0000 (UTC)
-Received: by mail-oi0-f68.google.com with SMTP id j15so13910835oih.0
+	Tue, 24 Jan 2017 19:07:25 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id 194so17346897pgd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 10:52:33 -0800 (PST)
+	Tue, 24 Jan 2017 11:07:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=JJ/lhNNT5B7WlXCBuFOlCad26v+XAe/PJoI2TLbupAI=;
-	b=fl27FKs/n1Kwi5Q058yZwgt0lU9BU6250+6xbnCep9GaApOhZf7XtSym9XNkvmryin
-	TvWjjHQREpty4SkU90GRAyx3wwhaJqA3eUntt7FmIm2dgnbblL1NEDz8mYaj+ulZlO94
-	fyhpxxbXmaIBuw3nDGXScOjYgs9x4tRb2Y3QpOiG/bokN0qlg/QGNMX64XJJv2JKNyzx
-	FfKcaqUZ4soLFTebW42EnUJQvlzgp2gU10RWpTab8NYkbygN2BBRpMYsntc1RfAN81h7
-	7PrT9FzzgyfzEzSom1v7RVCgqppfozfjy9QfjN7cEXFc83Y3Bb7Luk4Lc4WvyEjyLjiP
-	0AXA==
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to; bh=I0W/qDSpE2Oj5PuovHhfgoywmvZQf0RXcpxzgOpjHiU=;
+	b=fAHDQQqTGg+jhGDOkxIg0pc6oFVYreffxRab8NVtn92IEC/1qOxi3QDXaR7oXyMqDO
+	Ja6T4rJaHNuYWZSN4cg7vUKTpLQXNCSjqdaEKhIAbB8Csg9bOcSASMD++2BBgKMMhQh8
+	M6WvX8c8kr7DQ20A3dbYOt9KlHP5RoKlUS2cGBSZMczBJ22pjK14bWYc52A5PXRbdvaY
+	X6UV54kZ2L7CaWE47CEczDC8GHJ4QHrz7uSEL3md4/63Uf0hdneNb2W3SURbA13wdbDv
+	Oq+tEvksfekaMp2X+jwYytkstAUK0SGvfvat+PqRMOmxSxKLaO3Tqu1JHWkygwXyr45B
+	tCNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=JJ/lhNNT5B7WlXCBuFOlCad26v+XAe/PJoI2TLbupAI=;
-	b=VwNeM9ii/u6ak8p9RNYlAvHMc48hoq46vDvTItgLzmkxBfQG44x7aDWkRsG/nouUVs
-	mg/sOqX3IVHsJKTYH0bCi1R4jGP/+uzxwZfl2mm9+ZWnFjugZfH9ypU+eTb2ODqYRU/H
-	ieAHRSdHavxRhptkbl26nRJC4BlxMJd/I8u7nw0AIdPZnrOfXzzAg7Z2JDgaWmu1i+yO
-	N0pNbaM9DvkLulkV9sFpv327YZwKXlw3q6SoC6XsPmebYmBZxf+hnhLeJGcE9trye3vJ
-	G3HO/BegMP27gXxwbpV8bxL5vtSKuemJg6YcV8V5GRAqE7KNmmj7NJ1NTsGNNM7ancm1
-	kuZQ==
-X-Gm-Message-State: AIkVDXLQPO8HYBTcAK2CFAs+yYNpMolXhOd44yIO09Pb/d5ct9Pm9rmfnQdzAY3PFEPFzD5AsOR5ssmQunVWKw==
-X-Received: by 10.202.71.137 with SMTP id u131mr18380687oia.111.1485283953326; 
-	Tue, 24 Jan 2017 10:52:33 -0800 (PST)
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to;
+	bh=I0W/qDSpE2Oj5PuovHhfgoywmvZQf0RXcpxzgOpjHiU=;
+	b=dCTKa0xQSrav2YvR3BFbRcSXU4X4G+IhAR1pN18tmFOnZjKqU7uB82ShrkVrJq+DQ6
+	94Y81weNL4jzKBwpb0mA+ZvB8gCuM5rK7hch8yPwamID+vlHBsEkUoEdV70SgHHw14C+
+	MfIG2gBWesx5srtmPNukBTG39zBvtDDN8eEUCcmSePRsYogUK6b0wCkTgC11LUgRf1+I
+	gYRvLB9dCZkbO5gGB29+YdqF4+yH2C5XL4lxxBMDFyufAaUTmWtiXQvmFLslnQ5bjeTA
+	IARXBwpVW0k/4LeX81qcj2CAizAjKRpjKr44FsaExAXsebt/NZCDt+aPOSQ01Y6TagJ6
+	vJBg==
+X-Gm-Message-State: AIkVDXIB0jqHqJBGniMOLwRj3WbKQDjFHoP7HqLq5POaKyz+VV0CORmVtUqiMlhMts8hiA==
+X-Received: by 10.99.232.5 with SMTP id s5mr40855900pgh.66.1485284845513;
+	Tue, 24 Jan 2017 11:07:25 -0800 (PST)
+Received: from CACSVMO-14452.local ([2601:646:8882:b8c:c8b8:641d:6d81:476d])
+	by smtp.gmail.com with ESMTPSA id
+	y184sm46535624pfg.86.2017.01.24.11.07.24
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 24 Jan 2017 11:07:24 -0800 (PST)
+To: openembedded-core@lists.openembedded.org
+References: <20170123145508.9252-1-freesilicon@gmail.com>
+	<20170124090715.11646-1-freesilicon@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Message-ID: <8ea809ad-d2bd-e575-3447-51cadcb338c2@gmail.com>
+Date: Tue, 24 Jan 2017 11:07:18 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.6.0
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.157.5.8 with HTTP; Tue, 24 Jan 2017 10:52:12 -0800 (PST)
-In-Reply-To: <f375139dfac77be3c12335a6a302582368ceeb13.1485247027.git.mariano.lopez@linux.intel.com>
-References: <cover.1485247027.git.mariano.lopez@linux.intel.com>
-	<f375139dfac77be3c12335a6a302582368ceeb13.1485247027.git.mariano.lopez@linux.intel.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Tue, 24 Jan 2017 11:52:12 -0700
-X-Google-Sender-Auth: pfsSfknPYfAM7k9foc1CD2JM-Mo
-Message-ID: <CABcZANn9jc51biiwD=0v9izwzovbpwaE0bLtnpBX3VE=oVLfiQ@mail.gmail.com>
-To: Mariano Lopez <mariano.lopez@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] package_ipk.bbclass: Add check for empty lines in DESCRIPTION
+In-Reply-To: <20170124090715.11646-1-freesilicon@gmail.com>
+Subject: Re: [PATCH v2 0/3] openssh: Make sshd-config a package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,66 +58,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jan 2017 18:52:33 -0000
-Content-Type: multipart/alternative; boundary=001a113e3c686dc0eb0546db9e1a
+X-List-Received-Date: Tue, 24 Jan 2017 19:07:26 -0000
+X-Groupsio-MsgNum: 92301
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="1bFbh34W6PGrP4LgF6Tc87F6uU9WxXuqf"
 
---001a113e3c686dc0eb0546db9e1a
-Content-Type: text/plain; charset=UTF-8
+--1bFbh34W6PGrP4LgF6Tc87F6uU9WxXuqf
+Content-Type: multipart/mixed; boundary="GutD5ffMX4A1lXxBKvUKiCO7PVP3TDWa2";
+ protected-headers="v1"
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <8ea809ad-d2bd-e575-3447-51cadcb338c2@gmail.com>
+Subject: Re: [OE-core] [PATCH v2 0/3] openssh: Make sshd-config a package
+References: <20170123145508.9252-1-freesilicon@gmail.com>
+ <20170124090715.11646-1-freesilicon@gmail.com>
+In-Reply-To: <20170124090715.11646-1-freesilicon@gmail.com>
 
-On Tue, Jan 24, 2017 at 1:37 AM, <mariano.lopez@linux.intel.com> wrote:
-
-> From: Mariano Lopez <mariano.lopez@linux.intel.com>
->
-> opkg uses empty lines as separator for next package and if an ipk
-> file was packaged with empty lines in DESCRIPTION opkg won't be
-> able to handle such ipk file, this happens at execution time.
->
-> This commit will add a check for empty lines in DESCRIPTION when
-> generating to ipk package to avoid this issue.
->
-> [YOCTO #10677]
->
-> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
->
-
-Could it handle a line with just a space, or a period? Could you not
-replace the lines with that instead, rather than aborting?
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Senior Software Engineer, Mentor Graphics
-
---001a113e3c686dc0eb0546db9e1a
-Content-Type: text/html; charset=UTF-8
+--GutD5ffMX4A1lXxBKvUKiCO7PVP3TDWa2
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Tue, Jan 24, 2017 at 1:37 AM,  <span dir=3D"ltr">&lt;<a href=3D"mailto:m=
-ariano.lopez@linux.intel.com" target=3D"_blank">mariano.lopez@linux.intel.c=
-om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":r1" =
-class=3D"a3s aXjCH m159d15b04395aa43">From: Mariano Lopez &lt;<a href=3D"ma=
-ilto:mariano.lopez@linux.intel.com">mariano.lopez@linux.intel.com</a><wbr>&=
-gt;<br>
-<br>
-opkg uses empty lines as separator for next package and if an ipk<br>
-file was packaged with empty lines in DESCRIPTION opkg won&#39;t be<br>
-able to handle such ipk file, this happens at execution time.<br>
-<br>
-This commit will add a check for empty lines in DESCRIPTION when<br>
-generating to ipk package to avoid this issue.<br>
-<br>
-[YOCTO #10677]<br>
-<br>
-Signed-off-by: Mariano Lopez &lt;<a href=3D"mailto:mariano.lopez@linux.inte=
-l.com">mariano.lopez@linux.intel.com</a><wbr>&gt;</div></blockquote></div><=
-br>Could it handle a line with just a space, or a period? Could you not rep=
-lace the lines with that instead, rather than aborting?<br>-- <br><div clas=
-s=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><=
-div>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBake, =
-OpenEmbedded, OpenZaurus<br>Senior Software Engineer, Mentor Graphics</div>=
-</div></div>
-</div></div>
 
---001a113e3c686dc0eb0546db9e1a--
+
+On 1/24/17 1:07 AM, David Vincent wrote:
+> This series of patch introduces a new way of modifying OpenSSH sshd
+> configuration. Instead of modifying the files and launching the server =
+with
+> custom options, a package which RPROVIDES sshd-config must be installed=
+=2E
+>=20
+> The package to use is selected using a new variable called SSHD_CONFIG =
+which is
+> used exclusively when selecting ssh-server-openssh in IMAGE_FEATURES.
+>=20
+
+How does this work with dropbear. Since we can use dropbear as a ssh
+server alternative.
+
+> Changes since v1:
+>   Remove documentation
+>=20
+> David Vincent (3):
+>   openssh: Package server configuration
+>   core-image: Set default sshd configuration
+>   rootfs-postcommands: Modify ssh-related commands
+>=20
+>  meta/classes/core-image.bbclass                    |  3 +-
+>  meta/classes/rootfs-postcommands.bbclass           | 28 ++++---------
+>  meta/recipes-connectivity/openssh/openssh_7.3p1.bb | 47 ++++++++++++++=
+++++----
+>  3 files changed, 49 insertions(+), 29 deletions(-)
+>=20
+
+
+--GutD5ffMX4A1lXxBKvUKiCO7PVP3TDWa2--
+
+--1bFbh34W6PGrP4LgF6Tc87F6uU9WxXuqf
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAliHpesACgkQuwUzVZGdMxSd5gCgkCvO/NGdwIZy54yKR7+LLdF+
+gocAnijWHUgEYLchvoujHQ0WwOfs1kTY
+=7wQP
+-----END PGP SIGNATURE-----
+
+--1bFbh34W6PGrP4LgF6Tc87F6uU9WxXuqf--
