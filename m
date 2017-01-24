@@ -1,46 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id A88CF60123
+Return-Path: <maciej.borzecki@rndity.com>
+Received: from mail-lf0-f49.google.com (mail-lf0-f49.google.com
+	[209.85.215.49])
+	by mail.openembedded.org (Postfix) with ESMTP id B9AD660721
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 12:57:23 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id r126so180672773wmr.0
+	Tue, 24 Jan 2017 13:51:09 +0000 (UTC)
+Received: by mail-lf0-f49.google.com with SMTP id z134so111036451lff.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 04:57:24 -0800 (PST)
+	Tue, 24 Jan 2017 05:51:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=HmJoNNzLpQ/6RlLtJFMRcz0aUFYGbnLjEtNCWNCnTK0=;
-	b=U2PjKiaPViyjfnCBDS5FkAAsFuYuMF8RNJMIu7teBa9ZnU9KzHNg7icorLnTGOcmSW
-	bFDH4Nh5PVMp3vTESkpljhwnxHga+ipZUwWosqSpUtUmwxOuAgr3XZUEWbtl/DfAzoQH
-	7WGR0YLxvxr0DfPRMwt1lSUUEG1rwFwHhdKEj8oWnk0iVb+w75PuJaQ/wcG0XHo5fgvK
-	s2yIye+xozAmXUeNFy5BNJP7x2mia1BX0fv3heUfR7A+dNjqTBBXmDAX9IjrpRoohNPS
-	PPxY0hCeq5dFZBIyQqobxiaENYnHwXThr5d42L+DKQua1gLvDUj0jyeCgXJeHR7O4l0r
-	dFPQ==
+	d=rndity-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=0pMsaGSxGUgA5kDA3//HwBEhw0mEocMnCNx4FVoBVi4=;
+	b=ybp/FPpUN/y/ITPf8Wlz4tdOuyejhNEijtizo+Kgs+avttuZN6zjdVxI3fp8sqXIMR
+	TiwMDEXNto40wu76q/5iyMJ5EBNhCGTreg9iLhX4JJGyH/j/vjbiOxL0TOSVmrKfEm4R
+	7S7E0e19sQ1IIAHRa/N2D8Pr8gDHceb+u83A2oJrLkeOp7oLkzFuTyIk4XhO8SNCQkXD
+	P/xtV7H0MXvixKNuZBw5I5kD7capURz7jrThf1PG7c58nKU7K+psCj8takeImYha9/O5
+	S6enuTFs19UmymsMeHUFeuJUM70TgRqatWrzIQv7IvFVTjQrjCjGSsoPUijM7m/d7a80
+	dC7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=HmJoNNzLpQ/6RlLtJFMRcz0aUFYGbnLjEtNCWNCnTK0=;
-	b=atw586bgVaq9EMesqPuCiFUFCuR/nEOEqY5Cn7v3jOGS2685bolVaVzzyYy2JFNtgC
-	NfOtakQLmgZOFUOFe3kiVRVf/a1jdg3tIRZp84x+AJtEbb+OuZQkg8dU/Cr/ROh79t57
-	rnnWeoU9zF7UpubkOJnHPJbSfybonsChX/eVDYverJY7Q/5MA5Ik58u/PkxcHe8LRiTW
-	ve6iGUfzr3oJj49oLN5n1wiuX4wbLgUdR8caoFppBwaE29BcVkhF6dWmQb0/jRhS511o
-	McyiabRKxXwSzLtHjEjy+uO8XO5TKd3dWXxPM3vQNjSBW7M2ZFZFC6zc03b/UpP0lTVB
-	Jueg==
-X-Gm-Message-State: AIkVDXIYJG8WUaEKvWQ1OgpASkbn7sV6ScCvjtfGo0t0P1gfov5GRLvTDyEGSlK3s1U7iMQQ
-X-Received: by 10.223.165.1 with SMTP id i1mr28061135wrb.82.1485262643091;
-	Tue, 24 Jan 2017 04:57:23 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=0pMsaGSxGUgA5kDA3//HwBEhw0mEocMnCNx4FVoBVi4=;
+	b=kC4NzcGsIFDOvWUDogC1gGruGkWPWryt4XaRYeEcD93UCJLSJqfyushNPCdPIcJB69
+	VVIz4SJjT0AF3JiMn7CdbjOOmBL17haOpkkMhWSFTSWi4q3AdlsruPVaZ+YADXYTxGHB
+	ZlUWu+8LOyNdzdeSjNPkyos26hv70Fyc+bq2jq5MLZZznuoG1NcCRZxZeDqTe52F+FVz
+	0NRikB32RzHtkmWXNRXL1zIrAWWkcqemOQfH0daEnYzWWcJhwjVZZhq0wg3F9ewMhz3Y
+	V4yh8idnXOTfmn3L5jA6S4ulag2SSm4oD6Iue09EMC0RZ1ZPDRAC2szB0WG1cOEkfDDi
+	NzzA==
+X-Gm-Message-State: AIkVDXJYwhSg8+WxKhFG37Z6L3HB6tFG2Cxee7gzCYY8cjz/pnO2tApiQ1xhLxhTYd1Arw==
+X-Received: by 10.25.22.96 with SMTP id m93mr11585883lfi.101.1485265869297;
+	Tue, 24 Jan 2017 05:51:09 -0800 (PST)
+Received: from comp_016_pc_buildenv.localdomain
+	(staticline-31-182-60-238.toya.net.pl. [31.182.60.238])
 	by smtp.gmail.com with ESMTPSA id
-	y127sm26156015wmg.12.2017.01.24.04.57.21
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 24 Jan 2017 04:57:22 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	h76sm7331982lfg.39.2017.01.24.05.51.07
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 24 Jan 2017 05:51:08 -0800 (PST)
+From: Maciej Borzecki <maciej.borzecki@rndity.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Jan 2017 12:57:19 +0000
-Message-Id: <1485262639-11335-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] wipe-sysroot: remove
+Date: Tue, 24 Jan 2017 14:50:17 +0100
+Message-Id: <6e2081903352fbfbc818384ce44dc58c3da507e3.1485265775.git.maciej.borzecki@rndity.com>
+X-Mailer: git-send-email 2.5.5
+Cc: Maciej Borzecki <maciek.borzecki@gmail.com>
+Subject: [PATCH] staging: fix logic of guessing dependency manifest file in extend_recipe_sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,79 +55,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jan 2017 12:57:24 -0000
+X-List-Received-Date: Tue, 24 Jan 2017 13:51:10 -0000
 
-This script was useful to delete the sysroot so that future builds happen from a
-clean sysroot.  Now that recipes have their own sysroot this script doesn't need
-to exist anymore, and if in fact if used will break your TMPDIR.
+Recipe sysroots introduced a change where dependencies ending with "-cross" also
+count as native tools and (see setscene_depvalid() for details).
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+The same logic was missing from extend_recipe_sysroot(), hence for depency named
+`go-cross` the manifest file would default to
+`manifest-allarch-go-cross.populate_sysroot`, while the correct name is
+`manifest-x86_64_arm-go-cross.populate_sysroot`
+
+Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
 ---
- scripts/wipe-sysroot | 54 ----------------------------------------------------
- 1 file changed, 54 deletions(-)
- delete mode 100755 scripts/wipe-sysroot
+ meta/classes/staging.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/wipe-sysroot b/scripts/wipe-sysroot
-deleted file mode 100755
-index 5e6b1a4..0000000
---- a/scripts/wipe-sysroot
-+++ /dev/null
-@@ -1,54 +0,0 @@
--#! /bin/sh
--
--# Wipe out all of the sysroots and all of the stamps that populated it.
--# Author: Ross Burton <ross.burton@intel.com>
--#
--# Copyright (c) 2012 Intel Corporation
--#
--# This program is free software; you can redistribute it and/or modify
--# it under the terms of the GNU General Public License version 2 as
--# published by the Free Software Foundation.
--#
--# This program is distributed in the hope that it will be useful,
--# but WITHOUT ANY WARRANTY; without even the implied warranty of
--# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
--# See the GNU General Public License for more details.
--#
--# You should have received a copy of the GNU General Public License
--# along with this program; if not, write to the Free Software
--# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
--
--set -e
--
--if [ $# -gt 0 ]; then
--    echo "Wipe all sysroots and sysroot-related stamps for the current build directory." >&2
--    echo "Usage: $0" >&2
--    exit 1
--fi
--
--ENVS=`mktemp --suffix -wipe-sysroot-envs`
--bitbake -p -e > $ENVS
--
--eval `grep -F SSTATE_MANIFESTS= $ENVS`
--eval `grep -F STAGING_DIR= $ENVS`
--eval `grep -F STAMPS_DIR= $ENVS`
--rm -f $ENVS
--
--if [ -z "$SSTATE_MANIFESTS" -o -z "$STAGING_DIR" -o -z "$STAMPS_DIR" ]; then
--    echo "Could not determine SSTATE_MANIFESTS/STAGING_DIR/STAMPS_DIR from bitbake, check above for errors"
--    exit 1
--fi
--
--echo "Deleting the sysroots in $STAGING_DIR, and selected stamps in $SSTATE_MANIFESTS and $STAMPS_DIR."
--
--# The sysroots themselves
--rm -rf $STAGING_DIR ${STAGING_DIR}-uninative
--
--# The stamps that said the sysroot was populated
--rm -rf $STAMPS_DIR/*/*/*.do_populate_sysroot.*
--rm -rf $STAMPS_DIR/*/*/*.do_populate_sysroot_setscene.*
--rm -rf $STAMPS_DIR/*/*/*.do_packagedata.*
--rm -rf $STAMPS_DIR/*/*/*.do_packagedata_setscene.*
--
--# The sstate manifests
--rm -rf $SSTATE_MANIFESTS/manifest-*.populate_sysroot
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index fc387eaf4bb52971e111ae7deac7d7d6fc389337..efea450e4f73661366d0929d5c39e42bfe9f8e8b 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -521,7 +521,7 @@ python extend_recipe_sysroot() {
+             native = True
+         elif c.startswith("nativesdk-"):
+             manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-${SDK_ARCH}_${SDK_OS}-%s.populate_sysroot" % c)
+-        elif "-cross-" in c:
++        elif "-cross-" in c or c.endswith("-cross"):
+             manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-${BUILD_ARCH}_${TARGET_ARCH}-%s.populate_sysroot" % c)
+             native = True
+         elif "-crosssdk" in c:
 -- 
-2.8.1
+2.5.5
 
 
