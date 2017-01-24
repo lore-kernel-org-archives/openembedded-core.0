@@ -1,47 +1,48 @@
 Return-Path: <freesilicon@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id E23D471AC3
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id D4C2971AC3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 09:08:00 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id d140so33189836wmd.2
+	Tue, 24 Jan 2017 09:08:02 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id r144so197612867wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 01:08:01 -0800 (PST)
+	Tue, 24 Jan 2017 01:08:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=6QCpbNI1dfVDuObk0azryUH7xYKWfXrNMXi+/B0Wq8s=;
-	b=J+zlXwOrF7Wie5MmEACpzH9qhoBwqM6Dd8qweXd824EtjzSQqMSSpIMa+eH/aNdzKV
-	0ceLrJ/M4x81C2mfYGcHOrhNP2Di7H8OkBj2+HPR3ugd7WibjZYjUUCI18wHtn8cpaUW
-	U0zvCbwqYQC7g5zHlEwG0lM59kff9aCdcEY/h9cAletVkqaUheE1Jdbc3lOBeoXalDjY
-	Fe2AL5UxjW7OBpUwTzoh8F8l/mPwbbLmdbpBHQOOxZew6OdbqsoDW43qumOk5rOB5Une
-	8rlK6H55DtCvoIa/qdsKgR0mc/WLG7z2v8tKszyrVYelJLc5oOxBy1RnheUsJtVlCwlE
-	pR/g==
+	bh=8ivlosxuKfFmhbZUxe5Cgml4RozFHTrZNdXJ+u/Ekms=;
+	b=qmkiVL7D59OSTJ5BkDEq3heAcfcev8A8PiEQmJVKkZJuKUzwZ0w6wIZU8B7d7O2w1j
+	Us/pQueEukgtuejZheK8tFR2djP7FBOhnosgc9vg5wIsjHclBtgwNFog4X2h6FyBSh4s
+	QdTHzBYVf/lXTduxmE/bCTYc56ylKKE45w/RCUgVjJFA1N2rgQksLNTBHXsHU25BoOMO
+	8KvaBH0jUOzzUM+bbadh6QjY4ZnpQIh/Ocr+J5DqKSFMItxavfZL4CHaJo4Q8iToixk4
+	qt+CmKxS7WqSf86fkzAS34cp5ap983yep8ihVzhIZse405IWvXDe25bIQ+QErUm9UcLs
+	t35w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=6QCpbNI1dfVDuObk0azryUH7xYKWfXrNMXi+/B0Wq8s=;
-	b=SWpN4Qnr7xpZA8OdocOMtqDoOpPl9pCL1/gfqJK/0WD8+xXqiPQNUjYRtbSYEgTXHk
-	vcDtXVjmu5YDdsN+Jc5y6ETQN4ZOvx2/PuRTcfHzf6U1EtJH8so+PER2OWIMCV2hzkLO
-	UR2lyKkLFpVxpDtQ9QAWkeuwKnwM0N+M93r3CtIjzXIrrf+NEWeF7xxAQGNgjIuKDabt
-	k1r0ISTwGYoe8oVfUSrCIF6c4Fsh4as7qs8kzS81BP1w+1e00zfGs1ucWpEFh1mm7BxB
-	ZRHW0bfb09wTf+p2lV/3BnZ5IO+mwsZdwif9aNDfV06dJt0aEMQY07XX2cS1fvp/wWJB
-	EgAQ==
-X-Gm-Message-State: AIkVDXKS7/BttbEI2QufKjei67ADO9sHesV4y/Sh/S0VExXT8RJju210zbGYRJw3Rw3nKA==
-X-Received: by 10.28.54.195 with SMTP id y64mr16011831wmh.10.1485248880683;
-	Tue, 24 Jan 2017 01:08:00 -0800 (PST)
+	bh=8ivlosxuKfFmhbZUxe5Cgml4RozFHTrZNdXJ+u/Ekms=;
+	b=IDw98EsbEL/gE8JVDjxeqtSiR9X4vqcleOwI22KWCrwPREGJpJ3qpALsuEFKQj0dt0
+	BLPo/09bxSCBlvtRJvELSenK6zLXiNF0UZ2Hfy0d154WVfveQWkroIRyaolOrOCrO34w
+	gyTSJAnKcYzZzC9trC9+1pqBByd623IxjPmmNDWa5HHcsA5o6P0kdKNsetV/jfKQ7evI
+	a43LSZYMKupRsYRqSpNoYDlLrglciWIa31O+uuDvSePxs2SULMkdY99KUIMcjJabiqtZ
+	kQv4DCoPVarAJiosznQqiwakX3iPN3EsDUAIijPhTk8LCvO4XePvkez/Nt7VUBGJy3bA
+	jSIA==
+X-Gm-Message-State: AIkVDXIWI1Ko7hCsqZm417QYftOkPJFzA+frK1sQ9GGtYosNrkoqAJYA5iHQ0oG3pNRuXw==
+X-Received: by 10.28.169.209 with SMTP id s200mr16445120wme.9.1485248882532;
+	Tue, 24 Jan 2017 01:08:02 -0800 (PST)
 Received: from localhost.localdomain ([185.47.80.46])
 	by smtp.gmail.com with ESMTPSA id
-	w70sm18781208wrc.47.2017.01.24.01.07.59
+	w70sm18781208wrc.47.2017.01.24.01.08.01
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 24 Jan 2017 01:08:00 -0800 (PST)
+	Tue, 24 Jan 2017 01:08:02 -0800 (PST)
 From: David Vincent <freesilicon@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Jan 2017 10:07:12 +0100
-Message-Id: <20170124090715.11646-1-freesilicon@gmail.com>
+Date: Tue, 24 Jan 2017 10:07:13 +0100
+Message-Id: <20170124090715.11646-2-freesilicon@gmail.com>
 X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20170123145508.9252-1-freesilicon@gmail.com>
+In-Reply-To: <20170124090715.11646-1-freesilicon@gmail.com>
 References: <20170123145508.9252-1-freesilicon@gmail.com>
-Subject: [PATCH v2 0/3] openssh: Make sshd-config a package
+	<20170124090715.11646-1-freesilicon@gmail.com>
+Subject: [PATCH 1/3] openssh: Package server configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,28 +55,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jan 2017 09:08:01 -0000
+X-List-Received-Date: Tue, 24 Jan 2017 09:08:03 -0000
 
-This series of patch introduces a new way of modifying OpenSSH sshd
-configuration. Instead of modifying the files and launching the server with
-custom options, a package which RPROVIDES sshd-config must be installed.
+Split sshd configuration for read-write/read-only rootfs in two distinct
+packages. Also, add a package dependency between openssh-sshd package
+and a provider of sshd-config.
 
-The package to use is selected using a new variable called SSHD_CONFIG which is
-used exclusively when selecting ssh-server-openssh in IMAGE_FEATURES.
-
-Changes since v1:
-  Remove documentation
-
-David Vincent (3):
-  openssh: Package server configuration
-  core-image: Set default sshd configuration
-  rootfs-postcommands: Modify ssh-related commands
-
- meta/classes/core-image.bbclass                    |  3 +-
- meta/classes/rootfs-postcommands.bbclass           | 28 ++++---------
+Signed-off-by: David Vincent <freesilicon@gmail.com>
+---
  meta/recipes-connectivity/openssh/openssh_7.3p1.bb | 47 ++++++++++++++++++----
- 3 files changed, 49 insertions(+), 29 deletions(-)
+ 1 file changed, 40 insertions(+), 7 deletions(-)
 
+diff --git a/meta/recipes-connectivity/openssh/openssh_7.3p1.bb b/meta/recipes-connectivity/openssh/openssh_7.3p1.bb
+index 94eb0ed208..c02bb7d450 100644
+--- a/meta/recipes-connectivity/openssh/openssh_7.3p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_7.3p1.bb
+@@ -92,13 +92,17 @@ do_compile_ptest() {
+ }
+ 
+ do_install_append () {
++	# Create default config files
++	install -m 0644 ${D}${sysconfdir}/ssh/sshd_config ${D}${sysconfdir}/ssh/sshd_config_default
++	rm -f ${D}${sysconfdir}/ssh/sshd_config
++
+ 	if [ "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}" = "pam" ]; then
+ 		install -D -m 0644 ${WORKDIR}/sshd ${D}${sysconfdir}/pam.d/sshd
+-		sed -i -e 's:#UsePAM no:UsePAM yes:' ${D}${sysconfdir}/ssh/sshd_config
++		sed -i -e 's:#UsePAM no:UsePAM yes:' ${D}${sysconfdir}/ssh/sshd_config_default
+ 	fi
+ 
+ 	if [ "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}" = "x11" ]; then
+-		sed -i -e 's:#X11Forwarding no:X11Forwarding yes:' ${D}${sysconfdir}/ssh/sshd_config
++		sed -i -e 's:#X11Forwarding no:X11Forwarding yes:' ${D}${sysconfdir}/ssh/sshd_config_default
+ 	fi
+ 
+ 	install -d ${D}${sysconfdir}/init.d
+@@ -111,7 +115,7 @@ do_install_append () {
+ 
+ 	# Create config files for read-only rootfs
+ 	install -d ${D}${sysconfdir}/ssh
+-	install -m 644 ${D}${sysconfdir}/ssh/sshd_config ${D}${sysconfdir}/ssh/sshd_config_readonly
++	install -m 644 ${D}${sysconfdir}/ssh/sshd_config_default ${D}${sysconfdir}/ssh/sshd_config_readonly
+ 	sed -i '/HostKey/d' ${D}${sysconfdir}/ssh/sshd_config_readonly
+ 	echo "HostKey /var/run/ssh/ssh_host_rsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
+ 	echo "HostKey /var/run/ssh/ssh_host_dsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
+@@ -135,30 +139,59 @@ do_install_ptest () {
+ 
+ ALLOW_EMPTY_${PN} = "1"
+ 
+-PACKAGES =+ "${PN}-keygen ${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-sftp ${PN}-misc ${PN}-sftp-server"
++PACKAGES =+ "${PN}-keygen ${PN}-scp ${PN}-ssh ${PN}-sshd-config ${PN}-sshd-config-readonly ${PN}-sshd ${PN}-sftp ${PN}-misc ${PN}-sftp-server"
+ FILES_${PN}-scp = "${bindir}/scp.${BPN}"
+ FILES_${PN}-ssh = "${bindir}/ssh.${BPN} ${sysconfdir}/ssh/ssh_config"
++FILES_${PN}-sshd-config = "${sysconfdir}/ssh/sshd_config_default"
++FILES_${PN}-sshd-config-readonly = "${sysconfdir}/ssh/sshd_config_readonly"
+ FILES_${PN}-sshd = "${sbindir}/sshd ${sysconfdir}/init.d/sshd ${systemd_unitdir}/system"
+-FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config ${sysconfdir}/ssh/sshd_config_readonly ${sysconfdir}/default/volatiles/99_sshd ${sysconfdir}/pam.d/sshd"
++FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/default/volatiles/99_sshd ${sysconfdir}/pam.d/sshd"
+ FILES_${PN}-sftp = "${bindir}/sftp"
+ FILES_${PN}-sftp-server = "${libexecdir}/sftp-server"
+ FILES_${PN}-misc = "${bindir}/ssh* ${libexecdir}/ssh*"
+ FILES_${PN}-keygen = "${bindir}/ssh-keygen"
+ 
+ RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
+-RDEPENDS_${PN}-sshd += "${PN}-keygen ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-keyinit pam-plugin-loginuid', '', d)}"
++RDEPENDS_${PN}-sshd += "${PN}-keygen sshd-config ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-keyinit pam-plugin-loginuid', '', d)}"
+ RDEPENDS_${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make"
+ 
+ RPROVIDES_${PN}-ssh = "ssh"
++RPROVIDES_${PN}-sshd-config = "sshd-config"
++RPROVIDES_${PN}-sshd-config-readonly = "sshd-config"
+ RPROVIDES_${PN}-sshd = "sshd"
+ 
+ RCONFLICTS_${PN} = "dropbear"
++RCONFLICTS_${PN}-sshd-config = "${PN}-sshd-config-readonly"
++RCONFLICTS_${PN}-sshd-config-readonly = "${PN}-sshd-config"
+ RCONFLICTS_${PN}-sshd = "dropbear"
+ RCONFLICTS_${PN}-keygen = "ssh-keygen"
+ 
+-CONFFILES_${PN}-sshd = "${sysconfdir}/ssh/sshd_config"
++CONFFILES_${PN}-sshd-config = "${sysconfdir}/ssh/sshd_config_default"
++CONFFILES_${PN}-sshd-config-readonly = "${sysconfdir}/ssh/sshd_config_readonly"
+ CONFFILES_${PN}-ssh = "${sysconfdir}/ssh/ssh_config"
+ 
++pkg_postinst_${PN}-sshd-config () {
++#!/bin/sh
++if [ -e $D${sysconfdir}/ssh/sshd_config ]; then
++    rm $D${sysconfdir}/ssh/sshd_config
++fi
++
++# Make sure destination directory exists, before creating the symlink
++mkdir -p $D${sysconfdir}/ssh
++ln -s sshd_config_default $D${sysconfdir}/ssh/sshd_config
++}
++
++pkg_postinst_${PN}-sshd-config-readonly () {
++#!/bin/sh
++if [ -e $D${sysconfdir}/ssh/sshd_config ]; then
++    rm $D${sysconfdir}/ssh/sshd_config
++fi
++
++# Make sure destination directory exists, before creating the symlink
++mkdir -p $D${sysconfdir}/ssh
++ln -s sshd_config_readonly $D${sysconfdir}/ssh/sshd_config
++}
++
+ ALTERNATIVE_PRIORITY = "90"
+ ALTERNATIVE_${PN}-scp = "scp"
+ ALTERNATIVE_${PN}-ssh = "ssh"
 -- 
 2.11.0
 
