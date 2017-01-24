@@ -1,26 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 7474D772B8
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id B48CC7723C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 14:07:33 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga105.jf.intel.com with ESMTP; 24 Jan 2017 06:07:33 -0800
+	Tue, 24 Jan 2017 14:07:39 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga105.fm.intel.com with ESMTP; 24 Jan 2017 06:07:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,278,1477983600"; d="scan'208";a="1117122663"
+X-IronPort-AV: E=Sophos;i="5.33,278,1477983600"; d="scan'208";a="57595586"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 24 Jan 2017 06:07:33 -0800
+	by fmsmga006.fm.intel.com with ESMTP; 24 Jan 2017 06:07:28 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 101366A4006
+	by linux.intel.com (Postfix) with ESMTP id 933F06A4006
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 06:06:35 -0800 (PST)
+	Tue, 24 Jan 2017 06:06:31 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Jan 2017 15:43:56 +0200
-Message-Id: <62f504e8e2eefef275a7afa41654ab10750771a8.1485264964.git.ed.bartosh@linux.intel.com>
+Date: Tue, 24 Jan 2017 15:43:52 +0200
+Message-Id: <4c417d955a79593025280334e54e4594de2e4ac3.1485264964.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1485264964.git.ed.bartosh@linux.intel.com>
 References: <cover.1485264964.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 8/8] selftest: wic: test default output directory
+Subject: [PATCH 4/8] wic: remove unused API DirectImageCreator.get_disk_names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,60 +33,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jan 2017 14:07:33 -0000
-
-As tests now explicitly specify output directory we don't
-need test_alternate_output_dir test case. However, we need
-to test wic output to default output location.
-
-Removed test_alternate_output_dir test case.
-Added test_default_output_dir test case.
+X-List-Received-Date: Tue, 24 Jan 2017 14:07:41 -0000
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/wic.py | 22 +++++++---------------
- 1 file changed, 7 insertions(+), 15 deletions(-)
+ scripts/lib/wic/imager/direct.py | 26 --------------------------
+ 1 file changed, 26 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index 7916071..8295b40 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -36,7 +36,6 @@ from oeqa.utils.decorators import testcase
- class Wic(oeSelfTest):
-     """Wic test class."""
+diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
+index 63f1fa1..6340a59 100644
+--- a/scripts/lib/wic/imager/direct.py
++++ b/scripts/lib/wic/imager/direct.py
+@@ -185,32 +185,6 @@ class DirectImageCreator:
+         # partitions list from kickstart file
+         return self.ks.partitions
  
--    alternate_resultdir = "/var/tmp/wic/build/alt/"
-     resultdir = "/var/tmp/wic.oe-selftest/"
-     image_is_ready = False
-     wicenv_cache = {}
-@@ -202,20 +201,13 @@ class Wic(oeSelfTest):
-         self.assertEqual(1, len(glob(self.resultdir + "sdimage-bootpart-*direct")))
- 
-     @testcase(1562)
--    def test_alternate_output_dir(self):
--        """Test alternate output directory"""
--        self.assertEqual(0, runCmd("wic create directdisk "
--                                   "-e core-image-minimal "
--                                   "-o %s"
--                                   % self.alternate_resultdir).status)
--        self.assertEqual(1, len(glob(self.alternate_resultdir +
--                                     "build/directdisk-*.direct")))
--        self.assertEqual(0, runCmd("wic create mkefidisk -e "
--                                   "core-image-minimal "
--                                   "--outdir=%s"
--                                   % self.alternate_resultdir).status)
--        self.assertEqual(1, len(glob(self.alternate_resultdir +
--                                     "build/mkefidisk-*direct")))
-+    def test_default_output_dir(self):
-+        """Test default output location"""
-+        for fname in glob("directdisk-*.direct"):
-+            os.remove(fname)
-+        cmd = "wic create directdisk -e core-image-minimal"
-+        self.assertEqual(0, runCmd(cmd).status)
-+        self.assertEqual(1, len(glob("directdisk-*.direct")))
- 
-     @testcase(1212)
-     def test_build_artifacts(self):
+-    def get_disk_names(self):
+-        """ Returns a list of physical target disk names (e.g., 'sdb') which
+-        will be created. """
+-
+-        if self._disk_names:
+-            return self._disk_names
+-
+-        #get partition info from ks handler
+-        parts = self._get_parts()
+-
+-        for i in range(len(parts)):
+-            if parts[i].disk:
+-                disk_name = parts[i].disk
+-            else:
+-                raise CreatorError("Failed to create disks, no --ondisk "
+-                                   "specified in partition line of ks file")
+-
+-            if parts[i].mountpoint and not parts[i].fstype:
+-                raise CreatorError("Failed to create disks, no --fstype "
+-                                   "specified for partition with mountpoint "
+-                                   "'%s' in the ks file")
+-
+-            self._disk_names.append(disk_name)
+-
+-        return self._disk_names
+-
+     def _full_name(self, name, extention):
+         """ Construct full file name for a file we generate. """
+         return "%s-%s.%s" % (self.name, name, extention)
 -- 
 2.1.4
 
