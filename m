@@ -1,48 +1,48 @@
 Return-Path: <freesilicon@gmail.com>
 Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 81757771D4
+	by mail.openembedded.org (Postfix) with ESMTP id CE188771D4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 08:44:13 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id r144so32962244wme.0
+	Tue, 24 Jan 2017 08:44:17 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id d140so33048121wmd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 00:44:14 -0800 (PST)
+	Tue, 24 Jan 2017 00:44:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=0K0bA4WfkcvwadjQ6JBTeVUpdYn3fmvbX/jFX6ophMM=;
-	b=lSO+aHW8BtvrC/rcvhWFlrvfIZ6Ua0gJMnNJjtHRIanRIzag1J882yiFVI12GpSgiU
-	nUdFza/spY5aDufIYELgO0cymQ3xdCoZ2VSQuH/H5HUiwhS1IeLcnxe4fTgHxAs50YKz
-	Didg0oB8ouziH5k4nhzjO3Nqw4XPljwoEvCpFTJxfq9bMOdeltKaiZNm35+2RnYMFGJd
-	jTPrBsHZ7cKKR9ZH23UQwHYVtP7bigV6HON5JTkjGUcQwDo9/DIBZp9SVqhYoyEB0zK3
-	I5PNP26i4AEmFjp7v8W5RXKFcK2fP9WvP6DsCbDmLsC9mOZuOTduwBqeyAsvwpEXv5qp
-	q18w==
+	bh=RQtNdrayuhdRpZEbXAQEFXYkwd4POBEFecHPg2VPzVI=;
+	b=IUUvh59wpWvpuEymiT6s8hmIWcwav0sBIc0OjazjlXQkzFPwkN2q2OSDM6PLy8t9qU
+	Dctj1cPPigxnV+XLoRDjEu79Eu65ukeKbrrLUttsJzpgDOw124bx6BUrQKeLmWZarGAx
+	WiZeQdKzdNl+y9ggkn5R16rK2sd/rQMGjfGaLSI2I7fWEDGFV83518qwtHWhdprTW/kS
+	t+660scxo9UDtgWRlmJE2TnqNe/USuNE6AnCY+jVTRaiRDyJBlXcOnQCNo48QS/deGeq
+	tVcQI9Y07L3dVcpBKoOwgie/O24rqUjD4q6y7dltYlponVRQy3Wb9QMK7fT0dRcScYq2
+	yaTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=0K0bA4WfkcvwadjQ6JBTeVUpdYn3fmvbX/jFX6ophMM=;
-	b=qUvjkjMt1z5HPEadCiCgCsKoX5tYyIMmPXs0QK4PbuTtAQiBBfolaPXJe+Ba5CaCnh
-	74ZllKpu1PVYfCId7qdWrgU/OOS38o6/jWjcQWJ98jHkgs0RGlOyE6JlNcJookjxeyb6
-	Phy7FRFmrsE31CjPOT7e9rKpnCAicroCvaLcS78R1ux5myQUFCca8jL/vu4zXJcnKY7E
-	mnzXQtK/7JlGy8u/QLVbivbrEZ+++g48Ck+CeYf6FEt3kuXqVnWc+I/mnmb2j1RfkQND
-	cdG01MQMceqBSu3TGulJY/K3ZsfrQg3oXPjhGXdQjPm2Ik6jrlt4kqWPP7qDc9svoaHT
-	cnKA==
-X-Gm-Message-State: AIkVDXIRey9hgP96P+GVqSWsI/cgTszMa+5n+qyQCFnWG9dTSYkvNz3gLTPHeuVjSZGrHQ==
-X-Received: by 10.223.139.27 with SMTP id n27mr31251983wra.149.1485247453385; 
-	Tue, 24 Jan 2017 00:44:13 -0800 (PST)
+	bh=RQtNdrayuhdRpZEbXAQEFXYkwd4POBEFecHPg2VPzVI=;
+	b=LmTBG7XTFbdwo2kngCoOE6NZVfMSyaIT7SSUOKk+R+rd5/KhW/499PmbCWzPWqHwaT
+	S5zv4RSqisEyIZEPRnSTdiqI4RmhBUuvDsahDfB+Hz+EYduwJr5y9ybyOjpINMFB/YOa
+	V2fs5fYz1QIZnTfb4XHLybIdcXmE4zR0NJJZvpyQMN+E6DP49yRs3L2qwbDA2oaFqDHG
+	JtVqyUV8l/MGacDOGtqrp78otmRW7NAxZso6gBeqvpXoWTKHr2VuzwHY7ORdpQTGpMcn
+	bO9/YQYR5VwN96kfD+ezO5U/h5TpbmAzSro8AnOszhh0vV6Yc/R1rR+4/FqccRAJqsbq
+	3+Aw==
+X-Gm-Message-State: AIkVDXIF/c5U054q+5k7B0lH9OezvqIZjDqQQ4XgKSocb5L79ourOKGn45dQ4f9Ejw8UXA==
+X-Received: by 10.223.130.204 with SMTP id 70mr26348726wrc.128.1485247457868; 
+	Tue, 24 Jan 2017 00:44:17 -0800 (PST)
 Received: from localhost.localdomain ([185.47.80.46])
 	by smtp.gmail.com with ESMTPSA id
-	l140sm25240314wmg.12.2017.01.24.00.44.12
+	l140sm25240314wmg.12.2017.01.24.00.44.17
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 24 Jan 2017 00:44:12 -0800 (PST)
+	Tue, 24 Jan 2017 00:44:17 -0800 (PST)
 From: David Vincent <freesilicon@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Jan 2017 09:43:13 +0100
-Message-Id: <20170124084314.8046-3-freesilicon@gmail.com>
+Date: Tue, 24 Jan 2017 09:43:14 +0100
+Message-Id: <20170124084314.8046-4-freesilicon@gmail.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20170124084314.8046-1-freesilicon@gmail.com>
 References: <20170123145508.9252-1-freesilicon@gmail.com>
 	<20170124084314.8046-1-freesilicon@gmail.com>
-Subject: [PATCH 2/3] core-image: Set default sshd configuration
+Subject: [PATCH 3/3] rootfs-postcommands: Modify ssh-related commands
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,38 +55,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jan 2017 08:44:13 -0000
+X-List-Received-Date: Tue, 24 Jan 2017 08:44:18 -0000
 
-When selecting OpenSSH as ssh server provider instead of dropbear, also
-install the correct configuration depending on whether the final rootfs
-is read-only or not.
+OpenSSH configuration is now a symlink which points to the desired
+configuration, so the functions that modified it must be updated to
+modify the target and not override it.
 
 Signed-off-by: David Vincent <freesilicon@gmail.com>
 ---
- meta/classes/core-image.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes/rootfs-postcommands.bbclass | 28 +++++++---------------------
+ 1 file changed, 7 insertions(+), 21 deletions(-)
 
-diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
-index 8431440db4..d1f643d920 100644
---- a/meta/classes/core-image.bbclass
-+++ b/meta/classes/core-image.bbclass
-@@ -41,7 +41,7 @@ FEATURE_PACKAGES_tools-sdk = "packagegroup-core-sdk packagegroup-core-standalone
- FEATURE_PACKAGES_nfs-server = "packagegroup-core-nfs-server"
- FEATURE_PACKAGES_nfs-client = "packagegroup-core-nfs-client"
- FEATURE_PACKAGES_ssh-server-dropbear = "packagegroup-core-ssh-dropbear"
--FEATURE_PACKAGES_ssh-server-openssh = "packagegroup-core-ssh-openssh"
-+FEATURE_PACKAGES_ssh-server-openssh = "packagegroup-core-ssh-openssh ${SSHD_CONFIG}"
- FEATURE_PACKAGES_hwcodecs = "${MACHINE_HWCODECS}"
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index c8f18c6702..2d862b0b2e 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -86,20 +86,8 @@ read_only_rootfs_hook () {
+ 	# Tweak the mount option and fs_passno for rootfs in fstab
+ 	sed -i -e '/^[#[:space:]]*\/dev\/root/{s/defaults/ro/;s/\([[:space:]]*[[:digit:]]\)\([[:space:]]*\)[[:digit:]]$/\1\20/}' ${IMAGE_ROOTFS}/etc/fstab
  
+-	# If we're using openssh and the /etc/ssh directory has no pre-generated keys,
+-	# we should configure openssh to use the configuration file /etc/ssh/sshd_config_readonly
+-	# and the keys under /var/run/ssh.
+-	if [ -d ${IMAGE_ROOTFS}/etc/ssh ]; then
+-		if [ -e ${IMAGE_ROOTFS}/etc/ssh/ssh_host_rsa_key ]; then
+-			echo "SYSCONFDIR=/etc/ssh" >> ${IMAGE_ROOTFS}/etc/default/ssh
+-			echo "SSHD_OPTS=" >> ${IMAGE_ROOTFS}/etc/default/ssh
+-		else
+-			echo "SYSCONFDIR=/var/run/ssh" >> ${IMAGE_ROOTFS}/etc/default/ssh
+-			echo "SSHD_OPTS='-f /etc/ssh/sshd_config_readonly'" >> ${IMAGE_ROOTFS}/etc/default/ssh
+-		fi
+-	fi
+-
+-	# Also tweak the key location for dropbear in the same way.
++	# If we're using dropbear and the /etc/dropbear directory has no pre-generated keys,
++	# we should configure dropbear to use the keys under /var/lib/dropbear.
+ 	if [ -d ${IMAGE_ROOTFS}/etc/dropbear ]; then
+ 		if [ -e ${IMAGE_ROOTFS}/etc/dropbear/dropbear_rsa_host_key ]; then
+ 			echo "DROPBEAR_RSAKEY_DIR=/etc/dropbear" >> ${IMAGE_ROOTFS}/etc/default/dropbear
+@@ -138,12 +126,10 @@ zap_empty_root_password () {
+ # allow dropbear/openssh to accept root logins and logins from accounts with an empty password string
+ #
+ ssh_allow_empty_password () {
+-	for config in sshd_config sshd_config_readonly; do
+-		if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/$config ]; then
+-			sed -i 's/^[#[:space:]]*PermitRootLogin.*/PermitRootLogin yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/$config
+-			sed -i 's/^[#[:space:]]*PermitEmptyPasswords.*/PermitEmptyPasswords yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/$config
+-		fi
+-	done
++	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
++		sed -i --follow-symlinks 's/^[#[:space:]]*PermitRootLogin.*/PermitRootLogin yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
++		sed -i --follow-symlinks 's/^[#[:space:]]*PermitEmptyPasswords.*/PermitEmptyPasswords yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
++	fi
  
-@@ -52,6 +52,7 @@ IMAGE_FEATURES_REPLACES_ssh-server-openssh = "ssh-server-dropbear"
- # IMAGE_FEATURES_CONFLICTS_foo = 'bar1 bar2'
- # An error exception would be raised if both image features foo and bar1(or bar2) are included
+ 	if [ -e ${IMAGE_ROOTFS}${sbindir}/dropbear ] ; then
+ 		if grep -q DROPBEAR_EXTRA_ARGS ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear 2>/dev/null ; then
+@@ -162,7 +148,7 @@ ssh_allow_empty_password () {
  
-+SSHD_CONFIG ??= "${@bb.utils.contains('IMAGE_FEATURES','read-only-rootfs','openssh-sshd-config-readonly','openssh-sshd-config',d)}"
- MACHINE_HWCODECS ??= ""
+ ssh_disable_dns_lookup () {
+ 	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
+-		sed -i -e 's:#UseDNS yes:UseDNS no:' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
++		sed -i --follow-symlinks -e 's:#UseDNS yes:UseDNS no:' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
+ 	fi
+ }
  
- CORE_IMAGE_BASE_INSTALL = '\
 -- 
 2.11.0
 
