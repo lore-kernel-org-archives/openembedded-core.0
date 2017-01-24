@@ -1,47 +1,47 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-yb0-f174.google.com (mail-yb0-f174.google.com
-	[209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id E1785719A3
+Return-Path: <freesilicon@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id E23D471AC3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 08:50:12 +0000 (UTC)
-Received: by mail-yb0-f174.google.com with SMTP id j82so95441129ybg.1
+	Tue, 24 Jan 2017 09:08:00 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id d140so33189836wmd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 00:50:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=P8z1gqmzz2jGGjQnKLGjBSxc3gSOG+5qEg+tiBzvYEQ=;
-	b=tnjFn09PdBWM1f7chfoOkPkhDIZEDX/FDdoblqGYDzOI1aWXcR4inMSDK93e+g4a+Y
-	/CjcM17af4nRmJ5JAlhOlPunzH3V4/P9bBb010RDI+usFg/UkJxOBJH0E9f9YtgGbn8f
-	dn87VXxdgJq/dA0O3mS7CjASYlfsIKEk+qvPKg6em95PYlyHRBO6XMM+TI3CKLAkez7g
-	LwmQfJZnkx34pLRuyxGX3aDcTEyk73v8frNJNbuiNbFe9DBR1RD7+zDF8dMO+fqILrBn
-	ULVkaDgn+mj6/kI2UULGZkLnulOo2PFlVa3TW8Xhx72GZsngPzPKlMxb5xBvR+6M2ACc
-	MQ+g==
+	Tue, 24 Jan 2017 01:08:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=6QCpbNI1dfVDuObk0azryUH7xYKWfXrNMXi+/B0Wq8s=;
+	b=J+zlXwOrF7Wie5MmEACpzH9qhoBwqM6Dd8qweXd824EtjzSQqMSSpIMa+eH/aNdzKV
+	0ceLrJ/M4x81C2mfYGcHOrhNP2Di7H8OkBj2+HPR3ugd7WibjZYjUUCI18wHtn8cpaUW
+	U0zvCbwqYQC7g5zHlEwG0lM59kff9aCdcEY/h9cAletVkqaUheE1Jdbc3lOBeoXalDjY
+	Fe2AL5UxjW7OBpUwTzoh8F8l/mPwbbLmdbpBHQOOxZew6OdbqsoDW43qumOk5rOB5Une
+	8rlK6H55DtCvoIa/qdsKgR0mc/WLG7z2v8tKszyrVYelJLc5oOxBy1RnheUsJtVlCwlE
+	pR/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=P8z1gqmzz2jGGjQnKLGjBSxc3gSOG+5qEg+tiBzvYEQ=;
-	b=Bp2n2DdNKcJpFrXqeIRejdJ4wAfLKuaIBTXux6mqWCTkJ0YDtCpCla3xGySPPDdui+
-	vyNIXTSawYnMhOV0ZEEDhdZXoC1gOmmuDDzKeablD1f2DytSAr7E7nhUNh+AWNgQ8C9v
-	TalGLhsz73KzIjloXii+RRkvsrXfNT9y9P21J9AViuyt/aVvKUHZoM1yLCsqj3g5Bvj7
-	WBNm8itZnyUoSgucgWCopPaD/FEsh2WUHwhy10z3gQ4vrZTOsVZfnP6Zj0qYVnrGraL8
-	zOEIUantMRwQEA5zKcRrSea183EEH+LSZaVk9FVn93h4Wlwun0MZmoY7ni5rJZU930+c
-	dLYw==
-X-Gm-Message-State: AIkVDXLwTxbNRvXyNlOFWPPmRMuOJ+/5LefMpJk8zopw9I+aDIAtMzrGncLU18kI8yAhw2ZKsdHhm+u1MeTTaYVf
-X-Received: by 10.37.211.210 with SMTP id e201mr6403641ybf.99.1485247812984;
-	Tue, 24 Jan 2017 00:50:12 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.13.234.11 with HTTP; Tue, 24 Jan 2017 00:49:42 -0800 (PST)
-In-Reply-To: <1485241990-67089-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-References: <1485241990-67089-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Tue, 24 Jan 2017 10:49:42 +0200
-Message-ID: <CAHiDW_Hfmw51JuCq6m+ACR0vd-GYz28r8pVDQr77OXNbdAZMCw@mail.gmail.com>
-To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] elfutils: 0.166->0.168
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=6QCpbNI1dfVDuObk0azryUH7xYKWfXrNMXi+/B0Wq8s=;
+	b=SWpN4Qnr7xpZA8OdocOMtqDoOpPl9pCL1/gfqJK/0WD8+xXqiPQNUjYRtbSYEgTXHk
+	vcDtXVjmu5YDdsN+Jc5y6ETQN4ZOvx2/PuRTcfHzf6U1EtJH8so+PER2OWIMCV2hzkLO
+	UR2lyKkLFpVxpDtQ9QAWkeuwKnwM0N+M93r3CtIjzXIrrf+NEWeF7xxAQGNgjIuKDabt
+	k1r0ISTwGYoe8oVfUSrCIF6c4Fsh4as7qs8kzS81BP1w+1e00zfGs1ucWpEFh1mm7BxB
+	ZRHW0bfb09wTf+p2lV/3BnZ5IO+mwsZdwif9aNDfV06dJt0aEMQY07XX2cS1fvp/wWJB
+	EgAQ==
+X-Gm-Message-State: AIkVDXKS7/BttbEI2QufKjei67ADO9sHesV4y/Sh/S0VExXT8RJju210zbGYRJw3Rw3nKA==
+X-Received: by 10.28.54.195 with SMTP id y64mr16011831wmh.10.1485248880683;
+	Tue, 24 Jan 2017 01:08:00 -0800 (PST)
+Received: from localhost.localdomain ([185.47.80.46])
+	by smtp.gmail.com with ESMTPSA id
+	w70sm18781208wrc.47.2017.01.24.01.07.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 24 Jan 2017 01:08:00 -0800 (PST)
+From: David Vincent <freesilicon@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 24 Jan 2017 10:07:12 +0100
+Message-Id: <20170124090715.11646-1-freesilicon@gmail.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20170123145508.9252-1-freesilicon@gmail.com>
+References: <20170123145508.9252-1-freesilicon@gmail.com>
+Subject: [PATCH v2 0/3] openssh: Make sshd-config a package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,60 +54,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jan 2017 08:50:13 -0000
-Content-Type: multipart/alternative; boundary=94eb2c1475724c15d60546d334ac
+X-List-Received-Date: Tue, 24 Jan 2017 09:08:01 -0000
 
---94eb2c1475724c15d60546d334ac
-Content-Type: text/plain; charset=UTF-8
+This series of patch introduces a new way of modifying OpenSSH sshd
+configuration. Instead of modifying the files and launching the server with
+custom options, a package which RPROVIDES sshd-config must be installed.
 
-On 24 January 2017 at 09:13, Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-wrote:
+The package to use is selected using a new variable called SSHD_CONFIG which is
+used exclusively when selecting ssh-server-openssh in IMAGE_FEATURES.
 
-> 1) Upgrade elfutils from 0.166 to 0.168
-> 2) Delete 1 patch below to make it compatible with new version
->     elfcmp-fix-self-comparision.patch
-> 3) Modify 4 patches below to make it compatible with new version
->     elfutils-0.166/hppa_backend.diff -> elfutils-0.168/hppa_backend.diff
->     elfutils-0.166/mips_backend.diff -> elfutils-0.168/mips_backend.diff
->     elfutils-0.166/m68k_backend.diff -> elfutils-0.168/m68k_backend.diff
->     elfutils-0.166/0001-build-Provide-alternatives-for-glibc-assumptions-hel.patch
-> -> elfutils-0.168/0001-build-Provide-alternatives-for-
-> glibc-assumptions-hel.patch
->
+Changes since v1:
+  Remove documentation
 
-The last one is now showing as one removed and one added patch. Please use
-git rename detection to make it more readable:
+David Vincent (3):
+  openssh: Package server configuration
+  core-image: Set default sshd configuration
+  rootfs-postcommands: Modify ssh-related commands
 
-$ git config diff.renames copies
+ meta/classes/core-image.bbclass                    |  3 +-
+ meta/classes/rootfs-postcommands.bbclass           | 28 ++++---------
+ meta/recipes-connectivity/openssh/openssh_7.3p1.bb | 47 ++++++++++++++++++----
+ 3 files changed, 49 insertions(+), 29 deletions(-)
 
-Thanks,
-  Jussi
+-- 
+2.11.0
 
---94eb2c1475724c15d60546d334ac
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On 24 January 2017 at 09:13, Zheng Ruoqin <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:zhengrq.fnst@cn.fujitsu.com" target=3D"_blank">zhengrq.fnst@cn.f=
-ujitsu.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">1) Upgrade elfutils from 0.166 to 0.168<br>
-2) Delete 1 patch below to make it compatible with new version<br>
-=C2=A0 =C2=A0 elfcmp-fix-self-comparision.<wbr>patch<br>
-3) Modify 4 patches below to make it compatible with new version<br>
-=C2=A0 =C2=A0 elfutils-0.166/hppa_backend.<wbr>diff -&gt; elfutils-0.168/hp=
-pa_backend.<wbr>diff<br>
-=C2=A0 =C2=A0 elfutils-0.166/mips_backend.<wbr>diff -&gt; elfutils-0.168/mi=
-ps_backend.<wbr>diff<br>
-=C2=A0 =C2=A0 elfutils-0.166/m68k_backend.<wbr>diff -&gt; elfutils-0.168/m6=
-8k_backend.<wbr>diff<br>
-=C2=A0 =C2=A0 elfutils-0.166/0001-build-<wbr>Provide-alternatives-for-<wbr>=
-glibc-assumptions-hel.patch -&gt; elfutils-0.168/0001-build-<wbr>Provide-al=
-ternatives-for-<wbr>glibc-assumptions-hel.patch<br></blockquote><div><br></=
-div><div>The last one is now showing as one removed and one added patch. Pl=
-ease use git rename detection to make it more readable:</div><div><br></div=
-><div>$ git config diff.renames copies<br></div><div>=C2=A0</div><div>Thank=
-s,=C2=A0</div><div>=C2=A0 Jussi</div></div></div></div>
-
---94eb2c1475724c15d60546d334ac--
