@@ -1,25 +1,20 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FED7772B4
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 10:42:34 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga104.fm.intel.com with ESMTP; 24 Jan 2017 02:42:35 -0800
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F7DE771EA
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jan 2017 11:41:43 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga105.fm.intel.com with ESMTP; 24 Jan 2017 03:41:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,278,1477983600"; d="scan'208";a="926009118"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 24 Jan 2017 02:42:35 -0800
-Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 079E46A4006;
-	Tue, 24 Jan 2017 02:41:37 -0800 (PST)
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: Openembedded-core@lists.openembedded.org
-Date: Tue, 24 Jan 2017 12:42:22 +0200
-Message-Id: <2f838dda3c6645d03a86c270770015cb7491dc62.1485249527.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1485249527.git.jussi.kukkonen@intel.com>
-References: <cover.1485249527.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 9/9] xserver-xorg: Upgrade 1.19.0 -> 1.19.1
+X-IronPort-AV: E=Sophos;i="5.33,278,1477983600"; d="scan'208";a="1086671389"
+Received: from jlock-mobl1.ger.corp.intel.com ([10.252.2.20])
+	by orsmga001.jf.intel.com with ESMTP; 24 Jan 2017 03:41:43 -0800
+From: Joshua Lock <joshua.g.lock@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 24 Jan 2017 11:41:39 +0000
+Message-Id: <20170124114139.21140-1-joshua.g.lock@intel.com>
+X-Mailer: git-send-email 2.9.3
+Subject: [PATCH] toolchain-scripts: remove CCACHE_PATH from environment script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,35 +27,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jan 2017 10:42:34 -0000
+X-List-Received-Date: Tue, 24 Jan 2017 11:41:44 -0000
 
-Point release with bug fixes.
+CCACHE_PATH was added to the toolchain-scripts in commit
+1d31ddb856a80ba9da1a64ed5d701dc0f7351ef7 without a detailed
+explanation as to why. This commit removes that environment
+variable as it's causing failures since the introduction of
+host_gcc_version() to oe.utils in
+d36f41e5658bbbb6080ee833027879c119edf3e0, as used by
+uninative to determine NATIVELSBSTRING.
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+This causes errors when the host has ccache available in in PATH
+- host_gcc_version() fails because ccache has been told to only
+look for the compiler in CCACHE_PATH and can't find gcc in order
+to check its version. Toolchain compilers aren't detected due to
+the binaries being prefixed with the triplet of the target.
+
+Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
 ---
- .../xorg-xserver/{xserver-xorg_1.19.0.bb => xserver-xorg_1.19.1.bb}   | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.19.0.bb => xserver-xorg_1.19.1.bb} (88%)
+ meta/classes/toolchain-scripts.bbclass | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.0.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.1.bb
-similarity index 88%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.0.bb
-rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.1.bb
-index 8725382..987a2be 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.0.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.1.bb
-@@ -4,8 +4,8 @@ SRC_URI += "file://musl-arm-inb-outb.patch \
-             file://0001-configure.ac-Fix-check-for-CLOCK_MONOTONIC.patch \
-             file://0002-configure.ac-Fix-wayland-scanner-and-protocols-locat.patch \
-             "
--SRC_URI[md5sum] = "6a4d01e4e5047ab8f556960424ba1fa9"
--SRC_URI[sha256sum] = "149a708b50befc2d5a40b98d45ddd2ebe0beec018e6d0c663c43bad6210e4da3"
-+SRC_URI[md5sum] = "caa8ee7b2950abbf734347d137529fb6"
-+SRC_URI[sha256sum] = "79ae2cf39d3f6c4a91201d8dad549d1d774b3420073c5a70d390040aa965a7fb"
- 
- # These extensions are now integrated into the server, so declare the migration
- # path for in-place upgrades.
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index 7b68d20..260ece9 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -31,7 +31,6 @@ toolchain_create_sdk_env_script () {
+ 		EXTRAPATH="$EXTRAPATH:$sdkpathnative$bindir/${TARGET_ARCH}${TARGET_VENDOR}-$i"
+ 	done
+ 	echo "export PATH=$sdkpathnative$bindir:$sdkpathnative$sbindir:$sdkpathnative$base_bindir:$sdkpathnative$base_sbindir:$sdkpathnative$bindir/../${HOST_SYS}/bin:$sdkpathnative$bindir/${TARGET_SYS}"$EXTRAPATH':$PATH' >> $script
+-	echo "export CCACHE_PATH=$sdkpathnative$bindir:$sdkpathnative$bindir/../${HOST_SYS}/bin:$sdkpathnative$bindir/${TARGET_SYS}"$EXTRAPATH':$CCACHE_PATH' >> $script
+ 	echo 'export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT' >> $script
+ 	echo 'export PKG_CONFIG_PATH=$SDKTARGETSYSROOT'"$libdir"'/pkgconfig:$SDKTARGETSYSROOT'"$prefix"'/share/pkgconfig' >> $script
+ 	echo 'export CONFIG_SITE=${SDKPATH}/site-config-'"${multimach_target_sys}" >> $script
+@@ -50,7 +49,6 @@ toolchain_create_tree_env_script () {
+ 	rm -f $script
+ 	touch $script
+ 	echo 'export PATH=${STAGING_DIR_NATIVE}/usr/bin:${PATH}' >> $script
+-	echo 'export CCACHE_PATH=${STAGING_DIR_NATIVE}/usr/bin:${CCACHE_PATH}' >> $script
+ 	echo 'export PKG_CONFIG_SYSROOT_DIR=${PKG_CONFIG_SYSROOT_DIR}' >> $script
+ 	echo 'export PKG_CONFIG_PATH=${PKG_CONFIG_PATH}' >> $script
+ 	echo 'export CONFIG_SITE="${@siteinfo_get_files(d)}"' >> $script
 -- 
-2.1.4
+2.9.3
 
 
