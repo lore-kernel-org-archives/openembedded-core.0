@@ -1,18 +1,24 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 80F0F71A5E;
-	Tue, 24 Jan 2017 23:23:46 +0000 (UTC)
+Return-Path: <joe.slater@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 141EB71A05
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jan 2017 23:56:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v0ONuQ2B006782
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jan 2017 15:56:26 -0800 (PST)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Tue, 24 Jan 2017 15:56:25 -0800
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 24 Jan 2017 15:56:25 -0800
+Message-ID: <1485302185-20648-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Joe Slater <jslater@windriver.com>
-Date: Tue, 24 Jan 2017 23:23:47 -0000
-Message-ID: <20170124232347.4462.55542@do.openembedded.org>
-References: <1485288587-19549-1-git-send-email-jslater@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1485288587-19549-1-git-send-email-jslater@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ251dGxzOiBhY2NvdW50IGZvciBBUk1fRUFCSQ==?=
+Subject: [PATCH v2 1/1] gnutls: avoid accidentally using libseccomp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,40 +31,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jan 2017 23:23:46 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 24 Jan 2017 23:56:27 -0000
+Content-Type: text/plain
 
-== Series Details ==
+Specify whether to use libseccomp or not.  Do not
+just let configure check for it.
 
-Series: gnutls: account for ARM_EABI
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/4945/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
-  Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-support/gnutls/gnutls/arm_eabi.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Joe Slater <jslater@windriver.com>
 ---
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-support/gnutls/gnutls.inc            |   12 ++++++++++++
+ meta/recipes-support/gnutls/gnutls/arm_eabi.patch |    2 +-
+ 2 files changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
+index 003dc55..14fcdca 100644
+--- a/meta/recipes-support/gnutls/gnutls.inc
++++ b/meta/recipes-support/gnutls/gnutls.inc
+@@ -21,6 +21,17 @@ SRC_URI = "ftp://ftp.gnutls.org/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar.xz"
+ 
+ inherit autotools texinfo binconfig pkgconfig gettext lib_package gtk-doc
+ 
++# We cannot use PACKAGECONFIG for this since there is no controlling
++# configure option.
++#
++# To use seccomp, uncomment the two variables.  You must also
++# have CONFIG_SECCOMP enabled in the kernel.
++#
++#DEPENDS_append_class-target = " libseccomp"
++#lcl_LIBSECCOMP_class-target = "ac_cv_libseccomp=yes"
++
++lcl_LIBSECCOMP ?= "ac_cv_libseccomp=no"
++
+ PACKAGECONFIG ??= "libidn zlib"
+ 
+ PACKAGECONFIG[libidn] = "--with-idn,--without-idn,libidn"
+@@ -38,6 +49,7 @@ EXTRA_OECONF = " \
+     --enable-openssl-compatibility \
+     --with-libpthread-prefix=${STAGING_DIR_HOST}${prefix} \
+     --without-libunistring-prefix \
++    ${lcl_LIBSECCOMP} \
+ "
+ 
+ LDFLAGS_append_libc-musl = " -largp"
+diff --git a/meta/recipes-support/gnutls/gnutls/arm_eabi.patch b/meta/recipes-support/gnutls/gnutls/arm_eabi.patch
+index 8bf06f1..34c8985 100644
+--- a/meta/recipes-support/gnutls/gnutls/arm_eabi.patch
++++ b/meta/recipes-support/gnutls/gnutls/arm_eabi.patch
+@@ -1,7 +1,7 @@
+ Certain syscall's are not availabe for arm-eabi, so we eliminate
+ reference to them.
+ 
+-Upstream-status: pending
++Upstream-Status: Pending
+ 
+ Signed-off-by: Joe Slater <jslater@windriver.com>
+ 
+-- 
+1.7.9.5
 
 
