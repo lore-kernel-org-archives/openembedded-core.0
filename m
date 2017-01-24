@@ -1,33 +1,46 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 125B877202
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 10:16:36 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga105.jf.intel.com with ESMTP; 24 Jan 2017 02:16:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,278,1477983600"; d="scan'208";a="51873009"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga004.jf.intel.com with ESMTP; 24 Jan 2017 02:16:36 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id DC35E6A4006;
-	Tue, 24 Jan 2017 02:15:38 -0800 (PST)
-Date: Tue, 24 Jan 2017 11:54:12 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Message-ID: <20170124095412.GA18502@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <CAPLgG=muXdcmCcFCC7NY8Zk9ANH5yf616T5b9Bc31OCJq=AD3w@mail.gmail.com>
-	<20170123103403.GA15174@linux.intel.com>
-	<25cca98b-9e19-36b7-c53f-5ed79eeb5a91@topic.nl>
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-yw0-f175.google.com (mail-yw0-f175.google.com
+	[209.85.161.175])
+	by mail.openembedded.org (Postfix) with ESMTP id D0C117723D
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jan 2017 10:18:26 +0000 (UTC)
+Received: by mail-yw0-f175.google.com with SMTP id v200so157156627ywc.3
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jan 2017 02:18:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=pcqShV2X0SjOvU7D+91CjolVd96/prPGqil0kHG4AJY=;
+	b=wqQE9+DTDhdbU2PKTdF0KdRUt70mfrKzUaBfj/8wX6ICNsIPcIpc/vmma5NQHX91AI
+	xzEYBdIEW5hkAPe1bWitdqHdcilp71mi9QIlIliU0zbDEkf6kPUX5i2VHQWTKfVSniC+
+	lA0w+/0/diVGS93YV8jAoTlG6qXoQKtYgjUtpsU2MMnuH3MynXNBC/nMh1zVl9SVarJb
+	etjL0FYknRbhgkWABln26R89AFccZIuEcXWB+2EUj/BP31KKttLrzsQX7ccUUX9Q0pFB
+	ee69B1np9/0RP8z3bdxU+CMoJ16tVYIDZilJqmN0lSvKnq3x1sjNTBbN/Fxz3WMpZKcS
+	qWgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=pcqShV2X0SjOvU7D+91CjolVd96/prPGqil0kHG4AJY=;
+	b=A2vQ+a/x9f5VdFrvdoyyWL4MBdweasCmK9xrO57NivkQLXtFHck0mB8sJ3ilRbXEvs
+	9ghH2JxcwEMJJXVUinNk8zlCZcBimzSnyRLMLuzKB/YBWurQUScUhRNvqOwfH+/LRZ+j
+	PxmpIK+1MpKqZ1SRSW9vwxomxGA6GCC0uLvD5iiLvanh8R/56kmi8A6IMaVhAPToKnol
+	c4fw7a81ziDmrlvnfRh9IHCzaQQO1ducx0AH8X3BIXizvRpzg9TpCX7kCAcTzh1YK92+
+	zYaU0gg4csz94Qyi8upUZuJoxiISWq20RHpvVoyB3q1M09R3cxHpZW73AUmfD483WIXF
+	kfRg==
+X-Gm-Message-State: AIkVDXIdHraXILmy1q14TIHbDX7dcEv2a6fqDAOmmc/w+GJxYmGCMyGJJ2Nvb56qNV2aoNjcFPEc+gIZNyLvSfTH
+X-Received: by 10.129.111.194 with SMTP id k185mr27769668ywc.328.1485253106756;
+	Tue, 24 Jan 2017 02:18:26 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <25cca98b-9e19-36b7-c53f-5ed79eeb5a91@topic.nl>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: How to use WIC to generate raw flash images
+Received: by 10.13.234.11 with HTTP; Tue, 24 Jan 2017 02:17:56 -0800 (PST)
+In-Reply-To: <502e675a-bdaa-3acd-5343-5cb2f40f2a7a@mender.io>
+References: <502e675a-bdaa-3acd-5343-5cb2f40f2a7a@mender.io>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Tue, 24 Jan 2017 12:17:56 +0200
+Message-ID: <CAHiDW_HwmNybt8AuLWBtMSW=8R1SO3GBChRmwtCkWkmq3bFB0g@mail.gmail.com>
+To: Kristian Amlie <kristian.amlie@mender.io>
+Cc: OE-core <Openembedded-core@lists.openembedded.org>
+Subject: Re: Recipe specific sysroots: New failure to compile Go
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,28 +53,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jan 2017 10:16:37 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 24 Jan 2017 10:18:27 -0000
+Content-Type: multipart/alternative; boundary=001a1147194ad49caa0546d46fe3
 
-On Tue, Jan 24, 2017 at 09:56:17AM +0100, Mike Looijmans wrote:
-> ﻿On 23-01-17 11:34, Ed Bartosh wrote:
-> ...
-> >>- How do I set padding to be 0xFF instead of 0x00?
-> >The same thing here. Currently wic images are sparse files created by
-> >os.ftruncate, but it's not a big deal to fill them with 0xFF
-> 
-> Correct me if I'm wrong here...
-> - All flash media (NOR, NAND) prefers padding with 0xFF because
-> that's equal to an erased sector.
-> - Other media (magnetic disks) don't care about what they're padded with.
-> 
-> So I'd say it makes sense to make 0xFF the default padding for exerything?
+--001a1147194ad49caa0546d46fe3
+Content-Type: text/plain; charset=UTF-8
 
-That would break image sparseness.
+On 24 January 2017 at 11:36, Kristian Amlie <kristian.amlie@mender.io>
+wrote:
+[snip]
 
---
-Regards,
-Ed
+> /home/jenkins/workspace/yoctobuild/build-qemu/tmp/
+> work/x86_64-linux/go-native/1.7.4-r0/recipe-sysroot-native/
+> usr/lib/go-bootstrap-native-1.4.3/pkg/tool/linux_amd64/6l:
+> readsym out of sync
+> | WARNING: exit code 2 from a shell command.
+> | ERROR: Function failed: do_compile (log file is located at
+> /home/jenkins/workspace/yoctobuild/build-qemu/tmp/
+> work/x86_64-linux/go-native/1.7.4-r0/temp/log.do_compile.10566)
+> ERROR: Task
+> (virtual:native:/home/jenkins/workspace/yoctobuild/oe-meta-
+> go/recipes-devtools/go/go_1.7.4.bb:do_compile)
+> failed with exit code '1'
+> -----------------------------------------------
+>
+> Note in particular the "readsym out of sync", which appears to be the
+> heart of the problem.
+>
+> Using git bisect I have verified that it is the commit
+> 9107d6ca144ac1f6169830dee25dae2dad775333, the introduction of recipe
+> specific sysroots, that breaks the build. However, I cannot see an
+> obvious link between the two, the error looks very internal to Go. Any
+> clue what's going on?
+>
 
+This could be a symptom of a missing dependency in the go (or go-bootstrap)
+recipe: the recipe specific sysroot only contains the specified build
+dependencies unlike the previous system where the sysroot typically
+contained loads of other things as well.
+
+I'm afraid I don't have any more specific suggestions.
+
+ Jussi
+
+--001a1147194ad49caa0546d46fe3
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 2=
+4 January 2017 at 11:36, Kristian Amlie <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:kristian.amlie@mender.io" target=3D"_blank">kristian.amlie@mender.io</=
+a>&gt;</span> wrote:</div><div class=3D"gmail_quote">[snip]<br><blockquote =
+class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
+;padding-left:1ex">/home/jenkins/workspace/<wbr>yoctobuild/build-qemu/tmp/<=
+wbr>work/x86_64-linux/go-native/1.<wbr>7.4-r0/recipe-sysroot-native/<wbr>us=
+r/lib/go-bootstrap-native-1.<wbr>4.3/pkg/tool/linux_amd64/6l:<br>
+readsym out of sync<br>
+| WARNING: exit code 2 from a shell command.<br>
+| ERROR: Function failed: do_compile (log file is located at<br>
+/home/jenkins/workspace/<wbr>yoctobuild/build-qemu/tmp/<wbr>work/x86_64-lin=
+ux/go-native/1.<wbr>7.4-r0/temp/log.do_compile.<wbr>10566)<br>
+ERROR: Task<br>
+(virtual:native:/home/jenkins/<wbr>workspace/yoctobuild/oe-meta-<wbr>go/rec=
+ipes-devtools/go/go_1.7.<wbr>4.bb:do_compile)<br>
+failed with exit code &#39;1&#39;<br>
+------------------------------<wbr>-----------------<br>
+<br>
+Note in particular the &quot;readsym out of sync&quot;, which appears to be=
+ the<br>
+heart of the problem.<br>
+<br>
+Using git bisect I have verified that it is the commit<br>
+9107d6ca144ac1f6169830dee25dae<wbr>2dad775333, the introduction of recipe<b=
+r>
+specific sysroots, that breaks the build. However, I cannot see an<br>
+obvious link between the two, the error looks very internal to Go. Any<br>
+clue what&#39;s going on?<br></blockquote><div><br></div><div>This could be=
+ a symptom of a missing dependency in the go (or go-bootstrap) recipe: the =
+recipe specific sysroot only contains the specified build dependencies unli=
+ke the previous system where the sysroot typically contained loads of other=
+ things as well.</div><div><br></div><div>I&#39;m afraid I don&#39;t have a=
+ny more specific suggestions.</div><div>=C2=A0</div><div>=C2=A0Jussi<br></d=
+iv><div>=C2=A0</div></div></div></div>
+
+--001a1147194ad49caa0546d46fe3--
