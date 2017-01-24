@@ -1,48 +1,47 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id CE188771D4
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-yb0-f174.google.com (mail-yb0-f174.google.com
+	[209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id E1785719A3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 08:44:17 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id d140so33048121wmd.2
+	Tue, 24 Jan 2017 08:50:12 +0000 (UTC)
+Received: by mail-yb0-f174.google.com with SMTP id j82so95441129ybg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 00:44:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=RQtNdrayuhdRpZEbXAQEFXYkwd4POBEFecHPg2VPzVI=;
-	b=IUUvh59wpWvpuEymiT6s8hmIWcwav0sBIc0OjazjlXQkzFPwkN2q2OSDM6PLy8t9qU
-	Dctj1cPPigxnV+XLoRDjEu79Eu65ukeKbrrLUttsJzpgDOw124bx6BUrQKeLmWZarGAx
-	WiZeQdKzdNl+y9ggkn5R16rK2sd/rQMGjfGaLSI2I7fWEDGFV83518qwtHWhdprTW/kS
-	t+660scxo9UDtgWRlmJE2TnqNe/USuNE6AnCY+jVTRaiRDyJBlXcOnQCNo48QS/deGeq
-	tVcQI9Y07L3dVcpBKoOwgie/O24rqUjD4q6y7dltYlponVRQy3Wb9QMK7fT0dRcScYq2
-	yaTw==
+	Tue, 24 Jan 2017 00:50:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=P8z1gqmzz2jGGjQnKLGjBSxc3gSOG+5qEg+tiBzvYEQ=;
+	b=tnjFn09PdBWM1f7chfoOkPkhDIZEDX/FDdoblqGYDzOI1aWXcR4inMSDK93e+g4a+Y
+	/CjcM17af4nRmJ5JAlhOlPunzH3V4/P9bBb010RDI+usFg/UkJxOBJH0E9f9YtgGbn8f
+	dn87VXxdgJq/dA0O3mS7CjASYlfsIKEk+qvPKg6em95PYlyHRBO6XMM+TI3CKLAkez7g
+	LwmQfJZnkx34pLRuyxGX3aDcTEyk73v8frNJNbuiNbFe9DBR1RD7+zDF8dMO+fqILrBn
+	ULVkaDgn+mj6/kI2UULGZkLnulOo2PFlVa3TW8Xhx72GZsngPzPKlMxb5xBvR+6M2ACc
+	MQ+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=RQtNdrayuhdRpZEbXAQEFXYkwd4POBEFecHPg2VPzVI=;
-	b=LmTBG7XTFbdwo2kngCoOE6NZVfMSyaIT7SSUOKk+R+rd5/KhW/499PmbCWzPWqHwaT
-	S5zv4RSqisEyIZEPRnSTdiqI4RmhBUuvDsahDfB+Hz+EYduwJr5y9ybyOjpINMFB/YOa
-	V2fs5fYz1QIZnTfb4XHLybIdcXmE4zR0NJJZvpyQMN+E6DP49yRs3L2qwbDA2oaFqDHG
-	JtVqyUV8l/MGacDOGtqrp78otmRW7NAxZso6gBeqvpXoWTKHr2VuzwHY7ORdpQTGpMcn
-	bO9/YQYR5VwN96kfD+ezO5U/h5TpbmAzSro8AnOszhh0vV6Yc/R1rR+4/FqccRAJqsbq
-	3+Aw==
-X-Gm-Message-State: AIkVDXIF/c5U054q+5k7B0lH9OezvqIZjDqQQ4XgKSocb5L79ourOKGn45dQ4f9Ejw8UXA==
-X-Received: by 10.223.130.204 with SMTP id 70mr26348726wrc.128.1485247457868; 
-	Tue, 24 Jan 2017 00:44:17 -0800 (PST)
-Received: from localhost.localdomain ([185.47.80.46])
-	by smtp.gmail.com with ESMTPSA id
-	l140sm25240314wmg.12.2017.01.24.00.44.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 24 Jan 2017 00:44:17 -0800 (PST)
-From: David Vincent <freesilicon@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Jan 2017 09:43:14 +0100
-Message-Id: <20170124084314.8046-4-freesilicon@gmail.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20170124084314.8046-1-freesilicon@gmail.com>
-References: <20170123145508.9252-1-freesilicon@gmail.com>
-	<20170124084314.8046-1-freesilicon@gmail.com>
-Subject: [PATCH 3/3] rootfs-postcommands: Modify ssh-related commands
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=P8z1gqmzz2jGGjQnKLGjBSxc3gSOG+5qEg+tiBzvYEQ=;
+	b=Bp2n2DdNKcJpFrXqeIRejdJ4wAfLKuaIBTXux6mqWCTkJ0YDtCpCla3xGySPPDdui+
+	vyNIXTSawYnMhOV0ZEEDhdZXoC1gOmmuDDzKeablD1f2DytSAr7E7nhUNh+AWNgQ8C9v
+	TalGLhsz73KzIjloXii+RRkvsrXfNT9y9P21J9AViuyt/aVvKUHZoM1yLCsqj3g5Bvj7
+	WBNm8itZnyUoSgucgWCopPaD/FEsh2WUHwhy10z3gQ4vrZTOsVZfnP6Zj0qYVnrGraL8
+	zOEIUantMRwQEA5zKcRrSea183EEH+LSZaVk9FVn93h4Wlwun0MZmoY7ni5rJZU930+c
+	dLYw==
+X-Gm-Message-State: AIkVDXLwTxbNRvXyNlOFWPPmRMuOJ+/5LefMpJk8zopw9I+aDIAtMzrGncLU18kI8yAhw2ZKsdHhm+u1MeTTaYVf
+X-Received: by 10.37.211.210 with SMTP id e201mr6403641ybf.99.1485247812984;
+	Tue, 24 Jan 2017 00:50:12 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.13.234.11 with HTTP; Tue, 24 Jan 2017 00:49:42 -0800 (PST)
+In-Reply-To: <1485241990-67089-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+References: <1485241990-67089-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Tue, 24 Jan 2017 10:49:42 +0200
+Message-ID: <CAHiDW_Hfmw51JuCq6m+ACR0vd-GYz28r8pVDQr77OXNbdAZMCw@mail.gmail.com>
+To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] elfutils: 0.166->0.168
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,71 +54,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jan 2017 08:44:18 -0000
+X-List-Received-Date: Tue, 24 Jan 2017 08:50:13 -0000
+Content-Type: multipart/alternative; boundary=94eb2c1475724c15d60546d334ac
 
-OpenSSH configuration is now a symlink which points to the desired
-configuration, so the functions that modified it must be updated to
-modify the target and not override it.
+--94eb2c1475724c15d60546d334ac
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: David Vincent <freesilicon@gmail.com>
----
- meta/classes/rootfs-postcommands.bbclass | 28 +++++++---------------------
- 1 file changed, 7 insertions(+), 21 deletions(-)
+On 24 January 2017 at 09:13, Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+wrote:
 
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index c8f18c6702..2d862b0b2e 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -86,20 +86,8 @@ read_only_rootfs_hook () {
- 	# Tweak the mount option and fs_passno for rootfs in fstab
- 	sed -i -e '/^[#[:space:]]*\/dev\/root/{s/defaults/ro/;s/\([[:space:]]*[[:digit:]]\)\([[:space:]]*\)[[:digit:]]$/\1\20/}' ${IMAGE_ROOTFS}/etc/fstab
- 
--	# If we're using openssh and the /etc/ssh directory has no pre-generated keys,
--	# we should configure openssh to use the configuration file /etc/ssh/sshd_config_readonly
--	# and the keys under /var/run/ssh.
--	if [ -d ${IMAGE_ROOTFS}/etc/ssh ]; then
--		if [ -e ${IMAGE_ROOTFS}/etc/ssh/ssh_host_rsa_key ]; then
--			echo "SYSCONFDIR=/etc/ssh" >> ${IMAGE_ROOTFS}/etc/default/ssh
--			echo "SSHD_OPTS=" >> ${IMAGE_ROOTFS}/etc/default/ssh
--		else
--			echo "SYSCONFDIR=/var/run/ssh" >> ${IMAGE_ROOTFS}/etc/default/ssh
--			echo "SSHD_OPTS='-f /etc/ssh/sshd_config_readonly'" >> ${IMAGE_ROOTFS}/etc/default/ssh
--		fi
--	fi
--
--	# Also tweak the key location for dropbear in the same way.
-+	# If we're using dropbear and the /etc/dropbear directory has no pre-generated keys,
-+	# we should configure dropbear to use the keys under /var/lib/dropbear.
- 	if [ -d ${IMAGE_ROOTFS}/etc/dropbear ]; then
- 		if [ -e ${IMAGE_ROOTFS}/etc/dropbear/dropbear_rsa_host_key ]; then
- 			echo "DROPBEAR_RSAKEY_DIR=/etc/dropbear" >> ${IMAGE_ROOTFS}/etc/default/dropbear
-@@ -138,12 +126,10 @@ zap_empty_root_password () {
- # allow dropbear/openssh to accept root logins and logins from accounts with an empty password string
- #
- ssh_allow_empty_password () {
--	for config in sshd_config sshd_config_readonly; do
--		if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/$config ]; then
--			sed -i 's/^[#[:space:]]*PermitRootLogin.*/PermitRootLogin yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/$config
--			sed -i 's/^[#[:space:]]*PermitEmptyPasswords.*/PermitEmptyPasswords yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/$config
--		fi
--	done
-+	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
-+		sed -i --follow-symlinks 's/^[#[:space:]]*PermitRootLogin.*/PermitRootLogin yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
-+		sed -i --follow-symlinks 's/^[#[:space:]]*PermitEmptyPasswords.*/PermitEmptyPasswords yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
-+	fi
- 
- 	if [ -e ${IMAGE_ROOTFS}${sbindir}/dropbear ] ; then
- 		if grep -q DROPBEAR_EXTRA_ARGS ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear 2>/dev/null ; then
-@@ -162,7 +148,7 @@ ssh_allow_empty_password () {
- 
- ssh_disable_dns_lookup () {
- 	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
--		sed -i -e 's:#UseDNS yes:UseDNS no:' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
-+		sed -i --follow-symlinks -e 's:#UseDNS yes:UseDNS no:' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
- 	fi
- }
- 
--- 
-2.11.0
+> 1) Upgrade elfutils from 0.166 to 0.168
+> 2) Delete 1 patch below to make it compatible with new version
+>     elfcmp-fix-self-comparision.patch
+> 3) Modify 4 patches below to make it compatible with new version
+>     elfutils-0.166/hppa_backend.diff -> elfutils-0.168/hppa_backend.diff
+>     elfutils-0.166/mips_backend.diff -> elfutils-0.168/mips_backend.diff
+>     elfutils-0.166/m68k_backend.diff -> elfutils-0.168/m68k_backend.diff
+>     elfutils-0.166/0001-build-Provide-alternatives-for-glibc-assumptions-hel.patch
+> -> elfutils-0.168/0001-build-Provide-alternatives-for-
+> glibc-assumptions-hel.patch
+>
 
+The last one is now showing as one removed and one added patch. Please use
+git rename detection to make it more readable:
 
+$ git config diff.renames copies
+
+Thanks,
+  Jussi
+
+--94eb2c1475724c15d60546d334ac
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On 24 January 2017 at 09:13, Zheng Ruoqin <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:zhengrq.fnst@cn.fujitsu.com" target=3D"_blank">zhengrq.fnst@cn.f=
+ujitsu.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">1) Upgrade elfutils from 0.166 to 0.168<br>
+2) Delete 1 patch below to make it compatible with new version<br>
+=C2=A0 =C2=A0 elfcmp-fix-self-comparision.<wbr>patch<br>
+3) Modify 4 patches below to make it compatible with new version<br>
+=C2=A0 =C2=A0 elfutils-0.166/hppa_backend.<wbr>diff -&gt; elfutils-0.168/hp=
+pa_backend.<wbr>diff<br>
+=C2=A0 =C2=A0 elfutils-0.166/mips_backend.<wbr>diff -&gt; elfutils-0.168/mi=
+ps_backend.<wbr>diff<br>
+=C2=A0 =C2=A0 elfutils-0.166/m68k_backend.<wbr>diff -&gt; elfutils-0.168/m6=
+8k_backend.<wbr>diff<br>
+=C2=A0 =C2=A0 elfutils-0.166/0001-build-<wbr>Provide-alternatives-for-<wbr>=
+glibc-assumptions-hel.patch -&gt; elfutils-0.168/0001-build-<wbr>Provide-al=
+ternatives-for-<wbr>glibc-assumptions-hel.patch<br></blockquote><div><br></=
+div><div>The last one is now showing as one removed and one added patch. Pl=
+ease use git rename detection to make it more readable:</div><div><br></div=
+><div>$ git config diff.renames copies<br></div><div>=C2=A0</div><div>Thank=
+s,=C2=A0</div><div>=C2=A0 Jussi</div></div></div></div>
+
+--94eb2c1475724c15d60546d334ac--
