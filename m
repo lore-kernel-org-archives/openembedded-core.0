@@ -1,46 +1,59 @@
-Return-Path: <cazfi74@gmail.com>
-Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
-	[209.85.218.68])
-	by mail.openembedded.org (Postfix) with ESMTP id EF3E377202
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 3164F71E15
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 14:42:20 +0000 (UTC)
-Received: by mail-oi0-f68.google.com with SMTP id j15so13345243oih.0
+	Tue, 24 Jan 2017 15:45:54 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id 194so16980458pgd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 06:42:21 -0800 (PST)
+	Tue, 24 Jan 2017 07:45:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=OAyu3WRdB3qp9uCSzPpWPn6DqlniAiCRpKDi3852Rn0=;
-	b=tpjSUMVe+NUIKHfxvAl8KaaDtPA4zdqSCSJNHYYeOs/SihRyeh3vlWOotDd4oEGA80
-	v/YW/XlauTZyhpkauUVZuvjUlWRom+GK8vuzUr31nbcbJGVkzaJavg6hRVx4boLPguDL
-	DNjpRuAYuDdiM7X4TWp/tofFWK+XX5Bq2UaKPQsyxYTt8c+pi7qaJQukn2Hv4AiW4ZeU
-	zQjEVGxs+U7O/A13YXy/XrIj80jDZ1+2M1jc04pcGXpIAjIa5nVjqBbC5LBhuDsjJian
-	5WUB+jJpt/U/0pJ37Gs8SR3RdMH+1Spdkkn5Q44O+QFME8EBPJ6UgWIHGNL/UoPU3XPC
-	+EmQ==
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=aUnluupgg8ptRV5ycbvT8InJOODbVbd2gRjmqn0SdOU=;
+	b=dKCEZbXrT+1qj9Mkf4tAzoHsC6THosrN4TtmTspABu84f3aYmVCSbQVn95WAon0bpt
+	voZPFcxgBJwjFRFlfNYeyD4vohko8arr345OW7KERGrSUHSvOkkFJEbBLsSAnTottK3h
+	LP9RRbjD9PTFywhcJ/nIPJCok1QSVyFnG7Wl/keDdxFgkIsLwtNYRkAHO1Wnc1WUPGgi
+	R/HYyDD0/tgKNg5s7L1h3A4ghMns7gyhCP5CaLN+C7MyWf2KwYr02kAiAWEfKbAkwHub
+	QrU0LUETm8VLJRfY3+qi/eimxahKUU0LloRaT8NivE+jTajIFJkygoZIx+opO5Y+/q10
+	5/lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=OAyu3WRdB3qp9uCSzPpWPn6DqlniAiCRpKDi3852Rn0=;
-	b=kD9Fn6wzZsQ2vtyMZfyaczOlSabvi4Z/CeWi/rBLx8EYp70EBCsZclwFU6Ym03BzbJ
-	taaIabVrIE/bQrh4MtdpzSfQrxEMtDPWu4icwG5u57Wv0qOYK4YEBKh0eFG7/bPnjQDp
-	ovIe7Si5lie+TaPFMW04wUmX4WEE2Emq/R9PVmWrpbeSie1Y6qpO5UxtPWox5pYx+3Vz
-	EVV1cKRtjDEkeTCrqt+7EGrwPBC6GPmIDWti3nzryq+6Pilf7wXoQ6pz3GLu9Wuv1wNf
-	TNIeW+vIxnUc76zpmeECW6CoCc+UQlZjEU+15BJD6/MIzWmjuslQ2e69shCmQ64qkxhV
-	o0JA==
-X-Gm-Message-State: AIkVDXJpb2/qpPasdAI9GWnQoPI/3PkRIbnQMHwQh4/F6Gua8Y1Mxcy4jDvJZMSSijiSVB6iIPRoqTMr7h0Euw==
-X-Received: by 10.202.244.19 with SMTP id s19mr17568440oih.24.1485268940799;
-	Tue, 24 Jan 2017 06:42:20 -0800 (PST)
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=aUnluupgg8ptRV5ycbvT8InJOODbVbd2gRjmqn0SdOU=;
+	b=LBILLbRBGIhigMOz0WSZm43aB5CtdtVg1O0cxezPjMER/Twhpa/o8LzeVqV73fTRzJ
+	JOIG7TEVd7uvezTFIeuUrttkpXHUJLfSxBS27HcYpFiPlh96FCKv7AD8SWFMHsmBSxBz
+	or2KyCo164I3eiLztrtnJQAFvtVNxFrxOABr4gh0wRQ4Q8Zw/srXOcLgBGski4kgGCmk
+	tPu5l6Bh297ymOlAawWWedogZIUGMxc/hHyuNTHedaXwAcRAJ5La8J7Zm1qb/2wHcAcQ
+	IlicMc3Qn4DcegoS7VhvWXkwqDticPeIHi2v6EcXIo2QqVxs3XJ/3sZAtPnx1oxNjSQh
+	mh1g==
+X-Gm-Message-State: AIkVDXLr8FPVMbzs+lsGlbUpj90QH9LGvcPPV8hnsidykPTmwoNMFz15kNrlE38Ua2cVLA==
+X-Received: by 10.98.95.70 with SMTP id t67mr36571568pfb.37.1485272755376;
+	Tue, 24 Jan 2017 07:45:55 -0800 (PST)
+Received: from ?IPv6:2601:202:4001:9ea0:ea2a:eaff:fe0e:629e?
+	([2601:202:4001:9ea0:ea2a:eaff:fe0e:629e])
+	by smtp.gmail.com with ESMTPSA id
+	u75sm6731372pgc.31.2017.01.24.07.45.53
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 24 Jan 2017 07:45:54 -0800 (PST)
+To: Mike Looijmans <mike.looijmans@topic.nl>,
+	Nathan Rossi <nathan@nathanrossi.com>
+References: <1479848501-5451-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
+	<CAMKF1spiS9_qTRf2_01rVRTfwKLoZ+WDYm7Hy4_Dr5On7eDLXw@mail.gmail.com>
+	<14EB1FFCA0C8D24A8B04EDEC1EA78C2453DBB31E@XSJ-PSEXMBX01.xlnx.xilinx.com>
+	<05c7dfd0-38f3-b684-db94-38121b086a67@topic.nl>
+	<CA+aJhH03XW19tEX5nP7WgoV6au9xmms6GuASEHMmRvA-1qhh8w@mail.gmail.com>
+	<ee6f0244-0fb1-ad27-6056-a358b5eb0112@gmail.com>
+	<1efda273-0a0f-e75d-1364-6ac1815154fe@topic.nl>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <d176c428-1cd5-02dd-d49e-c3299128f529@gmail.com>
+Date: Tue, 24 Jan 2017 07:45:37 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.5.1
 MIME-Version: 1.0
-Received: by 10.157.11.151 with HTTP; Tue, 24 Jan 2017 06:42:20 -0800 (PST)
-In-Reply-To: <LOXP123MB0117C97F4BE309CCAA9AFAF585750@LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM>
-References: <LOXP123MB0117C97F4BE309CCAA9AFAF585750@LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM>
-From: Marko Lindqvist <cazfi74@gmail.com>
-Date: Tue, 24 Jan 2017 16:42:20 +0200
-Message-ID: <CAF6bG8cjeGXZfRvnr0BdS=P8hgC8zzfJmbwYJg1FXnOxgdKKDQ@mail.gmail.com>
-To: Andrew Goodbody <andrew.goodbody@cambrionix.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: configure error for glibc 2.25.2
+In-Reply-To: <1efda273-0a0f-e75d-1364-6ac1815154fe@topic.nl>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH][Morty] binutils-2.27.inc: Fix alignment frags for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,51 +66,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jan 2017 14:42:21 -0000
-Content-Type: text/plain; charset=UTF-8
-
- Probably unrelated, but glibc people were hoping autoconf-2.70
-release before they release glibc-2.25 as post-2.24 glibc configure
-has some problem post-2.69 autoconf would resolve. I don't know if
-they have managed to work around their issue some other way when
-autoconf release has still failed to materialize (it was half-promised
-by the end of year 2016)
+X-List-Received-Date: Tue, 24 Jan 2017 15:45:55 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
- - ML
 
-
-On 24 January 2017 at 16:07, Andrew Goodbody
-<andrew.goodbody@cambrionix.com> wrote:
-> I get the following configure error when trying to rebuild my tree today after doing a sync.
+On 01/23/2017 10:48 PM, Mike Looijmans wrote:
+> On 18-01-17 17:09, akuster808 wrote:
+>>
+>>
+>> On 01/18/2017 04:08 AM, Nathan Rossi wrote:
+>>> On 18 January 2017 at 19:37, Mike Looijmans 
+>>> <mike.looijmans@topic.nl> wrote:
+>>>> Could someone at least please say "yes" or "no"?
+>>>>
+>>>> I now have three projects waiting for this patch to be included in 
+>>>> morty. If
+>>>> it's not going to happen, I'll have to add a bbappend to these 
+>>>> layers to fix
+>>>> it.
+>>>>
+>>>> On 16-01-17 18:49, Manjukumar Harthikote Matha wrote:
+>>>>> Ping, this has been applied to master
+>>> Armin, you mentioned on IRC ~1 week ago that you had merged it to your
+>>> staging branch? Any updates?
+>>> Also I had a look and could not find the change in
+>>> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=akuster/morty-next? 
+>>>
+>>>
+>>> Maybe I am looking in the wrong place though for your staging tree?
+>> I forgot to press go. Its there now.
 >
-> Is this a core issue or something wrong in my tree?
+> Much appreciated.
 >
-> Thanks,
-> Andrew
+> Who's next in line to press "go" now? I still have three projects 
+> waiting.
+Richard or one of his minions.
+
 >
-> | checking installed Linux kernel header files... missing or too old!
-> | configure: error: GNU libc requires kernel header files from
-> | Linux 3.2.0 or later to be installed before configuring.
-> | The kernel header files are found usually in /usr/include/asm and
-> | /usr/include/linux; make sure these directories use files from
-> | Linux 3.2.0 or later.  This check uses <linux/version.h>, so
-> | make sure that file was built correctly when installing the kernel header
-> | files.  To use kernel headers not from /usr/include/linux, use the
-> | configure option --with-headers.
-> | WARNING: exit code 1 from a shell command.
-> | ERROR: Function failed: do_configure (log file is located at /home/andrew/src/camol3/camol/build/tmp-camol-glibc/work/armv7ahf-neon-camol-linux-gnueabi/glibc-initial/2.25-r0/temp/log.do_configure.30873)
-> ERROR: Task (/home/andrew/src/camol3/camol/layers/openembedded-core/meta/recipes-core/glibc/glibc-initial_2.25.bb:do_configure) failed with exit code '1'
-> NOTE: Tasks Summary: Attempted 779 tasks of which 0 didn't need to be rerun and 1 failed.
-> NOTE: Writing buildhistory
+> Apparently the ARM64 isn't very popular, no one seems to care about 
+> its build failures...
 >
-> Summary: 1 task failed:
->   /home/andrew/src/camol3/camol/layers/openembedded-core/meta/recipes-core/glibc/glibc-initial_2.25.bb:do_configure
-> Summary: There were 7 WARNING messages shown.
-> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+> Kind regards,
+>
+> Mike Looijmans
+> System Expert
+>
+> TOPIC Products
+> Materiaalweg 4, NL-5681 RJ Best
+> Postbus 440, NL-5680 AK Best
+> Telefoon: +31 (0) 499 33 69 79
+> E-mail: mike.looijmans@topicproducts.com
+> Website: www.topicproducts.com
+>
+> Please consider the environment before printing this e-mail
+>
+>
+>
+>
+>
+
 
