@@ -1,44 +1,35 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 856F671B14
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 3450A60750
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 20:52:03 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id r144so37538541wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 12:52:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=nFs9/BVxQ4m+gD1YBTt7/kExTa7THXF5mCcFw6VDMJs=;
-	b=CnxkZrhGKgpRRDwePx6cZWHAoF3aJgVW7lgMIEqvNmsAzpBSVUBDvrOcieBvRwmSyL
-	6MWEvusnYm1kuBw62HVlRHKQFJZztKvSm8mehuTTvbHow1u1ZolvtOZpy8Vvprjg+MgM
-	qIrUnhwBPjRnfbEtNBydyBSNBN1H0x/MsyyNjR7te+Qjgimr46BO7Mzd3SGCYYZbbVxX
-	EzIsrKdwrX+HWIcO8l8dxqhY5yl/Fyj8JMOxKeSljgRLog2BZL1uWhOAYolSfqdO9+sx
-	ZP/MaHfyt6Ow+Lb3OArypytesv10l8CxMRjscqTqgL6XM5ewD5nG7KWyABdNowcmyICo
-	5MBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=nFs9/BVxQ4m+gD1YBTt7/kExTa7THXF5mCcFw6VDMJs=;
-	b=lPBXzdP7hrCWHbz8Q5u80FuseGKXGu8KYSJPbJRhhKuYhe7UDGzET/QAaE9+OXeBR9
-	97UeiK+jxRzMHT2Kfvh8YbbdxAxubQgqnG0wX/hTmva8mHXdEQ0zsAaq5lpeo+o5qKbo
-	06q8KpxbDJCdY+mYtinp10DBKVDFpPHtLYeufthqDzIT4LQz6P+d5bcLc3buhj2XGuGF
-	IwmUnuMpVl+7/NfN+yUd1nuumDcoUJmiKqy1iyhPLbl48SfjsSVUx4uFVV0uXTfyNXBi
-	pxVidV4CLofAzbwRYAMcke/0Pbfb5Mulr+6l8fp/zkH/JF/UYKxL3um5N3yMOlveBrez
-	1eeQ==
-X-Gm-Message-State: AIkVDXLUA3PtkOqd48y5N9UAjx669Q+8r3/675o72wCO+2OvuEJsOWD4RDX68s+UZVU0gBrSuBFWxeKjLJpTAg==
-X-Received: by 10.28.191.208 with SMTP id o77mr18877517wmi.117.1485291123114; 
-	Tue, 24 Jan 2017 12:52:03 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.194.248.129 with HTTP; Tue, 24 Jan 2017 12:52:02 -0800 (PST)
-In-Reply-To: <1485288900-19603-1-git-send-email-jslater@windriver.com>
-References: <1485288900-19603-1-git-send-email-jslater@windriver.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 24 Jan 2017 12:52:02 -0800
-Message-ID: <CAJ86T=WEmxqwL-8FGqs52hJHHbOi2h383fnCqsiHpy2+HmsUPg@mail.gmail.com>
-To: Joe Slater <jslater@windriver.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] gnutls: avoid accidentally using libseccomp
+	Tue, 24 Jan 2017 21:25:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v0OLPkm2008696; Tue, 24 Jan 2017 21:25:46 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ysPU8qJurMwO; Tue, 24 Jan 2017 21:25:46 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v0OLPgSR008693
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 24 Jan 2017 21:25:43 GMT
+Message-ID: <1485293141.30673.63.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andrew Goodbody <andrew.goodbody@cambrionix.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 24 Jan 2017 21:25:41 +0000
+In-Reply-To: <LOXP123MB011715CA6AFD7F2EA6C0964B85750@LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM>
+References: <LOXP123MB0117C97F4BE309CCAA9AFAF585750@LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM>
+	<LOXP123MB0117B11AD747FFC1742D78C685750@LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM>
+	<1485277371.30673.59.camel@linuxfoundation.org>
+	<LOXP123MB01174F8944CFABF7E023B92585750@LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM>
+	<1485280217.30673.61.camel@linuxfoundation.org>
+	<LOXP123MB011715CA6AFD7F2EA6C0964B85750@LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: configure error for glibc 2.25.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,75 +42,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jan 2017 20:52:03 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 24 Jan 2017 21:25:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 24, 2017 at 12:15 PM, Joe Slater <jslater@windriver.com> wrote:
-> Specify whether to use libseccomp or not.  Do not
-> just let configure check for it.
->
-> Signed-off-by: Joe Slater <jslater@windriver.com>
-> ---
->  meta/recipes-support/gnutls/gnutls.inc |   12 ++++++++++++
->  1 file changed, 12 insertions(+)
->
-> diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
-> index 003dc55..14fcdca 100644
-> --- a/meta/recipes-support/gnutls/gnutls.inc
-> +++ b/meta/recipes-support/gnutls/gnutls.inc
-> @@ -21,6 +21,17 @@ SRC_URI = "ftp://ftp.gnutls.org/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar.xz"
->
->  inherit autotools texinfo binconfig pkgconfig gettext lib_package gtk-doc
->
-> +# We cannot use PACKAGECONFIG for this since there is no controlling
-> +# configure option.
+On Tue, 2017-01-24 at 18:08 +0000, Andrew Goodbody wrote:
+> > 
+> > From: Richard Purdie [mailto:richard.purdie@linuxfoundation.org]
+> > I'm running out of time to write this up and post properly but the
+> > patch I think should work is this:
+> > 
+> > http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie
+> > /wip-
+> > rss&id=414a75521f5d5dfb50385abab052f87dbc88f1c1
+> > 
+> > ("staging: Remove hardcoded PACKAGE_ARCHS from the class" in case I
+> > rebase it)
+> > 
+> > I will get this cleaned up and sent soon.
+> Thanks but unfortunately that did not work for me.
+> 
+> I did a cleanall on glibc before trying to build it, but the result
+> was the same.
 
-A configure option is not a requirement for using PACKAGECONFIG. e.g.
+Try a "bitbake glibc-initial -c clean"?
 
-  meta/recipes-devtools/apt/apt_1.2.12.bb:PACKAGECONFIG[lzma] =
-"ac_cv_lib_lzma_lzma_easy_encoder=yes,ac_cv_lib_lzma_lzma_easy_encoder=no,xz"
-  meta/recipes-devtools/apt/apt_1.2.12.bb:PACKAGECONFIG[bz2] =
-"ac_cv_lib_bz2_BZ2_bzopen=yes,ac_cv_lib_bz2_BZ2_bzopen=no,bzip2"
-  meta/recipes-devtools/apt/apt_1.2.12.bb:PACKAGECONFIG[lz4] =
-"ac_cv_lib_lz4_LZ4F_createCompressionContext=yes,ac_cv_lib_lz4_LZ4F_createCompressionContext=no,lz4"
-  meta/recipes-devtools/mtools/mtools_3.9.9.bb:PACKAGECONFIG[libbsd] =
-"ac_cv_lib_bsd_main=yes,ac_cv_lib_bsd_main=no,libbsd"
-  meta/recipes-devtools/mtools/mtools_4.0.18.bb:PACKAGECONFIG[libbsd]
-= "ac_cv_lib_bsd_main=yes,ac_cv_lib_bsd_main=no,libbsd"
-  meta/recipes-devtools/strace/strace_4.14.bb:PACKAGECONFIG[bluez] =
-"ac_cv_header_bluetooth_bluetooth_h=yes,ac_cv_header_bluetooth_bluetooth_h=no,${BLUEZ}"
-  meta/recipes-extended/screen/screen_4.4.0.bb:PACKAGECONFIG[utempter]
-= "ac_cv_header_utempter_h=yes,ac_cv_header_utempter_h=no,libutempter,"
-  meta/recipes-graphics/xorg-lib/libice_1.0.9.bb:PACKAGECONFIG[arc4] =
-"ac_cv_lib_bsd_arc4random_buf=yes,ac_cv_lib_bsd_arc4random_buf=no,libbsd"
-  meta/recipes-graphics/xorg-lib/libxdmcp_1.1.2.bb:PACKAGECONFIG[arc4]
-= "ac_cv_lib_bsd_arc4random_buf=yes,ac_cv_lib_bsd_arc4random_buf=no,libbsd"
+Cheers,
 
-> +# To use seccomp, uncomment the two variables.  You must also
-> +# have CONFIG_SECCOMP enabled in the kernel.
-> +#
-> +#DEPENDS_append_class-target = " libseccomp"
-> +#lcl_LIBSECCOMP_class-target = "ac_cv_libseccomp=yes"
-> +
-> +lcl_LIBSECCOMP ?= "ac_cv_libseccomp=no"
-> +
->  PACKAGECONFIG ??= "libidn zlib"
->
->  PACKAGECONFIG[libidn] = "--with-idn,--without-idn,libidn"
-> @@ -38,6 +49,7 @@ EXTRA_OECONF = " \
->      --enable-openssl-compatibility \
->      --with-libpthread-prefix=${STAGING_DIR_HOST}${prefix} \
->      --without-libunistring-prefix \
-> +    ${lcl_LIBSECCOMP} \
->  "
->
->  LDFLAGS_append_libc-musl = " -largp"
-> --
-> 1.7.9.5
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Richard
 
