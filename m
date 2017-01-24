@@ -1,46 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-yb0-f182.google.com (mail-yb0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 94F8871B14
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 856F671B14
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 20:51:10 +0000 (UTC)
-Received: by mail-yb0-f182.google.com with SMTP id l23so101838930ybj.2
+	Tue, 24 Jan 2017 20:52:03 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id r144so37538541wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 12:51:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Tue, 24 Jan 2017 12:52:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=OGZOw4xzBtjTAbDBTKPlTpYdLJf3/vQ22805Gedpdsw=;
-	b=tgbSIZ2J6G7PuYqVjQ75RWyYj5T0DptpZ+p6JvXQdBjqXbDx8XDINAzmcuax4n30iJ
-	Ne29fATCsSGEZEChhdCuq1KYxv2g4fFHFhYm4ZcwsT+D4ilu4DrzkQaK7sYC2yeTYJQa
-	J5LfgC28gPmlST865kocWd+6aQfDlLHdU3YuaOarQ8l+vKLcbOt6y0ESPYfl4AUknuT8
-	zUN3hxGzMFQlOEi4D1nJGnAa8s3RR2xYmFTRCFzLGj9/v4hZP8ZRs5fKQAsp2nEcRsAy
-	bCW1px5sVfo3IboPjTz/wlIiEjFZt32IaAfs2OTZstHO8l2gWPZLKz8gcYYNO/S3wb3o
-	WLFA==
+	:cc; bh=nFs9/BVxQ4m+gD1YBTt7/kExTa7THXF5mCcFw6VDMJs=;
+	b=CnxkZrhGKgpRRDwePx6cZWHAoF3aJgVW7lgMIEqvNmsAzpBSVUBDvrOcieBvRwmSyL
+	6MWEvusnYm1kuBw62HVlRHKQFJZztKvSm8mehuTTvbHow1u1ZolvtOZpy8Vvprjg+MgM
+	qIrUnhwBPjRnfbEtNBydyBSNBN1H0x/MsyyNjR7te+Qjgimr46BO7Mzd3SGCYYZbbVxX
+	EzIsrKdwrX+HWIcO8l8dxqhY5yl/Fyj8JMOxKeSljgRLog2BZL1uWhOAYolSfqdO9+sx
+	ZP/MaHfyt6Ow+Lb3OArypytesv10l8CxMRjscqTqgL6XM5ewD5nG7KWyABdNowcmyICo
+	5MBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=OGZOw4xzBtjTAbDBTKPlTpYdLJf3/vQ22805Gedpdsw=;
-	b=GtmLeqWzV11EeY94rc+xMS0xh4gVwvDRJr4P7vUA1k07GaWP9PygNXhVLyIoJwVEI4
-	bJc6/6JY4Gf2ibsr9Q99LWMmijOsw8V4dpG8hn3ehb7XyaCVXIkig21iKMVjWWI593yt
-	A6VDM3m7GwPBAO9mnoyivDnmgXAPszmj6OuTbBBwnQSmZFP7aqJ0R9L95Zls9pAv8QSl
-	j/pVcQV6u1pAJoOSMVEFy+sw9P9MbUN5jU+A3Qle8kOHXFxGtNO8p+IMfW/N8KKQtYxb
-	EwOnDjP1YmcIjRjqyD5pYYAiYiArrryBlxNKTxFPshzO+q3A7ab3LNZ8kNbz8WP/AMuZ
-	nkvw==
-X-Gm-Message-State: AIkVDXLUOH+yyD+XbL4xpMuOITNZp9VRfYQ/eMoCRrm3UkldDSJZ5DiArmnK6k1ni6gnj4UYMCdGtHt0P+fJWcVx
-X-Received: by 10.55.141.5 with SMTP id p5mr4332325qkd.36.1485291069250; Tue,
-	24 Jan 2017 12:51:09 -0800 (PST)
+	bh=nFs9/BVxQ4m+gD1YBTt7/kExTa7THXF5mCcFw6VDMJs=;
+	b=lPBXzdP7hrCWHbz8Q5u80FuseGKXGu8KYSJPbJRhhKuYhe7UDGzET/QAaE9+OXeBR9
+	97UeiK+jxRzMHT2Kfvh8YbbdxAxubQgqnG0wX/hTmva8mHXdEQ0zsAaq5lpeo+o5qKbo
+	06q8KpxbDJCdY+mYtinp10DBKVDFpPHtLYeufthqDzIT4LQz6P+d5bcLc3buhj2XGuGF
+	IwmUnuMpVl+7/NfN+yUd1nuumDcoUJmiKqy1iyhPLbl48SfjsSVUx4uFVV0uXTfyNXBi
+	pxVidV4CLofAzbwRYAMcke/0Pbfb5Mulr+6l8fp/zkH/JF/UYKxL3um5N3yMOlveBrez
+	1eeQ==
+X-Gm-Message-State: AIkVDXLUA3PtkOqd48y5N9UAjx669Q+8r3/675o72wCO+2OvuEJsOWD4RDX68s+UZVU0gBrSuBFWxeKjLJpTAg==
+X-Received: by 10.28.191.208 with SMTP id o77mr18877517wmi.117.1485291123114; 
+	Tue, 24 Jan 2017 12:52:03 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Tue, 24 Jan 2017 12:50:48 -0800 (PST)
-In-Reply-To: <20170124065506.9508-1-alejandro.hernandez@linux.intel.com>
-References: <20170124065506.9508-1-alejandro.hernandez@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 24 Jan 2017 20:50:48 +0000
-Message-ID: <CAJTo0LanZt8_AM7kEt5tCCRzU8wgpWDbc5wE=S51TDbiG2M51w@mail.gmail.com>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python: Upgrade both python and python-native to 2.7.13
+Received: by 10.194.248.129 with HTTP; Tue, 24 Jan 2017 12:52:02 -0800 (PST)
+In-Reply-To: <1485288900-19603-1-git-send-email-jslater@windriver.com>
+References: <1485288900-19603-1-git-send-email-jslater@windriver.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 24 Jan 2017 12:52:02 -0800
+Message-ID: <CAJ86T=WEmxqwL-8FGqs52hJHHbOi2h383fnCqsiHpy2+HmsUPg@mail.gmail.com>
+To: Joe Slater <jslater@windriver.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] gnutls: avoid accidentally using libseccomp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,58 +51,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jan 2017 20:51:10 -0000
-Content-Type: multipart/alternative; boundary=94eb2c08587292432b0546dd466e
-
---94eb2c08587292432b0546dd466e
+X-List-Received-Date: Tue, 24 Jan 2017 20:52:03 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 24 January 2017 at 06:55, Alejandro Hernandez <alejandro.hernandez@linux.
-intel.com> wrote:
-
-> Rebased:
-> - python-native/multilib.patch
-> - python/multilib.patch
-> - python/01-use-proper-tools-for-cross-build.patch
+On Tue, Jan 24, 2017 at 12:15 PM, Joe Slater <jslater@windriver.com> wrote:
+> Specify whether to use libseccomp or not.  Do not
+> just let configure check for it.
 >
-> Upstream:
-> - CVE-2016-1000110
+> Signed-off-by: Joe Slater <jslater@windriver.com>
+> ---
+>  meta/recipes-support/gnutls/gnutls.inc |   12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 >
-> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+> diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
+> index 003dc55..14fcdca 100644
+> --- a/meta/recipes-support/gnutls/gnutls.inc
+> +++ b/meta/recipes-support/gnutls/gnutls.inc
+> @@ -21,6 +21,17 @@ SRC_URI = "ftp://ftp.gnutls.org/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar.xz"
 >
+>  inherit autotools texinfo binconfig pkgconfig gettext lib_package gtk-doc
+>
+> +# We cannot use PACKAGECONFIG for this since there is no controlling
+> +# configure option.
 
+A configure option is not a requirement for using PACKAGECONFIG. e.g.
 
-Let's see if the mail to patchworks bridge is working...
+  meta/recipes-devtools/apt/apt_1.2.12.bb:PACKAGECONFIG[lzma] =
+"ac_cv_lib_lzma_lzma_easy_encoder=yes,ac_cv_lib_lzma_lzma_easy_encoder=no,xz"
+  meta/recipes-devtools/apt/apt_1.2.12.bb:PACKAGECONFIG[bz2] =
+"ac_cv_lib_bz2_BZ2_bzopen=yes,ac_cv_lib_bz2_BZ2_bzopen=no,bzip2"
+  meta/recipes-devtools/apt/apt_1.2.12.bb:PACKAGECONFIG[lz4] =
+"ac_cv_lib_lz4_LZ4F_createCompressionContext=yes,ac_cv_lib_lz4_LZ4F_createCompressionContext=no,lz4"
+  meta/recipes-devtools/mtools/mtools_3.9.9.bb:PACKAGECONFIG[libbsd] =
+"ac_cv_lib_bsd_main=yes,ac_cv_lib_bsd_main=no,libbsd"
+  meta/recipes-devtools/mtools/mtools_4.0.18.bb:PACKAGECONFIG[libbsd]
+= "ac_cv_lib_bsd_main=yes,ac_cv_lib_bsd_main=no,libbsd"
+  meta/recipes-devtools/strace/strace_4.14.bb:PACKAGECONFIG[bluez] =
+"ac_cv_header_bluetooth_bluetooth_h=yes,ac_cv_header_bluetooth_bluetooth_h=no,${BLUEZ}"
+  meta/recipes-extended/screen/screen_4.4.0.bb:PACKAGECONFIG[utempter]
+= "ac_cv_header_utempter_h=yes,ac_cv_header_utempter_h=no,libutempter,"
+  meta/recipes-graphics/xorg-lib/libice_1.0.9.bb:PACKAGECONFIG[arc4] =
+"ac_cv_lib_bsd_arc4random_buf=yes,ac_cv_lib_bsd_arc4random_buf=no,libbsd"
+  meta/recipes-graphics/xorg-lib/libxdmcp_1.1.2.bb:PACKAGECONFIG[arc4]
+= "ac_cv_lib_bsd_arc4random_buf=yes,ac_cv_lib_bsd_arc4random_buf=no,libbsd"
 
-[Patchwork-Status: Under Review]
+> +# To use seccomp, uncomment the two variables.  You must also
+> +# have CONFIG_SECCOMP enabled in the kernel.
+> +#
+> +#DEPENDS_append_class-target = " libseccomp"
+> +#lcl_LIBSECCOMP_class-target = "ac_cv_libseccomp=yes"
+> +
+> +lcl_LIBSECCOMP ?= "ac_cv_libseccomp=no"
+> +
+>  PACKAGECONFIG ??= "libidn zlib"
+>
+>  PACKAGECONFIG[libidn] = "--with-idn,--without-idn,libidn"
+> @@ -38,6 +49,7 @@ EXTRA_OECONF = " \
+>      --enable-openssl-compatibility \
+>      --with-libpthread-prefix=${STAGING_DIR_HOST}${prefix} \
+>      --without-libunistring-prefix \
+> +    ${lcl_LIBSECCOMP} \
+>  "
+>
+>  LDFLAGS_append_libc-musl = " -largp"
+> --
+> 1.7.9.5
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Ross
-
---94eb2c08587292432b0546dd466e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra">On 24 January 2017 at 06:55, Al=
-ejandro Hernandez <span dir=3D"ltr">&lt;<a href=3D"mailto:alejandro.hernand=
-ez@linux.intel.com" target=3D"_blank">alejandro.hernandez@linux.<wbr>intel.=
-com</a>&gt;</span> wrote:<br><div class=3D"gmail_quote"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><div id=3D"m_-5478047288506841521:rd" class=3D"m_-54780472885=
-06841521a3s m_-5478047288506841521aXjCH m_-5478047288506841521m159cf420fb03=
-606c">Rebased:<br>
-- python-native/multilib.patch<br>
-- python/multilib.patch<br>
-- python/01-use-proper-tools-for<wbr>-cross-build.patch<br>
-<br>
-Upstream:<br>
-- CVE-2016-1000110<br>
-<br>
-Signed-off-by: Alejandro Hernandez &lt;<a href=3D"mailto:alejandro.hernande=
-z@linux.intel.com" target=3D"_blank">alejandro.hernandez@linux.int<wbr>el.c=
-om</a>&gt;</div></blockquote></div><br><br></div><div class=3D"gmail_extra"=
->Let&#39;s see if the mail to patchworks bridge is working...</div><div cla=
-ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">[Patchwork-Status: =
-Under Review]</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
-_extra">Ross</div></div>
-
---94eb2c08587292432b0546dd466e--
