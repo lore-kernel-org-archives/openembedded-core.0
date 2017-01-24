@@ -1,25 +1,25 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FFC8772B4
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FED7772B4
 	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 10:42:33 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga104.jf.intel.com with ESMTP; 24 Jan 2017 02:42:34 -0800
+	Tue, 24 Jan 2017 10:42:34 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga104.fm.intel.com with ESMTP; 24 Jan 2017 02:42:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,278,1477983600"; d="scan'208";a="1117055525"
+X-IronPort-AV: E=Sophos;i="5.33,278,1477983600"; d="scan'208";a="926009118"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 24 Jan 2017 02:42:34 -0800
+	by orsmga003.jf.intel.com with ESMTP; 24 Jan 2017 02:42:35 -0800
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id B83976A4006;
-	Tue, 24 Jan 2017 02:41:36 -0800 (PST)
+	by linux.intel.com (Postfix) with ESMTP id 079E46A4006;
+	Tue, 24 Jan 2017 02:41:37 -0800 (PST)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: Openembedded-core@lists.openembedded.org
-Date: Tue, 24 Jan 2017 12:42:21 +0200
-Message-Id: <0b143405284ce48b44362d210264cb9398305a58.1485249527.git.jussi.kukkonen@intel.com>
+Date: Tue, 24 Jan 2017 12:42:22 +0200
+Message-Id: <2f838dda3c6645d03a86c270770015cb7491dc62.1485249527.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1485249527.git.jussi.kukkonen@intel.com>
 References: <cover.1485249527.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 8/9] xf86-input-evdev: Upgrade 2.10.4 -> 2.10.5
+Subject: [PATCH 9/9] xserver-xorg: Upgrade 1.19.0 -> 1.19.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,30 +34,32 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 24 Jan 2017 10:42:34 -0000
 
-Small release with bug fixes and config improvements.
+Point release with bug fixes.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../{xf86-input-evdev_2.10.4.bb => xf86-input-evdev_2.10.5.bb}       | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-driver/{xf86-input-evdev_2.10.4.bb => xf86-input-evdev_2.10.5.bb} (83%)
+ .../xorg-xserver/{xserver-xorg_1.19.0.bb => xserver-xorg_1.19.1.bb}   | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.19.0.bb => xserver-xorg_1.19.1.bb} (88%)
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.10.4.bb b/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.10.5.bb
-similarity index 83%
-rename from meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.10.4.bb
-rename to meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.10.5.bb
-index c660a1d..96b220c 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.10.4.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.10.5.bb
-@@ -16,5 +16,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fefe33b1cf0cacba0e72e3b0fa0f0e16"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.0.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.1.bb
+similarity index 88%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.0.bb
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.1.bb
+index 8725382..987a2be 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.0.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.1.bb
+@@ -4,8 +4,8 @@ SRC_URI += "file://musl-arm-inb-outb.patch \
+             file://0001-configure.ac-Fix-check-for-CLOCK_MONOTONIC.patch \
+             file://0002-configure.ac-Fix-wayland-scanner-and-protocols-locat.patch \
+             "
+-SRC_URI[md5sum] = "6a4d01e4e5047ab8f556960424ba1fa9"
+-SRC_URI[sha256sum] = "149a708b50befc2d5a40b98d45ddd2ebe0beec018e6d0c663c43bad6210e4da3"
++SRC_URI[md5sum] = "caa8ee7b2950abbf734347d137529fb6"
++SRC_URI[sha256sum] = "79ae2cf39d3f6c4a91201d8dad549d1d774b3420073c5a70d390040aa965a7fb"
  
- DEPENDS += "mtdev libevdev"
- 
--SRC_URI[md5sum] = "0f209d13b39427c1a6d38d70059b1e8f"
--SRC_URI[sha256sum] = "bbf6a03fbce1a6c0c7d874eef519fd0a854bf01b515c745d41fa551ce6490cc2"
-+SRC_URI[md5sum] = "94c2c8354c74ab1cfbbb0a222078b9c6"
-+SRC_URI[sha256sum] = "9edaa6205baf6d2922cc4db3d8e54a7e7773b5f733b0ae90f6be7725f983b70d"
-+
+ # These extensions are now integrated into the server, so declare the migration
+ # path for in-place upgrades.
 -- 
 2.1.4
 
