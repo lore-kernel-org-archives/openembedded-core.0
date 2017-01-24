@@ -1,27 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id B967571A84
+Return-Path: <joe.slater@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C815719B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 19:40:11 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga104.fm.intel.com with ESMTP; 24 Jan 2017 11:40:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,279,1477983600"; d="scan'208";a="34909761"
-Received: from hnguy31-mobl.ccr.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.186.17])
-	by orsmga002.jf.intel.com with ESMTP; 24 Jan 2017 11:40:09 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@intel.com>
-Date: Wed, 25 Jan 2017 08:40:08 +1300
-Message-ID: <26525175.QT5fsyPLfX@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/5.3.3 (Linux/4.9.4-201.fc25.x86_64; KDE/5.29.0; x86_64; ; )
-In-Reply-To: <20170121145337.23273.66790@do.openembedded.org>
-References: <1485009344-3664-1-git-send-email-richard.purdie@linuxfoundation.org>
-	<20170121145337.23273.66790@do.openembedded.org>
+	Tue, 24 Jan 2017 20:09:49 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v0OK9nAE001977
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jan 2017 12:09:49 -0800
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Tue, 24 Jan 2017 12:09:47 -0800
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 24 Jan 2017 12:09:47 -0800
+Message-ID: <1485288587-19549-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yICJSZXZlcnQgInBvcHVsYXRlX3Nka19leHQ6IHdoaXQuLi4iIGFuZCA2IG1vcmU=?=
+Subject: [PATCH 1/1] gnutls: account for ARM_EABI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,40 +31,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jan 2017 19:40:12 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 24 Jan 2017 20:09:51 -0000
+Content-Type: text/plain
 
-On Saturday, 21 January 2017 2:53:37 PM NZDT Patchwork wrote:
-> == Series Details ==
-> 
-> Series: "Revert "populate_sdk_ext: whit..." and 6 more
-> Revision: 1
-> URL   : https://patchwork.openembedded.org/series/4888/
-> State : failure
-> 
-> == Summary ==
-> 
-> 
-> Thank you for submitting this patch series to OpenEmbedded Core. This is
-> an automated response. Several tests have been executed on the proposed
-> series by patchtest resulting in the following failures:
-> 
-> 
-> 
-> * Patch            [1/7] Revert "populate_sdk_ext: whitelist do_package
-> tasks" Issue             Patch is missing Signed-off-by
-> [test_signed_off_by_presence] Suggested fix    Sign off the patch (either
-> manually or with "git commit --amend -s")
+Do not reference unavailable system calls when
+building for ARM_EABI.
 
-Leo, we need to skip this test for patches whose shortlog starts with "Revert 
-". Could you take care of that?
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ meta/recipes-support/gnutls/gnutls/arm_eabi.patch |   19 +++++++++++++++++++
+ meta/recipes-support/gnutls/gnutls_3.5.7.bb       |    1 +
+ 2 files changed, 20 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/arm_eabi.patch
 
-Thanks,
-Paul
-
+diff --git a/meta/recipes-support/gnutls/gnutls/arm_eabi.patch b/meta/recipes-support/gnutls/gnutls/arm_eabi.patch
+new file mode 100644
+index 0000000..8bf06f1
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/arm_eabi.patch
+@@ -0,0 +1,19 @@
++Certain syscall's are not availabe for arm-eabi, so we eliminate
++reference to them.
++
++Upstream-status: pending
++
++Signed-off-by: Joe Slater <jslater@windriver.com>
++
++--- a/tests/seccomp.c
+++++ b/tests/seccomp.c
++@@ -49,7 +49,9 @@ int disable_system_calls(void)
++ 	}
++ 
++ 	ADD_SYSCALL(nanosleep, 0);
+++#if ! defined(__ARM_EABI__)
++ 	ADD_SYSCALL(time, 0);
+++#endif
++ 	ADD_SYSCALL(getpid, 0);
++ 	ADD_SYSCALL(gettimeofday, 0);
++ #if defined(HAVE_CLOCK_GETTIME)
+diff --git a/meta/recipes-support/gnutls/gnutls_3.5.7.bb b/meta/recipes-support/gnutls/gnutls_3.5.7.bb
+index cf77a20..9508a8e 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.5.7.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.5.7.bb
+@@ -4,6 +4,7 @@ SRC_URI += "file://correct_rpl_gettimeofday_signature.patch \
+             file://0001-configure.ac-fix-sed-command.patch \
+             file://use-pkg-config-to-locate-zlib.patch \
+             file://0001-Do-not-add-cli-args.h-to-cli-args.stamp-Makefile-tar.patch \
++            file://arm_eabi.patch \
+            "
+ SRC_URI[md5sum] = "08ad2c539bc1d91283f610539deef34e"
+ SRC_URI[sha256sum] = "60cbfc119e6268cfa38d712621daa473298a0c5b129c0842caec4c1ed4d7861a"
 -- 
+1.7.9.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
