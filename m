@@ -1,28 +1,59 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D8A2770100
+Return-Path: <prvs=019708acf4=mike.looijmans@topicproducts.com>
+Received: from mx6-05.smtp.antispamcloud.com (mx6-05.smtp.antispamcloud.com
+	[95.211.2.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 8726871A8E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2017 23:59:44 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0NNxgIt004090; Mon, 23 Jan 2017 23:59:42 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Qp00F0C5Tcp8; Mon, 23 Jan 2017 23:59:42 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0NNxeLL004078
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 23 Jan 2017 23:59:41 GMT
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1cVoWS-00046k-IV; Mon, 23 Jan 2017 23:59:40 +0000
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jan 2017 23:59:39 +0000
-Message-Id: <1485215979-15746-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] unfs3: Switch to using mirror tarball instead of subversion
+	Tue, 24 Jan 2017 06:49:04 +0000 (UTC)
+Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
+	by mx6.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
+	(Exim 4.86) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1cVuuY-0008Rb-On; Tue, 24 Jan 2017 07:49:01 +0100
+Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
+	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
+	Tue, 24 Jan 2017 07:48:57 +0100
+To: akuster808 <akuster808@gmail.com>, Nathan Rossi <nathan@nathanrossi.com>
+References: <1479848501-5451-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
+	<CAMKF1spiS9_qTRf2_01rVRTfwKLoZ+WDYm7Hy4_Dr5On7eDLXw@mail.gmail.com>
+	<14EB1FFCA0C8D24A8B04EDEC1EA78C2453DBB31E@XSJ-PSEXMBX01.xlnx.xilinx.com>
+	<05c7dfd0-38f3-b684-db94-38121b086a67@topic.nl>
+	<CA+aJhH03XW19tEX5nP7WgoV6au9xmms6GuASEHMmRvA-1qhh8w@mail.gmail.com>
+	<ee6f0244-0fb1-ad27-6056-a358b5eb0112@gmail.com>
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: TOPIC
+Message-ID: <1efda273-0a0f-e75d-1364-6ac1815154fe@topic.nl>
+Date: Tue, 24 Jan 2017 07:48:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <ee6f0244-0fb1-ad27-6056-a358b5eb0112@gmail.com>
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Originating-IP: 37.74.225.130
+X-SpamExperts-Domain: topic.nl
+X-SpamExperts-Username: 37.74.225.128/28
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=37.74.225.128/28@topic.nl
+X-SpamExperts-Outgoing-Class: ham
+X-SpamExperts-Outgoing-Evidence: Combined (0.07)
+X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W/95+6ZE6dI+d
+	FNTaLLKrTD4PkK8WOoKuw32u9iEtZmisSr42qUwvK7U11fJ5smF5bE7GwnNXTE7JFCR1ojdwNHGy
+	UK60rSRl/E0C/4o2VdY7L0s9+OyaUXxzxSelTztM3T13K7/ZA76XMy4Ab+mHpGbjO41FyBEqIaDu
+	dcVplPGNaieKxw/vh63RdlaW2Zj1hcQD6Dxo9kokFZNwiacNPxeTCKssqlJePCDBHWfCYUvWOATT
+	vnG+QUCcfrSs6FZc7tZ3vKwSN7Mv0HNteAusUZ8BuYwGqmI8Tx/Ism0pnCcmlWACu0WC7nIKSPYV
+	aBAAdpU0oUDqng6Dyy2mQeofiR15rThUhSub+XL+JMh1TLd1el35jO+WJBgrWGjAavfuifnL+9wg
+	oTj4ygNPw1XfN1IUJ2+rCMPpQhII5VkEVC//8GRISD+lYCwA5l6/Q4nfg8y63jKKBrO1BroJmvb9
+	eW6r2rlUSNsSKfXWKXbAnTtpwWXpE+sdjNmnXWjiNaLzpYbRm1I468S/yL0UV2VaFaHU7TvqT2so
+	IjU4ke4l3yHonV+E7OMXRvgtdyMlnmWio7yflOSPePNf+xGd6n5xOT8FIprDRrySYpUp+LukEmRH
+	Yub0lE58V6wU3IIDGehSimJBmbX4ZwV05IcNNAgTWJlUOpwpEkpu90COvViIG1i2pq4ZmiLrUtAf
+	M6WT3J4Pfkthd2LyVdAPfnUAFBPBei+ki1JSWzoL/v4KbYml18oPHZ39vZyxz3PsCAhaUbwF46Qx
+	pzumRa4iEl/ql4bbd9jYPetuvS1gTLvHd4l2YiX4dhjxWPBw+0bdaD0ic0+lmPRjcWSxPkQbCCtX
+	XMSPGjGCUW4NQNntXFY0uN7zKvhmraJGWVbN0zdCh+St1HowXT/R4A89JYvUn9hM7l//efY4ocfm
+	Wv3Fe9Iziczdq+A=
+X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
+X-Recommended-Action: accept
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH][Morty] binutils-2.27.inc: Fix alignment frags for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,44 +66,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2017 23:59:45 -0000
+X-List-Received-Date: Tue, 24 Jan 2017 06:49:06 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-This really is the last subversion url in OE-Core so replacing it with
-a mirror tarball will save us from the subversion-native build chain.
+=EF=BB=BFOn 18-01-17 17:09, akuster808 wrote:
+>
+>
+> On 01/18/2017 04:08 AM, Nathan Rossi wrote:
+>> On 18 January 2017 at 19:37, Mike Looijmans <mike.looijmans@topic.nl> wr=
+ote:
+>>> Could someone at least please say "yes" or "no"?
+>>>
+>>> I now have three projects waiting for this patch to be included in mort=
+y. If
+>>> it's not going to happen, I'll have to add a bbappend to these layers t=
+o fix
+>>> it.
+>>>
+>>> On 16-01-17 18:49, Manjukumar Harthikote Matha wrote:
+>>>> Ping, this has been applied to master
+>> Armin, you mentioned on IRC ~1 week ago that you had merged it to your
+>> staging branch? Any updates?
+>> Also I had a look and could not find the change in
+>> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=3Dakuster/=
+morty-next?
+>>
+>> Maybe I am looking in the wrong place though for your staging tree?
+> I forgot to press go. Its there now.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+Much appreciated.
 
-diff --git a/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb b/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
-index e7574fb..52aa17e 100644
---- a/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
-+++ b/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
-@@ -14,7 +14,10 @@ DEPENDS_append_class-nativesdk = " flex-nativesdk"
- 
- MOD_PV = "497"
- S = "${WORKDIR}/trunk"
--SRC_URI = "svn://svn.code.sf.net/p/unfs3/code;module=trunk;rev=${MOD_PV};protocol=http \
-+# Only subversion url left in OE-Core, use a mirror tarball instead since
-+# this rarely changes.
-+# svn://svn.code.sf.net/p/unfs3/code;module=trunk;rev=${MOD_PV};protocol=http
-+SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/trunk_svn.code.sf.net_.p.unfs3.code_497_.tar.gz \
-            file://unfs3_parallel_build.patch \
-            file://alternate_rpc_ports.patch \
-            file://fix_pid_race_parent_writes_child_pid.patch \
-@@ -23,8 +26,8 @@ SRC_URI = "svn://svn.code.sf.net/p/unfs3/code;module=trunk;rev=${MOD_PV};protoco
-            file://relative_max_socket_path_len.patch \
-            file://tcp_no_delay.patch \
-           "
--SRC_URI[md5sum] = "3687acc4ee992e536472365dd99712a7"
--SRC_URI[sha256sum] = "274b43ada9c6eea1da26eb7010d72889c5278984ba0b50dff4e093057d4d64f8"
-+SRC_URI[md5sum] = "2e43e471c77ade0331901c40b8f8e9a3"
-+SRC_URI[sha256sum] = "21009468a9ba07b72ea93780d025a63ab4e55bf8fc3127803c296f0900fe1bac"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--- 
-2.7.4
+Who's next in line to press "go" now? I still have three projects waiting.
+
+Apparently the ARM64 isn't very popular, no one seems to care about its bui=
+ld=20
+failures...
+
+
+
+Kind regards,
+
+Mike Looijmans
+System Expert
+
+TOPIC Products
+Materiaalweg 4, NL-5681 RJ Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
+
+Please consider the environment before printing this e-mail
+
+
+
+
 
 
