@@ -1,54 +1,23 @@
-Return-Path: <kristian.amlie@mender.io>
-Received: from mail-lf0-f46.google.com (mail-lf0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id C171077230
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id BDCB8719FA
 	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 10:34:07 +0000 (UTC)
-Received: by mail-lf0-f46.google.com with SMTP id x1so21643393lff.0
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 02:34:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mender-io.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=X+HNzC8hwdZriMc7h9I14ScrSL0TUr2XPQVvxg/hhNw=;
-	b=Hqr6LycDIe0Kt/005FqR85b55lbJb3NYr7XYM+a/6PoUw7GPkQf2M9XaAOiNVumQSq
-	1P5g4xAOwzQYubajURGrfXD9SdoOg/mC+wHsCygB4uG3sLcU/qjDeh7c9jJOhDNZjtvy
-	itS9otBnUdjGhjBHJiwb7F/frTcOI//MmO0CAEpyRxarupWXM6XUM2dGxIbEAd5dn6zq
-	dgBj4Vp0wJMnpiO2IjQxtxC9+niwsIFuyqcQ92pnMd4QF6KlT1e9hnlfko3fW7+dYpA6
-	Hq8lL4eII/vAONBE41Jr/VmKcdSSTmPViFOP1UBSqHu1rBbQ7zikBS9ZoZY1sXtbmwBs
-	ScSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=X+HNzC8hwdZriMc7h9I14ScrSL0TUr2XPQVvxg/hhNw=;
-	b=I/rXwfFcKw9HWDjvzc3UdyVofBLQ002FKW2j+j7bckFe+j9KyiMcvzSwLrllKz4ttQ
-	TNXgSG6/bAoCeA8NA6C3fSL0rr3FxqJiIRF26nfibbPaab0Oih54DVchFRfwCg46/Wi3
-	AGA7GD7/a2Olaetxhw9otE7M5PTbqeA0BLz0l2UI79aGNnhAilkkvJr/DuXagQ/UfOJJ
-	WV6Q55cndLgc7EnfPmGJlwhEHYHnLDbmONiz+Tl0LAL40ZaJq8g8YhcQhCVq45b7Hohe
-	sZWBZwHIg2OYIs93jlLRjBYTWS1GGG01IOkli+h8GBnK54BSE7gZck4ZTvA02wjUOVMK
-	wvcw==
-X-Gm-Message-State: AIkVDXJ5Uu0BvQcsyfQNROkO1eWND9oZKKrIpVfrVjAlf/nzHfYfBBD1sG1rVG6ty5cmLA==
-X-Received: by 10.25.195.76 with SMTP id t73mr9096548lff.40.1485254046847;
-	Tue, 24 Jan 2017 02:34:06 -0800 (PST)
-Received: from [10.25.0.170] ([195.159.140.90])
-	by smtp.googlemail.com with ESMTPSA id
-	f25sm7290715lji.26.2017.01.24.02.34.05
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 24 Jan 2017 02:34:05 -0800 (PST)
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-References: <502e675a-bdaa-3acd-5343-5cb2f40f2a7a@mender.io>
-	<CAHiDW_HwmNybt8AuLWBtMSW=8R1SO3GBChRmwtCkWkmq3bFB0g@mail.gmail.com>
-From: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <44423ebc-3760-3da5-2cc0-45a95f62ac7c@mender.io>
-Date: Tue, 24 Jan 2017 11:34:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.1
-MIME-Version: 1.0
-In-Reply-To: <CAHiDW_HwmNybt8AuLWBtMSW=8R1SO3GBChRmwtCkWkmq3bFB0g@mail.gmail.com>
-Cc: OE-core <Openembedded-core@lists.openembedded.org>
-Subject: Re: Recipe specific sysroots: New failure to compile Go
+	Tue, 24 Jan 2017 10:42:05 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga104.fm.intel.com with ESMTP; 24 Jan 2017 02:42:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,278,1477983600"; d="scan'208";a="34687988"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga002.jf.intel.com with ESMTP; 24 Jan 2017 02:42:05 -0800
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id 191A76A4006;
+	Tue, 24 Jan 2017 02:41:07 -0800 (PST)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: Openembedded-core@lists.openembedded.org
+Date: Tue, 24 Jan 2017 12:41:01 +0200
+Message-Id: <cover.1485249527.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/9] Minor version upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,43 +30,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jan 2017 10:34:09 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 24 Jan 2017 10:42:06 -0000
 
-On 24/01/17 11:17, Jussi Kukkonen wrote:
-> On 24 January 2017 at 11:36, Kristian Amlie <kristian.amlie@mender.io
-> <mailto:kristian.amlie@mender.io>> wrote:
-> [snip]
-> 
->     /home/jenkins/workspace/yoctobuild/build-qemu/tmp/work/x86_64-linux/go-native/1.7.4-r0/recipe-sysroot-native/usr/lib/go-bootstrap-native-1.4.3/pkg/tool/linux_amd64/6l:
->     readsym out of sync
->     | WARNING: exit code 2 from a shell command.
->     | ERROR: Function failed: do_compile (log file is located at
->     /home/jenkins/workspace/yoctobuild/build-qemu/tmp/work/x86_64-linux/go-native/1.7.4-r0/temp/log.do_compile.10566)
->     ERROR: Task
->     (virtual:native:/home/jenkins/workspace/yoctobuild/oe-meta-go/recipes-devtools/go/go_1.7.4.bb:do_compile)
->     failed with exit code '1'
->     -----------------------------------------------
-> 
->     Note in particular the "readsym out of sync", which appears to be the
->     heart of the problem.
-> 
->     Using git bisect I have verified that it is the commit
->     9107d6ca144ac1f6169830dee25dae2dad775333, the introduction of recipe
->     specific sysroots, that breaks the build. However, I cannot see an
->     obvious link between the two, the error looks very internal to Go. Any
->     clue what's going on?
-> 
-> 
-> This could be a symptom of a missing dependency in the go (or
-> go-bootstrap) recipe: the recipe specific sysroot only contains the
-> specified build dependencies unlike the previous system where the
-> sysroot typically contained loads of other things as well.
+Uneventful version upgrades around the graphics stack. Notably missing
+is mesa: the 17.0 release should happen shortly.
 
-Probably. I've been looking at the dependencies for gcc-cross, which
-should be similar, but no luck so far.
+There's no reason to squeeze these into M2.
+
+Thanks,
+  Jussi
+
+
+The following changes since commit 62d7d4130202d8ede16abf9e7d779361ca70847e:
+
+  build-appliance-image: Update to master head revision (2017-01-23 23:32:23 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/upgrades
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/upgrades
+
+Jussi Kukkonen (9):
+  freetype: Upgrade 2.7.0 -> 2.7.1
+  gtk+3: Upgrade 3.22.5 -> 3.22.7
+  libevdev: Upgrade 1.5.4 -> 1.5.6
+  libinput: Upgrade 1.5.0 -> 1.6.0
+  libxi: Upgrade 1.7.8 -> 1.7.9
+  libxkbcommon: Upgrade 0.7.0 -> 0.7.1
+  libxpm: Upgrade 3.5.11 -> 3.5.12
+  xf86-input-evdev: Upgrade 2.10.4 -> 2.10.5
+  xserver-xorg: Upgrade 1.19.0 -> 1.19.1
+
+ meta/recipes-gnome/gtk+/{gtk+3_3.22.5.bb => gtk+3_3.22.7.bb}         | 4 ++--
+ ...k-icon-utils-native_3.22.5.bb => gtk-icon-utils-native_3.22.7.bb} | 4 ++--
+ .../recipes-graphics/freetype/{freetype_2.7.bb => freetype_2.7.1.bb} | 4 ++--
+ .../wayland/{libinput_1.5.0.bb => libinput_1.6.0.bb}                 | 4 ++--
+ .../{xf86-input-evdev_2.10.4.bb => xf86-input-evdev_2.10.5.bb}       | 5 +++--
+ meta/recipes-graphics/xorg-lib/{libxi_1.7.8.bb => libxi_1.7.9.bb}    | 4 ++--
+ .../xorg-lib/{libxkbcommon_0.7.0.bb => libxkbcommon_0.7.1.bb}        | 4 ++--
+ .../recipes-graphics/xorg-lib/{libxpm_3.5.11.bb => libxpm_3.5.12.bb} | 4 ++--
+ .../xorg-xserver/{xserver-xorg_1.19.0.bb => xserver-xorg_1.19.1.bb}  | 4 ++--
+ .../libevdev/{libevdev_1.5.4.bb => libevdev_1.5.6.bb}                | 4 ++--
+ 10 files changed, 21 insertions(+), 20 deletions(-)
+ rename meta/recipes-gnome/gtk+/{gtk+3_3.22.5.bb => gtk+3_3.22.7.bb} (84%)
+ rename meta/recipes-gnome/gtk+/{gtk-icon-utils-native_3.22.5.bb => gtk-icon-utils-native_3.22.7.bb} (93%)
+ rename meta/recipes-graphics/freetype/{freetype_2.7.bb => freetype_2.7.1.bb} (93%)
+ rename meta/recipes-graphics/wayland/{libinput_1.5.0.bb => libinput_1.6.0.bb} (85%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-evdev_2.10.4.bb => xf86-input-evdev_2.10.5.bb} (83%)
+ rename meta/recipes-graphics/xorg-lib/{libxi_1.7.8.bb => libxi_1.7.9.bb} (81%)
+ rename meta/recipes-graphics/xorg-lib/{libxkbcommon_0.7.0.bb => libxkbcommon_0.7.1.bb} (83%)
+ rename meta/recipes-graphics/xorg-lib/{libxpm_3.5.11.bb => libxpm_3.5.12.bb} (81%)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.19.0.bb => xserver-xorg_1.19.1.bb} (88%)
+ rename meta/recipes-support/libevdev/{libevdev_1.5.4.bb => libevdev_1.5.6.bb} (74%)
 
 -- 
-Kristian
+2.1.4
+
 
