@@ -1,28 +1,50 @@
-Return-Path: <pascal.bach@siemens.com>
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 09E8A71AC3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 09:12:32 +0000 (UTC)
-Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id v0O9CVS9006468
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Tue, 24 Jan 2017 10:12:32 +0100
-Received: from [139.16.79.32] (MD1FZU9C.ad001.siemens.net [139.16.79.32])
-	by mail1.sbs.de (8.15.2/8.15.2) with ESMTPS id v0O9CVc9018909
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 24 Jan 2017 10:12:31 +0100
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <1484817397-7308-1-git-send-email-pascal.bach@siemens.com>
-	<1484999072.9391.1.camel@linuxfoundation.org>
-From: Pascal Bach <pascal.bach@siemens.com>
-Message-ID: <5f10b43a-7df9-4084-9b64-7c9dd6f4a0e6@siemens.com>
-Date: Tue, 24 Jan 2017 10:12:31 +0100
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101
-	Thunderbird/45.6.0
+Return-Path: <kristian.amlie@mender.io>
+Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
+	[209.85.215.48])
+	by mail.openembedded.org (Postfix) with ESMTP id DFE6577202
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jan 2017 09:36:05 +0000 (UTC)
+Received: by mail-lf0-f48.google.com with SMTP id n124so107330807lfd.2
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jan 2017 01:36:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mender-io.20150623.gappssmtp.com; s=20150623;
+	h=to:from:subject:message-id:date:user-agent:mime-version
+	:content-transfer-encoding;
+	bh=BIWMO80BHkPC7idyezNEwyygRiFR2aMiu3TjAoN58N4=;
+	b=nkMt2SESn6eiWRsg5lswTjlwmrBoRXQncmt5zKObrERYNK3qTe6Zsg8HmyPlUHNhFr
+	vQoiTeCim9HSPsBzyAZzW4cUP3LYGlSy/j76/GjaQ0rQVFovvmmCWBVQoheXx51uT6vc
+	WOa1TzsIzoCAhc2vBY3wfBA7K8icT5Gs+KtcnyyuKbFe3+j4PTJEq4D9rWM5S8QmWpai
+	q8yz4zrKbROFZ2tRCsJ/lCHDWxnluMqj2/9pCgjpcqhbtp7tUZblb05YNcTybrUoF5f+
+	nwqBJQelD/Nt1oxtJyeyrAqOhm6SV6R3agIf5v+l5Bboc8LUwVwES2MHE3BDDLwnW83Y
+	OV2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=BIWMO80BHkPC7idyezNEwyygRiFR2aMiu3TjAoN58N4=;
+	b=k3pL5X6MU5aV+pZXIM9R0pVJKpejQLjCmqk0jrINkuImGq2X+HHB96zubC1nZpCYs+
+	m+Bc1JKOCF6n5YFzDAgTj9ve54+c6TmnvF+itwjiLjzQiylC0jqsWYFCA5jDSi+dVzCC
+	/r/+3Gb01rx0BAfTmK7IdwhjPkOdOEHWiaMueSxIY5WhDJdhZB3gdUkXhgmKSgh8B00b
+	WiUWZshHbQV1iOWIh3szHLw5D/k3v3ceTPRlY7HOYGrgCPamCYhsblUpL60JNA+fQ76D
+	IvIO5G6GcJfYrOcAciO6i8Xp55t2QVOy/D4t0/2k5X9cmJ6nGuOfFRdU/Ue5oRRFCSep
+	MdJQ==
+X-Gm-Message-State: AIkVDXJv0yHZv7rCTqJFkbKQdpBlGKUzCRbCYU8I3DHB2MnIQyGNb/MdtrlyfWJSEm/w0A==
+X-Received: by 10.25.151.20 with SMTP id z20mr10595529lfd.92.1485250565082;
+	Tue, 24 Jan 2017 01:36:05 -0800 (PST)
+Received: from [10.25.0.170] ([195.159.140.90])
+	by smtp.googlemail.com with ESMTPSA id
+	206sm7214738ljf.35.2017.01.24.01.36.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 24 Jan 2017 01:36:04 -0800 (PST)
+To: OE-core <Openembedded-core@lists.openembedded.org>
+From: Kristian Amlie <kristian.amlie@mender.io>
+Message-ID: <502e675a-bdaa-3acd-5343-5cb2f40f2a7a@mender.io>
+Date: Tue, 24 Jan 2017 10:36:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.5.1
 MIME-Version: 1.0
-In-Reply-To: <1484999072.9391.1.camel@linuxfoundation.org>
-Subject: Re: Passing additional data from packages to be used during image creation
+Subject: Recipe specific sysroots: New failure to compile Go
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,42 +57,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jan 2017 09:12:33 -0000
+X-List-Received-Date: Tue, 24 Jan 2017 09:36:06 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
+After the new feature, recipe specific sysroots, was added, I'm facing
+the following compile error when compiling Go:
 
+-------------------------------------------
+ERROR: go-native-1.7.4-r0 do_compile: Function failed: do_compile (log
+file is located at
+/home/jenkins/workspace/yoctobuild/build-qemu/tmp/work/x86_64-linux/go-native/1.7.4-r0/temp/log.do_compile.10566)
+ERROR: Logfile of failure stored in:
+/home/jenkins/workspace/yoctobuild/build-qemu/tmp/work/x86_64-linux/go-native/1.7.4-r0/temp/log.do_compile.10566
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| + set -e
+| + unset GOBIN
+| + '[' '!' -f run.bash ']'
+| + case "$(uname)" in
+| ++ uname
+| + ld --version
+| + grep 'gold.* 2\.20'
+| + for se_mount in /selinux /sys/fs/selinux
+| + '[' -d /selinux -a -f /selinux/booleans/allow_execstack -a -x
+/usr/sbin/selinuxenabled ']'
+| + for se_mount in /selinux /sys/fs/selinux
+| + '[' -d /sys/fs/selinux -a -f
+/sys/fs/selinux/booleans/allow_execstack -a -x /usr/sbin/selinuxenabled ']'
+| ++ uname -s
+| + '[' Linux == GNU/kFreeBSD ']'
+| + rm -f ./runtime/runtime_defs.go
+| + echo '##### Building Go bootstrap tool.'
+| ##### Building Go bootstrap tool.
+| + echo cmd/dist
+| cmd/dist
+| ++ cd ..
+| ++ pwd
+| + export
+GOROOT=/home/jenkins/workspace/yoctobuild/build-qemu/tmp/work/x86_64-linux/go-native/1.7.4-r0/go-1.7.4/go
+| +
+GOROOT=/home/jenkins/workspace/yoctobuild/build-qemu/tmp/work/x86_64-linux/go-native/1.7.4-r0/go-1.7.4/go
+| +
+GOROOT_BOOTSTRAP=/home/jenkins/workspace/yoctobuild/build-qemu/tmp/work/x86_64-linux/go-native/1.7.4-r0/recipe-sysroot-native/usr/lib/go-bootstrap-native-1.4.3
+| + '[' '!' -x
+/home/jenkins/workspace/yoctobuild/build-qemu/tmp/work/x86_64-linux/go-native/1.7.4-r0/recipe-sysroot-native/usr/lib/go-bootstrap-native-1.4.3/bin/go
+']'
+| + '['
+/home/jenkins/workspace/yoctobuild/build-qemu/tmp/work/x86_64-linux/go-native/1.7.4-r0/recipe-sysroot-native/usr/lib/go-bootstrap-native-1.4.3
+==
+/home/jenkins/workspace/yoctobuild/build-qemu/tmp/work/x86_64-linux/go-native/1.7.4-r0/go-1.7.4/go
+']'
+| + rm -f cmd/dist/dist
+| +
+GOROOT=/home/jenkins/workspace/yoctobuild/build-qemu/tmp/work/x86_64-linux/go-native/1.7.4-r0/recipe-sysroot-native/usr/lib/go-bootstrap-native-1.4.3
+| + GOOS=
+| + GOARCH=
+| +
+/home/jenkins/workspace/yoctobuild/build-qemu/tmp/work/x86_64-linux/go-native/1.7.4-r0/recipe-sysroot-native/usr/lib/go-bootstrap-native-1.4.3/bin/go
+build -o cmd/dist/dist ./cmd/dist
+| #
+_/home/jenkins/workspace/yoctobuild/build-qemu/tmp/work/x86_64-linux/go-native/1.7.4-r0/go-1.7.4/go/src/cmd/dist
+|
+/home/jenkins/workspace/yoctobuild/build-qemu/tmp/work/x86_64-linux/go-native/1.7.4-r0/recipe-sysroot-native/usr/lib/go-bootstrap-native-1.4.3/pkg/tool/linux_amd64/6l:
+readsym out of sync
+| WARNING: exit code 2 from a shell command.
+| ERROR: Function failed: do_compile (log file is located at
+/home/jenkins/workspace/yoctobuild/build-qemu/tmp/work/x86_64-linux/go-native/1.7.4-r0/temp/log.do_compile.10566)
+ERROR: Task
+(virtual:native:/home/jenkins/workspace/yoctobuild/oe-meta-go/recipes-devtools/go/go_1.7.4.bb:do_compile)
+failed with exit code '1'
+-----------------------------------------------
 
-On 21.01.2017 12:44, Richard Purdie wrote:
-> On Thu, 2017-01-19 at 10:16 +0100, Pascal Bach wrote:
->> I would like to pass some additional data generated during the
->> creation of a package to the image creation step.
->> The idea is to use this data to generate a more detailed manifest of
->> what is included in the image. In the concrete case
->> I would like to pass a list of required copyright files that need to
->> be checked for during image creation.
->>
->> My current approach is to add this list as a new variable COPYRIGHTS
->> to the pkgdata of each package.
->> Using the image manifest to determine the package this allows me to
->> compile a list of all required copyrights.
->>
->> The following patch allows to add extra variables to pkgdata and thus
->> allows to pass additional data
->>
->> - [PATCH] package.bbclass: allow additional variables to be added to
->>
->> Is this a valid approach or did a miss a simpler way to access any
->> package data during image creation?
-> I'm curious if adding something to PACKAGEVARS would work or if not,
-> why not?
-Just adding it to PACKAGEVARS is not enough as the list of variables written to the pkgdata files is hard coded in emit_pkgdata here: https://github.com/openembedded/openembedded-core/blob/master/meta/classes/package.bbclass#L1365
+Note in particular the "readsym out of sync", which appears to be the
+heart of the problem.
 
-However I notices an issue with the code as it seams the do_package step is not triggered if a variable in PACKAGE_EXTRA_PKGDATA changes. I'm not sure why as it should be
-added as a vardeps to the do_package task. For example if I add "COPYRIGHTS" to PACKAGE_EXTRA_PKGDATA and than change the COPYRIGHTS variable in a recipe the do_package step doesn't get executed.
-I'm trying to figure out why but if somebody can spot what I did wrong this would be appreciated.
+Using git bisect I have verified that it is the commit
+9107d6ca144ac1f6169830dee25dae2dad775333, the introduction of recipe
+specific sysroots, that breaks the build. However, I cannot see an
+obvious link between the two, the error looks very internal to Go. Any
+clue what's going on?
 
-Pascal
-
-
+-- 
+Kristian
 
