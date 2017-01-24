@@ -1,26 +1,58 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D2BB676643
+Return-Path: <andrew.goodbody@cambrionix.com>
+X-Greylist: delayed 935 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 24 Jan 2017 14:23:21 UTC
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com
+	(mail-he1eur01on0094.outbound.protection.outlook.com [104.47.0.94])
+	by mail.openembedded.org (Postfix) with ESMTP id 44EAA77225
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 14:07:57 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 24 Jan 2017 06:07:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,278,1477983600"; d="scan'208";a="34763642"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga002.jf.intel.com with ESMTP; 24 Jan 2017 06:07:32 -0800
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id DF4E76A4006
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 06:06:34 -0800 (PST)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Jan 2017 15:43:55 +0200
-Message-Id: <62b08f3c9c89fa9435eed784e11313855713e888.1485264964.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1485264964.git.ed.bartosh@linux.intel.com>
-References: <cover.1485264964.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 7/8] selftest: wic: explicitly specify output directory
+	Tue, 24 Jan 2017 14:23:21 +0000 (UTC)
+Received: from LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM (10.166.249.144) by
+	LOXP123MB0120.GBRP123.PROD.OUTLOOK.COM (10.166.249.147) with Microsoft
+	SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+	15.1.860.13; Tue, 24 Jan 2017 14:07:46 +0000
+Received: from LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM ([10.166.249.144]) by
+	LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM ([10.166.249.144]) with mapi id
+	15.01.0860.021; Tue, 24 Jan 2017 14:07:45 +0000
+From: Andrew Goodbody <andrew.goodbody@cambrionix.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: configure error for glibc 2.25.2
+Thread-Index: AdJ2St/27Lo07BMlSGusqMFehWa5Eg==
+Date: Tue, 24 Jan 2017 14:07:45 +0000
+Message-ID: <LOXP123MB0117C97F4BE309CCAA9AFAF585750@LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=andrew.goodbody@cambrionix.com; 
+x-originating-ip: [46.17.166.30]
+x-ms-office365-filtering-correlation-id: 9646a7bb-f2f5-4565-7e4d-08d444625f02
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:(22001);SRVR:LOXP123MB0120;
+x-microsoft-exchange-diagnostics: 1; LOXP123MB0120;
+	7:WHHeQYMi1DMdcCUvd0zxEQbWT+6H7D7llqRZmdzETAfi97Blt0UnMW7IMj7Oh9py58sZsI/5txkAhCbtoFpNiLXtPSqj7hNuav3yfOj3Bctth8B8LyCqPOpiaOLT74bWDK8WsP3HRjFYa9f6NOaOyQBtx1PzV/VEe0rqSZSVsgBTSTld3DXaiN/sglQ+DTH73wiCOSY8YeD/HtWKmm5rDUdmEpRZ1ixjLMK9ze+Dc2n8LFj4vQr7wh+SFEGMukRrf65kpkIifax8Ssi/QeSfuxDK4XjUxOWR8gCjokqJD0MJ5fVwjW8d88D1uaSQ/kMd082d1Swopi0Sok/IwuyXjByvIz42BK10CC/jrnZSWOfcSbjQmEw0c3TrKqf31uAdgN4MCn/W7hF51zbnWYYdb/IJcUgcZ5ETW8FwgxvcYrZYpMV6NB43FQG2Vtdy5NNhHAX9S6kKYd3KUZDaEpL7qQ==
+x-microsoft-antispam-prvs: <LOXP123MB0120FB88EB3321AF0A803B5A85750@LOXP123MB0120.GBRP123.PROD.OUTLOOK.COM>
+x-exchange-antispam-report-test: UriScan:;
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(6040375)(2401047)(5005006)(8121501046)(3002001)(10201501046)(6041248)(20161123564025)(20161123560025)(20161123562025)(20161123555025)(2016111802025)(6072148)(6043046);
+	SRVR:LOXP123MB0120; BCL:0; PCL:0; RULEID:; SRVR:LOXP123MB0120; 
+x-forefront-prvs: 0197AFBD92
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(6009001)(7916002)(39450400003)(39830400002)(39410400002)(199003)(189002)(106356001)(450100001)(2900100001)(92566002)(101416001)(6436002)(50986999)(6506006)(77096006)(54356999)(6916009)(189998001)(107886002)(53936002)(38730400001)(105586002)(2351001)(5640700003)(110136003)(305945005)(74316002)(7736002)(7696004)(6116002)(5660300001)(3846002)(102836003)(66066001)(97736004)(2906002)(81166006)(81156014)(33656002)(8676002)(86362001)(9686003)(8936002)(122556002)(55016002)(3660700001)(68736007)(3280700002)(2501003);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:LOXP123MB0120;
+	H:LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM; FPR:; SPF:None;
+	PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
+received-spf: None (protection.outlook.com: cambrionix.com does not designate
+	permitted sender hosts)
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+MIME-Version: 1.0
+X-OriginatorOrg: cambrionix.com
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jan 2017 14:07:45.5953 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 6eddda96-aa38-44c8-ab83-12529d9cab1f
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LOXP123MB0120
+Subject: configure error for glibc 2.25.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,267 +65,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jan 2017 14:07:58 -0000
+X-List-Received-Date: Tue, 24 Jan 2017 14:23:24 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-wic started to use current directory as a default output dir.
-Specified output directory in wic command line to make tests
-more predictable and easier to maintain.
+I get the following configure error when trying to rebuild my tree today af=
+ter doing a sync.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/lib/oeqa/selftest/wic.py | 72 +++++++++++++++++++++++++------------------
- 1 file changed, 42 insertions(+), 30 deletions(-)
+Is this a core issue or something wrong in my tree?
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index 11dc744..7916071 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -36,8 +36,8 @@ from oeqa.utils.decorators import testcase
- class Wic(oeSelfTest):
-     """Wic test class."""
- 
--    resultdir = "/var/tmp/wic/build/"
-     alternate_resultdir = "/var/tmp/wic/build/alt/"
-+    resultdir = "/var/tmp/wic.oe-selftest/"
-     image_is_ready = False
-     wicenv_cache = {}
- 
-@@ -56,6 +56,10 @@ class Wic(oeSelfTest):
- 
-         rmtree(self.resultdir, ignore_errors=True)
- 
-+    def tearDownLocal(self):
-+        """Remove resultdir as it may contain images."""
-+        rmtree(self.resultdir, ignore_errors=True)
-+
-     @testcase(1552)
-     def test_version(self):
-         """Test wic --version"""
-@@ -134,14 +138,14 @@ class Wic(oeSelfTest):
-     @testcase(1211)
-     def test_build_image_name(self):
-         """Test wic create directdisk --image-name=core-image-minimal"""
--        cmd = "wic create directdisk --image-name=core-image-minimal"
-+        cmd = "wic create directdisk --image-name=core-image-minimal -o %s" % self.resultdir
-         self.assertEqual(0, runCmd(cmd).status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
- 
-     @testcase(1157)
-     def test_gpt_image(self):
-         """Test creation of core-image-minimal with gpt table and UUID boot"""
--        cmd = "wic create directdisk-gpt --image-name core-image-minimal"
-+        cmd = "wic create directdisk-gpt --image-name core-image-minimal -o %s" % self.resultdir
-         self.assertEqual(0, runCmd(cmd).status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
- 
-@@ -152,7 +156,7 @@ class Wic(oeSelfTest):
-         self.append_config(config)
-         bitbake('core-image-minimal')
-         self.remove_config(config)
--        cmd = "wic create mkhybridiso --image-name core-image-minimal"
-+        cmd = "wic create mkhybridiso --image-name core-image-minimal -o %s" % self.resultdir
-         self.assertEqual(0, runCmd(cmd).status)
-         self.assertEqual(1, len(glob(self.resultdir + "HYBRID_ISO_IMG-*.direct")))
-         self.assertEqual(1, len(glob(self.resultdir + "HYBRID_ISO_IMG-*.iso")))
-@@ -160,21 +164,21 @@ class Wic(oeSelfTest):
-     @testcase(1348)
-     def test_qemux86_directdisk(self):
-         """Test creation of qemux-86-directdisk image"""
--        cmd = "wic create qemux86-directdisk -e core-image-minimal"
-+        cmd = "wic create qemux86-directdisk -e core-image-minimal -o %s" % self.resultdir
-         self.assertEqual(0, runCmd(cmd).status)
-         self.assertEqual(1, len(glob(self.resultdir + "qemux86-directdisk-*direct")))
- 
-     @testcase(1350)
-     def test_mkefidisk(self):
-         """Test creation of mkefidisk image"""
--        cmd = "wic create mkefidisk -e core-image-minimal"
-+        cmd = "wic create mkefidisk -e core-image-minimal -o %s" % self.resultdir
-         self.assertEqual(0, runCmd(cmd).status)
-         self.assertEqual(1, len(glob(self.resultdir + "mkefidisk-*direct")))
- 
-     @testcase(1385)
-     def test_directdisk_bootloader_config(self):
-         """Test creation of directdisk-bootloader-config image"""
--        cmd = "wic create directdisk-bootloader-config -e core-image-minimal"
-+        cmd = "wic create directdisk-bootloader-config -e core-image-minimal -o %s" % self.resultdir
-         self.assertEqual(0, runCmd(cmd).status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-bootloader-config-*direct")))
- 
-@@ -185,14 +189,14 @@ class Wic(oeSelfTest):
-         self.append_config(config)
-         bitbake('core-image-minimal')
-         self.remove_config(config)
--        cmd = "wic create systemd-bootdisk -e core-image-minimal"
-+        cmd = "wic create systemd-bootdisk -e core-image-minimal -o %s" % self.resultdir
-         self.assertEqual(0, runCmd(cmd).status)
-         self.assertEqual(1, len(glob(self.resultdir + "systemd-bootdisk-*direct")))
- 
-     @testcase(1561)
-     def test_sdimage_bootpart(self):
-         """Test creation of sdimage-bootpart image"""
--        cmd = "wic create sdimage-bootpart -e core-image-minimal"
-+        cmd = "wic create sdimage-bootpart -e core-image-minimal -o %s" % self.resultdir
-         self.write_config('IMAGE_BOOT_FILES = "bzImage"\n')
-         self.assertEqual(0, runCmd(cmd).status)
-         self.assertEqual(1, len(glob(self.resultdir + "sdimage-bootpart-*direct")))
-@@ -219,11 +223,13 @@ class Wic(oeSelfTest):
-         bbvars = dict((var.lower(), get_bb_var(var, 'core-image-minimal'))
-                       for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE', 'IMAGE_ROOTFS'))
-         bbvars['recipe_sysroot_native'] = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
-+        bbvars['resultdir'] = self.resultdir
-         status = runCmd("wic create directdisk "
-                         "-b %(staging_datadir)s "
-                         "-k %(deploy_dir_image)s "
-                         "-n %(recipe_sysroot_native)s "
--                        "-r %(image_rootfs)s" % bbvars).status
-+                        "-r %(image_rootfs)s "
-+                        "-o %(resultdir)s" % bbvars).status
-         self.assertEqual(0, status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
- 
-@@ -232,7 +238,7 @@ class Wic(oeSelfTest):
-         """Test compressing an image with gzip"""
-         self.assertEqual(0, runCmd("wic create directdisk "
-                                    "--image-name core-image-minimal "
--                                   "-c gzip").status)
-+                                   "-c gzip -o %s" % self.resultdir).status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct.gz")))
- 
-     @testcase(1265)
-@@ -240,7 +246,7 @@ class Wic(oeSelfTest):
-         """Test compressing an image with bzip2"""
-         self.assertEqual(0, runCmd("wic create directdisk "
-                                    "--image-name=core-image-minimal "
--                                   "-c bzip2").status)
-+                                   "-c bzip2 -o %s" % self.resultdir).status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct.bz2")))
- 
-     @testcase(1266)
-@@ -248,7 +254,7 @@ class Wic(oeSelfTest):
-         """Test compressing an image with xz"""
-         self.assertEqual(0, runCmd("wic create directdisk "
-                                    "--image-name=core-image-minimal "
--                                   "--compress-with=xz").status)
-+                                   "--compress-with=xz -o %s" % self.resultdir).status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct.xz")))
- 
-     @testcase(1267)
-@@ -256,18 +262,19 @@ class Wic(oeSelfTest):
-         """Test how wic breaks if wrong compressor is provided"""
-         self.assertEqual(2, runCmd("wic create directdisk "
-                                    "--image-name=core-image-minimal "
--                                   "-c wrong", ignore_status=True).status)
-+                                   "-c wrong -o %s" % self.resultdir,
-+                                   ignore_status=True).status)
- 
-     @testcase(1558)
-     def test_debug(self):
-         """Test debug"""
-         self.assertEqual(0, runCmd("wic create directdisk "
-                                    "--image-name=core-image-minimal "
--                                   "-D").status)
-+                                   "-D -o %s" % self.resultdir).status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
-         self.assertEqual(0, runCmd("wic create directdisk "
-                                    "--image-name=core-image-minimal "
--                                   "--debug").status)
-+                                   "--debug -o %s" % self.resultdir).status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
- 
-     @testcase(1563)
-@@ -275,11 +282,12 @@ class Wic(oeSelfTest):
-         """Test skip build check"""
-         self.assertEqual(0, runCmd("wic create directdisk "
-                                    "--image-name=core-image-minimal "
--                                   "-s").status)
-+                                   "-s -o %s" % self.resultdir).status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
-         self.assertEqual(0, runCmd("wic create directdisk "
-                                    "--image-name=core-image-minimal "
--                                   "--skip-build-check").status)
-+                                   "--skip-build-check "
-+                                   "--outdir %s" % self.resultdir).status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
- 
-     @testcase(1564)
-@@ -287,11 +295,12 @@ class Wic(oeSelfTest):
-         """Test build rootfs"""
-         self.assertEqual(0, runCmd("wic create directdisk "
-                                    "--image-name=core-image-minimal "
--                                   "-f").status)
-+                                   "-f -o %s" % self.resultdir).status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
-         self.assertEqual(0, runCmd("wic create directdisk "
-                                    "--image-name=core-image-minimal "
--                                   "--build-rootfs").status)
-+                                   "--build-rootfs "
-+                                   "--outdir %s" % self.resultdir).status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
- 
-     @testcase(1268)
-@@ -300,7 +309,8 @@ class Wic(oeSelfTest):
-         status = runCmd("wic create directdisk-multi-rootfs "
-                         "--image-name=core-image-minimal "
-                         "--rootfs rootfs1=core-image-minimal "
--                        "--rootfs rootfs2=core-image-minimal").status
-+                        "--rootfs rootfs2=core-image-minimal "
-+                        "--outdir %s" % self.resultdir).status
-         self.assertEqual(0, status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-multi-rootfs*.direct")))
- 
-@@ -311,25 +321,27 @@ class Wic(oeSelfTest):
-                       for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE', 'IMAGE_ROOTFS'))
-         bbvars['recipe_sysroot_native'] = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
-         bbvars['wks'] = "directdisk-multi-rootfs"
-+        bbvars['resultdir'] = self.resultdir
-         status = runCmd("wic create %(wks)s "
-                         "--bootimg-dir=%(staging_datadir)s "
-                         "--kernel-dir=%(deploy_dir_image)s "
-                         "--native-sysroot=%(recipe_sysroot_native)s "
-                         "--rootfs-dir rootfs1=%(image_rootfs)s "
--                        "--rootfs-dir rootfs2=%(image_rootfs)s"
--                        % bbvars).status
-+                        "--rootfs-dir rootfs2=%(image_rootfs)s "
-+                        "--outdir %(resultdir)s" % bbvars).status
-         self.assertEqual(0, status)
-         self.assertEqual(1, len(glob(self.resultdir + "%(wks)s-*.direct" % bbvars)))
- 
-     @testcase(1496)
-     def test_bmap(self):
-         """Test generation of .bmap file"""
--        cmd = "wic create directdisk -e core-image-minimal -m"
-+        cmd = "wic create directdisk -e core-image-minimal -m -o %s" % self.resultdir
-         status = runCmd(cmd).status
-         self.assertEqual(0, status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*direct")))
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*direct.bmap")))
--        cmd = "wic create directdisk -e core-image-minimal --bmap"
-+        rmtree(self.resultdir)
-+        cmd = "wic create directdisk -e core-image-minimal --bmap -o %s" % self.resultdir
-         status = runCmd(cmd).status
-         self.assertEqual(0, status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*direct")))
-@@ -372,13 +384,13 @@ class Wic(oeSelfTest):
-         imgenvdir = self._get_image_env_path(image)
- 
-         self.assertEqual(0, runCmd("wic create directdisk "
--                                   "--image-name=%s "
--                                   "-v %s"
--                                   % (image, imgenvdir)).status)
-+                                   "--image-name=%s -v %s -o %s"
-+                                   % (image, imgenvdir, self.resultdir)).status)
-         self.assertEqual(0, runCmd("wic create directdisk "
-                                    "--image-name=%s "
--                                   "--vars %s"
--                                   % (image, imgenvdir)).status)
-+                                   "--vars %s "
-+                                   "--outdir %s"
-+                                   % (image, imgenvdir, self.resultdir)).status)
- 
-     @testcase(1351)
-     def test_wic_image_type(self):
--- 
-2.1.4
+Thanks,
+Andrew
 
+| checking installed Linux kernel header files... missing or too old!
+| configure: error: GNU libc requires kernel header files from
+| Linux 3.2.0 or later to be installed before configuring.
+| The kernel header files are found usually in /usr/include/asm and
+| /usr/include/linux; make sure these directories use files from
+| Linux 3.2.0 or later.  This check uses <linux/version.h>, so
+| make sure that file was built correctly when installing the kernel header
+| files.  To use kernel headers not from /usr/include/linux, use the
+| configure option --with-headers.
+| WARNING: exit code 1 from a shell command.
+| ERROR: Function failed: do_configure (log file is located at /home/andrew=
+/src/camol3/camol/build/tmp-camol-glibc/work/armv7ahf-neon-camol-linux-gnue=
+abi/glibc-initial/2.25-r0/temp/log.do_configure.30873)
+ERROR: Task (/home/andrew/src/camol3/camol/layers/openembedded-core/meta/re=
+cipes-core/glibc/glibc-initial_2.25.bb:do_configure) failed with exit code =
+'1'
+NOTE: Tasks Summary: Attempted 779 tasks of which 0 didn't need to be rerun=
+ and 1 failed.
+NOTE: Writing buildhistory
+
+Summary: 1 task failed:
+  /home/andrew/src/camol3/camol/layers/openembedded-core/meta/recipes-core/=
+glibc/glibc-initial_2.25.bb:do_configure
+Summary: There were 7 WARNING messages shown.
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
 
