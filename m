@@ -1,25 +1,18 @@
-Return-Path: <Li.Zhou@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BCB5B71C14
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 05:19:39 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v0P5JcfC015994
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 21:19:39 -0800 (PST)
-Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Tue, 24 Jan 2017 21:19:38 -0800
-From: Li Zhou <li.zhou@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 25 Jan 2017 13:19:01 +0800
-Message-ID: <1485321541-255124-1-git-send-email-li.zhou@windriver.com>
-X-Mailer: git-send-email 1.9.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E43671994;
+	Wed, 25 Jan 2017 05:23:32 +0000 (UTC)
 MIME-Version: 1.0
-X-Originating-IP: [128.224.153.75]
-Subject: [PATCH] openssh: Security Advisory - openssh - CVE-2016-10010
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Li Zhou <li.zhou@windriver.com>
+Date: Wed, 25 Jan 2017 05:23:32 -0000
+Message-ID: <20170125052332.4466.18800@do.openembedded.org>
+References: <1485321541-255124-1-git-send-email-li.zhou@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1485321541-255124-1-git-send-email-li.zhou@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb3BlbnNzaDogU2VjdXJpdHkgQWR2aXNvcnkgLSBvcGVuc3NoIC0gQ1ZFLTIwMTYtMTAwMTA=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,82 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2017 05:19:40 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 25 Jan 2017 05:23:32 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-sshd in OpenSSH before 7.4, when privilege separation is not used,
-creates forwarded Unix-domain sockets as root, which might allow
-local users to gain privileges via unspecified vectors, related to
-serverloop.c.
+== Series Details ==
 
-Porting patch from <https://github.com/openbsd/src/commit/
-c76fac666ea038753294f2ac94d310f8adece9ce> to solve CVE-2016-10010.
-Adapted the patch to solve context issues.
+Series: openssh: Security Advisory - openssh - CVE-2016-10010
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/4949/
+State : failure
 
-Signed-off-by: Li Zhou <li.zhou@windriver.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            openssh: Security Advisory - openssh - CVE-2016-10010
+ Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
+  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- .../openssh/openssh/openssh-CVE-2016-10010.patch   | 38 ++++++++++++++++++++++
- meta/recipes-connectivity/openssh/openssh_7.3p1.bb |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/openssh-CVE-2016-10010.patch
-
-diff --git a/meta/recipes-connectivity/openssh/openssh/openssh-CVE-2016-10010.patch b/meta/recipes-connectivity/openssh/openssh/openssh-CVE-2016-10010.patch
-new file mode 100644
-index 0000000..239912f
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/openssh-CVE-2016-10010.patch
-@@ -0,0 +1,38 @@
-+From e86492668e4005eb3b20ba827a7e8474f2888e7e Mon Sep 17 00:00:00 2001
-+From: Li Zhou <li.zhou@windriver.com>
-+Date: Wed, 25 Jan 2017 11:01:10 +0800
-+Subject: [PATCH] openssh: disable Unix-domain socket forwarding when privsep
-+ is disabled
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Li Zhou <li.zhou@windriver.com>
-+---
-+ serverloop.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/serverloop.c b/serverloop.c
-+index 3563e5d..233de42 100644
-+--- a/serverloop.c
-++++ b/serverloop.c
-+@@ -999,7 +999,7 @@ server_request_direct_streamlocal(void)
-+ 
-+ 	/* XXX fine grained permissions */
-+ 	if ((options.allow_streamlocal_forwarding & FORWARD_LOCAL) != 0 &&
-+-	    !no_port_forwarding_flag) {
-++	    !no_port_forwarding_flag && use_privsep) {
-+ 		c = channel_connect_to_path(target,
-+ 		    "direct-streamlocal@openssh.com", "direct-streamlocal");
-+ 	} else {
-+@@ -1280,7 +1280,7 @@ server_input_global_request(int type, u_int32_t seq, void *ctxt)
-+ 
-+ 		/* check permissions */
-+ 		if ((options.allow_streamlocal_forwarding & FORWARD_REMOTE) == 0
-+-		    || no_port_forwarding_flag) {
-++		    || no_port_forwarding_flag || !use_privsep) {
-+ 			success = 0;
-+ 			packet_send_debug("Server has disabled port forwarding.");
-+ 		} else {
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-connectivity/openssh/openssh_7.3p1.bb b/meta/recipes-connectivity/openssh/openssh_7.3p1.bb
-index 94eb0ed..522bda6 100644
---- a/meta/recipes-connectivity/openssh/openssh_7.3p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_7.3p1.bb
-@@ -26,6 +26,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://openssh-7.1p1-conditional-compile-des-in-pkcs11.patch \
-            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
-            file://fix-CVE-2016-8858.patch \
-+           file://openssh-CVE-2016-10010.patch \
-            "
- 
- PAM_SRC_URI = "file://sshd"
--- 
-1.9.1
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
