@@ -1,51 +1,45 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
-	[209.85.217.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 727CB71CA6
+Return-Path: <yannick.gicquel@iot.bzh>
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D50A6025F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 19:58:25 +0000 (UTC)
-Received: by mail-ua0-f194.google.com with SMTP id 96so20290548uaq.2
+	Wed, 25 Jan 2017 20:20:07 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id c85so42965696wmi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 11:58:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=nJQDIkzVVbagCHvwy5exsDb4HS1irm1RjUpkoiVTh4k=;
-	b=syKkyLN7HfI65Y+oMcNK+JFfc1/PYdKUS0E0tfgardRzmrll9lF5k/2WSC/bIzBPLJ
-	5j8xzLpYxYEkfPfDP+jfLqOW2mBvSCFoSdPepGmnrEEU9rS5fIZiH8PJYAePOhgISF7d
-	k6omk3osvIZ/gk19gXRP0QsZexQH3goxdU6wvRuji73zA4b5xDfkmPJ/HRg7Kmq5NkE7
-	o1TZmd23xpYApFrdo4KKJmRy8tNPPs0E030KtedmG8lQ/pDFwIo6DFPtv58iLdtHTj0d
-	1OiRa5/pyXDYTlRvGtlqGkZewaHjAWjdr8Uj+iI3+U8rz0hoMnGJkxha9JSaRYYjeNXx
-	4Muw==
+	Wed, 25 Jan 2017 12:20:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=iot-bzh.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=OSXeJ9O+Pu+SqCXo59drh5/IO0W2O1bsWPaUe5j7BL8=;
+	b=trkT+rcWwI4Q7Ms8lcAaLLD2N/n9EKTw4zP8O1dfHcbZV6fzIFgAuxPhGasgWCox1P
+	a3IXJU4TraU+Nrz/+t82QYrJRyo9Lbr34MjSqIuJU7GdXmLVpu8BNhuLfhOGqEG6AeAF
+	mYwRk/Pwqj4krTiIK4fMemXH07bMrD3kfkcLkaJqpYoTZWrb/TRnaomClqpPwdqgK8yy
+	zks+8IB3OtqTVWCmbIsQU+hGG9G/PgdT/SRP9paHo1PjtGlr1g/a36U5B8ImeKJLFw5p
+	535MQYs1N1LCplpyS498sNODbcbFpvxM1+Ljuqi68zE1aecORNV0IMHePwXT5Qk8TxR2
+	1JkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=nJQDIkzVVbagCHvwy5exsDb4HS1irm1RjUpkoiVTh4k=;
-	b=SiTPw/rxp0BteL68LJdVheIMgsuTcDIljTuHaRGl8xzBLXdimUFogHaDAxr49TWYl4
-	sEwkGiSfcAdqXivOIyYRnlFvSOqJb/HkOwo2BjS/1pBZn5FWnrvHear1ejJn6C+I1Mhr
-	j01j1B96Lq1MRzjIUH9Pd2xsQ5AhCZ4OrwKm5sD96OIitj0Pr6ML36QheP4vw6Cl7iQ1
-	uIYrZNwQtOcR97u+Air7dkDhs1bl+wgLr179Ahlts61bv6lVqsmQMHSLmzlptMX9zBET
-	xLWinjjE98IGa2m9lTg0irYXXG6IhxyoR+EKSIcm9B5L2R/Vo0coDJwWCToWSGCBYBeH
-	Evgw==
-X-Gm-Message-State: AIkVDXKibRxlZsNL9qvx4OKGOZKMIRqSBaBxVfR/ehYIiwF85odACWvfz1rTCZlOLbiEveETIbxjWDGbNayVhw==
-X-Received: by 10.176.64.168 with SMTP id i37mr21584903uad.60.1485374305325;
-	Wed, 25 Jan 2017 11:58:25 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.159.48.222 with HTTP; Wed, 25 Jan 2017 11:57:54 -0800 (PST)
-In-Reply-To: <CAD4b0_KNSRXs7mGyePjD1SQHGfb_hpBZ56qJVnSiJS4HfJfrLA@mail.gmail.com>
-References: <20161110003935.1858-1-raj.khem@gmail.com>
-	<a186e3be-242a-5ba1-36fe-f5f3d561552c@mlbassoc.com>
-	<F7334516-0C0C-4709-88ED-8FAB7FFA5548@gmail.com>
-	<CAD4b0_KNSRXs7mGyePjD1SQHGfb_hpBZ56qJVnSiJS4HfJfrLA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 25 Jan 2017 11:57:54 -0800
-Message-ID: <CAMKF1soSCibekfOy1QjpA2Xi0tVYR85qVjvhcqhxD0Ogg6pvag@mail.gmail.com>
-To: =?UTF-8?Q?Maciej_Borz=C4=99cki?= <maciej.borzecki@rndity.com>
-Cc: Gary Thomas <gary@mlbassoc.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] go: Add recipes for golang compilers and tools
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=OSXeJ9O+Pu+SqCXo59drh5/IO0W2O1bsWPaUe5j7BL8=;
+	b=CObIoUJJ3LFO6o14GiQFimUi4IIfeMzGt+LI1JT+640FzOqkxKuTD/VuunNlnsyUpG
+	O9/68p3IKdppwVqPwxtIuUbWh/zKDFH+eg6EqGq0QcUzd6KE0AXhUeNS9dzSofvCTBk6
+	g0DvJfcFxyh0xJvzuH4tXCnpEfKRH27O63fQAFvnXpx3zNnZIZL/bE0MnihxHeUHuftj
+	we66ag3vtDlNzjFSyAv2Ga5pxa83RbvM4cn6o6GnvTO+Mk/t4VDbBMdF0zHc3YPCfna1
+	Zhh0RKTr1dCi4tMdQ4bVnwJ6PqSLtuCUK6ujmFabCnB9PzpIJQgO8Q+09HMG8tvPUgsE
+	KliQ==
+X-Gm-Message-State: AIkVDXLygvTmgN0QiHX443ArKMz+OW1hiaaXv8603W/iLJdvDltjjhHaqt1iCavxJT0oSw==
+X-Received: by 10.28.211.205 with SMTP id k196mr22880953wmg.124.1485375608050; 
+	Wed, 25 Jan 2017 12:20:08 -0800 (PST)
+Received: from eiger.ygl.iot (lns-bzn-38-82-253-123-24.adsl.proxad.net.
+	[82.253.123.24]) by smtp.gmail.com with ESMTPSA id
+	k70sm14668827wmc.3.2017.01.25.12.20.06
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 25 Jan 2017 12:20:07 -0800 (PST)
+From: Yannick Gicquel <yannick.gicquel@iot.bzh>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 25 Jan 2017 21:19:46 +0100
+Message-Id: <1485375586-30172-1-git-send-email-yannick.gicquel@iot.bzh>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH v2] ccache: update to 3.3.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,93 +52,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2017 19:58:25 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 25 Jan 2017 20:20:08 -0000
 
-On Wed, Jan 25, 2017 at 11:40 AM, Maciej Borz=C4=99cki
-<maciej.borzecki@rndity.com> wrote:
-> On Mon, Dec 12, 2016 at 7:02 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> On Dec 12, 2016, at 4:36 AM, Gary Thomas <gary@mlbassoc.com> wrote:
->>
->> Looking at these recipes and they seem like a good starting point.
->> I did have some issues though:
->>
->> * bitbake go - didn't create any target installable packages, although t=
-he
->>  .../image directory seemed to be well populated.
->>
->>
->> Yeah mostly, I was concentrating on cross builds but this is something t=
-o
->> look at.
->>
->> * bitbake go-helloworld - had these errors:
->> ERROR: go-helloworld-0.1-r0 do_populate_lic: QA Issue: go-helloworld:
->> LIC_FILES_CHKSUM points to an invalid file: /MIT [license-checksum]
->>
->>
->> Thats new, somehow it did not happen for me. I will check again.
->>
->> ERROR: go-helloworld-0.1-r0 do_compile: Function failed: do_compile (log
->> file is located at
->> /build/p0382_2016-01-13/tmp/work/cortexa9hf-neon-amltd-linux-gnueabi/go-=
-helloworld/0.1-r0/temp/log.do_compile.31170)
->> ERROR: Logfile of failure stored in:
->> /build/p0382_2016-01-13/tmp/work/cortexa9hf-neon-amltd-linux-gnueabi/go-=
-helloworld/0.1-r0/temp/log.do_compile.31170
->> Log data follows:
->> | DEBUG: Executing shell function do_compile
->> | stat helloworld.go: no such file or directory
->> | WARNING: exit code 1 from a shell command.
->> | ERROR: Function failed: do_compile (log file is located at
->> /build/p0382_2016-01-13/tmp/work/cortexa9hf-neon-amltd-linux-gnueabi/go-=
-helloworld/0.1-r0/temp/log.do_compile.31170)
->> ERROR: Task
->> (/local/poky-cutting-edge/meta/recipes-extended/go-examples/go-helloworl=
-d_0.1.bb:do_compile)
->> failed with exit code '1'
->>
->> I forced the compiler to my target (rsync is _my_ friend) and was
->> able to run 'helloword.go'.  I've not tested much past this point,
->> but I am enthusiastic about getting 'go' into OE-core
->>
->>
->>
->> Thanks Gary for your feedback it will help. I know I have a rev2 due for
->> this patchset. Haven=E2=80=99t yet includes all needed changes for v2.
->
-> I would like to revive the discussion on including Go toolchain in
-> OE-core. Recipe specific sysroot changes have shown that external Go
-> layers may be a bit fragile. At least oe-meta-go, which we are using
-> right now, required some changes. Hopefully, the patches which were
-> posted today will get merged soon and everything will be back to
-> normal again.
->
-> There were some concerns previously about including Go in OE-core.
-> I''m not sure if these were eventually resolved. If not OE-core, how
-> about meta-go in OE layers? Maybe it would be a better match for the
-> already existing meta-{python,ruby,perl} layers. As long as there's a
-> single go-to layer for Go, everyone would benefit from this work.
->
-> Khem, do you need any help with v2 of the patchset you posted
-> previously? I think we should be able to spare some hours helping out
-> with this in Mender.
->
+Release note available at this location:
+https://ccache.samba.org/releasenotes.html#_ccache_3_3_3
 
-my changes have been updated after last review cycle. I did not
-address all reviews but most of them. The latest changes are here
+Moving to tarball source as git.samba.org is not used anymore.
 
-https://github.com/kraj/openembedded-core/commits/kraj/master
+License checksum change is due to an update in URL, now refering to "https"
+protocol instead of "http", line 32:
+'https://ccache.samba.org/authors.html'
 
-I think this would need the latest adaptation for rss to be included now.
-however this was working fine for most of arches and even with musl.
-I would love some help in testing and fixing them making them further
-worthy of submission as v2
+Signed-off-by: Yannick Gicquel <yannick.gicquel@iot.bzh>
+---
+ meta/recipes-devtools/ccache/ccache.inc      |  4 +---
+ meta/recipes-devtools/ccache/ccache_3.2.5.bb | 11 -----------
+ meta/recipes-devtools/ccache/ccache_3.3.3.bb | 12 ++++++++++++
+ 3 files changed, 13 insertions(+), 14 deletions(-)
+ delete mode 100644 meta/recipes-devtools/ccache/ccache_3.2.5.bb
+ create mode 100644 meta/recipes-devtools/ccache/ccache_3.3.3.bb
 
-> Cheers,
-> --
-> Maciej Borzecki
-> RnDity
+diff --git a/meta/recipes-devtools/ccache/ccache.inc b/meta/recipes-devtools/ccache/ccache.inc
+index 69aa64e..dd528d6 100644
+--- a/meta/recipes-devtools/ccache/ccache.inc
++++ b/meta/recipes-devtools/ccache/ccache.inc
+@@ -9,9 +9,7 @@ LICENSE = "GPLv3+"
+ 
+ DEPENDS = "zlib"
+ 
+-SRC_URI = "git://git.samba.org/ccache.git"
+-
+-S = "${WORKDIR}/git"
++SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.gz"
+ 
+ inherit autotools
+ 
+diff --git a/meta/recipes-devtools/ccache/ccache_3.2.5.bb b/meta/recipes-devtools/ccache/ccache_3.2.5.bb
+deleted file mode 100644
+index afd1b0e..0000000
+--- a/meta/recipes-devtools/ccache/ccache_3.2.5.bb
++++ /dev/null
+@@ -1,11 +0,0 @@
+-require ccache.inc
+-
+-LICENSE = "GPLv3+"
+-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=b8a4fa173ed91c1a5204ea4f9c9eadc3"
+-
+-SRCREV = "424d3ae1fb73444c6c38bf189f8fc048f66d6499"
+-
+-SRC_URI += " \
+-            file://0002-dev.mk.in-fix-file-name-too-long.patch \
+-            file://Revert-Create-man-page-in-the-make-install-from-git-.patch \
+-"
+diff --git a/meta/recipes-devtools/ccache/ccache_3.3.3.bb b/meta/recipes-devtools/ccache/ccache_3.3.3.bb
+new file mode 100644
+index 0000000..ded7b30
+--- /dev/null
++++ b/meta/recipes-devtools/ccache/ccache_3.3.3.bb
+@@ -0,0 +1,12 @@
++require ccache.inc
++
++LICENSE = "GPLv3+"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=938c02728101936f2a74a67d1d82ee25"
++
++SRC_URI[md5sum] = "ea1f95303749b9ac136c617d1b333eef"
++SRC_URI[sha256sum] = "87a399a2267cfac3f36411fbc12ff8959f408cffd050ad15fe423df88e977e8f"
++
++SRC_URI += " \
++            file://0002-dev.mk.in-fix-file-name-too-long.patch \
++            file://Revert-Create-man-page-in-the-make-install-from-git-.patch \
++"
+-- 
+1.9.1
+
 
