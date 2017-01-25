@@ -1,51 +1,21 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
-	[209.85.215.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 7498360750
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 0039C60102
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 07:58:42 +0000 (UTC)
-Received: by mail-lf0-f68.google.com with SMTP id v186so19640335lfa.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 23:58:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=iKwNASiMeegRJZzEHPKMvUZDO5a3cnjZ9anDC49Sgxc=;
-	b=EJS/r3T1oql6xF/v0idMqdvTKscP2hSJefaqucCYRs5M+xvCwC4YRbb5RrNGdldm8P
-	rBF7GaYJrtcExfdWBblgpkf4tS1vMAr4wiCszm4db36sqtEcZ7kjgmEkte9/KkW8lPzx
-	uMtEVEVJPL/bTkHExquS7rL0OH4B122SLgP3tnTScb9PfA1DcygB1gD9QkoKU4XH6L4I
-	c4LQe73A6JhoZjLvCUNLKfpDi+ZREgC1sY8Z8BIgUmTzxqLgDzyKZA0hK0XhCWgabW2N
-	puTo1BUMaO3RNbCyFTLML02/rNHwEhxQoZPMoAJZzgi0wO2Rz5BY+aHmATDG328bURUv
-	94dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=iKwNASiMeegRJZzEHPKMvUZDO5a3cnjZ9anDC49Sgxc=;
-	b=qpxAb9z/Y1XNCPQxRjitCJG60wWjrHwVf9sQj1fVOeJh6SJMuQ/LXIntzyh3tL63iy
-	jRHzAE3MJYvZ479urm8rgmMzODdEXnZY1D83zegX06+p98IdkRfBgqzXnWjTzKslL6Z7
-	IkB/lqNuQtDuJltRG7mzxlBzc4xxi5TDN26S49hDxPcKPuzwAzmZksry/V9Q+lpIT+wh
-	9z15RfUCVG9KkBcjQyq3mV5LCSbL8Rli3h49CUn9yQscXLXOO79QnHx4lJDB681R0YwE
-	h3z66Ghdg8XtWevNJLBNqdP3GIMRWLIRVRj8m8TFt3G3sijxWh92WP6e8k680iBSqbfW
-	Cn2A==
-X-Gm-Message-State: AIkVDXLC8l/FJQtFhyhZvtbPz9nZmsi4cahj09Voooh7rgJKUXIzFZK2CguqATn8Ln962g==
-X-Received: by 10.223.153.15 with SMTP id x15mr32079777wrb.179.1485331122115; 
-	Tue, 24 Jan 2017 23:58:42 -0800 (PST)
-Received: from crde-port-20.cahors.local ([185.47.80.46])
-	by smtp.gmail.com with ESMTPSA id
-	186sm29961487wmw.24.2017.01.24.23.58.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 24 Jan 2017 23:58:41 -0800 (PST)
-From: David Vincent <freesilicon@gmail.com>
+	Wed, 25 Jan 2017 08:12:48 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 25 Jan 2017 00:12:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,282,1477983600"; d="scan'208";a="35166801"
+Received: from lmoriart-mobl1.ger.corp.intel.com (HELO
+	mqz-osx-suse64.fi.intel.com) ([10.252.27.58])
+	by orsmga002.jf.intel.com with ESMTP; 25 Jan 2017 00:12:47 -0800
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Jan 2017 08:58:38 +0100
-Message-ID: <9648934.YbsFiyrbuu@crde-port-20.cahors.local>
-In-Reply-To: <8ea809ad-d2bd-e575-3447-51cadcb338c2@gmail.com>
-References: <20170123145508.9252-1-freesilicon@gmail.com>
-	<20170124090715.11646-1-freesilicon@gmail.com>
-	<8ea809ad-d2bd-e575-3447-51cadcb338c2@gmail.com>
-MIME-Version: 1.0
-Subject: Re: [PATCH v2 0/3] openssh: Make sshd-config a package
+Date: Wed, 25 Jan 2017 10:12:47 +0200
+Message-Id: <1485331967-4606-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Subject: [PATCH] scripts/buildstats-diff: simplify timestamp handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,20 +28,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2017 07:58:42 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 25 Jan 2017 08:12:49 -0000
 
-On mardi 24 janvier 2017 11:07:18 CET Khem Raj wrote:
-> How does this work with dropbear. Since we can use dropbear as a ssh
-> server alternative.
-Dropbear support has not been modified. SSHD_CONFIG has only been added to 
-FEATURE_PACKAGES_ssh-server-openssh variable and only applies to OpenSSH (I 
-think dropbear has no config file so I don't see the point of applying this).
+Simply use floats instead of datetime and timedelta objects for handling
+timestamps.
 
-On a side note, I see that this serie of patches is still marked as 'failure' 
-on patchwork, is that a problem or should I resubmit it as new (I may have 
-made some mistakes resubmitting it without marking it v2)
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ scripts/buildstats-diff | 34 +++-------------------------------
+ 1 file changed, 3 insertions(+), 31 deletions(-)
 
-David
+diff --git a/scripts/buildstats-diff b/scripts/buildstats-diff
+index f918a6d..5cea184 100755
+--- a/scripts/buildstats-diff
++++ b/scripts/buildstats-diff
+@@ -22,7 +22,6 @@ import os
+ import re
+ import sys
+ from collections import namedtuple
+-from datetime import datetime, timedelta, tzinfo
+ from operator import attrgetter
+ 
+ # Setup logging
+@@ -35,38 +34,11 @@ class ScriptError(Exception):
+     pass
+ 
+ 
+-class TimeZone(tzinfo):
+-    """Simple fixed-offset tzinfo"""
+-    def __init__(self, seconds, name):
+-        self._offset = timedelta(seconds=seconds)
+-        self._name = name
+-
+-    def utcoffset(self, dt):
+-        return self._offset
+-
+-    def tzname(self, dt):
+-        return self._name
+-
+-    def dst(self, dt):
+-        return None
+-
+-TIMEZONES = {'UTC': TimeZone(0, 'UTC'),
+-             'EET': TimeZone(7200, 'EET'),
+-             'EEST': TimeZone(10800, 'EEST')}
+-
+ taskdiff_fields = ('pkg', 'pkg_op', 'task', 'task_op', 'value1', 'value2',
+                    'absdiff', 'reldiff')
+ TaskDiff = namedtuple('TaskDiff', ' '.join(taskdiff_fields))
+ 
+ 
+-def to_datetime_obj(obj):
+-    """Helper for getting timestamps in datetime format"""
+-    if isinstance(obj, datetime):
+-        return obj
+-    else:
+-        return datetime.utcfromtimestamp(obj).replace(tzinfo=TIMEZONES['UTC'])
+-
+-
+ class BSTask(dict):
+     def __init__(self, *args, **kwargs):
+         self['start_time'] = None
+@@ -86,7 +58,7 @@ class BSTask(dict):
+     @property
+     def walltime(self):
+         """Elapsed wall clock time"""
+-        return self['elapsed_time'].total_seconds()
++        return self['elapsed_time']
+ 
+     @property
+     def read_bytes(self):
+@@ -118,10 +90,10 @@ def read_buildstats_file(buildstat_file):
+             key, val = line.split(':', 1)
+             val = val.strip()
+             if key == 'Started':
+-                start_time = to_datetime_obj(float(val))
++                start_time = float(val)
+                 bs_task['start_time'] = start_time
+             elif key == 'Ended':
+-                end_time = to_datetime_obj(float(val))
++                end_time = float(val)
+             elif key.startswith('IO '):
+                 split = key.split()
+                 bs_task['iostat'][split[1]] = int(val)
+-- 
+2.6.6
+
 
