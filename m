@@ -1,31 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3579571DD0
+Return-Path: <maxin.john@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id D26AB71DD4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 14:38:53 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0PEcr0H005637; Wed, 25 Jan 2017 14:38:53 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id iMb5JcWoIfUx; Wed, 25 Jan 2017 14:38:53 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0PEcnT2005634
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 25 Jan 2017 14:38:50 GMT
-Message-ID: <1485355129.17309.0.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Kristian Amlie <kristian.amlie@mender.io>,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 25 Jan 2017 14:38:49 +0000
-In-Reply-To: <129d261e-6f76-b471-48cd-99ddd06c3667@mender.io>
-References: <1485347971.30673.95.camel@linuxfoundation.org>
-	<20170125142330.4463.98518@do.openembedded.org>
-	<129d261e-6f76-b471-48cd-99ddd06c3667@mender.io>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIE1ha2UgU1NUQVRFX1NDQU5fQ01EIHZhcnMgY29uZmlndXJhYmxlIHVzaW5nIHdlYWsgZGVmYXVsdHMu?=
+	Wed, 25 Jan 2017 14:42:58 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 25 Jan 2017 06:42:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,284,1477983600"; d="scan'208";a="1087166627"
+Received: from mbabyjoh-desk.fi.intel.com (HELO
+	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
+	by orsmga001.jf.intel.com with ESMTP; 25 Jan 2017 06:42:57 -0800
+Date: Wed, 25 Jan 2017 16:43:46 +0200
+From: "Maxin B. John" <maxin.john@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20170125144345.GA2549@mbabyjoh-desk.ger.corp.intel.com>
+References: <1481550484-3360-1-git-send-email-maxin.john@intel.com>
+	<20170123145537.GA6330@mbabyjoh-desk.ger.corp.intel.com>
+	<1485187171.30673.25.camel@linuxfoundation.org>
+MIME-Version: 1.0
+In-Reply-To: <1485187171.30673.25.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] sstatesig: don't squash dependencies of useradd packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,17 +34,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2017 14:38:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 25 Jan 2017 14:42:59 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 2017-01-25 at 15:34 +0100, Kristian Amlie wrote:
-> Sorry I forgot the right patch format, but let me know if you agree
-> with the patch first, and I'll repost.
+Hi RP,
 
-Yes, I'm ok with it. The sdk class is long gone.
+On Mon, Jan 23, 2017 at 03:59:31PM +0000, Richard Purdie wrote:
+> On Mon, 2017-01-23 at 16:55 +0200, Maxin B. John wrote:
+> > Ping.
+> 
+> This never merged as I was never 100% convinced this was the correct
+> way to solve this problem. I'd be interested to understand if the
+> sstatesig tests in oe-selftest worked after this.
+>
+> I'm hoping this issue has also now been resolved in a different way
+> though the switch to recipe specific sysroots. Would you be able test
+> if recipe specific sysroots have addressed this issue?
 
-Cheers,
+Thanks for looking into this. Tested this (bug #8078) on the latest master
+with recipe specific sysroots modification and found that the error still exists.  
 
-Richard
+> Cheers,
+> Richard
+
+Best Regards,
+Maxin
 
