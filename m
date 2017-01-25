@@ -1,48 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f176.google.com (mail-qt0-f176.google.com
-	[209.85.216.176])
-	by mail.openembedded.org (Postfix) with ESMTP id DDBC871E10
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 522CA71E4F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 16:01:40 +0000 (UTC)
-Received: by mail-qt0-f176.google.com with SMTP id l7so24062516qtd.1
+	Wed, 25 Jan 2017 16:21:11 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id c85so33437735wmi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 08:01:41 -0800 (PST)
+	Wed, 25 Jan 2017 08:21:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=HDqGAK6di2g2FEukBLw94vh6cj9zY27wm5l7cvYhtGc=;
-	b=eHQsXYptjXYzqoDU7jcO88EyTouESVTyjwW/X96tFvexHDekTqHVweQo8bP2EgKKVi
-	42NZG7NPvA/PP1l1/W1ZlWP4eN27bmm4YeaKrEiCDiQYChp/Q9ofKaDoHV+6xEV9jaU1
-	c7Qja8VZTSzhsnLRWmPhwk4WaIIpUtLCnvbdeqZXstZBgcFUrLHNJgvbJD74j0MwKhQx
-	o390GI9/MAoGrDkR+D9IZvSOD+4kOd3en4M7MHUd9668DpxeujMoYfVsilONHbdKwruM
-	LSMC4w1LRD4FI+Fjkk0mAN/QKtMdNPTf0mWQ+vDIm1tbFndl763xLkV60RNzfJm/XikP
-	WVWw==
+	h=from:to:subject:date:message-id;
+	bh=K89oywB+QjivdLmcSab6ZtdGC5NgJX0gI+O2JhO30iY=;
+	b=N3pLOVwIfw9430YLwT0dxN0t7+uKv7fDi+msalsiBuniPv3I/GuNT1OFS+2WnWPkcb
+	35AF1h2XJ+2Vte8oy6KPWATJDguxyumLt+Dyk8ogca/DKGjZ9TK56YhhcsRsaxytQqlB
+	Zo5ElyaTp/gYWX4IjG9859gyX1bD0z5eknFOJnbLuVfdvze3wCCPKyFPMHxSkTw0/PUu
+	mOw+rUmsYWzOHp6rGErLj68GD40ZHbgtNbV2Qbnqj7yl4YomdT14zmBAovU8HNJJYFlo
+	DKUstOIldZ4d8mrEQbXWlv/zh4sO3KdgiJaGlvsap6o+28b/kJ7Txb5OOyj4ZHxjIh5o
+	VkoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=HDqGAK6di2g2FEukBLw94vh6cj9zY27wm5l7cvYhtGc=;
-	b=szmfcKne9K604tacd+68wWH+8P36VIq5eyv7HwyfyzZAN81Y8XRakyBeZsCXVSPbgg
-	KaYhfRN/yYouCM+tMrgH29tMC9Vh1prUikoz+0w7fe90E8nUTwXSSFvAj0A/d585sHrp
-	emNLLZ7ErkcG6xTAlh2T+sWzBPU2aMclA/yLDangDapxHmHQUrDUREtxhls3GJIRHaNq
-	YAXp4QyLJG0j18u0CnRGh0rM0M/76BCHvQ/+o2te+7HpIL6PtKA8tySVfDmRvOpqRpuH
-	VfPs7Sl6EqJnQh8+PqogGoEGnaBxVfIlfEpNLuTLsY+eN3jqXpUuccPyJFoV5qLpdBMh
-	KRWg==
-X-Gm-Message-State: AIkVDXL0pPfvfxsD71rajwNrAowybWYuN2d46BpA1xwZdfM5O6eL8StE4ymi5DLC1Bz1YNgbPPoizclhh4bAFmCJ
-X-Received: by 10.237.54.1 with SMTP id e1mr33368718qtb.68.1485360100413; Wed,
-	25 Jan 2017 08:01:40 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Wed, 25 Jan 2017 08:01:19 -0800 (PST)
-In-Reply-To: <e7c31049-618c-9edb-5c3a-d2093fd43d24@phytec.de>
-References: <1485356957-6760-1-git-send-email-d.schultz@phytec.de>
-	<20170125152332.4466.81544@do.openembedded.org>
-	<e7c31049-618c-9edb-5c3a-d2093fd43d24@phytec.de>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 25 Jan 2017 16:01:19 +0000
-Message-ID: <CAJTo0Lb1xY0fDwA_2PGaE76hksSTa5QL=8T4yV80zTjO_JnS-g@mail.gmail.com>
-To: Daniel Schultz <d.schultz@phytec.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGNyeXB0b2RldjogRml4IGNoYW5nZWQgbW0gaW50ZXJmYWNlIGluIEtlcm5lbCA0Ljk=?=
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=K89oywB+QjivdLmcSab6ZtdGC5NgJX0gI+O2JhO30iY=;
+	b=Mf9BjYpQZrdBKQlX3b3K5R4uRr8Ag4GutqN5nqcwslmCP/bjiaAcUJUkVBlsVxh65y
+	b324mS9nme5Z1tgQr77GVWLHE0D7uuISG53jzKjpHFeo2VcTz3bKk7sr3X871YJtuKIu
+	eRmftU/6wA6J5iDwtdpxw5YhvKmq3J/VWE86u9qSMkvacOWvqpEfUYRW9gzMPDAuCM4r
+	4piyYjX5OXIEG8atrO2f7uj71TSIpzL/QMAtBGfZyFmmy+mRvGLc45522hdEehppeDE6
+	1Xg5c/VcVTxdH9cYREQeKsdadwetzXdQuq1MOf9UGcp6UiLFamwlFGcbnXUfy0vMbnAF
+	8tLQ==
+X-Gm-Message-State: AIkVDXKpBznJZIwQwvjsdFbSdIwS8G5m9vXWsx17Ig4MLwJzTbzO0Zb+RwRA1qInwwRcMLX2
+X-Received: by 10.28.13.16 with SMTP id 16mr22334007wmn.101.1485361271671;
+	Wed, 25 Jan 2017 08:21:11 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	w17sm25826760wra.28.2017.01.25.08.21.10
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 25 Jan 2017 08:21:11 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 25 Jan 2017 16:21:08 +0000
+Message-Id: <1485361268-28358-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] distrodata: add DATETIME to vardepsexclude for do_distro_check.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,38 +53,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2017 16:01:42 -0000
-Content-Type: multipart/alternative; boundary=001a1142dcf02636f50546ed5918
+X-List-Received-Date: Wed, 25 Jan 2017 16:21:12 -0000
 
---001a1142dcf02636f50546ed5918
-Content-Type: text/plain; charset=UTF-8
+This task uses DATETIME so add it to vardepsexclude so bitbake doesn't refuse to
+execute the task when the time changes between the controller and the worker
+calculating the hash.
 
-On 25 January 2017 at 15:38, Daniel Schultz <d.schultz@phytec.de> wrote:
+[ YOCTO #10960 ]
 
-> I have backported this patch and I won't add the signed-off by myself.
->
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/distrodata.bbclass | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-The patch header should also contain your signed-off-by (so in the future
-we know who was responsible for bringing this patch into OE) and an
-Upstream-Status tag (Backport in this case).
+diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
+index 5b3a3e0..9587ba0 100644
+--- a/meta/classes/distrodata.bbclass
++++ b/meta/classes/distrodata.bbclass
+@@ -392,6 +392,7 @@ python distro_check_eventhandler() {
+ 
+ addtask distro_check
+ do_distro_check[nostamp] = "1"
++do_distro_check[vardepsexclude] += "DATETIME"
+ python do_distro_check() {
+     """checks if the package is present in other public Linux distros"""
+     import oe.distro_check as dc
+@@ -475,5 +476,3 @@ do_checklicenseall[nostamp] = "1"
+ do_checklicenseall() {
+         :
+ }
+-
+-
+-- 
+2.8.1
 
-Ross
 
---001a1142dcf02636f50546ed5918
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 25 January 2017 at 15:38, Daniel Schultz <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:d.schultz@phytec.de" target=3D"_blank">d.schultz@phytec.de</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D"m_49949269555=
-42152972:3mw" class=3D"m_4994926955542152972a3s m_4994926955542152972aXjCH =
-m_4994926955542152972m159d647b2fa85b6f">I have backported this patch and I =
-won&#39;t add the signed-off by myself.<br></div></blockquote></div><br>The=
- patch header should also contain your signed-off-by (so in the future we k=
-now who was responsible for bringing this patch into OE) and an Upstream-St=
-atus tag (Backport in this case).</div><div class=3D"gmail_extra"><br></div=
-><div class=3D"gmail_extra">Ross</div></div>
-
---001a1142dcf02636f50546ed5918--
