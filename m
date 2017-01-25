@@ -1,46 +1,54 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f173.google.com (mail-qt0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B10171DCE
+Return-Path: <kristian.amlie@mender.io>
+Received: from mail-lf0-f41.google.com (mail-lf0-f41.google.com
+	[209.85.215.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 7859C71DCE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 14:28:32 +0000 (UTC)
-Received: by mail-qt0-f173.google.com with SMTP id v23so21063811qtb.0
+	Wed, 25 Jan 2017 14:34:54 +0000 (UTC)
+Received: by mail-lf0-f41.google.com with SMTP id n124so129593218lfd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 06:28:33 -0800 (PST)
+	Wed, 25 Jan 2017 06:34:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=F5oXCMn5x0j7OmHWOt9Q5JLq6Rcr9dD9vjiPqMg37k8=;
-	b=kZRq6tkLIRkSPulkQh/ciQQaGPT0ftXuy59vWLVqkt1s1ch1PJjlVbsMPwMD9bG8iC
-	zqSgmb0wBsG9XfQ0WsyxL7Ek4cfCu+lS/Gikl+z1olZySczLFZwOBGG9wqRoYnveqlMR
-	o0u7nNmG0EhHCoybD+CWi5CD0nBp6/cb6NOHMwV9TSeabgEdE9hd/ZRLJlRXK6VksTtI
-	4ZNY8iyy2EltN2s+9qtfsD6JW6qnJAtIy/8lTs3p8FWBvsc3Lj6sFtZyqUaAn3gHhclz
-	sgdfkx0ZkjYDyTWsDGJpNoQds9SWDAZsLgNyN0MSL2o5GW3sRwWX8GS5vzA2/QLZtnbo
-	WCRQ==
+	d=mender-io.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding;
+	bh=NuX6aHOrKhg0uGutu8VuY7BVRmlj6RWCjViQJ2+Pvc8=;
+	b=FClyZZi2SVewFKhwwkY/8gZUCD9wB+fXUgSMrC3Iff5MAZ5aJ0sWXGhjV4vYmbOfIh
+	z6ATr14mY9VWE4BVtBB2/e0TwLsHpDCgkThNZ7MI0aOGYo9eKRgAax0LRt2qjztmIMJw
+	7inpjbQyd9Ah7ZreE9yKYcvnDcam3QSaCI5ur03HXslGy8DakHnsEcHQGYCxL0KlTVW0
+	l5aBZV2M0ElZ5ImhC+Ascp4/naSaETjbmIyJY0OtOQwqITVAUtJiCP6AamBRVrf8RzJc
+	d1htWWELS/lH/nD8S9nrcliPW74o5UCJJ8nBKlyjiCt0ywr6G9FFKpXTgubolWno00i+
+	b/Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=F5oXCMn5x0j7OmHWOt9Q5JLq6Rcr9dD9vjiPqMg37k8=;
-	b=V/LFl0VNXGeZbGdnRu8kNMUoIkdVrM79i/+jpl/agTdlbZJlUxrIQzBbQfwWnREC8b
-	jQAICuMImikTIbiR8ftO+ueJk4ui+dGh7zBBiKixPFgw50zsVRkuIEkPBLzcA3s3Ymm+
-	C+8rHZ0RD5+4sYAraHuesl1JoB7uvTOfX+Z4uWRQ9wa0RjVo91n318JXp+zEn2cmN6Ep
-	pDaenc1UqnJvExkU70jaRNRwHcME9b6sA9Bnzt97rDZ6T6q1oK2ahe7MsNEEQwm+E0GE
-	vw9ePI5s3PTAgU3YqTKtw7E6M8Y99mAuAekfByFsvcBbDE1EQjuT0o952e2JP85L4m8U
-	PXEw==
-X-Gm-Message-State: AIkVDXJBl0JAK+r7WgUHDB21Ziwxs9OJ6NhO0YI5jxbup7sV8/IhzLdM8TjUXQ1O77WgloDmvYxrE2iDZ8EEwE3m
-X-Received: by 10.237.62.232 with SMTP id o37mr32844895qtf.188.1485354513210; 
-	Wed, 25 Jan 2017 06:28:33 -0800 (PST)
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=NuX6aHOrKhg0uGutu8VuY7BVRmlj6RWCjViQJ2+Pvc8=;
+	b=qTyExVFPfIhN0r8DV4+TMXFGmklTuqcXeYmNfnCBYw6isZDz8JnhzdWMNlfrLJMDSo
+	GmaswF+epG140YB5hGEFhl3iFioOZTFKAI9LRhbLu1DLoF4Mn054AH2mpdoSqgqLkiBN
+	6xIaSjpH1B2Pt2Q2lgMMgNwHQlXgpd/qjIEIzLGAnZW+ITPjJrWjCVGYoHB54vI8poIH
+	oEY0Cxb7oVQFaBt3Gffn9dXHp+yWcgaYRa+n2Z68Ini2P8Z41BOJWwiWFEVuRlwOciXe
+	6QJRRYq4Plx5SXiBDnKSZwcvaG90x4V13uITkgAQ0FLg2s/nAvtyiMZXLYSbV29z3I5M
+	F+rA==
+X-Gm-Message-State: AIkVDXJEMlJOBs/w1Ulk70vMplQ17bmi0mzJL58n8z0fgYorZevpg8Q12r7PaLnD1JOG9Q==
+X-Received: by 10.46.6.17 with SMTP id 17mr16495376ljg.14.1485354895029;
+	Wed, 25 Jan 2017 06:34:55 -0800 (PST)
+Received: from [10.25.0.170] ([195.159.140.90])
+	by smtp.googlemail.com with ESMTPSA id
+	h3sm188638lfj.0.2017.01.25.06.34.53
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 25 Jan 2017 06:34:53 -0800 (PST)
+To: openembedded-core@lists.openembedded.org,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1485347971.30673.95.camel@linuxfoundation.org>
+	<20170125142330.4463.98518@do.openembedded.org>
+From: Kristian Amlie <kristian.amlie@mender.io>
+Message-ID: <129d261e-6f76-b471-48cd-99ddd06c3667@mender.io>
+Date: Wed, 25 Jan 2017 15:34:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.5.1
 MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Wed, 25 Jan 2017 06:28:12 -0800 (PST)
-In-Reply-To: <1485302185-20648-1-git-send-email-jslater@windriver.com>
-References: <1485302185-20648-1-git-send-email-jslater@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 25 Jan 2017 14:28:12 +0000
-Message-ID: <CAJTo0LZoL=H3QjjzCkc8AQf08DpqakA=tQqR_zTFnzh9aBcWzA@mail.gmail.com>
-To: Joe Slater <jslater@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/1] gnutls: avoid accidentally using libseccomp
+In-Reply-To: <20170125142330.4463.98518@do.openembedded.org>
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIE1ha2UgU1NUQVRFX1NDQU5fQ01EIHZhcnMgY29uZmlndXJhYmxlIHVzaW5nIHdlYWsgZGVmYXVsdHMu?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,48 +61,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2017 14:28:33 -0000
-Content-Type: multipart/alternative; boundary=001a11406f0e2039340546ec0c45
+X-List-Received-Date: Wed, 25 Jan 2017 14:34:56 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
---001a11406f0e2039340546ec0c45
-Content-Type: text/plain; charset=UTF-8
+Sorry I forgot the right patch format, but let me know if you agree with
+the patch first, and I'll repost.
 
-On 24 January 2017 at 23:56, Joe Slater <jslater@windriver.com> wrote:
+-- 
+Kristian
 
-> --- a/meta/recipes-support/gnutls/gnutls/arm_eabi.patch
-> +++ b/meta/recipes-support/gnutls/gnutls/arm_eabi.patch
-> @@ -1,7 +1,7 @@
->  Certain syscall's are not availabe for arm-eabi, so we eliminate
->  reference to them.
->
-> -Upstream-status: pending
-> +Upstream-Status: Pending
->
+On 25/01/17 15:23, Patchwork wrote:
+> == Series Details ==
+> 
+> Series: Make SSTATE_SCAN_CMD vars configurable using weak defaults.
+> Revision: 1
+> URL   : https://patchwork.openembedded.org/series/4967/
+> State : failure
+> 
+> == Summary ==
+> 
+> 
+> Thank you for submitting this patch series to OpenEmbedded Core. This is
+> an automated response. Several tests have been executed on the proposed
+> series by patchtest resulting in the following failures:
+> 
+> 
+> 
+> * Patch            Make SSTATE_SCAN_CMD vars configurable using weak defaults.
+>  Issue             Shortlog does not follow expected format [test_shortlog_format] 
+>   Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+> 
+> 
+> 
+> If you believe any of these test results are incorrect, please reply to the
+> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+> Otherwise we would appreciate you correcting the issues and submitting a new
+> version of the patchset if applicable. Please ensure you add/increment the
+> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+> [PATCH v3] -> ...).
+> 
+> ---
+> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+> 
 
-Looks like you squashed the fix into the wrong patch...
-
-Ross
-
---001a11406f0e2039340546ec0c45
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 January 2017 at 23:56, Joe Slater <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:jslater@windriver.com" target=3D"_blank">jslater@windriver.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3iw" class=3D"=
-a3s aXjCH m159d2e9551ce8799">--- a/meta/recipes-support/gnutls/<wbr>gnutls/=
-arm_eabi.patch<br>
-+++ b/meta/recipes-support/gnutls/<wbr>gnutls/arm_eabi.patch<br>
-@@ -1,7 +1,7 @@<br>
-=C2=A0Certain syscall&#39;s are not availabe for arm-eabi, so we eliminate<=
-br>
-=C2=A0reference to them.<br>
-<br>
--Upstream-status: pending<br>
-+Upstream-Status: Pending</div></blockquote></div><br>Looks like you squash=
-ed the fix into the wrong patch...</div><div class=3D"gmail_extra"><br></di=
-v><div class=3D"gmail_extra">Ross</div></div>
-
---001a11406f0e2039340546ec0c45--
