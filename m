@@ -1,46 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 522CA71E4F
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 5008571DDE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 16:21:11 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id c85so33437735wmi.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 08:21:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=K89oywB+QjivdLmcSab6ZtdGC5NgJX0gI+O2JhO30iY=;
-	b=N3pLOVwIfw9430YLwT0dxN0t7+uKv7fDi+msalsiBuniPv3I/GuNT1OFS+2WnWPkcb
-	35AF1h2XJ+2Vte8oy6KPWATJDguxyumLt+Dyk8ogca/DKGjZ9TK56YhhcsRsaxytQqlB
-	Zo5ElyaTp/gYWX4IjG9859gyX1bD0z5eknFOJnbLuVfdvze3wCCPKyFPMHxSkTw0/PUu
-	mOw+rUmsYWzOHp6rGErLj68GD40ZHbgtNbV2Qbnqj7yl4YomdT14zmBAovU8HNJJYFlo
-	DKUstOIldZ4d8mrEQbXWlv/zh4sO3KdgiJaGlvsap6o+28b/kJ7Txb5OOyj4ZHxjIh5o
-	VkoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=K89oywB+QjivdLmcSab6ZtdGC5NgJX0gI+O2JhO30iY=;
-	b=Mf9BjYpQZrdBKQlX3b3K5R4uRr8Ag4GutqN5nqcwslmCP/bjiaAcUJUkVBlsVxh65y
-	b324mS9nme5Z1tgQr77GVWLHE0D7uuISG53jzKjpHFeo2VcTz3bKk7sr3X871YJtuKIu
-	eRmftU/6wA6J5iDwtdpxw5YhvKmq3J/VWE86u9qSMkvacOWvqpEfUYRW9gzMPDAuCM4r
-	4piyYjX5OXIEG8atrO2f7uj71TSIpzL/QMAtBGfZyFmmy+mRvGLc45522hdEehppeDE6
-	1Xg5c/VcVTxdH9cYREQeKsdadwetzXdQuq1MOf9UGcp6UiLFamwlFGcbnXUfy0vMbnAF
-	8tLQ==
-X-Gm-Message-State: AIkVDXKpBznJZIwQwvjsdFbSdIwS8G5m9vXWsx17Ig4MLwJzTbzO0Zb+RwRA1qInwwRcMLX2
-X-Received: by 10.28.13.16 with SMTP id 16mr22334007wmn.101.1485361271671;
-	Wed, 25 Jan 2017 08:21:11 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	w17sm25826760wra.28.2017.01.25.08.21.10
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 25 Jan 2017 08:21:11 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 25 Jan 2017 17:02:52 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	25 Jan 2017 09:02:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,284,1477983600"; d="scan'208";a="1117730674"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga002.fm.intel.com with ESMTP; 25 Jan 2017 09:02:43 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 6E5976A4080;
+	Wed, 25 Jan 2017 09:01:45 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Jan 2017 16:21:08 +0000
-Message-Id: <1485361268-28358-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] distrodata: add DATETIME to vardepsexclude for do_distro_check.
+Date: Wed, 25 Jan 2017 18:39:53 +0200
+Message-Id: <1485362393-26556-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] wic: change location of .env files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,38 +31,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2017 16:21:12 -0000
+X-List-Received-Date: Wed, 25 Jan 2017 17:02:54 -0000
 
-This task uses DATETIME so add it to vardepsexclude so bitbake doesn't refuse to
-execute the task when the time changes between the controller and the worker
-calculating the hash.
+Current location of .env files $STAGING_DIR/imagedata. It doesn't
+depend on machine and be rewritten by the builds for different
+machines.
 
-[ YOCTO #10960 ]
+Changed location to $STAGING_DIR/$MACHINE/imagedata to avoid .env
+files to be rewritten.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/classes/distrodata.bbclass | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ meta/classes/image.bbclass          | 2 +-
+ meta/classes/image_types.bbclass    | 2 +-
+ meta/lib/oeqa/selftest/wic.py       | 3 ++-
+ meta/recipes-core/meta/wic-tools.bb | 2 +-
+ 4 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
-index 5b3a3e0..9587ba0 100644
---- a/meta/classes/distrodata.bbclass
-+++ b/meta/classes/distrodata.bbclass
-@@ -392,6 +392,7 @@ python distro_check_eventhandler() {
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index fb0cce3..2c58f4b 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -343,7 +343,7 @@ python do_rootfs_wicenv () {
+         return
  
- addtask distro_check
- do_distro_check[nostamp] = "1"
-+do_distro_check[vardepsexclude] += "DATETIME"
- python do_distro_check() {
-     """checks if the package is present in other public Linux distros"""
-     import oe.distro_check as dc
-@@ -475,5 +476,3 @@ do_checklicenseall[nostamp] = "1"
- do_checklicenseall() {
-         :
+     stdir = d.getVar('STAGING_DIR')
+-    outdir = os.path.join(stdir, 'imgdata')
++    outdir = os.path.join(stdir, d.getVar('MACHINE'), 'imgdata')
+     bb.utils.mkdirhier(outdir)
+     basename = d.getVar('IMAGE_BASENAME')
+     with open(os.path.join(outdir, basename) + '.env', 'w') as envf:
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 5b1746a..7547227 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -216,7 +216,7 @@ IMAGE_CMD_wic () {
+ 		bbfatal "No kickstart files from WKS_FILES were found: ${WKS_FILES}. Please set WKS_FILE or WKS_FILES appropriately."
+ 	fi
+ 
+-	BUILDDIR="${TOPDIR}" wic create "$wks" --vars "${STAGING_DIR}/imgdata/" -e "${IMAGE_BASENAME}" -o "$out/" ${WIC_CREATE_EXTRA_ARGS}
++	BUILDDIR="${TOPDIR}" wic create "$wks" --vars "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o "$out/" ${WIC_CREATE_EXTRA_ARGS}
+ 	mv "$out/build/$(basename "${wks%.wks}")"*.direct "$out${IMAGE_NAME_SUFFIX}.wic"
+ 	rm -rf "$out/"
  }
--
--
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index 11dc744..9158c05 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -340,7 +340,8 @@ class Wic(oeSelfTest):
+         if image not in self.wicenv_cache:
+             self.assertEqual(0, bitbake('%s -c do_rootfs_wicenv' % image).status)
+             stdir = get_bb_var('STAGING_DIR', image)
+-            self.wicenv_cache[image] = os.path.join(stdir, 'imgdata')
++            machine = get_bb_var('MACHINE', image)
++            self.wicenv_cache[image] = os.path.join(stdir, machine, 'imgdata')
+         return self.wicenv_cache[image]
+ 
+     @testcase(1347)
+diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/wic-tools.bb
+index 0a53b73..aa09c82 100644
+--- a/meta/recipes-core/meta/wic-tools.bb
++++ b/meta/recipes-core/meta/wic-tools.bb
+@@ -14,7 +14,7 @@ python do_build_sysroot () {
+ 
+     # Write environment variables used by wic
+     # to tmp/sysroots/<machine>/imgdata/wictools.env
+-    outdir = os.path.join(d.getVar('STAGING_DIR'), 'imgdata')
++    outdir = os.path.join(d.getVar('STAGING_DIR'), d.getVar('MACHINE'), 'imgdata')
+     bb.utils.mkdirhier(outdir)
+     with open(os.path.join(outdir, "wic-tools.env"), 'w') as envf:
+         for var in ('RECIPE_SYSROOT_NATIVE', 'STAGING_DATADIR', 'STAGING_LIBDIR'):
 -- 
-2.8.1
+2.1.4
 
 
