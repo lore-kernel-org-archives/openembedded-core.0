@@ -1,47 +1,29 @@
-Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 3559360290
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 11:21:59 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id n13so30558398qtc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 03:22:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:organization;
-	bh=N5BxVY4PlBlv3sbax5hDRY2FtIxVptdYg13BURK5AvQ=;
-	b=RNF1c+cHAbsKWMSqIt5HNMKWmCqrcAt5jQxjtqLiSSjkQU+3JbUpz9XN2GZHjCDlXQ
-	8G2dPdNVdaw4HtTF+6wI6FD8N82+h3DhgaBjxWQ+oaSavIyMo49/mmzsXyVMrYeeeLIJ
-	noS0RUOi64jUOI8L34rhOf3t1F4JwlR46xPibqF4xITVjqrh4JDytspJMuEGrWsDH5xI
-	QzWwkQN19A8VIjJc4qGo07UcVlV/wSFVB/Q2guBM2/OAgz1PvqXHS3qHMbirZwovYPOz
-	ucu54MOm24QmrXtK9ipKXNJ2ghvKTGxuWOMEe4KHFiM5RGm+19DjYkqQ1M38DDI+nCJq
-	aEUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=N5BxVY4PlBlv3sbax5hDRY2FtIxVptdYg13BURK5AvQ=;
-	b=PSRf7OiAk0/AuWIqIN78enx68V/UQ8oB/VvUqFo9DIn8iZE58wEC4227uELiODUasw
-	PAtGvQZl+cJeZ8Vok7msoaotlGSKW326G12v4Vp4MgE+4l4cMgDT7rRLGS7Y1iriSytc
-	lnzHa9lQCkLVQr17cHa4UxNMFr4qP3+KpaKvrAkkRYknvUqmWxCj8swhezyQP9G+JJMj
-	LgEkfnPSTymRuGcgnhZcPohAjcb0TOKeNXf5XEWn9UbQH6Xj4t1MyWfuOYsU9j47y4G3
-	RIbNQPPB6HbSXOc+UDQ1UYipqlOM8jKInksqobsXyW2yl+sIwr8nPuwblDSNamY8I9wm
-	E/Gw==
-X-Gm-Message-State: AIkVDXKjtGoqXdCI142shTOgdCCr7LH/NvRhT5MWDStVVrDnaJEQ4pJNssL9WrEh3aTzWA==
-X-Received: by 10.200.56.164 with SMTP id f33mr34921084qtc.158.1485343320064; 
-	Wed, 25 Jan 2017 03:22:00 -0800 (PST)
-Received: from centrium.lab.ossystems.com.br ([189.114.111.135])
-	by smtp.gmail.com with ESMTPSA id
-	o14sm7118243qtc.46.2017.01.25.03.21.57
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 25 Jan 2017 03:21:58 -0800 (PST)
-From: Fabio Berton <fabio.berton@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Jan 2017 09:22:05 -0200
-Message-Id: <20170125112205.8223-1-fabio.berton@ossystems.com.br>
-X-Mailer: git-send-email 2.11.0
-Organization: O.S. Systems Software LTDA.
-Subject: [PATCH] watchdog: Add RCONFLICTS to watchdog-keepalive and split RDEPENDS
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 05EC760290
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 25 Jan 2017 11:24:06 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v0PBO6W0021641; Wed, 25 Jan 2017 11:24:06 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id igavd7ZtldRA; Wed, 25 Jan 2017 11:24:06 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v0PBO1ok021636
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 25 Jan 2017 11:24:02 GMT
+Message-ID: <1485343441.30673.84.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Kristian Amlie <kristian.amlie@mender.io>, OE-core
+	<Openembedded-core@lists.openembedded.org>
+Date: Wed, 25 Jan 2017 11:24:01 +0000
+In-Reply-To: <18981a79-4241-83a1-a1a8-3eddf941c346@mender.io>
+References: <18981a79-4241-83a1-a1a8-3eddf941c346@mender.io>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: Overriding fixmepath
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,36 +36,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2017 11:22:01 -0000
+X-List-Received-Date: Wed, 25 Jan 2017 11:24:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-watchdog-keepalive is a simplified version of the watchdog daemon
-and can't be installed along with watchdog daemon, we need to
-choose which daemon install.
+On Wed, 2017-01-25 at 11:43 +0100, Kristian Amlie wrote:
+> After the new recipe sysroots were introduced we've been having
+> trouble
+> compiling Go. I've narrowed it down to the path replacement mechanism
+> that goes on using fixmepath.
+> 
+> For example, this does not work:
+> 
+>   bitbake -c cleansstate go-cross
+>   bitbake go-cross
+> 
+> But this does:
+> 
+>   bitbake -c cleansstate go-cross
+>   bitbake -c prepare_recipe_sysroot go-cross
+>   rm -rf
+> /home/jenkins/workspace/yoctobuild/build-qemu/tmp/work/x86_64-
+> linux/go-cross/1.7.4-r0/recipe-sysroot-native/usr/lib/go-bootstrap-
+> native-1.4.3
+>   cp -r
+> /home/jenkins/workspace/yoctobuild/build-qemu/tmp/sysroots-
+> components/x86_64/go-bootstrap-native/usr/lib/go-bootstrap-native-
+> 1.4.3
+> /home/jenkins/workspace/yoctobuild/build-qemu/tmp/work/x86_64-
+> linux/go-cross/1.7.4-r0/recipe-sysroot-native/usr/lib/go-bootstrap-
+> native-1.4.3
+>   bitbake go-cross
+> 
+> IOW, if I replace the recipe sysroot with the originals, it works,
+> but
+> if I keep the modified files put there by the prepare_recipe_sysroot
+> task, it doesn't.
+> 
+> And this is where I admittedly get a bit lost: I haven't fully
+> understood how the fixmepath mechanism operates, but from what I can
+> tell, this path replacement is not appropriate for Go. It doesn't
+> care
+> where it's installed, and always operates relative to the GOROOT
+> environment variable, which is set by all Go recipes.
 
-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
----
- meta/recipes-extended/watchdog/watchdog_5.15.bb | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+Does this still work if you remove the
+/home/jenkins/workspace/yoctobuild/build-qemu/tmp/sysroots-
+components/x86_64/go-bootstrap-native directory before building go-
+cross? I worry that its actually referencing the other location and
+using files from there (a different recipe's workdir) and that
+therefore there are a different set of other problems this recipe also
+has.
 
-diff --git a/meta/recipes-extended/watchdog/watchdog_5.15.bb b/meta/recipes-extended/watchdog/watchdog_5.15.bb
-index cedfc042ce..9659f27df5 100644
---- a/meta/recipes-extended/watchdog/watchdog_5.15.bb
-+++ b/meta/recipes-extended/watchdog/watchdog_5.15.bb
-@@ -52,8 +52,9 @@ FILES_${PN}-keepalive = " \
-     ${sbindir}/wd_keepalive \
- "
- 
--RDEPENDS_${PN} += "${PN}-config ${PN}-keepalive"
--RDEPENDS_${PN}-keepalive += "${PN}-config"
--
--RRECOMMENDS_${PN} = "kernel-module-softdog"
-+RDEPENDS_${PN} += "${PN}-config"
-+RRECOMMENDS_${PN} += "kernel-module-softdog"
- 
-+RDEPENDS_${PN}-keepalive += "${PN}-config"
-+RCONFLICTS_${PN}-keepalive += "${PN}"
-+RRECOMMENDS_${PN}-keepalive += "kernel-module-softdog"
--- 
-2.11.0
+> Why the path replacement triggers an error I cannot say, but I
+> suspect it has to do with the fact that Go object files are a bit
+> special compared to C object files, and this operation in fact
+> corrupts them. More mysterious still is why this happens only on some
+> build machines, and not others, but once triggered it appears to be
+> consistently triggered.
+
+The fixmepath replacements only happen on text files. It could be some
+relocation is needed on the binaries too, perhaps through configuration
+on the commandline or perhaps through the environment. We have had to
+patch some tools to allow relocation in the past too.
+
+> Any advice for what to do next? I could try to skip the fixmepath
+> operation completely, but I'm not sure how, and it feels a bit like
+> using a sledgehammer where I should be using a scalpel.
+
+Try removing the path I suggested after copying and see if it still
+works. If it does, I'd probably try and find which subset of the files
+breaks it, narrow down the issue. If removing it breaks things, there
+is a whole world of bigger issues :(
+
+Its possible to add specific inclusions/exclusions from fixmepath FWIW
+but we need to understand more about what is happening first.
+
+Cheers,
+
+Richard
+
+
+
 
 
