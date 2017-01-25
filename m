@@ -1,65 +1,50 @@
-Return-Path: <andrew.goodbody@cambrionix.com>
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
-	(mail-db5eur01on0134.outbound.protection.outlook.com [104.47.2.134])
-	by mail.openembedded.org (Postfix) with ESMTP id 3429C71CBD
+Return-Path: <maciej.borzecki@rndity.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D1C071CB3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 19:30:14 +0000 (UTC)
-Received: from LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM (10.166.249.144) by
-	LOXP123MB0119.GBRP123.PROD.OUTLOOK.COM (10.166.249.146) with Microsoft
-	SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
-	15.1.860.13; Wed, 25 Jan 2017 09:56:23 +0000
-Received: from LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM ([10.166.249.144]) by
-	LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM ([10.166.249.144]) with mapi id
-	15.01.0860.021; Wed, 25 Jan 2017 09:56:23 +0000
-From: Andrew Goodbody <andrew.goodbody@cambrionix.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: configure error for glibc 2.25.2
-Thread-Index: AdJ2St/27Lo07BMlSGusqMFehWa5EgADqQ+wAAKLfYAAADaKIAABcYyAAABsx/AABxkNgAAaKniQ
-Date: Wed, 25 Jan 2017 09:56:23 +0000
-Message-ID: <LOXP123MB0117D15626B7BF2AFE400B8A85740@LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM>
-References: <LOXP123MB0117C97F4BE309CCAA9AFAF585750@LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM>
-	<LOXP123MB0117B11AD747FFC1742D78C685750@LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM>
-	<1485277371.30673.59.camel@linuxfoundation.org>
-	<LOXP123MB01174F8944CFABF7E023B92585750@LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM>
-	<1485280217.30673.61.camel@linuxfoundation.org>
-	<LOXP123MB011715CA6AFD7F2EA6C0964B85750@LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM>
-	<1485293141.30673.63.camel@linuxfoundation.org>
-In-Reply-To: <1485293141.30673.63.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=andrew.goodbody@cambrionix.com; 
-x-originating-ip: [46.17.166.30]
-x-ms-office365-filtering-correlation-id: b103e550-f2ef-41f8-d2b9-08d445086bec
-x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:(22001);SRVR:LOXP123MB0119;
-x-microsoft-exchange-diagnostics: 1; LOXP123MB0119;
-	7:3St3r+PodSqSzD3KSXRdIxmSXVbdpG7mJXTnoah/m6xqfIf1ve51Xu+X9IPA/aJ7M+yV/4Yx1gpB8ZH+tAWmzTay6cOFtH8v6mN8kATUPpZzIUIOTyIhl2r1JCyjqrQ6n4sxyWTX5sQCmbo+SOsZf5bs/946idHkgr0+2NLNpdHnO6ZZy0m77Np2+cqcldUJQgX1LwyV6wXX2VejTnbN83lU25EeTmKvpWpqGa9IGBnfDZvpcQ1IUR34/GIC8/avTkqczLwxc0Yi7HFxkvXk4yEGViFaa5HxgXiobYNGM7GOLtmN8/NUOx4oU93WaEbT5bGHXxozQZr+YezATomZkwARQ+hyhnQBJuBS0fia5U3b7nc9FfTLUPtpNshEU252+dBPnUT9278qOjWFJCKQvuGYFFy1UmBij7de/nChOhcIxe7OfoVYyqskc80DDV9bm0m54DNimVcg70BnlNt+uQ==
-x-microsoft-antispam-prvs: <LOXP123MB0119559B36D27F0174BBB27985740@LOXP123MB0119.GBRP123.PROD.OUTLOOK.COM>
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(6040375)(2401047)(5005006)(8121501046)(10201501046)(3002001)(6041248)(2016111802025)(20161123560025)(20161123562025)(20161123555025)(20161123564025)(6072148)(6043046);
-	SRVR:LOXP123MB0119; BCL:0; PCL:0; RULEID:; SRVR:LOXP123MB0119; 
-x-forefront-prvs: 01986AE76B
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(6009001)(7916002)(39830400002)(39450400003)(39410400002)(199003)(24454002)(189002)(377424004)(81166006)(3280700002)(2906002)(8676002)(305945005)(81156014)(66066001)(2950100002)(7736002)(97736004)(8936002)(5001770100001)(6116002)(68736007)(107886002)(74316002)(2900100001)(7696004)(92566002)(3660700001)(102836003)(5660300001)(3846002)(189998001)(2501003)(93886004)(86362001)(106356001)(122556002)(53936002)(6506006)(55016002)(101416001)(6306002)(76176999)(33656002)(54356999)(105586002)(229853002)(9686003)(50986999)(38730400001)(6436002)(77096006);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:LOXP123MB0119;
-	H:LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM; FPR:; SPF:None;
-	PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
-received-spf: None (protection.outlook.com: cambrionix.com does not designate
-	permitted sender hosts)
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
+	Wed, 25 Jan 2017 19:41:19 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id r144so48952923wme.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Jan 2017 11:41:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=rndity-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=wOgKeFM3Rh2QxqXOwmPUB3LfZwJNndoMoa5DLmCAuBU=;
+	b=Zzo2osPqVPEA6QgD9o8P54tOCsgkm5TS8HYw8dJHRaWgro9jWKoR1x0w9PhiKfoxp9
+	v3VuErYK+H9+PXIn+XZ5/F27C5P3CrNHExsVhYX/BwfhZ1eI4Iy8fmNwg87h/CJZ0cr4
+	OyZ5/y/zwDk4mGwpk3kdV7imnhViSL1s33YQ+nX++vg5JLqfbi7pjo1bAEdfHbhAoZQ4
+	/dWNIu0SqPAMNVOtj2U0bFjmKjvQf4772xlxi+86fZXcnLI3ooKZ0Xt01uKDx1HyuoMw
+	U6xcM3KTuEM0QaQrvNl4DBOf/a4XnUAihrMa8X6653a9uIPwGHdAw5znq7W9wqH7BTVM
+	hzgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=wOgKeFM3Rh2QxqXOwmPUB3LfZwJNndoMoa5DLmCAuBU=;
+	b=cBIwvfYM3sXzHNZaeaJNLuOY2J2DNcZH/MPmyGCLyI7812X/6YVtuV0PU62THLT74D
+	OFPULbMpX+lKxoQdR9RtT6oJL5/6l0fbnmD79XL2pkAKBMwCh7r8LTLxB0rz+YkNR6kO
+	6UmczHcRiQ4LDOqnqmRwOK52Tr+OWCNYHi124KGfiC8bwuua00WZ5rDWKtHC6L0B4Qj+
+	XoknCTpqZTk5rGxNTQhxwdxStnVpxU3eataBfw2hT3SNAbINjImPJcPpXq5z6jzfcoyt
+	xd6a6iIzStskrefDlmpGjXzGXz7/1YMyJps81BByCO3UvgxsLDdJhcSjfj6bi/PkEvNu
+	S2Zg==
+X-Gm-Message-State: AIkVDXKv+2TiAtL9h5npZdXy9t/LaRdgDPlIkAzCNPQpDSX1ac3ybd6MG/y9v7pp9NVQdINdAXojvEE5nE6oLw==
+X-Received: by 10.28.13.16 with SMTP id 16mr23050864wmn.101.1485373279854;
+	Wed, 25 Jan 2017 11:41:19 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: cambrionix.com
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jan 2017 09:56:23.7659 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 6eddda96-aa38-44c8-ab83-12529d9cab1f
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LOXP123MB0119
-Subject: Re: configure error for glibc 2.25.2
+Received: by 10.28.52.78 with HTTP; Wed, 25 Jan 2017 11:40:59 -0800 (PST)
+In-Reply-To: <F7334516-0C0C-4709-88ED-8FAB7FFA5548@gmail.com>
+References: <20161110003935.1858-1-raj.khem@gmail.com>
+	<a186e3be-242a-5ba1-36fe-f5f3d561552c@mlbassoc.com>
+	<F7334516-0C0C-4709-88ED-8FAB7FFA5548@gmail.com>
+From: =?UTF-8?Q?Maciej_Borz=C4=99cki?= <maciej.borzecki@rndity.com>
+Date: Wed, 25 Jan 2017 20:40:59 +0100
+Message-ID: <CAD4b0_KNSRXs7mGyePjD1SQHGfb_hpBZ56qJVnSiJS4HfJfrLA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Gary Thomas <gary@mlbassoc.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] go: Add recipes for golang compilers and tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -72,26 +57,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2017 19:30:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 25 Jan 2017 19:41:21 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-PiBGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFpbHRvOnJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRh
-dGlvbi5vcmddDQo+IE9uIFR1ZSwgMjAxNy0wMS0yNCBhdCAxODowOCArMDAwMCwgQW5kcmV3IEdv
-b2Rib2R5IHdyb3RlOg0KPiA+ID4NCj4gPiA+IEZyb206IFJpY2hhcmQgUHVyZGllIFttYWlsdG86
-cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZ10NCj4gPiA+IEknbSBydW5uaW5nIG91
-dCBvZiB0aW1lIHRvIHdyaXRlIHRoaXMgdXAgYW5kIHBvc3QgcHJvcGVybHkgYnV0IHRoZQ0KPiA+
-ID4gcGF0Y2ggSSB0aGluayBzaG91bGQgd29yayBpcyB0aGlzOg0KPiA+ID4NCj4gPiA+IGh0dHA6
-Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9jZ2l0LmNnaS9wb2t5LWNvbnRyaWIvY29tbWl0Lz9oPXJw
-dXJkaWUNCj4gPiA+IC93aXAtDQo+ID4gPiByc3MmaWQ9NDE0YTc1NTIxZjVkNWRmYjUwMzg1YWJh
-YjA1MmY4N2RiYzg4ZjFjMQ0KPiA+ID4NCj4gPiA+ICgic3RhZ2luZzogUmVtb3ZlIGhhcmRjb2Rl
-ZCBQQUNLQUdFX0FSQ0hTIGZyb20gdGhlIGNsYXNzIiBpbiBjYXNlIEkNCj4gPiA+IHJlYmFzZSBp
-dCkNCj4gPiA+DQo+ID4gPiBJIHdpbGwgZ2V0IHRoaXMgY2xlYW5lZCB1cCBhbmQgc2VudCBzb29u
-Lg0KPiA+IFRoYW5rcyBidXQgdW5mb3J0dW5hdGVseSB0aGF0IGRpZCBub3Qgd29yayBmb3IgbWUu
-DQo+ID4NCj4gPiBJIGRpZCBhIGNsZWFuYWxsIG9uIGdsaWJjIGJlZm9yZSB0cnlpbmcgdG8gYnVp
-bGQgaXQsIGJ1dCB0aGUgcmVzdWx0DQo+ID4gd2FzIHRoZSBzYW1lLg0KPiANCj4gVHJ5IGEgImJp
-dGJha2UgZ2xpYmMtaW5pdGlhbCAtYyBjbGVhbiI/DQoNClNvcnJ5LCBpdCB3YXMgZ2xpYmMtaW5p
-dGlhbCB0aGF0IEkgcmFuIHRoZSBjbGVhbmFsbCBvbiwgc28ganVzdCBjbGVhbiBtYWtlcyBubyBk
-aWZmZXJlbmNlLg0KDQpBbmRyZXcNCg==
+On Mon, Dec 12, 2016 at 7:02 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On Dec 12, 2016, at 4:36 AM, Gary Thomas <gary@mlbassoc.com> wrote:
+>
+> Looking at these recipes and they seem like a good starting point.
+> I did have some issues though:
+>
+> * bitbake go - didn't create any target installable packages, although th=
+e
+>  .../image directory seemed to be well populated.
+>
+>
+> Yeah mostly, I was concentrating on cross builds but this is something to
+> look at.
+>
+> * bitbake go-helloworld - had these errors:
+> ERROR: go-helloworld-0.1-r0 do_populate_lic: QA Issue: go-helloworld:
+> LIC_FILES_CHKSUM points to an invalid file: /MIT [license-checksum]
+>
+>
+> Thats new, somehow it did not happen for me. I will check again.
+>
+> ERROR: go-helloworld-0.1-r0 do_compile: Function failed: do_compile (log
+> file is located at
+> /build/p0382_2016-01-13/tmp/work/cortexa9hf-neon-amltd-linux-gnueabi/go-h=
+elloworld/0.1-r0/temp/log.do_compile.31170)
+> ERROR: Logfile of failure stored in:
+> /build/p0382_2016-01-13/tmp/work/cortexa9hf-neon-amltd-linux-gnueabi/go-h=
+elloworld/0.1-r0/temp/log.do_compile.31170
+> Log data follows:
+> | DEBUG: Executing shell function do_compile
+> | stat helloworld.go: no such file or directory
+> | WARNING: exit code 1 from a shell command.
+> | ERROR: Function failed: do_compile (log file is located at
+> /build/p0382_2016-01-13/tmp/work/cortexa9hf-neon-amltd-linux-gnueabi/go-h=
+elloworld/0.1-r0/temp/log.do_compile.31170)
+> ERROR: Task
+> (/local/poky-cutting-edge/meta/recipes-extended/go-examples/go-helloworld=
+_0.1.bb:do_compile)
+> failed with exit code '1'
+>
+> I forced the compiler to my target (rsync is _my_ friend) and was
+> able to run 'helloword.go'.  I've not tested much past this point,
+> but I am enthusiastic about getting 'go' into OE-core
+>
+>
+>
+> Thanks Gary for your feedback it will help. I know I have a rev2 due for
+> this patchset. Haven=E2=80=99t yet includes all needed changes for v2.
+
+I would like to revive the discussion on including Go toolchain in
+OE-core. Recipe specific sysroot changes have shown that external Go
+layers may be a bit fragile. At least oe-meta-go, which we are using
+right now, required some changes. Hopefully, the patches which were
+posted today will get merged soon and everything will be back to
+normal again.
+
+There were some concerns previously about including Go in OE-core.
+I''m not sure if these were eventually resolved. If not OE-core, how
+about meta-go in OE layers? Maybe it would be a better match for the
+already existing meta-{python,ruby,perl} layers. As long as there's a
+single go-to layer for Go, everyone would benefit from this work.
+
+Khem, do you need any help with v2 of the patchset you posted
+previously? I think we should be able to spare some hours helping out
+with this in Mender.
+
+Cheers,
+--=20
+Maciej Borzecki
+RnDity
 
