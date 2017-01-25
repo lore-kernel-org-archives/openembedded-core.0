@@ -1,56 +1,24 @@
-Return-Path: <andrew.goodbody@cambrionix.com>
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
-	(mail-db5eur01on0130.outbound.protection.outlook.com [104.47.2.130])
-	by mail.openembedded.org (Postfix) with ESMTP id 8513D71D9E
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B70271C9A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 22:31:26 +0000 (UTC)
-Received: from LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM (10.166.249.144) by
-	LOXP123MB0120.GBRP123.PROD.OUTLOOK.COM (10.166.249.147) with Microsoft
-	SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
-	15.1.860.13; Wed, 25 Jan 2017 13:59:19 +0000
-Received: from LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM ([10.166.249.144]) by
-	LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM ([10.166.249.144]) with mapi id
-	15.01.0860.021; Wed, 25 Jan 2017 13:59:19 +0000
-From: Andrew Goodbody <andrew.goodbody@cambrionix.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: rootfs build failure
-Thread-Index: AdJ3EskJ7+AXHmtST6e8g3Q1SUo4JQ==
-Date: Wed, 25 Jan 2017 13:59:19 +0000
-Message-ID: <LOXP123MB0117481CD1D9200877961EE985740@LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=andrew.goodbody@cambrionix.com; 
-x-originating-ip: [46.17.166.30]
-x-ms-office365-filtering-correlation-id: 9d5018e8-ceb6-4b6e-9fbf-08d4452a5bac
-x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:(22001);SRVR:LOXP123MB0120;
-x-microsoft-exchange-diagnostics: 1; LOXP123MB0120;
-	7:q5IM90MPl3Xo4P7MOEHQGZDGXKU+0hg5tChwGCvKt2+tbMw/fln4RxERhnUVDnpRLPbQvwIQkE4T1Xik8OVaXHVV7ZlGIUbOzCwvxgnWrzkCpblw/k/4JffGqMFoeN1qozB37dpCaDf2yfg+uGGJ5/H8vDxu3H8pRcl9ZO6bLibsj4FipJ/sXKfC5PF2rV76E2iMXzilQPZJ5DKr0hy4ICfZ8p8zPgSqUpW0rKDxQaMEacds4qCFXXV6QY5Fnj791KYqXzxgKSK4s6rgtqk/asD5OpFO8ODRZGkwfnmARB8QvcymDetw7kXkEzLFK+UTHE1DXzLkzKghjgQ5y9jrb/QVMmDj/Ryy2wnodczOPXImpMYH0dQY7XR8d5zTT2KnHPI/ceDRkjTsI8a/ggECDMK0iVQeKwVZ2n4/5dz2g1L1ihMyDo8WlFH4tD9pprE2EauQrEYugpetV/06ges51Q==
-x-microsoft-antispam-prvs: <LOXP123MB0120161C9AD894D95CC37D7F85740@LOXP123MB0120.GBRP123.PROD.OUTLOOK.COM>
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(6040375)(2401047)(5005006)(8121501046)(10201501046)(3002001)(6041248)(2016111802025)(20161123560025)(20161123562025)(20161123555025)(20161123564025)(6072148)(6043046);
-	SRVR:LOXP123MB0120; BCL:0; PCL:0; RULEID:; SRVR:LOXP123MB0120; 
-x-forefront-prvs: 01986AE76B
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(6009001)(7916002)(39450400003)(39830400002)(39410400002)(199003)(189002)(450100001)(2900100001)(106356001)(92566002)(50986999)(101416001)(2351001)(55016002)(6436002)(6506006)(6916009)(77096006)(54356999)(53936002)(38730400001)(189998001)(5640700003)(105586002)(74316002)(110136003)(7696004)(107886002)(305945005)(7736002)(5660300001)(7116003)(3480700004)(102836003)(3846002)(66066001)(97736004)(6116002)(2906002)(86362001)(33656002)(81156014)(81166006)(2501003)(8936002)(68736007)(3660700001)(8676002)(122556002)(9686003)(3280700002)(133083001);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:LOXP123MB0120;
-	H:LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM; FPR:; SPF:None;
-	PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
-received-spf: None (protection.outlook.com: cambrionix.com does not designate
-	permitted sender hosts)
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
+	Wed, 25 Jan 2017 23:03:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v0PN3psR004469
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Jan 2017 15:03:51 -0800 (PST)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Wed, 25 Jan 2017 15:03:50 -0800
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 25 Jan 2017 15:03:50 -0800
+Message-ID: <1485385430-30552-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-X-OriginatorOrg: cambrionix.com
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jan 2017 13:59:19.3383 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 6eddda96-aa38-44c8-ab83-12529d9cab1f
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LOXP123MB0120
-Subject: rootfs build failure
+Subject: [PATCH v3 1/1] gnutls: avoid accidentally using libseccomp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,42 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2017 22:31:28 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 25 Jan 2017 23:03:53 -0000
+Content-Type: text/plain
 
-I now get the following build failure from do_rootfs
+Specify whether to use libseccomp or not.  Do not
+just let configure check for it.
 
-The stack trace of python calls that resulted in this exception/failure was=
-:
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:license_create_manifest(d)
-     0003:
-File: '/home/andrew/src/camol3/camol/layers/openembedded-core/meta/classes/=
-license.bbclass', lineno: 48, function: license_create_manifest
-     0044:    pkg_dic =3D {}
-     0045:    for pkg in sorted(image_list_installed_packages(d)):
-     0046:        pkg_info =3D os.path.join(d.getVar('PKGDATA_DIR'),
-     0047:                                'runtime-reverse', pkg)
- *** 0048:        pkg_name =3D os.path.basename(os.readlink(pkg_info))
-     0049:
-     0050:        pkg_dic[pkg_name] =3D oe.packagedata.read_pkgdatafile(pkg=
-_info)
-     0051:        if not "LICENSE" in pkg_dic[pkg_name].keys():
-     0052:            pkg_lic_name =3D "LICENSE_" + pkg_name
-Exception: FileNotFoundError: [Errno 2] No such file or directory: '/home/a=
-ndrew/src/camol3/camol/build/tmp-camol-glibc/pkgdata/whippet/runtime-revers=
-e/kernel-module-configfs'
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ meta/recipes-support/gnutls/gnutls.inc |    5 +++++
+ 1 file changed, 5 insertions(+)
 
-ERROR: whippet-internal-image-1.0-r0 do_rootfs: Function failed: license_cr=
-eate_manifest
+diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
+index 003dc55..1ecad1f 100644
+--- a/meta/recipes-support/gnutls/gnutls.inc
++++ b/meta/recipes-support/gnutls/gnutls.inc
+@@ -23,6 +23,11 @@ inherit autotools texinfo binconfig pkgconfig gettext lib_package gtk-doc
+ 
+ PACKAGECONFIG ??= "libidn zlib"
+ 
++# You must also have CONFIG_SECCOMP enabled in the kernel for
++# seccomp to work.
++#
++PACKAGECONFIG[seccomp] = "ac_cv_libseccomp=yes,ac_cv_libseccomp=no,libseccomp"
++
+ PACKAGECONFIG[libidn] = "--with-idn,--without-idn,libidn"
+ PACKAGECONFIG[libtasn1] = "--with-included-libtasn1=no,--with-included-libtasn1,libtasn1"
+ PACKAGECONFIG[p11-kit] = "--with-p11-kit,--without-p11-kit,p11-kit"
+-- 
+1.7.9.5
 
-/home/andrew/src/camol3/camol/build/tmp-camol-glibc/pkgdata/whippet/runtime=
--reverse/kernel-module-configfs indeed does not exist but
-/home/andrew/src/camol3/camol/build/tmp-camol-glibc/pkgdata/whippet/runtime=
--reverse/kernel-module-configfs-4.5.1 does exist.
-
-Andrew
 
