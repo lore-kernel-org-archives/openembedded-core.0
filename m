@@ -1,46 +1,49 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
-	[209.85.214.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 1863660290
+Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id A783E71E52
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 11:06:35 +0000 (UTC)
-Received: by mail-it0-f43.google.com with SMTP id c7so9716797itd.1
+	Wed, 25 Jan 2017 11:07:54 +0000 (UTC)
+Received: by mail-io0-f179.google.com with SMTP id j13so10757388iod.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 03:06:36 -0800 (PST)
+	Wed, 25 Jan 2017 03:07:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=iq+AcQgrJrO645S8sfczIZm7MV91H6dfqn9Z8QRWOf8=;
-	b=aeNbQET4FNiGc+tgMHP+DpQIhKSRZ+O/X+xgV3fRBsrebbArNp1OhhI02rlQIinIC6
-	H+pUQCqE7u9k1gu6eVdZnBSVAZZe2tp5SWpyAfJey0y7WX7R4vZpceDFhaadiH4VxgOn
-	NodX1F6zYHcRQ5vU8YnC1vMT/TTsoEXKLIgHUnas7rJ85xe1me3qTmpT96Kh/03hb6s7
-	8kY8efu5/rSHVNdpQ4JSKsf5XYqyc70Bsqlq490agmUopJweyyD0PAnIhflTyAzreCtk
-	Imd04f5rCq1FN1Q6RnZtyoSuvfISTqTerpQV/eB9WJKgBEuDCZ9fjwtJfsk2+1au/Ogm
-	C89w==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=jve/6P4idgybZ6DJi85AvEZjKtUjiIzPw0fp36h/+dc=;
+	b=cYGBew2puvEJkvYws+taWFI/qb4y4HBV5lNpJsgk/XY74mgjueWTs0YakInQr429ra
+	SH/lszz/5PrC1rGy5Ofo/3taLIbZF9lZN6CiRUA5olAk+6x6aolV8G4t8H3L0rF9iEJw
+	FFV9xCogtR7HHUAKdN/hbSjjOiGjHX/hTRZdGBVwaFGH+WkZdgeE9Lu63tS7F3siuSlf
+	OjwkTNhF3BVmUY4K+oDE9yJ6HxmD78mxX00a0IB2eLFsyMLBjXPdrPQ0OnQBjy0YHgDF
+	nYkjSCS0wa6RkcLcbjcNftEakBrIMYAMEc36VFv4h+D26NPE5zMCofLv9FSf4i3Cwpc2
+	N6Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=iq+AcQgrJrO645S8sfczIZm7MV91H6dfqn9Z8QRWOf8=;
-	b=bzBLzlWfJb+vvT9LUChZAjgt7BcjUxSHooYDUpq2LcUSWeEGGCjF5qofsSnsFWw6Xs
-	OTDkkKrEJvzCu9I7FnNtOk1PsOqkcr1mbvtr3b4aYlYBDUcvZjFuyQ5GY29sNkuMrXvB
-	QSw+p/CfL9wmo02Q6iHgnDQRJRGJwImS1S0xxB83yLBygps6zqkp59XwIhlvL5A3BIMG
-	XMs/xroJSRkEHOIiUTrshRg8z2fLWHhjTuUQJfP0CRyC0J4lBlvMr36+VSipYoNCpnZ4
-	gYd4U+8SNEOfdCy/x1AuyugNQ1/o0EjoTO2RM1hzk4qL4Q3MKKPxR1RQk1CS9W8U4t5D
-	HFKg==
-X-Gm-Message-State: AIkVDXKcFQ4g7MVqoX2N8qMlHTj3RlGaGTdZMDW4iH9n7d3b/P3IL0tihrC4WDdbrRJNOaaF
-X-Received: by 10.36.2.1 with SMTP id 1mr23176007itu.10.1485342395526;
-	Wed, 25 Jan 2017 03:06:35 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=jve/6P4idgybZ6DJi85AvEZjKtUjiIzPw0fp36h/+dc=;
+	b=i8rKsJZON7qAA3xrv1ftZ0t7t2lm55NJS/IbH6St2X3tWvqKsaPnkh0LdQQTctWH/D
+	1nx0vtrKSeZa2BWXkvznMVZqDaTKlpatw+ZEeZnNxSf9zU2VvX/NICszhCZhC7R446Ps
+	bryhbz+kmvEEXXZFmFlfBbNzj6vstRqO2+cCYW1W15GTvxO7Wr8H6ouW1vsh4DfYywCQ
+	GqcjSLwUkHAfLH837QBsVO+orYnIflr429GtX5PAXDvvX7Qim2lkDkrNQApsgdlD0RpF
+	+RUZmy4426nhOEr2PeAB8C5tUB42viDvlkZR2wtLXSpfbhmPyW/D303DRH3PmVA//b0/
+	P6Kw==
+X-Gm-Message-State: AIkVDXKsC8nGZOJWMU2Pnd1j/IS9gSLoQVSCv97WCGlfxAQNjgL9Pq9hvupeU9n3pojQp3bS
+X-Received: by 10.107.200.146 with SMTP id y140mr32469916iof.73.1485342474023; 
+	Wed, 25 Jan 2017 03:07:54 -0800 (PST)
 Received: from pohly-desktop.fritz.box (p57A5635F.dip0.t-ipconnect.de.
 	[87.165.99.95])
-	by smtp.gmail.com with ESMTPSA id r85sm8407itc.13.2017.01.25.03.06.33
+	by smtp.gmail.com with ESMTPSA id o1sm10095533itg.4.2017.01.25.03.07.52
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 25 Jan 2017 03:06:33 -0800 (PST)
+	Wed, 25 Jan 2017 03:07:53 -0800 (PST)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Jan 2017 12:06:25 +0100
-Message-Id: <20170125110625.19909-1-patrick.ohly@intel.com>
+Date: Wed, 25 Jan 2017 12:07:48 +0100
+Message-Id: <20170125110748.20037-1-patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] image_types.bbclass: rebuild .wks file when .wks.in changes
+In-Reply-To: <20170125110625.19909-1-patrick.ohly@intel.com>
+References: <20170125110625.19909-1-patrick.ohly@intel.com>
+Subject: [PATCH v2] image_types.bbclass: rebuild .wks file when .wks.in changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,7 +56,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2017 11:06:40 -0000
+X-List-Received-Date: Wed, 25 Jan 2017 11:07:55 -0000
 
 WKS_FILE(S) can refer to .wks.in files which get expanded during the
 build by do_write_wks_template. The actual content of the .wks.in file
@@ -73,7 +76,7 @@ Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
  1 file changed, 4 insertions(+)
 
 diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 5b1746a68ce..9bc1996cdb0 100644
+index 5b1746a68ce..50545d9fdf0 100644
 --- a/meta/classes/image_types.bbclass
 +++ b/meta/classes/image_types.bbclass
 @@ -265,6 +265,10 @@ python () {
@@ -82,7 +85,7 @@ index 5b1746a68ce..9bc1996cdb0 100644
  
 +            # We need to re-parse each time the file changes, and bitbake
 +            # needs to be told about that explicitly.
-+            # bb.parse.mark_dependency(d, wks_file)
++            bb.parse.mark_dependency(d, wks_file)
 +
              try:
                  with open(wks_file, 'r') as f:
