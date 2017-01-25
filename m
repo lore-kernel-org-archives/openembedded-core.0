@@ -1,30 +1,18 @@
-Return-Path: <d.schultz@phytec.de>
-X-Greylist: delayed 582 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 25 Jan 2017 15:19:00 UTC
-Received: from root.phytec.de (mail.phytec.de [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id BD463719DA
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 15:19:00 +0000 (UTC)
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id 49800A00B13
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 16:09:28 +0100 (CET)
-Received: from augenblix.phytec.de ([172.16.0.56])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-	with ESMTP id 2017012516091722-126786 ;
-	Wed, 25 Jan 2017 16:09:17 +0100 
-From: Daniel Schultz <d.schultz@phytec.de>
-To: Openembedded-core@lists.openembedded.org
-Date: Wed, 25 Jan 2017 16:09:17 +0100
-Message-Id: <1485356957-6760-1-git-send-email-d.schultz@phytec.de>
-X-Mailer: git-send-email 1.9.1
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
-	17, 2016) at 25.01.2017 16:09:17,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17,
-	2016) at 25.01.2017 16:09:17,
-	Serialize complete at 25.01.2017 16:09:17
-X-TNEFEvaluated: 1
-Subject: [PATCH] cryptodev: Fix changed mm interface in Kernel 4.9
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 62B4460107;
+	Wed, 25 Jan 2017 15:23:31 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Daniel Schultz <d.schultz@phytec.de>
+Date: Wed, 25 Jan 2017 15:23:32 -0000
+Message-ID: <20170125152332.4466.81544@do.openembedded.org>
+References: <1485356957-6760-1-git-send-email-d.schultz@phytec.de>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1485356957-6760-1-git-send-email-d.schultz@phytec.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY3J5cHRvZGV2OiBGaXggY2hhbmdlZCBtbSBpbnRlcmZhY2UgaW4gS2VybmVsIDQuOQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,79 +25,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2017 15:19:01 -0000
+X-List-Received-Date: Wed, 25 Jan 2017 15:23:31 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-The memory management interface has changed in Kernel 4.9.
+== Series Details ==
 
-This patch adds a patch which fixes the paramter of the function call.
+Series: cryptodev: Fix changed mm interface in Kernel 4.9
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/4970/
+State : failure
 
-Backport from https://github.com/cryptodev-linux/cryptodev-linux
-Based on commit f126e4837e6334d0464540995df7426fedf6b175
+== Summary ==
 
-Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-kernel/cryptodev/files/0001-Adjust-to-another-change-in-the-user-page-API.patch)
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
+  Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-kernel/cryptodev/files/0001-Adjust-to-another-change-in-the-user-page-API.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-kernel/cryptodev/cryptodev.inc        |  3 +-
- ...st-to-another-change-in-the-user-page-API.patch | 36 ++++++++++++++++++++++
- 2 files changed, 38 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-kernel/cryptodev/files/0001-Adjust-to-another-change-in-the-user-page-API.patch
-
-diff --git a/meta/recipes-kernel/cryptodev/cryptodev.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
-index 160ab30..6241238 100644
---- a/meta/recipes-kernel/cryptodev/cryptodev.inc
-+++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
-@@ -5,7 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
- SRC_URI = "http://download.gna.org/cryptodev-linux/cryptodev-linux-${PV}.tar.gz \
-            file://06d6b560c6e45dc317dae47c74706fa43f4a31d8.patch \
--           file://cb186f682679383e8b5806240927903730ce85d9.patch"
-+           file://cb186f682679383e8b5806240927903730ce85d9.patch \
-+           file://0001-Adjust-to-another-change-in-the-user-page-API.patch"
- 
- SRC_URI[md5sum] = "02644cc4cd02301e0b503a332eb2f0b5"
- SRC_URI[sha256sum] = "67fabde9fb67b286a96c4f45b594b0eccd0f761b495705c18f2ae9461b831376"
-diff --git a/meta/recipes-kernel/cryptodev/files/0001-Adjust-to-another-change-in-the-user-page-API.patch b/meta/recipes-kernel/cryptodev/files/0001-Adjust-to-another-change-in-the-user-page-API.patch
-new file mode 100644
-index 0000000..8a544ff
---- /dev/null
-+++ b/meta/recipes-kernel/cryptodev/files/0001-Adjust-to-another-change-in-the-user-page-API.patch
-@@ -0,0 +1,36 @@
-+From f126e4837e6334d0464540995df7426fedf6b175 Mon Sep 17 00:00:00 2001
-+From: Michael Weiser <michael.weiser@gmx.de>
-+Date: Fri, 11 Nov 2016 18:09:32 +0100
-+Subject: [PATCH] Adjust to another change in the user page API
-+
-+4.9.0 will replace the write and force flags of get_user_pages_remote()
-+with a gup_flags parameter[1]. Distinguish the two APIs based on kernel
-+version we're compiling for.
-+
-+[1] https://github.com/torvalds/linux/commit/9beae1ea89305a9667ceaab6d0bf46a045ad71e7
-+---
-+ zc.c | 8 +++++++-
-+ 1 file changed, 7 insertions(+), 1 deletion(-)
-+
-+diff --git a/zc.c b/zc.c
-+index a97b49f..e766ee3 100644
-+--- a/zc.c
-++++ b/zc.c
-+@@ -65,7 +65,13 @@ int __get_userbuf(uint8_t __user *addr, uint32_t len, int write,
-+ 	ret = get_user_pages(
-+ #endif
-+ 			task, mm,
-+-			(unsigned long)addr, pgcount, write, 0, pg, NULL);
-++			(unsigned long)addr, pgcount,
-++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 9, 0))
-++			write ? FOLL_WRITE : 0,
-++#else
-++			write, 0,
-++#endif
-++			pg, NULL);
-+ 	up_read(&mm->mmap_sem);
-+ 	if (ret != pgcount)
-+ 		return -EINVAL;
-+-- 
-+1.9.1
-+
--- 
-1.9.1
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
