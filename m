@@ -1,30 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E28E471E5A
+	by mail.openembedded.org (Postfix) with ESMTP id 5ED1D730BB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 11:40:25 +0000 (UTC)
+	Wed, 25 Jan 2017 11:40:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0PBeOdf022768; Wed, 25 Jan 2017 11:40:25 GMT
+	v0PBeOdg022768; Wed, 25 Jan 2017 11:40:25 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id k4p_1oyzFZoG; Wed, 25 Jan 2017 11:40:25 +0000 (GMT)
+	with LMTP id CVBfUwD9mu9V; Wed, 25 Jan 2017 11:40:25 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0PBeL2x022746
+	v0PBeL5O022747
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Wed, 25 Jan 2017 11:40:22 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cWLw5-0001NL-S3; Wed, 25 Jan 2017 11:40:21 +0000
+	id 1cWLw5-0001NQ-SW; Wed, 25 Jan 2017 11:40:21 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Jan 2017 11:40:17 +0000
-Message-Id: <1485344418-5237-3-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Wed, 25 Jan 2017 11:40:18 +0000
+Message-Id: <1485344418-5237-4-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1485344418-5237-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1485344418-5237-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 3/4] gcc/gcc-source: Move libcc1 manipulation into gcc-source
+Subject: [PATCH 4/4] gcc: Clean up unnecessary variable confusion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,67 +39,198 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 25 Jan 2017 11:40:26 -0000
 
-Currently there is a race where if you build -cross-canadian without building gcc (target)
-you see QA errors about RPATHS. I've tracked this down to this manipulation where the
-target gcc recipe changes libcc1 in the shared sources directory. As long as you build
-things in the right order, the problem doesn't occur.
+SDKPKGSUFFIX could only really be "nativesdk" and TARGET_SYS never contains
+that so the code manipulating TARGET_SYS is pointless. I suspect this once
+worked against MULTIMACH_TARGET_SYS which would be a different question but
+it no longer does. Its been cut and pasted everywhere.
 
-Since its changing ${S} move it to gcc-source and avoid the race, saving RP
-some head scratching about why unrelated changes failed to build cleanly.
+This patch cleans up the variable references to make things a little more
+readable.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/gcc/gcc-source.inc | 5 +++++
- meta/recipes-devtools/gcc/gcc_5.4.bb     | 6 ------
- meta/recipes-devtools/gcc/gcc_6.3.bb     | 6 ------
- 3 files changed, 5 insertions(+), 12 deletions(-)
+ meta/recipes-devtools/gcc/gcc-runtime.inc    | 19 ++++++++-----------
+ meta/recipes-devtools/gcc/gcc-sanitizers.inc | 25 ++++++++++---------------
+ meta/recipes-devtools/gcc/libgcc-common.inc  |  9 +++------
+ meta/recipes-devtools/gcc/libgfortran.inc    | 23 +++++++++--------------
+ 4 files changed, 30 insertions(+), 46 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-source.inc b/meta/recipes-devtools/gcc/gcc-source.inc
-index 0d0edb5..fab99f2 100644
---- a/meta/recipes-devtools/gcc/gcc-source.inc
-+++ b/meta/recipes-devtools/gcc/gcc-source.inc
-@@ -26,6 +26,11 @@ python do_preconfigure () {
-     bb.utils.remove(d.expand("${S}/gcc/gengtype-lex.c"))
-     cmd = d.expand("sed -i 's/BUILD_INFO=info/BUILD_INFO=/' ${S}/gcc/configure")
-     subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
-+
-+    # Easiest way to stop bad RPATHs getting into the library since we have a
-+    # broken libtool here (breaks cross-canadian and target at least)
-+    cmd = d.expand("sed -i -e 's/hardcode_into_libs=yes/hardcode_into_libs=no/' ${S}/libcc1/configure")
-+    subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+index 00856ad..745cf74 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+@@ -32,15 +32,14 @@ RUNTIMETARGET = "libssp libstdc++-v3 libgomp libatomic ${RUNTIMELIBITM} \
+ 
+ do_configure () {
+ 	export CXX="${CXX} -nostdinc++ -nostdlib++"
+-	target=${TARGET_SYS}
+ 
+ 	for d in libgcc ${RUNTIMETARGET}; do
+ 		echo "Configuring $d"
+-		rm -rf ${B}/$target/$d/
+-		mkdir -p ${B}/$target/$d/
+-		cd ${B}/$target/$d/
++		rm -rf ${B}/${TARGET_SYS}/$d/
++		mkdir -p ${B}/${TARGET_SYS}/$d/
++		cd ${B}/${TARGET_SYS}/$d/
+ 		chmod a+x ${S}/$d/configure
+-		relpath=${@os.path.relpath("${S}/$d", "${B}/$target/$d")}
++		relpath=${@os.path.relpath("${S}/$d", "${B}/${TARGET_SYS}/$d")}
+ 		$relpath/configure ${CONFIGUREOPTS} ${EXTRA_OECONF}
+ 	done
  }
- addtask do_preconfigure after do_patch
- do_preconfigure[depends] += "gnu-config-native:do_populate_sysroot autoconf-native:do_populate_sysroot"
-diff --git a/meta/recipes-devtools/gcc/gcc_5.4.bb b/meta/recipes-devtools/gcc/gcc_5.4.bb
-index b0a523c..2c618df 100644
---- a/meta/recipes-devtools/gcc/gcc_5.4.bb
-+++ b/meta/recipes-devtools/gcc/gcc_5.4.bb
-@@ -6,10 +6,4 @@ require gcc-target.inc
- # | gcc-4.8.1-r0/gcc-4.8.1/gcc/cp/decl.c:7442:(.text.unlikely+0x318): additional relocation overflows omitted from the output
- ARM_INSTRUCTION_SET_armv4 = "arm"
+@@ -48,18 +47,16 @@ EXTRACONFFUNCS += "extract_stashed_builddir"
+ do_configure[depends] += "${COMPILERDEP}"
  
--do_configure_prepend() {
--	# Easiest way to stop bad RPATHs getting into the library since we have a
--	# broken libtool here
--	sed -i -e 's/hardcode_into_libs=yes/hardcode_into_libs=no/' ${S}/libcc1/configure
--}
--
- BBCLASSEXTEND = "nativesdk"
-diff --git a/meta/recipes-devtools/gcc/gcc_6.3.bb b/meta/recipes-devtools/gcc/gcc_6.3.bb
-index b0a523c..2c618df 100644
---- a/meta/recipes-devtools/gcc/gcc_6.3.bb
-+++ b/meta/recipes-devtools/gcc/gcc_6.3.bb
-@@ -6,10 +6,4 @@ require gcc-target.inc
- # | gcc-4.8.1-r0/gcc-4.8.1/gcc/cp/decl.c:7442:(.text.unlikely+0x318): additional relocation overflows omitted from the output
- ARM_INSTRUCTION_SET_armv4 = "arm"
+ do_compile () {
+-	target=`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
+ 	for d in libgcc ${RUNTIMETARGET}; do
+-		cd ${B}/$target/$d/
+-		oe_runmake MULTIBUILDTOP=${B}/$target/$d/
++		cd ${B}/${TARGET_SYS}/$d/
++		oe_runmake MULTIBUILDTOP=${B}/${TARGET_SYS}/$d/
+ 	done
+ }
  
--do_configure_prepend() {
--	# Easiest way to stop bad RPATHs getting into the library since we have a
--	# broken libtool here
--	sed -i -e 's/hardcode_into_libs=yes/hardcode_into_libs=no/' ${S}/libcc1/configure
--}
+ do_install () {
+-	target=`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
+ 	for d in ${RUNTIMETARGET}; do
+-		cd ${B}/$target/$d/
+-		oe_runmake 'DESTDIR=${D}' MULTIBUILDTOP=${B}/$target/$d/ install
++		cd ${B}/${TARGET_SYS}/$d/
++		oe_runmake 'DESTDIR=${D}' MULTIBUILDTOP=${B}/${TARGET_SYS}/$d/ install
+ 	done
+ 	rm -rf ${D}${infodir}/libgomp.info ${D}${infodir}/dir
+ 	rm -rf ${D}${infodir}/libitm.info ${D}${infodir}/dir
+diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+index ae3afe0..f97885b 100644
+--- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
++++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+@@ -12,34 +12,29 @@ EXTRA_OECONF_PATHS = "\
+ "
+ 
+ do_configure () {
+-    target=`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
 -
- BBCLASSEXTEND = "nativesdk"
+-    echo "Configuring libsanitizer"
+-    rm -rf ${B}/$target/libsanitizer/
+-    mkdir -p ${B}/$target/libsanitizer/
+-    cd ${B}/$target/libsanitizer/
++    rm -rf ${B}/${TARGET_SYS}/libsanitizer/
++    mkdir -p ${B}/${TARGET_SYS}/libsanitizer/
++    cd ${B}/${TARGET_SYS}/libsanitizer/
+     chmod a+x ${S}/libsanitizer/configure
+-    relpath=${@os.path.relpath("${S}/libsanitizer", "${B}/$target/libsanitizer")}
++    relpath=${@os.path.relpath("${S}/libsanitizer", "${B}/${TARGET_SYS}/libsanitizer")}
+     $relpath/configure ${CONFIGUREOPTS} ${EXTRA_OECONF}
+     # Easiest way to stop bad RPATHs getting into the library since we have a
+     # broken libtool here
+-    sed -i -e 's/hardcode_into_libs=yes/hardcode_into_libs=no/' ${B}/$target/libsanitizer/libtool
++    sed -i -e 's/hardcode_into_libs=yes/hardcode_into_libs=no/' ${B}/${TARGET_SYS}/libsanitizer/libtool
+     # Link to the sysroot's libstdc++ instead of one gcc thinks it just built
+-    sed -i -e '/LIBSTDCXX_RAW_CXX_\(CXXFLAGS\|LDFLAGS\)\s*=/d' ${B}/$target/libsanitizer/*/Makefile
++    sed -i -e '/LIBSTDCXX_RAW_CXX_\(CXXFLAGS\|LDFLAGS\)\s*=/d' ${B}/${TARGET_SYS}/libsanitizer/*/Makefile
+ }
+ EXTRACONFFUNCS += "extract_stashed_builddir"
+ do_configure[depends] += "${COMPILERDEP}"
+ 
+ do_compile () {
+-    target=`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
+-    cd ${B}/$target/libsanitizer/
+-    oe_runmake MULTIBUILDTOP=${B}/$target/libsanitizer/
++    cd ${B}/${TARGET_SYS}/libsanitizer/
++    oe_runmake MULTIBUILDTOP=${B}/${TARGET_SYS}/libsanitizer/
+ }
+ 
+ do_install () {
+-    target=`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
+-    cd ${B}/$target/libsanitizer/
+-    oe_runmake 'DESTDIR=${D}' MULTIBUILDTOP=${B}/$target/libsanitizer/ install
++    cd ${B}/${TARGET_SYS}/libsanitizer/
++    oe_runmake 'DESTDIR=${D}' MULTIBUILDTOP=${B}/${TARGET_SYS}/libsanitizer/ install
+     if [ -d ${D}${infodir} ]; then
+         rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
+     fi
+diff --git a/meta/recipes-devtools/gcc/libgcc-common.inc b/meta/recipes-devtools/gcc/libgcc-common.inc
+index c0efc29..848a476 100644
+--- a/meta/recipes-devtools/gcc/libgcc-common.inc
++++ b/meta/recipes-devtools/gcc/libgcc-common.inc
+@@ -5,10 +5,9 @@ require gcc-configure-common.inc
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+ do_configure () {
+-	target=`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
+ 	install -d ${D}${base_libdir} ${D}${libdir}
+ 	mkdir -p ${B}/${BPN}
+-	mkdir -p ${B}/$target/${BPN}/
++	mkdir -p ${B}/${TARGET_SYS}/${BPN}/
+ 	cd ${B}/${BPN}
+ 	chmod a+x ${S}/${BPN}/configure
+ 	relpath=${@os.path.relpath("${S}/${BPN}", "${B}/${BPN}")}
+@@ -18,15 +17,13 @@ EXTRACONFFUNCS += "extract_stashed_builddir"
+ do_configure[depends] += "${COMPILERDEP}"
+ 
+ do_compile () {
+-	target=`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
+ 	cd ${B}/${BPN}
+-	oe_runmake MULTIBUILDTOP=${B}/$target/${BPN}/
++	oe_runmake MULTIBUILDTOP=${B}/${TARGET_SYS}/${BPN}/
+ }
+ 
+ do_install () {
+-	target=`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
+ 	cd ${B}/${BPN}
+-	oe_runmake 'DESTDIR=${D}' MULTIBUILDTOP=${B}/$target/${BPN}/ install
++	oe_runmake 'DESTDIR=${D}' MULTIBUILDTOP=${B}/${TARGET_SYS}/${BPN}/ install
+ 
+ 	# Move libgcc_s into /lib
+ 	mkdir -p ${D}${base_libdir}
+diff --git a/meta/recipes-devtools/gcc/libgfortran.inc b/meta/recipes-devtools/gcc/libgfortran.inc
+index d3e2b41..4846dec 100644
+--- a/meta/recipes-devtools/gcc/libgfortran.inc
++++ b/meta/recipes-devtools/gcc/libgfortran.inc
+@@ -6,32 +6,27 @@ EXTRA_OECONF_PATHS = "\
+ "
+ 
+ do_configure () {
+-	target=`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
+-
+-	echo "Configuring libgfortran"
+-	rm -rf ${B}/$target/libgfortran/
+-	mkdir -p ${B}/$target/libgfortran/
+-	cd ${B}/$target/libgfortran/
++	rm -rf ${B}/${TARGET_SYS}/libgfortran/
++	mkdir -p ${B}/${TARGET_SYS}/libgfortran/
++	cd ${B}/${TARGET_SYS}/libgfortran/
+ 	chmod a+x ${S}/libgfortran/configure
+-	relpath=${@os.path.relpath("${S}/libgfortran", "${B}/$target/libgfortran")}
++	relpath=${@os.path.relpath("${S}/libgfortran", "${B}/${TARGET_SYS}/libgfortran")}
+ 	$relpath/configure ${CONFIGUREOPTS} ${EXTRA_OECONF}
+ 	# Easiest way to stop bad RPATHs getting into the library since we have a
+ 	# broken libtool here
+-	sed -i -e 's/hardcode_into_libs=yes/hardcode_into_libs=no/' ${B}/$target/libgfortran/libtool
++	sed -i -e 's/hardcode_into_libs=yes/hardcode_into_libs=no/' ${B}/${TARGET_SYS}/libgfortran/libtool
+ }
+ EXTRACONFFUNCS += "extract_stashed_builddir"
+ do_configure[depends] += "${COMPILERDEP}"
+ 
+ do_compile () {
+-	target=`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
+-	cd ${B}/$target/libgfortran/
+-	oe_runmake MULTIBUILDTOP=${B}/$target/libgfortran/
++	cd ${B}/${TARGET_SYS}/libgfortran/
++	oe_runmake MULTIBUILDTOP=${B}/${TARGET_SYS}/libgfortran/
+ }
+ 
+ do_install () {
+-	target=`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
+-	cd ${B}/$target/libgfortran/
+-	oe_runmake 'DESTDIR=${D}' MULTIBUILDTOP=${B}/$target/libgfortran/ install
++	cd ${B}/${TARGET_SYS}/libgfortran/
++	oe_runmake 'DESTDIR=${D}' MULTIBUILDTOP=${B}/${TARGET_SYS}/libgfortran/ install
+ 	if [ -d ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/finclude ]; then
+ 		rmdir --ignore-fail-on-non-empty -p ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/finclude
+ 	fi
 -- 
 2.7.4
 
