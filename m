@@ -1,22 +1,28 @@
-Return-Path: <ismo.puustinen@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F57C731DA
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 54005731C2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 13:03:44 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 25 Jan 2017 05:03:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,283,1477983600"; d="scan'208";a="926476156"
-Received: from ipuustin-desk.fi.intel.com ([10.237.72.72])
-	by orsmga003.jf.intel.com with ESMTP; 25 Jan 2017 05:03:44 -0800
-From: Ismo Puustinen <ismo.puustinen@intel.com>
+	Wed, 25 Jan 2017 13:25:58 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v0PDPwDI032002; Wed, 25 Jan 2017 13:25:58 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id VJe_DvlzVBHm; Wed, 25 Jan 2017 13:25:58 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v0PDPqEV031999
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 25 Jan 2017 13:25:53 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1cWNaC-0003VM-P3; Wed, 25 Jan 2017 13:25:52 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Jan 2017 15:03:36 +0200
-Message-Id: <20170125130336.20833-2-ismo.puustinen@intel.com>
-X-Mailer: git-send-email 2.9.3
-In-Reply-To: <20170125130336.20833-1-ismo.puustinen@intel.com>
-References: <20170125130336.20833-1-ismo.puustinen@intel.com>
-Subject: [PATCH 2/2] python3: make readline, gdbm, and db support conditional.
+Date: Wed, 25 Jan 2017 13:25:50 +0000
+Message-Id: <1485350750-13431-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] cross: Update MULTIMACH_TARGET_SYS to reflect modern recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,65 +35,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2017 13:03:44 -0000
+X-List-Received-Date: Wed, 25 Jan 2017 13:25:59 -0000
 
-The three libraries' (readline, gdbm, and db) licenses belong to the
-GPLv3 family. Add them to to PACKAGECONFIG so they can be switched off
-if the licensing doesn't allow using them. Python build system
-autodetects the dependencies but doesn't allow them to be explicitly
-disabled, so just deal with the dependencies.
+Mixing PACKAGE_ARCH with BUILD_* has always seemed somewhat odd. This
+comes into play when building different SDKMACHINES as the PN space
+for the recipes did once overlap. With the modern build process we
+use, this overlap is a thing of the past since PN has SDK_SYS appended
+to it.
 
-The defaults in PACKAGECONFIG are the same as before, so there should be
-no change to current users.
+cross.bbclass sets PACKAGE_ARCH == BUILD_ARCH so this change only affects
+crosssdk.bbclass where PACKAGE_ARCH == SDK_ARCH.
 
-Signed-off-by: Ismo Puustinen <ismo.puustinen@intel.com>
+The current structure is quite confusing and this removes this artefact
+of history, allowing other gcc cleanups rather than meaning we futher
+complicate the code.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/python/python3_3.5.2.bb | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ meta/classes/cross.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3_3.5.2.bb b/meta/recipes-devtools/python/python3_3.5.2.bb
-index 2ff7c9e..1a78a36 100644
---- a/meta/recipes-devtools/python/python3_3.5.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.2.bb
-@@ -1,6 +1,6 @@
- require recipes-devtools/python/python.inc
+diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
+index d125f10..ee8e150 100644
+--- a/meta/classes/cross.bbclass
++++ b/meta/classes/cross.bbclass
+@@ -23,7 +23,7 @@ STAGING_DIR_HOST = "${RECIPE_SYSROOT_NATIVE}"
  
--DEPENDS = "python3-native libffi bzip2 db gdbm openssl readline sqlite3 zlib virtual/libintl xz"
-+DEPENDS = "python3-native libffi bzip2 openssl sqlite3 zlib virtual/libintl xz"
- PR = "${INC_PR}.0"
- PYTHON_MAJMIN = "3.5"
- PYTHON_BINABI= "${PYTHON_MAJMIN}m"
-@@ -76,6 +76,11 @@ export CROSSPYTHONPATH = "${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dy
- # No ctypes option for python 3
- PYTHONLSBOPTS = ""
+ PACKAGE_ARCH = "${BUILD_ARCH}"
  
-+PACKAGECONFIG ??= "readline gdbm db"
-+PACKAGECONFIG[readline] = ",,readline"
-+PACKAGECONFIG[gdbm] = ",,gdbm"
-+PACKAGECONFIG[db] = ",,db"
-+
- do_configure_append() {
- 	rm -f ${S}/Makefile.orig
- 	autoreconf -Wcross --verbose --install --force --exclude=autopoint ../Python-${PV}/Modules/_ctypes/libffi
-@@ -194,7 +199,7 @@ require python-${PYTHON_MAJMIN}-manifest.inc
+-MULTIMACH_TARGET_SYS = "${PACKAGE_ARCH}${BUILD_VENDOR}-${BUILD_OS}"
++MULTIMACH_TARGET_SYS = "${BUILD_ARCH}${BUILD_VENDOR}-${BUILD_OS}"
  
- # manual dependency additions
- RPROVIDES_${PN}-core = "${PN}"
--RRECOMMENDS_${PN}-core = "${PN}-readline"
-+RRECOMMENDS_${PN}-core = "${@bb.utils.contains('PACKAGECONFIG', 'readline', '${PN}-readline', '', d)}"
- RRECOMMENDS_${PN}-crypt = "openssl"
- RRECOMMENDS_${PN}-crypt_class-nativesdk = "nativesdk-openssl"
- 
-@@ -222,3 +227,8 @@ PACKAGES += "${PN}-man"
- FILES_${PN}-man = "${datadir}/man"
- 
- BBCLASSEXTEND = "nativesdk"
-+
-+# if readline is not there, don't create python3-readline package
-+PACKAGES_remove += "${@bb.utils.contains('PACKAGECONFIG', 'readline', '', '${PN}-readline', d)}"
-+PROVIDES_remove += "${@bb.utils.contains('PACKAGECONFIG', 'readline', '', '${PN}-readline', d)}"
-+RDEPENDS_${PN}-modules_remove += "${@bb.utils.contains('PACKAGECONFIG', 'readline', '', '${PN}-readline', d)}"
+ export PKG_CONFIG_DIR = "${exec_prefix}/lib/pkgconfig"
+ export PKG_CONFIG_SYSROOT_DIR = ""
 -- 
-2.9.3
+2.7.4
 
 
