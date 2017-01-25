@@ -1,27 +1,50 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D26AB71DD4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 14:42:58 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 25 Jan 2017 06:42:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,284,1477983600"; d="scan'208";a="1087166627"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
-	by orsmga001.jf.intel.com with ESMTP; 25 Jan 2017 06:42:57 -0800
-Date: Wed, 25 Jan 2017 16:43:46 +0200
-From: "Maxin B. John" <maxin.john@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20170125144345.GA2549@mbabyjoh-desk.ger.corp.intel.com>
-References: <1481550484-3360-1-git-send-email-maxin.john@intel.com>
-	<20170123145537.GA6330@mbabyjoh-desk.ger.corp.intel.com>
-	<1485187171.30673.25.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <1485187171.30673.25.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] sstatesig: don't squash dependencies of useradd packages
+Return-Path: <kristian.amlie@mender.io>
+Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EC6960107
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 25 Jan 2017 14:46:17 +0000 (UTC)
+Received: by mail-lf0-f42.google.com with SMTP id v186so130093893lfa.1
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 25 Jan 2017 06:46:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mender-io.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=ATpcqLx07f14h8/Oy/HJwz9lyGaH5iQMgK1puHuYPDA=;
+	b=y9hYXEuNWZMbtiP5ll9rbEWmzo5Osn2BFq2XFOFraYkBV9R/jcJI26ZCokwIj8nf5m
+	zwZbSgjUVpX3qSeKetwl2ZAIzaiNCeAZAwMdMNdzzqrDZKJK4Qk81RjCqCZstQwfEaCw
+	RpQRnALmZ/naktBC98lGGaCZygDuQtbFX8x/VkmbwiGgGmCRAE9I5cQaCpJ4DBw2G0Mj
+	DPqHirsJel6eoAUj2utcLpEEx7UQ4culBtnDZ2gz61BF9sE0rzQgJajSXm2T1i3VHKLv
+	qklLhRk3mVqiGS5NDOy0su2e+6QuPtahg4IU4PfqowTQBGTi+/a04icQ7ehi8SLR/lr1
+	jbQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=ATpcqLx07f14h8/Oy/HJwz9lyGaH5iQMgK1puHuYPDA=;
+	b=MLM4dsNdte+tor2nPs2ZLr39BthqYWoWog/uduyogUfJd7BZN/HzqrC3vcnxrGHl/Q
+	jNRKeilEFCC4Z7eGLbwwo5rbLwk8WcPyMqiq8ogEhN1ZHQGn+OHqK+CF31NxwDPRuJ+y
+	f2rSeG7ee4lhS07GIKXEQAeV5Z/QYJm6SSgOfvQwM2LcqEA6Nj3x+AVRZ+J7LvmabJYv
+	Ng2BKKYQ1tAYnzahnSauDY5YVqjH3dbT1OLpFJL5Ove4r0wQs4/VRfoAS0ZQHaFBGIZJ
+	sb7IEWc2YacY1YVPCtuw7im47g4MyOJizFvX0rLqwl/C78WYLD8bcp1VHVcMTko57qpz
+	0pPw==
+X-Gm-Message-State: AIkVDXLdAngm07dapeC0g2dsfC93T40VuVEzLQqIW1zJhD2m5OzXeifRtGxnQmIUzWSa9w==
+X-Received: by 10.25.66.70 with SMTP id p67mr10984996lfa.99.1485355577419;
+	Wed, 25 Jan 2017 06:46:17 -0800 (PST)
+Received: from kristian-mender.cfengine.com ([195.159.140.90])
+	by smtp.googlemail.com with ESMTPSA id
+	70sm153933lfq.14.2017.01.25.06.46.16
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 25 Jan 2017 06:46:16 -0800 (PST)
+From: Kristian Amlie <kristian.amlie@mender.io>
+To: Openembedded-core@lists.openembedded.org,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Wed, 25 Jan 2017 15:46:15 +0100
+Message-Id: <1485355575-31836-1-git-send-email-kristian.amlie@mender.io>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1485355129.17309.0.camel@linuxfoundation.org>
+References: <1485355129.17309.0.camel@linuxfoundation.org>
+Subject: [PATCH] sstate: Make SSTATE_SCAN_CMD vars configurable using weak defaults.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,30 +57,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2017 14:42:59 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 25 Jan 2017 14:46:18 -0000
 
-Hi RP,
+For this we move them out of the python section so they can be
+overridden on a per-recipe basis.
 
-On Mon, Jan 23, 2017 at 03:59:31PM +0000, Richard Purdie wrote:
-> On Mon, 2017-01-23 at 16:55 +0200, Maxin B. John wrote:
-> > Ping.
-> 
-> This never merged as I was never 100% convinced this was the correct
-> way to solve this problem. I'd be interested to understand if the
-> sstatesig tests in oe-selftest worked after this.
->
-> I'm hoping this issue has also now been resolved in a different way
-> though the switch to recipe specific sysroots. Would you be able test
-> if recipe specific sysroots have addressed this issue?
+The motivation for this change is that not all tool chains need the
+path modifications provided by the command, and these will provide
+alternative or empty commands. The Go compiler is such an example.
 
-Thanks for looking into this. Tested this (bug #8078) on the latest master
-with recipe specific sysroots modification and found that the error still exists.  
+Signed-off-by: Kristian Amlie <kristian.amlie@mender.io>
+---
+ meta/classes/cross.bbclass    | 4 ++++
+ meta/classes/crosssdk.bbclass | 4 ++++
+ meta/classes/native.bbclass   | 4 ++++
+ meta/classes/sstate.bbclass   | 9 ++-------
+ 4 files changed, 14 insertions(+), 7 deletions(-)
 
-> Cheers,
-> Richard
+diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
+index d125f10..4985f89 100644
+--- a/meta/classes/cross.bbclass
++++ b/meta/classes/cross.bbclass
+@@ -38,6 +38,10 @@ TOOLCHAIN_OPTIONS = ""
+ 
+ DEPENDS_GETTEXT = "gettext-native"
+ 
++# This class encodes staging paths into its scripts data so can only be
++# reused if we manipulate the paths.
++SSTATE_SCAN_CMD ?= "${SSTATE_SCAN_CMD_NATIVE}"
++
+ # Path mangling needed by the cross packaging
+ # Note that we use := here to ensure that libdir and includedir are
+ # target paths.
+diff --git a/meta/classes/crosssdk.bbclass b/meta/classes/crosssdk.bbclass
+index c5c29ea..a5ffd97 100644
+--- a/meta/classes/crosssdk.bbclass
++++ b/meta/classes/crosssdk.bbclass
+@@ -10,6 +10,10 @@ python () {
+ 
+ STAGING_BINDIR_TOOLCHAIN = "${STAGING_DIR_NATIVE}${bindir_native}/${TARGET_ARCH}${TARGET_VENDOR}-${TARGET_OS}"
+ 
++# This class encodes staging paths into its scripts data so can only be
++# reused if we manipulate the paths.
++SSTATE_SCAN_CMD ?= "${SSTATE_SCAN_CMD_NATIVE}"
++
+ TARGET_ARCH = "${SDK_ARCH}"
+ TARGET_VENDOR = "${SDK_VENDOR}"
+ TARGET_OS = "${SDK_OS}"
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index 4d4aaad..ec91fc3 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -115,6 +115,10 @@ MACHINEOVERRIDES = ""
+ 
+ PATH_prepend = "${COREBASE}/scripts/native-intercept:"
+ 
++# This class encodes staging paths into its scripts data so can only be
++# reused if we manipulate the paths.
++SSTATE_SCAN_CMD ?= "${SSTATE_SCAN_CMD_NATIVE}"
++
+ python native_virtclass_handler () {
+     classextend = e.data.getVar('BBCLASSEXTEND') or ""
+     if "native" not in classextend:
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index a767a02..5f4ef76 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -34,7 +34,8 @@ SSTATE_DUPWHITELIST += "${DEPLOY_DIR_SRC}"
+ SSTATE_DUPWHITELIST += "${DEPLOY_DIR}/sdk/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt"
+ 
+ SSTATE_SCAN_FILES ?= "*.la *-config *_config"
+-SSTATE_SCAN_CMD ?= 'find ${SSTATE_BUILDDIR} \( -name "${@"\" -o -name \"".join(d.getVar("SSTATE_SCAN_FILES").split())}" \) -type f'
++SSTATE_SCAN_CMD ??= 'find ${SSTATE_BUILDDIR} \( -name "${@"\" -o -name \"".join(d.getVar("SSTATE_SCAN_FILES").split())}" \) -type f'
++SSTATE_SCAN_CMD_NATIVE ??= 'grep -Irl -e ${RECIPE_SYSROOT} -e ${RECIPE_SYSROOT_NATIVE} ${SSTATE_BUILDDIR}'
+ 
+ BB_HASHFILENAME = "False ${SSTATE_PKGSPEC} ${SSTATE_SWSPEC}"
+ 
+@@ -94,12 +95,6 @@ python () {
+         d.setVar('BB_HASHFILENAME', "True ${SSTATE_PKGSPEC} ${SSTATE_SWSPEC}")
+         d.setVar('SSTATE_EXTRAPATHWILDCARD', "*/")
+ 
+-    # These classes encode staging paths into their scripts data so can only be
+-    # reused if we manipulate the paths
+-    if bb.data.inherits_class('native', d) or bb.data.inherits_class('cross', d) or bb.data.inherits_class('sdk', d) or bb.data.inherits_class('crosssdk', d):
+-        scan_cmd = "grep -Irl -e ${RECIPE_SYSROOT} -e ${RECIPE_SYSROOT_NATIVE} ${SSTATE_BUILDDIR}"
+-        d.setVar('SSTATE_SCAN_CMD', scan_cmd)
+-
+     unique_tasks = sorted(set((d.getVar('SSTATETASKS') or "").split()))
+     d.setVar('SSTATETASKS', " ".join(unique_tasks))
+     for task in unique_tasks:
+-- 
+2.7.4
 
-Best Regards,
-Maxin
 
