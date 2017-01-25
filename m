@@ -1,25 +1,51 @@
-Return-Path: <Li.Zhou@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 96E71605FE
+Return-Path: <freesilicon@gmail.com>
+Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
+	[209.85.215.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 7498360750
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 05:41:14 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v0P5fDUh015570
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Wed, 25 Jan 2017 07:58:42 +0000 (UTC)
+Received: by mail-lf0-f68.google.com with SMTP id v186so19640335lfa.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2017 21:41:14 -0800
-Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Tue, 24 Jan 2017 21:41:13 -0800
-From: Li Zhou <li.zhou@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 25 Jan 2017 13:40:37 +0800
-Message-ID: <1485322837-260448-1-git-send-email-li.zhou@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Tue, 24 Jan 2017 23:58:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=iKwNASiMeegRJZzEHPKMvUZDO5a3cnjZ9anDC49Sgxc=;
+	b=EJS/r3T1oql6xF/v0idMqdvTKscP2hSJefaqucCYRs5M+xvCwC4YRbb5RrNGdldm8P
+	rBF7GaYJrtcExfdWBblgpkf4tS1vMAr4wiCszm4db36sqtEcZ7kjgmEkte9/KkW8lPzx
+	uMtEVEVJPL/bTkHExquS7rL0OH4B122SLgP3tnTScb9PfA1DcygB1gD9QkoKU4XH6L4I
+	c4LQe73A6JhoZjLvCUNLKfpDi+ZREgC1sY8Z8BIgUmTzxqLgDzyKZA0hK0XhCWgabW2N
+	puTo1BUMaO3RNbCyFTLML02/rNHwEhxQoZPMoAJZzgi0wO2Rz5BY+aHmATDG328bURUv
+	94dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=iKwNASiMeegRJZzEHPKMvUZDO5a3cnjZ9anDC49Sgxc=;
+	b=qpxAb9z/Y1XNCPQxRjitCJG60wWjrHwVf9sQj1fVOeJh6SJMuQ/LXIntzyh3tL63iy
+	jRHzAE3MJYvZ479urm8rgmMzODdEXnZY1D83zegX06+p98IdkRfBgqzXnWjTzKslL6Z7
+	IkB/lqNuQtDuJltRG7mzxlBzc4xxi5TDN26S49hDxPcKPuzwAzmZksry/V9Q+lpIT+wh
+	9z15RfUCVG9KkBcjQyq3mV5LCSbL8Rli3h49CUn9yQscXLXOO79QnHx4lJDB681R0YwE
+	h3z66Ghdg8XtWevNJLBNqdP3GIMRWLIRVRj8m8TFt3G3sijxWh92WP6e8k680iBSqbfW
+	Cn2A==
+X-Gm-Message-State: AIkVDXLC8l/FJQtFhyhZvtbPz9nZmsi4cahj09Voooh7rgJKUXIzFZK2CguqATn8Ln962g==
+X-Received: by 10.223.153.15 with SMTP id x15mr32079777wrb.179.1485331122115; 
+	Tue, 24 Jan 2017 23:58:42 -0800 (PST)
+Received: from crde-port-20.cahors.local ([185.47.80.46])
+	by smtp.gmail.com with ESMTPSA id
+	186sm29961487wmw.24.2017.01.24.23.58.41
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 24 Jan 2017 23:58:41 -0800 (PST)
+From: David Vincent <freesilicon@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 25 Jan 2017 08:58:38 +0100
+Message-ID: <9648934.YbsFiyrbuu@crde-port-20.cahors.local>
+In-Reply-To: <8ea809ad-d2bd-e575-3447-51cadcb338c2@gmail.com>
+References: <20170123145508.9252-1-freesilicon@gmail.com>
+	<20170124090715.11646-1-freesilicon@gmail.com>
+	<8ea809ad-d2bd-e575-3447-51cadcb338c2@gmail.com>
 MIME-Version: 1.0
-X-Originating-IP: [128.224.153.75]
-Subject: [PATCH v2] openssh: Security Advisory - openssh - CVE-2016-10010
+Subject: Re: [PATCH v2 0/3] openssh: Make sshd-config a package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,82 +58,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2017 05:41:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 25 Jan 2017 07:58:42 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="UTF-8"
 
-sshd in OpenSSH before 7.4, when privilege separation is not used,
-creates forwarded Unix-domain sockets as root, which might allow
-local users to gain privileges via unspecified vectors, related to
-serverloop.c.
+On mardi 24 janvier 2017 11:07:18 CET Khem Raj wrote:
+> How does this work with dropbear. Since we can use dropbear as a ssh
+> server alternative.
+Dropbear support has not been modified. SSHD_CONFIG has only been added to 
+FEATURE_PACKAGES_ssh-server-openssh variable and only applies to OpenSSH (I 
+think dropbear has no config file so I don't see the point of applying this).
 
-Porting patch from <https://github.com/openbsd/src/commit/
-c76fac666ea038753294f2ac94d310f8adece9ce> to solve CVE-2016-10010.
-Adapted the patch to solve context issues.
+On a side note, I see that this serie of patches is still marked as 'failure' 
+on patchwork, is that a problem or should I resubmit it as new (I may have 
+made some mistakes resubmitting it without marking it v2)
 
-Signed-off-by: Li Zhou <li.zhou@windriver.com>
----
- .../openssh/openssh/openssh-CVE-2016-10010.patch   | 38 ++++++++++++++++++++++
- meta/recipes-connectivity/openssh/openssh_7.3p1.bb |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/openssh-CVE-2016-10010.patch
-
-diff --git a/meta/recipes-connectivity/openssh/openssh/openssh-CVE-2016-10010.patch b/meta/recipes-connectivity/openssh/openssh/openssh-CVE-2016-10010.patch
-new file mode 100644
-index 0000000..cbfcf87
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/openssh-CVE-2016-10010.patch
-@@ -0,0 +1,38 @@
-+From e86492668e4005eb3b20ba827a7e8474f2888e7e Mon Sep 17 00:00:00 2001
-+From: Li Zhou <li.zhou@windriver.com>
-+Date: Wed, 25 Jan 2017 11:01:10 +0800
-+Subject: [PATCH] openssh: disable Unix-domain socket forwarding when privsep
-+ is disabled
-+
-+Upstream-Status: Backport
-+CVE: CVE-2016-10010
-+Signed-off-by: Li Zhou <li.zhou@windriver.com>
-+---
-+ serverloop.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/serverloop.c b/serverloop.c
-+index 3563e5d..233de42 100644
-+--- a/serverloop.c
-++++ b/serverloop.c
-+@@ -999,7 +999,7 @@ server_request_direct_streamlocal(void)
-+ 
-+ 	/* XXX fine grained permissions */
-+ 	if ((options.allow_streamlocal_forwarding & FORWARD_LOCAL) != 0 &&
-+-	    !no_port_forwarding_flag) {
-++	    !no_port_forwarding_flag && use_privsep) {
-+ 		c = channel_connect_to_path(target,
-+ 		    "direct-streamlocal@openssh.com", "direct-streamlocal");
-+ 	} else {
-+@@ -1280,7 +1280,7 @@ server_input_global_request(int type, u_int32_t seq, void *ctxt)
-+ 
-+ 		/* check permissions */
-+ 		if ((options.allow_streamlocal_forwarding & FORWARD_REMOTE) == 0
-+-		    || no_port_forwarding_flag) {
-++		    || no_port_forwarding_flag || !use_privsep) {
-+ 			success = 0;
-+ 			packet_send_debug("Server has disabled port forwarding.");
-+ 		} else {
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-connectivity/openssh/openssh_7.3p1.bb b/meta/recipes-connectivity/openssh/openssh_7.3p1.bb
-index 94eb0ed..522bda6 100644
---- a/meta/recipes-connectivity/openssh/openssh_7.3p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_7.3p1.bb
-@@ -26,6 +26,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://openssh-7.1p1-conditional-compile-des-in-pkcs11.patch \
-            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
-            file://fix-CVE-2016-8858.patch \
-+           file://openssh-CVE-2016-10010.patch \
-            "
- 
- PAM_SRC_URI = "file://sshd"
--- 
-1.9.1
-
+David
 
