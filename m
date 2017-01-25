@@ -1,32 +1,47 @@
-Return-Path: <d.schultz@phytec.de>
-Received: from root.phytec.de (mail.x-arc.de [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id BB10F71E10
+Return-Path: <ola.x.nilsson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1ABEE71E0C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 15:38:28 +0000 (UTC)
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id C8238A00DB4
+	Wed, 25 Jan 2017 15:49:49 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id B9A621832E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 16:38:38 +0100 (CET)
-Received: from [172.16.25.193] ([172.16.25.193])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-	with ESMTP id 2017012516382769-126908 ;
-	Wed, 25 Jan 2017 16:38:27 +0100 
+	Wed, 25 Jan 2017 16:49:49 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id qb8VobEpwBqH
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Jan 2017 16:49:48 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id D50B71832D
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Jan 2017 16:49:47 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5434D1A069
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Jan 2017 16:49:47 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4981B1A066
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Jan 2017 16:49:47 +0100 (CET)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Jan 2017 16:49:47 +0100 (CET)
+Received: from lnxolani.se.axis.com (lnxolani.se.axis.com [10.88.67.1])
+	by thoth.se.axis.com (Postfix) with ESMTP id 3DEC8A25
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Jan 2017 16:49:47 +0100 (CET)
+Received: by lnxolani.se.axis.com (Postfix, from userid 20853)
+	id F350C7C066; Wed, 25 Jan 2017 16:49:46 +0100 (CET)
+From: Ola x Nilsson <ola.x.nilsson@axis.com>
 To: openembedded-core@lists.openembedded.org
-References: <1485356957-6760-1-git-send-email-d.schultz@phytec.de>
-	<20170125152332.4466.81544@do.openembedded.org>
-From: Daniel Schultz <d.schultz@phytec.de>
-Message-ID: <e7c31049-618c-9edb-5c3a-d2093fd43d24@phytec.de>
-Date: Wed, 25 Jan 2017 16:38:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.1
-MIME-Version: 1.0
-In-Reply-To: <20170125152332.4466.81544@do.openembedded.org>
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
-	17, 2016) at 25.01.2017 16:38:27,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17,
-	2016) at 25.01.2017 16:38:27
-X-TNEFEvaluated: 1
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGNyeXB0b2RldjogRml4IGNoYW5nZWQgbW0gaW50ZXJmYWNlIGluIEtlcm5lbCA0Ljk=?=
+Date: Wed, 25 Jan 2017 16:49:46 +0100
+Message-Id: <1485359386-9793-1-git-send-email-olani@axis.com>
+X-Mailer: git-send-email 2.1.4
+X-TM-AS-GCONF: 00
+Subject: [PATCH] externalsrc: Hide created symlinks with .git/info/exclude
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,61 +54,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2017 15:38:30 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 25 Jan 2017 15:49:51 -0000
 
-I have backported this patch and I won't add the signed-off by myself.
-How should I proceed?
+Add created symlinks to the exclude file.  This will both make them
+less distracting and hide them from the srctree_hash_files function.
 
-Am 25.01.2017 um 16:23 schrieb Patchwork:
-> =3D=3D Series Details =3D=3D
->
-> Series: cryptodev: Fix changed mm interface in Kernel 4.9
-> Revision: 1
-> URL   : https://patchwork.openembedded.org/series/4970/
-> State : failure
->
-> =3D=3D Summary =3D=3D
->
->
-> Thank you for submitting this patch series to OpenEmbedded Core. This is
-> an automated response. Several tests have been executed on the proposed
-> series by patchtest resulting in the following failures:
->
->
->
-> * Issue             A patch file has been added, but does not have a Sign=
-ed-off-by tag [test=5Fsigned=5Foff=5Fby=5Fpresence]
->   Suggested fix    Sign off the added patch file (meta/recipes-kernel/cry=
-ptodev/files/0001-Adjust-to-another-change-in-the-user-page-API.patch)
->
-> * Issue             Added patch file is missing Upstream-Status in the he=
-ader [test=5Fupstream=5Fstatus=5Fpresence]
->   Suggested fix    Add Upstream-Status: <status> to the header of meta/re=
-cipes-kernel/cryptodev/files/0001-Adjust-to-another-change-in-the-user-page=
--API.patch (possible values: Pending, Submitted, Accepted, Backport, Denied=
-, Inappropriate)
->
->
->
-> If you believe any of these test results are incorrect, please reply to t=
-he
-> mailing list (openembedded-core@lists.openembedded.org) raising your conc=
-erns.
-> Otherwise we would appreciate you correcting the issues and submitting a =
-new
-> version of the patchset if applicable. Please ensure you add/increment the
-> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-> [PATCH v3] -> ...).
->
-> ---
-> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
->
+Signed-off-by: Ola x Nilsson <olani@axis.com>
+---
+ meta/classes/externalsrc.bbclass | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
---=20
-Mit freundlichen Gr=C3=BC=C3=9Fen,
-With best regards,
-   Daniel Schultz
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+index bdf23ec..39789ea 100644
+--- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -124,11 +124,13 @@ python () {
+ }
+ 
+ python externalsrc_configure_prefunc() {
++    s_dir = d.getVar('S')
+     # Create desired symlinks
+     symlinks = (d.getVar('EXTERNALSRC_SYMLINKS') or '').split()
++    newlinks = []
+     for symlink in symlinks:
+         symsplit = symlink.split(':', 1)
+-        lnkfile = os.path.join(d.getVar('S'), symsplit[0])
++        lnkfile = os.path.join(s_dir, symsplit[0])
+         target = d.expand(symsplit[1])
+         if len(symsplit) > 1:
+             if os.path.islink(lnkfile):
+@@ -140,6 +142,19 @@ python externalsrc_configure_prefunc() {
+                 # File/dir exists with same name as link, just leave it alone
+                 continue
+             os.symlink(target, lnkfile)
++            newlinks.append(symsplit[0])
++    # Hide the symlinks from git
++    try:
++        git_exclude_file = os.path.join(s_dir, '.git/info/exclude')
++        if os.path.exists(git_exclude_file):
++            with open(git_exclude_file, 'r+') as efile:
++                elines = efile.readlines()
++                for link in newlinks:
++                    if link in elines or '/'+link in elines:
++                        continue
++                    efile.write('/' + link + '\n')
++    except IOError as ioe:
++        bb.note('Failed to hide EXTERNALSRC_SYMLINKS from git')
+ }
+ 
+ python externalsrc_compile_prefunc() {
+-- 
+2.1.4
+
 
