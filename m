@@ -1,29 +1,45 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 05EC760290
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 11:24:06 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0PBO6W0021641; Wed, 25 Jan 2017 11:24:06 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id igavd7ZtldRA; Wed, 25 Jan 2017 11:24:06 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0PBO1ok021636
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 25 Jan 2017 11:24:02 GMT
-Message-ID: <1485343441.30673.84.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Kristian Amlie <kristian.amlie@mender.io>, OE-core
-	<Openembedded-core@lists.openembedded.org>
-Date: Wed, 25 Jan 2017 11:24:01 +0000
-In-Reply-To: <18981a79-4241-83a1-a1a8-3eddf941c346@mender.io>
-References: <18981a79-4241-83a1-a1a8-3eddf941c346@mender.io>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: Overriding fixmepath
+Return-Path: <freesilicon@gmail.com>
+Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
+	[209.85.215.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 9388171E4F
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Jan 2017 11:36:43 +0000 (UTC)
+Received: by mail-lf0-f68.google.com with SMTP id x1so20620417lff.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Jan 2017 03:36:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=Ubghij5U+29Xn9m/8EY0itLd4pQFcY84wLrN9kL4UUY=;
+	b=MLJBpOdcuDl0gb0rmreoQYI+j2j/NBqL4RVX7mR18IhjbBVC6VW4O1YvT++ovYsFIf
+	AiugmakQkjA0IYDvJZNbluEYwyDsOYM69OSj7qfpZWFLLzPk1/B7wf89rg0cobutzYQb
+	SBxZ8hk7DaydTEmsxDtubwUczNA0+5wDfXsW3QJPBP8HTIjP8HRLKvI/mly1wuWqy7n3
+	XBwLax0jxQRxPhH5FpSXy2KEsMVWCvaDhfTJ6jGuZskUVkq4jvH0sxeCpzkcEEBp6ca0
+	70tDdouI0ie+9Hsbw7/yPzFtXa4gxmLPfsbLbJF8YwZ7CIEb2jOBu/hrTJ4538qCaEQr
+	9Z/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Ubghij5U+29Xn9m/8EY0itLd4pQFcY84wLrN9kL4UUY=;
+	b=NqY8gbJUau4vQTDmQBuQE68RcdF3Ral6bvQGub66BniKhF+H+ATTWgbzhuzjt8Z3Cv
+	aWoTasdEmpqoq94fRYnGhlXV7XC2HBB4hSw2uzrhMOlK80g0sd5H8LkdBRzjjGIuXd+E
+	cHtyHlwjcF+Td2nfrjVhmddwrIMkmnBnUZ6gDTEfVwt9l+OL5TbQ435LOTRTAgNN7Qrp
+	q3m3gHbpv6w4Yj+9p9Eso6J6LVSYNXnBVRaG3EhnjG6gn8TVeQfrMM72McEQ9HNpMmXp
+	vYWxZLPub6qYpmk/3BxnrRigXu/W9H3867OOBpZrqNQLoI27629TZoMVAGYco4ZRBJro
+	IETQ==
+X-Gm-Message-State: AIkVDXKu/5dwp05TNE1Fg+2kSbof1xy4Jb5w6yEAJi2R4/BlZZObO+iIBVKz2o9xUrvEug==
+X-Received: by 10.223.161.74 with SMTP id r10mr15439368wrr.16.1485344203345;
+	Wed, 25 Jan 2017 03:36:43 -0800 (PST)
+Received: from localhost.localdomain ([185.47.80.46])
+	by smtp.gmail.com with ESMTPSA id
+	r24sm24513040wrr.25.2017.01.25.03.36.42
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 25 Jan 2017 03:36:42 -0800 (PST)
+From: David Vincent <freesilicon@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 25 Jan 2017 12:35:52 +0100
+Message-Id: <20170125113552.19254-1-freesilicon@gmail.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] initscripts: Populate volatile from existing file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,87 +52,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2017 11:24:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 25 Jan 2017 11:36:44 -0000
 
-On Wed, 2017-01-25 at 11:43 +0100, Kristian Amlie wrote:
-> After the new recipe sysroots were introduced we've been having
-> trouble
-> compiling Go. I've narrowed it down to the path replacement mechanism
-> that goes on using fixmepath.
-> 
-> For example, this does not work:
-> 
->   bitbake -c cleansstate go-cross
->   bitbake go-cross
-> 
-> But this does:
-> 
->   bitbake -c cleansstate go-cross
->   bitbake -c prepare_recipe_sysroot go-cross
->   rm -rf
-> /home/jenkins/workspace/yoctobuild/build-qemu/tmp/work/x86_64-
-> linux/go-cross/1.7.4-r0/recipe-sysroot-native/usr/lib/go-bootstrap-
-> native-1.4.3
->   cp -r
-> /home/jenkins/workspace/yoctobuild/build-qemu/tmp/sysroots-
-> components/x86_64/go-bootstrap-native/usr/lib/go-bootstrap-native-
-> 1.4.3
-> /home/jenkins/workspace/yoctobuild/build-qemu/tmp/work/x86_64-
-> linux/go-cross/1.7.4-r0/recipe-sysroot-native/usr/lib/go-bootstrap-
-> native-1.4.3
->   bitbake go-cross
-> 
-> IOW, if I replace the recipe sysroot with the originals, it works,
-> but
-> if I keep the modified files put there by the prepare_recipe_sysroot
-> task, it doesn't.
-> 
-> And this is where I admittedly get a bit lost: I haven't fully
-> understood how the fixmepath mechanism operates, but from what I can
-> tell, this path replacement is not appropriate for Go. It doesn't
-> care
-> where it's installed, and always operates relative to the GOROOT
-> environment variable, which is set by all Go recipes.
+In some cases, it may be useful to populate a volatile file from an
+existing one, e.g. a file in a read-only rootfs that may be edited in a
+read-write destination.
 
-Does this still work if you remove the
-/home/jenkins/workspace/yoctobuild/build-qemu/tmp/sysroots-
-components/x86_64/go-bootstrap-native directory before building go-
-cross? I worry that its actually referencing the other location and
-using files from there (a different recipe's workdir) and that
-therefore there are a different set of other problems this recipe also
-has.
+To provide this behavior, creation of volatile files has been updated to
+copy a file which has been given in the <linksource> field. If set to
+none, the current behavior is preserved.
 
-> Why the path replacement triggers an error I cannot say, but I
-> suspect it has to do with the fact that Go object files are a bit
-> special compared to C object files, and this operation in fact
-> corrupts them. More mysterious still is why this happens only on some
-> build machines, and not others, but once triggered it appears to be
-> consistently triggered.
+Signed-off-by: David Vincent <freesilicon@gmail.com>
+---
+ .../initscripts/initscripts-1.0/populate-volatile.sh     | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-The fixmepath replacements only happen on text files. It could be some
-relocation is needed on the binaries too, perhaps through configuration
-on the commandline or perhaps through the environment. We have had to
-patch some tools to allow relocation in the past too.
-
-> Any advice for what to do next? I could try to skip the fixmepath
-> operation completely, but I'm not sure how, and it feels a bit like
-> using a sledgehammer where I should be using a scalpel.
-
-Try removing the path I suggested after copying and see if it still
-works. If it does, I'd probably try and find which subset of the files
-breaks it, narrow down the issue. If removing it breaks things, there
-is a whole world of bigger issues :(
-
-Its possible to add specific inclusions/exclusions from fixmepath FWIW
-but we need to understand more about what is happening first.
-
-Cheers,
-
-Richard
-
-
-
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+index 22a71ecaae..35316ec2ba 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+@@ -25,8 +25,18 @@ COREDEF="00_core"
+ [ "${VERBOSE}" != "no" ] && echo "Populating volatile Filesystems."
+ 
+ create_file() {
++	EXEC=""
++	[ -z "$2" ] && {
++		EXEC="
++		touch \"$1\";
++		"
++	} || {
++		EXEC="
++		cp \"$2\" \"$1\";
++		"
++	}
+ 	EXEC="
+-	touch \"$1\";
++	${EXEC}
+ 	chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" >/dev/tty0 2>&1;
+ 	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" >/dev/tty0 2>&1 "
+ 
+@@ -187,7 +197,9 @@ apply_cfgfile() {
+ 
+ 		case "${TTYPE}" in
+ 			"f")  [ "${VERBOSE}" != "no" ] && echo "Creating file -${TNAME}-."
+-				create_file "${TNAME}"
++				TSOURCE="$TLTARGET"
++				[ "${TSOURCE}" = "none" ] && TSOURCE=""
++				create_file "${TNAME}" "${TSOURCE}" &
+ 				;;
+ 			"d")  [ "${VERBOSE}" != "no" ] && echo "Creating directory -${TNAME}-."
+ 				mk_dir "${TNAME}"
+-- 
+2.11.0
 
 
