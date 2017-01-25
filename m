@@ -1,25 +1,18 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id C967771A82
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 18:01:37 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga105.fm.intel.com with ESMTP; 25 Jan 2017 10:01:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,285,1477983600"; d="scan'208";a="1087238390"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 25 Jan 2017 10:01:37 -0800
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 571F46A4080;
-	Wed, 25 Jan 2017 10:00:39 -0800 (PST)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Jan 2017 19:39:14 +0200
-Message-Id: <1485365954-31451-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1485363997-26897-1-git-send-email-ed.bartosh@linux.intel.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CD9F719AF;
+	Wed, 25 Jan 2017 18:23:30 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Date: Wed, 25 Jan 2017 18:23:31 -0000
+Message-ID: <20170125182331.4465.20031@do.openembedded.org>
 References: <1485363997-26897-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: [PATCH v3] wic: change location of .env files
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1485363997-26897-1-git-send-email-ed.bartosh@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igd2ljOiBjaGFuZ2UgbG9jYXRpb24gb2YgLmVudiBmaWxlcyAocmV2Myk=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,77 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2017 18:01:38 -0000
+X-List-Received-Date: Wed, 25 Jan 2017 18:23:31 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Current location of .env files $STAGING_DIR/imagedata. It doesn't
-depend on machine and be rewritten by the builds for different
-machines.
+== Series Details ==
 
-Changed location to $STAGING_DIR/$MACHINE/imagedata to avoid .env
-files to be rewritten.
+Series: wic: change location of .env files (rev3)
+Revision: 3
+URL   : https://patchwork.openembedded.org/series/4976/
+State : failure
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 40463f9d80)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/classes/image.bbclass          | 2 +-
- meta/classes/image_types.bbclass    | 2 +-
- meta/lib/oeqa/selftest/wic.py       | 3 ++-
- meta/recipes-core/meta/wic-tools.bb | 2 +-
- 4 files changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index fb0cce3..2c58f4b 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -343,7 +343,7 @@ python do_rootfs_wicenv () {
-         return
- 
-     stdir = d.getVar('STAGING_DIR')
--    outdir = os.path.join(stdir, 'imgdata')
-+    outdir = os.path.join(stdir, d.getVar('MACHINE'), 'imgdata')
-     bb.utils.mkdirhier(outdir)
-     basename = d.getVar('IMAGE_BASENAME')
-     with open(os.path.join(outdir, basename) + '.env', 'w') as envf:
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index ddd52f1..ca69823 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -216,7 +216,7 @@ IMAGE_CMD_wic () {
- 		bbfatal "No kickstart files from WKS_FILES were found: ${WKS_FILES}. Please set WKS_FILE or WKS_FILES appropriately."
- 	fi
- 
--	BUILDDIR="${TOPDIR}" wic create "$wks" --vars "${STAGING_DIR}/imgdata/" -e "${IMAGE_BASENAME}" -o "$out/" ${WIC_CREATE_EXTRA_ARGS}
-+	BUILDDIR="${TOPDIR}" wic create "$wks" --vars "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o "$out/" ${WIC_CREATE_EXTRA_ARGS}
- 	mv "$out/$(basename "${wks%.wks}")"*.direct "$out${IMAGE_NAME_SUFFIX}.wic"
- 	rm -rf "$out/"
- }
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index 8295b40..8864af6 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -344,7 +344,8 @@ class Wic(oeSelfTest):
-         if image not in self.wicenv_cache:
-             self.assertEqual(0, bitbake('%s -c do_rootfs_wicenv' % image).status)
-             stdir = get_bb_var('STAGING_DIR', image)
--            self.wicenv_cache[image] = os.path.join(stdir, 'imgdata')
-+            machine = get_bb_var('MACHINE', image)
-+            self.wicenv_cache[image] = os.path.join(stdir, machine, 'imgdata')
-         return self.wicenv_cache[image]
- 
-     @testcase(1347)
-diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/wic-tools.bb
-index 0a53b73..aa09c82 100644
---- a/meta/recipes-core/meta/wic-tools.bb
-+++ b/meta/recipes-core/meta/wic-tools.bb
-@@ -14,7 +14,7 @@ python do_build_sysroot () {
- 
-     # Write environment variables used by wic
-     # to tmp/sysroots/<machine>/imgdata/wictools.env
--    outdir = os.path.join(d.getVar('STAGING_DIR'), 'imgdata')
-+    outdir = os.path.join(d.getVar('STAGING_DIR'), d.getVar('MACHINE'), 'imgdata')
-     bb.utils.mkdirhier(outdir)
-     with open(os.path.join(outdir, "wic-tools.env"), 'w') as envf:
-         for var in ('RECIPE_SYSROOT_NATIVE', 'STAGING_DATADIR', 'STAGING_LIBDIR'):
--- 
-2.1.4
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
