@@ -1,46 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 834CA71DCF
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DBA671D31
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 17:13:43 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id c85so35686046wmi.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2017 09:13:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=dCFe0MjKzXHTNAKp1EJdhTtmFGPQIpu8LIyUBcupUko=;
-	b=wxhIeDvmYOpwuiszQ7UBqGp0Qbnp5Thi1jkemXPzB8GoeN2mxpM0nXSe77fQeQfHoL
-	cflfrgVrXv9wjyykITw0sw1rSvdhaZuD78SOfsI7L1xTTRFb+hQrCb8Dz3O7QOeKb9aq
-	7EFEsRp9d6EMMBN1XQMNrGCfDJxduTn0vjbwOCH2ekhazq8U9V0ymOtnwqB2wqDzBPbY
-	fXJXZNcYKN4TY5oGdIcjJ7ThX+scvzv0FzVcsfyELIvzB7XgdKnhvROIiW3O0PaDJ9Xa
-	+ULDYB6Ld+Qx3Nfjqe7Fpd6797cOJxCB7qSD3tENrWx2nQcoigZa0syYfxsDHTk9HFg5
-	HVDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=dCFe0MjKzXHTNAKp1EJdhTtmFGPQIpu8LIyUBcupUko=;
-	b=k3TShNpj3kOUbjG6uX71xuBZOQyO7+yXNvu1E7BhMEvsSgH/w/uyIVr/NuekqyA7TB
-	CoGfYdQUA6G5GCGzWpaYs/2CGxeRPxXoQl/lqHaU0AUgxeCf56KG87LHiaegjja5oel2
-	cxagJYdLPkefI4HTsJxUBn9sO6Asgnrd3noSTqXPGrNB0gUJvRC3goIP+4iytg5dnOlC
-	uxUlWB6pCdnl8jaL3y3hm7XJPzz7o63lfiJ18kTmX15oCFMiERabLg73yUA669PtCho6
-	bygIepY+R/8czzdZ9PL4fmF5p4FLAVb4FMlNfTsxsYs4uaiBjhEfV0S1Vzaeut8IhTRm
-	tefA==
-X-Gm-Message-State: AIkVDXLvwZgjjQJML0Njleqcdcl7kKUYhEzonmrKnfJMP000n5Rwrmn+5KV3TXr4atZPwKmm
-X-Received: by 10.28.111.220 with SMTP id c89mr22366189wmi.102.1485364423022; 
-	Wed, 25 Jan 2017 09:13:43 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	z90sm26068925wrc.24.2017.01.25.09.13.42
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 25 Jan 2017 09:13:42 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 25 Jan 2017 17:29:03 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga104.fm.intel.com with ESMTP; 25 Jan 2017 09:29:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,285,1477983600"; d="scan'208";a="52358340"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga004.jf.intel.com with ESMTP; 25 Jan 2017 09:29:04 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 4E10F6A4080;
+	Wed, 25 Jan 2017 09:28:06 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Jan 2017 17:13:40 +0000
-Message-Id: <1485364420-21561-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] package_deb: handle allarch when mapping tune to dpkg architectures
+Date: Wed, 25 Jan 2017 19:06:37 +0200
+Message-Id: <1485363997-26897-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH v2] wic: change location of .env files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,49 +30,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2017 17:13:44 -0000
+X-List-Received-Date: Wed, 25 Jan 2017 17:29:05 -0000
 
-It was discovered that buildtools-tarball can't be built with Debian packaging:
+Current location of .env files $STAGING_DIR/imagedata. It doesn't
+depend on machine and be rewritten by the builds for different
+machines.
 
-E: Unable to locate package nativesdk-buildtools-perl-dummy
+Changed location to $STAGING_DIR/$MACHINE/imagedata to avoid .env
+files to be rewritten.
 
-The package exists but dpkg doesn't see it because the Architecture field isn't
-valid: for this package the Architecture field is 'allarch' which isn't in the
-list of valid architectures we define.
-
-package_deb already has a mapping of OE architectures (PACKAGE_ARCH) to dpkg
-architectures (DPKG_ARCH), for example our x86_64 is amd64 in dpkg.  However
-allarch.bbclass sets an invalid TARGET_ARCH of 'allarch' (to break anything
-which attempts to use the target architecture) and package_deb relied on the
-PACKAGE_ARCH check later turning the Architecture field into 'all'.
-
-This usually works, but nativesdk-buildtools-perl-dummy inherits allarch but
-then changes PACKAGE_ARCH to buildtools-dummy-nativesdk to isolate the packages
-in a separate feed.  We can handle this by explictly checking for allarch in the
-TARGET_ARCH check, as that everything that inherits allarch will want to have
-Architecture: all in their packages.
-
-[ YOCTO #10700 ]
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/classes/package_deb.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes/image.bbclass          | 2 +-
+ meta/classes/image_types.bbclass    | 2 +-
+ meta/lib/oeqa/selftest/wic.py       | 3 ++-
+ meta/recipes-core/meta/wic-tools.bb | 2 +-
+ 4 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index 47fcd6b..eb549ca 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -17,6 +17,8 @@ APT_ARGS = "${@['', '--no-install-recommends'][d.getVar("NO_RECOMMENDATIONS") ==
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index fb0cce3..2c58f4b 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -343,7 +343,7 @@ python do_rootfs_wicenv () {
+         return
  
- def debian_arch_map(arch, tune):
-     tune_features = tune.split()
-+    if arch == "allarch":
-+        return "all"
-     if arch in ["i586", "i686"]:
-         return "i386"
-     if arch == "x86_64":
+     stdir = d.getVar('STAGING_DIR')
+-    outdir = os.path.join(stdir, 'imgdata')
++    outdir = os.path.join(stdir, d.getVar('MACHINE'), 'imgdata')
+     bb.utils.mkdirhier(outdir)
+     basename = d.getVar('IMAGE_BASENAME')
+     with open(os.path.join(outdir, basename) + '.env', 'w') as envf:
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index ddd52f1..e391f8b 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -216,7 +216,7 @@ IMAGE_CMD_wic () {
+ 		bbfatal "No kickstart files from WKS_FILES were found: ${WKS_FILES}. Please set WKS_FILE or WKS_FILES appropriately."
+ 	fi
+ 
+-	BUILDDIR="${TOPDIR}" wic create "$wks" --vars "${STAGING_DIR}/imgdata/" -e "${IMAGE_BASENAME}" -o "$out/" ${WIC_CREATE_EXTRA_ARGS}
++	BUILDDIR="${TOPDIR}" wic create "$wks" --vars "${STAGING_DIR}/${MACHINE/imgdata/" -e "${IMAGE_BASENAME}" -o "$out/" ${WIC_CREATE_EXTRA_ARGS}
+ 	mv "$out/$(basename "${wks%.wks}")"*.direct "$out${IMAGE_NAME_SUFFIX}.wic"
+ 	rm -rf "$out/"
+ }
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index 8295b40..8864af6 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -344,7 +344,8 @@ class Wic(oeSelfTest):
+         if image not in self.wicenv_cache:
+             self.assertEqual(0, bitbake('%s -c do_rootfs_wicenv' % image).status)
+             stdir = get_bb_var('STAGING_DIR', image)
+-            self.wicenv_cache[image] = os.path.join(stdir, 'imgdata')
++            machine = get_bb_var('MACHINE', image)
++            self.wicenv_cache[image] = os.path.join(stdir, machine, 'imgdata')
+         return self.wicenv_cache[image]
+ 
+     @testcase(1347)
+diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/wic-tools.bb
+index 0a53b73..aa09c82 100644
+--- a/meta/recipes-core/meta/wic-tools.bb
++++ b/meta/recipes-core/meta/wic-tools.bb
+@@ -14,7 +14,7 @@ python do_build_sysroot () {
+ 
+     # Write environment variables used by wic
+     # to tmp/sysroots/<machine>/imgdata/wictools.env
+-    outdir = os.path.join(d.getVar('STAGING_DIR'), 'imgdata')
++    outdir = os.path.join(d.getVar('STAGING_DIR'), d.getVar('MACHINE'), 'imgdata')
+     bb.utils.mkdirhier(outdir)
+     with open(os.path.join(outdir, "wic-tools.env"), 'w') as envf:
+         for var in ('RECIPE_SYSROOT_NATIVE', 'STAGING_DATADIR', 'STAGING_LIBDIR'):
 -- 
-2.8.1
+2.1.4
 
 
