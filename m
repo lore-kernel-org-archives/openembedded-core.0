@@ -1,26 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id A7B3071D42
+	by mail.openembedded.org (Postfix) with ESMTP id CB31671E5F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 13:04:20 +0000 (UTC)
+	Thu, 26 Jan 2017 13:04:21 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga104.jf.intel.com with ESMTP; 26 Jan 2017 05:04:21 -0800
+	by orsmga104.jf.intel.com with ESMTP; 26 Jan 2017 05:04:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,289,1477983600"; d="scan'208";a="926886755"
+X-IronPort-AV: E=Sophos;i="5.33,289,1477983600"; d="scan'208";a="926886760"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 26 Jan 2017 05:04:21 -0800
+	by orsmga003.jf.intel.com with ESMTP; 26 Jan 2017 05:04:22 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id CB9CC6A4006
+	by linux.intel.com (Postfix) with ESMTP id EAD006A4006
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 05:03:23 -0800 (PST)
+	Thu, 26 Jan 2017 05:03:24 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Jan 2017 14:40:33 +0200
-Message-Id: <2a0c821d3e09dc9c1eefd7b3848fffe2f767bd1b.1485434085.git.ed.bartosh@linux.intel.com>
+Date: Thu, 26 Jan 2017 14:40:34 +0200
+Message-Id: <d01e84dc1e1d645766da0f7d527b8103b576d320.1485434085.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1485434085.git.ed.bartosh@linux.intel.com>
 References: <cover.1485434085.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v2 05/14] grub-efi: make do_efi_populate depend on do_deploy
+Subject: [PATCH v2 06/14] systemd-boot: make do_efi_populate depend on do_deploy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,28 +33,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jan 2017 13:04:20 -0000
+X-List-Received-Date: Thu, 26 Jan 2017 13:04:21 -0000
 
-Added dependency do_efi_populate -> grub-efi:do_deploy to make
+Added dependency do_efi_populate -> systemd-boot:do_deploy to make
 sure EFI artifacts are depfloyed.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/classes/grub-efi.bbclass | 1 +
+ meta/classes/systemd-boot.bbclass | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
-index 48b4b34..d00fa6c 100644
---- a/meta/classes/grub-efi.bbclass
-+++ b/meta/classes/grub-efi.bbclass
-@@ -18,6 +18,7 @@
+diff --git a/meta/classes/systemd-boot.bbclass b/meta/classes/systemd-boot.bbclass
+index 1405310..54b8790 100644
+--- a/meta/classes/systemd-boot.bbclass
++++ b/meta/classes/systemd-boot.bbclass
+@@ -11,6 +11,7 @@
  
- do_bootimg[depends] += "${MLPREFIX}grub-efi:do_deploy"
- do_bootdirectdisk[depends] += "${MLPREFIX}grub-efi:do_deploy"
-+do_efi_populate[depends] += "${MLPREFIX}grub-efi:do_deploy"
+ do_bootimg[depends] += "${MLPREFIX}systemd-boot:do_deploy"
+ do_bootdirectdisk[depends] += "${MLPREFIX}systemd-boot:do_deploy"
++do_efi_populate[depends] += "${MLPREFIX}systemd-boot:do_deploy"
  
- GRUB_SERIAL ?= "console=ttyS0,115200"
- GRUB_CFG_VM = "${S}/grub_vm.cfg"
+ EFIDIR = "/EFI/BOOT"
+ 
 -- 
 2.1.4
 
