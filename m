@@ -1,25 +1,47 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id E5D557316D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 4750C6093D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 17:11:40 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 26 Jan 2017 09:11:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,290,1477983600"; d="scan'208";a="1118215396"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
-	by fmsmga002.fm.intel.com with ESMTP; 26 Jan 2017 09:11:39 -0800
-Date: Thu, 26 Jan 2017 19:11:30 +0200
-From: "Maxin B. John" <maxin.john@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20170126171129.GA19664@mbabyjoh-desk.ger.corp.intel.com>
+	Thu, 26 Jan 2017 20:00:48 +0000 (UTC)
+Received: by mail-qt0-f178.google.com with SMTP id x49so93593568qtc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jan 2017 12:00:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=SFjDPg6Kl4TzBfiKFZOa9u90RU2FicfUwnTRQaZ2KKA=;
+	b=u3R+7Qx5uBWlO+1xSEtSPume/kjNyN6iHwhpDgEIKpT1uIfcgXyodl4LpJydRzskME
+	fjr7r/XWUjFCMjJRO0YqqhBqPTK6RkeOdODqOAvBJm5jfmYUJPtwDVoztnRCu3IFuuAe
+	sg5Ll1/fucxnTQ7dleoVX3iu/ClYy5rkI3q/VRFTWCEN0Bgr4vza5MmWJDha1Y6gLcO1
+	tJtFYawVJjjLNZthBwqkY3RvP9khggLu3M8qVmVffVtcV9gB//X6+1/17QVF5jq9mZXU
+	bN11TqC2PWZ540PG4a84lq0wb6M8e/efdeo3gL0K7RRWg9utXv75ve9A7KewH/zFbBG5
+	OFxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=SFjDPg6Kl4TzBfiKFZOa9u90RU2FicfUwnTRQaZ2KKA=;
+	b=Nrb/59O8ylJVeQtVzWhB60IWe487BaSHn2R+OSA/a7LE4BHflTeEaCL8FQlH6ZN7aD
+	xUvPmf+X0TvrLrDQlghE3lVs/x+rZtBwCvtVfwDbaBFb7BkepQZCClDlkWXptZzMRLSZ
+	WQgzjxMneOeqBQDEgmVht4llbG2V5VPVl5N1/d4oRo1+7yWi81CnaXICLids/2XW6yfY
+	R5qy7Fb22lIBZDIbNjfGj/nP2FWncEttxYVgufWKP/kliMMUXTWEuA6JNi7cEUbf1GlP
+	EpsS2+38AVw9pbwBopvZZTumutU3uFR+ufDKqqbIHJ8Czib/mai4Ztx53Pf4ochHLaZ0
+	IPEw==
+X-Gm-Message-State: AIkVDXJjWfK5x4O3XIG5KymHsr9YRILMJc8Ox6PPJaJtmOqpHMuvYIdnLJyOyTcWnuO5aCFlK0n/Xbyin94goZWT
+X-Received: by 10.55.47.4 with SMTP id v4mr4695071qkh.77.1485460848712; Thu,
+	26 Jan 2017 12:00:48 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.103.233 with HTTP; Thu, 26 Jan 2017 12:00:28 -0800 (PST)
+In-Reply-To: <20170126171129.GA19664@mbabyjoh-desk.ger.corp.intel.com>
 References: <1485165540-16646-1-git-send-email-maxin.john@intel.com>
 	<1485165540-16646-2-git-send-email-maxin.john@intel.com>
 	<CAJTo0Lb8z9QbKF5qebO+54tqPe9rnZEXSd7EHMgXnK6XAZ1Lsw@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lb8z9QbKF5qebO+54tqPe9rnZEXSd7EHMgXnK6XAZ1Lsw@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+	<20170126171129.GA19664@mbabyjoh-desk.ger.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 26 Jan 2017 20:00:28 +0000
+Message-ID: <CAJTo0LbBJmYOPygzq5egoe8xj6N7j9rKTdcNky0yQcQPWW5JaA@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/4] libtasn1: Upgrade 4.9 -> 4.10
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -34,55 +56,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jan 2017 17:11:46 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 26 Jan 2017 20:00:50 -0000
+Content-Type: multipart/alternative; boundary=001a114f41083734a3054704cecb
 
-Hi Ross,
+--001a114f41083734a3054704cecb
+Content-Type: text/plain; charset=UTF-8
 
->On Thu, Jan 26, 2017 at 10:20:16AM +0000, Burton, Ross wrote:
->>On 23 January 2017 at 09:58, Maxin B. John <maxin.john@intel.com> wrote:
->>
->>    Removed the following Backported patches:
->>         1. 0001-configure-don-t-add-Werror-to-build-flags.patch
->
-> This breaks on musl in the most amusing way:
->
-> |                  from ../../libtasn1-4.10/gl/getopt.c:28:
-> | ./stdint.h:89:5: error: #if with no expression
-> |  #if
-> |      ^
+On 26 January 2017 at 17:11, Maxin B. John <maxin.john@intel.com> wrote:
+
+> For some strange reasons, this build error hasn't occured in my musl
+> test build before sending the patch.
 >
 
-For some strange reasons, this build error hasn't occured in my musl
-test build before sending the patch. 
+I suspect it's a libtasn 4.10 + new musl thing, we had an upgrade of both
+at the same time and reverting libtasn to 4.9 works.  Thanks Maxin!
 
-> When it says stdint.h it doesn't mean the system stdint.h because that
-> would be too sensible.  libtasn1 uses gnulib which writes its own system
-> headers, so this is in fact build/gl/stdint.h which does indeed just 
-> do '#if '.  The source for this file is gl/stdint.in.h in this block:
->
-> /* Override WINT_MIN and WINT_MAX if gnulib's <wchar.h> or <wctype.h> overrides
-> wint_t.  */
-> #if @GNULIB_OVERRIDES_WINT_T@
-> # undef WINT_MIN
-> # undef WINT_MAX
-> # define WINT_MIN 0x0U
-> # define WINT_MAX 0xffffffffU
-> #endif
->
->For some reason when this executes @GNULIB_OVERRIDES_WINT_T@ isn't defined.
+Ross
 
-The build error is due to this change:
-http://git.savannah.gnu.org/cgit/gnulib.git/commit/?id=5a400b3f5a1f5483dbfd75d38bdb7080218a063b
+--001a114f41083734a3054704cecb
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-*  m4/stdint.m4 (gl_STDINT_H): Don't define GNULIB_OVERRIDES_WINT_T.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 26 January 2017 at 17:11, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":ey" class=3D"=
+a3s aXjCH m159dbc8836d4c892">For some strange reasons, this build error has=
+n&#39;t occured in my musl<br>
+test build before sending the patch.<br></div></blockquote></div><br>I susp=
+ect it&#39;s a libtasn 4.10 + new musl thing, we had an upgrade of both at =
+the same time and reverting libtasn to 4.9 works.=C2=A0 Thanks Maxin!</div>=
+<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div><=
+/div>
 
-will send a v2 to fix this.
-
->Cheers,
->Ross
-
-Thanks and Regards,
-Maxin
-
+--001a114f41083734a3054704cecb--
