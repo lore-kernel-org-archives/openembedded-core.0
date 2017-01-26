@@ -1,49 +1,27 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ot0-f169.google.com (mail-ot0-f169.google.com
-	[74.125.82.169])
-	by mail.openembedded.org (Postfix) with ESMTP id C46B371E53
+Return-Path: <maxin.john@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id E5D557316D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 16:55:37 +0000 (UTC)
-Received: by mail-ot0-f169.google.com with SMTP id f9so179078501otd.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 08:55:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=QOox9FISCuWlwQqSTeRYOwWwVBajtTHnvSJoqfff19Q=;
-	b=TR8w+9OIU4m8N9JsC+WrMiAFQP8M2nUk2Q4A9Uwm/qql7OKFOllIjNNwCPQsZ44U0O
-	V5wcqQEyz/BqftJ8P0naQsCeSFkkok3AwgirkkSBa6EuCge8HSQRQ44csC4izzJfII5n
-	WolY7NpUnQPsX/u2bHLIEoRpxCoApDgcm/DZymsDj2DKOshnpEx5+9bCro7xkt2u30W9
-	wrlXKsrRZH1Im+yuKA+garqjUiZuIAjFw4CdSRC31Gqk9eJAY3YnMVQ5wjNO9KSgcri6
-	RDnltL3CZQieih5jMdYzQOUDZKwkiryZTtjB8UtEtvU23XR0u25vbzc4DDQwB+fO6aeF
-	ACFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=QOox9FISCuWlwQqSTeRYOwWwVBajtTHnvSJoqfff19Q=;
-	b=CCGZTUCi/NjpIw6vj0m7nHg1AKpMaQX8G7gRjGr7Wr2/TAa5wcg/QirLOlZP8efVKf
-	veDV66JdVfBoH2ktt2Zl0pJHFkCj49ee5w5slXuufVORHtim/R6MYarqsw0AcmGNFa3c
-	caAiPTRH/FzOvktgQlAlEJgNZ/j84qLIl55V7vjk1CDUgbwMQNbyAcxRLuki4I2ulXy2
-	WAFbQLlszjFUT48xjRDvNUjcihLoqnbJBQWZ1YMFLe1cP51h637vUIA3MRb1/MVZux3V
-	o+YUw2IwubtdmV4knp/mSDTbiD2Uh5K4Yr6bNclNJV0QL27hvSuv6LdEd0+mLRBJSqau
-	MIZw==
-X-Gm-Message-State: AIkVDXJuKOHLsz5u3huzV1RqBnOWZKm1cTNGXfLnvH2uGvZ2T1pV2zCZUxBbwA42lNcmKrKQ3+GX2pW4tyagRA==
-X-Received: by 10.157.44.153 with SMTP id p25mr1544586otb.27.1485449738368;
-	Thu, 26 Jan 2017 08:55:38 -0800 (PST)
+	Thu, 26 Jan 2017 17:11:40 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 26 Jan 2017 09:11:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,290,1477983600"; d="scan'208";a="1118215396"
+Received: from mbabyjoh-desk.fi.intel.com (HELO
+	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
+	by fmsmga002.fm.intel.com with ESMTP; 26 Jan 2017 09:11:39 -0800
+Date: Thu, 26 Jan 2017 19:11:30 +0200
+From: "Maxin B. John" <maxin.john@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20170126171129.GA19664@mbabyjoh-desk.ger.corp.intel.com>
+References: <1485165540-16646-1-git-send-email-maxin.john@intel.com>
+	<1485165540-16646-2-git-send-email-maxin.john@intel.com>
+	<CAJTo0Lb8z9QbKF5qebO+54tqPe9rnZEXSd7EHMgXnK6XAZ1Lsw@mail.gmail.com>
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.157.5.8 with HTTP; Thu, 26 Jan 2017 08:55:17 -0800 (PST)
-In-Reply-To: <20170126164518.23219-1-freesilicon@gmail.com>
-References: <20170126164518.23219-1-freesilicon@gmail.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Thu, 26 Jan 2017 09:55:17 -0700
-X-Google-Sender-Auth: RuG3ALlhnWG2pwxI4eDQekMJfo0
-Message-ID: <CABcZANku1Wz5zdouv5e1sCp8FgHRBWMQTdTQ6-mN3Bot8rg8eQ@mail.gmail.com>
-To: David Vincent <freesilicon@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] busybox: conditional inclusion of login utilities
+In-Reply-To: <CAJTo0Lb8z9QbKF5qebO+54tqPe9rnZEXSd7EHMgXnK6XAZ1Lsw@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4] libtasn1: Upgrade 4.9 -> 4.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,71 +34,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jan 2017 16:55:39 -0000
-Content-Type: multipart/alternative; boundary=001a113b12fafcbdba0547023745
+X-List-Received-Date: Thu, 26 Jan 2017 17:11:46 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---001a113b12fafcbdba0547023745
-Content-Type: text/plain; charset=UTF-8
+Hi Ross,
 
-On Thu, Jan 26, 2017 at 9:45 AM, David Vincent <freesilicon@gmail.com>
-wrote:
-
-> diff --git a/meta/recipes-core/busybox/busybox_git.bb
-> b/meta/recipes-core/busybox/busybox_git.bb
-> index c2ee3e6c4b..4213ef4b1e 100644
-> --- a/meta/recipes-core/busybox/busybox_git.bb
-> +++ b/meta/recipes-core/busybox/busybox_git.bb
-> @@ -31,7 +31,7 @@ SRC_URI = "git://busybox.net/busybox.git \
->             file://run-ptest \
->             file://inetd.conf \
->             file://inetd \
-> -           file://login-utilities.cfg \
-> +           ${@["", "file://login-utilities.cfg"][
-> (d.getVar('VIRTUAL-RUNTIME_login_manager') == 'busybox')]} \
->             file://recognize
+>On Thu, Jan 26, 2017 at 10:20:16AM +0000, Burton, Ross wrote:
+>>On 23 January 2017 at 09:58, Maxin B. John <maxin.john@intel.com> wrote:
+>>
+>>    Removed the following Backported patches:
+>>         1. 0001-configure-don-t-add-Werror-to-build-flags.patch
+>
+> This breaks on musl in the most amusing way:
+>
+> |                  from ../../libtasn1-4.10/gl/getopt.c:28:
+> | ./stdint.h:89:5: error: #if with no expression
+> |  #if
+> |      ^
 >
 
-Question, why not use ${PN} here?
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Senior Software Engineer, Mentor Graphics
+For some strange reasons, this build error hasn't occured in my musl
+test build before sending the patch. 
 
---001a113b12fafcbdba0547023745
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+> When it says stdint.h it doesn't mean the system stdint.h because that
+> would be too sensible.  libtasn1 uses gnulib which writes its own system
+> headers, so this is in fact build/gl/stdint.h which does indeed just 
+> do '#if '.  The source for this file is gl/stdint.in.h in this block:
+>
+> /* Override WINT_MIN and WINT_MAX if gnulib's <wchar.h> or <wctype.h> overrides
+> wint_t.  */
+> #if @GNULIB_OVERRIDES_WINT_T@
+> # undef WINT_MIN
+> # undef WINT_MAX
+> # define WINT_MIN 0x0U
+> # define WINT_MAX 0xffffffffU
+> #endif
+>
+>For some reason when this executes @GNULIB_OVERRIDES_WINT_T@ isn't defined.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Thu, Jan 26, 2017 at 9:45 AM, David Vincent <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:freesilicon@gmail.com" target=3D"_blank">freesilicon@gmail.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1ji" cl=
-ass=3D"a3s aXjCH m159dbacee1f49e12">diff --git a/meta/recipes-core/busybox/=
-<a href=3D"http://busybox_git.bb" rel=3D"noreferrer" target=3D"_blank">bu<w=
-br>sybox_git.bb</a> b/meta/recipes-core/busybox/<a href=3D"http://busybox_g=
-it.bb" rel=3D"noreferrer" target=3D"_blank">bu<wbr>sybox_git.bb</a><br>
-index c2ee3e6c4b..4213ef4b1e 100644<br>
---- a/meta/recipes-core/busybox/<a href=3D"http://busybox_git.bb" rel=3D"no=
-referrer" target=3D"_blank">bu<wbr>sybox_git.bb</a><br>
-+++ b/meta/recipes-core/busybox/<a href=3D"http://busybox_git.bb" rel=3D"no=
-referrer" target=3D"_blank">bu<wbr>sybox_git.bb</a><br>
-@@ -31,7 +31,7 @@ SRC_URI =3D &quot;git://<a href=3D"http://busybox.net/bus=
-ybox.git" rel=3D"noreferrer" target=3D"_blank">busybox.net/busybox.git</a> =
-\<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://run-ptest \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://inetd.conf \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://inetd \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://login-utilities.cfg \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@[&quot;&quot;, &quot;file://lo=
-gin-utilities.cfg&quot;][<wbr>(d.getVar(&#39;VIRTUAL-RUNTIME_<wbr>login_man=
-ager&#39;) =3D=3D &#39;busybox&#39;)]} \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://recognize</div></blockquot=
-e></div><br>Question, why not use ${PN} here?<br>-- <br><div class=3D"gmail=
-_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div>Christ=
-opher Larson<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedd=
-ed, OpenZaurus<br>Senior Software Engineer, Mentor Graphics</div></div></di=
-v>
-</div></div>
+The build error is due to this change:
+http://git.savannah.gnu.org/cgit/gnulib.git/commit/?id=5a400b3f5a1f5483dbfd75d38bdb7080218a063b
 
---001a113b12fafcbdba0547023745--
+*  m4/stdint.m4 (gl_STDINT_H): Don't define GNULIB_OVERRIDES_WINT_T.
+
+will send a v2 to fix this.
+
+>Cheers,
+>Ross
+
+Thanks and Regards,
+Maxin
+
