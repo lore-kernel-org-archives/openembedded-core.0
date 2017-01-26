@@ -1,28 +1,47 @@
-Return-Path: <d.schultz@phytec.de>
-Received: from root.phytec.de (mail.rapiddevelopmentkit.de [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B72571DBE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
+	[209.85.216.179])
+	by mail.openembedded.org (Postfix) with ESMTP id D091071DDF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 10:15:24 +0000 (UTC)
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id CACBCA00D91
+	Thu, 26 Jan 2017 10:20:36 +0000 (UTC)
+Received: by mail-qt0-f179.google.com with SMTP id x49so66013838qtc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 11:15:35 +0100 (CET)
-Received: from augenblix.phytec.de ([172.16.0.56])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-	with ESMTP id 2017012611152437-130782 ;
-	Thu, 26 Jan 2017 11:15:24 +0100 
-From: Daniel Schultz <d.schultz@phytec.de>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Jan 2017 11:15:24 +0100
-Message-Id: <1485425724-4927-1-git-send-email-d.schultz@phytec.de>
-X-Mailer: git-send-email 1.9.1
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
-	17, 2016) at 26.01.2017 11:15:24,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17,
-	2016) at 26.01.2017 11:15:24,
-	Serialize complete at 26.01.2017 11:15:24
-X-TNEFEvaluated: 1
-Subject: [PATCH v2] cryptodev: Fix changed mm interface in Kernel 4.9
+	Thu, 26 Jan 2017 02:20:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=bmjyMs4TD4mUb7GNAO5/gXZEnGLBf+YJrfEwcNQDL/I=;
+	b=zkT3TUpUMbSgBt/rjXzRe30SUaEnloUgxUfH7BmThp+a5x+ax88L1UJZ9A+ODkd5z+
+	bXfQ/8zftrUEbiy5CdDEme2lIxtkC7gAhv62bUyZvXjxgnPLRGKa8/p98RYJyd8ZyYvB
+	x/Kzts5noD8YdjqExoeyKSq/Mal6vo3DosZlNBjkocQIRXRj3DYRVWhvbH4HxLZUJ5Fc
+	tsRg9EaTqSFskcK1c8Bk0UPEX752+Bc1wHPNkIzJXRy8Sk4+xMkmBvf6UR0ERS/qFGec
+	k8W9SBDo8umscXSqwqfoYKeetNhFJB4X24yVSoOKhWdGp7Vf0dSj0hMPBOZDid5dUTJE
+	xqHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=bmjyMs4TD4mUb7GNAO5/gXZEnGLBf+YJrfEwcNQDL/I=;
+	b=Vq0a4U/GSMkMV69az2NXmKyUCPHtV8cE1Alur3DjZHD1D3c0i054OCc58hN/DHk92T
+	o+/kEs3eZquxrgTMlsx00qeZoVpOs2m+mnS45L+EbJv6EmrvO+QVDBKxpwUXcGVozIiD
+	HknPaFIs9FUT7s/1GjRge2DLGzLy1WgDrQsGtQmFQm0cG/txd2QVHDsktqtO+ClOtI6A
+	G0A0o1SEj5tnW/PLSCE0kvGn29k+qg7rWCwLAdA08YYVh47w+j6HD8VMsUoJsFyO5N2B
+	k4bysK40O6GJUtENpKEZWwc4HOf6UUqon3ZnJ8jxwawMVE8dGjbcJ4a4ltm0hX+n9IvM
+	qZ1w==
+X-Gm-Message-State: AIkVDXKcl5h3LOqwdL1uP/MetUrND3a5fh17VuGD8mf2LE9maf0r963TPb1iBZdlIQWCJPbnb3pj2nwhgeq3Rh1+
+X-Received: by 10.55.183.133 with SMTP id h127mr1958457qkf.121.1485426036538; 
+	Thu, 26 Jan 2017 02:20:36 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.103.233 with HTTP; Thu, 26 Jan 2017 02:20:16 -0800 (PST)
+In-Reply-To: <1485165540-16646-2-git-send-email-maxin.john@intel.com>
+References: <1485165540-16646-1-git-send-email-maxin.john@intel.com>
+	<1485165540-16646-2-git-send-email-maxin.john@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 26 Jan 2017 10:20:16 +0000
+Message-ID: <CAJTo0Lb8z9QbKF5qebO+54tqPe9rnZEXSd7EHMgXnK6XAZ1Lsw@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4] libtasn1: Upgrade 4.9 -> 4.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,83 +54,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jan 2017 10:15:25 -0000
+X-List-Received-Date: Thu, 26 Jan 2017 10:20:49 -0000
+Content-Type: multipart/alternative; boundary=94eb2c0600563f97f60546fcb30b
 
-The memory management interface has changed in Kernel 4.9.
+--94eb2c0600563f97f60546fcb30b
+Content-Type: text/plain; charset=UTF-8
 
-This patch adds a patch which fixes the paramter of the function call.
+On 23 January 2017 at 09:58, Maxin B. John <maxin.john@intel.com> wrote:
 
-Backport from https://github.com/cryptodev-linux/cryptodev-linux
-Based on commit f126e4837e6334d0464540995df7426fedf6b175
+> Removed the following Backported patches:
+>  1. 0001-configure-don-t-add-Werror-to-build-flags.patch
+>  2. 0002-ASN.y-corrected-compiler-warning.patch
+>  3. 0003-parser_aux-corrected-potential-null-pointer-derefere.patch
+>  4. 0004-tools-eliminated-compiler-warnings.patch
+>
+> Signed-off-by: Maxin B. John <maxin.john@intel.com>
+>
 
-Upstream-Status: Backport
+This breaks on musl in the most amusing way:
 
-Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
----
- meta/recipes-kernel/cryptodev/cryptodev.inc        |  3 +-
- ...st-to-another-change-in-the-user-page-API.patch | 38 ++++++++++++++++++++++
- 2 files changed, 40 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-kernel/cryptodev/files/0001-Adjust-to-another-change-in-the-user-page-API.patch
+|                  from ../../libtasn1-4.10/gl/getopt.c:28:
+| ./stdint.h:89:5: error: #if with no expression
+|  #if
+|      ^
 
-diff --git a/meta/recipes-kernel/cryptodev/cryptodev.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
-index 160ab30..6241238 100644
---- a/meta/recipes-kernel/cryptodev/cryptodev.inc
-+++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
-@@ -5,7 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
- SRC_URI = "http://download.gna.org/cryptodev-linux/cryptodev-linux-${PV}.tar.gz \
-            file://06d6b560c6e45dc317dae47c74706fa43f4a31d8.patch \
--           file://cb186f682679383e8b5806240927903730ce85d9.patch"
-+           file://cb186f682679383e8b5806240927903730ce85d9.patch \
-+           file://0001-Adjust-to-another-change-in-the-user-page-API.patch"
- 
- SRC_URI[md5sum] = "02644cc4cd02301e0b503a332eb2f0b5"
- SRC_URI[sha256sum] = "67fabde9fb67b286a96c4f45b594b0eccd0f761b495705c18f2ae9461b831376"
-diff --git a/meta/recipes-kernel/cryptodev/files/0001-Adjust-to-another-change-in-the-user-page-API.patch b/meta/recipes-kernel/cryptodev/files/0001-Adjust-to-another-change-in-the-user-page-API.patch
-new file mode 100644
-index 0000000..c001b6f
---- /dev/null
-+++ b/meta/recipes-kernel/cryptodev/files/0001-Adjust-to-another-change-in-the-user-page-API.patch
-@@ -0,0 +1,38 @@
-+From f126e4837e6334d0464540995df7426fedf6b175 Mon Sep 17 00:00:00 2001
-+From: Michael Weiser <michael.weiser@gmx.de>
-+Date: Fri, 11 Nov 2016 18:09:32 +0100
-+Subject: [PATCH] Adjust to another change in the user page API
-+
-+4.9.0 will replace the write and force flags of get_user_pages_remote()
-+with a gup_flags parameter[1]. Distinguish the two APIs based on kernel
-+version we're compiling for.
-+
-+[1] https://github.com/torvalds/linux/commit/9beae1ea89305a9667ceaab6d0bf46a045ad71e7
-+
-+Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
-+---
-+ zc.c | 8 +++++++-
-+ 1 file changed, 7 insertions(+), 1 deletion(-)
-+
-+diff --git a/zc.c b/zc.c
-+index a97b49f..e766ee3 100644
-+--- a/zc.c
-++++ b/zc.c
-+@@ -65,7 +65,13 @@ int __get_userbuf(uint8_t __user *addr, uint32_t len, int write,
-+ 	ret = get_user_pages(
-+ #endif
-+ 			task, mm,
-+-			(unsigned long)addr, pgcount, write, 0, pg, NULL);
-++			(unsigned long)addr, pgcount,
-++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 9, 0))
-++			write ? FOLL_WRITE : 0,
-++#else
-++			write, 0,
-++#endif
-++			pg, NULL);
-+ 	up_read(&mm->mmap_sem);
-+ 	if (ret != pgcount)
-+ 		return -EINVAL;
-+-- 
-+1.9.1
-+
--- 
-1.9.1
+When it says stdint.h it doesn't mean the system stdint.h because that
+would be too sensible.  libtasn1 uses gnulib which writes its own system
+headers, so this is in fact build/gl/stdint.h which does indeed just do
+'#if '.  The source for this file is gl/stdint.in.h in this block:
 
+/* Override WINT_MIN and WINT_MAX if gnulib's <wchar.h> or <wctype.h>
+overrides
+   wint_t.  */
+#if @GNULIB_OVERRIDES_WINT_T@
+# undef WINT_MIN
+# undef WINT_MAX
+# define WINT_MIN 0x0U
+# define WINT_MAX 0xffffffffU
+#endif
 
+For some reason when this executes @GNULIB_OVERRIDES_WINT_T@ isn't defined.
+
+Cheers,
+Ross
+
+--94eb2c0600563f97f60546fcb30b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 23 January 2017 at 09:58, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border=
+-left-style:solid;padding-left:1ex"><div id=3D"gmail-:7m" class=3D"gmail-a3=
+s gmail-aXjCH gmail-m159cac4ddfd33723">Removed the following Backported pat=
+ches:<br>
+=C2=A01. 0001-configure-don-t-add-<wbr>Werror-to-build-flags.patch<br>
+=C2=A02. 0002-ASN.y-corrected-compiler-<wbr>warning.patch<br>
+=C2=A03. 0003-parser_aux-corrected-<wbr>potential-null-pointer-<wbr>derefer=
+e.patch<br>
+=C2=A04. 0004-tools-eliminated-<wbr>compiler-warnings.patch<br>
+<br>
+Signed-off-by: Maxin B. John &lt;<a href=3D"mailto:maxin.john@intel.com">ma=
+xin.john@intel.com</a>&gt;</div></blockquote></div><br>This breaks on musl =
+in the most amusing way:<br></div><div class=3D"gmail_extra"><br></div><div=
+ class=3D"gmail_extra"><div class=3D"gmail_extra">| =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from ../../libtasn1-4.10/gl/getopt=
+.c:28:</div><div class=3D"gmail_extra">| ./stdint.h:89:5: error: #if with n=
+o expression</div><div class=3D"gmail_extra">| =C2=A0#if</div><div class=3D=
+"gmail_extra">| =C2=A0 =C2=A0 =C2=A0^</div><div class=3D"gmail_extra"><br><=
+/div><div class=3D"gmail_extra">When it says stdint.h it doesn&#39;t mean t=
+he system stdint.h because that would be too sensible. =C2=A0libtasn1 uses =
+gnulib which writes its own system headers, so this is in fact build/gl/std=
+int.h which does indeed just do &#39;#if &#39;.=C2=A0 The source for this f=
+ile is gl/stdint.in.h in this block:</div><div class=3D"gmail_extra"><br></=
+div><div class=3D"gmail_extra"><div class=3D"gmail_extra">/* Override WINT_=
+MIN and WINT_MAX if gnulib&#39;s &lt;wchar.h&gt; or &lt;wctype.h&gt; overri=
+des</div><div class=3D"gmail_extra">=C2=A0 =C2=A0wint_t. =C2=A0*/</div><div=
+ class=3D"gmail_extra">#if @GNULIB_OVERRIDES_WINT_T@</div><div class=3D"gma=
+il_extra"># undef WINT_MIN</div><div class=3D"gmail_extra"># undef WINT_MAX=
+</div><div class=3D"gmail_extra"># define WINT_MIN 0x0U</div><div class=3D"=
+gmail_extra"># define WINT_MAX 0xffffffffU</div><div class=3D"gmail_extra">=
+#endif</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"=
+>For some reason when this executes @GNULIB_OVERRIDES_WINT_T@ isn&#39;t def=
+ined.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
+Cheers,</div><div class=3D"gmail_extra">Ross</div></div></div></div>
+
+--94eb2c0600563f97f60546fcb30b--
