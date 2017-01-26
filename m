@@ -1,28 +1,30 @@
-Return-Path: <d.schultz@phytec.de>
-Received: from root.phytec.de (mail.visioncatalog.de [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 60C0E76536
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 3BA1771C5F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 13:44:56 +0000 (UTC)
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id 7B4B3A00DBD
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 14:45:07 +0100 (CET)
-Received: from augenblix.phytec.de ([172.16.0.56])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-	with ESMTP id 2017012614445589-132035 ;
-	Thu, 26 Jan 2017 14:44:55 +0100 
-From: Daniel Schultz <d.schultz@phytec.de>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Jan 2017 14:44:56 +0100
-Message-Id: <1485438296-5660-1-git-send-email-d.schultz@phytec.de>
-X-Mailer: git-send-email 1.9.1
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
-	17, 2016) at 26.01.2017 14:44:55,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17,
-	2016) at 26.01.2017 14:44:55,
-	Serialize complete at 26.01.2017 14:44:55
-X-TNEFEvaluated: 1
-Subject: [PATCH v3] cryptodev: Fix changed mm interface in Kernel 4.9
+	Thu, 26 Jan 2017 15:15:28 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga101.fm.intel.com with ESMTP; 26 Jan 2017 07:15:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,289,1477983600"; d="scan'208";a="52652422"
+Received: from unknown (HELO [10.219.4.164]) ([10.219.4.164])
+	by orsmga004.jf.intel.com with ESMTP; 26 Jan 2017 07:15:28 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Christopher Larson <clarson@kergoth.com>
+References: <cover.1485247027.git.mariano.lopez@linux.intel.com>
+	<f375139dfac77be3c12335a6a302582368ceeb13.1485247027.git.mariano.lopez@linux.intel.com>
+	<CABcZANn9jc51biiwD=0v9izwzovbpwaE0bLtnpBX3VE=oVLfiQ@mail.gmail.com>
+	<1485345378.30673.88.camel@linuxfoundation.org>
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
+Message-ID: <9d6ac8ff-f401-06fd-689c-05bf11eb209d@linux.intel.com>
+Date: Thu, 26 Jan 2017 09:16:34 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.6.0
+MIME-Version: 1.0
+In-Reply-To: <1485345378.30673.88.camel@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] package_ipk.bbclass: Add check for empty lines in DESCRIPTION
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,83 +37,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jan 2017 13:44:57 -0000
+X-List-Received-Date: Thu, 26 Jan 2017 15:15:29 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-The memory management interface has changed in Kernel 4.9.
 
-This patch adds a patch which fixes the paramter of the function call.
 
-Backport from https://github.com/cryptodev-linux/cryptodev-linux
-Based on commit f126e4837e6334d0464540995df7426fedf6b175
+On 25/01/17 05:56, Richard Purdie wrote:
+> On Tue, 2017-01-24 at 11:52 -0700, Christopher Larson wrote:
+>> On Tue, Jan 24, 2017 at 1:37 AM, <mariano.lopez@linux.intel.com>
+>> wrote:
+>>> From: Mariano Lopez <mariano.lopez@linux.intel.com>
+>>>
+>>> opkg uses empty lines as separator for next package and if an ipk
+>>> file was packaged with empty lines in DESCRIPTION opkg won't be
+>>> able to handle such ipk file, this happens at execution time.
+>>>
+>>> This commit will add a check for empty lines in DESCRIPTION when
+>>> generating to ipk package to avoid this issue.
+>>>
+>>> [YOCTO #10677]
+>>>
+>>> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+>>>
+>> Could it handle a line with just a space, or a period? Could you not
+>> replace the lines with that instead, rather than aborting?
+> FWIW package_deb uses ".".
 
-Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
----
- meta/recipes-kernel/cryptodev/cryptodev.inc        |  3 +-
- ...st-to-another-change-in-the-user-page-API.patch | 40 ++++++++++++++++++++++
- 2 files changed, 42 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-kernel/cryptodev/files/0001-Adjust-to-another-change-in-the-user-page-API.patch
+Also opkg will strip() the lines, so an empty space is not a option here.
 
-diff --git a/meta/recipes-kernel/cryptodev/cryptodev.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
-index 160ab30..6241238 100644
---- a/meta/recipes-kernel/cryptodev/cryptodev.inc
-+++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
-@@ -5,7 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
- SRC_URI = "http://download.gna.org/cryptodev-linux/cryptodev-linux-${PV}.tar.gz \
-            file://06d6b560c6e45dc317dae47c74706fa43f4a31d8.patch \
--           file://cb186f682679383e8b5806240927903730ce85d9.patch"
-+           file://cb186f682679383e8b5806240927903730ce85d9.patch \
-+           file://0001-Adjust-to-another-change-in-the-user-page-API.patch"
- 
- SRC_URI[md5sum] = "02644cc4cd02301e0b503a332eb2f0b5"
- SRC_URI[sha256sum] = "67fabde9fb67b286a96c4f45b594b0eccd0f761b495705c18f2ae9461b831376"
-diff --git a/meta/recipes-kernel/cryptodev/files/0001-Adjust-to-another-change-in-the-user-page-API.patch b/meta/recipes-kernel/cryptodev/files/0001-Adjust-to-another-change-in-the-user-page-API.patch
-new file mode 100644
-index 0000000..fb75278
---- /dev/null
-+++ b/meta/recipes-kernel/cryptodev/files/0001-Adjust-to-another-change-in-the-user-page-API.patch
-@@ -0,0 +1,40 @@
-+From f126e4837e6334d0464540995df7426fedf6b175 Mon Sep 17 00:00:00 2001
-+From: Michael Weiser <michael.weiser@gmx.de>
-+Date: Fri, 11 Nov 2016 18:09:32 +0100
-+Subject: [PATCH] Adjust to another change in the user page API
-+
-+4.9.0 will replace the write and force flags of get_user_pages_remote()
-+with a gup_flags parameter[1]. Distinguish the two APIs based on kernel
-+version we're compiling for.
-+
-+[1] https://github.com/torvalds/linux/commit/9beae1ea89305a9667ceaab6d0bf46a045ad71e7
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
-+---
-+ zc.c | 8 +++++++-
-+ 1 file changed, 7 insertions(+), 1 deletion(-)
-+
-+diff --git a/zc.c b/zc.c
-+index a97b49f..e766ee3 100644
-+--- a/zc.c
-++++ b/zc.c
-+@@ -65,7 +65,13 @@ int __get_userbuf(uint8_t __user *addr, uint32_t len, int write,
-+ 	ret = get_user_pages(
-+ #endif
-+ 			task, mm,
-+-			(unsigned long)addr, pgcount, write, 0, pg, NULL);
-++			(unsigned long)addr, pgcount,
-++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 9, 0))
-++			write ? FOLL_WRITE : 0,
-++#else
-++			write, 0,
-++#endif
-++			pg, NULL);
-+ 	up_read(&mm->mmap_sem);
-+ 	if (ret != pgcount)
-+ 		return -EINVAL;
-+-- 
-+1.9.1
-+
--- 
-1.9.1
+>
+> Also, please use bb.fatal() calls with caution, I just removed several
+> from that class. In this case its perhaps ok but often the correct
+> thing to do is raise an exception of some kind. This means bitbake will
+> generate a usable traceback rather than simply printing the fatal
+> message. In this case the message is probably fine but there were
+> several cases where a traceback was a much better idea as the fatal
+> message wasn't enough to debug with.
 
+Fair enough, I will consider this advice when using bb.fatal()
+
+Regards,
+Mariano
 
