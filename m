@@ -1,26 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F228731CF
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FB6871E5F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 13:04:26 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga102.fm.intel.com with ESMTP; 26 Jan 2017 05:04:27 -0800
+	Thu, 26 Jan 2017 13:04:27 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga105.jf.intel.com with ESMTP; 26 Jan 2017 05:04:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,289,1477983600"; d="scan'208";a="52621260"
+X-IronPort-AV: E=Sophos;i="5.33,289,1477983600"; d="scan'208";a="926886773"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga004.jf.intel.com with ESMTP; 26 Jan 2017 05:04:27 -0800
+	by orsmga003.jf.intel.com with ESMTP; 26 Jan 2017 05:04:28 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 722E16A4006
+	by linux.intel.com (Postfix) with ESMTP id 86AAC6A4006
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 05:03:29 -0800 (PST)
+	Thu, 26 Jan 2017 05:03:30 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Jan 2017 14:40:38 +0200
-Message-Id: <7c5835d6d1c456ca478f557d3bee63bb9ca0bf09.1485434085.git.ed.bartosh@linux.intel.com>
+Date: Thu, 26 Jan 2017 14:40:39 +0200
+Message-Id: <2d28365d13d5ea7906481f711e5c4a43e2ee97b3.1485434085.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1485434085.git.ed.bartosh@linux.intel.com>
 References: <cover.1485434085.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v2 10/14] wic: isoimage-isohybrid: stop using HDDDIR
+Subject: [PATCH v2 11/14] image-wic: remove HDDDIR from WICVARS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,50 +35,43 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 26 Jan 2017 13:04:27 -0000
 
-Stop using HDDDIR in isoimage-isohybrid wic plugin.
-This variable is set by hddimg code, which is going to be
-removed soon.
-
-All required artifacts should be available from ISODIR.
-wic-image.bbclass has been modified to build iso artifacts,
-so it should be safe to remove usage of HDDDIR.
-
-[YOCTO #10835]
+Removed HDDDIR as it's not used by wic anymore.
+Stopped usage of HDDDIR in wic test suite.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ meta/classes/image-wic.bbclass | 2 +-
+ meta/lib/oeqa/selftest/wic.py  | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-index fd25190..a637ce5 100644
---- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-+++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-@@ -249,12 +249,8 @@ class IsoImagePlugin(SourcePlugin):
-         part.rootfs_dir = rootfs_dir
+diff --git a/meta/classes/image-wic.bbclass b/meta/classes/image-wic.bbclass
+index df9f33a..be3e6d4 100644
+--- a/meta/classes/image-wic.bbclass
++++ b/meta/classes/image-wic.bbclass
+@@ -1,7 +1,7 @@
+ # The WICVARS variable is used to define list of bitbake variables used in wic code
+ # variables from this list is written to <image>.env file
+ WICVARS ?= "\
+-           BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE FAKEROOTCMD HDDDIR IMAGE_BASENAME IMAGE_BOOT_FILES \
++           BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE FAKEROOTCMD IMAGE_BASENAME IMAGE_BOOT_FILES \
+            IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES INITRD INITRD_LIVE ISODIR MACHINE_ARCH \
+            RECIPE_SYSROOT_NATIVE ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR TARGET_SYS"
  
-         # Prepare rootfs.img
--        hdd_dir = get_bitbake_var("HDDDIR")
-         img_iso_dir = get_bitbake_var("ISODIR")
--
--        rootfs_img = "%s/rootfs.img" % hdd_dir
--        if not os.path.isfile(rootfs_img):
--            rootfs_img = "%s/rootfs.img" % img_iso_dir
-+        rootfs_img = "%s/rootfs.img" % img_iso_dir
-         if not os.path.isfile(rootfs_img):
-             # check if rootfs.img is in deploydir
-             deploy_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
-@@ -283,9 +279,7 @@ class IsoImagePlugin(SourcePlugin):
-             os.remove(part.source_file)
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index 8415c69..4843060 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -364,8 +364,8 @@ class Wic(oeSelfTest):
  
-         # Prepare initial ramdisk
--        initrd = "%s/initrd" % hdd_dir
--        if not os.path.isfile(initrd):
--            initrd = "%s/initrd" % img_iso_dir
-+        initrd = "%s/initrd" % img_iso_dir
-         if not os.path.isfile(initrd):
-             initrd = cls._build_initramfs_path(rootfs_dir, cr_workdir)
- 
+         wicvars = set(get_bb_var('WICVARS', image).split())
+         # filter out optional variables
+-        wicvars = wicvars.difference(('HDDDIR', 'IMAGE_BOOT_FILES',
+-                                      'INITRD', 'INITRD_LIVE', 'ISODIR'))
++        wicvars = wicvars.difference(('IMAGE_BOOT_FILES', 'INITRD',
++                                      'INITRD_LIVE', 'ISODIR'))
+         with open(path) as envfile:
+             content = dict(line.split("=", 1) for line in envfile)
+             # test if variables used by wic present in the .env file
 -- 
 2.1.4
 
