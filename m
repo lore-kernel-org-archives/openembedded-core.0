@@ -1,46 +1,32 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wj0-f194.google.com (mail-wj0-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 345DE731D1
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A1FF731D8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 13:04:37 +0000 (UTC)
-Received: by mail-wj0-f194.google.com with SMTP id i7so4593336wjf.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 05:04:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=KF/0H+ihYVBULUye2Qfth3eudpDUIBxTaijnOvOD1Co=;
-	b=R8zJ4HNkz3C1BZtjcoi+X4g2mXFQkQLkT28Tk6WrDEwBy2JrvobUtnMSDmHdcL/MSs
-	dsByTS55iUSz+q6yjXwIm331hjXeNXcm9Y+4/UsszD+55Uk5E/ncIT7S0dBTe/KloynI
-	IXhDin7UOhvEzNMBokwSui0PPtAHgNvfGH/LyR7D29r2f9FZBoR0pi1FaA2y4ZPWFuT5
-	UR51kSNGs+BjcrlRA72lfvp3PWkS4ITY3MwQ9HLkYuuRdFJs3XCXFobyU9JQGQyuQzYD
-	qRU2myqfz4aXopKXMTezNWhAlhWB9adiMzRx260MLsO3AFAJ82z2Tg2a4bjHX2GEKASP
-	xQtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=KF/0H+ihYVBULUye2Qfth3eudpDUIBxTaijnOvOD1Co=;
-	b=Us3XYDJK0R4Fzcf8sgPioUw48AcTEUhTGpwMKFo27KCx429PMLeJabIkXSa4mF+aiU
-	Z/rRxXv1I2JJKhHLGpQCBEGX1qoP2XCI+lNZztOTIHt2+m8wHuXohcSrcFad+pA7AEzc
-	W9TrFjHPouECoCJeRmaeARI9WedwdCt9UqxJbYKgkvmAq8CVsxkOjh3R6EbL4yTfGG7m
-	D8g2dIS7/how2QqeA8Hwbs0QqATPkEczckx6sovfjq0fgnRrAC1nie6qWcASSvXjbGGQ
-	IEzT7TlYJ1X1ADUJw/0MV9m/h5RMItW9hGWJiIfezhDJSZqoLwcOQ1ePsjWW+xgpSqen
-	xUyw==
-X-Gm-Message-State: AIkVDXLNUkDEHhV6DZ6n7RzdfVAqnPgXZyct9puVMkV63P0o26YCGkO22cERQuw8ZRfMwA==
-X-Received: by 10.223.136.197 with SMTP id g5mr2550520wrg.56.1485435877999;
-	Thu, 26 Jan 2017 05:04:37 -0800 (PST)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([106.116.224.150]) by smtp.gmail.com with ESMTPSA id
-	z67sm2465893wrb.49.2017.01.26.05.04.35
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 26 Jan 2017 05:04:37 -0800 (PST)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Jan 2017 14:04:28 +0100
-Message-Id: <1485435868-1879-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Cc: yue.tao@windriver.com, Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH] package_manager.py: fix issues when dealing with FEED_DEPLOYDIR_BASE_URI
+	Thu, 26 Jan 2017 13:09:28 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	26 Jan 2017 05:09:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,289,1477983600"; d="scan'208";a="1087535157"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga001.jf.intel.com with ESMTP; 26 Jan 2017 05:09:25 -0800
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id A1E3D6A4006;
+	Thu, 26 Jan 2017 05:08:27 -0800 (PST)
+Date: Thu, 26 Jan 2017 14:47:01 +0200
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Jukka Laitinen <jukka.laitinen@intel.com>
+Message-ID: <20170126124701.GA28320@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <1485445413-10553-1-git-send-email-jukka.laitinen@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1485445413-10553-1-git-send-email-jukka.laitinen@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wic: partitionedfs: set partition name for gpt partitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,44 +39,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jan 2017 13:04:38 -0000
+X-List-Received-Date: Thu, 26 Jan 2017 13:09:28 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+Hi Jukka,
 
-There are several flaws need fixing them:
-- The "/etc/opkg" should be "etc/opkg" when being passed to os.path.join
-- /etc/opkg directory does not exist in image rootfs, need create it.
-- There is a "\n" missing when writing path to feed conf file.
+On Thu, Jan 26, 2017 at 05:43:33PM +0200, Jukka Laitinen wrote:
+> Set proper gpt partition name for the partitions in case given
+> in the configuration
+> 
+> Signed-off-by: Jukka Laitinen <jukka.laitinen@intel.com>
+> ---
+>  scripts/lib/wic/utils/partitionedfs.py | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/utils/partitionedfs.py
+> index 721d514..ed67b9a 100644
+> --- a/scripts/lib/wic/utils/partitionedfs.py
+> +++ b/scripts/lib/wic/utils/partitionedfs.py
+> @@ -316,6 +316,13 @@ class Image():
+>                                  (part['num'], part['uuid'], disk['disk'].device),
+>                                  self.native_sysroot)
+>  
+> +            if part['label'] and disk['ptable_format'] == "gpt":
+> +                msger.debug("partition %d: set name to %s" % \
+> +                            (part['num'], part['label']))
+> +                exec_native_cmd("parted -s %s name %d %s" % \
+> +                                (disk['disk'].device, part['num'], part['label']),
+> +                                self.native_sysroot)
+> +
+>              if part['boot']:
+>                  flag_name = "legacy_boot" if disk['ptable_format'] == 'gpt' else "boot"
+>                  msger.debug("Set '%s' flag for partition '%s' on disk '%s'" % \
 
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
----
- meta/lib/oe/package_manager.py | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+Thank you for the patch!
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index f92f2b3..5d57563 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -1662,14 +1662,12 @@ class OpkgPM(OpkgDpkgPM):
-             NOTE: Development-helper feature, NOT a full-fledged feed.
-             """
-             if (self.d.getVar('FEED_DEPLOYDIR_BASE_URI') or "") != "":
-+                cfg_dir_name = os.path.join(self.target_rootfs, "etc/opkg")
-+                bb.utils.mkdirhier(cfg_dir_name)
-                 for arch in self.pkg_archs.split():
--                    cfg_file_name = os.path.join(self.target_rootfs,
--                                                 self.d.getVar("sysconfdir"),
--                                                 "opkg",
--                                                 "local-%s-feed.conf" % arch)
--
-+                    cfg_file_name = os.path.join(cfg_dir_name, "local-%s-feed.conf" % arch)
-                     with open(cfg_file_name, "w+") as cfg_file:
--                        cfg_file.write("src/gz local-%s %s/%s" %
-+                        cfg_file.write("src/gz local-%s %s/%s\n" %
-                                        (arch,
-                                         self.d.getVar('FEED_DEPLOYDIR_BASE_URI'),
-                                         arch))
--- 
-1.9.1
++1
 
+--
+Regards,
+Ed
 
