@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 9511A7723E;
-	Thu, 26 Jan 2017 15:25:05 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 7608A77240;
+	Thu, 26 Jan 2017 15:25:08 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Thu, 26 Jan 2017 15:25:06 -0000
-Message-ID: <20170126152506.4464.50660@do.openembedded.org>
-References: <1485425440-3583-1-git-send-email-richard.purdie@linuxfoundation.org>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Date: Thu, 26 Jan 2017 15:25:09 -0000
+Message-ID: <20170126152509.4465.83060@do.openembedded.org>
+References: <1485430097-10362-1-git-send-email-ed.bartosh@linux.intel.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1485425440-3583-1-git-send-email-richard.purdie@linuxfoundation.org>
+In-Reply-To: <1485430097-10362-1-git-send-email-ed.bartosh@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3RhZ2luZzogSGFuZGxlIG92ZXJsYXBwaW5nIGZpbGVzIGZvciBidWlsZC1zeXNyb290?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc2VsZnRlc3Q6IHdpYzogc3BsaXQgdGVzdF9kZWJ1ZyB0ZXN0IGNhc2U=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jan 2017 15:25:05 -0000
+X-List-Received-Date: Thu, 26 Jan 2017 15:25:08 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: staging: Handle overlapping files for build-sysroot
+Series: selftest: wic: split test_debug test case
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/4997/
+URL   : https://patchwork.openembedded.org/series/5000/
 State : failure
 
 == Summary ==
