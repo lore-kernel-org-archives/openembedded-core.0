@@ -1,48 +1,48 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id ABE85606A8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f174.google.com (mail-qt0-f174.google.com
+	[209.85.216.174])
+	by mail.openembedded.org (Postfix) with ESMTP id ED6EB71A72
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 13:29:45 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id d140so50660729wmd.2
+	Thu, 26 Jan 2017 13:36:04 +0000 (UTC)
+Received: by mail-qt0-f174.google.com with SMTP id k15so74939822qtg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 05:29:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Biz6w0T6SP7L/4QMLDnc6zav374cpUFCowDBHcW16n4=;
-	b=ewiV1rSF2LrsmlFhpYNPHI+uq6vzZq+Kw7eZi9HtTxdm13N5VAEDegSu8GnC1ABnGY
-	i5hkP/RelIVJdXfoV5HsrrVgh72lfTgGnHB3JAQandhFq75x4zP9sKGWZUn664MFVm5A
-	9NRbh4ehAijw+albFcrGYGj5Sv9J9UQfMaPth1tKC4AGo0A8GFcxgtMw7JpKuZk1tVr8
-	xk14udgxjuWNAsVSS+BKcvetxYA+hfTdARpDRWdCyQnqfwBIJz44BIfLDs/A0dyPXKUh
-	Uf88sSlPlawoZ95kYehy027s1zEglCZDgekGz2HmAJ3zRIhjG8ypAXYXOc9ThuLbNnL0
-	KtXw==
+	Thu, 26 Jan 2017 05:36:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=6LD83Quxy2ANpB6f317khv7cAjBrtwdjEZlRL8LHzig=;
+	b=Uu25pCJmqvH9qr7/mQzmv93ygcNBfu3PQ070Nik6dZv/EZAAdgfFplAnTIvrQg2K37
+	SJUvIfU10Z587sGuLPAMTN6SVpW1JFyrkox76BQyWALN4Nz9lY8DWFkCwKQzARHMutot
+	TslFyQR01mrYccSUa57M3DbYBZAVrlIcqXNrGRV8oebuQroWG4eC1tfFXid7dXswa87H
+	m8R8yUPQcZwy5SDeUd4xCX1Klh0NDaSg5PgyBdDMnFmxjJGUf72EOx2JABONCm2d3ATl
+	U8KnbLKiyfjs8SXhGj9K8V+TCSEkvptI+quSY5JXynJyBUSP7/yOoYEhcOwwOexpdtT0
+	JHEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=Biz6w0T6SP7L/4QMLDnc6zav374cpUFCowDBHcW16n4=;
-	b=qlZkibOjKsEq3pufqOKST7vhT1wd9zgyvB156eQoOwdZbl2DCJD5IhSf/ecFg7kdav
-	+x2+bX1RJzCiVZzHqdseOkLGEH5PhbfWT3rETzi3sLD+tMonWRCw9lkz08YxvSdtrB1M
-	g6ctskd/PoDgJiFJ7UJQy2rmUzj7IjhFVrkh8kFa90hsdctiZX6JPYznwbWnLlaGjf45
-	1U1mvuceh0mYoPyay0DvtCqQU7DL8EyaRd+XrsLsZDTTeuYDHK+d3FHVTM6lM9qywgXL
-	RpCgXGDwEwxAsvcrKFp0cqvcdtxaHx7adQiPIRCUMuAInN+dE470BNIuckwic9v3RVg4
-	/+Ng==
-X-Gm-Message-State: AIkVDXIPZcwDhNO80MFGnJMj43nBhcEm8KMgc4N3pfjB84RD3mPuhVAUx6C/oj+0A8aWQQ==
-X-Received: by 10.28.203.6 with SMTP id b6mr25769829wmg.2.1485437385512;
-	Thu, 26 Jan 2017 05:29:45 -0800 (PST)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([106.116.224.150]) by smtp.gmail.com with ESMTPSA id
-	a35sm2611227wra.21.2017.01.26.05.29.43
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 26 Jan 2017 05:29:44 -0800 (PST)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Jan 2017 14:29:32 +0100
-Message-Id: <1485437372-10456-2-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1485437372-10456-1-git-send-email-liu.ming50@gmail.com>
-References: <1485437372-10456-1-git-send-email-liu.ming50@gmail.com>
-Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH] meta: remove remaining True option to getVarFlag calls
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=6LD83Quxy2ANpB6f317khv7cAjBrtwdjEZlRL8LHzig=;
+	b=aZLgAS+ML1XTnjAJj0j9JYETmlHjtQiXJnl+d7s11RZ7XqoM4TDUNvAUV+CNMHz9RA
+	WHK1/N5yNTrPdGdkqubKOUWGe3Ms3V1m6rPeShdz8xorKkUDqdilTSs0l9oUPozyp6Qq
+	5A+OlPrG6MwL9scdXhJy6HjRVKdRJSUT9PNSgXMHPa4bOJo4Y09VklKaXZDElUnQZei1
+	foYfq1ZJRZHFScVl69C6WwAXZxI602QhG8w45N/xr20VSBE9GNCC7soLqaFQD6fyUUBY
+	6HHErJK2eOpHt3nvJace3bxdwgJQ8887KX1mq5GESSBifEfJU530ttqwoyRPSMzMNLxK
+	EavQ==
+X-Gm-Message-State: AIkVDXK1reGDfje3oLv8h+3qT+IIl1Wz3cK/k8Iw3/GGm7TDcn5caCgQnTWAtB+DLNKbHa5Mu2nrRT34CS1ZJTVv
+X-Received: by 10.55.176.194 with SMTP id z185mr2747440qke.26.1485437764589;
+	Thu, 26 Jan 2017 05:36:04 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.103.233 with HTTP; Thu, 26 Jan 2017 05:35:44 -0800 (PST)
+In-Reply-To: <1485435868-1879-1-git-send-email-liu.ming50@gmail.com>
+References: <1485435868-1879-1-git-send-email-liu.ming50@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 26 Jan 2017 13:35:44 +0000
+Message-ID: <CAJTo0LYeN-xYneneyaZzB145_5FKdC4e6bNqSbJQB3t7DtSjpg@mail.gmail.com>
+To: Ming Liu <liu.ming50@gmail.com>
+Cc: Yue Tao <yue.tao@windriver.com>,
+	Ming Liu <peter.x.liu@external.atlascopco.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] package_manager.py: fix issues when dealing with FEED_DEPLOYDIR_BASE_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,37 +55,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jan 2017 13:29:46 -0000
+X-List-Received-Date: Thu, 26 Jan 2017 13:36:08 -0000
+Content-Type: multipart/alternative; boundary=94eb2c060ce64b75a30546ff6e04
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+--94eb2c060ce64b75a30546ff6e04
+Content-Type: text/plain; charset=UTF-8
 
-This is a complementary fix to commit 2dea9e49:
-[ meta: remove True option to getVarFlag calls ]
+On 26 January 2017 at 13:04, <liu.ming50@gmail.com> wrote:
 
-it intended to remove all True option to getVarFlag calls, but there are
-still some remaining.
+> @@ -1662,14 +1662,12 @@ class OpkgPM(OpkgDpkgPM):
+>              NOTE: Development-helper feature, NOT a full-fledged feed.
+>              """
+>              if (self.d.getVar('FEED_DEPLOYDIR_BASE_URI') or "") != "":
+> +                cfg_dir_name = os.path.join(self.target_rootfs,
+> "etc/opkg")
+> +                bb.utils.mkdirhier(cfg_dir_name)
+>                  for arch in self.pkg_archs.split():
+> -                    cfg_file_name = os.path.join(self.target_rootfs,
+> -
+>  self.d.getVar("sysconfdir"),
+> -                                                 "opkg",
+> -                                                 "local-%s-feed.conf" %
+> arch)
+> -
+> +                    cfg_file_name = os.path.join(cfg_dir_name,
+> "local-%s-feed.conf" % arch)
+>                      with open(cfg_file_name, "w+") as cfg_file:
+> -                        cfg_file.write("src/gz local-%s %s/%s" %
+> +                        cfg_file.write("src/gz local-%s %s/%s\n" %
+>                                         (arch,
+>                                          self.d.getVar('FEED_DEPLOYDIR_
+> BASE_URI'),
+>                                          arch))
+>
 
-Search made with the following regex: getVarFlag ?\((.*), True\)
+Isn't this a bad clone of the feeds generated by PACKAGE_FEED_URIS so
+should be deleted entirely?
 
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
----
- meta/lib/oe/data.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Ross
 
-diff --git a/meta/lib/oe/data.py b/meta/lib/oe/data.py
-index 3956733..80bba2b 100644
---- a/meta/lib/oe/data.py
-+++ b/meta/lib/oe/data.py
-@@ -30,7 +30,7 @@ def export2json(d, json_file, expand=True):
-             continue
-         elif key.startswith("do_"):
-             continue
--        elif d.getVarFlag(key, "func", True):
-+        elif d.getVarFlag(key, "func"):
-             continue
- 
-         keys2export.append(key)
--- 
-1.9.1
+--94eb2c060ce64b75a30546ff6e04
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: base64
 
+PGRpdiBkaXI9Imx0ciI+PGRpdiBjbGFzcz0iZ21haWxfZXh0cmEiPjxicj48ZGl2IGNsYXNzPSJn
+bWFpbF9xdW90ZSI+T24gMjYgSmFudWFyeSAyMDE3IGF0IDEzOjA0LCAgPHNwYW4gZGlyPSJsdHIi
+PiZsdDs8YSBocmVmPSJtYWlsdG86bGl1Lm1pbmc1MEBnbWFpbC5jb20iIHRhcmdldD0iX2JsYW5r
+Ij5saXUubWluZzUwQGdtYWlsLmNvbTwvYT4mZ3Q7PC9zcGFuPiB3cm90ZTo8YnI+PGJsb2NrcXVv
+dGUgY2xhc3M9ImdtYWlsX3F1b3RlIiBzdHlsZT0ibWFyZ2luOjBweCAwcHggMHB4IDAuOGV4O2Jv
+cmRlci1sZWZ0LXdpZHRoOjFweDtib3JkZXItbGVmdC1jb2xvcjpyZ2IoMjA0LDIwNCwyMDQpO2Jv
+cmRlci1sZWZ0LXN0eWxlOnNvbGlkO3BhZGRpbmctbGVmdDoxZXgiPjxkaXYgaWQ9ImdtYWlsLToz
+MG0iIGNsYXNzPSJnbWFpbC1hM3MgZ21haWwtYVhqQ0ggZ21haWwtbTE1OWRhZTFkZTZkYTc3YjQi
+PkBAIC0xNjYyLDE0ICsxNjYyLDEyIEBAIGNsYXNzIE9wa2dQTShPcGtnRHBrZ1BNKTo8YnI+DQrC
+oCDCoCDCoCDCoCDCoCDCoCDCoE5PVEU6IERldmVsb3BtZW50LWhlbHBlciBmZWF0dXJlLCBOT1Qg
+YSBmdWxsLWZsZWRnZWQgZmVlZC48YnI+DQrCoCDCoCDCoCDCoCDCoCDCoCDCoCZxdW90OyZxdW90
+OyZxdW90Ozxicj4NCsKgIMKgIMKgIMKgIMKgIMKgIMKgaWYgKHNlbGYuZC5nZXRWYXIoJiMzOTtG
+RUVEXzx3YnI+REVQTE9ZRElSX0JBU0VfVVJJJiMzOTspIG9yICZxdW90OyZxdW90OykgIT0gJnF1
+b3Q7JnF1b3Q7Ojxicj4NCivCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBjZmdfZGlyX25hbWUgPSBv
+cy5wYXRoLmpvaW4oc2VsZi50YXJnZXRfPHdicj5yb290ZnMsICZxdW90O2V0Yy9vcGtnJnF1b3Q7
+KTxicj4NCivCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBiYi51dGlscy5ta2RpcmhpZXIoY2ZnX2Rp
+cl88d2JyPm5hbWUpPGJyPg0KwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqBmb3IgYXJjaCBpbiBz
+ZWxmLnBrZ19hcmNocy5zcGxpdCgpOjxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCBjZmdfZmlsZV9uYW1lID0gb3MucGF0aC5qb2luKHNlbGYudGFyZ2V0Xzx3YnI+cm9vdGZzLDxi
+cj4NCi3CoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoHNlbGYuZC5nZXRWYXIoJnF1b3Q7c3lzY29uZmRpciZxdW90
+OyksPGJyPg0KLcKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgJnF1b3Q7b3BrZyZxdW90Oyw8YnI+DQotwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAmcXVvdDtsb2NhbC0lcy1mZWVkLmNvbmYmcXVvdDsgJSBhcmNoKTxicj4NCi08
+YnI+DQorwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgY2ZnX2ZpbGVfbmFtZSA9IG9zLnBh
+dGguam9pbihjZmdfZGlyX25hbWUsICZxdW90O2xvY2FsLSVzLWZlZWQuY29uZiZxdW90OyAlIGFy
+Y2gpPGJyPg0KwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqB3aXRoIG9wZW4oY2ZnX2Zp
+bGVfbmFtZSwgJnF1b3Q7dysmcXVvdDspIGFzIGNmZ19maWxlOjxicj4NCi3CoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBjZmdfZmlsZS53cml0ZSgmcXVvdDtzcmMvZ3ogbG9jYWwt
+JXMgJXMvJXMmcXVvdDsgJTxicj4NCivCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCBjZmdfZmlsZS53cml0ZSgmcXVvdDtzcmMvZ3ogbG9jYWwtJXMgJXMvJXNcbiZxdW90OyAlPGJy
+Pg0KwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgKGFyY2gsPGJyPg0KwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqBzZWxmLmQuZ2V0VmFyKCYjMzk7RkVFRF9ERVBMT1lESVJf
+PHdicj5CQVNFX1VSSSYjMzk7KSw8YnI+DQrCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoGFyY2gpKTwvZGl2PjwvYmxvY2txdW90ZT48
+L2Rpdj48YnI+SXNuJiMzOTt0IHRoaXMgYSBiYWQgY2xvbmUgb2YgdGhlIGZlZWRzIGdlbmVyYXRl
+ZCBiecKgUEFDS0FHRV9GRUVEX1VSSVMgc28gc2hvdWxkIGJlIGRlbGV0ZWQgZW50aXJlbHk/PC9k
+aXY+PGRpdiBjbGFzcz0iZ21haWxfZXh0cmEiPjxicj48L2Rpdj48ZGl2IGNsYXNzPSJnbWFpbF9l
+eHRyYSI+Um9zczwvZGl2PjwvZGl2Pg0K
 
+--94eb2c060ce64b75a30546ff6e04--
