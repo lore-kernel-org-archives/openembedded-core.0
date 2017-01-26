@@ -1,45 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FE6971997
+Return-Path: <gizero@gmail.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 1218671997
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 23:28:08 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id c206so110721720wme.0
+	Thu, 26 Jan 2017 23:35:03 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id c85so94170434wmi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 15:28:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=2cYNu0f0Y77CIroJXQNjJgl1PwrM6acgd7J0DGe114I=;
-	b=n1dM1Q/TOh8BiV758p0lG/034pDs581S2zYHn3TMgQrbNjiaoqe7ByNiCWGm4ZmCNE
-	ZRZ7ZFx3bOKAM8FkTHWxkCc0BjeQGj0sod8qJiOq0yJcb+l30hbOC6Yvf+2v5YHHqZQo
-	1TL9ieV3sPuE+ey4Y+b+Bbr+efZeSTxhdzvqjAoM9EpPRsLFt8u4vB2n31CKNuazxwbx
-	IpxmyVbReBZLbcjFHd/3NWdLhWtAAsmpRPyB5YCwhPsdbRvlh/OOL7w9e3UK2QQwvMUI
-	y3vPIwNwILogk57PW7EO+6bclK3uZOfCx4q2vNrF4+O5SaJ17f0OqcigA6JiJlMYNZf8
-	B1SQ==
+	Thu, 26 Jan 2017 15:35:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=nmehY/p9lwgMZeKdcl/Il02P/BTRS/dr1upsBWMMZZI=;
+	b=IIQa8j37I5I/ZPLwunTfgvSYZuI6xNY9duWbfK2+m21rdru4cjsrAHOGd1vFwcFVFP
+	BsNltRaJNfLjfsN1lP3qPDx89ch+7lVW5hdi1GPHyl0LNKDGnXJFAIukxTbizuq7CQrl
+	BNVuGrHZyV1sDQFmfFze2OVWXJd8rYBYKlbkVY0O73AfQQ6uLGjTgtKggkXYiSPr6VnW
+	hvFA+XESTpZFf3hlzzvoCzsupVMST85q9EII0D0b6ct88ECj201kED+9NlkYyHzgHmQN
+	jHPQ6eqjQRAjqbqLKtYKT/CaKJDQcbUFYjt6+wo4erpVY1jwJc4CKpsv/caecadYDhaY
+	gG6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=2cYNu0f0Y77CIroJXQNjJgl1PwrM6acgd7J0DGe114I=;
-	b=svrHeP1Ene3jQd3k+jv/3gjMGRA8z+Z8DL+klrtwMhoMmi0/TNJY7t/aThd5nLMqWZ
-	uP09uXlmOJgXLjy803c/N2z26SeAKksExBAFDf1ry/7osdxAdV/4mWA+58LElYjJ3J5J
-	CeT+onSoo8MeZngXwqbG4uPEGpYi97LTy3CdYq8JJxjG3JEnTiVEfyyZsDf9G9jH9OtR
-	/UNAuOvQcQ/V9W7CNxwD6K1mgYzYuefagFa9d55l9mZIub0cmd3de5hMA0KpwWBxdr2f
-	b8ZO5NuNZQ9uHatVhJL81zKPXhlmrmen07SN9J1sNI15OSrMdyn1ARzqsSUyYdT3h3Mn
-	cUBQ==
-X-Gm-Message-State: AIkVDXKvXANrL6nIVu+N19hBZ6o3rDo24ugIzxe9Rp2DVvKY/s95RrBUKacToeDdxw04rKP6
-X-Received: by 10.223.139.213 with SMTP id w21mr4871569wra.108.1485473287700; 
-	Thu, 26 Jan 2017 15:28:07 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id e74sm896175wmd.2.2017.01.26.15.28.06
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=nmehY/p9lwgMZeKdcl/Il02P/BTRS/dr1upsBWMMZZI=;
+	b=gz/+tO7lTqXKi67alLgvPtKV59s2znxwCnLCe/x4gAoEZXTUcpffmEjg6zbDgks6iT
+	yguJpRT50rQL2uKfyVC22t7D5NgwoeRtX2JHpNYpAB4uOmXTjTgr0AB9Ji33B+hawgEl
+	+ULZdxCU9YbIFvZyaiygt+40jCPDEYQzLLJNtkOERJQ3+mVaulGqsZamv9th3XPhETUG
+	6T/w0b5r1tk6j6gOGS/DIPbj3Q6dis8dRXL2UPqdIMNbu1bayrJxEkt5CjdV7+1Un34d
+	TlENLhcQk9D68OGYp/QtVisl+N1rTZ7p5xnaV24VWZPLj1CH5rW97M0NOunePzAP6r65
+	lcIw==
+X-Gm-Message-State: AIkVDXKy9nH6U+Z4a7cdbaofqpLJp/S1d7jcm05i6jNwMPKEfncAPObUfIAbsukQ2UYBBA==
+X-Received: by 10.28.23.70 with SMTP id 67mr609549wmx.23.1485473703790;
+	Thu, 26 Jan 2017 15:35:03 -0800 (PST)
+Received: from gizero-desktop.tw.it
+	(host168-65-static.12-87-b.business.telecomitalia.it. [87.12.65.168])
+	by smtp.gmail.com with ESMTPSA id i73sm879948wmd.11.2017.01.26.15.35.02
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 26 Jan 2017 15:28:06 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Thu, 26 Jan 2017 15:35:03 -0800 (PST)
+From: Andrea Galbusera <gizero@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Jan 2017 23:28:05 +0000
-Message-Id: <1485473285-2479-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] default-distrovars: add acl to DISTRO_FEATURES
+Date: Fri, 27 Jan 2017 00:34:55 +0100
+Message-Id: <1485473695-2239-1-git-send-email-gizero@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH v2] oe-publish-sdk: add pyshtables.py to .gitignore
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,37 +51,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jan 2017 23:28:08 -0000
+X-List-Received-Date: Thu, 26 Jan 2017 23:35:05 -0000
 
-ACLs are pretty useful in the modern world, with security systems such as
-SELinux and Smack that use them extensively.  As the overhead is minimal, add
-ACL to DEFAULT_DISTRO_FEATURES so that support for them is enabled by default.
+pyshtables.py should be ignored by git as it is generated. If kept in
+the repo, causes subsequent runs of sdk-update to fail.
 
-The overhead for core-image-sato is that coreutils, libarchive, and opkg link
-against libacl. The size increase of those packages is minimal, and libacl is
-35kb.
+[ YOCTO #10963 ]
 
-[ YOCTO #8200 ]
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Andrea Galbusera <gizero@gmail.com>
 ---
- meta/conf/distro/include/default-distrovars.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v2:
+- don't hardcode pyshtables.py path in .gitconfig
+---
+ scripts/oe-publish-sdk | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index f7ed943..08542a7 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -9,7 +9,7 @@ ENABLE_BINARY_LOCALE_GENERATION ?= "1"
- LOCALE_UTF8_ONLY ?= "0"
- LOCALE_UTF8_IS_DEFAULT ?= "1"
+diff --git a/scripts/oe-publish-sdk b/scripts/oe-publish-sdk
+index 4fe8974..9f7963c 100755
+--- a/scripts/oe-publish-sdk
++++ b/scripts/oe-publish-sdk
+@@ -114,9 +114,9 @@ def publish(args):
  
--DISTRO_FEATURES_DEFAULT ?= "alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11"
-+DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11"
- DISTRO_FEATURES_LIBC_DEFAULT ?= "ipv4 ipv6 libc-backtrace libc-big-macros libc-bsd libc-cxx-tests libc-catgets libc-charsets libc-crypt \
- 					libc-crypt-ufc libc-db-aliases libc-envz libc-fcvt libc-fmtmsg libc-fstab libc-ftraverse \
- 					libc-getlogin libc-idn libc-inet-anl libc-libm libc-locales libc-locale-code \
+     # Setting up the git repo
+     if not is_remote:
+-        cmd = 'set -e; mkdir -p %s/layers; cd %s/layers; if [ ! -e .git ]; then git init .; mv .git/hooks/post-update.sample .git/hooks/post-update; echo "*.pyc\n*.pyo" > .gitignore; fi; git add -A .; git config user.email "oe@oe.oe" && git config user.name "OE" && git commit -q -m "init repo" || true; git update-server-info' % (destination, destination)
++        cmd = 'set -e; mkdir -p %s/layers; cd %s/layers; if [ ! -e .git ]; then git init .; mv .git/hooks/post-update.sample .git/hooks/post-update; echo "*.pyc\n*.pyo\npyshtables.py" > .gitignore; fi; git add -A .; git config user.email "oe@oe.oe" && git config user.name "OE" && git commit -q -m "init repo" || true; git update-server-info' % (destination, destination)
+     else:
+-        cmd = "ssh %s 'set -e; mkdir -p %s/layers; cd %s/layers; if [ ! -e .git ]; then git init .; mv .git/hooks/post-update.sample .git/hooks/post-update; echo '*.pyc\n*.pyo' > .gitignore; fi; git add -A .; git config user.email 'oe@oe.oe' && git config user.name 'OE' && git commit -q -m \"init repo\" || true; git update-server-info'" % (host, destdir, destdir)
++        cmd = "ssh %s 'set -e; mkdir -p %s/layers; cd %s/layers; if [ ! -e .git ]; then git init .; mv .git/hooks/post-update.sample .git/hooks/post-update; echo '*.pyc\n*.pyo\npyshtables.py' > .gitignore; fi; git add -A .; git config user.email 'oe@oe.oe' && git config user.name 'OE' && git commit -q -m \"init repo\" || true; git update-server-info'" % (host, destdir, destdir)
+     ret = subprocess.call(cmd, shell=True)
+     if ret == 0:
+         logger.info('SDK published successfully')
 -- 
-2.8.1
+2.7.4
 
 
