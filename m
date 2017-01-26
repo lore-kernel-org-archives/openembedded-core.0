@@ -1,30 +1,18 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BA1771C5F
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 15:15:28 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga101.fm.intel.com with ESMTP; 26 Jan 2017 07:15:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,289,1477983600"; d="scan'208";a="52652422"
-Received: from unknown (HELO [10.219.4.164]) ([10.219.4.164])
-	by orsmga004.jf.intel.com with ESMTP; 26 Jan 2017 07:15:28 -0800
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Christopher Larson <clarson@kergoth.com>
-References: <cover.1485247027.git.mariano.lopez@linux.intel.com>
-	<f375139dfac77be3c12335a6a302582368ceeb13.1485247027.git.mariano.lopez@linux.intel.com>
-	<CABcZANn9jc51biiwD=0v9izwzovbpwaE0bLtnpBX3VE=oVLfiQ@mail.gmail.com>
-	<1485345378.30673.88.camel@linuxfoundation.org>
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
-Message-ID: <9d6ac8ff-f401-06fd-689c-05bf11eb209d@linux.intel.com>
-Date: Thu, 26 Jan 2017 09:16:34 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.6.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FAF26FF9F;
+	Thu, 26 Jan 2017 15:24:43 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <1485345378.30673.88.camel@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] package_ipk.bbclass: Add check for empty lines in DESCRIPTION
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Date: Thu, 26 Jan 2017 15:24:44 -0000
+Message-ID: <20170126152444.4464.79980@do.openembedded.org>
+References: <cover.1485434085.git.ed.bartosh@linux.intel.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1485434085.git.ed.bartosh@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgRml4IGZvciAjMTA4MzUgLSBXSUMgc2hvdWxkIG5vdCByZWx5IG9uIGhkZGltZyBjcmVhdGlvbiBmb3IgZmluZGluZyBhbGwgbmVlZGVkIGFydGlmYWN0cyAocmV2Mik=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,46 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jan 2017 15:15:29 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Thu, 26 Jan 2017 15:24:43 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
+== Series Details ==
+
+Series: Fix for #10835 - WIC should not rely on hddimg creation for finding all needed artifacts (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/4802/
+State : failure
+
+== Summary ==
 
 
-On 25/01/17 05:56, Richard Purdie wrote:
-> On Tue, 2017-01-24 at 11:52 -0700, Christopher Larson wrote:
->> On Tue, Jan 24, 2017 at 1:37 AM, <mariano.lopez@linux.intel.com>
->> wrote:
->>> From: Mariano Lopez <mariano.lopez@linux.intel.com>
->>>
->>> opkg uses empty lines as separator for next package and if an ipk
->>> file was packaged with empty lines in DESCRIPTION opkg won't be
->>> able to handle such ipk file, this happens at execution time.
->>>
->>> This commit will add a check for empty lines in DESCRIPTION when
->>> generating to ipk package to avoid this issue.
->>>
->>> [YOCTO #10677]
->>>
->>> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
->>>
->> Could it handle a line with just a space, or a period? Could you not
->> replace the lines with that instead, rather than aborting?
-> FWIW package_deb uses ".".
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-Also opkg will strip() the lines, so an empty space is not a option here.
 
->
-> Also, please use bb.fatal() calls with caution, I just removed several
-> from that class. In this case its perhaps ok but often the correct
-> thing to do is raise an exception of some kind. This means bitbake will
-> generate a usable traceback rather than simply printing the fatal
-> message. In this case the message is probably fine but there were
-> several cases where a traceback was a much better idea as the fatal
-> message wasn't enough to debug with.
 
-Fair enough, I will consider this advice when using bb.fatal()
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at a99cca0e8e)
 
-Regards,
-Mariano
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
