@@ -1,52 +1,44 @@
-Return-Path: <kristian.amlie@mender.io>
-Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
-	[209.85.215.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 188E87723C
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 15:39:22 +0000 (UTC)
-Received: by mail-lf0-f48.google.com with SMTP id v186so147522132lfa.1
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 07:39:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mender-io.20150623.gappssmtp.com; s=20150623;
-	h=to:from:subject:message-id:date:user-agent:mime-version
-	:content-transfer-encoding;
-	bh=e7ko9ordL3/pZy98I1WLmb7tbp20Y8gUd8b53UgKQq0=;
-	b=10bVxgWqsL3eQlj0mkoOPVRLp/8aZW8Pk5g0KK9vzAgtM+QXnIA8Pqnam52vu45mdP
-	brWX1L/EQUY57AaZCOYOSjKgqPPU2SvkLq+LleP0yvvceb3DO4GeU9om7vVzaXJ78yKx
-	c6blWVsD4uZ5H+I4gSAdOdJAngMpGNqkeA8bMhqmwMs20XnV8VhG7IflayVao2QhOZq4
-	re/GjA0CLJckEIySjibNdqw9O768o+ZiwtH+0/XR3seCn9y4tyaTwrh9vQQ/qYv8DH1b
-	UgZTySS0zAelbyhN/6WtDoUfaAxM512y+QGxkbOb0rEGafj6lKJ02g6v3cEKW7XB6Kbp
-	ywEA==
+Return-Path: <freesilicon@gmail.com>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id A713773180
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jan 2017 16:47:12 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id r144so93864131wme.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jan 2017 08:47:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=xMaCG8kEAza5VcV5zOUDpNihE1/K/IkmCF8BMtHCZJs=;
+	b=RbXS7W9/fZNDIsBy8PXFsqLZKzsl0+/1iOWSCqmZlUGx5PxZVd6QduTLLi4Oh1v+jW
+	7jVqSzD/xJCPOnQU/BvNWiiQIZkHlVu5fMaUtspJz3vSOeOJwpJwmsR7Xqg7641IUP43
+	NPSeJtmvsFy175oILe7Qn9Fb0X0P1w5F9i33F0dDgPs7DV2KCKxcwyhYPWYSF3Uml8zl
+	Sg+0H4kSpTH/wQ/7F5qt4NK38N16dkOQ1mn9xTsThc2xzb3JWkCX7Kg60mWe0uKgLUDO
+	hjdZZgbfsKVKPvjANj/nBhb/Q7ITqaluOd90RB5VU6y9A0b7LMMgnSeQ7pO1rYT1NY+t
+	Bs4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=e7ko9ordL3/pZy98I1WLmb7tbp20Y8gUd8b53UgKQq0=;
-	b=ou8LggUofQtfd0tEMY8i/F9ES5w3c1LEbb4aNRIIYqkc3ygHRm2+EYTu0vJ1dIPl7k
-	hcXzPxtuOtojgspLuBLBvNQnZOYq6N6Y6QuaownyxGN0uO9FN7Gkk8K974le2eXmzSVd
-	VgBU+YSgaGJcu+rvp9gm5cjOsRE/SsYPELg3aocbJgUe7XFtIXz999osLzO8GoqnUsRg
-	zOjYye8U3mW9k+TTpmRRwmST1y9udEvCjIer3JJIL346/w8oqMgQzrAvgZEo38/S2L0d
-	DdVwCKcl36YWAfWF5HmYO8th5SFZQhgvY98vtCCT4e0tXe8UZ4pFWJo6GCmyCgbRa1fv
-	+4tg==
-X-Gm-Message-State: AIkVDXIQLDf1oGiKycj9BqItP0vzozMWeJ1Hy+YqTrwbyKbHoA1mlSFWFO7vuUauYyl7Hg==
-X-Received: by 10.25.213.78 with SMTP id m75mr1167070lfg.36.1485445161951;
-	Thu, 26 Jan 2017 07:39:21 -0800 (PST)
-Received: from [192.168.1.14] ([176.111.205.58])
-	by smtp.googlemail.com with ESMTPSA id
-	d16sm581938lfj.28.2017.01.26.07.39.20
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 26 Jan 2017 07:39:20 -0800 (PST)
-To: OE-core <Openembedded-core@lists.openembedded.org>,
-	Ed Bartosh <ed.bartosh@linux.intel.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-From: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <4f3ba191-aa55-8cb6-6d4c-fbfd0c451ecf@mender.io>
-Date: Thu, 26 Jan 2017 16:39:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.1
-MIME-Version: 1.0
-Subject: sysroots, wic-tools and rm_work
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=xMaCG8kEAza5VcV5zOUDpNihE1/K/IkmCF8BMtHCZJs=;
+	b=fhrAXYrnf5vTUIMB0MubP42ousIzCxr+czoScNDgjz53DhS3O1mu2DBy76T7bEYeDU
+	ZkbNFLXVZqXGAcpgUayiLC/CcHHLFD3ZI/0fPTvjYJaGHRqdh++QeBUUA4IyelN/T16q
+	oIZll3/CgrnQ3JjOc/zlbXt75yX39o+LAUcKYwvcYasM/AgyUZROqoaDT0oaGJmIPnQh
+	fIBOh/9AdOiNobYxipAa5iDPs1qMysmGoi+azSDtYJGM66AIkD+Az1Dp5SX7eHc+EqJl
+	1hOP2ikufjdMAZBaH+7mbN885NQu2aDWj+ni0v2o9zhaWrJf9cLTlhcYK6XTai9Cn3kz
+	ZIWw==
+X-Gm-Message-State: AIkVDXI0ZIMBA0fuvo5vLJsoELx4steGmFZI0MLAHkmSl9MJPazPfNm9i0zEXhdSEfPJfQ==
+X-Received: by 10.28.17.20 with SMTP id 20mr29252186wmr.106.1485449232167;
+	Thu, 26 Jan 2017 08:47:12 -0800 (PST)
+Received: from localhost.localdomain ([185.47.80.46])
+	by smtp.gmail.com with ESMTPSA id
+	w16sm18545042wmd.4.2017.01.26.08.47.11
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 26 Jan 2017 08:47:11 -0800 (PST)
+From: David Vincent <freesilicon@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 Jan 2017 17:45:18 +0100
+Message-Id: <20170126164518.23219-1-freesilicon@gmail.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] busybox: conditional inclusion of login utilities
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,24 +51,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jan 2017 15:39:23 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 26 Jan 2017 16:47:13 -0000
 
-It seems like wic doesn't work together with rm_work, because of its
-dependency on wic-tools. The reason is that building wic-tools will
-result in rm_work removing the very sysroot that wic needs.
+If busybox is not selected as login manager, do not include the fragment
+containing the corresponding utilities.
 
-It's easy to fix locally by adding
+Signed-off-by: David Vincent <freesilicon@gmail.com>
+---
+ meta/recipes-core/busybox/busybox_1.24.1.bb | 2 +-
+ meta/recipes-core/busybox/busybox_git.bb    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-  RM_WORK_EXCLUDE = "wic-tools"
-
-however, I think this deserves a more permanent fix, and I'm not sure
-which approach is best. We could assign directly to that variable, but I
-would assume that anyone that uses it will assign directly to it, and
-breaking wic all over a again. Or perhaps we could add an exception
-directly to rm_work.bbclass? What's best practice in a case like this?
-
+diff --git a/meta/recipes-core/busybox/busybox_1.24.1.bb b/meta/recipes-core/busybox/busybox_1.24.1.bb
+index afb69d13e6..7d994dc10d 100644
+--- a/meta/recipes-core/busybox/busybox_1.24.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.24.1.bb
+@@ -25,7 +25,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://run-ptest \
+            file://inetd.conf \
+            file://inetd \
+-           file://login-utilities.cfg \
++           ${@["", "file://login-utilities.cfg"][(d.getVar('VIRTUAL-RUNTIME_login_manager') == 'busybox')]} \
+            file://recognize_connmand.patch \
+            file://busybox-cross-menuconfig.patch \
+            file://0001-Use-CC-when-linking-instead-of-LD-and-use-CFLAGS-and.patch \
+diff --git a/meta/recipes-core/busybox/busybox_git.bb b/meta/recipes-core/busybox/busybox_git.bb
+index c2ee3e6c4b..4213ef4b1e 100644
+--- a/meta/recipes-core/busybox/busybox_git.bb
++++ b/meta/recipes-core/busybox/busybox_git.bb
+@@ -31,7 +31,7 @@ SRC_URI = "git://busybox.net/busybox.git \
+            file://run-ptest \
+            file://inetd.conf \
+            file://inetd \
+-           file://login-utilities.cfg \
++           ${@["", "file://login-utilities.cfg"][(d.getVar('VIRTUAL-RUNTIME_login_manager') == 'busybox')]} \
+            file://recognize_connmand.patch \
+            file://busybox-cross-menuconfig.patch \
+            file://0001-Use-CC-when-linking-instead-of-LD-and-use-CFLAGS-and.patch \
 -- 
-Kristian
+2.11.0
+
 
