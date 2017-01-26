@@ -1,47 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id D091071DDF
+Received: from mail-qt0-f175.google.com (mail-qt0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 5AF4871DD2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 10:20:36 +0000 (UTC)
-Received: by mail-qt0-f179.google.com with SMTP id x49so66013838qtc.2
+	Thu, 26 Jan 2017 10:26:28 +0000 (UTC)
+Received: by mail-qt0-f175.google.com with SMTP id v23so66464927qtb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 02:20:37 -0800 (PST)
+	Thu, 26 Jan 2017 02:26:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=bmjyMs4TD4mUb7GNAO5/gXZEnGLBf+YJrfEwcNQDL/I=;
-	b=zkT3TUpUMbSgBt/rjXzRe30SUaEnloUgxUfH7BmThp+a5x+ax88L1UJZ9A+ODkd5z+
-	bXfQ/8zftrUEbiy5CdDEme2lIxtkC7gAhv62bUyZvXjxgnPLRGKa8/p98RYJyd8ZyYvB
-	x/Kzts5noD8YdjqExoeyKSq/Mal6vo3DosZlNBjkocQIRXRj3DYRVWhvbH4HxLZUJ5Fc
-	tsRg9EaTqSFskcK1c8Bk0UPEX752+Bc1wHPNkIzJXRy8Sk4+xMkmBvf6UR0ERS/qFGec
-	k8W9SBDo8umscXSqwqfoYKeetNhFJB4X24yVSoOKhWdGp7Vf0dSj0hMPBOZDid5dUTJE
-	xqHA==
+	:cc; bh=jVSe7d9Y+ycjDrT+4As0NamU8rr92s8s1RTy83cc0g0=;
+	b=TUNUKkRcV4ebZUWMJL+I0mnqSTZK/pU7NUveL7e5L2nbs/MPDiudu2EfhCQXZHB3hs
+	+PP1Zqecl6hYoOiuecE21GvRfSV0M/QxFho0zCBCaPNpgblSWVDOv0xbq9Oifyz9F5B2
+	GXPUlfsDbFRFLDu/zrxgOZT8donpzhZFrCF5zlYoggOZ55Yzi6qkaHQjkW8zO2XAkONo
+	qeRJcAqPX761LKz+k6mHdyG/amXQdNprdUNdKQpBESr5TGYlgm+ayvuMUH2QBGUlP/g1
+	lHI0917iX/mCGMryjjeafFQEPj8o6uuU9WwQvfuwOC6Lm8hd5vreLBnJjEQHKrmnQqQM
+	qbjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=bmjyMs4TD4mUb7GNAO5/gXZEnGLBf+YJrfEwcNQDL/I=;
-	b=Vq0a4U/GSMkMV69az2NXmKyUCPHtV8cE1Alur3DjZHD1D3c0i054OCc58hN/DHk92T
-	o+/kEs3eZquxrgTMlsx00qeZoVpOs2m+mnS45L+EbJv6EmrvO+QVDBKxpwUXcGVozIiD
-	HknPaFIs9FUT7s/1GjRge2DLGzLy1WgDrQsGtQmFQm0cG/txd2QVHDsktqtO+ClOtI6A
-	G0A0o1SEj5tnW/PLSCE0kvGn29k+qg7rWCwLAdA08YYVh47w+j6HD8VMsUoJsFyO5N2B
-	k4bysK40O6GJUtENpKEZWwc4HOf6UUqon3ZnJ8jxwawMVE8dGjbcJ4a4ltm0hX+n9IvM
-	qZ1w==
-X-Gm-Message-State: AIkVDXKcl5h3LOqwdL1uP/MetUrND3a5fh17VuGD8mf2LE9maf0r963TPb1iBZdlIQWCJPbnb3pj2nwhgeq3Rh1+
-X-Received: by 10.55.183.133 with SMTP id h127mr1958457qkf.121.1485426036538; 
-	Thu, 26 Jan 2017 02:20:36 -0800 (PST)
+	bh=jVSe7d9Y+ycjDrT+4As0NamU8rr92s8s1RTy83cc0g0=;
+	b=O6PQ8G5w9SYD6oz3JrseEzI3Slrr6xGJBBM0hO31aQFqlFR5towXg3vPwDAxY4AjHU
+	ITYpBjrzm5Y/lwDp5oKt0bTnVy8FgRc94xPzFBD8H9bKlS6Xi8iFOt1Q4jC2IkoSCPVl
+	ULsmou8PMIina/5bfo91zrNwvdZ4bvVwavFUuWr6R7br+umDNOED97Ax6TFSjPUjoc1o
+	go7PS3WC4c4c4jSjkpbMUBTnEIVuqLQRddYb8ffiRyBagWHvcJ+fDswpNrwJZeaVJaFn
+	Kn+UPUJBjhhF9GVJ5ENcNOaqm9w9skhJrV6o2JQhRgBUL0qzGI66XqHf8cbl1ypnH8RJ
+	FTWg==
+X-Gm-Message-State: AIkVDXK0xLDlPrwRMV4TuLH1BJdvEppf1OwQi/jQHvKoDQ8A6psK70yN0MhVsr+SbvLB9/9kRDzSbJEMhwgGjhOG
+X-Received: by 10.237.36.208 with SMTP id u16mr1800865qtc.105.1485426388525;
+	Thu, 26 Jan 2017 02:26:28 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Thu, 26 Jan 2017 02:20:16 -0800 (PST)
-In-Reply-To: <1485165540-16646-2-git-send-email-maxin.john@intel.com>
-References: <1485165540-16646-1-git-send-email-maxin.john@intel.com>
-	<1485165540-16646-2-git-send-email-maxin.john@intel.com>
+Received: by 10.140.103.233 with HTTP; Thu, 26 Jan 2017 02:26:08 -0800 (PST)
+In-Reply-To: <20170120191710.17968-1-randy.e.witt@linux.intel.com>
+References: <be9e6961aeb991fc0e0acc1118aa01cefe945593.1484866303.git.randy.e.witt@linux.intel.com>
+	<20170120191710.17968-1-randy.e.witt@linux.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 26 Jan 2017 10:20:16 +0000
-Message-ID: <CAJTo0Lb8z9QbKF5qebO+54tqPe9rnZEXSd7EHMgXnK6XAZ1Lsw@mail.gmail.com>
-To: "Maxin B. John" <maxin.john@intel.com>
+Date: Thu, 26 Jan 2017 10:26:08 +0000
+Message-ID: <CAJTo0Lautqo1tzGF7Uc8H-+J6D9ogHbkSV7NH2cu=5mtyMe+vg@mail.gmail.com>
+To: Randy Witt <randy.e.witt@linux.intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] libtasn1: Upgrade 4.9 -> 4.10
+Subject: Re: [PATCH v3 3/3] selftest/containerimage.py: Add container IMAGE_FSTYPES test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,91 +54,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jan 2017 10:20:49 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0600563f97f60546fcb30b
+X-List-Received-Date: Thu, 26 Jan 2017 10:26:30 -0000
+Content-Type: multipart/alternative; boundary=001a114104ce3a79c90546fcc801
 
---94eb2c0600563f97f60546fcb30b
+--001a114104ce3a79c90546fcc801
 Content-Type: text/plain; charset=UTF-8
 
-On 23 January 2017 at 09:58, Maxin B. John <maxin.john@intel.com> wrote:
+FAIL [40.619s]: test_expected_files
+(oeqa.selftest.containerimage.ContainerImageTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File
+"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/containerimage.py",
+line 82, in test_expected_files
+    self.assertEqual(result.output.split('\n'), expected_files)
+AssertionError: Lists differ: ['tar:
+/home/pokybuild/yocto-autobuilder/yo[191 chars]now'] != ['./', './etc/',
+'./etc/default/', './etc/d[262 chars]kg/']
 
-> Removed the following Backported patches:
->  1. 0001-configure-don-t-add-Werror-to-build-flags.patch
->  2. 0002-ASN.y-corrected-compiler-warning.patch
->  3. 0003-parser_aux-corrected-potential-null-pointer-derefere.patch
->  4. 0004-tools-eliminated-compiler-warnings.patch
->
-> Signed-off-by: Maxin B. John <maxin.john@intel.com>
->
+First differing element 0:
+tar:
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/deploy/images/qemux86-64/container-test-image-qemux86.tar.bz2:
+Cannot open: No such file or directory
+./
 
-This breaks on musl in the most amusing way:
+Second list contains 16 additional elements.
+First extra element 2:
+./etc/default/
 
-|                  from ../../libtasn1-4.10/gl/getopt.c:28:
-| ./stdint.h:89:5: error: #if with no expression
-|  #if
-|      ^
+- ['tar: '
+-
+ '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/deploy/images/qemux86-64/container-test-image-qemux86.tar.bz2:
+'
+-  'Cannot open: No such file or directory',
+-  'tar: Error is not recoverable: exiting now']
++ ['./',
++  './etc/',
++  './etc/default/',
++  './etc/default/postinst',
++  './etc/ld.so.cache',
++  './etc/timestamp',
++  './etc/version',
++  './run/',
++  './usr/',
++  './usr/bin/',
++  './usr/bin/theapp',
++  './var/',
++  './var/cache/',
++  './var/cache/ldconfig/',
++  './var/cache/ldconfig/aux-cache',
++  './var/cache/opkg/',
++  './var/lib/',
++  './var/lib/opkg/']
 
-When it says stdint.h it doesn't mean the system stdint.h because that
-would be too sensible.  libtasn1 uses gnulib which writes its own system
-headers, so this is in fact build/gl/stdint.h which does indeed just do
-'#if '.  The source for this file is gl/stdint.in.h in this block:
+The test needs to handle tar failing, and appears to be confused as to
+whether its building for qemux86 or qemux86-64 (see the path that tar tries
+to list).
 
-/* Override WINT_MIN and WINT_MAX if gnulib's <wchar.h> or <wctype.h>
-overrides
-   wint_t.  */
-#if @GNULIB_OVERRIDES_WINT_T@
-# undef WINT_MIN
-# undef WINT_MAX
-# define WINT_MIN 0x0U
-# define WINT_MAX 0xffffffffU
-#endif
-
-For some reason when this executes @GNULIB_OVERRIDES_WINT_T@ isn't defined.
-
-Cheers,
 Ross
 
---94eb2c0600563f97f60546fcb30b
+--001a114104ce3a79c90546fcc801
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 January 2017 at 09:58, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border=
--left-style:solid;padding-left:1ex"><div id=3D"gmail-:7m" class=3D"gmail-a3=
-s gmail-aXjCH gmail-m159cac4ddfd33723">Removed the following Backported pat=
-ches:<br>
-=C2=A01. 0001-configure-don-t-add-<wbr>Werror-to-build-flags.patch<br>
-=C2=A02. 0002-ASN.y-corrected-compiler-<wbr>warning.patch<br>
-=C2=A03. 0003-parser_aux-corrected-<wbr>potential-null-pointer-<wbr>derefer=
-e.patch<br>
-=C2=A04. 0004-tools-eliminated-<wbr>compiler-warnings.patch<br>
-<br>
-Signed-off-by: Maxin B. John &lt;<a href=3D"mailto:maxin.john@intel.com">ma=
-xin.john@intel.com</a>&gt;</div></blockquote></div><br>This breaks on musl =
-in the most amusing way:<br></div><div class=3D"gmail_extra"><br></div><div=
- class=3D"gmail_extra"><div class=3D"gmail_extra">| =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from ../../libtasn1-4.10/gl/getopt=
-.c:28:</div><div class=3D"gmail_extra">| ./stdint.h:89:5: error: #if with n=
-o expression</div><div class=3D"gmail_extra">| =C2=A0#if</div><div class=3D=
-"gmail_extra">| =C2=A0 =C2=A0 =C2=A0^</div><div class=3D"gmail_extra"><br><=
-/div><div class=3D"gmail_extra">When it says stdint.h it doesn&#39;t mean t=
-he system stdint.h because that would be too sensible. =C2=A0libtasn1 uses =
-gnulib which writes its own system headers, so this is in fact build/gl/std=
-int.h which does indeed just do &#39;#if &#39;.=C2=A0 The source for this f=
-ile is gl/stdint.in.h in this block:</div><div class=3D"gmail_extra"><br></=
-div><div class=3D"gmail_extra"><div class=3D"gmail_extra">/* Override WINT_=
-MIN and WINT_MAX if gnulib&#39;s &lt;wchar.h&gt; or &lt;wctype.h&gt; overri=
-des</div><div class=3D"gmail_extra">=C2=A0 =C2=A0wint_t. =C2=A0*/</div><div=
- class=3D"gmail_extra">#if @GNULIB_OVERRIDES_WINT_T@</div><div class=3D"gma=
-il_extra"># undef WINT_MIN</div><div class=3D"gmail_extra"># undef WINT_MAX=
-</div><div class=3D"gmail_extra"># define WINT_MIN 0x0U</div><div class=3D"=
-gmail_extra"># define WINT_MAX 0xffffffffU</div><div class=3D"gmail_extra">=
-#endif</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"=
->For some reason when this executes @GNULIB_OVERRIDES_WINT_T@ isn&#39;t def=
-ined.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
-Cheers,</div><div class=3D"gmail_extra">Ross</div></div></div></div>
+<div dir=3D"ltr">FAIL [40.619s]: test_expected_files (oeqa.selftest.contain=
+erimage.ContainerImageTests)<br>-------------------------------------------=
+---------------------------<br>Traceback (most recent call last):<br>=C2=A0=
+ File &quot;/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selft=
+est/build/meta/lib/oeqa/selftest/containerimage.py&quot;, line 82, in test_=
+expected_files<br>=C2=A0 =C2=A0 self.assertEqual(result.output.split(&#39;\=
+n&#39;), expected_files)<br>AssertionError: Lists differ: [&#39;tar: /home/=
+pokybuild/yocto-autobuilder/yo[191 chars]now&#39;] !=3D [&#39;./&#39;, &#39=
+;./etc/&#39;, &#39;./etc/default/&#39;, &#39;./etc/d[262 chars]kg/&#39;]<br=
+><br>First differing element 0:<br>tar: /home/pokybuild/yocto-autobuilder/y=
+octo-worker/nightly-oe-selftest/build/build/tmp/deploy/images/qemux86-64/co=
+ntainer-test-image-qemux86.tar.bz2: Cannot open: No such file or directory<=
+br>./<br><br>Second list contains 16 additional elements.<br>First extra el=
+ement 2:<br>./etc/default/<br><br>- [&#39;tar: &#39;<br>- =C2=A0&#39;/home/=
+pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tm=
+p/deploy/images/qemux86-64/container-test-image-qemux86.tar.bz2: &#39;<br>-=
+ =C2=A0&#39;Cannot open: No such file or directory&#39;,<br>- =C2=A0&#39;ta=
+r: Error is not recoverable: exiting now&#39;]<br>+ [&#39;./&#39;,<br>+ =C2=
+=A0&#39;./etc/&#39;,<br>+ =C2=A0&#39;./etc/default/&#39;,<br>+ =C2=A0&#39;.=
+/etc/default/postinst&#39;,<br>+ =C2=A0&#39;./etc/ld.so.cache&#39;,<br>+ =
+=C2=A0&#39;./etc/timestamp&#39;,<br>+ =C2=A0&#39;./etc/version&#39;,<br>+ =
+=C2=A0&#39;./run/&#39;,<br>+ =C2=A0&#39;./usr/&#39;,<br>+ =C2=A0&#39;./usr/=
+bin/&#39;,<br>+ =C2=A0&#39;./usr/bin/theapp&#39;,<br>+ =C2=A0&#39;./var/&#3=
+9;,<br>+ =C2=A0&#39;./var/cache/&#39;,<br>+ =C2=A0&#39;./var/cache/ldconfig=
+/&#39;,<br>+ =C2=A0&#39;./var/cache/ldconfig/aux-cache&#39;,<br>+ =C2=A0&#3=
+9;./var/cache/opkg/&#39;,<br>+ =C2=A0&#39;./var/lib/&#39;,<br>+ =C2=A0&#39;=
+./var/lib/opkg/&#39;]<div><br></div><div>The test needs to handle tar faili=
+ng, and appears to be confused as to whether its building for qemux86 or qe=
+mux86-64 (see the path that tar tries to list).</div><div><br></div><div>Ro=
+ss</div></div>
 
---94eb2c0600563f97f60546fcb30b--
+--001a114104ce3a79c90546fcc801--
