@@ -1,49 +1,53 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
-	[209.85.216.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 4750C6093D
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 20:00:48 +0000 (UTC)
-Received: by mail-qt0-f178.google.com with SMTP id x49so93593568qtc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 12:00:49 -0800 (PST)
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
+	[209.85.217.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F6706003C;
+	Thu, 26 Jan 2017 21:39:17 +0000 (UTC)
+Received: by mail-ua0-f194.google.com with SMTP id 96so23186476uaq.2;
+	Thu, 26 Jan 2017 13:39:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	d=googlemail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=SFjDPg6Kl4TzBfiKFZOa9u90RU2FicfUwnTRQaZ2KKA=;
-	b=u3R+7Qx5uBWlO+1xSEtSPume/kjNyN6iHwhpDgEIKpT1uIfcgXyodl4LpJydRzskME
-	fjr7r/XWUjFCMjJRO0YqqhBqPTK6RkeOdODqOAvBJm5jfmYUJPtwDVoztnRCu3IFuuAe
-	sg5Ll1/fucxnTQ7dleoVX3iu/ClYy5rkI3q/VRFTWCEN0Bgr4vza5MmWJDha1Y6gLcO1
-	tJtFYawVJjjLNZthBwqkY3RvP9khggLu3M8qVmVffVtcV9gB//X6+1/17QVF5jq9mZXU
-	bN11TqC2PWZ540PG4a84lq0wb6M8e/efdeo3gL0K7RRWg9utXv75ve9A7KewH/zFbBG5
-	OFxA==
+	:cc:content-transfer-encoding;
+	bh=5qp0jFO8uKNptB5l3gwMrNOHwahflaawd+bmPe6X2aQ=;
+	b=qN4/c7ZcMkxXvqdnhVudVmiVSu0wznyL10xWZwAiSPFOI87irpU6+a7xfU9nfEvdEe
+	fL/ZrDs8WnoNxd8HG09TwgtAnHClo925szGtVOnElv9IRpdCXzU8y1zxl1JerdWktzGF
+	Irpofxkkdo3YiVXtCMcIMA83Ds6cvghTg4oKkmrZW4JLPFTh+PkmOTIVR62HxIZ4eD3o
+	S+iG7RTN8cgbiQLH2IZCGMdv+854BVg99BxZNPAtxFYeI5kuzfD6Mbk7jle55h8qOjMy
+	A0upJRrwROEpZdEK9ySCotcv7vn7rqoJjZiliBYIPBAEfWPTch6DpU1hqfQqVs5H83P+
+	OfPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=SFjDPg6Kl4TzBfiKFZOa9u90RU2FicfUwnTRQaZ2KKA=;
-	b=Nrb/59O8ylJVeQtVzWhB60IWe487BaSHn2R+OSA/a7LE4BHflTeEaCL8FQlH6ZN7aD
-	xUvPmf+X0TvrLrDQlghE3lVs/x+rZtBwCvtVfwDbaBFb7BkepQZCClDlkWXptZzMRLSZ
-	WQgzjxMneOeqBQDEgmVht4llbG2V5VPVl5N1/d4oRo1+7yWi81CnaXICLids/2XW6yfY
-	R5qy7Fb22lIBZDIbNjfGj/nP2FWncEttxYVgufWKP/kliMMUXTWEuA6JNi7cEUbf1GlP
-	EpsS2+38AVw9pbwBopvZZTumutU3uFR+ufDKqqbIHJ8Czib/mai4Ztx53Pf4ochHLaZ0
-	IPEw==
-X-Gm-Message-State: AIkVDXJjWfK5x4O3XIG5KymHsr9YRILMJc8Ox6PPJaJtmOqpHMuvYIdnLJyOyTcWnuO5aCFlK0n/Xbyin94goZWT
-X-Received: by 10.55.47.4 with SMTP id v4mr4695071qkh.77.1485460848712; Thu,
-	26 Jan 2017 12:00:48 -0800 (PST)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=5qp0jFO8uKNptB5l3gwMrNOHwahflaawd+bmPe6X2aQ=;
+	b=GnZDWr0neJRs7lnmrQcRA5HV0FDsDyl8jq4igxu2bOgYquT6OVfmy/qF6o84ooU+GA
+	kol+L2/6NCGoopocyV9u5TpXo3fG/Nhn8Jc2lzCSaA2P3BX8J4Ugx+BK71I5DeFkSjjl
+	LjZllZDk9yPoleVQSAz7VALOpOQjeqmX++OqiiTq+j9xEb9XYQsK/tkDXkXkejUuF/vh
+	iubH/SSx0Vb1dnme8XLlg8fPpE+cJBKeo0HTewYAAMT/y0zAaiJx7BjZ8F1P+YmjEGJO
+	1JC9OUJbyoZwg4nKm9lwRTIobsO621Pigo6bv/W71iDJFC2Xb4Q+IsVBZ0u6t2Rzhxxk
+	NCwQ==
+X-Gm-Message-State: AIkVDXIENqpKyrgyFZvI+tCw4xQDiXQsD6OpumpYLpeylWN8DSbtYvJtWO6pyMzwcSmbQ6UQJSXQecnR0ZOiBg==
+X-Received: by 10.176.0.149 with SMTP id 21mr2760698uaj.81.1485466758020; Thu,
+	26 Jan 2017 13:39:18 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Thu, 26 Jan 2017 12:00:28 -0800 (PST)
-In-Reply-To: <20170126171129.GA19664@mbabyjoh-desk.ger.corp.intel.com>
-References: <1485165540-16646-1-git-send-email-maxin.john@intel.com>
-	<1485165540-16646-2-git-send-email-maxin.john@intel.com>
-	<CAJTo0Lb8z9QbKF5qebO+54tqPe9rnZEXSd7EHMgXnK6XAZ1Lsw@mail.gmail.com>
-	<20170126171129.GA19664@mbabyjoh-desk.ger.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 26 Jan 2017 20:00:28 +0000
-Message-ID: <CAJTo0LbBJmYOPygzq5egoe8xj6N7j9rKTdcNky0yQcQPWW5JaA@mail.gmail.com>
-To: "Maxin B. John" <maxin.john@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] libtasn1: Upgrade 4.9 -> 4.10
+Received: by 10.176.91.68 with HTTP; Thu, 26 Jan 2017 13:39:17 -0800 (PST)
+In-Reply-To: <bbd8fb9d-8215-c73f-f4aa-b20523291ec0@balister.org>
+References: <65082de4-2ba6-3b18-1845-00b2d637404e@balister.org>
+	<CALbNGRSrXLdfUK3U2bXr20P+fFm4ROArGPRi9Ag=AhXbGjUv+g@mail.gmail.com>
+	<bbd8fb9d-8215-c73f-f4aa-b20523291ec0@balister.org>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Thu, 26 Jan 2017 22:39:17 +0100
+Message-ID: <CALbNGRT_H_Vz8b6vcfgJGWYEyVw6og4+zKmLjLZ6P+2O0oY6eA@mail.gmail.com>
+To: Philip Balister <philip@balister.org>
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	"openembedded-members@lists.openembedded.org"
+	<openembedded-members@lists.openembedded.org>, openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: OpenEmbedded Stand at FOSDEM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,38 +60,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jan 2017 20:00:50 -0000
-Content-Type: multipart/alternative; boundary=001a114f41083734a3054704cecb
-
---001a114f41083734a3054704cecb
+X-List-Received-Date: Thu, 26 Jan 2017 21:39:18 -0000
 Content-Type: text/plain; charset=UTF-8
-
-On 26 January 2017 at 17:11, Maxin B. John <maxin.john@intel.com> wrote:
-
-> For some strange reasons, this build error hasn't occured in my musl
-> test build before sending the patch.
->
-
-I suspect it's a libtasn 4.10 + new musl thing, we had an upgrade of both
-at the same time and reverting libtasn to 4.9 works.  Thanks Maxin!
-
-Ross
-
---001a114f41083734a3054704cecb
-Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 26 January 2017 at 17:11, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":ey" class=3D"=
-a3s aXjCH m159dbc8836d4c892">For some strange reasons, this build error has=
-n&#39;t occured in my musl<br>
-test build before sending the patch.<br></div></blockquote></div><br>I susp=
-ect it&#39;s a libtasn 4.10 + new musl thing, we had an upgrade of both at =
-the same time and reverting libtasn to 4.9 works.=C2=A0 Thanks Maxin!</div>=
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div><=
-/div>
+On Thu, Jan 5, 2017 at 4:30 PM, Philip Balister <philip@balister.org> wrote=
+:
+> On 01/03/2017 08:13 PM, Andreas M=C3=BCller wrote:
+>> On Tue, Jan 3, 2017 at 4:32 PM, Philip Balister <philip@balister.org> wr=
+ote:
+>>> Every year since 2007, OpenEmbedded has a stand at FOSDEM
+>>> (http://www.fosdem.org)
+>>>
+>>> From the first year:
+>>>
+>>> https://www.flickr.com/photos/32615155@N00/405229708/in/album-721575945=
+61002629/
+>>>
+>>> Belen and I are sort of organizing this, but both of us are also
+>>> involved in devrooms, so we will need a lot of help manning the stand
+>>> and getting some demos together.
+>>>
+>>> Demos should try and show how the project makes embedded work easier, b=
+y
+>>> showing tools and/or cool examples of devices using Linux built with
+>>> OpenEmbedded. In previous years, we've shown toaster with data collecte=
+d
+>>> from demos on the table. Collections of devices running images built
+>>> from the same recipe and interesting products using Linux by OpenEmbedd=
+ed.
+>>>
+>>> I'm happy to try and organize demos and staffing, but I could really us=
+e
+>>> some help this year, so if you are in a position to tak ethe lead on
+>>> operating the stand, that would be a huge help to me and the rest of th=
+e
+>>> project.
+>>>
+>>> Thanks,
+>>>
+>>> Philip
+Nobody?
 
---001a114f41083734a3054704cecb--
+Andreas
+
