@@ -1,48 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f174.google.com (mail-qt0-f174.google.com
-	[209.85.216.174])
-	by mail.openembedded.org (Postfix) with ESMTP id ED6EB71A72
+Return-Path: <d.schultz@phytec.de>
+Received: from root.phytec.de (mail.visioncatalog.de [217.6.246.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 60C0E76536
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 13:36:04 +0000 (UTC)
-Received: by mail-qt0-f174.google.com with SMTP id k15so74939822qtg.3
+	Thu, 26 Jan 2017 13:44:56 +0000 (UTC)
+Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
+	by root.phytec.de (Postfix) with ESMTP id 7B4B3A00DBD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 05:36:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=6LD83Quxy2ANpB6f317khv7cAjBrtwdjEZlRL8LHzig=;
-	b=Uu25pCJmqvH9qr7/mQzmv93ygcNBfu3PQ070Nik6dZv/EZAAdgfFplAnTIvrQg2K37
-	SJUvIfU10Z587sGuLPAMTN6SVpW1JFyrkox76BQyWALN4Nz9lY8DWFkCwKQzARHMutot
-	TslFyQR01mrYccSUa57M3DbYBZAVrlIcqXNrGRV8oebuQroWG4eC1tfFXid7dXswa87H
-	m8R8yUPQcZwy5SDeUd4xCX1Klh0NDaSg5PgyBdDMnFmxjJGUf72EOx2JABONCm2d3ATl
-	U8KnbLKiyfjs8SXhGj9K8V+TCSEkvptI+quSY5JXynJyBUSP7/yOoYEhcOwwOexpdtT0
-	JHEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=6LD83Quxy2ANpB6f317khv7cAjBrtwdjEZlRL8LHzig=;
-	b=aZLgAS+ML1XTnjAJj0j9JYETmlHjtQiXJnl+d7s11RZ7XqoM4TDUNvAUV+CNMHz9RA
-	WHK1/N5yNTrPdGdkqubKOUWGe3Ms3V1m6rPeShdz8xorKkUDqdilTSs0l9oUPozyp6Qq
-	5A+OlPrG6MwL9scdXhJy6HjRVKdRJSUT9PNSgXMHPa4bOJo4Y09VklKaXZDElUnQZei1
-	foYfq1ZJRZHFScVl69C6WwAXZxI602QhG8w45N/xr20VSBE9GNCC7soLqaFQD6fyUUBY
-	6HHErJK2eOpHt3nvJace3bxdwgJQ8887KX1mq5GESSBifEfJU530ttqwoyRPSMzMNLxK
-	EavQ==
-X-Gm-Message-State: AIkVDXK1reGDfje3oLv8h+3qT+IIl1Wz3cK/k8Iw3/GGm7TDcn5caCgQnTWAtB+DLNKbHa5Mu2nrRT34CS1ZJTVv
-X-Received: by 10.55.176.194 with SMTP id z185mr2747440qke.26.1485437764589;
-	Thu, 26 Jan 2017 05:36:04 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Thu, 26 Jan 2017 05:35:44 -0800 (PST)
-In-Reply-To: <1485435868-1879-1-git-send-email-liu.ming50@gmail.com>
-References: <1485435868-1879-1-git-send-email-liu.ming50@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 26 Jan 2017 13:35:44 +0000
-Message-ID: <CAJTo0LYeN-xYneneyaZzB145_5FKdC4e6bNqSbJQB3t7DtSjpg@mail.gmail.com>
-To: Ming Liu <liu.ming50@gmail.com>
-Cc: Yue Tao <yue.tao@windriver.com>,
-	Ming Liu <peter.x.liu@external.atlascopco.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] package_manager.py: fix issues when dealing with FEED_DEPLOYDIR_BASE_URI
+	Thu, 26 Jan 2017 14:45:07 +0100 (CET)
+Received: from augenblix.phytec.de ([172.16.0.56])
+	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
+	with ESMTP id 2017012614445589-132035 ;
+	Thu, 26 Jan 2017 14:44:55 +0100 
+From: Daniel Schultz <d.schultz@phytec.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 Jan 2017 14:44:56 +0100
+Message-Id: <1485438296-5660-1-git-send-email-d.schultz@phytec.de>
+X-Mailer: git-send-email 1.9.1
+X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
+	17, 2016) at 26.01.2017 14:44:55,
+	Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17,
+	2016) at 26.01.2017 14:44:55,
+	Serialize complete at 26.01.2017 14:44:55
+X-TNEFEvaluated: 1
+Subject: [PATCH v3] cryptodev: Fix changed mm interface in Kernel 4.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,89 +35,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jan 2017 13:36:08 -0000
-Content-Type: multipart/alternative; boundary=94eb2c060ce64b75a30546ff6e04
+X-List-Received-Date: Thu, 26 Jan 2017 13:44:57 -0000
 
---94eb2c060ce64b75a30546ff6e04
-Content-Type: text/plain; charset=UTF-8
+The memory management interface has changed in Kernel 4.9.
 
-On 26 January 2017 at 13:04, <liu.ming50@gmail.com> wrote:
+This patch adds a patch which fixes the paramter of the function call.
 
-> @@ -1662,14 +1662,12 @@ class OpkgPM(OpkgDpkgPM):
->              NOTE: Development-helper feature, NOT a full-fledged feed.
->              """
->              if (self.d.getVar('FEED_DEPLOYDIR_BASE_URI') or "") != "":
-> +                cfg_dir_name = os.path.join(self.target_rootfs,
-> "etc/opkg")
-> +                bb.utils.mkdirhier(cfg_dir_name)
->                  for arch in self.pkg_archs.split():
-> -                    cfg_file_name = os.path.join(self.target_rootfs,
-> -
->  self.d.getVar("sysconfdir"),
-> -                                                 "opkg",
-> -                                                 "local-%s-feed.conf" %
-> arch)
-> -
-> +                    cfg_file_name = os.path.join(cfg_dir_name,
-> "local-%s-feed.conf" % arch)
->                      with open(cfg_file_name, "w+") as cfg_file:
-> -                        cfg_file.write("src/gz local-%s %s/%s" %
-> +                        cfg_file.write("src/gz local-%s %s/%s\n" %
->                                         (arch,
->                                          self.d.getVar('FEED_DEPLOYDIR_
-> BASE_URI'),
->                                          arch))
->
+Backport from https://github.com/cryptodev-linux/cryptodev-linux
+Based on commit f126e4837e6334d0464540995df7426fedf6b175
 
-Isn't this a bad clone of the feeds generated by PACKAGE_FEED_URIS so
-should be deleted entirely?
+Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
+---
+ meta/recipes-kernel/cryptodev/cryptodev.inc        |  3 +-
+ ...st-to-another-change-in-the-user-page-API.patch | 40 ++++++++++++++++++++++
+ 2 files changed, 42 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/cryptodev/files/0001-Adjust-to-another-change-in-the-user-page-API.patch
 
-Ross
+diff --git a/meta/recipes-kernel/cryptodev/cryptodev.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
+index 160ab30..6241238 100644
+--- a/meta/recipes-kernel/cryptodev/cryptodev.inc
++++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
+@@ -5,7 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+ SRC_URI = "http://download.gna.org/cryptodev-linux/cryptodev-linux-${PV}.tar.gz \
+            file://06d6b560c6e45dc317dae47c74706fa43f4a31d8.patch \
+-           file://cb186f682679383e8b5806240927903730ce85d9.patch"
++           file://cb186f682679383e8b5806240927903730ce85d9.patch \
++           file://0001-Adjust-to-another-change-in-the-user-page-API.patch"
+ 
+ SRC_URI[md5sum] = "02644cc4cd02301e0b503a332eb2f0b5"
+ SRC_URI[sha256sum] = "67fabde9fb67b286a96c4f45b594b0eccd0f761b495705c18f2ae9461b831376"
+diff --git a/meta/recipes-kernel/cryptodev/files/0001-Adjust-to-another-change-in-the-user-page-API.patch b/meta/recipes-kernel/cryptodev/files/0001-Adjust-to-another-change-in-the-user-page-API.patch
+new file mode 100644
+index 0000000..fb75278
+--- /dev/null
++++ b/meta/recipes-kernel/cryptodev/files/0001-Adjust-to-another-change-in-the-user-page-API.patch
+@@ -0,0 +1,40 @@
++From f126e4837e6334d0464540995df7426fedf6b175 Mon Sep 17 00:00:00 2001
++From: Michael Weiser <michael.weiser@gmx.de>
++Date: Fri, 11 Nov 2016 18:09:32 +0100
++Subject: [PATCH] Adjust to another change in the user page API
++
++4.9.0 will replace the write and force flags of get_user_pages_remote()
++with a gup_flags parameter[1]. Distinguish the two APIs based on kernel
++version we're compiling for.
++
++[1] https://github.com/torvalds/linux/commit/9beae1ea89305a9667ceaab6d0bf46a045ad71e7
++
++Upstream-Status: Backport
++
++Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
++---
++ zc.c | 8 +++++++-
++ 1 file changed, 7 insertions(+), 1 deletion(-)
++
++diff --git a/zc.c b/zc.c
++index a97b49f..e766ee3 100644
++--- a/zc.c
+++++ b/zc.c
++@@ -65,7 +65,13 @@ int __get_userbuf(uint8_t __user *addr, uint32_t len, int write,
++ 	ret = get_user_pages(
++ #endif
++ 			task, mm,
++-			(unsigned long)addr, pgcount, write, 0, pg, NULL);
+++			(unsigned long)addr, pgcount,
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 9, 0))
+++			write ? FOLL_WRITE : 0,
+++#else
+++			write, 0,
+++#endif
+++			pg, NULL);
++ 	up_read(&mm->mmap_sem);
++ 	if (ret != pgcount)
++ 		return -EINVAL;
++-- 
++1.9.1
++
+-- 
+1.9.1
 
---94eb2c060ce64b75a30546ff6e04
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: base64
 
-PGRpdiBkaXI9Imx0ciI+PGRpdiBjbGFzcz0iZ21haWxfZXh0cmEiPjxicj48ZGl2IGNsYXNzPSJn
-bWFpbF9xdW90ZSI+T24gMjYgSmFudWFyeSAyMDE3IGF0IDEzOjA0LCAgPHNwYW4gZGlyPSJsdHIi
-PiZsdDs8YSBocmVmPSJtYWlsdG86bGl1Lm1pbmc1MEBnbWFpbC5jb20iIHRhcmdldD0iX2JsYW5r
-Ij5saXUubWluZzUwQGdtYWlsLmNvbTwvYT4mZ3Q7PC9zcGFuPiB3cm90ZTo8YnI+PGJsb2NrcXVv
-dGUgY2xhc3M9ImdtYWlsX3F1b3RlIiBzdHlsZT0ibWFyZ2luOjBweCAwcHggMHB4IDAuOGV4O2Jv
-cmRlci1sZWZ0LXdpZHRoOjFweDtib3JkZXItbGVmdC1jb2xvcjpyZ2IoMjA0LDIwNCwyMDQpO2Jv
-cmRlci1sZWZ0LXN0eWxlOnNvbGlkO3BhZGRpbmctbGVmdDoxZXgiPjxkaXYgaWQ9ImdtYWlsLToz
-MG0iIGNsYXNzPSJnbWFpbC1hM3MgZ21haWwtYVhqQ0ggZ21haWwtbTE1OWRhZTFkZTZkYTc3YjQi
-PkBAIC0xNjYyLDE0ICsxNjYyLDEyIEBAIGNsYXNzIE9wa2dQTShPcGtnRHBrZ1BNKTo8YnI+DQrC
-oCDCoCDCoCDCoCDCoCDCoCDCoE5PVEU6IERldmVsb3BtZW50LWhlbHBlciBmZWF0dXJlLCBOT1Qg
-YSBmdWxsLWZsZWRnZWQgZmVlZC48YnI+DQrCoCDCoCDCoCDCoCDCoCDCoCDCoCZxdW90OyZxdW90
-OyZxdW90Ozxicj4NCsKgIMKgIMKgIMKgIMKgIMKgIMKgaWYgKHNlbGYuZC5nZXRWYXIoJiMzOTtG
-RUVEXzx3YnI+REVQTE9ZRElSX0JBU0VfVVJJJiMzOTspIG9yICZxdW90OyZxdW90OykgIT0gJnF1
-b3Q7JnF1b3Q7Ojxicj4NCivCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBjZmdfZGlyX25hbWUgPSBv
-cy5wYXRoLmpvaW4oc2VsZi50YXJnZXRfPHdicj5yb290ZnMsICZxdW90O2V0Yy9vcGtnJnF1b3Q7
-KTxicj4NCivCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBiYi51dGlscy5ta2RpcmhpZXIoY2ZnX2Rp
-cl88d2JyPm5hbWUpPGJyPg0KwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqBmb3IgYXJjaCBpbiBz
-ZWxmLnBrZ19hcmNocy5zcGxpdCgpOjxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCBjZmdfZmlsZV9uYW1lID0gb3MucGF0aC5qb2luKHNlbGYudGFyZ2V0Xzx3YnI+cm9vdGZzLDxi
-cj4NCi3CoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoHNlbGYuZC5nZXRWYXIoJnF1b3Q7c3lzY29uZmRpciZxdW90
-OyksPGJyPg0KLcKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
-IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgJnF1b3Q7b3BrZyZxdW90Oyw8YnI+DQotwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqAmcXVvdDtsb2NhbC0lcy1mZWVkLmNvbmYmcXVvdDsgJSBhcmNoKTxicj4NCi08
-YnI+DQorwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgY2ZnX2ZpbGVfbmFtZSA9IG9zLnBh
-dGguam9pbihjZmdfZGlyX25hbWUsICZxdW90O2xvY2FsLSVzLWZlZWQuY29uZiZxdW90OyAlIGFy
-Y2gpPGJyPg0KwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqB3aXRoIG9wZW4oY2ZnX2Zp
-bGVfbmFtZSwgJnF1b3Q7dysmcXVvdDspIGFzIGNmZ19maWxlOjxicj4NCi3CoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBjZmdfZmlsZS53cml0ZSgmcXVvdDtzcmMvZ3ogbG9jYWwt
-JXMgJXMvJXMmcXVvdDsgJTxicj4NCivCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCBjZmdfZmlsZS53cml0ZSgmcXVvdDtzcmMvZ3ogbG9jYWwtJXMgJXMvJXNcbiZxdW90OyAlPGJy
-Pg0KwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgKGFyY2gsPGJyPg0KwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqBzZWxmLmQuZ2V0VmFyKCYjMzk7RkVFRF9ERVBMT1lESVJf
-PHdicj5CQVNFX1VSSSYjMzk7KSw8YnI+DQrCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoGFyY2gpKTwvZGl2PjwvYmxvY2txdW90ZT48
-L2Rpdj48YnI+SXNuJiMzOTt0IHRoaXMgYSBiYWQgY2xvbmUgb2YgdGhlIGZlZWRzIGdlbmVyYXRl
-ZCBiecKgUEFDS0FHRV9GRUVEX1VSSVMgc28gc2hvdWxkIGJlIGRlbGV0ZWQgZW50aXJlbHk/PC9k
-aXY+PGRpdiBjbGFzcz0iZ21haWxfZXh0cmEiPjxicj48L2Rpdj48ZGl2IGNsYXNzPSJnbWFpbF9l
-eHRyYSI+Um9zczwvZGl2PjwvZGl2Pg0K
-
---94eb2c060ce64b75a30546ff6e04--
