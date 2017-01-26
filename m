@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 72CD7771D4;
-	Thu, 26 Jan 2017 15:24:46 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 62FDB771A3;
+	Thu, 26 Jan 2017 15:25:02 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Daniel Schultz <d.schultz@phytec.de>
-Date: Thu, 26 Jan 2017 15:24:47 -0000
-Message-ID: <20170126152447.4464.41086@do.openembedded.org>
-References: <1485425724-4927-1-git-send-email-d.schultz@phytec.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Thu, 26 Jan 2017 15:25:03 -0000
+Message-ID: <20170126152503.4464.72913@do.openembedded.org>
+References: <1485424987-2502-1-git-send-email-richard.purdie@linuxfoundation.org>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1485425724-4927-1-git-send-email-d.schultz@phytec.de>
+In-Reply-To: <1485424987-2502-1-git-send-email-richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY3J5cHRvZGV2OiBGaXggY2hhbmdlZCBtbSBpbnRlcmZhY2UgaW4gS2VybmVsIDQuOSAocmV2Mik=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgaW1hZ2UvcGFja2FnZWdyb3VwL3BvcHVsYXRlX3NkazogRHJvcCBkb19wb3B1bGF0ZV9zeXNyb290IHRhc2sgcHJvcGVybHk=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jan 2017 15:24:46 -0000
+X-List-Received-Date: Thu, 26 Jan 2017 15:25:02 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: cryptodev: Fix changed mm interface in Kernel 4.9 (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/4970/
+Series: image/packagegroup/populate_sdk: Drop do_populate_sysroot task properly
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/4996/
 State : failure
 
 == Summary ==
@@ -45,8 +45,9 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
-  Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-kernel/cryptodev/files/0001-Adjust-to-another-change-in-the-user-page-API.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at a99cca0e8e)
 
 
 
