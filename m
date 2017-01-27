@@ -1,30 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 04CB577459
+	by mail.openembedded.org (Postfix) with ESMTP id 03D6177456
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 27 Jan 2017 17:42:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0RHgEjA019772; Fri, 27 Jan 2017 17:42:14 GMT
+	v0RHgEAb019778; Fri, 27 Jan 2017 17:42:15 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id czu90dbJGqt1; Fri, 27 Jan 2017 17:42:14 +0000 (GMT)
+	with LMTP id ULW9jNxlLrku; Fri, 27 Jan 2017 17:42:15 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0RHg9lw019762
+	v0RHg9W1019763
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Fri, 27 Jan 2017 17:42:10 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cXAXJ-0001WU-Ml; Fri, 27 Jan 2017 17:42:09 +0000
+	id 1cXAXJ-0001WZ-NN; Fri, 27 Jan 2017 17:42:09 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Jan 2017 17:42:04 +0000
-Message-Id: <1485538927-5797-4-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Fri, 27 Jan 2017 17:42:05 +0000
+Message-Id: <1485538927-5797-5-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1485538927-5797-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1485538927-5797-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 4/7] sstate: Allow sstate_clean_manifest to take a prefix
+Subject: [PATCH 5/7] staging: Drop common prefix WORKDIR from manifest files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,36 +40,44 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 27 Jan 2017 17:42:18 -0000
 
 Manifest files containing the same duplicated prefix are wasteful on space
-and ultimately this costs build time. Add support for manifest files with
-common prefixes removed and use the prefix if the path isn't absolute.
+and ultimately this costs build time. Drop the WORKDIR prefix from the manifest
+files since this small change mounts up a lot.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/sstate.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/classes/staging.bbclass | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 0fdeb9d..31789da 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -426,7 +426,7 @@ def sstate_clean_cachefiles(d):
-         ss = sstate_state_fromvars(ld, task)
-         sstate_clean_cachefile(ss, ld)
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index 1fe60ac..1b618fb 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -360,6 +360,7 @@ python extend_recipe_sysroot() {
  
--def sstate_clean_manifest(manifest, d):
-+def sstate_clean_manifest(manifest, d, prefix=None):
-     import oe.path
+     taskdepdata = d.getVar("BB_TASKDEPDATA", False)
+     mytaskname = d.getVar("BB_RUNTASK")
++    workdir = d.getVar("WORKDIR")
+     #bb.warn(str(taskdepdata))
+     pn = d.getVar("PN")
  
-     mfile = open(manifest)
-@@ -435,6 +435,8 @@ def sstate_clean_manifest(manifest, d):
+@@ -504,7 +505,7 @@ python extend_recipe_sysroot() {
+                 continue
+             else:
+                 bb.note("%s exists in sysroot, but is stale (%s vs. %s), removing." % (c, lnk, c + "." + taskhash))
+-                sstate_clean_manifest(depdir + "/" + lnk, d)
++                sstate_clean_manifest(depdir + "/" + lnk, d, workdir)
+                 os.unlink(depdir + "/" + c)
+         elif os.path.lexists(depdir + "/" + c):
+             os.unlink(depdir + "/" + c)
+@@ -559,7 +560,7 @@ python extend_recipe_sysroot() {
+                     else:
+                         dest = staging_copyfile(l, destsysroot, fixme[''], postinsts, stagingdir)
+                     if dest:
+-                        m.write(dest + "\n")
++                        m.write(dest.replace(workdir + "/", "") + "\n")
  
-     for entry in entries:
-         entry = entry.strip()
-+        if prefix and not entry.startswith("/"):
-+            entry = prefix + "/" + entry
-         bb.debug(2, "Removing manifest: %s" % entry)
-         # We can race against another package populating directories as we're removing them
-         # so we ignore errors here.
+     for f in fixme:
+         if f == '':
 -- 
 2.7.4
 
