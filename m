@@ -1,30 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 00E917743B
+	by mail.openembedded.org (Postfix) with ESMTP id 01D8A77441
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 27 Jan 2017 17:42:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0RHgEkd019780; Fri, 27 Jan 2017 17:42:14 GMT
+	v0RHgEAa019778; Fri, 27 Jan 2017 17:42:14 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id O834zduk582t; Fri, 27 Jan 2017 17:42:14 +0000 (GMT)
+	with LMTP id emZvRuvmPY8u; Fri, 27 Jan 2017 17:42:14 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0RHg9dV019765
+	v0RHg9BX019764
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Fri, 27 Jan 2017 17:42:10 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cXAXJ-0001Wj-Oq; Fri, 27 Jan 2017 17:42:09 +0000
+	id 1cXAXJ-0001We-OD; Fri, 27 Jan 2017 17:42:09 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Jan 2017 17:42:07 +0000
-Message-Id: <1485538927-5797-7-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Fri, 27 Jan 2017 17:42:06 +0000
+Message-Id: <1485538927-5797-6-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1485538927-5797-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1485538927-5797-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 7/7] libxml2: Drop docs in native case
+Subject: [PATCH 6/7] staging: Allow removal of stale sysroot objects
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,28 +39,65 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 27 Jan 2017 17:42:17 -0000
 
-With rss, moving these around was having an increasing overhead and we don't
-need them in the native case so remove them.
+The main sysroot components of unreachable build targets will be removed by the core
+code. This currently doesn't trigger a removal in the individual workdirs. This
+adds in symlinking between the complete stamps and the component sysroot meaning
+we can detect when someting was removed and hence remove it from the sysroot.
+
+This fixes cases where DISTRO_FEATURES like systemd are changed amongst other
+things and makes builds more robust against configuration changes.
+
+If a dependency is rebuild, that is caught by checksum comparision code elsewhere
+in this function as before.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/libxml/libxml2_2.9.4.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/classes/staging.bbclass | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.4.bb b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-index 0287a0a..93b9ba0 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.4.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-@@ -76,4 +76,9 @@ do_install_ptest () {
- 	cp -r ${WORKDIR}/xmlconf ${D}${PTEST_PATH}
- }
- 
-+do_install_append_class-native () {
-+	# Docs are not needed in the native case
-+	rm ${D}${datadir}/gtk-doc -rf
-+}
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index 1b618fb..cc7767a 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -490,6 +490,18 @@ python extend_recipe_sysroot() {
+     fixme['native'] = []
+     postinsts = []
+     multilibs = {}
++    manifests = {}
 +
- BBCLASSEXTEND = "native nativesdk"
++    for f in os.listdir(depdir):
++        if not f.endswith(".complete"):
++            continue
++        f = depdir + "/" + f
++        if os.path.islink(f) and not os.path.exists(f):
++            bb.note("%s no longer exists, removing from sysroot" % f)
++            lnk = os.readlink(f.replace(".complete", ""))
++            sstate_clean_manifest(depdir + "/" + lnk, d, workdir)
++            os.unlink(f)
++            os.unlink(f.replace(".complete", ""))
+ 
+     for dep in configuredeps:
+         c = setscenedeps[dep][0]
+@@ -547,6 +559,7 @@ python extend_recipe_sysroot() {
+             bb.warn("Manifest %s not found?" % manifest)
+         else:
+             with open(manifest, "r") as f, open(taskmanifest, 'w') as m:
++                manifests[dep] = manifest
+                 for l in f:
+                     l = l.strip()
+                     if l.endswith("/"):
+@@ -573,9 +586,9 @@ python extend_recipe_sysroot() {
+     for p in postinsts:
+         subprocess.check_output(p, shell=True)
+ 
+-    for dep in configuredeps:
++    for dep in manifests:
+         c = setscenedeps[dep][0]
+-        open(depdir + "/" + c + ".complete", "w").close()
++        os.symlink(manifests[dep], depdir + "/" + c + ".complete")
+ 
+     bb.utils.unlockfile(lock)
+ }
 -- 
 2.7.4
 
