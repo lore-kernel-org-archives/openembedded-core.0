@@ -1,41 +1,46 @@
-Return-Path: <andani.prashant@gmail.com>
-Received: from mail-lf0-f47.google.com (mail-lf0-f47.google.com
-	[209.85.215.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 00EB265CB6
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ua0-f173.google.com (mail-ua0-f173.google.com
+	[209.85.217.173])
+	by mail.openembedded.org (Postfix) with ESMTP id C0E6271C14
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2017 04:23:50 +0000 (UTC)
-Received: by mail-lf0-f47.google.com with SMTP id x1so69393422lff.0
+	Fri, 27 Jan 2017 06:16:21 +0000 (UTC)
+Received: by mail-ua0-f173.google.com with SMTP id 35so198538599uak.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 20:23:51 -0800 (PST)
+	Thu, 26 Jan 2017 22:16:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=08u8FaPGpuAMK6B/V5gfIjQaoFHovwOj4HlkCZksLH8=;
-	b=Tj/3/fy7I05u77JyeCXEqoRbHc6rJoBLv67K9MuH7nlv+kpa0Dwjnha4Q5AKvV2BVW
-	OG4i/HOLs/A5nSWQDyvkYWAn23A0FmzAYeWd1OaJb+HmAoM7d+jN6SSncxCt3mNd/etf
-	A200t8L67OgllR57sK8Y1xs+WdL8Zs+/U+VMaHP9NPIRQfWvsH6We/ZZeS1HLxmkNwvJ
-	ZMPeax8AUm18uYgLCwdb1bmVSaeUWRZGrbOhbqlAevIZRS1Kns9JyROdFkWJ5l6c6BAA
-	hCna4B0QgJdNt1e0WZeRnPCtgHxlvRLMPhmxmZkiuaExE6/7H9tTYZ4kN4ufDtxr3TD4
-	EN5w==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=+KU/rEjDFcteZg91FcsES1O9ThQuQvVtj13iTSFsrg0=;
+	b=POJue5P+rLRtXS6O0ing2ADZtNSv21EYVmDNOkAQTamZ9I30WD4ujO9aSKbdqj46f6
+	vhgZRXPv+5JB38NqMxHlQV6CbFvqlwY/sa5XUTseKm4AGLfcNYDknhrle9tn2YfIwHMd
+	DL0FuvDAl0GtZsV1efga5f3Mk0fOIo04wgauGHuxIHlP2CK1Tp9I2/1KPj1we92bw4ae
+	j9z6Do0+GFmVDkJBVc4/xoepOiOEoVCRMjepE+nLHm93N51chR3WDD6M58CbLeREi+sX
+	mn99muZBQ+cCtew6PT59nJ/AfYfwE1mYSUKbic5x3TtFQcTe9Y9NFJYDpC/GE5kq2SRF
+	6gcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=08u8FaPGpuAMK6B/V5gfIjQaoFHovwOj4HlkCZksLH8=;
-	b=KxQANMyl8dQXLhgH09BIVCQnjSsS4vqghSzc8MqIcdACWP3RYlcbF2glb/G+CwKuzz
-	j9xtAziH1Cmq8V0LbUHGtVtWhdoEZOB9d2tkPiFDXrhHgj3vX5L+p/049fvjVDlxnSV1
-	rWkjdTZNth3ti7ArvenzqbtNqz1IMny6FDj4BMYC39MQIT5TjVp4zUumGwxmclLJ6NLH
-	54scZ1Fa9PZejjZ3wqK5gekMmihT2pDT+oeqkiZIKxiAr9ypvVW68abgfdjVM9IRr1X8
-	bZy5H1X3GM0YhUqqQXMHL985Oe/RByAJrlguHXQXymq14Y3q9BbMFWVVJi9pbNKOWGVO
-	Ln7A==
-X-Gm-Message-State: AIkVDXJALoPjIT/UI9vctFIckL8UnvA8BjCMEQkD/hzEqF2pXezPOb0lNKy0nWYlN3fHWLD7q//wIZ3OOQ5PwQ==
-X-Received: by 10.25.210.79 with SMTP id j76mr1737164lfg.129.1485491029686;
-	Thu, 26 Jan 2017 20:23:49 -0800 (PST)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=+KU/rEjDFcteZg91FcsES1O9ThQuQvVtj13iTSFsrg0=;
+	b=Sl4PizWcHFqO9v3g/W28UH6YlNjJAD09qk2v3NsYxpTVGhVrWVBuM11qLqH3HW+MCE
+	gm2KoK/IuRV9OYL+BhlHLo4nrqDJlsEOEDd6iIq8yL/ZRa7vnU0JDD21mo5asv03RsgM
+	BVwggpgdOexiCDQb2MphTJjbW6VFirpnbrOIM3bRfSqHR+k8oFv54lDRgxtV6SDB0tQb
+	UCSlLwLczeuEf/TLM+hXSnEoOO8Wo8yy4XnkFB2ik70wRY1C+SNVSEVwgVpRGxYdnHD0
+	QYTbiF+s4iRaB4GTpO+aW3vEnJbbOIPPrrc9EkMd7Kbw+fz3yeKCjUexB3ebDyHYYD3M
+	NSGA==
+X-Gm-Message-State: AIkVDXLdg3FsW3/55NocDjJXVjci8p+kUzRjHHNFrrxhKezmijbq58X77GAII69cILmZDEhb+qmZD6mD+TsP0w==
+X-Received: by 10.176.90.144 with SMTP id w16mr3630887uae.101.1485497782042;
+	Thu, 26 Jan 2017 22:16:22 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.25.156.140 with HTTP; Thu, 26 Jan 2017 20:23:49 -0800 (PST)
-From: ANDANI PRASHANT <andani.prashant@gmail.com>
-Date: Fri, 27 Jan 2017 09:53:49 +0530
-Message-ID: <CAACupd1tgY3BaRkwgXzjARko5AV2nJPZh5JrMbXh8MsWco2NZg@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: oe-core build fail package_fixsymlinks
+Received: by 10.159.48.222 with HTTP; Thu, 26 Jan 2017 22:15:51 -0800 (PST)
+In-Reply-To: <CAACupd1tgY3BaRkwgXzjARko5AV2nJPZh5JrMbXh8MsWco2NZg@mail.gmail.com>
+References: <CAACupd1tgY3BaRkwgXzjARko5AV2nJPZh5JrMbXh8MsWco2NZg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 26 Jan 2017 22:15:51 -0800
+Message-ID: <CAMKF1spkJQirqezCjZS=4Kw-P+9sy76wOrSxCxruNEeF8rRRUg@mail.gmail.com>
+To: ANDANI PRASHANT <andani.prashant@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: oe-core build fail package_fixsymlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,227 +53,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2017 04:23:51 -0000
-Content-Type: multipart/alternative; boundary=001a11412f4824431305470bd53e
-
---001a11412f4824431305470bd53e
+X-List-Received-Date: Fri, 27 Jan 2017 06:16:23 -0000
 Content-Type: text/plain; charset=UTF-8
 
-Hi,
+does this happen if you remove meta-linaro-toolchain from your layer mix ?
 
-If i remove package_fixsymlinks from meta/classes/package.bbclass, it works
-else giving error as below:
+On Thu, Jan 26, 2017 at 8:23 PM, ANDANI PRASHANT
+<andani.prashant@gmail.com> wrote:
+> Hi,
+>
+> If i remove package_fixsymlinks from meta/classes/package.bbclass, it works
+> else giving error as below:
+>
+> ERROR: external-linaro-toolchain-2017.01~dev-r0.arago30 do_package: Error
+> executing a python function in exec_python_func() autogenerated:
+>
+> The stack trace of python calls that resulted in this exception/failure was:
+> File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+>      0001:
+>  *** 0002:package_fixsymlinks(d)
+>      0003:
+> File: 'tisdk/sources/oe-core/meta/classes/package.bbclass', lineno: 1210,
+> function: package_fixsymlinks
+>      1206:        inst_root = os.path.join(pkgdest, pkg)
+>      1207:        for path in pkgfiles[pkg]:
+>      1208:                rpath = path[len(inst_root):]
+>      1209:                pkg_files[pkg].append(rpath)
+>  *** 1210:                rtarget = cpath.realpath(path, inst_root, True,
+> assume_dir = True)
+>      1211:                if not cpath.lexists(rtarget):
+>      1212:
+> dangling_links[pkg].append(os.path.normpath(rtarget[len(inst_root):]))
+>      1213:
+>      1214:    newrdepends = {}
+> File: tisdk/sources/oe-core/meta/lib/oe/cachedpath.py', lineno: 229,
+> function: realpath
+>      0225:                # be printed a backtrace with 100s of OSError
+> exceptions
+>      0226:                # else
+>      0227:                raise OSError(errno.ELOOP,
+>      0228:                              "too much recursions while resolving
+> '%s'; loop in '%s'" %
+>  *** 0229:                              (file, e.strerror))
+>      0230:
+>      0231:            raise
+>      0232:
+>      0233:        return file
+> Exception: OSError: [Errno 40] too much recursions while resolving
+> 'tisdk/build/arago-tmp-external-linaro-toolchain/work/armv5-linux-gnueabi/external-linaro-toolchain/2017.01~dev-r0.arago30/packages-split/libstdc++-dev/usr/include/c++/6.2.1/arm-linux-gnueabi/arm-linux-gnueabi';
+> loop in
+> 'tisdk/build/arago-tmp-external-linaro-toolchain/work/armv5-linux-gnueabi/external-linaro-toolchain/2017.01~dev-r0.arago30/packages-split/libstdc++-dev/usr/include/c++/6.2.1/arm-linux-gnueabi/arm-linux-gnueabi'
+>
+> ERROR: external-linaro-toolchain-2017.01~dev-r0.arago30 do_package: Function
+> failed: package_fixsymlinks
+> ERROR: Logfile of failure stored in:
+> tisdk/build/arago-tmp-external-linaro-toolchain/work/armv5-linux-gnueabi/external-linaro-toolchain/2017.01~dev-r0.arago30/temp/log.do_package.10039
+> ERROR: Task 437
+> (tisdk/sources/meta-linaro/meta-linaro-toolchain/recipes-devtools/external-linaro-toolchain/external-linaro-toolchain.bb,
+> do_package) failed with exit code '1'
+> NOTE: Tasks Summary: Attempted 642 tasks of which 629 didn't need to be
+> rerun and 1 failed.
+> NOTE: Writing buildhistory
+> Waiting for 0 running tasks to finish:
+>
+> Summary: 1 task failed:
+> tisdk/sources/meta-linaro/meta-linaro-toolchain/recipes-devtools/external-linaro-toolchain/external-linaro-toolchain.bb,
+> do_package
+> Summary: There were 3 WARNING messages shown.
+> Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
+>
+>
+> --
+> Regards,
+> Prashant
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-ERROR: external-linaro-toolchain-2017.01~dev-r0.arago30 do_package: Error
-executing a python function in exec_python_func() autogenerated:
-
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:package_fixsymlinks(d)
-     0003:
-File: 'tisdk/sources/oe-core/meta/classes/package.bbclass', lineno: 1210,
-function: package_fixsymlinks
-     1206:        inst_root = os.path.join(pkgdest, pkg)
-     1207:        for path in pkgfiles[pkg]:
-     1208:                rpath = path[len(inst_root):]
-     1209:                pkg_files[pkg].append(rpath)
- *** 1210:                rtarget = cpath.realpath(path, inst_root, True,
-assume_dir = True)
-     1211:                if not cpath.lexists(rtarget):
-     1212:                    dangling_links[pkg].append(os.
-path.normpath(rtarget[len(inst_root):]))
-     1213:
-     1214:    newrdepends = {}
-File: tisdk/sources/oe-core/meta/lib/oe/cachedpath.py', lineno: 229,
-function: realpath
-     0225:                # be printed a backtrace with 100s of OSError
-exceptions
-     0226:                # else
-     0227:                raise OSError(errno.ELOOP,
-     0228:                              "too much recursions while
-resolving '%s'; loop in '%s'" %
- *** 0229:                              (file, e.strerror))
-     0230:
-     0231:            raise
-     0232:
-     0233:        return file
-Exception: OSError: [Errno 40] too much recursions while resolving
-'tisdk/build/arago-tmp-external-linaro-toolchain/work/armv5-linux-gnueabi/
-external-linaro-toolchain/2017.01~dev-r0.arago30/
-packages-split/libstdc++-dev/usr/include/c++/6.2.1/arm-
-linux-gnueabi/arm-linux-gnueabi'; loop in 'tisdk/build/arago-tmp-
-external-linaro-toolchain/work/armv5-linux-gnueabi/
-external-linaro-toolchain/2017.01~dev-r0.arago30/
-packages-split/libstdc++-dev/usr/include/c++/6.2.1/arm-
-linux-gnueabi/arm-linux-gnueabi'
-
-ERROR: external-linaro-toolchain-2017.01~dev-r0.arago30 do_package:
-Function failed: package_fixsymlinks
-ERROR: Logfile of failure stored in: tisdk/build/arago-tmp-
-external-linaro-toolchain/work/armv5-linux-gnueabi/
-external-linaro-toolchain/2017.01~dev-r0.arago30/temp/log.do_package.10039
-ERROR: Task 437 (tisdk/sources/meta-linaro/meta-linaro-toolchain/recipes-
-devtools/external-linaro-toolchain/external-linaro-toolchain.bb,
-do_package) failed with exit code '1'
-NOTE: Tasks Summary: Attempted 642 tasks of which 629 didn't need to be
-rerun and 1 failed.
-NOTE: Writing buildhistory
-Waiting for 0 running tasks to finish:
-
-Summary: 1 task failed:
-tisdk/sources/meta-linaro/meta-linaro-toolchain/recipes-
-devtools/external-linaro-toolchain/external-linaro-toolchain.bb, do_package
-Summary: There were 3 WARNING messages shown.
-Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
-
-
--- 
-Regards,
-Prashant
-
---001a11412f4824431305470bd53e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div style=3D"font-size:12.8px">Hi,<br><br></div><span sty=
-le=3D"font-size:12.8px">If i remove package_fixsymlinks from meta/classes/p=
-ackage.bbclass, it works else giving error as below:</span><br style=3D"fon=
-t-size:12.8px"><br style=3D"font-size:12.8px"><span style=3D"font-size:12.8=
-px">ERROR: external-linaro-toolchain-</span><wbr style=3D"font-size:12.8px"=
-><span style=3D"font-size:12.8px">2017.01~dev-r0.arago30 do_package: Error =
-executing a python function in exec_python_func() autogenerated:</span><br =
-style=3D"font-size:12.8px"><br style=3D"font-size:12.8px"><span style=3D"fo=
-nt-size:12.8px">The stack trace of python calls that resulted in this excep=
-tion/failure was:</span><br style=3D"font-size:12.8px"><span style=3D"font-=
-size:12.8px">File: &#39;exec_python_func() autogenerated&#39;, lineno: 2, f=
-unction: &lt;module&gt;</span><br style=3D"font-size:12.8px"><span style=3D=
-"font-size:12.8px">=C2=A0=C2=A0=C2=A0=C2=A0 0001:</span><br style=3D"font-s=
-ize:12.8px"><span style=3D"font-size:12.8px">=C2=A0*** 0002:package_fixsyml=
-inks(d)</span><br style=3D"font-size:12.8px"><span style=3D"font-size:12.8p=
-x">=C2=A0=C2=A0=C2=A0=C2=A0 0003:</span><br style=3D"font-size:12.8px"><spa=
-n style=3D"font-size:12.8px">File: &#39;tisdk/sources/oe-core/meta/</span><=
-wbr style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">classes/pac=
-kage.bbclass&#39;, lineno: 1210, function: package_fixsymlinks</span><br st=
-yle=3D"font-size:12.8px"><span style=3D"font-size:12.8px">=C2=A0=C2=A0=C2=
-=A0=C2=A0 1206:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 inst_root =3D os.=
-path.join(pkgdest, pkg)</span><br style=3D"font-size:12.8px"><span style=3D=
-"font-size:12.8px">=C2=A0=C2=A0=C2=A0=C2=A0 1207:=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 for path in pkgfiles[pkg]:</span><br style=3D"font-size:=
-12.8px"><span style=3D"font-size:12.8px">=C2=A0=C2=A0=C2=A0=C2=A0 1208:=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 rpath =3D path[len(inst_root):]</span><br style=3D"font-size:1=
-2.8px"><span style=3D"font-size:12.8px">=C2=A0=C2=A0=C2=A0=C2=A0 1209:=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 pkg_files[pkg].append(rpath)</span><br style=3D"font-size:12.8=
-px"><span style=3D"font-size:12.8px">=C2=A0*** 1210:=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rtarg=
-et =3D cpath.realpath(path, inst_root, True, assume_dir =3D True)</span><br=
- style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">=C2=A0=C2=A0=
-=C2=A0=C2=A0 1211:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if not cpath.lexists(rtarget):</span><br =
-style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">=C2=A0=C2=A0=C2=
-=A0=C2=A0 1212:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dangling_links[pkg].=
-append(os.</span><wbr style=3D"font-size:12.8px"><span style=3D"font-size:1=
-2.8px">path.normpath(rtarget[len(</span><wbr style=3D"font-size:12.8px"><sp=
-an style=3D"font-size:12.8px">inst_root):]))</span><br style=3D"font-size:1=
-2.8px"><span style=3D"font-size:12.8px">=C2=A0=C2=A0=C2=A0=C2=A0 1213:</spa=
-n><br style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">=C2=A0=C2=
-=A0=C2=A0=C2=A0 1214:=C2=A0=C2=A0=C2=A0 newrdepends =3D {}</span><br style=
-=3D"font-size:12.8px"><span style=3D"font-size:12.8px">File: tisdk/sources/=
-oe-core/meta/</span><wbr style=3D"font-size:12.8px"><span style=3D"font-siz=
-e:12.8px">lib/oe/cachedpath.py&#39;, lineno: 229, function: realpath</span>=
-<br style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">=C2=A0=C2=
-=A0=C2=A0=C2=A0 0225:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # be printed a backtrace with 100s of =
-OSError exceptions</span><br style=3D"font-size:12.8px"><span style=3D"font=
--size:12.8px">=C2=A0=C2=A0=C2=A0=C2=A0 0226:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # else</span><=
-br style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">=C2=A0=C2=A0=
-=C2=A0=C2=A0 0227:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 raise OSError(errno.ELOOP,</span><br styl=
-e=3D"font-size:12.8px"><span style=3D"font-size:12.8px">=C2=A0=C2=A0=C2=A0=
-=C2=A0 0228:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0</span><wbr style=3D"font-size:12.8px"><span style=3D"font-size=
-:12.8px">=C2=A0=C2=A0=C2=A0=C2=A0 &quot;too much recursions while resolving=
- &#39;%s&#39;; loop in &#39;%s&#39;&quot; %</span><br style=3D"font-size:12=
-.8px"><span style=3D"font-size:12.8px">=C2=A0*** 0229:=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0</span><wbr style=3D"=
-font-size:12.8px"><span style=3D"font-size:12.8px">=C2=A0=C2=A0=C2=A0=C2=A0=
- (file, e.strerror))</span><br style=3D"font-size:12.8px"><span style=3D"fo=
-nt-size:12.8px">=C2=A0=C2=A0=C2=A0=C2=A0 0230:</span><br style=3D"font-size=
-:12.8px"><span style=3D"font-size:12.8px">=C2=A0=C2=A0=C2=A0=C2=A0 0231:=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 raise</span=
-><br style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">=C2=A0=C2=
-=A0=C2=A0=C2=A0 0232:</span><br style=3D"font-size:12.8px"><span style=3D"f=
-ont-size:12.8px">=C2=A0=C2=A0=C2=A0=C2=A0 0233:=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 return file</span><br style=3D"font-size:12.8px"><span styl=
-e=3D"font-size:12.8px">Exception: OSError: [Errno 40] too much recursions w=
-hile resolving &#39;tisdk/build/arago-tmp-</span><wbr style=3D"font-size:12=
-.8px"><span style=3D"font-size:12.8px">external-linaro-toolchain/</span><wb=
-r style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">work/armv5-li=
-nux-gnueabi/</span><wbr style=3D"font-size:12.8px"><span style=3D"font-size=
-:12.8px">external-linaro-toolchain/</span><wbr style=3D"font-size:12.8px"><=
-span style=3D"font-size:12.8px">2017.01~dev-r0.arago30/</span><wbr style=3D=
-"font-size:12.8px"><span style=3D"font-size:12.8px">packages-split/libstdc+=
-+-dev/</span><wbr style=3D"font-size:12.8px"><span style=3D"font-size:12.8p=
-x">usr/include/c++/6.2.1/arm-</span><wbr style=3D"font-size:12.8px"><span s=
-tyle=3D"font-size:12.8px">linux-gnueabi/arm-linux-</span><wbr style=3D"font=
--size:12.8px"><span style=3D"font-size:12.8px">gnueabi&#39;; loop in &#39;t=
-isdk/build/arago-tmp-</span><wbr style=3D"font-size:12.8px"><span style=3D"=
-font-size:12.8px">external-linaro-toolchain/</span><wbr style=3D"font-size:=
-12.8px"><span style=3D"font-size:12.8px">work/armv5-linux-gnueabi/</span><w=
-br style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">external-lin=
-aro-toolchain/</span><wbr style=3D"font-size:12.8px"><span style=3D"font-si=
-ze:12.8px">2017.01~dev-r0.arago30/</span><wbr style=3D"font-size:12.8px"><s=
-pan style=3D"font-size:12.8px">packages-split/libstdc++-dev/</span><wbr sty=
-le=3D"font-size:12.8px"><span style=3D"font-size:12.8px">usr/include/c++/6.=
-2.1/arm-</span><wbr style=3D"font-size:12.8px"><span style=3D"font-size:12.=
-8px">linux-gnueabi/arm-linux-</span><wbr style=3D"font-size:12.8px"><span s=
-tyle=3D"font-size:12.8px">gnueabi&#39;</span><br style=3D"font-size:12.8px"=
-><br style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">ERROR: ext=
-ernal-linaro-toolchain-</span><wbr style=3D"font-size:12.8px"><span style=
-=3D"font-size:12.8px">2017.01~dev-r0.arago30 do_package: Function failed: p=
-ackage_fixsymlinks</span><br style=3D"font-size:12.8px"><span style=3D"font=
--size:12.8px">ERROR: Logfile of failure stored in: tisdk/build/arago-tmp-</=
-span><wbr style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">exter=
-nal-linaro-toolchain/</span><wbr style=3D"font-size:12.8px"><span style=3D"=
-font-size:12.8px">work/armv5-linux-gnueabi/</span><wbr style=3D"font-size:1=
-2.8px"><span style=3D"font-size:12.8px">external-linaro-toolchain/</span><w=
-br style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">2017.01~dev-=
-r0.arago30/temp/</span><wbr style=3D"font-size:12.8px"><span style=3D"font-=
-size:12.8px">log.do_package.10039</span><br style=3D"font-size:12.8px"><spa=
-n style=3D"font-size:12.8px">ERROR: Task 437 (tisdk/sources/meta-linaro/</s=
-pan><wbr style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">meta-l=
-inaro-toolchain/recipes-</span><wbr style=3D"font-size:12.8px"><span style=
-=3D"font-size:12.8px">devtools/external-linaro-</span><wbr style=3D"font-si=
-ze:12.8px"><span style=3D"font-size:12.8px">toolchain/</span><a href=3D"htt=
-p://external-linaro-toolchain.bb/" target=3D"_blank" style=3D"font-size:12.=
-8px">external-linaro-<wbr>toolchain.bb</a><span style=3D"font-size:12.8px">=
-, do_package) failed with exit code &#39;1&#39;</span><br style=3D"font-siz=
-e:12.8px"><span style=3D"font-size:12.8px">NOTE: Tasks Summary: Attempted 6=
-42 tasks of which 629 didn&#39;t need to be rerun and 1 failed.</span><br s=
-tyle=3D"font-size:12.8px"><span style=3D"font-size:12.8px">NOTE: Writing bu=
-ildhistory</span><br style=3D"font-size:12.8px"><span style=3D"font-size:12=
-.8px">Waiting for 0 running tasks to finish:</span><br style=3D"font-size:1=
-2.8px"><br style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">Summ=
-ary: 1 task failed:</span><br style=3D"font-size:12.8px"><span style=3D"fon=
-t-size:12.8px">tisdk/sources/meta-linaro/</span><wbr style=3D"font-size:12.=
-8px"><span style=3D"font-size:12.8px">meta-linaro-toolchain/recipes-</span>=
-<wbr style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">devtools/e=
-xternal-linaro-</span><wbr style=3D"font-size:12.8px"><span style=3D"font-s=
-ize:12.8px">toolchain/</span><a href=3D"http://external-linaro-toolchain.bb=
-/" target=3D"_blank" style=3D"font-size:12.8px">external-linaro-<wbr>toolch=
-ain.bb</a><span style=3D"font-size:12.8px">, do_package</span><br style=3D"=
-font-size:12.8px"><span style=3D"font-size:12.8px">Summary: There were 3 WA=
-RNING messages shown.</span><br style=3D"font-size:12.8px"><span style=3D"f=
-ont-size:12.8px">Summary: There were 2 ERROR messages shown, returning a no=
-n-zero exit code.</span><br style=3D"font-size:12.8px"><br clear=3D"all" st=
-yle=3D"font-size:12.8px"><div style=3D"font-size:12.8px"><br>--=C2=A0<br><d=
-iv class=3D"gmail-m_6676846015623668394gmail_signature"><div dir=3D"ltr"><d=
-iv>Regards,<br></div>Prashant</div></div></div></div>
-
---001a11412f4824431305470bd53e--
