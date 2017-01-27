@@ -1,26 +1,26 @@
 Return-Path: <sona.sarmadi@enea.com>
 Received: from smtp-out11.electric.net (smtp-out11.electric.net
-	[185.38.181.34])
-	by mail.openembedded.org (Postfix) with ESMTP id B877C71B45
+	[185.38.181.41])
+	by mail.openembedded.org (Postfix) with ESMTP id E58C07732B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2017 07:26:37 +0000 (UTC)
-Received: from 1cX0vc-000798-Td by out11b.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1cX0vc-0007BM-VH
+	Fri, 27 Jan 2017 07:28:26 +0000 (UTC)
+Received: from 1cX0xN-0001qX-WC by out11b.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1cX0xO-0001rA-TW
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jan 2017 23:26:36 -0800
-Received: by emcmailer; Thu, 26 Jan 2017 23:26:36 -0800
+	Thu, 26 Jan 2017 23:28:26 -0800
+Received: by emcmailer; Thu, 26 Jan 2017 23:28:26 -0800
 Received: from [192.36.1.72] (helo=mx-3.enea.com)
 	by out11b.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1cX0vc-000798-Td
+	(envelope-from <sona.sarmadi@enea.com>) id 1cX0xN-0001qX-WC
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jan 2017 23:26:36 -0800
+	Thu, 26 Jan 2017 23:28:25 -0800
 Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.3.319.2;
-	Fri, 27 Jan 2017 08:26:14 +0100
+	Fri, 27 Jan 2017 08:28:04 +0100
 From: Sona Sarmadi <sona.sarmadi@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Jan 2017 08:26:12 +0100
-Message-ID: <1485501972-62727-1-git-send-email-sona.sarmadi@enea.com>
+Date: Fri, 27 Jan 2017 08:28:02 +0100
+Message-ID: <1485502082-62843-1-git-send-email-sona.sarmadi@enea.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
@@ -35,7 +35,7 @@ X-Authenticated_ID:
 X-PolicySMART: 6551647
 X-Virus-Status: Scanned by VirusSMART (c)
 X-Virus-Status: Scanned by VirusSMART (s)
-Subject: [PATCH][morty] libxrender: CVE-2016-7949
+Subject: [PATCH][krogoth] libxrender: CVE-2016-7949
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,7 +48,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2017 07:26:42 -0000
+X-List-Received-Date: Fri, 27 Jan 2017 07:28:27 -0000
 Content-Type: text/plain
 
 Insufficient validation of server responses results
@@ -134,7 +134,7 @@ index 0000000..73315b1
 +cgit v0.10.2
 +
 diff --git a/meta/recipes-graphics/xorg-lib/libxrender_0.9.9.bb b/meta/recipes-graphics/xorg-lib/libxrender_0.9.9.bb
-index 44cb2e0..eac3679 100644
+index 9fde040..96116ea 100644
 --- a/meta/recipes-graphics/xorg-lib/libxrender_0.9.9.bb
 +++ b/meta/recipes-graphics/xorg-lib/libxrender_0.9.9.bb
 @@ -19,5 +19,8 @@ XORG_PN = "libXrender"
