@@ -1,46 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
-	[209.85.217.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 17FBF77307
+Return-Path: <andani.prashant@gmail.com>
+Received: from mail-lf0-f50.google.com (mail-lf0-f50.google.com
+	[209.85.215.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C3217731D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2017 06:19:11 +0000 (UTC)
-Received: by mail-ua0-f196.google.com with SMTP id 96so23916064uaq.2
+	Fri, 27 Jan 2017 06:29:44 +0000 (UTC)
+Received: by mail-lf0-f50.google.com with SMTP id v186so157087858lfa.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 22:19:12 -0800 (PST)
+	Thu, 26 Jan 2017 22:29:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=rBtXNqUkLPcSAG+dbBriOYsiG8t4+qpkKSE9sSPzoGY=;
-	b=JYa1tZjKmwWmW2Nc90p5CepLLKGTXcKvpYmY5H5ckOb5Fyjtkcpep65fr+KnJVsOP/
-	u9G3ZhxA2np0c+CNPSHuGltMFO8bv70e23HD6zgwpPFo4FgbnlXMwPwJeUQoWdGCSnep
-	IQ6G8PPmBqk0XLthseKmpos/0KM7O1vJz6yhNd+ZayIFVuFZN0ztldnbCZO2XBVMeLpT
-	UewppukwrLfbAhNWKJLmWJSoGFeAeYYo1FXZGTW0bIIKIju6UcBYGfwr1GE9dnrZ8n6P
-	erHYRlaFyrCYoRQLXYKczv44nDDx4PDJEf9lLDN1Gs54ysktWOc7Bl3j8d+kAoWYc+lz
-	uevw==
+	:cc; bh=bdX5Obf5/pC4WxxCSgtFyCgUb5qwASiWm7WjPnj1xrU=;
+	b=FwwO+eS98uczhEYTYAjGR1QF2+1fWbUZKzsCwkcUhrCGSXXxUrCpWXFCg7/w+gCMBK
+	Oe1YrBtccW4n5Ca22NW6W65sq16A3LBxUjXlmtImZYt9ZPRmId7G2GQsi2xTETGAmL8c
+	MHE0fiYzFiDEJWbcBoDmrjrX+BKR5mZ5hP2VXFO8S8P1p3bbiuNYsiLj0DGLKbo2Uf8k
+	oH4k+7pDY1M6iZDy7su++qIiBCA1ukmQ8H6BB8XFESOgfX82KvoNRf8Ozar96N7fs+Gk
+	XnEzQ+1BDF8vugrKwfPjhgM5SRunXtcHg6NLOPELQJfP6so6hNsKrt47eS3CeLlmhb8/
+	gAhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=rBtXNqUkLPcSAG+dbBriOYsiG8t4+qpkKSE9sSPzoGY=;
-	b=DQeDJyRckDP2USYUW5XQ36VhHpIpUpZuRLN1zzfIGccg2lOevavLSRDoPLhU+84avY
-	u4M10cjFK2kbj5pSiUIwkHweRY2IiaeQToDAXC77OFyw/kteypBEheTVFZae9rLFtwBB
-	WyRpQLWp7+Rf6qNTKMRris5hOTTmRwOUPYnSY6iFt/OazMQP9DCqUOgPCXbY2ZGTgMGC
-	03KJ7zTuBC5Kqzb/LNbQTA/GKSkPZTsX1tc3T6CVN76vaL0W/F1FbU5kUqhG51+sxcnZ
-	Xog2x/ITaeQoG5O/2UGGdMnebIbKDrKPf2ZaAeplMZQ2qFSXik1K5kq5gyAbRUKxd73u
-	wlzw==
-X-Gm-Message-State: AIkVDXIBP5V6IlGFwwDNNNfEYxrWpKrQ0YUOnMPaHSqGJDxk8jvrGHP5LDVZ92DgGuSI3GiSpS8R+PTP4X6XRQ==
-X-Received: by 10.176.6.130 with SMTP id g2mr2994750uag.91.1485497952226; Thu,
-	26 Jan 2017 22:19:12 -0800 (PST)
+	bh=bdX5Obf5/pC4WxxCSgtFyCgUb5qwASiWm7WjPnj1xrU=;
+	b=Yb69Uy4UZ7VbQ1rCEA64yJG3z3lpIpTmOEumaw2f0+7QgTCYMw82G0iKL1VvDUBrwF
+	Bu/8iPMUUjeaJdskx0PvEjdUITi5Wfdl87MhxdjT3I95EOMk3zflUdDTOH3bXg3nsjyd
+	BFc+hZEfLOLPUvXnQBh+2yaYvzHpfd3mPjguAQAGeGJXzMXMOws+O++d/zISkBkg5idL
+	bF7/Nmj4d0XJ+zX12kujo1vs4qKDoCdemMfWE6F0uBaymQdEza0NZSyv8bBbQve60rAz
+	O0i6luf7pnZgKFadNHVPi3iJrpDO0N0NYAJcKDkhqhqwqgqoDPzn9lnpv+Woha/4vZOo
+	dKGg==
+X-Gm-Message-State: AIkVDXLdF18S28afJMatSN5AKuw01fczAPQBBUv7AGgV1rtI/M+AZdvsDuN/ntg61+8GvfxhQif+m87HbdiL5A==
+X-Received: by 10.25.221.217 with SMTP id w86mr1905064lfi.141.1485498584104;
+	Thu, 26 Jan 2017 22:29:44 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.159.48.222 with HTTP; Thu, 26 Jan 2017 22:18:41 -0800 (PST)
-In-Reply-To: <1485489993-29677-1-git-send-email-armccurdy@gmail.com>
-References: <1485489993-29677-1-git-send-email-armccurdy@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 26 Jan 2017 22:18:41 -0800
-Message-ID: <CAMKF1spAAtA=vjmUYx-WrpTmZjXrh0bdEmmesO=NS8BYEfNY8w@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
+Received: by 10.25.156.140 with HTTP; Thu, 26 Jan 2017 22:29:43 -0800 (PST)
+In-Reply-To: <CAMKF1spkJQirqezCjZS=4Kw-P+9sy76wOrSxCxruNEeF8rRRUg@mail.gmail.com>
+References: <CAACupd1tgY3BaRkwgXzjARko5AV2nJPZh5JrMbXh8MsWco2NZg@mail.gmail.com>
+	<CAMKF1spkJQirqezCjZS=4Kw-P+9sy76wOrSxCxruNEeF8rRRUg@mail.gmail.com>
+From: ANDANI PRASHANT <andani.prashant@gmail.com>
+Date: Fri, 27 Jan 2017 11:59:43 +0530
+Message-ID: <CAACupd0FNewBRPeUMv8C9LswK8e0017Y-_RT5es_kRagFMcJVQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: respect USE_LDCONFIG when setting default PACKAGECONFIG
+Subject: Re: oe-core build fail package_fixsymlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,45 +54,265 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2017 06:19:12 -0000
+X-List-Received-Date: Fri, 27 Jan 2017 06:29:46 -0000
+Content-Type: multipart/alternative; boundary=94eb2c0ec71e6b872b05470d9737
+
+--94eb2c0ec71e6b872b05470d9737
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Jan 26, 2017 at 8:06 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> Avoid trying to call ldconfig at run-time in distros which force
-> USE_LDCONFIG to 0 and therefore don't provide it.
->
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> ---
->  meta/recipes-core/systemd/systemd_232.bb | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/systemd/systemd_232.bb b/meta/recipes-core/systemd/systemd_232.bb
-> index cc8781e..cfe6958 100644
-> --- a/meta/recipes-core/systemd/systemd_232.bb
-> +++ b/meta/recipes-core/systemd/systemd_232.bb
-> @@ -39,8 +39,10 @@ SRC_URI_append_libc-uclibc = "\
->  "
->  SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
->
-> +USE_LDCONFIG ?= "1"
+Hi Raj,
 
-now that we have more recipes using this variables. I think it should
-to global config space. May be have it as a DISTRO_FEATURE is more
-appropriate
+Thank you for reply.
 
-> +
->  PACKAGECONFIG ??= "xz \
-> -                   ldconfig \
-> +                   ${@base_conditional('USE_LDCONFIG', '1', 'ldconfig', '', d)} \
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)} \
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
-> --
-> 1.9.1
+Yes i am using gcc-linaro-6.2.1-arm-linux-gnueabi toolchain
+
+If i comment below line from python package_fixsymlinks () function, it
+works
+
+*                rtarget = cpath.realpath(path, inst_root, True)*
+*                if not cpath.lexists(rtarget):*
+*
+dangling_links[pkg].append(os.path.normpath(rtarget[len(inst_root):]))*
+
+Regards,
+Prashant
+
+
+On Fri, Jan 27, 2017 at 11:45 AM, Khem Raj <raj.khem@gmail.com> wrote:
+
+> does this happen if you remove meta-linaro-toolchain from your layer mix ?
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> On Thu, Jan 26, 2017 at 8:23 PM, ANDANI PRASHANT
+> <andani.prashant@gmail.com> wrote:
+> > Hi,
+> >
+> > If i remove package_fixsymlinks from meta/classes/package.bbclass, it
+> works
+> > else giving error as below:
+> >
+> > ERROR: external-linaro-toolchain-2017.01~dev-r0.arago30 do_package:
+> Error
+> > executing a python function in exec_python_func() autogenerated:
+> >
+> > The stack trace of python calls that resulted in this exception/failure
+> was:
+> > File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+> >      0001:
+> >  *** 0002:package_fixsymlinks(d)
+> >      0003:
+> > File: 'tisdk/sources/oe-core/meta/classes/package.bbclass', lineno:
+> 1210,
+> > function: package_fixsymlinks
+> >      1206:        inst_root = os.path.join(pkgdest, pkg)
+> >      1207:        for path in pkgfiles[pkg]:
+> >      1208:                rpath = path[len(inst_root):]
+> >      1209:                pkg_files[pkg].append(rpath)
+> >  *** 1210:                rtarget = cpath.realpath(path, inst_root, True,
+> > assume_dir = True)
+> >      1211:                if not cpath.lexists(rtarget):
+> >      1212:
+> > dangling_links[pkg].append(os.path.normpath(rtarget[len(inst_root):]))
+> >      1213:
+> >      1214:    newrdepends = {}
+> > File: tisdk/sources/oe-core/meta/lib/oe/cachedpath.py', lineno: 229,
+> > function: realpath
+> >      0225:                # be printed a backtrace with 100s of OSError
+> > exceptions
+> >      0226:                # else
+> >      0227:                raise OSError(errno.ELOOP,
+> >      0228:                              "too much recursions while
+> resolving
+> > '%s'; loop in '%s'" %
+> >  *** 0229:                              (file, e.strerror))
+> >      0230:
+> >      0231:            raise
+> >      0232:
+> >      0233:        return file
+> > Exception: OSError: [Errno 40] too much recursions while resolving
+> > 'tisdk/build/arago-tmp-external-linaro-toolchain/
+> work/armv5-linux-gnueabi/external-linaro-toolchain/2017.01~dev-r0.arago30/
+> packages-split/libstdc++-dev/usr/include/c++/6.2.1/arm-
+> linux-gnueabi/arm-linux-gnueabi';
+> > loop in
+> > 'tisdk/build/arago-tmp-external-linaro-toolchain/
+> work/armv5-linux-gnueabi/external-linaro-toolchain/2017.01~dev-r0.arago30/
+> packages-split/libstdc++-dev/usr/include/c++/6.2.1/arm-
+> linux-gnueabi/arm-linux-gnueabi'
+> >
+> > ERROR: external-linaro-toolchain-2017.01~dev-r0.arago30 do_package:
+> Function
+> > failed: package_fixsymlinks
+> > ERROR: Logfile of failure stored in:
+> > tisdk/build/arago-tmp-external-linaro-toolchain/
+> work/armv5-linux-gnueabi/external-linaro-toolchain/
+> 2017.01~dev-r0.arago30/temp/log.do_package.10039
+> > ERROR: Task 437
+> > (tisdk/sources/meta-linaro/meta-linaro-toolchain/recipes-
+> devtools/external-linaro-toolchain/external-linaro-toolchain.bb,
+> > do_package) failed with exit code '1'
+> > NOTE: Tasks Summary: Attempted 642 tasks of which 629 didn't need to be
+> > rerun and 1 failed.
+> > NOTE: Writing buildhistory
+> > Waiting for 0 running tasks to finish:
+> >
+> > Summary: 1 task failed:
+> > tisdk/sources/meta-linaro/meta-linaro-toolchain/recipes-
+> devtools/external-linaro-toolchain/external-linaro-toolchain.bb,
+> > do_package
+> > Summary: There were 3 WARNING messages shown.
+> > Summary: There were 2 ERROR messages shown, returning a non-zero exit
+> code.
+> >
+> >
+> > --
+> > Regards,
+> > Prashant
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
+>
 
+--94eb2c0ec71e6b872b05470d9737
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi Raj,<div><br></div><div>Thank you for reply.</div><div>=
+<br></div><div>Yes i am using=C2=A0gcc-linaro-6.2.1-arm-linux-gnueabi toolc=
+hain</div><div><br></div><div>If i comment below line from=C2=A0python pack=
+age_fixsymlinks () function, it works</div><div><br></div><div><div><b>=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rtarget =3D cpath.real=
+path(path, inst_root, True)</b></div><div><b>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not cpath.lexists(rtarget):</b></div><div><b=
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dang=
+ling_links[pkg].append(os.path.normpath(rtarget[len(inst_root):]))</b></div=
+></div><div><br></div><div>Regards,</div><div>Prashant</div><div><br></div>=
+</div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Fri, Jan=
+ 27, 2017 at 11:45 AM, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:raj=
+.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wrote:=
+<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
+t:1px #ccc solid;padding-left:1ex">does this happen if you remove meta-lina=
+ro-toolchain from your layer mix ?<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+On Thu, Jan 26, 2017 at 8:23 PM, ANDANI PRASHANT<br>
+&lt;<a href=3D"mailto:andani.prashant@gmail.com">andani.prashant@gmail.com<=
+/a>&gt; wrote:<br>
+&gt; Hi,<br>
+&gt;<br>
+&gt; If i remove package_fixsymlinks from meta/classes/package.bbclass, it =
+works<br>
+&gt; else giving error as below:<br>
+&gt;<br>
+&gt; ERROR: external-linaro-toolchain-<wbr>2017.01~dev-r0.arago30 do_packag=
+e: Error<br>
+&gt; executing a python function in exec_python_func() autogenerated:<br>
+&gt;<br>
+&gt; The stack trace of python calls that resulted in this exception/failur=
+e was:<br>
+&gt; File: &#39;exec_python_func() autogenerated&#39;, lineno: 2, function:=
+ &lt;module&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0001:<br>
+&gt;=C2=A0 *** 0002:package_fixsymlinks(d)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0003:<br>
+&gt; File: &#39;tisdk/sources/oe-core/meta/<wbr>classes/package.bbclass&#39=
+;, lineno: 1210,<br>
+&gt; function: package_fixsymlinks<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 1206:=C2=A0 =C2=A0 =C2=A0 =C2=A0 inst_root =3D os.=
+path.join(pkgdest, pkg)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 1207:=C2=A0 =C2=A0 =C2=A0 =C2=A0 for path in pkgfi=
+les[pkg]:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 1208:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 rpath =3D path[len(inst_root):]<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 1209:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 pkg_files[pkg].append(rpath)<br>
+&gt;=C2=A0 *** 1210:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ rtarget =3D cpath.realpath(path, inst_root, True,<br>
+&gt; assume_dir =3D True)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 1211:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if not cpath.lexists(rtarget):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 1212:<br>
+&gt; dangling_links[pkg].append(os.<wbr>path.normpath(rtarget[len(<wbr>inst=
+_root):]))<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 1213:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 1214:=C2=A0 =C2=A0 newrdepends =3D {}<br>
+&gt; File: tisdk/sources/oe-core/meta/<wbr>lib/oe/cachedpath.py&#39;, linen=
+o: 229,<br>
+&gt; function: realpath<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0225:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 # be printed a backtrace with 100s of OSError<br>
+&gt; exceptions<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0226:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 # else<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0227:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 raise OSError(errno.ELOOP,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0228:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;too much =
+recursions while resolving<br>
+&gt; &#39;%s&#39;; loop in &#39;%s&#39;&quot; %<br>
+&gt;=C2=A0 *** 0229:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (file, e.strerror))<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0230:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0231:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rai=
+se<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0232:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0233:=C2=A0 =C2=A0 =C2=A0 =C2=A0 return file<br>
+&gt; Exception: OSError: [Errno 40] too much recursions while resolving<br>
+&gt; &#39;tisdk/build/arago-tmp-<wbr>external-linaro-toolchain/<wbr>work/ar=
+mv5-linux-gnueabi/<wbr>external-linaro-toolchain/<wbr>2017.01~dev-r0.arago3=
+0/<wbr>packages-split/libstdc++-dev/<wbr>usr/include/c++/6.2.1/arm-<wbr>lin=
+ux-gnueabi/arm-linux-<wbr>gnueabi&#39;;<br>
+&gt; loop in<br>
+&gt; &#39;tisdk/build/arago-tmp-<wbr>external-linaro-toolchain/<wbr>work/ar=
+mv5-linux-gnueabi/<wbr>external-linaro-toolchain/<wbr>2017.01~dev-r0.arago3=
+0/<wbr>packages-split/libstdc++-dev/<wbr>usr/include/c++/6.2.1/arm-<wbr>lin=
+ux-gnueabi/arm-linux-<wbr>gnueabi&#39;<br>
+&gt;<br>
+&gt; ERROR: external-linaro-toolchain-<wbr>2017.01~dev-r0.arago30 do_packag=
+e: Function<br>
+&gt; failed: package_fixsymlinks<br>
+&gt; ERROR: Logfile of failure stored in:<br>
+&gt; tisdk/build/arago-tmp-<wbr>external-linaro-toolchain/<wbr>work/armv5-l=
+inux-gnueabi/<wbr>external-linaro-toolchain/<wbr>2017.01~dev-r0.arago30/tem=
+p/<wbr>log.do_package.10039<br>
+&gt; ERROR: Task 437<br>
+&gt; (tisdk/sources/meta-linaro/<wbr>meta-linaro-toolchain/recipes-<wbr>dev=
+tools/external-linaro-<wbr>toolchain/<a href=3D"http://external-linaro-tool=
+chain.bb" rel=3D"noreferrer" target=3D"_blank">external-linaro-<wbr>toolcha=
+in.bb</a>,<br>
+&gt; do_package) failed with exit code &#39;1&#39;<br>
+&gt; NOTE: Tasks Summary: Attempted 642 tasks of which 629 didn&#39;t need =
+to be<br>
+&gt; rerun and 1 failed.<br>
+&gt; NOTE: Writing buildhistory<br>
+&gt; Waiting for 0 running tasks to finish:<br>
+&gt;<br>
+&gt; Summary: 1 task failed:<br>
+&gt; tisdk/sources/meta-linaro/<wbr>meta-linaro-toolchain/recipes-<wbr>devt=
+ools/external-linaro-<wbr>toolchain/<a href=3D"http://external-linaro-toolc=
+hain.bb" rel=3D"noreferrer" target=3D"_blank">external-linaro-<wbr>toolchai=
+n.bb</a>,<br>
+&gt; do_package<br>
+&gt; Summary: There were 3 WARNING messages shown.<br>
+&gt; Summary: There were 2 ERROR messages shown, returning a non-zero exit =
+code.<br>
+&gt;<br>
+&gt;<br>
+&gt; --<br>
+&gt; Regards,<br>
+&gt; Prashant<br>
+&gt;<br>
+</div></div><span class=3D"HOEnZb"><font color=3D"#888888">&gt; --<br>
+&gt; ______________________________<wbr>_________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
+ed-core@lists.<wbr>openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<=
+wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+&gt;<br>
+</font></span></blockquote></div><br></div>
+
+--94eb2c0ec71e6b872b05470d9737--
