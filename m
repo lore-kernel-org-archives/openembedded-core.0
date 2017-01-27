@@ -1,26 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E2C8774C7
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E6F7774D6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2017 20:43:11 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga104.jf.intel.com with ESMTP; 27 Jan 2017 12:43:12 -0800
+	Fri, 27 Jan 2017 20:43:12 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP; 27 Jan 2017 12:43:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,297,1477983600"; d="scan'208";a="59049590"
+X-IronPort-AV: E=Sophos;i="5.33,297,1477983600"; d="scan'208";a="1118804970"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga006.fm.intel.com with ESMTP; 27 Jan 2017 12:43:12 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 27 Jan 2017 12:43:13 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 1691C6A4006
+	by linux.intel.com (Postfix) with ESMTP id 29DDE6A4006
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2017 12:42:13 -0800 (PST)
+	Fri, 27 Jan 2017 12:42:14 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Jan 2017 22:19:43 +0200
-Message-Id: <5eac69f7c2b0dcc239b275a9dd16b616b5d7e6f9.1485547221.git.ed.bartosh@linux.intel.com>
+Date: Fri, 27 Jan 2017 22:19:44 +0200
+Message-Id: <78272529193dec8d366653c22a6b74cc35616025.1485547221.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1485547221.git.ed.bartosh@linux.intel.com>
 References: <cover.1485547221.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v3 06/11] isoimage-isohybrid: use TRANSLATED_TARGET_ARCH instead of MACHINE_ARCH
+Subject: [PATCH v3 07/11] selftest: stop using hddimg in the wic test suite
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,56 +35,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 27 Jan 2017 20:43:12 -0000
 
-isoimage-sihybrid plugin uses MACHINE_ARCH to get the name of initrd image.
-It doesn't work for all machines, for example for quemux86-64 machine
-MACHINE_ARCH is quemux86_64 and initrd name is
-core-image-minimal-initramfs-qemux86-64.cpio.gz
+Removed hddimg from IMAGE_FEATURES as wic code doesn't
+use hddimg anymore.
 
-Used TRANSLATED_TARGET_ARCH variable to get the initrd image name.
-Replaced MACHINE_ARCH->TRANSLATED_TARGET_ARCH in WICVARS variable to
-make it available from <image>.env file.
+[YOCTO #10835]
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/classes/image-wic.bbclass                       | 4 ++--
- scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 8 ++++----
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ meta/lib/oeqa/selftest/wic.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/classes/image-wic.bbclass b/meta/classes/image-wic.bbclass
-index bd79073..3e98959 100644
---- a/meta/classes/image-wic.bbclass
-+++ b/meta/classes/image-wic.bbclass
-@@ -2,8 +2,8 @@
- # variables from this list is written to <image>.env file
- WICVARS ?= "\
-            BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE FAKEROOTCMD IMAGE_BASENAME IMAGE_BOOT_FILES \
--           IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES INITRD INITRD_LIVE ISODIR MACHINE_ARCH \
--           RECIPE_SYSROOT_NATIVE ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR TARGET_SYS"
-+           IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES INITRD INITRD_LIVE ISODIR RECIPE_SYSROOT_NATIVE \
-+           ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR TARGET_SYS TRANSLATED_TARGET_ARCH"
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index da68e25..dce83ba 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -42,8 +42,7 @@ class Wic(oeSelfTest):
  
- WKS_FILE ??= "${IMAGE_BASENAME}.${MACHINE}.wks"
- WKS_FILES ?= "${WKS_FILE} ${IMAGE_BASENAME}.wks"
-diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-index b54a229..e4637a3 100644
---- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-+++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-@@ -158,11 +158,11 @@ class IsoImagePlugin(SourcePlugin):
-             if not image_type:
-                 msger.error("Couldn't find INITRAMFS_FSTYPES, exiting.\n")
+     def setUpLocal(self):
+         """This code is executed before each test method."""
+-        self.write_config('IMAGE_FSTYPES += " hddimg"\n'
+-                          'MACHINE_FEATURES_append = " efi"\n')
++        self.write_config('MACHINE_FEATURES_append = " efi"\n')
  
--            machine_arch = get_bitbake_var("MACHINE_ARCH")
--            if not machine_arch:
--                msger.error("Couldn't find MACHINE_ARCH, exiting.\n")
-+            target_arch = get_bitbake_var("TRANSLATED_TARGET_ARCH")
-+            if not target_arch:
-+                msger.error("Couldn't find TRANSLATED_TARGET_ARCH, exiting.\n")
- 
--            initrd = glob.glob('%s/%s*%s.%s' % (initrd_dir, image_name, machine_arch, image_type))[0]
-+            initrd = glob.glob('%s/%s*%s.%s' % (initrd_dir, image_name, target_arch, image_type))[0]
- 
-         if not os.path.exists(initrd):
-             # Create initrd from rootfs directory
+         # Do this here instead of in setUpClass as the base setUp does some
+         # clean up which can result in the native tools built earlier in
 -- 
 2.1.4
 
