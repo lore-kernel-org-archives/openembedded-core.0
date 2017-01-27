@@ -1,18 +1,40 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id B971777456;
-	Fri, 27 Jan 2017 20:23:26 +0000 (UTC)
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id EF82C77473
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Jan 2017 20:37:00 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id c206so157648958wme.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Jan 2017 12:37:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=AZ2kTrh748HigrKBYg3WtkoKdOuk8Bf1mxcnsqHxAeY=;
+	b=sdfbP7sFAvrtMmiyW7PZ1ImjVWXGsooWNRsVXegF3F6yt5h1JvOhOWAmOEUWxPQBSR
+	8VmY/i84QRsXgBTRoi4VBihCFsXo9YJcxLuXDBe6pi67TLGcl5ydgrAg11/5D+Vl0S90
+	W4mDCFn77fvWQfDIzl+bkITcbl43bvRSLsjF3cuTg8LLIBI92QvtQlidKgroHoLVkfz6
+	qAZ9HjaAYNPceJ9+MC1MvYaXiyid59pAid54iEF2fG4EAAMSUMxh+sT2u83I8WM3Ioyw
+	7uKo+ZKeQH4HWVjcPmrC3TYS1a4hr93D7Z4OJi3DYptIUrSABPrQfv2jyG6FkvgZ9rgt
+	4dig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=AZ2kTrh748HigrKBYg3WtkoKdOuk8Bf1mxcnsqHxAeY=;
+	b=q77mw+GIT03cNrGqjyceLY/ctL35TeV8YusBPo73lMw6AwWoHr0snNPd3UZF6JCPRp
+	UmkvH6L0jmzO1OAVrQJqtWeF9HLNBMARXJbkJqhZU23HDl1SUK75PPeMci08use7D+jo
+	gol5xJQHN5ltZESP4KpOz6bj54oLblqUg+PgM4l1wQpx0biYsyVpI1RVUcucl/t3ZSp+
+	CKGNF22OTVFzjVmQKaYCIr5m2yXkZY+HACozk1A9byNYTDGLy3l2AAj/CQQwHOQFnohx
+	MuOlFETI0Y7wj/ABy47jzfPLKhH8S1qbQtj9RA+e6fcy550cZfDA2XxmZX/PSlYPeit/
+	SxdQ==
+X-Gm-Message-State: AIkVDXICqQXwTxTIDL12LhKAV1uTQnKsJ6ot7JPB5x3FRRGwSaWjpUiRdaTbPJGYpneJhvXAEMKkXn6pxmwpGg==
+X-Received: by 10.28.47.2 with SMTP id v2mr4477890wmv.138.1485549420300; Fri,
+	27 Jan 2017 12:37:00 -0800 (PST)
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Mariano Lopez <mariano.lopez@linux.intel.com>
-Date: Fri, 27 Jan 2017 20:23:27 -0000
-Message-ID: <20170127202327.4462.10255@do.openembedded.org>
-References: <cover.1485515180.git.mariano.lopez@linux.intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1485515180.git.mariano.lopez@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgRml4IGJ1Z3MgZm91bmQgd2l0aGluIHJ1bnRpbWUgdGVzdGluZyAocmV2Mik=?=
+Received: by 10.194.98.164 with HTTP; Fri, 27 Jan 2017 12:36:59 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 27 Jan 2017 12:36:59 -0800
+Message-ID: <CAJ86T=W2qeo7bf6f3JCxY1x+YHZQPDfusq5F7qq5XXDOQB17jw@mail.gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: virtual/ -vs- virtual-
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +47,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2017 20:23:27 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 27 Jan 2017 20:37:03 -0000
+Content-Type: text/plain; charset=UTF-8
 
-== Series Details ==
-
-Series: Fix bugs found within runtime testing (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/4986/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [PATCHv2,5/5] oeqa/runtime/cases: Rename syslog module to oe_syslog
- Issue             Yocto Project bugzilla tag is not correctly formatted [test_bugzilla_entry_format] 
-  Suggested fix    Specify bugzilla ID in commit description with format: "[YOCTO #<bugzilla ID>]"
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Is the rule about using "virtual/foo" for PROVIDES and "virtual-foo"
+for RPROVIDES documented somewhere?
 
