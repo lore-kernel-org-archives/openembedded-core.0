@@ -1,46 +1,46 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f173.google.com (mail-ua0-f173.google.com
-	[209.85.217.173])
-	by mail.openembedded.org (Postfix) with ESMTP id C0E6271C14
+Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
+	[209.85.217.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 17FBF77307
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2017 06:16:21 +0000 (UTC)
-Received: by mail-ua0-f173.google.com with SMTP id 35so198538599uak.1
+	Fri, 27 Jan 2017 06:19:11 +0000 (UTC)
+Received: by mail-ua0-f196.google.com with SMTP id 96so23916064uaq.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 22:16:22 -0800 (PST)
+	Thu, 26 Jan 2017 22:19:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=+KU/rEjDFcteZg91FcsES1O9ThQuQvVtj13iTSFsrg0=;
-	b=POJue5P+rLRtXS6O0ing2ADZtNSv21EYVmDNOkAQTamZ9I30WD4ujO9aSKbdqj46f6
-	vhgZRXPv+5JB38NqMxHlQV6CbFvqlwY/sa5XUTseKm4AGLfcNYDknhrle9tn2YfIwHMd
-	DL0FuvDAl0GtZsV1efga5f3Mk0fOIo04wgauGHuxIHlP2CK1Tp9I2/1KPj1we92bw4ae
-	j9z6Do0+GFmVDkJBVc4/xoepOiOEoVCRMjepE+nLHm93N51chR3WDD6M58CbLeREi+sX
-	mn99muZBQ+cCtew6PT59nJ/AfYfwE1mYSUKbic5x3TtFQcTe9Y9NFJYDpC/GE5kq2SRF
-	6gcw==
+	:cc; bh=rBtXNqUkLPcSAG+dbBriOYsiG8t4+qpkKSE9sSPzoGY=;
+	b=JYa1tZjKmwWmW2Nc90p5CepLLKGTXcKvpYmY5H5ckOb5Fyjtkcpep65fr+KnJVsOP/
+	u9G3ZhxA2np0c+CNPSHuGltMFO8bv70e23HD6zgwpPFo4FgbnlXMwPwJeUQoWdGCSnep
+	IQ6G8PPmBqk0XLthseKmpos/0KM7O1vJz6yhNd+ZayIFVuFZN0ztldnbCZO2XBVMeLpT
+	UewppukwrLfbAhNWKJLmWJSoGFeAeYYo1FXZGTW0bIIKIju6UcBYGfwr1GE9dnrZ8n6P
+	erHYRlaFyrCYoRQLXYKczv44nDDx4PDJEf9lLDN1Gs54ysktWOc7Bl3j8d+kAoWYc+lz
+	uevw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=+KU/rEjDFcteZg91FcsES1O9ThQuQvVtj13iTSFsrg0=;
-	b=Sl4PizWcHFqO9v3g/W28UH6YlNjJAD09qk2v3NsYxpTVGhVrWVBuM11qLqH3HW+MCE
-	gm2KoK/IuRV9OYL+BhlHLo4nrqDJlsEOEDd6iIq8yL/ZRa7vnU0JDD21mo5asv03RsgM
-	BVwggpgdOexiCDQb2MphTJjbW6VFirpnbrOIM3bRfSqHR+k8oFv54lDRgxtV6SDB0tQb
-	UCSlLwLczeuEf/TLM+hXSnEoOO8Wo8yy4XnkFB2ik70wRY1C+SNVSEVwgVpRGxYdnHD0
-	QYTbiF+s4iRaB4GTpO+aW3vEnJbbOIPPrrc9EkMd7Kbw+fz3yeKCjUexB3ebDyHYYD3M
-	NSGA==
-X-Gm-Message-State: AIkVDXLdg3FsW3/55NocDjJXVjci8p+kUzRjHHNFrrxhKezmijbq58X77GAII69cILmZDEhb+qmZD6mD+TsP0w==
-X-Received: by 10.176.90.144 with SMTP id w16mr3630887uae.101.1485497782042;
-	Thu, 26 Jan 2017 22:16:22 -0800 (PST)
+	bh=rBtXNqUkLPcSAG+dbBriOYsiG8t4+qpkKSE9sSPzoGY=;
+	b=DQeDJyRckDP2USYUW5XQ36VhHpIpUpZuRLN1zzfIGccg2lOevavLSRDoPLhU+84avY
+	u4M10cjFK2kbj5pSiUIwkHweRY2IiaeQToDAXC77OFyw/kteypBEheTVFZae9rLFtwBB
+	WyRpQLWp7+Rf6qNTKMRris5hOTTmRwOUPYnSY6iFt/OazMQP9DCqUOgPCXbY2ZGTgMGC
+	03KJ7zTuBC5Kqzb/LNbQTA/GKSkPZTsX1tc3T6CVN76vaL0W/F1FbU5kUqhG51+sxcnZ
+	Xog2x/ITaeQoG5O/2UGGdMnebIbKDrKPf2ZaAeplMZQ2qFSXik1K5kq5gyAbRUKxd73u
+	wlzw==
+X-Gm-Message-State: AIkVDXIBP5V6IlGFwwDNNNfEYxrWpKrQ0YUOnMPaHSqGJDxk8jvrGHP5LDVZ92DgGuSI3GiSpS8R+PTP4X6XRQ==
+X-Received: by 10.176.6.130 with SMTP id g2mr2994750uag.91.1485497952226; Thu,
+	26 Jan 2017 22:19:12 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.159.48.222 with HTTP; Thu, 26 Jan 2017 22:15:51 -0800 (PST)
-In-Reply-To: <CAACupd1tgY3BaRkwgXzjARko5AV2nJPZh5JrMbXh8MsWco2NZg@mail.gmail.com>
-References: <CAACupd1tgY3BaRkwgXzjARko5AV2nJPZh5JrMbXh8MsWco2NZg@mail.gmail.com>
+Received: by 10.159.48.222 with HTTP; Thu, 26 Jan 2017 22:18:41 -0800 (PST)
+In-Reply-To: <1485489993-29677-1-git-send-email-armccurdy@gmail.com>
+References: <1485489993-29677-1-git-send-email-armccurdy@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 26 Jan 2017 22:15:51 -0800
-Message-ID: <CAMKF1spkJQirqezCjZS=4Kw-P+9sy76wOrSxCxruNEeF8rRRUg@mail.gmail.com>
-To: ANDANI PRASHANT <andani.prashant@gmail.com>
+Date: Thu, 26 Jan 2017 22:18:41 -0800
+Message-ID: <CAMKF1spAAtA=vjmUYx-WrpTmZjXrh0bdEmmesO=NS8BYEfNY8w@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: oe-core build fail package_fixsymlinks
+Subject: Re: [PATCH] systemd: respect USE_LDCONFIG when setting default PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,84 +53,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2017 06:16:23 -0000
+X-List-Received-Date: Fri, 27 Jan 2017 06:19:12 -0000
 Content-Type: text/plain; charset=UTF-8
 
-does this happen if you remove meta-linaro-toolchain from your layer mix ?
+On Thu, Jan 26, 2017 at 8:06 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> Avoid trying to call ldconfig at run-time in distros which force
+> USE_LDCONFIG to 0 and therefore don't provide it.
+>
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
+>  meta/recipes-core/systemd/systemd_232.bb | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/systemd/systemd_232.bb b/meta/recipes-core/systemd/systemd_232.bb
+> index cc8781e..cfe6958 100644
+> --- a/meta/recipes-core/systemd/systemd_232.bb
+> +++ b/meta/recipes-core/systemd/systemd_232.bb
+> @@ -39,8 +39,10 @@ SRC_URI_append_libc-uclibc = "\
+>  "
+>  SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
+>
+> +USE_LDCONFIG ?= "1"
 
-On Thu, Jan 26, 2017 at 8:23 PM, ANDANI PRASHANT
-<andani.prashant@gmail.com> wrote:
-> Hi,
->
-> If i remove package_fixsymlinks from meta/classes/package.bbclass, it works
-> else giving error as below:
->
-> ERROR: external-linaro-toolchain-2017.01~dev-r0.arago30 do_package: Error
-> executing a python function in exec_python_func() autogenerated:
->
-> The stack trace of python calls that resulted in this exception/failure was:
-> File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
->      0001:
->  *** 0002:package_fixsymlinks(d)
->      0003:
-> File: 'tisdk/sources/oe-core/meta/classes/package.bbclass', lineno: 1210,
-> function: package_fixsymlinks
->      1206:        inst_root = os.path.join(pkgdest, pkg)
->      1207:        for path in pkgfiles[pkg]:
->      1208:                rpath = path[len(inst_root):]
->      1209:                pkg_files[pkg].append(rpath)
->  *** 1210:                rtarget = cpath.realpath(path, inst_root, True,
-> assume_dir = True)
->      1211:                if not cpath.lexists(rtarget):
->      1212:
-> dangling_links[pkg].append(os.path.normpath(rtarget[len(inst_root):]))
->      1213:
->      1214:    newrdepends = {}
-> File: tisdk/sources/oe-core/meta/lib/oe/cachedpath.py', lineno: 229,
-> function: realpath
->      0225:                # be printed a backtrace with 100s of OSError
-> exceptions
->      0226:                # else
->      0227:                raise OSError(errno.ELOOP,
->      0228:                              "too much recursions while resolving
-> '%s'; loop in '%s'" %
->  *** 0229:                              (file, e.strerror))
->      0230:
->      0231:            raise
->      0232:
->      0233:        return file
-> Exception: OSError: [Errno 40] too much recursions while resolving
-> 'tisdk/build/arago-tmp-external-linaro-toolchain/work/armv5-linux-gnueabi/external-linaro-toolchain/2017.01~dev-r0.arago30/packages-split/libstdc++-dev/usr/include/c++/6.2.1/arm-linux-gnueabi/arm-linux-gnueabi';
-> loop in
-> 'tisdk/build/arago-tmp-external-linaro-toolchain/work/armv5-linux-gnueabi/external-linaro-toolchain/2017.01~dev-r0.arago30/packages-split/libstdc++-dev/usr/include/c++/6.2.1/arm-linux-gnueabi/arm-linux-gnueabi'
->
-> ERROR: external-linaro-toolchain-2017.01~dev-r0.arago30 do_package: Function
-> failed: package_fixsymlinks
-> ERROR: Logfile of failure stored in:
-> tisdk/build/arago-tmp-external-linaro-toolchain/work/armv5-linux-gnueabi/external-linaro-toolchain/2017.01~dev-r0.arago30/temp/log.do_package.10039
-> ERROR: Task 437
-> (tisdk/sources/meta-linaro/meta-linaro-toolchain/recipes-devtools/external-linaro-toolchain/external-linaro-toolchain.bb,
-> do_package) failed with exit code '1'
-> NOTE: Tasks Summary: Attempted 642 tasks of which 629 didn't need to be
-> rerun and 1 failed.
-> NOTE: Writing buildhistory
-> Waiting for 0 running tasks to finish:
->
-> Summary: 1 task failed:
-> tisdk/sources/meta-linaro/meta-linaro-toolchain/recipes-devtools/external-linaro-toolchain/external-linaro-toolchain.bb,
-> do_package
-> Summary: There were 3 WARNING messages shown.
-> Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
->
->
+now that we have more recipes using this variables. I think it should
+to global config space. May be have it as a DISTRO_FEATURE is more
+appropriate
+
+> +
+>  PACKAGECONFIG ??= "xz \
+> -                   ldconfig \
+> +                   ${@base_conditional('USE_LDCONFIG', '1', 'ldconfig', '', d)} \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)} \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
 > --
-> Regards,
-> Prashant
+> 1.9.1
 >
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
