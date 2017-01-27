@@ -1,25 +1,18 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 091977749F
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2017 20:14:44 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Jan 2017 12:14:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,297,1477983600"; d="scan'208";a="36462708"
-Received: from yctb01.ostc.intel.com ([10.54.69.55])
-	by orsmga002.jf.intel.com with ESMTP; 27 Jan 2017 12:14:43 -0800
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Jan 2017 12:10:38 +0000
-Message-Id: <7751032fe157bc7754dd741402737e74a8180133.1485515181.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <cover.1485515180.git.mariano.lopez@linux.intel.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id B971777456;
+	Fri, 27 Jan 2017 20:23:26 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Mariano Lopez <mariano.lopez@linux.intel.com>
+Date: Fri, 27 Jan 2017 20:23:27 -0000
+Message-ID: <20170127202327.4462.10255@do.openembedded.org>
 References: <cover.1485515180.git.mariano.lopez@linux.intel.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
 In-Reply-To: <cover.1485515180.git.mariano.lopez@linux.intel.com>
-References: <cover.1485515180.git.mariano.lopez@linux.intel.com>
-Subject: [PATCHv2 1/5] runtime/cases: Fix case numbers, missing cases and unused classes
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgRml4IGJ1Z3MgZm91bmQgd2l0aGluIHJ1bnRpbWUgdGVzdGluZyAocmV2Mik=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,100 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2017 20:14:46 -0000
+X-List-Received-Date: Fri, 27 Jan 2017 20:23:27 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+== Series Details ==
 
-connman: oeRuntimeTest class is not used anymore as part of runtime
-migration, this particular case was missed, so fix it.
+Series: Fix bugs found within runtime testing (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/4986/
+State : failure
 
-gcc: Removed unneded lines.
+== Summary ==
 
-multilib: fixed case number.
 
-syslog: added a missing test.
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-[YOCTO #10964]
 
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+* Patch            [PATCHv2,5/5] oeqa/runtime/cases: Rename syslog module to oe_syslog
+ Issue             Yocto Project bugzilla tag is not correctly formatted [test_bugzilla_entry_format] 
+  Suggested fix    Specify bugzilla ID in commit description with format: "[YOCTO #<bugzilla ID>]"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/lib/oeqa/runtime/cases/connman.py  | 2 +-
- meta/lib/oeqa/runtime/cases/gcc.py      | 3 ---
- meta/lib/oeqa/runtime/cases/multilib.py | 2 +-
- meta/lib/oeqa/runtime/cases/syslog.py   | 9 +++++++++
- 4 files changed, 11 insertions(+), 5 deletions(-)
-
-diff --git a/meta/lib/oeqa/runtime/cases/connman.py b/meta/lib/oeqa/runtime/cases/connman.py
-index 8b47108..12456b4 100644
---- a/meta/lib/oeqa/runtime/cases/connman.py
-+++ b/meta/lib/oeqa/runtime/cases/connman.py
-@@ -6,7 +6,7 @@ from oeqa.runtime.decorator.package import OEHasPackage
- class ConnmanTest(OERuntimeTestCase):
- 
-     def service_status(self, service):
--        if oeRuntimeTest.hasFeature("systemd"):
-+        if 'systemd' in self.tc.td['DISTRO_FEATURES']:
-             (_, output) = self.target.run('systemctl status -l %s' % service)
-             return output
-         else:
-diff --git a/meta/lib/oeqa/runtime/cases/gcc.py b/meta/lib/oeqa/runtime/cases/gcc.py
-index 064fa49..9110831 100644
---- a/meta/lib/oeqa/runtime/cases/gcc.py
-+++ b/meta/lib/oeqa/runtime/cases/gcc.py
-@@ -11,15 +11,12 @@ class GccCompileTest(OERuntimeTestCase):
-     def setUpClass(cls):
-         dst = '/tmp/'
-         src = os.path.join(cls.tc.files_dir, 'test.c')
--        #dst = '/tmp/test.c'
-         cls.tc.target.copyTo(src, dst)
- 
-         src = os.path.join(cls.tc.runtime_files_dir, 'testmakefile')
--        #dst = '/tmp/testmakefile'
-         cls.tc.target.copyTo(src, dst)
- 
-         src = os.path.join(cls.tc.files_dir, 'test.cpp')
--        #dst = '/tmp/test.cpp'
-         cls.tc.target.copyTo(src, dst)
- 
-     @classmethod
-diff --git a/meta/lib/oeqa/runtime/cases/multilib.py b/meta/lib/oeqa/runtime/cases/multilib.py
-index 8f6d2b2..8c167f1 100644
---- a/meta/lib/oeqa/runtime/cases/multilib.py
-+++ b/meta/lib/oeqa/runtime/cases/multilib.py
-@@ -23,9 +23,9 @@ class MultilibTest(OERuntimeTestCase):
-         msg = "%s isn't %s (is %s)" % (binary, arch, theclass)
-         self.assertEqual(theclass, arch, msg=msg)
- 
-+    @OETestID(1593)
-     @skipIfNotInDataVar('MULTILIBS', 'multilib:lib32',
-                         "This isn't a multilib:lib32 image")
--    @OETestID(201)
-     @OETestDepends(['ssh.SSHTest.test_ssh'])
-     def test_check_multilib_libc(self):
-         """
-diff --git a/meta/lib/oeqa/runtime/cases/syslog.py b/meta/lib/oeqa/runtime/cases/syslog.py
-index 1016e67..537c519 100644
---- a/meta/lib/oeqa/runtime/cases/syslog.py
-+++ b/meta/lib/oeqa/runtime/cases/syslog.py
-@@ -34,6 +34,15 @@ class SyslogTestConfig(OERuntimeTestCase):
-                ' Output: %s ' % output)
-         self.assertEqual(status, 0, msg=msg)
- 
-+    @OETestID(1150)
-+    @OETestDepends(['syslog.SyslogTest.test_syslog_running'])
-+    def test_syslog_restart(self):
-+        if "systemd" != self.tc.td.get("VIRTUAL-RUNTIME_init_manager", ""):
-+            (_, _) = self.target.run('/etc/init.d/syslog restart')
-+        else:
-+            (_, _) = self.target.run('systemctl restart syslog.service')
-+
-+
-     @OETestID(202)
-     @OETestDepends(['syslog.SyslogTestConfig.test_syslog_logger'])
-     @OEHasPackage(["!sysklogd", "busybox"])
--- 
-2.6.6
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
