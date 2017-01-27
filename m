@@ -1,21 +1,30 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 7516B77386
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
+	by mail.openembedded.org (Postfix) with ESMTP id AC9077731D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2017 13:24:27 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Jan 2017 05:24:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,295,1477983600"; d="scan'208";a="814018401"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by FMSMGA003.fm.intel.com with ESMTP; 27 Jan 2017 05:24:27 -0800
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Jan 2017 15:24:25 +0200
-Message-Id: <20170127132425.10729-1-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.10.2
-Subject: [PATCH] build-perf-test-wrapper.sh: fix issues with non-existing path arguments
+	Fri, 27 Jan 2017 13:43:48 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
+	via TCP (outbound) with ESMTPS id 20170127134346984_0485;
+	Fri, 27 Jan 2017 13:43:46 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [216.191.234.70] (port=25691 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1cX6oV-0001qa-QH; Fri, 27 Jan 2017 08:43:39 -0500
+Date: Fri, 27 Jan 2017 08:43:37 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@uk63952.mitel.com
+To: "Burton, Ross" <ross.burton@intel.com>
+In-Reply-To: <CAJTo0LbFkHqLxDZDMQMkpVbm0XLyDX=0uNqAd-sCudPcrqJGsw@mail.gmail.com>
+Message-ID: <alpine.LFD.2.20.1701270843200.19628@uk63952.mitel.com>
+References: <alpine.LFD.2.20.1701270739140.15334@uk63952.mitel.com>
+	<CAJTo0LbFkHqLxDZDMQMkpVbm0XLyDX=0uNqAd-sCudPcrqJGsw@mail.gmail.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: what is the working directory for configure/compile/install tasks?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,39 +37,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2017 13:24:28 -0000
+X-List-Received-Date: Fri, 27 Jan 2017 13:43:49 -0000
+Content-Type: multipart/mixed;
+	BOUNDARY="587868445-1918457980-1485524619=:19628"
 
-Without the '-s' option realpath will error out if the given path does
-not exist.
+--587868445-1918457980-1485524619=:19628
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- scripts/contrib/build-perf-test-wrapper.sh | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On Fri, 27 Jan 2017, Burton, Ross wrote:
 
-diff --git a/scripts/contrib/build-perf-test-wrapper.sh b/scripts/contrib/build-perf-test-wrapper.sh
-index e03ea97..affd242 100755
---- a/scripts/contrib/build-perf-test-wrapper.sh
-+++ b/scripts/contrib/build-perf-test-wrapper.sh
-@@ -44,14 +44,14 @@ while getopts "ha:c:C:w:" opt; do
-         h)  usage
-             exit 0
-             ;;
--        a)  archive_dir=`realpath "$OPTARG"`
-+        a)  archive_dir=`realpath -s "$OPTARG"`
-             ;;
-         c)  commitish=$OPTARG
-             ;;
--        C)  results_repo=`realpath "$OPTARG"`
-+        C)  results_repo=`realpath -s "$OPTARG"`
-             commit_results=("--commit-results" "$results_repo")
-             ;;
--        w)  base_dir=`realpath "$OPTARG"`
-+        w)  base_dir=`realpath -s "$OPTARG"`
-             ;;
-         *)  usage
-             exit 1
+>
+> On 27 January 2017 at 12:44, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+>         i've been handed a simple example of Makefile-based source to turn
+>       into a recipe, and the configure/build process is absolutely
+>       straightforward -- top-level "configure" and "Makefile" files to be
+>       run -- to the point where i can simply define my own do_configure(),
+>       do_compile(), etc. tasks.
+>
+>
+> $ git grep \\[dirs\\] meta/classes/base.bbclass
+> meta/classes/base.bbclass:do_fetch[dirs] = "${DL_DIR}"
+> meta/classes/base.bbclass:do_unpack[dirs] = "${WORKDIR}"
+> meta/classes/base.bbclass:do_configure[dirs] = "${B}"
+> meta/classes/base.bbclass:do_compile[dirs] = "${B}"
+> meta/classes/base.bbclass:do_install[dirs] = "${B}"
+
+  *sigh* ... i really should have known that.
+
+rday
+
 -- 
-2.10.2
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+--587868445-1918457980-1485524619=:19628--
