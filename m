@@ -1,26 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E6F7774D6
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 47B57774DD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2017 20:43:12 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 27 Jan 2017 12:43:13 -0800
+	Fri, 27 Jan 2017 20:43:13 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP; 27 Jan 2017 12:43:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,297,1477983600"; d="scan'208";a="1118804970"
+X-IronPort-AV: E=Sophos;i="5.33,297,1477983600"; d="scan'208";a="1088094067"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Jan 2017 12:43:13 -0800
+	by orsmga001.jf.intel.com with ESMTP; 27 Jan 2017 12:43:14 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 29DDE6A4006
+	by linux.intel.com (Postfix) with ESMTP id 54A596A4006
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2017 12:42:14 -0800 (PST)
+	Fri, 27 Jan 2017 12:42:16 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Jan 2017 22:19:44 +0200
-Message-Id: <78272529193dec8d366653c22a6b74cc35616025.1485547221.git.ed.bartosh@linux.intel.com>
+Date: Fri, 27 Jan 2017 22:19:45 +0200
+Message-Id: <068a2815b71a8c886b7bf72d87ccb2c336edb2bf.1485547221.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1485547221.git.ed.bartosh@linux.intel.com>
 References: <cover.1485547221.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v3 07/11] selftest: stop using hddimg in the wic test suite
+Subject: [PATCH v3 08/11] selftest: wic: fix test_iso_image test case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,29 +33,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2017 20:43:12 -0000
+X-List-Received-Date: Fri, 27 Jan 2017 20:43:14 -0000
 
-Removed hddimg from IMAGE_FEATURES as wic code doesn't
-use hddimg anymore.
-
-[YOCTO #10835]
+Added "iso" to IMAGE_FSTYPES to build iso artifacts required
+to fix test of isoimage-isohybrid wic plugin.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/wic.py | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ meta/lib/oeqa/selftest/wic.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index da68e25..dce83ba 100644
+index dce83ba..6a6b54c 100644
 --- a/meta/lib/oeqa/selftest/wic.py
 +++ b/meta/lib/oeqa/selftest/wic.py
-@@ -42,8 +42,7 @@ class Wic(oeSelfTest):
+@@ -42,7 +42,8 @@ class Wic(oeSelfTest):
  
      def setUpLocal(self):
          """This code is executed before each test method."""
--        self.write_config('IMAGE_FSTYPES += " hddimg"\n'
--                          'MACHINE_FEATURES_append = " efi"\n')
-+        self.write_config('MACHINE_FEATURES_append = " efi"\n')
+-        self.write_config('MACHINE_FEATURES_append = " efi"\n')
++        self.write_config('IMAGE_FSTYPES = "iso"\n'
++                          'MACHINE_FEATURES_append = " efi"\n')
  
          # Do this here instead of in setUpClass as the base setUp does some
          # clean up which can result in the native tools built earlier in
