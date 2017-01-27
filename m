@@ -1,20 +1,29 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id AC60771B1F
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
+	by mail.openembedded.org (Postfix) with ESMTP id C7395773EE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2017 14:54:55 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga105.fm.intel.com with ESMTP; 27 Jan 2017 06:54:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,295,1477983600"; d="scan'208";a="1118665706"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Jan 2017 06:54:54 -0800
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Jan 2017 16:54:53 +0200
-Message-Id: <20170127145453.22738-1-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.10.2
-Subject: [PATCH] oeqa/buildperf: don't archive stdout/stderr of commands
+	Fri, 27 Jan 2017 15:17:28 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
+	via TCP (outbound) with ESMTPS id 20170127151715153_0486
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Jan 2017 15:17:15 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [216.191.234.70] (port=25118 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1cX8Gz-0001en-4N for openembedded-core@lists.openembedded.org;
+	Fri, 27 Jan 2017 10:17:09 -0500
+Date: Fri, 27 Jan 2017 10:17:07 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@uk63952.mitel.com
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1701271013090.21304@uk63952.mitel.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: why do (some) apache module recipes depend on both apache2 and apache2-native?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,134 +36,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2017 14:54:55 -0000
+X-List-Received-Date: Fri, 27 Jan 2017 15:17:30 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-Stop capturing output of the shell commands into <test>/commands.log.
-Redirecting output into a file prevented the unittest framework from
-capturing it, causing useless errors (with empty output) like:
-oeqa.utils.CommandError: Command '['bitbake', 'core-image-sato']'
-returned non-zero exit status 1 with output:
 
-In general, the console output of commands is only interesting when
-something fails. Also, dropping the commands.log file is a huge saving
-in disk space, and thus, repository size when results are archived in
-Git.
+  i was poking around some apache module recipes, eg,
+apache-websocket_git.bb, and noticed:
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- meta/lib/oeqa/buildperf/base.py       | 29 +++++++++--------------------
- meta/lib/oeqa/buildperf/test_basic.py | 10 +++++-----
- 2 files changed, 14 insertions(+), 25 deletions(-)
+  DEPENDS = "apache2 apache2-native"
+  RDEPENDS_${PN} += "apache2"
 
-diff --git a/meta/lib/oeqa/buildperf/base.py b/meta/lib/oeqa/buildperf/base.py
-index 975524c..dd473a0 100644
---- a/meta/lib/oeqa/buildperf/base.py
-+++ b/meta/lib/oeqa/buildperf/base.py
-@@ -163,8 +163,6 @@ class BuildPerfTestResult(unittest.TextTestResult):
-                                        ('status', status),
-                                        ('start_time', test.start_time),
-                                        ('elapsed_time', test.elapsed_time),
--                                       ('cmd_log_file', os.path.relpath(test.cmd_log_file,
--                                                                        self.out_dir)),
-                                        ('measurements', test.measurements)])
-             if status in ('ERROR', 'FAILURE', 'EXPECTED_FAILURE'):
-                 test_result['message'] = str(test.err[1])
-@@ -268,18 +266,13 @@ class BuildPerfTestCase(unittest.TestCase):
-     def out_dir(self):
-         return os.path.join(self.base_dir, self.name)
- 
--    @property
--    def cmd_log_file(self):
--        return os.path.join(self.out_dir, 'commands.log')
--
-     def shortDescription(self):
-         return super(BuildPerfTestCase, self).shortDescription() or ""
- 
-     def setUp(self):
-         """Set-up fixture for each test"""
-         if self.build_target:
--            self.log_cmd_output(['bitbake', self.build_target,
--                                 '-c', 'fetchall'])
-+            self.run_cmd(['bitbake', self.build_target, '-c', 'fetchall'])
- 
-     def run(self, *args, **kwargs):
-         """Run test"""
-@@ -287,13 +280,12 @@ class BuildPerfTestCase(unittest.TestCase):
-         super(BuildPerfTestCase, self).run(*args, **kwargs)
-         self.elapsed_time = datetime.now() - self.start_time
- 
--    def log_cmd_output(self, cmd):
--        """Run a command and log it's output"""
-+    def run_cmd(self, cmd):
-+        """Convenience method for running a command"""
-         cmd_str = cmd if isinstance(cmd, str) else ' '.join(cmd)
-         log.info("Logging command: %s", cmd_str)
-         try:
--            with open(self.cmd_log_file, 'a') as fobj:
--                runCmd2(cmd, stdout=fobj)
-+            runCmd2(cmd)
-         except CommandError as err:
-             log.error("Command failed: %s", err.retcode)
-             raise
-@@ -338,17 +330,14 @@ class BuildPerfTestCase(unittest.TestCase):
-         log.info("Timing command: %s", cmd_str)
-         data_q = SimpleQueue()
-         try:
--            with open(self.cmd_log_file, 'a') as fobj:
--                proc = Process(target=_worker, args=(data_q, cmd,),
--                               kwargs={'stdout': fobj})
--                proc.start()
--                data = data_q.get()
--                proc.join()
-+            proc = Process(target=_worker, args=(data_q, cmd,))
-+            proc.start()
-+            data = data_q.get()
-+            proc.join()
-             if isinstance(data, Exception):
-                 raise data
-         except CommandError:
--            log.error("Command '%s' failed, see %s for more details", cmd_str,
--                      self.cmd_log_file)
-+            log.error("Command '%s' failed", cmd_str)
-             raise
-         etime = data['elapsed_time']
- 
-diff --git a/meta/lib/oeqa/buildperf/test_basic.py b/meta/lib/oeqa/buildperf/test_basic.py
-index 7a48c1e..897c3fc 100644
---- a/meta/lib/oeqa/buildperf/test_basic.py
-+++ b/meta/lib/oeqa/buildperf/test_basic.py
-@@ -38,8 +38,8 @@ class Test1P2(BuildPerfTestCase):
-     def test12(self):
-         """Measure bitbake virtual/kernel"""
-         # Build and cleans state in order to get all dependencies pre-built
--        self.log_cmd_output(['bitbake', self.build_target])
--        self.log_cmd_output(['bitbake', self.build_target, '-c', 'cleansstate'])
-+        self.run_cmd(['bitbake', self.build_target])
-+        self.run_cmd(['bitbake', self.build_target, '-c', 'cleansstate'])
- 
-         self.sync()
-         self.measure_cmd_resources(['bitbake', self.build_target], 'build',
-@@ -74,7 +74,7 @@ class Test2(BuildPerfTestCase):
-     def test2(self):
-         """Measure bitbake core-image-sato -c rootfs with sstate"""
-         # Build once in order to populate sstate cache
--        self.log_cmd_output(['bitbake', self.build_target])
-+        self.run_cmd(['bitbake', self.build_target])
- 
-         self.rm_tmp()
-         self.rm_cache()
-@@ -106,8 +106,8 @@ class Test4(BuildPerfTestCase):
- 
-     def test4(self):
-         """eSDK metrics"""
--        self.log_cmd_output("bitbake {} -c do_populate_sdk_ext".format(
--            self.build_target))
-+        self.run_cmd(['bitbake', '-c', 'do_populate_sdk_ext',
-+                     self.build_target])
-         self.bb_vars = get_bb_vars(None, self.build_target)
-         tmp_dir = self.bb_vars['TMPDIR']
-         installer = os.path.join(
+i can certainly understand that run-time dependency, but why would an
+apache module recipe have a build-time dependency on both the native
+and target form of apache?
+
+  is there something unique about the structure of apache that
+requires the native component of the sysroot even when building for a
+different target?
+
+rday
+
 -- 
-2.10.2
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
