@@ -1,60 +1,20 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-lf0-f46.google.com (mail-lf0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 14C4477354
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 62B9977301
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2017 09:40:35 +0000 (UTC)
-Received: by mail-lf0-f46.google.com with SMTP id n124so158691517lfd.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2017 01:40:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
-	h=date:from:to:subject:message-id:mail-followup-to:references
-	:mime-version:content-disposition:in-reply-to:organization
-	:user-agent; bh=FP0hsj0wHIdWAfLQl5RKnqYqumLCQvoGArZKObhOpSE=;
-	b=vyR2WVtiH0C22xzKVY4n3vgRP61f5yMcRaxYyf9ophRD8CuXaRgvquvE/m0fvZbiqw
-	mVZhioBWtIVLRHiz+vshoV1GQWKCbwLa27hnll5KcJFjJfUVY8s+CVbrxQqUHw7SBMvl
-	v2XwYdwtuT1xjxRMmgTltfqjIiLeFSKjQqJ0aqtGv7WFLQSwhcYLcqcXBFA4+7+/hdN4
-	2l2ibypQHJ6HtwI0K6wQ4nSJptfrs8mDCuC+86B4hMnsEPzVh08xBPNixk4lxuKKUTSD
-	oo1U7ScoqyOpyNVA0FzBy3HJdTL/uVDruk/Q5OurFLbpBSHyb9f8PEL4k5+A8mDYY8Hz
-	fuXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
-	:references:mime-version:content-disposition:in-reply-to
-	:organization:user-agent;
-	bh=FP0hsj0wHIdWAfLQl5RKnqYqumLCQvoGArZKObhOpSE=;
-	b=To/zkJHG2bml4ck+sGDDW0tx/eYQdvBRrjrDRvIGGXMvv2NkbuUawDOAR5+V/t9YBh
-	U3K4BpRrFTUfOJOAmP2hEueTNWtohSch7OtznvjlQTqrqLoXsgihkTLy2wDkubHdUN3K
-	SCus+E7j2/8K4EBi3n0x4xag3YKdD0mdHE6qT29EyUd6MJw2aZMJyqxMNng4Xt0RC4/i
-	ztrlcUMJb+/QcNXKf6G9r+gkHzCGWM68tvfI8AhT5jb9P2Tc6W88vcN6w4KBYm/13Qtf
-	B2mhN6GFKoMlIXhNLdMW/Uh6pqb3q3vLvW2SKKijBhIz4EuWZg+3KOkCbsqmYIU3LWnZ
-	19DA==
-X-Gm-Message-State: AIkVDXK8XO1QTiFaGxaLEFbzLf/c22ZRon8Z9+0kQO3w3LGI44eQAYL04pgJL4bdJIcs8w==
-X-Received: by 10.25.195.145 with SMTP id t139mr2004736lff.96.1485510035323;
-	Fri, 27 Jan 2017 01:40:35 -0800 (PST)
-Received: from ad.chargestorm.se (194-237-220-218.customer.telia.com.
-	[194.237.220.218]) by smtp.gmail.com with ESMTPSA id
-	s20sm1151092lfg.29.2017.01.27.01.40.34
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 27 Jan 2017 01:40:34 -0800 (PST)
-Date: Fri, 27 Jan 2017 10:40:32 +0100
-From: Anders Darander <anders@chargestorm.se>
+	Fri, 27 Jan 2017 10:13:31 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 27 Jan 2017 02:13:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,294,1477983600"; d="scan'208";a="36227290"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by orsmga002.jf.intel.com with ESMTP; 27 Jan 2017 02:13:31 -0800
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20170127094032.zpdy3uaohktwcgqk@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <cover.1485505680.git.anders@chargestorm.se>
-	<20170127092329.4462.45493@do.openembedded.org>
-MIME-Version: 1.0
-In-Reply-To: <20170127092329.4462.45493@do.openembedded.org>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: NeoMutt/20170113 (1.7.2)
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIFB5dGhvbjMgcGFja2FnaW5nIGZpeGVz?=
+Date: Fri, 27 Jan 2017 12:13:21 +0200
+Message-Id: <20170127101331.14389-1-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.10.2
+Subject: [PATCH RFC 00/10] python3: support profile-optimized build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,34 +27,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2017 09:40:36 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 27 Jan 2017 10:13:32 -0000
 
-Hi,
+This patchset implements profile-guided-optimization (PGO) for Python 3. The
+implementation is very similar to my previous patchset for Python 2.7.
 
-* Patchwork <patchwork@patchwork.openembedded.org> [170127 10:23]:
+PGO for python3-native is one simple patch. PGO for target python3 is more
+complicated and follows the lines of Python 2.7:
+1. add new python-profile-opt3 recipe that is a special version of python3
+   with profile instrumentation enabled
+2. add new do_profile3 in python-pgo-image for running the python3 profile task
+   in the target
+3. enable usage of profile data in python3 do_compile
 
-> Series: Python3 packaging fixes
-> Revision: 1
-> URL   : https://patchwork.openembedded.org/series/5024/
-> State : failure
+Configration variables for controlling the feature are:
+PYTHON3_PROFILE_OPT          - set to "1" to enable PGO on python3
+PYTHON3_PROFILE_TASK         - profile task to run for python3
+PYTHON3_NATIVE_PROFILE_OPT   - set to "1" to enable PGO on python3-native
+PYTHON3_NATIVE_PROFILE_TASK  - profile task to run for python3-native
 
-> * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
->   Suggested fix    Rebase your series on top of targeted branch
->   Targeted branch  master (currently at a99cca0e8e)
+Benchmark results from my i7-3770K are found below.
+python3-native:
+  pystone:          118288 -> 138026 pystones/s     (+17%)
+  pybench avg:      3428   -> 3118 ms               (-9%)
+  regrtest time:    598    -> 550 s                 (-8%)
 
-This is likely due to issues with the email-patches. One of the patches,
-0003, has a line > 998 characters (one line in the patch context, ie not
-modified by me).
+python3 (target):
+  pystone:          1531   -> 1616 pystones/s       (+5.5%)
+  pybench avg:      215901 -> 207498 ms             (-3.9%)
+  regrtest time:    8355   -> 8157                  (-2.4%)
 
-Retrieving the patch series from the branch at github should work, as
-it's based on the current master, a99cca0e8e.
+Again, these are just ballpark figures from few test runs.
 
-Cheers,
-Anders
+
+The following changes since commit ccf50ba2e045b7b690a10633710872845a63943f:
+
+  python-pgo-image: enable sstate for do_profile (2017-01-24 15:23:49 +0200)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib marquiz/fixes-9338-py3
+  http://git.openembedded.org/openembedded-core-contrib/log/?h=marquiz/fixes-9338-py3
+
+
+Markus Lehtonen (10):
+  python3-native: support profile optimized build
+  python3: fix depends of python-tests
+  python3: add python-profile-opt3 recipe
+  python-pgo-image: profiling for python3
+  python3: remove two setup.py cross-compile hacks
+  python3: support profile optimized build
+  python3: fix profile-optimized build of modules
+  python-pgo-image: exclude tests from the python3 profile target
+  python3: add python3-tools subpackage
+  python-pgo-image: change python3 profile target to pybench
+
+ meta/recipes-devtools/images/python-pgo-image.bb   |  61 +++++++++--
+ .../python/python-3.5-manifest.inc                 |  10 +-
+ meta/recipes-devtools/python/python-profile-opt3   |   1 +
+ .../python/python-profile-opt3_3.5.2.bb            |  15 +++
+ .../python/python3-native_3.5.2.bb                 |   9 ++
+ .../python/python3/000-cross-compile.patch         |   9 --
+ ...efile-add-install_generate_profile-target.patch |  25 +++++
+ ...-CFLAGS-for-extensions-when-cross-compili.patch |  56 +++++++++++
+ .../python3-setup.py-no-host-headers-libs.patch    |  33 ------
+ ...name-libpython3-to-libpython-profile-opt3.patch | 111 +++++++++++++++++++++
+ .../setup.py-find-libraries-in-staging-dirs.patch  |  30 ------
+ meta/recipes-devtools/python/python3_3.5.2.bb      |  74 ++++++++++----
+ 12 files changed, 325 insertions(+), 109 deletions(-)
+ create mode 120000 meta/recipes-devtools/python/python-profile-opt3
+ create mode 100644 meta/recipes-devtools/python/python-profile-opt3_3.5.2.bb
+ create mode 100644 meta/recipes-devtools/python/python3/Makefile-add-install_generate_profile-target.patch
+ create mode 100644 meta/recipes-devtools/python/python3/Use-correct-CFLAGS-for-extensions-when-cross-compili.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/python3-setup.py-no-host-headers-libs.patch
+ create mode 100644 meta/recipes-devtools/python/python3/rename-libpython3-to-libpython-profile-opt3.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/setup.py-find-libraries-in-staging-dirs.patch
 
 -- 
-Anders Darander, Senior System Architect
-ChargeStorm AB / eStorm AB
+2.10.2
+
 
