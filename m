@@ -1,26 +1,18 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id C65C8774C9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2017 20:43:16 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga104.jf.intel.com with ESMTP; 27 Jan 2017 12:43:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,297,1477983600"; d="scan'208";a="218484526"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga004.fm.intel.com with ESMTP; 27 Jan 2017 12:43:17 -0800
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 6B1DC6A4082
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2017 12:42:19 -0800 (PST)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Jan 2017 22:19:48 +0200
-Message-Id: <507d4056d829958f0e5297df006981d4ce27b26d.1485547221.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1485547221.git.ed.bartosh@linux.intel.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 75517774C3;
+	Fri, 27 Jan 2017 20:53:29 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Date: Fri, 27 Jan 2017 20:53:30 -0000
+Message-ID: <20170127205330.4463.2644@do.openembedded.org>
 References: <cover.1485547221.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v3 11/11] isoimage-isohybrid: renamed variable hdd_dir
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1485547221.git.ed.bartosh@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgRml4IGZvciAjMTA4MzUgLSBXSUMgc2hvdWxkIG5vdCByZWx5IG9uIGhkZGltZyBjcmVhdGlvbiBmb3IgZmluZGluZyBhbGwgbmVlZGVkIGFydGlmYWN0cyAocmV2Myk=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,46 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2017 20:43:17 -0000
+X-List-Received-Date: Fri, 27 Jan 2017 20:53:29 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Renamed variable hdd_dir to deploy_dir as this variable is
-assigned to the value of DEPLOY_DIR_IMAGE.
+== Series Details ==
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Series: Fix for #10835 - WIC should not rely on hddimg creation for finding all needed artifacts (rev3)
+Revision: 3
+URL   : https://patchwork.openembedded.org/series/4802/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 3a617a4c66)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-index e4637a3..bceaa84 100644
---- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-+++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-@@ -249,7 +249,7 @@ class IsoImagePlugin(SourcePlugin):
-         part.rootfs_dir = rootfs_dir
- 
-         # Prepare rootfs.img
--        hdd_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
-+        deploy_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
-         img_iso_dir = get_bitbake_var("ISODIR")
-         rootfs_img = "%s/rootfs.img" % img_iso_dir
-         if not os.path.isfile(rootfs_img):
-@@ -282,12 +282,12 @@ class IsoImagePlugin(SourcePlugin):
-         # Support using a different initrd other than default
-         if source_params.get('initrd'):
-             initrd = source_params['initrd']
--            if not hdd_dir:
-+            if not deploy_dir:
-                 msger.error("Couldn't find DEPLOY_DIR_IMAGE, exiting\n")
--            cp_cmd = "cp %s/%s %s" % (hdd_dir, initrd, cr_workdir)
-+            cp_cmd = "cp %s/%s %s" % (deploy_dir, initrd, cr_workdir)
-         else:
-             # Prepare initial ramdisk
--            initrd = "%s/initrd" % hdd_dir
-+            initrd = "%s/initrd" % deploy_dir
-             if not os.path.isfile(initrd):
-                 initrd = "%s/initrd" % img_iso_dir
-             if not os.path.isfile(initrd):
--- 
-2.1.4
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
