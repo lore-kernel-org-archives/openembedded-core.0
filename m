@@ -1,41 +1,46 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from smtp-out11.electric.net (smtp-out11.electric.net
-	[185.38.181.41])
-	by mail.openembedded.org (Postfix) with ESMTP id E58C07732B
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2017 07:28:26 +0000 (UTC)
-Received: from 1cX0xN-0001qX-WC by out11b.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1cX0xO-0001rA-TW
-	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jan 2017 23:28:26 -0800
-Received: by emcmailer; Thu, 26 Jan 2017 23:28:26 -0800
-Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out11b.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1cX0xN-0001qX-WC
-	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jan 2017 23:28:25 -0800
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.319.2;
-	Fri, 27 Jan 2017 08:28:04 +0100
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Jan 2017 08:28:02 +0100
-Message-ID: <1485502082-62843-1-git-send-email-sona.sarmadi@enea.com>
-X-Mailer: git-send-email 1.9.1
+Return-Path: <paul@paulbarker.me.uk>
+X-Greylist: delayed 1384 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 27 Jan 2017 08:09:40 UTC
+Received: from slow1-d.mail.gandi.net (slow1-d.mail.gandi.net [217.70.178.86])
+	by mail.openembedded.org (Postfix) with ESMTP id DF52971A92;
+	Fri, 27 Jan 2017 08:09:40 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+	[217.70.183.197])
+	by slow1-d.mail.gandi.net (Postfix) with ESMTP id 20B0D535E09;
+	Fri, 27 Jan 2017 08:45:03 +0100 (CET)
+Received: from mfilter2-d.gandi.net (mfilter2-d.gandi.net [217.70.178.140])
+	by relay5-d.mail.gandi.net (Postfix) with ESMTP id 9832541C09F;
+	Fri, 27 Jan 2017 08:45:00 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mfilter2-d.gandi.net
+Received: from relay5-d.mail.gandi.net ([IPv6:::ffff:217.70.183.197])
+	by mfilter2-d.gandi.net (mfilter2-d.gandi.net [::ffff:10.0.15.180])
+	(amavisd-new, port 10024)
+	with ESMTP id syel-XyGicKM; Fri, 27 Jan 2017 08:44:59 +0100 (CET)
+X-Originating-IP: 86.24.150.36
+Received: from host0.betafive.co.uk
+	(cpc15-shep11-2-0-cust35.8-3.cable.virginm.net [86.24.150.36])
+	(Authenticated sender: paul@paulbarker.me.uk)
+	by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 2E39841C07E;
+	Fri, 27 Jan 2017 08:44:58 +0100 (CET)
+Date: Fri, 27 Jan 2017 07:44:56 +0000
+From: Paul Barker <paul@paulbarker.me.uk>
+To: Andreas =?UTF-8?B?TcO8bGxlcg==?= <schnitzeltony@googlemail.com>
+Message-ID: <20170127074456.04009ae6@host0.betafive.co.uk>
+In-Reply-To: <CALbNGRT_H_Vz8b6vcfgJGWYEyVw6og4+zKmLjLZ6P+2O0oY6eA@mail.gmail.com>
+References: <65082de4-2ba6-3b18-1845-00b2d637404e@balister.org>
+	<CALbNGRSrXLdfUK3U2bXr20P+fFm4ROArGPRi9Ag=AhXbGjUv+g@mail.gmail.com>
+	<bbd8fb9d-8215-c73f-f4aa-b20523291ec0@balister.org>
+	<CALbNGRT_H_Vz8b6vcfgJGWYEyVw6og4+zKmLjLZ6P+2O0oY6eA@mail.gmail.com>
+X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
-	designate permitted sender hosts)
-X-Outbound-IP: 192.36.1.72
-X-Env-From: sona.sarmadi@enea.com
-X-Proto: esmtps
-X-Revdns: mx-3.enea.com
-X-HELO: mx-3.enea.com
-X-TLS: TLSv1:AES128-SHA:128
-X-Authenticated_ID: 
-X-PolicySMART: 6551647
-X-Virus-Status: Scanned by VirusSMART (c)
-X-Virus-Status: Scanned by VirusSMART (s)
-Subject: [PATCH][krogoth] libxrender: CVE-2016-7949
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	"openembedded-members@lists.openembedded.org"
+	<openembedded-members@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>, openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>
+Subject: Re: [Openembedded-architecture] OpenEmbedded Stand at FOSDEM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,105 +53,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2017 07:28:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 27 Jan 2017 08:09:41 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Insufficient validation of server responses results
-in overflow of previously reserved memory
+On Thu, 26 Jan 2017 22:39:17 +0100
+Andreas M=C3=BCller <schnitzeltony@googlemail.com> wrote:
 
-Upstream patch:
-https://cgit.freedesktop.org/xorg/lib/libXrender/commit/?id=9362c7ddd1af3b168953d0737877bc52d79c94f4
+> On Thu, Jan 5, 2017 at 4:30 PM, Philip Balister <philip@balister.org>
+> wrote:
+> > On 01/03/2017 08:13 PM, Andreas M=C3=BCller wrote: =20
+> >> On Tue, Jan 3, 2017 at 4:32 PM, Philip Balister
+> >> <philip@balister.org> wrote: =20
+> >>> Every year since 2007, OpenEmbedded has a stand at FOSDEM
+> >>> (http://www.fosdem.org)
+> >>>
+> >>> From the first year:
+> >>>
+> >>> https://www.flickr.com/photos/32615155@N00/405229708/in/album-7215759=
+4561002629/
+> >>>
+> >>> Belen and I are sort of organizing this, but both of us are also
+> >>> involved in devrooms, so we will need a lot of help manning the
+> >>> stand and getting some demos together.
+> >>>
+> >>> Demos should try and show how the project makes embedded work
+> >>> easier, by showing tools and/or cool examples of devices using
+> >>> Linux built with OpenEmbedded. In previous years, we've shown
+> >>> toaster with data collected from demos on the table. Collections
+> >>> of devices running images built from the same recipe and
+> >>> interesting products using Linux by OpenEmbedded.
+> >>>
+> >>> I'm happy to try and organize demos and staffing, but I could
+> >>> really use some help this year, so if you are in a position to
+> >>> tak ethe lead on operating the stand, that would be a huge help
+> >>> to me and the rest of the project.
+> >>>
+> >>> Thanks,
+> >>>
+> >>> Philip =20
+> Nobody?
+>=20
+> Andreas
 
-External References:
-https://lists.x.org/archives/xorg-announce/2016-October/002720.html
-https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2016-7949
+There's 3 of us from Tog=C3=A1n Labs who'll be able to help out manning the
+stand. I know I can do all day Saturday and up to about 4pm on Sunday
+and I'm happy to be at the stand all day (with the obvious caffeine
+breaks!). Let me know if you need help setting things up and what time
+you need people to turn up on Saturday morning.
 
-Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
----
- .../xorg-lib/libxrender/CVE-2016-7949.patch        | 59 ++++++++++++++++++++++
- meta/recipes-graphics/xorg-lib/libxrender_0.9.9.bb |  3 ++
- 2 files changed, 62 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-lib/libxrender/CVE-2016-7949.patch
+If you need anything printing then send it to me.
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxrender/CVE-2016-7949.patch b/meta/recipes-graphics/xorg-lib/libxrender/CVE-2016-7949.patch
-new file mode 100644
-index 0000000..73315b1
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libxrender/CVE-2016-7949.patch
-@@ -0,0 +1,59 @@
-+From 9362c7ddd1af3b168953d0737877bc52d79c94f4 Mon Sep 17 00:00:00 2001
-+From: Tobias Stoeckmann <tobias@stoeckmann.org>
-+Date: Sun, 25 Sep 2016 21:43:09 +0200
-+Subject: Validate lengths while parsing server data.
-+
-+Individual lengths inside received server data can overflow
-+the previously reserved memory.
-+
-+It is therefore important to validate every single length
-+field to not overflow the previously agreed sum of all invidual
-+length fields.
-+
-+v2: consume remaining bytes in the reply buffer on error.
-+
-+CVE: CVE-2016-7949
-+Upstream-Status: Backport
-+
-+Signed-off-by: Tobias Stoeckmann <tobias@stoeckmann.org>
-+Reviewed-by: Matthieu Herrb@laas.fr
-+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-+
-+diff --git a/src/Xrender.c b/src/Xrender.c
-+index 3102eb2..71cf3e6 100644
-+--- a/src/Xrender.c
-++++ b/src/Xrender.c
-+@@ -533,12 +533,30 @@ XRenderQueryFormats (Display *dpy)
-+ 	screen->fallback = _XRenderFindFormat (xri, xScreen->fallback);
-+ 	screen->subpixel = SubPixelUnknown;
-+ 	xDepth = (xPictDepth *) (xScreen + 1);
-++	if (screen->ndepths > rep.numDepths) {
-++	    Xfree (xri);
-++	    Xfree (xData);
-++	    _XEatDataWords (dpy, rep.length);
-++	    UnlockDisplay (dpy);
-++	    SyncHandle ();
-++	    return 0;
-++	}
-++	rep.numDepths -= screen->ndepths;
-+ 	for (nd = 0; nd < screen->ndepths; nd++)
-+ 	{
-+ 	    depth->depth = xDepth->depth;
-+ 	    depth->nvisuals = xDepth->nPictVisuals;
-+ 	    depth->visuals = visual;
-+ 	    xVisual = (xPictVisual *) (xDepth + 1);
-++	    if (depth->nvisuals > rep.numVisuals) {
-++		Xfree (xri);
-++		Xfree (xData);
-++		_XEatDataWords (dpy, rep.length);
-++		UnlockDisplay (dpy);
-++		SyncHandle ();
-++		return 0;
-++	    }
-++	    rep.numVisuals -= depth->nvisuals;
-+ 	    for (nv = 0; nv < depth->nvisuals; nv++)
-+ 	    {
-+ 		visual->visual = _XRenderFindVisual (dpy, xVisual->visual);
-+-- 
-+cgit v0.10.2
-+
-diff --git a/meta/recipes-graphics/xorg-lib/libxrender_0.9.9.bb b/meta/recipes-graphics/xorg-lib/libxrender_0.9.9.bb
-index 9fde040..96116ea 100644
---- a/meta/recipes-graphics/xorg-lib/libxrender_0.9.9.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxrender_0.9.9.bb
-@@ -19,5 +19,8 @@ XORG_PN = "libXrender"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
-+SRC_URI += "file://CVE-2016-7949.patch \
-+        "
-+
- SRC_URI[md5sum] = "5db92962b124ca3a8147daae4adbd622"
- SRC_URI[sha256sum] = "fc2fe57980a14092426dffcd1f2d9de0987b9d40adea663bd70d6342c0e9be1a"
--- 
-1.9.1
+I can bring 2x 4-way UK power strips plus 2x EU->UK power adaptors for
+our gear. I've got 2 laptops plus a few embedded devices. I don't have
+any EU power strips though.
 
+I've updated the wiki page.
+
+Thanks,
+Paul
 
