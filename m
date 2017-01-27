@@ -1,30 +1,20 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
-	by mail.openembedded.org (Postfix) with ESMTP id AC9077731D
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id AC60771B1F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2017 13:43:48 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
-	via TCP (outbound) with ESMTPS id 20170127134346984_0485;
-	Fri, 27 Jan 2017 13:43:46 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [216.191.234.70] (port=25691 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1cX6oV-0001qa-QH; Fri, 27 Jan 2017 08:43:39 -0500
-Date: Fri, 27 Jan 2017 08:43:37 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@uk63952.mitel.com
-To: "Burton, Ross" <ross.burton@intel.com>
-In-Reply-To: <CAJTo0LbFkHqLxDZDMQMkpVbm0XLyDX=0uNqAd-sCudPcrqJGsw@mail.gmail.com>
-Message-ID: <alpine.LFD.2.20.1701270843200.19628@uk63952.mitel.com>
-References: <alpine.LFD.2.20.1701270739140.15334@uk63952.mitel.com>
-	<CAJTo0LbFkHqLxDZDMQMkpVbm0XLyDX=0uNqAd-sCudPcrqJGsw@mail.gmail.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: what is the working directory for configure/compile/install tasks?
+	Fri, 27 Jan 2017 14:54:55 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga105.fm.intel.com with ESMTP; 27 Jan 2017 06:54:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,295,1477983600"; d="scan'208";a="1118665706"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Jan 2017 06:54:54 -0800
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Jan 2017 16:54:53 +0200
+Message-Id: <20170127145453.22738-1-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.10.2
+Subject: [PATCH] oeqa/buildperf: don't archive stdout/stderr of commands
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,44 +27,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2017 13:43:49 -0000
-Content-Type: multipart/mixed;
-	BOUNDARY="587868445-1918457980-1485524619=:19628"
+X-List-Received-Date: Fri, 27 Jan 2017 14:54:55 -0000
 
---587868445-1918457980-1485524619=:19628
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Stop capturing output of the shell commands into <test>/commands.log.
+Redirecting output into a file prevented the unittest framework from
+capturing it, causing useless errors (with empty output) like:
+oeqa.utils.CommandError: Command '['bitbake', 'core-image-sato']'
+returned non-zero exit status 1 with output:
 
-On Fri, 27 Jan 2017, Burton, Ross wrote:
+In general, the console output of commands is only interesting when
+something fails. Also, dropping the commands.log file is a huge saving
+in disk space, and thus, repository size when results are archived in
+Git.
 
->
-> On 27 January 2017 at 12:44, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->         i've been handed a simple example of Makefile-based source to turn
->       into a recipe, and the configure/build process is absolutely
->       straightforward -- top-level "configure" and "Makefile" files to be
->       run -- to the point where i can simply define my own do_configure(),
->       do_compile(), etc. tasks.
->
->
-> $ git grep \\[dirs\\] meta/classes/base.bbclass
-> meta/classes/base.bbclass:do_fetch[dirs] = "${DL_DIR}"
-> meta/classes/base.bbclass:do_unpack[dirs] = "${WORKDIR}"
-> meta/classes/base.bbclass:do_configure[dirs] = "${B}"
-> meta/classes/base.bbclass:do_compile[dirs] = "${B}"
-> meta/classes/base.bbclass:do_install[dirs] = "${B}"
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ meta/lib/oeqa/buildperf/base.py       | 29 +++++++++--------------------
+ meta/lib/oeqa/buildperf/test_basic.py | 10 +++++-----
+ 2 files changed, 14 insertions(+), 25 deletions(-)
 
-  *sigh* ... i really should have known that.
-
-rday
-
+diff --git a/meta/lib/oeqa/buildperf/base.py b/meta/lib/oeqa/buildperf/base.py
+index 975524c..dd473a0 100644
+--- a/meta/lib/oeqa/buildperf/base.py
++++ b/meta/lib/oeqa/buildperf/base.py
+@@ -163,8 +163,6 @@ class BuildPerfTestResult(unittest.TextTestResult):
+                                        ('status', status),
+                                        ('start_time', test.start_time),
+                                        ('elapsed_time', test.elapsed_time),
+-                                       ('cmd_log_file', os.path.relpath(test.cmd_log_file,
+-                                                                        self.out_dir)),
+                                        ('measurements', test.measurements)])
+             if status in ('ERROR', 'FAILURE', 'EXPECTED_FAILURE'):
+                 test_result['message'] = str(test.err[1])
+@@ -268,18 +266,13 @@ class BuildPerfTestCase(unittest.TestCase):
+     def out_dir(self):
+         return os.path.join(self.base_dir, self.name)
+ 
+-    @property
+-    def cmd_log_file(self):
+-        return os.path.join(self.out_dir, 'commands.log')
+-
+     def shortDescription(self):
+         return super(BuildPerfTestCase, self).shortDescription() or ""
+ 
+     def setUp(self):
+         """Set-up fixture for each test"""
+         if self.build_target:
+-            self.log_cmd_output(['bitbake', self.build_target,
+-                                 '-c', 'fetchall'])
++            self.run_cmd(['bitbake', self.build_target, '-c', 'fetchall'])
+ 
+     def run(self, *args, **kwargs):
+         """Run test"""
+@@ -287,13 +280,12 @@ class BuildPerfTestCase(unittest.TestCase):
+         super(BuildPerfTestCase, self).run(*args, **kwargs)
+         self.elapsed_time = datetime.now() - self.start_time
+ 
+-    def log_cmd_output(self, cmd):
+-        """Run a command and log it's output"""
++    def run_cmd(self, cmd):
++        """Convenience method for running a command"""
+         cmd_str = cmd if isinstance(cmd, str) else ' '.join(cmd)
+         log.info("Logging command: %s", cmd_str)
+         try:
+-            with open(self.cmd_log_file, 'a') as fobj:
+-                runCmd2(cmd, stdout=fobj)
++            runCmd2(cmd)
+         except CommandError as err:
+             log.error("Command failed: %s", err.retcode)
+             raise
+@@ -338,17 +330,14 @@ class BuildPerfTestCase(unittest.TestCase):
+         log.info("Timing command: %s", cmd_str)
+         data_q = SimpleQueue()
+         try:
+-            with open(self.cmd_log_file, 'a') as fobj:
+-                proc = Process(target=_worker, args=(data_q, cmd,),
+-                               kwargs={'stdout': fobj})
+-                proc.start()
+-                data = data_q.get()
+-                proc.join()
++            proc = Process(target=_worker, args=(data_q, cmd,))
++            proc.start()
++            data = data_q.get()
++            proc.join()
+             if isinstance(data, Exception):
+                 raise data
+         except CommandError:
+-            log.error("Command '%s' failed, see %s for more details", cmd_str,
+-                      self.cmd_log_file)
++            log.error("Command '%s' failed", cmd_str)
+             raise
+         etime = data['elapsed_time']
+ 
+diff --git a/meta/lib/oeqa/buildperf/test_basic.py b/meta/lib/oeqa/buildperf/test_basic.py
+index 7a48c1e..897c3fc 100644
+--- a/meta/lib/oeqa/buildperf/test_basic.py
++++ b/meta/lib/oeqa/buildperf/test_basic.py
+@@ -38,8 +38,8 @@ class Test1P2(BuildPerfTestCase):
+     def test12(self):
+         """Measure bitbake virtual/kernel"""
+         # Build and cleans state in order to get all dependencies pre-built
+-        self.log_cmd_output(['bitbake', self.build_target])
+-        self.log_cmd_output(['bitbake', self.build_target, '-c', 'cleansstate'])
++        self.run_cmd(['bitbake', self.build_target])
++        self.run_cmd(['bitbake', self.build_target, '-c', 'cleansstate'])
+ 
+         self.sync()
+         self.measure_cmd_resources(['bitbake', self.build_target], 'build',
+@@ -74,7 +74,7 @@ class Test2(BuildPerfTestCase):
+     def test2(self):
+         """Measure bitbake core-image-sato -c rootfs with sstate"""
+         # Build once in order to populate sstate cache
+-        self.log_cmd_output(['bitbake', self.build_target])
++        self.run_cmd(['bitbake', self.build_target])
+ 
+         self.rm_tmp()
+         self.rm_cache()
+@@ -106,8 +106,8 @@ class Test4(BuildPerfTestCase):
+ 
+     def test4(self):
+         """eSDK metrics"""
+-        self.log_cmd_output("bitbake {} -c do_populate_sdk_ext".format(
+-            self.build_target))
++        self.run_cmd(['bitbake', '-c', 'do_populate_sdk_ext',
++                     self.build_target])
+         self.bb_vars = get_bb_vars(None, self.build_target)
+         tmp_dir = self.bb_vars['TMPDIR']
+         installer = os.path.join(
 -- 
+2.10.2
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
---587868445-1918457980-1485524619=:19628--
