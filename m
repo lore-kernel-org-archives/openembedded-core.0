@@ -1,57 +1,25 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DD937742F
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id D771077499
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2017 19:22:30 +0000 (UTC)
-Received: by mail-io0-f173.google.com with SMTP id j18so68053886ioe.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2017 11:22:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=PNspQcUjGJt+53BxFPBJ1QDy32BysQfUW/q3CwuECu8=;
-	b=e9oo1RJQjN+lWH2YPibW6hwd27VBYkcWpw460KrDOEcYmMgOldyzRp8BPA8Tgf34cX
-	NkNj7uX0tPnCk0m5qm5BKRFjFarMNdqecitT+vM0W9wABnh3gZ5jrtVbLh/uDOs1jtKH
-	Yqw6OX4AuqVV5FwnI9wmeuG/X+H1UUSc0BA2QKGSyAIm0fX/llg7u2SAS3sCgNIxwrTe
-	D+LvelFakYw4MoPMJAABeyCoe9dTVmXiyALA80Z/xcmYxe5Ftzd5WRinzkQPeTE5psKX
-	L1obrskCOTFu/1x1Rt4JK3e3H1v6kqMwwhZp6oeRnpXBIRkhIVx73jqZ4yqFJNEZr1lV
-	TgNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=PNspQcUjGJt+53BxFPBJ1QDy32BysQfUW/q3CwuECu8=;
-	b=hqMJZRNwuGbgkYpFv+r/Ev+Cc89fI7S6kSfPYpv39Id4HYeYhcwhSyAKUZfrm4yZdt
-	VgcTkJPfiQbfj+B8bRiZ8n0zk8IxVIjwtDRGlwL+Bx3ejXGWS1X7uYxHP9dIQz5FUvkh
-	kPjQvWJMea9AFAkFtJU7g88Ni29txzKtk2X7r6AR4QYmkDXZIuStZtcVoj59MEys1SfM
-	9qlepfIcSsUby8dhDfhbEmVQ6yZxDJPmUt4ZXFxMLT4ULgzik1XB7YMSqaE+6qFrZy+K
-	VbpZEz91IWUWTOnSV0Ea3CoBSqPmIzIHrvQ/vZObeRM13V/L8NKoyMG58z7Z3ORXYuwN
-	YQzg==
-X-Gm-Message-State: AIkVDXIYmKWtkxFBvZg+nNI0roHZstaK0NFoFtVYzCpsGj2o+7BEHjKmMrn5sN+EeCTEKVuG
-X-Received: by 10.107.41.205 with SMTP id p196mr9346139iop.124.1485544951379; 
-	Fri, 27 Jan 2017 11:22:31 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8DB2E.dip0.t-ipconnect.de. [93.232.219.46])
-	by smtp.gmail.com with ESMTPSA id
-	n134sm1871243itg.19.2017.01.27.11.22.29
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 27 Jan 2017 11:22:30 -0800 (PST)
-Message-ID: <1485544947.20333.119.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: "Bystricky, Juro" <juro.bystricky@intel.com>
-Date: Fri, 27 Jan 2017 20:22:27 +0100
-In-Reply-To: <6E51916E4A1F32428260031F4C7CD2B6118F7EEC@ORSMSX112.amr.corp.intel.com>
-References: <cover.51e0eb88ea69468cf5a410aa7194c25cf61d57b7.1485530988.git-series.patrick.ohly@intel.com>
-	,
-	<707323fc8105d9a1cf77fe340ebff387862c8e8e.1485530988.git-series.patrick.ohly@intel.com>
-	<6E51916E4A1F32428260031F4C7CD2B6118F7EEC@ORSMSX112.amr.corp.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v5 09/12] runqemu: also accept -image suffix for	rootfs parameter
+	Fri, 27 Jan 2017 20:14:44 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Jan 2017 12:14:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,297,1477983600"; d="scan'208";a="36462709"
+Received: from yctb01.ostc.intel.com ([10.54.69.55])
+	by orsmga002.jf.intel.com with ESMTP; 27 Jan 2017 12:14:43 -0800
+From: mariano.lopez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Jan 2017 12:10:39 +0000
+Message-Id: <c8370b89a78a109a501e7a546c56e281c4f959d1.1485515181.git.mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+In-Reply-To: <cover.1485515180.git.mariano.lopez@linux.intel.com>
+References: <cover.1485515180.git.mariano.lopez@linux.intel.com>
+In-Reply-To: <cover.1485515180.git.mariano.lopez@linux.intel.com>
+References: <cover.1485515180.git.mariano.lopez@linux.intel.com>
+Subject: [PATCHv2 2/5] runtime/cases/smart.py: Check for IMAGE_PKGTYPE instead of PACKAGE_CLASSES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,50 +32,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2017 19:22:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 27 Jan 2017 20:14:46 -0000
 
-On Fri, 2017-01-27 at 16:54 +0000, Bystricky, Juro wrote:
-> Just curious: is this test for "image" in file name really necessary?
-> With qemuboot.conf the relevant files are already spelled out.
-> I don't see a need to force "compulsory" names for images.
-> If I comment out this test, everything works just fine. Am I missing something?
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-Some of the usages when checking for paths might have become obsolete,
-but at least for distinguishing between machine and image base name
-parameters it is still relevant:
+smart test requires to build the image using rpm packages, this check was
+included, but it checked for PACKAGE_CLASSES=='package_rpm', and this is
+not true when building packages for rpm and deb/ipk. So this would check
+IMAGE_PKGTYPE instead.
 
-    def check_args(self):
-...
-            elif re.search(r'-image-|-image$', arg):
-                # Lazy rootfs
-                self.rootfs = arg
-            elif arg.startswith('ovmf'):
-                self.ovmf_bios.append(arg)
-            else:
-                # At last, assume is it the MACHINE
-                if (not unknown_arg) or unknown_arg == arg:
-                    unknown_arg = arg
-                else:
-                    raise Exception("Can't handle two unknown args: %s %
-s" % (unknown_arg, arg))
+[YOCTO #10964]
 
-When removing the "if re.search(r'-image-|-image$', arg)" clause one
-gets an error for:
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ meta/lib/oeqa/runtime/cases/smart.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-$ runqemu core-image-minimal ext4 qemux86
-runqemu - ERROR - Can't handle two unknown args: core-image-minimal qemux86
-runqemu - ERROR - Try 'runqemu help' on how to use it
-
+diff --git a/meta/lib/oeqa/runtime/cases/smart.py b/meta/lib/oeqa/runtime/cases/smart.py
+index 9b4d0d2..79bd9c8 100644
+--- a/meta/lib/oeqa/runtime/cases/smart.py
++++ b/meta/lib/oeqa/runtime/cases/smart.py
+@@ -23,7 +23,7 @@ class SmartBasicTest(SmartTest):
+ 
+     @skipIfNotFeature('package-management',
+                       'Test requires package-management to be in IMAGE_FEATURES')
+-    @skipIfNotDataVar('PACKAGE_CLASSES', 'package_rpm',
++    @skipIfNotDataVar('IMAGE_PKGTYPE', 'rpm',
+                       'RPM is not the primary package manager')
+     @OEHasPackage(['smartpm'])
+     @OETestID(716)
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+2.6.6
 
 
