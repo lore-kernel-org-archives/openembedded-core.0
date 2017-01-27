@@ -1,48 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
-	[209.85.213.68])
-	by mail.openembedded.org (Postfix) with ESMTP id B3F5777313
+Return-Path: <kristian.amlie@mender.io>
+Received: from mail-lf0-f43.google.com (mail-lf0-f43.google.com
+	[209.85.215.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BAED700F3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2017 06:32:22 +0000 (UTC)
-Received: by mail-vk0-f68.google.com with SMTP id t8so20736302vke.0
+	Fri, 27 Jan 2017 06:51:39 +0000 (UTC)
+Received: by mail-lf0-f43.google.com with SMTP id x1so70577273lff.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2017 22:32:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=bSSUIQAL1eIOVrwOggq4tu9WLJXMesW2rGH117aPyus=;
-	b=KiaEyZdFWMgiHaEdHPzz/CNJuExcIjHSVf6AS9VA9vg4tR4YiYP72sLw5XQMdHPr98
-	V3FuHssrhAClLENm89dYnNUw+xzWg64kdGdrPA9bnceYAVa86J69LhNTbTOOWbWc57Zh
-	fqRblatD16dXpj3q8ipqndZqnRxePplLZ0WGH9SWR4Zi5Bf6U2xEDZQGjVb/w1brJbQr
-	m5p+2cIL9luC4NwaJsy+FVVR0KKR2LKgVJjlVIWbfZn0AX3McMOaR0se/1+PmZzOo9Si
-	BfQ5I+URYW7Y58vMHwMX6UFTROiOVIk79d7sduA1cI13ID673H74IxKngNiHVc4aLLYg
-	156g==
+	Thu, 26 Jan 2017 22:51:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mender-io.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=9zM3f05pVeEObKwkZhxnSTzsVf81/tyPZGuCvhrYaT0=;
+	b=jZnexQa87q9pYS6lDDvfdNnb085tvjhsBVRNTLk8TUcIx30br6rQ8DJaK7bBOuV8bM
+	xtXMD37qn2lG4NdZ+/Ha5RpstKF1JzG/BX+D3N5eG2xuvFgQlBXVcvXfRQ8TtOiNw2GW
+	WMAWKJ8sBqQbE4hl1Zh/pmTOLjjmPZvbZXMbs5cPnXyilIcZkI0/ASTFyjY/YUh89wPY
+	cAABDeo/mqVc0HIyFJ7jgogWMVvaH/4AVKIBYMvbPW1jzIbcwvdfw8rmvR8TpHkjg8Q6
+	GF29NFfEc34hOfbWkvR8CHqf5Agdb4AWgcJoRv2kEAnVOHlJi9jMF37z9Dhe1sMMlL+t
+	Fcuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=bSSUIQAL1eIOVrwOggq4tu9WLJXMesW2rGH117aPyus=;
-	b=DJKu/A5jsUtzFOGPYB/ypyFgRU6EvDMnZD53hmjicVT4tP5jLDdJxgBlLYU/4D4mbY
-	xqimY7hMhMlB4GV2yM7ekUkf9csE8FDFbmao9XRrvgm2AMoZhISqOw1j4soZoKMX3hg0
-	Qu9S2YsGlvXhPgXWJVVn+1BvsnSFzXxywfq165ihSHUXq5aY1LJdStOoGm8eetgpPBfG
-	Rjc0u7h2nTmuPSNhz0qzPMKjzPICKDsC80suJ6OeLiip6fZzqAPrn/NGKJu9fodZMiKA
-	FXoXa2ifAoy+iYqDLgz/2Qudd7aR52ccUc5ajcCDzqGobPTYEjHW+KHAIlt7h0uMjFxX
-	ESIw==
-X-Gm-Message-State: AIkVDXJAtJRO6lFC2Lv/zydc8t8OLIE7Z55z4KVdTvrWqs7xssadQdwUduDOD1RptfSihOMnw0bYSMeNWuApMA==
-X-Received: by 10.31.153.8 with SMTP id b8mr3493391vke.140.1485498743284; Thu,
-	26 Jan 2017 22:32:23 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.159.48.222 with HTTP; Thu, 26 Jan 2017 22:31:52 -0800 (PST)
-In-Reply-To: <CAACupd0FNewBRPeUMv8C9LswK8e0017Y-_RT5es_kRagFMcJVQ@mail.gmail.com>
-References: <CAACupd1tgY3BaRkwgXzjARko5AV2nJPZh5JrMbXh8MsWco2NZg@mail.gmail.com>
-	<CAMKF1spkJQirqezCjZS=4Kw-P+9sy76wOrSxCxruNEeF8rRRUg@mail.gmail.com>
-	<CAACupd0FNewBRPeUMv8C9LswK8e0017Y-_RT5es_kRagFMcJVQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 26 Jan 2017 22:31:52 -0800
-Message-ID: <CAMKF1sptvTie9m7sOZMXzdBXOi9ep5GVCuRmQMdGkSs5S1LDNQ@mail.gmail.com>
-To: ANDANI PRASHANT <andani.prashant@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: oe-core build fail package_fixsymlinks
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=9zM3f05pVeEObKwkZhxnSTzsVf81/tyPZGuCvhrYaT0=;
+	b=Zy9sYiJ1976oPcVBbbpRxLxiqh7q4V5vRTsuZyDXxNqQcP/nPSOe/lSU6HkyvjPtAa
+	Sk0mLVTdce4OLp7dkuLjoP4sWTF/Dt3aXD6+FBPXdeRDAeREZzgOouM3MN1/8A19T9p6
+	efLWYKcfKAoA/oYio7pkswRUQofOeSKmQWMgYYpKj+uTqz+oQPSHsLTl4oXV2RyHUEAG
+	RBfd2gXFz34uPv5K3NYv3eTZBqVHET6xb5axINCDBdz+zs5qjmp9r2xdpxT+FRRlMhXZ
+	WPNNIKFT9zkuLkGteeCSHDwO4D5Djh82fzKVHixesja9Slr53PTSFa1tWmFypTsal4L6
+	QL7w==
+X-Gm-Message-State: AIkVDXIwmbgJdxfxED0R2dX5pcsutwhlfk3hrRxuNi2/owO9Tu+N5MggRc8tXZ81wIp4Tg==
+X-Received: by 10.25.67.83 with SMTP id m19mr1799657lfj.24.1485499898718;
+	Thu, 26 Jan 2017 22:51:38 -0800 (PST)
+Received: from kristian-mender.cfengine.com ([195.159.140.90])
+	by smtp.googlemail.com with ESMTPSA id
+	28sm1053394ljw.17.2017.01.26.22.51.37
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 26 Jan 2017 22:51:37 -0800 (PST)
+From: Kristian Amlie <kristian.amlie@mender.io>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Jan 2017 07:51:37 +0100
+Message-Id: <1485499897-15737-1-git-send-email-kristian.amlie@mender.io>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] wic/partionedfs: Avoid reserving space for non-existing ext. partition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,124 +53,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2017 06:32:23 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 27 Jan 2017 06:51:41 -0000
 
-On Thu, Jan 26, 2017 at 10:29 PM, ANDANI PRASHANT
-<andani.prashant@gmail.com> wrote:
-> Hi Raj,
->
-> Thank you for reply.
->
-> Yes i am using gcc-linaro-6.2.1-arm-linux-gnueabi toolchain
->
-> If i comment below line from python package_fixsymlinks () function, it
-> works
->
->                 rtarget = cpath.realpath(path, inst_root, True)
->                 if not cpath.lexists(rtarget):
->
-> dangling_links[pkg].append(os.path.normpath(rtarget[len(inst_root):]))
->
+We don't need the gap that the extended partition occupies if we
+already know that we have less than five partitions. Saves up to one
+full alignment of space.
 
-I asked something else ? please read the last reply carefully.
+Signed-off-by: Kristian Amlie <kristian.amlie@mender.io>
+---
+ scripts/lib/wic/utils/partitionedfs.py | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-> Regards,
-> Prashant
->
->
-> On Fri, Jan 27, 2017 at 11:45 AM, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> does this happen if you remove meta-linaro-toolchain from your layer mix ?
->>
->> On Thu, Jan 26, 2017 at 8:23 PM, ANDANI PRASHANT
->> <andani.prashant@gmail.com> wrote:
->> > Hi,
->> >
->> > If i remove package_fixsymlinks from meta/classes/package.bbclass, it
->> > works
->> > else giving error as below:
->> >
->> > ERROR: external-linaro-toolchain-2017.01~dev-r0.arago30 do_package:
->> > Error
->> > executing a python function in exec_python_func() autogenerated:
->> >
->> > The stack trace of python calls that resulted in this exception/failure
->> > was:
->> > File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
->> >      0001:
->> >  *** 0002:package_fixsymlinks(d)
->> >      0003:
->> > File: 'tisdk/sources/oe-core/meta/classes/package.bbclass', lineno:
->> > 1210,
->> > function: package_fixsymlinks
->> >      1206:        inst_root = os.path.join(pkgdest, pkg)
->> >      1207:        for path in pkgfiles[pkg]:
->> >      1208:                rpath = path[len(inst_root):]
->> >      1209:                pkg_files[pkg].append(rpath)
->> >  *** 1210:                rtarget = cpath.realpath(path, inst_root,
->> > True,
->> > assume_dir = True)
->> >      1211:                if not cpath.lexists(rtarget):
->> >      1212:
->> > dangling_links[pkg].append(os.path.normpath(rtarget[len(inst_root):]))
->> >      1213:
->> >      1214:    newrdepends = {}
->> > File: tisdk/sources/oe-core/meta/lib/oe/cachedpath.py', lineno: 229,
->> > function: realpath
->> >      0225:                # be printed a backtrace with 100s of OSError
->> > exceptions
->> >      0226:                # else
->> >      0227:                raise OSError(errno.ELOOP,
->> >      0228:                              "too much recursions while
->> > resolving
->> > '%s'; loop in '%s'" %
->> >  *** 0229:                              (file, e.strerror))
->> >      0230:
->> >      0231:            raise
->> >      0232:
->> >      0233:        return file
->> > Exception: OSError: [Errno 40] too much recursions while resolving
->> >
->> > 'tisdk/build/arago-tmp-external-linaro-toolchain/work/armv5-linux-gnueabi/external-linaro-toolchain/2017.01~dev-r0.arago30/packages-split/libstdc++-dev/usr/include/c++/6.2.1/arm-linux-gnueabi/arm-linux-gnueabi';
->> > loop in
->> >
->> > 'tisdk/build/arago-tmp-external-linaro-toolchain/work/armv5-linux-gnueabi/external-linaro-toolchain/2017.01~dev-r0.arago30/packages-split/libstdc++-dev/usr/include/c++/6.2.1/arm-linux-gnueabi/arm-linux-gnueabi'
->> >
->> > ERROR: external-linaro-toolchain-2017.01~dev-r0.arago30 do_package:
->> > Function
->> > failed: package_fixsymlinks
->> > ERROR: Logfile of failure stored in:
->> >
->> > tisdk/build/arago-tmp-external-linaro-toolchain/work/armv5-linux-gnueabi/external-linaro-toolchain/2017.01~dev-r0.arago30/temp/log.do_package.10039
->> > ERROR: Task 437
->> >
->> > (tisdk/sources/meta-linaro/meta-linaro-toolchain/recipes-devtools/external-linaro-toolchain/external-linaro-toolchain.bb,
->> > do_package) failed with exit code '1'
->> > NOTE: Tasks Summary: Attempted 642 tasks of which 629 didn't need to be
->> > rerun and 1 failed.
->> > NOTE: Writing buildhistory
->> > Waiting for 0 running tasks to finish:
->> >
->> > Summary: 1 task failed:
->> >
->> > tisdk/sources/meta-linaro/meta-linaro-toolchain/recipes-devtools/external-linaro-toolchain/external-linaro-toolchain.bb,
->> > do_package
->> > Summary: There were 3 WARNING messages shown.
->> > Summary: There were 2 ERROR messages shown, returning a non-zero exit
->> > code.
->> >
->> >
->> > --
->> > Regards,
->> > Prashant
->> >
->> > --
->> > _______________________________________________
->> > Openembedded-core mailing list
->> > Openembedded-core@lists.openembedded.org
->> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> >
->
->
+diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/utils/partitionedfs.py
+index 721d514..9db6d56 100644
+--- a/scripts/lib/wic/utils/partitionedfs.py
++++ b/scripts/lib/wic/utils/partitionedfs.py
+@@ -131,6 +131,10 @@ class Image():
+ 
+         self._partitions_layed_out = True
+ 
++        # The number of primary and logical partitions. Extended partition and
++        # partitions not listed in the table are not included.
++        num_real_partitions = len([p for p in self.partitions if not p['no_table']])
++
+         # Go through partitions in the order they are added in .ks file
+         for num in range(len(self.partitions)):
+             part = self.partitions[num]
+@@ -162,7 +166,7 @@ class Image():
+                 # Skip one sector required for the partitioning scheme overhead
+                 disk['offset'] += overhead
+ 
+-            if disk['realpart'] > 3:
++            if disk['realpart'] > 3 and num_real_partitions > 4:
+                 # Reserve a sector for EBR for every logical partition
+                 # before alignment is performed.
+                 if ptable_format == "msdos":
+@@ -202,7 +206,7 @@ class Image():
+ 
+             if disk['ptable_format'] == "msdos":
+                 # only count the partitions that are in partition table
+-                if len([p for p in self.partitions if not p['no_table']]) > 4:
++                if num_real_partitions > 4:
+                     if disk['realpart'] > 3:
+                         part['type'] = 'logical'
+                         part['num'] = disk['realpart'] + 1
+-- 
+2.7.4
+
 
