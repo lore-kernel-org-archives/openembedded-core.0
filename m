@@ -1,38 +1,28 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 6114877416
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id F37D97743A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2017 16:54:32 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga104.jf.intel.com with ESMTP; 27 Jan 2017 08:54:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,296,1477983600"; d="scan'208";a="57996855"
-Received: from orsmsx107.amr.corp.intel.com ([10.22.240.5])
-	by orsmga005.jf.intel.com with ESMTP; 27 Jan 2017 08:54:33 -0800
-Received: from orsmsx155.amr.corp.intel.com (10.22.240.21) by
-	ORSMSX107.amr.corp.intel.com (10.22.240.5) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Fri, 27 Jan 2017 08:54:32 -0800
-Received: from orsmsx112.amr.corp.intel.com ([169.254.3.23]) by
-	ORSMSX155.amr.corp.intel.com ([169.254.7.181]) with mapi id
-	14.03.0248.002; Fri, 27 Jan 2017 08:54:32 -0800
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: "Ohly, Patrick" <patrick.ohly@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v5 09/12] runqemu: also accept -image suffix
-	for	rootfs parameter
-Thread-Index: AQHSeLKXLhB2RPlHFUewFmBs07llZaFMiaR8
-Date: Fri, 27 Jan 2017 16:54:32 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B6118F7EEC@ORSMSX112.amr.corp.intel.com>
-References: <cover.51e0eb88ea69468cf5a410aa7194c25cf61d57b7.1485530988.git-series.patrick.ohly@intel.com>,
-	<707323fc8105d9a1cf77fe340ebff387862c8e8e.1485530988.git-series.patrick.ohly@intel.com>
-In-Reply-To: <707323fc8105d9a1cf77fe340ebff387862c8e8e.1485530988.git-series.patrick.ohly@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.3.86.139]
-MIME-Version: 1.0
-Subject: Re: [PATCH v5 09/12] runqemu: also accept -image suffix for	rootfs parameter
+	Fri, 27 Jan 2017 17:42:16 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v0RHgEAZ019778; Fri, 27 Jan 2017 17:42:14 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id JJTG8dZ2pLy9; Fri, 27 Jan 2017 17:42:14 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v0RHg9vk019759
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 27 Jan 2017 17:42:10 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1cXAXJ-0001WH-L4; Fri, 27 Jan 2017 17:42:09 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Jan 2017 17:42:01 +0000
+Message-Id: <1485538927-5797-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 1/7] image/kernelsrc/packagegroups/recipes: Remove uneeded noexec tasks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,91 +35,190 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2017 16:54:33 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 27 Jan 2017 17:42:17 -0000
 
-Just curious: is this test for "image" in file name really necessary?=0A=
-With qemuboot.conf the relevant files are already spelled out.=0A=
-I don't see a need to force "compulsory" names for images.=0A=
-If I comment out this test, everything works just fine. Am I missing someth=
-ing?=0A=
-=0A=
-Juro=0A=
-________________________________________=0A=
-From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
-ounces@lists.openembedded.org] on behalf of Patrick Ohly [patrick.ohly@inte=
-l.com]=0A=
-Sent: Friday, January 27, 2017 7:30 AM=0A=
-To: openembedded-core@lists.openembedded.org=0A=
-Subject: [OE-core] [PATCH v5 09/12] runqemu: also accept -image suffix for =
-     rootfs parameter=0A=
-=0A=
-The magic detection of the rootfs parameter only worked for image=0A=
-recipes which embedd the "image" string in the middle, as in=0A=
-"core-image-minimal".=0A=
-=0A=
-Sometimes it is more natural to call an image "something-image". To=0A=
-get such an image detected by runqemu, "-image" at the end of a=0A=
-parameter must also cause that parameter to be treated as the rootfs=0A=
-parameter.=0A=
-=0A=
-Inside the image directory, "something-image" has an -<arch> suffix=0A=
-and thus no change is needed for those usages of=0A=
-re.search('-image-'). However, while at it also enhance those string=0A=
-searches a bit (no need for re; any()+map() a bit closer to the=0A=
-intended logic).=0A=
-=0A=
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>=0A=
----=0A=
- scripts/runqemu | 6 +++---=0A=
- 1 file changed, 3 insertions(+), 3 deletions(-)=0A=
-=0A=
-diff --git a/scripts/runqemu b/scripts/runqemu=0A=
-index 17d79e9..4d7168c 100755=0A=
---- a/scripts/runqemu=0A=
-+++ b/scripts/runqemu=0A=
-@@ -218,7 +218,7 @@ class BaseConfig(object):=0A=
-             if not re.search('.qemuboot.conf$', '\n'.join(os.listdir(p)), =
-re.M):=0A=
-                 logger.info("Can't find required *.qemuboot.conf in %s" % =
-p)=0A=
-                 return False=0A=
--            if not re.search('-image-', '\n'.join(os.listdir(p))):=0A=
-+            if not any(map(lambda name: '-image-' in name, os.listdir(p)))=
-:=0A=
-                 logger.info("Can't find *-image-* in %s" % p)=0A=
-                 return False=0A=
-             return True=0A=
-@@ -267,7 +267,7 @@ class BaseConfig(object):=0A=
-              re.search('zImage', p) or re.search('vmlinux', p) or \=0A=
-              re.search('fitImage', p) or re.search('uImage', p):=0A=
-             self.kernel =3D  p=0A=
--        elif os.path.exists(p) and (not os.path.isdir(p)) and re.search('-=
-image-', os.path.basename(p)):=0A=
-+        elif os.path.exists(p) and (not os.path.isdir(p)) and '-image-' in=
- os.path.basename(p):=0A=
-             self.rootfs =3D p=0A=
-             # Check filename against self.fstypes can hanlde <file>.cpio.g=
-z,=0A=
-             # otherwise, its type would be "gz", which is incorrect.=0A=
-@@ -381,7 +381,7 @@ class BaseConfig(object):=0A=
-                 self.kernel_cmdline_script +=3D ' %s' % arg[len('bootparam=
-s=3D'):]=0A=
-             elif os.path.exists(arg) or (re.search(':', arg) and re.search=
-('/', arg)):=0A=
-                 self.check_arg_path(os.path.abspath(arg))=0A=
--            elif re.search('-image-', arg):=0A=
-+            elif re.search(r'-image-|-image$', arg):=0A=
-                 # Lazy rootfs=0A=
-                 self.rootfs =3D arg=0A=
-             else:=0A=
---=0A=
-git-series 0.9.1=0A=
---=0A=
-_______________________________________________=0A=
-Openembedded-core mailing list=0A=
-Openembedded-core@lists.openembedded.org=0A=
-http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
+We used to have issues removing tasks like do_fetch due to implications
+for targets like world and universe. These have now been resolved.
+
+Removing uneeded tasks has advantages compared to noexec since it means
+that accidentally left in dependencies are no longer needed/processed
+(e.g. do_patch depends on quilt-native).
+
+This cleans up a number of cases which local analysis highlighted as
+being unneeded leading to slightly cleaner task graphs.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/image.bbclass                   | 16 ++++++++--------
+ meta/classes/kernelsrc.bbclass               |  6 +++---
+ meta/classes/packagegroup.bbclass            | 12 ++++++------
+ meta/recipes-core/glibc/glibc-collateral.inc |  6 +++---
+ meta/recipes-core/meta/meta-environment.bb   | 10 +++++-----
+ meta/recipes-core/meta/meta-world-pkgdata.bb | 12 ++++++------
+ meta/recipes-core/meta/package-index.bb      | 24 ++++++++++++------------
+ 7 files changed, 43 insertions(+), 43 deletions(-)
+
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 76146c9..b4e5432 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -615,15 +615,15 @@ MULTILIBRE_ALLOW_REP =. "${base_bindir}|${base_sbindir}|${bindir}|${sbindir}|${l
+ MULTILIB_CHECK_FILE = "${WORKDIR}/multilib_check.py"
+ MULTILIB_TEMP_ROOTFS = "${WORKDIR}/multilib"
+ 
+-do_fetch[noexec] = "1"
+-do_unpack[noexec] = "1"
+-do_patch[noexec] = "1"
+-do_configure[noexec] = "1"
+-do_compile[noexec] = "1"
+-do_install[noexec] = "1"
++deltask do_fetch
++deltask do_unpack
++deltask do_patch
++deltask do_configure
++deltask do_compile
++deltask do_install
+ deltask do_populate_sysroot
+-do_package[noexec] = "1"
+-do_package_qa[noexec] = "1"
++deltask do_package
++deltask do_package_qa
+ do_packagedata[noexec] = "1"
+ do_package_write_ipk[noexec] = "1"
+ do_package_write_deb[noexec] = "1"
+diff --git a/meta/classes/kernelsrc.bbclass b/meta/classes/kernelsrc.bbclass
+index 9efd46a..675d40e 100644
+--- a/meta/classes/kernelsrc.bbclass
++++ b/meta/classes/kernelsrc.bbclass
+@@ -1,7 +1,7 @@
+ S = "${STAGING_KERNEL_DIR}"
+-do_fetch[noexec] = "1"
+-do_unpack[depends] += "virtual/kernel:do_patch"
+-do_unpack[noexec] = "1"
++deltask do_fetch
++deltask do_unpack
++do_patch[depends] += "virtual/kernel:do_patch"
+ do_patch[noexec] = "1"
+ do_package[depends] += "virtual/kernel:do_populate_sysroot"
+ KERNEL_VERSION = "${@get_kernelversion_file("${STAGING_KERNEL_BUILDDIR}")}"
+diff --git a/meta/classes/packagegroup.bbclass b/meta/classes/packagegroup.bbclass
+index ad6c8b0..4af4a01 100644
+--- a/meta/classes/packagegroup.bbclass
++++ b/meta/classes/packagegroup.bbclass
+@@ -40,12 +40,12 @@ python () {
+ DEPCHAIN_DBGDEFAULTDEPS = "1"
+ 
+ # We only need the packaging tasks - disable the rest
+-do_fetch[noexec] = "1"
+-do_unpack[noexec] = "1"
+-do_patch[noexec] = "1"
+-do_configure[noexec] = "1"
+-do_compile[noexec] = "1"
+-do_install[noexec] = "1"
++deltask do_fetch
++deltask do_unpack
++deltask do_patch
++deltask do_configure
++deltask do_compile
++deltask do_install
+ deltask do_populate_sysroot
+ 
+ python () {
+diff --git a/meta/recipes-core/glibc/glibc-collateral.inc b/meta/recipes-core/glibc/glibc-collateral.inc
+index 60655eb..6b32e4a 100644
+--- a/meta/recipes-core/glibc/glibc-collateral.inc
++++ b/meta/recipes-core/glibc/glibc-collateral.inc
+@@ -9,9 +9,9 @@ HOMEPAGE = "http://www.gnu.org/software/libc/index.html"
+ # http://lists.openembedded.org/pipermail/openembedded-core/2015-January/100679.html
+ ARM_INSTRUCTION_SET = "arm"
+ 
+-do_fetch[noexec] = "1"
+-do_unpack[noexec] = "1"
+-do_patch[noexec] = "1"
++deltask do_fetch
++deltask do_unpack
++deltask do_patch
+ do_configure[noexec] = "1"
+ do_compile[noexec] = "1"
+ 
+diff --git a/meta/recipes-core/meta/meta-environment.bb b/meta/recipes-core/meta/meta-environment.bb
+index a2ed229..47086fb 100644
+--- a/meta/recipes-core/meta/meta-environment.bb
++++ b/meta/recipes-core/meta/meta-environment.bb
+@@ -71,9 +71,9 @@ FILES_${PN}= " \
+     ${SDKPATH}/* \
+     "
+ 
+-do_fetch[noexec] = "1"
+-do_unpack[noexec] = "1"
+-do_patch[noexec] = "1"
+-do_configure[noexec] = "1"
+-do_compile[noexec] = "1"
++deltask do_fetch
++deltask do_unpack
++deltask do_patch
++deltask do_configure
++deltask do_compile
+ do_populate_sysroot[noexec] = "1"
+diff --git a/meta/recipes-core/meta/meta-world-pkgdata.bb b/meta/recipes-core/meta/meta-world-pkgdata.bb
+index 617f96a..02abd8a 100644
+--- a/meta/recipes-core/meta/meta-world-pkgdata.bb
++++ b/meta/recipes-core/meta/meta-world-pkgdata.bb
+@@ -25,12 +25,12 @@ python do_collect_packagedata() {
+     oe.copy_buildsystem.generate_locked_sigs(sigfile, d)
+ }
+ 
+-do_fetch[noexec] = "1"
+-do_unpack[noexec] = "1"
+-do_patch[noexec] = "1"
+-do_configure[noexec] = "1"
+-do_compile[noexec] = "1"
+-do_install[noexec] = "1"
++deltask do_fetch
++deltask do_unpack
++deltask do_patch
++deltask do_configure
++deltask do_compile
++deltask do_install
+ 
+ do_prepare_recipe_sysroot[deptask] = ""
+ 
+diff --git a/meta/recipes-core/meta/package-index.bb b/meta/recipes-core/meta/package-index.bb
+index 3c46b49..fe022ff 100644
+--- a/meta/recipes-core/meta/package-index.bb
++++ b/meta/recipes-core/meta/package-index.bb
+@@ -4,18 +4,18 @@ LICENSE = "MIT"
+ INHIBIT_DEFAULT_DEPS = "1"
+ PACKAGES = ""
+ 
+-do_fetch[noexec] = "1"
+-do_unpack[noexec] = "1"
+-do_patch[noexec] = "1"
+-do_configure[noexec] = "1"
+-do_compile[noexec] = "1"
+-do_install[noexec] = "1"
+-do_package[noexec] = "1"
+-do_packagedata[noexec] = "1"
+-do_package_write_ipk[noexec] = "1"
+-do_package_write_rpm[noexec] = "1"
+-do_package_write_deb[noexec] = "1"
+-do_populate_sysroot[noexec] = "1"
++deltask do_fetch
++deltask do_unpack
++deltask do_patch
++deltask do_configure
++deltask do_compile
++deltask do_install
++deltask do_package
++deltask do_packagedata
++deltask do_package_write_ipk
++deltask do_package_write_rpm
++deltask do_package_write_deb
++deltask do_populate_sysroot
+ 
+ do_package_index[nostamp] = "1"
+ do_package_index[depends] += "${PACKAGEINDEXDEPS}"
+-- 
+2.7.4
+
 
