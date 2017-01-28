@@ -1,39 +1,59 @@
-Return-Path: <alejandro.delcastillo@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E1A6774D8
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 18B3C71994
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2017 22:38:58 +0000 (UTC)
-Received: from us-aus-exch1.ni.corp.natinst.com
-	(us-aus-exch1.ni.corp.natinst.com [130.164.68.11])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTPS id
-	v0RMcwIe001323
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	Sat, 28 Jan 2017 12:23:31 +0000 (UTC)
+Received: by mail-wm0-f48.google.com with SMTP id c206so180071661wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2017 16:38:58 -0600
-Received: from us-aus-exch7.ni.corp.natinst.com (130.164.68.17) by
-	us-aus-exch1.ni.corp.natinst.com (130.164.68.11) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Fri, 27 Jan 2017 16:38:58 -0600
-Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
-	us-aus-exch7.ni.corp.natinst.com (130.164.68.17) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Fri, 27 Jan 2017 16:38:58 -0600
-Received: from delcastillo2.amer.corp.natinst.com (130.164.49.7) by
-	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
-	Server
-	id 15.0.1156.6 via Frontend Transport; Fri, 27 Jan 2017 16:38:58 -0600
-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Jan 2017 16:38:57 -0600
-Message-ID: <1485556737-13483-1-git-send-email-alejandro.delcastillo@ni.com>
-X-Mailer: git-send-email 2.7.4
+	Sat, 28 Jan 2017 04:23:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=2YqkCokkKpSRtRL4EBzhOYDQ1qPl7KgSSA8n/sgbY1c=;
+	b=B6zRFuP5XZ42yKPAd0Xb/Vfx9NaBF35tEFHJuZK5EDjihofVc+hUfGvcIchAeAih8Q
+	HDgjxmAy1Y9ssdi2NPm0NwmJHf/wzknF/rQ9jCLWc10BrxNZaryPVnNe/K6s9/qjI3q/
+	fsw7zcuzpct2WYLOxXCUNlVeZVZoxcuRgqxHSk/tcn7gBTnTkha48lIhEZy076Sn2qwY
+	BUG3MkOwNC4Xm3Z3A0tHZwryJRrjoEr24CGgEaSmMvpjmpStl/I11gDoIkynuCXFm8C6
+	XsSULNhLG3iCN02Vsm0vysNXQk7gDghIweQr/6eQV/MDtyYBdqTZ6NEEgbWhRg7DPIH/
+	CAxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=2YqkCokkKpSRtRL4EBzhOYDQ1qPl7KgSSA8n/sgbY1c=;
+	b=iGElnOgzo2dfrsIct5CUUt8GP6B2S6h8CnPcKs5W73scDUuBlvCPkrBq3njIYfJ7Tt
+	GkSEwhoJySjfEkGY3YRUIwsECoQysuMnUhxG4mBmcIJhbHy/VUfXXwmCk/duIs/yoNUf
+	YmQFRc+2ex/kMqIUB+fy9o445UhHpVhUgxiA350ld9/J08nP76huMwaVHEzooBV29Bju
+	RxxDEP6QfSOSyRCbK0vVS/Nh1vC2y1yk969Ih1a3hPm7lTzx2u802oQFD0vW33YQryI8
+	d0+eL58N3jQQilxOeiVCTVooSrJ1HVBDjq5+Hy+if2R/78pWuBpfKbvPn+HYNDsJz2Ac
+	5RFw==
+X-Gm-Message-State: AIkVDXLDKTUEAgWugnJxx+mTjMbXY2cvwJix7riOXWQ5g43/J+og0IfUMSUXY05H02HFLg==
+X-Received: by 10.223.169.112 with SMTP id u103mr11142692wrc.166.1485606211894;
+	Sat, 28 Jan 2017 04:23:31 -0800 (PST)
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com.
+	[74.125.82.53]) by smtp.gmail.com with ESMTPSA id
+	o2sm12631296wra.42.2017.01.28.04.23.30
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 28 Jan 2017 04:23:30 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-wm0-f53.google.com with SMTP id r126so19742209wmr.1
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 28 Jan 2017 04:23:30 -0800 (PST)
+X-Received: by 10.223.163.201 with SMTP id m9mr12868348wrb.66.1485606210247;
+	Sat, 28 Jan 2017 04:23:30 -0800 (PST)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2017-01-27_16:, , signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
-	suspectscore=14
-	malwarescore=0 phishscore=0 adultscore=0 bulkscore=0 classifier=spam
-	adjust=0 reason=mlx scancount=1 engine=8.0.1-1612050000
-	definitions=main-1701270218
-Subject: [PATCH] libsolv: split libsolvext into it's own pkg-config
+Received: by 10.28.69.17 with HTTP; Sat, 28 Jan 2017 04:23:29 -0800 (PST)
+In-Reply-To: <20170125112205.8223-1-fabio.berton@ossystems.com.br>
+References: <20170125112205.8223-1-fabio.berton@ossystems.com.br>
+Date: Sat, 28 Jan 2017 10:23:29 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKofgP6cNUxVCZhqbphFVOEiocAKfjsbZ2+gt-5jB0K=WQ@mail.gmail.com>
+Message-ID: <CAP9ODKofgP6cNUxVCZhqbphFVOEiocAKfjsbZ2+gt-5jB0K=WQ@mail.gmail.com>
+To: Fabio Berton <fabio.berton@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] watchdog: Add RCONFLICTS to watchdog-keepalive and split RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,105 +66,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2017 22:39:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 28 Jan 2017 12:23:33 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Opkg only depends on libsolv proper, splitting libsolv-ext pkg-config
-reduces opkg dependencies.
+On Wed, Jan 25, 2017 at 9:22 AM, Fabio Berton
+<fabio.berton@ossystems.com.br> wrote:
+> watchdog-keepalive is a simplified version of the watchdog daemon
+> and can't be installed along with watchdog daemon, we need to
+> choose which daemon install.
+>
+> Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
 
-Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
----
- ...-libsolvext-into-it-s-own-pkg-config-file.patch | 67 ++++++++++++++++++++++
- meta/recipes-extended/libsolv/libsolv_0.6.24.bb    |  1 +
- 2 files changed, 68 insertions(+)
- create mode 100644 meta/recipes-extended/libsolv/libsolv/0001-Split-libsolvext-into-it-s-own-pkg-config-file.patch
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 
-diff --git a/meta/recipes-extended/libsolv/libsolv/0001-Split-libsolvext-into-it-s-own-pkg-config-file.patch b/meta/recipes-extended/libsolv/libsolv/0001-Split-libsolvext-into-it-s-own-pkg-config-file.patch
-new file mode 100644
-index 0000000..9d9b234
---- /dev/null
-+++ b/meta/recipes-extended/libsolv/libsolv/0001-Split-libsolvext-into-it-s-own-pkg-config-file.patch
-@@ -0,0 +1,67 @@
-+From 0830ceffb32bdf61dab2a598b9e77f65d089074f Mon Sep 17 00:00:00 2001
-+From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-+Date: Fri, 27 Jan 2017 16:10:14 -0600
-+Subject: [PATCH] Split libsolvext into it's own pkg-config file
-+
-+Upstream-Status: Submitted (https://github.com/openSUSE/libsolv/pull/177)
-+
-+Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-+---
-+ CMakeLists.txt                    | 4 +++-
-+ libsolv.pc.in                     | 4 ++--
-+ libsolv.pc.in => libsolvext.pc.in | 4 ++--
-+ 3 files changed, 7 insertions(+), 5 deletions(-)
-+ copy libsolv.pc.in => libsolvext.pc.in (62%)
-+
-+diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index 82034e0..0777ed9 100644
-+--- a/CMakeLists.txt
-++++ b/CMakeLists.txt
-+@@ -384,9 +384,11 @@ MACRO (SPECFILE)
-+ ENDMACRO (SPECFILE)
-+ 
-+ MACRO (PCFILE)
-+-  MESSAGE (STATUS "Writing pkg-config file...")
-++  MESSAGE (STATUS "Writing pkg-config files...")
-+   CONFIGURE_FILE (${CMAKE_SOURCE_DIR}/libsolv.pc.in ${CMAKE_BINARY_DIR}/libsolv.pc @ONLY)
-+   INSTALL( FILES ${CMAKE_BINARY_DIR}/libsolv.pc DESTINATION ${LIB_INSTALL_DIR}/pkgconfig )
-++  CONFIGURE_FILE (${CMAKE_SOURCE_DIR}/libsolvext.pc.in ${CMAKE_BINARY_DIR}/libsolvext.pc @ONLY)
-++  INSTALL( FILES ${CMAKE_BINARY_DIR}/libsolvext.pc DESTINATION ${LIB_INSTALL_DIR}/pkgconfig )
-+ ENDMACRO (PCFILE)
-+ 
-+ SPECFILE ()
-+diff --git a/libsolv.pc.in b/libsolv.pc.in
-+index c82dfc4..40a8623 100644
-+--- a/libsolv.pc.in
-++++ b/libsolv.pc.in
-+@@ -2,7 +2,7 @@ libdir=@LIB_INSTALL_DIR@
-+ includedir=@INCLUDE_INSTALL_DIR@
-+ 
-+ Name: libsolv
-+-Description: Library for solving packages and reading repositories
-++Description: Library for solving packages
-+ Version: @VERSION@
-+-Libs: -L${libdir} -lsolvext -lsolv
-++Libs: -L${libdir} -lsolv
-+ Cflags: -I${includedir}
-+diff --git a/libsolv.pc.in b/libsolvext.pc.in
-+similarity index 62%
-+copy from libsolv.pc.in
-+copy to libsolvext.pc.in
-+index c82dfc4..6395f39 100644
-+--- a/libsolv.pc.in
-++++ b/libsolvext.pc.in
-+@@ -1,8 +1,8 @@
-+ libdir=@LIB_INSTALL_DIR@
-+ includedir=@INCLUDE_INSTALL_DIR@
-+ 
-+-Name: libsolv
-+-Description: Library for solving packages and reading repositories
-++Name: libsolvext
-++Description: Library for reading repositories
-+ Version: @VERSION@
-+ Libs: -L${libdir} -lsolvext -lsolv
-+ Cflags: -I${includedir}
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-extended/libsolv/libsolv_0.6.24.bb b/meta/recipes-extended/libsolv/libsolv_0.6.24.bb
-index a5d7b5a..6de38b5 100644
---- a/meta/recipes-extended/libsolv/libsolv_0.6.24.bb
-+++ b/meta/recipes-extended/libsolv/libsolv_0.6.24.bb
-@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.BSD;md5=62272bd11c97396d4aaf1c41bc11f7d8"
- DEPENDS = "expat zlib"
- 
- SRC_URI = "git://github.com/openSUSE/libsolv.git \
-+           file://0001-Split-libsolvext-into-it-s-own-pkg-config-file.patch \
-           "
- SRC_URI_append_libc-musl = " file://0001-Add-fallback-fopencookie-implementation.patch"
- 
 -- 
-2.7.4
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
