@@ -1,59 +1,42 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 18B3C71994
+Return-Path: <kirgene@gmail.com>
+Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
+	[209.85.220.179])
+	by mail.openembedded.org (Postfix) with ESMTP id A5131719B0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Jan 2017 12:23:31 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id c206so180071661wme.0
+	Sun, 29 Jan 2017 14:52:06 +0000 (UTC)
+Received: by mail-qk0-f179.google.com with SMTP id s140so107208750qke.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Jan 2017 04:23:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=2YqkCokkKpSRtRL4EBzhOYDQ1qPl7KgSSA8n/sgbY1c=;
-	b=B6zRFuP5XZ42yKPAd0Xb/Vfx9NaBF35tEFHJuZK5EDjihofVc+hUfGvcIchAeAih8Q
-	HDgjxmAy1Y9ssdi2NPm0NwmJHf/wzknF/rQ9jCLWc10BrxNZaryPVnNe/K6s9/qjI3q/
-	fsw7zcuzpct2WYLOxXCUNlVeZVZoxcuRgqxHSk/tcn7gBTnTkha48lIhEZy076Sn2qwY
-	BUG3MkOwNC4Xm3Z3A0tHZwryJRrjoEr24CGgEaSmMvpjmpStl/I11gDoIkynuCXFm8C6
-	XsSULNhLG3iCN02Vsm0vysNXQk7gDghIweQr/6eQV/MDtyYBdqTZ6NEEgbWhRg7DPIH/
-	CAxw==
+	Sun, 29 Jan 2017 06:52:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=wuweXDntwVsp94+kAkzK3lnpPtNhnJk3aHxlaDA7MBE=;
+	b=YA2NfoLB5SIWaAyhNoleagVNkOfqi8th2YqdM4D6Xmy/QDwU0eu7Ckjjz2X3fL/kzo
+	REwo8q7JNOpMNyPnWn/eDA82EJPg7m6b4tXcw2JYaOSjokv9/m1KNBGec750wZewW5bW
+	pSJ16r1uuS/ARIdJ/f+OWG0oTv0sjxV9veNmucXGyyzrn+J0XTu+6vV3e2vqD4xB/tdB
+	riUhWqiMy7e3ACJoxF2ayct8b44kePnTh1+SL1a4zwz7IxygmptrOd4hDLivNVkIyfYj
+	0Wz2978OBAL42KbQlsfrjpVmac+SbUoNhby8+rvGGA+2IWOV+c3uOXLm5GwW+Vlxc1fJ
+	GcDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=2YqkCokkKpSRtRL4EBzhOYDQ1qPl7KgSSA8n/sgbY1c=;
-	b=iGElnOgzo2dfrsIct5CUUt8GP6B2S6h8CnPcKs5W73scDUuBlvCPkrBq3njIYfJ7Tt
-	GkSEwhoJySjfEkGY3YRUIwsECoQysuMnUhxG4mBmcIJhbHy/VUfXXwmCk/duIs/yoNUf
-	YmQFRc+2ex/kMqIUB+fy9o445UhHpVhUgxiA350ld9/J08nP76huMwaVHEzooBV29Bju
-	RxxDEP6QfSOSyRCbK0vVS/Nh1vC2y1yk969Ih1a3hPm7lTzx2u802oQFD0vW33YQryI8
-	d0+eL58N3jQQilxOeiVCTVooSrJ1HVBDjq5+Hy+if2R/78pWuBpfKbvPn+HYNDsJz2Ac
-	5RFw==
-X-Gm-Message-State: AIkVDXLDKTUEAgWugnJxx+mTjMbXY2cvwJix7riOXWQ5g43/J+og0IfUMSUXY05H02HFLg==
-X-Received: by 10.223.169.112 with SMTP id u103mr11142692wrc.166.1485606211894;
-	Sat, 28 Jan 2017 04:23:31 -0800 (PST)
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com.
-	[74.125.82.53]) by smtp.gmail.com with ESMTPSA id
-	o2sm12631296wra.42.2017.01.28.04.23.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 28 Jan 2017 04:23:30 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-wm0-f53.google.com with SMTP id r126so19742209wmr.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Jan 2017 04:23:30 -0800 (PST)
-X-Received: by 10.223.163.201 with SMTP id m9mr12868348wrb.66.1485606210247;
-	Sat, 28 Jan 2017 04:23:30 -0800 (PST)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=wuweXDntwVsp94+kAkzK3lnpPtNhnJk3aHxlaDA7MBE=;
+	b=mp5jKVcJ6PTFXYWJKaNrFW8PdrkK5wTcqGffhjFvE6LD9Jb4RkpnhamRqgtP5cnvV3
+	ih6RW5f8y5Q6bokl6bDekrafBKzjNl5lnMFZzzLl4YqnKfF/5xtNcNvjtdSZMn02rNCW
+	2V3R5NTqTj9v5LxYJ5QpOf4KeZ/TbE29owQAZMN9tGIj0w4tekyMVmkAresq3WJrFlx4
+	6EYzXxrgsBLTqEG8b4RhPb6GEo5XLwFV+rPDlG6R/2+PlcFjsS9W2MJGvz0QIiWwHtbS
+	fsi09+Oj5amnTKxW+oKn1DM5GLLtaYU7hG8XY1T4aGIsg84IR9a3KkanxAFAGPl1uogx
+	HF8Q==
+X-Gm-Message-State: AIkVDXJVR5EB/8Gaqaik/3TPbE5iRJ33MpwcFNeD5Ln+mNbjrF8dlBgvXZad6cn/YukQu90adkS0XJNgTV5JsA==
+X-Received: by 10.55.45.129 with SMTP id t123mr16449726qkh.311.1485701527170; 
+	Sun, 29 Jan 2017 06:52:07 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.28.69.17 with HTTP; Sat, 28 Jan 2017 04:23:29 -0800 (PST)
-In-Reply-To: <20170125112205.8223-1-fabio.berton@ossystems.com.br>
-References: <20170125112205.8223-1-fabio.berton@ossystems.com.br>
-Date: Sat, 28 Jan 2017 10:23:29 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKofgP6cNUxVCZhqbphFVOEiocAKfjsbZ2+gt-5jB0K=WQ@mail.gmail.com>
-Message-ID: <CAP9ODKofgP6cNUxVCZhqbphFVOEiocAKfjsbZ2+gt-5jB0K=WQ@mail.gmail.com>
-To: Fabio Berton <fabio.berton@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
+Received: by 10.55.93.65 with HTTP; Sun, 29 Jan 2017 06:52:06 -0800 (PST)
+From: Yevhen Kyriukha <kirgene@gmail.com>
+Date: Sun, 29 Jan 2017 16:52:06 +0200
+Message-ID: <CADV-EXEFK-ATRKeQJwjt3xZKeVEu2XG8t0_0Bg=yLu6jYbJiig@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] watchdog: Add RCONFLICTS to watchdog-keepalive and split RDEPENDS
+Subject: Update meta-qt5 to v5.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,21 +49,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Jan 2017 12:23:33 -0000
+X-List-Received-Date: Sun, 29 Jan 2017 14:52:09 -0000
+Content-Type: multipart/alternative; boundary=001a114f42fcc4f71a05473cd72d
+
+--001a114f42fcc4f71a05473cd72d
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Jan 25, 2017 at 9:22 AM, Fabio Berton
-<fabio.berton@ossystems.com.br> wrote:
-> watchdog-keepalive is a simplified version of the watchdog daemon
-> and can't be installed along with watchdog daemon, we need to
-> choose which daemon install.
->
-> Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+Qt 5.8 has been released. Please update meta-qt5 accordingly.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+--001a114f42fcc4f71a05473cd72d
+Content-Type: text/html; charset=UTF-8
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+<div dir="ltr"><div class="gmail_default" style="font-family:arial,helvetica,sans-serif;font-size:small">Qt 5.8 has been released. Please update meta-qt5 accordingly.</div>
+</div>
 
+--001a114f42fcc4f71a05473cd72d--
