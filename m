@@ -1,34 +1,34 @@
 Return-Path: <obi@opendreambox.org>
 Received: from mail.dream-property.net (mail.dream-property.net
 	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C0AD600E3
+	by mail.openembedded.org (Postfix) with ESMTP id 2CFD871D99
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 30 Jan 2017 22:30:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id B4FED31C698A
+	by mail.dream-property.net (Postfix) with ESMTP id 4B4BA31C6981
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2017 23:23:50 +0100 (CET)
+	Mon, 30 Jan 2017 23:21:17 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
 Received: from mail.dream-property.net ([127.0.0.1])
 	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id wjhhsiQmBcoR
+	port 10024) with LMTP id eQ4VzDWFpeJJ
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2017 23:23:48 +0100 (CET)
+	Mon, 30 Jan 2017 23:21:15 +0100 (CET)
 Received: from t510.zcs.saftware.de (55d41ba8.access.ecotel.net
 	[85.212.27.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 2EC4C31C698B
+	by mail.dream-property.net (Postfix) with ESMTPSA id 0E35731C6982
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2017 23:23:48 +0100 (CET)
-Date: Mon, 30 Jan 2017 23:23:47 +0100
+	Mon, 30 Jan 2017 23:21:15 +0100 (CET)
+Date: Mon, 30 Jan 2017 23:21:14 +0100
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20170130232347.7389329e@t510.zcs.saftware.de>
-In-Reply-To: <1480542646-26954-1-git-send-email-obi@opendreambox.org>
-References: <1480542646-26954-1-git-send-email-obi@opendreambox.org>
+Message-ID: <20170130232114.1c3f8baf@t510.zcs.saftware.de>
+In-Reply-To: <1480531827-11799-1-git-send-email-obi@opendreambox.org>
+References: <1480531827-11799-1-git-send-email-obi@opendreambox.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] gptfdisk: fix support for 'large' drives
+Subject: Re: [PATCH 1/2] bash: use update-alternatives for the bash binary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,29 +47,35 @@ Content-Transfer-Encoding: 7bit
 
 Ping.
 
-On Wed, 30 Nov 2016 22:50:45 +0100
+On Wed, 30 Nov 2016 19:50:26 +0100
 Andreas Oberritter <obi@opendreambox.org> wrote:
 
-> Make's switch '-e' replaced important compiler flags from the
-> project's Makefile, i.e. -D_FILE_OFFSET_BITS=64.
+> Busybox may offer a bash applet. If enabled, the alternatives mechanism
+> avoids breaking logins if bash gets deinstalled while /bin/bash is configured
+> as a login shell.
 > 
 > Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 > ---
->  meta/recipes-devtools/fdisk/gptfdisk_1.0.1.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta/recipes-extended/bash/bash.inc | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 > 
-> diff --git a/meta/recipes-devtools/fdisk/gptfdisk_1.0.1.bb b/meta/recipes-devtools/fdisk/gptfdisk_1.0.1.bb
-> index 8fab28f..d62a903 100644
-> --- a/meta/recipes-devtools/fdisk/gptfdisk_1.0.1.bb
-> +++ b/meta/recipes-devtools/fdisk/gptfdisk_1.0.1.bb
-> @@ -13,7 +13,7 @@ SRC_URI[sha256sum] = "864c8aee2efdda50346804d7e6230407d5f42a8ae754df70404dd8b2fd
->  UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/gptfdisk/files/gptfdisk/"
->  UPSTREAM_CHECK_REGEX = "/gptfdisk/(?P<pver>(\d+[\.\-_]*)+)/"
+> diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
+> index 1d08526..a05b987 100644
+> --- a/meta/recipes-extended/bash/bash.inc
+> +++ b/meta/recipes-extended/bash/bash.inc
+> @@ -14,9 +14,11 @@ EXTRA_OECONF = "--enable-job-control --without-bash-malloc"
+>  # This is what other major distros do. And this is what we wanted. See bug#5359 and bug#7137.
+>  CFLAGS += "-DNON_INTERACTIVE_LOGIN_SHELLS"
 >  
-> -EXTRA_OEMAKE = "-e MAKEFLAGS="
-> +EXTRA_OEMAKE = "'CC=${CC}' 'CXX=${CXX}'"
+> -ALTERNATIVE_${PN} = "sh"
+> +ALTERNATIVE_${PN} = "bash sh"
+> +ALTERNATIVE_LINK_NAME[bash] = "${base_bindir}/bash"
+> +ALTERNATIVE_TARGET[bash] = "${base_bindir}/bash"
+>  ALTERNATIVE_LINK_NAME[sh] = "${base_bindir}/sh"
+> -ALTERNATIVE_TARGET[sh] = "${base_bindir}/bash"
+> +ALTERNATIVE_TARGET[sh] = "${base_bindir}/bash.${BPN}"
+>  ALTERNATIVE_PRIORITY = "100"
 >  
->  do_install() {
->      install -d ${D}${sbindir}
+>  RDEPENDS_${PN} += "base-files"
 
 
