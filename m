@@ -1,49 +1,49 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 7710C71AC5
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 99E9B77225
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2017 07:52:22 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id 75so30903365pgf.3
+	Mon, 30 Jan 2017 07:52:27 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id 75so30903531pgf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Jan 2017 23:52:23 -0800 (PST)
+	Sun, 29 Jan 2017 23:52:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:in-reply-to:references:from:to:cc:subject
 	:mime-version:content-transfer-encoding;
-	bh=7jcplehtL9Db8rYkBSEq5TdnePuHAxMQpMvnRtE8wEM=;
-	b=DrT7bztEEz4hB1TeudCwF6rSnimVjiMB3YbYYEDhfcXe7xK7IH46Zm30fpC5aJbKHE
-	PnjjkcGpgoV9k7/h3QSg/aCDqIZZHyewvq3bMIkwpO+w/fOFvXOkxGaR7kYQt0UkKFgr
-	Fw3ElQzSgGYDpO8k3QiGVUztpgV/xB8xa/rAcrOHW3RaZ/XslhbyRQDibntpmsL5yitO
-	8ihb+Wo79VxEFfrqr5LDkORyzq+NUd9QqK4ZMQUE1PjW7y02GSx6un1BYRrb/9PPMQHr
-	gPI3YNmPPMwhJOPUS1eDpvj0QRYnVHpDPziKwCBZ9K0ip7Fuxg4i77mfo7GtE+XLQK08
-	ZF+A==
+	bh=2obiXrx2xBgrPIUg1VKpFGZTH0WMs/YiArdOsldW1hs=;
+	b=ArhiBxdL5Awp0oxyYnO8O4lZYBS1Nm/eO4H4mMXkPHalUEg6tdCAj7lRin01PP2EO8
+	5B4LOqsRiqOCR4+jCjGvwBaUbWeRvzRvqcanFK3QM7vRe8z/J7KQa14o/YM7pMVRDZj/
+	HPUAZR5x60CU5sgOjiYnBk0GZ/M42Zyv1xOk7h9l7+J3R3lVVHLBegnZqv28OyQYewN5
+	QIA1jQ+JUxAMaJVSy7b8JIe9LpRUn3Sh6h7BieWIUbFnblWTbjsZ6u6MmAAV6DBqvXhB
+	0Our1afHlZtQ3moQMrj35mV1ofPWEhf4b7Ak8viGf9+ynJtK+Nj1JGNZiEmyOgZm6BAQ
+	MmeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
 	:cc:subject:mime-version:content-transfer-encoding;
-	bh=7jcplehtL9Db8rYkBSEq5TdnePuHAxMQpMvnRtE8wEM=;
-	b=TCuDH4p6wo+ZnwGc7XxFCi4GfCFHPMYzdSQjyVZaiAOiDZPGRsPofvRvmMDnGjHMEw
-	OX460oYp9sI9RpBVQczZdaTY4dQogx+3bmc9CSgp3VQ3G5NcpVqOmXGrphAe2jsqBfbX
-	FJo4ozVtWPi0ObK+pcOc/n0CMhTMlXC9zsD29qJ2bI9U+/YRMvS7HQhd/KNIgNe9PvSg
-	xtwuPPKuXne+hUDVaQT9D3zSMy76ZT6+uNz8lLulXijbhPJjhiAbM0fmoIqXOAZrp/w9
-	4nUfDYJy6OriK9k3s9t9nKiV41pdJfooMB3HNnJ7a3cRc6aJFoHx7B2/7dgHwKV8qnBM
-	Hh0g==
-X-Gm-Message-State: AIkVDXIGz3eBF/4Nv+LD42+sMzFUZi/CeYlhs7h1xpqup/VNDcTlq0wNpz2rtTIOVaisRg==
-X-Received: by 10.98.44.10 with SMTP id s10mr21983353pfs.161.1485762743004;
-	Sun, 29 Jan 2017 23:52:23 -0800 (PST)
+	bh=2obiXrx2xBgrPIUg1VKpFGZTH0WMs/YiArdOsldW1hs=;
+	b=ewp/GkwYxunjK8S0tZ4SLM3tkEtvB0Ku+TBDOr0MCZk6gDvIigvQeuU8o0PaEhdHuM
+	BMM2eAbfFlae81lGBAKvWis1dhTZJX+5CrPT4QJm1krUXBliq29M+bwDIx0d04GRdAEw
+	dV+W25GNEYoah5hRiWbaXvX8VP2VDt/0PuSPSiFlIxAB3v19lvsN+LnpobImzssaAL9i
+	GM8+anbz2Cq/Kka8nsYYCyO+TnekKxtvhaxqzRbbVU7owWBc3s6iNmf+8r9W6zFKQaqq
+	H4v6ArEpwtZlQSXIKPZC0XM5VnT4uTK03tSJVCFnnj0zOqum0csR0uDMj6+gqze2XCbf
+	KnrQ==
+X-Gm-Message-State: AIkVDXJdLRwpd6YU5T3hm69dVF10jjbIJEZSzSTEzydf5TFPoWVZ+DeW04B2Fh/gYA1m7A==
+X-Received: by 10.98.133.11 with SMTP id u11mr21841898pfd.132.1485762747892;
+	Sun, 29 Jan 2017 23:52:27 -0800 (PST)
 Received: from [127.0.1.1] ([58.165.136.65]) by smtp.gmail.com with ESMTPSA id
-	c204sm29672263pfb.51.2017.01.29.23.52.20
+	w2sm29687601pfi.65.2017.01.29.23.52.25
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 29 Jan 2017 23:52:22 -0800 (PST)
+	Sun, 29 Jan 2017 23:52:27 -0800 (PST)
 Date: Mon, 30 Jan 2017 17:52:07 +1000
-Message-Id: <20170130075207.2639-2-nathan@nathanrossi.com>
+Message-Id: <20170130075207.2639-3-nathan@nathanrossi.com>
 In-Reply-To: <20170130075207.2639-0-nathan@nathanrossi.com>
 References: <20170130075207.2639-0-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
 Cc: Alistair Francis <alistai@xilinx.com>
-Subject: [PATCH 2/3] package.bbclass: Add SHLIB detection support for mingw targets
+Subject: [PATCH 3/3] libgpg-error_1.25.bb: Don't replace the syscfg header for mingw32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,62 +56,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2017 07:52:22 -0000
+X-List-Received-Date: Mon, 30 Jan 2017 07:52:27 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-Add support to detect dll files as shared objects as well as process
-Windows .dll and .exe files to determine the runtime libraries
-dependencies.
-
-This implementation is sufficient to detect and map runtime library
-dependencies between packages. And does not implement any version naming
-conventions that might apply for .dll files (e.g. lib*-x.dll).
+For mingw32 targets do not attempt to replace the
+syscfg/lock-obj-pub.*.h as for mingw32 there are no arch specific
+headers that are included in the libgpg-error source.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- meta/classes/package.bbclass | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ meta/recipes-support/libgpg-error/libgpg-error_1.25.bb | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index ac2d71cfa4..fe9f7f2eaf 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1613,6 +1613,25 @@ python package_do_shlibs() {
-                 if name and name not in needed[pkg]:
-                      needed[pkg].append((name, file, []))
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.25.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.25.bb
+index 9d402ffbb6..1fb6067eff 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error_1.25.bb
++++ b/meta/recipes-support/libgpg-error/libgpg-error_1.25.bb
+@@ -25,7 +25,10 @@ inherit autotools binconfig-disabled pkgconfig gettext
+ CPPFLAGS += "-P"
+ do_compile_prepend() {
+ 	TARGET_FILE=linux-gnu
+-	if [ ${TARGET_OS} != "linux" ]; then
++	if [ ${TARGET_OS} = "mingw32" ]; then
++		# There are no arch specific syscfg files for mingw32
++		TARGET_FILE=
++	elif [ ${TARGET_OS} != "linux" ]; then
+ 		TARGET_FILE=${TARGET_OS}
+ 	fi
  
-+    def mingw_dll(file, needed, sonames, renames, pkgver):
-+        if not os.path.exists(file):
-+            return
-+
-+        if file.endswith(".dll"):
-+            # assume all dlls are shared objects provided by the package
-+            sonames.append((os.path.basename(file), os.path.dirname(file).replace(pkgdest + "/" + pkg, ''), pkgver))
-+
-+        if (file.endswith(".dll") or file.endswith(".exe")):
-+            # use objdump to search for "DLL Name: .*\.dll"
-+            p = sub.Popen([d.expand("${HOST_PREFIX}objdump"), "-p", file], stdout = sub.PIPE, stderr= sub.PIPE)
-+            out, err = p.communicate()
-+            # process the output, grabbing all .dll names
-+            if p.returncode == 0:
-+                for m in re.finditer("DLL Name: (.*?\.dll)$", out.decode(), re.MULTILINE | re.IGNORECASE):
-+                    dllname = m.group(1)
-+                    if dllname:
-+                        needed[pkg].append((dllname, file, []))
-+
-     if d.getVar('PACKAGE_SNAP_LIB_SYMLINKS') == "1":
-         snap_symlinks = True
-     else:
-@@ -1647,6 +1666,8 @@ python package_do_shlibs() {
-                     continue
-                 if targetos == "darwin" or targetos == "darwin8":
-                     darwin_so(file, needed, sonames, renames, pkgver)
-+                elif targetos.startswith("mingw"):
-+                    mingw_dll(file, needed, sonames, renames, pkgver)
-                 elif os.access(file, os.X_OK) or lib_re.match(file):
-                     ldconfig = linux_so(file, needed, sonames, renames, pkgver)
-                     needs_ldconfig = needs_ldconfig or ldconfig
+@@ -40,8 +43,10 @@ do_compile_prepend() {
+ 	  *)          TUPLE=${TARGET_ARCH}-unknown-linux-gnu ;; 
+ 	esac
+ 
+-	cp ${S}/src/syscfg/lock-obj-pub.$TUPLE.h \
+-	  ${S}/src/syscfg/lock-obj-pub.$TARGET_FILE.h
++	if [ -n "$TARGET_FILE" ]; then
++		cp ${S}/src/syscfg/lock-obj-pub.$TUPLE.h \
++			${S}/src/syscfg/lock-obj-pub.$TARGET_FILE.h
++	fi
+ }
+ 
+ do_install_append() {
 -- 
 2.11.0
 
