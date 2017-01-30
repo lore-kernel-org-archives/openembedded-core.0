@@ -1,29 +1,29 @@
 Return-Path: <sona.sarmadi@enea.com>
 Received: from smtp-out11.electric.net (smtp-out11.electric.net
-	[185.38.181.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 212A6772F5
+	[185.38.181.39])
+	by mail.openembedded.org (Postfix) with ESMTP id 82722772BB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2017 11:46:30 +0000 (UTC)
-Received: from 1cYAPl-0006oV-UK by out11d.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1cYAPl-0006pA-Ul
+	Mon, 30 Jan 2017 11:48:38 +0000 (UTC)
+Received: from 1cYARp-0005VO-VJ by out11b.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1cYARq-0005Vu-TB
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jan 2017 03:46:29 -0800
-Received: by emcmailer; Mon, 30 Jan 2017 03:46:29 -0800
+	Mon, 30 Jan 2017 03:48:38 -0800
+Received: by emcmailer; Mon, 30 Jan 2017 03:48:38 -0800
 Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out11d.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1cYAPl-0006oV-UK
+	by out11b.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1cYARp-0005VO-VJ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jan 2017 03:46:29 -0800
+	Mon, 30 Jan 2017 03:48:37 -0800
 Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.3.319.2;
-	Mon, 30 Jan 2017 12:46:29 +0100
+	Mon, 30 Jan 2017 12:48:37 +0100
 From: Sona Sarmadi <sona.sarmadi@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 30 Jan 2017 12:46:23 +0100
-Message-ID: <1485776783-44453-2-git-send-email-sona.sarmadi@enea.com>
+Date: Mon, 30 Jan 2017 12:48:27 +0100
+Message-ID: <1485776907-44585-2-git-send-email-sona.sarmadi@enea.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1485776783-44453-1-git-send-email-sona.sarmadi@enea.com>
-References: <1485776783-44453-1-git-send-email-sona.sarmadi@enea.com>
+In-Reply-To: <1485776907-44585-1-git-send-email-sona.sarmadi@enea.com>
+References: <1485776907-44585-1-git-send-email-sona.sarmadi@enea.com>
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
 	designate permitted sender hosts)
@@ -37,7 +37,7 @@ X-Authenticated_ID:
 X-PolicySMART: 6551647
 X-Virus-Status: Scanned by VirusSMART (c)
 X-Virus-Status: Scanned by VirusSMART (s)
-Subject: [PATCH][morty 2/2] libx11: CVE-2016-7943
+Subject: [PATCH][krogoth 2/2] libx11: CVE-2016-7943
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,7 +50,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2017 11:46:38 -0000
+X-List-Received-Date: Mon, 30 Jan 2017 11:48:39 -0000
 Content-Type: text/plain
 
 The XListFonts function in X.org libX11 before 1.6.4 might allow
