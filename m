@@ -1,27 +1,49 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 17138731DB
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2017 14:59:47 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga103.jf.intel.com with ESMTP; 30 Jan 2017 06:59:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,311,1477983600"; d="scan'208";a="59805984"
-Received: from lsandov1-mobl2.zpn.intel.com (HELO [10.219.128.141])
-	([10.219.128.141])
-	by fmsmga006.fm.intel.com with ESMTP; 30 Jan 2017 06:59:47 -0800
-To: openembedded-core@lists.openembedded.org
-References: <cover.1485505680.git.anders@chargestorm.se>
-	<20170127092329.4462.45493@do.openembedded.org>
-	<20170127094032.zpdy3uaohktwcgqk@ad.chargestorm.se>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Message-ID: <04ba7ca8-b4ad-9ccb-656d-654da5c710b4@linux.intel.com>
-Date: Mon, 30 Jan 2017 09:06:56 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.6.0
-MIME-Version: 1.0
-In-Reply-To: <20170127094032.zpdy3uaohktwcgqk@ad.chargestorm.se>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIFB5dGhvbjMgcGFja2FnaW5nIGZpeGVz?=
+Return-Path: <kristian.amlie@mender.io>
+Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id B55EB731A1
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 30 Jan 2017 15:43:40 +0000 (UTC)
+Received: by mail-lf0-f42.google.com with SMTP id n124so196090999lfd.2
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 30 Jan 2017 07:43:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mender-io.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=VRKKN9DPbEy+o9GP7wrk8rsgrPpDd7vzeXvbH5u+AwE=;
+	b=etvyGFZ27ChS+Emm6Y+1oJSjiXizj7GiXXcxNXxitmlAksRm9JxRXiGRM7rDWG7Ga/
+	IRD3QcxQA+BnryGwKlcaq2V3+Q5qC4GeCRptT9UYuTI2cItbXCv/T477YPAvitK8if+8
+	hTYQriF/RbYBWQZdxqAsuGSE9WYx09WbbM/aDpWVlEwlomfkiUO3MtWYkKcX43j9DUpp
+	zbTl2rbZr5xw1j8BO5dRgdWQ2jWwXh0XDSFM4wzZAjG/L4EOteOL2YxIh8d/sZmWnhyZ
+	YJUsHVOXOPcmGAtfoz/Tit6bGAFpfyJBLgC68nwJ5DPffxbxfqPcdyGb0AuL5rmW2kmO
+	gvnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=VRKKN9DPbEy+o9GP7wrk8rsgrPpDd7vzeXvbH5u+AwE=;
+	b=jSFoMAhEJKB7CBxzvhBNRa1BST9iMcLxNTmeanqiPTAzDjmvq2bPsSp/2i4F8HMlsb
+	AQGZybEPujpsJJDbFF8RvlVtrFM+MoNoBfJ/qwt3U3qhrO/S5hFlbh4f9cheEcFxB8tt
+	aPEf8qPV3c5J48nfOdydYaHR7yqxqIpWlD3AKwFi852eSWhREYmKQeyOZsjNbVgKtLMq
+	V95+dMEqUCp5GZLvLEYVjror5s2XhtFvgBURKpG240ik9O2MjdcsUMcgqn3jrCKlxqJp
+	SdLvnA9dWXVAMi0tBhEHaN5c9ZHojhbCasEqv4wZiyLegVgA1sgiovDcBVrKYF6nI0jt
+	vgPg==
+X-Gm-Message-State: AIkVDXL4Hf6CbQi3nfiO38MmT4SmfXmy45NisqGQ7rehMQRdizbrqHa1BZON47F2tX13jA==
+X-Received: by 10.46.72.1 with SMTP id v1mr7642207lja.12.1485791020405;
+	Mon, 30 Jan 2017 07:43:40 -0800 (PST)
+Received: from kristian-mender.cfengine.com ([195.159.140.90])
+	by smtp.googlemail.com with ESMTPSA id
+	c143sm3814659lfc.13.2017.01.30.07.43.38
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 30 Jan 2017 07:43:39 -0800 (PST)
+From: Kristian Amlie <kristian.amlie@mender.io>
+To: OE-core <Openembedded-core@lists.openembedded.org>,
+	Ed Bartosh <ed.bartosh@linux.intel.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Patrick Ohly <patrick.ohly@intel.com>
+Date: Mon, 30 Jan 2017 16:43:38 +0100
+Message-Id: <1485791018-10161-1-git-send-email-kristian.amlie@mender.io>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] wic-tools: Do not remove sysroot with rm_work, because wic needs it.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,71 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2017 14:59:49 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 30 Jan 2017 15:43:43 -0000
 
+The sysroot of wic-tools is needed for wic, but if rm_work is enabled,
+it will be removed before wic has a chance to use it, hence this fix.
 
+Signed-off-by: Kristian Amlie <kristian.amlie@mender.io>
+---
+ meta/recipes-core/meta/wic-tools.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-On 01/27/2017 03:40 AM, Anders Darander wrote:
-> Hi,
->
-> * Patchwork <patchwork@patchwork.openembedded.org> [170127 10:23]:
->
->> Series: Python3 packaging fixes
->> Revision: 1
->> URL   : https://patchwork.openembedded.org/series/5024/
->> State : failure
->> * Issue             Series does not apply on top of target branch [test_series_merge_on_head]
->>    Suggested fix    Rebase your series on top of targeted branch
->>    Targeted branch  master (currently at a99cca0e8e)
-> This is likely due to issues with the email-patches. One of the patches,
-> 0003, has a line > 998 characters (one line in the patch context, ie not
-> modified by me).
-
-Anders, I do not think the problem is the patch format because git-am 
-does not complain at this stage. This is what I am getting when either 
-git-am or git-apply
-
-git pw mbox 5024 | git am
-Applying: python-3-manifest: fix adding imp to importlib
-Applying: python3-manifest: move htlm.py to python3-html
-Applying: python-3-manifest: add argparse to RDEPENDS for netclient
-error: patch failed: 
-meta/recipes-devtools/python/python-3.5-manifest.inc:154
-error: meta/recipes-devtools/python/python-3.5-manifest.inc: patch does 
-not apply
-Patch failed at 0003 python-3-manifest: add argparse to RDEPENDS for 
-netclient
-The copy of the patch that failed is found in:
-    /home/lsandov1/repos/openembedded-core/.git/rebase-apply/patch
-When you have resolved this problem, run "git am --continue".
-If you prefer to skip this patch, run "git am --skip" instead.
-To restore the original branch and stop patching, run "git am --abort".
-lsandov1@lsandov1-mobl2:~/repos/openembedded-core$ git am --abort
-
-lsandov1@lsandov1-mobl2:~/repos/openembedded-core$ git pw mbox 5024 | 
-git apply --check
-error: patch failed: 
-meta/recipes-devtools/python/python-3.5-manifest.inc:154
-error: meta/recipes-devtools/python/python-3.5-manifest.inc: patch does 
-not apply
-error: patch failed: 
-meta/recipes-devtools/python/python-3.5-manifest.inc:119
-error: meta/recipes-devtools/python/python-3.5-manifest.inc: patch does 
-not apply
-
-Meaning that you may need to fix merge failures for the manifest.inc file.
-
-In the other hand, bad formatted patches have their own (patch) test, 
-and the report does not include it.
-
-
-> Retrieving the patch series from the branch at github should work, as
-> it's based on the current master, a99cca0e8e.
->
-> Cheers,
-> Anders
->
+diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/wic-tools.bb
+index 0a53b73..d8988a4 100644
+--- a/meta/recipes-core/meta/wic-tools.bb
++++ b/meta/recipes-core/meta/wic-tools.bb
+@@ -9,6 +9,10 @@ DEPENDS_append_x86-64 = " syslinux grub-efi"
+ INHIBIT_DEFAULT_DEPS = "1"
+ inherit nopackages
+ 
++# The sysroot of wic-tools is needed for wic, but if rm_work is enabled, it will
++# be removed before wic has a chance to use it, hence the exclusion below.
++RM_WORK_EXCLUDE += "${PN}"
++
+ python do_build_sysroot () {
+     bb.build.exec_func("extend_recipe_sysroot", d)
+ 
+-- 
+2.7.4
 
 
