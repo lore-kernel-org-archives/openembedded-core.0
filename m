@@ -1,24 +1,21 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 38CEE77225
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9102B7731A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2017 16:12:31 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP; 30 Jan 2017 08:12:31 -0800
+	Mon, 30 Jan 2017 16:24:36 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP; 30 Jan 2017 08:24:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,312,1477983600"; d="scan'208";a="815056926"
-Received: from yctb01.ostc.intel.com ([10.54.69.55])
-	by FMSMGA003.fm.intel.com with ESMTP; 30 Jan 2017 08:12:31 -0800
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Jan 2017 08:08:20 +0000
-Message-Id: <7043fa6be84bde26e6a5a94c93ee3d302fb4f2ca.1485763510.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <cover.1485515180.git.mariano.lopez@linux.intel.com>
-References: <cover.1485515180.git.mariano.lopez@linux.intel.com>
-In-Reply-To: <cover.1485763510.git.mariano.lopez@linux.intel.com>
-References: <cover.1485763510.git.mariano.lopez@linux.intel.com>
-Subject: [PATCHv3 2/5] runtime/cases/smart.py: Check for IMAGE_PKGTYPE instead of PACKAGE_CLASSES
+X-IronPort-AV: E=Sophos;i="5.33,312,1477983600"; d="scan'208";a="928219064"
+Received: from swold-mobl2.amr.corp.intel.com ([10.254.185.161])
+	by orsmga003.jf.intel.com with ESMTP; 30 Jan 2017 08:24:16 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Mon, 30 Jan 2017 08:24:15 -0800
+Message-Id: <1485793455-11055-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] at-spi2-atk: Add glib-2.0-native dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,36 +28,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2017 16:12:33 -0000
+X-List-Received-Date: Mon, 30 Jan 2017 16:24:36 -0000
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+This package needs the glib-compile-schemas native binary, which may have been
+provided by host tools previously. The Recipe-Specific Sysroots might have also
+uncovered this dependency.
 
-smart test requires to build the image using rpm packages, this check was
-included, but it checked for PACKAGE_CLASSES=='package_rpm', and this is
-not true when building packages for rpm and deb/ipk. So this would check
-IMAGE_PKGTYPE instead.
-
-[YOCTO #10964]
-
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/lib/oeqa/runtime/cases/smart.py | 2 +-
+ meta/recipes-support/atk/at-spi2-atk_2.22.0.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/smart.py b/meta/lib/oeqa/runtime/cases/smart.py
-index 9b4d0d2..79bd9c8 100644
---- a/meta/lib/oeqa/runtime/cases/smart.py
-+++ b/meta/lib/oeqa/runtime/cases/smart.py
-@@ -23,7 +23,7 @@ class SmartBasicTest(SmartTest):
+diff --git a/meta/recipes-support/atk/at-spi2-atk_2.22.0.bb b/meta/recipes-support/atk/at-spi2-atk_2.22.0.bb
+index 80ba642..78798c1 100644
+--- a/meta/recipes-support/atk/at-spi2-atk_2.22.0.bb
++++ b/meta/recipes-support/atk/at-spi2-atk_2.22.0.bb
+@@ -8,7 +8,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
+ SRC_URI[md5sum] = "aa62aed21b8e03dc44ab81ae49d893ca"
+ SRC_URI[sha256sum] = "e8bdedbeb873eb229eb08c88e11d07713ec25ae175251648ad1a9da6c21113c1"
  
-     @skipIfNotFeature('package-management',
-                       'Test requires package-management to be in IMAGE_FEATURES')
--    @skipIfNotDataVar('PACKAGE_CLASSES', 'package_rpm',
-+    @skipIfNotDataVar('IMAGE_PKGTYPE', 'rpm',
-                       'RPM is not the primary package manager')
-     @OEHasPackage(['smartpm'])
-     @OETestID(716)
+-DEPENDS = "dbus glib-2.0 atk at-spi2-core"
++DEPENDS = "dbus glib-2.0 atk at-spi2-core glib-2.0-native"
+ 
+ inherit autotools pkgconfig distro_features_check upstream-version-is-even
+ 
 -- 
-2.6.6
+2.7.4
 
 
