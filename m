@@ -1,33 +1,60 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id ECD617723C
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-wj0-f196.google.com (mail-wj0-f196.google.com
+	[209.85.210.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 30E477723C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2017 17:40:57 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga102.jf.intel.com with ESMTP; 30 Jan 2017 09:40:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,312,1477983600"; d="scan'208";a="53812467"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga004.jf.intel.com with ESMTP; 30 Jan 2017 09:40:57 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 4046C6A4006;
-	Mon, 30 Jan 2017 09:39:58 -0800 (PST)
-Date: Mon, 30 Jan 2017 19:18:32 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Rick Altherr <raltherr@google.com>
-Message-ID: <20170130171832.GA7232@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <cover.1485547221.git.ed.bartosh@linux.intel.com>
-	<257efe25e625e8aaa0f1d435716f0c5f61071700.1485547221.git.ed.bartosh@linux.intel.com>
-	<CAPLgG=niaYOrW-zw=k6Z+hWfGRutVSA3bcKk4Ln8MqQR7zpPag@mail.gmail.com>
+	Mon, 30 Jan 2017 17:41:08 +0000 (UTC)
+Received: by mail-wj0-f196.google.com with SMTP id kq3so8766435wjc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Jan 2017 09:41:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=QwqHAYu0wHC0Tj642zkLf0JsP0Snu435Y8UTnVE8mUg=;
+	b=ev8uvJqwqAW54diKr0adH5EC2qo/SSdhVR+sa90zbzVNI9cMOX8QEN+surWftNdPpP
+	fNyo8+FnFThv+Vdu187katCosxvpcXIYIEM7K1fQw9SguQzJM+T3ixlCH0NCRBwiwfLk
+	bpH2Ws9wrNmhGlH/6DeBRHwn8mFjjOi56j3p7OQ83fJ4u1vX7pHpB2TfbZTMaKRwccTh
+	pRd+48DiWUqVWHrlPrMbwbtXgSPJr7xzSxAHo7ihA3wceho+VYOcwZufPn5lTfeq5kIX
+	1Xu/8xm5VdKIoUmayTjB26WJXoq+U/lzlpx4xwrfVevPluCBfV0T130Q4lMnsftQtksn
+	zl1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=QwqHAYu0wHC0Tj642zkLf0JsP0Snu435Y8UTnVE8mUg=;
+	b=Ybm5KASdA6JKhfsmty9VDiBfXIr/RU6oRUvIJr9yDY8JzdvPYzhUOLLYGKSNcV/vhh
+	1hrRPnXm8Hi/1IYNIyTXkD+mofl6qgFgViH9hMmGdZhop3TzMJovCyMIxEBvogzXJyh0
+	N6dBCagXjb20tQW5iRjuJw6vkEanR/f6c6g9e1gF2BSS5uNzh11kZUw/S0DSliNIpCKX
+	glLVziUbCs3vW5o8z+jhOoDuzzOTxXIlaC8sSxsbmZ2JJySF9zlms2IOzx9iBXDs2lp0
+	JS5me25vz7B3sejQ/AFgQ0TdIAz7piq30cPDqEuzAYI6pljMY81DoNYAE56jOp83uyqA
+	LXRQ==
+X-Gm-Message-State: AIkVDXKOlyOErjODLIY9dtbEnxy8TXxkEz1l0xoC4Fl7E8uzrpXhp/eqmdmEX1ftlfVbDw==
+X-Received: by 10.223.176.93 with SMTP id g29mr19743843wra.7.1485798068609;
+	Mon, 30 Jan 2017 09:41:08 -0800 (PST)
+Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com.
+	[74.125.82.44]) by smtp.gmail.com with ESMTPSA id
+	w204sm19796924wmd.17.2017.01.30.09.41.07
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 30 Jan 2017 09:41:07 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-wm0-f44.google.com with SMTP id c85so224387811wmi.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Jan 2017 09:41:07 -0800 (PST)
+X-Received: by 10.28.44.66 with SMTP id s63mr14205171wms.77.1485798067155;
+	Mon, 30 Jan 2017 09:41:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAPLgG=niaYOrW-zw=k6Z+hWfGRutVSA3bcKk4Ln8MqQR7zpPag@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 01/11] image-wic: move wic code to image-wic.bbclass
+Received: by 10.28.69.17 with HTTP; Mon, 30 Jan 2017 09:41:06 -0800 (PST)
+In-Reply-To: <20170130162700.27969-1-fabio.berton@ossystems.com.br>
+References: <20170130162700.27969-1-fabio.berton@ossystems.com.br>
+Date: Mon, 30 Jan 2017 15:41:06 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKrkFx4co_0gxTQpOj0HuG1H+O9DhL4GJFJ-8_e87QdNWQ@mail.gmail.com>
+Message-ID: <CAP9ODKrkFx4co_0gxTQpOj0HuG1H+O9DhL4GJFJ-8_e87QdNWQ@mail.gmail.com>
+To: Fabio Berton <fabio.berton@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libbsd: libbsd-overlay.pc: Set Cflags to use -I instead of -isystem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,373 +67,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2017 17:41:01 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 30 Jan 2017 17:41:09 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, Jan 30, 2017 at 09:27:54AM -0800, Rick Altherr wrote:
-> Why didn't you make this image_types_wic.bbclass and use IMAGE_CLASSES to
-> load it?
+On Mon, Jan 30, 2017 at 2:27 PM, Fabio Berton
+<fabio.berton@ossystems.com.br> wrote:
+> pkg-config currently only handles -I and -L correctly, but misses
+> -isystem, so we need to do this workaround to fix this issue.
+>
+> There's a open bug in:
+> https://bugzilla.freedesktop.org/show_bug.cgi?id=99516
+>
+> This appears when building lldpd and shows error:
+>
+> ERROR: lldpd-0.9.6-r0 do_configure: This autoconf log indicates
+> errors, it looked at host include and/or library paths while
+> determining system capabilities.
+> Rerun configure task after fixing this.
+> ERROR: lldpd-0.9.6-r0 do_configure: Function failed: do_qa_configure
+>
+> Change-Id: I83255b5952e19bb2f516b1186276cd03eb67eed3
+> Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
 
-Because of the following:
-- IMAGE_CLASSES[doc] = "A list of classes that all images should
-  inherit." I'm not sure all images should include wic class. I'll probably
-  make this inheritance conditional.
-- so far IMAGE_CLASSES is used for qemuboot, image_types,
-  image_types_uboot and testimage,
-  so the usage is more or less follows the description. wic is out of
-  that usage scenario, I believe.
-- 'inherit image_wic' is more explicit than IMAGE_CLASSES +=
-  "image_types"\n inherit ${IMAGE_CLASSES}
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-
-> 
-> On Fri, Jan 27, 2017 at 12:19 PM, Ed Bartosh <ed.bartosh@linux.intel.com>
-> wrote:
-> 
-> > There is a lot of wic code in image.bbclass and image_types.bbclass
-> > Having all code separated in one file should make it more readable
-> > and easier to maintain.
-> >
-> > Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> > ---
-> >  meta/classes/image-wic.bbclass   | 120 ++++++++++++++++++++++++++++++
-> > +++++++++
-> >  meta/classes/image.bbclass       |  25 +-------
-> >  meta/classes/image_types.bbclass |  95 -------------------------------
-> >  3 files changed, 122 insertions(+), 118 deletions(-)
-> >  create mode 100644 meta/classes/image-wic.bbclass
-> >
-> > diff --git a/meta/classes/image-wic.bbclass b/meta/classes/image-wic.
-> > bbclass
-> > new file mode 100644
-> > index 0000000..2acfd65
-> > --- /dev/null
-> > +++ b/meta/classes/image-wic.bbclass
-> > @@ -0,0 +1,120 @@
-> > +# The WICVARS variable is used to define list of bitbake variables used
-> > in wic code
-> > +# variables from this list is written to <image>.env file
-> > +WICVARS ?= "\
-> > +           BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE FAKEROOTCMD HDDDIR
-> > IMAGE_BASENAME IMAGE_BOOT_FILES \
-> > +           IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES INITRD ISODIR
-> > MACHINE_ARCH RECIPE_SYSROOT_NATIVE \
-> > +           ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR
-> > TARGET_SYS"
-> > +
-> > +WKS_FILE ??= "${IMAGE_BASENAME}.${MACHINE}.wks"
-> > +WKS_FILES ?= "${WKS_FILE} ${IMAGE_BASENAME}.wks"
-> > +WKS_SEARCH_PATH ?= "${THISDIR}:${@':'.join('%s/wic' % p for p in
-> > '${BBPATH}'.split(':'))}:${@':'.join('%s/scripts/lib/wic/canned-wks' % l
-> > for l in '${BBPATH}:${COREBASE}'.split(':'))}"
-> > +WKS_FULL_PATH = "${@wks_search('${WKS_FILES}'.split(),
-> > '${WKS_SEARCH_PATH}') or ''}"
-> > +
-> > +def wks_search(files, search_path):
-> > +    for f in files:
-> > +        if os.path.isabs(f):
-> > +            if os.path.exists(f):
-> > +                return f
-> > +        else:
-> > +            searched = bb.utils.which(search_path, f)
-> > +            if searched:
-> > +                return searched
-> > +
-> > +WIC_CREATE_EXTRA_ARGS ?= ""
-> > +
-> > +IMAGE_CMD_wic () {
-> > +       out="${IMGDEPLOYDIR}/${IMAGE_NAME}"
-> > +       wks="${WKS_FULL_PATH}"
-> > +       if [ -z "$wks" ]; then
-> > +               bbfatal "No kickstart files from WKS_FILES were found:
-> > ${WKS_FILES}. Please set WKS_FILE or WKS_FILES appropriately."
-> > +       fi
-> > +
-> > +       BUILDDIR="${TOPDIR}" wic create "$wks" --vars
-> > "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o "$out/"
-> > ${WIC_CREATE_EXTRA_ARGS}
-> > +       mv "$out/$(basename "${wks%.wks}")"*.direct
-> > "$out${IMAGE_NAME_SUFFIX}.wic"
-> > +       rm -rf "$out/"
-> > +}
-> > +IMAGE_CMD_wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES"
-> > +
-> > +# Rebuild when the wks file or vars in WICVARS change
-> > +USING_WIC = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + '
-> > '.join('wic.%s' % c for c in '${CONVERSIONTYPES}'.split()), '1', '', d)}"
-> > +WKS_FILE_CHECKSUM = "${@'${WKS_FULL_PATH}:%s' %
-> > os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else ''}"
-> > +do_image_wic[file-checksums] += "${WKS_FILE_CHECKSUM}"
-> > +do_image_wic[depends] += "wic-tools:do_build"
-> > +
-> > +python () {
-> > +    if d.getVar('USING_WIC') and 'do_bootimg' in d:
-> > +        bb.build.addtask('do_image_wic', '', 'do_bootimg', d)
-> > +}
-> > +
-> > +python do_write_wks_template () {
-> > +    """Write out expanded template contents to WKS_FULL_PATH."""
-> > +    import re
-> > +
-> > +    template_body = d.getVar('_WKS_TEMPLATE')
-> > +
-> > +    # Remove any remnant variable references left behind by the expansion
-> > +    # due to undefined variables
-> > +    expand_var_regexp = re.compile(r"\${[^{}@\n\t :]+}")
-> > +    while True:
-> > +        new_body = re.sub(expand_var_regexp, '', template_body)
-> > +        if new_body == template_body:
-> > +            break
-> > +        else:
-> > +            template_body = new_body
-> > +
-> > +    wks_file = d.getVar('WKS_FULL_PATH')
-> > +    with open(wks_file, 'w') as f:
-> > +        f.write(template_body)
-> > +}
-> > +
-> > +python () {
-> > +    if d.getVar('USING_WIC'):
-> > +        wks_file_u = d.getVar('WKS_FULL_PATH', False)
-> > +        wks_file = d.expand(wks_file_u)
-> > +        base, ext = os.path.splitext(wks_file)
-> > +        if ext == '.in' and os.path.exists(wks_file):
-> > +            wks_out_file = os.path.join(d.getVar('WORKDIR'),
-> > os.path.basename(base))
-> > +            d.setVar('WKS_FULL_PATH', wks_out_file)
-> > +            d.setVar('WKS_TEMPLATE_PATH', wks_file_u)
-> > +            d.setVar('WKS_FILE_CHECKSUM', '${WKS_TEMPLATE_PATH}:True')
-> > +
-> > +            # We need to re-parse each time the file changes, and bitbake
-> > +            # needs to be told about that explicitly.
-> > +            bb.parse.mark_dependency(d, wks_file)
-> > +
-> > +            try:
-> > +                with open(wks_file, 'r') as f:
-> > +                    body = f.read()
-> > +            except (IOError, OSError) as exc:
-> > +                pass
-> > +            else:
-> > +                # Previously, I used expandWithRefs to get the dependency
-> > list
-> > +                # and add it to WICVARS, but there's no point re-parsing
-> > the
-> > +                # file in process_wks_template as well, so just put it in
-> > +                # a variable and let the metadata deal with the deps.
-> > +                d.setVar('_WKS_TEMPLATE', body)
-> > +                bb.build.addtask('do_write_wks_template',
-> > 'do_image_wic', None, d)
-> > +}
-> > +
-> > +#
-> > +# Write environment variables used by wic
-> > +# to tmp/sysroots/<machine>/imgdata/<image>.env
-> > +#
-> > +python do_rootfs_wicenv () {
-> > +    wicvars = d.getVar('WICVARS')
-> > +    if not wicvars:
-> > +        return
-> > +
-> > +    stdir = d.getVar('STAGING_DIR')
-> > +    outdir = os.path.join(stdir, d.getVar('MACHINE'), 'imgdata')
-> > +    bb.utils.mkdirhier(outdir)
-> > +    basename = d.getVar('IMAGE_BASENAME')
-> > +    with open(os.path.join(outdir, basename) + '.env', 'w') as envf:
-> > +        for var in wicvars.split():
-> > +            value = d.getVar(var)
-> > +            if value:
-> > +                envf.write('%s="%s"\n' % (var, value.strip()))
-> > +}
-> > +addtask do_rootfs_wicenv after do_image before do_image_wic
-> > +do_rootfs_wicenv[vardeps] += "${WICVARS}"
-> > +do_rootfs_wicenv[prefuncs] = 'set_image_size'
-> > diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> > index 13fd996..1a549e9 100644
-> > --- a/meta/classes/image.bbclass
-> > +++ b/meta/classes/image.bbclass
-> > @@ -192,6 +192,8 @@ python () {
-> >  IMAGE_CLASSES += "image_types"
-> >  inherit ${IMAGE_CLASSES}
-> >
-> > +inherit image-wic
-> > +
-> >  IMAGE_POSTPROCESS_COMMAND ?= ""
-> >
-> >  # some default locales
-> > @@ -332,29 +334,6 @@ fakeroot python do_image_qa () {
-> >  }
-> >  addtask do_image_qa after do_image_complete before do_build
-> >
-> > -#
-> > -# Write environment variables used by wic
-> > -# to tmp/sysroots/<machine>/imgdata/<image>.env
-> > -#
-> > -python do_rootfs_wicenv () {
-> > -    wicvars = d.getVar('WICVARS')
-> > -    if not wicvars:
-> > -        return
-> > -
-> > -    stdir = d.getVar('STAGING_DIR')
-> > -    outdir = os.path.join(stdir, d.getVar('MACHINE'), 'imgdata')
-> > -    bb.utils.mkdirhier(outdir)
-> > -    basename = d.getVar('IMAGE_BASENAME')
-> > -    with open(os.path.join(outdir, basename) + '.env', 'w') as envf:
-> > -        for var in wicvars.split():
-> > -            value = d.getVar(var)
-> > -            if value:
-> > -                envf.write('%s="%s"\n' % (var, value.strip()))
-> > -}
-> > -addtask do_rootfs_wicenv after do_image before do_image_wic
-> > -do_rootfs_wicenv[vardeps] += "${WICVARS}"
-> > -do_rootfs_wicenv[prefuncs] = 'set_image_size'
-> > -
-> >  def setup_debugfs_variables(d):
-> >      d.appendVar('IMAGE_ROOTFS', '-dbg')
-> >      d.appendVar('IMAGE_LINK_NAME', '-dbg')
-> > diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.
-> > bbclass
-> > index ad95dc6..e2ecf93 100644
-> > --- a/meta/classes/image_types.bbclass
-> > +++ b/meta/classes/image_types.bbclass
-> > @@ -192,97 +192,6 @@ IMAGE_CMD_ubi () {
-> >
-> >  IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o
-> > ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.ubifs ${MKUBIFS_ARGS}"
-> >
-> > -WKS_FILE ??= "${IMAGE_BASENAME}.${MACHINE}.wks"
-> > -WKS_FILES ?= "${WKS_FILE} ${IMAGE_BASENAME}.wks"
-> > -WKS_SEARCH_PATH ?= "${THISDIR}:${@':'.join('%s/wic' % p for p in
-> > '${BBPATH}'.split(':'))}:${@':'.join('%s/scripts/lib/wic/canned-wks' % l
-> > for l in '${BBPATH}:${COREBASE}'.split(':'))}"
-> > -WKS_FULL_PATH = "${@wks_search('${WKS_FILES}'.split(),
-> > '${WKS_SEARCH_PATH}') or ''}"
-> > -
-> > -def wks_search(files, search_path):
-> > -    for f in files:
-> > -        if os.path.isabs(f):
-> > -            if os.path.exists(f):
-> > -                return f
-> > -        else:
-> > -            searched = bb.utils.which(search_path, f)
-> > -            if searched:
-> > -                return searched
-> > -
-> > -WIC_CREATE_EXTRA_ARGS ?= ""
-> > -
-> > -IMAGE_CMD_wic () {
-> > -       out="${IMGDEPLOYDIR}/${IMAGE_NAME}"
-> > -       wks="${WKS_FULL_PATH}"
-> > -       if [ -z "$wks" ]; then
-> > -               bbfatal "No kickstart files from WKS_FILES were found:
-> > ${WKS_FILES}. Please set WKS_FILE or WKS_FILES appropriately."
-> > -       fi
-> > -
-> > -       BUILDDIR="${TOPDIR}" wic create "$wks" --vars
-> > "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o "$out/"
-> > ${WIC_CREATE_EXTRA_ARGS}
-> > -       mv "$out/$(basename "${wks%.wks}")"*.direct
-> > "$out${IMAGE_NAME_SUFFIX}.wic"
-> > -       rm -rf "$out/"
-> > -}
-> > -IMAGE_CMD_wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES"
-> > -
-> > -# Rebuild when the wks file or vars in WICVARS change
-> > -USING_WIC = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + '
-> > '.join('wic.%s' % c for c in '${CONVERSIONTYPES}'.split()), '1', '', d)}"
-> > -WKS_FILE_CHECKSUM = "${@'${WKS_FULL_PATH}:%s' %
-> > os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else ''}"
-> > -do_image_wic[file-checksums] += "${WKS_FILE_CHECKSUM}"
-> > -do_image_wic[depends] += "wic-tools:do_build"
-> > -
-> > -python () {
-> > -    if d.getVar('USING_WIC') and 'do_bootimg' in d:
-> > -        bb.build.addtask('do_image_wic', '', 'do_bootimg', d)
-> > -}
-> > -
-> > -python do_write_wks_template () {
-> > -    """Write out expanded template contents to WKS_FULL_PATH."""
-> > -    import re
-> > -
-> > -    template_body = d.getVar('_WKS_TEMPLATE')
-> > -
-> > -    # Remove any remnant variable references left behind by the expansion
-> > -    # due to undefined variables
-> > -    expand_var_regexp = re.compile(r"\${[^{}@\n\t :]+}")
-> > -    while True:
-> > -        new_body = re.sub(expand_var_regexp, '', template_body)
-> > -        if new_body == template_body:
-> > -            break
-> > -        else:
-> > -            template_body = new_body
-> > -
-> > -    wks_file = d.getVar('WKS_FULL_PATH')
-> > -    with open(wks_file, 'w') as f:
-> > -        f.write(template_body)
-> > -}
-> > -
-> > -python () {
-> > -    if d.getVar('USING_WIC'):
-> > -        wks_file_u = d.getVar('WKS_FULL_PATH', False)
-> > -        wks_file = d.expand(wks_file_u)
-> > -        base, ext = os.path.splitext(wks_file)
-> > -        if ext == '.in' and os.path.exists(wks_file):
-> > -            wks_out_file = os.path.join(d.getVar('WORKDIR'),
-> > os.path.basename(base))
-> > -            d.setVar('WKS_FULL_PATH', wks_out_file)
-> > -            d.setVar('WKS_TEMPLATE_PATH', wks_file_u)
-> > -            d.setVar('WKS_FILE_CHECKSUM', '${WKS_TEMPLATE_PATH}:True')
-> > -
-> > -            # We need to re-parse each time the file changes, and bitbake
-> > -            # needs to be told about that explicitly.
-> > -            bb.parse.mark_dependency(d, wks_file)
-> > -
-> > -            try:
-> > -                with open(wks_file, 'r') as f:
-> > -                    body = f.read()
-> > -            except (IOError, OSError) as exc:
-> > -                pass
-> > -            else:
-> > -                # Previously, I used expandWithRefs to get the dependency
-> > list
-> > -                # and add it to WICVARS, but there's no point re-parsing
-> > the
-> > -                # file in process_wks_template as well, so just put it in
-> > -                # a variable and let the metadata deal with the deps.
-> > -                d.setVar('_WKS_TEMPLATE', body)
-> > -                bb.build.addtask('do_write_wks_template',
-> > 'do_image_wic', None, d)
-> > -}
-> > -
-> >  EXTRA_IMAGECMD = ""
-> >
-> >  inherit siteinfo
-> > @@ -380,7 +289,3 @@ IMAGE_EXTENSION_live = "hddimg iso"
-> >  # The IMAGE_TYPES_MASKED variable will be used to mask out from the
-> > IMAGE_FSTYPES,
-> >  # images that will not be built at do_rootfs time: vmdk, vdi, qcow2,
-> > hdddirect, hddimg, iso, etc.
-> >  IMAGE_TYPES_MASKED ?= ""
-> > -
-> > -# The WICVARS variable is used to define list of bitbake variables used
-> > in wic code
-> > -# variables from this list is written to <image>.env file
-> > -WICVARS ?= "BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE FAKEROOTCMD HDDDIR
-> > IMAGE_BASENAME IMAGE_BOOT_FILES IMAGE_LINK_NAME IMAGE_ROOTFS
-> > INITRAMFS_FSTYPES INITRD ISODIR MACHINE_ARCH RECIPE_SYSROOT_NATIVE
-> > ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR TARGET_SYS"
-> > --
-> > 2.1.4
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
+Also, this  should be backported to morty as well.
 
 -- 
---
-Regards,
-Ed
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
