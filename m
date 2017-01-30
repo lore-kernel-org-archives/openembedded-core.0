@@ -1,46 +1,22 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 84E506025E
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DB7E6067C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2017 20:42:54 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id r18so8095090wmd.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2017 12:42:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=4pdsx9PU6VSAHe9QK3Vth8/XGTR0A5fAc7llFF2lgYo=;
-	b=ugVtGWoqXhmiQ4zHS66M2XwpJLUGRIm7XHNceSJbKEry+O1Rg8QDRnId0cYuecrS2r
-	zfMNtGPlonxChRygvxr1zZh2SWEuiOZJdd1gR/wk7OEo+bX3CJfNynJC7ZwPFZEVKIZM
-	ll15+ihFp0dTXJXGu2R+h0JN2MnDMpu4Hi3TpRae12Zo5Y5zTjqVA6yG+XQscQ/0jHKQ
-	bCOOQc/RDSL1rrM3TLn8lmqLr9sQ1nPdGpqSqQlS8gcqRHYgp/eZsBzLNWtR2aHKGN/K
-	Helxh9fTsR4tjA7qN8uKSILvzpEOmx+vgPom3DYU4FPGLMq76tr37o3Yi0CCWNdMqmkB
-	u4fA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=4pdsx9PU6VSAHe9QK3Vth8/XGTR0A5fAc7llFF2lgYo=;
-	b=HI+HLoj0EkM0K3F+JHbTqyigfpfYcE2RQH0dy9S64M9BTyc3tNgn8y6wzKGr8B63Sj
-	xTO1C9q1a+aAA+/FKYTjesc3jYxAtVa6IwkSu4Ve7WnDZSdtYVk86N5z16JbPZ+YwHEQ
-	BKvduai4XlxlK28U/G2yNFoaEnGWZLmxf6XKfo7ZFHwbktLcAT6ZcfZsVSmaF3AHaqJi
-	BZureHhWAT1nw5ciHF5GBFpqHStZmmM4NeIFcKzo2Udpud9d/WiaVeI2uZKAtYbIDneV
-	Ul9bCS13H8S9iqzH66y91EHxZioFJEpgVUWf6M2Fc9OLIgBscTLz1WKMRfKLsuj9KeyO
-	AanA==
-X-Gm-Message-State: AIkVDXIw8qe8YACLFrRedsREZ+qYEA7XPG7dsRYqhpA0SVWrYFRTtEuhQ+JScx16VwVJ0BpUhWIRKoTX4xmSFQ==
-X-Received: by 10.223.149.39 with SMTP id 36mr20029374wrs.125.1485808974203;
-	Mon, 30 Jan 2017 12:42:54 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.194.98.164 with HTTP; Mon, 30 Jan 2017 12:42:53 -0800 (PST)
-In-Reply-To: <CAMKF1spAAtA=vjmUYx-WrpTmZjXrh0bdEmmesO=NS8BYEfNY8w@mail.gmail.com>
-References: <1485489993-29677-1-git-send-email-armccurdy@gmail.com>
-	<CAMKF1spAAtA=vjmUYx-WrpTmZjXrh0bdEmmesO=NS8BYEfNY8w@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 30 Jan 2017 12:42:53 -0800
-Message-ID: <CAJ86T=X6SmEw9eJQAmmGUuq33e2vreHAuGZ77WDC1dHwwEsymg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: respect USE_LDCONFIG when setting default PACKAGECONFIG
+	Mon, 30 Jan 2017 21:16:34 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga104.fm.intel.com with ESMTP; 30 Jan 2017 13:16:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,312,1477983600"; d="scan'208";a="58971277"
+Received: from bitbang.jf.intel.com ([10.7.199.68])
+	by orsmga005.jf.intel.com with ESMTP; 30 Jan 2017 13:16:34 -0800
+From: Randy Witt <randy.e.witt@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 30 Jan 2017 13:16:28 -0800
+Message-Id: <20170130211628.33600-1-randy.e.witt@linux.intel.com>
+X-Mailer: git-send-email 2.9.3
+In-Reply-To: <20170120191710.17968-1-randy.e.witt@linux.intel.com>
+References: <20170120191710.17968-1-randy.e.witt@linux.intel.com>
+Subject: [PATCH v4 3/3] selftest/containerimage.py: Add container IMAGE_FSTYPES test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,48 +29,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2017 20:42:54 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 30 Jan 2017 21:16:42 -0000
 
-On Thu, Jan 26, 2017 at 10:18 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Thu, Jan 26, 2017 at 8:06 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->> Avoid trying to call ldconfig at run-time in distros which force
->> USE_LDCONFIG to 0 and therefore don't provide it.
->>
->> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->> ---
->>  meta/recipes-core/systemd/systemd_232.bb | 4 +++-
->>  1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-core/systemd/systemd_232.bb b/meta/recipes-core/systemd/systemd_232.bb
->> index cc8781e..cfe6958 100644
->> --- a/meta/recipes-core/systemd/systemd_232.bb
->> +++ b/meta/recipes-core/systemd/systemd_232.bb
->> @@ -39,8 +39,10 @@ SRC_URI_append_libc-uclibc = "\
->>  "
->>  SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
->>
->> +USE_LDCONFIG ?= "1"
->
-> now that we have more recipes using this variables. I think it should
-> to global config space. May be have it as a DISTRO_FEATURE is more
-> appropriate
+This test checks to make sure only the files expected exist in a
+container image. Currently only ROOTFS_BOOTSTRAP_INSTALL, gets added to
+all images without the user specifying it.
 
-Patches for both approaches have now been sent to the list.
+But this test should help if a developer in the future ever silently
+adds more than just ROOTFS_BOOTSTRAP_INSTALL, and that the developer can
+make sure it also gets removed from a container image.
 
->> +
->>  PACKAGECONFIG ??= "xz \
->> -                   ldconfig \
->> +                   ${@base_conditional('USE_LDCONFIG', '1', 'ldconfig', '', d)} \
->>                     ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
->>                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)} \
->>                     ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
->> --
->> 1.9.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+[YOCTO #9502]
+
+Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+---
+ .../container-image/container-image-testpkg.bb     |  8 +++
+ .../container-image/container-test-image.bb        |  8 +++
+ meta/lib/oeqa/selftest/containerimage.py           | 83 ++++++++++++++++++++++
+ 3 files changed, 99 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/container-image/container-image-testpkg.bb
+ create mode 100644 meta-selftest/recipes-test/container-image/container-test-image.bb
+ create mode 100644 meta/lib/oeqa/selftest/containerimage.py
+
+diff --git a/meta-selftest/recipes-test/container-image/container-image-testpkg.bb b/meta-selftest/recipes-test/container-image/container-image-testpkg.bb
+new file mode 100644
+index 0000000..f8dd229
+--- /dev/null
++++ b/meta-selftest/recipes-test/container-image/container-image-testpkg.bb
+@@ -0,0 +1,8 @@
++LICENSE = "MIT"
++
++INHIBIT_DEFAULT_DEPS = "1"
++
++do_install_append() {
++    install -d ${D}${bindir}
++    touch ${D}${bindir}/theapp
++}
+diff --git a/meta-selftest/recipes-test/container-image/container-test-image.bb b/meta-selftest/recipes-test/container-image/container-test-image.bb
+new file mode 100644
+index 0000000..d5f939c
+--- /dev/null
++++ b/meta-selftest/recipes-test/container-image/container-test-image.bb
+@@ -0,0 +1,8 @@
++IMAGE_INSTALL += "container-image-testpkg"
++
++LICENSE = "MIT"
++
++IMAGE_FSTYPES = "container"
++IMAGE_LINGUAS = ""
++
++inherit core-image
+diff --git a/meta/lib/oeqa/selftest/containerimage.py b/meta/lib/oeqa/selftest/containerimage.py
+new file mode 100644
+index 0000000..def481f
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/containerimage.py
+@@ -0,0 +1,83 @@
++import os
++
++from oeqa.selftest.base import oeSelfTest
++from oeqa.utils.commands import bitbake, get_bb_vars, runCmd
++
++# This test builds an image with using the "container" IMAGE_FSTYPE, and
++# ensures that then files in the image are only the ones expected.
++#
++# The only package added to the image is container_image_testpkg, which
++# contains one file. However, due to some other things not cleaning up during
++# rootfs creation, there is some cruft. Ideally bugs will be filed and the
++# cruft removed, but for now we whitelist some known set.
++#
++# Also for performance reasons we're only checking the cruft when using ipk.
++# When using deb, and rpm it is a bit different and we could test all
++# of them, but this test is more to catch if other packages get added by
++# default other than what is in ROOTFS_BOOTSTRAP_INSTALL.
++#
++class ContainerImageTests(oeSelfTest):
++
++    # Verify that when specifying a IMAGE_TYPEDEP_ of the form "foo.bar" that
++    # the conversion type bar gets added as a dep as well
++    def test_expected_files(self):
++
++        def get_each_path_part(path):
++            if path:
++                part = [ '.' + path + '/' ]
++                result = get_each_path_part(path.rsplit('/', 1)[0])
++                if result:
++                    return part + result
++                else:
++                    return part
++            else:
++                return None
++
++        self.write_config("""PREFERRED_PROVIDER_virtual/kernel = "linux-dummy"
++IMAGE_FSTYPES = "container"
++PACKAGE_CLASSES = "package_ipk"
++IMAGE_FEATURES = ""
++""")
++
++        bbvars = get_bb_vars(['bindir', 'sysconfdir', 'localstatedir',
++                              'DEPLOY_DIR_IMAGE', 'IMAGE_LINK_NAME'],
++                              target='container-test-image')
++        expected_files = [
++                    './',
++                    '.{bindir}/theapp',
++                    '.{sysconfdir}/default/',
++                    '.{sysconfdir}/default/postinst',
++                    '.{sysconfdir}/ld.so.cache',
++                    '.{sysconfdir}/timestamp',
++                    '.{sysconfdir}/version',
++                    './run/',
++                    '.{localstatedir}/cache/',
++                    '.{localstatedir}/cache/ldconfig/',
++                    '.{localstatedir}/cache/ldconfig/aux-cache',
++                    '.{localstatedir}/cache/opkg/',
++                    '.{localstatedir}/lib/',
++                    '.{localstatedir}/lib/opkg/'
++                ]
++
++        expected_files = [ x.format(bindir=bbvars['bindir'],
++                                    sysconfdir=bbvars['sysconfdir'],
++                                    localstatedir=bbvars['localstatedir'])
++                                    for x in expected_files ]
++
++        # Since tar lists all directories individually, make sure each element
++        # from bindir, sysconfdir, etc is added
++        expected_files += get_each_path_part(bbvars['bindir'])
++        expected_files += get_each_path_part(bbvars['sysconfdir'])
++        expected_files += get_each_path_part(bbvars['localstatedir'])
++
++        expected_files = sorted(expected_files)
++
++        # Build the image of course
++        bitbake('container-test-image')
++
++        image = os.path.join(bbvars['DEPLOY_DIR_IMAGE'],
++                             bbvars['IMAGE_LINK_NAME'] + '.tar.bz2')
++
++        # Ensure the files in the image are what we expect
++        result = runCmd("tar tf {} | sort".format(image), shell=True)
++        self.assertEqual(result.output.split('\n'), expected_files)
+-- 
+2.9.3
+
 
