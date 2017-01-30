@@ -1,59 +1,51 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
-	[209.85.214.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 14F7A77440
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id E9F4A7744D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2017 19:10:03 +0000 (UTC)
-Received: by mail-it0-f45.google.com with SMTP id 203so200964985ith.0
+	Mon, 30 Jan 2017 19:23:44 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id 194so32253524pgd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2017 11:10:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=Pa4VY80RJcBbTxt08U7VlIO1aMzKsf/Gir6SLc0k71g=;
-	b=iST+fcg6NkkIjMjWaXQjAHn2I5BuiTwo6n10FHM/UwiKuyN+bZmY2w51Vgb1ERcoe/
-	b03a6tuq9RMZ9OIxZgnFiZUbdg2kkzbK02OcI0WWDRlEHcTcdJYLlZTSUIe4Fu4hIamD
-	ED2GMYlz4mt7TzRzpQ5WdNlD2KbIL7TRHlbnmpj6AlXHqDcQrQZUTLHQchNmQXuNFgev
-	fVgHpS3ZOFBqQ2YbSVuhWYaCLp73URWvyAijFUcd+sT4C5tB3aWFxzaUhKR8jbNLiI5t
-	gCK8VJP7lar2dgXNYO40mCK2FOJLPMo7e8bPaH33SBwPILgGUFTwzL+Qeta61ekIfHy9
-	R8dQ==
+	Mon, 30 Jan 2017 11:23:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding;
+	bh=5hnP4H1Sg+8wJfygiF/RwZcyI0jzH/bEmZ6hve8R64I=;
+	b=iK1cpH3f+rQ2yvYqNk36v77VmfYwu++DzazlesyzkQKO65DJrPP4wYZcnVoSeaCbJ6
+	DUfm5QV40wFc789sl6ZRVyemb1pp+RG+z1bj6/tO6mIJ9IqfVJ7rcWkH8zeoi9W4U3u9
+	N2SdNjHSrw/VSPCvvpKQdJ4bK4/PROeGU3n/qUpwjfi8trEfLkxpnWfdgNkKYwk3tKhl
+	ulxd64MuXiRWjUE+u5VNM6u7aYWzxa0peRkkXeH8TVFb5y56p89JV4fYBR6FqImnEEfP
+	EsUtkoxuGlcgudYKqEZyMCjVTzz1QrCDYyqhSbagFjChlXBsQP6ebhpqrlJCKbJaeS9T
+	sIXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=Pa4VY80RJcBbTxt08U7VlIO1aMzKsf/Gir6SLc0k71g=;
-	b=UU56HqeEBtPAFaGxWZ5j7Rz7pEkD9t1ygjbK/DSp/Hszh2FCaUPrtbsk2TRmcb3uAn
-	704RxKx769sJSdWGyNUJL1oKnAwk1+BZY4n83trkyk3PTbZWYOQRsqZs5Ba3UmzwgcrA
-	mxFPc3eMskgmPF3tU7zIvhjc8O8TpEfOUJ5qk/2i7gq9GgbfTyVoq1QR02bcXjNM3yxt
-	1sIYqVQZSjxidEm0iPqfzsZMcHHJSqF2kNE6/7Bg8QnmOknoczPx0WQVcC8PVzf04HJj
-	OVKNiO0MIhzEMMOSc4zAZBvHeEzgRx13YROjhaRCMSLKJ9hRuEAFvh6LHe9RpOvNSJYQ
-	oy+A==
-X-Gm-Message-State: AIkVDXIYiWfwjTGN8Ni5YXdZSkwUS0m9tv4qU5LMcs+50QfD4R6HWjyOGRLHtc6bWW32i63X
-X-Received: by 10.36.217.144 with SMTP id p138mr16415586itg.96.1485803404092; 
-	Mon, 30 Jan 2017 11:10:04 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8CDEB.dip0.t-ipconnect.de. [93.232.205.235])
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=5hnP4H1Sg+8wJfygiF/RwZcyI0jzH/bEmZ6hve8R64I=;
+	b=JSDs8Dnbh3SQnryy25mu9c3tf2tZKtZu5ianVsGILd0Bd6iscwWBP5a6ezQ7p0OjY4
+	UM1LzzvQDFDVfrBoJA6JQUhPckt7n3wq6Bo0jCvQXHQ2zqY9LjZFM0755lpnUjT11ek7
+	1A2CifhpbDZPfCrhTpfPM7F2ze/jdb8JqpxCbFBgKesiltN5vsTpdR9klXbFB1f9AVRc
+	hkzLLJjxA8P3uqxAPzVhx649JPnEiHNluTp4TDv+fDsS3/08jgHqqO4NqlkrF9JXQ327
+	FkBXH9aTTXqge+UuApcphEeFYqfM9aCnP9mEKnzdA6rhdiI8uVMVrKPzFi4kvuvcAoj/
+	ebWQ==
+X-Gm-Message-State: AIkVDXJRWY1wjwFpu27k4G0UOnmPiga8xo8/Tviv+GwkCNHWRrQntbBDMp3RKhnA9rf0mw==
+X-Received: by 10.98.16.14 with SMTP id y14mr24771838pfi.63.1485804224882;
+	Mon, 30 Jan 2017 11:23:44 -0800 (PST)
+Received: from CACSVMO-14452.local ([2601:646:8882:b8c:d1f3:7a2b:76e1:e7af])
 	by smtp.gmail.com with ESMTPSA id
-	x197sm6838547ite.17.2017.01.30.11.10.02
+	n73sm34576393pfa.9.2017.01.30.11.23.43
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 30 Jan 2017 11:10:02 -0800 (PST)
-Message-ID: <1485803400.20333.153.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: "Bystricky, Juro" <juro.bystricky@intel.com>
-Date: Mon, 30 Jan 2017 20:10:00 +0100
-In-Reply-To: <6E51916E4A1F32428260031F4C7CD2B6118F884B@ORSMSX112.amr.corp.intel.com>
-References: <cover.51e0eb88ea69468cf5a410aa7194c25cf61d57b7.1485530988.git-series.patrick.ohly@intel.com>
-	,
-	<707323fc8105d9a1cf77fe340ebff387862c8e8e.1485530988.git-series.patrick.ohly@intel.com>
-	<6E51916E4A1F32428260031F4C7CD2B6118F7EEC@ORSMSX112.amr.corp.intel.com>
-	<1485544947.20333.119.camel@intel.com>
-	<6E51916E4A1F32428260031F4C7CD2B6118F884B@ORSMSX112.amr.corp.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v5 09/12] runqemu: also accept -image suffix for	rootfs parameter
+	Mon, 30 Jan 2017 11:23:43 -0800 (PST)
+To: openembedded-core@lists.openembedded.org
+References: <1485777358-32699-1-git-send-email-maxin.john@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Message-ID: <b054aebd-10df-6cb5-841d-b06df81e9fb6@gmail.com>
+Date: Mon, 30 Jan 2017 11:23:42 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.7.0
+MIME-Version: 1.0
+In-Reply-To: <1485777358-32699-1-git-send-email-maxin.john@intel.com>
+Subject: Re: [PATCH v2] libtasn1: Upgrade 4.9 -> 4.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,82 +58,347 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2017 19:10:04 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 30 Jan 2017 19:23:45 -0000
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2017-01-30 at 17:12 +0000, Bystricky, Juro wrote:
+
+
+On 1/30/17 3:55 AM, Maxin B. John wrote:
+> Removed the following Backported patches:
+>  1. 0001-configure-don-t-add-Werror-to-build-flags.patch
+>  2. 0002-ASN.y-corrected-compiler-warning.patch
+>  3. 0003-parser_aux-corrected-potential-null-pointer-derefere.patch
+>  4. 0004-tools-eliminated-compiler-warnings.patch
 > 
-> > -----Original Message-----
-> > From: Patrick Ohly [mailto:patrick.ohly@intel.com]
-> > Sent: Friday, January 27, 2017 11:22 AM
-> > To: Bystricky, Juro <juro.bystricky@intel.com>
-> > Cc: openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH v5 09/12] runqemu: also accept -image suffix
-> > for rootfs parameter
-> > 
-> > On Fri, 2017-01-27 at 16:54 +0000, Bystricky, Juro wrote:
-> > > Just curious: is this test for "image" in file name really necessary?
-> > > With qemuboot.conf the relevant files are already spelled out.
-> > > I don't see a need to force "compulsory" names for images.
-> > > If I comment out this test, everything works just fine. Am I missing
-> > something?
-> > 
-> > Some of the usages when checking for paths might have become obsolete,
-> > but at least for distinguishing between machine and image base name
-> > parameters it is still relevant:
-> > 
-> >     def check_args(self):
-> > ...
-> >             elif re.search(r'-image-|-image$', arg):
-> >                 # Lazy rootfs
-> >                 self.rootfs = arg
-> >             elif arg.startswith('ovmf'):
-> >                 self.ovmf_bios.append(arg)
-> >             else:
-> >                 # At last, assume is it the MACHINE
-> >                 if (not unknown_arg) or unknown_arg == arg:
-> >                     unknown_arg = arg
-> >                 else:
-> >                     raise Exception("Can't handle two unknown args: %s %
-> > s" % (unknown_arg, arg))
-> > 
-> > When removing the "if re.search(r'-image-|-image$', arg)" clause one
-> > gets an error for:
-> > 
-> > $ runqemu core-image-minimal ext4 qemux86
-> > runqemu - ERROR - Can't handle two unknown args: core-image-minimal qemux86
-> > runqemu - ERROR - Try 'runqemu help' on how to use it
-> > 
+> fixed the following build error with musl
+> ...
+> |                  from ../../libtasn1-4.10/gl/getopt.c:28:
+> | ./stdint.h:89:5: error: #if with no expression
+> |  #if
+> |      ^
 > 
-> I see, the purpose of this test is determine which argument is which,
-> as they can be in any order. IMHO to differentiate between MACHINE and image it would 
-> make more sense to search for "qemu" instead of "-image-" or "-image" .
 
-The machine is not guaranteed to contain "qemu". I sent a patch to
-meta-intel which enables "runqemu core-image-minimal ext4
-intel-corei7-64", and other BSPs might want to do the same.
+are we missing including wint_t.m4
 
-> (BTW do we need both -image- and -image$?)
-
-Yes, for "core-image-minimal" and "foobar-installer-image" (something
-that I am currently working on).
-
-> There is also ANOTHER test for '-image-', in "is_deploy_dir_image". 
-> This is the one I considered redundant (or not needed in case we have qemuboot.conf).
-
-That might be true. I was trying to be conservative with this patch and
-thus extended all existing checks instead of trying to to figure out
-which one had become redundant.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+> Signed-off-by: Maxin B. John <maxin.john@intel.com>
+> ---
+>  ...configure-don-t-add-Werror-to-build-flags.patch | 28 ---------
+>  ...reintroduce-GNULIB_OVERRIDES_WINT_T-check.patch | 63 +++++++++++++++++++
+>  .../0002-ASN.y-corrected-compiler-warning.patch    | 28 ---------
+>  ...corrected-potential-null-pointer-derefere.patch | 73 ----------------------
+>  .../0004-tools-eliminated-compiler-warnings.patch  | 56 -----------------
+>  .../gnutls/{libtasn1_4.9.bb => libtasn1_4.10.bb}   |  9 +--
+>  6 files changed, 66 insertions(+), 191 deletions(-)
+>  delete mode 100644 meta/recipes-support/gnutls/libtasn1/0001-configure-don-t-add-Werror-to-build-flags.patch
+>  create mode 100644 meta/recipes-support/gnutls/libtasn1/0001-stdint.m4-reintroduce-GNULIB_OVERRIDES_WINT_T-check.patch
+>  delete mode 100644 meta/recipes-support/gnutls/libtasn1/0002-ASN.y-corrected-compiler-warning.patch
+>  delete mode 100644 meta/recipes-support/gnutls/libtasn1/0003-parser_aux-corrected-potential-null-pointer-derefere.patch
+>  delete mode 100644 meta/recipes-support/gnutls/libtasn1/0004-tools-eliminated-compiler-warnings.patch
+>  rename meta/recipes-support/gnutls/{libtasn1_4.9.bb => libtasn1_4.10.bb} (59%)
+> 
+> diff --git a/meta/recipes-support/gnutls/libtasn1/0001-configure-don-t-add-Werror-to-build-flags.patch b/meta/recipes-support/gnutls/libtasn1/0001-configure-don-t-add-Werror-to-build-flags.patch
+> deleted file mode 100644
+> index ae64394..0000000
+> --- a/meta/recipes-support/gnutls/libtasn1/0001-configure-don-t-add-Werror-to-build-flags.patch
+> +++ /dev/null
+> @@ -1,28 +0,0 @@
+> -From 908e9fa4c1172f09e0e45420a403dc25ed0a466c Mon Sep 17 00:00:00 2001
+> -From: Nikos Mavrogiannopoulos <nmav@redhat.com>
+> -Date: Tue, 26 Jul 2016 08:45:33 +0200
+> -Subject: [PATCH 1/4] configure: don't add -Werror to build flags
+> -
+> ----
+> -Upstream-Status: Backport
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -
+> - configure.ac | 2 --
+> - 1 file changed, 2 deletions(-)
+> -
+> -diff --git a/configure.ac b/configure.ac
+> -index 7a14e04..066f5fe 100644
+> ---- a/configure.ac
+> -+++ b/configure.ac
+> -@@ -70,8 +70,6 @@ AC_ARG_ENABLE([gcc-warnings],
+> - )
+> - 
+> - if test "$gl_gcc_warnings" = yes; then
+> --  gl_WARN_ADD([-Werror], [WERROR_CFLAGS])
+> --
+> -   nw="$nw -Wsystem-headers"         # Don't let system headers trigger warnings
+> -   nw="$nw -Wc++-compat"             # We don't care strongly about C++ compilers
+> -   nw="$nw -Wtraditional"            # Warns on #elif which we use often
+> --- 
+> -1.9.1
+> -
+> diff --git a/meta/recipes-support/gnutls/libtasn1/0001-stdint.m4-reintroduce-GNULIB_OVERRIDES_WINT_T-check.patch b/meta/recipes-support/gnutls/libtasn1/0001-stdint.m4-reintroduce-GNULIB_OVERRIDES_WINT_T-check.patch
+> new file mode 100644
+> index 0000000..1e52d6a
+> --- /dev/null
+> +++ b/meta/recipes-support/gnutls/libtasn1/0001-stdint.m4-reintroduce-GNULIB_OVERRIDES_WINT_T-check.patch
+> @@ -0,0 +1,63 @@
+> +From b17dbb8d3c5605db3a1d82861fcaeef4636d1117 Mon Sep 17 00:00:00 2001
+> +From: "Maxin B. John" <maxin.john@intel.com>
+> +Date: Thu, 26 Jan 2017 18:54:48 +0200
+> +Subject: [PATCH] stdint.m4: reintroduce GNULIB_OVERRIDES_WINT_T check
+> +
+> +Partially revert the gnulib commit: 5a400b3f5a1f5483dbfd75d38bdb7080218a063b
+> +to fix the build error with musl library.
+> +
+> +Upstream-Status: Inappropriate
+> +
+> +Signed-off-by: Maxin B. John <maxin.john@intel.com>
+> +---
+> + gl/m4/stdint.m4 | 27 +++++++++++++++++++++++++++
+> + 1 file changed, 27 insertions(+)
+> +
+> +diff --git a/gl/m4/stdint.m4 b/gl/m4/stdint.m4
+> +index 4ac854d..3dc3da1 100644
+> +--- a/gl/m4/stdint.m4
+> ++++ b/gl/m4/stdint.m4
+> +@@ -355,6 +355,32 @@ int32_t i32 = INT32_C (0x7fffffff);
+> +     gl_STDINT_TYPE_PROPERTIES
+> +   fi
+> + 
+> ++  dnl Determine whether gnulib's <wchar.h> or <wctype.h> would, if present,
+> ++  dnl override 'wint_t'.
+> ++    AC_CACHE_CHECK([whether wint_t is too small],
+> ++      [gl_cv_type_wint_t_too_small],
+> ++      [AC_COMPILE_IFELSE(
+> ++           [AC_LANG_PROGRAM([[
+> ++  /* Tru64 with Desktop Toolkit C has a bug: <stdio.h> must be included before
+> ++     <wchar.h>.
+> ++     BSD/OS 4.0.1 has a bug: <stddef.h>, <stdio.h> and <time.h> must be
+> ++     included before <wchar.h>.  */
+> ++  #if !(defined __GLIBC__ && !defined __UCLIBC__)
+> ++  # include <stddef.h>
+> ++  # include <stdio.h>
+> ++  # include <time.h>
+> ++  #endif
+> ++  #include <wchar.h>
+> ++              int verify[sizeof (wint_t) < sizeof (int) ? -1 : 1];
+> ++              ]])],
+> ++           [gl_cv_type_wint_t_too_small=no],
+> ++           [gl_cv_type_wint_t_too_small=yes])])
+> ++    if test $gl_cv_type_wint_t_too_small = yes; then
+> ++      GNULIB_OVERRIDES_WINT_T=1
+> ++    else
+> ++      GNULIB_OVERRIDES_WINT_T=0
+> ++    fi
+> ++
+> +   dnl The substitute stdint.h needs the substitute limit.h's _GL_INTEGER_WIDTH.
+> +   LIMITS_H=limits.h
+> +   AM_CONDITIONAL([GL_GENERATE_LIMITS_H], [test -n "$LIMITS_H"])
+> +@@ -363,6 +389,7 @@ int32_t i32 = INT32_C (0x7fffffff);
+> +   AC_SUBST([HAVE_SYS_BITYPES_H])
+> +   AC_SUBST([HAVE_SYS_INTTYPES_H])
+> +   AC_SUBST([STDINT_H])
+> ++  AC_SUBST([GNULIB_OVERRIDES_WINT_T])
+> +   AM_CONDITIONAL([GL_GENERATE_STDINT_H], [test -n "$STDINT_H"])
+> + ])
+> + 
+> +-- 
+> +2.4.0
+> +
+> diff --git a/meta/recipes-support/gnutls/libtasn1/0002-ASN.y-corrected-compiler-warning.patch b/meta/recipes-support/gnutls/libtasn1/0002-ASN.y-corrected-compiler-warning.patch
+> deleted file mode 100644
+> index dd36422..0000000
+> --- a/meta/recipes-support/gnutls/libtasn1/0002-ASN.y-corrected-compiler-warning.patch
+> +++ /dev/null
+> @@ -1,28 +0,0 @@
+> -From 3542c01618fcde83b29640ea2c60bfd2629ae0b7 Mon Sep 17 00:00:00 2001
+> -From: Nikos Mavrogiannopoulos <nmav@redhat.com>
+> -Date: Tue, 26 Jul 2016 08:47:49 +0200
+> -Subject: [PATCH 2/4] ASN.y: corrected compiler warning
+> -
+> ----
+> -Upstream-Status: Backport
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -
+> - lib/ASN1.y | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -diff --git a/lib/ASN1.y b/lib/ASN1.y
+> -index 731415d..6db638f 100644
+> ---- a/lib/ASN1.y
+> -+++ b/lib/ASN1.y
+> -@@ -621,7 +621,7 @@ _asn1_create_errorDescription (int error, char *error_desc)
+> -     case ASN1_NAME_TOO_LONG:
+> -       snprintf (error_desc, ASN1_MAX_ERROR_DESCRIPTION_SIZE,
+> -                 "%s:%u: name too long (more than %u characters)", file_name,
+> --                line_number, ASN1_MAX_NAME_SIZE);
+> -+                line_number, (unsigned)ASN1_MAX_NAME_SIZE);
+> -       break;
+> -     case ASN1_IDENTIFIER_NOT_FOUND:
+> -       snprintf (error_desc, ASN1_MAX_ERROR_DESCRIPTION_SIZE,
+> --- 
+> -1.9.1
+> -
+> diff --git a/meta/recipes-support/gnutls/libtasn1/0003-parser_aux-corrected-potential-null-pointer-derefere.patch b/meta/recipes-support/gnutls/libtasn1/0003-parser_aux-corrected-potential-null-pointer-derefere.patch
+> deleted file mode 100644
+> index 2420143..0000000
+> --- a/meta/recipes-support/gnutls/libtasn1/0003-parser_aux-corrected-potential-null-pointer-derefere.patch
+> +++ /dev/null
+> @@ -1,73 +0,0 @@
+> -From c8903aa27dc9de1d9efeed9d1f7894f1019548f7 Mon Sep 17 00:00:00 2001
+> -From: Nikos Mavrogiannopoulos <nmav@redhat.com>
+> -Date: Tue, 26 Jul 2016 08:49:15 +0200
+> -Subject: [PATCH 3/4] parser_aux: corrected potential null pointer dereferences
+> -
+> ----
+> -Upstream-Status: Backport
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -
+> - lib/parser_aux.c | 12 ++++++------
+> - 1 file changed, 6 insertions(+), 6 deletions(-)
+> -
+> -diff --git a/lib/parser_aux.c b/lib/parser_aux.c
+> -index 2285b20..12ee16f 100644
+> ---- a/lib/parser_aux.c
+> -+++ b/lib/parser_aux.c
+> -@@ -637,7 +637,7 @@ _asn1_change_integer_value (asn1_node node)
+> - 		      p = NULL;
+> - 		      break;
+> - 		    }
+> --		  if (p->right)
+> -+		  if (p && p->right)
+> - 		    {
+> - 		      p = p->right;
+> - 		      break;
+> -@@ -753,7 +753,7 @@ _asn1_expand_object_id (asn1_node node)
+> - 
+> -       if (move == RIGHT)
+> - 	{
+> --	  if (p->right)
+> -+	  if (p && p->right)
+> - 	    p = p->right;
+> - 	  else
+> - 	    move = UP;
+> -@@ -828,7 +828,7 @@ _asn1_expand_object_id (asn1_node node)
+> - 
+> -       if (move == RIGHT)
+> - 	{
+> --	  if (p->right)
+> -+	  if (p && p->right)
+> - 	    p = p->right;
+> - 	  else
+> - 	    move = UP;
+> -@@ -898,7 +898,7 @@ _asn1_type_set_config (asn1_node node)
+> - 
+> -       if (move == RIGHT)
+> - 	{
+> --	  if (p->right)
+> -+	  if (p && p->right)
+> - 	    p = p->right;
+> - 	  else
+> - 	    move = UP;
+> -@@ -1007,7 +1007,7 @@ _asn1_check_identifier (asn1_node node)
+> - 		  p = NULL;
+> - 		  break;
+> - 		}
+> --	      if (p->right)
+> -+	      if (p && p->right)
+> - 		{
+> - 		  p = p->right;
+> - 		  break;
+> -@@ -1067,7 +1067,7 @@ _asn1_set_default_tag (asn1_node node)
+> - 		  p = NULL;
+> - 		  break;
+> - 		}
+> --	      if (p->right)
+> -+	      if (p && p->right)
+> - 		{
+> - 		  p = p->right;
+> - 		  break;
+> --- 
+> -1.9.1
+> -
+> diff --git a/meta/recipes-support/gnutls/libtasn1/0004-tools-eliminated-compiler-warnings.patch b/meta/recipes-support/gnutls/libtasn1/0004-tools-eliminated-compiler-warnings.patch
+> deleted file mode 100644
+> index 7bda0e6..0000000
+> --- a/meta/recipes-support/gnutls/libtasn1/0004-tools-eliminated-compiler-warnings.patch
+> +++ /dev/null
+> @@ -1,56 +0,0 @@
+> -From d647bb2fa1bd288a6ac02c18318f3cba2a34c3a0 Mon Sep 17 00:00:00 2001
+> -From: Nikos Mavrogiannopoulos <nmav@redhat.com>
+> -Date: Tue, 26 Jul 2016 08:50:24 +0200
+> -Subject: [PATCH 4/4] tools: eliminated compiler warnings
+> -
+> ----
+> -Upstream-Status: Backport
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -
+> - src/asn1Coding.c   | 2 +-
+> - src/asn1Decoding.c | 2 +-
+> - src/asn1Parser.c   | 2 +-
+> - 3 files changed, 3 insertions(+), 3 deletions(-)
+> -
+> -diff --git a/src/asn1Coding.c b/src/asn1Coding.c
+> -index d4df593..b516bfe 100644
+> ---- a/src/asn1Coding.c
+> -+++ b/src/asn1Coding.c
+> -@@ -188,7 +188,7 @@ main (int argc, char *argv[])
+> - 	default:
+> - 	  fprintf (stderr,
+> - 		   "asn1Coding: ?? getopt returned character code Ox%x ??\n",
+> --		   option_result);
+> -+		   (unsigned)option_result);
+> - 	}
+> -     }
+> - 
+> -diff --git a/src/asn1Decoding.c b/src/asn1Decoding.c
+> -index 078963e..20f91ac 100644
+> ---- a/src/asn1Decoding.c
+> -+++ b/src/asn1Decoding.c
+> -@@ -131,7 +131,7 @@ main (int argc, char *argv[])
+> - 	default:
+> - 	  fprintf (stderr,
+> - 		   "asn1Decoding: ?? getopt returned character code Ox%x ??\n",
+> --		   option_result);
+> -+		   (unsigned)option_result);
+> - 	}
+> -     }
+> - 
+> -diff --git a/src/asn1Parser.c b/src/asn1Parser.c
+> -index 7a3ae67..475bfc9 100644
+> ---- a/src/asn1Parser.c
+> -+++ b/src/asn1Parser.c
+> -@@ -139,7 +139,7 @@ main (int argc, char *argv[])
+> - 	default:
+> - 	  fprintf (stderr,
+> - 		   "asn1Parser: ?? getopt returned character code Ox%x ??\n",
+> --		   option_result);
+> -+		   (unsigned)option_result);
+> - 	}
+> - 
+> -     }
+> --- 
+> -1.9.1
+> -
+> diff --git a/meta/recipes-support/gnutls/libtasn1_4.9.bb b/meta/recipes-support/gnutls/libtasn1_4.10.bb
+> similarity index 59%
+> rename from meta/recipes-support/gnutls/libtasn1_4.9.bb
+> rename to meta/recipes-support/gnutls/libtasn1_4.10.bb
+> index b8ff9ea..2d9c4f2 100644
+> --- a/meta/recipes-support/gnutls/libtasn1_4.9.bb
+> +++ b/meta/recipes-support/gnutls/libtasn1_4.10.bb
+> @@ -10,14 +10,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+>  
+>  SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
+>             file://dont-depend-on-help2man.patch \
+> -           file://0001-configure-don-t-add-Werror-to-build-flags.patch \
+> -           file://0002-ASN.y-corrected-compiler-warning.patch \
+> -           file://0003-parser_aux-corrected-potential-null-pointer-derefere.patch \
+> -           file://0004-tools-eliminated-compiler-warnings.patch \
+> +           file://0001-stdint.m4-reintroduce-GNULIB_OVERRIDES_WINT_T-check.patch \
+>             "
+>  
+> -SRC_URI[md5sum] = "3018d0f466a32b66dde41bb122e6cab6"
+> -SRC_URI[sha256sum] = "4f6f7a8fd691ac2b8307c8ca365bad711db607d4ad5966f6938a9d2ecd65c920"
+> +SRC_URI[md5sum] = "f4faffdf63969d0e4e6df43b9679e8e5"
+> +SRC_URI[sha256sum] = "681a4d9a0d259f2125713f2e5766c5809f151b3a1392fd91390f780b4b8f5a02"
+>  
+>  inherit autotools texinfo binconfig lib_package gtk-doc
+>  
+> 
 
