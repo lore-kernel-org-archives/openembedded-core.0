@@ -1,49 +1,50 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id A36B8760A6
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 6994B7391A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2017 07:50:35 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id 3so13144555pgj.1
+	Mon, 30 Jan 2017 07:50:40 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id y143so22802426pfb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Jan 2017 23:50:36 -0800 (PST)
+	Sun, 29 Jan 2017 23:50:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:in-reply-to:references:from:to:cc:subject
 	:mime-version:content-transfer-encoding;
-	bh=LKkX7aiMwCXcUV4RR3bMWk9KqrUbYG/qFxmI5pFi/Yg=;
-	b=R0NOyZfjTmX5mmQDm3C1S07EFgpaIERu582hcI9NzHG8nmqo0NuuPRfzPzA4hdCH1C
-	KKyA3Os18ie54vw7x+ZgX5PeX91z59zvvFRofz3rRsC4dp52mhk6iLdwYG9hdScwlE4b
-	MNAC1LUKg8pqtcmBLC4ED1qfyGHrh7uXx7gcsfagqIs7gy1Z9+lkDJ1Q8ExT+qmlzXQr
-	kRWbCtsNipi0tFdS9V0SJqXEU33BX/bwy6C7Tw8KjgDqTLwH3/t99HheQfq0P2qaq1Qv
-	zTid+oXs3CMh5EWXVtie5MGyekwii7LRJcoHPWG4Cr1iOWxYtPURcfccP7HO7gGyuok0
-	xaVQ==
+	bh=gOb2RxJTKCogXiJeycBfLLPetg9ZIkvu4nexjamH3HE=;
+	b=NmP9xamoxQnjZgXZadieEWi5ksDoxCmyYxUfpwYkBF5s18R+MPUTn5THBupXtfvsNe
+	D9caowYGVn8X2pfmn9uBbpKjmuFzfi0+0+xtD/FXz0u+5Avnfh8jekycGpC8dyU3o8eM
+	XuNQEYrF9g/xLfOxGrRyOJN5yTaGxozRZDXA/Kj0oUPTpDK7LVuR6wFb2o5mXe2gzdQW
+	vhlAddk7bkb64fBZtSFuV4mf7DLZOM+CZqOEfRT4cx79gjNwhNH/2AlWtJnAVKVG7Q0T
+	bxFRMIXuGIIRrUvFvBkQN/uJy1hKK/xs81rQff6qvzDXUoMCzp2DAXFDERtPSigZ+upy
+	HIaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
 	:cc:subject:mime-version:content-transfer-encoding;
-	bh=LKkX7aiMwCXcUV4RR3bMWk9KqrUbYG/qFxmI5pFi/Yg=;
-	b=JvLB2WCyPfKNRs3jc0U/NgdITumkFbLhS6yScLkyKl9gaXp76cbAjg/1vNkTUssXsR
-	GZAcbDIlfMm/Kz4KZvIYdJGNRHplssHO/P9Mwst3SoZ35k9WxIzbji8y/97H6VckPX8f
-	mo965Bo1uGAZiiNAt6Hv1ywF7fgZFTQCK4269mlA/7HbFfhRaNKYerxwr2QBGsmyMhFv
-	0Ef7WPv0Gy6+VqfT9mya398JJqNnlTyJQLhVU/zKndFF8uT8WHvFxCdHF9op99nViHwd
-	0RU1m+3bD+5zyJrwGEaNOP93hazWEAgVJfYLNeEFdKxiRY5ya+DGesxBiOicqZE7QoZM
-	ENyQ==
-X-Gm-Message-State: AIkVDXImB1WwdrmdxY5AE964MWpUHr5mlXg9jArQhixF8ZGGpazLf7Waet1krwt3CfTe/g==
-X-Received: by 10.98.19.145 with SMTP id 17mr21836921pft.26.1485762635784;
-	Sun, 29 Jan 2017 23:50:35 -0800 (PST)
+	bh=gOb2RxJTKCogXiJeycBfLLPetg9ZIkvu4nexjamH3HE=;
+	b=U+7nNwT+s2c0NXhPw6cNh7qIy2E8o/K9UaFxYqMsb4ACSsIU5D65RRqiVDrVTVEZsI
+	C2DpyxResgWXK1KogiHEWcRYjbc1jIws2BE9cXdkVAx1SqWV/Z59aDYwbC6GOp2VrXlP
+	KGYrqYOhtaxod7z2A294DVLRwUqKlWM342L+qQykbudt2iMH1SACGnRwwliF+IKAh/9f
+	w13nP0qGkwxFoR/bvC+icGZMCVQKRcT/O/64yr4MXHSiC1osKntei81GWt5G13Ll9GVI
+	o0E4dTUMbBYYvR1Q+HglHi14D2uhwEcqvzY/ixPRBPm4ICdnorv/UDcHFPAflI3ISOwD
+	cHTw==
+X-Gm-Message-State: AIkVDXJ3bxS3TKFVnegVOwfcEvwTxC8b4E6S2rp+DnDbbt8AiFU6gGf58Dghy1HCJS7wSg==
+X-Received: by 10.98.55.66 with SMTP id e63mr22086243pfa.156.1485762640526;
+	Sun, 29 Jan 2017 23:50:40 -0800 (PST)
 Received: from [127.0.1.1] ([58.165.136.65]) by smtp.gmail.com with ESMTPSA id
-	a2sm29654334pfc.72.2017.01.29.23.50.33
+	c11sm29683009pfe.68.2017.01.29.23.50.38
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 29 Jan 2017 23:50:35 -0800 (PST)
+	Sun, 29 Jan 2017 23:50:40 -0800 (PST)
 Date: Mon, 30 Jan 2017 17:50:21 +1000
-Message-Id: <20170130075021.1725-2-nathan@nathanrossi.com>
+Message-Id: <20170130075021.1725-3-nathan@nathanrossi.com>
 In-Reply-To: <20170130075021.1725-0-nathan@nathanrossi.com>
 References: <20170130075021.1725-0-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
 Cc: Alistair Francis <alistai@xilinx.com>
-Subject: [PATCH 2/4] qemu: Consolidate EXTRA_OECONF
+Subject: [PATCH 3/4] qemu: Convert KVMOPTS to PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,68 +57,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2017 07:50:35 -0000
+X-List-Received-Date: Mon, 30 Jan 2017 07:50:40 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-Consolidate the configure options into the EXTRA_OECONF variable,
-including merging any native(sdk) specific options.
+Move the KVMOPTS configuration checks and option setting to a
+PACKAGECONFIG option.
 
-This consolidation also makes the use of 'system' pixman in the
-nativesdk case, this is desirable as the QEMU internal pixman may not be
-available (using QEMU git as opposed to tarball) and pixman is already
-in DEPENDS. Additionally the QEMU configure recommends to use the system
-pixman if available.
-
-Additionally move the options specified in the do_configure into the
-EXTRA_OECONF variable. And flesh out all the target directories.
+This also changes the checking of KVM support on the host build machine
+so that it is processed as a PACKAGECONFIG _remove for class-native
+only. The darwin/mingw32 overrides are kept and applied as _remove
+overrides.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc | 23 +++++++++++++++++++----
- 1 file changed, 19 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc | 27 ++++++++++++---------------
+ 1 file changed, 12 insertions(+), 15 deletions(-)
 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index b9912de10b..522f452810 100644
+index 522f452810..0a6daf7bc8 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -27,9 +27,24 @@ SRC_URI_append_class-native = "\
-     file://cpus.c-qemu_cpu_kick_thread_debugging.patch \
-     "
+@@ -65,19 +65,8 @@ do_configure_prepend_class-native() {
+ 		"${S}"/Makefile "${S}"/Makefile.target
+ }
  
--EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror  --with-system-pixman --extra-cflags='${CFLAGS}'"
+-KVMENABLE = "--enable-kvm"
+-KVMENABLE_darwin = "--disable-kvm"
+-KVMENABLE_mingw32 = "--disable-kvm"
 -
--EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror"
-+EXTRA_OECONF = " \
-+    --prefix=${prefix} \
-+    --bindir=${bindir} \
-+    --includedir=${includedir} \
-+    --libdir=${libdir} \
-+    --mandir=${mandir} \
-+    --datadir=${datadir} \
-+    --docdir=${docdir}/${BPN} \
-+    --sysconfdir=${sysconfdir} \
-+    --libexecdir=${libexecdir} \
-+    --localstatedir=${localstatedir} \
-+    --with-confsuffix=/${BPN} \
-+    --disable-strip \
-+    --disable-werror \
-+    --target-list=${@get_qemu_target_list(d)} \
-+    --with-system-pixman \
-+    --extra-cflags='${CFLAGS}' \
-+    "
- 
- EXTRA_OEMAKE_append_class-native = " LD='${LD}' AR='${AR}' OBJCOPY='${OBJCOPY}' LDFLAGS='${LDFLAGS}'"
- 
-@@ -62,7 +77,7 @@ do_configure() {
-        KVMOPTS="${KVMENABLE}"
-     fi
- 
--    ${S}/configure --prefix=${prefix} --sysconfdir=${sysconfdir} --libexecdir=${libexecdir} --localstatedir=${localstatedir} --disable-strip ${EXTRA_OECONF} $KVMOPTS
-+    ${S}/configure ${EXTRA_OECONF} $KVMOPTS
+ do_configure() {
+-    # Handle distros such as CentOS 5 32-bit that do not have kvm support
+-    KVMOPTS="--disable-kvm"
+-    if [ "${PN}" != "qemu-native" -a "${PN}" != "nativesdk-qemu" ] \
+-       || [ -f /usr/include/linux/kvm.h ] ; then
+-       KVMOPTS="${KVMENABLE}"
+-    fi
+-
+-    ${S}/configure ${EXTRA_OECONF} $KVMOPTS
++    ${S}/configure ${EXTRA_OECONF}
      test ! -e ${S}/target-i386/beginend_funcs.sh || chmod a+x ${S}/target-i386/beginend_funcs.sh
  }
  
+@@ -114,12 +103,19 @@ do_install_append() {
+ # END of qemu-mips workaround
+ 
+ PACKAGECONFIG ??= " \
+-	fdt sdl \
++	fdt sdl kvm \
+ 	${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)} \
+ 	${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'xen', '', d)} \
+ 	"
+-PACKAGECONFIG_class-native ??= "fdt alsa uuid"
+-PACKAGECONFIG_class-nativesdk ??= "fdt sdl"
++PACKAGECONFIG_class-native ??= "fdt alsa uuid kvm"
++PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm"
++
++# Handle distros such as CentOS 5 32-bit that do not have kvm support
++PACKAGECONFIG_class-native_remove = "${@'kvm' if not os.path.exists('/usr/include/linux/kvm.h') else ''}"
++
++# Disable kvm on targets that do not support it
++PACKAGECONFIG_remove_darwin = "kvm"
++PACKAGECONFIG_remove_mingw32 = "kvm"
+ 
+ PACKAGECONFIG[sdl] = "--enable-sdl,--disable-sdl,libsdl"
+ PACKAGECONFIG[virtfs] = "--enable-virtfs --enable-attr,--disable-virtfs,libcap attr,"
+@@ -148,5 +144,6 @@ PACKAGECONFIG[gnutls] = "--enable-gnutls,--disable-gnutls,gnutls"
+ PACKAGECONFIG[bzip2] = "--enable-bzip2,--disable-bzip2,bzip2"
+ PACKAGECONFIG[bluez] = "--enable-bluez,--disable-bluez,${BLUEZ}"
+ PACKAGECONFIG[libiscsi] = "--enable-libiscsi,--disable-libiscsi"
++PACKAGECONFIG[kvm] = "--enable-kvm,--disable-kvm"
+ 
+ INSANE_SKIP_${PN} = "arch"
 -- 
 2.11.0
 
