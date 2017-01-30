@@ -1,25 +1,24 @@
 Return-Path: <mariano.lopez@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 1087577218
+	by mail.openembedded.org (Postfix) with ESMTP id 38CEE77225
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2017 16:12:32 +0000 (UTC)
+	Mon, 30 Jan 2017 16:12:31 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by fmsmga104.fm.intel.com with ESMTP; 30 Jan 2017 08:12:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,312,1477983600"; d="scan'208";a="815056930"
+X-IronPort-AV: E=Sophos;i="5.33,312,1477983600"; d="scan'208";a="815056926"
 Received: from yctb01.ostc.intel.com ([10.54.69.55])
 	by FMSMGA003.fm.intel.com with ESMTP; 30 Jan 2017 08:12:31 -0800
 From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Jan 2017 08:08:23 +0000
-Message-Id: <3d55f5bab9e227d819950a5a42bea4e50b595672.1485763510.git.mariano.lopez@linux.intel.com>
+Date: Mon, 30 Jan 2017 08:08:20 +0000
+Message-Id: <7043fa6be84bde26e6a5a94c93ee3d302fb4f2ca.1485763510.git.mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
 In-Reply-To: <cover.1485515180.git.mariano.lopez@linux.intel.com>
 References: <cover.1485515180.git.mariano.lopez@linux.intel.com>
 In-Reply-To: <cover.1485763510.git.mariano.lopez@linux.intel.com>
 References: <cover.1485763510.git.mariano.lopez@linux.intel.com>
-MIME-Version: 1.0
-Subject: [PATCHv3 5/5] oeqa/runtime/cases: Rename syslog module to oe_syslog
+Subject: [PATCHv3 2/5] runtime/cases/smart.py: Check for IMAGE_PKGTYPE instead of PACKAGE_CLASSES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,72 +32,34 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 30 Jan 2017 16:12:33 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-From: Aníbal Limón <anibal.limon@linux.intel.com>
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-Debian based distros has a builtin syslog module so when
-try to load tests using unittest it references the builtin
-module instead of runtime/cases.
+smart test requires to build the image using rpm packages, this check was
+included, but it checked for PACKAGE_CLASSES=='package_rpm', and this is
+not true when building packages for rpm and deb/ipk. So this would check
+IMAGE_PKGTYPE instead.
 
 [YOCTO #10964]
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/classes/testimage.bbclass                          | 2 +-
- meta/lib/oeqa/runtime/cases/{syslog.py => oe_syslog.py} | 6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/lib/oeqa/runtime/cases/{syslog.py => oe_syslog.py} (92%)
+ meta/lib/oeqa/runtime/cases/smart.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 7495fe1..c6e4cec 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -38,7 +38,7 @@ TEST_PACKAGED_DIR ?= "${TEST_NEEDED_PACKAGES_DIR}/packaged"
- RPMTESTSUITE = "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'smart rpm', '', d)}"
- SYSTEMDSUITE = "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
- MINTESTSUITE = "ping"
--NETTESTSUITE = "${MINTESTSUITE} ssh df date scp syslog ${SYSTEMDSUITE}"
-+NETTESTSUITE = "${MINTESTSUITE} ssh df date scp oe_syslog ${SYSTEMDSUITE}"
- DEVTESTSUITE = "gcc kernelmodule ldd"
+diff --git a/meta/lib/oeqa/runtime/cases/smart.py b/meta/lib/oeqa/runtime/cases/smart.py
+index 9b4d0d2..79bd9c8 100644
+--- a/meta/lib/oeqa/runtime/cases/smart.py
++++ b/meta/lib/oeqa/runtime/cases/smart.py
+@@ -23,7 +23,7 @@ class SmartBasicTest(SmartTest):
  
- DEFAULT_TEST_SUITES = "${MINTESTSUITE} auto"
-diff --git a/meta/lib/oeqa/runtime/cases/syslog.py b/meta/lib/oeqa/runtime/cases/oe_syslog.py
-similarity index 92%
-rename from meta/lib/oeqa/runtime/cases/syslog.py
-rename to meta/lib/oeqa/runtime/cases/oe_syslog.py
-index 537c519..005b697 100644
---- a/meta/lib/oeqa/runtime/cases/syslog.py
-+++ b/meta/lib/oeqa/runtime/cases/oe_syslog.py
-@@ -18,7 +18,7 @@ class SyslogTest(OERuntimeTestCase):
- class SyslogTestConfig(OERuntimeTestCase):
- 
-     @OETestID(1149)
--    @OETestDepends(['syslog.SyslogTest.test_syslog_running'])
-+    @OETestDepends(['oe_syslog.SyslogTest.test_syslog_running'])
-     def test_syslog_logger(self):
-         status, output = self.target.run('logger foobar')
-         msg = "Can't log into syslog. Output: %s " % output
-@@ -35,7 +35,7 @@ class SyslogTestConfig(OERuntimeTestCase):
-         self.assertEqual(status, 0, msg=msg)
- 
-     @OETestID(1150)
--    @OETestDepends(['syslog.SyslogTest.test_syslog_running'])
-+    @OETestDepends(['oe_syslog.SyslogTest.test_syslog_running'])
-     def test_syslog_restart(self):
-         if "systemd" != self.tc.td.get("VIRTUAL-RUNTIME_init_manager", ""):
-             (_, _) = self.target.run('/etc/init.d/syslog restart')
-@@ -44,7 +44,7 @@ class SyslogTestConfig(OERuntimeTestCase):
- 
- 
-     @OETestID(202)
--    @OETestDepends(['syslog.SyslogTestConfig.test_syslog_logger'])
-+    @OETestDepends(['oe_syslog.SyslogTestConfig.test_syslog_logger'])
-     @OEHasPackage(["!sysklogd", "busybox"])
-     @skipIfDataVar('VIRTUAL-RUNTIME_init_manager', 'systemd',
-                    'Not appropiate for systemd image')
+     @skipIfNotFeature('package-management',
+                       'Test requires package-management to be in IMAGE_FEATURES')
+-    @skipIfNotDataVar('PACKAGE_CLASSES', 'package_rpm',
++    @skipIfNotDataVar('IMAGE_PKGTYPE', 'rpm',
+                       'RPM is not the primary package manager')
+     @OEHasPackage(['smartpm'])
+     @OETestID(716)
 -- 
 2.6.6
 
