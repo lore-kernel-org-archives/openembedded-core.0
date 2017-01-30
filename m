@@ -1,44 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
-	[209.85.216.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 0933560069
+Return-Path: <maxin.john@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 149C773204
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2017 11:59:41 +0000 (UTC)
-Received: by mail-qt0-f180.google.com with SMTP id v23so200823177qtb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2017 03:59:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=oDQrOET7Su3GU5wiICY3Ivymt2xJAzCroQEMpjPGaN0=;
-	b=qLEcQMBlL25r5sPS0DAou6t7eI0ItQrLbh7es68chqIMt9rFzGROtUcOdn/OXGhwfC
-	pBbdXMoZ166wWuiG8v7etMr5Kprpr8MbKa1Jtw4FraJC9+5z0yKeYKsCgMArhJiJBQGz
-	zsPzQ0xIcW4qHGomWoWnQAMJOiVMftf+iRQvhd9wrECsWRMerlpSeSNmc8IXfIUBG/HO
-	HttwS9UYezilC0/QuG/nIs55TXBhkAj98YPS/AlC8Pz6M9hb4ah/yHLC3tFs5xBbnU4I
-	o1Oalj1x+X7aVRQ6BbcWQCklFlcb/HWhCqGZpUfRsrDCTVnr9RjWUZUy7h13jg2UGRLR
-	aBgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=oDQrOET7Su3GU5wiICY3Ivymt2xJAzCroQEMpjPGaN0=;
-	b=i/j2/8BOngG9VuY18PHcU/c2cEGAR8Nw2TG+UZJo69esAvhd+n5bwRRp6VmO8LXa5k
-	YHG0j4diMjxDYkGh/fk3zC1A4R2oP+UTidM41kT3/YjZMfmbC5QrapNHPnGnUFPlFXMT
-	UwX+ctrzAsBYYvkwsPMlOFsv2B5n40zXfhpXO8lyYBNokR21vp8Q0VAvu0vvdfzBRCRo
-	nSrPZccKqvP4BAcpvn/bwz9KPCkEjLbKk7ywdwXumZGNVYBxHSKmqpuDSAssPwUtm33U
-	sGGjytk5fhcBhWQZvgmwLw5hpAKLfPW6N0fnYzhgxX0zCCbtVtp0/uxhhOrCZ+aRitCs
-	BLhA==
-X-Gm-Message-State: AIkVDXL+m/Ip7n2bg/XR5AxapS1/YfOqVsHfvA3t116bWi/tSgS6vDIUbbEjBuhR+IUQuKsF+ewGj0q1oK7OruE9
-X-Received: by 10.200.45.247 with SMTP id q52mr21180847qta.197.1485777582148; 
-	Mon, 30 Jan 2017 03:59:42 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Mon, 30 Jan 2017 03:59:21 -0800 (PST)
-In-Reply-To: <1485777358-32699-1-git-send-email-maxin.john@intel.com>
+	Mon, 30 Jan 2017 12:52:01 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 30 Jan 2017 04:52:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,311,1477983600"; d="scan'208";a="37286146"
+Received: from mbabyjoh-desk.fi.intel.com (HELO
+	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
+	by orsmga002.jf.intel.com with ESMTP; 30 Jan 2017 04:52:00 -0800
+Date: Mon, 30 Jan 2017 14:52:58 +0200
+From: "Maxin B. John" <maxin.john@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20170130125258.GA2133@mbabyjoh-desk.ger.corp.intel.com>
 References: <1485777358-32699-1-git-send-email-maxin.john@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 30 Jan 2017 11:59:21 +0000
-Message-ID: <CAJTo0LYc-pMThs+DwPqGFnLZdJcdTzj_do=+gBav+x_aOsrHEw@mail.gmail.com>
-To: "Maxin B. John" <maxin.john@intel.com>
+	<CAJTo0LYc-pMThs+DwPqGFnLZdJcdTzj_do=+gBav+x_aOsrHEw@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LYc-pMThs+DwPqGFnLZdJcdTzj_do=+gBav+x_aOsrHEw@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2] libtasn1: Upgrade 4.9 -> 4.10
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -53,54 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2017 11:59:43 -0000
-Content-Type: multipart/alternative; boundary=001a1139cdf0ffeb8505474e8cae
+X-List-Received-Date: Mon, 30 Jan 2017 12:52:02 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---001a1139cdf0ffeb8505474e8cae
-Content-Type: text/plain; charset=UTF-8
+Hi Ross,
 
-On 30 January 2017 at 11:55, Maxin B. John <maxin.john@intel.com> wrote:
-
-> +From b17dbb8d3c5605db3a1d82861fcaeef4636d1117 Mon Sep 17 00:00:00 2001
-> +From: "Maxin B. John" <maxin.john@intel.com>
-> +Date: Thu, 26 Jan 2017 18:54:48 +0200
-> +Subject: [PATCH] stdint.m4: reintroduce GNULIB_OVERRIDES_WINT_T check
-> +
-> +Partially revert the gnulib commit: 5a400b3f5a1f5483dbfd75d38bdb70
-> 80218a063b
-> +to fix the build error with musl library.
-> +
-> +Upstream-Status: Inappropriate
+>On Mon, Jan 30, 2017 at 11:59:21AM +0000, Burton, Ross wrote:
+>>On 30 January 2017 at 11:55, Maxin B. John <maxin.john@intel.com> wrote:
+>>
+>>+From b17dbb8d3c5605db3a1d82861fcaeef4636d1117 Mon Sep 17 00:00:00 2001
+>>+From: "Maxin B. John" <maxin.john@intel.com>
+>>+Date: Thu, 26 Jan 2017 18:54:48 +0200
+>>+Subject: [PATCH] stdint.m4: reintroduce GNULIB_OVERRIDES_WINT_T check
+>>+
+>>+Partially revert the gnulib commit: 5a400b3f5a1f5483dbfd75d38bdb7080218a063b
+>>+to fix the build error with musl library.
+>>+
+>>+Upstream-Status: Inappropriate
 >
+>This appears to be a genuine problem with gnulib and musl, have you spoken to upstream about this?
 
-This appears to be a genuine problem with gnulib and musl, have you spoken
-to upstream about this?
+Yes, contacted the libtasn1 developers about this error last week and they have
+asked me to report this to the gnulib developers. Based on that, I have sent a mail
+to the gnulib mailing list.
 
-Ross
+>Ross
 
---001a1139cdf0ffeb8505474e8cae
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Best Regards,
+Maxin
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 30 January 2017 at 11:55, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1dn" class=3D=
-"a3s aXjCH m159ef3b34e9aacfb">+From b17dbb8d3c5605db3a1d82861fcaee<wbr>f463=
-6d1117 Mon Sep 17 00:00:00 2001<br>
-+From: &quot;Maxin B. John&quot; &lt;<a href=3D"mailto:maxin.john@intel.com=
-">maxin.john@intel.com</a>&gt;<br>
-+Date: Thu, 26 Jan 2017 18:54:48 +0200<br>
-+Subject: [PATCH] stdint.m4: reintroduce GNULIB_OVERRIDES_WINT_T check<br>
-+<br>
-+Partially revert the gnulib commit: 5a400b3f5a1f5483dbfd75d38bdb70<wbr>802=
-18a063b<br>
-+to fix the build error with musl library.<br>
-+<br>
-+Upstream-Status: Inappropriate<br></div></blockquote></div><br></div><div =
-class=3D"gmail_extra">This appears to be a genuine problem with gnulib and =
-musl, have you spoken to upstream about this?</div><div class=3D"gmail_extr=
-a"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a1139cdf0ffeb8505474e8cae--
