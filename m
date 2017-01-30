@@ -1,48 +1,50 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pf0-f176.google.com (mail-pf0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DD4777225
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C1DE772BB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2017 07:45:56 +0000 (UTC)
-Received: by mail-pf0-f176.google.com with SMTP id e4so88338749pfg.1
+	Mon, 30 Jan 2017 07:46:01 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id 19so22750087pfo.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Jan 2017 23:45:57 -0800 (PST)
+	Sun, 29 Jan 2017 23:46:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
-	h=date:message-id:from:to:cc:subject:mime-version
-	:content-transfer-encoding;
-	bh=lzZ1yoxprapwJbh13k2fyuglNZ31xzQWFVtOJsDSaxg=;
-	b=K28XHbgSJvrYcr4UTkZ4u4bsVIZTDKxbBQGIJ6wGlosHj529jPc1b8AUW3/+mCs9OO
-	hs9fPMP93t2QrKoNHJp/VVAi6aX3vOBFV/9lgmbFl/QOKk/jlXSdXUTyncBySF616cCu
-	GgpEMtiDZolxj3QsjZpMF16VlnrbH5Tss218/LIZwNsKpdURm4MrGcQCZ+f0gNLwN3fA
-	pE4KOcHnjBSZ86OOa82pDRyL+f7xL+8ufwLiJXAsc3fbFqZ//vErbyNNPjcxw3fSKT2A
-	sg7SHoLonZ5aZbqSjAhH/MFj8dMnjrL919E8jpK5bjHPS2GSSJsjF91827RqJh+5mrKm
-	6RbA==
+	h=date:message-id:in-reply-to:references:from:to:cc:subject
+	:mime-version:content-transfer-encoding;
+	bh=d6eqVoEBooc1uVwt1GDDqhspFlXmfdCO4PlGgxKWA30=;
+	b=J7JaFdvJSRP+XpE7Tc5/cf3pais4Ay+NFPwFJCCd6FccCl+A8dGiYO9DtzMYnft9TI
+	GxnVONE8LAXU3VQLBdObn/2y37txr+IajU3ZqxdImdGouIblL6KaaunMorZs2l5S0dIR
+	omJ6c57taDZjNdX/BXNh+VU8tylfTtum08xvEr840EA7jQCwhj8cKuScqQp9SDPfSpfi
+	uiiD3WaFwJQ3p9mw4fB+MQXofN8L0dHKlwW79yizPm6A4oZEr2hMyc8PoX05lH0I9/ox
+	rR8r9k/EnHkbUUPiJBblkM4SajOG8jVqavKNGbZznNz0PdDKhpXAjtZgloT0GWADFSE3
+	R7LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:message-id:from:to:cc:subject:mime-version
-	:content-transfer-encoding;
-	bh=lzZ1yoxprapwJbh13k2fyuglNZ31xzQWFVtOJsDSaxg=;
-	b=RRw0T7N3VTQi4sD3Raqxlak5ULjhIMoR2+vDSQX9veWmDuu/Fo+rPeZH/vv590VX76
-	RWdRpiblRYcLccyBMrtCaFVvUWYiCf3mDxkMxGXY9TUfpLs35ia6rx3irYotCHmE98/g
-	QVvnqm4KJYh1eSgSbu5jisVMpB7IMRvKG/ph/2ucpBKjys2jENa32X3KH7PrUx1MUm3W
-	gDOq6illkr4hK6b1TBzoneN+SHNe4gA3ISKDOdTyd5Iei3KXDeFQBhnpXODjuO8RBpqr
-	dJOdG0IJW773LX4d8KVaw0iKjr60N+JGy9AmUgZd2DpIkDn8F2qGQ/mAw6Uq2IIehkmS
-	+8Ww==
-X-Gm-Message-State: AIkVDXIXITC+i0Aj7zSSWlCEyk0Fnj5SL4YUIqASQQN6lPmu+rcAN6dmj82vw8vQvC5VIg==
-X-Received: by 10.84.217.18 with SMTP id o18mr29992663pli.51.1485762357714;
-	Sun, 29 Jan 2017 23:45:57 -0800 (PST)
+	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
+	:cc:subject:mime-version:content-transfer-encoding;
+	bh=d6eqVoEBooc1uVwt1GDDqhspFlXmfdCO4PlGgxKWA30=;
+	b=UsPjYR4ZnuGusnExgrRnVBWhyODCFVXT/Ggci8IqHyd5Zi23J3JNzYAZRYi6kibTe8
+	6x5GuAKrD7ZVIKr4GFnphUmsK20jHJxCe0EHCTKzWcnC1aqFWjopCTIYpTuIY1rRh5Dy
+	QxBOYprXvIjuTSkHWyCA0GBjXehbWLLktXFH/Zrfz30FagVt1JFcU9Psj5HNM9q6XLvm
+	rgCbVt9nU8t/G8THEtlzkRefyTi6G7I7RXZglvNvpsyDSzIkzNjvimoOfXMp4goe6PHM
+	/3b7k8zYOABxNBpag+zx8eSPZwHmCQq1ltciXmPlD42TbEQxGfiy39lpmXYi77J1evaC
+	QLmA==
+X-Gm-Message-State: AIkVDXKSTwxmfQmftDsH9t/fWLRuSihG3PK9HOkrbVdD6OzIkIPZFWzakz1plj5j4bblnQ==
+X-Received: by 10.98.71.199 with SMTP id p68mr21870228pfi.104.1485762362381;
+	Sun, 29 Jan 2017 23:46:02 -0800 (PST)
 Received: from [127.0.1.1] ([58.165.136.65]) by smtp.gmail.com with ESMTPSA id
-	c204sm29609426pfb.51.2017.01.29.23.45.55
+	e129sm29644938pfe.8.2017.01.29.23.46.00
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 29 Jan 2017 23:45:57 -0800 (PST)
+	Sun, 29 Jan 2017 23:46:01 -0800 (PST)
 Date: Mon, 30 Jan 2017 17:45:52 +1000
-Message-Id: <20170130074552.32419-0-nathan@nathanrossi.com>
+Message-Id: <20170130074552.32419-1-nathan@nathanrossi.com>
+In-Reply-To: <20170130074552.32419-0-nathan@nathanrossi.com>
+References: <20170130074552.32419-0-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
 Cc: Alistair Francis <alistai@xilinx.com>
-Subject: [PATCH 0/2] glib-2.0 changes for nativesdk and packaging
+Subject: [PATCH 1/2] glib-2.0/glib.inc: Only apply MLPREFIX renaming to class-target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,24 +57,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2017 07:45:58 -0000
+X-List-Received-Date: Mon, 30 Jan 2017 07:46:02 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-This series contains two patches. The first fixes up the renaming of
-gio-querymodules so that it is only applied to class-target (so that
-'nativesdk-gio-query-modules' is not generated). The second change makes
-the removal of 'charset.alias' occur for all targets including musl
-since it is not packaged by default and not desired in cases that it is
-generated.
+When renaming the 'gio-querymodules' binary to prefix with the current
+MLPREFIX, only do this for target packages where the MLPREFIX makes
+sense. This skips renaming for nativesdk targets which have MLPREFIX set
+to 'nativesdk-'.
 
-Nathan Rossi (2):
-  glib-2.0/glib.inc: Only apply MLPREFIX renaming to class-target
-  glib-2.0/glib.inc: If 'charset.alias' exists drop it
+Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+---
+ meta/recipes-core/glib-2.0/glib.inc | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
- meta/recipes-core/glib-2.0/glib.inc | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
-
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index cb6aca702f..d0e0c256ba 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -97,11 +97,13 @@ do_install_append () {
+ 			rm ${D}${datadir}/installed-tests/glib/gdbus-serialization.test
+ 		fi
+ 	fi
++}
+ 
+-        # Make sure gio-querymodules is unique among multilibs
+-        if test "x${MLPREFIX}" != "x"; then
+-                mv ${D}${libexecdir}/gio-querymodules ${D}${libexecdir}/${MLPREFIX}gio-querymodules
+-        fi
++do_install_append_class-target () {
++	# Make sure gio-querymodules is unique among multilibs
++	if test "x${MLPREFIX}" != "x"; then
++		mv ${D}${libexecdir}/gio-querymodules ${D}${libexecdir}/${MLPREFIX}gio-querymodules
++	fi
+ }
+ 
+ do_install_append_libc-musl () {
 -- 
 2.11.0
+
 
