@@ -1,57 +1,41 @@
-Return-Path: <ola.x.nilsson@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id DA50A60043
+Return-Path: <sona.sarmadi@enea.com>
+Received: from smtp-out10.electric.net (smtp-out10.electric.net
+	[185.38.180.35])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D8E0772F3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2017 10:25:15 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id C23412E2CD;
-	Mon, 30 Jan 2017 11:25:15 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id RwHop09iapWM; Mon, 30 Jan 2017 11:25:13 +0100 (CET)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id C51EE2E273;
-	Mon, 30 Jan 2017 11:25:13 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B46501A069;
-	Mon, 30 Jan 2017 11:25:13 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A93B01A067;
-	Mon, 30 Jan 2017 11:25:13 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Mon, 30 Jan 2017 11:25:13 +0100 (CET)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by seth.se.axis.com (Postfix) with ESMTP id 9D28F59B;
-	Mon, 30 Jan 2017 11:25:13 +0100 (CET)
-Received: from XBOX04.axis.com (10.0.5.18) by XBOX04.axis.com (10.0.5.18) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Mon, 30 Jan 2017 11:25:13 +0100
-Received: from XBOX04.axis.com ([fe80::6c88:230d:cafd:2f2a]) by
-	XBOX04.axis.com ([fe80::6c88:230d:cafd:2f2a%22]) with mapi id
-	15.00.1210.000; Mon, 30 Jan 2017 11:25:13 +0100
-From: Ola x Nilsson <ola.x.nilsson@axis.com>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v3 01/11] image-wic: move wic code to
-	image-wic.bbclass
-Thread-Index: AQHSeN3tYztL797syE6sQMcOHQQ/LqFQ05EQ
-Date: Mon, 30 Jan 2017 10:25:12 +0000
-Message-ID: <043d99f6abaa415985974a81b31ea33c@XBOX04.axis.com>
-References: <cover.1485547221.git.ed.bartosh@linux.intel.com>
-	<257efe25e625e8aaa0f1d435716f0c5f61071700.1485547221.git.ed.bartosh@linux.intel.com>
-In-Reply-To: <257efe25e625e8aaa0f1d435716f0c5f61071700.1485547221.git.ed.bartosh@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Mon, 30 Jan 2017 11:46:29 +0000 (UTC)
+Received: from 1cYAPj-0005Bq-TL by out10d.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1cYAPj-0005CG-Tu
+	for openembedded-core@lists.openembedded.org;
+	Mon, 30 Jan 2017 03:46:27 -0800
+Received: by emcmailer; Mon, 30 Jan 2017 03:46:27 -0800
+Received: from [192.36.1.72] (helo=mx-3.enea.com)
+	by out10d.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1cYAPj-0005Bq-TL
+	for openembedded-core@lists.openembedded.org;
+	Mon, 30 Jan 2017 03:46:27 -0800
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.319.2;
+	Mon, 30 Jan 2017 12:46:26 +0100
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 30 Jan 2017 12:46:22 +0100
+Message-ID: <1485776783-44453-1-git-send-email-sona.sarmadi@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH v3 01/11] image-wic: move wic code to	image-wic.bbclass
+Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
+	designate permitted sender hosts)
+X-Outbound-IP: 192.36.1.72
+X-Env-From: sona.sarmadi@enea.com
+X-Proto: esmtps
+X-Revdns: mx-3.enea.com
+X-HELO: mx-3.enea.com
+X-TLS: TLSv1:AES128-SHA:128
+X-Authenticated_ID: 
+X-PolicySMART: 6551647
+X-Virus-Status: Scanned by VirusSMART (c)
+X-Virus-Status: Scanned by VirusSMART (s)
+Subject: [PATCH][morty 1/2] libX11: CVE-2016-7942
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,374 +48,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2017 10:25:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 30 Jan 2017 11:46:38 -0000
+Content-Type: text/plain
 
-Please name the class image_wic.bbclass instead.
+The XGetImage function in X.org libX11 before 1.6.4 might allow remote X
+servers to gain privileges via vectors involving image type and geometry,
+which triggers out-of-bounds read operations.
 
-As dashes are not allowed in function names, you cannot use=20
-the image_wic_do_write_wks_template pattern of function=20
-names if you use a class name with a dash in it.
+References
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-7942
+Upstream patch
+https://cgit.freedesktop.org/xorg/lib/libX11/commit/?id=8ea762f94f4c942d898fdeb590a1630c83235c17
 
---=20
-Ola x Nilsson
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+---
+ .../xorg-lib/libx11/CVE-2016-7942.patch            | 69 ++++++++++++++++++++++
+ meta/recipes-graphics/xorg-lib/libx11_1.6.3.bb     |  1 +
+ 2 files changed, 70 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2016-7942.patch
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> Of Ed Bartosh
-> Sent: den 27 januari 2017 21:20
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH v3 01/11] image-wic: move wic code to image-
-> wic.bbclass
->=20
-> There is a lot of wic code in image.bbclass and image_types.bbclass Havin=
-g all
-> code separated in one file should make it more readable and easier to
-> maintain.
->=20
-> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> ---
->  meta/classes/image-wic.bbclass   | 120
-> +++++++++++++++++++++++++++++++++++++++
->  meta/classes/image.bbclass       |  25 +-------
->  meta/classes/image_types.bbclass |  95 -------------------------------
->  3 files changed, 122 insertions(+), 118 deletions(-)  create mode 100644
-> meta/classes/image-wic.bbclass
->=20
-> diff --git a/meta/classes/image-wic.bbclass b/meta/classes/image-
-> wic.bbclass new file mode 100644 index 0000000..2acfd65
-> --- /dev/null
-> +++ b/meta/classes/image-wic.bbclass
-> @@ -0,0 +1,120 @@
-> +# The WICVARS variable is used to define list of bitbake variables used
-> +in wic code # variables from this list is written to <image>.env file
-> +WICVARS ?=3D "\
-> +           BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE FAKEROOTCMD
-> HDDDIR IMAGE_BASENAME IMAGE_BOOT_FILES \
-> +           IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES INITRD
-> ISODIR MACHINE_ARCH RECIPE_SYSROOT_NATIVE \
-> +           ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR
-> TARGET_SYS"
-> +
-> +WKS_FILE ??=3D "${IMAGE_BASENAME}.${MACHINE}.wks"
-> +WKS_FILES ?=3D "${WKS_FILE} ${IMAGE_BASENAME}.wks"
-> +WKS_SEARCH_PATH ?=3D "${THISDIR}:${@':'.join('%s/wic' % p for p in
-> '${BBPATH}'.split(':'))}:${@':'.join('%s/scripts/lib/wic/canned-wks' % l =
-for l in
-> '${BBPATH}:${COREBASE}'.split(':'))}"
-> +WKS_FULL_PATH =3D "${@wks_search('${WKS_FILES}'.split(),
-> '${WKS_SEARCH_PATH}') or ''}"
-> +
-> +def wks_search(files, search_path):
-> +    for f in files:
-> +        if os.path.isabs(f):
-> +            if os.path.exists(f):
-> +                return f
-> +        else:
-> +            searched =3D bb.utils.which(search_path, f)
-> +            if searched:
-> +                return searched
-> +
-> +WIC_CREATE_EXTRA_ARGS ?=3D ""
-> +
-> +IMAGE_CMD_wic () {
-> +	out=3D"${IMGDEPLOYDIR}/${IMAGE_NAME}"
-> +	wks=3D"${WKS_FULL_PATH}"
-> +	if [ -z "$wks" ]; then
-> +		bbfatal "No kickstart files from WKS_FILES were
-> found: ${WKS_FILES}. Please set WKS_FILE or WKS_FILES appropriately."
-> +	fi
-> +
-> +	BUILDDIR=3D"${TOPDIR}" wic create "$wks" --vars
-> "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o
-> "$out/" ${WIC_CREATE_EXTRA_ARGS}
-> +	mv "$out/$(basename "${wks%.wks}")"*.direct
-> "$out${IMAGE_NAME_SUFFIX}.wic"
-> +	rm -rf "$out/"
-> +}
-> +IMAGE_CMD_wic[vardepsexclude] =3D "WKS_FULL_PATH WKS_FILES"
-> +
-> +# Rebuild when the wks file or vars in WICVARS change USING_WIC =3D
-> +"${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + ' '.join('wic.%s' % =
-c for
-> c in '${CONVERSIONTYPES}'.split()), '1', '', d)}"
-> +WKS_FILE_CHECKSUM =3D "${@'${WKS_FULL_PATH}:%s' %
-> os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else ''}"
-> +do_image_wic[file-checksums] +=3D "${WKS_FILE_CHECKSUM}"
-> +do_image_wic[depends] +=3D "wic-tools:do_build"
-> +
-> +python () {
-> +    if d.getVar('USING_WIC') and 'do_bootimg' in d:
-> +        bb.build.addtask('do_image_wic', '', 'do_bootimg', d) }
-> +
-> +python do_write_wks_template () {
-> +    """Write out expanded template contents to WKS_FULL_PATH."""
-> +    import re
-> +
-> +    template_body =3D d.getVar('_WKS_TEMPLATE')
-> +
-> +    # Remove any remnant variable references left behind by the expansio=
-n
-> +    # due to undefined variables
-> +    expand_var_regexp =3D re.compile(r"\${[^{}@\n\t :]+}")
-> +    while True:
-> +        new_body =3D re.sub(expand_var_regexp, '', template_body)
-> +        if new_body =3D=3D template_body:
-> +            break
-> +        else:
-> +            template_body =3D new_body
-> +
-> +    wks_file =3D d.getVar('WKS_FULL_PATH')
-> +    with open(wks_file, 'w') as f:
-> +        f.write(template_body)
-> +}
-> +
-> +python () {
-> +    if d.getVar('USING_WIC'):
-> +        wks_file_u =3D d.getVar('WKS_FULL_PATH', False)
-> +        wks_file =3D d.expand(wks_file_u)
-> +        base, ext =3D os.path.splitext(wks_file)
-> +        if ext =3D=3D '.in' and os.path.exists(wks_file):
-> +            wks_out_file =3D os.path.join(d.getVar('WORKDIR'),
-> os.path.basename(base))
-> +            d.setVar('WKS_FULL_PATH', wks_out_file)
-> +            d.setVar('WKS_TEMPLATE_PATH', wks_file_u)
-> +            d.setVar('WKS_FILE_CHECKSUM', '${WKS_TEMPLATE_PATH}:True')
-> +
-> +            # We need to re-parse each time the file changes, and bitbak=
-e
-> +            # needs to be told about that explicitly.
-> +            bb.parse.mark_dependency(d, wks_file)
-> +
-> +            try:
-> +                with open(wks_file, 'r') as f:
-> +                    body =3D f.read()
-> +            except (IOError, OSError) as exc:
-> +                pass
-> +            else:
-> +                # Previously, I used expandWithRefs to get the dependenc=
-y list
-> +                # and add it to WICVARS, but there's no point re-parsing=
- the
-> +                # file in process_wks_template as well, so just put it i=
-n
-> +                # a variable and let the metadata deal with the deps.
-> +                d.setVar('_WKS_TEMPLATE', body)
-> +                bb.build.addtask('do_write_wks_template',
-> +'do_image_wic', None, d) }
-> +
-> +#
-> +# Write environment variables used by wic # to
-> +tmp/sysroots/<machine>/imgdata/<image>.env
-> +#
-> +python do_rootfs_wicenv () {
-> +    wicvars =3D d.getVar('WICVARS')
-> +    if not wicvars:
-> +        return
-> +
-> +    stdir =3D d.getVar('STAGING_DIR')
-> +    outdir =3D os.path.join(stdir, d.getVar('MACHINE'), 'imgdata')
-> +    bb.utils.mkdirhier(outdir)
-> +    basename =3D d.getVar('IMAGE_BASENAME')
-> +    with open(os.path.join(outdir, basename) + '.env', 'w') as envf:
-> +        for var in wicvars.split():
-> +            value =3D d.getVar(var)
-> +            if value:
-> +                envf.write('%s=3D"%s"\n' % (var, value.strip())) }
-> +addtask do_rootfs_wicenv after do_image before do_image_wic
-> +do_rootfs_wicenv[vardeps] +=3D "${WICVARS}"
-> +do_rootfs_wicenv[prefuncs] =3D 'set_image_size'
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass inde=
-x
-> 13fd996..1a549e9 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -192,6 +192,8 @@ python () {
->  IMAGE_CLASSES +=3D "image_types"
->  inherit ${IMAGE_CLASSES}
->=20
-> +inherit image-wic
-> +
->  IMAGE_POSTPROCESS_COMMAND ?=3D ""
->=20
->  # some default locales
-> @@ -332,29 +334,6 @@ fakeroot python do_image_qa () {  }  addtask
-> do_image_qa after do_image_complete before do_build
->=20
-> -#
-> -# Write environment variables used by wic -# to
-> tmp/sysroots/<machine>/imgdata/<image>.env
-> -#
-> -python do_rootfs_wicenv () {
-> -    wicvars =3D d.getVar('WICVARS')
-> -    if not wicvars:
-> -        return
-> -
-> -    stdir =3D d.getVar('STAGING_DIR')
-> -    outdir =3D os.path.join(stdir, d.getVar('MACHINE'), 'imgdata')
-> -    bb.utils.mkdirhier(outdir)
-> -    basename =3D d.getVar('IMAGE_BASENAME')
-> -    with open(os.path.join(outdir, basename) + '.env', 'w') as envf:
-> -        for var in wicvars.split():
-> -            value =3D d.getVar(var)
-> -            if value:
-> -                envf.write('%s=3D"%s"\n' % (var, value.strip()))
-> -}
-> -addtask do_rootfs_wicenv after do_image before do_image_wic -
-> do_rootfs_wicenv[vardeps] +=3D "${WICVARS}"
-> -do_rootfs_wicenv[prefuncs] =3D 'set_image_size'
-> -
->  def setup_debugfs_variables(d):
->      d.appendVar('IMAGE_ROOTFS', '-dbg')
->      d.appendVar('IMAGE_LINK_NAME', '-dbg') diff --git
-> a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index ad95dc6..e2ecf93 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -192,97 +192,6 @@ IMAGE_CMD_ubi () {
->=20
->  IMAGE_CMD_ubifs =3D "mkfs.ubifs -r ${IMAGE_ROOTFS} -o
-> ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.ubifs
-> ${MKUBIFS_ARGS}"
->=20
-> -WKS_FILE ??=3D "${IMAGE_BASENAME}.${MACHINE}.wks"
-> -WKS_FILES ?=3D "${WKS_FILE} ${IMAGE_BASENAME}.wks"
-> -WKS_SEARCH_PATH ?=3D "${THISDIR}:${@':'.join('%s/wic' % p for p in
-> '${BBPATH}'.split(':'))}:${@':'.join('%s/scripts/lib/wic/canned-wks' % l =
-for l in
-> '${BBPATH}:${COREBASE}'.split(':'))}"
-> -WKS_FULL_PATH =3D "${@wks_search('${WKS_FILES}'.split(),
-> '${WKS_SEARCH_PATH}') or ''}"
-> -
-> -def wks_search(files, search_path):
-> -    for f in files:
-> -        if os.path.isabs(f):
-> -            if os.path.exists(f):
-> -                return f
-> -        else:
-> -            searched =3D bb.utils.which(search_path, f)
-> -            if searched:
-> -                return searched
-> -
-> -WIC_CREATE_EXTRA_ARGS ?=3D ""
-> -
-> -IMAGE_CMD_wic () {
-> -	out=3D"${IMGDEPLOYDIR}/${IMAGE_NAME}"
-> -	wks=3D"${WKS_FULL_PATH}"
-> -	if [ -z "$wks" ]; then
-> -		bbfatal "No kickstart files from WKS_FILES were
-> found: ${WKS_FILES}. Please set WKS_FILE or WKS_FILES appropriately."
-> -	fi
-> -
-> -	BUILDDIR=3D"${TOPDIR}" wic create "$wks" --vars
-> "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o
-> "$out/" ${WIC_CREATE_EXTRA_ARGS}
-> -	mv "$out/$(basename "${wks%.wks}")"*.direct
-> "$out${IMAGE_NAME_SUFFIX}.wic"
-> -	rm -rf "$out/"
-> -}
-> -IMAGE_CMD_wic[vardepsexclude] =3D "WKS_FULL_PATH WKS_FILES"
-> -
-> -# Rebuild when the wks file or vars in WICVARS change -USING_WIC =3D
-> "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + ' '.join('wic.%s' % c=
- for c
-> in '${CONVERSIONTYPES}'.split()), '1', '', d)}"
-> -WKS_FILE_CHECKSUM =3D "${@'${WKS_FULL_PATH}:%s' %
-> os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else ''}"
-> -do_image_wic[file-checksums] +=3D "${WKS_FILE_CHECKSUM}"
-> -do_image_wic[depends] +=3D "wic-tools:do_build"
-> -
-> -python () {
-> -    if d.getVar('USING_WIC') and 'do_bootimg' in d:
-> -        bb.build.addtask('do_image_wic', '', 'do_bootimg', d)
-> -}
-> -
-> -python do_write_wks_template () {
-> -    """Write out expanded template contents to WKS_FULL_PATH."""
-> -    import re
-> -
-> -    template_body =3D d.getVar('_WKS_TEMPLATE')
-> -
-> -    # Remove any remnant variable references left behind by the expansio=
-n
-> -    # due to undefined variables
-> -    expand_var_regexp =3D re.compile(r"\${[^{}@\n\t :]+}")
-> -    while True:
-> -        new_body =3D re.sub(expand_var_regexp, '', template_body)
-> -        if new_body =3D=3D template_body:
-> -            break
-> -        else:
-> -            template_body =3D new_body
-> -
-> -    wks_file =3D d.getVar('WKS_FULL_PATH')
-> -    with open(wks_file, 'w') as f:
-> -        f.write(template_body)
-> -}
-> -
-> -python () {
-> -    if d.getVar('USING_WIC'):
-> -        wks_file_u =3D d.getVar('WKS_FULL_PATH', False)
-> -        wks_file =3D d.expand(wks_file_u)
-> -        base, ext =3D os.path.splitext(wks_file)
-> -        if ext =3D=3D '.in' and os.path.exists(wks_file):
-> -            wks_out_file =3D os.path.join(d.getVar('WORKDIR'),
-> os.path.basename(base))
-> -            d.setVar('WKS_FULL_PATH', wks_out_file)
-> -            d.setVar('WKS_TEMPLATE_PATH', wks_file_u)
-> -            d.setVar('WKS_FILE_CHECKSUM', '${WKS_TEMPLATE_PATH}:True')
-> -
-> -            # We need to re-parse each time the file changes, and bitbak=
-e
-> -            # needs to be told about that explicitly.
-> -            bb.parse.mark_dependency(d, wks_file)
-> -
-> -            try:
-> -                with open(wks_file, 'r') as f:
-> -                    body =3D f.read()
-> -            except (IOError, OSError) as exc:
-> -                pass
-> -            else:
-> -                # Previously, I used expandWithRefs to get the dependenc=
-y list
-> -                # and add it to WICVARS, but there's no point re-parsing=
- the
-> -                # file in process_wks_template as well, so just put it i=
-n
-> -                # a variable and let the metadata deal with the deps.
-> -                d.setVar('_WKS_TEMPLATE', body)
-> -                bb.build.addtask('do_write_wks_template', 'do_image_wic'=
-, None,
-> d)
-> -}
-> -
->  EXTRA_IMAGECMD =3D ""
->=20
->  inherit siteinfo
-> @@ -380,7 +289,3 @@ IMAGE_EXTENSION_live =3D "hddimg iso"
->  # The IMAGE_TYPES_MASKED variable will be used to mask out from the
-> IMAGE_FSTYPES,  # images that will not be built at do_rootfs time: vmdk, =
-vdi,
-> qcow2, hdddirect, hddimg, iso, etc.
->  IMAGE_TYPES_MASKED ?=3D ""
-> -
-> -# The WICVARS variable is used to define list of bitbake variables used =
-in wic
-> code -# variables from this list is written to <image>.env file -WICVARS =
-?=3D
-> "BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE FAKEROOTCMD HDDDIR
-> IMAGE_BASENAME IMAGE_BOOT_FILES IMAGE_LINK_NAME
-> IMAGE_ROOTFS INITRAMFS_FSTYPES INITRD ISODIR MACHINE_ARCH
-> RECIPE_SYSROOT_NATIVE ROOTFS_SIZE STAGING_DATADIR STAGING_DIR
-> STAGING_LIBDIR TARGET_SYS"
-> --
-> 2.1.4
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-graphics/xorg-lib/libx11/CVE-2016-7942.patch b/meta/recipes-graphics/xorg-lib/libx11/CVE-2016-7942.patch
+new file mode 100644
+index 0000000..f5b4d69
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-lib/libx11/CVE-2016-7942.patch
+@@ -0,0 +1,69 @@
++From 8ea762f94f4c942d898fdeb590a1630c83235c17 Mon Sep 17 00:00:00 2001
++From: Tobias Stoeckmann <tobias@stoeckmann.org>
++Date: Sun, 25 Sep 2016 21:25:25 +0200
++Subject: Validation of server responses in XGetImage()
++
++Check if enough bytes were received for specified image type and
++geometry. Otherwise GetPixel and other functions could trigger an
++out of boundary read later on.
++
++CVE: CVE-2016-7942
++Upstream-Status: Backport
++
++Signed-off-by: Tobias Stoeckmann <tobias@stoeckmann.org>
++Reviewed-by: Matthieu Herrb <matthieu@herrb.eu>
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++
++diff --git a/src/GetImage.c b/src/GetImage.c
++index c461abc..ff32d58 100644
++--- a/src/GetImage.c
+++++ b/src/GetImage.c
++@@ -59,6 +59,7 @@ XImage *XGetImage (
++ 	char *data;
++ 	unsigned long nbytes;
++ 	XImage *image;
+++	int planes;
++ 	LockDisplay(dpy);
++ 	GetReq (GetImage, req);
++ 	/*
++@@ -91,18 +92,28 @@ XImage *XGetImage (
++ 	    return (XImage *) NULL;
++ 	}
++         _XReadPad (dpy, data, nbytes);
++-        if (format == XYPixmap)
++-	   image = XCreateImage(dpy, _XVIDtoVisual(dpy, rep.visual),
++-		  Ones (plane_mask &
++-			(((unsigned long)0xFFFFFFFF) >> (32 - rep.depth))),
++-		  format, 0, data, width, height, dpy->bitmap_pad, 0);
++-	else /* format == ZPixmap */
++-           image = XCreateImage (dpy, _XVIDtoVisual(dpy, rep.visual),
++-		 rep.depth, ZPixmap, 0, data, width, height,
++-		  _XGetScanlinePad(dpy, (int) rep.depth), 0);
+++        if (format == XYPixmap) {
+++	    image = XCreateImage(dpy, _XVIDtoVisual(dpy, rep.visual),
+++		Ones (plane_mask &
+++		    (((unsigned long)0xFFFFFFFF) >> (32 - rep.depth))),
+++		format, 0, data, width, height, dpy->bitmap_pad, 0);
+++	    planes = image->depth;
+++	} else { /* format == ZPixmap */
+++            image = XCreateImage (dpy, _XVIDtoVisual(dpy, rep.visual),
+++		rep.depth, ZPixmap, 0, data, width, height,
+++		    _XGetScanlinePad(dpy, (int) rep.depth), 0);
+++	    planes = 1;
+++	}
++ 
++ 	if (!image)
++ 	    Xfree(data);
+++	if (planes < 1 || image->height < 1 || image->bytes_per_line < 1 ||
+++	    INT_MAX / image->height <= image->bytes_per_line ||
+++	    INT_MAX / planes <= image->height * image->bytes_per_line ||
+++	    nbytes < planes * image->height * image->bytes_per_line) {
+++	    XDestroyImage(image);
+++	    image = NULL;
+++	}
++ 	UnlockDisplay(dpy);
++ 	SyncHandle();
++ 	return (image);
++-- 
++cgit v0.10.2
++
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.6.3.bb b/meta/recipes-graphics/xorg-lib/libx11_1.6.3.bb
+index 8e531c7..152ccd9 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11_1.6.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11_1.6.3.bb
+@@ -5,6 +5,7 @@ BBCLASSEXTEND = "native nativesdk"
+ 
+ SRC_URI += "file://disable_tests.patch \
+             file://libX11-Add-missing-NULL-check.patch \
++            file://CVE-2016-7942.patch \
+            "
+ 
+ SRC_URI[md5sum] = "2e36b73f8a42143142dda8129f02e4e0"
+-- 
+1.9.1
+
 
