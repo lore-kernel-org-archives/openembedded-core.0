@@ -1,43 +1,21 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qt0-f170.google.com (mail-qt0-f170.google.com
-	[209.85.216.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A03D76536
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id B998D6E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jan 2017 21:03:26 +0000 (UTC)
-Received: by mail-qt0-f170.google.com with SMTP id w20so177150701qtb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jan 2017 13:03:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=BgAKwwNopVPrOfeEs+FbFrlTWRRB6EdG5OtM5xNZ6aw=;
-	b=iCj2Zr9WTDASuAQiVaAjpmrVVwRxM24z6QJFaO1OGpyoM4L0akuIXBIHW+030fw1C0
-	X8VI8/iESde32jE1OTTvyUfqIZj7C3Z8pt/9iRkwbJ1QL+vDesAhpmtYIrUqjyvsKKKW
-	QwXAg99XgbSoEV8P5jG2oOlN/RxeCL+pNTK4g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=BgAKwwNopVPrOfeEs+FbFrlTWRRB6EdG5OtM5xNZ6aw=;
-	b=JLHpvKgC7gO25u3/T0t/hEWmSm16asUkuD+b83RkQ1H6x6DX4byMGstuzqWWJ/h3HC
-	HL1Fu0W9EX8020SQPvzCTUmz+cxCF2zljAbC/rwpqzRDbXGZSyjmoF99HEfiNs1qkGgp
-	GpV5UCdS0USFaqhGkBgR6tx958AZ4QSyB+SXZ6JPHsxFNPLW+O7gLg9Z7psFrMuWGFzd
-	BHg5a9DTv1tMghN+GjQBPo9sGWL35G1L9MOlUCWsji7OlGuTbwfpt5N66G8OvZJ9gU6C
-	CQeCeHwQ0k1hlrRtFS/stZ6gQswERf03Pt4ckjzY/Zq4qntUDo4JoygG4oKUiigz5Gjh
-	KMoA==
-X-Gm-Message-State: AIkVDXKjbOXmk3TvV+QNKQxyiJuWRjAFRGEgCWCRLdm7mZt1Fu6TdjlRlucGH8e8jPNpGMAm
-X-Received: by 10.200.45.5 with SMTP id n5mr26642349qta.174.1485896606675;
-	Tue, 31 Jan 2017 13:03:26 -0800 (PST)
-Received: from localhost.localdomain (static.8.26.4.46.clients.your-server.de.
-	[46.4.26.8]) by smtp.gmail.com with ESMTPSA id
-	z123sm13916808qkd.45.2017.01.31.13.03.25
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 31 Jan 2017 13:03:26 -0800 (PST)
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+	Tue, 31 Jan 2017 21:45:38 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 31 Jan 2017 13:45:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,316,1477983600"; d="scan'208";a="1101337959"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.122])
+	by fmsmga001.fm.intel.com with ESMTP; 31 Jan 2017 13:45:37 -0800
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Jan 2017 22:03:03 +0100
-Message-Id: <20170131210303.19551-1-nicolas.dechesne@linaro.org>
-X-Mailer: git-send-email 2.11.0
-Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Subject: [PATCH] gstreamer: update to 1.10.3
+Date: Tue, 31 Jan 2017 15:48:43 -0600
+Message-Id: <1485899323-21165-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+MIME-Version: 1.0
+Subject: [PATCH] qemu: Upgrade to 2.8.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,248 +28,433 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jan 2017 21:03:27 -0000
+X-List-Received-Date: Tue, 31 Jan 2017 21:45:44 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-New bugfix release:
-* updated version/checksums
-* removed 1 patch in -good which was merged upstream
+Added patches:
 
-Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+- target-ppc-fix-user-mode.patch
+
+Rebased patches:
+
+- exclude-some-arm-EABI-obsolete-syscalls.patc
+
+Removed patches (already in upstream):
+
+- 0003-fix-CVE-2016-7908.patch
+- 0004-fix-CVE-2016-7909.patch
+- 0001-target-mips-add-24KEc-CPU-definition.patch
+
+Changelog,
+
+http://wiki.qemu.org/ChangeLog/2.8
+
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- ...ibav_1.10.2.bb => gstreamer1.0-libav_1.10.3.bb} |  4 +--
- ....0-omx_1.10.2.bb => gstreamer1.0-omx_1.10.3.bb} |  4 +--
- ....10.2.bb => gstreamer1.0-plugins-bad_1.10.3.bb} |  4 +--
- ...10.2.bb => gstreamer1.0-plugins-base_1.10.3.bb} |  4 +--
- ...e-seqh-after-calling-qtdemux_parse_svq3_s.patch | 33 ----------------------
- ...10.2.bb => gstreamer1.0-plugins-good_1.10.3.bb} |  5 ++--
- ...10.2.bb => gstreamer1.0-plugins-ugly_1.10.3.bb} |  4 +--
- .../gstreamer/gstreamer1.0-rtsp-server_1.10.2.bb   |  6 ----
- .../gstreamer/gstreamer1.0-rtsp-server_1.10.3.bb   |  6 ++++
- .../gstreamer/gstreamer1.0-vaapi_1.10.2.bb         |  5 ----
- .../gstreamer/gstreamer1.0-vaapi_1.10.3.bb         |  5 ++++
- ...treamer1.0_1.10.2.bb => gstreamer1.0_1.10.3.bb} |  4 +--
- 12 files changed, 25 insertions(+), 59 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.10.2.bb => gstreamer1.0-libav_1.10.3.bb} (87%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.10.2.bb => gstreamer1.0-omx_1.10.3.bb} (69%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.10.2.bb => gstreamer1.0-plugins-bad_1.10.3.bb} (90%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.10.2.bb => gstreamer1.0-plugins-base_1.10.3.bb} (86%)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/qtdemux-free-seqh-after-calling-qtdemux_parse_svq3_s.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.10.2.bb => gstreamer1.0-plugins-good_1.10.3.bb} (78%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.10.2.bb => gstreamer1.0-plugins-ugly_1.10.3.bb} (76%)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.2.bb
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.3.bb
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.2.bb
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.3.bb
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.10.2.bb => gstreamer1.0_1.10.3.bb} (72%)
+ meta/recipes-devtools/qemu/qemu.inc                |  1 -
+ ...0001-target-mips-add-24KEc-CPU-definition.patch | 54 -------------------
+ .../qemu/qemu/0003-fix-CVE-2016-7908.patch         | 62 ----------------------
+ .../qemu/qemu/0004-fix-CVE-2016-7909.patch         | 42 ---------------
+ ...-Arm-versatilepb-Add-memory-size-checking.patch | 46 ----------------
+ .../exclude-some-arm-EABI-obsolete-syscalls.patch  | 22 +++-----
+ .../qemu/qemu/target-ppc-fix-user-mode.patch       | 48 +++++++++++++++++
+ .../qemu/{qemu_2.7.1.bb => qemu_2.8.0.bb}          |  8 ++-
+ 8 files changed, 59 insertions(+), 224 deletions(-)
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/0001-target-mips-add-24KEc-CPU-definition.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/0003-fix-CVE-2016-7908.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/0004-fix-CVE-2016-7909.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/Qemu-Arm-versatilepb-Add-memory-size-checking.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/target-ppc-fix-user-mode.patch
+ rename meta/recipes-devtools/qemu/{qemu_2.7.1.bb => qemu_2.8.0.bb} (70%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.10.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.10.3.bb
-similarity index 87%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.10.2.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.10.3.bb
-index ed51a4fdaf..39afbebefc 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.10.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.10.3.bb
-@@ -14,7 +14,7 @@ SRC_URI = " \
-     file://workaround-to-build-gst-libav-for-i586-with-gcc.patch \
-     file://mips64_cpu_detection.patch \
- "
--SRC_URI[md5sum] = "420d0a32f47ef02cc615f8cf6da1e94d"
--SRC_URI[sha256sum] = "a3dd7036211f061e1eda04f985b7a9dd1a91b754f767ff2587eb6ec28f44e73c"
-+SRC_URI[md5sum] = "ce1ea598f07c8bf728a33c7da39ec308"
-+SRC_URI[sha256sum] = "9a6bc165b1862b18b98d9f1755c43806e4839a80f69ec7ea9a2dab61b65752a9"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index ac5fcac..e3af5c2 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -19,7 +19,6 @@ SRC_URI = "\
+     file://wacom.patch \
+     file://add-ptest-in-makefile.patch \
+     file://run-ptest \
+-    file://0001-target-mips-add-24KEc-CPU-definition.patch \
+     "
  
- S = "${WORKDIR}/gst-libav-${PV}"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.3.bb
-similarity index 69%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.2.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.3.bb
-index 643e83642e..7d06a56612 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.3.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
-                     file://omx/gstomx.h;beginline=1;endline=21;md5=5c8e1fca32704488e76d2ba9ddfa935f"
- 
- SRC_URI = "http://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.tar.xz"
--SRC_URI[md5sum] = "d8395c2d7bbe05517cd20f608813f03c"
--SRC_URI[sha256sum] = "c069a9cf775c92f889ca8f3b2fc718e428cd0579b7b805851a960c850a7aa497"
-+SRC_URI[md5sum] = "1eead212796151d6ac08e091bacbd190"
-+SRC_URI[sha256sum] = "dd88451e175df7a6b6f619eff0f43a6078054ec7068787b19faf89af94cdb6e1"
- 
- S = "${WORKDIR}/gst-omx-${PV}"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.3.bb
-similarity index 90%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.2.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.3.bb
-index c469acafd3..5bb1543651 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.3.bb
-@@ -19,8 +19,8 @@ SRC_URI = " \
-     file://0001-smoothstreaming-use-the-duration-from-the-list-of-fr.patch \
-     file://0001-mssdemux-improved-live-playback-support.patch \
- "
--SRC_URI[md5sum] = "823f4c33fe27c61332c0122273217988"
--SRC_URI[sha256sum] = "0795ca9303a99cc7e44dda0e6e18524de02b39892e4b68eaba488f7b9db53a3a"
-+SRC_URI[md5sum] = "e59798c86a670041de2e61856ea43d2a"
-+SRC_URI[sha256sum] = "24099351fb6984c9e7560de06e072ff2e33d0b2db38b8fcc7afefb536e5094e7"
- 
- S = "${WORKDIR}/gst-plugins-bad-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.10.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.10.3.bb
-similarity index 86%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.10.2.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.10.3.bb
-index b756ed91e2..e02974c10c 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.10.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.10.3.bb
-@@ -13,7 +13,7 @@ SRC_URI = " \
-     file://make-gio_unix_2_0-dependency-configurable.patch \
-     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
- "
--SRC_URI[md5sum] = "8efa9e9ad9a841a900359604da82fb8b"
--SRC_URI[sha256sum] = "fbc0d40fcb746d2efe2ea47444674029912f66e6107f232766d33b722b97de20"
-+SRC_URI[md5sum] = "12fe89a5536a0c7536c19875928637c2"
-+SRC_URI[sha256sum] = "e6299617d705a0cbfb535107c1d3a8fc0f0967f14193a8c5c7583f46a88b1710"
- 
- S = "${WORKDIR}/gst-plugins-base-${PV}"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/qtdemux-free-seqh-after-calling-qtdemux_parse_svq3_s.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/qtdemux-free-seqh-after-calling-qtdemux_parse_svq3_s.patch
+ SRC_URI_append_class-native = "\
+diff --git a/meta/recipes-devtools/qemu/qemu/0001-target-mips-add-24KEc-CPU-definition.patch b/meta/recipes-devtools/qemu/qemu/0001-target-mips-add-24KEc-CPU-definition.patch
 deleted file mode 100644
-index 3428790003..0000000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/qtdemux-free-seqh-after-calling-qtdemux_parse_svq3_s.patch
+index c4dbee7..0000000
+--- a/meta/recipes-devtools/qemu/qemu/0001-target-mips-add-24KEc-CPU-definition.patch
 +++ /dev/null
-@@ -1,33 +0,0 @@
--From 29433495d697e4dcb3bc50ff0e0d866acb949890 Mon Sep 17 00:00:00 2001
--From: Andre McCurdy <armccurdy@gmail.com>
--Date: Wed, 11 Jan 2017 17:53:32 -0800
--Subject: [PATCH] qtdemux: free seqh after calling
-- qtdemux_parse_svq3_stsd_data()
+@@ -1,54 +0,0 @@
+-From 926bc194f918d46bd93557b15da8153b6a94a1d5 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+-Date: Mon, 25 Jul 2016 23:58:22 +0100
+-Subject: [PATCH] target-mips: add 24KEc CPU definition
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
 -
--The seqh buffer allocated in qtdemux_parse_svq3_stsd_data() needs to
--be freed by the caller after use.
+-Define a new CPU definition supporting 24KEc cores, similar to
+-the existing 24Kc, but with added support for DSP instructions
+-and MIPS16e (and without FPU).
 -
--https://bugzilla.gnome.org/show_bug.cgi?id=777157
+-Signed-off-by: André Draszik <git@andred.net>
+----
+-Upstream-Status: Submitted [http://lists.nongnu.org/archive/html/qemu-devel/2016-07/msg05778.html]
+- target-mips/translate_init.c | 22 ++++++++++++++++++++++
+- 1 file changed, 22 insertions(+)
 -
+-diff --git a/target-mips/translate_init.c b/target-mips/translate_init.c
+-index 39ed5c4..6ae23e4 100644
+---- a/target-mips/translate_init.c
+-+++ b/target-mips/translate_init.c
+-@@ -256,6 +256,28 @@ static const mips_def_t mips_defs[] =
+-         .mmu_type = MMU_TYPE_R4000,
+-     },
+-     {
+-+        .name = "24KEc",
+-+        .CP0_PRid = 0x00019600,
+-+        .CP0_Config0 = MIPS_CONFIG0 | (0x1 << CP0C0_AR) |
+-+                       (MMU_TYPE_R4000 << CP0C0_MT),
+-+        .CP0_Config1 = MIPS_CONFIG1 | (15 << CP0C1_MMU) |
+-+                       (0 << CP0C1_IS) | (3 << CP0C1_IL) | (1 << CP0C1_IA) |
+-+                       (0 << CP0C1_DS) | (3 << CP0C1_DL) | (1 << CP0C1_DA) |
+-+                       (1 << CP0C1_CA),
+-+        .CP0_Config2 = MIPS_CONFIG2,
+-+        .CP0_Config3 = MIPS_CONFIG3 | (1 << CP0C3_DSPP) | (0 << CP0C3_VInt),
+-+        .CP0_LLAddr_rw_bitmask = 0,
+-+        .CP0_LLAddr_shift = 4,
+-+        .SYNCI_Step = 32,
+-+        .CCRes = 2,
+-+        /* we have a DSP, but no FPU */
+-+        .CP0_Status_rw_bitmask = 0x1378FF1F,
+-+        .SEGBITS = 32,
+-+        .PABITS = 32,
+-+        .insn_flags = CPU_MIPS32R2 | ASE_MIPS16 | ASE_DSP,
+-+        .mmu_type = MMU_TYPE_R4000,
+-+    },
+-+    {
+-         .name = "24Kf",
+-         .CP0_PRid = 0x00019300,
+-         .CP0_Config0 = MIPS_CONFIG0 | (0x1 << CP0C0_AR) |
+--- 
+-2.8.1
+-
+diff --git a/meta/recipes-devtools/qemu/qemu/0003-fix-CVE-2016-7908.patch b/meta/recipes-devtools/qemu/qemu/0003-fix-CVE-2016-7908.patch
+deleted file mode 100644
+index 05cc3d9..0000000
+--- a/meta/recipes-devtools/qemu/qemu/0003-fix-CVE-2016-7908.patch
++++ /dev/null
+@@ -1,62 +0,0 @@
 -Upstream-Status: Backport
 -
--Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+-Backport patch to fix CVE-2016-7908 from:
+-
+-http://git.qemu.org/?p=qemu.git;a=commit;h=070c4b92b8c
+-
+-CVE: CVE-2016-7908
+-
+-Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ----
-- gst/isomp4/qtdemux.c | 1 +
-- 1 file changed, 1 insertion(+)
+-From 070c4b92b8cd5390889716677a0b92444d6e087a Mon Sep 17 00:00:00 2001
+-From: Prasad J Pandit <pjp@fedoraproject.org>
+-Date: Thu, 22 Sep 2016 16:02:37 +0530
+-Subject: [PATCH] net: mcf: limit buffer descriptor count
 -
--diff --git a/gst/isomp4/qtdemux.c b/gst/isomp4/qtdemux.c
--index e105809..7a431e0 100644
----- a/gst/isomp4/qtdemux.c
--+++ b/gst/isomp4/qtdemux.c
--@@ -10375,6 +10375,7 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
--              * than its own fourcc */
--             gst_caps_set_simple (stream->caps, "seqh", GST_TYPE_BUFFER, seqh,
--                 NULL);
--+            gst_buffer_unref (seqh);
--           }
+-ColdFire Fast Ethernet Controller uses buffer descriptors to manage
+-data flow to/fro receive & transmit queues. While transmitting
+-packets, it could continue to read buffer descriptors if a buffer
+-descriptor has length of zero and has crafted values in bd.flags.
+-Set upper limit to number of buffer descriptors.
+-
+-Reported-by: Li Qiang <liqiang6-s@360.cn>
+-Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+-Signed-off-by: Jason Wang <jasowang@redhat.com>
+----
+- hw/net/mcf_fec.c | 5 +++--
+- 1 file changed, 3 insertions(+), 2 deletions(-)
+-
+-diff --git a/hw/net/mcf_fec.c b/hw/net/mcf_fec.c
+-index 0ee8ad9..d31fea1 100644
+---- a/hw/net/mcf_fec.c
+-+++ b/hw/net/mcf_fec.c
+-@@ -23,6 +23,7 @@ do { printf("mcf_fec: " fmt , ## __VA_ARGS__); } while (0)
+- #define DPRINTF(fmt, ...) do {} while(0)
+- #endif
 - 
--           GST_DEBUG_OBJECT (qtdemux, "found codec_data in stsd");
+-+#define FEC_MAX_DESC 1024
+- #define FEC_MAX_FRAME_SIZE 2032
+- 
+- typedef struct {
+-@@ -149,7 +150,7 @@ static void mcf_fec_do_tx(mcf_fec_state *s)
+-     uint32_t addr;
+-     mcf_fec_bd bd;
+-     int frame_size;
+--    int len;
+-+    int len, descnt = 0;
+-     uint8_t frame[FEC_MAX_FRAME_SIZE];
+-     uint8_t *ptr;
+- 
+-@@ -157,7 +158,7 @@ static void mcf_fec_do_tx(mcf_fec_state *s)
+-     ptr = frame;
+-     frame_size = 0;
+-     addr = s->tx_descriptor;
+--    while (1) {
+-+    while (descnt++ < FEC_MAX_DESC) {
+-         mcf_fec_read_bd(&bd, addr);
+-         DPRINTF("tx_bd %x flags %04x len %d data %08x\n",
+-                 addr, bd.flags, bd.length, bd.data);
 --- 
+-2.9.3
+-
+diff --git a/meta/recipes-devtools/qemu/qemu/0004-fix-CVE-2016-7909.patch b/meta/recipes-devtools/qemu/qemu/0004-fix-CVE-2016-7909.patch
+deleted file mode 100644
+index e71bbf6..0000000
+--- a/meta/recipes-devtools/qemu/qemu/0004-fix-CVE-2016-7909.patch
++++ /dev/null
+@@ -1,42 +0,0 @@
+-Upstream-Status: Backport [http://git.qemu.org/?p=qemu.git;a=commit;h=34e29ce]
+-CVE: CVE-2016-7909
+-
+-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+----
+-From 34e29ce754c02bb6b3bdd244fbb85033460feaff Mon Sep 17 00:00:00 2001
+-From: Prasad J Pandit <pjp@fedoraproject.org>
+-Date: Fri, 30 Sep 2016 00:27:33 +0530
+-Subject: [PATCH] net: pcnet: check rx/tx descriptor ring length
+-
+-The AMD PC-Net II emulator has set of control and status(CSR)
+-registers. Of these, CSR76 and CSR78 hold receive and transmit
+-descriptor ring length respectively. This ring length could range
+-from 1 to 65535. Setting ring length to zero leads to an infinite
+-loop in pcnet_rdra_addr() or pcnet_transmit(). Add check to avoid it.
+-
+-Reported-by: Li Qiang <liqiang6-s@360.cn>
+-Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+-Signed-off-by: Jason Wang <jasowang@redhat.com>
+----
+- hw/net/pcnet.c | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/hw/net/pcnet.c b/hw/net/pcnet.c
+-index 198a01f..3078de8 100644
+---- a/hw/net/pcnet.c
+-+++ b/hw/net/pcnet.c
+-@@ -1429,8 +1429,11 @@ static void pcnet_csr_writew(PCNetState *s, uint32_t rap, uint32_t new_value)
+-     case 47: /* POLLINT */
+-     case 72:
+-     case 74:
+-+        break;
+-     case 76: /* RCVRL */
+-     case 78: /* XMTRL */
+-+        val = (val > 0) ? val : 512;
+-+        break;
+-     case 112:
+-        if (CSR_STOP(s) || CSR_SPND(s))
+-            break;
+--- 
+-2.10.1
+-
+diff --git a/meta/recipes-devtools/qemu/qemu/Qemu-Arm-versatilepb-Add-memory-size-checking.patch b/meta/recipes-devtools/qemu/qemu/Qemu-Arm-versatilepb-Add-memory-size-checking.patch
+deleted file mode 100644
+index 1a6cf51..0000000
+--- a/meta/recipes-devtools/qemu/qemu/Qemu-Arm-versatilepb-Add-memory-size-checking.patch
++++ /dev/null
+@@ -1,46 +0,0 @@
+-From 896fa02c24347e6e9259812cfda187b1d6ca6199 Mon Sep 17 00:00:00 2001
+-From: Jiang Lu <lu.jiang@windriver.com>
+-Date: Wed, 13 Nov 2013 10:38:08 +0800
+-Subject: [PATCH] Qemu:Arm:versatilepb: Add memory size checking
+-
+-The machine can not work with memory over 256M, so add a checking
+-at startup. If the memory size exceed 256M, just stop emulation then
+-throw out warning about memory limitation.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Jiang Lu <lu.jiang@windriver.com>
+-
+-Updated it on 2014-01-15 for rebasing
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-
+-Update it when upgrade qemu to 2.2.0
+-
+-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+----
+- hw/arm/versatilepb.c | 7 +++++++
+- 1 file changed, 7 insertions(+)
+-
+-diff --git a/hw/arm/versatilepb.c b/hw/arm/versatilepb.c
+-index 6c69f4e..9278d90 100644
+---- a/hw/arm/versatilepb.c
+-+++ b/hw/arm/versatilepb.c
+-@@ -204,6 +204,13 @@ static void versatile_init(MachineState *machine, int board_id)
+-         exit(1);
+-     }
+-
+-+    if (machine->ram_size > (256 << 20)) {
+-+        fprintf(stderr,
+-+                "qemu: Too much memory for this machine: %d MB, maximum 256 MB\n",
+-+                ((unsigned int)ram_size / (1 << 20)));
+-+        exit(1);
+-+    }
+-+
+-     cpuobj = object_new(object_class_get_name(cpu_oc));
+-
+-     /* By default ARM1176 CPUs have EL3 enabled.  This board does not
+--- 
+-2.1.0
+-
+diff --git a/meta/recipes-devtools/qemu/qemu/exclude-some-arm-EABI-obsolete-syscalls.patch b/meta/recipes-devtools/qemu/qemu/exclude-some-arm-EABI-obsolete-syscalls.patch
+index 171bda7..f593cf9 100644
+--- a/meta/recipes-devtools/qemu/qemu/exclude-some-arm-EABI-obsolete-syscalls.patch
++++ b/meta/recipes-devtools/qemu/qemu/exclude-some-arm-EABI-obsolete-syscalls.patch
+@@ -27,14 +27,14 @@ or kernel header:
+ 
+ Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+ ---
+- qemu-seccomp.c | 14 ++++++++------
+- 1 file changed, 8 insertions(+), 6 deletions(-)
++ qemu-seccomp.c | 13 ++++++++-----
++ 1 file changed, 8 insertions(+), 5 deletions(-)
+ 
+ diff --git a/qemu-seccomp.c b/qemu-seccomp.c
+-index caa926e..5a78502 100644
++index df75d9c..0e577f8 100644
+ --- a/qemu-seccomp.c
+ +++ b/qemu-seccomp.c
+-@@ -25,15 +25,21 @@ static const struct QemuSeccompSyscall seccomp_whitelist[] = {
++@@ -35,15 +35,21 @@ static const struct QemuSeccompSyscall seccomp_whitelist[] = {
+      { SCMP_SYS(timer_settime), 255 },
+      { SCMP_SYS(timer_gettime), 254 },
+      { SCMP_SYS(futex), 253 },
+@@ -58,7 +58,7 @@ index caa926e..5a78502 100644
+      { SCMP_SYS(mprotect), 246 },
+      { SCMP_SYS(execve), 245 },
+      { SCMP_SYS(open), 245 },
+-@@ -48,13 +54,11 @@ static const struct QemuSeccompSyscall seccomp_whitelist[] = {
++@@ -58,7 +64,6 @@ static const struct QemuSeccompSyscall seccomp_whitelist[] = {
+      { SCMP_SYS(bind), 245 },
+      { SCMP_SYS(listen), 245 },
+      { SCMP_SYS(semget), 245 },
+@@ -66,13 +66,7 @@ index caa926e..5a78502 100644
+      { SCMP_SYS(gettimeofday), 245 },
+      { SCMP_SYS(readlink), 245 },
+      { SCMP_SYS(access), 245 },
+-     { SCMP_SYS(prctl), 245 },
+-     { SCMP_SYS(signalfd), 245 },
+--    { SCMP_SYS(getrlimit), 245 },
+-     { SCMP_SYS(set_tid_address), 245 },
+-     { SCMP_SYS(statfs), 245 },
+-     { SCMP_SYS(unlink), 245 },
+-@@ -93,7 +97,6 @@ static const struct QemuSeccompSyscall seccomp_whitelist[] = {
++@@ -104,7 +109,6 @@ static const struct QemuSeccompSyscall seccomp_whitelist[] = {
+      { SCMP_SYS(times), 245 },
+      { SCMP_SYS(exit), 245 },
+      { SCMP_SYS(clock_gettime), 245 },
+@@ -80,7 +74,7 @@ index caa926e..5a78502 100644
+      { SCMP_SYS(restart_syscall), 245 },
+      { SCMP_SYS(pwrite64), 245 },
+      { SCMP_SYS(nanosleep), 245 },
+-@@ -182,7 +185,6 @@ static const struct QemuSeccompSyscall seccomp_whitelist[] = {
++@@ -194,7 +198,6 @@ static const struct QemuSeccompSyscall seccomp_whitelist[] = {
+      { SCMP_SYS(lstat64), 241 },
+      { SCMP_SYS(sendfile64), 241 },
+      { SCMP_SYS(ugetrlimit), 241 },
+@@ -89,5 +83,5 @@ index caa926e..5a78502 100644
+      { SCMP_SYS(rt_sigqueueinfo), 241 },
+      { SCMP_SYS(rt_tgsigqueueinfo), 241 },
+ -- 
 -1.9.1
--
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.10.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.10.3.bb
-similarity index 78%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.10.2.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.10.3.bb
-index 6c119e5c76..0fc899cab0 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.10.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.10.3.bb
-@@ -10,9 +10,8 @@ SRC_URI = " \
-     file://avoid-including-sys-poll.h-directly.patch \
-     file://ensure-valid-sentinel-for-gst_structure_get.patch \
-     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
--    file://qtdemux-free-seqh-after-calling-qtdemux_parse_svq3_s.patch \
- "
--SRC_URI[md5sum] = "65c4ff9d406c3ea9383b4d38a6504349"
--SRC_URI[sha256sum] = "198f325bcce982dce1ebeb36929a5f430b8bf9528e0d519e18df0b29e1d23313"
-+SRC_URI[md5sum] = "fd841c574c081dc205ac07b587704fc8"
-+SRC_URI[sha256sum] = "4e07e93e34d4b93208f1579c21e7d91a236577b36f128a5332ffee85b4465955"
++2.1.4
  
- S = "${WORKDIR}/gst-plugins-good-${PV}"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.10.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.10.3.bb
-similarity index 76%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.10.2.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.10.3.bb
-index 95e3a2f309..87d5ba2686 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.10.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.10.3.bb
-@@ -7,7 +7,7 @@ SRC_URI = " \
-     http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
-     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
- "
--SRC_URI[md5sum] = "c157f3fcb87db2a0f457667f3d3e6a26"
--SRC_URI[sha256sum] = "f303dd4c2ebc963e8b0b03c3069f70657bcf1cd62224d344ad579b3dda17ec9d"
-+SRC_URI[md5sum] = "198b7a8eff3e0206d3b5660389df83ef"
-+SRC_URI[sha256sum] = "c91597d03abff9df435ad4892eae44df1ee14159c7cc7317ac9d2766ff446bd2"
- 
- S = "${WORKDIR}/gst-plugins-ugly-${PV}"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.2.bb
-deleted file mode 100644
-index 85b4d0af4b..0000000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.2.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--require gstreamer1.0-rtsp-server.inc
--
--SRC_URI[md5sum] = "3ed8878f076e84c59b3ed5bd38ab31ed"
--SRC_URI[sha256sum] = "822dd6f754fea2bbf3369a7c388372f49b74668fb57943c1888675e544b07235"
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.3.bb
+diff --git a/meta/recipes-devtools/qemu/qemu/target-ppc-fix-user-mode.patch b/meta/recipes-devtools/qemu/qemu/target-ppc-fix-user-mode.patch
 new file mode 100644
-index 0000000000..b1c56c0800
+index 0000000..3abb239
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.3.bb
-@@ -0,0 +1,6 @@
-+require gstreamer1.0-rtsp-server.inc
++++ b/meta/recipes-devtools/qemu/qemu/target-ppc-fix-user-mode.patch
+@@ -0,0 +1,48 @@
++[Qemu-ppc] [PATCH 1/1] target-ppc, tcg: fix usermode segfault with pthread
 +
-+SRC_URI[md5sum] = "2c6bdf872443a8b5bb567462c267bdb1"
-+SRC_URI[sha256sum] = "baf9f7d229711cb3d823a447a930132f809b3321eab3535491bb01c8a21566fe"
++From: Sam Bobroff
++Subject: [Qemu-ppc] [PATCH 1/1] target-ppc, tcg: fix usermode segfault with pthread_create()
++Date: Mon, 30 Jan 2017 16:08:07 +1100
++Programs run under qemu-ppc64 on an x86_64 host currently segfault
++if they use pthread_create() due to the adjustment made to the NIP in
++commit bd6fefe71cec5a0c7d2be4ac96307f25db56abf9.
 +
-+LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.2.bb
-deleted file mode 100644
-index f944d121fe..0000000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.2.bb
-+++ /dev/null
-@@ -1,5 +0,0 @@
--require gstreamer1.0-vaapi.inc
--SRC_URI[md5sum] = "cd8771280c8c00929cf7251c38a509dc"
--SRC_URI[sha256sum] = "9e31d2b85b2f30caa6b0cc1c6be10b96e1376668f13faa6a0f577d3693547fa9"
--
--DEPENDS += "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.3.bb
-new file mode 100644
-index 0000000000..ae0b709f65
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.3.bb
-@@ -0,0 +1,5 @@
-+require gstreamer1.0-vaapi.inc
-+SRC_URI[md5sum] = "ddd78e8f24b4736ad856c0de88531277"
-+SRC_URI[sha256sum] = "cea827066a152a6afa1d0c43544dfbda285238156d4c3b77f9d4037bbe79361e"
++This patch changes cpu_loop() to set the NIP back to the
++pre-incremented value before calling do_syscall(), which causes the
++correct address to be used for the new thread and corrects the fault.
 +
-+DEPENDS += "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.10.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.10.3.bb
-similarity index 72%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.10.2.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.10.3.bb
-index 4a01e8c731..ae2c1cf351 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.10.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.10.3.bb
-@@ -7,7 +7,7 @@ SRC_URI = " \
-     http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
-     file://deterministic-unwind.patch \
- "
--SRC_URI[md5sum] = "0d289e5bcec6353e6540ddb75b7d371b"
--SRC_URI[sha256sum] = "150e8e81febac94c161d8141cde78a38038a8f56e8ec549f353da54994278d65"
-+SRC_URI[md5sum] = "8c1806916107f79e88bc6ab5f6f7754e"
-+SRC_URI[sha256sum] = "85b9dc1b2991f224fa90d534ec57014896c479e061dc9fa1bc16ae17cbebb63d"
++Signed-off-by: Sam Bobroff <address@hidden>
++
++Upstream-status: Backport
++
++---
++
++linux-user/main.c | 4 +++-
++1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/linux-user/main.c b/linux-user/main.c
++index 30049581ef..b5dee01541 100644
++--- a/linux-user/main.c
+++++ b/linux-user/main.c
++@@ -1712,18 +1712,20 @@ void cpu_loop(CPUPPCState *env)
++              * in syscalls.
++              */
++             env->crf[0] &= ~0x1;
+++            env->nip += 4;
++             ret = do_syscall(env, env->gpr[0], env->gpr[3], env->gpr[4],
++                              env->gpr[5], env->gpr[6], env->gpr[7],
++                              env->gpr[8], 0, 0);
++             if (ret == -TARGET_ERESTARTSYS) {
+++                env->nip -= 4;
++                 break;
++             }
++             if (ret == (target_ulong)(-TARGET_QEMU_ESIGRETURN)) {
+++                env->nip -= 4;
++                 /* Returning from a successful sigreturn syscall.
++                    Avoid corrupting register state.  */
++                 break;
++             }
++-            env->nip += 4;
++             if (ret > (target_ulong)(-515)) {
++                 env->crf[0] |= 0x1;
++                 ret = -ret;
+diff --git a/meta/recipes-devtools/qemu/qemu_2.7.1.bb b/meta/recipes-devtools/qemu/qemu_2.8.0.bb
+similarity index 70%
+rename from meta/recipes-devtools/qemu/qemu_2.7.1.bb
+rename to meta/recipes-devtools/qemu/qemu_2.8.0.bb
+index 8180c5f..e0527a8 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.7.1.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.8.0.bb
+@@ -5,18 +5,16 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
  
- S = "${WORKDIR}/gstreamer-${PV}"
+ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+             file://qemu-enlarge-env-entry-size.patch \
+-            file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
+             file://no-valgrind.patch \
+             file://pathlimit.patch \
+             file://qemu-2.5.0-cflags.patch \
+-            file://0003-fix-CVE-2016-7908.patch \
+-            file://0004-fix-CVE-2016-7909.patch \
++            file://target-ppc-fix-user-mode.patch \
+ "
+ 
+ SRC_URI =+ "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+ 
+-SRC_URI[md5sum] = "a315bc51ed443a08d2cf1416d76b9ab4"
+-SRC_URI[sha256sum] = "68636788eb69bcb0b44ba220b32b50495d6bd5712a934c282217831c4822958f"
++SRC_URI[md5sum] = "17940dce063b6ce450a12e719a6c9c43"
++SRC_URI[sha256sum] = "dafd5d7f649907b6b617b822692f4c82e60cf29bc0fc58bc2036219b591e5e62"
+ 
+ COMPATIBLE_HOST_mipsarchn32 = "null"
+ COMPATIBLE_HOST_mipsarchn64 = "null"
 -- 
-2.11.0
+2.1.4
 
 
