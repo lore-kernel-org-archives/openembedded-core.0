@@ -1,50 +1,50 @@
 Return-Path: <anders@chargestorm.se>
-Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
-	[209.85.215.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 3575671E59
+Received: from mail-lf0-f50.google.com (mail-lf0-f50.google.com
+	[209.85.215.50])
+	by mail.openembedded.org (Postfix) with ESMTP id C745B71E51
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jan 2017 07:18:19 +0000 (UTC)
-Received: by mail-lf0-f42.google.com with SMTP id v186so206639695lfa.1
+	Tue, 31 Jan 2017 07:18:21 +0000 (UTC)
+Received: by mail-lf0-f50.google.com with SMTP id z134so206575531lff.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2017 23:18:20 -0800 (PST)
+	Mon, 30 Jan 2017 23:18:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=VW9e5+nQJfnS6O+lWEJEck/55pFiuqoUmkRu5dBRlOc=;
-	b=idA4s30b07XEdp1iNZvyG8HLu8lw+nzn9d6o14Z7T2Zk3TeJwgb55oD99Reacq6JZL
-	OMegriacmf7Z4ySNlD7qwf9DjqaJwzHeIQX2NuqCwQTLNwSt5N5u1VGuWsO4rUSC/6h1
-	VTtYkSWYO+neEW6pvQQUW3us5BZ+KHiLbQY9jRn3QJzbrgQasP5Jg9kgrfj1zNCP3fxG
-	moPbR7wUUbD5a/Su10mYFQJUci3JEt4Su8yDSwXe6RSoUk9zWvGtOWM5/JWtsYyZ6mei
-	aV66P7hEbBRswesdHvg/SUomvapb+fnAbYD/FURpuwCuRFPnnOZQlVXnisqYXQO6DdNq
-	5yCQ==
+	bh=2ouV9jniHFMyL9DDLG7rk3wbX/Xu4aKWC5Gjo2+2iQw=;
+	b=zQR9wClVG1GN2+iGwfcOgXzTS9uX8btY6o6EPZNzwmwAIkE2id/dWvTyz5P1YoYC6z
+	z4Oy+b5YicrFJOZeS+Jk8ZkpA4HF4iEuhJBeXtkWk1BDaRd8CHr1ldH9iRnT53LYerCL
+	7AS7L6YsGuWb6uVdQQ/auE4My8Nd2nmZLE0RNSRlUwFg8EYeRlKHTJ29RkIwd9Ax4Z6Y
+	cwDYM9xZvk5GreWFZX6eLfBJQyZIXf07vlgWeqid4gcx8aNVi4wP8+5FSFdsWCNpMNG3
+	AVjyxzO4sz+afIT3dUEn4GRi+rJ6z9rTno2QLXu91rRYF2vOdlLVzuq8eax0XD+J+FII
+	NEsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=VW9e5+nQJfnS6O+lWEJEck/55pFiuqoUmkRu5dBRlOc=;
-	b=VayVczqqXD/j8svy9NCBs2WfcWH+CQC11CPDR4lySRi5LY4x4GwD/7gNub5y+2F5Nt
-	iMEyQO55YAxM0Fx/xmTziUuuJi9jmvZIfrjm/Fz09euJAmdsdwZRAmffuSkGebUCwPgZ
-	I0drvXlwPOt7PML7VXtEwShfHo2+K6VcIFKomLYx3P4TV6SU8yWE09+Vom/td0t54JdX
-	lfxr1x/+sFLw4zxBS8JRkA01VsD4Ig187fCMra1xATUR0AQqIXqo4ahADdDAmgIMnsTE
-	EweaaLnxtrxlco46Zzn23bXbYeLCLkXL/MtGKKaT2TFXI2mfr8+j1naqaFFCPoqv46yv
-	Iyaw==
-X-Gm-Message-State: AIkVDXLW9BP1WyZt0jhhF3CywZtJl6VzMj+sJQOhd68COFnnEELRp+lq5+cAr9h7zrGyBg==
-X-Received: by 10.25.169.67 with SMTP id s64mr8442666lfe.133.1485847099875;
-	Mon, 30 Jan 2017 23:18:19 -0800 (PST)
+	bh=2ouV9jniHFMyL9DDLG7rk3wbX/Xu4aKWC5Gjo2+2iQw=;
+	b=JAfSCMrrBxoY43WP0Nc71RiKzm25VTkhW60/XcwFeBCxZtTpYfWp91bqwC8xvpWwvm
+	13f2B77M6qWUWBzB5mm0AehYqRHeaHhSNuJ/rWADrdii2jteI9gCpzgf+tRQUoJlntve
+	dxRDDvSgwDa5iwTgY5u+EPQHF+wLzKt17jMawpNqN2Sp+6XiY53POlobuVhx/Fo3340r
+	SaDYQo/zH1/HpD1pTRkA4KsAS8/alI7Ts27eun8DkGk6kZGL+vmyWCQqCudVdPaXNakR
+	ZSwPRWfhy/BkuGzPbE2mBp8cXrj6239J0h/JnLyGBdCXqT8WQQHq65qLO8SISgHQpByy
+	/TAw==
+X-Gm-Message-State: AIkVDXJDnXpVBHxD1wV1XM4NzUgN7OshE/R2eS+SZWtCKPkgNeXE8dY1VdDKoRYj9c5xqg==
+X-Received: by 10.25.156.144 with SMTP id f138mr8969422lfe.80.1485847101390;
+	Mon, 30 Jan 2017 23:18:21 -0800 (PST)
 Received: from localhost (194-237-220-218.customer.telia.com.
 	[194.237.220.218])
-	by smtp.gmail.com with ESMTPSA id n8sm4349395lfi.30.2017.01.30.23.18.19
+	by smtp.gmail.com with ESMTPSA id w4sm400323ljd.23.2017.01.30.23.18.20
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 30 Jan 2017 23:18:19 -0800 (PST)
+	Mon, 30 Jan 2017 23:18:20 -0800 (PST)
 From: Anders Darander <anders@chargestorm.se>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Jan 2017 08:18:11 +0100
-Message-Id: <6f44da9601d2ae87573905ca1b7fa30cf5043100.1485846907.git.anders@chargestorm.se>
+Date: Tue, 31 Jan 2017 08:18:12 +0100
+Message-Id: <61ff6f1cfa8e2d96012033d36d2e36b80a969364.1485846907.git.anders@chargestorm.se>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1485846907.git.anders@chargestorm.se>
 References: <cover.1485846907.git.anders@chargestorm.se>
 Cc: Anders Darander <anders@chargestorm.se>
-Subject: [PATCH v2 2/7] python3-manifest: move htlm.py to python3-html
+Subject: [PATCH v2 3/7] python-3-manifest: add argparse to RDEPENDS for netclient
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,9 +57,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jan 2017 07:18:20 -0000
+X-List-Received-Date: Tue, 31 Jan 2017 07:18:22 -0000
 
-This allows us to use html.py without importing misc.
+http/server.py requires argparse.
 
 Signed-off-by: Anders Darander <anders@chargestorm.se>
 ---
@@ -68,31 +68,31 @@ Signed-off-by: Anders Darander <anders@chargestorm.se>
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/recipes-devtools/python/python-3.5-manifest.inc
-index b92048f..6093c28 100644
+index 6093c28..5c10cd2 100644
 --- a/meta/recipes-devtools/python/python-3.5-manifest.inc
 +++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
-@@ -103,7 +103,7 @@ FILES_${PN}-gdbm="${libdir}/python3.5/lib-dynload/_gdbm.*.so ${libdir}/python3.5
+@@ -154,7 +154,7 @@ RDEPENDS_${PN}-multiprocessing="${PN}-core ${PN}-io ${PN}-lang ${PN}-pickle ${PN
+ FILES_${PN}-multiprocessing="${libdir}/python3.5/lib-dynload/_multiprocessing.*.so ${libdir}/python3.5/lib-dynload/__pycache__/_multiprocessing.*.so ${libdir}/python3.5/multiprocessing ${libdir}/python3.5/multiprocessing/__pycache__ "
  
- SUMMARY_${PN}-html="Python HTML processing support"
- RDEPENDS_${PN}-html="${PN}-core"
--FILES_${PN}-html="${libdir}/python3.5/formatter.* ${libdir}/python3.5/__pycache__/formatter.* ${libdir}/python3.5/htmlentitydefs.* ${libdir}/python3.5/__pycache__/htmlentitydefs.* ${libdir}/python3.5/htmllib.* ${libdir}/python3.5/__pycache__/htmllib.* ${libdir}/python3.5/markupbase.* ${libdir}/python3.5/__pycache__/markupbase.* ${libdir}/python3.5/sgmllib.* ${libdir}/python3.5/__pycache__/sgmllib.* ${libdir}/python3.5/HTMLParser.* ${libdir}/python3.5/__pycache__/HTMLParser.* "
-+FILES_${PN}-html="${libdir}/python3.5/formatter.* ${libdir}/python3.5/__pycache__/formatter.* ${libdir}/python3.5/htmlentitydefs.* ${libdir}/python3.5/__pycache__/htmlentitydefs.* ${libdir}/python3.5/html ${libdir}/python3.5/html/__pycache__ ${libdir}/python3.5/htmllib.* ${libdir}/python3.5/__pycache__/htmllib.* ${libdir}/python3.5/markupbase.* ${libdir}/python3.5/__pycache__/markupbase.* ${libdir}/python3.5/sgmllib.* ${libdir}/python3.5/__pycache__/sgmllib.* ${libdir}/python3.5/HTMLParser.* ${libdir}/python3.5/__pycache__/HTMLParser.* "
+ SUMMARY_${PN}-netclient="Python Internet Protocol clients"
+-RDEPENDS_${PN}-netclient="${PN}-core ${PN}-crypt ${PN}-datetime ${PN}-io ${PN}-lang ${PN}-logging ${PN}-mime"
++RDEPENDS_${PN}-netclient="${PN}-argparse ${PN}-core ${PN}-crypt ${PN}-datetime ${PN}-io ${PN}-lang ${PN}-logging ${PN}-mime"
+ FILES_${PN}-netclient="${libdir}/python3.5/*Cookie*.* ${libdir}/python3.5/__pycache__/*Cookie*.* ${libdir}/python3.5/base64.* ${libdir}/python3.5/__pycache__/base64.* ${libdir}/python3.5/cookielib.* ${libdir}/python3.5/__pycache__/cookielib.* ${libdir}/python3.5/ftplib.* ${libdir}/python3.5/__pycache__/ftplib.* ${libdir}/python3.5/gopherlib.* ${libdir}/python3.5/__pycache__/gopherlib.* ${libdir}/python3.5/hmac.* ${libdir}/python3.5/__pycache__/hmac.* ${libdir}/python3.5/http* ${libdir}/python3.5/http*/__pycache__ ${libdir}/python3.5/httplib.* ${libdir}/python3.5/__pycache__/httplib.* ${libdir}/python3.5/mimetypes.* ${libdir}/python3.5/__pycache__/mimetypes.* ${libdir}/python3.5/nntplib.* ${libdir}/python3.5/__pycache__/nntplib.* ${libdir}/python3.5/poplib.* ${libdir}/python3.5/__pycache__/poplib.* ${libdir}/python3.5/smtplib.* ${libdir}/python3.5/__pycache__/smtplib.* ${libdir}/python3.5/telnetlib.* ${libdir}/python3.5/__pycache__/telnetlib.* ${libdir}/python3.5/urllib ${libdir}/python3.5/urllib/__pycache__ ${libdir}/python3.5/uuid.* ${libdir}/python3.5/__pycache__/uuid.* ${libdir}/python3.5/rfc822.* ${libdir}/python3.5/__pycache__/rfc822.* ${libdir}/python3.5/mimetools.* ${libdir}/python3.5/__pycache__/mimetools.* "
  
- SUMMARY_${PN}-idle="Python Integrated Development Environment"
- RDEPENDS_${PN}-idle="${PN}-core ${PN}-tkinter"
+ SUMMARY_${PN}-netserver="Python Internet Protocol servers"
 diff --git a/scripts/contrib/python/generate-manifest-3.5.py b/scripts/contrib/python/generate-manifest-3.5.py
-index cf19f47..cc2e561 100755
+index cc2e561..ac95bc8 100755
 --- a/scripts/contrib/python/generate-manifest-3.5.py
 +++ b/scripts/contrib/python/generate-manifest-3.5.py
-@@ -276,7 +276,7 @@ if __name__ == "__main__":
-     "lib-dynload/fcntl.*.so" )
+@@ -318,7 +318,7 @@ if __name__ == "__main__":
+     m.addPackage( "${PN}-multiprocessing", "Python multiprocessing support", "${PN}-core ${PN}-io ${PN}-lang ${PN}-pickle ${PN}-threading ${PN}-ctypes ${PN}-mmap",
+     "lib-dynload/_multiprocessing.*.so multiprocessing" ) # package
  
-     m.addPackage( "${PN}-html", "Python HTML processing support", "${PN}-core",
--    "formatter.* htmlentitydefs.* htmllib.* markupbase.* sgmllib.* HTMLParser.* " )
-+    "formatter.* htmlentitydefs.* html htmllib.* markupbase.* sgmllib.* HTMLParser.* " )
+-    m.addPackage( "${PN}-netclient", "Python Internet Protocol clients", "${PN}-core ${PN}-crypt ${PN}-datetime ${PN}-io ${PN}-lang ${PN}-logging ${PN}-mime",
++    m.addPackage( "${PN}-netclient", "Python Internet Protocol clients", "${PN}-argparse ${PN}-core ${PN}-crypt ${PN}-datetime ${PN}-io ${PN}-lang ${PN}-logging ${PN}-mime",
+     "*Cookie*.* " +
+     "base64.* cookielib.* ftplib.* gopherlib.* hmac.* http* httplib.* mimetypes.* nntplib.* poplib.* smtplib.* telnetlib.* urllib  uuid.* rfc822.* mimetools.*" )
  
-     m.addPackage( "${PN}-importlib", "Python import implementation library", "${PN}-core ${PN}-lang",
-     "importlib imp.*" )
 -- 
 2.10.2
 
