@@ -1,33 +1,30 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id F3D3C71D90
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id E21BD71D9A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2017 23:40:11 +0000 (UTC)
+	Tue, 31 Jan 2017 00:14:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id AF18131C6930;
-	Tue, 31 Jan 2017 00:40:11 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id 71QBzuAh8RTx; Tue, 31 Jan 2017 00:40:09 +0100 (CET)
-Received: from t510.zcs.saftware.de (55d41ba8.access.ecotel.net
-	[85.212.27.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 356A631C698F;
-	Tue, 31 Jan 2017 00:40:09 +0100 (CET)
-Date: Tue, 31 Jan 2017 00:40:08 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-To: Denys Dmytriyenko <denis@denix.org>
-Message-ID: <20170131004008.3b3f2cf0@t510.zcs.saftware.de>
-In-Reply-To: <20170130232110.GH15833@denix.org>
-References: <1485813590-22370-1-git-send-email-obi@opendreambox.org>
-	<20170130232110.GH15833@denix.org>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] ffmpeg: disable cpu autodetection
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v0V0Ea8T006136; Tue, 31 Jan 2017 00:14:36 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Q-l-BhKR-0Eh; Tue, 31 Jan 2017 00:14:36 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v0V0EXi3006128
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 31 Jan 2017 00:14:34 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1cYM5h-00079N-Fi; Tue, 31 Jan 2017 00:14:33 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 31 Jan 2017 00:14:24 +0000
+Message-Id: <1485821667-27436-2-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1485821667-27436-1-git-send-email-richard.purdie@linuxfoundation.org>
+References: <1485821667-27436-1-git-send-email-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/5] relocatable: Make native .pc files relocatable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,63 +37,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2017 23:40:12 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 31 Jan 2017 00:14:40 -0000
 
-On Mon, 30 Jan 2017 18:21:10 -0500
-Denys Dmytriyenko <denis@denix.org> wrote:
+The native .pc files currently have hardcoded paths in them meaning each has
+to be relocated at final install time. pkg-config has built in functionality
+to avoid this, namely the pcfiledir variable.
 
-> On Mon, Jan 30, 2017 at 10:59:50PM +0100, Andreas Oberritter wrote:
-> > Just pass the correct -mcpu= configure switch (fallback to generic).
-> > 
-> > Avoids warnings like:
-> > | warning: switch -mcpu=cortex-a15 conflicts with -march=armv7-a switch  
-> 
-> That is actually a valid warning - cortex-a15 is armv7ve, not armv7a...
+This function translates .pc files to use the variable meaning further
+relocation later is unnecessary.
 
-Agreed. That's why I decided to fix it with this patch.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/relocatable.bbclass | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-Regards,
-Andreas
-
-> > Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
-> > ---
-> >  meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.2.bb | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> > 
-> > diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.2.bb
-> > index 66718c4..c376d82 100644
-> > --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.2.bb
-> > +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.2.bb
-> > @@ -66,6 +66,12 @@ PACKAGECONFIG[xv] = "--enable-outdev=xv,--disable-outdev=xv,libxv"
-> >  # Check codecs that require --enable-nonfree
-> >  USE_NONFREE = "${@bb.utils.contains_any('PACKAGECONFIG', [ 'openssl' ], 'yes', '', d)}"
-> >  
-> > +def cpu(d):
-> > +    for arg in (d.getVar('TUNE_CCARGS') or '').split():
-> > +        if arg.startswith('-mcpu='):
-> > +            return arg[6:]
-> > +    return 'generic'
-> > +
-> >  EXTRA_OECONF = " \
-> >      --disable-stripping \
-> >      --enable-pic \
-> > @@ -90,6 +96,7 @@ EXTRA_OECONF = " \
-> >      --shlibdir=${libdir} \
-> >      --datadir=${datadir}/ffmpeg \
-> >      ${@bb.utils.contains('AVAILTUNES', 'mips32r2', '', '--disable-mipsdsp --disable-mipsdspr2', d)} \
-> > +    --cpu=${@cpu(d)} \
-> >  "
-> >  
-> >  EXTRA_OECONF_append_linux-gnux32 = " --disable-asm"
-> > -- 
-> > 2.7.4
-> > 
-> > -- 
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core  
+diff --git a/meta/classes/relocatable.bbclass b/meta/classes/relocatable.bbclass
+index 4ca9981..582812c 100644
+--- a/meta/classes/relocatable.bbclass
++++ b/meta/classes/relocatable.bbclass
+@@ -1,7 +1,18 @@
+ inherit chrpath
+ 
+-SYSROOT_PREPROCESS_FUNCS += "relocatable_binaries_preprocess"
++SYSROOT_PREPROCESS_FUNCS += "relocatable_binaries_preprocess relocatable_native_pcfiles"
+ 
+ python relocatable_binaries_preprocess() {
+     rpath_replace(d.expand('${SYSROOT_DESTDIR}'), d)
+ }
++
++relocatable_native_pcfiles () {
++	if [ -d ${SYSROOT_DESTDIR}${libdir}/pkgconfig ]; then
++		rel=${@os.path.relpath(d.getVar('base_prefix'), d.getVar('libdir') + "/pkgconfig")}
++		sed -i -e "s:${base_prefix}:\${pcfiledir}/$rel:g" ${SYSROOT_DESTDIR}${libdir}/pkgconfig/*.pc
++	fi
++	if [ -d ${SYSROOT_DESTDIR}${datadir}/pkgconfig ]; then
++		rel=${@os.path.relpath(d.getVar('base_prefix'), d.getVar('datadir') + "/pkgconfig")}
++		sed -i -e "s:${base_prefix}:\${pcfiledir}/$rel:g" ${SYSROOT_DESTDIR}${datadir}/pkgconfig/*.pc
++	fi
++}
+-- 
+2.7.4
 
 
