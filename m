@@ -1,50 +1,46 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
-	[209.85.214.41])
-	by mail.openembedded.org (Postfix) with ESMTP id A200A71C69
+Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
+	[209.85.214.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B54D6011B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jan 2017 12:29:26 +0000 (UTC)
-Received: by mail-it0-f41.google.com with SMTP id c7so123735493itd.1
+	Tue, 31 Jan 2017 12:50:40 +0000 (UTC)
+Received: by mail-it0-f51.google.com with SMTP id c7so124103648itd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jan 2017 04:29:27 -0800 (PST)
+	Tue, 31 Jan 2017 04:50:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:organization:mime-version
-	:content-transfer-encoding;
-	bh=e4E2GD48iE1x22/DboUW/nABlxFyspPzkpizDz8kN5g=;
-	b=TmjLzRvSjECdHrD+gbDGN7c8dzXcR81ckBSJTuhwEB0uTTuHjn9YHal6jPnDKwQ2V8
-	m59TSjvZMe+0NdQnK2beUMAAXt60u8DSC2R0c/UrPQsIZyiKQGOLLT8IR6wZO+JVVJ9W
-	koZUifRZcL3MS3qbgN+G7oclP1TbKsntJYT/DEAPKhqp1GlVDq78tkD/Kaka2oTogQJ8
-	Liz/57sfTbvr+9fDTjWsD4I/LuDBfG/RGaPqzJXTkK3bNZx6i7KzUwbu293cAUU2FFHr
-	XN++15UTataTHagjL4P0MlhvwfvIiLARAI58VyFWrGX3n6+77hX3LNPlDjR6PcdFp5/t
-	7LBQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=aZdqQhvBfwecH6Di4deAdaq5LTTYhO9d4pKLWKo+4bI=;
+	b=r1YTSyZUawbA55Jfu6IRtYtMROZf+dbaP/gtGQHYXuKSmm9AaoeIF9K+X74NkVJatC
+	CbCOB0oUSID49wIqvF9ntgOY/E1qGj8Tp+7nRhGmSUHaqLsDxyJ1K3DyChqAu4b0Gfy6
+	F592wxfchKrwqXIpYYVl2dCV35ULeSbNs4psnGnGCG0VK6ZhnEAXPZt1Z3QL1Bp7cAEv
+	oidAlMUWJb8S9QpXYJ6bzM+Hi/x3duZlMpttVcwkFRxku6d/Irh6K4dNJLIrAFWxwWqb
+	91FXedju3qBM5vWN0EGSRV8JBohxyBXg7dKaljwERiCaGqe1q40j+TbljRMm3DgjRrGz
+	4MGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:organization
-	:mime-version:content-transfer-encoding;
-	bh=e4E2GD48iE1x22/DboUW/nABlxFyspPzkpizDz8kN5g=;
-	b=e2Emi6+9Cy/IuGFb33izrVambbByDsOLwsApc3bvtue4HS/h8nvKy1s362Q8k0YOTX
-	6vBtFJaX0DLA5z/KfGxzcAamIETQAHzPhsK8RFSGpAo9mUqLjoiJKOeNGLEiQJPzQ6B0
-	7II1/wXq9NIcW56QeoXImBgfmG70N26soB4eQrO670v7k05k1gzaBij26CZPj1FZIXN+
-	cyNWjsFyYwv4qg5BMk9DNCr/VHffPIywHDb4ASyWwm5bFR7cSHKCkk42I1oxOSzIKCRJ
-	eMRtuI4IsZcubNypgjv1Jg5eBKGJ481zhyAWcAQcrOX3iMTxn/4SoUi0ErnONv9s9VLw
-	DhRg==
-X-Gm-Message-State: AIkVDXLfpAKpGdPUJFOY5LWZGapX5eIzkTR1GGTR2FtYapSDhwYS6k2l94HPSnioCGxJUlWp
-X-Received: by 10.36.116.7 with SMTP id o7mr224526itc.31.1485865766444;
-	Tue, 31 Jan 2017 04:29:26 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8DFEB.dip0.t-ipconnect.de. [93.232.223.235])
-	by smtp.gmail.com with ESMTPSA id
-	r85sm8178521itc.13.2017.01.31.04.29.24
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 31 Jan 2017 04:29:25 -0800 (PST)
-Message-ID: <1485865762.20333.161.camel@intel.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=aZdqQhvBfwecH6Di4deAdaq5LTTYhO9d4pKLWKo+4bI=;
+	b=ZjAqH/ACbD61tQC+G5EukP0M+Y2YwR9EKelHjZB8q5fbJxIBq1miooAYbIa2rmBSnf
+	M6X7BMrdTbmjvywBvxIwCSOHv6wBH4cVqMlthWqeyEdROEuUrDt33DuR725fr5R6Vvgp
+	PAYIhCUXA+3ezXNjXFQSOd/vs2V2Xb/MqfCj3gllbpe8LeVsrYv2hSd4LhfiH1D203o6
+	XLUjEeOdVQRhLBL//lEh35XevnkaiZtvs8wO12vyounFlhtkvssR8qs2bQ4FnGyzH9wf
+	zpjkW5GdV61/Qz/GPysMpootSLlLvLL3fqB8+qW/4gkY27HPG54JkZyUHq9Ip68j3ol0
+	xaTw==
+X-Gm-Message-State: AIkVDXLW5HGM0XOprboUnnbIJi/ZNvMlZgebfskUcqlecpMKI2XSDF4HaLL8+ljMFtFqbY+e
+X-Received: by 10.36.79.13 with SMTP id c13mr19139169itb.103.1485867041269;
+	Tue, 31 Jan 2017 04:50:41 -0800 (PST)
+Received: from pohly-desktop.fritz.box (p5DE8DFEB.dip0.t-ipconnect.de.
+	[93.232.223.235]) by smtp.gmail.com with ESMTPSA id
+	l31sm10051399iod.17.2017.01.31.04.50.39
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 31 Jan 2017 04:50:40 -0800 (PST)
 From: Patrick Ohly <patrick.ohly@intel.com>
-To: OpenEmbedded <openembedded-core@lists.openembedded.org>
-Date: Tue, 31 Jan 2017 13:29:22 +0100
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Subject: potential bashism in guile_2.0.13.bb
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 31 Jan 2017 13:50:25 +0100
+Message-Id: <cover.55ff1fc2ce63597ab9f5324450132e786a996ac5.1485867027.git-series.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 0/8] verify-bashisms: fix script and one issue found by it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,55 +53,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jan 2017 12:29:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 31 Jan 2017 12:50:41 -0000
 
-Hello!
+The script broke when introducing tinfoil2. The patches also include
+several usability enhancements, like making the output less redundant
+and including information about the actual file and line where the
+offending script can be found.
 
-verify-bashisms (after some fixing of the script) reports:
+Patrick Ohly (8):
+  verify-bashisms: fix typo
+  verify-bashisms: point out where to get checkbashisms.pl
+  verify-bashisms: explicitly shut down server
+  verify-bashisms: fix problems with tinfoil2
+  verify-bashisms: revise update-rc.d whitelist entry
+  verify-bashisms: check scripts only once, include original file and line
+  populate_sdk_ext: fix == bashism
+  verify-bashisms: support warnings with more than one line of source code
 
-/work/iot-ref-kit/openembedded-core/meta/recipes-devtools/guile/guile_2.0.13.bb
- possible bashism in guile_cross_config line 94 ($'...' should be "$(printf '...')"):  
-        	echo '#!'`which ${BUILD_SYS}-guile`$' \\\n--no-auto-compile -e main -s\n!#\n(define %guile-build-info '\'\( \
-			> ${B}/guile-config.cross
+ meta/classes/populate_sdk_ext.bbclass |   2 +-
+ scripts/verify-bashisms               | 100 +++++++++++++++++----------
+ 2 files changed, 67 insertions(+), 35 deletions(-)
 
-
-This is for:
-
-guile_cross_config() {
-	# this is only for target recipe
-	if [ "${PN}" = "guile" ]
-	then
-	        # Create guile-config returning target values instead of native values
-	        install -d ${SYSROOT_DESTDIR}${STAGING_BINDIR_CROSS}
-        	echo '#!'`which ${BUILD_SYS}-guile`$' \\\n--no-auto-compile -e main -s\n!#\n(define %guile-build-info '\'\( \
-			> ${B}/guile-config.cross
-
-And the resulting guile-config.cross has (when /bin/sh -> /bin/dash):
-
-#!/fast/build/refkit/intel-corei7-64/tmp-glibc/work/corei7-64-refkit-linux/guile/2.0.13-r0/recipe-sysroot-native/usr/bin/x86_64-linux-guile$ \
---no-auto-compile -e main -s
-!#
-(define %guile-build-info '(
-...
-
-This looks rather strange to me and I've no idea how the Linux kernel
-will interpret that first shebang line, which literally ends in
-...guile$ \
-
-Is the content as intended?
-
-It builds, whatever that means.
-
+base-commit: 8d955d3486beca27fa23448f930d2c4df94b187a
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+git-series 0.9.1
 
