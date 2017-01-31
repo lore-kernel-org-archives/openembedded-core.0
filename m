@@ -1,23 +1,23 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A456876536
+	by mail.openembedded.org (Postfix) with ESMTP id 41751771AF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jan 2017 21:02:52 +0000 (UTC)
+	Tue, 31 Jan 2017 21:02:53 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga103.jf.intel.com with ESMTP; 31 Jan 2017 13:02:53 -0800
+	by orsmga103.jf.intel.com with ESMTP; 31 Jan 2017 13:02:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,316,1477983600"; d="scan'208";a="60333972"
+X-IronPort-AV: E=Sophos;i="5.33,316,1477983600"; d="scan'208";a="60333977"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.122])
-	by fmsmga006.fm.intel.com with ESMTP; 31 Jan 2017 13:02:52 -0800
+	by fmsmga006.fm.intel.com with ESMTP; 31 Jan 2017 13:02:53 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Jan 2017 15:05:53 -0600
-Message-Id: <1485896754-13589-3-git-send-email-anibal.limon@linux.intel.com>
+Date: Tue, 31 Jan 2017 15:05:54 -0600
+Message-Id: <1485896754-13589-4-git-send-email-anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1485896754-13589-1-git-send-email-anibal.limon@linux.intel.com>
 References: <1485896754-13589-1-git-send-email-anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCHv2 3/4] oeqa/core/context.py: Add validation for run-tests option
+Subject: [PATCHv2 4/4] oeqa/runtime/cases: Rename syslog module to oe_syslog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,31 +34,67 @@ X-List-Received-Date: Tue, 31 Jan 2017 21:02:53 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The run-tests option is optional so if isn't specified set
-to None instead of crash on split().
+Debian based distros has a builtin syslog module so when
+try to load tests using unittest it references the builtin
+module instead of runtime/cases.
+
+[YOCTO #10964]
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/lib/oeqa/core/context.py | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/classes/testimage.bbclass                          | 2 +-
+ meta/lib/oeqa/runtime/cases/{syslog.py => oe_syslog.py} | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/lib/oeqa/runtime/cases/{syslog.py => oe_syslog.py} (92%)
 
-diff --git a/meta/lib/oeqa/core/context.py b/meta/lib/oeqa/core/context.py
-index efed4e6..4476750 100644
---- a/meta/lib/oeqa/core/context.py
-+++ b/meta/lib/oeqa/core/context.py
-@@ -215,7 +215,11 @@ class OETestContextExecutor(object):
-         else:
-             self.tc_kwargs['init']['td'] = {}
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 7495fe1..c6e4cec 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -38,7 +38,7 @@ TEST_PACKAGED_DIR ?= "${TEST_NEEDED_PACKAGES_DIR}/packaged"
+ RPMTESTSUITE = "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'smart rpm', '', d)}"
+ SYSTEMDSUITE = "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
+ MINTESTSUITE = "ping"
+-NETTESTSUITE = "${MINTESTSUITE} ssh df date scp syslog ${SYSTEMDSUITE}"
++NETTESTSUITE = "${MINTESTSUITE} ssh df date scp oe_syslog ${SYSTEMDSUITE}"
+ DEVTESTSUITE = "gcc kernelmodule ldd"
  
--        self.tc_kwargs['load']['modules'] = args.run_tests.split()
-+
-+        if args.run_tests:
-+            self.tc_kwargs['load']['modules'] = args.run_tests.split()
-+        else:
-+            self.tc_kwargs['load']['modules'] = None
+ DEFAULT_TEST_SUITES = "${MINTESTSUITE} auto"
+diff --git a/meta/lib/oeqa/runtime/cases/syslog.py b/meta/lib/oeqa/runtime/cases/oe_syslog.py
+similarity index 92%
+rename from meta/lib/oeqa/runtime/cases/syslog.py
+rename to meta/lib/oeqa/runtime/cases/oe_syslog.py
+index 537c519..005b697 100644
+--- a/meta/lib/oeqa/runtime/cases/syslog.py
++++ b/meta/lib/oeqa/runtime/cases/oe_syslog.py
+@@ -18,7 +18,7 @@ class SyslogTest(OERuntimeTestCase):
+ class SyslogTestConfig(OERuntimeTestCase):
  
-         self.module_paths = args.CASES_PATHS
+     @OETestID(1149)
+-    @OETestDepends(['syslog.SyslogTest.test_syslog_running'])
++    @OETestDepends(['oe_syslog.SyslogTest.test_syslog_running'])
+     def test_syslog_logger(self):
+         status, output = self.target.run('logger foobar')
+         msg = "Can't log into syslog. Output: %s " % output
+@@ -35,7 +35,7 @@ class SyslogTestConfig(OERuntimeTestCase):
+         self.assertEqual(status, 0, msg=msg)
  
+     @OETestID(1150)
+-    @OETestDepends(['syslog.SyslogTest.test_syslog_running'])
++    @OETestDepends(['oe_syslog.SyslogTest.test_syslog_running'])
+     def test_syslog_restart(self):
+         if "systemd" != self.tc.td.get("VIRTUAL-RUNTIME_init_manager", ""):
+             (_, _) = self.target.run('/etc/init.d/syslog restart')
+@@ -44,7 +44,7 @@ class SyslogTestConfig(OERuntimeTestCase):
+ 
+ 
+     @OETestID(202)
+-    @OETestDepends(['syslog.SyslogTestConfig.test_syslog_logger'])
++    @OETestDepends(['oe_syslog.SyslogTestConfig.test_syslog_logger'])
+     @OEHasPackage(["!sysklogd", "busybox"])
+     @skipIfDataVar('VIRTUAL-RUNTIME_init_manager', 'systemd',
+                    'Not appropiate for systemd image')
 -- 
 2.1.4
 
