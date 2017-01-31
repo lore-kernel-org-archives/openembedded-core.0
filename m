@@ -1,28 +1,34 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 31C0E71CBF
+Return-Path: <gary@mlbassoc.com>
+X-Greylist: delayed 317 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 31 Jan 2017 05:13:37 UTC
+Received: from mail.analogue-micro.com (mail.analogue-micro.com
+	[217.144.149.242])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E6E871C5F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jan 2017 04:08:46 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga102.fm.intel.com with ESMTP; 30 Jan 2017 20:08:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,313,1477983600"; d="scan'208";a="59075403"
-Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
-	([10.255.191.81])
-	by orsmga005.jf.intel.com with ESMTP; 30 Jan 2017 20:08:44 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Date: Tue, 31 Jan 2017 17:08:42 +1300
-Message-ID: <1655371.05OclePoMp@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/5.3.3 (Linux/4.9.5-200.fc25.x86_64; KDE/5.29.0; x86_64; ; )
-In-Reply-To: <76194795-10db-1c7b-2307-5fd253ced9e1@linux.intel.com>
-References: <LOXP123MB0117481CD1D9200877961EE985740@LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM>
-	<LOXP123MB0117BE12F7F114C165F1AFF5854B0@LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM>
-	<76194795-10db-1c7b-2307-5fd253ced9e1@linux.intel.com>
+	Tue, 31 Jan 2017 05:13:37 +0000 (UTC)
+Received: by mail.analogue-micro.com (Postfix, from userid 999)
+	id A868E68A019; Tue, 31 Jan 2017 05:08:19 +0000 (GMT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	loki.analogue-micro-ltd.com
+X-Spam-Level: *
+X-Spam-Status: No, score=1.2 required=5.0 tests=ALL_TRUSTED,BAYES_05,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
+	by mail.analogue-micro.com (Postfix) with ESMTP id 2E09468A019;
+	Tue, 31 Jan 2017 05:08:19 +0000 (GMT)
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by zeus.mlbassoc.com (Postfix) with ESMTP id AB4166740327;
+	Tue, 31 Jan 2017 06:08:18 +0100 (CET)
+To: openembedded-core@lists.openembedded.org
+References: <1484974938-6497-1-git-send-email-gary@mlbassoc.com>
+From: Gary Thomas <gary@mlbassoc.com>
+Message-ID: <b8f21f98-445d-a91b-aba7-c9ba7263f539@mlbassoc.com>
+Date: Tue, 31 Jan 2017 06:08:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.7.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: rootfs build failure
+In-Reply-To: <1484974938-6497-1-git-send-email-gary@mlbassoc.com>
+Subject: Re: [PATCH] glib-2.0: native package should not depend on DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,79 +41,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jan 2017 04:08:47 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 31 Jan 2017 05:13:37 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-There seems to be some kind of intermittent issue where the pkgdata file 
-either goes missing or is never created - this sounds vaguely familiar though 
-I'm not sure where it came up before. Leo, can you file a bug for the 
-situation you saw?
+On 2017-01-21 06:02, Gary Thomas wrote:
+> xxx-native packages should not depend on ${DISTRO} settings.  Doing
+> so feels inherently wrong and limits the usefulness of sstate-cache.
+>
+> This patch changes how this package is installed, in particular
+> removing the dependency on the ${DISTRO_FEATURES} variable in
+> glib-2.0-native.  This will further improve the ability to share
+> native packages between builds with differences in ${DISTRO_FEATURES}
+>
+> Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+> ---
+>  meta/recipes-core/glib-2.0/glib.inc | 14 +++++++++-----
+>  1 file changed, 9 insertions(+), 5 deletions(-)
+>
+> diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+> index cb6aca7..a5db455 100644
+> --- a/meta/recipes-core/glib-2.0/glib.inc
+> +++ b/meta/recipes-core/glib-2.0/glib.inc
+> @@ -92,16 +92,20 @@ do_install_append () {
+>  		sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/env perl,' ${D}${bindir}/glib-mkenums
+>  	fi
+>
+> +        # Make sure gio-querymodules is unique among multilibs
+> +        if test "x${MLPREFIX}" != "x"; then
+> +                mv ${D}${libexecdir}/gio-querymodules ${D}${libexecdir}/${MLPREFIX}gio-querymodules
+> +        fi
+> +}
+> +
+> +do_install_append_class-target () {
+> +	# Tests are only installed on targets, not native builds.  Separating this out
+> +	# keeps glib-2.0-native from depending on ${DISTRO_FEATURES}
+>  	if [ -f ${D}${datadir}/installed-tests/glib/gdbus-serialization.test ]; then
+>  		if ${@bb.utils.contains("DISTRO_FEATURES", "x11", "false", "true", d)}; then
+>  			rm ${D}${datadir}/installed-tests/glib/gdbus-serialization.test
+>  		fi
+>  	fi
+> -
+> -        # Make sure gio-querymodules is unique among multilibs
+> -        if test "x${MLPREFIX}" != "x"; then
+> -                mv ${D}${libexecdir}/gio-querymodules ${D}${libexecdir}/${MLPREFIX}gio-querymodules
+> -        fi
+>  }
+>
+>  do_install_append_libc-musl () {
+>
 
-Thanks,
-Paul
-
-On Monday, 30 January 2017 10:46:38 AM NZDT Leonardo Sandoval wrote:
-> workaround: Try using another package manager as first option in the
-> PACKAGE_CLASSES variable set on local.conf.
-> 
-> I have a similar error on a OpenSUSE machine but did not report it. I
-> was using the rpm (which is the default) but did the trick mentioned
-> above and worked.
-> 
-> On 01/30/2017 09:44 AM, Andrew Goodbody wrote:
-> > Anyone know what the deal is here?
-> > 
-> > Andrew
-> > 
-> >> -----Original Message-----
-> >> I now get the following build failure from do_rootfs
-> >> 
-> >> The stack trace of python calls that resulted in this exception/failure
-> >> was: File: 'exec_python_func() autogenerated', lineno: 2, function:
-> >> <module>>> 
-> >>       0001:
-> >>   *** 0002:license_create_manifest(d)
-> >>   
-> >>       0003:
-> >> File: '/home/andrew/src/camol3/camol/layers/openembedded-
-> >> core/meta/classes/license.bbclass', lineno: 48, function:
-> >> license_create_manifest
-> >> 
-> >>       0044:    pkg_dic = {}
-> >>       0045:    for pkg in sorted(image_list_installed_packages(d)):
-> >>       0046:        pkg_info = os.path.join(d.getVar('PKGDATA_DIR'),
-> >>       0047:                                'runtime-reverse', pkg)
-> >>   
-> >>   *** 0048:        pkg_name = os.path.basename(os.readlink(pkg_info))
-> >>   
-> >>       0049:
-> >>       0050:        pkg_dic[pkg_name] =
-> >> 
-> >> oe.packagedata.read_pkgdatafile(pkg_info)
-> >> 
-> >>       0051:        if not "LICENSE" in pkg_dic[pkg_name].keys():
-> >>       0052:            pkg_lic_name = "LICENSE_" + pkg_name
-> >> 
-> >> Exception: FileNotFoundError: [Errno 2] No such file or directory:
-> >> '/home/andrew/src/camol3/camol/build/tmp-camol-
-> >> glibc/pkgdata/whippet/runtime-reverse/kernel-module-configfs'
-> >> 
-> >> ERROR: whippet-internal-image-1.0-r0 do_rootfs: Function failed:
-> >> license_create_manifest
-> >> 
-> >> /home/andrew/src/camol3/camol/build/tmp-camol-
-> >> glibc/pkgdata/whippet/runtime-reverse/kernel-module-configfs indeed
-> >> does not exist but
-> >> /home/andrew/src/camol3/camol/build/tmp-camol-
-> >> glibc/pkgdata/whippet/runtime-reverse/kernel-module-configfs-4.5.1 does
-> >> exist.
-> >> 
-> >> Andrew
+Ping?
 
 
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
