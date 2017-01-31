@@ -1,18 +1,22 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 02BDE71E3E;
-	Tue, 31 Jan 2017 20:53:33 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: =?utf-8?b?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Date: Tue, 31 Jan 2017 20:53:34 -0000
-Message-ID: <20170131205334.4462.14251@do.openembedded.org>
-References: <1485895975-7611-1-git-send-email-anibal.limon@linux.intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1485895975-7611-1-git-send-email-anibal.limon@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInJ1bnRpbWUvY2FzZXM6IEZpeCBjYXNlIG51bWJlci4uLiIgYW5kIDMgbW9yZQ==?=
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E0AF731DA
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Jan 2017 21:02:52 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga103.jf.intel.com with ESMTP; 31 Jan 2017 13:02:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,316,1477983600"; d="scan'208";a="60333970"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.122])
+	by fmsmga006.fm.intel.com with ESMTP; 31 Jan 2017 13:02:52 -0800
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 31 Jan 2017 15:05:52 -0600
+Message-Id: <1485896754-13589-2-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1485896754-13589-1-git-send-email-anibal.limon@linux.intel.com>
+References: <1485896754-13589-1-git-send-email-anibal.limon@linux.intel.com>
+Subject: [PATCHv2 2/4] testimage.bbclass: Fixes about suites and dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +29,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jan 2017 20:53:35 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 31 Jan 2017 21:02:53 -0000
 
-== Series Details ==
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-Series: "runtime/cases: Fix case number..." and 3 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/5081/
-State : failure
+There are some missing suites on sato-sdk and lsb-sdk images so add it.
 
-== Summary ==
+The createrepo-native needs to be built before run testimage in
+order to create a repository from install packages.
 
+The DL_DIR data also needs to be updated from the current bitbake
+environment instead of use the value from testdata file.
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+[YOCTO #10964]
 
-
-
-* Patch            [2/4] testimage.bbclass: Add missing suites on some sato images, dependency of createrepo and DL_DIR update
- Issue             Commit shortlog is too long [test_shortlog_length] 
-  Suggested fix    Edit shortlog so that it is 90 characters or less (currently 101 characters)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/classes/testimage.bbclass | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 47bccbc..7495fe1 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -49,11 +49,11 @@ DEFAULT_TEST_SUITES_pn-core-image-x11 = "${MINTESTSUITE}"
+ DEFAULT_TEST_SUITES_pn-core-image-lsb = "${NETTESTSUITE} pam parselogs ${RPMTESTSUITE}"
+ DEFAULT_TEST_SUITES_pn-core-image-sato = "${NETTESTSUITE} connman xorg parselogs ${RPMTESTSUITE} \
+     ${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'python', '', d)}"
+-DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "${NETTESTSUITE} connman xorg perl python \
+-    ${DEVTESTSUITE} parselogs ${RPMTESTSUITE}"
++DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "${NETTESTSUITE} buildcvs buildiptables buildgalculator \
++    connman ${DEVTESTSUITE} logrotate perl parselogs python ${RPMTESTSUITE} xorg"
+ DEFAULT_TEST_SUITES_pn-core-image-lsb-dev = "${NETTESTSUITE} pam perl python parselogs ${RPMTESTSUITE}"
+ DEFAULT_TEST_SUITES_pn-core-image-lsb-sdk = "${NETTESTSUITE} buildcvs buildiptables buildgalculator \
+-    connman ${DEVTESTSUITE} pam perl python parselogs ${RPMTESTSUITE}"
++    connman ${DEVTESTSUITE} logrotate pam parselogs perl python ${RPMTESTSUITE}"
+ DEFAULT_TEST_SUITES_pn-meta-toolchain = "auto"
+ 
+ # aarch64 has no graphics
+@@ -79,13 +79,14 @@ TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'python-smartp
+ TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'ipk', 'opkg-utils-native:do_populate_sysroot', '', d)}"
+ TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'deb', 'apt-native:do_populate_sysroot', '', d)}"
+ TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'python-smartpm-native:do_populate_sysroot', '', d)}"
++TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'createrepo-native:do_populate_sysroot', '', d)}"
+ 
+ TESTIMAGELOCK = "${TMPDIR}/testimage.lock"
+ TESTIMAGELOCK_qemuall = ""
+ 
+ TESTIMAGE_DUMP_DIR ?= "/tmp/oe-saved-tests/"
+ 
+-TESTIMAGE_UPDATE_VARS ?= "WORKDIR DEPLOY_DIR"
++TESTIMAGE_UPDATE_VARS ?= "DL_DIR WORKDIR DEPLOY_DIR"
+ 
+ testimage_dump_target () {
+     top -bn1
+-- 
+2.1.4
 
 
