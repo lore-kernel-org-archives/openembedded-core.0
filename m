@@ -1,46 +1,49 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
-	[209.85.214.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B54D6011B
+Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
+	[209.85.214.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 101D06011B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jan 2017 12:50:40 +0000 (UTC)
-Received: by mail-it0-f51.google.com with SMTP id c7so124103648itd.1
+	Tue, 31 Jan 2017 12:50:43 +0000 (UTC)
+Received: by mail-it0-f49.google.com with SMTP id d9so28246471itc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jan 2017 04:50:41 -0800 (PST)
+	Tue, 31 Jan 2017 04:50:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=aZdqQhvBfwecH6Di4deAdaq5LTTYhO9d4pKLWKo+4bI=;
-	b=r1YTSyZUawbA55Jfu6IRtYtMROZf+dbaP/gtGQHYXuKSmm9AaoeIF9K+X74NkVJatC
-	CbCOB0oUSID49wIqvF9ntgOY/E1qGj8Tp+7nRhGmSUHaqLsDxyJ1K3DyChqAu4b0Gfy6
-	F592wxfchKrwqXIpYYVl2dCV35ULeSbNs4psnGnGCG0VK6ZhnEAXPZt1Z3QL1Bp7cAEv
-	oidAlMUWJb8S9QpXYJ6bzM+Hi/x3duZlMpttVcwkFRxku6d/Irh6K4dNJLIrAFWxwWqb
-	91FXedju3qBM5vWN0EGSRV8JBohxyBXg7dKaljwERiCaGqe1q40j+TbljRMm3DgjRrGz
-	4MGA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=eFX5dh4RolfIKViN3sgAe7U59HyCv8xqPeqOazvJdaM=;
+	b=ccPsviXAl28sNe5AXAKFg19LZoFycquvLt6Rx5/+VrcVH4vm2PiooIZUsxle7rxBce
+	ekE67+J3vJungNky2PCHyn6LOgnYhRUG/L4lVPpTzcpo5rYjyVdslfz7+ermJjBLEuIy
+	yIDtzvxOjslgYXRQoo1FKZCew5uqdNZ5vXySBKfXuEfovb4rS+4x5tMvnX8TB3On9NxY
+	BRfXa2kzGIbSeXgklpUGQcDGdfehQC0w5/tG3U9pSc9te6ruU67CMTYl3+yviFmW4TzK
+	/z2o6ZeCXMXtNoaMlOpxD3X6CW16OWlIgt4ZULo8kFySpEFNh5ggmV5JxQhw/3Or8Gnc
+	RBJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=aZdqQhvBfwecH6Di4deAdaq5LTTYhO9d4pKLWKo+4bI=;
-	b=ZjAqH/ACbD61tQC+G5EukP0M+Y2YwR9EKelHjZB8q5fbJxIBq1miooAYbIa2rmBSnf
-	M6X7BMrdTbmjvywBvxIwCSOHv6wBH4cVqMlthWqeyEdROEuUrDt33DuR725fr5R6Vvgp
-	PAYIhCUXA+3ezXNjXFQSOd/vs2V2Xb/MqfCj3gllbpe8LeVsrYv2hSd4LhfiH1D203o6
-	XLUjEeOdVQRhLBL//lEh35XevnkaiZtvs8wO12vyounFlhtkvssR8qs2bQ4FnGyzH9wf
-	zpjkW5GdV61/Qz/GPysMpootSLlLvLL3fqB8+qW/4gkY27HPG54JkZyUHq9Ip68j3ol0
-	xaTw==
-X-Gm-Message-State: AIkVDXLW5HGM0XOprboUnnbIJi/ZNvMlZgebfskUcqlecpMKI2XSDF4HaLL8+ljMFtFqbY+e
-X-Received: by 10.36.79.13 with SMTP id c13mr19139169itb.103.1485867041269;
-	Tue, 31 Jan 2017 04:50:41 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=eFX5dh4RolfIKViN3sgAe7U59HyCv8xqPeqOazvJdaM=;
+	b=fcynCcWDaWWpZJu38FAyi4B0M2x/ioC8sJNWJMNy3NyY73I3TlRtuREm05VheUAetA
+	3o4jMAM+1lfqUw49iDVNveKMF1FJxeBXY4WjFMDnJuDxLO/ievHDiaRxO6Ej/wAHmDdi
+	TflMzqdVmRKlhro6GcUrzBwRsQkFaPcNNUeqbWkrJ6yDbOIIq4CSRteTEITbaZ56aVex
+	E9vwAs/3CXOtcISgEXOSY/lwy5BPL/v2fixOFO3UoVNEyOLcWJ1auXdgm3/Tr9GvEccq
+	qjtfzgOJIU2gXYDfzl8lG4zdY3cq10EV9hqX/7W/WtWYeCUwBfQgqd6tmNrCIp7Q7d4t
+	gL/g==
+X-Gm-Message-State: AIkVDXKYWKMyIpgkQHWxhWpijsIrJ3CHgQvM2FjMQuYdSFkkm3Yx/y6Jl7uDo/WQTAlbEAIG
+X-Received: by 10.36.111.82 with SMTP id x79mr19390325itb.1.1485867044064;
+	Tue, 31 Jan 2017 04:50:44 -0800 (PST)
 Received: from pohly-desktop.fritz.box (p5DE8DFEB.dip0.t-ipconnect.de.
 	[93.232.223.235]) by smtp.gmail.com with ESMTPSA id
-	l31sm10051399iod.17.2017.01.31.04.50.39
+	l31sm10051399iod.17.2017.01.31.04.50.42
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 31 Jan 2017 04:50:40 -0800 (PST)
+	Tue, 31 Jan 2017 04:50:43 -0800 (PST)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Jan 2017 13:50:25 +0100
-Message-Id: <cover.55ff1fc2ce63597ab9f5324450132e786a996ac5.1485867027.git-series.patrick.ohly@intel.com>
+Date: Tue, 31 Jan 2017 13:50:26 +0100
+Message-Id: <2a54003858df4d868e6fb50819fac25c9065bea9.1485867027.git-series.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH 0/8] verify-bashisms: fix script and one issue found by it
+In-Reply-To: <cover.55ff1fc2ce63597ab9f5324450132e786a996ac5.1485867027.git-series.patrick.ohly@intel.com>
+References: <cover.55ff1fc2ce63597ab9f5324450132e786a996ac5.1485867027.git-series.patrick.ohly@intel.com>
+Subject: [PATCH 1/8] verify-bashisms: fix typo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,28 +56,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jan 2017 12:50:41 -0000
+X-List-Received-Date: Tue, 31 Jan 2017 12:50:44 -0000
 
-The script broke when introducing tinfoil2. The patches also include
-several usability enhancements, like making the output less redundant
-and including information about the actual file and line where the
-offending script can be found.
+Variable was renamed, it's now called "output".
 
-Patrick Ohly (8):
-  verify-bashisms: fix typo
-  verify-bashisms: point out where to get checkbashisms.pl
-  verify-bashisms: explicitly shut down server
-  verify-bashisms: fix problems with tinfoil2
-  verify-bashisms: revise update-rc.d whitelist entry
-  verify-bashisms: check scripts only once, include original file and line
-  populate_sdk_ext: fix == bashism
-  verify-bashisms: support warnings with more than one line of source code
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ scripts/verify-bashisms | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- meta/classes/populate_sdk_ext.bbclass |   2 +-
- scripts/verify-bashisms               | 100 +++++++++++++++++----------
- 2 files changed, 67 insertions(+), 35 deletions(-)
-
-base-commit: 8d955d3486beca27fa23448f930d2c4df94b187a
+diff --git a/scripts/verify-bashisms b/scripts/verify-bashisms
+index a8f761d..1bda60c 100755
+--- a/scripts/verify-bashisms
++++ b/scripts/verify-bashisms
+@@ -41,7 +41,7 @@ def process(recipe, function, script):
+ 
+         # Replace the temporary filename with the function and split it
+         output = e.output.replace(fn.name, function).splitlines()
+-        if len(results) % 2 != 0:
++        if len(output) % 2 != 0:
+             print("Unexpected output from checkbashism: %s" % str(output))
+             return
+ 
 -- 
 git-series 0.9.1
 
