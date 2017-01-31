@@ -1,28 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E418771DBA
+	by mail.openembedded.org (Postfix) with ESMTP id E508171DC7
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 31 Jan 2017 00:14:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0V0EbSx006142; Tue, 31 Jan 2017 00:14:37 GMT
+	v0V0EbSw006142; Tue, 31 Jan 2017 00:14:37 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 8WUJjnRsPCU3; Tue, 31 Jan 2017 00:14:37 +0000 (GMT)
+	with LMTP id DszyXvyJUWoi; Tue, 31 Jan 2017 00:14:36 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0V0EXSs006127
+	v0V0EXKj006129
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Tue, 31 Jan 2017 00:14:34 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cYM5h-00079K-F1; Tue, 31 Jan 2017 00:14:33 +0000
+	id 1cYM5h-00079S-GN; Tue, 31 Jan 2017 00:14:33 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Jan 2017 00:14:23 +0000
-Message-Id: <1485821667-27436-1-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Tue, 31 Jan 2017 00:14:25 +0000
+Message-Id: <1485821667-27436-3-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 1/5] utils: Avoid need to relocate wrapper scripts
+In-Reply-To: <1485821667-27436-1-git-send-email-richard.purdie@linuxfoundation.org>
+References: <1485821667-27436-1-git-send-email-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 3/5] distro/defaultsetup: Enable removal of libtool .la files by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,54 +39,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 31 Jan 2017 00:14:40 -0000
 
-Whilst the path to the executable is dynamically determined, the passed in
-environment variables or parameters are not relocatable and rely on the sstate
-remapping code. In the recipe specific sysroot case this has become more costly.
+Relocation of native .la files during recipe specific sysroot relocation
+is probably the final straw in just killing these files off.
 
-This patch translates such paths into relocatable entries which means that
-a sed replacement at final installation isn't needed.
+Change things so this class is inherited by default. If distros don't want to
+do this, they can opt out but it seems like the best thing to do now since
+.la files aren't needed on Linux.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/utils.bbclass | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ meta/conf/distro/defaultsetup.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-index 549e4b8..16f42b4 100644
---- a/meta/classes/utils.bbclass
-+++ b/meta/classes/utils.bbclass
-@@ -264,10 +264,14 @@ create_cmdline_wrapper () {
- 
- 	mv $cmd $cmd.real
- 	cmdname=`basename $cmd`
-+	dirname=`dirname $cmd`
-+	relpath=`python3 -c "import os; print(os.path.relpath('${D}${base_prefix}', '$dirname'))"`
-+	cmdoptions=`echo $@ | sed -e "s:${base_prefix}:\\$realdir/$relpath:g"`
- 	cat <<END >$cmd
- #!/bin/bash
- realpath=\`readlink -fn \$0\`
--exec -a \`dirname \$realpath\`/$cmdname \`dirname \$realpath\`/$cmdname.real $@ "\$@"
-+realdir=\`dirname \$realpath\`
-+exec -a \`dirname \$realpath\`/$cmdname \`dirname \$realpath\`/$cmdname.real $cmdoptions "\$@"
- END
- 	chmod +x $cmd
- }
-@@ -287,10 +291,14 @@ create_wrapper () {
- 
- 	mv $cmd $cmd.real
- 	cmdname=`basename $cmd`
-+	dirname=`dirname $cmd`
-+	relpath=`python3 -c "import os; print(os.path.relpath('${D}${base_prefix}', '$dirname'))"`
-+	exportstring=`echo $@ | sed -e "s:${base_prefix}:\\$realdir/$relpath:g"`
- 	cat <<END >$cmd
- #!/bin/bash
- realpath=\`readlink -fn \$0\`
--export $@
-+realdir=\`dirname \$realpath\`
-+export $exportstring
- exec -a \`dirname \$realpath\`/$cmdname \`dirname \$realpath\`/$cmdname.real "\$@"
- END
- 	chmod +x $cmd
+diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaultsetup.conf
+index 1055b9b..ca2f917 100644
+--- a/meta/conf/distro/defaultsetup.conf
++++ b/meta/conf/distro/defaultsetup.conf
+@@ -20,5 +20,5 @@ CACHE = "${TMPDIR}/cache/${TCMODE}-${TCLIBC}${@['', '/' + str(d.getVar('MACHINE'
+ USER_CLASSES ?= ""
+ PACKAGE_CLASSES ?= "package_ipk"
+ INHERIT_BLACKLIST = "blacklist"
+-INHERIT_DISTRO ?= "debian devshell sstate license"
++INHERIT_DISTRO ?= "debian devshell sstate license remove-libtool"
+ INHERIT += "${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO} ${INHERIT_BLACKLIST}"
 -- 
 2.7.4
 
