@@ -1,30 +1,18 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E5E9F71DCF
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jan 2017 00:14:38 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0V0EbFn006144; Tue, 31 Jan 2017 00:14:37 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id GG5r5ytMqC-L; Tue, 31 Jan 2017 00:14:36 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v0V0EXSG006131
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 31 Jan 2017 00:14:34 GMT
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1cYM5h-00079c-Hk; Tue, 31 Jan 2017 00:14:33 +0000
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Jan 2017 00:14:27 +0000
-Message-Id: <1485821667-27436-5-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1485821667-27436-1-git-send-email-richard.purdie@linuxfoundation.org>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 652B0600E2;
+	Tue, 31 Jan 2017 00:23:24 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Tue, 31 Jan 2017 00:23:25 -0000
+Message-ID: <20170131002325.4462.12215@do.openembedded.org>
 References: <1485821667-27436-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 5/5] xmlto: Don't hardcode the path to tail
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1485821667-27436-1-git-send-email-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInV0aWxzOiBBdm9pZCBuZWVkIHRvIHJlbG9jYXRlIC4uLiIgYW5kIDQgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +25,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jan 2017 00:14:41 -0000
+X-List-Received-Date: Tue, 31 Jan 2017 00:23:25 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-We don't need to hardcode a path to tail, follow the other tools examples and
-don't specify a path since PATH is good enough for us.
+== Series Details ==
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Series: "utils: Avoid need to relocate ..." and 4 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/5072/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-devtools/binutils/binutils/no-tooldirpaths.patch)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-devtools/xmlto/xmlto_0.0.28.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-index aaaeb6e..ce5d1e0 100644
---- a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-+++ b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-@@ -26,7 +26,7 @@ RDEPENDS_${PN}_append_class-target = " \
-                   libxslt-bin \
-                   coreutils \
- "
--CACHED_CONFIGUREVARS += "ac_cv_path_TAIL=${bindir}/tail"
-+CACHED_CONFIGUREVARS += "ac_cv_path_TAIL=tail"
- 
- BBCLASSEXTEND = "native"
- 
--- 
-2.7.4
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
