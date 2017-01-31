@@ -1,21 +1,23 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BAD371BFE
+	by mail.openembedded.org (Postfix) with ESMTP id 39FA3731CD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jan 2017 20:49:49 +0000 (UTC)
+	Tue, 31 Jan 2017 20:49:50 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	31 Jan 2017 12:49:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,316,1477983600"; d="scan'208";a="37939476"
+X-IronPort-AV: E=Sophos;i="5.33,316,1477983600"; d="scan'208";a="37939480"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.122])
-	by orsmga002.jf.intel.com with ESMTP; 31 Jan 2017 12:49:49 -0800
+	by orsmga002.jf.intel.com with ESMTP; 31 Jan 2017 12:49:50 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Jan 2017 14:52:52 -0600
-Message-Id: <1485895975-7611-1-git-send-email-anibal.limon@linux.intel.com>
+Date: Tue, 31 Jan 2017 14:52:53 -0600
+Message-Id: <1485895975-7611-2-git-send-email-anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 1/4] runtime/cases: Fix case numbers, missing cases and unused classes
+In-Reply-To: <1485895975-7611-1-git-send-email-anibal.limon@linux.intel.com>
+References: <1485895975-7611-1-git-send-email-anibal.limon@linux.intel.com>
+Subject: [PATCH 2/4] testimage.bbclass: Add missing suites on some sato images, dependency of createrepo and DL_DIR update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,76 +34,56 @@ X-List-Received-Date: Tue, 31 Jan 2017 20:49:50 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-gcc: Removed unneded lines.
+There are some missing suites on sato-sdk and lsb-sdk images so add it.
 
-multilib: fixed case number.
+The createrepo-native needs to be built before run testimage in
+order to create a repository from install packages.
 
-syslog: added a missing test.
+The DL_DIR data also needs to be updated from the current bitbake
+environment instead of use the value from testdata file.
 
 [YOCTO #10964]
 
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/lib/oeqa/runtime/cases/gcc.py      | 3 ---
- meta/lib/oeqa/runtime/cases/multilib.py | 2 +-
- meta/lib/oeqa/runtime/cases/syslog.py   | 9 +++++++++
- 3 files changed, 10 insertions(+), 4 deletions(-)
+ meta/classes/testimage.bbclass | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/gcc.py b/meta/lib/oeqa/runtime/cases/gcc.py
-index 064fa49..9110831 100644
---- a/meta/lib/oeqa/runtime/cases/gcc.py
-+++ b/meta/lib/oeqa/runtime/cases/gcc.py
-@@ -11,15 +11,12 @@ class GccCompileTest(OERuntimeTestCase):
-     def setUpClass(cls):
-         dst = '/tmp/'
-         src = os.path.join(cls.tc.files_dir, 'test.c')
--        #dst = '/tmp/test.c'
-         cls.tc.target.copyTo(src, dst)
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 47bccbc..7495fe1 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -49,11 +49,11 @@ DEFAULT_TEST_SUITES_pn-core-image-x11 = "${MINTESTSUITE}"
+ DEFAULT_TEST_SUITES_pn-core-image-lsb = "${NETTESTSUITE} pam parselogs ${RPMTESTSUITE}"
+ DEFAULT_TEST_SUITES_pn-core-image-sato = "${NETTESTSUITE} connman xorg parselogs ${RPMTESTSUITE} \
+     ${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'python', '', d)}"
+-DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "${NETTESTSUITE} connman xorg perl python \
+-    ${DEVTESTSUITE} parselogs ${RPMTESTSUITE}"
++DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "${NETTESTSUITE} buildcvs buildiptables buildgalculator \
++    connman ${DEVTESTSUITE} logrotate perl parselogs python ${RPMTESTSUITE} xorg"
+ DEFAULT_TEST_SUITES_pn-core-image-lsb-dev = "${NETTESTSUITE} pam perl python parselogs ${RPMTESTSUITE}"
+ DEFAULT_TEST_SUITES_pn-core-image-lsb-sdk = "${NETTESTSUITE} buildcvs buildiptables buildgalculator \
+-    connman ${DEVTESTSUITE} pam perl python parselogs ${RPMTESTSUITE}"
++    connman ${DEVTESTSUITE} logrotate pam parselogs perl python ${RPMTESTSUITE}"
+ DEFAULT_TEST_SUITES_pn-meta-toolchain = "auto"
  
-         src = os.path.join(cls.tc.runtime_files_dir, 'testmakefile')
--        #dst = '/tmp/testmakefile'
-         cls.tc.target.copyTo(src, dst)
+ # aarch64 has no graphics
+@@ -79,13 +79,14 @@ TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'python-smartp
+ TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'ipk', 'opkg-utils-native:do_populate_sysroot', '', d)}"
+ TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'deb', 'apt-native:do_populate_sysroot', '', d)}"
+ TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'python-smartpm-native:do_populate_sysroot', '', d)}"
++TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'createrepo-native:do_populate_sysroot', '', d)}"
  
-         src = os.path.join(cls.tc.files_dir, 'test.cpp')
--        #dst = '/tmp/test.cpp'
-         cls.tc.target.copyTo(src, dst)
+ TESTIMAGELOCK = "${TMPDIR}/testimage.lock"
+ TESTIMAGELOCK_qemuall = ""
  
-     @classmethod
-diff --git a/meta/lib/oeqa/runtime/cases/multilib.py b/meta/lib/oeqa/runtime/cases/multilib.py
-index 8f6d2b2..8c167f1 100644
---- a/meta/lib/oeqa/runtime/cases/multilib.py
-+++ b/meta/lib/oeqa/runtime/cases/multilib.py
-@@ -23,9 +23,9 @@ class MultilibTest(OERuntimeTestCase):
-         msg = "%s isn't %s (is %s)" % (binary, arch, theclass)
-         self.assertEqual(theclass, arch, msg=msg)
+ TESTIMAGE_DUMP_DIR ?= "/tmp/oe-saved-tests/"
  
-+    @OETestID(1593)
-     @skipIfNotInDataVar('MULTILIBS', 'multilib:lib32',
-                         "This isn't a multilib:lib32 image")
--    @OETestID(201)
-     @OETestDepends(['ssh.SSHTest.test_ssh'])
-     def test_check_multilib_libc(self):
-         """
-diff --git a/meta/lib/oeqa/runtime/cases/syslog.py b/meta/lib/oeqa/runtime/cases/syslog.py
-index 1016e67..537c519 100644
---- a/meta/lib/oeqa/runtime/cases/syslog.py
-+++ b/meta/lib/oeqa/runtime/cases/syslog.py
-@@ -34,6 +34,15 @@ class SyslogTestConfig(OERuntimeTestCase):
-                ' Output: %s ' % output)
-         self.assertEqual(status, 0, msg=msg)
+-TESTIMAGE_UPDATE_VARS ?= "WORKDIR DEPLOY_DIR"
++TESTIMAGE_UPDATE_VARS ?= "DL_DIR WORKDIR DEPLOY_DIR"
  
-+    @OETestID(1150)
-+    @OETestDepends(['syslog.SyslogTest.test_syslog_running'])
-+    def test_syslog_restart(self):
-+        if "systemd" != self.tc.td.get("VIRTUAL-RUNTIME_init_manager", ""):
-+            (_, _) = self.target.run('/etc/init.d/syslog restart')
-+        else:
-+            (_, _) = self.target.run('systemctl restart syslog.service')
-+
-+
-     @OETestID(202)
-     @OETestDepends(['syslog.SyslogTestConfig.test_syslog_logger'])
-     @OEHasPackage(["!sysklogd", "busybox"])
+ testimage_dump_target () {
+     top -bn1
 -- 
 2.1.4
 
