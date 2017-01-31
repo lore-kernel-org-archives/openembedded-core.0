@@ -1,50 +1,50 @@
 Return-Path: <anders@chargestorm.se>
-Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
-	[209.85.215.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 861A173173
+Received: from mail-lf0-f47.google.com (mail-lf0-f47.google.com
+	[209.85.215.47])
+	by mail.openembedded.org (Postfix) with ESMTP id D2DCD72001
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jan 2017 07:18:24 +0000 (UTC)
-Received: by mail-lf0-f42.google.com with SMTP id z134so206576018lff.3
+	Tue, 31 Jan 2017 07:18:26 +0000 (UTC)
+Received: by mail-lf0-f47.google.com with SMTP id n124so206156064lfd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2017 23:18:25 -0800 (PST)
+	Mon, 30 Jan 2017 23:18:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Nz1AqvXjkg7SJrYsQ192GVzxw6hkO7MCY7lfoqKM2q4=;
-	b=UjWJY/T8bpM2zMBL0ilxMb6/3relw9A0r+j5Hfj2aOJfBUe7yo8AzzAyfjScSch1aW
-	ln6Gs8sqxv2Kwj6zgQQC19VTs97WvcSb+ZXLCwUHUGFs+a7/HH7iv6caAiy9SNEiNS0s
-	7eg1u057t0C2JIsUtSJTBDiAHngvpPnqqQvI/2Q5nYffSbonZS63IWz8nsXkq/fzue6Q
-	UDc3zrIkBJI1417Q6KCm9rrnhd9LE4LO+BNim8ZxYMDewNPzGtHNi56vGpUqOjsNqQge
-	b8hQ8TvRNutLOb+d4krQbd/LjptkLnu4JeRDSbuFmmQfWsRnmyFZ6ZYu4ndN2FAx3ZEk
-	Cz4A==
+	bh=WTj9Z7oUFy3W6/hZdjFewRV6wRDU6C1t778lifHEqh4=;
+	b=grgAJZ/O1GZhUogLPNwFom28S7VrmFG/huBrxWw5fvcOKNCkYIEH14Xdd4c8mS6g6b
+	wJEDr+7l42N1Kjopm6aWUxfYfSBbgg7YInoILmrdlJkpYDBZV3KCiw4LjATb5FYT8OQ0
+	s40PFYla8bT7oKax5Ibn01yo4QHzD5vfRZt6kmdTiKbJo2e4gso5CF6lW/1ZPvWYBTnx
+	C5Ty1JCaZX0rdZE1ZRgbdxYrenlZHP8mWNehVlO+EbFNk/WFbLkQVKlVP77N3oif7ViY
+	OW73ZgXluwWEB9gOg/cotKr1CCAqeA9r19BNkxUFoBuBVYBjGRkj4lOAMbDIWt65n5Pc
+	qf3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=Nz1AqvXjkg7SJrYsQ192GVzxw6hkO7MCY7lfoqKM2q4=;
-	b=PyFzYp/ZIxgV51EfffKx8X4ifZs3LKi12p5f7Fbeftae30T5/2/8/ZjbXJDXuUilKU
-	8kw04V9LS+AexeM0lLyU/DKV+/t37mo7DVKCcLliBsYMUsfYodbiPGKwriXCAOBhgiC3
-	L7+ksnquVCffagFCygv+bCfHv/PxwPE2VklrpHMofRoVnebbThPFlXV0uYZoKxkShmUT
-	EYU7L17PUcrv9SpDhXe9ZhGM31ijTivfSsrpaEl7oAwLpU7+9kUj08NaepuS39SKey7u
-	fL0qdRdKFXEBVxlw127zlG2eXdwTs29YQQo0A0fL05NM2XuIjHWvTC8zvQg++svisMAC
-	4N+w==
-X-Gm-Message-State: AIkVDXIJriNEtU5ZrfUM3cTFz5zVjyV7Ej1+ai7MtlokH+d+Bp1+wEUqIVCmmFoqfcpNVg==
-X-Received: by 10.25.76.196 with SMTP id z187mr8308012lfa.60.1485847104406;
-	Mon, 30 Jan 2017 23:18:24 -0800 (PST)
+	bh=WTj9Z7oUFy3W6/hZdjFewRV6wRDU6C1t778lifHEqh4=;
+	b=O5nFZDYd4gFMY99eKFIo0N7FxpYqxB6nQHgiz/vVicoiS2szJPjIW/t1c+oDlfElGe
+	cbden9WFqEyiG93EbUvdhBUSeBxmGYvNhoA+5E+xdkkpj73QdgaNuBNJUUa1BXrvSlhS
+	fTMC9fYBq2xDrysaoUEi32n9Aib2OgTZEb3Ll5K+5MWZD2l8HOf+e3yvKUZXZoZ7oSFF
+	PEYLvoO3mcgkcksnKUMljXpSpJcE5bNDv5wiuBKd1oV1CkTHPnDuhDwlz7QqUl4+MQ3+
+	XHY7Q6o+sRb+Yk/7lQsK6AALWAf+YlUZ+cupfv1yJOMdVUc4R/MpmOZ7ZQRKO/T6tkdy
+	idgw==
+X-Gm-Message-State: AIkVDXLX7/OviT4fJNnoof61Ck1D7vIwhg7w48bBphbmWIR/OEX6ExwWrWVyeU+LyjUwiQ==
+X-Received: by 10.25.206.146 with SMTP id e140mr8765776lfg.94.1485847105869;
+	Mon, 30 Jan 2017 23:18:25 -0800 (PST)
 Received: from localhost (194-237-220-218.customer.telia.com.
-	[194.237.220.218]) by smtp.gmail.com with ESMTPSA id
-	y10sm4333728lja.22.2017.01.30.23.18.23
+	[194.237.220.218])
+	by smtp.gmail.com with ESMTPSA id 28sm4328067ljw.17.2017.01.30.23.18.24
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 30 Jan 2017 23:18:23 -0800 (PST)
+	Mon, 30 Jan 2017 23:18:24 -0800 (PST)
 From: Anders Darander <anders@chargestorm.se>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Jan 2017 08:18:14 +0100
-Message-Id: <9633dfd3e39ac0c5d89fe3b6c5a3fb2e4ae9e023.1485846907.git.anders@chargestorm.se>
+Date: Tue, 31 Jan 2017 08:18:15 +0100
+Message-Id: <d1e89104fff0c1a1ae1574770a86ca241cd7f577.1485846907.git.anders@chargestorm.se>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1485846907.git.anders@chargestorm.se>
 References: <cover.1485846907.git.anders@chargestorm.se>
 Cc: Anders Darander <anders@chargestorm.se>
-Subject: [PATCH v2 5/7] python-3-manifest: add _compat_pickle to python3-pickle
+Subject: [PATCH v2 6/7] python-3-manifest: add ipaddress to python3-io
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,9 +57,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jan 2017 07:18:25 -0000
+X-List-Received-Date: Tue, 31 Jan 2017 07:18:27 -0000
 
-This allows us to depend on _compat_pickle.* wihtout having to add the whole
+This allows us to use ipaddress without requiring the add the whole
 python3-misc.
 
 Signed-off-by: Anders Darander <anders@chargestorm.se>
@@ -69,31 +69,31 @@ Signed-off-by: Anders Darander <anders@chargestorm.se>
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/recipes-devtools/python/python-3.5-manifest.inc
-index 555ac88..8b64069 100644
+index 8b64069..d4c7c4d 100644
 --- a/meta/recipes-devtools/python/python-3.5-manifest.inc
 +++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
-@@ -167,7 +167,7 @@ FILES_${PN}-numbers="${libdir}/python3.5/decimal.* ${libdir}/python3.5/__pycache
+@@ -119,7 +119,7 @@ FILES_${PN}-importlib="${libdir}/python3.5/importlib ${libdir}/python3.5/importl
  
- SUMMARY_${PN}-pickle="Python serialisation/persistence support"
- RDEPENDS_${PN}-pickle="${PN}-core ${PN}-codecs ${PN}-io ${PN}-re"
--FILES_${PN}-pickle="${libdir}/python3.5/pickle.* ${libdir}/python3.5/__pycache__/pickle.* ${libdir}/python3.5/shelve.* ${libdir}/python3.5/__pycache__/shelve.* ${libdir}/python3.5/lib-dynload/cPickle.*.so ${libdir}/python3.5/lib-dynload/__pycache__/cPickle.*.so ${libdir}/python3.5/pickletools.* ${libdir}/python3.5/__pycache__/pickletools.* "
-+FILES_${PN}-pickle="${libdir}/python3.5/_compat_pickle.* ${libdir}/python3.5/__pycache__/_compat_pickle.* ${libdir}/python3.5/pickle.* ${libdir}/python3.5/__pycache__/pickle.* ${libdir}/python3.5/shelve.* ${libdir}/python3.5/__pycache__/shelve.* ${libdir}/python3.5/lib-dynload/cPickle.*.so ${libdir}/python3.5/lib-dynload/__pycache__/cPickle.*.so ${libdir}/python3.5/pickletools.* ${libdir}/python3.5/__pycache__/pickletools.* "
+ SUMMARY_${PN}-io="Python low-level I/O"
+ RDEPENDS_${PN}-io="${PN}-core ${PN}-math"
+-FILES_${PN}-io="${libdir}/python3.5/lib-dynload/_socket.*.so ${libdir}/python3.5/lib-dynload/__pycache__/_socket.*.so ${libdir}/python3.5/lib-dynload/_io.*.so ${libdir}/python3.5/lib-dynload/__pycache__/_io.*.so ${libdir}/python3.5/lib-dynload/_ssl.*.so ${libdir}/python3.5/lib-dynload/__pycache__/_ssl.*.so ${libdir}/python3.5/lib-dynload/select.*.so ${libdir}/python3.5/lib-dynload/__pycache__/select.*.so ${libdir}/python3.5/lib-dynload/termios.*.so ${libdir}/python3.5/lib-dynload/__pycache__/termios.*.so ${libdir}/python3.5/lib-dynload/cStringIO.*.so ${libdir}/python3.5/lib-dynload/__pycache__/cStringIO.*.so ${libdir}/python3.5/pipes.* ${libdir}/python3.5/__pycache__/pipes.* ${libdir}/python3.5/socket.* ${libdir}/python3.5/__pycache__/socket.* ${libdir}/python3.5/ssl.* ${libdir}/python3.5/__pycache__/ssl.* ${libdir}/python3.5/tempfile.* ${libdir}/python3.5/__pycache__/tempfile.* ${libdir}/python3.5/StringIO.* ${libdir}/python3.5/__pycache__/StringIO.* ${libdir}/python3.5/io.* ${libdir}/python3.5/__pycache__/io.* ${libdir}/python3.5/_pyio.* ${libdir}/python3.5/__pycache__/_pyio.* "
++FILES_${PN}-io="${libdir}/python3.5/lib-dynload/_socket.*.so ${libdir}/python3.5/lib-dynload/__pycache__/_socket.*.so ${libdir}/python3.5/lib-dynload/_io.*.so ${libdir}/python3.5/lib-dynload/__pycache__/_io.*.so ${libdir}/python3.5/lib-dynload/_ssl.*.so ${libdir}/python3.5/lib-dynload/__pycache__/_ssl.*.so ${libdir}/python3.5/lib-dynload/select.*.so ${libdir}/python3.5/lib-dynload/__pycache__/select.*.so ${libdir}/python3.5/lib-dynload/termios.*.so ${libdir}/python3.5/lib-dynload/__pycache__/termios.*.so ${libdir}/python3.5/lib-dynload/cStringIO.*.so ${libdir}/python3.5/lib-dynload/__pycache__/cStringIO.*.so ${libdir}/python3.5/ipaddress.* ${libdir}/python3.5/__pycache__/ipaddress.* ${libdir}/python3.5/pipes.* ${libdir}/python3.5/__pycache__/pipes.* ${libdir}/python3.5/socket.* ${libdir}/python3.5/__pycache__/socket.* ${libdir}/python3.5/ssl.* ${libdir}/python3.5/__pycache__/ssl.* ${libdir}/python3.5/tempfile.* ${libdir}/python3.5/__pycache__/tempfile.* ${libdir}/python3.5/StringIO.* ${libdir}/python3.5/__pycache__/StringIO.* ${libdir}/python3.5/io.* ${libdir}/python3.5/__pycache__/io.* ${libdir}/python3.5/_pyio.* ${libdir}/python3.5/__pycache__/_pyio.* "
  
- SUMMARY_${PN}-pkgutil="Python package extension utility support"
- RDEPENDS_${PN}-pkgutil="${PN}-core"
+ SUMMARY_${PN}-json="Python JSON support"
+ RDEPENDS_${PN}-json="${PN}-core ${PN}-math ${PN}-re"
 diff --git a/scripts/contrib/python/generate-manifest-3.5.py b/scripts/contrib/python/generate-manifest-3.5.py
-index 770ef75..1a06896 100755
+index 1a06896..55bda19 100755
 --- a/scripts/contrib/python/generate-manifest-3.5.py
 +++ b/scripts/contrib/python/generate-manifest-3.5.py
-@@ -329,7 +329,7 @@ if __name__ == "__main__":
-     "decimal.* fractions.* numbers.*" )
+@@ -289,7 +289,7 @@ if __name__ == "__main__":
  
-     m.addPackage( "${PN}-pickle", "Python serialisation/persistence support", "${PN}-core ${PN}-codecs ${PN}-io ${PN}-re",
--    "pickle.* shelve.* lib-dynload/cPickle.*.so pickletools.*" )
-+    "_compat_pickle.* pickle.* shelve.* lib-dynload/cPickle.*.so pickletools.*" )
+     m.addPackage( "${PN}-io", "Python low-level I/O", "${PN}-core ${PN}-math",
+     "lib-dynload/_socket.*.so lib-dynload/_io.*.so lib-dynload/_ssl.*.so lib-dynload/select.*.so lib-dynload/termios.*.so lib-dynload/cStringIO.*.so " +
+-    "pipes.* socket.* ssl.* tempfile.* StringIO.* io.* _pyio.*" )
++    "ipaddress.* pipes.* socket.* ssl.* tempfile.* StringIO.* io.* _pyio.*" )
  
-     m.addPackage( "${PN}-pkgutil", "Python package extension utility support", "${PN}-core",
-     "pkgutil.*")
+     m.addPackage( "${PN}-json", "Python JSON support", "${PN}-core ${PN}-math ${PN}-re",
+     "json lib-dynload/_json.*.so" ) # package
 -- 
 2.10.2
 
