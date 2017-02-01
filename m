@@ -1,24 +1,32 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id D52BA71988
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A70F37732A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Feb 2017 15:50:16 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Feb 2017 07:50:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; d="scan'208";a="1089707651"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 01 Feb 2017 07:50:16 -0800
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 416096A4006;
-	Wed,  1 Feb 2017 07:49:17 -0800 (PST)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Feb 2017 17:27:49 +0200
-Message-Id: <1485962869-11868-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] image: rename image-wic -> image_types_wic
+	Wed,  1 Feb 2017 16:02:15 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v11G0C2Z003615; Wed, 1 Feb 2017 16:00:12 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id OwXOw07owvUh; Wed,  1 Feb 2017 16:00:12 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v11G07Tu003611
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 1 Feb 2017 16:00:08 GMT
+Message-ID: <1485964807.14144.29.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 01 Feb 2017 16:00:07 +0000
+In-Reply-To: <c3a990d7-237d-e433-ae02-8bfe7214c162@linux.intel.com>
+References: <cover.1485902097.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<6e39192de91d20d920b9f4982e669874aa659625.1485902097.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<1485904618.14144.19.camel@linuxfoundation.org>
+	<c3a990d7-237d-e433-ae02-8bfe7214c162@linux.intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/4] selftest/buildoptions: use a thinner image to test 'read-only-rootfs' feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,46 +39,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2017 15:50:17 -0000
+X-List-Received-Date: Wed, 01 Feb 2017 16:02:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Make name of the wic image type class consistent with
-existing naming scheme for image types.
+On Wed, 2017-02-01 at 09:02 -0600, Leonardo Sandoval wrote:
+> 
+> On 01/31/2017 05:16 PM, Richard Purdie wrote:
+> > 
+> > On Tue, 2017-01-31 at 16:50 -0600,
+> > leonardo.sandoval.gonzalez@linux.intel.com wrote:
+> > > 
+> > > From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.c
+> > > om>
+> > > 
+> > > The minimal is much faster to build that sato, so use the former
+> > > to
+> > > test
+> > > read-only feature.
+> > > 
+> > > Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linu
+> > > x.in
+> > > tel.com>
+> > > ---
+> > >   meta/lib/oeqa/selftest/buildoptions.py | 5 +----
+> > >   1 file changed, 1 insertion(+), 4 deletions(-)
+> > > 
+> > > diff --git a/meta/lib/oeqa/selftest/buildoptions.py
+> > > b/meta/lib/oeqa/selftest/buildoptions.py
+> > > index d40eb00..004b2dd 100644
+> > > --- a/meta/lib/oeqa/selftest/buildoptions.py
+> > > +++ b/meta/lib/oeqa/selftest/buildoptions.py
+> > > @@ -44,11 +44,8 @@ class ImageOptionsTests(oeSelfTest):
+> > >   
+> > >       @testcase(1435)
+> > >       def test_read_only_image(self):
+> > > -        distro_features = get_bb_var('DISTRO_FEATURES')
+> > > -        if not ('x11' in distro_features and 'opengl' in
+> > > distro_features):
+> > > -            self.skipTest('core-image-sato requires x11 and
+> > > opengl
+> > > in distro features')
+> > >           self.write_config('IMAGE_FEATURES += "read-only-
+> > > rootfs"')
+> > > -        bitbake("core-image-sato")
+> > > +        bitbake("core-image-minimal")
+> > >           # do_image will fail if there are any pending postinsts
+> > Whilst this is certainly going to be a touch faster, I believe we
+> > do
+> > want to test read only rootfs with a larger image like sato to make
+> > sure the postinsts really do work with a read only system?
+> I don't get it. What would make the test different using a larger
+> image?
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/classes/image.bbclass                                  | 5 +++--
- meta/classes/{image-wic.bbclass => image_types_wic.bbclass} | 0
- 2 files changed, 3 insertions(+), 2 deletions(-)
- rename meta/classes/{image-wic.bbclass => image_types_wic.bbclass} (100%)
+The large image is more complex, it has more complex post-installs and
+more utilities using update alternatives. The areas read-only rootfs
+tends to break is in these areas as for example if certain postinstalls
+get deferred to "on device at first boot", read-only rootfs breaks.
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 613cd92..b5a4fb4 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -151,6 +151,9 @@ def build_uboot(d):
- IMAGE_TYPE_uboot = "${@build_uboot(d)}"
- inherit ${IMAGE_TYPE_uboot}
- 
-+IMAGE_TYPE_wic = "image_types_wic"
-+inherit ${IMAGE_TYPE_wic}
-+
- python () {
-     deps = " " + imagetypes_getdepends(d)
-     d.appendVarFlag('do_rootfs', 'depends', deps)
-@@ -187,8 +190,6 @@ python () {
- IMAGE_CLASSES += "image_types"
- inherit ${IMAGE_CLASSES}
- 
--inherit image-wic
--
- IMAGE_POSTPROCESS_COMMAND ?= ""
- 
- # some default locales
-diff --git a/meta/classes/image-wic.bbclass b/meta/classes/image_types_wic.bbclass
-similarity index 100%
-rename from meta/classes/image-wic.bbclass
-rename to meta/classes/image_types_wic.bbclass
--- 
-2.1.4
+Cheers,
+
+Richard
+
 
 
