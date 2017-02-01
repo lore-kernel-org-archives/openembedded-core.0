@@ -1,50 +1,20 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 821EA600EA;
-	Wed,  1 Feb 2017 17:48:55 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id c85so50015216wmi.1;
-	Wed, 01 Feb 2017 09:48:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=9gbOcWhGD1huV5Zc1lYVy/shzAByJGJwI2VSggp8KW4=;
-	b=KGj9Kp3T3hjrxEiTw9NEreqv7fkKBA3MhAaQMsRENDNM9cgUi0de6mvIBIQfRQ0LPO
-	yd6sAZlgHgrOAqvRE3Qq8kfdiSbrB3jschsW1WanitqLj5FFEAu3qYm14HOb6JiV8VQe
-	Rq55RFalQWdsWERUdkXrqP8ZPenAmFuYUR8M+BbqO4h50ByJ6eHa5U2dGB7M2GsdeRIe
-	yANkOSfU/cFT+bH1tciry54A1fBUdZKQLBM+KLrBByAErZSA+QKTNYE2qWEO1YbK5IQW
-	JyTMcA2//y6WRlrON5svhorvuzRaT8nfT+zmscuQRmhM0BTjCVl1ykyv5yBDTkINU6u2
-	8O4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=9gbOcWhGD1huV5Zc1lYVy/shzAByJGJwI2VSggp8KW4=;
-	b=MY7ENiitslZHhlSVubHCrRP/nAnW3DIPD+ax46Qri5r+5w2hrP2CSj9mo803iquVi4
-	lFjy64eiZnVu2JqQWUDoq0O4Y9G6gMn13RPZVt+9/j6n/hMTZIQgcD8WiBM8rAMu/dZG
-	BSXn/4L8fZqRsqDehDV0S0rZghnOn9zN9qj+YaOMMfG2DjPGj/0qcWe9M3Ul2Dl/Osus
-	A0LuGa36u3kimgFrIv+0lyAncZT94bITshAGJFP3G2KHcdlTE3ThRuYaUpW+vYDv/1yw
-	TPGoDq20bL/82P7YHVnjaWe140EOWcJFH+mXavf9B2vtMkldZJuFR4CJdpNSZYW1MGHz
-	PJ0w==
-X-Gm-Message-State: AIkVDXJoorFO1NGwpHNn3weD4X5qCsLfCwvbVerA4vUqjmdFcLrIMcru9fWx0PNzZvg7mA==
-X-Received: by 10.223.133.226 with SMTP id 31mr3633249wru.137.1485971335133;
-	Wed, 01 Feb 2017 09:48:55 -0800 (PST)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	x25sm35369948wrx.27.2017.02.01.09.48.54
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 01 Feb 2017 09:48:54 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 1 Feb 2017 18:48:55 +0100
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20170201174855.GC4362@jama>
-References: <20170131171049.GA3273@jama>
-	<CAJTo0LYxg6dt6bmDg_x2_X4L9GTK5dBzBic7K41=seDNUFts3Q@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYxg6dt6bmDg_x2_X4L9GTK5dBzBic7K41=seDNUFts3Q@mail.gmail.com>
-User-Agent: Mutt/1.7.2 (2016-11-26)
-Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: State of bitbake world, Failed tasks 2017-01-31
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E92A601D4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  1 Feb 2017 17:57:49 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga103.jf.intel.com with ESMTP; 01 Feb 2017 09:57:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,321,1477983600"; d="scan'208";a="60037706"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.141])
+	by fmsmga005.fm.intel.com with ESMTP; 01 Feb 2017 09:57:49 -0800
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  1 Feb 2017 12:04:55 -0600
+Message-Id: <1485972295-9836-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] selftest/bbtests: use write_config instead of local.conf file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,43 +27,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2017 17:48:56 -0000
-X-Groupsio-MsgNum: 92766
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="UnaWdueM1EBWVRzC"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 01 Feb 2017 17:57:50 -0000
 
---UnaWdueM1EBWVRzC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-On Tue, Jan 31, 2017 at 08:08:20PM +0000, Burton, Ross wrote:
-> On 31 January 2017 at 17:10, Martin Jansa <martin.jansa@gmail.com> wrote:
->=20
-> > There is a lot more failures this time (mostly because of RSS), but
-> > I wanted to share it anyway, to be clear about the current state of
-> > other layers.
-> >
->=20
-> I presume you'll be changing this script as the minimal/maximal build runs
-> are redundant now that recipe-specific-sysroots has landed?
+Extra configuration data should be write using the write_config
+method instead of manually appending to the local.conf file
 
-Yes, I've changed it so next time it won't show the results from
-test-dependencies jobs.
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+---
+ meta/lib/oeqa/selftest/bbtests.py | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
+index c4e50cb..9dbac95 100644
+--- a/meta/lib/oeqa/selftest/bbtests.py
++++ b/meta/lib/oeqa/selftest/bbtests.py
+@@ -229,10 +229,7 @@ INHERIT_remove = \"report-error\"
+ 
+     @testcase(1119)
+     def test_non_gplv3(self):
+-        data = 'INCOMPATIBLE_LICENSE = "GPLv3"'
+-        conf = os.path.join(self.builddir, 'conf/local.conf')
+-        ftools.append_file(conf ,data)
+-        self.addCleanup(ftools.remove_from_file, conf ,data)
++        self.write_config('INCOMPATIBLE_LICENSE = "GPLv3"')
+         result = bitbake('readline', ignore_status=True)
+         self.assertEqual(result.status, 0, "Bitbake failed, exit code %s, output %s" % (result.status, result.output))
+         lic_dir = get_bb_var('LICENSE_DIRECTORY')
+-- 
+2.1.4
 
---UnaWdueM1EBWVRzC
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWJIfhgAKCRA3VSO3ZXaA
-HH9TAJ9zzwRKMx3oCaRZ2FwmYXdg9OgLVgCgmPsk9pVyGMkJlpi6JEvZQu8IHQc=
-=bTKi
------END PGP SIGNATURE-----
-
---UnaWdueM1EBWVRzC--
