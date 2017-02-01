@@ -1,26 +1,70 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E404772F6
+Return-Path: <tom.hochstein@nxp.com>
+X-Greylist: delayed 67566 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 01 Feb 2017 14:41:32 UTC
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com
+	(mail-ve1eur01on0075.outbound.protection.outlook.com [104.47.1.75])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C52D71D87
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Feb 2017 14:11:39 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga105.fm.intel.com with ESMTP; 01 Feb 2017 06:11:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; d="scan'208";a="928967477"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 01 Feb 2017 06:11:39 -0800
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 60B016A4006
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Feb 2017 06:10:40 -0800 (PST)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Feb 2017 15:48:25 +0200
-Message-Id: <7d75fd29296a9c411881b4288bff2e02cb145a25.1485953483.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1485953483.git.ed.bartosh@linux.intel.com>
-References: <cover.1485953483.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 18/18] wic: remove syslinux.py
+	Wed,  1 Feb 2017 14:41:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=DESSe7Ss9zUSK9d3RYwjpUkV0nq8bOGaaOlXXCH7dT4=;
+	b=uxRCIO/kRvguFmbDbhdItiW5VxUqKTMw0HFCw3lwpyaUx+zPKiHw3o/70md+1gii9N8yuje+dInwIw43z3e9qliaRkHHBjz0S/n1sFl415xoIkEhPyHfNGtyuy4BdyWUaB6pKa0vbCJyUG7PjiLZf+t7kmhAfkX3rJeXxIi6gI8=
+Received: from AM5PR0402MB2817.eurprd04.prod.outlook.com (10.175.41.136) by
+	VI1PR0401MB1823.eurprd04.prod.outlook.com (10.165.235.13) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+	15.1.860.13; Wed, 1 Feb 2017 14:41:31 +0000
+Received: from AM5PR0402MB2817.eurprd04.prod.outlook.com ([10.175.41.136]) by
+	AM5PR0402MB2817.eurprd04.prod.outlook.com ([10.175.41.136]) with
+	mapi id 15.01.0860.026; Wed, 1 Feb 2017 14:41:29 +0000
+From: Tom Hochstein <tom.hochstein@nxp.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>, Prabhu Sundararaj
+	<prabhu.sundararaj@nxp.com>
+Thread-Topic: [OE-core] [PATCH v2] xserver-xorg: Fix X server 1.19 crash
+Thread-Index: AQHSfH/GWyL61CGfIUiKniHTv4jjPaFUOE8Q
+Date: Wed, 1 Feb 2017 14:41:29 +0000
+Message-ID: <AM5PR0402MB2817DA6F90A494FC671385A6E24D0@AM5PR0402MB2817.eurprd04.prod.outlook.com>
+References: <1485912129-4012-1-git-send-email-tom.hochstein@nxp.com>
+	<CAHiDW_ESMwJK3xaE3sBUYXuhioBa51=QQ+aXudmFM0bSZ_ewuQ@mail.gmail.com>
+In-Reply-To: <CAHiDW_ESMwJK3xaE3sBUYXuhioBa51=QQ+aXudmFM0bSZ_ewuQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=tom.hochstein@nxp.com; 
+x-originating-ip: [192.88.168.49]
+x-microsoft-exchange-diagnostics: 1; VI1PR0401MB1823;
+	7:hsuzjxq7OEcPvCtePrtn7WJqsX+88jOWL90wIzHKhrIsYb8/UivndR3wMMRQpfxMxoRn8mZLfIy7MfMVbplP0W3KFyKGPmvgdxkdlgrCM+tQNBoC3vITdgc7c/Dv1QBp+JLBkRXlorHjqVDzBMyQ0LR4LKoU3+T3VVK7hL0Mel/URpoL/1hJCuZ4akFm8YHJjArvSruBByPyo9uoDHSoPND98mH4AFeBXoNSBCC3YLxoHA+2cgkwmpSOn+kvGpUtyE1GD0Bevf91TuernXtW0V5CNLOyiat/zScEpAKnTpiqrMbTWREoihu/idbzgh9m8+Tws5p5wRKAIBmwOfGBwzseXN2rr4X0ZzfojD5+NiVU8Z8GPxZ6dUJ6mbp6QlzSkdR6irkJhc9upMF3V5o+AFL6hj/8sGIb1WUOkxTB0O69zhQcvgh5mcKaR2BNmHoQL/lHjXSXNK7LmWvXZAYA5iyo31F6rUSchJMQUxb3m9vmvmK77v4nKqOrDymZfBJ4tsyPo044xyi8AtrsjhYsFE9qn/KYNYGImdTaYavY6MAQiANEl2yp9RMvRIP35kz4
+x-forefront-antispam-report: SFV:SKI; SCL:-1SFV:NSPM;
+	SFS:(10009020)(7916002)(39850400002)(39450400003)(39860400002)(39410400002)(39840400002)(189002)(377454003)(199003)(24454002)(76176999)(2900100001)(229853002)(8676002)(50986999)(54356999)(189998001)(81156014)(19609705001)(3660700001)(122556002)(66066001)(5001770100001)(92566002)(86362001)(8936002)(3280700002)(81166006)(6306002)(106116001)(68736007)(6116002)(9686003)(7906003)(54896002)(236005)(101416001)(97736004)(606005)(55016002)(99286003)(38730400001)(25786008)(77096006)(7696004)(102836003)(6636002)(74316002)(5660300001)(6436002)(105586002)(2906002)(2950100002)(4326007)(3846002)(790700001)(7736002)(53936002)(106356001)(6506006)(33656002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR0401MB1823;
+	H:AM5PR0402MB2817.eurprd04.prod.outlook.com; FPR:; SPF:None;
+	PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
+x-ms-office365-filtering-correlation-id: a97f5ef4-500d-4881-4c6f-08d44ab068bb
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: UriScan:; BCL:0; PCL:0; RULEID:(22001)(48565401081);
+	SRVR:VI1PR0401MB1823; 
+x-microsoft-antispam-prvs: <VI1PR0401MB1823814ADF1260AE8A7E3855E24D0@VI1PR0401MB1823.eurprd04.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(158342451672863)(185117386973197)(264703809997249)(21748063052155)(228905959029699);
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(6040375)(601004)(2401047)(8121501046)(5005006)(10201501046)(3002001)(6055026)(6041248)(20161123555025)(20161123560025)(20161123562025)(20161123564025)(20161123558025)(6072148);
+	SRVR:VI1PR0401MB1823; BCL:0; PCL:0; RULEID:;
+	SRVR:VI1PR0401MB1823; 
+x-forefront-prvs: 0205EDCD76
+received-spf: None (protection.outlook.com: nxp.com does not designate
+	permitted sender hosts)
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Feb 2017 14:41:29.5655 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0401MB1823
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] xserver-xorg: Fix X server 1.19 crash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,141 +77,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2017 14:11:39 -0000
+X-List-Received-Date: Wed, 01 Feb 2017 14:41:34 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_AM5PR0402MB2817DA6F90A494FC671385A6E24D0AM5PR0402MB2817_"
 
-This module contains singe function serial_console_form_kargs, which
-is used only by rootfs_pcbios_ext plugin. Moved it there and removed
-syslinux module to make it easy to find and mainain plugin code.
+--_000_AM5PR0402MB2817DA6F90A494FC671385A6E24D0AM5PR0402MB2817_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-[YOCTO #10619]
+aHR0cHM6Ly9saXN0cy55b2N0b3Byb2plY3Qub3JnL3BpcGVybWFpbC9tZXRhLWZyZWVzY2FsZS8y
+MDE3LUphbnVhcnkvMDE5OTgwLmh0bWwNCg0KDQpGcm9tOiBKdXNzaSBLdWtrb25lbiBbbWFpbHRv
+Omp1c3NpLmt1a2tvbmVuQGludGVsLmNvbV0NClNlbnQ6IFdlZG5lc2RheSwgRmVicnVhcnkgMDEs
+IDIwMTcgNTozOCBBTQ0KVG86IFRvbSBIb2Noc3RlaW4gPHRvbS5ob2Noc3RlaW5AbnhwLmNvbT4N
+CkNjOiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllciA8b3Bl
+bmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NClN1YmplY3Q6IFJlOiBbT0Ut
+Y29yZV0gW1BBVENIIHYyXSB4c2VydmVyLXhvcmc6IEZpeCBYIHNlcnZlciAxLjE5IGNyYXNoDQoN
+Ck9uIDEgRmVicnVhcnkgMjAxNyBhdCAwMzoyMiwgVG9tIEhvY2hzdGVpbiA8dG9tLmhvY2hzdGVp
+bkBueHAuY29tPG1haWx0bzp0b20uaG9jaHN0ZWluQG54cC5jb20+PiB3cm90ZToNCkNvbW1pdCA2
+YTVhNGU2MDM3M2MxMzg2YjMxMWIyYThiYjY2NmMzMmQ2OGE5ZDk5IHJlbW92ZXMgdGhlIGNvbmZp
+Z3VyZSBvZg0KdXNlU0lHSU8gb3B0aW9uOg0KDQp4ZnJlZTg2IFNJR0lPIHN1cHBvcnQgaXMgcmV3
+b3JrZWQgdG8gdXNlIGludGVybmFsIHZlcnNpb25zIG9mDQpPc0Jsb2NrU0lHSU8gYW5kIE9zUmVs
+ZWFzZVNJR0lPDQoNClRoZSBjaGVjayBmb3IgdXNlU0lHSU8gaXMgbm8gbG9uZ2VyIG5lZWRlZC4N
+Cg0KQ2FuIHlvdSBleHBsYWluIHdoYXQgdGhlIGNyYXNoIGlzIG9yIGhvdyB0byByZXByb2R1Y2Us
+IEkgY2FuJ3QgZmlndXJlIGl0IG91dCBmcm9tIHRoZSBwYXRjaC4gTGluayB0byBwb3NzaWJsZSB1
+cHN0cmVhbSBNTCBkaXNjdXNzaW9uIGlzIGZpbmUgYXMgd2VsbC4NCg0KVGhhbmtzLA0KICBKdXNz
+aQ0K
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- .../lib/wic/plugins/source/rootfs_pcbios_ext.py    | 38 +++++++++++++-
- scripts/lib/wic/utils/syslinux.py                  | 58 ----------------------
- 2 files changed, 37 insertions(+), 59 deletions(-)
- delete mode 100644 scripts/lib/wic/utils/syslinux.py
+--_000_AM5PR0402MB2817DA6F90A494FC671385A6E24D0AM5PR0402MB2817_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-diff --git a/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py b/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
-index 1032019..bd6fd6c 100644
---- a/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
-+++ b/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
-@@ -19,13 +19,49 @@
- #
- 
- import os
-+import re
-+
- from wic import msger
--from wic.utils import syslinux
- from wic.utils import runner
- from wic.utils.misc import get_bitbake_var, exec_cmd, exec_native_cmd
- from wic.utils.errors import ImageError
- from wic.pluginbase import SourcePlugin
- 
-+def serial_console_form_kargs(kernel_args):
-+    """
-+    Create SERIAL... line from kernel parameters
-+
-+    syslinux needs a line SERIAL port [baudrate [flowcontrol]]
-+    in the syslinux.cfg file. The config line is generated based
-+    on kernel boot parameters. The the parameters of the first
-+    ttyS console are considered for syslinux config.
-+    @param kernel_args kernel command line
-+    @return line for syslinux config file e.g. "SERIAL 0 115200"
-+    """
-+    syslinux_conf = ""
-+    for param in kernel_args.split():
-+        param_match = re.match("console=ttyS([0-9]+),?([0-9]*)([noe]?)([0-9]?)(r?)", param)
-+        if param_match:
-+            syslinux_conf += "SERIAL " + param_match.group(1)
-+            # baudrate
-+            if param_match.group(2):
-+                syslinux_conf += " " + param_match.group(2)
-+            # parity
-+            if param_match.group(3) and param_match.group(3) != 'n':
-+                msger.warning("syslinux does not support parity for console. {} is ignored."
-+                              .format(param_match.group(3)))
-+            # number of bits
-+            if param_match.group(4) and param_match.group(4) != '8':
-+                msger.warning("syslinux supports 8 bit console configuration only. {} is ignored."
-+                              .format(param_match.group(4)))
-+            # flow control
-+            if param_match.group(5) and param_match.group(5) != '':
-+                msger.warning("syslinux console flowcontrol configuration. {} is ignored."
-+                              .format(param_match.group(5)))
-+            break
-+
-+    return syslinux_conf
-+
- 
- # pylint: disable=no-init
- class RootfsPlugin(SourcePlugin):
-diff --git a/scripts/lib/wic/utils/syslinux.py b/scripts/lib/wic/utils/syslinux.py
-deleted file mode 100644
-index aace286..0000000
---- a/scripts/lib/wic/utils/syslinux.py
-+++ /dev/null
-@@ -1,58 +0,0 @@
--# ex:ts=4:sw=4:sts=4:et
--# -*- tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil -*-
--#
--# This program is free software; you can redistribute it and/or modify it
--# under the terms of the GNU General Public License as published by the Free
--# Software Foundation; version 2 of the License
--#
--# This program is distributed in the hope that it will be useful, but
--# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
--# or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
--# for more details.
--#
--# You should have received a copy of the GNU General Public License along
--# with this program; if not, write to the Free Software Foundation, Inc., 59
--# Temple Place - Suite 330, Boston, MA 02111-1307, USA.
--#
--# AUTHOR
--# Adrian Freihofer <adrian.freihofer (at] neratec.com>
--
--
--import re
--from wic import msger
--
--
--def serial_console_form_kargs(kernel_args):
--    """
--    Create SERIAL... line from kernel parameters
--
--    syslinux needs a line SERIAL port [baudrate [flowcontrol]]
--    in the syslinux.cfg file. The config line is generated based
--    on kernel boot parameters. The the parameters of the first
--    ttyS console are considered for syslinux config.
--    @param kernel_args kernel command line
--    @return line for syslinux config file e.g. "SERIAL 0 115200"
--    """
--    syslinux_conf = ""
--    for param in kernel_args.split():
--        param_match = re.match("console=ttyS([0-9]+),?([0-9]*)([noe]?)([0-9]?)(r?)", param)
--        if param_match:
--            syslinux_conf += "SERIAL " + param_match.group(1)
--            # baudrate
--            if param_match.group(2):
--                syslinux_conf += " " + param_match.group(2)
--            # parity
--            if param_match.group(3) and param_match.group(3) != 'n':
--                msger.warning("syslinux does not support parity for console. {} is ignored."
--                              .format(param_match.group(3)))
--            # number of bits
--            if param_match.group(4) and param_match.group(4) != '8':
--                msger.warning("syslinux supports 8 bit console configuration only. {} is ignored."
--                              .format(param_match.group(4)))
--            # flow control
--            if param_match.group(5) and param_match.group(5) != '':
--                msger.warning("syslinux console flowcontrol configuration. {} is ignored."
--                              .format(param_match.group(5)))
--            break
--
--    return syslinux_conf
--- 
-2.1.4
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
+DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
+b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
+Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
+dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
+CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
+c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
+ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30N
+CkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4g
+MS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9u
+MTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0
+cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1b
+aWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRt
+YXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5k
+aWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1
+cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PGZvbnQgc2l6ZT0iMiIgY29sb3I9IiMxZjQ5N2QiIGZhY2U9IkNhbGlicmkiPjxzcGFuIHN0eWxl
+PSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1z
+ZXJpZjtjb2xvcjojMUY0OTdEIj48YSBocmVmPSJodHRwczovL2xpc3RzLnlvY3RvcHJvamVjdC5v
+cmcvcGlwZXJtYWlsL21ldGEtZnJlZXNjYWxlLzIwMTctSmFudWFyeS8wMTk5ODAuaHRtbCI+aHR0
+cHM6Ly9saXN0cy55b2N0b3Byb2plY3Qub3JnL3BpcGVybWFpbC9tZXRhLWZyZWVzY2FsZS8yMDE3
+LUphbnVhcnkvMDE5OTgwLmh0bWw8L2E+PG86cD48L286cD48L3NwYW4+PC9mb250PjwvcD4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPjxmb250IHNpemU9IjIiIGNvbG9yPSIjMWY0OTdkIiBmYWNlPSJD
+YWxpYnJpIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtD
+YWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48
+L3NwYW4+PC9mb250PjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxmb250IHNpemU9IjIiIGNv
+bG9yPSIjMWY0OTdkIiBmYWNlPSJDYWxpYnJpIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBw
+dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3
+RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9mb250PjwvcD4NCjxkaXYgc3R5bGU9ImJvcmRl
+cjpub25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzowaW4gMGluIDBpbiA0
+LjBwdCI+DQo8ZGl2Pg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAj
+RTFFMUUxIDEuMHB0O3BhZGRpbmc6My4wcHQgMGluIDBpbiAwaW4iPg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+PGI+PGZvbnQgc2l6ZT0iMiIgZmFjZT0iQ2FsaWJyaSI+PHNwYW4gc3R5bGU9ImZvbnQt
+c2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2Zv
+bnQtd2VpZ2h0OmJvbGQiPkZyb206PC9zcGFuPjwvZm9udD48L2I+PGZvbnQgc2l6ZT0iMiIgZmFj
+ZT0iQ2FsaWJyaSI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1
+b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj4gSnVzc2kNCiBLdWtrb25lbiBbbWFpbHRvOmp1
+c3NpLmt1a2tvbmVuQGludGVsLmNvbV0gPGJyPg0KPGI+PHNwYW4gc3R5bGU9ImZvbnQtd2VpZ2h0
+OmJvbGQiPlNlbnQ6PC9zcGFuPjwvYj4gV2VkbmVzZGF5LCBGZWJydWFyeSAwMSwgMjAxNyA1OjM4
+IEFNPGJyPg0KPGI+PHNwYW4gc3R5bGU9ImZvbnQtd2VpZ2h0OmJvbGQiPlRvOjwvc3Bhbj48L2I+
+IFRvbSBIb2Noc3RlaW4gJmx0O3RvbS5ob2Noc3RlaW5AbnhwLmNvbSZndDs8YnI+DQo8Yj48c3Bh
+biBzdHlsZT0iZm9udC13ZWlnaHQ6Ym9sZCI+Q2M6PC9zcGFuPjwvYj4gUGF0Y2hlcyBhbmQgZGlz
+Y3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUgbGF5ZXIgJmx0O29wZW5lbWJlZGRlZC1jb3JlQGxp
+c3RzLm9wZW5lbWJlZGRlZC5vcmcmZ3Q7PGJyPg0KPGI+PHNwYW4gc3R5bGU9ImZvbnQtd2VpZ2h0
+OmJvbGQiPlN1YmplY3Q6PC9zcGFuPjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0ggdjJdIHhzZXJ2
+ZXIteG9yZzogRml4IFggc2VydmVyIDEuMTkgY3Jhc2g8bzpwPjwvbzpwPjwvc3Bhbj48L2ZvbnQ+
+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxmb250IHNpemU9IjMi
+IGZhY2U9IlRpbWVzIE5ldyBSb21hbiI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMi4wcHQiPjxv
+OnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvZm9udD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxkaXY+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48Zm9udCBzaXplPSIzIiBmYWNlPSJUaW1lcyBOZXcgUm9tYW4i
+PjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTIuMHB0Ij5PbiAxIEZlYnJ1YXJ5IDIwMTcgYXQgMDM6
+MjIsIFRvbSBIb2Noc3RlaW4gJmx0OzxhIGhyZWY9Im1haWx0bzp0b20uaG9jaHN0ZWluQG54cC5j
+b20iIHRhcmdldD0iX2JsYW5rIj50b20uaG9jaHN0ZWluQG54cC5jb208L2E+Jmd0OyB3cm90ZTo8
+bzpwPjwvbzpwPjwvc3Bhbj48L2ZvbnQ+PC9wPg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpu
+b25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowaW4gMGluIDBpbiA2
+LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGluIj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPjxmb250IHNpemU9IjMiIGZhY2U9IlRpbWVzIE5ldyBSb21hbiI+PHNwYW4gc3R5bGU9
+ImZvbnQtc2l6ZToxMi4wcHQiPkNvbW1pdCA2YTVhNGU2MDM3M2MxMzg2YjMxMWIyYThiYjY2NmMz
+MmQ2OGE5ZDk5IHJlbW92ZXMgdGhlIGNvbmZpZ3VyZSBvZjxicj4NCnVzZVNJR0lPIG9wdGlvbjo8
+YnI+DQo8YnI+DQp4ZnJlZTg2IFNJR0lPIHN1cHBvcnQgaXMgcmV3b3JrZWQgdG8gdXNlIGludGVy
+bmFsIHZlcnNpb25zIG9mPGJyPg0KT3NCbG9ja1NJR0lPIGFuZCBPc1JlbGVhc2VTSUdJTzxicj4N
+Cjxicj4NClRoZSBjaGVjayBmb3IgdXNlU0lHSU8gaXMgbm8gbG9uZ2VyIG5lZWRlZC48bzpwPjwv
+bzpwPjwvc3Bhbj48L2ZvbnQ+PC9wPg0KPC9ibG9ja3F1b3RlPg0KPGRpdj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPjxmb250IHNpemU9IjMiIGZhY2U9IlRpbWVzIE5ldyBSb21hbiI+PHNwYW4gc3R5
+bGU9ImZvbnQtc2l6ZToxMi4wcHQiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvZm9udD48L3A+
+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Zm9udCBzaXplPSIzIiBmYWNl
+PSJUaW1lcyBOZXcgUm9tYW4iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTIuMHB0Ij5DYW4geW91
+IGV4cGxhaW4gd2hhdCB0aGUgY3Jhc2ggaXMgb3IgaG93IHRvIHJlcHJvZHVjZSwgSSBjYW4ndCBm
+aWd1cmUgaXQgb3V0IGZyb20gdGhlIHBhdGNoLiBMaW5rIHRvIHBvc3NpYmxlIHVwc3RyZWFtIE1M
+IGRpc2N1c3Npb24gaXMgZmluZSBhcyB3ZWxsLjxvOnA+PC9vOnA+PC9zcGFuPjwvZm9udD48L3A+
+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Zm9udCBzaXplPSIzIiBmYWNl
+PSJUaW1lcyBOZXcgUm9tYW4iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTIuMHB0Ij48bzpwPiZu
+YnNwOzwvbzpwPjwvc3Bhbj48L2ZvbnQ+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PGZvbnQgc2l6ZT0iMyIgZmFjZT0iVGltZXMgTmV3IFJvbWFuIj48c3BhbiBzdHls
+ZT0iZm9udC1zaXplOjEyLjBwdCI+VGhhbmtzLDxvOnA+PC9vOnA+PC9zcGFuPjwvZm9udD48L3A+
+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Zm9udCBzaXplPSIzIiBmYWNl
+PSJUaW1lcyBOZXcgUm9tYW4iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTIuMHB0Ij4mbmJzcDsg
+SnVzc2k8bzpwPjwvbzpwPjwvc3Bhbj48L2ZvbnQ+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2
+Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
-
+--_000_AM5PR0402MB2817DA6F90A494FC671385A6E24D0AM5PR0402MB2817_--
