@@ -1,43 +1,24 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qt0-f182.google.com (mail-qt0-f182.google.com
-	[209.85.216.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A9717321C
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id EEDE571DCF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Feb 2017 13:57:10 +0000 (UTC)
-Received: by mail-qt0-f182.google.com with SMTP id k15so265663116qtg.3
+	Wed,  1 Feb 2017 14:10:52 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga105.jf.intel.com with ESMTP; 01 Feb 2017 06:10:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; d="scan'208";a="220098776"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga004.fm.intel.com with ESMTP; 01 Feb 2017 06:10:53 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 9AFCE6A4006
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Feb 2017 05:57:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=nC26cceFfjzonX2R7KiiZ2iPE2RTQhMn2XY9EDv29wo=;
-	b=P3a3FgQ6MTJ2kLBKpfFc6IYm+q+MzxgMs0LotJ1wcXhWN5+YnbQ/ioqczOE3ZLiT6D
-	+7xeZaaS4ARLrcH9SswTKyIrUnc74KnMy/vKeMzJrtr5mDzeCyEw4Fwu0hos+ipDeg3J
-	fQTPvWzrPA4wIktmxP8OnEWGxoLDsBdZT/k/A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=nC26cceFfjzonX2R7KiiZ2iPE2RTQhMn2XY9EDv29wo=;
-	b=rA0VHDUc16uA+Lj8gxbgoUFzGQamucilZF1Wf+e/JT8rwpOuZQ/B9I6tWKRchz+6mz
-	NNaIYkeLw2556Ul44EVys/g+LiildREayO4w00WbW/BuarJ6eysLwx4wPTXBLzBfXKjM
-	FGd/RNHmniQZUiga9VflVhDxd7iTWf1qpqArZplMOgpUdJ5drtcl7+pU8LADUAAvpK76
-	WWIrn/3T/sF5rAJFo1jqTO2fe/JrZtkssn1Nj1maZFE+10hLZT2l334wcV9NRoS/srDE
-	GNCLwBvFuTLxKWBuw1L47k5j3cVoWBlsv9QLTxBDkJ5s9iA2vUD0Hr5BIYdPkx6YzeEI
-	X1bQ==
-X-Gm-Message-State: AIkVDXJuoaU7lbqqOaVlSkpJ+EfPBcqJmhsUF3PIvshtiOMg1Js0oUEb9VjM1n0Y18AHhnp/
-X-Received: by 10.200.35.135 with SMTP id q7mr2739528qtq.206.1485957430942;
-	Wed, 01 Feb 2017 05:57:10 -0800 (PST)
-Received: from localhost.localdomain (static.8.26.4.46.clients.your-server.de.
-	[46.4.26.8]) by smtp.gmail.com with ESMTPSA id
-	l53sm18651885qtl.41.2017.02.01.05.57.10
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 01 Feb 2017 05:57:10 -0800 (PST)
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+	Wed,  1 Feb 2017 06:09:53 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Feb 2017 14:56:53 +0100
-Message-Id: <20170201135653.17152-1-nicolas.dechesne@linaro.org>
-X-Mailer: git-send-email 2.11.0
-Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Subject: [PATCH] mesa: update to 13.0.4
+Date: Wed,  1 Feb 2017 15:48:07 +0200
+Message-Id: <cover.1485953483.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 00/18] #10619: refactor wic codebase (start)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,44 +31,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2017 13:57:12 -0000
+X-List-Received-Date: Wed, 01 Feb 2017 14:10:55 -0000
 
-Bug fixes release.
+Hi,
 
-This is really needed for Qualcomm based h/w since freedreno
-driver had a regression in 13.0.x branch which is fixed in 13.0.4.
+This patchset consolidates wic APIs in a more maintainable way,
+removes unused APIs and cleans up wic code.
 
-Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
----
- meta/recipes-graphics/mesa/{mesa-gl_13.0.2.bb => mesa-gl_13.0.4.bb} | 0
- meta/recipes-graphics/mesa/{mesa_13.0.2.bb => mesa_13.0.4.bb}       | 4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_13.0.2.bb => mesa-gl_13.0.4.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_13.0.2.bb => mesa_13.0.4.bb} (83%)
+This is a first series of a refactoring work. The changes in this patchset are
+relatively simple. They're a preparation for upcoming heavy work on making wic
+codebase less complex and more maintainable.
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_13.0.2.bb b/meta/recipes-graphics/mesa/mesa-gl_13.0.4.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_13.0.2.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_13.0.4.bb
-diff --git a/meta/recipes-graphics/mesa/mesa_13.0.2.bb b/meta/recipes-graphics/mesa/mesa_13.0.4.bb
-similarity index 83%
-rename from meta/recipes-graphics/mesa/mesa_13.0.2.bb
-rename to meta/recipes-graphics/mesa/mesa_13.0.4.bb
-index bef1fa5c38..1416c9f8b8 100644
---- a/meta/recipes-graphics/mesa/mesa_13.0.2.bb
-+++ b/meta/recipes-graphics/mesa/mesa_13.0.4.bb
-@@ -6,8 +6,8 @@ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/mesa-${PV}.tar.xz \
-            file://0001-Use-wayland-scanner-in-the-path.patch \
- "
- 
--SRC_URI[md5sum] = "9442c2dee914cde3d1f090371ab04113"
--SRC_URI[sha256sum] = "a6ed622645f4ed61da418bf65adde5bcc4bb79023c36ba7d6b45b389da4416d5"
-+SRC_URI[md5sum] = "d088a921e935218833a8071cb672a574"
-+SRC_URI[sha256sum] = "a95d7ce8f7bd5f88585e4be3144a341236d8c0fc91f6feaec59bb8ba3120e726"
- 
- #because we cannot rely on the fact that all apps will use pkgconfig,
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+The following changes since commit ec3d83f9a90288403b96be25da855fa280aadd8d:
+
+  xmlto: Don't hardcode the path to tail (2017-01-31 23:47:33 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ed/wic/refactoring-10619
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wic/refactoring-10619
+
+Ed Bartosh (18):
+  wic: creator: stop using config manager
+  wic: direct_plugin: stop using config manager
+  wic: removed conf.py and empty config file.
+  wic: moved content of direct.py to direct_plugin
+  wic: get rid of __rootfs_dir_to_dict method
+  wic: improve naming in direct_plugin classes
+  wic: pylinted direct_plugin
+  wic: simplified code of direct_plugin
+  wic: renamd direct_plugin.py -> direct.py
+  wic: removed test file
+  wic: partition: simlify calling plugin methods
+  wci: misc: removed build_name API
+  wic: move 2 APIs to wic.engine
+  wic: move oe/misc.py one level up
+  wic: removed code from __init__.py
+  wic: msger.py: remove unused APIs
+  wic: code cleanup
+  wic: remove syslinux.py
+
+ scripts/lib/wic/__init__.py                        |   4 -
+ scripts/lib/wic/__version__.py                     |   1 -
+ scripts/lib/wic/conf.py                            | 103 --------
+ scripts/lib/wic/config/wic.conf                    |   6 -
+ scripts/lib/wic/creator.py                         |  19 --
+ scripts/lib/wic/engine.py                          |  39 ++-
+ scripts/lib/wic/help.py                            |   4 +-
+ scripts/lib/wic/imager/__init__.py                 |   0
+ scripts/lib/wic/ksparser.py                        |   2 +-
+ scripts/lib/wic/msger.py                           |  26 --
+ scripts/lib/wic/partition.py                       |  66 ++---
+ scripts/lib/wic/plugin.py                          |   5 +-
+ scripts/lib/wic/pluginbase.py                      |   1 -
+ scripts/lib/wic/{ => plugins}/imager/direct.py     | 139 ++++++-----
+ scripts/lib/wic/plugins/imager/direct_plugin.py    | 103 --------
+ scripts/lib/wic/plugins/source/bootimg-efi.py      |  20 +-
+ .../lib/wic/plugins/source/bootimg-partition.py    |   6 +-
+ scripts/lib/wic/plugins/source/bootimg-pcbios.py   |  12 +-
+ scripts/lib/wic/plugins/source/fsimage.py          |   2 +-
+ .../lib/wic/plugins/source/isoimage-isohybrid.py   |  15 +-
+ scripts/lib/wic/plugins/source/rawcopy.py          |   3 +-
+ scripts/lib/wic/plugins/source/rootfs.py           |   6 +-
+ .../lib/wic/plugins/source/rootfs_pcbios_ext.py    |  46 +++-
+ scripts/lib/wic/test                               |   1 -
+ scripts/lib/wic/utils/misc.py                      | 274 +++++++++++++++------
+ scripts/lib/wic/utils/oe/misc.py                   | 247 -------------------
+ scripts/lib/wic/utils/partitionedfs.py             |   7 +-
+ scripts/lib/wic/utils/syslinux.py                  |  58 -----
+ scripts/wic                                        |   2 +-
+ 29 files changed, 426 insertions(+), 791 deletions(-)
+ delete mode 100644 scripts/lib/wic/__version__.py
+ delete mode 100644 scripts/lib/wic/conf.py
+ delete mode 100644 scripts/lib/wic/config/wic.conf
+ delete mode 100644 scripts/lib/wic/imager/__init__.py
+ rename scripts/lib/wic/{ => plugins}/imager/direct.py (80%)
+ delete mode 100644 scripts/lib/wic/plugins/imager/direct_plugin.py
+ delete mode 100644 scripts/lib/wic/test
+ delete mode 100644 scripts/lib/wic/utils/oe/misc.py
+ delete mode 100644 scripts/lib/wic/utils/syslinux.py
+
 -- 
-2.11.0
+2.1.4
 
 
