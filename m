@@ -1,48 +1,48 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-yw0-f177.google.com (mail-yw0-f177.google.com
-	[209.85.161.177])
-	by mail.openembedded.org (Postfix) with ESMTP id C8F18605BE
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
+	[209.85.217.193])
+	by mail.openembedded.org (Postfix) with ESMTP id B7D1B71DD2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Feb 2017 11:45:22 +0000 (UTC)
-Received: by mail-yw0-f177.google.com with SMTP id w75so59806917ywg.1
+	Wed,  1 Feb 2017 11:47:27 +0000 (UTC)
+Received: by mail-ua0-f193.google.com with SMTP id i68so35467757uad.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Feb 2017 03:45:23 -0800 (PST)
+	Wed, 01 Feb 2017 03:47:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	d=googlemail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=U//yTNmEmjf0zo6IckVUTPP/YHG+pE2fzC8OW8kWNew=;
-	b=ts3rDx/gTdpfJui61qB2Ed4/VFrfhtwqdBsgmJitC+AGJF1Sj88ahlOXu2xX5VvXYg
-	orbXZnZmFgoPBDdw1tOxDcGEXOuzJYtizAetje+o/qttBkdFlf4tZPySQc5OkzSkd2L3
-	z+R1AStN9AXJKqJjU0h7lWtYrpf564BcyPxkmTiqAHn5/iU1A6wEuQWjPOyv+XUSUZL7
-	GYxeZy2U0sfCR0d1+MS95gn6Kud1V2zIqdeJ3QRVY0d9Hb+3ckZe4tTFdIN3WeZzRT27
-	kYHRWH+9U1RLCHeyUEJfPo9VBY6cgAN7WARMQN4ta1vsFa7FylDdZcdgQcduPA2wUToD
-	GEHQ==
+	:cc; bh=2Bq5mwweti4kbjhIvhNYX5Y03oItKqHKueciaSm7xIg=;
+	b=kqq40aQis3+5xB0pc8rXzKXobnk0a8nFm4Aadp0IYGQwZn5B9vmsn+t5/U33FSUTMr
+	4ZBvLYtVSw0AvgRzbTuPxZ4L64R15PkFZU69FH6gNE7+zszE30UmA0SltxGYroluDPIC
+	OWxIrinBNluYa5EHszH9diekV6jlrQdsVBgJfYPRK6qNghfaK0+4zzlRVeoiCkgxVGyk
+	g0FQrT8Ra/QpaIZCNbn6xat4q4HswmRzFJgp8XdHHwb+MioYUdiVzK6MBnBdnQlUSnGh
+	VqMNHf9Jpx5ou7nm3BL34I3wGx+pzEb/ftskVnA8iThoqemQCSPWb+JmfX3I/mpiFTZ+
+	gvpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=U//yTNmEmjf0zo6IckVUTPP/YHG+pE2fzC8OW8kWNew=;
-	b=bqbtLLeS6n49Ri1a5mUxyEz9uzoBv4wVezOF2Ou7DJwab6okJ/hCouT1DEzQGOlIka
-	74xBPpiPOVmV38EEQGLg5JZOgK6tG3aUrHz6A66/T037j1FOXHLBzDDRdN5uGqq61d7j
-	JZt3oJsVkuLnO68gQJFfmKajMnD61djCQxz3CNNmkP6kLmWGsbXuITJUynOTE8Zl5nhV
-	1iUagnTBO+VKGnuWbdx4rKwdUitv4o+fCAL+c9BE1sP3EbtwFhHta7tGYQFjoSlHNOTR
-	MwNf0UJ1jfpNLcnpaXms6LdZl+Gpb6S1yssCKPXjMVz5L4EO1XLW0NDMgARFXwAYDWJM
-	7gaA==
-X-Gm-Message-State: AIkVDXJFvXAt7SzKTeAu+C2LNgb3oB01UhtmebrOEbeWwDrjU6PAqmp59zpu49+zC0QXH3IL7TLGywId0O93yMPN
-X-Received: by 10.13.211.70 with SMTP id v67mr1278930ywd.260.1485949522880;
-	Wed, 01 Feb 2017 03:45:22 -0800 (PST)
+	bh=2Bq5mwweti4kbjhIvhNYX5Y03oItKqHKueciaSm7xIg=;
+	b=nBq9lLhX3USESl9zzcn8kPwrcKVDtDUK+R3AwYbIRbdspvAh8VciJngUGOLEhKrHWU
+	Kq0bbUssvZBlESNpVNrgyZxXnQhIR78jJ6TmxH1DVzyBYoELiqg3InTCHNIp2vDxoIwF
+	1cfdQOvXot7aHh3ALkqGjeUlx5OtYwcWTlLQQYjP2lYfi1hNyskapHjZPAUa4Q33FIpx
+	dU3R9QdcQzXm23dazc/mqPfPIjMzZvFaVG8rf+7PFoiPawWzd7Dj2r1BdT4FWiPQwQqS
+	VH1HdAV8+p8RcAOJmuyGZPWYSvTH8xQHbynVI29F7VUPFk6rcVY+URxW/POFWd3FlRNf
+	kzNg==
+X-Gm-Message-State: AIkVDXKZpq0dvfpeEB8o0ES2/NTqk9lX7lqFYDZesSJvyUguaSU74K90/vGbfAMSeDJB0AufuUJRpRpVdPTjmw==
+X-Received: by 10.176.82.156 with SMTP id v28mr1046863uav.123.1485949647387;
+	Wed, 01 Feb 2017 03:47:27 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.13.234.11 with HTTP; Wed, 1 Feb 2017 03:44:52 -0800 (PST)
-In-Reply-To: <1485948194.14144.23.camel@linuxfoundation.org>
-References: <1485943415-8260-1-git-send-email-jussi.kukkonen@intel.com>
-	<1485948194.14144.23.camel@linuxfoundation.org>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Wed, 1 Feb 2017 13:44:52 +0200
-Message-ID: <CAHiDW_GosUv9rS2c5yZXvWgReno1rorTk4cR5J00+XZPb9wytg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: by 10.176.91.68 with HTTP; Wed, 1 Feb 2017 03:47:27 -0800 (PST)
+In-Reply-To: <CAHiDW_ESMwJK3xaE3sBUYXuhioBa51=QQ+aXudmFM0bSZ_ewuQ@mail.gmail.com>
+References: <1485912129-4012-1-git-send-email-tom.hochstein@nxp.com>
+	<CAHiDW_ESMwJK3xaE3sBUYXuhioBa51=QQ+aXudmFM0bSZ_ewuQ@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Wed, 1 Feb 2017 12:47:27 +0100
+Message-ID: <CALbNGRQwaEuhq_VnzbidYMWXO0BK2wTPNunOGbXSfqm=3nhQqw@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sstate: Fix make_relative_symlink() for RSS
+Subject: Re: [PATCH v2] xserver-xorg: Fix X server 1.19 crash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,105 +55,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2017 11:45:23 -0000
-Content-Type: multipart/alternative; boundary=001a114d83ea775a530547769511
-
---001a114d83ea775a530547769511
+X-List-Received-Date: Wed, 01 Feb 2017 11:47:28 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 1 February 2017 at 13:23, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Wed, 2017-02-01 at 12:03 +0200, Jussi Kukkonen wrote:
-> > Recipe-specific sysroots broke make_relative_symlink(), which
-> > turns absolute symlinks in sysroots into relative ones. Use the
-> > difference between the (in-sysroot) paths to construct the relative
-> > symlink.
-> >
-> > This fixes links in openssl-native, fontconfig-native and bzip2-
-> > native.
-> >
-> > Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> > ---
-> >
-> > sstate is not an area I'm familiar with, please take a good look.
-> >
-> > As far as I could see outputpath (based on state[2]) was never really
-> > needed so I did not use it in the new version.
->
-> I don't think we can hardcode workdir into here as for tasks like
-> do_deploy, this makes no sense. I think we removed most of the absolute
-> links from the deploy tasks so we currently don't need this, at least
-> in the common case but the sstate code is meant to be generic.
->
-> I am wondering if we need to pass in anything at all, can't we just
-> call relpath on the original path and turn it into a relative one
-> directly without referencing it back to TMPDIR/WORKDIR?
+On Wed, Feb 1, 2017 at 12:38 PM, Jussi Kukkonen
+<jussi.kukkonen@intel.com> wrote:
+> On 1 February 2017 at 03:22, Tom Hochstein <tom.hochstein@nxp.com> wrote:
+>>
+>> Commit 6a5a4e60373c1386b311b2a8bb666c32d68a9d99 removes the configure of
+>> useSIGIO option:
+>>
+>> xfree86 SIGIO support is reworked to use internal versions of
+>> OsBlockSIGIO and OsReleaseSIGIO
+>>
+>> The check for useSIGIO is no longer needed.
 >
 >
-The actual file path during do_populate_sysroot is something like
-
-/mnt/extra-ssd/tmp/work/x86_64-linux/openssl-native/1.0.2j-r0/sysroot-destdir/mnt/extra-ssd/tmp/work/x86_64-linux/openssl-native/1.0.2j-r0/recipe-sysroot-native/usr/lib/ssl/certs
-
-and the link before make_relative_symlink() points to
-
-/mnt/extra-ssd/tmp/work/x86_64-linux/openssl-native/1.0.2j-r0/recipe-sysroot-native/etc/ssl/certs
-
-Assuming those are correct, I don't see how to do this without referencing
-WORKDIR or TMPDIR?
-
-Jussi
-
---001a114d83ea775a530547769511
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
- February 2017 at 13:23, Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@l=
-inuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex"><span class=3D"gmail-">On Wed, 2017-02-01 at 12:03 +0200=
-, Jussi Kukkonen wrote:<br>
-&gt; Recipe-specific sysroots broke make_relative_symlink(), which<br>
-&gt; turns absolute symlinks in sysroots into relative ones. Use the<br>
-&gt; difference between the (in-sysroot) paths to construct the relative<br=
+> Can you explain what the crash is or how to reproduce, I can't figure it out
+> from the patch. Link to possible upstream ML discussion is fine as well.
 >
-&gt; symlink.<br>
-&gt;<br>
-&gt; This fixes links in openssl-native, fontconfig-native and bzip2-<br>
-&gt; native.<br>
-&gt;<br>
-&gt; Signed-off-by: Jussi Kukkonen &lt;<a href=3D"mailto:jussi.kukkonen@int=
-el.com">jussi.kukkonen@intel.com</a>&gt;<br>
-&gt; ---<br>
-&gt;<br>
-&gt; sstate is not an area I&#39;m familiar with, please take a good look.<=
-br>
-&gt;<br>
-&gt; As far as I could see outputpath (based on state[2]) was never really<=
-br>
-&gt; needed so I did not use it in the new version.<br>
-<br>
-</span>I don&#39;t think we can hardcode workdir into here as for tasks lik=
-e<br>
-do_deploy, this makes no sense. I think we removed most of the absolute<br>
-links from the deploy tasks so we currently don&#39;t need this, at least<b=
-r>
-in the common case but the sstate code is meant to be generic.<br>
-<br>
-I am wondering if we need to pass in anything at all, can&#39;t we just<br>
-call relpath on the original path and turn it into a relative one<br>
-directly without referencing it back to TMPDIR/WORKDIR?<br>
-<br></blockquote><div><br></div><div>The actual file path during do_populat=
-e_sysroot is something like</div><div>=C2=A0 /mnt/extra-ssd/tmp/work/x86_64=
--linux/openssl-native/1.0.2j-r0/sysroot-destdir/mnt/extra-ssd/tmp/work/x86_=
-64-linux/openssl-native/1.0.2j-r0/recipe-sysroot-native/usr/lib/ssl/certs</=
-div><div><br></div><div>and the link before make_relative_symlink() points =
-to=C2=A0</div><div>=C2=A0 /mnt/extra-ssd/tmp/work/x86_64-linux/openssl-nati=
-ve/1.0.2j-r0/recipe-sysroot-native/etc/ssl/certs</div><div><br></div><div>A=
-ssuming those are correct, I don&#39;t see how to do this without referenci=
-ng WORKDIR or TMPDIR?</div><div><br></div><div>Jussi</div></div></div></div=
+> Thanks,
+>   Jussi
 >
+While we are at it: This patch conflicts whit the patch fixing
+xserver@beaglebone-black [1-2].
 
---001a114d83ea775a530547769511--
+What do people think of the patch - would it make sense to rebase this
+one against it?
+
+[1] http://lists.openembedded.org/pipermail/openembedded-core/2017-January/131843.html
+[2] https://patchwork.openembedded.org/patch/136497/
+
+Andreas
+
