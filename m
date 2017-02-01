@@ -1,32 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D198971DD7
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
+	[209.85.214.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 3645971C90
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Feb 2017 12:01:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v11C0xGS011539; Wed, 1 Feb 2017 12:00:59 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id sfIz9ODrQEpy; Wed,  1 Feb 2017 12:00:59 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v11C0u1v011536
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 1 Feb 2017 12:00:58 GMT
-Message-ID: <1485950456.14144.25.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Wed, 01 Feb 2017 12:00:56 +0000
-In-Reply-To: <CAHiDW_GosUv9rS2c5yZXvWgReno1rorTk4cR5J00+XZPb9wytg@mail.gmail.com>
-References: <1485943415-8260-1-git-send-email-jussi.kukkonen@intel.com>
-	<1485948194.14144.23.camel@linuxfoundation.org>
-	<CAHiDW_GosUv9rS2c5yZXvWgReno1rorTk4cR5J00+XZPb9wytg@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sstate: Fix make_relative_symlink() for RSS
+	Wed,  1 Feb 2017 12:04:45 +0000 (UTC)
+Received: by mail-it0-f68.google.com with SMTP id f200so2210461itf.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 01 Feb 2017 04:04:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=yJGjFmLO748AaDHVVUWY5HndHKUFWbkJf2/l/HthA9M=;
+	b=hWwlnCISEejMF3jYRwxbruqLncX3wKUMKQcYzsu4pz/0YaI7XHAbohf9L9n2Bja2Zd
+	Gzx9dZKNv8aQoVBipTXNjpfW6li+YuD57OSyN0jqCotQd3Q6MATSWBajo6U7PcCyZkAN
+	agswW81L1glZvseP99CkMGOw5NVdDOCit1JoDVz3fN5jpsqMz3zPzihLKnoi9ysHQ1p9
+	CXd4jr3HV0/wxmCXdtXtcDuUT5t+4xkVAg71BwONulP/Igbs0ZDeQO38ON531mj3TWL7
+	5oGvWgJ2oCtk5yq+OZ3eH1ySdcjqDWavUDAP8wBCA4UpUXnAnwbg6lwUu3ziWq3IR454
+	TglQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=yJGjFmLO748AaDHVVUWY5HndHKUFWbkJf2/l/HthA9M=;
+	b=SeFvGxjQU+1oFgBJs/8gHegeg1lC+VW9RydKrw4hPM9lMCVZu1w6ECNpEnzvB0A2WH
+	+vw9uGpWDAH4yOeP0b4SlhNg3KyG4TmwbPE9KmkNPwrzQL5bm9hf2t1WYwX9XTbSxIhK
+	QARAaJDnCl7pCYSNdPkiTLJFTksztfaPf45Zy3Eb2bwZVXnVdhhq0j9Sxb/d7Di8HsW8
+	WJ8LXnrYfgbS7wMtbM4CClEVHQyuRwPimS8Wnk/PGzxSOzaDvib7uqN8hZkgwmxul6pQ
+	JtGmOpQfQlyEa9Yp47fdcFuRGz8HvwLN6BQTCz9d1I/lMV4otOPHLvVfGXgFq9WCpk9L
+	jxew==
+X-Gm-Message-State: AIkVDXK1lnXj3ZqD8XJQf3Amw9EfJlmqC/3KhuJIt1AMDfVIRoszSEoJRC3m2X9gs1uynA==
+X-Received: by 10.36.92.132 with SMTP id q126mr1874595itb.108.1485950686032;
+	Wed, 01 Feb 2017 04:04:46 -0800 (PST)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([106.116.224.150])
+	by smtp.gmail.com with ESMTPSA id j19sm9920975iti.3.2017.02.01.04.04.44
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 01 Feb 2017 04:04:45 -0800 (PST)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  1 Feb 2017 13:04:19 +0100
+Message-Id: <1485950659-10922-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: [PATCH] scripts/runqemu: fix a typo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,64 +53,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2017 12:01:11 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 01 Feb 2017 12:04:46 -0000
 
-On Wed, 2017-02-01 at 13:44 +0200, Jussi Kukkonen wrote:
-> On 1 February 2017 at 13:23, Richard Purdie <richard.purdie@linuxfoun
-> dation.org> wrote:
-> > On Wed, 2017-02-01 at 12:03 +0200, Jussi Kukkonen wrote:
-> > > Recipe-specific sysroots broke make_relative_symlink(), which
-> > > turns absolute symlinks in sysroots into relative ones. Use the
-> > > difference between the (in-sysroot) paths to construct the
-> > relative
-> > > symlink.
-> > >
-> > > This fixes links in openssl-native, fontconfig-native and bzip2-
-> > > native.
-> > >
-> > > Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> > > ---
-> > >
-> > > sstate is not an area I'm familiar with, please take a good look.
-> > >
-> > > As far as I could see outputpath (based on state[2]) was never
-> > really
-> > > needed so I did not use it in the new version.
-> > 
-> > I don't think we can hardcode workdir into here as for tasks like
-> > do_deploy, this makes no sense. I think we removed most of the
-> > absolute
-> > links from the deploy tasks so we currently don't need this, at
-> > least
-> > in the common case but the sstate code is meant to be generic.
-> > 
-> > I am wondering if we need to pass in anything at all, can't we just
-> > call relpath on the original path and turn it into a relative one
-> > directly without referencing it back to TMPDIR/WORKDIR?
-> > 
-> The actual file path during do_populate_sysroot is something like
->   /mnt/extra-ssd/tmp/work/x86_64-linux/openssl-native/1.0.2j-
-> r0/sysroot-destdir/mnt/extra-ssd/tmp/work/x86_64-linux/openssl-
-> native/1.0.2j-r0/recipe-sysroot-native/usr/lib/ssl/certs
-> 
-> and the link before make_relative_symlink() points to 
->   /mnt/extra-ssd/tmp/work/x86_64-linux/openssl-native/1.0.2j-
-> r0/recipe-sysroot-native/etc/ssl/certs
-> 
-> Assuming those are correct, I don't see how to do this without
-> referencing WORKDIR or TMPDIR?
+From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-Good point, I knew I was missing something. How about passing in
-walkroot/state[1] into the function, then you can subtract that from
-the actual file, then run relpath between the (srcpath - walkroot) and
-the link?
+Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+---
+ scripts/runqemu | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
-
-Richard
-
-
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 31eff5a..d74f252 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -96,7 +96,7 @@ Examples:
+ """)
+ 
+ def check_tun():
+-    """Check /dev/net/run"""
++    """Check /dev/net/tun"""
+     dev_tun = '/dev/net/tun'
+     if not os.path.exists(dev_tun):
+         raise Exception("TUN control device %s is unavailable; you may need to enable TUN (e.g. sudo modprobe tun)" % dev_tun)
+-- 
+1.9.1
 
 
