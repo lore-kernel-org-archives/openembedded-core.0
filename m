@@ -1,31 +1,54 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id A70F37732A
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f54.google.com (mail-it0-f54.google.com
+	[209.85.214.54])
+	by mail.openembedded.org (Postfix) with ESMTP id D765D77342
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Feb 2017 16:02:15 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v11G0C2Z003615; Wed, 1 Feb 2017 16:00:12 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id OwXOw07owvUh; Wed,  1 Feb 2017 16:00:12 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v11G07Tu003611
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 1 Feb 2017 16:00:08 GMT
-Message-ID: <1485964807.14144.29.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 01 Feb 2017 16:00:07 +0000
+	Wed,  1 Feb 2017 16:13:42 +0000 (UTC)
+Received: by mail-it0-f54.google.com with SMTP id 203so20002695ith.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 01 Feb 2017 08:13:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=JpHVRT6NEv1nQADiwk1EIDwK9481+7azfn/NejA91HQ=;
+	b=DTb7q671dCqA9nQpiKXk3QGBLb1oZoQPm/mNTYMsPK/QzaljCrmAmRrEAduZI/bjIe
+	kHCDEbvpxBfOAJkzIn9FaBuG/pHqwLoLz9J2wtIAiBCUOpT2nMRsI41CoU2AUiniEKOS
+	VFSjC8+hhp1odW0UDK+BzqqUYlUCa5qsSKnFFF2rA5DupJ913iexhJJ7HqN7r3e4uyEM
+	oh4K5HQyWeqWwob4lv1sxAori20juNk5dlfb3FA5lJ4ZsWIERmnFes4ugb8dnTSO6vW6
+	pMjqDl60kzyK2Nv4olOmx+nL68c7YbO6s6pPUbx6+du7AT3W794GXTZpBHKHXui1EBUa
+	O/Pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=JpHVRT6NEv1nQADiwk1EIDwK9481+7azfn/NejA91HQ=;
+	b=tAhGuxuRIQq+qdN3W2EPdZIfb2PhKT//KMireBGgumRfbUZasN8qrVA+tcZDgTmshK
+	hHEJeeaqEdCd9NQJM8PULobmEJl6Px4lMvuQCVQOOnFZ6JdvaOb3pqFuPUS4394ppnpB
+	4GtgJSPsmpG5A49aUPMV7O78hLULDUqXWbdKe/itZYbhbTl/RUZTjKcYKm/VPuk2K2qJ
+	zpJSjJP618tD3XnVZ0aHUgwXcBEKhIDPBVtIRFVbWm0MzADMbRaLTulHAvSH6xs/dQgc
+	oTA+YaxpJcKx1rA2jlYaKxYZXkxmoN+6bOMaUe7xSZYmLP0/gyFi1LlNOxAr2b98xtDW
+	//6Q==
+X-Gm-Message-State: AIkVDXK5qHI6GpTHBuOWEXxXrNyXOpOIm6xxqAMRE/4zXTLMOJeLq6wmoNRELFpTybV293xE
+X-Received: by 10.36.178.21 with SMTP id u21mr2692786ite.103.1485965622712;
+	Wed, 01 Feb 2017 08:13:42 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8DF4F.dip0.t-ipconnect.de. [93.232.223.79])
+	by smtp.gmail.com with ESMTPSA id 78sm6735989ity.7.2017.02.01.08.13.40
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 01 Feb 2017 08:13:41 -0800 (PST)
+Message-ID: <1485965619.14889.2.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Wed, 01 Feb 2017 17:13:39 +0100
 In-Reply-To: <c3a990d7-237d-e433-ae02-8bfe7214c162@linux.intel.com>
 References: <cover.1485902097.git.leonardo.sandoval.gonzalez@linux.intel.com>
 	<6e39192de91d20d920b9f4982e669874aa659625.1485902097.git.leonardo.sandoval.gonzalez@linux.intel.com>
 	<1485904618.14144.19.camel@linuxfoundation.org>
 	<c3a990d7-237d-e433-ae02-8bfe7214c162@linux.intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
 Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 1/4] selftest/buildoptions: use a thinner image to test 'read-only-rootfs' feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -39,67 +62,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2017 16:02:18 -0000
+X-List-Received-Date: Wed, 01 Feb 2017 16:13:43 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 On Wed, 2017-02-01 at 09:02 -0600, Leonardo Sandoval wrote:
 > 
 > On 01/31/2017 05:16 PM, Richard Purdie wrote:
-> > 
 > > On Tue, 2017-01-31 at 16:50 -0600,
 > > leonardo.sandoval.gonzalez@linux.intel.com wrote:
-> > > 
-> > > From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.c
-> > > om>
-> > > 
-> > > The minimal is much faster to build that sato, so use the former
-> > > to
-> > > test
-> > > read-only feature.
-> > > 
-> > > Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linu
-> > > x.in
-> > > tel.com>
-> > > ---
-> > >   meta/lib/oeqa/selftest/buildoptions.py | 5 +----
-> > >   1 file changed, 1 insertion(+), 4 deletions(-)
-> > > 
-> > > diff --git a/meta/lib/oeqa/selftest/buildoptions.py
-> > > b/meta/lib/oeqa/selftest/buildoptions.py
-> > > index d40eb00..004b2dd 100644
-> > > --- a/meta/lib/oeqa/selftest/buildoptions.py
-> > > +++ b/meta/lib/oeqa/selftest/buildoptions.py
-> > > @@ -44,11 +44,8 @@ class ImageOptionsTests(oeSelfTest):
-> > >   
-> > >       @testcase(1435)
-> > >       def test_read_only_image(self):
-> > > -        distro_features = get_bb_var('DISTRO_FEATURES')
-> > > -        if not ('x11' in distro_features and 'opengl' in
-> > > distro_features):
-> > > -            self.skipTest('core-image-sato requires x11 and
-> > > opengl
-> > > in distro features')
-> > >           self.write_config('IMAGE_FEATURES += "read-only-
-> > > rootfs"')
-> > > -        bitbake("core-image-sato")
-> > > +        bitbake("core-image-minimal")
-> > >           # do_image will fail if there are any pending postinsts
-> > Whilst this is certainly going to be a touch faster, I believe we
-> > do
+> >> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+> >> -        bitbake("core-image-sato")
+> >> +        bitbake("core-image-minimal")
+> >>           # do_image will fail if there are any pending postinsts
+> > Whilst this is certainly going to be a touch faster, I believe we do
 > > want to test read only rootfs with a larger image like sato to make
 > > sure the postinsts really do work with a read only system?
-> I don't get it. What would make the test different using a larger
-> image?
+> 
+> I don't get it. What would make the test different using a larger image?
 
-The large image is more complex, it has more complex post-installs and
-more utilities using update alternatives. The areas read-only rootfs
-tends to break is in these areas as for example if certain postinstalls
-get deferred to "on device at first boot", read-only rootfs breaks.
+The postinst of each component installed into the image must work
+properly in a read-only rootfs configuration. So the test is partly for
+image creation, partly for the components, and thus more comprehensive
+when using a larger image.
 
-Cheers,
+-- 
+Best Regards, Patrick Ohly
 
-Richard
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
 
 
 
