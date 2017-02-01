@@ -1,26 +1,24 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 14EB47735A
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id D52BA71988
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Feb 2017 15:30:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v11FUlIa026968
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 1 Feb 2017 07:30:48 -0800 (PST)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Wed, 1 Feb 2017 07:30:47 -0800
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Wed, 1 Feb 2017 10:30:36 -0500
-Message-ID: <58245344b178052e11a0e8b97100e154b1f4d83c.1485962567.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1485962567.git.bruce.ashfield@windriver.com>
-References: <cover.1485962567.git.bruce.ashfield@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 10/10] linux-yocto/4.9: yaffs2 fixes
+	Wed,  1 Feb 2017 15:50:16 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	01 Feb 2017 07:50:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; d="scan'208";a="1089707651"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga001.jf.intel.com with ESMTP; 01 Feb 2017 07:50:16 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 416096A4006;
+	Wed,  1 Feb 2017 07:49:17 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  1 Feb 2017 17:27:49 +0200
+Message-Id: <1485962869-11868-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] image: rename image-wic -> image_types_wic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,84 +31,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2017 15:30:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 01 Feb 2017 15:50:17 -0000
 
-Merging three fixes to yaffs2, which adjust to mainline changes in the
-vfs subsystem:
+Make name of the wic image type class consistent with
+existing naming scheme for image types.
 
-  4700f2f8b9db fs: yaffs2: fix the prototype of function yaffs_rename()
-  56e654cab1db fs: yaffs2: switch to the generic xattr handler
-  102082f3c245 fs/yaffs2: adjust to the change of inode_change_ok()
-
-Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb   |  4 ++--
- meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb |  4 ++--
- meta/recipes-kernel/linux/linux-yocto_4.9.bb      | 18 +++++++++---------
- 3 files changed, 13 insertions(+), 13 deletions(-)
+ meta/classes/image.bbclass                                  | 5 +++--
+ meta/classes/{image-wic.bbclass => image_types_wic.bbclass} | 0
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+ rename meta/classes/{image-wic.bbclass => image_types_wic.bbclass} (100%)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
-index b2986e32afd8..8eaec528d62b 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
-@@ -11,8 +11,8 @@ python () {
-         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 613cd92..b5a4fb4 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -151,6 +151,9 @@ def build_uboot(d):
+ IMAGE_TYPE_uboot = "${@build_uboot(d)}"
+ inherit ${IMAGE_TYPE_uboot}
  
--SRCREV_machine ?= "35cfaa68bf6ceaf59cf2bcd020d4e66155e19c46"
--SRCREV_meta ?= "3715fc90f7b69de59ca0870f6c7cda27cdc0f895"
-+SRCREV_machine ?= "71569cd064e02564211737430c31a4b0e9c810fb"
-+SRCREV_meta ?= "6fd9dcbb3f0becf90c555a1740d21d18c331af99"
++IMAGE_TYPE_wic = "image_types_wic"
++inherit ${IMAGE_TYPE_wic}
++
+ python () {
+     deps = " " + imagetypes_getdepends(d)
+     d.appendVarFlag('do_rootfs', 'depends', deps)
+@@ -187,8 +190,6 @@ python () {
+ IMAGE_CLASSES += "image_types"
+ inherit ${IMAGE_CLASSES}
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.9.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.9;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb
-index a9d17549d6dd..5510b0f8ff3d 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb
-@@ -9,8 +9,8 @@ LINUX_VERSION ?= "4.9.6"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
+-inherit image-wic
+-
+ IMAGE_POSTPROCESS_COMMAND ?= ""
  
--SRCREV_machine ?= "0b52a52fb892c0dd20823268830ab22a9e3a92b8"
--SRCREV_meta ?= "3715fc90f7b69de59ca0870f6c7cda27cdc0f895"
-+SRCREV_machine ?= "4700f2f8b9dbaad5ae441b682d04b09e811135fc"
-+SRCREV_meta ?= "6fd9dcbb3f0becf90c555a1740d21d18c331af99"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.9.bb b/meta/recipes-kernel/linux/linux-yocto_4.9.bb
-index e5f6064fc939..a7593848f61c 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.9.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.9.bb
-@@ -11,15 +11,15 @@ KBRANCH_qemux86  ?= "standard/base"
- KBRANCH_qemux86-64 ?= "standard/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "9dc59f0efe6cd1dd806b5b6089faf803db9018a4"
--SRCREV_machine_qemuarm64 ?= "0b52a52fb892c0dd20823268830ab22a9e3a92b8"
--SRCREV_machine_qemumips ?= "0ed887a8c24e2c2a8a2f136b9ef5031bdf6cde8c"
--SRCREV_machine_qemuppc ?= "0b52a52fb892c0dd20823268830ab22a9e3a92b8"
--SRCREV_machine_qemux86 ?= "0b52a52fb892c0dd20823268830ab22a9e3a92b8"
--SRCREV_machine_qemux86-64 ?= "0b52a52fb892c0dd20823268830ab22a9e3a92b8"
--SRCREV_machine_qemumips64 ?= "06fff8284bbec52a36fb3d054354db2f593376ac"
--SRCREV_machine ?= "0b52a52fb892c0dd20823268830ab22a9e3a92b8"
--SRCREV_meta ?= "3715fc90f7b69de59ca0870f6c7cda27cdc0f895"
-+SRCREV_machine_qemuarm ?= "103383d270939399bc73365c31cd6f93c567114f"
-+SRCREV_machine_qemuarm64 ?= "4700f2f8b9dbaad5ae441b682d04b09e811135fc"
-+SRCREV_machine_qemumips ?= "c8425cad333ec85f61d63054051fe17df53ece29"
-+SRCREV_machine_qemuppc ?= "4700f2f8b9dbaad5ae441b682d04b09e811135fc"
-+SRCREV_machine_qemux86 ?= "4700f2f8b9dbaad5ae441b682d04b09e811135fc"
-+SRCREV_machine_qemux86-64 ?= "4700f2f8b9dbaad5ae441b682d04b09e811135fc"
-+SRCREV_machine_qemumips64 ?= "42fe7d605fc92985c8ba10363de487ea06bd068a"
-+SRCREV_machine ?= "4700f2f8b9dbaad5ae441b682d04b09e811135fc"
-+SRCREV_meta ?= "6fd9dcbb3f0becf90c555a1740d21d18c331af99"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.9.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.9;destsuffix=${KMETA}"
+ # some default locales
+diff --git a/meta/classes/image-wic.bbclass b/meta/classes/image_types_wic.bbclass
+similarity index 100%
+rename from meta/classes/image-wic.bbclass
+rename to meta/classes/image_types_wic.bbclass
 -- 
-2.5.0
+2.1.4
 
 
