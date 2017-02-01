@@ -1,46 +1,28 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
-	[209.85.214.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 3645971C90
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 48FD671DA3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Feb 2017 12:04:45 +0000 (UTC)
-Received: by mail-it0-f68.google.com with SMTP id f200so2210461itf.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Feb 2017 04:04:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=yJGjFmLO748AaDHVVUWY5HndHKUFWbkJf2/l/HthA9M=;
-	b=hWwlnCISEejMF3jYRwxbruqLncX3wKUMKQcYzsu4pz/0YaI7XHAbohf9L9n2Bja2Zd
-	Gzx9dZKNv8aQoVBipTXNjpfW6li+YuD57OSyN0jqCotQd3Q6MATSWBajo6U7PcCyZkAN
-	agswW81L1glZvseP99CkMGOw5NVdDOCit1JoDVz3fN5jpsqMz3zPzihLKnoi9ysHQ1p9
-	CXd4jr3HV0/wxmCXdtXtcDuUT5t+4xkVAg71BwONulP/Igbs0ZDeQO38ON531mj3TWL7
-	5oGvWgJ2oCtk5yq+OZ3eH1ySdcjqDWavUDAP8wBCA4UpUXnAnwbg6lwUu3ziWq3IR454
-	TglQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=yJGjFmLO748AaDHVVUWY5HndHKUFWbkJf2/l/HthA9M=;
-	b=SeFvGxjQU+1oFgBJs/8gHegeg1lC+VW9RydKrw4hPM9lMCVZu1w6ECNpEnzvB0A2WH
-	+vw9uGpWDAH4yOeP0b4SlhNg3KyG4TmwbPE9KmkNPwrzQL5bm9hf2t1WYwX9XTbSxIhK
-	QARAaJDnCl7pCYSNdPkiTLJFTksztfaPf45Zy3Eb2bwZVXnVdhhq0j9Sxb/d7Di8HsW8
-	WJ8LXnrYfgbS7wMtbM4CClEVHQyuRwPimS8Wnk/PGzxSOzaDvib7uqN8hZkgwmxul6pQ
-	JtGmOpQfQlyEa9Yp47fdcFuRGz8HvwLN6BQTCz9d1I/lMV4otOPHLvVfGXgFq9WCpk9L
-	jxew==
-X-Gm-Message-State: AIkVDXK1lnXj3ZqD8XJQf3Amw9EfJlmqC/3KhuJIt1AMDfVIRoszSEoJRC3m2X9gs1uynA==
-X-Received: by 10.36.92.132 with SMTP id q126mr1874595itb.108.1485950686032;
-	Wed, 01 Feb 2017 04:04:46 -0800 (PST)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([106.116.224.150])
-	by smtp.gmail.com with ESMTPSA id j19sm9920975iti.3.2017.02.01.04.04.44
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 01 Feb 2017 04:04:45 -0800 (PST)
-From: liu.ming50@gmail.com
+	Wed,  1 Feb 2017 12:05:12 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v11C5BAJ011927; Wed, 1 Feb 2017 12:05:11 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id iR7bwVti2KZg; Wed,  1 Feb 2017 12:05:11 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v11C5ALS011900
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 1 Feb 2017 12:05:11 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1cYtew-0000F9-8W; Wed, 01 Feb 2017 12:05:10 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Feb 2017 13:04:19 +0100
-Message-Id: <1485950659-10922-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH] scripts/runqemu: fix a typo
+Date: Wed,  1 Feb 2017 12:05:05 +0000
+Message-Id: <1485950707-878-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 1/3] sstate/staging: Batch log messages for performance
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,29 +35,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2017 12:04:46 -0000
+X-List-Received-Date: Wed, 01 Feb 2017 12:05:13 -0000
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+According to profile data, repeated calls to bb.debug and bb.note in
+the extend_recipe_sysroot() codepath were accounting for 75% of the time
+(1.5s) in calls from tasks like do_image_complete.
 
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+This batches up the log messages into one call into the logging system
+which gives similar behaviour to disabling the logging but retains the
+debug information.
+
+Since setscene_depvalid is also called from bitbake's setscene code,
+we have to be a little creative with the function parameters and leave
+the other debug output mechanism in place. This should hopefully
+speed up recipe specific sysroots.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/runqemu | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/sstate.bbclass  | 14 ++++++++++----
+ meta/classes/staging.bbclass | 11 +++++++----
+ 2 files changed, 17 insertions(+), 8 deletions(-)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 31eff5a..d74f252 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -96,7 +96,7 @@ Examples:
- """)
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index aeb7466..ada6fe5 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -909,13 +909,19 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d, siginfo=False):
  
- def check_tun():
--    """Check /dev/net/run"""
-+    """Check /dev/net/tun"""
-     dev_tun = '/dev/net/tun'
-     if not os.path.exists(dev_tun):
-         raise Exception("TUN control device %s is unavailable; you may need to enable TUN (e.g. sudo modprobe tun)" % dev_tun)
+ BB_SETSCENE_DEPVALID = "setscene_depvalid"
+ 
+-def setscene_depvalid(task, taskdependees, notneeded, d):
++def setscene_depvalid(task, taskdependees, notneeded, d, log=None):
+     # taskdependees is a dict of tasks which depend on task, each being a 3 item list of [PN, TASKNAME, FILENAME]
+     # task is included in taskdependees too
+     # Return - False - We need this dependency
+     #        - True - We can skip this dependency
+ 
+-    bb.debug(2, "Considering setscene task: %s" % (str(taskdependees[task])))
++    def logit(msg, log):
++        if log is not None:
++            log.append(msg)
++        else:
++            bb.debug(2, msg)
++
++    logit("Considering setscene task: %s" % (str(taskdependees[task])), log)
+ 
+     def isNativeCross(x):
+         return x.endswith("-native") or "-cross-" in x or "-crosssdk" in x or x.endswith("-cross")
+@@ -933,7 +939,7 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
+         return True
+ 
+     for dep in taskdependees:
+-        bb.debug(2, "  considering dependency: %s" % (str(taskdependees[dep])))
++        logit("  considering dependency: %s" % (str(taskdependees[dep])), log)
+         if task == dep:
+             continue
+         if dep in notneeded:
+@@ -987,7 +993,7 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
+ 
+ 
+         # Safe fallthrough default
+-        bb.debug(2, " Default setscene dependency fall through due to dependency: %s" % (str(taskdependees[dep])))
++        logit(" Default setscene dependency fall through due to dependency: %s" % (str(taskdependees[dep])), log)
+         return False
+     return True
+ 
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index b9c84a4..35e53fe 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -441,6 +441,7 @@ python extend_recipe_sysroot() {
+     bb.note("Direct dependencies are %s" % str(configuredeps))
+     #bb.note(" or %s" % str(start))
+ 
++    msgbuf = []
+     # Call into setscene_depvalid for each sub-dependency and only copy sysroot files
+     # for ones that would be restored from sstate.
+     done = list(start)
+@@ -455,19 +456,21 @@ python extend_recipe_sysroot() {
+                 taskdeps = {}
+                 taskdeps[dep] = setscenedeps[dep][:2]
+                 taskdeps[datadep] = setscenedeps[datadep][:2]
+-                retval = setscene_depvalid(datadep, taskdeps, [], d)
++                retval = setscene_depvalid(datadep, taskdeps, [], d, msgbuf)
+                 if retval:
+-                    bb.note("Skipping setscene dependency %s for installation into the sysroot" % datadep)
++                    msgbuf.append("Skipping setscene dependency %s for installation into the sysroot")
+                     continue
+                 done.append(datadep)
+                 new.append(datadep)
+                 if datadep not in configuredeps and setscenedeps[datadep][1] == "do_populate_sysroot":
+                     configuredeps.append(datadep)
+-                    bb.note("Adding dependency on %s" % setscenedeps[datadep][0])
++                    msgbuf.append("Adding dependency on %s" % setscenedeps[datadep][0])
+                 else:
+-                    bb.note("Following dependency on %s" % setscenedeps[datadep][0])
++                    msgbuf.append("Following dependency on %s" % setscenedeps[datadep][0])
+         next = new
+ 
++    bb.note("\n".join(msgbuf))
++
+     stagingdir = d.getVar("STAGING_DIR")
+     recipesysroot = d.getVar("RECIPE_SYSROOT")
+     recipesysrootnative = d.getVar("RECIPE_SYSROOT_NATIVE")
 -- 
-1.9.1
+2.7.4
 
 
