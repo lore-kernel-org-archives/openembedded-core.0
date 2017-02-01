@@ -1,52 +1,43 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-yb0-f176.google.com (mail-yb0-f176.google.com
-	[209.85.213.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 7254F71DEC
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-qt0-f182.google.com (mail-qt0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A9717321C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Feb 2017 13:27:44 +0000 (UTC)
-Received: by mail-yb0-f176.google.com with SMTP id 123so140428080ybe.3
+	Wed,  1 Feb 2017 13:57:10 +0000 (UTC)
+Received: by mail-qt0-f182.google.com with SMTP id k15so265663116qtg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Feb 2017 05:27:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=YTO2/aXZC68YjSt/0592quPV+oxyEgNvpRk2YxYLpOQ=;
-	b=PXte1JHKJF0e8NkJADjkss8UxbUfQklNkbT3JhS3JyLFTZd/11w0aTwoGBLH6eXhsx
-	rjUK87BR1tZbQvVSiDhg3AhXK+sMOhTwXiTDaT/P69CWek/fRWvFxBLorRRh9hFg3C9p
-	BxphmLmdJi3nepcDDLnMqd7MuD5maG2NxFrfJW0p7WWHFnPCgsD5q5cv8zfiNeGVxD8H
-	+6e23/jrjHZBsg7kWOj58utf9REMrZRjAhixHNQnCApln0xWL70aHYPVig7lQJxnNapY
-	fRdghZut0CAMHmRNpXE4h/TqnHgfc0udarJ+G4yJExAwVu2ISADbf+KfRn8Vl02lH4nE
-	8LMw==
+	Wed, 01 Feb 2017 05:57:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=nC26cceFfjzonX2R7KiiZ2iPE2RTQhMn2XY9EDv29wo=;
+	b=P3a3FgQ6MTJ2kLBKpfFc6IYm+q+MzxgMs0LotJ1wcXhWN5+YnbQ/ioqczOE3ZLiT6D
+	+7xeZaaS4ARLrcH9SswTKyIrUnc74KnMy/vKeMzJrtr5mDzeCyEw4Fwu0hos+ipDeg3J
+	fQTPvWzrPA4wIktmxP8OnEWGxoLDsBdZT/k/A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=YTO2/aXZC68YjSt/0592quPV+oxyEgNvpRk2YxYLpOQ=;
-	b=l7Vx53wwaECbqGdOdNlAeDAtIZwgA08vVWsqcnMZahABm1nFQBN9pDH2ZMMtcCt2HX
-	rSJz8RkB55lazzzAI+0GB6ckfbi34csHJkTlbsBsu3LI6/dbvz3hCTRm4OOE/fnB6/Me
-	0JOdqMF7KJvUwPs3zmxKTC2IqW0RqH93tfPfZJLfkN+kbVyOKepU9cAZW8n7GLpqDK6g
-	OVqzhLkD7yWrUJJTDy3Yk9dTgiFHbDzfxanzUZvuVJwuPqCBNx2HXHvvMHNOid+UKVen
-	oiYiMTm+wZX7AvqbjhOBBhE0ut0zJKffY4i6aPEVGuOhOoUJKxYuqUas7OS/FKI9uuS8
-	HJog==
-X-Gm-Message-State: AIkVDXL94o8c5Xs2F3zfr+YZUHIQIYcoXEsQOhuds63g95OTMNIZHO5PGEWM+HSHP06fcYgcYePFkP9JdGkjxwru
-X-Received: by 10.37.21.195 with SMTP id 186mr1824551ybv.103.1485955665126;
-	Wed, 01 Feb 2017 05:27:45 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.13.234.11 with HTTP; Wed, 1 Feb 2017 05:27:14 -0800 (PST)
-In-Reply-To: <1485953637.14144.27.camel@linuxfoundation.org>
-References: <1485943415-8260-1-git-send-email-jussi.kukkonen@intel.com>
-	<1485948194.14144.23.camel@linuxfoundation.org>
-	<CAHiDW_GosUv9rS2c5yZXvWgReno1rorTk4cR5J00+XZPb9wytg@mail.gmail.com>
-	<1485950456.14144.25.camel@linuxfoundation.org>
-	<CAHiDW_FdD4ms=zYtdsXWvy8gqSWzTrazC3dCkn_vKxtEL4L2oQ@mail.gmail.com>
-	<1485953637.14144.27.camel@linuxfoundation.org>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Wed, 1 Feb 2017 15:27:14 +0200
-Message-ID: <CAHiDW_GGPa1e-ukKPiFdQNhOWWX4C7EDFmugBeKBUviZWDJFwA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sstate: Fix make_relative_symlink() for RSS
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=nC26cceFfjzonX2R7KiiZ2iPE2RTQhMn2XY9EDv29wo=;
+	b=rA0VHDUc16uA+Lj8gxbgoUFzGQamucilZF1Wf+e/JT8rwpOuZQ/B9I6tWKRchz+6mz
+	NNaIYkeLw2556Ul44EVys/g+LiildREayO4w00WbW/BuarJ6eysLwx4wPTXBLzBfXKjM
+	FGd/RNHmniQZUiga9VflVhDxd7iTWf1qpqArZplMOgpUdJ5drtcl7+pU8LADUAAvpK76
+	WWIrn/3T/sF5rAJFo1jqTO2fe/JrZtkssn1Nj1maZFE+10hLZT2l334wcV9NRoS/srDE
+	GNCLwBvFuTLxKWBuw1L47k5j3cVoWBlsv9QLTxBDkJ5s9iA2vUD0Hr5BIYdPkx6YzeEI
+	X1bQ==
+X-Gm-Message-State: AIkVDXJuoaU7lbqqOaVlSkpJ+EfPBcqJmhsUF3PIvshtiOMg1Js0oUEb9VjM1n0Y18AHhnp/
+X-Received: by 10.200.35.135 with SMTP id q7mr2739528qtq.206.1485957430942;
+	Wed, 01 Feb 2017 05:57:10 -0800 (PST)
+Received: from localhost.localdomain (static.8.26.4.46.clients.your-server.de.
+	[46.4.26.8]) by smtp.gmail.com with ESMTPSA id
+	l53sm18651885qtl.41.2017.02.01.05.57.10
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 01 Feb 2017 05:57:10 -0800 (PST)
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  1 Feb 2017 14:56:53 +0100
+Message-Id: <20170201135653.17152-1-nicolas.dechesne@linaro.org>
+X-Mailer: git-send-email 2.11.0
+Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Subject: [PATCH] mesa: update to 13.0.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,209 +50,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2017 13:27:47 -0000
-Content-Type: multipart/alternative; boundary=001a113e43da92bf7605477803d7
+X-List-Received-Date: Wed, 01 Feb 2017 13:57:12 -0000
 
---001a113e43da92bf7605477803d7
-Content-Type: text/plain; charset=UTF-8
+Bug fixes release.
 
-On 1 February 2017 at 14:53, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+This is really needed for Qualcomm based h/w since freedreno
+driver had a regression in 13.0.x branch which is fixed in 13.0.4.
 
-> On Wed, 2017-02-01 at 14:38 +0200, Jussi Kukkonen wrote:
-> > On 1 February 2017 at 14:00, Richard Purdie <richard.purdie@linuxfoun
-> > dation.org> wrote:
-> > > On Wed, 2017-02-01 at 13:44 +0200, Jussi Kukkonen wrote:
-> > > > On 1 February 2017 at 13:23, Richard Purdie <richard.purdie@linux
-> > > foun
-> > > > dation.org> wrote:
-> > > > > On Wed, 2017-02-01 at 12:03 +0200, Jussi Kukkonen wrote:
-> > > > > > Recipe-specific sysroots broke make_relative_symlink(), which
-> > > > > > turns absolute symlinks in sysroots into relative ones. Use
-> > > the
-> > > > > > difference between the (in-sysroot) paths to construct the
-> > > > > relative
-> > > > > > symlink.
-> > > > > >
-> > > > > > This fixes links in openssl-native, fontconfig-native and
-> > > bzip2-
-> > > > > > native.
-> > > > > >
-> > > > > > Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> > > > > > ---
-> > > > > >
-> > > > > > sstate is not an area I'm familiar with, please take a good
-> > > look.
-> > > > > >
-> > > > > > As far as I could see outputpath (based on state[2]) was
-> > > never
-> > > > > really
-> > > > > > needed so I did not use it in the new version.
-> > > > >
-> > > > > I don't think we can hardcode workdir into here as for tasks
-> > > like
-> > > > > do_deploy, this makes no sense. I think we removed most of the
-> > > > > absolute
-> > > > > links from the deploy tasks so we currently don't need this, at
-> > > > > least
-> > > > > in the common case but the sstate code is meant to be generic.
-> > > > >
-> > > > > I am wondering if we need to pass in anything at all, can't we
-> > > just
-> > > > > call relpath on the original path and turn it into a relative
-> > > one
-> > > > > directly without referencing it back to TMPDIR/WORKDIR?
-> > > > >
-> > > > The actual file path during do_populate_sysroot is something like
-> > > >   /mnt/extra-ssd/tmp/work/x86_64-linux/openssl-native/1.0.2j-
-> > > > r0/sysroot-destdir/mnt/extra-ssd/tmp/work/x86_64-linux/openssl-
-> > > > native/1.0.2j-r0/recipe-sysroot-native/usr/lib/ssl/certs
-> > > >
-> > > > and the link before make_relative_symlink() points to
-> > > >   /mnt/extra-ssd/tmp/work/x86_64-linux/openssl-native/1.0.2j-
-> > > > r0/recipe-sysroot-native/etc/ssl/certs
-> > > >
-> > > > Assuming those are correct, I don't see how to do this without
-> > > > referencing WORKDIR or TMPDIR?
-> > >
-> > > Good point, I knew I was missing something. How about passing in
-> > > walkroot/state[1] into the function, then you can subtract that
-> > > from
-> > > the actual file, then run relpath between the (srcpath - walkroot)
-> > > and
-> > > the link?
-> >
-> > Figuring out a sysroot-based path for srcpath is indeed possible (and
-> > nicer) using state[1] but then I have:
-> >   path /usr/lib/ssl/certs
->
-> Are you sure path isn't /mnt/extra-ssd/tmp/work/x86_64-linux/openssl-
-> native/1.0.2j-r0/recipe-sysroot-native/usr/lib/ssl/certs ?
->
+Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+---
+ meta/recipes-graphics/mesa/{mesa-gl_13.0.2.bb => mesa-gl_13.0.4.bb} | 0
+ meta/recipes-graphics/mesa/{mesa_13.0.2.bb => mesa_13.0.4.bb}       | 4 ++--
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_13.0.2.bb => mesa-gl_13.0.4.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_13.0.2.bb => mesa_13.0.4.bb} (83%)
 
-state[1] really is the whole thing until and including
-"recipe-sysroot-native":
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_13.0.2.bb b/meta/recipes-graphics/mesa/mesa-gl_13.0.4.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_13.0.2.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_13.0.4.bb
+diff --git a/meta/recipes-graphics/mesa/mesa_13.0.2.bb b/meta/recipes-graphics/mesa/mesa_13.0.4.bb
+similarity index 83%
+rename from meta/recipes-graphics/mesa/mesa_13.0.2.bb
+rename to meta/recipes-graphics/mesa/mesa_13.0.4.bb
+index bef1fa5c38..1416c9f8b8 100644
+--- a/meta/recipes-graphics/mesa/mesa_13.0.2.bb
++++ b/meta/recipes-graphics/mesa/mesa_13.0.4.bb
+@@ -6,8 +6,8 @@ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/mesa-${PV}.tar.xz \
+            file://0001-Use-wayland-scanner-in-the-path.patch \
+ "
+ 
+-SRC_URI[md5sum] = "9442c2dee914cde3d1f090371ab04113"
+-SRC_URI[sha256sum] = "a6ed622645f4ed61da418bf65adde5bcc4bb79023c36ba7d6b45b389da4416d5"
++SRC_URI[md5sum] = "d088a921e935218833a8071cb672a574"
++SRC_URI[sha256sum] = "a95d7ce8f7bd5f88585e4be3144a341236d8c0fc91f6feaec59bb8ba3120e726"
+ 
+ #because we cannot rely on the fact that all apps will use pkgconfig,
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+-- 
+2.11.0
 
-/mnt/extra-ssd/tmp/work/x86_64-linux/openssl-native/1.0.2j-r0/sysroot-destdir/mnt/extra-ssd/tmp/work/x86_64-linux/openssl-native/1.0.2j-r0/recipe-sysroot-native
-removing that prefix from path leaves me with
-  /usr/lib/ssl/certs
 
---001a113e43da92bf7605477803d7
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
- February 2017 at 14:53, Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@l=
-inuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">On Wed, 2017-02-01 at 14:38 +0200, Jussi Kukkonen wrote:=
-<br>
-&gt; On 1 February 2017 at 14:00, Richard Purdie &lt;richard.purdie@linuxfo=
-un<br>
-<div><div class=3D"gmail-h5">&gt; <a href=3D"http://dation.org" rel=3D"nore=
-ferrer" target=3D"_blank">dation.org</a>&gt; wrote:<br>
-&gt; &gt; On Wed, 2017-02-01 at 13:44 +0200, Jussi Kukkonen wrote:<br>
-&gt; &gt; &gt; On 1 February 2017 at 13:23, Richard Purdie &lt;richard.purd=
-ie@linux<br>
-&gt; &gt; foun<br>
-&gt; &gt; &gt; <a href=3D"http://dation.org" rel=3D"noreferrer" target=3D"_=
-blank">dation.org</a>&gt; wrote:<br>
-&gt; &gt; &gt; &gt; On Wed, 2017-02-01 at 12:03 +0200, Jussi Kukkonen wrote=
-:<br>
-&gt; &gt; &gt; &gt; &gt; Recipe-specific sysroots broke make_relative_symli=
-nk(), which<br>
-&gt; &gt; &gt; &gt; &gt; turns absolute symlinks in sysroots into relative =
-ones. Use<br>
-&gt; &gt; the<br>
-&gt; &gt; &gt; &gt; &gt; difference between the (in-sysroot) paths to const=
-ruct the<br>
-&gt; &gt; &gt; &gt; relative<br>
-&gt; &gt; &gt; &gt; &gt; symlink.<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; This fixes links in openssl-native, fontconfig-nat=
-ive and<br>
-&gt; &gt; bzip2-<br>
-&gt; &gt; &gt; &gt; &gt; native.<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; Signed-off-by: Jussi Kukkonen &lt;<a href=3D"mailt=
-o:jussi.kukkonen@intel.com">jussi.kukkonen@intel.com</a>&gt;<br>
-&gt; &gt; &gt; &gt; &gt; ---<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; sstate is not an area I&#39;m familiar with, pleas=
-e take a good<br>
-&gt; &gt; look.<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; As far as I could see outputpath (based on state[2=
-]) was<br>
-&gt; &gt; never<br>
-&gt; &gt; &gt; &gt; really<br>
-&gt; &gt; &gt; &gt; &gt; needed so I did not use it in the new version.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; I don&#39;t think we can hardcode workdir into here as =
-for tasks<br>
-&gt; &gt; like<br>
-&gt; &gt; &gt; &gt; do_deploy, this makes no sense. I think we removed most=
- of the<br>
-&gt; &gt; &gt; &gt; absolute<br>
-&gt; &gt; &gt; &gt; links from the deploy tasks so we currently don&#39;t n=
-eed this, at<br>
-&gt; &gt; &gt; &gt; least<br>
-&gt; &gt; &gt; &gt; in the common case but the sstate code is meant to be g=
-eneric.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; I am wondering if we need to pass in anything at all, c=
-an&#39;t we<br>
-&gt; &gt; just<br>
-&gt; &gt; &gt; &gt; call relpath on the original path and turn it into a re=
-lative<br>
-&gt; &gt; one<br>
-&gt; &gt; &gt; &gt; directly without referencing it back to TMPDIR/WORKDIR?=
-<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; The actual file path during do_populate_sysroot is something=
- like<br>
-&gt; &gt; &gt; =C2=A0 /mnt/extra-ssd/tmp/work/x86_<wbr>64-linux/openssl-nat=
-ive/1.0.<wbr>2j-<br>
-&gt; &gt; &gt; r0/sysroot-destdir/mnt/extra-<wbr>ssd/tmp/work/x86_64-linux/=
-<wbr>openssl-<br>
-&gt; &gt; &gt; native/1.0.2j-r0/recipe-<wbr>sysroot-native/usr/lib/ssl/<wbr=
->certs<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; and the link before make_relative_symlink() points to=C2=A0<=
-br>
-&gt; &gt; &gt; =C2=A0 /mnt/extra-ssd/tmp/work/x86_<wbr>64-linux/openssl-nat=
-ive/1.0.<wbr>2j-<br>
-&gt; &gt; &gt; r0/recipe-sysroot-native/etc/<wbr>ssl/certs<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Assuming those are correct, I don&#39;t see how to do this w=
-ithout<br>
-&gt; &gt; &gt; referencing WORKDIR or TMPDIR?<br>
-&gt; &gt;<br>
-&gt; &gt; Good point, I knew I was missing something. How about passing in<=
-br>
-&gt; &gt; walkroot/state[1] into the function, then you can subtract that<b=
-r>
-&gt; &gt; from<br>
-&gt; &gt; the actual file, then run relpath between the (srcpath - walkroot=
-)<br>
-&gt; &gt; and<br>
-&gt; &gt; the link?<br>
-&gt;<br>
-&gt; Figuring out a sysroot-based path for srcpath is indeed possible (and<=
-br>
-&gt; nicer) using state[1] but then I have:<br>
-&gt; =C2=A0 path /usr/lib/ssl/certs<br>
-<br>
-</div></div>Are you sure path isn&#39;t /mnt/extra-ssd/tmp/work/x86_<wbr>64=
--linux/openssl-<br>
-native/1.0.2j-r0/recipe-<wbr>sysroot-native/usr/lib/ssl/<wbr>certs ?<br></b=
-lockquote><div><br></div><div>state[1] really is the whole thing until and =
-including &quot;recipe-sysroot-native&quot;:</div><div>=C2=A0 /mnt/extra-ss=
-d/tmp/work/x86_64-linux/openssl-native/1.0.2j-r0/sysroot-destdir/mnt/extra-=
-ssd/tmp/work/x86_64-linux/openssl-native/1.0.2j-r0/recipe-sysroot-native<br=
-></div><div>removing that prefix from path leaves me with</div><div>=C2=A0=
-=C2=A0/usr/lib/ssl/certs</div><div><br></div><div><br></div></div></div></d=
-iv>
-
---001a113e43da92bf7605477803d7--
