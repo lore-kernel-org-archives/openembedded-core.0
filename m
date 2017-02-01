@@ -1,45 +1,54 @@
-Return-Path: <raltherr@google.com>
-Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
-	[209.85.214.53])
-	by mail.openembedded.org (Postfix) with ESMTP id BB5DD600E3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f180.google.com (mail-pf0-f180.google.com
+	[209.85.192.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 19201600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Feb 2017 17:05:05 +0000 (UTC)
-Received: by mail-it0-f53.google.com with SMTP id c7so21116086itd.1
+	Wed,  1 Feb 2017 17:22:09 +0000 (UTC)
+Received: by mail-pf0-f180.google.com with SMTP id e4so119335590pfg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Feb 2017 09:05:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=9T/bzcLdvHwVyEfXggeTgSNwkIUkGNOgAHRDEnebJjU=;
-	b=fIU3OLiQt1RDLT15I+j0L6j5Vz0djsnJEgIsnFd7mUhkw0fCsExv3Nzo2xyIcdueZM
-	NOLGPc7IITxPAMG4F5sqfsRqQJ95Csi4UiLV6P2NrICISJxkWhj94XEZ8YBVkW3064iP
-	tsbULWOIQxAByV8DbO9RURU0syZ/8RaG4XMbWkxlZb1YlDl2Tp+2czbHzPqM2ek3Dde9
-	xV6y6t6cCWh3i/NtR35TKhN6rR1U4lQufgRlV1C9WIhIbzKFS3RuaRYRuKf1gChHKBNO
-	a0DtVheDAZuL/8lMefE3Jmaf92nPU34//j6cPmUPRtlvtZTg50tqfjol4R0UcIVbdZyF
-	e5DQ==
+	Wed, 01 Feb 2017 09:22:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding;
+	bh=IGg77W+eA1pDSH0nZpPvQzK9VRG6YkkrmuEFFVuANO0=;
+	b=VQUcrIf3wxYf4ar9CIr4DNGfB9VT83EvfJs3X5QBQhlZaaU7+9PCX/8FhUv1O38Evv
+	W/LTJu57lkYh0y8N+abCDw/z5+uyC4Px/W1+GUoXTODu2kF5MUcLjPiJXEgsSRU7sYto
+	32iyu1Zqvo33kWIx1706ST2BESSeu2k0WuuBTT3QkvJAV6jiUR60jQWFD7v5QynMaxk7
+	Z3jySfKQRLQEWhZ+Qqw8eOB+qft9Fcy1JTN1yBCiaF+D/RFqAi9wDhKcjGvFOQGrX0l+
+	S+b7WiTvGBb6dLpWu/VQXCuLvqgMvcY390X9vHskOtk943X7G2FfooKzAedJBywSn1g3
+	HJmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=9T/bzcLdvHwVyEfXggeTgSNwkIUkGNOgAHRDEnebJjU=;
-	b=LaPn6rVfX2QHHzVh6/T+YWk1L0ZgJc4GZfQlfbRtdlwZPl4PNcG1EweQHGNZVXcKF8
-	WgVioJ+kboC9GAct4LkuFnTcSB4Wwpe1csV1SO4MUw7pUW0BNCDisDPd7/BDaPhj/uE8
-	rIWllegNNlZOtagTsSxmhDulQAVyrZaYJr5P5SDWxQxtXPxdf4kWKW9emn2u3Ov+EUtw
-	ynsYejxEVacURZiWBJe5hevq5283AOvmKiUXCI8bEeCx5GJB0Wq54SgNrR1r2Y81/t0j
-	LEmKV+em5uZ9yz8aXC5ymk0DxJGMbfi8D3R8eM7EWbE68HrapCt2cBhWfrgB/vi3gxGK
-	r0Fg==
-X-Gm-Message-State: AIkVDXKP8RVEUWvWak+I1t2hHhtevJYLkcru4K0cjD5UP9N3BiURqaNuSd3ccPufteGi15/ZbpNoO7B4jWDDHr2e
-X-Received: by 10.36.53.210 with SMTP id k201mr2900312ita.21.1485968705544;
-	Wed, 01 Feb 2017 09:05:05 -0800 (PST)
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=IGg77W+eA1pDSH0nZpPvQzK9VRG6YkkrmuEFFVuANO0=;
+	b=hc5D2uPvymxcuGBPlOSE+nE3NOBrQ384erVXN2e6XZVXPp4MulsqFqtNyRMKsVELLW
+	s5AW9KFvnBQ+NdO56omgGXlUoZ7NTtWOgBL3yhchMO3I+M3feDmK5Z7PN3UmOuXL3zQw
+	rYJUvx5zK9eMK/+NA9rm4vr8Hp6n7cC8SAD21/Xe5nQMECzGxcSrmFtPqwz8m/urlhRK
+	h6+glFLBwstLKTtn+nyYkX0H9FCe9oNW4dHqRTackSYS7M1Nnx3tEAkCXJOK330XMaw9
+	4oN7a66M0QpSIi1c+j2W/IB6zukPR+EgHEx58r9dWo6i8GGeSHi4E4RJSVPX9525lbN/
+	5xgw==
+X-Gm-Message-State: AIkVDXItvI3Twv3rsvtGljusr0SDtxds7zG5O+u5RD6WDzruI5x98Vp+PNFVZfUXSKiTZw==
+X-Received: by 10.98.207.193 with SMTP id b184mr5041916pfg.12.1485969729489;
+	Wed, 01 Feb 2017 09:22:09 -0800 (PST)
+Received: from CACSVMO-14452.local ([2601:646:8882:b8c:8ce9:48a5:c3c4:adfc])
+	by smtp.gmail.com with ESMTPSA id
+	m20sm51530254pgd.17.2017.02.01.09.22.08
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 01 Feb 2017 09:22:09 -0800 (PST)
+To: openembedded-core@lists.openembedded.org
+References: <1485912129-4012-1-git-send-email-tom.hochstein@nxp.com>
+	<CAHiDW_ESMwJK3xaE3sBUYXuhioBa51=QQ+aXudmFM0bSZ_ewuQ@mail.gmail.com>
+	<AM5PR0402MB2817DA6F90A494FC671385A6E24D0@AM5PR0402MB2817.eurprd04.prod.outlook.com>
+From: Khem Raj <raj.khem@gmail.com>
+Message-ID: <8b05112c-f6a0-f928-b3bd-decb7250f856@gmail.com>
+Date: Wed, 1 Feb 2017 09:22:08 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.7.0
 MIME-Version: 1.0
-Received: by 10.64.133.226 with HTTP; Wed, 1 Feb 2017 09:05:05 -0800 (PST)
-In-Reply-To: <1485962869-11868-1-git-send-email-ed.bartosh@linux.intel.com>
-References: <1485962869-11868-1-git-send-email-ed.bartosh@linux.intel.com>
-From: Rick Altherr <raltherr@google.com>
-Date: Wed, 1 Feb 2017 09:05:05 -0800
-Message-ID: <CAPLgG=nZaHjaS-6mJ9OwQeoUZmsixc0TMkzQSOibdaMrZN3w5Q@mail.gmail.com>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image: rename image-wic -> image_types_wic
+In-Reply-To: <AM5PR0402MB2817DA6F90A494FC671385A6E24D0@AM5PR0402MB2817.eurprd04.prod.outlook.com>
+Subject: Re: [PATCH v2] xserver-xorg: Fix X server 1.19 crash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,132 +61,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2017 17:05:06 -0000
-Content-Type: multipart/alternative; boundary=001a114a8ac4d7cdc705477b0cc6
+X-List-Received-Date: Wed, 01 Feb 2017 17:22:11 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
---001a114a8ac4d7cdc705477b0cc6
-Content-Type: text/plain; charset=UTF-8
+It seems this should be submitted upstream as well.
 
-Reviewed-by: Rick Altherr <raltherr@google.com>
+On 2/1/17 6:41 AM, Tom Hochstein wrote:
+> https://lists.yoctoproject.org/pipermail/meta-freescale/2017-January/019980.html
+> 
+>  
+> 
+>  
+> 
+> *From:*Jussi Kukkonen [mailto:jussi.kukkonen@intel.com]
+> *Sent:* Wednesday, February 01, 2017 5:38 AM
+> *To:* Tom Hochstein <tom.hochstein@nxp.com>
+> *Cc:* Patches and discussions about the oe-core layer
+> <openembedded-core@lists.openembedded.org>
+> *Subject:* Re: [OE-core] [PATCH v2] xserver-xorg: Fix X server 1.19 crash
+> 
+>  
+> 
+> On 1 February 2017 at 03:22, Tom Hochstein <tom.hochstein@nxp.com
+> <mailto:tom.hochstein@nxp.com>> wrote:
+> 
+>     Commit 6a5a4e60373c1386b311b2a8bb666c32d68a9d99 removes the configure of
+>     useSIGIO option:
+> 
+>     xfree86 SIGIO support is reworked to use internal versions of
+>     OsBlockSIGIO and OsReleaseSIGIO
+> 
+>     The check for useSIGIO is no longer needed.
+> 
+>  
+> 
+> Can you explain what the crash is or how to reproduce, I can't figure it
+> out from the patch. Link to possible upstream ML discussion is fine as well.
+> 
+>  
+> 
+> Thanks,
+> 
+>   Jussi
+> 
+> 
+> 
 
-On Wed, Feb 1, 2017 at 7:27 AM, Ed Bartosh <ed.bartosh@linux.intel.com>
-wrote:
-
-> Make name of the wic image type class consistent with
-> existing naming scheme for image types.
->
-> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> ---
->  meta/classes/image.bbclass                                  | 5 +++--
->  meta/classes/{image-wic.bbclass => image_types_wic.bbclass} | 0
->  2 files changed, 3 insertions(+), 2 deletions(-)
->  rename meta/classes/{image-wic.bbclass => image_types_wic.bbclass} (100%)
->
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 613cd92..b5a4fb4 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -151,6 +151,9 @@ def build_uboot(d):
->  IMAGE_TYPE_uboot = "${@build_uboot(d)}"
->  inherit ${IMAGE_TYPE_uboot}
->
-> +IMAGE_TYPE_wic = "image_types_wic"
-> +inherit ${IMAGE_TYPE_wic}
-> +
->  python () {
->      deps = " " + imagetypes_getdepends(d)
->      d.appendVarFlag('do_rootfs', 'depends', deps)
-> @@ -187,8 +190,6 @@ python () {
->  IMAGE_CLASSES += "image_types"
->  inherit ${IMAGE_CLASSES}
->
-> -inherit image-wic
-> -
->  IMAGE_POSTPROCESS_COMMAND ?= ""
->
->  # some default locales
-> diff --git a/meta/classes/image-wic.bbclass b/meta/classes/image_types_
-> wic.bbclass
-> similarity index 100%
-> rename from meta/classes/image-wic.bbclass
-> rename to meta/classes/image_types_wic.bbclass
-> --
-> 2.1.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---001a114a8ac4d7cdc705477b0cc6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><span style=3D"font-size:12.8px">Reviewed-by: Rick Altherr=
- &lt;</span><a href=3D"mailto:raltherr@google.com" target=3D"_blank" style=
-=3D"font-size:12.8px">raltherr@google.com</a><span style=3D"font-size:12.8p=
-x">&gt;</span><br></div><div class=3D"gmail_extra"><br><div class=3D"gmail_=
-quote">On Wed, Feb 1, 2017 at 7:27 AM, Ed Bartosh <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:ed.bartosh@linux.intel.com" target=3D"_blank">ed.bartosh@lin=
-ux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Make n=
-ame of the wic image type class consistent with<br>
-existing naming scheme for image types.<br>
-<br>
-Signed-off-by: Ed Bartosh &lt;<a href=3D"mailto:ed.bartosh@linux.intel.com"=
->ed.bartosh@linux.intel.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/image.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 5 +++--<br>
-=C2=A0meta/classes/{image-wic.<wbr>bbclass =3D&gt; image_types_wic.bbclass}=
- | 0<br>
-=C2=A02 files changed, 3 insertions(+), 2 deletions(-)<br>
-=C2=A0rename meta/classes/{image-wic.<wbr>bbclass =3D&gt; image_types_wic.b=
-bclass} (100%)<br>
-<br>
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass<br>
-index 613cd92..b5a4fb4 100644<br>
---- a/meta/classes/image.bbclass<br>
-+++ b/meta/classes/image.bbclass<br>
-@@ -151,6 +151,9 @@ def build_uboot(d):<br>
-=C2=A0IMAGE_TYPE_uboot =3D &quot;${@build_uboot(d)}&quot;<br>
-=C2=A0inherit ${IMAGE_TYPE_uboot}<br>
-<br>
-+IMAGE_TYPE_wic =3D &quot;image_types_wic&quot;<br>
-+inherit ${IMAGE_TYPE_wic}<br>
-+<br>
-=C2=A0python () {<br>
-=C2=A0 =C2=A0 =C2=A0deps =3D &quot; &quot; + imagetypes_getdepends(d)<br>
-=C2=A0 =C2=A0 =C2=A0d.appendVarFlag(&#39;do_rootfs&#39;, &#39;depends&#39;,=
- deps)<br>
-@@ -187,8 +190,6 @@ python () {<br>
-=C2=A0IMAGE_CLASSES +=3D &quot;image_types&quot;<br>
-=C2=A0inherit ${IMAGE_CLASSES}<br>
-<br>
--inherit image-wic<br>
--<br>
-=C2=A0IMAGE_POSTPROCESS_COMMAND ?=3D &quot;&quot;<br>
-<br>
-=C2=A0# some default locales<br>
-diff --git a/meta/classes/image-wic.<wbr>bbclass b/meta/classes/image_types=
-_<wbr>wic.bbclass<br>
-similarity index 100%<br>
-rename from meta/classes/image-wic.bbclass<br>
-rename to meta/classes/image_types_wic.<wbr>bbclass<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.1.4<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
-
---001a114a8ac4d7cdc705477b0cc6--
