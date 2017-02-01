@@ -1,52 +1,23 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f42.google.com (mail-it0-f42.google.com
-	[209.85.214.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D517606CB
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CBD071B13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Feb 2017 09:17:21 +0000 (UTC)
-Received: by mail-it0-f42.google.com with SMTP id 203so12671917ith.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Feb 2017 01:17:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:date:in-reply-to:references:organization
-	:mime-version:content-transfer-encoding;
-	bh=1MgW5NvVfe4l1CKN29kv1Pt6lKfIZhUAe4RSrNJv2qs=;
-	b=BBWeogSmaVZyrXL8CMcn6rAtpbjwR0gaLqCbPPhQTSgXemeEXETxjDycGAXQQWdsvA
-	l6/YSdTCCcaKTmo4St0vfVMvS6P+/PxDlXdSRQuyUk7MpaQ8rcFyh+uc43tI7jvR3IQ4
-	/4tYjdWgSQPTFi+nSx38m4U0joTp2EK61tG1IfGV5m8eV7lYeV+2e+bemR0iUn5+M7u1
-	m6cS2CChM/tESEcO4fdScpGutH/cTFYhcgZhl59B/rcC/QY2seJngODHqPts6Q/bbCf/
-	rtWPlIdZKHhD1jzVWl9HPffqFyQrY0sxuBZ2VasKtzgCu3zANmIhWcvWvEn7UWXfAQT2
-	R3vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=1MgW5NvVfe4l1CKN29kv1Pt6lKfIZhUAe4RSrNJv2qs=;
-	b=LZWXgy3Ei0x3PP3MBgkaufuQihfEvPfGfGs7GOJ9H2vui+Vf0eZU7FK14HxAvP9xE/
-	irzy8ne4xch3nlfbPnX+pq8X/ain58wwsj/bCflRe0n+yBDUHVAEubYqRl9E6KSW3Y7h
-	bn/mQIXhrYTofTIWv87EsYXSMA+vtHsv1ddKxpu7cqb6YpmzHodqvz5pp1pIJOQAwJ4V
-	yqkis6akvjN0QtwcO9ShBEjv3NZpHVSs5a9P1gExfzx+/shvSbBgBINxfN4vYLtatsn9
-	4nynF10+OVO2sAipVOpydVhM22wOKOgdRd5IQRW4n43Jcu/aIud9AfYQc5xX8G0XNNWd
-	gxnw==
-X-Gm-Message-State: AIkVDXIdSQFIigOglByJ38idkbwLpUqUdS5z711CXaCnu2IvpCpIpdZuDfxsiz/sJTWkdrZj
-X-Received: by 10.36.61.136 with SMTP id n130mr1591478itn.107.1485940641582;
-	Wed, 01 Feb 2017 01:17:21 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8DF4F.dip0.t-ipconnect.de. [93.232.223.79])
-	by smtp.gmail.com with ESMTPSA id 9sm9716476itm.18.2017.02.01.01.17.19
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 01 Feb 2017 01:17:20 -0800 (PST)
-Message-ID: <1485940638.20333.187.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
+	Wed,  1 Feb 2017 10:03:44 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga105.fm.intel.com with ESMTP; 01 Feb 2017 02:03:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,319,1477983600"; d="scan'208";a="815759747"
+Received: from linux.intel.com ([10.54.29.200])
+	by FMSMGA003.fm.intel.com with ESMTP; 01 Feb 2017 02:03:44 -0800
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id 66D076A4006;
+	Wed,  1 Feb 2017 02:02:45 -0800 (PST)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 01 Feb 2017 10:17:18 +0100
-In-Reply-To: <cover.55ff1fc2ce63597ab9f5324450132e786a996ac5.1485867027.git-series.patrick.ohly@intel.com>
-References: <cover.55ff1fc2ce63597ab9f5324450132e786a996ac5.1485867027.git-series.patrick.ohly@intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Subject: verify-bashisms + shellcheck (was: Re: [PATCH 0/8] verify-bashisms: fix script and one issue found by it)
+Date: Wed,  1 Feb 2017 12:03:35 +0200
+Message-Id: <1485943415-8260-1-git-send-email-jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] sstate: Fix make_relative_symlink() for RSS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,233 +30,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2017 09:17:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 01 Feb 2017 10:03:46 -0000
 
-On Tue, 2017-01-31 at 13:50 +0100, Patrick Ohly wrote:
-> The script broke when introducing tinfoil2. The patches also include
-> several usability enhancements, like making the output less redundant
-> and including information about the actual file and line where the
-> offending script can be found.
+Recipe-specific sysroots broke make_relative_symlink(), which
+turns absolute symlinks in sysroots into relative ones. Use the
+difference between the (in-sysroot) paths to construct the relative
+symlink.
 
-I've further modified verify-bashisms so that it can optionally run the
-scripts through shellcheck (https://www.shellcheck.net/).
+This fixes links in openssl-native, fontconfig-native and bzip2-native.
 
-I'm quite impressed with how much real issues shellcheck finds and I
-also found the recommendations useful. However, it is too verbose to be
-applied to all scripts in OE. For example, it warns about missing
-quotation marks around variables a lot.
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
 
-There is no simple "check for bashisms" command line flag or "enable
-just these checks" mode. One can disable warnings, so perhaps excluding
-a long list of know "harmless" checks would be a way how shellcheck
-could replace checkbashisms.pl?
+sstate is not an area I'm familiar with, please take a good look.
 
-My current solution always calls checkbashisms.pl, and shellcheck only
-when a function is annotated:
+As far as I could see outputpath (based on state[2]) was never really
+needed so I did not use it in the new version.
 
-foobar () {
-   echo hello world
-}
-foobar[shellcheck] = "sh"
 
-This sets "sh" as expected shell flavor. I did it this way because I can
-imagine that someone might want to have some functions with bash
-features and then ensure that bash is used to execute the code.
+Thanks,
+ Jussi
 
-I can also imagine that this varflag could be used to exclude certain
-checks with "sh SC2001 SC2002 ...", although the same can also be done
-with inline comments for specific lines:
 
-foobar () {
-   # shellcheck disable=SC2003
-   i=$( expr $i + 1 )  
-}
+ meta/classes/sstate.bbclass | 35 ++++++++++++-----------------------
+ 1 file changed, 12 insertions(+), 23 deletions(-)
 
-Using expr triggers a warning because usually $(( )) is a better
-alternative. However, that currently can't be used in bitbake functions
-because the shell parser chokes on it:
-
-   NotImplementedError: $((
-
-So I've disabled that check by default.
-
-Any suggestions how to proceed with this?
-
-Note that shellcheck is written in Haskell. Getting it installed
-automatically via a recipe would imply adding Haskell support to
-OE-core. OTOH it seems to be packaged quite widely, so assuming it to be
-installed on the host seems okay.
-
-The "verify-bashisms" name of the script no longer quite matches the
-actual functionality when using shellcheck, but that's minor (?).
-
-FWIW, current additional patch is here:
-
-diff --git a/scripts/verify-bashisms b/scripts/verify-bashisms
-index dab64ef5019..000ed3f1764 100755
---- a/scripts/verify-bashisms
-+++ b/scripts/verify-bashisms
-@@ -24,8 +24,9 @@ def is_whitelisted(s):
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index aeb7466..7f99cd3 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -583,32 +583,27 @@ python sstate_hardcode_path () {
+ def sstate_package(ss, d):
+     import oe.path
  
- SCRIPT_LINENO_RE = re.compile(r' line (\d+) ')
- BASHISM_WARNING = re.compile(r'^(possible bashism in.*)$', re.MULTILINE)
-+SHELLCHECK_LINENO_RE = re.compile(r'^(In .* line )(\d+):$', re.MULTILINE)
+-    def make_relative_symlink(path, outputpath, d):
+-        # Replace out absolute TMPDIR paths in symlinks with relative ones
++    def make_relative_symlink(path, workdir, d):
++        # Replace absolute sysroot paths in symlinks with relative ones
+         if not os.path.islink(path):
+             return
+         link = os.readlink(path)
+         if not os.path.isabs(link):
+             return
+-        if not link.startswith(tmpdir):
++        if not link.startswith(workdir):
+             return
  
--def process(filename, function, lineno, script):
-+def process(filename, function, lineno, script, shellcheck):
-     import tempfile
+-        #base = os.path.relpath(link, os.path.dirname(path))
++        directory = os.path.dirname(path.rpartition(workdir)[2])
++        base_link = link.rpartition(workdir)[2]
++        rel_path = os.path.relpath(base_link,directory)
  
-     if not script.startswith("#!"):
-@@ -35,10 +36,10 @@ def process(filename, function, lineno, script):
-     fn.write(script)
-     fn.flush()
- 
-+    results = []
-     try:
-         subprocess.check_output(("checkbashisms.pl", fn.name), universal_newlines=True, stderr=subprocess.STDOUT)
--        # No bashisms, so just return
--        return
-+        # No bashisms, so just continue
-     except subprocess.CalledProcessError as e:
-         # TODO check exit code is 1
- 
-@@ -48,33 +49,53 @@ def process(filename, function, lineno, script):
-             # Probably starts with or contains only warnings. Dump verbatim
-             # with one space indention. Can't do the splitting and whitelist
-             # checking below.
--            return '\n'.join([filename,
--                              ' Unexpected output from checkbashisms.pl'] +
--                             [' ' + x for x in output.splitlines()])
+-        depth = outputpath.rpartition(tmpdir)[2].count('/')
+-        base = link.partition(tmpdir)[2].strip()
+-        while depth > 1:
+-            base = "/.." + base
+-            depth -= 1
+-        base = "." + base
 -
--        # We know that the first line matches and that therefore the first
--        # list entry will be empty - skip it.
--        output = BASHISM_WARNING.split(output)[1:]
--        # Turn the output into a single string like this:
--        # /.../foobar.bb
--        #  possible bashism in updatercd_postrm line 2 (type):
--        #   if ${@use_updatercd(d)} && type update-rc.d >/dev/null 2>/dev/null; then
--        #  ...
--        #   ...
--        result = []
--        # Check the results against the whitelist
--        for message, source in zip(output[0::2], output[1::2]):
--            if not is_whitelisted(source):
--                if lineno is not None:
--                    message = SCRIPT_LINENO_RE.sub(lambda m: ' line %d ' % (int(m.group(1)) + int(lineno) - 1),
--                                                   message)
--                result.append(' ' + message.strip())
--                result.extend(['  %s' % x for x in source.splitlines()])
--        if result:
--            result.insert(0, filename)
--            return '\n'.join(result)
-+            results.extend([' Unexpected output from checkbashisms.pl'] +
-+                           [' ' + x for x in output.splitlines()])
-         else:
--            return None
-+            # We know that the first line matches and that therefore the first
-+            # list entry will be empty - skip it.
-+            output = BASHISM_WARNING.split(output)[1:]
-+            # Turn the output into a single string like this:
-+            # /.../foobar.bb
-+            #  possible bashism in updatercd_postrm line 2 (type):
-+            #   if ${@use_updatercd(d)} && type update-rc.d >/dev/null 2>/dev/null; then
-+            #  ...
-+            #   ...
-+            # Check the results against the whitelist
-+            for message, source in zip(output[0::2], output[1::2]):
-+                if not is_whitelisted(source):
-+                    if lineno is not None:
-+                        message = SCRIPT_LINENO_RE.sub(lambda m: ' line %d ' % (int(m.group(1)) + int(lineno) - 1),
-+                                                       message)
-+                    results.append(' ' + message.strip())
-+                    results.extend(['  %s' % x for x in source.splitlines()])
-+
-+    if shellcheck:
-+        try:
-+            excluded = []
-+            # SC2003 warns about using expr instead of $(( )).
-+            # bitbake's shell parser chokes on $(( )), so expr
-+            # is what embedded scripts have to use - ignore the warning.
-+            excluded.append("SC2003")
-+            subprocess.check_output(["shellcheck", "--shell=%s" % shellcheck] +
-+                                    ["-e%s" % x for x in excluded] +
-+                                    [fn.name],
-+                                    universal_newlines=True, stderr=subprocess.STDOUT)
-+            # No shell warnings, so just continue.
-+        except subprocess.CalledProcessError as e:
-+            # Replace the temporary filename with the function,
-+            # update line numbers and indent the output.
-+            output = e.output.replace(fn.name, function)
-+            results.extend([' ' +
-+                            (x if lineno is None else
-+                             SHELLCHECK_LINENO_RE.sub(lambda m: m.group(1) + str(int(m.group(2)) + int(lineno) - 1), x))
-+                            for x in output.splitlines()])
-+
-+    if results:
-+        results.insert(0, filename)
-+        return '\n'.join(results)
-+    else:
-+        return None
+-        bb.debug(2, "Replacing absolute path %s with relative path %s for %s" % (link, base, outputpath))
++        bb.debug(2, "Replacing absolute path %s with relative path %s for %s" % (link, rel_path, path))
+         os.remove(path)
+-        os.symlink(base, path)
++        os.symlink(rel_path, path)
  
- def get_tinfoil():
-     scripts_path = os.path.dirname(os.path.realpath(__file__))
-@@ -94,12 +115,16 @@ if __name__=='__main__':
-         print("Cannot find checkbashisms.pl on $PATH, get it from https://anonscm.debian.org/cgit/collab-maint/devscripts.git/plain/scripts/checkbashisms.pl")
-         sys.exit(1)
+-    tmpdir = d.getVar('TMPDIR')
++    workdir = d.getVar('WORKDIR')
  
-+    if shutil.which("shellcheck") is None:
-+        print("Cannot find shellcheck on $PATH, get it from your distro or https://www.shellcheck.net/")
-+        sys.exit(1)
-+
-     # The order of defining the worker function,
-     # initializing the pool and connecting to the
-     # bitbake server is crucial, don't change it.
-     def func(item):
--        (filename, key, lineno), script = item
--        return process(filename, key, lineno, script)
-+        (filename, key, lineno), (script, shellcheck) = item
-+        return process(filename, key, lineno, script, shellcheck)
+-    sstatebuild = d.expand("${WORKDIR}/sstate-build-%s/" % ss['task'])
++    sstatebuild = workdir + "/sstate-build-" +ss['task'] + "/"
+     sstatepkg = d.getVar('SSTATE_PKG') + '_'+ ss['task'] + ".tgz"
+     bb.utils.remove(sstatebuild, recurse=True)
+     bb.utils.mkdirhier(sstatebuild)
+@@ -620,18 +615,12 @@ def sstate_package(ss, d):
+             continue
+         srcbase = state[0].rstrip("/").rsplit('/', 1)[0]
+         for walkroot, dirs, files in os.walk(state[1]):
+-            for file in files:
++            for file in files + dirs:
+                 srcpath = os.path.join(walkroot, file)
+-                dstpath = srcpath.replace(state[1], state[2])
+-                make_relative_symlink(srcpath, dstpath, d)
+-            for dir in dirs:
+-                srcpath = os.path.join(walkroot, dir)
+-                dstpath = srcpath.replace(state[1], state[2])
+-                make_relative_symlink(srcpath, dstpath, d)
++                make_relative_symlink(srcpath, workdir, d)
+         bb.debug(2, "Preparing tree %s for packaging at %s" % (state[1], sstatebuild + state[0]))
+         os.rename(state[1], sstatebuild + state[0])
  
-     import multiprocessing
-     pool = multiprocessing.Pool()
-@@ -129,16 +154,22 @@ if __name__=='__main__':
-                 data = tinfoil.parse_recipe_file(realfn)
-                 for key in data.keys():
-                     if data.getVarFlag(key, "func") and not data.getVarFlag(key, "python"):
-+                        # Do not expand by default, it could change line numbers.
-                         script = data.getVar(key, False)
-+                        if script and '${@' in script:
-+                            # Embedded Python code confuses the checkers too much,
-+                            # we have to expand.
-+                            script = data.getVar(key, True)
-                         if script:
-                             filename = data.getVarFlag(key, "filename")
-                             lineno = data.getVarFlag(key, "lineno")
-+                            shellcheck = data.getVarFlag(key, "shellcheck")
-                             # There's no point in checking a function multiple
-                             # times just because different recipes include it.
-                             # We identify unique scripts by file, name, and (just in case)
-                             # line number.
-                             attributes = (filename or realfn, key, lineno)
--                            scripts.setdefault(attributes, script)
-+                            scripts.setdefault(attributes, (script, shellcheck))
- 
- 
-     print("Scanning scripts...\n")
-
-
-
-
+-    workdir = d.getVar('WORKDIR')
+     for plain in ss['plaindirs']:
+         pdir = plain.replace(workdir, sstatebuild)
+         bb.utils.mkdirhier(plain)
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+2.1.4
 
 
