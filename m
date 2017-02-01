@@ -1,91 +1,40 @@
-Return-Path: <tom.hochstein@nxp.com>
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
-	(mail-db5eur01on0071.outbound.protection.outlook.com [104.47.2.71])
-	by mail.openembedded.org (Postfix) with ESMTP id D1876771D3
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id ADB9A77310
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Feb 2017 15:21:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=EZ7o7IHWWoqi3kMuSaHfUVGEAz04NHPIWnDmX4aog2o=;
-	b=ukhM4rt+4R6S/cPKourvyYU+EjlS8yfxSJIRtV523US0L3phMw7QBR6DU0g8Fua2745JOgpYdYIKw6bug6Xi7ebNVFXyuHCxh4k3twzUbmnbZPIsY+G9ddeenQrz3wEc9tL2iUUpmAFwyDmtWaQI0jk4+8r3cohh55dZPip5B+k=
-Authentication-Results: spf=none (sender IP is )
-	smtp.mailfrom=tom.hochstein@nxp.com; 
-Received: from tx30imx-01.am.freescale.net (192.88.168.49) by
-	HE1PR0402MB2825.eurprd04.prod.outlook.com (10.175.29.23) with Microsoft
-	SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
-	15.1.888.16; Wed, 1 Feb 2017 15:21:10 +0000
-From: Tom Hochstein <tom.hochstein@nxp.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 1 Feb 2017 09:14:10 -0600
-Message-ID: <1485962050-3793-1-git-send-email-tom.hochstein@nxp.com>
-X-Mailer: git-send-email 1.9.1
+	Wed,  1 Feb 2017 15:22:54 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga104.jf.intel.com with ESMTP; 01 Feb 2017 07:22:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; d="scan'208";a="59665806"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga005.jf.intel.com with ESMTP; 01 Feb 2017 07:22:55 -0800
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 03C7B6A4006;
+	Wed,  1 Feb 2017 07:21:54 -0800 (PST)
+Date: Wed, 1 Feb 2017 17:00:29 +0200
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Rick Altherr <raltherr@google.com>
+Message-ID: <20170201150029.GA11426@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <257efe25e625e8aaa0f1d435716f0c5f61071700.1485547221.git.ed.bartosh@linux.intel.com>
+	<CAPLgG=niaYOrW-zw=k6Z+hWfGRutVSA3bcKk4Ln8MqQR7zpPag@mail.gmail.com>
+	<20170130171832.GA7232@linux.intel.com>
+	<CAPLgG=mr+cwB+5egg_+NP-eyOaR+kYx0V-t=ODA+5dCL+OfXTw@mail.gmail.com>
+	<20170130174514.GA19307@linux.intel.com>
+	<CAPLgG=kRKruYtVmU2ugRwwmJUm9MT+HirNm-83N72QDvMm7rbw@mail.gmail.com>
+	<20170130181533.GA14744@linux.intel.com>
+	<CAPLgG==1uuW6R_21gCpzAgDpwKswDRx-apC_gEL5mjD9R_rjwg@mail.gmail.com>
+	<20170130184254.GA10554@linux.intel.com>
+	<CAPLgG=nChvVyg9thDQp43yW1irnBZWUdxgbz8LsM5a-vcy1yPA@mail.gmail.com>
 MIME-Version: 1.0
-X-Originating-IP: [192.88.168.49]
-X-ClientProxiedBy: BY2PR11CA0018.namprd11.prod.outlook.com (10.163.150.28) To
-	HE1PR0402MB2825.eurprd04.prod.outlook.com (10.175.29.23)
-X-MS-Office365-Filtering-Correlation-Id: 2b40bc77-e213-407c-c27f-08d44ab5f431
-X-MS-Office365-Filtering-HT: Tenant
-X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0; RULEID:(22001)(48565401081);
-	SRVR:HE1PR0402MB2825; 
-X-Microsoft-Exchange-Diagnostics: 1; HE1PR0402MB2825;
-	3:zS5sLPKwwzxNxDRGXNQ3YamYvY8eZmBUPKC0B1Big4CJN1gXA6oEOAZj2WFfPothc+TkUVjfu/MYdyZCZHE5sAO6+l9v0IQfut0XhExirX7xGDlzEidjaTa/DjYZWdZBKtLZTVCaJvURPv5T8AIRigz+nx9o8IjeIhy4QuyvV/icl4Uq/udvmP442U/A9gLZn6kXeOaZI+sHJMq49FEcEOes5PoKo0M+soH/CzZMDmNqEfr2SpdP7gNYd6Kxeoul/Y0K/7Sl0vvSVX+T9sB/DlaMYLuyX2qWS+UlGggGLLo=
-X-Microsoft-Exchange-Diagnostics: 1; HE1PR0402MB2825;
-	25:NLBEP/xJXadh0KvU4Ome5XSlB89bTsBq/sobrpraZP4n4PcwmpwkfleZi8KTxuZyeyp69WwOIZxTMPVkcJWQEC/r1+Kfl+M39w1BRsmjG2J41Wb1Ph1MV/nfd2fhUJ2+V5gYIuCg8xp6C7zq3wUqLNmSD11vFFGwPTqSZATxrIUgYaLS0SqNVXbhyoDinLa5+zdyEGbMx21E6L0Ej+ILYhKERWClRzJgDh1tM/vI/Jjtf687pxkfE27AQArtp7CKBvEqNxaWs7IUC/sjM5ACQYgKdjjsucwL72hXlIrVELvzyQ9xQ19lbmq2M9oV/w5keEiP7MgIJl5L5/fjBVbDEJItBty9zOVxLHYEdWTqPSwJUEduUdcsQ2ORYfcZURq2p5pm9R662b75U/d4n2u7zLuIuyvycz/1Xygz9nHdKnoIns4x0X1d6nEwUrA9Sd+gHdOgisLeeW/RgpyKD1Ze/XH49oy0XBOfg+7iOcoGTC/rcP95iPd98z/l4wdyM/W/lINA52bEY9a9ysBgQXPXR9M7H8OBfikSgLKMRRqE0TG4O8y3YQgxX9w1+O8UrrtCzducXkTDWx5AyOM+g31GQ/oxk7lH++cNpEauLdkh/01etGVW1zD5DeHK828iTZRbphfS28AhpQ8u9wZP3C0XrUkX6i0XvBleUswTnXacCUMT6YjH/5I+RDHH6rrZM5dn
-X-Microsoft-Exchange-Diagnostics: 1; HE1PR0402MB2825;
-	31:g1UK2iKmAp7aF5LVvEhQed6pflBvjRNDnqrkttGW5YuQW1jWj7wAB0iQnhNkAItLaS9/HcvfEa7Uxt9VErtomrQGqF7QN9ahoddToinJb+kbzxFmfkUWMjDxfnfXwO3i5F+DT/NFQLP11lCbLEDpvcuvckQ0KAeDjyQ9BEosYU8ub3Izni64FXDwTaB2IinWqN2bEjBamMvrNtfc1S1NzmcM0WgcPRxAO4ujfd5UYqBYxFQBDXzVnbJ9wxutu4v1d2ZAxlmUm5ZCFl44QxqpgruJHeEna2v+0TKooNqGgOQ=;
-	20:UCFQTrQcXDKQQUimfsHnRs2bFV2akBlN+dZOiyl13qBiCu22a5knUYZg8319KVHhccZibaTZIflLLXJdJwoDyQxlMx/ACzXxaJmXumCt13ejAS5reFcGjmwoU3JJ+RQEzRVhEJ8r48tSVmskHH97SRBedw21GUg0dhXp/OCWLv71G9JAKzzve1Ci3o48H1uDeC0sFNG54yx6qK1LsIjNz4RKt36jyb8GPLLz8J98YA44tcz8abjYp8Rf166P5012nwzyfpvbAm6GgTjqM6qa+EU+F3oZb9Ij8gBXWqYl1OuMm/418p52JOzaHZj2bh+Wa9+wlBD2Z5k3V8Wyu6guceGNvayCdTs8U6rGkSDLZ0edx2FZFNZB6j8gT661datHBD+SEVLbqpIlk+Zko4/5XvTlavTRkwiw7GOTeSwTQC4mo6csIHP3KEUxpKopGzNL+zkwnBuw0SDDAr9UuyVifOaUHB+mSTitMcA1CvdipaDPVjOyjuaoM+aVJj1/wiOV
-X-Microsoft-Antispam-PRVS: <HE1PR0402MB28255C814D343B0E1A4098B9E24D0@HE1PR0402MB2825.eurprd04.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:(158342451672863)(185117386973197);
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(6040375)(601004)(2401047)(8121501046)(5005006)(3002001)(10201501046)(6055026)(6041248)(20161123560025)(20161123558025)(20161123562025)(20161123564025)(20161123555025)(6072148);
-	SRVR:HE1PR0402MB2825; BCL:0; PCL:0; RULEID:;
-	SRVR:HE1PR0402MB2825; 
-X-Microsoft-Exchange-Diagnostics: 1; HE1PR0402MB2825;
-	4:/6iKd4p+Zjavzb5Zy7UBNbd3XJgCtB9J1DX81GriUOX5qyfKTIVffKSy3IgzAiPgrk25Q361fsEXsM9PqYboP1OtFqG86EtOR8F7MOp7MlZw7qhPggj1E81vg1cu7EWvn1vGKQBejYYkh0b4z4iJKQchv6vbrZRWZgljiVq2fHWJHBzvkNZhyXvhJ6XHuhc2DP2rS/DR60bQYU7xBPzAgD2CwyHBn5HgQHbkN4IJPFRlxfM+JZ2z72IV2Wyd2Lpcpf1VU2tFulixNwvb2V/8mwEgSEmdY+7WZWQ7UjiZme1zXY6EVAHQyL+1u5lOkbb86dOaG1EKurdE+D8CkEQHA6ZD47XUTVvYx3RI5I7lFCDxizqs1ixrLLuN/lfMBL5GhdKVE2z2O8gLzirH3yMn13HCqq/ySzLji+/PcqIpX/hadhAbzkO2LsAAdvI7xtIOr2SA63xcfCsoHLVJkhFTclqYjAnndh+WEuavwj9bDgcZ9mdKO79ujdbvn/LUAJvOVCqQlp9hdCFj2pVbrpHMgehOKhxL0JA7vahqxB9FXweMUqRgks4Qyd261ETfXIal5UXuaEezO5pKMRUzK09mfVBMwhSxCUZVqhtA/TYHfreXTbxm8tkiFckK6y6khzsRpzpBobvuIG5oU1xV7Oy6yV7ojfEwO3WvGraJL6Xf+1P/52kcmHMFzE7dv5i72p4RV8fOkqxieHODxI4J9SaZBQ==
-X-Forefront-PRVS: 0205EDCD76
-X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10009020)(4630300001)(6009001)(7916002)(39450400003)(39410400002)(39840400002)(39850400002)(39860400002)(199003)(189002)(25786008)(5660300001)(6506006)(4326007)(38730400001)(2906002)(50226002)(6486002)(66066001)(6916009)(47776003)(101416001)(110136003)(81156014)(81166006)(8676002)(50986999)(68736007)(6512007)(575784001)(97736004)(105586002)(2351001)(189998001)(106356001)(53936002)(305945005)(48376002)(5003940100001)(450100001)(50466002)(7736002)(42186005)(6116002)(36756003)(3846002)(33646002)(86362001)(92566002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:HE1PR0402MB2825;
-	H:tx30imx-01.am.freescale.net; FPR:; SPF:None; PTR:InfoNoRecords;
-	A:1; MX:1; LANG:en; 
-Received-SPF: None (protection.outlook.com: nxp.com does not designate
-	permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; HE1PR0402MB2825;
-	23:Ie9a0l9ECeL/S2kCFrO2AdslJVWzWFZu1J0dnmj?=
-	=?us-ascii?Q?GXvmQ1SxatYGnbFvEvQ9tmCsmH2mT/WCMo1F7Za44fS15k0n6zE5EvhaEy9I?=
-	=?us-ascii?Q?plfIlKHODIPvuxWYb5J0QSQDiDhV1GwlpV2+abIjFaxeAfpgKqCwtEY7dOCi?=
-	=?us-ascii?Q?3Pe6YN52oz+Y8HV3tUslccBJiOB0WG7h5uioIXL5lLGnrcPj/ML6Ert/7U+L?=
-	=?us-ascii?Q?1Fv36Vp9VhtBKfku5HbpMsG0Mzl5FZlBankzApiF28yfXz2u4+DBKBa8doKS?=
-	=?us-ascii?Q?C6yaLYMX+XatAek+V7sJegXvhKJGt7w6AoBmg0a/55p14WVHPJZ50uSoA5eo?=
-	=?us-ascii?Q?TNNYt8s1/1dNfS+9iUGSdF/+ppLJ6kkXj8hZ2/TRaAOzbaMXBfHzXOd9v+Yi?=
-	=?us-ascii?Q?OMCZ7TQMZ+fvf2XqVaVWLoER9n6zysLtsUcyIRboqZXm6JxT4tSo0fTPDUpW?=
-	=?us-ascii?Q?ggnuZz3m4+K8RGIYtPgOoA7ej9gCvrozVa52DrrToCYZkVJxeITdv6O/wxHx?=
-	=?us-ascii?Q?NimBb3oYDS8QLNsRZNvurO+yZnpSz+7EX6bRcqm4SSFXmOaX2kmyADqSFnBr?=
-	=?us-ascii?Q?S+a9k1xyJiw8KqQsiDoy0aUfqP9b+5NVBiDDa48Jjlt/YOt9H1qaahUg2ZiR?=
-	=?us-ascii?Q?oz2+07FuFiwD3fiAt/MxoZ+i6Vsuo7ynAyRmHuTTzzjsmTGZUHWD4Fo+Vnht?=
-	=?us-ascii?Q?Bm4cB+rsyh/9KuPDD9sRwzXGBu1VjasaShiiEoELVHWDxJ1YgAY85yLY9pZT?=
-	=?us-ascii?Q?0ohZCk3fUIu64/ZXN8XwcaXD5GaDbyzKrlDqa6hm9KCMtXSAbaE7r5Vo3geI?=
-	=?us-ascii?Q?iUr+EBScmBNB2/ikttgiGUqKalhNjbWJiw25E7k3LY0n0aZVN8o+H7nJc2Di?=
-	=?us-ascii?Q?y0NpzDGrw5MLRRggOBvMRel0FsdHHwalHsWiyLa5vbmr9AFPx1Jrycz7LJOU?=
-	=?us-ascii?Q?2ZITyW9I7B8teq47PHbVVB9eag3wOooospzpL8WJf5WCzr9/P1ot0iGFqeqz?=
-	=?us-ascii?Q?APO9a12ua/02NtXrMHbbtxLA8kY3cEEmYFqda5cMp5psPN2cuqPmfy3vkrg0?=
-	=?us-ascii?Q?AbUvwiBiNrXjBwjEX/QHX6ME1otsth5933lLECA8ZE7dREf4fa0aiKMTMAId?=
-	=?us-ascii?Q?iCLrw1Zr4me9V6B9ZUGOsgLruwE7+H6I2nEZR4FFoyfcI/ojj/HpfgANTWPU?=
-	=?us-ascii?Q?wkZ1sQxHgg9KZBrL+wETvol3nKwbjXV7UWC19?=
-X-Microsoft-Exchange-Diagnostics: 1; HE1PR0402MB2825;
-	6:I6nIvgn5dXcc6ytxi0b/Hz1xu+j1jU8AUlgG497lNgAEcAhoKZdxd8Kh7EJC6sAgIBqYieRN8ya9OBO/VuACpJJiAmjOoPPrQgTVIIqOYK87o7LYOXlmcxoARf1dLlY+niZQFx0C/pV8QUa+BVHJd+iy7Yjdi2ON0L+NOcvRktlcD1wpWmD7QpQlfpA55UdbAnB9MNwGi2oKIMndY1Hvr85OAGEQ3Pa/EUws33Aq3+kSuPEe5ZE3tag3cVLw41wsTHeJ4JNEbor4h0yWv34FAiFjK3/8Dy7qt0c8T+dfkhEFISwMkuyJbpWsWTX7oFDxVWjapkavQa2DIoW9zaid9grq7TpnsqzULscBjEDZl4sGO0cR34q/8jiXT+yHSgSKiVi6yITksNf3zZ9tGVFhHdEgl/EXoMbGG/a60yTZY5Y=;
-	5:2PY2R5vYpBLWTmoJ/XCXho7NyHYTQmEAku3r6b72hsLVL3yD4Vf9baIKFSdn9P/S54F1KxwOF62lqoXdb6Pi1XqMAIuK6L+QID0xo3CEzvvYoEZAiUETn2fPs8ZMYejhtBecWD9AG1VrhIhQHNfgXw==;
-	24:Mt8Yz06FY4DeAgc7ceZN0aibis/bIYys+dt0xMO4Ur0Eg0aRmSnL1dOHd1EHMkGwJUnuOLq//+DEfJ3NXiRn7hxvLoKiZ+ZlHRK8KAsJBS0=
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1; HE1PR0402MB2825;
-	7:zZtEIKQhldSb59CiZaidW25DJqdd3RTmxzqjfPLzW7GzO8ru9yg2hyMNTeVJ94G649BWd8RKaO2+Rrl6y5l4pIK3UZ+aiIkniRwSSRNkEq8iK0Itb5I7xTesKEORrVSoWgxkLeLzhK/fhggYqZ0hK4s9dMYMoEXh+8jjIsg3vGKBFfmv0dsxsh7ThD01LU0pe6i31pP0QGci3rHXjLivIUZNarEAHAVG9nw3uh+LHZqird6huY5C1MDYzTn21MAl1D+WbGZ2Vhb2TZoKrJxlDWh0Z6eMw9BmoMEKbmayLFRubIhK4lG/mu09XVWqwWfKuRysgdg35cT0CbgLrSMdbq1oivfLyVxQSarmE+9i6A+SfNB1pTjsxI00UGgChsB0eHCUf/rmqRXojaqtbvXeM3OcEFQuv6vyVBbRUvGsgh9XKlGwCwdX3Xia5IS9RhmKuJJWB3xkJanIE/OAvCPSrleUvAwLwQ8Q8n3OaF94QcJRBCMg2GtZIG3TW8nw+0xCwT64lObmlFlaPHBbXl9Q/Q==
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2017 15:21:10.3642 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0402MB2825
-Subject: [PATCH v3] xserver-xorg: Fix X server 1.19 crash
+In-Reply-To: <CAPLgG=nChvVyg9thDQp43yW1irnBZWUdxgbz8LsM5a-vcy1yPA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 01/11] image-wic: move wic code to image-wic.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -98,90 +47,599 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2017 15:21:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 01 Feb 2017 15:22:56 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Commit 6a5a4e60373c1386b311b2a8bb666c32d68a9d99 removes the configure of
-useSIGIO option:
+BTW, to be consistent with this approach we also need to rename
+image-live and image-vm, right?  Actually, image-live name was the
+reason for me to name image-wic.
 
-xfree86 SIGIO support is reworked to use internal versions of
-OsBlockSIGIO and OsReleaseSIGIO
+On Mon, Jan 30, 2017 at 11:07:22AM -0800, Rick Altherr wrote:
+> LGTM
+> 
+> On Mon, Jan 30, 2017 at 10:42 AM, Ed Bartosh <ed.bartosh@linux.intel.com>
+> wrote:
+> 
+> > On Mon, Jan 30, 2017 at 10:41:27AM -0800, Rick Altherr wrote:
+> > > Agreed.  What if it was image_types_wic.bbclass and you did something
+> > > similar to build_uboot() in image.bbclass?
+> > >
+> >
+> > I can do this for now:
+> > IMAGE_TYPE_wic = "image_type_wic"
+> > inherit ${IMAGE_TYPE_wic}
+> >
+> > which is the same as 'inherit image_type_wic', just takes 2 lines, but
+> > looks more consistent.
+> >
+> > does this look ok?
+> >
+> > > On Mon, Jan 30, 2017 at 10:15 AM, Ed Bartosh <ed.bartosh@linux.intel.com
+> > >
+> > > wrote:
+> > >
+> > > > On Mon, Jan 30, 2017 at 10:25:59AM -0800, Rick Altherr wrote:
+> > > > > I'm not clear on which path is the preferred one.  There are lots of
+> > bits
+> > > > > and pieces in image_types.bbclass that implement various image types.
+> > > > >  uboot got added as a separate class at some point.  The comments in
+> > > > > local.conf.sample.extended imply IMAGE_CLASSES should be used to load
+> > > > > additional image_types_* classes to add support for additional image
+> > > > > types.  Having the wic image type implemented in a separate
+> > > > > image-wic.bbclass that is directly inherited by image.bbclass adds a
+> > 3rd
+> > > > > approach.  Which one do we want contributors to use in the future?
+> > > > >
+> > > >
+> > > > I didn't want to create even more confusion. What I wanted is stated
+> > in the
+> > > > commit message - to put existing wic code into a file for better
+> > > > maintenance. If this is more confusing than having wic code in
+> > different
+> > > > places of image.class and image_types.class then we can just drop this
+> > > > patch. However, I personally find it more maintainable this way.
+> > > >
+> > > > Suggesting people to change machine configs just because wic code is
+> > > > moved to separate file doesn't look good to me either.
+> > > >
+> > > > > On Mon, Jan 30, 2017 at 9:45 AM, Ed Bartosh <
+> > ed.bartosh@linux.intel.com>
+> > > > > wrote:
+> > > > >
+> > > > > > On Mon, Jan 30, 2017 at 09:47:42AM -0800, Rick Altherr wrote:
+> > > > > > > Hmm.  In local.conf.sample.extended, I find:
+> > > > > > >
+> > > > > > > # Additional image generation features
+> > > > > > > #
+> > > > > > > # The following is a list of classes to import to use in the
+> > > > generation
+> > > > > > of
+> > > > > > > images
+> > > > > > > # currently an example class is image_types_uboot
+> > > > > > > # IMAGE_CLASSES = " image_types_uboot"
+> > > > > > >
+> > > > > > > Indeed, image_types_uboot isn't part of IMAGE_CLASSES by default.
+> > > > I'd
+> > > > > > > expect a machine config to add wic to IMAGE_CLASSES if it needs
+> > wic
+> > > > > > output.
+> > > > > > >
+> > > > > >
+> > > > > > So far all machine configs add wic to IMAGE_TYPES and it works just
+> > > > > > fine. Why to change?
+> > > > > >
+> > > > > > > On Mon, Jan 30, 2017 at 9:18 AM, Ed Bartosh <
+> > > > ed.bartosh@linux.intel.com>
+> > > > > > > wrote:
+> > > > > > >
+> > > > > > > > On Mon, Jan 30, 2017 at 09:27:54AM -0800, Rick Altherr wrote:
+> > > > > > > > > Why didn't you make this image_types_wic.bbclass and use
+> > > > > > IMAGE_CLASSES to
+> > > > > > > > > load it?
+> > > > > > > >
+> > > > > > > > Because of the following:
+> > > > > > > > - IMAGE_CLASSES[doc] = "A list of classes that all images
+> > should
+> > > > > > > >   inherit." I'm not sure all images should include wic class.
+> > I'll
+> > > > > > probably
+> > > > > > > >   make this inheritance conditional.
+> > > > > > > > - so far IMAGE_CLASSES is used for qemuboot, image_types,
+> > > > > > > >   image_types_uboot and testimage,
+> > > > > > > >   so the usage is more or less follows the description. wic is
+> > out
+> > > > of
+> > > > > > > >   that usage scenario, I believe.
+> > > > > > > > - 'inherit image_wic' is more explicit than IMAGE_CLASSES +=
+> > > > > > > >   "image_types"\n inherit ${IMAGE_CLASSES}
+> > > > > > > >
+> > > > > > > >
+> > > > > > > > >
+> > > > > > > > > On Fri, Jan 27, 2017 at 12:19 PM, Ed Bartosh <
+> > > > > > ed.bartosh@linux.intel.com
+> > > > > > > > >
+> > > > > > > > > wrote:
+> > > > > > > > >
+> > > > > > > > > > There is a lot of wic code in image.bbclass and
+> > > > image_types.bbclass
+> > > > > > > > > > Having all code separated in one file should make it more
+> > > > readable
+> > > > > > > > > > and easier to maintain.
+> > > > > > > > > >
+> > > > > > > > > > Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+> > > > > > > > > > ---
+> > > > > > > > > >  meta/classes/image-wic.bbclass   | 120
+> > > > > > ++++++++++++++++++++++++++++++
+> > > > > > > > > > +++++++++
+> > > > > > > > > >  meta/classes/image.bbclass       |  25 +-------
+> > > > > > > > > >  meta/classes/image_types.bbclass |  95
+> > > > > > ------------------------------
+> > > > > > > > -
+> > > > > > > > > >  3 files changed, 122 insertions(+), 118 deletions(-)
+> > > > > > > > > >  create mode 100644 meta/classes/image-wic.bbclass
+> > > > > > > > > >
+> > > > > > > > > > diff --git a/meta/classes/image-wic.bbclass
+> > > > > > b/meta/classes/image-wic.
+> > > > > > > > > > bbclass
+> > > > > > > > > > new file mode 100644
+> > > > > > > > > > index 0000000..2acfd65
+> > > > > > > > > > --- /dev/null
+> > > > > > > > > > +++ b/meta/classes/image-wic.bbclass
+> > > > > > > > > > @@ -0,0 +1,120 @@
+> > > > > > > > > > +# The WICVARS variable is used to define list of bitbake
+> > > > variables
+> > > > > > > > used
+> > > > > > > > > > in wic code
+> > > > > > > > > > +# variables from this list is written to <image>.env file
+> > > > > > > > > > +WICVARS ?= "\
+> > > > > > > > > > +           BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE
+> > FAKEROOTCMD
+> > > > > > HDDDIR
+> > > > > > > > > > IMAGE_BASENAME IMAGE_BOOT_FILES \
+> > > > > > > > > > +           IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES
+> > > > INITRD
+> > > > > > > > ISODIR
+> > > > > > > > > > MACHINE_ARCH RECIPE_SYSROOT_NATIVE \
+> > > > > > > > > > +           ROOTFS_SIZE STAGING_DATADIR STAGING_DIR
+> > > > STAGING_LIBDIR
+> > > > > > > > > > TARGET_SYS"
+> > > > > > > > > > +
+> > > > > > > > > > +WKS_FILE ??= "${IMAGE_BASENAME}.${MACHINE}.wks"
+> > > > > > > > > > +WKS_FILES ?= "${WKS_FILE} ${IMAGE_BASENAME}.wks"
+> > > > > > > > > > +WKS_SEARCH_PATH ?= "${THISDIR}:${@':'.join('%s/wic' % p
+> > for
+> > > > p in
+> > > > > > > > > > '${BBPATH}'.split(':'))}:${@':'.join('%s/scripts/lib/wic/
+> > > > > > canned-wks'
+> > > > > > > > % l
+> > > > > > > > > > for l in '${BBPATH}:${COREBASE}'.split(':'))}"
+> > > > > > > > > > +WKS_FULL_PATH = "${@wks_search('${WKS_FILES}'.split(),
+> > > > > > > > > > '${WKS_SEARCH_PATH}') or ''}"
+> > > > > > > > > > +
+> > > > > > > > > > +def wks_search(files, search_path):
+> > > > > > > > > > +    for f in files:
+> > > > > > > > > > +        if os.path.isabs(f):
+> > > > > > > > > > +            if os.path.exists(f):
+> > > > > > > > > > +                return f
+> > > > > > > > > > +        else:
+> > > > > > > > > > +            searched = bb.utils.which(search_path, f)
+> > > > > > > > > > +            if searched:
+> > > > > > > > > > +                return searched
+> > > > > > > > > > +
+> > > > > > > > > > +WIC_CREATE_EXTRA_ARGS ?= ""
+> > > > > > > > > > +
+> > > > > > > > > > +IMAGE_CMD_wic () {
+> > > > > > > > > > +       out="${IMGDEPLOYDIR}/${IMAGE_NAME}"
+> > > > > > > > > > +       wks="${WKS_FULL_PATH}"
+> > > > > > > > > > +       if [ -z "$wks" ]; then
+> > > > > > > > > > +               bbfatal "No kickstart files from WKS_FILES
+> > were
+> > > > > > found:
+> > > > > > > > > > ${WKS_FILES}. Please set WKS_FILE or WKS_FILES
+> > appropriately."
+> > > > > > > > > > +       fi
+> > > > > > > > > > +
+> > > > > > > > > > +       BUILDDIR="${TOPDIR}" wic create "$wks" --vars
+> > > > > > > > > > "${STAGING_DIR}/${MACHINE}/imgdata/" -e
+> > "${IMAGE_BASENAME}" -o
+> > > > > > "$out/"
+> > > > > > > > > > ${WIC_CREATE_EXTRA_ARGS}
+> > > > > > > > > > +       mv "$out/$(basename "${wks%.wks}")"*.direct
+> > > > > > > > > > "$out${IMAGE_NAME_SUFFIX}.wic"
+> > > > > > > > > > +       rm -rf "$out/"
+> > > > > > > > > > +}
+> > > > > > > > > > +IMAGE_CMD_wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES"
+> > > > > > > > > > +
+> > > > > > > > > > +# Rebuild when the wks file or vars in WICVARS change
+> > > > > > > > > > +USING_WIC = "${@bb.utils.contains_any('IMAGE_FSTYPES',
+> > 'wic
+> > > > ' + '
+> > > > > > > > > > '.join('wic.%s' % c for c in '${CONVERSIONTYPES}'.split()),
+> > > > '1',
+> > > > > > '',
+> > > > > > > > d)}"
+> > > > > > > > > > +WKS_FILE_CHECKSUM = "${@'${WKS_FULL_PATH}:%s' %
+> > > > > > > > > > os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else
+> > ''}"
+> > > > > > > > > > +do_image_wic[file-checksums] += "${WKS_FILE_CHECKSUM}"
+> > > > > > > > > > +do_image_wic[depends] += "wic-tools:do_build"
+> > > > > > > > > > +
+> > > > > > > > > > +python () {
+> > > > > > > > > > +    if d.getVar('USING_WIC') and 'do_bootimg' in d:
+> > > > > > > > > > +        bb.build.addtask('do_image_wic', '',
+> > 'do_bootimg', d)
+> > > > > > > > > > +}
+> > > > > > > > > > +
+> > > > > > > > > > +python do_write_wks_template () {
+> > > > > > > > > > +    """Write out expanded template contents to
+> > > > WKS_FULL_PATH."""
+> > > > > > > > > > +    import re
+> > > > > > > > > > +
+> > > > > > > > > > +    template_body = d.getVar('_WKS_TEMPLATE')
+> > > > > > > > > > +
+> > > > > > > > > > +    # Remove any remnant variable references left behind
+> > by
+> > > > the
+> > > > > > > > expansion
+> > > > > > > > > > +    # due to undefined variables
+> > > > > > > > > > +    expand_var_regexp = re.compile(r"\${[^{}@\n\t :]+}")
+> > > > > > > > > > +    while True:
+> > > > > > > > > > +        new_body = re.sub(expand_var_regexp, '',
+> > > > template_body)
+> > > > > > > > > > +        if new_body == template_body:
+> > > > > > > > > > +            break
+> > > > > > > > > > +        else:
+> > > > > > > > > > +            template_body = new_body
+> > > > > > > > > > +
+> > > > > > > > > > +    wks_file = d.getVar('WKS_FULL_PATH')
+> > > > > > > > > > +    with open(wks_file, 'w') as f:
+> > > > > > > > > > +        f.write(template_body)
+> > > > > > > > > > +}
+> > > > > > > > > > +
+> > > > > > > > > > +python () {
+> > > > > > > > > > +    if d.getVar('USING_WIC'):
+> > > > > > > > > > +        wks_file_u = d.getVar('WKS_FULL_PATH', False)
+> > > > > > > > > > +        wks_file = d.expand(wks_file_u)
+> > > > > > > > > > +        base, ext = os.path.splitext(wks_file)
+> > > > > > > > > > +        if ext == '.in' and os.path.exists(wks_file):
+> > > > > > > > > > +            wks_out_file = os.path.join(d.getVar('
+> > WORKDIR'),
+> > > > > > > > > > os.path.basename(base))
+> > > > > > > > > > +            d.setVar('WKS_FULL_PATH', wks_out_file)
+> > > > > > > > > > +            d.setVar('WKS_TEMPLATE_PATH', wks_file_u)
+> > > > > > > > > > +            d.setVar('WKS_FILE_CHECKSUM',
+> > > > > > '${WKS_TEMPLATE_PATH}:True')
+> > > > > > > > > > +
+> > > > > > > > > > +            # We need to re-parse each time the file
+> > changes,
+> > > > and
+> > > > > > > > bitbake
+> > > > > > > > > > +            # needs to be told about that explicitly.
+> > > > > > > > > > +            bb.parse.mark_dependency(d, wks_file)
+> > > > > > > > > > +
+> > > > > > > > > > +            try:
+> > > > > > > > > > +                with open(wks_file, 'r') as f:
+> > > > > > > > > > +                    body = f.read()
+> > > > > > > > > > +            except (IOError, OSError) as exc:
+> > > > > > > > > > +                pass
+> > > > > > > > > > +            else:
+> > > > > > > > > > +                # Previously, I used expandWithRefs to
+> > get the
+> > > > > > > > dependency
+> > > > > > > > > > list
+> > > > > > > > > > +                # and add it to WICVARS, but there's no
+> > point
+> > > > > > > > re-parsing
+> > > > > > > > > > the
+> > > > > > > > > > +                # file in process_wks_template as well, so
+> > > > just
+> > > > > > put
+> > > > > > > > it in
+> > > > > > > > > > +                # a variable and let the metadata deal
+> > with
+> > > > the
+> > > > > > deps.
+> > > > > > > > > > +                d.setVar('_WKS_TEMPLATE', body)
+> > > > > > > > > > +                bb.build.addtask('do_write_wks_template',
+> > > > > > > > > > 'do_image_wic', None, d)
+> > > > > > > > > > +}
+> > > > > > > > > > +
+> > > > > > > > > > +#
+> > > > > > > > > > +# Write environment variables used by wic
+> > > > > > > > > > +# to tmp/sysroots/<machine>/imgdata/<image>.env
+> > > > > > > > > > +#
+> > > > > > > > > > +python do_rootfs_wicenv () {
+> > > > > > > > > > +    wicvars = d.getVar('WICVARS')
+> > > > > > > > > > +    if not wicvars:
+> > > > > > > > > > +        return
+> > > > > > > > > > +
+> > > > > > > > > > +    stdir = d.getVar('STAGING_DIR')
+> > > > > > > > > > +    outdir = os.path.join(stdir, d.getVar('MACHINE'),
+> > > > 'imgdata')
+> > > > > > > > > > +    bb.utils.mkdirhier(outdir)
+> > > > > > > > > > +    basename = d.getVar('IMAGE_BASENAME')
+> > > > > > > > > > +    with open(os.path.join(outdir, basename) + '.env',
+> > 'w') as
+> > > > > > envf:
+> > > > > > > > > > +        for var in wicvars.split():
+> > > > > > > > > > +            value = d.getVar(var)
+> > > > > > > > > > +            if value:
+> > > > > > > > > > +                envf.write('%s="%s"\n' % (var,
+> > value.strip()))
+> > > > > > > > > > +}
+> > > > > > > > > > +addtask do_rootfs_wicenv after do_image before
+> > do_image_wic
+> > > > > > > > > > +do_rootfs_wicenv[vardeps] += "${WICVARS}"
+> > > > > > > > > > +do_rootfs_wicenv[prefuncs] = 'set_image_size'
+> > > > > > > > > > diff --git a/meta/classes/image.bbclass
+> > > > > > b/meta/classes/image.bbclass
+> > > > > > > > > > index 13fd996..1a549e9 100644
+> > > > > > > > > > --- a/meta/classes/image.bbclass
+> > > > > > > > > > +++ b/meta/classes/image.bbclass
+> > > > > > > > > > @@ -192,6 +192,8 @@ python () {
+> > > > > > > > > >  IMAGE_CLASSES += "image_types"
+> > > > > > > > > >  inherit ${IMAGE_CLASSES}
+> > > > > > > > > >
+> > > > > > > > > > +inherit image-wic
+> > > > > > > > > > +
+> > > > > > > > > >  IMAGE_POSTPROCESS_COMMAND ?= ""
+> > > > > > > > > >
+> > > > > > > > > >  # some default locales
+> > > > > > > > > > @@ -332,29 +334,6 @@ fakeroot python do_image_qa () {
+> > > > > > > > > >  }
+> > > > > > > > > >  addtask do_image_qa after do_image_complete before
+> > do_build
+> > > > > > > > > >
+> > > > > > > > > > -#
+> > > > > > > > > > -# Write environment variables used by wic
+> > > > > > > > > > -# to tmp/sysroots/<machine>/imgdata/<image>.env
+> > > > > > > > > > -#
+> > > > > > > > > > -python do_rootfs_wicenv () {
+> > > > > > > > > > -    wicvars = d.getVar('WICVARS')
+> > > > > > > > > > -    if not wicvars:
+> > > > > > > > > > -        return
+> > > > > > > > > > -
+> > > > > > > > > > -    stdir = d.getVar('STAGING_DIR')
+> > > > > > > > > > -    outdir = os.path.join(stdir, d.getVar('MACHINE'),
+> > > > 'imgdata')
+> > > > > > > > > > -    bb.utils.mkdirhier(outdir)
+> > > > > > > > > > -    basename = d.getVar('IMAGE_BASENAME')
+> > > > > > > > > > -    with open(os.path.join(outdir, basename) + '.env',
+> > 'w') as
+> > > > > > envf:
+> > > > > > > > > > -        for var in wicvars.split():
+> > > > > > > > > > -            value = d.getVar(var)
+> > > > > > > > > > -            if value:
+> > > > > > > > > > -                envf.write('%s="%s"\n' % (var,
+> > value.strip()))
+> > > > > > > > > > -}
+> > > > > > > > > > -addtask do_rootfs_wicenv after do_image before
+> > do_image_wic
+> > > > > > > > > > -do_rootfs_wicenv[vardeps] += "${WICVARS}"
+> > > > > > > > > > -do_rootfs_wicenv[prefuncs] = 'set_image_size'
+> > > > > > > > > > -
+> > > > > > > > > >  def setup_debugfs_variables(d):
+> > > > > > > > > >      d.appendVar('IMAGE_ROOTFS', '-dbg')
+> > > > > > > > > >      d.appendVar('IMAGE_LINK_NAME', '-dbg')
+> > > > > > > > > > diff --git a/meta/classes/image_types.bbclass
+> > > > > > > > b/meta/classes/image_types.
+> > > > > > > > > > bbclass
+> > > > > > > > > > index ad95dc6..e2ecf93 100644
+> > > > > > > > > > --- a/meta/classes/image_types.bbclass
+> > > > > > > > > > +++ b/meta/classes/image_types.bbclass
+> > > > > > > > > > @@ -192,97 +192,6 @@ IMAGE_CMD_ubi () {
+> > > > > > > > > >
+> > > > > > > > > >  IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o
+> > > > > > > > > > ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.ubifs
+> > > > > > > > ${MKUBIFS_ARGS}"
+> > > > > > > > > >
+> > > > > > > > > > -WKS_FILE ??= "${IMAGE_BASENAME}.${MACHINE}.wks"
+> > > > > > > > > > -WKS_FILES ?= "${WKS_FILE} ${IMAGE_BASENAME}.wks"
+> > > > > > > > > > -WKS_SEARCH_PATH ?= "${THISDIR}:${@':'.join('%s/wic' % p
+> > for
+> > > > p in
+> > > > > > > > > > '${BBPATH}'.split(':'))}:${@':'.join('%s/scripts/lib/wic/
+> > > > > > canned-wks'
+> > > > > > > > % l
+> > > > > > > > > > for l in '${BBPATH}:${COREBASE}'.split(':'))}"
+> > > > > > > > > > -WKS_FULL_PATH = "${@wks_search('${WKS_FILES}'.split(),
+> > > > > > > > > > '${WKS_SEARCH_PATH}') or ''}"
+> > > > > > > > > > -
+> > > > > > > > > > -def wks_search(files, search_path):
+> > > > > > > > > > -    for f in files:
+> > > > > > > > > > -        if os.path.isabs(f):
+> > > > > > > > > > -            if os.path.exists(f):
+> > > > > > > > > > -                return f
+> > > > > > > > > > -        else:
+> > > > > > > > > > -            searched = bb.utils.which(search_path, f)
+> > > > > > > > > > -            if searched:
+> > > > > > > > > > -                return searched
+> > > > > > > > > > -
+> > > > > > > > > > -WIC_CREATE_EXTRA_ARGS ?= ""
+> > > > > > > > > > -
+> > > > > > > > > > -IMAGE_CMD_wic () {
+> > > > > > > > > > -       out="${IMGDEPLOYDIR}/${IMAGE_NAME}"
+> > > > > > > > > > -       wks="${WKS_FULL_PATH}"
+> > > > > > > > > > -       if [ -z "$wks" ]; then
+> > > > > > > > > > -               bbfatal "No kickstart files from WKS_FILES
+> > were
+> > > > > > found:
+> > > > > > > > > > ${WKS_FILES}. Please set WKS_FILE or WKS_FILES
+> > appropriately."
+> > > > > > > > > > -       fi
+> > > > > > > > > > -
+> > > > > > > > > > -       BUILDDIR="${TOPDIR}" wic create "$wks" --vars
+> > > > > > > > > > "${STAGING_DIR}/${MACHINE}/imgdata/" -e
+> > "${IMAGE_BASENAME}" -o
+> > > > > > "$out/"
+> > > > > > > > > > ${WIC_CREATE_EXTRA_ARGS}
+> > > > > > > > > > -       mv "$out/$(basename "${wks%.wks}")"*.direct
+> > > > > > > > > > "$out${IMAGE_NAME_SUFFIX}.wic"
+> > > > > > > > > > -       rm -rf "$out/"
+> > > > > > > > > > -}
+> > > > > > > > > > -IMAGE_CMD_wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES"
+> > > > > > > > > > -
+> > > > > > > > > > -# Rebuild when the wks file or vars in WICVARS change
+> > > > > > > > > > -USING_WIC = "${@bb.utils.contains_any('IMAGE_FSTYPES',
+> > 'wic
+> > > > ' + '
+> > > > > > > > > > '.join('wic.%s' % c for c in '${CONVERSIONTYPES}'.split()),
+> > > > '1',
+> > > > > > '',
+> > > > > > > > d)}"
+> > > > > > > > > > -WKS_FILE_CHECKSUM = "${@'${WKS_FULL_PATH}:%s' %
+> > > > > > > > > > os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else
+> > ''}"
+> > > > > > > > > > -do_image_wic[file-checksums] += "${WKS_FILE_CHECKSUM}"
+> > > > > > > > > > -do_image_wic[depends] += "wic-tools:do_build"
+> > > > > > > > > > -
+> > > > > > > > > > -python () {
+> > > > > > > > > > -    if d.getVar('USING_WIC') and 'do_bootimg' in d:
+> > > > > > > > > > -        bb.build.addtask('do_image_wic', '',
+> > 'do_bootimg', d)
+> > > > > > > > > > -}
+> > > > > > > > > > -
+> > > > > > > > > > -python do_write_wks_template () {
+> > > > > > > > > > -    """Write out expanded template contents to
+> > > > WKS_FULL_PATH."""
+> > > > > > > > > > -    import re
+> > > > > > > > > > -
+> > > > > > > > > > -    template_body = d.getVar('_WKS_TEMPLATE')
+> > > > > > > > > > -
+> > > > > > > > > > -    # Remove any remnant variable references left behind
+> > by
+> > > > the
+> > > > > > > > expansion
+> > > > > > > > > > -    # due to undefined variables
+> > > > > > > > > > -    expand_var_regexp = re.compile(r"\${[^{}@\n\t :]+}")
+> > > > > > > > > > -    while True:
+> > > > > > > > > > -        new_body = re.sub(expand_var_regexp, '',
+> > > > template_body)
+> > > > > > > > > > -        if new_body == template_body:
+> > > > > > > > > > -            break
+> > > > > > > > > > -        else:
+> > > > > > > > > > -            template_body = new_body
+> > > > > > > > > > -
+> > > > > > > > > > -    wks_file = d.getVar('WKS_FULL_PATH')
+> > > > > > > > > > -    with open(wks_file, 'w') as f:
+> > > > > > > > > > -        f.write(template_body)
+> > > > > > > > > > -}
+> > > > > > > > > > -
+> > > > > > > > > > -python () {
+> > > > > > > > > > -    if d.getVar('USING_WIC'):
+> > > > > > > > > > -        wks_file_u = d.getVar('WKS_FULL_PATH', False)
+> > > > > > > > > > -        wks_file = d.expand(wks_file_u)
+> > > > > > > > > > -        base, ext = os.path.splitext(wks_file)
+> > > > > > > > > > -        if ext == '.in' and os.path.exists(wks_file):
+> > > > > > > > > > -            wks_out_file = os.path.join(d.getVar('
+> > WORKDIR'),
+> > > > > > > > > > os.path.basename(base))
+> > > > > > > > > > -            d.setVar('WKS_FULL_PATH', wks_out_file)
+> > > > > > > > > > -            d.setVar('WKS_TEMPLATE_PATH', wks_file_u)
+> > > > > > > > > > -            d.setVar('WKS_FILE_CHECKSUM',
+> > > > > > '${WKS_TEMPLATE_PATH}:True')
+> > > > > > > > > > -
+> > > > > > > > > > -            # We need to re-parse each time the file
+> > changes,
+> > > > and
+> > > > > > > > bitbake
+> > > > > > > > > > -            # needs to be told about that explicitly.
+> > > > > > > > > > -            bb.parse.mark_dependency(d, wks_file)
+> > > > > > > > > > -
+> > > > > > > > > > -            try:
+> > > > > > > > > > -                with open(wks_file, 'r') as f:
+> > > > > > > > > > -                    body = f.read()
+> > > > > > > > > > -            except (IOError, OSError) as exc:
+> > > > > > > > > > -                pass
+> > > > > > > > > > -            else:
+> > > > > > > > > > -                # Previously, I used expandWithRefs to
+> > get the
+> > > > > > > > dependency
+> > > > > > > > > > list
+> > > > > > > > > > -                # and add it to WICVARS, but there's no
+> > point
+> > > > > > > > re-parsing
+> > > > > > > > > > the
+> > > > > > > > > > -                # file in process_wks_template as well, so
+> > > > just
+> > > > > > put
+> > > > > > > > it in
+> > > > > > > > > > -                # a variable and let the metadata deal
+> > with
+> > > > the
+> > > > > > deps.
+> > > > > > > > > > -                d.setVar('_WKS_TEMPLATE', body)
+> > > > > > > > > > -                bb.build.addtask('do_write_wks_template',
+> > > > > > > > > > 'do_image_wic', None, d)
+> > > > > > > > > > -}
+> > > > > > > > > > -
+> > > > > > > > > >  EXTRA_IMAGECMD = ""
+> > > > > > > > > >
+> > > > > > > > > >  inherit siteinfo
+> > > > > > > > > > @@ -380,7 +289,3 @@ IMAGE_EXTENSION_live = "hddimg iso"
+> > > > > > > > > >  # The IMAGE_TYPES_MASKED variable will be used to mask out
+> > > > from
+> > > > > > the
+> > > > > > > > > > IMAGE_FSTYPES,
+> > > > > > > > > >  # images that will not be built at do_rootfs time: vmdk,
+> > vdi,
+> > > > > > qcow2,
+> > > > > > > > > > hdddirect, hddimg, iso, etc.
+> > > > > > > > > >  IMAGE_TYPES_MASKED ?= ""
+> > > > > > > > > > -
+> > > > > > > > > > -# The WICVARS variable is used to define list of bitbake
+> > > > variables
+> > > > > > > > used
+> > > > > > > > > > in wic code
+> > > > > > > > > > -# variables from this list is written to <image>.env file
+> > > > > > > > > > -WICVARS ?= "BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE
+> > FAKEROOTCMD
+> > > > > > HDDDIR
+> > > > > > > > > > IMAGE_BASENAME IMAGE_BOOT_FILES IMAGE_LINK_NAME
+> > IMAGE_ROOTFS
+> > > > > > > > > > INITRAMFS_FSTYPES INITRD ISODIR MACHINE_ARCH
+> > > > RECIPE_SYSROOT_NATIVE
+> > > > > > > > > > ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR
+> > > > TARGET_SYS"
+> > > > > > > > > > --
+> > > > > > > > > > 2.1.4
+> > > > > > > > > >
+> > > > > > > > > > --
+> > > > > > > > > > _______________________________________________
+> > > > > > > > > > Openembedded-core mailing list
+> > > > > > > > > > Openembedded-core@lists.openembedded.org
+> > > > > > > > > > http://lists.openembedded.org/
+> > mailman/listinfo/openembedded-
+> > > > core
+> > > > > > > > > >
+> > > > > > > >
+> > > > > > > > --
+> > > > > > > > --
+> > > > > > > > Regards,
+> > > > > > > > Ed
+> > > > > > > >
+> > > > > >
+> > > > > > --
+> > > > > > --
+> > > > > > Regards,
+> > > > > > Ed
+> > > > > >
+> > > >
+> > > > --
+> > > > --
+> > > > Regards,
+> > > > Ed
+> > > >
+> >
+> > --
+> > --
+> > Regards,
+> > Ed
+> >
 
-The check for useSIGIO is no longer needed.
-
-Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
----
- .../0003-Remove-check-for-useSIGIO-option.patch    | 47 ++++++++++++++++++++++
- .../xorg-xserver/xserver-xorg_1.19.1.bb            |  1 +
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0003-Remove-check-for-useSIGIO-option.patch
-
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0003-Remove-check-for-useSIGIO-option.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0003-Remove-check-for-useSIGIO-option.patch
-new file mode 100644
-index 0000000..beed6cb
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0003-Remove-check-for-useSIGIO-option.patch
-@@ -0,0 +1,47 @@
-+From cf407b16cd65ad6e26a9c8e5984e163409a5c0f7 Mon Sep 17 00:00:00 2001
-+From: Prabhu Sundararaj <prabhu.sundararaj@nxp.com>
-+Date: Mon, 30 Jan 2017 16:32:06 -0600
-+Subject: [PATCH] Remove check for useSIGIO option
-+
-+Commit 6a5a4e60373c1386b311b2a8bb666c32d68a9d99 removes the configure of useSIGIO
-+option.
-+
-+As the xfree86 SIGIO support is reworked to use internal versions of OsBlockSIGIO
-+and OsReleaseSIGIO.
-+
-+No longer the check for useSIGIO is needed
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Prabhu Sundararaj <prabhu.sundararaj@nxp.com>
-+---
-+ hw/xfree86/os-support/shared/sigio.c | 6 ------
-+ 1 file changed, 6 deletions(-)
-+
-+diff --git a/hw/xfree86/os-support/shared/sigio.c b/hw/xfree86/os-support/shared/sigio.c
-+index 884a71c..be76498 100644
-+--- a/hw/xfree86/os-support/shared/sigio.c
-++++ b/hw/xfree86/os-support/shared/sigio.c
-+@@ -185,9 +185,6 @@ xf86InstallSIGIOHandler(int fd, void (*f) (int, void *), void *closure)
-+     int i;
-+     int installed = FALSE;
-+ 
-+-    if (!xf86Info.useSIGIO)
-+-        return 0;
-+-
-+     for (i = 0; i < MAX_FUNCS; i++) {
-+         if (!xf86SigIOFuncs[i].f) {
-+             if (xf86IsPipe(fd))
-+@@ -256,9 +253,6 @@ xf86RemoveSIGIOHandler(int fd)
-+     int max;
-+     int ret;
-+ 
-+-    if (!xf86Info.useSIGIO)
-+-        return 0;
-+-
-+     max = 0;
-+     ret = 0;
-+     for (i = 0; i < MAX_FUNCS; i++) {
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.1.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.1.bb
-index 987a2be..5a657e0 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.1.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.1.bb
-@@ -3,6 +3,7 @@ require xserver-xorg.inc
- SRC_URI += "file://musl-arm-inb-outb.patch \
-             file://0001-configure.ac-Fix-check-for-CLOCK_MONOTONIC.patch \
-             file://0002-configure.ac-Fix-wayland-scanner-and-protocols-locat.patch \
-+            file://0003-Remove-check-for-useSIGIO-option.patch \
-             "
- SRC_URI[md5sum] = "caa8ee7b2950abbf734347d137529fb6"
- SRC_URI[sha256sum] = "79ae2cf39d3f6c4a91201d8dad549d1d774b3420073c5a70d390040aa965a7fb"
 -- 
-1.9.1
-
+--
+Regards,
+Ed
 
