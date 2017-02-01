@@ -1,48 +1,46 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
-	[209.85.217.193])
-	by mail.openembedded.org (Postfix) with ESMTP id B7D1B71DD2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 8140B71DC7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Feb 2017 11:47:27 +0000 (UTC)
-Received: by mail-ua0-f193.google.com with SMTP id i68so35467757uad.1
+	Wed,  1 Feb 2017 11:58:16 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id v77so34606694wmv.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Feb 2017 03:47:28 -0800 (PST)
+	Wed, 01 Feb 2017 03:58:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=2Bq5mwweti4kbjhIvhNYX5Y03oItKqHKueciaSm7xIg=;
-	b=kqq40aQis3+5xB0pc8rXzKXobnk0a8nFm4Aadp0IYGQwZn5B9vmsn+t5/U33FSUTMr
-	4ZBvLYtVSw0AvgRzbTuPxZ4L64R15PkFZU69FH6gNE7+zszE30UmA0SltxGYroluDPIC
-	OWxIrinBNluYa5EHszH9diekV6jlrQdsVBgJfYPRK6qNghfaK0+4zzlRVeoiCkgxVGyk
-	g0FQrT8Ra/QpaIZCNbn6xat4q4HswmRzFJgp8XdHHwb+MioYUdiVzK6MBnBdnQlUSnGh
-	VqMNHf9Jpx5ou7nm3BL34I3wGx+pzEb/ftskVnA8iThoqemQCSPWb+JmfX3I/mpiFTZ+
-	gvpQ==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=g0pQg6qOnVo09H97znQk+Rk8857Wl5LOHsWn+CjX3X4=;
+	b=qIbtVj53Px55A7KzolUe0RkQ8/K7fPjXCbN/SAJUwGAtEYcJTmL1WOU2Cxthraedve
+	96Wk7Vmw9EBtNBJhZKBvOcDpo32gUsMXmYk0dMxibDrTfwklB09rv3gi2mFV1uF3DSuP
+	KaOIp9X/aMU0V0fgmTP+kGEDPcJtt3UYGQTgtrRdA24a3F+/qaHKjQgzYx6jgiVErzrB
+	ukgTDbUiiIKaK0qlpLISWDsxFH4YuflN3DmtO/3GyvCV2W0ne9GDHoT8wiVpNEJ2RFmG
+	Kho8pLcCxEjsZIE0gYRkx9xmXmzrzPh1GMLIzv61ARODVQJHOJ06IS4xOym/b8wcMZ+w
+	G8Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=2Bq5mwweti4kbjhIvhNYX5Y03oItKqHKueciaSm7xIg=;
-	b=nBq9lLhX3USESl9zzcn8kPwrcKVDtDUK+R3AwYbIRbdspvAh8VciJngUGOLEhKrHWU
-	Kq0bbUssvZBlESNpVNrgyZxXnQhIR78jJ6TmxH1DVzyBYoELiqg3InTCHNIp2vDxoIwF
-	1cfdQOvXot7aHh3ALkqGjeUlx5OtYwcWTlLQQYjP2lYfi1hNyskapHjZPAUa4Q33FIpx
-	dU3R9QdcQzXm23dazc/mqPfPIjMzZvFaVG8rf+7PFoiPawWzd7Dj2r1BdT4FWiPQwQqS
-	VH1HdAV8+p8RcAOJmuyGZPWYSvTH8xQHbynVI29F7VUPFk6rcVY+URxW/POFWd3FlRNf
-	kzNg==
-X-Gm-Message-State: AIkVDXKZpq0dvfpeEB8o0ES2/NTqk9lX7lqFYDZesSJvyUguaSU74K90/vGbfAMSeDJB0AufuUJRpRpVdPTjmw==
-X-Received: by 10.176.82.156 with SMTP id v28mr1046863uav.123.1485949647387;
-	Wed, 01 Feb 2017 03:47:27 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.176.91.68 with HTTP; Wed, 1 Feb 2017 03:47:27 -0800 (PST)
-In-Reply-To: <CAHiDW_ESMwJK3xaE3sBUYXuhioBa51=QQ+aXudmFM0bSZ_ewuQ@mail.gmail.com>
-References: <1485912129-4012-1-git-send-email-tom.hochstein@nxp.com>
-	<CAHiDW_ESMwJK3xaE3sBUYXuhioBa51=QQ+aXudmFM0bSZ_ewuQ@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Date: Wed, 1 Feb 2017 12:47:27 +0100
-Message-ID: <CALbNGRQwaEuhq_VnzbidYMWXO0BK2wTPNunOGbXSfqm=3nhQqw@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] xserver-xorg: Fix X server 1.19 crash
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=g0pQg6qOnVo09H97znQk+Rk8857Wl5LOHsWn+CjX3X4=;
+	b=tktLeIfEafY1K9o2eTfhTVPR/qRJe5f8990ad+3hM5sKMKhrQruNfn8rqotV82G5p/
+	9IPghlZS4zBgmvKGaZwJ0mO/1NWnCaMLHytDpof6qnPTNoJxJj8bQjv9fFzqbTyuSdUG
+	O5X2IZ+OvdKawWov5pLQdjU46l9fxYXom+ES6iwwDDK6Nc+TYUNsH92rGVRMAJomiYEC
+	HOPkjt7UTsoCc9SCLCjuBq5exfiBzE5QPGktj5B1kihmwneS/Z6VCOY0dp/rIMPxletq
+	y5G2/5EObWqrUsvqDolHOAFdHQdCfG7sMW7HDagkPY5t01POm9Buh6DvNOa+efrXKzR6
+	vTjg==
+X-Gm-Message-State: AIkVDXLr6Oyphl+QK/o9MA1WETOo+1KrBqjJ7dtyg8blIpn4XtcNJB3FzTak4oyLj/qEikSw
+X-Received: by 10.28.198.139 with SMTP id w133mr21804603wmf.80.1485950296170; 
+	Wed, 01 Feb 2017 03:58:16 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	o81sm29099002wmb.14.2017.02.01.03.58.15
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 01 Feb 2017 03:58:15 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  1 Feb 2017 11:58:13 +0000
+Message-Id: <1485950293-1372-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] cups: add missing pkgconfig inherit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,36 +53,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2017 11:47:28 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 01 Feb 2017 11:58:18 -0000
 
-On Wed, Feb 1, 2017 at 12:38 PM, Jussi Kukkonen
-<jussi.kukkonen@intel.com> wrote:
-> On 1 February 2017 at 03:22, Tom Hochstein <tom.hochstein@nxp.com> wrote:
->>
->> Commit 6a5a4e60373c1386b311b2a8bb666c32d68a9d99 removes the configure of
->> useSIGIO option:
->>
->> xfree86 SIGIO support is reworked to use internal versions of
->> OsBlockSIGIO and OsReleaseSIGIO
->>
->> The check for useSIGIO is no longer needed.
->
->
-> Can you explain what the crash is or how to reproduce, I can't figure it out
-> from the patch. Link to possible upstream ML discussion is fine as well.
->
-> Thanks,
->   Jussi
->
-While we are at it: This patch conflicts whit the patch fixing
-xserver@beaglebone-black [1-2].
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-extended/cups/cups.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-What do people think of the patch - would it make sense to rebase this
-one against it?
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index 2ce9c7a..e69f178 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -16,7 +16,7 @@ LEAD_SONAME = "libcupsdriver.so"
+ 
+ CLEANBROKEN = "1"
+ 
+-inherit autotools-brokensep binconfig useradd systemd
++inherit autotools-brokensep binconfig useradd systemd pkgconfig
+ 
+ USERADD_PACKAGES = "${PN}"
+ GROUPADD_PARAM_${PN} = "--system lpadmin"
+-- 
+2.8.1
 
-[1] http://lists.openembedded.org/pipermail/openembedded-core/2017-January/131843.html
-[2] https://patchwork.openembedded.org/patch/136497/
-
-Andreas
 
