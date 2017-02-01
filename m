@@ -1,29 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 854846FF56
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-yw0-f182.google.com (mail-yw0-f182.google.com
+	[209.85.161.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 40EF5719DD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Feb 2017 11:23:23 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v11BNHdo009165; Wed, 1 Feb 2017 11:23:17 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Gy8LZKYOjtP3; Wed,  1 Feb 2017 11:23:17 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v11BNEAX009162
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 1 Feb 2017 11:23:16 GMT
-Message-ID: <1485948194.14144.23.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 01 Feb 2017 11:23:14 +0000
-In-Reply-To: <1485943415-8260-1-git-send-email-jussi.kukkonen@intel.com>
-References: <1485943415-8260-1-git-send-email-jussi.kukkonen@intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] sstate: Fix make_relative_symlink() for RSS
+	Wed,  1 Feb 2017 11:38:54 +0000 (UTC)
+Received: by mail-yw0-f182.google.com with SMTP id u68so59125365ywg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 01 Feb 2017 03:38:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=+j8gsGwgsgtOuFF1J/Mw8fFxOCndyCDZRFDJ9gTrz/E=;
+	b=gOac9jixiNCluJs8fYCPvrTBSNKDmuD1ZA1F2aRQ6B+S0EILcZdvzb1pixwxspNZ3Q
+	QRrBPnmsKh52x1NwWKIcuJ4X+aBM54AZ46YwvFFfClAcyBvl8bNTvWreLVsyv+FqtYYR
+	Jjfj6t2jv1PNyDVCt8pNTUXRUqo+tClwpG+t+aSJZC0Bk4Ae2clR9o0mmxxWDj9MIE9A
+	272YZEyt2anRDLy5hp2Eh3Qi0zxSVSq4fdJMYiqW5gxqE5+OoJiDTi/2pMI7tZ7YeE42
+	ag5ttW48AIKVBZPIgL3vY1+b4pb/QJ6wh/De88VEgfKtaulPVzHK739zRQUcWIy3jSO3
+	iM0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=+j8gsGwgsgtOuFF1J/Mw8fFxOCndyCDZRFDJ9gTrz/E=;
+	b=FJys0blvaNInzWqlvsUg/L71pjIXzyYp3XvQ+ABLEq2KbJ9FRfekjPEG1FzHDcKlGK
+	xM7uDIlVifh93J+3SlZL4ErShZ/IlA0pZQJ5Mesc5MToWb7QbUN7usdI0NAh5aNmBFFw
+	IrSQ0vWVAMdQ63zwZBy7eecnxAE9pM/47erKXcusxbPoftaYhR8KKZRWMQLWV8TWYBXy
+	WFf1CO3bwDeatKTU1BW2g5NJwHQY/hYimUD0otJ9gLz172tajx67Q9k9ae/1/M/8/dOt
+	g6/Zc8Z/beMKeyft2ijcmJYTneaMZ9SO3cZwUaNo0ouD1dKHywt0w+PJ6retAphxxGel
+	nlRg==
+X-Gm-Message-State: AIkVDXLun89Agmu9dkjGO4VorwFCX2pgNkVVCO/qb3WSHFNM9t1LN0eNtrKL2qQoUqmRLWDAn/LJpdGx4hgKb5U5
+X-Received: by 10.129.152.77 with SMTP id p74mr1180017ywg.177.1485949134919;
+	Wed, 01 Feb 2017 03:38:54 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.13.234.11 with HTTP; Wed, 1 Feb 2017 03:38:24 -0800 (PST)
+In-Reply-To: <1485912129-4012-1-git-send-email-tom.hochstein@nxp.com>
+References: <1485912129-4012-1-git-send-email-tom.hochstein@nxp.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Wed, 1 Feb 2017 13:38:24 +0200
+Message-ID: <CAHiDW_ESMwJK3xaE3sBUYXuhioBa51=QQ+aXudmFM0bSZ_ewuQ@mail.gmail.com>
+To: Tom Hochstein <tom.hochstein@nxp.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] xserver-xorg: Fix X server 1.19 crash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,123 +54,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2017 11:23:26 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 01 Feb 2017 11:38:56 -0000
+Content-Type: multipart/alternative; boundary=94eb2c0bbf56578d900547767e87
 
-On Wed, 2017-02-01 at 12:03 +0200, Jussi Kukkonen wrote:
-> Recipe-specific sysroots broke make_relative_symlink(), which
-> turns absolute symlinks in sysroots into relative ones. Use the
-> difference between the (in-sysroot) paths to construct the relative
-> symlink.
-> 
-> This fixes links in openssl-native, fontconfig-native and bzip2-
-> native.
-> 
-> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> ---
-> 
-> sstate is not an area I'm familiar with, please take a good look.
-> 
-> As far as I could see outputpath (based on state[2]) was never really
-> needed so I did not use it in the new version.
+--94eb2c0bbf56578d900547767e87
+Content-Type: text/plain; charset=UTF-8
 
-I don't think we can hardcode workdir into here as for tasks like
-do_deploy, this makes no sense. I think we removed most of the absolute
-links from the deploy tasks so we currently don't need this, at least
-in the common case but the sstate code is meant to be generic.
+On 1 February 2017 at 03:22, Tom Hochstein <tom.hochstein@nxp.com> wrote:
 
-I am wondering if we need to pass in anything at all, can't we just
-call relpath on the original path and turn it into a relative one
-directly without referencing it back to TMPDIR/WORKDIR?
+> Commit 6a5a4e60373c1386b311b2a8bb666c32d68a9d99 removes the configure of
+> useSIGIO option:
+>
+> xfree86 SIGIO support is reworked to use internal versions of
+> OsBlockSIGIO and OsReleaseSIGIO
+>
+> The check for useSIGIO is no longer needed.
+>
 
-Cheers,
+Can you explain what the crash is or how to reproduce, I can't figure it
+out from the patch. Link to possible upstream ML discussion is fine as well.
 
-Richard
-> 
-> Thanks,
->  Jussi
-> 
-> 
->  meta/classes/sstate.bbclass | 35 ++++++++++++-----------------------
->  1 file changed, 12 insertions(+), 23 deletions(-)
-> 
-> diff --git a/meta/classes/sstate.bbclass
-> b/meta/classes/sstate.bbclass
-> index aeb7466..7f99cd3 100644
-> --- a/meta/classes/sstate.bbclass
-> +++ b/meta/classes/sstate.bbclass
-> @@ -583,32 +583,27 @@ python sstate_hardcode_path () {
->  def sstate_package(ss, d):
->      import oe.path
->  
-> -    def make_relative_symlink(path, outputpath, d):
-> -        # Replace out absolute TMPDIR paths in symlinks with
-> relative ones
-> +    def make_relative_symlink(path, workdir, d):
-> +        # Replace absolute sysroot paths in symlinks with relative
-> ones
->          if not os.path.islink(path):
->              return
->          link = os.readlink(path)
->          if not os.path.isabs(link):
->              return
-> -        if not link.startswith(tmpdir):
-> +        if not link.startswith(workdir):
->              return
->  
-> -        #base = os.path.relpath(link, os.path.dirname(path))
-> +        directory = os.path.dirname(path.rpartition(workdir)[2])
-> +        base_link = link.rpartition(workdir)[2]
-> +        rel_path = os.path.relpath(base_link,directory)
->  
-> -        depth = outputpath.rpartition(tmpdir)[2].count('/')
-> -        base = link.partition(tmpdir)[2].strip()
-> -        while depth > 1:
-> -            base = "/.." + base
-> -            depth -= 1
-> -        base = "." + base
-> -
-> -        bb.debug(2, "Replacing absolute path %s with relative path
-> %s for %s" % (link, base, outputpath))
-> +        bb.debug(2, "Replacing absolute path %s with relative path
-> %s for %s" % (link, rel_path, path))
->          os.remove(path)
-> -        os.symlink(base, path)
-> +        os.symlink(rel_path, path)
->  
-> -    tmpdir = d.getVar('TMPDIR')
-> +    workdir = d.getVar('WORKDIR')
->  
-> -    sstatebuild = d.expand("${WORKDIR}/sstate-build-%s/" %
-> ss['task'])
-> +    sstatebuild = workdir + "/sstate-build-" +ss['task'] + "/"
->      sstatepkg = d.getVar('SSTATE_PKG') + '_'+ ss['task'] + ".tgz"
->      bb.utils.remove(sstatebuild, recurse=True)
->      bb.utils.mkdirhier(sstatebuild)
-> @@ -620,18 +615,12 @@ def sstate_package(ss, d):
->              continue
->          srcbase = state[0].rstrip("/").rsplit('/', 1)[0]
->          for walkroot, dirs, files in os.walk(state[1]):
-> -            for file in files:
-> +            for file in files + dirs:
->                  srcpath = os.path.join(walkroot, file)
-> -                dstpath = srcpath.replace(state[1], state[2])
-> -                make_relative_symlink(srcpath, dstpath, d)
-> -            for dir in dirs:
-> -                srcpath = os.path.join(walkroot, dir)
-> -                dstpath = srcpath.replace(state[1], state[2])
-> -                make_relative_symlink(srcpath, dstpath, d)
-> +                make_relative_symlink(srcpath, workdir, d)
->          bb.debug(2, "Preparing tree %s for packaging at %s" %
-> (state[1], sstatebuild + state[0]))
->          os.rename(state[1], sstatebuild + state[0])
->  
-> -    workdir = d.getVar('WORKDIR')
->      for plain in ss['plaindirs']:
->          pdir = plain.replace(workdir, sstatebuild)
->          bb.utils.mkdirhier(plain)
-> -- 
-> 2.1.4
-> 
+Thanks,
+  Jussi
 
+--94eb2c0bbf56578d900547767e87
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
+ February 2017 at 03:22, Tom Hochstein <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:tom.hochstein@nxp.com" target=3D"_blank">tom.hochstein@nxp.com</a>&gt;<=
+/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">Commit 6a5=
+a4e60373c1386b311b2a8bb666c<wbr>32d68a9d99 removes the configure of<br>
+useSIGIO option:<br>
+<br>
+xfree86 SIGIO support is reworked to use internal versions of<br>
+OsBlockSIGIO and OsReleaseSIGIO<br>
+<br>
+The check for useSIGIO is no longer needed.<br></span></blockquote><div><br=
+></div><div>Can you explain what the crash is or how to reproduce, I can&#3=
+9;t figure it out from the patch. Link to possible upstream ML discussion i=
+s fine as well.</div><div><br></div><div>Thanks,</div><div>=C2=A0 Jussi</di=
+v></div></div></div>
+
+--94eb2c0bbf56578d900547767e87--
