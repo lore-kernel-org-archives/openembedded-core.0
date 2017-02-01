@@ -1,52 +1,45 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 79F3E6011F
+Return-Path: <raltherr@google.com>
+Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
+	[209.85.214.53])
+	by mail.openembedded.org (Postfix) with ESMTP id BB5DD600E3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Feb 2017 17:03:54 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id f144so32216715pfa.2
+	Wed,  1 Feb 2017 17:05:05 +0000 (UTC)
+Received: by mail-it0-f53.google.com with SMTP id c7so21116086itd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Feb 2017 09:03:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=HFGMTpaGe7o3SSbH6GC3fW4zh0hQH8jOu7SiQUneUnA=;
-	b=hxxlS+aj3E80NKIPrTbxSqqmuy9606etBKLWrndADWfkadmSAngyp6icZ/IdK7E0Z4
-	2g6wTfstD5yrwGT17NvXjp2rwa9at+Fft8r6OpTR2vfr5ZhNQrsXUnk1+uz3ONBn78Kt
-	Kt6QWTeExz3PVBzq7HpzyyIC9V1hP1PwsCbt3h4W3NQm1KlN5tsgEXMIlDQ935I3aY+Z
-	lpzyd4V8VrEB+kHXjcmEK9GLV1pyTHFr+KkkDWVgv1F3lZwzPyL6DxCLZ4v/umSQ0/Mt
-	yTZXLYPkWUIHrQxFmWBTJSpjGZxi1+jcJzXO+XsE29NqoKr2ES23uXz5PdTktLUPdWPb
-	EBoQ==
+	Wed, 01 Feb 2017 09:05:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=9T/bzcLdvHwVyEfXggeTgSNwkIUkGNOgAHRDEnebJjU=;
+	b=fIU3OLiQt1RDLT15I+j0L6j5Vz0djsnJEgIsnFd7mUhkw0fCsExv3Nzo2xyIcdueZM
+	NOLGPc7IITxPAMG4F5sqfsRqQJ95Csi4UiLV6P2NrICISJxkWhj94XEZ8YBVkW3064iP
+	tsbULWOIQxAByV8DbO9RURU0syZ/8RaG4XMbWkxlZb1YlDl2Tp+2czbHzPqM2ek3Dde9
+	xV6y6t6cCWh3i/NtR35TKhN6rR1U4lQufgRlV1C9WIhIbzKFS3RuaRYRuKf1gChHKBNO
+	a0DtVheDAZuL/8lMefE3Jmaf92nPU34//j6cPmUPRtlvtZTg50tqfjol4R0UcIVbdZyF
+	e5DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=HFGMTpaGe7o3SSbH6GC3fW4zh0hQH8jOu7SiQUneUnA=;
-	b=kUreqWgkPPc87qFhTnWXdm3H4ow4mbTfBjUWlYEQJynbVdZurrCgd+fmJMQlr2Yp7O
-	gxInjW7MhqImYm5kqysMvwKX27SJP6qabGbjU7Pk5mUJ7nQkKWT9LCiH9UKlO92wgXuQ
-	F/EF9liUkqHL9Hj6N1YL+3tF4QRFWaMGKe77iPGQacoukjggS1eWuME8m6VHRa+f7RJC
-	nl26LNRiEAmReZURwoPB98Riv8YnxTSzI7vefqOcWl8xMw58JNx1wNLFKQtmWAHAKMEJ
-	GJw/BGbeTP/AZiCqJYp4QyF2udvKs4Ia7jnmnQ7uXNIYRIeO/3Wl+RThfp7O8GfZy+7k
-	c2kA==
-X-Gm-Message-State: AIkVDXKNP5iJ8Rizux5ylpszhX+97fTiRek7foNnNSXZmcawYIbjk1XzdTT813FCMCR++w==
-X-Received: by 10.98.12.196 with SMTP id 65mr4812411pfm.40.1485968634636;
-	Wed, 01 Feb 2017 09:03:54 -0800 (PST)
-Received: from CACSVMO-14452.local ([2601:646:8882:b8c:8ce9:48a5:c3c4:adfc])
-	by smtp.gmail.com with ESMTPSA id
-	199sm51058499pfu.91.2017.02.01.09.03.54
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 01 Feb 2017 09:03:54 -0800 (PST)
-To: openembedded-core@lists.openembedded.org
-References: <1485865762.20333.161.camel@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <d4623190-c52c-36f5-a1d5-a5c4e3214b62@gmail.com>
-Date: Wed, 1 Feb 2017 09:03:53 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.7.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=9T/bzcLdvHwVyEfXggeTgSNwkIUkGNOgAHRDEnebJjU=;
+	b=LaPn6rVfX2QHHzVh6/T+YWk1L0ZgJc4GZfQlfbRtdlwZPl4PNcG1EweQHGNZVXcKF8
+	WgVioJ+kboC9GAct4LkuFnTcSB4Wwpe1csV1SO4MUw7pUW0BNCDisDPd7/BDaPhj/uE8
+	rIWllegNNlZOtagTsSxmhDulQAVyrZaYJr5P5SDWxQxtXPxdf4kWKW9emn2u3Ov+EUtw
+	ynsYejxEVacURZiWBJe5hevq5283AOvmKiUXCI8bEeCx5GJB0Wq54SgNrR1r2Y81/t0j
+	LEmKV+em5uZ9yz8aXC5ymk0DxJGMbfi8D3R8eM7EWbE68HrapCt2cBhWfrgB/vi3gxGK
+	r0Fg==
+X-Gm-Message-State: AIkVDXKP8RVEUWvWak+I1t2hHhtevJYLkcru4K0cjD5UP9N3BiURqaNuSd3ccPufteGi15/ZbpNoO7B4jWDDHr2e
+X-Received: by 10.36.53.210 with SMTP id k201mr2900312ita.21.1485968705544;
+	Wed, 01 Feb 2017 09:05:05 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1485865762.20333.161.camel@intel.com>
-Subject: Re: potential bashism in guile_2.0.13.bb
+Received: by 10.64.133.226 with HTTP; Wed, 1 Feb 2017 09:05:05 -0800 (PST)
+In-Reply-To: <1485962869-11868-1-git-send-email-ed.bartosh@linux.intel.com>
+References: <1485962869-11868-1-git-send-email-ed.bartosh@linux.intel.com>
+From: Rick Altherr <raltherr@google.com>
+Date: Wed, 1 Feb 2017 09:05:05 -0800
+Message-ID: <CAPLgG=nZaHjaS-6mJ9OwQeoUZmsixc0TMkzQSOibdaMrZN3w5Q@mail.gmail.com>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] image: rename image-wic -> image_types_wic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,54 +52,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2017 17:03:55 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 01 Feb 2017 17:05:06 -0000
+Content-Type: multipart/alternative; boundary=001a114a8ac4d7cdc705477b0cc6
 
+--001a114a8ac4d7cdc705477b0cc6
+Content-Type: text/plain; charset=UTF-8
 
+Reviewed-by: Rick Altherr <raltherr@google.com>
 
-On 1/31/17 4:29 AM, Patrick Ohly wrote:
-> Hello!
-> 
-> verify-bashisms (after some fixing of the script) reports:
-> 
-> /work/iot-ref-kit/openembedded-core/meta/recipes-devtools/guile/guile_2.0.13.bb
->  possible bashism in guile_cross_config line 94 ($'...' should be "$(printf '...')"):  
->         	echo '#!'`which ${BUILD_SYS}-guile`$' \\\n--no-auto-compile -e main -s\n!#\n(define %guile-build-info '\'\( \
-> 			> ${B}/guile-config.cross
-> 
-> 
-> This is for:
-> 
-> guile_cross_config() {
-> 	# this is only for target recipe
-> 	if [ "${PN}" = "guile" ]
-> 	then
-> 	        # Create guile-config returning target values instead of native values
-> 	        install -d ${SYSROOT_DESTDIR}${STAGING_BINDIR_CROSS}
->         	echo '#!'`which ${BUILD_SYS}-guile`$' \\\n--no-auto-compile -e main -s\n!#\n(define %guile-build-info '\'\( \
-> 			> ${B}/guile-config.cross
-> 
-> And the resulting guile-config.cross has (when /bin/sh -> /bin/dash):
-> 
-> #!/fast/build/refkit/intel-corei7-64/tmp-glibc/work/corei7-64-refkit-linux/guile/2.0.13-r0/recipe-sysroot-native/usr/bin/x86_64-linux-guile$ \
-> --no-auto-compile -e main -s
-> !#
-> (define %guile-build-info '(
-> ...
-> 
-> This looks rather strange to me and I've no idea how the Linux kernel
-> will interpret that first shebang line, which literally ends in
-> ...guile$ \
-> 
-> Is the content as intended?
+On Wed, Feb 1, 2017 at 7:27 AM, Ed Bartosh <ed.bartosh@linux.intel.com>
+wrote:
 
-it should have come out as path to native guile with options, I think if
-this is not happening it might just be installing wrong wrapper when
-used it should complain. In any case its better to make it shell
-independent.
+> Make name of the wic image type class consistent with
+> existing naming scheme for image types.
+>
+> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+> ---
+>  meta/classes/image.bbclass                                  | 5 +++--
+>  meta/classes/{image-wic.bbclass => image_types_wic.bbclass} | 0
+>  2 files changed, 3 insertions(+), 2 deletions(-)
+>  rename meta/classes/{image-wic.bbclass => image_types_wic.bbclass} (100%)
+>
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index 613cd92..b5a4fb4 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -151,6 +151,9 @@ def build_uboot(d):
+>  IMAGE_TYPE_uboot = "${@build_uboot(d)}"
+>  inherit ${IMAGE_TYPE_uboot}
+>
+> +IMAGE_TYPE_wic = "image_types_wic"
+> +inherit ${IMAGE_TYPE_wic}
+> +
+>  python () {
+>      deps = " " + imagetypes_getdepends(d)
+>      d.appendVarFlag('do_rootfs', 'depends', deps)
+> @@ -187,8 +190,6 @@ python () {
+>  IMAGE_CLASSES += "image_types"
+>  inherit ${IMAGE_CLASSES}
+>
+> -inherit image-wic
+> -
+>  IMAGE_POSTPROCESS_COMMAND ?= ""
+>
+>  # some default locales
+> diff --git a/meta/classes/image-wic.bbclass b/meta/classes/image_types_
+> wic.bbclass
+> similarity index 100%
+> rename from meta/classes/image-wic.bbclass
+> rename to meta/classes/image_types_wic.bbclass
+> --
+> 2.1.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-> 
-> It builds, whatever that means.
-> 
+--001a114a8ac4d7cdc705477b0cc6
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><span style=3D"font-size:12.8px">Reviewed-by: Rick Altherr=
+ &lt;</span><a href=3D"mailto:raltherr@google.com" target=3D"_blank" style=
+=3D"font-size:12.8px">raltherr@google.com</a><span style=3D"font-size:12.8p=
+x">&gt;</span><br></div><div class=3D"gmail_extra"><br><div class=3D"gmail_=
+quote">On Wed, Feb 1, 2017 at 7:27 AM, Ed Bartosh <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:ed.bartosh@linux.intel.com" target=3D"_blank">ed.bartosh@lin=
+ux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Make n=
+ame of the wic image type class consistent with<br>
+existing naming scheme for image types.<br>
+<br>
+Signed-off-by: Ed Bartosh &lt;<a href=3D"mailto:ed.bartosh@linux.intel.com"=
+>ed.bartosh@linux.intel.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/image.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 5 +++--<br>
+=C2=A0meta/classes/{image-wic.<wbr>bbclass =3D&gt; image_types_wic.bbclass}=
+ | 0<br>
+=C2=A02 files changed, 3 insertions(+), 2 deletions(-)<br>
+=C2=A0rename meta/classes/{image-wic.<wbr>bbclass =3D&gt; image_types_wic.b=
+bclass} (100%)<br>
+<br>
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass<br>
+index 613cd92..b5a4fb4 100644<br>
+--- a/meta/classes/image.bbclass<br>
++++ b/meta/classes/image.bbclass<br>
+@@ -151,6 +151,9 @@ def build_uboot(d):<br>
+=C2=A0IMAGE_TYPE_uboot =3D &quot;${@build_uboot(d)}&quot;<br>
+=C2=A0inherit ${IMAGE_TYPE_uboot}<br>
+<br>
++IMAGE_TYPE_wic =3D &quot;image_types_wic&quot;<br>
++inherit ${IMAGE_TYPE_wic}<br>
++<br>
+=C2=A0python () {<br>
+=C2=A0 =C2=A0 =C2=A0deps =3D &quot; &quot; + imagetypes_getdepends(d)<br>
+=C2=A0 =C2=A0 =C2=A0d.appendVarFlag(&#39;do_rootfs&#39;, &#39;depends&#39;,=
+ deps)<br>
+@@ -187,8 +190,6 @@ python () {<br>
+=C2=A0IMAGE_CLASSES +=3D &quot;image_types&quot;<br>
+=C2=A0inherit ${IMAGE_CLASSES}<br>
+<br>
+-inherit image-wic<br>
+-<br>
+=C2=A0IMAGE_POSTPROCESS_COMMAND ?=3D &quot;&quot;<br>
+<br>
+=C2=A0# some default locales<br>
+diff --git a/meta/classes/image-wic.<wbr>bbclass b/meta/classes/image_types=
+_<wbr>wic.bbclass<br>
+similarity index 100%<br>
+rename from meta/classes/image-wic.bbclass<br>
+rename to meta/classes/image_types_wic.<wbr>bbclass<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.1.4<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div>
+
+--001a114a8ac4d7cdc705477b0cc6--
