@@ -1,46 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 6ECAA71D86
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id B928571B86
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Feb 2017 14:00:41 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id r141so90497642wmg.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Feb 2017 06:00:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=ZEL+0+IQP2c6ztQZrBbk7zxsMR6A49ClhvjR+uDpgmM=;
-	b=jamPVUpq1Q5ADRkBfmr2P2Ef/VCn4IP5lmkVUyE65Ls7z3hYyKVkWB4NLP26ICwzAI
-	abiXNvB0YD7Xqs4nq9t4wO7yWDuTFmayh63NvvVVaoTNBiGIo0jmyeZlzvzBdV2Vwl7z
-	rQvvtGIoo9IaZsSoU8DJFCU8nToSe+WNCqZ4NWU6JhMOsh6FW6mBi5MXuZOAreNbSbPf
-	RKj6//5NH/ClqBzZbk/S2ZtXwaq+uZkLm2wff62a9pGkOvVQxA8VUXsiYk4rryd7Ko7L
-	7cvSmpWWkWZ5JitgjYbAcOeJ35drDMW9CfaaTev3HJFqZg9tsAWvDFMT2cth5HfGCltS
-	eI5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=ZEL+0+IQP2c6ztQZrBbk7zxsMR6A49ClhvjR+uDpgmM=;
-	b=qPchDmlNnLxAnexiw6Nu3rk4026I/lFuyCLxdaZ7c1OVjyF+ZKDu97sQMuQ0g4N9ik
-	lxld98h3pq1Jzpij8M6p2aAI3AU1+IgqDtd4y9ACH76IcJk1CgiGQsN/1WOAAUbrJ+HD
-	JMxBuxXJJsroKpuIxg51un5pcXvIcXfgYOqVxKHUMES0aBIdMlKe5nPMpD1osgWhfsyO
-	wqNgUV5j0nP9tvD7MgSeciqDlJLZxsZrNZtIcB8Y+g9BOLk4qh7hlDLuTi4HeA1JGn4j
-	UV64DKURPef+gNf8PhcR0WmPKdHQroia1IzIBOut6HDMON/q7aQKBed5uigyiSVZ7CA3
-	IjpA==
-X-Gm-Message-State: AIkVDXJMkB/5UdfnDr9oVNoY/GeE2CDM+NrKydGiSHVEX+tvsQnOvAAdwR4XoEFQRuK2knfF
-X-Received: by 10.28.217.83 with SMTP id q80mr26245288wmg.58.1486044040829;
-	Thu, 02 Feb 2017 06:00:40 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	o70sm39977490wrc.20.2017.02.02.06.00.40
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 02 Feb 2017 06:00:40 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Feb 2017 14:00:38 +0000
-Message-Id: <1486044038-2553-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] usbutils: add dependency on udev-hwdb, not libudev
+	Thu,  2 Feb 2017 14:03:14 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 02 Feb 2017 06:03:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,324,1477983600"; d="scan'208";a="1090083134"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 02 Feb 2017 06:03:13 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20170202132602.774-1-alexander.kanavin@linux.intel.com>
+	<CAJTo0Lb4vpSwsxno7zKN0UNozYTYTo8wCMjOLNO6JApFcWuCEA@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <1ea96505-775d-6b1a-9316-97991c7d7b33@linux.intel.com>
+Date: Thu, 2 Feb 2017 16:03:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.6.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0Lb4vpSwsxno7zKN0UNozYTYTo8wCMjOLNO6JApFcWuCEA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] selftest: do not perform a full build in test_continue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,28 +34,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Feb 2017 14:00:41 -0000
+X-List-Received-Date: Thu, 02 Feb 2017 14:03:14 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-libudev will be autodetected by the linkage, the intention here was to depend on
-udev-hwdb to ensure that the USB ID lists are installed.
+On 02/02/2017 03:47 PM, Burton, Ross wrote:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-bsp/usbutils/usbutils_008.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>              runCmd('bitbake -c cleanall man xcursor-transparent-theme')
+>     -        result = runCmd('bitbake man xcursor-transparent-theme -k',
+>     ignore_status=True)
+>     +        result = runCmd('bitbake -c unpack -k man
+>     xcursor-transparent-theme', ignore_status=True)
+>
+>
+> I also have to ask why it does cleanall.  Why isn't clean sufficient?
 
-diff --git a/meta/recipes-bsp/usbutils/usbutils_008.bb b/meta/recipes-bsp/usbutils/usbutils_008.bb
-index 75312c3..cb79360 100644
---- a/meta/recipes-bsp/usbutils/usbutils_008.bb
-+++ b/meta/recipes-bsp/usbutils/usbutils_008.bb
-@@ -21,5 +21,5 @@ inherit autotools gettext pkgconfig distro_features_check
- 
- FILES_${PN}-dev += "${datadir}/pkgconfig"
- 
--RDEPENDS_${PN} = "libudev"
-+RDEPENDS_${PN} = "udev-hwdb"
- RDEPENDS_${PN}-ptest = "libboost-system libboost-thread"
--- 
-2.8.1
+I guess because it's testing that fetching for one recipe fails but 
+unpacking for another recipe succeeds, and getting those tasks to run 
+requires cleanall?
+
+Alex
 
 
