@@ -1,46 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 4368271D97
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-vk0-f42.google.com (mail-vk0-f42.google.com
+	[209.85.213.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A06E71AD9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Feb 2017 18:34:10 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id v77so100315538wmv.0
+	Thu,  2 Feb 2017 18:37:10 +0000 (UTC)
+Received: by mail-vk0-f42.google.com with SMTP id t8so17003917vke.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Feb 2017 10:34:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=7fvz/we93Z0TjMXW/vbUEJltzu5wZLzoN02SoAsBf+8=;
-	b=ycThZRVJcJpp3j0IONTq61xWB2ovY6Q69dC9wBnnjoI/Uf7Gui41T9hFUR30h6g/ZS
-	QNgmMgUszlXlIQkMIcHWyZvgUx1+gW1zaHYQB5JOh3k6sLLytkhf9XnXRcoZ6NdfjTyQ
-	2gZWoUW6rpJOb2amgWBXMg1Qqj2KsT8Mx1klReoaruO3uDuUY+XPAWD30xOTkyUGUc+h
-	95UZtwttW0u+OjRzoesJj8RTLEkM98ROYfYHETroOeRKNhQxGZoTX+d5MNnE2FmXAnh4
-	j8fC6mkWhc7YdToiQate3l0j13EyhSWZ0Ya6d2ihZml1xsLeb8XQlRws/HhKejUt5svm
-	Vt6g==
+	Thu, 02 Feb 2017 10:37:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
+	bh=ypCL3Jbc7xtzvqZn+pdCyYcPXv9aIqeXrC2qoA/3pa0=;
+	b=fEaDHLuO4ZvjQVYL90ZpIX7rrXbJqajVa6wmQcUKmnJDbK8jnR34sMd3y7PmEBti3E
+	2BkV7Rdc5vhnnRktpvuPbytzlTe2AXAyQ7baSB1uCjmR2LWEkJl/OmWt4zhGVa/D/+9I
+	/SJXkc02rXdgtapkextxOgvv9vj+bgUtQciFFRJqBmxU2Z6hzzhvy6E34rwidROOlq50
+	2ph4VAXGkmH+kKnYfqEiNnQmljnCo8lKEYvxX54prsCCt1/X0dA3mPDplCBi9oKdCCpY
+	VM0jNNAwR4BtuS4ragAvWUbgYCDUPLTDKeAZ3WOjHzPBf6rBXht5oK6aX9t478PBr0dZ
+	2nzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=7fvz/we93Z0TjMXW/vbUEJltzu5wZLzoN02SoAsBf+8=;
-	b=ZYRUsHzCc+fUXWPrutYUkjpE5HwkXLXsWNX+/xyy+BmyIuAvis/yqGPrUKJLnOUrZK
-	A7nUETamJ7r97/TinWkyHpMfIVXGIfXDh1WmKV4uZGsN7hp30NbaoeNtmjGAgRJFsYNJ
-	GXCePLlq29lhOepL8d1f8J4fRYeGffHXQ/gLPT2vYrpU6tkXSMDdfXYjrsKaOP3NMQ+T
-	dwDGUsJuPsPJKolvlYNJeD8wSRBVnyCOc5ZKu4WzgqH6kJNRk8RyJsid8+X1fw7zDLdm
-	/XV6hv8Sf9tFggUvqXmep5vSuau2Dlo9eaKH6SbSWi8jB+glxjoLk1k9MAPgwFaxlMR+
-	gY0w==
-X-Gm-Message-State: AIkVDXJHvOpFFrZW9NLppNffqZi3L6QNQPNEx7J9zf8+ityE41oraDS7LG0TCMm9qxEwm1mv
-X-Received: by 10.223.171.66 with SMTP id r2mr8752029wrc.71.1486060450072;
-	Thu, 02 Feb 2017 10:34:10 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	k195sm4495562wmd.7.2017.02.02.10.34.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 02 Feb 2017 10:34:08 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Feb 2017 18:34:01 +0000
-Message-Id: <1486060441-14847-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] eudev: add RPROVIDES so eudev-hwdb provides udev-hwdb
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to;
+	bh=ypCL3Jbc7xtzvqZn+pdCyYcPXv9aIqeXrC2qoA/3pa0=;
+	b=Zy6DZgFpA70iqPfS+DLIJG4kIC3BNfrWYmrKQdk/xXbHw7NbwiIhEWb1FGp6OuWc9h
+	EP65xVkjt0TU5AWPVWsG+hfRSWbyu+F0oGwvTze/EWaKcf3m6tKFKZGD64sPAuVz65AE
+	Ow0TUNmjaqH3hi1wSkbHjBm1O636NKP/yLyV+j94s9VZWK+oJyQDVrSYdZ0lhhdjMBC7
+	gtwLm6Yp8FfCcW2JbDKFe5jGP8fEQcqtqdS5hxCZ4s3YSZy6NOhhIEIdEfJAOOz+qnPU
+	Gh02JhqW48ytvI9UVxrNNd7o3Q1tY78T1JbDbzqFAd3NZkmSvi/nBG5+qS3TGkED76Ft
+	PlnQ==
+X-Gm-Message-State: AIkVDXJCbzVqlwfkuNN6qwAzQ7p2vZzoiTL2CmpQ1mzxrK93UH8fyCH+IEuemT9iBFD7szsobY8uQq4D1sVyRg==
+X-Received: by 10.31.108.149 with SMTP id j21mr3898092vki.93.1486060630856;
+	Thu, 02 Feb 2017 10:37:10 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.159.48.222 with HTTP; Thu, 2 Feb 2017 10:36:40 -0800 (PST)
+In-Reply-To: <20170202104105.yl4nrp3wbym7ahhf@ad.chargestorm.se>
+References: <cover.1485846907.git.anders@chargestorm.se>
+	<6f44da9601d2ae87573905ca1b7fa30cf5043100.1485846907.git.anders@chargestorm.se>
+	<385d3282-7a91-7d60-cd6a-393ada75bd09@gmail.com>
+	<20170202104105.yl4nrp3wbym7ahhf@ad.chargestorm.se>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 2 Feb 2017 10:36:40 -0800
+Message-ID: <CAMKF1sptX0x3-WDdu5vgXiKcd4DWTWSZCePvy__DkOA=GWzzOQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 2/7] python3-manifest: move htlm.py to python3-html
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,29 +55,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Feb 2017 18:34:10 -0000
+X-List-Received-Date: Thu, 02 Feb 2017 18:37:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Otherwise the common name udev-hwdb is only provided by systemd, meaning that
-other recipes can't depend on a single name.
+On Thu, Feb 2, 2017 at 2:41 AM, Anders Darander <anders@chargestorm.se> wrote:
+> * Khem Raj <raj.khem@gmail.com> [170201 17:52]:
+>
+>> On 1/30/17 11:18 PM, Anders Darander wrote:
+>> > This allows us to use html.py without importing misc.
+>
+>> html.py is provided by many packages. Does is make more sense to package
+>> html.py on a package of its own ?
+>
+> Hm, I had another look at this. On my build:
+>
+> $ du -sh python3-html/
+> 140K    python3-html/
+>
+> $ du -sh python3-html/usr/lib/python3.5/html/
+> 108K    python3-html/usr/lib/python3.5/html/
+>
+> Thus, the major part, 77%, of python3-html is related to my change.
+> Thus, I'm not sure that it makes sense to put html in it's own
+> package...
+>
+> I'm not going to add a new package for html for the moment.
+>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/udev/eudev_3.2.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-core/udev/eudev_3.2.bb b/meta/recipes-core/udev/eudev_3.2.bb
-index 385ee7a..11931bc 100644
---- a/meta/recipes-core/udev/eudev_3.2.bb
-+++ b/meta/recipes-core/udev/eudev_3.2.bb
-@@ -81,6 +81,7 @@ RDEPENDS_eudev-hwdb += "eudev"
- RRECOMMENDS_${PN} += "udev-cache"
- 
- RPROVIDES_${PN} = "hotplug udev"
-+RPROVIDES_eudev-hwdb += "udev-hwdb"
- 
- python () {
-     if bb.utils.contains ('DISTRO_FEATURES', 'systemd', True, False, d):
--- 
-2.8.1
-
+OK, I guess we have to address is when we have more occurances of
+packages providing html.py show up
 
