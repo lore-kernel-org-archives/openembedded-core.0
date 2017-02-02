@@ -1,20 +1,34 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id A005571DDA
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Feb 2017 20:41:17 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 02 Feb 2017 12:41:17 -0800
+Return-Path: <amarnath.valluri@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 7600271AC1
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu,  2 Feb 2017 21:08:30 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga105.fm.intel.com with ESMTP; 02 Feb 2017 13:08:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,326,1477983600"; d="scan'208";a="38952060"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.141])
-	by orsmga002.jf.intel.com with ESMTP; 02 Feb 2017 12:41:17 -0800
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Feb 2017 14:48:27 -0600
-Message-Id: <1486068507-3533-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH v2] selftest/buildoptions: force compile task instead of cleaning sstates
+X-IronPort-AV: E=Sophos;i="5.33,326,1477983600"; d="scan'208";a="816402835"
+Received: from saudsley-mobl.ger.corp.intel.com (HELO avalluri-ubook)
+	([10.252.0.20])
+	by FMSMGA003.fm.intel.com with ESMTP; 02 Feb 2017 13:08:29 -0800
+Message-ID: <1486069831.2080.17.camel@intel.com>
+From: Amarnath Valluri <amarnath.valluri@intel.com>
+Reply-To: amarnath.valluri@intel.com
+To: Jason Wessel <jason.wessel@windriver.com>
+Date: Thu, 02 Feb 2017 23:10:31 +0200
+In-Reply-To: <869ff8ea-8803-2751-3d2f-187eff4755b5@windriver.com>
+References: <20170119211441.126457-1-jason.wessel@windriver.com>
+	<20170119211441.126457-2-jason.wessel@windriver.com>
+	<f97e0ddf-dd9d-06d3-831c-fa47349a1e66@windriver.com>
+	<20170120132920.GA8341@mbabyjoh-desk.ger.corp.intel.com>
+	<CAJTo0LaFMD3cFHR2d_1W4pM3cy7ekhM21UpBRz_Ec+C4tYigQQ@mail.gmail.com>
+	<63d74901-4f7e-292f-8163-445006e226d2@windriver.com>
+	<CAJTo0LZ+C=_cz3wdvtqmYJBrNHR-UBX9fasrg_T632G_u43itA@mail.gmail.com>
+	<869ff8ea-8803-2751-3d2f-187eff4755b5@windriver.com>
+Organization: Intel
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: OE-core <Openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] Revert "kernel: Modify kernel modules installation path."
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,33 +41,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Feb 2017 20:41:18 -0000
+X-List-Received-Date: Thu, 02 Feb 2017 21:08:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Hi,
 
-There is no need to clean m4 sstates, use force instead.
+I am very sorry, i couldn't respond earlier than this, somehow i missed
+this thread :(
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
----
- meta/lib/oeqa/selftest/buildoptions.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The motivation of these patches was achieving merged '/usr' in oe-core,
+which demands no package installs anything into root(/bin, /sbin, /lib)
+folders, and i see no exception for kernel modules/firmware(may be i am
+wrong :!). In the real merged usr environment this shouldn't be a
+problem as the root symlinks exists.
 
-diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
-index d40eb00..a6cdc2d 100644
---- a/meta/lib/oeqa/selftest/buildoptions.py
-+++ b/meta/lib/oeqa/selftest/buildoptions.py
-@@ -36,8 +36,8 @@ class ImageOptionsTests(oeSelfTest):
-         p = get_bb_var('SYSROOT_DESTDIR', 'ccache-native') + get_bb_var('bindir', 'ccache-native') + "/" + "ccache"
-         self.assertTrue(os.path.isfile(p), msg = "No ccache found (%s)" % p)
-         self.write_config('INHERIT += "ccache"')
--        bitbake("m4 -c cleansstate")
--        bitbake("m4 -c compile")
-+        bitbake("m4 -c compile -f")
-+        bitbake("m4 -c clean")
-         self.addCleanup(bitbake, 'ccache-native -ccleansstate')
-         res = runCmd("grep ccache %s" % (os.path.join(get_bb_var("WORKDIR","m4"),"temp/log.do_compile")), ignore_status=True)
-         self.assertEqual(0, res.status, msg="No match for ccache in m4 log.do_compile. For further details: %s" % os.path.join(get_bb_var("WORKDIR","m4"),"temp/log.do_compile"))
--- 
-2.1.4
+I guess i can resend these patches as part of 'usrmerge' feature patch
+sequence, by keeping these changes behind DISTRO_FEATURES check:
+
+- Amarnath
+
+
+On Fri, 2017-01-20 at 08:04 -0600, Jason Wessel wrote:
+> On 01/20/2017 07:52 AM, Burton, Ross wrote:
+> 
+> > 
+> > On 20 January 2017 at 13:48, Jason Wessel
+> > <jason.wessel@windriver.com> wrote:
+> >         WARNING: linux-yocto-4.8.12+gitAUTOINC
+> >         +3edb4de355_9bcb4ea3fa-r0 do_package: QA Issue: linux-yocto:
+> >         Files/directories were installed but not shipped in any
+> >         package:
+> >           /lib64
+> >           /lib/modules/4.8.17-yocto-standard/modules.builtin
+> >           /lib64/firmware
+> >           /lib64/firmware/cpia2
+> >           /lib64/firmware/cpia2/stv0672_vp4.bin
+> >         Please set FILES such that these items are packaged.
+> >         Alternatively if they are unneeded, avoid installing them or
+> >         delete them within do_install.
+> >         linux-yocto: 5 installed and not shipped files.
+> >         [installed-vs-shipped]
+> >         
+> > I suspect this is trivial with fresh eyes.  What multilib
+> > configuration are you using?  My usual "test multilib" stanza is:
+> > 
+> > 
+> > #require conf/multilib.conf
+> > #MULTILIBS_x86-64 = "multilib:lib32"
+> > #DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+> > 
+> > 
+> > I'm guessing this isn't going to produce the same paths that you're
+> > seeing problems with.
+> > 
+> > 
+> > Ross
+> 
+> 
+> It looks like it probably should. 
+> 
+> 
+> MULTILIBS = "multilib:lib32"
+> DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+> 
+> 
+> 
+> If for some reason you wanted to perform the exact same build I have
+> the instructions to do so:
+> 
+> https://github.com/WindRiver-OpenSourceLabs/wr-core/blob/master/docs/README-intel-x86.TXT
+> 
+> 
+> That basically amounts to:
+> 
+> git clone -b master --recurse-submodules
+> https://github.com/WindRiver-OpenSourceLabs/wr-core
+> 
+> cd wr-core
+> 
+> . init-intel-x86-env
+> 
+> 
+> Jason. 
+> 
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
 
