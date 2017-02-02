@@ -1,44 +1,20 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 671B471DDA
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id A005571DDA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Feb 2017 20:22:32 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id 204so2696701pge.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Feb 2017 12:22:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=c9sr86TGmq5kex8GVQXL82xYBLEBODMNGi9YShdOP70=;
-	b=m+j/iUIKCUwQEvZ93F41zKva5n7QdRnKdLR9yQ/1Rw1yRZlsz5CIGWJ3Ek39TTc6re
-	UEIZ6M9Hpr0bMEgcqgwr0wTCG+sVGi9Uvg+Km/dbPR4ldzFKrVTKfMJcEn9N8PgvU0NQ
-	gvncBEHgu0JhDj3fPitOF5CRjwQ2VDEJcNVBT0dys8UR8RE6UsBbPh+ZqGt9v2OVCwQ9
-	Ebw9fS98waYMbdg7zV/xHR5aMBpcC0ei24hoIMiVPJUVqUNUfFHeSzX3DROWMSzl+o5Z
-	PTDpMrX16k7Bx7JSaD5mPGtVTKNzRJWRBCNvJgSRM1iiITnZMJGpPm8ACF5D5ETNcYDP
-	cizQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=c9sr86TGmq5kex8GVQXL82xYBLEBODMNGi9YShdOP70=;
-	b=bdjsTjLvgd/aA2ol4XqQhh3IyN0DBRskGM31nMsrJLc98+9v+fAFPAGG2LLG8k41qF
-	fhALwrxL3hYE3LrR3nIXs6HGvwQXrXWxCxxUVfPkewZ59GP8HjLN1MjDxVXO7NFp7MtK
-	AuBtoLgkY6wTWbEXDNlTfZIjbtAn4h9xZF0CKrg6/32P+YhAZo2ybS2DlYhbD+mCVKn1
-	O30pmNBMbHznc+q608bmyBVAUg0kK7wZ8mCkj/HiJI+wOWm663BJVX9UdjRmb6+VvnS6
-	KVuh65VfpxcuIHXDal3GRCHZhgmJThghVOQd5FfnpsBJv32zVrMwA/jt62febkTIFYzT
-	tRZg==
-X-Gm-Message-State: AIkVDXIQGOKyRZY9csXqusRfxrwgI1hUqLbxTDJl1YEjmZFhq2tRuDVRUP5FXCCwxzN5fg==
-X-Received: by 10.84.196.164 with SMTP id l33mr15430683pld.158.1486066952748; 
-	Thu, 02 Feb 2017 12:22:32 -0800 (PST)
-Received: from e6520.cablelabs.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	66sm61180122pgg.47.2017.02.02.12.22.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 02 Feb 2017 12:22:31 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
+	Thu,  2 Feb 2017 20:41:17 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 02 Feb 2017 12:41:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,326,1477983600"; d="scan'208";a="38952060"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.141])
+	by orsmga002.jf.intel.com with ESMTP; 02 Feb 2017 12:41:17 -0800
+From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Feb 2017 12:22:26 -0800
-Message-Id: <1486066946-10670-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] pkgconfig: fix typo introduced during recent conversion to PACKAGECONFIG
+Date: Thu,  2 Feb 2017 14:48:27 -0600
+Message-Id: <1486068507-3533-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH v2] selftest/buildoptions: force compile task instead of cleaning sstates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,28 +27,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Feb 2017 20:22:32 -0000
+X-List-Received-Date: Thu, 02 Feb 2017 20:41:18 -0000
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+
+There is no need to clean m4 sstates, use force instead.
+
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 ---
- meta/recipes-devtools/pkgconfig/pkgconfig_git.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/buildoptions.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-index 5f2a5b6..422c5f3 100644
---- a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-+++ b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-@@ -24,7 +24,8 @@ inherit autotools
- 
- PACKAGECONFIG ??= "glib"
- PACKAGECONFIG_class-native = ""
--PACKAGECONFIG_class-native = ""
-+PACKAGECONFIG_class-nativesdk = ""
-+
- PACKAGECONFIG[glib] = "--without-internal-glib,--with-internal-glib,glib-2.0 pkgconfig-native"
- 
- acpaths = "-I ."
+diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
+index d40eb00..a6cdc2d 100644
+--- a/meta/lib/oeqa/selftest/buildoptions.py
++++ b/meta/lib/oeqa/selftest/buildoptions.py
+@@ -36,8 +36,8 @@ class ImageOptionsTests(oeSelfTest):
+         p = get_bb_var('SYSROOT_DESTDIR', 'ccache-native') + get_bb_var('bindir', 'ccache-native') + "/" + "ccache"
+         self.assertTrue(os.path.isfile(p), msg = "No ccache found (%s)" % p)
+         self.write_config('INHERIT += "ccache"')
+-        bitbake("m4 -c cleansstate")
+-        bitbake("m4 -c compile")
++        bitbake("m4 -c compile -f")
++        bitbake("m4 -c clean")
+         self.addCleanup(bitbake, 'ccache-native -ccleansstate')
+         res = runCmd("grep ccache %s" % (os.path.join(get_bb_var("WORKDIR","m4"),"temp/log.do_compile")), ignore_status=True)
+         self.assertEqual(0, res.status, msg="No match for ccache in m4 log.do_compile. For further details: %s" % os.path.join(get_bb_var("WORKDIR","m4"),"temp/log.do_compile"))
 -- 
-1.9.1
+2.1.4
 
 
