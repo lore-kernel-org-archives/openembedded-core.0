@@ -1,46 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f173.google.com (mail-qt0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id D133871CCB
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 3258871CA5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Feb 2017 13:47:57 +0000 (UTC)
-Received: by mail-qt0-f173.google.com with SMTP id x49so30949019qtc.2
+	Thu,  2 Feb 2017 13:55:25 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga104.jf.intel.com with ESMTP; 02 Feb 2017 05:55:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,324,1477983600"; d="scan'208";a="54730507"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga004.jf.intel.com with ESMTP; 02 Feb 2017 05:55:26 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id BC22A6A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Feb 2017 05:47:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=FMehFT3h+O9E466aYBPZDmyuSpKbUpf8yTEYMGWt6K0=;
-	b=tDXVxY3hdrqNUy+6XMeMBqbYqJFag/LZfwKSqOv1jopZrMHSxVhodYT0NF5U5dnAlh
-	PhlYYZmTfysAogevfH0X1R6M249N4HIGadoMrMC6qe3CdWG4GPqVVY2t2NaSYwEoQsuf
-	/dsSLqfyxSYKTNJtYAroq99fbSlkNAwigC/reZ0eeoRvpoZG+ZHvab/jEBCzpXdlLUjr
-	zl2PKqv9inl4XvYA8Yv4uvw57aKI+PdRGGWnv5KmEDdNgxcgXKmzeQ2XeWwIpxe9KdQV
-	r19MjcY9SJRD14L6OhZz3Hro9Hq/oXdlPZxXUOPYoCNUe4WSHunJSMS53pOsZ9eD/6Jm
-	VfxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=FMehFT3h+O9E466aYBPZDmyuSpKbUpf8yTEYMGWt6K0=;
-	b=ZDvli5LRcJfSYcoHBOARd57uzk1yu0g4UpQm2t+TvQ0FXJUBC/uuSqxPB6K+f4e8PO
-	urOI3Dk5/hPjQqvpTjNe4LvEchYhNiB28tYpEgCsc+7FAOE9O2Ire2FDtrokod2/vAlG
-	7yhuZt8ORdlMVS0K3LDhMsyWOao0aDhSrgx441KcD7WUmlS6jt7S7EZXTM1AO4ampM1J
-	jDJchK1RE/uvT2a34LgIqFzrwH4T55IVofTcjOODzvs1YPHLGGM0LdvEEmc4f2LpYArL
-	YRWatLK+L/R8ITa49VZ/I1DGEopLfJKnHA/3dr8YW3lBimAvTjQXo/CgOEeOxa4eyfsP
-	tl+Q==
-X-Gm-Message-State: AIkVDXLD4gk1lAoj8GycNptZq5j53iaVWqdnklhrX6XDkXIrJJ+fzWECuxWZw7ZzmVyTbYkM32T0+Txx4YehFDVH
-X-Received: by 10.200.39.212 with SMTP id x20mr7784450qtx.109.1486043277361;
-	Thu, 02 Feb 2017 05:47:57 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Thu, 2 Feb 2017 05:47:36 -0800 (PST)
-In-Reply-To: <20170202132602.774-1-alexander.kanavin@linux.intel.com>
-References: <20170202132602.774-1-alexander.kanavin@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 2 Feb 2017 13:47:36 +0000
-Message-ID: <CAJTo0Lb4vpSwsxno7zKN0UNozYTYTo8wCMjOLNO6JApFcWuCEA@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] selftest: do not perform a full build in test_continue
+	Thu,  2 Feb 2017 05:54:26 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  2 Feb 2017 15:32:56 +0200
+Message-Id: <cover.1486041986.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/3] wic: fix creation of working directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,44 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Feb 2017 13:47:59 -0000
-Content-Type: multipart/alternative; boundary=001a1135b542ab1fba05478c6993
+X-List-Received-Date: Thu, 02 Feb 2017 13:55:26 -0000
 
---001a1135b542ab1fba05478c6993
-Content-Type: text/plain; charset=UTF-8
+Hi,
 
-On 2 February 2017 at 13:26, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
+Changed working directory to be subdirectory of output dir.
+This should fix several possible issues:
+- current code uses mktemp which doesn't create anything
+- default temporary directory is created in /tmp, which can
+  cause wic to take long time to move result image as output
+  directory can be on another partition
+- possible disk space issues due to the /tmp usage
 
->          runCmd('bitbake -c cleanall man xcursor-transparent-theme')
-> -        result = runCmd('bitbake man xcursor-transparent-theme -k',
-> ignore_status=True)
-> +        result = runCmd('bitbake -c unpack -k man
-> xcursor-transparent-theme', ignore_status=True)
->
+The following changes since commit 7d75fd29296a9c411881b4288bff2e02cb145a25:
 
-I also have to ask why it does cleanall.  Why isn't clean sufficient?
+  wic: remove syslinux.py (2017-02-01 12:46:17 +0200)
 
-Ross
+are available in the git repository at:
 
---001a1135b542ab1fba05478c6993
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+  git://git.yoctoproject.org/poky-contrib ed/wic/refactoring-10619
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wic/refactoring-10619
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 2 February 2017 at 13:26, Alexander Kanavin <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.=
-kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex"><div id=3D":3f6" class=3D"a3s aXjCH m159ff01c48799456">=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0runCmd(&#39;bitbake -c cleanall man xcursor-transparent=
--theme&#39;)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 result =3D runCmd(&#39;bitbake man xcursor-tra=
-nsparent-theme -k&#39;, ignore_status=3DTrue)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 result =3D runCmd(&#39;bitbake -c unpack -k ma=
-n xcursor-transparent-theme&#39;, ignore_status=3DTrue)<br></div></blockquo=
-te></div><br>I also have to ask why it does cleanall.=C2=A0 Why isn&#39;t c=
-lean sufficient?</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
-ail_extra">Ross</div></div>
+Ed Bartosh (3):
+  wic: engine: create output dir
+  wic: direct: fix creation of work directory
+  wic: get rid of image_output_dir variable
 
---001a1135b542ab1fba05478c6993--
+ scripts/lib/wic/engine.py                | 3 +++
+ scripts/lib/wic/plugins/imager/direct.py | 2 +-
+ scripts/wic                              | 6 +-----
+ 3 files changed, 5 insertions(+), 6 deletions(-)
+
+--
+2.1.4
+
+
