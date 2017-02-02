@@ -1,29 +1,61 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 276DE71D97
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+X-Greylist: delayed 1117 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 02 Feb 2017 18:08:13 UTC
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id A2F5E6E5FB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Feb 2017 17:56:35 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v12HuX8K016377; Thu, 2 Feb 2017 17:56:33 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id II3TMWfCd8Qw; Thu,  2 Feb 2017 17:56:33 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v12HuW0Q016374
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 2 Feb 2017 17:56:33 GMT
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1cZLcW-0006LX-2n; Thu, 02 Feb 2017 17:56:32 +0000
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu,  2 Feb 2017 18:08:13 +0000 (UTC)
+Received: from mail-mta-0.intern.sigma-chemnitz.de
+	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	v12HnYxh018996
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK) for <openembedded-core@lists.openembedded.org>;
+	Thu, 2 Feb 2017 18:49:34 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1486057774;
+	bh=wea6k3e9FDjts1bJDMXHZ19a8imBqNiZsyXapVTZl4g=;
+	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=Snp7of6aWxdeZqkP8bgmmNnLbFxjvFCtpPdabhllmMksFg4pfSmSSqHuMolQZMlpY
+	BZSJE+0ZqOCzIausvwRA6jWZaYfh2q1fasL8YFyxvTy5IGyyhqQNkZ6RkXgoawqGdn
+	75IT6n7r+HYgU1o4WUA371csgM5/ryuZYIKlGSx4=
+Received: from reddoxx.intern.sigma-chemnitz.de
+	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
+	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	v12HnQsW027431 for <openembedded-core@lists.openembedded.org> from
+	enrico.scholz@sigma-chemnitz.de; Thu, 2 Feb 2017 18:49:27 +0100
+Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
+	reddoxx.intern.sigma-chemnitz.de
+	(Reddoxx engine) with SMTP id 50A14CBE6A9;
+	Thu, 2 Feb 2017 18:49:21 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	v12HnPvE027428
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org> from
+	ensc@sigma-chemnitz.de; Thu, 2 Feb 2017 18:49:25 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.87) (envelope-from <ensc@sigma-chemnitz.de>) id 1cZLVd-00072y-Jh
+	for openembedded-core@lists.openembedded.org;
+	Thu, 02 Feb 2017 18:49:25 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Feb 2017 17:56:30 +0000
-Message-Id: <1486058190-24356-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
+References: <1486031880.14889.35.camel@intel.com>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Thu, 02 Feb 2017 18:49:25 +0100
+In-Reply-To: <1486031880.14889.35.camel@intel.com> (Patrick Ohly's message of
+	"Thu, 02 Feb 2017 11:38:00 +0100")
+Message-ID: <lyk298eb4q.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.1 (gnu/linux)
 MIME-Version: 1.0
-Subject: [PATCH] uninative: Make patchelf modified files sparse
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-Spam-Score: -1.2
+X-Spam-Level: -
+X-Spam-Tests: AWL,BAYES_00,DKIM_ADSP_ALL,RP_MATCHES_RCVD,SPF_NEUTRAL
+X-Scanned-By: MIMEDefang 2.78
+Subject: Re: host-user-contaminated QA check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,87 +68,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Feb 2017 17:56:39 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 02 Feb 2017 18:08:15 -0000
+Content-Type: text/plain
 
-When we switched to recipe specific sysroots (rss), performance took a nose dive. Its
-easy to blame rss but it turns out not to be entirely at fault.
+Patrick Ohly <patrick.ohly-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+writes:
 
-Three configurations are compared here:
+> Recently the host-user-contaminated QA check triggered for the trousers
+> recipe in meta-security:
+>
+> WARNING: trousers-0.3.14+gitAUTOINC+4b9a70d578-r0 do_package_qa: QA Issue: trousers: /trousers/etc/tcsd.conf is owned by uid 1000, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
+>
+> However, that's a false positive in this case. UID 1000 got assigned to
+> the "tss" user in the target sysroot during the build, and tcsd.conf is
+> correctly and intentionally owned by that user because tcsd checks
+> ownership and refuses to start when owned by someone else (including
+> root). It just happened that the UID was the same.
+>
+> This is likely to affect all recipes with files owned by dynamically
+> created users, in particular when the host system assigns UIDs from the
+> same range as the target system (quick poll: who else has 1000 as his
+> UID on his main Linux box? ;-)
 
-a) Pre-RSS (revision 45df694a9f472ac2f684aadac4d864c3dfdc48a7)
-b) Post-RSS (revision 226a508da955439b881b2f0a544a3aee76e59919)
-c) as b) with this change
+Usually, this can not happen.  There is reserved a range for dynamically
+created users (standard says 100-499, some distributions use 100-999).
 
-Overall build times:
+In this case, there is probably some '--system' flag missing when the
+'tss' user is created (--> packaging bug).
 
-a) 22794.25user 2687.88system 30:32.84elapsed 1390%CPU (0avgtext+0avgdata 919056maxresident)k
-b) 22677.25user 3238.79system 36:16.68elapsed 1190%CPU (0avgtext+0avgdata 918896maxresident)k
-c) 23571.84user 3383.65system 31:36.83elapsed 1421%CPU (0avgtext+0avgdata 919068maxresident)k
 
-For the overall build and sstate directories, du -s shows:
-a)
-3992588   build-pre-rss/sstate-cache
-30804484  build-pre-rss/tmp
-b)
-4013272   build-with-rss/sstate-cache
-36519084  build-with-rss/tmp
-c)
-4014744   build-with-rss2/sstate-cache
-35336960  build-with-rss2/tmp
 
-However more worryingly:
-
-$ du -s build-pre-rss/tmp/sysroots/
-2506092 build-pre-rss/tmp/sysroots/
-$ du -s build-with-rss/tmp/sysroots-components/
-3790712 build-with-rss/tmp/sysroots-components/
-$ du -s build-with-rss2/tmp/sysroots-components/
-2467544 build-with-rss2/tmp/sysroots-components/
-
-These numbers *should* be equivalent but as you can see, b) is ~1.2GB larger. The reason turned out
-to be patchelf. Taking a specific binary from a specific recipe, bc from bc-native, in a) its 82kb
-(stripped) yet in b) its 2.17MB.
-
-$ ./patchelf --set-interpreter /bin/rp bc
-warning: working around a Linux kernel bug by creating a hole of 2084864 bytes in ‘bc’
-
-https://github.com/NixOS/patchelf/blob/master/src/patchelf.cc#L710 shows that this "hole" is just
-padded zeros using memset, its not a proper sparse hole.
-
-This patch copies files with cp --sparse=always after modifying them with patchelf, then replacing
-the original file. The better fix will be to fix this in patchself itself and seek() there
-when writing the new file but that means new uninative tarballs and will take a bit of work
-so I'm proposing this workaround in the meantime.
-
-Also, this patch drops error handling since subprocess check_output() tracebacks will print this
-information if the command fails so we can simplify the code.
----
- meta/classes/uninative.bbclass | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
-
-diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
-index 410fb72..0d1063a 100644
---- a/meta/classes/uninative.bbclass
-+++ b/meta/classes/uninative.bbclass
-@@ -121,11 +121,8 @@ python uninative_changeinterp () {
-             if not elf.isDynamic():
-                 continue
- 
--            try:
--                subprocess.check_output(("patchelf-uninative", "--set-interpreter",
--                                         d.getVar("UNINATIVE_LOADER"), f),
--                                        stderr=subprocess.STDOUT)
--            except subprocess.CalledProcessError as e:
--                bb.fatal("'%s' failed with exit code %d and the following output:\n%s" %
--                         (e.cmd, e.returncode, e.output))
-+            subprocess.check_output(("patchelf-uninative", "--set-interpreter", d.getVar("UNINATIVE_LOADER"), f), stderr=subprocess.STDOUT)
-+            subprocess.check_output(("cp", "--sparse=always", f, f + ".sparse"), stderr=subprocess.STDOUT)
-+            os.unlink(f)
-+            os.rename(f + ".sparse", f)
- }
+Enrico
 -- 
-2.7.4
-
+SIGMA Chemnitz GmbH       Registergericht:   Amtsgericht Chemnitz HRB 1750
+Am Erlenwald 13           Geschaeftsfuehrer: Grit Freitag, Frank Pyritz
+09128 Chemnitz
 
