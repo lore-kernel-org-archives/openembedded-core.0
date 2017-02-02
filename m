@@ -1,49 +1,61 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
-	[209.85.214.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 8017671CA2
+Return-Path: <anders@chargestorm.se>
+Received: from mail-lf0-f52.google.com (mail-lf0-f52.google.com
+	[209.85.215.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 6410571C9A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Feb 2017 10:38:03 +0000 (UTC)
-Received: by mail-it0-f41.google.com with SMTP id c7so38055685itd.1
+	Thu,  2 Feb 2017 10:41:08 +0000 (UTC)
+Received: by mail-lf0-f52.google.com with SMTP id n124so6224624lfd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Feb 2017 02:38:04 -0800 (PST)
+	Thu, 02 Feb 2017 02:41:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:organization:mime-version
-	:content-transfer-encoding;
-	bh=kLxah2wxWHOwSfvfQT+ql9cfsw9XlsCbJyIxmnwqNy8=;
-	b=VmwBMXkT9VS5AgteDtYFMifqQD1nJQ3Y0hnqc6E3MpMT9L1GY8wI6ntnB+z7sYaAOp
-	K6ThgYaHSGqUFpVqTGfCmv4IP6PVHzwsbZju6u3IFVf9IdkVSOtCEVWVHJahBVkX2xkc
-	7ISOwUqYk66ijYEuatveaOa5tHj5V5dTadieq/LPeP34jgzMV0hFaa/Gz5VJbiEe4llo
-	BTp4N4h58SVAlY6A9EvQJ/Q8RO3gsbMwR2qqviVZq/o4iVWkE8wWnNfisAzwgFp/7eMT
-	VR9ReKk6wXU7a1Cb538V4IpRkVvdihMmR372HShRJwfpHG7rGpmGa8laTEHN09u1arWh
-	p7/A==
+	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
+	h=date:from:to:subject:message-id:mail-followup-to:references
+	:mime-version:content-disposition:in-reply-to:organization
+	:user-agent; bh=JHoDsvX7Uupgc84bOVv6LuGz/3lvfx18hvNa2BJHWPE=;
+	b=AeetuxGldvSjJkcN+jKkHRejNq4wMsPwcibZ1bv7yWkOkH2W6Ni8YCVkzke935gssh
+	VTUp/e+l/r6W1RIW8DSdm32Aspf8ZOGnq9gaj1DIH1FP8o/FGM0fr1QVHxijEk/t1VGq
+	28lxu4XmR9s9wu9hXatk7BYLqWLEho50q1JOQUVGsXeNTbG3kcMsAp+SyakvHSwXaZdB
+	sr+NUVCqR2gdHMJZg74YOYZwOSxV42/lz4HA9iJbRv+20GoeFd8vsieNWvq9h53da+og
+	fVY9vSdAmgMs2qAAjBrq7Nd6WXssD+cV8P7mqO2ftb2qC/wYhkFk1VNIWXr6xi6E4WzW
+	BEtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:organization
-	:mime-version:content-transfer-encoding;
-	bh=kLxah2wxWHOwSfvfQT+ql9cfsw9XlsCbJyIxmnwqNy8=;
-	b=s6yzQPWahPzqMp2gDYLUK1KD69pS76JWuz3sy5lR0XlHs1K+N4cG5Rv6fHipxkaBNt
-	mJwoIhTd4irxmRZ3JHJ33IYEm6kKm2U4b49qvpjokdr2mFFH4qceNtJXMThgPPitfHsr
-	C9xMNTVwVt+x54CZBJ2eCg9KbeTPyRwV1zZBX1f9b0g7Y4A/B+6CM40EoeLmcwoQ3D6w
-	S1yVOc8SIq5iq7mmDafwZVl3yA/ySMfzYOaIxOkOoksPDkr41pwKVzery3yy58LJNIDG
-	cpK6qGzM0horrDpxJLrfRAPKqDnYRa4xWv8FN49leE/WIx+FSA7F6A5y3xtLEQ32rpLI
-	d73Q==
-X-Gm-Message-State: AIkVDXJO+2gb/k/wPsbfG4YCiqurL07vWtNZzTzU/0CuAFagra4OjDWCAhCMLhSFyUVLZIpW
-X-Received: by 10.36.104.15 with SMTP id v15mr26726166itb.104.1486031884082;
-	Thu, 02 Feb 2017 02:38:04 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8E270.dip0.t-ipconnect.de. [93.232.226.112])
-	by smtp.gmail.com with ESMTPSA id z42sm694333ita.6.2017.02.02.02.38.01
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 02 Feb 2017 02:38:02 -0800 (PST)
-Message-ID: <1486031880.14889.35.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: OpenEmbedded <openembedded-core@lists.openembedded.org>
-Date: Thu, 02 Feb 2017 11:38:00 +0100
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Subject: host-user-contaminated QA check
+	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
+	:references:mime-version:content-disposition:in-reply-to
+	:organization:user-agent;
+	bh=JHoDsvX7Uupgc84bOVv6LuGz/3lvfx18hvNa2BJHWPE=;
+	b=a/1LmbE9/Suvr1Upe7okY2Koade+/AAwIy0MRBLLkQcMC800T7qhtYSPdmC8aqK5tt
+	PfDP5S3YhOqbVDeqqbbRJyGG6ecptCuQHCrM4MvThpUyZhhyO8mfoRAAa17nVhvpm3Kq
+	3NgbJY5zgkKgfFI/svBrJaTJJx/H6QDT9SLxnFyQ+kshKB1g07Sueg/UgGfrGRh0Pmas
+	h8xfo+xdnO+intqUDQFCJeV2WKuUsZAVQtrckweaDlWPhNS8OuTe7qUbhgBbhsAz6n1D
+	T3f+lVBLK7jpCt8jecNzXkU6z/RM9U4S5DwRg+TfRBOtSe3UhvwyTXHbkl0WVJSC2FdR
+	9alg==
+X-Gm-Message-State: AIkVDXKvFXgJbIIcLwJlAsbW7YPD8ypBNL/Zou0sxmOJGwUAesiiSqd+ZrHEqLMMUw/P3Q==
+X-Received: by 10.46.13.1 with SMTP id 1mr3004979ljn.27.1486032067865;
+	Thu, 02 Feb 2017 02:41:07 -0800 (PST)
+Received: from ad.chargestorm.se (194-237-220-218.customer.telia.com.
+	[194.237.220.218])
+	by smtp.gmail.com with ESMTPSA id w4sm2567830ljd.23.2017.02.02.02.41.06
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 02 Feb 2017 02:41:06 -0800 (PST)
+Date: Thu, 2 Feb 2017 11:41:05 +0100
+From: Anders Darander <anders@chargestorm.se>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20170202104105.yl4nrp3wbym7ahhf@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <cover.1485846907.git.anders@chargestorm.se>
+	<6f44da9601d2ae87573905ca1b7fa30cf5043100.1485846907.git.anders@chargestorm.se>
+	<385d3282-7a91-7d60-cd6a-393ada75bd09@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <385d3282-7a91-7d60-cd6a-393ada75bd09@gmail.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: NeoMutt/20170113 (1.7.2)
+Subject: Re: [PATCH v2 2/7] python3-manifest: move htlm.py to python3-html
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,63 +68,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Feb 2017 10:38:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 02 Feb 2017 10:41:13 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hello!
+* Khem Raj <raj.khem@gmail.com> [170201 17:52]:
 
-Recently the host-user-contaminated QA check triggered for the trousers
-recipe in meta-security:
+> On 1/30/17 11:18 PM, Anders Darander wrote:
+> > This allows us to use html.py without importing misc.
 
-WARNING: trousers-0.3.14+gitAUTOINC+4b9a70d578-r0 do_package_qa: QA
-Issue: trousers: /trousers/etc/tcsd.conf is owned by uid 1000, which is
-the same as the user running bitbake. This may be due to host
-contamination [host-user-contaminated]
+> html.py is provided by many packages. Does is make more sense to package
+> html.py on a package of its own ?
 
-However, that's a false positive in this case. UID 1000 got assigned to
-the "tss" user in the target sysroot during the build, and tcsd.conf is
-correctly and intentionally owned by that user because tcsd checks
-ownership and refuses to start when owned by someone else (including
-root). It just happened that the UID was the same.
+Hm, I had another look at this. On my build:
 
-This is likely to affect all recipes with files owned by dynamically
-created users, in particular when the host system assigns UIDs from the
-same range as the target system (quick poll: who else has 1000 as his
-UID on his main Linux box? ;-)
+$ du -sh python3-html/
+140K    python3-html/
 
-The current solution is to suppress the QA check for affected recipes.
-But I wonder whether we can do better.
+$ du -sh python3-html/usr/lib/python3.5/html/
+108K    python3-html/usr/lib/python3.5/html/
 
-Why do we make the real user ID on the build system visible at all when
-running under pseudo? The uid and user name have no meaning there, as
-the user won't exist on the target system. Instead we could map the
-owner of all files to root:root by default, i.e. in those cases where no
-other ownership is recorded in the pseudo database.
+Thus, the major part, 77%, of python3-html is related to my change.
+Thus, I'm not sure that it makes sense to put html in it's own
+package...
 
-The usual reason for host-user-contaminated is when do_install does a
-"cp -a". When mapping the real owner to root, that command will end up
-doing the right thing: create a file owned by root on the target.
+I'm not going to add a new package for html for the moment.
 
-Because the host user cannot leak into the target anymore, the entire QA
-check can be disabled.
-
-The only downsides of this approach that I can think of is that it hides
-such sloppy use of "cp" where "install" would be better, and it might be
-slightly confusing at first when working under devshell.
-
-Any thoughts?
-
-Seebs, I suppose this wouldn't be hard to implement in pseudo, would it?
+Cheers,
+Anders
 
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+Anders Darander, Senior System Architect
+ChargeStorm AB / eStorm AB
 
