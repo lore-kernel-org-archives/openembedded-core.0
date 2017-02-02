@@ -1,20 +1,44 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 02E1971DDD
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 671B471DDA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Feb 2017 20:21:49 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 02 Feb 2017 12:21:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,326,1477983600"; d="scan'208";a="1102290928"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.141])
-	by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2017 12:21:39 -0800
-From: leonardo.sandoval.gonzalez@linux.intel.com
+	Thu,  2 Feb 2017 20:22:32 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id 204so2696701pge.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 02 Feb 2017 12:22:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=c9sr86TGmq5kex8GVQXL82xYBLEBODMNGi9YShdOP70=;
+	b=m+j/iUIKCUwQEvZ93F41zKva5n7QdRnKdLR9yQ/1Rw1yRZlsz5CIGWJ3Ek39TTc6re
+	UEIZ6M9Hpr0bMEgcqgwr0wTCG+sVGi9Uvg+Km/dbPR4ldzFKrVTKfMJcEn9N8PgvU0NQ
+	gvncBEHgu0JhDj3fPitOF5CRjwQ2VDEJcNVBT0dys8UR8RE6UsBbPh+ZqGt9v2OVCwQ9
+	Ebw9fS98waYMbdg7zV/xHR5aMBpcC0ei24hoIMiVPJUVqUNUfFHeSzX3DROWMSzl+o5Z
+	PTDpMrX16k7Bx7JSaD5mPGtVTKNzRJWRBCNvJgSRM1iiITnZMJGpPm8ACF5D5ETNcYDP
+	cizQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=c9sr86TGmq5kex8GVQXL82xYBLEBODMNGi9YShdOP70=;
+	b=bdjsTjLvgd/aA2ol4XqQhh3IyN0DBRskGM31nMsrJLc98+9v+fAFPAGG2LLG8k41qF
+	fhALwrxL3hYE3LrR3nIXs6HGvwQXrXWxCxxUVfPkewZ59GP8HjLN1MjDxVXO7NFp7MtK
+	AuBtoLgkY6wTWbEXDNlTfZIjbtAn4h9xZF0CKrg6/32P+YhAZo2ybS2DlYhbD+mCVKn1
+	O30pmNBMbHznc+q608bmyBVAUg0kK7wZ8mCkj/HiJI+wOWm663BJVX9UdjRmb6+VvnS6
+	KVuh65VfpxcuIHXDal3GRCHZhgmJThghVOQd5FfnpsBJv32zVrMwA/jt62febkTIFYzT
+	tRZg==
+X-Gm-Message-State: AIkVDXIQGOKyRZY9csXqusRfxrwgI1hUqLbxTDJl1YEjmZFhq2tRuDVRUP5FXCCwxzN5fg==
+X-Received: by 10.84.196.164 with SMTP id l33mr15430683pld.158.1486066952748; 
+	Thu, 02 Feb 2017 12:22:32 -0800 (PST)
+Received: from e6520.cablelabs.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	66sm61180122pgg.47.2017.02.02.12.22.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 02 Feb 2017 12:22:31 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Feb 2017 14:28:48 -0600
-Message-Id: <1486067328-17841-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH v2] selftest/archiver: invalidate stamps instead of removing TMPDIR
+Date: Thu,  2 Feb 2017 12:22:26 -0800
+Message-Id: <1486066946-10670-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] pkgconfig: fix typo introduced during recent conversion to PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,39 +51,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Feb 2017 20:21:50 -0000
+X-List-Received-Date: Thu, 02 Feb 2017 20:22:32 -0000
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-
-There is no need to remove the whole TMPDIR, instead just invalidate
-stamps and build again the targets.
-
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/lib/oeqa/selftest/archiver.py | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/pkgconfig/pkgconfig_git.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/archiver.py b/meta/lib/oeqa/selftest/archiver.py
-index 97b6f5b..0af9634 100644
---- a/meta/lib/oeqa/selftest/archiver.py
-+++ b/meta/lib/oeqa/selftest/archiver.py
-@@ -28,8 +28,13 @@ class Archiver(oeSelfTest):
-         features += 'COPYLEFT_PN_EXCLUDE = "%s"\n' % exclude_recipe
-         self.write_config(features)
+diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
+index 5f2a5b6..422c5f3 100644
+--- a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
++++ b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
+@@ -24,7 +24,8 @@ inherit autotools
  
--        shutil.rmtree(get_bb_var('TMPDIR'))
--        bitbake("%s %s" % (include_recipe, exclude_recipe))
-+        # build again include/exclude recipes
-+        bitbake("-C fetch %s" % include_recipe)
-+        bitbake("-C fetch %s" % exclude_recipe)
+ PACKAGECONFIG ??= "glib"
+ PACKAGECONFIG_class-native = ""
+-PACKAGECONFIG_class-native = ""
++PACKAGECONFIG_class-nativesdk = ""
 +
-+        # clean output files and stamps
-+        bitbake("-c clean %s" % include_recipe)
-+        bitbake("-c clean %s" % exclude_recipe)
+ PACKAGECONFIG[glib] = "--without-internal-glib,--with-internal-glib,glib-2.0 pkgconfig-native"
  
-         src_path = os.path.join(get_bb_var('DEPLOY_DIR_SRC'), get_bb_var('TARGET_SYS'))
- 
+ acpaths = "-I ."
 -- 
-2.1.4
+1.9.1
 
 
