@@ -1,27 +1,42 @@
-Return-Path: <andrej.valek@siemens.com>
-X-Greylist: delayed 375 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 02 Feb 2017 08:41:20 UTC
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 41FC371AC5
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 4039871988
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Feb 2017 08:41:18 +0000 (UTC)
-Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id v128Z4DP017831
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	Thu,  2 Feb 2017 10:29:00 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id r141so82246611wmg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 2 Feb 2017 09:35:04 +0100
-Received: from dev.sbt.siemens.com ([163.242.52.173])
-	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id v128Z3ke027992;
-	Thu, 2 Feb 2017 09:35:03 +0100
-Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
-	by dev.sbt.siemens.com (Postfix) with ESMTP id 9250F120;
-	Thu,  2 Feb 2017 09:35:03 +0100 (CET)
-From: Andrej Valek <andrej.valek@siemens.com>
+	Thu, 02 Feb 2017 02:29:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=+l8R//01tBMJrF7d6wF1VDlMflwV9DQsHDLK7xBqdu4=;
+	b=g3Qp3Tl1Tjo76jzMFqesXmibMN5aRmIWrBHvVy0J5ylyhqNRzS0i0WiZrTJyMrBP5m
+	h7Lv8xwoOAdEoEPd5tQxx50jnh0uW3BMX8/sXyxwclTR5JPPv6xOgpiGG6/OF5eiF/XT
+	Dz8iZ7XX56LFc9pxXz0jBcD7MOI3z2haulfPw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=+l8R//01tBMJrF7d6wF1VDlMflwV9DQsHDLK7xBqdu4=;
+	b=VrI6nak3QB6Anbnt186+zdutsaq77AAb/F9qedymp9me/NICER8+HAGyLucWv+E/EP
+	yRBVwO+dxWODgcGuVFYT8/OxKBjYc5vBVb8/953SLmMjq1tXe9JviwI4HjHtq9ZuUoXK
+	jPuX6aSzNUmEcYsHRCa8tnnaw2EBv3R9bK/pzEKoc5pSFDkytDsPhqkX3V+NKUpVcYug
+	z/P2AbKCJLN8LVU8IcjDYoxwFNHxNPlF4YFxn9yvcuHsm7mxnui5fUmX7wqQW4RyFP00
+	fGEtbzq/iE72JrdkYRzsX/Gf7JVBx4J8LRGKGr8yY6EWxYSzLDKG8eodlZIMQbyi6M7s
+	jFaw==
+X-Gm-Message-State: AIkVDXITSlRAIIZBpEOjpWKQBHWcT9+yykSoO8JTNLYxMsiN0yRjyqTsb2Po2bC097OJLjdY
+X-Received: by 10.28.93.68 with SMTP id r65mr7220482wmb.133.1486031340628;
+	Thu, 02 Feb 2017 02:29:00 -0800 (PST)
+Received: from localhost.localdomain (ip4da29576.direct-adsl.nl.
+	[77.162.149.118]) by smtp.gmail.com with ESMTPSA id
+	q4sm39024438wrc.35.2017.02.02.02.28.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 02 Feb 2017 02:28:59 -0800 (PST)
+From: Koen Kooi <koen.kooi@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Feb 2017 09:35:00 +0100
-Message-Id: <1486024500-7978-1-git-send-email-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] openssl: Updgrade 1.0.2j -> 1.0.2k
+Date: Thu,  2 Feb 2017 11:28:28 +0100
+Message-Id: <20170202102828.19819-1-koen.kooi@linaro.org>
+X-Mailer: git-send-email 2.9.3
+Cc: Koen Kooi <koen.kooi@linaro.org>
+Subject: [PATCH] gdb 7.12: fix armv8b build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,200 +49,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Feb 2017 08:41:28 -0000
+X-List-Received-Date: Thu, 02 Feb 2017 10:29:02 -0000
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+Backport fix from GDB upstream to fix big-endian aarch64 build.
+
+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
 ---
- .../openssl/openssl/CVE-2016-7055.patch            | 43 ----------------
- .../recipes-connectivity/openssl/openssl_1.0.2j.bb | 60 ----------------------
- .../recipes-connectivity/openssl/openssl_1.0.2k.bb | 59 +++++++++++++++++++++
- 3 files changed, 59 insertions(+), 103 deletions(-)
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-7055.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl_1.0.2j.bb
- create mode 100644 meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
+ meta/recipes-devtools/gdb/gdb-7.12.inc             |  1 +
+ .../cb93dc7f262978bafe36397a41a56e409a302042.patch | 42 ++++++++++++++++++++++
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-devtools/gdb/gdb/cb93dc7f262978bafe36397a41a56e409a302042.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2016-7055.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2016-7055.patch
-deleted file mode 100644
-index 83a74cd..0000000
---- a/meta/recipes-connectivity/openssl/openssl/CVE-2016-7055.patch
-+++ /dev/null
-@@ -1,43 +0,0 @@
--From 57c4b9f6a2f800b41ce2836986fe33640f6c3f8a Mon Sep 17 00:00:00 2001
--From: Andy Polyakov <appro@openssl.org>
--Date: Sun, 6 Nov 2016 18:33:17 +0100
--Subject: [PATCH] bn/asm/x86_64-mont.pl: fix for CVE-2016-7055 (Low severity).
--
--Reviewed-by: Rich Salz <rsalz@openssl.org>
--(cherry picked from commit 2fac86d9abeaa643677d1ffd0a139239fdf9406a)
--
--Upstream-Status: Backport [https://github.com/openssl/openssl/commit/57c4b9f6a2f800b41ce2836986fe33640f6c3f8a]
--CVE: CVE-2016-7055
--Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-----
-- crypto/bn/asm/x86_64-mont.pl | 5 ++---
-- 1 file changed, 2 insertions(+), 3 deletions(-)
--
--diff --git a/crypto/bn/asm/x86_64-mont.pl b/crypto/bn/asm/x86_64-mont.pl
--index 044fd7e..80492d8 100755
----- a/crypto/bn/asm/x86_64-mont.pl
--+++ b/crypto/bn/asm/x86_64-mont.pl
--@@ -1148,18 +1148,17 @@ $code.=<<___;
-- 	mulx	2*8($aptr),%r15,%r13	# ...
-- 	adox	-3*8($tptr),%r11
-- 	adcx	%r15,%r12
---	adox	$zero,%r12
--+	adox	-2*8($tptr),%r12
-- 	adcx	$zero,%r13
--+	adox	$zero,%r13
-- 
-- 	mov	$bptr,8(%rsp)		# off-load &b[i]
---	.byte	0x67
-- 	mov	$mi,%r15
-- 	imulq	24(%rsp),$mi		# "t[0]"*n0
-- 	xor	%ebp,%ebp		# xor	$zero,$zero	# cf=0, of=0
-- 
-- 	mulx	3*8($aptr),%rax,%r14
-- 	 mov	$mi,%rdx
---	adox	-2*8($tptr),%r12
-- 	adcx	%rax,%r13
-- 	adox	-1*8($tptr),%r13
-- 	adcx	$zero,%r14
---- 
--2.7.4
--
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb
-deleted file mode 100644
-index 94672f9..0000000
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb
-+++ /dev/null
-@@ -1,60 +0,0 @@
--require openssl.inc
--
--# For target side versions of openssl enable support for OCF Linux driver
--# if they are available.
--DEPENDS += "cryptodev-linux"
--
--CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
--CFLAG_append_class-native = " -fPIC"
--
--LIC_FILES_CHKSUM = "file://LICENSE;md5=27ffa5d74bb5a337056c14b2ef93fbf6"
--
--export DIRS = "crypto ssl apps engines"
--export OE_LDFLAGS="${LDFLAGS}"
--
--SRC_URI += "file://find.pl;subdir=${BP}/util/ \
--            file://run-ptest \
--            file://openssl-c_rehash.sh \
--            file://configure-targets.patch \
--            file://shared-libs.patch \
--            file://oe-ldflags.patch \
--            file://engines-install-in-libdir-ssl.patch \
--            file://debian1.0.2/block_diginotar.patch \
--            file://debian1.0.2/block_digicert_malaysia.patch \
--            file://debian/ca.patch \
--            file://debian/c_rehash-compat.patch \
--            file://debian/debian-targets.patch \
--            file://debian/man-dir.patch \
--            file://debian/man-section.patch \
--            file://debian/no-rpath.patch \
--            file://debian/no-symbolic.patch \
--            file://debian/pic.patch \
--            file://debian1.0.2/version-script.patch \
--            file://openssl_fix_for_x32.patch \
--            file://fix-cipher-des-ede3-cfb1.patch \
--            file://openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch \
--            file://openssl-fix-des.pod-error.patch \
--            file://Makefiles-ptest.patch \
--            file://ptest-deps.patch \
--            file://openssl-1.0.2a-x32-asm.patch \
--            file://ptest_makefile_deps.patch  \
--            file://configure-musl-target.patch \
--            file://parallel.patch \
--            file://openssl-util-perlpath.pl-cwd.patch \
--            file://CVE-2016-7055.patch \
--           "
--SRC_URI[md5sum] = "96322138f0b69e61b7212bc53d5e912b"
--SRC_URI[sha256sum] = "e7aff292be21c259c6af26469c7a9b3ba26e9abaaffd325e3dccc9785256c431"
--
--PACKAGES =+ "${PN}-engines"
--FILES_${PN}-engines = "${libdir}/ssl/engines/*.so ${libdir}/engines"
--
--# The crypto_use_bigint patch means that perl's bignum module needs to be
--# installed, but some distributions (for example Fedora 23) don't ship it by
--# default.  As the resulting error is very misleading check for bignum before
--# building.
--do_configure_prepend() {
--	if ! perl -Mbigint -e true; then
--		bbfatal "The perl module 'bignum' was not found but this is required to build openssl.  Please install this module (often packaged as perl-bignum) and re-run bitbake."
--	fi
--}
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
+diff --git a/meta/recipes-devtools/gdb/gdb-7.12.inc b/meta/recipes-devtools/gdb/gdb-7.12.inc
+index 2faddc5..7eea65f 100644
+--- a/meta/recipes-devtools/gdb/gdb-7.12.inc
++++ b/meta/recipes-devtools/gdb/gdb-7.12.inc
+@@ -15,6 +15,7 @@ SRC_URI = "http://ftp.gnu.org/gnu/gdb/gdb-${PV}.tar.xz \
+            file://0008-Use-exorted-definitions-of-SIGRTMIN.patch \
+            file://0009-Change-order-of-CFLAGS.patch \
+            file://0010-resolve-restrict-keyword-conflict.patch \
++	   file://cb93dc7f262978bafe36397a41a56e409a302042.patch \
+ "
+ SRC_URI[md5sum] = "a0a3a00f7499b0c5278ba8676745d180"
+ SRC_URI[sha256sum] = "834ff3c5948b30718343ea57b11cbc3235d7995c6a4f3a5cecec8c8114164f94"
+diff --git a/meta/recipes-devtools/gdb/gdb/cb93dc7f262978bafe36397a41a56e409a302042.patch b/meta/recipes-devtools/gdb/gdb/cb93dc7f262978bafe36397a41a56e409a302042.patch
 new file mode 100644
-index 0000000..1973f81
+index 0000000..a3f488a
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
-@@ -0,0 +1,59 @@
-+require openssl.inc
++++ b/meta/recipes-devtools/gdb/gdb/cb93dc7f262978bafe36397a41a56e409a302042.patch
+@@ -0,0 +1,42 @@
++From cb93dc7f262978bafe36397a41a56e409a302042 Mon Sep 17 00:00:00 2001
++From: Yao Qi <yao.qi@linaro.org>
++Date: Mon, 24 Oct 2016 10:59:11 +0100
++Subject: [PATCH] [GDBserver] Fix conversion warning
 +
-+# For target side versions of openssl enable support for OCF Linux driver
-+# if they are available.
-+DEPENDS += "cryptodev-linux"
++I got the following warning if I build GDBserver for aarch64_be-linux-gnu,
 +
-+CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
-+CFLAG_append_class-native = " -fPIC"
++git/gdb/gdbserver/linux-aarch64-low.c:1539:39: error: invalid conversion from 'void*' to 'uint32_t* {aka unsigned int*}' [-fpermissive]
++   uint32_t *le_buf = xmalloc (byte_len);
++                                       ^
++The patch is to fix the warning.
 +
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=27ffa5d74bb5a337056c14b2ef93fbf6"
++gdb/gdbserver:
 +
-+export DIRS = "crypto ssl apps engines"
-+export OE_LDFLAGS="${LDFLAGS}"
++2016-10-24  Yao Qi  <yao.qi@linaro.org>
 +
-+SRC_URI += "file://find.pl;subdir=${BP}/util/ \
-+            file://run-ptest \
-+            file://openssl-c_rehash.sh \
-+            file://configure-targets.patch \
-+            file://shared-libs.patch \
-+            file://oe-ldflags.patch \
-+            file://engines-install-in-libdir-ssl.patch \
-+            file://debian1.0.2/block_diginotar.patch \
-+            file://debian1.0.2/block_digicert_malaysia.patch \
-+            file://debian/ca.patch \
-+            file://debian/c_rehash-compat.patch \
-+            file://debian/debian-targets.patch \
-+            file://debian/man-dir.patch \
-+            file://debian/man-section.patch \
-+            file://debian/no-rpath.patch \
-+            file://debian/no-symbolic.patch \
-+            file://debian/pic.patch \
-+            file://debian1.0.2/version-script.patch \
-+            file://openssl_fix_for_x32.patch \
-+            file://fix-cipher-des-ede3-cfb1.patch \
-+            file://openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch \
-+            file://openssl-fix-des.pod-error.patch \
-+            file://Makefiles-ptest.patch \
-+            file://ptest-deps.patch \
-+            file://openssl-1.0.2a-x32-asm.patch \
-+            file://ptest_makefile_deps.patch  \
-+            file://configure-musl-target.patch \
-+            file://parallel.patch \
-+            file://openssl-util-perlpath.pl-cwd.patch \
-+           "
-+SRC_URI[md5sum] = "f965fc0bf01bf882b31314b61391ae65"
-+SRC_URI[sha256sum] = "6b3977c61f2aedf0f96367dcfb5c6e578cf37e7b8d913b4ecb6643c3cb88d8c0"
++	PR server/20733
++	* linux-aarch64-low.c (append_insns): Cast the return value to
++	'uint32_t *'.
 +
-+PACKAGES =+ "${PN}-engines"
-+FILES_${PN}-engines = "${libdir}/ssl/engines/*.so ${libdir}/engines"
++Upstream-status: Backport
 +
-+# The crypto_use_bigint patch means that perl's bignum module needs to be
-+# installed, but some distributions (for example Fedora 23) don't ship it by
-+# default.  As the resulting error is very misleading check for bignum before
-+# building.
-+do_configure_prepend() {
-+	if ! perl -Mbigint -e true; then
-+		bbfatal "The perl module 'bignum' was not found but this is required to build openssl.  Please install this module (often packaged as perl-bignum) and re-run bitbake."
-+	fi
-+}
++---
++ gdb/gdbserver/linux-aarch64-low.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/gdb/gdbserver/linux-aarch64-low.c b/gdb/gdbserver/linux-aarch64-low.c
++index e54a8ba..ae80cdd 100644
++--- a/gdb/gdbserver/linux-aarch64-low.c
+++++ b/gdb/gdbserver/linux-aarch64-low.c
++@@ -1536,7 +1536,7 @@ append_insns (CORE_ADDR *to, size_t len, const uint32_t *buf)
++ {
++   size_t byte_len = len * sizeof (uint32_t);
++ #if (__BYTE_ORDER == __BIG_ENDIAN)
++-  uint32_t *le_buf = xmalloc (byte_len);
+++  uint32_t *le_buf = (uint32_t *) xmalloc (byte_len);
++   size_t i;
++ 
++   for (i = 0; i < len; i++)
++-- 
++2.9.3
++
 -- 
-2.1.4
+2.9.3
 
 
