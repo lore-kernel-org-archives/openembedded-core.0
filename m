@@ -1,27 +1,50 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id C20DE6079E
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Feb 2017 22:36:33 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga105.fm.intel.com with ESMTP; 01 Feb 2017 14:36:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,322,1477983600"; d="scan'208,217";a="59811132"
-Received: from lsandov1-mobl2.zpn.intel.com (HELO [10.219.128.141])
-	([10.219.128.141])
-	by orsmga005.jf.intel.com with ESMTP; 01 Feb 2017 14:36:32 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1485972323-9884-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-	<CAJTo0LaE6VRgK_say=emAmTVOOho0BmuStCoCfAeuCWKNwUvDw@mail.gmail.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Message-ID: <2ec8737b-cfd1-6778-7d3a-0fa416cac304@linux.intel.com>
-Date: Wed, 1 Feb 2017 16:43:44 -0600
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 797E671B0B;
+	Thu,  2 Feb 2017 00:07:46 +0000 (UTC)
+Received: by mail-pf0-f178.google.com with SMTP id 189so79355pfu.3;
+	Wed, 01 Feb 2017 16:07:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=to:from:subject:message-id:date:user-agent:mime-version
+	:content-transfer-encoding;
+	bh=V/he/56y5vf+MwygKOgXV5skfCNqTndggeWczeyTViw=;
+	b=IKwHx831lp0Zj/sbmF5tjv0vqTSN0UkWSZmrHh5iPD9WgWtgv5tlIFtiyhqy9rL8ol
+	yAtFbpmVqN9uWihVM5X32oAWEgLSPzvq8aUZ8RY6h5sWu6T6usYcRqjkFWxdKR+urjnq
+	hsDv3+EEockHja6532c7ZfqF9DcuR7UHJhG/deS1WiCoUVIL1xJbUwixqQn9ixZTCl62
+	rL6YX32l1KCMe/ZDHX2lZvWpsfvU7TwqKQLs4IiZ0/RJWkqRqi46aSCeoKYU0jKwpohW
+	3QFgxXhNqjmtMjqKqCsyi/a+kImx6hobS+bd0/SEMrreXJ/M8n8lZxS+Kaqlh5hy0yID
+	l6kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=V/he/56y5vf+MwygKOgXV5skfCNqTndggeWczeyTViw=;
+	b=lq9+A3h6pIetDbixUcdyIUSnjQyLdLZCl51Dp+N1W4wrRvg2raP/RX1b035r4MokTK
+	5JFr0WAXiTMPjBOZWV7MaEQlIkvy4BJF7zZrEzvrAfp/eqwoj45bIQYyUONh1e+7nhWX
+	bto7cB4yI+lM4exNvMQkaEyx6OXKmahcguYKT5SlGmsILpY+rvM+qDw6FrxFUJYXFDSd
+	QbaKMqqfbQL1mfozbpKRy/dZwe/QTrssfVzF4t6sGSBJ94PB4eP9kfl1pDsdrqi2wSXm
+	aVHQFt4xTDIITu5engjYPmFIK/3Mgiraxm24gClH+u8GaimMZvBsELF6a+kkdLur8NwB
+	fA6Q==
+X-Gm-Message-State: AIkVDXIf/0I59hSWc9HaqQ350GC7K8ULZqaZitmmne36F4WfGdrlt5R8eqLHPTiBDbQlwg==
+X-Received: by 10.99.209.85 with SMTP id c21mr6932076pgj.147.1485994066361;
+	Wed, 01 Feb 2017 16:07:46 -0800 (PST)
+Received: from ?IPv6:2601:202:4001:9ea0:d12f:3ef1:f4ff:7b5b?
+	([2601:202:4001:9ea0:d12f:3ef1:f4ff:7b5b])
+	by smtp.gmail.com with ESMTPSA id
+	s64sm52507085pfe.27.2017.02.01.16.07.45
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 01 Feb 2017 16:07:45 -0800 (PST)
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <14809711-d018-2aaa-6faa-c410e16e1478@gmail.com>
+Date: Wed, 1 Feb 2017 16:07:44 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.6.0
+	Thunderbird/45.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaE6VRgK_say=emAmTVOOho0BmuStCoCfAeuCWKNwUvDw@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] selftest/archiver: invalidate stamps instead of removing TMPDIR
+Subject: OEDEM minutes review for Portland
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,92 +57,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2017 22:36:37 -0000
-Content-Type: multipart/alternative;
-	boundary="------------8FB641E99E6F5A9406DBA305"
-
---------------8FB641E99E6F5A9406DBA305
+X-List-Received-Date: Thu, 02 Feb 2017 00:07:46 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
+Hello all,
+
+I add the Title and conclusion for each issue noted in the last years 
+OEDEM in Berlin. For those who signed up to take an action, please 
+review http://openembedded.org/wiki/OEDAM_2017/  Either update the 
+status on the wiki or send me an email if you want me to do it.   I am 
+trying to get a current state for those issues before our next meeting 
+in Feb.
 
 
-On 02/01/2017 02:42 PM, Burton, Ross wrote:
->
-> On 1 February 2017 at 18:05, 
-> <leonardo.sandoval.gonzalez@linux.intel.com 
-> <mailto:leonardo.sandoval.gonzalez@linux.intel.com>> wrote:
->
->     -   shutil.rmtree(get_bb_var('TMPDIR'))
->     -        bitbake("%s %s" % (include_recipe, exclude_recipe))
->     +        bitbake("-C fetch %s" % include_recipe)
->     +        bitbake("-C fetch %s" % exclude_recipe)
->
->
-> You'll probably want to have a cleanup of the recipes to remove the 
-> tainted stamps: bitbake -cclean for the recipes will do it.
-Got it, so -c and -C left .taint files. I send a v2 soon.
+kind regards,
 
-Leo
->
-> Ross
+Armin
 
 
---------------8FB641E99E6F5A9406DBA305
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p><br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">On 02/01/2017 02:42 PM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LaE6VRgK_say=emAmTVOOho0BmuStCoCfAeuCWKNwUvDw@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 1 February 2017 at 18:05, <span
-              dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:leonardo.sandoval.gonzalez@linux.intel.com"
-                target="_blank">leonardo.sandoval.gonzalez@linux.intel.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":66o" class="a3s aXjCH m159fad411d836936">-     
-                  shutil.rmtree(get_bb_var('<wbr>TMPDIR'))<br>
-                -        bitbake("%s %s" % (include_recipe,
-                exclude_recipe))<br>
-                +        bitbake("-C fetch %s" % include_recipe)<br>
-                +        bitbake("-C fetch %s" % exclude_recipe)</div>
-            </blockquote>
-          </div>
-          <br>
-          You'll probably want to have a cleanup of the recipes to
-          remove the tainted stamps: bitbake -cclean for the recipes
-          will do it.</div>
-      </div>
-    </blockquote>
-    Got it, so -c and -C left .taint files. I send a v2 soon.<br>
-    <br>
-    Leo<br>
-    <blockquote
-cite="mid:CAJTo0LaE6VRgK_say=emAmTVOOho0BmuStCoCfAeuCWKNwUvDw@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------8FB641E99E6F5A9406DBA305--
