@@ -1,24 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 3258871CA5
+	by mail.openembedded.org (Postfix) with ESMTP id B79BA71D9A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Feb 2017 13:55:25 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga104.jf.intel.com with ESMTP; 02 Feb 2017 05:55:26 -0800
+	Thu,  2 Feb 2017 13:55:54 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga104.jf.intel.com with ESMTP; 02 Feb 2017 05:55:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,324,1477983600"; d="scan'208";a="54730507"
+X-IronPort-AV: E=Sophos;i="5.33,324,1477983600"; d="scan'208";a="1102116781"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga004.jf.intel.com with ESMTP; 02 Feb 2017 05:55:26 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2017 05:55:55 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id BC22A6A4080
+	by linux.intel.com (Postfix) with ESMTP id 3F8446A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Feb 2017 05:54:26 -0800 (PST)
+	Thu,  2 Feb 2017 05:54:55 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Feb 2017 15:32:56 +0200
-Message-Id: <cover.1486041986.git.ed.bartosh@linux.intel.com>
+Date: Thu,  2 Feb 2017 15:32:57 +0200
+Message-Id: <ae6368b2daca806a1e7d9261b910458bd559fe17.1486041986.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/3] wic: fix creation of working directory
+In-Reply-To: <cover.1486041986.git.ed.bartosh@linux.intel.com>
+References: <cover.1486041986.git.ed.bartosh@linux.intel.com>
+Subject: [PATCH 1/3] wic: engine: create output dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,38 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Feb 2017 13:55:26 -0000
+X-List-Received-Date: Thu, 02 Feb 2017 13:55:55 -0000
 
-Hi,
+Make sure output directory exists before creating an image.
+Create it if it doesn't exist.
 
-Changed working directory to be subdirectory of output dir.
-This should fix several possible issues:
-- current code uses mktemp which doesn't create anything
-- default temporary directory is created in /tmp, which can
-  cause wic to take long time to move result image as output
-  directory can be on another partition
-- possible disk space issues due to the /tmp usage
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/lib/wic/engine.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-The following changes since commit 7d75fd29296a9c411881b4288bff2e02cb145a25:
-
-  wic: remove syslinux.py (2017-02-01 12:46:17 +0200)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ed/wic/refactoring-10619
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wic/refactoring-10619
-
-Ed Bartosh (3):
-  wic: engine: create output dir
-  wic: direct: fix creation of work directory
-  wic: get rid of image_output_dir variable
-
- scripts/lib/wic/engine.py                | 3 +++
- scripts/lib/wic/plugins/imager/direct.py | 2 +-
- scripts/wic                              | 6 +-----
- 3 files changed, 5 insertions(+), 6 deletions(-)
-
---
+diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
+index 592ef77..7fb6f13 100644
+--- a/scripts/lib/wic/engine.py
++++ b/scripts/lib/wic/engine.py
+@@ -187,6 +187,9 @@ def wic_create(wks_file, rootfs_dir, bootimg_dir, kernel_dir,
+     if debug:
+         msger.set_loglevel('debug')
+ 
++    if not os.path.exists(image_output_dir):
++        os.makedirs(image_output_dir)
++
+     crobj = creator.Creator()
+ 
+     cmdline = ["direct", native_sysroot, kernel_dir, bootimg_dir, rootfs_dir,
+-- 
 2.1.4
 
 
