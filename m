@@ -1,53 +1,47 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
-	[209.85.214.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EA1E71C14
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CCCE71C07
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Feb 2017 11:20:29 +0000 (UTC)
-Received: by mail-it0-f52.google.com with SMTP id c7so38697459itd.1
+	Thu,  2 Feb 2017 11:48:34 +0000 (UTC)
+Received: by mail-qt0-f177.google.com with SMTP id k15so25182191qtg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Feb 2017 03:20:30 -0800 (PST)
+	Thu, 02 Feb 2017 03:48:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=oe8b0l+LM/WOtC1TTea7k3mtLY5nGVitui8XH+5JmaQ=;
-	b=wgvqR1POjuVbQo8pjZ6DRXw3m8AvKqtXtAvuDwMLSoyEwcMjWGKw4fifmBK9GuDULr
-	YbPQcnK2pUCDhRI+f6aYwnf2wuOgEgSolfBH/9xsrhVsO/Z/tWglZG+rN2vM6gCLCGmF
-	MJHDtkNufGamAIZE3NCm1Qec9JMzSxN6arjeZ1OwL0dbZ0YKwVhf+ZY3FZJFaX5oW2qy
-	Nck8GTTwUibQbir2fV91poP5bA16S3QBnMe5Ok/KAsCyl1VlAVj2jBZt3t8iQBhHiLWU
-	AiHGRcH5b1R4KwLH6dCscOvxTdgSME74UKTHDkqeIbhiBz8gpi6U5a1IhPoTvydxYoUv
-	+vxg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=f7noaQ50Xv93bPpkJQRhRmF/rsl3NRtv5ngXfwvgqhw=;
+	b=SjRkybZzMMmLVde/0NGVYn62R+ADLjB5e7Y4RWD6d7PVsyZdcvozAhGLZ5NORkIB9I
+	lWBrCYN1UFhjt+uQrqvymK6gK9lPwerrFoaeskQPXntJV2y/YkwNZXdLRmBRDnrjDCe1
+	hgZmUcEakAVj3BKk8AlFnMyg4htQryn5NZLGuEGRnPiYGcWFJEFWU9InwClL8qunHwmh
+	OFe8jG/da6LMhlqUKQiFIBkarUBBCDJ2f5RVVXCyt7tixk39qxzZcAVQFIYm6Fthgm+z
+	rZGcDankMU4cxzblzcTUuYxAL9ba01dfSIMtNReACnhilaP0rOHIpXaHc1X++pBZarE4
+	k0yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=oe8b0l+LM/WOtC1TTea7k3mtLY5nGVitui8XH+5JmaQ=;
-	b=MCSOm4Ok3ABY2PkKXzX1q4qtxHKuD0lKD1aYPUJNVDQm8n0qzuNTuAPFNfbYYV+S77
-	a8GgGUpd/ZP4enG0VwcdioLxJIJ4Exx1RP/X0VQ77e5iMerJeUgMDfE56D9bD24AQkTR
-	OgLjcdaK0REp5soeaAVq2LUcSx104Bl5JuabvH70KdjDtUeCWq41U/INgJFbRTImiVil
-	K7bTYeYpNGWCINzHzo6sa9yqjRD4OFCZVgPDlhBboXvqu+TZd5pdnEG5cd8/1kQPl2jD
-	ISNpXZK2Tb7WUGNsFzLQHwnoWs6PJ9y99qcAW/OABdlNx6tww0MjJCTusdzDPQ/AOQfi
-	oUPA==
-X-Gm-Message-State: AIkVDXKtqc8gpx4I1ZnaXzALbFS6Tmzcn+A3TPy9/kmWff2oHBXRe69hSlQYvZux8XA18R/r
-X-Received: by 10.36.3.68 with SMTP id e65mr18159447ite.50.1486034430004;
-	Thu, 02 Feb 2017 03:20:30 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8E270.dip0.t-ipconnect.de. [93.232.226.112])
-	by smtp.gmail.com with ESMTPSA id 86sm739066iok.8.2017.02.02.03.20.27
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 02 Feb 2017 03:20:28 -0800 (PST)
-Message-ID: <1486034426.14889.46.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 02 Feb 2017 12:20:26 +0100
-In-Reply-To: <aeb5c3c0-339c-45e0-9e1e-bbad796e1a2b@gmail.com>
-References: <20170131090529.5321-1-patrick.ohly@intel.com>
-	<aeb5c3c0-339c-45e0-9e1e-bbad796e1a2b@gmail.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libtasn1: depends on yacc
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=f7noaQ50Xv93bPpkJQRhRmF/rsl3NRtv5ngXfwvgqhw=;
+	b=uDM7D8hYM4rcNiy7a4oyIQ9pD912twVMKV7FvqmwlZlpYZiua8xQcgMbkZ1XhiK7Pg
+	KUsugxvudNRjibZ7pr1ZlNwKPxuV54RSDgRazWgfFod2OYyRvAWp4LN7bHHIOCLNt0XX
+	jYjOEkxNPFm1v6YqL3jm94Fbhh22SOueHWp6uf30jU+UtOvtj22UTLoGBkq1GNRMMDGR
+	NayxwNMyyFA/08pOHPzRJjOeAkYLwBAyI//A+Kwr5WoRkCoTGmhXUreiKFYNf1EpmRvo
+	2HKqliOh0mJvoLHf0/icZO7WSSj6c8wC0cIsvWnoumsMIyw8JjgR1aDLuHa2TjTVTJYH
+	066A==
+X-Gm-Message-State: AIkVDXKt9CblzUKzHS+mpZ4HaTxzVaak70yCMOPFBSVU09lE7ngwtoltIUCER1KieXFimAv0bDybmC5zG2R7UG6m
+X-Received: by 10.200.39.212 with SMTP id x20mr7245353qtx.109.1486036114462;
+	Thu, 02 Feb 2017 03:48:34 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.103.233 with HTTP; Thu, 2 Feb 2017 03:48:14 -0800 (PST)
+In-Reply-To: <b8f21f98-445d-a91b-aba7-c9ba7263f539@mlbassoc.com>
+References: <1484974938-6497-1-git-send-email-gary@mlbassoc.com>
+	<b8f21f98-445d-a91b-aba7-c9ba7263f539@mlbassoc.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 2 Feb 2017 11:48:14 +0000
+Message-ID: <CAJTo0LaeNMccibT-8OjHe4Zka5AEa_-KY9xFLCimvXyQVUVaew@mail.gmail.com>
+To: Gary Thomas <gary@mlbassoc.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glib-2.0: native package should not depend on DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,50 +54,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Feb 2017 11:20:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 02 Feb 2017 11:48:37 -0000
+Content-Type: multipart/alternative; boundary=001a1135b542ba1f9a05478abe34
 
-On Wed, 2017-02-01 at 08:56 -0800, Khem Raj wrote:
-> 
-> On 1/31/17 1:05 AM, Patrick Ohly wrote:
-> > This fixes a potential pollution by the build host and build error
-> > when yacc isn't installed on the build host:
-> > 
-> >  | ../../libtasn1-4.9/build-aux/ylwrap: line 175: yacc: command not found
-> >  | Makefile:1116: recipe for target 'ASN1.c' failed
-> >  | make[3]: *** [ASN1.c] Error 127
-> > 
-> > Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
-> > ---
-> >  meta/recipes-support/gnutls/libtasn1_4.9.bb | 2 ++
-> >  1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/meta/recipes-support/gnutls/libtasn1_4.9.bb b/meta/recipes-support/gnutls/libtasn1_4.9.bb
-> > index b8ff9eaf7a9..3da5d4bcc56 100644
-> > --- a/meta/recipes-support/gnutls/libtasn1_4.9.bb
-> > +++ b/meta/recipes-support/gnutls/libtasn1_4.9.bb
-> > @@ -16,6 +16,8 @@ SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
-> >             file://0004-tools-eliminated-compiler-warnings.patch \
-> >             "
-> >  
-> > +DEPENDS = "bison-native"
-> > +
-> 
-> nit on style, you generally put checksum assignments immediately after
-> SRC_URI containing the origninal src location. Secondly, if we use +=
-> then we dont run the risk of it overwriting prior assignments if any
+--001a1135b542ba1f9a05478abe34
+Content-Type: text/plain; charset=UTF-8
 
-Makes sense, will change that as suggested.
+On 31 January 2017 at 05:08, Gary Thomas <gary@mlbassoc.com> wrote:
 
--- 
-Best Regards, Patrick Ohly
+> Ping?
+>
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+Staged locally, thanks Gary.
 
+Ross
 
+--001a1135b542ba1f9a05478abe34
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 31 January 2017 at 05:08, Gary Thomas <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:gary@mlbassoc.com" target=3D"_blank">gary@mlbassoc.com</a>&gt;</span>=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex"><div id=3D":6n2" class=3D"a3s aXj=
+CH m159f2f24b3dcbe42">Ping?<br></div></blockquote><div><br></div><div>Stage=
+d locally, thanks Gary.</div><div><br></div><div>Ross=C2=A0</div></div><br>=
+</div></div>
 
+--001a1135b542ba1f9a05478abe34--
