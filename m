@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 6214F71DDA;
-	Fri,  3 Feb 2017 00:20:53 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 5685471DDA;
+	Fri,  3 Feb 2017 00:20:54 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Ross Burton <ross.burton@intel.com>
-Date: Fri, 03 Feb 2017 00:20:54 -0000
-Message-ID: <20170203002054.9312.54537@do.openembedded.org>
-References: <1486060441-14847-1-git-send-email-ross.burton@intel.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 03 Feb 2017 00:20:55 -0000
+Message-ID: <20170203002055.9312.68640@do.openembedded.org>
+References: <1486066946-10670-1-git-send-email-armccurdy@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1486060441-14847-1-git-send-email-ross.burton@intel.com>
+In-Reply-To: <1486066946-10670-1-git-send-email-armccurdy@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZXVkZXY6IGFkZCBSUFJPVklERVMgc28gZXVkZXYtaHdkYiBwcm92aWRlcyB1ZGV2LWh3ZGI=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcGtnY29uZmlnOiBmaXggdHlwbyBpbnRyb2R1Y2VkIGR1cmluZyByZWNlbnQgY29udmVyc2lvbiB0byBQQUNLQUdFQ09ORklH?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Feb 2017 00:20:53 -0000
+X-List-Received-Date: Fri, 03 Feb 2017 00:20:54 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: eudev: add RPROVIDES so eudev-hwdb provides udev-hwdb
+Series: pkgconfig: fix typo introduced during recent conversion to PACKAGECONFIG
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/5119/
+URL   : https://patchwork.openembedded.org/series/5121/
 State : failure
 
 == Summary ==
