@@ -1,39 +1,42 @@
-Return-Path: <tanuk@iki.fi>
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
-	[66.111.4.25])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A0B26093C
+Return-Path: <andani.prashant@gmail.com>
+Received: from mail-lf0-f43.google.com (mail-lf0-f43.google.com
+	[209.85.215.43])
+	by mail.openembedded.org (Postfix) with ESMTP id CFCBF6069C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Feb 2017 11:59:35 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 8FD1E20AEB
+	Fri,  3 Feb 2017 12:25:09 +0000 (UTC)
+Received: by mail-lf0-f43.google.com with SMTP id z134so9188755lff.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Feb 2017 06:59:36 -0500 (EST)
-Received: from frontend2 ([10.202.2.161])
-	by compute5.internal (MEProxy); Fri, 03 Feb 2017 06:59:36 -0500
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-sender:x-me-sender:x-sasl-enc:x-sasl-enc; s=
-	smtpout; bh=Bdk9PD/hUOftkRTcB74Di6vI2Bw=; b=lg6GY39oswdGOHFwIqJn
-	IDlOjP8FKcq2NiH4GhXm4ixUfqwi3zmvcLfOVSXlCFga0z3CBvaOjlyaWtufhHjC
-	y+3oOb2VBiFPCex6SgJ80G9MsDoY7b+TO7uF6dBXPEWZwIn6pALLsFVXTnOdv9f6
-	s7xznUS379lRwaBFP76dFYA=
-X-ME-Sender: <xms:qHCUWFnuHwm7g7hduZyj8RnAGPN1sko7wJVp1kZFZfqdZ3F_QKKSzg>
-X-Sasl-enc: 1lsBskd9VH3wefamE4ONtsA4X6iDHdNemvZoqvfYzO8m 1486123176
-Received: from laptop (unknown [192.40.95.9])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 0AB3124594
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Feb 2017 06:59:35 -0500 (EST)
-Message-ID: <1486123174.15532.1.camel@iki.fi>
-From: Tanu Kaskinen <tanuk@iki.fi>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 03 Feb 2017 13:59:34 +0200
-In-Reply-To: <8fa96caf-d21c-e845-533e-473e38ce7420@linux.intel.com>
-References: <20170203070635.30804-1-tanuk@iki.fi>
-	<8fa96caf-d21c-e845-533e-473e38ce7420@linux.intel.com>
-X-Mailer: Evolution 3.22.4-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] pulseaudio: 9.0 -> 10.0
+	Fri, 03 Feb 2017 04:25:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=8xMAXP4aE9B5ExHGcG4e4FMxvoGQpivC5wPiprv54oM=;
+	b=VtJXRtP7jxkj4aklvdBUUzSj08Ac6Zq06WLl7cdnrm88PzjtXhqNpNOgPG8Us5wBOg
+	srX4ZlI1FF6XkPQHLILBzgjJf+aunygvzYy+wrga06kHKzOhH5xZ5G/ihJMObCjXd3PG
+	i8i1YVfQujS0461yLiCNPv0pS26d/cJkQmOPXz7rAcEqNB9S5xPf+oDOHjRZXi+SMicC
+	+PQ8UrJ/DHoLSbEtBgbP5s/rb4vv7RCJzx9y3MHM3tpmbhETiPoE56o7ILic2iztejV9
+	M/u22gBoySwmSGBqHxl5aaKjhKCRiKkAapTgzN2mAs39L+bVl1NTZnRgHB8D7V5/C5A1
+	B6jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=8xMAXP4aE9B5ExHGcG4e4FMxvoGQpivC5wPiprv54oM=;
+	b=NSdwr5SWsfUl6VI9f00yXgc1TMpM8eP8ccvxH2VxHLfxIIDxhglaQ7ZdVF9OvrTIlA
+	Qb6LniiEplbBndvin3j8NtNaUazMJYzTy1VOxorK52U4MSS84aJ411WPLWlyBFU+UPrk
+	99JORSM1UYkeonGa8pI8aXs+2gnv6MiEwekswvEaoV6lc+QIqWONlDxvpEoFtfCvwKOx
+	lmlFI2brzJ3fBW+DA4g2AuUtDoGwkoG+Q1BEuZkXBQAwgOFoukdi3t9rGF4unHT16AE9
+	6SAClYrhW+CfoVHzS3GA0/xIhfi0tb+lIeVCWeL44orWbQfWSZ6c6YvPcpm/ETQtZMdF
+	UpSQ==
+X-Gm-Message-State: AIkVDXIXtS+QxvIYp3/ppuQIddSfgYvojo34EpV8U7J1F/26lFNWo2QGszMpX0xwQVr7bXVIXAwwJATckfzVYw==
+X-Received: by 10.25.79.71 with SMTP id a7mr5361326lfk.67.1486124708902; Fri,
+	03 Feb 2017 04:25:08 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.25.156.140 with HTTP; Fri, 3 Feb 2017 04:25:08 -0800 (PST)
+From: ANDANI PRASHANT <andani.prashant@gmail.com>
+Date: Fri, 3 Feb 2017 17:55:08 +0530
+Message-ID: <CAACupd1+PapV978TASu3kvsUYxrShh5hXnjM_r0f-hr5TtEhQw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Want to strip rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,25 +49,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Feb 2017 11:59:36 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 03 Feb 2017 12:25:10 -0000
+Content-Type: multipart/alternative; boundary=94eb2c1cd7a25dc1f405479f5f5e
 
-On Fri, 2017-02-03 at 13:42 +0200, Alexander Kanavin wrote:
-> On 02/03/2017 09:06 AM, Tanu Kaskinen wrote:
-> > 
-> > Dropped json-c and gdbm from DEPENDS. The new release doesn't use json-c
-> > any more. gdbm isn't used when --with-database=simple is passed to
-> > configure, so it should have been removed from DEPENDS a long time ago.
-> 
-> Does anything else in oe-core still use json-c? We're generally trying 
-> to trim such dangling recipes.
+--94eb2c1cd7a25dc1f405479f5f5e
+Content-Type: text/plain; charset=UTF-8
 
-According to "git grep json-c", the only thing still using it is
-systemtap.
+Hi,
 
--- 
-Tanu
+I build rootfs which size is 100MB+
+As i look in to filesystem, there are 14mb libc-2.23.so, 12mb
+libstdc++.so.6.0.22,..etc.
+Is there any flag or option during build to strip all library and binary to
+optimise size of rootfs.
 
-https://www.patreon.com/tanuk
+Regards,
+Prashant
 
+--94eb2c1cd7a25dc1f405479f5f5e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi,<div><br></div><div>I build rootfs which size is 100MB+=
+</div><div>As i look in to filesystem, there are 14mb <a href=3D"http://lib=
+c-2.23.so">libc-2.23.so</a>, 12mb libstdc++.so.6.0.22,..etc.</div><div>Is t=
+here any flag or option during build to strip all library and binary to opt=
+imise size of rootfs.</div><div><br></div><div>Regards,</div><div>Prashant<=
+/div></div>
+
+--94eb2c1cd7a25dc1f405479f5f5e--
