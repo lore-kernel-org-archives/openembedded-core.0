@@ -1,29 +1,39 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 397B271DDD
+Return-Path: <tanuk@iki.fi>
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+	[66.111.4.25])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A0B26093C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Feb 2017 11:45:51 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
-	via TCP (outbound) with ESMTPS id 20170203114550743_0685
+	Fri,  3 Feb 2017 11:59:35 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 8FD1E20AEB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Feb 2017 03:45:50 -0800
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [174.118.92.171] (port=42726 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1cZcJE-0004ss-JZ for openembedded-core@lists.openembedded.org;
-	Fri, 03 Feb 2017 06:45:44 -0500
-Date: Fri, 3 Feb 2017 06:45:42 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1702030641310.2549@localhost.localdomain>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: whatever happened to a proposal for "read-only" sstate?
+	Fri,  3 Feb 2017 06:59:36 -0500 (EST)
+Received: from frontend2 ([10.202.2.161])
+	by compute5.internal (MEProxy); Fri, 03 Feb 2017 06:59:36 -0500
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-sender:x-me-sender:x-sasl-enc:x-sasl-enc; s=
+	smtpout; bh=Bdk9PD/hUOftkRTcB74Di6vI2Bw=; b=lg6GY39oswdGOHFwIqJn
+	IDlOjP8FKcq2NiH4GhXm4ixUfqwi3zmvcLfOVSXlCFga0z3CBvaOjlyaWtufhHjC
+	y+3oOb2VBiFPCex6SgJ80G9MsDoY7b+TO7uF6dBXPEWZwIn6pALLsFVXTnOdv9f6
+	s7xznUS379lRwaBFP76dFYA=
+X-ME-Sender: <xms:qHCUWFnuHwm7g7hduZyj8RnAGPN1sko7wJVp1kZFZfqdZ3F_QKKSzg>
+X-Sasl-enc: 1lsBskd9VH3wefamE4ONtsA4X6iDHdNemvZoqvfYzO8m 1486123176
+Received: from laptop (unknown [192.40.95.9])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 0AB3124594
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  3 Feb 2017 06:59:35 -0500 (EST)
+Message-ID: <1486123174.15532.1.camel@iki.fi>
+From: Tanu Kaskinen <tanuk@iki.fi>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 03 Feb 2017 13:59:34 +0200
+In-Reply-To: <8fa96caf-d21c-e845-533e-473e38ce7420@linux.intel.com>
+References: <20170203070635.30804-1-tanuk@iki.fi>
+	<8fa96caf-d21c-e845-533e-473e38ce7420@linux.intel.com>
+X-Mailer: Evolution 3.22.4-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] pulseaudio: 9.0 -> 10.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,35 +46,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Feb 2017 11:45:52 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Fri, 03 Feb 2017 11:59:36 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Fri, 2017-02-03 at 13:42 +0200, Alexander Kanavin wrote:
+> On 02/03/2017 09:06 AM, Tanu Kaskinen wrote:
+> > 
+> > Dropped json-c and gdbm from DEPENDS. The new release doesn't use json-c
+> > any more. gdbm isn't used when --with-database=simple is passed to
+> > configure, so it should have been removed from DEPENDS a long time ago.
+> 
+> Does anything else in oe-core still use json-c? We're generally trying 
+> to trim such dangling recipes.
 
-  for purposes of teaching, i wanted to check into the feasibility of
-having students take advantage of a single shared state cache, but
-still have the option of building whatever source they needed in their
-own *personal* sstate cache.
-
-  i found this reference from 2014:
-
-http://lists.openembedded.org/pipermail/openembedded-core/2014-August/096486.html
-
-but it seems clear nothing became of it; there's certainly no .bbclass
-file that matches that.
-
-  what are the options for setting up something like this? or is that
-already supported and i'm just not seeing it?
-
-rday
+According to "git grep json-c", the only thing still using it is
+systemtap.
 
 -- 
+Tanu
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+https://www.patreon.com/tanuk
 
