@@ -1,28 +1,23 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1070B60765
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AE8871E3B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Feb 2017 15:20:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v13FKNIY023674
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 3 Feb 2017 07:20:23 -0800 (PST)
-Received: from soho-mhatle-m.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 3 Feb 2017 07:20:22 -0800
-To: ANDANI PRASHANT <andani.prashant@gmail.com>, Patches and discussions about
-	the oe-core layer <openembedded-core@lists.openembedded.org>
-References: <CAACupd1+PapV978TASu3kvsUYxrShh5hXnjM_r0f-hr5TtEhQw@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <d0aaea0e-5d65-d12a-a0ce-8b9d0a019f1d@windriver.com>
-Date: Fri, 3 Feb 2017 09:20:22 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.7.0
-MIME-Version: 1.0
-In-Reply-To: <CAACupd1+PapV978TASu3kvsUYxrShh5hXnjM_r0f-hr5TtEhQw@mail.gmail.com>
-Subject: Re: Want to strip rootfs
+	Fri,  3 Feb 2017 15:21:11 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP; 03 Feb 2017 07:21:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,329,1477983600"; d="scan'208";a="1090511130"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga001.jf.intel.com with ESMTP; 03 Feb 2017 07:20:42 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 0D1B16A4082;
+	Fri,  3 Feb 2017 07:19:41 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  3 Feb 2017 16:58:15 +0200
+Message-Id: <1486133895-18596-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] selftest: wic: use wic-tools recipe to get STAGING_DIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,51 +30,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Feb 2017 15:20:26 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 03 Feb 2017 15:21:12 -0000
 
-On 2/3/17 6:25 AM, ANDANI PRASHANT wrote:
-> Hi,
-> 
-> I build rootfs which size is 100MB+
-> As i look in to filesystem, there are 14mb libc-2.23.so <http://libc-2.23.so>,
-> 12mb libstdc++.so.6.0.22,..etc.
-> Is there any flag or option during build to strip all library and binary to
-> optimise size of rootfs.
+STAGING_DIR variable is used to get path to a boot dir.
+It's better to use wic-tools recipe to it as it contains
+all bootloader artifacts.
 
-The default is that everything is stripped (actually split into stripped
-executable and debug addition).  The stripped pieces are installed into your
-rootfs, and the debug pieces are not.  (Unless you've added dbg-pkgs to your
-configuration.)
+Modified test_build_artifacts and test_rootfs_artifacts to
+use wic-tools target to get STAGING_DIR.
 
-The default optimization flag should be more then enough to get a consistent
-well optimized system.
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/lib/oeqa/selftest/wic.py | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-Where you will run into issues is if you, or one of the layers you are using
-disables the splitting or enables global debug optimizations (lower optimization
-levels.)
-
-This is what you want to check for:
-
-# Uncomment this to change the optimization to make debugging easer, at the
-# possible cost of performance.
-# DEBUG_BUILD = "1"
-#
-# Uncomment this to disable the stripping of the installed binaries
-# INHIBIT_PACKAGE_STRIP = "1"
-#
-# Uncomment this to disable the split of the debug information into -dbg files
-# INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
-
-You can use bitbake -e to investigate the values for the system as a whole, or
-specify a recipe to look at a specific item.
-
---Mark
-
-> Regards,
-> Prashant
-> 
-> 
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index 39ec5a2..417ba3d 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -212,9 +212,12 @@ class Wic(oeSelfTest):
+     @testcase(1212)
+     def test_build_artifacts(self):
+         """Test wic create directdisk providing all artifacts."""
+-        bbvars = dict((var.lower(), get_bb_var(var, 'core-image-minimal'))
+-                      for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE', 'IMAGE_ROOTFS'))
+-        bbvars['recipe_sysroot_native'] = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
++        variables = (('STAGING_DATADIR', 'wic-tools'),
++                     ('RECIPE_SYSROOT_NATIVE', 'wic-tools'),
++                     ('DEPLOY_DIR_IMAGE', 'core-image-minimal'),
++                     ('IMAGE_ROOTFS', 'core-image-minimal'))
++        bbvars = {var.lower(): get_bb_var(var, recipe) \
++                      for var, recipe in variables}
+         bbvars['resultdir'] = self.resultdir
+         status = runCmd("wic create directdisk "
+                         "-b %(staging_datadir)s "
+@@ -318,9 +321,12 @@ class Wic(oeSelfTest):
+     @testcase(1269)
+     def test_rootfs_artifacts(self):
+         """Test usage of rootfs plugin with rootfs paths"""
+-        bbvars = dict((var.lower(), get_bb_var(var, 'core-image-minimal'))
+-                      for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE', 'IMAGE_ROOTFS'))
+-        bbvars['recipe_sysroot_native'] = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
++        variables = (('STAGING_DATADIR', 'wic-tools'),
++                     ('RECIPE_SYSROOT_NATIVE', 'wic-tools'),
++                     ('DEPLOY_DIR_IMAGE', 'core-image-minimal'),
++                     ('IMAGE_ROOTFS', 'core-image-minimal'))
++        bbvars = {var.lower(): get_bb_var(var, recipe) \
++                      for var, recipe in variables}
+         bbvars['wks'] = "directdisk-multi-rootfs"
+         bbvars['resultdir'] = self.resultdir
+         status = runCmd("wic create %(wks)s "
+-- 
+2.1.4
 
 
