@@ -1,28 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 0878471DDB
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F1906093C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Feb 2017 11:20:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v13BKCMP028512; Fri, 3 Feb 2017 11:20:12 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id e4Iil6FpJnjA; Fri,  3 Feb 2017 11:20:12 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v13BK7EB028486
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 3 Feb 2017 11:20:08 GMT
-Message-ID: <1486120807.14144.68.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Phil Blundell <pb@pbcl.net>, openembedded-core@lists.openembedded.org
-Date: Fri, 03 Feb 2017 11:20:07 +0000
-In-Reply-To: <1486120259.13882.26.camel@pbcl.net>
-References: <1486120259.13882.26.camel@pbcl.net>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: RSS difficulties
+	Fri,  3 Feb 2017 11:42:26 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 Feb 2017 03:42:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,328,1477983600"; d="scan'208";a="39242058"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga002.jf.intel.com with ESMTP; 03 Feb 2017 03:42:26 -0800
+To: openembedded-core@lists.openembedded.org
+References: <20170203070635.30804-1-tanuk@iki.fi>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <8fa96caf-d21c-e845-533e-473e38ce7420@linux.intel.com>
+Date: Fri, 3 Feb 2017 13:42:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.6.0
+MIME-Version: 1.0
+In-Reply-To: <20170203070635.30804-1-tanuk@iki.fi>
+Subject: Re: [PATCH] pulseaudio: 9.0 -> 10.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,42 +33,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Feb 2017 11:20:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 03 Feb 2017 11:42:28 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2017-02-03 at 11:10 +0000, Phil Blundell wrote:
-> I'm having a few problems adapting our build setup to work with
-> recipe specific sysroots.  More specifically, I am finding it
-> difficult to get the correct set of components installed into the
-> recipe-sysroot in all cases.  In some cases I am getting too much
-> (which causes build failures if oe attempts to stage two things that
-> install the same file) and in other cases I am not getting enough.
-> 
-> Could somebody explain, ideally using only small words, how the set
-> of things to populate in the recipe-sysroot is determined?  I assume
-> it is based on the task dependency graph somehow but I'm not quite
-> sure which relationships I ought to be looking at.
+On 02/03/2017 09:06 AM, Tanu Kaskinen wrote:
+>
+> Dropped json-c and gdbm from DEPENDS. The new release doesn't use json-c
+> any more. gdbm isn't used when --with-database=simple is passed to
+> configure, so it should have been removed from DEPENDS a long time ago.
 
-It comes down to what setscene_depvalid() in sstate.bbclass returns. If
-that returns False a given dependency is installed, it if returns True,
-it is skipped and not installed.
+Does anything else in oe-core still use json-c? We're generally trying 
+to trim such dangling recipes.
 
-Reading that function should give some clues as to the logic it
-applies. It operates not on a full task graph but on version collapsed
-only to sstate tasks.
 
-The logic should mirror what would get installed from sstate if that
-sstate were available, hence the logic is somewhat tested and not just
-new for RSS. That doesn't mean its right in all cases though!
-
-If that doesn't help, perhaps some specific examples of what you think
-should be being installed and isn't or things which are being installed
-and shouldn't might help.
-
-Cheers,
-
-Richard
-
+Alex
 
 
