@@ -1,53 +1,30 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id A4D8071A36
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C1DA60602
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Feb 2017 21:20:59 +0000 (UTC)
-Received: by mail-io0-f179.google.com with SMTP id j18so27317085ioe.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Feb 2017 13:20:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=ZKGYo2RSF9OFVz7es8VIxODPcocpj+T4t47eMrVqh9E=;
-	b=ckXA2H4al4xbfSh0Cy1a19eFaVZXNWifoEeI8bjHoh8iSwZE/tall+/Ye2D/26jdWY
-	NCrlvpLiv7waAjlZs7tibYHppFzaW4I7haNDov/vMNiemLiQkpg7+TjxioNgRBvBhGKv
-	G4TuyRW1pU8lyYvgyRBl0Jq4LqhJ8rAMZK3kvjc9rL5zKoMYw370AMUMRmHok6sXtsRM
-	LaB4JSukouOrDTs9pCgi8bX8MolXGRS6Y56P62CoODUzRX9l2poLV+s9w4BIcQfi2icS
-	EtejUUE8SgdfFVuEztqsUDTX7ReBQkX8wrL+8Klu7cW8ehgUQuVXK57pHnigVcjBo3y5
-	TgWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=ZKGYo2RSF9OFVz7es8VIxODPcocpj+T4t47eMrVqh9E=;
-	b=E6cNajnRYCWvrEQ5PsUQpqU5Q8nx/gUmRX2Vd309pNrPGmnCVttbZ0JlQkjbnHWyfT
-	Y0a0xGbAL83DDeZaecEo05L/BQslWYVSUnJzIRzX+/YQUtK/3Vqk782AuR3JPazVZbhj
-	HVDkBijRYfmJyNgz7SEuX4P5o+Dwue6ryI0XNSSMPhDqmObGcCGjAMGJDSzinLBRlfmo
-	R0Xh7QnTzlPhACG+dZVY974WfqQqQ4aP71nJv5bTEveTUrE5sDepQfWYy3W3tvKsHmRw
-	XdchrpImTN1O3sE6sb+een/jyOGV4nfCT2GQPGWroVa9YGwkfUS0hmqIGSEPT/DACjyp
-	Vi/g==
-X-Gm-Message-State: AIkVDXJ7avVEf2wUiJTkS7CJ9l3wx4o51yGcGQZ8phZjkZGu5eIMQMPzPi+uOeYSeDCkc93A
-X-Received: by 10.107.136.195 with SMTP id s64mr10827840ioi.51.1486156859495; 
-	Fri, 03 Feb 2017 13:20:59 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8E712.dip0.t-ipconnect.de. [93.232.231.18])
-	by smtp.gmail.com with ESMTPSA id
-	n30sm3255865ioe.32.2017.02.03.13.20.56
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 03 Feb 2017 13:20:57 -0800 (PST)
-Message-ID: <1486156855.14889.103.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Date: Fri, 03 Feb 2017 22:20:55 +0100
-In-Reply-To: <alpine.LFD.2.20.1702031414250.9747@localhost.localdomain>
+	Fri,  3 Feb 2017 21:24:15 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
+	via TCP (outbound) with ESMTPS id 20170203212413621_0486;
+	Fri, 03 Feb 2017 21:24:13 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [174.118.92.171] (port=54464 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1cZlKw-0007l2-44; Fri, 03 Feb 2017 16:24:06 -0500
+Date: Fri, 3 Feb 2017 16:24:03 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: Patrick Ohly <patrick.ohly@intel.com>
+In-Reply-To: <1486156855.14889.103.camel@intel.com>
+Message-ID: <alpine.LFD.2.20.1702031623390.12084@localhost.localdomain>
 References: <alpine.LFD.2.20.1702030641310.2549@localhost.localdomain>
 	<1486131492.14144.70.camel@linuxfoundation.org>
 	<alpine.LFD.2.20.1702031414250.9747@localhost.localdomain>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
+	<1486156855.14889.103.camel@intel.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: whatever happened to a proposal for "read-only" sstate?
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -62,25 +39,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Feb 2017 21:21:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 03 Feb 2017 21:24:17 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-On Fri, 2017-02-03 at 14:14 -0500, Robert P. J. Day wrote:
->   is there a command that will tell you how much shared state info a
-> given build would be able to take advantage of?
+On Fri, 3 Feb 2017, Patrick Ohly wrote:
 
-INHERIT += "buildstats-summary" in local.conf will print that
-information after a build is done.
+> On Fri, 2017-02-03 at 14:14 -0500, Robert P. J. Day wrote:
+> >   is there a command that will tell you how much shared state info a
+> > given build would be able to take advantage of?
+>
+> INHERIT += "buildstats-summary" in local.conf will print that
+> information after a build is done.
+
+  but not before? ok, that will do for now.
+
+rday
 
 -- 
-Best Regards, Patrick Ohly
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
-
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
