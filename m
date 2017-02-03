@@ -1,24 +1,18 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C6546AC37
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Feb 2017 22:09:26 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 Feb 2017 14:09:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,326,1477983600"; d="scan'208";a="38985068"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga002.jf.intel.com with ESMTP; 02 Feb 2017 14:09:26 -0800
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id CB7D06A4006;
-	Thu,  2 Feb 2017 14:08:26 -0800 (PST)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Feb 2017 23:46:55 +0200
-Message-Id: <1486072015-20397-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] image_types_wic: remove dependency to do_bootimg
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 6214F71DDA;
+	Fri,  3 Feb 2017 00:20:53 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Ross Burton <ross.burton@intel.com>
+Date: Fri, 03 Feb 2017 00:20:54 -0000
+Message-ID: <20170203002054.9312.54537@do.openembedded.org>
+References: <1486060441-14847-1-git-send-email-ross.burton@intel.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1486060441-14847-1-git-send-email-ross.burton@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZXVkZXY6IGFkZCBSUFJPVklERVMgc28gZXVkZXYtaHdkYiBwcm92aWRlcyB1ZGV2LWh3ZGI=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Feb 2017 22:09:28 -0000
+X-List-Received-Date: Fri, 03 Feb 2017 00:20:53 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Removing task dependency do_wic -> do_bootimg as wic
-doesn't depend on hddimg/booimg anymore.
+== Series Details ==
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Series: eudev: add RPROVIDES so eudev-hwdb provides udev-hwdb
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/5119/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 424768191b)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/classes/image_types_wic.bbclass | 5 -----
- 1 file changed, 5 deletions(-)
-
-diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-index 3e98959..ec6c14d 100644
---- a/meta/classes/image_types_wic.bbclass
-+++ b/meta/classes/image_types_wic.bbclass
-@@ -41,11 +41,6 @@ WKS_FILE_CHECKSUM = "${@'${WKS_FULL_PATH}:%s' % os.path.exists('${WKS_FULL_PATH}
- do_image_wic[file-checksums] += "${WKS_FILE_CHECKSUM}"
- do_image_wic[depends] += "wic-tools:do_build"
- 
--python () {
--    if d.getVar('USING_WIC') and 'do_bootimg' in d:
--        bb.build.addtask('do_image_wic', '', 'do_bootimg', d)
--}
--
- python do_write_wks_template () {
-     """Write out expanded template contents to WKS_FULL_PATH."""
-     import re
--- 
-2.1.4
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
