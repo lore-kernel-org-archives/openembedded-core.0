@@ -1,23 +1,23 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id CDBE0606D0
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 700F360621
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Feb 2017 15:44:33 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga105.jf.intel.com with ESMTP; 03 Feb 2017 07:44:33 -0800
+	Fri,  3 Feb 2017 16:17:10 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga101.fm.intel.com with ESMTP; 03 Feb 2017 08:17:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,329,1477983600"; d="scan'208";a="1121703263"
+X-IronPort-AV: E=Sophos;i="5.33,329,1477983600"; d="scan'208";a="60525975"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Feb 2017 07:44:33 -0800
+	by orsmga005.jf.intel.com with ESMTP; 03 Feb 2017 08:17:05 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 14BC96A4006;
-	Fri,  3 Feb 2017 07:43:32 -0800 (PST)
+	by linux.intel.com (Postfix) with ESMTP id 530746A4006;
+	Fri,  3 Feb 2017 08:16:05 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Feb 2017 17:22:08 +0200
-Message-Id: <1486135328-19229-1-git-send-email-ed.bartosh@linux.intel.com>
+Date: Fri,  3 Feb 2017 17:54:40 +0200
+Message-Id: <1486137280-20049-1-git-send-email-ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] selftest: wic: stop using iso image type
+Subject: [PATCH] wic: fix call of serial_console_form_kargs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,42 +30,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Feb 2017 15:44:34 -0000
+X-List-Received-Date: Fri, 03 Feb 2017 16:17:10 -0000
 
-Removed 'IMAGE_FSTYPES = "iso" as this functionality depends on
-do_bootimg, which is going to be obsoleted soon.
-
-As wic doesn't depend on bootimg it's safe to remove this.
+As syslinux module has been recently removed and
+serial_consloe_form_kargs became local API in rootfs_pcbios_ext plugin
+it should be called without syslinux. prefix.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/wic.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index 07b8312..417ba3d 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -42,8 +42,7 @@ class Wic(oeSelfTest):
+diff --git a/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py b/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
+index bd6fd6c..cb1da93 100644
+--- a/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
++++ b/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
+@@ -122,7 +122,7 @@ class RootfsPlugin(SourcePlugin):
+         syslinux_conf += "ALLOWOPTIONS 1\n"
  
-     def setUpLocal(self):
-         """This code is executed before each test method."""
--        self.write_config('IMAGE_FSTYPES = "iso"\n'
--                          'MACHINE_FEATURES_append = " efi"\n')
-+        self.write_config('MACHINE_FEATURES_append = " efi"\n')
+         # Derive SERIAL... line from from kernel boot parameters
+-        syslinux_conf += syslinux.serial_console_form_kargs(options) + "\n"
++        syslinux_conf += serial_console_form_kargs(options) + "\n"
  
-         # Do this here instead of in setUpClass as the base setUp does some
-         # clean up which can result in the native tools built earlier in
-@@ -151,7 +150,8 @@ class Wic(oeSelfTest):
-     @testcase(1346)
-     def test_iso_image(self):
-         """Test creation of hybrid iso image with legacy and EFI boot"""
--        config = 'MACHINE_FEATURES_append = " efi"\n'
-+        config = 'INITRAMFS_IMAGE = "core-image-minimal-initramfs"\n'\
-+                 'MACHINE_FEATURES_append = " efi"\n'
-         self.append_config(config)
-         bitbake('core-image-minimal')
-         self.remove_config(config)
+         syslinux_conf += "DEFAULT linux\n"
+         syslinux_conf += "LABEL linux\n"
 -- 
 2.1.4
 
