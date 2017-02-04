@@ -1,52 +1,30 @@
-Return-Path: <prvs=02088e3d23=mike.looijmans@topicproducts.com>
-X-Greylist: delayed 21752 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 04 Feb 2017 16:11:02 UTC
-Received: from mx36-44.antispamcloud.com (mx36-44.antispamcloud.com
-	[209.126.121.60])
-	by mail.openembedded.org (Postfix) with ESMTP id 056E271AEB
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id 600BB6010B
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  4 Feb 2017 16:11:02 +0000 (UTC)
-Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
-	by mx36.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
-	(Exim 4.86) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1cZxGe-00072z-9T for openembedded-core@lists.openembedded.org;
-	Sat, 04 Feb 2017 11:08:30 +0100
-Received: from [192.168.1.16] (85.150.144.104) by webmail.topic.nl
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Sat, 4 Feb 2017 11:08:26 +0100
-To: <openembedded-core@lists.openembedded.org>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: Topic
-Message-ID: <5895A819.8040509@topic.nl>
-Date: Sat, 4 Feb 2017 11:08:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
+	Sat,  4 Feb 2017 17:12:11 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20170204171209528_0685;
+	Sat, 04 Feb 2017 09:12:09 -0800
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [174.118.92.171] (port=40986 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1ca3sY-00016O-JI; Sat, 04 Feb 2017 12:12:02 -0500
+Date: Sat, 4 Feb 2017 12:12:00 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <1486131492.14144.70.camel@linuxfoundation.org>
+Message-ID: <alpine.LFD.2.20.1702041149580.24018@localhost.localdomain>
+References: <alpine.LFD.2.20.1702030641310.2549@localhost.localdomain>
+	<1486131492.14144.70.camel@linuxfoundation.org>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-X-Originating-IP: [85.150.144.104]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Originating-IP: 37.74.225.130
-X-SpamExperts-Domain: topic.nl
-X-SpamExperts-Username: 37.74.225.128/28
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=37.74.225.128/28@topic.nl
-X-SpamExperts-Outgoing-Class: unsure
-X-SpamExperts-Outgoing-Evidence: Combined (0.20)
-X-Recommended-Action: accept
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W/95+6ZE6dI+d
-	FNTaLLKrTD4PkK8WOoKuw32u9iEtZmisSr42qUwvK7U11fJ5smF5bE7GwnNXTE7JFCR1ojdwNC91
-	O2BIc2ZJ7L5OntTyOTle3900U+ejMobX1EZ4lCjwnnzfTPuy4s9x0eTS2g7qGWbjO41FyBEqIaDu
-	dcVplPGNaieKxw/vh63RdlaW2Zj1hcQD6Dxo9kokFZNwiacNPxeTCKssqlJePCDBHWfCYUvWOATT
-	vnG+QUCcfrSs6FZc7tZ3vKwSN7Mv0HNteAusUZ8BuYwGqmI8Tx/Ism0pnCcmlWACu0WC7nIKSPYV
-	aBAAdpU0oUDqng6Dyy2mQeofiS4plulAd3qNwr6ITBIQU5d1el35jO+WJBgrWGjAavfuifnL+9wg
-	oTj4ygNPw1XfN1IUJ2+rCMPpQhII5VkEVC//8GRISD+lYCwA5l6/Q4nfg8y63jKKBrO1BroJmvb9
-	eZRnLIdgZtx/lY6Q73k96YmRVYKU9W9tbmVXJBqdHHDml2fQHaY9hVoT9jGvxqBU4l5OTHLiyLVU
-	tMfloK+xuF/fUy6xfZdyLRnwP1q5wC1emDtv5qqTm+0PNEnl8p4HBOnBF7yvwYFBB4MFvzGTb06O
-	85visHicU23+oLv+brtHInHPhNiH3NSHpRQdFLiVVNV0df1+ARMcUlNXLVWxy/18BrHvkSsNm9Qm
-	kmrg2CBrlprCg1eH/Nhc39gnrWGZIOjSHqi4TwDPnU4RpokTHNsyBvL+tplTPyhmTMTBUOIau/fY
-	R4iefv4jBsZ1VxeGPej0D/QhvoUyXPeeSa3l2Hs=
-X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
-Subject: [morty] Python cyclic dependencies
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: whatever happened to a proposal for "read-only" sstate?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,53 +37,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 Feb 2017 16:11:03 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 04 Feb 2017 17:12:14 -0000
+Content-Type: multipart/mixed; BOUNDARY="8323328-785360663-1486228322=:24018"
 
-=EF=BB=BFIn the do_rootfs log, I found these messages:
+--8323328-785360663-1486228322=:24018
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-Breaking circular dependency on python-core for libz1.
-Breaking circular dependency on python-core for python-lang.
-Breaking circular dependency on python-core for libz1.
-Breaking circular dependency on python-core for python-lang.
-Breaking circular dependency on python-core for python-re.
-Breaking circular dependency on python-core for python-re.
+On Fri, 3 Feb 2017, Richard Purdie wrote:
 
-Looking at the Python recipes, the package information for Python seems=20
-wrong indeed, in python-2.7-manifest.inc:
+> On Fri, 2017-02-03 at 06:45 -0500, Robert P. J. Day wrote:
+> >   for purposes of teaching, i wanted to check into the feasibility of
+> > having students take advantage of a single shared state cache, but
+> > still have the option of building whatever source they needed in
+> > their
+> > own *personal* sstate cache.
+> >
+> >   i found this reference from 2014:
+> >
+> > http://lists.openembedded.org/pipermail/openembedded-core/2014-August
+> > /096486.html
+> >
+> > but it seems clear nothing became of it; there's certainly no
+> > .bbclass
+> > file that matches that.
+> >
+> >   what are the options for setting up something like this? or is that
+> > already supported and i'm just not seeing it?
+>
+> It was never merged as its not really necessary, you can do this
+> with existing functionality.
+>
+> Just point SSTATE_MIRRORS at the common shared directory and
+> SSTATE_DIR at the directory you want to be the personal one.
 
-RDEPENDS_${PN}-re=3D"${PN}-core"
-RDEPENDS_${PN}-lang=3D"${PN}-core"
-RDEPENDS_${PN}-core=3D"${PN}-lang ${PN}-re"
+  let me make sure i understand this so i don't screw it up and waste
+time asking even dumber questions.
 
-And this is what creates that cycle. Either core depends on lang, or=20
-vice versa, but not both (or they should simply be one and the same package=
-)
+  imagine i want to teach a class where everyone is going to build
+some image -- core-image-minimal, core-image-base, whatever -- for the
+same target board. (i realize you don't *need* to share state just for
+the same target board but, in my case, there will be a great deal of
+commonality in the classroom so shared state will be particularly
+useful.)
 
-I'd be happy to provide a patch either way...
+  first, i can configure and do a build for a fairly comprehensive
+image (core-image-base, perhaps) -- the more comprehensive, the
+better, to generate as much shared state as possible. so far, so good?
 
+  first question -- once i do that, can i just copy the generated
+sstate-cache/ directory to a publicly-accessible location so everyone
+else can get to it? for now, i'll keep it read-only, which means that
+if someone needs content that isn't in that shared state cache, they
+will have to generate it locally.
 
---=20
-Mike Looijmans
+  once i copy my sstate-cache/ directory as above, how would others
+take advantage of it? i'm looking at the alleged explanation in
+local.conf.sample:
 
+# Shared-state files from other locations
+#
+# As mentioned above, shared state files are prebuilt cache data objects which can
+# used to accelerate build time. This variable can be used to configure the system
+# to search other mirror locations for these objects before it builds the data itself.
+#
+# This can be a filesystem directory, or a remote url such as http or ftp. These
+# would contain the sstate-cache results from previous builds (possibly from other
+# machines). This variable works like fetcher MIRRORS/PREMIRRORS and points to the
+# cache locations to check for the shared objects.
+# NOTE: if the mirror uses the same structure as SSTATE_DIR, you need to add PATH
+# at the end as shown in the examples below. This will be substituted with the
+# correct path within the directory structure.
+#SSTATE_MIRRORS ?= "\
+#file://.* http://someserver.tld/share/sstate/PATH;downloadfilename=PATH \n \
+#file://.* file:///some/local/dir/sstate/PATH"
 
-Kind regards,
+  this explanation confuses me -- what does that "NOTE" mean? what
+would be proper setting for SSTATE_MIRRORS to simply point at an
+accessible shared state directory? (possibly NFS-mounted.)
 
-Mike Looijmans
-System Expert
+  finally, for building local content, i presume that students would
+simply leave SSTATE_DIR with its original value of
 
-TOPIC Products
-Materiaalweg 4, NL-5681 RJ Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
+  SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
 
-Please consider the environment before printing this e-mail
+i think that's all i want to clarify, thanks.
 
+rday
 
+-- 
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
-
+--8323328-785360663-1486228322=:24018--
