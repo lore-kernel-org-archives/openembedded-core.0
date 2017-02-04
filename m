@@ -1,46 +1,52 @@
-Return-Path: <andhorsthemke@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 41B4371994
+Return-Path: <prvs=02088e3d23=mike.looijmans@topicproducts.com>
+X-Greylist: delayed 21752 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sat, 04 Feb 2017 16:11:02 UTC
+Received: from mx36-44.antispamcloud.com (mx36-44.antispamcloud.com
+	[209.126.121.60])
+	by mail.openembedded.org (Postfix) with ESMTP id 056E271AEB
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  4 Feb 2017 13:35:15 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id u63so11089074wmu.2
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 04 Feb 2017 05:35:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=LRMqu7h/AK00lKuTT5yYa1vyFFwULXWXI4aVN7fkCjs=;
-	b=WSLn3zds7aI95N6Iu4aMo0J+pp5kArVl1LAaRROTXke2v9JxFezs53YIDBoSTtqNVD
-	d8GTrv11bQd9f95iWyzjyOyGLX0wxz/HGY8wdT+u1NBlGhwi0t6Yk2Rhl+UguOmlHuaY
-	junT7LOuHbk1mITmB+0W8JzCUki6c+1JdoWhx7pob+3aowUkZ4fJhbV6TjMZJ1PagYVW
-	NSx8QOXxo7JzTTub5rV/4RStsvDnWS9AqU8GZMNEFE+jZTzDfOaAz5RmbYsUA2OiXa0s
-	s9qxRqtCTRnPUhJcc0Sf1JWot+Rw3iXLZlgH/DzL5VnCYImnWGgi64dh6QAHNnlJD+NB
-	f4nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=LRMqu7h/AK00lKuTT5yYa1vyFFwULXWXI4aVN7fkCjs=;
-	b=S3RZ472z0YGGGCZtkdMy7tJG3uar5OX6F9FiW2Z5MKpuIUpN604RQGryHUA7mbXbAb
-	+EFFixmvW1D9e792YlIWQayOZtqWZCheRk9C07fAbBp8d13wWYVaws9zXohj/3chbwP7
-	3CQHMfr6LAw8JRxbmhL/rGRDc82U+YPVJMhGS+M3qACwV+ZVVzt4pNqnja7eI0Wd8PMa
-	V8VdjnjJ4ex0k1W1WTkI+hPSSjynh2ZRFKTMezARw7+57AI2XDtQapwiq4HDhL/YXwzI
-	+QumBxupuCcYxxbSogqvxsp91Iv3q/41aDiVMTwiWcpDI4dvVuElhkxQDubhLaJdEo4D
-	vtdg==
-X-Gm-Message-State: AMke39le9pQqBrvOPbdYyB+tiVvJFk0SSLD/11XfJnyjAtpXhMRkPUrSmAfZ/PCRmslo2g==
-X-Received: by 10.28.224.67 with SMTP id x64mr2242089wmg.20.1486215315551;
-	Sat, 04 Feb 2017 05:35:15 -0800 (PST)
-Received: from workstation.Speedport_W_724V_Typ_A_05011603_00_011
-	(p2003007A89036A15FEF12F0E367207C9.dip0.t-ipconnect.de.
-	[2003:7a:8903:6a15:fef1:2f0e:3672:7c9])
-	by smtp.gmail.com with ESMTPSA id
-	202sm2645615wmp.20.2017.02.04.05.35.14
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 04 Feb 2017 05:35:15 -0800 (PST)
-From: Andreas Horsthemke <andhorsthemke@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  4 Feb 2017 14:34:55 +0100
-Message-Id: <20170204133455.30345-1-andhorsthemke@gmail.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] xz: upgrade to 5.2.3
+	Sat,  4 Feb 2017 16:11:02 +0000 (UTC)
+Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
+	by mx36.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
+	(Exim 4.86) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1cZxGe-00072z-9T for openembedded-core@lists.openembedded.org;
+	Sat, 04 Feb 2017 11:08:30 +0100
+Received: from [192.168.1.16] (85.150.144.104) by webmail.topic.nl
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Sat, 4 Feb 2017 11:08:26 +0100
+To: <openembedded-core@lists.openembedded.org>
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
+Message-ID: <5895A819.8040509@topic.nl>
+Date: Sat, 4 Feb 2017 11:08:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
+MIME-Version: 1.0
+X-Originating-IP: [85.150.144.104]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Originating-IP: 37.74.225.130
+X-SpamExperts-Domain: topic.nl
+X-SpamExperts-Username: 37.74.225.128/28
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=37.74.225.128/28@topic.nl
+X-SpamExperts-Outgoing-Class: unsure
+X-SpamExperts-Outgoing-Evidence: Combined (0.20)
+X-Recommended-Action: accept
+X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W/95+6ZE6dI+d
+	FNTaLLKrTD4PkK8WOoKuw32u9iEtZmisSr42qUwvK7U11fJ5smF5bE7GwnNXTE7JFCR1ojdwNC91
+	O2BIc2ZJ7L5OntTyOTle3900U+ejMobX1EZ4lCjwnnzfTPuy4s9x0eTS2g7qGWbjO41FyBEqIaDu
+	dcVplPGNaieKxw/vh63RdlaW2Zj1hcQD6Dxo9kokFZNwiacNPxeTCKssqlJePCDBHWfCYUvWOATT
+	vnG+QUCcfrSs6FZc7tZ3vKwSN7Mv0HNteAusUZ8BuYwGqmI8Tx/Ism0pnCcmlWACu0WC7nIKSPYV
+	aBAAdpU0oUDqng6Dyy2mQeofiS4plulAd3qNwr6ITBIQU5d1el35jO+WJBgrWGjAavfuifnL+9wg
+	oTj4ygNPw1XfN1IUJ2+rCMPpQhII5VkEVC//8GRISD+lYCwA5l6/Q4nfg8y63jKKBrO1BroJmvb9
+	eZRnLIdgZtx/lY6Q73k96YmRVYKU9W9tbmVXJBqdHHDml2fQHaY9hVoT9jGvxqBU4l5OTHLiyLVU
+	tMfloK+xuF/fUy6xfZdyLRnwP1q5wC1emDtv5qqTm+0PNEnl8p4HBOnBF7yvwYFBB4MFvzGTb06O
+	85visHicU23+oLv+brtHInHPhNiH3NSHpRQdFLiVVNV0df1+ARMcUlNXLVWxy/18BrHvkSsNm9Qm
+	kmrg2CBrlprCg1eH/Nhc39gnrWGZIOjSHqi4TwDPnU4RpokTHNsyBvL+tplTPyhmTMTBUOIau/fY
+	R4iefv4jBsZ1VxeGPej0D/QhvoUyXPeeSa3l2Hs=
+X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
+Subject: [morty] Python cyclic dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,33 +59,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 Feb 2017 13:35:17 -0000
+X-List-Received-Date: Sat, 04 Feb 2017 16:11:03 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Andreas Horsthemke <andhorsthemke@gmail.com>
----
- meta/recipes-extended/xz/{xz_5.2.2.bb => xz_5.2.3.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/xz/{xz_5.2.2.bb => xz_5.2.3.bb} (90%)
+=EF=BB=BFIn the do_rootfs log, I found these messages:
 
-diff --git a/meta/recipes-extended/xz/xz_5.2.2.bb b/meta/recipes-extended/xz/xz_5.2.3.bb
-similarity index 90%
-rename from meta/recipes-extended/xz/xz_5.2.2.bb
-rename to meta/recipes-extended/xz/xz_5.2.3.bb
-index d118f3a744..c0f8b82f64 100644
---- a/meta/recipes-extended/xz/xz_5.2.2.bb
-+++ b/meta/recipes-extended/xz/xz_5.2.3.bb
-@@ -22,8 +22,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c475b6c7dca236740ace4bba553e8e1c \
-                     file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 "
- 
- SRC_URI = "http://tukaani.org/xz/xz-${PV}.tar.gz"
--SRC_URI[md5sum] = "7cf6a8544a7dae8e8106fdf7addfa28c"
--SRC_URI[sha256sum] = "73df4d5d34f0468bd57d09f2d8af363e95ed6cc3a4a86129d2f2c366259902a2"
-+SRC_URI[md5sum] = "ef68674fb47a8b8e741b34e429d86e9d"
-+SRC_URI[sha256sum] = "71928b357d0a09a12a4b4c5fafca8c31c19b0e7d3b8ebb19622e96f26dbf28cb"
- 
- inherit autotools gettext
- 
--- 
-2.11.0
+Breaking circular dependency on python-core for libz1.
+Breaking circular dependency on python-core for python-lang.
+Breaking circular dependency on python-core for libz1.
+Breaking circular dependency on python-core for python-lang.
+Breaking circular dependency on python-core for python-re.
+Breaking circular dependency on python-core for python-re.
+
+Looking at the Python recipes, the package information for Python seems=20
+wrong indeed, in python-2.7-manifest.inc:
+
+RDEPENDS_${PN}-re=3D"${PN}-core"
+RDEPENDS_${PN}-lang=3D"${PN}-core"
+RDEPENDS_${PN}-core=3D"${PN}-lang ${PN}-re"
+
+And this is what creates that cycle. Either core depends on lang, or=20
+vice versa, but not both (or they should simply be one and the same package=
+)
+
+I'd be happy to provide a patch either way...
+
+
+--=20
+Mike Looijmans
+
+
+Kind regards,
+
+Mike Looijmans
+System Expert
+
+TOPIC Products
+Materiaalweg 4, NL-5681 RJ Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
+
+Please consider the environment before printing this e-mail
+
+
+
+
 
 
