@@ -1,30 +1,47 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
-	by mail.openembedded.org (Postfix) with ESMTP id A382371CCB
+Return-Path: <andani.prashant@gmail.com>
+Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
+	[209.85.215.66])
+	by mail.openembedded.org (Postfix) with ESMTP id AE54D6093E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  4 Feb 2017 17:18:58 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
-	via TCP (outbound) with ESMTPS id 20170204171856754_0486;
-	Sat, 04 Feb 2017 17:18:56 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [174.118.92.171] (port=41176 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1ca3z7-0001aa-Mt; Sat, 04 Feb 2017 12:18:49 -0500
-Date: Sat, 4 Feb 2017 12:18:49 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-In-Reply-To: <1486131492.14144.70.camel@linuxfoundation.org>
-Message-ID: <alpine.LFD.2.20.1702041217310.24018@localhost.localdomain>
-References: <alpine.LFD.2.20.1702030641310.2549@localhost.localdomain>
-	<1486131492.14144.70.camel@linuxfoundation.org>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Sun,  5 Feb 2017 05:22:02 +0000 (UTC)
+Received: by mail-lf0-f66.google.com with SMTP id v186so1315453lfa.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 04 Feb 2017 21:22:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=TST1vZ9U3oUDikp76dxbJT8zCjxFy4beh6dA2GagHRQ=;
+	b=Ldvuf0qUJVUmlSsuoUn+odbxXaypngUSWUdNjdQF3e/wiEQmWZ2bC7G2y5f5GubVQW
+	PJX2yZQSqPNJuyLMbSbl6No7hSBjAKAcnnAqptYGwUnJrCdl9+yg8NjdEd3B7aKYz0VS
+	MXmoH1JWjTx96VZ1Ki9lWYVaGl1dBvE1/IKLmfb42/hcbLc3Am2e4hMHwDHaqX2dsALD
+	LPcFKiLC87E1EVKDkSGAs608j1AoX9yZhtqqfTlO0+fPEgFKSd0gluQS9avwZxMLOgBe
+	noP1EPGnmW6WYhpSzjIuudWz5OPJYYVwmFxQgHzEcU8+NV7lJdtEt9bjrJzn8W84xqCV
+	607A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=TST1vZ9U3oUDikp76dxbJT8zCjxFy4beh6dA2GagHRQ=;
+	b=KGcMoG+2YhD/9A8ibySQn1lnFmaJZyEGZeymsi7K4H8MABMzgEPmW71ypuTuqtKC5M
+	9HE2Usx+yeJodALWYxPQYh0B7WBSW3/liz9Jz6R1n6lYXT1hX51HyChoWLJFRMPUGLBn
+	rjF3d4sQaK5r1wZyty+Oeg//p1Q2T1iyiVHKtc6rXNN6hHhZdE3kZtGBOfS6U7Msm7Ze
+	hdx0RHUoKeukjycl2ny6J8BD7HkBJYTJ70IhFuROsE/7+oL2JUy3CghgEbQheaPz0Fr2
+	Wv3+tj7i/e3mJDMRm/bZ5+sKOSMAcbGAmUJeqcX93tlTzzjTKD/F2E5s8TxLIsn8uIqT
+	p7mg==
+X-Gm-Message-State: AIkVDXJWIYwldebjo/iNyYFBZThZg0KN+x2YkpMoAVSEEzUninLlAM3yXlXVhr/xKPQFXS/B85g5FYJFPvpINw==
+X-Received: by 10.25.1.209 with SMTP id 200mr1614736lfb.42.1486272121620; Sat,
+	04 Feb 2017 21:22:01 -0800 (PST)
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: whatever happened to a proposal for "read-only" sstate?
+Received: by 10.25.156.140 with HTTP; Sat, 4 Feb 2017 21:21:57 -0800 (PST)
+In-Reply-To: <d0aaea0e-5d65-d12a-a0ce-8b9d0a019f1d@windriver.com>
+References: <CAACupd1+PapV978TASu3kvsUYxrShh5hXnjM_r0f-hr5TtEhQw@mail.gmail.com>
+	<d0aaea0e-5d65-d12a-a0ce-8b9d0a019f1d@windriver.com>
+From: ANDANI PRASHANT <andani.prashant@gmail.com>
+Date: Sun, 5 Feb 2017 10:51:57 +0530
+Message-ID: <CAACupd1ssXZV8n9iZ71=Zf6hOGiQ9gtsYgfsyb2dzgp2uOr58A@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Want to strip rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,56 +54,295 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 Feb 2017 17:18:58 -0000
-Content-Type: multipart/mixed; BOUNDARY="8323328-102221328-1486228729=:24018"
+X-List-Received-Date: Sun, 05 Feb 2017 05:22:03 -0000
+Content-Type: multipart/alternative; boundary=001a113ca39cd94f770547c1b1d1
 
---8323328-102221328-1486228729=:24018
+--001a113ca39cd94f770547c1b1d1
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
 
-On Fri, 3 Feb 2017, Richard Purdie wrote:
+Hi Mark,
 
-> On Fri, 2017-02-03 at 06:45 -0500, Robert P. J. Day wrote:
-> >   for purposes of teaching, i wanted to check into the feasibility of
-> > having students take advantage of a single shared state cache, but
-> > still have the option of building whatever source they needed in
-> > their
-> > own *personal* sstate cache.
+Thank you for your reply.
+
+i am getting below error If i comment  INHIBIT_PACKAGE_STRIP
+in meta-linaro/meta-linaro-toolchain/recipes-devtools/external-linaro-toolchain/
+external-linaro-toolchain.bb file.
+
+ERROR: external-linaro-toolchain-2017.01~dev-r0.arago30 do_package: Error
+executing a python function in exec_python_func() autogenerated:
+
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:split_and_strip_files(d)
+     0003:
+File:
+'/home/prashant.a/yocto/tisdk/sources/oe-core/meta/classes/package.bbclass',
+lineno: 921, function: split_and_strip_files
+     0917:                if debugdir and debugdir in
+os.path.dirname(file[len(dvar):]):
+     0918:                    continue
+     0919:
+     0920:                try:
+ *** 0921:                    ltarget = cpath.realpath(file, dvar, False)
+     0922:                    s = cpath.lstat(ltarget)
+     0923:                except OSError as e:
+     0924:                    (err, strerror) = e.args
+     0925:                    if err != errno.ENOENT:
+File:
+'/home/prashant.a/yocto/tisdk/sources/oe-core/meta/lib/oe/cachedpath.py',
+lineno: 229, function: realpath
+     0225:                # be printed a backtrace with 100s of OSError
+exceptions
+     0226:                # else
+     0227:                raise OSError(errno.ELOOP,
+     0228:                              "too much recursions while
+resolving '%s'; loop in '%s'" %
+ *** 0229:                              (file, e.strerror))
+     0230:
+     0231:            raise
+     0232:
+     0233:        return file
+Exception: OSError: [Errno 40] too much recursions while resolving
+'/home/prashant.a/yocto/tisdk/build/arago-tmp-external-linaro-toolchain/work/armv5-linux-gnueabi/external-linaro-toolchain/2017.01~dev-r0.arago30/package/usr/include/c++/6.2.1/arm-linux-gnueabi/arm-linux-gnueabi';
+loop in
+'/home/prashant.a/yocto/tisdk/build/arago-tmp-external-linaro-toolchain/work/armv5-linux-gnueabi/external-linaro-toolchain/2017.01~dev-r0.arago30/package/usr/include/c++/6.2.1/arm-linux-gnueabi/arm-linux-gnueabi'
+
+ERROR: external-linaro-toolchain-2017.01~dev-r0.arago30 do_package:
+Function failed: split_and_strip_files
+ERROR: Logfile of failure stored in:
+/home/prashant.a/yocto/tisdk/build/arago-tmp-external-linaro-toolchain/work/armv5-linux-gnueabi/external-linaro-toolchain/2017.01~dev-r0.arago30/temp/log.do_package.15476
+ERROR: Task 465
+(/home/prashant.a/yocto/tisdk/sources/meta-linaro/meta-linaro-toolchain/recipes-devtools/external-linaro-toolchain/
+external-linaro-toolchain.bb, do_package) failed with exit code '1'
+
+
+Is there any way to reduce *ncurses terminfo* size because it consume 7MB?
+
+Thank you in advance.
+
+Regards,
+Prashant
+
+
+On Fri, Feb 3, 2017 at 8:50 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+
+> On 2/3/17 6:25 AM, ANDANI PRASHANT wrote:
+> > Hi,
 > >
-> >   i found this reference from 2014:
-> >
-> > http://lists.openembedded.org/pipermail/openembedded-core/2014-August
-> > /096486.html
-> >
-> > but it seems clear nothing became of it; there's certainly no
-> > .bbclass
-> > file that matches that.
-> >
-> >   what are the options for setting up something like this? or is that
-> > already supported and i'm just not seeing it?
+> > I build rootfs which size is 100MB+
+> > As i look in to filesystem, there are 14mb libc-2.23.so <
+> http://libc-2.23.so>,
+> > 12mb libstdc++.so.6.0.22,..etc.
+> > Is there any flag or option during build to strip all library and binary
+> to
+> > optimise size of rootfs.
 >
-> It was never merged as its not really necessary, you can do this
-> with existing functionality.
+> The default is that everything is stripped (actually split into stripped
+> executable and debug addition).  The stripped pieces are installed into
+> your
+> rootfs, and the debug pieces are not.  (Unless you've added dbg-pkgs to
+> your
+> configuration.)
 >
-> Just point SSTATE_MIRRORS at the common shared directory and
-> SSTATE_DIR at the directory you want to be the personal one.
+> The default optimization flag should be more then enough to get a
+> consistent
+> well optimized system.
+>
+> Where you will run into issues is if you, or one of the layers you are
+> using
+> disables the splitting or enables global debug optimizations (lower
+> optimization
+> levels.)
+>
+> This is what you want to check for:
+>
+> # Uncomment this to change the optimization to make debugging easer, at the
+> # possible cost of performance.
+> # DEBUG_BUILD = "1"
+> #
+> # Uncomment this to disable the stripping of the installed binaries
+> # INHIBIT_PACKAGE_STRIP = "1"
+> #
+> # Uncomment this to disable the split of the debug information into -dbg
+> files
+> # INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
+>
+> You can use bitbake -e to investigate the values for the system as a
+> whole, or
+> specify a recipe to look at a specific item.
+>
+> --Mark
+>
+> > Regards,
+> > Prashant
+> >
+> >
+>
+>
 
-  wait, i just ran across this YP wiki page:
+--001a113ca39cd94f770547c1b1d1
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-https://wiki.yoctoproject.org/wiki/Enable_sstate_cache
+<div dir=3D"ltr">Hi Mark,<div><br></div><div>Thank you for your reply.</div=
+><div><br></div><div>i am getting below error If i comment=C2=A0<span style=
+=3D"font-size:12.8px">=C2=A0</span><span style=3D"font-size:12.8px">INHIBIT=
+_PACKAGE_STRIP in=C2=A0meta-linaro/meta-linaro-toolchain/recipes-devtools/e=
+xternal-linaro-toolchain/<a href=3D"http://external-linaro-toolchain.bb">ex=
+ternal-linaro-toolchain.bb</a> file.</span></div><div><span style=3D"font-s=
+ize:12.8px"><br></span></div><div><div><span style=3D"font-size:12.8px"><fo=
+nt color=3D"#ff0000">ERROR: external-linaro-toolchain-2017.01~dev-r0.arago3=
+0 do_package: Error executing a python function in exec_python_func() autog=
+enerated:</font></span></div><div><span style=3D"font-size:12.8px"><font co=
+lor=3D"#ff0000"><br></font></span></div><div><span style=3D"font-size:12.8p=
+x"><font color=3D"#ff0000">The stack trace of python calls that resulted in=
+ this exception/failure was:</font></span></div><div><span style=3D"font-si=
+ze:12.8px"><font color=3D"#ff0000">File: &#39;exec_python_func() autogenera=
+ted&#39;, lineno: 2, function: &lt;module&gt;</font></span></div><div><span=
+ style=3D"font-size:12.8px"><font color=3D"#ff0000">=C2=A0 =C2=A0 =C2=A0000=
+1:</font></span></div><div><span style=3D"font-size:12.8px"><font color=3D"=
+#ff0000">=C2=A0*** 0002:split_and_strip_files(d)</font></span></div><div><s=
+pan style=3D"font-size:12.8px"><font color=3D"#ff0000">=C2=A0 =C2=A0 =C2=A0=
+0003:</font></span></div><div><span style=3D"font-size:12.8px"><font color=
+=3D"#ff0000">File: &#39;/home/prashant.a/yocto/tisdk/sources/oe-core/meta/c=
+lasses/package.bbclass&#39;, lineno: 921, function: split_and_strip_files</=
+font></span></div><div><span style=3D"font-size:12.8px"><font color=3D"#ff0=
+000">=C2=A0 =C2=A0 =C2=A00917: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0if debugdir and debugdir in os.path.dirname(file[len(dvar):]):=
+</font></span></div><div><span style=3D"font-size:12.8px"><font color=3D"#f=
+f0000">=C2=A0 =C2=A0 =C2=A00918: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0continue</font></span></div><div><span style=3D"=
+font-size:12.8px"><font color=3D"#ff0000">=C2=A0 =C2=A0 =C2=A00919:</font><=
+/span></div><div><span style=3D"font-size:12.8px"><font color=3D"#ff0000">=
+=C2=A0 =C2=A0 =C2=A00920: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0try:</font></span></div><div><span style=3D"font-size:12.8px"><font c=
+olor=3D"#ff0000">=C2=A0*** 0921: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0ltarget =3D cpath.realpath(file, dvar, False)</f=
+ont></span></div><div><span style=3D"font-size:12.8px"><font color=3D"#ff00=
+00">=C2=A0 =C2=A0 =C2=A00922: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0s =3D cpath.lstat(ltarget)</font></span></div><div>=
+<span style=3D"font-size:12.8px"><font color=3D"#ff0000">=C2=A0 =C2=A0 =C2=
+=A00923: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0except OSEr=
+ror as e:</font></span></div><div><span style=3D"font-size:12.8px"><font co=
+lor=3D"#ff0000">=C2=A0 =C2=A0 =C2=A00924: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(err, strerror) =3D e.args</font></sp=
+an></div><div><span style=3D"font-size:12.8px"><font color=3D"#ff0000">=C2=
+=A0 =C2=A0 =C2=A00925: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0if err !=3D errno.ENOENT:</font></span></div><div><span st=
+yle=3D"font-size:12.8px"><font color=3D"#ff0000">File: &#39;/home/prashant.=
+a/yocto/tisdk/sources/oe-core/meta/lib/oe/cachedpath.py&#39;, lineno: 229, =
+function: realpath</font></span></div><div><span style=3D"font-size:12.8px"=
+><font color=3D"#ff0000">=C2=A0 =C2=A0 =C2=A00225: =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# be printed a backtrace with 100s of OSErro=
+r exceptions</font></span></div><div><span style=3D"font-size:12.8px"><font=
+ color=3D"#ff0000">=C2=A0 =C2=A0 =C2=A00226: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0# else</font></span></div><div><span style=3D"fo=
+nt-size:12.8px"><font color=3D"#ff0000">=C2=A0 =C2=A0 =C2=A00227: =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0raise OSError(errno.ELOOP,<=
+/font></span></div><div><span style=3D"font-size:12.8px"><font color=3D"#ff=
+0000">=C2=A0 =C2=A0 =C2=A00228: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;too muc=
+h recursions while resolving &#39;%s&#39;; loop in &#39;%s&#39;&quot; %</fo=
+nt></span></div><div><span style=3D"font-size:12.8px"><font color=3D"#ff000=
+0">=C2=A0*** 0229: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(file, e.strerror))</font><=
+/span></div><div><span style=3D"font-size:12.8px"><font color=3D"#ff0000">=
+=C2=A0 =C2=A0 =C2=A00230:</font></span></div><div><span style=3D"font-size:=
+12.8px"><font color=3D"#ff0000">=C2=A0 =C2=A0 =C2=A00231: =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0raise</font></span></div><div><span style=3D"font-s=
+ize:12.8px"><font color=3D"#ff0000">=C2=A0 =C2=A0 =C2=A00232:</font></span>=
+</div><div><span style=3D"font-size:12.8px"><font color=3D"#ff0000">=C2=A0 =
+=C2=A0 =C2=A00233: =C2=A0 =C2=A0 =C2=A0 =C2=A0return file</font></span></di=
+v><div><span style=3D"font-size:12.8px"><font color=3D"#ff0000">Exception: =
+OSError: [Errno 40] too much recursions while resolving &#39;/home/prashant=
+.a/yocto/tisdk/build/arago-tmp-external-linaro-toolchain/work/armv5-linux-g=
+nueabi/external-linaro-toolchain/2017.01~dev-r0.arago30/package/usr/include=
+/c++/6.2.1/arm-linux-gnueabi/arm-linux-gnueabi&#39;; loop in &#39;/home/pra=
+shant.a/yocto/tisdk/build/arago-tmp-external-linaro-toolchain/work/armv5-li=
+nux-gnueabi/external-linaro-toolchain/2017.01~dev-r0.arago30/package/usr/in=
+clude/c++/6.2.1/arm-linux-gnueabi/arm-linux-gnueabi&#39;</font></span></div=
+><div><span style=3D"font-size:12.8px"><font color=3D"#ff0000"><br></font><=
+/span></div><div><span style=3D"font-size:12.8px"><font color=3D"#ff0000">E=
+RROR: external-linaro-toolchain-2017.01~dev-r0.arago30 do_package: Function=
+ failed: split_and_strip_files</font></span></div><div><span style=3D"font-=
+size:12.8px"><font color=3D"#ff0000">ERROR: Logfile of failure stored in: /=
+home/prashant.a/yocto/tisdk/build/arago-tmp-external-linaro-toolchain/work/=
+armv5-linux-gnueabi/external-linaro-toolchain/2017.01~dev-r0.arago30/temp/l=
+og.do_package.15476</font></span></div><div><span style=3D"font-size:12.8px=
+"><font color=3D"#ff0000">ERROR: Task 465 (/home/prashant.a/yocto/tisdk/sou=
+rces/meta-linaro/meta-linaro-toolchain/recipes-devtools/external-linaro-too=
+lchain/<a href=3D"http://external-linaro-toolchain.bb">external-linaro-tool=
+chain.bb</a>, do_package) failed with exit code &#39;1&#39;</font></span></=
+div><div style=3D"font-size:12.8px"><br></div></div><div style=3D"font-size=
+:12.8px"><br></div><div><span style=3D"font-size:12.8px">Is there any way t=
+o=C2=A0</span><span style=3D"color:rgb(0,0,0)">reduce <b>ncurses terminfo</=
+b> size because it consume 7MB?</span></div><div><font color=3D"#000000"><b=
+r></font></div><div><font color=3D"#000000">Thank you in advance.</font></d=
+iv><div><font color=3D"#000000"><br></font></div><div><font color=3D"#00000=
+0">Regards,</font></div><div><font color=3D"#000000">Prashant<br></font><sp=
+an style=3D"font-size:12.8px">=C2=A0</span></div></div><div class=3D"gmail_=
+extra"><br><div class=3D"gmail_quote">On Fri, Feb 3, 2017 at 8:50 PM, Mark =
+Hatle <span dir=3D"ltr">&lt;<a href=3D"mailto:mark.hatle@windriver.com" tar=
+get=3D"_blank">mark.hatle@windriver.com</a>&gt;</span> wrote:<br><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
+id;padding-left:1ex"><span class=3D"">On 2/3/17 6:25 AM, ANDANI PRASHANT wr=
+ote:<br>
+&gt; Hi,<br>
+&gt;<br>
+&gt; I build rootfs which size is 100MB+<br>
+</span>&gt; As i look in to filesystem, there are 14mb <a href=3D"http://li=
+bc-2.23.so" rel=3D"noreferrer" target=3D"_blank">libc-2.23.so</a> &lt;<a hr=
+ef=3D"http://libc-2.23.so" rel=3D"noreferrer" target=3D"_blank">http://libc=
+-2.23.so</a>&gt;,<br>
+<span class=3D"">&gt; 12mb libstdc++.so.6.0.22,..etc.<br>
+&gt; Is there any flag or option during build to strip all library and bina=
+ry to<br>
+&gt; optimise size of rootfs.<br>
+<br>
+</span>The default is that everything is stripped (actually split into stri=
+pped<br>
+executable and debug addition).=C2=A0 The stripped pieces are installed int=
+o your<br>
+rootfs, and the debug pieces are not.=C2=A0 (Unless you&#39;ve added dbg-pk=
+gs to your<br>
+configuration.)<br>
+<br>
+The default optimization flag should be more then enough to get a consisten=
+t<br>
+well optimized system.<br>
+<br>
+Where you will run into issues is if you, or one of the layers you are usin=
+g<br>
+disables the splitting or enables global debug optimizations (lower optimiz=
+ation<br>
+levels.)<br>
+<br>
+This is what you want to check for:<br>
+<br>
+# Uncomment this to change the optimization to make debugging easer, at the=
+<br>
+# possible cost of performance.<br>
+# DEBUG_BUILD =3D &quot;1&quot;<br>
+#<br>
+# Uncomment this to disable the stripping of the installed binaries<br>
+# INHIBIT_PACKAGE_STRIP =3D &quot;1&quot;<br>
+#<br>
+# Uncomment this to disable the split of the debug information into -dbg fi=
+les<br>
+# INHIBIT_PACKAGE_DEBUG_SPLIT =3D &quot;1&quot;<br>
+<br>
+You can use bitbake -e to investigate the values for the system as a whole,=
+ or<br>
+specify a recipe to look at a specific item.<br>
+<br>
+--Mark<br>
+<br>
+&gt; Regards,<br>
+&gt; Prashant<br>
+&gt;<br>
+&gt;<br>
+<br>
+</blockquote></div><br></div>
 
-so as long as it's accurate, i'll just work off of that.
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
---8323328-102221328-1486228729=:24018--
+--001a113ca39cd94f770547c1b1d1--
