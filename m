@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 458D771994;
-	Mon,  6 Feb 2017 16:29:54 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 35FFA71998;
+	Mon,  6 Feb 2017 16:29:55 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Kristian Amlie <kristian.amlie@mender.io>
-Date: Mon, 06 Feb 2017 16:29:55 -0000
-Message-ID: <20170206162955.9312.76498@do.openembedded.org>
+Date: Mon, 06 Feb 2017 16:29:56 -0000
+Message-ID: <20170206162956.9311.9990@do.openembedded.org>
 References: <1480068955-17053-1-git-send-email-kristian.amlie@mender.io>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
 In-Reply-To: <1480068955-17053-1-git-send-email-kristian.amlie@mender.io>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igd2ljOiBBZGQgLS1leGNsdWRlLXBhdGggb3B0aW9uIHRvIHJvb3RmcyBzb3VyY2UgcGx1Z2luLiAocmV2MTAp?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igd2ljOiBBZGQgLS1leGNsdWRlLXBhdGggb3B0aW9uIHRvIHJvb3RmcyBzb3VyY2UgcGx1Z2luLiAocmV2MTEp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2017 16:29:54 -0000
+X-List-Received-Date: Mon, 06 Feb 2017 16:29:55 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: wic: Add --exclude-path option to rootfs source plugin. (rev10)
-Revision: 10
+Series: wic: Add --exclude-path option to rootfs source plugin. (rev11)
+Revision: 11
 URL   : https://patchwork.openembedded.org/series/4087/
 State : failure
 
