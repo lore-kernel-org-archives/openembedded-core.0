@@ -1,32 +1,52 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 25C02600E3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 686D8600E3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Feb 2017 17:01:23 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Feb 2017 09:01:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,342,1477983600"; d="scan'208";a="40483706"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga002.jf.intel.com with ESMTP; 06 Feb 2017 09:01:23 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id F092E6A4080;
-	Mon,  6 Feb 2017 09:00:22 -0800 (PST)
-Date: Mon, 6 Feb 2017 18:38:57 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <20170206163857.GA17774@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <f181ed99-ed09-59d9-96a8-cf5d77a179d7@mender.io>
-	<1486397807-11699-1-git-send-email-kristian.amlie@mender.io>
+	Mon,  6 Feb 2017 17:06:04 +0000 (UTC)
+Received: by mail-qk0-f174.google.com with SMTP id s140so61449145qke.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 06 Feb 2017 09:06:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=MxNVcm4z3I/sP/MKAedAs32F2HtTpQQJscsOXCd6YkY=;
+	b=EXQ8LNQ97r82CwqMaK1X+fM+uQfaW9pR6HEYQ81I9VADRdt8rYyAkXVKb7N14d5XBD
+	GZ7wqnT8RKYui8rbOega/RXVaLDoegc08QZ+zF4NYCl/upnY9tcLT3UdkjFGVEA2stGk
+	E9OEFIHJVQL5IrtCBw6UPhcL8Fc/ZpswHv7aAkVdPmgUwOQrojZDGPtSidpnExTRLKj5
+	zXXe1Aro3M5AfVqbc+DQ1WWVJFEATusyAcZ4r96j9qogxuvCDzGX+YkpOfHiX+lM7Cvl
+	GJd5+Bbhob0ni56dVf/mlM+c00b1gwDwV5vTOmTU0iQPVW+MLV7ex0whnONjB8VYDDVr
+	tFfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=MxNVcm4z3I/sP/MKAedAs32F2HtTpQQJscsOXCd6YkY=;
+	b=rAohOb9+koC2+aYPCK7/+m4nKCNaV1tkt7F3Bq6yTYnfHLpJILHXLEkWjwX/1xQ5I2
+	fLfvpQ4B0ephnJXvDtW9r4remlHtwNYEMo21hreJn+otaZftnSBVHMRv5SiC6a+aah/5
+	2y2eTRZmfMkOzJSqOas3c8CjD39XENp3vT8+iEb4oRg8uitfqB9Ghhpyr7Invyf9DB70
+	HW7mRMkPVG0qL3qP/M6roVE9wSG6qGGQU6YxgVGvpWw4yXIYZJSqcCZlGIHIeYA6wFid
+	VEHG6hzMe1l0t31BoCStLvdo0s7PblPpRfdSRJhLiIouA1XHcmcpI8VbVXRPxzOnn8i8
+	D5rA==
+X-Gm-Message-State: AMke39nuMxCf+R090I5ZuxYi9PI4czMaieeCdm6RWV7fRoLzfFb5xrX6GQsMpwuA16KqLufbSNmF0miIsAIV4v4h
+X-Received: by 10.55.183.133 with SMTP id h127mr11189568qkf.121.1486400764228; 
+	Mon, 06 Feb 2017 09:06:04 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1486397807-11699-1-git-send-email-kristian.amlie@mender.io>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Received: by 10.140.103.233 with HTTP; Mon, 6 Feb 2017 09:05:43 -0800 (PST)
+In-Reply-To: <1486400123.22715.15.camel@pbcl.net>
+References: <1486120259.13882.26.camel@pbcl.net>
+	<1486120807.14144.68.camel@linuxfoundation.org>
+	<1486124973.13882.29.camel@pbcl.net>
+	<1486388525.22715.2.camel@pbcl.net>
+	<1486391230.14144.82.camel@linuxfoundation.org>
+	<1486392281.22715.7.camel@pbcl.net>
+	<1486400123.22715.15.camel@pbcl.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 6 Feb 2017 17:05:43 +0000
+Message-ID: <CAJTo0LZA2vY932F9FVnRJfZDfNBvmXAm+SqtMNCc5sO4SYO+Pg@mail.gmail.com>
+To: Phil Blundell <pb@pbcl.net>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4 2/2] selftest/wic: Add tests for --exclude-dir option.
+Subject: Re: RSS difficulties
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,31 +59,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2017 17:01:30 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 06 Feb 2017 17:06:04 -0000
+Content-Type: multipart/alternative; boundary=94eb2c0600568bc9050547dfa556
 
-On Mon, Feb 06, 2017 at 05:16:45PM +0100, Kristian Amlie wrote:
-> 
-> Rebased and reran tests. Changes since last patchset:
-> 
-> - Because of recipe specific sysroots we now need to import the PATH
->   used by wic-tools into the test in order to use its tools.
-> 
-> - Add specific '-o' parameter while testing wic so that we write into
->   resultdir.
-> 
-> - Several unrelated changes to poky now means that we need to use an
->   absolute path for new_rootfs in the rootfs.py implementation. This
->   would have been a good idea from the start anyway.
-> 
-> I hope there are no more outstanding issues with this patchset.
-> 
+--94eb2c0600568bc9050547dfa556
+Content-Type: text/plain; charset=UTF-8
 
-The patchset looks good to me.
-All wic test cases have been passed.
+On 6 February 2017 at 16:55, Phil Blundell <pb@pbcl.net> wrote:
 
---
-Regards,
-Ed
+> And, since recipe-sysroot-native is inside ${WORKDIR}, this blows away
+> everything that rss carefully placed there. Doh.
+>
 
+Ha, nice.  I'm sure that was well intended but blasting all of ${WORKDIR}
+seems overkeen.  I bet that was fun to chase!
+
+Ross
+
+--94eb2c0600568bc9050547dfa556
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 6 February 2017 at 16:55, Phil Blundell <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:pb@pbcl.net" target=3D"_blank">pb@pbcl.net</a>&gt;</span> wrote:<br=
+><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
+px #ccc solid;padding-left:1ex"><div>And, since recipe-sysroot-native is in=
+side ${WORKDIR}, this blows away everything that rss carefully placed there=
+.  Doh.</div><span class=3D"HOEnZb"><font color=3D"#888888"><div></div></fo=
+nt></span></blockquote></div><br>Ha, nice.=C2=A0 I&#39;m sure that was well=
+ intended but blasting all of ${WORKDIR} seems overkeen.=C2=A0 I bet that w=
+as fun to chase!</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
+ail_extra">Ross</div></div>
+
+--94eb2c0600568bc9050547dfa556--
