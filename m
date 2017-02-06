@@ -1,46 +1,24 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 35BB871987
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9164971A39
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Feb 2017 03:42:55 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id 19so5870022pfo.3
+	Mon,  6 Feb 2017 06:00:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v1660Z2I020135
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Feb 2017 19:42:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=GBRG/nykEMDZhQhjBy0CbeyXOzt7OvlgV+TKoPnfPGY=;
-	b=ThyFVYz89XuzQuTYmMO7euN91tbpbMp9tB7fUDv6qEn8R9wKzeTTzqPN32GRJ41u/F
-	RBf691mwPCL5M/j50xCsrnIIcUAm8bGAxhHrpvyUrMV0ac1o4zAdrvCTcdCPv4vFZw/b
-	uMdDaKzybDZUGVzqNYO5v1Wr+6/hgki652PytjWcUPl/cVMyXGYaVZnK/ges5R6hQVp5
-	yrSkXGS6mBorqDTjvwapN5VUai9cwPNmhCx/giDVEnuNRyzjcrhkE/vWnMMogHui9iKq
-	m2kq6b9nlM1lNmAnU7Ndqaz8LkDU/ItlOfURiF7n6IlFrpJyn70ibc6SMvVC7X2ADmtF
-	Sr6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=GBRG/nykEMDZhQhjBy0CbeyXOzt7OvlgV+TKoPnfPGY=;
-	b=SnJlJoXFxG0TUCygmjJIaqh+YZN7OGOd04ozQhu9UiHfyx/WdAyaAKEXOARztxSHCz
-	hVnkohLUpUPvUj95/u7NUM9gHW6SyCOlYdqhbKBmdNddwxzp9ZZuBRU3Q8MwUEOaC7vh
-	HJbtyhuuyoo5l6ptri1Byni2bD+LT7fIuouybtwfjylqtPlptKDmLF+oBmEQD/kRGy4p
-	H8/oUsvCSExdHP2QPBK0YUWPpiyxOR5+hJ91Py9OezZ4TiPe+WVc/zVjIqVqd2I5TgMm
-	nicTaNO0N+nvNT9btcC3F98SFflsjcrnTdX8zk7vBtW6UzwowjiKNiRiVGvTAqY/sENi
-	xKpw==
-X-Gm-Message-State: AIkVDXITjQOIV3pv+7DP2dQBpax3aqJicNktsfrM93GODDJlXNxuR6bJpZ53PEWi620mvA==
-X-Received: by 10.98.196.1 with SMTP id y1mr10844069pff.105.1486352576315;
-	Sun, 05 Feb 2017 19:42:56 -0800 (PST)
-Received: from e6520.gateway.sonic.net
-	(173-228-90-240.dsl.dynamic.fusionbroadband.com. [173.228.90.240])
-	by smtp.gmail.com with ESMTPSA id
-	19sm84195987pft.46.2017.02.05.19.42.54
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 05 Feb 2017 19:42:55 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  5 Feb 2017 19:42:48 -0800
-Message-Id: <1486352568-3145-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] image_types.bbclass: fix image dependency chain collection
+	Sun, 5 Feb 2017 22:00:35 -0800
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Sun, 5 Feb 2017 22:00:34 -0800
+From: Dengke Du <dengke.du@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 6 Feb 2017 01:00:32 -0500
+Message-ID: <cover.1486360706.git.dengke.du@windriver.com>
+X-Mailer: git-send-email 2.8.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] dosfstools: upgrade to 4.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,32 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2017 03:42:56 -0000
+X-List-Received-Date: Mon, 06 Feb 2017 06:00:38 -0000
+Content-Type: text/plain
 
-If image type "foo" depends on image type "bar.xz", then dependencies
-should be collected from the base image type (ie "IMAGE_DEPENDS_bar")
-not from "IMAGE_DEPENDS_bar.xz".
+The following changes since commit c62908e6a3ecd4d3cde2576f226d669a8299298d:
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/classes/image_types.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  gcc-6: Sync gcc stddef.h with musl stddef.h (2017-02-05 09:22:18 +0000)
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 4c1c065..d2eb99d 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -33,8 +33,8 @@ def imagetypes_getdepends(d):
- 
-         for typedepends in (d.getVar("IMAGE_TYPEDEP_%s" % basetype) or "").split():
-             base, rest = split_types(typedepends)
-+            adddep(d.getVar('IMAGE_DEPENDS_%s' % base) , deps)
-             resttypes += rest
--            adddep(d.getVar('IMAGE_DEPENDS_%s' % typedepends) , deps)
- 
-         for ctype in resttypes:
-             adddep(d.getVar("CONVERSION_DEPENDS_%s" % ctype), deps)
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib dengke/dosfstools-upgrade-to-4.1
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=dengke/dosfstools-upgrade-to-4.1
+
+Dengke Du (1):
+  dosfstools: upgrade to 4.1
+
+ .../dosfstools/{dosfstools_4.0.bb => dosfstools_4.1.bb}               | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/dosfstools/{dosfstools_4.0.bb => dosfstools_4.1.bb} (86%)
+
 -- 
-1.9.1
+2.8.1
 
 
