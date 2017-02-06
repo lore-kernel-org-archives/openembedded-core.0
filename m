@@ -1,52 +1,21 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
-	[209.85.213.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DC96719D0
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 47ED7719DC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Feb 2017 20:55:06 +0000 (UTC)
-Received: by mail-vk0-f68.google.com with SMTP id n125so721172vke.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Feb 2017 12:55:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=gxK+NeS1oY5D9tGTYwNzDaD5nfxWE5WRxyhV51a7H8k=;
-	b=kwbJUaBxNy3nyyAOcepEVrHzMA0sLlg1gfRVckb5oWTzt/n5KBA5okdYhQcJuSdVDG
-	fEH9eBGk33LfXEtJFctZP0MU1SeBa1jtEgTz/S/Kgpewt7lm/6AfN9K0pRpwUUKkHF5N
-	G5U5F94afywLxek4p2pxZ+Juo4sMneMBvTIC0ktCxlS/7jxkJAeXUkLQTzbOLeBnG1PY
-	McjhZB41Feoh72PFJNDQCByLvSJxwMXiUubeN3Jy/EwVEIg4ZplHx+IzA1WDxycpMoe0
-	wN8r9HiDSwt0PpQknt1ecuigMeBnyuZmloqUjbv+oTPs5LcDA8FjsGCjHMTA4SaPe5J/
-	ckoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=gxK+NeS1oY5D9tGTYwNzDaD5nfxWE5WRxyhV51a7H8k=;
-	b=n78H1vEjxBC0ByqCfs5eVzoajtOJ39ggrHIf8tBA2KaUhCBhBIYPVzXQO/FE5sGzC7
-	BvoRkYZT18qu1G0MYa7lIf+2x36dtt2/hHxF+It9UNPE+d9rAERQZ39Ygr/+6al45lJs
-	bDqAhja3orZ2bGJZMhqcYJbmGfP14JznFGzlHfQvBd/Oees4guT+2DBIWfRazf8WKlJ2
-	jdN+RiKB1dbHHQ0SZtvirgwUJRqCHL/05kTkEfALag1QbZLoswWZHMgmzViCu8SVlcOu
-	UIorQspeEq+N5/mZIA96WV+ajBHwcPHWmjwEejNz1vBpFbZDt609GqT3UiR/464RGQgH
-	MTcg==
-X-Gm-Message-State: AMke39nA2mRSK2d89o4gtug/dnQqOLtF56Fdf8LHYuAg1Gvz0RIRiUku9beANnvdkKVuYbh8NoI8cLIhWSdnFw==
-X-Received: by 10.31.168.145 with SMTP id r139mr5530267vke.148.1486414507484; 
-	Mon, 06 Feb 2017 12:55:07 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.159.48.222 with HTTP; Mon, 6 Feb 2017 12:54:37 -0800 (PST)
-In-Reply-To: <1486400123.22715.15.camel@pbcl.net>
-References: <1486120259.13882.26.camel@pbcl.net>
-	<1486120807.14144.68.camel@linuxfoundation.org>
-	<1486124973.13882.29.camel@pbcl.net>
-	<1486388525.22715.2.camel@pbcl.net>
-	<1486391230.14144.82.camel@linuxfoundation.org>
-	<1486392281.22715.7.camel@pbcl.net>
-	<1486400123.22715.15.camel@pbcl.net>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 6 Feb 2017 12:54:37 -0800
-Message-ID: <CAMKF1sqKHdzCP3BW1AWZ+cVq+jhoL9=rTvnexKJz3bXyD59Ytw@mail.gmail.com>
-To: Phil Blundell <pb@pbcl.net>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: RSS difficulties
+	Mon,  6 Feb 2017 20:59:12 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 06 Feb 2017 12:59:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,342,1477983600"; d="scan'208";a="1122912393"
+Received: from swold-mobl2.amr.corp.intel.com ([10.254.85.39])
+	by fmsmga002.fm.intel.com with ESMTP; 06 Feb 2017 12:59:13 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Mon,  6 Feb 2017 12:59:08 -0800
+Message-Id: <1486414751-24947-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 1/2] iucode-tool: Add support for MUSL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,34 +28,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2017 20:55:07 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 06 Feb 2017 20:59:14 -0000
 
-On Mon, Feb 6, 2017 at 8:55 AM, Phil Blundell <pb@pbcl.net> wrote:
-> On Mon, 2017-02-06 at 14:44 +0000, Phil Blundell wrote:
->
-> But sadly the contents of libecj-bootstrap-native doesn't actually show up
-> in gnujaf-native's recipe-sysroot-native.
->
->
-> A bit of further sleuthing reveals that although this problem only started
-> with rss the blame lies somewhere else. It transpires that meta-java's
-> java-library.bbclass contains the somewhat epically unhelpful (in this
-> context) fragment:
->
-> # Java "source" distributions often contain precompiled things
-> # we want to delete first.
-> do_removebinaries() {
->   find ${WORKDIR} -name "*.jar" -exec rm {} \;
->   find ${WORKDIR} -name "*.class" -exec rm {} \;
-> }
->
-> addtask removebinaries after do_unpack before do_patch
->
-> And, since recipe-sysroot-native is inside ${WORKDIR}, this blows away
-> everything that rss carefully placed there. Doh.
+iu-code needs the arpg API which is not part of MUSL, so add argp-standalone as
+a dependency. The arpg library is also required for linking, so add a patch to
+the Makefile.am
 
-good job. yeah this pre-rss assumptions, I also had another issue
-where clang cross compiler was happily searching native sysroot for
-headers. Not rss fault but exposed a latent problem.
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ ...am-Add-arg-parse-library-for-MUSL-support.patch | 29 ++++++++++++++++++++++
+ common/recipes-core/microcode/iucode-tool_2.1.1.bb |  6 ++++-
+ 2 files changed, 34 insertions(+), 1 deletion(-)
+ create mode 100644 common/recipes-core/microcode/iucode-tool/0001-Makefile.am-Add-arg-parse-library-for-MUSL-support.patch
+
+diff --git a/common/recipes-core/microcode/iucode-tool/0001-Makefile.am-Add-arg-parse-library-for-MUSL-support.patch b/common/recipes-core/microcode/iucode-tool/0001-Makefile.am-Add-arg-parse-library-for-MUSL-support.patch
+new file mode 100644
+index 0000000..ca97d2a
+--- /dev/null
++++ b/common/recipes-core/microcode/iucode-tool/0001-Makefile.am-Add-arg-parse-library-for-MUSL-support.patch
+@@ -0,0 +1,29 @@
++From 5f6826b3a59dedf508d5a6122362d69a4813e8e6 Mon Sep 17 00:00:00 2001
++From: Saul Wold <sgw@linux.intel.com>
++Date: Fri, 3 Feb 2017 16:08:51 -0800
++Subject: [PATCH] Makefile.am: Add arg-parse library for MUSL support
++
++iucode-tool needs argp-standalone when used with MUSL, so add this
++patch to the Makefile to link with argp
++
++Upstream-Status: Pending
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++---
++ Makefile.am | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/Makefile.am b/Makefile.am
++index 415a241..764fb61 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -5,6 +5,7 @@
++ sbin_PROGRAMS	 = iucode_tool
++ man_MANS	 = iucode_tool.8
++ 
+++iucode_tool_LDADD = -largp
++ iucode_tool_SOURCES = intel_microcode.h intel_microcode.c iucode_tool.c
++ EXTRA_DIST	= autogen.sh CONTRIBUTING
++ 
++-- 
++2.7.4
++
+diff --git a/common/recipes-core/microcode/iucode-tool_2.1.1.bb b/common/recipes-core/microcode/iucode-tool_2.1.1.bb
+index e98bca6..9cae8e2 100644
+--- a/common/recipes-core/microcode/iucode-tool_2.1.1.bb
++++ b/common/recipes-core/microcode/iucode-tool_2.1.1.bb
+@@ -16,7 +16,11 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+                     file://iucode_tool.c;beginline=1;endline=15;md5=5d8e3639c3b6a80e7d5e0e073933da16"
+ 
+-SRC_URI = "https://gitlab.com/iucode-tool/releases/raw/master/iucode-tool_${PV}.tar.xz"
++DEPENDS_append_libc-musl = " argp-standalone"
++
++SRC_URI = "https://gitlab.com/iucode-tool/releases/raw/master/iucode-tool_${PV}.tar.xz \
++           file://0001-Makefile.am-Add-arg-parse-library-for-MUSL-support.patch \
++           "
+ SRC_URI[md5sum] = "306d20b43da847812af4bf973f46045d"
+ SRC_URI[sha256sum] = "8f94ec73f5d4d1a6801aaa894fa1c6544d9b27aec16e1a00e18e8241c7e0f6ba"
+ 
+-- 
+2.7.4
+
 
