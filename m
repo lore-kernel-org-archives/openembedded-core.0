@@ -1,23 +1,23 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EC8B719E2
+	by mail.openembedded.org (Postfix) with ESMTP id 9D35671A54
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  6 Feb 2017 20:59:13 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 06 Feb 2017 12:59:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,342,1477983600"; d="scan'208";a="1122912397"
+X-IronPort-AV: E=Sophos;i="5.33,342,1477983600"; d="scan'208";a="1122912399"
 Received: from swold-mobl2.amr.corp.intel.com ([10.254.85.39])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Feb 2017 12:59:13 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 06 Feb 2017 12:59:14 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org,
 	richard.purdie@linuxfoundation.org
-Date: Mon,  6 Feb 2017 12:59:10 -0800
-Message-Id: <1486414751-24947-3-git-send-email-sgw@linux.intel.com>
+Date: Mon,  6 Feb 2017 12:59:11 -0800
+Message-Id: <1486414751-24947-4-git-send-email-sgw@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1486414751-24947-1-git-send-email-sgw@linux.intel.com>
 References: <1486414751-24947-1-git-send-email-sgw@linux.intel.com>
-Subject: [PATCH 2/2] libva-intel-driver: Update to 1.7.3
+Subject: [PATCH 2/2] meta-intel.inc: Enable linux-intel and 4.9 by default for meta-intel hardware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,31 +32,32 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 06 Feb 2017 20:59:15 -0000
 
-The upstream has moved their source base from FreeDesktop to github.com/01org
+Enable the linux-intel production kernel for meta-intel by default for 4.9,
+this will enable using the Intel production kernel.
+
+This is a well tested 4.9 tree that will start to include additional
+support for the Apollolake and Joule hardware.
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../libva/{libva-intel-driver_1.7.2.bb => libva-intel-driver_1.7.3.bb} | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
- rename common/recipes-multimedia/libva/{libva-intel-driver_1.7.2.bb => libva-intel-driver_1.7.3.bb} (89%)
+ conf/machine/include/meta-intel.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/common/recipes-multimedia/libva/libva-intel-driver_1.7.2.bb b/common/recipes-multimedia/libva/libva-intel-driver_1.7.3.bb
-similarity index 89%
-rename from common/recipes-multimedia/libva/libva-intel-driver_1.7.2.bb
-rename to common/recipes-multimedia/libva/libva-intel-driver_1.7.3.bb
-index f82e9d7..0194063 100644
---- a/common/recipes-multimedia/libva/libva-intel-driver_1.7.2.bb
-+++ b/common/recipes-multimedia/libva/libva-intel-driver_1.7.3.bb
-@@ -13,7 +13,8 @@ COMPATIBLE_HOST = '(i.86|x86_64).*-linux'
+diff --git a/conf/machine/include/meta-intel.inc b/conf/machine/include/meta-intel.inc
+index 21587fb..eb759c4 100644
+--- a/conf/machine/include/meta-intel.inc
++++ b/conf/machine/include/meta-intel.inc
+@@ -9,8 +9,8 @@
+ #
  
- DEPENDS = "libva libdrm"
+ # Soft set linux-yocto as preferred kernel like x86-base.inc
+-PREFERRED_PROVIDER_virtual/kernel ??= "linux-yocto"
+-PREFERRED_VERSION_linux-yocto ?= "4.8%"
++PREFERRED_PROVIDER_virtual/kernel ?= "linux-intel"
++PREFERRED_VERSION_linux-intel ?= "4.9%"
  
--SRC_URI = "http://www.freedesktop.org/software/vaapi/releases/${BPN}/${BPN}-${PV}.tar.bz2"
-+SRC_URI = "git://github.com/01org/intel-vaapi-driver.git;protocol=https"
-+SRCREV = "c747c3428cd862869b75e96b737fa61532d6f27f"
- 
- SRC_URI[md5sum] = "f28ac265f836f7ce881305bd3a282c90"
- SRC_URI[sha256sum] = "099e7bf6aa826971ec2caff235babf4da995f754e2ca16a73b258671130e67bc"
+ # for Xserver older than 1.13.0
+ OLD_XSERVER_X86_EXT = "xserver-xorg-extension-dri \
 -- 
 2.7.4
 
