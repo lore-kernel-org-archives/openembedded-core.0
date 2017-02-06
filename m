@@ -1,51 +1,51 @@
 Return-Path: <kristian.amlie@mender.io>
-Received: from mail-lf0-f44.google.com (mail-lf0-f44.google.com
-	[209.85.215.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DCC671993
+Received: from mail-lf0-f53.google.com (mail-lf0-f53.google.com
+	[209.85.215.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 437CD71993
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Feb 2017 16:17:09 +0000 (UTC)
-Received: by mail-lf0-f44.google.com with SMTP id n124so47461039lfd.2
+	Mon,  6 Feb 2017 16:17:10 +0000 (UTC)
+Received: by mail-lf0-f53.google.com with SMTP id x1so47579337lff.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Feb 2017 08:17:10 -0800 (PST)
+	Mon, 06 Feb 2017 08:17:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mender-io.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=RDKEWkYAyQz6ZDCk19j9N+DLAAuU2kuk5S0TqcC5dwo=;
-	b=KczacIGO23wYktW2ntJWTYxZ23PuIvzOZfAPp9Js1YDZvTAN3JZlR+AaOz8R/gEID6
-	GNiKfvi8vR7v98z1CGzl5mzdgoYmGiUNyCfT0f8FV7N9apME7g+6NLrh6QbqTzecAP1w
-	2WCE9rXThsw9pCCDvFVUSSYmFkAj2C0ZYDMJQStz0FT4hTdMk2pf/+bpTwF0E1ItyqDj
-	sHemFRNnMBp46yuFqGQnkxfrk3o2hEKdY5w5v9EoQZU0bOlDyIbc8WgF7AwPPRwke4Cd
-	qdMwLNezRKOuYUg5KIIXZZ/kxYo/lktGN9XbP4LSWVExpau0mcaMegVJ2589llu4GAL0
-	GPlw==
+	bh=Rt1snN9R2RTrvnnuMK6e/wcjOYdqnSQXvG9ugrUhM6I=;
+	b=mJzU8BnPjuqjVWtKlBmLia25GAoqP5GWQF7YgJOkWCHBsvJQdBONKnKEmy5Z9b7kqn
+	dbjYImtmIIBnVdpXPgi/Z5OXR0wv9D5PtXjiAjZwlm4G4a07vW8FmOEpewINVXmP9/6z
+	srMt1MYgPkV4ddHo+9xREUaDyVbNmGYE6OgPKz4r+2bTYCtRRW6099LP1dBAGQDa4Kv7
+	P/YP6nej8I9T6vtZF5U1GNlbsW0ullrusfmVikz/l4UchTAzIQhG7765ao94/NBj+1tb
+	b5lBFkc5KdyAMjO3sdT1zyC0BCXUi5+UhdZiOmrJ48RU5Undgvh0se1OkUz8sFfQR+AL
+	NPrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=RDKEWkYAyQz6ZDCk19j9N+DLAAuU2kuk5S0TqcC5dwo=;
-	b=FfwLA+yGoccRQwJP/RO072DPUbVsHb4Zi/lqYnYIqfqn7DOXRBp/Nj0dtKx7kTy7bK
-	11xQwVRCeNo6Iq0Xzt8rbx5uJW+me7UY6KDyjubzfS4OQkDjtiDwLpprmt+DtS0Lmm1p
-	9QZZ5Av8EisaftxeEEHIPaXDX9t+N2z7DwaWjEQF1BROVpYQGmMjtjKd/Kc8jmKGiUJ8
-	lNuOKIe9GkLlClZBtOC3f5VZy0FljQhxDgd0FK8i698eScHmrMe0P3/YJ2OhpOHdzlsm
-	u59xueMq1zs0RHoFLZKXGsHZ7QJhUOAkrRW2OKT2O7N46ae8YIhjAMA4CjM19mLgqT2X
-	d47Q==
-X-Gm-Message-State: AMke39lQyMSZuAw1DZF9Pb3o832SXVX1S1WgH4IVwz7LRqqmtLAk2DKLJcOxQmTS/uSMnQ==
-X-Received: by 10.25.209.195 with SMTP id i186mr4097149lfg.109.1486397829516; 
-	Mon, 06 Feb 2017 08:17:09 -0800 (PST)
+	bh=Rt1snN9R2RTrvnnuMK6e/wcjOYdqnSQXvG9ugrUhM6I=;
+	b=g7/jmO3bEf3F5iX0vX5GKozTL/iGNoiIuG6eHlDNyqr9hTxAgaODFVlRK2swnKc/zL
+	7DKGd/UW5RB/SYpQ3WXbVUQaSnxUDe+LQ0MhgEHseIamRX+fGCc6HBbvFrYtoiW9x9p2
+	3E9/xMq2LuDiO5oGtIbOA9N1kekk/QvpmOTw9iIEVXmw47vLXZtEKdxmtYhZfjcYKKwS
+	55LMX8EdfDm55mfQFQuuK/z5x6MKFdMwGrSqbojWIcJ5CPal7N68FLI3aSVU//9XPNEu
+	VSLgyvcMzqduYuqc3V8/AwZG4kh4XbvyYUCJmueTVN3IAZDypGJQH0BFJ3J4ptB6TT/q
+	m9Yg==
+X-Gm-Message-State: AIkVDXJaJPRceKFNAN0QjSllWX8gJoG1q53SrFtAWgd0DEHPYcFACNAgEWUxUtTPBPEVPQ==
+X-Received: by 10.25.196.210 with SMTP id u201mr4057812lff.69.1486397830865;
+	Mon, 06 Feb 2017 08:17:10 -0800 (PST)
 Received: from kristian-mender.cfengine.com ([195.159.140.90])
 	by smtp.googlemail.com with ESMTPSA id
-	a138sm429619lfb.2.2017.02.06.08.17.08
+	a138sm429619lfb.2.2017.02.06.08.17.09
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 06 Feb 2017 08:17:08 -0800 (PST)
+	Mon, 06 Feb 2017 08:17:09 -0800 (PST)
 From: Kristian Amlie <kristian.amlie@mender.io>
 To: Ed Bartosh <ed.bartosh@linux.intel.com>,
 	OE-core <openembedded-core@lists.openembedded.org>
-Date: Mon,  6 Feb 2017 17:16:46 +0100
-Message-Id: <1486397807-11699-2-git-send-email-kristian.amlie@mender.io>
+Date: Mon,  6 Feb 2017 17:16:47 +0100
+Message-Id: <1486397807-11699-3-git-send-email-kristian.amlie@mender.io>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1486397807-11699-1-git-send-email-kristian.amlie@mender.io>
 References: <f181ed99-ed09-59d9-96a8-cf5d77a179d7@mender.io>
 	<1486397807-11699-1-git-send-email-kristian.amlie@mender.io>
-Subject: [PATCH 1/2] wic: Add --exclude-path option to rootfs source plugin.
+Subject: [PATCH 2/2] selftest/wic: Add tests for --exclude-dir option.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,146 +58,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2017 16:17:10 -0000
+X-List-Received-Date: Mon, 06 Feb 2017 16:17:11 -0000
 
-It will omit the given path from the resulting partition, and if the
-given path ends in a slash, it will only delete the content, and keep
-the directory.
+Based partially on an earlier patch by Maciej Borzecki.
 
-Since mkfs only accepts whole directories as input, we need to copy
-the rootfs directory to the workdir so that we can selectively delete
-files from it.
-
-Since we want to use the copyhardlinktree() function, we need to put
-the generic oe lib in the module search path.
+Note that because tools now reside in recipe specific sysroots, we
+need to import the path from bitbake and apply it during the test.
 
 Signed-off-by: Kristian Amlie <kristian.amlie@mender.io>
 ---
- scripts/lib/wic/help.py                  |  6 +++++
- scripts/lib/wic/ksparser.py              |  1 +
- scripts/lib/wic/partition.py             |  1 +
- scripts/lib/wic/plugins/source/rootfs.py | 43 +++++++++++++++++++++++++++++++-
- scripts/wic                              |  2 ++
- 5 files changed, 52 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/wic.py | 104 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 104 insertions(+)
 
-diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-index 1bd411d..63bbc23 100644
---- a/scripts/lib/wic/help.py
-+++ b/scripts/lib/wic/help.py
-@@ -721,6 +721,12 @@ DESCRIPTION
-                      partition table. It may be useful for
-                      bootloaders.
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index 417ba3d..0144d77 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -339,6 +339,110 @@ class Wic(oeSelfTest):
+         self.assertEqual(0, status)
+         self.assertEqual(1, len(glob(self.resultdir + "%(wks)s-*.direct" % bbvars)))
  
-+         --exclude-path: This option is specific to wic. It excludes the given
-+                         absolute path from the resulting image. If the path
-+                         ends with a slash, only the content of the directory
-+                         is omitted, not the directory itself. This option only
-+                         has an effect with the rootfs source plugin.
++    def test_exclude_path(self):
++        """Test --exclude-path wks option."""
 +
-          --extra-space: This option is specific to wic. It adds extra
-                         space after the space filled by the content
-                         of the partition. The final size can go
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index 41d3cc6..f0aa5d0 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -130,6 +130,7 @@ class KickStart():
-         part.add_argument('mountpoint', nargs='?')
-         part.add_argument('--active', action='store_true')
-         part.add_argument('--align', type=int)
-+        part.add_argument('--exclude-path', nargs='+')
-         part.add_argument("--extra-space", type=sizetype)
-         part.add_argument('--fsoptions', dest='fsopts')
-         part.add_argument('--fstype')
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 69b369c..5f6cf76 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -39,6 +39,7 @@ class Partition():
-         self.align = args.align
-         self.disk = args.disk
-         self.extra_space = args.extra_space
-+        self.exclude_path = args.exclude_path
-         self.fsopts = args.fsopts
-         self.fstype = args.fstype
-         self.label = args.label
-diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
-index 9d959fa..c57a434 100644
---- a/scripts/lib/wic/plugins/source/rootfs.py
-+++ b/scripts/lib/wic/plugins/source/rootfs.py
-@@ -26,10 +26,13 @@
- #
- 
- import os
-+import shutil
++        oldpath = os.environ['PATH']
++        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
 +
-+from oe.path import copyhardlinktree
- 
- from wic import msger
- from wic.pluginbase import SourcePlugin
--from wic.utils.misc import get_bitbake_var
-+from wic.utils.misc import get_bitbake_var, exec_cmd
- 
- class RootfsPlugin(SourcePlugin):
-     """
-@@ -78,6 +81,44 @@ class RootfsPlugin(SourcePlugin):
- 
-         real_rootfs_dir = cls.__get_rootfs_dir(rootfs_dir)
- 
-+        # Handle excluded paths.
-+        if part.exclude_path is not None:
-+            # We need a new rootfs directory we can delete files from. Copy to
-+            # workdir.
-+            new_rootfs = os.path.realpath(os.path.join(cr_workdir, "rootfs"))
++        try:
++            wks_file = 'temp.wks'
++            with open(wks_file, 'w') as wks:
++                rootfs_dir = get_bb_var('IMAGE_ROOTFS', 'core-image-minimal')
++                wks.write("""part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path usr
++part /usr --source rootfs --ondisk mmcblk0 --fstype=ext4 --rootfs-dir %s/usr
++part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --rootfs-dir %s/usr"""
++                          % (rootfs_dir, rootfs_dir))
++            self.assertEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
++                                       % (wks_file, self.resultdir)).status)
 +
-+            if os.path.lexists(new_rootfs):
-+                shutil.rmtree(os.path.join(new_rootfs))
++            os.remove(wks_file)
++            wicout = glob(self.resultdir + "%s-*direct" % 'temp')
++            self.assertEqual(1, len(wicout))
 +
-+            copyhardlinktree(real_rootfs_dir, new_rootfs)
++            wicimg = wicout[0]
 +
-+            real_rootfs_dir = new_rootfs
++            # verify partition size with wic
++            res = runCmd("parted -m %s unit b p 2>/dev/null" % wicimg)
++            self.assertEqual(0, res.status)
 +
-+            for orig_path in part.exclude_path:
-+                path = orig_path
-+                if os.path.isabs(path):
-+                    msger.error("Must be relative: --exclude-path=%s" % orig_path)
++            # parse parted output which looks like this:
++            # BYT;\n
++            # /var/tmp/wic/build/tmpfwvjjkf_-201611101222-hda.direct:200MiB:file:512:512:msdos::;\n
++            # 1:0.00MiB:200MiB:200MiB:ext4::;\n
++            partlns = res.output.splitlines()[2:]
 +
-+                full_path = os.path.realpath(os.path.join(new_rootfs, path))
++            self.assertEqual(3, len(partlns))
 +
-+                # Disallow climbing outside of parent directory using '..',
-+                # because doing so could be quite disastrous (we will delete the
-+                # directory).
-+                if not full_path.startswith(new_rootfs):
-+                    msger.error("'%s' points to a path outside the rootfs" % orig_path)
++            for part in [1, 2, 3]:
++                part_file = os.path.join(self.resultdir, "selftest_img.part%d" % part)
++                partln = partlns[part-1].split(":")
++                self.assertEqual(7, len(partln))
++                start = int(partln[1].rstrip("B")) / 512
++                length = int(partln[3].rstrip("B")) / 512
++                self.assertEqual(0, runCmd("dd if=%s of=%s skip=%d count=%d" %
++                                           (wicimg, part_file, start, length)).status)
 +
-+                if path.endswith(os.sep):
-+                    # Delete content only.
-+                    for entry in os.listdir(full_path):
-+                        full_entry = os.path.join(full_path, entry)
-+                        if os.path.isdir(full_entry) and not os.path.islink(full_entry):
-+                            shutil.rmtree(full_entry)
-+                        else:
-+                            os.remove(full_entry)
-+                else:
-+                    # Delete whole directory.
-+                    shutil.rmtree(full_path)
++            # Test partition 1, should contain the normal root directories, except
++            # /usr.
++            res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % os.path.join(self.resultdir, "selftest_img.part1"))
++            self.assertEqual(0, res.status)
++            files = [line.split('/')[5] for line in res.output.split('\n')]
++            self.assertIn("etc", files)
++            self.assertNotIn("usr", files)
 +
-         part.rootfs_dir = real_rootfs_dir
-         part.prepare_rootfs(cr_workdir, oe_builddir,
-                             real_rootfs_dir, native_sysroot)
-diff --git a/scripts/wic b/scripts/wic
-index 8a959a0..e872096 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -41,6 +41,8 @@ from distutils import spawn
- scripts_path = os.path.abspath(os.path.dirname(__file__))
- lib_path = scripts_path + '/lib'
- sys.path.insert(0, lib_path)
-+oe_lib_path = os.path.join(os.path.dirname(scripts_path), 'meta', 'lib')
-+sys.path.insert(0, oe_lib_path)
- 
- bitbake_exe = spawn.find_executable('bitbake')
- if bitbake_exe:
++            # Partition 2, should contain common directories for /usr, not root
++            # directories.
++            res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % os.path.join(self.resultdir, "selftest_img.part2"))
++            self.assertEqual(0, res.status)
++            files = [line.split('/')[5] for line in res.output.split('\n')]
++            self.assertNotIn("etc", files)
++            self.assertNotIn("usr", files)
++            self.assertIn("share", files)
++
++            # Partition 3, should contain the same as partition 2, including the bin
++            # directory, but not the files inside it.
++            res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % os.path.join(self.resultdir, "selftest_img.part3"))
++            self.assertEqual(0, res.status)
++            files = [line.split('/')[5] for line in res.output.split('\n')]
++            self.assertNotIn("etc", files)
++            self.assertNotIn("usr", files)
++            self.assertIn("share", files)
++            self.assertIn("bin", files)
++            res = runCmd("debugfs -R 'ls -p bin' %s 2>/dev/null" % os.path.join(self.resultdir, "selftest_img.part3"))
++            self.assertEqual(0, res.status)
++            files = [line.split('/')[5] for line in res.output.split('\n')]
++            self.assertIn(".", files)
++            self.assertIn("..", files)
++            self.assertEqual(2, len(files))
++
++            for part in [1, 2, 3]:
++                part_file = os.path.join(self.resultdir, "selftest_img.part%d" % part)
++                os.remove(part_file)
++
++        finally:
++            os.environ['PATH'] = oldpath
++
++    def test_exclude_path_errors(self):
++        """Test --exclude-path wks option error handling."""
++        wks_file = 'temp.wks'
++
++        rootfs_dir = get_bb_var('IMAGE_ROOTFS', 'core-image-minimal')
++
++        # Absolute argument.
++        with open(wks_file, 'w') as wks:
++            wks.write("part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path /usr")
++        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
++                                      % (wks_file, self.resultdir), ignore_status=True).status)
++        os.remove(wks_file)
++
++        # Argument pointing to parent directory.
++        with open(wks_file, 'w') as wks:
++            wks.write("part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path ././..")
++        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
++                                      % (wks_file, self.resultdir), ignore_status=True).status)
++        os.remove(wks_file)
++
+     @testcase(1496)
+     def test_bmap_short(self):
+         """Test generation of .bmap file -m option"""
 -- 
 2.7.4
 
