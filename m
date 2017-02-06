@@ -1,48 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D7C671ABF
+Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
+	[209.85.213.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DC96719D0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Feb 2017 20:46:31 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id y143so7607227pfb.1
+	Mon,  6 Feb 2017 20:55:06 +0000 (UTC)
+Received: by mail-vk0-f68.google.com with SMTP id n125so721172vke.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Feb 2017 12:46:32 -0800 (PST)
+	Mon, 06 Feb 2017 12:55:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=DAgK84jsPnelfDOAU/wGOc3OzhW2XydiEYJHaQ6L2Jo=;
-	b=q+zEneswicqmy3va3M7MZtOkpIp3VT/2EzSuEGZtdlKq0woX9f/5ej7rlcYpMWlOWE
-	yLlQjRzoT7QoNCY876Vz+NZpmDmoWrhWjRlYE+uUlAsfre7i7c3wbBQZOPkwJTmZAq+9
-	ec7qy0thaidgLFEw0ZNDV3lNyfjS1nutRaRcEhXuPq88iAveo+oJTrGloND9l+1WeYjf
-	mvrj94qE6GuC6/kEcj0Hwq8b/BWKCtqnWt8e4NQ1geca9IKru6JfyRIukgxASZQV2XUK
-	sGYOJaf8G3UDoC/RzlFIf6Y17Tqvr79xrAx8YNEAxpQXBKv7apcC+w9JXbhmv2DNQifZ
-	TaSQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=gxK+NeS1oY5D9tGTYwNzDaD5nfxWE5WRxyhV51a7H8k=;
+	b=kwbJUaBxNy3nyyAOcepEVrHzMA0sLlg1gfRVckb5oWTzt/n5KBA5okdYhQcJuSdVDG
+	fEH9eBGk33LfXEtJFctZP0MU1SeBa1jtEgTz/S/Kgpewt7lm/6AfN9K0pRpwUUKkHF5N
+	G5U5F94afywLxek4p2pxZ+Juo4sMneMBvTIC0ktCxlS/7jxkJAeXUkLQTzbOLeBnG1PY
+	McjhZB41Feoh72PFJNDQCByLvSJxwMXiUubeN3Jy/EwVEIg4ZplHx+IzA1WDxycpMoe0
+	wN8r9HiDSwt0PpQknt1ecuigMeBnyuZmloqUjbv+oTPs5LcDA8FjsGCjHMTA4SaPe5J/
+	ckoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=DAgK84jsPnelfDOAU/wGOc3OzhW2XydiEYJHaQ6L2Jo=;
-	b=DzixDTZpm67Ms667MEpC1ofvEnxOa9q447H5qtio1EdIpbJfoNZiD9elitIP8dJnho
-	ZQXf2zGJKnVSxTVHFQwQDY92hJ+t689SyH5TZ9Q0rtNh4r7sD4OS/LY+j0iV4IHL4+i/
-	tPEt7uTcw5ZZ+8oZ9YIPdoionpXUQy3rjh+5U/ISqqeI1wm6qVIxCIHHU5SX9v3//XYx
-	bC2M3kag3KOPIdyUDqM7E9KkSrBn67aZw4Mg9zCUupjuqCyhXyqvDQeFYahLVexNKRS9
-	IDS96kLXjQmbu2W/y3kjSu53CUsXZ99tJhMWIoymB7C9lpgwCksICpdc+Xw+EGL2x2cK
-	V43w==
-X-Gm-Message-State: AIkVDXKANrIHUUWZGTvicYyJ1hJ4yo5DMGLUPCiO5wMJKYhzkJjnzkbYaFqId8lwxpwBQg==
-X-Received: by 10.99.8.133 with SMTP id 127mr15863717pgi.42.1486413991793;
-	Mon, 06 Feb 2017 12:46:31 -0800 (PST)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	l12sm4868386pfj.37.2017.02.06.12.46.30
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 06 Feb 2017 12:46:31 -0800 (PST)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=gxK+NeS1oY5D9tGTYwNzDaD5nfxWE5WRxyhV51a7H8k=;
+	b=n78H1vEjxBC0ByqCfs5eVzoajtOJ39ggrHIf8tBA2KaUhCBhBIYPVzXQO/FE5sGzC7
+	BvoRkYZT18qu1G0MYa7lIf+2x36dtt2/hHxF+It9UNPE+d9rAERQZ39Ygr/+6al45lJs
+	bDqAhja3orZ2bGJZMhqcYJbmGfP14JznFGzlHfQvBd/Oees4guT+2DBIWfRazf8WKlJ2
+	jdN+RiKB1dbHHQ0SZtvirgwUJRqCHL/05kTkEfALag1QbZLoswWZHMgmzViCu8SVlcOu
+	UIorQspeEq+N5/mZIA96WV+ajBHwcPHWmjwEejNz1vBpFbZDt609GqT3UiR/464RGQgH
+	MTcg==
+X-Gm-Message-State: AMke39nA2mRSK2d89o4gtug/dnQqOLtF56Fdf8LHYuAg1Gvz0RIRiUku9beANnvdkKVuYbh8NoI8cLIhWSdnFw==
+X-Received: by 10.31.168.145 with SMTP id r139mr5530267vke.148.1486414507484; 
+	Mon, 06 Feb 2017 12:55:07 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.159.48.222 with HTTP; Mon, 6 Feb 2017 12:54:37 -0800 (PST)
+In-Reply-To: <1486400123.22715.15.camel@pbcl.net>
+References: <1486120259.13882.26.camel@pbcl.net>
+	<1486120807.14144.68.camel@linuxfoundation.org>
+	<1486124973.13882.29.camel@pbcl.net>
+	<1486388525.22715.2.camel@pbcl.net>
+	<1486391230.14144.82.camel@linuxfoundation.org>
+	<1486392281.22715.7.camel@pbcl.net>
+	<1486400123.22715.15.camel@pbcl.net>
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Feb 2017 12:46:16 -0800
-Message-Id: <20170206204616.26245-5-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.11.1
-In-Reply-To: <20170206204616.26245-1-raj.khem@gmail.com>
-References: <20170206204616.26245-1-raj.khem@gmail.com>
-Subject: [PATCH 5/5] pong-clock: Inherit pkgconfig
+Date: Mon, 6 Feb 2017 12:54:37 -0800
+Message-ID: <CAMKF1sqKHdzCP3BW1AWZ+cVq+jhoL9=rTvnexKJz3bXyD59Ytw@mail.gmail.com>
+To: Phil Blundell <pb@pbcl.net>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: RSS difficulties
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,34 +59,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2017 20:46:31 -0000
+X-List-Received-Date: Mon, 06 Feb 2017 20:55:07 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Fixes
+On Mon, Feb 6, 2017 at 8:55 AM, Phil Blundell <pb@pbcl.net> wrote:
+> On Mon, 2017-02-06 at 14:44 +0000, Phil Blundell wrote:
+>
+> But sadly the contents of libecj-bootstrap-native doesn't actually show up
+> in gnujaf-native's recipe-sysroot-native.
+>
+>
+> A bit of further sleuthing reveals that although this problem only started
+> with rss the blame lies somewhere else. It transpires that meta-java's
+> java-library.bbclass contains the somewhat epically unhelpful (in this
+> context) fragment:
+>
+> # Java "source" distributions often contain precompiled things
+> # we want to delete first.
+> do_removebinaries() {
+>   find ${WORKDIR} -name "*.jar" -exec rm {} \;
+>   find ${WORKDIR} -name "*.class" -exec rm {} \;
+> }
+>
+> addtask removebinaries after do_unpack before do_patch
+>
+> And, since recipe-sysroot-native is inside ${WORKDIR}, this blows away
+> everything that rss carefully placed there. Doh.
 
-| /mnt/oe/openembedded-core/build/tmp-glibc/work/core2-64-oe-linux/pong-clock/1.0-r0/temp/run.do_compile.13350: 1: /mnt/oe/openembedded-core/build/tmp-glibc/work/core2-64-oe-linux/pong-clock/1.0-r0/temp/run.do_compile.13350: pkg-config: not found
-| /tmp/ccanXWsA.o: In function `draw_rect':
-| /usr/src/debug/pong-clock/1.0-r0/pong-clock-no-flicker.c:93: undefined reference to `XFillRectangle'
-| /tmp/ccanXWsA.o: In function `draw_digit':
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-graphics/pong-clock/pong-clock_1.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-graphics/pong-clock/pong-clock_1.0.bb b/meta/recipes-graphics/pong-clock/pong-clock_1.0.bb
-index 6c3bcd831c..cdfe38a221 100644
---- a/meta/recipes-graphics/pong-clock/pong-clock_1.0.bb
-+++ b/meta/recipes-graphics/pong-clock/pong-clock_1.0.bb
-@@ -2,7 +2,7 @@ SUMMARY = "A clock combined with a game of pong"
- LICENSE = "GPLv2+"
- DEPENDS = "virtual/libx11 xdmcp xau"
- 
--inherit distro_features_check
-+inherit distro_features_check pkgconfig
- # depends on virtual/libx11
- REQUIRED_DISTRO_FEATURES = "x11"
- 
--- 
-2.11.1
-
+good job. yeah this pre-rss assumptions, I also had another issue
+where clang cross compiler was happily searching native sysroot for
+headers. Not rss fault but exposed a latent problem.
 
