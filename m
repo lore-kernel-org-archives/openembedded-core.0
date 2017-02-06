@@ -1,25 +1,25 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B9EF71A19
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id E488E719AF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Feb 2017 10:04:54 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga102.jf.intel.com with ESMTP; 06 Feb 2017 02:04:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,341,1477983600"; d="scan'208";a="61303413"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 06 Feb 2017 02:04:55 -0800
-Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 2C42B6A4082;
-	Mon,  6 Feb 2017 02:03:53 -0800 (PST)
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Feb 2017 12:04:47 +0200
-Message-Id: <7dfc4d77621d698f515e9602dfa0669bd709cafe.1486375248.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1486375248.git.jussi.kukkonen@intel.com>
-References: <cover.1486375248.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 3/3] qemu: Add missing 'inherit pkgconfig'
+	Mon,  6 Feb 2017 13:42:09 +0000 (UTC)
+Received: from [2a00:14f0:e04c:51ac:c5f6:564a:5bbc:a813] (helo=phil-desktop)
+	by hetzner.pbcl.net with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.87)
+	(envelope-from <pb@pbcl.net>)
+	id 1cajYT-0000rl-SJ; Mon, 06 Feb 2017 14:42:09 +0100
+Message-ID: <1486388525.22715.2.camel@pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 06 Feb 2017 13:42:05 +0000
+In-Reply-To: <1486124973.13882.29.camel@pbcl.net>
+References: <1486120259.13882.26.camel@pbcl.net>
+	<1486120807.14144.68.camel@linuxfoundation.org>
+	<1486124973.13882.29.camel@pbcl.net>
+X-Mailer: Evolution 3.22.1-2 
+Mime-Version: 1.0
+Subject: Re: RSS difficulties
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,29 +32,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2017 10:04:54 -0000
+X-List-Received-Date: Mon, 06 Feb 2017 13:42:12 -0000
+Content-Type: multipart/alternative; boundary="=-MD+aI8dvfqrQZPYXyXxU"
 
-The monster configure file does call pkg-config somewhere in there.
+--=-MD+aI8dvfqrQZPYXyXxU
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
- meta/recipes-devtools/qemu/qemu.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, 2017-02-03 at 12:29 +0000, Phil Blundell wrote:
+> Ah, right, thanks.  The particular piece of magic I was missing was:
+> 
+>             # Nothing need depend on libc-initial/gcc-cross-initial
+>             if "-initial" in taskdependees[task][0]:
+>                 continue
+> 
+> which I think explains all the difficulties I was having.
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index e3af5c2..ef5d75c 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -6,7 +6,7 @@ RDEPENDS_${PN}_class-target += "bash"
- RDEPENDS_${PN}-ptest = "bash make"
- 
- require qemu-targets.inc
--inherit autotools ptest
-+inherit autotools pkgconfig ptest
- BBCLASSEXTEND = "native nativesdk"
- 
- # QEMU_TARGETS is overridable variable
--- 
-2.1.4
+Actually, that explains most of my difficulties but not all of them. 
+The remaining ones seem to come down to missing dependencies but I am
+not quite clear on why the dependencies are missing.
 
+The problematic recipes are Java ones.  The Java toolchain, as you
+might expect, has a fairly complicated dependency tree but essentially:
 
+- any Java package has DEPENDS = "virtual/javac-native", which is
+PROVIDEd by ecj-bootstrap-native.bb
+
+- ecj-bootstrap-native.bb is basically just a wrapper script which runs
+the Java compiler.  The actual compiler implementation is in libecj-
+bootstrap-native.bb and ecj-bootstrap-native.bb RDEPENDS on that.
+
+If I run "bitbake -D -D ..." then I see:
+
+DEBUG: Added runtime dependencies ['libecj-bootstrap-native'] for
+.../meta-java/recipes-core/ecj/ecj-bootstrap-native.bb
+
+but this dependency edge doesn't show up in task-depends.dot and, sure
+enough, libecj-bootstrap-native isn't getting installed into the
+recipe-sysroot. 
+
+Is there some other piece of logic that is squashing these
+dependencies?  Or is there somewhere else that I ought to be looking
+for them?
+
+thanks
+
+p.
+
+--=-MD+aI8dvfqrQZPYXyXxU
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html><head></head><body><div>On Fri, 2017-02-03 at 12:29 +0000, Phil Blund=
+ell wrote:</div><blockquote type=3D"cite"><div>Ah, right, thanks.&nbsp;&nbs=
+p;The particular piece of magic I was missing was:</div><div><br></div><div=
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# =
+Nothing need depend on libc-initial/gcc-cross-initial</div><div>&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if "-initial" =
+in taskdependees[task][0]:</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue</div><di=
+v><br></div><div>which I think explains all the difficulties I was having.<=
+/div></blockquote><div><br></div><div>Actually, that explains most of my di=
+fficulties but not all of them.  The remaining ones seem to come down to mi=
+ssing dependencies but I am not quite clear on why the dependencies are mis=
+sing.</div><div><br></div><div>The problematic recipes are Java ones.  The =
+Java toolchain, as you might expect, has a fairly complicated dependency tr=
+ee but essentially:</div><div><br></div><div>- any Java package has DEPENDS=
+ =3D "virtual/javac-native", which is PROVIDEd by ecj-bootstrap-native.bb</=
+div><div><br></div><div>- ecj-bootstrap-native.bb is basically just a wrapp=
+er script which runs the Java compiler.  The actual compiler implementation=
+ is in libecj-bootstrap-native.bb and ecj-bootstrap-native.bb RDEPENDS on t=
+hat.</div><div><br></div><div>If I run "bitbake -D -D ..." then I see:</div=
+><div><br></div><div>DEBUG: Added runtime dependencies ['libecj-bootstrap-n=
+ative'] for .../meta-java/recipes-core/ecj/ecj-bootstrap-native.bb</div><di=
+v><br></div><div>but this dependency edge doesn't show up in task-depends.d=
+ot and, sure enough, libecj-bootstrap-native isn't getting installed into t=
+he recipe-sysroot. </div><div><br></div><div>Is there some other piece of l=
+ogic that is squashing these dependencies?  Or is there somewhere else that=
+ I ought to be looking for them?</div><div><br></div><div>thanks</div><div>=
+<br></div><div>p.</div><div><br></div><div></div></body></html>
+
+--=-MD+aI8dvfqrQZPYXyXxU--
