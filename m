@@ -1,52 +1,21 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 686D8600E3
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 85AD271957
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Feb 2017 17:06:04 +0000 (UTC)
-Received: by mail-qk0-f174.google.com with SMTP id s140so61449145qke.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Feb 2017 09:06:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=MxNVcm4z3I/sP/MKAedAs32F2HtTpQQJscsOXCd6YkY=;
-	b=EXQ8LNQ97r82CwqMaK1X+fM+uQfaW9pR6HEYQ81I9VADRdt8rYyAkXVKb7N14d5XBD
-	GZ7wqnT8RKYui8rbOega/RXVaLDoegc08QZ+zF4NYCl/upnY9tcLT3UdkjFGVEA2stGk
-	E9OEFIHJVQL5IrtCBw6UPhcL8Fc/ZpswHv7aAkVdPmgUwOQrojZDGPtSidpnExTRLKj5
-	zXXe1Aro3M5AfVqbc+DQ1WWVJFEATusyAcZ4r96j9qogxuvCDzGX+YkpOfHiX+lM7Cvl
-	GJd5+Bbhob0ni56dVf/mlM+c00b1gwDwV5vTOmTU0iQPVW+MLV7ex0whnONjB8VYDDVr
-	tFfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=MxNVcm4z3I/sP/MKAedAs32F2HtTpQQJscsOXCd6YkY=;
-	b=rAohOb9+koC2+aYPCK7/+m4nKCNaV1tkt7F3Bq6yTYnfHLpJILHXLEkWjwX/1xQ5I2
-	fLfvpQ4B0ephnJXvDtW9r4remlHtwNYEMo21hreJn+otaZftnSBVHMRv5SiC6a+aah/5
-	2y2eTRZmfMkOzJSqOas3c8CjD39XENp3vT8+iEb4oRg8uitfqB9Ghhpyr7Invyf9DB70
-	HW7mRMkPVG0qL3qP/M6roVE9wSG6qGGQU6YxgVGvpWw4yXIYZJSqcCZlGIHIeYA6wFid
-	VEHG6hzMe1l0t31BoCStLvdo0s7PblPpRfdSRJhLiIouA1XHcmcpI8VbVXRPxzOnn8i8
-	D5rA==
-X-Gm-Message-State: AMke39nuMxCf+R090I5ZuxYi9PI4czMaieeCdm6RWV7fRoLzfFb5xrX6GQsMpwuA16KqLufbSNmF0miIsAIV4v4h
-X-Received: by 10.55.183.133 with SMTP id h127mr11189568qkf.121.1486400764228; 
-	Mon, 06 Feb 2017 09:06:04 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Mon, 6 Feb 2017 09:05:43 -0800 (PST)
-In-Reply-To: <1486400123.22715.15.camel@pbcl.net>
-References: <1486120259.13882.26.camel@pbcl.net>
-	<1486120807.14144.68.camel@linuxfoundation.org>
-	<1486124973.13882.29.camel@pbcl.net>
-	<1486388525.22715.2.camel@pbcl.net>
-	<1486391230.14144.82.camel@linuxfoundation.org>
-	<1486392281.22715.7.camel@pbcl.net>
-	<1486400123.22715.15.camel@pbcl.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 6 Feb 2017 17:05:43 +0000
-Message-ID: <CAJTo0LZA2vY932F9FVnRJfZDfNBvmXAm+SqtMNCc5sO4SYO+Pg@mail.gmail.com>
-To: Phil Blundell <pb@pbcl.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: RSS difficulties
+	Mon,  6 Feb 2017 17:31:16 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 06 Feb 2017 09:31:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,342,1477983600"; d="scan'208";a="40498034"
+Received: from juro-precision-t5610.jf.intel.com ([10.7.198.149])
+	by orsmga002.jf.intel.com with ESMTP; 06 Feb 2017 09:31:15 -0800
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  6 Feb 2017 09:27:22 -0800
+Message-Id: <1486402042-26608-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: jurobystricky@hotmail.com
+Subject: [PATCH] loader.py: avoid error in TypeError exception.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,37 +28,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2017 17:06:04 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0600568bc9050547dfa556
+X-List-Received-Date: Mon, 06 Feb 2017 17:31:17 -0000
 
---94eb2c0600568bc9050547dfa556
-Content-Type: text/plain; charset=UTF-8
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+---
+ meta/lib/oeqa/core/loader.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 6 February 2017 at 16:55, Phil Blundell <pb@pbcl.net> wrote:
+diff --git a/meta/lib/oeqa/core/loader.py b/meta/lib/oeqa/core/loader.py
+index c73ef9a..a380325 100644
+--- a/meta/lib/oeqa/core/loader.py
++++ b/meta/lib/oeqa/core/loader.py
+@@ -174,7 +174,7 @@ class OETestLoader(unittest.TestLoader):
+                                 " Maybe you meant to derive from TestCase?")
+         if not issubclass(testCaseClass, self.caseClass):
+             raise TypeError("Test cases need to be derived from %s" % \
+-                    caseClass.__name__)
++                    self.caseClass.__name__)
+ 
+ 
+         testCaseNames = self.getTestCaseNames(testCaseClass)
+-- 
+2.7.4
 
-> And, since recipe-sysroot-native is inside ${WORKDIR}, this blows away
-> everything that rss carefully placed there. Doh.
->
 
-Ha, nice.  I'm sure that was well intended but blasting all of ${WORKDIR}
-seems overkeen.  I bet that was fun to chase!
-
-Ross
-
---94eb2c0600568bc9050547dfa556
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 6 February 2017 at 16:55, Phil Blundell <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:pb@pbcl.net" target=3D"_blank">pb@pbcl.net</a>&gt;</span> wrote:<br=
-><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
-px #ccc solid;padding-left:1ex"><div>And, since recipe-sysroot-native is in=
-side ${WORKDIR}, this blows away everything that rss carefully placed there=
-.  Doh.</div><span class=3D"HOEnZb"><font color=3D"#888888"><div></div></fo=
-nt></span></blockquote></div><br>Ha, nice.=C2=A0 I&#39;m sure that was well=
- intended but blasting all of ${WORKDIR} seems overkeen.=C2=A0 I bet that w=
-as fun to chase!</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
-ail_extra">Ross</div></div>
-
---94eb2c0600568bc9050547dfa556--
