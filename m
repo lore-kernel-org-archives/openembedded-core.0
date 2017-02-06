@@ -1,25 +1,25 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E6D660721
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B9EF71A19
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Feb 2017 10:04:53 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Feb 2017 02:04:54 -0800
+	Mon,  6 Feb 2017 10:04:54 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga102.jf.intel.com with ESMTP; 06 Feb 2017 02:04:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,341,1477983600"; d="scan'208";a="1122646217"
+X-IronPort-AV: E=Sophos;i="5.33,341,1477983600"; d="scan'208";a="61303413"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Feb 2017 02:04:53 -0800
+	by orsmga005.jf.intel.com with ESMTP; 06 Feb 2017 02:04:55 -0800
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id CE0A16A4080;
-	Mon,  6 Feb 2017 02:03:52 -0800 (PST)
+	by linux.intel.com (Postfix) with ESMTP id 2C42B6A4082;
+	Mon,  6 Feb 2017 02:03:53 -0800 (PST)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Feb 2017 12:04:46 +0200
-Message-Id: <94e9dfd56e30fcd7091633b63d9be5ac31ebe291.1486375248.git.jussi.kukkonen@intel.com>
+Date: Mon,  6 Feb 2017 12:04:47 +0200
+Message-Id: <7dfc4d77621d698f515e9602dfa0669bd709cafe.1486375248.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1486375248.git.jussi.kukkonen@intel.com>
 References: <cover.1486375248.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 2/3] latencytop: Add missing 'inherit pkgconfig'
+Subject: [PATCH 3/3] qemu: Add missing 'inherit pkgconfig'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,26 +34,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 06 Feb 2017 10:04:54 -0000
 
-The Makefile uses pkg-config.
+The monster configure file does call pkg-config somewhere in there.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-kernel/latencytop/latencytop_0.5.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/qemu/qemu.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/latencytop/latencytop_0.5.bb b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-index f31f1bb..c38a038 100644
---- a/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-+++ b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-@@ -4,6 +4,8 @@ HOMEPAGE = "http://www.latencytop.org/"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://latencytop.c;endline=23;md5=ee9ea9b1415356e5734adad4a87dc7fa"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index e3af5c2..ef5d75c 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -6,7 +6,7 @@ RDEPENDS_${PN}_class-target += "bash"
+ RDEPENDS_${PN}-ptest = "bash make"
  
-+inherit pkgconfig
-+
- DEPENDS = "virtual/libintl ncurses glib-2.0"
+ require qemu-targets.inc
+-inherit autotools ptest
++inherit autotools pkgconfig ptest
+ BBCLASSEXTEND = "native nativesdk"
  
- PR = "r3"
+ # QEMU_TARGETS is overridable variable
 -- 
 2.1.4
 
