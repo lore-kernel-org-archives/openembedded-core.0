@@ -1,51 +1,45 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 0259C6FFD3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C2C76FFD3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Feb 2017 19:26:55 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id r18so23848486wmd.3
+	Mon,  6 Feb 2017 19:38:11 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id 19so7500415pfo.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Feb 2017 11:26:56 -0800 (PST)
+	Mon, 06 Feb 2017 11:38:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=Ng7UPkrNK8DdWrJ3l2iRTAj4Tkb59rQ9XyNgnj0c4sg=;
-	b=R1VrFCKRx41YUj58nsjiBspHB4ZCv+ZheFO+FILW4WNKjvsn/JeQk8B4msoPO1hUbS
-	tq4OiRaH9M8O4t467sVZquhfE3YJlDljFfTzPDhYejlYmh2hEt7DanRjI2LZ+lVM+r8t
-	HrgIyMCaFhDqMroeij9QwWbpcJNGG+eeSzGMXVOENfo79X1EVV1S5ceGaqRP5jMPQ03b
-	HT3kgvgYYWOTuWPiMxZJqW2GSgDcwv1Q9YY9Elwo2j50sBQcbvGqbp/nt/RWRK5h75CM
-	FJNVeW2ODXY8CEvOUIFQLC4/2ccPY+sAlRBxtx+2KoSlIyzMVoZL4YgqjTKq1594Q7U9
-	6yxQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=hvlFf7rMNPY+G9gmHl85r3WpPf9+B+988OOb/dNeKdU=;
+	b=JsNZQfft25ZFE1vwE41T6I3ID9cdgibOLkcK3k/h+uik8s3lzMUpfBQpS5espmlbrs
+	OubtRHzftqp+5nGvAvKV7KV0dvRXB/6DAm/HRL/bQeNAIcDy1T7f8xXBRiPZvGlU8IJd
+	9sEDZzGQD83MiLYONqe9e7doqFhjcLHbVbt5AypnnmMBgMejftumEFOdz4NVbTHwDoa6
+	NhPne2SIGiFHVixlqmJsZUWr3R4ZxNNcm0NZXyNu2QYu8jq8X+Clior0fDHJFxfAd5is
+	lq9Yv3ifRY355qLFxQGmzVBeEC/3BcN4aGQ/XJP4ityGewUbArsVe+RWIQFyXocYdsXr
+	P5gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=Ng7UPkrNK8DdWrJ3l2iRTAj4Tkb59rQ9XyNgnj0c4sg=;
-	b=WRxdx5PZkxXeB7r/jz89h1Vnr5tfjHrBNgn5Tvjrv4RwFiVO3IKVRF/OzZeXzhvFrC
-	rsNi0owWq+OATRiMr1duQ4yIV2pNE1hjNx4HPFiC9BZrZ8Umo0e4fmNa8BqG88nx/cqm
-	QHw+wiR/F48yrtIkmIeArOr1U/m6+WQVT289BQAHrrTd4+nL1tWUEwaWwGI891Q4/C8W
-	Hfin7sPo4wuecLQVGnRBuLmzkD8d+dAzOqx26JgqPpiY+V6Satq9liw+BdtC6QA18Fh/
-	M40w13XC4OfduIcEWOcnBFdguBV70Vsjgi8zglzD3VwcP4Krm1AqOvGEExO8wdsMjsxQ
-	GfmQ==
-X-Gm-Message-State: AMke39ml1WMBJj1wtWjuhlmaqT+fCxIszpAWaE78ZMmOrWDOk5PdU3YqGITxzp09q+2tjw==
-X-Received: by 10.28.210.65 with SMTP id j62mr9553994wmg.9.1486409215258;
-	Mon, 06 Feb 2017 11:26:55 -0800 (PST)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	123sm14581615wml.6.2017.02.06.11.26.54
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 06 Feb 2017 11:26:54 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 6 Feb 2017 20:26:53 +0100
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20170206192653.GA3353@jama>
-References: <1486396334-8039-1-git-send-email-richard.purdie@linuxfoundation.org>
-	<1486396334-8039-3-git-send-email-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <1486396334-8039-3-git-send-email-richard.purdie@linuxfoundation.org>
-User-Agent: Mutt/1.7.2 (2016-11-26)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/6] perl-native: Remove .packinfo file
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=hvlFf7rMNPY+G9gmHl85r3WpPf9+B+988OOb/dNeKdU=;
+	b=pvSMJ/Z8R1XJWK3fEITFIEINcuOYyylYgm0eUs4AKWKd2/fRm+F8+e8a/tPIWTm/Pu
+	pfLCq9Zok305ZeePRrjNWfbsQy1dqAyzA2LKKT+Ngk3eXIqJs4gdrXOXR59BBggZn6m3
+	HHxv+Zwq5Zrl1jrD/5zPjzt+0Ml2ES7+ZMlIRt3040AQbeMzZkI0IR1d2o3l/Pq3/L/b
+	J/yFgE0wMar0pDO3kWg0tkw5n+hvKG9icMqmiPFG6hcH7eqz0d1XmR7QBPs7M3li/H06
+	1UleaWecvhVRu6wlMzjPm5q5cgQ+6Xc9Gr2roaAktao5kVJYK2hP3Rwdpysj8rISR015
+	cV1A==
+X-Gm-Message-State: AIkVDXJgQWm0LDlTizaIJ7Kqx8m0znWMZ07CpnUhvR6bLR9yh0uf8x9kLAVtnyKW/rtMyQ==
+X-Received: by 10.99.188.10 with SMTP id q10mr15224266pge.106.1486409892279;
+	Mon, 06 Feb 2017 11:38:12 -0800 (PST)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	g87sm4718888pfj.20.2017.02.06.11.38.11
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 06 Feb 2017 11:38:11 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  6 Feb 2017 11:38:04 -0800
+Message-Id: <20170206193804.30593-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.11.1
+Subject: [PATCH] glibc: Update to 2.25 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,71 +52,165 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2017 19:27:00 -0000
-X-Groupsio-MsgNum: 92897
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="k+w/mQv8wyuph6w0"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 06 Feb 2017 19:38:12 -0000
 
---k+w/mQv8wyuph6w0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../glibc/cross-localedef-native_2.25.bb           |  5 +-
+ ...k-IFUNC-definition-in-unrelocated-shared-.patch | 98 ----------------------
+ meta/recipes-core/glibc/glibc_2.25.bb              |  6 +-
+ 3 files changed, 4 insertions(+), 105 deletions(-)
+ delete mode 100644 meta/recipes-core/glibc/glibc/0028-Revert-Check-IFUNC-definition-in-unrelocated-shared-.patch
 
-On Mon, Feb 06, 2017 at 03:52:11PM +0000, Richard Purdie wrote:
-> This is large and needs fixups to relocate it in each case. We can drop i=
-t, save
-> the work and the ~150MB disk space its various copies take up. Its not ne=
-eded
-> for anything that I can see.
+diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.25.bb b/meta/recipes-core/glibc/cross-localedef-native_2.25.bb
+index 82511b179c..cbd16f7263 100644
+--- a/meta/recipes-core/glibc/cross-localedef-native_2.25.bb
++++ b/meta/recipes-core/glibc/cross-localedef-native_2.25.bb
+@@ -17,12 +17,11 @@ inherit autotools
+ 
+ FILESEXTRAPATHS =. "${FILE_DIRNAME}/${PN}:${FILE_DIRNAME}/glibc:"
+ 
+-#SRCBRANCH ?= "release/${PV}/master"
+-SRCBRANCH ?= "master"
++SRCBRANCH ?= "release/${PV}/master"
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
+ 
+-SRCREV_glibc ?= "bb440151433f0298e7a6786ccd30cd084812f897"
++SRCREV_glibc ?= "db0242e3023436757bbc7c488a779e6e3343db04"
+ SRCREV_localedef ?= "29869b6dc11427c5bab839bdb155c85a7c644c71"
+ 
+ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+diff --git a/meta/recipes-core/glibc/glibc/0028-Revert-Check-IFUNC-definition-in-unrelocated-shared-.patch b/meta/recipes-core/glibc/glibc/0028-Revert-Check-IFUNC-definition-in-unrelocated-shared-.patch
+deleted file mode 100644
+index 8c146c0f60..0000000000
+--- a/meta/recipes-core/glibc/glibc/0028-Revert-Check-IFUNC-definition-in-unrelocated-shared-.patch
++++ /dev/null
+@@ -1,98 +0,0 @@
+-From ee65c9dde382e0235b6b53fa847b23d0097f554f Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Thu, 12 Jan 2017 12:13:32 -0800
+-Subject: [PATCH 28/28] Revert "Check IFUNC definition in unrelocated shared
+- library [BZ #20019]"
+-
+-This reverts commit 0e6d3adc60d8073397af6a320e594d98d7fbedde.
+-
+-Causes regression in OE a new tracker to fix it has been opened
+-
+-https://sourceware.org/bugzilla/show_bug.cgi?id=21041
+----
+-Upstream-Status: Inappropriate
+-
+- ChangeLog                   |  7 -------
+- sysdeps/i386/dl-machine.h   | 18 +-----------------
+- sysdeps/x86_64/dl-machine.h | 18 +-----------------
+- 3 files changed, 2 insertions(+), 41 deletions(-)
+-
+-diff --git a/ChangeLog b/ChangeLog
+-index f06c02a3c6..11d718d561 100644
+---- a/ChangeLog
+-+++ b/ChangeLog
+-@@ -4396,13 +4396,6 @@
+- 
+- 	* math/test-nan-overflow.c: Include stdlib.h for malloc.
+- 
+--2016-10-28  H.J. Lu  <hongjiu.lu@intel.com>
+--
+--	[BZ #20019]
+--	* sysdeps/i386/dl-machine.h (elf_machine_rel): Check IFUNC
+--	definition in unrelocated shared library.
+--	* sysdeps/x86_64/dl-machine.h (elf_machine_rela): Likewise.
+--
+- 2016-10-28  Florian Weimer  <fweimer@redhat.com>
+- 
+- 	[BZ #20729]
+-diff --git a/sysdeps/i386/dl-machine.h b/sysdeps/i386/dl-machine.h
+-index 6eca69d567..a9edb41aa6 100644
+---- a/sysdeps/i386/dl-machine.h
+-+++ b/sysdeps/i386/dl-machine.h
+-@@ -321,23 +321,7 @@ elf_machine_rel (struct link_map *map, const Elf32_Rel *reloc,
+- 			       0)
+- 	  && __builtin_expect (sym->st_shndx != SHN_UNDEF, 1)
+- 	  && __builtin_expect (!skip_ifunc, 1))
+--	{
+--# ifndef RTLD_BOOTSTRAP
+--	  if (sym_map != map
+--	      && sym_map->l_type != lt_executable
+--	      && !sym_map->l_relocated)
+--	    {
+--	      const char *strtab
+--		= (const char *) D_PTR (map, l_info[DT_STRTAB]);
+--	      _dl_fatal_printf ("\
+--%s: Relink `%s' with `%s' for IFUNC symbol `%s'\n",
+--				RTLD_PROGNAME, map->l_name,
+--				sym_map->l_name,
+--				strtab + refsym->st_name);
+--	    }
+--# endif
+--	  value = ((Elf32_Addr (*) (void)) value) ();
+--	}
+-+	value = ((Elf32_Addr (*) (void)) value) ();
+- 
+-       switch (r_type)
+- 	{
+-diff --git a/sysdeps/x86_64/dl-machine.h b/sysdeps/x86_64/dl-machine.h
+-index 3e7ae22c67..b3eb33f036 100644
+---- a/sysdeps/x86_64/dl-machine.h
+-+++ b/sysdeps/x86_64/dl-machine.h
+-@@ -331,23 +331,7 @@ elf_machine_rela (struct link_map *map, const ElfW(Rela) *reloc,
+- 			       0)
+- 	  && __builtin_expect (sym->st_shndx != SHN_UNDEF, 1)
+- 	  && __builtin_expect (!skip_ifunc, 1))
+--	{
+--# ifndef RTLD_BOOTSTRAP
+--	  if (sym_map != map
+--	      && sym_map->l_type != lt_executable
+--	      && !sym_map->l_relocated)
+--	    {
+--	      const char *strtab
+--		= (const char *) D_PTR (map, l_info[DT_STRTAB]);
+--	      _dl_fatal_printf ("\
+--%s: Relink `%s' with `%s' for IFUNC symbol `%s'\n",
+--				RTLD_PROGNAME, map->l_name,
+--				sym_map->l_name,
+--				strtab + refsym->st_name);
+--	    }
+--# endif
+--	  value = ((ElfW(Addr) (*) (void)) value) ();
+--	}
+-+	value = ((ElfW(Addr) (*) (void)) value) ();
+- 
+-       switch (r_type)
+- 	{
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-core/glibc/glibc_2.25.bb b/meta/recipes-core/glibc/glibc_2.25.bb
+index a21fee0a1c..cf9c4f71b8 100644
+--- a/meta/recipes-core/glibc/glibc_2.25.bb
++++ b/meta/recipes-core/glibc/glibc_2.25.bb
+@@ -7,10 +7,9 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
+ 
+ DEPENDS += "gperf-native"
+ 
+-SRCREV ?= "bb440151433f0298e7a6786ccd30cd084812f897"
++SRCREV ?= "db0242e3023436757bbc7c488a779e6e3343db04"
+ 
+-#SRCBRANCH ?= "release/${PV}/master"
+-SRCBRANCH ?= "master"
++SRCBRANCH ?= "release/${PV}/master"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
+@@ -43,7 +42,6 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
+            file://0026-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch \
+            file://0027-locale-fix-hard-coded-reference-to-gcc-E.patch \
+-           file://0028-Revert-Check-IFUNC-definition-in-unrelocated-shared-.patch \
+ "
+ 
+ NATIVESDKFIXES ?= ""
+-- 
+2.11.1
 
--1
 
-The subject says .packinfo, but the change is for .packlist.
-
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/recipes-devtools/perl/perl-native_5.24.0.bb | 4 ++++
->  1 file changed, 4 insertions(+)
->=20
-> diff --git a/meta/recipes-devtools/perl/perl-native_5.24.0.bb b/meta/reci=
-pes-devtools/perl/perl-native_5.24.0.bb
-> index af2ad7b..4216257 100644
-> --- a/meta/recipes-devtools/perl/perl-native_5.24.0.bb
-> +++ b/meta/recipes-devtools/perl/perl-native_5.24.0.bb
-> @@ -106,6 +106,10 @@ do_install () {
->  	for f in `grep -Il '#! *${bindir}/perl' ${D}/${bindir}/*`; do
->  		sed -i -e 's|${bindir}/perl|/usr/bin/env nativeperl|' $f
->  	done
-> +
-> +	# The packlist is large with hardcoded paths meaning it needs relocating
-> +	# so just remove it.
-> +	rm ${D}${libdir}/perl/${PV}/.packlist
->  }
-> =20
->  SYSROOT_PREPROCESS_FUNCS +=3D "perl_sysroot_create_wrapper"
-> --=20
-> 2.7.4
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---k+w/mQv8wyuph6w0
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWJjN/QAKCRA3VSO3ZXaA
-HC0+AKCPb4ZTwKgMmj/VelX1El0IjrweLwCbBB+nkjBJ47Rd247mjMJW3ewcQU0=
-=fO7J
------END PGP SIGNATURE-----
-
---k+w/mQv8wyuph6w0--
