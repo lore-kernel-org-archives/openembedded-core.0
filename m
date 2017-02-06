@@ -1,44 +1,27 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from smtp-out10.electric.net (smtp-out10.electric.net
-	[185.38.180.33])
-	by mail.openembedded.org (Postfix) with ESMTP id 0867E71997
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id EFB727199B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Feb 2017 14:43:49 +0000 (UTC)
-Received: from 1cakWC-0002q4-TB by out10b.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>)
-	id 1cakWC-0002s3-Uz; Mon, 06 Feb 2017 06:43:48 -0800
-Received: by emcmailer; Mon, 06 Feb 2017 06:43:48 -0800
-Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out10b.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>)
-	id 1cakWC-0002q4-TB; Mon, 06 Feb 2017 06:43:48 -0800
-Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
-	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
-	14.03.0319.002; Mon, 6 Feb 2017 15:43:47 +0100
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: do_populate_cve_db: Error in executing cve-check-update
-Thread-Index: AdKAeKvTFk2uIAe8QaGyP1UCfK+DfQ==
-Date: Mon, 6 Feb 2017 14:43:47 +0000
-Message-ID: <3230301C09DEF9499B442BBE162C5E48AC31CBF7@SESTOEX04.enea.se>
-Accept-Language: sv-SE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.142.231]
-MIME-Version: 1.0
-X-Outbound-IP: 192.36.1.72
-X-Env-From: sona.sarmadi@enea.com
-X-Proto: esmtps
-X-Revdns: mx-3.enea.com
-X-HELO: mx-3.enea.com
-X-TLS: TLSv1:AES128-SHA:128
-X-Authenticated_ID: 
-X-PolicySMART: 6551647
-X-Virus-Status: Scanned by VirusSMART (c)
-X-Virus-Status: Scanned by VirusSMART (s)
-Cc: "'mariano.lopez@intel.com'" <mariano.lopez@intel.com>
-Subject: do_populate_cve_db: Error in executing cve-check-update
+	Mon,  6 Feb 2017 14:44:43 +0000 (UTC)
+Received: from [2a00:14f0:e04c:51ac:c5f6:564a:5bbc:a813] (helo=phil-desktop)
+	by hetzner.pbcl.net with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.87)
+	(envelope-from <pb@pbcl.net>)
+	id 1cakX3-0000xj-KS; Mon, 06 Feb 2017 15:44:43 +0100
+Message-ID: <1486392281.22715.7.camel@pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 06 Feb 2017 14:44:41 +0000
+In-Reply-To: <1486391230.14144.82.camel@linuxfoundation.org>
+References: <1486120259.13882.26.camel@pbcl.net>
+	<1486120807.14144.68.camel@linuxfoundation.org>
+	<1486124973.13882.29.camel@pbcl.net>
+	<1486388525.22715.2.camel@pbcl.net>
+	<1486391230.14144.82.camel@linuxfoundation.org>
+X-Mailer: Evolution 3.22.1-2 
+Mime-Version: 1.0
+Subject: Re: RSS difficulties
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,58 +34,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2017 14:43:50 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 06 Feb 2017 14:44:44 -0000
+Content-Type: multipart/alternative; boundary="=-LNlqObFv7p5bdV+WfxXG"
+
+--=-LNlqObFv7p5bdV+WfxXG
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+
+On Mon, 2017-02-06 at 14:27 +0000, Richard Purdie wrote:
+> What happens if you set DEPENDS?
+
+With DEPENDS I do at least get some entries for ecj-bootstrap-native in
+task-depends.dot.  The relevant ones seem to be:
+
+"gnujaf-native.do_prepare_recipe_sysroot" -> "ecj-bootstrap-
+native.do_populate_sysroot"
+"ecj-bootstrap-native.do_prepare_recipe_sysroot" -> "libecj-bootstrap-
+native.do_populate_sysroot"
+
+which looks fairly encouraging.  And in log.do_prepare_recipe_sysroot I
+see:
+
+Considering setscene task: ['libecj-bootstrap-native',
+'do_populate_sysroot']
+  considering dependency: ['ecj-bootstrap-native',
+'do_populate_sysroot']
+Adding dependency on libecj-bootstrap-native
+
+But sadly the contents of libecj-bootstrap-native doesn't actually show
+up in gnujaf-native's recipe-sysroot-native.
+
+p.
+
+--=-LNlqObFv7p5bdV+WfxXG
+Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi all,
+<html><head></head><body><div>On Mon, 2017-02-06 at 14:27 +0000, Richard Pu=
+rdie wrote:</div><blockquote type=3D"cite"><div>What happens if you set DEP=
+ENDS?</div></blockquote><div><br></div><div>With DEPENDS I do at least get =
+some entries for ecj-bootstrap-native in task-depends.dot.  The relevant on=
+es seem to be:</div><div><br></div><div>"gnujaf-native.do_prepare_recipe_sy=
+sroot" -&gt; "ecj-bootstrap-native.do_populate_sysroot"</div><div>"ecj-boot=
+strap-native.do_prepare_recipe_sysroot" -&gt; "libecj-bootstrap-native.do_p=
+opulate_sysroot"</div><div><br></div><div>which looks fairly encouraging.  =
+And in log.do_prepare_recipe_sysroot I see:</div><div><br></div><div>Consid=
+ering setscene task: ['libecj-bootstrap-native', 'do_populate_sysroot']</di=
+v><div>&nbsp; considering dependency: ['ecj-bootstrap-native', 'do_populate=
+_sysroot']</div><div>Adding dependency on libecj-bootstrap-native</div><div=
+><br></div><div>But sadly the contents of libecj-bootstrap-native doesn't a=
+ctually show up in gnujaf-native's recipe-sysroot-native.</div><div><br></d=
+iv><div>p.</div><div><br></div><div></div></body></html>
 
-
-Does anyone know if there is an issue with cve-check tool on master branch?=
-=20
-
-It seems that "cve-check-update -d" fails, does anyone know why?
-poky/build-cve-check$ bitbake -k -c cve_check universe
-
-
-WARNING: cve-check-tool-native-5.6.4-r0 do_populate_cve_db: Error in execut=
-ing cve-check-update
-WARNING: cve-check-tool-native-5.6.4-r0 do_populate_cve_db: Failed to updat=
-e cve-check-tool database, CVEs won't be checked
-
-
-
-do_populate_cve_db() {
-    if [ "${BB_NO_NETWORK}" =3D "1" ] ; then
-        bberror "BB_NO_NETWORK is set; Can't update cve-check-tool database=
-, CVEs won't be checked"
-        return
-    fi
-
-    # In case we don't inherit cve-check class, use default values defined =
-in the class.
-    cve_dir=3D"${CVE_CHECK_DB_DIR}"
-    cve_file=3D"${CVE_CHECK_TMP_FILE}"
-
-    [ -z "${cve_dir}" ] && cve_dir=3D"${DL_DIR}/CVE_CHECK"
-    [ -z "${cve_file}" ] && cve_file=3D"${TMPDIR}/cve_check"
-
-    bbdebug 2 "Updating cve-check-tool database located in $cve_dir"
-    if cve-check-update -d "$cve_dir" ; then
-        printf "CVE database was updated on %s UTC\n\n" "$(LANG=3DC date --=
-utc +'%F %T')" > "$cve_file"
-    else
-        bbwarn "Error in executing cve-check-update"  <<<<<<<<<<<<<<<<<<<<<=
-<<<<
-        if [ "${@'1' if bb.data.inherits_class('cve-check', d) else '0'}" -=
-ne 0 ] ; then
-            bbwarn "Failed to update cve-check-tool database, CVEs won't be=
- checked"    <<<<<<<<<<<<<<<<<<<<<<
-        fi
-    fi
-}
-
-Thanks
-//Sona
-
+--=-LNlqObFv7p5bdV+WfxXG--
