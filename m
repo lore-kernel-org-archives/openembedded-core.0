@@ -1,18 +1,24 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id BB47D71AD4;
-	Tue,  7 Feb 2017 10:30:01 +0000 (UTC)
+Return-Path: <Alexandru.Moise@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A003E71A75
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  7 Feb 2017 10:38:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v17AcMq8028876
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 7 Feb 2017 02:38:22 -0800 (PST)
+Received: from otp-amoise-l1.corp.ad.wrs.com (128.224.14.53) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Tue, 7 Feb 2017 02:38:21 -0800
+From: Alexandru Moise <alexandru.moise@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 7 Feb 2017 12:38:19 +0200
+Message-ID: <1486463899-13068-1-git-send-email-alexandru.moise@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Alexandru Moise <alexandru.moise@windriver.com>
-Date: Tue, 07 Feb 2017 10:30:02 -0000
-Message-ID: <20170207103002.9312.99295@do.openembedded.org>
-References: <1486462060-11802-1-git-send-email-alexandru.moise@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1486462060-11802-1-git-send-email-alexandru.moise@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb3BlbnNzbDogZml4IGZvciBDVkUtMjAxNy0zNzMx?=
+Subject: [PATCH v3][morty] openssl: CVE: CVE-2017-3731
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,48 +31,157 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2017 10:30:02 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 07 Feb 2017 10:38:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-== Series Details ==
+If an SSL/TLS server or client is running on a 32-bit host, and a
+specific cipher is being used, then a truncated packet can cause that
+server or client  to perform an out-of-bounds read, usually resulting
+in a crash.
 
-Series: openssl: fix for CVE-2017-3731
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/5181/
-State : failure
+Backported from:
+https://github.com/openssl/openssl/commit/8e20499629b6bcf868d0072c7011e590b5c2294d
+https://github.com/openssl/openssl/commit/2198b3a55de681e1f3c23edb0586afe13f438051
 
-== Summary ==
+* CVE: CVE-2017-3731
 
+Upstream-status: Backport
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [v2,morty] openssl: fix for CVE-2017-3731
- Issue             Missing or incorrectly formatted CVE tag in commit message [test_cve_presence_in_commit_message] 
-  Suggested fix    Include a "CVE-xxxx-xxxx" tag in the commit message
-
-* Patch            [v2,morty] openssl: fix for CVE-2017-3731
- Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
-  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
-  Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-connectivity/openssl/openssl/0001-CVE-2017-3731.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Alexandru Moise <alexandru.moise@windriver.com>
 ---
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ .../openssl/openssl/0001-CVE-2017-3731.patch       | 46 +++++++++++++++++++
+ .../openssl/openssl/0002-CVE-2017-3731.patch       | 53 ++++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.2j.bb |  2 +
+ 3 files changed, 101 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-CVE-2017-3731.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/0002-CVE-2017-3731.patch
+
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-CVE-2017-3731.patch b/meta/recipes-connectivity/openssl/openssl/0001-CVE-2017-3731.patch
+new file mode 100644
+index 0000000..b378c5e
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/0001-CVE-2017-3731.patch
+@@ -0,0 +1,46 @@
++From 0cde9a9645c949fd0acf657dadc747676245cfaf Mon Sep 17 00:00:00 2001
++From: Alexandru Moise <alexandru.moise@windriver.com>
++Date: Tue, 7 Feb 2017 11:13:19 +0200
++Subject: [PATCH 1/2] crypto/evp: harden RC4_MD5 cipher.
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Originally a crash in 32-bit build was reported CHACHA20-POLY1305
++cipher. The crash is triggered by truncated packet and is result
++of excessive hashing to the edge of accessible memory (or bogus
++MAC value is produced if x86 MD5 assembly module is involved). Since
++hash operation is read-only it is not considered to be exploitable
++beyond a DoS condition.
++
++Thanks to Robert Święcki for report.
++
++CVE-2017-3731
++
++Backported from upstream commit:
++8e20499629b6bcf868d0072c7011e590b5c2294d
++
++Upstream status: Backport
++
++Reviewed-by: Rich Salz <rsalz@openssl.org>
++Signed-off-by: Alexandru Moise <alexandru.moise@windriver.com>
++---
++ crypto/evp/e_rc4_hmac_md5.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/crypto/evp/e_rc4_hmac_md5.c b/crypto/evp/e_rc4_hmac_md5.c
++index 5e92855..3293419 100644
++--- a/crypto/evp/e_rc4_hmac_md5.c
+++++ b/crypto/evp/e_rc4_hmac_md5.c
++@@ -269,6 +269,8 @@ static int rc4_hmac_md5_ctrl(EVP_CIPHER_CTX *ctx, int type, int arg,
++             len = p[arg - 2] << 8 | p[arg - 1];
++ 
++             if (!ctx->encrypt) {
+++		if (len < MD5_DIGEST_LENGTH)
+++                    return -1;
++                 len -= MD5_DIGEST_LENGTH;
++                 p[arg - 2] = len >> 8;
++                 p[arg - 1] = len;
++-- 
++2.10.2
++
+diff --git a/meta/recipes-connectivity/openssl/openssl/0002-CVE-2017-3731.patch b/meta/recipes-connectivity/openssl/openssl/0002-CVE-2017-3731.patch
+new file mode 100644
+index 0000000..990cbfd
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/0002-CVE-2017-3731.patch
+@@ -0,0 +1,53 @@
++From 6427f1accc54b515bb899370f1a662bfcb1caa52 Mon Sep 17 00:00:00 2001
++From: Alexandru Moise <alexandru.moise@windriver.com>
++Date: Tue, 7 Feb 2017 11:16:13 +0200
++Subject: [PATCH 2/2] crypto/evp: harden AEAD ciphers.
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Originally a crash in 32-bit build was reported CHACHA20-POLY1305
++cipher. The crash is triggered by truncated packet and is result
++of excessive hashing to the edge of accessible memory. Since hash
++operation is read-only it is not considered to be exploitable
++beyond a DoS condition. Other ciphers were hardened.
++
++Thanks to Robert Święcki for report.
++
++CVE-2017-3731
++
++Backported from upstream commit:
++2198b3a55de681e1f3c23edb0586afe13f438051
++
++Upstream status: Backport
++
++Reviewed-by: Rich Salz <rsalz@openssl.org>
++Signed-off-by: Alexandru Moise <alexandru.moise@windriver.com>
++---
++ crypto/evp/e_aes.c | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
++
++diff --git a/crypto/evp/e_aes.c b/crypto/evp/e_aes.c
++index 1734a82..16dcd10 100644
++--- a/crypto/evp/e_aes.c
+++++ b/crypto/evp/e_aes.c
++@@ -1235,10 +1235,15 @@ static int aes_gcm_ctrl(EVP_CIPHER_CTX *c, int type, int arg, void *ptr)
++         {
++             unsigned int len = c->buf[arg - 2] << 8 | c->buf[arg - 1];
++             /* Correct length for explicit IV */
+++	    if (len < EVP_GCM_TLS_EXPLICIT_IV_LEN)
+++	        return 0;
++             len -= EVP_GCM_TLS_EXPLICIT_IV_LEN;
++             /* If decrypting correct for tag too */
++-            if (!c->encrypt)
+++            if (!c->encrypt) {
+++		if (len < EVP_GCM_TLS_TAG_LEN)
+++		    return 0;
++                 len -= EVP_GCM_TLS_TAG_LEN;
+++	    }
++             c->buf[arg - 2] = len >> 8;
++             c->buf[arg - 1] = len & 0xff;
++         }
++-- 
++2.10.2
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb
+index f2aca36..9a7cded 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb
+@@ -41,6 +41,8 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
+             file://parallel.patch \
+             file://openssl-util-perlpath.pl-cwd.patch \
+             file://CVE-2016-7055.patch \
++            file://0001-CVE-2017-3731.patch \
++            file://0002-CVE-2017-3731.patch \
+            "
+ SRC_URI[md5sum] = "96322138f0b69e61b7212bc53d5e912b"
+ SRC_URI[sha256sum] = "e7aff292be21c259c6af26469c7a9b3ba26e9abaaffd325e3dccc9785256c431"
+-- 
+2.10.2
 
 
