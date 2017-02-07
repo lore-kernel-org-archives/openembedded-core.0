@@ -1,45 +1,16 @@
-Return-Path: <dwesterg@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E5F060103
+Return-Path: <obi@opendreambox.org>
+Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
+	by mail.openembedded.org (Postfix) with ESMTP id A4AAE60103
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Feb 2017 23:46:46 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id y143so10231827pfb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Feb 2017 15:46:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=EJGa56O7a+0CupRwpbDsNArVKg9xV88S6cxhnzWcPf4=;
-	b=TbkqRShI5L1GX85jgY301Fs9fnRueFDYkZ9qYgooaSrLrTBFhRrRW4u3N4Fo8OETSD
-	yY97j24XySxt7lAymVxS8ZLWIEl59Z38QQtYDQJ9RNV5IMU72ZbYJIP8uYz8/ax0arpo
-	heDHoMkHY1IWuZ9TgxKpnRBP+8cwELmWFhtwrxnsCjkn39e6t2iUeefx84rK5DHA3OcY
-	D1qEKbCn/iz1LEwkznuWlHpY0i1ecp6gpIcr9UrRKiHOj9w6CuZFLgHOqgrsTtHNwBMo
-	3oXC80/+FeE+9Ql9ugnFQwg4SYc9We5oAZO8JZtV+qev6NtejJohYbDT7ZrDn8LXAvrK
-	gvwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=EJGa56O7a+0CupRwpbDsNArVKg9xV88S6cxhnzWcPf4=;
-	b=HPkr1h4E1y1nRGeBNwZiddAnwnVzAZv84h91XwFhQkY7jitfh9D70rBc69PO+lJlC6
-	obIgzRyH1O8wVaWpzp2c2Kfa++A/2RPjMqAQoUSYRC+Nl7o/ZvX9mWwwkwK1BnNeneGz
-	gUhHTnyG8iZv92a7EiH6ECY3vpj/O/InBIoR8H2ZLWArXJ+KbA36atmgR9qF7jG/a3na
-	/S8dHJXs0m/4ZFLLRrP4PjTjaE28yNZ/pE6KW1Rod1+iSCN9HGw4FSN2Mfziu0qrEXN8
-	puCIsR0yTZula3qzFh3FQdHTo2wydl7gBydu5/f2WwmKcMSCFtndrldECZJYxhwjwitd
-	Qfig==
-X-Gm-Message-State: AIkVDXJ1KLmyOaSfNeDW09BET7tDgxgrE6+UxaVZWDEKobsO7K/NIYKXAkw5PUqD8+fUXg==
-X-Received: by 10.99.44.138 with SMTP id s132mr23864031pgs.88.1486511207012;
-	Tue, 07 Feb 2017 15:46:47 -0800 (PST)
-Received: from dwesterg-mobl1.amr.corp.intel.com ([192.55.55.41])
-	by smtp.gmail.com with ESMTPSA id
-	x16sm14144277pfk.79.2017.02.07.15.46.46
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 Feb 2017 15:46:46 -0800 (PST)
-From: Dalon Westergreen <dwesterg@gmail.com>
+	Tue,  7 Feb 2017 23:48:58 +0000 (UTC)
+Received: by p910.zcs.saftware.de (Postfix, from userid 1000)
+	id 2DD76AD00437; Wed,  8 Feb 2017 00:48:54 +0100 (CET)
+From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Feb 2017 15:46:29 -0800
-Message-Id: <1486511189-3339-1-git-send-email-dwesterg@gmail.com>
+Date: Wed,  8 Feb 2017 00:48:54 +0100
+Message-Id: <1486511334-8897-1-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] uboot-extlinux-config.bbclass: add support for timeout & default
+Subject: [PATCH] python: Don't use getentropy on Linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,67 +23,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2017 23:46:47 -0000
+X-List-Received-Date: Tue, 07 Feb 2017 23:49:00 -0000
 
-When multible targets are defined it is useful to allow for
-a default target along with a timeout.  After timeout, the
-default target will be selected.
+Backport a patch from 2.7 branch to fix a regression with glibc
+2.24 causing "OSError: [Errno 38] Function not implemented" when
+calling urandom() with older kernels.
 
-Signed-off-by: Dalon Westergreen <dwesterg@gmail.com>
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/classes/uboot-extlinux-config.bbclass | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ .../python/Don-t-use-getentropy-on-Linux.patch     | 41 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python_2.7.12.bb      |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python/Don-t-use-getentropy-on-Linux.patch
 
-diff --git a/meta/classes/uboot-extlinux-config.bbclass b/meta/classes/uboot-extlinux-config.bbclass
-index ec5fffb..96b5a2e 100644
---- a/meta/classes/uboot-extlinux-config.bbclass
-+++ b/meta/classes/uboot-extlinux-config.bbclass
-@@ -16,6 +16,10 @@
- #                                    concatenate and use as an initrd (optional).
- # UBOOT_EXTLINUX_MENU_DESCRIPTION  - Name to use as description.
- # UBOOT_EXTLINUX_ROOT              - Root kernel cmdline.
-+# UBOOT_EXTLINUX_TIMEOUT           - Timeout before DEFAULT selection is made.
-+#                                    Measured in 1/10 of a second.
-+# UBOOT_EXTLINUX_DEFAULT_LABEL     - Target to be selected by default after
-+#                                    the timeout period
- #
- # If there's only one label system will boot automatically and menu won't be
- # created. If you want to use more than one labels, e.g linux and alternate,
-@@ -25,6 +29,9 @@
- #
- # UBOOT_EXTLINUX_LABELS ??= "default fallback"
- #
-+# UBOOT_EXTLINUX_DEFAULT_LABEL ??= "Linux Default"
-+# UBOOT_EXTLINUX_TIMEOUT ??= "30"
-+#
- # UBOOT_EXTLINUX_KERNEL_IMAGE_default ??= "../zImage"
- # UBOOT_EXTLINUX_MENU_DESCRIPTION_default ??= "Linux Default"
- #
-@@ -34,6 +41,8 @@
- # Results:
- #
- # menu title Select the boot mode
-+# TIMEOUT 30
-+# DEFAULT Linux Default
- # LABEL Linux Default
- #   KERNEL ../zImage
- #   FDTDIR ../
-@@ -82,6 +91,15 @@ python create_extlinux_config() {
-             if len(labels.split()) > 1:
-                 cfgfile.write('menu title Select the boot mode\n')
- 
-+            timeout =  localdata.getVar('UBOOT_EXTLINUX_TIMEOUT')
-+            if timeout:
-+                cfgfile.write('TIMEOUT %s\n' % (timeout))
+diff --git a/meta/recipes-devtools/python/python/Don-t-use-getentropy-on-Linux.patch b/meta/recipes-devtools/python/python/Don-t-use-getentropy-on-Linux.patch
+new file mode 100644
+index 0000000..38e5377
+--- /dev/null
++++ b/meta/recipes-devtools/python/python/Don-t-use-getentropy-on-Linux.patch
+@@ -0,0 +1,41 @@
++Upstream-Status: Backport
 +
-+            if len(labels.split()) > 1:
-+                default = localdata.getVar('UBOOT_EXTLINUX_DEFAULT_LABEL')
-+                if default:
-+                    cfgfile.write('DEFAULT %s\n' % (default))
-+                    
-             for label in labels.split():
-                 localdata = bb.data.createCopy(d)
++Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
++
++From 905d1b30ac7cb0e31c57cec0533825c8f170b942 Mon Sep 17 00:00:00 2001
++From: Victor Stinner <victor.stinner@gmail.com>
++Date: Mon, 9 Jan 2017 11:10:41 +0100
++Subject: [PATCH] Don't use getentropy() on Linux
++
++Issue #29188: Support glibc 2.24 on Linux: don't use getentropy() function but
++read from /dev/urandom to get random bytes, for example in os.urandom().  On
++Linux, getentropy() is implemented which getrandom() is blocking mode, whereas
++os.urandom() should not block.
++
++(cherry picked from commit 2687486756721e39164fa9f597e468c35d495227)
++---
++ Python/random.c | 11 +++++++++--
++ 1 file changed, 9 insertions(+), 2 deletions(-)
++
++diff --git a/Python/random.c b/Python/random.c
++index b4bc1f3..f3f5d14 100644
++--- a/Python/random.c
+++++ b/Python/random.c
++@@ -94,8 +94,15 @@ win32_urandom(unsigned char *buffer, Py_ssize_t size, int raise)
++ }
++ 
++ /* Issue #25003: Don't use getentropy() on Solaris (available since
++- * Solaris 11.3), it is blocking whereas os.urandom() should not block. */
++-#elif defined(HAVE_GETENTROPY) && !defined(sun)
+++   Solaris 11.3), it is blocking whereas os.urandom() should not block.
+++
+++   Issue #29188: Don't use getentropy() on Linux since the glibc 2.24
+++   implements it with the getrandom() syscall which can fail with ENOSYS,
+++   and this error is not supported in py_getentropy() and getrandom() is called
+++   with flags=0 which blocks until system urandom is initialized, which is not
+++   the desired behaviour to seed the Python hash secret nor for os.urandom():
+++   see the PEP 524 which was only implemented in Python 3.6. */
+++#elif defined(HAVE_GETENTROPY) && !defined(sun) && !defined(linux)
++ #define PY_GETENTROPY 1
++ 
++ /* Fill buffer with size pseudo-random bytes generated by getentropy().
+diff --git a/meta/recipes-devtools/python/python_2.7.12.bb b/meta/recipes-devtools/python/python_2.7.12.bb
+index 9fe35db..2c6a319 100644
+--- a/meta/recipes-devtools/python/python_2.7.12.bb
++++ b/meta/recipes-devtools/python/python_2.7.12.bb
+@@ -27,6 +27,7 @@ SRC_URI += "\
+   file://use_sysroot_ncurses_instead_of_host.patch \
+   file://add-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch \
+   file://python-fix-CVE-2016-1000110.patch \
++  file://Don-t-use-getentropy-on-Linux.patch \
+ "
  
+ S = "${WORKDIR}/Python-${PV}"
 -- 
 2.7.4
 
