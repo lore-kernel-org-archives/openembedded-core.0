@@ -1,23 +1,27 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B2A1571A36
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 13BB765CBB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Feb 2017 19:12:39 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga103.jf.intel.com with ESMTP; 07 Feb 2017 11:12:40 -0800
+	Tue,  7 Feb 2017 20:18:15 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga101.jf.intel.com with ESMTP; 07 Feb 2017 12:17:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,346,1477983600"; d="scan'208";a="62973834"
+X-IronPort-AV: E=Sophos;i="5.33,346,1477983600"; d="scan'208";a="56312751"
 Received: from gowdasan-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com.fritz.box) ([10.255.169.208])
-	by fmsmga006.fm.intel.com with ESMTP; 07 Feb 2017 11:12:38 -0800
+	peggleto-mobl.ger.corp.intel.com) ([10.255.169.208])
+	by orsmga004.jf.intel.com with ESMTP; 07 Feb 2017 12:17:50 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Feb 2017 08:12:29 +1300
-Message-Id: <9dc16cd420bc79d688d2798c4396e3ccb4f0a80a.1486494725.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.9.3
-In-Reply-To: <cover.1486494725.git.paul.eggleton@linux.intel.com>
-References: <cover.1486494725.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] classes/copyleft_filter: include AGPL in default included list
+To: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
+Date: Wed, 08 Feb 2017 09:17:48 +1300
+Message-ID: <2301139.i2tsUjesZx@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/5.3.3 (Linux/4.9.6-200.fc25.x86_64; KDE/5.29.0; x86_64; ; )
+In-Reply-To: <CAMKF1sqJSgjLMOPo7pkpfNDUOWLu4R0F9BNzbPFzWYgha5gwHw@mail.gmail.com>
+References: <20170207042405.22707-1-raj.khem@gmail.com>
+	<CAJTo0LaapTyVGhiB9AfnWznNU1z8-dbJC=7+JOThYHb2HEM2=A@mail.gmail.com>
+	<CAMKF1sqJSgjLMOPo7pkpfNDUOWLu4R0F9BNzbPFzWYgha5gwHw@mail.gmail.com>
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/3] go: Add recipes for golang compilers and tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,35 +34,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2017 19:12:39 -0000
+X-List-Received-Date: Tue, 07 Feb 2017 20:18:16 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-If we're including all GPL licenses then we should include AGPL in
-the default COPYLEFT_LICENSE_INCLUDE since it has similar terms (and
-currently we do have one AGPL-licensed recipe in OE-Core, namely db).
+On Tuesday, 7 February 2017 9:44:46 AM NZDT Khem Raj wrote:
+> On Tue, Feb 7, 2017 at 9:35 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> > On 7 February 2017 at 04:24, Khem Raj <raj.khem@gmail.com> wrote:
+> >> This is converging the recipes for go from
+> >> meta-virtualization and oe-meta-go
+> > 
+> > I'm still of the opinion that this should be in meta-go, not oe-core...
+> 
+> I think we have to make multiple layers agree on using one layer
+> I find atleast 3 which carry go recipes along with, if its in OE-Core
+> either these layers become redundant or layers which are housing go
+> recipes for
+> different purpose like meta-virtualization can then drop the compiler
+> recipes it will be easier from consolidation point of view.
+> 
+> if we dont want to take it into OE-Core, we should create a new layer
+> meta-golang on yp git and then help request community to converge to
+> it, it still can be ignored by layers.
 
-(Note that the default list isn't meant to be a guaranteed complete
-safe list - seek legal advice based on what you're distributing if
-unsure.)
+Have we tried asking all of the various people involved if they'd mind working 
+together? If not, I have my doubts as to whether putting it in OE-Core is 
+going to entirely resolve the situation.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/copyleft_filter.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
+Paul
 
-diff --git a/meta/classes/copyleft_filter.bbclass b/meta/classes/copyleft_filter.bbclass
-index 426956f..5867bb9 100644
---- a/meta/classes/copyleft_filter.bbclass
-+++ b/meta/classes/copyleft_filter.bbclass
-@@ -6,7 +6,7 @@
- #
- # vi:sts=4:sw=4:et
- 
--COPYLEFT_LICENSE_INCLUDE ?= 'GPL* LGPL*'
-+COPYLEFT_LICENSE_INCLUDE ?= 'GPL* LGPL* AGPL*'
- COPYLEFT_LICENSE_INCLUDE[type] = 'list'
- COPYLEFT_LICENSE_INCLUDE[doc] = 'Space separated list of globs which include licenses'
- 
 -- 
-2.9.3
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
