@@ -1,29 +1,50 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
-	by mail.openembedded.org (Postfix) with ESMTP id EF47771A70
+Return-Path: <prvs=0211829d61=mike.looijmans@topicproducts.com>
+Received: from mx6-09.smtp.antispamcloud.com (mx6-09.smtp.antispamcloud.com
+	[95.211.2.200])
+	by mail.openembedded.org (Postfix) with ESMTP id 83868606CB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Feb 2017 13:44:58 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
-	via TCP (outbound) with ESMTPS id 20170207134458018_0685
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Feb 2017 05:44:58 -0800
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [216.191.234.70] (port=31166 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1cb64i-0007FF-F8 for openembedded-core@lists.openembedded.org;
-	Tue, 07 Feb 2017 08:44:52 -0500
-Date: Tue, 7 Feb 2017 08:44:47 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@uk63952.mitel.com
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1702070755300.12494@uk63952.mitel.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Tue,  7 Feb 2017 14:21:39 +0000 (UTC)
+Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
+	by mx6.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
+	(Exim 4.86) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1cb6eE-0001yl-Ok for openembedded-core@lists.openembedded.org;
+	Tue, 07 Feb 2017 15:21:36 +0100
+Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
+	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
+	Tue, 7 Feb 2017 15:21:33 +0100
+To: OE-core <openembedded-core@lists.openembedded.org>
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: TOPIC
+Message-ID: <9b8f8f39-aa5f-cbdf-8d45-9bd0e27c9404@topic.nl>
+Date: Tue, 7 Feb 2017 15:21:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.7.0
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: does a recipe's "recipe-sysroot" automatically get build deps crossscripts?
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Originating-IP: 37.74.225.130
+X-SpamExperts-Domain: topic.nl
+X-SpamExperts-Username: 37.74.225.128/28
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=37.74.225.128/28@topic.nl
+X-SpamExperts-Outgoing-Class: ham
+X-SpamExperts-Outgoing-Evidence: Combined (0.01)
+X-Recommended-Action: accept
+X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W/95+6ZE6dI+d
+	FNTaLLKrTD4PkK8WOoKuw32u9iEtZmisSr42qUwvK7U11fJ5smF5bE7GwnNXTE7JFCR1ojdwNOxh
+	woVSy7Y5O/IaMhiN9+OgQGW+L6IPcEg0zXHRA9tX3oSh68YrJ7q9SmhmRXsF42bjO41FyBEqIaDu
+	dcVplPGNaieKxw/vh63RdlaW2Zj1hcQD6Dxo9kokFZNwiacNPxeTCKssqlJePCDBHWfCYUvWOATT
+	vnG+QUCcfrSs6FZc7tZ3vKwSN7Mv0HNteAusUZ8BuYwGqmI8Tx/Ism0pnCcmlWACu0WC7nIKSPYV
+	aBAAdpU0oUDqng6Dyy2mQeofienvN6Vqc6W3OPY+pRhgkTB1el35jO+WJBgrWGjAavfuifnL+9wg
+	oTj4ygNPw1XfN1IUJ2+rCMPpQhII5VkEVC//8GRISD+lYCwA5l6/Q4nfg8y63jKKBrO1BroJmvb9
+	eW6r2rlUSNsSKfXWKXbAnTtpwWXpE+sdjNmnXWjiNaLzpYbRm1I468S/yL0UV2VaFaHU7TvqT2so
+	IjU4ke4l3yHonV+E7OMXRvgtdyMlnmWio7yflOSPePNf+xGd6n5xOT8FIprDRrySYpUp+LukEmRQ
+	CSbMBRfvijvugLPWuJnYimJBmbX4ZwV05IcNNAgTWJlUOpwpEkpu90COvViIG1i2pq4ZmiLrUtAf
+	M6WT3J4Pfkthd2LyVdAPfnUAFBPBepnfH4FLxEmh88Vmb1RXp37rz/3sm+3WdYJ6fJLgfLzHqKcy
+	4J/MLLAK25IKTH3DRMkYneGeAbvN+vdGDCyrv2E=
+X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
+Subject: (morty) Python exception during rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,51 +57,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2017 13:45:00 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Tue, 07 Feb 2017 14:21:43 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+
+=EF=BB=BFI get this stacktrace from bitbake. No idea what's wrong. Apparent=
+ly,=20
+d.getVarFlags(func) returns None and the code cannot handle that. Is this a=
+=20
+bug in bitbake, or should 'flags' never evaluate to None?
 
 
-  ok, last question on this topic, should be an easy one. :-)
 
-i've added the "mod-wsgi" recipe to my build (from meta-openstack
-layer), and the mod-wsgi recipe file contains the following:
+The stack trace of python calls that resulted in this exception/failure was=
+:
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+      0001:
+  *** 0002:do_rootfs(d)
+      0003:
+File: '/home/mike/projects/zynq-platform/oe-core/meta/classes/image.bbclass=
+',=20
+lineno: 249, function: do_rootfs
+      0245:
+      0246:    progress_reporter.next_stage()
+      0247:
+      0248:    # generate rootfs
+  *** 0249:    create_rootfs(d, progress_reporter=3Dprogress_reporter)
+      0250:
+      0251:    progress_reporter.finish()
+      0252:}
+      0253:do_rootfs[dirs] =3D "${TOPDIR}"
+File: '/home/mike/projects/zynq-platform/oe-core/meta/lib/oe/rootfs.py',=20
+lineno: 1006, function: create_rootfs
+      1002:    img_type =3D d.getVar('IMAGE_PKGTYPE', True)
+      1003:    if img_type =3D=3D "rpm":
+      1004:        RpmRootfs(d, manifest_dir, progress_reporter).create()
+      1005:    elif img_type =3D=3D "ipk":
+  *** 1006:        OpkgRootfs(d, manifest_dir, progress_reporter).create()
+      1007:    elif img_type =3D=3D "deb":
+      1008:        DpkgRootfs(d, manifest_dir, progress_reporter).create()
+      1009:
+      1010:    os.environ.clear()
+File: '/home/mike/projects/zynq-platform/oe-core/meta/lib/oe/rootfs.py',=20
+lineno: 210, function: create
+      0206:        execute_pre_post_process(self.d, rootfs_post_install_cmd=
+s)
+      0207:
+      0208:        self._run_intercepts()
+      0209:
+  *** 0210:        execute_pre_post_process(self.d, post_process_cmds)
+      0211:
+      0212:        if self.progress_reporter:
+      0213:            self.progress_reporter.next_stage()
+      0214:
+File: '/home/mike/projects/zynq-platform/oe-core/meta/lib/oe/utils.py',=20
+lineno: 176, function: execute_pre_post_process
+      0172:    for cmd in cmds.strip().split(';'):
+      0173:        cmd =3D cmd.strip()
+      0174:        if cmd !=3D '':
+      0175:            bb.note("Executing %s ..." % cmd)
+  *** 0176:            bb.build.exec_func(cmd, d)
+      0177:
+      0178:def multiprocess_exec(commands, function):
+      0179:    import signal
+      0180:    import multiprocessing
+File: '/home/mike/projects/zynq-platform/bitbake/lib/bb/build.py', lineno:=
+=20
+197, function: exec_func
+      0193:    except:
+      0194:        oldcwd =3D None
+      0195:
+      0196:    flags =3D d.getVarFlags(func)
+  *** 0197:    cleandirs =3D flags.get('cleandirs')
+      0198:    if cleandirs:
+      0199:        for cdir in d.expand(cleandirs).split():
+      0200:            bb.utils.remove(cdir, True)
+      0201:            bb.utils.mkdirhier(cdir)
+Exception: AttributeError: 'NoneType' object has no attribute 'get'
 
-  DEPENDS += "apache2-native apache2 python"
-  RDEPENDS_${PN} = "python"
+ERROR: pr-demo-image-1.0-r0 do_rootfs: Function failed: do_rootfs
+ERROR: Logfile of failure stored in:=20
+/home/mike/projects/zynq-platform/build/tmp-glibc/work/topic_miami_florida_=
+gen-oe-linux-gnueabi/pr-demo-image/1.0-r0/temp/log.do_rootfs.28716
+ERROR: Task=20
+(/home/mike/projects/zynq-platform/meta-topic-internal/recipes-topic/embedd=
+ed-world/pr-demo-image.bb:do_rootfs)=20
+failed with exit code '1'
 
-  EXTRA_OECONF = "\
-        --with-apxs=${STAGING_BINDIR_CROSS}/apxs \
 
-it builds fine since, in that recipe's WORKDIR, there is:
 
-  $ ls recipe-sysroot/usr/bin/crossscripts/
-  apr-1-config  libtoolize       ncursesw5-config  powerpc-poky-linux-libtool
-  apu-1-config  ncurses5-config  ncursesw6-config
-  apxs          ncurses6-config  pcre-config
 
-which means it can clearly find the crossscript "apxs" referred to by:
 
-  --with-apxs=${STAGING_BINDIR_CROSS}/apxs
+Kind regards,
 
-as for everything else in that recipe's $(STAGING_BINDIR_CROSS}
-directory, can i assume that any recipe will get installed in its
-STAGING_BINDIR_CROSS directory the collection of everything under
-usr/bin/crossscripts in all the build-time dependencies of that
-recipe?
+Mike Looijmans
+System Expert
 
-  it *seems* like that's a fairly simple assumption, just want to know
-if it's correct.
+TOPIC Products
+Materiaalweg 4, NL-5681 RJ Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
 
-rday
+Please consider the environment before printing this e-mail
 
--- 
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+
 
 
