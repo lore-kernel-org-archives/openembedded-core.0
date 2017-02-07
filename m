@@ -1,29 +1,54 @@
-Return-Path: <Mark.Asselstine@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CD626FF56
+Return-Path: <prvs=0211829d61=mike.looijmans@topicproducts.com>
+X-Greylist: delayed 17582 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 07 Feb 2017 21:01:10 UTC
+Received: from mx18-09.smtp.antispamcloud.com (mx18-09.smtp.antispamcloud.com
+	[207.244.64.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CF2B60720
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Feb 2017 20:42:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v17Kgqqw006412
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 7 Feb 2017 12:42:52 -0800 (PST)
-Received: from yow-masselst-lx1.localnet (128.224.60.115) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 7 Feb 2017 12:42:52 -0800
-From: Mark Asselstine <mark.asselstine@windriver.com>
+	Tue,  7 Feb 2017 21:01:10 +0000 (UTC)
+Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
+	by mx18.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
+	(Exim 4.86) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1cb8JI-0006QS-7N for openembedded-core@lists.openembedded.org;
+	Tue, 07 Feb 2017 17:08:05 +0100
+Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
+	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
+	Tue, 7 Feb 2017 17:08:01 +0100
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 7 Feb 2017 15:42:51 -0500
-Message-ID: <3297179.xx9JVsYUTI@yow-masselst-lx1>
-Organization: Wind River
-User-Agent: KMail/5.2.3 (Linux/4.8.0-37-generic; KDE/5.26.0; x86_64; ; )
-In-Reply-To: <2301139.i2tsUjesZx@peggleto-mobl.ger.corp.intel.com>
-References: <20170207042405.22707-1-raj.khem@gmail.com>
-	<CAMKF1sqJSgjLMOPo7pkpfNDUOWLu4R0F9BNzbPFzWYgha5gwHw@mail.gmail.com>
-	<2301139.i2tsUjesZx@peggleto-mobl.ger.corp.intel.com>
+References: <9b8f8f39-aa5f-cbdf-8d45-9bd0e27c9404@topic.nl>
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: TOPIC
+Message-ID: <6be3c94d-099a-907a-15f6-651ffb3d8c4b@topic.nl>
+Date: Tue, 7 Feb 2017 17:08:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.7.0
 MIME-Version: 1.0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH 1/3] go: Add recipes for golang compilers and tools
+In-Reply-To: <9b8f8f39-aa5f-cbdf-8d45-9bd0e27c9404@topic.nl>
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Originating-IP: 37.74.225.130
+X-SpamExperts-Domain: topic.nl
+X-SpamExperts-Username: 37.74.225.128/28
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=37.74.225.128/28@topic.nl
+X-SpamExperts-Outgoing-Class: ham
+X-SpamExperts-Outgoing-Evidence: SB/global_tokens (0.00636619364725)
+X-Recommended-Action: accept
+X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W/95+6ZE6dI+d
+	FNTaLLKrTD4PkK8WOoKuw32u9iEtZmisSr42qUwvK7U11fJ5smF5bE7GwnNXTE7JFCR1ojdwNMUW
+	nlN7qrySCUKHxfQKeGyVTA4IuAvrSTzgtcTBApChYMOuQnrIF3fZpVSf6sbcumbjO41FyBEqIaDu
+	dcVplPGNaieKxw/vh63RdlaW2Zj1hcQD6Dxo9kokFZNwiacNPxeTCKssqlJePCDBHWfCYUvWOATT
+	vnG+QUCcfrSs6FZc7tZ3vKwSN7Mv0HNteAusUZ8BuYwGqmI8Tx/Ism0pnCcmlWACu0WC7nIKSPYV
+	aBAAdpU0oUDqng6Dyy2mQeofiedEjl+3HIKfHULKMmFiwDV1el35jO+WJBgrWGjAavfuifnL+9wg
+	oTj4ygNPw1XfN1IUJ2+rCMPpQhII5VkEVC//8GRISD+lYCwA5l6/Q4nfg8y63jKKBrO1BroJmvb9
+	eXFO2kLT73cV2N9/PkfelXaRVYKU9W9tbmVXJBqdHHDml2fQHaY9hVoT9jGvxqBU4tidrpMZFgjz
+	m7CJrS8itOkBIkUL/j1Y48GvmeURQjjEeyod8BEJvTh4MmvKs0FoMT8FIprDRrySYpUp+LukEmQ9
+	GlvIp/p5snF0I1lfVlz5imJBmbX4ZwV05IcNNAgTWJlUOpwpEkpu90COvViIG1hxIqoCQc3HM3T0
+	0zJWsAVPIny++hg9dJLqN5zmWqF/oL2zkpvPBVfBs+q9szCzvdEBg+fgOaDhnt+xLo9/BvXFbT9y
+	B6+5kUQXUPqxCpKoZ5jW+r1f/TnG1eQk5gcAU2VFrDcQt6dRpOsA8rhO4pl7
+X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
+Subject: Re: (morty) Python exception during rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,51 +61,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2017 20:42:55 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 07 Feb 2017 21:01:11 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On Wednesday, February 8, 2017 9:17:48 AM EST Paul Eggleton wrote:
-> On Tuesday, 7 February 2017 9:44:46 AM NZDT Khem Raj wrote:
-> > On Tue, Feb 7, 2017 at 9:35 AM, Burton, Ross <ross.burton@intel.com> 
-wrote:
-> > > On 7 February 2017 at 04:24, Khem Raj <raj.khem@gmail.com> wrote:
-> > >> This is converging the recipes for go from
-> > >> meta-virtualization and oe-meta-go
-> > > 
-> > > I'm still of the opinion that this should be in meta-go, not oe-core...
-> > 
-> > I think we have to make multiple layers agree on using one layer
-> > I find atleast 3 which carry go recipes along with, if its in OE-Core
-> > either these layers become redundant or layers which are housing go
-> > recipes for
-> > different purpose like meta-virtualization can then drop the compiler
-> > recipes it will be easier from consolidation point of view.
-> > 
-> > if we dont want to take it into OE-Core, we should create a new layer
-> > meta-golang on yp git and then help request community to converge to
-> > it, it still can be ignored by layers.
-> 
-> Have we tried asking all of the various people involved if they'd mind
-> working together? If not, I have my doubts as to whether putting it in
-> OE-Core is going to entirely resolve the situation.
+=EF=BB=BFFound it. A rootfs post-process function was misspelled, and that =
+caused it.
 
-I have done a bunch of the work for go support in meta-virtualization. I am 
-currently doing some updates around issues which per recipe sysroots 
-uncovered. I think we would be fine moving our support out of meta-virt if 
-support was somewhere where our changes would be taken/considered and merges 
-would be done in a timely manner, something that hasn't always been the case 
-with the previous attempts to centralize go.
+I'll make a patch to improve the error message here, to make it just say th=
+at=20
+it cannot find "func".
 
-Feel free to ping me on this, I will try to find time to try it out and will 
-work to get it to the point where we can consider removing parts/all from 
-meta-virt.
 
-MarkA 
+On 07-02-17 15:21, Mike Looijmans wrote:
+> I get this stacktrace from bitbake. No idea what's wrong. Apparently,
+> d.getVarFlags(func) returns None and the code cannot handle that. Is this=
+ a
+> bug in bitbake, or should 'flags' never evaluate to None?
+>
+>
+>
+> The stack trace of python calls that resulted in this exception/failure w=
+as:
+> File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+>      0001:
+>  *** 0002:do_rootfs(d)
+>      0003:
+> File: '/home/mike/projects/zynq-platform/oe-core/meta/classes/image.bbcla=
+ss',
+> lineno: 249, function: do_rootfs
+>      0245:
+>      0246:    progress_reporter.next_stage()
+>      0247:
+>      0248:    # generate rootfs
+>  *** 0249:    create_rootfs(d, progress_reporter=3Dprogress_reporter)
+>      0250:
+>      0251:    progress_reporter.finish()
+>      0252:}
+>      0253:do_rootfs[dirs] =3D "${TOPDIR}"
+> File: '/home/mike/projects/zynq-platform/oe-core/meta/lib/oe/rootfs.py',
+> lineno: 1006, function: create_rootfs
+>      1002:    img_type =3D d.getVar('IMAGE_PKGTYPE', True)
+>      1003:    if img_type =3D=3D "rpm":
+>      1004:        RpmRootfs(d, manifest_dir, progress_reporter).create()
+>      1005:    elif img_type =3D=3D "ipk":
+>  *** 1006:        OpkgRootfs(d, manifest_dir, progress_reporter).create()
+>      1007:    elif img_type =3D=3D "deb":
+>      1008:        DpkgRootfs(d, manifest_dir, progress_reporter).create()
+>      1009:
+>      1010:    os.environ.clear()
+> File: '/home/mike/projects/zynq-platform/oe-core/meta/lib/oe/rootfs.py',
+> lineno: 210, function: create
+>      0206:        execute_pre_post_process(self.d, rootfs_post_install_cm=
+ds)
+>      0207:
+>      0208:        self._run_intercepts()
+>      0209:
+>  *** 0210:        execute_pre_post_process(self.d, post_process_cmds)
+>      0211:
+>      0212:        if self.progress_reporter:
+>      0213:            self.progress_reporter.next_stage()
+>      0214:
+> File: '/home/mike/projects/zynq-platform/oe-core/meta/lib/oe/utils.py',
+> lineno: 176, function: execute_pre_post_process
+>      0172:    for cmd in cmds.strip().split(';'):
+>      0173:        cmd =3D cmd.strip()
+>      0174:        if cmd !=3D '':
+>      0175:            bb.note("Executing %s ..." % cmd)
+>  *** 0176:            bb.build.exec_func(cmd, d)
+>      0177:
+>      0178:def multiprocess_exec(commands, function):
+>      0179:    import signal
+>      0180:    import multiprocessing
+> File: '/home/mike/projects/zynq-platform/bitbake/lib/bb/build.py', lineno=
+:
+> 197, function: exec_func
+>      0193:    except:
+>      0194:        oldcwd =3D None
+>      0195:
+>      0196:    flags =3D d.getVarFlags(func)
+>  *** 0197:    cleandirs =3D flags.get('cleandirs')
+>      0198:    if cleandirs:
+>      0199:        for cdir in d.expand(cleandirs).split():
+>      0200:            bb.utils.remove(cdir, True)
+>      0201:            bb.utils.mkdirhier(cdir)
+> Exception: AttributeError: 'NoneType' object has no attribute 'get'
+>
+> ERROR: pr-demo-image-1.0-r0 do_rootfs: Function failed: do_rootfs
+> ERROR: Logfile of failure stored in:
+> /home/mike/projects/zynq-platform/build/tmp-glibc/work/topic_miami_florid=
+a_gen-oe-linux-gnueabi/pr-demo-image/1.0-r0/temp/log.do_rootfs.28716
+>
+> ERROR: Task
+> (/home/mike/projects/zynq-platform/meta-topic-internal/recipes-topic/embe=
+dded-world/pr-demo-image.bb:do_rootfs)
+> failed with exit code '1'
+>
+>
+>
+>
+>
+> Kind regards,
+>
+> Mike Looijmans
+> System Expert
+>
+> TOPIC Products
+> Materiaalweg 4, NL-5681 RJ Best
+> Postbus 440, NL-5680 AK Best
+> Telefoon: +31 (0) 499 33 69 79
+> E-mail: mike.looijmans@topicproducts.com
+> Website: www.topicproducts.com
+>
+> Please consider the environment before printing this e-mail
+>
+>
+>
+>
+>
 
-> 
-> Cheers,
-> Paul
+
+
+Kind regards,
+
+Mike Looijmans
+System Expert
+
+TOPIC Products
+Materiaalweg 4, NL-5681 RJ Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
+
+Please consider the environment before printing this e-mail
+
+
+
 
 
 
