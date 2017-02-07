@@ -1,54 +1,22 @@
-Return-Path: <prvs=0211829d61=mike.looijmans@topicproducts.com>
-X-Greylist: delayed 17582 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 07 Feb 2017 21:01:10 UTC
-Received: from mx18-09.smtp.antispamcloud.com (mx18-09.smtp.antispamcloud.com
-	[207.244.64.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CF2B60720
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id E7B7A6E668
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Feb 2017 21:01:10 +0000 (UTC)
-Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
-	by mx18.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
-	(Exim 4.86) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1cb8JI-0006QS-7N for openembedded-core@lists.openembedded.org;
-	Tue, 07 Feb 2017 17:08:05 +0100
-Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
-	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 7 Feb 2017 17:08:01 +0100
-To: <openembedded-core@lists.openembedded.org>
-References: <9b8f8f39-aa5f-cbdf-8d45-9bd0e27c9404@topic.nl>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-Message-ID: <6be3c94d-099a-907a-15f6-651ffb3d8c4b@topic.nl>
-Date: Tue, 7 Feb 2017 17:08:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.0
-MIME-Version: 1.0
-In-Reply-To: <9b8f8f39-aa5f-cbdf-8d45-9bd0e27c9404@topic.nl>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Originating-IP: 37.74.225.130
-X-SpamExperts-Domain: topic.nl
-X-SpamExperts-Username: 37.74.225.128/28
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=37.74.225.128/28@topic.nl
-X-SpamExperts-Outgoing-Class: ham
-X-SpamExperts-Outgoing-Evidence: SB/global_tokens (0.00636619364725)
-X-Recommended-Action: accept
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W/95+6ZE6dI+d
-	FNTaLLKrTD4PkK8WOoKuw32u9iEtZmisSr42qUwvK7U11fJ5smF5bE7GwnNXTE7JFCR1ojdwNMUW
-	nlN7qrySCUKHxfQKeGyVTA4IuAvrSTzgtcTBApChYMOuQnrIF3fZpVSf6sbcumbjO41FyBEqIaDu
-	dcVplPGNaieKxw/vh63RdlaW2Zj1hcQD6Dxo9kokFZNwiacNPxeTCKssqlJePCDBHWfCYUvWOATT
-	vnG+QUCcfrSs6FZc7tZ3vKwSN7Mv0HNteAusUZ8BuYwGqmI8Tx/Ism0pnCcmlWACu0WC7nIKSPYV
-	aBAAdpU0oUDqng6Dyy2mQeofiedEjl+3HIKfHULKMmFiwDV1el35jO+WJBgrWGjAavfuifnL+9wg
-	oTj4ygNPw1XfN1IUJ2+rCMPpQhII5VkEVC//8GRISD+lYCwA5l6/Q4nfg8y63jKKBrO1BroJmvb9
-	eXFO2kLT73cV2N9/PkfelXaRVYKU9W9tbmVXJBqdHHDml2fQHaY9hVoT9jGvxqBU4tidrpMZFgjz
-	m7CJrS8itOkBIkUL/j1Y48GvmeURQjjEeyod8BEJvTh4MmvKs0FoMT8FIprDRrySYpUp+LukEmQ9
-	GlvIp/p5snF0I1lfVlz5imJBmbX4ZwV05IcNNAgTWJlUOpwpEkpu90COvViIG1hxIqoCQc3HM3T0
-	0zJWsAVPIny++hg9dJLqN5zmWqF/oL2zkpvPBVfBs+q9szCzvdEBg+fgOaDhnt+xLo9/BvXFbT9y
-	B6+5kUQXUPqxCpKoZ5jW+r1f/TnG1eQk5gcAU2VFrDcQt6dRpOsA8rhO4pl7
-X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
-Subject: Re: (morty) Python exception during rootfs
+	Tue,  7 Feb 2017 21:13:20 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 07 Feb 2017 13:12:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,346,1477983600"; d="scan'208";a="818214873"
+Received: from unknown (HELO mlopezva-MOBL2.zpn.intel.com) ([10.219.4.164])
+	by FMSMGA003.fm.intel.com with ESMTP; 07 Feb 2017 13:12:58 -0800
+From: mariano.lopez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  7 Feb 2017 15:14:14 -0600
+Message-Id: <34f90a06027ceb777ba34f65b42ab98214623935.1486501999.git.mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 2.10.2
+In-Reply-To: <cover.1486501999.git.mariano.lopez@linux.intel.com>
+References: <cover.1486501999.git.mariano.lopez@linux.intel.com>
+Subject: [PATCH 1/1] insane.bbclass: Add prepare_recipe_sysroot dependency for package_qa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,143 +29,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2017 21:01:11 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 07 Feb 2017 21:13:22 -0000
 
-=EF=BB=BFFound it. A rootfs post-process function was misspelled, and that =
-caused it.
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-I'll make a patch to improve the error message here, to make it just say th=
-at=20
-it cannot find "func".
+package_qa task requires some tools installed in sysroot; with
+the introduction of recipe specific sysroot this task won't
+have such tools installed if it's forced to run.
 
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ meta/classes/insane.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 07-02-17 15:21, Mike Looijmans wrote:
-> I get this stacktrace from bitbake. No idea what's wrong. Apparently,
-> d.getVarFlags(func) returns None and the code cannot handle that. Is this=
- a
-> bug in bitbake, or should 'flags' never evaluate to None?
->
->
->
-> The stack trace of python calls that resulted in this exception/failure w=
-as:
-> File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
->      0001:
->  *** 0002:do_rootfs(d)
->      0003:
-> File: '/home/mike/projects/zynq-platform/oe-core/meta/classes/image.bbcla=
-ss',
-> lineno: 249, function: do_rootfs
->      0245:
->      0246:    progress_reporter.next_stage()
->      0247:
->      0248:    # generate rootfs
->  *** 0249:    create_rootfs(d, progress_reporter=3Dprogress_reporter)
->      0250:
->      0251:    progress_reporter.finish()
->      0252:}
->      0253:do_rootfs[dirs] =3D "${TOPDIR}"
-> File: '/home/mike/projects/zynq-platform/oe-core/meta/lib/oe/rootfs.py',
-> lineno: 1006, function: create_rootfs
->      1002:    img_type =3D d.getVar('IMAGE_PKGTYPE', True)
->      1003:    if img_type =3D=3D "rpm":
->      1004:        RpmRootfs(d, manifest_dir, progress_reporter).create()
->      1005:    elif img_type =3D=3D "ipk":
->  *** 1006:        OpkgRootfs(d, manifest_dir, progress_reporter).create()
->      1007:    elif img_type =3D=3D "deb":
->      1008:        DpkgRootfs(d, manifest_dir, progress_reporter).create()
->      1009:
->      1010:    os.environ.clear()
-> File: '/home/mike/projects/zynq-platform/oe-core/meta/lib/oe/rootfs.py',
-> lineno: 210, function: create
->      0206:        execute_pre_post_process(self.d, rootfs_post_install_cm=
-ds)
->      0207:
->      0208:        self._run_intercepts()
->      0209:
->  *** 0210:        execute_pre_post_process(self.d, post_process_cmds)
->      0211:
->      0212:        if self.progress_reporter:
->      0213:            self.progress_reporter.next_stage()
->      0214:
-> File: '/home/mike/projects/zynq-platform/oe-core/meta/lib/oe/utils.py',
-> lineno: 176, function: execute_pre_post_process
->      0172:    for cmd in cmds.strip().split(';'):
->      0173:        cmd =3D cmd.strip()
->      0174:        if cmd !=3D '':
->      0175:            bb.note("Executing %s ..." % cmd)
->  *** 0176:            bb.build.exec_func(cmd, d)
->      0177:
->      0178:def multiprocess_exec(commands, function):
->      0179:    import signal
->      0180:    import multiprocessing
-> File: '/home/mike/projects/zynq-platform/bitbake/lib/bb/build.py', lineno=
-:
-> 197, function: exec_func
->      0193:    except:
->      0194:        oldcwd =3D None
->      0195:
->      0196:    flags =3D d.getVarFlags(func)
->  *** 0197:    cleandirs =3D flags.get('cleandirs')
->      0198:    if cleandirs:
->      0199:        for cdir in d.expand(cleandirs).split():
->      0200:            bb.utils.remove(cdir, True)
->      0201:            bb.utils.mkdirhier(cdir)
-> Exception: AttributeError: 'NoneType' object has no attribute 'get'
->
-> ERROR: pr-demo-image-1.0-r0 do_rootfs: Function failed: do_rootfs
-> ERROR: Logfile of failure stored in:
-> /home/mike/projects/zynq-platform/build/tmp-glibc/work/topic_miami_florid=
-a_gen-oe-linux-gnueabi/pr-demo-image/1.0-r0/temp/log.do_rootfs.28716
->
-> ERROR: Task
-> (/home/mike/projects/zynq-platform/meta-topic-internal/recipes-topic/embe=
-dded-world/pr-demo-image.bb:do_rootfs)
-> failed with exit code '1'
->
->
->
->
->
-> Kind regards,
->
-> Mike Looijmans
-> System Expert
->
-> TOPIC Products
-> Materiaalweg 4, NL-5681 RJ Best
-> Postbus 440, NL-5680 AK Best
-> Telefoon: +31 (0) 499 33 69 79
-> E-mail: mike.looijmans@topicproducts.com
-> Website: www.topicproducts.com
->
-> Please consider the environment before printing this e-mail
->
->
->
->
->
-
-
-
-Kind regards,
-
-Mike Looijmans
-System Expert
-
-TOPIC Products
-Materiaalweg 4, NL-5681 RJ Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
-
-
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 3cf86c1..64c6d14 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -1225,7 +1225,7 @@ python do_package_qa () {
+ 
+ do_package_qa[vardepsexclude] = "BB_TASKDEPDATA"
+ do_package_qa[rdeptask] = "do_packagedata"
+-addtask do_package_qa after do_packagedata do_package before do_build
++addtask do_package_qa after do_prepare_recipe_sysroot do_packagedata do_package before do_build
+ 
+ SSTATETASKS += "do_package_qa"
+ do_package_qa[sstate-inputdirs] = ""
+-- 
+2.10.2
 
 
