@@ -1,24 +1,46 @@
-Return-Path: <Alexandru.Moise@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AE1946078E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com
+	[209.85.216.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F1A471AD8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Feb 2017 11:48:51 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v17BmoEp030619
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Tue,  7 Feb 2017 11:58:58 +0000 (UTC)
+Received: by mail-qt0-f171.google.com with SMTP id k15so132140768qtg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 7 Feb 2017 03:48:51 -0800
-Received: from otp-amoise-l1.corp.ad.wrs.com (128.224.14.53) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 7 Feb 2017 03:48:50 -0800
-From: Alexandru Moise <alexandru.moise@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 7 Feb 2017 13:48:47 +0200
-Message-ID: <1486468127-16643-1-git-send-email-alexandru.moise@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Tue, 07 Feb 2017 03:58:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=oh+J+33dTh+3XvuIBME02RW0p2rWkyh3GhwWrkHugqI=;
+	b=OaILDFuMG9WWwWyq8WBOaaC2ggjAHWkHnjUCAk1XDldLmytjT52N1cwkOCDB0Od3W4
+	g8pGRMyVDc69Q51nIf6z5xONSOsYCL/nVbdpOdOL10NeSghaIJEB6bQAByG2x74E/ikj
+	cKGAgeMvIKVrb/Zzael05DZtvjeX38I8YWkan5cSm6aQYJkuuHG4a37NnippYOrShQ3s
+	Wp1jrWybDPTSNX31mvFrBMdfqGb58zWrK2vS7rCTZx4eV2GCZTQrpvQExH6LTnqmPXDL
+	Gaj9qokowLLYqdkLeNnx0rdDb0CK69v8dy/Yr2nRwFQ0t8pc5nYWAZUzz8JiIXKd/lQX
+	ReaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=oh+J+33dTh+3XvuIBME02RW0p2rWkyh3GhwWrkHugqI=;
+	b=Qm3mgH8bkUtGvkKun7zE+3L12jfscLzFml1+69atVOv4YjJtpZUTp4RwkMIVzelnWH
+	Vwydy6eeWNLsJSk8Jwa3VNrVqwtUsLO04pQttWwXK12LkB4MjKdFc7PplwOptIVQBBzo
+	bMjbzU25Rq3kLkHs+yW2ZMjH+AmjXbCClTNAtq8oHH+xJJAW/UCLo0BGmPEgLvuPKWcf
+	dvwkH3rMg57UvX5rXOr+k3kNFE3T/LIrTaJjLhh8/YLLT77QlxwO2IrSHbYc3nxOkSx1
+	27Ezmp8J/23NCWwog6p9IAsl79ApbQEeMuYBIUVoM1h49dgEUWF2el0Jg5B47q3HUqWq
+	joCQ==
+X-Gm-Message-State: AMke39lTKSYxUfQfWrCoIJzvU0/103zL+Tr1LUITO018WZjFxLsrRcFTc9IdCiFVDA55QV/RdIi1gPEHbieYAXNn
+X-Received: by 10.237.36.208 with SMTP id u16mr14978734qtc.105.1486468739331; 
+	Tue, 07 Feb 2017 03:58:59 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH v5][morty] openssl: CVE: CVE-2017-3731
+Received: by 10.140.103.233 with HTTP; Tue, 7 Feb 2017 03:58:38 -0800 (PST)
+In-Reply-To: <alpine.LFD.2.20.1702070603110.7387@uk63952.mitel.com>
+References: <alpine.LFD.2.20.1702070603110.7387@uk63952.mitel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 7 Feb 2017 11:58:38 +0000
+Message-ID: <CAJTo0LZtcKPVPQh5d-XmDcAQ+K8qH4nRB0YGhmyoqOf1eTAH6A@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: question about new "recipe-specific sysroots" feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,157 +53,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2017 11:48:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 07 Feb 2017 11:58:59 -0000
+Content-Type: multipart/alternative; boundary=001a114104ce2d8ce30547ef7966
 
-If an SSL/TLS server or client is running on a 32-bit host, and a
-specific cipher is being used, then a truncated packet can cause that
-server or client  to perform an out-of-bounds read, usually resulting
-in a crash.
+--001a114104ce2d8ce30547ef7966
+Content-Type: text/plain; charset=UTF-8
 
-Backported from:
-https://github.com/openssl/openssl/commit/8e20499629b6bcf868d0072c7011e590b5c2294d
-https://github.com/openssl/openssl/commit/2198b3a55de681e1f3c23edb0586afe13f438051
+On 7 February 2017 at 11:19, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
 
-* CVE: CVE-2017-3731
+> and while i'm digging through the code, what should be a simple
+> question -- is what is being installed in a recipe-specific sysroot
+> *exactly* what used to be installed by a recipe in the common sysroot?
+>
 
-Upstream-status: Backport
+Yes.
 
-Signed-off-by: Alexandru Moise <alexandru.moise@windriver.com>
----
- .../openssl/openssl/0001-CVE-2017-3731.patch       | 46 +++++++++++++++++++
- .../openssl/openssl/0002-CVE-2017-3731.patch       | 53 ++++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.2j.bb |  2 +
- 3 files changed, 101 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-CVE-2017-3731.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/0002-CVE-2017-3731.patch
+The recipe-specific sysroot for recipe <foo> is the same sysroot as you
+would have got had you done bitbake foo with an empty tmp.  The advantage
+is that there will be nothing else in the sysroot.
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-CVE-2017-3731.patch b/meta/recipes-connectivity/openssl/openssl/0001-CVE-2017-3731.patch
-new file mode 100644
-index 0000000..b378c5e
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/0001-CVE-2017-3731.patch
-@@ -0,0 +1,46 @@
-+From 0cde9a9645c949fd0acf657dadc747676245cfaf Mon Sep 17 00:00:00 2001
-+From: Alexandru Moise <alexandru.moise@windriver.com>
-+Date: Tue, 7 Feb 2017 11:13:19 +0200
-+Subject: [PATCH 1/2] crypto/evp: harden RC4_MD5 cipher.
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Originally a crash in 32-bit build was reported CHACHA20-POLY1305
-+cipher. The crash is triggered by truncated packet and is result
-+of excessive hashing to the edge of accessible memory (or bogus
-+MAC value is produced if x86 MD5 assembly module is involved). Since
-+hash operation is read-only it is not considered to be exploitable
-+beyond a DoS condition.
-+
-+Thanks to Robert Święcki for report.
-+
-+CVE-2017-3731
-+
-+Backported from upstream commit:
-+8e20499629b6bcf868d0072c7011e590b5c2294d
-+
-+Upstream-Status: Backport
-+
-+Reviewed-by: Rich Salz <rsalz@openssl.org>
-+Signed-off-by: Alexandru Moise <alexandru.moise@windriver.com>
-+---
-+ crypto/evp/e_rc4_hmac_md5.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/crypto/evp/e_rc4_hmac_md5.c b/crypto/evp/e_rc4_hmac_md5.c
-+index 5e92855..3293419 100644
-+--- a/crypto/evp/e_rc4_hmac_md5.c
-++++ b/crypto/evp/e_rc4_hmac_md5.c
-+@@ -269,6 +269,8 @@ static int rc4_hmac_md5_ctrl(EVP_CIPHER_CTX *ctx, int type, int arg,
-+             len = p[arg - 2] << 8 | p[arg - 1];
-+ 
-+             if (!ctx->encrypt) {
-++		if (len < MD5_DIGEST_LENGTH)
-++                    return -1;
-+                 len -= MD5_DIGEST_LENGTH;
-+                 p[arg - 2] = len >> 8;
-+                 p[arg - 1] = len;
-+-- 
-+2.10.2
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl/0002-CVE-2017-3731.patch b/meta/recipes-connectivity/openssl/openssl/0002-CVE-2017-3731.patch
-new file mode 100644
-index 0000000..990cbfd
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/0002-CVE-2017-3731.patch
-@@ -0,0 +1,53 @@
-+From 6427f1accc54b515bb899370f1a662bfcb1caa52 Mon Sep 17 00:00:00 2001
-+From: Alexandru Moise <alexandru.moise@windriver.com>
-+Date: Tue, 7 Feb 2017 11:16:13 +0200
-+Subject: [PATCH 2/2] crypto/evp: harden AEAD ciphers.
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Originally a crash in 32-bit build was reported CHACHA20-POLY1305
-+cipher. The crash is triggered by truncated packet and is result
-+of excessive hashing to the edge of accessible memory. Since hash
-+operation is read-only it is not considered to be exploitable
-+beyond a DoS condition. Other ciphers were hardened.
-+
-+Thanks to Robert Święcki for report.
-+
-+CVE-2017-3731
-+
-+Backported from upstream commit:
-+2198b3a55de681e1f3c23edb0586afe13f438051
-+
-+Upstream-Status: Backport
-+
-+Reviewed-by: Rich Salz <rsalz@openssl.org>
-+Signed-off-by: Alexandru Moise <alexandru.moise@windriver.com>
-+---
-+ crypto/evp/e_aes.c | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
-+
-+diff --git a/crypto/evp/e_aes.c b/crypto/evp/e_aes.c
-+index 1734a82..16dcd10 100644
-+--- a/crypto/evp/e_aes.c
-++++ b/crypto/evp/e_aes.c
-+@@ -1235,10 +1235,15 @@ static int aes_gcm_ctrl(EVP_CIPHER_CTX *c, int type, int arg, void *ptr)
-+         {
-+             unsigned int len = c->buf[arg - 2] << 8 | c->buf[arg - 1];
-+             /* Correct length for explicit IV */
-++	    if (len < EVP_GCM_TLS_EXPLICIT_IV_LEN)
-++	        return 0;
-+             len -= EVP_GCM_TLS_EXPLICIT_IV_LEN;
-+             /* If decrypting correct for tag too */
-+-            if (!c->encrypt)
-++            if (!c->encrypt) {
-++		if (len < EVP_GCM_TLS_TAG_LEN)
-++		    return 0;
-+                 len -= EVP_GCM_TLS_TAG_LEN;
-++	    }
-+             c->buf[arg - 2] = len >> 8;
-+             c->buf[arg - 1] = len & 0xff;
-+         }
-+-- 
-+2.10.2
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb
-index f2aca36..9a7cded 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb
-@@ -41,6 +41,8 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
-             file://parallel.patch \
-             file://openssl-util-perlpath.pl-cwd.patch \
-             file://CVE-2016-7055.patch \
-+            file://0001-CVE-2017-3731.patch \
-+            file://0002-CVE-2017-3731.patch \
-            "
- SRC_URI[md5sum] = "96322138f0b69e61b7212bc53d5e912b"
- SRC_URI[sha256sum] = "e7aff292be21c259c6af26469c7a9b3ba26e9abaaffd325e3dccc9785256c431"
--- 
-2.10.2
+Ross
 
+--001a114104ce2d8ce30547ef7966
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 February 2017 at 11:19, Robert P. J. Day <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcourse.ca</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":15p" cla=
+ss=3D"a3s aXjCH m15a184df047df3ce">and while i&#39;m digging through the co=
+de, what should be a simple<br>
+question -- is what is being installed in a recipe-specific sysroot<br>
+*exactly* what used to be installed by a recipe in the common sysroot?<br><=
+/div></blockquote></div><br>Yes.</div><div class=3D"gmail_extra"><br></div>=
+<div class=3D"gmail_extra">The recipe-specific sysroot for recipe &lt;foo&g=
+t; is the same sysroot as you would have got had you done bitbake foo with =
+an empty tmp.=C2=A0 The advantage is that there will be nothing else in the=
+ sysroot.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
+ra">Ross</div></div>
+
+--001a114104ce2d8ce30547ef7966--
