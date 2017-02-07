@@ -1,50 +1,24 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-vk0-f43.google.com (mail-vk0-f43.google.com
-	[209.85.213.43])
-	by mail.openembedded.org (Postfix) with ESMTP id E6E676010B
+Return-Path: <Alexandru.Moise@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B8C36010B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Feb 2017 09:57:47 +0000 (UTC)
-Received: by mail-vk0-f43.google.com with SMTP id t8so74195531vke.3
+	Tue,  7 Feb 2017 09:58:46 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v179wk6H023175
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Feb 2017 01:57:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=FThFNsL6CW8xyc3fvDmUX2Il1K1Gt3WqLxxfFrXdObc=;
-	b=QbnUda+I7m8T7A06Mlfl/h+IwCSe/fXMOFiqhnmPugbDAiDsxDGcTg4cT0gsOJZ9ga
-	QPmET73Rr8nabjjkXexfVVx7bMNCHdTV+xBSWLP2DQINzhz0IfjnA1MG9ZE6kdQ0BxPM
-	bEzGcAyLk/O59+2KphOMpxXAwvBRn0bRQzpcQW2Jwo9ueCCMDAIJwAorMQB3tCqg0hka
-	s25fyS1NyCc4OZMYSnxpQBrZC/lveIStmy/X0nlncWQaNG8H1GdQM8OLisN1ABGJgaVf
-	tJ9dSjgzuUbYPtq1Lu16tvn5IEy7oQWzEpghk2ptNF8kA1tdDjIBEE6NCfcbzV6ek7vl
-	E8IQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=FThFNsL6CW8xyc3fvDmUX2Il1K1Gt3WqLxxfFrXdObc=;
-	b=KMEfiDwKDgWrcN3N+HVzPmo+eyDklV3kCNX+essvWSX4zhm+gZCUizLiQR+7+LjGCA
-	S64sjoGKBkwygFkSJAmEXNoZlXcRZErBLjrbTvb3AyHQH4trRa0SN7tG7/RenSRcmp2N
-	549/I+8X+nLIM7cXCNNoz5P1MgcVtjBU0VKJ/a743QeogzXJu8SEctWtzTHH7YlEH1vT
-	6lF3O2Hd+cLg4ADcLotgJ94HKr9pD7OtZr4E9YSuKSSiCO510AOnWoWFocMc2Zd+NRWS
-	9ZDclEzlr98IvfNC49BjU8J9x4OJU+sKAteAmqgvBY/yG+JfaXKy6cXrCld/f88Ekoa1
-	EM2A==
-X-Gm-Message-State: AMke39kNJX+xyMJunJ6yEvjKnMUx+czH6sIH5rpWT1n0boaEHp28pokIlfLEiuTTVJ2y2uk3N4hKv+vYMvmB6w==
-X-Received: by 10.31.155.75 with SMTP id d72mr6682918vke.55.1486461467610;
-	Tue, 07 Feb 2017 01:57:47 -0800 (PST)
+	Tue, 7 Feb 2017 01:58:46 -0800 (PST)
+Received: from otp-amoise-l1.corp.ad.wrs.com (128.224.14.53) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.294.0; Tue, 7 Feb 2017 01:58:45 -0800
+From: Alexandru Moise <alexandru.moise@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 7 Feb 2017 11:58:42 +0200
+Message-ID: <1486461522-11437-1-git-send-email-alexandru.moise@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.176.91.68 with HTTP; Tue, 7 Feb 2017 01:57:47 -0800 (PST)
-In-Reply-To: <CAJTo0Lb9rbRkTCQbYMDR8kU0TpJFqEGjysOzXhfvMTUjBFd0YA@mail.gmail.com>
-References: <1486423594-13790-1-git-send-email-ross.burton@intel.com>
-	<CALbNGRRikJJR9HDiT+py43+=45PUtPFaJRuOWAoZbSKoCa-zpQ@mail.gmail.com>
-	<CAJTo0Lb9rbRkTCQbYMDR8kU0TpJFqEGjysOzXhfvMTUjBFd0YA@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Date: Tue, 7 Feb 2017 10:57:47 +0100
-Message-ID: <CALbNGRS316C7PTOt_HewyH9A2crZapa5C_vazz_p9g5ZFS6vHw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libepoxy: upgrade to 1.4.0
+Subject: [morty][PATCH] openssl: CVE-2017-3731
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,26 +31,153 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2017 09:57:48 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 07 Feb 2017 09:58:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 7, 2017 at 10:53 AM, Burton, Ross <ross.burton@intel.com> wrote=
-:
->
-> On 7 February 2017 at 07:40, Andreas M=C3=BCller <schnitzeltony@googlemai=
-l.com>
-> wrote:
->>
->> Wow that was fast :))
->
->
-> It has Meson support so I wanted to give that a go too.  Good news: it
-> works.
->
-> Ross
->
-And yet another buildsystem - sigh
+If an SSL/TLS server or client is running on a 32-bit host, and a
+specific cipher is being used, then a truncated packet can cause that
+server or client  to perform an out-of-bounds read, usually resulting
+in a crash.
 
-Andreas
+Backported from:
+https://github.com/openssl/openssl/commit/8e20499629b6bcf868d0072c7011e590b5c2294d
+https://github.com/openssl/openssl/commit/2198b3a55de681e1f3c23edb0586afe13f438051
+
+Signed-off-by: Alexandru Moise <alexandru.moise@windriver.com>
+---
+ .../openssl/openssl/0001-CVE-2017-3731.patch       | 46 +++++++++++++++++++
+ .../openssl/openssl/0002-CVE-2017-3731.patch       | 53 ++++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.2j.bb |  2 +
+ 3 files changed, 101 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-CVE-2017-3731.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/0002-CVE-2017-3731.patch
+
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-CVE-2017-3731.patch b/meta/recipes-connectivity/openssl/openssl/0001-CVE-2017-3731.patch
+new file mode 100644
+index 0000000..b378c5e
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/0001-CVE-2017-3731.patch
+@@ -0,0 +1,46 @@
++From 0cde9a9645c949fd0acf657dadc747676245cfaf Mon Sep 17 00:00:00 2001
++From: Alexandru Moise <alexandru.moise@windriver.com>
++Date: Tue, 7 Feb 2017 11:13:19 +0200
++Subject: [PATCH 1/2] crypto/evp: harden RC4_MD5 cipher.
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Originally a crash in 32-bit build was reported CHACHA20-POLY1305
++cipher. The crash is triggered by truncated packet and is result
++of excessive hashing to the edge of accessible memory (or bogus
++MAC value is produced if x86 MD5 assembly module is involved). Since
++hash operation is read-only it is not considered to be exploitable
++beyond a DoS condition.
++
++Thanks to Robert Święcki for report.
++
++CVE-2017-3731
++
++Backported from upstream commit:
++8e20499629b6bcf868d0072c7011e590b5c2294d
++
++Upstream status: Backport
++
++Reviewed-by: Rich Salz <rsalz@openssl.org>
++Signed-off-by: Alexandru Moise <alexandru.moise@windriver.com>
++---
++ crypto/evp/e_rc4_hmac_md5.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/crypto/evp/e_rc4_hmac_md5.c b/crypto/evp/e_rc4_hmac_md5.c
++index 5e92855..3293419 100644
++--- a/crypto/evp/e_rc4_hmac_md5.c
+++++ b/crypto/evp/e_rc4_hmac_md5.c
++@@ -269,6 +269,8 @@ static int rc4_hmac_md5_ctrl(EVP_CIPHER_CTX *ctx, int type, int arg,
++             len = p[arg - 2] << 8 | p[arg - 1];
++ 
++             if (!ctx->encrypt) {
+++		if (len < MD5_DIGEST_LENGTH)
+++                    return -1;
++                 len -= MD5_DIGEST_LENGTH;
++                 p[arg - 2] = len >> 8;
++                 p[arg - 1] = len;
++-- 
++2.10.2
++
+diff --git a/meta/recipes-connectivity/openssl/openssl/0002-CVE-2017-3731.patch b/meta/recipes-connectivity/openssl/openssl/0002-CVE-2017-3731.patch
+new file mode 100644
+index 0000000..990cbfd
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/0002-CVE-2017-3731.patch
+@@ -0,0 +1,53 @@
++From 6427f1accc54b515bb899370f1a662bfcb1caa52 Mon Sep 17 00:00:00 2001
++From: Alexandru Moise <alexandru.moise@windriver.com>
++Date: Tue, 7 Feb 2017 11:16:13 +0200
++Subject: [PATCH 2/2] crypto/evp: harden AEAD ciphers.
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Originally a crash in 32-bit build was reported CHACHA20-POLY1305
++cipher. The crash is triggered by truncated packet and is result
++of excessive hashing to the edge of accessible memory. Since hash
++operation is read-only it is not considered to be exploitable
++beyond a DoS condition. Other ciphers were hardened.
++
++Thanks to Robert Święcki for report.
++
++CVE-2017-3731
++
++Backported from upstream commit:
++2198b3a55de681e1f3c23edb0586afe13f438051
++
++Upstream status: Backport
++
++Reviewed-by: Rich Salz <rsalz@openssl.org>
++Signed-off-by: Alexandru Moise <alexandru.moise@windriver.com>
++---
++ crypto/evp/e_aes.c | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
++
++diff --git a/crypto/evp/e_aes.c b/crypto/evp/e_aes.c
++index 1734a82..16dcd10 100644
++--- a/crypto/evp/e_aes.c
+++++ b/crypto/evp/e_aes.c
++@@ -1235,10 +1235,15 @@ static int aes_gcm_ctrl(EVP_CIPHER_CTX *c, int type, int arg, void *ptr)
++         {
++             unsigned int len = c->buf[arg - 2] << 8 | c->buf[arg - 1];
++             /* Correct length for explicit IV */
+++	    if (len < EVP_GCM_TLS_EXPLICIT_IV_LEN)
+++	        return 0;
++             len -= EVP_GCM_TLS_EXPLICIT_IV_LEN;
++             /* If decrypting correct for tag too */
++-            if (!c->encrypt)
+++            if (!c->encrypt) {
+++		if (len < EVP_GCM_TLS_TAG_LEN)
+++		    return 0;
++                 len -= EVP_GCM_TLS_TAG_LEN;
+++	    }
++             c->buf[arg - 2] = len >> 8;
++             c->buf[arg - 1] = len & 0xff;
++         }
++-- 
++2.10.2
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb
+index f2aca36..9a7cded 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb
+@@ -41,6 +41,8 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
+             file://parallel.patch \
+             file://openssl-util-perlpath.pl-cwd.patch \
+             file://CVE-2016-7055.patch \
++            file://0001-CVE-2017-3731.patch \
++            file://0002-CVE-2017-3731.patch \
+            "
+ SRC_URI[md5sum] = "96322138f0b69e61b7212bc53d5e912b"
+ SRC_URI[sha256sum] = "e7aff292be21c259c6af26469c7a9b3ba26e9abaaffd325e3dccc9785256c431"
+-- 
+2.10.2
+
 
