@@ -1,46 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
-	[209.85.213.65])
-	by mail.openembedded.org (Postfix) with ESMTP id DA01E6FFD8
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 16AB471A3E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Feb 2017 17:45:16 +0000 (UTC)
-Received: by mail-vk0-f65.google.com with SMTP id n125so2869928vke.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Feb 2017 09:45:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=QsmgDYIkk+XqCelElKpL1gppe5nQ3mUN9SHO5e488hs=;
-	b=MKk9vis0HFSKzmMvykhSZDUeyXTGYzvPgDsre3tuEpOnlQ+oDh5q14wZkvogrORXqY
-	P+pZuAUvD2nhjIpKeZ44Rfjibzx4/mWI+Rnxg0c76qNNBhr2KreEaZWECL4NRhXqP0x9
-	suWLfl5OFIz6cik8tr9xxqnVCX+EmOfuTjbb2rBewOYImdK9GTiN5iorP+sITI+OzmPV
-	7u8HfpQgFerW1w3B/eoqEnwts1OLSAiNkNmbcQAremYWXKxVJLJLjEuPkIOVMzWk5slw
-	tKzXdNy7pvGQTQjCZjW24AYQ9Pv84sDFxmECUVt7+rqdDlpsFsgBMXVCL1YsXbW6Oxu8
-	GmHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=QsmgDYIkk+XqCelElKpL1gppe5nQ3mUN9SHO5e488hs=;
-	b=LuTCQlTZQap2XwwLWbKbWgk2lF3gDGtD485b1RQY0vRidxB5Y2Sb/zIr8IZiZIlovT
-	v6sO7MYusY+oT92+NAOxO5aCao4lCiS8WXsqHXca44pGDS1yyB958HzQVSmofLUtwuq4
-	fpvr4jqkFrCUy7bVLmQxj/ATe4yt00AzBtpoBvgRkPlJ9hwXnlLuwQ3ijSyqNrqNCsMh
-	kJelya1EiNB+l94XsCXWfv9oHPQS2kb5QZjsJ8WVYnVK/bXad+mMZn1CfpPW2V7IaT4i
-	xneBanMxeievxBi3tFkELJhIkKrh3zGOoeH+3zPYa6QfFMnIL5UoGeLgAUNIDv4rg2OJ
-	J+jw==
-X-Gm-Message-State: AMke39mH38AbjmFh25XQ4bwWpaXfQ2IwQcf5fMR1h/sLUQV/SnIzbT65BX11JBr4IQRBORuN5UKuV/zXOxrSIw==
-X-Received: by 10.31.108.149 with SMTP id j21mr6428648vki.93.1486489516912;
-	Tue, 07 Feb 2017 09:45:16 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.159.48.222 with HTTP; Tue, 7 Feb 2017 09:44:46 -0800 (PST)
-In-Reply-To: <CAJTo0LaapTyVGhiB9AfnWznNU1z8-dbJC=7+JOThYHb2HEM2=A@mail.gmail.com>
-References: <20170207042405.22707-1-raj.khem@gmail.com>
-	<CAJTo0LaapTyVGhiB9AfnWznNU1z8-dbJC=7+JOThYHb2HEM2=A@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 7 Feb 2017 09:44:46 -0800
-Message-ID: <CAMKF1sqJSgjLMOPo7pkpfNDUOWLu4R0F9BNzbPFzWYgha5gwHw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] go: Add recipes for golang compilers and tools
+	Tue,  7 Feb 2017 17:47:43 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 07 Feb 2017 09:47:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,346,1477983600"; d="scan'208";a="1123357124"
+Received: from swold-mobl2.amr.corp.intel.com ([10.254.85.39])
+	by fmsmga002.fm.intel.com with ESMTP; 07 Feb 2017 09:47:43 -0800
+Message-ID: <1486489663.26702.43.camel@linux.intel.com>
+From: Saul Wold <sgw@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 07 Feb 2017 09:47:43 -0800
+In-Reply-To: <CAMKF1sqhL0K+-Q53drSo1Mz=_Qs6GTX_QzVRh1jy11F7x3Vc3A@mail.gmail.com>
+References: <1486414751-24947-1-git-send-email-sgw@linux.intel.com>
+	<1486414751-24947-4-git-send-email-sgw@linux.intel.com>
+	<CAMKF1spjcD8X=oxK4HHeO05PxRsn_ieRoDhpA3QpNOxKLXCbtg@mail.gmail.com>
+	<1486478723.26702.27.camel@linux.intel.com>
+	<CAMKF1sqhL0K+-Q53drSo1Mz=_Qs6GTX_QzVRh1jy11F7x3Vc3A@mail.gmail.com>
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] meta-intel.inc: Enable linux-intel and 4.9 by default for meta-intel hardware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,32 +36,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2017 17:45:17 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 07 Feb 2017 17:47:44 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 7, 2017 at 9:35 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 7 February 2017 at 04:24, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> This is converging the recipes for go from
->> meta-virtualization and oe-meta-go
->
->
-> I'm still of the opinion that this should be in meta-go, not oe-core...
->
+On Tue, 2017-02-07 at 08:50 -0800, Khem Raj wrote:
+> On Tue, Feb 7, 2017 at 6:45 AM, Saul Wold <sgw@linux.intel.com>
+> wrote:
+> > 
+> > On Mon, 2017-02-06 at 13:02 -0800, Khem Raj wrote:
+> > > 
+> > > On Mon, Feb 6, 2017 at 12:59 PM, Saul Wold <sgw@linux.intel.com>
+> > > wrote:
+> > > > 
+> > > > 
+> > > > Enable the linux-intel production kernel for meta-intel by
+> > > > default
+> > > > for 4.9,
+> > > > this will enable using the Intel production kernel.
+> > > > 
+> > > > This is a well tested 4.9 tree that will start to include
+> > > > additional
+> > > > support for the Apollolake and Joule hardware.
+> > > > 
+> > > > Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> > > > ---
+> > > >  conf/machine/include/meta-intel.inc | 4 ++--
+> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > > 
+> > > > diff --git a/conf/machine/include/meta-intel.inc
+> > > > b/conf/machine/include/meta-intel.inc
+> > > > index 21587fb..eb759c4 100644
+> > > > --- a/conf/machine/include/meta-intel.inc
+> > > > +++ b/conf/machine/include/meta-intel.inc
+> > > > @@ -9,8 +9,8 @@
+> > > >  #
+> > > > 
+> > > >  # Soft set linux-yocto as preferred kernel like x86-base.inc
+> > > > -PREFERRED_PROVIDER_virtual/kernel ??= "linux-yocto"
+> > > > -PREFERRED_VERSION_linux-yocto ?= "4.8%"
+> > > > +PREFERRED_PROVIDER_virtual/kernel ?= "linux-intel"
+> > > 
+> > > whats the difference between linux-yocto and linux-intel ?
+> > > 
+> > Sorry for sending this to the wrong list.
+> > 
+> > This is a valid question, the difference will be faster integration
+> > and
+> > better testing /validation of upstream (or possibly pending
+> > upstream )
+> > patches for Intel Hardware.
+> > 
+> > Since the kernel will be coming from an Intel Source, it will be
+> > fully
+> > tested on more hardware that the current linux-yocto kernel gets
+> > tested
+> > against.
+> > 
+> > The update rate maybe about the same, with security updates as
+> > needed
+> > for more severe issues
+> > 
+> > As other vendors maintain kernels for their meta-vendor specific
+> > layer,
+> > Intel has chosen to maintain an Intel kernel based on the current
+> > LTS
+> > version (4.9) plus upstreamed patches. All content will be
+> > backports
+> > from internally maintained tracking trees being regularly updated.
+> > 
+> > meta-intel will likely continue to contain the linux-yocto-<latest> 
+> > for
+> > a non-LTS kernel.
+> > 
+> > Hope that clarifies this.
+> 
+> yes it does. So this is not a clone of linux-yocto but based directly
+> on linux-stable.
+> 
+Correct, this is based directly on linux-stable and will have patches
+that are backports from maintained tracking trees. As the new LTS is
+defined each year, linux-intel and meta-intel will update to that newer
+version. The older version will continue to be available and be updated
+with stable updates as they are available.
 
-I think we have to make multiple layers agree on using one layer
-I find atleast 3 which carry go recipes along with, if its in OE-Core
-either these layers become redundant or layers which are housing go
-recipes for
-different purpose like meta-virtualization can then drop the compiler recipes
-it will be easier from consolidation point of view.
+Sau!
 
-if we dont want to take it into OE-Core, we should create a new layer
-meta-golang on yp git and then help request community to converge to
-it, it still can be ignored by layers.
-
-> (but totally agree that converging is essential)
->
-> Ross
+> > 
+> > 
+> > Sau!
+> > 
+> > > 
+> > > > 
+> > > > 
+> > > > +PREFERRED_VERSION_linux-intel ?= "4.9%"
+> > > > 
+> > > >  # for Xserver older than 1.13.0
+> > > >  OLD_XSERVER_X86_EXT = "xserver-xorg-extension-dri \
+> > > > --
+> > > > 2.7.4
+> > > > 
+> > > > --
+> > > > _______________________________________________
+> > > > Openembedded-core mailing list
+> > > > Openembedded-core@lists.openembedded.org
+> > > > http://lists.openembedded.org/mailman/listinfo/openembedded-cor
+> > > > e
 
