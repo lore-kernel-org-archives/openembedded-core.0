@@ -1,49 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id E187365CB6
+Return-Path: <herve.jourdain@neuf.fr>
+X-Greylist: delayed 597 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 07 Feb 2017 01:45:49 UTC
+Received: from smtp26.services.sfr.fr (smtp26.services.sfr.fr [93.17.128.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 0BE1A6FEF5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Feb 2017 23:26:42 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id r141so133684869wmg.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Feb 2017 15:26:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=OIz4w47seufchHNJTg+mv+OvBiQOD4yBA0HeJiKTWAA=;
-	b=ykZq+isrMLxcZ4MuwaX88Ek8JXhMlnF+Wa5AYAmBwFR4SKs7QN2itncuOv3K8ztWnF
-	WUiMcB2mykXqLDOgkTzO+8EYHDp7Ya87n1yXNS6jq29yCaUWKRzr7OQbzbBESCFjua0F
-	xh0qFSPrf8s72rZhsUppjeeKihwMSI5jiOHdkliJvJ5i+1d0w5RJ3qZSSDiwTef/CE/X
-	v21naH7tKKTMJ1d2WRVoYHp3z0SJQKZLpZfFOgEq2ifjKcMoi1RdCJpaH0L78BD57u8m
-	oSr5l9bT578Ty7CxnePaNpGV1MUFA1u9Ax7DwfYigUv3FFIsRh+Y9522V0QPOCq0vXbS
-	RTMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=OIz4w47seufchHNJTg+mv+OvBiQOD4yBA0HeJiKTWAA=;
-	b=TD2y1IzhBPzjXSJre8XpZVTUI7VWh4MahvprtOVFdbNrR8f6KrPIGP8G+RHwes4Mld
-	bvBpdmRhAxqMBzi+003fPgYNUZl7jfO+gSf+Of4SIteSx0T5Z7RUDpWhRQ9WJYR0BlLY
-	bLV+MmsZWBby+Kg6fWydcomkLTjVwbFn03HGQ2wFMG95EofBYtB0XuxYFZxsjnl7KDi6
-	+jX2vpXSWJnKVPjKDzdF+YDNgHa3zoT3GehRVpiPPNBsH8ay+J93CWZC3Q862aW2BYlH
-	t0lrtEOMC7NYK9bdw7jRWFZcrR7icMi+pcdFZcX7bUzcjS69ULqN6uZFyT0u928BeUEK
-	YWpQ==
-X-Gm-Message-State: AMke39kOCngBMwBIONJOayagRy14+jIx0vh5+ATcPDzIcaP0ygBUtCbOBTlZ0JsBW/PR6qPz
-X-Received: by 10.28.71.133 with SMTP id m5mr9855858wmi.132.1486423602162;
-	Mon, 06 Feb 2017 15:26:42 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	g71sm15575371wmc.9.2017.02.06.15.26.41
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 06 Feb 2017 15:26:41 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Tue,  7 Feb 2017 01:45:49 +0000 (UTC)
+Received: from nbhjo (1-160-243-27.dynamic.hinet.net [1.160.243.27])
+	by msfrf2627.sfr.fr (SMTP Server) with ESMTP id D9BE71C001D11;
+	Tue,  7 Feb 2017 02:35:50 +0100 (CET)
+Received: from nbhjo (1-160-243-27.dynamic.hinet.net [1.160.243.27])	(using
+	TLSv1.2
+	with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))	(No client
+	certificate requested)	(Authenticated sender: herve.jourdain@neuf.fr)
+	by msfrf2627.sfr.fr (SMTP Server) with ESMTPSA;
+	Tue,  7 Feb 2017 02:35:48 +0100 (CET)
+Authentication-Results: sfr.fr; auth=pass (LOGIN)
+	smtp.auth=herve.jourdain@neuf.fr
+From: Herve Jourdain <herve.jourdain@neuf.fr>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Feb 2017 23:26:34 +0000
-Message-Id: <1486423594-13790-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
+References: <1465458091-94186-1-git-send-email-herve.jourdain@neuf.fr>
+	<1465458091-94186-2-git-send-email-herve.jourdain@neuf.fr>
+In-Reply-To: <1465458091-94186-2-git-send-email-herve.jourdain@neuf.fr>
+Date: Tue, 7 Feb 2017 02:35:43 +0100
+Message-ID: <005001d280e2$82d1fdd0$8875f970$@neuf.fr>
 MIME-Version: 1.0
-Subject: [PATCH] libepoxy: upgrade to 1.4.0
+X-Mailer: Microsoft Outlook 15.0
+Thread-Index: AQGXdt1oARUQIMlbbB1/UbhLbrKL3gExdsL4oclK7DA=
+X-sfr-mailing: LEGIT
+Cc: "'Klauer, Daniel'" <Daniel.Klauer@gin.de>
+Subject: Re: [smartpm][PATCH 1/1] smartpm: if RPM transaction fails with an empty list of problems in attempt mode, ignore it!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,268 +41,690 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2017 23:26:43 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 07 Feb 2017 01:45:51 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Content-Language: fr
 
-Drop the two patches that add the ability to disable GLX, this has been added
-upstream.
+Ping...
 
-Drop the Python3 patch as the code generator works with Py3 now.
+Without that patch, I get errors on some builds - but not all - like the
+following, and the patch fixes the problem.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+----------------------------------------------------------------------------
+-------------------------------------
+
+Loading cache...
+Updating cache...               ########################################
+[100%]
+
+Computing transaction...
+
+Installing packages (127):
+  acl-dbg                                libogg-dbg
+
+  alsa-lib-dbg                           libomxil-dbg
+
+  attr-dbg                               libossp-uuid-dbg
+
+  base-files-dbg                         libpcre-dbg
+
+  base-passwd-dbg                        libpixman-1-dbg
+
+  bash-dbg                               libpng16-dbg
+
+  bluez5-dbg                             libpopt-dbg
+
+  busybox-dbg                            libproxy-dbg
+
+  bzip2-dbg                              libreadline-dbg
+
+  ca-certificates-dbg                    librsvg-2-dbg
+
+  chromium-wayland-dbg                   libsndfile-dbg
+
+  connman-dbg                            libsoup-2.4-dbg
+
+  crda-dbg                               libspeex-dbg
+
+  curl-dbg                               libspeexdsp-dbg
+
+  db-dbg                                 libtag-dbg
+
+  dbus-dbg                               libtheora-dbg
+
+  dropbear-dbg                           libunistring-dbg
+
+  e2fsprogs-dbg                          libusb-1.0-dbg
+
+  elfutils-dbg                           libvorbis-dbg
+
+  faad2-dbg                              libvorbisidec-dbg
+
+  file-dbg                               libwebp-dbg
+
+  flac-dbg                               libxkbcommon-dbg
+
+  gcc-runtime-dbg                        libxml2-dbg
+
+  gconf-dbg                              libz-dbg
+
+  gdb-dbg                                mesa-dbg
+
+  glib-networking-dbg                    mobile-broadband-provider-info-dbg
+
+  gstreamer1.0-dbg                       ncurses-dbg
+
+  gstreamer1.0-libav-dbg                 netbase-dbg
+
+  gstreamer1.0-omx-dbg                   nettle-dbg
+
+  gstreamer1.0-plugins-bad-dbg           nspr-dbg
+
+  gstreamer1.0-plugins-base-dbg          nss-dbg
+
+  gstreamer1.0-plugins-good-dbg          ofono-dbg
+
+  iptables-dbg                           openssh-dbg
+
+  kbd-dbg                                openssl-dbg
+
+  keymaps-dbg                            opkg-utils-dbg
+
+  kmod-dbg                               orc-dbg
+
+  libc6-dbg                              os-release-dbg
+
+  libcairo-dbg                           packagegroup-core-boot-dbg
+
+  libcap-dbg                             packagegroup-core-eclipse-debug-dbg
+
+  libcheck-dbg                           packagegroup-core-ssh-dropbear-dbg
+
+  libcroco-dbg                           packagegroup-e2fs-dbg
+
+  libdbus-glib-1-dbg                     pango-dbg
+
+  libdrm-dbg                             psplash-dbg
+
+  libexpat-dbg                           pulseaudio-dbg
+
+  libffi-dbg                             python-dbg
+
+  libfontconfig-dbg                      python-smartpm-dbg
+
+  libfreetype-dbg                        rpm-dbg
+
+  libgcc-s-dbg                           run-postinsts-dbg
+
+  libgcrypt-dbg                          sbc-dbg
+
+  libgdbm-dbg                            shadow-dbg
+
+Committing transaction...
+
+Preparing...                    ######################################## [
+0%]
+   1:Installing xz-dbg          ######################################## [
+0%]
+   2:Installing libgpg-error-.. ######################################## [
+1%]
+   3:Installing update-rc.d-dbg ######################################## [
+2%]
+   4:Installing pulseaudio-dbg  ######################################## [
+3%]
+   5:Installing attr-dbg        ######################################## [
+3%]
+   6:Installing packagegroup-.. ######################################## [
+4%]
+   7:Installing db-dbg          ######################################## [
+5%]
+   8:Installing wpa-supplican.. ######################################## [
+6%]
+   9:Installing libfontconfig.. ######################################## [
+7%]
+  10:Installing libgdk-pixbuf.. ######################################## [
+7%]
+  11:Installing libharfbuzz-dbg ######################################## [
+8%]
+  12:Installing gstreamer1.0-.. ######################################## [
+9%]
+  13:Installing keymaps-dbg     ######################################## [
+10%]
+  14:Installing libproxy-dbg    ######################################## [
+11%]
+  15:Installing libcap-dbg      ######################################## [
+11%]
+  16:Installing gstreamer1.0-.. ######################################## [
+12%]
+  17:Installing curl-dbg        ######################################## [
+13%]
+  18:Installing gdb-dbg         ######################################## [
+14%]
+  19:Installing alsa-lib-dbg    ######################################## [
+14%]
+  20:Installing shadow-secure.. ######################################## [
+15%]
+  21:Installing libgdbm-dbg     ######################################## [
+16%]
+  22:Installing packagegroup-.. ######################################## [
+17%]
+  23:Installing libcheck-dbg    ######################################## [
+18%]
+  24:Installing kbd-dbg         ######################################## [
+18%]
+  25:Installing connman-dbg     ######################################## [
+19%]
+  26:Installing libpixman-1-dbg ######################################## [
+20%]
+  27:Installing psplash-dbg     ######################################## [
+21%]
+  28:Installing pango-dbg       ######################################## [
+22%]
+  29:Installing libtheora-dbg   ######################################## [
+22%]
+  30:Installing base-passwd-dbg ######################################## [
+23%]
+  31:Installing gstreamer1.0-.. ######################################## [
+24%]
+  32:Installing volatile-bind.. ######################################## [
+25%]
+  33:Installing netbase-dbg     ######################################## [
+25%]
+  34:Installing wireless-regd.. ######################################## [
+26%]
+  35:Installing libspeex-dbg    ######################################## [
+27%]
+  36:Installing ncurses-dbg     ######################################## [
+28%]
+  37:Installing chromium-wayl.. ######################################## [
+29%]
+  38:Installing libglib-2.0-dbg ######################################## [
+29%]
+  39:Installing libc6-dbg       ######################################## [
+30%]
+  40:Installing opkg-utils-dbg  ######################################## [
+31%]
+  41:Installing e2fsprogs-dbg   ######################################## [
+32%]
+  42:Installing python-smartp.. ######################################## [
+33%]
+  43:Installing libnl-3-dbg     ######################################## [
+33%]
+  44:Installing acl-dbg         ######################################## [
+34%]
+  45:Installing openssl-dbg     ######################################## [
+35%]
+  46:Installing mobile-broadb.. ######################################## [
+36%]
+  47:Installing dropbear-dbg    ######################################## [
+37%]
+  48:Installing gcc-runtime-dbg ######################################## [
+37%]
+  49:Installing gstreamer1.0-.. ######################################## [
+38%]
+  50:Installing libidn-dbg      ######################################## [
+39%]
+  51:Installing systemd-seria.. ######################################## [
+40%]
+  52:Installing mesa-dbg        ######################################## [
+40%]
+  53:Installing crda-dbg        ######################################## [
+41%]
+  54:Installing libvorbisidec.. ######################################## [
+42%]
+  55:Installing os-release-dbg  ######################################## [
+43%]
+  56:Installing libusb-1.0-dbg  ######################################## [
+44%]
+  57:Installing libgnutls-dbg   ######################################## [
+44%]
+  58:Installing libxkbcommon-.. ######################################## [
+45%]
+  59:Installing bash-dbg        ######################################## [
+46%]
+  60:Installing bluez5-dbg      ######################################## [
+47%]
+  61:Installing nettle-dbg      ######################################## [
+48%]
+  62:Installing libspeexdsp-dbg ######################################## [
+48%]
+  63:Installing gconf-dbg       ######################################## [
+49%]
+  64:Installing nspr-dbg        ######################################## [
+50%]
+  65:Installing gstreamer1.0-.. ######################################## [
+51%]
+  66:Installing rpm-dbg         ######################################## [
+51%]
+  67:Installing busybox-dbg     ######################################## [
+52%]
+  68:Installing libxml2-dbg     ######################################## [
+53%]
+  69:Installing openssh-dbg     ######################################## [
+54%]
+  70:Installing sbc-dbg         ######################################## [
+55%]
+  71:Installing libz-dbg        ######################################## [
+55%]
+  72:Installing libpopt-dbg     ######################################## [
+56%]
+  73:Installing libpcre-dbg     ######################################## [
+57%]
+  74:Installing elfutils-dbg    ######################################## [
+58%]
+  75:Installing shadow-dbg      ######################################## [
+59%]
+  76:Installing libvorbis-dbg   ######################################## [
+59%]
+  77:Installing libogg-dbg      ######################################## [
+60%]
+  78:Installing librsvg-2-dbg   ######################################## [
+61%]
+  79:Installing ca-certificat.. ######################################## [
+62%]
+  80:Installing libdbus-glib-.. ######################################## [
+62%]
+  81:Installing packagegroup-.. ######################################## [
+63%]
+  82:Installing gstreamer1.0-.. ######################################## [
+64%]
+  83:Installing libgmp-dbg      ######################################## [
+65%]
+  84:Installing libossp-uuid-.. ######################################## [
+66%]
+  85:Installing wayland-dbg     ######################################## [
+66%]
+  86:Installing libtag-dbg      ######################################## [
+67%]
+  87:Installing libomxil-dbg    ######################################## [
+68%]
+  88:Installing systemd-compa.. ######################################## [
+69%]
+  89:Installing util-linux-dbg  ######################################## [
+70%]
+  90:Installing libfreetype-dbg ######################################## [
+70%]
+  91:Installing libsoup-2.4-dbg ######################################## [
+71%]
+  92:Installing libexpat-dbg    ######################################## [
+72%]
+  93:Installing libgcrypt-dbg   ######################################## [
+73%]
+  94:Installing libmms-dbg      ######################################## [
+74%]
+  95:Installing libdrm-dbg      ######################################## [
+74%]
+  96:Installing base-files-dbg  ######################################## [
+75%]
+  97:Installing libffi-dbg      ######################################## [
+76%]
+  98:Installing libpng16-dbg    ######################################## [
+77%]
+  99:Installing libreadline-dbg ######################################## [
+77%]
+ 100:Installing libneon-dbg     ######################################## [
+78%]
+ 101:Installing tcf-agent-dbg   ######################################## [
+79%]
+ 102:Installing libwebp-dbg     ######################################## [
+80%]
+ 103:Installing packagegroup-.. ######################################## [
+81%]
+ 104:Installing sqlite3-dbg     ######################################## [
+81%]
+ 105:Installing libsndfile-dbg  ######################################## [
+82%]
+ 106:Installing glib-networki.. ######################################## [
+83%]
+ 107:Installing iptables-dbg    ######################################## [
+84%]
+ 108:Installing file-dbg        ######################################## [
+85%]
+ 109:Installing orc-dbg         ######################################## [
+85%]
+ 110:Installing flac-dbg        ######################################## [
+86%]
+ 111:Installing ofono-dbg       ######################################## [
+87%]
+ 112:Installing bzip2-dbg       ######################################## [
+88%]
+ 113:Installing dbus-dbg        ######################################## [
+88%]
+ 114:Installing python-dbg      ######################################## [
+89%]
+ 115:Installing libcroco-dbg    ######################################## [
+90%]
+ 116:Installing systemd-dbg     ######################################## [
+91%]
+ 117:Installing libcairo-dbg    ######################################## [
+92%]
+ 118:Installing kmod-dbg        ######################################## [
+92%]
+ 119:Installing libjpeg-dbg     ######################################## [
+93%]
+ 120:Installing libgudev-1.0-.. ######################################## [
+94%]
+ 121:Installing libical-dbg     ######################################## [
+95%]
+ 122:Installing nss-dbg         ######################################## [
+96%]
+ 123:Installing libunistring-.. ######################################## [
+96%]
+ 124:Installing faad2-dbg       ######################################## [
+97%]
+ 125:Installing libjson-c-dbg   ######################################## [
+98%]
+ 126:Installing run-postinsts.. ######################################## [
+99%]
+ 127:Installing libgcc-s-dbg    ########################################
+[100%]
+Preparing...                    ######################################## [
+0%]
+error: package xz-dbg-5.2.2-r0.cortexa7hf_neon_vfpv4 is already installed
+error: package libgpg-error-dbg-1.25-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package update-rc.d-dbg-0.7-r5.all is already installed
+error: package pulseaudio-dbg-9.0-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package attr-dbg-2.4.47-r0.cortexa7hf_neon_vfpv4 is already installed
+error: package packagegroup-e2fs-dbg-1.0-r0.all is already installed
+error: package db-dbg-6.0.35-r1.cortexa7hf_neon_vfpv4 is already installed
+error: package wpa-supplicant-dbg-2.6-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libfontconfig-dbg-2.12.1-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libgdk-pixbuf-2.0-dbg-2.36.1-r0.cortexa7hf_neon_vfpv4 is
+already installed
+error: package libharfbuzz-dbg-1.3.4-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package gstreamer1.0-plugins-base-dbg-1.10.2-r0.cortexa7hf_neon_vfpv4
+is already installed
+error: package keymaps-dbg-1.0-r31.raspberrypi2 is already installed
+error: package libproxy-dbg-0.4.13-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libcap-dbg-2.25-r0.cortexa7hf_neon_vfpv4 is already installed
+error: package gstreamer1.0-plugins-good-dbg-1.10.2-r0.cortexa7hf_neon_vfpv4
+is already installed
+error: package curl-dbg-7.52.1-r0.cortexa7hf_neon_vfpv4 is already installed
+error: package gdb-dbg-7.12-r0.cortexa7hf_neon_vfpv4 is already installed
+error: package alsa-lib-dbg-1.1.2-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package shadow-securetty-dbg-4.2.1-r3.raspberrypi2 is already
+installed
+error: package libgdbm-dbg-1.12-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package packagegroup-core-boot-dbg-1.0-r17.raspberrypi2 is already
+installed
+error: package libcheck-dbg-0.10.0-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package kbd-dbg-2.0.3-r0.cortexa7hf_neon_vfpv4 is already installed
+error: package connman-dbg-1.33-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package psplash-dbg-0.1+git0+88343ad23c-r15.cortexa7hf_neon_vfpv4 is
+already installed
+error: package pango-dbg-1.40.3-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libtheora-dbg-1.1.1-r1.cortexa7hf_neon_vfpv4 is already
+installed
+error: package base-passwd-dbg-3.5.29-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package gstreamer1.0-dbg-1.10.2-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package volatile-binds-dbg-1.0-r0.all is already installed
+error: package wireless-regdb-dbg-2016.06.10-r0.cortexa7hf_neon_vfpv4 is
+already installed
+error: package libspeex-dbg-1.2rc2-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package ncurses-dbg-6.0+20160625-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libc6-dbg-2.24-r0.cortexa7hf_neon_vfpv4 is already installed
+error: package opkg-utils-dbg-0.3.2+git0+3ffece9bf1-r0.cortexa7hf_neon_vfpv4
+is already installed
+error: package e2fsprogs-dbg-1.43.3-r1.cortexa7hf_neon_vfpv4 is already
+installed
+error: package
+python-smartpm-dbg-1.5+git0+407a7eca76-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package acl-dbg-2.2.52-r0.cortexa7hf_neon_vfpv4 is already installed
+error: package openssl-dbg-1.0.2j-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package dropbear-dbg-2016.74-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package gcc-runtime-dbg-5.4.0-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package gstreamer1.0-libav-dbg-1.10.2-r0.cortexa7hf_neon_vfpv4 is
+already installed
+error: package libidn-dbg-1.33-r0.cortexa7hf_neon_vfpv4 is already installed
+error: package systemd-serialgetty-dbg-1.0-r5.raspberrypi2 is already
+installed
+error: package crda-dbg-3.18-r0.cortexa7hf_neon_vfpv4 is already installed
+error: package libvorbisidec-dbg-20150107-r1.cortexa7hf_neon_vfpv4 is
+already installed
+error: package os-release-dbg-1.0-r0.all is already installed
+error: package libusb-1.0-dbg-1.0.20-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libgnutls-dbg-3.5.7-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libxkbcommon-dbg-0.7.0-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package bash-dbg-4.3.30-r0.cortexa7hf_neon_vfpv4 is already installed
+error: package bluez5-dbg-5.43-r0.cortexa7hf_neon_vfpv4 is already installed
+error: package nettle-dbg-3.3-r0.cortexa7hf_neon_vfpv4 is already installed
+error: package libspeexdsp-dbg-1.2rc3-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package gconf-dbg-3.2.6-r0.cortexa7hf_neon_vfpv4 is already installed
+error: package nspr-dbg-4.13.1-r0.cortexa7hf_neon_vfpv4 is already installed
+error: package gstreamer1.0-omx-dbg-1.10.2-r0.cortexa7hf_neon_vfpv4 is
+already installed
+error: package rpm-dbg-5.4.16-r0.cortexa7hf_neon_vfpv4 is already installed
+error: package busybox-dbg-1.24.1-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libxml2-dbg-2.9.4-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package openssh-dbg-7.3p1-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package sbc-dbg-1.3-r0.cortexa7hf_neon_vfpv4 is already installed
+error: package libz-dbg-1.2.8-r0.cortexa7hf_neon_vfpv4 is already installed
+error: package libpopt-dbg-1.16-r3.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libpcre-dbg-8.39-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package elfutils-dbg-0.166-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package shadow-dbg-4.2.1-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libvorbis-dbg-1.3.5-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libogg-dbg-1.3.2-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package librsvg-2-dbg-2.40.16-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package ca-certificates-dbg-20161130-r0.all is already installed
+error: package libdbus-glib-1-dbg-0.108-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package packagegroup-core-ssh-dropbear-dbg-1.0-r1.all is already
+installed
+error: package gstreamer1.0-plugins-bad-dbg-1.10.2-r0.cortexa7hf_neon_vfpv4
+is already installed
+error: package libgmp-dbg-6.1.1-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libossp-uuid-dbg-1.6.2-r2.cortexa7hf_neon_vfpv4 is already
+installed
+error: package wayland-dbg-1.12.0-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libtag-dbg-1.11.1-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libomxil-dbg-0.9.3-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package systemd-compat-units-dbg-1.0-r29.cortexa7hf_neon_vfpv4 is
+already installed
+error: package util-linux-dbg-2.29-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libfreetype-dbg-2.7-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libsoup-2.4-dbg-2.56.0-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libexpat-dbg-2.2.0-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libgcrypt-dbg-1.7.3-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libmms-dbg-0.6.4-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libdrm-dbg-2.4.74-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package base-files-dbg-3.0.14-r89.raspberrypi2 is already installed
+error: package libffi-dbg-3.2.1-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libpng16-dbg-1.6.26-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libreadline-dbg-7.0-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libneon-dbg-0.30.2-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package tcf-agent-dbg-1.4.0+git0+2dddd5f440-r0.cortexa7hf_neon_vfpv4
+is already installed
+error: package libwebp-dbg-0.5.1-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package packagegroup-core-eclipse-debug-dbg-1.0-r0.all is already
+installed
+error: package libsndfile-dbg-1.0.27-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package glib-networking-dbg-2.50.0-r0.cortexa7hf_neon_vfpv4 is
+already installed
+error: package iptables-dbg-1.6.0-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package file-dbg-5.29-r0.cortexa7hf_neon_vfpv4 is already installed
+error: package orc-dbg-0.4.26-r0.cortexa7hf_neon_vfpv4 is already installed
+error: package flac-dbg-1.3.1-r0.cortexa7hf_neon_vfpv4 is already installed
+error: package ofono-dbg-1.19-r0.cortexa7hf_neon_vfpv4 is already installed
+error: package bzip2-dbg-1.0.6-r5.cortexa7hf_neon_vfpv4 is already installed
+error: package dbus-dbg-1.10.10-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package python-dbg-2.7.12-r1.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libcroco-dbg-0.6.11-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libcairo-dbg-1.14.8-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package kmod-dbg-23+git0+65a885df5f-r0.cortexa7hf_neon_vfpv4 is
+already installed
+error: package libgudev-1.0-dbg-230-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package libical-dbg-2.0.0-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package nss-dbg-3.27.1-r0.cortexa7hf_neon_vfpv4 is already installed
+error: package libunistring-dbg-0.9.7-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package faad2-dbg-2.7-r1.cortexa7hf_neon_vfpv4 is already installed
+error: package libjson-c-dbg-0.12-r0.cortexa7hf_neon_vfpv4 is already
+installed
+error: package run-postinsts-dbg-1.0-r9.all is already installed
+error: package libgcc-s-dbg-5.4.0-r0.cortexa7hf_neon_vfpv4 is already
+installed
+.0-dbg                  shadow-securetty-dbg                   
+  libglib-2.0-dbg                        sqlite3-dbg
+
+  libgmp-dbg                             systemd-compat-units-dbg
+
+  libgnutls-dbg                          systemd-dbg
+
+  libgpg-error-dbg                       systemd-serialgetty-dbg
+
+  libgudev-1.0-dbg                       tcf-agent-dbg
+
+  libharfbuzz-dbg                        update-rc.d-dbg
+
+  libical-dbg                            util-linux-dbg
+
+  libidn-dbg                             volatile-binds-dbg
+
+  libjpeg-dbg                            wayland-dbg
+
+  libjson-c-dbg                          wireless-regdb-dbg
+
+  libmms-dbg                             wpa-supplicant-dbg
+
+  libneon-dbg                            xz-dbg
+
+  libnl-3-dbg                            
+
+1874.2MB of package files are needed. 4819.5MB will be used.
+
+
+Saving cache...
+
+-----Original Message-----
+From: Herve Jourdain [mailto:herve.jourdain@neuf.fr] 
+Sent: jeudi 9 juin 2016 09:42
+To: openembedded-core@lists.openembedded.org
+Cc: Herve Jourdain <herve.jourdain@neuf.fr>
+Subject: [OE-core][smartpm][PATCH 1/1] smartpm: if RPM transaction fails
+with an empty list of problems in attempt mode, ignore it!
+
+Since commit be0cabf816a84c59e0e951b92a570121ed843822 on 2016/05/17, smartpm
+will retry the transaction if ts.run() returns with an empty list of
+problems, and we're in attempt mode.
+But then, since all the packages are already installed, the transaction will
+fail with "package already installed" error.
+
+In attempt mode, it's fine to not retry nor generate an error when the
+transaction fails for no reason linked to files/packages conflicts, so this
+patch fixes this behaviour.
+
+Signed-off-by: Herve Jourdain <herve.jourdain@neuf.fr>
 ---
- ...-platforms-based-on-configuration-results.patch | 128 ---------------------
- ...0002-add-an-option-to-disable-glx-support.patch |  42 -------
- .../libepoxy/libepoxy/no-need-for-python3.patch    |  20 ----
- .../{libepoxy_git.bb => libepoxy_1.4.0.bb}         |  16 +--
- 4 files changed, 4 insertions(+), 202 deletions(-)
- delete mode 100644 meta/recipes-graphics/libepoxy/libepoxy/0001-select-platforms-based-on-configuration-results.patch
- delete mode 100644 meta/recipes-graphics/libepoxy/libepoxy/0002-add-an-option-to-disable-glx-support.patch
- delete mode 100644 meta/recipes-graphics/libepoxy/libepoxy/no-need-for-python3.patch
- rename meta/recipes-graphics/libepoxy/{libepoxy_git.bb => libepoxy_1.4.0.bb} (58%)
+ .../python/python-smartpm/smart-attempt.patch              | 14
++++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/libepoxy/libepoxy/0001-select-platforms-based-on-configuration-results.patch b/meta/recipes-graphics/libepoxy/libepoxy/0001-select-platforms-based-on-configuration-results.patch
-deleted file mode 100644
-index 674c8e8..0000000
---- a/meta/recipes-graphics/libepoxy/libepoxy/0001-select-platforms-based-on-configuration-results.patch
-+++ /dev/null
-@@ -1,128 +0,0 @@
--From 3a93150bc0aec86afdb7d053247dc2448925e09a Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
--Date: Wed, 6 May 2015 10:45:22 +0200
--Subject: [PATCH 1/2] select platforms based on configuration results
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--Upstream-Status: Submitted [1]
--
--[1] https://github.com/anholt/libepoxy/pull/52
--
--Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
-----
-- configure.ac          | 13 +++++--------
-- src/dispatch_common.c |  9 ++++++---
-- src/dispatch_common.h |  9 +++++----
-- 3 files changed, 16 insertions(+), 15 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index a52fc58..bdd70da 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -58,6 +58,10 @@ AC_CHECK_HEADER([KHR/khrplatform.h],
-- # uintptr_t to a void *") by default.  Kill that.
-- XORG_TESTSET_CFLAG(CWARNFLAGS, [-Wno-int-conversion])
-- 
--+PKG_CHECK_MODULES(X11, [x11], [x11=yes], [x11=no])
--+
--+AM_CONDITIONAL(HAVE_X11, test x$x11 = xyes)
--+
-- has_znow=yes
-- 
-- case $host_os in
--@@ -86,7 +90,7 @@ case $host_os in
--         ;;
--     *)
--         build_egl=yes
---        build_glx=yes
--+        build_glx=$x11
--         build_wgl=no
--         # On platforms with dlopen, we load everything dynamically and
--         # don't link against a specific window system or GL implementation.
--@@ -144,13 +148,6 @@ esac
-- 
-- AC_SUBST([VISIBILITY_CFLAGS])
-- 
---PKG_CHECK_MODULES(X11, [x11], [x11=yes], [x11=no])
---if test x$x11 = xno -a x$build_glx = xyes; then
---    AC_MSG_ERROR([libX11 headers (libx11-dev) required to build with GLX support])
---fi
+diff --git a/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch
+b/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch
+index 5aedc88..e118204 100644
+--- a/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch
++++ b/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch
+@@ -26,7 +26,7 @@ diff --git a/smart/backends/rpm/pm.py
+b/smart/backends/rpm/pm.py  index 9bbd952..ba6405a 100644
+ --- a/smart/backends/rpm/pm.py
+ +++ b/smart/backends/rpm/pm.py
+-@@ -241,15 +241,48 @@ class RPMPackageManager(PackageManager):
++@@ -241,15 +241,56 @@ class RPMPackageManager(PackageManager):
+          cb = RPMCallback(prog, upgradednames)
+          cb.grabOutput(True)
+          probs = None
+@@ -36,7 +36,12 @@ index 9bbd952..ba6405a 100644
+          finally:
+              del getTS.ts
+              cb.grabOutput(False)
+-+            if (probs is not None) and sysconf.has("attempt-install",
+soft=True):
+++            # If there are file conflicts, and we're attempting
+installation,
+++            # remove conflicting packages from the transaction and retry
+++            # If there are other problems returned by ts.run(), that are
+not
+++            # linked with packages/files conflicts (the returned list is
+empty),
+++            # then don't retry
+++            if (probs is not None) and (len(probs) != 0) and
+sysconf.has("attempt-install", soft=True):
+ +                def remove_conflict(pkgNEVR):
+ +                    for key in changeset.keys():
+ +                        if pkgNEVR == str(key):
+@@ -68,7 +73,10 @@ index 9bbd952..ba6405a 100644  +
+              prog.setDone()
+ -            if probs is not None:
+-+            if (probs is not None) and (not retry):
+++            # If there are other problems than packages/files conflicts
+++            # returned by ts.run(), the returned list is empty, and if
+++            # we're only attempting installation, then don't raise any
+error
+++            if (probs is not None) and ((len(probs) != 0) or not
+sysconf.has("attempt-install", soft=True)) and (not retry):
+                  raise Error, "\n".join([x[0] for x in probs])
+              prog.stop()
+ +            if retry and len(changeset):
 --
---AM_CONDITIONAL(HAVE_X11, test x$x11 = xyes)
---
-- PKG_CHECK_MODULES(GL, [gl], [gl=yes], [gl=no])
-- 
-- AC_CONFIG_FILES([
--diff --git a/src/dispatch_common.c b/src/dispatch_common.c
--index 4e34d6e..2ab84ed 100644
----- a/src/dispatch_common.c
--+++ b/src/dispatch_common.c
--@@ -615,10 +615,13 @@ epoxy_get_proc_address(const char *name)
-- #elif defined(__APPLE__)
--     return epoxy_gl_dlsym(name);
-- #else
--+#if PLATFORM_HAS_GLX
--     if (epoxy_current_context_is_glx()) {
--         return glXGetProcAddressARB((const GLubyte *)name);
---    } else {
--+    } else
--+#endif /* PLATFORM_HAS_GLX */
-- #if PLATFORM_HAS_EGL
--+    {
--         GLenum egl_api = epoxy_egl_get_current_gl_context_api();
-- 
--         switch (egl_api) {
--@@ -628,10 +631,10 @@ epoxy_get_proc_address(const char *name)
--         case EGL_NONE:
--             break;
--         }
---#endif
--     }
--+#endif /* PLATFORM_HAS_EGL */
--     errx(1, "Couldn't find current GLX or EGL context.\n");
---#endif
--+#endif /* _WIN32 | __APPLE__*/
-- }
-- 
-- void
--diff --git a/src/dispatch_common.h b/src/dispatch_common.h
--index 6b8503a..82681e4 100644
----- a/src/dispatch_common.h
--+++ b/src/dispatch_common.h
--@@ -21,12 +21,13 @@
--  * IN THE SOFTWARE.
--  */
-- 
--+#include <config.h>
-- #include <stdbool.h>
-- 
-- #ifdef _WIN32
-- #define PLATFORM_HAS_EGL 0
-- #define PLATFORM_HAS_GLX 0
---#define PLATFORM_HAS_WGL 1
--+#define PLATFORM_HAS_WGL BUILD_WGL
-- #define EPOXY_IMPORTEXPORT __declspec(dllexport)
-- #elif defined(__APPLE__)
-- #define PLATFORM_HAS_EGL 0
--@@ -34,13 +35,13 @@
-- #define PLATFORM_HAS_WGL 0
-- #define EPOXY_IMPORTEXPORT
-- #elif defined(ANDROID)
---#define PLATFORM_HAS_EGL 1
--+#define PLATFORM_HAS_EGL BUILD_EGL
-- #define PLATFORM_HAS_GLX 0
-- #define PLATFORM_HAS_WGL 0
-- #define EPOXY_IMPORTEXPORT
-- #else
---#define PLATFORM_HAS_EGL 1
---#define PLATFORM_HAS_GLX 1
--+#define PLATFORM_HAS_EGL BUILD_EGL
--+#define PLATFORM_HAS_GLX BUILD_GLX
-- #define PLATFORM_HAS_WGL 0
-- #define EPOXY_IMPORTEXPORT
-- #endif
---- 
--1.9.3
--
-diff --git a/meta/recipes-graphics/libepoxy/libepoxy/0002-add-an-option-to-disable-glx-support.patch b/meta/recipes-graphics/libepoxy/libepoxy/0002-add-an-option-to-disable-glx-support.patch
-deleted file mode 100644
-index 262d684..0000000
---- a/meta/recipes-graphics/libepoxy/libepoxy/0002-add-an-option-to-disable-glx-support.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--From 24868cbfb9dda5f6929dd277c47d35df016e8754 Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
--Date: Wed, 6 May 2015 11:05:48 +0200
--Subject: [PATCH 2/2] add an option to disable glx support
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--this option would help us in yocto to get deterministic build results
--
--Upstream-Status: Submitted [1]
--
--[1] https://github.com/anholt/libepoxy/pull/52
--
--Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
-----
-- configure.ac | 9 ++++++++-
-- 1 file changed, 8 insertions(+), 1 deletion(-)
--
--diff --git a/configure.ac b/configure.ac
--index bdd70da..6c7153d 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -58,7 +58,14 @@ AC_CHECK_HEADER([KHR/khrplatform.h],
-- # uintptr_t to a void *") by default.  Kill that.
-- XORG_TESTSET_CFLAG(CWARNFLAGS, [-Wno-int-conversion])
-- 
---PKG_CHECK_MODULES(X11, [x11], [x11=yes], [x11=no])
--+AC_ARG_ENABLE([glx],
--+                [AS_HELP_STRING([--disable-glx],
--+				[disable if you don't want x11/glx support])],
--+                [],
--+                [enable_glx=yes]
--+             )
--+
--+PKG_CHECK_MODULES(X11, [x11], [x11=$enable_glx], [x11=no])
-- 
-- AM_CONDITIONAL(HAVE_X11, test x$x11 = xyes)
-- 
---- 
--1.9.3
--
-diff --git a/meta/recipes-graphics/libepoxy/libepoxy/no-need-for-python3.patch b/meta/recipes-graphics/libepoxy/libepoxy/no-need-for-python3.patch
-deleted file mode 100644
-index 4b8fea5..0000000
---- a/meta/recipes-graphics/libepoxy/libepoxy/no-need-for-python3.patch
-+++ /dev/null
-@@ -1,20 +0,0 @@
--There is no need to use python3 by this package (the python scripts
--that are using during configuration only need python2.7+)
--
--Upstream-Status: Inappropriate [configuration]
--
--Signed-off-by: Gary Thomas <gary@mlbassoc.com>
----
--Index: git/configure.ac
--===================================================================
----- git.orig/configure.ac
--+++ git/configure.ac
--@@ -40,7 +40,7 @@ m4_ifndef([XORG_MACROS_VERSION],
-- XORG_MACROS_VERSION(1.8)
-- XORG_DEFAULT_OPTIONS
-- 
---AC_CHECK_PROGS([PYTHON], [python3 python2 python])
--+AC_CHECK_PROGS([PYTHON], [python2 python])
-- 
-- # Initialize libtool
-- AC_DISABLE_STATIC
-diff --git a/meta/recipes-graphics/libepoxy/libepoxy_git.bb b/meta/recipes-graphics/libepoxy/libepoxy_1.4.0.bb
-similarity index 58%
-rename from meta/recipes-graphics/libepoxy/libepoxy_git.bb
-rename to meta/recipes-graphics/libepoxy/libepoxy_1.4.0.bb
-index 6c247cc..4d52f12 100644
---- a/meta/recipes-graphics/libepoxy/libepoxy_git.bb
-+++ b/meta/recipes-graphics/libepoxy/libepoxy_1.4.0.bb
-@@ -5,20 +5,12 @@ SECTION = "libs"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=58ef4c80d401e07bd9ee8b6b58cf464b"
- 
--
--SRC_URI = " \
--    git://github.com/anholt/libepoxy.git \
--    file://0001-select-platforms-based-on-configuration-results.patch \
--    file://0002-add-an-option-to-disable-glx-support.patch \
--    file://no-need-for-python3.patch \
--"
--SRCREV="e2c33af5bfcfc9d168f9e776156dd47c33f428b3"
--PV = "1.3.1"
--
--S = "${WORKDIR}/git"
-+SRC_URI = "https://github.com/anholt/${BPN}/releases/download/v1.4/${BP}.tar.xz"
-+SRC_URI[md5sum] = "d8d8cbf2beb64975d424fcc5167a2a38"
-+SRC_URI[sha256sum] = "25a906b14a921bc2b488cfeaa21a00486fe92630e4a9dd346e4ecabeae52ab41"
- 
- inherit autotools pkgconfig distro_features_check
--# depends on virtual/egl
-+
- REQUIRED_DISTRO_FEATURES = "opengl"
- 
- DEPENDS = "util-macros virtual/egl"
--- 
-2.8.1
+2.7.4
 
 
