@@ -1,50 +1,27 @@
-Return-Path: <prvs=0211829d61=mike.looijmans@topicproducts.com>
-Received: from mx6-09.smtp.antispamcloud.com (mx6-09.smtp.antispamcloud.com
-	[95.211.2.200])
-	by mail.openembedded.org (Postfix) with ESMTP id 83868606CB
+Return-Path: <sgw@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E9936069D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Feb 2017 14:21:39 +0000 (UTC)
-Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
-	by mx6.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
-	(Exim 4.86) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1cb6eE-0001yl-Ok for openembedded-core@lists.openembedded.org;
-	Tue, 07 Feb 2017 15:21:36 +0100
-Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
-	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 7 Feb 2017 15:21:33 +0100
-To: OE-core <openembedded-core@lists.openembedded.org>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-Message-ID: <9b8f8f39-aa5f-cbdf-8d45-9bd0e27c9404@topic.nl>
-Date: Tue, 7 Feb 2017 15:21:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.0
-MIME-Version: 1.0
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Originating-IP: 37.74.225.130
-X-SpamExperts-Domain: topic.nl
-X-SpamExperts-Username: 37.74.225.128/28
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=37.74.225.128/28@topic.nl
-X-SpamExperts-Outgoing-Class: ham
-X-SpamExperts-Outgoing-Evidence: Combined (0.01)
-X-Recommended-Action: accept
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W/95+6ZE6dI+d
-	FNTaLLKrTD4PkK8WOoKuw32u9iEtZmisSr42qUwvK7U11fJ5smF5bE7GwnNXTE7JFCR1ojdwNOxh
-	woVSy7Y5O/IaMhiN9+OgQGW+L6IPcEg0zXHRA9tX3oSh68YrJ7q9SmhmRXsF42bjO41FyBEqIaDu
-	dcVplPGNaieKxw/vh63RdlaW2Zj1hcQD6Dxo9kokFZNwiacNPxeTCKssqlJePCDBHWfCYUvWOATT
-	vnG+QUCcfrSs6FZc7tZ3vKwSN7Mv0HNteAusUZ8BuYwGqmI8Tx/Ism0pnCcmlWACu0WC7nIKSPYV
-	aBAAdpU0oUDqng6Dyy2mQeofienvN6Vqc6W3OPY+pRhgkTB1el35jO+WJBgrWGjAavfuifnL+9wg
-	oTj4ygNPw1XfN1IUJ2+rCMPpQhII5VkEVC//8GRISD+lYCwA5l6/Q4nfg8y63jKKBrO1BroJmvb9
-	eW6r2rlUSNsSKfXWKXbAnTtpwWXpE+sdjNmnXWjiNaLzpYbRm1I468S/yL0UV2VaFaHU7TvqT2so
-	IjU4ke4l3yHonV+E7OMXRvgtdyMlnmWio7yflOSPePNf+xGd6n5xOT8FIprDRrySYpUp+LukEmRQ
-	CSbMBRfvijvugLPWuJnYimJBmbX4ZwV05IcNNAgTWJlUOpwpEkpu90COvViIG1i2pq4ZmiLrUtAf
-	M6WT3J4Pfkthd2LyVdAPfnUAFBPBepnfH4FLxEmh88Vmb1RXp37rz/3sm+3WdYJ6fJLgfLzHqKcy
-	4J/MLLAK25IKTH3DRMkYneGeAbvN+vdGDCyrv2E=
-X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
-Subject: (morty) Python exception during rootfs
+	Tue,  7 Feb 2017 14:45:23 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga105.fm.intel.com with ESMTP; 07 Feb 2017 06:45:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,346,1477983600"; d="scan'208";a="1091881166"
+Received: from swold-mobl2.amr.corp.intel.com ([10.254.85.39])
+	by orsmga001.jf.intel.com with ESMTP; 07 Feb 2017 06:45:23 -0800
+Message-ID: <1486478723.26702.27.camel@linux.intel.com>
+From: Saul Wold <sgw@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 07 Feb 2017 06:45:23 -0800
+In-Reply-To: <CAMKF1spjcD8X=oxK4HHeO05PxRsn_ieRoDhpA3QpNOxKLXCbtg@mail.gmail.com>
+References: <1486414751-24947-1-git-send-email-sgw@linux.intel.com>
+	<1486414751-24947-4-git-send-email-sgw@linux.intel.com>
+	<CAMKF1spjcD8X=oxK4HHeO05PxRsn_ieRoDhpA3QpNOxKLXCbtg@mail.gmail.com>
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] meta-intel.inc: Enable linux-intel and 4.9 by default for meta-intel hardware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,113 +34,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2017 14:21:43 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 07 Feb 2017 14:45:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-=EF=BB=BFI get this stacktrace from bitbake. No idea what's wrong. Apparent=
-ly,=20
-d.getVarFlags(func) returns None and the code cannot handle that. Is this a=
-=20
-bug in bitbake, or should 'flags' never evaluate to None?
+On Mon, 2017-02-06 at 13:02 -0800, Khem Raj wrote:
+> On Mon, Feb 6, 2017 at 12:59 PM, Saul Wold <sgw@linux.intel.com>
+> wrote:
+> > 
+> > Enable the linux-intel production kernel for meta-intel by default
+> > for 4.9,
+> > this will enable using the Intel production kernel.
+> > 
+> > This is a well tested 4.9 tree that will start to include
+> > additional
+> > support for the Apollolake and Joule hardware.
+> > 
+> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> > ---
+> >  conf/machine/include/meta-intel.inc | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/conf/machine/include/meta-intel.inc
+> > b/conf/machine/include/meta-intel.inc
+> > index 21587fb..eb759c4 100644
+> > --- a/conf/machine/include/meta-intel.inc
+> > +++ b/conf/machine/include/meta-intel.inc
+> > @@ -9,8 +9,8 @@
+> >  #
+> > 
+> >  # Soft set linux-yocto as preferred kernel like x86-base.inc
+> > -PREFERRED_PROVIDER_virtual/kernel ??= "linux-yocto"
+> > -PREFERRED_VERSION_linux-yocto ?= "4.8%"
+> > +PREFERRED_PROVIDER_virtual/kernel ?= "linux-intel"
+> 
+> whats the difference between linux-yocto and linux-intel ?
+> 
+Sorry for sending this to the wrong list.  
 
+This is a valid question, the difference will be faster integration and
+better testing /validation of upstream (or possibly pending upstream )
+patches for Intel Hardware.
 
+Since the kernel will be coming from an Intel Source, it will be fully
+tested on more hardware that the current linux-yocto kernel gets tested
+against.
 
-The stack trace of python calls that resulted in this exception/failure was=
-:
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-      0001:
-  *** 0002:do_rootfs(d)
-      0003:
-File: '/home/mike/projects/zynq-platform/oe-core/meta/classes/image.bbclass=
-',=20
-lineno: 249, function: do_rootfs
-      0245:
-      0246:    progress_reporter.next_stage()
-      0247:
-      0248:    # generate rootfs
-  *** 0249:    create_rootfs(d, progress_reporter=3Dprogress_reporter)
-      0250:
-      0251:    progress_reporter.finish()
-      0252:}
-      0253:do_rootfs[dirs] =3D "${TOPDIR}"
-File: '/home/mike/projects/zynq-platform/oe-core/meta/lib/oe/rootfs.py',=20
-lineno: 1006, function: create_rootfs
-      1002:    img_type =3D d.getVar('IMAGE_PKGTYPE', True)
-      1003:    if img_type =3D=3D "rpm":
-      1004:        RpmRootfs(d, manifest_dir, progress_reporter).create()
-      1005:    elif img_type =3D=3D "ipk":
-  *** 1006:        OpkgRootfs(d, manifest_dir, progress_reporter).create()
-      1007:    elif img_type =3D=3D "deb":
-      1008:        DpkgRootfs(d, manifest_dir, progress_reporter).create()
-      1009:
-      1010:    os.environ.clear()
-File: '/home/mike/projects/zynq-platform/oe-core/meta/lib/oe/rootfs.py',=20
-lineno: 210, function: create
-      0206:        execute_pre_post_process(self.d, rootfs_post_install_cmd=
-s)
-      0207:
-      0208:        self._run_intercepts()
-      0209:
-  *** 0210:        execute_pre_post_process(self.d, post_process_cmds)
-      0211:
-      0212:        if self.progress_reporter:
-      0213:            self.progress_reporter.next_stage()
-      0214:
-File: '/home/mike/projects/zynq-platform/oe-core/meta/lib/oe/utils.py',=20
-lineno: 176, function: execute_pre_post_process
-      0172:    for cmd in cmds.strip().split(';'):
-      0173:        cmd =3D cmd.strip()
-      0174:        if cmd !=3D '':
-      0175:            bb.note("Executing %s ..." % cmd)
-  *** 0176:            bb.build.exec_func(cmd, d)
-      0177:
-      0178:def multiprocess_exec(commands, function):
-      0179:    import signal
-      0180:    import multiprocessing
-File: '/home/mike/projects/zynq-platform/bitbake/lib/bb/build.py', lineno:=
-=20
-197, function: exec_func
-      0193:    except:
-      0194:        oldcwd =3D None
-      0195:
-      0196:    flags =3D d.getVarFlags(func)
-  *** 0197:    cleandirs =3D flags.get('cleandirs')
-      0198:    if cleandirs:
-      0199:        for cdir in d.expand(cleandirs).split():
-      0200:            bb.utils.remove(cdir, True)
-      0201:            bb.utils.mkdirhier(cdir)
-Exception: AttributeError: 'NoneType' object has no attribute 'get'
+The update rate maybe about the same, with security updates as needed
+for more severe issues
 
-ERROR: pr-demo-image-1.0-r0 do_rootfs: Function failed: do_rootfs
-ERROR: Logfile of failure stored in:=20
-/home/mike/projects/zynq-platform/build/tmp-glibc/work/topic_miami_florida_=
-gen-oe-linux-gnueabi/pr-demo-image/1.0-r0/temp/log.do_rootfs.28716
-ERROR: Task=20
-(/home/mike/projects/zynq-platform/meta-topic-internal/recipes-topic/embedd=
-ed-world/pr-demo-image.bb:do_rootfs)=20
-failed with exit code '1'
+As other vendors maintain kernels for their meta-vendor specific layer,
+Intel has chosen to maintain an Intel kernel based on the current LTS
+version (4.9) plus upstreamed patches. All content will be backports
+from internally maintained tracking trees being regularly updated.
 
+meta-intel will likely continue to contain the linux-yocto-<latest> for
+a non-LTS kernel.
 
+Hope that clarifies this.
 
+Sau!
 
-
-Kind regards,
-
-Mike Looijmans
-System Expert
-
-TOPIC Products
-Materiaalweg 4, NL-5681 RJ Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
-
-
-
+> > 
+> > +PREFERRED_VERSION_linux-intel ?= "4.9%"
+> > 
+> >  # for Xserver older than 1.13.0
+> >  OLD_XSERVER_X86_EXT = "xserver-xorg-extension-dri \
+> > --
+> > 2.7.4
+> > 
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
