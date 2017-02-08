@@ -1,16 +1,24 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id A4AAE60103
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C710B71A1A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Feb 2017 23:48:58 +0000 (UTC)
-Received: by p910.zcs.saftware.de (Postfix, from userid 1000)
-	id 2DD76AD00437; Wed,  8 Feb 2017 00:48:54 +0100 (CET)
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Feb 2017 00:48:54 +0100
-Message-Id: <1486511334-8897-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] python: Don't use getentropy on Linux
+	Wed,  8 Feb 2017 02:58:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v182wt8M008962
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 7 Feb 2017 18:58:55 -0800 (PST)
+Received: from PEK-ZHE-D1.wrs.com (128.224.162.169) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 7 Feb 2017 18:58:54 -0800
+From: <zhe.he@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 8 Feb 2017 10:58:46 +0800
+Message-ID: <1486522726-22098-1-git-send-email-zhe.he@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] ltp: Fix containers/userns05 failure for lib32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -23,79 +31,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2017 23:49:00 -0000
+X-List-Received-Date: Wed, 08 Feb 2017 02:58:56 -0000
+Content-Type: text/plain
 
-Backport a patch from 2.7 branch to fix a regression with glibc
-2.24 causing "OSError: [Errno 38] Function not implemented" when
-calling urandom() with older kernels.
+From: He Zhe <zhe.he@windriver.com>
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+Backport a patch to fix userns05 case:
+<<<test_output>>>
+user_namespace5 1 TFAIL : userns05.c:95: userns:parent should be not equal to cpid2
+user_namespace5 1 TFAIL : userns05.c:95: userns:parent should be not equal to cpid2
+user_namespace5 0 TINFO : Child process returned TPASS
+user_namespace5 0 TINFO : Child process returned TPASS
+user_namespace5 0 TINFO : Child process returned TFAIL
+incrementing stop
+
+Rename the previous patch to add a number prefix
+
+Signed-off-by: He Zhe <zhe.he@windriver.com>
 ---
- .../python/Don-t-use-getentropy-on-Linux.patch     | 41 ++++++++++++++++++++++
- meta/recipes-devtools/python/python_2.7.12.bb      |  1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python/Don-t-use-getentropy-on-Linux.patch
+ ...039-fcntl-fix-the-time-def-to-use-time_t.patch} |  0
+ ...iners-userns05-use-unsigned-int-for-ns-id.patch | 60 ++++++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20160126.bb          |  3 +-
+ 3 files changed, 62 insertions(+), 1 deletion(-)
+ rename meta/recipes-extended/ltp/ltp/{fcntl-fix-the-time-def-to-use-time_t.patch => 0039-fcntl-fix-the-time-def-to-use-time_t.patch} (100%)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0040-containers-userns05-use-unsigned-int-for-ns-id.patch
 
-diff --git a/meta/recipes-devtools/python/python/Don-t-use-getentropy-on-Linux.patch b/meta/recipes-devtools/python/python/Don-t-use-getentropy-on-Linux.patch
+diff --git a/meta/recipes-extended/ltp/ltp/fcntl-fix-the-time-def-to-use-time_t.patch b/meta/recipes-extended/ltp/ltp/0039-fcntl-fix-the-time-def-to-use-time_t.patch
+similarity index 100%
+rename from meta/recipes-extended/ltp/ltp/fcntl-fix-the-time-def-to-use-time_t.patch
+rename to meta/recipes-extended/ltp/ltp/0039-fcntl-fix-the-time-def-to-use-time_t.patch
+diff --git a/meta/recipes-extended/ltp/ltp/0040-containers-userns05-use-unsigned-int-for-ns-id.patch b/meta/recipes-extended/ltp/ltp/0040-containers-userns05-use-unsigned-int-for-ns-id.patch
 new file mode 100644
-index 0000000..38e5377
+index 0000000..4dee1f5
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python/Don-t-use-getentropy-on-Linux.patch
-@@ -0,0 +1,41 @@
++++ b/meta/recipes-extended/ltp/ltp/0040-containers-userns05-use-unsigned-int-for-ns-id.patch
+@@ -0,0 +1,60 @@
++From 3b63d350e9fe9e4271916cc0abfac65a5d6419ff Mon Sep 17 00:00:00 2001
++From: Jiri Jaburek <jjaburek@redhat.com>
++Date: Tue, 7 Feb 2017 07:58:16 +0000
++Subject: [PATCH] containers/userns05: use unsigned int for ns id
++
++The kernel defines it as 'unsigned int' in 'struct ns_common'
++and formats it as
++
++  snprintf(buf, size, "%s:[%u]", ns_ops->name, ns->inum);
++
++This change makes the test work on 32bit systems where LONG_MAX
++is smaller than UINT_MAX.
++
++Signed-off-by: Jiri Jaburek <jjaburek@redhat.com>
++
 +Upstream-Status: Backport
 +
-+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
-+
-+From 905d1b30ac7cb0e31c57cec0533825c8f170b942 Mon Sep 17 00:00:00 2001
-+From: Victor Stinner <victor.stinner@gmail.com>
-+Date: Mon, 9 Jan 2017 11:10:41 +0100
-+Subject: [PATCH] Don't use getentropy() on Linux
-+
-+Issue #29188: Support glibc 2.24 on Linux: don't use getentropy() function but
-+read from /dev/urandom to get random bytes, for example in os.urandom().  On
-+Linux, getentropy() is implemented which getrandom() is blocking mode, whereas
-+os.urandom() should not block.
-+
-+(cherry picked from commit 2687486756721e39164fa9f597e468c35d495227)
++Signed-off-by: He Zhe <zhe.he@windriver.com>
 +---
-+ Python/random.c | 11 +++++++++--
-+ 1 file changed, 9 insertions(+), 2 deletions(-)
++ testcases/kernel/containers/userns/userns05.c | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
 +
-+diff --git a/Python/random.c b/Python/random.c
-+index b4bc1f3..f3f5d14 100644
-+--- a/Python/random.c
-++++ b/Python/random.c
-+@@ -94,8 +94,15 @@ win32_urandom(unsigned char *buffer, Py_ssize_t size, int raise)
++diff --git a/testcases/kernel/containers/userns/userns05.c b/testcases/kernel/containers/userns/userns05.c
++index 8d8c40a..8eac729 100644
++--- a/testcases/kernel/containers/userns/userns05.c
+++++ b/testcases/kernel/containers/userns/userns05.c
++@@ -49,18 +49,18 @@ static int child_fn1(void)
++ 	return 0;
 + }
 + 
-+ /* Issue #25003: Don't use getentropy() on Solaris (available since
-+- * Solaris 11.3), it is blocking whereas os.urandom() should not block. */
-+-#elif defined(HAVE_GETENTROPY) && !defined(sun)
-++   Solaris 11.3), it is blocking whereas os.urandom() should not block.
-++
-++   Issue #29188: Don't use getentropy() on Linux since the glibc 2.24
-++   implements it with the getrandom() syscall which can fail with ENOSYS,
-++   and this error is not supported in py_getentropy() and getrandom() is called
-++   with flags=0 which blocks until system urandom is initialized, which is not
-++   the desired behaviour to seed the Python hash secret nor for os.urandom():
-++   see the PEP 524 which was only implemented in Python 3.6. */
-++#elif defined(HAVE_GETENTROPY) && !defined(sun) && !defined(linux)
-+ #define PY_GETENTROPY 1
++-static long getusernsidbypid(int pid)
+++static unsigned int getusernsidbypid(int pid)
++ {
++ 	char path[BUFSIZ];
++ 	char userid[BUFSIZ];
++-	long id = 0;
+++	unsigned int id = 0;
 + 
-+ /* Fill buffer with size pseudo-random bytes generated by getentropy().
-diff --git a/meta/recipes-devtools/python/python_2.7.12.bb b/meta/recipes-devtools/python/python_2.7.12.bb
-index 9fe35db..2c6a319 100644
---- a/meta/recipes-devtools/python/python_2.7.12.bb
-+++ b/meta/recipes-devtools/python/python_2.7.12.bb
-@@ -27,6 +27,7 @@ SRC_URI += "\
-   file://use_sysroot_ncurses_instead_of_host.patch \
-   file://add-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch \
-   file://python-fix-CVE-2016-1000110.patch \
-+  file://Don-t-use-getentropy-on-Linux.patch \
- "
++ 	sprintf(path, "/proc/%d/ns/user", pid);
++ 
++ 	if (readlink(path, userid, BUFSIZ) == -1)
++ 		tst_resm(TFAIL | TERRNO, "readlink failure.");
++ 
++-	if (sscanf(userid, "user:[%ld]", &id) != 1)
+++	if (sscanf(userid, "user:[%u]", &id) != 1)
++ 		tst_resm(TFAIL, "sscanf failure.");
++ 	return id;
++ }
++@@ -68,7 +68,7 @@ static long getusernsidbypid(int pid)
++ static void test_userns_id(void)
++ {
++ 	int cpid1, cpid2, cpid3;
++-	long parentuserns, cpid1userns, cpid2userns, newparentuserns;
+++	unsigned int parentuserns, cpid1userns, cpid2userns, newparentuserns;
++ 
++ 	parentuserns = getusernsidbypid(getpid());
++ 	cpid1 = ltp_clone_quick(SIGCHLD, (void *)child_fn1,
++-- 
++2.9.3
++
+diff --git a/meta/recipes-extended/ltp/ltp_20160126.bb b/meta/recipes-extended/ltp/ltp_20160126.bb
+index 72d465b..aaa63c2 100644
+--- a/meta/recipes-extended/ltp/ltp_20160126.bb
++++ b/meta/recipes-extended/ltp/ltp_20160126.bb
+@@ -65,7 +65,8 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
+            file://0037-containers-netns_netlink-Avoid-segmentation-fault.patch \
+            file://0038-run-posix-option-group-test-replace-CWD-qith-PWD.patch \
+-           file://fcntl-fix-the-time-def-to-use-time_t.patch \
++           file://0039-fcntl-fix-the-time-def-to-use-time_t.patch \
++           file://0040-containers-userns05-use-unsigned-int-for-ns-id.patch \
+            "
  
- S = "${WORKDIR}/Python-${PV}"
+ S = "${WORKDIR}/git"
 -- 
-2.7.4
+2.8.3
 
 
