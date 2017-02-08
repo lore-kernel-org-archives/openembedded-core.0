@@ -1,26 +1,18 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1398271AD5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Feb 2017 06:30:55 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v186UtDI005540
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 7 Feb 2017 22:30:55 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.201) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 7 Feb 2017 22:30:54 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 Feb 2017 14:30:52 +0800
-Message-ID: <bbb128c3c3c69bae821a78be8a2780b9ba0a7194.1486535388.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1486535388.git.Qi.Chen@windriver.com>
-References: <cover.1486535388.git.Qi.Chen@windriver.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 223E071A35;
+	Wed,  8 Feb 2017 06:59:50 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH 2/2] security_flags: enable string formatting check for console tools
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Qi.Chen@windriver.com
+Date: Wed, 08 Feb 2017 06:59:51 -0000
+Message-ID: <20170208065951.9312.20529@do.openembedded.org>
+References: <cover.1486535388.git.Qi.Chen@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1486535388.git.Qi.Chen@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgRml4IHN0cmluZyBmb3JtYXR0aW5nIGlzc3VlIGluIGNvbnNvbGUtdG9vbHM=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,32 +25,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2017 06:30:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 08 Feb 2017 06:59:50 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-As we've fixed the string formatting issue in console-tools, we don't
-need to override SECURITY_STRINGFORMAT for console-tools any more.
+== Series Details ==
 
-[YOCTO #9540]
+Series: Fix string formatting issue in console-tools
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/5203/
+State : failure
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Upstream-Status is in incorrect format [test_upstream_status_format] 
+  Suggested fix    Fix Upstream-Status format in meta/recipes-core/console-tools/console-tools-0.3.2/0001-Fix-format-security-compilation-error.patch so it is one of: Pending, Submitted, Accepted, Backport, Denied, Inappropriate
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/conf/distro/include/security_flags.inc | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index eca835e..28e11bd 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -91,7 +91,6 @@ SECURITY_CFLAGS_pn-zlib = "${SECURITY_NO_PIE_CFLAGS}"
- 
- # Recipes which fail to compile when elevating -Wformat-security to an error
- SECURITY_STRINGFORMAT_pn-busybox = ""
--SECURITY_STRINGFORMAT_pn-console-tools = ""
- SECURITY_STRINGFORMAT_pn-cmake = ""
- SECURITY_STRINGFORMAT_pn-expect = ""
- SECURITY_STRINGFORMAT_pn-gcc = ""
--- 
-1.9.1
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
