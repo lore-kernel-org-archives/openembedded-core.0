@@ -1,24 +1,23 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C710B71A1A
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1934E719E2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Feb 2017 02:58:55 +0000 (UTC)
+	Wed,  8 Feb 2017 03:17:11 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v182wt8M008962
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 7 Feb 2017 18:58:55 -0800 (PST)
-Received: from PEK-ZHE-D1.wrs.com (128.224.162.169) by ALA-HCA.corp.ad.wrs.com
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v183HAwr021179
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 7 Feb 2017 19:17:10 -0800
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 7 Feb 2017 18:58:54 -0800
-From: <zhe.he@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 Feb 2017 10:58:46 +0800
-Message-ID: <1486522726-22098-1-git-send-email-zhe.he@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Tue, 7 Feb 2017 19:17:10 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Tue, 7 Feb 2017 22:16:56 -0500
+Message-ID: <cover.1486523726.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Subject: [PATCH] ltp: Fix containers/userns05 failure for lib32
+Subject: [PATCH 00/13] 11 packages upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,116 +30,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2017 02:58:56 -0000
+X-List-Received-Date: Wed, 08 Feb 2017 03:17:12 -0000
 Content-Type: text/plain
 
-From: He Zhe <zhe.he@windriver.com>
+The following changes since commit a624cf7f95c8cf4ff764cc997fd1db4601b97dcc:
 
-Backport a patch to fix userns05 case:
-<<<test_output>>>
-user_namespace5 1 TFAIL : userns05.c:95: userns:parent should be not equal to cpid2
-user_namespace5 1 TFAIL : userns05.c:95: userns:parent should be not equal to cpid2
-user_namespace5 0 TINFO : Child process returned TPASS
-user_namespace5 0 TINFO : Child process returned TPASS
-user_namespace5 0 TINFO : Child process returned TFAIL
-incrementing stop
+  oeqa/selftest/pkgdata: use m4 instead of bash (2017-02-07 14:50:10 +0000)
 
-Rename the previous patch to add a number prefix
+are available in the git repository at:
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
- ...039-fcntl-fix-the-time-def-to-use-time_t.patch} |  0
- ...iners-userns05-use-unsigned-int-for-ns-id.patch | 60 ++++++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20160126.bb          |  3 +-
- 3 files changed, 62 insertions(+), 1 deletion(-)
- rename meta/recipes-extended/ltp/ltp/{fcntl-fix-the-time-def-to-use-time_t.patch => 0039-fcntl-fix-the-time-def-to-use-time_t.patch} (100%)
- create mode 100644 meta/recipes-extended/ltp/ltp/0040-containers-userns05-use-unsigned-int-for-ns-id.patch
+  git://git.openembedded.org/openembedded-core-contrib hongxu/upgrade-20170208
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=hongxu/upgrade-20170208
 
-diff --git a/meta/recipes-extended/ltp/ltp/fcntl-fix-the-time-def-to-use-time_t.patch b/meta/recipes-extended/ltp/ltp/0039-fcntl-fix-the-time-def-to-use-time_t.patch
-similarity index 100%
-rename from meta/recipes-extended/ltp/ltp/fcntl-fix-the-time-def-to-use-time_t.patch
-rename to meta/recipes-extended/ltp/ltp/0039-fcntl-fix-the-time-def-to-use-time_t.patch
-diff --git a/meta/recipes-extended/ltp/ltp/0040-containers-userns05-use-unsigned-int-for-ns-id.patch b/meta/recipes-extended/ltp/ltp/0040-containers-userns05-use-unsigned-int-for-ns-id.patch
-new file mode 100644
-index 0000000..4dee1f5
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0040-containers-userns05-use-unsigned-int-for-ns-id.patch
-@@ -0,0 +1,60 @@
-+From 3b63d350e9fe9e4271916cc0abfac65a5d6419ff Mon Sep 17 00:00:00 2001
-+From: Jiri Jaburek <jjaburek@redhat.com>
-+Date: Tue, 7 Feb 2017 07:58:16 +0000
-+Subject: [PATCH] containers/userns05: use unsigned int for ns id
-+
-+The kernel defines it as 'unsigned int' in 'struct ns_common'
-+and formats it as
-+
-+  snprintf(buf, size, "%s:[%u]", ns_ops->name, ns->inum);
-+
-+This change makes the test work on 32bit systems where LONG_MAX
-+is smaller than UINT_MAX.
-+
-+Signed-off-by: Jiri Jaburek <jjaburek@redhat.com>
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+---
-+ testcases/kernel/containers/userns/userns05.c | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/testcases/kernel/containers/userns/userns05.c b/testcases/kernel/containers/userns/userns05.c
-+index 8d8c40a..8eac729 100644
-+--- a/testcases/kernel/containers/userns/userns05.c
-++++ b/testcases/kernel/containers/userns/userns05.c
-+@@ -49,18 +49,18 @@ static int child_fn1(void)
-+ 	return 0;
-+ }
-+ 
-+-static long getusernsidbypid(int pid)
-++static unsigned int getusernsidbypid(int pid)
-+ {
-+ 	char path[BUFSIZ];
-+ 	char userid[BUFSIZ];
-+-	long id = 0;
-++	unsigned int id = 0;
-+ 
-+ 	sprintf(path, "/proc/%d/ns/user", pid);
-+ 
-+ 	if (readlink(path, userid, BUFSIZ) == -1)
-+ 		tst_resm(TFAIL | TERRNO, "readlink failure.");
-+ 
-+-	if (sscanf(userid, "user:[%ld]", &id) != 1)
-++	if (sscanf(userid, "user:[%u]", &id) != 1)
-+ 		tst_resm(TFAIL, "sscanf failure.");
-+ 	return id;
-+ }
-+@@ -68,7 +68,7 @@ static long getusernsidbypid(int pid)
-+ static void test_userns_id(void)
-+ {
-+ 	int cpid1, cpid2, cpid3;
-+-	long parentuserns, cpid1userns, cpid2userns, newparentuserns;
-++	unsigned int parentuserns, cpid1userns, cpid2userns, newparentuserns;
-+ 
-+ 	parentuserns = getusernsidbypid(getpid());
-+ 	cpid1 = ltp_clone_quick(SIGCHLD, (void *)child_fn1,
-+-- 
-+2.9.3
-+
-diff --git a/meta/recipes-extended/ltp/ltp_20160126.bb b/meta/recipes-extended/ltp/ltp_20160126.bb
-index 72d465b..aaa63c2 100644
---- a/meta/recipes-extended/ltp/ltp_20160126.bb
-+++ b/meta/recipes-extended/ltp/ltp_20160126.bb
-@@ -65,7 +65,8 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
-            file://0037-containers-netns_netlink-Avoid-segmentation-fault.patch \
-            file://0038-run-posix-option-group-test-replace-CWD-qith-PWD.patch \
--           file://fcntl-fix-the-time-def-to-use-time_t.patch \
-+           file://0039-fcntl-fix-the-time-def-to-use-time_t.patch \
-+           file://0040-containers-userns05-use-unsigned-int-for-ns-id.patch \
-            "
- 
- S = "${WORKDIR}/git"
+Hongxu Jia (13):
+  pax-utils: 1.1.6 -> 1.2.2
+  socat: 1.7.3.1 -> 1.7.3.2
+  elfutils: 0.166 -> 0.168
+  gpgme: 1.6.0 -> 1.8.0
+  libgcrypt: 1.7.3 -> 1.7.6
+  libgpg-error: 1.25 -> 1.26
+  ncurses: 6.0+20160625 -> 6.0+20161126
+  man-pages: 4.08 -> 4.09
+  rpcbind: 0.2.3 -> 0.2.4
+  gnupg: 2.1.14 -> 2.1.18
+  bash: 4.3.30 -> 4.4
+  bash: update patches for 4.4
+  elfutils: update homepage and upstream souce
+
+ .../socat/{socat_1.7.3.1.bb => socat_1.7.3.2.bb}   |   4 +-
+ ...ses_6.0+20160625.bb => ncurses_6.0+20161126.bb} |   2 +-
+ .../elfcmp-fix-self-comparision.patch              |  41 --
+ .../elfutils/elfutils-0.166/m68k_backend.diff      | 492 -------------
+ .../elfutils/elfutils-0.166/uclibc-support.patch   | 128 ----
+ ...de-alternatives-for-glibc-assumptions-hel.patch | 772 +++++++++------------
+ ...m-Silence-Werror-maybe-uninitialized-fals.patch |   0
+ .../0001-fix-a-stack-usage-warning.patch           |   0
+ .../0001-remove-the-unneed-checking.patch          |   0
+ .../aarch64_uio.patch                              |   0
+ ...ferences-between-mips-machine-identifiers.patch |   9 +-
+ ...-support-for-mips64-abis-in-mips_retval.c.patch |   0
+ .../0003-Add-mips-n64-relocation-format-hack.patch |  32 +-
+ .../debian}/arm_backend.diff                       |  52 +-
+ .../debian}/hppa_backend.diff                      |  60 +-
+ .../elfutils/elfutils-0.168/debian/hurd_path.patch |  14 +
+ .../elfutils-0.168/debian/ignore_strmerge.diff     |  11 +
+ .../debian}/kfreebsd_path.patch                    |   8 +-
+ .../debian}/mips_backend.diff                      |  72 +-
+ .../debian}/mips_readelf_w.patch                   |   8 +-
+ .../debian}/testsuite-ignore-elflint.diff          |  14 +-
+ .../fixheadercheck.patch                           |   0
+ .../shadow.patch                                   |   0
+ .../{elfutils_0.166.bb => elfutils_0.168.bb}       |  34 +-
+ .../{pax-utils_1.1.6.bb => pax-utils_1.2.2.bb}     |   6 +-
+ .../0001-do-not-compile-and-install-examples.patch |  46 ++
+ .../0001-patch-to-obtain-pkgconfig-sanity.patch    |  28 +
+ ...roc-run-heredoc-run-execscript-run-test-f.patch | 137 +---
+ meta/recipes-extended/bash/bash/fix-run-intl.patch | 110 ---
+ meta/recipes-extended/bash/bash/test-output.patch  |  20 +-
+ meta/recipes-extended/bash/bash_4.3.30.bb          |  71 --
+ meta/recipes-extended/bash/bash_4.4.bb             |  60 ++
+ .../{man-pages_4.08.bb => man-pages_4.09.bb}       |   4 +-
+ ...001-Avoid-use-of-glibc-sys-cdefs.h-header.patch | 221 ------
+ ...ly-Don-t-use-the-xp_auth-pointer-directly.patch |  43 --
+ .../rpcbind/rpcbind/cve-2015-7236.patch            |  84 ---
+ .../rpcbind/{rpcbind_0.2.3.bb => rpcbind_0.2.4.bb} |   7 +-
+ .../gnupg/{gnupg_2.1.14.bb => gnupg_2.1.18.bb}     |   8 +-
+ meta/recipes-support/gpgme/gpgme/gpgme.pc          |  10 -
+ meta/recipes-support/gpgme/gpgme/pkgconfig.patch   |  38 +-
+ .../gpgme/{gpgme_1.6.0.bb => gpgme_1.8.0.bb}       |  15 +-
+ meta/recipes-support/libgcrypt/libgcrypt_1.7.3.bb  |   4 -
+ meta/recipes-support/libgcrypt/libgcrypt_1.7.6.bb  |   4 +
+ .../{libgpg-error_1.25.bb => libgpg-error_1.26.bb} |   4 +-
+ 44 files changed, 698 insertions(+), 1975 deletions(-)
+ rename meta/recipes-connectivity/socat/{socat_1.7.3.1.bb => socat_1.7.3.2.bb} (89%)
+ rename meta/recipes-core/ncurses/{ncurses_6.0+20160625.bb => ncurses_6.0+20161126.bb} (84%)
+ delete mode 100644 meta/recipes-devtools/elfutils/elfutils-0.166/elfcmp-fix-self-comparision.patch
+ delete mode 100644 meta/recipes-devtools/elfutils/elfutils-0.166/m68k_backend.diff
+ delete mode 100644 meta/recipes-devtools/elfutils/elfutils-0.166/uclibc-support.patch
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168}/0001-build-Provide-alternatives-for-glibc-assumptions-hel.patch (47%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168}/0001-elf_getarsym-Silence-Werror-maybe-uninitialized-fals.patch (100%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168}/0001-fix-a-stack-usage-warning.patch (100%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168}/0001-remove-the-unneed-checking.patch (100%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168}/aarch64_uio.patch (100%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/0001-Ignore-differences-between-mips-machine-identifiers.patch (85%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/0002-Add-support-for-mips64-abis-in-mips_retval.c.patch (100%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/0003-Add-mips-n64-relocation-format-hack.patch (90%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/arm_backend.diff (94%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/hppa_backend.diff (95%)
+ create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.168/debian/hurd_path.patch
+ create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.168/debian/ignore_strmerge.diff
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/kfreebsd_path.patch (69%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/mips_backend.diff (92%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/mips_readelf_w.patch (78%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/testsuite-ignore-elflint.diff (70%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168}/fixheadercheck.patch (100%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168}/shadow.patch (100%)
+ rename meta/recipes-devtools/elfutils/{elfutils_0.166.bb => elfutils_0.168.bb} (75%)
+ rename meta/recipes-devtools/pax-utils/{pax-utils_1.1.6.bb => pax-utils_1.2.2.bb} (86%)
+ create mode 100644 meta/recipes-extended/bash/bash/0001-do-not-compile-and-install-examples.patch
+ create mode 100644 meta/recipes-extended/bash/bash/0001-patch-to-obtain-pkgconfig-sanity.patch
+ delete mode 100644 meta/recipes-extended/bash/bash/fix-run-intl.patch
+ delete mode 100644 meta/recipes-extended/bash/bash_4.3.30.bb
+ create mode 100644 meta/recipes-extended/bash/bash_4.4.bb
+ rename meta/recipes-extended/man-pages/{man-pages_4.08.bb => man-pages_4.09.bb} (86%)
+ delete mode 100644 meta/recipes-extended/rpcbind/rpcbind/0001-Avoid-use-of-glibc-sys-cdefs.h-header.patch
+ delete mode 100644 meta/recipes-extended/rpcbind/rpcbind/0001-handle_reply-Don-t-use-the-xp_auth-pointer-directly.patch
+ delete mode 100644 meta/recipes-extended/rpcbind/rpcbind/cve-2015-7236.patch
+ rename meta/recipes-extended/rpcbind/{rpcbind_0.2.3.bb => rpcbind_0.2.4.bb} (87%)
+ rename meta/recipes-support/gnupg/{gnupg_2.1.14.bb => gnupg_2.1.18.bb} (80%)
+ delete mode 100644 meta/recipes-support/gpgme/gpgme/gpgme.pc
+ rename meta/recipes-support/gpgme/{gpgme_1.6.0.bb => gpgme_1.8.0.bb} (72%)
+ delete mode 100644 meta/recipes-support/libgcrypt/libgcrypt_1.7.3.bb
+ create mode 100644 meta/recipes-support/libgcrypt/libgcrypt_1.7.6.bb
+ rename meta/recipes-support/libgpg-error/{libgpg-error_1.25.bb => libgpg-error_1.26.bb} (92%)
+
 -- 
-2.8.3
+2.8.1
 
 
