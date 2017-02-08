@@ -1,27 +1,30 @@
-Return-Path: <jose.a.lamego@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id DF9D971D9C
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id E13536093C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Feb 2017 22:31:49 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga103.fm.intel.com with ESMTP; 08 Feb 2017 14:31:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,348,1484035200"; 
-	d="asc'?scan'208";a="62822135"
-Received: from jalamego-mobl2.zpn.intel.com (HELO [10.219.128.117])
-	([10.219.128.117])
-	by fmsmga005.fm.intel.com with ESMTP; 08 Feb 2017 14:31:49 -0800
+	Wed,  8 Feb 2017 23:34:37 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v18NYaEL000371; Wed, 8 Feb 2017 23:34:36 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id WsUi_5U9yDWN; Wed,  8 Feb 2017 23:34:36 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v18NYYXu000344
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 8 Feb 2017 23:34:35 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1cbbkw-0006QV-G9; Wed, 08 Feb 2017 23:34:34 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1484667160.git.jose.a.lamego@linux.intel.com>
-	<fb56a1c1aaeb6f6cf4b415b029e58124057ef662.1484667160.git.jose.a.lamego@linux.intel.com>
-From: Jose Lamego <jose.a.lamego@linux.intel.com>
-Message-ID: <0efb730d-3b87-9c1d-8a46-e5572ba29222@linux.intel.com>
-Date: Wed, 8 Feb 2017 16:31:49 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.0
-MIME-Version: 1.0
-In-Reply-To: <fb56a1c1aaeb6f6cf4b415b029e58124057ef662.1484667160.git.jose.a.lamego@linux.intel.com>
-Subject: Re: [PATCH 3/3] python3-setuptools: Remove pth file creation at recipe level
+Date: Wed,  8 Feb 2017 23:34:27 +0000
+Message-Id: <1486596869-24628-5-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1486596869-24628-1-git-send-email-richard.purdie@linuxfoundation.org>
+References: <1486596869-24628-1-git-send-email-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 5/7] openssl/fontconfig/bzip2: Use relative symlinks instead of absolute ones (using a new class)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,85 +37,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2017 22:31:51 -0000
-X-Groupsio-MsgNum: 93048
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature";
-	boundary="cW1FOkrsiUPhr3hbjbP0xgCNsE0lEw9wq"
+X-List-Received-Date: Wed, 08 Feb 2017 23:34:38 -0000
 
---cW1FOkrsiUPhr3hbjbP0xgCNsE0lEw9wq
-Content-Type: multipart/mixed; boundary="WL2GHSdWSIeOT8sVV226Q8CWwUXlcupxl";
- protected-headers="v1"
-From: Jose Lamego <jose.a.lamego@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <0efb730d-3b87-9c1d-8a46-e5572ba29222@linux.intel.com>
-Subject: Re: [OE-core] [PATCH 3/3] python3-setuptools: Remove pth file
- creation at recipe level
-References: <cover.1484667160.git.jose.a.lamego@linux.intel.com>
- <fb56a1c1aaeb6f6cf4b415b029e58124057ef662.1484667160.git.jose.a.lamego@linux.intel.com>
-In-Reply-To: <fb56a1c1aaeb6f6cf4b415b029e58124057ef662.1484667160.git.jose.a.lamego@linux.intel.com>
+Absolute path symlinks are a bit of a pain for sstate and the native versions
+of these recipes currently contain broken symlinks as a result. There are
+only a small number of problematic recipes, at least in OE-Core, namely the
+three here.
 
---WL2GHSdWSIeOT8sVV226Q8CWwUXlcupxl
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: quoted-printable
+Rather than trying to make sstate handle this magically, which turns out to
+be a harder problem than you'd first realise, simply make the symlinks relative
+early in the process and avoid all the problems.
 
-Ping.
+The alternative is adding new complexity to sstate which we could really
+do without as without the complexity, you can't always tell where the
+absolute symlink is relative to (due to prefixes used for native sstate).
 
-On 01/17/2017 09:42 AM, Jose Lamego wrote:
-> Handling of installed eggs is now performed at the distutils3 bbclass.
->=20
-> This change removes the pth file creation at recipe level.
->=20
-> [YOCTO #8673]
->=20
-> Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
-> ---
->  meta/recipes-devtools/python/python3-setuptools_31.0.0.bb | 3 ---
->  1 file changed, 3 deletions(-)
->=20
-> diff --git a/meta/recipes-devtools/python/python3-setuptools_31.0.0.bb =
-b/meta/recipes-devtools/python/python3-setuptools_31.0.0.bb
-> index 65af6f0..b37b381 100644
-> --- a/meta/recipes-devtools/python/python3-setuptools_31.0.0.bb
-> +++ b/meta/recipes-devtools/python/python3-setuptools_31.0.0.bb
-> @@ -7,11 +7,8 @@ inherit distutils3
-> =20
->  DISTUTILS_INSTALL_ARGS +=3D "--install-lib=3D${D}${PYTHON_SITEPACKAGES=
-_DIR}"
-> =20
-> -# The installer puts the wrong path in the setuptools.pth file.  Corre=
-ct it.
->  do_install_append() {
-> -    rm ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
->      mv ${D}${bindir}/easy_install ${D}${bindir}/easy3_install
-> -    echo "./${SRCNAME}-${PV}-py${PYTHON_BASEVERSION}.egg" > ${D}${PYTH=
-ON_SITEPACKAGES_DIR}/setuptools.pth
->  }
-> =20
->  RDEPENDS_${PN} =3D "\
->=20
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/relative_symlinks.bbclass                | 5 +++++
+ meta/recipes-connectivity/openssl/openssl.inc         | 2 +-
+ meta/recipes-extended/bzip2/bzip2_1.0.6.bb            | 2 +-
+ meta/recipes-graphics/fontconfig/fontconfig_2.12.1.bb | 2 +-
+ 4 files changed, 8 insertions(+), 3 deletions(-)
+ create mode 100644 meta/classes/relative_symlinks.bbclass
 
---=20
-Jose Lamego | OTC Embedded Platforms & Tools | GDC
+diff --git a/meta/classes/relative_symlinks.bbclass b/meta/classes/relative_symlinks.bbclass
+new file mode 100644
+index 0000000..3157737
+--- /dev/null
++++ b/meta/classes/relative_symlinks.bbclass
+@@ -0,0 +1,5 @@
++do_install[postfuncs] += "install_relative_symlinks"
++
++python install_relative_symlinks () {
++    oe.path.replace_absolute_symlinks(d.getVar('D'), d)
++}
+diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+index 5cca019..fc55925 100644
+--- a/meta/recipes-connectivity/openssl/openssl.inc
++++ b/meta/recipes-connectivity/openssl/openssl.inc
+@@ -30,7 +30,7 @@ export EX_LIBS = "-lgcc -ldl"
+ export AS = "${CC} -c"
+ EXTRA_OEMAKE = "-e MAKEFLAGS="
+ 
+-inherit pkgconfig siteinfo multilib_header ptest
++inherit pkgconfig siteinfo multilib_header ptest relative_symlinks
+ 
+ PACKAGES =+ "libcrypto libssl ${PN}-misc openssl-conf"
+ FILES_libcrypto = "${libdir}/libcrypto${SOLIBS}"
+diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
+index ef7bc89..0512a75 100644
+--- a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
++++ b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
+@@ -25,7 +25,7 @@ PACKAGES =+ "libbz2"
+ 
+ CFLAGS_append = " -fPIC -fpic -Winline -fno-strength-reduce -D_FILE_OFFSET_BITS=64"
+ 
+-inherit autotools update-alternatives ptest
++inherit autotools update-alternatives ptest relative_symlinks
+ 
+ ALTERNATIVE_PRIORITY = "100"
+ ALTERNATIVE_${PN} = "bunzip2 bzcat"
+diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.12.1.bb b/meta/recipes-graphics/fontconfig/fontconfig_2.12.1.bb
+index 8616154..95b066c 100644
+--- a/meta/recipes-graphics/fontconfig/fontconfig_2.12.1.bb
++++ b/meta/recipes-graphics/fontconfig/fontconfig_2.12.1.bb
+@@ -37,7 +37,7 @@ RREPLACES_fontconfig-utils = "libfontconfig-utils"
+ RCONFLICTS_fontconfig-utils = "libfontconfig-utils"
+ DEBIAN_NOAUTONAME_fontconfig-utils = "1"
+ 
+-inherit autotools pkgconfig
++inherit autotools pkgconfig relative_symlinks
+ 
+ FONTCONFIG_CACHE_DIR ?= "${localstatedir}/cache/fontconfig"
+ 
+-- 
+2.7.4
 
 
---WL2GHSdWSIeOT8sVV226Q8CWwUXlcupxl--
-
---cW1FOkrsiUPhr3hbjbP0xgCNsE0lEw9wq
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iQEcBAEBAgAGBQJYm5xVAAoJEFJAtowlSEbndXwH/2MQhLrPC6w4Z5+5NMcxau/Z
-9FcNVq6wEMViAzRxCt3qto+O8SM53C88aJXCyVSHGnSoxiBewFNWQh84qXCS7Lm0
-TDtuh5KNiHmc2H4b93uHkXxaIq1/gNXm4UICH7m2QpJyv6WEB6AKbG5B9ohd7eoz
-TMqq8bPe5j+jTgjm+lNpPUIszH0OPhbpI5jTng4bb+vlwDH+yQwlsmSRvMhTOz3B
-dAuvwbvqc2zcaXjL/HWNasVagacLvomtNbtRkNGuufVn5wac398Vk3VpbzVlKrQq
-EmmheljpQN+ntJSOgbtJXHfuw3jFwon1BkPJM/LDD2zYDH0ZP4/HDGiWwEUKlSc=
-=OR6w
------END PGP SIGNATURE-----
-
---cW1FOkrsiUPhr3hbjbP0xgCNsE0lEw9wq--
