@@ -1,31 +1,47 @@
-Return-Path: <mac@mcrowe.com>
-X-Greylist: delayed 455 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 08 Feb 2017 11:58:20 UTC
-Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
-	by mail.openembedded.org (Postfix) with ESMTP id A759460621
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 6865271A0F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Feb 2017 11:58:20 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by avasout06 with smtp
-	id iBqi1u0080BmcFC01BqjNM; Wed, 08 Feb 2017 11:50:44 +0000
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.2 cv=QoEu5R6d c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=kj9zAlcOel0A:10 a=n2v9WMKugxEA:10 a=4WVi_W3CE8yTpJeQ81sA:9
-	a=CjuIK1q_8ugA:10
-Received: from mac by deneb with local (Exim 4.84_2)
-	(envelope-from <mac@mcrowe.com>)
-	id 1cbQlm-0006di-Oo; Wed, 08 Feb 2017 11:50:42 +0000
-Date: Wed, 8 Feb 2017 11:50:42 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: Patrick Ohly <patrick.ohly@intel.com>,
-	openembedded-core@lists.openembedded.org
-Message-ID: <20170208115042.GA21576@mcrowe.com>
-References: <cover.d193014fd573473058a6d28217d27ca47bc60792.1484318722.git-series.patrick.ohly@intel.com>
-	<ab94bd9c9f3c7170e2a0e40afaec42d5ec9397fd.1484318722.git-series.patrick.ohly@intel.com>
+	Wed,  8 Feb 2017 12:21:09 +0000 (UTC)
+Received: by mail-qk0-f180.google.com with SMTP id 11so119965751qkl.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 Feb 2017 04:21:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=PIDQlH+w1T+FQAtP0krykadeVzuLfOYtbaWAJnH3aLU=;
+	b=VYWFSpGdOHUST0EYRRVBD+3tRR61DT5WA/8dcA3nyU0VR4/HltMSZhxsaZiyoZGP5a
+	QaBAB1urRMjORYP+ZHAK1CF8yxgSNXSBbXWwVbpIOVtfQaqeJzjhx4C2P9GKXporAsZv
+	AOnj9UQyyrW6fOIwySVXE5rPM8pONaHPhKx9nENmmjT4AgzAqt9DJPT3rN24p4k5Mkt8
+	5HPbK4Wy4bTeStemqMp46u4T7TUgWdFx4aVLJf1kn3+NUI5wkUWh8+KsrmvzNrQG1kar
+	AKbKTi5HI9/D57T7OsjfK5Ngn9878xzHBkdXRg7bmXi2ta/E3roHcrYRaW/rKJsjowJL
+	SwPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=PIDQlH+w1T+FQAtP0krykadeVzuLfOYtbaWAJnH3aLU=;
+	b=b/X3hrd9Pf3MhuPcwJvEra8cr+RRDhQdPpWEluM4r3Jn5LO5YIeogwHr1jOEcbSnYW
+	ThFb86JWoxu9sUD92sgjYRWBP5b97+mN+29Lc+KnpYmGupe3OzdigG1VUizsVxaFN+XZ
+	8qBa0VAVl1Ex2S70NPwIR7isSFIa4jbvC1RKC6grEm2xy0qNsY1gQT8GrTrM9HErNGY7
+	ykJ0OmllhiSuWGn5jP2gDD4hcx4o2Qe5CijrjhTA4AnVyH8/CWbn0TpkXV5cAgRJUdVX
+	oGBSueFFXDti8LqBXy6aw2p2YM7Bs193BJ9wBtEMIMz1CpKSDtiHFzu6jrZzLf/KPqYg
+	hF1A==
+X-Gm-Message-State: AMke39n1oUyF7cnDsiqA7GdJEMVCygDaf0qyrBrSWCSe8hi/DKzj2bTWRVAmsuBqn+dKNnHbyiMipy7aLvNMWQdz
+X-Received: by 10.55.183.133 with SMTP id h127mr21195951qkf.121.1486556469986; 
+	Wed, 08 Feb 2017 04:21:09 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <ab94bd9c9f3c7170e2a0e40afaec42d5ec9397fd.1484318722.git-series.patrick.ohly@intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: [PATCH v2 3/3] rm_work.bbclass: clean up sooner
+Received: by 10.140.103.233 with HTTP; Wed, 8 Feb 2017 04:20:49 -0800 (PST)
+In-Reply-To: <924e2b236ebe29d99cf635ff079ba234693f5cc2.1486523726.git.hongxu.jia@windriver.com>
+References: <cover.1486523726.git.hongxu.jia@windriver.com>
+	<924e2b236ebe29d99cf635ff079ba234693f5cc2.1486523726.git.hongxu.jia@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 8 Feb 2017 12:20:49 +0000
+Message-ID: <CAJTo0LYzb9LSgTraY=Jg-wOe7fcEHdqUZdbFHt32LCyzVSQgDw@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 04/13] gpgme: 1.6.0 -> 1.8.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,82 +54,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2017 11:58:23 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 08 Feb 2017 12:21:10 -0000
+Content-Type: multipart/alternative; boundary=94eb2c060056552107054803e66a
 
-On Friday 13 January 2017 at 15:52:33 +0100, Patrick Ohly wrote:
-> Having do_rm_work depend on do_build had one major disadvantage:
-> do_build depends on the do_build of other recipes, to ensure that
-> runtime dependencies also get built. The effect is that when work on a
-> recipe is complete and it could get cleaned up, do_rm_work still
-> doesn't run because it waits for those other recipes, thus leading to
-> more temporary disk space usage than really needed.
-> 
-> The right solution is to inject do_rm_work before do_build and after
-> all tasks of the recipe. Achieving that depends on the new bitbake
-> bb.event.RecipeTaskPreProcess and bb.build.preceedtask().
+--94eb2c060056552107054803e66a
+Content-Type: text/plain; charset=UTF-8
 
-We've run into trouble with this change. We have a number of custom
-ancillary tasks that are used to generate source release files and run
-package tests. No other tasks (including do_build) depend on these tasks
-since they are run explicitly when required using bitbake -c; either
-directly or via a recrdeptask.
+On 8 February 2017 at 03:17, Hongxu Jia <hongxu.jia@windriver.com> wrote:
 
-Running a single task continues to work correctly - presumably this is
-because the do_build task is not being run, so its dependencies (including
-rm_work) aren't run either.
+> - Drop gpgme.pc, it is duplicated with pkgconfig.patch
+>
+> - Rebase pkgconfig.patch to 1.8.0
+>
+> - Split cmake config to ${PN}-dev
+>
+> - Update LIC_FILES_CHKSUM, because copytright year changed.
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>
 
-Running via the recrdeptask fails. This is because for any particular
-recipe we end up depending on both do_build and the source release tasks.
-There's nothing to stop do_rm_work running before (or even during!) one of
-the source release tasks.
+I think we need to split out the C++ bindings to a separate library package:
 
-> diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
-> index 3516c7e..fda7bd6 100644
-> --- a/meta/classes/rm_work.bbclass
-> +++ b/meta/classes/rm_work.bbclass
-> @@ -117,7 +107,13 @@ rm_work_rootfs () {
->  }
->  rm_work_rootfs[cleandirs] = "${WORKDIR}/rootfs"
->  
-> -python () {
-> +# We have to add the do_rmwork task already now, because all tasks are
-> +# meant to be defined before the RecipeTaskPreProcess event triggers.
-> +# The inject_rm_work event handler then merely changes task dependencies.
-> +addtask do_rm_work
-> +addhandler inject_rm_work
-> +inject_rm_work[eventmask] = "bb.event.RecipeTaskPreProcess"
-> +python inject_rm_work() {
->      if bb.data.inherits_class('kernel', d):
->          d.appendVar("RM_WORK_EXCLUDE", ' ' + d.getVar("PN"))
->      # If the recipe name is in the RM_WORK_EXCLUDE, skip the recipe.
-> @@ -126,4 +122,17 @@ python () {
->      if pn in excludes:
->          d.delVarFlag('rm_work_rootfs', 'cleandirs')
->          d.delVarFlag('rm_work_populatesdk', 'cleandirs')
-> +    else:
-> +        # Inject do_rm_work into the tasks of the current recipe such that do_build
-> +        # depends on it and that it runs after all other tasks that block do_build,
-> +        # i.e. after all work on the current recipe is done. The reason for taking
-> +        # this approach instead of making do_rm_work depend on do_build is that
-> +        # do_build inherits additional runtime dependencies on
-> +        # other recipes and thus will typically run much later than completion of
-> +        # work in the recipe itself.
-> +        deps = bb.build.preceedtask('do_build', True, d)
-> +        if 'do_build' in deps:
-> +            deps.remove('do_build')
-> +        # In practice, addtask() here merely updates the dependencies.
-> +        bb.build.addtask('do_rm_work', 'do_build', ' '.join(deps), d)
->  }
+packages/corei7-64-poky-linux/gpgme/gpgme: RDEPENDS: added "libstdc++ (['>=
+6.3.0']) libgcc (['>= 6.3.0'])"
+packages/corei7-64-poky-linux/gpgme/gpgme: FILELIST: removed
+"/usr/lib/libgpgme.so.11.14.0", added "/usr/lib/libgpgme.so.11.17.0
+/usr/lib/libgpgmepp.so.6 /usr/lib/libgpgmepp.so.6.3.0"
 
-It seems that we need to ensure that do_rm_work also needs to depend on our
-ancillary tasks too, but only if they are being built. I'm unsure how this
-can be done though. :(
+Maybe add a ${PN}-cpp package for the library?
 
-For the time being, I've reverted this patch in our tree and it seems to
-have resolved the problem. I'd be very interested in knowing what the
-correct solution would be.
+Ross
 
-Mike.
+--94eb2c060056552107054803e66a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 February 2017 at 03:17, Hongxu Jia <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:hongxu.jia@windriver.com" target=3D"_blank">hongxu.jia@windriver.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);b=
+order-left-style:solid;padding-left:1ex"><div id=3D"gmail-:2cj" class=3D"gm=
+ail-a3s gmail-aXjCH gmail-m15a1bb9e34def075">- Drop <span class=3D"gmail-il=
+">gpgme</span>.pc, it is duplicated with pkgconfig.patch<br>
+<br>
+- Rebase pkgconfig.patch to 1.8.0<br>
+<br>
+- Split cmake config to ${PN}-dev<br>
+<br>
+- Update LIC_FILES_CHKSUM, because copytright year changed.<br>
+<br>
+Signed-off-by: Hongxu Jia &lt;<a href=3D"mailto:hongxu.jia@windriver.com">h=
+ongxu.jia@windriver.com</a>&gt;</div></blockquote></div><br>I think we need=
+ to split out the C++ bindings to a separate library package:</div><div cla=
+ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">packages/corei7-64-=
+poky-linux/gpgme/gpgme: RDEPENDS: added &quot;libstdc++ ([&#39;&gt;=3D 6.3.=
+0&#39;]) libgcc ([&#39;&gt;=3D 6.3.0&#39;])&quot;<br></div><div class=3D"gm=
+ail_extra">packages/corei7-64-poky-linux/gpgme/gpgme: FILELIST: removed &qu=
+ot;/usr/lib/libgpgme.so.11.14.0&quot;, added &quot;/usr/lib/libgpgme.so.11.=
+17.0 /usr/lib/libgpgmepp.so.6 /usr/lib/libgpgmepp.so.6.3.0&quot;<br></div><=
+div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Maybe add a =
+${PN}-cpp package for the library?</div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra">Ross</div><div class=3D"gmail_extra"><br></div=
+></div>
+
+--94eb2c060056552107054803e66a--
