@@ -1,23 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1934E719E2
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D091719E2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Feb 2017 03:17:11 +0000 (UTC)
+	Wed,  8 Feb 2017 03:17:12 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v183HAwr021179
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 7 Feb 2017 19:17:10 -0800
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v183HC7V020816
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 7 Feb 2017 19:17:12 -0800 (PST)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 7 Feb 2017 19:17:10 -0800
+	Tue, 7 Feb 2017 19:17:11 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Tue, 7 Feb 2017 22:16:56 -0500
-Message-ID: <cover.1486523726.git.hongxu.jia@windriver.com>
+Date: Tue, 7 Feb 2017 22:16:57 -0500
+Message-ID: <4e3b9567bfc39e23b920144bfe459b014eb1b6c3.1486523726.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.8.1
+In-Reply-To: <cover.1486523726.git.hongxu.jia@windriver.com>
+References: <cover.1486523726.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 00/13] 11 packages upgrade
+Subject: [PATCH 01/13] pax-utils: 1.1.6 -> 1.2.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,120 +32,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2017 03:17:12 -0000
+X-List-Received-Date: Wed, 08 Feb 2017 03:17:13 -0000
 Content-Type: text/plain
 
-The following changes since commit a624cf7f95c8cf4ff764cc997fd1db4601b97dcc:
+Export GNULIB_OVERRIDES_WINT_T to fix compile failure
+---------
+1099 make[4]: *** [printf-args.o] Error 1
+1100 make[4]: *** Waiting for unfinished jobs....
+1101 In file included from ../../../pax-utils-1.2.2/autotools/gnulib/printf-args.h:41:0,
+1102                  from ../../../pax-utils-1.2.2/autotools/gnulib/printf-parse.h:29,
+1103                  from ../../../pax-utils-1.2.2/autotools/gnulib/printf-parse.c:36:
+1104 ./wchar.h:476:6: error: #if with no expression
+1105  # if
+1106       ^
+1107 make[4]: *** [printf-parse.o] Error 1
+---------
 
-  oeqa/selftest/pkgdata: use m4 instead of bash (2017-02-07 14:50:10 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib hongxu/upgrade-20170208
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=hongxu/upgrade-20170208
-
-Hongxu Jia (13):
-  pax-utils: 1.1.6 -> 1.2.2
-  socat: 1.7.3.1 -> 1.7.3.2
-  elfutils: 0.166 -> 0.168
-  gpgme: 1.6.0 -> 1.8.0
-  libgcrypt: 1.7.3 -> 1.7.6
-  libgpg-error: 1.25 -> 1.26
-  ncurses: 6.0+20160625 -> 6.0+20161126
-  man-pages: 4.08 -> 4.09
-  rpcbind: 0.2.3 -> 0.2.4
-  gnupg: 2.1.14 -> 2.1.18
-  bash: 4.3.30 -> 4.4
-  bash: update patches for 4.4
-  elfutils: update homepage and upstream souce
-
- .../socat/{socat_1.7.3.1.bb => socat_1.7.3.2.bb}   |   4 +-
- ...ses_6.0+20160625.bb => ncurses_6.0+20161126.bb} |   2 +-
- .../elfcmp-fix-self-comparision.patch              |  41 --
- .../elfutils/elfutils-0.166/m68k_backend.diff      | 492 -------------
- .../elfutils/elfutils-0.166/uclibc-support.patch   | 128 ----
- ...de-alternatives-for-glibc-assumptions-hel.patch | 772 +++++++++------------
- ...m-Silence-Werror-maybe-uninitialized-fals.patch |   0
- .../0001-fix-a-stack-usage-warning.patch           |   0
- .../0001-remove-the-unneed-checking.patch          |   0
- .../aarch64_uio.patch                              |   0
- ...ferences-between-mips-machine-identifiers.patch |   9 +-
- ...-support-for-mips64-abis-in-mips_retval.c.patch |   0
- .../0003-Add-mips-n64-relocation-format-hack.patch |  32 +-
- .../debian}/arm_backend.diff                       |  52 +-
- .../debian}/hppa_backend.diff                      |  60 +-
- .../elfutils/elfutils-0.168/debian/hurd_path.patch |  14 +
- .../elfutils-0.168/debian/ignore_strmerge.diff     |  11 +
- .../debian}/kfreebsd_path.patch                    |   8 +-
- .../debian}/mips_backend.diff                      |  72 +-
- .../debian}/mips_readelf_w.patch                   |   8 +-
- .../debian}/testsuite-ignore-elflint.diff          |  14 +-
- .../fixheadercheck.patch                           |   0
- .../shadow.patch                                   |   0
- .../{elfutils_0.166.bb => elfutils_0.168.bb}       |  34 +-
- .../{pax-utils_1.1.6.bb => pax-utils_1.2.2.bb}     |   6 +-
- .../0001-do-not-compile-and-install-examples.patch |  46 ++
- .../0001-patch-to-obtain-pkgconfig-sanity.patch    |  28 +
- ...roc-run-heredoc-run-execscript-run-test-f.patch | 137 +---
- meta/recipes-extended/bash/bash/fix-run-intl.patch | 110 ---
- meta/recipes-extended/bash/bash/test-output.patch  |  20 +-
- meta/recipes-extended/bash/bash_4.3.30.bb          |  71 --
- meta/recipes-extended/bash/bash_4.4.bb             |  60 ++
- .../{man-pages_4.08.bb => man-pages_4.09.bb}       |   4 +-
- ...001-Avoid-use-of-glibc-sys-cdefs.h-header.patch | 221 ------
- ...ly-Don-t-use-the-xp_auth-pointer-directly.patch |  43 --
- .../rpcbind/rpcbind/cve-2015-7236.patch            |  84 ---
- .../rpcbind/{rpcbind_0.2.3.bb => rpcbind_0.2.4.bb} |   7 +-
- .../gnupg/{gnupg_2.1.14.bb => gnupg_2.1.18.bb}     |   8 +-
- meta/recipes-support/gpgme/gpgme/gpgme.pc          |  10 -
- meta/recipes-support/gpgme/gpgme/pkgconfig.patch   |  38 +-
- .../gpgme/{gpgme_1.6.0.bb => gpgme_1.8.0.bb}       |  15 +-
- meta/recipes-support/libgcrypt/libgcrypt_1.7.3.bb  |   4 -
- meta/recipes-support/libgcrypt/libgcrypt_1.7.6.bb  |   4 +
- .../{libgpg-error_1.25.bb => libgpg-error_1.26.bb} |   4 +-
- 44 files changed, 698 insertions(+), 1975 deletions(-)
- rename meta/recipes-connectivity/socat/{socat_1.7.3.1.bb => socat_1.7.3.2.bb} (89%)
- rename meta/recipes-core/ncurses/{ncurses_6.0+20160625.bb => ncurses_6.0+20161126.bb} (84%)
- delete mode 100644 meta/recipes-devtools/elfutils/elfutils-0.166/elfcmp-fix-self-comparision.patch
- delete mode 100644 meta/recipes-devtools/elfutils/elfutils-0.166/m68k_backend.diff
- delete mode 100644 meta/recipes-devtools/elfutils/elfutils-0.166/uclibc-support.patch
- rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168}/0001-build-Provide-alternatives-for-glibc-assumptions-hel.patch (47%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168}/0001-elf_getarsym-Silence-Werror-maybe-uninitialized-fals.patch (100%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168}/0001-fix-a-stack-usage-warning.patch (100%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168}/0001-remove-the-unneed-checking.patch (100%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168}/aarch64_uio.patch (100%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/0001-Ignore-differences-between-mips-machine-identifiers.patch (85%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/0002-Add-support-for-mips64-abis-in-mips_retval.c.patch (100%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/0003-Add-mips-n64-relocation-format-hack.patch (90%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/arm_backend.diff (94%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/hppa_backend.diff (95%)
- create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.168/debian/hurd_path.patch
- create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.168/debian/ignore_strmerge.diff
- rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/kfreebsd_path.patch (69%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/mips_backend.diff (92%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/mips_readelf_w.patch (78%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/testsuite-ignore-elflint.diff (70%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168}/fixheadercheck.patch (100%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168}/shadow.patch (100%)
- rename meta/recipes-devtools/elfutils/{elfutils_0.166.bb => elfutils_0.168.bb} (75%)
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ .../pax-utils/{pax-utils_1.1.6.bb => pax-utils_1.2.2.bb}            | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
  rename meta/recipes-devtools/pax-utils/{pax-utils_1.1.6.bb => pax-utils_1.2.2.bb} (86%)
- create mode 100644 meta/recipes-extended/bash/bash/0001-do-not-compile-and-install-examples.patch
- create mode 100644 meta/recipes-extended/bash/bash/0001-patch-to-obtain-pkgconfig-sanity.patch
- delete mode 100644 meta/recipes-extended/bash/bash/fix-run-intl.patch
- delete mode 100644 meta/recipes-extended/bash/bash_4.3.30.bb
- create mode 100644 meta/recipes-extended/bash/bash_4.4.bb
- rename meta/recipes-extended/man-pages/{man-pages_4.08.bb => man-pages_4.09.bb} (86%)
- delete mode 100644 meta/recipes-extended/rpcbind/rpcbind/0001-Avoid-use-of-glibc-sys-cdefs.h-header.patch
- delete mode 100644 meta/recipes-extended/rpcbind/rpcbind/0001-handle_reply-Don-t-use-the-xp_auth-pointer-directly.patch
- delete mode 100644 meta/recipes-extended/rpcbind/rpcbind/cve-2015-7236.patch
- rename meta/recipes-extended/rpcbind/{rpcbind_0.2.3.bb => rpcbind_0.2.4.bb} (87%)
- rename meta/recipes-support/gnupg/{gnupg_2.1.14.bb => gnupg_2.1.18.bb} (80%)
- delete mode 100644 meta/recipes-support/gpgme/gpgme/gpgme.pc
- rename meta/recipes-support/gpgme/{gpgme_1.6.0.bb => gpgme_1.8.0.bb} (72%)
- delete mode 100644 meta/recipes-support/libgcrypt/libgcrypt_1.7.3.bb
- create mode 100644 meta/recipes-support/libgcrypt/libgcrypt_1.7.6.bb
- rename meta/recipes-support/libgpg-error/{libgpg-error_1.25.bb => libgpg-error_1.26.bb} (92%)
 
+diff --git a/meta/recipes-devtools/pax-utils/pax-utils_1.1.6.bb b/meta/recipes-devtools/pax-utils/pax-utils_1.2.2.bb
+similarity index 86%
+rename from meta/recipes-devtools/pax-utils/pax-utils_1.1.6.bb
+rename to meta/recipes-devtools/pax-utils/pax-utils_1.2.2.bb
+index 5cc5463..a032a22 100644
+--- a/meta/recipes-devtools/pax-utils/pax-utils_1.1.6.bb
++++ b/meta/recipes-devtools/pax-utils/pax-utils_1.2.2.bb
+@@ -10,11 +10,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a"
+ SRC_URI = "http://gentoo.osuosl.org/distfiles/pax-utils-${PV}.tar.xz \
+ "
+ 
+-SRC_URI[md5sum] = "96f56a5a10ed50f2448c5ccebd27764f"
+-SRC_URI[sha256sum] = "f5436c517bea40f7035ec29a6f34034c739b943f2e3a080d76df5dfd7fd41b12"
++SRC_URI[md5sum] = "a580468318f0ff42edf4a8cd314cc942"
++SRC_URI[sha256sum] = "7f4a7f8db6b4743adde7582fa48992ad01776796fcde030683732f56221337d9"
+ 
+ RDEPENDS_${PN} += "bash"
+ 
++export GNULIB_OVERRIDES_WINT_T = "0"
++
+ do_configure_prepend() {
+     touch ${S}/NEWS ${S}/AUTHORS ${S}/ChangeLog ${S}/README
+ }
 -- 
 2.8.1
 
