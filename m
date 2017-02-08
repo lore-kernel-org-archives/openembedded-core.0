@@ -1,25 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EEE2E71AFC
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 502F471A9D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Feb 2017 03:17:28 +0000 (UTC)
+	Wed,  8 Feb 2017 03:17:30 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v183HTDY021237
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 7 Feb 2017 19:17:29 -0800
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v183HUiA020837
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 7 Feb 2017 19:17:30 -0800 (PST)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 7 Feb 2017 19:17:28 -0800
+	Tue, 7 Feb 2017 19:17:30 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Tue, 7 Feb 2017 22:17:07 -0500
-Message-ID: <be58fe5939122a5d815e54d09182438ba92592a8.1486523726.git.hongxu.jia@windriver.com>
+Date: Tue, 7 Feb 2017 22:17:08 -0500
+Message-ID: <cc6900c08be678e7573d609befc0ec9d3df80864.1486523726.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1486523726.git.hongxu.jia@windriver.com>
 References: <cover.1486523726.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 12/13] bash: update patches for 4.4
+Subject: [PATCH 13/13] elfutils: update homepage and upstream souce
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,119 +32,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2017 03:17:29 -0000
+X-List-Received-Date: Wed, 08 Feb 2017 03:17:30 -0000
 Content-Type: text/plain
 
-- Update patches from upstream to 4.4
+In git://sourceware.org/git/elfutils.git:
+----------------
+commit 1700fd25e6caf26663af2bd994d1d99fab9df59f
+Author: Mark Wielaard <mark@klomp.org>
+Date:   Sat Dec 24 22:31:41 2016 +0100
 
-- Do not compile and install examples which caused
-  do_package_write_rpm failed.
+    http://elfutils.org/ is now hosted at http://sourceware.org/elfutils/
+
+    fedorahosted used to be our home, but we are now hosted at sourceware.
+
+    Change the elfutils project home to http://elfutils.org/
+    Point hosted services (email, release, git, bug tracker and web pages)
+    to https://sourceware.org/elfutils/
+
+    Move design notes from README to NOTES.
+    Add URLs for home, releases, bugs, git and mailinglist to README.
+
+    Make the --version output of all tools the same by using a common
+    print_version function and update the publicly shown copyright holder
+    to the elfutils developers.
+
+    Signed-off-by: Mark Wielaard <mark@klomp.org>
+------------------
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../0001-do-not-compile-and-install-examples.patch | 46 ++++++++++++++++++++++
- meta/recipes-extended/bash/bash_4.4.bb             | 22 +++++++++++
- 2 files changed, 68 insertions(+)
- create mode 100644 meta/recipes-extended/bash/bash/0001-do-not-compile-and-install-examples.patch
+ meta/recipes-devtools/elfutils/elfutils_0.168.bb | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/bash/bash/0001-do-not-compile-and-install-examples.patch b/meta/recipes-extended/bash/bash/0001-do-not-compile-and-install-examples.patch
-new file mode 100644
-index 0000000..3c7908d
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash/0001-do-not-compile-and-install-examples.patch
-@@ -0,0 +1,46 @@
-+From d9cfd52dca3f17ab1d1f40fd41e77597ab065098 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Tue, 7 Feb 2017 03:20:39 -0500
-+Subject: [PATCH] do not compile and install examples
-+
-+The generated binaray (uname) could not be parsed by rpmdeps
-+correctly:
-+---
-+$ recipe-sysroot-native/usr/lib/rpm/bin/rpmdeps-oecore --macros \
-+recipe-sysroot-native/usr/lib/rpm/macros --define '_rpmfc_magic_path \
-+recipe-sysroot-native/usr/share/misc/magic.mgc' --rpmpopt \
-+recipe-sysroot-native/usr/lib/rpm/rpmpopt packages-split/bash/usr/lib64/bash/uname
-+
-+|packages-split/bash/usr/lib64/bash/uname Provides: )(64bit
-+|packages-split/bash/usr/lib64/bash/uname Provides: elf(buildid) = 7186059a5a6b11ec38493b53072c3a62edf7e05c
-+---
-+
-+The incorrected "Provides: )(64bit" could not be parsed by rpmbuild.
-+---
-+| DEBUG: Executing shell function BUILDSPEC
-+| error: line 56: Dependency ")(64bit" must begin with alpha-numeric, '_' or '/': Provides: )(64bit
-+| error: Package has no %description: bash-4.4-r0.core2_64
-+---
-+
-+Upstream-Status: Inappropriate [oe specific]
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ Makefile.in | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/Makefile.in b/Makefile.in
-+index 09fbe8f..173ff19 100644
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -799,7 +799,6 @@ install:	.made installdirs
-+ 		infodir=$(infodir) htmldir=$(htmldir) DESTDIR=$(DESTDIR) $@ )
-+ 	-( cd $(DEFDIR) ; $(MAKE) $(MFLAGS) DESTDIR=$(DESTDIR) $@ )
-+ 	-( cd $(PO_DIR) ; $(MAKE) $(MFLAGS) DESTDIR=$(DESTDIR) $@ )
-+-	-( cd $(LOADABLES_DIR) && $(MAKE) $(MFLAGS) DESTDIR=$(DESTDIR) $@ )
-+ 
-+ install-strip:
-+ 	$(MAKE) $(MFLAGS) INSTALL_PROGRAM='$(INSTALL_PROGRAM) -s' \
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-extended/bash/bash_4.4.bb b/meta/recipes-extended/bash/bash_4.4.bb
-index 16ff114..1962c79 100644
---- a/meta/recipes-extended/bash/bash_4.4.bb
-+++ b/meta/recipes-extended/bash/bash_4.4.bb
-@@ -10,6 +10,13 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
-            ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-003;apply=yes;striplevel=0;name=patch003 \
-            ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-004;apply=yes;striplevel=0;name=patch004 \
-            ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-005;apply=yes;striplevel=0;name=patch005 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-006;apply=yes;striplevel=0;name=patch006 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-007;apply=yes;striplevel=0;name=patch007 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-008;apply=yes;striplevel=0;name=patch008 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-009;apply=yes;striplevel=0;name=patch009 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-010;apply=yes;striplevel=0;name=patch010 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-011;apply=yes;striplevel=0;name=patch011 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-012;apply=yes;striplevel=0;name=patch012 \
-            file://execute_cmd.patch;striplevel=0 \
-            file://mkbuiltins_have_stringize.patch \
-            file://build-tests.patch \
-@@ -19,6 +26,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
-            file://fix-run-builtins.patch \
-            file://0001-help-fix-printf-format-security-warning.patch \
-            file://0001-patch-to-obtain-pkgconfig-sanity.patch \
-+           file://0001-do-not-compile-and-install-examples.patch \
-            "
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.168.bb b/meta/recipes-devtools/elfutils/elfutils_0.168.bb
+index 96e895a..9557933 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.168.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.168.bb
+@@ -1,12 +1,11 @@
+ SUMMARY = "Utilities and libraries for handling compiled object files"
+-HOMEPAGE = "https://fedorahosted.org/elfutils"
++HOMEPAGE = "https://sourceware.org/elfutils"
+ SECTION = "base"
+ LICENSE = "(GPLv3 & Elfutils-Exception)"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ DEPENDS = "libtool bzip2 zlib virtual/libintl"
+ DEPENDS_append_libc-musl = " argp-standalone fts "
+-
+-SRC_URI = "https://fedorahosted.org/releases/e/l/elfutils/${PV}/${BP}.tar.bz2"
++SRC_URI = "ftp://sourceware.org/pub/elfutils/${PV}/${BP}.tar.bz2"
+ SRC_URI[md5sum] = "52adfa40758d0d39e5d5c57689bf38d6"
+ SRC_URI[sha256sum] = "b88d07893ba1373c7dd69a7855974706d05377766568a7d9002706d5de72c276"
  
- SRC_URI[tarball.md5sum] = "148888a7c95ac23705559b6f477dfe25" 
-@@ -34,5 +42,19 @@ SRC_URI[patch004.md5sum] = "4557d674ab5831a5fa98052ab19edaf4"
- SRC_URI[patch004.sha256sum] = "ad080a30a4ac6c1273373617f29628cc320a35c8cd06913894794293dc52c8b3"
- SRC_URI[patch005.md5sum] = "cce96dd77cdd1d293beec10848f6cbb5"
- SRC_URI[patch005.sha256sum] = "221e4b725b770ad0bb6924df3f8d04f89eeca4558f6e4c777dfa93e967090529"
-+SRC_URI[patch006.md5sum] = "d3379f8d8abce5c6ee338f931ad008d5"
-+SRC_URI[patch006.sha256sum] = "6a8e2e2a6180d0f1ce39dcd651622fb6d2fd05db7c459f64ae42d667f1e344b8"
-+SRC_URI[patch007.md5sum] = "ec38c76ca439ca7f9c178e9baede84fc"
-+SRC_URI[patch007.sha256sum] = "de1ccc07b7bfc9e25243ad854f3bbb5d3ebf9155b0477df16aaf00a7b0d5edaf"
-+SRC_URI[patch008.md5sum] = "e0ba18c1e3b94f905da9b5bf9d38b58b"
-+SRC_URI[patch008.sha256sum] = "86144700465933636d7b945e89b77df95d3620034725be161ca0ca5a42e239ba"
-+SRC_URI[patch009.md5sum] = "e952d4f44e612048930c559d90eb99bb"
-+SRC_URI[patch009.sha256sum] = "0b6bdd1a18a0d20e330cc3bc71e048864e4a13652e29dc0ebf3918bea729343c"
-+SRC_URI[patch010.md5sum] = "57b5b35955d68f9a09dbef6b86d2c782"
-+SRC_URI[patch010.sha256sum] = "8465c6f2c56afe559402265b39d9e94368954930f9aa7f3dfa6d36dd66868e06"
-+SRC_URI[patch011.md5sum] = "cc896e1fa696b93ded568e557e2392d5"
-+SRC_URI[patch011.sha256sum] = "dd56426ef7d7295e1107c0b3d06c192eb9298f4023c202ca2ba6266c613d170d"
-+SRC_URI[patch012.md5sum] = "fa47fbfa56fb7e9e5367f19a9df5fc9e"
-+SRC_URI[patch012.sha256sum] = "fac271d2bf6372c9903e3b353cb9eda044d7fe36b5aab52f21f3f21cd6a2063e"
- 
- BBCLASSEXTEND = "nativesdk"
 -- 
 2.8.1
 
