@@ -1,44 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 6246071C9B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f171.google.com (mail-wr0-f171.google.com
+	[209.85.128.171])
+	by mail.openembedded.org (Postfix) with ESMTP id F3E5071B2F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Feb 2017 15:58:06 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id 204so15524833pge.2
+	Wed,  8 Feb 2017 16:09:11 +0000 (UTC)
+Received: by mail-wr0-f171.google.com with SMTP id o16so63258761wra.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Feb 2017 07:58:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=9xaZM9gC13tQ0nzEq9ICIpO71TNqXbLO2rg1Fu7Rqhw=;
-	b=gq44O8Bu/QMq/mU6tqvDIjALhZ2XCJZDlxuCykFVdsqy8IlsAsE4+HsOjkaUN2KIF8
-	OT7iDZrz0vJDx+obA9jSL8x5IwqnhkZ43XIiaKgnl8ZXSD4Jxkhcmg9/CavvOmTlPPCh
-	mAol2GbD6Apy0TregXuC1B7sbWVAyA5gCG9nTTMpqKClCUBIqZLlFA2+izBWe9XzbtCd
-	lwzo146OqxWXGJgNmf7Z0gVdST9Z2Ts53iUqnCxd9JnzrDZ7kvqeafTLCtd6pgG6+1tZ
-	GbCodPKQv1URgHAYEZM05PD+mMScD+DwtQwVDtAMrpo7GhkjuKAFu/2KrfmTdkcPqHLC
-	Op4Q==
+	Wed, 08 Feb 2017 08:09:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=gJMFXUY0ZvxyqRAcG4WnQHGEnH8sv7ysPXqvuogk6N0=;
+	b=fX4DebYVUmfX0DndKW3LIXHc8jc2OdLCIY7BgYnuf1CaSbUZ2+FOc7dsASwxlk+E2+
+	BO8p6ZT8xeVSMzLkFs1HmuRE7KRXkVW/XGVCulICSzCD5PmXihAwQtimWYLN2S9BC7/K
+	vDr1sHbOkSJQ94up+mY6fU/TAVYdkyFPzVR/hLqdC/vAUD2jFfNgHhcc4B1JC15Zdp1/
+	6MUbqI2nrCjZgO03KzQ10GC268IReKIhUvHRr3P3HqdMkCApOIEh4nmKnUKcnOy26zHn
+	YzhDbwjjS9LaA9tprfkhnumr8mN0cPLkRaNF7H99EUK0GF7clE8P1vcwkB+bDD3nPkgq
+	1Pgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=9xaZM9gC13tQ0nzEq9ICIpO71TNqXbLO2rg1Fu7Rqhw=;
-	b=mwrR34PmcrVQvrFV3YE19Cnrxr0kD+Rrqef03v/A4EQ6+u0nhJyCHfL6ZAM5O7jyi3
-	GCmonMzUNWv+SrJdMWLuOoS4Xepx+QXDaCRgjGDVCozrYo3i3o4uYdGMwbY3+jw6QHcD
-	+WtvsdIy0OH/kNuVwhRj4lwqHt0ToKGzfFmTfGNTpFIWZh6KAw9z9w/gwrbr2/Dc0dg+
-	dv/TEeeoxErwLU3FOL5IOx3d49GFqtiv9qt9412EaFOnPDq/UegZTNrnV2ptQXsAz9En
-	F10nuqUHFHdMPqJBDSQcrIuzfBAmmi4f30HbdEXSRYvOjMWuTLc7ZDLFNx2YhxUO0MQ/
-	RABA==
-X-Gm-Message-State: AIkVDXJcBJIbeYG9rRwb4usE3vZIC3oMDgGJyHHBVD7l71vgpfS+DKwBouc4N9KRpLvD6A==
-X-Received: by 10.99.171.5 with SMTP id p5mr27782234pgf.182.1486569487528;
-	Wed, 08 Feb 2017 07:58:07 -0800 (PST)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	e25sm21594255pfk.3.2017.02.08.07.58.06
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 Feb 2017 07:58:06 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=gJMFXUY0ZvxyqRAcG4WnQHGEnH8sv7ysPXqvuogk6N0=;
+	b=FclGfOhyvucaTLxSI7CB5e63mL89kci+/j5TQBHFKPHpWBn/ohZx+Z+oeJo6ppZAYG
+	V9NhfOLjgWmbHNkdR/ilvCAbbX9/o5M2meXmZKMD7DNHX7Y8MS6NPeLSU4VxNCpMQQfF
+	AeDj0j2U/WV12us3hHjY5yVrZ4bS7JQwJ9QwS5Vs6a1mFa6dEr5qzrlhYtkiW53T3Zdo
+	+YrrbaXmWoB0vY+zyTD3fxoIXZzrXpkm4J4jTDU5ZPwUfcQXWwitV2qrcZRbxKsFse2M
+	eZ0OPtLWUoo67dqgDUbQEL8MPkwE01hhvrFHjSFzMoppf4pHwVcYATNcfV2YWbVbON9t
+	sUyQ==
+X-Gm-Message-State: AIkVDXKf/YoFow+AOTsy9zkUD/l6ECPclr5vYwcnxGpqFsb59jcxN8SuKBBBMpSQDGYpVs+D
+X-Received: by 10.223.136.152 with SMTP id f24mr19044232wrf.187.1486570151259; 
+	Wed, 08 Feb 2017 08:09:11 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	v67sm13665821wrc.45.2017.02.08.08.09.10
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 08 Feb 2017 08:09:10 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Feb 2017 07:57:59 -0800
-Message-Id: <20170208155759.25297-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.11.1
-Subject: [PATCH] libcap: Add gperf-native to depends
+Date: Wed,  8 Feb 2017 16:09:08 +0000
+Message-Id: <1486570148-19170-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] lttng-tools: no need to delete libxml.m4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,48 +54,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2017 15:58:07 -0000
+X-List-Received-Date: Wed, 08 Feb 2017 16:09:12 -0000
 
-Fixes
-|  gperf_case_strncmp (register const char *s1, register const char *s2, register size_t n)
-|                                                                                 ^~~~~~
-| ./_caps_output.gperf:96:53: error: unknown type name 'size_t'
-|  __cap_hash_name (register const char *str, register size_t len)
-|                                                      ^~~~~~
-| ./_caps_output.gperf:200:55: error: unknown type name 'size_t'
-|  __cap_lookup_name (register const char *str, register size_t len)
-|                                                        ^~~~~~
-| ./_caps_output.gperf:200:1: error: conflicting types for '__cap_lookup_name'
-|  __cap_lookup_name (register const char *str, register size_t len)
-|  ^~~~~~~~~~~~~~~~~
-| ./_caps_output.gperf:33:29: note: previous declaration of '__cap_lookup_name' was here
-|  const struct __cap_token_s *__cap_lookup_name(const char *, unsigned int);
-|                              ^~~~~~~~~~~~~~~~~
-| cap_text.c: In function 'cap_to_name':
-| cap_text.c:291:2: warning: ignoring return value of 'asprintf', declared with attribute warn_unused_result [-Wunused-result]
-|   asprintf(&tmp, "%u", cap);
-|   ^~~~~~~~~~~~~~~~~~~~~~~~~
-| make[1]: *** [Makefile:63: cap_text.o] Error 1
+The configure.ac uses pkg-config now and this macro doesn't exist in the tarball
+anymore, so remove the deletion.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-support/libcap/libcap_2.25.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-kernel/lttng/lttng-tools_2.9.3.bb | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/meta/recipes-support/libcap/libcap_2.25.bb b/meta/recipes-support/libcap/libcap_2.25.bb
-index 7ced4be626..343aeb6c40 100644
---- a/meta/recipes-support/libcap/libcap_2.25.bb
-+++ b/meta/recipes-support/libcap/libcap_2.25.bb
-@@ -5,7 +5,7 @@ HOMEPAGE = "http://sites.google.com/site/fullycapable/"
- LICENSE = "BSD | GPLv2"
- LIC_FILES_CHKSUM = "file://License;md5=3f84fd6f29d453a56514cb7e4ead25f1"
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.9.3.bb b/meta/recipes-kernel/lttng/lttng-tools_2.9.3.bb
+index 741d884..4c11e5b 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.9.3.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.9.3.bb
+@@ -50,11 +50,6 @@ FILES_${PN}-dev += "${PYTHON_SITEPACKAGES_DIR}/*.la"
+ INSANE_SKIP_${PN} = "libexec dev-so"
+ INSANE_SKIP_${PN}-dbg = "libexec"
  
--DEPENDS = "hostperl-runtime-native"
-+DEPENDS = "hostperl-runtime-native gperf-native"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${PV}.tar.xz \
-            file://0001-ensure-the-XATTR_NAME_CAPS-is-defined-when-it-is-use.patch \
+-do_configure_prepend () {
+-    # Delete a shipped m4 file that overrides our patched one
+-    rm -f ${S}/m4/libxml.m4
+-}
+-
+ do_install_ptest () {
+     for f in Makefile tests/Makefile tests/utils/utils.sh ; do
+         install -D "${B}/$f" "${D}${PTEST_PATH}/$f"
 -- 
-2.11.1
+2.8.1
 
 
