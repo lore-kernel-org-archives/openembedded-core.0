@@ -1,31 +1,44 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 02FF471D4E
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6246071C9B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Feb 2017 14:23:11 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga105.fm.intel.com with ESMTP; 08 Feb 2017 06:23:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,346,1477983600"; d="scan'208";a="62636770"
-Received: from jlock-mobl1.ger.corp.intel.com ([10.252.16.172])
-	by fmsmga005.fm.intel.com with ESMTP; 08 Feb 2017 06:23:10 -0800
-Message-ID: <1486563789.3754.14.camel@linux.intel.com>
-From: Joshua Lock <joshua.g.lock@linux.intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 08 Feb 2017 14:23:09 +0000
-In-Reply-To: <d1db8f00-0628-233f-2793-a7240f3fa4ea@linux.intel.com>
-References: <20170105163423.8776-1-joshua.g.lock@intel.com>
-	<35878aed-24bd-6129-54bb-f1dd68bf09a8@linux.intel.com>
-	<1b59a012-5943-d763-975f-764a6247121b@linux.intel.com>
-	<1484315514.3828.2.camel@intel.com>
-	<7e7e15bd-9481-efa8-80af-60300016575e@linux.intel.com>
-	<1484321789.3828.7.camel@linux.intel.com>
-	<d1db8f00-0628-233f-2793-a7240f3fa4ea@linux.intel.com>
-X-Mailer: Evolution 3.22.4 (3.22.4-2.fc25) 
-Mime-Version: 1.0
-Subject: Re: [PATCH] zlib: update SRC_URI to fix fetching
+	Wed,  8 Feb 2017 15:58:06 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id 204so15524833pge.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 Feb 2017 07:58:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=9xaZM9gC13tQ0nzEq9ICIpO71TNqXbLO2rg1Fu7Rqhw=;
+	b=gq44O8Bu/QMq/mU6tqvDIjALhZ2XCJZDlxuCykFVdsqy8IlsAsE4+HsOjkaUN2KIF8
+	OT7iDZrz0vJDx+obA9jSL8x5IwqnhkZ43XIiaKgnl8ZXSD4Jxkhcmg9/CavvOmTlPPCh
+	mAol2GbD6Apy0TregXuC1B7sbWVAyA5gCG9nTTMpqKClCUBIqZLlFA2+izBWe9XzbtCd
+	lwzo146OqxWXGJgNmf7Z0gVdST9Z2Ts53iUqnCxd9JnzrDZ7kvqeafTLCtd6pgG6+1tZ
+	GbCodPKQv1URgHAYEZM05PD+mMScD+DwtQwVDtAMrpo7GhkjuKAFu/2KrfmTdkcPqHLC
+	Op4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=9xaZM9gC13tQ0nzEq9ICIpO71TNqXbLO2rg1Fu7Rqhw=;
+	b=mwrR34PmcrVQvrFV3YE19Cnrxr0kD+Rrqef03v/A4EQ6+u0nhJyCHfL6ZAM5O7jyi3
+	GCmonMzUNWv+SrJdMWLuOoS4Xepx+QXDaCRgjGDVCozrYo3i3o4uYdGMwbY3+jw6QHcD
+	+WtvsdIy0OH/kNuVwhRj4lwqHt0ToKGzfFmTfGNTpFIWZh6KAw9z9w/gwrbr2/Dc0dg+
+	dv/TEeeoxErwLU3FOL5IOx3d49GFqtiv9qt9412EaFOnPDq/UegZTNrnV2ptQXsAz9En
+	F10nuqUHFHdMPqJBDSQcrIuzfBAmmi4f30HbdEXSRYvOjMWuTLc7ZDLFNx2YhxUO0MQ/
+	RABA==
+X-Gm-Message-State: AIkVDXJcBJIbeYG9rRwb4usE3vZIC3oMDgGJyHHBVD7l71vgpfS+DKwBouc4N9KRpLvD6A==
+X-Received: by 10.99.171.5 with SMTP id p5mr27782234pgf.182.1486569487528;
+	Wed, 08 Feb 2017 07:58:07 -0800 (PST)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	e25sm21594255pfk.3.2017.02.08.07.58.06
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 08 Feb 2017 07:58:06 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  8 Feb 2017 07:57:59 -0800
+Message-Id: <20170208155759.25297-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.11.1
+Subject: [PATCH] libcap: Add gperf-native to depends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,40 +51,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2017 14:23:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 08 Feb 2017 15:58:07 -0000
 
-On Fri, 2017-01-13 at 17:53 +0200, Alexander Kanavin wrote:
-> On 01/13/2017 05:36 PM, Joshua Lock wrote:
-> 
-> > Running checkpkg on the autobuilders won't really help as the
-> > autobuilders rely on the bitbake invocation returning a non-zero
-> > exit
-> > code to determine whether to mark the build step as failed, and
-> > that's
-> > not the case when checkpkg doesn't find an update version.
-> > 
-> > If we regularly run checkpkg on the autobuilders how should we
-> > detect
-> > that a SRC_URI change has caused the upstream version check to
-> > fail?
-> 
-> - run bitbake -c checkpkg world
-> - inspect tmp/log/checkpkg.csv for lines with 'UNKNOWN' upstream
-> status, 
-> make a list of recipes that have it
-> - compare that list against a stored list of exceptions (currently
-> it 
-> would have about 32 entries), if the lists don't match exactly, the 
-> upstream version check has failed.
-> 
-> All of this can be wrapped in poky/scripts/upstream-check-all
-> perhaps.
+Fixes
+|  gperf_case_strncmp (register const char *s1, register const char *s2, register size_t n)
+|                                                                                 ^~~~~~
+| ./_caps_output.gperf:96:53: error: unknown type name 'size_t'
+|  __cap_hash_name (register const char *str, register size_t len)
+|                                                      ^~~~~~
+| ./_caps_output.gperf:200:55: error: unknown type name 'size_t'
+|  __cap_lookup_name (register const char *str, register size_t len)
+|                                                        ^~~~~~
+| ./_caps_output.gperf:200:1: error: conflicting types for '__cap_lookup_name'
+|  __cap_lookup_name (register const char *str, register size_t len)
+|  ^~~~~~~~~~~~~~~~~
+| ./_caps_output.gperf:33:29: note: previous declaration of '__cap_lookup_name' was here
+|  const struct __cap_token_s *__cap_lookup_name(const char *, unsigned int);
+|                              ^~~~~~~~~~~~~~~~~
+| cap_text.c: In function 'cap_to_name':
+| cap_text.c:291:2: warning: ignoring return value of 'asprintf', declared with attribute warn_unused_result [-Wunused-result]
+|   asprintf(&tmp, "%u", cap);
+|   ^~~~~~~~~~~~~~~~~~~~~~~~~
+| make[1]: *** [Makefile:63: cap_text.o] Error 1
 
-Thanks, I've filed a bug to track implementing this feature:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-support/libcap/libcap_2.25.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=11031
+diff --git a/meta/recipes-support/libcap/libcap_2.25.bb b/meta/recipes-support/libcap/libcap_2.25.bb
+index 7ced4be626..343aeb6c40 100644
+--- a/meta/recipes-support/libcap/libcap_2.25.bb
++++ b/meta/recipes-support/libcap/libcap_2.25.bb
+@@ -5,7 +5,7 @@ HOMEPAGE = "http://sites.google.com/site/fullycapable/"
+ LICENSE = "BSD | GPLv2"
+ LIC_FILES_CHKSUM = "file://License;md5=3f84fd6f29d453a56514cb7e4ead25f1"
+ 
+-DEPENDS = "hostperl-runtime-native"
++DEPENDS = "hostperl-runtime-native gperf-native"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${PV}.tar.xz \
+            file://0001-ensure-the-XATTR_NAME_CAPS-is-defined-when-it-is-use.patch \
+-- 
+2.11.1
 
-Joshua
 
