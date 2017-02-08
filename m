@@ -1,25 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 81AE371A3E
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C1D7371A9D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Feb 2017 03:17:19 +0000 (UTC)
+	Wed,  8 Feb 2017 03:17:20 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v183HJ5O021185
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 7 Feb 2017 19:17:19 -0800
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v183HLka020828
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 7 Feb 2017 19:17:21 -0800 (PST)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 7 Feb 2017 19:17:18 -0800
+	Tue, 7 Feb 2017 19:17:20 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Tue, 7 Feb 2017 22:17:01 -0500
-Message-ID: <06ac1ffcae1fa66d6e24bc5168cf37c2787d0b45.1486523726.git.hongxu.jia@windriver.com>
+Date: Tue, 7 Feb 2017 22:17:02 -0500
+Message-ID: <a60fd7af23251a9d275621c3b886b7a7ea9cecd0.1486523726.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1486523726.git.hongxu.jia@windriver.com>
 References: <cover.1486523726.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 05/13] libgcrypt: 1.7.3 -> 1.7.6
+Subject: [PATCH 06/13] libgpg-error: 1.25 -> 1.26
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,37 +32,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2017 03:17:19 -0000
+X-List-Received-Date: Wed, 08 Feb 2017 03:17:20 -0000
 Content-Type: text/plain
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-support/libgcrypt/libgcrypt_1.7.3.bb | 4 ----
- meta/recipes-support/libgcrypt/libgcrypt_1.7.6.bb | 4 ++++
- 2 files changed, 4 insertions(+), 4 deletions(-)
- delete mode 100644 meta/recipes-support/libgcrypt/libgcrypt_1.7.3.bb
- create mode 100644 meta/recipes-support/libgcrypt/libgcrypt_1.7.6.bb
+ .../libgpg-error/{libgpg-error_1.25.bb => libgpg-error_1.26.bb}       | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libgpg-error/{libgpg-error_1.25.bb => libgpg-error_1.26.bb} (92%)
 
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.7.3.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.7.3.bb
-deleted file mode 100644
-index ddd7c53..0000000
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.7.3.bb
-+++ /dev/null
-@@ -1,4 +0,0 @@
--require libgcrypt.inc
--
--SRC_URI[md5sum] = "bb5b00cb70b1215833857fd690080fbb"
--SRC_URI[sha256sum] = "c98470cf6a781f2af4bdfda710ad39f0f54b5044e8c43b878d4005737d6c213f"
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.7.6.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.7.6.bb
-new file mode 100644
-index 0000000..da0a1fe
---- /dev/null
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.7.6.bb
-@@ -0,0 +1,4 @@
-+require libgcrypt.inc
-+
-+SRC_URI[md5sum] = "eac6d11999650e8a1493674c1bdbc7f8"
-+SRC_URI[sha256sum] = "fc0aec7714d75d812b665bd510d66031b1b2ce8fa855cc2c02238c954ea36982"
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.25.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.26.bb
+similarity index 92%
+rename from meta/recipes-support/libgpg-error/libgpg-error_1.25.bb
+rename to meta/recipes-support/libgpg-error/libgpg-error_1.26.bb
+index d4ce224..aee3170 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error_1.25.bb
++++ b/meta/recipes-support/libgpg-error/libgpg-error_1.26.bb
+@@ -16,8 +16,8 @@ SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
+            file://pkgconfig.patch \
+ 	  "
+ 
+-SRC_URI[md5sum] = "d9fa545922a5060cbfbd87464bc31686"
+-SRC_URI[sha256sum] = "f628f75843433b38b05af248121beb7db5bd54bb2106f384edac39934261320c"
++SRC_URI[md5sum] = "97456709dbbcbb69354317ffe3e347cd"
++SRC_URI[sha256sum] = "4c4bcbc90116932e3acd37b37812d8653b1b189c1904985898e860af818aee69"
+ 
+ BINCONFIG = "${bindir}/gpg-error-config"
+ 
 -- 
 2.8.1
 
