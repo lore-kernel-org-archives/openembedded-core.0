@@ -1,26 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 789C171C9B
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A890271C9B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Feb 2017 19:14:35 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga105.fm.intel.com with ESMTP; 08 Feb 2017 11:14:35 -0800
+	Wed,  8 Feb 2017 19:14:36 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga103.jf.intel.com with ESMTP; 08 Feb 2017 11:14:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,348,1484035200"; d="scan'208";a="56664980"
+X-IronPort-AV: E=Sophos;i="5.35,348,1484035200"; d="scan'208";a="818593545"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga004.jf.intel.com with ESMTP; 08 Feb 2017 11:14:35 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 08 Feb 2017 11:14:36 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 288FE6A4082
+	by linux.intel.com (Postfix) with ESMTP id 379136A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Feb 2017 11:13:33 -0800 (PST)
+	Wed,  8 Feb 2017 11:13:35 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Feb 2017 20:51:26 +0200
-Message-Id: <107cb1f01b657217c11002d1bbcb8d836e4fc9ab.1486579259.git.ed.bartosh@linux.intel.com>
+Date: Wed,  8 Feb 2017 20:51:27 +0200
+Message-Id: <169662163c0b93161eaf0c405ee2dc6009bb53af.1486579259.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1486579259.git.ed.bartosh@linux.intel.com>
 References: <cover.1486579259.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 2/9] wic: partitionedfs: get rid of __add_partition
+Subject: [PATCH 3/9] wic: partitionedfs: rename __create_partition and __add_disk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,49 +33,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2017 19:14:35 -0000
+X-List-Received-Date: Wed, 08 Feb 2017 19:14:36 -0000
 
-3 lines long private method __add_partition is called only
-from add_partition method. Merged them together to increase
-readability.
+Renamed private methods with leading double underscores:
+__create_partition -> _create_partition
+__add_disk -> _add_disk
+
+There is no point to have those names mangled, one underscore
+is enough.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/utils/partitionedfs.py | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
+ scripts/lib/wic/utils/partitionedfs.py | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/utils/partitionedfs.py
-index 08ae52f..2cfdf70 100644
+index 2cfdf70..b7ab1d5 100644
 --- a/scripts/lib/wic/utils/partitionedfs.py
 +++ b/scripts/lib/wic/utils/partitionedfs.py
-@@ -80,15 +80,6 @@ class Image():
+@@ -49,7 +49,7 @@ class Image():
+         self._partitions_layed_out = False
+         self.native_sysroot = native_sysroot
+ 
+-    def __add_disk(self, disk_name):
++    def _add_disk(self, disk_name):
+         """ Add a disk 'disk_name' to the internal list of disks. Note,
+         'disk_name' is the name of the disk in the target system
+         (e.g., sdb). """
+@@ -76,7 +76,7 @@ class Image():
+         can be added. In case of multiple disks, disk partitions have to be
+         added for each disk separately with 'add_partition()". """
+ 
+-        self.__add_disk(disk_name)
++        self._add_disk(disk_name)
          self.disks[disk_name]['disk'] = disk_obj
          self.disks[disk_name]['identifier'] = identifier
  
--    def __add_partition(self, part):
--        """ This is a helper function for 'add_partition()' which adds a
--        partition to the internal list of partitions. """
--
--        assert not self._partitions_layed_out
--
--        self.partitions.append(part)
--        self.__add_disk(part['disk_name'])
--
-     def add_partition(self, size, disk_name, mountpoint, source_file=None, fstype=None,
-                       label=None, fsopts=None, boot=False, align=None, no_table=False,
-                       part_type=None, uuid=None, system_id=None):
-@@ -117,7 +108,10 @@ class Image():
-                 'uuid': uuid, # Partition UUID
-                 'system_id': system_id} # Partition system id
+@@ -217,7 +217,7 @@ class Image():
  
--        self.__add_partition(part)
-+        assert not self._partitions_layed_out
-+
-+        self.partitions.append(part)
-+        self._add_disk(part['disk_name'])
+             disk['min_size'] *= self.sector_size
  
-     def layout_partitions(self, ptable_format="msdos"):
-         """ Layout the partitions, meaning calculate the position of every
+-    def __create_partition(self, device, parttype, fstype, start, size):
++    def _create_partition(self, device, parttype, fstype, start, size):
+         """ Create a partition on an image described by the 'device' object. """
+ 
+         # Start is included to the size so we need to substract one from the end.
+@@ -272,9 +272,9 @@ class Image():
+                 # starts a sector before the first logical partition,
+                 # add a sector at the back, so that there is enough
+                 # room for all logical partitions.
+-                self.__create_partition(disk['disk'].device, "extended",
+-                                        None, part['start'] - 1,
+-                                        disk['offset'] - part['start'] + 1)
++                self._create_partition(disk['disk'].device, "extended",
++                                       None, part['start'] - 1,
++                                       disk['offset'] - part['start'] + 1)
+ 
+             if part['fstype'] == "swap":
+                 parted_fs_type = "linux-swap"
+@@ -297,8 +297,8 @@ class Image():
+                             part['mountpoint'])
+                 part['size'] -= 1
+ 
+-            self.__create_partition(disk['disk'].device, part['type'],
+-                                    parted_fs_type, part['start'], part['size'])
++            self._create_partition(disk['disk'].device, part['type'],
++                                   parted_fs_type, part['start'], part['size'])
+ 
+             if part['part_type']:
+                 msger.debug("partition %d: set type UID to %s" % \
 -- 
 2.1.4
 
