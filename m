@@ -1,22 +1,22 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 3591071C5F
+	by mail.openembedded.org (Postfix) with ESMTP id 5E22071CF9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Feb 2017 14:15:50 +0000 (UTC)
+	Wed,  8 Feb 2017 14:15:51 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 08 Feb 2017 06:15:46 -0800
+	by orsmga102.jf.intel.com with ESMTP; 08 Feb 2017 06:15:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,346,1477983600"; d="scan'208";a="1092332147"
+X-IronPort-AV: E=Sophos;i="5.33,346,1477983600"; d="scan'208";a="1092332150"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga001.jf.intel.com with ESMTP; 08 Feb 2017 06:15:45 -0800
+	by orsmga001.jf.intel.com with ESMTP; 08 Feb 2017 06:15:46 -0800
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Feb 2017 16:15:38 +0200
-Message-Id: <20170208141542.13484-3-markus.lehtonen@linux.intel.com>
+Date: Wed,  8 Feb 2017 16:15:39 +0200
+Message-Id: <20170208141542.13484-4-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <20170208141542.13484-1-markus.lehtonen@linux.intel.com>
 References: <20170208141542.13484-1-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 2/6] scripts: Implement oe-git-archive
+Subject: [PATCH 3/6] oeqa.utils.git: support bare repos
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,270 +31,52 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 08 Feb 2017 14:15:51 -0000
 
-A helper script for committing data to git and pushing it upstream. The
-motivation for the script stems from the need to archiving QA test
-results in git, but it could be used elsewhere, of course. The script
-needs to be run under an initialized build environment because it
-utilizes bitbake configuration information.
-
 [YOCTO #10582]
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- scripts/oe-git-archive | 244 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 244 insertions(+)
- create mode 100755 scripts/oe-git-archive
+ meta/lib/oeqa/utils/git.py | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/oe-git-archive b/scripts/oe-git-archive
-new file mode 100755
-index 0000000..419332d
---- /dev/null
-+++ b/scripts/oe-git-archive
-@@ -0,0 +1,244 @@
-+#!/usr/bin/python3
-+#
-+# Helper script for committing data to git and pushing upstream
-+#
-+# Copyright (c) 2017, Intel Corporation.
-+#
-+# This program is free software; you can redistribute it and/or modify it
-+# under the terms and conditions of the GNU General Public License,
-+# version 2, as published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope it will be useful, but WITHOUT
-+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+# more details.
-+#
-+import argparse
-+import glob
-+import json
-+import logging
-+import math
-+import os
-+import re
-+import sys
-+from collections import namedtuple, OrderedDict
-+from datetime import datetime, timedelta, tzinfo
-+from operator import attrgetter
-+
-+# Import oe and bitbake libs
-+scripts_path = os.path.dirname(os.path.realpath(__file__))
-+sys.path.append(os.path.join(scripts_path, 'lib'))
-+import scriptpath
-+scriptpath.add_bitbake_lib_path()
-+scriptpath.add_oe_lib_path()
-+
-+from oeqa.utils.git import GitRepo, GitError
-+from oeqa.utils.metadata import metadata_from_bb
-+
-+
-+# Setup logging
-+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
-+log = logging.getLogger()
-+
-+
-+class ArchiveError(Exception):
-+    """Internal error handling of this script"""
-+
-+
-+def format_str(string, fields):
-+    """Format string using the given fields (dict)"""
-+    try:
-+        return string.format(**fields)
-+    except KeyError as err:
-+        raise ArchiveError("Unable to expand string '{}': unknown field {} "
-+                           "(valid fields are: {})".format(
-+                               string, err, ', '.join(sorted(fields.keys()))))
-+
-+
-+def init_git_repo(path, no_create):
-+    """Initialize local Git repository"""
-+    path = os.path.abspath(path)
-+    if os.path.isfile(path):
-+        raise ArchiveError("Invalid Git repo at {}: path exists but is not a "
-+                           "directory".format(path))
-+    if not os.path.isdir(path) or not os.listdir(path):
-+        if no_create:
-+            raise ArchiveError("No git repo at {}, refusing to create "
-+                               "one".format(path))
-+        if not os.path.isdir(path):
-+            try:
-+                os.mkdir(path)
-+            except (FileNotFoundError, PermissionError) as err:
-+                raise ArchiveError("Failed to mkdir {}: {}".format(path, err))
-+        if not os.listdir(path):
-+            log.info("Initializing a new Git repo at %s", path)
-+            repo = GitRepo.init(path)
-+    try:
-+        repo = GitRepo(path, is_topdir=True)
-+    except GitError:
-+        raise ArchiveError("Non-empty directory that is not a Git repository "
-+                           "at {}\nPlease specify an existing Git repository, "
-+                           "an empty directory or a non-existing directory "
-+                           "path.".format(path))
-+    return repo
-+
-+
-+def git_commit_data(repo, data_dir, branch, message):
-+    """Commit data into a Git repository"""
-+    log.info("Committing data into to branch %s", branch)
-+    tmp_index = os.path.join(repo.git_dir, 'index.oe-git-archive')
-+    try:
-+        # Create new tree object from the data
-+        env_update = {'GIT_INDEX_FILE': tmp_index,
-+                      'GIT_WORK_TREE': os.path.abspath(data_dir)}
-+        repo.run_cmd('add .', env_update)
-+        tree = repo.run_cmd('write-tree', env_update)
-+
-+        # Create new commit object from the tree
-+        parent = repo.rev_parse(branch)
-+        git_cmd = ['commit-tree', tree, '-m', message]
-+        if parent:
-+            git_cmd += ['-p', parent]
-+        commit = repo.run_cmd(git_cmd, env_update)
-+
-+        # Update branch head
-+        git_cmd = ['update-ref', 'refs/heads/' + branch, commit]
-+        if parent:
-+            git_cmd.append(parent)
-+        repo.run_cmd(git_cmd)
-+
-+        # Update current HEAD, if we're on branch 'branch'
-+        if repo.get_current_branch() == branch:
-+            log.info("Updating %s HEAD to latest commit", repo.top_dir)
-+            repo.run_cmd('reset --hard')
-+
-+        return commit
-+    finally:
-+        if os.path.exists(tmp_index):
-+            os.unlink(tmp_index)
-+
-+
-+def expand_tag_strings(repo, name_pattern, msg_subj_pattern, msg_body_pattern,
-+                       keywords):
-+    """Generate tag name and message, with support for running id number"""
-+    keyws = keywords.copy()
-+    # Tag number is handled specially: if not defined, we autoincrement it
-+    if 'tag_number' not in keyws:
-+        # Fill in all other fields than 'tag_number'
-+        keyws['tag_number'] = '{tag_number}'
-+        tag_re = format_str(name_pattern, keyws)
-+        # Replace parentheses for proper regex matching
-+        tag_re = tag_re.replace('(', '\(').replace(')', '\)') + '$'
-+        # Inject regex group pattern for 'tag_number'
-+        tag_re = tag_re.format(tag_number='(?P<tag_number>[0-9]{1,5})')
-+
-+        keyws['tag_number'] = 0
-+        for existing_tag in repo.run_cmd('tag').splitlines():
-+            match = re.match(tag_re, existing_tag)
-+
-+            if match and int(match.group('tag_number')) >= keyws['tag_number']:
-+                keyws['tag_number'] = int(match.group('tag_number')) + 1
-+
-+    tag_name = format_str(name_pattern, keyws)
-+    msg_subj= format_str(msg_subj_pattern.strip(), keyws)
-+    msg_body = format_str(msg_body_pattern, keyws)
-+    return tag_name, msg_subj + '\n\n' + msg_body
-+
-+
-+def parse_args(argv):
-+    """Parse command line arguments"""
-+    parser = argparse.ArgumentParser(
-+            description="Commit data to git and push upstream",
-+            formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-+
-+    parser.add_argument('--debug', '-D', action='store_true',
-+                        help="Verbose logging")
-+    parser.add_argument('--git-dir', '-g', required=True,
-+                        help="Local git directory to use")
-+    parser.add_argument('--no-create', action='store_true',
-+                        help="If GIT_DIR is not a valid Git repository, do not "
-+                             "try to create one")
-+    parser.add_argument('--push', '-p', nargs='?', default=False, const=True,
-+                        help="Push to remote")
-+    parser.add_argument('--branch-name', '-b',
-+                        default='{hostname}/{branch}/{machine}',
-+                        help="Git branch name (pattern) to use")
-+    parser.add_argument('--no-tag', action='store_true',
-+                        help="Do not create Git tag")
-+    parser.add_argument('--tag-name', '-t',
-+                        default='{hostname}/{branch}/{machine}/{commit_count}-g{commit}/{tag_number}',
-+                        help="Tag name (pattern) to use")
-+    parser.add_argument('--commit-msg-subject',
-+                        default='Results of {branch}:{commit} on {hostname}',
-+                        help="Subject line (pattern) to use in the commit message")
-+    parser.add_argument('--commit-msg-body',
-+                        default='branch: {branch}\ncommit: {commit}\nhostname: {hostname}',
-+                        help="Commit message body (pattern)")
-+    parser.add_argument('--tag-msg-subject',
-+                        default='Test run #{tag_number} of {branch}:{commit} on {hostname}',
-+                        help="Subject line (pattern) of the tag message")
-+    parser.add_argument('--tag-msg-body',
-+                        default='',
-+                        help="Tag message body (pattern)")
-+    parser.add_argument('data_dir', metavar='DATA_DIR',
-+                        help="Data to commit")
-+    return parser.parse_args(argv)
-+
-+
-+def main(argv=None):
-+    """Script entry point"""
-+    args = parse_args(argv)
-+    if args.debug:
-+        log.setLevel(logging.DEBUG)
-+
-+    try:
-+        if not os.path.isdir(args.data_dir):
-+            raise ArchiveError("Not a directory: {}".format(args.data_dir))
-+
-+        data_repo = init_git_repo(args.git_dir, args.no_create)
-+
-+        # Get keywords to be used in tag and branch names and messages
-+        metadata = metadata_from_bb()
-+        keywords = {'hostname': metadata['hostname'],
-+                    'branch': metadata['layers']['meta']['branch'],
-+                    'commit': metadata['layers']['meta']['commit'],
-+                    'commit_count': metadata['layers']['meta']['commit_count'],
-+                    'machine': metadata['config']['MACHINE']}
-+
-+        # Expand strings early in order to avoid getting into inconsistent
-+        # state (e.g. no tag even if data was committed)
-+        commit_msg = format_str(args.commit_msg_subject.strip(), keywords)
-+        commit_msg += '\n\n' + format_str(args.commit_msg_body, keywords)
-+        branch_name = format_str(args.branch_name, keywords)
-+        tag_name = None
-+        if not args.no_tag and args.tag_name:
-+            tag_name, tag_msg = expand_tag_strings(data_repo, args.tag_name,
-+                                                   args.tag_msg_subject,
-+                                                   args.tag_msg_body, keywords)
-+
-+        # Commit data
-+        commit = git_commit_data(data_repo, args.data_dir, branch_name,
-+                                 commit_msg)
-+
-+        # Create tag
-+        if tag_name:
-+            log.info("Creating tag %s", tag_name)
-+            data_repo.run_cmd(['tag', '-a', '-m', tag_msg, tag_name, commit])
-+
-+        # Push data to remote
-+        if args.push:
-+            cmd = ['push', '--tags']
-+            if args.push is not True:
-+                cmd.extend(['--repo', args.push])
-+                cmd.append(branch_name)
-+            log.info("Pushing data to remote")
-+            data_repo.run_cmd(cmd)
-+
-+    except ArchiveError as err:
-+        log.error(str(err))
-+        return 1
-+
-+    return 0
-+
-+if __name__ == "__main__":
-+    sys.exit(main())
+diff --git a/meta/lib/oeqa/utils/git.py b/meta/lib/oeqa/utils/git.py
+index 5dd90e0..e0cb3f0 100644
+--- a/meta/lib/oeqa/utils/git.py
++++ b/meta/lib/oeqa/utils/git.py
+@@ -16,12 +16,17 @@ class GitError(Exception):
+ class GitRepo(object):
+     """Class representing a Git repository clone"""
+     def __init__(self, path, is_topdir=False):
+-        self.top_dir = self._run_git_cmd_at(['rev-parse', '--show-toplevel'],
+-                                            path)
+         git_dir = self._run_git_cmd_at(['rev-parse', '--git-dir'], path)
+         git_dir = git_dir if os.path.isabs(git_dir) else os.path.join(path, git_dir)
+         self.git_dir = os.path.realpath(git_dir)
+ 
++        if self._run_git_cmd_at(['rev-parse', '--is-bare-repository'], path) == 'true':
++            self.bare = True
++            self.top_dir = self.git_dir
++        else:
++            self.bare = False
++            self.top_dir = self._run_git_cmd_at(['rev-parse', '--show-toplevel'],
++                                                path)
+         realpath = os.path.realpath(path)
+         if is_topdir and realpath != self.top_dir:
+             raise GitError("{} is not a Git top directory".format(realpath))
+@@ -40,9 +45,12 @@ class GitRepo(object):
+         return ret.output.strip()
+ 
+     @staticmethod
+-    def init(path):
++    def init(path, bare=False):
+         """Initialize a new Git repository"""
+-        GitRepo._run_git_cmd_at('init', cwd=path)
++        cmd = ['init']
++        if bare:
++            cmd.append('--bare')
++        GitRepo._run_git_cmd_at(cmd, cwd=path)
+         return GitRepo(path, is_topdir=True)
+ 
+     def run_cmd(self, git_args, env_update=None):
 -- 
 2.10.2
 
