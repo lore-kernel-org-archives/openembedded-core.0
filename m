@@ -1,28 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E50B471DA1
+	by mail.openembedded.org (Postfix) with ESMTP id 570C071DAB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Feb 2017 23:34:37 +0000 (UTC)
+	Wed,  8 Feb 2017 23:34:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v18NYaEM000371; Wed, 8 Feb 2017 23:34:37 GMT
+	v18NYaEN000371; Wed, 8 Feb 2017 23:34:37 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id VQDc9xFaBrXQ; Wed,  8 Feb 2017 23:34:37 +0000 (GMT)
+	with LMTP id i7_b8wfDIuq5; Wed,  8 Feb 2017 23:34:37 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v18NYY1m000340
+	v18NYYiT000346
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Wed, 8 Feb 2017 23:34:35 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cbbkw-0006QD-DS; Wed, 08 Feb 2017 23:34:34 +0000
+	id 1cbbkw-0006Qf-HZ; Wed, 08 Feb 2017 23:34:34 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Feb 2017 23:34:23 +0000
-Message-Id: <1486596869-24628-1-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Wed,  8 Feb 2017 23:34:29 +0000
+Message-Id: <1486596869-24628-7-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 1/7] glibc-package: Avoid race sstate races with do_stash_locale
+In-Reply-To: <1486596869-24628-1-git-send-email-richard.purdie@linuxfoundation.org>
+References: <1486596869-24628-1-git-send-email-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 7/7] nss: Fix nss-native so the checksum doesn't change with BUILD_ARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,55 +39,40 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 08 Feb 2017 23:34:39 -0000
 
-The change to make do_stash_locale an sstate task between do_install and
-do_package has some unforeseen problems since the function deletes part of
-${D} but may or may not run depending on whether the task is installed from
-sstate.
+Switching between 32 and 64 bit BUILD_ARCH shows:
 
-This cleans up the current "pre packaging" function to be more deterministic
-and result in the same set of files, whichever code path we end up reaching
-that point by. Its not an ideal sitation but it should avoid the race
-failures we've seen on some builds.
+$ bitbake-diffsigs tmp-sstatesamehash*/stamps/*/nss-native/3.27.1-r0.do_compile.sigdata.*
+basehash changed from 944cc4554a823ba966aeda0ac3d33b79 to 2475db3659c248d81d0e4dadb3c1b4cd
+Variable SITEINFO_BITS value changed from '32' to '64'
+
+We shouldn't have this dependency and it would fail oe-selftest test_sstate_32_64_same_hash
+if nss-native were included, therefore exclude it.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/glibc/glibc-package.inc | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ meta/recipes-support/nss/nss_3.27.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index 557b958..f0fc9c1 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -192,18 +192,23 @@ python do_stash_locale_setscene () {
+diff --git a/meta/recipes-support/nss/nss_3.27.1.bb b/meta/recipes-support/nss/nss_3.27.1.bb
+index 9aad5bd..c89470f 100644
+--- a/meta/recipes-support/nss/nss_3.27.1.bb
++++ b/meta/recipes-support/nss/nss_3.27.1.bb
+@@ -107,6 +107,7 @@ do_compile() {
+         OS_TEST=${OS_TEST} \
+         RPATH="${RPATH}"
  }
- addtask do_stash_locale_setscene
++do_compile[vardepsexclude] += "SITEINFO_BITS"
  
--PACKAGE_PREPROCESS_FUNCS += "glibc_package_preprocess"
--
--glibc_package_preprocess () {
-+do_poststash_install_cleanup () {
-+	# Remove all files which do_stash_locale would remove (mv)
-+	# since that task could have come from sstate and not get run.
- 	for i in ${bashscripts}; do
--	    rm -f ${PKGD}${bindir}/$i
-+	    rm -f ${D}${bindir}/$i
- 	done
--	rm -rf ${PKGD}/${localedir}
-+	rm -f ${D}${bindir}/localedef
-+	rm -rf ${D}${datadir}/i18n
-+	rm -rf ${D}${libdir}/gconv
-+	rm -rf ${D}/${localedir}
-+	rm -rf ${D}${datadir}/locale
- 	if [ "${libdir}" != "${exec_prefix}/lib" ]; then
- 		# This dir only exists to hold locales
--		rm -rf ${PKGD}${exec_prefix}/lib
-+		rm -rf ${D}${exec_prefix}/lib
- 	fi
+ 
+ do_install_prepend_class-nativesdk() {
+@@ -180,6 +181,7 @@ do_install() {
+         install -m 755 -t ${D}/${bindir} $binary
+     done
  }
-+addtask do_poststash_install_cleanup after do_stash_locale do_install before do_populate_sysroot do_package
++do_install[vardepsexclude] += "SITEINFO_BITS"
  
- pkg_postinst_nscd () {
- 	if [ -z "$D" ]; then
+ do_install_append() {
+     # Create empty .chk files for the NSS libraries at build time. They could
 -- 
 2.7.4
 
