@@ -1,22 +1,28 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B3B071C5F
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id E598B71C3D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Feb 2017 14:15:51 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 08 Feb 2017 06:15:50 -0800
+	Wed,  8 Feb 2017 14:16:25 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga104.jf.intel.com with ESMTP; 08 Feb 2017 06:16:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,346,1477983600"; d="scan'208";a="1092332167"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga001.jf.intel.com with ESMTP; 08 Feb 2017 06:15:50 -0800
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.33,346,1477983600"; d="scan'208";a="818489046"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by FMSMGA003.fm.intel.com with ESMTP; 08 Feb 2017 06:16:24 -0800
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Feb 2017 16:15:42 +0200
-Message-Id: <20170208141542.13484-7-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.10.2
-In-Reply-To: <20170208141542.13484-1-markus.lehtonen@linux.intel.com>
-References: <20170208141542.13484-1-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 6/6] oe-build-perf-test: drop --commit-results
+References: <20170207042405.22707-1-raj.khem@gmail.com>
+	<CAJTo0LaapTyVGhiB9AfnWznNU1z8-dbJC=7+JOThYHb2HEM2=A@mail.gmail.com>
+	<1486561983.3754.4.camel@linux.intel.com>
+	<a124d3f3-a46a-e84f-a30e-904e02ce8bc3@mlbassoc.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <5cbb387d-3d38-a7c0-f5a8-84d0a9e98109@linux.intel.com>
+Date: Wed, 8 Feb 2017 16:16:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.6.0
+MIME-Version: 1.0
+In-Reply-To: <a124d3f3-a46a-e84f-a30e-904e02ce8bc3@mlbassoc.com>
+Subject: Re: [PATCH 1/3] go: Add recipes for golang compilers and tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,171 +35,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2017 14:15:51 -0000
+X-List-Received-Date: Wed, 08 Feb 2017 14:16:28 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Drop support for committing results into Git repository. The
-functionality was not directly related to testing and feels unnecessary
-complication of the script. The functionality has been moved into a
-separate oe-git-archive script.
+On 02/08/2017 03:57 PM, Gary Thomas wrote:
 
-[YOCTO #10582]
+>> FWIW I disagree. Go is a popular systems language and we're
+>> increasingly supporting a wide-array of systems with OE
+>> (from iot to ivi and beyond).
+>>
+>> Go is already in wide enough use and duplicated in enough layers that
+>> we would be doing folks a favour by including it
+>> in OE-Core and our build/test cycle.
+>
+> I agree - if ruby is OE-core worthy, go most certainly is.
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- scripts/oe-build-perf-test | 104 ---------------------------------------------
- 1 file changed, 104 deletions(-)
+Ruby is in oe-core only because it's needed by webkit.
 
-diff --git a/scripts/oe-build-perf-test b/scripts/oe-build-perf-test
-index f3867ab..8950c32 100755
---- a/scripts/oe-build-perf-test
-+++ b/scripts/oe-build-perf-test
-@@ -33,7 +33,6 @@ import oeqa.buildperf
- from oeqa.buildperf import (BuildPerfTestLoader, BuildPerfTestResult,
-                             BuildPerfTestRunner, KernelDropCaches)
- from oeqa.utils.commands import runCmd
--from oeqa.utils.git import GitRepo, GitError
- from oeqa.utils.metadata import metadata_from_bb, write_metadata_file
- 
- 
-@@ -74,31 +73,6 @@ def pre_run_sanity_check():
-         return False
-     return True
- 
--def init_git_repo(path):
--    """Check/create Git repository where to store results"""
--    path = os.path.abspath(path)
--    if os.path.isfile(path):
--        log.error("Invalid Git repo %s: path exists but is not a directory", path)
--        return False
--    if not os.path.isdir(path):
--        try:
--            os.mkdir(path)
--        except (FileNotFoundError, PermissionError) as err:
--            log.error("Failed to mkdir %s: %s", path, err)
--            return False
--    if not os.listdir(path):
--        log.info("Initializing a new Git repo at %s", path)
--        GitRepo.init(path)
--    try:
--        GitRepo(path, is_topdir=True)
--    except GitError:
--        log.error("No Git repository but a non-empty directory found at %s.\n"
--                  "Please specify a Git repository, an empty directory or "
--                  "a non-existing directory", path)
--        return False
--    return True
--
--
- def setup_file_logging(log_file):
-     """Setup loggin to file"""
-     log_dir = os.path.dirname(log_file)
-@@ -118,68 +92,6 @@ def archive_build_conf(out_dir):
-     shutil.copytree(src_dir, tgt_dir)
- 
- 
--def git_commit_results(repo_dir, results_dir, branch, tag, metadata):
--    """Commit results into a Git repository"""
--    repo = GitRepo(repo_dir, is_topdir=True)
--    distro_branch = metadata['layers']['meta']['branch']
--    distro_commit = metadata['layers']['meta']['commit']
--    distro_commit_count = metadata['layers']['meta']['commit_count']
--
--    # Replace keywords
--    branch = branch.format(git_branch=distro_branch,
--                           tester_host=metadata['hostname'])
--
--    log.info("Committing test results into %s %s", repo_dir, branch)
--    tmp_index = os.path.join(repo_dir, '.git', 'index.oe-build-perf')
--    try:
--        # Create new commit object from the new results
--        env_update = {'GIT_INDEX_FILE': tmp_index,
--                      'GIT_WORK_TREE': results_dir}
--        repo.run_cmd('add .', env_update)
--        tree = repo.run_cmd('write-tree', env_update)
--        parent = repo.rev_parse(branch)
--        msg = "Results of {}:{}\n".format(distro_branch, distro_commit)
--        git_cmd = ['commit-tree', tree, '-m', msg]
--        if parent:
--            git_cmd += ['-p', parent]
--        commit = repo.run_cmd(git_cmd, env_update)
--
--        # Update branch head
--        git_cmd = ['update-ref', 'refs/heads/' + branch, commit]
--        if parent:
--            git_cmd.append(parent)
--        repo.run_cmd(git_cmd)
--
--        # Update current HEAD, if we're on branch 'branch'
--        if repo.get_current_branch() == branch:
--            log.info("Updating %s HEAD to latest commit", repo_dir)
--            repo.run_cmd('reset --hard')
--
--        # Create (annotated) tag
--        if tag:
--            # Find tags matching the pattern
--            tag_keywords = dict(git_branch=distro_branch,
--                                git_commit=distro_commit,
--                                git_commit_count=distro_commit_count,
--                                tester_host=metadata['hostname'],
--                                tag_num='[0-9]{1,5}')
--            tag_re = re.compile(tag.format(**tag_keywords) + '$')
--            tag_keywords['tag_num'] = 0
--            for existing_tag in repo.run_cmd('tag').splitlines():
--                if tag_re.match(existing_tag):
--                    tag_keywords['tag_num'] += 1
--
--            tag = tag.format(**tag_keywords)
--            msg = "Test run #{} of {}:{}\n".format(tag_keywords['tag_num'],
--                                                   distro_branch,
--                                                   distro_commit)
--            repo.run_cmd(['tag', '-a', '-m', msg, tag, commit])
--
--    finally:
--        if os.path.exists(tmp_index):
--            os.unlink(tmp_index)
--
--
- def update_globalres_file(result_obj, filename, metadata):
-     """Write results to globalres csv file"""
-     # Map test names to time and size columns in globalres
-@@ -235,15 +147,6 @@ def parse_args(argv):
-                         help="Log file of this script")
-     parser.add_argument('--run-tests', nargs='+', metavar='TEST',
-                         help="List of tests to run")
--    parser.add_argument('--commit-results', metavar='GIT_DIR',
--                        type=os.path.abspath,
--                        help="Commit result data to a (local) git repository")
--    parser.add_argument('--commit-results-branch', metavar='BRANCH',
--                        default="{git_branch}",
--                        help="Commit results to branch BRANCH.")
--    parser.add_argument('--commit-results-tag', metavar='TAG',
--                        default="{git_branch}/{git_commit_count}-g{git_commit}/{tag_num}",
--                        help="Tag results commit with TAG.")
- 
-     return parser.parse_args(argv)
- 
-@@ -266,9 +169,6 @@ def main(argv=None):
- 
-     if not pre_run_sanity_check():
-         return 1
--    if args.commit_results:
--        if not init_git_repo(args.commit_results):
--            return 1
- 
-     # Check our capability to drop caches and ask pass if needed
-     KernelDropCaches.check()
-@@ -311,10 +211,6 @@ def main(argv=None):
-         result.write_results_json()
-     if args.globalres_file:
-         update_globalres_file(result, args.globalres_file, metadata)
--    if args.commit_results:
--        git_commit_results(args.commit_results, out_dir,
--                           args.commit_results_branch, args.commit_results_tag,
--                           metadata)
-     if result.wasSuccessful():
-         return 0
- 
--- 
-2.10.2
+As an oe-core maintainer, I think the bar for adding stuff to oe-core 
+should be higher than "it's popular" or "various existing layers are 
+causing duplication of effort and aren't cooperating". The more things 
+we have to support, the less time there is to do a good job with any 
+specific item.
 
+Alex
 
