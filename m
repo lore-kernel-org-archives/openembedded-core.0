@@ -1,50 +1,20 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-yw0-f170.google.com (mail-yw0-f170.google.com
-	[209.85.161.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 5393571C3D
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A9C671C3D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Feb 2017 14:07:36 +0000 (UTC)
-Received: by mail-yw0-f170.google.com with SMTP id v200so86378337ywc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Feb 2017 06:07:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=BP9R0OrbnnptRuFndHUiKm6fUt5KUY1EyyTEJRqigNk=;
-	b=D/TiqTDwo3XAhGlFJmfLprklKbLyCALkAYbLUqIfve51jXc82oAS3R3u0ZOxXlTWLp
-	S44vL6r9J5RLG24I7xgXdp1iMigsEjkouyJYAm2zID6CS47GJFSix8ZhHNC+hRKlkgRK
-	9Gtshjqx66deIYIQaqfGa8Bf7Yj1Z4lbMDg2smG4LiRKK5qBcqX52X0mFMI9OveVvoSC
-	PrZeIdUlbTEUDk1NnVHqKi9bq9/W1YWZ1ibPmIG9Z3V3k/DQJXPBiD7VK5JjHZeKxYEC
-	ZLIzDoCKvL5aO5n8Hk0IThRVAHI0P6pDHU0yI8RyHLuwjgyXKg9J9V21z/Vh01O1/Xzc
-	ax8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=BP9R0OrbnnptRuFndHUiKm6fUt5KUY1EyyTEJRqigNk=;
-	b=YWPWG2HmcGRGuRps2iluDFVk1X9Q2JCAb4+ZOGIEuPzBZGMMDSaGLFXRy3/YQaX+6l
-	cJdn2j8w8YOhfAQMZX+04ZvQoAwm1hi5OYe+mekawsPuCH04eTRQTUxODg0XClOtYpUT
-	qHzC7uzB2vxpvMEznX2zt8qyYLLw0ePZlamYxWUPy8mU59CQCbKUNzBYa3CyAbxBlUeF
-	h3PU9ChHKj+3dOjpMUmVkDA9+HsuLkpVj/4vTgUFudz52sHFhztvwPVgz4kMxCKmCvDj
-	biuK+c2l4TK5Daix3HHiiK72BB6YGRe7uASO3Qd1qYL1551hIMTgDAk/gGszWApvZUWk
-	Q7FQ==
-X-Gm-Message-State: AIkVDXLvZcdy1NfWR6M+Y8b07UOPMShITe++bvyzH4oX+mjxjVMhvJ5CDxEB4U1kHvroR/nS6siBNMi9bLBDbdUd
-X-Received: by 10.129.152.77 with SMTP id p74mr14007148ywg.177.1486562856967; 
-	Wed, 08 Feb 2017 06:07:36 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.13.234.11 with HTTP; Wed, 8 Feb 2017 06:07:06 -0800 (PST)
-In-Reply-To: <a124d3f3-a46a-e84f-a30e-904e02ce8bc3@mlbassoc.com>
-References: <20170207042405.22707-1-raj.khem@gmail.com>
-	<CAJTo0LaapTyVGhiB9AfnWznNU1z8-dbJC=7+JOThYHb2HEM2=A@mail.gmail.com>
-	<1486561983.3754.4.camel@linux.intel.com>
-	<a124d3f3-a46a-e84f-a30e-904e02ce8bc3@mlbassoc.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Wed, 8 Feb 2017 16:07:06 +0200
-Message-ID: <CAHiDW_EgMHAoBO+CnMEnTC6AMKud9GUZw_obX9i8GLGD=sWrVA@mail.gmail.com>
-To: Gary Thomas <gary@mlbassoc.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] go: Add recipes for golang compilers and tools
+	Wed,  8 Feb 2017 14:15:45 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga105.jf.intel.com with ESMTP; 08 Feb 2017 06:15:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,346,1477983600"; d="scan'208";a="1092332134"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by orsmga001.jf.intel.com with ESMTP; 08 Feb 2017 06:15:43 -0800
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  8 Feb 2017 16:15:36 +0200
+Message-Id: <20170208141542.13484-1-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.10.2
+Subject: [PATCH 0/6] Implement scripts/oe-git-archive
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,35 +27,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2017 14:07:38 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0bbf56070bbf05480563ab
+X-List-Received-Date: Wed, 08 Feb 2017 14:15:46 -0000
 
---94eb2c0bbf56070bbf05480563ab
-Content-Type: text/plain; charset=UTF-8
+This patchset implements a helper script for committing data to git and pushing
+it into an upstream repository. The new script re-uses some code from
+oe-build-perf-test script (the code is eventually removed from
+oe-build-perf-test in the last patch). The script supports flexible
+(pattern-based) tag and branch naming, and, similarly flexible commit and tag
+messages. It is also able to directly work with (local) bare repositories.
 
-On 8 February 2017 at 15:57, Gary Thomas <gary@mlbassoc.com> wrote:
->
-> I agree - if ruby is OE-core worthy, go most certainly is.
->
+The first four patches implement the new script. The last two patches takes the
+script in use in build performance testing scripts.
 
-webkit-gtk needs ruby-native as a build dependency. If that wasn't the case
-ruby would almost certainly not be in oe-core.
+[YOCTO #10582]
 
-Jussi
 
---94eb2c0bbf56070bbf05480563ab
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit 68da6c98841f4450736ae170e443aa744c8b77eb:
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 8=
- February 2017 at 15:57, Gary Thomas <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:gary@mlbassoc.com" target=3D"_blank">gary@mlbassoc.com</a>&gt;</span> wro=
-te:<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex">
-I agree - if ruby is OE-core worthy, go most certainly is.<span class=3D"HO=
-EnZb"><font color=3D"#888888"><br></font></span></blockquote><div><br></div=
-><div>webkit-gtk needs ruby-native as a build dependency. If that wasn&#39;=
-t the case ruby would almost certainly not be in oe-core.<br></div><div><br=
-></div><div>Jussi</div><div><br></div></div></div></div>
+  oeqa/selftest/pkgdata: use m4 instead of bash (2017-02-07 14:48:56 +0000)
 
---94eb2c0bbf56070bbf05480563ab--
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib marquiz/fixes-10582
+  http://git.openembedded.org/openembedded-core-contrib/log/?h=marquiz/fixes-10582
+
+
+Markus Lehtonen (6):
+  oeqa.utils.git: add git_dir property
+  scripts: Implement oe-git-archive
+  oeqa.utils.git: support bare repos
+  scripts/oe-git-archive: support creating bare repositories
+  build-perf-test-wrapper.sh: use oe-git-archive
+  oe-build-perf-test: drop --commit-results
+
+ meta/lib/oeqa/utils/git.py                 |  20 ++-
+ scripts/contrib/build-perf-test-wrapper.sh |  18 ++-
+ scripts/oe-build-perf-test                 | 104 ------------
+ scripts/oe-git-archive                     | 247 +++++++++++++++++++++++++++++
+ 4 files changed, 275 insertions(+), 114 deletions(-)
+ create mode 100755 scripts/oe-git-archive
+
+-- 
+2.10.2
+
+
