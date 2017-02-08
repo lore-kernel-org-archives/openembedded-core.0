@@ -1,22 +1,22 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D01271D4E
+	by mail.openembedded.org (Postfix) with ESMTP id 7CC2171D86
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  8 Feb 2017 14:15:51 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 08 Feb 2017 06:15:48 -0800
+	by orsmga102.jf.intel.com with ESMTP; 08 Feb 2017 06:15:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,346,1477983600"; d="scan'208";a="1092332156"
+X-IronPort-AV: E=Sophos;i="5.33,346,1477983600"; d="scan'208";a="1092332162"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga001.jf.intel.com with ESMTP; 08 Feb 2017 06:15:47 -0800
+	by orsmga001.jf.intel.com with ESMTP; 08 Feb 2017 06:15:48 -0800
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Feb 2017 16:15:40 +0200
-Message-Id: <20170208141542.13484-5-markus.lehtonen@linux.intel.com>
+Date: Wed,  8 Feb 2017 16:15:41 +0200
+Message-Id: <20170208141542.13484-6-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <20170208141542.13484-1-markus.lehtonen@linux.intel.com>
 References: <20170208141542.13484-1-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 4/6] scripts/oe-git-archive: support creating bare repositories
+Subject: [PATCH 5/6] build-perf-test-wrapper.sh: use oe-git-archive
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,63 +31,51 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 08 Feb 2017 14:15:51 -0000
 
+Start to use the new helper script for archiving results data in Git.
+
 [YOCTO #10582]
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- scripts/oe-git-archive | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ scripts/contrib/build-perf-test-wrapper.sh | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/scripts/oe-git-archive b/scripts/oe-git-archive
-index 419332d..117118b 100755
---- a/scripts/oe-git-archive
-+++ b/scripts/oe-git-archive
-@@ -55,7 +55,7 @@ def format_str(string, fields):
-                                string, err, ', '.join(sorted(fields.keys()))))
+diff --git a/scripts/contrib/build-perf-test-wrapper.sh b/scripts/contrib/build-perf-test-wrapper.sh
+index a4c1929..7788bb1 100755
+--- a/scripts/contrib/build-perf-test-wrapper.sh
++++ b/scripts/contrib/build-perf-test-wrapper.sh
+@@ -48,8 +48,7 @@ while getopts "ha:c:C:w:" opt; do
+             ;;
+         c)  commitish=$OPTARG
+             ;;
+-        C)  results_repo=`realpath "$OPTARG"`
+-            commit_results=("--commit-results" "$results_repo")
++        C)  results_repo=`realpath -s "$OPTARG"`
+             ;;
+         w)  base_dir=`realpath "$OPTARG"`
+             ;;
+@@ -130,10 +129,17 @@ fi
+ # Run actual test script
+ oe-build-perf-test --out-dir "$results_dir" \
+                    --globalres-file "$globalres_log" \
+-                   --lock-file "$base_dir/oe-build-perf.lock" \
+-                   "${commit_results[@]}" \
+-                   --commit-results-branch "{tester_host}/{git_branch}/$machine" \
+-                   --commit-results-tag "{tester_host}/{git_branch}/$machine/{git_commit_count}-g{git_commit}/{tag_num}"
++                   --lock-file "$base_dir/oe-build-perf.lock"
++
++# Commit results to git
++if [ -n "$results_repo" ]; then
++    echo -e "\nArchiving results in $results_repo"
++    oe-git-archive \
++        --git-dir "$results_repo" \
++        --branch-name "{hostname}/{branch}/{machine}" \
++        --tag-name "{hostname}/{branch}/{machine}/{commit_count}-g{commit}/{tag_number}" \
++        "$results_dir"
++fi
  
- 
--def init_git_repo(path, no_create):
-+def init_git_repo(path, no_create, bare):
-     """Initialize local Git repository"""
-     path = os.path.abspath(path)
-     if os.path.isfile(path):
-@@ -72,7 +72,7 @@ def init_git_repo(path, no_create):
-                 raise ArchiveError("Failed to mkdir {}: {}".format(path, err))
-         if not os.listdir(path):
-             log.info("Initializing a new Git repo at %s", path)
--            repo = GitRepo.init(path)
-+            repo = GitRepo.init(path, bare)
-     try:
-         repo = GitRepo(path, is_topdir=True)
-     except GitError:
-@@ -108,7 +108,7 @@ def git_commit_data(repo, data_dir, branch, message):
-         repo.run_cmd(git_cmd)
- 
-         # Update current HEAD, if we're on branch 'branch'
--        if repo.get_current_branch() == branch:
-+        if not repo.bare and repo.get_current_branch() == branch:
-             log.info("Updating %s HEAD to latest commit", repo.top_dir)
-             repo.run_cmd('reset --hard')
- 
-@@ -158,6 +158,9 @@ def parse_args(argv):
-     parser.add_argument('--no-create', action='store_true',
-                         help="If GIT_DIR is not a valid Git repository, do not "
-                              "try to create one")
-+    parser.add_argument('--bare', action='store_true',
-+                        help="Initialize a bare repository when creating a "
-+                             "new one")
-     parser.add_argument('--push', '-p', nargs='?', default=False, const=True,
-                         help="Push to remote")
-     parser.add_argument('--branch-name', '-b',
-@@ -195,7 +198,7 @@ def main(argv=None):
-         if not os.path.isdir(args.data_dir):
-             raise ArchiveError("Not a directory: {}".format(args.data_dir))
- 
--        data_repo = init_git_repo(args.git_dir, args.no_create)
-+        data_repo = init_git_repo(args.git_dir, args.no_create, args.bare)
- 
-         # Get keywords to be used in tag and branch names and messages
-         metadata = metadata_from_bb()
+ case $? in
+     1)  echo "ERROR: oe-build-perf-test script failed!"
 -- 
 2.10.2
 
