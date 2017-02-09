@@ -1,45 +1,24 @@
-Return-Path: <dwesterg@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 0301571E5F
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 89F28600E2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Feb 2017 16:09:42 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id y143so496897pfb.1
+	Thu,  9 Feb 2017 16:12:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v19GCgBh019534
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Feb 2017 08:09:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=EJGa56O7a+0CupRwpbDsNArVKg9xV88S6cxhnzWcPf4=;
-	b=sGQ5nHALLw328GL0hFQGOWslgfWV+kWaZ9wicztrjMfLAkxGJ6uuUIherHbt7zVfTe
-	Rz8/fQwRQ0R1AfaSTsioxi3OdrjLBPoh5mh9RRgxZgIpchCbsgW1AFPFZw93xDYzQw6s
-	aBqCI9ULnBWA3EWVVjPTNiUZ9lgLYkFXVYRb6YRjiQfaeGUZE+300JgUPbGgvwssSlke
-	LQ7FmbL7fUCGb4pe9gSkPA/GyAjmmm8//dpCeFlMcfqC7vqEOzo6yKXQMgK1h//FGXU7
-	dFX7/0tMPXGftPJaJdhvTEfLGi6K/fjNcSNJtb4X7sqbwma1Z3W4qHAhAgxAYCD9IjUv
-	g4ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=EJGa56O7a+0CupRwpbDsNArVKg9xV88S6cxhnzWcPf4=;
-	b=UMhcwbt4W6b6EmV92+FrBzki8+o8+XMVAenjvWdMmW2298Od5TEyUKWzUxhPGxzCsA
-	6ymY1r1Fk3FUKYFSCCc6ipYsWYSmhoFE7/6J1cBCjrxSqQW/vVqANhMpFVR7551d0AeO
-	m/9uhOZlXiJG/smikUJxfeXOk7qkpjC4EPha7QoI9eCBWXQPJa+KD//KlazWN9cwnR9I
-	JCpX5n4pxclbtp2CZ+XjT88VMdIo3O7+FJfOfsN/0D0tWemmNzNbahM+8BrGTleygDa0
-	+jwlplV8N38L0cBzOY18GRDO6uCRS4pCbSH+1ooNNGRNsA7JgB+tdzXV5k1yYRV56r1X
-	yC1Q==
-X-Gm-Message-State: AMke39kiw5hZ22HUt8VRpEQDivK/1aS69jikHCaR+wznhrHVmNI7pxKn4kzCDsZbfKCF7Q==
-X-Received: by 10.99.95.151 with SMTP id t145mr4792724pgb.75.1486656582936;
-	Thu, 09 Feb 2017 08:09:42 -0800 (PST)
-Received: from dwesterg-mobl1.amr.corp.intel.com ([192.55.54.40])
-	by smtp.gmail.com with ESMTPSA id
-	d124sm30235972pga.30.2017.02.09.08.09.42
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 Feb 2017 08:09:42 -0800 (PST)
-From: Dalon Westergreen <dwesterg@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Feb 2017 08:09:30 -0800
-Message-Id: <1486656570-20299-1-git-send-email-dwesterg@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] uboot-extlinux-config.bbclass: add support for timeout & default
+	Thu, 9 Feb 2017 08:12:43 -0800 (PST)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 9 Feb 2017 08:12:41 -0800
+From: Dengke Du <dengke.du@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 9 Feb 2017 11:12:39 -0500
+Message-ID: <cover.1486656412.git.dengke.du@windriver.com>
+X-Mailer: git-send-email 2.8.1
+MIME-Version: 1.0
+Subject: [PATCH V2 0/1] ltp: upgrade to 20170116
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,68 +31,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Feb 2017 16:09:43 -0000
+X-List-Received-Date: Thu, 09 Feb 2017 16:12:43 -0000
+Content-Type: text/plain
 
-When multible targets are defined it is useful to allow for
-a default target along with a timeout.  After timeout, the
-default target will be selected.
+Changed in V2:
+	Add Upstream-Status for 0001-add-_GNU_SOURCE-to-pec_listener.c.patch
 
-Signed-off-by: Dalon Westergreen <dwesterg@gmail.com>
----
- meta/classes/uboot-extlinux-config.bbclass | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+The following changes since commit 03b1180825df3e6b7595e7cab6531d0c02998430:
 
-diff --git a/meta/classes/uboot-extlinux-config.bbclass b/meta/classes/uboot-extlinux-config.bbclass
-index ec5fffb..96b5a2e 100644
---- a/meta/classes/uboot-extlinux-config.bbclass
-+++ b/meta/classes/uboot-extlinux-config.bbclass
-@@ -16,6 +16,10 @@
- #                                    concatenate and use as an initrd (optional).
- # UBOOT_EXTLINUX_MENU_DESCRIPTION  - Name to use as description.
- # UBOOT_EXTLINUX_ROOT              - Root kernel cmdline.
-+# UBOOT_EXTLINUX_TIMEOUT           - Timeout before DEFAULT selection is made.
-+#                                    Measured in 1/10 of a second.
-+# UBOOT_EXTLINUX_DEFAULT_LABEL     - Target to be selected by default after
-+#                                    the timeout period
- #
- # If there's only one label system will boot automatically and menu won't be
- # created. If you want to use more than one labels, e.g linux and alternate,
-@@ -25,6 +29,9 @@
- #
- # UBOOT_EXTLINUX_LABELS ??= "default fallback"
- #
-+# UBOOT_EXTLINUX_DEFAULT_LABEL ??= "Linux Default"
-+# UBOOT_EXTLINUX_TIMEOUT ??= "30"
-+#
- # UBOOT_EXTLINUX_KERNEL_IMAGE_default ??= "../zImage"
- # UBOOT_EXTLINUX_MENU_DESCRIPTION_default ??= "Linux Default"
- #
-@@ -34,6 +41,8 @@
- # Results:
- #
- # menu title Select the boot mode
-+# TIMEOUT 30
-+# DEFAULT Linux Default
- # LABEL Linux Default
- #   KERNEL ../zImage
- #   FDTDIR ../
-@@ -82,6 +91,15 @@ python create_extlinux_config() {
-             if len(labels.split()) > 1:
-                 cfgfile.write('menu title Select the boot mode\n')
- 
-+            timeout =  localdata.getVar('UBOOT_EXTLINUX_TIMEOUT')
-+            if timeout:
-+                cfgfile.write('TIMEOUT %s\n' % (timeout))
-+
-+            if len(labels.split()) > 1:
-+                default = localdata.getVar('UBOOT_EXTLINUX_DEFAULT_LABEL')
-+                if default:
-+                    cfgfile.write('DEFAULT %s\n' % (default))
-+                    
-             for label in labels.split():
-                 localdata = bb.data.createCopy(d)
- 
+  yocto-bsps: add 4.9 bbappend (2017-02-06 14:45:53 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib dengke/ltp-upgrade-to-20170116
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=dengke/ltp-upgrade-to-20170116
+
+Dengke Du (1):
+  ltp: upgrade to 20170116
+
+ .../0001-add-_GNU_SOURCE-to-pec_listener.c.patch   |  39 ++
+ .../ltp/0001-ltp-Don-t-link-against-libfl.patch    |  30 --
+ ...TH_MAX-undeclared-when-building-with-musl.patch |  30 ++
+ ...sendfile-Use-off64_t-instead-of-__off64_t.patch |  31 --
+ ...RDSIZE-undeclared-when-building-with-musl.patch |  30 ++
+ .../ltp/ltp/0007-replace-SIGCLD-with-SIGCHLD.patch | 394 ---------------------
+ .../ltp/0009-Guard-error.h-with-__GLIBC__.patch    | 270 --------------
+ ...ition-of-struct-msgbuf-error-building-wit.patch |  35 ++
+ .../0011-Rename-sigset-variable-to-sigset1.patch   |  77 ++--
+ ...fsstress.c-Replace-__int64_t-with-int64_t.patch | 351 ------------------
+ ...nclude-fcntl.h-for-getting-O_-definitions.patch |  67 ----
+ ...ing-Include-sys-types.h-for-pid_t-definit.patch |  56 ---
+ ...015-mincore01-Rename-PAGESIZE-to-pagesize.patch |  64 ----
+ ...Change-header-from-ustat.h-to-sys-ustat.h.patch |  45 ---
+ .../0017-replace-sigval_t-with-union-sigval.patch  |  88 -----
+ ...lace-canonicalize_file_name-with-realpath.patch |  32 --
+ .../ltp/ltp/0022-include-sys-types.h.patch         |  29 --
+ ...sconf01-Use-_SC_2_C_VERSION-conditionally.patch |  23 +-
+ .../ltp/0029-trace_shed-Fix-build-with-musl.patch  |  32 --
+ ...READ_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch |  26 +-
+ ...age-size-offset-as-per-page-size-alignmen.patch |  33 --
+ ...-regen.sh-Include-asm-unistd.h-explicitly.patch |  30 --
+ .../ltp/ltp/0035-fix-test_proc_kill-hang.patch     |  27 +-
+ ...rs-netns_netlink-Avoid-segmentation-fault.patch |  50 ---
+ ...ix-option-group-test-replace-CWD-qith-PWD.patch |  44 ---
+ .../ltp/fcntl-fix-the-time-def-to-use-time_t.patch |  17 +-
+ .../ltp/{ltp_20160126.bb => ltp_20170116.bb}       |  31 +-
+ 27 files changed, 234 insertions(+), 1747 deletions(-)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-add-_GNU_SOURCE-to-pec_listener.c.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0001-ltp-Don-t-link-against-libfl.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0006-fix-PATH_MAX-undeclared-when-building-with-musl.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0006-sendfile-Use-off64_t-instead-of-__off64_t.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0007-fix-__WORDSIZE-undeclared-when-building-with-musl.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0007-replace-SIGCLD-with-SIGCHLD.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0009-Guard-error.h-with-__GLIBC__.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0009-fix-redefinition-of-struct-msgbuf-error-building-wit.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0012-fsstress.c-Replace-__int64_t-with-int64_t.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0013-include-fcntl.h-for-getting-O_-definitions.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0014-hyperthreading-Include-sys-types.h-for-pid_t-definit.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0015-mincore01-Rename-PAGESIZE-to-pagesize.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0016-ustat-Change-header-from-ustat.h-to-sys-ustat.h.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0017-replace-sigval_t-with-union-sigval.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0019-tomoyo-Replace-canonicalize_file_name-with-realpath.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0022-include-sys-types.h.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0029-trace_shed-Fix-build-with-musl.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0031-vma03-fix-page-size-offset-as-per-page-size-alignmen.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0032-regen.sh-Include-asm-unistd.h-explicitly.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0037-containers-netns_netlink-Avoid-segmentation-fault.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0038-run-posix-option-group-test-replace-CWD-qith-PWD.patch
+ rename meta/recipes-extended/ltp/{ltp_20160126.bb => ltp_20170116.bb} (78%)
+
 -- 
-2.7.4
+2.8.1
 
 
