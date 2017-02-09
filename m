@@ -1,22 +1,27 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D6267771AF
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 2321160765
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Feb 2017 21:19:41 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Feb 2017 13:19:41 -0800
+	Thu,  9 Feb 2017 21:34:30 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga104.jf.intel.com with ESMTP; 09 Feb 2017 13:34:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,137,1484035200"; d="scan'208";a="42211796"
-Received: from yctb01.ostc.intel.com ([10.54.69.55])
-	by orsmga002.jf.intel.com with ESMTP; 09 Feb 2017 13:19:41 -0800
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Feb 2017 13:15:14 +0000
-Message-Id: <40e1bfb6c3a5058270a5becd60b0876949fd252d.1486645967.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <cover.1486645967.git.mariano.lopez@linux.intel.com>
-References: <cover.1486645967.git.mariano.lopez@linux.intel.com>
-Subject: [PATCH 1/1] testimage.bbclass: Add check for empty test suite
+X-IronPort-AV: E=Sophos;i="5.35,137,1484035200"; d="scan'208";a="223433925"
+Received: from lsandov1-mobl2.zpn.intel.com (HELO [10.219.128.141])
+	([10.219.128.141])
+	by fmsmga004.fm.intel.com with ESMTP; 09 Feb 2017 13:34:30 -0800
+To: openembedded-core@lists.openembedded.org,
+	Jussi Kukkonen <jussi.kukkonen@intel.com>
+References: <cover.1486668313.git.jussi.kukkonen@intel.com>
+	<20170209195950.9311.78142@do.openembedded.org>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Message-ID: <17a51da2-5095-2262-bc91-7eb472c557f8@linux.intel.com>
+Date: Thu, 9 Feb 2017 15:41:54 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.6.0
+MIME-Version: 1.0
+In-Reply-To: <20170209195950.9311.78142@do.openembedded.org>
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIEZpeCBjdmUtY2hlY2sgKGZvciByZWNpcGUgc3lzcm9vdHMp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,45 +34,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Feb 2017 21:19:42 -0000
+X-List-Received-Date: Thu, 09 Feb 2017 21:34:31 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+This is a false positive, your series is fine.
 
-If for some reason (most likely incorrect TEST_SUITES var)
-you end with an empty test suite, testimage will start the
-target (qemu by default) and will run an empty suite, so
-better have a check before starting the target.
+The presence of CVE tags on the commit message area must only be done if 
+the CVE tag is present on the commit subject, not the whole payload.
 
-[YOCTO #10979]
 
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
----
- meta/classes/testimage.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index c6e4cec..1312202 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -149,6 +149,7 @@ def testimage_main(d):
-     from oeqa.runtime.context import OERuntimeTestContext
-     from oeqa.runtime.context import OERuntimeTestContextExecutor
-     from oeqa.core.target.qemu import supported_fstypes
-+    from oeqa.core.utils.test import getSuiteCases
-     from oeqa.utils import make_logger_bitbake_compatible
- 
-     def sigterm_exception(signum, stackframe):
-@@ -250,6 +251,9 @@ def testimage_main(d):
-     test_modules = d.getVar('TEST_SUITES')
-     tc.loadTests(test_paths, modules=test_modules)
- 
-+    if not getSuiteCases(tc.suites):
-+        bb.fatal('Empty test suite, please verify TEST_SUITES variable')
-+
-     package_extraction(d, tc.suites)
- 
-     bootparams = None
--- 
-2.6.6
+On 02/09/2017 01:59 PM, Patchwork wrote:
+> == Series Details ==
+>
+> Series: Fix cve-check (for recipe sysroots)
+> Revision: 1
+> URL   : https://patchwork.openembedded.org/series/5241/
+> State : failure
+>
+> == Summary ==
+>
+>
+> Thank you for submitting this patch series to OpenEmbedded Core. This is
+> an automated response. Several tests have been executed on the proposed
+> series by patchtest resulting in the following failures:
+>
+>
+>
+> * Patch            [3/3] cve-check-tool: Use CA cert bundle in correct sysroot
+>   Issue             Missing or incorrectly formatted CVE tag in commit message [test_cve_presence_in_commit_message]
+>    Suggested fix    Include a "CVE-xxxx-xxxx" tag in the commit message
+>
+>
+>
+> If you believe any of these test results are incorrect, please reply to the
+> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+> Otherwise we would appreciate you correcting the issues and submitting a new
+> version of the patchset if applicable. Please ensure you add/increment the
+> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+> [PATCH v3] -> ...).
+>
+> ---
+> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+>
 
 
