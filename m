@@ -1,25 +1,23 @@
-Return-Path: <Li.Zhou@windriver.com>
+Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3424771993
+	by mail.openembedded.org (Postfix) with ESMTP id 940F171D9E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Feb 2017 06:37:41 +0000 (UTC)
+	Thu,  9 Feb 2017 06:45:58 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v196bfg2028765
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Feb 2017 22:37:41 -0800
-Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Wed, 8 Feb 2017 22:37:40 -0800
-From: Li Zhou <li.zhou@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 9 Feb 2017 14:37:03 +0800
-Message-ID: <1486622223-32848-1-git-send-email-li.zhou@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v196jmEa028885
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 8 Feb 2017 22:45:48 -0800
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Wed, 8 Feb 2017 22:45:47 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Thu, 9 Feb 2017 01:45:33 -0500
+Message-ID: <cover.1486622006.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-X-Originating-IP: [128.224.153.75]
-Subject: [PATCH] dhcp: Add choice for "with ddns" and "no ddns".
+Subject: [PATCH V2 00/13] 11 packages upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,89 +30,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Feb 2017 06:37:42 -0000
+X-List-Received-Date: Thu, 09 Feb 2017 06:45:58 -0000
 Content-Type: text/plain
 
-Disable DNS update functionality can solve this issue:
-dhcpd is listening on additional random ports.
-To meet different requests, add a choice in dhcp's bb file:
-"with ddns" version should add "ddns" to PACKAGECONFIG, and it is the
-default;
-"no ddns" version should set PACKAGECONFIG to be without "ddns".
+Changed in V2:
 
-Signed-off-by: Li Zhou <li.zhou@windriver.com>
----
- ...001-DDNS-disable-DNS-update-functionality.patch | 28 ++++++++++++++++++++++
- meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb       | 13 +++++++---
- 2 files changed, 38 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0001-DDNS-disable-DNS-update-functionality.patch
+- gpgme, drop gpgme-pthread and add gpgme-cpp
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/0001-DDNS-disable-DNS-update-functionality.patch b/meta/recipes-connectivity/dhcp/dhcp/0001-DDNS-disable-DNS-update-functionality.patch
-new file mode 100644
-index 0000000..881ca23
---- /dev/null
-+++ b/meta/recipes-connectivity/dhcp/dhcp/0001-DDNS-disable-DNS-update-functionality.patch
-@@ -0,0 +1,28 @@
-+From 1d804738080d52c0977947c7271d2db49bd6f90d Mon Sep 17 00:00:00 2001
-+From: Li Zhou <li.zhou@windriver.com>
-+Date: Wed, 8 Feb 2017 10:02:59 +0800
-+Subject: [PATCH] DDNS: disable DNS update functionality
-+
-+Upstream-Status: Inappropriate [configuration]
-+
-+Signed-off-by: Li Zhou <li.zhou@windriver.com>
-+---
-+ includes/site.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/includes/site.h b/includes/site.h
-+index abb66e4..cefc12e 100644
-+--- a/includes/site.h
-++++ b/includes/site.h
-+@@ -121,7 +121,7 @@
-+ 
-+ /* Define this if you want DNS update functionality to be available. */
-+ 
-+-#define NSUPDATE
-++/* #define NSUPDATE */
-+ 
-+ /* Define this if you want to enable the DHCP server attempting to
-+    find a nameserver to use for DDNS updates. */
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb
-index 678c29a..764ae09 100644
---- a/meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb
-+++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb
-@@ -1,5 +1,14 @@
- require dhcp.inc
- 
-+# If don't want DNS update functionality to be available becauses dhcpd will
-+# be listening on additional random ports, please set PACKAGECONFIG to be
-+# without ddns.
-+PACKAGECONFIG ?= "ddns"
-+PACKAGECONFIG[ddns] = ",,,"
-+PACKAGECONFIG[bind-httpstats] = "--with-libxml2,--without-libxml2,libxml2"
-+
-+SITE_H_PATCH = "${@bb.utils.contains('PACKAGECONFIG', 'ddns', '', 'file://0001-DDNS-disable-DNS-update-functionality.patch', d)}"
-+
- SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
-             file://link-with-lcrypto.patch \
-             file://fixsepbuild.patch \
-@@ -9,10 +18,8 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
-             file://libxml2-configure-argument.patch \
-             file://tweak-to-support-external-bind.patch \
-             file://remove-dhclient-script-bash-dependency.patch \
-+            ${SITE_H_PATCH} \
-            "
- 
- SRC_URI[md5sum] = "2b5e5b2fa31c2e27e487039d86f83d3f"
- SRC_URI[sha256sum] = "eb95936bf15d2393c55dd505bc527d1d4408289cec5a9fa8abb99f7577e7f954"
--
--PACKAGECONFIG ?= ""
--PACKAGECONFIG[bind-httpstats] = "--with-libxml2,--without-libxml2,libxml2"
+- libgpg-error, move errorref.txt to -doc
+
+- bash, add loadable builtin and delete uname to
+  workaround do_package_write_rpm failure.
+
+- elfutils, addUS tags to debian patches.
+
+//Hongxu
+
+The following changes since commit a624cf7f95c8cf4ff764cc997fd1db4601b97dcc:
+
+  oeqa/selftest/pkgdata: use m4 instead of bash (2017-02-07 14:50:10 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib hongxu/upgrade-20170208
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=hongxu/upgrade-20170208
+
+Hongxu Jia (12):
+  pax-utils: 1.1.6 -> 1.2.2
+  socat: 1.7.3.1 -> 1.7.3.2
+  libgcrypt: 1.7.3 -> 1.7.6
+  ncurses: 6.0+20160625 -> 6.0+20161126
+  man-pages: 4.08 -> 4.09
+  rpcbind: 0.2.3 -> 0.2.4
+  gnupg: 2.1.14 -> 2.1.18
+  gpgme: 1.6.0 -> 1.8.0
+  libgpg-error: 1.25 -> 1.26
+  bash: update patches for 4.4
+  elfutils: 0.166 -> 0.168
+  elfutils: update homepage and upstream souce
+
+Zheng Ruoqin (1):
+  bash: 4.3.30 -> 4.4
+
+ .../socat/{socat_1.7.3.1.bb => socat_1.7.3.2.bb}   |   4 +-
+ ...ses_6.0+20160625.bb => ncurses_6.0+20161126.bb} |   2 +-
+ .../elfcmp-fix-self-comparision.patch              |  41 --
+ .../elfutils/elfutils-0.166/m68k_backend.diff      | 492 -------------
+ .../elfutils/elfutils-0.166/uclibc-support.patch   | 128 ----
+ ...de-alternatives-for-glibc-assumptions-hel.patch | 772 +++++++++------------
+ ...m-Silence-Werror-maybe-uninitialized-fals.patch |   0
+ .../0001-fix-a-stack-usage-warning.patch           |   0
+ .../0001-remove-the-unneed-checking.patch          |   0
+ .../aarch64_uio.patch                              |   0
+ ...ferences-between-mips-machine-identifiers.patch |  13 +-
+ ...-support-for-mips64-abis-in-mips_retval.c.patch |   3 +
+ .../0003-Add-mips-n64-relocation-format-hack.patch |  35 +-
+ .../debian}/arm_backend.diff                       |  55 +-
+ .../debian}/hppa_backend.diff                      |  63 +-
+ .../elfutils/elfutils-0.168/debian/hurd_path.patch |  17 +
+ .../elfutils-0.168/debian/ignore_strmerge.diff     |  14 +
+ .../debian}/kfreebsd_path.patch                    |  11 +-
+ .../debian}/mips_backend.diff                      |  75 +-
+ .../debian}/mips_readelf_w.patch                   |  11 +-
+ .../debian}/testsuite-ignore-elflint.diff          |  17 +-
+ .../fixheadercheck.patch                           |   0
+ .../shadow.patch                                   |   0
+ .../{elfutils_0.166.bb => elfutils_0.168.bb}       |  34 +-
+ .../{pax-utils_1.1.6.bb => pax-utils_1.2.2.bb}     |   6 +-
+ .../0001-patch-to-obtain-pkgconfig-sanity.patch    |  28 +
+ ...roc-run-heredoc-run-execscript-run-test-f.patch | 137 +---
+ meta/recipes-extended/bash/bash/fix-run-intl.patch | 110 ---
+ meta/recipes-extended/bash/bash/test-output.patch  |  20 +-
+ meta/recipes-extended/bash/bash_4.3.30.bb          |  71 --
+ meta/recipes-extended/bash/bash_4.4.bb             |  69 ++
+ .../{man-pages_4.08.bb => man-pages_4.09.bb}       |   4 +-
+ ...001-Avoid-use-of-glibc-sys-cdefs.h-header.patch | 221 ------
+ ...ly-Don-t-use-the-xp_auth-pointer-directly.patch |  43 --
+ .../rpcbind/rpcbind/cve-2015-7236.patch            |  84 ---
+ .../rpcbind/{rpcbind_0.2.3.bb => rpcbind_0.2.4.bb} |   7 +-
+ .../gnupg/{gnupg_2.1.14.bb => gnupg_2.1.18.bb}     |   8 +-
+ meta/recipes-support/gpgme/gpgme/gpgme.pc          |  10 -
+ meta/recipes-support/gpgme/gpgme/pkgconfig.patch   |  42 +-
+ .../gpgme/{gpgme_1.6.0.bb => gpgme_1.8.0.bb}       |  20 +-
+ meta/recipes-support/libgcrypt/libgcrypt_1.7.3.bb  |   4 -
+ meta/recipes-support/libgcrypt/libgcrypt_1.7.6.bb  |   4 +
+ .../{libgpg-error_1.25.bb => libgpg-error_1.26.bb} |   5 +-
+ 43 files changed, 701 insertions(+), 1979 deletions(-)
+ rename meta/recipes-connectivity/socat/{socat_1.7.3.1.bb => socat_1.7.3.2.bb} (89%)
+ rename meta/recipes-core/ncurses/{ncurses_6.0+20160625.bb => ncurses_6.0+20161126.bb} (84%)
+ delete mode 100644 meta/recipes-devtools/elfutils/elfutils-0.166/elfcmp-fix-self-comparision.patch
+ delete mode 100644 meta/recipes-devtools/elfutils/elfutils-0.166/m68k_backend.diff
+ delete mode 100644 meta/recipes-devtools/elfutils/elfutils-0.166/uclibc-support.patch
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168}/0001-build-Provide-alternatives-for-glibc-assumptions-hel.patch (47%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168}/0001-elf_getarsym-Silence-Werror-maybe-uninitialized-fals.patch (100%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168}/0001-fix-a-stack-usage-warning.patch (100%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168}/0001-remove-the-unneed-checking.patch (100%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168}/aarch64_uio.patch (100%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/0001-Ignore-differences-between-mips-machine-identifiers.patch (78%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/0002-Add-support-for-mips64-abis-in-mips_retval.c.patch (98%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/0003-Add-mips-n64-relocation-format-hack.patch (90%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/arm_backend.diff (94%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/hppa_backend.diff (95%)
+ create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.168/debian/hurd_path.patch
+ create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.168/debian/ignore_strmerge.diff
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/kfreebsd_path.patch (60%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/mips_backend.diff (92%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/mips_readelf_w.patch (73%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168/debian}/testsuite-ignore-elflint.diff (70%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168}/fixheadercheck.patch (100%)
+ rename meta/recipes-devtools/elfutils/{elfutils-0.166 => elfutils-0.168}/shadow.patch (100%)
+ rename meta/recipes-devtools/elfutils/{elfutils_0.166.bb => elfutils_0.168.bb} (75%)
+ rename meta/recipes-devtools/pax-utils/{pax-utils_1.1.6.bb => pax-utils_1.2.2.bb} (86%)
+ create mode 100644 meta/recipes-extended/bash/bash/0001-patch-to-obtain-pkgconfig-sanity.patch
+ delete mode 100644 meta/recipes-extended/bash/bash/fix-run-intl.patch
+ delete mode 100644 meta/recipes-extended/bash/bash_4.3.30.bb
+ create mode 100644 meta/recipes-extended/bash/bash_4.4.bb
+ rename meta/recipes-extended/man-pages/{man-pages_4.08.bb => man-pages_4.09.bb} (86%)
+ delete mode 100644 meta/recipes-extended/rpcbind/rpcbind/0001-Avoid-use-of-glibc-sys-cdefs.h-header.patch
+ delete mode 100644 meta/recipes-extended/rpcbind/rpcbind/0001-handle_reply-Don-t-use-the-xp_auth-pointer-directly.patch
+ delete mode 100644 meta/recipes-extended/rpcbind/rpcbind/cve-2015-7236.patch
+ rename meta/recipes-extended/rpcbind/{rpcbind_0.2.3.bb => rpcbind_0.2.4.bb} (87%)
+ rename meta/recipes-support/gnupg/{gnupg_2.1.14.bb => gnupg_2.1.18.bb} (80%)
+ delete mode 100644 meta/recipes-support/gpgme/gpgme/gpgme.pc
+ rename meta/recipes-support/gpgme/{gpgme_1.6.0.bb => gpgme_1.8.0.bb} (67%)
+ delete mode 100644 meta/recipes-support/libgcrypt/libgcrypt_1.7.3.bb
+ create mode 100644 meta/recipes-support/libgcrypt/libgcrypt_1.7.6.bb
+ rename meta/recipes-support/libgpg-error/{libgpg-error_1.25.bb => libgpg-error_1.26.bb} (89%)
+
 -- 
-1.9.1
+2.8.1
 
 
