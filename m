@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B80D6010B
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E030977236
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2017 03:23:18 +0000 (UTC)
+	Fri, 10 Feb 2017 03:23:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v1A3NHGa007855
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v1A3NJXP003824
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Feb 2017 19:23:18 -0800 (PST)
+	Thu, 9 Feb 2017 19:23:19 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 9 Feb 2017 19:23:17 -0800
+	Thu, 9 Feb 2017 19:23:18 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 9 Feb 2017 19:23:06 -0800
-Message-ID: <603cddba527b5c9a801acc22c88e0ba2d622fb9c.1486696950.git.liezhi.yang@windriver.com>
+Date: Thu, 9 Feb 2017 19:23:07 -0800
+Message-ID: <bce011a91a47933a3dcb51b9a0899703aace5f3f.1486696950.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.11.0.rc2.dirty
 In-Reply-To: <cover.1486696950.git.liezhi.yang@windriver.com>
 References: <cover.1486696950.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 01/10] e2fsprogs: 1.43.3 -> 1.43.4
+Subject: [PATCH 02/10] git: 2.11.0 -> 2.11.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,77 +36,48 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 10 Feb 2017 03:23:20 -0000
 Content-Type: text/plain
 
-* Rebased Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch.
-* The mkfs.ext4dev is gone.
-
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch   | 9 +++------
- .../e2fsprogs/{e2fsprogs_1.43.3.bb => e2fsprogs_1.43.4.bb}       | 6 ++----
- 2 files changed, 5 insertions(+), 10 deletions(-)
- rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.43.3.bb => e2fsprogs_1.43.4.bb} (96%)
+ meta/recipes-devtools/git/git_2.11.0.bb | 11 -----------
+ meta/recipes-devtools/git/git_2.11.1.bb | 11 +++++++++++
+ 2 files changed, 11 insertions(+), 11 deletions(-)
+ delete mode 100644 meta/recipes-devtools/git/git_2.11.0.bb
+ create mode 100644 meta/recipes-devtools/git/git_2.11.1.bb
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch
-index e66cd4d1a7e..38fb07e6e6e 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch
-@@ -20,20 +20,17 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  1 file changed, 2 insertions(+), 1 deletion(-)
- 
- diff --git a/misc/mke2fs.conf.in b/misc/mke2fs.conf.in
--index 78fe50a..6f1940e 100644
-+index 812f7c7..0280398 100644
- --- a/misc/mke2fs.conf.in
- +++ b/misc/mke2fs.conf.in
- @@ -11,8 +11,9 @@
-  		features = has_journal
-  	}
-  	ext4 = {
---		features = has_journal,extent,huge_file,flex_bg,64bit,dir_nlink,extra_isize
-+-		features = has_journal,extent,huge_file,flex_bg,uninit_bg,64bit,dir_nlink,extra_isize
- +		features = has_journal,extent,huge_file,flex_bg,uninit_bg,dir_nlink,extra_isize
-  		inode_size = 256
- +		auto_64-bit_support = 1
-  	}
-  	ext4dev = {
-- 		features = has_journal,extent,huge_file,flex_bg,inline_data,64bit,dir_nlink,extra_isize
---- 
--2.8.1
+diff --git a/meta/recipes-devtools/git/git_2.11.0.bb b/meta/recipes-devtools/git/git_2.11.0.bb
+deleted file mode 100644
+index 0ca8a385673..00000000000
+--- a/meta/recipes-devtools/git/git_2.11.0.bb
++++ /dev/null
+@@ -1,11 +0,0 @@
+-require git.inc
 -
-+ 		features = has_journal,extent,huge_file,flex_bg,uninit_bg,inline_data,64bit,dir_nlink,extra_isize
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.3.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb
-similarity index 96%
-rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.3.bb
-rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb
-index ac4589c7c4d..4b06b189b03 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.3.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb
-@@ -1,7 +1,5 @@
- require e2fsprogs.inc
- 
--PR = "r1"
+-EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
+-                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
+-                 "
+-EXTRA_OEMAKE += "NO_GETTEXT=1"
 -
- SRC_URI += "file://acinclude.m4 \
-             file://remove.ldconfig.call.patch \
-             file://quiet-debugfs.patch \
-@@ -13,7 +11,7 @@ SRC_URI += "file://acinclude.m4 \
- 
- SRC_URI_append_class-native = " file://e2fsprogs-fix-missing-check-for-permission-denied.patch"
- 
--SRCREV = "4e52870eeb08ed7532bf4fd3d5cb1538f714bdc8"
-+SRCREV = "3d66c4b20f09f923078c1e6eb9b549865b549674"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+\.\d+(\.\d+)*)$"
- 
- EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
-@@ -60,7 +58,7 @@ do_install () {
- 
- # Need to find the right mke2fs.conf file
- e2fsprogs_conf_fixup () {
--	for i in mke2fs mkfs.ext2 mkfs.ext3 mkfs.ext4 mkfs.ext4dev; do
-+	for i in mke2fs mkfs.ext2 mkfs.ext3 mkfs.ext4; do
- 		create_wrapper ${D}${base_sbindir}/$i MKE2FS_CONFIG=${sysconfdir}/mke2fs.conf
- 	done
- }
+-SRC_URI[tarball.md5sum] = "eac9324afcf4c95ab11acb2e2283e376"
+-SRC_URI[tarball.sha256sum] = "d3be9961c799562565f158ce5b836e2b90f38502d3992a115dfb653d7825fd7e"
+-SRC_URI[manpages.md5sum] = "cc86bfaf75174e3c8a10615e97bf3e55"
+-SRC_URI[manpages.sha256sum] = "437a0128acd707edce24e1a310ab2f09f9a09ee42de58a8e7641362012dcfe22"
+diff --git a/meta/recipes-devtools/git/git_2.11.1.bb b/meta/recipes-devtools/git/git_2.11.1.bb
+new file mode 100644
+index 00000000000..f2f072c5291
+--- /dev/null
++++ b/meta/recipes-devtools/git/git_2.11.1.bb
+@@ -0,0 +1,11 @@
++require git.inc
++
++EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
++                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
++                 "
++EXTRA_OEMAKE += "NO_GETTEXT=1"
++
++SRC_URI[tarball.md5sum] = "6a7a73db076bb0514b602720669d685c"
++SRC_URI[tarball.sha256sum] = "a1cdd7c820f92c44abb5003b36dc8cb7201ba38e8744802399f59c97285ca043"
++SRC_URI[manpages.md5sum] = "e4268a6b514ccdb624b6450ff55881a3"
++SRC_URI[manpages.sha256sum] = "ee567e7b0f95333816793714bb31c54e288cf8041f77a0092b85e62c9c2974f9"
 -- 
 2.11.0.rc2.dirty
 
