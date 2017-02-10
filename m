@@ -1,52 +1,49 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f179.google.com (mail-wr0-f179.google.com
-	[209.85.128.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 20002719DA
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2017 19:53:51 +0000 (UTC)
-Received: by mail-wr0-f179.google.com with SMTP id k90so115396293wrc.3
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2017 11:53:52 -0800 (PST)
+Return-Path: <twoerner@gmail.com>
+Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
+	[209.85.223.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 1483D77424
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Feb 2017 20:13:21 +0000 (UTC)
+Received: by mail-io0-f196.google.com with SMTP id 101so6832689iom.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Feb 2017 12:13:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=7ErjAp2XT7cFdmzYm3TLlSI9CZDzI/AUZLKDX+lOA5s=;
-	b=GTlw6jJX/XnS0+Xlwk+Pg9ff6DcJikbwCkv1fkh0Axs3w4chBKOKh24hTJlP+zIglK
-	LatUg5LCgFBuV8KAa0vOUYspDRFZ/GvQkbd6dv8BzSvRIEWD6BL6BNUaV6u5iQFRfp51
-	esBG6BOpOqLj7BFDxEzO07WewjRBrdAv3VvbZKPw35Vf2OBRWisR59MDI2KzTZ/ZWpdK
-	BgEtckMM7gRyYjH97fv1tBpqsVU8j+FsfqoIKIannbMgEW3xpcMbOfgPdMQslo2BPxgG
-	YRryCXTYPtU6ToH+LJFuzxIqcts9p1AhxoheMT1LASqFjxEXdp3a7kr3IMZDah57uE9C
-	GzPg==
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=mh5e0UJlrnn+iewb1/LbU2lF/I+NGg9jFh65JO54BIo=;
+	b=cbnmQ4wNH9Bo8/hXQktgJs68vfSl4PErXdKsdiO39QiCRSLY0NYtezvUuGaKBIbry3
+	HKmWReaGs4NmpEhdyJG8sYeQDUQNw6RAtVyB4p81JRSjyoBiheg8stXGVPf1ah6mEXOB
+	Qhl50wcxdtQb0l7fJfBD5aCBZALboWOTNVvYzdWCN63jDAYJOX6jq+LQ49fnXytX73UW
+	5EaB7xPTbL7+ejygNSQXV3yHTT5IHyXlL8/rIfqMZ48UXKGvNbC0LP93fwUqlv7JwHpB
+	Auweb+dILTW0QjKAOJFXhE/J98XDmQ+JPL1Jpw5v8+5WPM/r7h3Oi+86J/dGrnDMVy0P
+	4rTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=7ErjAp2XT7cFdmzYm3TLlSI9CZDzI/AUZLKDX+lOA5s=;
-	b=q68J76XAS9mfH/eO1YMHPnBctAoIG6nKQZmT3hgAZPSteDCaTnbmaJW6TR2V4NCewf
-	YLva+UuvnzY6iNO0hLeaO84tiNDykwq8w9xeqPVGYKLHEJNSd7BIp9/2SwDB4dWQPTrf
-	3kZW9ELjsC2aMs68t4tK6k7ne2rKx2aqFvkiT+vj5oVRtkcp0SIeUiSSnxMt2xFBDQiB
-	GZX5gkd1ktw17PSg+14Uc3/GVG7sOQGvaxfbxEi7srHIMvFz7KKe6qIgSxr5Wa6plBS2
-	1LP85Gp7esiO3jYitZZ1DV8rhLcPM7NdGuYhFPSQMrtjSrQ77FoZPLlAfE3CUIXwcT2p
-	DjRw==
-X-Gm-Message-State: AMke39mZor9jH4blv7ObQefYhXQZAI/crT7pa2sS8B+gjfRWQRUv/06dwSimd/SzirVtwQ==
-X-Received: by 10.223.174.199 with SMTP id y65mr10583595wrc.19.1486756431726; 
-	Fri, 10 Feb 2017 11:53:51 -0800 (PST)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	l130sm2785600wmf.0.2017.02.10.11.53.50
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 10 Feb 2017 11:53:50 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 10 Feb 2017 20:53:51 +0100
-To: Bryan Evenson <bevenson@melinkcorp.com>
-Message-ID: <20170210195351.GC3021@jama>
-References: <DM5PR05MB295469CD2CBB36C236111A0DBB440@DM5PR05MB2954.namprd05.prod.outlook.com>
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=mh5e0UJlrnn+iewb1/LbU2lF/I+NGg9jFh65JO54BIo=;
+	b=hXdncPgRY2Xwy5nu7P5VHOw74kU5VtE+xo+3A4yjmMX7UfcCiaD8S60cSZo5b2MGSo
+	+HPC2B2Wnpl5k+OagN8GYdjs/mjHO9ZNLNq6VPfzg0mvnznLO6QolTcEziOOsceRzv4+
+	ckPPmzUC3GtRhv6fVYYz33r+DXdqxRkI8L/JFtSMoF9+8W1Qdf0yyghHo40xkzBDx3ll
+	pwB31AoenxpL38lyd4Ur2aLu/Th4D5cKPGgr7oS4MxVzgdH9goJbZBw3SLbqMbQpiXDz
+	0JZS02/pMd56yDGNMOl523fcY9Vwb4m074IaaaBJpv9BCOsE2BK7TUOuZ1wT9Eg/qwM2
+	QRyg==
+X-Gm-Message-State: AMke39nsM+6QL40X5Yu1mkcUUGuvGmcPyTYMUPUawtxOZKpaKXwtK3hwtvcN+1cyPuChrQ==
+X-Received: by 10.107.185.212 with SMTP id j203mr12547015iof.226.1486757601671;
+	Fri, 10 Feb 2017 12:13:21 -0800 (PST)
+Received: from linux-uys3.suse (206-248-134-237.dsl.teksavvy.com.
+	[206.248.134.237]) by smtp.gmail.com with ESMTPSA id
+	q89sm1427610ioi.42.2017.02.10.12.13.20
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 10 Feb 2017 12:13:21 -0800 (PST)
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 10 Feb 2017 15:13:08 -0500
+Message-Id: <20170210201308.30616-1-twoerner@gmail.com>
+X-Mailer: git-send-email 2.11.0.258.ge05806d
 MIME-Version: 1.0
-In-Reply-To: <DM5PR05MB295469CD2CBB36C236111A0DBB440@DM5PR05MB2954.namprd05.prod.outlook.com>
-User-Agent: Mutt/1.7.2 (2016-11-26)
-Cc: "Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: libcurl vs. libcurl5 vs. libcurl4
+Subject: [PATCH] Revert "flex: upgrade to 2.6.2"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,73 +56,443 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Feb 2017 19:53:53 -0000
-X-Groupsio-MsgNum: 93186
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="B4IIlcmfBL/1gGOG"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 10 Feb 2017 20:13:22 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---B4IIlcmfBL/1gGOG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This reverts commit 3632abd01abb8dfff230e18f828af705da488f97.
 
-On Fri, Feb 10, 2017 at 03:41:44PM +0000, Bryan Evenson wrote:
-> I'm on the dizzy branch and I'm working on updating my build tools to use=
- a more recent branch.  I have an image built using fido and I'm doing some=
- firmware upgrade testing.  I have a package that depends on libcurl and I'=
-m getting some strange version dependencies that I'm trying to sort out.
->=20
-> In my package recipe I have "RDEPENDS_${PN} =3D <number of unrelated pack=
-ages> libcurl" to pull in the runtime depenency on curl.  When I build my i=
-mage using the dizzy branch, libcurl gets built as libcurl5-7.37.1, but whe=
-n I build my image using the fido branch libcurl gets built as libcurl4-7.4=
-0.0.  As a result, by checking my package dependencies with "opkg info <my_=
-package_name>" I see that the package dependency has changed from "libcurl5=
- (>=3D7.37.1)" to "libcurl4 (>=3D7.40.1)".
->=20
-> Any ideas why the package name dropped from libcurl5 to libcurl4?  Is thi=
-s something that has been fixed in a more recent branch?  If I'm reading th=
-e dependencies correctly, opkg should still install libcurl-7.40.0 since my=
- package depends on libcurl4, correct?
+Multiple people have expressed issues with flex-2.6.2; personally I had
+problems compiling libsepol from meta-selinux (for libselinux). I tried
+upgrading to flex-2.6.3, but that caused binutils-cross_2.27 to fail.
 
-See --enable-soname-bump option in curl.
-
-This change in oe-core:
-  commit 49c848018484827c433e1bcf9c63416640456f3e
-  Author: Khem Raj <raj.khem@gmail.com>
-  Date:   Tue Apr 28 22:34:22 2015 -0700
-  Subject:  curl: Fix wrong assumption about sizeof off_t on largefile
-    systems
-
-    This issue was reported on poky ml as well see
-    https://lists.yoctoproject.org/pipermail/poky/2013-December/009435.html
-
-Causes this difference in curl_config.h between Dizzy and Fido:
-diff 7.40.0-r0-dizzy/build/lib/curl_config.h
-     7.40.0-r0-fido/build/lib/curl_config.h
-878c877
-< #define SIZEOF_OFF_T 4
+The simplest for now is to downgrade to flex-2.6.0.
 ---
-> #define SIZEOF_OFF_T 8
-Which in turn causes curl's configure script to stop bumping the SONAME
-version.
+ ...oid-c-comments-in-c-code-fails-with-gcc-6.patch |  64 ++++++
+ .../recipes-devtools/flex/flex/CVE-2016-6354.patch |  59 ++++++
+ meta/recipes-devtools/flex/flex/crosscompile.patch | 214 ---------------------
+ .../flex/flex/do_not_create_pdf_doc.patch          |  17 ++
+ .../flex/{flex_2.6.2.bb => flex_2.6.0.bb}          |  11 +-
+ 5 files changed, 146 insertions(+), 219 deletions(-)
+ create mode 100644 meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch
+ create mode 100644 meta/recipes-devtools/flex/flex/CVE-2016-6354.patch
+ delete mode 100644 meta/recipes-devtools/flex/flex/crosscompile.patch
+ create mode 100644 meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch
+ rename meta/recipes-devtools/flex/{flex_2.6.2.bb => flex_2.6.0.bb} (84%)
 
-That's why newer curl 7.40.1 produces libcurl4 while older 7.37.1
-produced libcurl5.
+diff --git a/meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch b/meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch
+new file mode 100644
+index 0000000000..438ca5f527
+--- /dev/null
++++ b/meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch
+@@ -0,0 +1,64 @@
++From 7072befe1397af4eb01c3ff7edf99f0cd5076089 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
++Date: Tue, 30 Aug 2016 14:25:32 +0200
++Subject: [PATCH] avoid c++ comments in c-code - fails with gcc-6
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++fixes:
++
++| error: C++ style comments are not allowed in ISO C90
++| num_to_alloc = 1; // After all that talk, this was set to 1 anyways...
++
++Upstream-Status: Pending
++
++Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
++---
++ src/flex.skl | 2 +-
++ src/scan.c   | 2 +-
++ src/skel.c   | 2 +-
++ 3 files changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/src/flex.skl b/src/flex.skl
++index 73a0b9e..ed71627 100644
++--- a/src/flex.skl
+++++ b/src/flex.skl
++@@ -2350,7 +2350,7 @@ void yyFlexLexer::yyensure_buffer_stack(void)
++ 		 * scanner will even need a stack. We use 2 instead of 1 to avoid an
++ 		 * immediate realloc on the next call.
++          */
++-		num_to_alloc = 1; // After all that talk, this was set to 1 anyways...
+++		num_to_alloc = 1; /* After all that talk, this was set to 1 anyways... */
++ 		YY_G(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc
++ 								(num_to_alloc * sizeof(struct yy_buffer_state*)
++ 								M4_YY_CALL_LAST_ARG);
++diff --git a/src/scan.c b/src/scan.c
++index b55df2d..f1dce75 100644
++--- a/src/scan.c
+++++ b/src/scan.c
++@@ -4672,7 +4672,7 @@ static void yyensure_buffer_stack (void)
++ 		 * scanner will even need a stack. We use 2 instead of 1 to avoid an
++ 		 * immediate realloc on the next call.
++          */
++-		num_to_alloc = 1; // After all that talk, this was set to 1 anyways...
+++		num_to_alloc = 1; /* After all that talk, this was set to 1 anyways...*/
++ 		(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc
++ 								(num_to_alloc * sizeof(struct yy_buffer_state*)
++ 								);
++diff --git a/src/skel.c b/src/skel.c
++index ef657d3..26cc889 100644
++--- a/src/skel.c
+++++ b/src/skel.c
++@@ -2561,7 +2561,7 @@ const char *skel[] = {
++   "		 * scanner will even need a stack. We use 2 instead of 1 to avoid an",
++   "		 * immediate realloc on the next call.",
++   "         */",
++-  "		num_to_alloc = 1; // After all that talk, this was set to 1 anyways...",
+++  "		num_to_alloc = 1; /* After all that talk, this was set to 1 anyways... */",
++   "		YY_G(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc",
++   "								(num_to_alloc * sizeof(struct yy_buffer_state*)",
++   "								M4_YY_CALL_LAST_ARG);",
++-- 
++2.5.5
++
+diff --git a/meta/recipes-devtools/flex/flex/CVE-2016-6354.patch b/meta/recipes-devtools/flex/flex/CVE-2016-6354.patch
+new file mode 100644
+index 0000000000..216ac7ae1c
+--- /dev/null
++++ b/meta/recipes-devtools/flex/flex/CVE-2016-6354.patch
+@@ -0,0 +1,59 @@
++From 3939eccdff598f47e5b37b05d58bf1b44d3796e7 Mon Sep 17 00:00:00 2001
++From: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Date: Fri, 7 Oct 2016 14:15:38 +0300
++Subject: [PATCH] Prevent buffer overflow in yy_get_next_buffer
++
++This is upstream commit a5cbe929ac3255d371e698f62dc256afe7006466
++with some additional backporting to make binutils build again.
++
++Upstream-Status: Backport
++CVE: CVE-2016-6354
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++---
++ src/flex.skl | 2 +-
++ src/scan.c   | 2 +-
++ src/skel.c   | 2 +-
++ 3 files changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/src/flex.skl b/src/flex.skl
++index ed71627..814d562 100644
++--- a/src/flex.skl
+++++ b/src/flex.skl
++@@ -1718,7 +1718,7 @@ int yyFlexLexer::yy_get_next_buffer()
++ 
++ 	else
++ 		{
++-			yy_size_t num_to_read =
+++			int num_to_read =
++ 			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;
++ 
++ 		while ( num_to_read <= 0 )
++diff --git a/src/scan.c b/src/scan.c
++index f1dce75..1949872 100644
++--- a/src/scan.c
+++++ b/src/scan.c
++@@ -4181,7 +4181,7 @@ static int yy_get_next_buffer (void)
++ 
++ 	else
++ 		{
++-			yy_size_t num_to_read =
+++			int num_to_read =
++ 			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;
++ 
++ 		while ( num_to_read <= 0 )
++diff --git a/src/skel.c b/src/skel.c
++index 26cc889..0344d18 100644
++--- a/src/skel.c
+++++ b/src/skel.c
++@@ -1929,7 +1929,7 @@ const char *skel[] = {
++   "",
++   "	else",
++   "		{",
++-  "			yy_size_t num_to_read =",
+++  "			int num_to_read =",
++   "			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;",
++   "",
++   "		while ( num_to_read <= 0 )",
++-- 
++2.1.4
++
+diff --git a/meta/recipes-devtools/flex/flex/crosscompile.patch b/meta/recipes-devtools/flex/flex/crosscompile.patch
+deleted file mode 100644
+index 14463d93f4..0000000000
+--- a/meta/recipes-devtools/flex/flex/crosscompile.patch
++++ /dev/null
+@@ -1,214 +0,0 @@
+-Add this patch from https://github.com/westes/flex/pull/153 with minor changes
+-to fix cross compilation.
+-
+-Upstream-Status: Submitted
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-From 52d4a3ca249be984614d9204dcc7b957bc04b2ac Mon Sep 17 00:00:00 2001
+-From: Alastair Hughes <hobbitalastair@gmail.com>
+-Date: Fri, 6 Jan 2017 19:06:03 +1300
+-Subject: [PATCH] build: support cross compiling
+-
+-Check for cross compiling. If cross compiling, build stage1flex using a
+-custom link command.
+-We also override LDADD since that adds the replacement implementations
+-that are cross compiled, and instead always use the replacement library
+-implementations.
+-
+-We don't use BUILD_OBJEXT and BUILD_EXEEXT since it seems that automake
+-does not support these.
+-
+-Fixes #78.
+-
+-Signed-off-by: Alastair Hughes <hobbitalastair@gmail.com>
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+----
+- configure.ac               |   3 ++
+- m4/ax_prog_cc_for_build.m4 | 125 +++++++++++++++++++++++++++++++++++++++++++++
+- src/Makefile.am            |  17 ++++++
+- 3 files changed, 145 insertions(+)
+- create mode 100644 m4/ax_prog_cc_for_build.m4
+-
+-diff --git a/configure.ac b/configure.ac
+-index 901339f..2a7dce2 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -42,6 +42,7 @@ AM_GNU_GETTEXT_VERSION([0.19])
+- AC_PROG_YACC
+- AM_PROG_LEX
+- AC_PROG_CC
+-+AX_PROG_CC_FOR_BUILD
+- AC_PROG_CXX
+- AM_PROG_CC_C_O
+- AC_PROG_LN_S
+-@@ -75,6 +76,8 @@ AC_ARG_ENABLE([bootstrap],
+-   [], [enable_bootstrap=yes])
+- AM_CONDITIONAL([ENABLE_BOOTSTRAP], [test "x$enable_bootstrap" = xyes])
+- 
+-+AM_CONDITIONAL([CROSS], [test "x$cross_compiling" = xyes])
+-+
+- AC_PATH_PROG([BISON], bison, no)
+- AS_IF([test "$BISON" != no],[],
+- 	[ AC_SUBST([BISON], [\${top_srcdir}/build-aux/missing bison])
+-diff --git a/m4/ax_prog_cc_for_build.m4 b/m4/ax_prog_cc_for_build.m4
+-new file mode 100644
+-index 0000000..77fd346
+---- /dev/null
+-+++ b/m4/ax_prog_cc_for_build.m4
+-@@ -0,0 +1,125 @@
+-+# ===========================================================================
+-+#   http://www.gnu.org/software/autoconf-archive/ax_prog_cc_for_build.html
+-+# ===========================================================================
+-+#
+-+# SYNOPSIS
+-+#
+-+#   AX_PROG_CC_FOR_BUILD
+-+#
+-+# DESCRIPTION
+-+#
+-+#   This macro searches for a C compiler that generates native executables,
+-+#   that is a C compiler that surely is not a cross-compiler. This can be
+-+#   useful if you have to generate source code at compile-time like for
+-+#   example GCC does.
+-+#
+-+#   The macro sets the CC_FOR_BUILD and CPP_FOR_BUILD macros to anything
+-+#   needed to compile or link (CC_FOR_BUILD) and preprocess (CPP_FOR_BUILD).
+-+#   The value of these variables can be overridden by the user by specifying
+-+#   a compiler with an environment variable (like you do for standard CC).
+-+#
+-+#   It also sets BUILD_EXEEXT and BUILD_OBJEXT to the executable and object
+-+#   file extensions for the build platform, and GCC_FOR_BUILD to `yes' if
+-+#   the compiler we found is GCC. All these variables but GCC_FOR_BUILD are
+-+#   substituted in the Makefile.
+-+#
+-+# LICENSE
+-+#
+-+#   Copyright (c) 2008 Paolo Bonzini <bonzini@gnu.org>
+-+#
+-+#   Copying and distribution of this file, with or without modification, are
+-+#   permitted in any medium without royalty provided the copyright notice
+-+#   and this notice are preserved. This file is offered as-is, without any
+-+#   warranty.
+-+
+-+#serial 8
+-+
+-+AU_ALIAS([AC_PROG_CC_FOR_BUILD], [AX_PROG_CC_FOR_BUILD])
+-+AC_DEFUN([AX_PROG_CC_FOR_BUILD], [dnl
+-+AC_REQUIRE([AC_PROG_CC])dnl
+-+AC_REQUIRE([AC_PROG_CPP])dnl
+-+AC_REQUIRE([AC_EXEEXT])dnl
+-+AC_REQUIRE([AC_CANONICAL_HOST])dnl
+-+
+-+dnl Use the standard macros, but make them use other variable names
+-+dnl
+-+pushdef([ac_cv_prog_CPP], ac_cv_build_prog_CPP)dnl
+-+pushdef([ac_cv_prog_gcc], ac_cv_build_prog_gcc)dnl
+-+pushdef([ac_cv_prog_cc_works], ac_cv_build_prog_cc_works)dnl
+-+pushdef([ac_cv_prog_cc_cross], ac_cv_build_prog_cc_cross)dnl
+-+pushdef([ac_cv_prog_cc_g], ac_cv_build_prog_cc_g)dnl
+-+pushdef([ac_cv_exeext], ac_cv_build_exeext)dnl
+-+pushdef([ac_cv_objext], ac_cv_build_objext)dnl
+-+pushdef([ac_exeext], ac_build_exeext)dnl
+-+pushdef([ac_objext], ac_build_objext)dnl
+-+pushdef([CC], CC_FOR_BUILD)dnl
+-+pushdef([CPP], CPP_FOR_BUILD)dnl
+-+pushdef([CFLAGS], CFLAGS_FOR_BUILD)dnl
+-+pushdef([CPPFLAGS], CPPFLAGS_FOR_BUILD)dnl
+-+pushdef([LDFLAGS], LDFLAGS_FOR_BUILD)dnl
+-+pushdef([host], build)dnl
+-+pushdef([host_alias], build_alias)dnl
+-+pushdef([host_cpu], build_cpu)dnl
+-+pushdef([host_vendor], build_vendor)dnl
+-+pushdef([host_os], build_os)dnl
+-+pushdef([ac_cv_host], ac_cv_build)dnl
+-+pushdef([ac_cv_host_alias], ac_cv_build_alias)dnl
+-+pushdef([ac_cv_host_cpu], ac_cv_build_cpu)dnl
+-+pushdef([ac_cv_host_vendor], ac_cv_build_vendor)dnl
+-+pushdef([ac_cv_host_os], ac_cv_build_os)dnl
+-+pushdef([ac_cpp], ac_build_cpp)dnl
+-+pushdef([ac_compile], ac_build_compile)dnl
+-+pushdef([ac_link], ac_build_link)dnl
+-+
+-+save_cross_compiling=$cross_compiling
+-+save_ac_tool_prefix=$ac_tool_prefix
+-+cross_compiling=no
+-+ac_tool_prefix=
+-+
+-+AC_PROG_CC
+-+AC_PROG_CPP
+-+AC_EXEEXT
+-+
+-+ac_tool_prefix=$save_ac_tool_prefix
+-+cross_compiling=$save_cross_compiling
+-+
+-+dnl Restore the old definitions
+-+dnl
+-+popdef([ac_link])dnl
+-+popdef([ac_compile])dnl
+-+popdef([ac_cpp])dnl
+-+popdef([ac_cv_host_os])dnl
+-+popdef([ac_cv_host_vendor])dnl
+-+popdef([ac_cv_host_cpu])dnl
+-+popdef([ac_cv_host_alias])dnl
+-+popdef([ac_cv_host])dnl
+-+popdef([host_os])dnl
+-+popdef([host_vendor])dnl
+-+popdef([host_cpu])dnl
+-+popdef([host_alias])dnl
+-+popdef([host])dnl
+-+popdef([LDFLAGS])dnl
+-+popdef([CPPFLAGS])dnl
+-+popdef([CFLAGS])dnl
+-+popdef([CPP])dnl
+-+popdef([CC])dnl
+-+popdef([ac_objext])dnl
+-+popdef([ac_exeext])dnl
+-+popdef([ac_cv_objext])dnl
+-+popdef([ac_cv_exeext])dnl
+-+popdef([ac_cv_prog_cc_g])dnl
+-+popdef([ac_cv_prog_cc_cross])dnl
+-+popdef([ac_cv_prog_cc_works])dnl
+-+popdef([ac_cv_prog_gcc])dnl
+-+popdef([ac_cv_prog_CPP])dnl
+-+
+-+dnl Finally, set Makefile variables
+-+dnl
+-+BUILD_EXEEXT=$ac_build_exeext
+-+BUILD_OBJEXT=$ac_build_objext
+-+AC_SUBST(BUILD_EXEEXT)dnl
+-+AC_SUBST(BUILD_OBJEXT)dnl
+-+AC_SUBST([CFLAGS_FOR_BUILD])dnl
+-+AC_SUBST([CPPFLAGS_FOR_BUILD])dnl
+-+AC_SUBST([LDFLAGS_FOR_BUILD])dnl
+-+])
+-diff --git a/src/Makefile.am b/src/Makefile.am
+-index 3b5e362..05fe8d3 100644
+---- a/src/Makefile.am
+-+++ b/src/Makefile.am
+-@@ -22,7 +22,24 @@ stage1flex_SOURCES = \
+- 	scan.l \
+- 	$(COMMON_SOURCES)
+- 
+-+if CROSS
+-+stage1flex_LDADD =
+-+stage1flex_SOURCES += \
+-+		      ../lib/malloc.c \
+-+		      ../lib/realloc.c \
+-+		      ../lib/reallocarray.c
+-+stage1flex_LINK = $(LIBTOOL) --tag=CC --mode=link $(CC_FOR_BUILD) \
+-+		  $(CFLAGS_FOR_BUILD) $(LDFLAGS_FOR_BUILD) -o $@
+-+
+-+$(stage1flex_OBJECTS): CC=$(CC_FOR_BUILD)
+-+$(stage1flex_OBJECTS): CFLAGS=$(CFLAGS_FOR_BUILD)
+-+$(stage1flex_OBJECTS): CPP=$(CPP_FOR_BUILD)
+-+$(stage1flex_OBJECTS): CPPFLAGS=$(CPPFLAGS_FOR_BUILD)
+-+$(stage1flex_OBJECTS): LDFLAGS=$(LDFLAGS_FOR_BUILD)
+-+else
+- stage1flex_CFLAGS = $(AM_CFLAGS)
+-+stage1flex_LINK = $(LINK)
+-+endif
+- 
+- flex_SOURCES = \
+- 	$(COMMON_SOURCES)
+--- 
+-2.8.1
+diff --git a/meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch b/meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch
+new file mode 100644
+index 0000000000..032833ae7a
+--- /dev/null
++++ b/meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch
+@@ -0,0 +1,17 @@
++Upstream-Status: Inappropriate (embedded specific)
++
++Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
++
++Index: flex-2.5.37/doc/Makefile.am
++===================================================================
++--- flex-2.5.37.orig/doc/Makefile.am	2012-07-21 04:18:27.000000000 +0300
+++++ flex-2.5.37/doc/Makefile.am	2013-07-30 17:57:09.834834531 +0300
++@@ -2,7 +2,7 @@
++ 
++ info_TEXINFOS =	flex.texi
++ dist_man_MANS = flex.1
++-dist_doc_DATA= flex.pdf
+++EXTRA_DIST= flex.pdf
++ 
++ CLEANFILES = \
++ 	flex.hks \
+diff --git a/meta/recipes-devtools/flex/flex_2.6.2.bb b/meta/recipes-devtools/flex/flex_2.6.0.bb
+similarity index 84%
+rename from meta/recipes-devtools/flex/flex_2.6.2.bb
+rename to meta/recipes-devtools/flex/flex_2.6.0.bb
+index 1780cabbff..ab35b09f99 100644
+--- a/meta/recipes-devtools/flex/flex_2.6.2.bb
++++ b/meta/recipes-devtools/flex/flex_2.6.0.bb
+@@ -6,20 +6,21 @@ SECTION = "devel"
+ LICENSE = "BSD"
+ 
+ DEPENDS = "${@bb.utils.contains('PTEST_ENABLED', '1', 'bison-native flex-native', '', d)}"
+-
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e4742cf92e89040b39486a6219b68067"
+ 
+-SRC_URI = "https://github.com/westes/flex/releases/download/v${PV}/flex-${PV}.tar.gz \
+-           file://crosscompile.patch;apply=1 \
++SRC_URI = "${SOURCEFORGE_MIRROR}/flex/flex-${PV}.tar.bz2 \
+            file://run-ptest \
++           file://do_not_create_pdf_doc.patch \
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
++           file://0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch \
++           file://CVE-2016-6354.patch \
+            ${@bb.utils.contains('PTEST_ENABLED', '1', '', 'file://disable-tests.patch', d)} \
+            "
+ 
+-SRC_URI[md5sum] = "cc6d76c333db7653d5caf423a3335239"
+-SRC_URI[sha256sum] = "9a01437a1155c799b7dc2508620564ef806ba66250c36bf5f9034b1c207cb2c9"
++SRC_URI[md5sum] = "266270f13c48ed043d95648075084d59"
++SRC_URI[sha256sum] = "24e611ef5a4703a191012f80c1027dc9d12555183ce0ecd46f3636e587e9b8e9"
+ 
+ # Flex has moved to github from 2.6.1 onwards
+ UPSTREAM_CHECK_URI = "https://github.com/westes/flex/releases"
+-- 
+2.11.0.258.ge05806d
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---B4IIlcmfBL/1gGOG
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWJ4aTgAKCRA3VSO3ZXaA
-HN4vAJ4+GfsH6W1c2RfxlwYfW99GI5hjewCfd8PV4xnBvPb7K5TkFFjYoRYGES8=
-=wx1G
------END PGP SIGNATURE-----
-
---B4IIlcmfBL/1gGOG--
