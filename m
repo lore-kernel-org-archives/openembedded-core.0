@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F2A296010B
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E3A84772BB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2017 03:23:21 +0000 (UTC)
+	Fri, 10 Feb 2017 03:23:22 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v1A3NMLh026295
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v1A3NNXJ007870
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Feb 2017 19:23:22 -0800
+	Thu, 9 Feb 2017 19:23:23 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 9 Feb 2017 19:23:21 -0800
+	Thu, 9 Feb 2017 19:23:22 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 9 Feb 2017 19:23:11 -0800
-Message-ID: <8284c33504f1fd265fcda1367ac0727846e4d42d.1486696950.git.liezhi.yang@windriver.com>
+Date: Thu, 9 Feb 2017 19:23:12 -0800
+Message-ID: <824bccc4bfe9af09c859e318e968727b8e0d82c6.1486696950.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.11.0.rc2.dirty
 In-Reply-To: <cover.1486696950.git.liezhi.yang@windriver.com>
 References: <cover.1486696950.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 06/10] wget: 1.18 -> 1.19
+Subject: [PATCH 07/10] strace: 4.14 -> 4.15
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,46 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Feb 2017 03:23:22 -0000
+X-List-Received-Date: Fri, 10 Feb 2017 03:23:23 -0000
 Content-Type: text/plain
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-extended/wget/wget.inc                       | 2 --
- meta/recipes-extended/wget/{wget_1.18.bb => wget_1.19.bb} | 4 ++--
- 2 files changed, 2 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/wget/{wget_1.18.bb => wget_1.19.bb} (53%)
+ meta/recipes-devtools/strace/{strace_4.14.bb => strace_4.15.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/strace/{strace_4.14.bb => strace_4.15.bb} (91%)
 
-diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
-index c4abfe490e0..3b223a3df86 100644
---- a/meta/recipes-extended/wget/wget.inc
-+++ b/meta/recipes-extended/wget/wget.inc
-@@ -5,8 +5,6 @@ LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- DEPENDS = "gnutls zlib libpcre"
+diff --git a/meta/recipes-devtools/strace/strace_4.14.bb b/meta/recipes-devtools/strace/strace_4.15.bb
+similarity index 91%
+rename from meta/recipes-devtools/strace/strace_4.14.bb
+rename to meta/recipes-devtools/strace/strace_4.15.bb
+index 452925c7ea9..2b9d19a42b8 100644
+--- a/meta/recipes-devtools/strace/strace_4.14.bb
++++ b/meta/recipes-devtools/strace/strace_4.15.bb
+@@ -15,8 +15,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.xz \
+            file://mips-SIGEMT.patch \
+            "
  
--INC_PR = "r16"
--
- inherit autotools gettext texinfo update-alternatives pkgconfig
+-SRC_URI[md5sum] = "1e39b5f7583256d7dc21170b9da529ae"
+-SRC_URI[sha256sum] = "5bed5110b243dce6864bedba269446c18c8c63f553cdd7fd4f808d89a764712f"
++SRC_URI[md5sum] = "1ff96209fec19914c920608ed0791864"
++SRC_URI[sha256sum] = "c0cdc094d6141fd9dbf6aaad605142d651ae10998b660fda57fc61f7ad583ca9"
  
- EXTRA_OECONF = "--with-ssl=gnutls --disable-rpath --disable-iri \
-diff --git a/meta/recipes-extended/wget/wget_1.18.bb b/meta/recipes-extended/wget/wget_1.19.bb
-similarity index 53%
-rename from meta/recipes-extended/wget/wget_1.18.bb
-rename to meta/recipes-extended/wget/wget_1.19.bb
-index c969b98e7d3..3e022d57d65 100644
---- a/meta/recipes-extended/wget/wget_1.18.bb
-+++ b/meta/recipes-extended/wget/wget_1.19.bb
-@@ -2,7 +2,7 @@ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
-            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-           "
+ inherit autotools ptest bluetooth
  
--SRC_URI[md5sum] = "fc2debd8399e3b933a9b226794e2a886"
--SRC_URI[sha256sum] = "a00a65fab84cc46e24c53ce88c45604668a7a479276e037dc2f558e34717fb2d"
-+SRC_URI[md5sum] = "f9e928e293e4d7de73ff6f19e0c4b423"
-+SRC_URI[sha256sum] = "dd9523039845f69e8e945e9f2d5a38af6b1e29efa6ff53830507310235ddade8"
- 
- require wget.inc
 -- 
 2.11.0.rc2.dirty
 
