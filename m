@@ -1,28 +1,23 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
+Return-Path: <amarnath.valluri@intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 770F077335
+	by mail.openembedded.org (Postfix) with ESMTP id E2D7C77337
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2017 13:10:46 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga105.jf.intel.com with ESMTP; 10 Feb 2017 05:10:47 -0800
+	Fri, 10 Feb 2017 13:42:26 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga105.jf.intel.com with ESMTP; 10 Feb 2017 05:42:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,141,1484035200"; d="scan'208";a="1093173398"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 10 Feb 2017 05:10:46 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1486668313.git.jussi.kukkonen@intel.com>
-	<f9a4abbc-498f-ce04-f9c4-c2c08e9b8be1@linux.intel.com>
-	<CAJTo0LajMHhcvkD5w3R14ZdbG1JUmop-tVoehyw8+KrBL1z8Rw@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <918ca090-d418-e739-9d1e-35744783ce26@linux.intel.com>
-Date: Fri, 10 Feb 2017 15:11:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.6.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LajMHhcvkD5w3R14ZdbG1JUmop-tVoehyw8+KrBL1z8Rw@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] Fix cve-check (for recipe sysroots)
+X-IronPort-AV: E=Sophos;i="5.35,141,1484035200"; d="scan'208";a="42543513"
+Received: from avallurigigabyte.fi.intel.com ([10.237.72.170])
+	by orsmga002.jf.intel.com with ESMTP; 10 Feb 2017 05:42:26 -0800
+From: Amarnath Valluri <amarnath.valluri@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 10 Feb 2017 15:42:09 +0200
+Message-Id: <1486734151-28331-2-git-send-email-amarnath.valluri@intel.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1486734151-28331-1-git-send-email-amarnath.valluri@intel.com>
+References: <1486734151-28331-1-git-send-email-amarnath.valluri@intel.com>
+Cc: Joshua Lock <joshua.g.lock@intel.com>
+Subject: [PATCH 01/23] bitbake.conf: support for merged usr with DISTRO_FEATURE usrmerge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,25 +30,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Feb 2017 13:10:47 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 10 Feb 2017 13:42:27 -0000
 
-On 02/10/2017 03:04 PM, Burton, Ross wrote:
+From: Joshua Lock <joshua.g.lock@intel.com>
 
-> Abandoned may be a strong word, but I'm not sure how much development is
-> being done.  I do plan on looking at this and dedicating some actual
-> engineering time towards it soon.
+Modify bindir, libdir and sbindir to be exec_prefix/$d, rather than
+base_prefix/$d, when the usrmerge DISTRO_FEATURE is enabled.
 
-https://github.com/ikeydoherty/cve-check-tool/commits/master
-Last commit on Sep 1 2016.
+Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+---
+ meta/conf/bitbake.conf | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-https://github.com/ikeydoherty/cve-check-tool/commits/rewrite-snapshot
-Last commit on Aug 8 2016.
-
-Same story with open issues and pull requests: no activity in months.
-
-
-Alex
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index e421650..c5beb77 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -18,10 +18,14 @@ export prefix = "/usr"
+ export exec_prefix = "${prefix}"
+ 
+ # Base paths
+-export base_bindir = "${base_prefix}/bin"
+-export base_sbindir = "${base_prefix}/sbin"
+-export base_libdir = "${base_prefix}/${baselib}"
+-export nonarch_base_libdir = "${base_prefix}/lib"
++bin = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', '${exec_prefix}/bin', '${base_prefix}/bin', d)}"
++sbin = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', '${exec_prefix}/sbin', '${base_prefix}/sbin', d)}"
++lib = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', '${exec_prefix}/${baselib}', '${base_prefix}/${baselib}', d)}"
++nonarch_lib = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', '${exec_prefix}/lib', '${base_prefix}/lib', d)}"
++export base_bindir = "${bin}"
++export base_sbindir = "${sbin}"
++export base_libdir = "${lib}"
++export nonarch_base_libdir = "${nonarch_lib}"
+ 
+ # Architecture independent paths
+ export sysconfdir = "${base_prefix}/etc"
+-- 
+2.7.4
 
 
