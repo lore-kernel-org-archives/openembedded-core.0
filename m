@@ -1,48 +1,48 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id C79797746D;
-	Fri, 10 Feb 2017 16:26:38 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id v77so52673627wmv.0;
-	Fri, 10 Feb 2017 08:26:39 -0800 (PST)
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
+	[209.85.218.68])
+	by mail.openembedded.org (Postfix) with ESMTP id F1EEB773D1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Feb 2017 16:29:40 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id j15so2889957oih.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Feb 2017 08:29:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=h86l5zLmpOk4XAO075DZcQbR6kxb39gmFqbwR8HrxSk=;
-	b=Y91nGvdJIKR6w4fV2KuEYq5oRiZfQ+8OKUQbrm7qzmytPh78eh/3W5JquOGaA6iDkz
-	725MiJ5PUjIa9qH2ai1r4oyYJW2vN+McAoacj+hdYaMWpIOHOoWx0HMTnJ16H7AIpIR1
-	J/atJKKRs4VIo1+RqQxCawj1ERIHuTuEMY8RjNLaGwGyAserqZS1yZhc165gOE0wLdaG
-	oYjrWb0fIfNQ+046WaMx34H3vjxhPWLQU4LmOlveSXW52c1lqAqNwdkF4ezZ2EXv5Ae6
-	Iv6KYsw0RVlJu/lhwt+5LNKIItsoX2PoUapcTLl7Bzy/5dHQ9SxNmlsWawmlIhQShPXJ
-	axkQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=m906Z5aaVYlItI1kEO7foBCt77AR2t5Dv+V4Lcu5dAw=;
+	b=ng9cXYcN0UYQzTY3yDoOhdyZdKbrJeYaNtwiV8Txm5RiWwz8JgZJwoxxpd+krcWgAJ
+	ez+2AN+MJcG7F8aCwTT2xlzalYy+7+QKZZ67uD00B6GmV6Y2c/bs97frEkOQzjJo5VRg
+	Nsn6/MLksdY7JLMKpm6X4OFdpHYYFBuGMDn7vOKiovMoMPb4tTgzueMnY9EH38FQty0B
+	PNKNz4vbh1rbwiuuBq9i8K9ZPu0i0GGhCaYqndgd9WYyIn65aXa0bd/d5sH5x088shs1
+	u+bkuEVe1C+730yqZxT+RjKOKPBt5xH7ywzEfhfmk5nCtXFQcbhyW4ODWaFMn0MjknPm
+	k6zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=h86l5zLmpOk4XAO075DZcQbR6kxb39gmFqbwR8HrxSk=;
-	b=Pqqya/huo7rIALl9kNVab/g5LG34D+otBTz6JAg7r7EujtrXbprvCZIeBjdSYYq0tF
-	vODWoQNujzlzdJ19BHrb6Cj4EYfUKlSUCDQKOgr2jMVKqmmtx2MfflMyyUTrHxzf7j5H
-	4TGIZtSkD4LVtZ2F+LnfhOQlpL3RYO8/6JJH+z2VEdw5hOt5C+QL3qmlGnuz4H4w5mfG
-	S+ozTBf7D0Mq/UnW2IjQTSwP6K1C5exsRsAFiWpRzLX7CA2muhRkPpHdudgqe3d+GtpQ
-	PYSfw6OWBkDUVzhuoMEHyHLeFBFIDP9ggDUhyRNuuEaE9hmu1Rq40KAsf5SHbuOeiJZv
-	lJLg==
-X-Gm-Message-State: AMke39ltgL1gTxD/VaVSAYhiYtQM2Tuh2kvqaPFzvejxYFNXvLySvUlInUhKvHJ5sZXCag==
-X-Received: by 10.28.170.213 with SMTP id t204mr26172286wme.29.1486743998095; 
-	Fri, 10 Feb 2017 08:26:38 -0800 (PST)
-Received: from localhost ([217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id g6sm532747wmc.30.2017.02.10.08.26.36
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 10 Feb 2017 08:26:36 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 10 Feb 2017 17:26:37 +0100
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-ID: <20170210162637.GB3021@jama>
-References: <20170210082811.GA3021@jama>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=m906Z5aaVYlItI1kEO7foBCt77AR2t5Dv+V4Lcu5dAw=;
+	b=pGW1BJ/wo+MkeRWfqJ+fv0vM9Irzoka2dzLNoM252utrYYCZiTmqDy6ffp6XMOXuaF
+	21vzxfIZi0ewVfugB6sacsM3Y/WbXyhc2FILGuDJj7dBk4tko+7q0N86YBP6izaGZyRM
+	iw7Z7mgZSl670ZgKF/RWqkiwQR6XZWlkDtyVnAM5v+V+h4UJsD4aYa6wdDBU153sr3yo
+	0nib1LYrDoCEcZuIx9zFYDGPHXjAso1Woxyb9iqKa70Tc8ylWr0OaPjmgCh07lVb7SQh
+	C4gT5xq8eC2xs4gMd7WAO3WFbVwHy/jN5hsYnGndDMZ3k6yU/ZZxjZ9rc4rMlsr3d9jR
+	Xd5A==
+X-Gm-Message-State: AMke39nloRw6Z83ldFfAYvsjJlg60NSzkRnNiuQn/+7Xzctymt7oMbIduh1ep0+WuUM5xllRKwbOisHOjYaUqA==
+X-Received: by 10.202.175.10 with SMTP id y10mr5334795oie.188.1486744181120;
+	Fri, 10 Feb 2017 08:29:41 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20170210082811.GA3021@jama>
-User-Agent: Mutt/1.7.2 (2016-11-26)
-Subject: Re: State of bitbake world, Failed tasks 2017-02-08
+Received: by 10.157.5.8 with HTTP; Fri, 10 Feb 2017 08:29:20 -0800 (PST)
+In-Reply-To: <1486734151-28331-2-git-send-email-amarnath.valluri@intel.com>
+References: <1486734151-28331-1-git-send-email-amarnath.valluri@intel.com>
+	<1486734151-28331-2-git-send-email-amarnath.valluri@intel.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Fri, 10 Feb 2017 09:29:20 -0700
+Message-ID: <CABcZANkYDsXQbMP_dkhy-h0xbQNmQ9EE_mg_FbbPkmFu7bFRVA@mail.gmail.com>
+To: Amarnath Valluri <amarnath.valluri@intel.com>
+Cc: Joshua Lock <joshua.g.lock@intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/23] bitbake.conf: support for merged usr with DISTRO_FEATURE usrmerge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,60 +55,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Feb 2017 16:26:45 -0000
-X-Groupsio-MsgNum: 93176
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="p4qYPpj5QlsIQJ0K"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 10 Feb 2017 16:29:41 -0000
+Content-Type: multipart/alternative; boundary=001a113ce83cc9b94105482f9aca
 
---p4qYPpj5QlsIQJ0K
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--001a113ce83cc9b94105482f9aca
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 10, 2017 at 09:28:11AM +0100, Martin Jansa wrote:
-> =3D=3D Number of issues - stats =3D=3D
-> {| class=3D'wikitable'
-> !|Date		     !!colspan=3D'3'|Failed tasks			    !!colspan=3D'6'|Failed de=
-pencencies			 !!|Signatures		  !!colspan=3D'12'|QA !!Comment
-> |-
-> ||		||qemuarm	||qemux86	||qemux86_64	||qemuarm||max||min	||qemux86||max||=
-min	||all 	||already-stripped	||libdir	||textrel	||build-deps	||file-rdeps	=
-||version-going-backwards	||host-user-contaminated	||installed-vs-shipped	|=
-|unknown-configure-option	||symlink-to-sysroot	||invalid-pkgconfig	||pkgnam=
-e	||=09
-> |-
-> ||2017-02-08	||96	||100	||100	||N/A	||N/A	||N/A	||N/A	||N/A	||N/A	||0	||0=
-		||0		||2		||0		||6		||36		||0		||0		||0		||0		||0		||0		||=09
-> |}
+On Fri, Feb 10, 2017 at 6:42 AM, Amarnath Valluri <
+amarnath.valluri@intel.com> wrote:
 
-During this weekend I plan to start adding PNBLACKLISTs to failed recipes.
+> From: Joshua Lock <joshua.g.lock@intel.com>
+>
+> Modify bindir, libdir and sbindir to be exec_prefix/$d, rather than
+> base_prefix/$d, when the usrmerge DISTRO_FEATURE is enabled.
+>
+> Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+>
 
-With this number of failures the builds don't help to spot new issues.
+This looks interesting, but worth noting that this will invalidate all
+sstates everywhere, as sstate uses unexpanded variables. So even if the
+feature is gone, it=E2=80=99ll change the checksums anyway. That=E2=80=99s =
+probably okay,
+just something to keep in mind.
+--=20
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
 
-If you care about some of the listed recipes, please send patches or at
-least send e-mail saying that you plan to fix them soonish.
+--001a113ce83cc9b94105482f9aca
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Many of these failures aren't hard to fix, I have already fixed all
-recipes I care about (which are included in some images I'm building),
-but I don't want to spend more time fixing (or even building) recipes
-nobody uses (or cares about).
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Fri, Feb 10, 2017 at 6:42 AM, Amarnath Valluri <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:amarnath.valluri@intel.com" target=3D"_blank">amarnath.vallu=
+ri@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div i=
+d=3D":17l" class=3D"a3s aXjCH m15a28481c1c313b6">From: Joshua Lock &lt;<a h=
+ref=3D"mailto:joshua.g.lock@intel.com">joshua.g.lock@intel.com</a>&gt;<br>
+<br>
+Modify bindir, libdir and sbindir to be exec_prefix/$d, rather than<br>
+base_prefix/$d, when the usrmerge DISTRO_FEATURE is enabled.<br>
+<br>
+Signed-off-by: Joshua Lock &lt;<a href=3D"mailto:joshua.g.lock@intel.com">j=
+oshua.g.lock@intel.com</a>&gt;</div></blockquote></div><br>This looks inter=
+esting, but worth noting that this will invalidate all sstates everywhere, =
+as sstate uses unexpanded variables. So even if the feature is gone, it=E2=
+=80=99ll change the checksums anyway. That=E2=80=99s probably okay, just so=
+mething to keep in mind.<br>-- <br><div class=3D"gmail_signature" data-smar=
+tmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr">Christophe=
+r Larson<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded, Op=
+enZaurus<br>Senior Software Engineer, Mentor Graphics</div></div></div></di=
+v>
+</div></div>
 
-If you don't send the fixes before Sunday evening, than no big deal,
-you will just need to update commit with the fix to also remove the
-PNBLACKLIST from the recipe before sending it to ML.
-
-Regards,
-
---p4qYPpj5QlsIQJ0K
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWJ3pvAAKCRA3VSO3ZXaA
-HINuAKClWrzUJxpifAfVQTYbCiatAJyTxACcDQGHk7W25O+04Gi9ZpW3AokdV9E=
-=1S5H
------END PGP SIGNATURE-----
-
---p4qYPpj5QlsIQJ0K--
+--001a113ce83cc9b94105482f9aca--
