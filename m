@@ -1,44 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 02B5A6FFEA
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B6D476069D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2017 04:59:02 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id 204so2138902pge.2
+	Fri, 10 Feb 2017 05:29:22 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v1A5TLTY016339
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Feb 2017 20:59:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=YBUZ3OIAMBZ25lkb63YQAXq6tw86BBGy6kC2h107F5c=;
-	b=j9xIHT1Er2Tn9vWHxtxFMuFejAEX9Q00EfUpZuu6vrUwftIcaSBxqE9B8CmbSfdoVy
-	YMZmb9POlviIsZddyggHS4fnrdI1i1/aeRac/o341LHkd5iAKBQltcVXdIN2AwHHUYhl
-	yj2Jico70kPvt9i3yok4BpKkIn20EgtvdiH/Q4CbIQF3ab2qB4lAk8+RvgoCXvTtQy0b
-	2OVSnqlBPhbgEFu1Y2KkS1+rYJ0ELA5xVt1zpnPc90fb+9Up2JRXWeD/jMwq1tJWuvmZ
-	7NdpVYPc2WWII1EXZvCX65XLCLv8Hni5hJGIKc/kyMWM/jmHXX2orXU++BWLdhC/SMhj
-	8EVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=YBUZ3OIAMBZ25lkb63YQAXq6tw86BBGy6kC2h107F5c=;
-	b=UpCENLpUv6pa0XhxYe1aGMWv6fKLZ8EK21MAu+GnPql5lLbZ9dZmH6xSP3YS8bP7x+
-	niSmIK+vTKYwN76o6f/lH48HoyKJ2penF1n7fXQ27zzVVfp4vccECT0Y3LqKpMYvbpAl
-	BoLhpaDbjCThe/aMn8n/p0Uzr0lFpDaLXt8QoN2gThyzb9ErhqSu0HMeqDLUPHH4PNVg
-	NO/hwNtqV8vB+SGiagiq+9AOzMye6pKcGfKomAlIasfP/WrhmTTeVJD8JcZDXUjRUDiZ
-	OhlkAZhGZQSi/sSp4TQ9Hc/AeSIo+89yJU/hg6G5HTyWMK+4z0wkFhG2vQEpTX9XTzsJ
-	b8vA==
-X-Gm-Message-State: AMke39l+PBcMkMG2aRS+xB3xah4D+6EjB4oGnZ3RxT4c0RLFAcG5eS9zrpMaqMVkNwxXgw==
-X-Received: by 10.99.112.6 with SMTP id l6mr8240163pgc.33.1486702743183;
-	Thu, 09 Feb 2017 20:59:03 -0800 (PST)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192])
-	by smtp.gmail.com with ESMTPSA id n73sm1101312pfa.9.2017.02.09.20.59.02
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 Feb 2017 20:59:02 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Feb 2017 20:58:53 -0800
-Message-Id: <20170210045853.9043-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.11.1
-Subject: [PATCH] qemu: Inherit pythonnative
+	Thu, 9 Feb 2017 21:29:21 -0800 (PST)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 9 Feb 2017 21:29:20 -0800
+From: Dengke Du <dengke.du@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 10 Feb 2017 00:29:18 -0500
+Message-ID: <cover.1486704150.git.dengke.du@windriver.com>
+X-Mailer: git-send-email 2.8.1
+MIME-Version: 1.0
+Subject: [PATCH V3 0/1] ltp: upgrade to 20170116
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,38 +31,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Feb 2017 04:59:03 -0000
+X-List-Received-Date: Fri, 10 Feb 2017 05:29:23 -0000
+Content-Type: text/plain
 
-On buildhosts where default python has switched to using python3
-qemu-native fails configure like this
+Changed in V3:
+	Add the runtime depends packages: "unzip gzip cpio cronie logrotate which at" according to Yi zhao's
+suggestion.
 
-| ERROR: Cannot use 'python', Python 2.6 or later is required.
-|        Note that Python 3 or later is not yet supported.
-|        Use --python=/path/to/python to specify a supported Python.
-|
+Changed in V2:
+	Add Upstream-Status for 0001-add-_GNU_SOURCE-to-pec_listener.c.patch
 
-inheriting pythonnative makes sure that a usable python2 is always
-available.
+The following changes since commit 03b1180825df3e6b7595e7cab6531d0c02998430:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/qemu/qemu.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  yocto-bsps: add 4.9 bbappend (2017-02-06 14:45:53 +0000)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index ef5d75c450..50f53f0de1 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -6,7 +6,7 @@ RDEPENDS_${PN}_class-target += "bash"
- RDEPENDS_${PN}-ptest = "bash make"
- 
- require qemu-targets.inc
--inherit autotools pkgconfig ptest
-+inherit autotools pkgconfig ptest pythonnative
- BBCLASSEXTEND = "native nativesdk"
- 
- # QEMU_TARGETS is overridable variable
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib dengke/ltp-upgrade-to-20170116-new
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=dengke/ltp-upgrade-to-20170116-new
+
+Dengke Du (1):
+  ltp: upgrade to 20170116
+
+ .../0001-add-_GNU_SOURCE-to-pec_listener.c.patch   |  39 ++
+ .../ltp/0001-ltp-Don-t-link-against-libfl.patch    |  30 --
+ ...TH_MAX-undeclared-when-building-with-musl.patch |  30 ++
+ ...sendfile-Use-off64_t-instead-of-__off64_t.patch |  31 --
+ ...RDSIZE-undeclared-when-building-with-musl.patch |  30 ++
+ .../ltp/ltp/0007-replace-SIGCLD-with-SIGCHLD.patch | 394 ---------------------
+ .../ltp/0009-Guard-error.h-with-__GLIBC__.patch    | 270 --------------
+ ...ition-of-struct-msgbuf-error-building-wit.patch |  35 ++
+ .../0011-Rename-sigset-variable-to-sigset1.patch   |  77 ++--
+ ...fsstress.c-Replace-__int64_t-with-int64_t.patch | 351 ------------------
+ ...nclude-fcntl.h-for-getting-O_-definitions.patch |  67 ----
+ ...ing-Include-sys-types.h-for-pid_t-definit.patch |  56 ---
+ ...015-mincore01-Rename-PAGESIZE-to-pagesize.patch |  64 ----
+ ...Change-header-from-ustat.h-to-sys-ustat.h.patch |  45 ---
+ .../0017-replace-sigval_t-with-union-sigval.patch  |  88 -----
+ ...lace-canonicalize_file_name-with-realpath.patch |  32 --
+ .../ltp/ltp/0022-include-sys-types.h.patch         |  29 --
+ ...sconf01-Use-_SC_2_C_VERSION-conditionally.patch |  23 +-
+ .../ltp/0029-trace_shed-Fix-build-with-musl.patch  |  32 --
+ ...READ_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch |  26 +-
+ ...age-size-offset-as-per-page-size-alignmen.patch |  33 --
+ ...-regen.sh-Include-asm-unistd.h-explicitly.patch |  30 --
+ .../ltp/ltp/0035-fix-test_proc_kill-hang.patch     |  27 +-
+ ...rs-netns_netlink-Avoid-segmentation-fault.patch |  50 ---
+ ...ix-option-group-test-replace-CWD-qith-PWD.patch |  44 ---
+ .../ltp/fcntl-fix-the-time-def-to-use-time_t.patch |  17 +-
+ .../ltp/{ltp_20160126.bb => ltp_20170116.bb}       |  33 +-
+ 27 files changed, 235 insertions(+), 1748 deletions(-)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-add-_GNU_SOURCE-to-pec_listener.c.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0001-ltp-Don-t-link-against-libfl.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0006-fix-PATH_MAX-undeclared-when-building-with-musl.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0006-sendfile-Use-off64_t-instead-of-__off64_t.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0007-fix-__WORDSIZE-undeclared-when-building-with-musl.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0007-replace-SIGCLD-with-SIGCHLD.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0009-Guard-error.h-with-__GLIBC__.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0009-fix-redefinition-of-struct-msgbuf-error-building-wit.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0012-fsstress.c-Replace-__int64_t-with-int64_t.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0013-include-fcntl.h-for-getting-O_-definitions.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0014-hyperthreading-Include-sys-types.h-for-pid_t-definit.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0015-mincore01-Rename-PAGESIZE-to-pagesize.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0016-ustat-Change-header-from-ustat.h-to-sys-ustat.h.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0017-replace-sigval_t-with-union-sigval.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0019-tomoyo-Replace-canonicalize_file_name-with-realpath.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0022-include-sys-types.h.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0029-trace_shed-Fix-build-with-musl.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0031-vma03-fix-page-size-offset-as-per-page-size-alignmen.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0032-regen.sh-Include-asm-unistd.h-explicitly.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0037-containers-netns_netlink-Avoid-segmentation-fault.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0038-run-posix-option-group-test-replace-CWD-qith-PWD.patch
+ rename meta/recipes-extended/ltp/{ltp_20160126.bb => ltp_20170116.bb} (78%)
+
 -- 
-2.11.1
+2.8.1
 
 
