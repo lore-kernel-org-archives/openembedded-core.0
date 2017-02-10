@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A57AB77218
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B80D6010B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2017 03:23:16 +0000 (UTC)
+	Fri, 10 Feb 2017 03:23:18 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v1A3NG3u026288
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v1A3NHGa007855
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Feb 2017 19:23:17 -0800
+	Thu, 9 Feb 2017 19:23:18 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 9 Feb 2017 19:23:15 -0800
+	Thu, 9 Feb 2017 19:23:17 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 9 Feb 2017 19:23:05 -0800
-Message-ID: <cover.1486696950.git.liezhi.yang@windriver.com>
+Date: Thu, 9 Feb 2017 19:23:06 -0800
+Message-ID: <603cddba527b5c9a801acc22c88e0ba2d622fb9c.1486696950.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.11.0.rc2.dirty
+In-Reply-To: <cover.1486696950.git.liezhi.yang@windriver.com>
+References: <cover.1486696950.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 00/10] Packages upgrade
+Subject: [PATCH 01/10] e2fsprogs: 1.43.3 -> 1.43.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,60 +36,77 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 10 Feb 2017 03:23:20 -0000
 Content-Type: text/plain
 
-The following changes since commit d1109378d730c5cf50240c4d1a468e3aef5208ea:
+* Rebased Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch.
+* The mkfs.ext4dev is gone.
 
-  nss: Fix nss-native so the checksum doesn't change with BUILD_ARCH (2017-02-09 10:50:54 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/pu
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/pu
-
-Robert Yang (10):
-  e2fsprogs: 1.43.3 -> 1.43.4
-  git: 2.11.0 -> 2.11.1
-  gnu-efi: 3.0.4 -> 3.0.5
-  hdparm: 9.50 -> 9.51
-  libpcre: 8.39 -> 8.40
-  wget: 1.18 -> 1.19
-  strace: 4.14 -> 4.15
-  strace: fix gawk's path
-  mklibs-native: 0.1.41 -> 0.1.43
-  m4: 1.4.17 -> 1.4.18
-
- .../aarch64-initplat.c-fix-const-qualifier.patch   | 35 ----------------
- .../gnu-efi/{gnu-efi_3.0.4.bb => gnu-efi_3.0.5.bb} |  5 +--
- ...fs-enable-the-metadata_csum-and-64bit-fea.patch |  9 ++--
- .../{e2fsprogs_1.43.3.bb => e2fsprogs_1.43.4.bb}   |  6 +--
- meta/recipes-devtools/git/git_2.11.0.bb            | 11 -----
- meta/recipes-devtools/git/git_2.11.1.bb            | 11 +++++
- .../m4/{m4-1.4.17.inc => m4-1.4.18.inc}            |  5 ++-
- .../{m4-native_1.4.17.bb => m4-native_1.4.18.bb}   |  0
- meta/recipes-devtools/m4/m4/remove-gets.patch      | 15 +++----
- .../m4/{m4_1.4.17.bb => m4_1.4.18.bb}              |  0
- ...bs-native_0.1.41.bb => mklibs-native_0.1.43.bb} |  8 ++--
- .../0001-caps-abbrev.awk-fix-gawk-s-path.patch     | 49 ++++++++++++++++++++++
- .../strace/{strace_4.14.bb => strace_4.15.bb}      |  5 ++-
- .../hdparm/{hdparm_9.50.bb => hdparm_9.51.bb}      |  4 +-
- meta/recipes-extended/wget/wget.inc                |  2 -
- .../wget/{wget_1.18.bb => wget_1.19.bb}            |  4 +-
- .../libpcre/{libpcre_8.39.bb => libpcre_8.40.bb}   |  6 +--
- 17 files changed, 93 insertions(+), 82 deletions(-)
- delete mode 100644 meta/recipes-bsp/gnu-efi/gnu-efi/aarch64-initplat.c-fix-const-qualifier.patch
- rename meta/recipes-bsp/gnu-efi/{gnu-efi_3.0.4.bb => gnu-efi_3.0.5.bb} (92%)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ .../Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch   | 9 +++------
+ .../e2fsprogs/{e2fsprogs_1.43.3.bb => e2fsprogs_1.43.4.bb}       | 6 ++----
+ 2 files changed, 5 insertions(+), 10 deletions(-)
  rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.43.3.bb => e2fsprogs_1.43.4.bb} (96%)
- delete mode 100644 meta/recipes-devtools/git/git_2.11.0.bb
- create mode 100644 meta/recipes-devtools/git/git_2.11.1.bb
- rename meta/recipes-devtools/m4/{m4-1.4.17.inc => m4-1.4.18.inc} (75%)
- rename meta/recipes-devtools/m4/{m4-native_1.4.17.bb => m4-native_1.4.18.bb} (100%)
- rename meta/recipes-devtools/m4/{m4_1.4.17.bb => m4_1.4.18.bb} (100%)
- rename meta/recipes-devtools/mklibs/{mklibs-native_0.1.41.bb => mklibs-native_0.1.43.bb} (72%)
- create mode 100644 meta/recipes-devtools/strace/strace/0001-caps-abbrev.awk-fix-gawk-s-path.patch
- rename meta/recipes-devtools/strace/{strace_4.14.bb => strace_4.15.bb} (88%)
- rename meta/recipes-extended/hdparm/{hdparm_9.50.bb => hdparm_9.51.bb} (89%)
- rename meta/recipes-extended/wget/{wget_1.18.bb => wget_1.19.bb} (53%)
- rename meta/recipes-support/libpcre/{libpcre_8.39.bb => libpcre_8.40.bb} (92%)
 
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch
+index e66cd4d1a7e..38fb07e6e6e 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch
+@@ -20,20 +20,17 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 2 insertions(+), 1 deletion(-)
+ 
+ diff --git a/misc/mke2fs.conf.in b/misc/mke2fs.conf.in
+-index 78fe50a..6f1940e 100644
++index 812f7c7..0280398 100644
+ --- a/misc/mke2fs.conf.in
+ +++ b/misc/mke2fs.conf.in
+ @@ -11,8 +11,9 @@
+  		features = has_journal
+  	}
+  	ext4 = {
+--		features = has_journal,extent,huge_file,flex_bg,64bit,dir_nlink,extra_isize
++-		features = has_journal,extent,huge_file,flex_bg,uninit_bg,64bit,dir_nlink,extra_isize
+ +		features = has_journal,extent,huge_file,flex_bg,uninit_bg,dir_nlink,extra_isize
+  		inode_size = 256
+ +		auto_64-bit_support = 1
+  	}
+  	ext4dev = {
+- 		features = has_journal,extent,huge_file,flex_bg,inline_data,64bit,dir_nlink,extra_isize
+--- 
+-2.8.1
+-
++ 		features = has_journal,extent,huge_file,flex_bg,uninit_bg,inline_data,64bit,dir_nlink,extra_isize
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.3.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb
+similarity index 96%
+rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.3.bb
+rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb
+index ac4589c7c4d..4b06b189b03 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.3.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb
+@@ -1,7 +1,5 @@
+ require e2fsprogs.inc
+ 
+-PR = "r1"
+-
+ SRC_URI += "file://acinclude.m4 \
+             file://remove.ldconfig.call.patch \
+             file://quiet-debugfs.patch \
+@@ -13,7 +11,7 @@ SRC_URI += "file://acinclude.m4 \
+ 
+ SRC_URI_append_class-native = " file://e2fsprogs-fix-missing-check-for-permission-denied.patch"
+ 
+-SRCREV = "4e52870eeb08ed7532bf4fd3d5cb1538f714bdc8"
++SRCREV = "3d66c4b20f09f923078c1e6eb9b549865b549674"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+\.\d+(\.\d+)*)$"
+ 
+ EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
+@@ -60,7 +58,7 @@ do_install () {
+ 
+ # Need to find the right mke2fs.conf file
+ e2fsprogs_conf_fixup () {
+-	for i in mke2fs mkfs.ext2 mkfs.ext3 mkfs.ext4 mkfs.ext4dev; do
++	for i in mke2fs mkfs.ext2 mkfs.ext3 mkfs.ext4; do
+ 		create_wrapper ${D}${base_sbindir}/$i MKE2FS_CONFIG=${sysconfdir}/mke2fs.conf
+ 	done
+ }
 -- 
 2.11.0.rc2.dirty
 
