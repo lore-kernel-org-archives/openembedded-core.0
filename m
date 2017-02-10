@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F1EA77207
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3DC26772D1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2017 03:23:24 +0000 (UTC)
+	Fri, 10 Feb 2017 03:23:25 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v1A3NPrY026298
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v1A3NPwV007876
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Feb 2017 19:23:25 -0800
+	Thu, 9 Feb 2017 19:23:26 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 9 Feb 2017 19:23:24 -0800
+	Thu, 9 Feb 2017 19:23:25 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 9 Feb 2017 19:23:14 -0800
-Message-ID: <6d5af87c1a8c445a2dd189017679a844f3139e58.1486696950.git.liezhi.yang@windriver.com>
+Date: Thu, 9 Feb 2017 19:23:15 -0800
+Message-ID: <ae6cc9fa587d910aac072c090654d1c19f236c11.1486696950.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.11.0.rc2.dirty
 In-Reply-To: <cover.1486696950.git.liezhi.yang@windriver.com>
 References: <cover.1486696950.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 09/10] mklibs-native: 0.1.41 -> 0.1.43
+Subject: [PATCH 10/10] m4: 1.4.17 -> 1.4.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,45 +33,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Feb 2017 03:23:24 -0000
+X-List-Received-Date: Fri, 10 Feb 2017 03:23:25 -0000
 Content-Type: text/plain
+
+Rebased remove-gets.patch.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../mklibs/{mklibs-native_0.1.41.bb => mklibs-native_0.1.43.bb}   | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/mklibs/{mklibs-native_0.1.41.bb => mklibs-native_0.1.43.bb} (72%)
+ meta/recipes-devtools/m4/{m4-1.4.17.inc => m4-1.4.18.inc} |  5 +++--
+ .../m4/{m4-native_1.4.17.bb => m4-native_1.4.18.bb}       |  0
+ meta/recipes-devtools/m4/m4/remove-gets.patch             | 15 ++++++++-------
+ meta/recipes-devtools/m4/{m4_1.4.17.bb => m4_1.4.18.bb}   |  0
+ 4 files changed, 11 insertions(+), 9 deletions(-)
+ rename meta/recipes-devtools/m4/{m4-1.4.17.inc => m4-1.4.18.inc} (75%)
+ rename meta/recipes-devtools/m4/{m4-native_1.4.17.bb => m4-native_1.4.18.bb} (100%)
+ rename meta/recipes-devtools/m4/{m4_1.4.17.bb => m4_1.4.18.bb} (100%)
 
-diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.41.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.43.bb
-similarity index 72%
-rename from meta/recipes-devtools/mklibs/mklibs-native_0.1.41.bb
-rename to meta/recipes-devtools/mklibs/mklibs-native_0.1.43.bb
-index 4cf1a5cfe2b..b9c6c6f3266 100644
---- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.41.bb
-+++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.43.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://debian/copyright;md5=98d31037b13d896e33890738ef01af64"
- DEPENDS = "python-native"
- 
--SRC_URI = "http://snapshot.debian.org/archive/debian/20160207T221625Z/pool/main/m/${BPN}/${BPN}_${PV}.tar.xz \
-+SRC_URI = "http://snapshot.debian.org/archive/debian/20161123T152011Z/pool/main/m/mklibs/mklibs_${PV}.tar.xz \
- 	file://ac_init_fix.patch\
- 	file://fix_STT_GNU_IFUNC.patch\
- 	file://sysrooted-ldso.patch \
-@@ -15,9 +15,11 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20160207T221625Z/pool/main/
- 	file://fix_cross_compile.patch \
- "
- 
--SRC_URI[md5sum] = "6b2979876a611717df3d49e7f9cf291d"
--SRC_URI[sha256sum] = "058c7349f8ec8a03b529c546a95cd6426741bd819f1e1211f499273eb4bf5d89"
-+SRC_URI[md5sum] = "39b08a173454e5210ab3f598e94179bf"
-+SRC_URI[sha256sum] = "6f0cf24ade13fff76e943c003413d85c3e497c984c95c1ecea1c9731ca86f13c"
- 
- UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/m/mklibs/"
- 
- inherit autotools gettext native pythonnative
+diff --git a/meta/recipes-devtools/m4/m4-1.4.17.inc b/meta/recipes-devtools/m4/m4-1.4.18.inc
+similarity index 75%
+rename from meta/recipes-devtools/m4/m4-1.4.17.inc
+rename to meta/recipes-devtools/m4/m4-1.4.18.inc
+index 8ea4e049071..5652b743080 100644
+--- a/meta/recipes-devtools/m4/m4-1.4.17.inc
++++ b/meta/recipes-devtools/m4/m4-1.4.18.inc
+@@ -14,5 +14,6 @@ SRC_URI += "file://ac_config_links.patch \
+ SRC_URI_append_class-target = "\
+            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+ 	   "
+-SRC_URI[md5sum] = "a5e9954b1dae036762f7b13673a2cf76"
+-SRC_URI[sha256sum] = "3ce725133ee552b8b4baca7837fb772940b25e81b2a9dc92537aeaf733538c9e"
 +
-+S = "${WORKDIR}/mklibs"
++SRC_URI[md5sum] = "a077779db287adf4e12a035029002d28"
++SRC_URI[sha256sum] = "ab2633921a5cd38e48797bf5521ad259bdc4b979078034a3b790d7fec5493fab"
+diff --git a/meta/recipes-devtools/m4/m4-native_1.4.17.bb b/meta/recipes-devtools/m4/m4-native_1.4.18.bb
+similarity index 100%
+rename from meta/recipes-devtools/m4/m4-native_1.4.17.bb
+rename to meta/recipes-devtools/m4/m4-native_1.4.18.bb
+diff --git a/meta/recipes-devtools/m4/m4/remove-gets.patch b/meta/recipes-devtools/m4/m4/remove-gets.patch
+index effb353f11a..abe82f3b2de 100644
+--- a/meta/recipes-devtools/m4/m4/remove-gets.patch
++++ b/meta/recipes-devtools/m4/m4/remove-gets.patch
+@@ -4,20 +4,21 @@ undefining it.
+ 
+ Upstream-Status: Pending
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Index: m4-1.4.17/lib/stdio.in.h
+-===================================================================
+---- m4-1.4.17.orig/lib/stdio.in.h	2013-10-16 14:41:01.678496227 +0300
+-+++ m4-1.4.17/lib/stdio.in.h	2013-10-16 14:41:48.849427839 +0300
+-@@ -717,10 +717,12 @@
++---
++diff --git a/lib/stdio.in.h b/lib/stdio.in.h
++index 5727452..f04a691 100644
++--- a/lib/stdio.in.h
+++++ b/lib/stdio.in.h
++@@ -742,10 +742,12 @@ _GL_WARN_ON_USE (getline, "getline is unportable - "
+  /* It is very rare that the developer ever has full control of stdin,
+     so any use of gets warrants an unconditional warning; besides, C11
+     removed it.  */
+ +#if defined gets
+  #undef gets
+- #if HAVE_RAW_DECL_GETS
++ #if HAVE_RAW_DECL_GETS && !defined __cplusplus
+  _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
+  #endif
+ +#endif
+  
+- 
+  #if @GNULIB_OBSTACK_PRINTF@ || @GNULIB_OBSTACK_PRINTF_POSIX@
++ struct obstack;
+diff --git a/meta/recipes-devtools/m4/m4_1.4.17.bb b/meta/recipes-devtools/m4/m4_1.4.18.bb
+similarity index 100%
+rename from meta/recipes-devtools/m4/m4_1.4.17.bb
+rename to meta/recipes-devtools/m4/m4_1.4.18.bb
 -- 
 2.11.0.rc2.dirty
 
