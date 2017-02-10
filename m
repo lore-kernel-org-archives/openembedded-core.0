@@ -1,22 +1,22 @@
 Return-Path: <amarnath.valluri@intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id C7CD871979
+	by mail.openembedded.org (Postfix) with ESMTP id 1BDC977342
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2017 13:42:52 +0000 (UTC)
+	Fri, 10 Feb 2017 13:42:54 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga105.jf.intel.com with ESMTP; 10 Feb 2017 05:42:53 -0800
+	by orsmga105.jf.intel.com with ESMTP; 10 Feb 2017 05:42:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,141,1484035200"; d="scan'208";a="42543654"
+X-IronPort-AV: E=Sophos;i="5.35,141,1484035200"; d="scan'208";a="42543670"
 Received: from avallurigigabyte.fi.intel.com ([10.237.72.170])
-	by orsmga002.jf.intel.com with ESMTP; 10 Feb 2017 05:42:52 -0800
+	by orsmga002.jf.intel.com with ESMTP; 10 Feb 2017 05:42:53 -0800
 From: Amarnath Valluri <amarnath.valluri@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Feb 2017 15:42:29 +0200
-Message-Id: <1486734151-28331-22-git-send-email-amarnath.valluri@intel.com>
+Date: Fri, 10 Feb 2017 15:42:30 +0200
+Message-Id: <1486734151-28331-23-git-send-email-amarnath.valluri@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1486734151-28331-1-git-send-email-amarnath.valluri@intel.com>
 References: <1486734151-28331-1-git-send-email-amarnath.valluri@intel.com>
-Subject: [PATCH 21/23] mktemp: Move installed files only when needed
+Subject: [PATCH 22/23] net-tools: Place package content as per bitbake environment.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,36 +29,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Feb 2017 13:42:52 -0000
+X-List-Received-Date: Fri, 10 Feb 2017 13:42:54 -0000
 
-Move binary(ies) only when ${base_bindir} != ${bindir}.
+net-tools Makefile was hardcoded sbin, bin installation paths to /bin and /sbin
+respectively.  This change moves the installed files to appropriate location as
+per configured bitbake environment.
 
-When usrmerge distro feature is enabled they both might point to same location.
+This might be solved much better way by patching Makefile, but that causing
+build issues, as net-tools recipe is using pre-generated config.{h/status}.
 
 Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
 ---
- meta/recipes-extended/mktemp/mktemp_1.7.bb | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ meta/recipes-extended/net-tools/net-tools_1.60-26.bb | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/meta/recipes-extended/mktemp/mktemp_1.7.bb b/meta/recipes-extended/mktemp/mktemp_1.7.bb
-index 9accc6e..e8ae5c6 100644
---- a/meta/recipes-extended/mktemp/mktemp_1.7.bb
-+++ b/meta/recipes-extended/mktemp/mktemp_1.7.bb
-@@ -20,9 +20,11 @@ inherit autotools update-alternatives
- EXTRA_OECONF = "--with-libc"
- 
- do_install_append () {
--	install -d ${D}${base_bindir}
--	mv ${D}${bindir}/mktemp ${D}${base_bindir}/mktemp
--	rmdir ${D}${bindir}
-+	if [ "${base_bindir}" != "${bindir}" ] ; then
-+		install -d ${D}${base_bindir}
-+		mv ${D}${bindir}/mktemp ${D}${base_bindir}/mktemp
-+		rmdir ${D}${bindir}
+diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
+index 49a65f8..c4af7ef 100644
+--- a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
++++ b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
+@@ -93,6 +93,17 @@ do_install() {
+ 	unset CFLAGS
+ 	unset LDFLAGS
+ 	oe_runmake 'BASEDIR=${D}' install
++
++	if [ "${base_bindir}" != "/bin" ]; then
++		mkdir -p ${D}/${base_bindir}
++		mv ${D}/bin/* ${D}/${base_bindir}/
++		rmdir ${D}/bin
++	fi
++	if [ "${base_sbindir}" != "/sbin" ]; then
++		mkdir ${D}/${base_sbindir}
++		mv ${D}/sbin/* ${D}/${base_sbindir}/
++		rmdir ${D}/sbin
 +	fi
  }
  
- ALTERNATIVE_${PN} = "mktemp"
+ inherit update-alternatives
 -- 
 2.7.4
 
