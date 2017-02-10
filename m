@@ -1,27 +1,27 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 2339D77375
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 64CDE71ABF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2017 15:28:53 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 Feb 2017 07:28:54 -0800
+	Fri, 10 Feb 2017 15:28:54 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Feb 2017 07:28:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,142,1484035200"; d="scan'208";a="1105690440"
+X-IronPort-AV: E=Sophos;i="5.35,142,1484035200"; d="scan'208";a="1093210341"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga001.fm.intel.com with ESMTP; 10 Feb 2017 07:28:54 -0800
+	by orsmga001.jf.intel.com with ESMTP; 10 Feb 2017 07:28:53 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id C0EC66A4080
+	by linux.intel.com (Postfix) with ESMTP id A7ABD6A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2017 07:27:52 -0800 (PST)
+	Fri, 10 Feb 2017 07:27:51 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Feb 2017 17:05:43 +0200
-Message-Id: <f608e5e6920a76cd93a4a5f873773fbc65f44f0d.1486738307.git.ed.bartosh@linux.intel.com>
+Date: Fri, 10 Feb 2017 17:05:42 +0200
+Message-Id: <3394e8256a0e14495b5e3bc3030807b29c786f40.1486738307.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1486738307.git.ed.bartosh@linux.intel.com>
 References: <cover.1486738307.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 07/13] wic: direct: remove useless code
+Subject: [PATCH 06/13] wic: direct: don't catch ImagerError
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,35 +36,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 10 Feb 2017 15:28:54 -0000
 
-Removed catching CreatorError and raising it again.
+Don't transform ImagerError exception into warning.
+Let wic to catch it on the upper level.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/plugins/imager/direct.py | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ scripts/lib/wic/plugins/imager/direct.py | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
 diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index 9bcccb3..d0a1cad 100644
+index a2bc4c4..9bcccb3 100644
 --- a/scripts/lib/wic/plugins/imager/direct.py
 +++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -35,7 +35,7 @@ from wic.filemap import sparse_copy
- from wic.ksparser import KickStart, KickStartError
- from wic.plugin import pluginmgr
- from wic.pluginbase import ImagerPlugin
--from wic.utils.errors import CreatorError, ImageError
-+from wic.utils.errors import ImageError
- from wic.utils.misc import get_bitbake_var, exec_cmd, exec_native_cmd
+@@ -290,10 +290,7 @@ class DirectPlugin(ImagerPlugin):
  
- class DirectPlugin(ImagerPlugin):
-@@ -83,8 +83,6 @@ class DirectPlugin(ImagerPlugin):
-             self.assemble()
-             self.finalize()
-             self.print_info()
--        except CreatorError:
--            raise
-         finally:
-             self.cleanup()
+     def cleanup(self):
+         if self._image:
+-            try:
+-                self._image.cleanup()
+-            except ImageError as err:
+-                msger.warning("%s" % err)
++            self._image.cleanup()
  
+         # Move results to the output dir
+         if not os.path.exists(self.outdir):
 -- 
 2.1.4
 
