@@ -1,26 +1,25 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 16B1360069
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id AA9FD7734D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2017 14:00:33 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 Feb 2017 06:00:34 -0800
+	Fri, 10 Feb 2017 14:04:45 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Feb 2017 06:04:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,141,1484035200"; d="scan'208";a="819325197"
+X-IronPort-AV: E=Sophos;i="5.35,141,1484035200"; d="scan'208";a="1093187546"
 Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 10 Feb 2017 06:00:33 -0800
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.71])
-	by linux.intel.com (Postfix) with ESMTP id 1EBB86A4080;
-	Fri, 10 Feb 2017 05:59:31 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
+	by orsmga001.jf.intel.com with ESMTP; 10 Feb 2017 06:04:45 -0800
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id BD9336A4080;
+	Fri, 10 Feb 2017 06:03:43 -0800 (PST)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Feb 2017 16:01:40 +0200
-Message-Id: <1486735300-3408-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Cc: Cristian Iorga <cristian.iorga@intel.com>
-Subject: [PATCH v2] curl: add ptest
+Date: Fri, 10 Feb 2017 16:04:38 +0200
+Message-Id: <1486735478-8769-1-git-send-email-jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+MIME-Version: 1.0
+Subject: [PATCH] libxslt: Add build fix (with ld-is-gold)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,128 +32,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Feb 2017 14:00:34 -0000
+X-List-Received-Date: Fri, 10 Feb 2017 14:04:45 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Add ptest support to curl
+Libraries must be linked with "-lm", otherwise gold fails to link
+binaries with those libraries.
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
-Changes in v2:
-        Make dependency on openssh optional
+ .../libxslt/0001-Link-libraries-with-libm.patch    | 48 ++++++++++++++++++++++
+ meta/recipes-support/libxslt/libxslt_1.1.29.bb     |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-support/libxslt/libxslt/0001-Link-libraries-with-libm.patch
 
- .../curl/0001-runtests.pl-remove-warning.patch     | 31 ++++++++++++++++++++++
- meta/recipes-support/curl/curl/run-ptest           |  8 ++++++
- meta/recipes-support/curl/curl_7.52.1.bb           | 23 +++++++++++++++-
- 3 files changed, 61 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/curl/curl/0001-runtests.pl-remove-warning.patch
- create mode 100644 meta/recipes-support/curl/curl/run-ptest
-
-diff --git a/meta/recipes-support/curl/curl/0001-runtests.pl-remove-warning.patch b/meta/recipes-support/curl/curl/0001-runtests.pl-remove-warning.patch
+diff --git a/meta/recipes-support/libxslt/libxslt/0001-Link-libraries-with-libm.patch b/meta/recipes-support/libxslt/libxslt/0001-Link-libraries-with-libm.patch
 new file mode 100644
-index 0000000..283aa20
+index 0000000..16ffeba
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/0001-runtests.pl-remove-warning.patch
-@@ -0,0 +1,31 @@
-+From c1d3bf13567909395715e441bc329793a5d2566b Mon Sep 17 00:00:00 2001
-+From: "Maxin B. John" <maxin.john@intel.com>
-+Date: Mon, 12 Dec 2016 12:49:46 +0200
-+Subject: [PATCH] runtests.pl: remove warning
++++ b/meta/recipes-support/libxslt/libxslt/0001-Link-libraries-with-libm.patch
+@@ -0,0 +1,48 @@
++From 487e2f7e35dad3deec7978ce4478a3d4ea5070e7 Mon Sep 17 00:00:00 2001
++From: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Date: Fri, 10 Feb 2017 14:26:59 +0200
++Subject: [PATCH] Link libraries with libm
 +
-+Remove the warning which floods the console while executing tests.
++Otherwise linking the resulting libraries to a binary (e.g. xsltproc)
++fails when using gold linker:
++| ../libxslt/.libs/libxslt.so: error: undefined reference to 'fmod'
++| ../libxslt/.libs/libxslt.so: error: undefined reference to 'pow'
++| ../libexslt/.libs/libexslt.so: error: undefined reference to 'floor'
++| collect2: error: ld returned 1 exit status
 +
-+Upstream-Status: Inappropriate [oe specific]
-+
-+Signed-off-by: Maxin B. John <maxin.john@intel.com>
++Upstream-Status: Submitted [mailing list, Feb 10 2017]
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 +---
-+ tests/runtests.pl | 3 ---
-+ 1 file changed, 3 deletions(-)
++ libexslt/Makefile.am | 2 +-
++ libxslt/Makefile.am  | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/tests/runtests.pl b/tests/runtests.pl
-+index b8497f9..3cc6415 100755
-+--- a/tests/runtests.pl
-++++ b/tests/runtests.pl
-+@@ -2879,9 +2879,6 @@ sub singletest {
-+     # timestamp test preparation start
-+     $timeprepini{$testnum} = Time::HiRes::time() if($timestats);
++diff --git a/libexslt/Makefile.am b/libexslt/Makefile.am
++index 1cf5138..5449524 100644
++--- a/libexslt/Makefile.am
+++++ b/libexslt/Makefile.am
++@@ -27,7 +27,7 @@ libexslt_la_SOURCES =                   \
++ 	libexslt.h			\
++ 	dynamic.c
 + 
-+-    if($disttests !~ /test$testnum\W/ ) {
-+-        logmsg "Warning: test$testnum not present in tests/data/Makefile.inc\n";
-+-    }
-+     if($disabled{$testnum}) {
-+         logmsg "Warning: test$testnum is explicitly disabled\n";
-+     }
++-libexslt_la_LIBADD = $(top_builddir)/libxslt/libxslt.la $(EXTRA_LIBS) $(LIBGCRYPT_LIBS)
+++libexslt_la_LIBADD = $(top_builddir)/libxslt/libxslt.la $(EXTRA_LIBS) $(LIBGCRYPT_LIBS) $(M_LIBS)
++ libexslt_la_LDFLAGS = $(WIN32_EXTRA_LDFLAGS) -version-info $(LIBEXSLT_VERSION_INFO)
++ 
++ man_MANS = libexslt.3
++diff --git a/libxslt/Makefile.am b/libxslt/Makefile.am
++index d9fed68..9d44c3d 100644
++--- a/libxslt/Makefile.am
+++++ b/libxslt/Makefile.am
++@@ -62,7 +62,7 @@ else
++ LIBXSLT_VERSION_SCRIPT =
++ endif
++ 
++-libxslt_la_LIBADD = $(LIBXML_LIBS) $(EXTRA_LIBS)
+++libxslt_la_LIBADD = $(LIBXML_LIBS) $(M_LIBS) $(EXTRA_LIBS)
++ libxslt_la_LDFLAGS =					\
++ 		$(WIN32_EXTRA_LDFLAGS)			\
++ 		$(LIBXSLT_VERSION_SCRIPT)		\
 +-- 
-+2.4.0
++2.1.4
 +
-diff --git a/meta/recipes-support/curl/curl/run-ptest b/meta/recipes-support/curl/curl/run-ptest
-new file mode 100644
-index 0000000..d22e6f7
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/run-ptest
-@@ -0,0 +1,8 @@
-+#!/bin/sh
-+useradd curl-test
-+chown -R curl-test:curl-test .
-+cd tests
-+su curl-test -c "./runtests.pl -a -n -s | sed \
-+    -e 's|\([^ ]* *\) \([^ ]* *\)...OK|PASS: \1 \2|' \
-+    -e 's|\([^ ]* *\) \([^ ]* *\)...FAILED|FAIL: \1 \2|'"
-+userdel curl-test
-diff --git a/meta/recipes-support/curl/curl_7.52.1.bb b/meta/recipes-support/curl/curl_7.52.1.bb
-index 2882bc0..b7c08f1 100644
---- a/meta/recipes-support/curl/curl_7.52.1.bb
-+++ b/meta/recipes-support/curl/curl_7.52.1.bb
-@@ -7,6 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=8;md5=3a34942f4ae3fbf1a303160714e66
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.29.bb b/meta/recipes-support/libxslt/libxslt_1.1.29.bb
+index be747e6..2946a74 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.29.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.29.bb
+@@ -11,6 +11,7 @@ DEPENDS = "libxml2"
+ SRC_URI = "ftp://xmlsoft.org/libxslt/libxslt-${PV}.tar.gz \
+            file://pkgconfig_fix.patch \
+            file://0001-Use-pkg-config-to-find-gcrypt-and-libxml2.patch \
++           file://0001-Link-libraries-with-libm.patch \
+            "
  
- SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://0001-replace-krb5-config-with-pkg-config.patch \
-+           file://0001-runtests.pl-remove-warning.patch \
-+           file://run-ptest \
- "
- 
- # curl likes to set -g0 in CFLAGS, so we stop it
-@@ -18,7 +20,7 @@ SRC_URI[md5sum] = "dd014df06ff1d12e173de86873f9f77a"
- SRC_URI[sha256sum] = "d16185a767cb2c1ba3d5b9096ec54e5ec198b213f45864a38b3bda4bbf87389b"
- 
- CVE_PRODUCT = "libcurl"
--inherit autotools pkgconfig binconfig multilib_header
-+inherit autotools pkgconfig binconfig multilib_header ptest
- 
- PACKAGECONFIG ??= "${@bb.utils.contains("DISTRO_FEATURES", "ipv6", "ipv6", "", d)} gnutls proxy zlib"
- PACKAGECONFIG_class-native = "ipv6 proxy ssl zlib"
-@@ -62,11 +64,30 @@ do_install_append_class-target() {
- 	sed -i -e 's,${STAGING_DIR_HOST},,g' ${D}${bindir}/curl-config
- }
- 
-+do_compile_ptest() {
-+    oe_runmake test
-+    oe_runmake -C ${B}/tests/data/ show
-+    oe_runmake -C ${B}/tests/server
-+}
-+
-+do_install_ptest() {
-+    cp -rf ${B}/tests ${D}${PTEST_PATH}
-+    cp -rf ${S}/tests ${D}${PTEST_PATH}
-+    install -d ${D}${PTEST_PATH}/src
-+    ln -sf ${bindir}/curl   ${D}${PTEST_PATH}/src/curl
-+}
-+
- PACKAGES =+ "lib${BPN}"
- 
- FILES_lib${BPN} = "${libdir}/lib*.so.*"
- RRECOMMENDS_lib${BPN} += "ca-certificates"
- 
-+RDEPENDS_${PN}-ptest += "make bash sudo perl perl-module-cwd perl-module-ipc-open2 \
-+    ${@bb.utils.contains("IMAGE_FEATURES", "ssh-server-openssh", "openssh ", "",d)}\
-+    perl-module-digest-md5  perl-module-file-basename perl-module-posix diffutils \
-+    perl-module-errno python python-netserver python-argparse python-pprint \
-+    "
-+
- FILES_${PN} += "${datadir}/zsh"
- 
- BBCLASSEXTEND = "native nativesdk"
+ SRC_URI[md5sum] = "a129d3c44c022de3b9dcf6d6f288d72e"
 -- 
-2.4.0
+2.1.4
 
 
