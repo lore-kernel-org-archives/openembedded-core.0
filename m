@@ -1,27 +1,18 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E06F71ABF
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2017 15:29:00 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 Feb 2017 07:29:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,142,1484035200"; d="scan'208";a="1105690523"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga001.fm.intel.com with ESMTP; 10 Feb 2017 07:29:00 -0800
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 393216A4080
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2017 07:27:59 -0800 (PST)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Feb 2017 17:05:49 +0200
-Message-Id: <10d1f08f71a623ca6d45cf0ae1afa2e880591a09.1486738307.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1486738307.git.ed.bartosh@linux.intel.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id C4B3E7734B;
+	Fri, 10 Feb 2017 15:59:44 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Date: Fri, 10 Feb 2017 15:59:45 -0000
+Message-ID: <20170210155945.9310.45597@do.openembedded.org>
 References: <cover.1486738307.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 13/13] wic: direct: move creation of PartitionedImage to __init__
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1486738307.git.ed.bartosh@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIzEwNjE5OiByZWZhY3RvciB3aWMgY29kZWJhc2UuIFBhcnQgMw==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,43 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Feb 2017 15:29:00 -0000
+X-List-Received-Date: Fri, 10 Feb 2017 15:59:44 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Moved creation of PartitionedImage object from DirectPlugin.create
-method to init. It makes the code a bit more readable and logical.
+== Series Details ==
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Series: #10619: refactor wic codebase. Part 3
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/5263/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at d1109378d7)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- scripts/lib/wic/plugins/imager/direct.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index c517904..481d24d 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -81,6 +81,10 @@ class DirectPlugin(ImagerPlugin):
-                 self.ks.bootloader.source = part.source
-                 break
- 
-+        image_path = self._full_path(self.workdir, self.parts[0].disk, "direct")
-+        self._image = PartitionedImage(image_path, self.ptable_format,
-+                                       self.parts, self.native_sysroot)
-+
-     def do_create(self):
-         """
-         Plugin entry point.
-@@ -150,10 +154,6 @@ class DirectPlugin(ImagerPlugin):
-         filesystems from the artifacts directly and combine them into
-         a partitioned image.
-         """
--        image_path = self._full_path(self.workdir, self.parts[0].disk, "direct")
--        self._image = PartitionedImage(image_path, self.ptable_format,
--                                       self.parts, self.native_sysroot)
--
-         fstab_path = self._write_fstab(self.rootfs_dir.get("ROOTFS_DIR"))
- 
-         for part in self.parts:
--- 
-2.1.4
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
