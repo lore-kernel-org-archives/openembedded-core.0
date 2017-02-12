@@ -1,46 +1,41 @@
-Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 69C0A7016E
+Return-Path: <max.oss.09@gmail.com>
+Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com
+	[209.85.218.52])
+	by mail.openembedded.org (Postfix) with ESMTP id C02A56011B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Feb 2017 14:52:12 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id v186so141431911wmd.0
+	Sun, 12 Feb 2017 18:11:06 +0000 (UTC)
+Received: by mail-oi0-f52.google.com with SMTP id s203so41054732oie.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Feb 2017 06:52:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=rndity-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=yxd+xPwu+NIleyyonx2Z+MFSvH9INGEQOs6vxXbcljs=;
-	b=0YJy7qUutEe7f1t6313X5sspXhQWR8F4JvrufV3wElcm5ar1rMZ3ar4nBbLSID0hnE
-	QWvKYygPaIQb+5I8Pfh4H5D2xJhQcDe+UerevKPSGtGu9Uoz+/dmE4Vx/v/tASocMYdE
-	IE9O6+H47wRNbzSxW/zcUmMtzjna+npy0nJW4plXwzrEopo8LfxPDDZcSlTfDH35A+vT
-	OtePjzye2i1Q9z2OVwmuKxXc5CUlLkdrJ4hxIe/PfadYKEubXX58S+dTWewFQxKog5i8
-	IUgWsW6BYIzDZkzuJjDSC6fYMTzp+bV6AnY7up/VMk8OtATyXaDckr7mUbfChBxPzhOs
-	fgVw==
+	Sun, 12 Feb 2017 10:11:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=i1SyRHZIusXo335VA10ggTSas/RJJV0Ff+Gll6QhMwE=;
+	b=HKUE4EJQUWufKJ7Y4ukePeotGtTWKSEw7ZCIsFtkckCYSyoFgWljHQv15xFYL81I9l
+	0jNCNeTWg+AEp/HR+N2ZRAPZe3nH6WhCe/Cjw4FHcQ7C+yb1lmLpsFd+VgNY3WVn9i8h
+	uTF2zfNCer+a/ZLbTthGyIabazVGydIKPsuLL7uvNHySQuZFffYqawmINXip3a0tOLfp
+	EqiNFkAv3Dn9PlFJGIOlVNaZrlQU/VJprdSF0AfIgBTed/sE/z9Xb0O9tLxpG60/JewX
+	hYL+MEq7t8M6Fyib4j4XI5kMcVc8HOv7V6efDaIaGTe07DTw0cG7zFmjDYoIdvaHbZE/
+	TpZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=yxd+xPwu+NIleyyonx2Z+MFSvH9INGEQOs6vxXbcljs=;
-	b=koTAf4vLW2wkvPtTlE0oJeAwX7neYfC84K6XFe3+elCdY03EHceEcrt+X+j79TNi8J
-	Ovm3Uy0QON/7Y8DjHBI4UBBbe21SDSsx8f8CvicGI9P7G8rOqX/Ev38KK9ZiFMowekH+
-	/PxgOf/wP86kc3Cm7KRwFE/CpXoiXp7anSRC+ZHbI39KXnH19LeKe5uLh++OZJ2KP86e
-	oQSjZT2oqPCq8Sl6Z2qQ7oORAYhrSGx5aPRQoWrYELOIdZp2bZ91yS+6Ywe+wBG4aUGY
-	RHtkdMp9wK+dizb9ELurzg9ooaF/yvKQU/cPAd6Ei4UEYRUjesViGcAvBjy0TTeTqWbI
-	sDdA==
-X-Gm-Message-State: AMke39kCwoNxV0fnBVZtgYUDhIVjL+Gvn8A1c5/XlbvDfNdv0c8VaPlSbc5I3hYZ990GKIAZFNgpMbN8B17rlw==
-X-Received: by 10.28.212.82 with SMTP id l79mr33475956wmg.101.1486911132925;
-	Sun, 12 Feb 2017 06:52:12 -0800 (PST)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=i1SyRHZIusXo335VA10ggTSas/RJJV0Ff+Gll6QhMwE=;
+	b=G3T6J7uKc/0oCaRgSZwYZTdXpBn+Osl0QCVwd9qDbaa+OtEg5/UxM6LrNajdVHfrnb
+	BLZcqmNNCir8ie5EF4pJY1wubzB1FRPZjxWMpGXk/tY2vj62BIGu868HEl3ORgA3LuhU
+	9WXtTWOWBGsTBD6rTtkmePlEYY1POnLaj29DMgHKHC3lWoQ4vNFthESEnqWJSMCG8GpO
+	rljpCco9QCh9uMjyqC17qdPPiaX7Gjd6ZjGot//Op4mrk7Q34BqjjM0B3DtFPqvsyaSx
+	4uOxoi8kIkcqUUzukPjdkOPh4Sly8an9btJ0xhIBVfrzopeMT5dyM1jR9dLVAFIJ+J3L
+	6Jpg==
+X-Gm-Message-State: AMke39nmkIw1uOq+S/EIVNvgpDm/5im0Cv+NJQDw/Q4fVHcsAdl6D2k7pkajqQ+C6oqM7awcmt/B1xWFz9uILQ==
+X-Received: by 10.202.102.71 with SMTP id a68mr9534940oic.106.1486923066710;
+	Sun, 12 Feb 2017 10:11:06 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.28.52.78 with HTTP; Sun, 12 Feb 2017 06:51:52 -0800 (PST)
-In-Reply-To: <20170207042405.22707-1-raj.khem@gmail.com>
-References: <20170207042405.22707-1-raj.khem@gmail.com>
-From: =?UTF-8?Q?Maciej_Borz=C4=99cki?= <maciej.borzecki@rndity.com>
-Date: Sun, 12 Feb 2017 15:51:52 +0100
-Message-ID: <CAD4b0_+pve4e2Cipv9x9orwqoA0HxPOwF6NNL_kLJB=XHX0tYQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] go: Add recipes for golang compilers and tools
+Received: by 10.157.1.56 with HTTP; Sun, 12 Feb 2017 10:11:06 -0800 (PST)
+From: Max Krummenacher <max.oss.09@gmail.com>
+Date: Sun, 12 Feb 2017 19:11:06 +0100
+Message-ID: <CAEHkU3UMqALH-pxTZHxODCMOae-K7pO9PTYLLTsZ6U8TWDvYUw@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Are RDEPENDS of depending native packages installed automatically
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,46 +48,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Feb 2017 14:52:13 -0000
+X-List-Received-Date: Sun, 12 Feb 2017 18:11:07 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, Feb 7, 2017 at 5:24 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> This is converging the recipes for go from
-> meta-virtualization and oe-meta-go
->
-> Add recipes for go 1.7
->
-> go.bbclass is added to ease out writing
-> recipes for go packages
+Hi
 
-I took these for a spin with current mender tree. Mender is somewhat
-interesting as we build binaries for the target (Mender client) and
-some extra tools for the host (mender-artifact tool). I was able to
-build the client code successfully. I ran into some problems with
-mender-artifact-native.
+Should the buildsystem install RDEPENDS of depending native packages
+automatically in the RSS?
+I.e, if a recipe DEPENDS on a native package should all RDEPENDS of this
+dependency be installed?
 
-The native build problem stems from the fact that there's a single
-go-native recipe, currently supporting only Go 1.4. Ideally
-mender-artifact code could be built under Go 1.7 and newer with no
-problem, 1.4 not so much. We already set PREFERRED_VERSION for both go
-and go-native to 1.7% so bitbake proceeds with the build and logs:
-  NOTE: preferred version 1.7 of go-native not available (for item go-native)
-  NOTE: versions of go-native available: 1.4.3
 
-However, in order to build a native Go 1.7 toolchain we would still
-need to build Go 1.4. The limitation comes directly from the way Go is
-built. You to have the so called 'bootstrap' Go (v1.4.2) in order to
-build Go >= 1.5. Thus we end up in a situation where both
-go-native_1.4 and go-native_1.7 would need to be built.
+I stumbled over this when trying to fix crda.
+crda.bb has
+DEPENDS = "python-m2crypto-native python-native ..."
 
-I don't know how make both go-native recipes build and depend on
-another. Maybe someone with more Bitbake kung-fu can step in and
-propose a method. In oe-meta-go this is fixed in somewhat trivial
-manner. Namely, there's a go-bootstrap recipe
-https://github.com/mem/oe-meta-go/tree/master/recipes-devtools/go With
-this all 'usable' Go toolchains depend on go-bootstrap-native.
+A recent update to python-m2crypto makes it RDEPEND on the python-typing
+package.
+I added to python-m2crypto recipe
+RDEPENDS_${PN} += "python-typing"
+(and I created the missing python-typing recipe)
+and did expect that crda.bb now installs python-m2crypto-native and through
+RDEPENDS python-typing-native but only python-m2crypto-native is installed.
 
--- 
-Maciej Borzecki
-RnDity
+If I explicitly add python-typing-native to the DEPENDS in the crda.bb recipe
+then python-typing-native is installed and crda builds fine.
+
+
+Max
 
