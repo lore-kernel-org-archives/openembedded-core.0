@@ -1,27 +1,25 @@
 Return-Path: <stephen.arnold42@gmail.com>
-X-Greylist: delayed 337 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sun, 12 Feb 2017 18:38:12 UTC
 Received: from gatekeeper.gentoogeek.org (gatekeeper.gentoogeek.org
 	[66.159.242.209])
-	by mail.openembedded.org (Postfix) with ESMTP id 6111071DDE
+	by mail.openembedded.org (Postfix) with ESMTP id 000C1606CB
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Feb 2017 18:38:12 +0000 (UTC)
+	Sun, 12 Feb 2017 20:20:39 +0000 (UTC)
 Received: from prime.arnolds.bogus (prime.arnolds.bogus [192.168.0.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by gatekeeper.gentoogeek.org (Postfix) with ESMTPS id BBD722125
+	by gatekeeper.gentoogeek.org (Postfix) with ESMTPS id B119F2125
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Feb 2017 10:32:35 -0800 (PST)
+	Sun, 12 Feb 2017 12:20:39 -0800 (PST)
 Received: from ptolemy.arnolds.bogus (ptolemy.arnolds.bogus
 	[::ffff:192.168.0.11])
-	by prime.arnolds.bogus with ESMTP; Sun, 12 Feb 2017 10:32:34 -0800
-	id 0000000000241F7D.58A0AA43.00000395
+	by prime.arnolds.bogus with ESMTP; Sun, 12 Feb 2017 12:20:38 -0800
+	id 0000000000241F7D.58A0C397.00000B41
 From: Stephen Arnold <sarnold@vctlabs.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 12 Feb 2017 10:32:18 -0800
-Message-Id: <20170212183218.23685-1-sarnold@vctlabs.com>
+Date: Sun, 12 Feb 2017 12:20:35 -0800
+Message-Id: <20170212202035.26659-1-sarnold@vctlabs.com>
 X-Mailer: git-send-email 2.11.1
-Subject: [meta-oe][PATCH] Add fix for missing no-PIE flags in gcc-6.2
+Subject: [meta-oe][PATCH v2] gcc-6.2: Add fix for missing no-PIE flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Feb 2017 18:38:13 -0000
+X-List-Received-Date: Sun, 12 Feb 2017 20:20:46 -0000
 
 From: Stephen Arnold <stephen.arnold42@gmail.com>
 
@@ -44,6 +42,7 @@ Borrowed from Gentoo gcc patches, tested on 2 hardened amd64 hosts.
 
 Upstream-Status: Inappropriate [configuration]
 
+Commited by: Gentoo Toolchain Project <toolchain@gentoo.org>
 Signed-off-by: Stephen Arnold <stephen.arnold42@gmail.com>
 ---
  meta/recipes-devtools/gcc/gcc-6.2.inc                   |  1 +
