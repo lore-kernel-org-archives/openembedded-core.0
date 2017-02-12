@@ -1,25 +1,21 @@
-Return-Path: <stephen.arnold42@gmail.com>
-Received: from gatekeeper.gentoogeek.org (gatekeeper.gentoogeek.org
-	[66.159.242.209])
-	by mail.openembedded.org (Postfix) with ESMTP id C9BD571E5F
+Return-Path: <benjamin.esquivel@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 7276E71A2D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 02:26:35 +0000 (UTC)
-Received: from prime.arnolds.bogus (prime.arnolds.bogus [192.168.0.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by gatekeeper.gentoogeek.org (Postfix) with ESMTPS id 4659B2125
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Feb 2017 18:26:30 -0800 (PST)
-Received: from ptolemy.arnolds.bogus (ptolemy.arnolds.bogus
-	[::ffff:192.168.0.11])
-	by prime.arnolds.bogus with ESMTP; Sun, 12 Feb 2017 18:26:28 -0800
-	id 0000000000241875.58A11956.000024C0
-From: Stephen Arnold <sarnold@vctlabs.com>
+	Mon, 13 Feb 2017 02:53:59 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga105.jf.intel.com with ESMTP; 12 Feb 2017 18:54:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.35,155,1484035200"; d="scan'208";a="64326504"
+Received: from yctb04.ostc.intel.com ([10.54.69.58])
+	by fmsmga005.fm.intel.com with ESMTP; 12 Feb 2017 18:54:00 -0800
+From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 12 Feb 2017 18:25:27 -0800
-Message-Id: <20170213022527.5086-1-sarnold@vctlabs.com>
-X-Mailer: git-send-email 2.11.1
-Subject: gcc-6: Add fix for missing no-PIE flags
+Date: Sun, 12 Feb 2017 19:00:38 +0000
+Message-Id: <1486926038-17415-1-git-send-email-benjamin.esquivel@linux.intel.com>
+X-Mailer: git-send-email 2.5.1
+Cc: benjamin.esquivel@intel.com, mariano.lopez@intel.com
+Subject: [PATCH] selftest: remove result file log awkward checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,65 +28,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Feb 2017 02:26:36 -0000
+X-List-Received-Date: Mon, 13 Feb 2017 02:54:00 -0000
 
-From: Stephen Arnold <stephen.arnold42@gmail.com>
+because of the way that the test cases are looked in the results,
+the file logger is incompatible with extended implementations of the
+unittest runner.
 
-Fixes build on hardened PAX host with gcc-5 (linker error on relocs).
-Completes no-PIE config by adding to ALL_* flags variables.
-Borrowed from Gentoo gcc patches, tested on 2 hardened amd64 hosts.
+as the xml runner extends the unittest runner, it shares the id()
+method which returns the full name of the test, not only the test
+function name. With that, a single check of the full name reviews at
+the same time the class name as well as the function name.
 
-Upstream-Status: Inappropriate [configuration]
+[YOCTO#11012]
 
-Commited by: Gentoo Toolchain Project <toolchain@gentoo.org>
-Signed-off-by: Stephen Arnold <stephen.arnold42@gmail.com>
+Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
 ---
- meta/recipes-devtools/gcc/gcc-6.3.inc              |  1 +
- .../gcc/gcc-6.3/0054_all_nopie-all-flags.patch     | 22 ++++++++++++++++++++++
- 2 files changed, 23 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-6.3/0054_all_nopie-all-flags.patch
+ meta/lib/oeqa/utils/decorators.py | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-6.3.inc b/meta/recipes-devtools/gcc/gcc-6.3.inc
-index 0f1b88bea7..ce414720ce 100644
---- a/meta/recipes-devtools/gcc/gcc-6.3.inc
-+++ b/meta/recipes-devtools/gcc/gcc-6.3.inc
-@@ -79,6 +79,7 @@ SRC_URI = "\
-            file://0046-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch \
-            file://0047-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch \
-            file://0048-sync-gcc-stddef.h-with-musl.patch \
-+           file://0054_all_nopie-all-flags.patch \
-            ${BACKPORTS} \
- "
- BACKPORTS = ""
-diff --git a/meta/recipes-devtools/gcc/gcc-6.3/0054_all_nopie-all-flags.patch b/meta/recipes-devtools/gcc/gcc-6.3/0054_all_nopie-all-flags.patch
-new file mode 100644
-index 0000000000..73ab9502dc
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-6.3/0054_all_nopie-all-flags.patch
-@@ -0,0 +1,22 @@
-+Need to pass NO_PIE_CFLAGS to ALL_* so gcc doesn't fail when
-+we compile it with older gcc and pie.
-+
-+Upstream-Status: Inappropriate [configuration]
-+
-+Maintained by: Gentoo Toolchain Project <toolchain@gentoo.org>
-+Signed-off-by: Stephen Arnold <stephen.arnold42@gmail.com>
-+
-+--- a/gcc/Makefile.in	2015-06-25 19:18:12.000000000 +0200
-++++ b/gcc/Makefile.in	2016-04-22 00:12:54.029178860 +0200
-+@@ -991,10 +991,10 @@ ALL_CXXFLAGS = $(T_CFLAGS) $(CFLAGS-$@)
-+ ALL_CPPFLAGS = $(INCLUDES) $(CPPFLAGS)
-+
-+ # This is the variable to use when using $(COMPILER).
-+-ALL_COMPILERFLAGS = $(ALL_CXXFLAGS)
-++ALL_COMPILERFLAGS = $(NO_PIE_CFLAGS) $(ALL_CXXFLAGS)
-+
-+ # This is the variable to use when using $(LINKER).
-+-ALL_LINKERFLAGS = $(ALL_CXXFLAGS)
-++ALL_LINKERFLAGS = $(NO_PIE_CFLAGS) $(ALL_CXXFLAGS)
-+
-+ # Build and host support libraries.
+diff --git a/meta/lib/oeqa/utils/decorators.py b/meta/lib/oeqa/utils/decorators.py
+index 25f9c54..d876896 100644
+--- a/meta/lib/oeqa/utils/decorators.py
++++ b/meta/lib/oeqa/utils/decorators.py
+@@ -172,18 +172,19 @@ def LogResults(original_class):
+ 
+         #check status of tests and record it
+ 
++        tcid = self.id()
+         for (name, msg) in result.errors:
+-            if (self._testMethodName == str(name).split(' ')[0]) and (class_name in str(name).split(' ')[1]):
++            if tcid == name.id():
+                 local_log.results("Testcase "+str(test_case)+": ERROR")
+                 local_log.results("Testcase "+str(test_case)+":\n"+msg)
+                 passed = False
+         for (name, msg) in result.failures:
+-            if (self._testMethodName == str(name).split(' ')[0]) and (class_name in str(name).split(' ')[1]):
++            if tcid == name.id():
+                 local_log.results("Testcase "+str(test_case)+": FAILED")
+                 local_log.results("Testcase "+str(test_case)+":\n"+msg)
+                 passed = False
+         for (name, msg) in result.skipped:
+-            if (self._testMethodName == str(name).split(' ')[0]) and (class_name in str(name).split(' ')[1]):
++            if tcid == name.id():
+                 local_log.results("Testcase "+str(test_case)+": SKIPPED")
+                 passed = False
+         if passed:
 -- 
-2.11.1
+2.5.1
 
 
