@@ -1,52 +1,52 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
-	[209.85.218.44])
-	by mail.openembedded.org (Postfix) with ESMTP id BAE59731C7
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D18771CAA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 15:24:18 +0000 (UTC)
-Received: by mail-oi0-f44.google.com with SMTP id w204so51644399oiw.0
+	Mon, 13 Feb 2017 15:32:45 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id k90so24579502wrc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 07:24:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=AEMGq5KQ3TJQPmJI58rrS9wbpr0C3NtjU9RcSKGhiGY=;
-	b=0tf86BFHmasvu70CN1rzuOJHp3llsS2mVZ39JLHVgsWBqjEHYl4WtrtGjfkXbOLvbs
-	atHrJEWOBUVrjYYkT4HxBOVa/BZK6+nRQ/RzR5ErwEe1MrpPCsoFDcJZtRO/gckEoUqj
-	qWoAGFA8qYEpCgxxbDRJIdz0etCpLeTBv4jYYLUXKFBRC4JJflgn1cZZtoFU2ozEL/Nw
-	oASaLuCJol8rJcAXB8UXzm1fFx+BLHmPcNdcTDdZMI+vWd3/AlC875PO5BZgOLLUOkvs
-	7ChpxjA7HWOxnsKih2Mjkpc2Pb01RmVi4dtPuK7+nJ0aExVIi1UNgODdvt5FuJp74enm
-	BpIA==
+	Mon, 13 Feb 2017 07:32:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=nff9XyyaVdhkOawb1oj0ae1aueb7WrINhTrJYW3sGnc=;
+	b=JwB3w8xL7gp0c1fEIDwtmWQHt9bkKpx+lvBySHk2wEe1+lI8TNPYxuWz8vBYk+F2XX
+	9DCp8qDm1lBfO4pAClQHOyn70DifCUiQ/RLH/S3W5RJyJlOFFOIb+LoFCOcoiHMKL3FO
+	VQmqyT/5J/puHB4S5PsyoP0lK/GBeR8oLPw4phpx0MxEnvdCF+mzGeAgc2Xb6eehnEBN
+	AExNuPesXVCpAtGKNis5oor9FnKHMLlPgPWDtMlefMLfAgxBiObLYk9/ehAEUNwsAK8c
+	0FUII+7k00GW9irVDXK7fuypfADjrDOjtzAzr5Q9imT1cMqwEUWvlb9ukhFUrSo5VsPN
+	YO9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=AEMGq5KQ3TJQPmJI58rrS9wbpr0C3NtjU9RcSKGhiGY=;
-	b=VKwX20S3NWKVcPLeN0hic9vz3Ia11wbZFwBK5JTOcNyp7gUmQS0F/EhloNswrc7kf2
-	rjXEXdBfIuRbgO54zycUuA/z+alR4dP4O7VCSK7TdGaIzmES62aiqPRyb8leVZvfBtof
-	imG26sVaGdrYreFiVKv0lyHGWv0+WY2xAr1+KYPZDM26C6MQSqmvMFxIj2zFSbM87ngW
-	ztP5PG6v6MOmD57vfwNZ9Dk3l//H6QnK4XFU3MvgSfS/jGGUmCKJp+qWcpP6gTNRBzId
-	Q1VPfMuzgb2d3X4NF+IeSp0UqWFLlKF+bFAZkIv2W0uDV1O/Rj2B8foQvMbrwlqKeP5n
-	3aYQ==
-X-Gm-Message-State: AMke39mphUAKfDvnj6fIQdWlbafed8+WjNKZDimCKCYMbHz4bq+1sxp1bRXiDlrx55isg+G0
-X-Received: by 10.107.146.139 with SMTP id u133mr23244255iod.173.1486999458801;
-	Mon, 13 Feb 2017 07:24:18 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8DB6A.dip0.t-ipconnect.de. [93.232.219.106])
-	by smtp.gmail.com with ESMTPSA id 12sm1854146itl.31.2017.02.13.07.24.16
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 13 Feb 2017 07:24:17 -0800 (PST)
-Message-ID: <1486999455.13854.241.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 13 Feb 2017 16:24:15 +0100
-In-Reply-To: <CA+chaQcHBzDJ4UbW1NCex70T56PL02+agOZBMoK4=Q1WWSm2EA@mail.gmail.com>
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=nff9XyyaVdhkOawb1oj0ae1aueb7WrINhTrJYW3sGnc=;
+	b=Cthp1w8m4zVtXWkAG585eFR5N8Xc1vIs97jCcq0TLF+3cCD0+ss3wJeyQC9TQvnEus
+	KkTr5VCU2Xd/UN5JaS6eVpRZu6HFRelP2PHvs0FiMav8nsg/vHy7XCU/Bj32Rfygy/Ew
+	YrRNR/Pp1941HsjwtAqBeEu7HuRzCQP9lp2DPufYfOGTA3+wvog3gDRH4iQKBGTzsJHo
+	xz5O14r3hxs6dfcx7aYpuDkG+LsYmtSxXXKwQ840U+pESdRswI+hpYYIMrlpvn/GvG/4
+	Xc4NTu0I82fvR9oK/DomFtBtTwjQRTbuQZRev5CILlSRA8LQOehzl+zjvzZo8/Iq32Mb
+	qKvg==
+X-Gm-Message-State: AMke39m070rmllOLXEk7JiksK8zCl3JPchXmq6ytnrbvY9yGZaPwa1lWuhcf0Sb0ltQsZw==
+X-Received: by 10.223.163.30 with SMTP id c30mr20344884wrb.40.1486999966066;
+	Mon, 13 Feb 2017 07:32:46 -0800 (PST)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	65sm11183153wri.53.2017.02.13.07.32.44
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 13 Feb 2017 07:32:44 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 13 Feb 2017 16:32:45 +0100
+To: Patrick Ohly <patrick.ohly@intel.com>
+Message-ID: <20170213153245.GC3280@jama>
 References: <CALbNGRSgxbz1F2YLzQ-F2Fn+01hiA4LAoDgQuQ-qLg9KMVTHAw@mail.gmail.com>
 	<CALbNGRR1+yVyMC1O1G1mCYp8e87Q2kucGEgs-dL0P3KHxi8WCQ@mail.gmail.com>
 	<CA+chaQcHBzDJ4UbW1NCex70T56PL02+agOZBMoK4=Q1WWSm2EA@mail.gmail.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
+	<1486999455.13854.241.camel@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1486999455.13854.241.camel@intel.com>
+User-Agent: Mutt/1.7.2 (2016-11-26)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: Does recipe specific sysrooot (or whatelse in current oe) break native dependencies?
@@ -62,47 +62,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Feb 2017 15:24:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 13 Feb 2017 15:32:46 -0000
+X-Groupsio-MsgNum: 93274
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="gatW/ieO32f1wygP"
+Content-Disposition: inline
 
-On Mon, 2017-02-13 at 15:36 +0100, Martin Jansa wrote:
-> Hi Andreas,
-> 
-> 
-> I think it's feature which was already there, but almost never
-> triggered (even in test-dependencies.sh tests), but with RSS it fails
-> reliably.
-> 
-> 
-> See:
-> http://lists.openembedded.org/pipermail/openembedded-core/2016-July/124435.html
+--gatW/ieO32f1wygP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-That's not quite the same, if I understand it correctly. In that email,
-Richard was talking about "dependencies of that target are not needed
-and not installed" and used "quilt-native" and "compiler/toolchain" as
-example. In other words, if recipe foo DEPENDS on bar for getting foo
-compiled, that dependency on bar gets ignored when installing "foo" into
-the recipe specific sysroot because it shouldn't be needed anymore.
+On Mon, Feb 13, 2017 at 04:24:15PM +0100, Patrick Ohly wrote:
+> On Mon, 2017-02-13 at 15:36 +0100, Martin Jansa wrote:
+> > Hi Andreas,
+> >=20
+> >=20
+> > I think it's feature which was already there, but almost never
+> > triggered (even in test-dependencies.sh tests), but with RSS it fails
+> > reliably.
+> >=20
+> >=20
+> > See:
+> > http://lists.openembedded.org/pipermail/openembedded-core/2016-July/124=
+435.html
+>=20
+> That's not quite the same, if I understand it correctly. In that email,
+> Richard was talking about "dependencies of that target are not needed
+> and not installed" and used "quilt-native" and "compiler/toolchain" as
+> example. In other words, if recipe foo DEPENDS on bar for getting foo
+> compiled, that dependency on bar gets ignored when installing "foo" into
+> the recipe specific sysroot because it shouldn't be needed anymore.
 
-But the example here is a recipe foo which has a runtime dependency on
-bar, so bar must be installed in addition to foo, otherwise foo will not
-work.
+I'm not sure if it's the same or not, but back then I got very rarely
+missing dependency on wayland-native or qtwayland-native, now with RSS I
+got 20-30 recipes failing because of missing dependency on
+wayland-native, qtwayland-native or qtbase-native to stage the scanner,
+moc and other native tools in recipe-sysroot-native.
 
-This is where it gets tricky: do native recipes have RDEPENDS? They are
-not getting packaged, so I suppose not. One could collect all RDEPENDS_*
-values (regardless of the actual package), but that might be too broad
-(for example, when "packaging" the native recipe wouldn't even produce
-that package).
+And Andreas issues look similar to that.
 
--- 
-Best Regards, Patrick Ohly
+> But the example here is a recipe foo which has a runtime dependency on
+> bar, so bar must be installed in addition to foo, otherwise foo will not
+> work.
+>=20
+> This is where it gets tricky: do native recipes have RDEPENDS? They are
+> not getting packaged, so I suppose not. One could collect all RDEPENDS_*
+> values (regardless of the actual package), but that might be too broad
+> (for example, when "packaging" the native recipe wouldn't even produce
+> that package).
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+--gatW/ieO32f1wygP
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
 
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWKHRnQAKCRA3VSO3ZXaA
+HKBqAJsFLy3Ilot5d4AE1j2NMKlftAXnWwCgrmHjmANhzaYYDm8Lx6PEdHJU0HU=
+=PWax
+-----END PGP SIGNATURE-----
 
-
+--gatW/ieO32f1wygP--
