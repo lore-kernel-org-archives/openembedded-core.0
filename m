@@ -1,47 +1,45 @@
 Return-Path: <george.mccollister@gmail.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D1C5971DEF
+Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
+	[209.85.214.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 026A8601F2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 21:21:35 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id w144so785270oiw.1
+	Mon, 13 Feb 2017 22:07:35 +0000 (UTC)
+Received: by mail-it0-f68.google.com with SMTP id r141so787804ita.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 13:21:36 -0800 (PST)
+	Mon, 13 Feb 2017 14:07:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=gK5dZD68c/DpAPeexvmYGEbfOe0EHRob8h65MuzlqLw=;
-	b=d5ulpRY7TjHHQGZ25WTbEE0sGcxWw3fE/cobJAXezlRC/JDhL05ldvoL290wotDlgj
-	gYxjIA2sraAjwkaz2l9w3fXswl52S0x1J/fXHSt5QGiRkL5WtpOmLbTippEUoPE2HK1g
-	nKmt53jsTSePwBGa6pIuWzrCzkQedk0t+8/ggqhQ5Dh61h3c+RzeiWyvu4IXizDtZXpa
-	9oD0mukBSFWBS2We7yNf9marM9PwE7qOfRDZdxRoFHzWP/x3jvFGZUeYI4ryThl0Kb09
-	98sj+o95bY7CxqyXHJYc42dWNnuLmhTaFQzkP8QlY5Af7KjGB/2wEvaJmshywiehqbIe
-	2cuw==
+	h=from:to:cc:subject:date:message-id;
+	bh=8QYdlQ+16n5wQdEPSyCT4SHnxeixRLO7z/LWsVqSXxQ=;
+	b=Sm2g1qWweBc6LRYGIJ7nOYzKa75znYph52V1n4EIkzZUuDAQqkUYtdk3lyzkykl5S1
+	cRakkyxyIhETMA+kZHhgARkD2yl+wgk51Ajo8jbipM77BSYeqZWQAlQLuKGm/dt28DtU
+	ZNhDTMyre8zbVtw/AIW8U+cyq0SrbzvCybUfzUni4UFfBkDnqvDTcbECGhKdLKJg/NLx
+	e3eg5C8K9kkF5NUw2jtz5H/0FXOVQsGHf1S5EmAY2fLFSg2dV9cvGm/vwG0i0X/xLr7+
+	s+9W36Kwo16kIBIB47v2cSLQ/zTHNyllBvF3pzA0EdPJoiSn/XBEngD34fVWy81Y1Ck+
+	1kbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=gK5dZD68c/DpAPeexvmYGEbfOe0EHRob8h65MuzlqLw=;
-	b=gKvsf1Uc7YzETOKEZ5KJGT3YuMcpLXcJtGQoGDDeDoZR0ElTbtLE8CFdtNNExmVDX6
-	PdGlr6JW3APLkTxqZewoO1HPfviD27SbzYgdT97qU4Vhv9vvTeasscesSXJvdVY3BsEz
-	xrU/SbHHG1nYMffG/nbVOvsvOT7KmmEndSP00c3pN1nJREu3qDKWtKMVg428/+haNKMd
-	u/0MYqFgfYGCqKkt4YixDQnfxUgjx49C3nU2F2j6vuXKPgyiF2Bmc5S8pWzPnU3K4iwI
-	1l9UUaxRRuEsL3DABbVgixYmcQOzR1P8Dn7XIOLg37J6QSh/RyvK6rFw1N/bqAqRJHXY
-	83ww==
-X-Gm-Message-State: AMke39lr+s42cDgCcw77ph5vnF9nzDXq0IUAiArmOa6auWc6Kypr27TMDmkSWpAcHIDSl8DSh25Qt3O2wshG8A==
-X-Received: by 10.202.231.77 with SMTP id e74mr12342750oih.85.1487020895910;
-	Mon, 13 Feb 2017 13:21:35 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.202.46.8 with HTTP; Mon, 13 Feb 2017 13:21:35 -0800 (PST)
-In-Reply-To: <CAHiDW_GkT7n200+B2WnAb8QxvWi0bj_JZP0gnN-Ki1NkyJ9T1Q@mail.gmail.com>
-References: <cover.1481043778.git.george.mccollister@gmail.com>
-	<CAFSKS=NDQ_EDXishOScHEFt_Uf6s2vq8P7YooBM513CWbHFmTw@mail.gmail.com>
-	<CAHiDW_GkT7n200+B2WnAb8QxvWi0bj_JZP0gnN-Ki1NkyJ9T1Q@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=8QYdlQ+16n5wQdEPSyCT4SHnxeixRLO7z/LWsVqSXxQ=;
+	b=lGZvioUVkDBE6XWCAsOK9EeBP0bIcMEFBG+9KXgOy2sTzD4EyPpnWgw8Dw+gfTiT/q
+	m6xS9UczRXMWaCuM+mTU1FfhPy86bSwABDCExKwf9d9iGpcPjyJqrqNo7ptsv1Q+JA7q
+	yNXSCsOgBkfIzte/C71q2s33DBXTvAxGnazQbjoQPQotpzoG2lU+MFzqMRIK9dn60yQM
+	3wHsqmCXnCscXpnd3aO7nxJzJHJFbKZcId1i7odWkOIcNKASJ2Sn+ZfgTo9pbJ6YGVK5
+	h9ejGUyTZkqp3onU3u3+XJagKWMATa3c1R919M4P0c89H3+e+OQgY44TDMZ8Smg6m5Le
+	U7KQ==
+X-Gm-Message-State: AMke39lDew0wGXblcyPHZ5bKJ9BBKB4aSFf2LSdwYZC3+io6mFS32zmaB3hyI+TvC4gPew==
+X-Received: by 10.36.227.198 with SMTP id d189mr568738ith.36.1487023655603;
+	Mon, 13 Feb 2017 14:07:35 -0800 (PST)
+Received: from localhost.localdomain (216-21-169-52.slc.googlefiber.net.
+	[216.21.169.52])
+	by smtp.gmail.com with ESMTPSA id m6sm4457659ioa.57.2017.02.13.14.07.34
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 13 Feb 2017 14:07:35 -0800 (PST)
 From: George McCollister <george.mccollister@gmail.com>
-Date: Mon, 13 Feb 2017 15:21:35 -0600
-Message-ID: <CAFSKS=N5B5LADP8k1PLywEK5f2dixtJpV8bHGWcmgdybC-sZtQ@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [morty][PATCH 0/2] Resolve gdb-cross-canadian dependency on imp
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 13 Feb 2017 16:06:53 -0600
+Message-Id: <cover.1487022302.git.george.mccollister@gmail.com>
+X-Mailer: git-send-email 2.8.0
+Subject: [morty][PATCH v2 0/3] Resolve gdb-cross-canadian dependency on imp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,42 +52,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Feb 2017 21:21:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 13 Feb 2017 22:07:36 -0000
 
-On Thu, Feb 9, 2017 at 2:46 AM, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
-> On 8 February 2017 at 22:06, George McCollister
-> <george.mccollister@gmail.com> wrote:
->>
->> Any chance we can get this applied to morty?
->
->
-> You should add [morty] tag to subject and CC the maintainer
-> (akuster808@gmail.com) to improve chances of this happening. I'm sure Armin
-> would also appreciate explicit confirmation that the patches apply to morty
-> branch.
+Add imp to python3-importlib. Make gdb-cross-canadian depend on
+nativesdk-python3-importlib when python is enabled.
 
-[morty] was in the subject but I didn't CC the maintainer. Now I know
-who the maintainer is.
+Changed since v1:
+Cherry picked patch that changes generate-manifest-3.5.py to add imp to importlib
 
->
-> Before that some review though (sorry I missed this in Dec) ... it looks
-> like the "Add imp to importlib" commit only modified manifest.inc: this is a
-> generated file and your changes will be overwritten next time someone runs
-> the generator. You should modify
-> scripts/contrib/python/generate-manifest-3.5.py and run that to generate the
-> new manifest.inc file.
+The following changes since commit 55c835c73cc41b6fc809c941c295d62a612e49e0:
 
-Yes, I messed that up. Someone else fixed it in master here:
-http://git.openembedded.org/openembedded-core/commit/scripts/contrib/python/generate-manifest-3.5.py?id=bfe1d948ab034017622110c8365be7026e139fbf
+  build-appliance-image: Update to morty head revision (2017-02-08 12:00:29 +0000)
 
->
-> It would be nice if we did not store noth the source and the generated files
-> in git but that's how it's currently setup...
+are available in the git repository at:
 
-I'll resend my two patches with the patch that fixes
-generate-manifest-3.5.py for morty.
+  git://github.com/gmccollister/openembedded-core morty-gdb-cross-canadian
+  https://github.com/gmccollister/openembedded-core/tree/morty-gdb-cross-canadian
 
->
-> Jussi
+Anders Darander (1):
+  python-3-manifest: fix adding imp to importlib
+
+George McCollister (2):
+  python-3.5-manifest: Add imp to importlib
+  gdb-cross-canadian: Depend on nativesdk-python3-importlib
+
+ meta/recipes-devtools/gdb/gdb-cross-canadian.inc     | 3 ++-
+ meta/recipes-devtools/python/python-3.5-manifest.inc | 2 +-
+ scripts/contrib/python/generate-manifest-3.5.py      | 2 +-
+ 3 files changed, 4 insertions(+), 3 deletions(-)
+
+-- 
+2.8.0
+
 
