@@ -1,49 +1,47 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 677AC71DBE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f173.google.com (mail-qt0-f173.google.com
+	[209.85.216.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 0845F71DCE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 12:28:50 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id 11so14400171qkl.0
+	Mon, 13 Feb 2017 12:36:45 +0000 (UTC)
+Received: by mail-qt0-f173.google.com with SMTP id x49so81750672qtc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 04:28:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Mon, 13 Feb 2017 04:36:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=syq1yu90j/MBKe5bHSDzzmxgXimZF5vo8yXq6/Ns7yE=;
-	b=r80Prihd5Y+iMoXvrjLNvIKfrmS6Ztj/RYFwjQnvyjcQqg9fZ7KkCQAlK3vlBP5FAs
-	s+JqEWtzr9rddvty0Wp19rrkvBlKWNBflbRiPQSp1Pc30Y9+xFoPXkASrZVxm6gZBhdi
-	RYmcaca27yxf7C3/ZvBaxaXTFYE2J+BH/shrQENj/7z1M6qxsDuODbKwqxOoOJ021KsX
-	cA1c+bACBGcs1O0FBZ3OrkyUDiUD1W7vb1XXlF9JdVdwvqWhDxBQO48kSR+wEh/oUEg5
-	E2B3PvNp0PRbhW/Bd/pFQfPEkkKp3VWXBIMXeSHtqCXCVQNWq109dYfB29Qr+U9fxev0
-	E2CQ==
+	:cc; bh=FCGcfvkUp9+jbNe7tUBH5aAv2tWVwmzinItMVITt7z0=;
+	b=oZMUxH+bJ/gESf3EvGwUkCVYT+Xcbe2MLYgM293v0x5nMgQE/8bxg89K++8HmavqSU
+	5jt+hrA4jAphC3Cq0GqvkIrqPql6YoAWHa8iQIJ2HrK3EOaJgxfPbvLSJj/jGmZNRjL6
+	G912BqKEComzL19shRTBswLHVnLxvDssWjTRsmFyya0FEj8A3EXcyEudWpBPOEujQ/jm
+	HeHwRZul/37HlsFmOR+qtmAoU/4y+gdumreRjyuFnnvHq0DFhyXkcbvpmZ4Pz6pxoaJk
+	AG6iebO9Raf7xjdjbuRW+iJKf3WQRAi4mgp0RSJ4swHyxCZE/JKN8wB45S2ZWVHnitB/
+	95iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=syq1yu90j/MBKe5bHSDzzmxgXimZF5vo8yXq6/Ns7yE=;
-	b=SuI2/JuwJ5VJ8qDbPfity96miprfJMOclcwx0ud/fu3bbih0g2Eu9n6HMWmk5QA3jq
-	EXx+H2HpL684059tMmpLRYN24vRCyfAf78gRyjVz2hIVAASF6PV1OG73V/yIiwtz9u7D
-	NjMrOw5MzulqTX7ceL/5YIG+UNKYPgJB8v+Nk7i/9+wHb1dLIGH8G6ulI4uZK/4s/U3x
-	Q1F+3MZqSxLBnO8H3s0KWIkDGvkN6QpNa8JQqiAg30JTc5V08zqgWRDqI6td36/2fTTD
-	uQ3ZAnAIBCoE7H93hgam8OocnVIMmbMyBDMAy03bEU1+XoMaGDTsrnvBVnP9LgYsaPuA
-	tGYw==
-X-Gm-Message-State: AMke39kQnVh67Qs6jOlKLJYIeANwScTYHwpkkufJWeb9eEXpOfWk2LPIxwop/AFapim7I9zCrkLQgXZFC1lt8w==
-X-Received: by 10.55.143.71 with SMTP id r68mr19684566qkd.84.1486988930396;
-	Mon, 13 Feb 2017 04:28:50 -0800 (PST)
+	bh=FCGcfvkUp9+jbNe7tUBH5aAv2tWVwmzinItMVITt7z0=;
+	b=M+8Ylf9Cgj7wc9aMpM8qgsMn+d9BVzb9PFCg3MeRQQQpcumd5i/fkzlk1PBpQ2IWHc
+	JH+nNq1Ft0pNp2hIZQhRV8SOhFlzXKMZfbjNG+HAukaGgthYG7oMplL7ElrF74EAzvrA
+	vEHzIkaXMXbSERgpxzrGTZiVUH7eAPSoZA4P/DcUjOLomog/NDBJyqxk4hz62wCu4gVO
+	LVDMvXjDIhCFIU1MjSb320xVNy2BMOHXn2iZFFOgn1nG92RA/Df8HwAd8QLybn1COZLt
+	SwSp2V60VGU6QKuXjC37c8Fbt03/s+X4hptRfQQ5YAGNPox+IJFBQBp727OqjG2RaSmI
+	Sv3w==
+X-Gm-Message-State: AMke39lHlxMwD+3oxUWdsf+78wyU8dJ7+bBjfNw3M1pUKskjBqAjVkEXCnJbZBfc4lJ6+hwg9bANXjUqt3d6LaeW
+X-Received: by 10.200.45.247 with SMTP id q52mr22485867qta.197.1486989405759; 
+	Mon, 13 Feb 2017 04:36:45 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.237.37.136 with HTTP; Mon, 13 Feb 2017 04:28:30 -0800 (PST)
-In-Reply-To: <CAJTo0LaChW9ENPiJcrnBNGbrbUFiVDSM+Ro2uUjY8NgpQXiheg@mail.gmail.com>
-References: <1480609418-3264-1-git-send-email-linus.svensson@axis.com>
-	<1480609418-3264-2-git-send-email-linus.svensson@axis.com>
-	<CAJTo0LZ_ea-cm=ZSNt2zVbasOApPdbGegZCH7VU-+0XH=-noZA@mail.gmail.com>
-	<CAPybu_1tqVeyDqhQLd0qPOOR=D=4WhC_D-Tv4wkZJ2_todZ0oQ@mail.gmail.com>
-	<CAJTo0LaChW9ENPiJcrnBNGbrbUFiVDSM+Ro2uUjY8NgpQXiheg@mail.gmail.com>
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date: Mon, 13 Feb 2017 13:28:30 +0100
-Message-ID: <CAPybu_0FepS4PQ_QPMK3-k_h2r5J4ue-b-p8bbGeDDhVjL=Ctw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] meson: Add recipe for the meson build system
+Received: by 10.140.103.233 with HTTP; Mon, 13 Feb 2017 04:36:25 -0800 (PST)
+In-Reply-To: <20170210082811.GA3021@jama>
+References: <20170210082811.GA3021@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 13 Feb 2017 12:36:25 +0000
+Message-ID: <CAJTo0LYpGLN9M3CkUKcaySEkinDSqw2=aCuJcA5+-gonqgTNHA@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: State of bitbake world, Failed tasks 2017-02-08
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,26 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Feb 2017 12:28:50 -0000
+X-List-Received-Date: Mon, 13 Feb 2017 12:36:46 -0000
+Content-Type: multipart/alternative; boundary=001a1139cdf050cf3d054868b39f
+
+--001a1139cdf050cf3d054868b39f
 Content-Type: text/plain; charset=UTF-8
 
-Hi
+On 10 February 2017 at 08:28, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-On Mon, Feb 13, 2017 at 1:26 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>     * openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.29.bb:
+> do_compile
 >
->
-> On 13 February 2017 at 12:18, Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com> wrote:
->>
->> What is the status on this? it just needs to be resend to meta-oe? We are considering meson for our next project and we need support in OE.
->
->
-> Yes.  If the growth continues then we'll have to move it into oe-core, but for now meta-oe is the obvious holding place for the Meson class and recipe.
 
-Thanks
+This is due to ld-is-gold, there's a patch from Jussi on the list (and in
+mut).
 
-Linus, do you plan to resend? Can I help you?
+Ross
 
+--001a1139cdf050cf3d054868b39f
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Ricardo Ribalda
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 10 February 2017 at 08:28, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3l7" clas=
+s=3D"a3s aXjCH m15a2724503a81b17">=C2=A0 =C2=A0 * openembedded-core/meta/<w=
+br>recipes-support/libxslt/<wbr>libxslt_1.1.29.bb:do_compile<br></div></blo=
+ckquote></div><br>This is due to ld-is-gold, there&#39;s a patch from Jussi=
+ on the list (and in mut).</div><div class=3D"gmail_extra"><br></div><div c=
+lass=3D"gmail_extra">Ross</div></div>
 
+--001a1139cdf050cf3d054868b39f--
