@@ -1,46 +1,43 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
-	[209.85.217.194])
-	by mail.openembedded.org (Postfix) with ESMTP id B9F3371E4B
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-vk0-f48.google.com (mail-vk0-f48.google.com
+	[209.85.213.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EB7B6025E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 00:04:12 +0000 (UTC)
-Received: by mail-ua0-f194.google.com with SMTP id d5so7200360uag.0
+	Mon, 13 Feb 2017 00:26:47 +0000 (UTC)
+Received: by mail-vk0-f48.google.com with SMTP id t8so52415933vke.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Feb 2017 16:04:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=zTKl43zskqfsOUg4ZxIkqcyBgrAARJAnXbo35f52Z28=;
-	b=nuRGMm/dFIvGw6Bx2rwVoSZZ/ShodFPmxIDRL/kA9bc3MKDOxHftXnt2ZIRuG6P7CK
-	C4SAgUwyeX7WOg4uUFwqBwgQvWgym0yqluE8oMh1Fic7ROIkQbc2r7CPiYNo6s+RXkEM
-	rb1I0NKmivVYmvuB42vx+U6VgF4mnEGDzJh7Zf9U0Bg8q/p3FhCXTQTppbu5u9vuccc7
-	PoPmm6gWNSqMAvvtaaT3YM/KPknh/3gpMcr0yAANRubSs7p7gXjewK0/NcSbGfCTK1bo
-	MCQN2r8LEHockOuPFbZ+L2W2ggegXcpuM9v4fSAmpABPkLSDhIJj6aBGhrXnp09JyUBT
-	AFtg==
+	Sun, 12 Feb 2017 16:26:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=ULu3lEjDtQx0TObSUMyZTU4kEfELe3rnVgQKpsBfOUI=;
+	b=JM28WI0HUxWWJ89I9mw5+PE5y33ZQOCZ6A9ZIPlyZhl3u1JYIg7nE1TCOLsT9gprsi
+	leZs72n/nQDXAPbqxM8Wmi2XVqDjoDpvCa6gVTnlZC9Mo1fiWh14FMlR/iNxUXRiSKIo
+	ANJAmLTuq6MuDN9svm8GgxOgCWo2mBzXfAu+hp8X6q6fSRyx1LfHBV16NHL5T46ln3Gu
+	sSUHRxh8qm+y42mA8DZU/sWcoYlT0D/rUuRPyfSQnPNRAD4TdGzXa9e13lBcKEn1vbbx
+	h1D9OcMqFmBWYbKUrytaqDC1yXZUDBtreLF2WIqTNa/KTPOtHmQc8Otc4MnG2zZRhAFR
+	wjaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=zTKl43zskqfsOUg4ZxIkqcyBgrAARJAnXbo35f52Z28=;
-	b=AEQQ8wEI23wOLzTKHluQ43upUUmdsF2wBD4WXHeke8JYvYx2XMzrLquDL6M9EG1bsl
-	JYdZl9vAo1KitBhlRpzGJHgAh9W1qwRB/MGfvxxmWPLEbGLLob3m5o0ev/TdaDVP6Lzh
-	EBuOLPGRA3hSEdAzSba/GXb0/OhGB5leNNJtPCcJIcOF6az4Zd6LaJJip+UT6rlC8IX9
-	ZTu7gkWnTa+O01zQURgMI2FHvzNohBzwzQYw6JgEmlCwyJRQDyIOY1/dA5ijw21yB4Jn
-	eNyqe5T1G1j8xOFEugoaHSvEsYRe0O36w7/yChVq9TG7vzyaq7xjq3J1DI9n5R9fAlQG
-	+k0Q==
-X-Gm-Message-State: AMke39mvRnrwc5iaANZif8EcXayGSCn05Q+Kvwg8CddkM3yuh3oWbLMZ/6j0wrrwf30f1f+kx31DKfxpbaXKdw==
-X-Received: by 10.176.83.218 with SMTP id l26mr9092143uaa.69.1486944252375;
-	Sun, 12 Feb 2017 16:04:12 -0800 (PST)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=ULu3lEjDtQx0TObSUMyZTU4kEfELe3rnVgQKpsBfOUI=;
+	b=mpqrwgMMF5u34W7JKwfVvYqZVGxHp+jwz25ezjyNQhFQbfCLyQ01B6D9EVGCMRzmvZ
+	uMeHvZUhjNB8wM2vAPzNxss+tXGX5IooWSCM2P3YSZbg1T3zw2RnR9Aw8ZqfqI8fq5ag
+	wYXeJFHD26qs7K8p1WPcBs7sJozuZBfAyR1ervWUZJYrhvDB4uDg5+W3DXAKzaemt2xM
+	b+0R2o9b85kSaRKU//ufbnOo0gGKyDXlsNpsg/iSv0NWsu9azAF3VUgqIpzP17nS+Y3m
+	g9Ag9avcDPrI903sCpeWl90d2KBVEcrzKBGbLoDP7rK2farI1mLWwKCmM03dNwMyvogf
+	AE4g==
+X-Gm-Message-State: AMke39nKfppKzpcTC5FnvU0BXdLb/F6ueUb1CJhGmyGEQqBSOp/MnAVZIS66foGzsD6LQVl8aTEAtrDIvJacpg==
+X-Received: by 10.31.41.73 with SMTP id p70mr9761307vkp.68.1486945607214; Sun,
+	12 Feb 2017 16:26:47 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.159.48.222 with HTTP; Sun, 12 Feb 2017 16:03:42 -0800 (PST)
-In-Reply-To: <20170212202035.26659-1-sarnold@vctlabs.com>
-References: <20170212202035.26659-1-sarnold@vctlabs.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 12 Feb 2017 16:03:42 -0800
-Message-ID: <CAMKF1so-DwfWtRi-Bsod6CjTJ=iawGZocMk8_QOg3-cdFtunLQ@mail.gmail.com>
-To: Stephen Arnold <sarnold@vctlabs.com>
-Cc: Patches and discussions about the oe-core layer
+Received: by 10.176.91.68 with HTTP; Sun, 12 Feb 2017 16:26:46 -0800 (PST)
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Mon, 13 Feb 2017 01:26:46 +0100
+Message-ID: <CALbNGRSgxbz1F2YLzQ-F2Fn+01hiA4LAoDgQuQ-qLg9KMVTHAw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH v2] gcc-6.2: Add fix for missing no-PIE flags
+Subject: Does recipe specific sysrooot (or whatelse in current oe) break native dependencies?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,74 +50,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Feb 2017 00:04:13 -0000
+X-List-Received-Date: Mon, 13 Feb 2017 00:26:47 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Sun, Feb 12, 2017 at 12:20 PM, Stephen Arnold <sarnold@vctlabs.com> wrote:
-> From: Stephen Arnold <stephen.arnold42@gmail.com>
->
-> Fixes build on hardened PAX host with gcc-5 (linker error on relocs).
-> Completes no-PIE config by adding to ALL_* flags variables.
-> Borrowed from Gentoo gcc patches, tested on 2 hardened amd64 hosts.
->
-> Upstream-Status: Inappropriate [configuration]
->
-> Commited by: Gentoo Toolchain Project <toolchain@gentoo.org>
-> Signed-off-by: Stephen Arnold <stephen.arnold42@gmail.com>
+Hi
 
-the patch is ok but please add this patch header to the gcc patch
-itself not to OE patch. Secondly, gitify the patch on top of gcc-6
-e.g.
+I try to get meta-qt5-extra fit for latest oe-core (RSS). One thing
+that causes my attention is that many recipes's configure can be fixed
+by adding gettext-native. This seems odd to me because all of these
+recipes depend upon kdoctools which depends on gettext-native.
+For instance for kconfigwidgets depending on kdoctools:
 
-https://github.com/kraj/gcc/tree/oe/gcc-6-branch
+* in kdoctool'sworkdir/recipe-sysroot-native/usr/bin there is a gettext binary
+* but in kconfigwidgets'sworkdir/recipe-sysroot-native/usr/bin there
+isn't a gettext binary
 
-> ---
->  meta/recipes-devtools/gcc/gcc-6.2.inc                   |  1 +
->  .../gcc/gcc-6.2/0054_all_nopie-all-flags.patch          | 17 +++++++++++++++++
->  2 files changed, 18 insertions(+)
->  create mode 100644 meta/recipes-devtools/gcc/gcc-6.2/0054_all_nopie-all-flags.patch
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-6.2.inc b/meta/recipes-devtools/gcc/gcc-6.2.inc
-> index b118995e1d..1a50d3a0d4 100644
-> --- a/meta/recipes-devtools/gcc/gcc-6.2.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-6.2.inc
-> @@ -78,6 +78,7 @@ SRC_URI = "\
->             file://0045-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch \
->             file://0046-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch \
->             file://0047-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch \
-> +           file://0054_all_nopie-all-flags.patch \
->             ${BACKPORTS} \
->  "
->  BACKPORTS = ""
-> diff --git a/meta/recipes-devtools/gcc/gcc-6.2/0054_all_nopie-all-flags.patch b/meta/recipes-devtools/gcc/gcc-6.2/0054_all_nopie-all-flags.patch
-> new file mode 100644
-> index 0000000000..0e103cb1ee
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc-6.2/0054_all_nopie-all-flags.patch
-> @@ -0,0 +1,17 @@
-> +We need to pass NO_PIE_CFLAGS to ALL_* so gcc doesn't fail when
-> +we compile it with older gcc and pie.
-> +
-> +--- a/gcc/Makefile.in  2015-06-25 19:18:12.000000000 +0200
-> ++++ b/gcc/Makefile.in  2016-04-22 00:12:54.029178860 +0200
-> +@@ -991,10 +991,10 @@ ALL_CXXFLAGS = $(T_CFLAGS) $(CFLAGS-$@)
-> + ALL_CPPFLAGS = $(INCLUDES) $(CPPFLAGS)
-> +
-> + # This is the variable to use when using $(COMPILER).
-> +-ALL_COMPILERFLAGS = $(ALL_CXXFLAGS)
-> ++ALL_COMPILERFLAGS = $(NO_PIE_CFLAGS) $(ALL_CXXFLAGS)
-> +
-> + # This is the variable to use when using $(LINKER).
-> +-ALL_LINKERFLAGS = $(ALL_CXXFLAGS)
-> ++ALL_LINKERFLAGS = $(NO_PIE_CFLAGS) $(ALL_CXXFLAGS)
-> +
-> + # Build and host support libraries.
-> --
-> 2.11.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Is it possible that recipe specific sysroot broke native dependency chain?
+
+One note which might be important for this issue: In meta-qt5-extra I
+chose a the following design decision: If there is a pair of
+native/cross recipes
+* each cross recipe depends on native recipe
+* all other recipes depend on cross recipes
+
+This reduced maintenance efforts (I don't have to care if a recipe
+depends on cross libs or native executables) and avoids race trouble
+with cmake's toolchain path sequence 1. cross 2. native
+
+So what goes wrong here - or where am I mistaken?
+
+Andreas
 
