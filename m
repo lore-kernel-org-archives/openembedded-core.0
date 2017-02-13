@@ -1,37 +1,47 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BD8C71A72
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
+	[209.85.216.194])
+	by mail.openembedded.org (Postfix) with ESMTP id D665071DCE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 12:19:08 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by avasout06 with smtp
-	id kCK61u0070BmcFC01CK8Q7; Mon, 13 Feb 2017 12:19:08 +0000
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.2 cv=QoEu5R6d c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=kj9zAlcOel0A:10 a=n2v9WMKugxEA:10 a=mDV3o1hIAAAA:8
-	a=VstMSg-w4vT6cWokx0gA:9
-	a=CjuIK1q_8ugA:10 a=qOx8Ico6AQcA:10 a=GBnqXKe9rgIA:10
-	a=_FVE-zBwftR9WsbkzFJk:22
-Received: from mac by deneb with local (Exim 4.84_2)
-	(envelope-from <mac@mcrowe.com>)
-	id 1cdFaz-0000XK-Rl; Mon, 13 Feb 2017 12:19:05 +0000
-Date: Mon, 13 Feb 2017 12:19:05 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Message-ID: <20170213121905.GA887@mcrowe.com>
-References: <cover.d193014fd573473058a6d28217d27ca47bc60792.1484318722.git-series.patrick.ohly@intel.com>
-	<ab94bd9c9f3c7170e2a0e40afaec42d5ec9397fd.1484318722.git-series.patrick.ohly@intel.com>
-	<20170208115042.GA21576@mcrowe.com>
-	<1486559082.13854.12.camel@intel.com>
-	<20170208134810.GA29105@mcrowe.com>
-	<1486657479.13854.85.camel@intel.com>
-	<20170210183213.GA10017@mcrowe.com>
-	<1486983272.13854.223.camel@intel.com>
+	Mon, 13 Feb 2017 12:19:12 +0000 (UTC)
+Received: by mail-qt0-f194.google.com with SMTP id w20so12835171qtb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Feb 2017 04:19:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=OcMsF1+As7s+t7StvpfQH4c4d4UJTaj2HoD7POQlIXo=;
+	b=FRSE0DzHkSecQ4JjqIJd+Nfhe+jEDKq2Ti/4lXpn191BUiCw83cgf53Nz7F390NFEl
+	uSMU43zxbgwx3FExviFPs4wcAYUNLAcLgklk7flwpILH9mBh6BHfcFUr0tmdxEAQ6FWL
+	kon5pubhI92Pc48F/5JgKfudMsv4ioG6Wz6M6VO3k7yH3z0oWaNYm/MwyJQtSYCyRRww
+	kBvoAz49vMmhPhpfAJid5b1yVTqFrOFr3eIV7b8To/dfayfVPoF/H1yOrINq4ZYnXqt8
+	Je89ChIArj8I5fD0DV00InAFZTyEP2vDGxXz2smkYqeA0weGoPqdDH+N7VeD3CAKmifT
+	K2hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=OcMsF1+As7s+t7StvpfQH4c4d4UJTaj2HoD7POQlIXo=;
+	b=e/gLvuXV4JU5KWysB/B1i8RM0iafqd6cCiNBwpfP4arzLM5xvBY8bYnyJBlNV8f+cY
+	5YWYTugt04YU4UiiW2YW2azmLdv3Y4BZ3M2P+snWrRdnzwYvd/1m8K50/hmLNUq9GX7o
+	Ofc/sDS6HB7rWakrE7bHwCOav3259qf4iVZSt99gkXe6rkRn9MSDiwQzfoeU/pevVfM0
+	dRo0dAb37+cp2ViEqau+WQJmD8DUpEfB//gaInhZpLWEO+8srLL3QUvCLd0mOUqKfCWO
+	0V9utl7WM1SFnH1MD1dsI8wpn8xrUOTdHMj450fMpwN8AmA0cPHEiS4bTJqNrFlun42P
+	MKTw==
+X-Gm-Message-State: AMke39nQAQMvayj4JXt0sYIUsNVWXkC5VYvshKazHor9P3HkQAhd5SA33oT1+6LPtnB+yogmbR25rjHhFcgBNA==
+X-Received: by 10.200.46.123 with SMTP id s56mr22659109qta.8.1486988352916;
+	Mon, 13 Feb 2017 04:19:12 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1486983272.13854.223.camel@intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Mike Crowe <mac@mcrowe.com>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 3/3] rm_work.bbclass: clean up sooner
+Received: by 10.237.37.136 with HTTP; Mon, 13 Feb 2017 04:18:52 -0800 (PST)
+In-Reply-To: <CAJTo0LZ_ea-cm=ZSNt2zVbasOApPdbGegZCH7VU-+0XH=-noZA@mail.gmail.com>
+References: <1480609418-3264-1-git-send-email-linus.svensson@axis.com>
+	<1480609418-3264-2-git-send-email-linus.svensson@axis.com>
+	<CAJTo0LZ_ea-cm=ZSNt2zVbasOApPdbGegZCH7VU-+0XH=-noZA@mail.gmail.com>
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Mon, 13 Feb 2017 13:18:52 +0100
+Message-ID: <CAPybu_1tqVeyDqhQLd0qPOOR=D=4WhC_D-Tv4wkZJ2_todZ0oQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] meson: Add recipe for the meson build system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,78 +54,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Feb 2017 12:19:10 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 13 Feb 2017 12:19:13 -0000
+Content-Type: multipart/alternative; boundary=001a113d4ed28fc6a605486874c6
 
-On Monday 13 February 2017 at 11:54:32 +0100, Patrick Ohly wrote:
-> On Fri, 2017-02-10 at 18:32 +0000, Mike Crowe wrote:
-> > On Thursday 09 February 2017 at 17:24:39 +0100, Patrick Ohly wrote:
-> > > On Wed, 2017-02-08 at 13:48 +0000, Mike Crowe wrote:
-> > > > On Wednesday 08 February 2017 at 14:04:42 +0100, Patrick Ohly wrote:
-> > The part I'd missed is the all-important line in source-release-world.bb:
-> > 
-> >  do_source_release[depends] += "core-image-sato:do_build"
-> 
-> Okay, that explains it.
-> 
-> IMHO this do_build dependency should trigger do_rm_work. Your "bitbake
-> -c all_source_releases source-release-world" intentionally includes a
-> real world build, not just executing the source release tasks. Cleaning
-> up while building is the goal of rm_work.bbclass. It's arguably a
-> deficiency in the previous rm_work.bbclass that it wasn't active in your
-> case.
-> 
-> Now we just need to find a way to combine these without breaking the
-> extra tasks.
-> 
-> > > It seems unsafe to have tasks that are not properly ordered and just
-> > > rely on not activating them in the same build, but without understanding
-> > > the problem better it is too early to look for a solution.
-> > 
-> > Thanks for investigating. If you're still having trouble then I have a
-> > single patch on top of current oe-core master that reproduces it for me
-> > that I can send.
-> 
-> I can reproduce it.
-> 
-> As you said earlier, adding "before do_rm_work" solves the problem:
-> addtask source_release before do_rm_work
+--001a113d4ed28fc6a605486874c6
+Content-Type: text/plain; charset=UTF-8
 
-I'd temporarily forgotten that this would cause every build to include the
-source release when I wrote that. :(
+Hi!
 
-> That's okay, even when rm_work.bbclass does not get inherited. However,
-> when rm_work.bbclass, a "normal" build like "bitbake menu-cache" ends up
-> triggering the source_release task:
-> 
-> $ bitbake -g menu-cache
-> ...
-> $ grep do_rm_work task-depends.dot  | grep do_source_release | grep menu-cache
-> "menu-cache.do_rm_work" -> "menu-cache.do_source_release"
-> 
-> Is that acceptable for you?
+What is the status on this? it just needs to be resend to meta-oe? We are
+considering meson for our next project and we need support in OE.
 
-Not really.
+Regards!
 
-> To me it seems like the right solution. Inheriting
-> release-source.bbclass could be limited to builds which produce
-> releases, for example in your CI setup, then normal developers will not
-> be affected.
+On Tue, Feb 7, 2017 at 5:33 PM, Burton, Ross <ross.burton@intel.com> wrote:
 
-At the moment it is straightforward to build the source release with a
-simple bitbake invocation.
+>
+> On 1 December 2016 at 16:23, <linus.svensson@axis.com> wrote:
+>
+>> Meson is a build system designed to be fast and as user firendly as
+>> possible. Find out more about meson at mesonbuild.com.
+>>
+>> This patch is based on a prototype patch by
+>> Ross Burton <ross.burton@intel.com>.
+>
+>
+> So the good news is that I just used this recipe and class to build the
+> new libepoxy release with Meson instead of autotools, and it worked for all
+> architectures.
+>
+> However this can't be considered for oe-core as it is, because it depends
+> on ninja-native (and that on re2c-native) which are part of meta-oe.
+>
+> Until we have a need for Meson in oe-core, would you consider submitting
+> it to meta-oe?
+>
+> Cheers,
+> Ross
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
-Your solution would work, but it would be necessary to meddle with
-local.conf or similar in order to generate the source release.
 
-Is there any way we can get our tasks in as predecessors of rm_work only if
-they would have run anyway? Rather like the way make(1) supports order-only
-prerequisites[1]?
+-- 
+Ricardo Ribalda
 
-Thanks.
+--001a113d4ed28fc6a605486874c6
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Mike.
+<div dir=3D"ltr">Hi!<div><br></div><div>What is the status on this? it just=
+ needs to be resend to meta-oe? We are considering meson for our next proje=
+ct and we need support in OE.=C2=A0</div><div><br></div><div>Regards!</div>=
+</div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Tue, Feb=
+ 7, 2017 at 5:33 PM, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mailto:r=
+oss.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D"g=
+mail_extra"><span class=3D""><br><div class=3D"gmail_quote">On 1 December 2=
+016 at 16:23,  <span dir=3D"ltr">&lt;<a href=3D"mailto:linus.svensson@axis.=
+com" target=3D"_blank">linus.svensson@axis.com</a>&gt;</span> wrote:<br><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
+ccc solid;padding-left:1ex"><span class=3D"m_-5393749688984336144il">Meson<=
+/span> is a build system designed to be fast and as user firendly as<br>
+possible. Find out more about <span class=3D"m_-5393749688984336144il">meso=
+n</span> at <a href=3D"http://mesonbuild.com" rel=3D"noreferrer" target=3D"=
+_blank">mesonbuild.com</a>.<br>
+<br>
+This patch is based on a prototype patch by<br>
+Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">=
+ross.burton@intel.com</a>&gt;.</blockquote></div><br></span>So the good new=
+s is that I just used this recipe and class to build the new libepoxy relea=
+se with Meson instead of autotools, and it worked for all architectures.</d=
+iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">However =
+this can&#39;t be considered for oe-core as it is, because it depends on ni=
+nja-native (and that on re2c-native) which are part of meta-oe.</div><div c=
+lass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Until we have a n=
+eed for Meson in oe-core, would you consider submitting it to meta-oe?</div=
+><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Cheers,</d=
+iv><div class=3D"gmail_extra">Ross</div></div>
+<br>--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+<br></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div cla=
+ss=3D"gmail_signature" data-smartmail=3D"gmail_signature">Ricardo Ribalda</=
+div>
+</div>
 
-[1] https://www.gnu.org/software/make/manual/html_node/Prerequisite-Types.html
-
+--001a113d4ed28fc6a605486874c6--
