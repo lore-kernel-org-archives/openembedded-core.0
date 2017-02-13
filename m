@@ -1,32 +1,56 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EDE571CAA
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
+	[209.85.214.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F44A731D3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 16:49:36 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
-	via TCP (outbound) with ESMTPS id 20170213164900523_0684;
-	Mon, 13 Feb 2017 16:49:00 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [216.191.234.70] (port=33691 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1cdJo4-0000Lf-LW; Mon, 13 Feb 2017 11:48:52 -0500
-Date: Mon, 13 Feb 2017 11:48:50 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@uk63952.mitel.com
-To: Christopher Larson <kergoth@gmail.com>
-In-Reply-To: <CABcZAN=Zusmrc4vzmgZoTbLC_GpOetU-r_fZa-Le1upevn18+Q@mail.gmail.com>
-Message-ID: <alpine.LFD.2.20.1702131147380.14688@uk63952.mitel.com>
-References: <alpine.LFD.2.20.1702090654250.29564@uk63952.mitel.com>
-	<37eeaba5-4561-6e3c-60e9-ae090b2e579f@linux.intel.com>
-	<alpine.LFD.2.20.1702130808300.13813@uk63952.mitel.com>
-	<CABcZAN=Zusmrc4vzmgZoTbLC_GpOetU-r_fZa-Le1upevn18+Q@mail.gmail.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: what is the significance of the numeric version part of 'PV = "1.0.1+git${SRCPV}"'?
+	Mon, 13 Feb 2017 17:03:45 +0000 (UTC)
+Received: by mail-it0-f41.google.com with SMTP id 203so194570293ith.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Feb 2017 09:03:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=Bl7PMvliM7Pa+2fO2PLTaTvaasr9zyBQoJrnKPNhqYE=;
+	b=EOMcssuqnALqK3gX3Xe2xfSA9qkbf3ueOTdq7lOKmLzyNNwV5cSFK0H9Po9DAwKjgv
+	MG++qfqufhJHFk21IH4T9ptxL8wBmKuWWCBw0TfS+eUAPiDehjvXX6eacktw1hVuuU8y
+	BBo/A9WB/7KnB1/n+e8lOzMZKUOM4/ICtv08SPOHlUKudyHVoLm74nNpflLC82SYGcmG
+	qOam14iL+Dc6vxwiOdzo4zDXIqcfobuIQaRgI6GH4cZx51whdbyiwrAzSK24Jboq3zxM
+	lKwGMRe1WurdigZyOxv4Qaash8OtxQA9oucWyEoeXYcHJJx+m4tzDud2kzT3dcpVfLse
+	3zEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=Bl7PMvliM7Pa+2fO2PLTaTvaasr9zyBQoJrnKPNhqYE=;
+	b=PnOZEZg0WJbvvRvE9Tv74gY+oUP2DDWFJE7imazdKiI9uOWT37rVE+VwZDXO+EjyNe
+	MtzuQmB3vWkEXf5gfBh1sOBADcuFAXT5vVVmCXee+BG8s7nvndzJWEU9he2Y9wD5fVIs
+	lpHCTYiMAOIISZUR1EZmzO+BIu7Cb71FEyEBYU4ByGPekFKyp12NkIPud5XwLy8hvKiv
+	3S0jKV+TIBa9MjhL03HUEHoVd1PeHLAI297S7fE63LnrMTRKofKJK0hFc71vwuJ/ZJoy
+	lsgK1G0YwoDAZ6V73JN7/OE/yPqe/Fy1eopACisAYptWWKJ/k5YwDx624NEdRhUCTPg8
+	zMwA==
+X-Gm-Message-State: AMke39mpY8B9+3srcPhUeNHjjsIJ2NzKi1ABcDfo1Wzb3G1esx4+8eRss8ZptLwW0XumiGxi
+X-Received: by 10.36.10.3 with SMTP id 3mr22427115itw.93.1487005426326;
+	Mon, 13 Feb 2017 09:03:46 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8DB6A.dip0.t-ipconnect.de. [93.232.219.106])
+	by smtp.gmail.com with ESMTPSA id e11sm25027ita.10.2017.02.13.09.03.44
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 13 Feb 2017 09:03:45 -0800 (PST)
+Message-ID: <1487005422.13854.247.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 13 Feb 2017 18:03:42 +0100
+In-Reply-To: <1486999455.13854.241.camel@intel.com>
+References: <CALbNGRSgxbz1F2YLzQ-F2Fn+01hiA4LAoDgQuQ-qLg9KMVTHAw@mail.gmail.com>
+	<CALbNGRR1+yVyMC1O1G1mCYp8e87Q2kucGEgs-dL0P3KHxi8WCQ@mail.gmail.com>
+	<CA+chaQcHBzDJ4UbW1NCex70T56PL02+agOZBMoK4=Q1WWSm2EA@mail.gmail.com>
+	<1486999455.13854.241.camel@intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Does recipe specific sysrooot (or whatelse in current oe) break native dependencies?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,50 +63,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Feb 2017 16:49:37 -0000
-Content-Type: multipart/mixed; BOUNDARY="587868445-242642476-1487004532=:14688"
+X-List-Received-Date: Mon, 13 Feb 2017 17:03:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---587868445-242642476-1487004532=:14688
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+On Mon, 2017-02-13 at 16:24 +0100, Patrick Ohly wrote:
+> On Mon, 2017-02-13 at 15:36 +0100, Martin Jansa wrote:
+> > Hi Andreas,
+> > 
+> > 
+> > I think it's feature which was already there, but almost never
+> > triggered (even in test-dependencies.sh tests), but with RSS it fails
+> > reliably.
+> > 
+> > 
+> > See:
+> > http://lists.openembedded.org/pipermail/openembedded-core/2016-July/124435.html
+> 
+> That's not quite the same, if I understand it correctly. In that email,
+> Richard was talking about "dependencies of that target are not needed
+> and not installed" and used "quilt-native" and "compiler/toolchain" as
+> example. In other words, if recipe foo DEPENDS on bar for getting foo
+> compiled, that dependency on bar gets ignored when installing "foo" into
+> the recipe specific sysroot because it shouldn't be needed anymore.
+> 
+> But the example here is a recipe foo which has a runtime dependency on
+> bar, so bar must be installed in addition to foo, otherwise foo will not
+> work.
+> 
+> This is where it gets tricky: do native recipes have RDEPENDS? They are
+> not getting packaged, so I suppose not. One could collect all RDEPENDS_*
+> values (regardless of the actual package), but that might be too broad
+> (for example, when "packaging" the native recipe wouldn't even produce
+> that package).
 
-On Mon, 13 Feb 2017, Christopher Larson wrote:
+Apparently RDEPENDS do work, also for native recipes. Based on some
+testing, it seems that all RDEPENDS are considered, even those that
+refer to packages that would normally be empty, i.e. the sysroot
+potentially contains more than strictly needed, but that shouldn't be a
+problem.
 
-> On Mon, Feb 13, 2017 at 6:51 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->  
->         next (and what might be a silly question), based on the above, is it
->       possible to set absurdly misleading PV values in recipe files for the
->       same recipe, such as:
->
->         rday_1.0.bb
->               PV = "2.0"
->
->         rday_2.0.bb
->               PV = "1.0"
->
->       of course the above is wildly confusing, but is it legal? and given
->       what's written above, i'm concluding that the most "recent" recipe
->       selected by default would be "rday_1.0.bb", yes?
->
->
-> It’s legal, and the default lacking any specified preference would
-> be the higher PV, 2.0, which is the rday_2.0.bb recipe. Default
-> version selection when nothing is preferred (and no layer priorities
-> are involved in the selection) goes based on PV, not the filename.
-
-wait, did you mean to say rday_2.0.bb? because that recipe file
-explicitly sets PV = 1.0. or am i misreading something here?
-
-rday
+Andreas, does adding RDEPENDS instead of (or, where needed, in addition
+to) DEPENDS fix you problem?
 
 -- 
+Best Regards, Patrick Ohly
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
---587868445-242642476-1487004532=:14688--
+
+
