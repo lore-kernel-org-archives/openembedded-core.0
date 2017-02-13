@@ -1,46 +1,67 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id EBDDF71D9E
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 14:36:21 +0000 (UTC)
-Received: by mail-wm0-f46.google.com with SMTP id t18so6934436wmt.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 06:36:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=CN5NpbTMNdpQ2dt4KmrSVZ2T4M8CAaIsJVWczfcJV2M=;
-	b=rgE9V8LwMlysB/B/v1lSx5KIXnt63CtEfxwZQOm79PCs87GufU3GNpUkveXHBGfGdw
-	PaI5gqDv63BcnzKhZZNsAeUe4di8RKSV+e5G1g9BbP7DZp8dtPTQ+t3oPRk4SEXwn73S
-	YzTVUCaMfUukZO80SwgSwXbNdBpREK+V4+RbPe91SgbT1XMlzDVujiMagXpCTRLjXjZv
-	trgdbdbNrOpmLz2a99HR9a/jBdUz/gOwkI+lhiR4xvLTECBfVRlCH5ELXq8OPOMXpPEb
-	/ongO9rM/My5ogWYIUVsrF7QK9kIbi5pC/DKMXZ6PU9rZoG/ZBlRSoGX1azNkmVIcHmw
-	AOzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=CN5NpbTMNdpQ2dt4KmrSVZ2T4M8CAaIsJVWczfcJV2M=;
-	b=hK8WW6LQ0zOMAiwEzmIU/gpkNPVRlSpfy7cQ80njPonNZDsPvcSTc9/RyfUl7ghZyc
-	1GJXyE1BOZuQomvfqv7GqCG+KjGGdEJK+kEvcEvk3b0IgyH02hVgJEnEpqxJ3dotH9vk
-	YnA9lKbHTKvPfn/rrGGestaF8rCgcDuqamrO3agUgrfSxQ88s42U/qy+cqaGVzEeusop
-	bJSuZgGNLek94/eZawOFJG4LshxBimSmeEqB8CM4qo+Bxad5fz8bmn2Aha4Q0zPM/xZn
-	dlg4g2GtlKmAmqF4RhnL2LOZEZI5NchlW6GxUaWjtYmntb372PgcUmiOdvZYKOH+A+MM
-	6+TQ==
-X-Gm-Message-State: AMke39nhQ+pBhMa6cFHoH2gvqCo756IAX/VJU21E5XYZ43NzmVyDISEep6LO/4C4gdV3SiliZ+h4tmHRhjtkcw==
-X-Received: by 10.28.211.205 with SMTP id k196mr36546062wmg.124.1486996581667; 
-	Mon, 13 Feb 2017 06:36:21 -0800 (PST)
+Return-Path: <bevenson@melinkcorp.com>
+X-Greylist: delayed 4744 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 13 Feb 2017 14:51:07 UTC
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com
+	(mail-bl2nam02on0104.outbound.protection.outlook.com [104.47.38.104])
+	by mail.openembedded.org (Postfix) with ESMTP id 5331C71D99
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 13 Feb 2017 14:51:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=Melink.onmicrosoft.com; s=selector1-melinkcorp-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=4+WYAmvmBUvqja42yZlniZVUgDngGhuN13h7DygCFrY=;
+	b=fJ6b2bAbx65S+WzZnZ3B8VHc9feiMsNWgRCudsu9F2Qnh2hmDW+2NVHHwN3YcDZ6/PhrxNDcFnp6QzOTgIT1YymnvhPL40IuF/B7Go9OcSz0z7JWXhr96Lp260EOwNKMIJpX9jogX+0BLx2uEUSL+TgjH01z4MRTgqLZ+koCkOo=
+Received: from DM5PR05MB2954.namprd05.prod.outlook.com (10.168.176.142) by
+	DM5PR05MB2954.namprd05.prod.outlook.com (10.168.176.142) with Microsoft
+	SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+	15.1.888.5; Mon, 13 Feb 2017 13:17:29 +0000
+Received: from DM5PR05MB2954.namprd05.prod.outlook.com ([10.168.176.142]) by
+	DM5PR05MB2954.namprd05.prod.outlook.com ([10.168.176.142]) with mapi id
+	15.01.0888.029; Mon, 13 Feb 2017 13:17:29 +0000
+From: Bryan Evenson <bevenson@melinkcorp.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Thread-Topic: [OE-core] libcurl vs. libcurl5 vs. libcurl4
+Thread-Index: AdKDsNjf+iymq+k4QQ6ihwgbAB3KWgAJo2+AAIjrqmA=
+Date: Mon, 13 Feb 2017 13:17:28 +0000
+Message-ID: <DM5PR05MB2954EFB5E808B54EE3EA7AD4BB590@DM5PR05MB2954.namprd05.prod.outlook.com>
+References: <DM5PR05MB295469CD2CBB36C236111A0DBB440@DM5PR05MB2954.namprd05.prod.outlook.com>
+	<20170210195351.GC3021@jama>
+In-Reply-To: <20170210195351.GC3021@jama>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=bevenson@melinkcorp.com; 
+x-originating-ip: [98.100.91.242]
+x-ms-office365-filtering-correlation-id: 31797384-5581-4f48-2580-08d45412a931
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:(22001);SRVR:DM5PR05MB2954;
+x-microsoft-exchange-diagnostics: 1; DM5PR05MB2954;
+	7:p2V/wVaOTMFwyYP9AuCZB/wEZmOtOgmiLYq1fPxg9pRe3WMh2iLPLMEcsFChwcKrvw8pXe3vTWgX9qqDNss1ODljHjJhKpPbFlY/7Vj5bpVYZCAALq4kL6o9bllGBCoLwQALGNGp8cKsn+8bFLgZcui84NrEbQmXYfyUjVd1zIj/FuMSaUufWJCLfhuusxnW9okMBM0sDhryCMqlwS4Ayv6T6lFI+Th1NX5yhTHrtPb8/xxUUMyZhgRwQpusR57UmtITzurUC3oR+DtyJ4JEHuF59s236sYEiq/7INAQqEzN15mmiFZ3jTKdJy6gxzdPfDHMYWOjgJQjYcggzbsAe7xvMqqgMVCkNH2AEnr96omdiLbkxFU5pywjs5r/rl3T1IUgB0KqphYC+Hf3vqE+8TN7oRgcemzfIBVYVwbt9ZQixDdrHfjh3kqaxTlR0x8UD53z0BlE7phxAPrrj13bTKsTgon9C4J9u6hJ8+E5T3OWm1dJ1ee+rP7aDF1Q0R4z6hJ/oMLlyxZKuvX9vuhCFg==
+x-microsoft-antispam-prvs: <DM5PR05MB29544E868945A2CD307227DEBB590@DM5PR05MB2954.namprd05.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(264703809997249);
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(6040375)(601004)(2401047)(8121501046)(5005006)(10201501046)(3002001)(6041248)(20161123558025)(20161123564025)(20161123562025)(20161123560025)(20161123555025)(6072148);
+	SRVR:DM5PR05MB2954; BCL:0; PCL:0; RULEID:; SRVR:DM5PR05MB2954; 
+x-forefront-prvs: 02176E2458
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(6009001)(7916002)(39450400003)(13464003)(51914003)(24454002)(377454003)(189002)(199003)(66066001)(99286003)(6116002)(76176999)(92566002)(33656002)(55016002)(50986999)(3846002)(81156014)(106356001)(105586002)(25786008)(101416001)(9686003)(189998001)(3280700002)(2900100001)(229853002)(3660700001)(74316002)(39060400001)(305945005)(6306002)(6436002)(97736004)(2906002)(7736002)(8676002)(6506006)(102836003)(54356999)(6916009)(68736007)(110136004)(38730400002)(77096006)(81166006)(5660300001)(8936002)(4326007)(53936002)(122556002)(7696004)(86362001)(6246003)(2950100002);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:DM5PR05MB2954;
+	H:DM5PR05MB2954.namprd05.prod.outlook.com; FPR:; SPF:None;
+	PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
+received-spf: None (protection.outlook.com: melinkcorp.com does not designate
+	permitted sender hosts)
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
 MIME-Version: 1.0
-Received: by 10.80.148.174 with HTTP; Mon, 13 Feb 2017 06:36:21 -0800 (PST)
-In-Reply-To: <CALbNGRR1+yVyMC1O1G1mCYp8e87Q2kucGEgs-dL0P3KHxi8WCQ@mail.gmail.com>
-References: <CALbNGRSgxbz1F2YLzQ-F2Fn+01hiA4LAoDgQuQ-qLg9KMVTHAw@mail.gmail.com>
-	<CALbNGRR1+yVyMC1O1G1mCYp8e87Q2kucGEgs-dL0P3KHxi8WCQ@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 13 Feb 2017 15:36:21 +0100
-Message-ID: <CA+chaQcHBzDJ4UbW1NCex70T56PL02+agOZBMoK4=Q1WWSm2EA@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Does recipe specific sysrooot (or whatelse in current oe) break native dependencies?
+X-OriginatorOrg: melinkcorp.com
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Feb 2017 13:17:28.7724 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d06db0f9-efcc-42b5-9f8c-c934a01c9bfd
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR05MB2954
+Cc: "Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: libcurl vs. libcurl5 vs. libcurl4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,155 +74,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Feb 2017 14:36:22 -0000
-Content-Type: multipart/alternative; boundary=001a1146e4d0086f7405486a5f34
-
---001a1146e4d0086f7405486a5f34
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 13 Feb 2017 14:51:08 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Andreas,
+Martin,
 
-I think it's feature which was already there, but almost never triggered
-(even in test-dependencies.sh tests), but with RSS it fails reliably.
+> -----Original Message-----
+> From: Martin Jansa [mailto:martin.jansa@gmail.com]
+> Sent: Friday, February 10, 2017 2:54 PM
+> To: Bryan Evenson <bevenson@melinkcorp.com>
+> Cc: Openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] libcurl vs. libcurl5 vs. libcurl4
+>=20
+> On Fri, Feb 10, 2017 at 03:41:44PM +0000, Bryan Evenson wrote:
+> > I'm on the dizzy branch and I'm working on updating my build tools to u=
+se a
+> more recent branch.  I have an image built using fido and I'm doing some
+> firmware upgrade testing.  I have a package that depends on libcurl and I=
+'m
+> getting some strange version dependencies that I'm trying to sort out.
+> >
+> > In my package recipe I have "RDEPENDS_${PN} =3D <number of unrelated
+> packages> libcurl" to pull in the runtime depenency on curl.  When I buil=
+d my
+> image using the dizzy branch, libcurl gets built as libcurl5-7.37.1, but =
+when I
+> build my image using the fido branch libcurl gets built as libcurl4-7.40.=
+0.  As a
+> result, by checking my package dependencies with "opkg info
+> <my_package_name>" I see that the package dependency has changed
+> from "libcurl5 (>=3D7.37.1)" to "libcurl4 (>=3D7.40.1)".
+> >
+> > Any ideas why the package name dropped from libcurl5 to libcurl4?  Is t=
+his
+> something that has been fixed in a more recent branch?  If I'm reading th=
+e
+> dependencies correctly, opkg should still install libcurl-7.40.0 since my
+> package depends on libcurl4, correct?
+>=20
+> See --enable-soname-bump option in curl.
+>=20
+> This change in oe-core:
+>   commit 49c848018484827c433e1bcf9c63416640456f3e
+>   Author: Khem Raj <raj.khem@gmail.com>
+>   Date:   Tue Apr 28 22:34:22 2015 -0700
+>   Subject:  curl: Fix wrong assumption about sizeof off_t on largefile
+>     systems
+>=20
+>     This issue was reported on poky ml as well see
+>     https://lists.yoctoproject.org/pipermail/poky/2013-
+> December/009435.html
+>=20
+> Causes this difference in curl_config.h between Dizzy and Fido:
+> diff 7.40.0-r0-dizzy/build/lib/curl_config.h
+>      7.40.0-r0-fido/build/lib/curl_config.h
+> 878c877
+> < #define SIZEOF_OFF_T 4
+> ---
+> > #define SIZEOF_OFF_T 8
+> Which in turn causes curl's configure script to stop bumping the SONAME
+> version.
+>=20
+> That's why newer curl 7.40.1 produces libcurl4 while older 7.37.1 produce=
+d
+> libcurl5.
 
-See:
-http://lists.openembedded.org/pipermail/openembedded-core/2016-July/124435.=
-html
+Thanks for the explanation.  I also verified that the package dependencies =
+worked correctly.  My updated package now depends on libcurl4 instead of li=
+bcurl5, so the new package was correctly installed.  In my case I'll avoid =
+doing any specific patch to keep the SONAME version the same if firmware up=
+grade works as expected.
 
-On Mon, Feb 13, 2017 at 2:47 PM, Andreas M=C3=BCller <
-schnitzeltony@googlemail.com> wrote:
+Thanks,
+Bryan
 
-> On Mon, Feb 13, 2017 at 1:26 AM, Andreas M=C3=BCller
-> <schnitzeltony@googlemail.com> wrote:
-> > Hi
-> >
-> > I try to get meta-qt5-extra fit for latest oe-core (RSS). One thing
-> > that causes my attention is that many recipes's configure can be fixed
-> > by adding gettext-native. This seems odd to me because all of these
-> > recipes depend upon kdoctools which depends on gettext-native.
-> > For instance for kconfigwidgets depending on kdoctools:
-> >
-> > * in kdoctool'sworkdir/recipe-sysroot-native/usr/bin there is a gettext
-> binary
-> > * but in kconfigwidgets'sworkdir/recipe-sysroot-native/usr/bin there
-> > isn't a gettext binary
-> >
-> > Is it possible that recipe specific sysroot broke native dependency
-> chain?
-> >
-> > One note which might be important for this issue: In meta-qt5-extra I
-> > chose a the following design decision: If there is a pair of
-> > native/cross recipes
-> > * each cross recipe depends on native recipe
-> > * all other recipes depend on cross recipes
-> >
-> > This reduced maintenance efforts (I don't have to care if a recipe
-> > depends on cross libs or native executables) and avoids race trouble
-> > with cmake's toolchain path sequence 1. cross 2. native
-> >
-> > So what goes wrong here - or where am I mistaken?
-> >
-> Another more common examples:
->
-> * in meta-qt5-extra I could fix many recipes by depending on
-> qtbase-native although they already depended on qtbase (qtbase depends
-> on qtbase-native)
-> * right after recipe specific sysroot a dependency on qtbase-native
-> was added in cmake_qt5.bbclass although it depended on qtbase already
-> and qtbase depends on qtbase-native
->
-> Before we carry on adding dozens of dependencies and blacklisting
-> world: Are missing native dependencies a bug or a feature - or where
-> am I going wrong? What scares me most is that my way of depending
-> always on cross recipes in meta-qt5-extra will not work anymore
-> (mentioned in my previous mail) and turn into a unmaintainable burden.
->
-> Andreas
+>=20
 > --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---001a1146e4d0086f7405486a5f34
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi Andreas,<div><br></div><div>I think it&#39;s feature wh=
-ich was already there, but almost never triggered (even in test-dependencie=
-s.sh tests), but with RSS it fails reliably.</div><div><br></div><div>See:<=
-/div><div><a href=3D"http://lists.openembedded.org/pipermail/openembedded-c=
-ore/2016-July/124435.html">http://lists.openembedded.org/pipermail/openembe=
-dded-core/2016-July/124435.html</a><br></div></div><div class=3D"gmail_extr=
-a"><br><div class=3D"gmail_quote">On Mon, Feb 13, 2017 at 2:47 PM, Andreas =
-M=C3=BCller <span dir=3D"ltr">&lt;<a href=3D"mailto:schnitzeltony@googlemai=
-l.com" target=3D"_blank">schnitzeltony@googlemail.com</a>&gt;</span> wrote:=
-<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
-t:1px #ccc solid;padding-left:1ex"><span class=3D"">On Mon, Feb 13, 2017 at=
- 1:26 AM, Andreas M=C3=BCller<br>
-&lt;<a href=3D"mailto:schnitzeltony@googlemail.com">schnitzeltony@googlemai=
-l.com</a>&gt; wrote:<br>
-&gt; Hi<br>
-&gt;<br>
-&gt; I try to get meta-qt5-extra fit for latest oe-core (RSS). One thing<br=
->
-&gt; that causes my attention is that many recipes&#39;s configure can be f=
-ixed<br>
-&gt; by adding gettext-native. This seems odd to me because all of these<br=
->
-&gt; recipes depend upon kdoctools which depends on gettext-native.<br>
-&gt; For instance for kconfigwidgets depending on kdoctools:<br>
-&gt;<br>
-&gt; * in kdoctool&#39;sworkdir/recipe-<wbr>sysroot-native/usr/bin there is=
- a gettext binary<br>
-&gt; * but in kconfigwidgets&#39;sworkdir/<wbr>recipe-sysroot-native/usr/bi=
-n there<br>
-&gt; isn&#39;t a gettext binary<br>
-&gt;<br>
-&gt; Is it possible that recipe specific sysroot broke native dependency ch=
-ain?<br>
-&gt;<br>
-&gt; One note which might be important for this issue: In meta-qt5-extra I<=
-br>
-&gt; chose a the following design decision: If there is a pair of<br>
-&gt; native/cross recipes<br>
-&gt; * each cross recipe depends on native recipe<br>
-&gt; * all other recipes depend on cross recipes<br>
-&gt;<br>
-&gt; This reduced maintenance efforts (I don&#39;t have to care if a recipe=
-<br>
-&gt; depends on cross libs or native executables) and avoids race trouble<b=
-r>
-&gt; with cmake&#39;s toolchain path sequence 1. cross 2. native<br>
-&gt;<br>
-&gt; So what goes wrong here - or where am I mistaken?<br>
-&gt;<br>
-</span>Another more common examples:<br>
-<br>
-* in meta-qt5-extra I could fix many recipes by depending on<br>
-qtbase-native although they already depended on qtbase (qtbase depends<br>
-on qtbase-native)<br>
-* right after recipe specific sysroot a dependency on qtbase-native<br>
-was added in cmake_qt5.bbclass although it depended on qtbase already<br>
-and qtbase depends on qtbase-native<br>
-<br>
-Before we carry on adding dozens of dependencies and blacklisting<br>
-world: Are missing native dependencies a bug or a feature - or where<br>
-am I going wrong? What scares me most is that my way of depending<br>
-always on cross recipes in meta-qt5-extra will not work anymore<br>
-(mentioned in my previous mail) and turn into a unmaintainable burden.<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
-Andreas<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</div></div></blockquote></div><br></div>
-
---001a1146e4d0086f7405486a5f34--
