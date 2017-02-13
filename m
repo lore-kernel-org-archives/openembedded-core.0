@@ -1,52 +1,31 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-vk0-f54.google.com (mail-vk0-f54.google.com
-	[209.85.213.54])
-	by mail.openembedded.org (Postfix) with ESMTP id A59E760291
+Return-Path: <mac@mcrowe.com>
+Received: from avasout05.plus.net (avasout05.plus.net [84.93.230.250])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A1A860291
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 18:17:14 +0000 (UTC)
-Received: by mail-vk0-f54.google.com with SMTP id t8so65907688vke.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 10:17:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=eUXS+TFh+zpz7TtA6pCcOUm8bR43vF0zn1apwsRbnNQ=;
-	b=DBJqTD9n2Kv4bdak3X7MWwlnCnYeu5h/RJTqKWmj1FmMPaSKRSg+pc1oFlO5FSf6F1
-	rusizxoiSFb82tlWtp0ouMQnCENjZlegys/PSepHnKwzpyUF9zCrtTj0qwdh7MAlptak
-	k1gRn5gP9WVSoAtHJonONqgxMl5+K0gpQ5/OPQt295WsYHWUvA2zeJiWk+CQm4Y1G/4G
-	WJWKAsSmdjpWSOeGWC7jB06ADH4tgWtaz/ymOywiVmewXaJyseHOnGSWTLS2LNwhXYfY
-	lsmz++TrCtzw65GbuuLi7W8kQEtI9DF9ZupZ/ijUTmgTpGiZ3qKx82gd2qhjnT/T1Ohq
-	9vbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=eUXS+TFh+zpz7TtA6pCcOUm8bR43vF0zn1apwsRbnNQ=;
-	b=rTWy3eUPzQVeq2Dklkku59sVqdEmnjDGV7haGKaj3YwyED6D2l2dWXr0UtfBaut1yM
-	XsWyMtUnN5OvWFqPgG/Skd0G7o4RHIy4u+9WynAZth+Cw4EpWY7hknhwWzJtuoLh3Jgk
-	xqPjsjnxZ9PIyLwICrOR+xS4bi0v1VNmhwRZJTXKraGtgr9hPrnm0J9RXepAPQ5C5p02
-	kxe9uaKH4RZBDQx1/DNljG01bm3yD53JBlfv3+E4eVxifCarpvrqW8KOJ1RUpJIyZ6vy
-	LLCU6Mdkrdej/Zmw2h89y4eO5bps01iky0dcPVVSrtTY1NuIbh4cxNkQon8dBj65SIOM
-	zr8Q==
-X-Gm-Message-State: AMke39lftDzzLRhy4qCqFKxA3TJnssHP7rKLYLjnTLl3KESS4/M1KzqAFTAml8Gs4UHgjfEceGmJpCYWwKSPVw==
-X-Received: by 10.31.8.147 with SMTP id 141mr12097822vki.111.1487009834542;
-	Mon, 13 Feb 2017 10:17:14 -0800 (PST)
+	Mon, 13 Feb 2017 18:21:45 +0000 (UTC)
+Received: from deneb ([80.229.24.9]) by avasout05 with smtp
+	id kJMj1u0040BmcFC01JMkw2; Mon, 13 Feb 2017 18:21:44 +0000
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.2 cv=Hr8GIwbS c=1 sm=1 tr=0
+	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+	a=IkcTkHD0fZMA:10 a=n2v9WMKugxEA:10 a=-An2I_7KAAAA:8 a=mDV3o1hIAAAA:8
+	a=u5TeresQ_fhQvVkEcVAA:9 a=QEXdDO2ut3YA:10 a=Sq34B_EcNBM9_nrAYB9S:22
+	a=_FVE-zBwftR9WsbkzFJk:22
+Received: from mac by deneb with local (Exim 4.84_2)
+	(envelope-from <mac@mcrowe.com>)
+	id 1cdLFv-0006DA-AL; Mon, 13 Feb 2017 18:21:43 +0000
+Date: Mon, 13 Feb 2017 18:21:43 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20170213182143.GA23802@mcrowe.com>
+References: <20170213124142.17081-1-mac@mcrowe.com>
+	<CAMKF1sqa-TunzUMu_ZsHftcj=XdZpk9q_bctT=Y2wYmTRfDKOw@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.176.91.68 with HTTP; Mon, 13 Feb 2017 10:17:14 -0800 (PST)
-In-Reply-To: <1487009117.27753.14.camel@linuxfoundation.org>
-References: <CALbNGRSgxbz1F2YLzQ-F2Fn+01hiA4LAoDgQuQ-qLg9KMVTHAw@mail.gmail.com>
-	<CALbNGRR1+yVyMC1O1G1mCYp8e87Q2kucGEgs-dL0P3KHxi8WCQ@mail.gmail.com>
-	<CA+chaQcHBzDJ4UbW1NCex70T56PL02+agOZBMoK4=Q1WWSm2EA@mail.gmail.com>
-	<1486999455.13854.241.camel@intel.com>
-	<CALbNGRQns-G9XOtS8wGetnAAYVv7Z+F+2h3rLQ2XxgSiSBwHWQ@mail.gmail.com>
-	<1487009117.27753.14.camel@linuxfoundation.org>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Date: Mon, 13 Feb 2017 19:17:14 +0100
-Message-ID: <CALbNGRSg9p-MPjjmR4g5VDgfRTWONyuF5_s+t2G=o2wLxsVgXQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <CAMKF1sqa-TunzUMu_ZsHftcj=XdZpk9q_bctT=Y2wYmTRfDKOw@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Does recipe specific sysrooot (or whatelse in current oe) break native dependencies?
+Subject: Re: [PATCH] image: Attempt to work around do_image_complete race
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,17 +38,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Feb 2017 18:17:14 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 13 Feb 2017 18:21:46 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 13, 2017 at 7:05 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> To be clear, you can't depend on the build dependencies of some other
-> recipe to be available to your recipe just because you DEPEND on it.
->
-Yes I expected that my fault. Together with my hack on sysroot
-alignments I think this is the end of kf5-kde in meta-qt5-extra.
+On Monday 13 February 2017 at 09:38:04 -0800, Khem Raj wrote:
+> On Mon, Feb 13, 2017 at 4:41 AM, Mike Crowe <mac@mcrowe.com> wrote:
+> > If two do_image_complete tasks run in parallel they risk both trying to put
+> > their image into ${DEPLOY_DIR_IMAGE} at the same time. Both will contain a
+> > README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt file. In theory this
+> > should be safe because "cp -alf" will just cause one to overwrite the
+> > other. Unfortunately, coreutils cp also has a race which means that if one
+> > copy creates the file at just the wrong point the other will fail with:
+> >
+> >  cp: cannot create hard link ‘..../tmp-glibc/deploy/images/pantera/README_-_DO_NOT_DELETE_FILES_IN_THIS_D.txt’ to ‘..../tmp-glibc/work/rage_against-oe-linux-gnueabi/my-own-image/1.0-r0/deploy-my-own-image-complete/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt’: File exists
+> >
+> > The coreutils bug has been reported and fixed upstream as
+> > https://debbugs.gnu.org/cgi/bugreport.cgi?bug=25680 , but it will take
+> > a while for host distributions to catch up.
+> >
+> > In the meantime, let's try and avoid the race altogether by causing
+> > sstate.bbclass:sstate_install to take a lock file in
+> > ${DEPLOY_DIR_IMAGE} whilst writing. This lock is probably a bit broad,
+> > but it's better than the build failing.
+> >
+> 
+> will this lock serialize writing other files too ? then this will slow
+> down parallel builds. Perhaps, writing common files can be spun into a
+> task of its own which is then common 1 task across all images building
+> in parallel.
 
-Andreas
+That sounds like a great idea.
+
+Or, we could just lose the common README file altogether. :)
+
+Mike.
 
