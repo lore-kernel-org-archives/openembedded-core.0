@@ -1,48 +1,35 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ot0-f194.google.com (mail-ot0-f194.google.com
-	[74.125.82.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 334D37722B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A46074197
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 18:00:25 +0000 (UTC)
-Received: by mail-ot0-f194.google.com with SMTP id f9so12722355otd.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 10:00:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=m0RvyGWPHvwJM/Ftlkj5ML6jvxrIddvuUuUaoF2cEvQ=;
-	b=VESRWIvsszSsN6wkhP6hnqoAEheS0CpCNkynvUZ9ZsP+Z0I2sTN/wl7DfuSGKv3tdp
-	UcytoIZCjIAZPPTua+GisD/003wc8WHHfoodrQsDToXgU9Xe7ffijnfVIMpFstZQ1BcR
-	ZcuxM+ytJBuc2sSBym/w2qs3KQSwuS+zx8C3ArjA8J1g/lMecGDlJAM35hivYwkgyJDj
-	lQQPvuy66UWc++QIy+JS76Wpu3H3CbcLjKvGYxpquJ4jA17JWzpreWiz6A9iCrd2cCmn
-	BkF2+AjtgImRszqMb+r1cwk2woS5uh/ZXx6EQe1gT3J8ZszUjB8SSEgfEyUGWWY05gUN
-	Miaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=m0RvyGWPHvwJM/Ftlkj5ML6jvxrIddvuUuUaoF2cEvQ=;
-	b=FnLMK/Dx0MxhNYrS2FJB44Rvy4Kzh0JyzHS3efI3wMVT8gm7RbEx4yN1btDlZ7tDdR
-	9qN26/UHGH5QAGSnqgMwEvpzHNTtjf2/QaRudxzm+HaxNp5YZMzH6o4yoLi3FN4XzLvC
-	Q6z98Nznkjt2AHOtXSRe4ecBqqJWGPDi4lTU+hcAaWx/pPR9g91dHqQ9bvoyP7AK0ZQc
-	BktCqV3RkzF8KMjIUiZ2LxZh37WECtj7gLPSRZZfXrqGa3kgA22QCadgukY+fApLBQVo
-	vARogp1CddbcCqIvGy06fjLYyv3cQulE8KowxFsT653b2WulQCyfoNNRZphDplpKJ+o/
-	FdCA==
-X-Gm-Message-State: AMke39nug5nykzth9srQdUD9Yd5TlAssDs3yKD/qFL+mLDF+2jN3i/BdnOb2dISDnHhj0w==
-X-Received: by 10.98.66.82 with SMTP id p79mr27372345pfa.10.1487008825912;
-	Mon, 13 Feb 2017 10:00:25 -0800 (PST)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	s21sm15995127pgg.65.2017.02.13.10.00.24
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 13 Feb 2017 10:00:25 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Feb 2017 10:00:12 -0800
-Message-Id: <20170213180012.14077-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.11.1
-In-Reply-To: <20170213180012.14077-1-raj.khem@gmail.com>
-References: <20170213180012.14077-1-raj.khem@gmail.com>
-Subject: [PATCH 3/3] gmp: Update to 6.1.2
+	Mon, 13 Feb 2017 18:05:34 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v1DI5Urr007678; Mon, 13 Feb 2017 18:05:30 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id DYntSeDz1aQE; Mon, 13 Feb 2017 18:05:30 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v1DI5Iip007612
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 13 Feb 2017 18:05:24 GMT
+Message-ID: <1487009117.27753.14.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>,
+	Patrick Ohly <patrick.ohly@intel.com>
+Date: Mon, 13 Feb 2017 10:05:17 -0800
+In-Reply-To: <CALbNGRQns-G9XOtS8wGetnAAYVv7Z+F+2h3rLQ2XxgSiSBwHWQ@mail.gmail.com>
+References: <CALbNGRSgxbz1F2YLzQ-F2Fn+01hiA4LAoDgQuQ-qLg9KMVTHAw@mail.gmail.com>
+	<CALbNGRR1+yVyMC1O1G1mCYp8e87Q2kucGEgs-dL0P3KHxi8WCQ@mail.gmail.com>
+	<CA+chaQcHBzDJ4UbW1NCex70T56PL02+agOZBMoK4=Q1WWSm2EA@mail.gmail.com>
+	<1486999455.13854.241.camel@intel.com>
+	<CALbNGRQns-G9XOtS8wGetnAAYVv7Z+F+2h3rLQ2XxgSiSBwHWQ@mail.gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Does recipe specific sysrooot (or whatelse in current oe) break native dependencies?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,58 +42,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Feb 2017 18:00:26 -0000
+X-List-Received-Date: Mon, 13 Feb 2017 18:05:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../0001-Append-the-user-provided-flags-to-the-auto-detected-.patch  | 0
- .../0001-confiure.ac-Believe-the-cflags-from-environment.patch       | 0
- meta/recipes-support/gmp/{gmp-6.1.1 => gmp-6.1.2}/amd64.patch        | 0
- .../gmp/{gmp-6.1.1 => gmp-6.1.2}/use-includedir.patch                | 0
- meta/recipes-support/gmp/{gmp_6.1.1.bb => gmp_6.1.2.bb}              | 5 ++---
- 5 files changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-support/gmp/{gmp-6.1.1 => gmp-6.1.2}/0001-Append-the-user-provided-flags-to-the-auto-detected-.patch (100%)
- rename meta/recipes-support/gmp/{gmp-6.1.1 => gmp-6.1.2}/0001-confiure.ac-Believe-the-cflags-from-environment.patch (100%)
- rename meta/recipes-support/gmp/{gmp-6.1.1 => gmp-6.1.2}/amd64.patch (100%)
- rename meta/recipes-support/gmp/{gmp-6.1.1 => gmp-6.1.2}/use-includedir.patch (100%)
- rename meta/recipes-support/gmp/{gmp_6.1.1.bb => gmp_6.1.2.bb} (88%)
+On Mon, 2017-02-13 at 16:45 +0100, Andreas Müller wrote:
+> On Mon, Feb 13, 2017 at 4:24 PM, Patrick Ohly <patrick.ohly@intel.com
+> > wrote:
+> > On Mon, 2017-02-13 at 15:36 +0100, Martin Jansa wrote:
+> > > I think it's feature which was already there, but almost never
+> > > triggered (even in test-dependencies.sh tests), but with RSS it
+> > > fails
+> > > reliably.
+> > > 
+> > > See:
+> > > http://lists.openembedded.org/pipermail/openembedded-core/2016-Ju
+> > > ly/124435.html
+> Richard wrote
+> > 
+> > What it does mean is that any recipe needing a -native recipe to
+> > build
+> > should list it in DEPENDS directly, not rely on other dependencies
+> > to
+> > pull it in for them. This applies to pkgconfig-native, intltool-
+> > native
+> > and also to wayland-native.
+> This answers my question and leaves me unhappy - I am out for a
+> while..
 
-diff --git a/meta/recipes-support/gmp/gmp-6.1.1/0001-Append-the-user-provided-flags-to-the-auto-detected-.patch b/meta/recipes-support/gmp/gmp-6.1.2/0001-Append-the-user-provided-flags-to-the-auto-detected-.patch
-similarity index 100%
-rename from meta/recipes-support/gmp/gmp-6.1.1/0001-Append-the-user-provided-flags-to-the-auto-detected-.patch
-rename to meta/recipes-support/gmp/gmp-6.1.2/0001-Append-the-user-provided-flags-to-the-auto-detected-.patch
-diff --git a/meta/recipes-support/gmp/gmp-6.1.1/0001-confiure.ac-Believe-the-cflags-from-environment.patch b/meta/recipes-support/gmp/gmp-6.1.2/0001-confiure.ac-Believe-the-cflags-from-environment.patch
-similarity index 100%
-rename from meta/recipes-support/gmp/gmp-6.1.1/0001-confiure.ac-Believe-the-cflags-from-environment.patch
-rename to meta/recipes-support/gmp/gmp-6.1.2/0001-confiure.ac-Believe-the-cflags-from-environment.patch
-diff --git a/meta/recipes-support/gmp/gmp-6.1.1/amd64.patch b/meta/recipes-support/gmp/gmp-6.1.2/amd64.patch
-similarity index 100%
-rename from meta/recipes-support/gmp/gmp-6.1.1/amd64.patch
-rename to meta/recipes-support/gmp/gmp-6.1.2/amd64.patch
-diff --git a/meta/recipes-support/gmp/gmp-6.1.1/use-includedir.patch b/meta/recipes-support/gmp/gmp-6.1.2/use-includedir.patch
-similarity index 100%
-rename from meta/recipes-support/gmp/gmp-6.1.1/use-includedir.patch
-rename to meta/recipes-support/gmp/gmp-6.1.2/use-includedir.patch
-diff --git a/meta/recipes-support/gmp/gmp_6.1.1.bb b/meta/recipes-support/gmp/gmp_6.1.2.bb
-similarity index 88%
-rename from meta/recipes-support/gmp/gmp_6.1.1.bb
-rename to meta/recipes-support/gmp/gmp_6.1.2.bb
-index 614d21ab7d..5e65075585 100644
---- a/meta/recipes-support/gmp/gmp_6.1.1.bb
-+++ b/meta/recipes-support/gmp/gmp_6.1.2.bb
-@@ -14,9 +14,8 @@ SRC_URI = "https://gmplib.org/download/${BPN}/${BP}${REVISION}.tar.bz2 \
-            file://0001-Append-the-user-provided-flags-to-the-auto-detected-.patch \
-            file://0001-confiure.ac-Believe-the-cflags-from-environment.patch \
-            "
--
--SRC_URI[md5sum] = "4c175f86e11eb32d8bf9872ca3a8e11d"
--SRC_URI[sha256sum] = "a8109865f2893f1373b0a8ed5ff7429de8db696fc451b1036bd7bdf95bbeffd6"
-+SRC_URI[md5sum] = "8ddbb26dc3bd4e2302984debba1406a5"
-+SRC_URI[sha256sum] = "5275bb04f4863a13516b2f39392ac5e272f5e1bb8057b18aec1c9b79d73d8fb2"
- 
- acpaths = ""
- 
--- 
-2.11.1
+To be clear, you can't depend on the build dependencies of some other
+recipe to be available to your recipe just because you DEPEND on it.
 
+The RDEPENDS issue that Patrick mentions is a different one, its a
+valid recipe markup problem we have processing RDEPENDS information in
+the native case.
+
+The kind of indirection that Andreas sounds like he's been relying on
+may have happened to work most of the time but I'd bet there were ways
+that a semi populated sstate cache could break it.
+
+With RSS, we encoded the sstate behaviour in a deterministic way so the
+races that might have happened now do happen all the time.
+
+The simple solution for repetitive dependencies and shortcuts is just
+to create a class, list all the things you need in there and then
+inherit the class in the recipes as appropriate. I'd hope that isn't
+too hard to sort out...
+
+Cheers,
+
+Richard
 
