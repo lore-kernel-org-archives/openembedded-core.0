@@ -1,49 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
-	[209.85.220.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 35C0A731CA
+Received: from mail-qt0-f169.google.com (mail-qt0-f169.google.com
+	[209.85.216.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 5212B731DA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 16:04:11 +0000 (UTC)
-Received: by mail-qk0-f177.google.com with SMTP id p22so5560035qka.0
+	Mon, 13 Feb 2017 16:07:10 +0000 (UTC)
+Received: by mail-qt0-f169.google.com with SMTP id w20so86892375qtb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 08:04:12 -0800 (PST)
+	Mon, 13 Feb 2017 08:07:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=7P0ncI77o3c9dvkCV7yVedqUFDNctLzjsxfOU1JMAVY=;
-	b=gVYJ5bsMwUd9kbZ89QGqBSE/+vaeTgLR53EULqbS+CbYBrVEMLtAe0dVkDYeaq8mLt
-	bcZuDFMCV/ACGRJ5Rt9Uaydq8JyuQtBYL94IFSwEyM6tDughcToy7yASB2biW1viWnPk
-	cFhMuDffLSTfIDUujmsYY4XYAI0e8WJWJh7RIhgmnSwWNwcG4iRX6CZtgo0nk7d6a47G
-	dLgF+VAtLfqb7kC6m8qanO6Wvznp2rzSyvGmcVK3fj2ieXwgAcj006q/iT/rdv4YcmY5
-	00VQsu12SHhnrwzMv/KGVFmCK6j7wt5FiW010QowKpJ3xiU3pRXMSl7JdFNxHxsHxeyg
-	RLhA==
+	:cc; bh=SvhCVdN2qDhPpbEx7GiL7Nakb8NaPVIsb9iI3uFt/bc=;
+	b=v2RUfVKK/dnV9aqxZSA5K4uJom6VMmmtNFyypcpddTh7yjfcMfWkT/N8WCCt/Tywf9
+	FjsPi+FZD5IY7IpJeTPeMwrg+wtni5lGyW6j23ZLs9U4g6x2NnZxcg520PFDzRJsQAJa
+	FWhNcZ08WJT/chaEuLkDmzW4MsBm+6TN3pNrhVWER7mLib84oNvwGCDgAURMYWo7pOyo
+	woQDJui6C7gR0rbW9y7yaSysrlm3lxtevFWWr29NDTH/o/zsAcVFPsQSMwytSlLhgAL6
+	E1jEI4Yjz2QhH6lcLxOvPQqS4vddSwFJS/HKXaPU8eLOmulimAzVNF+zJvVGxQidoYJW
+	tR/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=7P0ncI77o3c9dvkCV7yVedqUFDNctLzjsxfOU1JMAVY=;
-	b=H9SxVsjY+P8B9NiFn4ZYyAEB1owGT0tTWzMbimgyn/uvPamk/Y6DVO+xWUkCu5+WXK
-	PBHAHB2lfb1PVbBPgr+bLcW9yQ0wtTWhJSJ2ErCuVIr9tl9WIxn/u7cp6botQzHEbXeF
-	yFLie/btGy0FNzhLG7jeKCUobMMfzM9mpz5mjTU2xLo/GV853+EBM5zFakDZsLQCIHJG
-	Ol+4FsoXK+QwyV8PLKKHoxT4chBIMJns5W3UETyIbFYrIvZmhSGkeDIlr89cnfyqs8PY
-	AwlMZa/1K2+9uyCi3MYhlpmMtTGyri7AOOWCkyw+han0nAXw8HsEcEo2ndJt35jlljfK
-	l2vA==
-X-Gm-Message-State: AMke39nfoE9Y24KhXHcUNvLSWwHCryLx5Xz4AtSfwFVrkoETkfyYokgznf/+QFR6Th4kjL2D7xxRTGsXFGhGqchR
-X-Received: by 10.55.183.133 with SMTP id h127mr24034968qkf.121.1487001852111; 
-	Mon, 13 Feb 2017 08:04:12 -0800 (PST)
+	bh=SvhCVdN2qDhPpbEx7GiL7Nakb8NaPVIsb9iI3uFt/bc=;
+	b=RUxYaM9AMxuhsX8RLIOWvB5NC4MAW3iFBmAayqwHvbzd/xxp9Q2ZRBlYF/5iNEv17j
+	2gGCpPeRVch1HuKEQ9qWiUqhUB85tFxooR5zCzd+NSsLeamMXKMwuHxR6tXudzdOgCrY
+	JKuwQZsDXjxrGsVI0nEjuK2jlMeelWtFqxluMvKdB5B4DoiCNQc/+c8OnZJP5vJXKtmQ
+	Uyrz1IkIZS2LXKE0yqaGypj+Mn/3VuQEjn8C6U5NqL2NNLtkkEvarhp3EB6BdQ3bx3Do
+	z1T+hNeRHZxWcDvmBUEpEdFGyNSk68PYrA1JF7KIWADFMqxBtMRUSwzfYEjUOVtKZsLX
+	SCvg==
+X-Gm-Message-State: AMke39lKrVFoPxDuXhEc43G6akBxD23v+VWEQVUcH/3n3DVlxGL+fEOq7f/78Qk33c7uGKKiwNP9Gv9fHDyz4+N7
+X-Received: by 10.237.62.232 with SMTP id o37mr20741839qtf.188.1487002030977; 
+	Mon, 13 Feb 2017 08:07:10 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Mon, 13 Feb 2017 08:03:51 -0800 (PST)
-In-Reply-To: <c5c82e1e-9290-1273-825d-9620e180c9b3@linux.intel.com>
-References: <cover.1486997986.git.alexander.kanavin@linux.intel.com>
-	<cb62217431175ee1029d3d223e9940886aa0e637.1486997986.git.alexander.kanavin@linux.intel.com>
-	<CAJTo0LYjW=pgmayQ-kb+Caae7OJggiPf2hQHn3gnboSFZscdpg@mail.gmail.com>
-	<c5c82e1e-9290-1273-825d-9620e180c9b3@linux.intel.com>
+Received: by 10.140.103.233 with HTTP; Mon, 13 Feb 2017 08:06:50 -0800 (PST)
+In-Reply-To: <4c74e0c7-0e2c-0d3d-c252-3de7c4b146b4@windriver.com>
+References: <cover.1486622006.git.hongxu.jia@windriver.com>
+	<f3c4e388c57e638701c92b4a152817d77b6bc469.1486622007.git.hongxu.jia@windriver.com>
+	<CAJTo0LbJHaDUaF3AWzSYyOFCcCH0yYutEctaQ_p7xt+cKyktHw@mail.gmail.com>
+	<4c74e0c7-0e2c-0d3d-c252-3de7c4b146b4@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 13 Feb 2017 16:03:51 +0000
-Message-ID: <CAJTo0LZOWWy=cNmp8bHZV2egjUTZADVgRxgv5kGOos__0Yx-AQ@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date: Mon, 13 Feb 2017 16:06:50 +0000
+Message-ID: <CAJTo0LZVrm4WLPFtexDNcKqHZaHhAtCRS6_+yAfGvRSaQwjHKw@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 30/36] selftest: do not perform a full build in test_continue
+Subject: Re: [PATCH V2 11/13] bash: update patches for 4.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,38 +56,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Feb 2017 16:04:12 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0600562d101305486b99e3
+X-List-Received-Date: Mon, 13 Feb 2017 16:07:12 -0000
+Content-Type: multipart/alternative; boundary=001a11406f0ed64ba405486ba35b
 
---94eb2c0600562d101305486b99e3
+--001a11406f0ed64ba405486ba35b
 Content-Type: text/plain; charset=UTF-8
 
-On 13 February 2017 at 16:02, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
+On 13 February 2017 at 01:35, Hongxu Jia <hongxu.jia@windriver.com> wrote:
 
-> The test is forcing its own private DL_DIR, so I really don't see why we
-> should be concerned about avoiding doing cleanall:
+> Could you accept the upgrade patches except ncurses and bash?
+> If yes, I will only resend ncurses and bash.
 >
 
-So it is!  Still, overcomplicating things.  No need to have a custom DL_DIR
-and clean it when you don't need to bother.
+That's fine, the rest of the series is staged already.
 
 Ross
 
---94eb2c0600562d101305486b99e3
+--001a11406f0ed64ba405486ba35b
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 13 February 2017 at 16:02, Alexander Kanavin <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander=
-.kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
-:1ex"><div id=3D":2ze" class=3D"a3s aXjCH m15a3835bb82bfe66">The test is fo=
-rcing its own private DL_DIR, so I really don&#39;t see why we should be co=
-ncerned about avoiding doing cleanall:<br></div></blockquote></div><br>So i=
-t is!=C2=A0 Still, overcomplicating things.=C2=A0 No need to have a custom =
-DL_DIR and clean it when you don&#39;t need to bother.</div><div class=3D"g=
-mail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On 13 February 2017 at 01:35, Hongxu Jia <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:hongxu.jia@windriver.com" target=3D"_blank">hongxu.jia@windriver.com<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div bgcolor=3D"#FF=
+FFFF" text=3D"#000000">Could you accept the upgrade patches except ncurses =
+and bash?<br>
+    If yes, I will only resend ncurses and bash.<br></div></blockquote></di=
+v><br>That&#39;s fine, the rest of the series is staged already.</div><div =
+class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---94eb2c0600562d101305486b99e3--
+--001a11406f0ed64ba405486ba35b--
