@@ -1,23 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 10564731D8
+	by mail.openembedded.org (Postfix) with ESMTP id F20ED71DDE
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 13 Feb 2017 15:05:59 +0000 (UTC)
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga105.jf.intel.com with ESMTP; 13 Feb 2017 07:05:59 -0800
+	by orsmga105.jf.intel.com with ESMTP; 13 Feb 2017 07:06:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,156,1484035200"; d="scan'208";a="64546704"
+X-IronPort-AV: E=Sophos;i="5.35,156,1484035200"; d="scan'208";a="64546713"
 Received: from kanavin-desktop.fi.intel.com (HELO
 	kanavin-desktop.fi.intel.comfi.intel.com) ([10.237.68.161])
-	by fmsmga005.fm.intel.com with ESMTP; 13 Feb 2017 07:05:59 -0800
+	by fmsmga005.fm.intel.com with ESMTP; 13 Feb 2017 07:06:00 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Feb 2017 17:05:51 +0200
-Message-Id: <ecb48c87aa2da229675825336f62cd21fe97b811.1486997986.git.alexander.kanavin@linux.intel.com>
+Date: Mon, 13 Feb 2017 17:05:52 +0200
+Message-Id: <e1b1c67d691fd317bf6c11d570ef5d261029f38b.1486997986.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1486997986.git.alexander.kanavin@linux.intel.com>
 References: <cover.1486997986.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 21/36] nativesdk-packagegroup-sdk-host: replace smartpm with dnf
+Subject: [PATCH 22/36] package.bbclass: add support for pkg_postinst_ontarget()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,174 +30,288 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Feb 2017 15:05:59 -0000
+X-List-Received-Date: Mon, 13 Feb 2017 15:06:00 -0000
+
+All commands that cannot be executed during cross-install and can only be run on target
+should go into this function. They will only be executed on first boot (if package was
+cross-installed) or immediately during package installation on target.
+
+The previous approach was to check if we are cross-installing before executing these commands,
+and if so, exit the script with an error. This was not optimal for two reasons:
+
+1) Code is hard to read; it is not obvious that 'exit 1' means 'defer what follows to first boot'.
+2) Worse, this hides actual errors in the scriptlets; there is no difference between scriptlet
+failing because it's intended to be run on target and scriptlet failing because there's a bug or
+a regression somewhere.
+
+Plain pkg_postinst() works as before: it is run during cross-install, if it fails, it's deferred to first boot
+(but from now on, the deferral produces a deprecation warning).
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb     | 2 +-
- meta/recipes-devtools/dnf/dnf_git.bb                                   | 1 -
- meta/recipes-devtools/libcomps/libcomps_git.bb                         | 2 +-
- meta/recipes-devtools/libdnf/libdnf_git.bb                             | 2 +-
- meta/recipes-devtools/librepo/librepo_git.bb                           | 2 +-
- .../python-backports-lzma/python-backports-lzma_git.bb                 | 2 +-
- meta/recipes-devtools/python/python-iniparse_0.4.bb                    | 2 +-
- meta/recipes-devtools/python/python-pygpgme_0.3.bb                     | 2 +-
- meta/recipes-devtools/rpm/rpm_git.bb                                   | 2 +-
- meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb                             | 2 +-
- meta/recipes-support/gpgme/gpgme_1.6.0.bb                              | 2 +-
- meta/recipes-support/libassuan/libassuan_2.4.3.bb                      | 2 +-
- meta/recipes-support/libcheck/libcheck_0.10.0.bb                       | 3 ++-
- 13 files changed, 13 insertions(+), 13 deletions(-)
+ .../recipes-test/postinst/postinst_1.0.bb          | 99 ++++++++--------------
+ meta/classes/package.bbclass                       | 20 +++++
+ meta/lib/oe/rootfs.py                              | 39 +++++----
+ scripts/postinst-intercepts/delay_to_first_boot    |  2 +
+ 4 files changed, 82 insertions(+), 78 deletions(-)
+ create mode 100644 scripts/postinst-intercepts/delay_to_first_boot
 
-diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-index 2c2abed33cd..3283e7370e8 100644
---- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-+++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-@@ -22,7 +22,7 @@ RDEPENDS_${PN} = "\
-     nativesdk-automake \
-     nativesdk-shadow \
-     nativesdk-makedevs \
--    nativesdk-smartpm \
-+    nativesdk-dnf \
-     nativesdk-postinst-intercept \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'nativesdk-wayland', '', d)} \
-     "
-diff --git a/meta/recipes-devtools/dnf/dnf_git.bb b/meta/recipes-devtools/dnf/dnf_git.bb
-index 0273ff8e432..cf9e0e0cfd1 100644
---- a/meta/recipes-devtools/dnf/dnf_git.bb
-+++ b/meta/recipes-devtools/dnf/dnf_git.bb
-@@ -28,5 +28,4 @@ DEPENDS += "python-backports-lzma"
- EXTRA_OECMAKE = " -DWITH_MAN=0 -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR}"
+diff --git a/meta-selftest/recipes-test/postinst/postinst_1.0.bb b/meta-selftest/recipes-test/postinst/postinst_1.0.bb
+index 6d497342779..1c2d46c3d28 100644
+--- a/meta-selftest/recipes-test/postinst/postinst_1.0.bb
++++ b/meta-selftest/recipes-test/postinst/postinst_1.0.bb
+@@ -23,88 +23,68 @@ RDEPENDS_${PN}-delayed-t = "${PN}-delayed-p"
  
- BBCLASSEXTEND = "native nativesdk"
--
- RDEPENDS_${PN}_class-target += "python-core python-codecs python-netclient python-email python-threading python-distutils librepo python-shell python-subprocess libcomps libdnf python-sqlite3 python-compression python-pygpgme python-backports-lzma python-rpm python-iniparse python-json python-importlib python-curses python-argparse"
-diff --git a/meta/recipes-devtools/libcomps/libcomps_git.bb b/meta/recipes-devtools/libcomps/libcomps_git.bb
-index 448ea62f67c..8ff13b26b62 100644
---- a/meta/recipes-devtools/libcomps/libcomps_git.bb
-+++ b/meta/recipes-devtools/libcomps/libcomps_git.bb
-@@ -19,5 +19,5 @@ DEPENDS = "libxml2 expat libcheck"
- EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR}"
- OECMAKE_SOURCEPATH = "${S}/libcomps"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
- 
-diff --git a/meta/recipes-devtools/libdnf/libdnf_git.bb b/meta/recipes-devtools/libdnf/libdnf_git.bb
-index e056b2bd32f..02ac43c346b 100644
---- a/meta/recipes-devtools/libdnf/libdnf_git.bb
-+++ b/meta/recipes-devtools/libdnf/libdnf_git.bb
-@@ -21,5 +21,5 @@ inherit gtk-doc gobject-introspection cmake distutils-base pkgconfig
- 
- EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DWITH_MAN=OFF"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
- 
-diff --git a/meta/recipes-devtools/librepo/librepo_git.bb b/meta/recipes-devtools/librepo/librepo_git.bb
-index 70e88c47b9e..3f3c5fbcf51 100644
---- a/meta/recipes-devtools/librepo/librepo_git.bb
-+++ b/meta/recipes-devtools/librepo/librepo_git.bb
-@@ -20,5 +20,5 @@ inherit cmake distutils-base pkgconfig
- 
- EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR}"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
- 
-diff --git a/meta/recipes-devtools/python-backports-lzma/python-backports-lzma_git.bb b/meta/recipes-devtools/python-backports-lzma/python-backports-lzma_git.bb
-index 6d3b8d569de..93c6684be6c 100644
---- a/meta/recipes-devtools/python-backports-lzma/python-backports-lzma_git.bb
-+++ b/meta/recipes-devtools/python-backports-lzma/python-backports-lzma_git.bb
-@@ -18,4 +18,4 @@ DEPENDS_append = " xz"
- RDEPENDS_${PN} += "python-core python-io python-pkgutil"
- RDEPENDS_${PN}_class-native += "python-core"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python-iniparse_0.4.bb b/meta/recipes-devtools/python/python-iniparse_0.4.bb
-index f2515759b13..c6d98c2fdfc 100644
---- a/meta/recipes-devtools/python/python-iniparse_0.4.bb
-+++ b/meta/recipes-devtools/python/python-iniparse_0.4.bb
-@@ -12,6 +12,6 @@ inherit distutils
- 
- RDEPENDS_${PN} += "python-core"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
- 
- S = "${WORKDIR}/iniparse-${PV}"
-diff --git a/meta/recipes-devtools/python/python-pygpgme_0.3.bb b/meta/recipes-devtools/python/python-pygpgme_0.3.bb
-index f7dd835eee9..ac8bc9d62e7 100644
---- a/meta/recipes-devtools/python/python-pygpgme_0.3.bb
-+++ b/meta/recipes-devtools/python/python-pygpgme_0.3.bb
-@@ -15,4 +15,4 @@ DEPENDS = "gpgme python"
- 
- RDEPENDS_${PN} += "python-core"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/rpm/rpm_git.bb b/meta/recipes-devtools/rpm/rpm_git.bb
-index ceb4151945e..9addac2706b 100644
---- a/meta/recipes-devtools/rpm/rpm_git.bb
-+++ b/meta/recipes-devtools/rpm/rpm_git.bb
-@@ -55,7 +55,7 @@ EXTRA_OECONF_append = " --without-lua --enable-python"
- # Also disable plugins, so that rpm doesn't attempt to inhibit shutdown via session dbus
- EXTRA_OECONF_append_class-native = " --sysconfdir=/etc --localstatedir=/var --disable-plugins"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
- 
- # Rpm's make install creates var/tmp which clashes with base-files packaging
- do_install_append_class-target() {
-diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb b/meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb
-index 6af996e3593..7de36ae9e52 100644
---- a/meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb
-+++ b/meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb
-@@ -29,7 +29,7 @@ SRC_URI_append_class-native = " file://pkg-config-native.patch"
- SRC_URI[archive.md5sum] = "0dc6570953112a464a409fb99258ccbc"
- SRC_URI[archive.sha256sum] = "1ea46ed400e6501f975acaafea31479cea8f32f911dca4dff036f59e6464fd42"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
- 
- # Do not check for XML catalogs when building because that
- # information is not used for anything during build. Recipe
-diff --git a/meta/recipes-support/gpgme/gpgme_1.6.0.bb b/meta/recipes-support/gpgme/gpgme_1.6.0.bb
-index 493a14ad947..be6f03eb6df 100644
---- a/meta/recipes-support/gpgme/gpgme_1.6.0.bb
-+++ b/meta/recipes-support/gpgme/gpgme_1.6.0.bb
-@@ -24,7 +24,7 @@ BINCONFIG = "${bindir}/gpgme-config"
- 
- inherit autotools texinfo binconfig-disabled pkgconfig
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
- 
- PACKAGES =+ "${PN}-pthread"
- FILES_${PN}-pthread = "${libdir}/libgpgme-pthread.so.*"
-diff --git a/meta/recipes-support/libassuan/libassuan_2.4.3.bb b/meta/recipes-support/libassuan/libassuan_2.4.3.bb
-index 1b3916d7343..926c279f90b 100644
---- a/meta/recipes-support/libassuan/libassuan_2.4.3.bb
-+++ b/meta/recipes-support/libassuan/libassuan_2.4.3.bb
-@@ -28,4 +28,4 @@ do_configure_prepend () {
- 	rm -f ${S}/m4/*.m4
+ # Main recipe post-install
+ pkg_postinst_${PN}-at-rootfs () {
+-    tfile="/etc/postinsta-test"
+-    touch "$D"/this-was-created-at-rootfstime
+-    if test "x$D" != "x" then
+-        # Need to run on first boot
+-        exit 1
+-    else
+-        echo "lets write postinst" > $tfile
++    if test "x$D" != "x" ; then
++        touch "$D"/this-was-created-at-rootfstime
+     fi
  }
  
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-support/libcheck/libcheck_0.10.0.bb b/meta/recipes-support/libcheck/libcheck_0.10.0.bb
-index c0b459f6618..4db2d7528cc 100644
---- a/meta/recipes-support/libcheck/libcheck_0.10.0.bb
-+++ b/meta/recipes-support/libcheck/libcheck_0.10.0.bb
-@@ -20,5 +20,6 @@ CACHED_CONFIGUREVARS += "ac_cv_path_AWK_PATH=${bindir}/gawk"
- RREPLACES_${PN} = "check (<= 0.9.5)"
- RDEPENDS_${PN} += "gawk"
- RDEPENDS_${PN}_class-native = ""
-+RDEPENDS_${PN}_class-nativesdk = ""
++pkg_postinst_ontarget_${PN}-at-rootfs () {
++    tfile="/etc/postinsta-test"
++    echo "lets write postinst" > $tfile
++}
++
+ # Dependency recipes post-installs
+-pkg_postinst_${PN}-delayed-a () {
++pkg_postinst_ontarget_${PN}-delayed-a () {
+     efile="/etc/postinst-test"
+     tfile="/etc/postinsta-test"
+     rdeps="postinst"
  
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
+-    if test "x$D" != "x"; then
+-      # Need to run on first boot
+-      exit 1
++    touch /etc/this-was-created-at-first-boot
++    if test -e $efile ; then
++      echo 'success' > $tfile
+     else
+-      touch /etc/this-was-created-at-first-boot
+-      if test -e $efile ; then
+-        echo 'success' > $tfile
+-      else
+-        echo 'fail to install $rdeps first!' >&2
+-        exit 1
+-      fi
+-   fi
++      echo 'fail to install $rdeps first!' >&2
++      exit 1
++    fi
+ }
+ 
+-pkg_postinst_${PN}-delayed-b () {
++pkg_postinst_ontarget_${PN}-delayed-b () {
+     efile="/etc/postinsta-test"
+     tfile="/etc/postinstb-test"
+     rdeps="postinsta"
+ 
+-    if test "x$D" != "x"; then
+-      # Need to run on first boot
+-      exit 1
++    if test -e $efile ; then
++      echo 'success' > $tfile
+     else
+-      if test -e $efile ; then
+-        echo 'success' > $tfile
+-      else
+-        echo 'fail to install $rdeps first!' >&2
+-        exit 1
+-      fi
+-   fi
++      echo 'fail to install $rdeps first!' >&2
++      exit 1
++    fi
+ }
+ 
+-pkg_postinst_${PN}-delayed-d () {
++pkg_postinst_ontarget_${PN}-delayed-d () {
+     efile="/etc/postinstb-test"
+     tfile="/etc/postinstd-test"
+     rdeps="postinstb"
+ 
+-    if test "x$D" != "x"; then
+-      # Need to run on first boot
+-      exit 1
++    if test -e $efile ; then
++      echo 'success' > $tfile
+     else
+-      if test -e $efile ; then
+-        echo 'success' > $tfile
+-      else
+-        echo 'fail to install $rdeps first!' >&2
+-        exit 1
+-      fi
+-   fi
++      echo 'fail to install $rdeps first!' >&2
++      exit 1
++    fi
+ }
+ 
+-pkg_postinst_${PN}-delayed-p () {
++pkg_postinst_ontarget_${PN}-delayed-p () {
+     efile="/etc/postinstd-test"
+     tfile="/etc/postinstp-test"
+     rdeps="postinstd"
+ 
+-    if test "x$D" != "x"; then
+-      # Need to run on first boot
+-      exit 1
++    if test -e $efile ; then
++      echo 'success' > $tfile
+     else
+-      if test -e $efile ; then
+-        echo 'success' > $tfile
+-      else
+-        echo 'fail to install $rdeps first!' >&2
+-        exit 1
+-      fi
+-   fi
++      echo 'fail to install $rdeps first!' >&2
++      exit 1
++    fi
+ }
+ 
+ pkg_postinst_${PN}-delayed-t () {
+@@ -112,15 +92,10 @@ pkg_postinst_${PN}-delayed-t () {
+     tfile="/etc/postinstt-test"
+     rdeps="postinstp"
+ 
+-    if test "x$D" != "x"; then
+-      # Need to run on first boot
+-      exit 1
++    if test -e $efile ; then
++        echo 'success' > $tfile
+     else
+-      if test -e $efile ; then
+-          echo 'success' > $tfile
+-      else
+-          echo 'fail to install $rdeps first!' >&2
+-          exit 1
+-      fi
+-   fi
++        echo 'fail to install $rdeps first!' >&2
++        exit 1
++    fi
+ }
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 17029451e36..169c8d98b1d 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1289,6 +1289,25 @@ python emit_pkgdata() {
+     from glob import glob
+     import json
+ 
++    def process_postinst_on_target(pkg, mlprefix):
++        defer_fragment = """
++if [ -n "$D" ]; then
++    $INTERCEPT_DIR/postinst_intercept delay_to_first_boot %s mlprefix=%s
++    exit 0
++fi
++""" % (pkg, mlprefix)
++
++        postinst = d.getVar('pkg_postinst_%s' % pkg)
++        postinst_ontarget = d.getVar('pkg_postinst_ontarget_%s' % pkg)
++
++        if postinst_ontarget:
++            bb.debug(1, 'adding deferred pkg_postinst_ontarget() to pkg_postinst() for %s' % pkg)
++            if not postinst:
++                postinst = '#!/bin/sh\n'
++            postinst += defer_fragment
++            postinst += postinst_ontarget
++            d.setVar('pkg_postinst_%s' % pkg, postinst)
++
+     def write_if_exists(f, pkg, var):
+         def encode(str):
+             import codecs
+@@ -1383,6 +1402,7 @@ python emit_pkgdata() {
+         write_if_exists(sf, pkg, 'PKG')
+         write_if_exists(sf, pkg, 'ALLOW_EMPTY')
+         write_if_exists(sf, pkg, 'FILES')
++        process_postinst_on_target(pkg, d.getVar("MLPREFIX"))
+         write_if_exists(sf, pkg, 'pkg_postinst')
+         write_if_exists(sf, pkg, 'pkg_postrm')
+         write_if_exists(sf, pkg, 'pkg_preinst')
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index c8ab421fe21..abcc852ba45 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -290,6 +290,24 @@ class Rootfs(object, metaclass=ABCMeta):
+             # Remove the package manager data files
+             self.pm.remove_packaging_data()
+ 
++    def _postpone_to_first_boot(self, postinst_intercept_hook):
++        with open(postinst_intercept_hook) as intercept:
++            registered_pkgs = None
++            for line in intercept.read().split("\n"):
++                m = re.match("^##PKGS:(.*)", line)
++                if m is not None:
++                    registered_pkgs = m.group(1).strip()
++                    break
++
++            if registered_pkgs is not None:
++                bb.warn("The postinstalls for the following packages "
++                        "will be postponed for first boot: %s" %
++                        registered_pkgs)
++
++                # call the backend dependent handler
++                self._handle_intercept_failure(registered_pkgs)
++
++
+     def _run_intercepts(self):
+         intercepts_dir = os.path.join(self.d.getVar('WORKDIR'),
+                                       "intercept_scripts")
+@@ -303,6 +321,10 @@ class Rootfs(object, metaclass=ABCMeta):
+             if script == "postinst_intercept" or not os.access(script_full, os.X_OK):
+                 continue
+ 
++            if script == "delay_to_first_boot":
++                self._postpone_to_first_boot(script_full)
++                continue
++
+             bb.note("> Executing %s intercept ..." % script)
+ 
+             try:
+@@ -310,22 +332,7 @@ class Rootfs(object, metaclass=ABCMeta):
+             except subprocess.CalledProcessError as e:
+                 bb.warn("The postinstall intercept hook '%s' failed (exit code: %d)! See log for details! (Output: %s)" %
+                         (script, e.returncode, e.output))
+-
+-                with open(script_full) as intercept:
+-                    registered_pkgs = None
+-                    for line in intercept.read().split("\n"):
+-                        m = re.match("^##PKGS:(.*)", line)
+-                        if m is not None:
+-                            registered_pkgs = m.group(1).strip()
+-                            break
+-
+-                    if registered_pkgs is not None:
+-                        bb.warn("The postinstalls for the following packages "
+-                                "will be postponed for first boot: %s" %
+-                                registered_pkgs)
+-
+-                        # call the backend dependent handler
+-                        self._handle_intercept_failure(registered_pkgs)
++                self._postpone_to_first_boot(script_full)
+ 
+     def _run_ldconfig(self):
+         if self.d.getVar('LDCONFIGDEPEND'):
+diff --git a/scripts/postinst-intercepts/delay_to_first_boot b/scripts/postinst-intercepts/delay_to_first_boot
+new file mode 100644
+index 00000000000..ecdbef95dde
+--- /dev/null
++++ b/scripts/postinst-intercepts/delay_to_first_boot
+@@ -0,0 +1,2 @@
++#!/bin/sh
++exit 1
 -- 
 2.11.0
 
