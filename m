@@ -1,47 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f182.google.com (mail-ua0-f182.google.com
-	[209.85.217.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 131CC7391A
+Received: from mail-ot0-f193.google.com (mail-ot0-f193.google.com
+	[74.125.82.193])
+	by mail.openembedded.org (Postfix) with ESMTP id B88F2731CA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 17:38:34 +0000 (UTC)
-Received: by mail-ua0-f182.google.com with SMTP id y9so70636792uae.2
+	Mon, 13 Feb 2017 18:00:23 +0000 (UTC)
+Received: by mail-ot0-f193.google.com with SMTP id 65so12706655otq.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 09:38:35 -0800 (PST)
+	Mon, 13 Feb 2017 10:00:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=aw3pL86NQZFgeejC4AV7n78jzG7BmzvqSXXBp31XJVo=;
-	b=kcZE7uhJOaVSedDWunQzZ+5RmSnZ+tuRU8aspywvwJn8y/WxMT30U8uywEwdO9Wwb0
-	mKnn/IzphSwci82ThTWBv49hNwsGssDsidgKHU8Z4Et0TdTXOswkBmHqBm30C8OEex3T
-	C84YzXZAAGQjq29WZ0JJ4b426dP3RkPHq/PU7Egqs1kY53ClbGogznl5OzZ+xMNXqz45
-	zfkdMGtft/UnPKMX6FGHerNPYWdbVbJa1scwkQHwz6V90/eKJuP9xgNfJdO+YxpZv7fz
-	WEeY/ImJdRGmqDQDpxaH3JEoHMeOZ6dVlPcPLMQ3egZVKQyg5bvTUyPBYyPeDfKb5msL
-	Lcpw==
+	h=from:to:cc:subject:date:message-id;
+	bh=ZBuCLSPVtRKz7QTsuv1KRfdyX0Zmw6kmi6A5mOFmLHM=;
+	b=n/01RpFH/boXDj1woon5Bi3LtoVvaM7DwMsipbXj3TKfVCe24s2QkY2pLP2euXOgCd
+	pgk2fMhl8SeUFlGjGq6gIlq9lr8wI69fjnUaatCMahMZMAUDr7EgCCvM2VRCHin4ddaz
+	EjLVTTqeRYXV+TCdHvXhclBdR9uU8/lZma6KC7U7/uXF8vIeN1tJRtoGr2EUPIPU5N//
+	SNWu5XqoJeoaxg6iIqrbHF0YCqkh0I2nYIXuoYF3o+UZSOpBlOMrdWHqrJrng23YgdU6
+	t+zuYpe5n2sD6vfJiEdQ/EscQXX5guzBZNP4y9R847hpAKdPDFF/FEua4mcJE9J6HOhH
+	y0Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=aw3pL86NQZFgeejC4AV7n78jzG7BmzvqSXXBp31XJVo=;
-	b=FPtpmaRf4sqpIJ6flsuwe/Hn0EUCjBjrF488vrtccRhvfzMYf5HroeWfCh5QDszT0U
-	JAf1nnRko4pmb2YVJQW+juJwRlIDm4Bok/DIBUkxNQ83+SURKV3rQOxkwebK3GQCRcln
-	XPU5x5pyXqLreXv3C+aKW1nbsVA9366nrKthh6ohfKpeij80oFuoKrJkgY/ksaR1SpYQ
-	HS9VTTugxQwQq2j3WtCmckuUIJ8l3gtcQwI1yKtsgVu5GZtPxHVrrfJZZMJnBqh9umaY
-	L62otv7OQkOZblffL0TR+8Wr87FI4/63Jy5jT2Cc09Z7o0zkIvK/ffcgOVu490JMKKFB
-	Sh9g==
-X-Gm-Message-State: AMke39nLqOR44Ez5/tXKHJ8RjaZc7UOvVGxdoX7i3QxBFnKPe+Epokwnkrr5rzqBX1l6aVu2boCzlg8x+dYnMA==
-X-Received: by 10.176.66.66 with SMTP id i60mr12901898uai.131.1487007515106;
-	Mon, 13 Feb 2017 09:38:35 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.159.48.222 with HTTP; Mon, 13 Feb 2017 09:38:04 -0800 (PST)
-In-Reply-To: <20170213124142.17081-1-mac@mcrowe.com>
-References: <20170213124142.17081-1-mac@mcrowe.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=ZBuCLSPVtRKz7QTsuv1KRfdyX0Zmw6kmi6A5mOFmLHM=;
+	b=G6IkEIFDQ3T3jXHvCkfaQeY/JkS2RKo52sFJf5HF+qFcn9WUt+La2KEVY374TX3yFQ
+	uk6fnDhJfTpO5OxW1g4soWyznp2kZ0IFDoo2LS4qo13Pbo/2mTudSUZd4uLS+uGx/FBK
+	nm5F7qN+3mq2oXh+cPqmOKFAM4hMXOYYDuiN67CFIzXBggOm3BQ3jebOSF9h0c4VnjQA
+	RhNV68LE+Y3xlr0KDuDTdTyj8M4fXfKUkVuVZof7PuNnsjKMePplF/A7naa71fGULLjU
+	HTML/5Bj2cIuc+U7d80gkKE0GeMsjvIyXjbwhjhhJzITPTi4++yYAAXE5cfvj4ekTp5x
+	/dbw==
+X-Gm-Message-State: AMke39mCgyjN5RS2JoPy0adxVU7p1SyzGGgs1xLTIWeGUrHCbDrE/8EfbSCp1RFi/Dk3RQ==
+X-Received: by 10.99.65.67 with SMTP id o64mr27968197pga.119.1487008823975;
+	Mon, 13 Feb 2017 10:00:23 -0800 (PST)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	s21sm15995127pgg.65.2017.02.13.10.00.23
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 13 Feb 2017 10:00:23 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 13 Feb 2017 09:38:04 -0800
-Message-ID: <CAMKF1sqa-TunzUMu_ZsHftcj=XdZpk9q_bctT=Y2wYmTRfDKOw@mail.gmail.com>
-To: Mike Crowe <mac@mcrowe.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image: Attempt to work around do_image_complete race
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 13 Feb 2017 10:00:10 -0800
+Message-Id: <20170213180012.14077-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.11.1
+Subject: [PATCH 1/3] musl: Update to latest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,69 +52,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Feb 2017 17:38:35 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 13 Feb 2017 18:00:25 -0000
 
-On Mon, Feb 13, 2017 at 4:41 AM, Mike Crowe <mac@mcrowe.com> wrote:
-> If two do_image_complete tasks run in parallel they risk both trying to p=
-ut
-> their image into ${DEPLOY_DIR_IMAGE} at the same time. Both will contain =
-a
-> README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt file. In theory this
-> should be safe because "cp -alf" will just cause one to overwrite the
-> other. Unfortunately, coreutils cp also has a race which means that if on=
-e
-> copy creates the file at just the wrong point the other will fail with:
->
->  cp: cannot create hard link =E2=80=98..../tmp-glibc/deploy/images/panter=
-a/README_-_DO_NOT_DELETE_FILES_IN_THIS_D.txt=E2=80=99 to =E2=80=98..../tmp-=
-glibc/work/rage_against-oe-linux-gnueabi/my-own-image/1.0-r0/deploy-my-own-=
-image-complete/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt=E2=80=99:=
- File exists
->
-> The coreutils bug has been reported and fixed upstream as
-> https://debbugs.gnu.org/cgi/bugreport.cgi?bug=3D25680 , but it will take
-> a while for host distributions to catch up.
->
-> In the meantime, let's try and avoid the race altogether by causing
-> sstate.bbclass:sstate_install to take a lock file in
-> ${DEPLOY_DIR_IMAGE} whilst writing. This lock is probably a bit broad,
-> but it's better than the build failing.
->
+here is shortlog
 
-will this lock serialize writing other files too ? then this will slow
-down parallel builds. Perhaps, writing common files can be spun into a
-task of its own which is then common 1 task across all images building
-in parallel.
+* d6601f0a avoid unbounded strlen in gettext functions
+* dbbb3734 fix use of uninitialized pointer in gettext core
+* 01e6bbec fix bindtextdomain logic error deactivating other domains
+* 6894f847 fix spurious EINTR errors from multithreaded set*id, etc.
+* 1f53e7d0 fix crashes in x32 __tls_get_addr
+* 27b3fd68 fix crash from corrupted tls module list after failed dlopen
+* 809ff8cf treat base 1 as an error in strtol-family functions
+* 786fda87 fix getopt[_long] clobbering of optopt on success
+* 150747b4 reduce impact of REG_* namespace pollution in x86[_64] signal.h
 
-> Signed-off-by: Mike Crowe <mac@mcrowe.com>
-> ---
->  meta/classes/image.bbclass | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index b5a4fb4a33..5c2f183446 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -298,6 +298,10 @@ SSTATE_SKIP_CREATION_task-image-complete =3D '1'
->  do_image_complete[sstate-inputdirs] =3D "${IMGDEPLOYDIR}"
->  do_image_complete[sstate-outputdirs] =3D "${DEPLOY_DIR_IMAGE}"
->  do_image_complete[stamp-extra-info] =3D "${MACHINE}"
-> +# Defend against copying two different images to ${DEPLOY_DIR_IMAGE}
-> +# at the same time because they risk both trying to create
-> +# README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt at the same time.
-> +do_image_complete[sstate-lockfile-shared] =3D "${DEPLOY_DIR_IMAGE}/image=
--complete-output.lock"
->  addtask do_image_complete after do_image before do_build
->
->  # Add image-level QA/sanity checks to IMAGE_QA_COMMANDS
-> --
-> 2.12.0.rc0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/musl/musl_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index e9b9fef601..5e293cfc13 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -3,7 +3,7 @@
+ 
+ require musl.inc
+ 
+-SRCREV = "769f53598e781ffc89191520f3f8a93cb58db91f"
++SRCREV = "d6601f0af0452b218d247cb47513fc9cd6bbf2e2"
+ 
+ PV = "1.1.16+git${SRCPV}"
+ 
+-- 
+2.11.1
+
 
