@@ -1,23 +1,49 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BC077732A
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-vk0-f45.google.com (mail-vk0-f45.google.com
+	[209.85.213.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E16971DCF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 15:06:16 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga105.jf.intel.com with ESMTP; 13 Feb 2017 07:06:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,156,1484035200"; d="scan'208";a="64546820"
-Received: from kanavin-desktop.fi.intel.com (HELO
-	kanavin-desktop.fi.intel.comfi.intel.com) ([10.237.68.161])
-	by fmsmga005.fm.intel.com with ESMTP; 13 Feb 2017 07:06:16 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Feb 2017 17:06:06 +0200
-Message-Id: <5eb1a4810bf745c5932feee2d1b47621353e9689.1486997986.git.alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <cover.1486997986.git.alexander.kanavin@linux.intel.com>
-References: <cover.1486997986.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 36/36] package_deb.bbclass: Ignore file paths in RPROVIDES
+	Mon, 13 Feb 2017 15:15:30 +0000 (UTC)
+Received: by mail-vk0-f45.google.com with SMTP id x75so62224087vke.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Feb 2017 07:15:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=h/Ut3rAzHRNZtTHe8plQ48k+xaXoYHmapZWilMNvh0Y=;
+	b=d5UtlayC65vfGjvOfJXJr9GD95vSAwgCGAiKxu/gKjjohXNT9KsPtKIkoVxUtaj1kp
+	Tl4IhULoxalJ2PDqFnHn7+V/AM3Tju81gJJ5XkskvC0RuMYKMa/aZeRlSoQ2ec02Ro8Z
+	d0ySWY7qluq51F2KOIoSx9limUXzxQThIhBBVbNTDe8TGECFd5zznAZFk75fX6osuFiu
+	s/LI02eiJ4/O/mmn6Ql+PcgVYDNqpt1aGJFRfPqLf51/f87vVSaiTkVNuQSTanJonZKg
+	RgwgLz2NNA2O3g0LTZlDZ8xbMsvOIn6nydx301IzMQQxtE51u4QlYVAtEqtzwnxld/av
+	QZZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=h/Ut3rAzHRNZtTHe8plQ48k+xaXoYHmapZWilMNvh0Y=;
+	b=Ctrm+It/SejoyaroZxH9AyzDofrwSymYopVQ3KNlktDsBA76oQgleuwXM1kvgyLfEZ
+	VDjJxbYBm/CdscZivtQ22dHhFBLg6ZJfGTb93os160hVPDoQnk6fP/y2lSIz93aaGQC1
+	brO/tBTJHwcVwJrz/OSDSypzVkE23G3L/8IN8aiRnFuuNk8VpToDTuneXuHv7Du/n9QO
+	l/C5shxr4DVxlmMtpPHkZwvZ58nRvMS3E5ceDg9PW52LaAAA0OvpynIjWIb5aCvyz3+N
+	l/Bq1lPHVlzTufsrAB26s3nO4rrD+QArVJPrGqlfEF2d+KF0VJjS9A9vJBS/s5M8mnrm
+	tkqA==
+X-Gm-Message-State: AMke39lVEjMteRNJ46SVhpP5W61I+1akluBR1NdsJPcji+4D9q/TFfbR29RhEMB9xfMtXldWYZbeksF1bdCwPA==
+X-Received: by 10.31.8.147 with SMTP id 141mr11564587vki.111.1486998930851;
+	Mon, 13 Feb 2017 07:15:30 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.176.91.68 with HTTP; Mon, 13 Feb 2017 07:15:30 -0800 (PST)
+In-Reply-To: <CA+chaQcHBzDJ4UbW1NCex70T56PL02+agOZBMoK4=Q1WWSm2EA@mail.gmail.com>
+References: <CALbNGRSgxbz1F2YLzQ-F2Fn+01hiA4LAoDgQuQ-qLg9KMVTHAw@mail.gmail.com>
+	<CALbNGRR1+yVyMC1O1G1mCYp8e87Q2kucGEgs-dL0P3KHxi8WCQ@mail.gmail.com>
+	<CA+chaQcHBzDJ4UbW1NCex70T56PL02+agOZBMoK4=Q1WWSm2EA@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Mon, 13 Feb 2017 16:15:30 +0100
+Message-ID: <CALbNGRQ2jOAmYt-jum5QTnpk_ggOKGxoqQsEKpFuHddorTta3Q@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Does recipe specific sysrooot (or whatelse in current oe) break native dependencies?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,36 +56,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Feb 2017 15:06:16 -0000
+X-List-Received-Date: Mon, 13 Feb 2017 15:15:31 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Amarnath Valluri <amarnath.valluri@intel.com>
+On Mon, Feb 13, 2017 at 3:36 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> Hi Andreas,
+>
+> I think it's feature which was already there, but almost never triggered
+> (even in test-dependencies.sh tests), but with RSS it fails reliably.
+>
+> See:
+> http://lists.openembedded.org/pipermail/openembedded-core/2016-July/124435.html
+>
+Yeah now I remember failing on this too - thanks for the pointer.
 
-Unlike rpm, debian packaging does not allow file paths in 'Provides:' field.
-When 'usrmerge' distro feature enabled bash/busybox packages adds '/bin/sh' to
-it's RPROVIDES to satisfy build dependencies, this entry should be filtered out.
-
-Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/classes/package_deb.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index eb549ca971a..e1bc078d6b6 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -237,6 +237,10 @@ python do_package_deb () {
-         debian_cmp_remap(rsuggests)
-         # Deliberately drop version information here, not wanted/supported by deb
-         rprovides = dict.fromkeys(bb.utils.explode_dep_versions2(localdata.getVar("RPROVIDES") or ""), [])
-+        # Remove file paths if any from rprovides, debian does not support custom providers
-+        for key in list(rprovides.keys()):
-+            if key.startswith('/'):
-+                del rprovides[key]
-         rprovides = collections.OrderedDict(sorted(rprovides.items(), key=lambda x: x[0]))
-         debian_cmp_remap(rprovides)
-         rreplaces = bb.utils.explode_dep_versions2(localdata.getVar("RREPLACES") or "")
--- 
-2.11.0
-
+Andreas
 
