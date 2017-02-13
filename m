@@ -1,45 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ot0-f193.google.com (mail-ot0-f193.google.com
-	[74.125.82.193])
-	by mail.openembedded.org (Postfix) with ESMTP id B88F2731CA
+Received: from mail-ot0-f195.google.com (mail-ot0-f195.google.com
+	[74.125.82.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 46C66731CA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 18:00:23 +0000 (UTC)
-Received: by mail-ot0-f193.google.com with SMTP id 65so12706655otq.2
+	Mon, 13 Feb 2017 18:00:24 +0000 (UTC)
+Received: by mail-ot0-f195.google.com with SMTP id 65so12706725otq.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 10:00:24 -0800 (PST)
+	Mon, 13 Feb 2017 10:00:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=ZBuCLSPVtRKz7QTsuv1KRfdyX0Zmw6kmi6A5mOFmLHM=;
-	b=n/01RpFH/boXDj1woon5Bi3LtoVvaM7DwMsipbXj3TKfVCe24s2QkY2pLP2euXOgCd
-	pgk2fMhl8SeUFlGjGq6gIlq9lr8wI69fjnUaatCMahMZMAUDr7EgCCvM2VRCHin4ddaz
-	EjLVTTqeRYXV+TCdHvXhclBdR9uU8/lZma6KC7U7/uXF8vIeN1tJRtoGr2EUPIPU5N//
-	SNWu5XqoJeoaxg6iIqrbHF0YCqkh0I2nYIXuoYF3o+UZSOpBlOMrdWHqrJrng23YgdU6
-	t+zuYpe5n2sD6vfJiEdQ/EscQXX5guzBZNP4y9R847hpAKdPDFF/FEua4mcJE9J6HOhH
-	y0Ig==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=ifg/a1M7VSHIhX7+pgAUIR/7EzZ50RsAX56ImEHn014=;
+	b=aDX+qrIo3Oy3T4/BUvw6npIx/mj7we/aVQ5Q+FiAeehT8unLx55nYhypr8GMBfisBC
+	ZLsNMLk8ngbpQLFt1t9hbIEuPxcMSPPcmGUjhbmdqSIkqSo+mQxWvXQumIMKS1z2eBoK
+	Dd9Ebsh+RowSRo5YmhOvZRK66X6PMjoKhHPnsfwdWNcXE+e5ZN7sxTMA13BN7Tw8Ur2E
+	GJQmvJq+rDa7GCRGozYZEs60fAk7pBypxO/9N9//EbniEzU8wqTzcRLblqDWBxkpw0HY
+	hh0mVryx2DoB7hck4qzRMkGISbTer0tMYA1eXEewSLJNsQG7ksg8/k0JL1BxAidwsxhz
+	15hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ZBuCLSPVtRKz7QTsuv1KRfdyX0Zmw6kmi6A5mOFmLHM=;
-	b=G6IkEIFDQ3T3jXHvCkfaQeY/JkS2RKo52sFJf5HF+qFcn9WUt+La2KEVY374TX3yFQ
-	uk6fnDhJfTpO5OxW1g4soWyznp2kZ0IFDoo2LS4qo13Pbo/2mTudSUZd4uLS+uGx/FBK
-	nm5F7qN+3mq2oXh+cPqmOKFAM4hMXOYYDuiN67CFIzXBggOm3BQ3jebOSF9h0c4VnjQA
-	RhNV68LE+Y3xlr0KDuDTdTyj8M4fXfKUkVuVZof7PuNnsjKMePplF/A7naa71fGULLjU
-	HTML/5Bj2cIuc+U7d80gkKE0GeMsjvIyXjbwhjhhJzITPTi4++yYAAXE5cfvj4ekTp5x
-	/dbw==
-X-Gm-Message-State: AMke39mCgyjN5RS2JoPy0adxVU7p1SyzGGgs1xLTIWeGUrHCbDrE/8EfbSCp1RFi/Dk3RQ==
-X-Received: by 10.99.65.67 with SMTP id o64mr27968197pga.119.1487008823975;
-	Mon, 13 Feb 2017 10:00:23 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=ifg/a1M7VSHIhX7+pgAUIR/7EzZ50RsAX56ImEHn014=;
+	b=tyEgnCU0kYBihi5W9MqPLExSmTdiflv8T0U0syYXUnKfgMSHdycQhxYzQACsrdi5/s
+	1smwGEz1ITx6NKd4adrxzXX3+irCuSSljzwdYJlBFv7eJ6vTPD2QbY6CvtYNvJVAbTWP
+	G8MOCMuthyIvv/X6sLuqnXuAPcyLnpv7Ky/UCoBH5n0lJVupWEZO2e5capj/hDfn483E
+	ns9ReT/sgr7Dq0INfrSsyK9DKIsY4suSCSC4G4FZ2V3yM8yI2QiNWCMRSDoE+rVVDoEN
+	4ov+CH2R4mGBwbuNwt/zzvDprlX7oWBEjJvz5QLZocEdQQVfEpRDxYNDhGo6pE6P/OZy
+	oTFQ==
+X-Gm-Message-State: AMke39nZrFDVu3wf+Eljgl5vMatp3bX46QzVq+9xNVi61kkama97/rGpQmuXNPBTbFpUYw==
+X-Received: by 10.99.55.26 with SMTP id e26mr28271835pga.15.1487008824925;
+	Mon, 13 Feb 2017 10:00:24 -0800 (PST)
 Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	s21sm15995127pgg.65.2017.02.13.10.00.23
+	s21sm15995127pgg.65.2017.02.13.10.00.24
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 13 Feb 2017 10:00:23 -0800 (PST)
+	Mon, 13 Feb 2017 10:00:24 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Feb 2017 10:00:10 -0800
-Message-Id: <20170213180012.14077-1-raj.khem@gmail.com>
+Date: Mon, 13 Feb 2017 10:00:11 -0800
+Message-Id: <20170213180012.14077-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.11.1
-Subject: [PATCH 1/3] musl: Update to latest
+In-Reply-To: <20170213180012.14077-1-raj.khem@gmail.com>
+References: <20170213180012.14077-1-raj.khem@gmail.com>
+Subject: [PATCH 2/3] gdb: Upgrade to 7.12.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,36 +57,101 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 13 Feb 2017 18:00:25 -0000
 
-here is shortlog
-
-* d6601f0a avoid unbounded strlen in gettext functions
-* dbbb3734 fix use of uninitialized pointer in gettext core
-* 01e6bbec fix bindtextdomain logic error deactivating other domains
-* 6894f847 fix spurious EINTR errors from multithreaded set*id, etc.
-* 1f53e7d0 fix crashes in x32 __tls_get_addr
-* 27b3fd68 fix crash from corrupted tls module list after failed dlopen
-* 809ff8cf treat base 1 as an error in strtol-family functions
-* 786fda87 fix getopt[_long] clobbering of optopt on success
-* 150747b4 reduce impact of REG_* namespace pollution in x86[_64] signal.h
+Drop already applied patches
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/musl/musl_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../gdb/{gdb-7.12.inc => gdb-7.12.1.inc}           |  5 +--
+ ...nadian_7.12.bb => gdb-cross-canadian_7.12.1.bb} |  0
+ .../gdb/{gdb-cross_7.12.bb => gdb-cross_7.12.1.bb} |  0
+ .../cb93dc7f262978bafe36397a41a56e409a302042.patch | 43 ----------------------
+ .../gdb/{gdb_7.12.bb => gdb_7.12.1.bb}             |  0
+ 5 files changed, 2 insertions(+), 46 deletions(-)
+ rename meta/recipes-devtools/gdb/{gdb-7.12.inc => gdb-7.12.1.inc} (83%)
+ rename meta/recipes-devtools/gdb/{gdb-cross-canadian_7.12.bb => gdb-cross-canadian_7.12.1.bb} (100%)
+ rename meta/recipes-devtools/gdb/{gdb-cross_7.12.bb => gdb-cross_7.12.1.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/gdb/gdb/cb93dc7f262978bafe36397a41a56e409a302042.patch
+ rename meta/recipes-devtools/gdb/{gdb_7.12.bb => gdb_7.12.1.bb} (100%)
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index e9b9fef601..5e293cfc13 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -3,7 +3,7 @@
+diff --git a/meta/recipes-devtools/gdb/gdb-7.12.inc b/meta/recipes-devtools/gdb/gdb-7.12.1.inc
+similarity index 83%
+rename from meta/recipes-devtools/gdb/gdb-7.12.inc
+rename to meta/recipes-devtools/gdb/gdb-7.12.1.inc
+index 7eea65f4fa..b15a2b5832 100644
+--- a/meta/recipes-devtools/gdb/gdb-7.12.inc
++++ b/meta/recipes-devtools/gdb/gdb-7.12.1.inc
+@@ -15,8 +15,7 @@ SRC_URI = "http://ftp.gnu.org/gnu/gdb/gdb-${PV}.tar.xz \
+            file://0008-Use-exorted-definitions-of-SIGRTMIN.patch \
+            file://0009-Change-order-of-CFLAGS.patch \
+            file://0010-resolve-restrict-keyword-conflict.patch \
+-	   file://cb93dc7f262978bafe36397a41a56e409a302042.patch \
+ "
+-SRC_URI[md5sum] = "a0a3a00f7499b0c5278ba8676745d180"
+-SRC_URI[sha256sum] = "834ff3c5948b30718343ea57b11cbc3235d7995c6a4f3a5cecec8c8114164f94"
++SRC_URI[md5sum] = "193453347ddced7acb6b1cd2ee8f2e4b"
++SRC_URI[sha256sum] = "4607680b973d3ec92c30ad029f1b7dbde3876869e6b3a117d8a7e90081113186"
  
- require musl.inc
- 
--SRCREV = "769f53598e781ffc89191520f3f8a93cb58db91f"
-+SRCREV = "d6601f0af0452b218d247cb47513fc9cd6bbf2e2"
- 
- PV = "1.1.16+git${SRCPV}"
- 
+diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_7.12.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_7.12.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb-cross-canadian_7.12.bb
+rename to meta/recipes-devtools/gdb/gdb-cross-canadian_7.12.1.bb
+diff --git a/meta/recipes-devtools/gdb/gdb-cross_7.12.bb b/meta/recipes-devtools/gdb/gdb-cross_7.12.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb-cross_7.12.bb
+rename to meta/recipes-devtools/gdb/gdb-cross_7.12.1.bb
+diff --git a/meta/recipes-devtools/gdb/gdb/cb93dc7f262978bafe36397a41a56e409a302042.patch b/meta/recipes-devtools/gdb/gdb/cb93dc7f262978bafe36397a41a56e409a302042.patch
+deleted file mode 100644
+index 3a42f0a770..0000000000
+--- a/meta/recipes-devtools/gdb/gdb/cb93dc7f262978bafe36397a41a56e409a302042.patch
++++ /dev/null
+@@ -1,43 +0,0 @@
+-From cb93dc7f262978bafe36397a41a56e409a302042 Mon Sep 17 00:00:00 2001
+-From: Yao Qi <yao.qi@linaro.org>
+-Date: Mon, 24 Oct 2016 10:59:11 +0100
+-Subject: [PATCH] [GDBserver] Fix conversion warning
+-
+-I got the following warning if I build GDBserver for aarch64_be-linux-gnu,
+-
+-git/gdb/gdbserver/linux-aarch64-low.c:1539:39: error: invalid conversion from 'void*' to 'uint32_t* {aka unsigned int*}' [-fpermissive]
+-   uint32_t *le_buf = xmalloc (byte_len);
+-                                       ^
+-The patch is to fix the warning.
+-
+-gdb/gdbserver:
+-
+-2016-10-24  Yao Qi  <yao.qi@linaro.org>
+-
+-	PR server/20733
+-	* linux-aarch64-low.c (append_insns): Cast the return value to
+-	'uint32_t *'.
+-
+-Upstream-status: Backport
+-Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+-
+----
+- gdb/gdbserver/linux-aarch64-low.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/gdb/gdbserver/linux-aarch64-low.c b/gdb/gdbserver/linux-aarch64-low.c
+-index e54a8ba..ae80cdd 100644
+---- a/gdb/gdbserver/linux-aarch64-low.c
+-+++ b/gdb/gdbserver/linux-aarch64-low.c
+-@@ -1536,7 +1536,7 @@ append_insns (CORE_ADDR *to, size_t len, const uint32_t *buf)
+- {
+-   size_t byte_len = len * sizeof (uint32_t);
+- #if (__BYTE_ORDER == __BIG_ENDIAN)
+--  uint32_t *le_buf = xmalloc (byte_len);
+-+  uint32_t *le_buf = (uint32_t *) xmalloc (byte_len);
+-   size_t i;
+- 
+-   for (i = 0; i < len; i++)
+--- 
+-2.9.3
+-
+diff --git a/meta/recipes-devtools/gdb/gdb_7.12.bb b/meta/recipes-devtools/gdb/gdb_7.12.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb_7.12.bb
+rename to meta/recipes-devtools/gdb/gdb_7.12.1.bb
 -- 
 2.11.1
 
