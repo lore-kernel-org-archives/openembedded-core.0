@@ -1,23 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id A3DBD73173
+	by mail.openembedded.org (Postfix) with ESMTP id 8687571E5F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 15:05:51 +0000 (UTC)
+	Mon, 13 Feb 2017 15:05:52 +0000 (UTC)
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga105.jf.intel.com with ESMTP; 13 Feb 2017 07:05:52 -0800
+	by orsmga105.jf.intel.com with ESMTP; 13 Feb 2017 07:05:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,156,1484035200"; d="scan'208";a="64546622"
+X-IronPort-AV: E=Sophos;i="5.35,156,1484035200"; d="scan'208";a="64546631"
 Received: from kanavin-desktop.fi.intel.com (HELO
 	kanavin-desktop.fi.intel.comfi.intel.com) ([10.237.68.161])
-	by fmsmga005.fm.intel.com with ESMTP; 13 Feb 2017 07:05:51 -0800
+	by fmsmga005.fm.intel.com with ESMTP; 13 Feb 2017 07:05:52 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Feb 2017 17:05:43 +0200
-Message-Id: <e23af58a7379e425e388a27734975b6f179ed3b7.1486997986.git.alexander.kanavin@linux.intel.com>
+Date: Mon, 13 Feb 2017 17:05:44 +0200
+Message-Id: <2991e38145587c39c37d93a00233b758485faa21.1486997986.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1486997986.git.alexander.kanavin@linux.intel.com>
 References: <cover.1486997986.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 13/36] libcomps: add a recipe
+Subject: [PATCH 14/36] libdnf: add a recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,126 +30,237 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Feb 2017 15:05:51 -0000
+X-List-Received-Date: Mon, 13 Feb 2017 15:05:52 -0000
 
-libcomps is required by dnf.
+libdnf is required by dnf.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...-set-PYTHON_INSTALL_DIR-by-running-python.patch | 41 ++++++++++++++++++++++
- ...2-Set-library-installation-path-correctly.patch | 27 ++++++++++++++
- meta/recipes-devtools/libcomps/libcomps_git.bb     | 23 ++++++++++++
- 3 files changed, 91 insertions(+)
- create mode 100644 meta/recipes-devtools/libcomps/libcomps/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
- create mode 100644 meta/recipes-devtools/libcomps/libcomps/0002-Set-library-installation-path-correctly.patch
- create mode 100644 meta/recipes-devtools/libcomps/libcomps_git.bb
+ ...cmake-drop-the-requirement-for-GTKDOC_SCA.patch | 31 +++++++++++++++++++
+ ...ers-for-both-libsolv-and-libsolvext-libdn.patch | 28 +++++++++++++++++
+ ...-sysroot-path-to-introspection-tools-path.patch | 36 ++++++++++++++++++++++
+ ...-library-installation-directory-correctly.patch | 29 +++++++++++++++++
+ ...-variables-with-pkg-config-cmake-s-own-mo.patch | 29 +++++++++++++++++
+ meta/recipes-devtools/libdnf/libdnf_git.bb         | 25 +++++++++++++++
+ 6 files changed, 178 insertions(+)
+ create mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-FindGtkDoc.cmake-drop-the-requirement-for-GTKDOC_SCA.patch
+ create mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
+ create mode 100644 meta/recipes-devtools/libdnf/libdnf/0002-Prefix-sysroot-path-to-introspection-tools-path.patch
+ create mode 100644 meta/recipes-devtools/libdnf/libdnf/0003-Set-the-library-installation-directory-correctly.patch
+ create mode 100644 meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
+ create mode 100644 meta/recipes-devtools/libdnf/libdnf_git.bb
 
-diff --git a/meta/recipes-devtools/libcomps/libcomps/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch b/meta/recipes-devtools/libcomps/libcomps/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
+diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-FindGtkDoc.cmake-drop-the-requirement-for-GTKDOC_SCA.patch b/meta/recipes-devtools/libdnf/libdnf/0001-FindGtkDoc.cmake-drop-the-requirement-for-GTKDOC_SCA.patch
 new file mode 100644
-index 00000000000..26e8b06f378
+index 00000000000..73acda6af8a
 --- /dev/null
-+++ b/meta/recipes-devtools/libcomps/libcomps/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-@@ -0,0 +1,41 @@
-+From ff4aae4c8beaf17cb8e7a3431f6c541eccfae244 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/libdnf/libdnf/0001-FindGtkDoc.cmake-drop-the-requirement-for-GTKDOC_SCA.patch
+@@ -0,0 +1,31 @@
++From 9bb7630915c3e787732463a3e2064fe0e177101b Mon Sep 17 00:00:00 2001
 +From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 30 Dec 2016 18:22:09 +0200
-+Subject: [PATCH 1/2] Do not set PYTHON_INSTALL_DIR by running python.
++Date: Thu, 24 Nov 2016 14:33:07 +0200
++Subject: [PATCH 1/4] FindGtkDoc.cmake: drop the requirement for
++ GTKDOC_SCANGOBJ_WRAPPER
 +
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ libcomps/src/python/src/python2/CMakeLists.txt | 2 +-
-+ libcomps/src/python/src/python3/CMakeLists.txt | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/libcomps/src/python/src/python2/CMakeLists.txt b/libcomps/src/python/src/python2/CMakeLists.txt
-+index 3ad9e18..0e7dd4b 100644
-+--- a/libcomps/src/python/src/python2/CMakeLists.txt
-++++ b/libcomps/src/python/src/python2/CMakeLists.txt
-+@@ -1,7 +1,7 @@
-+ find_package (PythonLibs 2.6)
-+ find_package (PythonInterp 2.6 REQUIRED)
-+ 
-+-execute_process (COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib(True))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
-++#execute_process (COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib(True))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
-+ 
-+ include_directories(${PYTHON_INCLUDE_PATH})
-+ include_directories(${LIBCOMPS_INCLUDE_PATH})
-+diff --git a/libcomps/src/python/src/python3/CMakeLists.txt b/libcomps/src/python/src/python3/CMakeLists.txt
-+index 7fafa9f..ed82d3d 100644
-+--- a/libcomps/src/python/src/python3/CMakeLists.txt
-++++ b/libcomps/src/python/src/python3/CMakeLists.txt
-+@@ -2,7 +2,7 @@ find_package (PythonLibs 3.0)
-+ find_package (PythonInterp 3.0)
-+ #add_custom_target(py3-copy)
-+ 
-+-execute_process (COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib(True))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
-++#execute_process (COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib(True))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
-+ 
-+ include_directories(${PYTHON_INCLUDE_PATH})
-+ include_directories(${LIBCOMPS_INCLUDE_PATH})
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-devtools/libcomps/libcomps/0002-Set-library-installation-path-correctly.patch b/meta/recipes-devtools/libcomps/libcomps/0002-Set-library-installation-path-correctly.patch
-new file mode 100644
-index 00000000000..ec1fdc409bf
---- /dev/null
-+++ b/meta/recipes-devtools/libcomps/libcomps/0002-Set-library-installation-path-correctly.patch
-@@ -0,0 +1,27 @@
-+From b1f61296e2f16c2b9a39c5501e4538628ff01ab4 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 30 Dec 2016 18:26:00 +0200
-+Subject: [PATCH 2/2] Set library installation path correctly
++For some reason cmake is not able to find it when building in openembedded,
++and it's bundled with the source code anyway.
 +
 +Upstream-Status: Pending
 +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+ libcomps/src/CMakeLists.txt | 2 +-
++ cmake/modules/FindGtkDoc.cmake | 2 +-
 + 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/libcomps/src/CMakeLists.txt b/libcomps/src/CMakeLists.txt
-+index e553d77..e2eef9c 100644
-+--- a/libcomps/src/CMakeLists.txt
-++++ b/libcomps/src/CMakeLists.txt
-+@@ -52,7 +52,7 @@ add_dependencies(libcomps src-copy)
-+ IF (CMAKE_SIZEOF_VOID_P MATCHES "8")
-+     SET (LIB_SUFFIX "64")
-+ ENDIF (CMAKE_SIZEOF_VOID_P MATCHES "8")
-+-set (LIB_INST_DIR ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX})
-++set (LIB_INST_DIR ${CMAKE_INSTALL_LIBDIR})
++diff --git a/cmake/modules/FindGtkDoc.cmake b/cmake/modules/FindGtkDoc.cmake
++index 92b2cc7..39f34bd 100644
++--- a/cmake/modules/FindGtkDoc.cmake
+++++ b/cmake/modules/FindGtkDoc.cmake
++@@ -52,7 +52,7 @@ find_program(GTKDOC_MKHTML_EXE gtkdoc-mkhtml PATH "${GLIB_PREFIX}/bin")
++ find_program(GTKDOC_FIXXREF_EXE gtkdoc-fixxref PATH "${GLIB_PREFIX}/bin")
 + 
++ find_package_handle_standard_args(GtkDoc
++-    REQUIRED_VARS GTKDOC_SCAN_EXE GTKDOC_SCANGOBJ_EXE GTKDOC_SCANGOBJ_WRAPPER GTKDOC_MKDB_EXE GTKDOC_MKHTML_EXE GTKDOC_FIXXREF_EXE
+++    REQUIRED_VARS GTKDOC_SCAN_EXE GTKDOC_SCANGOBJ_EXE GTKDOC_MKDB_EXE GTKDOC_MKHTML_EXE GTKDOC_FIXXREF_EXE
++     VERSION_VAR GtkDoc_VERSION)
 + 
-+ install (FILES ${libcomps_HEADERS} DESTINATION include/libcomps)
++ # ::
 +-- 
 +2.11.0
 +
-diff --git a/meta/recipes-devtools/libcomps/libcomps_git.bb b/meta/recipes-devtools/libcomps/libcomps_git.bb
+diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch b/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
 new file mode 100644
-index 00000000000..448ea62f67c
+index 00000000000..954add6e738
 --- /dev/null
-+++ b/meta/recipes-devtools/libcomps/libcomps_git.bb
-@@ -0,0 +1,23 @@
-+SUMMARY = "Libcomps is alternative for yum.comps library (which is for managing rpm package groups)."
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
++++ b/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
+@@ -0,0 +1,28 @@
++From 5958b151a4dbb89114e90c971a34b74f873b7beb Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Tue, 7 Feb 2017 12:16:03 +0200
++Subject: [PATCH] Get parameters for both libsolv and libsolvext (libdnf is
++ using both)
 +
-+SRC_URI = "git://github.com/rpm-software-management/libcomps.git \
-+           file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
-+           file://0002-Set-library-installation-path-correctly.patch \
++Upstream-Status: Pending [depends on whether https://github.com/openSUSE/libsolv/pull/177 is accepted]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ CMakeLists.txt | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index b531da1..e512da0 100644
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -28,7 +28,7 @@ find_package (PkgConfig REQUIRED)
++ SET (CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
++ PKG_CHECK_MODULES(GLIB gio-unix-2.0>=2.44.0 REQUIRED)
++ FIND_LIBRARY (RPMDB_LIBRARY NAMES rpmdb)
++-PKG_CHECK_MODULES (LIBSOLV REQUIRED libsolv)
+++PKG_CHECK_MODULES (LIBSOLV REQUIRED libsolv libsolvext)
++ set(LIBSOLV_LIBRARY ${LIBSOLV_LIBRARIES})
++ pkg_check_modules (CHECK REQUIRED check)
++ pkg_check_modules (REPO REQUIRED librepo)
++-- 
++2.11.0
++
+diff --git a/meta/recipes-devtools/libdnf/libdnf/0002-Prefix-sysroot-path-to-introspection-tools-path.patch b/meta/recipes-devtools/libdnf/libdnf/0002-Prefix-sysroot-path-to-introspection-tools-path.patch
+new file mode 100644
+index 00000000000..3d772a5f8a3
+--- /dev/null
++++ b/meta/recipes-devtools/libdnf/libdnf/0002-Prefix-sysroot-path-to-introspection-tools-path.patch
+@@ -0,0 +1,36 @@
++From c8211ad99ccaa4af4a75e0ba639527267fcfd69e Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Fri, 30 Dec 2016 18:17:19 +0200
++Subject: [PATCH 2/4] Prefix sysroot path to introspection tools path.
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ libdnf/CMakeLists.txt | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/libdnf/CMakeLists.txt b/libdnf/CMakeLists.txt
++index 63f07bf..837792b 100644
++--- a/libdnf/CMakeLists.txt
+++++ b/libdnf/CMakeLists.txt
++@@ -133,7 +133,7 @@ if (GOBJECT_INTROSPECTION_FOUND)
++         set(GIR_TYPELIB "${GIR_PREFIX}.typelib")
++ 
++         add_custom_command(OUTPUT ${GIR_XML}
++-            COMMAND env CFLAGS=${CMAKE_C_FLAGS} ${GOBJECT_INTROSPECTION_1.0_G_IR_SCANNER}
+++            COMMAND env CFLAGS=${CMAKE_C_FLAGS} $ENV{PKG_CONFIG_SYSROOT_DIR}${GOBJECT_INTROSPECTION_1.0_G_IR_SCANNER}
++                     --namespace=Dnf
++                     --nsversion=${DNF_SO_VERSION}.0
++                     --library-path=${CMAKE_CURRENT_BINARY_DIR}
++@@ -153,7 +153,7 @@ if (GOBJECT_INTROSPECTION_FOUND)
++             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
++ 
++         add_custom_command(OUTPUT ${GIR_TYPELIB}
++-            COMMAND ${GOBJECT_INTROSPECTION_1.0_G_IR_COMPILER}
+++            COMMAND $ENV{PKG_CONFIG_SYSROOT_DIR}${GOBJECT_INTROSPECTION_1.0_G_IR_COMPILER}
++                     -o ${GIR_TYPELIB}
++                     ${GIR_XML}
++             DEPENDS ${GIR_XML}
++-- 
++2.11.0
++
+diff --git a/meta/recipes-devtools/libdnf/libdnf/0003-Set-the-library-installation-directory-correctly.patch b/meta/recipes-devtools/libdnf/libdnf/0003-Set-the-library-installation-directory-correctly.patch
+new file mode 100644
+index 00000000000..d7e59d8333a
+--- /dev/null
++++ b/meta/recipes-devtools/libdnf/libdnf/0003-Set-the-library-installation-directory-correctly.patch
+@@ -0,0 +1,29 @@
++From 8d29879fe3606c78769c1bcdddf0bcfc7191c710 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Fri, 30 Dec 2016 18:20:01 +0200
++Subject: [PATCH 3/4] Set the library installation directory correctly.
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ CMakeLists.txt | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index d35f0d7..8edb627 100644
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -62,7 +62,9 @@ ADD_DEFINITIONS(-DPACKAGE_VERSION=\\"${LIBDNF_VERSION}\\")
++ IF (CMAKE_SIZEOF_VOID_P MATCHES "8")
++   SET (LIB_SUFFIX "64")
++ ENDIF (CMAKE_SIZEOF_VOID_P MATCHES "8")
++-SET (LIB_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}")
+++#SET (LIB_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}")
+++SET (LIB_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}")
+++
++ 
++ ADD_SUBDIRECTORY (libdnf)
++ ENABLE_TESTING()
++-- 
++2.11.0
++
+diff --git a/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch b/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
+new file mode 100644
+index 00000000000..931959b5f38
+--- /dev/null
++++ b/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
+@@ -0,0 +1,29 @@
++From 6d2718b925453f9a6915001f489606eb8e4086c8 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Fri, 30 Dec 2016 18:24:50 +0200
++Subject: [PATCH 4/4] Set libsolv variables with pkg-config (cmake's own module
++ doesn't work properly).
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ CMakeLists.txt | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index 8edb627..b531da1 100644
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -28,7 +28,8 @@ find_package (PkgConfig REQUIRED)
++ SET (CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
++ PKG_CHECK_MODULES(GLIB gio-unix-2.0>=2.44.0 REQUIRED)
++ FIND_LIBRARY (RPMDB_LIBRARY NAMES rpmdb)
++-find_package (LibSolv 0.6.21 REQUIRED COMPONENTS ext)
+++PKG_CHECK_MODULES (LIBSOLV REQUIRED libsolv)
+++set(LIBSOLV_LIBRARY ${LIBSOLV_LIBRARIES})
++ pkg_check_modules (CHECK REQUIRED check)
++ pkg_check_modules (REPO REQUIRED librepo)
++ FIND_PROGRAM (VALGRIND_PROGRAM NAMES valgrind PATH /usr/bin /usr/local/bin)
++-- 
++2.11.0
++
+diff --git a/meta/recipes-devtools/libdnf/libdnf_git.bb b/meta/recipes-devtools/libdnf/libdnf_git.bb
+new file mode 100644
+index 00000000000..e056b2bd32f
+--- /dev/null
++++ b/meta/recipes-devtools/libdnf/libdnf_git.bb
+@@ -0,0 +1,25 @@
++SUMMARY = "Library providing simplified C and Python API to libsolv"
++LICENSE = "LGPLv2.1"
++LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
++
++SRC_URI = "git://github.com/rpm-software-management/libdnf \
++           file://0001-FindGtkDoc.cmake-drop-the-requirement-for-GTKDOC_SCA.patch \
++           file://0002-Prefix-sysroot-path-to-introspection-tools-path.patch \
++           file://0003-Set-the-library-installation-directory-correctly.patch \
++           file://0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch \
++           file://0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch \
 +           "
 +
-+PV = "0.1.8+git${SRCPV}"
-+SRCREV = "01a4759894cccff64d2561614a58281adf5ce859"
++PV = "0.2.3+git${SRCPV}"
++SRCREV = "367545629cc01a8e622890d89bd13d062ce60d7b"
 +
 +S = "${WORKDIR}/git"
 +
-+inherit cmake distutils-base
++DEPENDS = "glib-2.0 libsolv libcheck librepo rpm gtk-doc"
 +
-+DEPENDS = "libxml2 expat libcheck"
++inherit gtk-doc gobject-introspection cmake distutils-base pkgconfig 
 +
-+EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR}"
-+OECMAKE_SOURCEPATH = "${S}/libcomps"
++EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DWITH_MAN=OFF"
 +
 +BBCLASSEXTEND = "native"
 +
