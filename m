@@ -1,49 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f169.google.com (mail-qt0-f169.google.com
-	[209.85.216.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 5212B731DA
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CC2B731D1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 16:07:10 +0000 (UTC)
-Received: by mail-qt0-f169.google.com with SMTP id w20so86892375qtb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 08:07:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=SvhCVdN2qDhPpbEx7GiL7Nakb8NaPVIsb9iI3uFt/bc=;
-	b=v2RUfVKK/dnV9aqxZSA5K4uJom6VMmmtNFyypcpddTh7yjfcMfWkT/N8WCCt/Tywf9
-	FjsPi+FZD5IY7IpJeTPeMwrg+wtni5lGyW6j23ZLs9U4g6x2NnZxcg520PFDzRJsQAJa
-	FWhNcZ08WJT/chaEuLkDmzW4MsBm+6TN3pNrhVWER7mLib84oNvwGCDgAURMYWo7pOyo
-	woQDJui6C7gR0rbW9y7yaSysrlm3lxtevFWWr29NDTH/o/zsAcVFPsQSMwytSlLhgAL6
-	E1jEI4Yjz2QhH6lcLxOvPQqS4vddSwFJS/HKXaPU8eLOmulimAzVNF+zJvVGxQidoYJW
-	tR/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=SvhCVdN2qDhPpbEx7GiL7Nakb8NaPVIsb9iI3uFt/bc=;
-	b=RUxYaM9AMxuhsX8RLIOWvB5NC4MAW3iFBmAayqwHvbzd/xxp9Q2ZRBlYF/5iNEv17j
-	2gGCpPeRVch1HuKEQ9qWiUqhUB85tFxooR5zCzd+NSsLeamMXKMwuHxR6tXudzdOgCrY
-	JKuwQZsDXjxrGsVI0nEjuK2jlMeelWtFqxluMvKdB5B4DoiCNQc/+c8OnZJP5vJXKtmQ
-	Uyrz1IkIZS2LXKE0yqaGypj+Mn/3VuQEjn8C6U5NqL2NNLtkkEvarhp3EB6BdQ3bx3Do
-	z1T+hNeRHZxWcDvmBUEpEdFGyNSk68PYrA1JF7KIWADFMqxBtMRUSwzfYEjUOVtKZsLX
-	SCvg==
-X-Gm-Message-State: AMke39lKrVFoPxDuXhEc43G6akBxD23v+VWEQVUcH/3n3DVlxGL+fEOq7f/78Qk33c7uGKKiwNP9Gv9fHDyz4+N7
-X-Received: by 10.237.62.232 with SMTP id o37mr20741839qtf.188.1487002030977; 
-	Mon, 13 Feb 2017 08:07:10 -0800 (PST)
+	Mon, 13 Feb 2017 16:26:45 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Feb 2017 08:26:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.35,156,1484035200"; d="scan'208";a="64164423"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga005.jf.intel.com with ESMTP; 13 Feb 2017 08:26:44 -0800
+To: openembedded-core@lists.openembedded.org
+References: <cover.1486997986.git.alexander.kanavin@linux.intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <2144d776-b491-0200-5a2c-63c46f8b775a@linux.intel.com>
+Date: Mon, 13 Feb 2017 18:27:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.6.0
 MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Mon, 13 Feb 2017 08:06:50 -0800 (PST)
-In-Reply-To: <4c74e0c7-0e2c-0d3d-c252-3de7c4b146b4@windriver.com>
-References: <cover.1486622006.git.hongxu.jia@windriver.com>
-	<f3c4e388c57e638701c92b4a152817d77b6bc469.1486622007.git.hongxu.jia@windriver.com>
-	<CAJTo0LbJHaDUaF3AWzSYyOFCcCH0yYutEctaQ_p7xt+cKyktHw@mail.gmail.com>
-	<4c74e0c7-0e2c-0d3d-c252-3de7c4b146b4@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 13 Feb 2017 16:06:50 +0000
-Message-ID: <CAJTo0LZVrm4WLPFtexDNcKqHZaHhAtCRS6_+yAfGvRSaQwjHKw@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 11/13] bash: update patches for 4.4
+In-Reply-To: <cover.1486997986.git.alexander.kanavin@linux.intel.com>
+Subject: Re: [PATCH 00/36] Replace Smart package manager with DNF package manager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,35 +33,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Feb 2017 16:07:12 -0000
-Content-Type: multipart/alternative; boundary=001a11406f0ed64ba405486ba35b
+X-List-Received-Date: Mon, 13 Feb 2017 16:26:47 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a11406f0ed64ba405486ba35b
-Content-Type: text/plain; charset=UTF-8
-
-On 13 February 2017 at 01:35, Hongxu Jia <hongxu.jia@windriver.com> wrote:
-
-> Could you accept the upgrade patches except ncurses and bash?
-> If yes, I will only resend ncurses and bash.
+On 02/13/2017 05:05 PM, Alexander Kanavin wrote:
+> This patchset replaces the outdated, unsupported Smart package manager with
+> DNF package manager (Fedora's successor to yum). This is not a trivial change
+> and there are many consequences:
 >
+> - DNF is API incompatible with rpm5; therefore rpm5 is replaced with rpm4.
+>
+> - There are various non-default features that aren't yet supported or tested:
+> such as signing packages and repositories, RPM_PREFER_ELF_ARCH and possibly others
+>
+> - db 6.x is removed from oe-core; db 5.x is replacing it
+>
+> - Although I did my very best to test this patchset locally,
+> the whole thing may break down in surprising ways. I would appreaciate all the help
+> you can provide here. The patchset touches many things in many places and has
+> more than the usual share of side effects.
 
-That's fine, the rest of the series is staged already.
+One thing I forgot to mention: previously the way to force something to 
+run on target during package installation was to put 'if D is defined 
+then exit 1' to pkg_postinst(). That behavior is still supported, but 
+deprecated and produces a warning; the new way is to put target-specific 
+postinst actions to pkg_postinst_ontarget(). The rationale is in the 
+commit message:
 
-Ross
+http://lists.openembedded.org/pipermail/openembedded-core/2017-February/132654.html
 
---001a11406f0ed64ba405486ba35b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Alex
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 13 February 2017 at 01:35, Hongxu Jia <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:hongxu.jia@windriver.com" target=3D"_blank">hongxu.jia@windriver.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div bgcolor=3D"#FF=
-FFFF" text=3D"#000000">Could you accept the upgrade patches except ncurses =
-and bash?<br>
-    If yes, I will only resend ncurses and bash.<br></div></blockquote></di=
-v><br>That&#39;s fine, the rest of the series is staged already.</div><div =
-class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a11406f0ed64ba405486ba35b--
