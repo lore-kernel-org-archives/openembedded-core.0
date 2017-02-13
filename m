@@ -1,23 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 286B271DAE
+	by mail.openembedded.org (Postfix) with ESMTP id 5A81371DA3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 15:05:45 +0000 (UTC)
+	Mon, 13 Feb 2017 15:05:47 +0000 (UTC)
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga105.jf.intel.com with ESMTP; 13 Feb 2017 07:05:45 -0800
+	by orsmga105.jf.intel.com with ESMTP; 13 Feb 2017 07:05:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,156,1484035200"; d="scan'208";a="64546542"
+X-IronPort-AV: E=Sophos;i="5.35,156,1484035200"; d="scan'208";a="64546557"
 Received: from kanavin-desktop.fi.intel.com (HELO
 	kanavin-desktop.fi.intel.comfi.intel.com) ([10.237.68.161])
 	by fmsmga005.fm.intel.com with ESMTP; 13 Feb 2017 07:05:45 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Feb 2017 17:05:37 +0200
-Message-Id: <33314d7c07aad85afd40ce8221fd0fbdd5905c0e.1486997986.git.alexander.kanavin@linux.intel.com>
+Date: Mon, 13 Feb 2017 17:05:38 +0200
+Message-Id: <c7d1068cf188b9cb71b78d76066dfef385d773a0.1486997986.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1486997986.git.alexander.kanavin@linux.intel.com>
 References: <cover.1486997986.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 07/36] rpm: add a 4.x recipe
+Subject: [PATCH 08/36] rpm: remove 5.x recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,347 +30,6722 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Feb 2017 15:05:45 -0000
-
-The dnf stack is written and tested against rpm 4.x. So if we want to use dnf for packaging,
-we should also use rpm 4 - there's simply too much work involved in making rpm 5 work with it due
-to significant API differences, and supporting that going forward.
+X-List-Received-Date: Mon, 13 Feb 2017 15:05:47 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...an-unsatisfiable-dependency-when-building.patch | 33 ++++++++++
- .../0001-Do-not-read-config-files-from-HOME.patch  | 38 +++++++++++
- ...t-the-PATH-environment-variable-before-ru.patch | 30 +++++++++
- ...installing-execute-package-scriptlets-wit.patch | 37 +++++++++++
- ...-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch | 72 +++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_git.bb               | 73 ++++++++++++++++++++++
- 6 files changed, 283 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
- create mode 100644 meta/recipes-devtools/rpm/files/0001-Do-not-read-config-files-from-HOME.patch
- create mode 100644 meta/recipes-devtools/rpm/files/0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch
- create mode 100644 meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
- create mode 100644 meta/recipes-devtools/rpm/files/0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm_git.bb
+ ...1-Disable-__sync_add_and_fetch_8-on-nios2.patch |   30 -
+ .../rpm/rpm/0001-define-EM_AARCH64.patch           |   35 -
+ .../rpm/rpm/0001-rpm-Fix-build-on-musl.patch       |  294 ------
+ ...0001-system.h-query.c-support-nosignature.patch |   63 --
+ ...arseArgvString-to-parse-the-_gpg_check_pa.patch |   49 -
+ .../configure.ac-check-for-both-gpg2-and-gpg.patch |   29 -
+ meta/recipes-devtools/rpm/rpm/dbconvert.patch      |   27 -
+ meta/recipes-devtools/rpm/rpm/debugedit-segv.patch |  100 --
+ ...debugedit-valid-file-to-fix-segment-fault.patch |   65 --
+ meta/recipes-devtools/rpm/rpm/gcc6-stdlib.patch    |   54 -
+ .../rpm/rpm/header-include-fix.patch               |   36 -
+ .../rpm/rpm/makefile-am-exec-hook.patch            |   33 -
+ .../rpm/rpm/no-ldflags-in-pkgconfig.patch          |   14 -
+ meta/recipes-devtools/rpm/rpm/perfile_rpmdeps.sh   |   50 -
+ .../rpm/popt-disable-auto-stack-protector.patch    |   27 -
+ .../rpm/rpm/python-rpm-rpmsense.patch              |   31 -
+ meta/recipes-devtools/rpm/rpm/pythondeps.sh        |   16 -
+ meta/recipes-devtools/rpm/rpm/rpm-atomic-ops.patch |   73 --
+ .../rpm/rpm/rpm-autogen-force.patch                |   78 --
+ meta/recipes-devtools/rpm/rpm/rpm-autogen.patch    |   25 -
+ meta/recipes-devtools/rpm/rpm/rpm-canonarch.patch  |  136 ---
+ .../rpm/rpm-check-rootpath-reasonableness.patch    |   96 --
+ meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch  |   19 -
+ meta/recipes-devtools/rpm/rpm/rpm-db5-or-db6.patch |  174 ----
+ meta/recipes-devtools/rpm/rpm/rpm-db60.patch       |   56 -
+ .../rpm/rpm/rpm-db_buffer_small.patch              |   77 --
+ .../rpm/rpm/rpm-debug-platform.patch               |   65 --
+ .../rpm/rpm/rpm-disable-auto-stack-protector.patch |   24 -
+ .../rpm/rpm/rpm-disable-blaketest.patch            |   28 -
+ ...-ensure-rpm2cpio-call-rpm-relocation-code.patch |   25 -
+ meta/recipes-devtools/rpm/rpm/rpm-fileclass.patch  |   36 -
+ .../rpm/rpm/rpm-fix-logio-cp.patch                 |   30 -
+ .../rpm-fix-lua-tests-compilation-failure.patch    |   43 -
+ .../rpm/rpm/rpm-fix-parseEmbedded.patch            |   27 -
+ meta/recipes-devtools/rpm/rpm/rpm-gnu-atomic.patch |   64 --
+ .../rpm/rpm/rpm-hardlink-segfault-fix.patch        |   43 -
+ .../rpm/rpm/rpm-keccak-sse-intrin.patch            |   27 -
+ ...ction.c-fix-file-conflicts-for-mips64-N32.patch |   52 -
+ meta/recipes-devtools/rpm/rpm/rpm-libsql-fix.patch |   22 -
+ .../recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch |   15 -
+ .../rpm/rpm/rpm-lsb-compatibility.patch            |   24 -
+ meta/recipes-devtools/rpm/rpm/rpm-lua.patch        |   33 -
+ ...rpm-macros.in-disable-external-key-server.patch |   31 -
+ meta/recipes-devtools/rpm/rpm/rpm-macros.patch     |   64 --
+ .../rpm/rpm/rpm-mongodb-sasl.patch                 |   69 --
+ meta/recipes-devtools/rpm/rpm/rpm-no-loopmsg.patch |   19 -
+ .../rpm/rpm/rpm-no-perl-urpm.patch                 |   47 -
+ ...b-before-verifyscript-to-avoid-null-point.patch |   24 -
+ meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch  |   23 -
+ .../rpm/rpm/rpm-packageorigin.patch                |   25 -
+ .../rpm/rpm/rpm-payload-use-hashed-inode.patch     |  126 ---
+ .../rpm/rpm/rpm-pkgconfigdeps.patch                |   37 -
+ .../rpm/rpm/rpm-platform-file-fix.patch            |   28 -
+ meta/recipes-devtools/rpm/rpm/rpm-platform.patch   |  137 ---
+ meta/recipes-devtools/rpm/rpm/rpm-platform2.patch  |  105 --
+ meta/recipes-devtools/rpm/rpm/rpm-py-init.patch    |   29 -
+ .../rpm/rpm/rpm-python-AddErase.patch              |   35 -
+ .../rpm/rpm/rpm-python-restore-origin.patch        |   49 -
+ .../rpm/rpm/rpm-python-tagname.patch               |   24 -
+ meta/recipes-devtools/rpm/rpm/rpm-realpath.patch   |   24 -
+ .../rpm/rpm/rpm-reloc-macros.patch                 |   31 -
+ meta/recipes-devtools/rpm/rpm/rpm-resolvedep.patch |   40 -
+ .../rpm/rpm/rpm-rpmdb-grammar.patch                |  124 ---
+ .../rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch   |   34 -
+ .../rpm/rpm/rpm-rpmio-headers.patch                |   19 -
+ .../recipes-devtools/rpm/rpm/rpm-rpmpgp-popt.patch |   26 -
+ .../rpm/rpm/rpm-scriptletexechelper.patch          |  159 ---
+ meta/recipes-devtools/rpm/rpm/rpm-showrc.patch     |   26 -
+ .../rpm/rpm/rpm-syck-fix-gram.patch                | 1081 --------------------
+ .../rpm-tag-generate-endian-conversion-fix.patch   |   50 -
+ .../rpm/rpm/rpm-tagname-type.patch                 |   25 -
+ .../rpm/rpm/rpm-tools-mtree-LDFLAGS.patch          |   24 -
+ .../rpm/rpm/rpm-uuid-include.patch                 |   40 -
+ meta/recipes-devtools/rpm/rpm/rpm2cpio             |   39 -
+ meta/recipes-devtools/rpm/rpm/rpmatch.patch        |   34 -
+ ...more-verbose-error-logging-in-rpmTempFile.patch |   31 -
+ .../rpmdb-prevent-race-in-tmpdir-creation.patch    |   41 -
+ meta/recipes-devtools/rpm/rpm/rpmdeps-oecore.patch |  194 ----
+ ...heck-_gpg_passphrase-before-ask-for-input.patch |   70 --
+ .../recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch |   50 -
+ meta/recipes-devtools/rpm/rpm/uclibc-support.patch |   63 --
+ meta/recipes-devtools/rpm/rpm_5.4.16.bb            |  712 -------------
+ 82 files changed, 6054 deletions(-)
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/0001-Disable-__sync_add_and_fetch_8-on-nios2.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/0001-define-EM_AARCH64.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/0001-rpm-Fix-build-on-musl.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/0001-system.h-query.c-support-nosignature.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/configure.ac-check-for-both-gpg2-and-gpg.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/dbconvert.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/debugedit-segv.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/debugedit-valid-file-to-fix-segment-fault.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/gcc6-stdlib.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/header-include-fix.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/makefile-am-exec-hook.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/no-ldflags-in-pkgconfig.patch
+ delete mode 100755 meta/recipes-devtools/rpm/rpm/perfile_rpmdeps.sh
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/popt-disable-auto-stack-protector.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/python-rpm-rpmsense.patch
+ delete mode 100755 meta/recipes-devtools/rpm/rpm/pythondeps.sh
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-atomic-ops.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-autogen-force.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-autogen.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-canonarch.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-check-rootpath-reasonableness.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-db5-or-db6.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-db60.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-db_buffer_small.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-debug-platform.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-disable-auto-stack-protector.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-disable-blaketest.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-ensure-rpm2cpio-call-rpm-relocation-code.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-fileclass.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-fix-logio-cp.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-fix-lua-tests-compilation-failure.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-fix-parseEmbedded.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-gnu-atomic.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-hardlink-segfault-fix.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-keccak-sse-intrin.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-lib-transaction.c-fix-file-conflicts-for-mips64-N32.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-libsql-fix.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-lsb-compatibility.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-lua.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-macros.in-disable-external-key-server.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-macros.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-mongodb-sasl.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-no-loopmsg.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-no-perl-urpm.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-opendb-before-verifyscript-to-avoid-null-point.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-packageorigin.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-payload-use-hashed-inode.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-pkgconfigdeps.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-platform-file-fix.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-platform.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-platform2.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-py-init.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-python-AddErase.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-python-restore-origin.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-python-tagname.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-realpath.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-reloc-macros.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-resolvedep.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-rpmdb-grammar.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-rpmio-headers.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-rpmpgp-popt.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-scriptletexechelper.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-showrc.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-syck-fix-gram.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-tagname-type.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-tools-mtree-LDFLAGS.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-uuid-include.patch
+ delete mode 100755 meta/recipes-devtools/rpm/rpm/rpm2cpio
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpmatch.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpmdb-more-verbose-error-logging-in-rpmTempFile.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpmdb-prevent-race-in-tmpdir-creation.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpmdeps-oecore.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpmqv.c-check-_gpg_passphrase-before-ask-for-input.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/uclibc-support.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm_5.4.16.bb
 
-diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
-new file mode 100644
-index 00000000000..80e2f0fad70
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
-@@ -0,0 +1,33 @@
-+From 87cfc0db1ed6fe381a5ed5f0016d8c3344a31a11 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Mon, 9 Jan 2017 18:52:11 +0200
-+Subject: [PATCH] Do not add an unsatisfiable dependency when building rpms in
-+ a short-circuited way.
-+
-+Upstream permits short-circuiting only for local testing; Yocto on the other
-+hand produces rpms that way by design.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ build/pack.c | 4 ----
-+ 1 file changed, 4 deletions(-)
-+
-+diff --git a/build/pack.c b/build/pack.c
-+index 1261cdbba..bb2d6f4f6 100644
-+--- a/build/pack.c
-++++ b/build/pack.c
-+@@ -595,10 +595,6 @@ rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
-+ 	    headerPutBin(pkg->header, RPMTAG_SOURCEPKGID, spec->sourcePkgId,16);
-+ 	}
-+ 
-+-	if (cheating) {
-+-	    (void) rpmlibNeedsFeature(pkg, "ShortCircuited", "4.9.0-1");
-+-	}
-+-	
-+ 	{   char *binFormat = rpmGetPath("%{_rpmfilename}", NULL);
-+ 	    char *binRpm, *binDir;
-+ 	    binRpm = headerFormat(pkg->header, binFormat, &errorString);
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-read-config-files-from-HOME.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-read-config-files-from-HOME.patch
-new file mode 100644
-index 00000000000..96eb4189520
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0001-Do-not-read-config-files-from-HOME.patch
-@@ -0,0 +1,38 @@
-+From 35381b6cd6c1b571bf7e6b0640de0f54dbf94386 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Tue, 10 Jan 2017 14:11:30 +0200
-+Subject: [PATCH] Do not read config files from $HOME
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ lib/rpmrc.c | 6 ++----
-+ 1 file changed, 2 insertions(+), 4 deletions(-)
-+
-+diff --git a/lib/rpmrc.c b/lib/rpmrc.c
-+index 4ed991321..19fe80f98 100644
-+--- a/lib/rpmrc.c
-++++ b/lib/rpmrc.c
-+@@ -458,8 +458,7 @@ static void setDefaults(void)
-+     if (!defrcfiles) {
-+ 	defrcfiles = rstrscat(NULL, confdir, "/rpmrc", ":",
-+ 				confdir, "/" RPMCANONVENDOR "/rpmrc", ":",
-+-				SYSCONFDIR "/rpmrc", ":",
-+-			  	"~/.rpmrc", NULL);
-++				SYSCONFDIR "/rpmrc", ":");
-+     }
-+ 
-+ #ifndef MACROFILES
-+@@ -471,8 +470,7 @@ static void setDefaults(void)
-+   				confdir, "/" RPMCANONVENDOR "/macros", ":",
-+ 				SYSCONFDIR "/rpm/macros.*", ":",
-+ 				SYSCONFDIR "/rpm/macros", ":",
-+-				SYSCONFDIR "/rpm/%{_target}/macros", ":",
-+-				"~/.rpmmacros", NULL);
-++				SYSCONFDIR "/rpm/%{_target}/macros", ":");
-+     }
-+ #else
-+     macrofiles = MACROFILES;
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch
-new file mode 100644
-index 00000000000..a38675f89c9
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch
-@@ -0,0 +1,30 @@
-+From ffb5301a8594140ad7a58bc0f2053be8ca2b2946 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 20 Jan 2017 13:32:06 +0200
-+Subject: [PATCH 1/2] Do not reset the PATH environment variable before running
-+ scriptlets.
-+
-+We add lots of native stuff into it and scriptlets rely on that.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ lib/rpmscript.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/lib/rpmscript.c b/lib/rpmscript.c
-+index 92f949fa2..7c1aa75a8 100644
-+--- a/lib/rpmscript.c
-++++ b/lib/rpmscript.c
-+@@ -201,7 +201,7 @@ static void doScriptExec(ARGV_const_t argv, ARGV_const_t prefixes,
-+ 	if (ipath && ipath[5] != '%')
-+ 	    path = ipath;
-+ 
-+-	xx = setenv("PATH", path, 1);
-++	//xx = setenv("PATH", path, 1);
-+ 	free(ipath);
-+     }
-+ 
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch b/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
-new file mode 100644
-index 00000000000..2be3cb5af3c
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
-@@ -0,0 +1,37 @@
-+From a6f269f879221f2777169c5f7291322afe6b661b Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Tue, 17 Jan 2017 14:07:17 +0200
-+Subject: [PATCH] When cross-installing, execute package scriptlets without
-+ chrooting into destination rootfs
-+
-+This is triggered only when RPM_NO_CHROOT_FOR_SCRIPTS environment variable is defined.
-+Otherwise they will trigger an explosion of failures, obviously.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ lib/rpmscript.c | 8 +++++++-
-+ 1 file changed, 7 insertions(+), 1 deletion(-)
-+
-+diff --git a/lib/rpmscript.c b/lib/rpmscript.c
-+index 98d3f420d..b95b5d606 100644
-+--- a/lib/rpmscript.c
-++++ b/lib/rpmscript.c
-+@@ -467,7 +467,13 @@ rpmRC rpmScriptRun(rpmScript script, int arg1, int arg2, FD_t scriptFd,
-+ 
-+     if (rc != RPMRC_FAIL) {
-+ 	if (script_type & RPMSCRIPTLET_EXEC) {
-+-	    rc = runExtScript(plugins, prefixes, script->descr, lvl, scriptFd, &args, script->body, arg1, arg2, &script->nextFileFunc);
-++	    if (getenv("RPM_NO_CHROOT_FOR_SCRIPTS") != NULL) {
-++		rpmChrootOut();
-++		rc = runExtScript(plugins, prefixes, script->descr, lvl, scriptFd, &args, script->body, arg1, arg2, &script->nextFileFunc);
-++		rpmChrootIn();
-++	    } else {
-++		rc = runExtScript(plugins, prefixes, script->descr, lvl, scriptFd, &args, script->body, arg1, arg2, &script->nextFileFunc);
-++	    }
-+ 	} else {
-+ 	    rc = runLuaScript(plugins, prefixes, script->descr, lvl, scriptFd, &args, script->body, arg1, arg2, &script->nextFileFunc);
-+ 	}
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-devtools/rpm/files/0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch b/meta/recipes-devtools/rpm/files/0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch
-new file mode 100644
-index 00000000000..b3dbc319b6a
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch
-@@ -0,0 +1,72 @@
-+From 383c0b097b7eba16801a9e3c4b8e36a4b6de74ab Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 20 Jan 2017 13:33:05 +0200
-+Subject: [PATCH 2/2] Add support for prefixing /etc from RPM_ETCCONFIGDIR
-+ environment variable
-+
-+This is needed so that rpm can pick up target-specific configuration
-+from target rootfs instead of its own native sysroot.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ lib/rpmrc.c | 19 ++++++++++++++-----
-+ 1 file changed, 14 insertions(+), 5 deletions(-)
-+
-+diff --git a/lib/rpmrc.c b/lib/rpmrc.c
-+index 19fe80f98..6b27b3941 100644
-+--- a/lib/rpmrc.c
-++++ b/lib/rpmrc.c
-+@@ -455,10 +455,14 @@ const char * lookupInDefaultTable(const char * name,
-+ static void setDefaults(void)
-+ {
-+     const char *confdir = rpmConfigDir();
-++    const char *etcconfdir = getenv("RPM_ETCCONFIGDIR");
-++    if (etcconfdir == NULL)
-++        etcconfdir = "";
-++
-+     if (!defrcfiles) {
-+ 	defrcfiles = rstrscat(NULL, confdir, "/rpmrc", ":",
-+ 				confdir, "/" RPMCANONVENDOR "/rpmrc", ":",
-+-				SYSCONFDIR "/rpmrc", ":");
-++				etcconfdir, SYSCONFDIR "/rpmrc", ":", NULL);
-+     }
-+ 
-+ #ifndef MACROFILES
-+@@ -468,9 +472,9 @@ static void setDefaults(void)
-+ 				confdir, "/platform/%{_target}/macros", ":",
-+ 				confdir, "/fileattrs/*.attr", ":",
-+   				confdir, "/" RPMCANONVENDOR "/macros", ":",
-+-				SYSCONFDIR "/rpm/macros.*", ":",
-+-				SYSCONFDIR "/rpm/macros", ":",
-+-				SYSCONFDIR "/rpm/%{_target}/macros", ":");
-++				etcconfdir, SYSCONFDIR "/rpm/macros.*", ":",
-++				etcconfdir, SYSCONFDIR "/rpm/macros", ":",
-++				etcconfdir, SYSCONFDIR "/rpm/%{_target}/macros", ":", NULL);
-+     }
-+ #else
-+     macrofiles = MACROFILES;
-+@@ -989,7 +993,11 @@ static void read_auxv(void)
-+  */
-+ static void defaultMachine(rpmrcCtx ctx, const char ** arch, const char ** os)
-+ {
-+-    const char * const platform_path = SYSCONFDIR "/rpm/platform";
-++    const char *etcconfdir = getenv("RPM_ETCCONFIGDIR");
-++    if (etcconfdir == NULL)
-++        etcconfdir = "";
-++
-++    const char * const platform_path = rstrscat(NULL, etcconfdir, SYSCONFDIR "/rpm/platform", NULL);
-+     static struct utsname un;
-+     char * chptr;
-+     canonEntry canon;
-+@@ -1286,6 +1294,7 @@ static void defaultMachine(rpmrcCtx ctx, const char ** arch, const char ** os)
-+ 
-+     if (arch) *arch = un.machine;
-+     if (os) *os = un.sysname;
-++    free(platform_path);
-+ }
-+ 
-+ static
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-devtools/rpm/rpm_git.bb b/meta/recipes-devtools/rpm/rpm_git.bb
-new file mode 100644
-index 00000000000..ceb4151945e
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm_git.bb
-@@ -0,0 +1,73 @@
-+SUMMARY = "The RPM package management system"
-+DESCRIPTION = "The RPM Package Manager (RPM) is a powerful command line driven \
-+package management system capable of installing, uninstalling, \
-+verifying, querying, and updating software packages. Each software \
-+package consists of an archive of files along with information about \
-+the package like its version, a description, etc."
-+
-+SUMMARY_${PN}-dev = "Development files for manipulating RPM packages"
-+DESCRIPTION_${PN}-dev = "This package contains the RPM C library and header files. These \
-+development files will simplify the process of writing programs that \
-+manipulate RPM packages and databases. These files are intended to \
-+simplify the process of creating graphical package managers or any \
-+other tools that need an intimate knowledge of RPM packages in order \
-+to function."
-+
-+SUMMARY_python-rpm = "Python bindings for apps which will manupulate RPM packages"
-+DESCRIPTION_python-rpm = "The rpm-python package contains a module that permits applications \
-+written in the Python programming language to use the interface \
-+supplied by the RPM Package Manager libraries."
-+
-+HOMEPAGE = "http://www.rpm.org"
-+
-+# libraries are also LGPL - how to express this?
-+LICENSE = "GPL-2.0"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=f5259151d26ff18e78023450a5ac8d96"
-+
-+SRC_URI = "git://github.com/rpm-software-management/rpm \
-+           file://0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch \
-+           file://0001-Do-not-read-config-files-from-HOME.patch \
-+           file://0001-When-cross-installing-execute-package-scriptlets-wit.patch \
-+           file://0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch \
-+           file://0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch \
-+           "
-+
-+PV = "4.13.90+git${SRCPV}"
-+PE = "1"
-+SRCREV = "ff43d03d1f9686c9ffa9232a64e253783309feb5"
-+
-+S = "${WORKDIR}/git"
-+
-+DEPENDS = "nss libarchive db file popt xz dbus elfutils python"
-+DEPENDS_append_class-native = " file-replacement-native"
-+
-+inherit autotools gettext pkgconfig pythonnative
-+
-+# OE-core patches autoreconf to additionally run gnu-configize, which fails with this recipe
-+EXTRA_AUTORECONF_append = " --exclude=gnu-configize"
-+
-+EXTRA_OECONF_append = " --without-lua --enable-python"
-+
-+# --sysconfdir prevents rpm from attempting to access machine-specific configuration in sysroot/etc; we need to have it in rootfs
-+#
-+# --localstatedir prevents rpm from writing its database to native sysroot when building images
-+#
-+# Also disable plugins, so that rpm doesn't attempt to inhibit shutdown via session dbus
-+EXTRA_OECONF_append_class-native = " --sysconfdir=/etc --localstatedir=/var --disable-plugins"
-+
-+BBCLASSEXTEND = "native"
-+
-+# Rpm's make install creates var/tmp which clashes with base-files packaging
-+do_install_append_class-target() {
-+    rm -rf ${D}/var
-+}
-+
-+FILES_${PN} += "${libdir}/rpm-plugins/*.so \
-+               "
-+
-+FILES_${PN}-dev += "${libdir}/rpm-plugins/*.la \
-+                    "
-+
-+PACKAGES += "python-rpm"
-+PROVIDES += "python-rpm"
-+FILES_python-rpm = "${PYTHON_SITEPACKAGES_DIR}/rpm/*"
+diff --git a/meta/recipes-devtools/rpm/rpm/0001-Disable-__sync_add_and_fetch_8-on-nios2.patch b/meta/recipes-devtools/rpm/rpm/0001-Disable-__sync_add_and_fetch_8-on-nios2.patch
+deleted file mode 100644
+index e9b73b8bfc3..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/0001-Disable-__sync_add_and_fetch_8-on-nios2.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From 06967a50f20095f5ca30b8214f4c98ba0f5262bf Mon Sep 17 00:00:00 2001
+-From: Marek Vasut <marex@denx.de>
+-Date: Sun, 3 Apr 2016 06:55:25 +0200
+-Subject: [PATCH] Disable __sync_add_and_fetch_8 on nios2
+-
+-The NIOS2 softcore does not implement the __sync_add_and_fetch_8,
+-so disable it accordingly.
+-
+-Signed-off-by: Marek Vasut <marex@denx.de>
+-Upstream-Status: Submitted
+----
+- rpmio/bson.h | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/rpmio/bson.h b/rpmio/bson.h
+-index 57023f1..60c7d02 100644
+---- a/rpmio/bson.h
+-+++ b/rpmio/bson.h
+-@@ -880,7 +880,7 @@ BSON_END_DECLS
+- BSON_BEGIN_DECLS
+- 
+- /* Some architectures do not support __sync_add_and_fetch_8 */
+--#if (__mips == 32) || (defined(__PPC__) && !defined(__GCC_HAVE_SYNC_COMPARE_AND_SWAP_8))
+-+#if (__mips == 32) || (__nios2__) || (defined(__PPC__) && !defined(__GCC_HAVE_SYNC_COMPARE_AND_SWAP_8))
+- # define __BSON_NEED_ATOMIC_64 1
+- #endif
+- 
+--- 
+-2.8.0.rc3
+-
+diff --git a/meta/recipes-devtools/rpm/rpm/0001-define-EM_AARCH64.patch b/meta/recipes-devtools/rpm/rpm/0001-define-EM_AARCH64.patch
+deleted file mode 100644
+index c9fb2686876..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/0001-define-EM_AARCH64.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-[PATCH] define EM_AARCH64
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-EM_AARCH64 maybe not be defined due to old version elf.h, and lead to
+-that debugedit can not work on aarch64 elf object files, since there is
+-no other dependence, except these two macro, define them to make
+-debugedit work on aarch64 elf files.
+-
+-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+----
+- tools/debugedit.c | 7 +++++++
+- 1 file changed, 7 insertions(+)
+-
+-diff --git a/tools/debugedit.c b/tools/debugedit.c
+-index de693ed..d16a641 100644
+---- a/tools/debugedit.c
+-+++ b/tools/debugedit.c
+-@@ -35,6 +35,13 @@
+- 
+- #include <gelf.h>
+- 
+-+#ifndef EM_AARCH64
+-+#define EM_AARCH64      183             /* ARM AARCH64 */
+-+#endif
+-+#ifndef R_AARCH64_ABS32
+-+#define R_AARCH64_ABS32 258
+-+#endif 
+-+
+- /* some defines taken from the dwarf standard */
+- 
+- #define DW_TAG_compile_unit	0x11
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-devtools/rpm/rpm/0001-rpm-Fix-build-on-musl.patch b/meta/recipes-devtools/rpm/rpm/0001-rpm-Fix-build-on-musl.patch
+deleted file mode 100644
+index 70dd4ff532c..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/0001-rpm-Fix-build-on-musl.patch
++++ /dev/null
+@@ -1,294 +0,0 @@
+-From 0af17c2ae86c1e8e42b96f6dface08f535bb55ad Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sun, 14 Feb 2016 08:33:24 +0000
+-Subject: [PATCH] rpm: Fix build on musl
+-
+-Provide alternatives to assumptions about glibc
+-on linux
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Updated to 5.4.16 (CVS)
+-
+-The patch will likely need additional rework before it can be accepted upsteam
+-due to the way MUSL changes are patched in.
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+----
+-Upstream-Status: Pending
+-
+- lib/poptALL.c          |    2 ++
+- rpmio/fts.c            |    4 ++++
+- rpmio/poptIO.c         |    2 ++
+- rpmqv.c                |    2 ++
+- system.h               |   13 ++++++-------
+- tools/debugedit.c      |   47 +++++++++++++++++++++++++++++++++++++++++++++++
+- tools/rpm2cpio.c       |    2 ++
+- tools/rpmcache.c       |    2 ++
+- tools/rpmcmp.c         |    2 ++
+- tools/rpmdeps-oecore.c |    2 ++
+- tools/rpmdeps.c        |    2 ++
+- tools/rpmdigest.c      |    2 ++
+- tools/rpmfind.c        |    6 +++---
+- 13 files changed, 78 insertions(+), 10 deletions(-)
+-
+-Index: rpm-5.4.15/rpmio/fts.c
+-===================================================================
+---- rpm-5.4.15.orig/rpmio/fts.c
+-+++ rpm-5.4.15/rpmio/fts.c
+-@@ -124,6 +124,10 @@ static char sccsid[] = "@(#)fts.c	8.6 (B
+- #   define __fxstat64(_stat_ver, _fd, _sbp)    fstat((_fd), (_sbp))
+- #endif
+- 
+-+#ifndef _STAT_VER
+-+#   define _STAT_VER      0
+-+#endif
+-+
+- #if !defined(_D_EXACT_NAMLEN)
+- #   define _D_EXACT_NAMLEN(d) (strlen((d)->d_name))
+- #endif
+-Index: rpm-5.4.15/tools/debugedit.c
+-===================================================================
+---- rpm-5.4.15.orig/tools/debugedit.c
+-+++ rpm-5.4.15/tools/debugedit.c
+-@@ -22,7 +22,12 @@
+- #include <byteswap.h>
+- #include <endian.h>
+- #include <errno.h>
+-+#ifdef __GLIBC__
+- #include <error.h>
+-+#else
+-+#include <stdarg.h>
+-+void error(int, int, const char *, ...);
+-+#endif
+- #include <limits.h>
+- #include <string.h>
+- #include <stdlib.h>
+-@@ -1535,6 +1540,48 @@ handle_build_id (DSO *dso, Elf_Data *bui
+-     puts (hex);
+-   }
+- }
+-+#ifndef __GLIBC__
+-+extern char *__progname;
+-+
+-+void (*error_print_progname)(void) = 0;
+-+unsigned int error_message_count = 0;
+-+int error_one_per_line = 0;
+-+
+-+static void eprint(int status, int e, const char *file, unsigned int line, const char *fmt, va_list ap)
+-+{
+-+       if (file && error_one_per_line) {
+-+               static const char *oldfile;
+-+               static unsigned int oldline;
+-+               if (line == oldline && strcmp(file, oldfile) == 0)
+-+                       return;
+-+               oldfile = file;
+-+               oldline = line;
+-+       }
+-+       if (error_print_progname)
+-+               error_print_progname();
+-+       else
+-+               fprintf(stderr, "%s: ", __progname);
+-+       if (file)
+-+               fprintf(stderr, "%s:%u: ", file, line);
+-+       vfprintf(stderr, fmt, ap);
+-+      if (e)
+-+               fprintf(stderr, ": %s", strerror(e));
+-+       putc('\n', stderr);
+-+       fflush(stderr);
+-+       error_message_count++;
+-+       if (status)
+-+               exit(status);
+-+}
+-+
+-+void error(int status, int e, const char *fmt, ...)
+-+{
+-+       va_list ap;
+-+       va_start(ap,fmt);
+-+       eprint(status, e, 0, 0, fmt, ap);
+-+       va_end(ap);
+-+}
+-+
+-+#endif
+- 
+- /* It avoided the segment fault while file's bss offset have a large number.
+-    See https://bugzilla.redhat.com/show_bug.cgi?id=1019707
+-Index: rpm-5.4.15/tools/rpmfind.c
+-===================================================================
+---- rpm-5.4.15.orig/tools/rpmfind.c
+-+++ rpm-5.4.15/tools/rpmfind.c
+-@@ -1175,7 +1175,7 @@ find_parsenum(PLAN *plan, const char *op
+-      * and endchar points to the beginning of the string we know we have
+-      * a syntax error.
+-      */
+--#if defined(__sun)
+-+#if defined(__sun) || !defined(__GLIBC_)
+-     value = strtoll(str, &endchar, 10);
+- #else
+-     value = strtoq(str, &endchar, 10);
+-@@ -1215,7 +1215,7 @@ find_parsetime(PLAN *plan, const char *o
+- 	break;
+-     }
+- 
+--#if defined(__sun)
+-+#if defined(__sun) || !defined(__GLIBC_)
+-     value = strtoll(str, &unit, 10);
+- #else
+-     value = strtoq(str, &unit, 10);
+-@@ -1253,7 +1253,7 @@ find_parsetime(PLAN *plan, const char *o
+- 	str = unit + 1;
+- 	if (*str == '\0')	/* EOS */
+- 	    break;
+--#if defined(__sun)
+-+#if defined(__sun) || !defined(__GLIBC_)
+- 	value = strtoll(str, &unit, 10);
+- #else
+- 	value = strtoq(str, &unit, 10);
+-Index: rpm-5.4.15/system.h
+-===================================================================
+---- rpm-5.4.15.orig/system.h
+-+++ rpm-5.4.15/system.h
+-@@ -372,16 +372,15 @@ extern int _tolower(int) __THROW	/*@*/;
+- #define	__progname	__assert_program_name
+- #endif
+- #define	setprogname(pn)
+-+/*@unchecked@*/
+-+extern const char *__progname;
+- #else
+--#define	__progname	program_name
+--#define	setprogname(pn)	\
+--  { if ((__progname = strrchr(pn, '/')) != NULL) __progname++; \
+--    else __progname = pn;		\
+--  }
+--#endif
+-+#define	setprogname(pn)
+-+#define	progname	__progname
+- 
+- /*@unchecked@*/
+--extern const char *__progname;
+-+extern char *__progname;
+-+#endif
+- 
+- /* -- Retrofit missing prototypes (if needed). */
+- #ifdef __cplusplus
+-Index: rpm-5.4.15/rpmio/poptIO.c
+-===================================================================
+---- rpm-5.4.15.orig/rpmio/poptIO.c
+-+++ rpm-5.4.15/rpmio/poptIO.c
+-@@ -65,7 +65,9 @@ extern int _rpmsvn_debug;
+- GENfree(rpmioP)
+- #endif	/* __cplusplus */
+- 
+-+#ifdef __GLIBC__
+- const char *__progname;
+-+#endif
+- 
+- #if !defined(POPT_ARGFLAG_TOGGLE)	/* XXX compat with popt < 1.15 */
+- #define	POPT_ARGFLAG_TOGGLE	0
+-Index: rpm-5.4.15/lib/poptALL.c
+-===================================================================
+---- rpm-5.4.15.orig/lib/poptALL.c
+-+++ rpm-5.4.15/lib/poptALL.c
+-@@ -4,7 +4,9 @@
+-  */
+- 
+- #include "system.h"
+-+#ifdef __GLIBC__
+- extern const char *__progname;
+-+#endif
+- 
+- #if defined(RPM_VENDOR_WINDRIVER)
+- const char *__usrlibrpm = USRLIBRPM;
+-Index: rpm-5.4.15/tools/rpm2cpio.c
+-===================================================================
+---- rpm-5.4.15.orig/tools/rpm2cpio.c
+-+++ rpm-5.4.15/tools/rpm2cpio.c
+-@@ -1,7 +1,9 @@
+- /* rpmarchive: spit out the main archive portion of a package */
+- 
+- #include "system.h"
+-+#ifdef __GLIBC__
+- const char *__progname;
+-+#endif
+- 
+- #include <rpmio.h>
+- #include <rpmiotypes.h>	/* XXX fnpyKey */
+-Index: rpm-5.4.15/tools/rpmcache.c
+-===================================================================
+---- rpm-5.4.15.orig/tools/rpmcache.c
+-+++ rpm-5.4.15/tools/rpmcache.c
+-@@ -3,7 +3,9 @@
+-  */
+- 
+- #include "system.h"
+-+#ifdef __GLIBC__
+- const char *__progname;
+-+#endif
+- 
+- #include <fnmatch.h>
+- #include <fts.h>
+-Index: rpm-5.4.15/tools/rpmdeps-oecore.c
+-===================================================================
+---- rpm-5.4.15.orig/tools/rpmdeps-oecore.c
+-+++ rpm-5.4.15/tools/rpmdeps-oecore.c
+-@@ -1,5 +1,7 @@
+- #include "system.h"
+-+#ifdef __GLIBC__
+- const char *__progname;
+-+#endif
+- 
+- #include <rpmio.h>
+- #include <rpmiotypes.h>
+-Index: rpm-5.4.15/tools/rpmdeps.c
+-===================================================================
+---- rpm-5.4.15.orig/tools/rpmdeps.c
+-+++ rpm-5.4.15/tools/rpmdeps.c
+-@@ -1,5 +1,7 @@
+- #include "system.h"
+-+#ifdef __GLIBC__
+- const char *__progname;
+-+#endif
+- 
+- #include <rpmio.h>
+- #include <rpmiotypes.h>
+-Index: rpm-5.4.15/tools/rpmdigest.c
+-===================================================================
+---- rpm-5.4.15.orig/tools/rpmdigest.c
+-+++ rpm-5.4.15/tools/rpmdigest.c
+-@@ -1,6 +1,8 @@
+- #include "system.h"
+-+#ifdef __GLIBC__
+- /*@unchecked@*/
+- extern const char * __progname;
+-+#endif
+- 
+- #define	_RPMIOB_INTERNAL
+- #include <rpmiotypes.h>
+-Index: rpm-5.4.15/tools/rpmcmp.c
+-===================================================================
+---- rpm-5.4.15.orig/tools/rpmcmp.c
+-+++ rpm-5.4.15/tools/rpmcmp.c
+-@@ -13,8 +13,10 @@
+- 
+- #include "debug.h"
+- 
+-+#ifdef __GLIBC__
+- const char *__progname;
+- #define	progname	__progname
+-+#endif
+- 
+- static int pointRpmEVR(ARGV_t av)
+- {
+-Index: rpm-5.4.15/rpmqv.c
+-===================================================================
+---- rpm-5.4.15.orig/rpmqv.c
+-+++ rpm-5.4.15/rpmqv.c
+-@@ -1,5 +1,7 @@
+- #include "system.h"
+-+#ifdef __GLIBC__
+- extern const char *__progname;
+-+#endif
+- 
+- /* Copyright (C) 1998-2002 - Red Hat, Inc. */
+- 
+diff --git a/meta/recipes-devtools/rpm/rpm/0001-system.h-query.c-support-nosignature.patch b/meta/recipes-devtools/rpm/rpm/0001-system.h-query.c-support-nosignature.patch
+deleted file mode 100644
+index 77dc5b67d22..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/0001-system.h-query.c-support-nosignature.patch
++++ /dev/null
+@@ -1,63 +0,0 @@
+-From d8fcc3cbeec4defb5babde5bd09ea294dd3fd08b Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Sun, 3 Jul 2016 19:01:59 -0700
+-Subject: [PATCH] system.h/query.c: support nosignature
+-
+-* Define SUPPORT_NOSIGNATURES to 1 in system.h
+-* !QVA_ISSET(qva->qva_flags, SIGNATURE) -> QVA_ISSET(qva->qva_flags, SIGNATURE),
+-  otherwise, when use --nosignature would read database and verify
+-  signature, this is not expected.
+-
+-Upstream-Status: Submitted [Sent email to rpm-devel@rpm5.org]
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+----
+- lib/query.c | 6 +++---
+- system.h    | 4 ++--
+- 2 files changed, 5 insertions(+), 5 deletions(-)
+-
+-diff --git a/lib/query.c b/lib/query.c
+-index 50a7453..b761d76 100644
+---- a/lib/query.c
+-+++ b/lib/query.c
+-@@ -954,19 +954,19 @@ JBJDEBUG((stderr, "--> %s(%p,%p,%p)\n", __FUNCTION__, ts, qva, argv));
+-     vsflags = (rpmVSFlags) rpmExpandNumeric("%{?_vsflags_query}");
+-     vsflags = (rpmVSFlags) 0;	/* XXX FIXME: ignore default disablers. */
+- #if defined(SUPPORT_NOSIGNATURES)
+--    if (!QVA_ISSET(qva->qva_flags, DIGEST)) {
+-+    if (QVA_ISSET(qva->qva_flags, DIGEST)) {
+- 	VSF_SET(vsflags, NOSHA1HEADER);
+- 	VSF_SET(vsflags, NOMD5HEADER);
+- 	VSF_SET(vsflags, NOSHA1);
+- 	VSF_SET(vsflags, NOMD5);
+-     }
+--    if (!QVA_ISSET(qva->qva_flags, SIGNATURE)) {
+-+    if (QVA_ISSET(qva->qva_flags, SIGNATURE)) {
+- 	VSF_SET(vsflags, NODSAHEADER);
+- 	VSF_SET(vsflags, NORSAHEADER);
+- 	VSF_SET(vsflags, NODSA);
+- 	VSF_SET(vsflags, NORSA);
+-     }
+--    if (!QVA_ISSET(qva->qva_flags, HDRCHK)) {
+-+    if (QVA_ISSET(qva->qva_flags, HDRCHK)) {
+- 	VSF_SET(vsflags, NOHDRCHK);
+-     }
+-     VSF_CLR(vsflags, NEEDPAYLOAD);	/* XXX needed? */
+-diff --git a/system.h b/system.h
+-index 2ff8906..ad4619a 100644
+---- a/system.h
+-+++ b/system.h
+-@@ -787,9 +787,9 @@ static inline const char *rcsid(const char *p) { \
+- #define SUPPORT_I18NSTRING_TYPE	1
+- 
+- /**
+-- * Eliminate signature/digest disablers.
+-+ * Signature/digest disablers.
+-  */
+--#undef	SUPPORT_NOSIGNATURES
+-+#define SUPPORT_NOSIGNATURES 1
+- 
+- /**
+-  * Permit ar(1) payloads. Disabled while rpmio/iosm.c is under development.
+--- 
+-2.9.0
+diff --git a/meta/recipes-devtools/rpm/rpm/0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch b/meta/recipes-devtools/rpm/rpm/0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch
+deleted file mode 100644
+index 7128250093b..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch
++++ /dev/null
+@@ -1,49 +0,0 @@
+-From 64851c6622aff64787a9fcea26cccde183b7c743 Mon Sep 17 00:00:00 2001
+-From: "Roy.Li" <rongqing.li@windriver.com>
+-Date: Tue, 11 Nov 2014 16:28:22 +0800
+-Subject: [PATCH] using poptParseArgvString to parse the
+- _gpg_check_password_cmd
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Both __gpg_check_password_cmd and __gpg_sign_cmd include "%{_gpg_name}", but
+-strace shows that gpg_name has a quote when run _gpg_check_password,
+-but not when run __gpg_sign_cmd; for example, if gpg_name is "tester"
+-
+-    execve("/usr/bin/gpg", ["gpg", "--batch", "--no-verbose",
+-    "--passphrase-fd", "3", "-u", "\"tester\"", "-so", "-"], [/* 20 vars */]) = 0
+-
+-    execve("/usr/bin/gpg", ["gpg", "--batch", "--no-verbose", "--no-armor",
+-    "--passphrase-fd", "3", "--no-secmem-warning", "-u", "tester", "-sbo"..,) = 0
+-
+-it can be fixed by removing the quote around %{gpg_name} when define
+-__gpg_check_password_cmd in macros/macros, like below, but if gpg_name includes
+-space, it will not work.
+-
+-     %__gpg_check_password_cmd       %{__gpg} \
+-        gpg --batch --no-verbose --passphrase-fd 3 -u %{_gpg_name} -so -
+-
+-The poptParseArgvString function is used to parse _gpg_sign_cmd, so using
+-poptParseArgvString to parse __gpg_check_password_cmd to fix this issue.
+-
+-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+----
+- rpmdb/signature.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/rpmdb/signature.c b/rpmdb/signature.c
+-index c35e0ab..016e8d1 100644
+---- a/rpmdb/signature.c
+-+++ b/rpmdb/signature.c
+-@@ -529,7 +529,7 @@ int rpmCheckPassPhrase(const char * passPhrase)
+-   		(void) setenv("GNUPGHOME", gpg_path, 1);
+- 
+- 	    cmd = rpmExpand("%{?__gpg_check_password_cmd}", NULL);
+--	    rc = argvSplit(&av, cmd, NULL);
+-+	    rc = poptParseArgvString(cmd, NULL, (const char ***)&av);
+- 	    if (!rc)
+- 		rc = execve(av[0], (char *const *)av+1, environ);
+- 
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-devtools/rpm/rpm/configure.ac-check-for-both-gpg2-and-gpg.patch b/meta/recipes-devtools/rpm/rpm/configure.ac-check-for-both-gpg2-and-gpg.patch
+deleted file mode 100644
+index 7894a4263d6..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/configure.ac-check-for-both-gpg2-and-gpg.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-configure.ac: search for both gpg2 and gpg
+-
+-On some platforms the GnuPG binary is named 'gpg2' whereas others have 'gpg'.
+-This patch increases compatibility by searching for 'gpg' in addition to
+-'gpg2'.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+----
+- configure.ac | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 6746b4c..f6922ae 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -562,7 +562,7 @@ AC_PATH_PROG(__DIFF, diff, /bin/diff, $MYPATH)
+- AC_PATH_PROG(__DITTO, ditto, %{_bindir}/ditto, $MYPATH)
+- AC_PATH_PROG(__FILE, file, %{_bindir}/file, $MYPATH)
+- AC_PATH_PROG(__GIT, git, %{_bindir}/git, $MYPATH)
+--AC_PATH_PROG(__GPG, gpg2, %{_bindir}/gpg2, $MYPATH)
+-+AC_PATH_PROGS(__GPG, [gpg2 gpg], %{_bindir}/gpg2, $MYPATH)
+- AC_PATH_PROG(__GSR, gsr, %{_bindir}/gsr, $MYPATH)
+- AC_PATH_PROG(__GST_INSPECT, gst-inspect-0.10, %{_bindir}/gst-inspect-0.10, $MYPATH)
+- AC_PATH_PROG(__GZIP, gzip, /bin/gzip, $MYPATH)
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-devtools/rpm/rpm/dbconvert.patch b/meta/recipes-devtools/rpm/rpm/dbconvert.patch
+deleted file mode 100644
+index 1fdbf0908a7..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/dbconvert.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-Upstream-Status: Inappropriate
+-
+-Hack to prevent unneeded demo app from building on older libc
+-where it will break the build
+-
+-Index: rpm-5.4.14/tools/Makefile.am
+-===================================================================
+---- rpm-5.4.14.orig/tools/Makefile.am
+-+++ rpm-5.4.14/tools/Makefile.am
+-@@ -29,7 +29,7 @@ EXTRA_PROGRAMS = nix-copy-closure nix-en
+- 	xiu-instantiate xiu-store
+- noinst_PROGRAMS =
+- 
+--EXTRA_PROGRAMS += augtool cudftool dbconvert debugedit \
+-+EXTRA_PROGRAMS += augtool cudftool debugedit \
+- 	nix-build nix-channel nix-collect-garbage \
+- 	nix-log2xml nix-prefetch-url nix-pull nix-push \
+- 	xiu-echo xiu-hash \
+-@@ -64,7 +64,7 @@ pkgbin_PROGRAMS =	\
+- 	rpmcache rpmdigest rpmrepo rpmspecdump \
+- 	rpmcmp rpmdeps rpmdeps-oecore sqlite3 @WITH_KEYUTILS_RPMKEY@ @WITH_LIBELF_DEBUGEDIT@
+- if WITH_DB
+--pkgbin_PROGRAMS +=	dbconvert
+-+pkgbin_PROGRAMS +=	
+- endif
+- dist_man_MANS =		rpmgrep.1
+- 
+diff --git a/meta/recipes-devtools/rpm/rpm/debugedit-segv.patch b/meta/recipes-devtools/rpm/rpm/debugedit-segv.patch
+deleted file mode 100644
+index c83c8b5f3fc..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/debugedit-segv.patch
++++ /dev/null
+@@ -1,100 +0,0 @@
+-During the recalculation of the buildid, it's necessary to change the word
+-back to the original endian.  However, if we do this in-place, we've also
+-affected the headers that we're also working on.  The side effect of this is
+-we can no longer rely on 'sh_type' as it may have been changed.
+-
+-This patch ensures that any time we translate the loaded data to the machine
+-format, we only do it in a backup copy and never the original copy.
+-
+-Note: in all other places a backup copy was used, just not buildid processing.
+-
+-Also the process (...) function was modified to verify the data is not
+-NULL as well.  This is an extra check and is not strictly necessary.
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm/tools/debugedit.c
+-===================================================================
+---- rpm.orig/tools/debugedit.c
+-+++ rpm/tools/debugedit.c
+-@@ -1403,7 +1403,8 @@ static inline void process (hashFunction
+- 		const void *data, size_t size)
+- {
+-     memchunk chunk = { .data = (void *) data, .size = size };
+--    hashFunctionContextUpdateMC (ctx, &chunk);
+-+    if (data != NULL && size != 0)
+-+      hashFunctionContextUpdateMC (ctx, &chunk);
+- }
+- 
+- /* Compute a fresh build ID bit-string from the editted file contents.  */
+-@@ -1456,14 +1457,16 @@ handle_build_id (DSO *dso, Elf_Data *bui
+-       GElf_Ehdr ehdr;
+-       GElf_Phdr phdr;
+-       GElf_Shdr shdr;
+--    } u;
+--    Elf_Data x = { .d_version = EV_CURRENT, .d_buf = &u };
+--
+--    x.d_type = ELF_T_EHDR;
+--    x.d_size = sizeof u.ehdr;
+--    u.ehdr = dso->ehdr;
+--    u.ehdr.e_phoff = u.ehdr.e_shoff = 0;
+--    if (elf64_xlatetom (&x, &x, dso->ehdr.e_ident[EI_DATA]) == NULL)
+-+    } u1, u2;
+-+    Elf_Data src  = { .d_version = EV_CURRENT, .d_buf = &u1 };
+-+    Elf_Data dest = { .d_version = EV_CURRENT, .d_buf = &u2 };
+-+
+-+    src.d_type = ELF_T_EHDR;
+-+    src.d_size = sizeof u1.ehdr;
+-+    dest.d_size = sizeof u2.ehdr;
+-+    u1.ehdr = dso->ehdr;
+-+    u1.ehdr.e_phoff = u1.ehdr.e_shoff = 0;
+-+    if (elf64_xlatetom (&dest, &src, dso->ehdr.e_ident[EI_DATA]) == NULL)
+-       {
+-       bad:
+- 	fprintf (stderr, "Failed to compute header checksum: %s\n",
+-@@ -1471,29 +1474,31 @@ handle_build_id (DSO *dso, Elf_Data *bui
+- 	exit (1);
+-       }
+- 
+--    x.d_type = ELF_T_PHDR;
+--    x.d_size = sizeof u.phdr;
+-+    src.d_type = ELF_T_PHDR;
+-+    src.d_size = sizeof u1.phdr;
+-+    dest.d_size = sizeof u2.phdr;
+-     for (i = 0; i < dso->ehdr.e_phnum; ++i)
+-       {
+--	if (gelf_getphdr (dso->elf, i, &u.phdr) == NULL)
+-+	if (gelf_getphdr (dso->elf, i, &u1.phdr) == NULL)
+- 	  goto bad;
+--	if (elf64_xlatetom (&x, &x, dso->ehdr.e_ident[EI_DATA]) == NULL)
+-+	if (elf64_xlatetom (&dest, &src, dso->ehdr.e_ident[EI_DATA]) == NULL)
+- 	  goto bad;
+--	process (&ctx, x.d_buf, x.d_size);
+-+	process (&ctx, dest.d_buf, dest.d_size);
+-       }
+- 
+--    x.d_type = ELF_T_SHDR;
+--    x.d_size = sizeof u.shdr;
+-+    src.d_type = ELF_T_SHDR;
+-+    src.d_size = sizeof u1.shdr;
+-+    dest.d_size = sizeof u2.shdr;
+-     for (i = 0; i < dso->ehdr.e_shnum; ++i)
+-       if (dso->scn[i] != NULL)
+- 	{
+--	  u.shdr = dso->shdr[i];
+--	  u.shdr.sh_offset = 0;
+--	  if (elf64_xlatetom (&x, &x, dso->ehdr.e_ident[EI_DATA]) == NULL)
+-+	  u1.shdr = dso->shdr[i];
+-+	  u1.shdr.sh_offset = 0;
+-+	  if (elf64_xlatetom (&dest, &src, dso->ehdr.e_ident[EI_DATA]) == NULL)
+- 	    goto bad;
+--	  process (&ctx, x.d_buf, x.d_size);
+-+	  process (&ctx, dest.d_buf, dest.d_size);
+- 
+--	  if (u.shdr.sh_type != SHT_NOBITS)
+-+	  if (u1.shdr.sh_type != SHT_NOBITS)
+- 	    {
+- 	      Elf_Data *d = elf_rawdata (dso->scn[i], NULL);
+- 	      if (d == NULL)
+diff --git a/meta/recipes-devtools/rpm/rpm/debugedit-valid-file-to-fix-segment-fault.patch b/meta/recipes-devtools/rpm/rpm/debugedit-valid-file-to-fix-segment-fault.patch
+deleted file mode 100644
+index 80404825361..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/debugedit-valid-file-to-fix-segment-fault.patch
++++ /dev/null
+@@ -1,65 +0,0 @@
+-debugedit: fix segment fault while file's bss offset have a large number
+-
+-While ELF_C_RDWR_MMAP was used, elf_begin invoked mmap() to map file
+-into memory. While the file's bss Offset has a large number, elf_update
+-caculated file size by __elf64_updatenull_wrlock and the size was
+-enlarged.
+-
+-In this situation, elf_update invoked ftruncate to enlarge the file,
+-and memory size (elf->maximum_size) also was incorrectly updated.
+-There was segment fault in elf_end which invoked munmap with the
+-length is the enlarged file size, not the mmap's length.
+-
+-Before the above operations, invoke elf_begin/elf_update/elf_end
+-with ELF_C_RDWR and ELF_F_LAYOUT set to enlarge the above file, it
+-could make sure the file is safe for the following elf operations.
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- tools/debugedit.c | 25 +++++++++++++++++++++++++
+- 1 file changed, 25 insertions(+)
+-
+-Index: rpm-5.4.14/tools/debugedit.c
+-===================================================================
+---- rpm-5.4.14.orig/tools/debugedit.c
+-+++ rpm-5.4.14/tools/debugedit.c
+-@@ -1525,6 +1525,28 @@ handle_build_id (DSO *dso, Elf_Data *bui
+-   }
+- }
+- 
+-+/* It avoided the segment fault while file's bss offset have a large number.
+-+   See https://bugzilla.redhat.com/show_bug.cgi?id=1019707
+-+       https://bugzilla.redhat.com/show_bug.cgi?id=1020842 for detail. */
+-+void valid_file(int fd)
+-+{
+-+  Elf *elf = elf_begin (fd, ELF_C_RDWR, NULL);
+-+  if (elf == NULL)
+-+  {
+-+    error (1, 0, "elf_begin: %s", elf_errmsg (-1));
+-+    return;
+-+  }
+-+
+-+  elf_flagelf (elf, ELF_C_SET, ELF_F_LAYOUT);
+-+
+-+  if (elf_update (elf, ELF_C_WRITE) < 0)
+-+    error (1, 0, "elf_update: %s", elf_errmsg (-1));
+-+
+-+  elf_end (elf);
+-+
+-+  return;
+-+}
+-+
+- int
+- main (int argc, char *argv[])
+- {
+-@@ -1621,6 +1643,9 @@ main (int argc, char *argv[])
+-       exit (1);
+-     }
+- 
+-+  /* Make sure the file is valid. */
+-+  valid_file(fd);
+-+
+-   dso = fdopen_dso (fd, file);
+-   if (dso == NULL)
+-     exit (1);
+diff --git a/meta/recipes-devtools/rpm/rpm/gcc6-stdlib.patch b/meta/recipes-devtools/rpm/rpm/gcc6-stdlib.patch
+deleted file mode 100644
+index 0a372c6dad8..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/gcc6-stdlib.patch
++++ /dev/null
+@@ -1,54 +0,0 @@
+-gcc6 has fixed a long standing c++ include issue where <cheader>
+-was different from <header.h> inclusion via
+-
+-https://gcc.gnu.org/ml/libstdc++/2016-01/msg00025.html
+-
+-and its also descibed in https://gcc.gnu.org/gcc-6/porting_to.html
+-rpmio component uses some .cpp and .cc fies which need to use
+-C stdlib.h from C library and not the C++ libstdc++ header
+-therefore we pass _GLIBCXX_INCLUDE_NEXT_C_HEADERS so that it
+-keeps the old behavior
+-
+-/a/build/tmp/sysroots/raspberrypi2/usr/include/c++/6.0.1/cstdlib:143:11: error: '::getenv' has not been declared
+-   using ::getenv;
+-           ^~~~~~
+-In file included from ../../rpm-5.4.15/system.h:201:0,
+-                 from ../../rpm-5.4.15/rpmio/rpmjs.cpp:1:
+-/a/build/tmp/sysroots/raspberrypi2/usr/include/c++/6.0.1/stdlib.h:62:12: error: 'std::getenv' has not been declared
+- using std::getenv;
+-
+-Upstream-Status: Pending
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Index: rpm-5.4.15/rpmio/Makefile.am
+-===================================================================
+---- rpm-5.4.15.orig/rpmio/Makefile.am
+-+++ rpm-5.4.15/rpmio/Makefile.am
+-@@ -151,7 +151,7 @@ librpmio_la_SOURCES = \
+- 	groestl.c hamsi.c jh.c keccak.c lane.c luffa.c md2.c md6.c radiogatun.c\
+- 	salsa10.c salsa20.c shabal.c shavite3.c simd.c skein.c tib3.c tiger.c \
+- 	rpmgit.c rpmio-stub.c \
+--	rpmjs.cpp rpmjsio.c rpmkeyring.c \
+-+	rpmjni.cc rpmjs.cpp rpmjsio.c rpmkeyring.c \
+- 	rpmnix.c rpmodbc.c rpmsql.c set.c \
+- 	ar.c \
+- 	argv.c \
+-@@ -195,7 +195,6 @@ librpmio_la_SOURCES = \
+- 	rpmhook.c \
+- 	rpmio.c \
+- 	rpmiob.c \
+--	rpmjni.cc \
+- 	rpmku.c \
+- 	rpmlog.c \
+- 	rpmltc.c \
+-@@ -279,7 +278,9 @@ keccak.lo: $(top_srcdir)/rpmio/keccak.c
+- #rpmjs.lo: $(top_srcdir)/rpmio/rpmjs.c
+- #	@$(LTCOMPILE) -O0 -c $<
+- rpmjs.lo: $(top_srcdir)/rpmio/rpmjs.cpp
+--	@$(LTCOMPILE) -O0 -c $<
+-+	@$(LTCOMPILE) -O0 -c -D_GLIBCXX_INCLUDE_NEXT_C_HEADERS $<
+-+rpmjni.lo: $(top_srcdir)/rpmio/rpmjni.cc
+-+	@$(LTCOMPILE) -O0 -c -D_GLIBCXX_INCLUDE_NEXT_C_HEADERS $<
+- 
+- YACC = byacc -d
+- getdate.c: getdate.y
+diff --git a/meta/recipes-devtools/rpm/rpm/header-include-fix.patch b/meta/recipes-devtools/rpm/rpm/header-include-fix.patch
+deleted file mode 100644
+index e72df45b5a4..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/header-include-fix.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-Update two rpm headers to include other headers.
+-
+-Using rpmdb.h w/o including errno.h may result in a warning.
+-
+-Using rpmtag.h w/o also adding stdint.h will result in numerous failures
+-about unknown types on modern compilers.
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Qing He <qing.he@intel.com>
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.14/rpmdb/rpmdb.h
+-===================================================================
+---- rpm-5.4.14.orig/rpmdb/rpmdb.h
+-+++ rpm-5.4.14/rpmdb/rpmdb.h
+-@@ -9,6 +9,7 @@
+- 
+- #include <assert.h>
+- #include <mire.h>
+-+#include <errno.h>
+- 
+- #include <rpmtypes.h>
+- #include <rpmtag.h>	/* XXX Header typedef */
+-Index: rpm-5.4.14/rpmdb/rpmtag.h
+-===================================================================
+---- rpm-5.4.14.orig/rpmdb/rpmtag.h
+-+++ rpm-5.4.14/rpmdb/rpmtag.h
+-@@ -7,6 +7,7 @@
+- 
+- #include <rpmiotypes.h>
+- #include <rpmsw.h>
+-+#include <stdint.h>
+- 
+- #ifdef __cplusplus
+- extern "C" {
+diff --git a/meta/recipes-devtools/rpm/rpm/makefile-am-exec-hook.patch b/meta/recipes-devtools/rpm/rpm/makefile-am-exec-hook.patch
+deleted file mode 100644
+index 5d936db5a33..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/makefile-am-exec-hook.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-rpm: Resolve parallel install issue when installing lua
+-
+-When lua is being installed on some systems that are being run with high levels
+-of parallelization there are cases where install-data-am and install-exec-hook
+-are processed at the same or a very short time apart. This causes
+-install-pkgbinPROGRAMS, which is a dependency of both, to be run at around the
+-same time This sometimes causes file contention and will sometimes be in a state
+-where install-exec-hook is looking for a file that is being installed or both
+-install-pkgbinPROGRAMS being run are installing the same file and fail because
+-it cannon create a new file.
+-
+-This patch allows install-exec-hook to be called by install-data-am instead of
+-install-exec-am. It also removed the dependency in install-data-hook on
+-install-pkgbinPROGRAMS. This means install-pkgbinPROGRAMS will only be run once
+-so there whould be any file contention.
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Morgan Little <morgan.little@windriver.com>
+-
+-Index: rpm-5.4.14/lua/Makefile.am
+-===================================================================
+---- rpm-5.4.14.orig/lua/Makefile.am
+-+++ rpm-5.4.14/lua/Makefile.am
+-@@ -326,7 +326,7 @@ clean-local:
+- # XXX Build & install as rpmlua/rpmluac with hardlinks to lua/luac post install.
+- # XXX CVS has lua/luac sub-directories in the Attic that collide with the
+- # XXX lua/luac executable names when using cvs update.
+--install-exec-hook:	install-pkgbinPROGRAMS
+-+install-data-hook:	
+- 	mkdir -p $(DESTDIR)$(pkgbindir)
+- 	$(__RM) -f $(DESTDIR)$(pkgbindir)/lua
+- 	$(__LN) $(DESTDIR)$(pkgbindir)/rpmlua $(DESTDIR)$(pkgbindir)/lua
+diff --git a/meta/recipes-devtools/rpm/rpm/no-ldflags-in-pkgconfig.patch b/meta/recipes-devtools/rpm/rpm/no-ldflags-in-pkgconfig.patch
+deleted file mode 100644
+index 410623fab2b..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/no-ldflags-in-pkgconfig.patch
++++ /dev/null
+@@ -1,14 +0,0 @@
+-Don't put LDFLAGS into the Libs.private, all it generally contains is a linker
+-hash selection (harmless) and the absolute path to the libdir in the sysroot
+-(actively harmful).
+-
+-Upstream-Status: Pending
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-diff --git a/scripts/rpm.pc.in b/scripts/rpm.pc.in
+-index 8293471..2ea469c 100644
+---- a/scripts/rpm.pc.in
+-+++ b/scripts/rpm.pc.in
+-@@ -17 +17 @@ Libs: -L${libdir} -lrpmbuild${suffix} -lrpm${suffix} -lrpmdb${suffix} -lrpmio${s
+--Libs.private: @LDFLAGS@ @LIBS@
+-+Libs.private: @LIBS@
+diff --git a/meta/recipes-devtools/rpm/rpm/perfile_rpmdeps.sh b/meta/recipes-devtools/rpm/rpm/perfile_rpmdeps.sh
+deleted file mode 100755
+index b72c9f0265b..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/perfile_rpmdeps.sh
++++ /dev/null
+@@ -1,50 +0,0 @@
+-#!/bin/bash
+-
+-: ${RPMDEPS:=rpmdeps}
+-
+-process() {
+-	while read file_name ; do
+-		printf "%s\t" ${file_name}
+-		if [ ! -d $file_name ]; then
+-			printf "%s " $($RPMDEPS $1 $file_name | sed -e 's,rpmlib(.*,,' -e 's,\([<>\=]\+ \+[^ ]*\),(\1),g')
+-		fi
+-		printf "\n"
+-	done
+-}
+-
+-usage() {
+-	echo "$0 {-P|--provides} {-R|--requires} FILE ..."
+-}
+-
+-while [ $# -gt 0 ]; do
+-   case "$1" in
+-	--rpmdeps)
+-		RPMDEPS=$2
+-		shift
+-		shift
+-		;;
+-	-R|--requires)
+-		process_type=--requires
+-		shift
+-		;;
+-	-P|--provides)
+-		process_type=--provides
+-		shift
+-		;;
+-	*)
+-		break;
+-		;;
+-   esac
+-done
+-
+-if [ -z "$process_type" ]; then
+-	usage
+-	exit 1
+-fi
+-
+-if [ $# -gt 0 ]; then
+-	find "$@" | process $process_type
+-	exit $?
+-fi
+-
+-process $process_type
+diff --git a/meta/recipes-devtools/rpm/rpm/popt-disable-auto-stack-protector.patch b/meta/recipes-devtools/rpm/rpm/popt-disable-auto-stack-protector.patch
+deleted file mode 100644
+index bcad8dcb731..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/popt-disable-auto-stack-protector.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-popt: Disable default stack protection on internal version of popt
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.15/popt/configure.ac
+-===================================================================
+---- rpm-5.4.15.orig/popt/configure.ac
+-+++ rpm-5.4.15/popt/configure.ac
+-@@ -123,7 +123,6 @@ AS_IF([test "x$popt_gcc_warnings" = xyes
+-   popt_CFLAGS_ADD([-Wjump-misses-init],[POPT_CFLAGS])
+-   popt_CFLAGS_ADD([-Wno-format-nonliteral],[POPT_CFLAGS])
+-   popt_CFLAGS_ADD([-Wframe-larger-than=$MAX_STACK_SIZE],[POPT_CFLAGS])
+--  popt_CFLAGS_ADD([-fstack-protector-all],[POPT_CFLAGS])
+-   popt_CFLAGS_ADD([-fasynchronous-unwind-tables],[POPT_CFLAGS])
+-   popt_CFLAGS_ADD([-fdiagnostics-show-option],[POPT_CFLAGS])
+-   popt_CFLAGS_ADD([-funit-at-a-time],[POPT_CFLAGS])
+-@@ -203,7 +202,7 @@ AC_SUBST([POPT_LDFLAGS])
+- # -fno-delete-null-pointer as the kernel does http://patchwork.kernel.org/patch/36060/
+- # GNU GCC (usually "gcc")
+- AS_IF([test "x$GCC" != x],
+-- [ for c in -fno-delete-null-pointer-checks -Wp,-D_FORTIFY_SOURCE=2 -fstack-protector -fexceptions
+-+ [ for c in -fno-delete-null-pointer-checks -fexceptions
+-    do
+-   	popt_CFLAGS_ADD([$c], [POPT_CFLAGS])
+-    done
+diff --git a/meta/recipes-devtools/rpm/rpm/python-rpm-rpmsense.patch b/meta/recipes-devtools/rpm/rpm/python-rpm-rpmsense.patch
+deleted file mode 100644
+index 590f58d8936..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/python-rpm-rpmsense.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-rpmmodule.c: Export a few additional RPMSENSE values
+-
+-We want to see the RPMSENSE_SCRIPT values for use with SMART.  We also
+-want to see the MISSINGOK value so we can avoid recommended packages causing
+-failures.
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm/python/rpmmodule.c
+-===================================================================
+---- rpm.orig/python/rpmmodule.c
+-+++ rpm/python/rpmmodule.c
+-@@ -525,12 +525,15 @@ static int initModule(PyObject *m)
+-     REGISTER_ENUM(RPMSENSE_PREREQ);
+-     REGISTER_ENUM(RPMSENSE_PRETRANS);
+-     REGISTER_ENUM(RPMSENSE_INTERP);
+-+#else
+-+ #if defined(RPM_VENDOR_WINDRIVER) || defined(RPM_VENDOR_OE)
+-     REGISTER_ENUM(RPMSENSE_SCRIPT_PRE);
+-     REGISTER_ENUM(RPMSENSE_SCRIPT_POST);
+-     REGISTER_ENUM(RPMSENSE_SCRIPT_PREUN);
+-     REGISTER_ENUM(RPMSENSE_SCRIPT_POSTUN);
+-     REGISTER_ENUM(RPMSENSE_SCRIPT_VERIFY);
+--#else
+-+    REGISTER_ENUM(RPMSENSE_MISSINGOK);
+-+ #endif
+-     REGISTER_ENUM(RPMSENSE_NOTEQUAL);
+- #endif
+-     REGISTER_ENUM(RPMSENSE_FIND_REQUIRES);
+diff --git a/meta/recipes-devtools/rpm/rpm/pythondeps.sh b/meta/recipes-devtools/rpm/rpm/pythondeps.sh
+deleted file mode 100755
+index 083b174f175..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/pythondeps.sh
++++ /dev/null
+@@ -1,16 +0,0 @@
+-#!/bin/sh
+-
+-[ $# -ge 1 ] || {
+-    cat > /dev/null
+-    exit 0
+-}
+-
+-case $1 in
+--R|--requires)
+-    shift
+-    grep "/usr/\(lib[^/]*\|share\)/python[^/]*/" >/dev/null && echo "python"
+-    exit 0
+-    ;;
+-esac
+-
+-exit 0
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-atomic-ops.patch b/meta/recipes-devtools/rpm/rpm/rpm-atomic-ops.patch
+deleted file mode 100644
+index cc241f4f16b..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-atomic-ops.patch
++++ /dev/null
+@@ -1,73 +0,0 @@
+-Some architectures do not have __sync_add_and_fetch_8 implemented.
+-
+-MIPS (32-bit) and some PPC systems do not have sync_add_and_fetch_8.
+-
+-Provide an alternative.  This alternative function is based on code from:
+-  https://github.com/mongodb/libbson/blob/master/src/bson/bson-atomic.c
+-
+-Code is under an Apache 2.0 License.
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.15/rpmio/bson.h
+-===================================================================
+---- rpm-5.4.15.orig/rpmio/bson.h
+-+++ rpm-5.4.15/rpmio/bson.h
+-@@ -879,10 +879,18 @@ BSON_END_DECLS
+- 
+- BSON_BEGIN_DECLS
+- 
+-+/* Some architectures do not support __sync_add_and_fetch_8 */
+-+#if (__mips == 32) || (defined(__PPC__) && !defined(__GCC_HAVE_SYNC_COMPARE_AND_SWAP_8))
+-+# define __BSON_NEED_ATOMIC_64 1
+-+#endif
+- 
+- #if defined(__GNUC__)
+- # define bson_atomic_int_add(p, v)   (__sync_add_and_fetch(p, v))
+--# define bson_atomic_int64_add(p, v) (__sync_add_and_fetch_8(p, v))
+-+#ifndef __BSON_NEED_ATOMIC_64
+-+#  define bson_atomic_int64_add(p, v) (__sync_add_and_fetch_8(p, v))
+-+# else
+-+   int64_t bson_atomic_int64_add (volatile int64_t *p, int64_t n);
+-+# endif
+- # define bson_memory_barrier         __sync_synchronize
+- #elif defined(_MSC_VER) || defined(_WIN32)
+- # define bson_atomic_int_add(p, v)   (InterlockedExchangeAdd((long int *)(p), v))
+-Index: rpm-5.4.15/rpmio/bson.c
+-===================================================================
+---- rpm-5.4.15.orig/rpmio/bson.c
+-+++ rpm-5.4.15/rpmio/bson.c
+-@@ -3863,13 +3863,30 @@ _bson_context_get_oid_seq64_threadsafe (
+- #elif defined BSON_OS_WIN32
+-    uint64_t seq = InterlockedIncrement64 ((int64_t *)&context->seq64);
+- #else
+--   uint64_t seq = __sync_fetch_and_add_8 (&context->seq64, 1);
+-+   uint64_t seq = bson_atomic_int64_add (&context->seq64, 1);
+- #endif
+- 
+-    seq = BSON_UINT64_TO_BE (seq);
+-    memcpy (&oid->bytes[4], &seq, 8);
+- }
+- 
+-+#ifdef __BSON_NEED_ATOMIC_64
+-+#include <pthread.h>
+-+static pthread_mutex_t gSync64 = PTHREAD_MUTEX_INITIALIZER;
+-+int64_t
+-+bson_atomic_int64_add (volatile int64_t *p,
+-+                       int64_t           n)
+-+{
+-+   int64_t ret;
+-+
+-+   pthread_mutex_lock (&gSync64);
+-+   *p += n;
+-+   ret = *p;
+-+   pthread_mutex_unlock (&gSync64);
+-+
+-+   return ret;
+-+}
+-+#endif
+- 
+- /**
+-  * bson_context_new:
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-autogen-force.patch b/meta/recipes-devtools/rpm/rpm/rpm-autogen-force.patch
+deleted file mode 100644
+index 258a7f6e721..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-autogen-force.patch
++++ /dev/null
+@@ -1,78 +0,0 @@
+-In order to enable musl or other libc support, force update the config.guess
+-
+-In order to reliably replace config.guess and config.sub, we need to remove
+-them prior to the call to automake.  Adding the --force-missing is likely
+-not necessary, but matching normal OE autoreconf usage.
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.15/autogen.sh
+-===================================================================
+---- rpm-5.4.15.orig/autogen.sh
+-+++ rpm-5.4.15/autogen.sh
+-@@ -73,7 +73,8 @@ rm -f aclocal.m4
+- aclocal -I m4
+- autoheader -I m4
+- echo "---> generate files via GNU automake (automake)"
+--automake -Wall -Wno-override -a -c
+-+rm -f config.guess config.sub
+-+automake -Wall -Wno-override -a -c --force-missing
+- echo "---> generate files via GNU autoconf (autoconf)"
+- autoconf -I m4
+- echo "<=== rpm"
+-Index: rpm-5.4.15/beecrypt/autogen.sh
+-===================================================================
+---- rpm-5.4.15.orig/beecrypt/autogen.sh
+-+++ rpm-5.4.15/beecrypt/autogen.sh
+-@@ -25,6 +25,7 @@ libtoolize () {
+- 
+- libtoolize --force --copy
+- aclocal
+--automake -a -c
+-+rm -f config.guess config.sub
+-+automake -a -c --force-missing
+- autoconf
+- autoheader
+-Index: rpm-5.4.15/libtpm/autogen.sh
+-===================================================================
+---- rpm-5.4.15.orig/libtpm/autogen.sh
+-+++ rpm-5.4.15/libtpm/autogen.sh
+-@@ -46,7 +46,8 @@ echo "---> generate files via GNU autoco
+- aclocal
+- autoheader
+- echo "---> generate files via GNU automake (automake)"
+--automake -Wall -Wno-override -a -c
+-+rm -f config.guess config.sub
+-+automake -Wall -Wno-override -a -c --force-missing
+- echo "---> generate files via GNU autoconf (autoconf)"
+- autoconf
+- 
+-Index: rpm-5.4.15/neon/autogen.sh
+-===================================================================
+---- rpm-5.4.15.orig/neon/autogen.sh
+-+++ rpm-5.4.15/neon/autogen.sh
+-@@ -63,7 +63,8 @@ echo "---> generate files via GNU autoco
+- ${ACLOCAL:-aclocal} -I macros
+- ${AUTOHEADER:-autoheader}
+- echo "---> generate files via GNU automake (automake)"
+--${AUTOMAKE:-automake} -Wall -Wno-override -a -c
+-+rm -f config.guess config.sub
+-+${AUTOMAKE:-automake} -Wall -Wno-override -a -c --force-missing
+- echo "---> generate files via GNU autoconf (autoconf)"
+- ${AUTOCONF:-autoconf} -Wall
+- 
+-Index: rpm-5.4.15/syck/autogen.sh
+-===================================================================
+---- rpm-5.4.15.orig/syck/autogen.sh
+-+++ rpm-5.4.15/syck/autogen.sh
+-@@ -40,6 +40,7 @@ echo "---> generate files via GNU autoco
+- aclocal
+- autoheader
+- echo "---> generate files via GNU automake (automake)"
+--automake -Wall -Wno-override -a -c
+-+rm -f config.guess config.sub
+-+automake -Wall -Wno-override -a -c --force-missing
+- echo "---> generate files via GNU autoconf (autoconf)"
+- autoconf
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-autogen.patch b/meta/recipes-devtools/rpm/rpm/rpm-autogen.patch
+deleted file mode 100644
+index 8771235d309..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-autogen.patch
++++ /dev/null
+@@ -1,25 +0,0 @@
+-Remove the sanity checking from the rpm autogen.sh.  This is required because
+-we may have slightly different, but yet compatible versions.  If we do end
+-up breaking things, we'll deal with it at that time.
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.14/syck/autogen.sh
+-===================================================================
+---- rpm-5.4.14.orig/syck/autogen.sh
+-+++ rpm-5.4.14/syck/autogen.sh
+-@@ -34,12 +34,6 @@ libtoolize () {
+-     eval $_libtoolize $_libtoolize_args
+- }
+- 
+--#   requirements sanity check
+--[ "`automake   --version | head -1`" != "$AMV" ] && echo "$USAGE" # && exit 1
+--[ "`autoconf   --version | head -1`" != "$ACV" ] && echo "$USAGE" # && exit 1
+--[ "`libtoolize --version | head -1`" != "$LTV" ] && echo "$USAGE" # && exit 1
+--[ "`gettextize --version | head -1 | sed -e 's;^.*/\\(gettextize\\);\\1;'`" != "$GTT" ] && echo "$USAGE" # && exit 1
+--
+- echo "---> generate files via GNU libtool (libtoolize)"
+- libtoolize --quiet --copy --force --install
+- echo "---> generate files via GNU autoconf (aclocal, autoheader)"
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-canonarch.patch b/meta/recipes-devtools/rpm/rpm/rpm-canonarch.patch
+deleted file mode 100644
+index 81fc84937a1..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-canonarch.patch
++++ /dev/null
+@@ -1,136 +0,0 @@
+-lib/rpmrc.c: Update --target processing to support full GNU canonical arch
+-
+-Prior to this patch, when using --target, RPM supported the format:
+-  <arch>
+-  <arch>-<os>
+-  <arch>-<os>-gnu
+-  <arch>-<arbitrary items>-<os>
+-  <arch>-<arbitrary items>-<os>-gnu
+-
+-This patch changes the list of supported items to:
+-  <arch>
+-  <arch>-<os>
+-  <arch>-<os>-gnu
+-  <arch>-<vendor>-<os>
+-  <arch>-<vendor>-<os>-<extension>
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.14/lib/rpmrc.c
+-===================================================================
+---- rpm-5.4.14.orig/lib/rpmrc.c
+-+++ rpm-5.4.14/lib/rpmrc.c
+-@@ -925,8 +925,8 @@ static void getMachineInfo(int type, /*@
+- 
+- static void rpmRebuildTargetVars(const char ** target, const char ** canontarget)
+- {
+--
+--    char *ca = NULL, *co = NULL, *ct = NULL;
+-+    /* ca = arch, cv = vendor, co = os, ce = extension, ct = canon target */
+-+    char *ca = NULL, *cv = NULL, *co = NULL, *ce = NULL, *ct = NULL;
+-     int x;
+- 
+-     /* Rebuild the compat table to recalculate the current target arch.  */
+-@@ -936,23 +936,60 @@ static void rpmRebuildTargetVars(const c
+-     rpmSetTables(RPM_MACHTABLE_BUILDARCH, RPM_MACHTABLE_BUILDOS);
+- 
+-     if (target && *target) {
+-+	/* GNU canonical format is:
+-+	 *  <arch>-<vendor>-<os>[-extension]
+-+	 *
+-+	 * We support the both the GNU canonical format
+-+	 * as well as the traditional RPM formats: 
+-+	 *  <arch>
+-+	 *  <arch>-<os>[-gnu]
+-+	 */
+- 	char *c;
+- 	/* Set arch and os from specified build target */
+- 	ca = xstrdup(*target);
+--	if ((c = strchr(ca, '-')) != NULL) {
+-+	if ((c = strchr(ca, '-')) == NULL) {
+-+	    /* Format is <arch> */
+-+	    ;
+-+	} else {
+- 	    *c++ = '\0';
+--	    
+--	    if ((co = strrchr(c, '-')) == NULL) {
+--		co = c;
+-+	    cv = c;
+-+
+-+	    if ((c = strchr(c, '-')) == NULL) {
+-+		/* Format is <arch>-<os> */
+-+		co = cv;
+-+		cv = NULL;
+- 	    } else {
+--		if (!xstrcasecmp(co, "-gnu"))
+--		    *co = '\0';
+--		if ((co = strrchr(c, '-')) == NULL)
+--		    co = c;
+--		else
+--		    co++;
+-+		*c++ = '\0';
+-+		co = c;
+-+
+-+		if ((c = strchr(c, '-')) == NULL) {
+-+		    /* Might be:
+-+		     *  <arch>-<vendor>-<os>
+-+		     *  <arch>-<os>-gnu
+-+		     */
+-+		    if (!xstrcasecmp(co, "gnu")) {
+-+			/* Format was <arch>-<os>-gnu */
+-+			ce = co;
+-+			co = cv;
+-+			cv = NULL;
+-+		    }
+-+		} else {
+-+		    /* Format was <arch>-<vendor>-<os>-<extension> */
+-+		    *c++ = '\0';
+-+		    ce = c;
+-+		}
+- 	    }
+-+	    if (cv != NULL) cv = xstrdup(cv);
+- 	    if (co != NULL) co = xstrdup(co);
+-+	    if (ce != NULL) {
+-+		/* We need to prefix it with a "-" */
+-+		char * lce = NULL;
+-+
+-+		lce = xmalloc(strlen(ce) + sizeof("-"));
+-+		sprintf(lce, "-%s", ce);
+-+
+-+		ce = lce;
+-+	    }
+- 	}
+-     } else {
+- 	const char *a = NULL;
+-@@ -995,8 +1032,16 @@ static void rpmRebuildTargetVars(const c
+-     addMacro(NULL, "_target", NULL, ct, RMIL_RPMRC);
+-     delMacro(NULL, "_target_cpu");
+-     addMacro(NULL, "_target_cpu", NULL, ca, RMIL_RPMRC);
+-+    if (cv) {
+-+	delMacro(NULL, "_target_vendor");
+-+	addMacro(NULL, "_target_vendor", NULL, cv, RMIL_RPMRC);
+-+    }
+-     delMacro(NULL, "_target_os");
+-     addMacro(NULL, "_target_os", NULL, co, RMIL_RPMRC);
+-+    if (ce) {
+-+	delMacro(NULL, "_gnu");
+-+	addMacro(NULL, "_gnu", NULL, ce, RMIL_RPMRC);
+-+    }
+- 
+-     if (canontarget)
+- 	*canontarget = ct;
+-@@ -1004,8 +1049,12 @@ static void rpmRebuildTargetVars(const c
+- 	ct = _free(ct);
+-     ca = _free(ca);
+-     /*@-usereleased@*/
+-+    cv = _free(cv);
+-+    /*@-usereleased@*/
+-     co = _free(co);
+-     /*@=usereleased@*/
+-+    ce = _free(ce);
+-+    /*@-usereleased@*/
+- }
+- 
+- void rpmFreeRpmrc(void)
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-check-rootpath-reasonableness.patch b/meta/recipes-devtools/rpm/rpm/rpm-check-rootpath-reasonableness.patch
+deleted file mode 100644
+index 3d8d645a776..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-check-rootpath-reasonableness.patch
++++ /dev/null
+@@ -1,96 +0,0 @@
+-rpm: check if the argument(rootpath) exists or be writable
+-
+-When user execute the command "rpm -qai --root=$dir",if $dir doesn't
+-exist or is unwritable as result of making a typo in rootpath,then
+-it will create dirent $dir and subdirectory.
+-So we should add the check function to fix it before creating relational
+-subdirectory,and warn the incorrect rootpath to user. It just checks the
+-rootpath reasonableness when the user input the argument(--root=/-r=).
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Zhixiong Chi <zchi@windriver.com>
+----
+- rpmqv.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
+- 1 file changed, 45 insertions(+)
+-
+-diff --git a/rpmqv.c b/rpmqv.c
+-index 40c42bd..88d85ab 100644
+---- a/rpmqv.c
+-+++ b/rpmqv.c
+-@@ -206,6 +206,8 @@ static struct poptOption optionsTable[] = {
+-    POPT_TABLEEND
+- };
+- 
+-+static int _rpmqv_rootpath_state = 0;
+-+
+- #ifdef __MINT__
+- /* MiNT cannot dynamically increase the stack.  */
+- long _stksize = 64 * 1024L;
+-@@ -427,6 +429,41 @@ static void integrity_check(const char *progname, enum modes progmode_num)
+- }
+- #endif
+- 
+-+/*check if the rootdir is writable or exists */
+-+int access_file(const char *rootdir)
+-+{
+-+    int ret,rootdir_len;
+-+
+-+    if(rootdir == NULL) {
+-+        return -1;
+-+    }
+-+
+-+    rootdir_len = strlen(rootdir);
+-+    /*make sure that dirent argument trailing is "/" */
+-+    if(!(rootdir_len && rootdir[rootdir_len - 1] == '/')){
+-+        char *t = (char *)malloc(rootdir_len + 2);
+-+        *t = '\0';
+-+        (void)stpcpy(stpcpy(t,rootdir),"/");
+-+        ret = access(t,F_OK|W_OK);
+-+        free(t);
+-+    }else{
+-+        ret = access(rootdir,F_OK|W_OK);
+-+    }
+-+    return ret;
+-+}
+-+
+-+/*check if input the argument "--root/-r"  */
+-+void check_argument_root(int argc,char * const argv[])
+-+{
+-+    int i;
+-+    for (i = 0; i < argc; i++) {
+-+        if(strncmp(argv[i],"--root=",7) == 0 || strncmp(argv[i],"-r=",3) == 0) {
+-+            _rpmqv_rootpath_state = 1;
+-+            break;
+-+        }
+-+    }
+-+}
+-+
+- /*@-bounds@*/ /* LCL: segfault */
+- /*@-mods@*/ /* FIX: shrug */
+- #if !defined(__GLIBC__) && !defined(__LCLINT__)
+-@@ -476,6 +513,8 @@ int main(int argc, const char ** argv)
+-     int xx;
+- #endif
+- 	
+-+    check_argument_root(argc,(char *const *)argv);
+-+
+- #if !defined(__GLIBC__) && !defined(__LCLINT__)
+-     environ = envp;
+- #else
+-@@ -715,6 +754,12 @@ int main(int argc, const char ** argv)
+- 		argerror(_("arguments to --root (-r) must begin with a /"));
+- 	    break;
+- 	}
+-+        if (_rpmqv_rootpath_state) {
+-+            if (access_file(rpmioRootDir)) {
+-+                fprintf(stderr, _("Invalid directory:%s, ensure it exists or be writable\n"),rpmioRootDir);
+-+                exit(EXIT_FAILURE);
+-+            }
+-+        }
+-     }
+- 
+- #if defined(RPM_VENDOR_OPENPKG) /* integrity-checking */
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch b/meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch
+deleted file mode 100644
+index c869376538f..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch
++++ /dev/null
+@@ -1,19 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+-Change cache size to reduce the usage of disk space from 62MB to 26MB. 
+-
+-Signed-off-by: Mei Lei <lei.mei@intel.com>
+-
+-Index: rpm-5.4.14/rpmdb/DB_CONFIG.in
+-===================================================================
+---- rpm-5.4.14.orig/rpmdb/DB_CONFIG.in
+-+++ rpm-5.4.14/rpmdb/DB_CONFIG.in
+-@@ -29,7 +29,7 @@ set_thread_count 64
+- 
+- # ================ Memory Pool
+- #XXX initializing dbenv with set_cachesize has unimplemented prerequsites
+--#set_cachesize 0 1048576 0 
+-+set_cachesize 0 1048576 0 
+- set_mp_mmapsize 268435456
+- 
+- # ================ Locking
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-db5-or-db6.patch b/meta/recipes-devtools/rpm/rpm/rpm-db5-or-db6.patch
+deleted file mode 100644
+index 5d08d279ae6..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-db5-or-db6.patch
++++ /dev/null
+@@ -1,174 +0,0 @@
+-From 7bad268de8b32281e2a12ccd88038b3ec5eb1be3 Mon Sep 17 00:00:00 2001
+-From: Yuanjie Huang <Yuanjie.Huang@windriver.com>
+-Date: Tue, 15 Dec 2015 18:50:21 +0800
+-Subject: [PATCH] Support both db5 and db6.
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Signed-off-by: Yuanjie Huang <Yuanjie.Huang@windriver.com>
+----
+- configure.ac | 103 ++++++++++++++++++++++++++++++++++++++++++++++-------------
+- 1 file changed, 81 insertions(+), 22 deletions(-)
+-
+-Index: rpm/configure.ac
+-===================================================================
+---- rpm.orig/configure.ac
+-+++ rpm/configure.ac
+-@@ -871,8 +871,6 @@ else
+-     MYPATH=$PATH
+- fi
+- 
+--DBXY=db61
+--
+- AC_PATH_PROG(__BASH, bash, %{_bindir}/bash, $MYPATH)
+- AC_PATH_PROG(__BZIP2, bzip2, %{_bindir}/bzip2, $MYPATH)
+- AC_PATH_PROG(__CAT, cat, /bin/cat, $MYPATH)
+-@@ -884,22 +882,6 @@ AC_PATH_PROG(__CMAKE, cmake, %{_bindir}/
+- AC_PATH_PROG(__CPIO, cpio, /bin/cpio, $MYPATH)
+- AC_PATH_PROG(__CURL, curl, %{_bindir}/curl, $MYPATH)
+- AC_PATH_PROG(__CVS, cvs, %{_bindir}/cvs, $MYPATH)
+--AC_PATH_PROG(__DB_ARCHIVE, ${DBXY}_archive, %{_bindir}/${DBXY}_archive, $MYPATH)
+--AC_PATH_PROG(__DB_CHECKPOINT, ${DBXY}_checkpoint, %{_bindir}/${DBXY}_checkpoint, $MYPATH)
+--AC_PATH_PROG(__DB_DEADLOCK, ${DBXY}_deadlock, %{_bindir}/${DBXY}_deadlock, $MYPATH)
+--AC_PATH_PROG(__DB_DUMP, ${DBXY}_dump, %{_bindir}/${DBXY}_dump, $MYPATH)
+--AC_PATH_PROG(__DB_HOTBACKUP, ${DBXY}_hotbackup, %{_bindir}/${DBXY}_hotbackup, $MYPATH)
+--AC_PATH_PROG(__DB_LOAD, ${DBXY}_load, %{_bindir}/${DBXY}_load, $MYPATH)
+--AC_PATH_PROG(__DB_LOG_VERIFY, ${DBXY}_log_verify, %{_bindir}/${DBXY}_log_verify, $MYPATH)
+--AC_PATH_PROG(__DB_PRINTLOG, ${DBXY}_printlog, %{_bindir}/${DBXY}_printlog, $MYPATH)
+--AC_PATH_PROG(__DB_RECOVER, ${DBXY}_recover, %{_bindir}/${DBXY}_recover, $MYPATH)
+--AC_PATH_PROG(__DB_REPLICATE, ${DBXY}_replicate, %{_bindir}/${DBXY}_replicate, $MYPATH)
+--AC_PATH_PROG(__DBSQL, ${DBXY}sql, %{_bindir}/${DBXY}sql, $MYPATH)
+--AC_PATH_PROG(__DB_SQL_CODEGEN, ${DBXY}_sql_codegen, %{_bindir}/${DBXY}_sql_codegen, $MYPATH)
+--AC_PATH_PROG(__DB_STAT, ${DBXY}_stat, %{_bindir}/${DBXY}_stat, $MYPATH)
+--AC_PATH_PROG(__DB_TUNER, ${DBXY}_tuner, %{_bindir}/${DBXY}_tuner, $MYPATH)
+--AC_PATH_PROG(__DB_UPGRADE, ${DBXY}_upgrade, %{_bindir}/${DBXY}_upgrade, $MYPATH)
+--AC_PATH_PROG(__DB_VERIFY, ${DBXY}_verify, %{_bindir}/${DBXY}_verify, $MYPATH)
+- AC_PATH_PROG(__DIFF, diff, /bin/diff, $MYPATH)
+- AC_PATH_PROG(__DITTO, ditto, %{_bindir}/ditto, $MYPATH)
+- AC_PATH_PROG(__FILE, file, %{_bindir}/file, $MYPATH)
+-@@ -2050,13 +2032,46 @@ RPM_CHECK_LIB(
+- 
+- dnl # Berkeley-DB & SQLite
+- DBLIBSRCS=""
+-+DBXY=db
+-+
+- # XXX won't handle --includedir override
+--CPPFLAGS="${CPPFLAGS} -I${prefix}/include/${DBXY}"
+--RPM_CHECK_LIB(
+-+CPPFLAGS_save="${CPPFLAGS}"
+-+CPPFLAGS="${CPPFLAGS_save}"
+-+with_db_save="${with_db}"
+-+
+-+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+-+#include <db.h>
+-+]],
+-+[[
+-+#if DB_VERSION_MAJOR < 6
+-+#error DB_VERSION_MAJOR is below 6
+-+#endif
+-+]])],
+-+[RPM_CHECK_LIB(
+-     [Berkeley-DB], [db],
+-     [db-6.1], [db_create], [db.h],
+--    [yes,external], [db3],
+-+    [yes,external], [db6],
+-     [ DBLIBSRCS="$DBLIBSRCS db3.c"
+-+      DBXY=db61
+-+      AM_CONDITIONAL(WITH_DB, [ true ])
+-+      AM_CONDITIONAL(WITH_DB_INTERNAL, [ test ".$RPM_CHECK_LIB_LOCATION" = .internal ])
+-+      if test ".$RPM_CHECK_LIB_LOCATION" = .internal; then
+-+          AC_DEFINE(HAVE_DB_H, 1, [Have <db.h> header])
+-+      else
+-+          WITH_DB_SUBDIR=""
+-+      fi
+-+    ],
+-+    [ AM_CONDITIONAL(WITH_DB, [ false ])
+-+      AM_CONDITIONAL(WITH_DB_INTERNAL, [ false ])
+-+    ])],
+-+[with_db="${with_db_save}"
+-+ CPPFLAGS="${CPPFLAGS_save}"
+-+ RPM_CHECK_LIB(
+-+    [Berkeley-DB], [db],
+-+    [db-5.3], [db_create], [db.h],
+-+    [yes,external], [db53],
+-+    [ DBLIBSRCS="$DBLIBSRCS db3.c"
+-+      DBXY=db53
+-       AM_CONDITIONAL(WITH_DB, [ true ])
+-       AM_CONDITIONAL(WITH_DB_INTERNAL, [ test ".$RPM_CHECK_LIB_LOCATION" = .internal ])
+-       if test ".$RPM_CHECK_LIB_LOCATION" = .internal; then
+-@@ -2068,6 +2083,11 @@ RPM_CHECK_LIB(
+-     [ AM_CONDITIONAL(WITH_DB, [ false ])
+-       AM_CONDITIONAL(WITH_DB_INTERNAL, [ false ])
+-     ])
+-+])
+-+
+-+if test ".$ac_cv_lib_db_6_1_db_create" != .yes -a ".$ac_cv_lib_db_5_3_db_create" != .yes; then
+-+    CPPFLAGS="${CPPFLAGS_save}"
+-+fi
+- 
+- dnl # Sqlite external
+- RPM_CHECK_LIB(
+-@@ -2078,10 +2098,11 @@ RPM_CHECK_LIB(
+-     [])
+- 
+- dnl # Sqlite 3.8.3.1 from db-6.1.19
+-+if test ".$ac_cv_lib_db_6_1_db_create" = .yes; then
+- RPM_CHECK_LIB(
+-     [Berkeley-DB (+SQLite3)], [dbsql],
+-     [db_sql-6.1], [sqlite3_open], [dbsql.h],
+--    [yes,external], [db3/sql],
+-+    [yes,external], [db6/sql],
+-     [
+-       AM_CONDITIONAL(WITH_DBSQL, [ true ])
+-       AC_DEFINE(WITH_SQLITE, 1, [Define as 1 if building with SQLite library])
+-@@ -2095,12 +2116,50 @@ RPM_CHECK_LIB(
+-     ], [
+-       AM_CONDITIONAL(WITH_DBSQL, [ false ])
+-     ])
+-+elif test ".$ac_cv_lib_db_5_3_db_create" = .yes; then
+-+RPM_CHECK_LIB(
+-+    [Berkeley-DB (+SQLite3)], [dbsql],
+-+    [db_sql-5.3], [sqlite3_open], [dbsql.h],
+-+    [yes,external], [db53/sql],
+-+    [
+-+      AM_CONDITIONAL(WITH_DBSQL, [ true ])
+-+      AC_DEFINE(WITH_SQLITE, 1, [Define as 1 if building with SQLite library])
+-+      if test ".$RPM_CHECK_LIB_LOCATION" = .internal; then
+-+        WITH_DB_CPPFLAGS="${WITH_DB_CPPFLAGS} -I\$(top_srcdir)/db/sql/generated"
+-+        WITH_DB_LIBS="${WITH_DBSQL_LIBS}"
+-+        DBLIBSRCS="$DBLIBSRCS sqlite.c"
+-+      else
+-+        WITH_DBSQL_SUBDIR=""
+-+      fi
+-+    ], [
+-+      AM_CONDITIONAL(WITH_DBSQL, [ false ])
+-+    ])
+-+else
+-+AM_CONDITIONAL(WITH_DBSQL, [ false ])
+-+fi
+- 
+- DBLIBOBJS=`echo $DBLIBSRCS | sed -e "s/\.c/\.lo/g"`
+- 
+- AC_SUBST(DBLIBSRCS)
+- AC_SUBST(DBLIBOBJS)
+- 
+-+AC_PATH_PROG(__DB_ARCHIVE, ${DBXY}_archive, %{_bindir}/${DBXY}_archive, $MYPATH)
+-+AC_PATH_PROG(__DB_CHECKPOINT, ${DBXY}_checkpoint, %{_bindir}/${DBXY}_checkpoint, $MYPATH)
+-+AC_PATH_PROG(__DB_DEADLOCK, ${DBXY}_deadlock, %{_bindir}/${DBXY}_deadlock, $MYPATH)
+-+AC_PATH_PROG(__DB_DUMP, ${DBXY}_dump, %{_bindir}/${DBXY}_dump, $MYPATH)
+-+AC_PATH_PROG(__DB_HOTBACKUP, ${DBXY}_hotbackup, %{_bindir}/${DBXY}_hotbackup, $MYPATH)
+-+AC_PATH_PROG(__DB_LOAD, ${DBXY}_load, %{_bindir}/${DBXY}_load, $MYPATH)
+-+AC_PATH_PROG(__DB_LOG_VERIFY, ${DBXY}_log_verify, %{_bindir}/${DBXY}_log_verify, $MYPATH)
+-+AC_PATH_PROG(__DB_PRINTLOG, ${DBXY}_printlog, %{_bindir}/${DBXY}_printlog, $MYPATH)
+-+AC_PATH_PROG(__DB_RECOVER, ${DBXY}_recover, %{_bindir}/${DBXY}_recover, $MYPATH)
+-+AC_PATH_PROG(__DB_REPLICATE, ${DBXY}_replicate, %{_bindir}/${DBXY}_replicate, $MYPATH)
+-+AC_PATH_PROG(__DBSQL, ${DBXY}sql, %{_bindir}/${DBXY}sql, $MYPATH)
+-+AC_PATH_PROG(__DB_SQL_CODEGEN, ${DBXY}_sql_codegen, %{_bindir}/${DBXY}_sql_codegen, $MYPATH)
+-+AC_PATH_PROG(__DB_STAT, ${DBXY}_stat, %{_bindir}/${DBXY}_stat, $MYPATH)
+-+AC_PATH_PROG(__DB_TUNER, ${DBXY}_tuner, %{_bindir}/${DBXY}_tuner, $MYPATH)
+-+AC_PATH_PROG(__DB_UPGRADE, ${DBXY}_upgrade, %{_bindir}/${DBXY}_upgrade, $MYPATH)
+-+AC_PATH_PROG(__DB_VERIFY, ${DBXY}_verify, %{_bindir}/${DBXY}_verify, $MYPATH)
+-+
+- AC_ARG_WITH(db-largefile, AS_HELP_STRING([--with-db-largefile], [build Berkeley-DB with LARGEFILE support]))
+- AC_ARG_WITH(db-mutex,     AS_HELP_STRING([--with-db-mutex=ARG], [build Berkeley-DB with MUTEX type ARG]))
+- 
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-db60.patch b/meta/recipes-devtools/rpm/rpm/rpm-db60.patch
+deleted file mode 100644
+index b4df8b751b9..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-db60.patch
++++ /dev/null
+@@ -1,56 +0,0 @@
+-Set the DB 6 version to match oe-core db 6.0.30
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm/configure.ac
+-===================================================================
+---- rpm.orig/configure.ac
+-+++ rpm/configure.ac
+-@@ -2049,10 +2049,10 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+- ]])],
+- [RPM_CHECK_LIB(
+-     [Berkeley-DB], [db],
+--    [db-6.1], [db_create], [db.h],
+-+    [db-6.0], [db_create], [db.h],
+-     [yes,external], [db6],
+-     [ DBLIBSRCS="$DBLIBSRCS db3.c"
+--      DBXY=db61
+-+      DBXY=db60
+-       AM_CONDITIONAL(WITH_DB, [ true ])
+-       AM_CONDITIONAL(WITH_DB_INTERNAL, [ test ".$RPM_CHECK_LIB_LOCATION" = .internal ])
+-       if test ".$RPM_CHECK_LIB_LOCATION" = .internal; then
+-@@ -2085,7 +2085,7 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+-     ])
+- ])
+- 
+--if test ".$ac_cv_lib_db_6_1_db_create" != .yes -a ".$ac_cv_lib_db_5_3_db_create" != .yes; then
+-+if test ".$ac_cv_lib_db_6_0_db_create" != .yes -a ".$ac_cv_lib_db_5_3_db_create" != .yes; then
+-     CPPFLAGS="${CPPFLAGS_save}"
+- fi
+- 
+-@@ -2097,11 +2097,11 @@ RPM_CHECK_LIB(
+-     [ DBLIBSRCS="$DBLIBSRCS sqlite.c" ],
+-     [])
+- 
+--dnl # Sqlite 3.8.3.1 from db-6.1.19
+--if test ".$ac_cv_lib_db_6_1_db_create" = .yes; then
+-+dnl # Sqlite 3.8.3.1 from db-6.0.30
+-+if test ".$ac_cv_lib_db_6_0_db_create" = .yes; then
+- RPM_CHECK_LIB(
+-     [Berkeley-DB (+SQLite3)], [dbsql],
+--    [db_sql-6.1], [sqlite3_open], [dbsql.h],
+-+    [db_sql-6.0], [sqlite3_open], [dbsql.h],
+-     [yes,external], [db6/sql],
+-     [
+-       AM_CONDITIONAL(WITH_DBSQL, [ true ])
+-@@ -2253,7 +2253,7 @@ AC_SUBST(WITH_RUBY_CPPFLAGS)
+- AC_SUBST(WITH_RUBY_SUBDIR)
+- AC_SUBST(WITH_RUBY_VENDORARCHDIR)
+- 
+--dnl # Java prerequisites (swiped from db-6.1.19/dist/aclocal_java et al)
+-+dnl # Java prerequisites (swiped from db-6.0.30/dist/aclocal_java et al)
+- WITH_JAVA=no
+- AC_ARG_WITH([java],
+-     AS_HELP_STRING([--with-java], [build RPM with java support]),
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-db_buffer_small.patch b/meta/recipes-devtools/rpm/rpm/rpm-db_buffer_small.patch
+deleted file mode 100644
+index 16b8e30a1d2..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-db_buffer_small.patch
++++ /dev/null
+@@ -1,77 +0,0 @@
+-In certain cases with BerkleyDB 5.3.x we are getting the error:
+-
+-db3.c:1443: dbcursor->pget(-30999): BDB0063 DB_BUFFER_SMALL: User memory too small for return value
+-
+-See https://bugs.launchpad.net/rpm/+bug/934420 for more information.
+-
+-It appears to be some type of a bug in the BerkleyDB 5.3.x.  In an attempt
+-to workaround the problem, when we encounter this situation we attempt
+-to adjust the size of the mmap buffer until the call works, or we
+-end up trying 10 times.  The new size is either the updated vp->size
+-from the failed pget call, or the previous size + 1024.
+-
+-If DBI debugging is enabled, additional diagnostics are printed, otherwise
+-a basic retry and success message is added to show that the failure was
+-resolved.
+-
+-Upstream-Status: Inappropriate (workaround)
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.14/rpmdb/rpmdb.c
+-===================================================================
+---- rpm-5.4.14.orig/rpmdb/rpmdb.c
+-+++ rpm-5.4.14/rpmdb/rpmdb.c
+-@@ -2212,8 +2212,12 @@ static int rpmmiGet(dbiIndex dbi, DBC *
+- 	vp->flags |= DB_DBT_USERMEM;
+- 	rc = dbiGet(dbi, dbcursor, kp, vp, flags);
+- 	if (rc == DB_BUFFER_SMALL) {
+-+	    int retry = 0;
+-+	    size_t origlen = vp->size;
+- 	    size_t uhlen = vp->size;
+--	    void * uh = mmap(NULL, uhlen, _prot, _flags, _fdno, _off);
+-+	    void * uh;
+-+retry_get:
+-+	    uh = mmap(NULL, uhlen, _prot, _flags, _fdno, _off);
+- 	    if (uh == NULL || uh == (void *)-1)
+- 		fprintf(stderr,
+- 		    "==> mmap(%p[%u], 0x%x, 0x%x, %d, 0x%x) error(%d): %s\n",
+-@@ -2235,6 +2239,25 @@ static int rpmmiGet(dbiIndex dbi, DBC *
+- 		if (munmap(uh, uhlen) != 0)
+- 		    fprintf(stderr, "==> munmap(%p[%u]) error(%d): %s\n",
+-                 	uh, (unsigned)uhlen, errno, strerror(errno));
+-+	        /* We want to be sure to limit the number of retry attempts to avoid a loop! */
+-+	        if (rc == DB_BUFFER_SMALL && retry < 10) {
+-+		   /* If we got a largr vp-size back, use that, otherwise increment the size by 1k */
+-+	           uhlen = vp->size > uhlen ? vp->size : uhlen + 1024;
+-+		   retry++;
+-+	           if ((dbi)->dbi_debug)
+-+	               fprintf(stderr, "==> DB_BUFFER_SMALL orig requested (%d), configured (%d), forcing larger buffer (%d), new size (%d)\n",
+-+	                    origlen, vp->ulen, uhlen, vp->size);
+-+	           else
+-+	               fprintf(stderr, "==> retry (%d) db3cpget (%d)\n", retry, uhlen);
+-+	           goto retry_get;
+-+	        }
+-+	    }
+-+	    if (retry) {
+-+	        if ((dbi)->dbi_debug)
+-+	           fprintf(stderr, "==> success orig requested (%d), configured buffer (%d), buffer (%d), size after dbiGet (%d)\n",
+-+			origlen, vp->ulen, uhlen, vp->size);
+-+	        else
+-+	           fprintf(stderr, "==> success\n");
+- 	    }
+- 	}
+-     } else
+-Index: rpm-5.4.14/rpmdb/db3.c
+-===================================================================
+---- rpm-5.4.14.orig/rpmdb/db3.c
+-+++ rpm-5.4.14/rpmdb/db3.c
+-@@ -1509,7 +1509,7 @@ assert(db != NULL);
+- #endif
+-     }
+- 
+--DBIDEBUG(dbi, (stderr, "<-- %s(%p,%p,%p,%p,%p,0x%x) rc %d %s%s\n", __FUNCTION__, dbi, dbcursor, key, pkey, data, flags, rc, _DBCFLAGS(flags), _KEYDATA(key, pkey, data, NULL)));
+-+DBIDEBUG(dbi, (stderr, "<-- %s(%p,%p,%p,%p,%p,0x%x) rc %d %s%s\n", __FUNCTION__, dbi, dbcursor, key, pkey, data, flags, rc, _DBCFLAGS(flags), _KEYDATA(key, pkey, rc == DB_BUFFER_SMALL ? NULL : data, NULL)));
+-     return rc;
+- }
+- /*@=mustmod@*/
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-debug-platform.patch b/meta/recipes-devtools/rpm/rpm/rpm-debug-platform.patch
+deleted file mode 100644
+index 2eb6e0f26bf..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-debug-platform.patch
++++ /dev/null
+@@ -1,65 +0,0 @@
+-Debug the platform score generation...
+-
+-Index: rpm-5.4.14/lib/rpmrc.c
+-===================================================================
+---- rpm-5.4.14.orig/lib/rpmrc.c
+-+++ rpm-5.4.14/lib/rpmrc.c
+-@@ -465,6 +465,8 @@ static rpmRC rpmPlatform(const char * pl
+- 
+-     rc = (rpmRC) rpmiobSlurp(platform, &iob);
+- 
+-+    fprintf(stderr, "D: rpmPlatform file %s\n", platform);
+-+
+-     if (rc || iob == NULL) {
+- 	rc = RPMRC_FAIL;
+- 	goto exit;
+-@@ -486,6 +488,7 @@ static rpmRC rpmPlatform(const char * pl
+- 	    while (--t > p && xisspace(*t))
+- 		*t = '\0';
+- 	    if (t > p) {
+-+		fprintf(stderr, "D: rpmPlatform mireAppend REGEX %s\n", p);
+- 		xx = mireAppend(RPMMIRE_REGEX, 0, p, NULL, &mi_re, &mi_nre);
+- 	    }
+- 	    continue;
+-@@ -503,6 +506,11 @@ static rpmRC rpmPlatform(const char * pl
+- 		_gnu = rpmExpand("-", cvog->gnu, NULL);
+- 
+- 	    addMacro(NULL, "_platform_gnu", NULL, (_gnu ? _gnu : ""), -1);
+-+	    fprintf(stderr, "D: rpmPlatform addMacro %s-%s-%s(%s)\n",
+-+	    	rpmExpand("%{_platform_cpu}", NULL),
+-+		rpmExpand("%{_platform_vendor}", NULL),
+-+		rpmExpand("%{_platform_os}", NULL),
+-+		rpmExpand("%{_platform_gnu}", NULL));
+- #else
+- 	    addMacro(NULL, "_host_cpu", NULL, cvog->cpu, -1);
+- 	    addMacro(NULL, "_host_vendor", NULL, cvog->vendor, -1);
+-@@ -510,6 +518,7 @@ static rpmRC rpmPlatform(const char * pl
+- #endif
+- 	}
+- 
+-+	fprintf(stderr, "D: rpmPlatform mireAppend STRCMP %s -- ", p);
+- #if !defined(RPM_VENDOR_OE) /* Skip the explicit-platform */
+- #if defined(RPM_VENDOR_OPENPKG) /* explicit-platform */
+- 	/* do not use vendor and GNU attribution */
+-@@ -519,6 +528,7 @@ static rpmRC rpmPlatform(const char * pl
+- 		(cvog && *cvog->gnu ? "-" : NULL),
+- 		(cvog ? cvog->gnu : NULL), NULL);
+- #endif
+-+	fprintf(stderr, "%s\n", p);
+- 	xx = mireAppend(RPMMIRE_STRCMP, 0, p, NULL, &mi_re, &mi_nre);
+- 	p = _free(p);
+- #endif
+-@@ -688,9 +698,12 @@ int rpmPlatformScore(const char * platfo
+- 
+-     if ((mire = (miRE) mi_re) != NULL)
+-     for (i = 0; i < mi_nre; i++) {
+--	if (mireRegexec(mire + i, platform, 0) >= 0)
+-+	if (mireRegexec(mire + i, platform, 0) >= 0) {
+-+	    fprintf(stderr, "D: rpmPlatformScore %s (%d)\n", platform, i + 1);
+- 	    return (i + 1);
+-+	}
+-     }
+-+    fprintf(stderr, "D: rpmPlatformScore %s (%d)\n", platform, 0);
+-     return 0;
+- }
+- /*@=onlytrans@*/
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-disable-auto-stack-protector.patch b/meta/recipes-devtools/rpm/rpm/rpm-disable-auto-stack-protector.patch
+deleted file mode 100644
+index 124606c0d17..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-disable-auto-stack-protector.patch
++++ /dev/null
+@@ -1,24 +0,0 @@
+-Make security switches manual settings
+-
+-RPM checks for the availability of the stack protector switch and
+-transactional-memory support.  If supported it unconditionally
+-enables the compiler options which can cause errors if the support has
+-not been built into the compiler.
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.15/configure.ac
+-===================================================================
+---- rpm-5.4.15.orig/configure.ac
+-+++ rpm-5.4.15/configure.ac
+-@@ -425,7 +425,7 @@ dnl #  rpm_CFLAGS_ADD([-fstack-arrays],[
+- dnl # build RPM instrumented for extra optimization/security (GCC only)
+- dnl # --- other optimizations
+-   rpm_CFLAGS_ADD([-fexceptions], [RPM_CFLAGS])
+--  rpm_CFLAGS_ADD([-D_FORTIFY_SOURCE=2 -fstack-protector], [RPM_CFLAGS])
+-+dnl  rpm_CFLAGS_ADD([-D_FORTIFY_SOURCE=2 -fstack-protector], [RPM_CFLAGS])
+- dnl #  rpm_CFLAGS_ADD([-fstack-protector-all],[RPM_CFLAGS])
+- 
+-      if test \( ".`$CC --version 2>&1 | grep 'GCC'`" != . \); then
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-disable-blaketest.patch b/meta/recipes-devtools/rpm/rpm/rpm-disable-blaketest.patch
+deleted file mode 100644
+index adbef6df885..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-disable-blaketest.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-rpmio: Disable building of the tblake2 test(s).
+-
+-There is some type of a dependency fault here that can occasionally result in:
+-
+-gcc: error: tblake2b.o: No such file or directory
+-or
+-gcc: error: tblake2bp.o: No such file or directory
+-
+-These items are simply test cases that are not packaged, so they can be
+-safely disabled to resolve the dependency issue.
+-
+-Upstream-Status: Inappropriate [workaround]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.15/rpmio/Makefile.am
+-===================================================================
+---- rpm-5.4.15.orig/rpmio/Makefile.am
+-+++ rpm-5.4.15/rpmio/Makefile.am
+-@@ -29,7 +29,7 @@ EXTRA_PROGRAMS += bsdiff bspatch pcrsed
+- 	tmire todbc toid tperl tpython tput trpmio tsexp tsvn tsw ttcl \
+- 	dumpasn1 lookup3 trel twitter github tmicrojson duk
+- 
+--noinst_PROGRAMS += b2sum tset tblake2b tblake2bp tblake2s tblake2sp tgfs
+-+#noinst_PROGRAMS += b2sum tset tblake2b tblake2bp tblake2s tblake2sp tgfs
+- if WITH_LIBGIT2
+- noinst_PROGRAMS += tgit
+- else
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-ensure-rpm2cpio-call-rpm-relocation-code.patch b/meta/recipes-devtools/rpm/rpm/rpm-ensure-rpm2cpio-call-rpm-relocation-code.patch
+deleted file mode 100644
+index 63af1002457..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-ensure-rpm2cpio-call-rpm-relocation-code.patch
++++ /dev/null
+@@ -1,25 +0,0 @@
+-We need to call rpmcliInit to ensure the rpm relocation code is called
+-and it correctly honours the relocation environmental variables.
+-
+-when we export the wrsdk and source the sdk, then execute rpm2cpio xxx.rpm|cpio -t.
+-we will get the following error :
+-"rpm-5.4.14/rpmdb/dbconfig.c:493:
+-db3New: Assertion `dbOpts != ((void *)0) && *dbOpts != '\0'' failed.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+-Index: rpm-5.4.15/tools/rpm2cpio.c
+-===================================================================
+---- rpm-5.4.15.orig/tools/rpm2cpio.c	2012-04-27 01:46:51.000000000 +0800
+-+++ rpm-5.4.15/tools/rpm2cpio.c	2016-09-05 11:07:30.419903338 +0800
+-@@ -87,6 +87,8 @@
+- #endif
+- 	(void) rpmtsSetVSFlags(ts, vsflags);
+- 
+-+	rpmcliInit(argc, argv, NULL);
+-+
+- 	/*@-mustmod@*/      /* LCL: segfault */
+- 	rc = rpmReadPackageFile(ts, fdi, "rpm2cpio", &h);
+- 	/*@=mustmod@*/
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-fileclass.patch b/meta/recipes-devtools/rpm/rpm/rpm-fileclass.patch
+deleted file mode 100644
+index b1db6fff72c..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-fileclass.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-rpmfc.c:  Always generate per-file information
+-
+-Even when the per-file dependency generate is disabled, we want to generate
+-per file classification and other associated data.
+-
+-Note: this is a temporary workaround.  Eventually we will want to have a way
+-to seed per-file dependency and other information in order to generate a
+-package from previously determined information.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.14/lib/rpmfc.c
+-===================================================================
+---- rpm-5.4.14.orig/lib/rpmfc.c
+-+++ rpm-5.4.14/lib/rpmfc.c
+-@@ -1734,7 +1734,6 @@ rpmRC rpmfcGenerateDepends(void * _spec,
+- 	/* ... then generate dependencies using %{__find_requires} et al. */
+- 	rc = rpmfcGenerateDependsHelper(spec, pkg, fi);
+- 	printDeps(pkg->header);
+--	return rc;
+-     }
+- 
+-     /* Generate scriptlet Dependencies. */
+-@@ -1762,8 +1761,8 @@ rpmRC rpmfcGenerateDepends(void * _spec,
+-     av[ac] = NULL;
+- 
+-     fc = rpmfcNew();
+--    fc->skipProv = !pkg->autoProv;
+--    fc->skipReq = !pkg->autoReq;
+-+    fc->skipProv = !pkg->autoProv || !internaldeps;
+-+    fc->skipReq = !pkg->autoReq || !internaldeps;
+-     fc->tracked = 0;
+- 
+-     {	const char * buildRootURL;
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-fix-logio-cp.patch b/meta/recipes-devtools/rpm/rpm/rpm-fix-logio-cp.patch
+deleted file mode 100644
+index 290ec1aa143..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-fix-logio-cp.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-Occasionally the cp -p fails with a non-zero return code.  This will cause
+-the system abort the build.
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm/rpmdb/Makefile.am
+-===================================================================
+---- rpm.orig/rpmdb/Makefile.am
+-+++ rpm/rpmdb/Makefile.am
+-@@ -234,11 +234,14 @@ lcov-report:
+- #lcov-upload: lcov
+- #	rsync -rvz -e ssh --delete lcov/* ???
+- 
+-+$(builddir)/logio_recover_template: $(srcdir)/logio_recover_template
+-+	@if test ".$(builddir)" != ".$(srcdir)"; then \
+-+		cp -fp $(srcdir)/logio_recover_template \
+-+		      $(builddir)/logio_recover_template ; \
+-+	 fi
+-+
+- logio_BUILT = logio_auto.c logio_autop.c logio_auto.h logio_template
+--$(logio_BUILT):	logio.awk logio.src logio_recover_template
+--	@test -e $(builddir)/logio_recover_template || \
+--		cp -p $(srcdir)/logio_recover_template \
+--		      $(builddir)/logio_recover_template
+-+$(logio_BUILT):	logio.awk logio.src $(builddir)/logio_recover_template
+- 	@rm -f $(logio_BUILT)
+- 	@$(AWK) -f $(srcdir)/logio.awk \
+- 		-v header_file=logio_auto.h \
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-fix-lua-tests-compilation-failure.patch b/meta/recipes-devtools/rpm/rpm/rpm-fix-lua-tests-compilation-failure.patch
+deleted file mode 100644
+index 1a08243ab16..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-fix-lua-tests-compilation-failure.patch
++++ /dev/null
+@@ -1,43 +0,0 @@
+-Upstream-Status: Pending
+-
+-Subject: lua: fix to build test libs correctly
+-
+-This patch fixes errors like below.
+-
+-  | gcc: error: lib21.c: No such file or directory
+-  | gcc: fatal error: no input files
+-
+-
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+----
+- lua/tests/libs/Makefile.am | 8 ++++----
+- 1 file changed, 4 insertions(+), 4 deletions(-)
+-
+-diff --git a/lua/tests/libs/Makefile.am b/lua/tests/libs/Makefile.am
+-index 19d1a0b..1e5de72 100644
+---- a/lua/tests/libs/Makefile.am
+-+++ b/lua/tests/libs/Makefile.am
+-@@ -28,16 +28,16 @@ clean:
+- 	rm -f lib1.so lib11.so lib2.so lib21.so lib2-v2.so
+- 
+- lib1.so: lib1.c
+--	$(CC) $(CFLAGS) -o lib1.so lib1.c
+-+	$(CC) $(CFLAGS) -o lib1.so $(top_srcdir)/lua/tests/libs/lib1.c
+- 
+- lib11.so: lib11.c
+--	$(CC) $(CFLAGS) -o lib11.so lib11.c
+-+	$(CC) $(CFLAGS) -o lib11.so $(top_srcdir)/lua/tests/libs/lib11.c
+- 
+- lib2.so: lib2.c
+--	$(CC) $(CFLAGS) -o lib2.so lib2.c
+-+	$(CC) $(CFLAGS) -o lib2.so $(top_srcdir)/lua/tests/libs/lib2.c
+- 
+- lib21.so: lib21.c
+--	$(CC) $(CFLAGS) -o lib21.so lib21.c
+-+	$(CC) $(CFLAGS) -o lib21.so $(top_srcdir)/lua/tests/libs/lib21.c
+- 
+- lib2-v2.so: lib2.so
+- 	mv lib2.so ./lib2-v2.so
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-fix-parseEmbedded.patch b/meta/recipes-devtools/rpm/rpm/rpm-fix-parseEmbedded.patch
+deleted file mode 100644
+index c57f24cd726..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-fix-parseEmbedded.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-Fix an issue where parseEmbedded is not defined, but is still used.
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm/rpmio/macro.c
+-===================================================================
+---- rpm.orig/rpmio/macro.c
+-+++ rpm/rpmio/macro.c
+-@@ -1616,8 +1616,6 @@ exit:
+-  * @retval *avp		invocation args
+-  * @return		script string
+-  */
+--#if defined(WITH_AUGEAS) || defined(WITH_FICL) || defined(WITH_MOZJS) || defined(WITH_JNIEMBED) || defined(WITH_PERLEMBED) || defined(WITH_PYTHONEMBED) || defined(WITH_RUBYEMBED) || defined(WITH_MRUBY_EMBED) || defined(WITH_SQLITE) || defined(WITH_SQUIRREL) || defined(WITH_TCL)
+--
+- static char _FIXME_embedded_interpreter_eval_returned_null[] =
+-     "FIXME: embedded interpreter eval returned null.";
+- 
+-@@ -1668,7 +1666,6 @@ bingo:
+-     script[nb] = '\0';
+-     return script;
+- }
+--#endif
+- 
+- /**
+-  * The main macro recursion loop.
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-gnu-atomic.patch b/meta/recipes-devtools/rpm/rpm/rpm-gnu-atomic.patch
+deleted file mode 100644
+index 36a418fc6a7..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-gnu-atomic.patch
++++ /dev/null
+@@ -1,64 +0,0 @@
+-configure.ac: Check if the current compiler supports the transactions
+-
+-Some distributions appear to have compilers that are built without support
+-for transactions, even though they are GCC 4.7 or newer.
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.15/configure.ac
+-===================================================================
+---- rpm-5.4.15.orig/configure.ac
+-+++ rpm-5.4.15/configure.ac
+-@@ -425,9 +425,34 @@ dnl # --- other optimizations
+-   rpm_CFLAGS_ADD([-D_FORTIFY_SOURCE=2 -fstack-protector], [RPM_CFLAGS])
+- dnl #  rpm_CFLAGS_ADD([-fstack-protector-all],[RPM_CFLAGS])
+- 
+--     if test \( ".`$CC --version 2>&1 | grep 'GCC'`" != . \); then
+--         rpm_CFLAGS_ADD([-fgnu-tm], [RPM_CFLAGS])
+--     fi
+-+dnl # Check if the current gcc supports -fgnu-tm and __transaction_atomic
+-+AC_MSG_CHECKING([If the compiler supports __transaction_atomic])
+-+save_CFLAGS="$CFLAGS"
+-+save_LDFLAGS="$LDFLAGS"
+-+CFLAGS="${CFLAGS} -fgnu-tm -litm"
+-+LDFLAGS="${LDFLAGS} -litm"
+-+AC_LINK_IFELSE([AC_LANG_SOURCE([[
+-+int
+-+main()
+-+{
+-+#if !__clang__ &&  ((__GNUC__ == 4 && __GNUC_MINOR__ >= 7) || (__GNUC__ > 4)) /* XXX gud enuf? */
+-+        int i = 0;
+-+        __transaction_atomic { i++; }
+-+#else
+-+# error Compiler does not support __transaction_atomic
+-+#endif
+-+        return 0;
+-+}
+-+]])], [
+-+        AC_DEFINE([HAVE_GNUC_TM_ATOMIC], [1],
+-+                [Define to 1 if the compiler supports __transaction_atomic.])
+-+        AC_MSG_RESULT([yes])
+-+], [
+-+	CFLAGS="$save_CFLAGS"
+-+	LDFLAGS="$save_LDFLAGS"
+-+	AC_MSG_RESULT([no])
+-+])
+-+
+- 
+- dnl # --- options below are added to RPM_CFLAGS but _NOT_ added to CFLAGS
+-             CPPFLAGS="$CPPFLAGS $RPM_CPPFLAGS"
+-Index: rpm-5.4.15/rpmio/rpmutil.h
+-===================================================================
+---- rpm-5.4.15.orig/rpmio/rpmutil.h
+-+++ rpm-5.4.15/rpmio/rpmutil.h
+-@@ -105,7 +105,7 @@
+- #  define RPM_GNUC_INTERNAL
+- #endif
+- 
+--#if !__clang__ &&  __GNUC__ == 4 && __GNUC_MINOR__ >= 7	/* XXX gud enuf? */
+-+#ifdef HAVE_GNUC_TM_ATOMIC
+- #  define RPM_GNUC_TM_SAFE	__attribute__((transaction_safe))
+- #  define RPM_GNUC_TM_PURE	__attribute__((transaction_pure))
+- #  define RPM_GNUC_TM_CALLABLE	__attribute__((transaction_callable))
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-hardlink-segfault-fix.patch b/meta/recipes-devtools/rpm/rpm/rpm-hardlink-segfault-fix.patch
+deleted file mode 100644
+index 057925fb647..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-hardlink-segfault-fix.patch
++++ /dev/null
+@@ -1,43 +0,0 @@
+-We need to sanity check that the nlink size and our linksLeft counter
+-do match. If an rpm is badly constructed with identical inode values
+-for multiple hardlinked files, such an rpm will otherwise access memory
+-out of array bounds and cause memory corruption and crashes.
+-
+-The fix is to add in the sanity check and exit if bad circumstances
+-are found. We need to fix the caller to check the return code too.
+-
+-RP 2014/6/10
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Index: rpm-5.4.14/lib/fsm.c
+-===================================================================
+---- rpm-5.4.14.orig/lib/fsm.c
+-+++ rpm-5.4.14/lib/fsm.c
+-@@ -495,6 +495,11 @@ static int saveHardLink(/*@special@*/ /*
+-     }
+- 
+-     if (fsm->goal == IOSM_PKGBUILD) --fsm->li->linksLeft;
+-+    if (fsm->li->linksLeft > st->st_nlink) {
+-+	rpmlog(RPMLOG_ERR, _("Corrupted hardlinks found (count %d does not match %d), exiting.\n"), fsm->li->linksLeft, st->st_nlink);
+-+	return -1;
+-+    }
+-+
+-     fsm->li->filex[fsm->li->linksLeft] = fsm->ix;
+-     /*@-observertrans -dependenttrans@*/
+-     fsm->li->nsuffix[fsm->li->linksLeft] = fsm->nsuffix;
+-@@ -1878,8 +1883,13 @@ if (!(fsmGetFi(fsm)->mapflags & IOSM_PAY
+- 	fsm->postpone = iosmFileActionSkipped(fsm->action);
+- 	if (fsm->goal == IOSM_PKGINSTALL || fsm->goal == IOSM_PKGBUILD) {
+- 	    /*@-evalorder@*/ /* FIX: saveHardLink can modify fsm */
+--	    if (S_ISREG(st->st_mode) && st->st_nlink > 1)
+-+	    if (S_ISREG(st->st_mode) && st->st_nlink > 1) {
+- 		fsm->postpone = saveHardLink(fsm);
+-+		if (fsm->postpone < 0) {
+-+		    rc = RPMRC_FAIL;
+-+		    break;
+-+		}
+-+	    }
+- 	    /*@=evalorder@*/
+- 	}
+- if (fsmGetFi(fsm)->mapflags & IOSM_PAYLOAD_LIST) fsm->postpone = 1;
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-keccak-sse-intrin.patch b/meta/recipes-devtools/rpm/rpm/rpm-keccak-sse-intrin.patch
+deleted file mode 100644
+index 72884d4ad4e..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-keccak-sse-intrin.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-rpm - rpmio/keccak.c: make SSE/MMX dependent upon gcc config
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.15/rpmio/keccak.c
+-===================================================================
+---- rpm-5.4.15.orig/rpmio/keccak.c
+-+++ rpm-5.4.15/rpmio/keccak.c
+-@@ -17,9 +17,13 @@ http://keccak.noekeon.org/
+- #if OPTIMIZED == 64
+- /* ===== "KeccakOpt64-settings.h" */
+- #define Unrolling 18
+--//#define UseBebigokimisa
+--#define UseSSE
+--//#define UseMMX
+-+#if defined(__SSE2__)
+-+ #define UseSSE
+-+#elif defined(__MMX__)
+-+ #define UseMMX
+-+#else
+-+ #define UseBebigokimisa
+-+#endif
+- /* ===== */
+- #endif
+- 
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-lib-transaction.c-fix-file-conflicts-for-mips64-N32.patch b/meta/recipes-devtools/rpm/rpm/rpm-lib-transaction.c-fix-file-conflicts-for-mips64-N32.patch
+deleted file mode 100644
+index 1a48db63c65..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-lib-transaction.c-fix-file-conflicts-for-mips64-N32.patch
++++ /dev/null
+@@ -1,52 +0,0 @@
+-From 67ec7531e6297200eaa97ef917d49b0a75876cb4 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Wed, 2 Dec 2015 00:56:07 -0800
+-Subject: [PATCH] lib/transaction.c: fix file conflicts for MIPS64 N32
+-
+-The following error can occur:
+-  smart install libc6-2.22-r0.1@lib32_mips32r2octeon3 libc6-dbg-2.22-r0.1@lib32_mips32r2octeon3
+-error: file /sbin/ldconfig conflicts between attempted installs of libc6-2.22-r0.1.lib32_mips32r2octeon3 and libc6-2.22-r0.1.octeon3_n32
+-error: file /sbin/.debug/ldconfig conflicts between attempted installs of libc6-dbg-2.22-r0.1.lib32_mips32r2octeon3 and libc6-dbg-2.22-r0.1.octeon3_n32
+-
+-This was because:
+-transactions_color = 001 (ELF32) & 010 (ELF64) & 100 (ELF32 N32 MIPS64)
+-FColor = Current file color (001) & transaction_color (111)
+-oFcolor = Previous file color (100) & transaction_color (111)
+-
+-There are two places where the conflict comparisons occur.  In both places
+-the 'else' clause was too restrictive (opposite of the 'positive' clause).
+-This caused the system to only permit a binary comparison - "new preferred" or
+-"old preferred".  It did not permissing "neither preferred".  By removing the
+-else comparison the system will now perform a 'last-in-wins' resolution when
+-"neither is preferred".
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+----
+- lib/transaction.c |    3 ++-
+- 1 file changed, 2 insertions(+), 1 deletion(-)
+-
+-Index: rpm-5.4.14/lib/transaction.c
+-===================================================================
+---- rpm-5.4.14.orig/lib/transaction.c
+-+++ rpm-5.4.14/lib/transaction.c
+-@@ -154,7 +154,7 @@ static int handleInstInstalledFile(const
+- 		fi->actions[fx] = FA_SKIPCOLOR;
+- #endif
+- 		rConflicts = 0;
+--	    } else if (FColor & prefcolor) {
+-+	    } else {
+- #ifdef	REFERENCE
+- 		rpmfsSetAction(fs, fx, FA_CREATE);
+- #else
+-@@ -420,7 +420,7 @@ assert(otherFi != NULL);
+- 			fi->actions[i] = FA_SKIPCOLOR;
+- 			rConflicts = 0;
+- 		    } else
+--		    if (FColor == 0 && oFColor == 0) {
+-+		    {
+- 			/* ... otherwise, do both, last in wins. */
+- 			otherFi->actions[otherFileNum] = FA_CREATE;
+- 			fi->actions[i] = FA_CREATE;
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-libsql-fix.patch b/meta/recipes-devtools/rpm/rpm/rpm-libsql-fix.patch
+deleted file mode 100644
+index e87e02b69b9..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-libsql-fix.patch
++++ /dev/null
+@@ -1,22 +0,0 @@
+-During installation, the libtool relink attempts to link to -lrpm...
+-The problem is that it hasn't been installed yet!  So small change causes
+-the libtool to instead use the build version.
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.14/lib/Makefile.am
+-===================================================================
+---- rpm-5.4.14.orig/lib/Makefile.am
+-+++ rpm-5.4.14/lib/Makefile.am
+-@@ -120,6 +120,9 @@ librpm.la: $(librpm_la_OBJECTS) $(librpm
+- #libsql_la_SOURCES	= libsql.c
+- #libsql_la_LIBADD	= librpm.la $(RPMDB_LDADD_COMMON)
+- 
+-+# pkglib libraries needs to have usrlib libraries already installed!
+-+install-pkglibLTLIBRARIES: install-usrlibLTLIBRARIES
+-+
+- install-data-hook:
+- if !ENABLE_BUILD_LAFILES
+- 	-for l in $(usrlib_LTLIBRARIES); do \
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch b/meta/recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch
+deleted file mode 100644
+index 3153f7a3865..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch
++++ /dev/null
+@@ -1,15 +0,0 @@
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Index: rpm-5.4.14/rpmdb/DB_CONFIG.in
+-===================================================================
+---- rpm-5.4.14.orig/rpmdb/DB_CONFIG.in
+-+++ rpm-5.4.14/rpmdb/DB_CONFIG.in
+-@@ -4,6 +4,7 @@ set_data_dir .
+- set_create_dir .
+- set_lg_dir ./log
+- set_tmp_dir ./tmp
+-+set_flags db_log_autoremove on
+- 
+- # -- thread_count must be >= 8
+- set_thread_count 64
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-lsb-compatibility.patch b/meta/recipes-devtools/rpm/rpm/rpm-lsb-compatibility.patch
+deleted file mode 100644
+index a87518ba3a3..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-lsb-compatibility.patch
++++ /dev/null
+@@ -1,24 +0,0 @@
+-Enable platform tag matching workaround in OE.
+-
+-When installing some LSB packages the 'platform' field in the package
+-appears to be invalid.  Instead of relying solely on the platform comparison
+-we also want to generate a perceived platform based on the valid rpm contents
+-of arch and os.
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.14/lib/depends.c
+-===================================================================
+---- rpm-5.4.14.orig/lib/depends.c
+-+++ rpm-5.4.14/lib/depends.c
+-@@ -595,7 +595,7 @@ int rpmtsAddInstallElement(rpmts ts, Hea
+- 	    platform = rpmExpand(arch, "-unknown-", os, NULL);
+- 
+- 	rc = rpmPlatformScore(platform, platpat, nplatpat);
+--#if defined(RPM_VENDOR_MANDRIVA)
+-+#if defined(RPM_VENDOR_MANDRIVA) || defined(RPM_VENDOR_OE)
+- 	/*
+- 	 * If no match on platform tag, we'll try again with arch tag
+- 	 * in case platform tag is inconsistent with it, which is the case
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-lua.patch b/meta/recipes-devtools/rpm/rpm/rpm-lua.patch
+deleted file mode 100644
+index a9930d6705f..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-lua.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-Add support for cross compiling lua
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.14/configure.ac
+-===================================================================
+---- rpm-5.4.14.orig/configure.ac
+-+++ rpm-5.4.14/configure.ac
+-@@ -121,6 +121,9 @@ AC_PROG_YACC
+- 
+- AC_PATH_PROG(AS, as, as)
+- 
+-+CC_FOR_BUILD=${CC_FOR_BUILD-\$(CC)}
+-+AC_SUBST(CC_FOR_BUILD)
+-+
+- dnl # GCC specifics
+- AC_PROG_GCC_TRADITIONAL
+- AC_ARG_ENABLE(build-pic,
+-Index: rpm-5.4.14/lua/Makefile.am
+-===================================================================
+---- rpm-5.4.14.orig/lua/Makefile.am
+-+++ rpm-5.4.14/lua/Makefile.am
+-@@ -41,7 +41,7 @@ rpmluac_LDADD = liblua.la
+- 
+- # --- bin2c doesn't need anything but a compiler
+- bin2c$(EXEEXT):  bin2c.c
+--	$(CC) -o $@ $<
+-+	$(CC_FOR_BUILD) -o $@ $<
+- 
+- liblua_la_SOURCES =
+- liblua_la_CFLAGS = @WITH_LUA_SUBDIR_DEF@
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-macros.in-disable-external-key-server.patch b/meta/recipes-devtools/rpm/rpm/rpm-macros.in-disable-external-key-server.patch
+deleted file mode 100644
+index a08412aa916..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-macros.in-disable-external-key-server.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-disable external key server
+-
+-Upstream-Status: Pending
+-
+-When RPM experiences a signed package, with a signature that it does NOT know.
+-By default it will send the -fingerprint- (and only the 16 digit fingerprint) to
+-an external HKP server, trying to get the key down.
+-
+-This is probably not a reasonable default behavior for the system to do, instead
+-it should simply fail the key lookup.  If someone wants to enable the HKP server
+-it's easy enough to do by enabling the necessary macros.
+-
+-Signed-off-by: yzhu1 <yanjun.zhu@windriver.com>
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-Index: rpm/macros/macros.in
+-===================================================================
+---- rpm.orig/macros/macros.in
+-+++ rpm/macros/macros.in
+-@@ -563,10 +563,10 @@ $_arbitrary_tags_tests	Foo:Bar
+- 
+- # Horowitz Key Protocol server configuration
+- #
+--%_hkp_keyserver         hkp://keys.rpm5.org
+-+#%_hkp_keyserver         hkp://keys.rpm5.org
+- #%_hkp_keyserver         hkp://keys.n3npq.net
+- #%_hkp_keyserver         hkp://pool.sks-keyservers.net
+--%_hkp_keyserver_query   %{_hkp_keyserver}/pks/lookup?op=get&search=
+-+#%_hkp_keyserver_query   %{_hkp_keyserver}/pks/lookup?op=get&search=
+- 
+- 
+- # NSS_InitContext() parameter configuration
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-macros.patch b/meta/recipes-devtools/rpm/rpm/rpm-macros.patch
+deleted file mode 100644
+index c7ab2d2bb7a..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-macros.patch
++++ /dev/null
+@@ -1,64 +0,0 @@
+-macros/macros.in: Revert settings to the same as RPM 5.4.0
+-
+-Enable a reasonable set of rpmdeps dependency helper macros.  These sets
+-were used by RPM 5.4.0.
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.14/macros/macros.in
+-===================================================================
+---- rpm-5.4.14.orig/macros/macros.in
+-+++ rpm-5.4.14/macros/macros.in
+-@@ -1022,7 +1022,7 @@ $_arbitrary_tags_tests	Foo:Bar
+- 
+- #==============================================================================
+- # ---- rpmbuild macros.
+--#%%{load:%{_usrlibrpm}/macros.rpmbuild}
+-+%{load:%{_usrlibrpm}/macros.rpmbuild}
+- 
+- #------------------------------------------------------------------------
+- # cmake(...) configuration
+-@@ -1038,15 +1038,15 @@ $_arbitrary_tags_tests	Foo:Bar
+- 
+- #------------------------------------------------------------------------
+- # perl(...) configuration
+--#%%{load:%{_usrlibrpm}/macros.d/perl}
+-+%{load:%{_usrlibrpm}/macros.d/perl}
+- 
+- #------------------------------------------------------------------------
+- # python(...) configuration.
+--#%%{load:%{_usrlibrpm}/macros.d/python}
+-+%{load:%{_usrlibrpm}/macros.d/python}
+- 
+- #------------------------------------------------------------------------
+- # php(...) configuration.
+--#%%{load:%{_usrlibrpm}/macros.d/php}
+-+%{load:%{_usrlibrpm}/macros.d/php}
+- 
+- #------------------------------------------------------------------------
+- # java(...) configuration.
+-@@ -1054,11 +1054,11 @@ $_arbitrary_tags_tests	Foo:Bar
+- 
+- #------------------------------------------------------------------------
+- # libtool(...) configuration.
+--#%%{load:%{_usrlibrpm}/macros.d/libtool}
+-+%{load:%{_usrlibrpm}/macros.d/libtool}
+- 
+- #------------------------------------------------------------------------
+- # pkgconfig(...) configuration.
+--#%%{load:%{_usrlibrpm}/macros.d/pkgconfig}
+-+%{load:%{_usrlibrpm}/macros.d/pkgconfig}
+- 
+- #------------------------------------------------------------------------
+- # mono(...) configuration.
+-@@ -1070,7 +1070,7 @@ $_arbitrary_tags_tests	Foo:Bar
+- 
+- #------------------------------------------------------------------------
+- # tcl(...) configuration.
+--#%%{load:%{_usrlibrpm}/macros.d/tcl}
+-+%{load:%{_usrlibrpm}/macros.d/tcl}
+- 
+- #------------------------------------------------------------------------
+- # typelib(...) configuration.
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-mongodb-sasl.patch b/meta/recipes-devtools/rpm/rpm/rpm-mongodb-sasl.patch
+deleted file mode 100644
+index 6c3e4718b95..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-mongodb-sasl.patch
++++ /dev/null
+@@ -1,69 +0,0 @@
+-Fix errors when building with sasl2 disabled
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm/rpmio/mongoc.c
+-===================================================================
+---- rpm.orig/rpmio/mongoc.c
+-+++ rpm/rpmio/mongoc.c
+-@@ -39,8 +39,10 @@
+- # include <winerror.h>
+- #endif
+- 
+-+#ifdef HAVE_LIBSASL2
+- #include <sasl/sasl.h>
+- #include <sasl/saslutil.h>
+-+#endif
+- 
+- #include <openssl/bio.h>
+- #include <openssl/ssl.h>
+-@@ -14228,6 +14230,7 @@ mongoc_read_prefs_copy (const mongoc_rea
+-    return ret;
+- }
+- 
+-+#ifdef MONGOC_ENABLE_SASL
+- /*==============================================================*/
+- /* --- mongoc-sasl.c */
+- 
+-@@ -14555,6 +14558,7 @@ _mongoc_sasl_step (mongoc_sasl_t *sasl,
+- 
+-    return true;
+- }
+-+#endif
+- 
+- /*==============================================================*/
+- /* --- mongoc-socket.c */
+-Index: rpm/rpmio/mongoc.h
+-===================================================================
+---- rpm.orig/rpmio/mongoc.h
+-+++ rpm/rpmio/mongoc.h
+-@@ -38,8 +38,10 @@
+- # include <sys/un.h>
+- #endif
+- 
+-+#ifdef HAVE_LIBSASL2
+- #include <sasl/sasl.h>
+- #include <sasl/saslutil.h>
+-+#endif
+- 
+- #include <openssl/bio.h>
+- #include <openssl/ssl.h>
+-@@ -2455,6 +2457,8 @@ BSON_END_DECLS
+- /*==============================================================*/
+- /* --- mongoc-sasl-private.h */
+- 
+-+#ifdef MONGOC_ENABLE_SASL
+-+
+- BSON_BEGIN_DECLS
+- 
+- 
+-@@ -2498,6 +2502,7 @@ bool _mongoc_sasl_step             (mong
+- 
+- 
+- BSON_END_DECLS
+-+#endif
+- 
+- /*==============================================================*/
+- /* --- mongoc-ssl-private.h */
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-no-loopmsg.patch b/meta/recipes-devtools/rpm/rpm/rpm-no-loopmsg.patch
+deleted file mode 100644
+index e58cc13a6fd..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-no-loopmsg.patch
++++ /dev/null
+@@ -1,19 +0,0 @@
+-lib/order.c: Make the dependency loop messages into debug msgs
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.14/lib/order.c
+-===================================================================
+---- rpm-5.4.14.orig/lib/order.c
+-+++ rpm-5.4.14/lib/order.c
+-@@ -2175,7 +2175,7 @@ rescan:
+- 		const char * dp;
+- 		rpmlogLvl msglvl = (anaconda || (rpmtsDFlags(ts) & RPMDEPS_FLAG_DEPLOOPS))
+- 			? RPMLOG_WARNING : RPMLOG_ERR;
+--#if defined(RPM_VENDOR_MANDRIVA) /* loop-detection-optional-loglevel */
+-+#if defined(RPM_VENDOR_MANDRIVA) || defined(RPM_VENDOR_OE) /* loop-detection-optional-loglevel */
+- 		// Report loops as debug-level message by default (7 = RPMLOG_DEBUG), overridable
+- 		msglvl = rpmExpandNumeric("%{?_loop_detection_loglevel}%{?!_loop_detection_loglevel:7}");
+- #endif
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-no-perl-urpm.patch b/meta/recipes-devtools/rpm/rpm/rpm-no-perl-urpm.patch
+deleted file mode 100644
+index 58182296cfb..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-no-perl-urpm.patch
++++ /dev/null
+@@ -1,47 +0,0 @@
+-Disable perl-URPM support
+-
+-This causes a configure failure when perl-URPM is not used.
+-
+-| configure.ac:1159: required file `perl-URPM/Makefile.PL.in' not found
+-| configure.ac:1159: required file `perl-URPM/Makefile.in' not found
+-
+-Upstream-Status: Inappropriate [disable feature]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.14/configure.ac
+-===================================================================
+---- rpm-5.4.14.orig/configure.ac
+-+++ rpm-5.4.14/configure.ac
+-@@ -1186,30 +1186,10 @@ AC_SUBST(WITH_PERL_SUBDIR)
+- AC_SUBST(WITH_PERL_SUBPACKAGE)
+- AC_SUBST(WITH_PERL_LIBS)
+- 
+--dnl # optional Perl-URPM language bindings
+-+dnl # disable Perl-URPM language bindings
+- WITH_PERL_URPM_SUBDIR=""
+- WITH_PERL_URPM_SUBPACKAGE=0
+- WITH_PERL_URPM_LIBS=""
+--if test ".$WITH_PTHREADS" = .yes; then
+--    WITH_PERL_URPM_LIBS="$LIBS"
+--fi
+--AC_ARG_WITH(perl-urpm, AS_HELP_STRING([--with-perl-urpm], [build with Perl URPM language bindings]), [
+--    if test ".$withval" != .no; then
+--	PERL_URPM_INSTALLDIRS=""
+--	   if test "$withval" == "vendor"; then
+--		    PERL_URPM_INSTALLDIRS="'INSTALLDIRS'	=> 'vendor',"
+--	    fi
+--	    if test "$withval" == "site"; then
+--		    PERL_URPM_INSTALLDIRS="'INSTALLDIRS'     => 'site',"
+--	    fi
+--	    AC_DEFINE_UNQUOTED([PERL_URPM_INSTALLDIRS], [$PERL_URPM_INSTALLDIRS], [Perl install directory (vendor/site)])
+--	    AC_SUBST(PERL_URPM_INSTALLDIRS)
+--        WITH_PERL_URPM_SUBDIR=perl-URPM
+--        WITH_PERL_URPM_SUBPACKAGE=1
+--        AC_CONFIG_FILES([perl-URPM/Makefile.PL])
+--        AC_CONFIG_FILES([perl-URPM/Makefile])
+--    fi
+--])
+- AC_SUBST(WITH_PERL_URPM_SUBDIR)
+- AC_SUBST(WITH_PERL_URPM_SUBPACKAGE)
+- AC_SUBST(WITH_PERL_URPM_LIBS)
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-opendb-before-verifyscript-to-avoid-null-point.patch b/meta/recipes-devtools/rpm/rpm/rpm-opendb-before-verifyscript-to-avoid-null-point.patch
+deleted file mode 100644
+index e2191245f87..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-opendb-before-verifyscript-to-avoid-null-point.patch
++++ /dev/null
+@@ -1,24 +0,0 @@
+-rpm: opendb before rpmverifyscript to avoid null point input
+-
+-If the command is "rpm -V" and the return value of (headerIsEntry(h, RPMTAG_VERIFYSCRIPT) 
+-|| headerIsEntry(h, RPMTAG_SANITYCHECK)) located in /lib/verify.c is true, it will call
+-rpmpsmStage function(rpmVerifyScript->rpmpsmScriptStage->rpmpsmStage) and occur segment
+-fault because of null point(rpmtsGetRdb(ts) == NULL and rpmtsGetRdb(ts)->db_txn).
+-So we open rpmdb to avoid bad input when find headerIsEntry true.
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+-Index: rpm-5.4.14/lib/verify.c
+-===================================================================
+---- rpm-5.4.14.orig/lib/verify.c	2015-07-22 22:09:59.992895355 +0800
+-+++ rpm-5.4.14/lib/verify.c	2015-08-13 10:20:33.752177906 +0800
+-@@ -613,6 +613,8 @@
+- 	{
+- 	    FD_t fdo = fdDup(STDOUT_FILENO);
+- 
+-+	    rpmtsOpenDB(ts, O_RDONLY);            /*Open the DB to avoid null point input in function rpmpsmStage()*/
+-+
+- 	    rc = rpmfiSetHeader(fi, h);
+- 	    if ((rc = rpmVerifyScript(qva, ts, fi, fdo)) != 0)
+- 		ec += rc;
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch b/meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch
+deleted file mode 100644
+index 691aba9ea3d..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch
++++ /dev/null
+@@ -1,23 +0,0 @@
+-Fix integration of ossp-uuid
+-
+-We need to avoid including the util-linux uuid library, instead
+-we need ossp-uuid.  There is a related hack in do_configure to
+-make sure that we use the right .pc file as well.
+-
+-Upstream-Status: Inappropriate [disable feature]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.14/configure.ac
+-===================================================================
+---- rpm-5.4.14.orig/configure.ac
+-+++ rpm-5.4.14/configure.ac
+-@@ -1951,7 +1951,7 @@ grep -v 'define HAVE_UNISTD_H' confdefs.
+- esac
+- RPM_CHECK_LIB(
+-     [OSSP uuid], [uuid],
+--    [ossp-uuid uuid], [uuid_import], [uuid.h],
+-+    [ossp-uuid], [uuid_import], [uuid.h],
+-     [no,external:none], [],
+-     [ dnl # enable OSSP uuid native API support for embedded Lua
+-       if test ".$WITH_LUA" = .yes; then
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-packageorigin.patch b/meta/recipes-devtools/rpm/rpm/rpm-packageorigin.patch
+deleted file mode 100644
+index 57fc6ce88ce..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-packageorigin.patch
++++ /dev/null
+@@ -1,25 +0,0 @@
+-Add the ability to query the packageorigin
+-
+-Written by jbj at rpm5.org
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.14/rpmdb/hdrfmt.c
+-===================================================================
+---- rpm-5.4.14.orig/rpmdb/hdrfmt.c
+-+++ rpm-5.4.14/rpmdb/hdrfmt.c
+-@@ -2409,8 +2409,10 @@ static int pkgoriginTag(Header h, HE_t h
+-     int rc = 1;
+- 
+-     he->tag = RPMTAG_PACKAGEORIGIN;
+--    if (!headerGet(h, he, HEADERGET_NOEXTENSION)
+--     && (origin = headerGetOrigin(h)) != NULL)
+-+    /* XXX two sources for tag data: what search precedence? */
+-+    if (headerGet(h, he, HEADERGET_NOEXTENSION))
+-+	rc = 0;
+-+    else if ((origin = headerGetOrigin(h)) != NULL)
+-     {
+- 	he->t = RPM_STRING_TYPE;
+- 	he->p.str = xstrdup(origin);
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-payload-use-hashed-inode.patch b/meta/recipes-devtools/rpm/rpm/rpm-payload-use-hashed-inode.patch
+deleted file mode 100644
+index af643b1c62f..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-payload-use-hashed-inode.patch
++++ /dev/null
+@@ -1,126 +0,0 @@
+-If we run builds on a filesystem with 64 bit inodes like XFS, we need to
+-map the inode numbers to something 32 bit since the cpio header only allows
+-for 32 bit inode values. If we don't do this:
+-
+-#define SET_NUM_FIELD(phys, val, space) \
+-        sprintf(space, "%8.8lx", (unsigned long) (val)); \
+-        memcpy(phys, space, 8)
+-
+-from cpio.c will print larger that 8 character values and then truncate the 
+-LSBs. This generates cpio files where hardlinked files may have the same
+-inode number. The resulting rpms are then corrupted.
+-
+-There is a separate patch for the crash the identical inode numbers causes
+-when extracting the rpm.
+-
+-Patch taken from http://git.pld-linux.org/?p=packages/rpm.git;a=commitdiff;h=10526c23aac60b7b636e4c93862887dbef8e8f15
+-
+-RP 2014/6/10
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Index: rpm-5.4.14/build/files.c
+-===================================================================
+---- rpm-5.4.14.orig/build/files.c
+-+++ rpm-5.4.14/build/files.c
+-@@ -1328,6 +1328,26 @@ static rpmuint32_t getDigestAlgo(Header
+-     return dalgo;
+- }
+- 
+-+static int isHardLink(FileListRec flp, FileListRec tlp)
+-+{
+-+    return ((S_ISREG(flp->fl_mode) && S_ISREG(tlp->fl_mode)) &&
+-+            ((flp->fl_nlink > 1) && (flp->fl_nlink == tlp->fl_nlink)) &&
+-+            (flp->fl_ino == tlp->fl_ino) &&
+-+            (flp->fl_dev == tlp->fl_dev));
+-+}
+-+
+-+static int seenHardLink(FileList fl, FileListRec flp, ino_t *fileid)
+-+{
+-+    FileListRec ilp;
+-+    for (ilp = fl->fileList; ilp < flp; ilp++) {
+-+        if (isHardLink(flp, ilp)) {
+-+            *fileid = ilp - fl->fileList;
+-+            return 1;
+-+        }
+-+    }
+-+    return 0;
+-+}
+-+
+- /**
+-  * Add file entries to header.
+-  * @todo Should directories have %doc/%config attributes? (#14531)
+-@@ -1374,6 +1394,7 @@ memset(buf, 0, sizeof(buf));	/* XXX valg
+- 
+-     for (i = 0, flp = fl->fileList; i < fl->fileListRecsUsed; i++, flp++) {
+- 	const char *s;
+-+	ino_t fileid = flp - fl->fileList;
+- 
+-  	/* Merge duplicate entries. */
+- 	while (i < (fl->fileListRecsUsed - 1) &&
+-@@ -1436,6 +1457,13 @@ memset(buf, 0, sizeof(buf));	/* XXX valg
+- 	/* Leave room for both dirname and basename NUL's */
+- 	dpathlen += (strlen(flp->diskURL) + 2);
+- 
+-+	/* Excludes and dupes have been filtered out by now. */
+-+	if (S_ISREG(flp->fl_mode)) {
+-+	    if (flp->fl_nlink == 1 || !seenHardLink(fl, flp, &fileid)) {
+-+		fl->totalFileSize += flp->fl_size;
+-+	    }
+-+	}
+-+
+- 	/*
+- 	 * Make the header, the OLDFILENAMES will get converted to a 
+- 	 * compressed file list write before we write the actual package to
+-@@ -1518,7 +1546,11 @@ memset(buf, 0, sizeof(buf));	/* XXX valg
+- 
+- 	/* XXX Hash instead of 64b->32b truncate to prevent aliasing. */
+- 	{   ino_t _ino = flp->fl_ino;
+-+	/* don't use hash here, as hash collisions which happen on large packages
+-+	   cause bus errors in rpmbuild
+- 	    ui32 = hashFunctionString(0, &_ino, sizeof(_ino));
+-+	*/
+-+	    ui32 = fileid + 1;
+- 	}
+- 	he->tag = RPMTAG_FILEINODES;
+- 	he->t = RPM_UINT32_TYPE;
+-@@ -1751,39 +1783,6 @@ if (_rpmbuildFlags & 4) {
+- 		IOSM_MAP_TYPE | IOSM_MAP_MODE | IOSM_MAP_UID | IOSM_MAP_GID;
+- 	if (isSrc)
+- 	    fi->fmapflags[i] |= IOSM_FOLLOW_SYMLINKS;
+--
+--	if (S_ISREG(flp->fl_mode)) {
+--	    int bingo = 1;
+--	    /* Hard links need be tallied only once. */
+--	    if (flp->fl_nlink > 1) {
+--		FileListRec jlp = flp + 1;
+--		int j = i + 1;
+--		for (; (unsigned)j < fi->fc; j++, jlp++) {
+--		    /* follow outer loop logic */
+--		    while (((jlp - fl->fileList) < (fl->fileListRecsUsed - 1)) &&
+--			    !strcmp(jlp->fileURL, jlp[1].fileURL))
+--			jlp++;
+--		    if (jlp->flags & RPMFILE_EXCLUDE) {
+--			j--;
+--			/*@innercontinue@*/ continue;
+--		    }
+--		    if (jlp->flags & RPMFILE_GHOST)
+--		        /*@innercontinue@*/ continue;
+--		    if (!S_ISREG(jlp->fl_mode))
+--			/*@innercontinue@*/ continue;
+--		    if (flp->fl_nlink != jlp->fl_nlink)
+--			/*@innercontinue@*/ continue;
+--		    if (flp->fl_ino != jlp->fl_ino)
+--			/*@innercontinue@*/ continue;
+--		    if (flp->fl_dev != jlp->fl_dev)
+--			/*@innercontinue@*/ continue;
+--		    bingo = 0;	/* don't tally hardlink yet. */
+--		    /*@innerbreak@*/ break;
+--		}
+--	    }
+--	    if (bingo)
+--		fl->totalFileSize += flp->fl_size;
+--	}
+-     }
+- 
+-     ui32 = fl->totalFileSize;
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-pkgconfigdeps.patch b/meta/recipes-devtools/rpm/rpm/rpm-pkgconfigdeps.patch
+deleted file mode 100644
+index 656de86d709..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-pkgconfigdeps.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-pkgconfigdeps.sh: Change to restricting pkgconfig to the local directory
+-
+-Using PKG_CONFIG_PATH will allow pkg-config to fall back to the system paths,
+-we don't want this as it may lead to inaccurate results in some corner cases.
+-
+-PKG_CONFIG_LIBDIR will ensure pkg-config stays within the install directory.
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm/scripts/pkgconfigdeps.sh
+-===================================================================
+---- rpm.orig/scripts/pkgconfigdeps.sh
+-+++ rpm/scripts/pkgconfigdeps.sh
+-@@ -18,8 +18,8 @@ case $1 in
+-     *.pc)
+- 	# Query the dependencies of the package.
+- 	DIR=$(dirname ${filename})
+--	PKG_CONFIG_PATH="$DIR:$DIR/../../share/pkgconfig"
+--	export PKG_CONFIG_PATH
+-+	PKG_CONFIG_LIBDIR="$DIR:$DIR/../../share/pkgconfig"
+-+	export PKG_CONFIG_LIBDIR
+- 	$pkgconfig --print-provides "$filename" 2> /dev/null | while read n r v ; do
+- 	    [ -n "$n" ] || continue
+- 	    # We have a dependency.  Make a note that we need the pkgconfig
+-@@ -42,8 +42,8 @@ case $1 in
+- 	[ -n "$oneshot" ] && echo "$oneshot"; oneshot=""
+- 	# Query the dependencies of the package.
+- 	DIR=$(dirname ${filename})
+--	PKG_CONFIG_PATH="$DIR:$DIR/../../share/pkgconfig"
+--	export PKG_CONFIG_PATH
+-+	PKG_CONFIG_LIBDIR="$DIR:$DIR/../../share/pkgconfig"
+-+	export PKG_CONFIG_LIBDIR
+- 	$pkgconfig --print-requires "$filename" 2> /dev/null | while read n r v ; do
+- 	    [ -n "$n" ] || continue
+- 	    if  [ -n "$r" ] && [ -n "$v" ]; then
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-platform-file-fix.patch b/meta/recipes-devtools/rpm/rpm/rpm-platform-file-fix.patch
+deleted file mode 100644
+index 200964f39d9..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-platform-file-fix.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-Don't add the first line of /etc/rpm/platform to the list of patterns
+-to match when computing an arch score, use it just for getting
+-information about the platform (cpu/vendor/os). Fixes #3864.
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Index: rpm-5.4.14/lib/rpmrc.c
+-===================================================================
+---- rpm-5.4.14.orig/lib/rpmrc.c
+-+++ rpm-5.4.14/lib/rpmrc.c
+-@@ -510,6 +510,7 @@ static rpmRC rpmPlatform(const char * pl
+- #endif
+- 	}
+- 
+-+#if !defined(RPM_VENDOR_OE) /* Skip the explicit-platform */
+- #if defined(RPM_VENDOR_OPENPKG) /* explicit-platform */
+- 	/* do not use vendor and GNU attribution */
+- 	p = rpmExpand("%{_host_cpu}-%{_host_os}", NULL);
+-@@ -520,7 +521,8 @@ static rpmRC rpmPlatform(const char * pl
+- #endif
+- 	xx = mireAppend(RPMMIRE_STRCMP, 0, p, NULL, &mi_re, &mi_nre);
+- 	p = _free(p);
+--	
+-+#endif
+-+
+- 	init_platform++;
+-     }
+-     rc = (init_platform ? RPMRC_OK : RPMRC_FAIL);
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-platform.patch b/meta/recipes-devtools/rpm/rpm/rpm-platform.patch
+deleted file mode 100644
+index 3b40fea0eb0..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-platform.patch
++++ /dev/null
+@@ -1,137 +0,0 @@
+-Fix up platform and related sysinfo file loading.
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-This ensures that RPM knows the compatible set of package types at all times.
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.14/lib/depends.c
+-===================================================================
+---- rpm-5.4.14.orig/lib/depends.c
+-+++ rpm-5.4.14/lib/depends.c
+-@@ -250,7 +250,7 @@ static int rpmtsAddUpgrades(rpmts ts, rp
+- 	    he->p.ptr = _free(he->p.ptr);
+- 	}
+- 
+--#if defined(RPM_VENDOR_WINDRIVER)
+-+#if defined(RPM_VENDOR_WINDRIVER) && !defined(RPM_VENDOR_OE)
+- 	/*
+- 	 * If we're capable of installing multiple colors
+- 	 * but at least one of the packages are white (0), we
+-@@ -507,7 +507,7 @@ assert(lastx >= 0 && lastx < ts->orderCo
+-     return 0;
+- }
+- 
+--#if defined(RPM_VENDOR_WINDRIVER)
+-+#if defined(RPM_VENDOR_WINDRIVER) && !defined(RPM_VENDOR_OE)
+- /* Is "compat" compatible w/ arch? */
+- int _isCompatibleArch(const char * arch, const char * compat)
+- {
+-@@ -663,7 +663,7 @@ assert(he->p.str != NULL);
+- 
+- 	    if (arch == NULL || (parch = rpmteA(p)) == NULL)
+- 		continue;
+--#if defined(RPM_VENDOR_WINDRIVER)
+-+#if defined(RPM_VENDOR_WINDRIVER) && !defined(RPM_VENDOR_OE)
+- 	    /* XXX hackery for alias matching. */
+- 	    if (!_isCompatibleArch(arch, parch))
+- 		continue;
+-@@ -829,6 +829,12 @@ int rpmtsAddEraseElement(rpmts ts, Heade
+-     return rc;
+- }
+- 
+-+#if defined(RPM_VENDOR_WINDRIVER) || defined(RPM_VENDOR_OE)
+-+#define _ETC_RPM_SYSINFO        "%{_etcrpm}/sysinfo"
+-+#else
+-+#define _ETC_RPM_SYSINFO        SYSCONFIGDIR "/sysinfo"
+-+#endif
+-+
+- /*@only@*/ /*@null@*/ /*@unchecked@*/
+- static char *sysinfo_path = NULL;
+- 
+-@@ -1311,7 +1317,7 @@ retry:
+- 	sysinfo_path = rpmExpand("%{?_rpmds_sysinfo_path}", NULL);
+- 	if (!(sysinfo_path != NULL && *sysinfo_path == '/')) {
+- 	    sysinfo_path = _free(sysinfo_path);
+--	    sysinfo_path = xstrdup(SYSCONFIGDIR "/sysinfo");
+-+	    sysinfo_path = rpmExpand(_ETC_RPM_SYSINFO, NULL);
+- 	}
+-     }
+- 
+-Index: rpm-5.4.14/lib/rpmds.c
+-===================================================================
+---- rpm-5.4.14.orig/lib/rpmds.c
+-+++ rpm-5.4.14/lib/rpmds.c
+-@@ -1759,7 +1759,7 @@ int rpmdsSysinfo(rpmPRCO PRCO, const cha
+- /*@-observertrans @*/
+- 	    _sysinfo_path = _free(_sysinfo_path);
+- /*@=observertrans @*/
+--	    _sysinfo_path = xstrdup(_ETC_RPM_SYSINFO);
+-+	    _sysinfo_path = rpmExpand(_ETC_RPM_SYSINFO, NULL);
+- 	}
+-     }
+- /*@=modobserver@*/
+-Index: rpm-5.4.14/lib/rpmrc.c
+-===================================================================
+---- rpm-5.4.14.orig/lib/rpmrc.c
+-+++ rpm-5.4.14/lib/rpmrc.c
+-@@ -38,7 +38,13 @@
+- static const char * configTarget = NULL;
+- 
+- /*@observer@*/ /*@unchecked@*/
+--static const char * platform = SYSCONFIGDIR "/platform";
+-+#if defined(RPM_VENDOR_WINDRIVER)
+-+#define _ETC_RPM_PLATFORM        "%{_etcrpm}/platform"
+-+#else
+-+#define _ETC_RPM_PLATFORM        SYSCONFIGDIR "/platform"
+-+#endif
+-+
+-+static const char * _platform = NULL;
+- 
+- /*@only@*/ /*@relnull@*/ /*@unchecked@*/
+- void * platpat = NULL;
+-@@ -694,16 +700,17 @@ static void defaultMachine(/*@out@*/ con
+-     int rc;
+- 
+-     while (!gotDefaults) {
+--#if defined(RPM_VENDOR_WINDRIVER)
+--	const char * _platform = rpmGetPath(__etcrpm, "/platform", NULL);
+--#else
+--	const char * _platform = platform;
+--#endif
+-+	if (_platform == NULL) {
+-+	    _platform = rpmExpand("%{?_rpmrc_platform_path}", NULL);
+-+	    /* XXX may need to validate path existence somewhen. */
+-+	    if (!(_platform != NULL && *_platform == '/')) {
+-+		_platform = _free(_platform);
+-+		_platform = rpmExpand(_ETC_RPM_PLATFORM, NULL);
+-+	    }
+-+	}
+- 	CVOG_t cvog = NULL;
+- #if defined(RPM_VENDOR_OPENPKG) /* larger-utsname */
+- 	const char *cp;
+--#endif
+--#if defined(RPM_VENDOR_OPENPKG) /* larger-utsname */
+- 	/* utsname fields on some platforms (like HP-UX) are very small
+- 	   (just about 8 characters). This is too small for OpenPKG, so cheat! */
+- 	rc = uname(&un_real);
+-@@ -780,9 +787,7 @@ static void defaultMachine(/*@out@*/ con
+- 	if (cp != NULL && cp != _platform)
+- 	    cp = _free(cp);
+- #endif
+--#if defined(RPM_VENDOR_WINDRIVER)
+- 	_platform = _free(_platform);
+--#endif
+- 
+- 	if (configTarget && !parseCVOG(configTarget, &cvog) && cvog != NULL) {
+- 	    gotDefaults = 1;
+-@@ -1101,6 +1106,8 @@ int rpmReadConfigFiles(/*@unused@*/ cons
+- 
+- #ifdef PREMACROFILES
+-     if (rpmReadRC(PREMACROFILES)) return -1;
+-+#else
+-+    if (rpmReadRC(NULL)) return -1;
+- #endif
+- 
+-     /* Reset umask to its default umask(2) value. */
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-platform2.patch b/meta/recipes-devtools/rpm/rpm/rpm-platform2.patch
+deleted file mode 100644
+index b9675c71bed..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-platform2.patch
++++ /dev/null
+@@ -1,105 +0,0 @@
+-Fix up platform and related sysinfo file loading (part 2).
+-
+-We need to ensure that we set the _gnu flag somehow.  We do this by reading
+-from the platform file, and setting a new _platform_gnu and related vars.
+-
+-The default values of _host_cpu, _host_vendor and _host_os are changed to
+-reference either the automatically determined _target_... or _platform_...
+-values.  The macros file uses the configure time defaults in _platform_...
+-versions have not been defined.  This preserves existing behavior, but
+-ensures reasonable defaults are always available.
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.14/lib/rpmrc.c
+-===================================================================
+---- rpm-5.4.14.orig/lib/rpmrc.c
+-+++ rpm-5.4.14/lib/rpmrc.c
+-@@ -328,10 +328,15 @@ static void setDefaults(void)
+- 	/*@modifies rpmGlobalMacroContext, internalState @*/
+- {
+- 
+--#if defined(RPM_VENDOR_WINDRIVER)
+-+#if defined(RPM_VENDOR_WINDRIVER) || defined(RPM_VENDOR_OE)
+-     addMacro(NULL, "_usrlibrpm", NULL, __usrlibrpm, RMIL_DEFAULT);
+-     addMacro(NULL, "_etcrpm", NULL, __etcrpm, RMIL_DEFAULT);
+-     addMacro(NULL, "_vendor", NULL, "%{?_host_vendor}%{!?_host_vendor:wrs}", RMIL_DEFAULT);
+-+
+-+    addMacro(NULL, "_host_cpu", NULL, "%{?_platform_cpu}%{!?_platform_cpu:%{?_target_cpu}}", RMIL_DEFAULT);
+-+    addMacro(NULL, "_host_vendor", NULL, "%{?_platform_vendor}%{!?_platform_cpu:%{?_target_vendor}}", RMIL_DEFAULT);
+-+    addMacro(NULL, "_host_os", NULL, "%{?_platform_os}%{!?_platform_os:%{?_target_os}}", RMIL_DEFAULT);
+-+    addMacro(NULL, "_host_gnu", NULL, "%{?_platform_gnu}%{!?_platform_gnu:%{?_gnu}}", RMIL_DEFAULT);
+- #endif
+- 
+-     addMacro(NULL, "_usr", NULL, USRPREFIX, RMIL_DEFAULT);
+-@@ -487,9 +492,22 @@ static rpmRC rpmPlatform(const char * pl
+- 	}
+- 
+- 	if (!parseCVOG(p, &cvog) && cvog != NULL) {
+-+#if defined(RPM_VENDOR_OE)
+-+	    char * _gnu = NULL;
+-+
+-+	    addMacro(NULL, "_platform_cpu", NULL, cvog->cpu, -1);
+-+	    addMacro(NULL, "_platform_vendor", NULL, cvog->vendor, -1);
+-+	    addMacro(NULL, "_platform_os", NULL, cvog->os, -1);
+-+
+-+	    if (cvog->gnu && cvog->gnu[0] != '\0')
+-+		_gnu = rpmExpand("-", cvog->gnu, NULL);
+-+
+-+	    addMacro(NULL, "_platform_gnu", NULL, (_gnu ? _gnu : ""), -1);
+-+#else
+- 	    addMacro(NULL, "_host_cpu", NULL, cvog->cpu, -1);
+- 	    addMacro(NULL, "_host_vendor", NULL, cvog->vendor, -1);
+- 	    addMacro(NULL, "_host_os", NULL, cvog->os, -1);
+-+#endif
+- 	}
+- 
+- #if defined(RPM_VENDOR_OPENPKG) /* explicit-platform */
+-Index: rpm-5.4.14/macros/macros.in
+-===================================================================
+---- rpm-5.4.14.orig/macros/macros.in
+-+++ rpm-5.4.14/macros/macros.in
+-@@ -900,9 +900,9 @@ $_arbitrary_tags_tests	Foo:Bar
+- %_os			@RPMCANONOS@
+- %_gnu			@RPMCANONGNU@
+- 
+--%_host_platform		%{_host_cpu}-%{_host_vendor}-%{_host_os}%{?_gnu}
+--%_build_platform	%{_build_cpu}-%{_build_vendor}-%{_build_os}%{?_gnu}
+--%_target_platform	%{_target_cpu}-%{_target_vendor}-%{_target_os}%{?_gnu}
+-+%_host_platform		%{_host_cpu}-%{_host_vendor}-%{_host_os}%{?_host_gnu}%{!?_host_gnu:%{?_gnu}}
+-+%_build_platform	%{_build_cpu}-%{_build_vendor}-%{_build_os}%{?_host_gnu}%{!?_host_gnu:%{?_gnu}}
+-+%_target_platform	%{_target_cpu}-%{_target_vendor}-%{_target_os}%{?_host_gnu}%{!?_host_gnu:%{?_gnu}}
+- 
+- #==============================================================================
+- # ---- configure macros.
+-@@ -945,9 +945,10 @@ $_arbitrary_tags_tests	Foo:Bar
+- %_build_os		%{_host_os}
+- %_host			@host@
+- %_host_alias		@host_alias@%{nil}
+--%_host_cpu		@host_cpu@
+--%_host_vendor		@host_vendor@
+--%_host_os		@host_os@
+-+%_host_cpu		%{?_platform_cpu}%{!?_platform_cpu:%{_arch}}
+-+%_host_vendor		%{?_platform_vendor}%{!?_platform_vendor:%{_vendor}}
+-+%_host_os		%{?_platform_os}%{!?_platform_os:%{_os}}
+-+%_host_gnu		%{?_platform_gnu}%{!?_platform_gnu:%{_gnu}}
+- %_target		%{_host}
+- %_target_alias		%{_host_alias}
+- %_target_cpu		%{_host_cpu}
+-Index: rpm-5.4.14/python/rpmmodule.c
+-===================================================================
+---- rpm-5.4.14.orig/python/rpmmodule.c
+-+++ rpm-5.4.14/python/rpmmodule.c
+-@@ -65,8 +65,8 @@ static PyObject * archScore(PyObject * s
+-     if (!PyArg_ParseTupleAndKeywords(args, kwds, "s", kwlist, &arch))
+- 	return NULL;
+- 
+--#if defined(RPM_VENDOR_WINDRIVER)
+--    platform = rpmExpand(arch, "-%{_host_vendor}", "-%{_host_os}%{?_gnu}", NULL);
+-+#if defined(RPM_VENDOR_WINDRIVER) || defined(RPM_VENDOR_OE)
+-+    platform = rpmExpand(arch, "-%{_host_vendor}", "-%{_host_os}%{?_host_gnu}%{!?_host_gnu:%{?_gnu}}", NULL);
+- #else
+-     platform = rpmExpand(arch, "-", "%{_vendor}", "-", "%{_os}", NULL);
+- #endif
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-py-init.patch b/meta/recipes-devtools/rpm/rpm/rpm-py-init.patch
+deleted file mode 100644
+index 92ef1dc50e5..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-py-init.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-python/rpmmodules.c: Change the way the python module loads the RPM config
+-
+-In order to support the RPM_VENDOR_WINDRIVER enhancement of dynamic
+-runtime relocation paths, we need to call rpmcliInit instead of 
+-rpmReadConfigFiles.  The rpmcliInit will end up calling rpmReadConfigFiles
+-after the necessary relocation processing (if enabled).
+-
+-Code derived from changes suggested by Paul Eggleton.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm/python/rpmmodule.c
+-===================================================================
+---- rpm.orig/python/rpmmodule.c
+-+++ rpm/python/rpmmodule.c
+-@@ -382,9 +382,8 @@ static int initModule(PyObject *m)
+-     /* XXX add --noparentdirs --nolinktos to rpmtsCheck() */
+-     global_depFlags = (RPMDEPS_FLAG_NOPARENTDIRS | RPMDEPS_FLAG_NOLINKTOS);
+- 
+--    /* failure to initialize rpm (crypto and all) is rather fatal too... */
+--    if (rpmReadConfigFiles(NULL, NULL) == -1)
+--	return 0;
+-+    const char *argv[1] = {"rpmmodule", 0};
+-+    rpmcliInit(1, argv, NULL);
+- 
+-     d = PyModule_GetDict(m);
+- 
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-python-AddErase.patch b/meta/recipes-devtools/rpm/rpm/rpm-python-AddErase.patch
+deleted file mode 100644
+index df6f4722eec..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-python-AddErase.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-rpm/python: The RPM5 API requires a hdrNum to be passed in
+-
+-The former behavior of passing in -1 as the hdrNum resulting in erase
+-operations that did not complete, but also did not error.  Changing to
+-using the header instance resolves this problem.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.15/python/rpmts-py.c
+-===================================================================
+---- rpm-5.4.15.orig/python/rpmts-py.c
+-+++ rpm-5.4.15/python/rpmts-py.c
+-@@ -241,12 +241,19 @@ static PyObject *
+- rpmts_AddErase(rpmtsObject * s, PyObject * args)
+- {
+-     Header h;
+-+    uint32_t hdrNum;
+- 
+-     if (!PyArg_ParseTuple(args, "O&:AddErase", hdrFromPyObject, &h))
+-         return NULL;
+- 
+--SPEW((stderr, "*** %s(%p,%p) ts %p\n", __FUNCTION__, s, h, s->ts));
+-+    hdrNum = headerGetInstance(h);
+-+
+-+SPEW((stderr, "*** %s(%p,%p) ts %p hdrNum %ld\n", __FUNCTION__, s, h, s->ts, hdrNum));
+-+#ifdef REFERENCE /* this doesn't work, RPM5 requires a unique hdrNum */
+-     return PyBool_FromLong(rpmtsAddEraseElement(s->ts, h, -1) == 0);
+-+#else
+-+    return PyBool_FromLong(rpmtsAddEraseElement(s->ts, h, hdrNum) == 0);
+-+#endif
+- }
+- 
+- static int
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-python-restore-origin.patch b/meta/recipes-devtools/rpm/rpm/rpm-python-restore-origin.patch
+deleted file mode 100644
+index 7a473db1adb..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-python-restore-origin.patch
++++ /dev/null
+@@ -1,49 +0,0 @@
+-Fix an issue where the PACKAGEORIGIN is not properly stored.
+-
+-Restore the rpmtsCallback fdSetOpen call and related code.
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm/python/rpmts-py.c
+-===================================================================
+---- rpm.orig/python/rpmts-py.c
+-+++ rpm/python/rpmts-py.c
+-@@ -672,6 +672,8 @@ rpmtsCallback(const void * hd, const rpm
+-     Header h = (Header) hd;
+-     struct rpmtsCallbackType_s * cbInfo = data;
+-     PyObject * pkgObj = (PyObject *) pkgKey;
+-+    PyObject * oh = NULL;
+-+    const char * origin = NULL;
+-     PyObject * args, * result;
+-     static FD_t fd;
+- 
+-@@ -693,8 +695,16 @@ rpmtsCallback(const void * hd, const rpm
+- 	    pkgObj = Py_None;
+- 	    Py_INCREF(pkgObj);
+- 	}
+--    } else
+-+    } else {
+- 	Py_INCREF(pkgObj);
+-+	/* XXX yum has (h, rpmloc) tuple as pkgKey. Extract the path. */
+-+	if (!(PyTuple_Check(pkgObj) && PyArg_ParseTuple(pkgObj, "|Os", &oh, &origin)))
+-+	    origin = NULL;
+-+	/* XXX clean up the path, yum paths start "//..." */
+-+	if (origin && origin[0] == '/' && origin[1] == '/')
+-+	    origin++;
+-+    }
+-+
+- 
+-     PyEval_RestoreThread(cbInfo->_save);
+- 
+-@@ -723,6 +733,9 @@ SPEW((stderr, "\t%p = fdDup(%d)\n", fd,
+- 
+- 	fcntl(Fileno(fd), F_SETFD, FD_CLOEXEC);
+- 
+-+	if (origin != NULL)
+-+	    (void) fdSetOpen(fd, origin, 0, 0);
+-+
+- 	return fd;
+-     } else
+-     if (what == RPMCALLBACK_INST_CLOSE_FILE) {
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-python-tagname.patch b/meta/recipes-devtools/rpm/rpm/rpm-python-tagname.patch
+deleted file mode 100644
+index dfb551377e8..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-python-tagname.patch
++++ /dev/null
+@@ -1,24 +0,0 @@
+-rpm-python-module: Change the extension tag from PyCObject to PyInt
+-
+-Use the tagValue to determine the custom PyInt value to use for the extension
+-tag.  Without this, any custom tag extensions will be returned in a format
+-that the tagNumFromPyObject and related functions like hdr_subscript will
+-failed to process.  Usually the failure is error: expected a string or integer
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.15/python/rpmmodule.c
+-===================================================================
+---- rpm-5.4.15.orig/python/rpmmodule.c
+-+++ rpm-5.4.15/python/rpmmodule.c
+-@@ -316,7 +316,7 @@ static void addRpmTags(PyObject *module)
+-     {
+- 	if (ext->name == NULL || ext->type != HEADER_EXT_TAG)
+- 	    continue;
+--	PyDict_SetItemString(d, (char *) ext->name, to=PyCObject_FromVoidPtr((void *)ext, NULL));
+-+	PyDict_SetItemString(d, (char *) ext->name, to=PyInt_FromLong(tagValue(ext->name)));
+- 	Py_XDECREF(to);
+-         PyDict_SetItem(dict, to, o=PyString_FromString(ext->name + 7));
+- 	Py_XDECREF(o);
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-realpath.patch b/meta/recipes-devtools/rpm/rpm/rpm-realpath.patch
+deleted file mode 100644
+index a810123ba89..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-realpath.patch
++++ /dev/null
+@@ -1,24 +0,0 @@
+-chroot: realpath is required before expanding _dbpath
+-
+-_usr turned out to be a relative path to support dyanmic config, but it's
+-being used somewhere as a indicator to locate substrings, so we must get
+-the real path of it in advance.
+-
+-Upstream-Status: Inappropriate (OpenEmbedded specific)
+-
+-Signed-off-by: Ming Liu <ming.liu@windriver.com>
+-
+-diff -urpN a/rpmio/rpmrpc.c b/rpmio/rpmrpc.c
+---- a/rpmio/rpmrpc.c
+-+++ b/rpmio/rpmrpc.c
+-@@ -257,7 +257,9 @@ int Open(const char * path, int flags, m
+-     /* XXX if the open(2) fails, try to strip a possible chroot(2) prefix. */
+-     if (fdno < 0 && errno == ENOENT) {
+- 	const char *dbpath = rpmExpand("%{?_dbpath}/", NULL);
+--	const char * fn = strstr(path + 1, dbpath);
+-+	char resolved_dbpath[PATH_MAX];
+-+	realpath(dbpath, resolved_dbpath);
+-+	const char * fn = strstr(path + 1, resolved_dbpath);
+- 	if (fn)
+- 	    fdno = open(fn, flags, mode);
+- 	dbpath = _free(dbpath);
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-reloc-macros.patch b/meta/recipes-devtools/rpm/rpm/rpm-reloc-macros.patch
+deleted file mode 100644
+index 59fe524df3b..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-reloc-macros.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-macros: Use dyanmic config vs hard coded settings
+-
+-When the dynamic, runtime relocation is enables we need to make sure that the 
+-RPM macro file does not override the dynamic settings.  Fix this by forcing the
+-dynamic version to be used in all cases.
+-
+-Upstream-Status: Inappropriate (OpenEmbedded specific)
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.14/macros/macros.in
+-===================================================================
+---- rpm-5.4.14.orig/macros/macros.in
+-+++ rpm-5.4.14/macros/macros.in
+-@@ -27,11 +27,12 @@
+- #==============================================================================
+- # ---- filesystem macros.
+- #
+--%_usr			@usrprefix@
+-+%_usr			%{_usrlibrpm}/../..
+- %_usrsrc		%{_usr}/src
+--%_var			@varprefix@
+--%_usrlibrpm		@USRLIBRPM@
+--%_etcrpm		@SYSCONFIGDIR@
+-+%_var			%{_usr}/../var
+-+# The dynamic relocation code sets the following two items
+-+#%_usrlibrpm		@USRLIBRPM@
+-+#%_etcrpm		@SYSCONFIGDIR@
+- 
+- %__objext		@objext@
+- %__libext		@libext@
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-resolvedep.patch b/meta/recipes-devtools/rpm/rpm/rpm-resolvedep.patch
+deleted file mode 100644
+index 526106d1e3c..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-resolvedep.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-lib/rpmts.c: Ensure that we check both providename and filepaths
+-
+-When looking up a missing dependencies, such as /bin/sh, we need to lookup
+-in both the providename and filepaths DB, not just the filepaths DB.
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.14/lib/rpmts.c
+-===================================================================
+---- rpm-5.4.14.orig/lib/rpmts.c
+-+++ rpm-5.4.14/lib/rpmts.c
+-@@ -410,8 +410,8 @@ fprintf(stderr, "--> %s(%p,%p,%p)\n", __
+- 	if (sdb == NULL)
+- 	    continue;
+- 
+--	/* Look for a matching Provides: in suggested universe. */
+--	rpmtag = (*keyp == '/' ? RPMTAG_FILEPATHS : RPMTAG_PROVIDENAME);
+-+	rpmtag = RPMTAG_PROVIDENAME;
+-+       do {
+- 	mi = rpmmiInit(sdb, rpmtag, keyp, keylen);
+- 	while ((h = rpmmiNext(mi)) != NULL) {
+- 	    size_t hnamelen;
+-@@ -446,6 +446,15 @@ fprintf(stderr, "--> %s(%p,%p,%p)\n", __
+- 	    bhnamelen = hnamelen;
+- 	}
+- 	mi = rpmmiFree(mi);
+-+
+-+	if (bh == NULL && *keyp == '/' && rpmtag == RPMTAG_PROVIDENAME) {
+-+	   rpmtag = RPMTAG_FILEPATHS;
+-+	   continue;
+-+        }
+-+
+-+        break;
+-+      } while (1);
+-+
+-     }
+- 
+-     /* Is there a suggested resolution? */
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-rpmdb-grammar.patch b/meta/recipes-devtools/rpm/rpm/rpm-rpmdb-grammar.patch
+deleted file mode 100644
+index 71dae4939a7..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-rpmdb-grammar.patch
++++ /dev/null
+@@ -1,124 +0,0 @@
+-Disable various items that do not cross compile well.
+-
+-Upstream-Status: Inappropriate [Configuration]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm/rpmdb/Makefile.am
+-===================================================================
+---- rpm.orig/rpmdb/Makefile.am
+-+++ rpm/rpmdb/Makefile.am
+-@@ -34,10 +34,10 @@ EXTRA_DIST = \
+- 	db3.c sqlite.c db_emu.h librpmdb.vers bdb.sql libsqldb.c \
+- 	logio.awk logio.src logio_recover_template logio_template logio.c \
+- 	logio_rec.c logio_auto.c logio_autop.c logio_auto.h \
+--	qf.l qf.y qf.inp tqf.l tqf.y tqf.inp grammar.y scanner.l json1.js
+-+	tqf.l tqf.y tqf.inp grammar.y scanner.l json1.js
+- 
+--EXTRA_PROGRAMS = qfcalc qfgraph logio tjfn tqf # tbdb
+--noinst_PROGRAMS = json
+-+EXTRA_PROGRAMS = qfcalc qfgraph logio # tjfn tqf tbdb
+-+noinst_PROGRAMS = # json
+- 
+- RPMMISC_LDADD_COMMON = \
+- 	$(top_builddir)/misc/librpmmisc.la \
+-@@ -321,54 +321,39 @@ BUILT_SOURCES += .syntastic_c_config
+- .syntastic_c_config: Makefile
+- 	@echo $(COMPILE) | tr ' ' '\n' | sed -e '1d' > $@
+- 
+--tjfn_SOURCES = tjfn.c
+--tjfn_LDADD = $(mylibs)
+--
+--LEX =	flex
+--LFLAGS=	-d -T -v -8 -b --yylineno --reentrant --bison-bridge --perf-report
+--YACC =	bison
+--YFLAGS=	-Dapi.pure -t -d -v --report=all
+--
+--BUILT_SOURCES += Jgrammar.c Jgrammar.h Jscanner.c
+--Jgrammar.c: grammar.y
+--	$(YACC) $(YFLAGS) -o $@ $<
+--Jscanner.c: scanner.l
+--	$(LEX) -R -o $@ $<
+--json_SOURCES = Jgrammar.c Jscanner.c json.c
+--
+--testjson: json1.js json
+--	./json json1.js
+--
+--BUILT_SOURCES += Qgrammar.c Qgrammar.h Qscanner.c
+--Qgrammar.c: qf.y
+--	$(YACC) $(YFLAGS) -o $@ $<
+--Qscanner.c: qf.l
+--	$(LEX) -R -o $@ $<
+--qfcalc_SOURCES = Qgrammar.c Qscanner.c interpreter.c
+--qfgraph_SOURCES = Qgrammar.c Qscanner.c graph.c
+--
+--testqf: qfcalc qfgraph
+--	./qfcalc < qf.inp
+--	./qfgraph < qf.inp
+--
+--BUILT_SOURCES += Tgrammar.c Tgrammar.h Tscanner.c
+--Tgrammar.c Tgrammar.h: tqf.y
+--	$(YACC) $(YFLAGS) -o $@ $<
+--Tscanner.c Tscanner.h: tqf.l
+--	$(LEX) --prefix="Tyy" $(LFLAGS) -o $@ $<
+--tqf_SOURCES =	Tgrammar.c Tscanner.c tgraph.c
+--tqf_CFLAGS =	$(CFLAGS) -fsanitize=address # -DTSCANNER_MAIN
+--tqf_LDADD =	../lib/librpm.la \
+--		./librpmdb.la \
+--		../popt/libpopt.la
+--
+--testdir =	$(abs_top_builddir)/tests
+--foo: tqf
+--	-../libtool --mode=execute \
+--	    ./tqf \
+--		--dbpath=$(testdir) \
+--		-r $(testdir)/fodder/*.rpm \
+--		   $(testdir)/fodder/fmtmod.qf
+-+#tjfn_SOURCES = tjfn.c
+-+#tjfn_LDADD = $(mylibs)
+-+#
+-+#LFLAGS=	-d -T -v -8 -b --yylineno --reentrant --bison-bridge --perf-report
+-+#
+-+#BUILT_SOURCES += Jgrammar.c Jgrammar.h Jscanner.c
+-+#Jgrammar.c Jgrammar.h: grammar.y
+-+#	$(YACC) $(YFLAGS) -t -d -v -o $@ $<
+-+#Jscanner.c: scanner.l
+-+#	$(LEX) -R -o $@ $<
+-+#json_SOURCES = Jgrammar.c Jscanner.c json.c
+-+#
+-+#testjson: json1.js json
+-+#	./json json1.js
+-+#
+-+#BUILT_SOURCES += Tgrammar.c Tgrammar.h Tscanner.c
+-+#Tgrammar.c Tgrammar.h: tqf.y
+-+#	$(YACC) $(YFLAGS) -t -d -v -o $@ $<
+-+#Tscanner.c Tscanner.h: tqf.l
+-+#	$(LEX) --prefix="Tyy" $(LFLAGS) -o $@ $<
+-+#tqf_SOURCES =	Tgrammar.c Tscanner.c tgraph.c
+-+#tqf_CFLAGS =	$(CFLAGS) -fsanitize=address # -DTSCANNER_MAIN
+-+#tqf_LDADD =	../lib/librpm.la \
+-+#		./librpmdb.la \
+-+#		../popt/libpopt.la
+-+
+-+#testdir =	$(abs_top_builddir)/tests
+-+#foo: tqf
+-+#	-../libtool --mode=execute \
+-+#	    ./tqf \
+-+#		--dbpath=$(testdir) \
+-+#		-r $(testdir)/fodder/*.rpm \
+-+#		   $(testdir)/fodder/fmtmod.qf
+- 
+- #tbdb_SOURCES = tbdb.c bdb.c
+- #tbdb_LDADD = $(mylibs)
+-Index: rpm/configure.ac
+-===================================================================
+---- rpm.orig/configure.ac
+-+++ rpm/configure.ac
+-@@ -119,6 +119,7 @@ AC_PROG_MAKE_SET
+- AC_PROG_LIBTOOL
+- AC_PROG_RANLIB
+- AC_PROG_YACC
+-+AM_PROG_LEX
+- 
+- AC_PATH_PROG(AS, as, as)
+- 
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch b/meta/recipes-devtools/rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch
+deleted file mode 100644
+index b9a2cbce254..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From 16dc683aa50be9789d1674734b06a8a955ff22ad Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Thu, 26 Nov 2015 01:36:40 -0800
+-Subject: [PATCH] lib/rpmfc.c: fix for N32 MIPS64
+-
+-It is 'N32 MIPS64', not 'N32 MIPS32' as command file shows:
+-$ file image/usr/bin/getent
+-getent: ELF 32-bit MSB executable, MIPS, N32 MIPS64 [snip]
+-
+-And "rpm -qp --filecolor" was wrong (it was 1, but should be 4).
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+----
+- lib/rpmfc.c |    2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/lib/rpmfc.c b/lib/rpmfc.c
+-index fde00c7..49779f8 100644
+---- a/lib/rpmfc.c
+-+++ b/lib/rpmfc.c
+-@@ -575,7 +575,7 @@ static struct rpmfcTokens_s rpmfcTokens[] = {
+-   { " not stripped",		RPMFC_NOTSTRIPPED },
+-   { " archive",			RPMFC_ARCHIVE },
+- 
+--  { "MIPS, N32 MIPS32",		RPMFC_ELFMIPSN32|RPMFC_INCLUDE },
+-+  { "MIPS, N32 MIPS64",		RPMFC_ELFMIPSN32|RPMFC_INCLUDE },
+-   { "ELF 32-bit",		RPMFC_ELF32|RPMFC_INCLUDE },
+-   { "ELF 64-bit",		RPMFC_ELF64|RPMFC_INCLUDE },
+- 
+--- 
+-1.7.9.5
+-
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-rpmio-headers.patch b/meta/recipes-devtools/rpm/rpm/rpm-rpmio-headers.patch
+deleted file mode 100644
+index 93645766c2b..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-rpmio-headers.patch
++++ /dev/null
+@@ -1,19 +0,0 @@
+-Fix a typo in the rpmio Makefile.am
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm/rpmio/Makefile.am
+-===================================================================
+---- rpm.orig/rpmio/Makefile.am
+-+++ rpm/rpmio/Makefile.am
+-@@ -121,7 +121,7 @@ luaLPATHdir =	${pkgsharedir)/lua
+- 
+- pkgincdir = $(pkgincludedir)$(WITH_PATH_VERSIONED_SUFFIX)
+- pkginc_HEADERS = argv.h mire.h rpmzlog.h yarn.h \
+--	rpmbf.h rpmcb.h rpmio.h rpmlog.h rpmiotypes.h rpmmacro.h
+-+	rpmbf.h rpmcb.h rpmio.h rpmlog.h rpmiotypes.h rpmmacro.h \
+- 	rpmpgp.h rpmsw.h rpmutil.h
+- noinst_HEADERS = \
+- 	ar.h bcon.h bson.h cpio.h crc.h envvar.h fnmatch.h fts.h glob.h iosm.h \
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-rpmpgp-popt.patch b/meta/recipes-devtools/rpm/rpm/rpm-rpmpgp-popt.patch
+deleted file mode 100644
+index 915d7efe6fe..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-rpmpgp-popt.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-rpmpgp.h: We do not require the popt header in order to use rpmpgp functions
+-
+-This can cause failures if the internal libpopt is used, as it's header is
+-not exported.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.14/rpmio/rpmpgp.h
+-===================================================================
+---- rpm-5.4.14.orig/rpmio/rpmpgp.h
+-+++ rpm-5.4.14/rpmio/rpmpgp.h
+-@@ -11,11 +11,11 @@
+-  */
+- 
+- #include <string.h>
+--#include <popt.h>
+- #include <rpmiotypes.h>
+- #include <yarn.h>
+- 
+- #if defined(_RPMPGP_INTERNAL)
+-+#include <popt.h>
+- #include <rpmsw.h>
+- 
+- /*@unchecked@*/
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-scriptletexechelper.patch b/meta/recipes-devtools/rpm/rpm/rpm-scriptletexechelper.patch
+deleted file mode 100644
+index b55fe22c6ac..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-scriptletexechelper.patch
++++ /dev/null
+@@ -1,159 +0,0 @@
+-Enable a cross-install scriptlet helper.
+-
+-The helper is called from outside of the chroot with the arguments:
+-
+-<root> <prog> <script> <arg1> [<arg2> ... <argN>]
+-
+-The helper script is used by oe-core to facilitate shell script actions that
+-can not be run from within a chroot on a foreign target system during a
+-cross install.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm/lib/psm.c
+-===================================================================
+---- rpm.orig/lib/psm.c
+-+++ rpm/lib/psm.c
+-@@ -846,6 +846,9 @@ static rpmRC runScript(rpmpsm psm, Heade
+-     pid_t pid;
+-     int xx;
+-     int i;
+-+#ifdef RPM_VENDOR_OE
+-+    const char * scriptletWrapper = rpmExpand("%{?_cross_scriptlet_wrapper}", NULL);
+-+#endif
+- 
+- #ifdef	__clang__
+- #pragma clang diagnostic push
+-@@ -923,14 +926,29 @@ assert(he->p.str != NULL);
+- 		(F_ISSET(psm, UNORDERED) ? "a" : ""));
+- 
+-     if (Phe->p.argv == NULL) {
+--	argv = (const char **) alloca(5 * sizeof(*argv));
+--	argv[0] = "/bin/sh";
+--	argc = 1;
+-+	argv = (const char **) alloca(7 * sizeof(*argv));
+-+	argc = 0;
+-+    } else {
+-+	argv = (const char **) alloca((Phe->c + 6) * sizeof(*argv));
+-+	argc = 0;
+-+    }
+-+
+-+#ifdef RPM_VENDOR_OE
+-+    if (scriptletWrapper && *scriptletWrapper) {
+-+	argv[argc++] = scriptletWrapper;
+-+	argv[argc] = rpmtsRootDir(ts);
+-+	if (!argv[argc] || !*argv[argc])
+-+	   argv[argc] = "/";
+-+	argc++;
+-+    }
+-+#endif
+-+
+-+    if (Phe->p.argv == NULL) {
+-+	argv[argc++] = "/bin/sh";
+- 	ldconfig_done = 0;
+-     } else {
+--	argv = (const char **) alloca((Phe->c + 4) * sizeof(*argv));
+--	memcpy(argv, Phe->p.argv, Phe->c * sizeof(*argv));
+--	argc = Phe->c;
+-+	memcpy((argv + argc), Phe->p.argv, Phe->c * sizeof(*argv));
+-+	argc += Phe->c;
+- 	ldconfig_done = (ldconfig_path && !strcmp(argv[0], ldconfig_path)
+- 		? 1 : 0);
+-     }
+-@@ -981,7 +999,12 @@ assert(he->p.str != NULL);
+- 	    goto exit;
+- 
+- 	if (rpmIsDebug() &&
+--	    (!strcmp(argv[0], "/bin/sh") || !strcmp(argv[0], "/bin/bash")))
+-+	    (!strcmp(argv[0], "/bin/sh") || !strcmp(argv[0], "/bin/bash"))
+-+#ifdef RPM_VENDOR_OE
+-+	    || (scriptletWrapper && *scriptletWrapper && !strcmp(argv[1], "/bin/sh"))
+-+	    || (scriptletWrapper && *scriptletWrapper && !strcmp(argv[1], "/bin/bash"))
+-+#endif
+-+	   )
+- 	{
+- 	    static const char set_x[] = "set -x\n";
+- 	    nw = Fwrite(set_x, sizeof(set_x[0]), sizeof(set_x)-1, fd);
+-@@ -1116,12 +1139,22 @@ assert(he->p.str != NULL);
+- 
+- 	{   const char * rootDir = rpmtsRootDir(ts);
+- 	    if (!rpmtsChrootDone(ts) && rootDir != NULL &&
+-+#ifdef RPM_VENDOR_OE
+-+		!(scriptletWrapper && *scriptletWrapper) &&
+-+#endif
+- 		!(rootDir[0] == '/' && rootDir[1] == '\0'))
+- 	    {
+- 		/*@-modobserver@*/
+- 		xx = Chroot(rootDir);
+- 		/*@=modobserver@*/
+- 	    }
+-+#ifdef RPM_VENDOR_OE
+-+	    if (!rpmtsChrootDone(ts) && rootDir != NULL &&
+-+		(scriptletWrapper && *scriptletWrapper) &&
+-+		!(rootDir[0] == '/' && rootDir[1] == '\0'))
+-+		xx = Chdir(rootDir);
+-+	    else 
+-+#endif
+- 	    xx = Chdir("/");
+- 	    rpmlog(RPMLOG_DEBUG, D_("%s: %s(%s)\texecv(%s) pid %d\n"),
+- 			psm->stepName, sln, NVRA,
+-@@ -3052,6 +3085,13 @@ assert(psm->te != NULL);
+-     case PSM_SCRIPT:	/* Run current package scriptlets. */
+- 	/* XXX running %verifyscript/%sanitycheck doesn't have psm->te */
+-     {	rpmtxn _parent = (psm && psm->te ? psm->te->txn : NULL);
+-+
+-+#ifdef RPM_VENDOR_OE
+-+        const char * scriptletWrapper = rpmExpand("%{?_cross_scriptlet_wrapper}", NULL);
+-+	if (scriptletWrapper && *scriptletWrapper)
+-+	     rc = rpmpsmNext(psm, PSM_CHROOT_OUT);
+-+#endif
+-+
+- 	xx = rpmtxnBegin(rpmtsGetRdb(ts), _parent, NULL);
+- 	rc = runInstScript(psm);
+- 	if (rc)
+-@@ -3059,11 +3099,24 @@ assert(psm->te != NULL);
+- 	else
+- 	     xx = rpmtxnCommit(rpmtsGetRdb(ts)->db_txn);
+- 	rpmtsGetRdb(ts)->db_txn = NULL;
+-+#ifdef RPM_VENDOR_OE
+-+	if (scriptletWrapper && *scriptletWrapper)
+-+	     rc = rpmpsmNext(psm, PSM_CHROOT_IN);
+-+#endif
+-     }	break;
+-     case PSM_TRIGGERS:
+- 	/* Run triggers in other package(s) this package sets off. */
+- 	if (rpmtsFlags(ts) & RPMTRANS_FLAG_TEST)	break;
+-+#ifdef RPM_VENDOR_OE
+-+        const char * scriptletWrapper = rpmExpand("%{?_cross_scriptlet_wrapper}", NULL);
+-+	if (scriptletWrapper && *scriptletWrapper)
+-+	     rc = rpmpsmNext(psm, PSM_CHROOT_OUT);
+-+#endif
+- 	rc = runTriggers(psm);
+-+#ifdef RPM_VENDOR_OE
+-+	if (scriptletWrapper && *scriptletWrapper)
+-+	     rc = rpmpsmNext(psm, PSM_CHROOT_IN);
+-+#endif
+- 	break;
+-     case PSM_IMMED_TRIGGERS:
+- 	/* Run triggers in this package other package(s) set off. */
+-@@ -3073,7 +3126,18 @@ assert(psm->te != NULL);
+- 	    F_SET(psm, GOTTRIGGERS);
+- 	}
+- 	if (psm->triggers != NULL)
+-+#ifdef RPM_VENDOR_OE
+-+	{
+-+            const char * scriptletWrapper = rpmExpand("%{?_cross_scriptlet_wrapper}", NULL);
+-+	    if (scriptletWrapper && *scriptletWrapper)
+-+	         rc = rpmpsmNext(psm, PSM_CHROOT_OUT);
+-+#endif
+- 	    rc = runImmedTriggers(psm);
+-+#ifdef RPM_VENDOR_OE
+-+	    if (scriptletWrapper && *scriptletWrapper)
+-+	         rc = rpmpsmNext(psm, PSM_CHROOT_IN);
+-+	}
+-+#endif
+- 	break;
+- 
+-     case PSM_RPMIO_FLAGS:
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-showrc.patch b/meta/recipes-devtools/rpm/rpm/rpm-showrc.patch
+deleted file mode 100644
+index ec38b95f2eb..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-showrc.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-Workaround for a memory leak in --showrc.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.14/lib/rpmrc.c
+-===================================================================
+---- rpm-5.4.14.orig/lib/rpmrc.c
+-+++ rpm-5.4.14/lib/rpmrc.c
+-@@ -1228,11 +1228,15 @@ int rpmShowRC(FILE * fp)
+- 		if (DNEVR != NULL)
+- 		    fprintf(fp, "    %s\n", DNEVR+2);
+- 	    }
+-+#if 0
+- 	    (void)rpmdsFree(ds);
+- 	    ds = NULL;
+-+#endif
+- 	    fprintf(fp, "\n");
+- 	}
+-+#if 0
+- 	PRCO = rpmdsFreePRCO(PRCO);
+-+#endif
+-     }
+- 
+-     if (rpmIsVerbose()) {
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-syck-fix-gram.patch b/meta/recipes-devtools/rpm/rpm/rpm-syck-fix-gram.patch
+deleted file mode 100644
+index d6493c197e1..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-syck-fix-gram.patch
++++ /dev/null
+@@ -1,1081 +0,0 @@
+-Fix the syck/lib/gram.y
+-
+-This resolves a problem during compilation:
+-
+-../../../rpm/syck/lib/gram.y:66:27: error: 'parser' undeclared (first use in this function)
+-            ((SyckParser *)parser)->root = syck_hdlr_add_node( (SyckParser *)parser, $1 );
+-                           ^
+-../../../rpm/syck/lib/gram.y:66:27: note: each undeclared identifier is reported only once for each function it appears in
+-../../../rpm/syck/lib/syck.c: In function 'syck_parse':
+-../../../rpm/syck/lib/syck.c:516:5: warning: implicit declaration of function 'syckparse' [-Wimplicit-function-declaration]
+-     syckparse( p );
+-     ^
+-
+-This patch was generated by reverting the grammer back to a previous
+-version.
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm/syck/lib/gram.y
+-===================================================================
+---- rpm.orig/syck/lib/gram.y
+-+++ rpm/syck/lib/gram.y
+-@@ -9,18 +9,10 @@
+- 
+- %start doc
+- %pure-parser
+--%parse-param {void* parser}
+--%lex-param {void* parser}
+- 
+- 
+- %{
+- 
+--#define YYDEBUG 1
+--#define YYERROR_VERBOSE 1
+--#ifndef YYSTACK_USE_ALLOCA
+--#define YYSTACK_USE_ALLOCA 0
+--#endif
+--
+- #include "system.h"
+- #include "syck.h"
+- #include "debug.h"
+-@@ -28,6 +20,9 @@
+- void apply_seq_in_map( SyckParser *parser, SyckNode *n )
+- 	/*@*/;
+- 
+-+#define YYPARSE_PARAM   parser
+-+#define YYLEX_PARAM     parser
+-+
+- #define NULL_NODE(parser, node) \
+-         SyckNode *node = syck_new_str( "", scalar_plain ); \
+-         if ( ((SyckParser *)parser)->taguri_expansion == 1 ) \
+-Index: rpm/syck/lib/Makefile.am
+-===================================================================
+---- rpm.orig/syck/lib/Makefile.am
+-+++ rpm/syck/lib/Makefile.am
+-@@ -49,25 +49,25 @@ SYCK_SPLINT_SRCS = \
+- 	token.c \
+- 	implicit.c
+- 
+--#gram.c:	gram.y
+--#	$(YACC) -d -t -v -p syck -o $@ $<
+--#	-@if test -f gram.c; then \
+--#	{ echo "/*@-globs -mods -modnomods -moduncon -modunconnomods @*/";\
+--#	  echo "/*@-noeffect -noeffectuncon @*/";\
+--#	  echo "/*@-nullassign @*/";\
+--#	  echo "/*@-readonlytrans @*/";\
+--#	  echo "/*@-uniondef @*/";\
+--#	  echo "/*@-warnlintcomments @*/";\
+--#	  cat gram.c;\
+--#	  echo "/*@=warnlintcomments @*/";\
+--#	  echo "/*@=uniondef @*/";\
+--#	  echo "/*@=readonlytrans @*/";\
+--#	  echo "/*@=nullassign @*/";\
+--#	  echo "/*@=noeffect =noeffectuncon @*/";\
+--#	  echo "/*@=globs =mods =modnomods =moduncon =modunconnomods @*/";\
+--#	} > _gram.c ;\
+--#	  mv -f _gram.c gram.c; \
+--#	fi
+-+gram.c:	gram.y
+-+	$(YACC) -d -t -v -p syck -o $@ $<
+-+	-@if test -f gram.c; then \
+-+	{ echo "/*@-globs -mods -modnomods -moduncon -modunconnomods @*/";\
+-+	  echo "/*@-noeffect -noeffectuncon @*/";\
+-+	  echo "/*@-nullassign @*/";\
+-+	  echo "/*@-readonlytrans @*/";\
+-+	  echo "/*@-uniondef @*/";\
+-+	  echo "/*@-warnlintcomments @*/";\
+-+	  cat gram.c;\
+-+	  echo "/*@=warnlintcomments @*/";\
+-+	  echo "/*@=uniondef @*/";\
+-+	  echo "/*@=readonlytrans @*/";\
+-+	  echo "/*@=nullassign @*/";\
+-+	  echo "/*@=noeffect =noeffectuncon @*/";\
+-+	  echo "/*@=globs =mods =modnomods =moduncon =modunconnomods @*/";\
+-+	} > _gram.c ;\
+-+	  mv -f _gram.c gram.c; \
+-+	fi
+- 
+- BUILT_SOURCES = gram.c gram.h
+- 
+-Index: rpm/syck/lib/implicit.c
+-===================================================================
+---- rpm.orig/syck/lib/implicit.c
+-+++ rpm/syck/lib/implicit.c
+-@@ -19,11 +19,6 @@
+- #define YYLIMIT     limit
+- #define YYFILL(n)
+- 
+--#ifdef  __clang__
+--#pragma clang diagnostic push
+--#pragma clang diagnostic ignored "-Wempty-body"
+--#endif
+--
+- void
+- try_tag_implicit( SyckNode *n, int taguri )
+- {
+-@@ -3000,8 +2995,4 @@ yy270:	++YYCURSOR;
+- 
+- }
+- 
+--#ifdef  __clang__
+--#pragma clang diagnostic pop
+--#endif
+--
+- /*@=noret@*/
+-Index: rpm/syck/lib/syck.c
+-===================================================================
+---- rpm.orig/syck/lib/syck.c
+-+++ rpm/syck/lib/syck.c
+-@@ -519,7 +519,7 @@ syck_parse( SyckParser *p )
+- }
+- 
+- void
+--syck_default_error_handler( SyckParser *p, const char *msg )
+-+syck_default_error_handler( SyckParser *p, char *msg )
+- {
+-     printf( "Error at [Line %d, Col %ld]: %s\n", 
+-         p->linect,
+-Index: rpm/syck/lib/syck.h
+-===================================================================
+---- rpm.orig/syck/lib/syck.h
+-+++ rpm/syck/lib/syck.h
+-@@ -175,7 +175,7 @@ typedef struct _syck_str SyckIoStr;
+- typedef struct _syck_level SyckLevel;
+- 
+- typedef SYMID (*SyckNodeHandler)(SyckParser *p, SyckNode *n);
+--typedef void (*SyckErrorHandler)(SyckParser *p, const char *);
+-+typedef void (*SyckErrorHandler)(SyckParser *p, char *);
+- typedef SyckNode * (*SyckBadAnchorHandler)(SyckParser *p, char *);
+- typedef long (*SyckIoFileRead)(char *, SyckIoFile *, long, long); 
+- typedef long (*SyckIoStrRead)(char *, SyckIoStr *, long, long);
+-@@ -546,7 +546,7 @@ long syck_parser_readlen( SyckParser *p,
+- SYMID syck_parse( SyckParser *p )
+- 	/*@globals fileSystem @*/
+- 	/*@modifies p, fileSystem @*/;
+--void syck_default_error_handler( SyckParser *p, const char * )
+-+void syck_default_error_handler( SyckParser *p, char * )
+- 	/*@globals fileSystem @*/
+- 	/*@modifies p, fileSystem @*/;
+- SYMID syck_yaml2byte_handler( SyckParser *p, SyckNode *n )
+-@@ -619,7 +619,7 @@ long syck_seq_count( SyckNode *seq )
+- /*
+-  * Lexer prototypes
+-  */
+--void syckerror( void *, const char *msg )
+-+void syckerror( char *msg )
+- 	/*@*/;
+- /* XXX union YYSTYPE *sycklval has issues on Mac OS X. */
+- int sycklex( void *_sycklval, SyckParser *parser )
+-Index: rpm/syck/lib/token.c
+-===================================================================
+---- rpm.orig/syck/lib/token.c
+-+++ rpm/syck/lib/token.c
+-@@ -270,11 +270,11 @@ sycklex( void * _sycklval, SyckParser *p
+-         return sycklex_yaml_utf8( sycklval, parser );
+- 
+-         case syck_yaml_utf16:
+--            syckerror( parser, "UTF-16 is not currently supported in Syck.\nPlease contribute code to help this happen!" );
+-+            syckerror( "UTF-16 is not currently supported in Syck.\nPlease contribute code to help this happen!" );
+-         break;
+- 
+-         case syck_yaml_utf32:
+--            syckerror( parser, "UTF-32 is not currently supported in Syck.\nPlease contribute code to help this happen!" );
+-+            syckerror( "UTF-32 is not currently supported in Syck.\nPlease contribute code to help this happen!" );
+-         break;
+- 
+-         case syck_bytecode_utf8:
+-@@ -2739,15 +2739,14 @@ syckwrap(void)
+- }
+- 
+- void 
+--syckerror( void *p, const char *msg )
+-+syckerror( char *msg )
+- {
+--    SyckParser * parser = (SyckParser *)p;
+- /*@-mods@*/
+--    if ( parser->error_handler == NULL )
+--        parser->error_handler = syck_default_error_handler;
+-+    if ( syck_parser_ptr->error_handler == NULL )
+-+        syck_parser_ptr->error_handler = syck_default_error_handler;
+- 
+--    parser->root = parser->root_on_error;
+-+    syck_parser_ptr->root = syck_parser_ptr->root_on_error;
+- /*@=mods@*/
+--    (parser->error_handler)(parser, msg);
+-+    (syck_parser_ptr->error_handler)(syck_parser_ptr, msg);
+- }
+- 
+-Index: rpm/syck/lib/bytecode.c
+-===================================================================
+---- rpm.orig/syck/lib/bytecode.c
+-+++ rpm/syck/lib/bytecode.c
+-@@ -1,10 +1,10 @@
+--/* Generated by re2c 0.9.12 on Tue Mar 14 00:14:53 2006 */
+-+/* Generated by re2c 0.13.5 on Tue Feb 23 12:04:00 2016 */
+- #line 1 "bytecode.re"
+- /*
+-  * bytecode.re
+-  *
+-  * $Author: why $
+-- * $Date: 2005-09-20 08:21:06 +0300 (Tue, 20 Sep 2005) $
+-+ * $Date: 2005/09/20 05:21:06 $
+-  *
+-  * Copyright (C) 2003 why the lucky stiff
+-  */
+-@@ -27,14 +27,11 @@
+- #define YYLINEPTR   parser->lineptr
+- #define YYLINECTPTR parser->linectptr
+- #define YYLINE      parser->linect
+--#define YYFILL(n)   (void) syck_parser_read(parser)
+-+#define YYFILL(n)   syck_parser_read(parser)
+- 
+--/*@unchecked@*/ /*@null@*/
+- extern SyckParser *syck_parser_ptr;
+- 
+--/*@null@*/
+--char *get_inline( SyckParser *parser )
+--	/*@modifies parser @*/;
+-+char *get_inline( SyckParser *parser );
+- 
+- /*
+-  * Repositions the cursor at `n' offset from the token start.
+-@@ -137,14 +134,12 @@ char *get_inline( SyckParser *parser )
+-  */
+- int
+- sycklex_bytecode_utf8( YYSTYPE *sycklval, SyckParser *parser )
+--	/*@globals syck_parser_ptr @*/
+--	/*@modifies sycklval, parser, syck_parser_ptr @*/
+- {
+-     SyckLevel *lvl;
+-     syck_parser_ptr = parser;
+-     if ( YYCURSOR == NULL ) 
+-     {
+--        (void) syck_parser_read( parser );
+-+        syck_parser_read( parser );
+-     }
+- 
+-     if ( parser->force_token != 0 )
+-@@ -171,42 +166,37 @@ sycklex_bytecode_utf8( YYSTYPE *sycklval
+- #line 165 "<stdout>"
+- {
+- 	YYCTYPE yych;
+--	unsigned int yyaccept = 0;
+--	goto yy0;
+--	/*@notreached@*/
+--	++YYCURSOR;
+--yy0:
+--	if((YYLIMIT - YYCURSOR) < 3) YYFILL(3);
+-+
+-+	if ((YYLIMIT - YYCURSOR) < 3) YYFILL(3);
+- 	yych = *YYCURSOR;
+--	switch(yych){
+-+	switch (yych) {
+- 	case 0x00:	goto yy2;
+- 	case 'D':	goto yy3;
+- 	default:	goto yy5;
+- 	}
+--yy2:	YYCURSOR = YYMARKER;
+--	switch(yyaccept){
+--	case 0:	goto yy4;
+--	}
+--yy3:	yyaccept = 0;
+-+yy2:
+-+	YYCURSOR = YYMARKER;
+-+	goto yy4;
+-+yy3:
+- 	yych = *(YYMARKER = ++YYCURSOR);
+--	switch(yych){
+--	case 0x0A:	goto yy6;
+--	case 0x0D:	goto yy8;
+-+	switch (yych) {
+-+	case '\n':	goto yy6;
+-+	case '\r':	goto yy8;
+- 	default:	goto yy4;
+- 	}
+- yy4:
+- #line 199 "bytecode.re"
+--{   YYPOS(0);
+-+	{   YYPOS(0);
+-             goto Document;
+-         }
+--#line 195 "<stdout>"
+--yy5:	yych = *++YYCURSOR;
+-+#line 191 "<stdout>"
+-+yy5:
+-+	yych = *++YYCURSOR;
+- 	goto yy4;
+--yy6:	++YYCURSOR;
+--	goto yy7;
+--yy7:
+-+yy6:
+-+	++YYCURSOR;
+- #line 186 "bytecode.re"
+--{   if ( lvl->status == syck_lvl_header )
+-+	{   if ( lvl->status == syck_lvl_header )
+-             {
+-                 CHK_NL(YYCURSOR);
+-                 goto Directive;
+-@@ -218,10 +208,11 @@ yy7:
+-                 return 0;
+-             }
+-         }
+--#line 214 "<stdout>"
+--yy8:	++YYCURSOR;
+--	switch((yych = *YYCURSOR)) {
+--	case 0x0A:	goto yy6;
+-+#line 210 "<stdout>"
+-+yy8:
+-+	++YYCURSOR;
+-+	switch ((yych = *YYCURSOR)) {
+-+	case '\n':	goto yy6;
+- 	default:	goto yy2;
+- 	}
+- }
+-@@ -239,19 +230,15 @@ Document:
+-         YYTOKEN = YYCURSOR;
+- 
+- 
+--#line 235 "<stdout>"
+-+#line 232 "<stdout>"
+- {
+- 	YYCTYPE yych;
+--	goto yy9;
+--	/*@notreached@*/
+--	++YYCURSOR;
+--yy9:
+--	if((YYLIMIT - YYCURSOR) < 3) YYFILL(3);
+-+	if ((YYLIMIT - YYCURSOR) < 3) YYFILL(3);
+- 	yych = *YYCURSOR;
+--	switch(yych){
+-+	switch (yych) {
+- 	case 0x00:	goto yy30;
+--	case 0x0A:	goto yy27;
+--	case 0x0D:	goto yy29;
+-+	case '\n':	goto yy27;
+-+	case '\r':	goto yy29;
+- 	case 'A':	goto yy19;
+- 	case 'D':	goto yy12;
+- 	case 'E':	goto yy16;
+-@@ -264,71 +251,73 @@ yy9:
+- 	case 'c':	goto yy25;
+- 	default:	goto yy11;
+- 	}
+--yy11:yy12:	yych = *++YYCURSOR;
+--	switch(yych){
+--	case 0x0A:	goto yy41;
+--	case 0x0D:	goto yy44;
+-+yy11:
+-+yy12:
+-+	yych = *++YYCURSOR;
+-+	switch (yych) {
+-+	case '\n':	goto yy41;
+-+	case '\r':	goto yy44;
+- 	default:	goto yy11;
+- 	}
+--yy13:	yych = *++YYCURSOR;
+--	switch(yych){
+--	case 0x0A:	goto yy41;
+--	case 0x0D:	goto yy43;
+-+yy13:
+-+	yych = *++YYCURSOR;
+-+	switch (yych) {
+-+	case '\n':	goto yy41;
+-+	case '\r':	goto yy43;
+- 	default:	goto yy11;
+- 	}
+--yy14:	yych = *++YYCURSOR;
+--	switch(yych){
+--	case 0x0A:	goto yy38;
+--	case 0x0D:	goto yy40;
+-+yy14:
+-+	yych = *++YYCURSOR;
+-+	switch (yych) {
+-+	case '\n':	goto yy38;
+-+	case '\r':	goto yy40;
+- 	default:	goto yy11;
+- 	}
+--yy15:	yych = *++YYCURSOR;
+--	switch(yych){
+--	case 0x0A:	goto yy35;
+--	case 0x0D:	goto yy37;
+-+yy15:
+-+	yych = *++YYCURSOR;
+-+	switch (yych) {
+-+	case '\n':	goto yy35;
+-+	case '\r':	goto yy37;
+- 	default:	goto yy11;
+- 	}
+--yy16:	yych = *++YYCURSOR;
+--	switch(yych){
+--	case 0x0A:	goto yy32;
+--	case 0x0D:	goto yy34;
+-+yy16:
+-+	yych = *++YYCURSOR;
+-+	switch (yych) {
+-+	case '\n':	goto yy32;
+-+	case '\r':	goto yy34;
+- 	default:	goto yy11;
+- 	}
+--yy17:	++YYCURSOR;
+--	goto yy18;
+--yy18:
+-+yy17:
+-+	++YYCURSOR;
+- #line 288 "bytecode.re"
+--{   ADD_BYTE_LEVEL(lvl, lvl->spaces + 1, syck_lvl_str); 
+-+	{   ADD_BYTE_LEVEL(lvl, lvl->spaces + 1, syck_lvl_str); 
+-             goto Scalar;
+-         }
+--#line 296 "<stdout>"
+--yy19:	++YYCURSOR;
+--	goto yy20;
+--yy20:
+-+#line 295 "<stdout>"
+-+yy19:
+-+	++YYCURSOR;
+- #line 292 "bytecode.re"
+--{   ADD_BYTE_LEVEL(lvl, lvl->spaces + 1, syck_lvl_open);
+-+	{   ADD_BYTE_LEVEL(lvl, lvl->spaces + 1, syck_lvl_open);
+-             sycklval->name = get_inline( parser );
+-             syck_hdlr_remove_anchor( parser, sycklval->name );
+-             CHK_NL(YYCURSOR);
+-             return YAML_ANCHOR;
+-         }
+--#line 307 "<stdout>"
+--yy21:	++YYCURSOR;
+--	goto yy22;
+--yy22:
+-+#line 305 "<stdout>"
+-+yy21:
+-+	++YYCURSOR;
+- #line 299 "bytecode.re"
+--{   ADD_BYTE_LEVEL(lvl, lvl->spaces + 1, syck_lvl_str);
+-+	{   ADD_BYTE_LEVEL(lvl, lvl->spaces + 1, syck_lvl_str);
+-             sycklval->name = get_inline( parser );
+-             POP_LEVEL();
+-             if ( *( YYCURSOR - 1 ) == '\n' ) YYCURSOR--;
+-             return YAML_ALIAS;
+-         }
+--#line 318 "<stdout>"
+--yy23:	++YYCURSOR;
+--	goto yy24;
+--yy24:
+-+#line 315 "<stdout>"
+-+yy23:
+-+	++YYCURSOR;
+- #line 306 "bytecode.re"
+--{   char *qstr;
+-+	{   char *qstr;
+-             ADD_BYTE_LEVEL(lvl, lvl->spaces + 1, syck_lvl_open);
+-             qstr = get_inline( parser );
+-             CHK_NL(YYCURSOR);
+-@@ -387,18 +376,16 @@ yy24:
+-             sycklval->name = qstr;
+-             return YAML_TAGURI;
+-         }
+--#line 382 "<stdout>"
+--yy25:	++YYCURSOR;
+--	goto yy26;
+--yy26:
+-+#line 378 "<stdout>"
+-+yy25:
+-+	++YYCURSOR;
+- #line 366 "bytecode.re"
+--{   goto Comment; }
+--#line 388 "<stdout>"
+--yy27:	++YYCURSOR;
+--	goto yy28;
+--yy28:
+-+	{   goto Comment; }
+-+#line 383 "<stdout>"
+-+yy27:
+-+	++YYCURSOR;
+- #line 368 "bytecode.re"
+--{   CHK_NL(YYCURSOR);
+-+	{   CHK_NL(YYCURSOR);
+-             if ( lvl->status == syck_lvl_seq )
+-             {
+-                 return YAML_INDENT; 
+-@@ -410,26 +397,25 @@ yy28:
+-             }
+-             goto Document;
+-         }
+--#line 405 "<stdout>"
+--yy29:	yych = *++YYCURSOR;
+--	switch(yych){
+--	case 0x0A:	goto yy27;
+-+#line 399 "<stdout>"
+-+yy29:
+-+	yych = *++YYCURSOR;
+-+	switch (yych) {
+-+	case '\n':	goto yy27;
+- 	default:	goto yy11;
+- 	}
+--yy30:	++YYCURSOR;
+--	goto yy31;
+--yy31:
+-+yy30:
+-+	++YYCURSOR;
+- #line 381 "bytecode.re"
+--{   ENSURE_YAML_IEND(lvl, -1);
+-+	{   ENSURE_YAML_IEND(lvl, -1);
+-             YYPOS(0);
+-             return 0;
+-         }
+--#line 419 "<stdout>"
+--yy32:	++YYCURSOR;
+--	goto yy33;
+--yy33:
+-+#line 413 "<stdout>"
+-+yy32:
+-+	++YYCURSOR;
+- #line 252 "bytecode.re"
+--{   if ( lvl->status == syck_lvl_seq && lvl->ncount == 0 )
+-+	{   if ( lvl->status == syck_lvl_seq && lvl->ncount == 0 )
+-             {
+-                 lvl->ncount++;
+-                 YYPOS(0);
+-@@ -464,17 +450,17 @@ yy33:
+-             CHK_NL(YYCURSOR);
+-             return YAML_IEND;
+-         }
+--#line 459 "<stdout>"
+--yy34:	yych = *++YYCURSOR;
+--	switch(yych){
+--	case 0x0A:	goto yy32;
+-+#line 452 "<stdout>"
+-+yy34:
+-+	yych = *++YYCURSOR;
+-+	switch (yych) {
+-+	case '\n':	goto yy32;
+- 	default:	goto yy11;
+- 	}
+--yy35:	++YYCURSOR;
+--	goto yy36;
+--yy36:
+-+yy35:
+-+	++YYCURSOR;
+- #line 237 "bytecode.re"
+--{   int complex = 0;
+-+	{   int complex = 0;
+-             if ( lvl->ncount % 2 == 0 && ( lvl->status == syck_lvl_map || lvl->status == syck_lvl_seq ) )
+-             {
+-                 complex = 1;
+-@@ -488,17 +474,17 @@ yy36:
+-             }
+-             return YAML_IOPEN;
+-         }
+--#line 483 "<stdout>"
+--yy37:	yych = *++YYCURSOR;
+--	switch(yych){
+--	case 0x0A:	goto yy35;
+-+#line 476 "<stdout>"
+-+yy37:
+-+	yych = *++YYCURSOR;
+-+	switch (yych) {
+-+	case '\n':	goto yy35;
+- 	default:	goto yy11;
+- 	}
+--yy38:	++YYCURSOR;
+--	goto yy39;
+--yy39:
+-+yy38:
+-+	++YYCURSOR;
+- #line 222 "bytecode.re"
+--{   int complex = 0;
+-+	{   int complex = 0;
+-             if ( lvl->ncount % 2 == 0 && ( lvl->status == syck_lvl_map || lvl->status == syck_lvl_seq ) )
+-             {
+-                 complex = 1;
+-@@ -512,29 +498,31 @@ yy39:
+-             }
+-             return YAML_IOPEN;
+-         }
+--#line 507 "<stdout>"
+--yy40:	yych = *++YYCURSOR;
+--	switch(yych){
+--	case 0x0A:	goto yy38;
+-+#line 500 "<stdout>"
+-+yy40:
+-+	yych = *++YYCURSOR;
+-+	switch (yych) {
+-+	case '\n':	goto yy38;
+- 	default:	goto yy11;
+- 	}
+--yy41:	++YYCURSOR;
+--	goto yy42;
+--yy42:
+-+yy41:
+-+	++YYCURSOR;
+- #line 217 "bytecode.re"
+--{   ENSURE_YAML_IEND(lvl, -1);
+-+	{   ENSURE_YAML_IEND(lvl, -1);
+-                 YYPOS(0);
+-                 return 0;
+-             }
+--#line 521 "<stdout>"
+--yy43:	yych = *++YYCURSOR;
+--	switch(yych){
+--	case 0x0A:	goto yy41;
+-+#line 514 "<stdout>"
+-+yy43:
+-+	yych = *++YYCURSOR;
+-+	switch (yych) {
+-+	case '\n':	goto yy41;
+- 	default:	goto yy11;
+- 	}
+--yy44:	++YYCURSOR;
+--	switch((yych = *YYCURSOR)) {
+--	case 0x0A:	goto yy41;
+-+yy44:
+-+	++YYCURSOR;
+-+	switch ((yych = *YYCURSOR)) {
+-+	case '\n':	goto yy41;
+- 	default:	goto yy11;
+- 	}
+- }
+-@@ -548,28 +536,22 @@ Directive:
+-         YYTOKEN = YYCURSOR;
+- 
+- 
+--#line 543 "<stdout>"
+-+#line 538 "<stdout>"
+- {
+- 	YYCTYPE yych;
+--	unsigned int yyaccept = 0;
+--	goto yy45;
+--	/*@notreached@*/
+--	++YYCURSOR;
+--yy45:
+--	if((YYLIMIT - YYCURSOR) < 2) YYFILL(2);
+-+	if ((YYLIMIT - YYCURSOR) < 2) YYFILL(2);
+- 	yych = *YYCURSOR;
+--	switch(yych){
+-+	switch (yych) {
+- 	case 0x00:	goto yy47;
+- 	case 'V':	goto yy48;
+- 	default:	goto yy50;
+- 	}
+--yy47:	YYCURSOR = YYMARKER;
+--	switch(yyaccept){
+--	case 0:	goto yy49;
+--	}
+--yy48:	yyaccept = 0;
+-+yy47:
+-+	YYCURSOR = YYMARKER;
+-+	goto yy49;
+-+yy48:
+- 	yych = *(YYMARKER = ++YYCURSOR);
+--	switch(yych){
+-+	switch (yych) {
+- 	case '.':
+- 	case '/':
+- 	case '0':
+-@@ -619,7 +601,8 @@ yy48:	yyaccept = 0;
+- 	case '\\':
+- 	case ']':
+- 	case '^':
+--	case '_':	case 'a':
+-+	case '_':
+-+	case 'a':
+- 	case 'b':
+- 	case 'c':
+- 	case 'd':
+-@@ -649,17 +632,18 @@ yy48:	yyaccept = 0;
+- 	}
+- yy49:
+- #line 399 "bytecode.re"
+--{   YYCURSOR = YYTOKEN;
+-+	{   YYCURSOR = YYTOKEN;
+-                return YAML_DOCSEP;
+-            }
+--#line 646 "<stdout>"
+--yy50:	yych = *++YYCURSOR;
+-+#line 637 "<stdout>"
+-+yy50:
+-+	yych = *++YYCURSOR;
+- 	goto yy49;
+--yy51:	++YYCURSOR;
+--	if((YYLIMIT - YYCURSOR) < 2) YYFILL(2);
+-+yy51:
+-+	++YYCURSOR;
+-+	if ((YYLIMIT - YYCURSOR) < 2) YYFILL(2);
+- 	yych = *YYCURSOR;
+--	goto yy52;
+--yy52:	switch(yych){
+-+	switch (yych) {
+- 	case '.':
+- 	case '/':
+- 	case '0':
+-@@ -671,7 +655,8 @@ yy52:	switch(yych){
+- 	case '6':
+- 	case '7':
+- 	case '8':
+--	case '9':	case ';':
+-+	case '9':
+-+	case ';':
+- 	case '<':
+- 	case '=':
+- 	case '>':
+-@@ -707,7 +692,8 @@ yy52:	switch(yych){
+- 	case '\\':
+- 	case ']':
+- 	case '^':
+--	case '_':	case 'a':
+-+	case '_':
+-+	case 'a':
+- 	case 'b':
+- 	case 'c':
+- 	case 'd':
+-@@ -736,8 +722,9 @@ yy52:	switch(yych){
+- 	case ':':	goto yy53;
+- 	default:	goto yy47;
+- 	}
+--yy53:	yych = *++YYCURSOR;
+--	switch(yych){
+-+yy53:
+-+	yych = *++YYCURSOR;
+-+	switch (yych) {
+- 	case '.':
+- 	case '/':
+- 	case '0':
+-@@ -787,7 +774,8 @@ yy53:	yych = *++YYCURSOR;
+- 	case '\\':
+- 	case ']':
+- 	case '^':
+--	case '_':	case 'a':
+-+	case '_':
+-+	case 'a':
+- 	case 'b':
+- 	case 'c':
+- 	case 'd':
+-@@ -815,13 +803,13 @@ yy53:	yych = *++YYCURSOR;
+- 	case 'z':	goto yy54;
+- 	default:	goto yy47;
+- 	}
+--yy54:	++YYCURSOR;
+--	if((YYLIMIT - YYCURSOR) < 2) YYFILL(2);
+-+yy54:
+-+	++YYCURSOR;
+-+	if ((YYLIMIT - YYCURSOR) < 2) YYFILL(2);
+- 	yych = *YYCURSOR;
+--	goto yy55;
+--yy55:	switch(yych){
+--	case 0x0A:	goto yy56;
+--	case 0x0D:	goto yy58;
+-+	switch (yych) {
+-+	case '\n':	goto yy56;
+-+	case '\r':	goto yy58;
+- 	case '.':
+- 	case '/':
+- 	case '0':
+-@@ -871,7 +859,8 @@ yy55:	switch(yych){
+- 	case '\\':
+- 	case ']':
+- 	case '^':
+--	case '_':	case 'a':
+-+	case '_':
+-+	case 'a':
+- 	case 'b':
+- 	case 'c':
+- 	case 'd':
+-@@ -899,16 +888,16 @@ yy55:	switch(yych){
+- 	case 'z':	goto yy54;
+- 	default:	goto yy47;
+- 	}
+--yy56:	++YYCURSOR;
+--	goto yy57;
+--yy57:
+-+yy56:
+-+	++YYCURSOR;
+- #line 396 "bytecode.re"
+--{   CHK_NL(YYCURSOR);
+-+	{   CHK_NL(YYCURSOR);
+-                goto Directive; }
+--#line 899 "<stdout>"
+--yy58:	++YYCURSOR;
+--	switch((yych = *YYCURSOR)) {
+--	case 0x0A:	goto yy56;
+-+#line 895 "<stdout>"
+-+yy58:
+-+	++YYCURSOR;
+-+	switch ((yych = *YYCURSOR)) {
+-+	case '\n':	goto yy56;
+- 	default:	goto yy47;
+- 	}
+- }
+-@@ -922,40 +911,40 @@ Comment:
+-         YYTOKEN = YYCURSOR;
+- 
+- 
+--#line 916 "<stdout>"
+-+#line 913 "<stdout>"
+- {
+- 	YYCTYPE yych;
+--	goto yy59;
+--	/*@notreached@*/
+--	++YYCURSOR;
+--yy59:
+--	if((YYLIMIT - YYCURSOR) < 2) YYFILL(2);
+-+	if ((YYLIMIT - YYCURSOR) < 2) YYFILL(2);
+- 	yych = *YYCURSOR;
+--	switch(yych){
+-+	switch (yych) {
+- 	case 0x00:	goto yy61;
+--	case 0x0A:	goto yy62;
+--	case 0x0D:	goto yy64;
+-+	case '\n':	goto yy62;
+-+	case '\r':	goto yy64;
+- 	default:	goto yy66;
+- 	}
+--yy61:yy62:	++YYCURSOR;
+--	goto yy63;
+-+yy61:
+-+yy62:
+-+	++YYCURSOR;
+- yy63:
+- #line 412 "bytecode.re"
+--{   CHK_NL(YYCURSOR);
+-+	{   CHK_NL(YYCURSOR);
+-                 goto Document; }
+--#line 936 "<stdout>"
+--yy64:	++YYCURSOR;
+--	switch((yych = *YYCURSOR)) {
+--	case 0x0A:	goto yy67;
+-+#line 931 "<stdout>"
+-+yy64:
+-+	++YYCURSOR;
+-+	switch ((yych = *YYCURSOR)) {
+-+	case '\n':	goto yy67;
+- 	default:	goto yy65;
+- 	}
+- yy65:
+- #line 415 "bytecode.re"
+--{   goto Comment; }
+--#line 945 "<stdout>"
+--yy66:	yych = *++YYCURSOR;
+-+	{   goto Comment; }
+-+#line 941 "<stdout>"
+-+yy66:
+-+	yych = *++YYCURSOR;
+- 	goto yy65;
+--yy67:	++YYCURSOR;
+-+yy67:
+-+	++YYCURSOR;
+- 	yych = *YYCURSOR;
+- 	goto yy63;
+- }
+-@@ -977,23 +966,20 @@ Scalar2:
+-     tok = YYCURSOR;
+- 
+- 
+--#line 970 "<stdout>"
+-+#line 968 "<stdout>"
+- {
+- 	YYCTYPE yych;
+--	goto yy68;
+--	/*@notreached@*/
+--	++YYCURSOR;
+--yy68:
+--	if((YYLIMIT - YYCURSOR) < 3) YYFILL(3);
+-+	if ((YYLIMIT - YYCURSOR) < 3) YYFILL(3);
+- 	yych = *YYCURSOR;
+--	switch(yych){
+-+	switch (yych) {
+- 	case 0x00:	goto yy74;
+--	case 0x0A:	goto yy70;
+--	case 0x0D:	goto yy72;
+-+	case '\n':	goto yy70;
+-+	case '\r':	goto yy72;
+- 	default:	goto yy76;
+- 	}
+--yy70:	++YYCURSOR;
+--	switch((yych = *YYCURSOR)) {
+-+yy70:
+-+	++YYCURSOR;
+-+	switch ((yych = *YYCURSOR)) {
+- 	case 'C':	goto yy78;
+- 	case 'N':	goto yy80;
+- 	case 'Z':	goto yy83;
+-@@ -1001,50 +987,51 @@ yy70:	++YYCURSOR;
+- 	}
+- yy71:
+- #line 461 "bytecode.re"
+--{   YYCURSOR = tok;
+-+	{   YYCURSOR = tok;
+-             goto ScalarEnd; 
+-         }
+--#line 996 "<stdout>"
+--yy72:	++YYCURSOR;
+--	switch((yych = *YYCURSOR)) {
+--	case 0x0A:	goto yy77;
+-+#line 992 "<stdout>"
+-+yy72:
+-+	++YYCURSOR;
+-+	switch ((yych = *YYCURSOR)) {
+-+	case '\n':	goto yy77;
+- 	default:	goto yy73;
+- 	}
+- yy73:
+- #line 469 "bytecode.re"
+--{   CAT(str, cap, idx, tok[0]);
+-+	{   CAT(str, cap, idx, tok[0]);
+-             goto Scalar2; 
+-         }
+--#line 1007 "<stdout>"
+--yy74:	++YYCURSOR;
+--	goto yy75;
+--yy75:
+-+#line 1004 "<stdout>"
+-+yy74:
+-+	++YYCURSOR;
+- #line 465 "bytecode.re"
+--{   YYCURSOR = tok;
+-+	{   YYCURSOR = tok;
+-             goto ScalarEnd;
+-         }
+--#line 1015 "<stdout>"
+--yy76:	yych = *++YYCURSOR;
+-+#line 1011 "<stdout>"
+-+yy76:
+-+	yych = *++YYCURSOR;
+- 	goto yy73;
+--yy77:	yych = *++YYCURSOR;
+--	switch(yych){
+-+yy77:
+-+	yych = *++YYCURSOR;
+-+	switch (yych) {
+- 	case 'C':	goto yy78;
+- 	case 'N':	goto yy80;
+- 	case 'Z':	goto yy83;
+- 	default:	goto yy71;
+- 	}
+--yy78:	++YYCURSOR;
+--	goto yy79;
+--yy79:
+-+yy78:
+-+	++YYCURSOR;
+- #line 435 "bytecode.re"
+--{   CHK_NL(tok+1);
+-+	{   CHK_NL(tok+1);
+-             goto Scalar2; }
+--#line 1031 "<stdout>"
+--yy80:	++YYCURSOR;
+--	if(YYLIMIT == YYCURSOR) YYFILL(1);
+-+#line 1028 "<stdout>"
+-+yy80:
+-+	++YYCURSOR;
+-+	if (YYLIMIT <= YYCURSOR) YYFILL(1);
+- 	yych = *YYCURSOR;
+--	goto yy81;
+--yy81:	switch(yych){
+-+	switch (yych) {
+- 	case '0':
+- 	case '1':
+- 	case '2':
+-@@ -1059,7 +1046,7 @@ yy81:	switch(yych){
+- 	}
+- yy82:
+- #line 438 "bytecode.re"
+--{   CHK_NL(tok+1);
+-+	{   CHK_NL(tok+1);
+-             if ( tok + 2 < YYCURSOR )
+-             {
+-                 char *count = tok + 2;
+-@@ -1076,16 +1063,15 @@ yy82:
+-             }
+-             goto Scalar2;
+-         }
+--#line 1068 "<stdout>"
+--yy83:	++YYCURSOR;
+--	goto yy84;
+--yy84:
+-+#line 1065 "<stdout>"
+-+yy83:
+-+	++YYCURSOR;
+- #line 456 "bytecode.re"
+--{   CHK_NL(tok+1);
+-+	{   CHK_NL(tok+1);
+-             CAT(str, cap, idx, '\0');
+-             goto Scalar2; 
+-         }
+--#line 1077 "<stdout>"
+-+#line 1073 "<stdout>"
+- }
+- #line 473 "bytecode.re"
+- 
+-@@ -1122,50 +1108,48 @@ Inline:
+-         tok = YYCURSOR;
+- 
+- 
+--#line 1114 "<stdout>"
+-+#line 1110 "<stdout>"
+- {
+- 	YYCTYPE yych;
+--	goto yy85;
+--	/*@notreached@*/
+--	++YYCURSOR;
+--yy85:
+--	if((YYLIMIT - YYCURSOR) < 2) YYFILL(2);
+-+	if ((YYLIMIT - YYCURSOR) < 2) YYFILL(2);
+- 	yych = *YYCURSOR;
+--	switch(yych){
+-+	switch (yych) {
+- 	case 0x00:	goto yy91;
+--	case 0x0A:	goto yy87;
+--	case 0x0D:	goto yy89;
+-+	case '\n':	goto yy87;
+-+	case '\r':	goto yy89;
+- 	default:	goto yy93;
+- 	}
+--yy87:	++YYCURSOR;
+--	goto yy88;
+-+yy87:
+-+	++YYCURSOR;
+- yy88:
+- #line 508 "bytecode.re"
+--{   CHK_NL(YYCURSOR);
+-+	{   CHK_NL(YYCURSOR);
+-                 return str; }
+--#line 1134 "<stdout>"
+--yy89:	++YYCURSOR;
+--	switch((yych = *YYCURSOR)) {
+--	case 0x0A:	goto yy94;
+-+#line 1127 "<stdout>"
+-+yy89:
+-+	++YYCURSOR;
+-+	switch ((yych = *YYCURSOR)) {
+-+	case '\n':	goto yy94;
+- 	default:	goto yy90;
+- 	}
+- yy90:
+- #line 515 "bytecode.re"
+--{   CAT(str, cap, idx, tok[0]);
+-+	{   CAT(str, cap, idx, tok[0]);
+-                 goto Inline; 
+-             }
+--#line 1145 "<stdout>"
+--yy91:	++YYCURSOR;
+--	goto yy92;
+--yy92:
+-+#line 1139 "<stdout>"
+-+yy91:
+-+	++YYCURSOR;
+- #line 511 "bytecode.re"
+--{   YYCURSOR = tok;
+-+	{   YYCURSOR = tok;
+-                 return str;
+-             }
+--#line 1153 "<stdout>"
+--yy93:	yych = *++YYCURSOR;
+-+#line 1146 "<stdout>"
+-+yy93:
+-+	yych = *++YYCURSOR;
+- 	goto yy90;
+--yy94:	++YYCURSOR;
+-+yy94:
+-+	++YYCURSOR;
+- 	yych = *YYCURSOR;
+- 	goto yy88;
+- }
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch b/meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch
+deleted file mode 100644
+index 5fb40b6fefe..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-fix a endian incompatible error in generating rpm tag
+-
+-A flaw was found in the way rpm generating arbitrary tags, which leads to a
+-incorrect query result, this issue is introduced by a incompatible endianess
+-when the generating process is executed on different architectures.
+-
+-This patch resolves it by taking the byte order that host uses.
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Ming Liu <ming.liu@windriver.com>
+----
+- tagname.c |   16 ++++++++++++++++
+- 1 file changed, 16 insertions(+)
+-
+-Index: rpm-5.4.14/rpmdb/tagname.c
+-===================================================================
+---- rpm-5.4.14.orig/rpmdb/tagname.c
+-+++ rpm-5.4.14/rpmdb/tagname.c
+-@@ -3,6 +3,19 @@
+-  */
+- 
+- #include "system.h"
+-+#include <endian.h>
+-+
+-+/* Don't redefine this macro if it already exists */
+-+#ifndef le32toh
+-+#ifdef __USE_BSD
+-+#include <byteswap.h>
+-+#if __BYTE_ORDER == __LITTLE_ENDIAN
+-+#define le32toh(x) (x)
+-+#else
+-+#define le32toh(x) __bswap_32(x)
+-+#endif
+-+#endif /* __USE_BSD */
+-+#endif /* le32toh */
+- 
+- #include <rpmio_internal.h>	/* XXX DIGEST_CTX, xtolower, xstrcasecmp */
+- #include <rpmmacro.h>
+-@@ -152,7 +165,10 @@ static rpmTag _tagGenerate(const char *s
+-     xx = rpmDigestUpdate(ctx, s, nb);
+-     xx = rpmDigestFinal(ctx, &digest, &digestlen, 0);
+-     if (digest && digestlen > 4) {
+-+	/* The tag is stored in a uniform byte order for cross-endian compatibility.
+-+	   Swap to the host uses. */
+- 	memcpy(&tag, digest + (digestlen - 4), 4);
+-+	tag = le32toh(tag);
+- 	tag = (rpmTag) (tag & 0x3fffffff);
+- 	tag = (rpmTag) (tag | 0x40000000);
+-     }
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-tagname-type.patch b/meta/recipes-devtools/rpm/rpm/rpm-tagname-type.patch
+deleted file mode 100644
+index 9eb675ba291..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-tagname-type.patch
++++ /dev/null
+@@ -1,25 +0,0 @@
+-rpmdb/tagname.c: Add the 0x54aafb71 (filenames) type to rpmTagGetType
+-
+-There is already a workaround in the _tagName function to show that the
+-special 'filenames' item is value.  This adds a similar patch to the
+-_tagType to return the proper type, otherwise it comes back as a simple
+-RPM_STRING_ARRAY_TYPE which limits the response to the first element.
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm-5.4.15/rpmdb/tagname.c
+-===================================================================
+---- rpm-5.4.15.orig/rpmdb/tagname.c
+-+++ rpm-5.4.15/rpmdb/tagname.c
+-@@ -353,6 +353,9 @@ static unsigned int _tagType(rpmTag tag)
+-     case RPMDBI_RECNO:
+-     case RPMDBI_HEAP:
+- 	break;
+-+    /* XXX make sure that h.['filenames'] in python "works". */
+-+    case 0x54aafb71:
+-+	return (RPM_STRING_ARRAY_TYPE + RPM_ARRAY_RETURN_TYPE);
+-     default:
+- 	if (_rpmTags.byValue == NULL)
+- 	    break;
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-tools-mtree-LDFLAGS.patch b/meta/recipes-devtools/rpm/rpm/rpm-tools-mtree-LDFLAGS.patch
+deleted file mode 100644
+index 72d35092918..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-tools-mtree-LDFLAGS.patch
++++ /dev/null
+@@ -1,24 +0,0 @@
+-Source: None
+-Upstream-Status: Submitted [RPM5 maintainer]
+-Author: Khem Raj <raj.khem@gmail.com>
+-Date: 2011-03-03
+-Description:
+-This patch fixes build issue found when compiling rpm-native on ubuntu
+-11.04-alpha. Problem is that linker does not get correct set of dependent
+-libraries when linking mtree binary which results in undefined symbols
+-in librpmio.so. This patch adds correct flags to mtree_LDADD to account
+-for rpmio deps
+-
+-Index: rpm-5.4.14/tools/Makefile.am
+-===================================================================
+---- rpm-5.4.14.orig/tools/Makefile.am
+-+++ rpm-5.4.14/tools/Makefile.am
+-@@ -186,7 +186,7 @@ grep_LDADD =		$(RPMIO_LDADD_COMMON)
+- 
+- mtree_SOURCES =		rpmmtree.c
+- mtree_LDFLAGS =		@LDFLAGS_STATIC@ $(LDFLAGS)
+--mtree_LDADD =		$(RPM_LDADD_COMMON)
+-+mtree_LDADD =		$(RPMIO_LDADD_COMMON)
+- 
+- rpmrepo_SOURCES =	rpmrepo.c
+- rpmrepo_CPPFLAGS =	$(AM_CPPFLAGS) -I$(top_srcdir)/scripts -I$(top_builddir)/scripts $(CPPFLAGS)
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-uuid-include.patch b/meta/recipes-devtools/rpm/rpm/rpm-uuid-include.patch
+deleted file mode 100644
+index 713f84ee27b..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-uuid-include.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-A patch to fix a problem when compiling with uuid.
+-
+-When attempting to build with uuid and all tests compiling will error because
+-uuid.h doesn't exist in the rpm tarball. Fix this by changing the include to
+-use the one in ossp which solves the issue. 
+-
+-The recipe already depends on ossp so ossp/uuid.h will be there when rpm-native
+-is built.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Morgan Little <morgan.little@windriver.com>
+-
+-
+-Index: rpm-5.4.14/lua/local/luuid.c
+-===================================================================
+---- rpm-5.4.14.orig/lua/local/luuid.c
+-+++ rpm-5.4.14/lua/local/luuid.c
+-@@ -21,7 +21,7 @@
+- 
+- #ifdef LUA_USE_UUID
+- 
+--#include "uuid.h"
+-+#include <ossp/uuid.h>
+- 
+- /*  Lua method: <uuid> = uuid.generate(<version>[, <uuid-namespace>, <data>])  */
+- static int luuid_generate(lua_State *L)
+-Index: rpm-5.4.14/rpmio/rpmuuid.c
+-===================================================================
+---- rpm-5.4.14.orig/rpmio/rpmuuid.c
+-+++ rpm-5.4.14/rpmio/rpmuuid.c
+-@@ -16,7 +16,7 @@
+- #include "rpmlog.h"
+- #include "rpmuuid.h"
+- #ifdef WITH_UUID
+--#include "uuid.h"
+-+#include <ossp/uuid.h>
+- #endif
+- #include "debug.h"
+- 
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm2cpio b/meta/recipes-devtools/rpm/rpm/rpm2cpio
+deleted file mode 100755
+index 6bcef6a4ce5..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm2cpio
++++ /dev/null
+@@ -1,39 +0,0 @@
+-#!/bin/sh
+-
+-# Prevent gawk >= 4.0.x from getting funny ideas wrt UTF in printf()
+-LANG=C
+-
+-pkg=$1
+-if [ "$pkg" = "" -o ! -e "$pkg" ]; then
+-    echo "no package supplied" 1>&2
+-   exit 1
+-fi
+-
+-leadsize=96
+-o=`expr $leadsize + 8`
+-set `od -j $o -N 8 -t u1 $pkg`
+-il=`expr 256 \* \( 256 \* \( 256 \* $2 + $3 \) + $4 \) + $5`
+-dl=`expr 256 \* \( 256 \* \( 256 \* $6 + $7 \) + $8 \) + $9`
+-# echo "sig il: $il dl: $dl"
+-
+-sigsize=`expr 8 + 16 \* $il + $dl`
+-o=`expr $o + $sigsize + \( 8 - \( $sigsize \% 8 \) \) \% 8 + 8`
+-set `od -j $o -N 8 -t u1 $pkg`
+-il=`expr 256 \* \( 256 \* \( 256 \* $2 + $3 \) + $4 \) + $5`
+-dl=`expr 256 \* \( 256 \* \( 256 \* $6 + $7 \) + $8 \) + $9`
+-# echo "hdr il: $il dl: $dl"
+-
+-hdrsize=`expr 8 + 16 \* $il + $dl`
+-o=`expr $o + $hdrsize`
+-comp=`dd if=$pkg ibs=$o skip=1 count=1 2>/dev/null | dd bs=3 count=1 2> /dev/null`
+-
+-gz="`echo . | awk '{ printf("%c%c", 0x1f, 0x8b); }'`"
+-lzma="`echo . | awk '{ printf("%cLZ", 0xff); }'`"
+-xz="`echo . | awk '{ printf("%c7z", 0xfd); }'`"
+-case "$comp" in
+-    BZh)      dd if="$pkg" ibs=$o skip=1 2>/dev/null | bunzip2 ;;
+-    "$gz"*)   dd if="$pkg" ibs=$o skip=1 2>/dev/null | gunzip ;;
+-    "$xz"*)   dd if="$pkg" ibs=$o skip=1 2>/dev/null | xzcat ;;
+-    "$lzma"*) dd if="$pkg" ibs=$o skip=1 2>/dev/null | unlzma ;;
+-    *)        echo "Unrecognized rpm file: $pkg"; exit 1 ;;
+-esac
+diff --git a/meta/recipes-devtools/rpm/rpm/rpmatch.patch b/meta/recipes-devtools/rpm/rpm/rpmatch.patch
+deleted file mode 100644
+index 9bbf580e464..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpmatch.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-Create a compatable macro if rpmatch() is not provided by the C library.
+-
+-This uses an existing configure check.
+-
+-This is needed for uclibc since it does not have the above function
+-implemented.
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Updated to rpm 5.4.15+.
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-Index: rpm/system.h
+-===================================================================
+---- rpm.orig/system.h
+-+++ rpm/system.h
+-@@ -358,6 +358,14 @@ extern int _tolower(int) __THROW	/*@*/;
+- #include <libgen.h>
+- #endif
+- 
+-+#ifndef HAVE_RPMATCH
+-+#define rpmatch(line) \
+-+	( (line == NULL)? -1 : \
+-+	  (*line == 'y' || *line == 'Y')? 1 : \
+-+	  (*line == 'n' || *line == 'N')? 0 : \
+-+	  -1 )
+-+#endif
+-+
+- /* -- Retrofit glibc __progname */
+- #if defined __GLIBC__ && __GLIBC__ >= 2
+- #if __GLIBC_MINOR__ >= 1
+diff --git a/meta/recipes-devtools/rpm/rpm/rpmdb-more-verbose-error-logging-in-rpmTempFile.patch b/meta/recipes-devtools/rpm/rpm/rpmdb-more-verbose-error-logging-in-rpmTempFile.patch
+deleted file mode 100644
+index 3a6f8746cc7..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpmdb-more-verbose-error-logging-in-rpmTempFile.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-rpmdb: more verbose error logging in rpmTempFile()
+-
+-Upstream-Status: Inappropriate [debugging]
+-
+-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+-
+-diff --git a/rpmdb/signature.c b/rpmdb/signature.c
+-index 100204b..e56ab3d 100644
+---- a/rpmdb/signature.c
+-+++ b/rpmdb/signature.c
+-@@ -72,12 +72,16 @@ int rpmTempFile(const char * prefix, const char ** fnptr, void * fdptr)
+- #endif
+- 
+- 	temput = urlPath(tempfn, &tfn);
+--	if (*tfn == '\0') goto errxit;
+-+	if (*tfn == '\0') {
+-+            rpmlog(RPMLOG_ERR, _("error creating tempfile: empty filename\n"));
+-+            goto errxit;
+-+        }
+- 
+- 	switch (temput) {
+- 	case URL_IS_DASH:
+- 	case URL_IS_HKP:
+- 	case URL_IS_MONGO:	/* XXX FIXME */
+-+            rpmlog(RPMLOG_ERR, _("error creating temporary file, invalid uri type: %d\n"), temput);
+- 	    goto errxit;
+- 	    /*@notreached@*/ /*@switchbreak@*/ break;
+- 	case URL_IS_HTTPS:
+--- 
+-2.6.6
+-
+diff --git a/meta/recipes-devtools/rpm/rpm/rpmdb-prevent-race-in-tmpdir-creation.patch b/meta/recipes-devtools/rpm/rpm/rpmdb-prevent-race-in-tmpdir-creation.patch
+deleted file mode 100644
+index f483f3ad90e..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpmdb-prevent-race-in-tmpdir-creation.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-rpmdb: prevent race in tmpdir creation
+-
+-If two (or more) instances of rpm are running at the same time they may
+-be trying to create the same (base-)temporary directory at the same time
+-which causes the other mkdir to fail with EEXIST. This patch prevents a
+-failure caused by this race by ignoring EEXIST error on directory
+-creation.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+-
+-diff --git a/rpmdb/signature.c b/rpmdb/signature.c
+-index dce6c4e..100204b 100644
+---- a/rpmdb/signature.c
+-+++ b/rpmdb/signature.c
+-@@ -37,6 +37,7 @@ int rpmTempFile(const char * prefix, const char ** fnptr, void * fdptr)
+-     int temput;
+-     FD_t fd = NULL;
+-     unsigned int ran;
+-+    int ret = 0;
+- 
+-     if (!prefix) prefix = "";
+- 
+-@@ -44,8 +45,11 @@ int rpmTempFile(const char * prefix, const char ** fnptr, void * fdptr)
+-     if (!_initialized) {
+- 	_initialized = 1;
+- 	tempfn = rpmGenPath(prefix, tpmacro, NULL);
+--	if (rpmioMkpath(tempfn, 0755, (uid_t) -1, (gid_t) -1))
+--	    goto errxit;
+-+        ret = rpmioMkpath(tempfn, 0755, (uid_t) -1, (gid_t) -1);
+-+        if (ret && ret != EEXIST) {
+-+            rpmlog(RPMLOG_ERR, _("error creating temporary directory %s: %d\n"), tempfn, ret);
+-+            goto errxit;
+-+        }
+-     }
+- 
+-     /* XXX should probably use mkstemp here */
+--- 
+-2.6.6
+-
+diff --git a/meta/recipes-devtools/rpm/rpm/rpmdeps-oecore.patch b/meta/recipes-devtools/rpm/rpm/rpmdeps-oecore.patch
+deleted file mode 100644
+index 9bdd1d49088..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpmdeps-oecore.patch
++++ /dev/null
+@@ -1,194 +0,0 @@
+-Add an "rpmdeps-oecore" binary which allows batch processing of individual file
+-dependencies in a similar manner to rpmdeps --provides --requires -v, prefixing
+-each line of output with the filename that has the dependency.
+-
+-This is much faster than individually calling rpmdeps on each file.
+-
+-This binary is used by package.bbclass.
+-
+-Upstream-Status: Inappropriate [OE Specific]
+-
+-RP 2012/2/7
+-
+----
+- tools/Makefile.am      |    6 ++-
+- tools/rpmdeps-oecore.c |  147 ++++++++++++++++++++++++++++++++++++++++++++++++
+- 2 files changed, 152 insertions(+), 1 deletions(-)
+- create mode 100644 tools/rpmdeps-oecore.c
+-
+-Index: rpm-5.4.14/tools/Makefile.am
+-===================================================================
+---- rpm-5.4.14.orig/tools/Makefile.am
+-+++ rpm-5.4.14/tools/Makefile.am
+-@@ -62,7 +62,7 @@ pkgbin_PROGRAMS =	\
+- 	@WITH_AUGEAS_AUGTOOL@ chroot cp @WITH_CUDF_CUDFTOOL@ find mtree \
+- 	@WITH_SEMANAGE_SEMODULE@ wget \
+- 	rpmcache rpmdigest rpmrepo rpmspecdump \
+--	rpmcmp rpmdeps sqlite3 @WITH_KEYUTILS_RPMKEY@ @WITH_LIBELF_DEBUGEDIT@
+-+	rpmcmp rpmdeps rpmdeps-oecore sqlite3 @WITH_KEYUTILS_RPMKEY@ @WITH_LIBELF_DEBUGEDIT@
+- if WITH_DB
+- pkgbin_PROGRAMS +=	dbconvert
+- endif
+-@@ -172,6 +172,10 @@ rpmdeps_SOURCES =	rpmdeps.c
+- rpmdeps_LDFLAGS =	@LDFLAGS_STATIC@ $(LDFLAGS)
+- rpmdeps_LDADD =		$(RPM_LDADD_COMMON)
+- 
+-+rpmdeps_oecore_SOURCES =  rpmdeps-oecore.c
+-+rpmdeps_oecore_LDFLAGS =  @LDFLAGS_STATIC@ $(LDFLAGS)
+-+rpmdeps_oecore_LDADD =    $(RPM_LDADD_COMMON)
+-+
+- rpmdigest_SOURCES =	rpmdigest.c
+- rpmdigest_LDFLAGS =	@LDFLAGS_STATIC@ $(LDFLAGS)
+- rpmdigest_LDADD =	$(RPMIO_LDADD_COMMON)
+-Index: rpm-5.4.14/tools/rpmdeps-oecore.c
+-===================================================================
+---- /dev/null
+-+++ rpm-5.4.14/tools/rpmdeps-oecore.c
+-@@ -0,0 +1,147 @@
+-+#include "system.h"
+-+const char *__progname;
+-+
+-+#include <rpmio.h>
+-+#include <rpmiotypes.h>
+-+#include <rpmcb.h>
+-+#include <argv.h>
+-+#include <rpmtypes.h>
+-+#include <rpmtag.h>
+-+
+-+#include <rpmds.h>
+-+#define   _RPMFC_INTERNAL     /* XXX for debugging */
+-+#include <rpmfc.h>
+-+
+-+#include <rpmcli.h>
+-+
+-+#include "debug.h"
+-+
+-+/*@unchecked@*/
+-+char *progname;
+-+
+-+#define   RPMDEP_RPMFC        1
+-+
+-+static int rpmdepPrint(char *filename, rpmds ds, FILE * fp)
+-+{
+-+    if (fp == NULL) fp = stderr;
+-+
+-+    ds = rpmdsInit(ds);
+-+    while (rpmdsNext(ds) >= 0) {
+-+  fprintf(fp, "%s %s: %s\n", filename, rpmdsType(ds), rpmdsDNEVR(ds)+2);
+-+    }
+-+    return 0;
+-+}
+-+
+-+static struct poptOption optionsTable[] = {
+-+
+-+ { NULL, '\0', POPT_ARG_INCLUDE_TABLE, rpmcliAllPoptTable, 0,
+-+  N_("Common options:"),
+-+  NULL }, 
+-+
+-+   POPT_AUTOALIAS
+-+   POPT_AUTOHELP
+-+   POPT_TABLEEND
+-+};
+-+
+-+
+-+int
+-+main(int argc, char *argv[])
+-+{
+-+    poptContext optCon;
+-+    ARGV_t av = NULL;
+-+    rpmfc fc = NULL;
+-+    FILE * fp = NULL;
+-+    int flags = 0;
+-+    int ac = 0;
+-+    int ec = 1;
+-+    int xx;
+-+    int i;
+-+    char buf[BUFSIZ];
+-+    int nddict;
+-+    const char * s;
+-+    char * se;
+-+    const char * fn;
+-+    const char * N;
+-+    const char * EVR;
+-+    evrFlags Flags;
+-+    unsigned char deptype;
+-+    int ix;
+-+    rpmds ds;
+-+
+-+/*@-modobserver@*/
+-+    if ((progname = strrchr(argv[0], '/')) != NULL)
+-+  progname++;
+-+    else
+-+  progname = argv[0];
+-+/*@=modobserver@*/
+-+
+-+    optCon = rpmcliInit(argc, argv, optionsTable);
+-+    if (optCon == NULL)
+-+  goto exit;
+-+
+-+    av = poptGetArgs(optCon);
+-+    ac = argvCount(av);
+-+
+-+    if (ac == 0) {
+-+  av = NULL;
+-+  xx = argvFgets(&av, NULL);
+-+  ac = argvCount(av);
+-+    }
+-+
+-+    /* Make sure file names are sorted. */
+-+    xx = argvSort(av, NULL);
+-+
+-+    /* Build file class dictionary. */
+-+    fc = rpmfcNew();
+-+    xx = rpmfcClassify(fc, av, NULL);
+-+
+-+    /* Build file/package dependency dictionary. */
+-+    xx = rpmfcApply(fc);
+-+
+-+    /* Generate per-file indices into package dependencies. */
+-+    nddict = argvCount(fc->ddict);
+-+
+-+    for (i = 0; i < nddict; i++) {
+-+  s = fc->ddict[i];
+-+
+-+  /* Parse out (file#,deptype,N,EVR,Flags) */
+-+  ix = strtol(s, &se, 10);
+-+  assert(se != NULL);
+-+  deptype = *se++;
+-+  se++;
+-+  N = se;
+-+  while (*se && *se != ' ')
+-+      se++;
+-+  *se++ = '\0';
+-+  EVR = se;
+-+  while (*se && *se != ' ')
+-+      se++;
+-+  *se++ = '\0';
+-+  Flags = strtol(se, NULL, 16);
+-+
+-+  switch (deptype) {
+-+  default:
+-+      /*@switchbreak@*/ break;
+-+  case 'P':   
+-+      ds = rpmdsSingle(RPMTAG_PROVIDENAME, N, EVR, Flags);
+-+      rpmdepPrint((char *)fc->fn[ix], ds, stdout);
+-+      (void)rpmdsFree(ds);
+-+      ds = NULL;
+-+      /*@switchbreak@*/ break;
+-+  case 'R':
+-+      ds = rpmdsSingle(RPMTAG_REQUIRENAME, N, EVR, Flags);
+-+      rpmdepPrint((char *)fc->fn[ix], ds, stdout);
+-+      (void)rpmdsFree(ds);
+-+      ds = NULL;
+-+      /*@switchbreak@*/ break;
+-+  }
+-+    }
+-+
+-+    fc = rpmfcFree(fc);
+-+
+-+    ec = 0;
+-+
+-+exit:
+-+    optCon = rpmcliFini(optCon);
+-+    return ec;
+-+}
+diff --git a/meta/recipes-devtools/rpm/rpm/rpmqv.c-check-_gpg_passphrase-before-ask-for-input.patch b/meta/recipes-devtools/rpm/rpm/rpmqv.c-check-_gpg_passphrase-before-ask-for-input.patch
+deleted file mode 100644
+index c68681c1ed5..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpmqv.c-check-_gpg_passphrase-before-ask-for-input.patch
++++ /dev/null
+@@ -1,70 +0,0 @@
+-From bb48dbc88a58bc05a43d71a3375fb05358119ec5 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Sun, 20 Mar 2016 20:20:16 -0700
+-Subject: [PATCH] rpmqv.c: check _gpg_passphrase before ask for input
+-
+-rpm always asked for pass phrasae when add signature, which made it
+-can't work non-interactively, this patch fix the problem. It will work
+-non-interactively if _gpg_passphrase is defined, and work as before if
+-not.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+----
+- macros/macros.in |    7 +++++--
+- rpmqv.c          |   17 ++++++++++-------
+- 2 files changed, 15 insertions(+), 9 deletions(-)
+-
+-diff --git a/macros/macros.in b/macros/macros.in
+-index 2e5b07d..01b3aad 100644
+---- a/macros/macros.in
+-+++ b/macros/macros.in
+-@@ -520,15 +520,18 @@ $_arbitrary_tags_tests	Foo:Bar
+- #	Macro(s) to hold the arguments passed to GPG/PGP for package
+- #	signing and verification.
+- #
+-+
+-+%_gpg_passphrase_way %{?_gpg_passphrase:--passphrase "%{_gpg_passphrase}"}%{!?_gpg_passphrase:--passphrase-fd 3}
+-+
+- %__gpg_check_password_cmd	%{__gpg} \
+--	gpg --batch --no-verbose --passphrase-fd 3 -u "%{_gpg_name}" -so -
+-+	gpg --batch --no-verbose %{_gpg_passphrase_way} -u "%{_gpg_name}" -so -
+- #%__pgp_check_password_cmd	%{__pgp} \
+- #	pgp +batchmode=on +verbose=0 "%{_pgp_name}" -sf
+- #%__pgp5_check_password_cmd	%{__pgp} \
+- #	pgps +batchmode=on +verbose=0 +armor=off "%{_pgp_name}" -f
+- 
+- %__gpg_sign_cmd			%{__gpg} \
+--	gpg --batch --no-verbose --no-armor --passphrase-fd 3 --no-secmem-warning \
+-+	gpg --batch --no-verbose --no-armor %{_gpg_passphrase_way}  --no-secmem-warning \
+- 	-u "%{_gpg_name}" -sbo %{__signature_filename} %{__plaintext_filename}
+- #%__pgp_sign_cmd			%{__pgp} \
+- #	pgp +batchmode=on +verbose=0 +armor=off \
+-diff --git a/rpmqv.c b/rpmqv.c
+-index b306486..7604396 100644
+---- a/rpmqv.c
+-+++ b/rpmqv.c
+-@@ -831,13 +831,16 @@ int main(int argc, const char ** argv)
+- #endif
+- 	    )
+- 	    {
+--		passPhrase = Getpass(_("Enter pass phrase: "));
+--		if (rpmCheckPassPhrase(passPhrase)) {
+--		    fprintf(stderr, _("Pass phrase check failed\n"));
+--		    ec = EXIT_FAILURE;
+--		    goto exit;
+-+		passPhrase = rpmExpand("%{?_gpg_passphrase}", NULL);
+-+		if (passPhrase == NULL || passPhrase[0] == '\0') {
+-+			passPhrase = Getpass(_("Enter pass phrase: "));
+-+			if (rpmCheckPassPhrase(passPhrase)) {
+-+			    fprintf(stderr, _("Pass phrase check failed\n"));
+-+			    ec = EXIT_FAILURE;
+-+			    goto exit;
+-+			}
+-+			fprintf(stderr, _("Pass phrase is good.\n"));
+- 		}
+--		fprintf(stderr, _("Pass phrase is good.\n"));
+- 		/* XXX Getpass() should realloc instead. */
+- 		passPhrase = xstrdup(passPhrase);
+- 	    }
+diff --git a/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch b/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch
+deleted file mode 100644
+index b2437a87235..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-From e8bae261615e19ff8a28683765c9539cfb22a086 Mon Sep 17 00:00:00 2001
+-From: Joe Slater <jslater@windriver.com>
+-Date: Thu, 17 Jul 2014 18:14:54 -0700
+-Subject: [PATCH 1/9] rpm: compile rpmqv.c instead of rpmqv.cc
+-
+-Some versions of gcc, 4.4.5 for example, will put a reference to __gxx_personality_v0
+-into rpm.o and rpmbuild.o.  This means we must link with g++, and the Makefile we
+-generate does not.
+-
+-So, go back to using rpmqv.c (which is currently identical to rpmqv.cc).
+-
+-Upstream-Status: Inappropriate [other]
+-
+-   When linking with g++ is really necessary, the upstream package will do that.
+-
+-Also instead of symlinking files in two places, which can and does race in
+-parallel builds, simply refer to the file's full location [RB]
+-
+-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+----
+- Makefile.am | 6 ++----
+- 1 file changed, 2 insertions(+), 4 deletions(-)
+-
+-diff --git a/Makefile.am b/Makefile.am
+-index 1dade0a..55f8669 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -201,15 +201,13 @@ rpm_SOURCES =		build.c
+- rpm_LDFLAGS =		@LDFLAGS_STATIC@ $(LDFLAGS)
+- rpm_LDADD =		rpm.o $(myLDADD)
+- rpm.o:	$(top_srcdir)/rpmqv.c
+--	ln -sf $< rpmqv.cc
+--	$(COMPILE) -DIAM_RPMBT -DIAM_RPMDB -DIAM_RPMEIU -DIAM_RPMK -DIAM_RPMQV -o $@ -c rpmqv.cc
+-+	$(COMPILE) -DIAM_RPMBT -DIAM_RPMDB -DIAM_RPMEIU -DIAM_RPMK -DIAM_RPMQV -o $@ -c $^
+- 
+- rpmbuild_SOURCES =	build.c
+- rpmbuild_LDFLAGS =	@LDFLAGS_STATIC@ $(LDFLAGS)
+- rpmbuild_LDADD =	rpmbuild.o $(myLDADD)
+- rpmbuild.o:	$(top_srcdir)/rpmqv.c
+--	ln -sf $< rpmqv.cc
+--	$(COMPILE) -DIAM_RPMBT -o $@ -c rpmqv.cc
+-+	$(COMPILE) -DIAM_RPMBT -o $@ -c $^
+- 
+- .syntastic_c_config: Makefile
+- 	@echo $(COMPILE) | tr ' ' '\n' | sed -e '1d' > $@
+--- 
+-2.7.0
+-
+diff --git a/meta/recipes-devtools/rpm/rpm/uclibc-support.patch b/meta/recipes-devtools/rpm/rpm/uclibc-support.patch
+deleted file mode 100644
+index dc7b0488a53..00000000000
+--- a/meta/recipes-devtools/rpm/rpm/uclibc-support.patch
++++ /dev/null
+@@ -1,63 +0,0 @@
+-Define the x* wrappers for uclibc as well
+-
+-Upstream-Status: Submitted [RPM5 maintainer]
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Index: rpm/rpmio/rpmio.h
+-===================================================================
+---- rpm.orig/rpmio/rpmio.h
+-+++ rpm/rpmio/rpmio.h
+-@@ -23,7 +23,8 @@
+-  */
+- /*@{*/
+- #if !defined(__LCLINT__) && !defined(__UCLIBC__) && defined(__GLIBC__) && \
+--	(__GLIBC__ > 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 2))
+-+	(__GLIBC__ > 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 2)) && \
+-+	!defined(__UCLIBC__)
+- #define USE_COOKIE_SEEK_POINTER 1
+- typedef _IO_off64_t 	_libio_off_t;
+- typedef _libio_off_t *	_libio_pos_t;
+-Index: rpm/system.h
+-===================================================================
+---- rpm.orig/system.h
+-+++ rpm/system.h
+-@@ -489,7 +489,7 @@ extern void muntrace (void)
+- #endif /* defined(__LCLINT__) */
+- 
+- /* Memory allocation via macro defs to get meaningful locations from mtrace() */
+--#if defined(__GNUC__)
+-+#if defined(__GNUC__) || defined(__UCLIBC__)
+- #define	xmalloc(_size) 		(malloc(_size) ? : vmefail(_size))
+- #define	xcalloc(_nmemb, _size)	(calloc((_nmemb), (_size)) ? : vmefail(_size))
+- #define	xrealloc(_ptr, _size)	(realloc((_ptr), (_size)) ? : vmefail(_size))
+-Index: rpm/lib/librpm.vers
+-===================================================================
+---- rpm.orig/lib/librpm.vers
+-+++ rpm/lib/librpm.vers
+-@@ -406,6 +406,10 @@ LIBRPM_0
+-     specedit;
+-     strict_erasures;
+-     XrpmtsiInit;
+-+    xmalloc;
+-+    xrealloc;
+-+    xcalloc;
+-+    xstrdup;
+-   local:
+-     *;
+- };
+-Index: rpm/rpmio/librpmio.vers
+-===================================================================
+---- rpm.orig/rpmio/librpmio.vers
+-+++ rpm/rpmio/librpmio.vers
+-@@ -1455,6 +1455,10 @@ LIBRPMIO_0
+-     _mongoc_write_result_init;
+-     _mongoc_write_result_merge;
+-     _mongoc_write_result_merge_legacy;
+-+    xmalloc;
+-+    xrealloc;
+-+    xcalloc;
+-+    xstrdup;
+-   local:
+-     *;
+- };
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
+deleted file mode 100644
+index 2d27588550c..00000000000
+--- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
++++ /dev/null
+@@ -1,712 +0,0 @@
+-SUMMARY = "The RPM package management system"
+-DESCRIPTION = "The RPM Package Manager (RPM) is a powerful command line driven \
+-package management system capable of installing, uninstalling, \
+-verifying, querying, and updating software packages. Each software \
+-package consists of an archive of files along with information about \
+-the package like its version, a description, etc."
+-
+-SUMMARY_${PN}-libs = "Libraries for manipulating RPM packages"
+-DESCRIPTION_${PN}-libs = "This package contains the RPM shared libraries."
+-
+-SUMMARY_${PN}-dev = "Development files for manipulating RPM packages"
+-DESCRIPTION_${PN}-dev = "This package contains the RPM C library and header files. These \
+-development files will simplify the process of writing programs that \
+-manipulate RPM packages and databases. These files are intended to \
+-simplify the process of creating graphical package managers or any \
+-other tools that need an intimate knowledge of RPM packages in order \
+-to function."
+-
+-SUMMARY_${PN}-common = "Common RPM paths, scripts, documentation and configuration"
+-DESCRIPTION_${PN}-common = "The rpm-common package contains paths, scripts, documentation \
+-and configuration common between RPM Package Manager."
+-
+-SUMMARY_${PN}-build = "Scripts and executable programs used to build packages"
+-DESCRIPTION_${PN}-build = "The rpm-build packagec ontains the scripts and executable programs \
+-that are used to build packages using the RPM Package Manager."
+-
+-SUMMARY_python-rpm = "Python bindings for apps which will manupulate RPM packages"
+-DESCRIPTION_python-rpm = "The rpm-python package contains a module that permits applications \
+-written in the Python programming language to use the interface \
+-supplied by the RPM Package Manager libraries."
+-
+-SUMMARY_perl-module-rpm = "Perl bindings for apps which will manipulate RPM packages"
+-DESCRIPTION_perl-modules-rpm = "The perl-modules-rpm package contains a module that permits applications \
+-written in the Perl programming language to use the interface \
+-supplied by the RPM Package Manager libraries."
+-
+-HOMEPAGE = "http://rpm5.org/"
+-LICENSE = "LGPLv2.1 & Apache-2.0"
+-LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
+-LIC_FILES_CHKSUM += "file://rpmio/mongo.c;begin=5;end=18;md5=d8327ba2c71664c059143e6d333b8901"
+-
+-# We must have gettext-native, we need gettextize, which may not be provided
+-DEPENDS = "libpcre attr acl ossp-uuid file byacc-native gettext-native"
+-DEPENDS_append_class-native = " file-replacement-native"
+-
+-# rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
+-# in order to extract the distribution SRPM into a format we can extract...
+-
+-# There is no official 5.4.16 release yet, so start w/ 5.4.15 and patch it
+-# based on CVS
+-S = "${WORKDIR}/rpm-5.4.15"
+-
+-SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.15-0.20140824.src.rpm;name=srpm;extract=rpm-5.4.15.tar.gz \
+-	   http://downloads.yoctoproject.org/releases/rpm5/rpm-5.4.15-to-5.4.16-20160225.patch.gz;name=rpm-patch \
+-	   http://downloads.yoctoproject.org/releases/rpm5/syck-5.4.15-to-5.4.16-20160225.patch.gz;name=syck-patch \
+-	   http://downloads.yoctoproject.org/releases/rpm5/beecrypt-5.4.15-to-5.4.16-20160225.patch.gz;name=beecrypt-patch \
+-	   http://downloads.yoctoproject.org/releases/rpm5/lua-5.4.15-to-5.4.16-20160225.patch.gz;name=lua-patch \
+-	   file://perfile_rpmdeps.sh \
+-	   file://pythondeps.sh \
+-"
+-
+-SRC_URI[srpm.md5sum] = "d53782842ac11b3100a43fb2958c9bc0"
+-SRC_URI[srpm.sha256sum] = "d4ae5e9ed5df8ab9931b660f491418d20ab5c4d72eb17ed9055b80b71ef6c4ee"
+-
+-SRC_URI[rpm-patch.md5sum] = "8b7deb1c9574d3d47ed8ba8c690fd8bf"
+-SRC_URI[rpm-patch.sha256sum] = "1c1983d001b04eaa23eb2c8d9598b9d0899acb0a89f54a2d4c4e974086fd17a5"
+-
+-SRC_URI[syck-patch.md5sum] = "f31d7a32105a364688354419ec3559e4"
+-SRC_URI[syck-patch.sha256sum] = "4dd1d04489206d8b5d1970f2a8d143a002f2895cefbe15d73459785096545e8a"
+-
+-SRC_URI[beecrypt-patch.md5sum] = "9e71ee3ccb0a52985a071dd250279132"
+-SRC_URI[beecrypt-patch.sha256sum] ="df7c0708a7fab9bdf6d46194519b42e736f99cb0599dcc1c3c1bf1b228705cde"
+-
+-SRC_URI[lua-patch.md5sum] = "ca10d03d83b1fc1c31a0b50819534cd7"
+-SRC_URI[lua-patch.sha256sum] = "6bde435cc827a7d4b2520e8f3e1c9bd2ca74375de0a4402aa99ef4d48eab9a7e"
+-
+-# Bug fixes
+-SRC_URI += " \
+-	   file://header-include-fix.patch \
+-	   file://rpm-libsql-fix.patch \
+-	   file://rpm-platform.patch \
+-	   file://rpm-platform2.patch \
+-	   file://rpm-tools-mtree-LDFLAGS.patch \
+-	   file://rpm-canonarch.patch \
+-	   file://rpm-no-loopmsg.patch \
+-	   file://rpm-resolvedep.patch \
+-	   file://rpm-packageorigin.patch \
+-	   file://uclibc-support.patch \
+-	   file://rpmatch.patch \
+-	   file://makefile-am-exec-hook.patch \
+-	   file://python-rpm-rpmsense.patch \
+-	   file://debugedit-segv.patch \
+-	   file://debugedit-valid-file-to-fix-segment-fault.patch \
+-	   file://rpm-platform-file-fix.patch \
+-	   file://rpm-lsb-compatibility.patch \
+-	   file://rpm-tag-generate-endian-conversion-fix.patch \
+-	   file://rpm-hardlink-segfault-fix.patch \
+-	   file://rpm-payload-use-hashed-inode.patch \
+-	   file://rpm-fix-logio-cp.patch \
+-	   file://0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch \
+-	   file://rpm-opendb-before-verifyscript-to-avoid-null-point.patch \
+-	   file://0001-define-EM_AARCH64.patch \
+-	   file://rpm-rpmfc.c-fix-for-N32-MIPS64.patch \
+-	   file://rpm-lib-transaction.c-fix-file-conflicts-for-mips64-N32.patch \
+-	   file://rpm-mongodb-sasl.patch \
+-	   file://rpm-fix-parseEmbedded.patch \
+-	   file://rpm-rpmio-headers.patch \
+-	   file://rpm-python-restore-origin.patch \
+-	   file://rpm-keccak-sse-intrin.patch \
+-	   file://rpm-atomic-ops.patch \
+-	   file://rpm-gnu-atomic.patch \
+-	   file://rpm-tagname-type.patch \
+-	   file://rpm-python-tagname.patch \
+-	   file://rpm-python-AddErase.patch \
+-	   file://rpm-rpmpgp-popt.patch \
+-	   file://rpm-fix-lua-tests-compilation-failure.patch \
+-	   file://rpmqv.c-check-_gpg_passphrase-before-ask-for-input.patch \
+-	   file://0001-Disable-__sync_add_and_fetch_8-on-nios2.patch \
+-	   file://gcc6-stdlib.patch \
+-	   file://0001-system.h-query.c-support-nosignature.patch \
+-	   file://rpm-ensure-rpm2cpio-call-rpm-relocation-code.patch \
+-"
+-
+-# OE specific changes
+-SRC_URI += " \
+-	   file://rpm-log-auto-rm.patch \
+-	   file://rpm-db-reduce.patch \
+-	   file://rpm-autogen.patch \
+-	   file://rpm-showrc.patch \
+-	   file://rpm-fileclass.patch \
+-	   file://rpm-scriptletexechelper.patch \
+-	   file://rpmdeps-oecore.patch \
+-	   file://rpm-no-perl-urpm.patch \
+-	   file://rpm-macros.patch \
+-	   file://rpm-lua.patch \
+-	   file://rpm-ossp-uuid.patch \
+-	   file://rpm-uuid-include.patch \
+-	   file://rpm-pkgconfigdeps.patch \
+-	   file://no-ldflags-in-pkgconfig.patch \
+-	   file://dbconvert.patch \
+-	   file://rpm-db_buffer_small.patch \
+-	   file://rpm-py-init.patch \
+-	   file://rpm-reloc-macros.patch \
+-	   file://rpm-db5-or-db6.patch \
+-	   file://rpm-db60.patch \
+-	   file://rpmqv_cc_b_gone.patch \
+-	   file://rpm-realpath.patch \
+-	   file://rpm-check-rootpath-reasonableness.patch \
+-	   file://rpm-macros.in-disable-external-key-server.patch \
+-	   file://configure.ac-check-for-both-gpg2-and-gpg.patch \
+-	   file://rpm-disable-auto-stack-protector.patch \
+-	   file://popt-disable-auto-stack-protector.patch \
+-	   file://rpm-syck-fix-gram.patch \
+-	   file://rpm-rpmdb-grammar.patch \
+-	   file://rpm-disable-blaketest.patch \
+-	   file://rpm-autogen-force.patch \
+-	   file://rpmdb-prevent-race-in-tmpdir-creation.patch \
+-	   file://rpmdb-more-verbose-error-logging-in-rpmTempFile.patch \
+-"
+-
+-SRC_URI_append_libc-musl = "\
+-           file://0001-rpm-Fix-build-on-musl.patch \
+-"
+-# Uncomment the following line to enable platform score debugging
+-# This is useful when identifying issues with Smart being unable
+-# to process certain package feeds.
+-#SRC_URI += "file://rpm-debug-platform.patch"
+-
+-UPSTREAM_CHECK_REGEX = "rpm-(?P<pver>(\d+[\.\-_]*)+)-.*$"
+-
+-inherit autotools gettext pkgconfig python-dir
+-
+-acpaths = "-I ${S}/db/dist/aclocal -I ${S}/db/dist/aclocal_java"
+-
+-# The local distribution macro directory
+-distromacrodir = "${libdir}/rpm/poky"
+-
+-# Specify the default rpm macros in terms of adjustable variables
+-rpm_macros = "%{_usrlibrpm}/macros:%{_usrlibrpm}/${DISTRO}/macros:%{_usrlibrpm}/${DISTRO}/%{_target}/macros:%{_etcrpm}/macros.*:%{_etcrpm}/macros:%{_etcrpm}/%{_target}/macros:~/.oerpmmacros"
+-rpm_macros_class-native = "%{_usrlibrpm}/macros:%{_usrlibrpm}/${DISTRO}/macros:%{_usrlibrpm}/${DISTRO}/%{_target}/macros:~/.oerpmmacros"
+-rpm_macros_class-nativesdk = "%{_usrlibrpm}/macros:%{_usrlibrpm}/${DISTRO}/macros:%{_usrlibrpm}/${DISTRO}/%{_target}/macros:~/.oerpmmacros"
+-
+-# sqlite lua tcl augeas nss gcrypt neon xz xar keyutils perl selinux
+-
+-# Set the digest algorithm used for verifying file integrity
+-# If this value changes, and two different packages have different values
+-# the "same file" validation (two packages have a non-conflict file)
+-# will fail.  This may lead to upgrade problems.  You should treat this
+-# value as a distribution wide setting, and only change it when you intend
+-# a full system upgrade!
+-#
+-# Defined file digest algorithm values (note: not all are available!):
+-#       1       MD5 (legacy RPM default)
+-#       2       SHA1
+-#       3       RIPEMD-160
+-#       5       MD2
+-#       6       TIGER-192
+-#       8       SHA256
+-#       9       SHA384
+-#       10      SHA512
+-#       11      SHA224
+-#       104     MD4
+-#       105     RIPEMD-128
+-#       106     CRC-32
+-#       107     ADLER-32
+-#       108     CRC-64 (ECMA-182 polynomial, untested uint64_t problems)
+-#       109     Jenkins lookup3.c hashlittle()
+-#       111     RIPEMD-256
+-#       112     RIPEMD-320
+-#       188     BLAKE2B
+-#       189     BLAKE2BP
+-#       190     BLAKE2S
+-#       191     BLAKE2SP
+-RPM_FILE_DIGEST_ALGO ?= "1"
+-
+-# All packages build with RPM5 contain a non-repudiable signature.
+-# The purpose of this signature is not to show authenticity of a package,
+-# but instead act as a secondary package wide validation that shows it
+-# wasn't damaged by accident in transport.  (When later you sign the package, 
+-# this signature may or may not be replaced as there are three signature 
+-# slots, one for DSA/RSA, one for ECSDA, and one reserved.)
+-#
+-# There is a known issue w/ RSA signatures that if they start with an 0x00
+-# the signing and validation may fail.
+-#
+-# The following is the list of choices for the non-rpudiable signature
+-# (note: not all of these are implemented):
+-#       DSA             (default)
+-#       RSA             (implies SHA1)
+-#       ECDSA           (implies SHA256)
+-#       DSA/SHA1
+-#       DSA/SHA224
+-#       DSA/SHA256
+-#       DSA/SHA384
+-#       DSA/SHA512
+-#       RSA/SHA1
+-#       RSA/SHA224
+-#       RSA/SHA256
+-#       RSA/SHA384
+-#       RSA/SHA512
+-#       ECDSA/SHA224    (using NIST P-224)
+-#       ECDSA/SHA256    (using NIST P-256)
+-#       ECDSA/SHA384    (using NIST P-384)
+-#       ECDSA/SHA512    (using NIST P-521)
+-RPM_SELF_SIGN_ALGO ?= "DSA"
+-
+-# Note: perl and sqlite w/o db specified does not currently work.
+-#       tcl, augeas, nss, gcrypt, xar and keyutils support is untested.
+-PACKAGECONFIG ??= "db bzip2 zlib popt openssl libelf python"
+-
+-# Note: switching to internal popt may not work, as it will generate
+-# a shared library which will intentionally not be packaged.
+-#
+-# If you intend to use the internal version, additional work may be required.
+-PACKAGECONFIG[popt] = "--with-popt=external,--with-popt=internal,popt,"
+-
+-PACKAGECONFIG[bzip2] = "--with-bzip2,--without-bzip2,bzip2,"
+-PACKAGECONFIG[xz] = "--with-xz,--without-xz,xz,"
+-PACKAGECONFIG[zlib] = "--with-zlib,--without-zlib,zlib,"
+-PACKAGECONFIG[xar] = "--with-xar,--without-xar,xar,"
+-
+-WITH_PYTHON = " --with-python=${PYTHON_BASEVERSION} \
+-		--with-python-inc-dir=${STAGING_INCDIR}/python${PYTHON_BASEVERSION} \
+-		--with-python-lib-dir=${PYTHON_SITEPACKAGES_DIR} \
+-		--without-pythonembed"
+-PACKAGECONFIG[python] = "${WITH_PYTHON},--without-python,python,"
+-
+-# Perl modules are not built, but they could be enabled fairly easily
+-# the perl module creation and installation would need to be patched.
+-# (currently has host perl contamination issues)
+-WITH_PERL = "--with-perl --without-perlembed --without-perl-urpm"
+-WITHOUT_PERL = "--without-perl --without-perl-urpm"
+-PACKAGECONFIG[perl] = "${WITH_PERL},${WITHOUT_PERL},perl,"
+-
+-# The --with-dbsql will only tell RPM to check for support, db
+-# may or may not be built w/ the dbsql support.
+-WITH_DB = "--with-db --with-dbsql --without-db-tools-integrated"
+-PACKAGECONFIG[db] = "${WITH_DB},--without-db,db,"
+-
+-PACKAGECONFIG[sqlite] = "--with-sqlite,--without-sqlite,sqlite3,"
+-
+-# This switch simply disables external beecrypt, RPM5 always uses beecrypt
+-# for base64 processing and various digest algorithms.
+-# Beecrypt is only the preferred crypto engine if it's the only engine enabled.
+-PACKAGECONFIG[beecrypt] = "--with-beecrypt=external,--with-beecrypt=internal,beecrypt,"
+-
+-# --with-usecrypto= setting defined the item as the preferred system
+-# crypto engine, which will take priority over the included beecrypt
+-PACKAGECONFIG[openssl] = "--with-openssl --with-usecrypto=openssl,--without-openssl,openssl,"
+-PACKAGECONFIG[nss] = "--with-nss --with-usecrypto=nss,--without-nss,nss,"
+-PACKAGECONFIG[gcrypt] = "--with-gcrypt --with-usecrypto=gcrypt,--without-gcrypt,gcrypt,"
+-
+-PACKAGECONFIG[keyutils] = "--with-keyutils,--without-keyutils,keyutils,"
+-PACKAGECONFIG[libelf] = "--with-libelf,--without-libelf,elfutils,"
+-
+-WITH_SELINUX = "--with-selinux --with-sepol --with-semanage"
+-WITHOUT_SELINUX = "--without-selinux --without-sepol --without-semanage"
+-PACKAGECONFIG[selinux] = "${WITH_SELINUX},${WITHOUT_SELINUX},libselinux,"
+-
+-WITH_NEON = "--with-neon --with-libproxy --with-expat --without-gssapi"
+-WITHOUT_NEON = "--without-neon --without-libproxy --without-expat --without-gssapi"
+-PACKAGECONFIG[neon] = "${WITH_NEON},${WITHOUT_NEON},neon expat,"
+-
+-PACKAGECONFIG[lua] = "--with-lua,--without-lua,expat,"
+-PACKAGECONFIG[tcl] = "--with-tcl,--without-tcl,tcl,"
+-
+-PACKAGECONFIG[augeas] = "--with-augeas,--without-augeas,augeas,"
+-
+-EXTRA_OECONF += "--verbose \
+-		--sysconfdir=${sysconfdir} \
+-		--with-file \
+-		--with-path-magic=%{_usrlibrpm}/../../share/misc/magic.mgc \
+-		--with-syck=internal \
+-		--without-readline \
+-		--without-libtasn1 \
+-		--without-pakchois \
+-		--without-gnutls \
+-		--with-pcre \
+-		--enable-utf8 \
+-		--with-uuid \
+-		--with-attr \
+-		--with-acl \
+-		--with-pthreads \
+-		--without-cudf \
+-		--without-ficl \
+-		--without-aterm \
+-		--without-nix \
+-		--without-bash \
+-		--without-rc \
+-		--without-js \
+-		--without-gpsee \
+-		--without-ruby \
+-		--without-squirrel \
+-		--without-sasl2 \
+-		--without-tomcrypt \
+-		--with-build-extlibdep \
+-		--with-build-maxextlibdep \
+-		--without-valgrind \
+-		--disable-openmp \
+-		--enable-build-pic \
+-		--enable-build-versionscript \
+-		--enable-build-warnings \
+-		--enable-build-debug \
+-		--enable-maintainer-mode \
+-		--with-path-macros=${rpm_macros} \
+-		--with-path-lib=${libdir}/rpm \
+-		--with-bugreport=http://bugzilla.yoctoproject.org \
+-		--program-prefix= \
+-		YACC=byacc"
+-
+-CFLAGS_append = " -DRPM_VENDOR_WINDRIVER -DRPM_VENDOR_POKY -DRPM_VENDOR_OE -D_GLIBCXX_INCLUDE_NEXT_C_HEADERS"
+-
+-LDFLAGS_append_libc-uclibc = "-lrt -lpthread"
+-
+-PACKAGES = "${PN}-dbg ${PN} ${PN}-doc ${PN}-libs ${PN}-dev ${PN}-staticdev ${PN}-common ${PN}-build python-rpm perl-module-rpm ${PN}-locale"
+-
+-SOLIBS = "5.4.so"
+-
+-# Based on %files section in the rpm.spec
+-
+-FILES_${PN} =  "${bindir}/rpm \
+-		${bindir}/rpmconstant \
+-		${libdir}/rpm/rpm.* \
+-		${libdir}/rpm/tgpg \
+-		${libdir}/rpm/macros \
+-		${libdir}/rpm/rpmpopt \
+-		${libdir}/rpm/rpm2cpio \
+-		${libdir}/rpm/vcheck \
+-		${libdir}/rpm/helpers \
+-		${libdir}/rpm/qf \
+-		${libdir}/rpm/cpuinfo.yaml \
+-		${libdir}/rpm/bin/mtree \
+-		${libdir}/rpm/bin/rpmkey \
+-		${libdir}/rpm/bin/rpmrepo \
+-		${libdir}/rpm/bin/rpmrepo.real \
+-		${libdir}/rpm/bin/rpmspecdump \
+-		${libdir}/rpm/bin/rpmspecdump.real \
+-		${libdir}/rpm/bin/wget \
+-		${localstatedir}/cache \
+-		${localstatedir}/cache/rpm \
+-		${localstatedir}/cache/wdj \
+-		${localstatedir}/lib \
+-		${localstatedir}/lib/rpm \
+-		${localstatedir}/lib/wdj \
+-		${bindir}/rpm.real \
+-		${bindir}/rpmconstant.real \
+-		"
+-
+-FILES_${PN}-common = "${bindir}/rpm2cpio \
+-		${bindir}/rpm2cpio.real \
+-		${bindir}/gendiff \
+-		${sysconfdir}/rpm \
+-		${localstatedir}/spool/repackage \
+-		"
+-
+-FILES_${PN}-libs = "${libdir}/librpm-*.so \
+-		${libdir}/librpmconstant-*.so \
+-		${libdir}/librpmdb-*.so \
+-		${libdir}/librpmio-*.so \
+-		${libdir}/librpmmisc-*.so \
+-		${libdir}/librpmbuild-*.so \
+-		"
+-
+-FILES_${PN}-build = "${prefix}/src/rpm \
+-		${bindir}/rpmbuild \
+-		${bindir}/rpmbuild.real \
+-		${libdir}/rpm/brp-* \
+-		${libdir}/rpm/check-files \
+-		${libdir}/rpm/cross-build \
+-		${libdir}/rpm/find-debuginfo.sh \
+-		${libdir}/rpm/find-lang.sh \
+-		${libdir}/rpm/find-prov.pl \
+-		${libdir}/rpm/find-provides.perl \
+-		${libdir}/rpm/find-req.pl \
+-		${libdir}/rpm/find-requires.perl \
+-		${libdir}/rpm/getpo.sh \
+-		${libdir}/rpm/http.req \
+-		${libdir}/rpm/javadeps.sh \
+-		${libdir}/rpm/mono-find-provides \
+-		${libdir}/rpm/mono-find-requires \
+-		${libdir}/rpm/executabledeps.sh \
+-		${libdir}/rpm/libtooldeps.sh \
+-		${libdir}/rpm/osgideps.pl \
+-		${libdir}/rpm/perldeps.pl \
+-		${libdir}/rpm/perl.prov \
+-		${libdir}/rpm/perl.req \
+-		${libdir}/rpm/php.prov \
+-		${libdir}/rpm/php.req \
+-		${libdir}/rpm/pkgconfigdeps.sh \
+-		${libdir}/rpm/pythondeps.sh \
+-		${libdir}/rpm/bin/debugedit \
+-		${libdir}/rpm/bin/debugedit.real \
+-		${libdir}/rpm/bin/rpmcache \
+-		${libdir}/rpm/bin/rpmcache.real \
+-		${libdir}/rpm/bin/rpmcmp \
+-		${libdir}/rpm/bin/rpmcmp.real \
+-		${libdir}/rpm/bin/rpmdeps \
+-		${libdir}/rpm/bin/rpmdeps.real \
+-		${libdir}/rpm/bin/rpmdeps-oecore \
+-		${libdir}/rpm/bin/rpmdeps-oecore.real \
+-		${libdir}/rpm/bin/rpmdigest \
+-		${libdir}/rpm/bin/rpmdigest.real \
+-		${libdir}/rpm/bin/abi-compliance-checker.pl \
+-		${libdir}/rpm/bin/api-sanity-autotest.pl \
+-		${libdir}/rpm/bin/chroot \
+-		${libdir}/rpm/bin/cp \
+-		${libdir}/rpm/bin/dbsql \
+-		${libdir}/rpm/bin/find \
+-		${libdir}/rpm/bin/install-sh \
+-		${libdir}/rpm/bin/lua \
+-		${libdir}/rpm/bin/luac \
+-		${libdir}/rpm/bin/mkinstalldirs \
+-		${libdir}/rpm/bin/rpmlua \
+-		${libdir}/rpm/bin/rpmluac \
+-		${libdir}/rpm/bin/sqlite3 \
+-		${libdir}/rpm/macros.d/cmake \
+-		${libdir}/rpm/macros.d/java \
+-		${libdir}/rpm/macros.d/libtool \
+-		${libdir}/rpm/macros.d/mandriva \
+-		${libdir}/rpm/macros.d/mono \
+-		${libdir}/rpm/macros.d/perl \
+-		${libdir}/rpm/macros.d/php \
+-		${libdir}/rpm/macros.d/pkgconfig \
+-		${libdir}/rpm/macros.d/python \
+-		${libdir}/rpm/macros.d/ruby \
+-		${libdir}/rpm/macros.d/selinux \
+-		${libdir}/rpm/macros.d/tcl \
+-		${libdir}/rpm/macros.rpmbuild \
+-		${libdir}/rpm/u_pkg.sh \
+-		${libdir}/rpm/vpkg-provides.sh \
+-		${libdir}/rpm/vpkg-provides2.sh \
+-		${libdir}/rpm/perfile_rpmdeps.sh \
+-		${distromacrodir} \
+-		"
+-RDEPENDS_${PN} = "base-files run-postinsts"
+-RDEPENDS_${PN}_class-native = ""
+-RDEPENDS_${PN}_class-nativesdk = ""
+-RDEPENDS_${PN}-build = "file bash perl"
+-
+-RDEPENDS_python-rpm = "${PN} python"
+-
+-FILES_python-rpm = "${PYTHON_SITEPACKAGES_DIR}/rpm"
+-PROVIDES += "python-rpm"
+-
+-FILES_perl-module-rpm = "${libdir}/perl/*/* \
+-		"
+-
+-RDEPENDS_${PN}-dev += "bash"
+-
+-FILES_${PN}-dev = "${includedir}/rpm \
+-		${libdir}/librpm.la \
+-		${libdir}/librpm.so \
+-		${libdir}/librpmconstant.la \
+-		${libdir}/librpmconstant.so \
+-		${libdir}/librpmdb.la \
+-		${libdir}/librpmdb.so \
+-		${libdir}/librpmio.la \
+-		${libdir}/librpmio.so \
+-		${libdir}/librpmmisc.la \
+-		${libdir}/librpmmisc.so \
+-		${libdir}/librpmbuild.la \
+-		${libdir}/librpmbuild.so \
+-		${libdir}/rpm/lib/liblua.la \
+-		${libdir}/pkgconfig/rpm.pc \
+-		${libdir}/rpm/rpmdb_loadcvt \
+-		${libdir}/rpm/include \
+-		"
+-
+-FILES_${PN}-staticdev = " \
+-		${libdir}/librpm.a \
+-		${libdir}/librpmconstant.a \
+-		${libdir}/librpmdb.a \
+-		${libdir}/librpmio.a \
+-		${libdir}/librpmmisc.a \
+-		${libdir}/librpmbuild.a \
+-		${libdir}/rpm/lib/liblua.a \
+-		${PYTHON_SITEPACKAGES_DIR}/rpm/*.a \
+-		"
+-
+-do_configure() {
+-	# Disable tests!
+-	echo "all:" > ${S}/tests/Makefile.am
+-	sed -e 's/@__MKDIR_P@/%{__mkdir} -p/' -i ${S}/macros/macros.in
+-
+-	( cd ${S}; ${S}/autogen.sh )
+-
+-	# NASTY hack to make sure configure files the right pkg-config file...
+-	sed -e 's/pkg-config --exists uuid/pkg-config --exists ossp-uuid/g' \
+-	    -e 's/pkg-config uuid/pkg-config ossp-uuid/g' -i ${S}/configure
+-
+-	( cd ${S}/syck ; set +e ; rm -- -l* ; rm Makefile config.h config.status lib/Makefile libtool stamp-h1 tests/.deps tests/Makefile  ) || :
+-
+-	export varprefix=${localstatedir}
+-	oe_runconf
+-}
+-
+-do_install_append() {
+-	# Configure -distribution wide- package crypto settings
+-	# If these change, effectively all packages have to be upgraded!
+-	sed -i -e 's,%_build_file_digest_algo.*,%_build_sign ${RPM_FILE_DIGEST_ALGO},' ${D}/${libdir}/rpm/macros.rpmbuild
+-	sed -i -e 's,%_build_sign.*,%_build_sign ${RPM_SELF_SIGN_ALGO},' ${D}/${libdir}/rpm/macros.rpmbuild
+-
+-	sed -i -e 's,%__scriptlet_requires,#%%__scriptlet_requires,' ${D}/${libdir}/rpm/macros
+-	sed -i -e 's,%__perl_provides,#%%__perl_provides,' ${D}/${libdir}/rpm/macros ${D}/${libdir}/rpm/macros.d/*
+-	sed -i -e 's,%__perl_requires,#%%__perl_requires,' ${D}/${libdir}/rpm/macros ${D}/${libdir}/rpm/macros.d/*
+-	sed -i -e 's,%_repackage_all_erasures[^_].*,%_repackage_all_erasures 0,' ${D}/${libdir}/rpm/macros
+-	sed -i -e 's,^#%_openall_before_chroot.*,%_openall_before_chroot\t1,' ${D}/${libdir}/rpm/macros
+-
+-	# Enable MIPS64 N32 transactions.  (This is a no-op on non-MIPS targets.)
+-	sed -i -e 's,%_transaction_color[^_].*,%_transaction_color 7,' ${D}/${libdir}/rpm/macros
+-
+-	# Enable Debian style arbitrary tags...
+-	sed -i -e 's,%_arbitrary_tags[^_].*,%_arbitrary_tags %{_arbitrary_tags_debian},' ${D}/${libdir}/rpm/macros
+-
+-	install -m 0755 ${WORKDIR}/pythondeps.sh ${D}/${libdir}/rpm/pythondeps.sh
+-	install -m 0755 ${WORKDIR}/perfile_rpmdeps.sh ${D}/${libdir}/rpm/perfile_rpmdeps.sh
+-
+-	rm -f ${D}/${includedir}/popt.h
+-	rm -f ${D}/${libdir}/libpopt.*
+-	rm -f ${D}/${libdir}/pkgconfig/popt.pc
+-	rm -f ${D}/${datadir}/locale/*/LC_MESSAGES/popt.mo
+-	rm -f ${D}/${mandir}/man3/popt.3
+-
+-	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/*.a
+-	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/*.la
+-	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/rpm/*.a
+-	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/rpm/*.la
+-
+-	rm -f ${D}/${libdir}/rpm/dbconvert.sh
+-	rm -f ${D}/${libdir}/rpm/libsqldb.*
+-
+-	rm -f ${D}/${libdir}/rpm/gstreamer.sh
+-	rm -f ${D}/${libdir}/rpm/gem_helper.rb
+-	rm -f ${D}/${libdir}/rpm/rubygems.rb
+-	rm -f ${D}/${libdir}/rpm/kmod-deps.sh
+-	rm -f ${D}/${libdir}/rpm/pythoneggs.py
+-	rm -f ${D}/${libdir}/rpm/macros.d/kernel
+-	rm -f ${D}/${libdir}/rpm/macros.d/gstreamer
+-	rm -f ${D}/${libdir}/rpm/bin/mgo
+-	rm -f ${D}/${libdir}/rpm/bin/pom2spec
+-
+-	rm -rf ${D}/var/lib/wdj ${D}/var/cache/wdj
+-	rm -f ${D}/${libdir}/rpm/bin/api-sanity-checker.pl
+-}
+-
+-do_install_append_class-target() {
+-	# Create and install distribution specific macros
+-	mkdir -p ${D}/${distromacrodir}
+-	cat << EOF > ${D}/${distromacrodir}/macros
+-%_defaultdocdir		${docdir}
+-
+-%_prefix                ${prefix}
+-%_exec_prefix           ${exec_prefix}
+-%_datarootdir           ${datadir}
+-%_bindir                ${bindir}
+-%_sbindir               ${sbindir}
+-%_libexecdir            %{_libdir}/%{name}
+-%_datadir               ${datadir}
+-%_sysconfdir            ${sysconfdir}
+-%_sharedstatedir        ${sharedstatedir}
+-%_localstatedir         ${localstatedir}
+-%_lib                   lib
+-%_libdir                %{_exec_prefix}/%{_lib}
+-%_includedir            ${includedir}
+-%_oldincludedir         ${oldincludedir}
+-%_infodir               ${infodir}
+-%_mandir                ${mandir}
+-%_localedir             %{_libdir}/locale
+-EOF
+-
+-	# Create and install multilib specific macros
+-	${@multilib_rpmmacros(d)}
+-}
+-
+-do_install_append_class-native () {
+-	sed -i -e 's|^#!.*/usr/bin/python|#! /usr/bin/env nativepython|' ${D}${PYTHON_SITEPACKAGES_DIR}/rpm/transaction.py
+-}
+-
+-do_install_append_class-nativesdk () {
+-	sed -i -e 's|^#!.*/usr/bin/python|#! /usr/bin/env python|' ${D}${PYTHON_SITEPACKAGES_DIR}/rpm/transaction.py
+-}
+-
+-def multilib_rpmmacros(d):
+-    localdata = d.createCopy()
+-    # We need to clear the TOOLCHAIN_OPTIONS (--sysroot)
+-    localdata.delVar('TOOLCHAIN_OPTIONS')
+-
+-    # Set 'localdata' values to be consistent with 'd' values.
+-    distromacrodirVal = d.getVar('distromacrodir')
+-    workdirVal = d.getVar('WORKDIR')
+-    dval = d.getVar('D')
+-
+-    ret = gen_arch_macro(localdata)
+-
+-    variants = d.getVar("MULTILIB_VARIANTS") or ""
+-    for item in variants.split():
+-        # Load overrides from 'd' to avoid having to reset the value...
+-        localdata = d.createCopy()
+-        overrides = d.getVar("OVERRIDES", False) + ":virtclass-multilib-" + item
+-        localdata.setVar("OVERRIDES", overrides)
+-        localdata.setVar("MLPREFIX", item + "-")
+-        bb.data.update_data(localdata)
+-        localdata.setVar('WORKDIR', workdirVal)
+-        localdata.setVar('distromacrodir', distromacrodirVal)
+-        localdata.setVar('D', dval)
+-        ret += gen_arch_macro(localdata)
+-    return ret
+-
+-def gen_arch_macro(d):
+-    # Generate shell script to produce the file as part of do_install
+-    val  = "mkdir -p ${D}/${distromacrodir}/${TARGET_ARCH}-${TARGET_OS}\n"
+-    val += "cat << EOF > ${D}/${distromacrodir}/${TARGET_ARCH}-${TARGET_OS}/macros\n"
+-    val += "%_lib               ${baselib}\n"
+-    val += "%_libdir            ${libdir}\n"
+-    val += "%_localedir         ${localedir}\n"
+-    val += "\n"
+-    val += "# Toolchain configuration\n"
+-    val += "%TOOLCHAIN_OPTIONS  %{nil}\n"
+-    val += "%__ar               ${@d.getVar('AR').replace('$','%')}\n"
+-    val += "%__as               ${@d.getVar('AS').replace('$','%')}\n"
+-    val += "%__cc               ${@d.getVar('CC').replace('$','%')}\n"
+-    val += "%__cpp              ${@d.getVar('CPP').replace('$','%')}\n"
+-    val += "%__cxx              ${@d.getVar('CXX').replace('$','%')}\n"
+-    val += "%__ld               ${@d.getVar('LD').replace('$','%')}\n"
+-    val += "%__nm               ${@d.getVar('NM').replace('$','%')}\n"
+-    val += "%__objcopy          ${@d.getVar('OBJCOPY').replace('$','%')}\n"
+-    val += "%__objdump          ${@d.getVar('OBJDUMP').replace('$','%')}\n"
+-    val += "%__ranlib           ${@d.getVar('RANLIB').replace('$','%')}\n"
+-    val += "%__strip            ${@d.getVar('STRIP').replace('$','%')}\n"
+-    val += "EOF\n"
+-    val += "\n"
+-    return d.expand(val)
+-
+-
+-add_native_wrapper() {
+-        create_wrapper ${D}/${bindir}/rpm \
+-		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir'), d.getVar('bindir'))}/rpm \
+-		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir'), d.getVar('bindir'))}/rpm} \
+-		RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir'), d.getVar('bindir'))}/locale
+-
+-        create_wrapper ${D}/${bindir}/rpm2cpio \
+-		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir'), d.getVar('bindir'))}/rpm \
+-		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir'), d.getVar('bindir'))}/rpm} \
+-		RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir'), d.getVar('bindir'))}/locale
+-
+-        create_wrapper ${D}/${bindir}/rpmbuild \
+-		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir'), d.getVar('bindir'))}/rpm \
+-		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir'), d.getVar('bindir'))}/rpm} \
+-		RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir'), d.getVar('bindir'))}/locale
+-
+-        create_wrapper ${D}/${bindir}/rpmconstant \
+-		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir'), d.getVar('bindir'))}/rpm \
+-		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir'), d.getVar('bindir'))}/rpm} \
+-		RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir'), d.getVar('bindir'))}/locale
+-
+-	for rpm_binary in ${D}/${libdir}/rpm/bin/rpm* ${D}/${libdir}/rpm/bin/debugedit; do
+-        	create_wrapper $rpm_binary \
+-			RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir'), d.getVar('bindir'))}/rpm \
+-			RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir'), d.getVar('bindir'))}/rpm} \
+-			RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir'), d.getVar('bindir'))}/locale
+-	done
+-}
+-
+-do_install_append_class-native() {
+-	add_native_wrapper
+-}
+-
+-do_install_append_class-nativesdk() {
+-	add_native_wrapper
+-}
+-
+-BBCLASSEXTEND = "native nativesdk"
 -- 
 2.11.0
 
