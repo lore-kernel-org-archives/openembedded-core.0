@@ -1,47 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f177.google.com (mail-wr0-f177.google.com
-	[209.85.128.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 2303B71DD9
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E6A66AC37
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 14:23:40 +0000 (UTC)
-Received: by mail-wr0-f177.google.com with SMTP id 89so151508349wrr.2
+	Mon, 13 Feb 2017 14:24:30 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
+	via TCP (outbound) with ESMTPS id 20170213142430137_0484
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 06:23:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=vxWx5U1Ysj+SBnXWAmUW22NHS21w3suWMdCHtpTsg0I=;
-	b=cSMfclvAG/7Dszh+z0BGnEIwKOwySmiRh8GloGAVOOmloSsXmBVWjHKCqI6Axn9Hpq
-	p8sJ66Z64wVTh7U68+UislIYZUngmkxOL9RE8F6JS7VL+50N7j9mNWcCJoyMCIHiI/na
-	iuzYldo6wC7cFallYoPDMAsISP5LY8y9ayYR9vmxY4OcBms+wDcDOhc9oIiX60fWQtiH
-	rhoIRLwXTNWvd63zER3C+2dnJIObMzB9i4UEAElTU6m/mSTfFJwTPypAaJjLMOG8jvAJ
-	M7NB16c3uPwaI96cKVmsGAPRFs2K6MeMko/RoRrjI8cRJc2RWu4VGH2MiLOPLWZeF2qh
-	E04A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=vxWx5U1Ysj+SBnXWAmUW22NHS21w3suWMdCHtpTsg0I=;
-	b=kXR6u0IazFUtCmP7ywv6VDIEkGojTVmd3W830fmk+jjzNVM0zNGTJ70+CiTd5zBK2/
-	7rsHNX5G81FAG0Of8hTROfXe3g90oYFz/7r2QNKoTGXNPWMfK1zyDy16O24sIpAP0/X3
-	M/HMF/GnhOWXVuLneipa+1uM8jM37NFJxnaF19b92QeMseZTvs9i48RSWfuJHbC+hQg2
-	bB27O6Ba6ploWJI5dOxQiSuSWco3NFFeLat+mNLKUxyF4Kp/9fPCyFGI8+A/liee0q4r
-	KUrpWxU22AjK/FIe268r+JgrrmK2WUKXiaZ6S0RRifihpTTbHGo3oGgo0YZiATRnvEcS
-	XdTg==
-X-Gm-Message-State: AMke39mA2d5VDjWTw6hQD+2dYpa+msQnrGCig52xuEKkQxdRaHxMutWN/FyzAe/eJJc05VGc
-X-Received: by 10.223.135.163 with SMTP id b32mr20260295wrb.184.1486995820589; 
-	Mon, 13 Feb 2017 06:23:40 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	h3sm14147741wrb.31.2017.02.13.06.23.39
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 13 Feb 2017 06:23:39 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Feb 2017 14:23:37 +0000
-Message-Id: <1486995817-32591-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] security_flags: disable -pie for gpgme
+	Mon, 13 Feb 2017 14:24:30 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [216.191.234.70] (port=33776 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1cdHYG-0003xm-5v for openembedded-core@lists.openembedded.org;
+	Mon, 13 Feb 2017 09:24:24 -0500
+Date: Mon, 13 Feb 2017 09:24:21 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@uk63952.mitel.com
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1702130912310.15189@uk63952.mitel.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: couple more questions about git-based recipe files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,31 +36,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Feb 2017 14:23:42 -0000
+X-List-Received-Date: Mon, 13 Feb 2017 14:24:31 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-Otherwise this fails to build the libraries:
 
-relocation R_X86_64_PC32 against undefined hidden symbol `__init_array_start'
-can not be used when making a shared object
+  first, is there any value (or even any example) where one would want
+to have multiple git-based recipe files for the same recipe? i'm
+unaware of such a thing, and not even sure what naming convention you
+would use to support multiple git recipes for the same recipe so that
+the filenames wouldn't clash.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/conf/distro/include/security_flags.inc | 1 +
- 1 file changed, 1 insertion(+)
+  and, second, i just ran across this recipe file in OE:
 
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index 28e11bd..77416bc 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -45,6 +45,7 @@ SECURITY_CFLAGS_pn-gcc-sanitizers = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gdb = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gmp = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gnutls = "${SECURITY_NO_PIE_CFLAGS}"
-+SECURITY_CFLAGS_pn-gpgme = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-grub = ""
- SECURITY_CFLAGS_pn-grub-efi = ""
- SECURITY_CFLAGS_pn-grub-efi-native = ""
+  build-compare_git.bb:
+
+	SRCREV = "c5352c054c6ef15735da31b76d6d88620f4aff0a"
+	PV = "git+${SRCPV}"
+
+that setting for PV doesn't look right. or does it?
+
+rday
+
 -- 
-2.8.1
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
