@@ -1,47 +1,61 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f173.google.com (mail-qt0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 0845F71DCE
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
+	[209.85.214.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CF0171DCE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 12:36:45 +0000 (UTC)
-Received: by mail-qt0-f173.google.com with SMTP id x49so81750672qtc.2
+	Mon, 13 Feb 2017 12:43:57 +0000 (UTC)
+Received: by mail-it0-f47.google.com with SMTP id c7so184334547itd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 04:36:46 -0800 (PST)
+	Mon, 13 Feb 2017 04:43:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=FCGcfvkUp9+jbNe7tUBH5aAv2tWVwmzinItMVITt7z0=;
-	b=oZMUxH+bJ/gESf3EvGwUkCVYT+Xcbe2MLYgM293v0x5nMgQE/8bxg89K++8HmavqSU
-	5jt+hrA4jAphC3Cq0GqvkIrqPql6YoAWHa8iQIJ2HrK3EOaJgxfPbvLSJj/jGmZNRjL6
-	G912BqKEComzL19shRTBswLHVnLxvDssWjTRsmFyya0FEj8A3EXcyEudWpBPOEujQ/jm
-	HeHwRZul/37HlsFmOR+qtmAoU/4y+gdumreRjyuFnnvHq0DFhyXkcbvpmZ4Pz6pxoaJk
-	AG6iebO9Raf7xjdjbuRW+iJKf3WQRAi4mgp0RSJ4swHyxCZE/JKN8wB45S2ZWVHnitB/
-	95iA==
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=8IcS0r5qKnGnTDizw9atdApid2JgIDQQx5dzut0f5Ks=;
+	b=ojrz55pngPQTRC14U378ZCsWq/VaD6Bbv2cRBCpdSrdL48sMNmnxsPvdr9/UCbbQoi
+	9uOIgqSMvhRwLLTlROPe+P38T9HWONBbUWxij39qDJkLlsUbtnqjnehFw6jCLUk7x+mL
+	nTTkN6E+Uv87nNlHYaei1RU66UH0d1vqGVd9EcK469N/BavnJ+gYxeFPiaYC5vjMAPWs
+	h3+B8Iz+iltcelwyZDaPSiytnQJ0I53HULv7lPFk6Tq6VTbvY+BlS5f1I88a1TKLC5Yl
+	zqETb5G4HEnWE996/qrsrWS4diVppfcxbpE/ttSdHE7pqTfvJeHAe6HOub2+L60H+61y
+	MSug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=FCGcfvkUp9+jbNe7tUBH5aAv2tWVwmzinItMVITt7z0=;
-	b=M+8Ylf9Cgj7wc9aMpM8qgsMn+d9BVzb9PFCg3MeRQQQpcumd5i/fkzlk1PBpQ2IWHc
-	JH+nNq1Ft0pNp2hIZQhRV8SOhFlzXKMZfbjNG+HAukaGgthYG7oMplL7ElrF74EAzvrA
-	vEHzIkaXMXbSERgpxzrGTZiVUH7eAPSoZA4P/DcUjOLomog/NDBJyqxk4hz62wCu4gVO
-	LVDMvXjDIhCFIU1MjSb320xVNy2BMOHXn2iZFFOgn1nG92RA/Df8HwAd8QLybn1COZLt
-	SwSp2V60VGU6QKuXjC37c8Fbt03/s+X4hptRfQQ5YAGNPox+IJFBQBp727OqjG2RaSmI
-	Sv3w==
-X-Gm-Message-State: AMke39lHlxMwD+3oxUWdsf+78wyU8dJ7+bBjfNw3M1pUKskjBqAjVkEXCnJbZBfc4lJ6+hwg9bANXjUqt3d6LaeW
-X-Received: by 10.200.45.247 with SMTP id q52mr22485867qta.197.1486989405759; 
-	Mon, 13 Feb 2017 04:36:45 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Mon, 13 Feb 2017 04:36:25 -0800 (PST)
-In-Reply-To: <20170210082811.GA3021@jama>
-References: <20170210082811.GA3021@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 13 Feb 2017 12:36:25 +0000
-Message-ID: <CAJTo0LYpGLN9M3CkUKcaySEkinDSqw2=aCuJcA5+-gonqgTNHA@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: State of bitbake world, Failed tasks 2017-02-08
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=8IcS0r5qKnGnTDizw9atdApid2JgIDQQx5dzut0f5Ks=;
+	b=niBKLevCQ1n+lHhWr9qOBhiZiCnbrCmECvOrG6IDmqCNCnb8CS55FCXakrAjf6Y7IJ
+	QGXnmIUKItY5QVucHY25Qv0l07hK5pz04H4reIzTsjw9XRIgkCBHkRUn1yRIcVd6NyhD
+	/iBJscUm5eC3/YgNJGr7HNCmN5l9hnyI0gfsvFZi11NagKFU9ngKU1HSglY7VenzkJZF
+	J20c0D70U5RhknrTypHtfziGDhGVCaLNYg0HIIQ/kgPhYpUsmqNgRn+zaP1Kzt8rs2cE
+	h27lAREdHnKqsx2merhazhHcBPMU4GP64ej1oQfhoYOoAHhgqVGiIqZsccvuDVrE8FPx
+	PgDg==
+X-Gm-Message-State: AMke39koCnE7F7Q7n6YCF1ywxfa8IRCRGC37n6HcDuT5ihbz8UvpBPwsDA0RR16sTqdZ4qTO
+X-Received: by 10.36.34.79 with SMTP id o76mr19913357ito.116.1486989837615;
+	Mon, 13 Feb 2017 04:43:57 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8DB6A.dip0.t-ipconnect.de. [93.232.219.106])
+	by smtp.gmail.com with ESMTPSA id
+	g78sm4987895ioi.41.2017.02.13.04.43.55
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 13 Feb 2017 04:43:56 -0800 (PST)
+Message-ID: <1486989834.13854.233.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Mike Crowe <mac@mcrowe.com>
+Date: Mon, 13 Feb 2017 13:43:54 +0100
+In-Reply-To: <20170213121905.GA887@mcrowe.com>
+References: <cover.d193014fd573473058a6d28217d27ca47bc60792.1484318722.git-series.patrick.ohly@intel.com>
+	<ab94bd9c9f3c7170e2a0e40afaec42d5ec9397fd.1484318722.git-series.patrick.ohly@intel.com>
+	<20170208115042.GA21576@mcrowe.com>
+	<1486559082.13854.12.camel@intel.com>
+	<20170208134810.GA29105@mcrowe.com>
+	<1486657479.13854.85.camel@intel.com>
+	<20170210183213.GA10017@mcrowe.com>
+	<1486983272.13854.223.camel@intel.com>
+	<20170213121905.GA887@mcrowe.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 3/3] rm_work.bbclass: clean up sooner
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,36 +68,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Feb 2017 12:36:46 -0000
-Content-Type: multipart/alternative; boundary=001a1139cdf050cf3d054868b39f
+X-List-Received-Date: Mon, 13 Feb 2017 12:43:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a1139cdf050cf3d054868b39f
-Content-Type: text/plain; charset=UTF-8
+On Mon, 2017-02-13 at 12:19 +0000, Mike Crowe wrote:
+> On Monday 13 February 2017 at 11:54:32 +0100, Patrick Ohly wrote:
+> > To me it seems like the right solution. Inheriting
+> > release-source.bbclass could be limited to builds which produce
+> > releases, for example in your CI setup, then normal developers will not
+> > be affected.
+> 
+> At the moment it is straightforward to build the source release with a
+> simple bitbake invocation.
+> 
+> Your solution would work, but it would be necessary to meddle with
+> local.conf or similar in order to generate the source release.
 
-On 10 February 2017 at 08:28, Martin Jansa <martin.jansa@gmail.com> wrote:
+There is conf/auto.conf for that. local.conf can stay unmodified.
 
->     * openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.29.bb:
-> do_compile
->
+Alternatively, you could also introduce an environment variable which
+controls whether release-source.bbclass gets inherited. Add that
+variable to the BB_ENV_EXTRAWHITE in your local.conf.sample and builds
+with or without the class could be as simple as:
+RELEASE_SOURCE=1 bitbake ...
 
-This is due to ld-is-gold, there's a patch from Jussi on the list (and in
-mut).
+> Is there any way we can get our tasks in as predecessors of rm_work only if
+> they would have run anyway? Rather like the way make(1) supports order-only
+> prerequisites[1]?
 
-Ross
+No, I don't think there is such a dependency in bitbake, and I'm not
+convinced that the usecase justifies the extra complexity.
 
---001a1139cdf050cf3d054868b39f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+It might "feel" natural to use the "addtask before" as such a weaker
+ordering relationship and the "addtask after" as the stronger "must run
+dependency" relationship, but that's just not the current semantic and
+changing it probably would break too much.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 February 2017 at 08:28, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3l7" clas=
-s=3D"a3s aXjCH m15a2724503a81b17">=C2=A0 =C2=A0 * openembedded-core/meta/<w=
-br>recipes-support/libxslt/<wbr>libxslt_1.1.29.bb:do_compile<br></div></blo=
-ckquote></div><br>This is due to ld-is-gold, there&#39;s a patch from Jussi=
- on the list (and in mut).</div><div class=3D"gmail_extra"><br></div><div c=
-lass=3D"gmail_extra">Ross</div></div>
+-- 
+Best Regards, Patrick Ohly
 
---001a1139cdf050cf3d054868b39f--
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
+
+
