@@ -1,48 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ot0-f195.google.com (mail-ot0-f195.google.com
-	[74.125.82.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 46C66731CA
+Received: from mail-ot0-f194.google.com (mail-ot0-f194.google.com
+	[74.125.82.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 334D37722B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 18:00:24 +0000 (UTC)
-Received: by mail-ot0-f195.google.com with SMTP id 65so12706725otq.2
+	Mon, 13 Feb 2017 18:00:25 +0000 (UTC)
+Received: by mail-ot0-f194.google.com with SMTP id f9so12722355otd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 10:00:25 -0800 (PST)
+	Mon, 13 Feb 2017 10:00:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ifg/a1M7VSHIhX7+pgAUIR/7EzZ50RsAX56ImEHn014=;
-	b=aDX+qrIo3Oy3T4/BUvw6npIx/mj7we/aVQ5Q+FiAeehT8unLx55nYhypr8GMBfisBC
-	ZLsNMLk8ngbpQLFt1t9hbIEuPxcMSPPcmGUjhbmdqSIkqSo+mQxWvXQumIMKS1z2eBoK
-	Dd9Ebsh+RowSRo5YmhOvZRK66X6PMjoKhHPnsfwdWNcXE+e5ZN7sxTMA13BN7Tw8Ur2E
-	GJQmvJq+rDa7GCRGozYZEs60fAk7pBypxO/9N9//EbniEzU8wqTzcRLblqDWBxkpw0HY
-	hh0mVryx2DoB7hck4qzRMkGISbTer0tMYA1eXEewSLJNsQG7ksg8/k0JL1BxAidwsxhz
-	15hQ==
+	bh=m0RvyGWPHvwJM/Ftlkj5ML6jvxrIddvuUuUaoF2cEvQ=;
+	b=VESRWIvsszSsN6wkhP6hnqoAEheS0CpCNkynvUZ9ZsP+Z0I2sTN/wl7DfuSGKv3tdp
+	UcytoIZCjIAZPPTua+GisD/003wc8WHHfoodrQsDToXgU9Xe7ffijnfVIMpFstZQ1BcR
+	ZcuxM+ytJBuc2sSBym/w2qs3KQSwuS+zx8C3ArjA8J1g/lMecGDlJAM35hivYwkgyJDj
+	lQQPvuy66UWc++QIy+JS76Wpu3H3CbcLjKvGYxpquJ4jA17JWzpreWiz6A9iCrd2cCmn
+	BkF2+AjtgImRszqMb+r1cwk2woS5uh/ZXx6EQe1gT3J8ZszUjB8SSEgfEyUGWWY05gUN
+	Miaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=ifg/a1M7VSHIhX7+pgAUIR/7EzZ50RsAX56ImEHn014=;
-	b=tyEgnCU0kYBihi5W9MqPLExSmTdiflv8T0U0syYXUnKfgMSHdycQhxYzQACsrdi5/s
-	1smwGEz1ITx6NKd4adrxzXX3+irCuSSljzwdYJlBFv7eJ6vTPD2QbY6CvtYNvJVAbTWP
-	G8MOCMuthyIvv/X6sLuqnXuAPcyLnpv7Ky/UCoBH5n0lJVupWEZO2e5capj/hDfn483E
-	ns9ReT/sgr7Dq0INfrSsyK9DKIsY4suSCSC4G4FZ2V3yM8yI2QiNWCMRSDoE+rVVDoEN
-	4ov+CH2R4mGBwbuNwt/zzvDprlX7oWBEjJvz5QLZocEdQQVfEpRDxYNDhGo6pE6P/OZy
-	oTFQ==
-X-Gm-Message-State: AMke39nZrFDVu3wf+Eljgl5vMatp3bX46QzVq+9xNVi61kkama97/rGpQmuXNPBTbFpUYw==
-X-Received: by 10.99.55.26 with SMTP id e26mr28271835pga.15.1487008824925;
-	Mon, 13 Feb 2017 10:00:24 -0800 (PST)
+	bh=m0RvyGWPHvwJM/Ftlkj5ML6jvxrIddvuUuUaoF2cEvQ=;
+	b=FnLMK/Dx0MxhNYrS2FJB44Rvy4Kzh0JyzHS3efI3wMVT8gm7RbEx4yN1btDlZ7tDdR
+	9qN26/UHGH5QAGSnqgMwEvpzHNTtjf2/QaRudxzm+HaxNp5YZMzH6o4yoLi3FN4XzLvC
+	Q6z98Nznkjt2AHOtXSRe4ecBqqJWGPDi4lTU+hcAaWx/pPR9g91dHqQ9bvoyP7AK0ZQc
+	BktCqV3RkzF8KMjIUiZ2LxZh37WECtj7gLPSRZZfXrqGa3kgA22QCadgukY+fApLBQVo
+	vARogp1CddbcCqIvGy06fjLYyv3cQulE8KowxFsT653b2WulQCyfoNNRZphDplpKJ+o/
+	FdCA==
+X-Gm-Message-State: AMke39nug5nykzth9srQdUD9Yd5TlAssDs3yKD/qFL+mLDF+2jN3i/BdnOb2dISDnHhj0w==
+X-Received: by 10.98.66.82 with SMTP id p79mr27372345pfa.10.1487008825912;
+	Mon, 13 Feb 2017 10:00:25 -0800 (PST)
 Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
 	s21sm15995127pgg.65.2017.02.13.10.00.24
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 13 Feb 2017 10:00:24 -0800 (PST)
+	Mon, 13 Feb 2017 10:00:25 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Feb 2017 10:00:11 -0800
-Message-Id: <20170213180012.14077-2-raj.khem@gmail.com>
+Date: Mon, 13 Feb 2017 10:00:12 -0800
+Message-Id: <20170213180012.14077-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.11.1
 In-Reply-To: <20170213180012.14077-1-raj.khem@gmail.com>
 References: <20170213180012.14077-1-raj.khem@gmail.com>
-Subject: [PATCH 2/3] gdb: Upgrade to 7.12.1
+Subject: [PATCH 3/3] gmp: Update to 6.1.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,103 +55,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Feb 2017 18:00:25 -0000
-
-Drop already applied patches
+X-List-Received-Date: Mon, 13 Feb 2017 18:00:26 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../gdb/{gdb-7.12.inc => gdb-7.12.1.inc}           |  5 +--
- ...nadian_7.12.bb => gdb-cross-canadian_7.12.1.bb} |  0
- .../gdb/{gdb-cross_7.12.bb => gdb-cross_7.12.1.bb} |  0
- .../cb93dc7f262978bafe36397a41a56e409a302042.patch | 43 ----------------------
- .../gdb/{gdb_7.12.bb => gdb_7.12.1.bb}             |  0
- 5 files changed, 2 insertions(+), 46 deletions(-)
- rename meta/recipes-devtools/gdb/{gdb-7.12.inc => gdb-7.12.1.inc} (83%)
- rename meta/recipes-devtools/gdb/{gdb-cross-canadian_7.12.bb => gdb-cross-canadian_7.12.1.bb} (100%)
- rename meta/recipes-devtools/gdb/{gdb-cross_7.12.bb => gdb-cross_7.12.1.bb} (100%)
- delete mode 100644 meta/recipes-devtools/gdb/gdb/cb93dc7f262978bafe36397a41a56e409a302042.patch
- rename meta/recipes-devtools/gdb/{gdb_7.12.bb => gdb_7.12.1.bb} (100%)
+ .../0001-Append-the-user-provided-flags-to-the-auto-detected-.patch  | 0
+ .../0001-confiure.ac-Believe-the-cflags-from-environment.patch       | 0
+ meta/recipes-support/gmp/{gmp-6.1.1 => gmp-6.1.2}/amd64.patch        | 0
+ .../gmp/{gmp-6.1.1 => gmp-6.1.2}/use-includedir.patch                | 0
+ meta/recipes-support/gmp/{gmp_6.1.1.bb => gmp_6.1.2.bb}              | 5 ++---
+ 5 files changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/gmp/{gmp-6.1.1 => gmp-6.1.2}/0001-Append-the-user-provided-flags-to-the-auto-detected-.patch (100%)
+ rename meta/recipes-support/gmp/{gmp-6.1.1 => gmp-6.1.2}/0001-confiure.ac-Believe-the-cflags-from-environment.patch (100%)
+ rename meta/recipes-support/gmp/{gmp-6.1.1 => gmp-6.1.2}/amd64.patch (100%)
+ rename meta/recipes-support/gmp/{gmp-6.1.1 => gmp-6.1.2}/use-includedir.patch (100%)
+ rename meta/recipes-support/gmp/{gmp_6.1.1.bb => gmp_6.1.2.bb} (88%)
 
-diff --git a/meta/recipes-devtools/gdb/gdb-7.12.inc b/meta/recipes-devtools/gdb/gdb-7.12.1.inc
-similarity index 83%
-rename from meta/recipes-devtools/gdb/gdb-7.12.inc
-rename to meta/recipes-devtools/gdb/gdb-7.12.1.inc
-index 7eea65f4fa..b15a2b5832 100644
---- a/meta/recipes-devtools/gdb/gdb-7.12.inc
-+++ b/meta/recipes-devtools/gdb/gdb-7.12.1.inc
-@@ -15,8 +15,7 @@ SRC_URI = "http://ftp.gnu.org/gnu/gdb/gdb-${PV}.tar.xz \
-            file://0008-Use-exorted-definitions-of-SIGRTMIN.patch \
-            file://0009-Change-order-of-CFLAGS.patch \
-            file://0010-resolve-restrict-keyword-conflict.patch \
--	   file://cb93dc7f262978bafe36397a41a56e409a302042.patch \
- "
--SRC_URI[md5sum] = "a0a3a00f7499b0c5278ba8676745d180"
--SRC_URI[sha256sum] = "834ff3c5948b30718343ea57b11cbc3235d7995c6a4f3a5cecec8c8114164f94"
-+SRC_URI[md5sum] = "193453347ddced7acb6b1cd2ee8f2e4b"
-+SRC_URI[sha256sum] = "4607680b973d3ec92c30ad029f1b7dbde3876869e6b3a117d8a7e90081113186"
+diff --git a/meta/recipes-support/gmp/gmp-6.1.1/0001-Append-the-user-provided-flags-to-the-auto-detected-.patch b/meta/recipes-support/gmp/gmp-6.1.2/0001-Append-the-user-provided-flags-to-the-auto-detected-.patch
+similarity index 100%
+rename from meta/recipes-support/gmp/gmp-6.1.1/0001-Append-the-user-provided-flags-to-the-auto-detected-.patch
+rename to meta/recipes-support/gmp/gmp-6.1.2/0001-Append-the-user-provided-flags-to-the-auto-detected-.patch
+diff --git a/meta/recipes-support/gmp/gmp-6.1.1/0001-confiure.ac-Believe-the-cflags-from-environment.patch b/meta/recipes-support/gmp/gmp-6.1.2/0001-confiure.ac-Believe-the-cflags-from-environment.patch
+similarity index 100%
+rename from meta/recipes-support/gmp/gmp-6.1.1/0001-confiure.ac-Believe-the-cflags-from-environment.patch
+rename to meta/recipes-support/gmp/gmp-6.1.2/0001-confiure.ac-Believe-the-cflags-from-environment.patch
+diff --git a/meta/recipes-support/gmp/gmp-6.1.1/amd64.patch b/meta/recipes-support/gmp/gmp-6.1.2/amd64.patch
+similarity index 100%
+rename from meta/recipes-support/gmp/gmp-6.1.1/amd64.patch
+rename to meta/recipes-support/gmp/gmp-6.1.2/amd64.patch
+diff --git a/meta/recipes-support/gmp/gmp-6.1.1/use-includedir.patch b/meta/recipes-support/gmp/gmp-6.1.2/use-includedir.patch
+similarity index 100%
+rename from meta/recipes-support/gmp/gmp-6.1.1/use-includedir.patch
+rename to meta/recipes-support/gmp/gmp-6.1.2/use-includedir.patch
+diff --git a/meta/recipes-support/gmp/gmp_6.1.1.bb b/meta/recipes-support/gmp/gmp_6.1.2.bb
+similarity index 88%
+rename from meta/recipes-support/gmp/gmp_6.1.1.bb
+rename to meta/recipes-support/gmp/gmp_6.1.2.bb
+index 614d21ab7d..5e65075585 100644
+--- a/meta/recipes-support/gmp/gmp_6.1.1.bb
++++ b/meta/recipes-support/gmp/gmp_6.1.2.bb
+@@ -14,9 +14,8 @@ SRC_URI = "https://gmplib.org/download/${BPN}/${BP}${REVISION}.tar.bz2 \
+            file://0001-Append-the-user-provided-flags-to-the-auto-detected-.patch \
+            file://0001-confiure.ac-Believe-the-cflags-from-environment.patch \
+            "
+-
+-SRC_URI[md5sum] = "4c175f86e11eb32d8bf9872ca3a8e11d"
+-SRC_URI[sha256sum] = "a8109865f2893f1373b0a8ed5ff7429de8db696fc451b1036bd7bdf95bbeffd6"
++SRC_URI[md5sum] = "8ddbb26dc3bd4e2302984debba1406a5"
++SRC_URI[sha256sum] = "5275bb04f4863a13516b2f39392ac5e272f5e1bb8057b18aec1c9b79d73d8fb2"
  
-diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_7.12.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_7.12.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/gdb/gdb-cross-canadian_7.12.bb
-rename to meta/recipes-devtools/gdb/gdb-cross-canadian_7.12.1.bb
-diff --git a/meta/recipes-devtools/gdb/gdb-cross_7.12.bb b/meta/recipes-devtools/gdb/gdb-cross_7.12.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/gdb/gdb-cross_7.12.bb
-rename to meta/recipes-devtools/gdb/gdb-cross_7.12.1.bb
-diff --git a/meta/recipes-devtools/gdb/gdb/cb93dc7f262978bafe36397a41a56e409a302042.patch b/meta/recipes-devtools/gdb/gdb/cb93dc7f262978bafe36397a41a56e409a302042.patch
-deleted file mode 100644
-index 3a42f0a770..0000000000
---- a/meta/recipes-devtools/gdb/gdb/cb93dc7f262978bafe36397a41a56e409a302042.patch
-+++ /dev/null
-@@ -1,43 +0,0 @@
--From cb93dc7f262978bafe36397a41a56e409a302042 Mon Sep 17 00:00:00 2001
--From: Yao Qi <yao.qi@linaro.org>
--Date: Mon, 24 Oct 2016 10:59:11 +0100
--Subject: [PATCH] [GDBserver] Fix conversion warning
--
--I got the following warning if I build GDBserver for aarch64_be-linux-gnu,
--
--git/gdb/gdbserver/linux-aarch64-low.c:1539:39: error: invalid conversion from 'void*' to 'uint32_t* {aka unsigned int*}' [-fpermissive]
--   uint32_t *le_buf = xmalloc (byte_len);
--                                       ^
--The patch is to fix the warning.
--
--gdb/gdbserver:
--
--2016-10-24  Yao Qi  <yao.qi@linaro.org>
--
--	PR server/20733
--	* linux-aarch64-low.c (append_insns): Cast the return value to
--	'uint32_t *'.
--
--Upstream-status: Backport
--Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
--
-----
-- gdb/gdbserver/linux-aarch64-low.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/gdb/gdbserver/linux-aarch64-low.c b/gdb/gdbserver/linux-aarch64-low.c
--index e54a8ba..ae80cdd 100644
----- a/gdb/gdbserver/linux-aarch64-low.c
--+++ b/gdb/gdbserver/linux-aarch64-low.c
--@@ -1536,7 +1536,7 @@ append_insns (CORE_ADDR *to, size_t len, const uint32_t *buf)
-- {
--   size_t byte_len = len * sizeof (uint32_t);
-- #if (__BYTE_ORDER == __BIG_ENDIAN)
---  uint32_t *le_buf = xmalloc (byte_len);
--+  uint32_t *le_buf = (uint32_t *) xmalloc (byte_len);
--   size_t i;
-- 
--   for (i = 0; i < len; i++)
---- 
--2.9.3
--
-diff --git a/meta/recipes-devtools/gdb/gdb_7.12.bb b/meta/recipes-devtools/gdb/gdb_7.12.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/gdb/gdb_7.12.bb
-rename to meta/recipes-devtools/gdb/gdb_7.12.1.bb
+ acpaths = ""
+ 
 -- 
 2.11.1
 
