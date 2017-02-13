@@ -1,29 +1,29 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6995360670
+	by mail.openembedded.org (Postfix) with ESMTP id 21A0A60670
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 01:33:12 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v1D1X4GJ020944
+	Mon, 13 Feb 2017 01:35:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v1D1Zkut020969
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Sun, 12 Feb 2017 17:33:05 -0800
-Received: from [128.224.162.183] (128.224.162.183) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Sun, 12 Feb 2017 17:33:04 -0800
+	Sun, 12 Feb 2017 17:35:46 -0800
+Received: from [128.224.162.183] (128.224.162.183) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Sun, 12 Feb 2017 17:35:45 -0800
 To: "Burton, Ross" <ross.burton@intel.com>
 References: <cover.1486622006.git.hongxu.jia@windriver.com>
-	<a7a0e642035a2eae2e606dfd54857c1abf11d43a.1486622006.git.hongxu.jia@windriver.com>
-	<CAJTo0LYAPXhuaOYNy1-VBEJNNLJY-zHHvkTNASrhmx68eFR3Ng@mail.gmail.com>
+	<f3c4e388c57e638701c92b4a152817d77b6bc469.1486622007.git.hongxu.jia@windriver.com>
+	<CAJTo0LbJHaDUaF3AWzSYyOFCcCH0yYutEctaQ_p7xt+cKyktHw@mail.gmail.com>
 From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <91c8715a-6c71-30f1-ca6e-1fb295fa842c@windriver.com>
-Date: Mon, 13 Feb 2017 09:33:02 +0800
+Message-ID: <4c74e0c7-0e2c-0d3d-c252-3de7c4b146b4@windriver.com>
+Date: Mon, 13 Feb 2017 09:35:44 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.5.1
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYAPXhuaOYNy1-VBEJNNLJY-zHHvkTNASrhmx68eFR3Ng@mail.gmail.com>
+In-Reply-To: <CAJTo0LbJHaDUaF3AWzSYyOFCcCH0yYutEctaQ_p7xt+cKyktHw@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 04/13] ncurses: 6.0+20160625 -> 6.0+20161126
+Subject: Re: [PATCH V2 11/13] bash: update patches for 4.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,48 +36,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Feb 2017 01:33:13 -0000
+X-List-Received-Date: Mon, 13 Feb 2017 01:35:48 -0000
 Content-Type: multipart/alternative;
-	boundary="------------6B826EEA9AAC3B6C7D6B7A51"
+	boundary="------------8C3E933A9B0322194D07C144"
 
---------------6B826EEA9AAC3B6C7D6B7A51
+--------------8C3E933A9B0322194D07C144
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 2017年02月10日 18:57, Burton, Ross wrote:
+On 2017年02月10日 18:54, Burton, Ross wrote:
 >
 > On 9 February 2017 at 06:45, Hongxu Jia <hongxu.jia@windriver.com 
 > <mailto:hongxu.jia@windriver.com>> wrote:
 >
->     Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com
->     <mailto:hongxu.jia@windriver.com>>
+>     +do_install_append_class-target () {
+>     +       # Workaround do_package_write_rpm failure
+>     +       rm ${D}${libdir}/bash/uname
+>     +}
 >
 >
-> This upgrade is failing all over the autobuilder.  I'm guessing it's 
-> due to this new warning in the configure log:
->
->     checking $CC variable... broken
->     configure: WARNING: your environment misuses the CC variable to
->     hold CFLAGS/CPPFLAGS options
->
->
-> Because later on:
->
->     checking for getcwd... no
->     checking for getegid... no
->     checking for geteuid... no
->     checking for getopt... no
->     checking for poll... no
->     checking for putenv... no
->     checking for select... no
->     ...
->     configure: error: getopt is required for building programs
->
->
-> I'm pretty sure those failures are not accurate!
+> This isn't target specific as it also breaks nativesdk builds 
+> (http://errors.yoctoproject.org/Errors/Details/131136/). To be honest 
+> I'd prefer to fix the problem in rpm (or the build of this binary) 
+> than work around it.
 >
 
-OK, I will fix it.
+OK, I will try to fix rpm.
+
+Hi Ross,
+
+Could you accept the upgrade patches except ncurses and bash?
+If yes, I will only resend ncurses and bash.
 
 //Hongxu
 
@@ -85,7 +74,7 @@ OK, I will fix it.
 
 
 
---------------6B826EEA9AAC3B6C7D6B7A51
+--------------8C3E933A9B0322194D07C144
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
@@ -94,11 +83,11 @@ Content-Transfer-Encoding: 8bit
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
   </head>
   <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 2017年02月10日 18:57, Burton, Ross
+    <div class="moz-cite-prefix">On 2017年02月10日 18:54, Burton, Ross
       wrote:<br>
     </div>
     <blockquote
-cite="mid:CAJTo0LYAPXhuaOYNy1-VBEJNNLJY-zHHvkTNASrhmx68eFR3Ng@mail.gmail.com"
+cite="mid:CAJTo0LbJHaDUaF3AWzSYyOFCcCH0yYutEctaQ_p7xt+cKyktHw@mail.gmail.com"
       type="cite">
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
       <div dir="ltr">
@@ -109,50 +98,37 @@ cite="mid:CAJTo0LYAPXhuaOYNy1-VBEJNNLJY-zHHvkTNASrhmx68eFR3Ng@mail.gmail.com"
             wrote:<br>
             <blockquote class="gmail_quote" style="margin:0px 0px 0px
 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">
-              <div id="gmail-:10f" class="gmail-a3s gmail-aXjCH
-                gmail-m15a219f563974ac7">Signed-off-by: Hongxu Jia &lt;<a
-                  moz-do-not-send="true"
-                  href="mailto:hongxu.jia@windriver.com"><a class="moz-txt-link-abbreviated" href="mailto:hongxu.jia@windriver.com">hongxu.jia@windriver.com</a></a>&gt;<br>
+              <div id="gmail-:115" class="gmail-a3s gmail-aXjCH
+                gmail-m15a219f6d24915e0">+do_install_append_class-<wbr>target
+                () {<br>
+                +       # Workaround do_package_write_rpm failure<br>
+                +       rm ${D}${libdir}/<span class="gmail-il">bash</span>/uname<br>
+                +}<br>
               </div>
             </blockquote>
           </div>
           <br>
-          This upgrade is failing all over the autobuilder.  I'm
-          guessing it's due to this new warning in the configure log:<br>
-          <br>
-          <blockquote class="gmail_quote" style="margin:0px 0px 0px
-0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">checking
-            $CC variable... broken<br>
-            configure: WARNING: your environment misuses the CC variable
-            to hold CFLAGS/CPPFLAGS options</blockquote>
-          <br>
-          Because later on:<br>
-          <br>
-          <blockquote class="gmail_quote" style="margin:0px 0px 0px
-0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">checking
-            for getcwd... no<br>
-            checking for getegid... no<br>
-            checking for geteuid... no<br>
-            checking for getopt... no<br>
-            checking for poll... no<br>
-            checking for putenv... no<br>
-            checking for select... no<br>
-            ...<br>
-            configure: error: getopt is required for building programs</blockquote>
-        </div>
-        <div class="gmail_extra"><br>
-          I'm pretty sure those failures are not accurate!</div>
+          This isn't target specific as it also breaks nativesdk builds
+          (<a moz-do-not-send="true"
+            href="http://errors.yoctoproject.org/Errors/Details/131136/">http://errors.yoctoproject.org/Errors/Details/131136/</a>). 
+          To be honest I'd prefer to fix the problem in rpm (or the
+          build of this binary) than work around it.</div>
         <div class="gmail_extra"><br>
         </div>
       </div>
     </blockquote>
     <br>
-    OK, I will fix it.<br>
+    OK, I will try to fix rpm.<br>
+    <br>
+    Hi Ross,<br>
+    <br>
+    Could you accept the upgrade patches except ncurses and bash?<br>
+    If yes, I will only resend ncurses and bash.<br>
     <br>
     //Hongxu<br>
     <br>
     <blockquote
-cite="mid:CAJTo0LYAPXhuaOYNy1-VBEJNNLJY-zHHvkTNASrhmx68eFR3Ng@mail.gmail.com"
+cite="mid:CAJTo0LbJHaDUaF3AWzSYyOFCcCH0yYutEctaQ_p7xt+cKyktHw@mail.gmail.com"
       type="cite">
       <div dir="ltr">
         <div class="gmail_extra">Ross</div>
@@ -163,4 +139,4 @@ cite="mid:CAJTo0LYAPXhuaOYNy1-VBEJNNLJY-zHHvkTNASrhmx68eFR3Ng@mail.gmail.com"
   </body>
 </html>
 
---------------6B826EEA9AAC3B6C7D6B7A51--
+--------------8C3E933A9B0322194D07C144--
