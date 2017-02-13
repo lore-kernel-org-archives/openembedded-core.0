@@ -1,23 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id C1EBE77240
+	by mail.openembedded.org (Postfix) with ESMTP id ADFC477240
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Feb 2017 15:06:09 +0000 (UTC)
+	Mon, 13 Feb 2017 15:06:10 +0000 (UTC)
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga105.jf.intel.com with ESMTP; 13 Feb 2017 07:06:10 -0800
+	by orsmga105.jf.intel.com with ESMTP; 13 Feb 2017 07:06:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,156,1484035200"; d="scan'208";a="64546771"
+X-IronPort-AV: E=Sophos;i="5.35,156,1484035200"; d="scan'208";a="64546780"
 Received: from kanavin-desktop.fi.intel.com (HELO
 	kanavin-desktop.fi.intel.comfi.intel.com) ([10.237.68.161])
-	by fmsmga005.fm.intel.com with ESMTP; 13 Feb 2017 07:06:09 -0800
+	by fmsmga005.fm.intel.com with ESMTP; 13 Feb 2017 07:06:10 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Feb 2017 17:05:59 +0200
-Message-Id: <c60151300789a32fed8757e11e4f89897d6bd38d.1486997986.git.alexander.kanavin@linux.intel.com>
+Date: Mon, 13 Feb 2017 17:06:00 +0200
+Message-Id: <cb62217431175ee1029d3d223e9940886aa0e637.1486997986.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1486997986.git.alexander.kanavin@linux.intel.com>
 References: <cover.1486997986.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 29/36] package_rpm.bbclass: instruct rpm to not remove the buildroot directory
+Subject: [PATCH 30/36] selftest: do not perform a full build in test_continue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,41 +32,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 13 Feb 2017 15:06:10 -0000
 
-This is the ${W}/package directory which may be reused in subsequent builds.
-
-Also clean up various default directories rpm 4 creates.
+This was fetching and building the toolchain and everything else
+against empty download dir and sstate cache, and so was enormously slow.
+The test does not need that, it only checks that one fetch task fails and
+another succeeds when using bitbake's -k option.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/classes/package_rpm.bbclass | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/selftest/bbtests.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index a972f0bb7d5..bebc7a6a1eb 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -708,7 +708,7 @@ export MAGIC=%s
- """ %(oe.path.join(d.getVar('STAGING_LIBDIR_NATIVE'), "rpm"),d.getVar('STAGING_DIR_NATIVE'), magicfile)
- 
-     cmd = rpmbuild
--    cmd = cmd + " --nodeps --short-circuit --target " + pkgarch + " --buildroot " + pkgd
-+    cmd = cmd + " --noclean --nodeps --short-circuit --target " + pkgarch + " --buildroot " + pkgd
-     cmd = cmd + " --define '_topdir " + workdir + "' --define '_rpmdir " + pkgwritedir + "'"
-     cmd = cmd + " --define '_builddir " + d.getVar('S') + "'"
-     cmd = cmd + " --define '_build_name_fmt %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm'"
-@@ -732,8 +732,11 @@ export MAGIC=%s
-         bb.build.exec_func('SBUILDSPEC', d)
-     cmd = cmd + " -bb " + outspecfile
- 
-+    # rpm 4 creates various empty directories in _topdir, let's clean them up
-+    cleanupcmd = "rm -rf %s/BUILDROOT %s/SOURCES %s/SPECS %s/SRPMS" % (workdir, workdir, workdir, workdir)
-+
-     # Build the rpm package!
--    d.setVar('BUILDSPEC', export_cmd + "\n" + cmd + "\n")
-+    d.setVar('BUILDSPEC', export_cmd + "\n" + cmd + "\n" + cleanupcmd + "\n")
-     d.setVarFlag('BUILDSPEC', 'func', '1')
-     bb.build.exec_func('BUILDSPEC', d)
- 
+diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
+index 9dbac957ed8..3d9361f62f9 100644
+--- a/meta/lib/oeqa/selftest/bbtests.py
++++ b/meta/lib/oeqa/selftest/bbtests.py
+@@ -221,7 +221,7 @@ INHERIT_remove = \"report-error\"
+         self.track_for_cleanup(os.path.join(self.builddir, "download-selftest"))
+         self.write_recipeinc('man',"\ndo_fail_task () {\nexit 1 \n}\n\naddtask do_fail_task before do_fetch\n" )
+         runCmd('bitbake -c cleanall man xcursor-transparent-theme')
+-        result = runCmd('bitbake man xcursor-transparent-theme -k', ignore_status=True)
++        result = runCmd('bitbake -c unpack -k man xcursor-transparent-theme', ignore_status=True)
+         errorpos = result.output.find('ERROR: Function failed: do_fail_task')
+         manver = re.search("NOTE: recipe xcursor-transparent-theme-(.*?): task do_unpack: Started", result.output)
+         continuepos = result.output.find('NOTE: recipe xcursor-transparent-theme-%s: task do_unpack: Started' % manver.group(1))
 -- 
 2.11.0
 
