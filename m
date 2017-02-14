@@ -1,27 +1,53 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 31A0F71A75
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f48.google.com (mail-it0-f48.google.com
+	[209.85.214.48])
+	by mail.openembedded.org (Postfix) with ESMTP id E4BBC71A91
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Feb 2017 15:23:15 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Feb 2017 07:22:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,161,1484035200"; d="scan'208";a="65654942"
-Received: from lsandov1-mobl2.zpn.intel.com (HELO [10.219.128.141])
-	([10.219.128.141])
-	by fmsmga006.fm.intel.com with ESMTP; 14 Feb 2017 07:22:49 -0800
-To: Andre McCurdy <armccurdy@gmail.com>,
+	Tue, 14 Feb 2017 15:35:12 +0000 (UTC)
+Received: by mail-it0-f48.google.com with SMTP id d9so18408179itc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Feb 2017 07:35:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=cW73Yro1FnMi+OazwcRnUCFGPdTbI17FqNmFubsEoHk=;
+	b=03DiqPt194YXELV/dd//Ji02MwDuol70TuTmsgO6jXQDPhYNS3Ui0yChaH6vAkVX5P
+	Qh7+OT3GxG/7EQo8Nw1mEZn73NBnoB/xWmeNoWrghri/VgS1L+6MTEfIa9TGOPJY4B5N
+	nbEp3uTvFb8sfAx0JmPouD2VU5O5gESAekF/U2unR6puW7p9lsM6s0fOnGyxPxByQ3DC
+	yqqh4pYDyG/G82bqyDz2yyCLQop3AOK2Dj5ihWgw6EZcjwmlVJdvMHK31n0T35Q9c/sy
+	T5dWaMNwNhwcui0nHthQiWX6xHpYnTWGVmPbI635p1UBrrdrUh4Q/FRVNaV6dcGWORbl
+	82UA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=cW73Yro1FnMi+OazwcRnUCFGPdTbI17FqNmFubsEoHk=;
+	b=LXsAtPsWTLAc+drkHRaJ+yev8YI5Y2qI2N3epkDZGKeIXbrZqartI6myctNOjz/AY5
+	Ze2aGfUBtDOExGhTTncXgXqiM7PxFXA27JA/AY/pl9TYLThtpaAMYYNNh6aqGbbGVtiz
+	A0gdV4hafvjeqeUgRm/BaKN8jrkcqNBJj+rjQ1uiQHI0FfxwloAMeub8qegn5w8QPFOY
+	yZ2ZZEUQIKeRchm24yfpQSGvwYWcqc+o5WW+b1HbGGqUiOYTDZ49tqaXdShzowJ0EK4r
+	1JvVhccjifhOptnRAQ30g9suXMX+S747ZIbm+i2euTkhrwcJ4bG2wpXKdfCM9AHKQaXC
+	oR/g==
+X-Gm-Message-State: AMke39lwdYx13hatvlNs0u5hbskTC/NWeF1FHx8B3MRnMsdFQNv2/s7SHYFKXSkwldt4HAVr
+X-Received: by 10.36.33.135 with SMTP id e129mr3889396ita.9.1487086512959;
+	Tue, 14 Feb 2017 07:35:12 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8E015.dip0.t-ipconnect.de. [93.232.224.21])
+	by smtp.gmail.com with ESMTPSA id m6sm459783ioa.57.2017.02.14.07.35.10
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 14 Feb 2017 07:35:11 -0800 (PST)
+Message-ID: <1487086509.13854.347.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 14 Feb 2017 16:35:09 +0100
+In-Reply-To: <20170210082811.GA3021@jama>
+References: <20170210082811.GA3021@jama>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-devel@lists.openembedded.org,
 	openembedded-core@lists.openembedded.org
-References: <1487080669-10136-1-git-send-email-armccurdy@gmail.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Message-ID: <adcf4051-3269-986c-3d04-8850f30c270c@linux.intel.com>
-Date: Tue, 14 Feb 2017 09:30:19 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.6.0
-MIME-Version: 1.0
-In-Reply-To: <1487080669-10136-1-git-send-email-armccurdy@gmail.com>
-Subject: Re: [PATCH] weston: fix LIC_FILES_CHKSUM endline and md5sum for src/compositor.c
+Subject: multipath-tools on arm (was: Re: State of bitbake world, Failed tasks 2017-02-08)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,41 +60,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Feb 2017 15:23:16 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Tue, 14 Feb 2017 15:35:14 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Fri, 2017-02-10 at 09:28 +0100, Martin Jansa wrote:
+>     *
+> meta-openembedded/meta-oe/recipes-support/multipath-tools/multipath-tools_git.bb:do_compile
+
+This is http://errors.yoctoproject.org/Errors/Details/130529/ and now
+blacklisted with the comment "Fails to build with RSS
+http://errors.yoctoproject.org/Errors/Details/130529/"
+
+However, the error isn't about RSS. It looks like an inline-assembler or
+compiler bug:
+
+{standard input}: Assembler messages:
+{standard input}:80: Error: shifts in CMP/MOV instructions are only supported in unified syntax -- `mov r12,r12,ror#3'
+{standard input}:80: Error: shifts in CMP/MOV instructions are only supported in unified syntax -- `mov r12,r12,ror#13'
+...
+../Makefile.inc:66: recipe for target 'debug.o' failed
+make[1]: *** [debug.o] Error 1
+
+Does anyone know what this could be? I'll also fire up a build in the
+meantime.
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
 
-On 02/14/2017 07:57 AM, Andre McCurdy wrote:
-> The license text in Weston sources was changed from "MIT X11" to "MIT
-> Expat" in the 1.9.0 release. The new text is 3 lines longer than the
-> previous version, so endline and md5 hash have been incorrect for the
-> oe-core weston recipes from 1.9.0 onwards.
-
-If this is the case, why the build system did not complain on >= 1.9 
-recipes?
-
-
->    https://cgit.freedesktop.org/wayland/weston/diff/src/compositor.c?id=a0bbfea64b04d3cf12327d8b488b9949a4cddc99
->
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> ---
->   meta/recipes-graphics/wayland/weston_1.11.1.bb | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-graphics/wayland/weston_1.11.1.bb b/meta/recipes-graphics/wayland/weston_1.11.1.bb
-> index 2736cc1..cdfac70 100644
-> --- a/meta/recipes-graphics/wayland/weston_1.11.1.bb
-> +++ b/meta/recipes-graphics/wayland/weston_1.11.1.bb
-> @@ -3,7 +3,7 @@ DESCRIPTION = "Weston is the reference implementation of a Wayland compositor"
->   HOMEPAGE = "http://wayland.freedesktop.org"
->   LICENSE = "MIT"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=d79ee9e66bb0f95d3386a7acae780b70 \
-> -                    file://src/compositor.c;endline=23;md5=1d535fed266cf39f6d8c0647f52ac331"
-> +                    file://src/compositor.c;endline=26;md5=e342df749174a8ee11065583157c7a38"
->   
->   SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
->              file://weston.png \
 
 
