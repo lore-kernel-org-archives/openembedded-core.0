@@ -1,47 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 85CBF71A2D
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BC4F560745
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Feb 2017 19:26:41 +0000 (UTC)
-Received: by mail-qk0-f169.google.com with SMTP id s186so132820739qkb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Feb 2017 11:26:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=DNaB5ymTXwxpXE4/JMRG2HjjfopyyFtVeid2dgY6R18=;
-	b=1l+kZpB/NXzHgyH+BRpJ0VgJywffO6yZhdu0erp5Ns3nhbxYq9/Bn4bhZc3XAEuyv2
-	W8kKVZ6YLUfbY0c6yByvVmw2JA3YSSYpgyXK0bzdav+FunIPPgpFpYDq/v1E+DYXWqtX
-	NTLcpmoiqQWr97p6BzcBl7ohc90TB1rvuqEQ4EKtLbU0XCsFh2xvqgCuG5eSg3QO2ffk
-	P8T3TXPG6GKYKOlFd6/7yP5w/FwYnveN8S890+MZowNbzi55TWmx+QHjUvamRJcGzJ/y
-	WQ/i1wYvXAhF1na0JkdOZhTEhsGSJSPVWDmTLT4fusBpcWkT/0gvH3zC/Tvmps18Rn50
-	E53A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=DNaB5ymTXwxpXE4/JMRG2HjjfopyyFtVeid2dgY6R18=;
-	b=QWIUYX76rB6gPFZ+4QcpOOvuNOerDuXduTvdXLzdRLrEim2Szl+leZy7sy9PGbQECz
-	LYbGE3lNot8fywYPeir1Ud/f7CYi6xmy1gq5n8up5cxhlh0+Cs36DRARhaWV20n6K81J
-	jdI0Fl4zffZkrit8wfvWI74wiEoR8w5YSV04CAXvA9Sh6MKVHt0j33wONrKpF1mMhGuB
-	Z5UdTcSfltsq7LMp/h+UL09egXoIPx4RBH7X+pB9oBwU40oK8Lgr/8L5dOP/WbuK/4hM
-	TzJefIKE77lsQsw8G3Ip+O5aQUjpuu1jsYZJmB/MDoe/KxCni/vNIRWiAIGQ2Yxuiqcu
-	6gdw==
-X-Gm-Message-State: AMke39lkH+T1kmEI4fasJ4B5kzZe0tVHhmAEtl2QMB0p9JnUNCSyZLlBR6Sh6XCI91lSBM5NpeqXt15O61H/SFHl
-X-Received: by 10.55.183.133 with SMTP id h127mr31423759qkf.121.1487100401984; 
-	Tue, 14 Feb 2017 11:26:41 -0800 (PST)
+	Tue, 14 Feb 2017 21:14:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v1ELEQ8d023944
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 14 Feb 2017 13:14:26 -0800 (PST)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Tue, 14 Feb 2017 13:14:25 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Tue, 14 Feb 2017 16:14:14 -0500
+Message-ID: <cover.1487106757.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
 MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Tue, 14 Feb 2017 11:26:21 -0800 (PST)
-In-Reply-To: <e1d3535e-79b9-f21a-efae-ef53e5745cde@mender.io>
-References: <1485499897-15737-1-git-send-email-kristian.amlie@mender.io>
-	<e1d3535e-79b9-f21a-efae-ef53e5745cde@mender.io>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 14 Feb 2017 19:26:21 +0000
-Message-ID: <CAJTo0LYBSzN4ga5qyMU=ZxAn6rYGye5vaTMHQ7MSeS25TsVXoQ@mail.gmail.com>
-To: Kristian Amlie <kristian.amlie@mender.io>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] wic/partionedfs: Avoid reserving space for non-existing ext. partition
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 00/11] kernel-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,36 +31,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Feb 2017 19:26:43 -0000
-Content-Type: multipart/alternative; boundary=94eb2c06005634d9d40548828b50
+X-List-Received-Date: Tue, 14 Feb 2017 21:14:29 -0000
+Content-Type: text/plain
 
---94eb2c06005634d9d40548828b50
-Content-Type: text/plain; charset=UTF-8
+Hi all,
 
-On 14 February 2017 at 14:46, Kristian Amlie <kristian.amlie@mender.io>
-wrote:
+Here is the latest consolidated pull request for the 4.x linux yocto
+kernels.
 
-> Ping. Patch still applies, should be a very easy change.
->
+Nothing really earth shattering here, some config updates, -stable
+integrations, -rt refreshes and a bump of linux-yocto-dev to 4.10.
 
-The consolidated pull I just sent has a large refactoring series in, can
-you rebase this on top of that?
+Cheers,
 
-Ross
+Bruce
 
---94eb2c06005634d9d40548828b50
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit e758547db9048d4aa1c1415d6af8072f519fae24:
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 February 2017 at 14:46, Kristian Amlie <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:kristian.amlie@mender.io" target=3D"_blank">kristian.amlie@mende=
-r.io</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3c=
-l" class=3D"a3s aXjCH m15a3d17dc1882cc6">Ping. Patch still applies, should =
-be a very easy change.<br></div></blockquote><div><br></div><div>The consol=
-idated pull I just sent has a large refactoring series in, can you rebase t=
-his on top of that?</div><div><br></div><div>Ross=C2=A0</div></div><br></di=
-v></div>
+  nss: Fix nss-native so the checksum doesn't change with BUILD_ARCH (2017-02-09 10:52:03 +0000)
 
---94eb2c06005634d9d40548828b50--
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Awais Belal (1):
+  kernel-yocto.bbclass: ensure repatching when HEAD is checked out
+
+Bruce Ashfield (10):
+  linux-yocto/4.9: bump to v4.9.8
+  linux-yocto/4.8: update to v4.8.18
+  linux-yocto-rt/4.9: integrate 4.9-rt4
+  linux-yocto/4.9: Intel-quark: Add intel-quark-preempt-rt bsp
+    configuration
+  linux-yocto/4.8/4.9: fix tpm.cfg and add dm-verity
+  linux-yocto/4.9: update to v4.9.9
+  linux-yocto-dev: bump to v4.10+
+  linux-yocto/4.4: meta/configuration updates
+  kernel-yocto: trivial: remove extra } from bsp_definition
+  linux-yocto-rt/4.9: update to 4.9-rt6
+
+ meta/classes/kernel-yocto.bbclass                    |  6 +++++-
+ .../kern-tools/kern-tools-native_git.bb              |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-dev.bb         |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb      |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb      |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb      |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb    |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb    |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb    |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb         |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.8.bb         | 20 ++++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_4.9.bb         | 20 ++++++++++----------
+ 12 files changed, 42 insertions(+), 38 deletions(-)
+
+-- 
+2.5.0
+
+
