@@ -1,54 +1,44 @@
-Return-Path: <linus.svensson@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id D36E960557
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C41971A75
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Feb 2017 12:15:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 182952E45B;
-	Tue, 14 Feb 2017 13:15:02 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id 8igdj3--3Ka0; Tue, 14 Feb 2017 13:15:01 +0100 (CET)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id 422D32E457;
-	Tue, 14 Feb 2017 13:15:01 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 207FD1A06D;
-	Tue, 14 Feb 2017 13:15:01 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 154911A067;
-	Tue, 14 Feb 2017 13:15:01 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Tue, 14 Feb 2017 13:15:01 +0100 (CET)
-Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
-	by thoth.se.axis.com (Postfix) with ESMTP id 09A4B7C1;
-	Tue, 14 Feb 2017 13:15:01 +0100 (CET)
-Received: from [10.94.48.1] (10.0.5.60) by XBOX03.axis.com (10.0.5.17) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Tue, 14 Feb 2017 13:15:01 +0100
-To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>, "Burton, Ross"
-	<ross.burton@intel.com>
-References: <1480609418-3264-1-git-send-email-linus.svensson@axis.com>
-	<1480609418-3264-2-git-send-email-linus.svensson@axis.com>
-	<CAJTo0LZ_ea-cm=ZSNt2zVbasOApPdbGegZCH7VU-+0XH=-noZA@mail.gmail.com>
-	<CAPybu_1tqVeyDqhQLd0qPOOR=D=4WhC_D-Tv4wkZJ2_todZ0oQ@mail.gmail.com>
-	<CAJTo0LaChW9ENPiJcrnBNGbrbUFiVDSM+Ro2uUjY8NgpQXiheg@mail.gmail.com>
-	<CAPybu_0FepS4PQ_QPMK3-k_h2r5J4ue-b-p8bbGeDDhVjL=Ctw@mail.gmail.com>
-From: Linus Svensson <linus.svensson@axis.com>
-Message-ID: <58A2F4C4.9010300@axis.com>
-Date: Tue, 14 Feb 2017 13:15:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Icedove/38.5.0
-MIME-Version: 1.0
-In-Reply-To: <CAPybu_0FepS4PQ_QPMK3-k_h2r5J4ue-b-p8bbGeDDhVjL=Ctw@mail.gmail.com>
-X-Originating-IP: [10.0.5.60]
-X-ClientProxiedBy: XBOX01.axis.com (10.0.5.15) To XBOX03.axis.com (10.0.5.17)
-X-TM-AS-GCONF: 00
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] meson: Add recipe for the meson build system
+	Tue, 14 Feb 2017 13:57:55 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id c85so3703553wmi.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Feb 2017 05:57:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=5tBIJugbYnU/S2IiXQe3dg93iHZCAwwH3garhXyzPko=;
+	b=TOkFcd7b7LEgjUY8+asblUv3fkQR5UEMUd7XAOYWfJL7qzVI/uxcpVWl5TVJVLufWf
+	6jMkjj8XZZrAReGFwGwj0a5k0luPFqUIYlPJPC1uElChoFd7SGO+TTwLSM0939W0wrvt
+	eF4Z1hW7NsnGu1y8UqRBR31lCMnR/junbResjeJwHqhSI29vl3elhs65v2/BbOCsRj+o
+	EB1GbrCLsXK8If8GDJnpcibJxs9glRZbSRjlkUd8g3PaABXT+Lv3F3oY7k7v5rgawu8E
+	fJiEjqgvw7CzkQMtmEbWxkVRmYDfYIxqefLrJlSvRa8UwUcwzYKE0Bs9OgM8J9qHQFKB
+	MN5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=5tBIJugbYnU/S2IiXQe3dg93iHZCAwwH3garhXyzPko=;
+	b=Ve4gcEDAarGbbuDJF8zasLdVjwOtyofo7hNvt9/z4hei56Ir9xkBA134beyXtfGjKf
+	cZ8+dTsWG4snP8u4xFQRswh+VW42Z2TZsqYDs8sgKb2t/RLGuS3hYlMPyddZsK9kdOrf
+	HaNku1GyCV/aZmqGcT5f9exzTrP/ZA6lY9bZDKP2T52oZKN/euCbo5MYZWL2qd1VhyUG
+	Wv/8Tg8AA+Tywdg56PE0SDfk+ZKNbkxeFN6+LGlnVGKxtpLv/q9Kb2Hgx/quJH8aDu89
+	fngUVnsNdW2s0X6vDzQoPdq3vPfFX3tN3OqipWtxoHzVTtkaAR86ZrDJQQKUmiBaFkmx
+	tpiw==
+X-Gm-Message-State: AMke39mrr8eYI3PM2HWp2fLNufo6kbQ+SrpguIQZVbjxU6jIbd5EwcKdup9uUIB5xljs/g==
+X-Received: by 10.28.232.90 with SMTP id f87mr3291407wmh.35.1487080675905;
+	Tue, 14 Feb 2017 05:57:55 -0800 (PST)
+Received: from localhost.localdomain (ip-213-127-11-0.ip.prioritytelecom.net.
+	[213.127.11.0])
+	by smtp.gmail.com with ESMTPSA id 17sm927328wru.16.2017.02.14.05.57.54
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 14 Feb 2017 05:57:54 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 14 Feb 2017 05:57:49 -0800
+Message-Id: <1487080669-10136-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] weston: fix LIC_FILES_CHKSUM endline and md5sum for src/compositor.c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,20 +51,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Feb 2017 12:15:03 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 14 Feb 2017 13:57:57 -0000
 
-Hi.
+The license text in Weston sources was changed from "MIT X11" to "MIT
+Expat" in the 1.9.0 release. The new text is 3 lines longer than the
+previous version, so endline and md5 hash have been incorrect for the
+oe-core weston recipes from 1.9.0 onwards.
 
-On 02/13/2017 01:28 PM, Ricardo Ribalda Delgado wrote:
-> Linus, do you plan to resend? Can I help you?
-I will resend it later today.
+  https://cgit.freedesktop.org/wayland/weston/diff/src/compositor.c?id=a0bbfea64b04d3cf12327d8b488b9949a4cddc99
 
-meson is still under development, and more options for installation 
-directories are still (I know at least one more that will come) added. 
-That could, or perhaps should, be updated when the meson version is 
-updated. Worth to put a comment somewhere regarding that?
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-graphics/wayland/weston_1.11.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-/Linus
+diff --git a/meta/recipes-graphics/wayland/weston_1.11.1.bb b/meta/recipes-graphics/wayland/weston_1.11.1.bb
+index 2736cc1..cdfac70 100644
+--- a/meta/recipes-graphics/wayland/weston_1.11.1.bb
++++ b/meta/recipes-graphics/wayland/weston_1.11.1.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Weston is the reference implementation of a Wayland compositor"
+ HOMEPAGE = "http://wayland.freedesktop.org"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d79ee9e66bb0f95d3386a7acae780b70 \
+-                    file://src/compositor.c;endline=23;md5=1d535fed266cf39f6d8c0647f52ac331"
++                    file://src/compositor.c;endline=26;md5=e342df749174a8ee11065583157c7a38"
+ 
+ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+            file://weston.png \
+-- 
+1.9.1
+
 
