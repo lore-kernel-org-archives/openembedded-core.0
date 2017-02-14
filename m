@@ -1,25 +1,26 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B1BA73195
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 58E63731C7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Feb 2017 09:55:12 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga105.fm.intel.com with ESMTP; 14 Feb 2017 01:55:13 -0800
+	Tue, 14 Feb 2017 09:55:13 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Feb 2017 01:55:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,160,1484035200"; d="scan'208";a="1107172832"
+X-IronPort-AV: E=Sophos;i="5.35,160,1484035200"; d="scan'208";a="1094557223"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Feb 2017 01:55:13 -0800
+	by orsmga001.jf.intel.com with ESMTP; 14 Feb 2017 01:55:14 -0800
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id D925E6A4080;
-	Tue, 14 Feb 2017 01:54:10 -0800 (PST)
+	by linux.intel.com (Postfix) with ESMTP id DF2FB6A4080;
+	Tue, 14 Feb 2017 01:54:11 -0800 (PST)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Feb 2017 11:54:58 +0200
-Message-Id: <741d53dfad8951845bcae6ad8f7dfb75936db620.1487065337.git.jussi.kukkonen@intel.com>
+Date: Tue, 14 Feb 2017 11:54:59 +0200
+Message-Id: <fa77176d457272d751268888bd5710fc37e5825c.1487065337.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1487065337.git.jussi.kukkonen@intel.com>
 References: <cover.1487065337.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 01/11] mesa: Upgrade 13.0.4 -> 17.0.0
+Subject: [PATCH 02/11] gdk-pixbuf: Upgrade 2.36.1 -> 2.36.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,77 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Feb 2017 09:55:13 -0000
+X-List-Received-Date: Tue, 14 Feb 2017 09:55:14 -0000
 
-* New feature release with lots of changes
-* Versioning change (17 as in 2017, no longer relates to GL bumps)
-* OpenGL 4.5 support on Haswell
-* mesa now implements its own sha1 instead of having 5
-  configurable sha-providers
+Bug fix releases.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../mesa/{mesa-gl_13.0.4.bb => mesa-gl_17.0.0.bb}                 | 0
- meta/recipes-graphics/mesa/mesa.inc                               | 8 +-------
- meta/recipes-graphics/mesa/{mesa_13.0.4.bb => mesa_17.0.0.bb}     | 7 +++----
- 3 files changed, 4 insertions(+), 11 deletions(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_13.0.4.bb => mesa-gl_17.0.0.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_13.0.4.bb => mesa_17.0.0.bb} (74%)
+ .../gdk-pixbuf/{gdk-pixbuf_2.36.1.bb => gdk-pixbuf_2.36.4.bb}         | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.36.1.bb => gdk-pixbuf_2.36.4.bb} (96%)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_13.0.4.bb b/meta/recipes-graphics/mesa/mesa-gl_17.0.0.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_13.0.4.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_17.0.0.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 5d882b1..befb35e 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -24,7 +24,7 @@ REQUIRED_DISTRO_FEATURES = "opengl"
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.1.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.4.bb
+similarity index 96%
+rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.1.bb
+rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.4.bb
+index 98e5090..3a88d91 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.1.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.4.bb
+@@ -19,8 +19,8 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            file://fatal-loader.patch \
+            "
  
- EXTRA_OECONF = "--enable-shared-glapi"
+-SRC_URI[md5sum] = "fe30b0420e013f2c4590ae6226d895d4"
+-SRC_URI[sha256sum] = "9d5ba72070460c1b5b74115d395a3e33daeb7b7b67fb256cdccc9d7187c42a38"
++SRC_URI[md5sum] = "aef5fe5888b9f578573e331501d08f85"
++SRC_URI[sha256sum] = "0b19901c3eb0596141d2d48ddb9dac79ad1524bdf59366af58ab38fcb9ee7463"
  
--PACKAGECONFIG ??= "gbm egl gles dri ${MESA_CRYPTO} \
-+PACKAGECONFIG ??= "gbm egl gles dri \
- 		${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}\
- 		${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)}\
- 		"
-@@ -67,12 +67,6 @@ PACKAGECONFIG[xa]  = "--enable-xa, --disable-xa"
- OSMESA = "${@bb.utils.contains('PACKAGECONFIG', 'gallium', 'gallium-osmesa', 'osmesa', d)}"
- PACKAGECONFIG[osmesa] = "--enable-${OSMESA},--disable-${OSMESA}"
+ inherit autotools pkgconfig gettext pixbufcache ptest-gnome upstream-version-is-even gobject-introspection gtk-doc lib_package
  
--# Mesa requires one of the following crypto implementation, pick one of them
--MESA_CRYPTO ??= "openssl"
--PACKAGECONFIG[openssl] = "--with-sha1=libcrypto,,openssl"
--PACKAGECONFIG[nettle] = "--with-sha1=libnettle,,nettle"
--PACKAGECONFIG[gcrypt] = "--with-sha1=libgcrypt,,libgcrypt"
--
- # llvmpipe is slow if compiled with -fomit-frame-pointer (e.g. -O2)
- FULL_OPTIMIZATION_append = " -fno-omit-frame-pointer"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_13.0.4.bb b/meta/recipes-graphics/mesa/mesa_17.0.0.bb
-similarity index 74%
-rename from meta/recipes-graphics/mesa/mesa_13.0.4.bb
-rename to meta/recipes-graphics/mesa/mesa_17.0.0.bb
-index 1416c9f..6576e3c 100644
---- a/meta/recipes-graphics/mesa/mesa_13.0.4.bb
-+++ b/meta/recipes-graphics/mesa/mesa_17.0.0.bb
-@@ -1,13 +1,12 @@
- require ${BPN}.inc
- 
--SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/mesa-${PV}.tar.xz \
-+SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/mesa-${PV}.tar.xz \
-            file://replace_glibc_check_with_linux.patch \
-            file://disable-asm-on-non-gcc.patch \
-            file://0001-Use-wayland-scanner-in-the-path.patch \
- "
--
--SRC_URI[md5sum] = "d088a921e935218833a8071cb672a574"
--SRC_URI[sha256sum] = "a95d7ce8f7bd5f88585e4be3144a341236d8c0fc91f6feaec59bb8ba3120e726"
-+SRC_URI[md5sum] = "932e4171a86b14940c06812356486155"
-+SRC_URI[sha256sum] = "39db3d59700159add7f977307d12a7dfe016363e760ad82280ac4168ea668481"
- 
- #because we cannot rely on the fact that all apps will use pkgconfig,
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
 -- 
 2.1.4
 
