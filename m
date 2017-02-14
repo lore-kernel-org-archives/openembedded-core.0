@@ -1,25 +1,46 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CD7271E5A
+Return-Path: <sona.sarmadi@enea.com>
+Received: from smtp-out11.electric.net (smtp-out11.electric.net
+	[185.38.181.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 1430571957
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Feb 2017 07:02:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v1E72PXI015156
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 13 Feb 2017 23:02:25 -0800 (PST)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 13 Feb 2017 23:02:25 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Tue, 14 Feb 2017 02:02:18 -0500
-Message-ID: <c4a34fba737a92f270d723c6d0997a8923fe0436.1487055395.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <cover.1487055395.git.hongxu.jia@windriver.com>
-References: <cover.1487055395.git.hongxu.jia@windriver.com>
+	Tue, 14 Feb 2017 09:40:17 +0000 (UTC)
+Received: from 1cdZaq-0002Qe-Up by out11c.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>)
+	id 1cdZaq-0002Rn-W9; Tue, 14 Feb 2017 01:40:16 -0800
+Received: by emcmailer; Tue, 14 Feb 2017 01:40:16 -0800
+Received: from [192.36.1.72] (helo=mx-3.enea.com)
+	by out11c.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>)
+	id 1cdZaq-0002Qe-Up; Tue, 14 Feb 2017 01:40:16 -0800
+Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
+	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
+	14.03.0319.002; Tue, 14 Feb 2017 10:40:16 +0100
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: Alexandru Moise <alexandru.moise@windriver.com>
+Thread-Topic: [OE-core] [PATCH v5][morty] openssl: CVE: CVE-2017-3731
+Thread-Index: AQHSgTgyExU2eD0CbUC+HAy5g+j7QaFoSGpA
+Date: Tue, 14 Feb 2017 09:40:15 +0000
+Message-ID: <3230301C09DEF9499B442BBE162C5E48AC3217DA@SESTOEX04.enea.se>
+References: <1486468127-16643-1-git-send-email-alexandru.moise@windriver.com>
+In-Reply-To: <1486468127-16643-1-git-send-email-alexandru.moise@windriver.com>
+Accept-Language: sv-SE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.16.142.231]
 MIME-Version: 1.0
-Subject: [PATCH 2/4] bash: update patches for 4.4
+X-Outbound-IP: 192.36.1.72
+X-Env-From: sona.sarmadi@enea.com
+X-Proto: esmtps
+X-Revdns: mx-3.enea.com
+X-HELO: mx-3.enea.com
+X-TLS: TLSv1:AES128-SHA:128
+X-Authenticated_ID: 
+X-PolicySMART: 6551647
+X-Virus-Status: Scanned by VirusSMART (c)
+X-Virus-Status: Scanned by VirusSMART (s)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v5][morty] openssl: CVE: CVE-2017-3731
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,198 +53,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Feb 2017 07:02:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 14 Feb 2017 09:40:19 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-- Update patches from upstream to 4.4
-
-- Add ${PN}-loadable for loadable builtins which is new features in Bash 4.4
-  --------------
-   a.  `make install' now installs the example loadable builtins and a set of
-       bash headers to use when developing new loadable builtins.
-
-   b.  `enable -f' now attempts to call functions named BUILTIN_builtin_load when
-       loading BUILTIN, and BUILTIN_builtin_unload when deleting it.  This allows
-       loadable builtins to run initialization and cleanup code.
-
-   c.  There is a new BASH_LOADABLES_PATH variable containing a list of directories
-       where the `enable -f' command looks for shared objects containing loadable
-       builtins.
-   --------------
-
-- The loadable builtins `uname' could not be parsed by rpmdeps correctly:
-   --------------
-   $ recipe-sysroot-native/usr/lib/rpm/bin/rpmdeps-oecore --macros \
-   recipe-sysroot-native/usr/lib/rpm/macros --define '_rpmfc_magic_path \
-   recipe-sysroot-native/usr/share/misc/magic.mgc' --rpmpopt \
-   recipe-sysroot-native/usr/lib/rpm/rpmpopt packages-split/bash/usr/lib64/bash/uname
-
-   |packages-split/bash/usr/lib64/bash/uname Provides: )(64bit
-   |packages-split/bash/usr/lib64/bash/uname Provides: elf(buildid) = 7186059a5a6b11ec38493b53072c3a62edf7e05c
-   --------------
-
-   The incorrected "Provides: )(64bit" could not be parsed by rpmbuild.
-   --------------
-   | DEBUG: Executing shell function BUILDSPEC
-   | error: line 56: Dependency ")(64bit" must begin with alpha-numeric, '_' or '/': Provides: )(64bit
-   | error: Package has no %description: bash-4.4-r0.core2_64
-   --------------
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- ...e-builtins-uname-could-not-be-parsed-by-r.patch | 89 ++++++++++++++++++++++
- meta/recipes-extended/bash/bash_4.4.bb             | 28 +++++++
- 2 files changed, 117 insertions(+)
- create mode 100644 meta/recipes-extended/bash/bash/0001-The-loadable-builtins-uname-could-not-be-parsed-by-r.patch
-
-diff --git a/meta/recipes-extended/bash/bash/0001-The-loadable-builtins-uname-could-not-be-parsed-by-r.patch b/meta/recipes-extended/bash/bash/0001-The-loadable-builtins-uname-could-not-be-parsed-by-r.patch
-new file mode 100644
-index 0000000..79d9e4e
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash/0001-The-loadable-builtins-uname-could-not-be-parsed-by-r.patch
-@@ -0,0 +1,89 @@
-+rename uname to workaround name confliction in rpmnsProbe
-+
-+The loadable builtins `uname' could not be parsed by
-+rpmdeps correctly:
-+--------------
-+$recipe-sysroot-native/usr/lib/rpm/bin/rpmdeps-oecore --macros \
-+recipe-sysroot-native/usr/lib/rpm/macros --define '_rpmfc_magic_path \
-+recipe-sysroot-native/usr/share/misc/magic.mgc' --rpmpopt \
-+recipe-sysroot-native/usr/lib/rpm/rpmpopt packages-split/bash/usr/lib64/bash/uname
-+
-+|packages-split/bash/usr/lib64/bash/uname Provides: )(64bit
-+|packages-split/bash/usr/lib64/bash/uname Provides: elf(buildid) = 7186059a5a6b11ec38493b53072c3a62edf7e05c
-+--------------
-+
-+The incorrected "Provides: )(64bit" could not be parsed by rpmbuild.
-+--------------
-+| DEBUG: Executing shell function BUILDSPEC
-+| error: line 56: Dependency ")(64bit" must begin with alpha-numeric, '_' or '/': Provides: )(64bit
-+| error: Package has no %description: bash-4.4-r0.core2_64
-+--------------
-+
-+The root cause is `uname' is incorrectly parsed by rpmnsProbe that string
-+matches with "uname()(64bit)".
-+
-+The nsType of `uname' should be RPMNS_TYPE_NAMESPACE (like other utilities),
-+rather than RPMNS_TYPE_UNAME which generates "Provides: )(64bit".
-+
-+We could not fix rpm-native without side effect. So rename to `uname-oe'
-+and create a symlink `uname' could workaround the issue.
-+
-+Here is to load builtin uname in the target:
-+----------------
-+root@qemux86-64:# enable -f /usr/lib64/bash/uname uname
-+root@qemux86-64:# help uname
-+uname: uname [-amnrsv]
-+    Display system information.
-+
-+    Display information about the system hardware and OS.
-+----------------
-+
-+Upstream-Status: Inappropriate [oe specific]
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ examples/loadables/Makefile.in | 8 +++++---
-+ 1 file changed, 5 insertions(+), 3 deletions(-)
-+
-+diff --git a/examples/loadables/Makefile.in b/examples/loadables/Makefile.in
-+index ec305cd..c7c96e2 100644
-+--- a/examples/loadables/Makefile.in
-++++ b/examples/loadables/Makefile.in
-+@@ -102,7 +102,7 @@ INC = -I. -I.. -I$(topdir) -I$(topdir)/lib -I$(topdir)/builtins -I${srcdir} \
-+ 
-+ ALLPROG = print truefalse sleep finfo logname basename dirname \
-+ 	  tty pathchk tee head mkdir rmdir printenv id whoami \
-+-	  uname sync push ln unlink realpath strftime mypid setpgid
-++	  uname-oe sync push ln unlink realpath strftime mypid setpgid
-+ OTHERPROG = necho hello cat pushd
-+ 
-+ all:	$(SHOBJ_STATUS)
-+@@ -178,7 +178,7 @@ id:	id.o
-+ whoami:	whoami.o
-+ 	$(SHOBJ_LD) $(SHOBJ_LDFLAGS) $(SHOBJ_XLDFLAGS) -o $@ whoami.o $(SHOBJ_LIBS)
-+ 
-+-uname:	uname.o
-++uname-oe:	uname.o
-+ 	$(SHOBJ_LD) $(SHOBJ_LDFLAGS) $(SHOBJ_XLDFLAGS) -o $@ uname.o $(SHOBJ_LIBS)
-+ 
-+ sync:	sync.o
-+@@ -244,13 +244,15 @@ install-supported:	all installdirs install-dev
-+ 		echo $$prog ; \
-+ 		$(INSTALL_PROGRAM) $(INSTALLMODE) $$prog $(DESTDIR)$(loadablesdir)/$$prog ;\
-+ 	done
-++	-( cd $(DESTDIR)$(loadablesdir) && ln -snf uname-oe uname)
-++
-+ 
-+ uninstall-dev:
-+ 	-$(RM) $(DESTDIR)$(loadablesdir)/Makefile.inc
-+ 	-( cd $(BUILD_DIR) && ${MAKE} ${MFLAGS} DESTDIR="$(DESTDIR)" uninstall-headers)
-+ 
-+ uninstall-supported:	uninstall-dev
-+-	-( cd $(DESTDIR)${loadablesdir} && $(RM) ${ALLPROG} )
-++	-( cd $(DESTDIR)${loadablesdir} && $(RM) ${ALLPROG} uname)
-+ 
-+ install-unsupported:
-+ uninstall-unsupported:
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-extended/bash/bash_4.4.bb b/meta/recipes-extended/bash/bash_4.4.bb
-index 16ff114..798bfdb 100644
---- a/meta/recipes-extended/bash/bash_4.4.bb
-+++ b/meta/recipes-extended/bash/bash_4.4.bb
-@@ -10,6 +10,13 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
-            ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-003;apply=yes;striplevel=0;name=patch003 \
-            ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-004;apply=yes;striplevel=0;name=patch004 \
-            ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-005;apply=yes;striplevel=0;name=patch005 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-006;apply=yes;striplevel=0;name=patch006 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-007;apply=yes;striplevel=0;name=patch007 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-008;apply=yes;striplevel=0;name=patch008 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-009;apply=yes;striplevel=0;name=patch009 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-010;apply=yes;striplevel=0;name=patch010 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-011;apply=yes;striplevel=0;name=patch011 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-012;apply=yes;striplevel=0;name=patch012 \
-            file://execute_cmd.patch;striplevel=0 \
-            file://mkbuiltins_have_stringize.patch \
-            file://build-tests.patch \
-@@ -19,6 +26,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
-            file://fix-run-builtins.patch \
-            file://0001-help-fix-printf-format-security-warning.patch \
-            file://0001-patch-to-obtain-pkgconfig-sanity.patch \
-+           file://0001-The-loadable-builtins-uname-could-not-be-parsed-by-r.patch \
-            "
- 
- SRC_URI[tarball.md5sum] = "148888a7c95ac23705559b6f477dfe25" 
-@@ -34,5 +42,25 @@ SRC_URI[patch004.md5sum] = "4557d674ab5831a5fa98052ab19edaf4"
- SRC_URI[patch004.sha256sum] = "ad080a30a4ac6c1273373617f29628cc320a35c8cd06913894794293dc52c8b3"
- SRC_URI[patch005.md5sum] = "cce96dd77cdd1d293beec10848f6cbb5"
- SRC_URI[patch005.sha256sum] = "221e4b725b770ad0bb6924df3f8d04f89eeca4558f6e4c777dfa93e967090529"
-+SRC_URI[patch006.md5sum] = "d3379f8d8abce5c6ee338f931ad008d5"
-+SRC_URI[patch006.sha256sum] = "6a8e2e2a6180d0f1ce39dcd651622fb6d2fd05db7c459f64ae42d667f1e344b8"
-+SRC_URI[patch007.md5sum] = "ec38c76ca439ca7f9c178e9baede84fc"
-+SRC_URI[patch007.sha256sum] = "de1ccc07b7bfc9e25243ad854f3bbb5d3ebf9155b0477df16aaf00a7b0d5edaf"
-+SRC_URI[patch008.md5sum] = "e0ba18c1e3b94f905da9b5bf9d38b58b"
-+SRC_URI[patch008.sha256sum] = "86144700465933636d7b945e89b77df95d3620034725be161ca0ca5a42e239ba"
-+SRC_URI[patch009.md5sum] = "e952d4f44e612048930c559d90eb99bb"
-+SRC_URI[patch009.sha256sum] = "0b6bdd1a18a0d20e330cc3bc71e048864e4a13652e29dc0ebf3918bea729343c"
-+SRC_URI[patch010.md5sum] = "57b5b35955d68f9a09dbef6b86d2c782"
-+SRC_URI[patch010.sha256sum] = "8465c6f2c56afe559402265b39d9e94368954930f9aa7f3dfa6d36dd66868e06"
-+SRC_URI[patch011.md5sum] = "cc896e1fa696b93ded568e557e2392d5"
-+SRC_URI[patch011.sha256sum] = "dd56426ef7d7295e1107c0b3d06c192eb9298f4023c202ca2ba6266c613d170d"
-+SRC_URI[patch012.md5sum] = "fa47fbfa56fb7e9e5367f19a9df5fc9e"
-+SRC_URI[patch012.sha256sum] = "fac271d2bf6372c9903e3b353cb9eda044d7fe36b5aab52f21f3f21cd6a2063e"
- 
- BBCLASSEXTEND = "nativesdk"
-+
-+PACKAGE_BEFORE_PN += "${PN}-loadable"
-+RDEPENDS_${PN}-loadable += "${PN}"
-+FILES_${PN}-dev += "${libdir}/bash/Makefile.inc"
-+FILES_${PN}-loadable += "${libdir}/bash/*"
-+
--- 
-2.8.1
-
+SGkgQWxleGFuZHJ1LA0KDQpTaG91bGRuJ3QgQ1ZFLTIwMTctMzczMSBpbiB0aGUgcGF0Y2ggZmls
+ZXMgaGF2ZSBDVkU6IHRhZz8gDQoNCmkuZS4gQ1ZFLTIwMTctMzczMSAgaW4gMDAwMS1DVkUtMjAx
+Ny0zNzMxLnBhdGNoICYgMDAwMi1DVkUtMjAxNy0zNzMxLnBhdGNoIA0KDQpzaG91bGQgYmU6DQoN
+CkNWRTogQ1ZFLTIwMTctMzczMQ0KDQpZb3UgaGF2ZSB0aGlzIHRhZyBpbiB0aGUgbWV0YSBwYXRj
+aCwgd2UgYWRkIHRoaXMgbm9ybWFsbHkgaW5zaWRlIHRoZSBwYXRjaC4gDQoNCj4gKiBDVkU6IENW
+RS0yMDE3LTM3MzENCj4gDQo+IFVwc3RyZWFtLXN0YXR1czogQmFja3BvcnQNCg0KSSBhbSBqdXN0
+IGN1cmlvdXMgaWYgdGhpcyBpcyBvaywgb3Igc2hvdWxkIHdlIGFsd2F5cyBwdXQgdGhlIENWRTog
+dGFnIGluc2lkZSB0aGUgcGF0Y2g/DQoNClRoYW5rcw0KLy9Tb25hDQoNCj4gLS0tLS1PcmlnaW5h
+bCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogb3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5v
+cGVuZW1iZWRkZWQub3JnDQo+IFttYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0
+cy5vcGVuZW1iZWRkZWQub3JnXSBPbg0KPiBCZWhhbGYgT2YgQWxleGFuZHJ1IE1vaXNlDQo+IFNl
+bnQ6IGRlbiA3IGZlYnJ1YXJpIDIwMTcgMTI6NDkNCj4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxp
+c3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogW09FLWNvcmVdIFtQQVRDSCB2NV1bbW9y
+dHldIG9wZW5zc2w6IENWRTogQ1ZFLTIwMTctMzczMQ0KPiANCj4gSWYgYW4gU1NML1RMUyBzZXJ2
+ZXIgb3IgY2xpZW50IGlzIHJ1bm5pbmcgb24gYSAzMi1iaXQgaG9zdCwgYW5kIGEgc3BlY2lmaWMN
+Cj4gY2lwaGVyIGlzIGJlaW5nIHVzZWQsIHRoZW4gYSB0cnVuY2F0ZWQgcGFja2V0IGNhbiBjYXVz
+ZSB0aGF0IHNlcnZlciBvcg0KPiBjbGllbnQgIHRvIHBlcmZvcm0gYW4gb3V0LW9mLWJvdW5kcyBy
+ZWFkLCB1c3VhbGx5IHJlc3VsdGluZyBpbiBhIGNyYXNoLg0KPiANCj4gQmFja3BvcnRlZCBmcm9t
+Og0KPiBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL2NvbW1pdC84ZTIwNDk5NjI5
+YjZiY2Y4NjhkMDA3DQo+IDJjNzAxMWU1OTBiNWMyMjk0ZA0KPiBodHRwczovL2dpdGh1Yi5jb20v
+b3BlbnNzbC9vcGVuc3NsL2NvbW1pdC8yMTk4YjNhNTVkZTY4MWUxZjNjMjNlDQo+IGRiMDU4NmFm
+ZTEzZjQzODA1MQ0KPiANCj4gKiBDVkU6IENWRS0yMDE3LTM3MzENCj4gDQo+IFVwc3RyZWFtLXN0
+YXR1czogQmFja3BvcnQNCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRydSBNb2lzZSA8YWxl
+eGFuZHJ1Lm1vaXNlQHdpbmRyaXZlci5jb20+DQo+IC0tLQ0KPiAgLi4uL29wZW5zc2wvb3BlbnNz
+bC8wMDAxLUNWRS0yMDE3LTM3MzEucGF0Y2ggICAgICAgfCA0Ng0KPiArKysrKysrKysrKysrKysr
+KysrDQo+ICAuLi4vb3BlbnNzbC9vcGVuc3NsLzAwMDItQ1ZFLTIwMTctMzczMS5wYXRjaCAgICAg
+ICB8IDUzDQo+ICsrKysrKysrKysrKysrKysrKysrKysNCj4gIC4uLi9yZWNpcGVzLWNvbm5lY3Rp
+dml0eS9vcGVuc3NsL29wZW5zc2xfMS4wLjJqLmJiIHwgIDIgKw0KPiAgMyBmaWxlcyBjaGFuZ2Vk
+LCAxMDEgaW5zZXJ0aW9ucygrKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1j
+b25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsLzAwMDEtDQo+IENWRS0yMDE3LTM3MzEucGF0Y2gN
+Cj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wv
+b3BlbnNzbC8wMDAyLQ0KPiBDVkUtMjAxNy0zNzMxLnBhdGNoDQo+IA0KPiBkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2wvMDAwMS1DVkUtMjAxNy0N
+Cj4gMzczMS5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3Ns
+LzAwMDEtQ1ZFLQ0KPiAyMDE3LTM3MzEucGF0Y2gNCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4g
+aW5kZXggMDAwMDAwMC4uYjM3OGM1ZQ0KPiAtLS0gL2Rldi9udWxsDQo+ICsrKyBiL21ldGEvcmVj
+aXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsLzAwMDEtQ1ZFLTIwMTctDQo+IDM3MzEu
+cGF0Y2gNCj4gQEAgLTAsMCArMSw0NiBAQA0KPiArRnJvbSAwY2RlOWE5NjQ1Yzk0OWZkMGFjZjY1
+N2RhZGM3NDc2NzYyNDVjZmFmIE1vbiBTZXAgMTcNCj4gMDA6MDA6MDAgMjAwMQ0KPiArRnJvbTog
+QWxleGFuZHJ1IE1vaXNlIDxhbGV4YW5kcnUubW9pc2VAd2luZHJpdmVyLmNvbT4NCj4gK0RhdGU6
+IFR1ZSwgNyBGZWIgMjAxNyAxMToxMzoxOSArMDIwMA0KPiArU3ViamVjdDogW1BBVENIIDEvMl0g
+Y3J5cHRvL2V2cDogaGFyZGVuIFJDNF9NRDUgY2lwaGVyLg0KPiArTUlNRS1WZXJzaW9uOiAxLjAN
+Cj4gK0NvbnRlbnQtVHlwZTogdGV4dC9wbGFpbjsgY2hhcnNldD1VVEYtOA0KPiArQ29udGVudC1U
+cmFuc2Zlci1FbmNvZGluZzogOGJpdA0KPiArDQo+ICtPcmlnaW5hbGx5IGEgY3Jhc2ggaW4gMzIt
+Yml0IGJ1aWxkIHdhcyByZXBvcnRlZCBDSEFDSEEyMC1QT0xZMTMwNQ0KPiArY2lwaGVyLiBUaGUg
+Y3Jhc2ggaXMgdHJpZ2dlcmVkIGJ5IHRydW5jYXRlZCBwYWNrZXQgYW5kIGlzIHJlc3VsdCBvZg0K
+PiArZXhjZXNzaXZlIGhhc2hpbmcgdG8gdGhlIGVkZ2Ugb2YgYWNjZXNzaWJsZSBtZW1vcnkgKG9y
+IGJvZ3VzIE1BQw0KPiB2YWx1ZQ0KPiAraXMgcHJvZHVjZWQgaWYgeDg2IE1ENSBhc3NlbWJseSBt
+b2R1bGUgaXMgaW52b2x2ZWQpLiBTaW5jZSBoYXNoDQo+ICtvcGVyYXRpb24gaXMgcmVhZC1vbmx5
+IGl0IGlzIG5vdCBjb25zaWRlcmVkIHRvIGJlIGV4cGxvaXRhYmxlIGJleW9uZCBhDQo+ICtEb1Mg
+Y29uZGl0aW9uLg0KPiArDQo+ICtUaGFua3MgdG8gUm9iZXJ0IMWad2nEmWNraSBmb3IgcmVwb3J0
+Lg0KPiArDQo+ICtDVkUtMjAxNy0zNzMxDQo+ICsNCj4gK0JhY2twb3J0ZWQgZnJvbSB1cHN0cmVh
+bSBjb21taXQ6DQo+ICs4ZTIwNDk5NjI5YjZiY2Y4NjhkMDA3MmM3MDExZTU5MGI1YzIyOTRkDQo+
+ICsNCj4gK1Vwc3RyZWFtLVN0YXR1czogQmFja3BvcnQNCj4gKw0KPiArUmV2aWV3ZWQtYnk6IFJp
+Y2ggU2FseiA8cnNhbHpAb3BlbnNzbC5vcmc+DQo+ICtTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kcnUg
+TW9pc2UgPGFsZXhhbmRydS5tb2lzZUB3aW5kcml2ZXIuY29tPg0KPiArLS0tDQo+ICsgY3J5cHRv
+L2V2cC9lX3JjNF9obWFjX21kNS5jIHwgMiArKw0KPiArIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2Vy
+dGlvbnMoKykNCj4gKw0KPiArZGlmZiAtLWdpdCBhL2NyeXB0by9ldnAvZV9yYzRfaG1hY19tZDUu
+Yw0KPiBiL2NyeXB0by9ldnAvZV9yYzRfaG1hY19tZDUuYw0KPiAraW5kZXggNWU5Mjg1NS4uMzI5
+MzQxOSAxMDA2NDQNCj4gKy0tLSBhL2NyeXB0by9ldnAvZV9yYzRfaG1hY19tZDUuYw0KPiArKysr
+IGIvY3J5cHRvL2V2cC9lX3JjNF9obWFjX21kNS5jDQo+ICtAQCAtMjY5LDYgKzI2OSw4IEBAIHN0
+YXRpYyBpbnQgcmM0X2htYWNfbWQ1X2N0cmwoRVZQX0NJUEhFUl9DVFgNCj4gKmN0eCwgaW50IHR5
+cGUsIGludCBhcmcsDQo+ICsgICAgICAgICAgICAgbGVuID0gcFthcmcgLSAyXSA8PCA4IHwgcFth
+cmcgLSAxXTsNCj4gKw0KPiArICAgICAgICAgICAgIGlmICghY3R4LT5lbmNyeXB0KSB7DQo+ICsr
+CQlpZiAobGVuIDwgTUQ1X0RJR0VTVF9MRU5HVEgpDQo+ICsrICAgICAgICAgICAgICAgICAgICBy
+ZXR1cm4gLTE7DQo+ICsgICAgICAgICAgICAgICAgIGxlbiAtPSBNRDVfRElHRVNUX0xFTkdUSDsN
+Cj4gKyAgICAgICAgICAgICAgICAgcFthcmcgLSAyXSA9IGxlbiA+PiA4Ow0KPiArICAgICAgICAg
+ICAgICAgICBwW2FyZyAtIDFdID0gbGVuOw0KPiArLS0NCj4gKzIuMTAuMg0KPiArDQo+IGRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbC8wMDAyLUNW
+RS0yMDE3LQ0KPiAzNzMxLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3Ns
+L29wZW5zc2wvMDAwMi1DVkUtDQo+IDIwMTctMzczMS5wYXRjaA0KPiBuZXcgZmlsZSBtb2RlIDEw
+MDY0NA0KPiBpbmRleCAwMDAwMDAwLi45OTBjYmZkDQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIv
+bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2wvMDAwMi1DVkUtMjAxNy0N
+Cj4gMzczMS5wYXRjaA0KPiBAQCAtMCwwICsxLDUzIEBADQo+ICtGcm9tIDY0MjdmMWFjY2M1NGI1
+MTViYjg5OTM3MGYxYTY2MmJmY2IxY2FhNTIgTW9uIFNlcCAxNw0KPiAwMDowMDowMCAyMDAxDQo+
+ICtGcm9tOiBBbGV4YW5kcnUgTW9pc2UgPGFsZXhhbmRydS5tb2lzZUB3aW5kcml2ZXIuY29tPg0K
+PiArRGF0ZTogVHVlLCA3IEZlYiAyMDE3IDExOjE2OjEzICswMjAwDQo+ICtTdWJqZWN0OiBbUEFU
+Q0ggMi8yXSBjcnlwdG8vZXZwOiBoYXJkZW4gQUVBRCBjaXBoZXJzLg0KPiArTUlNRS1WZXJzaW9u
+OiAxLjANCj4gK0NvbnRlbnQtVHlwZTogdGV4dC9wbGFpbjsgY2hhcnNldD1VVEYtOA0KPiArQ29u
+dGVudC1UcmFuc2Zlci1FbmNvZGluZzogOGJpdA0KPiArDQo+ICtPcmlnaW5hbGx5IGEgY3Jhc2gg
+aW4gMzItYml0IGJ1aWxkIHdhcyByZXBvcnRlZCBDSEFDSEEyMC1QT0xZMTMwNQ0KPiArY2lwaGVy
+LiBUaGUgY3Jhc2ggaXMgdHJpZ2dlcmVkIGJ5IHRydW5jYXRlZCBwYWNrZXQgYW5kIGlzIHJlc3Vs
+dCBvZg0KPiArZXhjZXNzaXZlIGhhc2hpbmcgdG8gdGhlIGVkZ2Ugb2YgYWNjZXNzaWJsZSBtZW1v
+cnkuIFNpbmNlIGhhc2gNCj4gK29wZXJhdGlvbiBpcyByZWFkLW9ubHkgaXQgaXMgbm90IGNvbnNp
+ZGVyZWQgdG8gYmUgZXhwbG9pdGFibGUgYmV5b25kIGENCj4gK0RvUyBjb25kaXRpb24uIE90aGVy
+IGNpcGhlcnMgd2VyZSBoYXJkZW5lZC4NCj4gKw0KPiArVGhhbmtzIHRvIFJvYmVydCDFmndpxJlj
+a2kgZm9yIHJlcG9ydC4NCj4gKw0KPiArQ1ZFLTIwMTctMzczMQ0KPiArDQo+ICtCYWNrcG9ydGVk
+IGZyb20gdXBzdHJlYW0gY29tbWl0Og0KPiArMjE5OGIzYTU1ZGU2ODFlMWYzYzIzZWRiMDU4NmFm
+ZTEzZjQzODA1MQ0KPiArDQo+ICtVcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0DQo+ICsNCj4gK1Jl
+dmlld2VkLWJ5OiBSaWNoIFNhbHogPHJzYWx6QG9wZW5zc2wub3JnPg0KPiArU2lnbmVkLW9mZi1i
+eTogQWxleGFuZHJ1IE1vaXNlIDxhbGV4YW5kcnUubW9pc2VAd2luZHJpdmVyLmNvbT4NCj4gKy0t
+LQ0KPiArIGNyeXB0by9ldnAvZV9hZXMuYyB8IDcgKysrKysrLQ0KPiArIDEgZmlsZSBjaGFuZ2Vk
+LCA2IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gKw0KPiArZGlmZiAtLWdpdCBhL2Ny
+eXB0by9ldnAvZV9hZXMuYyBiL2NyeXB0by9ldnAvZV9hZXMuYyBpbmRleA0KPiArMTczNGE4Mi4u
+MTZkY2QxMCAxMDA2NDQNCj4gKy0tLSBhL2NyeXB0by9ldnAvZV9hZXMuYw0KPiArKysrIGIvY3J5
+cHRvL2V2cC9lX2Flcy5jDQo+ICtAQCAtMTIzNSwxMCArMTIzNSwxNSBAQCBzdGF0aWMgaW50IGFl
+c19nY21fY3RybChFVlBfQ0lQSEVSX0NUWA0KPiAqYywgaW50IHR5cGUsIGludCBhcmcsIHZvaWQg
+KnB0cikNCj4gKyAgICAgICAgIHsNCj4gKyAgICAgICAgICAgICB1bnNpZ25lZCBpbnQgbGVuID0g
+Yy0+YnVmW2FyZyAtIDJdIDw8IDggfCBjLT5idWZbYXJnIC0gMV07DQo+ICsgICAgICAgICAgICAg
+LyogQ29ycmVjdCBsZW5ndGggZm9yIGV4cGxpY2l0IElWICovDQo+ICsrCSAgICBpZiAobGVuIDwg
+RVZQX0dDTV9UTFNfRVhQTElDSVRfSVZfTEVOKQ0KPiArKwkgICAgICAgIHJldHVybiAwOw0KPiAr
+ICAgICAgICAgICAgIGxlbiAtPSBFVlBfR0NNX1RMU19FWFBMSUNJVF9JVl9MRU47DQo+ICsgICAg
+ICAgICAgICAgLyogSWYgZGVjcnlwdGluZyBjb3JyZWN0IGZvciB0YWcgdG9vICovDQo+ICstICAg
+ICAgICAgICAgaWYgKCFjLT5lbmNyeXB0KQ0KPiArKyAgICAgICAgICAgIGlmICghYy0+ZW5jcnlw
+dCkgew0KPiArKwkJaWYgKGxlbiA8IEVWUF9HQ01fVExTX1RBR19MRU4pDQo+ICsrCQkgICAgcmV0
+dXJuIDA7DQo+ICsgICAgICAgICAgICAgICAgIGxlbiAtPSBFVlBfR0NNX1RMU19UQUdfTEVOOw0K
+PiArKwkgICAgfQ0KPiArICAgICAgICAgICAgIGMtPmJ1ZlthcmcgLSAyXSA9IGxlbiA+PiA4Ow0K
+PiArICAgICAgICAgICAgIGMtPmJ1ZlthcmcgLSAxXSA9IGxlbiAmIDB4ZmY7DQo+ICsgICAgICAg
+ICB9DQo+ICstLQ0KPiArMi4xMC4yDQo+ICsNCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1j
+b25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsXzEuMC4yai5iYg0KPiBiL21ldGEvcmVjaXBlcy1j
+b25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsXzEuMC4yai5iYg0KPiBpbmRleCBmMmFjYTM2Li45
+YTdjZGVkIDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wv
+b3BlbnNzbF8xLjAuMmouYmINCj4gKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVu
+c3NsL29wZW5zc2xfMS4wLjJqLmJiDQo+IEBAIC00MSw2ICs0MSw4IEBAIFNSQ19VUkkgKz0gImZp
+bGU6Ly9maW5kLnBsO3N1YmRpcj0ke0JQfS91dGlsLyBcDQo+ICAgICAgICAgICAgICBmaWxlOi8v
+cGFyYWxsZWwucGF0Y2ggXA0KPiAgICAgICAgICAgICAgZmlsZTovL29wZW5zc2wtdXRpbC1wZXJs
+cGF0aC5wbC1jd2QucGF0Y2ggXA0KPiAgICAgICAgICAgICAgZmlsZTovL0NWRS0yMDE2LTcwNTUu
+cGF0Y2ggXA0KPiArICAgICAgICAgICAgZmlsZTovLzAwMDEtQ1ZFLTIwMTctMzczMS5wYXRjaCBc
+DQo+ICsgICAgICAgICAgICBmaWxlOi8vMDAwMi1DVkUtMjAxNy0zNzMxLnBhdGNoIFwNCj4gICAg
+ICAgICAgICAgIg0KPiAgU1JDX1VSSVttZDVzdW1dID0gIjk2MzIyMTM4ZjBiNjllNjFiNzIxMmJj
+NTNkNWU5MTJiIg0KPiAgU1JDX1VSSVtzaGEyNTZzdW1dID0NCj4gImU3YWZmMjkyYmUyMWMyNTlj
+NmFmMjY0NjljN2E5YjNiYTI2ZTlhYmFhZmZkMzI1ZTNkY2NjOTc4NTI1Ng0KPiBjNDMxIg0KPiAt
+LQ0KPiAyLjEwLjINCj4gDQo+IC0tDQo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fDQo+IE9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPiBPcGVu
+ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IGh0dHA6Ly9saXN0cy5vcGVu
+ZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUNCg==
 
