@@ -1,54 +1,46 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
-	[209.85.214.45])
-	by mail.openembedded.org (Postfix) with ESMTP id A4ED371A91
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
+	[209.85.128.195])
+	by mail.openembedded.org (Postfix) with ESMTP id EA57B71A5A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Feb 2017 15:49:45 +0000 (UTC)
-Received: by mail-it0-f45.google.com with SMTP id c7so38139391itd.1
+	Tue, 14 Feb 2017 16:11:23 +0000 (UTC)
+Received: by mail-wr0-f195.google.com with SMTP id i10so28212734wrb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Feb 2017 07:49:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=FjU6DbmI64KTTfUn/iMDF+gmZikaKjzCt2AXcb6X0Y4=;
-	b=SM3PBbd5qgdM6y+lkD5ZCteTf5iUpy6+XCDhuBNnL51KV7DYWcBXGQfxL+ejxwMZqO
-	mzaTSBF07BtRB3Nf/o0zjG+vfCWKzesrfiMLakoGpfwfJBJzjpAco5SY4Rk3UuwrEF9u
-	fhx9kjnwGld9IeKWewzkeED0m8AxR6oYX5h1BDngX0VJyOzCSyrx4OfrB3k0y0OLbSIk
-	+m9mc/9un8WyS3HniFqviqBPhziurl9kSpDK7Jw6kIt+OnhlKVyNEMKuagtyVgp/3lsH
-	cG5klIG9wkloAuZMPjXsUO8vH9jPjNuDbJkawMaLL3AqMLU0xgdIB3uuY7wLVZz0lneo
-	pXQg==
+	Tue, 14 Feb 2017 08:11:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=iqqQRylcUnSRWk/3hkkD3XK9pN7G6fJolRVPjx0V+E4=;
+	b=AUlIa1tHxwOECAYKAOd2oPPn72ou5H2G3QtuGd8Pu6dHSqDJFu6aGNNbRTI16kuqpD
+	Y58bsknXdZvq4vJqUs3/5YoYXwEPVC32ZwJpXP5tOcKM3YZpl+V4W2Bax6xYoUrT5s2g
+	EyPw8wJYxCACFF+0v4PxhyiWhs5EuYixRXNlGpv/1cERhLlNTIogEp0DKJh0KFXi+UaK
+	w8zLB4GlBe0eGgp8hnwLNTVgrUJfO/O29cRaNAWmFgiH9DA9Pgz/i3qCgeQgdfszNSvh
+	/DYGLQx4yQCmHiRFtlpGbuCEVnPlUv/mKX3axtXc2NkzvngLh3wpYsFN4o816Imc0gPm
+	Mc4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=FjU6DbmI64KTTfUn/iMDF+gmZikaKjzCt2AXcb6X0Y4=;
-	b=Z0/lHm9caZsZt5Diznu7PkklUI1K+fAy01lQYfIzFlo56sKc4/tyVtyqxaoE8eQe9p
-	spkuzgHFiV1g/iDdNMmPzTVeUU+pB2rDHMjK7lq2scexQRet/t0NpJ/U/50n8WXZ1Zg7
-	/nLNYIa11lJ/8+8F12AwT9+EuNzPsfyOYXK55/gfD8ib0kx3MdRn/BvkEcqcGQaXCuZC
-	6el2X6wwUbqR+2HvfPjSG4oALFvXYIr4eKbldT0hsYpanTnP2m0wFIJ6aFSLonK2Fvn8
-	QOYuB3ltSItTDySFzP2XRL7sbkt3cuCBC831i9tNln4Mfr8/qnjB9PAYScUFjmmFAu9y
-	MsCQ==
-X-Gm-Message-State: AMke39m+Ad5zitOgJcXymMUvJnXW7fUqFhqwiJoQ7uUPpKseul/IbnGWu/o7wRMzSeqBkmj8
-X-Received: by 10.36.88.207 with SMTP id f198mr4129337itb.44.1487087384996;
-	Tue, 14 Feb 2017 07:49:44 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8E015.dip0.t-ipconnect.de. [93.232.224.21])
-	by smtp.gmail.com with ESMTPSA id d12sm478067iog.53.2017.02.14.07.49.43
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 Feb 2017 07:49:43 -0800 (PST)
-Message-ID: <1487087381.13854.350.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Date: Tue, 14 Feb 2017 16:49:41 +0100
-In-Reply-To: <alpine.LFD.2.20.1702141011420.29478@uk63952.mitel.com>
-References: <alpine.LFD.2.20.1702140930180.28864@uk63952.mitel.com>
-	<1487083875.13854.331.camel@intel.com>
-	<alpine.LFD.2.20.1702141011420.29478@uk63952.mitel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=iqqQRylcUnSRWk/3hkkD3XK9pN7G6fJolRVPjx0V+E4=;
+	b=U88idywHeHPetiy4iw+liq/FmFCBYWEm+PnjFvuz76aFwgBUB5PeXbuOesrTPjSGCS
+	Pj4FvCFtd0veb99Xh6+4twemchjzKcAT6iLEgf5Ruxyl8LTBM/lUgOjrGE9XdbrRLnHV
+	oBVpJ7nkzmPBu+OLf9N0VFJwYwRH6B0jtuCg0Zl3YLez6fQwz1hqA5vv7GA4kNUihxjP
+	dKcAfUBGwob2L+/SmPfC1ZDBNzeWU+OtwwoZdrTp6/Pnwl9LPl0ft10oT42w7ZZgH/vS
+	A7BTF6BeiBrBvLZLgM9YbrgoB7VeWURaoxKhO871PZsML9/tNWemUzeJ1L7m9wkkRHiH
+	T/xw==
+X-Gm-Message-State: AMke39nisO+T8UWKNO0FJxCdLQX4c6ndbW1CTHDjN1005ihFfN6yb5ISwrTAuQjWFdBFzhDJN5NzsD9sXRqOOA==
+X-Received: by 10.223.152.175 with SMTP id w44mr28813264wrb.151.1487088683299; 
+	Tue, 14 Feb 2017 08:11:23 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.223.176.35 with HTTP; Tue, 14 Feb 2017 08:11:22 -0800 (PST)
+In-Reply-To: <adcf4051-3269-986c-3d04-8850f30c270c@linux.intel.com>
+References: <1487080669-10136-1-git-send-email-armccurdy@gmail.com>
+	<adcf4051-3269-986c-3d04-8850f30c270c@linux.intel.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 14 Feb 2017 08:11:22 -0800
+Message-ID: <CAJ86T=VM_oJjT22HzMTbgs8ewEGqD7jpB2RWOmYbDSshrmhJQA@mail.gmail.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: how to select for non-volatile /var/log?
+Subject: Re: [PATCH] weston: fix LIC_FILES_CHKSUM endline and md5sum for src/compositor.c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,44 +53,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Feb 2017 15:49:45 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 14 Feb 2017 16:11:31 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, 2017-02-14 at 10:12 -0500, Robert P. J. Day wrote:
-> On Tue, 14 Feb 2017, Patrick Ohly wrote:
-> 
-> > On Tue, 2017-02-14 at 09:31 -0500, Robert P. J. Day wrote:
-> > >   i recall, once upon a time, a discussion of how to best support a
-> > > non-volatile /var/log directory:
-> > >
-> > > https://patchwork.openembedded.org/patch/90151/
-> >
-> > A more recent, but also still unmerged patch for this functionality
-> > is here: https://patchwork.openembedded.org/patch/90839/
-> 
->   "more recent" would appear to be a relative term, since the date on
-> that is may of 2015.
+On Tue, Feb 14, 2017 at 7:30 AM, Leonardo Sandoval
+<leonardo.sandoval.gonzalez@linux.intel.com> wrote:
+>
+> On 02/14/2017 07:57 AM, Andre McCurdy wrote:
+>>
+>> The license text in Weston sources was changed from "MIT X11" to "MIT
+>> Expat" in the 1.9.0 release. The new text is 3 lines longer than the
+>> previous version, so endline and md5 hash have been incorrect for the
+>> oe-core weston recipes from 1.9.0 onwards.
+>
+> If this is the case, why the build system did not complain on >= 1.9
+> recipes?
 
-It was reposted late last year, I just didn't pick the more recent entry
-in patchwork. Here's the current one:
-https://patchwork.openembedded.org/series/4028/
+The current endline and hash are valid from the build system's point
+of view. The problem is that they only cover the first 23 lines of a
+26 line block of license text.
 
-> it seems that this topic comes up every so often,
-> then just dies. so is there any *current* discussion to add this
-> feature? be nice if this issue was just resolved, one way or the
-> other.
-
-Fully agreed.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+>> https://cgit.freedesktop.org/wayland/weston/diff/src/compositor.c?id=a0bbfea64b04d3cf12327d8b488b9949a4cddc99
+>>
+>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+>> ---
+>>   meta/recipes-graphics/wayland/weston_1.11.1.bb | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-graphics/wayland/weston_1.11.1.bb
+>> b/meta/recipes-graphics/wayland/weston_1.11.1.bb
+>> index 2736cc1..cdfac70 100644
+>> --- a/meta/recipes-graphics/wayland/weston_1.11.1.bb
+>> +++ b/meta/recipes-graphics/wayland/weston_1.11.1.bb
+>> @@ -3,7 +3,7 @@ DESCRIPTION = "Weston is the reference implementation of a
+>> Wayland compositor"
+>>   HOMEPAGE = "http://wayland.freedesktop.org"
+>>   LICENSE = "MIT"
+>>   LIC_FILES_CHKSUM = "file://COPYING;md5=d79ee9e66bb0f95d3386a7acae780b70
+>> \
+>> -
+>> file://src/compositor.c;endline=23;md5=1d535fed266cf39f6d8c0647f52ac331"
+>> +
+>> file://src/compositor.c;endline=26;md5=e342df749174a8ee11065583157c7a38"
+>>     SRC_URI =
+>> "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+>>              file://weston.png \
+>
+>
 
