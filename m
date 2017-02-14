@@ -1,44 +1,49 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C41971A75
+Return-Path: <mcrowe@brightsign.biz>
+Received: from relay.appriver.com (relay101a.appriver.com [207.97.230.14])
+	by mail.openembedded.org (Postfix) with ESMTP id 69A4A731D1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Feb 2017 13:57:55 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id c85so3703553wmi.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Feb 2017 05:57:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=5tBIJugbYnU/S2IiXQe3dg93iHZCAwwH3garhXyzPko=;
-	b=TOkFcd7b7LEgjUY8+asblUv3fkQR5UEMUd7XAOYWfJL7qzVI/uxcpVWl5TVJVLufWf
-	6jMkjj8XZZrAReGFwGwj0a5k0luPFqUIYlPJPC1uElChoFd7SGO+TTwLSM0939W0wrvt
-	eF4Z1hW7NsnGu1y8UqRBR31lCMnR/junbResjeJwHqhSI29vl3elhs65v2/BbOCsRj+o
-	EB1GbrCLsXK8If8GDJnpcibJxs9glRZbSRjlkUd8g3PaABXT+Lv3F3oY7k7v5rgawu8E
-	fJiEjqgvw7CzkQMtmEbWxkVRmYDfYIxqefLrJlSvRa8UwUcwzYKE0Bs9OgM8J9qHQFKB
-	MN5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=5tBIJugbYnU/S2IiXQe3dg93iHZCAwwH3garhXyzPko=;
-	b=Ve4gcEDAarGbbuDJF8zasLdVjwOtyofo7hNvt9/z4hei56Ir9xkBA134beyXtfGjKf
-	cZ8+dTsWG4snP8u4xFQRswh+VW42Z2TZsqYDs8sgKb2t/RLGuS3hYlMPyddZsK9kdOrf
-	HaNku1GyCV/aZmqGcT5f9exzTrP/ZA6lY9bZDKP2T52oZKN/euCbo5MYZWL2qd1VhyUG
-	Wv/8Tg8AA+Tywdg56PE0SDfk+ZKNbkxeFN6+LGlnVGKxtpLv/q9Kb2Hgx/quJH8aDu89
-	fngUVnsNdW2s0X6vDzQoPdq3vPfFX3tN3OqipWtxoHzVTtkaAR86ZrDJQQKUmiBaFkmx
-	tpiw==
-X-Gm-Message-State: AMke39mrr8eYI3PM2HWp2fLNufo6kbQ+SrpguIQZVbjxU6jIbd5EwcKdup9uUIB5xljs/g==
-X-Received: by 10.28.232.90 with SMTP id f87mr3291407wmh.35.1487080675905;
-	Tue, 14 Feb 2017 05:57:55 -0800 (PST)
-Received: from localhost.localdomain (ip-213-127-11-0.ip.prioritytelecom.net.
-	[213.127.11.0])
-	by smtp.gmail.com with ESMTPSA id 17sm927328wru.16.2017.02.14.05.57.54
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 14 Feb 2017 05:57:54 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
+	Tue, 14 Feb 2017 14:20:11 +0000 (UTC)
+X-Note-AR-ScanTimeLocal: 02/14/2017 9:20:12 AM
+X-Policy: brightsign.biz  - brightsign.biz
+X-Policy: brightsign.biz  - brightsign.biz
+X-Primary: mcrowe@brightsign.biz
+X-Note: This Email was scanned by AppRiver SecureTide
+X-Note: SecureTide Build: 9/27/2016 9:09:05 PM UTC
+X-Virus-Scan: V-
+X-Note-SnifferID: 0
+X-Note: TCH-CT/SI:0-96/SG:2 2/14/2017 9:19:50 AM
+X-GBUdb-Analysis: 0, 213.210.30.29, Ugly c=0.495056 p=-1 Source Normal
+X-Signature-Violations: 0-0-0-9179-c
+X-Note-419: 109.505 ms. Fail:0 Chk:1357 of 1357 total
+X-Note: VSCH-CT/SI: 0-1357/SG:1 2/14/2017 9:19:50 AM
+X-Note: Spam Tests Failed: 
+X-Country-Path: ->PRIVATE->United Kingdom->United States
+X-Note-Sending-IP: 213.210.30.29
+X-Note-Reverse-DNS: elite.brightsigndigital.co.uk
+X-Note-Return-Path: mcrowe@brightsign.biz
+X-Note: User Rule Hits: 
+X-Note: Global Rule Hits: G273 G274 G275 G276 G280 G281 G409 
+X-Note: Encrypt Rule Hits: 
+X-Note: Mail Class: VALID
+X-Note: Headers Injected
+Received: from [213.210.30.29] (HELO elite.brightsign6)
+	by relay.appriver.com (CommuniGate Pro SMTP 6.1.7)
+	with ESMTPS id 113929872; Tue, 14 Feb 2017 09:20:11 -0500
+Received: from chuckie.brightsign ([172.30.1.25] helo=chuckie)
+	by elite.brightsign6 with esmtp (Exim 4.84_2)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1cddxi-000EwD-Fw; Tue, 14 Feb 2017 14:20:10 +0000
+Received: from mac by chuckie with local (Exim 4.84_2)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1cddxi-0006yJ-FC; Tue, 14 Feb 2017 14:20:10 +0000
+From: Mike Crowe <mac@mcrowe.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Feb 2017 05:57:49 -0800
-Message-Id: <1487080669-10136-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] weston: fix LIC_FILES_CHKSUM endline and md5sum for src/compositor.c
+Date: Tue, 14 Feb 2017 14:20:02 +0000
+Message-Id: <20170214142002.26759-1-mac@mcrowe.com>
+X-Mailer: git-send-email 2.12.0.rc0
+MIME-Version: 1.0
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH] kernel, license, sstate, rootfs.py: Remove deploy directory README
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,34 +56,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Feb 2017 13:57:57 -0000
+X-List-Received-Date: Tue, 14 Feb 2017 14:20:12 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The license text in Weston sources was changed from "MIT X11" to "MIT
-Expat" in the 1.9.0 release. The new text is 3 lines longer than the
-previous version, so endline and md5 hash have been incorrect for the
-oe-core weston recipes from 1.9.0 onwards.
+It isn't clear that the README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+file in the deploy directory warrants the complexity it brings elsewhere.
+Let's just remove it entirely.
 
-  https://cgit.freedesktop.org/wayland/weston/diff/src/compositor.c?id=a0bbfea64b04d3cf12327d8b488b9949a4cddc99
+In particular, if two do_image_complete tasks run in parallel they risk
+both trying to put their image into ${DEPLOY_DIR_IMAGE} at the same time.
+Both will contain a README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+file. In theory this should be safe because "cp -alf" will just cause one
+to overwrite the other. Unfortunately, coreutils cp also has a race[1]
+which means that if one copy creates the file at just the wrong point the
+other will fail with:
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+ cp: cannot create hard link ‘..../tmp-glibc/deploy/images/pantera/README_-_DO_NOT_DELETE_FILES_IN_THIS_D.txt’ to
++‘..../tmp-glibc/work/rage_against-oe-linux-gnueabi/my-own-image/1.0-r0/deploy-my-own-image-complete/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt’: File exists
+
+[1] https://debbugs.gnu.org/cgi/bugreport.cgi?bug=25680
+
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
 ---
- meta/recipes-graphics/wayland/weston_1.11.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/kernel.bbclass     | 2 --
+ meta/classes/license.bbclass    | 2 +-
+ meta/classes/sstate.bbclass     | 2 --
+ meta/files/deploydir_readme.txt | 8 --------
+ meta/lib/oe/rootfs.py           | 4 ----
+ 5 files changed, 1 insertion(+), 17 deletions(-)
+ delete mode 100644 meta/files/deploydir_readme.txt
 
-diff --git a/meta/recipes-graphics/wayland/weston_1.11.1.bb b/meta/recipes-graphics/wayland/weston_1.11.1.bb
-index 2736cc1..cdfac70 100644
---- a/meta/recipes-graphics/wayland/weston_1.11.1.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.11.1.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "Weston is the reference implementation of a Wayland compositor"
- HOMEPAGE = "http://wayland.freedesktop.org"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d79ee9e66bb0f95d3386a7acae780b70 \
--                    file://src/compositor.c;endline=23;md5=1d535fed266cf39f6d8c0647f52ac331"
-+                    file://src/compositor.c;endline=26;md5=e342df749174a8ee11065583157c7a38"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index f462b2ff41..9f079a97a0 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -608,8 +608,6 @@ kernel_do_deploy() {
+ 		ln -sf ${base_name}.bin ${DEPLOYDIR}/${type}
+ 	done
  
- SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://weston.png \
+-	cp ${COREBASE}/meta/files/deploydir_readme.txt ${DEPLOYDIR}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+-
+ 	cd ${B}
+ 	# Update deploy directory
+ 	for type in ${KERNEL_IMAGETYPES} ; do
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 44467d09bf..5b01bc6577 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -279,7 +279,7 @@ def get_deployed_files(man_file):
+     """
+ 
+     dep_files = []
+-    excluded_files = ["README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt"]
++    excluded_files = []
+     with open(man_file, "r") as manifest:
+         all_files = manifest.read()
+     for f in all_files.splitlines():
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index bd9c2ae02e..450c068863 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -30,8 +30,6 @@ SSTATE_DUPWHITELIST = "${DEPLOY_DIR_IMAGE}/ ${DEPLOY_DIR}/licenses/ ${DEPLOY_DIR
+ SSTATE_DUPWHITELIST += "${STAGING_ETCDIR_NATIVE}/sgml ${STAGING_DATADIR_NATIVE}/sgml"
+ # Archive the sources for many architectures in one deploy folder
+ SSTATE_DUPWHITELIST += "${DEPLOY_DIR_SRC}"
+-# Ignore overlapping README
+-SSTATE_DUPWHITELIST += "${DEPLOY_DIR}/sdk/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt"
+ 
+ SSTATE_SCAN_FILES ?= "*.la *-config *_config"
+ SSTATE_SCAN_CMD ??= 'find ${SSTATE_BUILDDIR} \( -name "${@"\" -o -name \"".join(d.getVar("SSTATE_SCAN_FILES").split())}" \) -type f'
+diff --git a/meta/files/deploydir_readme.txt b/meta/files/deploydir_readme.txt
+deleted file mode 100644
+index 97ec1855f5..0000000000
+--- a/meta/files/deploydir_readme.txt
++++ /dev/null
+@@ -1,8 +0,0 @@
+-Files in the deploy directory will not be re-created automatically if you
+-delete them. If you do delete a file, you will need to run:
+-
+-  bitbake -c clean TARGET
+-  bitbake TARGET
+-
+-where TARGET is the name of the appropriate package or target e.g.
+-"virtual/kernel" for the kernel, an image, etc.
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 9c8a0ebb7e..cc111ff3c8 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -189,10 +189,6 @@ class Rootfs(object, metaclass=ABCMeta):
+ 
+         shutil.copytree(postinst_intercepts_dir, intercepts_dir)
+ 
+-        shutil.copy(self.d.expand("${COREBASE}/meta/files/deploydir_readme.txt"),
+-                    self.deploydir +
+-                    "/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt")
+-
+         execute_pre_post_process(self.d, pre_process_cmds)
+ 
+         if self.progress_reporter:
 -- 
-1.9.1
+2.12.0.rc0
 
 
