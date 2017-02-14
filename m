@@ -1,46 +1,52 @@
-Return-Path: <philip.balister@gmail.com>
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CFD571A9D
+Return-Path: <kristian.amlie@mender.io>
+Received: from mail-lf0-f47.google.com (mail-lf0-f47.google.com
+	[209.85.215.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DD8571A9D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Feb 2017 14:40:21 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id w20so17423022qtb.1
+	Tue, 14 Feb 2017 14:47:02 +0000 (UTC)
+Received: by mail-lf0-f47.google.com with SMTP id x1so67452266lff.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Feb 2017 06:40:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=fO7YShRVl2Z99E3jaRleS9ooLAfoUfu8SUPJ09GM1Fs=;
-	b=XubWE0r1qOK5RsInxzl5UDPN6vYAkwpTWe93p2X2gjjcy0VJPS2msZScb+gaLuKMSe
-	6qRpcetvVp2mupECHMnLGgy0gasFDLQKVMcEd7CQ+o5CdufxgsIDTq+7OGT5iFrfamQg
-	19yVXFal3E6fOQFUjNY0uXvl00dz8MhSrdkUcRnheCjabfcK9xuXg0Mdq4poZ9J+BS5M
-	g+DgZQ/hT10hBke8yCY2d7/X0gFic3y2PofRZF/Vw/6tyomvLaHnMFqzEbKdOIm4VGU+
-	uc4I2NKwS8YriEiAeSkg4SkwHuoFQK5osb7PFnFQQbvrkOIoZV7Abf0XbwUA5Y0kFrPz
-	xmlQ==
+	Tue, 14 Feb 2017 06:47:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mender-io.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=fiqElka2VZlcgTEPPE0INgRyYK1tWliyJDlPO9AaiZ8=;
+	b=f57eoK48HWFhV0UP9WfRaYoHGojhFHwzW2QLeZVPObJISmHYnhZITtCuT5v/bZ89UW
+	nypLKuKxVIysvYoSvOAYf+AI+K3jQGyZhOBoO+tTFtP38MpLoRuzSiTzZR8h61iHnGwx
+	ZJ2ozaqFMg1pH+ZWllfSTtXP6vNW0Kp29kUqC/FEoHydW5otUUKSdlRM+vUXi8upviYd
+	OPAbHag8a81JNcYS/sL636ikViMypW/rhB1kbgpkrs02BQTK1ZtF5slfUaSExQvLuguD
+	PhudneGuCqtvFXCTbm++YxbyBZhPZxh0pkjUG69Acx4iLJX5xDg8Oz38zDPm6vKh7fMc
+	gsiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=fO7YShRVl2Z99E3jaRleS9ooLAfoUfu8SUPJ09GM1Fs=;
-	b=KcF3sYxrMHGQJ1BEIOa8kKc73AKiS1aDDX8j88rMByBPQ4cAs05QxtFZsyLcHvqAly
-	07LDBoIEpv1LvM2c8jAPJBaCjPGAbR1cur+n0olLngzGTI/jgJdVGjZ2z5JxtsNcOY9h
-	sfAHy+gL8ApiBfLXl8BKKNdG1xgv6y4NgrloSa507RREYE8rk1W195UnVmF338XVEnNa
-	WG0W5k/ONmFoxt00FNeuPFj9S+kOGeBMhZXAwfmQRsX+GKKRyI+gA2vkD/XuKh2s1ssI
-	a6ftaTkkzhVp633jqqucunEl7AY6dj3PAF0I8l3UifVoSHP+nfa4wEaVdKPxx76vKSyS
-	Y4eQ==
-X-Gm-Message-State: AMke39kpJ0SELOG3vp02wBgB++GS/KnFTSHIdV5sznKZlShWDDRBvEO9T5C+HEXQhzG6LA==
-X-Received: by 10.200.34.81 with SMTP id p17mr25707019qtp.264.1487083221896;
-	Tue, 14 Feb 2017 06:40:21 -0800 (PST)
-Received: from thuvia.localdomain (pool-108-4-175-67.ronkva.east.verizon.net.
-	[108.4.175.67]) by smtp.gmail.com with ESMTPSA id
-	f126sm413770qkc.47.2017.02.14.06.40.19
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=fiqElka2VZlcgTEPPE0INgRyYK1tWliyJDlPO9AaiZ8=;
+	b=VP236ZiEmyaMYNxbEcbuRzp6QNgNYCbSBxjcozbiLackes2QKwpGLABfW1+J+u9vgy
+	uuwgphSxdBgZZ8G+zF1y5DCKUg43H2I9tZpzuDrj//Sb63jsVYMjSyWdmYcwLL2lzTKx
+	KSYudf9aBQGygDS1C4IvvoRPKXCraBDov9xsrlbfrHJp01OKy8bWlsdCIz1l9w+sYYIB
+	ZV2jK8wJ4mg9RZbGq+cFY/sc30fDe2VmLhrggZeObCl+y/n9NjV7iffoRfvbtZ4zt7aR
+	efaRt+hbqeHVN02Kbod0GjGbUwlzoRbsCqVggfgtd3zeRhbga4nScacabsdxR96RGVaR
+	EvCw==
+X-Gm-Message-State: AMke39m18tOzUcaed4yL3ngOqb4hgzZ1w+fdimgPA+DgVx5m6nYW6hoexsbjzBPxvDKSnw==
+X-Received: by 10.25.221.217 with SMTP id w86mr8456269lfi.141.1487083621904;
+	Tue, 14 Feb 2017 06:47:01 -0800 (PST)
+Received: from [192.168.1.14] ([176.111.205.58])
+	by smtp.googlemail.com with ESMTPSA id
+	u18sm193467ljd.28.2017.02.14.06.47.00
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 Feb 2017 06:40:20 -0800 (PST)
-Sender: Philip Balister <philip.balister@gmail.com>
-From: Philip Balister <philip@balister.org>
+	Tue, 14 Feb 2017 06:47:00 -0800 (PST)
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Feb 2017 09:40:07 -0500
-Message-Id: <1487083207-14487-1-git-send-email-philip@balister.org>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] cmake: Update to 3.7.2.
+References: <1485499897-15737-1-git-send-email-kristian.amlie@mender.io>
+From: Kristian Amlie <kristian.amlie@mender.io>
+Message-ID: <e1d3535e-79b9-f21a-efae-ef53e5745cde@mender.io>
+Date: Tue, 14 Feb 2017 15:46:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.5.1
+MIME-Version: 1.0
+In-Reply-To: <1485499897-15737-1-git-send-email-kristian.amlie@mender.io>
+Subject: Re: [PATCH] wic/partionedfs: Avoid reserving space for non-existing ext. partition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,43 +59,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Feb 2017 14:40:22 -0000
+X-List-Received-Date: Tue, 14 Feb 2017 14:47:02 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-Tested by building gnuradio stack.
+Ping. Patch still applies, should be a very easy change.
 
-Signed-off-by: Philip Balister <philip@balister.org>
----
- .../cmake/{cmake-native_3.7.1.bb => cmake-native_3.7.2.bb}            | 0
- meta/recipes-devtools/cmake/cmake.inc                                 | 4 ++--
- meta/recipes-devtools/cmake/{cmake_3.7.1.bb => cmake_3.7.2.bb}        | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/cmake/{cmake-native_3.7.1.bb => cmake-native_3.7.2.bb} (100%)
- rename meta/recipes-devtools/cmake/{cmake_3.7.1.bb => cmake_3.7.2.bb} (100%)
-
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.7.1.bb b/meta/recipes-devtools/cmake/cmake-native_3.7.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake-native_3.7.1.bb
-rename to meta/recipes-devtools/cmake/cmake-native_3.7.2.bb
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index 18e547d..131ff70 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -17,8 +17,8 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
-            file://avoid-gcc-warnings-with-Wstrict-prototypes.patch \
-            "
- 
--SRC_URI[md5sum] = "d031d5a06e9f1c5367cdfc56fbd2a1c8"
--SRC_URI[sha256sum] = "449a5bce64dbd4d5b9517ebd1a1248ed197add6ad27934478976fd5f1f9330e1"
-+SRC_URI[md5sum] = "79bd7e65cd81ea3aa2619484ad6ff25a"
-+SRC_URI[sha256sum] = "dc1246c4e6d168ea4d6e042cfba577c1acd65feea27e56f5ff37df920c30cae0"
- 
- UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/cmake/cmake_3.7.1.bb b/meta/recipes-devtools/cmake/cmake_3.7.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake_3.7.1.bb
-rename to meta/recipes-devtools/cmake/cmake_3.7.2.bb
 -- 
-2.7.4
+Kristian
 
+
+On 27/01/17 07:51, Kristian Amlie wrote:
+> We don't need the gap that the extended partition occupies if we
+> already know that we have less than five partitions. Saves up to one
+> full alignment of space.
+> 
+> Signed-off-by: Kristian Amlie <kristian.amlie@mender.io>
+> ---
+>  scripts/lib/wic/utils/partitionedfs.py | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/utils/partitionedfs.py
+> index 721d514..9db6d56 100644
+> --- a/scripts/lib/wic/utils/partitionedfs.py
+> +++ b/scripts/lib/wic/utils/partitionedfs.py
+> @@ -131,6 +131,10 @@ class Image():
+>  
+>          self._partitions_layed_out = True
+>  
+> +        # The number of primary and logical partitions. Extended partition and
+> +        # partitions not listed in the table are not included.
+> +        num_real_partitions = len([p for p in self.partitions if not p['no_table']])
+> +
+>          # Go through partitions in the order they are added in .ks file
+>          for num in range(len(self.partitions)):
+>              part = self.partitions[num]
+> @@ -162,7 +166,7 @@ class Image():
+>                  # Skip one sector required for the partitioning scheme overhead
+>                  disk['offset'] += overhead
+>  
+> -            if disk['realpart'] > 3:
+> +            if disk['realpart'] > 3 and num_real_partitions > 4:
+>                  # Reserve a sector for EBR for every logical partition
+>                  # before alignment is performed.
+>                  if ptable_format == "msdos":
+> @@ -202,7 +206,7 @@ class Image():
+>  
+>              if disk['ptable_format'] == "msdos":
+>                  # only count the partitions that are in partition table
+> -                if len([p for p in self.partitions if not p['no_table']]) > 4:
+> +                if num_real_partitions > 4:
+>                      if disk['realpart'] > 3:
+>                          part['type'] = 'logical'
+>                          part['num'] = disk['realpart'] + 1
+> 
 
