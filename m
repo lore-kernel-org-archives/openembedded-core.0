@@ -1,26 +1,26 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E0AAE73214
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 77B2E73214
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Feb 2017 09:55:23 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Feb 2017 01:55:25 -0800
+	Tue, 14 Feb 2017 09:55:24 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Feb 2017 01:55:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,160,1484035200"; d="scan'208";a="64940318"
+X-IronPort-AV: E=Sophos;i="5.35,160,1484035200"; d="scan'208";a="44181015"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga005.fm.intel.com with ESMTP; 14 Feb 2017 01:55:23 -0800
+	by orsmga002.jf.intel.com with ESMTP; 14 Feb 2017 01:55:17 -0800
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id A7F556A4080;
-	Tue, 14 Feb 2017 01:54:21 -0800 (PST)
+	by linux.intel.com (Postfix) with ESMTP id 8BE6A6A4080;
+	Tue, 14 Feb 2017 01:54:15 -0800 (PST)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Feb 2017 11:55:07 +0200
-Message-Id: <3eb6b093c6aa245fc432d67aca5184a8d4edbfbd.1487065337.git.jussi.kukkonen@intel.com>
+Date: Tue, 14 Feb 2017 11:55:02 +0200
+Message-Id: <6ef9855dfa11089e17efa6b33d206407734dae8d.1487065337.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1487065337.git.jussi.kukkonen@intel.com>
 References: <cover.1487065337.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 10/11] piglit: Package tests in compressed form as well
+Subject: [PATCH 05/11] xauth: Upgrade 1.0.9 -> 1.0.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,93 +35,32 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 14 Feb 2017 09:55:24 -0000
 
-Modify packaging so that generated tests are available in two forms:
-* piglit-generated-tests contains the tests as they are now (1.5GB
-  when installed)
-* piglit-generated-tests-compressed contains a tar.gz with the same
-  files (45 MB when installed)
-
-Add wrapper script that decompresses the tests at runtime: this
-requires 1.5GB free space.
+Small bug fix release.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-graphics/piglit/piglit/piglit.sh | 20 ++++++++++++++++++++
- meta/recipes-graphics/piglit/piglit_git.bb    | 21 ++++++++++++++++++++-
- 2 files changed, 40 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/piglit/piglit/piglit.sh
+ meta/recipes-graphics/xorg-app/{xauth_1.0.9.bb => xauth_1.0.10.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-app/{xauth_1.0.9.bb => xauth_1.0.10.bb} (75%)
 
-diff --git a/meta/recipes-graphics/piglit/piglit/piglit.sh b/meta/recipes-graphics/piglit/piglit/piglit.sh
-new file mode 100644
-index 0000000..3308b70
---- /dev/null
-+++ b/meta/recipes-graphics/piglit/piglit/piglit.sh
-@@ -0,0 +1,20 @@
-+#!/bin/sh
-+
-+# If we're using compressed generated tests we may need to
-+# decompress first. This is going to require at least 1.5 GB of space
-+if [[ /usr/lib/piglit/generated_tests.tar.gz -nt /usr/lib/piglit/generated_tests/ ]]; then
-+    echo "Decompressing generated tests..."
-+    tar -C /usr/lib/piglit/ -zxf /usr/lib/piglit/generated_tests.tar.gz || {
-+        echo "Failed to decompress tests, exiting."
-+        exit 1
-+    }
-+    touch /usr/lib/piglit/generated_tests
-+fi
-+
-+if ! [[ -d /usr/lib/piglit/generated_tests ]]; then
-+    echo "NOTE: No generated tests found, install piglit-generated-tests-compressed"
-+    echo "      or piglit-generated-tests to include them in the tests."
-+fi
-+
-+echo "Now running piglit..."
-+PIGLIT_NO_WINDOW=1 piglit.real "$@"
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index d6bfb14..7eeff2d 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -5,6 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b2beded7103a3d8a442a2a0391d607b0"
- SRC_URI = "git://anongit.freedesktop.org/piglit \
-            file://0001-cmake-install-bash-completions-in-the-right-place.patch \
-            file://0001-tests-Use-FE_UPWARD-only-if-its-defined-in-fenv.h.patch \
-+           file://piglit.sh \
-            "
+diff --git a/meta/recipes-graphics/xorg-app/xauth_1.0.9.bb b/meta/recipes-graphics/xorg-app/xauth_1.0.10.bb
+similarity index 75%
+rename from meta/recipes-graphics/xorg-app/xauth_1.0.9.bb
+rename to meta/recipes-graphics/xorg-app/xauth_1.0.10.bb
+index 59b3323..26e02a9 100644
+--- a/meta/recipes-graphics/xorg-app/xauth_1.0.9.bb
++++ b/meta/recipes-graphics/xorg-app/xauth_1.0.10.bb
+@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5ec74dd7ea4d10c4715a7c44f159a40b"
+ DEPENDS += "libxau libxext libxmu"
+ PE = "1"
  
- # From 2017-02-06
-@@ -40,9 +41,14 @@ do_configure_prepend() {
- }
+-SRC_URI[md5sum] = "7d6003f32838d5b688e2c8a131083271"
+-SRC_URI[sha256sum] = "56ce1523eb48b1f8a4f4244fe1c3d8e6af1a3b7d4b0e6063582421b0b68dc28f"
++SRC_URI[md5sum] = "f3f76cb10f69b571c43893ea6a634aa4"
++SRC_URI[sha256sum] = "5afe42ce3cdf4f60520d1658d2b17face45c74050f39af45dccdc95e73fafc4d"
  
- do_install() {
--	oe_runmake -C ${B} 'DESTDIR=${D}' install/strip
-+    oe_runmake -C ${B} 'DESTDIR=${D}' install/strip
-+    mv ${D}${bindir}/piglit ${D}${bindir}/piglit.real
-+    install -m 755 ${WORKDIR}/piglit.sh ${D}${bindir}/piglit
-+    tar -C ${D}${libdir}/piglit/ -czf ${D}${libdir}/piglit/generated_tests.tar.gz generated_tests/
- }
- 
-+PACKAGES =+ "${PN}-generated-tests ${PN}-generated-tests-compressed"
-+
- RDEPENDS_${PN} = "waffle python3 python3-mako python3-json \
- 	python3-subprocess python3-misc python3-importlib \
- 	python3-unixadmin python3-xml python3-multiprocessing \
-@@ -51,3 +57,16 @@ RDEPENDS_${PN} = "waffle python3 python3-mako python3-json \
- 	"
- 
- INSANE_SKIP_${PN} += "dev-so already-stripped"
-+
-+SUMMARY_${PN}-generated-tests = "Generated piglit tests (multiple GB)"
-+FILES_${PN}-generated-tests = "${libdir}/piglit/generated_tests/*"
-+CONFLICTS_${PN}-generated-tests = "${PN}-generated-tests-compressed"
-+RDEPENDS_${PN}-generated-tests += "tar"
-+
-+SUMMARY_${PN}-generated-tests-compressed = "Generated piglit tests in compressed archive"
-+FILES_${PN}-generated-tests-compressed = "${libdir}/piglit/generated_tests.tar.gz"
-+CONFLICTS_${PN}-generated-tests-compressed = "${PN}-generated-tests"
-+pkg_postrm_${PN}-generated-tests-compressed () {
-+    rm -rf $D${libdir}/piglit/generated_tests/
-+}
-+
+ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ipv6', '', d)}"
+ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
 -- 
 2.1.4
 
