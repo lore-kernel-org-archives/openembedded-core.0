@@ -1,46 +1,24 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from smtp-out11.electric.net (smtp-out11.electric.net
-	[185.38.181.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 1430571957
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E40573195
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Feb 2017 09:40:17 +0000 (UTC)
-Received: from 1cdZaq-0002Qe-Up by out11c.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>)
-	id 1cdZaq-0002Rn-W9; Tue, 14 Feb 2017 01:40:16 -0800
-Received: by emcmailer; Tue, 14 Feb 2017 01:40:16 -0800
-Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out11c.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>)
-	id 1cdZaq-0002Qe-Up; Tue, 14 Feb 2017 01:40:16 -0800
-Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
-	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
-	14.03.0319.002; Tue, 14 Feb 2017 10:40:16 +0100
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: Alexandru Moise <alexandru.moise@windriver.com>
-Thread-Topic: [OE-core] [PATCH v5][morty] openssl: CVE: CVE-2017-3731
-Thread-Index: AQHSgTgyExU2eD0CbUC+HAy5g+j7QaFoSGpA
-Date: Tue, 14 Feb 2017 09:40:15 +0000
-Message-ID: <3230301C09DEF9499B442BBE162C5E48AC3217DA@SESTOEX04.enea.se>
-References: <1486468127-16643-1-git-send-email-alexandru.moise@windriver.com>
-In-Reply-To: <1486468127-16643-1-git-send-email-alexandru.moise@windriver.com>
-Accept-Language: sv-SE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.142.231]
-MIME-Version: 1.0
-X-Outbound-IP: 192.36.1.72
-X-Env-From: sona.sarmadi@enea.com
-X-Proto: esmtps
-X-Revdns: mx-3.enea.com
-X-HELO: mx-3.enea.com
-X-TLS: TLSv1:AES128-SHA:128
-X-Authenticated_ID: 
-X-PolicySMART: 6551647
-X-Virus-Status: Scanned by VirusSMART (c)
-X-Virus-Status: Scanned by VirusSMART (s)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v5][morty] openssl: CVE: CVE-2017-3731
+	Tue, 14 Feb 2017 09:41:21 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Feb 2017 01:41:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.35,160,1484035200"; d="scan'208";a="65549124"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga006.fm.intel.com with ESMTP; 14 Feb 2017 01:41:22 -0800
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id D628C6A4080;
+	Tue, 14 Feb 2017 01:40:19 -0800 (PST)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 14 Feb 2017 11:41:16 +0200
+Message-Id: <1487065276-26271-1-git-send-email-jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] vte: Upgrade 0.44.2 -> 0.46.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,135 +31,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Feb 2017 09:40:19 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 14 Feb 2017 09:41:22 -0000
 
-SGkgQWxleGFuZHJ1LA0KDQpTaG91bGRuJ3QgQ1ZFLTIwMTctMzczMSBpbiB0aGUgcGF0Y2ggZmls
-ZXMgaGF2ZSBDVkU6IHRhZz8gDQoNCmkuZS4gQ1ZFLTIwMTctMzczMSAgaW4gMDAwMS1DVkUtMjAx
-Ny0zNzMxLnBhdGNoICYgMDAwMi1DVkUtMjAxNy0zNzMxLnBhdGNoIA0KDQpzaG91bGQgYmU6DQoN
-CkNWRTogQ1ZFLTIwMTctMzczMQ0KDQpZb3UgaGF2ZSB0aGlzIHRhZyBpbiB0aGUgbWV0YSBwYXRj
-aCwgd2UgYWRkIHRoaXMgbm9ybWFsbHkgaW5zaWRlIHRoZSBwYXRjaC4gDQoNCj4gKiBDVkU6IENW
-RS0yMDE3LTM3MzENCj4gDQo+IFVwc3RyZWFtLXN0YXR1czogQmFja3BvcnQNCg0KSSBhbSBqdXN0
-IGN1cmlvdXMgaWYgdGhpcyBpcyBvaywgb3Igc2hvdWxkIHdlIGFsd2F5cyBwdXQgdGhlIENWRTog
-dGFnIGluc2lkZSB0aGUgcGF0Y2g/DQoNClRoYW5rcw0KLy9Tb25hDQoNCj4gLS0tLS1PcmlnaW5h
-bCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogb3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnDQo+IFttYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0
-cy5vcGVuZW1iZWRkZWQub3JnXSBPbg0KPiBCZWhhbGYgT2YgQWxleGFuZHJ1IE1vaXNlDQo+IFNl
-bnQ6IGRlbiA3IGZlYnJ1YXJpIDIwMTcgMTI6NDkNCj4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxp
-c3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogW09FLWNvcmVdIFtQQVRDSCB2NV1bbW9y
-dHldIG9wZW5zc2w6IENWRTogQ1ZFLTIwMTctMzczMQ0KPiANCj4gSWYgYW4gU1NML1RMUyBzZXJ2
-ZXIgb3IgY2xpZW50IGlzIHJ1bm5pbmcgb24gYSAzMi1iaXQgaG9zdCwgYW5kIGEgc3BlY2lmaWMN
-Cj4gY2lwaGVyIGlzIGJlaW5nIHVzZWQsIHRoZW4gYSB0cnVuY2F0ZWQgcGFja2V0IGNhbiBjYXVz
-ZSB0aGF0IHNlcnZlciBvcg0KPiBjbGllbnQgIHRvIHBlcmZvcm0gYW4gb3V0LW9mLWJvdW5kcyBy
-ZWFkLCB1c3VhbGx5IHJlc3VsdGluZyBpbiBhIGNyYXNoLg0KPiANCj4gQmFja3BvcnRlZCBmcm9t
-Og0KPiBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL2NvbW1pdC84ZTIwNDk5NjI5
-YjZiY2Y4NjhkMDA3DQo+IDJjNzAxMWU1OTBiNWMyMjk0ZA0KPiBodHRwczovL2dpdGh1Yi5jb20v
-b3BlbnNzbC9vcGVuc3NsL2NvbW1pdC8yMTk4YjNhNTVkZTY4MWUxZjNjMjNlDQo+IGRiMDU4NmFm
-ZTEzZjQzODA1MQ0KPiANCj4gKiBDVkU6IENWRS0yMDE3LTM3MzENCj4gDQo+IFVwc3RyZWFtLXN0
-YXR1czogQmFja3BvcnQNCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRydSBNb2lzZSA8YWxl
-eGFuZHJ1Lm1vaXNlQHdpbmRyaXZlci5jb20+DQo+IC0tLQ0KPiAgLi4uL29wZW5zc2wvb3BlbnNz
-bC8wMDAxLUNWRS0yMDE3LTM3MzEucGF0Y2ggICAgICAgfCA0Ng0KPiArKysrKysrKysrKysrKysr
-KysrDQo+ICAuLi4vb3BlbnNzbC9vcGVuc3NsLzAwMDItQ1ZFLTIwMTctMzczMS5wYXRjaCAgICAg
-ICB8IDUzDQo+ICsrKysrKysrKysrKysrKysrKysrKysNCj4gIC4uLi9yZWNpcGVzLWNvbm5lY3Rp
-dml0eS9vcGVuc3NsL29wZW5zc2xfMS4wLjJqLmJiIHwgIDIgKw0KPiAgMyBmaWxlcyBjaGFuZ2Vk
-LCAxMDEgaW5zZXJ0aW9ucygrKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1j
-b25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsLzAwMDEtDQo+IENWRS0yMDE3LTM3MzEucGF0Y2gN
-Cj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wv
-b3BlbnNzbC8wMDAyLQ0KPiBDVkUtMjAxNy0zNzMxLnBhdGNoDQo+IA0KPiBkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2wvMDAwMS1DVkUtMjAxNy0N
-Cj4gMzczMS5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3Ns
-LzAwMDEtQ1ZFLQ0KPiAyMDE3LTM3MzEucGF0Y2gNCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4g
-aW5kZXggMDAwMDAwMC4uYjM3OGM1ZQ0KPiAtLS0gL2Rldi9udWxsDQo+ICsrKyBiL21ldGEvcmVj
-aXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsLzAwMDEtQ1ZFLTIwMTctDQo+IDM3MzEu
-cGF0Y2gNCj4gQEAgLTAsMCArMSw0NiBAQA0KPiArRnJvbSAwY2RlOWE5NjQ1Yzk0OWZkMGFjZjY1
-N2RhZGM3NDc2NzYyNDVjZmFmIE1vbiBTZXAgMTcNCj4gMDA6MDA6MDAgMjAwMQ0KPiArRnJvbTog
-QWxleGFuZHJ1IE1vaXNlIDxhbGV4YW5kcnUubW9pc2VAd2luZHJpdmVyLmNvbT4NCj4gK0RhdGU6
-IFR1ZSwgNyBGZWIgMjAxNyAxMToxMzoxOSArMDIwMA0KPiArU3ViamVjdDogW1BBVENIIDEvMl0g
-Y3J5cHRvL2V2cDogaGFyZGVuIFJDNF9NRDUgY2lwaGVyLg0KPiArTUlNRS1WZXJzaW9uOiAxLjAN
-Cj4gK0NvbnRlbnQtVHlwZTogdGV4dC9wbGFpbjsgY2hhcnNldD1VVEYtOA0KPiArQ29udGVudC1U
-cmFuc2Zlci1FbmNvZGluZzogOGJpdA0KPiArDQo+ICtPcmlnaW5hbGx5IGEgY3Jhc2ggaW4gMzIt
-Yml0IGJ1aWxkIHdhcyByZXBvcnRlZCBDSEFDSEEyMC1QT0xZMTMwNQ0KPiArY2lwaGVyLiBUaGUg
-Y3Jhc2ggaXMgdHJpZ2dlcmVkIGJ5IHRydW5jYXRlZCBwYWNrZXQgYW5kIGlzIHJlc3VsdCBvZg0K
-PiArZXhjZXNzaXZlIGhhc2hpbmcgdG8gdGhlIGVkZ2Ugb2YgYWNjZXNzaWJsZSBtZW1vcnkgKG9y
-IGJvZ3VzIE1BQw0KPiB2YWx1ZQ0KPiAraXMgcHJvZHVjZWQgaWYgeDg2IE1ENSBhc3NlbWJseSBt
-b2R1bGUgaXMgaW52b2x2ZWQpLiBTaW5jZSBoYXNoDQo+ICtvcGVyYXRpb24gaXMgcmVhZC1vbmx5
-IGl0IGlzIG5vdCBjb25zaWRlcmVkIHRvIGJlIGV4cGxvaXRhYmxlIGJleW9uZCBhDQo+ICtEb1Mg
-Y29uZGl0aW9uLg0KPiArDQo+ICtUaGFua3MgdG8gUm9iZXJ0IMWad2nEmWNraSBmb3IgcmVwb3J0
-Lg0KPiArDQo+ICtDVkUtMjAxNy0zNzMxDQo+ICsNCj4gK0JhY2twb3J0ZWQgZnJvbSB1cHN0cmVh
-bSBjb21taXQ6DQo+ICs4ZTIwNDk5NjI5YjZiY2Y4NjhkMDA3MmM3MDExZTU5MGI1YzIyOTRkDQo+
-ICsNCj4gK1Vwc3RyZWFtLVN0YXR1czogQmFja3BvcnQNCj4gKw0KPiArUmV2aWV3ZWQtYnk6IFJp
-Y2ggU2FseiA8cnNhbHpAb3BlbnNzbC5vcmc+DQo+ICtTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kcnUg
-TW9pc2UgPGFsZXhhbmRydS5tb2lzZUB3aW5kcml2ZXIuY29tPg0KPiArLS0tDQo+ICsgY3J5cHRv
-L2V2cC9lX3JjNF9obWFjX21kNS5jIHwgMiArKw0KPiArIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2Vy
-dGlvbnMoKykNCj4gKw0KPiArZGlmZiAtLWdpdCBhL2NyeXB0by9ldnAvZV9yYzRfaG1hY19tZDUu
-Yw0KPiBiL2NyeXB0by9ldnAvZV9yYzRfaG1hY19tZDUuYw0KPiAraW5kZXggNWU5Mjg1NS4uMzI5
-MzQxOSAxMDA2NDQNCj4gKy0tLSBhL2NyeXB0by9ldnAvZV9yYzRfaG1hY19tZDUuYw0KPiArKysr
-IGIvY3J5cHRvL2V2cC9lX3JjNF9obWFjX21kNS5jDQo+ICtAQCAtMjY5LDYgKzI2OSw4IEBAIHN0
-YXRpYyBpbnQgcmM0X2htYWNfbWQ1X2N0cmwoRVZQX0NJUEhFUl9DVFgNCj4gKmN0eCwgaW50IHR5
-cGUsIGludCBhcmcsDQo+ICsgICAgICAgICAgICAgbGVuID0gcFthcmcgLSAyXSA8PCA4IHwgcFth
-cmcgLSAxXTsNCj4gKw0KPiArICAgICAgICAgICAgIGlmICghY3R4LT5lbmNyeXB0KSB7DQo+ICsr
-CQlpZiAobGVuIDwgTUQ1X0RJR0VTVF9MRU5HVEgpDQo+ICsrICAgICAgICAgICAgICAgICAgICBy
-ZXR1cm4gLTE7DQo+ICsgICAgICAgICAgICAgICAgIGxlbiAtPSBNRDVfRElHRVNUX0xFTkdUSDsN
-Cj4gKyAgICAgICAgICAgICAgICAgcFthcmcgLSAyXSA9IGxlbiA+PiA4Ow0KPiArICAgICAgICAg
-ICAgICAgICBwW2FyZyAtIDFdID0gbGVuOw0KPiArLS0NCj4gKzIuMTAuMg0KPiArDQo+IGRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbC8wMDAyLUNW
-RS0yMDE3LQ0KPiAzNzMxLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3Ns
-L29wZW5zc2wvMDAwMi1DVkUtDQo+IDIwMTctMzczMS5wYXRjaA0KPiBuZXcgZmlsZSBtb2RlIDEw
-MDY0NA0KPiBpbmRleCAwMDAwMDAwLi45OTBjYmZkDQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIv
-bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2wvMDAwMi1DVkUtMjAxNy0N
-Cj4gMzczMS5wYXRjaA0KPiBAQCAtMCwwICsxLDUzIEBADQo+ICtGcm9tIDY0MjdmMWFjY2M1NGI1
-MTViYjg5OTM3MGYxYTY2MmJmY2IxY2FhNTIgTW9uIFNlcCAxNw0KPiAwMDowMDowMCAyMDAxDQo+
-ICtGcm9tOiBBbGV4YW5kcnUgTW9pc2UgPGFsZXhhbmRydS5tb2lzZUB3aW5kcml2ZXIuY29tPg0K
-PiArRGF0ZTogVHVlLCA3IEZlYiAyMDE3IDExOjE2OjEzICswMjAwDQo+ICtTdWJqZWN0OiBbUEFU
-Q0ggMi8yXSBjcnlwdG8vZXZwOiBoYXJkZW4gQUVBRCBjaXBoZXJzLg0KPiArTUlNRS1WZXJzaW9u
-OiAxLjANCj4gK0NvbnRlbnQtVHlwZTogdGV4dC9wbGFpbjsgY2hhcnNldD1VVEYtOA0KPiArQ29u
-dGVudC1UcmFuc2Zlci1FbmNvZGluZzogOGJpdA0KPiArDQo+ICtPcmlnaW5hbGx5IGEgY3Jhc2gg
-aW4gMzItYml0IGJ1aWxkIHdhcyByZXBvcnRlZCBDSEFDSEEyMC1QT0xZMTMwNQ0KPiArY2lwaGVy
-LiBUaGUgY3Jhc2ggaXMgdHJpZ2dlcmVkIGJ5IHRydW5jYXRlZCBwYWNrZXQgYW5kIGlzIHJlc3Vs
-dCBvZg0KPiArZXhjZXNzaXZlIGhhc2hpbmcgdG8gdGhlIGVkZ2Ugb2YgYWNjZXNzaWJsZSBtZW1v
-cnkuIFNpbmNlIGhhc2gNCj4gK29wZXJhdGlvbiBpcyByZWFkLW9ubHkgaXQgaXMgbm90IGNvbnNp
-ZGVyZWQgdG8gYmUgZXhwbG9pdGFibGUgYmV5b25kIGENCj4gK0RvUyBjb25kaXRpb24uIE90aGVy
-IGNpcGhlcnMgd2VyZSBoYXJkZW5lZC4NCj4gKw0KPiArVGhhbmtzIHRvIFJvYmVydCDFmndpxJlj
-a2kgZm9yIHJlcG9ydC4NCj4gKw0KPiArQ1ZFLTIwMTctMzczMQ0KPiArDQo+ICtCYWNrcG9ydGVk
-IGZyb20gdXBzdHJlYW0gY29tbWl0Og0KPiArMjE5OGIzYTU1ZGU2ODFlMWYzYzIzZWRiMDU4NmFm
-ZTEzZjQzODA1MQ0KPiArDQo+ICtVcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0DQo+ICsNCj4gK1Jl
-dmlld2VkLWJ5OiBSaWNoIFNhbHogPHJzYWx6QG9wZW5zc2wub3JnPg0KPiArU2lnbmVkLW9mZi1i
-eTogQWxleGFuZHJ1IE1vaXNlIDxhbGV4YW5kcnUubW9pc2VAd2luZHJpdmVyLmNvbT4NCj4gKy0t
-LQ0KPiArIGNyeXB0by9ldnAvZV9hZXMuYyB8IDcgKysrKysrLQ0KPiArIDEgZmlsZSBjaGFuZ2Vk
-LCA2IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gKw0KPiArZGlmZiAtLWdpdCBhL2Ny
-eXB0by9ldnAvZV9hZXMuYyBiL2NyeXB0by9ldnAvZV9hZXMuYyBpbmRleA0KPiArMTczNGE4Mi4u
-MTZkY2QxMCAxMDA2NDQNCj4gKy0tLSBhL2NyeXB0by9ldnAvZV9hZXMuYw0KPiArKysrIGIvY3J5
-cHRvL2V2cC9lX2Flcy5jDQo+ICtAQCAtMTIzNSwxMCArMTIzNSwxNSBAQCBzdGF0aWMgaW50IGFl
-c19nY21fY3RybChFVlBfQ0lQSEVSX0NUWA0KPiAqYywgaW50IHR5cGUsIGludCBhcmcsIHZvaWQg
-KnB0cikNCj4gKyAgICAgICAgIHsNCj4gKyAgICAgICAgICAgICB1bnNpZ25lZCBpbnQgbGVuID0g
-Yy0+YnVmW2FyZyAtIDJdIDw8IDggfCBjLT5idWZbYXJnIC0gMV07DQo+ICsgICAgICAgICAgICAg
-LyogQ29ycmVjdCBsZW5ndGggZm9yIGV4cGxpY2l0IElWICovDQo+ICsrCSAgICBpZiAobGVuIDwg
-RVZQX0dDTV9UTFNfRVhQTElDSVRfSVZfTEVOKQ0KPiArKwkgICAgICAgIHJldHVybiAwOw0KPiAr
-ICAgICAgICAgICAgIGxlbiAtPSBFVlBfR0NNX1RMU19FWFBMSUNJVF9JVl9MRU47DQo+ICsgICAg
-ICAgICAgICAgLyogSWYgZGVjcnlwdGluZyBjb3JyZWN0IGZvciB0YWcgdG9vICovDQo+ICstICAg
-ICAgICAgICAgaWYgKCFjLT5lbmNyeXB0KQ0KPiArKyAgICAgICAgICAgIGlmICghYy0+ZW5jcnlw
-dCkgew0KPiArKwkJaWYgKGxlbiA8IEVWUF9HQ01fVExTX1RBR19MRU4pDQo+ICsrCQkgICAgcmV0
-dXJuIDA7DQo+ICsgICAgICAgICAgICAgICAgIGxlbiAtPSBFVlBfR0NNX1RMU19UQUdfTEVOOw0K
-PiArKwkgICAgfQ0KPiArICAgICAgICAgICAgIGMtPmJ1ZlthcmcgLSAyXSA9IGxlbiA+PiA4Ow0K
-PiArICAgICAgICAgICAgIGMtPmJ1ZlthcmcgLSAxXSA9IGxlbiAmIDB4ZmY7DQo+ICsgICAgICAg
-ICB9DQo+ICstLQ0KPiArMi4xMC4yDQo+ICsNCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1j
-b25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsXzEuMC4yai5iYg0KPiBiL21ldGEvcmVjaXBlcy1j
-b25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsXzEuMC4yai5iYg0KPiBpbmRleCBmMmFjYTM2Li45
-YTdjZGVkIDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wv
-b3BlbnNzbF8xLjAuMmouYmINCj4gKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVu
-c3NsL29wZW5zc2xfMS4wLjJqLmJiDQo+IEBAIC00MSw2ICs0MSw4IEBAIFNSQ19VUkkgKz0gImZp
-bGU6Ly9maW5kLnBsO3N1YmRpcj0ke0JQfS91dGlsLyBcDQo+ICAgICAgICAgICAgICBmaWxlOi8v
-cGFyYWxsZWwucGF0Y2ggXA0KPiAgICAgICAgICAgICAgZmlsZTovL29wZW5zc2wtdXRpbC1wZXJs
-cGF0aC5wbC1jd2QucGF0Y2ggXA0KPiAgICAgICAgICAgICAgZmlsZTovL0NWRS0yMDE2LTcwNTUu
-cGF0Y2ggXA0KPiArICAgICAgICAgICAgZmlsZTovLzAwMDEtQ1ZFLTIwMTctMzczMS5wYXRjaCBc
-DQo+ICsgICAgICAgICAgICBmaWxlOi8vMDAwMi1DVkUtMjAxNy0zNzMxLnBhdGNoIFwNCj4gICAg
-ICAgICAgICAgIg0KPiAgU1JDX1VSSVttZDVzdW1dID0gIjk2MzIyMTM4ZjBiNjllNjFiNzIxMmJj
-NTNkNWU5MTJiIg0KPiAgU1JDX1VSSVtzaGEyNTZzdW1dID0NCj4gImU3YWZmMjkyYmUyMWMyNTlj
-NmFmMjY0NjljN2E5YjNiYTI2ZTlhYmFhZmZkMzI1ZTNkY2NjOTc4NTI1Ng0KPiBjNDMxIg0KPiAt
-LQ0KPiAyLjEwLjINCj4gDQo+IC0tDQo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fDQo+IE9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPiBPcGVu
-ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IGh0dHA6Ly9saXN0cy5vcGVu
-ZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUNCg==
+New release requires libpcre 2.
+
+Enable gnutls by default to remove an annoying warning on every
+vte widget. core-image-sato already has gnutls so this shouldn't
+be a big deal.
+
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+
+This depends on "libpcre2: add it for newer vte" patch
+(thanks Robert!)
+
+Cheers,
+ Jussi
+
+ meta/recipes-support/vte/{vte_0.44.2.bb => vte_0.46.1.bb} | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-support/vte/{vte_0.44.2.bb => vte_0.46.1.bb} (86%)
+
+diff --git a/meta/recipes-support/vte/vte_0.44.2.bb b/meta/recipes-support/vte/vte_0.46.1.bb
+similarity index 86%
+rename from meta/recipes-support/vte/vte_0.44.2.bb
+rename to meta/recipes-support/vte/vte_0.46.1.bb
+index 8cddc98..0afe625 100644
+--- a/meta/recipes-support/vte/vte_0.44.2.bb
++++ b/meta/recipes-support/vte/vte_0.46.1.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Virtual terminal emulator GTK+ widget library"
+ BUGTRACKER = "https://bugzilla.gnome.org/buglist.cgi?product=vte"
+ LICENSE = "LGPLv2.1+"
+-DEPENDS = "glib-2.0 gtk+3 intltool-native libxml2-native"
++DEPENDS = "glib-2.0 gtk+3 libpcre2 intltool-native libxml2-native"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ 
+@@ -11,8 +11,8 @@ inherit gnomebase gtk-doc distro_features_check upstream-version-is-even gobject
+ SRC_URI += "file://0001-Don-t-enable-stack-protection-by-default.patch \
+             ${@bb.utils.contains('PACKAGECONFIG', 'vala', '', 'file://0001-Add-m4-vapigen.m4.patch', d) } \
+             "
+-SRC_URI[archive.md5sum] = "eca8f8a9d9f9bb8e9d592d0acfeec015"
+-SRC_URI[archive.sha256sum] = "a1ea594814bb136a3a9a6c7656b46240571f6a198825c1111007fe99194b0949"
++SRC_URI[archive.md5sum] = "e8f4393b9f1ec2e2f3cdb3fd4f5a16de"
++SRC_URI[archive.sha256sum] = "8800cf8bc259704a12ad1853fb0eb43bfe3857af15242e6fb9f2c3fd95b3f5c6"
+ 
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+ 
+@@ -27,7 +27,7 @@ export XDG_DATA_DIRS = "${STAGING_DATADIR}"
+ # Package additional files
+ FILES_${PN}-dev += "${datadir}/vala/vapi/*"
+ 
+-PACKAGECONFIG ??= ""
++PACKAGECONFIG ??= "gnutls"
+ PACKAGECONFIG[vala] = "--enable-vala,--disable-vala,vala-native vala"
+ PACKAGECONFIG[gnutls] = "--with-gnutls,--without-gnutls,gnutls"
+ 
+-- 
+2.1.4
+
 
