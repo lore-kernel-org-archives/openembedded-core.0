@@ -1,24 +1,33 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 6FA5C731C2;
-	Tue, 14 Feb 2017 17:28:19 +0000 (UTC)
-Received: from [2a00:14f0:e04c:51ac:142b:b310:996f:84a3] (helo=phil-desktop)
-	by hetzner.pbcl.net with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.87)
-	(envelope-from <pb@pbcl.net>)
-	id 1cdgtj-0005wU-4O; Tue, 14 Feb 2017 18:28:16 +0100
-Message-ID: <1487093294.8657.11.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Patrick Ohly <patrick.ohly@intel.com>, Martin Jansa
-	<martin.jansa@gmail.com>
-Date: Tue, 14 Feb 2017 17:28:14 +0000
-In-Reply-To: <1487086509.13854.347.camel@intel.com>
-References: <20170210082811.GA3021@jama> <1487086509.13854.347.camel@intel.com>
-X-Mailer: Evolution 3.22.1-2 
-Mime-Version: 1.0
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: multipath-tools on arm (was: Re: State of bitbake world, Failed tasks 2017-02-08)
+Return-Path: <nkela@cisco.com>
+X-Greylist: delayed 571 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 14 Feb 2017 18:25:09 UTC
+Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
+	by mail.openembedded.org (Postfix) with ESMTP id C421260745
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Feb 2017 18:25:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=1013; q=dns/txt; s=iport;
+	t=1487096710; x=1488306310;
+	h=from:to:cc:subject:date:message-id;
+	bh=Uz+rZ1QbMozYcpuVpJpAS3jDvGrckDP5tre5Dj5bM98=;
+	b=Vul44NyLsLzioNO/clrtdrEMC+mZYgmZg6p8dAjfn8cqPb+9IcCokZpH
+	xoiTwnYsxsChYLsJGFIXvhiP7hGvGRrfGa2d+BLMvQVKFH04HiEQ2raKk
+	dPR5scgp35UNLw+C19/YGlNQ5DbnRsIVLWAzqcj70eurmkA2A8c9cIbAV I=;
+X-IronPort-AV: E=Sophos;i="5.35,162,1484006400"; d="scan'208";a="211573735"
+Received: from rcdn-core-1.cisco.com ([173.37.93.152])
+	by rcdn-iport-2.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Feb 2017 18:15:39 +0000
+Received: from sjc-ads-4850.cisco.com (sjc-ads-4850.cisco.com [10.28.39.114])
+	by rcdn-core-1.cisco.com (8.14.5/8.14.5) with ESMTP id
+	v1EIFcGL027758; Tue, 14 Feb 2017 18:15:39 GMT
+Received: by sjc-ads-4850.cisco.com (Postfix, from userid 323395)
+	id B3D93B7E; Tue, 14 Feb 2017 10:15:38 -0800 (PST)
+From: Nikunj Kela <nkela@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 14 Feb 2017 18:15:28 +0000
+Message-Id: <1487096128-20725-1-git-send-email-nkela@cisco.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH] relocate_sdk.py: skip debug files from relocation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +40,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Feb 2017 17:28:19 -0000
-Content-Type: multipart/alternative; boundary="=-GR8ORFXhwok4fLcnXgIa"
+X-List-Received-Date: Tue, 14 Feb 2017 18:25:10 -0000
 
---=-GR8ORFXhwok4fLcnXgIa
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Debug files only have debug symbols hence don't need
+to be relocated. Relocation script throws errors when
+run on the debug files. This change skips these files
+that have zero size.
 
-On Tue, 2017-02-14 at 16:35 +0100, Patrick Ohly wrote:
-> {standard input}: Assembler messages:
-> {standard input}:80: Error: shifts in CMP/MOV instructions are only
-> supported in unified syntax -- `mov r12,r12,ror#3'
-> {standard input}:80: Error: shifts in CMP/MOV instructions are only
-> supported in unified syntax -- `mov r12,r12,ror#13'
+Signed-off-by: Nikunj Kela <nkela@cisco.com>
+---
+ scripts/relocate_sdk.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-This code is imported from valgrind and doesn't work in a Thumb build. 
-It's trying to generate a special no-op instruction sequence that the
-Valgrind JIT can spot.  There might be a Thumb equivalent in a newer
-version of valgrind upstream, I'm not sure.
+diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
+index e47b4d9..c752fa2 100755
+--- a/scripts/relocate_sdk.py
++++ b/scripts/relocate_sdk.py
+@@ -103,6 +103,8 @@ def change_interpreter(elf_file_name):
+                fname.startswith(b("/lib32/")) or fname.startswith(b("/usr/lib32/")) or \
+                fname.startswith(b("/usr/lib32/")) or fname.startswith(b("/usr/lib64/")):
+                 break
++            if p_filesz == 0:
++                break
+             if (len(new_dl_path) >= p_filesz):
+                 print("ERROR: could not relocate %s, interp size = %i and %i is needed." \
+                     % (elf_file_name, p_memsz, len(new_dl_path) + 1))
+-- 
+2.5.0
 
-p.
 
---=-GR8ORFXhwok4fLcnXgIa
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-
-<html><head></head><body><div>On Tue, 2017-02-14 at 16:35 +0100, Patrick Ohly wrote:</div><blockquote type="cite"><div>{standard input}: Assembler messages:</div><div>{standard input}:80: Error: shifts in CMP/MOV instructions are only supported in unified syntax -- `mov r12,r12,ror#3'</div><div>{standard input}:80: Error: shifts in CMP/MOV instructions are only supported in unified syntax -- `mov r12,r12,ror#13'</div></blockquote><div><br></div><div>This code is imported from valgrind and doesn't work in a Thumb build.  It's trying to generate a special no-op instruction sequence that the Valgrind JIT can spot.  There might be a Thumb equivalent in a newer version of valgrind upstream, I'm not sure.</div><div><br></div><div>p.</div><div><br></div></body></html>
-
---=-GR8ORFXhwok4fLcnXgIa--
