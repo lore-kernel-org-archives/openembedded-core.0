@@ -1,64 +1,54 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 86C39731CA
+Return-Path: <linus.svensson@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id D36E960557
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Feb 2017 10:49:04 +0000 (UTC)
-Received: from mail-mta-0.intern.sigma-chemnitz.de
-	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v1EAn2J4018901
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK) for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Feb 2017 11:49:03 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1487069343;
-	bh=8dnHuW28gm3/FFl+DVrEtjjVhL2GmRQj7hGadpZE5OY=;
-	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=gAtg3f2I3ZVv+6kN1Qhjo87UuiCqteBi2UXTBWAHtirWzmpmNqfqleKejGhIxXo/7
-	UHo/kAgTNb96EyQp1DHQbi727vW+R+yWeTpjrAWzDDbmWGqW25FbyqGScG8wx467kh
-	BE14Q13qBxFCrmxOwghjuN0+DCopJBTe5pLlq5U0=
-Received: from reddoxx.intern.sigma-chemnitz.de
-	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
-	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v1EAmumJ012814 for <openembedded-core@lists.openembedded.org> from
-	enrico.scholz@sigma-chemnitz.de; Tue, 14 Feb 2017 11:48:56 +0100
-Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
-	reddoxx.intern.sigma-chemnitz.de
-	(Reddoxx engine) with SMTP id 285F34BE02D;
-	Tue, 14 Feb 2017 11:48:36 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v1EAmsvt012811
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org> from
-	ensc@sigma-chemnitz.de; Tue, 14 Feb 2017 11:48:54 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.87) (envelope-from <ensc@sigma-chemnitz.de>) id 1cdafG-0002e3-Np
-	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Feb 2017 11:48:54 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <cover.1487055395.git.hongxu.jia@windriver.com>
-	<247659408552f6a0edba461a59a3cc53e85012ae.1487055395.git.hongxu.jia@windriver.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Tue, 14 Feb 2017 11:48:54 +0100
-In-Reply-To: <247659408552f6a0edba461a59a3cc53e85012ae.1487055395.git.hongxu.jia@windriver.com>
-	(Hongxu Jia's message of "Tue, 14 Feb 2017 02:02:20 -0500")
-Message-ID: <lyefz12gkp.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.1 (gnu/linux)
+	Tue, 14 Feb 2017 12:15:02 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 182952E45B;
+	Tue, 14 Feb 2017 13:15:02 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id 8igdj3--3Ka0; Tue, 14 Feb 2017 13:15:01 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bes.se.axis.com (Postfix) with ESMTPS id 422D32E457;
+	Tue, 14 Feb 2017 13:15:01 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 207FD1A06D;
+	Tue, 14 Feb 2017 13:15:01 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 154911A067;
+	Tue, 14 Feb 2017 13:15:01 +0100 (CET)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Tue, 14 Feb 2017 13:15:01 +0100 (CET)
+Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
+	by thoth.se.axis.com (Postfix) with ESMTP id 09A4B7C1;
+	Tue, 14 Feb 2017 13:15:01 +0100 (CET)
+Received: from [10.94.48.1] (10.0.5.60) by XBOX03.axis.com (10.0.5.17) with
+	Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Tue, 14 Feb 2017 13:15:01 +0100
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>, "Burton, Ross"
+	<ross.burton@intel.com>
+References: <1480609418-3264-1-git-send-email-linus.svensson@axis.com>
+	<1480609418-3264-2-git-send-email-linus.svensson@axis.com>
+	<CAJTo0LZ_ea-cm=ZSNt2zVbasOApPdbGegZCH7VU-+0XH=-noZA@mail.gmail.com>
+	<CAPybu_1tqVeyDqhQLd0qPOOR=D=4WhC_D-Tv4wkZJ2_todZ0oQ@mail.gmail.com>
+	<CAJTo0LaChW9ENPiJcrnBNGbrbUFiVDSM+Ro2uUjY8NgpQXiheg@mail.gmail.com>
+	<CAPybu_0FepS4PQ_QPMK3-k_h2r5J4ue-b-p8bbGeDDhVjL=Ctw@mail.gmail.com>
+From: Linus Svensson <linus.svensson@axis.com>
+Message-ID: <58A2F4C4.9010300@axis.com>
+Date: Tue, 14 Feb 2017 13:15:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Icedove/38.5.0
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.85
-X-Spam-Score: -5.0
-X-Spam-Level: -----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.78
-Subject: Re: [PATCH 4/4] ncurses: fix beaglebone do_configure failure
+In-Reply-To: <CAPybu_0FepS4PQ_QPMK3-k_h2r5J4ue-b-p8bbGeDDhVjL=Ctw@mail.gmail.com>
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: XBOX01.axis.com (10.0.5.15) To XBOX03.axis.com (10.0.5.17)
+X-TM-AS-GCONF: 00
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] meson: Add recipe for the meson build system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -71,21 +61,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Feb 2017 10:49:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 14 Feb 2017 12:15:03 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hongxu Jia <hongxu.jia-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org> writes:
+Hi.
 
-> Append ${HOST_CC_ARCH} to ${CFLAGS} could fix the issue.
+On 02/13/2017 01:28 PM, Ricardo Ribalda Delgado wrote:
+> Linus, do you plan to resend? Can I help you?
+I will resend it later today.
 
-I think, the correct fix would be
+meson is still under development, and more options for installation 
+directories are still (I know at least one more that will come) added. 
+That could, or perhaps should, be updated when the meson version is 
+updated. Worth to put a comment somewhere regarding that?
 
-a) bother the ncurses author to remove the stupid CC sanity check, or
-
-b) create a wrapper around CC like in
-
-   https://github.com/sigma-embedded/elito-de.sigma-chemnitz/blob/master/meta-fixup/recipes/ncurses/ncurses_6.0%2B20160625.bbappend
-
-
-Enrico
+/Linus
 
