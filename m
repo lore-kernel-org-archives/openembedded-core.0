@@ -1,23 +1,24 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 87379731C7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Feb 2017 16:28:27 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga104.jf.intel.com with ESMTP; 14 Feb 2017 08:28:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,162,1484035200"; d="scan'208";a="65070756"
-Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.120])
-	by fmsmga005.fm.intel.com with ESMTP; 14 Feb 2017 08:28:27 -0800
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Feb 2017 10:31:48 -0600
-Message-Id: <1487089908-9840-2-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1487089908-9840-1-git-send-email-anibal.limon@linux.intel.com>
-References: <1487089908-9840-1-git-send-email-anibal.limon@linux.intel.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] classes/license.bbclass: Don't copy unneeded licenses by package
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FA5C731C2;
+	Tue, 14 Feb 2017 17:28:19 +0000 (UTC)
+Received: from [2a00:14f0:e04c:51ac:142b:b310:996f:84a3] (helo=phil-desktop)
+	by hetzner.pbcl.net with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.87)
+	(envelope-from <pb@pbcl.net>)
+	id 1cdgtj-0005wU-4O; Tue, 14 Feb 2017 18:28:16 +0100
+Message-ID: <1487093294.8657.11.camel@pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Patrick Ohly <patrick.ohly@intel.com>, Martin Jansa
+	<martin.jansa@gmail.com>
+Date: Tue, 14 Feb 2017 17:28:14 +0000
+In-Reply-To: <1487086509.13854.347.camel@intel.com>
+References: <20170210082811.GA3021@jama> <1487086509.13854.347.camel@intel.com>
+X-Mailer: Evolution 3.22.1-2 
+Mime-Version: 1.0
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: multipath-tools on arm (was: Re: State of bitbake world, Failed tasks 2017-02-08)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,89 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Feb 2017 16:28:28 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 14 Feb 2017 17:28:19 -0000
+Content-Type: multipart/alternative; boundary="=-GR8ORFXhwok4fLcnXgIa"
 
-Usually a recipe only provides one package but when provides more
-than one package the LICENSE variable per package (i.e. linux-firmware)
-needs to take into account to avoid unnecesary copy of licenses into
-packages.
+--=-GR8ORFXhwok4fLcnXgIa
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The patch validates if LICENSE exists in package LICENSES in order to
-don't copy unneeded licenses.
+On Tue, 2017-02-14 at 16:35 +0100, Patrick Ohly wrote:
+> {standard input}: Assembler messages:
+> {standard input}:80: Error: shifts in CMP/MOV instructions are only
+> supported in unified syntax -- `mov r12,r12,ror#3'
+> {standard input}:80: Error: shifts in CMP/MOV instructions are only
+> supported in unified syntax -- `mov r12,r12,ror#13'
 
-As result of this patch some packages will not contain licenses there
-are not into LICENSE variable.
+This code is imported from valgrind and doesn't work in a Thumb build. 
+It's trying to generate a special no-op instruction sequence that the
+Valgrind JIT can spot.  There might be a Thumb equivalent in a newer
+version of valgrind upstream, I'm not sure.
 
-For example:
+p.
 
-acl contains GPLv2+ instead of GPLv2+ and LGPLv2.1+
-libacl contains LGPLv2+ instead of GPLv2+ and LGPLv2.1+
+--=-GR8ORFXhwok4fLcnXgIa
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-This behaviour is declared on the acl recipe as:
+<html><head></head><body><div>On Tue, 2017-02-14 at 16:35 +0100, Patrick Ohly wrote:</div><blockquote type="cite"><div>{standard input}: Assembler messages:</div><div>{standard input}:80: Error: shifts in CMP/MOV instructions are only supported in unified syntax -- `mov r12,r12,ror#3'</div><div>{standard input}:80: Error: shifts in CMP/MOV instructions are only supported in unified syntax -- `mov r12,r12,ror#13'</div></blockquote><div><br></div><div>This code is imported from valgrind and doesn't work in a Thumb build.  It's trying to generate a special no-op instruction sequence that the Valgrind JIT can spot.  There might be a Thumb equivalent in a newer version of valgrind upstream, I'm not sure.</div><div><br></div><div>p.</div><div><br></div></body></html>
 
-SUMMARY = "Utilities for managing POSIX Access Control Lists"
-HOMEPAGE = "http://savannah.nongnu.org/projects/acl/"
-SECTION = "libs"
-
-LICENSE = "LGPLv2.1+ & GPLv2+"
-LICENSE_${PN} = "GPLv2+"
-LICENSE_lib${BPN} = "LGPLv2.1+"
-
-[YOCTO #10325]
-
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/classes/license.bbclass | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 3c5e49e..f9fb5bb 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -131,6 +131,10 @@ def write_license_files(d, license_manifest, pkg_dic):
-                 bb.utils.mkdirhier(pkg_rootfs_license_dir)
-                 pkg_license_dir = os.path.join(d.getVar('LICENSE_DIRECTORY'),
-                                             pkg_dic[pkg]["PN"]) 
-+
-+                pkg_manifest_licenses = [canonical_license(d, lic) \
-+                        for lic in pkg_dic[pkg]["LICENSES"]]
-+
-                 licenses = os.listdir(pkg_license_dir)
-                 for lic in licenses:
-                     rootfs_license = os.path.join(rootfs_license_dir, lic)
-@@ -138,9 +142,18 @@ def write_license_files(d, license_manifest, pkg_dic):
-                     pkg_rootfs_license = os.path.join(pkg_rootfs_license_dir, lic)
- 
-                     if re.match("^generic_.*$", lic):
--                        generic_lic = re.search("^generic_(.*)$", lic).group(1)
--                        if oe.license.license_ok(canonical_license(d,
--                            generic_lic), bad_licenses) == False:
-+                        generic_lic = canonical_license(d,
-+                                re.search("^generic_(.*)$", lic).group(1))
-+
-+                        # Do not copy generic license into package if isn't
-+                        # declared into LICENSES of the package.
-+                        if not re.sub('\+$', '', generic_lic) in \
-+                                [re.sub('\+', '', lic) for lic in \
-+                                 pkg_manifest_licenses]:
-+                            continue
-+
-+                        if oe.license.license_ok(generic_lic,
-+                                bad_licenses) == False:
-                             continue
- 
-                         if not os.path.exists(rootfs_license):
-@@ -488,7 +501,6 @@ def find_license_files(d):
-         bb.fatal('%s: %s' % (d.getVar('PF'), exc))
-     except SyntaxError:
-         bb.warn("%s: Failed to parse it's LICENSE field." % (d.getVar('PF')))
--
-     # Add files from LIC_FILES_CHKSUM to list of license files
-     lic_chksum_paths = defaultdict(OrderedDict)
-     for path, chksum in lic_chksums.items():
--- 
-2.1.4
-
-
+--=-GR8ORFXhwok4fLcnXgIa--
