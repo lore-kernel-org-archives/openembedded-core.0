@@ -1,37 +1,28 @@
-Return-Path: <dominic.sacre@gmx.de>
-X-Greylist: delayed 307 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 15 Feb 2017 10:50:32 UTC
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
-	by mail.openembedded.org (Postfix) with ESMTP id 03DF173195
+Return-Path: <amarnath.valluri@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id C711C7665F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 10:50:32 +0000 (UTC)
-Received: from dastp.fritz.box ([80.147.195.117]) by mail.gmx.com (mrgmx002
-	[212.227.17.190]) with ESMTPSA (Nemesis) id 0M1VlJ-1cP2fV3dU1-00tV5Y;
-	Wed, 15 Feb 2017 11:45:24 +0100
-From: =?UTF-8?q?Dominic=20Sacr=C3=A9?= <dominic.sacre@gmx.de>
+	Wed, 15 Feb 2017 10:51:48 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Feb 2017 02:51:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.35,165,1484035200"; d="scan'208,217";a="44736844"
+Received: from irdmzpr05.ir.intel.com (HELO [163.33.54.155]) ([163.33.54.155])
+	by orsmga002.jf.intel.com with ESMTP; 15 Feb 2017 02:51:47 -0800
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Feb 2017 11:44:49 +0100
-Message-Id: <20170215104449.6186-1-dominic.sacre@gmx.de>
-X-Mailer: git-send-email 2.11.0
+References: <cover.1486997986.git.alexander.kanavin@linux.intel.com>
+	<5eb1a4810bf745c5932feee2d1b47621353e9689.1486997986.git.alexander.kanavin@linux.intel.com>
+	<1487154986.2824.6.camel@andred.net>
+From: avalluri <amarnath.valluri@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Message-ID: <cf49add5-c621-3d50-43eb-66cef09fca8d@intel.com>
+Date: Wed, 15 Feb 2017 12:51:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.7.0
 MIME-Version: 1.0
-X-Provags-ID: V03:K0:mOGkNybcaTd4dEO6BC5LnE7rZvGij6p8yiWJChtX3f/8aKRiT2Q
-	0HHrCu1z8jPJU4NpWruZg/z4h8CGTmnOcz32myypzojxrlShCQMzQvN7qxUVFXWjhdPFg1M
-	/Gq3k/CW0NFjFqld/fU+FtbGPVyToVhNyNW9AIbFpDQ4I8WxVtvARMxh+fnxi718Nfbx/C8
-	21kbSetSPKifr1L9M+iHQ==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:SUjmAqrXV6U=:fYBauI/zePsCmJfDeBcWB2
-	xZyR0ITEsfme0CbANeqv8m8B+KqkjMIhtQtQ59MHkcuY8BdAZ7Vx+0j6HwrxUfCo0Z5PyH/Lj
-	jwh0eapCOhmmzeaZHx9hMWE3mReQKI/nBIMZpNnWPfqUXBaJrr/h7V09Acwhi1403tVWrM9NF
-	HlayTv/AE5uNPvZDW7vm22eRI34aSvKMOjWBjC3jcE0BH/HOX9NixaN7epjyz1EriR8zqjiCl
-	D/crnxEHtAC2ffnjtAGGua78GE5D+awKxwUnTudQhRWMdhrIFehB7NcwE/sdUhIY4seOq/CoV
-	p80USsSmDZ0Ltebw0F5kYKBMSh/cPIaX7yt/l6qyA26DS0ngocLPAxbH303NZJrdH5SHmpjuA
-	IsSFxI8qJCNOIB2aZQaWOoL2bIp/2kY5rBGJi1ZuHOhD0v79WppBqmhYSO6hT7wIWfxW/UoQR
-	NsMI3EIjdNE6285SOjB81ITL5mh+kpNw8AbyhWbX9m0THiejmXvjWsamiXuvy9PrCrxEkudZb
-	biTDQkgYiWSfe5wseg/gGEVDc/YGsVjLAGTBIYIRIiFQ2XPOTrOabHV8spNrrinhM9BrFKujH
-	HxU1Lv/Wx0xMYnuZpmrvUa6PuX7rvTpYk8pOblMcXobtthZxZQNCWy5NL8RCteL1s3R4qSPTg
-	vfX8mDj8Vs4sVRG3xCaNEcuA/OmCiyyiLgAgj2wnl5VF2yIREqGIllJ8XvZVMRp2lRhKZaJJk
-	bAwKIlUkpIbyuifQtztzJEYYPiryJjtZFyXVWrL1wtSpHh4h1ajHz8bvGsNXdkLlGKYy2G/QN
-	MtMX4sF
-Subject: [PATCH] lib/oe/patch: Support xz-compressed patches
+In-Reply-To: <1487154986.2824.6.camel@andred.net>
+Subject: Re: [PATCH 36/36] package_deb.bbclass: Ignore file paths in RPROVIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,33 +35,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Feb 2017 10:50:33 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 15 Feb 2017 10:51:48 -0000
+Content-Type: multipart/alternative;
+	boundary="------------2AAE7F0985F1BC67ED17F846"
+
+--------------2AAE7F0985F1BC67ED17F846
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Add .xz to the list of extensions recognized by patch_path(), so that
-compressed patches ending in .patch.xz or .diff.xz are automatically
-applied.
-
-Signed-off-by: Dominic Sacré <dominic.sacre@gmx.de>
----
- meta/lib/oe/patch.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index 95674b3706..aaa2d3aabd 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -776,7 +776,7 @@ def patch_path(url, fetch, workdir, expand=True):
- 
-     local = fetch.localpath(url)
-     base, ext = os.path.splitext(os.path.basename(local))
--    if ext in ('.gz', '.bz2', '.Z'):
-+    if ext in ('.gz', '.bz2', '.xz', '.Z'):
-         if expand:
-             local = os.path.join(workdir, base)
-         ext = os.path.splitext(base)[1]
--- 
-2.11.0
 
 
+On 15.02.2017 12:36, André Draszik wrote:
+> On Mon, 2017-02-13 at 17:06 +0200, Alexander Kanavin wrote:
+>> From: Amarnath Valluri<amarnath.valluri@intel.com>
+>>
+>> Unlike rpm, debian packaging does not allow file paths in 'Provides:'
+>> field.
+>> When 'usrmerge' distro feature enabled bash/busybox packages adds
+>> '/bin/sh' to
+>> it's RPROVIDES to satisfy build dependencies, this entry should be
+>> filtered out.
+> What about opkg - is it OK with PATHs (my blind guess would be no)? Has it
+> been tested?
+Yes, i tested wit 'ipk' packaging, it did not complain about file paths.
+
+Amarnath
+
+
+--------------2AAE7F0985F1BC67ED17F846
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <p><br>
+    </p>
+    <br>
+    <div class="moz-cite-prefix">On 15.02.2017 12:36, André Draszik
+      wrote:<br>
+    </div>
+    <blockquote cite="mid:1487154986.2824.6.camel@andred.net"
+      type="cite">
+      <pre wrap="">On Mon, 2017-02-13 at 17:06 +0200, Alexander Kanavin wrote:
+</pre>
+      <blockquote type="cite" style="color: #000000;">
+        <pre wrap="">From: Amarnath Valluri <a moz-do-not-send="true" class="moz-txt-link-rfc2396E" href="mailto:amarnath.valluri@intel.com">&lt;amarnath.valluri@intel.com&gt;</a>
+
+Unlike rpm, debian packaging does not allow file paths in 'Provides:'
+field.
+When 'usrmerge' distro feature enabled bash/busybox packages adds
+'/bin/sh' to
+it's RPROVIDES to satisfy build dependencies, this entry should be
+filtered out.
+</pre>
+      </blockquote>
+      <pre wrap="">What about opkg - is it OK with PATHs (my blind guess would be no)? Has it
+been tested?</pre>
+    </blockquote>
+    Yes, i tested wit 'ipk' packaging, it did not complain about file
+    paths.<br>
+    <br>
+    Amarnath<br>
+    <br>
+  </body>
+</html>
+
+--------------2AAE7F0985F1BC67ED17F846--
