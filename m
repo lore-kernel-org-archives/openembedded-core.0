@@ -1,41 +1,41 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 178E277240
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C08173195
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 10:12:33 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id v77so7365464wmv.0
+	Wed, 15 Feb 2017 10:28:20 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id c85so7469667wmi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 02:12:34 -0800 (PST)
+	Wed, 15 Feb 2017 02:28:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=Gl2eGedGHMS/ZPqfBZkL8V5COYeMwbFGZPdAXI7oqBg=;
-	b=ZI5ch559+OsN0EhzWXp63jFiRLYpA/8eQb9E13fGS40WLvzd/dMx7eFXrDlBdClJJ0
-	C08J2bSiQQBwk+X0O7JgMVSoSw0BSngcx83f2NqPo+6JOXTUlVqnVCJLd11zCZgTWysH
-	MhUsyeKOSdkbRk2R+zqlvb2ddr5g//+DhZF2ZuvrzseV0nPpCc+VWK+5kfXepVGXXzs8
-	OBqOwYhhnyGtBWehxzxXWzZK12XZj7ulz9oA0YavyaBuxgsjicYI+Z7+T6U7U6t3vkWs
-	P+4P1lfgHFf6CGSNg4B+KiamV8HAMH8GndMkRT6A3eUo/StfnxR4senqsfrS4yPX5NAe
-	qwxA==
-X-Gm-Message-State: AMke39liRfpsNiXgIC18PrcB3bGKYszIw9/6tJ8lhDzhnoYq+8m5TMr2HC7kci/Ha7jX/A==
-X-Received: by 10.28.95.4 with SMTP id t4mr7524734wmb.87.1487153553388;
-	Wed, 15 Feb 2017 02:12:33 -0800 (PST)
+	bh=UrqtzFDNInZla9pT4gAg2Im8I188z+540blWKA6tOps=;
+	b=FsdYz6gfrZpy6cmOtgPr9/wxoK07HfSq6z3u+naJQrA/JN6iIZyC34laFmN/56ILox
+	hWJ9w9TV4SsYMyeHxKyXhygRHJTTadUSmtk8G/5/ombqykcnPQ4kk6HjAbHSkO/caqVc
+	/tMsi6wypZwPGVGz6STO93xnCv7RFeXR9TMtHS+z0iLSx03JnqoIAe1ITHJnY7klbdAF
+	E2ElLANBDSVJFlkzUSBlmV4zux9S2DA8O5MQlR/bwc5wzYt3P0THbu11yw6r1IE/yuBX
+	kI4WlkFV6xdVXaPvYqHVku/5ULuoAPq6Y07wA27J5v3mmcVTKy46wMCyxyxeyHuaTeig
+	VIfg==
+X-Gm-Message-State: AMke39krpvyI0sWg3zJ2dS02UycgTTFsfHXwXKtpIed/wYS2vX+EB7iRLmyyRHOx/k+qrA==
+X-Received: by 10.28.186.197 with SMTP id k188mr7234784wmf.25.1487154500803;
+	Wed, 15 Feb 2017 02:28:20 -0800 (PST)
 Received: from tfsielt31850 ([77.107.218.170])
 	by smtp.gmail.com with ESMTPSA id
-	h75sm4247538wrh.37.2017.02.15.02.12.32
+	j18sm4302579wrb.33.2017.02.15.02.28.19
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 15 Feb 2017 02:12:32 -0800 (PST)
-Message-ID: <1487153551.2824.1.camel@andred.net>
+	Wed, 15 Feb 2017 02:28:20 -0800 (PST)
+Message-ID: <1487154498.2824.4.camel@andred.net>
 From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Feb 2017 10:12:31 +0000
-In-Reply-To: <7f5d277329d262fe7e9723aacba2dc20768380b9.1486997986.git.alexander.kanavin@linux.intel.com>
+Date: Wed, 15 Feb 2017 10:28:18 +0000
+In-Reply-To: <6d1f71de4f49b874be8f48b51d36967cbb4eaef4.1486997986.git.alexander.kanavin@linux.intel.com>
 References: <cover.1486997986.git.alexander.kanavin@linux.intel.com>
-	<7f5d277329d262fe7e9723aacba2dc20768380b9.1486997986.git.alexander.kanavin@linux.intel.com>
+	<6d1f71de4f49b874be8f48b51d36967cbb4eaef4.1486997986.git.alexander.kanavin@linux.intel.com>
 X-Mailer: Evolution 3.22.3-1 
 Mime-Version: 1.0
-Subject: Re: [PATCH 31/36] image.bbclass: do not uninstall update-alternatives from readonly rootfs
+Subject: Re: [PATCH 35/36] nativesdk.bbclass: add a /bin/sh RPROVIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,93 +48,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Feb 2017 10:12:34 -0000
+X-List-Received-Date: Wed, 15 Feb 2017 10:28:21 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
 On Mon, 2017-02-13 at 17:06 +0200, Alexander Kanavin wrote:
-> dnf insists that it cannot be done:
-> 
-> Error: package libglib-2.0-0-1:2.50.2-r0.i586 requires /bin/sh, but none
-> of the providers can be installed
->   - package libdnf1-0.2.3+git0+367545629c-r0.i586 requires libglib-2.0-0
-> >= 2.50.2, but none of the providers can be installed
->   - package bash-4.3.30-r0.i586 requires update-alternatives-opkg, but
-> none of the providers can be installed
->   - package busybox-1.24.1-r0.i586 requires update-alternatives-opkg, but
-> none of the providers can be installed
->   - package dnf-2.0.0+git0+f0093d672d-r0.i586 requires libdnf1, but none
-> of the providers can be installed
->   - conflicting requests
->   - problem with installed package dnf-2.0.0+git0+f0093d672d-r0.i586
+> nativesdk-* rpm packages all require /bin/sh because postinst scriptlets
+> are run with it. We can either teach rpm4 and dnf to ignore that
+> dependency
+> (a lot of non-upstreamable work), or add auto-satisfy the dependency
+> in each package. I've chosen to do the latter.
 
-Can this change be made dependent on DNF, please?
+Shouldn't there be a package that actually RPROVIDES /bin/sh, rather than
+having to add a fake RPROVIDES?
 
-Update-alternatives once run is not useful on read-only rootfs, and its
-database wastes a lot of space (in the target file system) for no benefit.
+Alternatively, shouldn't this be added to package_rpm.bbclass instead?
 
 Cheers,
 Andre'
 
 
-
 > 
 > Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 > ---
->  meta/classes/image.bbclass             | 2 +-
->  meta/lib/oeqa/selftest/buildoptions.py | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
+>  meta/classes/nativesdk.bbclass | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index b5a4fb4a337..ca0d0a8c0d1 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -33,7 +33,7 @@ ROOTFS_BOOTSTRAP_INSTALL = "${@bb.utils.contains("IMAGE_
-> FEATURES", "package-mana
+> diff --git a/meta/classes/nativesdk.bbclass
+> b/meta/classes/nativesdk.bbclass
+> index a97f5a7114d..a050fe548ff 100644
+> --- a/meta/classes/nativesdk.bbclass
+> +++ b/meta/classes/nativesdk.bbclass
+> @@ -97,3 +97,7 @@ do_packagedata[stamp-extra-info] = ""
+>  USE_NLS = "${SDKUSE_NLS}"
 >  
->  # These packages will be removed from a read-only rootfs after all other
->  # packages have been installed
-> -ROOTFS_RO_UNNEEDED = "update-rc.d base-passwd shadow ${VIRTUAL-
-> RUNTIME_update-alternatives} ${ROOTFS_BOOTSTRAP_INSTALL}"
-> +ROOTFS_RO_UNNEEDED = "update-rc.d base-passwd shadow
-> ${ROOTFS_BOOTSTRAP_INSTALL}"
->  
->  # packages to install from features
->  FEATURE_INSTALL = "${@'
-> '.join(oe.packagegroup.required_packages(oe.data.typed_value('IMAGE_FEATUR
-> ES', d), d))}"
-> diff --git a/meta/lib/oeqa/selftest/buildoptions.py
-> b/meta/lib/oeqa/selftest/buildoptions.py
-> index d40eb007ded..1801511913b 100644
-> --- a/meta/lib/oeqa/selftest/buildoptions.py
-> +++ b/meta/lib/oeqa/selftest/buildoptions.py
-> @@ -22,12 +22,12 @@ class ImageOptionsTests(oeSelfTest):
->          bitbake("core-image-minimal")
->          log_data_file = os.path.join(get_bb_var("WORKDIR", "core-image-
-> minimal"), "temp/log.do_rootfs")
->          log_data_created = ftools.read_file(log_data_file)
-> -        incremental_created = re.search("NOTE: load old install solution
-> for incremental install\nNOTE: old install solution not exist\nNOTE:
-> creating new install solution for incremental install(\n.*)*NOTE:
-> Installing the following packages:.*packagegroup-core-ssh-openssh",
-> log_data_created)
-> +        incremental_created = re.search("Installing  : packagegroup-core-
-> ssh-openssh", log_data_created)
->          self.remove_config('IMAGE_FEATURES += "ssh-server-openssh"')
->          self.assertTrue(incremental_created, msg = "Match failed in:\n%s"
-> % log_data_created)
->          bitbake("core-image-minimal")
->          log_data_removed = ftools.read_file(log_data_file)
-> -        incremental_removed = re.search("NOTE: load old install solution
-> for incremental install\nNOTE: creating new install solution for
-> incremental install(\n.*)*NOTE: incremental removed:.*openssh-sshd-.*",
-> log_data_removed)
-> +        incremental_removed = re.search("Erasing     : packagegroup-core-
-> ssh-openssh", log_data_removed)
->          self.assertTrue(incremental_removed, msg = "Match failed in:\n%s"
-> % log_data_removed)
->  
->      @testcase(286)
+>  OLDEST_KERNEL = "${SDK_OLDEST_KERNEL}"
+> +
+> +python populate_packages_prepend() {
+> +    d.appendVar(d.expand('RPROVIDES_${PN}'), ' /bin/sh')
+> +}
 > -- 
 > 2.11.0
 > 
