@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4321777230
+	by mail.openembedded.org (Postfix) with ESMTP id BF2DE755C2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 06:25:20 +0000 (UTC)
+	Wed, 15 Feb 2017 06:25:22 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v1F6PKXZ032426
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v1F6PNeg032429
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Feb 2017 22:25:20 -0800
+	Tue, 14 Feb 2017 22:25:23 -0800
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 14 Feb 2017 22:25:20 -0800
+	Tue, 14 Feb 2017 22:25:22 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Feb 2017 22:25:08 -0800
-Message-ID: <5dbf7c0bb50293384d06a88fe8f90e1650386873.1487139819.git.liezhi.yang@windriver.com>
+Date: Tue, 14 Feb 2017 22:25:11 -0800
+Message-ID: <5f59a24d85e3226f7fa878f3fac5b88afbe1b0fc.1487139819.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <cover.1487139819.git.liezhi.yang@windriver.com>
 References: <cover.1487139819.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/6] tcl: extend to nativesdk
+Subject: [PATCH 6/6] binconfig.bbclass: fix get_binconfig_mangle()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,43 +33,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Feb 2017 06:25:20 -0000
+X-List-Received-Date: Wed, 15 Feb 2017 06:25:23 -0000
 Content-Type: text/plain
 
-Fixed:
-$ bitbake nativesdk-expect
-ERROR: Nothing PROVIDES 'nativesdk-tcl' (but virtual:nativesdk:expect_5.45.bb DEPENDS on or otherwise requires it). Close matches:
-[snip]
+The command was:
+s += " -e 's:-L${libdir}:-LOELIBDIR:;'"
+s += " -e 's:-I${includedir}:-IOEINCDIR:;'"
+s += " -e 's:OELIBDIR:${STAGING_LIBDIR}:;'"
+s += " -e 's:OEINCDIR:${STAGING_INCDIR}:;'"
+s += " -e 's:-I${WORKDIR}:-I${STAGING_INCDIR}:'"
+s += " -e 's:-L${WORKDIR}:-L${STAGING_LIBDIR}:'"
+
+The STAGING_LIBDIR and STAGING_INCDIR now contains WORKDIR, so the
+result would be incorrect like:
+TCL_INCLUDE_SPEC='-IFIXMESTAGINGDIRTARGET/usr/include/recipe-sysroot/usr/include/tcl8.6'
+
+Note, the "/usr/include/recipe-sysroot" is not needed. Move the last two
+sed commands ahead will fix the problem.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/tcltk/tcl_8.6.6.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/classes/binconfig.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.6.bb b/meta/recipes-devtools/tcltk/tcl_8.6.6.bb
-index 2dd0a7a..c828b38 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.6.6.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.6.6.bb
-@@ -54,8 +54,8 @@ do_install() {
- 	autotools_do_install install-private-headers
- 	ln -sf ./tclsh${VER} ${D}${bindir}/tclsh
- 	ln -sf tclsh8.6 ${D}${bindir}/tclsh${VER}
--	sed -i "s+-L${B}+-L${STAGING_LIBDIR}+g" tclConfig.sh
--	sed -i "s+${WORKDIR}+${STAGING_INCDIR}+g" tclConfig.sh
-+	sed -i "s;-L${B};-L${STAGING_LIBDIR};g" tclConfig.sh
-+	sed -i "s;${WORKDIR};${STAGING_INCDIR};g" tclConfig.sh
- 	install -d ${D}${bindir_crossscripts}
- 	install -m 0755 tclConfig.sh ${D}${bindir_crossscripts}
- 	install -m 0755 tclConfig.sh ${D}${libdir}
-@@ -78,7 +78,7 @@ RDEPENDS_${PN} += "tcl-lib"
- RDEPENDS_${PN}_class-native = ""
- RDEPENDS_${PN}-ptest += "libgcc"
+diff --git a/meta/classes/binconfig.bbclass b/meta/classes/binconfig.bbclass
+index 5372294..1be5fc4 100644
+--- a/meta/classes/binconfig.bbclass
++++ b/meta/classes/binconfig.bbclass
+@@ -13,14 +13,14 @@ def get_binconfig_mangle(d):
+         s += " -e 's:=%s${exec_prefix}/:=\\1OEEXECPREFIX/:'" % optional_quote
+         s += " -e 's:-L${libdir}:-LOELIBDIR:;'"
+         s += " -e 's:-I${includedir}:-IOEINCDIR:;'"
++        s += " -e 's:-L${WORKDIR}:-LOELIBDIR:'"
++        s += " -e 's:-I${WORKDIR}:-I-IOEINCDIR:'"
+         s += " -e 's:OEBASELIBDIR:${STAGING_BASELIBDIR}:;'"
+         s += " -e 's:OELIBDIR:${STAGING_LIBDIR}:;'"
+         s += " -e 's:OEINCDIR:${STAGING_INCDIR}:;'"
+         s += " -e 's:OEDATADIR:${STAGING_DATADIR}:'"
+         s += " -e 's:OEPREFIX:${STAGING_DIR_HOST}${prefix}:'"
+         s += " -e 's:OEEXECPREFIX:${STAGING_DIR_HOST}${exec_prefix}:'"
+-        s += " -e 's:-I${WORKDIR}:-I${STAGING_INCDIR}:'"
+-        s += " -e 's:-L${WORKDIR}:-L${STAGING_LIBDIR}:'"
+         if d.getVar("OE_BINCONFIG_EXTRA_MANGLE", False):
+             s += d.getVar("OE_BINCONFIG_EXTRA_MANGLE")
  
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
- 
- do_compile_ptest() {
- 	oe_runmake tcltest
 -- 
 2.10.2
 
