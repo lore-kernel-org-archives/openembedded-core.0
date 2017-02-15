@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BF2DE755C2
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 61BA67723E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 06:25:22 +0000 (UTC)
+	Wed, 15 Feb 2017 06:25:24 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v1F6PNeg032429
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v1F6PL8v007609
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Feb 2017 22:25:23 -0800
+	Tue, 14 Feb 2017 22:25:21 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 14 Feb 2017 22:25:22 -0800
+	Tue, 14 Feb 2017 22:25:21 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Feb 2017 22:25:11 -0800
-Message-ID: <5f59a24d85e3226f7fa878f3fac5b88afbe1b0fc.1487139819.git.liezhi.yang@windriver.com>
+Date: Tue, 14 Feb 2017 22:25:09 -0800
+Message-ID: <919896572a4b00981602d274e8ff704c3ce2ba13.1487139819.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <cover.1487139819.git.liezhi.yang@windriver.com>
 References: <cover.1487139819.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 6/6] binconfig.bbclass: fix get_binconfig_mangle()
+Subject: [PATCH 4/6] gawk/json-glib/libcheck: extend to nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,50 +33,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Feb 2017 06:25:23 -0000
+X-List-Received-Date: Wed, 15 Feb 2017 06:25:29 -0000
 Content-Type: text/plain
 
-The command was:
-s += " -e 's:-L${libdir}:-LOELIBDIR:;'"
-s += " -e 's:-I${includedir}:-IOEINCDIR:;'"
-s += " -e 's:OELIBDIR:${STAGING_LIBDIR}:;'"
-s += " -e 's:OEINCDIR:${STAGING_INCDIR}:;'"
-s += " -e 's:-I${WORKDIR}:-I${STAGING_INCDIR}:'"
-s += " -e 's:-L${WORKDIR}:-L${STAGING_LIBDIR}:'"
-
-The STAGING_LIBDIR and STAGING_INCDIR now contains WORKDIR, so the
-result would be incorrect like:
-TCL_INCLUDE_SPEC='-IFIXMESTAGINGDIRTARGET/usr/include/recipe-sysroot/usr/include/tcl8.6'
-
-Note, the "/usr/include/recipe-sysroot" is not needed. Move the last two
-sed commands ahead will fix the problem.
+They are required by nativesdk-cve-check-tool.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/binconfig.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-extended/gawk/gawk_4.1.4.bb         | 2 ++
+ meta/recipes-gnome/json-glib/json-glib_1.2.2.bb  | 2 +-
+ meta/recipes-support/libcheck/libcheck_0.10.0.bb | 2 +-
+ 3 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/binconfig.bbclass b/meta/classes/binconfig.bbclass
-index 5372294..1be5fc4 100644
---- a/meta/classes/binconfig.bbclass
-+++ b/meta/classes/binconfig.bbclass
-@@ -13,14 +13,14 @@ def get_binconfig_mangle(d):
-         s += " -e 's:=%s${exec_prefix}/:=\\1OEEXECPREFIX/:'" % optional_quote
-         s += " -e 's:-L${libdir}:-LOELIBDIR:;'"
-         s += " -e 's:-I${includedir}:-IOEINCDIR:;'"
-+        s += " -e 's:-L${WORKDIR}:-LOELIBDIR:'"
-+        s += " -e 's:-I${WORKDIR}:-I-IOEINCDIR:'"
-         s += " -e 's:OEBASELIBDIR:${STAGING_BASELIBDIR}:;'"
-         s += " -e 's:OELIBDIR:${STAGING_LIBDIR}:;'"
-         s += " -e 's:OEINCDIR:${STAGING_INCDIR}:;'"
-         s += " -e 's:OEDATADIR:${STAGING_DATADIR}:'"
-         s += " -e 's:OEPREFIX:${STAGING_DIR_HOST}${prefix}:'"
-         s += " -e 's:OEEXECPREFIX:${STAGING_DIR_HOST}${exec_prefix}:'"
--        s += " -e 's:-I${WORKDIR}:-I${STAGING_INCDIR}:'"
--        s += " -e 's:-L${WORKDIR}:-L${STAGING_LIBDIR}:'"
-         if d.getVar("OE_BINCONFIG_EXTRA_MANGLE", False):
-             s += d.getVar("OE_BINCONFIG_EXTRA_MANGLE")
+diff --git a/meta/recipes-extended/gawk/gawk_4.1.4.bb b/meta/recipes-extended/gawk/gawk_4.1.4.bb
+index b888df1..dda38ef 100644
+--- a/meta/recipes-extended/gawk/gawk_4.1.4.bb
++++ b/meta/recipes-extended/gawk/gawk_4.1.4.bb
+@@ -45,3 +45,5 @@ do_install_ptest() {
+ 	  do cp ${S}/test/$i* ${D}${PTEST_PATH}/test; \
+ 	done
+ }
++
++BBCLASSEXTEND = "nativesdk"
+diff --git a/meta/recipes-gnome/json-glib/json-glib_1.2.2.bb b/meta/recipes-gnome/json-glib/json-glib_1.2.2.bb
+index 4e272be..6869ba9 100644
+--- a/meta/recipes-gnome/json-glib/json-glib_1.2.2.bb
++++ b/meta/recipes-gnome/json-glib/json-glib_1.2.2.bb
+@@ -17,4 +17,4 @@ inherit gnomebase gettext lib_package gobject-introspection gtk-doc manpages
  
+ PACKAGECONFIG[manpages] = "--enable-man --with-xml-catalog=${STAGING_ETCDIR_NATIVE}/xml/catalog.xml, --disable-man, libxslt-native xmlto-native"
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-support/libcheck/libcheck_0.10.0.bb b/meta/recipes-support/libcheck/libcheck_0.10.0.bb
+index c0b459f..9d34198 100644
+--- a/meta/recipes-support/libcheck/libcheck_0.10.0.bb
++++ b/meta/recipes-support/libcheck/libcheck_0.10.0.bb
+@@ -21,4 +21,4 @@ RREPLACES_${PN} = "check (<= 0.9.5)"
+ RDEPENDS_${PN} += "gawk"
+ RDEPENDS_${PN}_class-native = ""
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.10.2
 
