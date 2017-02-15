@@ -1,27 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DEF0731AE
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E63B772E4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 09:01:56 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Feb 2017 01:01:57 -0800
+	Wed, 15 Feb 2017 09:02:02 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga104.jf.intel.com with ESMTP; 15 Feb 2017 01:02:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,165,1484035200"; d="scan'208";a="64920354"
+X-IronPort-AV: E=Sophos;i="5.35,165,1484035200"; d="scan'208";a="1094972677"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 15 Feb 2017 01:01:57 -0800
+	by orsmga001.jf.intel.com with ESMTP; 15 Feb 2017 01:01:59 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id E0CA76A4006
+	by linux.intel.com (Postfix) with ESMTP id 2E6856A4006
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 01:00:54 -0800 (PST)
+	Wed, 15 Feb 2017 01:00:55 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Feb 2017 10:38:28 +0200
-Message-Id: <c56afe1117db0fab2b004400fb1363b5e11c5fdf.1487110279.git.ed.bartosh@linux.intel.com>
+Date: Wed, 15 Feb 2017 10:38:29 +0200
+Message-Id: <bd0da03526f5c953e08f7b995d5951233725571b.1487110279.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1487110279.git.ed.bartosh@linux.intel.com>
 References: <cover.1487110279.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 05/11] wic: remove msger module
+Subject: [PATCH 06/11] wic: move errors module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,255 +33,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Feb 2017 09:01:58 -0000
+X-List-Received-Date: Wed, 15 Feb 2017 09:02:03 -0000
 
-Removed custom logger module msger as it's replaced
-by wic logger.
+Moved from lib/wic/utils/ to lib/wic as this is a core module.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/engine.py |   4 -
- scripts/lib/wic/msger.py  | 209 ----------------------------------------------
- 2 files changed, 213 deletions(-)
- delete mode 100644 scripts/lib/wic/msger.py
+ scripts/lib/wic/{utils => }/errors.py               | 0
+ scripts/lib/wic/plugin.py                           | 4 ++--
+ scripts/lib/wic/plugins/imager/direct.py            | 2 +-
+ scripts/lib/wic/plugins/source/bootimg-pcbios.py    | 2 +-
+ scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py | 2 +-
+ scripts/wic                                         | 3 +--
+ 6 files changed, 6 insertions(+), 7 deletions(-)
+ rename scripts/lib/wic/{utils => }/errors.py (100%)
 
-diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-index b64714c..2ccd510 100644
---- a/scripts/lib/wic/engine.py
-+++ b/scripts/lib/wic/engine.py
-@@ -32,7 +32,6 @@ import logging
- import os
+diff --git a/scripts/lib/wic/utils/errors.py b/scripts/lib/wic/errors.py
+similarity index 100%
+rename from scripts/lib/wic/utils/errors.py
+rename to scripts/lib/wic/errors.py
+diff --git a/scripts/lib/wic/plugin.py b/scripts/lib/wic/plugin.py
+index 70d3377..31311ad 100644
+--- a/scripts/lib/wic/plugin.py
++++ b/scripts/lib/wic/plugin.py
+@@ -19,8 +19,8 @@ import os
  import sys
+ import logging
  
--from wic import msger
- from wic.plugin import pluginmgr
++from wic.errors import CreatorError
+ from wic import pluginbase
+-from wic.utils import errors
  from wic.utils.misc import get_bitbake_var
  
-@@ -184,9 +183,6 @@ def wic_create(wks_file, rootfs_dir, bootimg_dir, kernel_dir,
-         logger.error("BUILDDIR not found, exiting. (Did you forget to source oe-init-build-env?)")
+ __ALL__ = ['PluginMgr', 'pluginmgr']
+@@ -110,7 +110,7 @@ class PluginMgr():
+         """ the return value is dict of name:class pairs """
+ 
+         if ptype not in PLUGIN_TYPES:
+-            raise errors.CreatorError('%s is not valid plugin type' % ptype)
++            raise CreatorError('%s is not valid plugin type' % ptype)
+ 
+         plugins_dir = self._build_plugin_dir_list(self.plugin_dir, ptype)
+ 
+diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+index 2e2d26a..e51c8be 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -33,11 +33,11 @@ import uuid
+ 
+ from time import strftime
+ 
++from wic.errors import ImageError
+ from wic.filemap import sparse_copy
+ from wic.ksparser import KickStart, KickStartError
+ from wic.plugin import pluginmgr
+ from wic.pluginbase import ImagerPlugin
+-from wic.utils.errors import ImageError
+ from wic.utils.misc import get_bitbake_var, exec_cmd, exec_native_cmd
+ 
+ logger = logging.getLogger('wic')
+diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
+index 590d3d6..8f53fa2 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
++++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
+@@ -29,8 +29,8 @@ import os
+ import sys
+ 
+ from wic.engine import get_custom_config
++from wic.errors import ImageError
+ from wic.utils import runner
+-from wic.utils.errors import ImageError
+ from wic.pluginbase import SourcePlugin
+ from wic.utils.misc import (exec_cmd, exec_native_cmd,
+                             get_bitbake_var, BOOTDD_EXTRA_SPACE)
+diff --git a/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py b/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
+index ed5fbdf..850aa5a 100644
+--- a/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
++++ b/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
+@@ -23,9 +23,9 @@ import os
+ import re
+ import sys
+ 
++from wic.errors import ImageError
+ from wic.utils import runner
+ from wic.utils.misc import get_bitbake_var, exec_cmd, exec_native_cmd
+-from wic.utils.errors import ImageError
+ from wic.pluginbase import SourcePlugin
+ 
+ logger = logging.getLogger('wic')
+diff --git a/scripts/wic b/scripts/wic
+index f3e93da..b12c743 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -51,8 +51,8 @@ if bitbake_exe:
+ else:
+     bitbake_main = None
+ 
++from wic.errors import WicError
+ from wic.utils.misc import get_bitbake_var, BB_VARS
+-from wic.utils.errors import WicError
+ from wic import engine
+ from wic import help as hlp
+ 
+@@ -337,4 +337,3 @@ if __name__ == "__main__":
+     except WicError as err:
+         logger.error(err)
          sys.exit(1)
- 
--    if options.debug:
--        msger.set_loglevel('debug')
 -
-     if not os.path.exists(options.outdir):
-         os.makedirs(options.outdir)
- 
-diff --git a/scripts/lib/wic/msger.py b/scripts/lib/wic/msger.py
-deleted file mode 100644
-index dc9b734..0000000
---- a/scripts/lib/wic/msger.py
-+++ /dev/null
-@@ -1,209 +0,0 @@
--#!/usr/bin/env python -tt
--# vim: ai ts=4 sts=4 et sw=4
--#
--# Copyright (c) 2009, 2010, 2011 Intel, Inc.
--#
--# This program is free software; you can redistribute it and/or modify it
--# under the terms of the GNU General Public License as published by the Free
--# Software Foundation; version 2 of the License
--#
--# This program is distributed in the hope that it will be useful, but
--# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
--# or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
--# for more details.
--#
--# You should have received a copy of the GNU General Public License along
--# with this program; if not, write to the Free Software Foundation, Inc., 59
--# Temple Place - Suite 330, Boston, MA 02111-1307, USA.
--
--import os
--import sys
--import re
--import time
--
--__ALL__ = ['get_loglevel',
--           'set_loglevel',
--           'set_logfile',
--           'debug',
--           'verbose',
--           'info',
--           'warning',
--           'error',
--          ]
--
--# COLORs in ANSI
--INFO_COLOR = 32 # green
--WARN_COLOR = 33 # yellow
--ERR_COLOR = 31 # red
--ASK_COLOR = 34 # blue
--NO_COLOR = 0
--
--PREFIX_RE = re.compile('^<(.*?)>\s*(.*)', re.S)
--
--INTERACTIVE = True
--
--LOG_LEVEL = 1
--LOG_LEVELS = {
--    'quiet': 0,
--    'normal': 1,
--    'verbose': 2,
--    'debug': 3,
--    'never': 4,
--}
--
--LOG_FILE_FP = None
--LOG_CONTENT = ''
--CATCHERR_BUFFILE_FD = -1
--CATCHERR_BUFFILE_PATH = None
--CATCHERR_SAVED_2 = -1
--
--def _general_print(head, color, msg=None, stream=None, level='normal'):
--    global LOG_CONTENT
--    if not stream:
--        stream = sys.stdout
--
--    if LOG_LEVELS[level] > LOG_LEVEL:
--        # skip
--        return
--
--    errormsg = ''
--    if CATCHERR_BUFFILE_FD > 0:
--        size = os.lseek(CATCHERR_BUFFILE_FD, 0, os.SEEK_END)
--        os.lseek(CATCHERR_BUFFILE_FD, 0, os.SEEK_SET)
--        errormsg = os.read(CATCHERR_BUFFILE_FD, size)
--        os.ftruncate(CATCHERR_BUFFILE_FD, 0)
--
--    # append error msg to LOG
--    if errormsg:
--        LOG_CONTENT += errormsg
--
--    # append normal msg to LOG
--    save_msg = msg.strip() if msg else None
--    if save_msg:
--        timestr = time.strftime("[%m/%d %H:%M:%S %Z] ", time.localtime())
--        LOG_CONTENT += timestr + save_msg + '\n'
--
--    if errormsg:
--        _color_print('', NO_COLOR, errormsg, stream, level)
--
--    _color_print(head, color, msg, stream, level)
--
--def _color_print(head, color, msg, stream, level):
--    colored = True
--    if color == NO_COLOR or \
--       not stream.isatty() or \
--       os.getenv('ANSI_COLORS_DISABLED') is not None:
--        colored = False
--
--    if head.startswith('\r'):
--        # need not \n at last
--        newline = False
--    else:
--        newline = True
--
--    if colored:
--        head = '\033[%dm%s:\033[0m ' %(color, head)
--        if not newline:
--            # ESC cmd to clear line
--            head = '\033[2K' + head
--    else:
--        if head:
--            head += ': '
--            if head.startswith('\r'):
--                head = head.lstrip()
--                newline = True
--
--    if msg is not None:
--        stream.write('%s%s' % (head, msg))
--        if newline:
--            stream.write('\n')
--
--    stream.flush()
--
--def _color_perror(head, color, msg, level='normal'):
--    if CATCHERR_BUFFILE_FD > 0:
--        _general_print(head, color, msg, sys.stdout, level)
--    else:
--        _general_print(head, color, msg, sys.stderr, level)
--
--def _split_msg(head, msg):
--    if isinstance(msg, list):
--        msg = '\n'.join(map(str, msg))
--
--    if msg.startswith('\n'):
--        # means print \n at first
--        msg = msg.lstrip()
--        head = '\n' + head
--
--    elif msg.startswith('\r'):
--        # means print \r at first
--        msg = msg.lstrip()
--        head = '\r' + head
--
--    match = PREFIX_RE.match(msg)
--    if match:
--        head += ' <%s>' % match.group(1)
--        msg = match.group(2)
--
--    return head, msg
--
--def get_loglevel():
--    return next((k for k, v in LOG_LEVELS.items() if v == LOG_LEVEL))
--
--def set_loglevel(level):
--    global LOG_LEVEL
--    if level not in LOG_LEVELS:
--        # no effect
--        return
--
--    LOG_LEVEL = LOG_LEVELS[level]
--
--def set_interactive(mode=True):
--    global INTERACTIVE
--    if mode:
--        INTERACTIVE = True
--    else:
--        INTERACTIVE = False
--
--def log(msg=''):
--    # log msg to LOG_CONTENT then save to logfile
--    global LOG_CONTENT
--    if msg:
--        LOG_CONTENT += msg
--
--def info(msg):
--    head, msg = _split_msg('Info', msg)
--    _general_print(head, INFO_COLOR, msg)
--
--def verbose(msg):
--    head, msg = _split_msg('Verbose', msg)
--    _general_print(head, INFO_COLOR, msg, level='verbose')
--
--def warning(msg):
--    head, msg = _split_msg('Warning', msg)
--    _color_perror(head, WARN_COLOR, msg)
--
--def debug(msg):
--    head, msg = _split_msg('Debug', msg)
--    _color_perror(head, ERR_COLOR, msg, level='debug')
--
--def error(msg):
--    head, msg = _split_msg('Error', msg)
--    _color_perror(head, ERR_COLOR, msg)
--    sys.exit(1)
--
--def set_logfile(fpath):
--    global LOG_FILE_FP
--
--    def _savelogf():
--        if LOG_FILE_FP:
--            with open(LOG_FILE_FP, 'w') as log:
--                log.write(LOG_CONTENT)
--
--    if LOG_FILE_FP is not None:
--        warning('duplicate log file configuration')
--
--    LOG_FILE_FP = fpath
--
--    import atexit
--    atexit.register(_savelogf)
 -- 
 2.1.4
 
