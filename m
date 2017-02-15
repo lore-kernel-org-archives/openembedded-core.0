@@ -1,26 +1,34 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 777EB731CA
+Return-Path: <tanuk@iki.fi>
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+	[66.111.4.25])
+	by mail.openembedded.org (Postfix) with ESMTP id AC144719A4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 06:25:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v1F6PMsL027185
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 15 Feb 2017 07:13:07 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id ED60520894
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Feb 2017 22:25:22 -0800 (PST)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 14 Feb 2017 22:25:21 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Feb 2017 22:25:10 -0800
-Message-ID: <17fd39e73dd4da54c345c95cf8d5b07874be0561.1487139819.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.10.2
-In-Reply-To: <cover.1487139819.git.liezhi.yang@windriver.com>
-References: <cover.1487139819.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 5/6] tcl: fix sed in do_install()
+	Wed, 15 Feb 2017 02:13:07 -0500 (EST)
+Received: from frontend1 ([10.202.2.160])
+	by compute5.internal (MEProxy); Wed, 15 Feb 2017 02:13:07 -0500
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=date:from:message-id:subject:to
+	:x-me-sender:x-me-sender:x-sasl-enc:x-sasl-enc; s=smtpout; bh=OG
+	ld+xRLrh7GJWEdSQSU/EqBLnc=; b=mqmQdklsTUt1BA5cYNlf5qqAndL6Y/Q8G0
+	r3KF4DJCB2VA00De0OglO2fL7syeSGOiyTcQSWU/q9mqNvFro1NOD2LyKitIwwT4
+	YNjmi+TGBD3amovWsr53idO6y3I89kQwx5KwRAAMrASl8PgGvnZZ6mR7nIhRlYxO
+	/m3tzNYJw=
+X-ME-Sender: <xms:g_-jWKUQmKIJafQUboRmrJRpwqtf4dX9Ta-Y4eZ3SaNtHcRvxzr6lQ>
+X-Sasl-enc: WlcfUZcuDRYamQp7XOQDntxlvHQYODMsSHSokVz+CUnd 1487142787
+Received: from localhost.localdomain (unknown [192.40.95.8])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 51EEB7E0CF
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Feb 2017 02:13:07 -0500 (EST)
+From: Tanu Kaskinen <tanuk@iki.fi>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Feb 2017 09:13:00 +0200
+Message-Id: <20170215071303.3244-1-tanuk@iki.fi>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 0/3] alsa-lib update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,35 +41,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Feb 2017 06:25:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 15 Feb 2017 07:13:08 -0000
 
-The command:
-sed -i "s+${WORKDIR}+${STAGING_INCDIR}+g" tclConfig.sh
+Tanu Kaskinen (3):
+  alsa-lib: 1.1.2 -> 1.1.3
+  alsa-lib: fix softfloat enabling
+  alsa-lib: merge alsa-conf-base into alsa-conf
 
-was used for replacing "${WORKDIR}", but it also replaced
-"-L${WORKDIR}", but binconfig.bbclass would replace "-L${WORKDIR}", too,
-which caused incorrect result, use "'${WORKDIR}" to fix the problem.
+ meta/recipes-multimedia/alsa/alsa-fpu.inc          |  8 ++----
+ .../alsa-lib/0001-ucm-parser-needs-limits.h.patch  | 33 ++++++++++++++++++++++
+ .../alsa/{alsa-lib_1.1.2.bb => alsa-lib_1.1.3.bb}  | 30 +++++++++++---------
+ 3 files changed, 52 insertions(+), 19 deletions(-)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/0001-ucm-parser-needs-limits.h.patch
+ rename meta/recipes-multimedia/alsa/{alsa-lib_1.1.2.bb => alsa-lib_1.1.3.bb} (61%)
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-devtools/tcltk/tcl_8.6.6.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.6.bb b/meta/recipes-devtools/tcltk/tcl_8.6.6.bb
-index c828b38..40cd18f 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.6.6.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.6.6.bb
-@@ -55,7 +55,7 @@ do_install() {
- 	ln -sf ./tclsh${VER} ${D}${bindir}/tclsh
- 	ln -sf tclsh8.6 ${D}${bindir}/tclsh${VER}
- 	sed -i "s;-L${B};-L${STAGING_LIBDIR};g" tclConfig.sh
--	sed -i "s;${WORKDIR};${STAGING_INCDIR};g" tclConfig.sh
-+	sed -i "s;'${WORKDIR};'${STAGING_INCDIR};g" tclConfig.sh
- 	install -d ${D}${bindir_crossscripts}
- 	install -m 0755 tclConfig.sh ${D}${bindir_crossscripts}
- 	install -m 0755 tclConfig.sh ${D}${libdir}
 -- 
-2.10.2
+2.11.0
 
 
