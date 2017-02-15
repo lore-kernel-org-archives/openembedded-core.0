@@ -1,28 +1,29 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 82F5060778
+Return-Path: <geoffrey.levillain@smile.fr>
+Received: from idris.smile.fr (idris.smile.fr [91.216.209.19])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D9BF60721
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 11:45:33 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Feb 2017 03:45:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,165,1484035200"; d="scan'208";a="1107705570"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 15 Feb 2017 03:45:33 -0800
+	Wed, 15 Feb 2017 16:20:34 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by idris.smile.fr (Postfix) with ESMTP id 3B4151EE19B4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Feb 2017 17:20:33 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at smile.fr
+Received: from idris.smile.fr ([127.0.0.1])
+	by localhost (bluemind-mta.prod.vitry.intranet [127.0.0.1])
+	(amavisd-new, port 10024) with ESMTP id hj7E9ub+H4TV
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Feb 2017 17:20:33 +0100 (CET)
+Received: from Mirage.daviel.idf.intranet (fw-alt.idf.smile.fr
+	[109.190.187.143])
+	by idris.smile.fr (Postfix) with ESMTPA id 1001D1EE1942
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Feb 2017 17:20:33 +0100 (CET)
+From: Geoffrey Levillain <geoffrey.levillain@smile.fr>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1486997986.git.alexander.kanavin@linux.intel.com>
-	<ce5b8767fb8361fbb9c394c9d5b598be87d97ff9.1486997986.git.alexander.kanavin@linux.intel.com>
-	<1487157532.2824.9.camel@andred.net>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <45e325e3-8c7c-94bf-5bc8-33b6b571932f@linux.intel.com>
-Date: Wed, 15 Feb 2017 13:44:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.6.0
-MIME-Version: 1.0
-In-Reply-To: <1487157532.2824.9.camel@andred.net>
-Subject: Re: [PATCH 23/36] rootfs_rpm.bbclass: migrate image creation to dnf
+Date: Wed, 15 Feb 2017 17:18:46 +0100
+Message-Id: <20170215161849.7773-1-geoffrey.levillain@smile.fr>
+X-Mailer: git-send-email 2.11.0
+Subject: Permit to install files from an overlay in images recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,20 +36,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Feb 2017 11:45:33 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 15 Feb 2017 16:20:36 -0000
 
-On 02/15/2017 01:18 PM, André Draszik wrote:
-> Was there a specific reason to switch from rpm -e --nodeps to (the
-> differently-working) dnf remove?
+[PATCH 1/3] No need to force image licence on MIT
+[PATCH 2/3] Add possibility to install overlays to image through a class
+[PATCH 3/3] Do not remove fetching and install_overlay stamps
 
-No specific reason, just rewriting the code from scratch, coupled with 
-poorly documented API for the class. There's too much cruft in the old 
-code, so I only looked at it when things didn't work :)
+These patches introduce a capability to install overlay into image after
+fetching them.
 
-I'll bring back them rpm -e --nodeps.
+There is actually a need to add image-specific configurations files into
+image recipes, and these patches are a way to standardize this process as
+well as simplify it by re-enabling fetching when image_overlay is
+inherited, and by providing a task that copy every files in directories
+listed in OVERLAY_ROOT_DIRS into IMAGE_ROOTFS directory.
 
-Alex
-
+Regards,
+Geoffrey Levillain
 
