@@ -1,25 +1,28 @@
-Return-Path: <ed.bartosh@linux.intel.com>
+Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id ECD0171985
+	by mail.openembedded.org (Postfix) with ESMTP id AE7C373180
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 09:01:09 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	Wed, 15 Feb 2017 09:01:15 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Feb 2017 01:01:09 -0800
+	15 Feb 2017 01:01:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,165,1484035200"; d="scan'208";a="934089556"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 15 Feb 2017 01:01:09 -0800
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id DEC0C6A4006
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 01:00:06 -0800 (PST)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.35,165,1484035200"; d="scan'208";a="1107650008"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga001.fm.intel.com with ESMTP; 15 Feb 2017 01:01:15 -0800
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Feb 2017 10:38:23 +0200
-Message-Id: <cover.1487110279.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 00/11] wic refactoring (almost done)
+References: <cover.1486997986.git.alexander.kanavin@linux.intel.com>
+	<e1b1c67d691fd317bf6c11d570ef5d261029f38b.1486997986.git.alexander.kanavin@linux.intel.com>
+	<20170215081731.lf5vtdcbong4xsyq@ad.chargestorm.se>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <fd9dca04-e3ef-077f-e67d-3b3bedbe7dc4@linux.intel.com>
+Date: Wed, 15 Feb 2017 11:01:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.6.0
+MIME-Version: 1.0
+In-Reply-To: <20170215081731.lf5vtdcbong4xsyq@ad.chargestorm.se>
+Subject: Re: [PATCH 22/36] package.bbclass: add support for pkg_postinst_ontarget()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,70 +35,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Feb 2017 09:01:10 -0000
+X-List-Received-Date: Wed, 15 Feb 2017 09:01:15 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 02/15/2017 10:17 AM, Anders Darander wrote:
+> How will this be handled when using ro-rootfs?
 
-This patchset takes care of logging and error handling:
-- remove custom msger module in favor of standard python logging
-- raise WicError exception instead of calling sys.exit
+Same as it's handled now: by halting bitbake. See the email I just wrote 
+to the oe-arch list for details.
 
-This is the one of the last changes for this time.
+> We don't need to make it easier to write on-first-boot only post_install
+> scripts, rather, the goal has to be to be able to run all post_install
+> scripts during rootfs creation...
 
-I'm thinking about refactoring wic plugin system, but haven't decided yet
-if it makes sense to do right now or not. Other than that I'm happy with
-the state of the wic codebase for now. There are still many things to improve,
-but it looks and feels much better now.
+This is not always possible. Some things do have to run on target: 
+because qemu emulation doesn't work for the target machine on the build 
+host, or because the post_install has to interact with target hardware.
 
-The following changes since commit 10d1f08f71a623ca6d45cf0ae1afa2e880591a09:
-
-  wic: direct: move creation of PartitionedImage to __init__ (2017-02-10 16:44:03 +0200)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ed/wic/wip
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wic/wip
-
-Ed Bartosh (11):
-  wic: setup logging in the main wic module
-  wic: use wic logger in core modules
-  wic: use wic logger in imager direct plugin
-  wic: use wic logger in wic source plugins
-  wic: remove msger module
-  wic: move errors module
-  wic: raise WicError in main module
-  wic: raise WicError in core modules
-  wic: raise WicError in wic plugins
-  wic: raise WicError instead of ImageError and CreatorError
-  wic: move WicError to lib/wic/__init__.py
-
- scripts/lib/wic/__init__.py                        |  20 ++
- scripts/lib/wic/engine.py                          |  28 ++-
- scripts/lib/wic/help.py                            |   8 +-
- scripts/lib/wic/ksparser.py                        |   7 +-
- scripts/lib/wic/msger.py                           | 209 ---------------------
- scripts/lib/wic/partition.py                       |  68 +++----
- scripts/lib/wic/plugin.py                          |  24 +--
- scripts/lib/wic/pluginbase.py                      |  12 +-
- scripts/lib/wic/plugins/imager/direct.py           |  87 ++++-----
- scripts/lib/wic/plugins/source/bootimg-efi.py      |  52 ++---
- .../lib/wic/plugins/source/bootimg-partition.py    |  25 +--
- scripts/lib/wic/plugins/source/bootimg-pcbios.py   |  41 ++--
- scripts/lib/wic/plugins/source/fsimage.py          |  14 +-
- .../lib/wic/plugins/source/isoimage-isohybrid.py   |  79 ++++----
- scripts/lib/wic/plugins/source/rawcopy.py          |  12 +-
- scripts/lib/wic/plugins/source/rootfs.py           |  21 ++-
- .../lib/wic/plugins/source/rootfs_pcbios_ext.py    |  54 +++---
- scripts/lib/wic/utils/errors.py                    |  29 ---
- scripts/lib/wic/utils/misc.py                      |  34 ++--
- scripts/lib/wic/utils/runner.py                    |  12 +-
- scripts/wic                                        | 104 +++++-----
- 21 files changed, 378 insertions(+), 562 deletions(-)
- delete mode 100644 scripts/lib/wic/msger.py
- delete mode 100644 scripts/lib/wic/utils/errors.py
-
---
-Regards,
-Ed
-
+Alex
 
