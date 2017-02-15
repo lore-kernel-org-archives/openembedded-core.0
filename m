@@ -1,28 +1,32 @@
-Return-Path: <geoffrey.levillain@smile.fr>
-Received: from idris.smile.fr (idris.smile.fr [91.216.209.19])
-	by mail.openembedded.org (Postfix) with ESMTP id 5783E772E1
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id CF8B371E08
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 16:21:12 +0000 (UTC)
+	Wed, 15 Feb 2017 16:50:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by idris.smile.fr (Postfix) with ESMTP id 56E8E1EE1005;
-	Wed, 15 Feb 2017 17:21:13 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at smile.fr
-Received: from idris.smile.fr ([127.0.0.1])
-	by localhost (bluemind-mta.prod.vitry.intranet [127.0.0.1])
-	(amavisd-new, port 10024)
-	with ESMTP id r1iVYdOvQN2j; Wed, 15 Feb 2017 17:21:13 +0100 (CET)
-Received: from Mirage.daviel.idf.intranet (fw-alt.idf.smile.fr
-	[109.190.187.143])
-	by idris.smile.fr (Postfix) with ESMTPA id 29EED1EE0EC1;
-	Wed, 15 Feb 2017 17:21:13 +0100 (CET)
-From: Geoffrey Levillain <geoffrey.levillain@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Feb 2017 17:18:49 +0100
-Message-Id: <20170215161849.7773-4-geoffrey.levillain@smile.fr>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20170215161849.7773-1-geoffrey.levillain@smile.fr>
-References: <20170215161849.7773-1-geoffrey.levillain@smile.fr>
-Subject: [PATCH 3/3] Do not remove fetching and install_overlay stamps
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v1FGoK1e004554; Wed, 15 Feb 2017 16:50:20 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id sjO0TCAI_2vq; Wed, 15 Feb 2017 16:50:20 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v1FGoD2M004544
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 15 Feb 2017 16:50:17 GMT
+Message-ID: <1487177412.27753.91.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Wold, Saul" <saul.wold@intel.com>, "Sullivan, California L"
+	<california.l.sullivan@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 15 Feb 2017 08:50:12 -0800
+In-Reply-To: <1487139667.10318.32.camel@intel.com>
+References: <1486684537-17517-1-git-send-email-california.l.sullivan@intel.com>
+	<1487139667.10318.32.camel@intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/1] kernel.bbclass: Make sanity check opt-out and provide easy opt-out
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,35 +39,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Feb 2017 16:21:13 -0000
+X-List-Received-Date: Wed, 15 Feb 2017 16:50:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-In order to keep do_install_overlay to reexecute it's needed to keep
-stamps of fetching tasks.
+On Wed, 2017-02-15 at 06:21 +0000, Wold, Saul wrote:
+> This should also be applied Morty please
 
-Without that do_install_overlay would reexecute and do_image as well but
-do_image will crash since there is no rootfs.
+Whilst we can likely do this in master, it does have side effects you
+aren't highlighting. You're making the kernel version check default for
+*all* kernels linux-yocto or otherwise. This is a significant change in
+behaviour and could break many existing non linux-yocto recipes. That
+is certainly not something which can easily be backported to morty. Its
+also something which if intended, should be hightlighted in the commit
+message.
 
-Signed-off-by: Geoffrey Levillain <geoffrey.levillain@smile.fr>
----
- meta/classes/rm_work.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+This is a good example of why these "can we backport this?" messages
+for changes that haven't even made master worry me.
 
-diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
-index 054c93716e..c0e7c2a0a6 100644
---- a/meta/classes/rm_work.bbclass
-+++ b/meta/classes/rm_work.bbclass
-@@ -71,6 +71,10 @@ do_rm_work () {
-                 i=dummy
-                 break
-                 ;;
-+            *do_fetch*|*do_unpack*|*do_patch*|*install_overlay*)
-+                i=dummy
-+                break
-+                ;;
-             *do_rootfs*|*do_image*|*do_bootimg*|*do_bootdirectdisk*|*do_vmimg*|*do_write_qemuboot_conf*)
-                 i=dummy
-                 break
--- 
-2.11.0
+Cheers,
 
+Richard
 
