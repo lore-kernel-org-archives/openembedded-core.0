@@ -1,27 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id B46FD77309
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 3993F772D0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 09:02:04 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Feb 2017 01:02:05 -0800
+	Wed, 15 Feb 2017 09:02:05 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga104.jf.intel.com with ESMTP; 15 Feb 2017 01:02:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,165,1484035200"; d="scan'208";a="65379983"
+X-IronPort-AV: E=Sophos;i="5.35,165,1484035200"; d="scan'208";a="1094972738"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga005.fm.intel.com with ESMTP; 15 Feb 2017 01:02:04 -0800
+	by orsmga001.jf.intel.com with ESMTP; 15 Feb 2017 01:02:02 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id F3EFD6A4082
+	by linux.intel.com (Postfix) with ESMTP id BE73B6A4006
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 01:01:01 -0800 (PST)
+	Wed, 15 Feb 2017 01:00:59 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Feb 2017 10:38:34 +0200
-Message-Id: <f0966df2b5836a412ccc07ce512927eb1afccf02.1487110279.git.ed.bartosh@linux.intel.com>
+Date: Wed, 15 Feb 2017 10:38:32 +0200
+Message-Id: <3d4bb85259bcb22164011c5387f15e783f75e66a.1487110279.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1487110279.git.ed.bartosh@linux.intel.com>
 References: <cover.1487110279.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 11/11] wic: move WicError to lib/wic/__init__.py
+Subject: [PATCH 09/11] wic: raise WicError in wic plugins
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,288 +35,591 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 15 Feb 2017 09:02:05 -0000
 
-Removed unused exceptions from error.py
-Moved definition of WicError to lib/wic/__init__.py
+Replaced sys.exit with raising WicError in wic plugins.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/__init__.py                        | 20 +++++++++++++++
- scripts/lib/wic/engine.py                          |  2 +-
- scripts/lib/wic/errors.py                          | 29 ----------------------
- scripts/lib/wic/partition.py                       |  2 +-
- scripts/lib/wic/plugin.py                          |  3 +--
- scripts/lib/wic/plugins/imager/direct.py           |  2 +-
- scripts/lib/wic/plugins/source/bootimg-efi.py      |  2 +-
- .../lib/wic/plugins/source/bootimg-partition.py    |  2 +-
- scripts/lib/wic/plugins/source/bootimg-pcbios.py   |  2 +-
- scripts/lib/wic/plugins/source/fsimage.py          |  2 +-
- .../lib/wic/plugins/source/isoimage-isohybrid.py   |  2 +-
- scripts/lib/wic/plugins/source/rawcopy.py          |  2 +-
- scripts/lib/wic/plugins/source/rootfs.py           |  2 +-
- .../lib/wic/plugins/source/rootfs_pcbios_ext.py    |  2 +-
- scripts/lib/wic/utils/misc.py                      |  2 +-
- scripts/lib/wic/utils/runner.py                    |  2 +-
- scripts/wic                                        |  2 +-
- 17 files changed, 35 insertions(+), 45 deletions(-)
- delete mode 100644 scripts/lib/wic/errors.py
+ scripts/lib/wic/plugins/imager/direct.py           |  6 +--
+ scripts/lib/wic/plugins/source/bootimg-efi.py      | 32 +++++------
+ .../lib/wic/plugins/source/bootimg-partition.py    | 11 ++--
+ scripts/lib/wic/plugins/source/bootimg-pcbios.py   | 20 +++----
+ scripts/lib/wic/plugins/source/fsimage.py          |  8 ++-
+ .../lib/wic/plugins/source/isoimage-isohybrid.py   | 63 ++++++++--------------
+ scripts/lib/wic/plugins/source/rawcopy.py          |  8 ++-
+ scripts/lib/wic/plugins/source/rootfs.py           | 17 +++---
+ .../lib/wic/plugins/source/rootfs_pcbios_ext.py    | 34 +++++-------
+ 9 files changed, 75 insertions(+), 124 deletions(-)
 
-diff --git a/scripts/lib/wic/__init__.py b/scripts/lib/wic/__init__.py
-index e69de29..85876b1 100644
---- a/scripts/lib/wic/__init__.py
-+++ b/scripts/lib/wic/__init__.py
-@@ -0,0 +1,20 @@
-+#!/usr/bin/env python -tt
-+#
-+# Copyright (c) 2007 Red Hat, Inc.
-+# Copyright (c) 2011 Intel, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify it
-+# under the terms of the GNU General Public License as published by the Free
-+# Software Foundation; version 2 of the License
-+#
-+# This program is distributed in the hope that it will be useful, but
-+# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-+# or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-+# for more details.
-+#
-+# You should have received a copy of the GNU General Public License along
-+# with this program; if not, write to the Free Software Foundation, Inc., 59
-+# Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-+
-+class WicError(Exception):
-+    pass
-diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-index 38a68ed..c29924b 100644
---- a/scripts/lib/wic/engine.py
-+++ b/scripts/lib/wic/engine.py
-@@ -31,7 +31,7 @@
- import logging
- import os
- 
--from wic.errors import WicError
-+from wic import WicError
- from wic.plugin import pluginmgr
- from wic.utils.misc import get_bitbake_var
- 
-diff --git a/scripts/lib/wic/errors.py b/scripts/lib/wic/errors.py
-deleted file mode 100644
-index d1b514d..0000000
---- a/scripts/lib/wic/errors.py
-+++ /dev/null
-@@ -1,29 +0,0 @@
--#!/usr/bin/env python -tt
--#
--# Copyright (c) 2007 Red Hat, Inc.
--# Copyright (c) 2011 Intel, Inc.
--#
--# This program is free software; you can redistribute it and/or modify it
--# under the terms of the GNU General Public License as published by the Free
--# Software Foundation; version 2 of the License
--#
--# This program is distributed in the hope that it will be useful, but
--# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
--# or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
--# for more details.
--#
--# You should have received a copy of the GNU General Public License along
--# with this program; if not, write to the Free Software Foundation, Inc., 59
--# Temple Place - Suite 330, Boston, MA 02111-1307, USA.
--
--class WicError(Exception):
--    pass
--
--class CreatorError(WicError):
--    pass
--
--class Usage(WicError):
--    pass
--
--class ImageError(WicError):
--    pass
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index c5c439a..6a82299 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -28,7 +28,7 @@ import logging
- import os
- import tempfile
- 
--from wic.errors import WicError
-+from wic import WicError
- from wic.utils.misc import exec_cmd, exec_native_cmd, get_bitbake_var
- from wic.plugin import pluginmgr
- 
-diff --git a/scripts/lib/wic/plugin.py b/scripts/lib/wic/plugin.py
-index 0e98da5..ac55ecf 100644
---- a/scripts/lib/wic/plugin.py
-+++ b/scripts/lib/wic/plugin.py
-@@ -19,8 +19,7 @@ import os
- import sys
- import logging
- 
--from wic.errors import WicError
--from wic import pluginbase
-+from wic import pluginbase, WicError
- from wic.utils.misc import get_bitbake_var
- 
- __ALL__ = ['PluginMgr', 'pluginmgr']
 diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index 5b20ca9..6d1ed8c 100644
+index e51c8be..9c8a230 100644
 --- a/scripts/lib/wic/plugins/imager/direct.py
 +++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -32,7 +32,7 @@ import uuid
+@@ -27,13 +27,12 @@
+ import logging
+ import os
+ import shutil
+-import sys
+ import tempfile
+ import uuid
  
  from time import strftime
  
--from wic.errors import WicError
-+from wic import WicError
+-from wic.errors import ImageError
++from wic.errors import ImageError, WicError
  from wic.filemap import sparse_copy
  from wic.ksparser import KickStart, KickStartError
  from wic.plugin import pluginmgr
+@@ -58,8 +57,7 @@ class DirectPlugin(ImagerPlugin):
+         try:
+             self.ks = KickStart(wks_file)
+         except KickStartError as err:
+-            logger.error(str(err))
+-            sys.exit(1)
++            raise WicError(str(err))
+ 
+         # parse possible 'rootfs=name' items
+         self.rootfs_dir = dict(rdir.split('=') for rdir in rootfs_dir.split(' '))
 diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 1f018fa..2d793a5 100644
+index e4c8451..1f018fa 100644
 --- a/scripts/lib/wic/plugins/source/bootimg-efi.py
 +++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -28,7 +28,7 @@ import logging
- import os
- import shutil
- 
--from wic.errors import WicError
-+from wic import WicError
- from wic.engine import get_custom_config
- from wic.pluginbase import SourcePlugin
- from wic.utils.misc import (exec_cmd, exec_native_cmd, get_bitbake_var,
-diff --git a/scripts/lib/wic/plugins/source/bootimg-partition.py b/scripts/lib/wic/plugins/source/bootimg-partition.py
-index e9724a6..373e8d8 100644
---- a/scripts/lib/wic/plugins/source/bootimg-partition.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-partition.py
-@@ -29,7 +29,7 @@ import re
- 
- from glob import glob
- 
--from wic.errors import WicError
-+from wic import WicError
- from wic.pluginbase import SourcePlugin
- from wic.utils.misc import exec_cmd, get_bitbake_var
- 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-index c3a0e4e..74c75a0 100644
---- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
 @@ -27,8 +27,8 @@
  import logging
  import os
+ import shutil
+-import sys
  
-+from wic import WicError
++from wic.errors import WicError
  from wic.engine import get_custom_config
--from wic.errors import WicError
+ from wic.pluginbase import SourcePlugin
+ from wic.utils.misc import (exec_cmd, exec_native_cmd, get_bitbake_var,
+@@ -59,9 +59,8 @@ class BootimgEFIPlugin(SourcePlugin):
+                 logger.debug("Using custom configuration file "
+                              "%s for grub.cfg", configfile)
+             else:
+-                logger.error("configfile is specified but failed to "
+-                             "get it from %s.", configfile)
+-                sys.exit(1)
++                raise WicError("configfile is specified but failed to "
++                               "get it from %s." % configfile)
+ 
+         if not custom_cfg:
+             # Create grub configuration using parameters from wks file
+@@ -108,8 +107,7 @@ class BootimgEFIPlugin(SourcePlugin):
+             # obviously we need to have a common common deploy var
+             bootimg_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
+             if not bootimg_dir:
+-                logger.error("Couldn't find DEPLOY_DIR_IMAGE, exiting\n")
+-                sys.exit(1)
++                raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
+ 
+             cp_cmd = "cp %s/%s %s" % (bootimg_dir, initrd, hdddir)
+             exec_cmd(cp_cmd, True)
+@@ -132,9 +130,8 @@ class BootimgEFIPlugin(SourcePlugin):
+                 logger.debug("Using custom configuration file "
+                              "%s for systemd-boots's boot.conf", configfile)
+             else:
+-                logger.error("configfile is specified but failed to "
+-                             "get it from %s.", configfile)
+-                sys.exit(1)
++                raise WicError("configfile is specified but failed to "
++                               "get it from %s.", configfile)
+ 
+         if not custom_cfg:
+             # Create systemd-boot configuration using parameters from wks file
+@@ -174,11 +171,9 @@ class BootimgEFIPlugin(SourcePlugin):
+             elif source_params['loader'] == 'systemd-boot':
+                 cls.do_configure_systemdboot(hdddir, creator, cr_workdir, source_params)
+             else:
+-                logger.error("unrecognized bootimg-efi loader: %s", source_params['loader'])
+-                sys.exit(1)
++                raise WicError("unrecognized bootimg-efi loader: %s" % source_params['loader'])
+         except KeyError:
+-            logger.error("bootimg-efi requires a loader, none specified")
+-            sys.exit(1)
++            raise WicError("bootimg-efi requires a loader, none specified")
+ 
+ 
+     @classmethod
+@@ -193,8 +188,7 @@ class BootimgEFIPlugin(SourcePlugin):
+         if not bootimg_dir:
+             bootimg_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
+             if not bootimg_dir:
+-                logger.error("Couldn't find DEPLOY_DIR_IMAGE, exiting\n")
+-                sys.exit(1)
++                raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
+             # just so the result notes display it
+             creator.bootimg_dir = bootimg_dir
+ 
+@@ -221,12 +215,10 @@ class BootimgEFIPlugin(SourcePlugin):
+                     cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (bootimg_dir, mod, hdddir, mod[8:])
+                     exec_cmd(cp_cmd, True)
+             else:
+-                logger.error("unrecognized bootimg-efi loader: %s",
+-                             source_params['loader'])
+-                sys.exit(1)
++                raise WicError("unrecognized bootimg-efi loader: %s" %
++                               source_params['loader'])
+         except KeyError:
+-            logger.error("bootimg-efi requires a loader, none specified")
+-            sys.exit(1)
++            raise WicError("bootimg-efi requires a loader, none specified")
+ 
+         startup = os.path.join(bootimg_dir, "startup.nsh")
+         if os.path.exists(startup):
+diff --git a/scripts/lib/wic/plugins/source/bootimg-partition.py b/scripts/lib/wic/plugins/source/bootimg-partition.py
+index b486915..e9724a6 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-partition.py
++++ b/scripts/lib/wic/plugins/source/bootimg-partition.py
+@@ -26,10 +26,10 @@
+ import logging
+ import os
+ import re
+-import sys
+ 
+ from glob import glob
+ 
++from wic.errors import WicError
+ from wic.pluginbase import SourcePlugin
+ from wic.utils.misc import exec_cmd, get_bitbake_var
+ 
+@@ -81,16 +81,14 @@ class BootimgPartitionPlugin(SourcePlugin):
+         if not bootimg_dir:
+             bootimg_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
+             if not bootimg_dir:
+-                logger.error("Couldn't find DEPLOY_DIR_IMAGE, exiting\n")
+-                sys.exit(1)
++                raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
+ 
+         logger.debug('Bootimg dir: %s', bootimg_dir)
+ 
+         boot_files = get_bitbake_var("IMAGE_BOOT_FILES")
+ 
+         if not boot_files:
+-            logger.error('No boot files defined, IMAGE_BOOT_FILES unset')
+-            sys.exit(1)
++            raise WicError('No boot files defined, IMAGE_BOOT_FILES unset')
+ 
+         logger.debug('Boot files: %s', boot_files)
+ 
+@@ -100,8 +98,7 @@ class BootimgPartitionPlugin(SourcePlugin):
+             if ';' in src_entry:
+                 dst_entry = tuple(src_entry.split(';'))
+                 if not dst_entry[0] or not dst_entry[1]:
+-                    logger.error('Malformed boot file entry: %s', src_entry)
+-                    sys.exit(1)
++                    raise WicError('Malformed boot file entry: %s' % src_entry)
+             else:
+                 dst_entry = (src_entry, src_entry)
+ 
+diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
+index 8f53fa2..2ded2da 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
++++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
+@@ -26,10 +26,9 @@
+ 
+ import logging
+ import os
+-import sys
+ 
+ from wic.engine import get_custom_config
+-from wic.errors import ImageError
++from wic.errors import ImageError, WicError
  from wic.utils import runner
  from wic.pluginbase import SourcePlugin
  from wic.utils.misc import (exec_cmd, exec_native_cmd,
+@@ -57,14 +56,13 @@ class BootimgPcbiosPlugin(SourcePlugin):
+         elif creator.ptable_format == 'gpt':
+             mbrfile += "gptmbr.bin"
+         else:
+-            logger.error("Unsupported partition table: %s", creator.ptable_format)
+-            sys.exit(1)
++            raise WicError("Unsupported partition table: %s" %
++                           creator.ptable_format)
+ 
+         if not os.path.exists(mbrfile):
+-            logger.error("Couldn't find %s.  If using the -e option, do you "
+-                         "have the right MACHINE set in local.conf?  If not, "
+-                         "is the bootimg_dir path correct?", mbrfile)
+-            sys.exit(1)
++            raise WicError("Couldn't find %s.  If using the -e option, do you "
++                           "have the right MACHINE set in local.conf?  If not, "
++                           "is the bootimg_dir path correct?" % mbrfile)
+ 
+         full_path = creator._full_path(workdir, disk_name, "direct")
+         logger.debug("Installing MBR on disk %s as %s with size %s bytes",
+@@ -152,11 +150,9 @@ class BootimgPcbiosPlugin(SourcePlugin):
+         if not _has_syslinux(bootimg_dir):
+             bootimg_dir = get_bitbake_var("STAGING_DATADIR", "wic-tools")
+             if not bootimg_dir:
+-                logger.error("Couldn't find STAGING_DATADIR, exiting\n")
+-                sys.exit(1)
++                raise WicError("Couldn't find STAGING_DATADIR, exiting")
+             if not _has_syslinux(bootimg_dir):
+-                logger.error("Please build syslinux first\n")
+-                sys.exit(1)
++                raise WicError("Please build syslinux first")
+             # just so the result notes display it
+             creator.bootimg_dir = bootimg_dir
+ 
 diff --git a/scripts/lib/wic/plugins/source/fsimage.py b/scripts/lib/wic/plugins/source/fsimage.py
-index 67fc6d1..8fbe44d 100644
+index 35fb78b..67fc6d1 100644
 --- a/scripts/lib/wic/plugins/source/fsimage.py
 +++ b/scripts/lib/wic/plugins/source/fsimage.py
-@@ -18,7 +18,7 @@
+@@ -17,8 +17,8 @@
+ 
  import logging
  import os
+-import sys
  
--from wic.errors import WicError
-+from wic import WicError
++from wic.errors import WicError
  from wic.pluginbase import SourcePlugin
  from wic.utils.misc import get_bitbake_var
  
+@@ -61,14 +61,12 @@ class FSImagePlugin(SourcePlugin):
+         if not bootimg_dir:
+             bootimg_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
+             if not bootimg_dir:
+-                logger.error("Couldn't find DEPLOY_DIR_IMAGE, exiting\n")
+-                sys.exit(1)
++                raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
+ 
+         logger.debug('Bootimg dir: %s', bootimg_dir)
+ 
+         if 'file' not in source_params:
+-            logger.error("No file specified\n")
+-            sys.exit(1)
++            raise WicError("No file specified")
+ 
+         src = os.path.join(bootimg_dir, source_params['file'])
+ 
 diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-index df86acc..1ceba62 100644
+index 33de6d8..df86acc 100644
 --- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
 +++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-@@ -26,7 +26,7 @@ import os
+@@ -25,8 +25,8 @@ import logging
+ import os
  import re
  import shutil
+-import sys
  
--from wic.errors import WicError
-+from wic import WicError
++from wic.errors import WicError
  from wic.engine import get_custom_config
  from wic.pluginbase import SourcePlugin
  from wic.utils.misc import exec_cmd, exec_native_cmd, get_bitbake_var
+@@ -106,9 +106,8 @@ class IsoImagePlugin(SourcePlugin):
+                 logger.debug("Using custom configuration file %s for grub.cfg",
+                              configfile)
+             else:
+-                logger.error("configfile is specified "
+-                             "but failed to get it from %s", configfile)
+-                sys.exit(1)
++                raise WicError("configfile is specified "
++                               "but failed to get it from %s", configfile)
+         else:
+             splash = os.path.join(cr_workdir, "EFI/boot/splash.jpg")
+             if os.path.exists(splash):
+@@ -153,23 +152,19 @@ class IsoImagePlugin(SourcePlugin):
+         if not initrd:
+             initrd_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
+             if not initrd_dir:
+-                logger.error("Couldn't find DEPLOY_DIR_IMAGE, exiting.\n")
+-                sys.exit(1)
++                raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting.")
+ 
+             image_name = get_bitbake_var("IMAGE_BASENAME")
+             if not image_name:
+-                logger.error("Couldn't find IMAGE_BASENAME, exiting.\n")
+-                sys.exit(1)
++                raise WicError("Couldn't find IMAGE_BASENAME, exiting.")
+ 
+             image_type = get_bitbake_var("INITRAMFS_FSTYPES")
+             if not image_type:
+-                logger.error("Couldn't find INITRAMFS_FSTYPES, exiting.\n")
+-                sys.exit(1)
++                raise WicError("Couldn't find INITRAMFS_FSTYPES, exiting.")
+ 
+             target_arch = get_bitbake_var("TRANSLATED_TARGET_ARCH")
+             if not target_arch:
+-                logger.error("Couldn't find TRANSLATED_TARGET_ARCH, exiting.\n")
+-                sys.exit(1)
++                raise WicError("Couldn't find TRANSLATED_TARGET_ARCH, exiting.")
+ 
+             initrd = glob.glob('%s/%s*%s.%s' % (initrd_dir, image_name, target_arch, image_type))[0]
+ 
+@@ -192,8 +187,7 @@ class IsoImagePlugin(SourcePlugin):
+                 os.symlink(os.readlink("%s/sbin/init" % rootfs_dir), \
+                             "%s/init" % initrd_dir)
+             else:
+-                logger.error("Couldn't find or build initrd, exiting.\n")
+-                sys.exit(1)
++                raise WicError("Couldn't find or build initrd, exiting.")
+ 
+             exec_cmd("cd %s && find . | cpio -o -H newc -R +0:+0 >./initrd.cpio " \
+                     % initrd_dir, as_shell=True)
+@@ -239,8 +233,7 @@ class IsoImagePlugin(SourcePlugin):
+ 
+         if part.rootfs_dir is None:
+             if not 'ROOTFS_DIR' in rootfs_dir:
+-                logger.error("Couldn't find --rootfs-dir, exiting.\n")
+-                sys.exit(1)
++                raise WicError("Couldn't find --rootfs-dir, exiting.")
+             rootfs_dir = rootfs_dir['ROOTFS_DIR']
+         else:
+             if part.rootfs_dir in rootfs_dir:
+@@ -248,16 +241,14 @@ class IsoImagePlugin(SourcePlugin):
+             elif part.rootfs_dir:
+                 rootfs_dir = part.rootfs_dir
+             else:
+-                logger.error("Couldn't find --rootfs-dir=%s connection "
+-                             "or it is not a valid path, exiting.\n",
+-                             part.rootfs_dir)
+-                sys.exit(1)
++                raise WicError("Couldn't find --rootfs-dir=%s connection "
++                               "or it is not a valid path, exiting." %
++                               part.rootfs_dir)
+ 
+         if not os.path.isdir(rootfs_dir):
+             rootfs_dir = get_bitbake_var("IMAGE_ROOTFS")
+         if not os.path.isdir(rootfs_dir):
+-            logger.error("Couldn't find IMAGE_ROOTFS, exiting.\n")
+-            sys.exit(1)
++            raise WicError("Couldn't find IMAGE_ROOTFS, exiting.")
+ 
+         part.rootfs_dir = rootfs_dir
+ 
+@@ -296,8 +287,7 @@ class IsoImagePlugin(SourcePlugin):
+         if source_params.get('initrd'):
+             initrd = source_params['initrd']
+             if not deploy_dir:
+-                logger.error("Couldn't find DEPLOY_DIR_IMAGE, exiting\n")
+-                sys.exit(1)
++                raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
+             cp_cmd = "cp %s/%s %s" % (deploy_dir, initrd, cr_workdir)
+             exec_cmd(cp_cmd)
+         else:
+@@ -340,8 +330,7 @@ class IsoImagePlugin(SourcePlugin):
+                 # didn't contains it
+                 target_arch = get_bitbake_var("TARGET_SYS")
+                 if not target_arch:
+-                    logger.error("Coludn't find target architecture\n")
+-                    sys.exit(1)
++                    raise WicError("Coludn't find target architecture")
+ 
+                 if re.match("x86_64", target_arch):
+                     grub_target = 'x86_64-efi'
+@@ -350,21 +339,18 @@ class IsoImagePlugin(SourcePlugin):
+                     grub_target = 'i386-efi'
+                     grub_image = "bootia32.efi"
+                 else:
+-                    logger.error("grub-efi is incompatible with target %s\n",
+-                                 target_arch)
+-                    sys.exit(1)
++                    raise WicError("grub-efi is incompatible with target %s" %
++                                   target_arch)
+ 
+                 if not os.path.isfile("%s/EFI/BOOT/%s" \
+                                 % (bootimg_dir, grub_image)):
+                     grub_path = get_bitbake_var("STAGING_LIBDIR", "wic-tools")
+                     if not grub_path:
+-                        logger.error("Couldn't find STAGING_LIBDIR, exiting.\n")
+-                        sys.exit(1)
++                        raise WicError("Couldn't find STAGING_LIBDIR, exiting.")
+ 
+                     grub_core = "%s/grub/%s" % (grub_path, grub_target)
+                     if not os.path.exists(grub_core):
+-                        logger.error("Please build grub-efi first\n")
+-                        sys.exit(1)
++                        raise WicError("Please build grub-efi first")
+ 
+                     grub_cmd = "grub-mkimage -p '/EFI/BOOT' "
+                     grub_cmd += "-d %s "  % grub_core
+@@ -380,12 +366,10 @@ class IsoImagePlugin(SourcePlugin):
+                     exec_native_cmd(grub_cmd, native_sysroot)
+ 
+             else:
+-                logger.error("unrecognized bootimg-efi loader: %s",
+-                             source_params['loader'])
+-                sys.exit(1)
++                raise WicError("unrecognized bootimg-efi loader: %s" %
++                               source_params['loader'])
+         except KeyError:
+-            logger.error("bootimg-efi requires a loader, none specified")
+-            sys.exit(1)
++            raise WicError("bootimg-efi requires a loader, none specified")
+ 
+         if os.path.exists("%s/EFI/BOOT" % isodir):
+             shutil.rmtree("%s/EFI/BOOT" % isodir)
+@@ -431,8 +415,7 @@ class IsoImagePlugin(SourcePlugin):
+         # Prepare files for legacy boot
+         syslinux_dir = get_bitbake_var("STAGING_DATADIR", "wic-tools")
+         if not syslinux_dir:
+-            logger.error("Couldn't find STAGING_DATADIR, exiting.\n")
+-            sys.exit(1)
++            raise WicError("Couldn't find STAGING_DATADIR, exiting.")
+ 
+         if os.path.exists("%s/isolinux" % isodir):
+             shutil.rmtree("%s/isolinux" % isodir)
 diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/plugins/source/rawcopy.py
-index 5612809..12348ae 100644
+index c5c3be3..5612809 100644
 --- a/scripts/lib/wic/plugins/source/rawcopy.py
 +++ b/scripts/lib/wic/plugins/source/rawcopy.py
-@@ -18,7 +18,7 @@
+@@ -17,8 +17,8 @@
+ 
  import logging
  import os
+-import sys
  
--from wic.errors import WicError
-+from wic import WicError
++from wic.errors import WicError
  from wic.pluginbase import SourcePlugin
  from wic.utils.misc import exec_cmd, get_bitbake_var
  from wic.filemap import sparse_copy
+@@ -62,14 +62,12 @@ class RawCopyPlugin(SourcePlugin):
+         if not bootimg_dir:
+             bootimg_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
+             if not bootimg_dir:
+-                logger.error("Couldn't find DEPLOY_DIR_IMAGE, exiting\n")
+-                sys.exit(1)
++                raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
+ 
+         logger.debug('Bootimg dir: %s', bootimg_dir)
+ 
+         if 'file' not in source_params:
+-            logger.error("No file specified\n")
+-            sys.exit(1)
++            raise WicError("No file specified")
+ 
+         src = os.path.join(bootimg_dir, source_params['file'])
+         dst = os.path.join(cr_workdir, "%s.%s" % (source_params['file'], part.lineno))
 diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
-index e58469a..0ae62c7 100644
+index cfc90f6..e58469a 100644
 --- a/scripts/lib/wic/plugins/source/rootfs.py
 +++ b/scripts/lib/wic/plugins/source/rootfs.py
-@@ -28,7 +28,7 @@
+@@ -27,8 +27,8 @@
+ 
  import logging
  import os
+-import sys
  
--from wic.errors import WicError
-+from wic import WicError
++from wic.errors import WicError
  from wic.pluginbase import SourcePlugin
  from wic.utils.misc import get_bitbake_var
  
+@@ -48,10 +48,9 @@ class RootfsPlugin(SourcePlugin):
+ 
+         image_rootfs_dir = get_bitbake_var("IMAGE_ROOTFS", rootfs_dir)
+         if not os.path.isdir(image_rootfs_dir):
+-            logger.error("No valid artifact IMAGE_ROOTFS from image named %s "
+-                         "has been found at %s, exiting.\n",
+-                         rootfs_dir, image_rootfs_dir)
+-            sys.exit(1)
++            raise WicError("No valid artifact IMAGE_ROOTFS from image "
++                           "named %s has been found at %s, exiting." %
++                           (rootfs_dir, image_rootfs_dir))
+ 
+         return image_rootfs_dir
+ 
+@@ -66,8 +65,7 @@ class RootfsPlugin(SourcePlugin):
+         """
+         if part.rootfs_dir is None:
+             if not 'ROOTFS_DIR' in krootfs_dir:
+-                logger.error("Couldn't find --rootfs-dir, exiting")
+-                sys.exit(1)
++                raise WicError("Couldn't find --rootfs-dir, exiting")
+ 
+             rootfs_dir = krootfs_dir['ROOTFS_DIR']
+         else:
+@@ -76,9 +74,8 @@ class RootfsPlugin(SourcePlugin):
+             elif part.rootfs_dir:
+                 rootfs_dir = part.rootfs_dir
+             else:
+-                logger.error("Couldn't find --rootfs-dir=%s connection or "
+-                             "it is not a valid path, exiting", part.rootfs_dir)
+-                sys.exit(1)
++                raise WicError("Couldn't find --rootfs-dir=%s connection or "
++                               "it is not a valid path, exiting" % part.rootfs_dir)
+ 
+         real_rootfs_dir = cls.__get_rootfs_dir(rootfs_dir)
+ 
 diff --git a/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py b/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
-index cf0eec2..94f80d0 100644
+index 850aa5a..4cc3a39 100644
 --- a/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
 +++ b/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
-@@ -22,7 +22,7 @@ import logging
+@@ -21,9 +21,8 @@
+ import logging
  import os
  import re
+-import sys
  
--from wic.errors import WicError
-+from wic import WicError
+-from wic.errors import ImageError
++from wic.errors import ImageError, WicError
  from wic.utils import runner
  from wic.utils.misc import get_bitbake_var, exec_cmd, exec_native_cmd
  from wic.pluginbase import SourcePlugin
-diff --git a/scripts/lib/wic/utils/misc.py b/scripts/lib/wic/utils/misc.py
-index 94fdab2..4b822f0 100644
---- a/scripts/lib/wic/utils/misc.py
-+++ b/scripts/lib/wic/utils/misc.py
-@@ -33,7 +33,7 @@ import re
- from collections import defaultdict
- from distutils import spawn
+@@ -99,10 +98,9 @@ class RootfsPlugin(SourcePlugin):
  
--from wic.errors import WicError
-+from wic import WicError
- from wic.utils import runner
+         image_rootfs_dir = get_bitbake_var("IMAGE_ROOTFS", rootfs_dir)
+         if not os.path.isdir(image_rootfs_dir):
+-            logger.error("No valid artifact IMAGE_ROOTFS from image named %s "
+-                         "has been found at %s, exiting.\n",
+-                         rootfs_dir, image_rootfs_dir)
+-            sys.exit(1)
++            raise WicError("No valid artifact IMAGE_ROOTFS from image named %s "
++                           "has been found at %s, exiting." %
++                           (rootfs_dir, image_rootfs_dir))
  
- logger = logging.getLogger('wic')
-diff --git a/scripts/lib/wic/utils/runner.py b/scripts/lib/wic/utils/runner.py
-index 5ede192..56d7ea3 100644
---- a/scripts/lib/wic/utils/runner.py
-+++ b/scripts/lib/wic/utils/runner.py
-@@ -19,7 +19,7 @@ import logging
- import os
- import subprocess
+         return image_rootfs_dir
  
--from wic.errors import WicError
-+from wic import WicError
+@@ -160,14 +158,12 @@ class RootfsPlugin(SourcePlugin):
+             logger.info("building syslinux-native...")
+             exec_cmd("bitbake syslinux-native")
+         if not is_exe(native_syslinux_nomtools):
+-            logger.error("Couldn't find syslinux-nomtools (%s), exiting\n",
+-                         native_syslinux_nomtools)
+-            sys.exit(1)
++            raise WicError("Couldn't find syslinux-nomtools (%s), exiting" %
++                           native_syslinux_nomtools)
  
- logger = logging.getLogger('wic')
+         if part.rootfs is None:
+             if 'ROOTFS_DIR' not in krootfs_dir:
+-                logger.error("Couldn't find --rootfs-dir, exiting")
+-                sys.exit(1)
++                raise WicError("Couldn't find --rootfs-dir, exiting")
+             rootfs_dir = krootfs_dir['ROOTFS_DIR']
+         else:
+             if part.rootfs in krootfs_dir:
+@@ -175,9 +171,8 @@ class RootfsPlugin(SourcePlugin):
+             elif part.rootfs:
+                 rootfs_dir = part.rootfs
+             else:
+-                logger.error("Couldn't find --rootfs-dir=%s connection or "
+-                             "it is not a valid path, exiting", part.rootfs)
+-                sys.exit(1)
++                raise WicError("Couldn't find --rootfs-dir=%s connection or "
++                               "it is not a valid path, exiting" % part.rootfs)
  
-diff --git a/scripts/wic b/scripts/wic
-index b8be5b8..e6780a1 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -51,7 +51,7 @@ if bitbake_exe:
- else:
-     bitbake_main = None
+         real_rootfs_dir = cls._get_rootfs_dir(rootfs_dir)
  
--from wic.errors import WicError
-+from wic import WicError
- from wic.utils.misc import get_bitbake_var, BB_VARS
- from wic import engine
- from wic import help as hlp
+@@ -203,15 +198,12 @@ class RootfsPlugin(SourcePlugin):
+         elif image_creator.ptable_format == 'gpt':
+             mbrfile += "gptmbr.bin"
+         else:
+-            logger.error("Unsupported partition table: %s",
+-                         image_creator.ptable_format)
+-            sys.exit(1)
++            raise WicError("Unsupported partition table: %s" %
++                           image_creator.ptable_format)
+ 
+         if not os.path.exists(mbrfile):
+-            logger.error("Couldn't find %s. Has syslinux-native been baked?",
+-                         mbrfile)
+-            sys.exit(1)
+-
++            raise WicError("Couldn't find %s. Has syslinux-native been baked?",
++                           mbrfile)
+         full_path = disk.path
+         logger.debug("Installing MBR on disk %s as %s with size %s bytes",
+                      disk_name, full_path, disk.min_size)
 -- 
 2.1.4
 
