@@ -1,26 +1,41 @@
-Return-Path: <Yuanjie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5647E731F9
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 178E277240
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 09:38:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v1F9c1VG011738
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 15 Feb 2017 10:12:33 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id v77so7365464wmv.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 01:38:01 -0800 (PST)
-Received: from ala-lpd-susbld2.wrs.com (147.11.105.122) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.294.0; Wed, 15 Feb 2017 01:38:00 -0800
-From: Yuanjie Huang <yuanjie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 15 Feb 2017 01:38:00 -0800
-Message-ID: <20170215093800.36685-1-yuanjie.huang@windriver.com>
-X-Mailer: git-send-email 2.9.3
-In-Reply-To: <20170215091707.34181-1-yuanjie.huang@windriver.com>
-References: <20170215091707.34181-1-yuanjie.huang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH V2] gcc: Fix CVE-2016-6131 in libiberty
+	Wed, 15 Feb 2017 02:12:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=Gl2eGedGHMS/ZPqfBZkL8V5COYeMwbFGZPdAXI7oqBg=;
+	b=ZI5ch559+OsN0EhzWXp63jFiRLYpA/8eQb9E13fGS40WLvzd/dMx7eFXrDlBdClJJ0
+	C08J2bSiQQBwk+X0O7JgMVSoSw0BSngcx83f2NqPo+6JOXTUlVqnVCJLd11zCZgTWysH
+	MhUsyeKOSdkbRk2R+zqlvb2ddr5g//+DhZF2ZuvrzseV0nPpCc+VWK+5kfXepVGXXzs8
+	OBqOwYhhnyGtBWehxzxXWzZK12XZj7ulz9oA0YavyaBuxgsjicYI+Z7+T6U7U6t3vkWs
+	P+4P1lfgHFf6CGSNg4B+KiamV8HAMH8GndMkRT6A3eUo/StfnxR4senqsfrS4yPX5NAe
+	qwxA==
+X-Gm-Message-State: AMke39liRfpsNiXgIC18PrcB3bGKYszIw9/6tJ8lhDzhnoYq+8m5TMr2HC7kci/Ha7jX/A==
+X-Received: by 10.28.95.4 with SMTP id t4mr7524734wmb.87.1487153553388;
+	Wed, 15 Feb 2017 02:12:33 -0800 (PST)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	h75sm4247538wrh.37.2017.02.15.02.12.32
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 15 Feb 2017 02:12:32 -0800 (PST)
+Message-ID: <1487153551.2824.1.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Feb 2017 10:12:31 +0000
+In-Reply-To: <7f5d277329d262fe7e9723aacba2dc20768380b9.1486997986.git.alexander.kanavin@linux.intel.com>
+References: <cover.1486997986.git.alexander.kanavin@linux.intel.com>
+	<7f5d277329d262fe7e9723aacba2dc20768380b9.1486997986.git.alexander.kanavin@linux.intel.com>
+X-Mailer: Evolution 3.22.3-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 31/36] image.bbclass: do not uninstall update-alternatives from readonly rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,590 +48,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Feb 2017 09:38:03 -0000
+X-List-Received-Date: Wed, 15 Feb 2017 10:12:34 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-[NVD] -- https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6131
+On Mon, 2017-02-13 at 17:06 +0200, Alexander Kanavin wrote:
+> dnf insists that it cannot be done:
+> 
+> Error: package libglib-2.0-0-1:2.50.2-r0.i586 requires /bin/sh, but none
+> of the providers can be installed
+>   - package libdnf1-0.2.3+git0+367545629c-r0.i586 requires libglib-2.0-0
+> >= 2.50.2, but none of the providers can be installed
+>   - package bash-4.3.30-r0.i586 requires update-alternatives-opkg, but
+> none of the providers can be installed
+>   - package busybox-1.24.1-r0.i586 requires update-alternatives-opkg, but
+> none of the providers can be installed
+>   - package dnf-2.0.0+git0+f0093d672d-r0.i586 requires libdnf1, but none
+> of the providers can be installed
+>   - conflicting requests
+>   - problem with installed package dnf-2.0.0+git0+f0093d672d-r0.i586
 
-The demangler in GNU Libiberty allows remote attackers to cause a denial
-of service (infinite loop, stack overflow, and crash) via a cycle in the
-references of remembered mangled types.
+Can this change be made dependent on DNF, please?
 
-[BZ #71696] -- https://gcc.gnu.org/bugzilla/show_bug.cgi?id=71696
+Update-alternatives once run is not useful on read-only rootfs, and its
+database wastes a lot of space (in the target file system) for no benefit.
 
-2016-08-04  Marcel Böhme  <boehme.marcel@gmail.com>
+Cheers,
+Andre'
 
-	PR c++/71696
-	* cplus-dem.c: Prevent infinite recursion when there is a cycle
-	in the referencing of remembered mangled types.
-	(work_stuff): New stack to keep track of the remembered mangled
-	types that are currently being processed.
-	(push_processed_type): New method to push currently processed
-	remembered type onto the stack.
-	(pop_processed_type): New method to pop currently processed
-	remembered type from the stack.
-	(work_stuff_copy_to_from): Copy values of new variables.
-	(delete_non_B_K_work_stuff): Free stack memory.
-	(demangle_args): Push/Pop currently processed remembered type.
-	(do_type): Do not demangle a cyclic reference and push/pop
-	referenced remembered type.
 
-cherry-picked from commit of
-git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@239143 138bc75d-0d04-0410-961f-82ee72b054a4
 
-Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
----
- meta/recipes-devtools/gcc/gcc-5.4.inc              |   1 +
- .../gcc/gcc-5.4/CVE-2016-6131.patch                | 251 +++++++++++++++++++++
- meta/recipes-devtools/gcc/gcc-6.3.inc              |   4 +-
- .../gcc/gcc-6.3/CVE-2016-6131.patch                | 251 +++++++++++++++++++++
- 4 files changed, 506 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-5.4/CVE-2016-6131.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-6.3/CVE-2016-6131.patch
-
-diff --git a/meta/recipes-devtools/gcc/gcc-5.4.inc b/meta/recipes-devtools/gcc/gcc-5.4.inc
-index 338530f..b769675 100644
---- a/meta/recipes-devtools/gcc/gcc-5.4.inc
-+++ b/meta/recipes-devtools/gcc/gcc-5.4.inc
-@@ -89,6 +89,7 @@ SRC_URI = "\
-            file://0057-unwind-fix-for-musl.patch \
-            file://0058-fdebug-prefix-map-support-to-remap-relative-path.patch \
-            file://0059-libgcc-use-ldflags.patch \
-+           file://CVE-2016-6131.patch \
- "
- 
- BACKPORTS = ""
-diff --git a/meta/recipes-devtools/gcc/gcc-5.4/CVE-2016-6131.patch b/meta/recipes-devtools/gcc/gcc-5.4/CVE-2016-6131.patch
-new file mode 100644
-index 0000000..ca4f6b4
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-5.4/CVE-2016-6131.patch
-@@ -0,0 +1,251 @@
-+From b3f6b32165d3f437bd0ac6269c3c499b68ecf036 Mon Sep 17 00:00:00 2001
-+From: law <law@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Thu, 4 Aug 2016 16:53:18 +0000
-+Subject: [PATCH] Fix for PR71696 in Libiberty Demangler
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+[BZ #71696] -- https://gcc.gnu.org/bugzilla/show_bug.cgi?id=71696
-+
-+2016-08-04  Marcel Böhme  <boehme.marcel@gmail.com>
-+
-+	PR c++/71696
-+	* cplus-dem.c: Prevent infinite recursion when there is a cycle
-+	in the referencing of remembered mangled types.
-+	(work_stuff): New stack to keep track of the remembered mangled
-+	types that are currently being processed.
-+	(push_processed_type): New method to push currently processed
-+	remembered type onto the stack.
-+	(pop_processed_type): New method to pop currently processed
-+	remembered type from the stack.
-+	(work_stuff_copy_to_from): Copy values of new variables.
-+	(delete_non_B_K_work_stuff): Free stack memory.
-+	(demangle_args): Push/Pop currently processed remembered type.
-+	(do_type): Do not demangle a cyclic reference and push/pop
-+	referenced remembered type.
-+
-+cherry-picked from commit of
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@239143 138bc75d-0d04-0410-961f-82ee72b054a4
-+
-+Upstream-Status: Backport [master]
-+CVE: CVE-2016-6131
-+Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
-+---
-+ libiberty/ChangeLog                   | 17 ++++++++
-+ libiberty/cplus-dem.c                 | 78 ++++++++++++++++++++++++++++++++---
-+ libiberty/testsuite/demangle-expected | 18 ++++++++
-+ 3 files changed, 108 insertions(+), 5 deletions(-)
-+
-+diff --git a/libiberty/ChangeLog b/libiberty/ChangeLog
-+index 9859ad3..7939480 100644
-+--- a/libiberty/ChangeLog
-++++ b/libiberty/ChangeLog
-+@@ -1,3 +1,20 @@
-++2016-08-04  Marcel Böhme  <boehme.marcel@gmail.com>
-++
-++	PR c++/71696
-++	* cplus-dem.c: Prevent infinite recursion when there is a cycle
-++	in the referencing of remembered mangled types.
-++	(work_stuff): New stack to keep track of the remembered mangled
-++	types that are currently being processed.
-++	(push_processed_type): New method to push currently processed
-++	remembered type onto the stack.
-++	(pop_processed_type): New method to pop currently processed
-++	remembered type from the stack.
-++	(work_stuff_copy_to_from): Copy values of new variables.
-++	(delete_non_B_K_work_stuff): Free stack memory.
-++	(demangle_args): Push/Pop currently processed remembered type.
-++	(do_type): Do not demangle a cyclic reference and push/pop
-++	referenced remembered type.
-++
-+ 2016-06-03  Release Manager
-+ 
-+ 	* GCC 5.4.0 released.
-+diff --git a/libiberty/cplus-dem.c b/libiberty/cplus-dem.c
-+index 7514e57..f21e630 100644
-+--- a/libiberty/cplus-dem.c
-++++ b/libiberty/cplus-dem.c
-+@@ -144,6 +144,9 @@ struct work_stuff
-+   string* previous_argument; /* The last function argument demangled.  */
-+   int nrepeats;         /* The number of times to repeat the previous
-+ 			   argument.  */
-++  int *proctypevec;     /* Indices of currently processed remembered typevecs.  */
-++  int proctypevec_size;
-++  int nproctypes;
-+ };
-+ 
-+ #define PRINT_ANSI_QUALIFIERS (work -> options & DMGL_ANSI)
-+@@ -435,6 +438,10 @@ iterate_demangle_function (struct work_stuff *,
-+ 
-+ static void remember_type (struct work_stuff *, const char *, int);
-+ 
-++static void push_processed_type (struct work_stuff *, int);
-++
-++static void pop_processed_type (struct work_stuff *);
-++
-+ static void remember_Btype (struct work_stuff *, const char *, int, int);
-+ 
-+ static int register_Btype (struct work_stuff *);
-+@@ -1301,6 +1308,10 @@ work_stuff_copy_to_from (struct work_stuff *to, struct work_stuff *from)
-+       memcpy (to->btypevec[i], from->btypevec[i], len);
-+     }
-+ 
-++  if (from->proctypevec)
-++    to->proctypevec =
-++      XDUPVEC (int, from->proctypevec, from->proctypevec_size);
-++
-+   if (from->ntmpl_args)
-+     to->tmpl_argvec = XNEWVEC (char *, from->ntmpl_args);
-+ 
-+@@ -1329,11 +1340,17 @@ delete_non_B_K_work_stuff (struct work_stuff *work)
-+   /* Discard the remembered types, if any.  */
-+ 
-+   forget_types (work);
-+-  if (work -> typevec != NULL)
-++  if (work->typevec != NULL)
-+     {
-+-      free ((char *) work -> typevec);
-+-      work -> typevec = NULL;
-+-      work -> typevec_size = 0;
-++      free ((char *) work->typevec);
-++      work->typevec = NULL;
-++      work->typevec_size = 0;
-++    }
-++  if (work->proctypevec != NULL)
-++    {
-++      free (work->proctypevec);
-++      work->proctypevec = NULL;
-++      work->proctypevec_size = 0;
-+     }
-+   if (work->tmpl_argvec)
-+     {
-+@@ -3552,6 +3569,8 @@ static int
-+ do_type (struct work_stuff *work, const char **mangled, string *result)
-+ {
-+   int n;
-++  int i;
-++  int is_proctypevec;
-+   int done;
-+   int success;
-+   string decl;
-+@@ -3564,6 +3583,7 @@ do_type (struct work_stuff *work, const char **mangled, string *result)
-+ 
-+   done = 0;
-+   success = 1;
-++  is_proctypevec = 0;
-+   while (success && !done)
-+     {
-+       int member;
-+@@ -3616,8 +3636,15 @@ do_type (struct work_stuff *work, const char **mangled, string *result)
-+ 	      success = 0;
-+ 	    }
-+ 	  else
-++	    for (i = 0; i < work->nproctypes; i++)
-++	      if (work -> proctypevec [i] == n)
-++	        success = 0;
-++
-++	  if (success)
-+ 	    {
-+-	      remembered_type = work -> typevec[n];
-++	      is_proctypevec = 1;
-++	      push_processed_type (work, n);
-++	      remembered_type = work->typevec[n];
-+ 	      mangled = &remembered_type;
-+ 	    }
-+ 	  break;
-+@@ -3840,6 +3867,9 @@ do_type (struct work_stuff *work, const char **mangled, string *result)
-+     string_delete (result);
-+   string_delete (&decl);
-+ 
-++  if (is_proctypevec)
-++    pop_processed_type (work);
-++
-+   if (success)
-+     /* Assume an integral type, if we're not sure.  */
-+     return (int) ((tk == tk_none) ? tk_integral : tk);
-+@@ -4252,6 +4282,41 @@ do_arg (struct work_stuff *work, const char **mangled, string *result)
-+ }
-+ 
-+ static void
-++push_processed_type (struct work_stuff *work, int typevec_index)
-++{
-++  if (work->nproctypes >= work->proctypevec_size)
-++    {
-++      if (!work->proctypevec_size)
-++	{
-++	  work->proctypevec_size = 4;
-++	  work->proctypevec = XNEWVEC (int, work->proctypevec_size);
-++	}
-++      else
-++	{
-++	  if (work->proctypevec_size < 16)
-++	    /* Double when small.  */
-++	    work->proctypevec_size *= 2;
-++	  else
-++	    {
-++	      /* Grow slower when large.  */
-++	      if (work->proctypevec_size > (INT_MAX / 3) * 2)
-++                xmalloc_failed (INT_MAX);
-++              work->proctypevec_size = (work->proctypevec_size * 3 / 2);
-++	    }
-++          work->proctypevec
-++            = XRESIZEVEC (int, work->proctypevec, work->proctypevec_size);
-++	}
-++    }
-++    work->proctypevec [work->nproctypes++] = typevec_index;
-++}
-++
-++static void
-++pop_processed_type (struct work_stuff *work)
-++{
-++  work->nproctypes--;
-++}
-++
-++static void
-+ remember_type (struct work_stuff *work, const char *start, int len)
-+ {
-+   char *tem;
-+@@ -4515,10 +4580,13 @@ demangle_args (struct work_stuff *work, const char **mangled,
-+ 		{
-+ 		  string_append (declp, ", ");
-+ 		}
-++	      push_processed_type (work, t);
-+ 	      if (!do_arg (work, &tem, &arg))
-+ 		{
-++		  pop_processed_type (work);
-+ 		  return (0);
-+ 		}
-++	      pop_processed_type (work);
-+ 	      if (PRINT_ARG_TYPES)
-+ 		{
-+ 		  string_appends (declp, &arg);
-+diff --git a/libiberty/testsuite/demangle-expected b/libiberty/testsuite/demangle-expected
-+index 1d8b771..d690b23 100644
-+--- a/libiberty/testsuite/demangle-expected
-++++ b/libiberty/testsuite/demangle-expected
-+@@ -4429,3 +4429,21 @@ __vt_90000000000cafebabe
-+ 
-+ _Z80800000000000000000000
-+ _Z80800000000000000000000
-++#
-++# Tests write access violation PR70926
-++
-++0__Ot2m02R5T0000500000
-++0__Ot2m02R5T0000500000
-++#
-++
-++0__GT50000000000_
-++0__GT50000000000_
-++#
-++
-++__t2m05B500000000000000000_
-++__t2m05B500000000000000000_
-++#
-++# Tests stack overflow PR71696
-++
-++__10%0__S4_0T0T0
-++%0<>::%0(%0<>)
-+-- 
-+2.9.3
-+
-diff --git a/meta/recipes-devtools/gcc/gcc-6.3.inc b/meta/recipes-devtools/gcc/gcc-6.3.inc
-index 0f1b88b..a8fca56 100644
---- a/meta/recipes-devtools/gcc/gcc-6.3.inc
-+++ b/meta/recipes-devtools/gcc/gcc-6.3.inc
-@@ -81,7 +81,9 @@ SRC_URI = "\
-            file://0048-sync-gcc-stddef.h-with-musl.patch \
-            ${BACKPORTS} \
- "
--BACKPORTS = ""
-+BACKPORTS = "\
-+           file://CVE-2016-6131.patch \
-+"
- SRC_URI[md5sum] = "677a7623c7ef6ab99881bc4e048debb6"
- SRC_URI[sha256sum] = "f06ae7f3f790fbf0f018f6d40e844451e6bc3b7bc96e128e63b09825c1f8b29f"
- 
-diff --git a/meta/recipes-devtools/gcc/gcc-6.3/CVE-2016-6131.patch b/meta/recipes-devtools/gcc/gcc-6.3/CVE-2016-6131.patch
-new file mode 100644
-index 0000000..f189c60
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-6.3/CVE-2016-6131.patch
-@@ -0,0 +1,251 @@
-+From 59a0e4bd8391962f62600ae3ac95ab0fba74d464 Mon Sep 17 00:00:00 2001
-+From: law <law@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Thu, 4 Aug 2016 16:53:18 +0000
-+Subject: [PATCH] Fix for PR71696 in Libiberty Demangler
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+[BZ #71696] -- https://gcc.gnu.org/bugzilla/show_bug.cgi?id=71696
-+
-+2016-08-04  Marcel Böhme  <boehme.marcel@gmail.com>
-+
-+	PR c++/71696
-+	* cplus-dem.c: Prevent infinite recursion when there is a cycle
-+	in the referencing of remembered mangled types.
-+	(work_stuff): New stack to keep track of the remembered mangled
-+	types that are currently being processed.
-+	(push_processed_type): New method to push currently processed
-+	remembered type onto the stack.
-+	(pop_processed_type): New method to pop currently processed
-+	remembered type from the stack.
-+	(work_stuff_copy_to_from): Copy values of new variables.
-+	(delete_non_B_K_work_stuff): Free stack memory.
-+	(demangle_args): Push/Pop currently processed remembered type.
-+	(do_type): Do not demangle a cyclic reference and push/pop
-+	referenced remembered type.
-+
-+cherry-picked from commit of
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@239143 138bc75d-0d04-0410-961f-82ee72b054a4
-+
-+Upstream-Status: Backport [master]
-+CVE: CVE-2016-6131
-+Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
-+---
-+ libiberty/ChangeLog                   | 17 ++++++++
-+ libiberty/cplus-dem.c                 | 78 ++++++++++++++++++++++++++++++++---
-+ libiberty/testsuite/demangle-expected | 18 ++++++++
-+ 3 files changed, 108 insertions(+), 5 deletions(-)
-+
-+diff --git a/libiberty/ChangeLog b/libiberty/ChangeLog
-+index 240138f..adf1d72 100644
-+--- a/libiberty/ChangeLog
-++++ b/libiberty/ChangeLog
-+@@ -1,3 +1,20 @@
-++2016-08-04  Marcel Böhme  <boehme.marcel@gmail.com>
-++
-++	PR c++/71696
-++	* cplus-dem.c: Prevent infinite recursion when there is a cycle
-++	in the referencing of remembered mangled types.
-++	(work_stuff): New stack to keep track of the remembered mangled
-++	types that are currently being processed.
-++	(push_processed_type): New method to push currently processed
-++	remembered type onto the stack.
-++	(pop_processed_type): New method to pop currently processed
-++	remembered type from the stack.
-++	(work_stuff_copy_to_from): Copy values of new variables.
-++	(delete_non_B_K_work_stuff): Free stack memory.
-++	(demangle_args): Push/Pop currently processed remembered type.
-++	(do_type): Do not demangle a cyclic reference and push/pop
-++	referenced remembered type.
-++
-+ 2016-12-21  Release Manager
-+ 
-+ 	* GCC 6.3.0 released.
-+diff --git a/libiberty/cplus-dem.c b/libiberty/cplus-dem.c
-+index 7514e57..f21e630 100644
-+--- a/libiberty/cplus-dem.c
-++++ b/libiberty/cplus-dem.c
-+@@ -144,6 +144,9 @@ struct work_stuff
-+   string* previous_argument; /* The last function argument demangled.  */
-+   int nrepeats;         /* The number of times to repeat the previous
-+ 			   argument.  */
-++  int *proctypevec;     /* Indices of currently processed remembered typevecs.  */
-++  int proctypevec_size;
-++  int nproctypes;
-+ };
-+ 
-+ #define PRINT_ANSI_QUALIFIERS (work -> options & DMGL_ANSI)
-+@@ -435,6 +438,10 @@ iterate_demangle_function (struct work_stuff *,
-+ 
-+ static void remember_type (struct work_stuff *, const char *, int);
-+ 
-++static void push_processed_type (struct work_stuff *, int);
-++
-++static void pop_processed_type (struct work_stuff *);
-++
-+ static void remember_Btype (struct work_stuff *, const char *, int, int);
-+ 
-+ static int register_Btype (struct work_stuff *);
-+@@ -1301,6 +1308,10 @@ work_stuff_copy_to_from (struct work_stuff *to, struct work_stuff *from)
-+       memcpy (to->btypevec[i], from->btypevec[i], len);
-+     }
-+ 
-++  if (from->proctypevec)
-++    to->proctypevec =
-++      XDUPVEC (int, from->proctypevec, from->proctypevec_size);
-++
-+   if (from->ntmpl_args)
-+     to->tmpl_argvec = XNEWVEC (char *, from->ntmpl_args);
-+ 
-+@@ -1329,11 +1340,17 @@ delete_non_B_K_work_stuff (struct work_stuff *work)
-+   /* Discard the remembered types, if any.  */
-+ 
-+   forget_types (work);
-+-  if (work -> typevec != NULL)
-++  if (work->typevec != NULL)
-+     {
-+-      free ((char *) work -> typevec);
-+-      work -> typevec = NULL;
-+-      work -> typevec_size = 0;
-++      free ((char *) work->typevec);
-++      work->typevec = NULL;
-++      work->typevec_size = 0;
-++    }
-++  if (work->proctypevec != NULL)
-++    {
-++      free (work->proctypevec);
-++      work->proctypevec = NULL;
-++      work->proctypevec_size = 0;
-+     }
-+   if (work->tmpl_argvec)
-+     {
-+@@ -3552,6 +3569,8 @@ static int
-+ do_type (struct work_stuff *work, const char **mangled, string *result)
-+ {
-+   int n;
-++  int i;
-++  int is_proctypevec;
-+   int done;
-+   int success;
-+   string decl;
-+@@ -3564,6 +3583,7 @@ do_type (struct work_stuff *work, const char **mangled, string *result)
-+ 
-+   done = 0;
-+   success = 1;
-++  is_proctypevec = 0;
-+   while (success && !done)
-+     {
-+       int member;
-+@@ -3616,8 +3636,15 @@ do_type (struct work_stuff *work, const char **mangled, string *result)
-+ 	      success = 0;
-+ 	    }
-+ 	  else
-++	    for (i = 0; i < work->nproctypes; i++)
-++	      if (work -> proctypevec [i] == n)
-++	        success = 0;
-++
-++	  if (success)
-+ 	    {
-+-	      remembered_type = work -> typevec[n];
-++	      is_proctypevec = 1;
-++	      push_processed_type (work, n);
-++	      remembered_type = work->typevec[n];
-+ 	      mangled = &remembered_type;
-+ 	    }
-+ 	  break;
-+@@ -3840,6 +3867,9 @@ do_type (struct work_stuff *work, const char **mangled, string *result)
-+     string_delete (result);
-+   string_delete (&decl);
-+ 
-++  if (is_proctypevec)
-++    pop_processed_type (work);
-++
-+   if (success)
-+     /* Assume an integral type, if we're not sure.  */
-+     return (int) ((tk == tk_none) ? tk_integral : tk);
-+@@ -4252,6 +4282,41 @@ do_arg (struct work_stuff *work, const char **mangled, string *result)
-+ }
-+ 
-+ static void
-++push_processed_type (struct work_stuff *work, int typevec_index)
-++{
-++  if (work->nproctypes >= work->proctypevec_size)
-++    {
-++      if (!work->proctypevec_size)
-++	{
-++	  work->proctypevec_size = 4;
-++	  work->proctypevec = XNEWVEC (int, work->proctypevec_size);
-++	}
-++      else
-++	{
-++	  if (work->proctypevec_size < 16)
-++	    /* Double when small.  */
-++	    work->proctypevec_size *= 2;
-++	  else
-++	    {
-++	      /* Grow slower when large.  */
-++	      if (work->proctypevec_size > (INT_MAX / 3) * 2)
-++                xmalloc_failed (INT_MAX);
-++              work->proctypevec_size = (work->proctypevec_size * 3 / 2);
-++	    }
-++          work->proctypevec
-++            = XRESIZEVEC (int, work->proctypevec, work->proctypevec_size);
-++	}
-++    }
-++    work->proctypevec [work->nproctypes++] = typevec_index;
-++}
-++
-++static void
-++pop_processed_type (struct work_stuff *work)
-++{
-++  work->nproctypes--;
-++}
-++
-++static void
-+ remember_type (struct work_stuff *work, const char *start, int len)
-+ {
-+   char *tem;
-+@@ -4515,10 +4580,13 @@ demangle_args (struct work_stuff *work, const char **mangled,
-+ 		{
-+ 		  string_append (declp, ", ");
-+ 		}
-++	      push_processed_type (work, t);
-+ 	      if (!do_arg (work, &tem, &arg))
-+ 		{
-++		  pop_processed_type (work);
-+ 		  return (0);
-+ 		}
-++	      pop_processed_type (work);
-+ 	      if (PRINT_ARG_TYPES)
-+ 		{
-+ 		  string_appends (declp, &arg);
-+diff --git a/libiberty/testsuite/demangle-expected b/libiberty/testsuite/demangle-expected
-+index 157d2ee..8793a0b 100644
-+--- a/libiberty/testsuite/demangle-expected
-++++ b/libiberty/testsuite/demangle-expected
-+@@ -4491,3 +4491,21 @@ void eat<int*, Foo()::{lambda(auto:1*, auto:2*)#6}>(int*&, Foo()::{lambda(auto:1
-+ 
-+ _Z3eatIPiZ3BarIsEvvEUlPsPT_PT0_E0_EvRS3_RS5_
-+ void eat<int*, void Bar<short>()::{lambda(short*, auto:1*, auto:2*)#2}>(int*&, void Bar<short>()::{lambda(short*, auto:1*, auto:2*)#2}&)
-++#
-++# Tests write access violation PR70926
-++
-++0__Ot2m02R5T0000500000
-++0__Ot2m02R5T0000500000
-++#
-++
-++0__GT50000000000_
-++0__GT50000000000_
-++#
-++
-++__t2m05B500000000000000000_
-++__t2m05B500000000000000000_
-++#
-++# Tests stack overflow PR71696
-++
-++__10%0__S4_0T0T0
-++%0<>::%0(%0<>)
-+-- 
-+2.9.3
-+
--- 
-2.9.3
-
+> 
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  meta/classes/image.bbclass             | 2 +-
+>  meta/lib/oeqa/selftest/buildoptions.py | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index b5a4fb4a337..ca0d0a8c0d1 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -33,7 +33,7 @@ ROOTFS_BOOTSTRAP_INSTALL = "${@bb.utils.contains("IMAGE_
+> FEATURES", "package-mana
+>  
+>  # These packages will be removed from a read-only rootfs after all other
+>  # packages have been installed
+> -ROOTFS_RO_UNNEEDED = "update-rc.d base-passwd shadow ${VIRTUAL-
+> RUNTIME_update-alternatives} ${ROOTFS_BOOTSTRAP_INSTALL}"
+> +ROOTFS_RO_UNNEEDED = "update-rc.d base-passwd shadow
+> ${ROOTFS_BOOTSTRAP_INSTALL}"
+>  
+>  # packages to install from features
+>  FEATURE_INSTALL = "${@'
+> '.join(oe.packagegroup.required_packages(oe.data.typed_value('IMAGE_FEATUR
+> ES', d), d))}"
+> diff --git a/meta/lib/oeqa/selftest/buildoptions.py
+> b/meta/lib/oeqa/selftest/buildoptions.py
+> index d40eb007ded..1801511913b 100644
+> --- a/meta/lib/oeqa/selftest/buildoptions.py
+> +++ b/meta/lib/oeqa/selftest/buildoptions.py
+> @@ -22,12 +22,12 @@ class ImageOptionsTests(oeSelfTest):
+>          bitbake("core-image-minimal")
+>          log_data_file = os.path.join(get_bb_var("WORKDIR", "core-image-
+> minimal"), "temp/log.do_rootfs")
+>          log_data_created = ftools.read_file(log_data_file)
+> -        incremental_created = re.search("NOTE: load old install solution
+> for incremental install\nNOTE: old install solution not exist\nNOTE:
+> creating new install solution for incremental install(\n.*)*NOTE:
+> Installing the following packages:.*packagegroup-core-ssh-openssh",
+> log_data_created)
+> +        incremental_created = re.search("Installing  : packagegroup-core-
+> ssh-openssh", log_data_created)
+>          self.remove_config('IMAGE_FEATURES += "ssh-server-openssh"')
+>          self.assertTrue(incremental_created, msg = "Match failed in:\n%s"
+> % log_data_created)
+>          bitbake("core-image-minimal")
+>          log_data_removed = ftools.read_file(log_data_file)
+> -        incremental_removed = re.search("NOTE: load old install solution
+> for incremental install\nNOTE: creating new install solution for
+> incremental install(\n.*)*NOTE: incremental removed:.*openssh-sshd-.*",
+> log_data_removed)
+> +        incremental_removed = re.search("Erasing     : packagegroup-core-
+> ssh-openssh", log_data_removed)
+>          self.assertTrue(incremental_removed, msg = "Match failed in:\n%s"
+> % log_data_removed)
+>  
+>      @testcase(286)
+> -- 
+> 2.11.0
+> 
 
