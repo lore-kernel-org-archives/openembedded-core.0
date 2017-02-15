@@ -1,40 +1,22 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 927276FF56
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id C474C7665F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 10:36:28 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id r18so7486492wmd.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 02:36:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=Are+T1yTw1Uu/nW8FhE4TUZItb1+pe8ajIbF0J64QnU=;
-	b=PhAHcWLnc3gFE2cX3gzVvcIWOM07I+Asr9WeXMpXK8MGadGGDOboWiFA1Z2ha+4/Wp
-	9RkUwiVFTXg5LuWh3UaU8hqoEiHsPG5Qt0wBUEM2i/nuxBVk4RgmNfMsLe7LcPrYEwrr
-	4c/8TeMoJQmzQX25YR/vFicRn+YCPNlSZCsLwpBAlHmxZzZePm53zpLeVTqDtnS6zM/N
-	wmhewDuUBomfQnaGdDEf4uyk4g9Fz0GPaIGfXLoj1UIxSlWNCbUBC3R0QPgUjmicVqaw
-	Jz9y6jyCGdx0CUnZOxWD26QbfNIvDH4xunSExr6ttYfD4umnezfKf+6ShdEWwPmog+CL
-	mGNg==
-X-Gm-Message-State: AMke39lHtoKFyIDD4TwubAktqVjF21DgL04R5MdCU1KeWy+tS14BQEWaDXhyGCPBBlFhhA==
-X-Received: by 10.28.40.65 with SMTP id o62mr7506596wmo.131.1487154987941;
-	Wed, 15 Feb 2017 02:36:27 -0800 (PST)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id 36sm4353047wrz.8.2017.02.15.02.36.26
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 15 Feb 2017 02:36:27 -0800 (PST)
-Message-ID: <1487154986.2824.6.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+	Wed, 15 Feb 2017 10:45:29 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Feb 2017 02:45:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.35,165,1484035200"; d="scan'208";a="1095003077"
+Received: from matzta-mobl.ger.corp.intel.com (HELO
+	mqz-osx-suse64.fi.intel.com) ([10.252.15.63])
+	by orsmga001.jf.intel.com with ESMTP; 15 Feb 2017 02:45:28 -0800
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Feb 2017 10:36:26 +0000
-In-Reply-To: <5eb1a4810bf745c5932feee2d1b47621353e9689.1486997986.git.alexander.kanavin@linux.intel.com>
-References: <cover.1486997986.git.alexander.kanavin@linux.intel.com>
-	<5eb1a4810bf745c5932feee2d1b47621353e9689.1486997986.git.alexander.kanavin@linux.intel.com>
-X-Mailer: Evolution 3.22.3-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 36/36] package_deb.bbclass: Ignore file paths in RPROVIDES
+Date: Wed, 15 Feb 2017 12:45:27 +0200
+Message-Id: <1487155527-17875-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Subject: [PATCH] scripts/buildstats-diff: fix epoch numbers in --ver-diff
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,56 +29,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Feb 2017 10:36:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 15 Feb 2017 10:45:30 -0000
 
-On Mon, 2017-02-13 at 17:06 +0200, Alexander Kanavin wrote:
-> From: Amarnath Valluri <amarnath.valluri@intel.com>
-> 
-> Unlike rpm, debian packaging does not allow file paths in 'Provides:'
-> field.
-> When 'usrmerge' distro feature enabled bash/busybox packages adds
-> '/bin/sh' to
-> it's RPROVIDES to satisfy build dependencies, this entry should be
-> filtered out.
+Incorrect data was printed (recipe name instead of epoch number) when
+displaying changes in epoch.
 
-What about opkg - is it OK with PATHs (my blind guess would be no)? Has it
-been tested?
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ scripts/buildstats-diff | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
-Andre'
+diff --git a/scripts/buildstats-diff b/scripts/buildstats-diff
+index 5cea184..adeba44 100755
+--- a/scripts/buildstats-diff
++++ b/scripts/buildstats-diff
+@@ -301,7 +301,7 @@ def print_ver_diff(bs1, bs2):
+         print("\nEPOCH CHANGED:")
+         print("--------------")
+         for pkg in sorted(echanged):
+-            field1 = "{} -> {}".format(pkg, bs1[pkg]['epoch'], bs2[pkg]['epoch'])
++            field1 = "{} -> {}".format(bs1[pkg]['epoch'], bs2[pkg]['epoch'])
+             field2 = "{} -> {}".format(bs1[pkg]['nevr'], bs2[pkg]['nevr'])
+             print(fmt_str.format(pkg, field1, field2, maxlen=maxlen))
+ 
+-- 
+2.6.6
 
-> 
-> Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
->  meta/classes/package_deb.bbclass | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/meta/classes/package_deb.bbclass
-> b/meta/classes/package_deb.bbclass
-> index eb549ca971a..e1bc078d6b6 100644
-> --- a/meta/classes/package_deb.bbclass
-> +++ b/meta/classes/package_deb.bbclass
-> @@ -237,6 +237,10 @@ python do_package_deb () {
->          debian_cmp_remap(rsuggests)
->          # Deliberately drop version information here, not
-> wanted/supported by deb
->          rprovides =
-> dict.fromkeys(bb.utils.explode_dep_versions2(localdata.getVar("RPROVIDES")
-> or ""), [])
-> +        # Remove file paths if any from rprovides, debian does not
-> support custom providers
-> +        for key in list(rprovides.keys()):
-> +            if key.startswith('/'):
-> +                del rprovides[key]
->          rprovides = collections.OrderedDict(sorted(rprovides.items(),
-> key=lambda x: x[0]))
->          debian_cmp_remap(rprovides)
->          rreplaces =
-> bb.utils.explode_dep_versions2(localdata.getVar("RREPLACES") or "")
-> -- 
-> 2.11.0
-> 
 
