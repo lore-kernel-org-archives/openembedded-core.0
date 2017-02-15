@@ -1,60 +1,25 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-lf0-f52.google.com (mail-lf0-f52.google.com
-	[209.85.215.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 9323565CB6
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id ECD0171985
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 08:17:34 +0000 (UTC)
-Received: by mail-lf0-f52.google.com with SMTP id v186so77431315lfa.1
+	Wed, 15 Feb 2017 09:01:09 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Feb 2017 01:01:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.35,165,1484035200"; d="scan'208";a="934089556"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga003.jf.intel.com with ESMTP; 15 Feb 2017 01:01:09 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id DEC0C6A4006
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 00:17:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
-	h=date:from:to:subject:message-id:mail-followup-to:references
-	:mime-version:content-disposition:in-reply-to:organization
-	:user-agent; bh=QgQopkYbwJTfmwBKv0vLPRNh9MU9hGn9w9zqct+XJZQ=;
-	b=ZWFHDMY55auBISb3bpckaRkN2oSzTw77kr7XHN92fo5ZJYRRJxgeh2gva+vATu9UhL
-	vPv3S9BB4b18+TTAgNyy/0zuaB1X9IdOdpi16UxLye2oXzzWdHqdLFfqWgS5Rygxr03g
-	dBYeMKOok/t7SDOeTNsG3FMBYH0HWe+FJh8fCz6cZZCKUMJeCJU647cGsfb3C1f/KipT
-	FzakG+d1lUXpePSPxhSyh74LRTuDsntOxzEyDbAv+OHKeGe5woH8UxBdHxAJbPBQiK67
-	GumnKJNHeFfmvrm4LcaJHTmGcCIO0Tq7h588VP5sAVkZeVuW2wQdwzUImWD3ATi3rvbC
-	lBFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
-	:references:mime-version:content-disposition:in-reply-to
-	:organization:user-agent;
-	bh=QgQopkYbwJTfmwBKv0vLPRNh9MU9hGn9w9zqct+XJZQ=;
-	b=rQjPzpDQYvlLhQOyT4hD3bheK2+DVSpTdZwWRtrAmILLQHy+CGtXeQ0Wq6Vnkus9/4
-	FLM2rRLzFnhIw5VejbirEsZ8jd9ifD5YZHyImZqq+VfNq1L7qH3DWCxP5NisHXF0ZRq+
-	eLV7dkSI1P18K7Sk9hCJyTToAcoFjNIiR7SJIbKENGTUziYm6dmpqqFqQMQMEDkNZOtf
-	nZGdWX2i4/F5nAvSYulOxfRyVH7xqksm50ucA8wp0ixzkzrX719RrSHF6zCA/+bluhoj
-	HzAdyOkJ/GjuTGj5OGFSoT4YTTCbDBrUZzwmoZlhKXHLdW6FZoqW5giuMsjRzTMlaen7
-	rNFA==
-X-Gm-Message-State: AMke39mfUSVS1H3pjpC9Vxv9fmzBnHqP4Wj1mUlNMSvkpXSXgiik5D4MMZzX7PcB4ebbrg==
-X-Received: by 10.25.215.136 with SMTP id q8mr9039566lfi.57.1487146654003;
-	Wed, 15 Feb 2017 00:17:34 -0800 (PST)
-Received: from ad.chargestorm.se (194-237-220-218.customer.telia.com.
-	[194.237.220.218])
-	by smtp.gmail.com with ESMTPSA id s28sm741826ljd.6.2017.02.15.00.17.32
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 15 Feb 2017 00:17:32 -0800 (PST)
-Date: Wed, 15 Feb 2017 09:17:31 +0100
-From: Anders Darander <anders@chargestorm.se>
+	Wed, 15 Feb 2017 01:00:06 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20170215081731.lf5vtdcbong4xsyq@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <cover.1486997986.git.alexander.kanavin@linux.intel.com>
-	<e1b1c67d691fd317bf6c11d570ef5d261029f38b.1486997986.git.alexander.kanavin@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <e1b1c67d691fd317bf6c11d570ef5d261029f38b.1486997986.git.alexander.kanavin@linux.intel.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: NeoMutt/20170113 (1.7.2)
-Subject: Re: [PATCH 22/36] package.bbclass: add support for pkg_postinst_ontarget()
+Date: Wed, 15 Feb 2017 10:38:23 +0200
+Message-Id: <cover.1487110279.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 00/11] wic refactoring (almost done)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,26 +32,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Feb 2017 08:17:35 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 15 Feb 2017 09:01:10 -0000
 
-* Alexander Kanavin <alexander.kanavin@linux.intel.com> [170213 16:08]:
+Hi,
 
-> All commands that cannot be executed during cross-install and can only be run on target
-> should go into this function. They will only be executed on first boot (if package was
-> cross-installed) or immediately during package installation on target.
+This patchset takes care of logging and error handling:
+- remove custom msger module in favor of standard python logging
+- raise WicError exception instead of calling sys.exit
 
-How will this be handled when using ro-rootfs?
+This is the one of the last changes for this time.
 
-We don't need to make it easier to write on-first-boot only post_install
-scripts, rather, the goal has to be to be able to run all post_install
-scripts during rootfs creation...
+I'm thinking about refactoring wic plugin system, but haven't decided yet
+if it makes sense to do right now or not. Other than that I'm happy with
+the state of the wic codebase for now. There are still many things to improve,
+but it looks and feels much better now.
 
-Cheers,
-Anders
+The following changes since commit 10d1f08f71a623ca6d45cf0ae1afa2e880591a09:
 
--- 
-Anders Darander, Senior System Architect
-ChargeStorm AB / eStorm AB
+  wic: direct: move creation of PartitionedImage to __init__ (2017-02-10 16:44:03 +0200)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ed/wic/wip
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wic/wip
+
+Ed Bartosh (11):
+  wic: setup logging in the main wic module
+  wic: use wic logger in core modules
+  wic: use wic logger in imager direct plugin
+  wic: use wic logger in wic source plugins
+  wic: remove msger module
+  wic: move errors module
+  wic: raise WicError in main module
+  wic: raise WicError in core modules
+  wic: raise WicError in wic plugins
+  wic: raise WicError instead of ImageError and CreatorError
+  wic: move WicError to lib/wic/__init__.py
+
+ scripts/lib/wic/__init__.py                        |  20 ++
+ scripts/lib/wic/engine.py                          |  28 ++-
+ scripts/lib/wic/help.py                            |   8 +-
+ scripts/lib/wic/ksparser.py                        |   7 +-
+ scripts/lib/wic/msger.py                           | 209 ---------------------
+ scripts/lib/wic/partition.py                       |  68 +++----
+ scripts/lib/wic/plugin.py                          |  24 +--
+ scripts/lib/wic/pluginbase.py                      |  12 +-
+ scripts/lib/wic/plugins/imager/direct.py           |  87 ++++-----
+ scripts/lib/wic/plugins/source/bootimg-efi.py      |  52 ++---
+ .../lib/wic/plugins/source/bootimg-partition.py    |  25 +--
+ scripts/lib/wic/plugins/source/bootimg-pcbios.py   |  41 ++--
+ scripts/lib/wic/plugins/source/fsimage.py          |  14 +-
+ .../lib/wic/plugins/source/isoimage-isohybrid.py   |  79 ++++----
+ scripts/lib/wic/plugins/source/rawcopy.py          |  12 +-
+ scripts/lib/wic/plugins/source/rootfs.py           |  21 ++-
+ .../lib/wic/plugins/source/rootfs_pcbios_ext.py    |  54 +++---
+ scripts/lib/wic/utils/errors.py                    |  29 ---
+ scripts/lib/wic/utils/misc.py                      |  34 ++--
+ scripts/lib/wic/utils/runner.py                    |  12 +-
+ scripts/wic                                        | 104 +++++-----
+ 21 files changed, 378 insertions(+), 562 deletions(-)
+ delete mode 100644 scripts/lib/wic/msger.py
+ delete mode 100644 scripts/lib/wic/utils/errors.py
+
+--
+Regards,
+Ed
+
 
