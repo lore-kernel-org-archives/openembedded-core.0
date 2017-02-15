@@ -1,29 +1,28 @@
 Return-Path: <geoffrey.levillain@smile.fr>
 Received: from idris.smile.fr (idris.smile.fr [91.216.209.19])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D9BF60721
+	by mail.openembedded.org (Postfix) with ESMTP id 4FE70772E1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 16:20:34 +0000 (UTC)
+	Wed, 15 Feb 2017 16:21:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by idris.smile.fr (Postfix) with ESMTP id 3B4151EE19B4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 17:20:33 +0100 (CET)
+	by idris.smile.fr (Postfix) with ESMTP id B58B91EE1018;
+	Wed, 15 Feb 2017 17:21:09 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at smile.fr
 Received: from idris.smile.fr ([127.0.0.1])
 	by localhost (bluemind-mta.prod.vitry.intranet [127.0.0.1])
-	(amavisd-new, port 10024) with ESMTP id hj7E9ub+H4TV
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 17:20:33 +0100 (CET)
+	(amavisd-new, port 10024)
+	with ESMTP id BkzLY-Js4RqH; Wed, 15 Feb 2017 17:21:09 +0100 (CET)
 Received: from Mirage.daviel.idf.intranet (fw-alt.idf.smile.fr
 	[109.190.187.143])
-	by idris.smile.fr (Postfix) with ESMTPA id 1001D1EE1942
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 17:20:33 +0100 (CET)
+	by idris.smile.fr (Postfix) with ESMTPA id 87EA01EE0EC1;
+	Wed, 15 Feb 2017 17:21:09 +0100 (CET)
 From: Geoffrey Levillain <geoffrey.levillain@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Feb 2017 17:18:46 +0100
-Message-Id: <20170215161849.7773-1-geoffrey.levillain@smile.fr>
+Date: Wed, 15 Feb 2017 17:18:48 +0100
+Message-Id: <20170215161849.7773-3-geoffrey.levillain@smile.fr>
 X-Mailer: git-send-email 2.11.0
-Subject: Permit to install files from an overlay in images recipes
+In-Reply-To: <20170215161849.7773-1-geoffrey.levillain@smile.fr>
+References: <20170215161849.7773-1-geoffrey.levillain@smile.fr>
+Subject: [PATCH 2/3] Add possibility to install overlays to image through a class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,21 +35,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Feb 2017 16:20:36 -0000
+X-List-Received-Date: Wed, 15 Feb 2017 16:21:09 -0000
 
-[PATCH 1/3] No need to force image licence on MIT
-[PATCH 2/3] Add possibility to install overlays to image through a class
-[PATCH 3/3] Do not remove fetching and install_overlay stamps
+There is often a need to add configuration files specific to an image,
+to simplify this process we can use a task.
 
-These patches introduce a capability to install overlay into image after
-fetching them.
+Fetching is set as noexec for images, but there is a need to fetch files
+here. This class permit to use do_fetch, do_unpack and do_patch in order
+to get your image-specific overlays to install.
 
-There is actually a need to add image-specific configurations files into
-image recipes, and these patches are a way to standardize this process as
-well as simplify it by re-enabling fetching when image_overlay is
-inherited, and by providing a task that copy every files in directories
-listed in OVERLAY_ROOT_DIRS into IMAGE_ROOTFS directory.
+Signed-off-by: Geoffrey Levillain <geoffrey.levillain@smile.fr>
+---
+ meta/classes/image_overlay.bbclass | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+ create mode 100644 meta/classes/image_overlay.bbclass
 
-Regards,
-Geoffrey Levillain
+diff --git a/meta/classes/image_overlay.bbclass b/meta/classes/image_overlay.bbclass
+new file mode 100644
+index 0000000000..93c1ea6f9f
+--- /dev/null
++++ b/meta/classes/image_overlay.bbclass
+@@ -0,0 +1,24 @@
++# Enable SRC_URI for images and use it to install overlays
++
++# Let these task be executed to fetch overlay
++unset do_fetch[noexec]
++unset do_unpack[noexec]
++unset do_patch[noexec]
++
++# Add a task to install the overlay
++# (content of folders listed in OVERLAY_ROOT_DIRS is copied in rootfs)
++addtask install_overlay after do_unpack do_patch do_rootfs before do_image
++fakeroot do_install_overlay() {
++    for dir in ${OVERLAY_ROOT_DIRS}; do
++        if [ ! -d "${WORKDIR}/${dir}" ] ; then
++            bbfatal "${dir} not found, please check your OVERLAY_ROOT_DIRS and SRC_URI variables."
++        fi
++        cp -dr --no-preserve=ownership "${WORKDIR}/${dir}"/* "${IMAGE_ROOTFS}"
++    done
++}
++do_install_overlay[depends] += "virtual/fakeroot-native:do_populate_sysroot"
++do_install_overlay[dirs] = "${IMAGE_ROOTFS}"
++do_install_overlay[umask] = "022"
++do_install_overlay[vardeps] += "OVERLAY_ROOT_DIRS"
++
++SSTATETASKS += "do_install_overlay"
+-- 
+2.11.0
+
 
