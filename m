@@ -1,28 +1,27 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id AE7C373180
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id E090477248
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 09:01:15 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Feb 2017 01:01:16 -0800
+	Wed, 15 Feb 2017 09:01:38 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Feb 2017 01:01:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,165,1484035200"; d="scan'208";a="1107650008"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 15 Feb 2017 01:01:15 -0800
+X-IronPort-AV: E=Sophos;i="5.35,165,1484035200"; d="scan'208";a="66005616"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga006.fm.intel.com with ESMTP; 15 Feb 2017 01:01:39 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 8BFD36A4006
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Feb 2017 01:00:36 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1486997986.git.alexander.kanavin@linux.intel.com>
-	<e1b1c67d691fd317bf6c11d570ef5d261029f38b.1486997986.git.alexander.kanavin@linux.intel.com>
-	<20170215081731.lf5vtdcbong4xsyq@ad.chargestorm.se>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <fd9dca04-e3ef-077f-e67d-3b3bedbe7dc4@linux.intel.com>
-Date: Wed, 15 Feb 2017 11:01:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.6.0
-MIME-Version: 1.0
-In-Reply-To: <20170215081731.lf5vtdcbong4xsyq@ad.chargestorm.se>
-Subject: Re: [PATCH 22/36] package.bbclass: add support for pkg_postinst_ontarget()
+Date: Wed, 15 Feb 2017 10:38:24 +0200
+Message-Id: <063d07ba0c67792dd3dea5086ea58ed21ab763e5.1487110279.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <cover.1487110279.git.ed.bartosh@linux.intel.com>
+References: <cover.1487110279.git.ed.bartosh@linux.intel.com>
+Subject: [PATCH 01/11] wic: setup logging in the main wic module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,23 +34,209 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Feb 2017 09:01:15 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 Feb 2017 09:01:39 -0000
 
-On 02/15/2017 10:17 AM, Anders Darander wrote:
-> How will this be handled when using ro-rootfs?
+Set up wic logger using standerd logging module.
+This is going to replace custom msger module.
 
-Same as it's handled now: by halting bitbake. See the email I just wrote 
-to the oe-arch list for details.
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/wic | 77 +++++++++++++++++++++++++++++++++++--------------------------
+ 1 file changed, 44 insertions(+), 33 deletions(-)
 
-> We don't need to make it easier to write on-first-boot only post_install
-> scripts, rather, the goal has to be to be able to run all post_install
-> scripts during rootfs creation...
+diff --git a/scripts/wic b/scripts/wic
+index 1b7d7df..f3e93da 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -56,6 +56,23 @@ from wic.utils.errors import WicError
+ from wic import engine
+ from wic import help as hlp
+ 
++
++def wic_logger():
++    """Create and convfigure wic logger."""
++    logger = logging.getLogger('wic')
++    logger.setLevel(logging.INFO)
++
++    handler = logging.StreamHandler()
++
++    formatter = logging.Formatter('%(levelname)s: %(message)s')
++    handler.setFormatter(formatter)
++
++    logger.addHandler(handler)
++
++    return logger
++
++logger = wic_logger()
++
+ def rootfs_dir_to_args(krootfs_dir):
+     """
+     Get a rootfs_dir dict and serialize to string
+@@ -123,12 +140,12 @@ def wic_create_subcommand(args, usage_str):
+     (options, args) = parser.parse_args(args)
+ 
+     if len(args) != 1:
+-        logging.error("Wrong number of arguments, exiting\n")
++        logger.error("Wrong number of arguments, exiting\n")
+         parser.print_help()
+         sys.exit(1)
+ 
+     if options.build_rootfs and not bitbake_main:
+-        logging.error("Can't build roofs as bitbake is not in the $PATH")
++        logger.error("Can't build roofs as bitbake is not in the $PATH")
+         sys.exit(1)
+ 
+     if not options.image_name:
+@@ -140,8 +157,8 @@ def wic_create_subcommand(args, usage_str):
+             if not val:
+                 missed.append(opt)
+         if missed:
+-            print("The following build artifacts are not specified:")
+-            print("  " + ", ".join(missed))
++            logger.error("The following build artifacts are not specified: %s",
++                         ", ".join(missed))
+             sys.exit(1)
+ 
+     if options.image_name:
+@@ -152,23 +169,22 @@ def wic_create_subcommand(args, usage_str):
+     if options.vars_dir:
+         BB_VARS.vars_dir = options.vars_dir
+ 
+-    if options.build_check:
+-        print("Checking basic build environment...")
+-        if not engine.verify_build_env():
+-            print("Couldn't verify build environment, exiting\n")
+-            sys.exit(1)
+-        else:
+-            print("Done.\n")
++    if options.build_check and not engine.verify_build_env():
++        logger.error("Couldn't verify build environment, exiting\n")
++        sys.exit(1)
+ 
+     bootimg_dir = ""
+ 
++    if options.debug:
++        logger.setLevel(logging.DEBUG)
++
+     if options.image_name:
+         if options.build_rootfs:
+             argv = ["bitbake", options.image_name]
+             if options.debug:
+                 argv.append("--debug")
+ 
+-            print("Building rootfs...\n")
++            logger.info("Building rootfs...\n")
+             if bitbake_main(BitBakeConfigParameters(argv),
+                             cookerdata.CookerConfiguration()):
+                 sys.exit(1)
+@@ -179,18 +195,18 @@ def wic_create_subcommand(args, usage_str):
+                                          "wic-tools", cache=False)
+     else:
+         if options.build_rootfs:
+-            print("Image name is not specified, exiting. (Use -e/--image-name to specify it)\n")
++            logger.error("Image name is not specified, exiting. (Use -e/--image-name to specify it)\n")
+             sys.exit(1)
+         native_sysroot = options.native_sysroot
+ 
+     if not native_sysroot or not os.path.isdir(native_sysroot):
+-        print("Building wic-tools...\n")
++        logger.info("Building wic-tools...\n")
+         if bitbake_main(BitBakeConfigParameters("bitbake wic-tools".split()),
+                         cookerdata.CookerConfiguration()):
+             sys.exit(1)
+         native_sysroot = get_bitbake_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
+         if not native_sysroot:
+-            print("Unable to find the location of the native tools sysroot to use\n")
++            logger.info("Unable to find the location of the native tools sysroot to use\n")
+             sys.exit(1)
+ 
+     wks_file = args[0]
+@@ -198,7 +214,7 @@ def wic_create_subcommand(args, usage_str):
+     if not wks_file.endswith(".wks"):
+         wks_file = engine.find_canned_image(scripts_path, wks_file)
+         if not wks_file:
+-            print("No image named %s found, exiting.  (Use 'wic list images' "\
++            logger.error("No image named %s found, exiting.  (Use 'wic list images' "\
+                   "to list available images, or specify a fully-qualified OE "\
+                   "kickstart (.wks) filename)\n" % args[0])
+             sys.exit(1)
+@@ -211,16 +227,16 @@ def wic_create_subcommand(args, usage_str):
+         kernel_dir = options.kernel_dir
+         native_sysroot = options.native_sysroot
+         if rootfs_dir and not os.path.isdir(rootfs_dir):
+-            print("--roofs-dir (-r) not found, exiting\n")
++            logger.error("--roofs-dir (-r) not found, exiting\n")
+             sys.exit(1)
+         if not os.path.isdir(bootimg_dir):
+-            print("--bootimg-dir (-b) not found, exiting\n")
++            logger.error("--bootimg-dir (-b) not found, exiting\n")
+             sys.exit(1)
+         if not os.path.isdir(kernel_dir):
+-            print("--kernel-dir (-k) not found, exiting\n")
++            logger.error("--kernel-dir (-k) not found, exiting\n")
+             sys.exit(1)
+         if not os.path.isdir(native_sysroot):
+-            print("--native-sysroot (-n) not found, exiting\n")
++            logger.error("--native-sysroot (-n) not found, exiting\n")
+             sys.exit(1)
+     else:
+         not_found = not_found_dir = ""
+@@ -233,12 +249,11 @@ def wic_create_subcommand(args, usage_str):
+         if not_found:
+             if not not_found_dir:
+                 not_found_dir = "Completely missing artifact - wrong image (.wks) used?"
+-            print("Build artifacts not found, exiting.")
+-            print("  (Please check that the build artifacts for the machine")
+-            print("   selected in local.conf actually exist and that they")
+-            print("   are the correct artifacts for the image (.wks file)).\n")
+-            print("The artifact that couldn't be found was %s:\n  %s" % \
+-                (not_found, not_found_dir))
++            logger.error("Build artifacts not found, exiting.")
++            logger.info("  (Please check that the build artifacts for the machine")
++            logger.info("   selected in local.conf actually exist and that they")
++            logger.info("   are the correct artifacts for the image (.wks file)).\n")
++            logger.info("The artifact that couldn't be found was %s:\n  %s", not_found, not_found_dir)
+             sys.exit(1)
+ 
+     krootfs_dir = options.rootfs_dir
+@@ -248,7 +263,7 @@ def wic_create_subcommand(args, usage_str):
+ 
+     rootfs_dir = rootfs_dir_to_args(krootfs_dir)
+ 
+-    print("Creating image(s)...\n")
++    logger.info("Creating image(s)...\n")
+     engine.wic_create(wks_file, rootfs_dir, bootimg_dir, kernel_dir,
+                       native_sysroot, options)
+ 
+@@ -262,7 +277,7 @@ def wic_list_subcommand(args, usage_str):
+     args = parser.parse_args(args)[1]
+ 
+     if not engine.wic_list(args, scripts_path):
+-        logging.error("Bad list arguments, exiting\n")
++        logger.error("Bad list arguments, exiting\n")
+         parser.print_help()
+         sys.exit(1)
+ 
+@@ -299,10 +314,6 @@ subcommands = {
+ }
+ 
+ 
+-def start_logging(loglevel):
+-    logging.basicConfig(filename='wic.log', filemode='w', level=loglevel)
+-
+-
+ def main(argv):
+     parser = optparse.OptionParser(version="wic version %s" % __version__,
+                                    usage=hlp.wic_usage)
+@@ -324,6 +335,6 @@ if __name__ == "__main__":
+     try:
+         sys.exit(main(sys.argv[1:]))
+     except WicError as err:
+-        print("ERROR:", err, file=sys.stderr)
++        logger.error(err)
+         sys.exit(1)
+ 
+-- 
+2.1.4
 
-This is not always possible. Some things do have to run on target: 
-because qemu emulation doesn't work for the target machine on the build 
-host, or because the post_install has to interact with target hardware.
-
-Alex
 
