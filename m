@@ -1,61 +1,52 @@
-Return-Path: <bevenson@melinkcorp.com>
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
-	(mail-sn1nam02on0120.outbound.protection.outlook.com [104.47.36.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 56A1E719E2
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2017 22:09:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=Melink.onmicrosoft.com; s=selector1-melinkcorp-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=iZuSq+bMf74v6Injyz9ZQWkoTAXAUuxn6epveBHtkH8=;
-	b=Zqjku1kNI9xxHM9Pq8n/MQlwHZ92HedUt7XXI+PpWKHECM8COO1I3BTLKhWHYBtxNsfTkxQTAehzAx4tWuvi9jAjgqEXSptPPzYTOR3drJ24OAjXWed8+QenG9K7d0tb+dU5HElFXbVYfAKnl/68udeHK34SqOG6hZPAA25KqO0=
-Received: from DM5PR05MB2954.namprd05.prod.outlook.com (10.168.176.142) by
-	DM5PR05MB2955.namprd05.prod.outlook.com (10.168.176.143) with Microsoft
-	SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
-	15.1.919.10; Wed, 15 Feb 2017 21:54:00 +0000
-Received: from DM5PR05MB2954.namprd05.prod.outlook.com ([10.168.176.142]) by
-	DM5PR05MB2954.namprd05.prod.outlook.com ([10.168.176.142]) with mapi id
-	15.01.0919.013; Wed, 15 Feb 2017 21:54:00 +0000
-From: Bryan Evenson <bevenson@melinkcorp.com>
-To: "Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Thread-Topic: Suggested RREPLACES/RCONFLICTS for easier kernel-image upgrades
-Thread-Index: AdKH01RvH/dQvi5nROe3asA1z4v5aQ==
-Date: Wed, 15 Feb 2017 21:54:00 +0000
-Message-ID: <DM5PR05MB2954FBA66842C0F05C5108C6BB5B0@DM5PR05MB2954.namprd05.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=bevenson@melinkcorp.com; 
-x-originating-ip: [98.100.91.242]
-x-ms-office365-filtering-correlation-id: 2b161fca-5a68-4650-cdfe-08d455ed269d
-x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:(22001);SRVR:DM5PR05MB2955;
-x-microsoft-exchange-diagnostics: 1; DM5PR05MB2955;
-	7:uFA2QiHgH9yvKBcmHBRbGFAUYyHQTSfqCE0WH66p5zZn0esHWjRsso6D9C1tvxsXYlmt40k9IEGlJxJ78uN77hnCbxasnM8v3YQSsckbJdP0q/h5ikO9X4BoTEdidFvyYa/bQUn4e8gGhy4XHO24vrp7851R1eaI8pgX7KmuV0v5kBXoM/lFNPjy+p4Ihhf+vC7j4YR+2otQrMZoBvTpnz27lE+enJBKGbCxI1rcGRo3KBbzOXUeCL+7gqj0uUX+TL8WrJr00yUjnsAdy6MQlWTk7GV2/7dws/Jvna8ByNE6WSlsPjlYfFtdgAyK181ocXVZ8ucH9dJdaLuCQ3NBaw==
-x-microsoft-antispam-prvs: <DM5PR05MB295599A37C77F324365BE4F9BB5B0@DM5PR05MB2955.namprd05.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(166708455590820);
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(6040375)(601004)(2401047)(8121501046)(5005006)(3002001)(10201501046)(6041248)(20161123564025)(20161123560025)(20161123562025)(20161123555025)(20161123558025)(6072148);
-	SRVR:DM5PR05MB2955; BCL:0; PCL:0; RULEID:; SRVR:DM5PR05MB2955; 
-x-forefront-prvs: 021975AE46
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(6009001)(7916002)(39450400003)(189002)(199003)(2906002)(450100001)(38730400002)(92566002)(97736004)(122556002)(105586002)(2351001)(305945005)(7736002)(66066001)(81156014)(8936002)(81166006)(68736007)(74316002)(8676002)(53936002)(389900002)(6916009)(7696004)(2501003)(2900100001)(5660300001)(3660700001)(6306002)(5640700003)(3280700002)(86362001)(6506006)(6436002)(6116002)(99286003)(110136004)(77096006)(55016002)(3846002)(102836003)(189998001)(9686003)(106356001)(33656002)(54356999)(50986999)(25786008)(101416001);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:DM5PR05MB2955;
-	H:DM5PR05MB2954.namprd05.prod.outlook.com; FPR:; SPF:None;
-	PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
-received-spf: None (protection.outlook.com: melinkcorp.com does not designate
-	permitted sender hosts)
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
+	[209.85.214.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E0286059F
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Feb 2017 22:18:45 +0000 (UTC)
+Received: by mail-it0-f67.google.com with SMTP id r141so659696ita.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Feb 2017 14:18:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding;
+	bh=FW9Ols5CagsQbBEX6Wlyg3h4jo5aIgGhOgbNRrivlio=;
+	b=PAwfYpin31HSTw7VQJL/d17aYvB0vULA6EmtaPenU4tRxB2OxzIul9yTt1MQ6GQe+q
+	oF1R1fcfgG1GJyg3cp2cRlpz7WdhZLb6eM698jrmwXHiQnIaa2H/fAkIC9ZAsfxdtLiT
+	2fZme3yTepzSGPcuNj1sUvOZBEG5eB2XBraEZDnalsduXgxlZavFsExkkdtqTpH2PSKV
+	GuV50tYKEpXPqsYmnQkPyApWJy6wD52cm9zDpborT/6fqJBY1UEg7JSFQc9hQEEE5nHA
+	7lJnqw+3dB109ui4nVtuBPsgG8yDZfhR9fX0RyrxxynxfhNTpuCDZV3IW+IKLt1lzg5U
+	VRgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=FW9Ols5CagsQbBEX6Wlyg3h4jo5aIgGhOgbNRrivlio=;
+	b=N4GJgWBqTx/x+m+JR1psKrQgX49Hb4I7zQ8ozsQqsAEKS9AMciOH1We8HLVetmqTdO
+	1Av35kaildVnrYUdl7ZRqWgFgIvSlhU8Z3MzKLYzOTcLuzSLFDteE1PKRa4Pa/PuFVAD
+	96bdBwoP6OISM04o0/9gL7x09xd+GxtV/07O9z8QUtjwSl61FG+x4EyErtOrDdNKAJBq
+	PLEsx3TUj+SvjoAY+kmYRScFQFsZHbEGFYFtVLtCOUuZvVz9CdALlhOOTAABTVYgH4np
+	XIjXYnaNZtZhK/IPT0Fz0HNZr3twJ8i5LKO8vEE6kP5nicmc4JwBNBqnBmTjyntTu9S8
+	FDrw==
+X-Gm-Message-State: AMke39lwXuVck7INGSFdwpMXHrVfzIYWBejFEtz1iJRA12evgcmr9b7Cmlwt++Z6dXoHfw==
+X-Received: by 10.107.8.194 with SMTP id h63mr38064080ioi.70.1487197126205;
+	Wed, 15 Feb 2017 14:18:46 -0800 (PST)
+Received: from CACSVMO-14452.local (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	x67sm2348952iod.22.2017.02.15.14.18.45
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 15 Feb 2017 14:18:45 -0800 (PST)
+To: openembedded-core@lists.openembedded.org
+References: <DM5PR05MB2954FBA66842C0F05C5108C6BB5B0@DM5PR05MB2954.namprd05.prod.outlook.com>
+From: Khem Raj <raj.khem@gmail.com>
+Message-ID: <9c23fade-7e4c-ec14-f0c1-dd43ae71c5ff@gmail.com>
+Date: Wed, 15 Feb 2017 14:17:29 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.7.1
 MIME-Version: 1.0
-X-OriginatorOrg: melinkcorp.com
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Feb 2017 21:54:00.7667 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d06db0f9-efcc-42b5-9f8c-c934a01c9bfd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR05MB2955
-Subject: Suggested RREPLACES/RCONFLICTS for easier kernel-image upgrades
+In-Reply-To: <DM5PR05MB2954FBA66842C0F05C5108C6BB5B0@DM5PR05MB2954.namprd05.prod.outlook.com>
+Subject: Re: Suggested RREPLACES/RCONFLICTS for easier kernel-image upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,38 +59,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Feb 2017 22:09:37 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 15 Feb 2017 22:18:47 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-For one project I'm using an Atmel AT91SAM9G25 processor, and I started whe=
-n support for the chip wasn't fully integrated into the mainline kernel.  A=
-s a result, I was using Atmel's Linux fork.  Support has been in the mainli=
-ne kernel for a while now, so in the middle of doing other updates I plan o=
-n switching to using one of the mainline LTS releases.  I'm using the kerne=
-l recipe in the meta-sunxi layer as an example (located here: https://githu=
-b.com/linux-sunxi/meta-sunxi/blob/master/recipes-kernel/linux/linux_4.4.40.=
-bb). I also plan on keeping more up to date on releases.  However, due to t=
-he package naming for the kernel images, the RREPLACES/RCONFLICTS statement=
-s for firmware upgrade for this recipe is getting ridiculous.  I'm currentl=
-y building for kernel version 4.1.38, and here's what I have so far to hand=
-le all previous cases:
 
-RREPLACES_kernel-image =3D "kernel-image (<=3D 4.1) kernel-image-3.6.9-yoct=
-o-standard kernel-image-3.10.0-yocto-standard kernel-image-3.10.0-at91"
-RCONFLICTS_kernel-image =3D "kernel-image (<=3D 4.1) kernel-image-3.6.9-yoc=
-to-standard kernel-image-3.10.0-yocto-standard kernel-image-3.10.0-at91"
 
-If it makes a difference, I'm using opkg for a package manager.  Since the =
-kernel version is in the package name, I'm assuming that if I do keep going=
- forward and relatively up to date with LTS release, I'll have to start add=
-ing "kernel-image-4.1.38 kernel-image-4.1.39 kernel-image 4.1.40 ...." to t=
-he RREPLACES/RCONFLICTS so opkg will upgrade the kernel.
+On 2/15/17 1:54 PM, Bryan Evenson wrote:
+> For one project I'm using an Atmel AT91SAM9G25 processor, and I started when support for the chip wasn't fully integrated into the mainline kernel.  As a result, I was using Atmel's Linux fork.  Support has been in the mainline kernel for a while now, so in the middle of doing other updates I plan on switching to using one of the mainline LTS releases.  I'm using the kernel recipe in the meta-sunxi layer as an example (located here: https://github.com/linux-sunxi/meta-sunxi/blob/master/recipes-kernel/linux/linux_4.4.40.bb). I also plan on keeping more up to date on releases.  However, due to the package naming for the kernel images, the RREPLACES/RCONFLICTS statements for firmware upgrade for this recipe is getting ridiculous.  I'm currently building for kernel version 4.1.38, and here's what I have so far to handle all previous cases:
+> 
+> RREPLACES_kernel-image = "kernel-image (<= 4.1) kernel-image-3.6.9-yocto-standard kernel-image-3.10.0-yocto-standard kernel-image-3.10.0-at91"
+> RCONFLICTS_kernel-image = "kernel-image (<= 4.1) kernel-image-3.6.9-yocto-standard kernel-image-3.10.0-yocto-standard kernel-image-3.10.0-at91"
+> 
+> If it makes a difference, I'm using opkg for a package manager.  Since the kernel version is in the package name, I'm assuming that if I do keep going forward and relatively up to date with LTS release, I'll have to start adding "kernel-image-4.1.38 kernel-image-4.1.39 kernel-image 4.1.40 ...." to the RREPLACES/RCONFLICTS so opkg will upgrade the kernel.
+> 
+> Is there a better way to do this?  I've tried using some wildcards in the package names without any success.
+> 
 
-Is there a better way to do this?  I've tried using some wildcards in the p=
-ackage names without any success.
+you can increment PE
 
-Thanks,
-Bryan
+> Thanks,
+> Bryan
+> 
 
