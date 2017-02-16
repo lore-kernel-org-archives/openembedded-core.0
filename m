@@ -1,25 +1,23 @@
 Return-Path: <stefan@agner.ch>
-X-Greylist: delayed 417 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 16 Feb 2017 00:42:24 UTC
 Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 62802600BC
+	by mail.openembedded.org (Postfix) with ESMTP id 6380F71DD9
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 16 Feb 2017 00:42:24 +0000 (UTC)
 Received: from seahawk.toradex.int
 	(75-146-58-181-Washington.hfc.comcastbusiness.net [75.146.58.181])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 93D8E5C3C9D;
-	Thu, 16 Feb 2017 01:27:19 +0100 (CET)
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 3A1E35C0BA7;
+	Thu, 16 Feb 2017 01:26:07 +0100 (CET)
 From: Stefan Agner <stefan@agner.ch>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Feb 2017 16:36:33 -0800
-Message-Id: <1487205393-2065-1-git-send-email-stefan@agner.ch>
+Date: Wed, 15 Feb 2017 16:35:19 -0800
+Message-Id: <1487205319-1954-1-git-send-email-stefan@agner.ch>
 X-Mailer: git-send-email 2.7.4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1487204840; bh=H/ukUA8QjynenEnQIUs7XH4J1DhY/4lTpLELC0vTcfE=;
+	t=1487204767; bh=Li3eay6vyMq76OOs5ihNLj2Ztq4QM8pJIw7xz1qKHPs=;
 	h=From:To:Cc:Subject:Date:Message-Id;
-	b=tNUs/lvlXhtwZRxJB0CKETri9d7KaApCpeCr4D4snaaIpZ3p14AbmeunK8Q6q0FjnCzye7TmY6yswOelo7yYeYI7QJ9IT8NQ4tU6i/loimfWCSKaifRh2oEj0P/YoLkl2uOUKfGrD8HjHG3+sa1Em9iPlM8d9H9R6GKLYZaiNIo=
+	b=u9EQTUwfYWyxQ0TQz0QMhHrHWdfw5rlStfyE+oNyNWaBGDsrkVzocmbILYmfleD7NVxzpznh+ah42/Css13n4VCAFzRZQsaAn0ZyGssMnG/9lV4+11GBIfkJ7he+jivvdhAHhjIBaisJoKjd8Tq08iRYLHlf9jRoyg2+gaamwX0=
 Cc: Stefan Agner <stefan.agner@toradex.com>
-Subject: [PATCH][morty] linux-firmware: Add Marvell sd88xx WiFi firmwares
+Subject: [PATCH] linux-firmware: Add Marvell sd88xx WiFi firmwares
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,7 +42,7 @@ Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
  1 file changed, 16 insertions(+), 1 deletion(-)
 
 diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 8e68ae8..10d11c0 100644
+index 0aba740..5547e16 100644
 --- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
 +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
 @@ -221,7 +221,7 @@ do_install() {
@@ -55,8 +53,8 @@ index 8e68ae8..10d11c0 100644
 +             ${PN}-marvell-license ${PN}-sd8686 ${PN}-sd8688 ${PN}-sd8787 ${PN}-sd8797 ${PN}-sd8801 ${PN}-sd8887 ${PN}-sd8897 \
               ${PN}-ti-connectivity-license ${PN}-wl12xx ${PN}-wl18xx \
               ${PN}-vt6656-license ${PN}-vt6656 \
-              ${PN}-rtl-license ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su \
-@@ -320,6 +320,9 @@ LICENSE_${PN}-sd8686 = "Firmware-Marvell"
+              ${PN}-rtl-license ${PN}-rtl8188 ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su ${PN}-rtl8723 ${PN}-rtl8821 \
+@@ -322,6 +322,9 @@ LICENSE_${PN}-sd8686 = "Firmware-Marvell"
  LICENSE_${PN}-sd8688 = "Firmware-Marvell"
  LICENSE_${PN}-sd8787 = "Firmware-Marvell"
  LICENSE_${PN}-sd8797 = "Firmware-Marvell"
@@ -66,7 +64,7 @@ index 8e68ae8..10d11c0 100644
  LICENSE_${PN}-marvell-license = "Firmware-Marvell"
  
  FILES_${PN}-marvell-license = "/lib/firmware/LICENCE.Marvell"
-@@ -337,11 +340,23 @@ FILES_${PN}-sd8787 = " \
+@@ -339,11 +342,23 @@ FILES_${PN}-sd8787 = " \
  FILES_${PN}-sd8797 = " \
    /lib/firmware/mrvl/sd8797_uapsta.bin \
  "
@@ -89,7 +87,7 @@ index 8e68ae8..10d11c0 100644
 +RDEPENDS_${PN}-sd8897 += "${PN}-marvell-license"
  
  # For rtl
- LICENSE_${PN}-rtl8192cu = "Firmware-rtlwifi_firmware"
+ LICENSE_${PN}-rtl8188 = "Firmware-rtlwifi_firmware"
 -- 
 2.7.4
 
