@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E207771E02
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4CFDC71E02
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Feb 2017 08:53:24 +0000 (UTC)
+	Thu, 16 Feb 2017 08:53:25 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v1G8rOle010474
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v1G8rPIv005242
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Feb 2017 00:53:25 -0800 (PST)
+	Thu, 16 Feb 2017 00:53:26 -0800
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 16 Feb 2017 00:53:24 -0800
+	Thu, 16 Feb 2017 00:53:25 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Feb 2017 00:53:23 -0800
-Message-ID: <cover.1487235190.git.liezhi.yang@windriver.com>
+Date: Thu, 16 Feb 2017 00:53:24 -0800
+Message-ID: <335fdc9ba14019e62b29119cf8fe6875a7fb9076.1487235190.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.10.2
+In-Reply-To: <cover.1487235190.git.liezhi.yang@windriver.com>
+References: <cover.1487235190.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] oe-init-build-env: create a symlink in BUILDDIR
+Subject: [PATCH 1/1] oe-init-build-env: create a symlink in BUILDDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,22 +36,77 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 16 Feb 2017 08:53:26 -0000
 Content-Type: text/plain
 
-The following changes since commit 9f225ef5620f2e47e762b2fd16fa5f8d6f1f60fd:
+When there are multiple oe-core repos (for example, poky-master,
+poky-morty and poky-krogoth) and multiple builddirs for them, it's not
+easy to reinit builddir in such a case, and very easy to make mistakes.
+Create a symlink in builddir will make it easy, for example:
 
-  wic: direct: move creation of PartitionedImage to __init__ (2017-02-15 20:06:35 -0800)
+e.g.:
+$ . poky-morty/oe-init-build-env test_m
+$ ls -l oe-init-build-env
+oe-init-build-env -> /buildarea/lyang1/poky-morty/oe-init-build-env
 
-are available in the git repository at:
+When we want to reinit the builddir test_m:
+$ . oe-init-build-env .
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/symlink
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/symlink
-
-Robert Yang (1):
-  oe-init-build-env: create a symlink in BUILDDIR
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  oe-init-build-env        | 6 +++++-
  oe-init-build-env-memres | 6 +++++-
  2 files changed, 10 insertions(+), 2 deletions(-)
 
+diff --git a/oe-init-build-env b/oe-init-build-env
+index 5fe68d1..5a41bb2 100755
+--- a/oe-init-build-env
++++ b/oe-init-build-env
+@@ -41,9 +41,9 @@ if [ -z "$ZSH_NAME" ] && [ "$0" = "$THIS_SCRIPT" ]; then
+     exit 1
+ fi
+ 
++THIS_SCRIPT=$(readlink -f $THIS_SCRIPT)
+ if [ -z "$OEROOT" ]; then
+     OEROOT=$(dirname "$THIS_SCRIPT")
+-    OEROOT=$(readlink -f "$OEROOT")
+ fi
+ unset THIS_SCRIPT
+ 
+@@ -53,6 +53,10 @@ export OEROOT
+     unset OEROOT
+     return 1
+ }
++
++# Create a symlink
++ln -sf $OEROOT/oe-init-build-env $BUILDDIR
++
+ unset OEROOT
+ 
+ [ -z "$BUILDDIR" ] || cd "$BUILDDIR"
+diff --git a/oe-init-build-env-memres b/oe-init-build-env-memres
+index 9e1425e..71a4857 100755
+--- a/oe-init-build-env-memres
++++ b/oe-init-build-env-memres
+@@ -49,9 +49,9 @@ if [ -z "$ZSH_NAME" ] && [ "$0" = "$THIS_SCRIPT" ]; then
+     exit 1
+ fi
+ 
++THIS_SCRIPT=$(readlink -f $THIS_SCRIPT)
+ if [ -z "$OEROOT" ]; then
+     OEROOT=$(dirname "$THIS_SCRIPT")
+-    OEROOT=$(readlink -f "$OEROOT")
+ fi
+ unset THIS_SCRIPT
+ 
+@@ -61,6 +61,10 @@ export OEROOT
+     unset OEROOT
+     return 1
+ }
++
++# Create a symlink
++ln -sf $OEROOT/oe-init-build-env-memres $BUILDDIR
++
+ unset OEROOT
+ 
+ [ -z "$BUILDDIR" ] || cd "$BUILDDIR"
 -- 
 2.10.2
 
