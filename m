@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E75173195
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E8E5D73195
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 16 Feb 2017 08:19:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v1G8J0Zw004619
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v1G8J1b5021698
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Feb 2017 00:19:00 -0800
+	Thu, 16 Feb 2017 00:19:01 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 16 Feb 2017 00:18:59 -0800
+	Thu, 16 Feb 2017 00:19:00 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Feb 2017 00:18:58 -0800
-Message-ID: <cover.1487233119.git.liezhi.yang@windriver.com>
+Date: Thu, 16 Feb 2017 00:18:59 -0800
+Message-ID: <6b52adcb031fe1df55bb44d24ae61bf303b800c0.1487233119.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.10.2
+In-Reply-To: <cover.1487233119.git.liezhi.yang@windriver.com>
+References: <cover.1487233119.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] kernel.bbclass: do_deploy requires depmodwrapper
+Subject: [PATCH 1/1] kernel.bbclass: do_deploy requires depmodwrapper
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,24 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Feb 2017 08:19:00 -0000
+X-List-Received-Date: Thu, 16 Feb 2017 08:19:01 -0000
 Content-Type: text/plain
 
-The following changes since commit 9f225ef5620f2e47e762b2fd16fa5f8d6f1f60fd:
+Fixed:
+run.do_deploy.27809: line 155: depmodwrapper: command not found
 
-  wic: direct: move creation of PartitionedImage to __init__ (2017-02-15 20:06:35 -0800)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/deploy
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/deploy
-
-Robert Yang (1):
-  kernel.bbclass: do_deploy requires depmodwrapper
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/classes/kernel.bbclass | 2 ++
  1 file changed, 2 insertions(+)
 
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 97cba92..ae8eaed 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -4,6 +4,8 @@ PROVIDES += "virtual/kernel"
+ DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native"
+ PACKAGE_WRITE_DEPS += "depmodwrapper-cross virtual/update-alternatives-native"
+ 
++do_deploy[depends] += "depmodwrapper-cross:do_populate_sysroot"
++
+ S = "${STAGING_KERNEL_DIR}"
+ B = "${WORKDIR}/build"
+ KBUILD_OUTPUT = "${B}"
 -- 
 2.10.2
 
