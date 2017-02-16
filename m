@@ -1,56 +1,50 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
-	[209.85.214.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 4437771E16
+Return-Path: <kristian.amlie@mender.io>
+Received: from mail-lf0-f41.google.com (mail-lf0-f41.google.com
+	[209.85.215.41])
+	by mail.openembedded.org (Postfix) with ESMTP id DEAF87391A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Feb 2017 10:27:00 +0000 (UTC)
-Received: by mail-it0-f47.google.com with SMTP id x75so19393601itb.0
+	Thu, 16 Feb 2017 10:30:14 +0000 (UTC)
+Received: by mail-lf0-f41.google.com with SMTP id x1so6034890lff.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Feb 2017 02:27:00 -0800 (PST)
+	Thu, 16 Feb 2017 02:30:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=lQPzhSMwT7MR8hfkn14j52hR0+PdqCj3s9tpxtVVWYo=;
-	b=pOYuAkXPJY2J44FbkrAxsjDhG+tVUsX4171HxT3iNjMwwsoz2Vr6YNkJ/RPGrzVfdS
-	1ZzjQKo3FkqANVekaAgQWf/pDMqYpSpGuMUPUueOlk6wYaZlZrvBWkVo5DhvF+AMvadn
-	lMC/ttkyptDuthxORwnov05QZYwIrpCUk5Q3PISvAsdlJNm13L1+IE5Xt+JP602ESrPe
-	jadUaLO7TP7oM58NoxGjAy+z94SrJ7nRnBE1txcmOc59D9tUs5bFGXeUuup5d2Y+SBxF
-	kdtlxUN9f+B95AZog6+niPxXzguCssaUE5DFjXjl+lx7bdoFSm04S53i9MuXKfTAzgzA
-	4jnQ==
+	d=mender-io.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=pYOeADj6PE3dxlhe/hoUEwIdiyLAc5TTPbSxVyJmu6s=;
+	b=Oxzq8VTGp6VO4woNYmMMEmd2o/A6AVqFknY4DC1veY4+ySFvtaFs2E9KrgCZthjlUl
+	8ipWc6VLvU8um3kUYsIy0Evqr6VqQT3x44yfLm9rN2NdXFdiv6q9OcZRJTGuhGXp4qvL
+	rDckCSE1Ou6z8jzdoo7Ypa1I2sT+/gua+G5cFtvnTtssxTWIMsPoamrgRT87NuA6QDY+
+	zjVNEAy0ct2b+YfuYV+y0ZxT+QqF4ykTk8r70b+0Aq6IaWQdUUcRSRZa5W41+2NoFSym
+	0qRmCa05eliEGToRxVFIKZSrmV07wFgoo36b2yg3VdQBi5HN7sTgFOgd9s+gvgpTu6zg
+	LgqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=lQPzhSMwT7MR8hfkn14j52hR0+PdqCj3s9tpxtVVWYo=;
-	b=EK/kvAXZCS3bMe+EJ7U3jioDQxdNlILWPyw+QscBIVWpQTqxMM+yxKJFAwBTWtN83Y
-	Onq+16dzMDV+hmZCUvByNcykjNXQFIHNlc0oZRKtaImfOJbvLP6ijygn6ZEb0CeTyqRY
-	XDc7IVlJN+p3IPfDeSIDS06TCWUyrFeQ1+7agobcz+2ExZDaySwGjuvJ2EhJMNMjE9rF
-	IMtXtu0/UZSTHEvOHUmcDshodqbFub4sVyTnAIcW9JH7GcrmP+M+bP88d0O6Dip1YISf
-	uAUk+1+7d9wmKh0fjDgxmGxV7z9LBEFppEz8ay4IvfXCuzXRVTo9jiNEQa+SaizDNtgZ
-	6E3A==
-X-Gm-Message-State: AMke39lsqhMJ5CUSXPkIuv7MfdG02ZHJz2MzvCngvbwc+Uj73q0dhFpaDLww3zJFAIAMNv0/
-X-Received: by 10.107.128.68 with SMTP id b65mr1427476iod.113.1487240820346;
-	Thu, 16 Feb 2017 02:27:00 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8C6B9.dip0.t-ipconnect.de. [93.232.198.185])
-	by smtp.gmail.com with ESMTPSA id
-	n134sm3058600itg.19.2017.02.16.02.26.56
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 Feb 2017 02:26:57 -0800 (PST)
-Message-ID: <1487240814.13854.449.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 16 Feb 2017 11:26:54 +0100
-In-Reply-To: <CA+chaQebkND=ipbVvDGAJo=o79SsucECyyNgaaMRYyiOuVqZ2g@mail.gmail.com>
-References: <cover.1483696378.git.patrick.ohly@intel.com>
-	<6787329b6c24642352cd015ae22b5dfa579ca010.1483696378.git.patrick.ohly@intel.com>
-	<CA+chaQebkND=ipbVvDGAJo=o79SsucECyyNgaaMRYyiOuVqZ2g@mail.gmail.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] rm_work.bbclass: clean up sooner
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=pYOeADj6PE3dxlhe/hoUEwIdiyLAc5TTPbSxVyJmu6s=;
+	b=ozg3Sx+hGgfF3THjuAHnBtyXoBN+n9uTG/BmQBCggVR6/1Whlje9TqIi+PTsrmREVt
+	a3BOBE4pQ4n9aJmcLpDyaXvT9wjh/YIQ/9lnhsr8DSub1fGgD/qjnFdPteRSEAwGt74C
+	GOOpiFCY65Tj4QCNDdD7KKn1rZoDdaqybIwe524iKwxfYw+NRXLZ6GFL+rn4ivTKGQ6O
+	gmBtPjV/SeVV+J79ZepuOtM7UUofm0JlT3YqIYV7vrluv0XpGonmmAC8/6enTSp7guWr
+	zR5pjhkypzEwtggvE4cyKzenYg00nahM3KYAwaOuNkloOf6Mtaw0TcxL0umTFhOlVxCc
+	56og==
+X-Gm-Message-State: AMke39nOtPWVczT3plQ78o8hThxjFggI00/t7Vzro9ugYBToeSHExhngf+n3sPWwLJcJsg==
+X-Received: by 10.25.196.136 with SMTP id u130mr463715lff.37.1487241014378;
+	Thu, 16 Feb 2017 02:30:14 -0800 (PST)
+Received: from kristian-mender.cfengine.com ([195.159.140.90])
+	by smtp.googlemail.com with ESMTPSA id
+	1sm1598130ljv.40.2017.02.16.02.30.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 16 Feb 2017 02:30:13 -0800 (PST)
+From: Kristian Amlie <kristian.amlie@mender.io>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 16 Feb 2017 11:30:12 +0100
+Message-Id: <1487241012-8486-1-git-send-email-kristian.amlie@mender.io>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <CAJTo0LYBSzN4ga5qyMU=ZxAn6rYGye5vaTMHQ7MSeS25TsVXoQ@mail.gmail.com>
+References: <CAJTo0LYBSzN4ga5qyMU=ZxAn6rYGye5vaTMHQ7MSeS25TsVXoQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] wic/partionedfs: Avoid reserving space for non-existing ext. partition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,70 +57,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Feb 2017 10:27:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 16 Feb 2017 10:30:15 -0000
 
-On Wed, 2017-02-15 at 19:32 +0100, Martin Jansa wrote:
-> Are all changes necessary for this to work already in master?
+We don't need the gap that the extended partition occupies if we
+already know that we have less than five partitions. Saves up to one
+full alignment of space.
 
-Yes.
+Signed-off-by: Kristian Amlie <kristian.amlie@mender.io>
+---
+ scripts/lib/wic/plugins/imager/direct.py | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-> Yesterday I've noticed that rm_work for some components which are
-> early in the dependency (like qtbase) are executed relatively late
-> (together with do_package_qa).
-
-Could do_rm_work run before do_package_qa? rm_work.bbclass doesn't know
-that, and therefore schedules do_rm_work after do_package_qa.
-
-If yes, then adding a list of tasks that can be ignored would be
-trivial. This can be a variable, so a recipe can even add their own
-ones, if necessary.
-
-> So I've tried very naive way to find out if the rm_work tasks are
-> executed sooner or not just by comparing Task IDs in build of the same
-> image built from scratch (without sstate) with Dizzy, Morty and
-> current master.
-
-Interesting, I hadn't thought of testing it like that.
-
-> If we dismiss the strange case in rm_work.tasks.master.qemux86 then it
-> seems to perform at least as good as old completion BB_SCHEDULER.
-> 
-> 
-> But I wanted to ask if there is something else we can do or you were
-> planing to do, because IIRC you shared some longer analysis of what
-> could be improved here and I'm not sure if you managed to implement it
-> all.
-
-The other ideas that I mentioned at some point didn't pan out as
-intended. In particular allowing do_rm_work tasks to run when the normal
-task limit was reached didn't have a big effect and the implementation
-was a hack, so I dropped that.
-
-> It feels to me that rm_work has high priority, but still it's
-> "blocked" by e.g. do_package_qa which gets executed late and then
-> immediately followed by rm_work.
-
-That should be easy to change, perhaps like this (untested):
-
-RM_WORK_TASKS_WHITELIST = "do_build do_package_qa"
-
-        deps = set(bb.build.preceedtask('do_build', True, d))
-	whitelist = d.getVar('RM_WORK_TASKS_WHITELIST').split()
-        deps.difference_update(whitelist)
-        # In practice, addtask() here merely updates the dependencies.
-        bb.build.addtask('do_rm_work', 'do_build', ' '.join(deps), d)
-
-
+diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+index 481d24d..bc2d620 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -344,6 +344,10 @@ class PartitionedImage():
+ 
+         msger.debug("Assigning %s partitions to disks" % self.ptable_format)
+ 
++        # The number of primary and logical partitions. Extended partition and
++        # partitions not listed in the table are not included.
++        num_real_partitions = len([p for p in self.partitions if not p['no_table']])
++
+         # Go through partitions in the order they are added in .ks file
+         for num in range(len(self.partitions)):
+             part = self.partitions[num]
+@@ -369,7 +373,7 @@ class PartitionedImage():
+                 # Skip one sector required for the partitioning scheme overhead
+                 self.offset += overhead
+ 
+-            if self.realpart > 3:
++            if self.realpart > 3 and num_real_partitions > 4:
+                 # Reserve a sector for EBR for every logical partition
+                 # before alignment is performed.
+                 if self.ptable_format == "msdos":
+@@ -408,7 +412,7 @@ class PartitionedImage():
+ 
+             if self.ptable_format == "msdos":
+                 # only count the partitions that are in partition table
+-                if len([p for p in self.partitions if not p.no_table]) > 4:
++                if num_real_partitions > 4:
+                     if self.realpart > 3:
+                         part.type = 'logical'
+                         part.num = self.realpart + 1
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+2.7.4
 
 
