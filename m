@@ -1,32 +1,29 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.analogue-micro.com (mail.analogue-micro.com
-	[217.144.149.242])
-	by mail.openembedded.org (Postfix) with ESMTP id C13246FFEF
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B00C660268
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Feb 2017 02:18:44 +0000 (UTC)
-Received: by mail.analogue-micro.com (Postfix, from userid 999)
-	id A181668A019; Thu, 16 Feb 2017 02:18:43 +0000 (GMT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	loki.analogue-micro-ltd.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.5 required=5.0 tests=ALL_TRUSTED,BAYES_50,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
-	by mail.analogue-micro.com (Postfix) with ESMTP id 3FEE668A019;
-	Thu, 16 Feb 2017 02:18:43 +0000 (GMT)
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by zeus.mlbassoc.com (Postfix) with ESMTP id 7108667401E9;
-	Thu, 16 Feb 2017 03:18:42 +0100 (CET)
-To: openembedded-core@lists.openembedded.org
-References: <20170215173323.10466-1-geoffrey.levillain@smile.fr>
-From: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <c68cce74-5173-2a86-84ed-438a42b9dce3@mlbassoc.com>
-Date: Thu, 16 Feb 2017 03:18:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.0
-MIME-Version: 1.0
-In-Reply-To: <20170215173323.10466-1-geoffrey.levillain@smile.fr>
-Subject: Re: [PATCH v2 0/3] Permit to install files from an overlay in images recipes
+	Thu, 16 Feb 2017 04:02:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v1G42RDM001904; Thu, 16 Feb 2017 04:02:27 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id G5269JwEP_Ju; Thu, 16 Feb 2017 04:02:27 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v1G42MIj001895
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 16 Feb 2017 04:02:26 GMT
+Message-ID: <1487217741.4999.1.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: mariano.lopez@linux.intel.com, openembedded-core@lists.openembedded.org
+Date: Wed, 15 Feb 2017 20:02:21 -0800
+In-Reply-To: <c5b75215539cdca65e5d5d90fa7b0068fb142473.1486757577.git.mariano.lopez@linux.intel.com>
+References: <cover.1486757577.git.mariano.lopez@linux.intel.com>
+	<c5b75215539cdca65e5d5d90fa7b0068fb142473.1486757577.git.mariano.lopez@linux.intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCHv2 1/1] insane.bbclass: Add missing dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,40 +36,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Feb 2017 02:18:45 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 16 Feb 2017 04:02:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 2017-02-15 18:33, Geoffrey Levillain wrote:
-> Hi,
->
-> These patches introduce a capability to install overlay into image after
-> fetching them.
->
-> There is actually a need to add image-specific configurations files into
-> image recipes, and these patches are a way to standardize this process as
-> well as simplify it by re-enabling fetching when image_overlay is
-> inherited, and by providing a task that copy every files in directories
-> listed in OVERLAY_ROOT_DIRS into IMAGE_ROOTFS directory.
->
-> Geoffrey Levillain (3):
->   image.bbclass: No need to force image licence on MIT
->   image_overlay.bbclass: Add possibility to install overlays to image
->   rm_work.bbclass: Do not remove fetching and install_overlay stamps
->
->  meta/classes/image.bbclass         |  2 +-
->  meta/classes/image_overlay.bbclass | 24 ++++++++++++++++++++++++
->  meta/classes/rm_work.bbclass       |  4 ++++
->  3 files changed, 29 insertions(+), 1 deletion(-)
->  create mode 100644 meta/classes/image_overlay.bbclass
+On Fri, 2017-02-10 at 14:19 -0600, mariano.lopez@linux.intel.com wrote:
+> From: Mariano Lopez <mariano.lopez@linux.intel.com>
+> 
+> package_qa task requires some tools installed in sysroot; with
+> the introduction of recipe specific sysroot this task won't
+> have such tools installed if it's forced to run.
+> 
+> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+> ---
+>  meta/classes/insane.bbclass | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/insane.bbclass
+> b/meta/classes/insane.bbclass
+> index 3cf86c1..0167b14 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -1223,9 +1223,12 @@ python do_package_qa () {
+>      bb.note("DONE with PACKAGE QA")
+>  }
+>  
+> +# binutils is used for most checks, so need to set as dependency
+> +# POPULATESYSROOTDEPS is defined in staging class.
+> +do_package_qa[depends] += "${POPULATESYSROOTDEPS}"
+>  do_package_qa[vardepsexclude] = "BB_TASKDEPDATA"
+>  do_package_qa[rdeptask] = "do_packagedata"
+> -addtask do_package_qa after do_packagedata do_package before
+> do_build
+> +addtask do_package_qa after do_prepare_recipe_sysroot do_packagedata
+> do_package before do_build
 
-Can you give an example where this approach is better than just
-having the image include some [possibly optional] packages that
-contain these image-specific configuration files?
+This is close but I don't think you need this last addtask change, I
+think it should work just fine with the added [depends]?
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Cheers,
+
+Richard
 
