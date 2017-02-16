@@ -1,45 +1,49 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 0243071A8C;
-	Thu, 16 Feb 2017 12:44:14 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id r141so14209397wmg.1;
-	Thu, 16 Feb 2017 04:44:15 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
+	[209.85.213.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 94E1C719B7
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Feb 2017 15:02:25 +0000 (UTC)
+Received: by mail-vk0-f68.google.com with SMTP id 23so1537961vkc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Feb 2017 07:02:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:subject:message-id:mime-version:content-disposition
-	:user-agent; bh=JwC7UazrPzb4IECvyBnk1ylYduIaGjvnNGDLwODTzmk=;
-	b=qQTl/XFSuDpO5YBrr1aW5RhSvVZF2z0DaI68T87POEQ4jB+Cum2eUKi4TzhQHqIhVP
-	E0RacplEdQ2VOQVO+Q5D3G0AZL3GVfjaH6ziddQ+qR7fon0LSUl1RNMh3+4CF1wzDhAz
-	zBhZHy0mJPj7pSY6XePd0qxT+Vhz2n2Wd6DB35EiPv6x5+WjXuLDokB1taLmnJ2LyOIs
-	XD7rMf7q/RSe41fHStw6gV/qc+c5OvAX2su/N+urApiVV+u7WJcSL21uzr54SKea/LdG
-	qLCLeor/y05+l5rU8CsDD9zbr+rLKTcGh9877P6/5qT/GxpFW1Gwc7Dr4BljCWOJIx6K
-	zu9A==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=XhJGGLi7dIeL8CCrBLetsTf3TYJaEdBa/adtuRgtj6Y=;
+	b=K56vMugtNduRanxbKwq3TQaeFncMXz8SIw0rxTgBbezJpbkpdRM5+YFLvE8pMWOdR4
+	XhxF9X9MlphUZsx6p7Unp0Qu7s3lYDaTE8xvJlGFZovDc1U6mcdB1thdKa1yWaMtRadF
+	Ww6PvH6V6IqqeKxqZ7ppdD1b6Jk5R88fCFWRZwOkyXYdTRBJ4DMtUhhUhSV95aOuShcG
+	GSbRN+cGgghcubIGzyIqhb2+NCixEY4vU1NY4GF+j8Qa5ywDRZL4DW/prPjR5phiMswF
+	jHCG1vJU+8usIy+hx2bppTKrrlbEUdBi2J7utpRDE3g56erGWgmJFOyBEngX2Cho5FBj
+	D9DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:subject:message-id:mime-version
-	:content-disposition:user-agent;
-	bh=JwC7UazrPzb4IECvyBnk1ylYduIaGjvnNGDLwODTzmk=;
-	b=d3+KTf2oXDUbGjhxtdE5T/uE36f4YQSog9wH8IvWWJRiWUarirlVm2djEff0UAMNUZ
-	h/AizM+lrtYeJgK0LvHUsdUFkOhHj9A6Mq5Xq9Af5MrQfgDI6YhkBHx5VcTvJfvxfEC0
-	Ax0oXm0xXJVKQwgFVsixQKdNKjqS6U+zYqOKMOCHCIVChSlNBN5gOqA23ok7ufsY2AW+
-	vxClUYChqmSwQf57MHyNdlR3q4D0o44IiMJn9qogcAakTaQ80NpBd8yBNPV4IVAOZCZd
-	53fSX+VVRNepQPFPcTiPPDQgSXBroSu/P6Rz+l+F2HDBcfIy6Y1IfBqfhVKabVOPaAmD
-	7ZVg==
-X-Gm-Message-State: AMke39l4LLCpYSRIU/jJifXmPtVxCR27HHR30N25tgJRxOU3m82GLNz2I41LqGIPyotFdQ==
-X-Received: by 10.28.69.194 with SMTP id l63mr2217987wmi.23.1487249054451;
-	Thu, 16 Feb 2017 04:44:14 -0800 (PST)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	o42sm8873617wrb.18.2017.02.16.04.44.12
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 16 Feb 2017 04:44:12 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 16 Feb 2017 13:44:15 +0100
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-ID: <20170216124415.GC3621@jama>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=XhJGGLi7dIeL8CCrBLetsTf3TYJaEdBa/adtuRgtj6Y=;
+	b=aefZMD4g/fXeWWAdV4l42YvqI1m2FdSOWCV4S1FVOmSwgbvU5VPsdy62uWak4AJ3ml
+	z6FzlrqU4yO+V1XNIFvZSPVqkyEaarIz5zSy0GhJfA74aRTt4siRyP1DCEcRpRq4iArW
+	GvR5Ucrk3Zzo0qAMWsimUTqP5cGb4Qvt4BNUVmCa6/YIMfutITpjaJUp4djS2AN0yose
+	NXJFYdhM1OYWdH42deyQYBY9p3gwv0mMR0Z8yQsLabyTBYSFfNQLzHhXNwNofXyenHNs
+	pgYzyCngXxtR6nMs/hKn+3B0Fd/brR7me+z+Vnn0VxodZOL+MtYlXlB43U8mmGgwGNyi
+	6kbw==
+X-Gm-Message-State: AMke39kPG6Kg/TV/6aKlbJMz9kIq0BeJX4tFpRu/Ag/H4kOoYfI1uIH5uCNrHXmyp8XdS67JtyG1UW/bdPF8dA==
+X-Received: by 10.31.115.142 with SMTP id o136mr1288056vkc.139.1487257345968; 
+	Thu, 16 Feb 2017 07:02:25 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mutt/1.7.2 (2016-11-26)
-Subject: State of bitbake world, Failed tasks 2017-02-14
+Received: by 10.159.48.222 with HTTP; Thu, 16 Feb 2017 07:01:36 -0800 (PST)
+In-Reply-To: <DM5PR05MB295440589E889B60FAAEACD5BB5A0@DM5PR05MB2954.namprd05.prod.outlook.com>
+References: <DM5PR05MB2954FBA66842C0F05C5108C6BB5B0@DM5PR05MB2954.namprd05.prod.outlook.com>
+	<9c23fade-7e4c-ec14-f0c1-dd43ae71c5ff@gmail.com>
+	<DM5PR05MB295440589E889B60FAAEACD5BB5A0@DM5PR05MB2954.namprd05.prod.outlook.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 16 Feb 2017 07:01:36 -0800
+Message-ID: <CAMKF1spJC6amuibmaqgPOJsH4bvVfaw6qJEOFDW2mzfPY4pVng@mail.gmail.com>
+To: Bryan Evenson <bevenson@melinkcorp.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Suggested RREPLACES/RCONFLICTS for easier kernel-image upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,116 +56,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Feb 2017 12:44:15 -0000
-X-Groupsio-MsgNum: 93453
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="qjNfmADvan18RZcF"
-Content-Disposition: inline
-
---qjNfmADvan18RZcF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 16 Feb 2017 15:02:27 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Another run with couple unblacklists
+On Thu, Feb 16, 2017 at 5:43 AM, Bryan Evenson <bevenson@melinkcorp.com> wr=
+ote:
+>
+> I tried that and it didn't make a difference; without the specific previo=
+us package names listed in RDEPENDS/RCONFLICTS, opkg does not recognize the=
+ new kernel-image as an upgrade.  From my understanding PE only affects the=
+ version number, not the package name.  In this case, since KERNEL_VERSION =
+is part of the package name, opkg does not immediately recognize kernel-ima=
+ge-4.1.38 as an upgrade for kernel-image-3.10.0-at91.  Even though both pac=
+kages provide "kernel-image", that's not what opkg is looking at when it ch=
+ecks for upgrades.
+>
 
-=3D=3D Number of issues - stats =3D=3D
-{| class=3D'wikitable'
-!|Date		     !!colspan=3D'3'|Failed tasks			    !!colspan=3D'6'|Failed depe=
-ncencies			 !!|Signatures		  !!colspan=3D'12'|QA !!Comment
-|-
-||		||qemuarm	||qemux86	||qemux86_64	||qemuarm||max||min	||qemux86||max||mi=
-n	||all 	||already-stripped	||libdir	||textrel	||build-deps	||file-rdeps	||=
-version-going-backwards	||host-user-contaminated	||installed-vs-shipped	||u=
-nknown-configure-option	||symlink-to-sysroot	||invalid-pkgconfig	||pkgname	=
-||=09
-|-
-||2017-02-14	||0	||1	||0	||N/A	||N/A	||N/A	||N/A	||N/A	||N/A	||0	||0		||0		=
-||0		||0		||0		||198		||0		||0		||0		||0		||0		||0		||=09
-|}
+Ah yes if its in PN then PE wont help here you have to establish the
+relationship between old and new PN,  RCONFLICTS/RREPLACES is probably
+the best bet
 
-http://www.openembedded.org/wiki/Bitbake_World_Status
+> Could someone explain to me why KERNEL_VERSION is even in the package nam=
+e to begin with?
 
-=3D=3D Failed tasks 2017-02-14 =3D=3D
+Perhaps so that you can have have multiple kernels installed in parallel.
 
-INFO: jenkins-job.sh-1.8.17 Complete log available at http://logs.nslu2-lin=
-ux.org/buildlogs/oe/world/pyro/log.report.20170214_164708.log
+ I'm tempted to remove the following two lines from kernel.bbclass:
+>
+> PKG_kernel-image =3D "kernel-image-${@legitimize_package_name('${KERNEL_V=
+ERSION}')}"
+> PKG_kernel-base =3D "kernel-${@legitimize_package_name('${KERNEL_VERSION}=
+')}"
+>
+> However, I don't know if this will break something else that would cause =
+an even bigger problem.
 
-=3D=3D=3D common () =3D=3D=3D
-
-=3D=3D=3D common-x86 (0) =3D=3D=3D
-
-=3D=3D=3D qemuarm (0) =3D=3D=3D
-
-=3D=3D=3D qemux86 (1) =3D=3D=3D
-    * meta-browser/recipes-browser/chromium/chromium-wayland_53.0.2785.143.=
-bb:do_compile
-
-=3D=3D=3D qemux86_64 (0) =3D=3D=3D
-
-=3D=3D=3D Number of failed tasks (1) =3D=3D=3D
-{| class=3Dwikitable
-|-
-|| qemuarm 	|| 0	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/lo=
-g.world.qemuarm.20170214_135645.log/ ||=20
-|-
-|| qemux86 	|| 1	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/lo=
-g.world.qemux86.20170214_135710.log/ || http://errors.yoctoproject.org/Erro=
-rs/Build/32480/
-|-
-|| qemux86_64 	|| 0	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro=
-/log.world.qemux86-64.20170214_151408.log/ ||=20
-|}
-
-=3D=3D=3D PNBLACKLISTs (445) =3D=3D=3D
-
-=3D=3D=3D QA issues (198) =3D=3D=3D
-{| class=3Dwikitable
-!| Count		||Issue
-|-
-||0	||already-stripped
-|-
-||0	||build-deps
-|-
-||0	||file-rdeps
-|-
-||0	||host-user-contaminated
-|-
-||0	||installed-vs-shipped
-|-
-||0	||invalid-pkgconfig
-|-
-||0	||libdir
-|-
-||0	||pkgname
-|-
-||0	||symlink-to-sysroot
-|-
-||0	||textrel
-|-
-||0	||unknown-configure-option
-|-
-||198	||version-going-backwards
-|}
-
-
-
-=3D=3D=3D Incorrect PACKAGE_ARCH or sstate signatures (0) =3D=3D=3D
-
-Complete log: http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.signa=
-tures.20170214_151247.log/
-
-No issues detected
-
---qjNfmADvan18RZcF
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWKWenQAKCRA3VSO3ZXaA
-HLeiAJoD/CzkPaHYd2Ag6e05BtII/Lgl4ACglyAfNVOo6ugCbbWp9w9OB4gWl/0=
-=YPh9
------END PGP SIGNATURE-----
-
---qjNfmADvan18RZcF--
