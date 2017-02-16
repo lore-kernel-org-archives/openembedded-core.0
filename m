@@ -1,23 +1,21 @@
-Return-Path: <stefan@agner.ch>
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 6380F71DD9
+Return-Path: <rebecca.swee.fun.chang@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 34AAC6071F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Feb 2017 00:42:24 +0000 (UTC)
-Received: from seahawk.toradex.int
-	(75-146-58-181-Washington.hfc.comcastbusiness.net [75.146.58.181])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 3A1E35C0BA7;
-	Thu, 16 Feb 2017 01:26:07 +0100 (CET)
-From: Stefan Agner <stefan@agner.ch>
+	Thu, 16 Feb 2017 01:50:31 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Feb 2017 17:50:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.35,167,1484035200"; d="scan'208";a="59017066"
+Received: from unknown (HELO rebeccas-z640.png.intel.com) ([10.221.118.141])
+	by orsmga004.jf.intel.com with ESMTP; 15 Feb 2017 17:50:31 -0800
+From: rebecca.swee.fun.chang@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Feb 2017 16:35:19 -0800
-Message-Id: <1487205319-1954-1-git-send-email-stefan@agner.ch>
+Date: Thu, 16 Feb 2017 09:53:31 +0800
+Message-Id: <1487210012-50236-1-git-send-email-rebecca.swee.fun.chang@intel.com>
 X-Mailer: git-send-email 2.7.4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1487204767; bh=Li3eay6vyMq76OOs5ihNLj2Ztq4QM8pJIw7xz1qKHPs=;
-	h=From:To:Cc:Subject:Date:Message-Id;
-	b=u9EQTUwfYWyxQ0TQz0QMhHrHWdfw5rlStfyE+oNyNWaBGDsrkVzocmbILYmfleD7NVxzpznh+ah42/Css13n4VCAFzRZQsaAn0ZyGssMnG/9lV4+11GBIfkJ7he+jivvdhAHhjIBaisJoKjd8Tq08iRYLHlf9jRoyg2+gaamwX0=
-Cc: Stefan Agner <stefan.agner@toradex.com>
-Subject: [PATCH] linux-firmware: Add Marvell sd88xx WiFi firmwares
+Subject: [jethro][PATCH 1/2] openssl: Security fix CVE-2016-7055
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,64 +28,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Feb 2017 00:42:24 -0000
+X-List-Received-Date: Thu, 16 Feb 2017 01:50:32 -0000
 
-From: Stefan Agner <stefan.agner@toradex.com>
+From: Yi Zhao <yi.zhao@windriver.com>
 
-Add packages for Marvells sd88xx SDIO WiFi firmwares.
+There is a carry propagating bug in the Broadwell-specific Montgomery
+multiplication procedure that handles input lengths divisible by, but
+longer than 256 bits.
 
-Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+External References:
+http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-7055
+https://www.openssl.org/news/secadv/20161110.txt
+
+Patch from:
+https://github.com/openssl/openssl/commit/57c4b9f6a2f800b41ce2836986fe33640f6c3f8a
+
+(From OE-Core rev: 07cfa9e2bceb07f3baf40681f8c57f4d3da0aee5)
+
+(From OE-Core rev: 090c2ff292a4d92142c3f33c7517be69d9c16c24)
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Chang, Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 ---
- .../recipes-kernel/linux-firmware/linux-firmware_git.bb | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ .../openssl/openssl/CVE-2016-7055.patch            | 43 ++++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.2h.bb |  1 +
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-7055.patch
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 0aba740..5547e16 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -221,7 +221,7 @@ do_install() {
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2016-7055.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2016-7055.patch
+new file mode 100644
+index 0000000..83a74cd
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2016-7055.patch
+@@ -0,0 +1,43 @@
++From 57c4b9f6a2f800b41ce2836986fe33640f6c3f8a Mon Sep 17 00:00:00 2001
++From: Andy Polyakov <appro@openssl.org>
++Date: Sun, 6 Nov 2016 18:33:17 +0100
++Subject: [PATCH] bn/asm/x86_64-mont.pl: fix for CVE-2016-7055 (Low severity).
++
++Reviewed-by: Rich Salz <rsalz@openssl.org>
++(cherry picked from commit 2fac86d9abeaa643677d1ffd0a139239fdf9406a)
++
++Upstream-Status: Backport [https://github.com/openssl/openssl/commit/57c4b9f6a2f800b41ce2836986fe33640f6c3f8a]
++CVE: CVE-2016-7055
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ crypto/bn/asm/x86_64-mont.pl | 5 ++---
++ 1 file changed, 2 insertions(+), 3 deletions(-)
++
++diff --git a/crypto/bn/asm/x86_64-mont.pl b/crypto/bn/asm/x86_64-mont.pl
++index 044fd7e..80492d8 100755
++--- a/crypto/bn/asm/x86_64-mont.pl
+++++ b/crypto/bn/asm/x86_64-mont.pl
++@@ -1148,18 +1148,17 @@ $code.=<<___;
++ 	mulx	2*8($aptr),%r15,%r13	# ...
++ 	adox	-3*8($tptr),%r11
++ 	adcx	%r15,%r12
++-	adox	$zero,%r12
+++	adox	-2*8($tptr),%r12
++ 	adcx	$zero,%r13
+++	adox	$zero,%r13
++ 
++ 	mov	$bptr,8(%rsp)		# off-load &b[i]
++-	.byte	0x67
++ 	mov	$mi,%r15
++ 	imulq	24(%rsp),$mi		# "t[0]"*n0
++ 	xor	%ebp,%ebp		# xor	$zero,$zero	# cf=0, of=0
++ 
++ 	mulx	3*8($aptr),%rax,%r14
++ 	 mov	$mi,%rdx
++-	adox	-2*8($tptr),%r12
++ 	adcx	%rax,%r13
++ 	adox	-1*8($tptr),%r13
++ 	adcx	$zero,%r14
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2h.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2h.bb
+index 26bc6be..fc5e3e3 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2h.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2h.bb
+@@ -51,6 +51,7 @@ SRC_URI += "file://configure-targets.patch \
+             file://CVE-2016-6306.patch \
+             file://CVE-2016-2179.patch \
+             file://CVE-2016-8610.patch \
++            file://CVE-2016-7055.patch \
+            "
  
- PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-radeon-license ${PN}-radeon \
--             ${PN}-marvell-license ${PN}-sd8686 ${PN}-sd8688 ${PN}-sd8787 ${PN}-sd8797 \
-+             ${PN}-marvell-license ${PN}-sd8686 ${PN}-sd8688 ${PN}-sd8787 ${PN}-sd8797 ${PN}-sd8801 ${PN}-sd8887 ${PN}-sd8897 \
-              ${PN}-ti-connectivity-license ${PN}-wl12xx ${PN}-wl18xx \
-              ${PN}-vt6656-license ${PN}-vt6656 \
-              ${PN}-rtl-license ${PN}-rtl8188 ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su ${PN}-rtl8723 ${PN}-rtl8821 \
-@@ -322,6 +322,9 @@ LICENSE_${PN}-sd8686 = "Firmware-Marvell"
- LICENSE_${PN}-sd8688 = "Firmware-Marvell"
- LICENSE_${PN}-sd8787 = "Firmware-Marvell"
- LICENSE_${PN}-sd8797 = "Firmware-Marvell"
-+LICENSE_${PN}-sd8801 = "Firmware-Marvell"
-+LICENSE_${PN}-sd8887 = "Firmware-Marvell"
-+LICENSE_${PN}-sd8897 = "Firmware-Marvell"
- LICENSE_${PN}-marvell-license = "Firmware-Marvell"
- 
- FILES_${PN}-marvell-license = "/lib/firmware/LICENCE.Marvell"
-@@ -339,11 +342,23 @@ FILES_${PN}-sd8787 = " \
- FILES_${PN}-sd8797 = " \
-   /lib/firmware/mrvl/sd8797_uapsta.bin \
- "
-+FILES_${PN}-sd8801 = " \
-+  /lib/firmware/mrvl/sd8801_uapsta.bin \
-+"
-+FILES_${PN}-sd8887 = " \
-+  /lib/firmware/mrvl/sd8887_uapsta.bin \
-+"
-+FILES_${PN}-sd8897 = " \
-+  /lib/firmware/mrvl/sd8897_uapsta.bin \
-+"
- 
- RDEPENDS_${PN}-sd8686 += "${PN}-marvell-license"
- RDEPENDS_${PN}-sd8688 += "${PN}-marvell-license"
- RDEPENDS_${PN}-sd8787 += "${PN}-marvell-license"
- RDEPENDS_${PN}-sd8797 += "${PN}-marvell-license"
-+RDEPENDS_${PN}-sd8801 += "${PN}-marvell-license"
-+RDEPENDS_${PN}-sd8887 += "${PN}-marvell-license"
-+RDEPENDS_${PN}-sd8897 += "${PN}-marvell-license"
- 
- # For rtl
- LICENSE_${PN}-rtl8188 = "Firmware-rtlwifi_firmware"
+ SRC_URI[md5sum] = "9392e65072ce4b614c1392eefc1f23d0"
 -- 
 2.7.4
 
