@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E8E5D73195
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E207771E02
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Feb 2017 08:19:00 +0000 (UTC)
+	Thu, 16 Feb 2017 08:53:24 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v1G8J1b5021698
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v1G8rOle010474
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Feb 2017 00:19:01 -0800 (PST)
+	Thu, 16 Feb 2017 00:53:25 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 16 Feb 2017 00:19:00 -0800
+	Thu, 16 Feb 2017 00:53:24 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Feb 2017 00:18:59 -0800
-Message-ID: <6b52adcb031fe1df55bb44d24ae61bf303b800c0.1487233119.git.liezhi.yang@windriver.com>
+Date: Thu, 16 Feb 2017 00:53:23 -0800
+Message-ID: <cover.1487235190.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.10.2
-In-Reply-To: <cover.1487233119.git.liezhi.yang@windriver.com>
-References: <cover.1487233119.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] kernel.bbclass: do_deploy requires depmodwrapper
+Subject: [PATCH 0/1] oe-init-build-env: create a symlink in BUILDDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Feb 2017 08:19:01 -0000
+X-List-Received-Date: Thu, 16 Feb 2017 08:53:26 -0000
 Content-Type: text/plain
 
-Fixed:
-run.do_deploy.27809: line 155: depmodwrapper: command not found
+The following changes since commit 9f225ef5620f2e47e762b2fd16fa5f8d6f1f60fd:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/kernel.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+  wic: direct: move creation of PartitionedImage to __init__ (2017-02-15 20:06:35 -0800)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 97cba92..ae8eaed 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -4,6 +4,8 @@ PROVIDES += "virtual/kernel"
- DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native"
- PACKAGE_WRITE_DEPS += "depmodwrapper-cross virtual/update-alternatives-native"
- 
-+do_deploy[depends] += "depmodwrapper-cross:do_populate_sysroot"
-+
- S = "${STAGING_KERNEL_DIR}"
- B = "${WORKDIR}/build"
- KBUILD_OUTPUT = "${B}"
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/symlink
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/symlink
+
+Robert Yang (1):
+  oe-init-build-env: create a symlink in BUILDDIR
+
+ oe-init-build-env        | 6 +++++-
+ oe-init-build-env-memres | 6 +++++-
+ 2 files changed, 10 insertions(+), 2 deletions(-)
+
 -- 
 2.10.2
 
