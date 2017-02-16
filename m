@@ -1,33 +1,25 @@
-Return-Path: <nkela@cisco.com>
-Received: from rcdn-iport-4.cisco.com (rcdn-iport-4.cisco.com [173.37.86.75])
-	by mail.openembedded.org (Postfix) with ESMTP id 2225B719A8
+Return-Path: <stefan@agner.ch>
+X-Greylist: delayed 417 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 16 Feb 2017 00:42:24 UTC
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 62802600BC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Feb 2017 00:21:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=888; q=dns/txt; s=iport;
-	t=1487204512; x=1488414112;
-	h=from:to:cc:subject:date:message-id;
-	bh=c65MlQ+M8Z/a4ObbJ+eUnuwtTkWl/OJAoiowB+WCJQQ=;
-	b=dqMyv97T6MCp8cgajrLGy52MHmJ/t5upSpFwe9wTdU/fJPhQ1opapSwb
-	7T09wBYgbzp3Yk8O2Z207LSyAkns3VFJf4JPId/58C8D6GsGRoN0eAAVT
-	dhN/LcjcJ41JKpN32jhJKcmg7o8TCcYn+pOi6BD6PdWdip/X+InIEx2KX U=;
-X-IronPort-AV: E=Sophos;i="5.35,167,1484006400"; d="scan'208";a="209111287"
-Received: from alln-core-4.cisco.com ([173.36.13.137])
-	by rcdn-iport-4.cisco.com with ESMTP/TLS/DHE-RSA-AES256-SHA;
-	16 Feb 2017 00:21:50 +0000
-Received: from sjc-ads-4850.cisco.com (sjc-ads-4850.cisco.com [10.28.39.114])
-	by alln-core-4.cisco.com (8.14.5/8.14.5) with ESMTP id
-	v1G0LoVD025580; Thu, 16 Feb 2017 00:21:50 GMT
-Received: by sjc-ads-4850.cisco.com (Postfix, from userid 323395)
-	id 7622BA0B; Wed, 15 Feb 2017 16:21:49 -0800 (PST)
-From: Nikunj Kela <nkela@cisco.com>
+	Thu, 16 Feb 2017 00:42:24 +0000 (UTC)
+Received: from seahawk.toradex.int
+	(75-146-58-181-Washington.hfc.comcastbusiness.net [75.146.58.181])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 93D8E5C3C9D;
+	Thu, 16 Feb 2017 01:27:19 +0100 (CET)
+From: Stefan Agner <stefan@agner.ch>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Feb 2017 00:21:30 +0000
-Message-Id: <1487204490-9078-1-git-send-email-nkela@cisco.com>
-X-Mailer: git-send-email 2.5.0
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-Cc: xe-kernel@external.cisco.com
-Subject: [PATCH] kernel-fitimage.bbclass: Change KERNEL_IMAGETYPE_FOR_MAKE to Image for ARM64
+Date: Wed, 15 Feb 2017 16:36:33 -0800
+Message-Id: <1487205393-2065-1-git-send-email-stefan@agner.ch>
+X-Mailer: git-send-email 2.7.4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1487204840; bh=H/ukUA8QjynenEnQIUs7XH4J1DhY/4lTpLELC0vTcfE=;
+	h=From:To:Cc:Subject:Date:Message-Id;
+	b=tNUs/lvlXhtwZRxJB0CKETri9d7KaApCpeCr4D4snaaIpZ3p14AbmeunK8Q6q0FjnCzye7TmY6yswOelo7yYeYI7QJ9IT8NQ4tU6i/loimfWCSKaifRh2oEj0P/YoLkl2uOUKfGrD8HjHG3+sa1Em9iPlM8d9H9R6GKLYZaiNIo=
+Cc: Stefan Agner <stefan.agner@toradex.com>
+Subject: [PATCH][morty] linux-firmware: Add Marvell sd88xx WiFi firmwares
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,32 +32,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Feb 2017 00:21:51 -0000
+X-List-Received-Date: Thu, 16 Feb 2017 00:42:24 -0000
 
-zImage is the default KERNEL_IMAGETYPE_FOR_MAKE for non x86 fitImage.
-On ARM64 architecture, zImage is not a valid kernel build target. This
-change overrides KERNEL_IMAGETYPE_FOR_MAKE to Image on ARM64 platforms.
+From: Stefan Agner <stefan.agner@toradex.com>
 
-Cc: xe-kernel@external.cisco.com
-Signed-off-by: Nikunj Kela <nkela@cisco.com>
+Add packages for Marvells sd88xx SDIO WiFi firmwares.
+
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
 ---
- meta/classes/kernel-fitimage.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ .../recipes-kernel/linux-firmware/linux-firmware_git.bb | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index 1c3b4b7..89cd5c4 100644
---- a/meta/classes/kernel-fitimage.bbclass
-+++ b/meta/classes/kernel-fitimage.bbclass
-@@ -9,6 +9,8 @@ python __anonymous () {
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index 8e68ae8..10d11c0 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -221,7 +221,7 @@ do_install() {
  
-         if d.getVar("UBOOT_ARCH") == "x86":
-             replacementtype = "bzImage"
-+        elif d.getVar("UBOOT_ARCH") == "arm64":
-+            replacementtype = "Image"
-         else:
-             replacementtype = "zImage"
+ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-radeon-license ${PN}-radeon \
+-             ${PN}-marvell-license ${PN}-sd8686 ${PN}-sd8688 ${PN}-sd8787 ${PN}-sd8797 \
++             ${PN}-marvell-license ${PN}-sd8686 ${PN}-sd8688 ${PN}-sd8787 ${PN}-sd8797 ${PN}-sd8801 ${PN}-sd8887 ${PN}-sd8897 \
+              ${PN}-ti-connectivity-license ${PN}-wl12xx ${PN}-wl18xx \
+              ${PN}-vt6656-license ${PN}-vt6656 \
+              ${PN}-rtl-license ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su \
+@@ -320,6 +320,9 @@ LICENSE_${PN}-sd8686 = "Firmware-Marvell"
+ LICENSE_${PN}-sd8688 = "Firmware-Marvell"
+ LICENSE_${PN}-sd8787 = "Firmware-Marvell"
+ LICENSE_${PN}-sd8797 = "Firmware-Marvell"
++LICENSE_${PN}-sd8801 = "Firmware-Marvell"
++LICENSE_${PN}-sd8887 = "Firmware-Marvell"
++LICENSE_${PN}-sd8897 = "Firmware-Marvell"
+ LICENSE_${PN}-marvell-license = "Firmware-Marvell"
  
+ FILES_${PN}-marvell-license = "/lib/firmware/LICENCE.Marvell"
+@@ -337,11 +340,23 @@ FILES_${PN}-sd8787 = " \
+ FILES_${PN}-sd8797 = " \
+   /lib/firmware/mrvl/sd8797_uapsta.bin \
+ "
++FILES_${PN}-sd8801 = " \
++  /lib/firmware/mrvl/sd8801_uapsta.bin \
++"
++FILES_${PN}-sd8887 = " \
++  /lib/firmware/mrvl/sd8887_uapsta.bin \
++"
++FILES_${PN}-sd8897 = " \
++  /lib/firmware/mrvl/sd8897_uapsta.bin \
++"
+ 
+ RDEPENDS_${PN}-sd8686 += "${PN}-marvell-license"
+ RDEPENDS_${PN}-sd8688 += "${PN}-marvell-license"
+ RDEPENDS_${PN}-sd8787 += "${PN}-marvell-license"
+ RDEPENDS_${PN}-sd8797 += "${PN}-marvell-license"
++RDEPENDS_${PN}-sd8801 += "${PN}-marvell-license"
++RDEPENDS_${PN}-sd8887 += "${PN}-marvell-license"
++RDEPENDS_${PN}-sd8897 += "${PN}-marvell-license"
+ 
+ # For rtl
+ LICENSE_${PN}-rtl8192cu = "Firmware-rtlwifi_firmware"
 -- 
-2.5.0
+2.7.4
 
 
