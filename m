@@ -1,45 +1,45 @@
-Return-Path: <slemieux.tyco@gmail.com>
-Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
-	[209.85.214.66])
-	by mail.openembedded.org (Postfix) with ESMTP id CEB777724C
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id EB7A277240
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Feb 2017 20:47:59 +0000 (UTC)
-Received: by mail-it0-f66.google.com with SMTP id r141so6079053ita.1
+	Thu, 16 Feb 2017 21:20:08 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id o64so2413464pfb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Feb 2017 12:48:00 -0800 (PST)
+	Thu, 16 Feb 2017 13:20:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=xc2paCGEQcXEgmu0KuxTPW2iD0M6AjowYUyvmqCzEZ0=;
-	b=U1x2MJMFmMRmfgcd5J7FAtMaBCWp7x2Z96EPgp032OHfUwcXXHrBGmDS6KpztjMJdO
-	+ZZQ82fB8/AeHFf8o6NjCgEqeMOXYt58NYUr2WKa1Krg4J7aSAKNyo6ADh0qWlMjdNt+
-	2vIC6h2EOP1wYFT9pFRya2a/MYjQlEI/80I0br0kwDWX95yYJg5BNtzgiEzikaSrl8F5
-	bmAbpeu4r+EPzbYd3i7EMGeVZplGckD5oGHHEhMPwbgoywg7/fB8FXLm/NzSfyHEWOcD
-	jp52vxUpo6Tv1Q7Gm9FNWVi/xXTm3LGjsBOlNAVKUbXavkBjtQnB2g70SD9hXquq3KFC
-	OT7g==
+	bh=IMHy/C+8NDFWPp4gWV0ZPiSJTEIg10TOjwDliEcWp6g=;
+	b=NVlAHbM13BoSyuHi6Ds06XDqF/VFm/jg64JuGkbQeQsL5nHGCSFlhSIaJJW3J2erUH
+	w7zNfEgYUT7fiqzBmWg5ZcSAK3YkAEjLqfJayQ+uX51wZixaiDAQWv2g8SyR0v1nCu5g
+	BuJdhHoWtPaMfdpQu9nzmxA2c2aLgr4WoheCSfVV3p0sT6rMfm+Ml1PLFW/nM2RmQWpP
+	/Z4anENxBlqkz3wkdJs9DpcPymXsjAJRxnYpjKRBRy8wNqbZZBEZGWCrxOo1t5PkGoup
+	aJk/zQGv7BME+VFfS5qJUULoREfgx0Q324CDr/8NQcENbKvES3j4ogfrrqTCxL03hiHZ
+	Ezyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=xc2paCGEQcXEgmu0KuxTPW2iD0M6AjowYUyvmqCzEZ0=;
-	b=L23PcNIgEfMMZCPGf/htvCOEJ3FyxedmtxtHrtbT0xa7o6r/1XxRDzImz79yrB93+s
-	lzXKPt+2Eu54nqkD6scpwIytsk+InSIQn1/7Xzetu+BwOVs6Iz85Gsznn2DJeZ7ttwx5
-	WITGfxX0O6vGqnVg+CIM3EaS6C6UlgDIVaCtHbNixJvqz92zvJK+wyDqTDdqVnwxWC7W
-	yl/A+cltF5q0hOFkWJ8PE+gMKqeDrcSRbuTDvUqKTIUGzIopm5PIEWQ/BJ6PKLrj9UHX
-	RckuQnCb43mkM6RTlGIizzq5Thrsk4YQAlC66sfRW4kzkuNch0/cI3n+bRc1hspFf/DN
-	kycg==
-X-Gm-Message-State: AMke39kzmBhnRPrOI/lyK+AXPRWVYxpvVuQseteRVEbNUhYNHLw6BuethcaIaM09P9wVog==
-X-Received: by 10.36.65.161 with SMTP id b33mr4099866itd.114.1487278079812;
-	Thu, 16 Feb 2017 12:47:59 -0800 (PST)
-Received: from CABRO3AP00510.localdomain ([74.51.240.241])
-	by smtp.gmail.com with ESMTPSA id
-	k80sm3704145ioi.28.2017.02.16.12.47.59
+	bh=IMHy/C+8NDFWPp4gWV0ZPiSJTEIg10TOjwDliEcWp6g=;
+	b=L2RqJi4wZ4IYGPZW+5CcodEvEFYnH/Vc9e8EUXljPCvQHbP+9f122KLmknJ6ydSfWS
+	7sCy8daPdr9zPnftuvF9W0l/em2MaOnAnw9fVQfLXe9gflkEWY3tvrrAWS8xOrHcRVeR
+	YkSOasMsc9gF9AlVhDe/8STDYQubTJG+fISUwksGSicWCEb8tb3WDvwCpCrCRDCIhvuj
+	3wDT2ZSCP6zgu9TmVInh6PUjyL85ALR9DjPv25RjflJKnltmro+dYwanyqlkDCquryVz
+	SWb57VfTSJ2LCFWOAMxUY9tf6+looMpQkKtgd5vokZ+jou1gCM6y520g32qMzOICCRw/
+	vtRQ==
+X-Gm-Message-State: AMke39kv6CaGzHW93VB+0hFa9aRQL72E5fhYF6C0PIH+5f3GYqzDgTzDoyzINxdrVbFa+Q==
+X-Received: by 10.84.140.36 with SMTP id 33mr5454579pls.136.1487280008776;
+	Thu, 16 Feb 2017 13:20:08 -0800 (PST)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	c18sm15327402pfj.49.2017.02.16.13.20.07
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 Feb 2017 12:47:59 -0800 (PST)
-From: Sylvain Lemieux <slemieux.tyco@gmail.com>
+	Thu, 16 Feb 2017 13:20:08 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Feb 2017 15:47:50 -0500
-Message-Id: <20170216204750.21475-1-slemieux.tyco@gmail.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] busybox: setup "inetd" sub-package
+Date: Thu, 16 Feb 2017 13:19:57 -0800
+Message-Id: <20170216211957.23670-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.11.1
+Subject: [PATCH V2] qemu-native: Point python to python2 on build host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,60 +52,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Feb 2017 20:48:00 -0000
+X-List-Received-Date: Thu, 16 Feb 2017 21:20:09 -0000
 
-From: Sylvain Lemieux <slemieux@tycoint.com>
+On buildhosts where default python has switched to using python3
+qemu-native fails configure like this
 
-Setup "inetd" as a sub-package in "busybox" and
-add the support to install "inetd" as a startup script.
+| ERROR: Cannot use 'python', Python 2.6 or later is required.
+|        Note that Python 3 or later is not yet supported.
+|        Use --python=/path/to/python to specify a supported Python.
+|
 
-Signed-off-by: Sylvain Lemieux <slemieux@tycoint.com>
+we still expect build host to have python2 pre-installed
+and is always available.
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/busybox/busybox.inc | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 39c2eef082..a26fa08ca8 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -21,7 +21,7 @@ export EXTRA_LDFLAGS = "${LDFLAGS}"
- # We don't want '-e MAKEFLAGS=' in EXTRA_OEMAKE
- EXTRA_OEMAKE = "CC='${CC}' LD='${CCLD}' V=1 ARCH=${TARGET_ARCH} CROSS_COMPILE=${TARGET_PREFIX} SKIP_STRIP=y"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index ef5d75c450..cdbb7f1671 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -29,6 +29,7 @@ SRC_URI_append_class-native = "\
+ EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror  --disable-bluez --disable-libiscsi --with-system-pixman --extra-cflags='${CFLAGS}'"
  
--PACKAGES =+ "${PN}-httpd ${PN}-udhcpd ${PN}-udhcpc ${PN}-syslog ${PN}-mdev ${PN}-hwclock"
-+PACKAGES =+ "${PN}-httpd ${PN}-udhcpd ${PN}-udhcpc ${PN}-syslog ${PN}-mdev ${PN}-hwclock ${PN}-inetd"
+ EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror"
++EXTRA_OECONF_append_class-native = " --python=${USRBINPATH}/python2"
  
- FILES_${PN}-httpd = "${sysconfdir}/init.d/busybox-httpd /srv/www"
- FILES_${PN}-syslog = "${sysconfdir}/init.d/syslog* ${sysconfdir}/syslog-startup.conf* ${sysconfdir}/syslog.conf* ${systemd_unitdir}/system/syslog.service ${sysconfdir}/default/busybox-syslog"
-@@ -29,8 +29,9 @@ FILES_${PN}-mdev = "${sysconfdir}/init.d/mdev ${sysconfdir}/mdev.conf ${sysconfd
- FILES_${PN}-udhcpd = "${sysconfdir}/init.d/busybox-udhcpd"
- FILES_${PN}-udhcpc = "${sysconfdir}/udhcpc.d ${datadir}/udhcpc"
- FILES_${PN}-hwclock = "${sysconfdir}/init.d/hwclock.sh"
-+FILES_${PN}-inetd = "${sysconfdir}/init.d/inetd.${BPN} ${sysconfdir}/inetd.conf"
- 
--INITSCRIPT_PACKAGES = "${PN}-httpd ${PN}-syslog ${PN}-udhcpd ${PN}-mdev ${PN}-hwclock"
-+INITSCRIPT_PACKAGES = "${PN}-httpd ${PN}-syslog ${PN}-udhcpd ${PN}-mdev ${PN}-hwclock ${PN}-inetd"
- 
- INITSCRIPT_NAME_${PN}-httpd = "busybox-httpd"
- INITSCRIPT_NAME_${PN}-hwclock = "hwclock.sh"
-@@ -38,6 +39,7 @@ INITSCRIPT_NAME_${PN}-mdev = "mdev"
- INITSCRIPT_PARAMS_${PN}-mdev = "start 04 S ."
- INITSCRIPT_NAME_${PN}-syslog = "syslog"
- INITSCRIPT_NAME_${PN}-udhcpd = "busybox-udhcpd"
-+INITSCRIPT_NAME_${PN}-inetd = "inetd.${BPN}"
- 
- SYSTEMD_PACKAGES = "${PN}-syslog"
- SYSTEMD_SERVICE_${PN}-syslog = "busybox-syslog.service"
-@@ -45,7 +47,7 @@ SYSTEMD_SERVICE_${PN}-syslog = "busybox-syslog.service"
- CONFFILES_${PN}-syslog = "${sysconfdir}/syslog-startup.conf.${BPN}"
- CONFFILES_${PN}-mdev = "${sysconfdir}/mdev.conf"
- 
--RRECOMMENDS_${PN} = "${PN}-syslog ${PN}-udhcpc"
-+RRECOMMENDS_${PN} = "${PN}-syslog ${PN}-udhcpc ${PN}-inetd"
- 
- inherit cml1 systemd update-rc.d ptest
+ EXTRA_OEMAKE_append_class-native = " LD='${LD}' AR='${AR}' OBJCOPY='${OBJCOPY}' LDFLAGS='${LDFLAGS}'"
  
 -- 
-2.11.0
+2.11.1
 
 
