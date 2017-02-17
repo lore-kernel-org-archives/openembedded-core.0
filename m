@@ -1,34 +1,37 @@
 Return-Path: <jeremy.rosen@smile.fr>
+X-Greylist: delayed 487 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 17 Feb 2017 10:50:51 UTC
 Received: from idris.smile.fr (idris.smile.fr [91.216.209.19])
-	by mail.openembedded.org (Postfix) with ESMTP id 14E6B772E7
+	by mail.openembedded.org (Postfix) with ESMTP id 13E24772E0
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 17 Feb 2017 10:50:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by idris.smile.fr (Postfix) with ESMTP id F246A1EE224F
+	by idris.smile.fr (Postfix) with ESMTP id 8BE991EE221D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Feb 2017 11:45:26 +0100 (CET)
+	Fri, 17 Feb 2017 11:42:44 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at smile.fr
 Received: from idris.smile.fr ([127.0.0.1])
 	by localhost (bluemind-mta.prod.vitry.intranet [127.0.0.1])
-	(amavisd-new, port 10024) with ESMTP id fRswl2dK797a
+	(amavisd-new, port 10024) with ESMTP id u3AGXcE5U6qQ
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Feb 2017 11:45:26 +0100 (CET)
+	Fri, 17 Feb 2017 11:42:44 +0100 (CET)
 Received: from [192.168.0.80] (bgn92-6-88-179-202-174.fbx.proxad.net
 	[88.179.202.174])
-	by idris.smile.fr (Postfix) with ESMTPSA id 946DF1EE2256
+	by idris.smile.fr (Postfix) with ESMTPSA id AAAF81EE1FBA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Feb 2017 11:45:25 +0100 (CET)
+	Fri, 17 Feb 2017 11:42:42 +0100 (CET)
 To: openembedded-core@lists.openembedded.org
 References: <20170215173323.10466-1-geoffrey.levillain@smile.fr>
-	<c68cce74-5173-2a86-84ed-438a42b9dce3@mlbassoc.com>
+	<20170215173323.10466-3-geoffrey.levillain@smile.fr>
+	<1487220274.4999.5.camel@linuxfoundation.org>
 From: =?UTF-8?B?SsOpcsOpbXkgUm9zZW4=?= <jeremy.rosen@smile.fr>
-Message-ID: <996de3b1-1a5b-b6d9-46f3-8acd19066917@smile.fr>
-Date: Fri, 17 Feb 2017 11:45:25 +0100
+Message-ID: <511e35da-70e4-58e7-8898-1b0463c26d4c@smile.fr>
+Date: Fri, 17 Feb 2017 11:42:42 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Firefox/45.0 Icedove/45.6.0
 MIME-Version: 1.0
-In-Reply-To: <c68cce74-5173-2a86-84ed-438a42b9dce3@mlbassoc.com>
-Subject: Re: [PATCH v2 0/3] Permit to install files from an overlay in images recipes
+In-Reply-To: <1487220274.4999.5.camel@linuxfoundation.org>
+Subject: Re: [PATCH v2 2/3] image_overlay.bbclass: Add possibility to install overlays to image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,63 +45,112 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 17 Feb 2017 10:50:53 -0000
-X-Groupsio-MsgNum: 93484
+X-Groupsio-MsgNum: 93485
 Content-Type: multipart/alternative;
-	boundary="------------DB6E712E481CB59AB5F42E39"
+	boundary="------------8FE77FBFEF64044A00FCDB1B"
 
---------------DB6E712E481CB59AB5F42E39
-Content-Type: text/plain; charset=windows-1252; format=flowed
+--------------8FE77FBFEF64044A00FCDB1B
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 
 
-On 16/02/2017 03:18, Gary Thomas wrote:
-> On 2017-02-15 18:33, Geoffrey Levillain wrote:
->> Hi,
+On 16/02/2017 05:44, Richard Purdie wrote:
+> On Wed, 2017-02-15 at 18:33 +0100, Geoffrey Levillain wrote:
+>> There is often a need to add configuration files specific to an
+>> image,
+>> to simplify this process we can use a task.
 >>
->> These patches introduce a capability to install overlay into image after
->> fetching them.
+>> Fetching is set as noexec for images, but there is a need to fetch
+>> files
+>> here. This class permit to use do_fetch, do_unpack and do_patch in
+>> order
+>> to get your image-specific overlays to install.
 >>
->> There is actually a need to add image-specific configurations files into
->> image recipes, and these patches are a way to standardize this 
->> process as
->> well as simplify it by re-enabling fetching when image_overlay is
->> inherited, and by providing a task that copy every files in directories
->> listed in OVERLAY_ROOT_DIRS into IMAGE_ROOTFS directory.
+>> Signed-off-by: Geoffrey Levillain <geoffrey.levillain@smile.fr>
+>> ---
+>>   meta/classes/image_overlay.bbclass | 24 ++++++++++++++++++++++++
+>>   1 file changed, 24 insertions(+)
+>>   create mode 100644 meta/classes/image_overlay.bbclass
 >>
->> Geoffrey Levillain (3):
->>   image.bbclass: No need to force image licence on MIT
->>   image_overlay.bbclass: Add possibility to install overlays to image
->>   rm_work.bbclass: Do not remove fetching and install_overlay stamps
->>
->>  meta/classes/image.bbclass         |  2 +-
->>  meta/classes/image_overlay.bbclass | 24 ++++++++++++++++++++++++
->>  meta/classes/rm_work.bbclass       |  4 ++++
->>  3 files changed, 29 insertions(+), 1 deletion(-)
->>  create mode 100644 meta/classes/image_overlay.bbclass
->
-> Can you give an example where this approach is better than just
-> having the image include some [possibly optional] packages that
-> contain these image-specific configuration files?
->
-The problem is that most configuration files are provided by a package 
-and thus can not be overriden by another package.
-(a bbappend for each package we want to modify is a big amount of 
-tweaking and would force a variant of the package for each image with a 
-different configuration)
-A "configuration package" can only add new conf files, it can't alter 
-existing files.
+>> diff --git a/meta/classes/image_overlay.bbclass
+>> b/meta/classes/image_overlay.bbclass
+>> new file mode 100644
+>> index 0000000000..93c1ea6f9f
+>> --- /dev/null
+>> +++ b/meta/classes/image_overlay.bbclass
+>> @@ -0,0 +1,24 @@
+>> +# Enable SRC_URI for images and use it to install overlays
+>> +
+>> +# Let these task be executed to fetch overlay
+>> +unset do_fetch[noexec]
+>> +unset do_unpack[noexec]
+>> +unset do_patch[noexec]
+> At the same time as you're submitting this, I'm seriously considering a
+> change where instead of noexec, we'd deltask these tasks. The reason
+> being I'm not very keen on subverting the package manager and I'm not
+> convinced this is a particularly desirable way to be altering the
+> rootfs.
+There are various files in images that are provided by the package 
+manager and that are ok to modify. most files in /etc are in that category.
 
-Regards
-Jérémy
+The idea here is to be able to have generic (image independant) 
+packages, but to override the package configuration with custom ones at 
+image-generation time.
+
+on a normal (desktop) distribution, the user writes his configuration 
+files, but in a deep-embedded useage, there is no user.
+
+A bbappend (overriding the config file at package-build time) would seem 
+a better solution at first, but this doesn't work because it forces to 
+have a different package for each image type. Again we are trying to 
+particularize each image, while keeping the distribution itself generic.
+
+I hope this helps clarify why we do this at the image level and not the 
+package. packages are shared between images, but configuration is 
+altered per-image.
+
+JÃ©rÃ©my
+
+>> +# Add a task to install the overlay
+>> +# (content of folders listed in OVERLAY_ROOT_DIRS is copied in
+>> rootfs)
+>> +addtask install_overlay after do_unpack do_patch do_rootfs before
+>> do_image
+>> +fakeroot do_install_overlay() {
+>> +    for dir in ${OVERLAY_ROOT_DIRS}; do
+>> +        if [ ! -d "${WORKDIR}/${dir}" ] ; then
+>> +            bbfatal "${dir} not found, please check your
+>> OVERLAY_ROOT_DIRS and SRC_URI variables."
+>> +        fi
+>> +        cp -dr --no-preserve=ownership "${WORKDIR}/${dir}"/*
+>> "${IMAGE_ROOTFS}"
+>> +    done
+>> +}
+>> +do_install_overlay[depends] += "virtual/fakeroot-
+>> native:do_populate_sysroot"
+>> +do_install_overlay[dirs] = "${IMAGE_ROOTFS}"
+>> +do_install_overlay[umask] = "022"
+>> +do_install_overlay[vardeps] += "OVERLAY_ROOT_DIRS"
+>> +
+>> +SSTATETASKS += "do_install_overlay"
+> Except this isn't an sstate task? There is no setscene task variant of
+> the main task. There are no sstate variables set either...
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
 
 -- 
 Logo <http://www.smile.fr/>
 
 20 rue des Jardins
-92600 Asnières-sur-Seine
+92600 AsniÃ¨res-sur-Seine
 www.smile.fr <http://www.smile.fr/> 	
-*Jérémy ROSEN*
+*JÃ©rÃ©my ROSEN*
 Architecte technique
 Email : jeremy.rosen@smile.fr <mailto:jeremy.rosen@smile.fr>
 Tel : +33141402967
@@ -112,119 +164,158 @@ Facebook <https://www.facebook.com/smileopensource> Google%2B
 bandeaux_mail 
 <http://www.smile.fr/Offres-services/Offres/Ingenierie?utm_source=signature&utm_medium=email&utm_campaign=signature>
 
-eco Pour la planète, n'imprimez ce mail que si c'est nécessaire
+eco Pour la planÃ¨te, n'imprimez ce mail que si c'est nÃ©cessaire
 
---------------DB6E712E481CB59AB5F42E39
+--------------8FE77FBFEF64044A00FCDB1B
 Content-Type: multipart/related;
- boundary="------------A5A5C97D01A0E54BE2C4CD38"
+ boundary="------------B484AEE5D46A63F15FA4B814"
 
---------------A5A5C97D01A0E54BE2C4CD38
-Content-Type: text/html; charset=windows-1252
+--------------B484AEE5D46A63F15FA4B814
+Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
 <html>
   <head>
-    <meta content="text/html; charset=windows-1252"
-      http-equiv="Content-Type">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
   </head>
   <body bgcolor="#FFFFFF" text="#000000">
     <br>
     <br>
-    <div class="moz-cite-prefix">On 16/02/2017 03:18, Gary Thomas wrote:<br>
+    <div class="moz-cite-prefix">On 16/02/2017 05:44, Richard Purdie
+      wrote:<br>
     </div>
-    <blockquote
-      cite="mid:c68cce74-5173-2a86-84ed-438a42b9dce3@mlbassoc.com"
-      type="cite">On 2017-02-15 18:33, Geoffrey Levillain wrote:
-      <br>
-      <blockquote type="cite">Hi,
-        <br>
-        <br>
-        These patches introduce a capability to install overlay into
-        image after
-        <br>
-        fetching them.
-        <br>
-        <br>
-        There is actually a need to add image-specific configurations
-        files into
-        <br>
-        image recipes, and these patches are a way to standardize this
-        process as
-        <br>
-        well as simplify it by re-enabling fetching when image_overlay
-        is
-        <br>
-        inherited, and by providing a task that copy every files in
-        directories
-        <br>
-        listed in OVERLAY_ROOT_DIRS into IMAGE_ROOTFS directory.
-        <br>
-        <br>
-        Geoffrey Levillain (3):
-        <br>
-          image.bbclass: No need to force image licence on MIT
-        <br>
-          image_overlay.bbclass: Add possibility to install overlays to
-        image
-        <br>
-          rm_work.bbclass: Do not remove fetching and install_overlay
-        stamps
-        <br>
-        <br>
-         meta/classes/image.bbclass         |  2 +-
-        <br>
-         meta/classes/image_overlay.bbclass | 24
-        ++++++++++++++++++++++++
-        <br>
-         meta/classes/rm_work.bbclass       |  4 ++++
-        <br>
-         3 files changed, 29 insertions(+), 1 deletion(-)
-        <br>
-         create mode 100644 meta/classes/image_overlay.bbclass
-        <br>
+    <blockquote cite="mid:1487220274.4999.5.camel@linuxfoundation.org"
+      type="cite">
+      <pre wrap="">On Wed, 2017-02-15 at 18:33 +0100, Geoffrey Levillain wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">There is often a need to add configuration files specific to an
+image,
+to simplify this process we can use a task.
+
+Fetching is set as noexec for images, but there is a need to fetch
+files
+here. This class permit to use do_fetch, do_unpack and do_patch in
+order
+to get your image-specific overlays to install.
+
+Signed-off-by: Geoffrey Levillain <a class="moz-txt-link-rfc2396E" href="mailto:geoffrey.levillain@smile.fr">&lt;geoffrey.levillain@smile.fr&gt;</a>
+---
+Â meta/classes/image_overlay.bbclass | 24 ++++++++++++++++++++++++
+Â 1 file changed, 24 insertions(+)
+Â create mode 100644 meta/classes/image_overlay.bbclass
+
+diff --git a/meta/classes/image_overlay.bbclass
+b/meta/classes/image_overlay.bbclass
+new file mode 100644
+index 0000000000..93c1ea6f9f
+--- /dev/null
++++ b/meta/classes/image_overlay.bbclass
+@@ -0,0 +1,24 @@
++# Enable SRC_URI for images and use it to install overlays
++
++# Let these task be executed to fetch overlay
++unset do_fetch[noexec]
++unset do_unpack[noexec]
++unset do_patch[noexec]
+</pre>
       </blockquote>
-      <br>
-      Can you give an example where this approach is better than just
-      <br>
-      having the image include some [possibly optional] packages that
-      <br>
-      contain these image-specific configuration files?
-      <br>
-      <br>
+      <pre wrap="">
+At the same time as you're submitting this, I'm seriously considering a
+change where instead of noexec, we'd deltask these tasks. The reason
+being I'm not very keen on subverting the package manager and I'm not
+convinced this is a particularly desirable way to be altering the
+rootfs.
+</pre>
     </blockquote>
-    The problem is that most configuration files are provided by a
-    package and thus can not be overriden by another package.<br>
-    (a bbappend for each package we want to modify is a big amount of
-    tweaking and would force a variant of the package for each image
-    with a different configuration)<br>
-    A "configuration package" can only add new conf files, it can't
-    alter existing files.<br>
+    There are various files in images that are provided by the package
+    manager and that are ok to modify. most files in /etc are in that
+    category.<br>
     <br>
-    Regards<br>
-    Jérémy<br>
+    The idea here is to be able to have generic (image independant)
+    packages, but to override the package configuration with custom ones
+    at image-generation time.<br>
+    <br>
+    on a normal (desktop) distribution, the user writes his
+    configuration files, but in a deep-embedded useage, there is no
+    user. <br>
+    <br>
+    A bbappend (overriding the config file at package-build time) would
+    seem a better solution at first, but this doesn't work because it
+    forces to have a different package for each image type. Again we are
+    trying to particularize each image, while keeping the distribution
+    itself generic.<br>
+    <br>
+    I hope this helps clarify why we do this at the image level and not
+    the package. packages are shared between images, but configuration
+    is altered per-image.<br>
+    <br>
+    JÃ©rÃ©my<br>
+    <br>
+    <blockquote cite="mid:1487220274.4999.5.camel@linuxfoundation.org"
+      type="cite">
+      <pre wrap="">
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">+# Add a task to install the overlay
++# (content of folders listed in OVERLAY_ROOT_DIRS is copied in
+rootfs)
++addtask install_overlay after do_unpack do_patch do_rootfs before
+do_image
++fakeroot do_install_overlay() {
++Â Â Â Â for dir in ${OVERLAY_ROOT_DIRS}; do
++Â Â Â Â Â Â Â Â if [ ! -d "${WORKDIR}/${dir}" ] ; then
++Â Â Â Â Â Â Â Â Â Â Â Â bbfatal "${dir} not found, please check your
+OVERLAY_ROOT_DIRS and SRC_URI variables."
++Â Â Â Â Â Â Â Â fi
++Â Â Â Â Â Â Â Â cp -dr --no-preserve=ownership "${WORKDIR}/${dir}"/*
+"${IMAGE_ROOTFS}"
++Â Â Â Â done
++}
++do_install_overlay[depends] += "virtual/fakeroot-
+native:do_populate_sysroot"
++do_install_overlay[dirs] = "${IMAGE_ROOTFS}"
++do_install_overlay[umask] = "022"
++do_install_overlay[vardeps] += "OVERLAY_ROOT_DIRS"
++
++SSTATETASKS += "do_install_overlay"
+</pre>
+      </blockquote>
+      <pre wrap="">
+Except this isn't an sstate task? There is no setscene task variant of
+the main task. There are no sstate variables set either...
+
+Cheers,
+
+Richard
+
+
+
+</pre>
+    </blockquote>
     <br>
     <div class="moz-signature">-- <br>
       <div style="border-bottom: 1px solid #ccd4d7; margin:0 10px 10px
-        0; width:600px"> </div>
+        0; width:600px">Â </div>
       <div>
         <table style="; padding: 15px 0 0 0" border="0">
           <tbody>
             <tr>
               <td style="font-size:11px; color:#56707d; text-align:
                 center; "> <a href="http://www.smile.fr/"><img
-                    src="cid:part1.9E9556B7.0E691A38@smile.fr"
+                    src="cid:part1.AB2C141B.1188C913@smile.fr"
                     alt="Logo" height="47" width="129"></a><br>
                 <br>
                 <font face="century gothic, arial, sans-serif">20 rue
                   des Jardins<br>
-                  92600 Asnières-sur-Seine<br>
+                  92600 AsniÃ¨res-sur-Seine<br>
                   <a href="http://www.smile.fr/" style="font-size:14px;
                     color:#ec6608 ; text-decoration:none;">www.smile.fr</a></font>
               </td>
               <td style="padding-left:35px; font-size:12px;
                 color:#56707d">
                 <div style="color:#153358; font-size:12px;"><font
-                    face="century gothic, arial, sans-serif"><b>Jérémy
+                    face="century gothic, arial, sans-serif"><b>JÃ©rÃ©my
                       ROSEN</b></font></div>
                 <div style="color:#117eb4; font-size:12px;"><font
                     face="century gothic, arial, sans-serif">Architecte
@@ -239,17 +330,17 @@ Content-Transfer-Encoding: 8bit
                 <br>
                 <div> <span><a
                       href="https://www.facebook.com/smileopensource"><img
-                        src="cid:part5.381EFC9F.F81977B6@smile.fr"
+                        src="cid:part5.E6E631D7.42B89CCF@smile.fr"
                         alt="Facebook" height="24" width="25"></a></span>
                   <span><a
                       href="http://fr.slideshare.net/SmileOpenSource/presentations"><img
-                        src="cid:part7.EABB6C91.F7EFCF8C@smile.fr"
+                        src="cid:part7.B463D909.2497DDDE@smile.fr"
                         alt="Google%2B" height="24" width="25"></a></span>
                   <span><a href="https://www.linkedin.com/company/smile"><img
-                        src="cid:part9.C8C58AF8.E066735E@smile.fr"
+                        src="cid:part9.13D607A9.0F069979@smile.fr"
                         alt="LinkedIn" height="24" width="25"></a></span>
                   <span><a href="https://twitter.com/GroupeSmile"><img
-                        src="cid:part11.90FAAF46.879A70D9@smile.fr"
+                        src="cid:part11.5CE50051.581048FD@smile.fr"
                         alt="Twitter" height="24" width="25"></a></span>
                 </div>
               </td>
@@ -257,28 +348,28 @@ Content-Transfer-Encoding: 8bit
           </tbody>
         </table>
         <div style="border-bottom: 1px solid #ccd4d7; margin:0 10px 0 0;
-          width:600px"> </div>
+          width:600px">Â </div>
         <br>
         <div> <a
 href="http://www.smile.fr/Offres-services/Offres/Ingenierie?utm_source=signature&amp;utm_medium=email&amp;utm_campaign=signature"><img
-              src="cid:part13.6627714C.68129E7E@smile.fr"
+              src="cid:part13.5DDA977B.D642906C@smile.fr"
               alt="bandeaux_mail" border="0"></a></div>
         <br>
         <div style="color:#a3acb5; font-size:10px;"> <img
-            src="cid:part15.B11F1BD2.ED2CF00F@smile.fr" alt="eco"
+            src="cid:part15.8108EA8B.21ECF512@smile.fr" alt="eco"
             height="11" width="13"> <font face="century gothic, arial,
-            sans-serif"> Pour la planète, n'imprimez ce mail que si
-            c'est nécessaire </font> </div>
+            sans-serif"> Pour la planÃ¨te, n'imprimez ce mail que si
+            c'est nÃ©cessaire </font> </div>
       </div>
     </div>
   </body>
 </html>
 
---------------A5A5C97D01A0E54BE2C4CD38
+--------------B484AEE5D46A63F15FA4B814
 Content-Type: image/png;
  name="Logo.png"
 Content-Transfer-Encoding: base64
-Content-ID: <part1.9E9556B7.0E691A38@smile.fr>
+Content-ID: <part1.AB2C141B.1188C913@smile.fr>
 Content-Disposition: inline;
  filename="Logo.png"
 
@@ -350,11 +441,11 @@ RxRCCEbpvQ315HchePFnorSU3fd58vZs4eoiQzVXAsAyb6SqwnBICdfHjmKKGmECjQZV7iEpdkMf
 dwTc/TdWxuJmDqxccGrYa6VB+I7ZcqtX6X3Z6id6MVwW68oLW6cJd41supeoBL4SYAAHqxDooofX
 WQAAAABJRU5ErkJggg==
 
---------------A5A5C97D01A0E54BE2C4CD38
+--------------B484AEE5D46A63F15FA4B814
 Content-Type: image/png;
  name="Facebook.png"
 Content-Transfer-Encoding: base64
-Content-ID: <part5.381EFC9F.F81977B6@smile.fr>
+Content-ID: <part5.E6E631D7.42B89CCF@smile.fr>
 Content-Disposition: inline;
  filename="Facebook.png"
 
@@ -374,11 +465,11 @@ MtaZRUVKrG6YK2ii5EfWlDTu0px8zWSqMdk+goPgaaaKm6/pyalALjvAt3VdooBsfUe36D2+59EF
 b0Et+KqlA+MsuhXcWmAO4ZL7Atgr8oLmXvSPaAO3gQdAiw+4Ib4ONojwDy20K0/9NcDl4GZRjZWJ
 XwMT4Bv4JA52p+yvgX8CDADYDr/jdJrv/wAAAABJRU5ErkJggg==
 
---------------A5A5C97D01A0E54BE2C4CD38
+--------------B484AEE5D46A63F15FA4B814
 Content-Type: image/png;
  name="Slideshare.png"
 Content-Transfer-Encoding: base64
-Content-ID: <part7.EABB6C91.F7EFCF8C@smile.fr>
+Content-ID: <part7.B463D909.2497DDDE@smile.fr>
 Content-Disposition: inline;
  filename="Slideshare.png"
 
@@ -400,11 +491,11 @@ qYykIaQfDolGLI00VHOR7F9eIF7w3ui00NDzPGzrfLVVyOFppM/LTypP86Yrz6zmycywUrZ9D5wW
 vcJptGdgr7sApXvHDZ7o9E6hgGKexFi13MBKwWq+fJOxH+AgOMZidiJ30WZ+T0jiSylpmLyNX6IX
 g4dKDY2CA1ZwWAKUDOL5p4Ewno+wJe52+zTwWMungX8CDADEtAwwAj5nogAAAABJRU5ErkJggg==
 
---------------A5A5C97D01A0E54BE2C4CD38
+--------------B484AEE5D46A63F15FA4B814
 Content-Type: image/png;
  name="LinkedIn.png"
 Content-Transfer-Encoding: base64
-Content-ID: <part9.C8C58AF8.E066735E@smile.fr>
+Content-ID: <part9.13D607A9.0F069979@smile.fr>
 Content-Disposition: inline;
  filename="LinkedIn.png"
 
@@ -424,11 +515,11 @@ AwvugxzxDIhfDaAjLsAia98AOeA3EB+BOWL1ADkCVPJ9hjliCzRa6A1mo7e284F4AraCiJ8DUrqD
 Re9A+wle0KAkJa08hnai1YB4JT6FLEQauB2KQa0UP1A7BTo0IAltj4CC+B3S0MAuUoYGAAIMABzG
 vS9MEIuNAAAAAElFTkSuQmCC
 
---------------A5A5C97D01A0E54BE2C4CD38
+--------------B484AEE5D46A63F15FA4B814
 Content-Type: image/png;
  name="Twitter.png"
 Content-Transfer-Encoding: base64
-Content-ID: <part11.90FAAF46.879A70D9@smile.fr>
+Content-ID: <part11.5CE50051.581048FD@smile.fr>
 Content-Disposition: inline;
  filename="Twitter.png"
 
@@ -451,11 +542,11 @@ tbQtSGMrVnpUQzP2fNI6a9uhdoOF6gcm6c3glCMXyFmRCl7NbflPgSsr1E/cBYULdVZXWVqvgAD2
 qwW3+QG62ZWzqJUfA6PBNX7yFjVWJKr44iWOxkpO/jWwh7dkSfxop+eNspFHfTs/wzr118AfAQYA
 5hvh5BL/A0oAAAAASUVORK5CYII=
 
---------------A5A5C97D01A0E54BE2C4CD38
+--------------B484AEE5D46A63F15FA4B814
 Content-Type: image/png;
  name="OW_devient_Smile_ECS.png"
 Content-Transfer-Encoding: base64
-Content-ID: <part13.6627714C.68129E7E@smile.fr>
+Content-ID: <part13.5DDA977B.D642906C@smile.fr>
 Content-Disposition: inline;
  filename="OW_devient_Smile_ECS.png"
 
@@ -1929,11 +2020,11 @@ iOmIVaIO2iqoFulemuQoJulN/cTWVTgRgqTAUaEBw6KhyfYheExy/pr8Mc3m8fL/gSbdYif9Iz22
 3kaM3biE0UEaH9/AGKEUZTq9jNGA2jHSFBYKqGTYYU6dhlCTDvz/A1jW1Oem9DyzAAAAAElFTkSu
 QmCC
 
---------------A5A5C97D01A0E54BE2C4CD38
+--------------B484AEE5D46A63F15FA4B814
 Content-Type: image/png;
  name="eco.png"
 Content-Transfer-Encoding: base64
-Content-ID: <part15.B11F1BD2.ED2CF00F@smile.fr>
+Content-ID: <part15.8108EA8B.21ECF512@smile.fr>
 Content-Disposition: inline;
  filename="eco.png"
 
@@ -1943,6 +2034,6 @@ bWFnZVJlYWR5ccllPAAAAK1JREFUeNpi/P//PwMx4G0GRyiIFp7xYzULFklBIGUMxCBaCSoM4odC
 MCDuwTQJImlIg2rCBipABEzTe6jGDiQD0EE60JY94OB7k84+E2r6exwa7iFrgGm6C5IACrpCI9AF
 qhmkeA+yYjgAahIEhSApGCDAAMwoXiiR281hAAAAAElFTkSuQmCC
 
---------------A5A5C97D01A0E54BE2C4CD38--
+--------------B484AEE5D46A63F15FA4B814--
 
---------------DB6E712E481CB59AB5F42E39--
+--------------8FE77FBFEF64044A00FCDB1B--
