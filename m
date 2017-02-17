@@ -1,52 +1,35 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f48.google.com (mail-it0-f48.google.com
-	[209.85.214.48])
-	by mail.openembedded.org (Postfix) with ESMTP id B6F2871985
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 0360C71BD4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Feb 2017 07:26:00 +0000 (UTC)
-Received: by mail-it0-f48.google.com with SMTP id 203so9791689ith.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Feb 2017 23:26:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=40yZustmJecwjv/Tr61Fnicd6JuBsjfl1qQ4GA5hxgA=;
-	b=wUNa1JMnZGs/7FO+L6J92ANRPZkqlH9N89IU+xmwwErB56x/PoiLwhLBnIJ98iT6lt
-	MPLT9EmZsMutxlO2NvtAP7BZgrOlcU9q27Q7v5bUcMO4J2Qq/HguHtoKCA+NiGHrdMJr
-	3U59ypGC1+IWCjGJTkSOIIC8O3iCuy1W9E7WF7ZgSzcP5RBLXm5JN3p/PvJhV6WeXihK
-	2gL538jUfzUO1pDDEi4KzsIv1S17vuybKErFIAkO38dUBpNK18MWpJJ9vGYq/NFWifcs
-	xffj2BCnAw1paAaxXvvyyNV7sNwWn/dX4LJTkFbwwqdzi0kWH2SWmBywt6Se4b1xKZ2T
-	KVYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=40yZustmJecwjv/Tr61Fnicd6JuBsjfl1qQ4GA5hxgA=;
-	b=Hm34GSKUpSZZfVY8nmkCNHMs+QiR6PHchhaV9GXZ/8JadY71Get7RMm0wuMTmdciJw
-	ZPquGlHgChiFwhHCqogEGDCgQaaByNsMt3jx2B3aZGaavDnE9/5GXk3lEwiAzUBnJNvp
-	tyfHZrRpVdfDUGBk++S/mHpQocRM13h221dfBc3tyRTCikYUJ6iruFrgDMQeWS/J60HR
-	d/6dC3h7dBMyxTbmUHC6E3h23W4kA3k3aVP1T7rixX0qsC8QRxERpvX8VWvbgaUToZfD
-	utCyBcEqZUpGJB7MoJgeIHpLW/YcqmvQHUjebtFn0ORrXf7djd0+oz4gzspa2RWD0QKo
-	12Ow==
-X-Gm-Message-State: AMke39kiEnoi0qz3YQeGg42O9lRH0J6bftaNz50UvXVxxTBFsxMZ+hD54Ypga5n940l9MQz0
-X-Received: by 10.107.185.212 with SMTP id j203mr7454577iof.226.1487316360712; 
-	Thu, 16 Feb 2017 23:26:00 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8FD56.dip0.t-ipconnect.de. [93.232.253.86])
-	by smtp.gmail.com with ESMTPSA id 20sm4334171iof.26.2017.02.16.23.25.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 Feb 2017 23:25:59 -0800 (PST)
-Message-ID: <1487316357.13854.504.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Fri, 17 Feb 2017 08:25:57 +0100
-In-Reply-To: <1487288761-22432-1-git-send-email-sgw@linux.intel.com>
-References: <1487288761-22432-1-git-send-email-sgw@linux.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] native.bbclass: populate native recipe with it's files
+	Fri, 17 Feb 2017 10:31:07 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 63C2E31C1723;
+	Fri, 17 Feb 2017 11:31:07 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id EX0sWVjmsJwI; Fri, 17 Feb 2017 11:31:04 +0100 (CET)
+Received: from t510.zcs.saftware.de (p57A61904.dip0.t-ipconnect.de
+	[87.166.25.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 1A95531C15EE;
+	Fri, 17 Feb 2017 11:31:04 +0100 (CET)
+Date: Fri, 17 Feb 2017 11:31:03 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20170217113103.31b0f456@t510.zcs.saftware.de>
+In-Reply-To: <CAMKF1sqB+nL1kRny7e9JCfdYO7fkOEKQoqCngm09hgSURLeR=Q@mail.gmail.com>
+References: <1487241290-6188-1-git-send-email-obi@opendreambox.org>
+	<1487241290-6188-3-git-send-email-obi@opendreambox.org>
+	<CAMKF1sqB+nL1kRny7e9JCfdYO7fkOEKQoqCngm09hgSURLeR=Q@mail.gmail.com>
+MIME-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] ffmpeg: Build libpostproc even if global gpl flag is unset
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,37 +42,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Feb 2017 07:26:01 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 17 Feb 2017 10:31:08 -0000
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2017-02-16 at 15:46 -0800, Saul Wold wrote:
-> This allows a native package's recipe-sysroot-native to be populated with
-> that packages native image files.  This in turns allows it to be used by
-> scripts or other tools without creating un-necessary DEPENDS.
+On Thu, 16 Feb 2017 07:39:17 -0800 Khem Raj <raj.khem@gmail.com> wrote:
+
+> On Thu, Feb 16, 2017 at 2:34 AM, Andreas Oberritter
+> <obi@opendreambox.org> wrote:
+> > The libpostproc package has an explicit GPLv2+ license tag.
+> >
+> > Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+> > ---
+> >  ...figure-allow-libpostproc-without-gpl-flag.patch | 34 ++++++++++++++++++++++
+> >  meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.2.bb     |  1 +
+> >  2 files changed, 35 insertions(+)
+> >  create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0002-configure-allow-libpostproc-without-gpl-flag.patch
+> >
+> > diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0002-configure-allow-libpostproc-without-gpl-flag.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0002-configure-allow-libpostproc-without-gpl-flag.patch
+> > new file mode 100644
+> > index 0000000..dc11f34
+> > --- /dev/null
+> > +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/0002-configure-allow-libpostproc-without-gpl-flag.patch
+> > @@ -0,0 +1,34 @@
+> > +Upstream-Status: inappropriate [distro-specific]
+> > +
+> > +Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+> > +
+> > +From 9c28ed17d1184ee95819e4c576373c20fe2c3600 Mon Sep 17 00:00:00 2001
+> > +From: Andreas Oberritter <obi@opendreambox.org>
+> > +Date: Sat, 11 Feb 2017 22:57:42 +0100
+> > +Subject: [PATCH] configure: allow libpostproc without gpl flag
+> > +
+> > +There may be GPL'ed programs in a distribution which want libpostproc,
+> > +while other GPL-incompatible programs use some of the other libraries
+> > +provided by ffmpeg.
+> > +
+> > +Since we know the license of libpostproc, we mark the resulting binary
+> > +package accordingly instead of refusing to build it.  
 > 
-> An example of this is systemtap-native and the crosstap script.
+> 
+> this changes the documented behavior IMO we should discuss it upstream
+> otherwise it will be hard to explain this to legal people.
 
-The intended usage wasn't clear to me at first. I think it is something
-like "bitbake foobar-native" and then calling foobar's tools directly
-from tmp/work/*/foobar-native/*/recipe-sysroot-native (?).
+Really? I don't see why. There's no difference to any other GPL package we
+build. The documentation says libpostroc is GPL'ed. The recipe does the same.
+No surprises for legal people involved.
 
-If true, then any recipe intending to be used like that also needs to
-exclude itself from do_rm_work:
-RM_WORK_EXCLUDE += "${PN}"
+I'm not going to annoy upstream with this, because this change is not suitable
+for upstream. That's why it carries the 'inappropriate' tag.
 
-Or perhaps more selectively exclude the RSS:
-RM_WORK_EXCLUDE_ITEMS += "recipe-sysroot-native" (is there a variable
-for this name?)
+Regards,
+Andreas
 
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+> 
+> > +
+> > +Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+> > +---
+> > + configure | 2 +-
+> > + 1 file changed, 1 insertion(+), 1 deletion(-)
+> > +
+> > +diff --git a/configure b/configure
+> > +index d60ffd8..cd53e6c 100755
+> > +--- a/configure
+> > ++++ b/configure
+> > +@@ -3135,7 +3135,7 @@ avdevice_deps="avformat avcodec avutil"
+> > + avfilter_deps="avutil"
+> > + avformat_deps="avcodec avutil"
+> > + avresample_deps="avutil"
+> > +-postproc_deps="avutil gpl"
+> > ++postproc_deps="avutil"
+> > + swresample_deps="avutil"
+> > + swscale_deps="avutil"
+> > +
+> > diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.2.bb
+> > index dc33bb4..555c72b 100644
+> > --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.2.bb
+> > +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.2.bb
+> > @@ -26,6 +26,7 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+> >  SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+> >             file://mips64_cpu_detection.patch \
+> >             file://0001-avutil-log-avoid-build-error-if-valgrind-was-removed.patch \
+> > +           file://0002-configure-allow-libpostproc-without-gpl-flag.patch \
+> >            "
+> >  SRC_URI[md5sum] = "e34d1b92c5d844f2a3611c741a6dba18"
+> >  SRC_URI[sha256sum] = "3f01bd1fe1a17a277f8c84869e5d9192b4b978cb660872aa2b54c3cc8a2fedfc"
+> > --
+> > 2.7.4
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core  
 
 
