@@ -1,47 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f172.google.com (mail-qt0-f172.google.com
-	[209.85.216.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F6926FEF5
+Return-Path: <mac@mcrowe.com>
+Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
+	by mail.openembedded.org (Postfix) with ESMTP id 45F5B6FEF5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Feb 2017 15:15:19 +0000 (UTC)
-Received: by mail-qt0-f172.google.com with SMTP id x49so42599557qtc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Feb 2017 07:15:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=eHc/FIuf5POmCiiWDVbjSckAuMeDMzVtrCMeD/mpXnI=;
-	b=XWAgML9oqcYDrd7yNsW/AFLrfhCXs+m3GSSWjiDTx0VIkTgp1iJkPkS8O2E5hjiQhd
-	v2ctpwA48LETEX/Ad6XLWGgDi0ywmAvRC11RTUQdnOucxyjMJqCzd7S7dfU30O7roDYq
-	K67qsfr7lAn7PQOEVLVfVSuVPyTYC4GIOJ0+9jiDkn5m/UeYPrcKaXK2YnLP7mVMOWR0
-	rI7UWRraY+owO7sZduwj1JZoBrekKTm57W/sFRHVHnNsGwshZusPB/ElHVQkmuqZQSOx
-	y1OvAiZGrT8X03EkXmXJkXcE1+hPpye7E8yzsYLSArbJEFVxnAtOI0UtHHVFysgeXZtA
-	luaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=eHc/FIuf5POmCiiWDVbjSckAuMeDMzVtrCMeD/mpXnI=;
-	b=dj5ul8ck11/I5JbDr+CjWDdPzmHb7nlyCjcWv7wAhbXgkpAV5SXNjHwkoMFUDN0byT
-	n2ysTIViRuAbf311laKaj/kOTn6DENr4l7/GYhjCARhwcJ6EP6LOA3zqBsSdhBaMkGSS
-	8vnykejf22SBapmQdIizP5XRTeX20Z1CH6KXzOivdPScYzAjFXJG85A3sB6Gt/uPhg72
-	cO/5ao172dIwydqSTSIC+URfG6biX5X+XiCd2Hc3vibGYXf+S2CSRiyvjoloeTF6S8sK
-	TRYEWzuojNtMC/MCWs7+G1zBZuIyDAxbWeM0K5ExUNCkhz0pUvp8ecszStrTubfdCR++
-	tVjA==
-X-Gm-Message-State: AMke39njk90rXbZhwckrbW46uLBShtWeG7Qzz0ojSvn+e7C3RH9XbUrp7TckvF7Pn1UUhvGTqaXg5T6yormo6ySB
-X-Received: by 10.237.39.148 with SMTP id a20mr8207482qtd.65.1487344519556;
-	Fri, 17 Feb 2017 07:15:19 -0800 (PST)
+	Fri, 17 Feb 2017 15:21:19 +0000 (UTC)
+Received: from deneb ([80.229.24.9]) by avasout06 with smtp
+	id lrMG1u0030BmcFC01rMHQG; Fri, 17 Feb 2017 15:21:19 +0000
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.2 cv=QoEu5R6d c=1 sm=1 tr=0
+	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+	a=kj9zAlcOel0A:10 a=n2v9WMKugxEA:10 a=VstMSg-w4vT6cWokx0gA:9
+	a=CjuIK1q_8ugA:10
+Received: from mac by deneb with local (Exim 4.84_2)
+	(envelope-from <mac@mcrowe.com>)
+	id 1cekLU-00059o-8U; Fri, 17 Feb 2017 15:21:16 +0000
+Date: Fri, 17 Feb 2017 15:21:16 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: Patrick Ohly <patrick.ohly@intel.com>,
+	openembedded-core@lists.openembedded.org
+Message-ID: <20170217152116.GA19114@mcrowe.com>
+References: <cover.d193014fd573473058a6d28217d27ca47bc60792.1484318722.git-series.patrick.ohly@intel.com>
+	<ab94bd9c9f3c7170e2a0e40afaec42d5ec9397fd.1484318722.git-series.patrick.ohly@intel.com>
+	<20170208115042.GA21576@mcrowe.com>
+	<1486559082.13854.12.camel@intel.com>
+	<20170208134810.GA29105@mcrowe.com>
+	<1486657479.13854.85.camel@intel.com>
+	<20170210183213.GA10017@mcrowe.com>
+	<1486983272.13854.223.camel@intel.com>
 MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Fri, 17 Feb 2017 07:14:59 -0800 (PST)
-In-Reply-To: <5c9fb24fb0118322b6ef212808eb7fe2c1fcd171.1487139819.git.liezhi.yang@windriver.com>
-References: <cover.1487139819.git.liezhi.yang@windriver.com>
-	<5c9fb24fb0118322b6ef212808eb7fe2c1fcd171.1487139819.git.liezhi.yang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 17 Feb 2017 15:14:59 +0000
-Message-ID: <CAJTo0LZaQj9383VjtQOWzj00_sVX9jvCYyDDOTGvUEuE8p3Wxg@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/6] btrfs-tools: remove udev from DEPENDS
+In-Reply-To: <1486983272.13854.223.camel@intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: Running task for all recipes required by an image (was Re: [PATCH v2 3/3] rm_work.bbclass: clean up sooner)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,62 +42,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Feb 2017 15:15:20 -0000
-Content-Type: multipart/alternative; boundary=f403045ee6d8bf621f0548bb618b
+X-List-Received-Date: Fri, 17 Feb 2017 15:21:20 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---f403045ee6d8bf621f0548bb618b
-Content-Type: text/plain; charset=UTF-8
+On Monday 13 February 2017 at 11:54:32 +0100, Patrick Ohly wrote:
+> On Fri, 2017-02-10 at 18:32 +0000, Mike Crowe wrote:
+> > On Thursday 09 February 2017 at 17:24:39 +0100, Patrick Ohly wrote:
+> > > On Wed, 2017-02-08 at 13:48 +0000, Mike Crowe wrote:
+> > > > On Wednesday 08 February 2017 at 14:04:42 +0100, Patrick Ohly wrote:
+> > The part I'd missed is the all-important line in source-release-world.bb:
+> > 
+> >  do_source_release[depends] += "core-image-sato:do_build"
+> 
+> Okay, that explains it.
+> 
+> IMHO this do_build dependency should trigger do_rm_work. Your "bitbake
+> -c all_source_releases source-release-world" intentionally includes a
+> real world build, not just executing the source release tasks. Cleaning
+> up while building is the goal of rm_work.bbclass. It's arguably a
+> deficiency in the previous rm_work.bbclass that it wasn't active in your
+> case.
+> 
+> Now we just need to find a way to combine these without breaking the
+> extra tasks.
 
-On 15 February 2017 at 06:25, Robert Yang <liezhi.yang@windriver.com> wrote:
+Now I think about this further, we're only depending on do_build in order
+to ensure that we get all the dependencies included in the source release
+via the recrdeps task. If there were a better way to do that then perhaps
+rm_work wouldn't cause any problems, and we also wouldn't waste time
+building stuff that we aren't going to use.
 
-> The log said that udev was added to DEPENDS because btrfs-tools installs
-> a udev rule, this was incorrect, and it caused a side effect:
->
-> $ bitbake btrfs-tools-native
->
-> ERROR: Nothing PROVIDES 'udev-native' (but virtual:native:btrfs-tools_4.
-> 8.5.bb DEPENDS on or otherwise requires it). Close matches:
-> [snip]
->
+I've tried:
 
-Are you sure?  The configure.ac does this:
+ ALL_DEPENDENCIES = "${RDEPENDS} ${DEPENDS}"
+ do_source_release[depends] = "${@' '.join([s+':do_source_release ' for s in d.getVar('ALL_DEPENDENCIES', True).split()])}"
 
-UDEVDIR=
-if pkg-config udev --atleast-version 190; then
-        UDEVDIR="$(pkg-config udev --variable=udevdir)"
-fi
-AC_SUBST(UDEVDIR)
+in the bbclass (which is still inherited by all recipes) and then just
+running the source_release task on the final images.
 
-Ross
+Unfortunately this fails when IMAGE_INSTALL contains package names that are
+generated using PACKAGES_DYNAMIC such as gstreamer plugins. :(
 
---f403045ee6d8bf621f0548bb618b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+ERROR: Nothing PROVIDES 'gstreamer1.0-plugins-good-audioparsers'. Close matches:
+  gstreamer1.0-plugins-good
+  gstreamer1.0-plugins-base
+  gstreamer1.0-plugins-bad
+  gstreamer1.0-plugins-good RPROVIDES gstreamer1.0-plugins-good-audioparsers
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 15 February 2017 at 06:25, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.c=
-om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,20=
-4);border-left-style:solid;padding-left:1ex"><div id=3D"gmail-:3ii" class=
-=3D"gmail-a3s gmail-aXjCH gmail-m15a407350a4c039a">The log said that udev w=
-as added to DEPENDS because btrfs-tools installs<br>
-a udev rule, this was incorrect, and it caused a side effect:<br>
-<br>
-$ bitbake btrfs-tools-native<br>
-<br>
-ERROR: Nothing PROVIDES &#39;udev-native&#39; (but virtual:native:<a href=
-=3D"http://btrfs-tools_4.8.5.bb" rel=3D"noreferrer" target=3D"_blank">btrfs=
--tools_4.<wbr>8.5.bb</a> DEPENDS on or otherwise requires it). Close matche=
-s:<br>
-[snip]</div></blockquote></div><br>Are you sure?=C2=A0 The <a href=3D"http:=
-//configure.ac">configure.ac</a> does this:</div><div class=3D"gmail_extra"=
-><br></div><div class=3D"gmail_extra"><div class=3D"gmail_extra">UDEVDIR=3D=
-</div><div class=3D"gmail_extra">if pkg-config udev --atleast-version 190; =
-then</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=A0 UDEVDIR=3D=
-&quot;$(pkg-config udev --variable=3Dudevdir)&quot;</div><div class=3D"gmai=
-l_extra">fi</div><div class=3D"gmail_extra">AC_SUBST(UDEVDIR)</div><div cla=
-ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div></d=
-iv>
+Is there a correct way to get a task to run for every recipe that is
+required by an image?
 
---f403045ee6d8bf621f0548bb618b--
+Thanks.
+
+Mike.
+
