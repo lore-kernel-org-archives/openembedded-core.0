@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 38AE2772E1
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 55E587730D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Feb 2017 10:59:14 +0000 (UTC)
+	Fri, 17 Feb 2017 10:59:17 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v1HAxDq3010176
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v1HAxHWq023473
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Feb 2017 02:59:14 -0800
+	Fri, 17 Feb 2017 02:59:17 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.201) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Fri, 17 Feb 2017 02:59:12 -0800
+	14.3.294.0; Fri, 17 Feb 2017 02:59:17 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Feb 2017 18:59:23 +0800
-Message-ID: <befe254637402477079b6cdab6f99c6d568eee1c.1487329062.git.Qi.Chen@windriver.com>
+Date: Fri, 17 Feb 2017 18:59:25 +0800
+Message-ID: <35cadd45b64f4f70e8538cc431589684482a6a65.1487329062.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1487329062.git.Qi.Chen@windriver.com>
 References: <cover.1487329062.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/4] sysstat: upgrade to 11.5.4
+Subject: [PATCH 4/4] util-linux: upgrade to 2.29.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Feb 2017 10:59:16 -0000
+X-List-Received-Date: Fri, 17 Feb 2017 10:59:17 -0000
 Content-Type: text/plain
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../recipes-extended/sysstat/{sysstat_11.5.3.bb => sysstat_11.5.4.bb} | 4 ++--
+ .../util-linux/{util-linux_2.29.bb => util-linux_2.29.1.bb}           | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/sysstat/{sysstat_11.5.3.bb => sysstat_11.5.4.bb} (53%)
+ rename meta/recipes-core/util-linux/{util-linux_2.29.bb => util-linux_2.29.1.bb} (86%)
 
-diff --git a/meta/recipes-extended/sysstat/sysstat_11.5.3.bb b/meta/recipes-extended/sysstat/sysstat_11.5.4.bb
-similarity index 53%
-rename from meta/recipes-extended/sysstat/sysstat_11.5.3.bb
-rename to meta/recipes-extended/sysstat/sysstat_11.5.4.bb
-index bb6a671..7ff363b 100644
---- a/meta/recipes-extended/sysstat/sysstat_11.5.3.bb
-+++ b/meta/recipes-extended/sysstat/sysstat_11.5.4.bb
-@@ -4,5 +4,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
+diff --git a/meta/recipes-core/util-linux/util-linux_2.29.bb b/meta/recipes-core/util-linux/util-linux_2.29.1.bb
+similarity index 86%
+rename from meta/recipes-core/util-linux/util-linux_2.29.bb
+rename to meta/recipes-core/util-linux/util-linux_2.29.1.bb
+index 80638bd..1395b47 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.29.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.29.1.bb
+@@ -16,8 +16,8 @@ SRC_URI += "file://configure-sbindir.patch \
+             file://avoid_parallel_tests.patch \
+             file://uuid-test-error-api.patch \
+ "
+-SRC_URI[md5sum] = "07b6845f48a421ad5844aa9d58edb837"
+-SRC_URI[sha256sum] = "2c59ea67cc7b564104f60532f6e0a95fe17a91acb870ba8fd7e986f273abf9e7"
++SRC_URI[md5sum] = "0cbb6d16ab9c5736e5649ef1264bee6e"
++SRC_URI[sha256sum] = "0ce40600b934ec2fecfa6bfc4efe6982d051ba96c2832b05201347aec582f54f"
  
- SRC_URI += "file://0001-Include-needed-headers-explicitly.patch"
+ CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=ms"
  
--SRC_URI[md5sum] = "5986da64af934d8cecc7bca7ebe43752"
--SRC_URI[sha256sum] = "f8229d14819e2d461ede83894648e03c8a2ad14a1ba200d68cda9816c42f41ea"
-+SRC_URI[md5sum] = "f16ae8edd462f5199ee033f7c0e2c197"
-+SRC_URI[sha256sum] = "1e1008656575e70486b456e79775e98d3b8732d7e2cb408559209bd0318e0807"
 -- 
 1.9.1
 
