@@ -1,51 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id DD6E27723E
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DAA5271DDE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Feb 2017 00:15:52 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id y6so2145885pgy.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Feb 2017 16:15:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=78L0gBogSWncVc3jS/3mmDQ0EWbiOSR6L0NXAwjo54I=;
-	b=mMVkhqeDYe8RE3xfYl5G7/DkBCkzTWrsURNZd0zv9dSo52iYrg3Ba8xayzK1yginYf
-	u7W7cW+aGGqAPAes5Zg+7jv770Kfyywj64hQnY//Qzw80mARt/7voQv/DjdKGUerpb/p
-	BsXXy0pz5qsIvh0kslZL2iCQxEUEWjru5sUwO8gP+CBNO1AxwM8pxv46XSkDhged2CQR
-	UMEBtEKEaRK3Hc2u6wsNLFnK80+TLT0jp1dKxAN55tTRThacGfX10P7WgX5JWYJVOMtj
-	mYjJxKRQIldFCFhH1lRutAK7wB3VAH9dEi/lXj4PdP+uW/DYin8tgVHrU/13VXItySF8
-	QBig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=78L0gBogSWncVc3jS/3mmDQ0EWbiOSR6L0NXAwjo54I=;
-	b=QmQ2f2FCbjgUz4WprfXoENoEcG0hQA+rraMCc+6AJZQ44xE75rc2LUgJoSjXv5eu83
-	z389NC5QrKTilJ7Q2n6B/TNtF4dsRNA8yTTuzLEZwQyYTzqEIz8zvCzgeUCy6zKnx6DM
-	yny9fcusD2uZZ+Q+IIvFiE73d4WSJkDJiVGxpoolZAjFoZsESgU8PCvSJcYQ65YcI+ey
-	H1Wsg4HmqBYC4NVx5ielpUeKMTKp3xnH0JSv7KRPl0pVcZfo3q+IsEdSAeobRxub+2sX
-	Y3aEhdsw+21DmBB+sBeqJS0PyRcLVfNH3HUQ1a7Vxt6yTbxaKpvwHs7CY0PaFtF4OW0P
-	tHJQ==
-X-Gm-Message-State: AMke39mZ1UY3J7x4XoNMsjiP1RuRgXXGY69udAokOisWGOcdmIvLn0DZq3UKPbyIpCBkkA==
-X-Received: by 10.84.193.101 with SMTP id e92mr2055331pld.4.1487290552732;
-	Thu, 16 Feb 2017 16:15:52 -0800 (PST)
-Received: from CACSVMO-14452.local ([2601:646:8882:b8c:dcfa:13bf:34d0:bc6f])
-	by smtp.gmail.com with ESMTPSA id
-	x81sm15591649pff.69.2017.02.16.16.15.51
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 Feb 2017 16:15:52 -0800 (PST)
-To: openembedded-core@lists.openembedded.org
-References: <1487288761-22432-1-git-send-email-sgw@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <f61d63d4-5534-c721-7438-cdedeeb43ef5@gmail.com>
-Date: Thu, 16 Feb 2017 16:15:51 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.7.1
+	Fri, 17 Feb 2017 03:33:17 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v1H3XG30020712
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 16 Feb 2017 19:33:16 -0800 (PST)
+Received: from [128.224.162.160] (128.224.162.160) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 16 Feb 2017 19:33:15 -0800
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1487139819.git.liezhi.yang@windriver.com>
+	<5f59a24d85e3226f7fa878f3fac5b88afbe1b0fc.1487139819.git.liezhi.yang@windriver.com>
+	<20170216105623.GA3621@jama>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <6e0be2d7-a5ea-46d8-a1bb-b9caaa696abb@windriver.com>
+Date: Fri, 17 Feb 2017 11:33:14 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-In-Reply-To: <1487288761-22432-1-git-send-email-sgw@linux.intel.com>
-Subject: Re: [PATCH] native.bbclass: populate native recipe with it's files
+In-Reply-To: <20170216105623.GA3621@jama>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 6/6] binconfig.bbclass: fix get_binconfig_mangle()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,42 +36,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Feb 2017 00:15:53 -0000
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Fri, 17 Feb 2017 03:33:18 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 2/16/17 3:46 PM, Saul Wold wrote:
-> This allows a native package's recipe-sysroot-native to be populated with
-> that packages native image files.  This in turns allows it to be used by
-> scripts or other tools without creating un-necessary DEPENDS.
-> 
-> An example of this is systemtap-native and the crosstap script.
-> 
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  meta/classes/native.bbclass | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-> index ec91fc3..d9dfea7 100644
-> --- a/meta/classes/native.bbclass
-> +++ b/meta/classes/native.bbclass
-> @@ -174,6 +174,11 @@ python native_virtclass_handler () {
->  addhandler native_virtclass_handler
->  native_virtclass_handler[eventmask] = "bb.event.RecipePreFinalise"
->  
-> +python do_addto_recipe_sysroot () {
-> +    bb.build.exec_func("extend_recipe_sysroot", d)
-> +}
-> +addtask addto_recipe_sysroot after do_populate_sysroot before do_build
+On 02/16/2017 06:56 PM, Martin Jansa wrote:
+> On Tue, Feb 14, 2017 at 10:25:11PM -0800, Robert Yang wrote:
+>> The command was:
+>> s += " -e 's:-L${libdir}:-LOELIBDIR:;'"
+>> s += " -e 's:-I${includedir}:-IOEINCDIR:;'"
+>> s += " -e 's:OELIBDIR:${STAGING_LIBDIR}:;'"
+>> s += " -e 's:OEINCDIR:${STAGING_INCDIR}:;'"
+>> s += " -e 's:-I${WORKDIR}:-I${STAGING_INCDIR}:'"
+>> s += " -e 's:-L${WORKDIR}:-L${STAGING_LIBDIR}:'"
+>>
+>> The STAGING_LIBDIR and STAGING_INCDIR now contains WORKDIR, so the
+>> result would be incorrect like:
+>> TCL_INCLUDE_SPEC='-IFIXMESTAGINGDIRTARGET/usr/include/recipe-sysroot/usr/include/tcl8.6'
+>>
+>> Note, the "/usr/include/recipe-sysroot" is not needed. Move the last two
+>> sed commands ahead will fix the problem.
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>  meta/classes/binconfig.bbclass | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/classes/binconfig.bbclass b/meta/classes/binconfig.bbclass
+>> index 5372294..1be5fc4 100644
+>> --- a/meta/classes/binconfig.bbclass
+>> +++ b/meta/classes/binconfig.bbclass
+>> @@ -13,14 +13,14 @@ def get_binconfig_mangle(d):
+>>          s += " -e 's:=%s${exec_prefix}/:=\\1OEEXECPREFIX/:'" % optional_quote
+>>          s += " -e 's:-L${libdir}:-LOELIBDIR:;'"
+>>          s += " -e 's:-I${includedir}:-IOEINCDIR:;'"
+>> +        s += " -e 's:-L${WORKDIR}:-LOELIBDIR:'"
+>> +        s += " -e 's:-I${WORKDIR}:-I-IOEINCDIR:'"
+>
+> Is the "-I-I" intentional?
 
-I think this is digging a hole that everyone will use as a short cut.
+Sorry, it's a typo, updated in the repo:
 
-> +
->  inherit nopackages
->  
->  do_packagedata[stamp-extra-info] = ""
-> 
+diff --git a/meta/classes/binconfig.bbclass b/meta/classes/binconfig.bbclass
+index 5372294..39c3e2b 100644
+--- a/meta/classes/binconfig.bbclass
++++ b/meta/classes/binconfig.bbclass
+@@ -13,14 +13,14 @@ def get_binconfig_mangle(d):
+          s += " -e 's:=%s${exec_prefix}/:=\\1OEEXECPREFIX/:'" % optional_quote
+          s += " -e 's:-L${libdir}:-LOELIBDIR:;'"
+          s += " -e 's:-I${includedir}:-IOEINCDIR:;'"
++        s += " -e 's:-L${WORKDIR}:-LOELIBDIR:'"
++        s += " -e 's:-I${WORKDIR}:-IOEINCDIR:'"
+          s += " -e 's:OEBASELIBDIR:${STAGING_BASELIBDIR}:;'"
+          s += " -e 's:OELIBDIR:${STAGING_LIBDIR}:;'"
+          s += " -e 's:OEINCDIR:${STAGING_INCDIR}:;'"
+          s += " -e 's:OEDATADIR:${STAGING_DATADIR}:'"
+          s += " -e 's:OEPREFIX:${STAGING_DIR_HOST}${prefix}:'"
+          s += " -e 's:OEEXECPREFIX:${STAGING_DIR_HOST}${exec_prefix}:'"
+-        s += " -e 's:-I${WORKDIR}:-I${STAGING_INCDIR}:'"
+-        s += " -e 's:-L${WORKDIR}:-L${STAGING_LIBDIR}:'"
+          if d.getVar("OE_BINCONFIG_EXTRA_MANGLE", False):
+              s += d.getVar("OE_BINCONFIG_EXTRA_MANGLE")
+
+// Robert
+
+>
+>>          s += " -e 's:OEBASELIBDIR:${STAGING_BASELIBDIR}:;'"
+>>          s += " -e 's:OELIBDIR:${STAGING_LIBDIR}:;'"
+>>          s += " -e 's:OEINCDIR:${STAGING_INCDIR}:;'"
+>>          s += " -e 's:OEDATADIR:${STAGING_DATADIR}:'"
+>>          s += " -e 's:OEPREFIX:${STAGING_DIR_HOST}${prefix}:'"
+>>          s += " -e 's:OEEXECPREFIX:${STAGING_DIR_HOST}${exec_prefix}:'"
+>> -        s += " -e 's:-I${WORKDIR}:-I${STAGING_INCDIR}:'"
+>> -        s += " -e 's:-L${WORKDIR}:-L${STAGING_LIBDIR}:'"
+>>          if d.getVar("OE_BINCONFIG_EXTRA_MANGLE", False):
+>>              s += d.getVar("OE_BINCONFIG_EXTRA_MANGLE")
+>>
+>> --
+>> 2.10.2
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
