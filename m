@@ -1,45 +1,46 @@
-Return-Path: <athoik@gmail.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E0BA7733D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
+	[209.85.216.180])
+	by mail.openembedded.org (Postfix) with ESMTP id A7AA971B2F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Feb 2017 19:53:59 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id q39so6290728wrb.2
+	Fri, 17 Feb 2017 20:40:54 +0000 (UTC)
+Received: by mail-qt0-f180.google.com with SMTP id k15so50238790qtg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Feb 2017 11:54:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=al5HRRfHkgS+j4HwqLGrQKSZ/7APxK4HX3OFzqTJsgo=;
-	b=t1puoy3cWJDG2ZbHPSkd3d5u0VrbEgDltKLxgUUbnv8G5I000zgydf9raS5nw7wpT/
-	kKG9+8dwzdMRm5wG7d+Dfkasu0hfwgm38ZOmto+Y3eEnhoRCxsWwRc7WKnXmM0kz+Fea
-	d8G0Qp9KRBTOA5R+fNIkIQ9puL2Ir1hE73zVJOi/UoWITPbyM27Sb2hWhcKRzPY6UezQ
-	dMG+8FeEgz8qdI9E7VKs6kuTM9vlRl0zc0NuA53+Y/Phoo1C83vW+c4i92hLV8dWP8rf
-	4fhVmMaXBEpYAOFCo2dqIlJ14BeyUmHRZg7galf0PUZdvroYFkFM73xghWFs8p7A6ROL
-	uVTw==
+	Fri, 17 Feb 2017 12:40:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ER9msr2UOh2j6ri8P5ssGky4kvixeJQKJKjtp/xe7Uo=;
+	b=p+sEM6ilOv3gzWD9Y+Dzbsj9u3gV4De2boHOC4G9Bqx0VlL/IElgpIwOQCfFYraHAc
+	iEbtxNVKC9mWmfhrabQ57mOwx6MIbqHimO1DGwV+ESxbzRgCNWI2hquHGgQkj6GuBrc1
+	MMHzb+JJgsFKFu+guV/CNtwVa4Rn9diUjChuP1eLydw6xjLxwV0w1o1zynl2VNSXqCSZ
+	cQst4CYb3OpoyL3VsL9iO5HTtDvQL5Njc24dMsy6o7jjlQOdsK480jVhn7IsrjcAi0TT
+	Czs/qqa33tycgSIoOgd2pvBwQihEVp7SqDireT2dnzT/8Zcy7W0LlfwO+TBL9Dnj765t
+	F6jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=al5HRRfHkgS+j4HwqLGrQKSZ/7APxK4HX3OFzqTJsgo=;
-	b=t7NtiUumpvFFPQ8HImno2vZawMH0I55jM1X+suSd3L5uD1Brb2SRig0PULR3watLMn
-	wMGbY/kQPl7fyPKbKRZT9eo8EKtTAjLP52sfJknF/7oex4eNOfmWnz4lJYz3/jNGNA1P
-	B1t68X6QdAbN8iJorqT3s16JE6P0pXZ/lEIbZNzz2uWqacHi8w22Ru7Ms3Pm+N+x8upf
-	YnPlRCBMs6x9allbirAocVg4Rdck4ZcNyd/7OkpMIihBGsPAuuJ71Xpk9A29HseY9o0d
-	Oo+y/uMMbViEZpYmLAkeEhkvn8BG+blZdCoi7ZUYDAyGwqFO8J07nTa2mfPXCyoTgWvn
-	uL5Q==
-X-Gm-Message-State: AMke39nSN1xlsiWsEdf9qerf6uPOmgGVWeJJioEBE947NXnRAiB1wNa8BEkq586eD8c8wg==
-X-Received: by 10.223.150.54 with SMTP id b51mr3689189wra.171.1487361239770;
-	Fri, 17 Feb 2017 11:53:59 -0800 (PST)
-Received: from images.net (ns380618.ip-188-165-252.eu. [188.165.252.42])
-	by smtp.gmail.com with ESMTPSA id
-	m80sm2841613wmi.34.2017.02.17.11.53.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 17 Feb 2017 11:53:58 -0800 (PST)
-From: Athanasios Oikonomou <athoik@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Feb 2017 21:50:52 +0200
-Message-Id: <1487361052-30521-1-git-send-email-athoik@gmail.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH v2] LSB 4.1: lsb_release script incompatible with busybox head and find
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ER9msr2UOh2j6ri8P5ssGky4kvixeJQKJKjtp/xe7Uo=;
+	b=jPwLrlTXqSX3t8BNFn7EMYmkl4cNknlVgdGkxZgpvamJvngNJXxWtf3t14+OPN4JE0
+	ZrXtnqwQo1D27ErO5ZTSHY+EjmyiGkLthLIcJBgNbWL/jgSBEkHN0mLpFe/V9Eg/nBTw
+	47JJl1IL2izsLzKt47L39hUxnwxohOQqn40r4b9V+1YtaOoKCzzgqE/LCPrA1iB7K0GQ
+	g/zwRzgsSGjjX3LVKdO1K8sR7eKReJeopyM9soRCakCb2MzHIaV44IZaoUFvIopcl8Fd
+	qwg+7C/JAFEvdLUU6Lj0c2PrPrnI6V6Esh/NIgVgEFnbS7qBhTa7QFzJw5/cgZ+HTnoG
+	N1Yg==
+X-Gm-Message-State: AMke39mLEbDv9OBq/w+N/nVaVyuUpMzWqKakDzwGniSQm0iqAJzInxQNMYaq/ErCq2VIHWrJc/pKwiCfPCPfhJEW
+X-Received: by 10.200.39.212 with SMTP id x20mr9040767qtx.109.1487364055156;
+	Fri, 17 Feb 2017 12:40:55 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.103.233 with HTTP; Fri, 17 Feb 2017 12:40:34 -0800 (PST)
+In-Reply-To: <1487356080-8124-1-git-send-email-sgw@linux.intel.com>
+References: <1487356080-8124-1-git-send-email-sgw@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 17 Feb 2017 20:40:34 +0000
+Message-ID: <CAJTo0Lb5=tW_U4WizZBjmVTUzsmrOpaEmAmnVn5zJAZGZUPJVg@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] apt-package: use ${libdir} instead of /usr/lib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,80 +53,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Feb 2017 19:54:01 -0000
+X-List-Received-Date: Fri, 17 Feb 2017 20:40:56 -0000
+Content-Type: multipart/alternative; boundary=001a1135b54228e0e20548bfeef1
 
-Busybox implementation only supports head -1 option if ENABLE_INCLUDE_SUSv2
-or ENABLE_FEATURE_FANCY_HEAD configuration options are enabled. Also the -and
-option for find is only supported if ENABLE_DESKTOP configuration option is
-enabled. These configuration options are not enabled in several builds, which is
-why this patch is needed.
+--001a1135b54228e0e20548bfeef1
+Content-Type: text/plain; charset=UTF-8
 
-[YOCTO #11041]
+On 17 February 2017 at 18:28, Saul Wold <sgw@linux.intel.com> wrote:
 
-Signed-off-by: Athanasios Oikonomou <athoik@gmail.com>
----
- ...elease-to-work-with-busybox-head-and-find.patch | 38 ++++++++++++++++++++++
- meta/recipes-extended/lsb/lsb_4.1.bb               |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-extended/lsb/lsb/0001-fix-lsb_release-to-work-with-busybox-head-and-find.patch
+> -       install -m 0644 ${S}/debian/apt.systemd.daily ${D}/usr/lib/apt/
+> +       install -m 0644 ${S}/debian/apt.systemd.daily ${D}${libdir}/apt/
+>         install -m 0644 ${S}/debian/apt-daily.service
+> ${D}${systemd_unitdir}/system/
+>         install -m 0644 ${S}/debian/apt-daily.timer
+> ${D}${systemd_unitdir}/system/
+>
 
-diff --git a/meta/recipes-extended/lsb/lsb/0001-fix-lsb_release-to-work-with-busybox-head-and-find.patch b/meta/recipes-extended/lsb/lsb/0001-fix-lsb_release-to-work-with-busybox-head-and-find.patch
-new file mode 100644
-index 0000000..0175752
---- /dev/null
-+++ b/meta/recipes-extended/lsb/lsb/0001-fix-lsb_release-to-work-with-busybox-head-and-find.patch
-@@ -0,0 +1,38 @@
-+From cba901945c5a6da9586550498f8e3787c57c3098 Mon Sep 17 00:00:00 2001
-+From: Athanasios Oikonomou <athoik@gmail.com>
-+Date: Fri, 17 Feb 2017 21:04:04 +0200
-+Subject: [PATCH] fix lsb_release to work with busybox head and find
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Athanasios Oikonomou <athoik@gmail.com>
-+
-+diff --git a/lsb_release b/lsb_release
-+index e7d6024..233b8c1 100755
-+--- a/lsb_release
-++++ b/lsb_release
-+@@ -209,7 +209,7 @@ EASE ($DISTRIB_CODENAME)"
-+             || [ -n "$(echo $DISTRIB_DESCRIPTION |                            \
-+                        sed -e "s/.*$DESCSTR_DELI.*//")" ]
-+         then
-+-            TMP_DISTRIB_DESC=$(head -1 $FILENAME 2>/dev/null)
-++            TMP_DISTRIB_DESC=$(head -n 1 $FILENAME 2>/dev/null)
-+             [ -z "$DISTRIB_DESCRIPTION" ]                                     \
-+                 && DISTRIB_DESCRIPTION=$TMP_DISTRIB_DESC
-+         else
-+@@ -249,10 +249,10 @@ GetDistribInfo() {
-+         then
-+             CHECKFIRST=$(find $INFO_ROOT/ -maxdepth 1                         \
-+                    -name \*$INFO_DISTRIB_SUFFIX                               \
-+-                   -and ! -name $INFO_LSB_FILE                                \
-+-                   -and -type f                                               \
-++                   -type f                                                    \
-+                    2>/dev/null                                                \
-+-                   | head -1 ) # keep one of the files found (if many)
-++                   | grep -v $INFO_LSB_FILE                                   \
-++                   | head -n 1 ) # keep one of the files found (if many)
-+         fi
-+         InitDistribInfo $CHECKFIRST
-+     fi
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-extended/lsb/lsb_4.1.bb b/meta/recipes-extended/lsb/lsb_4.1.bb
-index ece0eab..b4e8832 100644
---- a/meta/recipes-extended/lsb/lsb_4.1.bb
-+++ b/meta/recipes-extended/lsb/lsb_4.1.bb
-@@ -15,6 +15,7 @@ RDEPENDS_${PN} += "${VIRTUAL-RUNTIME_getopt} lsbinitscripts"
- LIC_FILES_CHKSUM = "file://README;md5=12da544b1a3a5a1795a21160b49471cf"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/lsb/lsb_release/1.4/lsb-release-1.4.tar.gz \
-+           file://0001-fix-lsb_release-to-work-with-busybox-head-and-find.patch \
-            file://init-functions \
-            file://lsb_killproc \
-            file://lsb_log_message \
--- 
-2.1.4
+The apt-daily.service unit is what fires the apt.systemd.daily script:
 
+$ cat debian/apt-daily.service
+...
+ExecStart=/usr/lib/apt/apt.systemd.daily
 
+If you're going to change the install location of the script then the unit
+needs to be fixed.
+
+Ross
+
+--001a1135b54228e0e20548bfeef1
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 17 February 2017 at 18:28, Saul Wold <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:sgw@linux.intel.com" target=3D"_blank">sgw@linux.intel.com</a>&gt;</sp=
+an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left=
+-style:solid;padding-left:1ex"><div id=3D"gmail-:3r4" class=3D"gmail-a3s gm=
+ail-aXjCH gmail-m15a4d550ea20a4b3">-=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0=
+644 ${S}/debian/apt.systemd.daily ${D}/usr/lib/apt/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644 ${S}/debian/apt.systemd.daily $=
+{D}${libdir}/apt/<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 ${S}/debian/apt-daily.service $=
+{D}${systemd_unitdir}/system/<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 ${S}/debian/apt-daily.timer ${D=
+}${systemd_unitdir}/system/</div></blockquote></div><div class=3D"gmail_ext=
+ra"><br></div><div class=3D"gmail_extra">The apt-daily.service unit is what=
+ fires the apt.systemd.daily script:</div><div class=3D"gmail_extra"><br></=
+div><div class=3D"gmail_extra">$ cat debian/apt-daily.service</div><div cla=
+ss=3D"gmail_extra">...</div><div class=3D"gmail_extra">ExecStart=3D/usr/lib=
+/apt/apt.systemd.daily<br></div><div class=3D"gmail_extra"><br></div><div c=
+lass=3D"gmail_extra">If you&#39;re going to change the install location of =
+the script then the unit needs to be fixed.</div><div class=3D"gmail_extra"=
+><br></div><div class=3D"gmail_extra">Ross</div></div></div>
+
+--001a1135b54228e0e20548bfeef1--
