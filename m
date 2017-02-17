@@ -1,35 +1,36 @@
 Return-Path: <obi@opendreambox.org>
 Received: from mail.dream-property.net (mail.dream-property.net
 	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 0360C71BD4
+	by mail.openembedded.org (Postfix) with ESMTP id 2388D772E0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Feb 2017 10:31:07 +0000 (UTC)
+	Fri, 17 Feb 2017 10:46:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 63C2E31C1723;
-	Fri, 17 Feb 2017 11:31:07 +0100 (CET)
+	by mail.dream-property.net (Postfix) with ESMTP id 0E7FE31C2A7C
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Feb 2017 11:46:32 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
 Received: from mail.dream-property.net ([127.0.0.1])
 	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id EX0sWVjmsJwI; Fri, 17 Feb 2017 11:31:04 +0100 (CET)
+	port 10024) with LMTP id aOk1xH60RqCR
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Feb 2017 11:46:29 +0100 (CET)
 Received: from t510.zcs.saftware.de (p57A61904.dip0.t-ipconnect.de
 	[87.166.25.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 1A95531C15EE;
-	Fri, 17 Feb 2017 11:31:04 +0100 (CET)
-Date: Fri, 17 Feb 2017 11:31:03 +0100
+	by mail.dream-property.net (Postfix) with ESMTPSA id 4FA3031C1723
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Feb 2017 11:46:28 +0100 (CET)
+Date: Fri, 17 Feb 2017 11:46:28 +0100
 From: Andreas Oberritter <obi@opendreambox.org>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20170217113103.31b0f456@t510.zcs.saftware.de>
-In-Reply-To: <CAMKF1sqB+nL1kRny7e9JCfdYO7fkOEKQoqCngm09hgSURLeR=Q@mail.gmail.com>
-References: <1487241290-6188-1-git-send-email-obi@opendreambox.org>
-	<1487241290-6188-3-git-send-email-obi@opendreambox.org>
-	<CAMKF1sqB+nL1kRny7e9JCfdYO7fkOEKQoqCngm09hgSURLeR=Q@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20170217114628.1fd9f198@t510.zcs.saftware.de>
+In-Reply-To: <DM5PR05MB295440589E889B60FAAEACD5BB5A0@DM5PR05MB2954.namprd05.prod.outlook.com>
+References: <DM5PR05MB2954FBA66842C0F05C5108C6BB5B0@DM5PR05MB2954.namprd05.prod.outlook.com>
+	<9c23fade-7e4c-ec14-f0c1-dd43ae71c5ff@gmail.com>
+	<DM5PR05MB295440589E889B60FAAEACD5BB5A0@DM5PR05MB2954.namprd05.prod.outlook.com>
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] ffmpeg: Build libpostproc even if global gpl flag is unset
+Subject: Re: Suggested RREPLACES/RCONFLICTS for easier kernel-image upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,94 +43,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Feb 2017 10:31:08 -0000
+X-List-Received-Date: Fri, 17 Feb 2017 10:46:32 -0000
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 16 Feb 2017 07:39:17 -0800 Khem Raj <raj.khem@gmail.com> wrote:
+On Thu, 16 Feb 2017 13:43:03 +0000
+Bryan Evenson <bevenson@melinkcorp.com> wrote:
 
-> On Thu, Feb 16, 2017 at 2:34 AM, Andreas Oberritter
-> <obi@opendreambox.org> wrote:
-> > The libpostproc package has an explicit GPLv2+ license tag.
-> >
-> > Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
-> > ---
-> >  ...figure-allow-libpostproc-without-gpl-flag.patch | 34 ++++++++++++++++++++++
-> >  meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.2.bb     |  1 +
-> >  2 files changed, 35 insertions(+)
-> >  create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0002-configure-allow-libpostproc-without-gpl-flag.patch
-> >
-> > diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0002-configure-allow-libpostproc-without-gpl-flag.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0002-configure-allow-libpostproc-without-gpl-flag.patch
-> > new file mode 100644
-> > index 0000000..dc11f34
-> > --- /dev/null
-> > +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/0002-configure-allow-libpostproc-without-gpl-flag.patch
-> > @@ -0,0 +1,34 @@
-> > +Upstream-Status: inappropriate [distro-specific]
-> > +
-> > +Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
-> > +
-> > +From 9c28ed17d1184ee95819e4c576373c20fe2c3600 Mon Sep 17 00:00:00 2001
-> > +From: Andreas Oberritter <obi@opendreambox.org>
-> > +Date: Sat, 11 Feb 2017 22:57:42 +0100
-> > +Subject: [PATCH] configure: allow libpostproc without gpl flag
-> > +
-> > +There may be GPL'ed programs in a distribution which want libpostproc,
-> > +while other GPL-incompatible programs use some of the other libraries
-> > +provided by ffmpeg.
-> > +
-> > +Since we know the license of libpostproc, we mark the resulting binary
-> > +package accordingly instead of refusing to build it.  
+> Khem,
 > 
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> > Of Khem Raj
+> > Sent: Wednesday, February 15, 2017 5:17 PM
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] Suggested RREPLACES/RCONFLICTS for easier kernel-
+> > image upgrades
+> > 
+> > 
+> > 
+> > On 2/15/17 1:54 PM, Bryan Evenson wrote:  
+> > > For one project I'm using an Atmel AT91SAM9G25 processor, and I started  
+> > when support for the chip wasn't fully integrated into the mainline kernel.
+> > As a result, I was using Atmel's Linux fork.  Support has been in the mainline
+> > kernel for a while now, so in the middle of doing other updates I plan on
+> > switching to using one of the mainline LTS releases.  I'm using the kernel
+> > recipe in the meta-sunxi layer as an example (located here:
+> > https://github.com/linux-sunxi/meta-sunxi/blob/master/recipes-
+> > kernel/linux/linux_4.4.40.bb). I also plan on keeping more up to date on
+> > releases.  However, due to the package naming for the kernel images, the
+> > RREPLACES/RCONFLICTS statements for firmware upgrade for this recipe is
+> > getting ridiculous.  I'm currently building for kernel version 4.1.38, and here's
+> > what I have so far to handle all previous cases:  
+> > >
+> > > RREPLACES_kernel-image = "kernel-image (<= 4.1) kernel-image-3.6.9-  
+> > yocto-standard kernel-image-3.10.0-yocto-standard kernel-image-3.10.0-
+> > at91"  
+> > > RCONFLICTS_kernel-image = "kernel-image (<= 4.1) kernel-image-3.6.9-  
+> > yocto-standard kernel-image-3.10.0-yocto-standard kernel-image-3.10.0-
+> > at91"  
+> > >
+> > > If it makes a difference, I'm using opkg for a package manager.  Since the  
+> > kernel version is in the package name, I'm assuming that if I do keep going
+> > forward and relatively up to date with LTS release, I'll have to start adding
+> > "kernel-image-4.1.38 kernel-image-4.1.39 kernel-image 4.1.40 ...." to the
+> > RREPLACES/RCONFLICTS so opkg will upgrade the kernel.  
+> > >
+> > > Is there a better way to do this?  I've tried using some wildcards in the  
+> > package names without any success.  
+> > >  
+> > 
+> > you can increment PE  
 > 
-> this changes the documented behavior IMO we should discuss it upstream
-> otherwise it will be hard to explain this to legal people.
+> I tried that and it didn't make a difference; without the specific previous package names listed in RDEPENDS/RCONFLICTS, opkg does not recognize the new kernel-image as an upgrade.  From my understanding PE only affects the version number, not the package name.  In this case, since KERNEL_VERSION is part of the package name, opkg does not immediately recognize kernel-image-4.1.38 as an upgrade for kernel-image-3.10.0-at91.  Even though both packages provide "kernel-image", that's not what opkg is looking at when it checks for upgrades.
+> 
+> Could someone explain to me why KERNEL_VERSION is even in the package name to begin with?  I'm tempted to remove the following two lines from kernel.bbclass:
+> 
+> PKG_kernel-image = "kernel-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
+> PKG_kernel-base = "kernel-${@legitimize_package_name('${KERNEL_VERSION}')}"
+> 
+> However, I don't know if this will break something else that would cause an even bigger problem.
 
-Really? I don't see why. There's no difference to any other GPL package we
-build. The documentation says libpostroc is GPL'ed. The recipe does the same.
-No surprises for legal people involved.
+That's what I do in my kernel recipes:
 
-I'm not going to annoy upstream with this, because this change is not suitable
-for upstream. That's why it carries the 'inappropriate' tag.
+# By default, kernel.bbclass modifies package names to allow multiple kernels
+# to be installed in parallel. We revert this change and rprovide the versioned
+# package names instead, to allow only one kernel to be installed.
+PKG_kernel = "kernel"
+RPROVIDES_kernel = "kernel-${KERNEL_VERSION_PKG_NAME}"
+PKG_kernel-base = "kernel-base"
+RPROVIDES_kernel-base = "kernel-base-${KERNEL_VERSION_PKG_NAME}"
+RDEPENDS_kernel-base = ""
+PACKAGES_remove = "kernel-image"
+
+You may need to add some RCONFLICTS+RREPLACES for your old kernels, but
+the problem would be solved for future updates.
+
+Note that a change landed in master recently which also places the kernel
+version in the name of every kernel module package. To avoid this, you
+need to set the following variables globally:
+
+KERNEL_MODULE_PACKAGE_SUFFIX = ""
+KERNEL_MODULE_PROVIDE_VIRTUAL = "0"
 
 Regards,
 Andreas
 
+
 > 
-> > +
-> > +Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
-> > +---
-> > + configure | 2 +-
-> > + 1 file changed, 1 insertion(+), 1 deletion(-)
-> > +
-> > +diff --git a/configure b/configure
-> > +index d60ffd8..cd53e6c 100755
-> > +--- a/configure
-> > ++++ b/configure
-> > +@@ -3135,7 +3135,7 @@ avdevice_deps="avformat avcodec avutil"
-> > + avfilter_deps="avutil"
-> > + avformat_deps="avcodec avutil"
-> > + avresample_deps="avutil"
-> > +-postproc_deps="avutil gpl"
-> > ++postproc_deps="avutil"
-> > + swresample_deps="avutil"
-> > + swscale_deps="avutil"
-> > +
-> > diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.2.bb
-> > index dc33bb4..555c72b 100644
-> > --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.2.bb
-> > +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.2.bb
-> > @@ -26,6 +26,7 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-> >  SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-> >             file://mips64_cpu_detection.patch \
-> >             file://0001-avutil-log-avoid-build-error-if-valgrind-was-removed.patch \
-> > +           file://0002-configure-allow-libpostproc-without-gpl-flag.patch \
-> >            "
-> >  SRC_URI[md5sum] = "e34d1b92c5d844f2a3611c741a6dba18"
-> >  SRC_URI[sha256sum] = "3f01bd1fe1a17a277f8c84869e5d9192b4b978cb660872aa2b54c3cc8a2fedfc"
-> > --
-> > 2.7.4
-> >
+> Thanks,
+> Bryan
+> 
+> >   
+> > > Thanks,
+> > > Bryan
+> > >  
 > > --
 > > _______________________________________________
 > > Openembedded-core mailing list
