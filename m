@@ -1,54 +1,54 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id CED2671D8C
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F93171D8C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Feb 2017 02:02:35 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id o64so5186999pfb.1
+	Sat, 18 Feb 2017 02:04:42 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id 68so5191554pfx.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Feb 2017 18:02:36 -0800 (PST)
+	Fri, 17 Feb 2017 18:04:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-disposition:content-transfer-encoding:in-reply-to
-	:user-agent; bh=XZVoYDcTJK7zL67BcH0iLbmLfqpTGREgX1vdxxCH0mg=;
-	b=XAGJ+dmkarSbqiZdwUBCIeTMYEtaPERLIs7NMvF1BvZvei9moDwL+9h1GQBDyF5lLE
-	nAYjjj9+Rmy9po9pm2n+hvR69cTCHoFNdFAnBKXnuOkBDUHMd94sXICcl7UBmcNjnRQ0
-	6Zz4HMC6ukPm++duQbGYjMfZrXtMp/+1pXjDWbN6TbKn13KMhQ9HTU8i7NEsTvh9LL3k
-	8IIGLUlumKzag6kP9FJj0wOU8ZI+989bQuORvcZoq9In5WziYgNJ0+iRMWKzJCbEXrGL
-	IceR/Ypp3G/UJ41fAnRubfTkEoDnAxKXlhhkdrrFqrzMbo2jDeuUtH2+/91peVl/vfmr
-	0pJQ==
+	:user-agent; bh=9bJhsg1Qpnne6c40kRPyOu/MHitqI52/EVK9mqKOHOI=;
+	b=OiVSX15X5KmpHwESOS58iLfUR+8mPlcdjWEQMukeS7AnyUwYCKr7rZyRVnH0rIR3Iv
+	lCk44NqNMM8yYwwXNcIqI2qhRtZBAY0Nne5Unwvw9MgpD6g4GP4llO/xBwQvqmgBDtH9
+	6S4O2W4X/+TWmHsytXldZ9NR17zZmNZYP+XqpgXW7u0NziWCZSpeDXIt/Nb306JyzO1v
+	kBs00z3EAKh6x9rzf696BeiFb7/pFcSVRHc4IOAioV5aTfkbKq5jyP70EUNC9aIkK6m1
+	TbQfaxQvJpNK6Wzm4fZMblgfbazA5WwXOvnfRXk6PB/lgdAWv72fRUphWGbgeH9Mf6wv
+	ZK7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:content-transfer-encoding
 	:in-reply-to:user-agent;
-	bh=XZVoYDcTJK7zL67BcH0iLbmLfqpTGREgX1vdxxCH0mg=;
-	b=Ndp8qsnaaDvep79D0s4FAHAodcsFIzzoRxrQK8cXmlyGvLqkFn2FJWC2H9mLq2fnYc
-	+NsAUxl8lJHXugXIIZATMwGRY2ZAFwTAX55W3DifIEOAtRIQWPU48UNgjRVJVYpQX/xU
-	dw2GUPVXZoxgWuMbHAwyeNzJZ8UhtR5RpJacXYfR7tVaGQ7HGjRMSb8hfBEDAtVr+YLs
-	pX9YJBkjHyQOUTpJtB5fDRbi/Xx9fNhv4zGppJ4nNJPF4A7Qs3sXJ9bk0Rb/Ykdeht3R
-	ksotBcjArryVIuu+mayz+GwKwXAzNx24e2KfgTXSYOX4sSoJN9jCJHCGHYEVa0MimITe
-	Uadw==
-X-Gm-Message-State: AMke39ldQCj3B2+xe5rrD1uyxAO/uE8FPyKMNVsGbLg3FaTCXTmhOWVQ+mnJS3O4EmZZIw==
-X-Received: by 10.84.253.22 with SMTP id z22mr3564657pll.0.1487383355829;
-	Fri, 17 Feb 2017 18:02:35 -0800 (PST)
+	bh=9bJhsg1Qpnne6c40kRPyOu/MHitqI52/EVK9mqKOHOI=;
+	b=A18RwwIxP3V5DcJmY9FFP/7Wnnx5Rn2Q4YkO6H89Y3wbITZv/ymepuVt1AeR0BXVOj
+	ObMz/MEfh6x8t8Dt7rCKgPwKOi1kl2SrUza7uxQAh/a47Psv0/9uXtbdMM5+kaM3bIXI
+	SpkesHbV6G9FP/N6U4STuF5JO4HWIXulQsqJz/pw5ky9LjWd3TN4ieCaVAvL5aO1MKeh
+	Mtw3kVzObyDQSUE8lV9hnpxA8OcjFkxMwgnUhBy1ja4CGqeWcVLFx2zJe/Tk+6AilTTU
+	Q/8ZEnTYoLHp70DIUooWZbzUTnb8dSHwTfD4yyYwkX9B/2zVKZP7IS1DdGd9iC5lu1MD
+	jMkA==
+X-Gm-Message-State: AMke39nRpw7gm61sJkkUupCSK/r+jK0jtXVhyk+U3UGzBLU59niZiNz6FL8UsLfW6X3QWw==
+X-Received: by 10.99.131.198 with SMTP id h189mr5164636pge.226.1487383483343; 
+	Fri, 17 Feb 2017 18:04:43 -0800 (PST)
 Received: from haswell (c-76-102-32-192.hsd1.ca.comcast.net. [76.102.32.192])
 	by smtp.gmail.com with ESMTPSA id
-	q64sm21862800pga.0.2017.02.17.18.02.34
+	m6sm21654323pfg.126.2017.02.17.18.04.42
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 17 Feb 2017 18:02:35 -0800 (PST)
-Date: Fri, 17 Feb 2017 18:02:29 -0800
+	Fri, 17 Feb 2017 18:04:42 -0800 (PST)
+Date: Fri, 17 Feb 2017 18:04:40 -0800
 From: Khem Raj <raj.khem@gmail.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20170218020229.GA30443@haswell>
+Message-ID: <20170218020440.GB30443@haswell>
 References: <cover.51e0eb88ea69468cf5a410aa7194c25cf61d57b7.1485530988.git-series.patrick.ohly@intel.com>
-	<fe94df71a407adfc7082faff5bbe6441984a85d6.1485530988.git-series.patrick.ohly@intel.com>
-	<1487365991.4999.49.camel@linuxfoundation.org>
+	<cb8f971b4cb03c90f6459374609be3dce53f2ab1.1485530988.git-series.patrick.ohly@intel.com>
+	<1487365856.4999.47.camel@linuxfoundation.org>
 MIME-Version: 1.0
-In-Reply-To: <1487365991.4999.49.camel@linuxfoundation.org>
+In-Reply-To: <1487365856.4999.47.camel@linuxfoundation.org>
 User-Agent: Mutt/1.7.2 (2016-11-26)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v5 01/12] acpica: move from meta-oe to OE-core
+Subject: Re: [PATCH v5 03/12] ovmf: move from meta-luv to OE-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,39 +61,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Feb 2017 02:02:36 -0000
+X-List-Received-Date: Sat, 18 Feb 2017 02:04:43 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-On 17-02-17 13:13:11, Richard Purdie wrote:
+On 17-02-17 13:10:56, Richard Purdie wrote:
 > On Fri, 2017-01-27 at 16:30 +0100, Patrick Ohly wrote:
-> > From: Fathi Boudra <fathi.boudra@linaro.org>
+> > From: meta-luv <luv@lists.01.org>
 > > 
-> > qemu support for UEFI in OE-core depends on OVMF, which needs the
-> > iasl
-> > tools provided by this recipe. There's also an iasl recipe in
-> > meta-luv, but than can and will be replaced by this one, thus
-> > reducing
-> > overall maintenance work.
-> > 
-> > Copied from meta-openembedded rev fa65be9ba (current master).
-> > 
-> > Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+> > This is an unmodified copy of
+> > github.com/01org/luv-yocto/meta-luv/recipes-core/ovmf revision
+> > 4be4329.
 > 
-> This fails on musl:
+> https://autobuilder.yocto.io/builders/nightly-world/builds/156
 > 
-> https://autobuilder.yocto.io/builders/nightly-musl/builds/160/steps/BuildImages/logs/stdio
+> which boils down to:
 > 
-> |      ^~~~~~~~~~~~~~
-> | i586-poky-linux-musl-gcc  -m32 -march=i586 --sysroot=/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl/build/build/tmp/work/i586-poky-linux-musl/acpica/20150515-r0/recipe-sysroot -c  -O2 -pipe -g -feliminate-unused-debug-types -fdebug-prefix-map=/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl/build/build/tmp/work/i586-poky-linux-musl/acpica/20150515-r0=/usr/src/debug/acpica/20150515-r0 -fdebug-prefix-map=/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl/build/build/tmp/work/i586-poky-linux-musl/acpica/20150515-r0/recipe-sysroot-native= -fdebug-prefix-map=/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl/build/build/tmp/work/i586-poky-linux-musl/acpica/20150515-r0/recipe-sysroot=  -D_CYGWIN -D_GNU_SOURCE -I../../../source/include -D_CYGWIN -D_GNU_SOURCE -I../../../source/include -DACPI_ASL_COMPILER -I../../../source/compiler -Iobj -Wall -o obj/asllistsup.o ../../../source/compiler/asllistsup.c
-> | ../../../source/compiler/aslfiles.c: In function 'FlOpenMiscOutputFiles':
-> | ../../../source/compiler/aslfiles.c:595:45: error: invalid application of 'sizeof' to incomplete type 'FILE {aka struct _IO_FILE}'
-> |              memcpy (stderr, stdout, sizeof (FILE));
-> |                                              ^~~~
-> | Copied obj/acpiexamples to ../bin/acpiexamples
+> | "gcc-ar" cr /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-ovmf/git-r0/git/Build/OvmfIa32/RELEASE_GCC5/IA32/MdeModulePkg/Library/BootLogoLib/BootLogoLib/OUTPUT/BootLogoLib.lib  @/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-ovmf/git-r0/git/Build/OvmfIa32/RELEASE_GCC5/IA32/MdeModulePkg/Library/BootLogoLib/BootLogoLib/OUTPUT/object_files.lst
+> | make: *** [/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-ovmf/git-r0/git/Build/OvmfIa32/RELEASE_GCC5/IA32/MdeModulePkg/Library/BootMaintenanceManagerUiLib/BootMaintenanceManagerUiLib/DEBUG/BootMaintenanceManager.c] Error 2
+> | VfrCompile: ERROR 1003: Invalid option value
+> |   VFR file name /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-ovmf/git-r0/git/Build/OvmfIa32/RELEASE_GCC5/IA32/MdeModulePkg/Library/BootMaintenanceManagerUiLib/BootMaintenanceManagerUiLib/OUTPUT/BootMaintenanceManager.i is too long.
+> | "gcc-ar" cr /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-ovmf/git-r0/git/Build/OvmfIa32/RELEASE_GCC5/IA32/OvmfPkg/Library/NvVarsFileLib/NvVarsFileLib/OUTPUT/NvVarsFileLib.lib  @/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-ovmf/git-r0/git/Build/OvmfIa32/RELEASE_GCC5/IA32/OvmfPkg/Library/NvVarsFileLib/NvVarsFileLib/OUTPUT/object_files.lst
+> 
+> i.e. path length issues.
+> 
+> We saw this on multiple builds :(.
 
-FILE object cannot be used in any reasonable way, only a pointer to FILE has well defined uses
-
--Khem
+I wonder why its using gcc-ar that should actually be <cross>-gcc-ar
+so probably we need to set AR to point to <cross>-gcc-ar, but I would
+like to see if we can use normal ar since  gcc-ar would fail with clang
 
