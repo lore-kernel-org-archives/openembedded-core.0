@@ -1,50 +1,46 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 15B307733D;
-	Sat, 18 Feb 2017 02:23:38 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id r141so21213911wmg.1;
-	Fri, 17 Feb 2017 18:23:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=HdrJBdM14niNTgwdU9Myn81TFum2w2YixkKgTwLzVPE=;
-	b=Hkip0oPCfz9fJmUyLMGQx8uK1OK5KcyDp4/mPbK9/ZtA6SVHwDEJTIdQ4oxECx17PB
-	jwpzOKpMltOf7Z4GKr/yQd8BP3phHygdfkz/9y+gTH2IxP6uFTC2CziTzhciWc2LCBgr
-	X+zFqE1ccUZDOZDPwgY7KZHhoxoLt/4entZQUyAYyURaS79XOSZswpQWCvBqBlicKI6C
-	VCapS2YCIVC88PZ+hHhsF80cWh67XQfdScblS5aoWCybpdgbm/vmUA7m1sm5OFXQh9cd
-	3TO6NlDSuKqb5DH2UEYrgnuekEUrEqz3FvNn7l5SmwMROlRwrQYzQoDNpdoS4dY6EtdK
-	meJw==
+Return-Path: <jkrishnanjanappa@mvista.com>
+Received: from mail-pg0-f49.google.com (mail-pg0-f49.google.com [74.125.83.49])
+	by mail.openembedded.org (Postfix) with ESMTP id CF5CD6069D
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 18 Feb 2017 04:59:58 +0000 (UTC)
+Received: by mail-pg0-f49.google.com with SMTP id z67so20919299pgb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Feb 2017 20:59:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mvista-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=RttQVKhX8Z57ss5RzqvzA/sa/MbJFITrVfc+TrY/TwQ=;
+	b=mFW3zd6HOrEZVVQNmA/FprFuIAu7+OcPXMBunh1crACTH0YbF+Ug5DY298T2oyUgmL
+	0xGf+rm+PcD02oRsj7bYZ49A8NG0FVVxjKErq8F3oC0d7fzo0+LBX4GHaKTbEI43NQrz
+	/CRtv/vwFvEPKDXg+sKr4MSzWS4K72KT/7IBtkMbWMECZJbsBb0Zik41qDVjdLBKampe
+	P3q4nHBRlfBv3TUUj/NGEQcWoZcxUr9NNsBJCdbN89UXFxpMnx/t9ox3vZp+CHW4UlXr
+	kByEwbz9m+5H74ySkUzs8lFtD2a+muMaJ6fS+yMQe3YKMDSxSp+Hlj04nDjdUGXBj/nF
+	/7Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=HdrJBdM14niNTgwdU9Myn81TFum2w2YixkKgTwLzVPE=;
-	b=edNoqX9gh1je0c4EiuOCVhW12tb+Rm1xHuLZJVa4HOYCmhJXmzg0Fp9RZlE6A5i1Nm
-	MBq9zNBnEMEaVg3HWrLku+HLLX0VSEUqg5EEvRB4pZD7EkRJLlBJGvUEHMAiMJhSMPqb
-	7+AHeWBNE9lFvvWM8h81RNW2y8YPjKjNGz3ihODirbahrVgbqV0nNXeSeF9SzjLT8kAO
-	q56EZCIs6fey0GMol2cv4xvaS4iGwvD5YbS85oE9JSDHqx/e16wrC9zMlYU/CWG8erUY
-	LPV4yrlmT7ILvOsQOt6Vfxkh+NHPpz7stPU7rjPeHh4CGygxqomXrI6I+gIWiTkIvl3W
-	cKKw==
-X-Gm-Message-State: AMke39lnWdSZA8qFqblArfl/AoJhI0zYgGffkAF2/Jb0geFoD/xL6UxzlzdDiTeK4dBDSQ==
-X-Received: by 10.28.173.74 with SMTP id w71mr6256007wme.14.1487384618532;
-	Fri, 17 Feb 2017 18:23:38 -0800 (PST)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	y145sm3807665wmc.17.2017.02.17.18.23.37
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 17 Feb 2017 18:23:37 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Sat, 18 Feb 2017 03:23:38 +0100
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	openembedded-devel <openembedded-devel@lists.openembedded.org>
-Message-ID: <20170218022338.GA29441@jama>
-References: <20170216124415.GC3621@jama>
-	<CA+chaQe=BDKT49-jnDzsTObntQ-wte4J4cmBcdjmBxUq2_XZYA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CA+chaQe=BDKT49-jnDzsTObntQ-wte4J4cmBcdjmBxUq2_XZYA@mail.gmail.com>
-User-Agent: Mutt/1.7.2 (2016-11-26)
-Subject: Re: State of bitbake world, Failed tasks 2017-02-14
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=RttQVKhX8Z57ss5RzqvzA/sa/MbJFITrVfc+TrY/TwQ=;
+	b=XSxYKSdggCQ2MtXdfMQXy4mvMOk1Ke18+WStqPAwvuRvv5Yqa7pNNFyzix0W0XFwF1
+	kMFNRlZTVNfsVa6dl0RWSqK3KqewN1sibLtSAC4Y8Hx7YZtHNY9M6DV7rO4NJ9n6Ed1n
+	yM4pVC3P7jyxr44fD/d6S6v2MzvKBZoD62z1ALeaeiKuhSoDLmeh7BQbzL64/mRVnZR0
+	55mTow23pOu8tygj/jIm0oMIOwT9Toei+5rNqu7yXJpxtEd8UVU+r6kBqXW7ILtNYAa+
+	kpmTA7FP5sHGP9P22byDzFLYmF+v17Y1RE3zQO5/nD4dY1h5T+4m9zQHKuHYNnQRcNRu
+	RkHQ==
+X-Gm-Message-State: AMke39lHlzqLmIn4UUCsJCaeppoyZ70iLqHym+v8/ve9ZqXekfqP7zUFKhlIzZZRFkl5XuBr
+X-Received: by 10.98.103.195 with SMTP id t64mr13458311pfj.106.1487393998698; 
+	Fri, 17 Feb 2017 20:59:58 -0800 (PST)
+Received: from jkrishnanjanappa-VPCEB26FG.mvista.com
+	([2405:204:500b:e44f:ac4d:8121:59db:d806])
+	by smtp.gmail.com with ESMTPSA id
+	m20sm22480506pgd.17.2017.02.17.20.59.55
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 17 Feb 2017 20:59:57 -0800 (PST)
+From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 18 Feb 2017 10:29:49 +0530
+Message-Id: <1487393989-6667-1-git-send-email-jkrishnanjanappa@mvista.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] python3: fix failure to run python3 in a multilib env or when BASELIB != lib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,178 +53,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Feb 2017 02:23:39 -0000
-X-Groupsio-MsgNum: 93520
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="+QahgC5+KEYLbs62"
-Content-Disposition: inline
+X-List-Received-Date: Sat, 18 Feb 2017 05:00:00 -0000
 
---+QahgC5+KEYLbs62
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Having hard coded "lib" string in lib_python path, searches for modules
+under /usr/lib/python3.x directory. This would result in an error on
+multilib environment, where BASELIB is other than lib.
 
-On Thu, Feb 16, 2017 at 11:08:25PM +0100, Martin Jansa wrote:
-> There are 2 more issues in oe-core once I enable ptest (together with
-> already enabled gold):
+Example: On qemux86-64 with base_libdir and libdir as /lib64 and /usr/lib64
+respectively, would result in below error when python3 is executed:
+-- snip --
+root@qemux86-64:~# python3
+Could not find platform independent libraries <prefix>
+Could not find platform dependent libraries <exec_prefix>
+Consider setting $PYTHONHOME to <prefix>[:<exec_prefix>]
+Fatal Python error: Py_Initialize: Unable to get the locale encoding
+ImportError: No module named 'encodings'
 
-Both issues still exist in master:
+Current thread 0x00007f65dbb53700 (most recent call first):
+Aborted
+root@qemux86-64:~#
+-- snip --
 
-apr: http://errors.yoctoproject.org/Errors/Details/133693/
-parted: http://errors.yoctoproject.org/Errors/Details/133692/
+Similar issue observed at:
+https://knowledge.windriver.com/en-us/000_Products/000/010/040/040/000_LIN8-4040_%3A_python3_does_not_work_in_a_multilib_environment
 
-> oe-core/meta/recipes-support/apr/apr_1.5.2.bb:do_compile_ptest_base
->=20
-> | ../.libs/libapr-1.so: error: undefined reference to 'pthread_mutexattr_=
-init'
-> | ../.libs/libapr-1.so: error: undefined reference to
-> 'pthread_mutexattr_settype'
-> | ../.libs/libapr-1.so: error: undefined reference to
-> 'pthread_mutexattr_destroy'
-> | ../.libs/libapr-1.so: error: undefined reference to 'pthread_mutex_tryl=
-ock'
-> | ../.libs/libapr-1.so: error: undefined reference to 'pthread_sigmask'
-> | ../.libs/libapr-1.so: error: undefined reference to
-> 'pthread_attr_setstacksize'
-> | ../.libs/libapr-1.so: error: undefined reference to 'pthread_create'
-> | ../.libs/libapr-1.so: error: undefined reference to 'pthread_join'
-> | ../.libs/libapr-1.so: error: undefined reference to 'pthread_detach'
-> | ../.libs/libapr-1.so: error: undefined reference to 'pthread_once'
-> | ../.libs/libapr-1.so: error: undefined reference to 'pthread_key_create'
-> | ../.libs/libapr-1.so: error: undefined reference to 'pthread_getspecifi=
-c'
-> | ../.libs/libapr-1.so: error: undefined reference to 'pthread_setspecifi=
-c'
-> | ../.libs/libapr-1.so: error: undefined reference to 'pthread_key_delete'
-> | collect2: error: ld returned 1 exit status
-> | make[1]: *** [globalmutexchild] Error 1
->=20
->=20
-> oe-core/meta/recipes-extended/parted/parted_3.2.bb:do_compile_ptest_base
->=20
-> | ../libparted/fs/.libs/libparted-fs-resize.so: error: undefined
-> reference to 'uuid_generate'
-> | collect2: error: ld returned 1 exit status
-> | make: *** [fs-resize] Error 1
->=20
->=20
-> Once my morty builds are finished I'll try to reproduce this in
-> master, but I think I've seen this failure with ptest before yesterday
-> for master as well.
->=20
->=20
-> On Thu, Feb 16, 2017 at 1:44 PM, Martin Jansa <martin.jansa@gmail.com>
-> wrote:
->=20
-> > Another run with couple unblacklists
-> >
-> > =3D=3D Number of issues - stats =3D=3D
-> > {| class=3D'wikitable'
-> > !|Date               !!colspan=3D'3'|Failed tasks
-> >  !!colspan=3D'6'|Failed depencencies                    !!|Signatures
-> >     !!colspan=3D'12'|QA !!Comment
-> > |-
-> > ||              ||qemuarm       ||qemux86       ||qemux86_64
-> > ||qemuarm||max||min     ||qemux86||max||min     ||all   ||already-strip=
-ped
-> >     ||libdir        ||textrel       ||build-deps    ||file-rdeps
-> > ||version-going-backwards       ||host-user-contaminated
-> > ||installed-vs-shipped  ||unknown-configure-option
-> > ||symlink-to-sysroot    ||invalid-pkgconfig     ||pkgname       ||
-> > |-
-> > ||2017-02-14    ||0     ||1     ||0     ||N/A   ||N/A   ||N/A   ||N/A
-> >  ||N/A   ||N/A   ||0     ||0             ||0             ||0
-> >  ||0             ||0             ||198           ||0             ||0
-> >      ||0             ||0             ||0             ||0             ||
-> > |}
-> >
-> > http://www.openembedded.org/wiki/Bitbake_World_Status
-> >
-> > =3D=3D Failed tasks 2017-02-14 =3D=3D
-> >
-> > INFO: jenkins-job.sh-1.8.17 Complete log available at
-> > http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.
-> > report.20170214_164708.log
-> >
-> > =3D=3D=3D common () =3D=3D=3D
-> >
-> > =3D=3D=3D common-x86 (0) =3D=3D=3D
-> >
-> > =3D=3D=3D qemuarm (0) =3D=3D=3D
-> >
-> > =3D=3D=3D qemux86 (1) =3D=3D=3D
-> >     * meta-browser/recipes-browser/chromium/chromium-wayland_53.
-> > 0.2785.143.bb:do_compile
-> >
-> > =3D=3D=3D qemux86_64 (0) =3D=3D=3D
-> >
-> > =3D=3D=3D Number of failed tasks (1) =3D=3D=3D
-> > {| class=3Dwikitable
-> > |-
-> > || qemuarm      || 0     || http://logs.nslu2-linux.org/
-> > buildlogs/oe/world/pyro/log.world.qemuarm.20170214_135645.log/ ||
-> > |-
-> > || qemux86      || 1     || http://logs.nslu2-linux.org/
-> > buildlogs/oe/world/pyro/log.world.qemux86.20170214_135710.log/ ||
-> > http://errors.yoctoproject.org/Errors/Build/32480/
-> > |-
-> > || qemux86_64   || 0     || http://logs.nslu2-linux.org/
-> > buildlogs/oe/world/pyro/log.world.qemux86-64.20170214_151408.log/ ||
-> > |}
-> >
-> > =3D=3D=3D PNBLACKLISTs (445) =3D=3D=3D
-> >
-> > =3D=3D=3D QA issues (198) =3D=3D=3D
-> > {| class=3Dwikitable
-> > !| Count                ||Issue
-> > |-
-> > ||0     ||already-stripped
-> > |-
-> > ||0     ||build-deps
-> > |-
-> > ||0     ||file-rdeps
-> > |-
-> > ||0     ||host-user-contaminated
-> > |-
-> > ||0     ||installed-vs-shipped
-> > |-
-> > ||0     ||invalid-pkgconfig
-> > |-
-> > ||0     ||libdir
-> > |-
-> > ||0     ||pkgname
-> > |-
-> > ||0     ||symlink-to-sysroot
-> > |-
-> > ||0     ||textrel
-> > |-
-> > ||0     ||unknown-configure-option
-> > |-
-> > ||198   ||version-going-backwards
-> > |}
-> >
-> >
-> >
-> > =3D=3D=3D Incorrect PACKAGE_ARCH or sstate signatures (0) =3D=3D=3D
-> >
-> > Complete log: http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.
-> > signatures.20170214_151247.log/
-> >
-> > No issues detected
-> >
+Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+---
+ ...remove-hard-coded-lib-string-for-multilib.patch | 37 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.5.2.bb      |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/python-3.5.2-remove-hard-coded-lib-string-for-multilib.patch
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+diff --git a/meta/recipes-devtools/python/python3/python-3.5.2-remove-hard-coded-lib-string-for-multilib.patch b/meta/recipes-devtools/python/python3/python-3.5.2-remove-hard-coded-lib-string-for-multilib.patch
+new file mode 100644
+index 0000000..786f086
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/python-3.5.2-remove-hard-coded-lib-string-for-multilib.patch
+@@ -0,0 +1,37 @@
++Having hard coded "lib" string in lib_python path, searches for modules 
++under /usr/lib/python3.x directory. This would result in an error on 
++multilib environment, where BASELIB is other than lib.
++
++Example: On qemux86-64 with base_libdir and libdir as /lib64 and /usr/lib64
++respectively, would result in below error when python3 is executed:
++-- snip --
++root@qemux86-64:~# python3
++Could not find platform independent libraries <prefix>
++Could not find platform dependent libraries <exec_prefix>
++Consider setting $PYTHONHOME to <prefix>[:<exec_prefix>]
++Fatal Python error: Py_Initialize: Unable to get the locale encoding
++ImportError: No module named 'encodings'
++
++Current thread 0x00007f65dbb53700 (most recent call first):
++Aborted
++root@qemux86-64:~# 
++-- snip --
++
++Note: LIB is defined with actual base_libdir used via -DLIB during
++compilation.
++
++Upstream-Status: Pending
++
++Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
++diff -Naurp Python-3.5.2_org/Modules/getpath.c Python-3.5.2/Modules/getpath.c
++--- Python-3.5.2_org/Modules/getpath.c	2017-02-17 00:58:28.312583182 +0530
+++++ Python-3.5.2/Modules/getpath.c	2017-02-17 01:01:58.984805492 +0530
++@@ -502,7 +502,7 @@ calculate_path(void)
++     _pythonpath = Py_DecodeLocale(PYTHONPATH, NULL);
++     _prefix = Py_DecodeLocale(PREFIX, NULL);
++     _exec_prefix = Py_DecodeLocale(EXEC_PREFIX, NULL);
++-    lib_python = Py_DecodeLocale("lib/python" VERSION, NULL);
+++    lib_python = Py_DecodeLocale(LIB "/python" VERSION, NULL);
++ 
++     if (!_pythonpath || !_prefix || !_exec_prefix || !lib_python) {
++         Py_FatalError(
+diff --git a/meta/recipes-devtools/python/python3_3.5.2.bb b/meta/recipes-devtools/python/python3_3.5.2.bb
+index 2ff7c9e..26f49f6 100644
+--- a/meta/recipes-devtools/python/python3_3.5.2.bb
++++ b/meta/recipes-devtools/python/python3_3.5.2.bb
+@@ -37,6 +37,7 @@ SRC_URI += "\
+             file://configure.ac-fix-LIBPL.patch \
+             file://python3-fix-CVE-2016-1000110.patch \
+             file://upstream-random-fixes.patch \
++            file://python-3.5.2-remove-hard-coded-lib-string-for-multilib.patch \
+            "
+ SRC_URI[md5sum] = "8906efbacfcdc7c3c9198aeefafd159e"
+ SRC_URI[sha256sum] = "0010f56100b9b74259ebcd5d4b295a32324b58b517403a10d1a2aa7cb22bca40"
+-- 
+2.7.4
 
---+QahgC5+KEYLbs62
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWKewKQAKCRA3VSO3ZXaA
-HMl8AJ44w4IK9q3dtpvDv1fbQ4cUdfwhGQCfW3tff1lUU051N/RUe6c58GYDRo8=
-=gX7a
------END PGP SIGNATURE-----
-
---+QahgC5+KEYLbs62--
