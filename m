@@ -1,46 +1,56 @@
-Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-pg0-f49.google.com (mail-pg0-f49.google.com [74.125.83.49])
-	by mail.openembedded.org (Postfix) with ESMTP id CF5CD6069D
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f42.google.com (mail-it0-f42.google.com
+	[209.85.214.42])
+	by mail.openembedded.org (Postfix) with ESMTP id AB38B60807
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Feb 2017 04:59:58 +0000 (UTC)
-Received: by mail-pg0-f49.google.com with SMTP id z67so20919299pgb.1
+	Sat, 18 Feb 2017 08:03:51 +0000 (UTC)
+Received: by mail-it0-f42.google.com with SMTP id x75so31142673itb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Feb 2017 20:59:59 -0800 (PST)
+	Sat, 18 Feb 2017 00:03:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mvista-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=RttQVKhX8Z57ss5RzqvzA/sa/MbJFITrVfc+TrY/TwQ=;
-	b=mFW3zd6HOrEZVVQNmA/FprFuIAu7+OcPXMBunh1crACTH0YbF+Ug5DY298T2oyUgmL
-	0xGf+rm+PcD02oRsj7bYZ49A8NG0FVVxjKErq8F3oC0d7fzo0+LBX4GHaKTbEI43NQrz
-	/CRtv/vwFvEPKDXg+sKr4MSzWS4K72KT/7IBtkMbWMECZJbsBb0Zik41qDVjdLBKampe
-	P3q4nHBRlfBv3TUUj/NGEQcWoZcxUr9NNsBJCdbN89UXFxpMnx/t9ox3vZp+CHW4UlXr
-	kByEwbz9m+5H74ySkUzs8lFtD2a+muMaJ6fS+yMQe3YKMDSxSp+Hlj04nDjdUGXBj/nF
-	/7Nw==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=b1hC0Zcji/A1MItxWJQqFkRKiXxE50LeYj0LSuJ+I/U=;
+	b=uHyohqi9MHV8VoAqZOGVMjiIbPYdK7I1qipr3igSxCnGJg3M1mKhedFoXFAwbMJEQ2
+	8izFzNT7GI4UXwyUiFYF8pRfADRDJZY2D3AQPpwHX5cYrAAD7oaBGvK5lppRrw5fvV5y
+	l5zrVOjZGf0aNdXu3OMBa9G7Cv+SCIGxodBK/Wadr3u4uCwo1DNTUCxSKieJY93l5LXG
+	8xahNyLMLIG4NlaWq5ZY3GsNA6lUHwQz2A5Rw5DbPhNwWHaumFVoAVFCgMl+O0xGDyom
+	5knyhjhk+0+sEuGD08hqS7snvuRv5j9Jn2CaUQiDhsjoJFM5Z20JfKMCXHDKIjfYLq37
+	8K9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=RttQVKhX8Z57ss5RzqvzA/sa/MbJFITrVfc+TrY/TwQ=;
-	b=XSxYKSdggCQ2MtXdfMQXy4mvMOk1Ke18+WStqPAwvuRvv5Yqa7pNNFyzix0W0XFwF1
-	kMFNRlZTVNfsVa6dl0RWSqK3KqewN1sibLtSAC4Y8Hx7YZtHNY9M6DV7rO4NJ9n6Ed1n
-	yM4pVC3P7jyxr44fD/d6S6v2MzvKBZoD62z1ALeaeiKuhSoDLmeh7BQbzL64/mRVnZR0
-	55mTow23pOu8tygj/jIm0oMIOwT9Toei+5rNqu7yXJpxtEd8UVU+r6kBqXW7ILtNYAa+
-	kpmTA7FP5sHGP9P22byDzFLYmF+v17Y1RE3zQO5/nD4dY1h5T+4m9zQHKuHYNnQRcNRu
-	RkHQ==
-X-Gm-Message-State: AMke39lHlzqLmIn4UUCsJCaeppoyZ70iLqHym+v8/ve9ZqXekfqP7zUFKhlIzZZRFkl5XuBr
-X-Received: by 10.98.103.195 with SMTP id t64mr13458311pfj.106.1487393998698; 
-	Fri, 17 Feb 2017 20:59:58 -0800 (PST)
-Received: from jkrishnanjanappa-VPCEB26FG.mvista.com
-	([2405:204:500b:e44f:ac4d:8121:59db:d806])
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=b1hC0Zcji/A1MItxWJQqFkRKiXxE50LeYj0LSuJ+I/U=;
+	b=nSXe0qAsvnu83bazFDQzJFb/Tx1CiUqK52GZJrx2BK7WUKBUmjUdYod47pjO9kkCDM
+	k4MxlzMKe0K0SFfCUwzvYWIPFQARrDPomS00VIK0zNrxk9+ZxFIJfEQ4DF9Gp5FiF/Bd
+	4LsXH1caxXGPhmMwqA6941PLj0eN+tK0BCcQ9D72cqHWvGY1WUed/Kd2U/a9cbphY4Xm
+	IzV5GzO8llTyVAlB0dwaqN8TBkAC0xDMxoCnae91eYWjWt4QvCv0AxQ4w1gxyFGqshi4
+	J2vyGUaquAx3NhmokeylThqgm0buUFARwznWGZklt+Z36FBGr+S62/fv9AQhXSfjB6OG
+	J+5w==
+X-Gm-Message-State: AMke39nT+l3Hw91rJ8GmsCUI28NFbKfRNSXwsWEBckjOxCGJTK9l6nr83r1nNYar1eWNYhbX
+X-Received: by 10.36.139.1 with SMTP id g1mr5055708ite.120.1487405031363;
+	Sat, 18 Feb 2017 00:03:51 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8DBB1.dip0.t-ipconnect.de. [93.232.219.177])
 	by smtp.gmail.com with ESMTPSA id
-	m20sm22480506pgd.17.2017.02.17.20.59.55
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 17 Feb 2017 20:59:57 -0800 (PST)
-From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 18 Feb 2017 10:29:49 +0530
-Message-Id: <1487393989-6667-1-git-send-email-jkrishnanjanappa@mvista.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] python3: fix failure to run python3 in a multilib env or when BASELIB != lib
+	w77sm2272046ioi.20.2017.02.18.00.03.48
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 18 Feb 2017 00:03:49 -0800 (PST)
+Message-ID: <1487405026.13854.559.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, "Neri, Ricardo"
+	<ricardo.neri@intel.com>
+Date: Sat, 18 Feb 2017 09:03:46 +0100
+In-Reply-To: <1487365991.4999.49.camel@linuxfoundation.org>
+References: <cover.51e0eb88ea69468cf5a410aa7194c25cf61d57b7.1485530988.git-series.patrick.ohly@intel.com>
+	<fe94df71a407adfc7082faff5bbe6441984a85d6.1485530988.git-series.patrick.ohly@intel.com>
+	<1487365991.4999.49.camel@linuxfoundation.org>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v5 01/12] acpica: move from meta-oe to OE-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,93 +63,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Feb 2017 05:00:00 -0000
+X-List-Received-Date: Sat, 18 Feb 2017 08:03:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Having hard coded "lib" string in lib_python path, searches for modules
-under /usr/lib/python3.x directory. This would result in an error on
-multilib environment, where BASELIB is other than lib.
+Hello Ricardo,
 
-Example: On qemux86-64 with base_libdir and libdir as /lib64 and /usr/lib64
-respectively, would result in below error when python3 is executed:
--- snip --
-root@qemux86-64:~# python3
-Could not find platform independent libraries <prefix>
-Could not find platform dependent libraries <exec_prefix>
-Consider setting $PYTHONHOME to <prefix>[:<exec_prefix>]
-Fatal Python error: Py_Initialize: Unable to get the locale encoding
-ImportError: No module named 'encodings'
+can you perhaps help?
 
-Current thread 0x00007f65dbb53700 (most recent call first):
-Aborted
-root@qemux86-64:~#
--- snip --
+I'm traveling next week and don't have much time.
 
-Similar issue observed at:
-https://knowledge.windriver.com/en-us/000_Products/000/010/040/040/000_LIN8-4040_%3A_python3_does_not_work_in_a_multilib_environment
+Thanks, Patrick
 
-Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
----
- ...remove-hard-coded-lib-string-for-multilib.patch | 37 ++++++++++++++++++++++
- meta/recipes-devtools/python/python3_3.5.2.bb      |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/python-3.5.2-remove-hard-coded-lib-string-for-multilib.patch
+On Fri, 2017-02-17 at 13:13 -0800, Richard Purdie wrote:
+> On Fri, 2017-01-27 at 16:30 +0100, Patrick Ohly wrote:
+> > From: Fathi Boudra <fathi.boudra@linaro.org>
+> > 
+> > qemu support for UEFI in OE-core depends on OVMF, which needs the
+> > iasl
+> > tools provided by this recipe. There's also an iasl recipe in
+> > meta-luv, but than can and will be replaced by this one, thus
+> > reducing
+> > overall maintenance work.
+> > 
+> > Copied from meta-openembedded rev fa65be9ba (current master).
+> > 
+> > Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+> 
+> This fails on musl:
+> 
+> https://autobuilder.yocto.io/builders/nightly-musl/builds/160/steps/BuildImages/logs/stdio
+> 
+> |      ^~~~~~~~~~~~~~
+> | i586-poky-linux-musl-gcc  -m32 -march=i586 --sysroot=/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl/build/build/tmp/work/i586-poky-linux-musl/acpica/20150515-r0/recipe-sysroot -c  -O2 -pipe -g -feliminate-unused-debug-types -fdebug-prefix-map=/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl/build/build/tmp/work/i586-poky-linux-musl/acpica/20150515-r0=/usr/src/debug/acpica/20150515-r0 -fdebug-prefix-map=/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl/build/build/tmp/work/i586-poky-linux-musl/acpica/20150515-r0/recipe-sysroot-native= -fdebug-prefix-map=/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl/build/build/tmp/work/i586-poky-linux-musl/acpica/20150515-r0/recipe-sysroot=  -D_CYGWIN -D_GNU_SOURCE -I../../../source/include -D_CYGWIN -D_GNU_SOURCE -I../../../source/include -DACPI_ASL_COMPILER -I../../../source/compiler -Iobj -Wall -o obj/asllistsup.o ../../../source/compiler/asllistsup.c
+> | ../../../source/compiler/aslfiles.c: In function 'FlOpenMiscOutputFiles':
+> | ../../../source/compiler/aslfiles.c:595:45: error: invalid application of 'sizeof' to incomplete type 'FILE {aka struct _IO_FILE}'
+> |              memcpy (stderr, stdout, sizeof (FILE));
+> |                                              ^~~~
+> | Copied obj/acpiexamples to ../bin/acpiexamples
+> 
+> Cheers,
+> 
+> Richard
 
-diff --git a/meta/recipes-devtools/python/python3/python-3.5.2-remove-hard-coded-lib-string-for-multilib.patch b/meta/recipes-devtools/python/python3/python-3.5.2-remove-hard-coded-lib-string-for-multilib.patch
-new file mode 100644
-index 0000000..786f086
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/python-3.5.2-remove-hard-coded-lib-string-for-multilib.patch
-@@ -0,0 +1,37 @@
-+Having hard coded "lib" string in lib_python path, searches for modules 
-+under /usr/lib/python3.x directory. This would result in an error on 
-+multilib environment, where BASELIB is other than lib.
-+
-+Example: On qemux86-64 with base_libdir and libdir as /lib64 and /usr/lib64
-+respectively, would result in below error when python3 is executed:
-+-- snip --
-+root@qemux86-64:~# python3
-+Could not find platform independent libraries <prefix>
-+Could not find platform dependent libraries <exec_prefix>
-+Consider setting $PYTHONHOME to <prefix>[:<exec_prefix>]
-+Fatal Python error: Py_Initialize: Unable to get the locale encoding
-+ImportError: No module named 'encodings'
-+
-+Current thread 0x00007f65dbb53700 (most recent call first):
-+Aborted
-+root@qemux86-64:~# 
-+-- snip --
-+
-+Note: LIB is defined with actual base_libdir used via -DLIB during
-+compilation.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-+diff -Naurp Python-3.5.2_org/Modules/getpath.c Python-3.5.2/Modules/getpath.c
-+--- Python-3.5.2_org/Modules/getpath.c	2017-02-17 00:58:28.312583182 +0530
-++++ Python-3.5.2/Modules/getpath.c	2017-02-17 01:01:58.984805492 +0530
-+@@ -502,7 +502,7 @@ calculate_path(void)
-+     _pythonpath = Py_DecodeLocale(PYTHONPATH, NULL);
-+     _prefix = Py_DecodeLocale(PREFIX, NULL);
-+     _exec_prefix = Py_DecodeLocale(EXEC_PREFIX, NULL);
-+-    lib_python = Py_DecodeLocale("lib/python" VERSION, NULL);
-++    lib_python = Py_DecodeLocale(LIB "/python" VERSION, NULL);
-+ 
-+     if (!_pythonpath || !_prefix || !_exec_prefix || !lib_python) {
-+         Py_FatalError(
-diff --git a/meta/recipes-devtools/python/python3_3.5.2.bb b/meta/recipes-devtools/python/python3_3.5.2.bb
-index 2ff7c9e..26f49f6 100644
---- a/meta/recipes-devtools/python/python3_3.5.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.2.bb
-@@ -37,6 +37,7 @@ SRC_URI += "\
-             file://configure.ac-fix-LIBPL.patch \
-             file://python3-fix-CVE-2016-1000110.patch \
-             file://upstream-random-fixes.patch \
-+            file://python-3.5.2-remove-hard-coded-lib-string-for-multilib.patch \
-            "
- SRC_URI[md5sum] = "8906efbacfcdc7c3c9198aeefafd159e"
- SRC_URI[sha256sum] = "0010f56100b9b74259ebcd5d4b295a32324b58b517403a10d1a2aa7cb22bca40"
--- 
-2.7.4
 
 
