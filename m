@@ -1,45 +1,28 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
-	[209.85.220.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 920B07198D;
-	Sun, 19 Feb 2017 12:12:54 +0000 (UTC)
-Received: by mail-qk0-f172.google.com with SMTP id s186so76559600qkb.1;
-	Sun, 19 Feb 2017 04:12:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Vyct/5h7gZWvA3RQwd7QnB7TmDf7IMrzaB1lMWEsVPc=;
-	b=JXpxM552lrmDqAtYkbqdv1V57gkdj43NL3+kXhuFA7wf7tM1uYoTAFoyhX+WJ47JzT
-	1NnMfb85e9cHj/klguq/FT3mlJL4ZX6qaRHwk9yELY+C5t6jdqabu2xgm60pUuQFJ63v
-	C2d/zTnMgl0DoYmCVVz5th5+5IBj6kWm6a6aNaVJVDJtSAFi11UHFkmEdN4tnQrBIQCN
-	KZKF3Y+NguK2Y6y00YVn0F5pSr98T9iolVvj0J3ylVgyXHu1WHtOtAGuuxoxYo44tFru
-	+wGyC8EQY38OIrdRBNtMMr+LOIE2D7Ae9Qk2LTQ3UVP5aD/li6vnxk+H7K+kBdc3tu4+
-	RK0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Vyct/5h7gZWvA3RQwd7QnB7TmDf7IMrzaB1lMWEsVPc=;
-	b=FUnj7ZYKUs19Oj/p7f/SU9m0+JTjW3HPfoKiNAW4UqkkpTS/hDax8rj4lSW72skn2Q
-	irQyROc6I3YLgY/WtwnJqt0Jk1VzhyR+beywT4JDgoFtividsUoBI/dMncQF0Zj/ECZI
-	S39gZDi1jEJ24XXepJuh6GhxLbxSBdOdi7Zs7XhG5MgXa4OwP0tgeDOgVckVcHMuNlkY
-	jqSf0NjkWSqB/0uKlMYHdtnszvfhUsE8WqwLCqH0kip3AvCPqgjrQz93hRcqya7g3EdH
-	lCCz+KUHbirLCSgp7DLhKcc+tX7AGqTZMm04NNDaTaH/L+KQKnk3lJwMTS8GU7f4umWn
-	beYw==
-X-Gm-Message-State: AMke39mc5saKF733/ViUZyrW2h+q+tbbZAu6RjHZ+JN6f/ljq74j27cX+Lqy3DAsCtf5VlO3zzW84CNNUaLmmw==
-X-Received: by 10.55.44.197 with SMTP id s188mr15052510qkh.131.1487506374661; 
-	Sun, 19 Feb 2017 04:12:54 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.200.39.252 with HTTP; Sun, 19 Feb 2017 04:12:54 -0800 (PST)
-In-Reply-To: <2c536609-989f-240e-cb4a-c77815898d8f@gmail.com>
-References: <2c536609-989f-240e-cb4a-c77815898d8f@gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Sun, 19 Feb 2017 07:12:54 -0500
-Message-ID: <CAHUNapRHuTXG2zZCn0iNe+soUY-vFgQ0UXA74zLrSfaOCR39YA@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: OEDAM - Portland 2017
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id AB1C86612D
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 19 Feb 2017 14:14:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v1JEErYg025854; Sun, 19 Feb 2017 14:14:53 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id cB_coJXnzCMh; Sun, 19 Feb 2017 14:14:53 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v1JEEnXd025844
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sun, 19 Feb 2017 14:14:52 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1cfSGG-00076Y-My; Sun, 19 Feb 2017 06:14:48 -0800
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 19 Feb 2017 06:14:44 -0800
+Message-Id: <1487513684-27271-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] wget: Upgrade 1.19 -> 1.19.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,9 +35,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Feb 2017 12:12:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 19 Feb 2017 14:14:56 -0000
 
-Does anyone have any recommendations for how to get from the
-conference venue to the Mentor Graphics office?
+This fixes musl build issues and avoids autobuilder failures.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-extended/wget/{wget_1.19.bb => wget_1.19.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/wget/{wget_1.19.bb => wget_1.19.1.bb} (53%)
+
+diff --git a/meta/recipes-extended/wget/wget_1.19.bb b/meta/recipes-extended/wget/wget_1.19.1.bb
+similarity index 53%
+rename from meta/recipes-extended/wget/wget_1.19.bb
+rename to meta/recipes-extended/wget/wget_1.19.1.bb
+index 3e022d5..62313b2 100644
+--- a/meta/recipes-extended/wget/wget_1.19.bb
++++ b/meta/recipes-extended/wget/wget_1.19.1.bb
+@@ -2,7 +2,7 @@ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
+            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+           "
+ 
+-SRC_URI[md5sum] = "f9e928e293e4d7de73ff6f19e0c4b423"
+-SRC_URI[sha256sum] = "dd9523039845f69e8e945e9f2d5a38af6b1e29efa6ff53830507310235ddade8"
++SRC_URI[md5sum] = "87cea36b7161fd43e3fd51a4e8b89689"
++SRC_URI[sha256sum] = "9e4f12da38cc6167d0752d934abe27c7b1599a9af294e73829be7ac7b5b4da40"
+ 
+ require wget.inc
+-- 
+2.7.4
+
 
