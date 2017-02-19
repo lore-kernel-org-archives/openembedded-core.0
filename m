@@ -1,46 +1,29 @@
-Return-Path: <msm-oss@mcclintock.net>
-Received: from mail-wr0-f172.google.com (mail-wr0-f172.google.com
-	[209.85.128.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 80F6B60116
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 5756560620
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Feb 2017 16:57:27 +0000 (UTC)
-Received: by mail-wr0-f172.google.com with SMTP id 89so47924229wrr.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Feb 2017 08:57:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mcclintock.net; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Tdutvxs0Ax39vvOjdH9uxpymPil0tdGpaJQT56q4Z+w=;
-	b=S1v6bBundYPsopeaW+hI4165UDkAAiX4uuR62ZR5fpGkWsAqYGY04q1VIYKbcshJPH
-	MlQ3E8QkKVYpaN8qmD2OXENgG6BEBvisfdnNaS/xGkg1e6I70ymmzPdQGKoYcJ65QlGD
-	9JCj5G2mZ24Rnv7NnN24shfEAqoCkt7xcenQo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Tdutvxs0Ax39vvOjdH9uxpymPil0tdGpaJQT56q4Z+w=;
-	b=RQBzTaGBvcJ/bHm5ondwtsjT8Sc9HmyX69ZHacU1zlI8xySUcP6OYGh4T16x1F0zD4
-	woj4GLDrsepAXRHxQHr4fu7y2pqNtkgxseBSIRATp/ueaproj5rS+eLAded4hwaaWWv5
-	iw8QwvCXCM7HmPEonpmN4TdMtvVmXcq+P62ysT2Hawn2Aeda+FCIkK3SCUw3nt45NYHU
-	q/kX/rMN6jl6jHYtv+hizMhpKt75aucgAeSnFGRma6EPDnFOwejPSAMO/CHvOsv0aqFf
-	u3pnw3WT4qWWp1xaUoCe/gKjE4Oq0uMVZiHimkcgkjsiqAWFtq/8dTF66wzUcXuzwbFe
-	9hfQ==
-X-Gm-Message-State: AMke39mt3+SBYgsucBMgiFyKo/ud4jWbIDwc6PrXrJdRdv4P7sDgdKCiixbx6oIuMLjTXRuq62CnGId+a/sI/A==
-X-Received: by 10.223.138.235 with SMTP id z40mr1084422wrz.130.1487523447387; 
-	Sun, 19 Feb 2017 08:57:27 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.28.7.4 with HTTP; Sun, 19 Feb 2017 08:57:07 -0800 (PST)
-In-Reply-To: <CAHUNapRHuTXG2zZCn0iNe+soUY-vFgQ0UXA74zLrSfaOCR39YA@mail.gmail.com>
-References: <2c536609-989f-240e-cb4a-c77815898d8f@gmail.com>
-	<CAHUNapRHuTXG2zZCn0iNe+soUY-vFgQ0UXA74zLrSfaOCR39YA@mail.gmail.com>
-From: Matthew McClintock <msm-oss@mcclintock.net>
-Date: Sun, 19 Feb 2017 08:57:07 -0800
-Message-ID: <CAEsOVNcckNyTDaBwiQ=h_rSUUWAGe=XZiWKyOhJyGF5u0dCjrA@mail.gmail.com>
-To: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>
-Cc: Patches and discussions about the oe-core layer
+	Sun, 19 Feb 2017 17:35:24 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v1JHZH2B013752; Sun, 19 Feb 2017 17:35:17 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id OZU7OFUSInNW; Sun, 19 Feb 2017 17:35:17 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v1JHZBoP013692
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sun, 19 Feb 2017 17:35:15 GMT
+Message-ID: <1487525710.30548.20.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>, OE Core mailing list
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] OEDAM - Portland 2017
+Date: Sun, 19 Feb 2017 09:35:10 -0800
+In-Reply-To: <alpine.LFD.2.20.1702181316120.26007@localhost.localdomain>
+References: <alpine.LFD.2.20.1702181316120.26007@localhost.localdomain>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: possible consequences of adding "extraneous" layers to a build?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,19 +36,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Feb 2017 16:57:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 19 Feb 2017 17:35:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-I think some folks where going to try to get a ride share from the HIlton hotel.
+On Sat, 2017-02-18 at 13:25 -0500, Robert P. J. Day wrote:
+>   (currently updating a pile of my OE online pages so i'm going to
+> ask
+> a bunch of basic questions to make sure i'm not missing anything.)
+> 
+>   what are the basic rules for layer design such that you should
+> (theoretically) be able to toss a bunch of ostensibly superfluous
+> layers into a build, and it shouldn't make a difference? that is,
+> leaving aside obvious conflicts in having two layers trying to define
+> precisely the same thing, what are the only issues you should worry
+> about in throwing more layers into your "bblayers.conf" file, even if
+> you end up not using anything from them?
+> 
+>   first, it seems(?) clear that introducing new recipes or classes or
+> machines or distros in those additional layers should make no
+> difference -- if you weren't referring to any of those features
+> before, then if you don't change your configuration, you certainly
+> won't be referring to them now.
+> 
+>   the most obvious consequence is that one or more .bbappend files
+> will tweak some recipes you were already building, so .bbappend files
+> strike me as, really, the only consequence of note.
+> 
+>   the only thing that leaps to mind is if some really weird content
+> was placed in the new layers' "layer.conf" file, but that strikes me
+> as really bad design unless there's a good reason for it.
+> 
+>   so ... is there any other possible consequence of adding layers to
+> a
+> build that i'm overlooking?
 
--M
+A layer can do pretty much *anything* to the build. You can design
+layers not to have an impact, or the impact may be the whole purpose of
+the layer.
 
-On Sun, Feb 19, 2017 at 4:12 AM, Trevor Woerner <twoerner@gmail.com> wrote:
-> Does anyone have any recommendations for how to get from the
-> conference venue to the Mentor Graphics office?
-> --
-> _______________________________________________
-> Openembedded-devel mailing list
-> Openembedded-devel@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
+With YP Compatible v2, we plan to detect "invasive" changes using the
+sstate checksums changing to show that the layer did something
+unexpected. But in general a layer can do pretty much anything.
+
+Cheers,
+
+Richard
+
+
 
