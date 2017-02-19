@@ -1,30 +1,43 @@
-Return-Path: <peter@berginkonsult.se>
-X-Greylist: delayed 964 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sun, 19 Feb 2017 20:46:38 UTC
-Received: from mailrelay1.public.one.com (mailrelay1.public.one.com
-	[91.198.169.124])
-	by mail.openembedded.org (Postfix) with ESMTP id 866ED71A18
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-vk0-f50.google.com (mail-vk0-f50.google.com
+	[209.85.213.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B5A260557
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Feb 2017 20:46:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=berginkonsult.se; s=20140924;
-	h=from:subject:date:message-id:to;
-	bh=e6d5vVMVWBRsKR1V3kNZ8yWlHMT2L0PluceOgHLGPpU=;
-	b=KrPXcWm9qjH+ITpfG7D8gHWHww7DQnO0FiMhTKxpW/sRMLl7QvsvtUvamtBgMGw5lxoCSUjFAkrC0
-	gkMCIaaT4RBI6qRuByTZ5ZmOR7ZpfEGuC/ih/xTknvxQDI14oLESwKi5ofzICnlV5NQ+5MtVXd2tnC
-	KF1+a96N5rzlJls4=
-X-HalOne-Cookie: 44fe7257b97cb3f482746aade87064650aec3e22
-X-HalOne-ID: 40bb1a67-f6e2-11e6-9cd7-b8ca3afa9d73
-Received: from localhost.localdomain (unknown [84.219.203.105])
-	by smtpfilter1.public.one.com (Halon) with ESMTPSA
-	id 40bb1a67-f6e2-11e6-9cd7-b8ca3afa9d73;
-	Sun, 19 Feb 2017 20:30:32 +0000 (UTC)
-From: Peter Bergin <peter@berginkonsult.se>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 19 Feb 2017 21:30:13 +0100
-Message-Id: <1487536213-8453-1-git-send-email-peter@berginkonsult.se>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] useradd-staticids: fix typo for '--expiredate'
+	Sun, 19 Feb 2017 22:04:27 +0000 (UTC)
+Received: by mail-vk0-f50.google.com with SMTP id x75so52943420vke.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 19 Feb 2017 14:04:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=/0J7aGUozoq7tfglKcoVEMALcf27E6/eJLjj4MBses8=;
+	b=qskIPkjqiAA2IU7vxadpmt99kxTqueGvQPQJ7I7ROpjvX8vzYGfV3TnnzDrpJuHnvW
+	5zq0gwZfxXFlvMNOnQ4IzAIIQmsEA1QRWPqrSsM/QfSu1SR7lN6rjKhQmy/z/y9z6DAa
+	3FvsdXSXyIIh/oSew0O211K/9TxSPH4RUvZ51r0NZLYxjg3rt2fY9EUCBChjbhxvrkqD
+	vW+Al9QWY8GoxR1Ia7NtJFpwrgXYElDRxs3jhmY1aMKIF5R4YxrxDFoDqA/7mK+o4kzZ
+	I3SApTKTETsj2cURfjtlBFZttGyWek0KQvET03fTElle2aQ6RJ3P3aFQmoq/hvN26Jnf
+	C8/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=/0J7aGUozoq7tfglKcoVEMALcf27E6/eJLjj4MBses8=;
+	b=kTsVHAJGj+o0GcL26mMG6POtl7Rw9iTneqhoiyiEu26bvlcELgN9AtU6qfzbuvwsXI
+	TuuikIdL6AeYWQ4QzZuuRvAaoo1XB5+VE6u8ssl0GBpZ7WXob72bg4Ttw8SQG4gsFcTT
+	bE4AL2uPfUTOvoWmlxg+qxf8ftzFhh66KsAIEEfVD9xkZFiTkYQnk3xXElBhYXkaZ7U6
+	y5NZB6dRvvLFoqRe2VPDuL9K4K8LRvBg4bsHJOT5XP6aFf5DkagGNJxNr8r89WK61MJf
+	mbGlIGVbh35vmK5Fzul6rKKl2Az7KJMZm97JJPr8MKfJ5HOBjDbn2XrYPP7RUgWa2S1g
+	zAHQ==
+X-Gm-Message-State: AMke39n1sMzHAEIqE5N/zM2uERREeZx1DKvtBfMOh7+QxZ2bxpUerHHpS05FCLzNqJivMffPhPx1NhruVTk8SA==
+X-Received: by 10.31.41.73 with SMTP id p70mr8626345vkp.68.1487541867775; Sun,
+	19 Feb 2017 14:04:27 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.176.71.72 with HTTP; Sun, 19 Feb 2017 14:04:27 -0800 (PST)
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Sun, 19 Feb 2017 23:04:27 +0100
+Message-ID: <CALbNGRQNaoktrh_Jk75DxkV-qVv4B9T57oCP3js5k=JApbO+pw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Recipe specific sysroot: handling recipes creating same files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,38 +50,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Feb 2017 20:46:39 -0000
+X-List-Received-Date: Sun, 19 Feb 2017 22:04:28 -0000
+Content-Type: text/plain; charset=UTF-8
 
-There is a typo in the useradd-staticids.bbclass that
-causes error during do_install.
+Hi,
 
-If build was configured to use usedadd-staticids and
-the recipe included (for example):
+I have the case that two recipes are trying to install same files.
 
-USERADD_PARAM_${PN} = "--expiredate '' testUser"
+In my case:
 
-Due to the typo this added the wrong option '--expiredata '
-that caused an error.
+samba and libldb install
 
-Signed-off-by: Peter Bergin <peter@berginkonsult.se>
----
- meta/classes/useradd-staticids.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+/usr/lib/python2.7/site-packages/_ldb_text.py
 
-diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
-index a309b88..a65c3f6 100644
---- a/meta/classes/useradd-staticids.bbclass
-+++ b/meta/classes/useradd-staticids.bbclass
-@@ -184,7 +184,7 @@ def update_useradd_static_config(d):
-             newparam += ['', ' --base-dir %s' % uaargs.base_dir][uaargs.base_dir != None]
-             newparam += ['', ' --comment %s' % uaargs.comment][uaargs.comment != None]
-             newparam += ['', ' --home-dir %s' % uaargs.home_dir][uaargs.home_dir != None]
--            newparam += ['', ' --expiredata %s' % uaargs.expiredate][uaargs.expiredate != None]
-+            newparam += ['', ' --expiredate %s' % uaargs.expiredate][uaargs.expiredate != None]
-             newparam += ['', ' --inactive %s' % uaargs.inactive][uaargs.inactive != None]
-             newparam += ['', ' --gid %s' % uaargs.gid][uaargs.gid != None]
-             newparam += ['', ' --groups %s' % uaargs.groups][uaargs.groups != None]
--- 
-2.7.4
+I bet samba doe that due to missing dependency on libldb but I don't
+want to discuss that here - I'll find a proper solution.
 
+What I would like to discuss is that both recipes build fine without
+an error. The error comes up on gvfs depending on both. gvfs fails
+with cryptic python backtrace:
+
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:extend_recipe_sysroot(d)
+     0003:
+File: '/home/superandy/data/oe-core/sources/openembedded-core/meta/classes/staging.bbclass',
+lineno: 623, function: extend_recipe_sysroot
+     0619:                    dest = newmanifest[l]
+     0620:                    if l.endswith("/"):
+     0621:                        staging_copydir(l, targetdir, dest, seendirs)
+     0622:                        continue
+ *** 0623:                    staging_copyfile(l, targetdir, dest,
+postinsts, seendirs)
+     0624:
+     0625:    for f in fixme:
+     0626:        if f == '':
+     0627:            staging_processfixme(fixme[f], recipesysroot,
+recipesysroot, recipesysrootnative, d)
+File: '/home/superandy/data/oe-core/sources/openembedded-core/meta/classes/staging.bbclass',
+lineno: 269, function: staging_copyfile
+     0265:        os.symlink(linkto, dest)
+     0266:        #bb.warn(c)
+     0267:    else:
+     0268:        try:
+ *** 0269:            os.link(c, dest)
+     0270:        except OSError as err:
+     0271:            if err.errno == errno.EXDEV:
+     0272:                bb.utils.copyfile(c, dest)
+     0273:            else:
+Exception: FileExistsError: [Errno 17] File exists:
+'/home/superandy/tmp/oe-core-glibc/sysroots-components/cortexa7t2hf-neon-vfpv4/libldb/usr/lib/python2.7/site-packages/_ldb_text.py'
+-> '/home/superandy/tmp/oe-core-glibc/work/cortexa7t2hf-neon-vfpv4-angstrom-linux-gnueabi/gvfs/1.28.3-r0/recipe-sysroot/usr/lib/python2.7/site-packages/_ldb_text.py'
+
+This needs love: One can guess that libldb is trying to install stuff
+already there - nothing mentions samba and the error pops up for gvfs
+which does nothing really wrong. I consider this as bug introduced by
+RSS.
+
+Andreas
 
