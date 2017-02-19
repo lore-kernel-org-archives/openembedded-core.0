@@ -1,29 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 5756560620
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
+	by mail.openembedded.org (Postfix) with ESMTP id D2B8A71C9B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Feb 2017 17:35:24 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v1JHZH2B013752; Sun, 19 Feb 2017 17:35:17 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id OZU7OFUSInNW; Sun, 19 Feb 2017 17:35:17 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v1JHZBoP013692
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sun, 19 Feb 2017 17:35:15 GMT
-Message-ID: <1487525710.30548.20.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>, OE Core mailing list
-	<openembedded-core@lists.openembedded.org>
-Date: Sun, 19 Feb 2017 09:35:10 -0800
-In-Reply-To: <alpine.LFD.2.20.1702181316120.26007@localhost.localdomain>
-References: <alpine.LFD.2.20.1702181316120.26007@localhost.localdomain>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: possible consequences of adding "extraneous" layers to a build?
+	Sun, 19 Feb 2017 18:15:09 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
+	via TCP (outbound) with ESMTPS id 20170219181508405_0684
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 19 Feb 2017 18:15:08 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [174.118.92.171] (port=42346 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1cfW0k-0004we-IN for openembedded-core@lists.openembedded.org;
+	Sun, 19 Feb 2017 13:15:02 -0500
+Date: Sun, 19 Feb 2017 13:15:00 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1702191313250.8096@localhost.localdomain>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: something seems to have happened to "gpgme" in latest oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,52 +36,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Feb 2017 17:35:25 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 19 Feb 2017 18:15:11 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-On Sat, 2017-02-18 at 13:25 -0500, Robert P. J. Day wrote:
->   (currently updating a pile of my OE online pages so i'm going to
-> ask
-> a bunch of basic questions to make sure i'm not missing anything.)
-> 
->   what are the basic rules for layer design such that you should
-> (theoretically) be able to toss a bunch of ostensibly superfluous
-> layers into a build, and it shouldn't make a difference? that is,
-> leaving aside obvious conflicts in having two layers trying to define
-> precisely the same thing, what are the only issues you should worry
-> about in throwing more layers into your "bblayers.conf" file, even if
-> you end up not using anything from them?
-> 
->   first, it seems(?) clear that introducing new recipes or classes or
-> machines or distros in those additional layers should make no
-> difference -- if you weren't referring to any of those features
-> before, then if you don't change your configuration, you certainly
-> won't be referring to them now.
-> 
->   the most obvious consequence is that one or more .bbappend files
-> will tweak some recipes you were already building, so .bbappend files
-> strike me as, really, the only consequence of note.
-> 
->   the only thing that leaps to mind is if some really weird content
-> was placed in the new layers' "layer.conf" file, but that strikes me
-> as really bad design unless there's a good reason for it.
-> 
->   so ... is there any other possible consequence of adding layers to
-> a
-> build that i'm overlooking?
 
-A layer can do pretty much *anything* to the build. You can design
-layers not to have an impact, or the impact may be the whole purpose of
-the layer.
+  building core-image-minimal for qemuppc using latest poky checkout,
+and:
 
-With YP Compatible v2, we plan to detect "invasive" changes using the
-sstate checksums changing to show that the layer did something
-unexpected. But in general a layer can do pretty much anything.
+ERROR: gpgme-1.8.0-r0 do_configure: This autoconf log indicates
+errors, it looked at host include and/or library paths while
+determining system capabilities.
+Rerun configure task after fixing this.
 
-Cheers,
+i don't ever remember seeing this before, and i see some very recent
+changes to that recipe.
 
-Richard
+rday
 
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
