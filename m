@@ -1,30 +1,46 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 0AA7C606B2
+Return-Path: <msm-oss@mcclintock.net>
+Received: from mail-wr0-f172.google.com (mail-wr0-f172.google.com
+	[209.85.128.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 80F6B60116
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Feb 2017 15:00:42 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v1JF0frg030133; Sun, 19 Feb 2017 15:00:41 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id dz5il9j_GCJQ; Sun, 19 Feb 2017 15:00:41 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v1JF0b0C030123
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sun, 19 Feb 2017 15:00:40 GMT
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1cfSya-0000vi-Vd; Sun, 19 Feb 2017 07:00:36 -0800
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 19 Feb 2017 07:00:34 -0800
-Message-Id: <1487516434-3530-2-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1487516434-3530-1-git-send-email-richard.purdie@linuxfoundation.org>
-References: <1487516434-3530-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 2/2] depmodwrapper-cross/qemuwrapper-cross: Drop unneeded binutils dependency
+	Sun, 19 Feb 2017 16:57:27 +0000 (UTC)
+Received: by mail-wr0-f172.google.com with SMTP id 89so47924229wrr.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 19 Feb 2017 08:57:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mcclintock.net; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Tdutvxs0Ax39vvOjdH9uxpymPil0tdGpaJQT56q4Z+w=;
+	b=S1v6bBundYPsopeaW+hI4165UDkAAiX4uuR62ZR5fpGkWsAqYGY04q1VIYKbcshJPH
+	MlQ3E8QkKVYpaN8qmD2OXENgG6BEBvisfdnNaS/xGkg1e6I70ymmzPdQGKoYcJ65QlGD
+	9JCj5G2mZ24Rnv7NnN24shfEAqoCkt7xcenQo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Tdutvxs0Ax39vvOjdH9uxpymPil0tdGpaJQT56q4Z+w=;
+	b=RQBzTaGBvcJ/bHm5ondwtsjT8Sc9HmyX69ZHacU1zlI8xySUcP6OYGh4T16x1F0zD4
+	woj4GLDrsepAXRHxQHr4fu7y2pqNtkgxseBSIRATp/ueaproj5rS+eLAded4hwaaWWv5
+	iw8QwvCXCM7HmPEonpmN4TdMtvVmXcq+P62ysT2Hawn2Aeda+FCIkK3SCUw3nt45NYHU
+	q/kX/rMN6jl6jHYtv+hizMhpKt75aucgAeSnFGRma6EPDnFOwejPSAMO/CHvOsv0aqFf
+	u3pnw3WT4qWWp1xaUoCe/gKjE4Oq0uMVZiHimkcgkjsiqAWFtq/8dTF66wzUcXuzwbFe
+	9hfQ==
+X-Gm-Message-State: AMke39mt3+SBYgsucBMgiFyKo/ud4jWbIDwc6PrXrJdRdv4P7sDgdKCiixbx6oIuMLjTXRuq62CnGId+a/sI/A==
+X-Received: by 10.223.138.235 with SMTP id z40mr1084422wrz.130.1487523447387; 
+	Sun, 19 Feb 2017 08:57:27 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.28.7.4 with HTTP; Sun, 19 Feb 2017 08:57:07 -0800 (PST)
+In-Reply-To: <CAHUNapRHuTXG2zZCn0iNe+soUY-vFgQ0UXA74zLrSfaOCR39YA@mail.gmail.com>
+References: <2c536609-989f-240e-cb4a-c77815898d8f@gmail.com>
+	<CAHUNapRHuTXG2zZCn0iNe+soUY-vFgQ0UXA74zLrSfaOCR39YA@mail.gmail.com>
+From: Matthew McClintock <msm-oss@mcclintock.net>
+Date: Sun, 19 Feb 2017 08:57:07 -0800
+Message-ID: <CAEsOVNcckNyTDaBwiQ=h_rSUUWAGe=XZiWKyOhJyGF5u0dCjrA@mail.gmail.com>
+To: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] OEDAM - Portland 2017
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,47 +53,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Feb 2017 15:00:50 -0000
+X-List-Received-Date: Sun, 19 Feb 2017 16:57:27 -0000
+Content-Type: text/plain; charset=UTF-8
 
-By default these pull in binutils-cross since they're a cross tool
-and pull in any native tool requirements. In reality they don't
-need such tools at build time or runtime since they're scripts.
+I think some folks where going to try to get a ride share from the HIlton hotel.
 
-Therefore clear the dependency and save on some processing time.
+-M
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb | 2 ++
- meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb | 2 ++
- 2 files changed, 4 insertions(+)
-
-diff --git a/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb b/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
-index b86400b..e40cdaf 100644
---- a/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
-+++ b/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
-@@ -7,6 +7,8 @@ DEPENDS += "qemu-native"
- 
- inherit qemu
- 
-+do_populate_sysroot[depends] = ""
-+
- do_install () {
- 	install -d ${D}${bindir_crossscripts}/
- 
-diff --git a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
-index aa2805b..17a99a4 100644
---- a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
-+++ b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
-@@ -11,6 +11,8 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
- SSTATE_SCAN_FILES += "depmodwrapper"
- EXTRA_STAGING_FIXMES = "PKGDATA_DIR"
- 
-+do_populate_sysroot[depends] = ""
-+
- do_install() {
- 	install -d ${D}${bindir_crossscripts}/
- 
--- 
-2.7.4
-
+On Sun, Feb 19, 2017 at 4:12 AM, Trevor Woerner <twoerner@gmail.com> wrote:
+> Does anyone have any recommendations for how to get from the
+> conference venue to the Mentor Graphics office?
+> --
+> _______________________________________________
+> Openembedded-devel mailing list
+> Openembedded-devel@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
 
