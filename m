@@ -1,28 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BE6A71CAF
+	by mail.openembedded.org (Postfix) with ESMTP id 0AA7C606B2
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 19 Feb 2017 15:00:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v1JF0fJm030131; Sun, 19 Feb 2017 15:00:41 GMT
+	v1JF0frg030133; Sun, 19 Feb 2017 15:00:41 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 6OMpFMvtvFm6; Sun, 19 Feb 2017 15:00:41 +0000 (GMT)
+	with LMTP id dz5il9j_GCJQ; Sun, 19 Feb 2017 15:00:41 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v1JF0b85030116
+	v1JF0b0C030123
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Sun, 19 Feb 2017 15:00:40 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cfSya-0000vd-C8; Sun, 19 Feb 2017 07:00:36 -0800
+	id 1cfSya-0000vi-Vd; Sun, 19 Feb 2017 07:00:36 -0800
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 19 Feb 2017 07:00:33 -0800
-Message-Id: <1487516434-3530-1-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Sun, 19 Feb 2017 07:00:34 -0800
+Message-Id: <1487516434-3530-2-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 1/2] gcc-cross: Avoid races with gcc_stash_builddir
+In-Reply-To: <1487516434-3530-1-git-send-email-richard.purdie@linuxfoundation.org>
+References: <1487516434-3530-1-git-send-email-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/2] depmodwrapper-cross/qemuwrapper-cross: Drop unneeded binutils dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,48 +39,44 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 19 Feb 2017 15:00:50 -0000
 
-Its sad we need to do this but do_install and do_populate_sysroot appear
-to change the files in ${B} and this breaks if something works in parallel
-like gcc_stash_builddir. We've seen a few too many race errors on the
-autobuilder which appear to be from this so make things run in sequence
-deterministically for now.
+By default these pull in binutils-cross since they're a cross tool
+and pull in any native tool requirements. In reality they don't
+need such tools at build time or runtime since they're scripts.
 
-An example failure was this from do_populate_sysroot whilst stash_builddir was running
-in parallel:
-
-ERROR: gcc-cross-initial-arm-6.3.0-r0 do_populate_sysroot: split_and_strip_files: 'file
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm-lsb/build/build/tmp/work/x86_64-linux/
-gcc-cross-initial-arm/6.3.0-r0/sysroot-destdir/home/pokybuild/yocto-autobuilder/yocto-worker/
-nightly-arm-lsb/build/build/tmp/work/x86_64-linux/gcc-cross-initial-arm/6.3.0-r0/recipe-sysroot-native/
-usr/bin/arm-poky-linux-gnueabi.gcc-cross-initial-arm/arm-poky-linux-gnueabi-gcov' failed
-
-Exception: subprocess.CalledProcessError: Command '('patchelf-uninative', '--set-interpreter',
-'/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm-lsb/build/build/tmp/sysroots-uninative/
-x86_64-linux/lib/ld-linux-x86-64.so.2', '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm-lsb/
-build/build/tmp/work/x86_64-linux/gcc-cross-initial-arm/6.3.0-r0/sstate-build-populate_sysroot/
-recipe-sysroot-native/usr/bin/arm-poky-linux-gnueabi.gcc-cross-initial-arm/arm-poky-linux-gnueabi-gcov')' returned non-zero exit status 1
-
-Subprocess output:
-missing section headers
+Therefore clear the dependency and save on some processing time.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/gcc/gcc-cross.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb | 2 ++
+ meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
-index fa5cfbd..bb5f7a0 100644
---- a/meta/recipes-devtools/gcc/gcc-cross.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross.inc
-@@ -200,7 +200,7 @@ do_gcc_stash_builddir () {
- 	dest=${BUILDDIRSTASH}
- 	hardlinkdir . $dest
- }
--addtask do_gcc_stash_builddir after do_compile before do_build
-+addtask do_gcc_stash_builddir after do_compile before do_install
- SSTATETASKS += "do_gcc_stash_builddir"
- do_gcc_stash_builddir[sstate-inputdirs] = "${BUILDDIRSTASH}"
- do_gcc_stash_builddir[sstate-outputdirs] = "${STAGING_DIR}-components/${BUILD_ARCH}/gcc-stashed-builddir${COMPILERINITIAL}-${TARGET_SYS}"
+diff --git a/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb b/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
+index b86400b..e40cdaf 100644
+--- a/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
++++ b/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
+@@ -7,6 +7,8 @@ DEPENDS += "qemu-native"
+ 
+ inherit qemu
+ 
++do_populate_sysroot[depends] = ""
++
+ do_install () {
+ 	install -d ${D}${bindir_crossscripts}/
+ 
+diff --git a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+index aa2805b..17a99a4 100644
+--- a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
++++ b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+@@ -11,6 +11,8 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ SSTATE_SCAN_FILES += "depmodwrapper"
+ EXTRA_STAGING_FIXMES = "PKGDATA_DIR"
+ 
++do_populate_sysroot[depends] = ""
++
+ do_install() {
+ 	install -d ${D}${bindir_crossscripts}/
+ 
 -- 
 2.7.4
 
