@@ -1,26 +1,46 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BCB5771C86
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 03:00:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v1K30jGM019147
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Feb 2017 19:00:45 -0800 (PST)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Sun, 19 Feb 2017 19:00:44 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 19 Feb 2017 19:00:42 -0800
-Message-ID: <3d97fab0cc3b5e107761b9f5126a306d1c7d3e19.1487559493.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.11.0.rc2.dirty
-In-Reply-To: <cover.1487559493.git.liezhi.yang@windriver.com>
-References: <cover.1487559493.git.liezhi.yang@windriver.com>
+Return-Path: <twoerner@gmail.com>
+Received: from mail-qt0-f174.google.com (mail-qt0-f174.google.com
+	[209.85.216.174])
+	by mail.openembedded.org (Postfix) with ESMTP id C1CC971C42;
+	Mon, 20 Feb 2017 03:03:10 +0000 (UTC)
+Received: by mail-qt0-f174.google.com with SMTP id n21so9993954qta.1;
+	Sun, 19 Feb 2017 19:03:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=b+raTu9j6yhsuHsmliucn9Ib2b3FLcVQ4dfcKCYZH6I=;
+	b=YuyX1/PN6TKz8HJAl9RScOrNSDbYzdJs17aB6r2gKVdjGXSf5kPnXO1+YBHyUaP+Oq
+	ssccY6JjxfC6lCI5WAdIBQwME7IWRKo30lArPrz9RnYXLBlb95BNE97GWmWd1KJ42rBQ
+	fIYdth81rsvlAoE7thMeB+pHjcdagc2OwT6/5YMTHSDauJdAJ5/In1qCTr/yEu8NV0WO
+	sV8235FIge3ZXoIdGNxc4XJHRRNLF1ec1BIfnlNA7wWi7rpxB8nt7EKS8sE6kNv2p6a1
+	38GbNbG92so2bHWEfsLdk+59bt1JRHlGn71faTx7B41arSdIKpT4STM7woreT1pzIepg
+	+rhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=b+raTu9j6yhsuHsmliucn9Ib2b3FLcVQ4dfcKCYZH6I=;
+	b=DjNymdr2SK3IlZD9dszF8StlZGbagdG6vUZZToAv4cgT1b8CWaQr4WveqhPzLBQYJB
+	vy6N4Ha2sAbMza8ZmBGldJjjZlWz2CA8gOa5REfswbAZygNfP4jDuz5STl15qeVXTGEY
+	piOUdlT7EZMt6FQwaGU6sUCJEg1ddtbPn005QKnh5AX6QoV/N1YZAyGLw1H43m/2Qm8G
+	aDKbpWodPPPlIZxKojhmwa4YL4Vug/zm3Mv/5BbZO4u1HdKaAQ07ub0nhwCT7y15z19c
+	SLfqTGD3FRXwtx+2R6katDvfEf9PG8b2dWtWEkWMftCsAOhOECMgK1kclObhGs3O+1gX
+	je4Q==
+X-Gm-Message-State: AMke39mFI6mz6Ts82gUKo7TGlaaBTPvhR/b2DeNJrLN+RwsoU3iOpHrHn30QM+8E3lVDmbifvjevOFy+YBxhSQ==
+X-Received: by 10.200.38.50 with SMTP id u47mr19276044qtu.293.1487559790598;
+	Sun, 19 Feb 2017 19:03:10 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 2/2] pigz: set downloadfilename
+Received: by 10.200.39.252 with HTTP; Sun, 19 Feb 2017 19:03:10 -0800 (PST)
+In-Reply-To: <1fa71323-bd61-8c71-d6e7-d462bb9b9f25@balister.org>
+References: <2c536609-989f-240e-cb4a-c77815898d8f@gmail.com>
+	<CAHUNapRHuTXG2zZCn0iNe+soUY-vFgQ0UXA74zLrSfaOCR39YA@mail.gmail.com>
+	<1fa71323-bd61-8c71-d6e7-d462bb9b9f25@balister.org>
+From: Trevor Woerner <twoerner@gmail.com>
+Date: Sun, 19 Feb 2017 22:03:10 -0500
+Message-ID: <CAHUNapRdZ=v-7WsBHoNeih3UWcL86DeriHvW-ERqAPegQeAORg@mail.gmail.com>
+To: openembedded-devel <openembedded-devel@lists.openembedded.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] OEDAM - Portland 2017
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +53,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Feb 2017 03:00:46 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 20 Feb 2017 03:03:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Otherwise, the filename is v${PV}.tar.gz which isn't straightforward.
+Okay thanks, sounds good.
+See you then.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-extended/pigz/pigz_2.3.4.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-extended/pigz/pigz_2.3.4.bb b/meta/recipes-extended/pigz/pigz_2.3.4.bb
-index 53c56c59479..f4832dffe15 100644
---- a/meta/recipes-extended/pigz/pigz_2.3.4.bb
-+++ b/meta/recipes-extended/pigz/pigz_2.3.4.bb
-@@ -3,7 +3,7 @@ LIC_FILES_CHKSUM = "file://pigz.c;beginline=7;endline=21;md5=a21d4075cb00ab4ca17
- 
- UPSTREAM_CHECK_URI = "http://zlib.net/${BPN}/"
- UPSTREAM_CHECK_REGEX = "pigz-(?P<pver>.*)\.tar"
--SRC_URI = "https://github.com/madler/pigz/archive/v${PV}.tar.gz"
-+SRC_URI = "https://github.com/madler/pigz/archive/v${PV}.tar.gz;downloadfilename=${BP}.tar.gz"
- SRC_URI[md5sum] = "c109057050b15edf3eb9bb4d0805235e"
- SRC_URI[sha256sum] = "763f2fdb203aa0b7b640e63385e38e5dd4e5aaa041bc8e42aa96f2ef156b06e8"
- 
--- 
-2.11.0.rc2.dirty
-
+On Sun, Feb 19, 2017 at 5:49 PM, Philip Balister <philip@balister.org> wrote:
+> It sounds like a bunch of us will meet in the Hilton lobby at 0800 and
+> use Lyft/Uber/other.
+>
+> Philip
+>
+> On 02/19/2017 07:12 AM, Trevor Woerner wrote:
+>> Does anyone have any recommendations for how to get from the
+>> conference venue to the Mentor Graphics office?
+>>
+> --
+> _______________________________________________
+> Openembedded-devel mailing list
+> Openembedded-devel@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
 
