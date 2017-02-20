@@ -1,48 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 4319971D31
+Return-Path: <sgw@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id E60AE71CB7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 17:40:20 +0000 (UTC)
-Received: by mail-qk0-f169.google.com with SMTP id p22so101511108qka.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 09:40:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Rk1VOLm0BLnGB5XqrymM5Xg4Eu5D+E/D9FG+ttLVb48=;
-	b=0E9/KYGJ8JzuHFvTQer3pxkGpdpvcH3o/0pOzAXyCPaDW0LmM+ofv2y7N7i8p7qeEI
-	bnAZ1wuMN4ygZrlhmZt09FncrRgtFN3aDRaFQex0u+1edMHNrJTq+mekpTeDk1pfvBfS
-	xiaFqSdb8kFbHfWdDM4gC1d3TEKRITY3DWJMmSl/mRZwDKR+S2xZLdjoKWOoS+0ocfU5
-	YraC18Fb5TtTLy0X1We2Iuy23cgamW8h37bBOvUt8zk4kj5t828OI+wrxGSZ3TK0j2o6
-	1HBYxYngkOfOiktqNJpUmzPKrQ37fLA7N19ZqADsghk1quzByCr/izDxr9D4LzfM4fy9
-	1YrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Rk1VOLm0BLnGB5XqrymM5Xg4Eu5D+E/D9FG+ttLVb48=;
-	b=gUdTP2fKcYVbYXlr6U6iHDRh+gw1e9xJvO1jWz6+IgZ23+KuzOmquUWwd9eU1pcJ/l
-	cFZL8A6Zu5jAtv3E4JMfrd5WZEy4DaI/qFcEwidV9RVLzs+NhnnM58wm4OVFEWQ5lJZs
-	khnPAzOniyEZVM5p1jMEBkUlaRMNWTcW5psvHtrIt8Rsazl7EcLd50uimaTxOTS+Rv1+
-	UjjPt233PoqrYHJtgZXWDQ5vULHulZqyAJK+DxRF+p2IyAzCK/MwY1YsavS5oNdXwdXx
-	RQqJZ2AyicalPgxxm08OF5FGxfN9xXTHcnthBFE5scREhr6Ij1qARQJnszUQVQHIwMVs
-	hvbQ==
-X-Gm-Message-State: AMke39l60SVqXgBZnbqab98+p1UbENZSGZA8wa75zLatk4Jmz96Ix4LzrHe97fukVDD3CMotvCU38GFXuI+IwwMV
-X-Received: by 10.55.175.195 with SMTP id y186mr13325548qke.26.1487612421309; 
-	Mon, 20 Feb 2017 09:40:21 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Mon, 20 Feb 2017 09:40:00 -0800 (PST)
-In-Reply-To: <alpine.LFD.2.20.1702200654200.27683@localhost.localdomain>
-References: <alpine.LFD.2.20.1702191313250.8096@localhost.localdomain>
-	<CAJTo0LbM=BKU5CEcr5mVV0cw_VJS_NsCR992Q5RgpH_x8LRHOw@mail.gmail.com>
-	<alpine.LFD.2.20.1702200654200.27683@localhost.localdomain>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 20 Feb 2017 17:40:00 +0000
-Message-ID: <CAJTo0LYVkVgQ3DgEvRU-Ey+x=3pFJD=t=cddD6_d88bXXD9OYw@mail.gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: something seems to have happened to "gpgme" in latest oe-core
+	Mon, 20 Feb 2017 17:44:47 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga104.jf.intel.com with ESMTP; 20 Feb 2017 09:44:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.35,187,1484035200"; d="scan'208";a="66952395"
+Received: from jbryan-mobl3.amr.corp.intel.com (HELO
+	swold-mobl2.amr.corp.intel.com) ([10.254.42.5])
+	by orsmga005.jf.intel.com with ESMTP; 20 Feb 2017 09:44:47 -0800
+Message-ID: <1487575265.10318.121.camel@linux.intel.com>
+From: Saul Wold <sgw@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+In-Reply-To: <CAJTo0Lb5=tW_U4WizZBjmVTUzsmrOpaEmAmnVn5zJAZGZUPJVg@mail.gmail.com>
+References: <1487356080-8124-1-git-send-email-sgw@linux.intel.com>
+	<CAJTo0Lb5=tW_U4WizZBjmVTUzsmrOpaEmAmnVn5zJAZGZUPJVg@mail.gmail.com>
+Date: Sun, 19 Feb 2017 23:21:05 -0800
+Mime-Version: 1.0
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] apt-package: use ${libdir} instead of /usr/lib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,36 +33,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Feb 2017 17:40:21 -0000
-Content-Type: multipart/alternative; boundary=94eb2c06093cefc8960548f9c110
+X-List-Received-Date: Mon, 20 Feb 2017 17:44:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---94eb2c06093cefc8960548f9c110
-Content-Type: text/plain; charset=UTF-8
+On Fri, 2017-02-17 at 20:40 +0000, Burton, Ross wrote:
+> 
+> On 17 February 2017 at 18:28, Saul Wold <sgw@linux.intel.com> wrote:
+> > -       install -m 0644 ${S}/debian/apt.systemd.daily
+> > ${D}/usr/lib/apt/
+> > +       install -m 0644 ${S}/debian/apt.systemd.daily
+> > ${D}${libdir}/apt/
+> >         install -m 0644 ${S}/debian/apt-daily.service
+> > ${D}${systemd_unitdir}/system/
+> >         install -m 0644 ${S}/debian/apt-daily.timer
+> > ${D}${systemd_unitdir}/system/
+> > 
+> 
+> The apt-daily.service unit is what fires the apt.systemd.daily
+> script:
+> 
+> $ cat debian/apt-daily.service
+> ...
+> ExecStart=/usr/lib/apt/apt.systemd.daily
+> 
+> If you're going to change the install location of the script then the
+> unit needs to be fixed.
+> 
+Hmm, since this is a script would it make more sense to have this
+install create the "usr/lib" directory?  I am wondering is this will
+bullocks up a single root solution or a different non-standard libdir?
 
-On 20 February 2017 at 11:54, Robert P. J. Day <rpjday@crashcourse.ca>
-wrote:
->   gpgme config.log attached.
+Sau!
 
-cc1: warning: include location "/usr/include/python2.7" is unsafe for
-cross-compilation [-Wpoison-system-directories]
+> Ross
 
-It decided to try looking on your host for Python libraries for some
-reason.  You'll have to dig into configure.ac to figure out why (or just
-turn Python explicitly off).
-
-Ross
-
---94eb2c06093cefc8960548f9c110
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br>On 20 February 2017 at 11:54, Robert P. J. Day &lt;<a =
-href=3D"mailto:rpjday@crashcourse.ca">rpjday@crashcourse.ca</a>&gt; wrote:<=
-br>&gt; =C2=A0 gpgme config.log attached.<br><br>cc1: warning: include loca=
-tion &quot;/usr/include/python2.7&quot; is unsafe for cross-compilation [-W=
-poison-system-directories]<br><br>It decided to try looking on your host fo=
-r Python libraries for some reason.=C2=A0 You&#39;ll have to dig into <a hr=
-ef=3D"http://configure.ac">configure.ac</a> to figure out why (or just turn=
- Python explicitly off).<div><br><div>Ross</div></div></div>
-
---94eb2c06093cefc8960548f9c110--
