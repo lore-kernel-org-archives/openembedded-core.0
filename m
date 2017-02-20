@@ -1,46 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 8070771B26
+Received: from mail-qt0-f169.google.com (mail-qt0-f169.google.com
+	[209.85.216.169])
+	by mail.openembedded.org (Postfix) with ESMTP id D922A71CCB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 17:01:02 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id v186so85437615wmd.0
+	Mon, 20 Feb 2017 17:08:53 +0000 (UTC)
+Received: by mail-qt0-f169.google.com with SMTP id b16so42399057qte.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 09:01:03 -0800 (PST)
+	Mon, 20 Feb 2017 09:08:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=xMKrkLWhtSIGaP72vVetCSdetoMdJC1uOvdysswp8vA=;
-	b=UVWTfLlxllhpHOChGrjI5eNspKcxOREqXWQ4vVyVzXmG0G3yTv2FLxSeVrDZW6vjrn
-	80f6qselhKJfbBLKsjb+l6ESefC+OH6IjcoOto7StTrtzzJYGwMSGTh5/oOlAWV8TT7P
-	3k22li8V/mVdQQMDlxbIAW/bTZRmr3x2boywCeLdrge72IOE8Rg9n7XISX+nt8NpnOMA
-	ByfRyrdUHcr8i26Nmm+M4bONP0uWGvxHjif7n0waqmYqLsH+ghxUSwKQJSEvLQlBgrk5
-	RZjrrTnsjE/6roC38gmTkDGJPZ7wC99aGo8YcxUu7nLMtphou2ozT+Ed+I83e7dkLgXE
-	0/yQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=TW2YaovtrjxSYl3uIc+MtqhkdpJtui4+bQfUV7O9Bk8=;
+	b=aJ24nxlTT/27/54wAf5qMS3UG14Q9sdUJw4yjr9uPiw27B/rXh0MAHa2whJQWKUv3o
+	m7kiXj2/BUrJJ0W7DDn0rELalWeAQdEPtk0GAG4GzJ18j+XWzNxBHJVvzyluoFy5JMCf
+	QdHei2sxaJ1Ayz7J8jjvaUsJS+wYYZRbt9f59Xc4Bb5I6k8NuRNebRXRPTe1UfdyNgla
+	cQvVcd7iAvrbTPtFgXBoGpgiczqwvY/gKtNhs7TaS4NcvaC6PJ4bDNmX5EaOQ3F+bGr2
+	nFxIdr4Rz7rVjO5sYyAOVCbcZJ+yBXwYJoMaRsJnICHuOawxDofyI9R7z6SduIR9lqOd
+	Y3XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=xMKrkLWhtSIGaP72vVetCSdetoMdJC1uOvdysswp8vA=;
-	b=DAuKT+FWXPMcHGva7aR3BnW8u716++ITGWI+wb4rl0yJLBFLvY/Zxd60EdseFHVMkG
-	hPU/3I6gTL22OzYTcXXVkR9lTJgvwT0LjXrxLKOCiy99WLGLOLr3qCoIILZ/12cvx4eF
-	0Xx6ESN5gYUgESJvLfd9mt3GYtoBlQ3E/oICYaWSYAeSquGVPNvxMWHbNZfdgg/ri9KH
-	ukpN3XJFvAWafvKWVgeczLhQGwvW4X5CCEFHYwew6goSe7Udz7jp93s8rE/gFGSQ4D2T
-	XxwHbbeSsnjHVb1Q23EIDQko0NCk4pgJN3ICV8CltobIpsY6iY4BxLowI5WzHBLSA38p
-	soYQ==
-X-Gm-Message-State: AMke39kJk5i1R8DD9kJ78KbM8AlFVES1vU3wgPVeXUWRstSOP5Uj3FZeX9tFr/2WR3EjoCYQ
-X-Received: by 10.28.94.8 with SMTP id s8mr19874881wmb.117.1487610062564;
-	Mon, 20 Feb 2017 09:01:02 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	x135sm14213409wme.23.2017.02.20.09.01.01
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 20 Feb 2017 09:01:02 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Feb 2017 17:01:00 +0000
-Message-Id: <1487610060-27007-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] unifdef: add UPSTREAM_CHECK_REGEX to filter out development snapshots
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=TW2YaovtrjxSYl3uIc+MtqhkdpJtui4+bQfUV7O9Bk8=;
+	b=dg/K8CbPgWYpchJ2IsT130hmYVE27KK7PtQjswm5q2OjGc5TaBI74WL73RnguLVnt2
+	6WPStSoki3SR/oL2xf5lj05wGl/tYaCN8NNHKK0Cw43EyaAMqEtqCLbd4861+oGqxsqr
+	BEKPpwSONub2JoVemz0UGZoJiKwknXsM5Twb6qZmYE4BUIs54A6tvU2DmH5z2kpIuvhZ
+	N/1mi7nqOMFlj0G4km6PY9BjA7c8KVqkgFBUkZJ8qgM/Ac9JVxQ/Wx/yNRLC7ukzg2f8
+	47cSCqFyLgJszsO6XDLrF4uMAlau82GbdKoAu2mOjA0cU6wGXUu7iqwE5fBIBIDnYgzY
+	Ttlw==
+X-Gm-Message-State: AMke39nRUNOJHUIn5jhbCQrjkWTVSoBVY7c4eqtF4XlB+DAp6KNzyzky2HdeBfN2IU7epdcbT3FY4IcdfIwInbro
+X-Received: by 10.237.39.158 with SMTP id a30mr1747535qtd.65.1487610533340;
+	Mon, 20 Feb 2017 09:08:53 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.103.233 with HTTP; Mon, 20 Feb 2017 09:08:32 -0800 (PST)
+In-Reply-To: <CALbNGRQNaoktrh_Jk75DxkV-qVv4B9T57oCP3js5k=JApbO+pw@mail.gmail.com>
+References: <CALbNGRQNaoktrh_Jk75DxkV-qVv4B9T57oCP3js5k=JApbO+pw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 20 Feb 2017 17:08:32 +0000
+Message-ID: <CAJTo0LbtbBawLavjDkbxo4xWpqZZMp=ACDmwiLP=ab2DRHZ7xA@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Recipe specific sysroot: handling recipes creating same files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,31 +54,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Feb 2017 17:01:03 -0000
+X-List-Received-Date: Mon, 20 Feb 2017 17:08:56 -0000
+Content-Type: multipart/alternative; boundary=f403045f26a4677eb60548f95196
 
-Upstream is releasing development snapshots of the form
-unifdef-2.11.23.1cca442.tar.gz so filter out versions which end is something
-that looks like a git SHA.
+--f403045f26a4677eb60548f95196
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/unifdef/unifdef_2.11.bb | 2 ++
- 1 file changed, 2 insertions(+)
+On 19 February 2017 at 22:04, Andreas M=C3=BCller <schnitzeltony@googlemail=
+.com>
+wrote:
 
-diff --git a/meta/recipes-devtools/unifdef/unifdef_2.11.bb b/meta/recipes-devtools/unifdef/unifdef_2.11.bb
-index 1d13b9a..1ffc11e 100644
---- a/meta/recipes-devtools/unifdef/unifdef_2.11.bb
-+++ b/meta/recipes-devtools/unifdef/unifdef_2.11.bb
-@@ -10,6 +10,8 @@ SRC_URI = "http://dotat.at/prog/${BPN}/${BP}.tar.xz"
- SRC_URI[md5sum] = "337053fd8a7d9ab3adf5e50f88af95b7"
- SRC_URI[sha256sum] = "828ffc270ac262b88fe011136acef2780c05b0dc3c5435d005651740788d4537"
- 
-+UPSTREAM_CHECK_REGEX = "unifdef-(?P<pver>((\d+\.*)+)(?![a-f0-9]{6,})).tar"
-+
- do_install() {
- 	oe_runmake install DESTDIR=${D} prefix=${prefix}
- }
--- 
-2.8.1
+> This needs love: One can guess that libldb is trying to install stuff
+> already there - nothing mentions samba and the error pops up for gvfs
+> which does nothing really wrong. I consider this as bug introduced by
+> RSS.
+>
 
+Yes: without RSS this would result in a fatal error when the second recipe
+wrote to the sysroot.  Can you file a bug?
 
+Ross
+
+--f403045f26a4677eb60548f95196
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 February 2017 at 22:04, Andreas M=C3=BCller <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:schnitzeltony@googlemail.com" target=3D"_blank">schnitzelton=
+y@googlemail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><d=
+iv id=3D":2sk" class=3D"a3s aXjCH m15a58686b440f3b6">This needs love: One c=
+an guess that libldb is trying to install stuff<br>
+already there - nothing mentions samba and the error pops up for gvfs<br>
+which does nothing really wrong. I consider this as bug introduced by<br>
+RSS.</div></blockquote></div><br>Yes: without RSS this would result in a fa=
+tal error when the second recipe wrote to the sysroot.=C2=A0 Can you file a=
+ bug?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
+Ross</div></div>
+
+--f403045f26a4677eb60548f95196--
