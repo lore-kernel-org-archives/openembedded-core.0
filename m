@@ -1,23 +1,23 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F6FA71CB1
+	by mail.openembedded.org (Postfix) with ESMTP id A25F271C14
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 10:35:56 +0000 (UTC)
+	Mon, 20 Feb 2017 10:35:57 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Feb 2017 02:35:57 -0800
+	20 Feb 2017 02:35:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,186,1484035200"; d="scan'208";a="1132314400"
+X-IronPort-AV: E=Sophos;i="5.35,186,1484035200"; d="scan'208";a="1132314411"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Feb 2017 02:35:56 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 20 Feb 2017 02:35:57 -0800
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Feb 2017 12:35:36 +0200
-Message-Id: <20170220103551.20022-5-markus.lehtonen@linux.intel.com>
+Date: Mon, 20 Feb 2017 12:35:37 +0200
+Message-Id: <20170220103551.20022-6-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <20170220103551.20022-1-markus.lehtonen@linux.intel.com>
 References: <20170220103551.20022-1-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 05/20] devtools/images: add python-pgo-image
+Subject: [PATCH 06/20] python: make profile-optimized build possible
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,81 +32,82 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 20 Feb 2017 10:35:57 -0000
 
-This is a special image for profiling Python in order to utilize
-profile-guided-optimization. Profile data can be obtained by by running
-bitbake python-pgo-image -c profile. It will be located in the directory
-pointed by ${PYTHON_PROFILE_DIR}. The profile task that is run can be
-altered by specifying ${PYTHON_PROFILE_TASK}.
+This patch makes it possible to build python with profile directed
+optimization. That is, feed python build process with profile data to
+guide optimization. This is the third (and the last) step in profile
+directed optimization for Python.
+
+In order to do a profile-optimized build you need to set
+PYTHON_PROFILE_OPT = "1" in your local.conf. Be sure to get the profile
+data for python, preferably by running
+"bitbake python-pgo-image -c profile".
 
 [YOCTO #9338]
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- meta/recipes-devtools/images/python-pgo-image.bb | 55 ++++++++++++++++++++++++
- 1 file changed, 55 insertions(+)
- create mode 100644 meta/recipes-devtools/images/python-pgo-image.bb
+ meta/recipes-devtools/python/python_2.7.12.bb | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/images/python-pgo-image.bb b/meta/recipes-devtools/images/python-pgo-image.bb
-new file mode 100644
-index 0000000..1aabd56
---- /dev/null
-+++ b/meta/recipes-devtools/images/python-pgo-image.bb
-@@ -0,0 +1,55 @@
-+SUMMARY = "Minimal image for doing Python profiling (for PGO)"
-+
-+IMAGE_FEATURES += "ssh-server-dropbear"
-+IMAGE_INSTALL = "packagegroup-core-boot python-profile-opt python-profile-opt-tests"
-+
-+LICENSE = "MIT"
-+
-+inherit core-image
-+
-+PYTHON_PROFILE_DIR ?= "${TMPDIR}/work-shared/${MACHINE}/python/pgo-data"
-+PYTHON_PROFILE_TASK ?= "-m test.regrtest --pgo -w -x test_asyncore test_gdb test_multiprocessing test_subprocess"
-+
-+# We need these because we're utilizing the runtime test helpers from oeqa
-+TEST_TARGET ?= "qemu"
-+TEST_QEMUBOOT_TIMEOUT ?= "1000"
-+TEST_LOG_DIR ?= "${WORKDIR}/qemulogs"
-+
-+python do_profile() {
-+    from oeqa.targetcontrol import get_target_controller
-+    from oe.utils import getstatusoutput
-+
-+    target = get_target_controller(d)
-+    target.deploy()
-+    try:
-+        # Boot target
-+        bootparams = None
-+        if d.getVar('VIRTUAL-RUNTIME_init_manager', True) == 'systemd':
-+            bootparams = 'systemd.log_level=debug systemd.log_target=console'
-+        target.start(extra_bootparams=bootparams)
-+
-+        # Run profile task
-+        profile_cmd = 'LD_LIBRARY_PATH=/opt/lib /opt/bin/python %s' % d.getVar("PYTHON_PROFILE_TASK", True)
-+        ret, output = target.run(profile_cmd, timeout=7200)
-+        if ret:
-+            bb.fatal("Failed to run profile task on target: %s" % output)
-+        ret, output = target.run('tar czf pgo-data.tgz -C /home/root/python-pgo-profiles/ .')
-+        if ret:
-+            bb.fatal("Failed to archive profile data on target: %s" % output)
-+
-+        # Retrieve and unpack profile data
-+        profile_dir = d.getVar("PYTHON_PROFILE_DIR", True)
-+        target.copy_from('/home/root/pgo-data.tgz', profile_dir)
-+
-+        profile_tarball = os.path.join(profile_dir, 'pgo-data.tgz')
-+        ret, output = getstatusoutput('tar xf %s -C %s' % (profile_tarball, profile_dir))
-+        os.unlink(profile_tarball)
-+        if ret:
-+            bb.fatal("Failed to unpack python profile data: %s" % output)
-+    finally:
-+        target.stop()
+diff --git a/meta/recipes-devtools/python/python_2.7.12.bb b/meta/recipes-devtools/python/python_2.7.12.bb
+index 31df7bb..dbd44bf 100644
+--- a/meta/recipes-devtools/python/python_2.7.12.bb
++++ b/meta/recipes-devtools/python/python_2.7.12.bb
+@@ -43,6 +43,17 @@ EXTRA_OECONF += "ac_cv_file__dev_ptmx=yes ac_cv_file__dev_ptc=no"
+ STAGING_INCDIR_DEFAULT ?= "${STAGING_INCDIR}"
+ STAGING_LIBDIR_DEFAULT ?= "${STAGING_LIBDIR}"
+ 
++# Automatic profile guided optimization
++PYTHON_MAKE_TARGET ?= "${@'build_all_use_profile' if d.getVar('PYTHON_PROFILE_OPT', True) == '1' else ''}"
++PYTHON_PROFILE_DIR ?= "${@'${TMPDIR}/work-shared/${MACHINE}/python/pgo-data' if d.getVar('PYTHON_PROFILE_OPT', True) == '1' else ''}"
++python () {
++    if (d.getVar('PYTHON_PROFILE_OPT', True) == '1' and
++            d.getVar('PYTHON_MAKE_TARGET', True) == 'build_all_use_profile'):
++        profile_dir = d.getVar('PYTHON_PROFILE_DIR', True)
++        bb.utils.mkdirhier(profile_dir)
++        d.setVarFlag('do_compile', 'file-checksums', '%s:True' % profile_dir)
 +}
 +
-+addtask profile after do_build
-+do_profile[depends] += "qemu-native:do_populate_sysroot qemu-helper-native:do_populate_sysroot"
-+do_profile[cleandirs] = "${PYTHON_PROFILE_DIR}"
+ do_configure_append() {
+ 	rm -f ${S}/Makefile.orig
+         autoreconf -Wcross --verbose --install --force --exclude=autopoint ../Python-${PV}/Modules/_ctypes/libffi
+@@ -80,9 +91,15 @@ do_compile() {
+ 
+ 	export CROSS_COMPILE="${TARGET_PREFIX}"
+ 	export PYTHONBUILDDIR="${B}"
+-    # This is only used in PGO profiling by python-profile-opt package
+     if [ "${PYTHON_MAKE_TARGET}" = "build_all_generate_profile" ]; then
++        # This is only used in PGO profiling by python-profile-opt package
+         export EXTRA_CFLAGS="-fprofile-dir=./python-pgo-profiles/"
++    else
++        if [ -n "${PYTHON_PROFILE_DIR}" ]; then
++            export EXTRA_CFLAGS="-fprofile-dir=${PYTHON_PROFILE_DIR}"
++            # Remove non-optimized build artefacts
++            oe_runmake clean
++        fi
+     fi
+ 
+ 	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/python-native/pgen \
+@@ -100,6 +117,11 @@ do_install() {
+ 
+ 	export CROSS_COMPILE="${TARGET_PREFIX}"
+ 	export PYTHONBUILDDIR="${B}"
++    # This only has effect if we build with -fprofile-use, e.g. when make
++    # target is build_all_use_profile
++    if [ -n "${PYTHON_PROFILE_DIR}" ]; then
++        export EXTRA_CFLAGS="-fprofile-dir=${PYTHON_PROFILE_DIR}"
++    fi
+ 
+ 	# After swizzling the makefile, we need to run the build again.
+ 	# install can race with the build so we have to run this first, then install
+@@ -147,6 +169,7 @@ py_package_preprocess () {
+     python -m py_compile ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py
+ }
+ 
++
+ require python-${PYTHON_MAJMIN}-manifest.inc
+ 
+ # manual dependency additions
 -- 
 2.10.2
 
