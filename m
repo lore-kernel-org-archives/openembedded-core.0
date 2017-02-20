@@ -1,23 +1,46 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 8405D71C07
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 728A371C7E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 10:36:13 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Feb 2017 02:36:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,186,1484035200"; d="scan'208";a="1132314560"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Feb 2017 02:36:13 -0800
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+	Mon, 20 Feb 2017 11:20:28 +0000 (UTC)
+Received: by mail-wm0-f48.google.com with SMTP id v77so49845448wmv.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Feb 2017 03:20:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=i73ya79YAakfrXvMUybh6QfEEoY69pJ3ExMa6Z8+Co0=;
+	b=1IIUIjmk/I6DyVIQ1SARpGoJh2Q0HRIVxJ8ZJKs9jdKY2wq0CF2j06vIRiZzpD6EiS
+	JwK1kLYboK51LvoQ7QkxOCfTHliCYO6Vw/PhyCBSczM/sl8nDOmNx+bRRfsHTrUp8Ufx
+	cV4XW3a7ipqo8rk8D60f1xQWYFlRBIlseZM8OlS/Nuz0EQIRo01rLGR0NnD1AX6i8W+B
+	qYulWzHCaikQXSPv86iEGpOMyLzVQUor3xVEaqFIGBx//2GaqhSC9DtH/fwmfuZIiSMo
+	V260QRoWtd8AqSQYddRHswwgOoM5x0v4Nsz9uVonP0ZeoDbi3MWhst94iwrEvspLpGY6
+	hZdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=i73ya79YAakfrXvMUybh6QfEEoY69pJ3ExMa6Z8+Co0=;
+	b=cfD2W5VYU2UynNITVALjvdpG6UKQez1ax74ZVOHMDkRxCKgfE8R8J6BstkoacBwBrm
+	SePXIRefhCt6g2qBJckHZJ1MTwahktZZZIxlMN+0LC15QGeikMBmxQHO24K9zw8evNOV
+	gf6xrFbkinbtsgzY+zcMKBl8gCPg6tX8opVQMYtgXd8rcH8+5CNcAsaRC879jAGobIFT
+	QmbVBIOYumfvwIWsels5kU77KRm2RkdiVZ/d6Dc3P/2kwu0ALyLcnV3iySQPjY+ldYg3
+	NKZy9rmtE0hCdoqUcsAVsr8Cs1kQrPV3jRKsejBUMCybd8bFJ15OSrkAy7Mf6BdSOq+F
+	wpHw==
+X-Gm-Message-State: AMke39nLK/6gr2JrA1bhxQYIu8v7+R4xIWFzA0KpcEp74avlZs6kYj85M4c/+T3D2oN/+RSo
+X-Received: by 10.28.153.196 with SMTP id b187mr17437695wme.53.1487589627957; 
+	Mon, 20 Feb 2017 03:20:27 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	m80sm13039727wmi.34.2017.02.20.03.20.27
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 20 Feb 2017 03:20:27 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Feb 2017 12:35:51 +0200
-Message-Id: <20170220103551.20022-20-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.10.2
-In-Reply-To: <20170220103551.20022-1-markus.lehtonen@linux.intel.com>
-References: <20170220103551.20022-1-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 20/20] python-pgo-image: change python3 profile target to pybench
+Date: Mon, 20 Feb 2017 11:20:23 +0000
+Message-Id: <1487589623-6089-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH][V2] btrfs-tools: don't run autogen.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,51 +53,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Feb 2017 10:36:13 -0000
+X-List-Received-Date: Mon, 20 Feb 2017 11:20:28 -0000
 
-Running test.regrtest was still taking ridiculously long, i.e. around 4
-hours in qemux86 on my desktop machine. Change to pybench which "only"
-takes around 55 minutes.
+Instead of running autogen.sh (which runs autoconf et al) before running
+autoreconf (which runs autoreconf et al...) just do the one task that we need
+from autogen.sh: copying install-sh from automake's libdir.
 
-[YOCTO #9338]
-
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/images/python-pgo-image.bb | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ meta/recipes-devtools/btrfs-tools/btrfs-tools_4.8.5.bb | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/images/python-pgo-image.bb b/meta/recipes-devtools/images/python-pgo-image.bb
-index db67cf3..008598e 100644
---- a/meta/recipes-devtools/images/python-pgo-image.bb
-+++ b/meta/recipes-devtools/images/python-pgo-image.bb
-@@ -3,7 +3,7 @@ SUMMARY = "Minimal image for doing Python profiling (for PGO)"
- IMAGE_FEATURES += "ssh-server-dropbear"
- IMAGE_INSTALL = "packagegroup-core-boot"
- IMAGE_INSTALL += "python-profile-opt python-profile-opt-tests python-profile-opt-tools"
--IMAGE_INSTALL += "python-profile-opt3 python-profile-opt3-tests"
-+IMAGE_INSTALL += "python-profile-opt3 python-profile-opt3-tests python-profile-opt3-tools"
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.8.5.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.8.5.bb
+index 7047c43..04e1e61 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.8.5.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.8.5.bb
+@@ -14,17 +14,17 @@ DEPENDS = "util-linux attr e2fsprogs lzo acl udev"
+ RDEPENDS_${PN} = "libgcc"
  
- LICENSE = "MIT"
+ SRCREV = "144a19145e248513c7a676defad59836830535c6"
+-SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
+-"
++SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git"
  
-@@ -22,12 +22,13 @@ PYTHON_PROFILE_TASK_DEFAULT = "/opt/share/doc/python-profile-opt/Tools/pybench/p
- PYTHON_PROFILE_TASK ?= "${PYTHON_PROFILE_TASK_DEFAULT}"
+ inherit autotools-brokensep pkgconfig manpages
  
- PYTHON3_PROFILE_DIR ?= "${TMPDIR}/work-shared/${MACHINE}/python3/pgo-data"
--PYTHON3_PROFILE_TASK_DEFAULT = "-m test.regrtest --pgo -w -x test_asyncore test_gdb test_multiprocessing_fork test_multiprocessing_forkserver test_multiprocessing_main_handling test_multiprocessing_spawn test_subprocess"
-+#PYTHON3_PROFILE_TASK_DEFAULT = "-m test.regrtest --pgo -w -x test_asyncore test_gdb test_multiprocessing_fork test_multiprocessing_forkserver test_multiprocessing_main_handling test_multiprocessing_spawn test_subprocess"
- # Exclude tests that are failing on qemux86
--PYTHON3_PROFILE_TASK_DEFAULT += "test_builtin test_cmath test_concurrent_futures test_difflib test_distutils test_float test_format test_math test_optparse test_shutil test_statistics test_types test_unicode"
-+#PYTHON3_PROFILE_TASK_DEFAULT += "test_builtin test_cmath test_concurrent_futures test_difflib test_distutils test_float test_format test_math test_optparse test_shutil test_statistics test_types test_unicode"
- # Exclude tests that are taking very long on qemux86
--PYTHON3_PROFILE_TASK_DEFAULT += "test_lib2to3 test_buffer test_pickle test_io test_threading test_asyncio test_urllib2_localnet test_itertools test_tuple test_trace test_tarfile test_unicodedata test_decimal"
--PYTHON3_PROFILE_TASK_DEFAULT += "test_long test_zipfile test_deque test_descr test_email test_venv test_bytes test_compileall test_ast test_multibytecodec"
-+#PYTHON3_PROFILE_TASK_DEFAULT += "test_lib2to3 test_buffer test_pickle test_io test_threading test_asyncio test_urllib2_localnet test_itertools test_tuple test_trace test_tarfile test_unicodedata test_decimal"
-+#PYTHON3_PROFILE_TASK_DEFAULT += "test_long test_zipfile test_deque test_descr test_email test_venv test_bytes test_compileall test_ast test_multibytecodec"
-+PYTHON3_PROFILE_TASK_DEFAULT = "/opt/share/doc/python-profile-opt3/Tools/pybench/pybench.py -n 2 --with-gc --with-syscheck"
+ PACKAGECONFIG[manpages] = "--enable-documentation, --disable-documentation, asciidoc-native xmlto-native"
+ EXTRA_OECONF_append_libc-musl = " --disable-backtrace "
  
- PYTHON3_PROFILE_TASK ?= "${PYTHON3_PROFILE_TASK_DEFAULT}"
+-
+ do_configure_prepend() {
+-      sh autogen.sh
++	# Upstream doesn't ship this and autoreconf won't install it as automake isn't used.
++	mkdir -p ${S}/config
++	cp -f $(automake --print-libdir)/install-sh ${S}/config/
+ }
  
+ S = "${WORKDIR}/git"
 -- 
-2.10.2
+2.8.1
 
 
