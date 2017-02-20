@@ -1,44 +1,46 @@
-Return-Path: <huyht1205@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D089C71B27
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DF0D71ADE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 09:38:04 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id a123so9444304pgc.3
+	Mon, 20 Feb 2017 10:08:30 +0000 (UTC)
+Received: by mail-wm0-f50.google.com with SMTP id r141so48315961wmg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 01:38:05 -0800 (PST)
+	Mon, 20 Feb 2017 02:08:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=bYWVFDHDBp89fmQAOeTQO4ZusZXpm9EVVJsEfiII064=;
-	b=OhbXK0vmWt4NHdKhtdc3YY3EVevliDe8aAT4NQHpTKLpYGsv2i3eB8c2PSW0a+t33a
-	5yBB0vPi/Gc9mnnBNb3ssOXS/CJ8o/wC8Q7TUCWbH1om4+nw4FLsLA1yEB+7u5lOKPls
-	dg9Km4GQtuNGCOnPRX/74dRuZDsMg4lGWibjSwQidvVpQoZZY4+YJUCqwGY03JTOU4JA
-	6A0vWodU3aD84ZAzrt0io4hAPsfJyzrG7qiIn0NKblmvafwQCCFMQv2unrdqgSRZmEFF
-	YvLICc2iHiTFZydpyOVqU+ZQ3D4mTjnYe2rFoBMlQlUM96q1Mns8sRzWzUj6H0ke+DU6
-	uhJA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=zR/6B6uATlXzt9Jk3THLwEaxbNxAs9MfVHX22VpGWv4=;
+	b=PuIxHwujQR66YOzlbqLxDjOA3fsBvkjIac6hTC8alKHY0XF51fvzUvX2Dp2t1xqFWU
+	UsJo0jeqrpyN31Ewj3WhUm7YuI4JMeOHXvNYYWDRwebRVsEr+Hnd2vLK5lpIoqsppAUe
+	PwYHPvgHMV9SkIx6kgxxDr6ohBwCgAExNts1r2RM/6+ZHx3yQvKRKmCfSmeSPMW6/ieZ
+	jawhq6AufmJdo0S7KlQf0/L7y/djhditaSTPCmeSPc6GqtFDIxZI/Nx4hVYzIzO0ELyK
+	1tB2Fl5s0AH21tlv074CnS2PZm6SzkKoff1zhoAjeNQA2MpYaLxSvqjm11NkQ2RfJxUe
+	EaLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=bYWVFDHDBp89fmQAOeTQO4ZusZXpm9EVVJsEfiII064=;
-	b=QS8LbxEwUIEjwtNYymdtOHH2CPtlqKdpBuRMsqhv4dJNYIM6WS0C/dcG1kXMjuQwkb
-	z9/ad6O75+c+Bjx3sAu2X6OSOF6q08c8QPfsDvu0Igrh7CG3hkyKwr5REhVKbsG+ufd9
-	aQNH5R7iCLOWXm/77syqObrOr7OWTT5t/1RvnGsHBgg8EXr19mBqPDRBaRTwLSoyDLvr
-	iSaSG1mqYbR06YK40D1Z+AQCGvc5U1rvmRwvLp9Q+vmxIRM3mHdPoPS6PnD1mDjdZhbx
-	YZ11JIS9QZTLNLP1EI5ZTmAxtuFzjxLh0El1FrgUVQ1TRgEnLH45UYm5fe8Q4qCFFPm0
-	NaFQ==
-X-Gm-Message-State: AMke39kG8vJKqDW5mADyITvqlyu3jOKY+mMdrJei7THXnT5s+bhQFh1Mwhx6Cg9YUOmaDg==
-X-Received: by 10.99.211.21 with SMTP id b21mr26606388pgg.166.1487583485697;
-	Mon, 20 Feb 2017 01:38:05 -0800 (PST)
-Received: from lh-asuspc.local ([210.245.32.62])
-	by smtp.gmail.com with ESMTPSA id
-	z7sm11968603pfz.128.2017.02.20.01.38.04
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 20 Feb 2017 01:38:05 -0800 (PST)
-From: Luck Hoang <huyht1205@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Feb 2017 16:37:58 +0700
-Message-Id: <1487583478-22151-1-git-send-email-huyht1205@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [scripts][PATCH] devtool: upgrade: fix error of import recipeutils
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=zR/6B6uATlXzt9Jk3THLwEaxbNxAs9MfVHX22VpGWv4=;
+	b=TUz88SwM0YH+FJRH6Je+T8D+gMhXOtC37hKDuGyMQo0Nn+KKLouXN9wLnNMOJvwQ/l
+	BM9LXpgYg4hpIkK00kau5AYjHvrm4xuqnHDNuMBRtjYNut4fNMavg8JxA2x57kunkUAu
+	Q/8Nilmov5Xg6Bs003NNiJkrdp8o0aEePevKzlFyfkR7ZLlfW90EAMia/Tmt96qiyDJ8
+	MP3TLml1tknjRGfW4RTCx71joXcGk6mtMCjZ5ryl4GbmTwHXvYokmHc8ngLouwWmMInm
+	I1W9DVGTlGUqWe+WfnBUhDKBBkYul3px8ROhkBX/u9Rn2tLSdt9IQpGEuE7ZzXOIqGgV
+	ZZAA==
+X-Gm-Message-State: AMke39mu7Rm0Jz8z2NaQXegzyPOHgGP2xpYKh7oIzo7diZs+klb2A0lgIHZouaDep40chZFZEIXwmTCs6ACxSg==
+X-Received: by 10.28.8.130 with SMTP id 124mr16969019wmi.65.1487585310657;
+	Mon, 20 Feb 2017 02:08:30 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.223.174.82 with HTTP; Mon, 20 Feb 2017 02:08:30 -0800 (PST)
+In-Reply-To: <alpine.LFD.2.20.1702191315090.8096@localhost.localdomain>
+References: <alpine.LFD.2.20.1702181316120.26007@localhost.localdomain>
+	<1487525710.30548.20.camel@linuxfoundation.org>
+	<alpine.LFD.2.20.1702191315090.8096@localhost.localdomain>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 20 Feb 2017 02:08:30 -0800
+Message-ID: <CAJ86T=UAx=k663CMc+95oo6PT38ZhR7T3rXNh5vyhGxz=QFiuA@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: possible consequences of adding "extraneous" layers to a build?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,32 +53,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Feb 2017 09:38:06 -0000
+X-List-Received-Date: Mon, 20 Feb 2017 10:08:31 -0000
+Content-Type: text/plain; charset=UTF-8
 
-upgrade.py imports oe.recipeutils in meta/lib/ but path to oe.recipeutils
-is not provided. This fails populate_sdk_ext.
+On Sun, Feb 19, 2017 at 10:19 AM, Robert P. J. Day
+<rpjday@crashcourse.ca> wrote:
+> i understand that a layer can do pretty much *anything*, what i was
+> more interested in is what it *shouldn't* do unless it comes with huge
+> warning signs telling you about it. as a more concrete example, if
+> someone says, "hey, i have this great new layer that provides all
+> sorts of cool recipes," i'd want to to know that i can add it to
+> bblayers.conf and, unless i explicitly choose to start using content
+> from it, it shouldn't quietly change my current build.
 
-Signed-off-by: Luck Hoang <huyht1205@gmail.com>
----
- scripts/lib/devtool/upgrade.py | 4 ++++
- 1 file changed, 4 insertions(+)
+The priority of recipes within the layers (ie BBFILE_PRIORITY_xxx)
+gives a good indication of that. Layers which just provide cool news
+recipes (ie fill in gaps in oe-core) generally have a priority lower
+than or equal to oe-core. BSP or distro layers (which often need to
+over-ride or modify stuff in oe-core) generally have a priority higher
+than oe-core. You should be very cautious about adding new distro or
+BSP layers to your build.
 
-diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index a085f78..45b23be 100644
---- a/scripts/lib/devtool/upgrade.py
-+++ b/scripts/lib/devtool/upgrade.py
-@@ -27,6 +27,10 @@ import argparse
- import scriptutils
- import errno
- import bb
-+
-+devtool_path = os.path.dirname(os.path.realpath(__file__)) + '/../../../meta/lib'
-+sys.path = sys.path + [devtool_path]
-+
- import oe.recipeutils
- from devtool import standard
- from devtool import exec_build_env_command, setup_tinfoil, DevtoolError, parse_recipe, use_external_build
--- 
-2.7.4
-
+> rday
+>
+> --
+>
+> ========================================================================
+> Robert P. J. Day                                 Ottawa, Ontario, CANADA
+>                         http://crashcourse.ca
+>
+> Twitter:                                       http://twitter.com/rpjday
+> LinkedIn:                               http://ca.linkedin.com/in/rpjday
+> ========================================================================
 
