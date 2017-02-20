@@ -1,31 +1,48 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id BA4EE71B1F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 4319971D31
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 17:29:02 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga105.fm.intel.com with ESMTP; 20 Feb 2017 09:29:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,187,1484035200"; 
-	d="asc'?scan'208";a="936093523"
-Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.128.120])
-	([10.219.128.120])
-	by orsmga003.jf.intel.com with ESMTP; 20 Feb 2017 09:29:02 -0800
-To: Christopher Larson <kergoth@gmail.com>
-References: <1487366767-28347-1-git-send-email-anibal.limon@linux.intel.com>
-	<CABcZANksgFTdb52szMJVWo4EWxDT9ZA6hpnznHAfGH-KB15CnA@mail.gmail.com>
-	<CABcZANmXhMdui8xP67uE7LzVibJa+kmWC5CaC7zNA6wV84EVbg@mail.gmail.com>
-From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Message-ID: <58AB2827.5060400@linux.intel.com>
-Date: Mon, 20 Feb 2017 11:32:23 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Mon, 20 Feb 2017 17:40:20 +0000 (UTC)
+Received: by mail-qk0-f169.google.com with SMTP id p22so101511108qka.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Feb 2017 09:40:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Rk1VOLm0BLnGB5XqrymM5Xg4Eu5D+E/D9FG+ttLVb48=;
+	b=0E9/KYGJ8JzuHFvTQer3pxkGpdpvcH3o/0pOzAXyCPaDW0LmM+ofv2y7N7i8p7qeEI
+	bnAZ1wuMN4ygZrlhmZt09FncrRgtFN3aDRaFQex0u+1edMHNrJTq+mekpTeDk1pfvBfS
+	xiaFqSdb8kFbHfWdDM4gC1d3TEKRITY3DWJMmSl/mRZwDKR+S2xZLdjoKWOoS+0ocfU5
+	YraC18Fb5TtTLy0X1We2Iuy23cgamW8h37bBOvUt8zk4kj5t828OI+wrxGSZ3TK0j2o6
+	1HBYxYngkOfOiktqNJpUmzPKrQ37fLA7N19ZqADsghk1quzByCr/izDxr9D4LzfM4fy9
+	1YrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Rk1VOLm0BLnGB5XqrymM5Xg4Eu5D+E/D9FG+ttLVb48=;
+	b=gUdTP2fKcYVbYXlr6U6iHDRh+gw1e9xJvO1jWz6+IgZ23+KuzOmquUWwd9eU1pcJ/l
+	cFZL8A6Zu5jAtv3E4JMfrd5WZEy4DaI/qFcEwidV9RVLzs+NhnnM58wm4OVFEWQ5lJZs
+	khnPAzOniyEZVM5p1jMEBkUlaRMNWTcW5psvHtrIt8Rsazl7EcLd50uimaTxOTS+Rv1+
+	UjjPt233PoqrYHJtgZXWDQ5vULHulZqyAJK+DxRF+p2IyAzCK/MwY1YsavS5oNdXwdXx
+	RQqJZ2AyicalPgxxm08OF5FGxfN9xXTHcnthBFE5scREhr6Ij1qARQJnszUQVQHIwMVs
+	hvbQ==
+X-Gm-Message-State: AMke39l60SVqXgBZnbqab98+p1UbENZSGZA8wa75zLatk4Jmz96Ix4LzrHe97fukVDD3CMotvCU38GFXuI+IwwMV
+X-Received: by 10.55.175.195 with SMTP id y186mr13325548qke.26.1487612421309; 
+	Mon, 20 Feb 2017 09:40:21 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CABcZANmXhMdui8xP67uE7LzVibJa+kmWC5CaC7zNA6wV84EVbg@mail.gmail.com>
-Cc: yocto <yocto@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] yocto-compat-layer.py: Add script to YP Compatible Layer validation
+Received: by 10.140.103.233 with HTTP; Mon, 20 Feb 2017 09:40:00 -0800 (PST)
+In-Reply-To: <alpine.LFD.2.20.1702200654200.27683@localhost.localdomain>
+References: <alpine.LFD.2.20.1702191313250.8096@localhost.localdomain>
+	<CAJTo0LbM=BKU5CEcr5mVV0cw_VJS_NsCR992Q5RgpH_x8LRHOw@mail.gmail.com>
+	<alpine.LFD.2.20.1702200654200.27683@localhost.localdomain>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 20 Feb 2017 17:40:00 +0000
+Message-ID: <CAJTo0LYVkVgQ3DgEvRU-Ey+x=3pFJD=t=cddD6_d88bXXD9OYw@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: something seems to have happened to "gpgme" in latest oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,92 +55,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Feb 2017 17:29:03 -0000
-X-Groupsio-MsgNum: 93594
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature";
-	boundary="dUmeE5h5iHRum3VrEATw1vn87eoIdk9Tw"
+X-List-Received-Date: Mon, 20 Feb 2017 17:40:21 -0000
+Content-Type: multipart/alternative; boundary=94eb2c06093cefc8960548f9c110
 
---dUmeE5h5iHRum3VrEATw1vn87eoIdk9Tw
-Content-Type: text/plain; charset=utf-8
+--94eb2c06093cefc8960548f9c110
+Content-Type: text/plain; charset=UTF-8
+
+On 20 February 2017 at 11:54, Robert P. J. Day <rpjday@crashcourse.ca>
+wrote:
+>   gpgme config.log attached.
+
+cc1: warning: include location "/usr/include/python2.7" is unsafe for
+cross-compilation [-Wpoison-system-directories]
+
+It decided to try looking on your host for Python libraries for some
+reason.  You'll have to dig into configure.ac to figure out why (or just
+turn Python explicitly off).
+
+Ross
+
+--94eb2c06093cefc8960548f9c110
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br>On 20 February 2017 at 11:54, Robert P. J. Day &lt;<a =
+href=3D"mailto:rpjday@crashcourse.ca">rpjday@crashcourse.ca</a>&gt; wrote:<=
+br>&gt; =C2=A0 gpgme config.log attached.<br><br>cc1: warning: include loca=
+tion &quot;/usr/include/python2.7&quot; is unsafe for cross-compilation [-W=
+poison-system-directories]<br><br>It decided to try looking on your host fo=
+r Python libraries for some reason.=C2=A0 You&#39;ll have to dig into <a hr=
+ef=3D"http://configure.ac">configure.ac</a> to figure out why (or just turn=
+ Python explicitly off).<div><br><div>Ross</div></div></div>
 
-
-On 02/17/2017 04:41 PM, Christopher Larson wrote:
-> On Fri, Feb 17, 2017 at 3:39 PM, Christopher Larson <kergoth@gmail.com>=
-
-> wrote:
->=20
->> On Fri, Feb 17, 2017 at 2:26 PM, An=C3=ADbal Lim=C3=B3n <
->> anibal.limon@linux.intel.com> wrote:
->>
->>> +    parser.add_argument('-l', '--layer', metavar=3D'LAYER_DIR',
->>> +            help=3D'Layer to test compatibility with Yocto Project',=
-
->>> +            action=3D'store', required=3DTrue)
->>>
->>
->> The behavior of this argument is quite unintuitive. First, this path i=
-sn=E2=80=99t
->> actually used as the layer directory, detect_layers searches down from=
- that
->> path to *find* layers in that subdirectory, so the argument isn=E2=80=99=
-t what it
->> says it is. Second, why are you making an option mandatory rather than=
- just
->> using arguments?
->>
->> That is, why `layer-compat-layer.py -l layerpath` rather than
->> `layer-compat-layer.py layerpath`. If you change the call to
->> `parser.add_argument(=E2=80=98layer=E2=80=99, =E2=80=A6)` it=E2=80=99d=
- change to the latter behavior.
->>
->=20
-> Worth noting that you could, and probably should, also use nargs=3D=E2=80=
-=98+=E2=80=99 to let
-> the user specify multiple layers to check, rather than a single path, i=
-f
-> you go the latter route, and if not, you could change it to an append s=
-tyle
-> (for the =E2=80=98action=E2=80=99) argument to accomplish the same.
-
-Yes, it's better to change the -l option to use a positional argument
-with nargs +.
-
-The detect_layers functionality is used because i want to cover cases
-when the user clones a repository that comes with multiple layers like
-meta-openembedded.
-
-
-Best regards,
-	alimon
-
-
->=20
-
-
---dUmeE5h5iHRum3VrEATw1vn87eoIdk9Tw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBAgAGBQJYqygqAAoJEGJqcE9h3glgOBQP/R7oD3jfrLBkaEbAfLY8jjMc
-6Sy5kj8msTcl6tc/5dD6vmqIw9LFdtiPqLq9rjByOXuv3pGLm2i0ByyHHk18OP57
-ZiEvPwhfE01wvaK0yMCofpDKOV40qLR/PsUBkziji2cJeEiJrPxXuxZj0N2NWNv5
-/4CSHU0VpRcJjRCDNgczJZvVS6SU6gfEwxli1jAMVztuNoIuTMdOGqFLM3adFCWq
-+BZ55KBseu+wv0eyRsMRLvx4oIOtQUwqqhSK/dE0ezH++DJVu0FvUVhqyi4kbWR2
-spKRO094ZJJDRrKxtGDSd2RBsYNIDnblQF2uDSCkSlNLL/dpzW+RXWFLHyOirF6z
-iUSW6FuEDbJDGSB9F9mexQCH7/bV97q6kZNxddCX53Ovvkyw7r6wGD+MkYmdrr2B
-5A4MG3eyELbcR0QVKiyD3y5wRN5VboVOk3Hk/ZFRIcnKSHxHNPEFWtBfItb7Z19o
-ALbkMAujRTgieukwofaR9b/ASVdrKqJATDf7PYeDouKqpz7fV0taKMTToSFkhvFT
-jLDINGBcfaW/0edZrDuDHSgFkMlLSaz4uRAvW8kBFd3KWM23/jP9RJnYuebiDT8J
-3eJefMuGsgEhmstDVZ6bStKTvuGsyOI+pnjnhDsZj4xyinKa7vVarXPAYk3OlPQ8
-Bpo24g8OzTd5GW+Dnds/
-=nyHL
------END PGP SIGNATURE-----
-
---dUmeE5h5iHRum3VrEATw1vn87eoIdk9Tw--
+--94eb2c06093cefc8960548f9c110--
