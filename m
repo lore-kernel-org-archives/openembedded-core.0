@@ -1,48 +1,20 @@
-Return-Path: <mcrowe@brightsign.biz>
-Received: from relay.appriver.com (relay101b.appriver.com [207.97.230.15])
-	by mail.openembedded.org (Postfix) with ESMTP id 96A8571B57
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 391C571B2A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 10:33:20 +0000 (UTC)
-X-Note-AR-ScanTimeLocal: 02/20/2017 5:33:19 AM
-X-Policy: brightsign.biz  - brightsign.biz
-X-Policy: brightsign.biz  - brightsign.biz
-X-Primary: mcrowe@brightsign.biz
-X-Note: This Email was scanned by AppRiver SecureTide
-X-Note: SecureTide Build: 9/27/2016 9:09:05 PM UTC
-X-Virus-Scan: V-
-X-Note-SnifferID: 0
-X-Note: TCH-CT/SI:0-16/SG:1 2/20/2017 5:32:22 AM
-X-GBUdb-Analysis: 0, 213.210.30.29, Ugly c=0.425302 p=-1 Source Normal
-X-Signature-Violations: 0-0-0-4061-c
-X-Note: Spam Tests Failed: 
-X-Country-Path: ->PRIVATE->United Kingdom->United States
-X-Note-Sending-IP: 213.210.30.29
-X-Note-Reverse-DNS: elite.brightsigndigital.co.uk
-X-Note-Return-Path: mcrowe@brightsign.biz
-X-Note: User Rule Hits: 
-X-Note: Global Rule Hits: G273 G274 G275 G276 G280 G281 G409 
-X-Note: Encrypt Rule Hits: 
-X-Note: Mail Class: VALID
-X-Note: Headers Injected
-Received: from [213.210.30.29] (HELO elite.brightsign6)
-	by relay.appriver.com (CommuniGate Pro SMTP 6.1.7)
-	with ESMTPS id 114565525; Mon, 20 Feb 2017 05:33:19 -0500
-Received: from chuckie.brightsign ([172.30.1.25] helo=chuckie)
-	by elite.brightsign6 with esmtp (Exim 4.84_2)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1cflHT-0002d3-1e; Mon, 20 Feb 2017 10:33:19 +0000
-Received: from mac by chuckie with local (Exim 4.84_2)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1cflHT-0002Z5-1A; Mon, 20 Feb 2017 10:33:19 +0000
-From: Mike Crowe <mac@mcrowe.com>
+	Mon, 20 Feb 2017 10:34:29 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga105.fm.intel.com with ESMTP; 20 Feb 2017 02:34:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.35,186,1484035200"; d="scan'208";a="227450376"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by fmsmga004.fm.intel.com with ESMTP; 20 Feb 2017 02:34:29 -0800
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Feb 2017 10:33:14 +0000
-Message-Id: <1487586794-9815-2-git-send-email-mac@mcrowe.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1487586794-9815-1-git-send-email-mac@mcrowe.com>
-References: <1487586794-9815-1-git-send-email-mac@mcrowe.com>
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH 2/2] ccache: Switch to downloading xz tarball
+Date: Mon, 20 Feb 2017 12:34:28 +0200
+Message-Id: <20170220103428.19790-1-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.10.2
+Subject: [PATCH 00/20] support profile-optimized build for Python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,46 +27,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Feb 2017 10:33:21 -0000
+X-List-Received-Date: Mon, 20 Feb 2017 10:34:30 -0000
 
-ccache tarballs have been available in tar.xz format since at least v3.1.1.
-The v3.3.4 tarball is about 30% smaller so we might as well switch to it.
+This patchset makes it possible to build Python with
+profile-guided-optimization (PGO) enabled. Both Python 2.7 and Python 3 as well
+as native and target recipes are supported. The patchset is basically identical
+to the two RFC patchsets (separate for Python 2 and Python 3) I posted earlier
+- I just rebased those on top of the latest master.
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
----
- meta/recipes-devtools/ccache/ccache.inc      | 2 +-
- meta/recipes-devtools/ccache/ccache_3.3.4.bb | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/ccache/ccache.inc b/meta/recipes-devtools/ccache/ccache.inc
-index dd528d6..6566328 100644
---- a/meta/recipes-devtools/ccache/ccache.inc
-+++ b/meta/recipes-devtools/ccache/ccache.inc
-@@ -9,7 +9,7 @@ LICENSE = "GPLv3+"
- 
- DEPENDS = "zlib"
- 
--SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.gz"
-+SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.xz"
- 
- inherit autotools
- 
-diff --git a/meta/recipes-devtools/ccache/ccache_3.3.4.bb b/meta/recipes-devtools/ccache/ccache_3.3.4.bb
-index 45b2899..1e535b1 100644
---- a/meta/recipes-devtools/ccache/ccache_3.3.4.bb
-+++ b/meta/recipes-devtools/ccache/ccache_3.3.4.bb
-@@ -3,8 +3,8 @@ require ccache.inc
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7fe21f9470f2305e95e7d8a632255079"
- 
--SRC_URI[md5sum] = "61326f1edac7cd211a7018458dfe2d86"
--SRC_URI[sha256sum] = "1348b54e7c35dd2f8d17923389e03c546e599cfbde6459d2f31cf6f1521ec538"
-+SRC_URI[md5sum] = "95ab3c56284129cc2a32460c23069516"
-+SRC_URI[sha256sum] = "24f15bf389e38c41548c9c259532187774ec0cb9686c3497bbb75504c8dc404f"
- 
- SRC_URI += " \
-             file://0002-dev.mk.in-fix-file-name-too-long.patch \
+The following changes since commit def3800c7e58d9d1b54ea1df27b190a0f6d1d544:
+
+  layer.conf: bump version for change in eSDK selftest behaviour (2017-02-19 09:38:59 -0800)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib marquiz/fixes-9338
+  http://git.openembedded.org/openembedded-core-contrib/log/?h=marquiz/fixes-9338
+
+
+Markus Lehtonen (20):
+  python-native: support profile optimized build
+  python: add python-profile-opt recipe
+  python: remove path hack from setup.py
+  python-profile-opt: rename libpython
+  devtools/images: add python-pgo-image
+  python: make profile-optimized build possible
+  python-pgo-image: exclude tests from the default profile target
+  python: add python-tools subpackage
+  python-pgo-image: switch python default profile task to pybench
+  python-pgo-image: enable sstate for do_profile
+  python3-native: support profile optimized build
+  python3: fix depends of python-tests
+  python3: add python-profile-opt3 recipe
+  python-pgo-image: profiling for python3
+  python3: remove two setup.py cross-compile hacks
+  python3: support profile optimized build
+  python3: fix profile-optimized build of modules
+  python-pgo-image: exclude tests from the python3 profile target
+  python3: add python3-tools subpackage
+  python-pgo-image: change python3 profile target to pybench
+
+ meta/recipes-devtools/images/python-pgo-image.bb   | 114 +++++++++++++++++++++
+ .../python/python-2.7-manifest.inc                 |   8 +-
+ .../python/python-3.5-manifest.inc                 |  10 +-
+ ...x-.so-loading-when-when-running-profile-t.patch |  26 +++++
+ .../python/python-native_2.7.12.bb                 |  10 ++
+ meta/recipes-devtools/python/python-profile-opt3   |   1 +
+ .../python/python-profile-opt3_3.5.2.bb            |  15 +++
+ .../python/python-profile-opt_2.7.12.bb            |  13 +++
+ .../01-use-proper-tools-for-cross-build.patch      |  10 --
+ ...rename-libpython-to-libpython-profile-opt.patch |  94 +++++++++++++++++
+ .../python/python3-native_3.5.2.bb                 |   9 ++
+ .../python/python3/000-cross-compile.patch         |   9 --
+ ...efile-add-install_generate_profile-target.patch |  25 +++++
+ ...-CFLAGS-for-extensions-when-cross-compili.patch |  56 ++++++++++
+ .../python3-setup.py-no-host-headers-libs.patch    |  33 ------
+ ...name-libpython3-to-libpython-profile-opt3.patch | 111 ++++++++++++++++++++
+ .../setup.py-find-libraries-in-staging-dirs.patch  |  30 ------
+ meta/recipes-devtools/python/python3_3.5.2.bb      |  74 +++++++++----
+ meta/recipes-devtools/python/python_2.7.12.bb      |  54 ++++++++--
+ 19 files changed, 583 insertions(+), 119 deletions(-)
+ create mode 100644 meta/recipes-devtools/images/python-pgo-image.bb
+ create mode 100644 meta/recipes-devtools/python/python-native/Makefile-fix-.so-loading-when-when-running-profile-t.patch
+ create mode 120000 meta/recipes-devtools/python/python-profile-opt3
+ create mode 100644 meta/recipes-devtools/python/python-profile-opt3_3.5.2.bb
+ create mode 100644 meta/recipes-devtools/python/python-profile-opt_2.7.12.bb
+ create mode 100644 meta/recipes-devtools/python/python/rename-libpython-to-libpython-profile-opt.patch
+ create mode 100644 meta/recipes-devtools/python/python3/Makefile-add-install_generate_profile-target.patch
+ create mode 100644 meta/recipes-devtools/python/python3/Use-correct-CFLAGS-for-extensions-when-cross-compili.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/python3-setup.py-no-host-headers-libs.patch
+ create mode 100644 meta/recipes-devtools/python/python3/rename-libpython3-to-libpython-profile-opt3.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/setup.py-find-libraries-in-staging-dirs.patch
+
 -- 
-2.1.4
+2.10.2
 
 
