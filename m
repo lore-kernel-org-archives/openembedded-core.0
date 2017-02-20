@@ -1,46 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 728A371C7E
+Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
+	[209.85.220.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E90A71C54
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 11:20:28 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id v77so49845448wmv.0
+	Mon, 20 Feb 2017 11:46:37 +0000 (UTC)
+Received: by mail-qk0-f178.google.com with SMTP id x71so26714722qkb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 03:20:28 -0800 (PST)
+	Mon, 20 Feb 2017 03:46:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=i73ya79YAakfrXvMUybh6QfEEoY69pJ3ExMa6Z8+Co0=;
-	b=1IIUIjmk/I6DyVIQ1SARpGoJh2Q0HRIVxJ8ZJKs9jdKY2wq0CF2j06vIRiZzpD6EiS
-	JwK1kLYboK51LvoQ7QkxOCfTHliCYO6Vw/PhyCBSczM/sl8nDOmNx+bRRfsHTrUp8Ufx
-	cV4XW3a7ipqo8rk8D60f1xQWYFlRBIlseZM8OlS/Nuz0EQIRo01rLGR0NnD1AX6i8W+B
-	qYulWzHCaikQXSPv86iEGpOMyLzVQUor3xVEaqFIGBx//2GaqhSC9DtH/fwmfuZIiSMo
-	V260QRoWtd8AqSQYddRHswwgOoM5x0v4Nsz9uVonP0ZeoDbi3MWhst94iwrEvspLpGY6
-	hZdQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=hN6cpAlCYVJv8/UtoQCYu5jl7i+vdjvPkUa4dP8VzRM=;
+	b=GHSdl2tPx4mo8WnDn5wARGoxoE7rSmtkZLTJkz/f1Ez4ZcfTboX4p5y97GkvelE2XU
+	fHwRAfIsUCha2S3daJ+MEcJS5vJjEAglbhuFUTaUGAo8vsh3lPpfCrhZxZejMouxHdU7
+	5A25KYpwlQ8oNbbWTtGBTW/vuqAHWobrHi+cmNo8UILYS86Foew+b1PsdhpHCVhjbR48
+	uFNc3NQCAL6aA9rfRSjb8pNMXI2UU0OGXfWh9bSRSymBieiYeGG6o+CHmlZAX95jn5AL
+	+I5Q/j688bFK3b/j/n86mCkEqy+UCcyX5YZWL95JdJjDHu4O++vzJcAdIMgBoksouvMV
+	8HOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=i73ya79YAakfrXvMUybh6QfEEoY69pJ3ExMa6Z8+Co0=;
-	b=cfD2W5VYU2UynNITVALjvdpG6UKQez1ax74ZVOHMDkRxCKgfE8R8J6BstkoacBwBrm
-	SePXIRefhCt6g2qBJckHZJ1MTwahktZZZIxlMN+0LC15QGeikMBmxQHO24K9zw8evNOV
-	gf6xrFbkinbtsgzY+zcMKBl8gCPg6tX8opVQMYtgXd8rcH8+5CNcAsaRC879jAGobIFT
-	QmbVBIOYumfvwIWsels5kU77KRm2RkdiVZ/d6Dc3P/2kwu0ALyLcnV3iySQPjY+ldYg3
-	NKZy9rmtE0hCdoqUcsAVsr8Cs1kQrPV3jRKsejBUMCybd8bFJ15OSrkAy7Mf6BdSOq+F
-	wpHw==
-X-Gm-Message-State: AMke39nLK/6gr2JrA1bhxQYIu8v7+R4xIWFzA0KpcEp74avlZs6kYj85M4c/+T3D2oN/+RSo
-X-Received: by 10.28.153.196 with SMTP id b187mr17437695wme.53.1487589627957; 
-	Mon, 20 Feb 2017 03:20:27 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	m80sm13039727wmi.34.2017.02.20.03.20.27
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 20 Feb 2017 03:20:27 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Feb 2017 11:20:23 +0000
-Message-Id: <1487589623-6089-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH][V2] btrfs-tools: don't run autogen.sh
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=hN6cpAlCYVJv8/UtoQCYu5jl7i+vdjvPkUa4dP8VzRM=;
+	b=nUMPdyUrphq7Mzle+5g2wbqxxbZn/NKQeeMFikoHqdbpK/NiRXKnElIgxso9bLPgVP
+	+x60rzgFdcpMfHzUuo4e0NX8kdcoPl2868SBJNlWTaxlug5PaDPxt7LhbWQHajnpRCr/
+	5XPGO5fmvC1FnZopBR5/At0v1PbTPNXH5/OTm0gciHwYnyZQolN9971VTo7RjmTolaML
+	QYpSw+pDyk2LBnwvZpV+oKlVLDuM5MNypMznvITrE9pNZ8wghBUxAkZAQUQaCLXUVIU8
+	l+RCoUv5MJ43Sp19puWxZd3t2kpfWDCKaIrFXezoxma9Sfn/Fhxz+HLDvUPV5qzLv2I+
+	Nf7A==
+X-Gm-Message-State: AMke39npzTYDRXd2ZU3t2NksqasA6Pj4d5x+GpHO/Iho9O1Z+meflcjhWpcyHxRpXVfN1j1SBqWigSVU0JzDlboX
+X-Received: by 10.55.3.18 with SMTP id 18mr18365605qkd.244.1487591198198; Mon,
+	20 Feb 2017 03:46:38 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.103.233 with HTTP; Mon, 20 Feb 2017 03:46:17 -0800 (PST)
+In-Reply-To: <alpine.LFD.2.20.1702191313250.8096@localhost.localdomain>
+References: <alpine.LFD.2.20.1702191313250.8096@localhost.localdomain>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 20 Feb 2017 11:46:17 +0000
+Message-ID: <CAJTo0LbM=BKU5CEcr5mVV0cw_VJS_NsCR992Q5RgpH_x8LRHOw@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: something seems to have happened to "gpgme" in latest oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,44 +53,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Feb 2017 11:20:28 -0000
+X-List-Received-Date: Mon, 20 Feb 2017 11:46:38 -0000
+Content-Type: multipart/alternative; boundary=001a114c8328f0a8c10548f4d0c9
 
-Instead of running autogen.sh (which runs autoconf et al) before running
-autoreconf (which runs autoreconf et al...) just do the one task that we need
-from autogen.sh: copying install-sh from automake's libdir.
+--001a114c8328f0a8c10548f4d0c9
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/btrfs-tools/btrfs-tools_4.8.5.bb | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+On 19 February 2017 at 18:15, Robert P. J. Day <rpjday@crashcourse.ca>
+wrote:
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.8.5.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.8.5.bb
-index 7047c43..04e1e61 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.8.5.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.8.5.bb
-@@ -14,17 +14,17 @@ DEPENDS = "util-linux attr e2fsprogs lzo acl udev"
- RDEPENDS_${PN} = "libgcc"
- 
- SRCREV = "144a19145e248513c7a676defad59836830535c6"
--SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
--"
-+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git"
- 
- inherit autotools-brokensep pkgconfig manpages
- 
- PACKAGECONFIG[manpages] = "--enable-documentation, --disable-documentation, asciidoc-native xmlto-native"
- EXTRA_OECONF_append_libc-musl = " --disable-backtrace "
- 
--
- do_configure_prepend() {
--      sh autogen.sh
-+	# Upstream doesn't ship this and autoreconf won't install it as automake isn't used.
-+	mkdir -p ${S}/config
-+	cp -f $(automake --print-libdir)/install-sh ${S}/config/
- }
- 
- S = "${WORKDIR}/git"
--- 
-2.8.1
+>   building core-image-minimal for qemuppc using latest poky checkout,
+> and:
+>
+> ERROR: gpgme-1.8.0-r0 do_configure: This autoconf log indicates
+> errors, it looked at host include and/or library paths while
+> determining system capabilities.
+> Rerun configure task after fixing this.
+>
+> i don't ever remember seeing this before, and i see some very recent
+> changes to that recipe.
+>
 
+Can you attach the config.log please?
 
+Ross
+
+--001a114c8328f0a8c10548f4d0c9
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 February 2017 at 18:15, Robert P. J. Day <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcourse.ca<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":9j" cla=
+ss=3D"a3s aXjCH m15a579657a523463">=C2=A0 building core-image-minimal for q=
+emuppc using latest poky checkout,<br>
+and:<br>
+<br>
+ERROR: gpgme-1.8.0-r0 do_configure: This autoconf log indicates<br>
+errors, it looked at host include and/or library paths while<br>
+determining system capabilities.<br>
+Rerun configure task after fixing this.<br>
+<br>
+i don&#39;t ever remember seeing this before, and i see some very recent<br=
+>
+changes to that recipe.</div></blockquote></div><br>Can you attach the conf=
+ig.log please?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmai=
+l_extra">Ross</div></div>
+
+--001a114c8328f0a8c10548f4d0c9--
