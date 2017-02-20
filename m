@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D8CD96069D
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 99E4A6069D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 03:00:43 +0000 (UTC)
+	Mon, 20 Feb 2017 03:00:44 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v1K30hmo030143
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v1K30iV8001099
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Feb 2017 19:00:43 -0800
+	Sun, 19 Feb 2017 19:00:44 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Sun, 19 Feb 2017 19:00:42 -0800
+	Sun, 19 Feb 2017 19:00:43 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 19 Feb 2017 19:00:40 -0800
-Message-ID: <cover.1487559493.git.liezhi.yang@windriver.com>
+Date: Sun, 19 Feb 2017 19:00:41 -0800
+Message-ID: <4b7443f65c2f9c63056e014f046eca3a95385d0d.1487559493.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.11.0.rc2.dirty
+In-Reply-To: <cover.1487559493.git.liezhi.yang@windriver.com>
+References: <cover.1487559493.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] eudev/pigz: set downloadfilename
+Subject: [PATCH 1/2] eudev: set downloadfilename
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,23 +36,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 20 Feb 2017 03:00:44 -0000
 Content-Type: text/plain
 
-The following changes since commit def3800c7e58d9d1b54ea1df27b190a0f6d1d544:
+Otherwise, the filename is v${PV}.tar.gz which isn't straightforward.
 
-  layer.conf: bump version for change in eSDK selftest behaviour (2017-02-19 09:38:59 -0800)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-core/udev/eudev_3.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/fetch
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/fetch
-
-Robert Yang (2):
-  eudev: set downloadfilename
-  pigz: set downloadfilename
-
- meta/recipes-core/udev/eudev_3.2.bb      | 2 +-
- meta/recipes-extended/pigz/pigz_2.3.4.bb | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
+diff --git a/meta/recipes-core/udev/eudev_3.2.bb b/meta/recipes-core/udev/eudev_3.2.bb
+index 11931bc0f37..45df5d45ee4 100644
+--- a/meta/recipes-core/udev/eudev_3.2.bb
++++ b/meta/recipes-core/udev/eudev_3.2.bb
+@@ -7,7 +7,7 @@ DEPENDS = "glib-2.0 glib-2.0-native gperf-native kmod libxslt-native util-linux"
+ 
+ PROVIDES = "udev"
+ 
+-SRC_URI = "https://github.com/gentoo/${BPN}/archive/v${PV}.tar.gz \
++SRC_URI = "https://github.com/gentoo/${BPN}/archive/v${PV}.tar.gz;downloadfilename=${BP}.tar.gz \
+            file://devfs-udev.rules \
+            file://init \
+            file://links.conf \
 -- 
 2.11.0.rc2.dirty
 
