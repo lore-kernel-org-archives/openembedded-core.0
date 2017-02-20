@@ -1,30 +1,24 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E61E260602;
-	Mon, 20 Feb 2017 06:09:56 +0000 (UTC)
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 202AD60766
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Feb 2017 08:45:29 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v1K69sMN001813
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Sun, 19 Feb 2017 22:09:54 -0800
-Received: from soho-mhatle-m.local (147.11.117.31) by ALA-HCA.corp.ad.wrs.com
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v1K8jTJd027423
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Feb 2017 00:45:29 -0800 (PST)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Sun, 19 Feb 2017 22:09:53 -0800
-To: <openembedded-devel@lists.openembedded.org>, akuster808
-	<akuster808@gmail.com>
-References: <2c536609-989f-240e-cb4a-c77815898d8f@gmail.com>
-	<CAHUNapRHuTXG2zZCn0iNe+soUY-vFgQ0UXA74zLrSfaOCR39YA@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <0c0f9846-c824-7075-4d4e-2922ad8e1d3f@windriver.com>
-Date: Sun, 19 Feb 2017 22:09:53 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.7.1
+	Mon, 20 Feb 2017 00:45:27 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 20 Feb 2017 00:45:26 -0800
+Message-ID: <cover.1487579833.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.11.0.rc2.dirty
 MIME-Version: 1.0
-In-Reply-To: <CAHUNapRHuTXG2zZCn0iNe+soUY-vFgQ0UXA74zLrSfaOCR39YA@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] OEDAM - Portland 2017
+Subject: [PATCH 0/1] terminal.bbclass: export configure vars
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,19 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Feb 2017 06:09:57 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 20 Feb 2017 08:45:30 -0000
+Content-Type: text/plain
 
-On 2/19/17 4:12 AM, Trevor Woerner wrote:
-> Does anyone have any recommendations for how to get from the
-> conference venue to the Mentor Graphics office?
-> 
+The following changes since commit def3800c7e58d9d1b54ea1df27b190a0f6d1d544:
 
-I have a rental car and will have room for 2, or MAYBE 3 people.
+  layer.conf: bump version for change in eSDK selftest behaviour (2017-02-19 09:38:59 -0800)
 
-(At this point I suspect I will return the car after the OEDAM, because parting
-here is VERY expensive.)
+are available in the git repository at:
 
---Mark
+  git://git.openembedded.org/openembedded-core-contrib rbt/terminal
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/terminal
+
+Robert Yang (1):
+  terminal.bbclass: export configure vars
+
+ meta/classes/terminal.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+2.11.0.rc2.dirty
+
 
