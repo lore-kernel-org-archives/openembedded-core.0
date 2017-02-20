@@ -1,49 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f176.google.com (mail-qt0-f176.google.com
-	[209.85.216.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 75AA572001
+Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
+	[209.85.216.179])
+	by mail.openembedded.org (Postfix) with ESMTP id C132F71D9C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 22:26:12 +0000 (UTC)
-Received: by mail-qt0-f176.google.com with SMTP id n21so30585434qta.1
+	Mon, 20 Feb 2017 23:21:28 +0000 (UTC)
+Received: by mail-qt0-f179.google.com with SMTP id x35so25195114qtc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 14:26:14 -0800 (PST)
+	Mon, 20 Feb 2017 15:21:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=t5NvlJ0ksaXonAOSwmsLAyXtuepPDaZLc+nv6V4A24s=;
-	b=Q3HcrKTCc/w8+coHt5ZYbgc6LM8tk5g7b8nBtZv+0pZRxULsXbxR4TQf6hiDIG0sEC
-	L5h8CQ4xtWgoVWi07YFBbLJ0s8qv1HK+FVqVCTOe/8l/4SFGoV2VQ+alCyES1uwBn3zS
-	6zXKTWsSSIlRFyc4sjSswcBvIkh06JxDVOix/+3OizzHlvLLKMLJh0cYiSpVXM3gdMbe
-	eb8mpwXYRKZKQlhcZntbu0mWePEXRYhNOXp7u9pYT2c7wA1CvtPydhP+jGXLOCe4F9fm
-	0tESChBx0QBdDjWsMU2hku6kCclJ4WRa+bFqYBqLqB93oJbyrnDzxlrGu8mt0yaeR8v9
-	YqwA==
+	:cc; bh=YetyRs/v4tnYs15fCuXm4K/npJ6nAgAUhP2IVqtywgA=;
+	b=pp4+Uy+c7jJ8g6iEdbkY3ymNC4MnGLZ2dd/zqXrakeYWvJxyEVg+YZACZ0G97eUMVB
+	1KCq4XgsNKC8Owk3QWzL2Tta1bJtcIQ+agU2Q8ZpjP0ry1EtKieS1kMLM3+pcjRkwQ2Q
+	Ashxvnzi78kieG9z358sywZKZs5jw/+Tak0nISYPRRN3mYgSEYEojskDZ0VzbZKER4L3
+	L9Mh3fbI1oP3xpr3FJy0qT5zg//Vnhha/wM0a5tR8mFolk7zFClIznZx02Qru5z7HZ9J
+	WuuOoRQLZltcZm6dmsSebzGaxrU/3LblO+mxXQUEu/BTTA1cGLiWxa9z8vwJNdujM9r8
+	s8fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=t5NvlJ0ksaXonAOSwmsLAyXtuepPDaZLc+nv6V4A24s=;
-	b=Fyc2RSiCbAgBt0m31mhZj0D4EiZjBlE0a7N0XnPjCzF0EAf9ZeX7cHaG6j3ViajWFX
-	UMMimhROaQFuB81OORgH3GG7HtpRDlbZ6objrP20JkbuTQ7XL4eyujY28kMoRLw5Nb/T
-	86HAi+wOiySIvbAk2wEwtoYtzpyzk7leB9hQ4d08kjUtYH5Dn9iL8lsvGwXpsw+JCnwt
-	pF5weOBxyFj9rs8QYw9lBh3lscBSJULsv2Jj+oTL2HZSzrumUA2aMP90ivvD6vs1+uHg
-	8DpgEEWaneobDjhnh/LmMLgl0KZo2p+Wi6YRMlmcRGKpc5z30VD2CGeWm2Yzx0w5XcV0
-	6r0g==
-X-Gm-Message-State: AMke39nPN9CiP3/nIlU0a19RaGanQjjUwThUItvjvoq1VLDrnnKvNjlhaLgPjavaHwHWQakQ3EBTzU3SB/PU6jqX
-X-Received: by 10.237.36.208 with SMTP id u16mr23827197qtc.105.1487629574336; 
-	Mon, 20 Feb 2017 14:26:14 -0800 (PST)
+	bh=YetyRs/v4tnYs15fCuXm4K/npJ6nAgAUhP2IVqtywgA=;
+	b=LvuLDE5791mbW7MsLDsaDSLbw5l0ZXVDIyUD0wUvrmv197f/B3wfcG0/FsAo1W5o0q
+	IKoj58sFHeaaO6kOxcdpP5PoMuSPbfc6ZveUpKuvEEWC5xhnH5vABRa49OSx34yyzSUi
+	SAA8slIFYRUKp66eSCPf1DLy44ahJ+C4V1sUUJmGBY/pXG9U2j0hrFKPLZdexh0JLBvO
+	YV9PUqLy/438rDuXNp3M+7xjO1ATpwUrDGzIOQF4GMQoFLwe6QnFAuBtUXMvA56ObYt0
+	iserDCFoGJdbVvu9NNwVfNX4NExuYrDqa3TdG0DhfmflT6x3DLPlcaedPxKoo5mAvaVl
+	z/TQ==
+X-Gm-Message-State: AMke39k4IojiE3XiMAIGIpnNeDkFn8kw8oK6Q8+V7uiwenfe2RVNHS/rJ8P3HV7nJ5fKcJPj/tmxge9bp6yoCEr8
+X-Received: by 10.237.32.230 with SMTP id 93mr9949325qtb.144.1487632889093;
+	Mon, 20 Feb 2017 15:21:29 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Mon, 20 Feb 2017 14:25:53 -0800 (PST)
-In-Reply-To: <1487627189.4285.58.camel@intel.com>
-References: <CALbNGRQNaoktrh_Jk75DxkV-qVv4B9T57oCP3js5k=JApbO+pw@mail.gmail.com>
-	<CAJTo0LbtbBawLavjDkbxo4xWpqZZMp=ACDmwiLP=ab2DRHZ7xA@mail.gmail.com>
-	<1487627189.4285.58.camel@intel.com>
+Received: by 10.140.103.233 with HTTP; Mon, 20 Feb 2017 15:21:08 -0800 (PST)
+In-Reply-To: <lyefz12gkp.fsf@ensc-virt.intern.sigma-chemnitz.de>
+References: <cover.1487055395.git.hongxu.jia@windriver.com>
+	<247659408552f6a0edba461a59a3cc53e85012ae.1487055395.git.hongxu.jia@windriver.com>
+	<lyefz12gkp.fsf@ensc-virt.intern.sigma-chemnitz.de>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 20 Feb 2017 22:25:53 +0000
-Message-ID: <CAJTo0LZjAJnoB=qTf38Ayqw+WKfD9H=WuizsPR8t92b7KQ8FhA@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Recipe specific sysroot: handling recipes creating same files
+Date: Mon, 20 Feb 2017 23:21:08 +0000
+Message-ID: <CAJTo0LYqkQfvgboQ5+wPuz2tVa8s=xDis_dX00ApAcHeLTNDrQ@mail.gmail.com>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] ncurses: fix beaglebone do_configure failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,39 +55,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Feb 2017 22:26:13 -0000
-Content-Type: multipart/alternative; boundary=001a114104ce5636ac0548fdc0dd
+X-List-Received-Date: Mon, 20 Feb 2017 23:21:34 -0000
+Content-Type: multipart/alternative; boundary=94eb2c0c9b9ce9719f0548fe85a2
 
---001a114104ce5636ac0548fdc0dd
+--94eb2c0c9b9ce9719f0548fe85a2
 Content-Type: text/plain; charset=UTF-8
 
-On 20 February 2017 at 21:46, Patrick Ohly <patrick.ohly@intel.com> wrote:
+On 14 February 2017 at 10:48, Enrico Scholz <enrico.scholz@sigma-chemnitz.de
+> wrote:
 
-> So it is still considered an error when two recipes produce the same
-> file?
+> a) bother the ncurses author to remove the stupid CC sanity check, or
+>
+> b) create a wrapper around CC like in
 >
 
-Only if they both installed to the sysroot.  As you say, RSS makes the
-build and use of these deterministic, so some of the checks need to be
-reviewed - we're obviously missing some and possibly some can go away.
+c) fix the function that detects the "broken" use of CC as it should be
+extracting the flags and moving them to CFLAGS.  Clearly this isn't working
+somewhere.
 
 Ross
 
---001a114104ce5636ac0548fdc0dd
+--94eb2c0c9b9ce9719f0548fe85a2
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 20 February 2017 at 21:46, Patrick Ohly <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3s4" clas=
-s=3D"a3s aXjCH m15a5d7dd61e5fc3e">So it is still considered an error when t=
-wo recipes produce the same<br>
-file?<br></div></blockquote></div><br>Only if they both installed to the sy=
-sroot.=C2=A0 As you say, RSS makes the build and use of these deterministic=
-, so some of the checks need to be reviewed - we&#39;re obviously missing s=
-ome and possibly some can go away.</div><div class=3D"gmail_extra"><br></di=
-v><div class=3D"gmail_extra">Ross</div></div>
+On 14 February 2017 at 10:48, Enrico Scholz <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:enrico.scholz@sigma-chemnitz.de" target=3D"_blank">enrico.scholz=
+@sigma-chemnitz.de</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+<div id=3D":3zo" class=3D"a3s aXjCH m15a3c3df9bd4e40d">a) bother the ncurse=
+s author to remove the stupid CC sanity check, or<br>
+<br>
+b) create a wrapper around CC like in</div></blockquote></div><br>c) fix th=
+e function that detects the &quot;broken&quot; use of CC as it should be ex=
+tracting the flags and moving them to CFLAGS.=C2=A0 Clearly this isn&#39;t =
+working somewhere.</div><div class=3D"gmail_extra"><br></div><div class=3D"=
+gmail_extra">Ross</div></div>
 
---001a114104ce5636ac0548fdc0dd--
+--94eb2c0c9b9ce9719f0548fe85a2--
