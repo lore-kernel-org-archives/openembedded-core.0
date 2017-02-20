@@ -1,46 +1,46 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DF0D71ADE
+Return-Path: <mcrowe@brightsign.biz>
+Received: from relay.appriver.com (relay101b.appriver.com [207.97.230.15])
+	by mail.openembedded.org (Postfix) with ESMTP id 33A4271B50
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 10:08:30 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id r141so48315961wmg.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 02:08:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=zR/6B6uATlXzt9Jk3THLwEaxbNxAs9MfVHX22VpGWv4=;
-	b=PuIxHwujQR66YOzlbqLxDjOA3fsBvkjIac6hTC8alKHY0XF51fvzUvX2Dp2t1xqFWU
-	UsJo0jeqrpyN31Ewj3WhUm7YuI4JMeOHXvNYYWDRwebRVsEr+Hnd2vLK5lpIoqsppAUe
-	PwYHPvgHMV9SkIx6kgxxDr6ohBwCgAExNts1r2RM/6+ZHx3yQvKRKmCfSmeSPMW6/ieZ
-	jawhq6AufmJdo0S7KlQf0/L7y/djhditaSTPCmeSPc6GqtFDIxZI/Nx4hVYzIzO0ELyK
-	1tB2Fl5s0AH21tlv074CnS2PZm6SzkKoff1zhoAjeNQA2MpYaLxSvqjm11NkQ2RfJxUe
-	EaLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=zR/6B6uATlXzt9Jk3THLwEaxbNxAs9MfVHX22VpGWv4=;
-	b=TUz88SwM0YH+FJRH6Je+T8D+gMhXOtC37hKDuGyMQo0Nn+KKLouXN9wLnNMOJvwQ/l
-	BM9LXpgYg4hpIkK00kau5AYjHvrm4xuqnHDNuMBRtjYNut4fNMavg8JxA2x57kunkUAu
-	Q/8Nilmov5Xg6Bs003NNiJkrdp8o0aEePevKzlFyfkR7ZLlfW90EAMia/Tmt96qiyDJ8
-	MP3TLml1tknjRGfW4RTCx71joXcGk6mtMCjZ5ryl4GbmTwHXvYokmHc8ngLouwWmMInm
-	I1W9DVGTlGUqWe+WfnBUhDKBBkYul3px8ROhkBX/u9Rn2tLSdt9IQpGEuE7ZzXOIqGgV
-	ZZAA==
-X-Gm-Message-State: AMke39mu7Rm0Jz8z2NaQXegzyPOHgGP2xpYKh7oIzo7diZs+klb2A0lgIHZouaDep40chZFZEIXwmTCs6ACxSg==
-X-Received: by 10.28.8.130 with SMTP id 124mr16969019wmi.65.1487585310657;
-	Mon, 20 Feb 2017 02:08:30 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.223.174.82 with HTTP; Mon, 20 Feb 2017 02:08:30 -0800 (PST)
-In-Reply-To: <alpine.LFD.2.20.1702191315090.8096@localhost.localdomain>
-References: <alpine.LFD.2.20.1702181316120.26007@localhost.localdomain>
-	<1487525710.30548.20.camel@linuxfoundation.org>
-	<alpine.LFD.2.20.1702191315090.8096@localhost.localdomain>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 20 Feb 2017 02:08:30 -0800
-Message-ID: <CAJ86T=UAx=k663CMc+95oo6PT38ZhR7T3rXNh5vyhGxz=QFiuA@mail.gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: possible consequences of adding "extraneous" layers to a build?
+	Mon, 20 Feb 2017 10:33:19 +0000 (UTC)
+X-Note-AR-ScanTimeLocal: 02/20/2017 5:33:19 AM
+X-Policy: brightsign.biz  - brightsign.biz
+X-Policy: brightsign.biz  - brightsign.biz
+X-Primary: mcrowe@brightsign.biz
+X-Note: This Email was scanned by AppRiver SecureTide
+X-Note: SecureTide Build: 9/27/2016 9:09:05 PM UTC
+X-Virus-Scan: V-
+X-Note-SnifferID: 0
+X-Note: TCH-CT/SI:0-16/SG:1 2/20/2017 5:32:22 AM
+X-GBUdb-Analysis: 0, 213.210.30.29, Ugly c=0.425302 p=-1 Source Normal
+X-Signature-Violations: 0-0-0-4093-c
+X-Note: Spam Tests Failed: 
+X-Country-Path: ->PRIVATE->United Kingdom->United States
+X-Note-Sending-IP: 213.210.30.29
+X-Note-Reverse-DNS: elite.brightsigndigital.co.uk
+X-Note-Return-Path: mcrowe@brightsign.biz
+X-Note: User Rule Hits: 
+X-Note: Global Rule Hits: G273 G274 G275 G276 G280 G281 G409 
+X-Note: Encrypt Rule Hits: 
+X-Note: Mail Class: VALID
+X-Note: Headers Injected
+Received: from [213.210.30.29] (HELO elite.brightsign6)
+	by relay.appriver.com (CommuniGate Pro SMTP 6.1.7)
+	with ESMTPS id 114565512; Mon, 20 Feb 2017 05:33:19 -0500
+Received: from chuckie.brightsign ([172.30.1.25] helo=chuckie)
+	by elite.brightsign6 with esmtp (Exim 4.84_2)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1cflHS-0002cz-Dc; Mon, 20 Feb 2017 10:33:18 +0000
+Received: from mac by chuckie with local (Exim 4.84_2)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1cflHS-0002Z0-D1; Mon, 20 Feb 2017 10:33:18 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 20 Feb 2017 10:33:13 +0000
+Message-Id: <1487586794-9815-1-git-send-email-mac@mcrowe.com>
+X-Mailer: git-send-email 2.1.4
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH 1/2] ccache: Upgrade to v3.3.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,36 +53,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Feb 2017 10:08:31 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 20 Feb 2017 10:33:21 -0000
 
-On Sun, Feb 19, 2017 at 10:19 AM, Robert P. J. Day
-<rpjday@crashcourse.ca> wrote:
-> i understand that a layer can do pretty much *anything*, what i was
-> more interested in is what it *shouldn't* do unless it comes with huge
-> warning signs telling you about it. as a more concrete example, if
-> someone says, "hey, i have this great new layer that provides all
-> sorts of cool recipes," i'd want to to know that i can add it to
-> bblayers.conf and, unless i explicitly choose to start using content
-> from it, it shouldn't quietly change my current build.
+Only the copyright year has been updated in LICENSE.txt. The license text
+itself has not changed.
 
-The priority of recipes within the layers (ie BBFILE_PRIORITY_xxx)
-gives a good indication of that. Layers which just provide cool news
-recipes (ie fill in gaps in oe-core) generally have a priority lower
-than or equal to oe-core. BSP or distro layers (which often need to
-over-ride or modify stuff in oe-core) generally have a priority higher
-than oe-core. You should be very cautious about adding new distro or
-BSP layers to your build.
+This version fixes a bug with dependency output that could cause problems
+when compiling kernels for different MACHINEs using a shared ccache. See
+https://github.com/ccache/ccache/issues/158
 
-> rday
->
-> --
->
-> ========================================================================
-> Robert P. J. Day                                 Ottawa, Ontario, CANADA
->                         http://crashcourse.ca
->
-> Twitter:                                       http://twitter.com/rpjday
-> LinkedIn:                               http://ca.linkedin.com/in/rpjday
-> ========================================================================
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
+---
+ meta/recipes-devtools/ccache/ccache_3.3.3.bb | 12 ------------
+ meta/recipes-devtools/ccache/ccache_3.3.4.bb | 12 ++++++++++++
+ 2 files changed, 12 insertions(+), 12 deletions(-)
+ delete mode 100644 meta/recipes-devtools/ccache/ccache_3.3.3.bb
+ create mode 100644 meta/recipes-devtools/ccache/ccache_3.3.4.bb
+
+diff --git a/meta/recipes-devtools/ccache/ccache_3.3.3.bb b/meta/recipes-devtools/ccache/ccache_3.3.4.bb
+similarity index 48%
+rename from meta/recipes-devtools/ccache/ccache_3.3.3.bb
+rename to meta/recipes-devtools/ccache/ccache_3.3.4.bb
+index ded7b30..45b2899 100644
+--- a/meta/recipes-devtools/ccache/ccache_3.3.3.bb
++++ b/meta/recipes-devtools/ccache/ccache_3.3.4.bb
+@@ -1,10 +1,10 @@
+ require ccache.inc
+ 
+ LICENSE = "GPLv3+"
+-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=938c02728101936f2a74a67d1d82ee25"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7fe21f9470f2305e95e7d8a632255079"
+ 
+-SRC_URI[md5sum] = "ea1f95303749b9ac136c617d1b333eef"
+-SRC_URI[sha256sum] = "87a399a2267cfac3f36411fbc12ff8959f408cffd050ad15fe423df88e977e8f"
++SRC_URI[md5sum] = "61326f1edac7cd211a7018458dfe2d86"
++SRC_URI[sha256sum] = "1348b54e7c35dd2f8d17923389e03c546e599cfbde6459d2f31cf6f1521ec538"
+ 
+ SRC_URI += " \
+             file://0002-dev.mk.in-fix-file-name-too-long.patch \
+-- 
+2.1.4
+
 
