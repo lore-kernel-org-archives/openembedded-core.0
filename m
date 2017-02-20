@@ -1,51 +1,46 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
-	[209.85.214.45])
-	by mail.openembedded.org (Postfix) with ESMTP id B7E7471DEC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f176.google.com (mail-qt0-f176.google.com
+	[209.85.216.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 75AA572001
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 21:46:31 +0000 (UTC)
-Received: by mail-it0-f45.google.com with SMTP id 203so85276829ith.0
+	Mon, 20 Feb 2017 22:26:12 +0000 (UTC)
+Received: by mail-qt0-f176.google.com with SMTP id n21so30585434qta.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 13:46:33 -0800 (PST)
+	Mon, 20 Feb 2017 14:26:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=oX+cAGbTrvYJEtReGaLbA5Z1F6HGFK0saDWhlT5l0XA=;
-	b=1aTeXZ/4ESUzEOFYHcTxkOSbjjGn2qvlGoPtTRdqwz5Y2bTNIUF6Og7MaIcXA77Jf5
-	XV0JHRt53Si82pvOHUzbugP6DlndJah3plS7WDsVX6iUvPlDagZHIYvbKmiyz6p5qF3Z
-	V1bZlWwYpdBBEPauUwKyIybIV5jcy0mOuFXUpjXVl3rxiArytGDJ3OrQ2X/olNTkzoXB
-	dMuUSdBuC+F75TGIHR9SCMvAknLm25Gy5Wfi5js4r1mpFIb5+GSFI+FVJsF+rT1xfF8z
-	pNVKSnMk889A/1mtKYwDkJmjwZbeYnyiaSVDI5Xg7WZoudsUGiE0CVv4snwk235bz3tC
-	V1AQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=t5NvlJ0ksaXonAOSwmsLAyXtuepPDaZLc+nv6V4A24s=;
+	b=Q3HcrKTCc/w8+coHt5ZYbgc6LM8tk5g7b8nBtZv+0pZRxULsXbxR4TQf6hiDIG0sEC
+	L5h8CQ4xtWgoVWi07YFBbLJ0s8qv1HK+FVqVCTOe/8l/4SFGoV2VQ+alCyES1uwBn3zS
+	6zXKTWsSSIlRFyc4sjSswcBvIkh06JxDVOix/+3OizzHlvLLKMLJh0cYiSpVXM3gdMbe
+	eb8mpwXYRKZKQlhcZntbu0mWePEXRYhNOXp7u9pYT2c7wA1CvtPydhP+jGXLOCe4F9fm
+	0tESChBx0QBdDjWsMU2hku6kCclJ4WRa+bFqYBqLqB93oJbyrnDzxlrGu8mt0yaeR8v9
+	YqwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=oX+cAGbTrvYJEtReGaLbA5Z1F6HGFK0saDWhlT5l0XA=;
-	b=HZ0kDq1nWnB/gsuy3gh/7xwujK2ewlu9LkNSBJfEKXs5pgkWvToppak+VghuTDyBi3
-	20eldXZT3IVdizVl4TC7aIM4T/Bz0qOoMuUAn/uxISudTFHNAAzP3fMGXWOyXjxb4rYx
-	yW7o/sZaJzgO+z420nLKm8hhqgXhPbNMr7OQIW3FuIwqKM1NR+HU/nwB1lnd4V5Fo03l
-	jLyoghhTpLTul8NnqAoyKDmZhDAksLdyHMBrx1JZaVP11RbJ4GMWfymQ+rge/pz+u1ET
-	jjl4FV30ZAWWOLaOMH1B0NPGnVNaTrgrd2CPogwHi4Udy0WIRkaoit2hgNO7YWtsBrfH
-	zaNA==
-X-Gm-Message-State: AMke39kAukVtG4wyWh/iNGiKdN54ytWML1R2k0iedrlouOSoCX/rGT57mOBWCJGxExdppAc9
-X-Received: by 10.107.187.133 with SMTP id l127mr17773082iof.1.1487627192892; 
-	Mon, 20 Feb 2017 13:46:32 -0800 (PST)
-Received: from pohly-mobl1 (nat-wv.mentorg.com. [192.94.38.34])
-	by smtp.gmail.com with ESMTPSA id k16sm5396727itk.2.2017.02.20.13.46.30
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 Feb 2017 13:46:31 -0800 (PST)
-Message-ID: <1487627189.4285.58.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 20 Feb 2017 22:46:29 +0100
-In-Reply-To: <CAJTo0LbtbBawLavjDkbxo4xWpqZZMp=ACDmwiLP=ab2DRHZ7xA@mail.gmail.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=t5NvlJ0ksaXonAOSwmsLAyXtuepPDaZLc+nv6V4A24s=;
+	b=Fyc2RSiCbAgBt0m31mhZj0D4EiZjBlE0a7N0XnPjCzF0EAf9ZeX7cHaG6j3ViajWFX
+	UMMimhROaQFuB81OORgH3GG7HtpRDlbZ6objrP20JkbuTQ7XL4eyujY28kMoRLw5Nb/T
+	86HAi+wOiySIvbAk2wEwtoYtzpyzk7leB9hQ4d08kjUtYH5Dn9iL8lsvGwXpsw+JCnwt
+	pF5weOBxyFj9rs8QYw9lBh3lscBSJULsv2Jj+oTL2HZSzrumUA2aMP90ivvD6vs1+uHg
+	8DpgEEWaneobDjhnh/LmMLgl0KZo2p+Wi6YRMlmcRGKpc5z30VD2CGeWm2Yzx0w5XcV0
+	6r0g==
+X-Gm-Message-State: AMke39nPN9CiP3/nIlU0a19RaGanQjjUwThUItvjvoq1VLDrnnKvNjlhaLgPjavaHwHWQakQ3EBTzU3SB/PU6jqX
+X-Received: by 10.237.36.208 with SMTP id u16mr23827197qtc.105.1487629574336; 
+	Mon, 20 Feb 2017 14:26:14 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.103.233 with HTTP; Mon, 20 Feb 2017 14:25:53 -0800 (PST)
+In-Reply-To: <1487627189.4285.58.camel@intel.com>
 References: <CALbNGRQNaoktrh_Jk75DxkV-qVv4B9T57oCP3js5k=JApbO+pw@mail.gmail.com>
 	<CAJTo0LbtbBawLavjDkbxo4xWpqZZMp=ACDmwiLP=ab2DRHZ7xA@mail.gmail.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
+	<1487627189.4285.58.camel@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 20 Feb 2017 22:25:53 +0000
+Message-ID: <CAJTo0LZjAJnoB=qTf38Ayqw+WKfD9H=WuizsPR8t92b7KQ8FhA@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: Recipe specific sysroot: handling recipes creating same files
@@ -61,48 +56,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Feb 2017 21:46:36 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 20 Feb 2017 22:26:13 -0000
+Content-Type: multipart/alternative; boundary=001a114104ce5636ac0548fdc0dd
 
-On Mon, 2017-02-20 at 17:08 +0000, Burton, Ross wrote:
-> 
-> On 19 February 2017 at 22:04, Andreas Müller
-> <schnitzeltony@googlemail.com> wrote:
->         This needs love: One can guess that libldb is trying to
->         install stuff
->         already there - nothing mentions samba and the error pops up
->         for gvfs
->         which does nothing really wrong. I consider this as bug
->         introduced by
->         RSS.
-> 
-> Yes: without RSS this would result in a fatal error when the second
-> recipe wrote to the sysroot.  Can you file a bug?
+--001a114104ce5636ac0548fdc0dd
+Content-Type: text/plain; charset=UTF-8
 
-So it is still considered an error when two recipes produce the same
-file?
+On 20 February 2017 at 21:46, Patrick Ohly <patrick.ohly@intel.com> wrote:
 
-One (IMHO valid) use-case for allowing this are configuration packages.
-You could have a /etc/motd packaged in foo-motd and another in bar-motd
-with different content, and then build different images where a suitable
-motd config package is added.
+> So it is still considered an error when two recipes produce the same
+> file?
+>
 
-With a single sysroot, one had to introduce alternatives, which is more
-complicated and introduces unnecessary symlinks in read-only images.
-With RSS, it is possible more easily.
+Only if they both installed to the sysroot.  As you say, RSS makes the
+build and use of these deterministic, so some of the checks need to be
+reviewed - we're obviously missing some and possibly some can go away.
 
-Having said that, the error report generated when files overlap in the
-same real sysroot definitely needs to be improved.
+Ross
 
--- 
-Best Regards, Patrick Ohly
+--001a114104ce5636ac0548fdc0dd
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 February 2017 at 21:46, Patrick Ohly <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3s4" clas=
+s=3D"a3s aXjCH m15a5d7dd61e5fc3e">So it is still considered an error when t=
+wo recipes produce the same<br>
+file?<br></div></blockquote></div><br>Only if they both installed to the sy=
+sroot.=C2=A0 As you say, RSS makes the build and use of these deterministic=
+, so some of the checks need to be reviewed - we&#39;re obviously missing s=
+ome and possibly some can go away.</div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra">Ross</div></div>
 
-
-
-
+--001a114104ce5636ac0548fdc0dd--
