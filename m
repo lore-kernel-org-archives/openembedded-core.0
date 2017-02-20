@@ -1,23 +1,23 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id BBF5071BF9
+	by mail.openembedded.org (Postfix) with ESMTP id 71C4A71E4A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 10:36:08 +0000 (UTC)
+	Mon, 20 Feb 2017 10:36:10 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Feb 2017 02:36:09 -0800
+	20 Feb 2017 02:36:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,186,1484035200"; d="scan'208";a="1132314538"
+X-IronPort-AV: E=Sophos;i="5.35,186,1484035200"; d="scan'208";a="1132314543"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Feb 2017 02:36:08 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 20 Feb 2017 02:36:09 -0800
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Feb 2017 12:35:47 +0200
-Message-Id: <20170220103551.20022-16-markus.lehtonen@linux.intel.com>
+Date: Mon, 20 Feb 2017 12:35:48 +0200
+Message-Id: <20170220103551.20022-17-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <20170220103551.20022-1-markus.lehtonen@linux.intel.com>
 References: <20170220103551.20022-1-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 16/20] python3: support profile optimized build
+Subject: [PATCH 17/20] python3: fix profile-optimized build of modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,67 +30,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Feb 2017 10:36:09 -0000
+X-List-Received-Date: Mon, 20 Feb 2017 10:36:10 -0000
 
-Make it possible to do profile-optimized build. The implementation is
-virtually identical to how we do it in Python 2.7. Basically, you need
-to define PYTHON3_PROFILE_OPT = "1" in your local.conf and have profile
-data available in the location pointed to by PYTHON3_PROFILE_DIR.
-Profile data can be obtainen e.g. by running bitbake python-pgo-image -c
-profile3.
+Without this the pgo-related compiler flags are not used in
+cross-builds.
 
 [YOCTO #9338]
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- meta/recipes-devtools/python/python3_3.5.2.bb | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ ...-CFLAGS-for-extensions-when-cross-compili.patch | 56 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.5.2.bb      |  1 +
+ 2 files changed, 57 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/Use-correct-CFLAGS-for-extensions-when-cross-compili.patch
 
+diff --git a/meta/recipes-devtools/python/python3/Use-correct-CFLAGS-for-extensions-when-cross-compili.patch b/meta/recipes-devtools/python/python3/Use-correct-CFLAGS-for-extensions-when-cross-compili.patch
+new file mode 100644
+index 0000000..bf239c6
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/Use-correct-CFLAGS-for-extensions-when-cross-compili.patch
+@@ -0,0 +1,56 @@
++From 0fd8b986888ddf1995b503edf46ac827e83114d9 Mon Sep 17 00:00:00 2001
++From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
++Date: Wed, 23 Nov 2016 16:08:04 +0200
++Subject: [PATCH] Use correct CFLAGS for extensions when cross-compiling
++
++Take PY_CFLAGS_NODIST into account, like in native build. This is needed
++in order to to profile-optimized build. Also, pass EXTRA_CFLAGS to
++profile-optimized build.
++
++Upstream-Status: Pending
++
++Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
++---
++ Makefile.pre.in | 4 ++--
++ setup.py        | 3 ++-
++ 2 files changed, 4 insertions(+), 3 deletions(-)
++
++diff --git a/Makefile.pre.in b/Makefile.pre.in
++index bace00e..9635aa4 100644
++--- a/Makefile.pre.in
+++++ b/Makefile.pre.in
++@@ -509,7 +509,7 @@ profile-opt:
++ 	$(MAKE) profile-removal
++ 
++ build_all_generate_profile:
++-	$(MAKE) all CFLAGS_NODIST="$(CFLAGS) $(PGO_PROF_GEN_FLAG) @LTOFLAGS@" LDFLAGS="$(LDFLAGS) $(PGO_PROF_GEN_FLAG) @LTOFLAGS@" LIBS="$(LIBS)"
+++	$(MAKE) all CFLAGS_NODIST="$(CFLAGS) $(EXTRA_CFLAGS) $(PGO_PROF_GEN_FLAG) @LTOFLAGS@" LDFLAGS="$(LDFLAGS) $(PGO_PROF_GEN_FLAG) @LTOFLAGS@" LIBS="$(LIBS)"
++ 
++ run_profile_task:
++ 	: # FIXME: can't run for a cross build
++@@ -519,7 +519,7 @@ build_all_merge_profile:
++ 	$(LLVM_PROF_MERGER)
++ 
++ build_all_use_profile:
++-	$(MAKE) all CFLAGS_NODIST="$(CFLAGS) $(PGO_PROF_USE_FLAG) @LTOFLAGS@" LDFLAGS="$(LDFLAGS) @LTOFLAGS@"
+++	$(MAKE) all CFLAGS_NODIST="$(CFLAGS) $(EXTRA_CFLAGS) $(PGO_PROF_USE_FLAG) @LTOFLAGS@" LDFLAGS="$(LDFLAGS) @LTOFLAGS@"
++ 
++ # Compile and run with gcov
++ .PHONY=coverage coverage-lcov coverage-report
++diff --git a/setup.py b/setup.py
++index c1ce87e..72d37cf 100644
++--- a/setup.py
+++++ b/setup.py
++@@ -271,7 +271,8 @@ class PyBuildExt(build_ext):
++         # compilers
++         if compiler is not None:
++             if cross_compiling:
++-                (ccshared,cflags) = (os.environ.get('CCSHARED') or '', os.environ.get('CFLAGS') or '')
+++                (ccshared,cflags) = (os.environ.get('CCSHARED') or '',
+++                                     (os.environ.get('CFLAGS') or '') + ' ' + sysconfig.get_config_var('PY_CFLAGS_NODIST'))
++             else:
++                 (ccshared,cflags) = sysconfig.get_config_vars('CCSHARED','CFLAGS')
++             args['compiler_so'] = compiler + ' ' + ccshared + ' ' + cflags
++-- 
++2.6.6
++
 diff --git a/meta/recipes-devtools/python/python3_3.5.2.bb b/meta/recipes-devtools/python/python3_3.5.2.bb
-index 18d683e..7a3d2b3 100644
+index 7a3d2b3..7853c69 100644
 --- a/meta/recipes-devtools/python/python3_3.5.2.bb
 +++ b/meta/recipes-devtools/python/python3_3.5.2.bb
-@@ -78,6 +78,17 @@ export CROSSPYTHONPATH = "${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dy
- # No ctypes option for python 3
- PYTHONLSBOPTS = ""
- 
-+# Automatic profile guided optimization
-+PYTHON3_MAKE_TARGET ?= "${@'build_all_use_profile' if d.getVar('PYTHON3_PROFILE_OPT', True) == '1' else ''}"
-+PYTHON3_PROFILE_DIR ?= "${@'${TMPDIR}/work-shared/${MACHINE}/python3/pgo-data' if d.getVar('PYTHON3_PROFILE_OPT', True) == '1' else ''}"
-+python () {
-+    if (d.getVar('PYTHON3_PROFILE_OPT', True) == '1' and
-+            d.getVar('PYTHON3_MAKE_TARGET', True) == 'build_all_use_profile'):
-+        profile_dir = d.getVar('PYTHON3_PROFILE_DIR', True)
-+        bb.utils.mkdirhier(profile_dir)
-+        d.setVarFlag('do_compile', 'file-checksums', '%s:True' % profile_dir)
-+}
-+
- do_configure_append() {
- 	rm -f ${S}/Makefile.orig
- 	autoreconf -Wcross --verbose --install --force --exclude=autopoint ../Python-${PV}/Modules/_ctypes/libffi
-@@ -117,6 +128,10 @@ do_compile() {
-     if [ "${PYTHON3_MAKE_TARGET}" = "build_all_generate_profile" ]; then
-         # This is only used in PGO profiling by python-profile-opt package
-         export EXTRA_CFLAGS="-fprofile-dir=./python3-pgo-profiles/"
-+    elif [ -n "${PYTHON3_PROFILE_DIR}" ]; then
-+            export EXTRA_CFLAGS="-fprofile-dir=${PYTHON3_PROFILE_DIR}"
-+            # Remove non-optimized build artefacts
-+            oe_runmake clean
-     fi
- 
- 	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/python3-native/pgen \
-@@ -137,6 +152,11 @@ do_install() {
- 	install -d ${D}${libdir}/pkgconfig
- 	install -d ${D}${libdir}/python${PYTHON_MAJMIN}/config
- 
-+    # This only has effect if we build with -fprofile-use, e.g. when make
-+    # target is build_all_use_profile
-+    if [ -n "${PYTHON3_PROFILE_DIR}" ]; then
-+        export EXTRA_CFLAGS="-fprofile-dir=${PYTHON3_PROFILE_DIR}"
-+    fi
- 	# rerun the build once again with original makefile this time
- 	# run install in a separate step to avoid compile/install race
- 	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/python3-native/pgen \
+@@ -35,6 +35,7 @@ SRC_URI += "\
+             file://configure.ac-fix-LIBPL.patch \
+             file://python3-fix-CVE-2016-1000110.patch \
+             file://upstream-random-fixes.patch \
++            file://Use-correct-CFLAGS-for-extensions-when-cross-compili.patch \
+            "
+ SRC_URI[md5sum] = "8906efbacfcdc7c3c9198aeefafd159e"
+ SRC_URI[sha256sum] = "0010f56100b9b74259ebcd5d4b295a32324b58b517403a10d1a2aa7cb22bca40"
 -- 
 2.10.2
 
