@@ -1,23 +1,23 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 52A5871C07
+	by mail.openembedded.org (Postfix) with ESMTP id 590D271BD4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 10:36:05 +0000 (UTC)
+	Mon, 20 Feb 2017 10:36:06 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Feb 2017 02:36:06 -0800
+	20 Feb 2017 02:36:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,186,1484035200"; d="scan'208";a="1132314501"
+X-IronPort-AV: E=Sophos;i="5.35,186,1484035200"; d="scan'208";a="1132314519"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Feb 2017 02:36:05 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 20 Feb 2017 02:36:06 -0800
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Feb 2017 12:35:44 +0200
-Message-Id: <20170220103551.20022-13-markus.lehtonen@linux.intel.com>
+Date: Mon, 20 Feb 2017 12:35:45 +0200
+Message-Id: <20170220103551.20022-14-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <20170220103551.20022-1-markus.lehtonen@linux.intel.com>
 References: <20170220103551.20022-1-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 13/20] python3: add python-profile-opt3 recipe
+Subject: [PATCH 14/20] python-pgo-image: profiling for python3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,314 +30,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Feb 2017 10:36:05 -0000
+X-List-Received-Date: Mon, 20 Feb 2017 10:36:06 -0000
 
-Similar to python-profile-opt for Python 2.7, this is a special version
-of Python3 used for profile guided optimization. It is used for
-generating profile data on the target device. Libpython3 is renamed to
-libpython-profile-opt3 in order to prevent soname clash with "normal"
-libpython3.
+Add a new 'do_profile3' task for python-pgo-image that runs profiling
+task for python3 and retrieves the profile data, similarly to
+'do_profile' for python2. Profile data will be copied into a directory
+pointed by PYTHON3_PROFILE_DIR on the host system. The profile task may
+be specified with PYTHON3_PROFILE_TASK.
 
 [YOCTO #9338]
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- meta/recipes-devtools/python/python-profile-opt3   |   1 +
- .../python/python-profile-opt3_3.5.2.bb            |  15 +++
- ...efile-add-install_generate_profile-target.patch |  25 +++++
- ...name-libpython3-to-libpython-profile-opt3.patch | 111 +++++++++++++++++++++
- meta/recipes-devtools/python/python3_3.5.2.bb      |  46 +++++----
- 5 files changed, 178 insertions(+), 20 deletions(-)
- create mode 120000 meta/recipes-devtools/python/python-profile-opt3
- create mode 100644 meta/recipes-devtools/python/python-profile-opt3_3.5.2.bb
- create mode 100644 meta/recipes-devtools/python/python3/Makefile-add-install_generate_profile-target.patch
- create mode 100644 meta/recipes-devtools/python/python3/rename-libpython3-to-libpython-profile-opt3.patch
+ meta/recipes-devtools/images/python-pgo-image.bb | 55 +++++++++++++++++++-----
+ 1 file changed, 44 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-profile-opt3 b/meta/recipes-devtools/python/python-profile-opt3
-new file mode 120000
-index 0000000..b8a0adb
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-profile-opt3
-@@ -0,0 +1 @@
-+python3
-\ No newline at end of file
-diff --git a/meta/recipes-devtools/python/python-profile-opt3_3.5.2.bb b/meta/recipes-devtools/python/python-profile-opt3_3.5.2.bb
-new file mode 100644
-index 0000000..e85807f
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-profile-opt3_3.5.2.bb
-@@ -0,0 +1,15 @@
-+require python3_${PV}.bb
-+
-+SRC_URI += "file://rename-libpython3-to-libpython-profile-opt3.patch \
-+            file://Makefile-add-install_generate_profile-target.patch \
-+           "
-+
-+# Use special prefix in order to prevent clash with the normal python3 package
-+STAGING_INCDIR_DEFAULT = "${STAGING_DIR_HOST}/usr/include"
-+STAGING_LIBDIR_DEFAULT = "${STAGING_DIR_HOST}/usr/${baselib}"
-+TARGET_CFLAGS += "-I${STAGING_INCDIR_DEFAULT}"
-+TARGET_CPPFLAGS += "-I${STAGING_INCDIR_DEFAULT}"
-+prefix = "/opt"
-+exec_prefix = "/opt"
-+
-+PYTHON3_MAKE_TARGET = "build_all_generate_profile"
-diff --git a/meta/recipes-devtools/python/python3/Makefile-add-install_generate_profile-target.patch b/meta/recipes-devtools/python/python3/Makefile-add-install_generate_profile-target.patch
-new file mode 100644
-index 0000000..7aee7fb
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/Makefile-add-install_generate_profile-target.patch
-@@ -0,0 +1,25 @@
-+Makefile: add install_generate_profile target
-+
-+Making it possible to install the binaries with profile generation
-+enabled. We need this as linking is also performed at the install stage.
-+
-+Upstream-Status: Inappropriate [oe-specific]
-+
-+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-+
-+diff --git a/Makefile.pre.in b/Makefile.pre.in
-+index 2b87614..826155b 100644
-+--- a/Makefile.pre.in
-++++ b/Makefile.pre.in
-+@@ -1046,6 +1046,8 @@ QUICKTESTOPTS=	$(TESTOPTS) -x test_subprocess test_io test_lib2to3 \
-+ quicktest:	all platform
-+ 		$(TESTRUNNER) $(QUICKTESTOPTS)
-+ 
-++install_generate_profile:
-++	$(MAKE) install LDFLAGS="$(LDFLAGS) $(PGO_PROF_GEN_FLAG) @LTOFLAGS@" LIBS="$(LIBS)"
-+ 
-+ install: @FRAMEWORKINSTALLFIRST@ commoninstall bininstall maninstall @FRAMEWORKINSTALLLAST@
-+ 	if test "x$(ENSUREPIP)" != "xno"  ; then \
-+-- 
-+2.6.6
-+
-diff --git a/meta/recipes-devtools/python/python3/rename-libpython3-to-libpython-profile-opt3.patch b/meta/recipes-devtools/python/python3/rename-libpython3-to-libpython-profile-opt3.patch
-new file mode 100644
-index 0000000..4ba5531
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/rename-libpython3-to-libpython-profile-opt3.patch
-@@ -0,0 +1,111 @@
-+rename libpython3 to libpython-profile-opt3
-+
-+Upstream-Status: Inappropriate [oe-specific]
-+
-+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-+
-+diff --git a/Lib/distutils/command/build_ext.py b/Lib/distutils/command/build_ext.py
-+index f03a4e3..4c65aff 100644
-+--- a/Lib/distutils/command/build_ext.py
-++++ b/Lib/distutils/command/build_ext.py
-+@@ -746,7 +746,7 @@ class build_ext(Command):
-+         else:
-+             from distutils import sysconfig
-+             if sysconfig.get_config_var('Py_ENABLE_SHARED'):
-+-                pythonlib = 'python{}.{}{}'.format(
-++                pythonlib = 'python-profile-opt{}.{}{}'.format(
-+                     sys.hexversion >> 24, (sys.hexversion >> 16) & 0xff,
-+                     sysconfig.get_config_var('ABIFLAGS'))
-+                 return ext.libraries + [pythonlib]
-+diff --git a/Makefile.pre.in b/Makefile.pre.in
-+index bace00e..2b87614 100644
-+--- a/Makefile.pre.in
-++++ b/Makefile.pre.in
-+@@ -622,7 +622,7 @@ $(LIBRARY): $(LIBRARY_OBJS)
-+ 	$(AR) $(ARFLAGS) $@ $(MODOBJS)
-+ 	$(RANLIB) $@
-+ 
-+-libpython$(LDVERSION).so: $(LIBRARY_OBJS)
-++libpython-profile-opt$(LDVERSION).so: $(LIBRARY_OBJS)
-+ 	if test $(INSTSONAME) != $(LDLIBRARY); then \
-+ 		$(BLDSHARED) -Wl,-h$(INSTSONAME) -o $(INSTSONAME) $(LIBRARY_OBJS) $(MODLIBS) $(SHLIBS) $(LIBC) $(LIBM) $(LDLAST); \
-+ 		$(LN) -f $(INSTSONAME) $@; \
-+@@ -630,7 +630,7 @@ libpython$(LDVERSION).so: $(LIBRARY_OBJS)
-+ 		$(BLDSHARED) -o $@ $(LIBRARY_OBJS) $(MODLIBS) $(SHLIBS) $(LIBC) $(LIBM) $(LDLAST); \
-+ 	fi
-+ 
-+-libpython3.so:	libpython$(LDVERSION).so
-++libpython-profile-opt3.so:	libpython-profile-opt$(LDVERSION).so
-+ 	$(BLDSHARED) $(NO_AS_NEEDED) -o $@ -Wl,-h$@ $^
-+ 
-+ libpython$(LDVERSION).dylib: $(LIBRARY_OBJS)
-+diff --git a/Misc/python-config.in b/Misc/python-config.in
-+index a808f1a..0dcc615 100644
-+--- a/Misc/python-config.in
-++++ b/Misc/python-config.in
-+@@ -47,7 +47,7 @@ for opt in opt_flags:
-+         print(' '.join(flags))
-+ 
-+     elif opt in ('--libs', '--ldflags'):
-+-        libs = ['-lpython' + pyver + sys.abiflags]
-++        libs = ['-lpython-profile-opt' + pyver + sys.abiflags]
-+         libs += getvar('LIBS').split()
-+         libs += getvar('SYSLIBS').split()
-+         # add the prefix/lib/pythonX.Y/config dir, but only if there is no
-+diff --git a/Misc/python-config.sh.in b/Misc/python-config.sh.in
-+index 30c6927..efad748 100644
-+--- a/Misc/python-config.sh.in
-++++ b/Misc/python-config.sh.in
-+@@ -40,7 +40,7 @@ LIBM="@LIBM@"
-+ LIBC="@LIBC@"
-+ SYSLIBS="$LIBM $LIBC"
-+ ABIFLAGS="@ABIFLAGS@"
-+-LIBS="-lpython${VERSION}${ABIFLAGS} @LIBS@ $SYSLIBS"
-++LIBS="-lpython-profile-opt${VERSION}${ABIFLAGS} @LIBS@ $SYSLIBS"
-+ BASECFLAGS="@BASECFLAGS@"
-+ LDLIBRARY="@LDLIBRARY@"
-+ LINKFORSHARED="@LINKFORSHARED@"
-+diff --git a/Misc/python.pc.in b/Misc/python.pc.in
-+index ae69867..b73d027 100644
-+--- a/Misc/python.pc.in
-++++ b/Misc/python.pc.in
-+@@ -9,5 +9,5 @@ Description: Python library
-+ Requires: 
-+ Version: @VERSION@
-+ Libs.private: @LIBS@
-+-Libs: -L${libdir} -lpython@VERSION@@ABIFLAGS@
-++Libs: -L${libdir} -lpython-profile-opt@VERSION@@ABIFLAGS@
-+ Cflags: -I${includedir}/python@VERSION@@ABIFLAGS@
-+diff --git a/configure.ac b/configure.ac
-+index 6bd9322..4bf3dc2 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -990,7 +990,7 @@ AC_SUBST(LIBRARY)
-+ AC_MSG_CHECKING(LIBRARY)
-+ if test -z "$LIBRARY"
-+ then
-+-	LIBRARY='libpython$(VERSION)$(ABIFLAGS).a'
-++	LIBRARY='libpython-profile-opt$(VERSION)$(ABIFLAGS).a'
-+ fi
-+ AC_MSG_RESULT($LIBRARY)
-+ 
-+@@ -1151,13 +1151,13 @@ if test $enable_shared = "yes"; then
-+ 	  fi
-+           ;;
-+     Linux*|GNU*|NetBSD*|FreeBSD*|DragonFly*|OpenBSD*)
-+-	  LDLIBRARY='libpython$(LDVERSION).so'
-+-	  BLDLIBRARY='-L. -lpython$(LDVERSION)'
-++	  LDLIBRARY='libpython-profile-opt$(LDVERSION).so'
-++	  BLDLIBRARY='-L. -lpython-profile-opt$(LDVERSION)'
-+ 	  RUNSHARED=LD_LIBRARY_PATH=`pwd`${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-+ 	  INSTSONAME="$LDLIBRARY".$SOVERSION
-+ 	  if test "$with_pydebug" != yes
-+           then
-+-	      PY3LIBRARY=libpython3.so
-++	      PY3LIBRARY=libpython-profile-opt3.so
-+ 	  fi
-+ 	  ;;
-+     hp*|HP*)
-+-- 
-+2.6.6
-+
-diff --git a/meta/recipes-devtools/python/python3_3.5.2.bb b/meta/recipes-devtools/python/python3_3.5.2.bb
-index 2ff7c9e..042c2b0 100644
---- a/meta/recipes-devtools/python/python3_3.5.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.2.bb
-@@ -70,6 +70,10 @@ export _PYTHON_PROJECT_BASE = "${B}"
- export _PYTHON_PROJECT_SRC = "${S}"
- export CCSHARED = "-fPIC"
+diff --git a/meta/recipes-devtools/images/python-pgo-image.bb b/meta/recipes-devtools/images/python-pgo-image.bb
+index bab95f8..ca690d5 100644
+--- a/meta/recipes-devtools/images/python-pgo-image.bb
++++ b/meta/recipes-devtools/images/python-pgo-image.bb
+@@ -3,6 +3,7 @@ SUMMARY = "Minimal image for doing Python profiling (for PGO)"
+ IMAGE_FEATURES += "ssh-server-dropbear"
+ IMAGE_INSTALL = "packagegroup-core-boot"
+ IMAGE_INSTALL += "python-profile-opt python-profile-opt-tests python-profile-opt-tools"
++IMAGE_INSTALL += "python-profile-opt3 python-profile-opt3-tests"
  
-+# These enable build with modified prefix (used in python3-prorile-opt recipe)
-+STAGING_INCDIR_DEFAULT ?= "${STAGING_INCDIR}"
-+STAGING_LIBDIR_DEFAULT ?= "${STAGING_LIBDIR}"
+ LICENSE = "MIT"
+ 
+@@ -20,12 +21,17 @@ PYTHON_PROFILE_TASK_DEFAULT = "-m test.regrtest --pgo -w -x test_asyncore test_g
+ PYTHON_PROFILE_TASK_DEFAULT = "/opt/share/doc/python-profile-opt/Tools/pybench/pybench.py -n 2 --with-gc --with-syscheck"
+ PYTHON_PROFILE_TASK ?= "${PYTHON_PROFILE_TASK_DEFAULT}"
+ 
++PYTHON3_PROFILE_DIR ?= "${TMPDIR}/work-shared/${MACHINE}/python3/pgo-data"
++PYTHON3_PROFILE_TASK_DEFAULT = "-m test.regrtest --pgo -w -x test_asyncore test_gdb test_multiprocessing_fork test_multiprocessing_forkserver test_multiprocessing_main_handling test_multiprocessing_spawn test_subprocess"
 +
- # Fix cross compilation of different modules
- export CROSSPYTHONPATH = "${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/:${B}/build/lib.linux-${TARGET_ARCH}-${PYTHON_MAJMIN}:${S}/Lib:${S}/Lib/plat-linux"
++PYTHON3_PROFILE_TASK ?= "${PYTHON3_PROFILE_TASK_DEFAULT}"
++
+ # We need these because we're utilizing the runtime test helpers from oeqa
+ TEST_TARGET ?= "qemu"
+ TEST_QEMUBOOT_TIMEOUT ?= "1000"
+ TEST_LOG_DIR ?= "${WORKDIR}/qemulogs"
  
-@@ -84,12 +88,12 @@ do_configure_append() {
- do_compile() {
-         # regenerate platform specific files, because they depend on system headers
-         cd ${S}/Lib/plat-linux*
--        include=${STAGING_INCDIR} ${STAGING_BINDIR_NATIVE}/python3-native/python3 \
-+        include=${STAGING_INCDIR_DEFAULT} ${STAGING_BINDIR_NATIVE}/python3-native/python3 \
-                 ${S}/Tools/scripts/h2py.py -i '(u_long)' \
--                ${STAGING_INCDIR}/dlfcn.h \
--                ${STAGING_INCDIR}/linux/cdrom.h \
--                ${STAGING_INCDIR}/netinet/in.h \
--                ${STAGING_INCDIR}/sys/types.h
-+                ${STAGING_INCDIR_DEFAULT}/dlfcn.h \
-+                ${STAGING_INCDIR_DEFAULT}/linux/cdrom.h \
-+                ${STAGING_INCDIR_DEFAULT}/netinet/in.h \
-+                ${STAGING_INCDIR_DEFAULT}/sys/types.h
-         sed -e 's,${STAGING_DIR_HOST},,g' -i *.py
-         cd -
+-python do_profile() {
++def run_profile(d, profile_bin, profile_task, tgt_in_dir, host_out_dir):
+     from oeqa.targetcontrol import get_target_controller
+     from oe.utils import getstatusoutput
  
-@@ -100,7 +104,7 @@ do_compile() {
- 	if [ ! -f Makefile.orig ]; then
- 		install -m 0644 Makefile Makefile.orig
- 	fi
--	sed -i -e 's,^CONFIGURE_LDFLAGS=.*,CONFIGURE_LDFLAGS=-L. -L${STAGING_LIBDIR},g' \
-+	sed -i -e 's,^CONFIGURE_LDFLAGS=.*,CONFIGURE_LDFLAGS=-L. -L${STAGING_LIBDIR_DEFAULT},g' \
- 		-e 's,libdir=${libdir},libdir=${STAGING_LIBDIR},g' \
- 		-e 's,libexecdir=${libexecdir},libexecdir=${STAGING_DIR_HOST}${libexecdir},g' \
- 		-e 's,^LIBDIR=.*,LIBDIR=${STAGING_LIBDIR},g' \
-@@ -112,14 +116,10 @@ do_compile() {
- 	# then call do_install twice we get Makefile.orig == Makefile.sysroot
- 	install -m 0644 Makefile Makefile.sysroot
+@@ -39,37 +45,64 @@ python do_profile() {
+         target.start(extra_bootparams=bootparams)
  
--	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/python3-native/pgen \
--		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python3-native/python3 \
--		STAGING_LIBDIR=${STAGING_LIBDIR} \
--		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
--		STAGING_INCDIR=${STAGING_INCDIR} \
--		LIB=${baselib} \
--		ARCH=${TARGET_ARCH} \
--		OPT="${CFLAGS}" libpython3.so
-+    if [ "${PYTHON3_MAKE_TARGET}" = "build_all_generate_profile" ]; then
-+        # This is only used in PGO profiling by python-profile-opt package
-+        export EXTRA_CFLAGS="-fprofile-dir=./python3-pgo-profiles/"
-+    fi
+         # Run profile task
+-        profile_cmd = 'LD_LIBRARY_PATH=/opt/lib /opt/bin/python %s' % d.getVar("PYTHON_PROFILE_TASK", True)
+-        ret, output = target.run(profile_cmd, timeout=7200)
++        ret, output = target.run(profile_bin + ' ' + profile_task, timeout=7200)
+         if ret:
+             bb.fatal("Failed to run profile task on target: %s" % output)
+-        ret, output = target.run('tar czf pgo-data.tgz -C /home/root/python-pgo-profiles/ .')
++        ret, output = target.run('tar czf pgo-data.tgz -C %s .' % tgt_in_dir)
+         if ret:
+             bb.fatal("Failed to archive profile data on target: %s" % output)
  
- 	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/python3-native/pgen \
- 		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python3-native/python3 \
-@@ -128,7 +128,7 @@ do_compile() {
- 		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
- 		LIB=${baselib} \
- 		ARCH=${TARGET_ARCH} \
--		OPT="${CFLAGS}"
-+		OPT="${CFLAGS}" ${PYTHON3_MAKE_TARGET}
+         # Retrieve and unpack profile data
+-        profile_dir = d.getVar("PROFILE_DATA_WORKDIR", True)
+-        target.copy_from('/home/root/pgo-data.tgz', profile_dir)
++        target.copy_from('/home/root/pgo-data.tgz', host_out_dir)
+ 
+-        profile_tarball = os.path.join(profile_dir, 'pgo-data.tgz')
+-        ret, output = getstatusoutput('tar xf %s -C %s' % (profile_tarball, profile_dir))
++        profile_tarball = os.path.join(host_out_dir, 'pgo-data.tgz')
++        ret, output = getstatusoutput('tar xf %s -C %s' % (profile_tarball, host_out_dir))
+         os.unlink(profile_tarball)
+         if ret:
+             bb.fatal("Failed to unpack python profile data: %s" % output)
+     finally:
+         target.stop()
++
++
++# Profile task for Python2
++python do_profile() {
++    run_profile(d, 'LD_LIBRARY_PATH=/opt/lib /opt/bin/python',
++                d.getVar('PYTHON_PROFILE_TASK', True),
++                '/home/root/python-pgo-profiles/',
++                os.path.join(d.getVar("PROFILE_DATA_WORKDIR", True), 'python'))
  }
  
- do_install() {
-@@ -148,8 +148,14 @@ do_install() {
- 		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
- 		LIB=${baselib} \
- 		ARCH=${TARGET_ARCH} \
--		DESTDIR=${D} LIBDIR=${libdir}
-+		DESTDIR=${D} LIBDIR=${libdir} ${PYTHON3_MAKE_TARGET}
- 	
-+    if [ "${PYTHON3_MAKE_TARGET}" = "build_all_generate_profile" ]; then
-+        # Need special make install if pgo generation is enabled
-+        _PYTHON3_MAKE_INSTALL_TARGET="install_generate_profile"
-+    else
-+        _PYTHON3_MAKE_INSTALL_TARGET="install"
-+    fi
- 	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/python3-native/pgen \
- 		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python3-native/python3 \
- 		STAGING_LIBDIR=${STAGING_LIBDIR} \
-@@ -157,7 +163,7 @@ do_install() {
- 		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
- 		LIB=${baselib} \
- 		ARCH=${TARGET_ARCH} \
--		DESTDIR=${D} LIBDIR=${libdir} install
-+		DESTDIR=${D} LIBDIR=${libdir} ${_PYTHON3_MAKE_INSTALL_TARGET}
+ addtask profile after do_build
+ do_profile[depends] += "qemu-native:do_populate_sysroot qemu-helper-native:do_populate_sysroot"
+-do_profile[cleandirs] = "${PROFILE_DATA_WORKDIR}"
+-
++do_profile[cleandirs] = "${PROFILE_DATA_WORKDIR}/python"
  
- 	# avoid conflict with 2to3 from Python 2
- 	rm -f ${D}/${bindir}/2to3
-@@ -206,9 +212,9 @@ PACKAGES =+ "${PN}-pyvenv"
- FILES_${PN}-pyvenv += "${bindir}/pyvenv-${PYTHON_MAJMIN} ${bindir}/pyvenv"
+ python do_profile_setscene () {
+     sstate_setscene(d)
+ }
  
- # package libpython3
--PACKAGES =+ "libpython3 libpython3-staticdev"
--FILES_libpython3 = "${libdir}/libpython*.so.*"
--FILES_libpython3-staticdev += "${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_BINABI}/libpython${PYTHON_BINABI}.a"
-+PACKAGES =+ "lib${BPN} lib${BPN}-staticdev"
-+FILES_lib${BPN} = "${libdir}/libpython*.so.*"
-+FILES_lib${BPN}-staticdev += "${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_BINABI}/lib${BPN}*.a"
- INSANE_SKIP_${PN}-dev += "dev-elf"
- 
- # catch all the rest (unsorted)
+ SSTATETASKS += "do_profile"
+-do_profile[sstate-inputdirs] = "${PROFILE_DATA_WORKDIR}"
++do_profile[sstate-inputdirs] = "${PROFILE_DATA_WORKDIR}/python"
+ do_profile[sstate-outputdirs] = "${PYTHON_PROFILE_DIR}"
+ addtask do_profile_setscene
++
++
++# Profile task for Python3
++python do_profile3() {
++    run_profile(d, 'LD_LIBRARY_PATH=/opt/lib /opt/bin/python3',
++                d.getVar('PYTHON3_PROFILE_TASK', True),
++                '/home/root/python3-pgo-profiles/',
++                os.path.join(d.getVar("PROFILE_DATA_WORKDIR", True), 'python3'))
++}
++
++addtask profile3 after do_build
++do_profile3[depends] += "qemu-native:do_populate_sysroot qemu-helper-native:do_populate_sysroot"
++do_profile3[cleandirs] = "${PROFILE_DATA_WORKDIR}/python3"
++
++python do_profile3_setscene () {
++    sstate_setscene(d)
++}
++
++SSTATETASKS += "do_profile3"
++do_profile3[sstate-inputdirs] = "${PROFILE_DATA_WORKDIR}/python3"
++do_profile3[sstate-outputdirs] = "${PYTHON3_PROFILE_DIR}"
++addtask do_profile3_setscene
 -- 
 2.10.2
 
