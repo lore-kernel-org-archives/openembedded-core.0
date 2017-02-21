@@ -1,34 +1,46 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 2301B71D97
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
+	[209.85.220.193])
+	by mail.openembedded.org (Postfix) with ESMTP id E886060291
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 09:53:51 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 9AF0231E102B;
-	Tue, 21 Feb 2017 10:53:51 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id S-u27CPlQFrY; Tue, 21 Feb 2017 10:53:49 +0100 (CET)
-Received: from t510.zcs.saftware.de (p57A61904.dip0.t-ipconnect.de
-	[87.166.25.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id CFBB531E0F80;
-	Tue, 21 Feb 2017 10:53:48 +0100 (CET)
-Date: Tue, 21 Feb 2017 10:53:47 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20170221105347.7b9a23c6@t510.zcs.saftware.de>
-In-Reply-To: <CAJTo0Lacj_34LppjT-qeE5UCmHyET1RyYDavRQ5xvQ=eOiS2JQ@mail.gmail.com>
-References: <1487241290-6188-1-git-send-email-obi@opendreambox.org>
-	<1487241290-6188-2-git-send-email-obi@opendreambox.org>
-	<CAJTo0Lacj_34LppjT-qeE5UCmHyET1RyYDavRQ5xvQ=eOiS2JQ@mail.gmail.com>
+	Tue, 21 Feb 2017 10:33:27 +0000 (UTC)
+Received: by mail-qk0-f193.google.com with SMTP id n127so6759505qkf.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Feb 2017 02:33:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=nathanrossi.com; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=c+sjXjMibz1baMorhit0gHT+ylfnh08lUKtj2Iq6Fnw=;
+	b=QFaYNPfTLw30jQllHbwudWsTJUfZV3DFdlquqdjsgHEgGeL0thV1SHxUhcs8YyXCZe
+	brWo6jnNnT0L6O9sLRGRLJkJugawuWSlbtuPlYcA5YqRO9tYL+3nV+v3KqopqrJALahL
+	wXi9C7FoZIiMzrY+Bte7tdmZVwmkhL+IhOArqnmFDz3Y5mz03iIlGy2ZW0mJfPSPUZvI
+	+PjWkTPGYmTTHg9QZ+E/WjCTF1Dl8SRwrKgX5ilvyAmb4HsPgStV9x/tFOkUOjAR7Rtv
+	8KP3MtW7U18Y8XJ2awlwokJQ+7nNF8xVTkZYhTIHstWkBNbfEaS+t4nxclRvTbJdUDWC
+	Ks4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=c+sjXjMibz1baMorhit0gHT+ylfnh08lUKtj2Iq6Fnw=;
+	b=X43ziaVysUr8IFwV9j978IyGwAexBr2AkUomxXbbOUbU8PFGYgtqY3Z2zC+KzabfjE
+	fuwJVob+6k0JlY8BYP2aLv+95u5pqovdsq3nnXCQKD8PSrDcXG2BGa1kT1tnAR4Df0Im
+	O2f3OjiXaIXey7zgTwMUJ1B/GuoC0sjU5G6FXnYWf0WfIQZNwoHsUW3esUpQfjlXfjM4
+	eSx9RaRN+ANlAKJ5/6dRCtYEMUL0cTdatQ3axx50oSPnySGoSEuAaCHe9ikepgKD4ReP
+	G/W4OXi/BGRVwiZN+1NLJp6JwFe7kCiyEM9+yE53RHYgw6JwJJr5r3LJpHAs9eIpZeG2
+	mB0w==
+X-Gm-Message-State: AMke39mI2crRWV91tgXYI7fRJOxQP8Ue1C6n5YaSZFdrQLNdwnNvV0snIAyK23GhU9hrpHylP6JJoo3T1Q+jgA==
+X-Received: by 10.55.44.197 with SMTP id s188mr23128416qkh.131.1487673208909; 
+	Tue, 21 Feb 2017 02:33:28 -0800 (PST)
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] ffmpeg: Fix the license description
+Received: by 10.12.136.75 with HTTP; Tue, 21 Feb 2017 02:33:28 -0800 (PST)
+In-Reply-To: <20170130074351.32016-1-nathan@nathanrossi.com>
+References: <20170130074351.32016-1-nathan@nathanrossi.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
+Date: Tue, 21 Feb 2017 20:33:28 +1000
+Message-ID: <CA+aJhH2W=uUogdhHb-wJ4dXOL-R41SzE7xCQQ7O2urmwFJDSDg@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alistair Francis <alistai@xilinx.com>
+Subject: Re: [PATCH] gettext_0.19.8.1.bb: Add 'gettext-libintl' package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,88 +53,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2017 09:53:54 -0000
+X-List-Received-Date: Tue, 21 Feb 2017 10:33:30 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, 21 Feb 2017 01:21:35 +0000
-"Burton, Ross" <ross.burton@intel.com> wrote:
+On 30 January 2017 at 17:43, Nathan Rossi <nathan@nathanrossi.com> wrote:
+> Whilst gettext is not the default provider of libintl for most libc
+> configurations it is possible for it to be the provider of libintl. In
+> the cases where it is provided it should be shipped in a separate
+> package so as to allow for it to be included without pulling in
+> additional gettext content/dependencies.
+>
+> This change adds a package called 'gettext-libintl' which ships the
+> libintl shared objects (and is otherwise empty if libintl is not
+> provided). This allows for the library to be shipped without the
+> additional components included in the gettext-runtime package.
+>
+> This package is prefixed with 'gettext-' to define the source of the
+> library due to the existence of multiple providers for libintl.
+>
+> This change also makes the libintl*.so and .h packaged into the
+> gettext-runtime-dev package by default. Removing the need for a uclibc
+> override to handle packaging these files. Targets that don't intend to
+> distribute these files already remove them during the do_install stage
+> (e.g. musl).
 
-> On 16 February 2017 at 10:34, Andreas Oberritter <obi@opendreambox.org>
-> wrote:
->=20
-> > +LICENSE =3D "BSD & GPLv2+ & LGPLv2.1+ & MIT"
-> > +LICENSE_${PN} =3D "GPLv2+"
-> > +LICENSE_libavcodec =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
-> > 'GPLv2+', 'LGPLv2.1+', d)}"
-> > +LICENSE_libavdevice =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
-> > 'GPLv2+', 'LGPLv2.1+', d)}"
-> > +LICENSE_libavfilter =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
-> > 'GPLv2+', 'LGPLv2.1+', d)}"
-> > +LICENSE_libavformat =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
-> > 'GPLv2+', 'LGPLv2.1+', d)}"
-> > +LICENSE_libavresample =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
-> > 'GPLv2+', 'LGPLv2.1+', d)}"
-> > +LICENSE_libavutil =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
-> > 'GPLv2+', 'LGPLv2.1+', d)}"
-> > +LICENSE_libpostproc =3D "GPLv2+"
-> > +LICENSE_libswresample =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
-> > 'GPLv2+', 'LGPLv2.1+', d)}"
-> > +LICENSE_libswscale =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
-> > 'GPLv2+', 'LGPLv2.1+', d)}"
-> > =20
->=20
-> Using a script to extract the pkgdata information, I see this license
-> information in the runtime libraries.
->=20
-> libswscale-dev: BSD & GPLv2+ & LGPLv2.1+ & MIT
-> libswresample-dev: BSD & GPLv2+ & LGPLv2.1+ & MIT
-> libpostproc-dev: BSD & GPLv2+ & LGPLv2.1+ & MIT
-> libavutil-dev: BSD & GPLv2+ & LGPLv2.1+ & MIT
-> libavformat-dev: BSD & GPLv2+ & LGPLv2.1+ & MIT
-> libavfilter-dev: BSD & GPLv2+ & LGPLv2.1+ & MIT
-> libavdevice-dev: BSD & GPLv2+ & LGPLv2.1+ & MIT
-> libavcodec-dev: BSD & GPLv2+ & LGPLv2.1+ & MIT
-> libswscale: GPLv2+
-> libswresample: GPLv2+
-> libpostproc: GPLv2+
-> libavutil: GPLv2+
-> libavformat: GPLv2+
-> libavfilter: GPLv2+
-> libavdevice: GPLv2+
-> libavcodec: GPLv2+
-> ffmpeg-dbg: BSD & GPLv2+ & LGPLv2.1+ & MIT
-> ffmpeg-staticdev: BSD & GPLv2+ & LGPLv2.1+ & MIT
-> ffmpeg-dev: BSD & GPLv2+ & LGPLv2.1+ & MIT
-> ffmpeg-doc: BSD & GPLv2+ & LGPLv2.1+ & MIT
-> ffmpeg-locale: BSD & GPLv2+ & LGPLv2.1+ & MIT
-> ffmpeg: GPLv2+
->=20
-> It looks like the BSD/LGPL/MIT license statements don't end up in any
-> packages which actually contain binaries.  Is this correct?
+Ping, any comments or feedback?
 
-Yes, because LICENSE describes the source licenses, whereas LICENSE_.* desc=
-ribes
-licenses of binary packages [1].
+Thanks,
+Nathan
 
-The binary packages contain combined work. Quoted from FFmpeg's docs (LICEN=
-SE.md):
-
-=E2=80=9EMost files in FFmpeg are under the GNU Lesser General Public Licen=
-se version 2.1
-or later (LGPL v2.1+). Read the file `COPYING.LGPLv2.1` for details. Some o=
-ther
-files have MIT/X11/BSD-style licenses. In combination the LGPL v2.1+ applie=
-s to
-FFmpeg.=E2=80=9C
-
-If you disable the 'gpl' PACKAGECONFIG knob, the binary packages will get t=
-he LGPLv2+
-license tag (except for libpostproc), and slightly reduced functionality.
-
-Regards,
-Andreas
-
-[1]: http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html#va=
-r-LICENSE
+>
+> Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+> ---
+>  meta/recipes-core/gettext/gettext_0.19.8.1.bb | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/meta/recipes-core/gettext/gettext_0.19.8.1.bb b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
+> index 7b8c1e8eb4..2af7373209 100644
+> --- a/meta/recipes-core/gettext/gettext_0.19.8.1.bb
+> +++ b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
+> @@ -66,6 +66,9 @@ PACKAGES =+ "libgettextlib libgettextsrc"
+>  FILES_libgettextlib = "${libdir}/libgettextlib-*.so*"
+>  FILES_libgettextsrc = "${libdir}/libgettextsrc-*.so*"
+>
+> +PACKAGES =+ "gettext-libintl"
+> +FILES_gettext-libintl = "${libdir}/libintl*.so.*"
+> +
+>  PACKAGES =+ "gettext-runtime gettext-runtime-dev gettext-runtime-doc"
+>
+>  FILES_${PN} += "${libdir}/${BPN}/*"
+> @@ -82,15 +85,12 @@ FILES_gettext-runtime = "${bindir}/gettext \
+>                           ${libdir}/libasprintf.so* \
+>                           ${libdir}/GNU.Gettext.dll \
+>                          "
+> -FILES_gettext-runtime_append_libc-uclibc = " ${libdir}/libintl.so.* \
+> -                                             ${libdir}/charset.alias \
+> -                                           "
+> +FILES_gettext-runtime_append_libc-uclibc = " ${libdir}/charset.alias"
+>  FILES_gettext-runtime-dev += "${libdir}/libasprintf.a \
+>                        ${includedir}/autosprintf.h \
+> +                      ${libdir}/libintl*.so \
+> +                      ${includedir}/libintl.h \
+>                       "
+> -FILES_gettext-runtime-dev_append_libc-uclibc = " ${libdir}/libintl.so \
+> -                                                 ${includedir}/libintl.h \
+> -                                               "
+>  FILES_gettext-runtime-doc = "${mandir}/man1/gettext.* \
+>                               ${mandir}/man1/ngettext.* \
+>                               ${mandir}/man1/envsubst.* \
+> --
+> 2.11.0
+>
 
