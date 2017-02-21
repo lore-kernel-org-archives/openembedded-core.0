@@ -1,47 +1,48 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 1019772FAF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f182.google.com (mail-qt0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id EBAA572FAF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 18:05:03 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id v77so21088730wmv.0
+	Tue, 21 Feb 2017 18:07:58 +0000 (UTC)
+Received: by mail-qt0-f182.google.com with SMTP id b16so68721884qte.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 10:05:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ke6Ao7LNtPEsZKCQagcMKEiLT7IQwdbr4p1vEx4/z1U=;
-	b=nF5plyQA4KrZXO0xOUh4RS/yH1MMN+Nw5lre6M1nTSCnFZXtUoDgCbfGcgOmKAJxct
-	clapHdUIBTMP2UpYKtvqwILtSzodiQqr/l66j9/CvNNpe3VIk029V4nOAQftjIdZ+h9j
-	MsMHZiUt1uaYZXml8mrc01VJB1Wc+2C2DgciQCeIaj/+qEdSpCpSQPSxLx30Iho+cm4Q
-	b5G6poMGx4UTbBZub2K5dZsu14yLpIgKDrgmUwYXQGhbakAWJuINZVyfvxM08c36DvZb
-	skE3yewYhuaisfExDm/KnpaioIfzrsYWzV1U/t1y+5p7fz6Xs+N1PgNQCsuLbuJXGhC7
-	Ak7w==
+	Tue, 21 Feb 2017 10:07:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Hip+gG2Z2eAxKGbZPKD+s2+tTqEXLI0YOZll4UWcZJk=;
+	b=xdGU5X0fT7od3A2IRlSW1bGjdWsT3aBiZ8/2a2lW4KXSXCe+uEb3qtYYn6/mU5mHcU
+	cU6ls6cpsCmcX+9UyJM+YeHkx2qGB0J1Xmg3qIGWdpEyR3nN3EyidhtG/jyyFgNC6r9f
+	IreQJydvWGC8D+mpmv/ewGe++jjo97B4oo0qqeGb0QDyoQ6DDe0XToNAt360T/MOeMH5
+	k6+7QfweOcu5qe6fgPb//bfB8XEOInJwJzd5MWZcERJUjyt1b9dQhCyY5ZODKWTotuwc
+	TcFJ36CnGpSf14zBjGccwM2dSDZQ59+BIDtvEShZ0BANEFcEAdfHIXs/ghJkSn6PkjgN
+	0Fhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=ke6Ao7LNtPEsZKCQagcMKEiLT7IQwdbr4p1vEx4/z1U=;
-	b=nwelaleYVGAtayE/DhqZc+s6+37DIJjTvtoBzdq9+80ZOHp2kUXskBjB/uUs8xTFRf
-	R6maz43HKyJ1csppp7hUm5E3Nv80yToYlPxjHWw5W1LRnUFukbEJywzNO1z4uXiZ8o4+
-	8GyyM73hgKeDVPTuAbgtKnbNj9Xc8FdRcYR6L88SrGnug16nQ4e8NufHdvIn4/lsgvgo
-	gceYRnxoV8eB9DNpvhAaKFHVZzRZW8S5XBJTO4plK7s95gENXnP9pYerFgsZSVlftxPK
-	Ibwbp9hb8BU86heX4v/7UQKQ6tCSDXleBqiKTiRKS7hK2nsEdYhhMB41AhCjTlU2RkgI
-	Ieig==
-X-Gm-Message-State: AMke39mtSnjNskfAZiQpuJ6E4VKiA0fGcLp4P0C6WXa7GJCAXa1M7WpejOJXw+iKZsb60w==
-X-Received: by 10.28.178.142 with SMTP id b136mr15927116wmf.69.1487700304310; 
-	Tue, 21 Feb 2017 10:05:04 -0800 (PST)
-Received: from localhost.localdomain ([62.179.106.250])
-	by smtp.gmail.com with ESMTPSA id
-	d75sm14290546wmd.25.2017.02.21.10.05.03
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 21 Feb 2017 10:05:03 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Feb 2017 10:04:50 -0800
-Message-Id: <1487700290-3110-3-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1487700290-3110-1-git-send-email-armccurdy@gmail.com>
-References: <1487700290-3110-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 2/2][morty] image_types.bbclass: fix image dependency chain collection
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Hip+gG2Z2eAxKGbZPKD+s2+tTqEXLI0YOZll4UWcZJk=;
+	b=FGlaaGJpdcZfrazovvktUIy8iKtgUuVW6JHxRictQbafnJ9ZQbWPEmlIbdqSf4HcQe
+	hQBnn0hmkV4w5JojrCoHImeQMsHu6Q6rjRzNY9HpBP8xMwBerpuQ3iHfcIq1IoTxV8ri
+	0KPuT2WzB1DSON4mGBx4P7wqUMUnMREMJh2PI3kAG3zwva/jGZG3jPa9X/Yb/iCxCIO8
+	P4dacR/7TeLZGWu5iuxKYPxF0YRrg+PxTtg+hgeW6rvaRTt5N89kPtHlV4y0hhOINTdV
+	yi/7wJvtPWLI8QGDMjFSgFm/dcvwSO80tR1VCHYoJ8sO+rLD1/f+d/5Jt5y+mwgOvv9+
+	kYhg==
+X-Gm-Message-State: AMke39lJyJnzkDf9UU6MNv4G0SayCrOSlFUTtdnVXZwWOF5ep/237T9fT3PYvmVZB1X1M7V2qBO+Nss0J08eVKn0
+X-Received: by 10.200.45.247 with SMTP id q52mr28266252qta.197.1487700479144; 
+	Tue, 21 Feb 2017 10:07:59 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.103.233 with HTTP; Tue, 21 Feb 2017 10:07:38 -0800 (PST)
+In-Reply-To: <CA+aJhH0nEHuOjJJQE7=JeYg6ppjM7FdF+u=yc3TGvExUrQaUTw@mail.gmail.com>
+References: <20170130074552.32419-0-nathan@nathanrossi.com>
+	<CA+aJhH0nEHuOjJJQE7=JeYg6ppjM7FdF+u=yc3TGvExUrQaUTw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 21 Feb 2017 18:07:38 +0000
+Message-ID: <CAJTo0LbYG98-XKeuUFUjvRebOo1p4mN8SpmqBkRW9qjJRZPPTA@mail.gmail.com>
+To: Nathan Rossi <nathan@nathanrossi.com>
+Cc: Alistair Francis <alistai@xilinx.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] glib-2.0 changes for nativesdk and packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,34 +55,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2017 18:05:03 -0000
+X-List-Received-Date: Tue, 21 Feb 2017 18:08:00 -0000
+Content-Type: multipart/alternative; boundary=001a1139cdf097ecb605490e42ba
 
-If image type "foo" depends on image type "bar.xz", then dependencies
-should be collected from the base image type (ie "IMAGE_DEPENDS_bar")
-not from "IMAGE_DEPENDS_bar.xz".
+--001a1139cdf097ecb605490e42ba
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8a9f249a9166347cc0468191ce130003e3d306e1)
----
- meta/classes/image_types.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 21 February 2017 at 10:34, Nathan Rossi <nathan@nathanrossi.com> wrote:
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 5020a5a..3bfa60b 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -33,8 +33,8 @@ def imagetypes_getdepends(d):
- 
-         for typedepends in (d.getVar("IMAGE_TYPEDEP_%s" % basetype, True) or "").split():
-             base, rest = split_types(typedepends)
-+            adddep(d.getVar('IMAGE_DEPENDS_%s' % base, True) , deps)
-             resttypes += rest
--            adddep(d.getVar('IMAGE_DEPENDS_%s' % typedepends, True) , deps)
- 
-         for ctype in resttypes:
-             adddep(d.getVar("CONVERSION_DEPENDS_%s" % ctype, True), deps)
--- 
-1.9.1
+> Ping, any comments or feedback for this series?
+>
 
+Sorry, looks good, I'll stage them shortly.
 
+Ross
+
+--001a1139cdf097ecb605490e42ba
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 21 February 2017 at 10:34, Nathan Rossi <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:nathan@nathanrossi.com" target=3D"_blank">nathan@nathanrossi.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":5op" clas=
+s=3D"a3s aXjCH m15a603c8161e9af7">Ping, any comments or feedback for this s=
+eries?<br></div></blockquote></div><br>Sorry, looks good, I&#39;ll stage th=
+em shortly.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_e=
+xtra">Ross</div></div>
+
+--001a1139cdf097ecb605490e42ba--
