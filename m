@@ -1,24 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A32C72F8B
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id C520772F86
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 21 Feb 2017 14:48:55 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Feb 2017 06:48:49 -0800
+	by orsmga104.jf.intel.com with ESMTP; 21 Feb 2017 06:48:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,190,1484035200"; d="scan'208";a="1132875749"
+X-IronPort-AV: E=Sophos;i="5.35,190,1484035200"; d="scan'208";a="1132875817"
 Received: from kanavin-desktop.fi.intel.com (HELO
 	kanavin-desktop.fi.intel.comfi.intel.com) ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Feb 2017 06:48:48 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 21 Feb 2017 06:48:56 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Feb 2017 16:46:37 +0200
-Message-Id: <ddcf064303c62b2a6e656448ce0c2d57dcf3ae4f.1487687951.git.alexander.kanavin@linux.intel.com>
+Date: Tue, 21 Feb 2017 16:46:45 +0200
+Message-Id: <05b5357fd1606348001af06a54de62b412affeb0.1487687951.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1487687951.git.alexander.kanavin@linux.intel.com>
 References: <cover.1487687951.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCHv2 20/39] nativesdk-packagegroup-sdk-host: replace smartpm with dnf
+Subject: [PATCHv2 28/39] selftest: do not perform a full build in test_continue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,174 +32,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 21 Feb 2017 14:48:56 -0000
 
+This was fetching and building the toolchain and everything else
+against empty download dir and sstate cache, and so was enormously slow.
+The test does not need that, it only checks that one fetch task fails and
+another succeeds when using bitbake's -k option.
+
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb     | 2 +-
- meta/recipes-devtools/dnf/dnf_git.bb                                   | 1 -
- meta/recipes-devtools/libcomps/libcomps_git.bb                         | 2 +-
- meta/recipes-devtools/libdnf/libdnf_git.bb                             | 2 +-
- meta/recipes-devtools/librepo/librepo_git.bb                           | 2 +-
- .../python-backports-lzma/python-backports-lzma_git.bb                 | 2 +-
- meta/recipes-devtools/python/python-iniparse_0.4.bb                    | 2 +-
- meta/recipes-devtools/python/python-pygpgme_0.3.bb                     | 2 +-
- meta/recipes-devtools/rpm/rpm_git.bb                                   | 2 +-
- meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb                             | 2 +-
- meta/recipes-support/gpgme/gpgme_1.8.0.bb                              | 2 +-
- meta/recipes-support/libassuan/libassuan_2.4.3.bb                      | 2 +-
- meta/recipes-support/libcheck/libcheck_0.10.0.bb                       | 3 ++-
- 13 files changed, 13 insertions(+), 13 deletions(-)
+ meta/lib/oeqa/selftest/bbtests.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-index 2c2abed33cd..3283e7370e8 100644
---- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-+++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-@@ -22,7 +22,7 @@ RDEPENDS_${PN} = "\
-     nativesdk-automake \
-     nativesdk-shadow \
-     nativesdk-makedevs \
--    nativesdk-smartpm \
-+    nativesdk-dnf \
-     nativesdk-postinst-intercept \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'nativesdk-wayland', '', d)} \
-     "
-diff --git a/meta/recipes-devtools/dnf/dnf_git.bb b/meta/recipes-devtools/dnf/dnf_git.bb
-index 82501a866bb..2a6acddd784 100644
---- a/meta/recipes-devtools/dnf/dnf_git.bb
-+++ b/meta/recipes-devtools/dnf/dnf_git.bb
-@@ -28,7 +28,6 @@ DEPENDS += "python-backports-lzma"
- EXTRA_OECMAKE = " -DWITH_MAN=0 -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR}"
- 
- BBCLASSEXTEND = "native nativesdk"
--
- RDEPENDS_${PN}_class-target += "python-core python-codecs python-netclient python-email python-threading python-distutils librepo python-shell python-subprocess libcomps libdnf python-sqlite3 python-compression python-pygpgme python-backports-lzma python-rpm python-iniparse python-json python-importlib python-curses python-argparse"
- 
- # Direct dnf-native to read rpm configuration from our sysroot, not the one it was compiled in
-diff --git a/meta/recipes-devtools/libcomps/libcomps_git.bb b/meta/recipes-devtools/libcomps/libcomps_git.bb
-index 448ea62f67c..8ff13b26b62 100644
---- a/meta/recipes-devtools/libcomps/libcomps_git.bb
-+++ b/meta/recipes-devtools/libcomps/libcomps_git.bb
-@@ -19,5 +19,5 @@ DEPENDS = "libxml2 expat libcheck"
- EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR}"
- OECMAKE_SOURCEPATH = "${S}/libcomps"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
- 
-diff --git a/meta/recipes-devtools/libdnf/libdnf_git.bb b/meta/recipes-devtools/libdnf/libdnf_git.bb
-index 6875401301e..7b1bf21199d 100644
---- a/meta/recipes-devtools/libdnf/libdnf_git.bb
-+++ b/meta/recipes-devtools/libdnf/libdnf_git.bb
-@@ -32,5 +32,5 @@ DEPENDS += "python-native"
- 
- EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DWITH_MAN=OFF"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
- 
-diff --git a/meta/recipes-devtools/librepo/librepo_git.bb b/meta/recipes-devtools/librepo/librepo_git.bb
-index 70e88c47b9e..3f3c5fbcf51 100644
---- a/meta/recipes-devtools/librepo/librepo_git.bb
-+++ b/meta/recipes-devtools/librepo/librepo_git.bb
-@@ -20,5 +20,5 @@ inherit cmake distutils-base pkgconfig
- 
- EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR}"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
- 
-diff --git a/meta/recipes-devtools/python-backports-lzma/python-backports-lzma_git.bb b/meta/recipes-devtools/python-backports-lzma/python-backports-lzma_git.bb
-index 6d3b8d569de..93c6684be6c 100644
---- a/meta/recipes-devtools/python-backports-lzma/python-backports-lzma_git.bb
-+++ b/meta/recipes-devtools/python-backports-lzma/python-backports-lzma_git.bb
-@@ -18,4 +18,4 @@ DEPENDS_append = " xz"
- RDEPENDS_${PN} += "python-core python-io python-pkgutil"
- RDEPENDS_${PN}_class-native += "python-core"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python-iniparse_0.4.bb b/meta/recipes-devtools/python/python-iniparse_0.4.bb
-index f2515759b13..c6d98c2fdfc 100644
---- a/meta/recipes-devtools/python/python-iniparse_0.4.bb
-+++ b/meta/recipes-devtools/python/python-iniparse_0.4.bb
-@@ -12,6 +12,6 @@ inherit distutils
- 
- RDEPENDS_${PN} += "python-core"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
- 
- S = "${WORKDIR}/iniparse-${PV}"
-diff --git a/meta/recipes-devtools/python/python-pygpgme_0.3.bb b/meta/recipes-devtools/python/python-pygpgme_0.3.bb
-index f7dd835eee9..ac8bc9d62e7 100644
---- a/meta/recipes-devtools/python/python-pygpgme_0.3.bb
-+++ b/meta/recipes-devtools/python/python-pygpgme_0.3.bb
-@@ -15,4 +15,4 @@ DEPENDS = "gpgme python"
- 
- RDEPENDS_${PN} += "python-core"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/rpm/rpm_git.bb b/meta/recipes-devtools/rpm/rpm_git.bb
-index d58588d92e2..9c6de17c920 100644
---- a/meta/recipes-devtools/rpm/rpm_git.bb
-+++ b/meta/recipes-devtools/rpm/rpm_git.bb
-@@ -56,7 +56,7 @@ EXTRA_OECONF_append = " --without-lua --enable-python"
- # Also disable plugins, so that rpm doesn't attempt to inhibit shutdown via session dbus
- EXTRA_OECONF_append_class-native = " --sysconfdir=/etc --localstatedir=/var --disable-plugins"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
- 
- # Direct rpm-native to read configuration from our sysroot, not the one it was compiled in
- # libmagic also has sysroot path contamination, so override it
-diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb b/meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb
-index 6af996e3593..7de36ae9e52 100644
---- a/meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb
-+++ b/meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb
-@@ -29,7 +29,7 @@ SRC_URI_append_class-native = " file://pkg-config-native.patch"
- SRC_URI[archive.md5sum] = "0dc6570953112a464a409fb99258ccbc"
- SRC_URI[archive.sha256sum] = "1ea46ed400e6501f975acaafea31479cea8f32f911dca4dff036f59e6464fd42"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
- 
- # Do not check for XML catalogs when building because that
- # information is not used for anything during build. Recipe
-diff --git a/meta/recipes-support/gpgme/gpgme_1.8.0.bb b/meta/recipes-support/gpgme/gpgme_1.8.0.bb
-index 3e74b6fe971..f2c7034010a 100644
---- a/meta/recipes-support/gpgme/gpgme_1.8.0.bb
-+++ b/meta/recipes-support/gpgme/gpgme_1.8.0.bb
-@@ -24,7 +24,7 @@ BINCONFIG = "${bindir}/gpgme-config"
- 
- inherit autotools texinfo binconfig-disabled pkgconfig
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
- 
- PACKAGES =+ "${PN}-cpp"
- FILES_${PN}-cpp = "${libdir}/libgpgmepp.so.*"
-diff --git a/meta/recipes-support/libassuan/libassuan_2.4.3.bb b/meta/recipes-support/libassuan/libassuan_2.4.3.bb
-index 1b3916d7343..926c279f90b 100644
---- a/meta/recipes-support/libassuan/libassuan_2.4.3.bb
-+++ b/meta/recipes-support/libassuan/libassuan_2.4.3.bb
-@@ -28,4 +28,4 @@ do_configure_prepend () {
- 	rm -f ${S}/m4/*.m4
- }
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-support/libcheck/libcheck_0.10.0.bb b/meta/recipes-support/libcheck/libcheck_0.10.0.bb
-index c0b459f6618..4db2d7528cc 100644
---- a/meta/recipes-support/libcheck/libcheck_0.10.0.bb
-+++ b/meta/recipes-support/libcheck/libcheck_0.10.0.bb
-@@ -20,5 +20,6 @@ CACHED_CONFIGUREVARS += "ac_cv_path_AWK_PATH=${bindir}/gawk"
- RREPLACES_${PN} = "check (<= 0.9.5)"
- RDEPENDS_${PN} += "gawk"
- RDEPENDS_${PN}_class-native = ""
-+RDEPENDS_${PN}_class-nativesdk = ""
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
+index fccb395b2a6..daa4d2fdf0c 100644
+--- a/meta/lib/oeqa/selftest/bbtests.py
++++ b/meta/lib/oeqa/selftest/bbtests.py
+@@ -221,7 +221,7 @@ INHERIT_remove = \"report-error\"
+         self.track_for_cleanup(os.path.join(self.builddir, "download-selftest"))
+         self.write_recipeinc('man',"\ndo_fail_task () {\nexit 1 \n}\n\naddtask do_fail_task before do_fetch\n" )
+         runCmd('bitbake -c cleanall man xcursor-transparent-theme')
+-        result = runCmd('bitbake man xcursor-transparent-theme -k', ignore_status=True)
++        result = runCmd('bitbake -c unpack -k man xcursor-transparent-theme', ignore_status=True)
+         errorpos = result.output.find('ERROR: Function failed: do_fail_task')
+         manver = re.search("NOTE: recipe xcursor-transparent-theme-(.*?): task do_unpack: Started", result.output)
+         continuepos = result.output.find('NOTE: recipe xcursor-transparent-theme-%s: task do_unpack: Started' % manver.group(1))
 -- 
 2.11.0
 
