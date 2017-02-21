@@ -1,46 +1,24 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ot0-f193.google.com (mail-ot0-f193.google.com
-	[74.125.82.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 8372D71B04
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AEFA71A23
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 04:58:46 +0000 (UTC)
-Received: by mail-ot0-f193.google.com with SMTP id w44so2991424otw.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 20:58:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=HyfXBFKMQ4IwvA0WJQdpxEIsMY6eS0zwcFLaioitsVI=;
-	b=h9FL49tN7MmlpJUVdzilxj3oWcS2mRMYdOyrZAiQeUwb5ORP81zuB32sEYmRJsVUWD
-	o/djsA/IWWu8Hm3VZfjf1/Hz9aUv8m2AfIfTF3e5V0dc2/lwDZtHsJEkBSAN4vtenfnU
-	n3jn+5PDnac4s+995ifcOwzUaWArRg9l3P8P9AB83AgwLyNlpD9ga0T+GF3YOUsdB4PP
-	/FKEcl5MnMRVRzciOdLbozdvVRMQH3Ak//ZXb38GxKbZey+klDpHAL3AF/O+qEkg6+gN
-	8TRzWzeLX7t6sgCSTrkdJco84wzTX7xKFWOC3GQkJATnFUEl8Rg+m9vaWE05J7Dqvgb+
-	OW+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=HyfXBFKMQ4IwvA0WJQdpxEIsMY6eS0zwcFLaioitsVI=;
-	b=XV4omT3z4x4gkm58TnLpIdDkp9ouZ9eYt8xo8GfjOljQ7fWmeLFad5tAYGZy7zq/xD
-	hdOX1GgGQV+V7xHwjj1WmfuPpzMF0xA9sezMGH+GKFKAkfPUBLTwtDzkVxw/eXqneCnj
-	pxFsynLithi9XOiqUujf9fyJiQbiA6jI3bdbkP8UrphIK6Mhrh/b1xrfxiEFMTPStHJW
-	+OZF9mt1tObrZAtCkFKUmV1+GXt7mzP0LvM7q1KZKob0L4mR+6OpSHR0gskpXDw/Ygvg
-	laRVzcvanoRl+hxO3ZPLC4ai5G7V/6wVqdLnl8h/C2fBJnZ2m29sYqz7zoCL/zBvHkFS
-	RIKQ==
-X-Gm-Message-State: AMke39kReT+4FwRQymTMUCSTkwpqzCq6toLqqTJboCDQMCyGSVGFgo1wDwZyxeJLUz/A9AZay1JKUNCYAuRNmw==
-X-Received: by 10.157.31.93 with SMTP id x29mr11864946otx.133.1487653128145;
-	Mon, 20 Feb 2017 20:58:48 -0800 (PST)
+	Tue, 21 Feb 2017 05:13:52 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v1L5DoGc029928
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 20 Feb 2017 21:13:53 -0800 (PST)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Mon, 20 Feb 2017 21:13:50 -0800
+From: Dengke Du <dengke.du@windriver.com>
+To: <ross.burton@intel.com>
+Date: Tue, 21 Feb 2017 00:13:47 -0500
+Message-ID: <cover.1487648281.git.dengke.du@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Received: by 10.157.82.98 with HTTP; Mon, 20 Feb 2017 20:58:27 -0800 (PST)
-In-Reply-To: <1487637458-15893-1-git-send-email-ross.burton@intel.com>
-References: <1487637458-15893-1-git-send-email-ross.burton@intel.com>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Mon, 20 Feb 2017 21:58:27 -0700
-Message-ID: <CABcZANnhQ3L=ZsgrFjBo1S8Ffd3WwGgsGwp9KMjRD1UyM4UUUg@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ncurses: 6.0+20160625 -> 6.0+20161126
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH V4 0/1] ltp: upgrade to 20170116
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,109 +31,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2017 04:58:48 -0000
-Content-Type: multipart/alternative; boundary=001a113de47e4092190549033c21
+X-List-Received-Date: Tue, 21 Feb 2017 05:13:53 -0000
+Content-Type: text/plain
 
---001a113de47e4092190549033c21
-Content-Type: text/plain; charset=UTF-8
+Changed in V4:
+	Rebase on the latest oe-core master branch
 
-On Mon, Feb 20, 2017 at 5:37 PM, Ross Burton <ross.burton@intel.com> wrote:
+Changed in V3:
+	Add the runtime depends packages: "unzip gzip cpio cronie logrotate which at" according to Yi zhao's
+	suggestion.
 
-> From: Hongxu Jia <hongxu.jia@windriver.com>
->
-> Add a patch to fix the CC/CFLAGS mangling that broke builds. [RB]
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-core/ncurses/files/fix-cflags-mangle.patch | 17
-> +++++++++++++++++
->  ...{ncurses_6.0+20160625.bb => ncurses_6.0+20161126.bb} |  3 ++-
->  2 files changed, 19 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-core/ncurses/
-> files/fix-cflags-mangle.patch
->  rename meta/recipes-core/ncurses/{ncurses_6.0+20160625.bb => ncurses_6.0+
-> 20161126.bb} (73%)
->
-> diff --git a/meta/recipes-core/ncurses/files/fix-cflags-mangle.patch
-> b/meta/recipes-core/ncurses/files/fix-cflags-mangle.patch
-> new file mode 100644
-> index 0000000..0308fe1
-> --- /dev/null
-> +++ b/meta/recipes-core/ncurses/files/fix-cflags-mangle.patch
-> @@ -0,0 +1,17 @@
-> +configure has a piece of logic to detect users "abusing" CC to hold
-> compiler
-> +flags (which we do).  It also has logic to "correct" this by moving the
-> flags
-> +from CC to CFLAGS, but the sed only handles a single argument in CC.
-> +
-> +Replace the sed with a simple 'cut' call, making the assumption that the
-> first
-> +word is the compiler name and everything else is an option.
->
+Changed in V2:
+	Add Upstream-Status for 0001-add-_GNU_SOURCE-to-pec_listener.c.patch
 
-What will happen when ccache is in use via CCACHE?
+
+The following changes since commit e436a6398684d2872cb541f1cfb0f67b3618d15a:
+
+  layer.conf: bump version for change in eSDK selftest behaviour (2017-02-19 09:39:03 -0800)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib dengke/ltp-upgrade-to-20170116
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=dengke/ltp-upgrade-to-20170116
+
+Dengke Du (1):
+  ltp: upgrade to 20170116
+
+ .../0001-add-_GNU_SOURCE-to-pec_listener.c.patch   |  39 ++
+ .../ltp/0001-ltp-Don-t-link-against-libfl.patch    |  30 --
+ ...TH_MAX-undeclared-when-building-with-musl.patch |  30 ++
+ ...sendfile-Use-off64_t-instead-of-__off64_t.patch |  31 --
+ ...RDSIZE-undeclared-when-building-with-musl.patch |  30 ++
+ .../ltp/ltp/0007-replace-SIGCLD-with-SIGCHLD.patch | 394 ---------------------
+ .../ltp/0009-Guard-error.h-with-__GLIBC__.patch    | 270 --------------
+ ...ition-of-struct-msgbuf-error-building-wit.patch |  35 ++
+ .../0011-Rename-sigset-variable-to-sigset1.patch   |  77 ++--
+ ...fsstress.c-Replace-__int64_t-with-int64_t.patch | 351 ------------------
+ ...nclude-fcntl.h-for-getting-O_-definitions.patch |  67 ----
+ ...ing-Include-sys-types.h-for-pid_t-definit.patch |  56 ---
+ ...015-mincore01-Rename-PAGESIZE-to-pagesize.patch |  64 ----
+ ...Change-header-from-ustat.h-to-sys-ustat.h.patch |  45 ---
+ .../0017-replace-sigval_t-with-union-sigval.patch  |  88 -----
+ ...lace-canonicalize_file_name-with-realpath.patch |  32 --
+ .../ltp/ltp/0022-include-sys-types.h.patch         |  29 --
+ ...sconf01-Use-_SC_2_C_VERSION-conditionally.patch |  23 +-
+ .../ltp/0029-trace_shed-Fix-build-with-musl.patch  |  32 --
+ ...READ_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch |  26 +-
+ ...age-size-offset-as-per-page-size-alignmen.patch |  33 --
+ ...-regen.sh-Include-asm-unistd.h-explicitly.patch |  30 --
+ .../ltp/ltp/0035-fix-test_proc_kill-hang.patch     |  27 +-
+ ...rs-netns_netlink-Avoid-segmentation-fault.patch |  50 ---
+ ...ix-option-group-test-replace-CWD-qith-PWD.patch |  44 ---
+ ...0039-fcntl-fix-the-time-def-to-use-time_t.patch |  17 +-
+ .../ltp/{ltp_20160126.bb => ltp_20170116.bb}       |  34 +-
+ 27 files changed, 235 insertions(+), 1749 deletions(-)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-add-_GNU_SOURCE-to-pec_listener.c.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0001-ltp-Don-t-link-against-libfl.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0006-fix-PATH_MAX-undeclared-when-building-with-musl.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0006-sendfile-Use-off64_t-instead-of-__off64_t.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0007-fix-__WORDSIZE-undeclared-when-building-with-musl.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0007-replace-SIGCLD-with-SIGCHLD.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0009-Guard-error.h-with-__GLIBC__.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0009-fix-redefinition-of-struct-msgbuf-error-building-wit.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0012-fsstress.c-Replace-__int64_t-with-int64_t.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0013-include-fcntl.h-for-getting-O_-definitions.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0014-hyperthreading-Include-sys-types.h-for-pid_t-definit.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0015-mincore01-Rename-PAGESIZE-to-pagesize.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0016-ustat-Change-header-from-ustat.h-to-sys-ustat.h.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0017-replace-sigval_t-with-union-sigval.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0019-tomoyo-Replace-canonicalize_file_name-with-realpath.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0022-include-sys-types.h.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0029-trace_shed-Fix-build-with-musl.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0031-vma03-fix-page-size-offset-as-per-page-size-alignmen.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0032-regen.sh-Include-asm-unistd.h-explicitly.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0037-containers-netns_netlink-Avoid-segmentation-fault.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0038-run-posix-option-group-test-replace-CWD-qith-PWD.patch
+ rename meta/recipes-extended/ltp/{ltp_20160126.bb => ltp_20170116.bb} (77%)
+
 -- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Senior Software Engineer, Mentor Graphics
+2.8.1
 
---001a113de47e4092190549033c21
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, Feb 20, 2017 at 5:37 PM, Ross Burton <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1wk" cla=
-ss=3D"a3s aXjCH m15a5e1a87ba765dd">From: Hongxu Jia &lt;<a href=3D"mailto:h=
-ongxu.jia@windriver.com">hongxu.jia@windriver.com</a>&gt;<br>
-<br>
-Add a patch to fix the CC/CFLAGS mangling that broke builds. [RB]<br>
-<br>
-Signed-off-by: Hongxu Jia &lt;<a href=3D"mailto:hongxu.jia@windriver.com">h=
-ongxu.jia@windriver.com</a>&gt;<br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ros=
-s.burton@intel.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-core/ncurses/<wbr>files/fix-cflags-mangle.patch | 17 +++=
-++++++++++++++<br>
-=C2=A0...{ncurses_6.0+<a href=3D"http://20160625.bb" rel=3D"noreferrer" tar=
-get=3D"_blank">20160625.bb</a> =3D&gt; ncurses_6.0+<a href=3D"http://201611=
-26.bb" rel=3D"noreferrer" target=3D"_blank">20161126.bb</a>} |=C2=A0 3 ++-<=
-br>
-=C2=A02 files changed, 19 insertions(+), 1 deletion(-)<br>
-=C2=A0create mode 100644 meta/recipes-core/ncurses/<wbr>files/fix-cflags-ma=
-ngle.patch<br>
-=C2=A0rename meta/recipes-core/ncurses/{<wbr>ncurses_6.0+<a href=3D"http://=
-20160625.bb" rel=3D"noreferrer" target=3D"_blank">20160625.bb</a> =3D&gt; n=
-curses_6.0+<a href=3D"http://20161126.bb" rel=3D"noreferrer" target=3D"_bla=
-nk">20161126.bb</a>} (73%)<br>
-<br>
-diff --git a/meta/recipes-core/ncurses/<wbr>files/fix-cflags-mangle.patch b=
-/meta/recipes-core/ncurses/<wbr>files/fix-cflags-mangle.patch<br>
-new file mode 100644<br>
-index 0000000..0308fe1<br>
---- /dev/null<br>
-+++ b/meta/recipes-core/ncurses/<wbr>files/fix-cflags-mangle.patch<br>
-@@ -0,0 +1,17 @@<br>
-+configure has a piece of logic to detect users &quot;abusing&quot; CC to h=
-old compiler<br>
-+flags (which we do).=C2=A0 It also has logic to &quot;correct&quot; this b=
-y moving the flags<br>
-+from CC to CFLAGS, but the sed only handles a single argument in CC.<br>
-+<br>
-+Replace the sed with a simple &#39;cut&#39; call, making the assumption th=
-at the first<br>
-+word is the compiler name and everything else is an option.</div></blockqu=
-ote></div><br>What will happen when ccache is in use via CCACHE?<br>-- <br>=
-<div class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=
-=3D"ltr"><div><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot c=
-om<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Senior Software Engine=
-er, Mentor Graphics</div></div></div></div>
-</div></div>
-
---001a113de47e4092190549033c21--
