@@ -1,23 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B8BD72F72
+	by mail.openembedded.org (Postfix) with ESMTP id 164F672FB8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 14:49:03 +0000 (UTC)
+	Tue, 21 Feb 2017 14:49:04 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga104.jf.intel.com with ESMTP; 21 Feb 2017 06:49:04 -0800
+	by orsmga104.jf.intel.com with ESMTP; 21 Feb 2017 06:49:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,190,1484035200"; d="scan'208";a="1132875883"
+X-IronPort-AV: E=Sophos;i="5.35,190,1484035200"; d="scan'208";a="1132875887"
 Received: from kanavin-desktop.fi.intel.com (HELO
 	kanavin-desktop.fi.intel.comfi.intel.com) ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Feb 2017 06:49:03 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 21 Feb 2017 06:49:04 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Feb 2017 16:46:52 +0200
-Message-Id: <b79df45d252b5af6a76bf6c774e2814478543a78.1487687951.git.alexander.kanavin@linux.intel.com>
+Date: Tue, 21 Feb 2017 16:46:53 +0200
+Message-Id: <a4a3536699142cf504c1e0cb5bcba4111e52bd08.1487687951.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1487687951.git.alexander.kanavin@linux.intel.com>
 References: <cover.1487687951.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCHv2 35/39] gpg_sign.py: fix rpm signing with gpg > 2.1
+Subject: [PATCHv2 36/39] oe-selftest: no need to parse gpg output to determine the name of the signing key
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,35 +30,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2017 14:49:03 -0000
+X-List-Received-Date: Tue, 21 Feb 2017 14:49:04 -0000
 
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+The parsing fails on my machine, and we use a key with a hardcoded name,
+and so can provide it directly.
 
-We need to check the gpg version and alter its command line options
-accordingly.
-
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/lib/oe/gpg_sign.py | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/signing.py | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
-index 725da5a2a5d..10272be4c9a 100644
---- a/meta/lib/oe/gpg_sign.py
-+++ b/meta/lib/oe/gpg_sign.py
-@@ -31,7 +31,10 @@ class LocalSigner(object):
-         """Sign RPM files"""
+diff --git a/meta/lib/oeqa/selftest/signing.py b/meta/lib/oeqa/selftest/signing.py
+index 828dfccab42..884fb61287c 100644
+--- a/meta/lib/oeqa/selftest/signing.py
++++ b/meta/lib/oeqa/selftest/signing.py
+@@ -101,13 +101,7 @@ class Signing(oeSelfTest):
+         self.add_command_to_tearDown('bitbake -c cleansstate %s' % test_recipe)
+         self.add_command_to_tearDown('rm -rf %s' % sstatedir)
  
-         cmd = self.rpm_bin + " --addsign --define '_gpg_name %s'  " % keyid
--        cmd += "--define '_gpg_sign_cmd_extra_args --batch --passphrase=%s --pinentry-mode=loopback' " % passphrase
-+        gpg_args = '--batch --passphrase=%s' % passphrase
-+        if self.gpg_version > (2,1,):
-+            gpg_args += ' --pinentry-mode=loopback'
-+        cmd += "--define '_gpg_sign_cmd_extra_args %s' " % gpg_args
-         if self.gpg_bin:
-             cmd += "--define '%%__gpg %s' " % self.gpg_bin
-         if self.gpg_path:
+-        # Determine the pub key signature
+-        ret = runCmd('gpg --homedir %s --list-keys' % self.gpg_dir)
+-        pub_key = re.search(r'^pub\s+\S+/(\S+)\s+', ret.output, re.M)
+-        self.assertIsNotNone(pub_key, 'Failed to determine the public key signature.')
+-        pub_key = pub_key.group(1)
+-
+-        feature = 'SSTATE_SIG_KEY ?= "%s"\n' % pub_key
++        feature = 'SSTATE_SIG_KEY ?= "testuser"\n'
+         feature += 'SSTATE_SIG_PASSPHRASE ?= "test123"\n'
+         feature += 'SSTATE_VERIFY_SIG ?= "1"\n'
+         feature += 'GPG_PATH = "%s"\n' % self.gpg_dir
 -- 
 2.11.0
 
