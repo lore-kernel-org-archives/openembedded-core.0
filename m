@@ -1,46 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f182.google.com (mail-wr0-f182.google.com
-	[209.85.128.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 29C1872F0E
+Received: from mail-qt0-f172.google.com (mail-qt0-f172.google.com
+	[209.85.216.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 907BE72F0E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 00:37:41 +0000 (UTC)
-Received: by mail-wr0-f182.google.com with SMTP id 89so68606125wrr.3
+	Tue, 21 Feb 2017 00:41:30 +0000 (UTC)
+Received: by mail-qt0-f172.google.com with SMTP id k15so99831188qtg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 16:37:43 -0800 (PST)
+	Mon, 20 Feb 2017 16:41:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=zx6ocAd7rBOxYRSPs9O+jBoKFFWJbv+KoDSZrzlfmuA=;
-	b=VYQ6JPRPbMMv0UtgGuo1lLSGDj6Wzq9ZK7+gM4KkLyZdCD80da1Y+rE2YpspfFMm/C
-	qmFsG7zoCH83QE3RUa3/gOrFUbiNFgy/KxiaP8GNGs63Ih+YQwQr3D0D+MQpZ+E64Nsf
-	KPpqFBgoXsut1ZYJ4AOT9ieK72T5i7dOjBzfkkfQ7CHaUions1NhmSleN3HXe9GJaXzD
-	78syFt3+3QnSUwt/CDtBx/sYrkFg8e7iyumteKl6kwIczf4+aVPq1JAEkLKlW7FIO8CZ
-	VF+2CAv7DkkynMFDQoEP5ijgm8FHFFPXSfBxq8SCa3s2BaYqJUrnJPAqQeXUyiSqcaH4
-	xA7A==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=mL0bcHaSCiRil8W4q7LRegSxo1zVotkynmc+n9LwioI=;
+	b=gJemhzogQf0XcMV4Z+ZXTGpJYHuAu5q6DQI135RBv6CLnkZxP6frOZzXQNuRmzmY33
+	qcqYM8w3fakPrj3XrT8OVPIHjYvLiR7T3g48EzyXKOJ6BDgCt6l71u0JZ7mtVhsIyd7k
+	BIt23jHpm6S78GEg02zdoD/lJSbXQxydlNMHjvslvtefnTPgZAgwHBRphaqdKuChfPQB
+	EqWc4EJSpawA9x18nCsWavz94ckzA4a6viq9oBTBTYKkSSb6vHJGVL/XRKRqxQwdKNGF
+	6VXW2ZaG22kRBHy4P6SRUckuclnoHH4OhksmyxzZW+RijXZaTSlcypLeXQXq624TAikR
+	y6+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=zx6ocAd7rBOxYRSPs9O+jBoKFFWJbv+KoDSZrzlfmuA=;
-	b=tOrjBBHVEN1srMY+WWv64PNyq/rxhlYx2jbvA6Zf7j61fgxBSJ1z4ZZ05I3fGYNPR/
-	DTZIwwXWoGxj5a4f597oF0kCO3JLbCamHvwCVaILgszW4I1df/TgdlaCK9hZ1cWFKiuS
-	C4RShVeSItZ3gTFXVHTkaEk8CLptad8HKvuA55uzLCNtZb/Pb6V3n0yefpyaucdGkktr
-	gbDHmjWMAxOht6FAQmyO/AzYzU7p2h5vwOsBAnk4Yjbarax1qiTkoVczFG6YSpD17+nx
-	wz8doeEy/BB+CYogbPKxAQaCfXBZzg/A7HZfjYP/2cO9NulCIq4R70OVqO4hHquDIQDY
-	LPDw==
-X-Gm-Message-State: AMke39lE2VXUlmg4Xerwwf4/EbFVmMNGmmIb7RKGzlXzm6ElxMfizvc6NtVolTrg96CCn1Kb
-X-Received: by 10.223.172.136 with SMTP id o8mr15601055wrc.87.1487637462043;
-	Mon, 20 Feb 2017 16:37:42 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	k70sm15490055wmc.3.2017.02.20.16.37.40
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 20 Feb 2017 16:37:41 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Feb 2017 00:37:38 +0000
-Message-Id: <1487637458-15893-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] ncurses: 6.0+20160625 -> 6.0+20161126
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=mL0bcHaSCiRil8W4q7LRegSxo1zVotkynmc+n9LwioI=;
+	b=Sg3CTkXeqCcWFNXlLOCyX+aQpooaZPkkE+KK8TrZOZFm/XIH8LxrsCJ54m9eUR7z94
+	LChC1tute8VxjYP2KOgo6PWyIrptWrdcaXUiPSjrelSY9TmJ4FQCVFLXAY3/85fz+u2y
+	Lbb5lrt/2SUp2mL3jOoAQ3gwRce3DgZmAL1ZVxajCv79Z2a4SvrfGl9GzmoJh2VQHl8j
+	8VYzggKOW/XjJQRAuRODDuAsfAwxpvxitjIFcUYqczpObaL/juiHT8JF4zsrEU2J+DGK
+	+S9r3kU0f3o3drVko5lk3QUeWda6NJy6AxjLox+xlEl6vww4G5vK9Z6Hatjtdm1tKegN
+	vZVw==
+X-Gm-Message-State: AMke39l8oQz6RHt/Wu/THa2A++npA447YmwB/WtFotaeQ9M8T0u+wHooh9B+6BTQH9mfRdBxSnuCRaZ1IrLP4Jck
+X-Received: by 10.237.53.9 with SMTP id a9mr203355qte.188.1487637691337; Mon,
+	20 Feb 2017 16:41:31 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.103.233 with HTTP; Mon, 20 Feb 2017 16:41:10 -0800 (PST)
+In-Reply-To: <1486735300-3408-1-git-send-email-maxin.john@intel.com>
+References: <1486735300-3408-1-git-send-email-maxin.john@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 21 Feb 2017 00:41:10 +0000
+Message-ID: <CAJTo0La+yHGLse_kzxAqOkzk3eea-YdcRPaRWQACPcec8-yR8w@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@intel.com>
+Cc: Cristian Iorga <cristian.iorga@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] curl: add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,65 +54,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2017 00:37:42 -0000
+X-List-Received-Date: Tue, 21 Feb 2017 00:41:31 -0000
+Content-Type: multipart/alternative; boundary=001a11c0285e25a5430548ffa470
 
-From: Hongxu Jia <hongxu.jia@windriver.com>
+--001a11c0285e25a5430548ffa470
+Content-Type: text/plain; charset=UTF-8
 
-Add a patch to fix the CC/CFLAGS mangling that broke builds. [RB]
+On 10 February 2017 at 14:01, Maxin B. John <maxin.john@intel.com> wrote:
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/ncurses/files/fix-cflags-mangle.patch | 17 +++++++++++++++++
- ...{ncurses_6.0+20160625.bb => ncurses_6.0+20161126.bb} |  3 ++-
- 2 files changed, 19 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/ncurses/files/fix-cflags-mangle.patch
- rename meta/recipes-core/ncurses/{ncurses_6.0+20160625.bb => ncurses_6.0+20161126.bb} (73%)
+> +RDEPENDS_${PN}-ptest += "make bash sudo perl perl-module-cwd
+> perl-module-ipc-open2 \
+>
 
-diff --git a/meta/recipes-core/ncurses/files/fix-cflags-mangle.patch b/meta/recipes-core/ncurses/files/fix-cflags-mangle.patch
-new file mode 100644
-index 0000000..0308fe1
---- /dev/null
-+++ b/meta/recipes-core/ncurses/files/fix-cflags-mangle.patch
-@@ -0,0 +1,17 @@
-+configure has a piece of logic to detect users "abusing" CC to hold compiler
-+flags (which we do).  It also has logic to "correct" this by moving the flags
-+from CC to CFLAGS, but the sed only handles a single argument in CC.
-+
-+Replace the sed with a simple 'cut' call, making the assumption that the first
-+word is the compiler name and everything else is an option.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+diff --git a/configure b/configure
-+index 7f31208..1a29cfc 100755
-+--- a/configure
-++++ b/configure
-+@@ -2191 +2191 @@ echo "$as_me: WARNING: your environment misuses the CC variable to hold CFLAGS/C
-+-	cf_flags=`echo "$CC" | sed -e 's/^.*[ 	]\(-[^ 	]\)/\1/'`
-++	cf_flags=`echo "$CC" | cut -f2- -d' '`
-diff --git a/meta/recipes-core/ncurses/ncurses_6.0+20160625.bb b/meta/recipes-core/ncurses/ncurses_6.0+20161126.bb
-similarity index 73%
-rename from meta/recipes-core/ncurses/ncurses_6.0+20160625.bb
-rename to meta/recipes-core/ncurses/ncurses_6.0+20161126.bb
-index 6514613..e95741f 100644
---- a/meta/recipes-core/ncurses/ncurses_6.0+20160625.bb
-+++ b/meta/recipes-core/ncurses/ncurses_6.0+20161126.bb
-@@ -1,10 +1,11 @@
- require ncurses.inc
- 
- SRC_URI += "file://tic-hang.patch \
-+            file://fix-cflags-mangle.patch \
-             file://config.cache \
- "
- # commit id corresponds to the revision in package version
--SRCREV = "63dd558cb8e888d6fab5f00bbf7842736a2356b9"
-+SRCREV = "3db0bd19cb50e3d9b4f2cf15b7a102fe11302068"
- S = "${WORKDIR}/git"
- EXTRA_OECONF += "--with-abi-version=5"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+(\+\d+)*)"
--- 
-2.8.1
+The ptest needing sudo is moderately scary and also suggests that it can't
+be ran in an automated test harness.  What does this need sudo for?
 
+Ross
 
+--001a11c0285e25a5430548ffa470
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 10 February 2017 at 14:01, Maxin B. John <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":27j" class=
+=3D"a3s aXjCH m15a285d7e825f619">+RDEPENDS_${PN}-ptest +=3D &quot;make bash=
+ sudo perl perl-module-cwd perl-module-ipc-open2 \<br></div></blockquote></=
+div><br>The ptest needing sudo is moderately scary and also suggests that i=
+t can&#39;t be ran in an automated test harness.=C2=A0 What does this need =
+sudo for?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
+ra">Ross</div></div>
+
+--001a11c0285e25a5430548ffa470--
