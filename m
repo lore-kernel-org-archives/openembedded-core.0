@@ -1,50 +1,50 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 922AB72F23
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D1E672F19
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 13:17:36 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id s67so7731444pgb.1
+	Tue, 21 Feb 2017 13:17:40 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id s67so7731722pgb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 05:17:37 -0800 (PST)
+	Tue, 21 Feb 2017 05:17:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:in-reply-to:references:from:to:cc:subject
 	:mime-version:content-transfer-encoding;
-	bh=RdM/J8mNmsDl8nnyPV+wlEMJSpVMaOdzB6iLig4Y3Nc=;
-	b=KeiYcUcS4dAu/9zyv/yDuKjSn2LhE24vxAZZp40ZMAGgU3JtdQKEQ7Pzg6rwmadJ9B
-	Pcgi+bi+GoBL8Jo9Ju7C1WykcfCAu9Yqq6mB2bs+thhiUEexetOBDuCV5PSNOdP6NDYK
-	JcS5/4Lr86q+JoB9kKB7DIw+Uz+LNdDslElNOzcHqjPJcfhJZpJj+Ed/j5KdkMZhaixj
-	PG2RdhuFEBxtUzXjWAQt8eKyC5RRBlOnPLmurJ0UcM0MbOAVLzzeWNxcRvoeKAsEmJsl
-	scn84ScP9b5oCZnwJ4Ux66g3qiE5dbLdboTUpagzXE/BbgxfCIIAM8cAtEZ0EJ6Ei+FY
-	83qA==
+	bh=7jcplehtL9Db8rYkBSEq5TdnePuHAxMQpMvnRtE8wEM=;
+	b=hSuzahYbGPMrP+PFBhZO2XdpmtC4dFiWlLlNMsQBKolYSq25W+N3+V9mqHZV67Wn7k
+	RgN4e5e6mst6CpzHG884Bd+J7OoyNxX9P4xzQvfHbPfuZWwSSZ2MQWWjpVk2EZfa7Py8
+	YVwRTzRsfM+Vr1E0KhWIHxN0YC4Q/FjHfdqNPTvAT+rvy2xyvvkqfWx7oIrclOpCILjK
+	uqNRdMlsGzCge10gJi9R5Db0I+sICTlfynBhqMpSe3gqpCZAZXF5pWAQN/5LxSwTNkru
+	jJ74t2GjwHfl7IdeMmjyrURDDTOSeWRj25EpsYD6zGHgTyoLhyAYLdRKSVbLN49d+B/2
+	ySjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
 	:cc:subject:mime-version:content-transfer-encoding;
-	bh=RdM/J8mNmsDl8nnyPV+wlEMJSpVMaOdzB6iLig4Y3Nc=;
-	b=tH56YZUZdNkbpnIZ+Pvk1rDki8shAVmEryqRLCXy8WXWPgSytwWmTztbbXEeMHvIE9
-	hzFfWMaCKVzmq2M8wA+LD5mUoeTzs00tCOROKdZAzaXq8XjRVX3+MbrHMN+T7Nr+A8tL
-	raMzr34KquLO/nFdEznWZ1Jxx7fhVuQobQ0qvp+atFNBz3EnZ6+F+eC6Tl6oLrtW8g/W
-	QJ9a9SJlByzS7joc48V8cp7jCXvt/XxWWwogtHgt4QMR3WcexxIBFRXQc0ScT/HkOVmN
-	LONTCuRwpSmBRJkw2HotvZM52uDLsEOxN70+STVt7vml0N+g5Qs3wzqpSVSeG001DzRS
-	C/5Q==
-X-Gm-Message-State: AMke39mMp1aZacbhN7mFPb3wN5YZs751hvFvInWF/6YbXbuBw21BeSG0KPxcEz5ukFRJcQ==
-X-Received: by 10.99.104.133 with SMTP id d127mr34877357pgc.52.1487683057694; 
-	Tue, 21 Feb 2017 05:17:37 -0800 (PST)
+	bh=7jcplehtL9Db8rYkBSEq5TdnePuHAxMQpMvnRtE8wEM=;
+	b=PcQ3PlqCpGwuGIny4JXDoBglcG2XNfnheNXJ0wYnoNBujs3qhRGgb8NpyqI1vm5AKn
+	DrJ4R+dIAf3kpvqtDYYGggraI1dc0RBZFRuR8Lr/7GKDxCOKYdtlzemuXcZcRYt/UiT3
+	nqg8P1EgWpOIMvLQ8GrQejbTYo9/+H1RWJPg8LOict+HaSVYt9thYPku+a3FdnZaYx9D
+	nZsjRi7p6KSS/uAG8JFCR2HN/vTUxW2K5+oQUvAyBANAB+h3sXpXvf3M3hT1KF1jj7zZ
+	FPwx1DxW/O6rF0zMZ3HSYdcWMR4JgzdHFUe8nxDQCub/ZSF2w4eTnmfXj9yBjcHZ9hFe
+	3WEA==
+X-Gm-Message-State: AMke39mLA5UIrny8qE3l2dzCJZXhV5xt+doSD2JWcXrFxgjer61aZowRL08d8lrBl5BZmg==
+X-Received: by 10.98.157.12 with SMTP id i12mr20053309pfd.166.1487683062158;
+	Tue, 21 Feb 2017 05:17:42 -0800 (PST)
 Received: from [127.0.1.1] (CPE-123-211-135-66.lnse3.woo.bigpond.net.au.
 	[123.211.135.66]) by smtp.gmail.com with ESMTPSA id
-	186sm14378461pge.13.2017.02.21.05.17.35
+	u82sm41278670pfd.7.2017.02.21.05.17.40
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 Feb 2017 05:17:37 -0800 (PST)
+	Tue, 21 Feb 2017 05:17:41 -0800 (PST)
 Date: Tue, 21 Feb 2017 23:17:28 +1000
-Message-Id: <20170221131728.21595-1-nathan@nathanrossi.com>
+Message-Id: <20170221131728.21595-2-nathan@nathanrossi.com>
 In-Reply-To: <20170221131728.21595-0-nathan@nathanrossi.com>
 References: <20170221131728.21595-0-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
 Cc: Alistair Francis <alistai@xilinx.com>
-Subject: [PATCH v2 1/3] update-alternatives.bbclass: Disable for mingw32 targets
+Subject: [PATCH v2 2/3] package.bbclass: Add SHLIB detection support for mingw targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,37 +57,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2017 13:17:37 -0000
+X-List-Received-Date: Tue, 21 Feb 2017 13:17:41 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-When building for mingw32 targets (e.g. nativesdk cross compiling for
-windows), disable the dependency on update-alternatives as the Windows
-platform does not support symlinks or package management.
+Add support to detect dll files as shared objects as well as process
+Windows .dll and .exe files to determine the runtime libraries
+dependencies.
 
-This avoids the complex (partly non-buildable for mingw32) dependency
-chain virtual/update-alternatives -> opkg-utils -> python -> ...
+This implementation is sufficient to detect and map runtime library
+dependencies between packages. And does not implement any version naming
+conventions that might apply for .dll files (e.g. lib*-x.dll).
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- meta/classes/update-alternatives.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/classes/package.bbclass | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
-index ca7fe43417..4bba76c3ba 100644
---- a/meta/classes/update-alternatives.bbclass
-+++ b/meta/classes/update-alternatives.bbclass
-@@ -96,6 +96,10 @@ python __anonymous() {
-        bb.data.inherits_class('cross-canadian', d):
-         return
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index ac2d71cfa4..fe9f7f2eaf 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1613,6 +1613,25 @@ python package_do_shlibs() {
+                 if name and name not in needed[pkg]:
+                      needed[pkg].append((name, file, []))
  
-+    # Disable when targeting mingw32 (no target support)
-+    if d.getVar("TARGET_OS") == "mingw32":
-+        return
++    def mingw_dll(file, needed, sonames, renames, pkgver):
++        if not os.path.exists(file):
++            return
 +
-     # compute special vardeps
-     gen_updatealternativesvardeps(d)
- 
++        if file.endswith(".dll"):
++            # assume all dlls are shared objects provided by the package
++            sonames.append((os.path.basename(file), os.path.dirname(file).replace(pkgdest + "/" + pkg, ''), pkgver))
++
++        if (file.endswith(".dll") or file.endswith(".exe")):
++            # use objdump to search for "DLL Name: .*\.dll"
++            p = sub.Popen([d.expand("${HOST_PREFIX}objdump"), "-p", file], stdout = sub.PIPE, stderr= sub.PIPE)
++            out, err = p.communicate()
++            # process the output, grabbing all .dll names
++            if p.returncode == 0:
++                for m in re.finditer("DLL Name: (.*?\.dll)$", out.decode(), re.MULTILINE | re.IGNORECASE):
++                    dllname = m.group(1)
++                    if dllname:
++                        needed[pkg].append((dllname, file, []))
++
+     if d.getVar('PACKAGE_SNAP_LIB_SYMLINKS') == "1":
+         snap_symlinks = True
+     else:
+@@ -1647,6 +1666,8 @@ python package_do_shlibs() {
+                     continue
+                 if targetos == "darwin" or targetos == "darwin8":
+                     darwin_so(file, needed, sonames, renames, pkgver)
++                elif targetos.startswith("mingw"):
++                    mingw_dll(file, needed, sonames, renames, pkgver)
+                 elif os.access(file, os.X_OK) or lib_re.match(file):
+                     ldconfig = linux_so(file, needed, sonames, renames, pkgver)
+                     needs_ldconfig = needs_ldconfig or ldconfig
 -- 
 2.11.0
 
