@@ -1,47 +1,60 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f172.google.com (mail-qt0-f172.google.com
-	[209.85.216.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 907BE72F0E
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 8391972F0D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 00:41:30 +0000 (UTC)
-Received: by mail-qt0-f172.google.com with SMTP id k15so99831188qtg.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2017 16:41:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=mL0bcHaSCiRil8W4q7LRegSxo1zVotkynmc+n9LwioI=;
-	b=gJemhzogQf0XcMV4Z+ZXTGpJYHuAu5q6DQI135RBv6CLnkZxP6frOZzXQNuRmzmY33
-	qcqYM8w3fakPrj3XrT8OVPIHjYvLiR7T3g48EzyXKOJ6BDgCt6l71u0JZ7mtVhsIyd7k
-	BIt23jHpm6S78GEg02zdoD/lJSbXQxydlNMHjvslvtefnTPgZAgwHBRphaqdKuChfPQB
-	EqWc4EJSpawA9x18nCsWavz94ckzA4a6viq9oBTBTYKkSSb6vHJGVL/XRKRqxQwdKNGF
-	6VXW2ZaG22kRBHy4P6SRUckuclnoHH4OhksmyxzZW+RijXZaTSlcypLeXQXq624TAikR
-	y6+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=mL0bcHaSCiRil8W4q7LRegSxo1zVotkynmc+n9LwioI=;
-	b=Sg3CTkXeqCcWFNXlLOCyX+aQpooaZPkkE+KK8TrZOZFm/XIH8LxrsCJ54m9eUR7z94
-	LChC1tute8VxjYP2KOgo6PWyIrptWrdcaXUiPSjrelSY9TmJ4FQCVFLXAY3/85fz+u2y
-	Lbb5lrt/2SUp2mL3jOoAQ3gwRce3DgZmAL1ZVxajCv79Z2a4SvrfGl9GzmoJh2VQHl8j
-	8VYzggKOW/XjJQRAuRODDuAsfAwxpvxitjIFcUYqczpObaL/juiHT8JF4zsrEU2J+DGK
-	+S9r3kU0f3o3drVko5lk3QUeWda6NJy6AxjLox+xlEl6vww4G5vK9Z6Hatjtdm1tKegN
-	vZVw==
-X-Gm-Message-State: AMke39l8oQz6RHt/Wu/THa2A++npA447YmwB/WtFotaeQ9M8T0u+wHooh9B+6BTQH9mfRdBxSnuCRaZ1IrLP4Jck
-X-Received: by 10.237.53.9 with SMTP id a9mr203355qte.188.1487637691337; Mon,
-	20 Feb 2017 16:41:31 -0800 (PST)
+	Tue, 21 Feb 2017 01:01:20 +0000 (UTC)
+Received: from mail-mta-0.intern.sigma-chemnitz.de
+	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	v1L11JWZ005307
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK) for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Feb 2017 02:01:19 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1487638879;
+	bh=G2EICjsrG7SXFEzgsSOb2mdM4wDFd8mkbFsAg6q9SyQ=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=hS8yZJ4KL+sIhr/3mTr/yqQa6LbDzXTTlpqUCygUmgAOEsK+hirwUC61yeSDIwu/t
+	fLo6ZH5fkSoCuaHXoWaQa1q33OnBGtEdb+IPCdeLmtpQ/BIlaRZ9ZamkH1w6lqi5WD
+	hGYl0aWiEnqIETWIdLj8wMdefE+b8UGVYeUD3kI0=
+Received: from reddoxx.intern.sigma-chemnitz.de
+	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
+	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	v1L11C3D027640 for <openembedded-core@lists.openembedded.org> from
+	enrico.scholz@sigma-chemnitz.de; Tue, 21 Feb 2017 02:01:12 +0100
+Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
+	reddoxx.intern.sigma-chemnitz.de
+	(Reddoxx engine) with SMTP id 90CB6159C9D;
+	Tue, 21 Feb 2017 02:00:35 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	v1L1124j027634
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Tue, 21 Feb 2017 02:01:02 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.87) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1cfypC-0007en-KK; Tue, 21 Feb 2017 02:01:02 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: "Burton\, Ross" <ross.burton@intel.com>
+References: <cover.1487055395.git.hongxu.jia@windriver.com>
+	<247659408552f6a0edba461a59a3cc53e85012ae.1487055395.git.hongxu.jia@windriver.com>
+	<lyefz12gkp.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CAJTo0LYqkQfvgboQ5+wPuz2tVa8s=xDis_dX00ApAcHeLTNDrQ@mail.gmail.com>
+	<CAJTo0LZyoG0qMwYYVM2wq7SRkz52QVQ3-CxZovNsiOXC6BVngw@mail.gmail.com>
+Date: Tue, 21 Feb 2017 02:01:02 +0100
+In-Reply-To: <CAJTo0LZyoG0qMwYYVM2wq7SRkz52QVQ3-CxZovNsiOXC6BVngw@mail.gmail.com>
+	(Ross Burton's message of "Tue, 21 Feb 2017 00:20:56 +0000")
+Message-ID: <lypoic1ho1.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.1 (gnu/linux)
 MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Mon, 20 Feb 2017 16:41:10 -0800 (PST)
-In-Reply-To: <1486735300-3408-1-git-send-email-maxin.john@intel.com>
-References: <1486735300-3408-1-git-send-email-maxin.john@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 21 Feb 2017 00:41:10 +0000
-Message-ID: <CAJTo0La+yHGLse_kzxAqOkzk3eea-YdcRPaRWQACPcec8-yR8w@mail.gmail.com>
-To: "Maxin B. John" <maxin.john@intel.com>
-Cc: Cristian Iorga <cristian.iorga@intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] curl: add ptest
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-Spam-Score: -0.7
+X-Spam-Tests: AWL,BAYES_00,DKIM_ADSP_ALL,RP_MATCHES_RCVD,SPF_NEUTRAL
+X-Scanned-By: MIMEDefang 2.78
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] ncurses: fix beaglebone do_configure failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,37 +67,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2017 00:41:31 -0000
-Content-Type: multipart/alternative; boundary=001a11c0285e25a5430548ffa470
+X-List-Received-Date: Tue, 21 Feb 2017 01:01:22 -0000
+Content-Type: text/plain
 
---001a11c0285e25a5430548ffa470
-Content-Type: text/plain; charset=UTF-8
+"Burton, Ross" <ross.burton@intel.com> writes:
 
-On 10 February 2017 at 14:01, Maxin B. John <maxin.john@intel.com> wrote:
+>> c) fix the function that detects the "broken" use of CC as it should be
+>> extracting the flags and moving them to CFLAGS.  Clearly this isn't working
+>> somewhere.
 
-> +RDEPENDS_${PN}-ptest += "make bash sudo perl perl-module-cwd
-> perl-module-ipc-open2 \
+Upstream tries to do it correctly for nearly a year and fails everytime
+at some cornercases.
+
+
+> I've a local working fix that basically does this:
 >
+> - cf_flags=`echo "$CC" | sed -e 's/^.*[ ]\(-[^ ]\)/\1/'`
+> + cf_flags=`echo "$CC" | cut -f2- -d' '`
 
-The ptest needing sudo is moderately scary and also suggests that it can't
-be ran in an automated test harness.  What does this need sudo for?
+This will break for
 
-Ross
+  CC='ccache gcc -m32'
 
---001a11c0285e25a5430548ffa470
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Perhaps there are cases (not for OE), where gcc contains a space... How
+to deal with this?
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 February 2017 at 14:01, Maxin B. John <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":27j" class=
-=3D"a3s aXjCH m15a285d7e825f619">+RDEPENDS_${PN}-ptest +=3D &quot;make bash=
- sudo perl perl-module-cwd perl-module-ipc-open2 \<br></div></blockquote></=
-div><br>The ptest needing sudo is moderately scary and also suggests that i=
-t can&#39;t be ran in an automated test harness.=C2=A0 What does this need =
-sudo for?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
-ra">Ross</div></div>
 
---001a11c0285e25a5430548ffa470--
+
+Enrico
+
