@@ -1,48 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C4FD71989
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 2301B71D97
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 08:36:33 +0000 (UTC)
-Received: by mail-qk0-f171.google.com with SMTP id p22so115914597qka.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 00:36:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=riBkUGmGEh5WEMH+pyQHgYXN66/pk2rvY/lElgQ/FOg=;
-	b=ScKcZOnEF0vtq3T8hOQWudAZ58lzZ3Iov85dgkbluCfkoOeuKWOdLCmE/lVsvwQY1S
-	Ps0QD6C5XVuqx8jv1c4dC/MTYCRz+YaY8lUTcugEE2cWTb1y+BgB/mhP7KWFSdG8jZZA
-	+BZR2YK7g06swCCba1vYoleYMaroyg38tK/AQOtQx3oVIkCY1ijhhx62WWV8C6NdM/Jp
-	LcZG6rkh7TYgszmcepKwQlC305Avrh0RkD+GfXZXjvHUVdZdRiSx38TqPCFfZAFcYr8m
-	vKWCdalIDbvIMWZgnwfOD3p4hp15dsvUtoJicB9p6XBzsySctlyc7R4HT7AnXIrF7ybJ
-	607A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=riBkUGmGEh5WEMH+pyQHgYXN66/pk2rvY/lElgQ/FOg=;
-	b=awdQyy6H/kIcg5Y9XNHtA7WC88qdiBRpELPoEYnSCdgbQzg+tSEMw8ed/fLJkpe11H
-	dJpUPy+Nj9b+ksHoLTWfo2DwLv0to96wLp7OnAakl+022smXeEJLEGg+gbZMGkQaABm9
-	6ou7pSALounoLBwnR6pQaqJIgAZlKP4MgUJTXxJJs6y7EaiHB8KvKy7HZYrpaK6duJX9
-	qn/vHgsiCJMFADxjcrD2cdCYGodrWu3cGWLQEK/fE0RkHoiJyCO8KxREDG+u4zo92V+X
-	14kvNrS/BoPdcvnJ301GWxW+xwjEcWeNdRk3fZv7YqimAOS0uz9m3pP5Bf2pDldqaAN3
-	cznA==
-X-Gm-Message-State: AMke39nxSIP6xQU7HB5J2oLIvUVTLLMedCmBtrt0/yl5J05JoDlrKI7DACTlxW0QGPvRHpKm60oP2vNz2t8ACYU2
-X-Received: by 10.55.3.18 with SMTP id 18mr22551674qkd.244.1487666195056; Tue,
-	21 Feb 2017 00:36:35 -0800 (PST)
+	Tue, 21 Feb 2017 09:53:51 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 9AF0231E102B;
+	Tue, 21 Feb 2017 10:53:51 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id S-u27CPlQFrY; Tue, 21 Feb 2017 10:53:49 +0100 (CET)
+Received: from t510.zcs.saftware.de (p57A61904.dip0.t-ipconnect.de
+	[87.166.25.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id CFBB531E0F80;
+	Tue, 21 Feb 2017 10:53:48 +0100 (CET)
+Date: Tue, 21 Feb 2017 10:53:47 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20170221105347.7b9a23c6@t510.zcs.saftware.de>
+In-Reply-To: <CAJTo0Lacj_34LppjT-qeE5UCmHyET1RyYDavRQ5xvQ=eOiS2JQ@mail.gmail.com>
+References: <1487241290-6188-1-git-send-email-obi@opendreambox.org>
+	<1487241290-6188-2-git-send-email-obi@opendreambox.org>
+	<CAJTo0Lacj_34LppjT-qeE5UCmHyET1RyYDavRQ5xvQ=eOiS2JQ@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Tue, 21 Feb 2017 00:36:14 -0800 (PST)
-In-Reply-To: <CABcZANnhQ3L=ZsgrFjBo1S8Ffd3WwGgsGwp9KMjRD1UyM4UUUg@mail.gmail.com>
-References: <1487637458-15893-1-git-send-email-ross.burton@intel.com>
-	<CABcZANnhQ3L=ZsgrFjBo1S8Ffd3WwGgsGwp9KMjRD1UyM4UUUg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 21 Feb 2017 08:36:14 +0000
-Message-ID: <CAJTo0LZEGzZK+kCMQFODN3rtjNo_=ZBJAUR83AnveKzQB4y_9Q@mail.gmail.com>
-To: Christopher Larson <kergoth@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ncurses: 6.0+20160625 -> 6.0+20161126
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] ffmpeg: Fix the license description
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,32 +41,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2017 08:36:34 -0000
-Content-Type: multipart/alternative; boundary=001a114c832819d9f205490647f8
-
---001a114c832819d9f205490647f8
+X-List-Received-Date: Tue, 21 Feb 2017 09:53:54 -0000
 Content-Type: text/plain; charset=UTF-8
-
-On 21 February 2017 at 04:58, Christopher Larson <kergoth@gmail.com> wrote:
-
-> What will happen when ccache is in use via CCACHE?
->
-
-Thanks for the excellent review. :)
-
-Ross
-
---001a114c832819d9f205490647f8
-Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 21 February 2017 at 04:58, Christopher Larson <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra=
-">What will happen when ccache is in use via CCACHE?<br></div></blockquote>=
-<div><br></div><div>Thanks for the excellent review. :)</div><div><br></div=
-><div>Ross=C2=A0</div></div><br></div></div>
+On Tue, 21 Feb 2017 01:21:35 +0000
+"Burton, Ross" <ross.burton@intel.com> wrote:
 
---001a114c832819d9f205490647f8--
+> On 16 February 2017 at 10:34, Andreas Oberritter <obi@opendreambox.org>
+> wrote:
+>=20
+> > +LICENSE =3D "BSD & GPLv2+ & LGPLv2.1+ & MIT"
+> > +LICENSE_${PN} =3D "GPLv2+"
+> > +LICENSE_libavcodec =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
+> > 'GPLv2+', 'LGPLv2.1+', d)}"
+> > +LICENSE_libavdevice =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
+> > 'GPLv2+', 'LGPLv2.1+', d)}"
+> > +LICENSE_libavfilter =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
+> > 'GPLv2+', 'LGPLv2.1+', d)}"
+> > +LICENSE_libavformat =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
+> > 'GPLv2+', 'LGPLv2.1+', d)}"
+> > +LICENSE_libavresample =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
+> > 'GPLv2+', 'LGPLv2.1+', d)}"
+> > +LICENSE_libavutil =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
+> > 'GPLv2+', 'LGPLv2.1+', d)}"
+> > +LICENSE_libpostproc =3D "GPLv2+"
+> > +LICENSE_libswresample =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
+> > 'GPLv2+', 'LGPLv2.1+', d)}"
+> > +LICENSE_libswscale =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
+> > 'GPLv2+', 'LGPLv2.1+', d)}"
+> > =20
+>=20
+> Using a script to extract the pkgdata information, I see this license
+> information in the runtime libraries.
+>=20
+> libswscale-dev: BSD & GPLv2+ & LGPLv2.1+ & MIT
+> libswresample-dev: BSD & GPLv2+ & LGPLv2.1+ & MIT
+> libpostproc-dev: BSD & GPLv2+ & LGPLv2.1+ & MIT
+> libavutil-dev: BSD & GPLv2+ & LGPLv2.1+ & MIT
+> libavformat-dev: BSD & GPLv2+ & LGPLv2.1+ & MIT
+> libavfilter-dev: BSD & GPLv2+ & LGPLv2.1+ & MIT
+> libavdevice-dev: BSD & GPLv2+ & LGPLv2.1+ & MIT
+> libavcodec-dev: BSD & GPLv2+ & LGPLv2.1+ & MIT
+> libswscale: GPLv2+
+> libswresample: GPLv2+
+> libpostproc: GPLv2+
+> libavutil: GPLv2+
+> libavformat: GPLv2+
+> libavfilter: GPLv2+
+> libavdevice: GPLv2+
+> libavcodec: GPLv2+
+> ffmpeg-dbg: BSD & GPLv2+ & LGPLv2.1+ & MIT
+> ffmpeg-staticdev: BSD & GPLv2+ & LGPLv2.1+ & MIT
+> ffmpeg-dev: BSD & GPLv2+ & LGPLv2.1+ & MIT
+> ffmpeg-doc: BSD & GPLv2+ & LGPLv2.1+ & MIT
+> ffmpeg-locale: BSD & GPLv2+ & LGPLv2.1+ & MIT
+> ffmpeg: GPLv2+
+>=20
+> It looks like the BSD/LGPL/MIT license statements don't end up in any
+> packages which actually contain binaries.  Is this correct?
+
+Yes, because LICENSE describes the source licenses, whereas LICENSE_.* desc=
+ribes
+licenses of binary packages [1].
+
+The binary packages contain combined work. Quoted from FFmpeg's docs (LICEN=
+SE.md):
+
+=E2=80=9EMost files in FFmpeg are under the GNU Lesser General Public Licen=
+se version 2.1
+or later (LGPL v2.1+). Read the file `COPYING.LGPLv2.1` for details. Some o=
+ther
+files have MIT/X11/BSD-style licenses. In combination the LGPL v2.1+ applie=
+s to
+FFmpeg.=E2=80=9C
+
+If you disable the 'gpl' PACKAGECONFIG knob, the binary packages will get t=
+he LGPLv2+
+license tag (except for libpostproc), and slightly reduced functionality.
+
+Regards,
+Andreas
+
+[1]: http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html#va=
+r-LICENSE
+
