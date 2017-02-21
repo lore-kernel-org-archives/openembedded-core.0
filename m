@@ -1,23 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 0259772F3C
+	by mail.openembedded.org (Postfix) with ESMTP id 0B8BD72F72
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 14:49:01 +0000 (UTC)
+	Tue, 21 Feb 2017 14:49:03 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga104.jf.intel.com with ESMTP; 21 Feb 2017 06:49:03 -0800
+	by orsmga104.jf.intel.com with ESMTP; 21 Feb 2017 06:49:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,190,1484035200"; d="scan'208";a="1132875873"
+X-IronPort-AV: E=Sophos;i="5.35,190,1484035200"; d="scan'208";a="1132875883"
 Received: from kanavin-desktop.fi.intel.com (HELO
 	kanavin-desktop.fi.intel.comfi.intel.com) ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Feb 2017 06:49:02 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 21 Feb 2017 06:49:03 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Feb 2017 16:46:51 +0200
-Message-Id: <5afae34ed7c057bef3827d5f304009f1f70efddb.1487687951.git.alexander.kanavin@linux.intel.com>
+Date: Tue, 21 Feb 2017 16:46:52 +0200
+Message-Id: <b79df45d252b5af6a76bf6c774e2814478543a78.1487687951.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1487687951.git.alexander.kanavin@linux.intel.com>
 References: <cover.1487687951.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCHv2 34/39] lib/oe/gpg_sign: make gpg version a property of the signer
+Subject: [PATCHv2 35/39] gpg_sign.py: fix rpm signing with gpg > 2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,53 +30,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2017 14:49:02 -0000
+X-List-Received-Date: Tue, 21 Feb 2017 14:49:03 -0000
 
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+
+We need to check the gpg version and alter its command line options
+accordingly.
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/lib/oe/gpg_sign.py | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ meta/lib/oe/gpg_sign.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
-index 4b87ddde57a..725da5a2a5d 100644
+index 725da5a2a5d..10272be4c9a 100644
 --- a/meta/lib/oe/gpg_sign.py
 +++ b/meta/lib/oe/gpg_sign.py
-@@ -10,6 +10,7 @@ class LocalSigner(object):
-         self.gpg_bin = d.getVar('GPG_BIN') or \
-                   bb.utils.which(os.getenv('PATH'), 'gpg')
-         self.gpg_path = d.getVar('GPG_PATH')
-+        self.gpg_version = self.get_gpg_version()
-         self.rpm_bin = bb.utils.which(os.getenv('PATH'), "rpmsign")
+@@ -31,7 +31,10 @@ class LocalSigner(object):
+         """Sign RPM files"""
  
-     def export_pubkey(self, output_file, keyid, armor=True):
-@@ -58,9 +59,7 @@ class LocalSigner(object):
- 
-         #gpg > 2.1 supports password pipes only through the loopback interface
-         #gpg < 2.1 errors out if given unknown parameters
--        dots = self.get_gpg_version().split('.')
--        assert len(dots) >= 2
--        if int(dots[0]) >= 2 and int(dots[1]) >= 1:
+         cmd = self.rpm_bin + " --addsign --define '_gpg_name %s'  " % keyid
+-        cmd += "--define '_gpg_sign_cmd_extra_args --batch --passphrase=%s --pinentry-mode=loopback' " % passphrase
++        gpg_args = '--batch --passphrase=%s' % passphrase
 +        if self.gpg_version > (2,1,):
-             cmd += ['--pinentry-mode', 'loopback']
- 
-         cmd += [input_file]
-@@ -87,10 +86,11 @@ class LocalSigner(object):
- 
- 
-     def get_gpg_version(self):
--        """Return the gpg version"""
-+        """Return the gpg version as a tuple of ints"""
-         import subprocess
-         try:
--            return subprocess.check_output((self.gpg_bin, "--version")).split()[2].decode("utf-8")
-+            ver_str = subprocess.check_output((self.gpg_bin, "--version")).split()[2].decode("utf-8")
-+            return tuple([int(i) for i in ver_str.split('.')])
-         except subprocess.CalledProcessError as e:
-             raise bb.build.FuncFailed("Could not get gpg version: %s" % e)
- 
++            gpg_args += ' --pinentry-mode=loopback'
++        cmd += "--define '_gpg_sign_cmd_extra_args %s' " % gpg_args
+         if self.gpg_bin:
+             cmd += "--define '%%__gpg %s' " % self.gpg_bin
+         if self.gpg_path:
 -- 
 2.11.0
 
