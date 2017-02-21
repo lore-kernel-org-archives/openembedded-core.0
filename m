@@ -1,46 +1,26 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id DD81871E16
+Return-Path: <maxin.john@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id C30BA6612C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 10:33:59 +0000 (UTC)
-Received: by mail-qk0-f175.google.com with SMTP id u188so42139563qkc.2
+	Tue, 21 Feb 2017 11:53:33 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	21 Feb 2017 03:53:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.35,189,1484035200"; d="scan'208";a="1132801828"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga002.fm.intel.com with ESMTP; 21 Feb 2017 03:53:34 -0800
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	by linux.intel.com (Postfix) with ESMTP id 5F57E6A4004
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 02:34:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=2AGySf9AWHJ4eW6UMKd8mva+c58bi5tyzFQi5tw1GRo=;
-	b=RHp8rdYz7cHC4JXvNJ5dfP9Bmv/+vXg0xkdmInYu4rB0/zjbHXfIzLaGu9sb4C00SP
-	yBpi6c9+wc1YPvNsRJ6bvfhjtvXnJ13Lft5gOhe+HFFV0uc7NEYB/hJufpk/dZXY1GLa
-	Gfkry0D9zOIhwQlCV6mrk/P+6WOI8nih0bD/x844dzvl4e+UlU/E3XN0vFtZHo/koHlU
-	kbi1pCBvn26FdOQvTNkUs+5kdSdxPu3BNM/OUV5M8mihKcbDSv+kOboLZU6GlBHRm7vB
-	c3K6IElWO5CXG1cxRsi4RENKNJud6YgyZNZYjQiI+Ka2oPgbHPRNnrX7rS9SJWD+2X5h
-	XiTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=2AGySf9AWHJ4eW6UMKd8mva+c58bi5tyzFQi5tw1GRo=;
-	b=CvArDS2uDwkNIN1i9D757DOGY/UBZZFPfnRCKmuzcV9tk4f1pd+5Bi+02uCqmJJ0rX
-	oPpgcdAlRxlsD9+n5NNzGEmNju3UrnX1YDppwzCDo+vYXcv0x01CAXtphK9ZQI4NTw6d
-	ECvWOxN284BqZxCF2yv3SluZqCv8ReiUC6kp75o7nphOgUqmnizP308UdJAEwOx62TAn
-	MFBtTALNt4R7DpS2XV6e4p0TgnZezChyHBeV99LP1AD0PoK1lNPkohAWvllaQkGAkrTQ
-	+yXnoqazQB02M0G70p7UWedbyBIa1hXQYksEQqWoU+MfsVX9q/3qxuYbEoQjV/ssRw/z
-	yWkA==
-X-Gm-Message-State: AMke39mLSR526WSy9KPeUIwuZGTOR18USEWmDEZLW6iTMQqsrx9J7QVNegEx1Zz+bzi+owmRVALfu438/afA0g==
-X-Received: by 10.55.68.66 with SMTP id r63mr6301840qka.116.1487673240776;
-	Tue, 21 Feb 2017 02:34:00 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.12.136.75 with HTTP; Tue, 21 Feb 2017 02:34:00 -0800 (PST)
-In-Reply-To: <20170130074552.32419-0-nathan@nathanrossi.com>
-References: <20170130074552.32419-0-nathan@nathanrossi.com>
-From: Nathan Rossi <nathan@nathanrossi.com>
-Date: Tue, 21 Feb 2017 20:34:00 +1000
-Message-ID: <CA+aJhH0nEHuOjJJQE7=JeYg6ppjM7FdF+u=yc3TGvExUrQaUTw@mail.gmail.com>
+	Tue, 21 Feb 2017 03:53:33 -0800 (PST)
+From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alistair Francis <alistai@xilinx.com>
-Subject: Re: [PATCH 0/2] glib-2.0 changes for nativesdk and packaging
+Date: Tue, 21 Feb 2017 13:55:06 +0200
+Message-Id: <1487678107-30737-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 1/2] sqlite3: upgrade to 3.17.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,30 +33,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2017 10:34:00 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 21 Feb 2017 11:53:34 -0000
 
-On 30 January 2017 at 17:45, Nathan Rossi <nathan@nathanrossi.com> wrote:
-> This series contains two patches. The first fixes up the renaming of
-> gio-querymodules so that it is only applied to class-target (so that
-> 'nativesdk-gio-query-modules' is not generated). The second change makes
-> the removal of 'charset.alias' occur for all targets including musl
-> since it is not packaged by default and not desired in cases that it is
-> generated.
->
-> Nathan Rossi (2):
->   glib-2.0/glib.inc: Only apply MLPREFIX renaming to class-target
->   glib-2.0/glib.inc: If 'charset.alias' exists drop it
+3.16.2 -> 3.17.0
 
-Ping, any comments or feedback for this series?
+* Approximately 25% better performance from the R-Tree extension.
+* Other performance improvements. Uses about 6.5% fewer CPU cycles.
 
-Thanks,
-Nathan
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ meta/recipes-support/sqlite/{sqlite3_3.16.2.bb => sqlite3_3.17.0.bb} | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/sqlite/{sqlite3_3.16.2.bb => sqlite3_3.17.0.bb} (59%)
 
->
->  meta/recipes-core/glib-2.0/glib.inc | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
->
-> --
-> 2.11.0
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.16.2.bb b/meta/recipes-support/sqlite/sqlite3_3.17.0.bb
+similarity index 59%
+rename from meta/recipes-support/sqlite/sqlite3_3.16.2.bb
+rename to meta/recipes-support/sqlite/sqlite3_3.17.0.bb
+index cfbe198..593cb32 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.16.2.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.17.0.bb
+@@ -6,6 +6,5 @@ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=65f0a57ca6928710b418c094b357
+ SRC_URI = "\
+   http://www.sqlite.org/2017/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+   "
+-SRC_URI[md5sum] = "5a153ef1fd2fa5845ada74deabc68e32"
+-SRC_URI[sha256sum] = "65cc0c3e9366f50c0679c5ccd31432cea894bc4a3e8947dabab88c8693263615"
+-
++SRC_URI[md5sum] = "450a95a7bde697c9fe4de9ae2fffdcca"
++SRC_URI[sha256sum] = "a4e485ad3a16e054765baf6371826b5000beed07e626510896069c0bf013874c"
+-- 
+2.4.0
+
 
