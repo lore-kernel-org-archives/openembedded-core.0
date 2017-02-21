@@ -1,54 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
-	[209.85.220.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CAD672F7F
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 9496C72F7E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 16:30:25 +0000 (UTC)
-Received: by mail-qk0-f172.google.com with SMTP id n127so2529364qkf.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 08:30:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=z4HNLbnLVrUw+8UNT43VHC/lbInAHt44vM39n1sBPGo=;
-	b=oA28hC1LAiApUVTLy5IS/v7yfRdW5MlJZ+sH2FlfQd8dqPcpJdwmJBoQeq/ZPj15YX
-	xTcV5s7ch4nURaDOcfDjGQ+imLyxouy3M1+Qpi8eEK7MFqiBNaiNcYZz+b5bg1GMrGAs
-	rYCmAHE4AX1ZFB1863JfsVyCRa130HeDTdJlpMD1+NM3//zgH95iLspx+VsE2xdVU38x
-	ErW+xf6bXWB36yIoOk/IetNtuZMaMeWxTmOdA5S1aLPwC0xc7cqUN1s2BQFLJYrC45be
-	nXYHnFncYab8gZJBxuVXAHw/Ker0BA2jfpazL2p3snoGfJO8oJ5FEpTLB3iDr2inIE3r
-	356A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=z4HNLbnLVrUw+8UNT43VHC/lbInAHt44vM39n1sBPGo=;
-	b=iFP4fjl6JKZ7ewHAn8DU86mycY5zNjqlh3h5HltFCAhowc0+PLEzKksw7wxXNWYgC4
-	6Vl8Q0Oz/nl3CNI/Cr1qwW8zs9x9GhZV4lszhEXY/2EF+DC9pcbnUJO/+mYdT/CF7QyB
-	szWoh6VhwJhJShpTbMlOTzFpfxfWntkLGIM6CO1hX7yRyDGabMr0xiYSs+JiBkcZRqL8
-	1W72hvF4kv6bxnDNdDTnO9jZ192LD7YqZjsbD2F8h81G4zZsrZAk980SQnBmqusj82tJ
-	a7dYcrx49dUrHJ5BhjuMhDTku4NLM7QHq90wtVHcSLGoNUzXKN6RgC2qdDysOE/Miwyz
-	fGtA==
-X-Gm-Message-State: AMke39mcisc9HaYwThkMIwbSum0wOyRqLwv7ryvcRlv6lYxpkBhYWpkwIbVw3VVIZFyO+sLAonl03kC2Z7LMk8zd
-X-Received: by 10.55.40.27 with SMTP id o27mr24380345qkh.221.1487694627203;
-	Tue, 21 Feb 2017 08:30:27 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Tue, 21 Feb 2017 08:30:06 -0800 (PST)
-In-Reply-To: <CAJTo0LY6dKcGdwEqYhGx0KgiTpcGqn=zz57MaGc8JMybwOkMcQ@mail.gmail.com>
-References: <cover.1487055395.git.hongxu.jia@windriver.com>
-	<247659408552f6a0edba461a59a3cc53e85012ae.1487055395.git.hongxu.jia@windriver.com>
-	<lyefz12gkp.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CAJTo0LYqkQfvgboQ5+wPuz2tVa8s=xDis_dX00ApAcHeLTNDrQ@mail.gmail.com>
-	<CAJTo0LZyoG0qMwYYVM2wq7SRkz52QVQ3-CxZovNsiOXC6BVngw@mail.gmail.com>
-	<lypoic1ho1.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<3d7395a3-90d4-c7d3-0e1f-066df6de70ba@windriver.com>
-	<CAJTo0LY6dKcGdwEqYhGx0KgiTpcGqn=zz57MaGc8JMybwOkMcQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 21 Feb 2017 16:30:06 +0000
-Message-ID: <CAJTo0LbY_N1A8=TWULFtnZw28A6Ze__NPGV2qJHqYrF+XpzssQ@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] ncurses: fix beaglebone do_configure failure
+	Tue, 21 Feb 2017 16:56:40 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga105.jf.intel.com with ESMTP; 21 Feb 2017 08:56:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.35,190,1484035200"; d="scan'208";a="227993194"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.141])
+	by fmsmga004.fm.intel.com with ESMTP; 21 Feb 2017 08:56:41 -0800
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 21 Feb 2017 11:03:55 -0600
+Message-Id: <1487696635-20973-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] ruby: upgrade 2.3.3 -> 2.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,50 +27,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2017 16:30:26 -0000
-Content-Type: multipart/alternative; boundary=001a11441144ca3a8f05490ce59a
+X-List-Received-Date: Tue, 21 Feb 2017 16:56:42 -0000
 
---001a11441144ca3a8f05490ce59a
-Content-Type: text/plain; charset=UTF-8
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-On 21 February 2017 at 13:50, Burton, Ross <ross.burton@intel.com> wrote:
+Two LIC_FILES_CHKSUM checksums changed (COPYING and LEGAL) but LICENSE remains
+the same.
 
-> I'm a big fan of fixing upstream so we don't have to carry a patch
-> forever.  Their rationale I don't understand, but the implementation is
-> clearly broken.
->
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+---
+ meta/recipes-devtools/ruby/ruby.inc                         | 4 ++--
+ meta/recipes-devtools/ruby/{ruby_2.3.3.bb => ruby_2.4.0.bb} | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/ruby/{ruby_2.3.3.bb => ruby_2.4.0.bb} (89%)
 
-Here's my current fix:
+diff --git a/meta/recipes-devtools/ruby/ruby.inc b/meta/recipes-devtools/ruby/ruby.inc
+index f38ebb0..e2a2c05 100644
+--- a/meta/recipes-devtools/ruby/ruby.inc
++++ b/meta/recipes-devtools/ruby/ruby.inc
+@@ -8,10 +8,10 @@ HOMEPAGE = "http://www.ruby-lang.org/"
+ SECTION = "devel/ruby"
+ LICENSE = "Ruby | BSD | GPLv2"
+ LIC_FILES_CHKSUM = "\
+-    file://COPYING;md5=837b32593517ae48b9c3b5c87a5d288c \
++    file://COPYING;md5=8a960b08d972f43f91ae84a6f00dcbfb \
+     file://BSDL;md5=19aaf65c88a40b508d17ae4be539c4b5\
+     file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263\
+-    file://LEGAL;md5=78e8a29b8cc93e042990dbbb5572b1e1\
++    file://LEGAL;md5=daf349ad59dd19bd8c919171bff3c5d6 \
+ "
+ 
+ DEPENDS = "ruby-native zlib openssl tcl libyaml db gdbm readline"
+diff --git a/meta/recipes-devtools/ruby/ruby_2.3.3.bb b/meta/recipes-devtools/ruby/ruby_2.4.0.bb
+similarity index 89%
+rename from meta/recipes-devtools/ruby/ruby_2.3.3.bb
+rename to meta/recipes-devtools/ruby/ruby_2.4.0.bb
+index 7ba9b46..9b951fc 100644
+--- a/meta/recipes-devtools/ruby/ruby_2.3.3.bb
++++ b/meta/recipes-devtools/ruby/ruby_2.4.0.bb
+@@ -1,7 +1,7 @@
+ require ruby.inc
+ 
+-SRC_URI[md5sum] = "e485f3a55649eb24a1e2e1a40bc120df"
+-SRC_URI[sha256sum] = "241408c8c555b258846368830a06146e4849a1d58dcaf6b14a3b6a73058115b7"
++SRC_URI[md5sum] = "7e9485dcdb86ff52662728de2003e625"
++SRC_URI[sha256sum] = "152fd0bd15a90b4a18213448f485d4b53e9f7662e1508190aa5b702446b29e3d"
+ 
+ # it's unknown to configure script, but then passed to extconf.rb
+ # maybe it's not really needed as we're hardcoding the result with
+-- 
+2.1.4
 
-+      cf_flags=`echo "$CC" | awk  'BEGIN{ORS=" ";RS=" "} /^-.+/ {print
-$1}'`
-+      CC=`echo "$CC " | awk  'BEGIN{ORS=" ";RS=" "} /^[^-].+/ {print $1}'`
 
-Works for ccache, and doesn't involve a long/horrible sed.  I've also sent
-it upstream.
-
-Ross
-
---001a11441144ca3a8f05490ce59a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 21 February 2017 at 13:50, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bord=
-er-left-style:solid;padding-left:1ex"><div class=3D"gmail_extra">I&#39;m a =
-big fan of fixing upstream so we don&#39;t have to carry a patch forever.=
-=C2=A0 Their rationale I don&#39;t understand, but the implementation is cl=
-early broken.</div></blockquote><div><br></div><div>Here&#39;s my current f=
-ix:</div><div><br></div><div>+ =C2=A0 =C2=A0 =C2=A0cf_flags=3D`echo &quot;$=
-CC&quot; | awk =C2=A0&#39;BEGIN{ORS=3D&quot; &quot;;RS=3D&quot; &quot;} /^-=
-.+/ {print $1}&#39;`</div><div>+ =C2=A0 =C2=A0 =C2=A0CC=3D`echo &quot;$CC &=
-quot; | awk =C2=A0&#39;BEGIN{ORS=3D&quot; &quot;;RS=3D&quot; &quot;} /^[^-]=
-.+/ {print $1}&#39;`=C2=A0</div></div><br></div><div class=3D"gmail_extra">=
-Works for ccache, and doesn&#39;t involve a long/horrible sed.=C2=A0 I&#39;=
-ve also sent it upstream.</div><div class=3D"gmail_extra"><br></div><div cl=
-ass=3D"gmail_extra">Ross</div></div>
-
---001a11441144ca3a8f05490ce59a--
