@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 0543872F42
+	by mail.openembedded.org (Postfix) with ESMTP id 3A32C72F8B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 14:48:54 +0000 (UTC)
+	Tue, 21 Feb 2017 14:48:55 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Feb 2017 06:48:48 -0800
+	21 Feb 2017 06:48:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,190,1484035200"; d="scan'208";a="1132875739"
+X-IronPort-AV: E=Sophos;i="5.35,190,1484035200"; d="scan'208";a="1132875749"
 Received: from kanavin-desktop.fi.intel.com (HELO
 	kanavin-desktop.fi.intel.comfi.intel.com) ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Feb 2017 06:48:47 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 21 Feb 2017 06:48:48 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Feb 2017 16:46:36 +0200
-Message-Id: <f121141138f51c9307fea97196b9ceae83b4ab6e.1487687951.git.alexander.kanavin@linux.intel.com>
+Date: Tue, 21 Feb 2017 16:46:37 +0200
+Message-Id: <ddcf064303c62b2a6e656448ce0c2d57dcf3ae4f.1487687951.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1487687951.git.alexander.kanavin@linux.intel.com>
 References: <cover.1487687951.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCHv2 19/39] package_rpm.bbclass: correctly map RRECOMMENDS and RSUGGESTS to rpm tags
+Subject: [PATCHv2 20/39] nativesdk-packagegroup-sdk-host: replace smartpm with dnf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,55 +31,176 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2017 14:48:55 -0000
-
-Previously they were swapped, not sure why. Their meaning, as far as rpm
-world goes, is different:
-
-- Recommends is a soft dependency and will be installed by default; there is
-an option not to do that.
-
-- Suggests is a suggestion to be picked up and presented to end user by
-package management tools; it has no special meaning otherwise.
-
-OE packages use RRECOMMENDS, which should be mapped to Recommends rpm tag,
-so that the packages will be picked up as dependencies.
+X-List-Received-Date: Tue, 21 Feb 2017 14:48:56 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/classes/package_rpm.bbclass | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb     | 2 +-
+ meta/recipes-devtools/dnf/dnf_git.bb                                   | 1 -
+ meta/recipes-devtools/libcomps/libcomps_git.bb                         | 2 +-
+ meta/recipes-devtools/libdnf/libdnf_git.bb                             | 2 +-
+ meta/recipes-devtools/librepo/librepo_git.bb                           | 2 +-
+ .../python-backports-lzma/python-backports-lzma_git.bb                 | 2 +-
+ meta/recipes-devtools/python/python-iniparse_0.4.bb                    | 2 +-
+ meta/recipes-devtools/python/python-pygpgme_0.3.bb                     | 2 +-
+ meta/recipes-devtools/rpm/rpm_git.bb                                   | 2 +-
+ meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb                             | 2 +-
+ meta/recipes-support/gpgme/gpgme_1.8.0.bb                              | 2 +-
+ meta/recipes-support/libassuan/libassuan_2.4.3.bb                      | 2 +-
+ meta/recipes-support/libcheck/libcheck_0.10.0.bb                       | 3 ++-
+ 13 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 07eb974f736..480c6d58d39 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -450,10 +450,8 @@ python write_specfile () {
-         if splitrpostrm:
-             print_deps(splitrdepends, "Requires(postun)", spec_preamble_bottom, d)
+diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+index 2c2abed33cd..3283e7370e8 100644
+--- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
++++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+@@ -22,7 +22,7 @@ RDEPENDS_${PN} = "\
+     nativesdk-automake \
+     nativesdk-shadow \
+     nativesdk-makedevs \
+-    nativesdk-smartpm \
++    nativesdk-dnf \
+     nativesdk-postinst-intercept \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'nativesdk-wayland', '', d)} \
+     "
+diff --git a/meta/recipes-devtools/dnf/dnf_git.bb b/meta/recipes-devtools/dnf/dnf_git.bb
+index 82501a866bb..2a6acddd784 100644
+--- a/meta/recipes-devtools/dnf/dnf_git.bb
++++ b/meta/recipes-devtools/dnf/dnf_git.bb
+@@ -28,7 +28,6 @@ DEPENDS += "python-backports-lzma"
+ EXTRA_OECMAKE = " -DWITH_MAN=0 -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR}"
  
--        # Suggests in RPM are like recommends in OE-core!
--        print_deps(splitrrecommends, "Suggests", spec_preamble_bottom, d)
--        # While there is no analog for suggests... (So call them recommends for now)
--        print_deps(splitrsuggests,  "Recommends", spec_preamble_bottom, d)
-+        print_deps(splitrrecommends, "Recommends", spec_preamble_bottom, d)
-+        print_deps(splitrsuggests,  "Suggests", spec_preamble_bottom, d)
-         print_deps(splitrprovides,  "Provides", spec_preamble_bottom, d)
-         print_deps(splitrobsoletes, "Obsoletes", spec_preamble_bottom, d)
+ BBCLASSEXTEND = "native nativesdk"
+-
+ RDEPENDS_${PN}_class-target += "python-core python-codecs python-netclient python-email python-threading python-distutils librepo python-shell python-subprocess libcomps libdnf python-sqlite3 python-compression python-pygpgme python-backports-lzma python-rpm python-iniparse python-json python-importlib python-curses python-argparse"
  
-@@ -560,10 +558,8 @@ python write_specfile () {
-     if srcrpostrm:
-         print_deps(srcrdepends, "Requires(postun)", spec_preamble_top, d)
+ # Direct dnf-native to read rpm configuration from our sysroot, not the one it was compiled in
+diff --git a/meta/recipes-devtools/libcomps/libcomps_git.bb b/meta/recipes-devtools/libcomps/libcomps_git.bb
+index 448ea62f67c..8ff13b26b62 100644
+--- a/meta/recipes-devtools/libcomps/libcomps_git.bb
++++ b/meta/recipes-devtools/libcomps/libcomps_git.bb
+@@ -19,5 +19,5 @@ DEPENDS = "libxml2 expat libcheck"
+ EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR}"
+ OECMAKE_SOURCEPATH = "${S}/libcomps"
  
--    # Suggests in RPM are like recommends in OE-core!
--    print_deps(srcrrecommends, "Suggests", spec_preamble_top, d)
--    # While there is no analog for suggests... (So call them recommends for now)
--    print_deps(srcrsuggests, "Recommends", spec_preamble_top, d)
-+    print_deps(srcrrecommends, "Recommends", spec_preamble_top, d)
-+    print_deps(srcrsuggests, "Suggests", spec_preamble_top, d)
-     print_deps(srcrprovides, "Provides", spec_preamble_top, d)
-     print_deps(srcrobsoletes, "Obsoletes", spec_preamble_top, d)
-     
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+ 
+diff --git a/meta/recipes-devtools/libdnf/libdnf_git.bb b/meta/recipes-devtools/libdnf/libdnf_git.bb
+index 6875401301e..7b1bf21199d 100644
+--- a/meta/recipes-devtools/libdnf/libdnf_git.bb
++++ b/meta/recipes-devtools/libdnf/libdnf_git.bb
+@@ -32,5 +32,5 @@ DEPENDS += "python-native"
+ 
+ EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DWITH_MAN=OFF"
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+ 
+diff --git a/meta/recipes-devtools/librepo/librepo_git.bb b/meta/recipes-devtools/librepo/librepo_git.bb
+index 70e88c47b9e..3f3c5fbcf51 100644
+--- a/meta/recipes-devtools/librepo/librepo_git.bb
++++ b/meta/recipes-devtools/librepo/librepo_git.bb
+@@ -20,5 +20,5 @@ inherit cmake distutils-base pkgconfig
+ 
+ EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR}"
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+ 
+diff --git a/meta/recipes-devtools/python-backports-lzma/python-backports-lzma_git.bb b/meta/recipes-devtools/python-backports-lzma/python-backports-lzma_git.bb
+index 6d3b8d569de..93c6684be6c 100644
+--- a/meta/recipes-devtools/python-backports-lzma/python-backports-lzma_git.bb
++++ b/meta/recipes-devtools/python-backports-lzma/python-backports-lzma_git.bb
+@@ -18,4 +18,4 @@ DEPENDS_append = " xz"
+ RDEPENDS_${PN} += "python-core python-io python-pkgutil"
+ RDEPENDS_${PN}_class-native += "python-core"
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/python/python-iniparse_0.4.bb b/meta/recipes-devtools/python/python-iniparse_0.4.bb
+index f2515759b13..c6d98c2fdfc 100644
+--- a/meta/recipes-devtools/python/python-iniparse_0.4.bb
++++ b/meta/recipes-devtools/python/python-iniparse_0.4.bb
+@@ -12,6 +12,6 @@ inherit distutils
+ 
+ RDEPENDS_${PN} += "python-core"
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+ 
+ S = "${WORKDIR}/iniparse-${PV}"
+diff --git a/meta/recipes-devtools/python/python-pygpgme_0.3.bb b/meta/recipes-devtools/python/python-pygpgme_0.3.bb
+index f7dd835eee9..ac8bc9d62e7 100644
+--- a/meta/recipes-devtools/python/python-pygpgme_0.3.bb
++++ b/meta/recipes-devtools/python/python-pygpgme_0.3.bb
+@@ -15,4 +15,4 @@ DEPENDS = "gpgme python"
+ 
+ RDEPENDS_${PN} += "python-core"
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/rpm/rpm_git.bb b/meta/recipes-devtools/rpm/rpm_git.bb
+index d58588d92e2..9c6de17c920 100644
+--- a/meta/recipes-devtools/rpm/rpm_git.bb
++++ b/meta/recipes-devtools/rpm/rpm_git.bb
+@@ -56,7 +56,7 @@ EXTRA_OECONF_append = " --without-lua --enable-python"
+ # Also disable plugins, so that rpm doesn't attempt to inhibit shutdown via session dbus
+ EXTRA_OECONF_append_class-native = " --sysconfdir=/etc --localstatedir=/var --disable-plugins"
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+ 
+ # Direct rpm-native to read configuration from our sysroot, not the one it was compiled in
+ # libmagic also has sysroot path contamination, so override it
+diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb b/meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb
+index 6af996e3593..7de36ae9e52 100644
+--- a/meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb
++++ b/meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb
+@@ -29,7 +29,7 @@ SRC_URI_append_class-native = " file://pkg-config-native.patch"
+ SRC_URI[archive.md5sum] = "0dc6570953112a464a409fb99258ccbc"
+ SRC_URI[archive.sha256sum] = "1ea46ed400e6501f975acaafea31479cea8f32f911dca4dff036f59e6464fd42"
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+ 
+ # Do not check for XML catalogs when building because that
+ # information is not used for anything during build. Recipe
+diff --git a/meta/recipes-support/gpgme/gpgme_1.8.0.bb b/meta/recipes-support/gpgme/gpgme_1.8.0.bb
+index 3e74b6fe971..f2c7034010a 100644
+--- a/meta/recipes-support/gpgme/gpgme_1.8.0.bb
++++ b/meta/recipes-support/gpgme/gpgme_1.8.0.bb
+@@ -24,7 +24,7 @@ BINCONFIG = "${bindir}/gpgme-config"
+ 
+ inherit autotools texinfo binconfig-disabled pkgconfig
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+ 
+ PACKAGES =+ "${PN}-cpp"
+ FILES_${PN}-cpp = "${libdir}/libgpgmepp.so.*"
+diff --git a/meta/recipes-support/libassuan/libassuan_2.4.3.bb b/meta/recipes-support/libassuan/libassuan_2.4.3.bb
+index 1b3916d7343..926c279f90b 100644
+--- a/meta/recipes-support/libassuan/libassuan_2.4.3.bb
++++ b/meta/recipes-support/libassuan/libassuan_2.4.3.bb
+@@ -28,4 +28,4 @@ do_configure_prepend () {
+ 	rm -f ${S}/m4/*.m4
+ }
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-support/libcheck/libcheck_0.10.0.bb b/meta/recipes-support/libcheck/libcheck_0.10.0.bb
+index c0b459f6618..4db2d7528cc 100644
+--- a/meta/recipes-support/libcheck/libcheck_0.10.0.bb
++++ b/meta/recipes-support/libcheck/libcheck_0.10.0.bb
+@@ -20,5 +20,6 @@ CACHED_CONFIGUREVARS += "ac_cv_path_AWK_PATH=${bindir}/gawk"
+ RREPLACES_${PN} = "check (<= 0.9.5)"
+ RDEPENDS_${PN} += "gawk"
+ RDEPENDS_${PN}_class-native = ""
++RDEPENDS_${PN}_class-nativesdk = ""
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.11.0
 
