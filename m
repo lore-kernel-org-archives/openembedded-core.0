@@ -1,23 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id C672972F83
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id CE0D572F86
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 21 Feb 2017 14:48:54 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga104.jf.intel.com with ESMTP; 21 Feb 2017 06:48:56 -0800
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	21 Feb 2017 06:48:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,190,1484035200"; d="scan'208";a="1132875810"
+X-IronPort-AV: E=Sophos;i="5.35,190,1484035200"; d="scan'208";a="1132875729"
 Received: from kanavin-desktop.fi.intel.com (HELO
 	kanavin-desktop.fi.intel.comfi.intel.com) ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Feb 2017 06:48:55 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 21 Feb 2017 06:48:46 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Feb 2017 16:46:44 +0200
-Message-Id: <8a29ba811f9e411142deaee2d89ffec99e107125.1487687951.git.alexander.kanavin@linux.intel.com>
+Date: Tue, 21 Feb 2017 16:46:35 +0200
+Message-Id: <fd8c1591a43b9ec1bed058656c740d209c62f014.1487687951.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1487687951.git.alexander.kanavin@linux.intel.com>
 References: <cover.1487687951.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCHv2 27/39] package_rpm.bbclass: instruct rpm to not remove the buildroot directory
+Subject: [PATCHv2 18/39] package_manager.py: improve the API for insert_feed_uris()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,41 +33,146 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 21 Feb 2017 14:48:55 -0000
 
-This is the ${W}/package directory which may be reused in subsequent builds.
-
-Also clean up various default directories rpm 4 creates.
+No need to store the configuration as class members,
+just pass it directly into the method.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/classes/package_rpm.bbclass | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ meta/lib/oe/package_manager.py | 41 ++++++++++++++++++++++-------------------
+ meta/lib/oe/rootfs.py          |  5 ++++-
+ 2 files changed, 26 insertions(+), 20 deletions(-)
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 9b634e583b8..ff86dc87980 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -697,7 +697,7 @@ python do_package_rpm () {
-     os.chmod(pkgwritedir, 0o755)
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 79f0a8b9f1b..725997ce334 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -513,9 +513,6 @@ class PackageManager(object, metaclass=ABCMeta):
+         self.d = d
+         self.deploy_dir = None
+         self.deploy_lock = None
+-        self.feed_uris = self.d.getVar('PACKAGE_FEED_URIS') or ""
+-        self.feed_base_paths = self.d.getVar('PACKAGE_FEED_BASE_PATHS') or ""
+-        self.feed_archs = self.d.getVar('PACKAGE_FEED_ARCHS')
  
-     cmd = rpmbuild
--    cmd = cmd + " --nodeps --short-circuit --target " + pkgarch + " --buildroot " + pkgd
-+    cmd = cmd + " --noclean --nodeps --short-circuit --target " + pkgarch + " --buildroot " + pkgd
-     cmd = cmd + " --define '_topdir " + workdir + "' --define '_rpmdir " + pkgwritedir + "'"
-     cmd = cmd + " --define '_builddir " + d.getVar('S') + "'"
-     cmd = cmd + " --define '_build_name_fmt %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm'"
-@@ -721,8 +721,11 @@ python do_package_rpm () {
-         bb.build.exec_func('SBUILDSPEC', d)
-     cmd = cmd + " -bb " + outspecfile
+     """
+     Update the package manager package database.
+@@ -555,8 +552,14 @@ class PackageManager(object, metaclass=ABCMeta):
+     def list_installed(self):
+         pass
  
-+    # rpm 4 creates various empty directories in _topdir, let's clean them up
-+    cleanupcmd = "rm -rf %s/BUILDROOT %s/SOURCES %s/SPECS %s/SRPMS" % (workdir, workdir, workdir, workdir)
++    """
++    Add remote package feeds into repository manager configuration. The parameters
++    for the feeds are set by feed_uris, feed_base_paths and feed_archs.
++    See http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html#var-PACKAGE_FEED_URIS
++    for their description.
++    """
+     @abstractmethod
+-    def insert_feeds_uris(self):
++    def insert_feeds_uris(self, feed_uris, feed_base_paths, feed_archs):
+         pass
+ 
+     """
+@@ -691,14 +694,14 @@ class RpmPM(PackageManager):
+ 
+         self.ml_prefix_list, self.ml_os_list = self.indexer.get_ml_prefix_and_os_list(arch_var, os_var)
+ 
+-    def insert_feeds_uris(self):
+-        if self.feed_uris == "":
++    def insert_feeds_uris(self, feed_uris, feed_base_paths, feed_archs):
++        if feed_uris == "":
+             return
+ 
+         arch_list = []
+-        if self.feed_archs is not None:
++        if feed_archs is not None:
+             # User define feed architectures
+-            arch_list = self.feed_archs.split()
++            arch_list = feed_archs.split()
+         else:
+             # List must be prefered to least preferred order
+             default_platform_extra = list()
+@@ -721,7 +724,7 @@ class RpmPM(PackageManager):
+                     continue
+                 arch_list.append(arch)
+ 
+-        feed_uris = self.construct_uris(self.feed_uris.split(), self.feed_base_paths.split())
++        feed_uris = self.construct_uris(feed_uris.split(), feed_base_paths.split())
+ 
+         uri_iterator = 0
+         channel_priority = 10 + 5 * len(feed_uris) * (len(arch_list) if arch_list else 1)
+@@ -1707,22 +1710,22 @@ class OpkgPM(OpkgDpkgPM):
+                 config_file.write("option info_dir     %s\n" % os.path.join(self.d.getVar('OPKGLIBDIR'), 'opkg', 'info'))
+                 config_file.write("option status_file  %s\n" % os.path.join(self.d.getVar('OPKGLIBDIR'), 'opkg', 'status'))
+ 
+-    def insert_feeds_uris(self):
+-        if self.feed_uris == "":
++    def insert_feeds_uris(self, feed_uris, feed_base_paths, feed_archs):
++        if feed_uris == "":
+             return
+ 
+         rootfs_config = os.path.join('%s/etc/opkg/base-feeds.conf'
+                                   % self.target_rootfs)
+ 
+-        feed_uris = self.construct_uris(self.feed_uris.split(), self.feed_base_paths.split())
+-        archs = self.pkg_archs.split() if self.feed_archs is None else self.feed_archs.split()
++        feed_uris = self.construct_uris(feed_uris.split(), feed_base_paths.split())
++        archs = self.pkg_archs.split() if feed_archs is None else feed_archs.split()
+ 
+         with open(rootfs_config, "w+") as config_file:
+             uri_iterator = 0
+             for uri in feed_uris:
+                 if archs:
+                     for arch in archs:
+-                        if (self.feed_archs is None) and (not os.path.exists(os.path.join(self.deploy_dir, arch))):
++                        if (feed_archs is None) and (not os.path.exists(os.path.join(self.deploy_dir, arch))):
+                             continue
+                         bb.note('Adding opkg feed url-%s-%d (%s)' %
+                             (arch, uri_iterator, uri))
+@@ -2111,23 +2114,23 @@ class DpkgPM(OpkgDpkgPM):
+         if result is not None:
+             bb.fatal(result)
+ 
+-    def insert_feeds_uris(self):
+-        if self.feed_uris == "":
++    def insert_feeds_uris(self, feed_uris, feed_base_paths, feed_archs):
++        if feed_uris == "":
+             return
+ 
+         sources_conf = os.path.join("%s/etc/apt/sources.list"
+                                     % self.target_rootfs)
+         arch_list = []
+ 
+-        if self.feed_archs is None:
++        if feed_archs is None:
+             for arch in self.all_arch_list:
+                 if not os.path.exists(os.path.join(self.deploy_dir, arch)):
+                     continue
+                 arch_list.append(arch)
+         else:
+-            arch_list = self.feed_archs.split()
++            arch_list = feed_archs.split()
+ 
+-        feed_uris = self.construct_uris(self.feed_uris.split(), self.feed_base_paths.split())
++        feed_uris = self.construct_uris(feed_uris.split(), feed_base_paths.split())
+ 
+         with open(sources_conf, "w+") as sources_file:
+             for uri in feed_uris:
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 9c8a0ebb7e3..c8ab421fe21 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -87,7 +87,10 @@ class Rootfs(object, metaclass=ABCMeta):
+     def _insert_feed_uris(self):
+         if bb.utils.contains("IMAGE_FEATURES", "package-management",
+                          True, False, self.d):
+-            self.pm.insert_feeds_uris()
++            self.pm.insert_feeds_uris(self.d.getVar('PACKAGE_FEED_URIS') or "",
++                self.d.getVar('PACKAGE_FEED_BASE_PATHS') or "",
++                self.d.getVar('PACKAGE_FEED_ARCHS'))
 +
-     # Build the rpm package!
--    d.setVar('BUILDSPEC', cmd + "\n")
-+    d.setVar('BUILDSPEC', cmd + "\n" + cleanupcmd + "\n")
-     d.setVarFlag('BUILDSPEC', 'func', '1')
-     bb.build.exec_func('BUILDSPEC', d)
  
+     @abstractmethod
+     def _handle_intercept_failure(self, failed_script):
 -- 
 2.11.0
 
