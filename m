@@ -1,50 +1,48 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E32071E30
+Received: from mail-pg0-f46.google.com (mail-pg0-f46.google.com [74.125.83.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 71DCA72F18
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 13:12:50 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id s67so7714411pgb.1
+	Tue, 21 Feb 2017 13:17:31 +0000 (UTC)
+Received: by mail-pg0-f46.google.com with SMTP id 1so17713260pgi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 05:12:52 -0800 (PST)
+	Tue, 21 Feb 2017 05:17:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
-	h=date:message-id:in-reply-to:references:from:to:cc:subject
-	:mime-version:content-transfer-encoding;
-	bh=tEbaDEIj++xKbfAnjjoU8xiI5fWmBr4/j+7pF9peR+w=;
-	b=a02Z6hmcH7lBrVTFPtThW7XYC4yz9wCy7VmzTNnhk3s+yZ+DEHrdH76zB0N9es7xYi
-	aE4z/rXeXrsoY+C+9sgtvUpQQDZKAIoimsNxl37EE///3DP9b+swqNF3H4Ey4iFUZMTz
-	etik7cA9pYB0VXOqVjfxEsbEPcMVBc1J99LxIajT1kvThLsS+9RND6+qgQ+koQlOcK4V
-	XtR6o+UCq50yx/IwHUCOqnfc3QGjPZwAbkcDgww4ccmCSk0azZDYloUygQbdc6AOZ/nL
-	c+rMgbiRQrlYBz4ByTsXN26AC49gw+pDaRBzk2V5pkxfBcan1VtRaCqphhST04HBr5kF
-	nzKQ==
+	h=date:message-id:from:to:cc:subject:mime-version
+	:content-transfer-encoding;
+	bh=0n8s+yeO80sehzQxPFRSVundamymraPzup+uc5vltBA=;
+	b=bP8FZj4+zZpYv0bP9dQcxx7q+MSYMnY+tWmvAwiRfiiR3h5vOzrmSycHIWW5t1JtO/
+	tnHEx+ojv+0RXhuoYmWUxGhnq+jMvpunr3Nvlb7g7NxfbEVoZsSwIrvlF1SPPuN4Dw6C
+	nXuEoqn2iMJJgmKl0S26O0CK6qhTUCLcO0yt0PRUC9Vuk1E4QUNCtpIoG7i/gioW8lqk
+	3SB0sljJx3C9qHvLutRW/2FhBDP8oyes6k/F+K8d4D/pzKlfWGtVcf6Hbq8azdOD5YF5
+	+fnoKiY5TiAuyvM9IuIhyZZH4qLXBE1nOqZjG/F8AJKMHH82+Uv+F5Cf87NRVdEUQXrs
+	VI6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
-	:cc:subject:mime-version:content-transfer-encoding;
-	bh=tEbaDEIj++xKbfAnjjoU8xiI5fWmBr4/j+7pF9peR+w=;
-	b=Umyb2Se51Lr+zKUFKrzbMiDqJeiUum6Z7O5TpOHkoc1DhL1NS5/kEjmVEBR/Vxqd0S
-	zcP0PFsryCG2O4jiWVh36LAIO2y4SQ2OzfEF8b2Wu9P9ik5a/dSprxNT6QHv9u0s/6bi
-	OF1CiQo/d8VlvvZ+xbwY40sa/NXDaEo0qsdoomFuZQDJfwy0TjdfADGi5p1sPYMUjta/
-	PgrJEeibmCMbjVXJ2+vtPoc9qrBqvXGoIp65x5cRQQbwVWR+1gHgdKiFqwhzwsUTOEyl
-	5XzBYTvhBXvlbsyNmVRPKnjBaI3FVgWlDOjcAy6zkpnNMvswBTDMirG8d9JHnQML7Cwg
-	fH+g==
-X-Gm-Message-State: AMke39kl81HKigK7a9En9VOwwTXjv6Lbtm1b3YqTeZfJVwHWYkNsShKXvbUJMHbPg6e4KQ==
-X-Received: by 10.99.8.194 with SMTP id 185mr35254433pgi.76.1487682772452;
-	Tue, 21 Feb 2017 05:12:52 -0800 (PST)
+	h=x-gm-message-state:date:message-id:from:to:cc:subject:mime-version
+	:content-transfer-encoding;
+	bh=0n8s+yeO80sehzQxPFRSVundamymraPzup+uc5vltBA=;
+	b=UwEJeCH2lIMkjHHtMTjdkFCJjk2fMFEzH8rqzVUFrelGX5XK8OxR0OOzBsdk7jbXJZ
+	zCkXOunJhnWySkYpj+UdGIGFV/ABZH9c+KqNQbsgaHz/VFFxHiGyandnmmBHIKJogYSl
+	otgCogZn37OMz7ZsG0aj91EXZ0Y2tg+CctX5468/FcKQqyiOORMYIm9IVBPiLvGzNDBe
+	6RwegLAms8MlCdYfCR3KSMeUPsSD+Km2lbqSoHbfexp7JcduBNKlgEK7qK5FCBXD3lkM
+	bEVE/a+k7t/snQIWQDCveXeNSNl+Jz+6s2caqpRUlBGYasUz5DsQYSpIGN9jOBujP2qt
+	nWXw==
+X-Gm-Message-State: AMke39nJvZNKwUqLlmUFfOHRM0jx7V+lThoD6k2VpfKtlkQ2LukOucZ6b/h9OIZYEA/h9Q==
+X-Received: by 10.84.224.197 with SMTP id k5mr10843619pln.15.1487683053260;
+	Tue, 21 Feb 2017 05:17:33 -0800 (PST)
 Received: from [127.0.1.1] (CPE-123-211-135-66.lnse3.woo.bigpond.net.au.
 	[123.211.135.66]) by smtp.gmail.com with ESMTPSA id
-	m6sm41124265pfm.22.2017.02.21.05.12.50
+	67sm41119015pfd.120.2017.02.21.05.17.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 Feb 2017 05:12:51 -0800 (PST)
-Date: Tue, 21 Feb 2017 23:12:29 +1000
-Message-Id: <20170221131229.20126-4-nathan@nathanrossi.com>
-In-Reply-To: <20170221131229.20126-0-nathan@nathanrossi.com>
-References: <20170221131229.20126-0-nathan@nathanrossi.com>
+	Tue, 21 Feb 2017 05:17:32 -0800 (PST)
+Date: Tue, 21 Feb 2017 23:17:28 +1000
+Message-Id: <20170221131728.21595-0-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
 Cc: Alistair Francis <alistai@xilinx.com>
-Subject: [PATCH v2 4/4] qemu: Move recipe version specific patches and features to recipe
+Subject: [PATCH v2 0/3] MinGW specific improvements/fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,144 +55,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2017 13:12:51 -0000
+X-List-Received-Date: Tue, 21 Feb 2017 13:17:32 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-Move all the version specific patches, overrides and configuration that
-are in qemu.inc to the versioned QEMU recipe.
+This series contains a few patches that improve/fix MinGW specific parts
+that cannot be easily implemented outside of oe-core/meta.
 
-This includes moving patches that target the versioned recipe, ptest
-configuration (which is not available in QEMU by default) and the
-installing of the powerpc_rom.bin.  All these patches/files are also
-only located in the FILESEXTRAPATHS that is valid from the recipe file
-and not from qemu.inc itself.
+The first patch disables update-alternatives when TARGET_OS == mingw32,
+this is due to Windows not supporting symlinks in the same way as
+expected by update-alternatives. This also avoids a dependency chain on
+opkg-utils/python.
 
-The purpose of this change is to make the qemu.inc re-usable for
-multiple versions of QEMU as well as forks and recipes that intend to
-provide custom patches.
+The second patch adds support to the package bbclass to detect shared
+objects (.dll's) and executables use of shared objects. This
+implementation allows for auto-detection of packages contents and their
+dependencies and allows for the build to generate full sets of
+executables with shared object dependencies when targeting mingw32.
 
-Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+The third patch fixes the libgpg-error configure task, preventing it
+from clobbering the syscfg for mingw32 targets. This is not easily
+overridden from a bbappend.
 ---
- meta/recipes-devtools/qemu/qemu.inc      | 30 +----------------------------
- meta/recipes-devtools/qemu/qemu_2.8.0.bb | 33 ++++++++++++++++++++++++++++++--
- 2 files changed, 32 insertions(+), 31 deletions(-)
+Changes in v2:
+ * Rebased on top of current master
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index e78cfb367b..a023551a31 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -3,29 +3,14 @@ HOMEPAGE = "http://qemu.org"
- LICENSE = "GPLv2 & LGPLv2.1"
- DEPENDS = "glib-2.0 zlib pixman"
- RDEPENDS_${PN}_class-target += "bash"
--RDEPENDS_${PN}-ptest = "bash make"
- 
- require qemu-targets.inc
--inherit autotools pkgconfig ptest bluetooth
-+inherit autotools pkgconfig bluetooth
- BBCLASSEXTEND = "native nativesdk"
- 
- # QEMU_TARGETS is overridable variable
- QEMU_TARGETS ?= "arm aarch64 i386 mips mipsel mips64 mips64el ppc sh4 x86_64"
- 
--SRC_URI = "\
--    file://powerpc_rom.bin \
--    file://disable-grabs.patch \
--    file://exclude-some-arm-EABI-obsolete-syscalls.patch \
--    file://wacom.patch \
--    file://add-ptest-in-makefile.patch \
--    file://run-ptest \
--    "
--
--SRC_URI_append_class-native = "\
--    file://fix-libcap-header-issue-on-some-distro.patch \
--    file://cpus.c-qemu_cpu_kick_thread_debugging.patch \
--    "
--
- EXTRA_OECONF = " \
-     --prefix=${prefix} \
-     --bindir=${bindir} \
-@@ -69,22 +54,9 @@ do_configure() {
-     test ! -e ${S}/target-i386/beginend_funcs.sh || chmod a+x ${S}/target-i386/beginend_funcs.sh
- }
- 
--do_compile_ptest() {
--	make buildtest-TESTS
--}
--
--do_install_ptest() {
--	cp -rL ${B}/tests ${D}${PTEST_PATH}
--	find ${D}${PTEST_PATH}/tests -type f -name "*.[Sshcod]" | xargs -i rm -rf {}
--
--	cp ${S}/tests/Makefile.include ${D}${PTEST_PATH}/tests
--}
--
- do_install () {
- 	export STRIP="true"
- 	autotools_do_install
--	install -d ${D}${datadir}/qemu
--	install -m 0755 ${WORKDIR}/powerpc_rom.bin ${D}${datadir}/qemu
- }
- 
- # The following fragment will create a wrapper for qemu-mips user emulation
-diff --git a/meta/recipes-devtools/qemu/qemu_2.8.0.bb b/meta/recipes-devtools/qemu/qemu_2.8.0.bb
-index e0527a8fd9..2fb9647370 100644
---- a/meta/recipes-devtools/qemu/qemu_2.8.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_2.8.0.bb
-@@ -1,15 +1,31 @@
- require qemu.inc
- 
-+inherit ptest
-+
-+RDEPENDS_${PN}-ptest = "bash make"
-+
- LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
-                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
- 
--SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
-+SRC_URI += " \
-+            file://powerpc_rom.bin \
-+            file://disable-grabs.patch \
-+            file://exclude-some-arm-EABI-obsolete-syscalls.patch \
-+            file://wacom.patch \
-+            file://add-ptest-in-makefile.patch \
-+            file://run-ptest \
-+            file://configure-fix-Darwin-target-detection.patch \
-             file://qemu-enlarge-env-entry-size.patch \
-             file://no-valgrind.patch \
-             file://pathlimit.patch \
-             file://qemu-2.5.0-cflags.patch \
-             file://target-ppc-fix-user-mode.patch \
--"
-+            "
-+
-+SRC_URI_append_class-native = " \
-+            file://fix-libcap-header-issue-on-some-distro.patch \
-+            file://cpus.c-qemu_cpu_kick_thread_debugging.patch \
-+            "
- 
- SRC_URI =+ "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
- 
-@@ -22,4 +38,17 @@ COMPATIBLE_HOST_mipsarchn64 = "null"
- do_install_append() {
-     # Prevent QA warnings about installed ${localstatedir}/run
-     if [ -d ${D}${localstatedir}/run ]; then rmdir ${D}${localstatedir}/run; fi
-+    install -Dm 0755 ${WORKDIR}/powerpc_rom.bin ${D}${datadir}/qemu
-+}
-+
-+do_compile_ptest() {
-+	make buildtest-TESTS
- }
-+
-+do_install_ptest() {
-+	cp -rL ${B}/tests ${D}${PTEST_PATH}
-+	find ${D}${PTEST_PATH}/tests -type f -name "*.[Sshcod]" | xargs -i rm -rf {}
-+
-+	cp ${S}/tests/Makefile.include ${D}${PTEST_PATH}/tests
-+}
-+
+
+Nathan Rossi (3):
+  update-alternatives.bbclass: Disable for mingw32 targets
+  package.bbclass: Add SHLIB detection support for mingw targets
+  libgpg-error: Don't replace the syscfg header for mingw32
+
+ meta/classes/package.bbclass                        | 21 +++++++++++++++++++++
+ meta/classes/update-alternatives.bbclass            |  4 ++++
+ .../libgpg-error/libgpg-error_1.26.bb               | 11 ++++++++---
+ 3 files changed, 33 insertions(+), 3 deletions(-)
+
 -- 
 2.11.0
-
 
