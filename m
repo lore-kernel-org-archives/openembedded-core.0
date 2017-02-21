@@ -1,23 +1,21 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CA2472FC4
+Return-Path: <dmitry.rozhkov@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 7210372F64
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 14:49:07 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga104.jf.intel.com with ESMTP; 21 Feb 2017 06:49:09 -0800
+	Tue, 21 Feb 2017 15:18:23 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	21 Feb 2017 07:18:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,190,1484035200"; d="scan'208";a="1132875905"
-Received: from kanavin-desktop.fi.intel.com (HELO
-	kanavin-desktop.fi.intel.comfi.intel.com) ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Feb 2017 06:49:08 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.35,190,1484035200"; d="scan'208";a="50797874"
+Received: from drozhkov-desk.fi.intel.com ([10.237.72.60])
+	by orsmga002.jf.intel.com with ESMTP; 21 Feb 2017 07:18:23 -0800
+From: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Feb 2017 16:46:56 +0200
-Message-Id: <da21fa09510e1760fb0bd9ed50cb35b8ca84ce57.1487687951.git.alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <cover.1487687951.git.alexander.kanavin@linux.intel.com>
-References: <cover.1487687951.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCHv2 39/39] security_flags.inc: update to reflect smart->dnf transition
+Date: Tue, 21 Feb 2017 17:18:08 +0200
+Message-Id: <1487690288-18275-1-git-send-email-dmitry.rozhkov@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] runqemu: avoid overridden user input for bootparams
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,35 +28,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2017 14:49:07 -0000
+X-List-Received-Date: Tue, 21 Feb 2017 15:18:23 -0000
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Currently runqemu hardcodes the "ip=" kernel boot parameter
+when configuring QEMU to use tap or slirp networking. This makes
+the guest system to have a network interface pre-configured
+by kernel and causes systemd to fail renaming the interface
+to whatever pleases it:
+
+  Feb 21 10:10:20 intel-corei7-64 systemd-udevd[201]: Error changing
+      net interface name 'eth0' to 'enp0s3': Device or resource busy,
+
+Always append user input for kernel boot params after the ones
+added by the script. This way user input has priority over runqemu's
+default params.
+
+Signed-off-by: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
 ---
- meta/conf/distro/include/security_flags.inc | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ scripts/runqemu | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index 77416bc11e7..99a0a33969f 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -72,14 +72,13 @@ SECURITY_CFLAGS_pn-openssl = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-opensp = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-ppp = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-python = "${SECURITY_NO_PIE_CFLAGS}"
-+SECURITY_CFLAGS_pn-python-backports-lzma = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-python-pycurl = "${SECURITY_NO_PIE_CFLAGS}"
--SECURITY_CFLAGS_pn-python-smartpm = "${SECURITY_NO_PIE_CFLAGS}"
-+SECURITY_CFLAGS_pn-python-pygpgme = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-python-numpy = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-python3-numpy = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-python3-pycairo = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-python3 = "${SECURITY_NO_PIE_CFLAGS}"
--# Revert RPM to using internally supported values
--SECURITY_CFLAGS_pn-rpm = "${lcl_maybe_fortify} -fstack-protector"
- SECURITY_CFLAGS_pn-syslinux = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-slang = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-source-highlight = "${SECURITY_NO_PIE_CFLAGS}"
+diff --git a/scripts/runqemu b/scripts/runqemu
+index d74f252..8899cbb 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -180,6 +180,7 @@ class BaseConfig(object):
+         self.kernel = ''
+         self.kernel_cmdline = ''
+         self.kernel_cmdline_script = ''
++        self.bootparams = ''
+         self.dtb = ''
+         self.fstype = ''
+         self.kvm_enabled = False
+@@ -400,7 +401,7 @@ class BaseConfig(object):
+             elif arg.startswith('qemuparams='):
+                 self.qemu_opt_script += ' %s' % arg[len('qemuparams='):]
+             elif arg.startswith('bootparams='):
+-                self.kernel_cmdline_script += ' %s' % arg[len('bootparams='):]
++                self.bootparams = arg[len('bootparams='):]
+             elif os.path.exists(arg) or (re.search(':', arg) and re.search('/', arg)):
+                 self.check_arg_path(os.path.abspath(arg))
+             elif re.search('-image-', arg):
+@@ -1040,7 +1041,9 @@ class BaseConfig(object):
+ 
+     def start_qemu(self):
+         if self.kernel:
+-            kernel_opts = "-kernel %s -append '%s %s %s'" % (self.kernel, self.kernel_cmdline, self.kernel_cmdline_script, self.get('QB_KERNEL_CMDLINE_APPEND'))
++            kernel_opts = "-kernel %s -append '%s %s %s %s'" % (self.kernel, self.kernel_cmdline,
++                                                                self.kernel_cmdline_script, self.get('QB_KERNEL_CMDLINE_APPEND'),
++                                                                self.bootparams)
+             if self.dtb:
+                 kernel_opts += " -dtb %s" % self.dtb
+         else:
 -- 
-2.11.0
+2.7.4
 
 
