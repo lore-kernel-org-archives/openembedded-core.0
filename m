@@ -1,46 +1,46 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id E886060291
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id DD81871E16
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 10:33:27 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id n127so6759505qkf.2
+	Tue, 21 Feb 2017 10:33:59 +0000 (UTC)
+Received: by mail-qk0-f175.google.com with SMTP id u188so42139563qkc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 02:33:29 -0800 (PST)
+	Tue, 21 Feb 2017 02:34:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=c+sjXjMibz1baMorhit0gHT+ylfnh08lUKtj2Iq6Fnw=;
-	b=QFaYNPfTLw30jQllHbwudWsTJUfZV3DFdlquqdjsgHEgGeL0thV1SHxUhcs8YyXCZe
-	brWo6jnNnT0L6O9sLRGRLJkJugawuWSlbtuPlYcA5YqRO9tYL+3nV+v3KqopqrJALahL
-	wXi9C7FoZIiMzrY+Bte7tdmZVwmkhL+IhOArqnmFDz3Y5mz03iIlGy2ZW0mJfPSPUZvI
-	+PjWkTPGYmTTHg9QZ+E/WjCTF1Dl8SRwrKgX5ilvyAmb4HsPgStV9x/tFOkUOjAR7Rtv
-	8KP3MtW7U18Y8XJ2awlwokJQ+7nNF8xVTkZYhTIHstWkBNbfEaS+t4nxclRvTbJdUDWC
-	Ks4Q==
+	:cc; bh=2AGySf9AWHJ4eW6UMKd8mva+c58bi5tyzFQi5tw1GRo=;
+	b=RHp8rdYz7cHC4JXvNJ5dfP9Bmv/+vXg0xkdmInYu4rB0/zjbHXfIzLaGu9sb4C00SP
+	yBpi6c9+wc1YPvNsRJ6bvfhjtvXnJ13Lft5gOhe+HFFV0uc7NEYB/hJufpk/dZXY1GLa
+	Gfkry0D9zOIhwQlCV6mrk/P+6WOI8nih0bD/x844dzvl4e+UlU/E3XN0vFtZHo/koHlU
+	kbi1pCBvn26FdOQvTNkUs+5kdSdxPu3BNM/OUV5M8mihKcbDSv+kOboLZU6GlBHRm7vB
+	c3K6IElWO5CXG1cxRsi4RENKNJud6YgyZNZYjQiI+Ka2oPgbHPRNnrX7rS9SJWD+2X5h
+	XiTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=c+sjXjMibz1baMorhit0gHT+ylfnh08lUKtj2Iq6Fnw=;
-	b=X43ziaVysUr8IFwV9j978IyGwAexBr2AkUomxXbbOUbU8PFGYgtqY3Z2zC+KzabfjE
-	fuwJVob+6k0JlY8BYP2aLv+95u5pqovdsq3nnXCQKD8PSrDcXG2BGa1kT1tnAR4Df0Im
-	O2f3OjiXaIXey7zgTwMUJ1B/GuoC0sjU5G6FXnYWf0WfIQZNwoHsUW3esUpQfjlXfjM4
-	eSx9RaRN+ANlAKJ5/6dRCtYEMUL0cTdatQ3axx50oSPnySGoSEuAaCHe9ikepgKD4ReP
-	G/W4OXi/BGRVwiZN+1NLJp6JwFe7kCiyEM9+yE53RHYgw6JwJJr5r3LJpHAs9eIpZeG2
-	mB0w==
-X-Gm-Message-State: AMke39mI2crRWV91tgXYI7fRJOxQP8Ue1C6n5YaSZFdrQLNdwnNvV0snIAyK23GhU9hrpHylP6JJoo3T1Q+jgA==
-X-Received: by 10.55.44.197 with SMTP id s188mr23128416qkh.131.1487673208909; 
-	Tue, 21 Feb 2017 02:33:28 -0800 (PST)
+	bh=2AGySf9AWHJ4eW6UMKd8mva+c58bi5tyzFQi5tw1GRo=;
+	b=CvArDS2uDwkNIN1i9D757DOGY/UBZZFPfnRCKmuzcV9tk4f1pd+5Bi+02uCqmJJ0rX
+	oPpgcdAlRxlsD9+n5NNzGEmNju3UrnX1YDppwzCDo+vYXcv0x01CAXtphK9ZQI4NTw6d
+	ECvWOxN284BqZxCF2yv3SluZqCv8ReiUC6kp75o7nphOgUqmnizP308UdJAEwOx62TAn
+	MFBtTALNt4R7DpS2XV6e4p0TgnZezChyHBeV99LP1AD0PoK1lNPkohAWvllaQkGAkrTQ
+	+yXnoqazQB02M0G70p7UWedbyBIa1hXQYksEQqWoU+MfsVX9q/3qxuYbEoQjV/ssRw/z
+	yWkA==
+X-Gm-Message-State: AMke39mLSR526WSy9KPeUIwuZGTOR18USEWmDEZLW6iTMQqsrx9J7QVNegEx1Zz+bzi+owmRVALfu438/afA0g==
+X-Received: by 10.55.68.66 with SMTP id r63mr6301840qka.116.1487673240776;
+	Tue, 21 Feb 2017 02:34:00 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.12.136.75 with HTTP; Tue, 21 Feb 2017 02:33:28 -0800 (PST)
-In-Reply-To: <20170130074351.32016-1-nathan@nathanrossi.com>
-References: <20170130074351.32016-1-nathan@nathanrossi.com>
+Received: by 10.12.136.75 with HTTP; Tue, 21 Feb 2017 02:34:00 -0800 (PST)
+In-Reply-To: <20170130074552.32419-0-nathan@nathanrossi.com>
+References: <20170130074552.32419-0-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
-Date: Tue, 21 Feb 2017 20:33:28 +1000
-Message-ID: <CA+aJhH2W=uUogdhHb-wJ4dXOL-R41SzE7xCQQ7O2urmwFJDSDg@mail.gmail.com>
+Date: Tue, 21 Feb 2017 20:34:00 +1000
+Message-ID: <CA+aJhH0nEHuOjJJQE7=JeYg6ppjM7FdF+u=yc3TGvExUrQaUTw@mail.gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alistair Francis <alistai@xilinx.com>
-Subject: Re: [PATCH] gettext_0.19.8.1.bb: Add 'gettext-libintl' package
+Subject: Re: [PATCH 0/2] glib-2.0 changes for nativesdk and packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,75 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2017 10:33:30 -0000
+X-List-Received-Date: Tue, 21 Feb 2017 10:34:00 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 30 January 2017 at 17:43, Nathan Rossi <nathan@nathanrossi.com> wrote:
-> Whilst gettext is not the default provider of libintl for most libc
-> configurations it is possible for it to be the provider of libintl. In
-> the cases where it is provided it should be shipped in a separate
-> package so as to allow for it to be included without pulling in
-> additional gettext content/dependencies.
+On 30 January 2017 at 17:45, Nathan Rossi <nathan@nathanrossi.com> wrote:
+> This series contains two patches. The first fixes up the renaming of
+> gio-querymodules so that it is only applied to class-target (so that
+> 'nativesdk-gio-query-modules' is not generated). The second change makes
+> the removal of 'charset.alias' occur for all targets including musl
+> since it is not packaged by default and not desired in cases that it is
+> generated.
 >
-> This change adds a package called 'gettext-libintl' which ships the
-> libintl shared objects (and is otherwise empty if libintl is not
-> provided). This allows for the library to be shipped without the
-> additional components included in the gettext-runtime package.
->
-> This package is prefixed with 'gettext-' to define the source of the
-> library due to the existence of multiple providers for libintl.
->
-> This change also makes the libintl*.so and .h packaged into the
-> gettext-runtime-dev package by default. Removing the need for a uclibc
-> override to handle packaging these files. Targets that don't intend to
-> distribute these files already remove them during the do_install stage
-> (e.g. musl).
+> Nathan Rossi (2):
+>   glib-2.0/glib.inc: Only apply MLPREFIX renaming to class-target
+>   glib-2.0/glib.inc: If 'charset.alias' exists drop it
 
-Ping, any comments or feedback?
+Ping, any comments or feedback for this series?
 
 Thanks,
 Nathan
 
 >
-> Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
-> ---
->  meta/recipes-core/gettext/gettext_0.19.8.1.bb | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+>  meta/recipes-core/glib-2.0/glib.inc | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
 >
-> diff --git a/meta/recipes-core/gettext/gettext_0.19.8.1.bb b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-> index 7b8c1e8eb4..2af7373209 100644
-> --- a/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-> +++ b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-> @@ -66,6 +66,9 @@ PACKAGES =+ "libgettextlib libgettextsrc"
->  FILES_libgettextlib = "${libdir}/libgettextlib-*.so*"
->  FILES_libgettextsrc = "${libdir}/libgettextsrc-*.so*"
->
-> +PACKAGES =+ "gettext-libintl"
-> +FILES_gettext-libintl = "${libdir}/libintl*.so.*"
-> +
->  PACKAGES =+ "gettext-runtime gettext-runtime-dev gettext-runtime-doc"
->
->  FILES_${PN} += "${libdir}/${BPN}/*"
-> @@ -82,15 +85,12 @@ FILES_gettext-runtime = "${bindir}/gettext \
->                           ${libdir}/libasprintf.so* \
->                           ${libdir}/GNU.Gettext.dll \
->                          "
-> -FILES_gettext-runtime_append_libc-uclibc = " ${libdir}/libintl.so.* \
-> -                                             ${libdir}/charset.alias \
-> -                                           "
-> +FILES_gettext-runtime_append_libc-uclibc = " ${libdir}/charset.alias"
->  FILES_gettext-runtime-dev += "${libdir}/libasprintf.a \
->                        ${includedir}/autosprintf.h \
-> +                      ${libdir}/libintl*.so \
-> +                      ${includedir}/libintl.h \
->                       "
-> -FILES_gettext-runtime-dev_append_libc-uclibc = " ${libdir}/libintl.so \
-> -                                                 ${includedir}/libintl.h \
-> -                                               "
->  FILES_gettext-runtime-doc = "${mandir}/man1/gettext.* \
->                               ${mandir}/man1/ngettext.* \
->                               ${mandir}/man1/envsubst.* \
 > --
 > 2.11.0
->
 
