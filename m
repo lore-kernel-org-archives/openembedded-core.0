@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DFA873010
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B09FF73010
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 03:13:26 +0000 (UTC)
+	Wed, 22 Feb 2017 03:13:27 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v1M3DRXF001271
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v1M3DTuS006685
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 19:13:27 -0800
+	Tue, 21 Feb 2017 19:13:29 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.201) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 21 Feb 2017 19:13:26 -0800
+	14.3.294.0; Tue, 21 Feb 2017 19:13:28 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Feb 2017 11:13:43 +0800
-Message-ID: <6f50dc0edc4a4433131f012209da7686eab1208b.1487733094.git.Qi.Chen@windriver.com>
+Date: Wed, 22 Feb 2017 11:13:44 +0800
+Message-ID: <7e3e3dcb4f567ef7d6b3e3614b85c66cc532f8f0.1487733094.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1487733094.git.Qi.Chen@windriver.com>
 References: <cover.1487733094.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 2/4] sysstat: upgrade to 11.5.4
+Subject: [PATCH V2 3/4] sudo: upgrade to 1.8.19p2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,27 +36,48 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 22 Feb 2017 03:13:27 -0000
 Content-Type: text/plain
 
+The license checksum for doc/LICENSE is changed. It's a small change.
+'2015' is changed to '2017'. Nothing else is changed. So the licenses
+remain the same.
+
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../recipes-extended/sysstat/{sysstat_11.5.3.bb => sysstat_11.5.4.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/sysstat/{sysstat_11.5.3.bb => sysstat_11.5.4.bb} (53%)
+ meta/recipes-extended/sudo/sudo.inc                               | 2 +-
+ meta/recipes-extended/sudo/{sudo_1.8.18p1.bb => sudo_1.8.19p2.bb} | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/sudo/{sudo_1.8.18p1.bb => sudo_1.8.19p2.bb} (90%)
 
-diff --git a/meta/recipes-extended/sysstat/sysstat_11.5.3.bb b/meta/recipes-extended/sysstat/sysstat_11.5.4.bb
-similarity index 53%
-rename from meta/recipes-extended/sysstat/sysstat_11.5.3.bb
-rename to meta/recipes-extended/sysstat/sysstat_11.5.4.bb
-index bb6a671..7ff363b 100644
---- a/meta/recipes-extended/sysstat/sysstat_11.5.3.bb
-+++ b/meta/recipes-extended/sysstat/sysstat_11.5.4.bb
-@@ -4,5 +4,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
+diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
+index a25876b..d42a04a 100644
+--- a/meta/recipes-extended/sudo/sudo.inc
++++ b/meta/recipes-extended/sudo/sudo.inc
+@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.sudo.ws"
+ BUGTRACKER = "http://www.sudo.ws/bugs/"
+ SECTION = "admin"
+ LICENSE = "ISC & BSD & Zlib"
+-LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=c16e542408abda013d672be8eb88d174 \
++LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=f600a47c2a2cdde5899e449607810ed1 \
+                     file://plugins/sudoers/redblack.c;beginline=1;endline=41;md5=cfe41112f96c19a074934d128f45c693 \
+                     file://lib/util/reallocarray.c;beginline=3;endline=16;md5=85b0905b795d4d58bf2e00635649eec6 \
+                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=67f83ee9bd456557397082f8f1be0efd \
+diff --git a/meta/recipes-extended/sudo/sudo_1.8.18p1.bb b/meta/recipes-extended/sudo/sudo_1.8.19p2.bb
+similarity index 90%
+rename from meta/recipes-extended/sudo/sudo_1.8.18p1.bb
+rename to meta/recipes-extended/sudo/sudo_1.8.19p2.bb
+index 95e1b84..deb60de 100644
+--- a/meta/recipes-extended/sudo/sudo_1.8.18p1.bb
++++ b/meta/recipes-extended/sudo/sudo_1.8.19p2.bb
+@@ -7,8 +7,8 @@ SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
  
- SRC_URI += "file://0001-Include-needed-headers-explicitly.patch"
+ PAM_SRC_URI = "file://sudo.pam"
  
--SRC_URI[md5sum] = "5986da64af934d8cecc7bca7ebe43752"
--SRC_URI[sha256sum] = "f8229d14819e2d461ede83894648e03c8a2ad14a1ba200d68cda9816c42f41ea"
-+SRC_URI[md5sum] = "f16ae8edd462f5199ee033f7c0e2c197"
-+SRC_URI[sha256sum] = "1e1008656575e70486b456e79775e98d3b8732d7e2cb408559209bd0318e0807"
+-SRC_URI[md5sum] = "28f5214d5bcb5af5710decb95184a0a6"
+-SRC_URI[sha256sum] = "e5a0471c721281a693025bbde33ebd9d3db43245d83ab8516bbfc23980379434"
++SRC_URI[md5sum] = "31a6090ed1d0946fa22cba19e86aafef"
++SRC_URI[sha256sum] = "237e18e67c2ad59ecacfa4b7707198b09fcf84914621585a9bc670dcc31a52e0"
+ 
+ DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
 -- 
 1.9.1
 
