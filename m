@@ -1,36 +1,47 @@
-Return-Path: <tanuk@iki.fi>
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
-	[66.111.4.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FDD773159
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B0CC73159
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 16:24:17 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id DF98D22627;
-	Wed, 22 Feb 2017 11:24:18 -0500 (EST)
-Received: from frontend2 ([10.202.2.161])
-	by compute5.internal (MEProxy); Wed, 22 Feb 2017 11:24:18 -0500
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-sender:x-me-sender:x-sasl-enc:x-sasl-enc; s=
-	smtpout; bh=R3FUg3OmWrtBhajpOrL0TSZ51VA=; b=pDqzWuHU99Fp0zmvPPt7
-	6XnWrslRWK/XD248by9laXej0Sb4FVUpCxwtAwfo1pHnzO3+M3bR4vi2aKG96s1K
-	TedWBL3GgtWBlm0ozHFR30/9/GSAIt/cnrH38Ig9wRxpMx+qS/ykdb1SfgX0G9YF
-	XaqJF3wleXE6cF9S/9T4ncg=
-X-ME-Sender: <xms:MrutWBRRxdr1PXqTm6SDXtWZjFle_VGO3d_RUfj9ONPeKqozbi0d-w>
-X-Sasl-enc: wAVSGMCkLMD6UlO1xtxS3KyHI4Hp/AbJt9uVOAYZaDMx 1487780658
-Received: from laptop (unknown [192.40.95.15])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 3E1F624355;
-	Wed, 22 Feb 2017 11:24:18 -0500 (EST)
-Message-ID: <1487780656.2292.3.camel@iki.fi>
-From: Tanu Kaskinen <tanuk@iki.fi>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Feb 2017 18:24:16 +0200
-In-Reply-To: <CAJTo0LYdKoaFzbD2St_S3w7CAaGFXCyHDu8AXfphkeM0LvgOcw@mail.gmail.com>
+	Wed, 22 Feb 2017 16:25:59 +0000 (UTC)
+Received: by mail-qk0-f175.google.com with SMTP id x71so7400511qkb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Feb 2017 08:26:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=zrIBJtqOuZ+x0gnRNpIUAM7XFX+1pDrsM40KJnejs50=;
+	b=eRGKX4NMAp2D4/hM6VhQfnCEjveQ0Lg1oFIXOnk929UWcdJs0fy3L47xXz+HLmIoWk
+	IdzkL7cuGhwV5jnhOo1/noQ7+G5JJm1A1KPIJc5qEzZbRXuAfjYmp94s/DREKgmmMZTz
+	lzU0nvxlf6g1oShUcCeZqQQHoMe+Z3SYaJlhGnsPXMVDdYQnl09boaMJSw+flcqJRe0v
+	u1K6KsEJpWa2zFxtw/IXHTu8x16Nl1ezUQTxhn5F9sRD3ZOT0c8oN+lGtUI2+rshv8YK
+	pHugaAuoGG8QRAi0uat/tlJh1HkQ29wir32f3+Mbrv7icJtdaYNenX6MlCF4pViJScXl
+	4y5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=zrIBJtqOuZ+x0gnRNpIUAM7XFX+1pDrsM40KJnejs50=;
+	b=sO6iFzT18c9X1Iu69Zb0Q/gQgQytBESTAK5466KiPoeXE93piGVj3v1PSErLgt1RhS
+	OkCHEXTt5l2z6Txsu5Ur7I+GpBsgWZ87AOUhOTCJOOXtr+TbzmRJmMCIwApEN4kUemn6
+	bzV7DlTYvMrPcsKUd2HpaAg1D5C2nXxvJlc/KQZlYVilPaI8zv+6HMlg8KpKnFuhfyJl
+	Po8Tbk6o/8hDdzfHogbAeN3tCzDCrpVe4G8cRQHI1LE2wXg/mUtlEP0+hcvZvqfmqeCO
+	CHtkLtNr9tClGlljueM1RPVyPePkdlHtJJBqSW2sKv55RxaDlpVJbYCFhsWEB4jjLIOf
+	kpKw==
+X-Gm-Message-State: AMke39mJ7h0jBUdwplotiCy6FAwKImRPVicQzIaZWPMaCqnQSYRXBjb8PRQ4dK61RwkPENAu5+WIwMMZp5i4aIn5
+X-Received: by 10.55.183.133 with SMTP id h127mr34285502qkf.121.1487780760321; 
+	Wed, 22 Feb 2017 08:26:00 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.103.233 with HTTP; Wed, 22 Feb 2017 08:25:39 -0800 (PST)
+In-Reply-To: <1487780656.2292.3.camel@iki.fi>
 References: <20170203070635.30804-1-tanuk@iki.fi>
 	<CAJTo0LYdKoaFzbD2St_S3w7CAaGFXCyHDu8AXfphkeM0LvgOcw@mail.gmail.com>
-X-Mailer: Evolution 3.22.4-1 
-Mime-Version: 1.0
+	<1487780656.2292.3.camel@iki.fi>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 22 Feb 2017 16:25:39 +0000
+Message-ID: <CAJTo0LbzYExoBP59L73M-EuEaTNW7KpfKpVe-t83z-b4WRKPtA@mail.gmail.com>
+To: Tanu Kaskinen <tanuk@iki.fi>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] pulseaudio: 9.0 -> 10.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -44,33 +55,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2017 16:24:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Feb 2017 16:26:00 -0000
+Content-Type: multipart/alternative; boundary=94eb2c060056b93dcf054920f345
 
-On Wed, 2017-02-22 at 14:48 +0000, Burton, Ross wrote:
-> On 3 February 2017 at 07:06, Tanu Kaskinen <tanuk@iki.fi> wrote:
-> 
-> > Relase notes:
-> > https://www.freedesktop.org/wiki/Software/PulseAudio/Notes/10.0/
-> > 
-> 
-> I'm seeing a new warning now:
-> 
-> WARNING: pulseaudio-10.0-r0 do_package_qa: QA Issue: ELF binary
-> '/data/poky-master/tmp-glibc/work/corei7-64-poky-linux/pulseaudio/10.0-r0/packages-split/pulseaudio-server/usr/bin/pulseaudio'
-> has relocations in .text [textrel]
-> 
-> Would you be able to identify where this comes from?
+--94eb2c060056b93dcf054920f345
+Content-Type: text/plain; charset=UTF-8
 
-I'll investigate it. I'm not familiar with the topic, though, so I'll
-first have to figure out some basic stuff: What does it mean to have
-"relocations in .text"? Why is it a bad thing to have those? How can I
-check if a binary has relocations in .text? If you have quick answers
-to any of the questions, that would be helpful.
+On 22 February 2017 at 16:24, Tanu Kaskinen <tanuk@iki.fi> wrote:
 
--- 
-Tanu
+> I'll investigate it. I'm not familiar with the topic, though, so I'll
+> first have to figure out some basic stuff: What does it mean to have
+> "relocations in .text"? Why is it a bad thing to have those? How can I
+> check if a binary has relocations in .text? If you have quick answers
+> to any of the questions, that would be helpful.
+>
 
-https://www.patreon.com/tanuk
+https://wiki.gentoo.org/wiki/Hardened/Textrels_Guide is useful.
 
+Ross
+
+--94eb2c060056b93dcf054920f345
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 February 2017 at 16:24, Tanu Kaskinen <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:tanuk@iki.fi" target=3D"_blank">tanuk@iki.fi</a>&gt;</span> wrot=
+e:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:s=
+olid;padding-left:1ex"><div id=3D"gmail-:8fz" class=3D"gmail-a3s gmail-aXjC=
+H gmail-m15a66a35ab48314e">I&#39;ll investigate it. I&#39;m not familiar wi=
+th the topic, though, so I&#39;ll<br>
+first have to figure out some basic stuff: What does it mean to have<br>
+&quot;relocations in .text&quot;? Why is it a bad thing to have those? How =
+can I<br>
+check if a binary has relocations in .text? If you have quick answers<br>
+to any of the questions, that would be helpful.</div></blockquote></div><br=
+><a href=3D"https://wiki.gentoo.org/wiki/Hardened/Textrels_Guide">https://w=
+iki.gentoo.org/wiki/Hardened/Textrels_Guide</a> is useful.<br></div><div cl=
+ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--94eb2c060056b93dcf054920f345--
