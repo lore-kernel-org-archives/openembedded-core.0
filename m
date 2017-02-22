@@ -1,26 +1,26 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from atl4mhob02.myregisteredsite.com
-	(atl4mhob02.myregisteredsite.com [209.17.115.40])
-	by mail.openembedded.org (Postfix) with ESMTP id 443EF730F4
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 3FC26730D3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 14:32:24 +0000 (UTC)
-Received: from mailpod.hostingplatform.com ([10.30.71.207])
-	by atl4mhob02.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	v1MEWPsd021873 for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 09:32:25 -0500
-Received: (qmail 10039 invoked by uid 0); 22 Feb 2017 14:32:25 -0000
-X-TCPREMOTEIP: 37.74.225.130
-X-Authenticated-UID: mike@milosoftware.com
-Received: from unknown (HELO mikebuntu.TOPIC.LOCAL)
-	(mike@milosoftware.com@37.74.225.130)
-	by 0 with ESMTPA; 22 Feb 2017 14:32:24 -0000
-From: Mike Looijmans <mike.looijmans@topic.nl>
+	Wed, 22 Feb 2017 14:45:46 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Feb 2017 06:45:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.35,194,1484035200"; d="scan'208";a="228402651"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga004.fm.intel.com with ESMTP; 22 Feb 2017 06:45:47 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id AE5416A4080;
+	Wed, 22 Feb 2017 06:45:46 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Feb 2017 15:32:09 +0100
-Message-Id: <1487773929-7952-1-git-send-email-mike.looijmans@topic.nl>
-X-Mailer: git-send-email 1.9.1
-Cc: Mike Looijmans <mike.looijmans@topic.nl>
-Subject: [PATCH] initscripts/sysfs.sh: mount configfs if present
+Date: Wed, 22 Feb 2017 16:39:35 +0200
+Message-Id: <1487774375-2295-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <CAJTo0LY_5Lsx+okmuUzgYRuGYWqtgq_ERLj0GnzuidA__xR_dw@mail.gmail.com>
+References: <CAJTo0LY_5Lsx+okmuUzgYRuGYWqtgq_ERLj0GnzuidA__xR_dw@mail.gmail.com>
+Subject: [PATCH v2] image_types_wic: fix expansion error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +33,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2017 14:32:25 -0000
+X-List-Received-Date: Wed, 22 Feb 2017 14:45:47 -0000
 
-configfs is another kernel virtual file system that should be mounted
-if configured, so if it's configured into the kernel, mount it. It is
-used to configure e.g. USB gadget mode and devicetree overlays.
+Variable WKS_SEARCH_PATH was not fully expanded when used directly
+in this expression:
+    WKS_FULL_PATH = "${@wks_search('${WKS_FILES}'.split(), '${WKS_SEARCH_PATH}') or ''}"
 
-Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+This caused expansion error: bb.data_smart.ExpansionError:
+Failure expanding variable WKS_FULL_PATH, .... which triggered exception
+SyntaxError: invalid syntax (WKS_FULL_PATH, line 1)
+
+Calling d.getVar instead of directly referencing variables
+should fix the issue.
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/classes/image_types_wic.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
-index 0a52c90..f5b5b99 100644
---- a/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
-@@ -22,6 +22,10 @@ if [ -e /sys/kernel/debug ] && grep -q debugfs /proc/filesystems; then
-   mount -t debugfs debugfs /sys/kernel/debug
- fi
+diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
+index 43b2917..500c8c5 100644
+--- a/meta/classes/image_types_wic.bbclass
++++ b/meta/classes/image_types_wic.bbclass
+@@ -8,7 +8,7 @@ WICVARS ?= "\
+ WKS_FILE ??= "${IMAGE_BASENAME}.${MACHINE}.wks"
+ WKS_FILES ?= "${WKS_FILE} ${IMAGE_BASENAME}.wks"
+ WKS_SEARCH_PATH ?= "${THISDIR}:${@':'.join('%s/wic' % p for p in '${BBPATH}'.split(':'))}:${@':'.join('%s/scripts/lib/wic/canned-wks' % l for l in '${BBPATH}:${COREBASE}'.split(':'))}"
+-WKS_FULL_PATH = "${@wks_search('${WKS_FILES}'.split(), '${WKS_SEARCH_PATH}') or ''}"
++WKS_FULL_PATH = "${@wks_search(d.getVar('WKS_FILES').split(), d.getVar('WKS_SEARCH_PATH')) or ''}"
  
-+if [ -e /sys/kernel/config ] && grep -q configfs /proc/filesystems; then
-+  mount -t configfs configfs /sys/kernel/config
-+fi
-+
- if ! [ -e /dev/zero ] && [ -e /dev ] && grep -q devtmpfs /proc/filesystems; then
-   mount -n -t devtmpfs devtmpfs /dev
- fi
+ def wks_search(files, search_path):
+     for f in files:
 -- 
-1.9.1
+2.1.4
 
 
