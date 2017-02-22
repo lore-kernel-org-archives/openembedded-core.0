@@ -1,26 +1,29 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CD1C57302F
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A8B673034
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 06:49:57 +0000 (UTC)
+	Wed, 22 Feb 2017 07:07:12 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v1M6nwoA005989
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 22:49:58 -0800
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 21 Feb 2017 22:49:57 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Feb 2017 14:41:56 +0800
-Message-ID: <8fc215842789d6903d65fa478ab0a376ad30c94d.1487745605.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.8.3
-In-Reply-To: <cover.1487745605.git.jackie.huang@windriver.com>
-References: <cover.1487745605.git.jackie.huang@windriver.com>
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v1M77DfL013928
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 21 Feb 2017 23:07:13 -0800 (PST)
+Received: from [128.224.162.211] (128.224.162.211) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 21 Feb 2017 23:07:13 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1487648281.git.dengke.du@windriver.com>
+	<1c00a35e3fe8eea61912ec53b61409257152e7d7.1487648281.git.dengke.du@windriver.com>
+	<CAJTo0Lb4Vjg-1X7O8cQ05YxVeK407i0KM2Ah7m8hXcFwJJhGvg@mail.gmail.com>
+From: Dengke Du <dengke.du@windriver.com>
+Message-ID: <3d05988a-d60c-6142-6bb7-a1db43f3609e@windriver.com>
+Date: Wed, 22 Feb 2017 15:07:11 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.7.0
 MIME-Version: 1.0
-Subject: [PATCH 2/2] systemd: add dependency on initscripts-sushell for selinux
+In-Reply-To: <CAJTo0Lb4Vjg-1X7O8cQ05YxVeK407i0KM2Ah7m8hXcFwJJhGvg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V4 1/1] ltp: upgrade to 20170116
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +36,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2017 06:49:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 22 Feb 2017 07:07:13 -0000
+Content-Type: multipart/alternative;
+	boundary="------------8B040C9151BB222A2D5FB047"
 
-From: Jackie Huang <jackie.huang@windriver.com>
+--------------8B040C9151BB222A2D5FB047
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-sushell is required by systemd service debug-shell
-when selinux is enabled.
+This is because the ltp source code adds a new function 
+"SAFE_FILE_PRINTF" in the version 20170116 of ltp,
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- meta/recipes-core/systemd/systemd_232.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+in function "SAFE_FILE_PRINTF", the third arguments need a format 
+string, but in fchmodat01.c, at the line
 
-diff --git a/meta/recipes-core/systemd/systemd_232.bb b/meta/recipes-core/systemd/systemd_232.bb
-index cc8781e..d38be14 100644
---- a/meta/recipes-core/systemd/systemd_232.bb
-+++ b/meta/recipes-core/systemd/systemd_232.bb
-@@ -113,7 +113,7 @@ PACKAGECONFIG[xkbcommon] = "--enable-xkbcommon,--disable-xkbcommon,libxkbcommon"
- # Update NAT firewall rules
- PACKAGECONFIG[iptc] = "--enable-libiptc,--disable-libiptc,iptables"
- PACKAGECONFIG[ldconfig] = "--enable-ldconfig,--disable-ldconfig,,"
--PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux"
-+PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux,initscripts-sushell"
- PACKAGECONFIG[valgrind] = "ac_cv_header_valgrind_memcheck_h=yes ac_cv_header_valgrind_valgrind_h=yes ,ac_cv_header_valgrind_memcheck_h=no ac_cv_header_valgrind_valgrind_h=no ,valgrind"
- PACKAGECONFIG[qrencode] = "--enable-qrencode,--disable-qrencode,qrencode"
- PACKAGECONFIG[dbus] = "--enable-dbus,--disable-dbus,dbus"
--- 
-2.8.3
+of 130:
+
+SAFE_FILE_PRINTF(cleanup, testfile, testfile)
+
+it passed the same as the second arguments, it should pass the format 
+string of the second argument.
+
+I will fix it as soon as.
 
 
+On 2017年02月22日 00:28, Burton, Ross wrote:
+> Fails with security flags enabled:
+>
+> | In file included from ../../../../include/old/test.h:47:0,
+> |                  from fchmodat01.c:44:
+> | fchmodat01.c: In function 'setup':
+> | ../../../../include/old/old_safe_file_ops.h:55:27: error: format not 
+> a string literal and no format arguments [-Werror=format-security]
+> |                    (path), (fmt), ## __VA_ARGS__)
+> |                            ^
+> | fchmodat01.c:130:2: note: in expansion of macro 'SAFE_FILE_PRINTF'
+> |   SAFE_FILE_PRINTF(cleanup, testfile, testfile);
+> |   ^~~~~~~~~~~~~~~~
+> | ../../../../include/old/old_safe_file_ops.h:55:27: error: format not 
+> a string literal and no format arguments [-Werror=format-security]
+> |                    (path), (fmt), ## __VA_ARGS__)
+> |                            ^
+> | fchmodat01.c:131:2: note: in expansion of macro 'SAFE_FILE_PRINTF'
+> |   SAFE_FILE_PRINTF(cleanup, testfile2, testfile2);
+> |   ^~~~~~~~~~~~~~~~
+>
+> Ross
+
+
+--------------8B040C9151BB222A2D5FB047
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <p>This is because the ltp source code adds a new function
+      "SAFE_FILE_PRINTF" in the version 20170116 of ltp,</p>
+    <p>in function "SAFE_FILE_PRINTF", the third arguments need a format
+      string, but in fchmodat01.c, at the line</p>
+    <p>of 130:</p>
+    <p>    <span class="pl-c1">SAFE_FILE_PRINTF</span>(cleanup,
+      testfile, testfile)</p>
+    <p>it passed the same as the second arguments, it should pass the
+      format string of the second argument.</p>
+    <p>I will fix it as soon as.</p>
+    <br>
+    <div class="moz-cite-prefix">On 2017年02月22日 00:28, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0Lb4Vjg-1X7O8cQ05YxVeK407i0KM2Ah7m8hXcFwJJhGvg@mail.gmail.com"
+      type="cite">Fails with security flags enabled:
+      <div><br>
+      </div>
+      <div>
+        <div>| In file included from
+          ../../../../include/old/test.h:47:0,</div>
+        <div>|                  from fchmodat01.c:44:</div>
+        <div>| fchmodat01.c: In function 'setup':</div>
+        <div>| ../../../../include/old/old_safe_file_ops.h:55:27: error:
+          format not a string literal and no format arguments
+          [-Werror=format-security]</div>
+        <div>|                    (path), (fmt), ## __VA_ARGS__)</div>
+        <div>|                            ^</div>
+        <div>| fchmodat01.c:130:2: note: in expansion of macro
+          'SAFE_FILE_PRINTF'</div>
+        <div>|   SAFE_FILE_PRINTF(cleanup, testfile, testfile);</div>
+        <div>|   ^~~~~~~~~~~~~~~~</div>
+        <div>| ../../../../include/old/old_safe_file_ops.h:55:27: error:
+          format not a string literal and no format arguments
+          [-Werror=format-security]</div>
+        <div>|                    (path), (fmt), ## __VA_ARGS__)</div>
+        <div>|                            ^</div>
+        <div>| fchmodat01.c:131:2: note: in expansion of macro
+          'SAFE_FILE_PRINTF'</div>
+        <div>|   SAFE_FILE_PRINTF(cleanup, testfile2, testfile2);</div>
+        <div>|   ^~~~~~~~~~~~~~~~</div>
+      </div>
+      <div><br>
+      </div>
+      <div>Ross</div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------8B040C9151BB222A2D5FB047--
