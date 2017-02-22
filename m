@@ -1,47 +1,62 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CEFA72FB7
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ot0-f193.google.com (mail-ot0-f193.google.com
+	[74.125.82.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 2681172FCA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 22:22:49 +0000 (UTC)
-Received: by mail-qk0-f176.google.com with SMTP id x71so16646410qkb.3
+	Wed, 22 Feb 2017 23:45:37 +0000 (UTC)
+Received: by mail-ot0-f193.google.com with SMTP id l26so1898867ota.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 14:22:51 -0800 (PST)
+	Wed, 22 Feb 2017 15:45:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=JIUhQi+38BrE5BWltwhbGEbkyIzlOD02WZQ3cNEazFE=;
-	b=y/aChFEP1U+ukY2U+iVEuqE83cExs6pZuviY54YtPswQFExPcSvpmYYpEkL7eIglNT
-	gwKh5Kog7XJIpaqHAcpFCO8wXHykMNSuDvjxWil/rO2wZvNXQ0I76Ubp111vVSHWeeZ7
-	QRCyyCqr5444kBWun367TCyegsnIRXn1c8/L3WXP3mG+ryLlZfU+THFPXGawq7jHkpPX
-	3bg1XdvvK/ODq4A420uuJnQDsGIJKGyKGs2vWFnWs8C4s1Ck2I1PN2l2XnKFFDrHZ6k7
-	erC8PFRbt2JpQurqleCIXs39XDSfbUEb1LVDQG7s3d99QoPDDMWPFmt4AaJEXI3dr+bs
-	vp7g==
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=ffxZDrZbKcIAW7lqqKKJN/9pIHc+rv9aVyJBklmzlqE=;
+	b=09Xs/ROybjOd7xJqhAHd0dn3DU1CCe/n9RhcFLz0DBipXlQPi7BEhIBcVn4tJK1nU3
+	SK+qRim8uzZWWLK/qW1Wm0g8S+Bua0SRBxTxtwu8DXXV6lB7LHKvf0mzuI8LHZdbR/iu
+	oVICj6KkuD1wIK5amnKA79/3iXWHnn6MtCOKN9+RRTe+D8Z9DJbUj4CdIIaRQ9nIVWcM
+	fO/1Gj+TvsgeYwHUf5QbFF1pUKfJvol2gQdGEqFSROehAjjwQB9kP91JX6cGQRNO4u78
+	GSvJWcuuyGbnMII9o0FGenf9qw8CLTyRx4Bvy8OgAKqLMEU1jbtCSj/6QGGqPSjwf3eD
+	47zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=JIUhQi+38BrE5BWltwhbGEbkyIzlOD02WZQ3cNEazFE=;
-	b=CZaXKKzxLwzicp/BCKRMiD5k+qGJVwA/D2naCojt2jtpky65RXGCqBJOOuMQw+Gztx
-	FJ8WI1O9UIxSn38o+JFjfhiUbxREVQsVwChFYls0zVJnhipA0J8EXlbqtZ/uJBLMLzPc
-	JC/WPFSmCMNMKCxohlXBKssCihWRidhgquuLlHCE0Ml1ennzNQ/Am7bghkYVmaqgd+vM
-	EAKD7jpsBXgqa93HudLtAMTXrT3dHVR2pMG7gFUcxhp31HXPvFuQ6xS3LHDsiASfDgpG
-	7UnItxqNKzKwqY9frOm7WHZ12ADcrvMUscCHCfOh8lVMnLFqdwQKntqIax/8U/qAnqCh
-	89vA==
-X-Gm-Message-State: AMke39knwQuIeU83kUBNw1Hsjk8v8EeNRCUCIFh9rFdPwv9a0kUdHDhaglXwMy59ia0R/gqij2MGGekl3t16co3x
-X-Received: by 10.55.40.67 with SMTP id o64mr37050393qkh.3.1487802171225; Wed,
-	22 Feb 2017 14:22:51 -0800 (PST)
+	bh=ffxZDrZbKcIAW7lqqKKJN/9pIHc+rv9aVyJBklmzlqE=;
+	b=gJpZcN2iFHEiWcb7+q7wUqe2rL9YHNwkfPP0M0rzoHZO9vQZw0Y/AV5uQ4q3dytAoZ
+	CGABjxVIyxVDM+YWYMUuUmMxlxige5xwe4/ZWsTCbAmpIYYkxc6fREOx8xOqyj+JGSs0
+	B/rhWYqCQCq840b2bZ4Ud3FHLbF5XwfAb2KOYjebNXbm8ZQKHEt27pPdcIJU/ClTW8Mt
+	xQVGCXQV+EaGWrxw9g8/YUedhCbwQ+JqGmz3FIxh2lK/+aBsa0q9Jz/QinMYIeApkYRd
+	VsIgyzFqFh3EueojGc2ruDA9wKwE5DT5tu4BfJKpIPokJC5VrF7fNhvVRZPabQXY961F
+	WTlA==
+X-Gm-Message-State: AMke39kyoKy3RYAHK8ysoXLekvWzyxAGV7JZ8NsMCMhGjpTvDYuQTg4BgpVmI5OXIN8FLQ==
+X-Received: by 10.157.63.242 with SMTP id i47mr6286276ote.36.1487807138531;
+	Wed, 22 Feb 2017 15:45:38 -0800 (PST)
+Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com.
+	[209.85.218.51])
+	by smtp.gmail.com with ESMTPSA id r2sm959266ota.33.2017.02.22.15.45.36
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 22 Feb 2017 15:45:37 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f51.google.com with SMTP id s205so9916758oif.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Feb 2017 15:45:36 -0800 (PST)
+X-Received: by 10.202.81.134 with SMTP id f128mr7138838oib.77.1487807136627;
+	Wed, 22 Feb 2017 15:45:36 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Wed, 22 Feb 2017 14:22:30 -0800 (PST)
-In-Reply-To: <f6a8a61195fb454781e93c2dcf615e48a2fc8682.1487764904.git.jussi.kukkonen@intel.com>
-References: <cover.1487764904.git.jussi.kukkonen@intel.com>
-	<f6a8a61195fb454781e93c2dcf615e48a2fc8682.1487764904.git.jussi.kukkonen@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 22 Feb 2017 22:22:30 +0000
-Message-ID: <CAJTo0LZT-NukaBOgdA_Wajfu0pVkNCiNu18ZEE_CYGruXOz1ow@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/6] libdrm: Upgrade 2.4.74 -> 2.4.75
+Received: by 10.74.26.5 with HTTP; Wed, 22 Feb 2017 15:45:36 -0800 (PST)
+In-Reply-To: <7be95a90-ca8f-c107-ec6a-537fe80720bc@ossystems.com.br>
+References: <20170130162700.27969-1-fabio.berton@ossystems.com.br>
+	<CAP9ODKrkFx4co_0gxTQpOj0HuG1H+O9DhL4GJFJ-8_e87QdNWQ@mail.gmail.com>
+	<7be95a90-ca8f-c107-ec6a-537fe80720bc@ossystems.com.br>
+Date: Wed, 22 Feb 2017 20:45:36 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKoCu930C64Yd5Gw+u5L+9A0PBBGnpr3R88t11AQN=nLjw@mail.gmail.com>
+Message-ID: <CAP9ODKoCu930C64Yd5Gw+u5L+9A0PBBGnpr3R88t11AQN=nLjw@mail.gmail.com>
+To: Fabio Berton <fabio.berton@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libbsd: libbsd-overlay.pc: Set Cflags to use -I instead of -isystem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,49 +69,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2017 22:22:52 -0000
-Content-Type: multipart/alternative; boundary=001a1140af28e9acab054925ef3f
-
---001a1140af28e9acab054925ef3f
+X-List-Received-Date: Wed, 22 Feb 2017 23:45:48 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 22 February 2017 at 13:02, Jussi Kukkonen <jussi.kukkonen@intel.com>
-wrote:
-
-> * Remove udev from depends (it's not actually used).
+On Wed, Feb 22, 2017 at 3:51 PM, Fabio Berton
+<fabio.berton@ossystems.com.br> wrote:
+> Hi!
 >
+> We need to backport this commit to morty.
 
-Is it not used by some of the tests?
+Indeed; adding Richard on Cc.
 
-packages/corei7-64-poky-linux/libdrm/libdrm-tests: PKGSIZE changed from
-350048 to 225496 (-35%)
-  * PV changed from "2.4.74" to "2.4.75"
-  * FILELIST: removed "/usr/bin/dristat /usr/bin/updatedraw
-/usr/bin/openclose /usr/bin/name_from_fd /usr/bin/setversion
-/usr/bin/getstats /usr/bin/getclient /usr/bin/drmstat /usr/bin/getversion"
 
-Ross
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
---001a1140af28e9acab054925ef3f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 February 2017 at 13:02, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel=
-.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,=
-204);border-left-style:solid;padding-left:1ex"><div id=3D"gmail-:2ch" class=
-=3D"gmail-a3s gmail-aXjCH gmail-m15a65eb51a6cf538">* Remove udev from depen=
-ds (it&#39;s not actually used).<br></div></blockquote><div>=C2=A0</div></d=
-iv>Is it not used by some of the tests?</div><div class=3D"gmail_extra"><br=
-></div><div class=3D"gmail_extra"><div class=3D"gmail_extra">packages/corei=
-7-64-poky-linux/libdrm/libdrm-tests: PKGSIZE changed from 350048 to 225496 =
-(-35%)</div><div class=3D"gmail_extra">=C2=A0 * PV changed from &quot;2.4.7=
-4&quot; to &quot;2.4.75&quot;</div><div class=3D"gmail_extra">=C2=A0 * FILE=
-LIST: removed &quot;/usr/bin/dristat /usr/bin/updatedraw /usr/bin/openclose=
- /usr/bin/name_from_fd /usr/bin/setversion /usr/bin/getstats /usr/bin/getcl=
-ient /usr/bin/drmstat /usr/bin/getversion&quot;</div><div class=3D"gmail_ex=
-tra"><br></div><div class=3D"gmail_extra">Ross</div></div></div>
-
---001a1140af28e9acab054925ef3f--
