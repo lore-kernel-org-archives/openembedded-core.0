@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B09FF73010
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CFA97301A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 03:13:27 +0000 (UTC)
+	Wed, 22 Feb 2017 03:13:28 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v1M3DTuS006685
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v1M3DURN012780
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 19:13:29 -0800 (PST)
+	Tue, 21 Feb 2017 19:13:30 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.201) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 21 Feb 2017 19:13:28 -0800
+	14.3.294.0; Tue, 21 Feb 2017 19:13:29 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Feb 2017 11:13:44 +0800
-Message-ID: <7e3e3dcb4f567ef7d6b3e3614b85c66cc532f8f0.1487733094.git.Qi.Chen@windriver.com>
+Date: Wed, 22 Feb 2017 11:13:45 +0800
+Message-ID: <bcf1f63e6536a38a3d7dee1cd3a0f3a1be1a9e90.1487733094.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1487733094.git.Qi.Chen@windriver.com>
 References: <cover.1487733094.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 3/4] sudo: upgrade to 1.8.19p2
+Subject: [PATCH V2 4/4] util-linux: upgrade to 2.29.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,51 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2017 03:13:27 -0000
+X-List-Received-Date: Wed, 22 Feb 2017 03:13:29 -0000
 Content-Type: text/plain
-
-The license checksum for doc/LICENSE is changed. It's a small change.
-'2015' is changed to '2017'. Nothing else is changed. So the licenses
-remain the same.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-extended/sudo/sudo.inc                               | 2 +-
- meta/recipes-extended/sudo/{sudo_1.8.18p1.bb => sudo_1.8.19p2.bb} | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/sudo/{sudo_1.8.18p1.bb => sudo_1.8.19p2.bb} (90%)
+ .../util-linux/{util-linux_2.29.bb => util-linux_2.29.1.bb}           | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-core/util-linux/{util-linux_2.29.bb => util-linux_2.29.1.bb} (86%)
 
-diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
-index a25876b..d42a04a 100644
---- a/meta/recipes-extended/sudo/sudo.inc
-+++ b/meta/recipes-extended/sudo/sudo.inc
-@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.sudo.ws"
- BUGTRACKER = "http://www.sudo.ws/bugs/"
- SECTION = "admin"
- LICENSE = "ISC & BSD & Zlib"
--LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=c16e542408abda013d672be8eb88d174 \
-+LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=f600a47c2a2cdde5899e449607810ed1 \
-                     file://plugins/sudoers/redblack.c;beginline=1;endline=41;md5=cfe41112f96c19a074934d128f45c693 \
-                     file://lib/util/reallocarray.c;beginline=3;endline=16;md5=85b0905b795d4d58bf2e00635649eec6 \
-                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=67f83ee9bd456557397082f8f1be0efd \
-diff --git a/meta/recipes-extended/sudo/sudo_1.8.18p1.bb b/meta/recipes-extended/sudo/sudo_1.8.19p2.bb
-similarity index 90%
-rename from meta/recipes-extended/sudo/sudo_1.8.18p1.bb
-rename to meta/recipes-extended/sudo/sudo_1.8.19p2.bb
-index 95e1b84..deb60de 100644
---- a/meta/recipes-extended/sudo/sudo_1.8.18p1.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.8.19p2.bb
-@@ -7,8 +7,8 @@ SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
+diff --git a/meta/recipes-core/util-linux/util-linux_2.29.bb b/meta/recipes-core/util-linux/util-linux_2.29.1.bb
+similarity index 86%
+rename from meta/recipes-core/util-linux/util-linux_2.29.bb
+rename to meta/recipes-core/util-linux/util-linux_2.29.1.bb
+index 80638bd..1395b47 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.29.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.29.1.bb
+@@ -16,8 +16,8 @@ SRC_URI += "file://configure-sbindir.patch \
+             file://avoid_parallel_tests.patch \
+             file://uuid-test-error-api.patch \
+ "
+-SRC_URI[md5sum] = "07b6845f48a421ad5844aa9d58edb837"
+-SRC_URI[sha256sum] = "2c59ea67cc7b564104f60532f6e0a95fe17a91acb870ba8fd7e986f273abf9e7"
++SRC_URI[md5sum] = "0cbb6d16ab9c5736e5649ef1264bee6e"
++SRC_URI[sha256sum] = "0ce40600b934ec2fecfa6bfc4efe6982d051ba96c2832b05201347aec582f54f"
  
- PAM_SRC_URI = "file://sudo.pam"
+ CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=ms"
  
--SRC_URI[md5sum] = "28f5214d5bcb5af5710decb95184a0a6"
--SRC_URI[sha256sum] = "e5a0471c721281a693025bbde33ebd9d3db43245d83ab8516bbfc23980379434"
-+SRC_URI[md5sum] = "31a6090ed1d0946fa22cba19e86aafef"
-+SRC_URI[sha256sum] = "237e18e67c2ad59ecacfa4b7707198b09fcf84914621585a9bc670dcc31a52e0"
- 
- DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
 -- 
 1.9.1
 
