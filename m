@@ -1,43 +1,24 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
-	[209.85.213.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5268272FE6
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 84AC072FD8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 23:20:43 +0000 (UTC)
-Received: by mail-vk0-f66.google.com with SMTP id 23so11662751vkc.2
+	Wed, 22 Feb 2017 01:44:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v1M1iVW5012162
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 15:20:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=HeIgEyE0xjA/v1H5/2BLBfpnWhvzViqrEJKqIc3Vhxo=;
-	b=GB6K32+sOicpY6BCKfKBJW1Q9hEx6LYVyQSKlqJsVvuXfYxHI0JxgwGfJGitaAM2SY
-	74oKB7h4aazpduD07QK1/uS7gOB9ccSCHikdXQxeV7GEtfAeFlX/22oUXvijIQggLR4O
-	XUZw3xcVpMrGa9rHVP+weFnUobRbCyVjaaREtsKYnM9vV+6t1SwlAPrZVNxdoXWCjj3n
-	23OiX8/7nrOJ9DbbG4mmxrqQdbMBz6mfelyhgTG7eGZXclFz+2uLjoUfz/sVQ+4FZNLN
-	Glr91+l1MJGxNMBnyZnPkJOy4MH7cA6prEhLZapulxeUbkApUT0xPEVWnVyb+BwJZ3wT
-	sVeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=HeIgEyE0xjA/v1H5/2BLBfpnWhvzViqrEJKqIc3Vhxo=;
-	b=K235HWKlhBYIfve000/NJE4WA2+3hyxxbmO5/5ZSmqdpCVqRTWsEerh2EXUFPfAu4q
-	EmsNYOlOpEHeVxVi7sp9iOFAkR7UyXushWSWzXL+DYuYNkfLSKRd1fRITO969pFpH9Ms
-	R3SRinTyZdyaUUJOXO3hMo5Rdy7WrTRcS+9nQs3ys/9XlBoizHGiIleI7IyhnuxVFhCL
-	dxJOgjdPZ1IcEzGCg00kwN+imU58T/E+KIRvjK1rer1MMfa/xMzqBoaVQUKmRXVWrc5r
-	pOki6hGxi/6NwKMiDYnG08j2RQRl1j8wgooN/susqB1jo8wBye64eGKVfG/D8UZPfhNP
-	nFrw==
-X-Gm-Message-State: AMke39nXWgdA54PFf0x2vnJQd/kD2vBGgmzvugweoZcZ+iyBxUHE5Iti6VzUzzqOqk8TjrdOLQThjOnMszs6HQ==
-X-Received: by 10.31.212.135 with SMTP id l129mr12313049vkg.134.1487719245008; 
-	Tue, 21 Feb 2017 15:20:45 -0800 (PST)
+	Tue, 21 Feb 2017 17:44:32 -0800 (PST)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 21 Feb 2017 17:44:30 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 21 Feb 2017 17:44:25 -0800
+Message-ID: <cover.1487727826.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.11.0.rc2.dirty
 MIME-Version: 1.0
-Received: by 10.176.71.72 with HTTP; Tue, 21 Feb 2017 15:20:44 -0800 (PST)
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Date: Wed, 22 Feb 2017 00:20:44 +0100
-Message-ID: <CALbNGRQCTBqEUiByii0LFY7=Kw07KbBNn1fy+64zuF24+g-y-A@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Task sequence question
+Subject: [PATCH 0/5] Packages upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,20 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2017 23:20:44 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 22 Feb 2017 01:44:33 -0000
+Content-Type: text/plain
 
-Hi,
+The following changes since commit def3800c7e58d9d1b54ea1df27b190a0f6d1d544:
 
-after some fixing in meta-oe it seems I am able to build some
-xfce-image again. Watching the tasks go by I noticed that do_rootfs is
-running already while many recipes still do their do_package_qa. This
-looks a bit odd to me. Not that I am happy about an early do_rootfs
-but what would happen if do_package_qa fails? Isn't that a kind of
-prerequisite for an image that do_package_qa passes for all packages
-within this image?
+  layer.conf: bump version for change in eSDK selftest behaviour (2017-02-19 09:38:59 -0800)
 
-Cheers
+are available in the git repository at:
 
-Andreas
+  git://git.openembedded.org/openembedded-core-contrib rbt/PU
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/PU
+
+Robert Yang (5):
+  strace: 4.15 -> 4.16
+  guile: 2.0.13 -> 2.0.14
+  slang: 2.3.1 -> 2.3.1a
+  ccache: 3.3.3 -> 3.3.4
+  file: 5.29 -> 5.30
+
+ .../ccache/{ccache_3.3.3.bb => ccache_3.3.4.bb}    |  6 +--
+ .../file/{file_5.29.bb => file_5.30.bb}            |  2 +-
+ .../guile/{guile_2.0.13.bb => guile_2.0.14.bb}     |  4 +-
+ .../strace/strace/Makefile-ptest.patch             | 13 +++---
+ .../strace/strace/disable-git-version-gen.patch    | 18 ++++----
+ .../strace/strace/use-asm-sgidefs.h.patch          | 51 ----------------------
+ .../strace/{strace_4.15.bb => strace_4.16.bb}      |  7 ++-
+ .../slang/{slang_2.3.1.bb => slang_2.3.1a.bb}      |  4 +-
+ 8 files changed, 27 insertions(+), 78 deletions(-)
+ rename meta/recipes-devtools/ccache/{ccache_3.3.3.bb => ccache_3.3.4.bb} (48%)
+ rename meta/recipes-devtools/file/{file_5.29.bb => file_5.30.bb} (96%)
+ rename meta/recipes-devtools/guile/{guile_2.0.13.bb => guile_2.0.14.bb} (97%)
+ delete mode 100644 meta/recipes-devtools/strace/strace/use-asm-sgidefs.h.patch
+ rename meta/recipes-devtools/strace/{strace_4.15.bb => strace_4.16.bb} (84%)
+ rename meta/recipes-extended/slang/{slang_2.3.1.bb => slang_2.3.1a.bb} (93%)
+
+-- 
+2.11.0.rc2.dirty
+
 
