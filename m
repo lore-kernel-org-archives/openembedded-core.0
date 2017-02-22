@@ -1,46 +1,22 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f174.google.com (mail-qt0-f174.google.com
-	[209.85.216.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B697730E6
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 2791C730F4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 14:48:53 +0000 (UTC)
-Received: by mail-qt0-f174.google.com with SMTP id x35so4149260qtc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 06:48:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=VzRmW9tZRrNQOtPJ0SXqKovnrOnX9X4Q+9MM6N9VGFE=;
-	b=PYUjMWVXh6DgPTeqYt034ZwCR9p+yREKV6uAhoHfYlsBY70/Aeuf+hmfxsU3zctsiD
-	LKpDWqJG+RFLdvtSFJ0r//e2aKEvhmmFzIQXI94B74BTZiEtV8Lzz1+J7u9/6UZ7AA1X
-	mpC51SfoSiyhwvnxzU6oLncm6V3JVkrh1nitISwwzeDDUE+iz2d2Mmb5r5izjcLH2hM/
-	kL4+UoPms1Rk60aoGYrfeObkuEiArS8iUAhn4NcyIT7U6aWzAVGlykf+jkygztOugiyB
-	SxOuOHtzpo1FWeVfyg1eRQPoq8XjjIo6hyQFSUArvVh9mp48qqGZp4QNVySiGOoECwxV
-	X1AQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=VzRmW9tZRrNQOtPJ0SXqKovnrOnX9X4Q+9MM6N9VGFE=;
-	b=lnOddr3mXL16LdeV4qjg/3mtq6la3V8NEOZDXbt1Pyg3r2Y3eOtKCBS8J7nikfXOiH
-	SbI/RKB3ehHaArfo1E1da8DmAqk5vwRuWEBoc/K4zp2lJgPsQBpRoUJ/7vB5aQkAYBmX
-	SQMHBpKNX0V8SUrdYwWh32HUr1cXHg/p0f8DCD1mmRnQsgWUzPVMxoRrKN3xOHacQ7bK
-	lYnXTZ1lme1xBKXeqBLOqkswK2UtBOlsxjbxDOn1zgQZAtk1c+48KDR+i0zaqtpU/BxZ
-	avLBrpvR8HMd78AdYZFY48Q0eavCmnSytNfO0VcsNHM1jfwVrfdQBOulfoEOhrSjqg1E
-	9TdQ==
-X-Gm-Message-State: AMke39lOtpw4SNwmHnJKvhyEZ7WVbFL7pxUDEkG6Ng8FJcexjidV9fzh+qzwt552ogLvOYR4LpozE6+5wEy2y1v1
-X-Received: by 10.237.53.9 with SMTP id a9mr8055442qte.188.1487774935178; Wed,
-	22 Feb 2017 06:48:55 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Wed, 22 Feb 2017 06:48:34 -0800 (PST)
-In-Reply-To: <20170203070635.30804-1-tanuk@iki.fi>
-References: <20170203070635.30804-1-tanuk@iki.fi>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 22 Feb 2017 14:48:34 +0000
-Message-ID: <CAJTo0LYdKoaFzbD2St_S3w7CAaGFXCyHDu8AXfphkeM0LvgOcw@mail.gmail.com>
-To: Tanu Kaskinen <tanuk@iki.fi>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pulseaudio: 9.0 -> 10.0
+	Wed, 22 Feb 2017 14:52:11 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Feb 2017 06:52:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.35,194,1484035200"; d="scan'208";a="51302135"
+Received: from kanavin-desktop.fi.intel.com (HELO
+	kanavin-desktop.fi.intel.comfi.intel.com) ([10.237.68.161])
+	by orsmga002.jf.intel.com with ESMTP; 22 Feb 2017 06:52:11 -0800
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Feb 2017 16:50:55 +0200
+Message-Id: <cover.1487774787.git.alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 00/24] Recipe updates and version check fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,49 +29,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2017 14:48:54 -0000
-Content-Type: multipart/alternative; boundary=001a11c0285e84a8e105491f982c
+X-List-Received-Date: Wed, 22 Feb 2017 14:52:12 -0000
 
---001a11c0285e84a8e105491f982c
-Content-Type: text/plain; charset=UTF-8
+I've skipped openssl 1.1 update (https://bugzilla.yoctoproject.org/show_bug.cgi?id=11091)
+and gperf 3.1 update (incompatible with latest libcap 2.25).
 
-On 3 February 2017 at 07:06, Tanu Kaskinen <tanuk@iki.fi> wrote:
+The following changes since commit f04f4981c1309f07b569dc953f9b2f25695eb58f:
 
-> Relase notes:
-> https://www.freedesktop.org/wiki/Software/PulseAudio/Notes/10.0/
->
+  wget.py: match .lz tarballs as well when determining latest version (2017-02-21 13:36:01 +0200)
 
-I'm seeing a new warning now:
+are available in the git repository at:
 
-WARNING: pulseaudio-10.0-r0 do_package_qa: QA Issue: ELF binary
-'/data/poky-master/tmp-glibc/work/corei7-64-poky-linux/pulseaudio/10.0-r0/packages-split/pulseaudio-server/usr/bin/pulseaudio'
-has relocations in .text [textrel]
+  git://git.yoctoproject.org/poky-contrib akanavin/package-version-updates
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/package-version-updates
 
-Would you be able to identify where this comes from?
+Alexander Kanavin (24):
+  ruby: fix upstream version check
+  zlib: fix upstream version check
+  kconfig-frontends: fetch source from git
+  sysprof: inherit upstream-version-is-even
+  libepoxy: fix upstream version check
+  libva: fix upstream version check
+  babeltrace: update to 1.5.2
+  bash-completion: update to 2.5
+  boost: update to 1.63.0
+  btrfs-tools: update to 4.9.1
+  cmake: update to 3.7.2
+  lzip: add a recipe from meta-oe
+  ed: update to 1.14.1
+  webkitgtk: update to 2.14.5
+  epiphany: update to 3.22.6
+  ffmpeg: update to 3.2.4
+  gnutls: update to 3.5.9
+  iso-codes: update to 3.74
+  kbd: update to 2.0.4
+  libiconv: remove recipe
+  libnl: update to 3.2.29
+  libwebp: update to 0.6.0
+  nss: update to 3.28.1
+  systemtap: update to 3.1
 
-Ross
+ .../kbd/{kbd_2.0.3.bb => kbd_2.0.4.bb}             |    4 +-
+ meta/recipes-core/zlib/zlib_1.2.8.bb               |    1 +
+ .../{btrfs-tools_4.8.5.bb => btrfs-tools_4.9.1.bb} |    2 +-
+ ...cmake-native_3.7.1.bb => cmake-native_3.7.2.bb} |    0
+ meta/recipes-devtools/cmake/cmake.inc              |    4 +-
+ .../cmake/{cmake_3.7.1.bb => cmake_3.7.2.bb}       |    0
+ .../kconfig-frontends_3.12.0.0.bb                  |    9 +-
+ meta/recipes-devtools/ruby/ruby.inc                |    1 +
+ .../ed/{ed_1.9.bb => ed_1.14.1.bb}                 |   12 +-
+ meta/recipes-extended/lzip/lzip_1.18.bb            |   41 +
+ .../{epiphany_3.22.3.bb => epiphany_3.22.6.bb}     |    4 +-
+ meta/recipes-graphics/libepoxy/libepoxy_1.4.0.bb   |    1 +
+ meta/recipes-graphics/libva/libva_1.7.3.bb         |    1 +
+ .../{babeltrace_1.5.1.bb => babeltrace_1.5.2.bb}   |    4 +-
+ meta/recipes-kernel/sysprof/sysprof_3.22.3.bb      |    2 +-
+ ...configure-write-a-python-location-into-th.patch |   25 +
+ .../systemtap/systemtap/fix-monitor-linking.patch  |   41 -
+ .../systemtap/systemtap/monitor-option.patch       |   26 +-
+ .../systemtap/systemtap/no-msgfmt-check.patch      |   22 +-
+ .../systemtap/obsolete_automake_macros.patch       |   15 -
+ meta/recipes-kernel/systemtap/systemtap_git.bb     |    9 +-
+ meta/recipes-kernel/systemtap/systemtap_git.inc    |    7 +-
+ .../ffmpeg/{ffmpeg_3.2.2.bb => ffmpeg_3.2.4.bb}    |    4 +-
+ .../webp/{libwebp_0.5.1.bb => libwebp_0.6.0.bb}    |    4 +-
+ .../{webkitgtk_2.14.2.bb => webkitgtk_2.14.5.bb}   |    4 +-
+ ...sh-completion_2.4.bb => bash-completion_2.5.bb} |    4 +-
+ ...bjam-native_1.62.0.bb => bjam-native_1.63.0.bb} |    0
+ .../boost/{boost-1.62.0.inc => boost-1.63.0.inc}   |    4 +-
+ ...soft-float-on-ARM-we-should-not-expect-th.patch |   29 +
+ ...execution_monitor.hpp-fix-mips-soft-float.patch |  145 -
+ .../boost/boost/consider-hardfp.patch              |   19 -
+ .../boost/{boost_1.62.0.bb => boost_1.63.0.bb}     |    3 +-
+ ...cli-args.h-to-cli-args.stamp-Makefile-tar.patch |   27 -
+ .../gnutls/0001-configure.ac-fix-sed-command.patch |   26 +-
+ .../gnutls/{gnutls_3.5.7.bb => gnutls_3.5.9.bb}    |    5 +-
+ .../{iso-codes_3.72.bb => iso-codes_3.74.bb}       |    4 +-
+ .../libiconv/libiconv-1.11.1/autoconf.patch        |   50 -
+ .../shared_preloadable_libiconv_linux.patch        |   26 -
+ .../libiconv-1.14/add-relocatable-module.patch     | 5008 --------------------
+ .../libiconv/libiconv-1.14/autoconf.patch          |   50 -
+ meta/recipes-support/libiconv/libiconv_1.11.1.bb   |   47 -
+ meta/recipes-support/libiconv/libiconv_1.14.bb     |   51 -
+ ...01-lib-add-utility-function-nl_strerror_l.patch |  146 -
+ ...to-using-strerror_l-instead-of-strerror_r.patch |  403 --
+ ...to-using-strerror_l-instead-of-strerror_r.patch |   82 -
+ .../libnl/{libnl_3.2.28.bb => libnl_3.2.29.bb}     |    7 +-
+ ... => 0001-nss-fix-support-cross-compiling.patch} |   51 +-
+ .../nss/{nss_3.27.1.bb => nss_3.28.1.bb}           |    8 +-
+ 48 files changed, 215 insertions(+), 6223 deletions(-)
+ rename meta/recipes-core/kbd/{kbd_2.0.3.bb => kbd_2.0.4.bb} (92%)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_4.8.5.bb => btrfs-tools_4.9.1.bb} (95%)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.7.1.bb => cmake-native_3.7.2.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_3.7.1.bb => cmake_3.7.2.bb} (100%)
+ rename meta/recipes-extended/ed/{ed_1.9.bb => ed_1.14.1.bb} (51%)
+ create mode 100644 meta/recipes-extended/lzip/lzip_1.18.bb
+ rename meta/recipes-gnome/epiphany/{epiphany_3.22.3.bb => epiphany_3.22.6.bb} (83%)
+ rename meta/recipes-kernel/lttng/{babeltrace_1.5.1.bb => babeltrace_1.5.2.bb} (82%)
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-Do-not-let-configure-write-a-python-location-into-th.patch
+ delete mode 100644 meta/recipes-kernel/systemtap/systemtap/fix-monitor-linking.patch
+ delete mode 100644 meta/recipes-kernel/systemtap/systemtap/obsolete_automake_macros.patch
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_3.2.2.bb => ffmpeg_3.2.4.bb} (97%)
+ rename meta/recipes-multimedia/webp/{libwebp_0.5.1.bb => libwebp_0.6.0.bb} (93%)
+ rename meta/recipes-sato/webkit/{webkitgtk_2.14.2.bb => webkitgtk_2.14.5.bb} (97%)
+ rename meta/recipes-support/bash-completion/{bash-completion_2.4.bb => bash-completion_2.5.bb} (88%)
+ rename meta/recipes-support/boost/{bjam-native_1.62.0.bb => bjam-native_1.63.0.bb} (100%)
+ rename meta/recipes-support/boost/{boost-1.62.0.inc => boost-1.63.0.inc} (84%)
+ create mode 100644 meta/recipes-support/boost/boost/0001-When-using-soft-float-on-ARM-we-should-not-expect-th.patch
+ delete mode 100644 meta/recipes-support/boost/boost/0002-boost-test-execution_monitor.hpp-fix-mips-soft-float.patch
+ delete mode 100644 meta/recipes-support/boost/boost/consider-hardfp.patch
+ rename meta/recipes-support/boost/{boost_1.62.0.bb => boost_1.63.0.bb} (82%)
+ delete mode 100644 meta/recipes-support/gnutls/gnutls/0001-Do-not-add-cli-args.h-to-cli-args.stamp-Makefile-tar.patch
+ rename meta/recipes-support/gnutls/{gnutls_3.5.7.bb => gnutls_3.5.9.bb} (52%)
+ rename meta/recipes-support/iso-codes/{iso-codes_3.72.bb => iso-codes_3.74.bb} (76%)
+ delete mode 100644 meta/recipes-support/libiconv/libiconv-1.11.1/autoconf.patch
+ delete mode 100644 meta/recipes-support/libiconv/libiconv-1.11.1/shared_preloadable_libiconv_linux.patch
+ delete mode 100644 meta/recipes-support/libiconv/libiconv-1.14/add-relocatable-module.patch
+ delete mode 100644 meta/recipes-support/libiconv/libiconv-1.14/autoconf.patch
+ delete mode 100644 meta/recipes-support/libiconv/libiconv_1.11.1.bb
+ delete mode 100644 meta/recipes-support/libiconv/libiconv_1.14.bb
+ delete mode 100644 meta/recipes-support/libnl/libnl/0001-lib-add-utility-function-nl_strerror_l.patch
+ delete mode 100644 meta/recipes-support/libnl/libnl/0002-lib-switch-to-using-strerror_l-instead-of-strerror_r.patch
+ delete mode 100644 meta/recipes-support/libnl/libnl/0003-src-switch-to-using-strerror_l-instead-of-strerror_r.patch
+ rename meta/recipes-support/libnl/{libnl_3.2.28.bb => libnl_3.2.29.bb} (80%)
+ rename meta/recipes-support/nss/nss/{nss-fix-support-cross-compiling.patch => 0001-nss-fix-support-cross-compiling.patch} (49%)
+ rename meta/recipes-support/nss/{nss_3.27.1.bb => nss_3.28.1.bb} (96%)
 
---001a11c0285e84a8e105491f982c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+-- 
+2.11.0
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 February 2017 at 07:06, Tanu Kaskinen <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:tanuk@iki.fi" target=3D"_blank">tanuk@iki.fi</a>&gt;</span> wrote:<=
-br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:soli=
-d;padding-left:1ex"><div id=3D"gmail-:7nk" class=3D"gmail-a3s gmail-aXjCH g=
-mail-m15a02cd4778c4b3c">Relase notes:<br>
-<a href=3D"https://www.freedesktop.org/wiki/Software/PulseAudio/Notes/10.0/=
-" rel=3D"noreferrer" target=3D"_blank">https://www.freedesktop.org/<wbr>wik=
-i/Software/PulseAudio/<wbr>Notes/10.0/</a></div></blockquote></div><br>I&#3=
-9;m seeing a new warning now:</div><div class=3D"gmail_extra"><br></div><di=
-v class=3D"gmail_extra">WARNING: pulseaudio-10.0-r0 do_package_qa: QA Issue=
-: ELF binary &#39;/data/poky-master/tmp-glibc/work/corei7-64-poky-linux/pul=
-seaudio/10.0-r0/packages-split/pulseaudio-server/usr/bin/pulseaudio&#39; ha=
-s relocations in .text [textrel]<br></div><div class=3D"gmail_extra"><br></=
-div><div class=3D"gmail_extra">Would you be able to identify where this com=
-es from?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
-a">Ross</div></div>
 
---001a11c0285e84a8e105491f982c--
