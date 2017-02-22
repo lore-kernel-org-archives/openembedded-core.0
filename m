@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 7172373133
+	by mail.openembedded.org (Postfix) with ESMTP id 922A5730FD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 14:52:27 +0000 (UTC)
+	Wed, 22 Feb 2017 14:52:28 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Feb 2017 06:52:29 -0800
+	22 Feb 2017 06:52:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,194,1484035200"; d="scan'208";a="51302199"
+X-IronPort-AV: E=Sophos;i="5.35,194,1484035200"; d="scan'208";a="51302204"
 Received: from kanavin-desktop.fi.intel.com (HELO
 	kanavin-desktop.fi.intel.comfi.intel.com) ([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 22 Feb 2017 06:52:28 -0800
+	by orsmga002.jf.intel.com with ESMTP; 22 Feb 2017 06:52:29 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Feb 2017 16:51:10 +0200
-Message-Id: <c8dbccfc1a699151f5f945c2b5b1ffb061b29276.1487774787.git.alexander.kanavin@linux.intel.com>
+Date: Wed, 22 Feb 2017 16:51:11 +0200
+Message-Id: <fbbd542f5bfdd5110369b840e7b4298dc033f4c1.1487774787.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1487774787.git.alexander.kanavin@linux.intel.com>
 References: <cover.1487774787.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 15/24] epiphany: update to 3.22.6
+Subject: [PATCH 16/24] ffmpeg: update to 3.2.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,32 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2017 14:52:27 -0000
+X-List-Received-Date: Wed, 22 Feb 2017 14:52:29 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../recipes-gnome/epiphany/{epiphany_3.22.3.bb => epiphany_3.22.6.bb} | 4 ++--
+ meta/recipes-multimedia/ffmpeg/{ffmpeg_3.2.2.bb => ffmpeg_3.2.4.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-gnome/epiphany/{epiphany_3.22.3.bb => epiphany_3.22.6.bb} (83%)
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_3.2.2.bb => ffmpeg_3.2.4.bb} (97%)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_3.22.3.bb b/meta/recipes-gnome/epiphany/epiphany_3.22.6.bb
-similarity index 83%
-rename from meta/recipes-gnome/epiphany/epiphany_3.22.3.bb
-rename to meta/recipes-gnome/epiphany/epiphany_3.22.6.bb
-index 78a5bc77527..651fef1bf08 100644
---- a/meta/recipes-gnome/epiphany/epiphany_3.22.3.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_3.22.6.bb
-@@ -10,8 +10,8 @@ inherit gnomebase gsettings distro_features_check upstream-version-is-even gette
- REQUIRED_DISTRO_FEATURES = "x11"
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.4.bb
+similarity index 97%
+rename from meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.2.bb
+rename to meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.4.bb
+index c376d82dfc6..6f37106a84f 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.2.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.4.bb
+@@ -16,8 +16,8 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://mips64_cpu_detection.patch \
+           "
+-SRC_URI[md5sum] = "e34d1b92c5d844f2a3611c741a6dba18"
+-SRC_URI[sha256sum] = "3f01bd1fe1a17a277f8c84869e5d9192b4b978cb660872aa2b54c3cc8a2fedfc"
++SRC_URI[md5sum] = "39fd71024ac76ba35f04397021af5606"
++SRC_URI[sha256sum] = "6e38ff14f080c98b58cf5967573501b8cb586e3a173b591f3807d8f0660daf7a"
  
- SRC_URI += "file://0001-yelp.m4-drop-the-check-for-itstool.patch"
--SRC_URI[archive.md5sum] = "bfb6347acb91163aec3883bb3397372f"
--SRC_URI[archive.sha256sum] = "a11fe3495009f776e354bcafac3ab8fc52788f5bdb9d5ee2c2f1f2f021fb49c2"
-+SRC_URI[archive.md5sum] = "e08762c6bb01c4d291b3d22c7adb1a65"
-+SRC_URI[archive.sha256sum] = "de7ea87dc450702bde620033f9e2ce807859727d007396d86b09f2b82397fcc2"
- 
- EXTRA_OECONF += " --with-distributor-name=${DISTRO}"
- 
+ # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
+ ARM_INSTRUCTION_SET = "arm"
 -- 
 2.11.0
 
