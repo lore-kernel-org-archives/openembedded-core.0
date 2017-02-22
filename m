@@ -1,26 +1,47 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D60A730DF
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 13:02:49 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Feb 2017 05:02:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,194,1484035200"; d="scan'208";a="1114107233"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Feb 2017 05:02:47 -0800
-Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 966936A4080;
-	Wed, 22 Feb 2017 05:02:45 -0800 (PST)
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Feb 2017 15:02:36 +0200
-Message-Id: <de75d26894de3de281527ee071f8cb2664a49076.1487764904.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1487764904.git.jussi.kukkonen@intel.com>
-References: <cover.1487764904.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 6/6] gdk-pixbuf: Upgrade 2.36.1 -> 2.36.5
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f176.google.com (mail-wr0-f176.google.com
+	[209.85.128.176])
+	by mail.openembedded.org (Postfix) with ESMTP id BEC3E730E0;
+	Wed, 22 Feb 2017 13:17:45 +0000 (UTC)
+Received: by mail-wr0-f176.google.com with SMTP id 97so1742242wrb.0;
+	Wed, 22 Feb 2017 05:17:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:subject:message-id:mime-version:content-disposition
+	:user-agent; bh=lXPZnRH5dTGjUKwabWjiwpl97NSh+OMLX8vqUDmIZSk=;
+	b=CoJ+3fpKfk0Phz3W1G4KmIUVq3PPvVFJrBqDA6XLFPhbHbpQg6GyZoCRcaPFS/+FTh
+	YY3vstcSVx+v2r+9LzzGi+d0Mz2MMhjyS8InmRaqXExAcQq2yi1pElRfTKEXWhaLhKxU
+	LAmV9wjN3M8wnoQ1hSCUDqIGt7vfu85KusQ47LgC4io8BQzXZcf1dgWNE6VQwamzM+KD
+	92VpLm82pRyLijobuGlptSAzbyS+Krzy+UBzJjIE0gJDsqKocox7LT1K8UneyTdvMOxy
+	k92YOlJ980FkbJ1mngxvtH2gW2x28rOyT6kAns7iz9XBS10aAoSwSVv4t3cQBCni3o5g
+	oc3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:date:to:subject:message-id:mime-version
+	:content-disposition:user-agent;
+	bh=lXPZnRH5dTGjUKwabWjiwpl97NSh+OMLX8vqUDmIZSk=;
+	b=VisYKdaS1YNQ9fIPVjBiSbZjUrD+2oeNTeuLASJKqY4OiBjYtb3hdpRvv94wwuGOdj
+	yiycpfIkItyLDkREclzeg8O2Y5uU/eYcngHoarH6O9bCwpYuXXgWyVQGtS/H/lD/koLR
+	fUWgH1Q/ikX5Z0XsPs9eEQ/AF5PWsbbxrucDC79VVxGAlxSmUiWeX7HQLo7dUfIMxr3s
+	xHkSiz6sQSUxgxtkRL8u2uKjvqOITsSM8VJWgIoBn2aaelu/O28RUXqxxUipY4ee0LhC
+	4ME9Y8VMoOLad9IPtG/vDgKUe9ixZTCQn6b0L8D/WRn8SYI4k7bwpSp6Z3a9qJw7BOSg
+	4diw==
+X-Gm-Message-State: AMke39nl+3LgQ3u7gUaqKsndUdOhhUvrdCjldjO7lcYF4zFs/V+3llNL5ojCkhIvrputIg==
+X-Received: by 10.223.129.4 with SMTP id 4mr28300514wrm.27.1487769465828;
+	Wed, 22 Feb 2017 05:17:45 -0800 (PST)
+Received: from localhost ([217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id 36sm1709617wrk.57.2017.02.22.05.17.44
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 22 Feb 2017 05:17:44 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 22 Feb 2017 14:17:45 +0100
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	openembedded-devel <openembedded-devel@lists.openembedded.org>
+Message-ID: <20170222131745.GC3283@jama>
+MIME-Version: 1.0
+User-Agent: Mutt/1.7.2 (2016-11-26)
+Subject: State of bitbake world, Failed tasks 2017-02-22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,127 +54,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2017 13:02:49 -0000
+X-List-Received-Date: Wed, 22 Feb 2017 13:17:46 -0000
+X-Groupsio-MsgNum: 93815
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="PuGuTyElPB9bOcsM"
+Content-Disposition: inline
 
-Mostly bug fix releases.
+--PuGuTyElPB9bOcsM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Generating the thumbnailer metadata now requires running yet another
-tool at build time. This is broken for cross-compiling, add a
-work-around.
+Big thanks to Andreas who sent most of the fixes!
 
-Add gdk-pixbuf-native to DEPENDS to make the above workaround possible:
-We already build gdk-pixbuf-native anyway so this is not a huge deal.
+I've dropped only the last unblacklist for mpd which is still failing,
+will try it now with unblacklist, but without the version upgrade.
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
- ...-around-thumbnailer-cross-compile-failure.patch | 47 ++++++++++++++++++++++
- .../{gdk-pixbuf_2.36.1.bb => gdk-pixbuf_2.36.5.bb} | 12 ++++--
- 2 files changed, 55 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Work-around-thumbnailer-cross-compile-failure.patch
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.36.1.bb => gdk-pixbuf_2.36.5.bb} (88%)
+=3D=3D Number of issues - stats =3D=3D
+{| class=3D'wikitable'
+!|Date		     !!colspan=3D'3'|Failed tasks			    !!colspan=3D'6'|Failed depe=
+ncencies			 !!|Signatures		  !!colspan=3D'12'|QA !!Comment
+|-
+||		||qemuarm	||qemux86	||qemux86_64	||qemuarm||max||min	||qemux86||max||mi=
+n	||all 	||already-stripped	||libdir	||textrel	||build-deps	||file-rdeps	||=
+version-going-backwards	||host-user-contaminated	||installed-vs-shipped	||u=
+nknown-configure-option	||symlink-to-sysroot	||invalid-pkgconfig	||pkgname	=
+||=09
+|-
+||2017-02-22	||4	||3	||2	||N/A	||N/A	||N/A	||N/A	||N/A	||N/A	||0	||0		||0		=
+||0		||0		||0		||112		||0		||0		||0		||0		||0		||0		||=09
+|}
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Work-around-thumbnailer-cross-compile-failure.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Work-around-thumbnailer-cross-compile-failure.patch
-new file mode 100644
-index 0000000..31ed988
---- /dev/null
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Work-around-thumbnailer-cross-compile-failure.patch
-@@ -0,0 +1,47 @@
-+From 6646e8aadc4030d891ac27c25494e5793d59dc85 Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Wed, 22 Feb 2017 11:24:39 +0200
-+Subject: [PATCH] Work-around thumbnailer cross-compile failure
-+
-+Install gdk-pixbuf-print-mime-types that's needed for thumbnail
-+metadata generation.
-+
-+Use native gdk-pixbuf-print-mime-types when generating the thumbnail
-+metadata. This works but the mime types will come from native
-+loader.cache (which will only contain in-tree loaders), not from the
-+target loader.cache.
-+
-+The upstream issue is https://bugzilla.gnome.org/show_bug.cgi?id=779057
-+
-+Upstream-Status: Inappropriate [workaround]
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+---
-+ thumbnailer/Makefile.am | 7 +++----
-+ 1 file changed, 3 insertions(+), 4 deletions(-)
-+
-+diff --git a/thumbnailer/Makefile.am b/thumbnailer/Makefile.am
-+index c9fe123..b0c6c70 100644
-+--- a/thumbnailer/Makefile.am
-++++ b/thumbnailer/Makefile.am
-+@@ -1,5 +1,4 @@
-+-bin_PROGRAMS = gdk-pixbuf-thumbnailer
-+-noinst_PROGRAMS = gdk-pixbuf-print-mime-types
-++bin_PROGRAMS = gdk-pixbuf-thumbnailer gdk-pixbuf-print-mime-types
-+ 
-+ gdk_pixbuf_thumbnailer_SOURCES = gdk-pixbuf-thumbnailer.c gnome-thumbnailer-skeleton.c gnome-thumbnailer-skeleton.h
-+ gdk_pixbuf_thumbnailer_CPPFLAGS =			\
-+@@ -25,9 +24,9 @@ gdk_pixbuf_print_mime_types_LDADD =			\
-+ 
-+ thumbnailerdir = $(datadir)/thumbnailers/
-+ thumbnailer_DATA = gdk-pixbuf-thumbnailer.thumbnailer
-+-gdk-pixbuf-thumbnailer.thumbnailer: gdk-pixbuf-thumbnailer.thumbnailer.in Makefile gdk-pixbuf-print-mime-types$(EXEEXT) $(top_builddir)/gdk-pixbuf/loaders.cache
-++gdk-pixbuf-thumbnailer.thumbnailer: gdk-pixbuf-thumbnailer.thumbnailer.in Makefile gdk-pixbuf-print-mime-types$(EXEEXT)
-+ 	$(AM_V_GEN) $(SED) -e "s|\@bindir\@|$(bindir)|"						\
-+-	-e "s|\@mimetypes\@|`GDK_PIXBUF_MODULE_FILE=$(top_builddir)/gdk-pixbuf/loaders.cache GDK_PIXBUF_PIXDATA=$(top_builddir)/gdk-pixbuf/gdk-pixbuf-pixdata $(builddir)/gdk-pixbuf-print-mime-types`|" \
-++	-e "s|\@mimetypes\@|`gdk-pixbuf-print-mime-types`|" \
-+ 	$< > $@
-+ 
-+ EXTRA_DIST = gdk-pixbuf-thumbnailer.thumbnailer.in
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.1.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.5.bb
-similarity index 88%
-rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.1.bb
-rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.5.bb
-index 98e5090..5d42697 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.1.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.5.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
- 
- SECTION = "libs"
- 
--DEPENDS = "glib-2.0"
-+DEPENDS = "glib-2.0 gdk-pixbuf-native"
- 
- MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- 
-@@ -17,10 +17,10 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://extending-libinstall-dependencies.patch \
-            file://run-ptest \
-            file://fatal-loader.patch \
-+           file://0001-Work-around-thumbnailer-cross-compile-failure.patch \
-            "
--
--SRC_URI[md5sum] = "fe30b0420e013f2c4590ae6226d895d4"
--SRC_URI[sha256sum] = "9d5ba72070460c1b5b74115d395a3e33daeb7b7b67fb256cdccc9d7187c42a38"
-+SRC_URI[md5sum] = "0173fd5c11a5d2030d09201090636477"
-+SRC_URI[sha256sum] = "7ace06170291a1f21771552768bace072ecdea9bd4a02f7658939b9a314c40fc"
- 
- inherit autotools pkgconfig gettext pixbufcache ptest-gnome upstream-version-is-even gobject-introspection gtk-doc lib_package
- 
-@@ -53,6 +53,7 @@ FILES_${PN}-bin += "${datadir}/thumbnailers/gdk-pixbuf-thumbnailer.thumbnailer"
- FILES_${PN}-dev += " \
- 	${bindir}/gdk-pixbuf-csource \
- 	${bindir}/gdk-pixbuf-pixdata \
-+        ${bindir}/gdk-pixbuf-print-mime-types \
- 	${includedir}/* \
- 	${libdir}/gdk-pixbuf-2.0/${LIBV}/loaders/*.la \
- "
-@@ -88,6 +89,9 @@ do_install_append_class-native() {
- 	create_wrapper ${D}/${bindir}/gdk-pixbuf-pixdata \
- 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache
- 
-+	create_wrapper ${D}/${bindir}/gdk-pixbuf-print-mime-types \
-+		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache
-+
- 	create_wrapper ${D}/${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders \
- 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache \
- 		GDK_PIXBUF_MODULEDIR=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders
--- 
-2.1.4
+http://www.openembedded.org/wiki/Bitbake_World_Status
+
+=3D=3D Failed tasks 2017-02-22 =3D=3D
+
+INFO: jenkins-job.sh-1.8.18 Complete log available at http://logs.nslu2-lin=
+ux.org/buildlogs/oe/world/pyro/log.report.20170222_030938.log
+
+=3D=3D=3D common (2) =3D=3D=3D
+    * openembedded-core/meta/recipes-extended/parted/parted_3.2.bb:do_compi=
+le_ptest_base
+    * openembedded-core/meta/recipes-support/apr/apr_1.5.2.bb:do_compile_pt=
+est_base
+
+=3D=3D=3D common-x86 (0) =3D=3D=3D
+
+=3D=3D=3D qemuarm (2) =3D=3D=3D
+    * meta-openembedded/meta-multimedia/recipes-multimedia/musicpd/mpd_0.20=
+=2E4.bb:do_compile
+    * meta-openembedded/meta-oe/recipes-devtools/android-tools/android-tool=
+s_5.1.1.r37.bb:do_compile
+
+=3D=3D=3D qemux86 (1) =3D=3D=3D
+    * meta-browser/recipes-browser/chromium/chromium-wayland_53.0.2785.143.=
+bb:do_compile
+
+=3D=3D=3D qemux86_64 (0) =3D=3D=3D
+
+=3D=3D=3D Number of failed tasks (9) =3D=3D=3D
+{| class=3Dwikitable
+|-
+|| qemuarm 	|| 4	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/lo=
+g.world.qemuarm.20170222_001759.log/ || http://errors.yoctoproject.org/Erro=
+rs/Build/32807/
+|-
+|| qemux86 	|| 3	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/lo=
+g.world.qemux86.20170222_001805.log/ || http://errors.yoctoproject.org/Erro=
+rs/Build/32808/
+|-
+|| qemux86_64 	|| 2	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro=
+/log.world.qemux86-64.20170222_014051.log/ || http://errors.yoctoproject.or=
+g/Errors/Build/32809/
+|}
+
+=3D=3D=3D PNBLACKLISTs (381) =3D=3D=3D
+
+=3D=3D=3D QA issues (112) =3D=3D=3D
+{| class=3Dwikitable
+!| Count		||Issue
+|-
+||0	||already-stripped
+|-
+||0	||build-deps
+|-
+||0	||file-rdeps
+|-
+||0	||host-user-contaminated
+|-
+||0	||installed-vs-shipped
+|-
+||0	||invalid-pkgconfig
+|-
+||0	||libdir
+|-
+||0	||pkgname
+|-
+||0	||symlink-to-sysroot
+|-
+||0	||textrel
+|-
+||0	||unknown-configure-option
+|-
+||112	||version-going-backwards
+|}
 
 
+
+=3D=3D=3D Incorrect PACKAGE_ARCH or sstate signatures (0) =3D=3D=3D
+
+Complete log: http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.signa=
+tures.20170222_013010.log/
+
+No issues detected
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--PuGuTyElPB9bOcsM
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWK2PeAAKCRA3VSO3ZXaA
+HOsGAJ9YdsrIV3UIws0DirOpTuYSmDi8wACglP5XvJgMOkfb8wZGgbq3kMvGHJ0=
+=cdVj
+-----END PGP SIGNATURE-----
+
+--PuGuTyElPB9bOcsM--
