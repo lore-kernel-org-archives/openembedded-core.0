@@ -1,24 +1,26 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C3A8172F3E
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BAE4E72F3E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 06:49:54 +0000 (UTC)
+	Wed, 22 Feb 2017 06:49:55 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v1M6ntgb021859
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v1M6nur6013864
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 22:49:55 -0800 (PST)
+	Tue, 21 Feb 2017 22:49:56 -0800 (PST)
 Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 21 Feb 2017 22:49:54 -0800
+	14.3.294.0; Tue, 21 Feb 2017 22:49:55 -0800
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Feb 2017 14:41:54 +0800
-Message-ID: <cover.1487745605.git.jackie.huang@windriver.com>
+Date: Wed, 22 Feb 2017 14:41:55 +0800
+Message-ID: <56531decac343300f5eceddceba72ed68c11eff2.1487745605.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 2.8.3
+In-Reply-To: <cover.1487745605.git.jackie.huang@windriver.com>
+References: <cover.1487745605.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] systemd: fixes for debug-shell service
+Subject: [PATCH 1/2] initscripts: split sushell into sub package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,24 +38,42 @@ Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
 
---
-The following changes since commit e436a6398684d2872cb541f1cfb0f67b3618d15a:
+* sushell is required by systemd service debug-shell
+  when selinux is enabled, but it doesn't make sense
+  to make systemd depend on initscripts, so split sushell
+  into sub package initscripts-sushell.
 
-  layer.conf: bump version for change in eSDK selftest behaviour (2017-02-19 09:39:03 -0800)
+* The bash dependency has been removed by:
+  '''
+  4917e36a77bd6821b45db52caa43939d344d92f6
+  initscripts: Fix regression for requiring /bin/bash
+  '''
+  so remove bash from RDEPENDS when selinux is enabled.
 
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib.git jhuang0/d_debug-shell_170222_1
-  http://git.pokylinux.org/cgit.cgi//log/?h=jhuang0/d_debug-shell_170222_1
-
-Jackie Huang (2):
-  initscripts: split sushell into sub package
-  systemd: add dependency on initscripts-sushell for selinux
-
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
  meta/recipes-core/initscripts/initscripts_1.0.bb | 5 +++--
- meta/recipes-core/systemd/systemd_232.bb         | 2 +-
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+index 2e4f7e4..7e01572 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -46,11 +46,12 @@ inherit update-alternatives
+ DEPENDS_append = " update-rc.d-native"
+ PACKAGE_WRITE_DEPS_append = " ${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd-systemctl-native','',d)}"
+ 
+-PACKAGES =+ "${PN}-functions"
++PACKAGES =+ "${PN}-functions ${PN}-sushell"
+ RDEPENDS_${PN} = "${PN}-functions \
+-                  ${@bb.utils.contains('DISTRO_FEATURES','selinux','bash','',d)} \
++                  ${@bb.utils.contains('DISTRO_FEATURES','selinux','${PN}-sushell','',d)} \
+ 		 "
+ FILES_${PN}-functions = "${sysconfdir}/init.d/functions*"
++FILES_${PN}-sushell = "${base_sbindir}/sushell"
+ 
+ ALTERNATIVE_PRIORITY_${PN}-functions = "90"
+ ALTERNATIVE_${PN}-functions = "functions"
 -- 
 2.8.3
 
