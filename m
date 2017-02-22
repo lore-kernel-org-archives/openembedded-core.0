@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 0267E73144
+	by mail.openembedded.org (Postfix) with ESMTP id 48C7B73152
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 14:52:30 +0000 (UTC)
+	Wed, 22 Feb 2017 14:52:32 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Feb 2017 06:52:32 -0800
+	22 Feb 2017 06:52:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,194,1484035200"; d="scan'208";a="51302218"
+X-IronPort-AV: E=Sophos;i="5.35,194,1484035200"; d="scan'208";a="51302230"
 Received: from kanavin-desktop.fi.intel.com (HELO
 	kanavin-desktop.fi.intel.comfi.intel.com) ([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 22 Feb 2017 06:52:31 -0800
+	by orsmga002.jf.intel.com with ESMTP; 22 Feb 2017 06:52:33 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Feb 2017 16:51:13 +0200
-Message-Id: <982b1817eaaea9ffc91f1a1c0a2e03e3b5354d2e.1487774787.git.alexander.kanavin@linux.intel.com>
+Date: Wed, 22 Feb 2017 16:51:14 +0200
+Message-Id: <8fb6639bb1924624d2e8c123594bdc44396c3b65.1487774787.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1487774787.git.alexander.kanavin@linux.intel.com>
 References: <cover.1487774787.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 18/24] iso-codes: update to 3.74
+Subject: [PATCH 19/24] kbd: update to 2.0.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,32 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2017 14:52:31 -0000
+X-List-Received-Date: Wed, 22 Feb 2017 14:52:32 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../iso-codes/{iso-codes_3.72.bb => iso-codes_3.74.bb}                | 4 ++--
+ meta/recipes-core/kbd/{kbd_2.0.3.bb => kbd_2.0.4.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/iso-codes/{iso-codes_3.72.bb => iso-codes_3.74.bb} (76%)
+ rename meta/recipes-core/kbd/{kbd_2.0.3.bb => kbd_2.0.4.bb} (92%)
 
-diff --git a/meta/recipes-support/iso-codes/iso-codes_3.72.bb b/meta/recipes-support/iso-codes/iso-codes_3.74.bb
-similarity index 76%
-rename from meta/recipes-support/iso-codes/iso-codes_3.72.bb
-rename to meta/recipes-support/iso-codes/iso-codes_3.74.bb
-index 8fe7ad2512a..c436a1dd2bc 100644
---- a/meta/recipes-support/iso-codes/iso-codes_3.72.bb
-+++ b/meta/recipes-support/iso-codes/iso-codes_3.74.bb
-@@ -3,8 +3,8 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-core/kbd/kbd_2.0.3.bb b/meta/recipes-core/kbd/kbd_2.0.4.bb
+similarity index 92%
+rename from meta/recipes-core/kbd/kbd_2.0.3.bb
+rename to meta/recipes-core/kbd/kbd_2.0.4.bb
+index 54d16835fce..acecfd049a6 100644
+--- a/meta/recipes-core/kbd/kbd_2.0.3.bb
++++ b/meta/recipes-core/kbd/kbd_2.0.4.bb
+@@ -15,8 +15,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/${BP}.tar.xz \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'file://set-proper-path-of-resources.patch', '', d)} \
+           "
  
- SRC_URI = "https://pkg-isocodes.alioth.debian.org/downloads/iso-codes-${PV}.tar.xz"
--SRC_URI[md5sum] = "423fdab41c2c40555b2edaddd64f129e"
--SRC_URI[sha256sum] = "d0bd4785c3ec564a966c5792a4e15d119bf1c4dda10e2e60ce9107da1acc44c7"
-+SRC_URI[md5sum] = "d5448475d087756b78391b8c53c5b83a"
-+SRC_URI[sha256sum] = "21f4f3cea8fe09f5b53784522303a0e1e7d083964ecaf1c75b1441d4d9ec6aee"
+-SRC_URI[md5sum] = "231b46e7142eb41ea3ae06d2ded3c208"
+-SRC_URI[sha256sum] = "7a899de1c0eb75f3aea737095a736f2375e1cbfbe693fc14a3fe0bfb4649fb5e"
++SRC_URI[md5sum] = "c1635a5a83b63aca7f97a3eab39ebaa6"
++SRC_URI[sha256sum] = "5fd90af6beb225a9bb9b9fb414c090fba53c9a55793e172f508cd43652e59a88"
  
- # inherit gettext cannot be used, because it adds gettext-native to BASEDEPENDS which
- # are inhibited by allarch
+ PACKAGECONFIG ?= "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
+ PACKAGECONFIG[pam] = "--enable-vlock, --disable-vlock, libpam,"
 -- 
 2.11.0
 
