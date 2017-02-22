@@ -1,23 +1,47 @@
-Return-Path: <amarnath.valluri@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id E2DD573047
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CE91730A8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 08:28:03 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Feb 2017 00:28:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,193,1484035200"; d="scan'208";a="1114018158"
-Received: from avallurigigabyte.fi.intel.com ([10.237.72.170])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Feb 2017 00:28:03 -0800
-From: Amarnath Valluri <amarnath.valluri@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Feb 2017 10:27:22 +0200
-Message-Id: <1487752042-19804-51-git-send-email-amarnath.valluri@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1487752042-19804-1-git-send-email-amarnath.valluri@intel.com>
-References: <1487752042-19804-1-git-send-email-amarnath.valluri@intel.com>
-Subject: [PATCH v2 25/25] insane.bbclass: Add package QA check for merged /usr.
+	Wed, 22 Feb 2017 09:34:25 +0000 (UTC)
+Received: by mail-qk0-f173.google.com with SMTP id u188so4456850qkc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Feb 2017 01:34:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=PS9tRgDLWHdE+rWDlx3dcnJczb+0w2nhn9XaJB4xLFc=;
+	b=BjDykZ58F9Ldea6CubMLexZLHNmq8M7Rs2JZxXuHgHDb81OvluXD/s7YR0lLx0TLOb
+	MZrOCQyz3ASJkjvdy5cqRKI3apw5xom51IFF177j2ZluSLmoYC9sNu82b1wtiNWXbAas
+	bT91AW/vfpBmrHy2C0yn1sPZgTF19R3GK7QcqZzhoOUfF7fFRGW4jnRd0x1HEICqXNnY
+	O438+qj2JMHuY5Heg/0Iq094q0oPHgK7lCBmq7eKRZNPvcai7d73OnkTxiY+SlEwW74N
+	zkQ52M/3s7rcaLOYSDvq/rsZ5GHnU/uTGiptxm232tRXh4h2nQqofihW5eLX27cIvYmn
+	CnxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=PS9tRgDLWHdE+rWDlx3dcnJczb+0w2nhn9XaJB4xLFc=;
+	b=fnWPq10wpGX5xK70lJ+cM1bOoJsWnQAmF75EtXUkceKT7geiwTqglIvjBvuLbp3aBF
+	nYAAXokrTJO9oDMHS+onzItn64Tip2/Mcr2hTM5Ozp62pBAPdhgHZu8K0cN5Nks6/nRE
+	5HBopQdLWcnmjAsOfbCg9sI8BCpLzpaBR0f4hlCeTupgHT5yh7T0wrxK/CXnm5KVl1dU
+	XnBdocBtESgEvUAJlUnWyWXHpmXGOLayj0jaNxxCfmInhuR+5BhKmYwVlCcWyZffLeyf
+	+117uvtOQOCHJcow2korb8+yRW4gTLGaQ6ZmhMRtHqscyenXs2iqSpwC0dNrsKACvI+m
+	blzw==
+X-Gm-Message-State: AMke39mH0twUVs1XzoEHM2rV0v5+nUvVi+JSWvbhJMTaXKFhgO4/CZR/zXuSMNsumM00vZyMPoT9ByRDSuDZcwdW
+X-Received: by 10.55.1.134 with SMTP id u6mr34402807qkg.36.1487756066769; Wed,
+	22 Feb 2017 01:34:26 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.103.233 with HTTP; Wed, 22 Feb 2017 01:34:06 -0800 (PST)
+In-Reply-To: <1487748860-2427-1-git-send-email-liu.ming50@gmail.com>
+References: <1487748860-2427-1-git-send-email-liu.ming50@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 22 Feb 2017 09:34:06 +0000
+Message-ID: <CAJTo0LajXZpED9Eg7V20mbx5EBVv4hqzhZL8OR2=6=KrQFQ6jw@mail.gmail.com>
+To: Ming Liu <liu.ming50@gmail.com>
+Cc: Ming Liu <peter.x.liu@external.atlascopco.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] python-native: extend RPROVIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,58 +54,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2017 08:28:04 -0000
+X-List-Received-Date: Wed, 22 Feb 2017 09:34:26 -0000
+Content-Type: multipart/alternative; boundary=001a114046c4df6a7205491b3333
 
-This check makes sure that, when usrmerge distro feature enabled, no package
-installs files to root (/bin, /sbin, /lib, /lib64) folders.
+--001a114046c4df6a7205491b3333
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
----
- meta/classes/insane.bbclass | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+On 22 February 2017 at 07:34, <liu.ming50@gmail.com> wrote:
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index e8e54f0..011eb99 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -40,6 +40,9 @@ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             version-going-backwards expanded-d invalid-chars \
-             license-checksum dev-elf \
-             "
-+# Add usrmerge QA check based on distro feature	    
-+ERROR_QA_append = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', ' usrmerge', '', d)}"
-+
- FAKEROOT_QA = "host-user-contaminated"
- FAKEROOT_QA[doc] = "QA tests which need to run under fakeroot. If any \
- enabled tests are listed here, the do_package_qa task will run under fakeroot."
-@@ -1035,6 +1038,18 @@ def package_qa_check_deps(pkg, pkgdest, skip, d):
-     check_valid_deps('RREPLACES')
-     check_valid_deps('RCONFLICTS')
- 
-+QAPKGTEST[usrmerge] = "package_qa_check_usrmerge"
-+def package_qa_check_usrmerge(pkg, d, messages):
-+    pkgdest = d.getVar('PKGDEST')
-+    pkg_dir = pkgdest + os.sep + pkg + os.sep
-+    merged_dirs = ['bin', 'sbin', 'lib'] + d.getVar('MULTILIB_VARIANTS').split()
-+    for f in merged_dirs:
-+        if os.path.exists(pkg_dir + f) and not os.path.islink(pkg_dir + f):
-+            msg = "%s package is not obeying usrmerge distro feature. /%s should be relocated to /usr." % (pkg, f)
-+            package_qa_add_message(messages, "usrmerge", msg)
-+            return False
-+    return True
-+
- QAPKGTEST[expanded-d] = "package_qa_check_expanded_d"
- def package_qa_check_expanded_d(package, d, messages):
-     """
-@@ -1108,6 +1123,7 @@ def package_qa_check_host_user(path, name, d, elf, messages):
-             return False
-     return True
- 
-+
- # The PACKAGE FUNC to scan each package
- python do_package_qa () {
-     import subprocess
--- 
-2.7.4
+> Let RPROVIDES include identical packages as listed in PROVIDES of
+> python-2.7-manifest.inc, to satisfy the native runtime requirement
+> on python-native.
+>
 
+How about changing the script so that the generated manifest also contains
+the RPROVIDES?
 
+Ross
+
+--001a114046c4df6a7205491b3333
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 February 2017 at 07:34,  <span dir=3D"ltr">&lt;<a href=3D"mailto:liu.=
+ming50@gmail.com" target=3D"_blank">liu.ming50@gmail.com</a>&gt;</span> wro=
+te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
+left:1px #ccc solid;padding-left:1ex"><div id=3D":2as" class=3D"a3s aXjCH m=
+15a64bf84c60fb79">Let RPROVIDES include identical packages as listed in PRO=
+VIDES of<br>
+python-2.7-manifest.inc, to satisfy the native runtime requirement<br>
+on python-native.</div></blockquote></div><br>How about changing the script=
+ so that the generated manifest also contains the RPROVIDES?</div><div clas=
+s=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a114046c4df6a7205491b3333--
