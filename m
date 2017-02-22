@@ -1,25 +1,45 @@
-Return-Path: <amarnath.valluri@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id BE85973049
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 909A673050
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 08:26:59 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Feb 2017 00:27:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,193,1484035200"; d="scan'208";a="1114017599"
-Received: from avallurigigabyte.fi.intel.com ([10.237.72.170])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Feb 2017 00:27:00 -0800
-From: Amarnath Valluri <amarnath.valluri@intel.com>
+	Wed, 22 Feb 2017 08:27:00 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id v77so980572wmv.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Feb 2017 00:27:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=d7b853AXfwR1YGHr4KBK7MDVMXtrtDQFhmrRNOibz+A=;
+	b=GN9A8lVvLpg8JtRSc34KMDFWEnKZb/JOp8vPOvB1Vam4/vtJzxMyRHav8ep5zl0bnQ
+	Rl3hA3qwd5p0WiDi1yeH6VVKhZM6P9ZjyVZ408Y2B8yWQ999wqkmnZkxAlN5iHXULXKS
+	c8dIf9u2piuUpfiexcEnPHzeHI1/pjULGPdW5QzE/bO5dIShgjDLUVrTW8Kx2q3Q7Sct
+	oPWzWHtX/jOjPjUnYS/GqdDPywPsvv3A37TLnRr9hJGrB/ZiRxS1z928zEw/oLX+MYgv
+	AX1EA4ARtjlTp8VDcTRgBccJ7XruwQUfFRyyygGMYbqQLaH9/ry6v5apnBw9ugcAsY15
+	C7Mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=d7b853AXfwR1YGHr4KBK7MDVMXtrtDQFhmrRNOibz+A=;
+	b=GTVriX5vxO2IwRc/TOs8zvu2OTYjxaCZ3ja2UPDvdDeA0aCDBmBd+OR0tNsI9sO1I7
+	cWXLEjmV0GXOfrs6kg9aqh7SI7WEnr6KuVEwwb5twnfH4mTyimpWmLCDt5J/HyvJFvN+
+	ueDCI/WrbGhrKacc/fgmkhO44Dy6+9kc51YUBv2Ar/f6HItTW3vPGSsB0BGzVoDAGGpN
+	vDRLbSMYZWfUtzCDg+VunjBeuqD2+FjYPEnDNvA0qwFeymd4utXCptPOfLTw5iJvWMvO
+	5a3jlKATf7o06jkeuMjycd4OVpeJzGQFPx5TS9AmxDhyxQ/KP88CWcgmWG5zqMBVR1Qf
+	+m+g==
+X-Gm-Message-State: AMke39lKbR4h/MJ+IWMd3WbLbj5HCnQJ006me5h7AgrSPGgdDieaA2FB7UBUJjPBpNnlVQ==
+X-Received: by 10.28.65.196 with SMTP id o187mr1132644wma.37.1487752020836;
+	Wed, 22 Feb 2017 00:27:00 -0800 (PST)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([117.136.38.175]) by smtp.gmail.com with ESMTPSA id
+	i73sm1565818wmd.11.2017.02.22.00.26.57
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 22 Feb 2017 00:27:00 -0800 (PST)
+From: liu.ming50@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Feb 2017 10:26:34 +0200
-Message-Id: <1487752042-19804-3-git-send-email-amarnath.valluri@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1487752042-19804-1-git-send-email-amarnath.valluri@intel.com>
-References: <1487752042-19804-1-git-send-email-amarnath.valluri@intel.com>
-In-Reply-To: <1486734151-28331-1-git-send-email-amarnath.valluri@intel.com>
-References: <1486734151-28331-1-git-send-email-amarnath.valluri@intel.com>
-Subject: [PATCH v2 03/25] cross.bbclass: merged /usr support
+Date: Wed, 22 Feb 2017 09:26:49 +0100
+Message-Id: <1487752009-17958-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: [PATCH] python-pexpect: BBCLASSEXTEND to native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,30 +52,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2017 08:26:59 -0000
+X-List-Received-Date: Wed, 22 Feb 2017 08:27:00 -0000
 
-When 'usrmerge' distro feature enabled match target_base_libdir to ${target_libdir}.
+From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
+Some developers might need it.
+
+Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
 ---
- meta/classes/cross.bbclass | 2 +-
+ meta/recipes-devtools/python/python-pexpect_4.2.1.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
-index 2602153..c8ef3a5 100644
---- a/meta/classes/cross.bbclass
-+++ b/meta/classes/cross.bbclass
-@@ -48,8 +48,8 @@ SSTATE_SCAN_CMD ?= "${SSTATE_SCAN_CMD_NATIVE}"
- target_base_prefix := "${base_prefix}"
- target_prefix := "${prefix}"
- target_exec_prefix := "${exec_prefix}"
--target_base_libdir = "${target_base_prefix}/${baselib}"
- target_libdir = "${target_exec_prefix}/${baselib}"
-+target_base_libdir = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', '${target_libdir}', '${target_base_prefix}/${baselib}', d)}"
- target_includedir := "${includedir}"
+diff --git a/meta/recipes-devtools/python/python-pexpect_4.2.1.bb b/meta/recipes-devtools/python/python-pexpect_4.2.1.bb
+index 95a0790..1321797 100644
+--- a/meta/recipes-devtools/python/python-pexpect_4.2.1.bb
++++ b/meta/recipes-devtools/python/python-pexpect_4.2.1.bb
+@@ -25,4 +25,4 @@ RDEPENDS_${PN} = "\
+     python-ptyprocess \
+ "
  
- # Overrides for paths
+-BBCLASSEXTEND = "nativesdk"
++BBCLASSEXTEND = "native nativesdk"
 -- 
-2.7.4
+1.9.1
 
 
