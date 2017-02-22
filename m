@@ -1,47 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AE8A730B1
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id A5D7A730AB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 12:02:16 +0000 (UTC)
-Received: by mail-qk0-f169.google.com with SMTP id u188so355310qkc.2
+	Wed, 22 Feb 2017 12:45:14 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id s27so220576wrb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 04:02:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=1hdzXFluMeoxmvoI09lYLvsrr59qjyRYIy/DJEMFzz8=;
-	b=bU1rAcARhyG+4f1texfMA5ElYp2zUxqoF1jcq+/JeFXPQP1atfK1vJkygXyA1nDYNP
-	+kgoU8JCZsci72pbHu47exUx2ShomfVKUkmkFFNF+5Nrwjrv4+w8pfTfO5DC0+aq9bw7
-	tM4hZg+6GJ0p2IhffI4EttTN+Y++wRmd8YX8PE2irZR1g1+nYO915IVoaR6S00efRktN
-	zLl4QI1JA8fcbMopsyy+E+ws5Ntngu7Vw4gKNodfLbg/O6ZeINGFtLKgYhpdSEVmz82e
-	TN7Szm8tJgpMgAiXypprxZt15XJvHYkhsltug9Xe73yzI50VA8UXGPVIn6YU1Sc14egA
-	xs1A==
+	Wed, 22 Feb 2017 04:45:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=d7b853AXfwR1YGHr4KBK7MDVMXtrtDQFhmrRNOibz+A=;
+	b=jPx5LTmqz5/1hY6Alj0E7ermGEi/7wt0JxPxfRZNWO+NDuG5xgH7gz4VTFyH7DC+6C
+	/mhKpxlDJamooA8CsZxG3Y3l3LLsSiJIuD2KrLTLib+LrK4+X+8L8kMdVNro3Sy5NMKV
+	fOYYpvSCGMgznXoJCBY0n0aNHdDTeY3eJ6V6aBUWxbJxpFvpoT0pkXX8L8kMpkCow2i/
+	or7RR6ol0Y1KSKYnC2N+T/qBo7MyzAEms2yGDySZdztZ/e+VI0pArP/QqjUrLNBP4wgJ
+	dkffWSMpKlCKY9JnJejX8W8BdUYOJW1lAsubLBAX4+DY0j5Hfai1PhXvoI5D3S+WvBbQ
+	80sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=1hdzXFluMeoxmvoI09lYLvsrr59qjyRYIy/DJEMFzz8=;
-	b=tbeehFkBiJgBtTOmm1QvDtonlYbTxccZ1+4Y+dnDEV91Bug7OAEvuCbh80UAFHlG4C
-	T39E5m+zRvK4+F9anyr4/klkm+gOjbu5jNWSf3heo0STGtUcNp/9OvzrnFhEkEqJMfqU
-	cPmdrbKds337Z0Kb75YorJzKi7OjwrL+gTNlYqx1FWvQPECaEZeIB7k2dg4fqPL94Bro
-	FN1s8VbY6Dbm5ENBcPyhzwqnfYJ2cCK4F3RbSFlrAVNBeOVgsLo3tST35LblFRiVj5Bz
-	ghhQy4TdPLlYrMW3gaKXgTGHZe9mpIl0AK84qbsIHy40N9hh6dCD7ffkvs+Psq6xoPvo
-	raOg==
-X-Gm-Message-State: AMke39kqk+TzpyaKLMxVHpUe4UVsJDXgN5jZpSaSHPJ3HOA3ppn2DomfiEOFY0p6lFORVxO0srItTeZdXl1/4Z9d
-X-Received: by 10.55.40.27 with SMTP id o27mr28428371qkh.221.1487764937783;
-	Wed, 22 Feb 2017 04:02:17 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Wed, 22 Feb 2017 04:01:57 -0800 (PST)
-In-Reply-To: <1487761949-13456-1-git-send-email-ed.bartosh@linux.intel.com>
-References: <CA+chaQegXmqfE=3TmnYXvLdCW00QpinkXk=L27OQS5-1DnJYAQ@mail.gmail.com>
-	<1487761949-13456-1-git-send-email-ed.bartosh@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 22 Feb 2017 12:01:57 +0000
-Message-ID: <CAJTo0LY_5Lsx+okmuUzgYRuGYWqtgq_ERLj0GnzuidA__xR_dw@mail.gmail.com>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image_types_wic: fix expansion error
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=d7b853AXfwR1YGHr4KBK7MDVMXtrtDQFhmrRNOibz+A=;
+	b=FN18Fjn1r3gV4rDD8ucP2/FYo0h9xPo/uSA0H2CnyqaKgbQasravY0Ktlz6KdhAgx5
+	KMhy4raHLQwxiIuLRFKcb9SZ2C9MzgYIwuVZxigHlBZiBfN8JAtIXuDmMSd2iczy/8f+
+	YaxS/K14iW2ZaneGq0MYN67fWmf+N30jh1QigDWxWj70NAbNzHN3ipHt9267QMJjxy/U
+	sOz2H0qh9RDyThVRxW3zN/VILaCWTvF0NHQ+sxKFFRDnvLe723pEYffXQBNs4OcJnrRa
+	273BiJ1iM+6NOES3mXVn1xFoNZLgeDDwO+MvMt62iwEwWAYWGtrpVb1HmfmnxkYPEIOs
+	FVDw==
+X-Gm-Message-State: AMke39m40fHxoLafj8W/QOe76ae2Wr4Y2L1T35PpmucRErj1Oq32s5ZXZPRZep4mZHfuxg==
+X-Received: by 10.223.174.165 with SMTP id y34mr10200856wrc.40.1487767515019; 
+	Wed, 22 Feb 2017 04:45:15 -0800 (PST)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([117.136.38.175]) by smtp.gmail.com with ESMTPSA id
+	j80sm1962517wmd.14.2017.02.22.04.45.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 22 Feb 2017 04:45:14 -0800 (PST)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Feb 2017 13:45:02 +0100
+Message-Id: <1487767502-14823-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: [PATCH] python-pexpect: BBCLASSEXTEND to native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,42 +53,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2017 12:02:17 -0000
-Content-Type: multipart/alternative; boundary=001a11441144a081da05491d44e5
+X-List-Received-Date: Wed, 22 Feb 2017 12:45:15 -0000
 
---001a11441144a081da05491d44e5
-Content-Type: text/plain; charset=UTF-8
+From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-On 22 February 2017 at 11:12, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+Some developers might need it.
 
-> -WKS_FULL_PATH = "${@wks_search('${WKS_FILES}'.split(),
-> '${WKS_SEARCH_PATH}') or ''}"
-> +WKS_FULL_PATH = "${@wks_search('${WKS_FILES}'.split(),
-> d.getVar('WKS_SEARCH_PATH')) or ''}"
->
+Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+---
+ meta/recipes-devtools/python/python-pexpect_4.2.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I think it would be safer to always use getVar instead of using the
-implicit expansion of WKS_FILES and the later expansion of WKS_SEARCH_PATH.
+diff --git a/meta/recipes-devtools/python/python-pexpect_4.2.1.bb b/meta/recipes-devtools/python/python-pexpect_4.2.1.bb
+index 95a0790..1321797 100644
+--- a/meta/recipes-devtools/python/python-pexpect_4.2.1.bb
++++ b/meta/recipes-devtools/python/python-pexpect_4.2.1.bb
+@@ -25,4 +25,4 @@ RDEPENDS_${PN} = "\
+     python-ptyprocess \
+ "
+ 
+-BBCLASSEXTEND = "nativesdk"
++BBCLASSEXTEND = "native nativesdk"
+-- 
+1.9.1
 
-Ross
 
---001a11441144a081da05491d44e5
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 February 2017 at 11:12, Ed Bartosh <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:ed.bartosh@linux.intel.com" target=3D"_blank">ed.bartosh@linux.intel.=
-com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":5ky=
-" class=3D"a3s aXjCH m15a658c9475e47bb">-WKS_FULL_PATH =3D &quot;${@wks_sea=
-rch(&#39;${WKS_FILES}&#39;.<wbr>split(), &#39;${WKS_SEARCH_PATH}&#39;) or &=
-#39;&#39;}&quot;<br>
-+WKS_FULL_PATH =3D &quot;${@wks_search(&#39;${WKS_FILES}&#39;.<wbr>split(),=
- d.getVar(&#39;WKS_SEARCH_PATH&#39;)) or &#39;&#39;}&quot;<br></div></block=
-quote></div><br>I think it would be safer to always use getVar instead of u=
-sing the implicit expansion of WKS_FILES and the later expansion of WKS_SEA=
-RCH_PATH.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
-ra">Ross</div></div>
-
---001a11441144a081da05491d44e5--
