@@ -1,23 +1,26 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 54ABA605BA
+Return-Path: <francisco.j.pedraza.gonzalez@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 665E76093E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 21:14:43 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Feb 2017 13:14:45 -0800
+	Wed, 22 Feb 2017 21:35:17 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Feb 2017 13:35:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,196,1484035200"; d="scan'208";a="827359734"
-Received: from yctb01.ostc.intel.com ([10.54.69.55])
-	by FMSMGA003.fm.intel.com with ESMTP; 22 Feb 2017 13:14:44 -0800
-From: mariano.lopez@linux.intel.com
+X-IronPort-AV: E=Sophos;i="5.35,196,1484035200"; d="scan'208";a="1114317981"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Feb 2017 13:35:17 -0800
+Received: from yocto-ab03.ostc.intel.com (yocto-ab03.ostc.intel.com
+	[10.54.69.73])
+	by linux.intel.com (Postfix) with ESMTP id 3E5546A4080;
+	Wed, 22 Feb 2017 13:35:17 -0800 (PST)
+From: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Feb 2017 13:12:55 +0000
-Message-Id: <45b78fc683ff4d5cad5d6bc30df7014a49692a0f.1487769155.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <cover.1487769155.git.mariano.lopez@linux.intel.com>
-References: <cover.1487769155.git.mariano.lopez@linux.intel.com>
-Subject: [PATCH 1/1] selftest/eSDK.py: Cleanup when there is an error in setUpClass
+Date: Wed, 22 Feb 2017 13:35:15 -0800
+Message-Id: <1487799316-22941-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Cc: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
+Subject: [PATCH v2 1/2] lib/oe/sdk: Add get_extra_sdk_info to reuse code in buildhistory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,99 +33,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2017 21:14:44 -0000
+X-List-Received-Date: Wed, 22 Feb 2017 21:35:17 -0000
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+This function is going to be used for generating the target and host manifest files packages for eSDK.
+[YOCTO #9038]
 
-Lately autobuilders are experiencing hangs with selftest,
-it seems it is cause if an error happens in setUpClass
-method of oeSDKExtSelfTest class because HTTP server
-keeps running in background.
-
-This patch will ensure tearDownClass will be run if there
-is an error in setUpClass.
-
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+Signed-off-by: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
 ---
- meta/lib/oeqa/selftest/eSDK.py | 46 +++++++++++++++++++++++-------------------
- 1 file changed, 25 insertions(+), 21 deletions(-)
+ meta/classes/buildhistory.bbclass | 20 ++++++++------------
+ meta/lib/oe/sdk.py                | 17 +++++++++++++++++
+ 2 files changed, 25 insertions(+), 12 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/eSDK.py b/meta/lib/oeqa/selftest/eSDK.py
-index ee1ca6a..b68e997 100644
---- a/meta/lib/oeqa/selftest/eSDK.py
-+++ b/meta/lib/oeqa/selftest/eSDK.py
-@@ -64,7 +64,7 @@ class oeSDKExtSelfTest(oeSelfTest):
-         runCmd("%s -y -d \"%s\"" % (cls.ext_sdk_path, cls.tmpdir_eSDKQA))
- 
-         cls.env_eSDK = oeSDKExtSelfTest.get_esdk_environment('', cls.tmpdir_eSDKQA)
--       
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 7251a2c..b7130fe 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -550,23 +550,19 @@ END
+ python buildhistory_get_extra_sdkinfo() {
+     import operator
+     import math
++    # importing oe.sdk due package information req
++    from oe.sdk import get_extra_sdkinfo
 +
-         sstate_config="""
- SDK_LOCAL_CONF_WHITELIST = "SSTATE_MIRRORS"
- SSTATE_MIRRORS =  "file://.* http://%s/PATH"
-@@ -73,37 +73,41 @@ CORE_IMAGE_EXTRA_INSTALL = "perl"
+     if d.getVar('BB_CURRENTTASK') == 'populate_sdk_ext':
+-        tasksizes = {}
+-        filesizes = {}
+-        for root, _, files in os.walk(d.expand('${SDK_OUTPUT}/${SDKPATH}/sstate-cache')):
+-            for fn in files:
+-                if fn.endswith('.tgz'):
+-                    fsize = int(math.ceil(float(os.path.getsize(os.path.join(root, fn))) / 1024))
+-                    task = fn.rsplit(':', 1)[1].split('_', 1)[1].split('.')[0]
+-                    origtotal = tasksizes.get(task, 0)
+-                    tasksizes[task] = origtotal + fsize
+-                    filesizes[fn] = fsize
++        sstate_dir = d.expand('${SDK_OUTPUT}/${SDKPATH}/sstate-cache')
++        extra_info = get_extra_sdkinfo(sstate_dir)
++
+         with open(d.expand('${BUILDHISTORY_DIR_SDK}/sstate-package-sizes.txt'), 'w') as f:
+-            filesizes_sorted = sorted(filesizes.items(), key=operator.itemgetter(1, 0), reverse=True)
++            filesizes_sorted = sorted(extra_info['filesizes'].items(), key=operator.itemgetter(1, 0), reverse=True)
+             for fn, size in filesizes_sorted:
+                 f.write('%10d KiB %s\n' % (size, fn))
+         with open(d.expand('${BUILDHISTORY_DIR_SDK}/sstate-task-sizes.txt'), 'w') as f:
+-            tasksizes_sorted = sorted(tasksizes.items(), key=operator.itemgetter(1, 0), reverse=True)
++            tasksizes_sorted = sorted(extra_info['tasksizes'].items(), key=operator.itemgetter(1, 0), reverse=True)
+             for task, size in tasksizes_sorted:
+                 f.write('%10d KiB %s\n' % (size, task))
+ }
+diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
+index fef02d0..4ce388f 100644
+--- a/meta/lib/oe/sdk.py
++++ b/meta/lib/oe/sdk.py
+@@ -371,5 +371,22 @@ def populate_sdk(d, manifest_dir=None):
+     os.environ.clear()
+     os.environ.update(env_bkp)
  
-         with open(os.path.join(cls.tmpdir_eSDKQA, 'conf', 'local.conf'), 'a+') as f:
-             f.write(sstate_config)
--    
- 
-     @classmethod
-     def setUpClass(cls):
--        # Start to serve sstate dir
--        sstate_dir = get_bb_var('SSTATE_DIR')
--        cls.http_service = HTTPService(sstate_dir)
--        cls.http_service.start()
-+        # If there is an exception in setUpClass it will not run tearDownClass
-+        # method and it leaves HTTP server running forever, so we need to be
-+        # sure tearDownClass is run.
-+        try:
-+            cls.tmpdir_eSDKQA = tempfile.mkdtemp(prefix='eSDKQA')
- 
--        cls.http_url = "http://127.0.0.1:%d" % cls.http_service.port
-- 
--        cls.image = 'core-image-minimal'
-+            # Start to serve sstate dir
-+            sstate_dir = get_bb_var('SSTATE_DIR')
-+            cls.http_service = HTTPService(sstate_dir)
-+            cls.http_url = "http://127.0.0.1:%d" % cls.http_service.port
-+            cls.http_service.start()
- 
--        cls.tmpdir_eSDKQA = tempfile.mkdtemp(prefix='eSDKQA')
--        oeSDKExtSelfTest.generate_eSDK(cls.image)
-+            cls.image = 'core-image-minimal'
-+            oeSDKExtSelfTest.generate_eSDK(cls.image)
- 
--        # Install eSDK
--        cls.ext_sdk_path = oeSDKExtSelfTest.get_eSDK_toolchain(cls.image)
--        runCmd("%s -y -d \"%s\"" % (cls.ext_sdk_path, cls.tmpdir_eSDKQA))
-+            # Install eSDK
-+            cls.ext_sdk_path = oeSDKExtSelfTest.get_eSDK_toolchain(cls.image)
-+            runCmd("%s -y -d \"%s\"" % (cls.ext_sdk_path, cls.tmpdir_eSDKQA))
- 
--        cls.env_eSDK = oeSDKExtSelfTest.get_esdk_environment('', cls.tmpdir_eSDKQA)
-+            cls.env_eSDK = oeSDKExtSelfTest.get_esdk_environment('', cls.tmpdir_eSDKQA)
- 
--        # Configure eSDK to use sstate mirror from poky
--        sstate_config="""
-+            # Configure eSDK to use sstate mirror from poky
-+            sstate_config="""
- SDK_LOCAL_CONF_WHITELIST = "SSTATE_MIRRORS"
- SSTATE_MIRRORS =  "file://.* http://%s/PATH"
--        """ % cls.http_url
--        with open(os.path.join(cls.tmpdir_eSDKQA, 'conf', 'local.conf'), 'a+') as f:
--            f.write(sstate_config)
-+            """ % cls.http_url
-+            with open(os.path.join(cls.tmpdir_eSDKQA, 'conf', 'local.conf'), 'a+') as f:
-+                f.write(sstate_config)
-+        except:
-+            cls.tearDownClass()
-+            raise
- 
--      
-     @classmethod
-     def tearDownClass(cls):
-         shutil.rmtree(cls.tmpdir_eSDKQA)
++def get_extra_sdkinfo(sstate_dir):
++    import operator
++    import math
++
++    extra_info = {}
++    extra_info['tasksizes'] = {}
++    extra_info['filesizes'] = {}
++    for root, _, files in os.walk(sstate_dir):
++        for fn in files:
++            if fn.endswith('.tgz'):
++                fsize = int(math.ceil(float(os.path.getsize(os.path.join(root, fn))) / 1024))
++                task = fn.rsplit(':',1)[1].split('_',1)[1].split(',')[0]
++                origtotal = extra_info['tasksizes'].get(task, 0)
++                extra_info['tasksizes'][task] = origtotal + fsize
++                extra_info['filesizes'][fn] = fsize
++    return extra_info
++
+ if __name__ == "__main__":
+     pass
 -- 
-2.6.6
+1.8.3.1
 
 
