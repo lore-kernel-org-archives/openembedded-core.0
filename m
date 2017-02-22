@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FD3E7312E
+	by mail.openembedded.org (Postfix) with ESMTP id 7172373133
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 14:52:26 +0000 (UTC)
+	Wed, 22 Feb 2017 14:52:27 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Feb 2017 06:52:28 -0800
+	22 Feb 2017 06:52:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,194,1484035200"; d="scan'208";a="51302195"
+X-IronPort-AV: E=Sophos;i="5.35,194,1484035200"; d="scan'208";a="51302199"
 Received: from kanavin-desktop.fi.intel.com (HELO
 	kanavin-desktop.fi.intel.comfi.intel.com) ([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 22 Feb 2017 06:52:27 -0800
+	by orsmga002.jf.intel.com with ESMTP; 22 Feb 2017 06:52:28 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Feb 2017 16:51:09 +0200
-Message-Id: <6f9c6978b1dc6a1fc9fb1d8cb95b66f95e824f59.1487774787.git.alexander.kanavin@linux.intel.com>
+Date: Wed, 22 Feb 2017 16:51:10 +0200
+Message-Id: <c8dbccfc1a699151f5f945c2b5b1ffb061b29276.1487774787.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1487774787.git.alexander.kanavin@linux.intel.com>
 References: <cover.1487774787.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 14/24] webkitgtk: update to 2.14.5
+Subject: [PATCH 15/24] epiphany: update to 3.22.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2017 14:52:26 -0000
+X-List-Received-Date: Wed, 22 Feb 2017 14:52:27 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-sato/webkit/{webkitgtk_2.14.2.bb => webkitgtk_2.14.5.bb} | 4 ++--
+ .../recipes-gnome/epiphany/{epiphany_3.22.3.bb => epiphany_3.22.6.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-sato/webkit/{webkitgtk_2.14.2.bb => webkitgtk_2.14.5.bb} (97%)
+ rename meta/recipes-gnome/epiphany/{epiphany_3.22.3.bb => epiphany_3.22.6.bb} (83%)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.14.5.bb
-similarity index 97%
-rename from meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.14.5.bb
-index 6338101395a..8e79ef1f82a 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.14.5.bb
-@@ -23,8 +23,8 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://x32_support.patch \
-            "
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.22.3.bb b/meta/recipes-gnome/epiphany/epiphany_3.22.6.bb
+similarity index 83%
+rename from meta/recipes-gnome/epiphany/epiphany_3.22.3.bb
+rename to meta/recipes-gnome/epiphany/epiphany_3.22.6.bb
+index 78a5bc77527..651fef1bf08 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.22.3.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.22.6.bb
+@@ -10,8 +10,8 @@ inherit gnomebase gsettings distro_features_check upstream-version-is-even gette
+ REQUIRED_DISTRO_FEATURES = "x11"
  
--SRC_URI[md5sum] = "2fe3cadbc546d93ca68a13756c2be015"
--SRC_URI[sha256sum] = "2edbcbd5105046aea55af9671c4de8deedb5b0e3567c618034d440a760675556"
-+SRC_URI[md5sum] = "7fe3cb2699e64f969b285823c5ae2516"
-+SRC_URI[sha256sum] = "3ca8f1c33a9b43d6c753dcac1c0788656930e06382b10fdf5c2805ea8f96369f"
+ SRC_URI += "file://0001-yelp.m4-drop-the-check-for-itstool.patch"
+-SRC_URI[archive.md5sum] = "bfb6347acb91163aec3883bb3397372f"
+-SRC_URI[archive.sha256sum] = "a11fe3495009f776e354bcafac3ab8fc52788f5bdb9d5ee2c2f1f2f021fb49c2"
++SRC_URI[archive.md5sum] = "e08762c6bb01c4d291b3d22c7adb1a65"
++SRC_URI[archive.sha256sum] = "de7ea87dc450702bde620033f9e2ce807859727d007396d86b09f2b82397fcc2"
  
- inherit cmake pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even gtk-doc
+ EXTRA_OECONF += " --with-distributor-name=${DISTRO}"
  
 -- 
 2.11.0
