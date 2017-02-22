@@ -1,23 +1,25 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 01C9E730D7
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CF00730DB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 13:02:27 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga105.jf.intel.com with ESMTP; 22 Feb 2017 05:02:29 -0800
+	Wed, 22 Feb 2017 13:02:39 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga104.jf.intel.com with ESMTP; 22 Feb 2017 05:02:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,194,1484035200"; d="scan'208";a="1101006529"
+X-IronPort-AV: E=Sophos;i="5.35,194,1484035200"; d="scan'208";a="67715256"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 22 Feb 2017 05:02:28 -0800
+	by orsmga005.jf.intel.com with ESMTP; 22 Feb 2017 05:02:40 -0800
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id B20266A4080;
-	Wed, 22 Feb 2017 05:02:27 -0800 (PST)
+	by linux.intel.com (Postfix) with ESMTP id 6068E6A4080;
+	Wed, 22 Feb 2017 05:02:39 -0800 (PST)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Feb 2017 15:02:21 +0200
-Message-Id: <cover.1487764904.git.jussi.kukkonen@intel.com>
+Date: Wed, 22 Feb 2017 15:02:31 +0200
+Message-Id: <9c66ca31ffaa2bb1bbe284dfad0dda5cc76de106.1487764904.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/6] Version upgrades
+In-Reply-To: <cover.1487764904.git.jussi.kukkonen@intel.com>
+References: <cover.1487764904.git.jussi.kukkonen@intel.com>
+Subject: [PATCH 1/6] glib-2.0: Upgrade 2.50.2 -> 2.50.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,55 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2017 13:02:28 -0000
+X-List-Received-Date: Wed, 22 Feb 2017 13:02:39 -0000
 
-A bunch of minor version upgrades.
+Tiny bug fix release.
 
-The one that might need a closer look is gdk-pixbuf: There's now yet
-another tool that's required at build time and the build system is
-broken for the cross-compile case.
-
-Please drop the earlier gdk-pixbuf (2.36.4) upgrade.
-
-Cheers,
-  Jussi
-
-The following changes since commit e436a6398684d2872cb541f1cfb0f67b3618d15a:
-
-  layer.conf: bump version for change in eSDK selftest behaviour (2017-02-19 09:39:03 -0800)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib jku/m3-upgrades
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/m3-upgrades
-
-Jussi Kukkonen (6):
-  glib-2.0: Upgrade 2.50.2 -> 2.50.3
-  gtk+3: Upgrade 3.22.7 -> 3.22.8
-  libgudev: Upgrade 230 -> 231
-  libdrm: Upgrade 2.4.74 -> 2.4.75
-  menu-cache: Upgrade 1.0.1 -> 1.0.2
-  gdk-pixbuf: Upgrade 2.36.1 -> 2.36.5
-
- .../{glib-2.0_2.50.2.bb => glib-2.0_2.50.3.bb}     |  4 +-
- ...-around-thumbnailer-cross-compile-failure.patch | 47 ++++++++++++++++++++++
- .../{gdk-pixbuf_2.36.1.bb => gdk-pixbuf_2.36.5.bb} | 12 ++++--
- .../gtk+/{gtk+3_3.22.7.bb => gtk+3_3.22.8.bb}      |  4 +-
- ...e_3.22.7.bb => gtk-icon-utils-native_3.22.8.bb} |  4 +-
- .../libgudev/{libgudev_230.bb => libgudev_231.bb}  |  6 ++-
- .../recipes-graphics/drm/libdrm/installtests.patch | 28 ++++++++-----
- .../drm/{libdrm_2.4.74.bb => libdrm_2.4.75.bb}     |  6 +--
- .../{menu-cache_1.0.1.bb => menu-cache_1.0.2.bb}   |  4 +-
- 9 files changed, 89 insertions(+), 26 deletions(-)
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+ meta/recipes-core/glib-2.0/{glib-2.0_2.50.2.bb => glib-2.0_2.50.3.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
  rename meta/recipes-core/glib-2.0/{glib-2.0_2.50.2.bb => glib-2.0_2.50.3.bb} (86%)
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Work-around-thumbnailer-cross-compile-failure.patch
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.36.1.bb => gdk-pixbuf_2.36.5.bb} (88%)
- rename meta/recipes-gnome/gtk+/{gtk+3_3.22.7.bb => gtk+3_3.22.8.bb} (84%)
- rename meta/recipes-gnome/gtk+/{gtk-icon-utils-native_3.22.7.bb => gtk-icon-utils-native_3.22.8.bb} (93%)
- rename meta/recipes-gnome/libgudev/{libgudev_230.bb => libgudev_231.bb} (65%)
- rename meta/recipes-graphics/drm/{libdrm_2.4.74.bb => libdrm_2.4.75.bb} (91%)
- rename meta/recipes-graphics/menu-cache/{menu-cache_1.0.1.bb => menu-cache_1.0.2.bb} (79%)
 
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.50.2.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.50.3.bb
+similarity index 86%
+rename from meta/recipes-core/glib-2.0/glib-2.0_2.50.2.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0_2.50.3.bb
+index b7a0670..22ea347 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.50.2.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.50.3.bb
+@@ -21,5 +21,5 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+ SRC_URI_append_class-native = " file://glib-gettextize-dir.patch \
+                                 file://relocate-modules.patch"
+ 
+-SRC_URI[md5sum] = "5eeb2bfaf78a07be59585e8b6e80b1d6"
+-SRC_URI[sha256sum] = "be68737c1f268c05493e503b3b654d2b7f43d7d0b8c5556f7e4651b870acfbf5"
++SRC_URI[md5sum] = "381ab22934f296750d036aa55a397ded"
++SRC_URI[sha256sum] = "82ee94bf4c01459b6b00cb9db0545c2237921e3060c0b74cff13fbc020cfd999"
 -- 
 2.1.4
 
