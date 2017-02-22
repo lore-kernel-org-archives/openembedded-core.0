@@ -1,46 +1,46 @@
 Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
-	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id A5D7A730AB
+Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
+	[209.85.128.195])
+	by mail.openembedded.org (Postfix) with ESMTP id C991A72FC5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 12:45:14 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id s27so220576wrb.0
+	Wed, 22 Feb 2017 12:47:02 +0000 (UTC)
+Received: by mail-wr0-f195.google.com with SMTP id 89so221795wrr.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 04:45:15 -0800 (PST)
+	Wed, 22 Feb 2017 04:47:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=d7b853AXfwR1YGHr4KBK7MDVMXtrtDQFhmrRNOibz+A=;
-	b=jPx5LTmqz5/1hY6Alj0E7ermGEi/7wt0JxPxfRZNWO+NDuG5xgH7gz4VTFyH7DC+6C
-	/mhKpxlDJamooA8CsZxG3Y3l3LLsSiJIuD2KrLTLib+LrK4+X+8L8kMdVNro3Sy5NMKV
-	fOYYpvSCGMgznXoJCBY0n0aNHdDTeY3eJ6V6aBUWxbJxpFvpoT0pkXX8L8kMpkCow2i/
-	or7RR6ol0Y1KSKYnC2N+T/qBo7MyzAEms2yGDySZdztZ/e+VI0pArP/QqjUrLNBP4wgJ
-	dkffWSMpKlCKY9JnJejX8W8BdUYOJW1lAsubLBAX4+DY0j5Hfai1PhXvoI5D3S+WvBbQ
-	80sA==
+	bh=D+3VwW+ytK25s6x7hPH63p+TF83UTnUsZxnkY9JvuyA=;
+	b=PpyyuXpHjEH/owFV7UbNFOgk1SWw39HuKpnBOuw/vPJwsccxXNO49Xi0TvkkmOSIeB
+	Cg3URJ4nPBvnv7+mZNCXiUWFp66pSdZvuZ1yZIq+S8yF+XpJLdHwISnTpZwF60mDV4Xc
+	stMIKQvo9WcrieEVfZmsL2mlLqmYEDrj0zkXcZmQARx/dV7zpEuBvfp/rGrV4uNhyVHC
+	aABvIeFFCILS9G0C4BOBQvgDUFR7GBdJZfUICUIoL/Vb3C6zaaBkt+e8Ju9281v3zYwy
+	sEtv9e8b2qwy8bnfc8LxS15rJ44UVyqF8riIkQJjzINMRPNWQL4Wki0m3d1v530JiMd4
+	QB9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=d7b853AXfwR1YGHr4KBK7MDVMXtrtDQFhmrRNOibz+A=;
-	b=FN18Fjn1r3gV4rDD8ucP2/FYo0h9xPo/uSA0H2CnyqaKgbQasravY0Ktlz6KdhAgx5
-	KMhy4raHLQwxiIuLRFKcb9SZ2C9MzgYIwuVZxigHlBZiBfN8JAtIXuDmMSd2iczy/8f+
-	YaxS/K14iW2ZaneGq0MYN67fWmf+N30jh1QigDWxWj70NAbNzHN3ipHt9267QMJjxy/U
-	sOz2H0qh9RDyThVRxW3zN/VILaCWTvF0NHQ+sxKFFRDnvLe723pEYffXQBNs4OcJnrRa
-	273BiJ1iM+6NOES3mXVn1xFoNZLgeDDwO+MvMt62iwEwWAYWGtrpVb1HmfmnxkYPEIOs
-	FVDw==
-X-Gm-Message-State: AMke39m40fHxoLafj8W/QOe76ae2Wr4Y2L1T35PpmucRErj1Oq32s5ZXZPRZep4mZHfuxg==
-X-Received: by 10.223.174.165 with SMTP id y34mr10200856wrc.40.1487767515019; 
-	Wed, 22 Feb 2017 04:45:15 -0800 (PST)
+	bh=D+3VwW+ytK25s6x7hPH63p+TF83UTnUsZxnkY9JvuyA=;
+	b=BCLfc4GULTsMTnLBzHYS1LWkzecF09Ns14KrxT45O6IWnYp1mtZZSfHNZ2+KpFu4fZ
+	IuLPXPFmtS9ULtvqHIESxeI5J3kpyrCslqarFf9HVjk7ROEWQ8xTq5I4jQSfRZ3Tw9+z
+	VPv+uedhuqWCGCxEJlMLPaYkyWg9at86tRpDPzCXyMoMm/FOLjKu7Bl7z/hErOeqNetE
+	ZC2pWkCCrmw7cxLQu/w/OZBLCtMlPT993NZ8wOjpPbWZ7hdsQZ+Q0kAj9q3VbDKSRvnj
+	3S48iOdfzCtY/aFNt17IjW5fgQpXD2Y0dLw8aYNtaFrGScKar80jpjSr0dpKHKTVwwUP
+	/Sog==
+X-Gm-Message-State: AMke39kPew/wwoDZfpEmPHzPL8bFg98ZT/uKbBOfIBokAlFNJtYlYaleA5qRNXjiCTALSg==
+X-Received: by 10.223.150.73 with SMTP id c9mr27348166wra.19.1487767623288;
+	Wed, 22 Feb 2017 04:47:03 -0800 (PST)
 Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
 	([117.136.38.175]) by smtp.gmail.com with ESMTPSA id
-	j80sm1962517wmd.14.2017.02.22.04.45.12
+	y145sm2421922wmc.17.2017.02.22.04.47.00
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Feb 2017 04:45:14 -0800 (PST)
+	Wed, 22 Feb 2017 04:47:02 -0800 (PST)
 From: liu.ming50@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Feb 2017 13:45:02 +0100
-Message-Id: <1487767502-14823-1-git-send-email-liu.ming50@gmail.com>
+Date: Wed, 22 Feb 2017 13:46:53 +0100
+Message-Id: <1487767613-15437-1-git-send-email-liu.ming50@gmail.com>
 X-Mailer: git-send-email 1.9.1
 Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH] python-pexpect: BBCLASSEXTEND to native
+Subject: [PATCH] python-ptyprocess: BBCLASSEXTEND to native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,7 +53,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2017 12:45:15 -0000
+X-List-Received-Date: Wed, 22 Feb 2017 12:47:03 -0000
 
 From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
@@ -61,15 +61,15 @@ Some developers might need it.
 
 Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
 ---
- meta/recipes-devtools/python/python-pexpect_4.2.1.bb | 2 +-
+ meta/recipes-devtools/python/python-ptyprocess_0.5.1.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python-pexpect_4.2.1.bb b/meta/recipes-devtools/python/python-pexpect_4.2.1.bb
-index 95a0790..1321797 100644
---- a/meta/recipes-devtools/python/python-pexpect_4.2.1.bb
-+++ b/meta/recipes-devtools/python/python-pexpect_4.2.1.bb
-@@ -25,4 +25,4 @@ RDEPENDS_${PN} = "\
-     python-ptyprocess \
+diff --git a/meta/recipes-devtools/python/python-ptyprocess_0.5.1.bb b/meta/recipes-devtools/python/python-ptyprocess_0.5.1.bb
+index 931e5a7..eed24ad 100644
+--- a/meta/recipes-devtools/python/python-ptyprocess_0.5.1.bb
++++ b/meta/recipes-devtools/python/python-ptyprocess_0.5.1.bb
+@@ -20,4 +20,4 @@ RDEPENDS_${PN} = "\
+     python-core \
  "
  
 -BBCLASSEXTEND = "nativesdk"
