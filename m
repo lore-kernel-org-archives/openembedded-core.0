@@ -1,50 +1,47 @@
-Return-Path: <bounce+8e2b5a.3a5685-openembedded-core=lists.openembedded.org@asterius.io>
-X-Greylist: delayed 307 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 22 Feb 2017 22:01:26 UTC
-Received: from mail4.static.mailgun.info (mail4.static.mailgun.info
-	[104.130.122.4])
-	by mail.openembedded.org (Postfix) with ESMTP id C363971A14
+Return-Path: <mhalstead@linuxfoundation.org>
+Received: from mail-lf0-f49.google.com (mail-lf0-f49.google.com
+	[209.85.215.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 1387E72FB5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 22:01:26 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=asterius.io; q=dns/txt;
-	s=mailo; t=1487800887; h=Content-Type: Cc: To: Subject: Message-ID:
-	Date: From: References: In-Reply-To: MIME-Version: Sender;
-	bh=hmU4T8W+edrDg77iB9BfCfwZyd2xPJc/rOAO6SzaFQw=;
-	b=so3zIHQhEHfwMuvgtpNRAVHbTOBbFrmLk2JQhGiYuzb9BdxWYYRiUiD7kGPo/hhqIyEJoSUW
-	zSSrcC2OD//XRTPkEnhVfXErsIaiQ4+ggv3bSpcj0bc9xkVNU6pW+Artyjuoet17UwGGOoGi
-	zo7aXoobv3y7u/ZQFA2OzyiPiEI=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=asterius.io; s=mailo;
-	q=dns; h=Sender: MIME-Version: In-Reply-To: References: From: Date:
-	Message-ID: Subject: To: Cc: Content-Type;
-	b=X/tNs3dwO1Y3k6mnsXrtIsmzNGcOth3OParTO3JEO7K7xG5CZPsmVVlFv8TMW957cFd36I
-	1PM498NHmjnRSij+xYYrNNjSiCYRRrtX5W2in2vJwH2WvtDK+64vKEp5ihYpUwQQLG2wX4SD
-	ltiEBHoXLEmaLpyzVvNVKNZ7L8rCY=
-Sender: derek@asterius.io
-X-Mailgun-Sending-Ip: 104.130.122.4
-X-Mailgun-Sid: WyJiMTQwMSIsICJvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiwgIjNhNTY4NSJd
-Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
-	[209.85.214.44])
-	by mxa.mailgun.org with ESMTP id 58ae0903.7f24fc3038f0-smtp-out-n02;
-	Wed, 22 Feb 2017 21:56:19 -0000 (UTC)
-Received: by mail-it0-f44.google.com with SMTP id d9so42472050itc.0;
-	Wed, 22 Feb 2017 13:56:19 -0800 (PST)
-X-Gm-Message-State: AMke39livi2BKZL14cBzVyv+1eeQkLoILGzXJXF/v5DSOCNw8eli+08ab5FRkpDnXCB1v9SCBiZGEQrHiDT/Ig==
-X-Received: by 10.36.94.66 with SMTP id h63mr663332itb.41.1487800578737; Wed,
-	22 Feb 2017 13:56:18 -0800 (PST)
+	Wed, 22 Feb 2017 22:08:54 +0000 (UTC)
+Received: by mail-lf0-f49.google.com with SMTP id z127so8349494lfa.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Feb 2017 14:08:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=y0AhSyNL+pSPTD3V8mHjZC+6U7X6n3ftBqH8/mSNE5c=;
+	b=AueK3RVPiQPjNfapyDcb6uE1jyA26n61OrZBK4ukGwc7uFFarQniJzWqhxA9erRShE
+	P1BU+sMxe8jAqGiS/9hA4ZBhA/wXJuO1jyei9gemUUaYo37v022BzhJbHxl70ncsiQvP
+	Cy50Ih0xw1NTIrhM1Fu8UDF6t4/9cqxIihTe4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=y0AhSyNL+pSPTD3V8mHjZC+6U7X6n3ftBqH8/mSNE5c=;
+	b=hb40ETDg76wGw25OnlW1Ptr1b+g1EgB/vCfCouKU3a37YN2h1gDB0PSS5sZWGOLGP7
+	3BhTnpklqhiOOjRoax9geyN4WTILWDpyMHql2pVfimf1hcE9Iy5Y8Bc10zEGYSfw3Ku5
+	IYEasyk7HTe0RR9Cvl0YY9vYwjG/EnL4yKhgfV0iWx+53JJBGu7bVxZWmEAY0y9x7TD+
+	ChKktoZvt/tJHj+TZ3zMv/D0Rvhr6QucBfiUZyv4rOtE0PKboi22AiWu+V/9qlQl7ICd
+	DAXdAjnMtC22qhx3bVsaQYffh1CNhYPd8kZq6OIESr2AdEqaviHcoUz9U9kK4rz9YTxm
+	xCdw==
+X-Gm-Message-State: AMke39kY4cmtujFcglrkp8720+S6g2zUTnJIy4YDywSbEyxNp30L+ouqJmjNJNds0z1gsN6HVqMLFlHfcmuda5LA
+X-Received: by 10.46.22.10 with SMTP id w10mr9209178ljd.65.1487801335535; Wed,
+	22 Feb 2017 14:08:55 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.156.85 with HTTP; Wed, 22 Feb 2017 13:56:18 -0800 (PST)
-In-Reply-To: <CADfgfobBp60s+GjqS3zRrO-z4HUhe8zFi51GPzceDFAKQVGf=Q@mail.gmail.com>
+Received: by 10.25.156.10 with HTTP; Wed, 22 Feb 2017 14:08:55 -0800 (PST)
+In-Reply-To: <CADNbA1pdESCdRAkKB2po-kZ2b26TMSQsas3u4vYFU=SKMOhVaQ@mail.gmail.com>
 References: <1487785536-13777-1-git-send-email-derek@asterius.io>
 	<20170222204736.GG3283@jama>
 	<CADfgfobBp60s+GjqS3zRrO-z4HUhe8zFi51GPzceDFAKQVGf=Q@mail.gmail.com>
-From: Derek Straka <derek@asterius.io>
-Date: Wed, 22 Feb 2017 16:56:18 -0500
-X-Gmail-Original-Message-ID: <CADNbA1pdESCdRAkKB2po-kZ2b26TMSQsas3u4vYFU=SKMOhVaQ@mail.gmail.com>
-Message-ID: <CADNbA1pdESCdRAkKB2po-kZ2b26TMSQsas3u4vYFU=SKMOhVaQ@mail.gmail.com>
-To: Michael Halstead <mhalstead@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>, "Lamego,
-	Jose A" <jose.a.lamego@intel.com>,
-	openembeded-devel <openembedded-devel@lists.openembedded.org>
+	<CADNbA1pdESCdRAkKB2po-kZ2b26TMSQsas3u4vYFU=SKMOhVaQ@mail.gmail.com>
+From: Michael Halstead <mhalstead@linuxfoundation.org>
+Date: Wed, 22 Feb 2017 14:08:55 -0800
+Message-ID: <CADfgfob+LnNAAqW6mKayt4N5CRz8LbwfAq7hUu8APMhjqiz5pQ@mail.gmail.com>
+To: Derek Straka <derek@asterius.io>
+Cc: openembeded-devel <openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	"Lamego, Jose A" <jose.a.lamego@intel.com>
 Subject: Re: Patchwork not picking changes from the ML Was: [oe] [meta-python][PATCH] python-paho-mqtt: update to version 1.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -58,16 +55,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2017 22:01:28 -0000
-Content-Type: multipart/alternative; boundary=001a11449c70fe165b054925903b
+X-List-Received-Date: Wed, 22 Feb 2017 22:08:56 -0000
+Content-Type: multipart/alternative; boundary=f403045fb52619f701054925be4b
 
---001a11449c70fe165b054925903b
+--f403045fb52619f701054925be4b
 Content-Type: text/plain; charset=UTF-8
+
+On Feb 22, 2017 1:56 PM, "Derek Straka" <derek@asterius.io> wrote:
 
 Martin - No problem.  I'll resend the patches.
 
 Michael - Would it be worth waiting before I resend the change sets?  It
 looks like at least a subset of them have made it through.
+
+
+Please wait while I make sure this problem is correctly resolved before
+re-sending. I'll e-mail once we're ready.
+
 
 Thanks.
 
@@ -117,8 +121,8 @@ mhalstead@linuxfoundation.org> wrote:
 >> >  rename meta-python/recipes-devtools/python/{python-paho-mqtt_1.1.bb
 >> => python-paho-mqtt_1.2.bb} (68%)
 >> >
->> > diff --git a/meta-python/recipes-devtools/python/python-paho-mqtt_1.1.
->> bb b/meta-python/recipes-devtools/python/python-paho-mqtt_1.2.bb
+>> > diff --git a/meta-python/recipes-devtools/python/python-paho-mqtt_1.1.b
+>> b b/meta-python/recipes-devtools/python/python-paho-mqtt_1.2.bb
 >> > similarity index 68%
 >> > rename from meta-python/recipes-devtools/python/python-paho-mqtt_1.1.bb
 >> > rename to meta-python/recipes-devtools/python/python-paho-mqtt_1.2.bb
@@ -155,30 +159,52 @@ mhalstead@linuxfoundation.org> wrote:
 >>
 >>
 
---001a11449c70fe165b054925903b
+> Michael: one syntax error in patchwork code was pulled into production
+> yesterday. This is the cause for missing patches. The error is fixed in
+> the Yocto repo now, please perform a server code update ASAP.
+
+
+Leo and I pulled changes and restarted so this should be in place now.
+
+--f403045fb52619f701054925be4b
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Martin - No problem.=C2=A0 I&#39;ll resend the patches.<di=
-v><br></div><div>Michael - Would it be worth waiting before I resend the ch=
-ange sets?=C2=A0 It looks like at least a subset of them have made it throu=
-gh.</div><div><br></div><div>Thanks.</div><div><br></div><div>-Derek</div><=
-/div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Wed, Feb =
-22, 2017 at 3:55 PM, Michael Halstead <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:mhalstead@linuxfoundation.org" target=3D"_blank">mhalstead@linuxfoundati=
-on.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"=
-auto">I&#39;ve seen several issues with hooks. I was working on them yester=
-day and will continue today.<div dir=3D"auto"><br></div><div dir=3D"auto">T=
-hese are currently managed by hand but we are moving them into configuratio=
-n management which should help keep them working consistently.</div></div><=
-div class=3D"gmail_extra"><br><div class=3D"gmail_quote"><div><div class=3D=
-"h5">On Feb 22, 2017 12:47 PM, &quot;Martin Jansa&quot; &lt;<a href=3D"mail=
-to:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt;=
- wrote:<br type=3D"attribution"></div></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
-<div><div class=3D"h5">On Wed, Feb 22, 2017 at 12:45:36PM -0500, Derek Stra=
-ka wrote:<br>
+<div dir=3D"ltr"><div dir=3D"auto"><div><br><div class=3D"gmail_extra"><br>=
+<div class=3D"gmail_quote">On Feb 22, 2017 1:56 PM, &quot;Derek Straka&quot=
+; &lt;<a href=3D"mailto:derek@asterius.io" target=3D"_blank">derek@asterius=
+.io</a>&gt; wrote:<br type=3D"attribution"><blockquote class=3D"gmail-m_-15=
+1223519105699603quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">Martin - No problem=
+.=C2=A0 I&#39;ll resend the patches.<div><br></div><div>Michael - Would it =
+be worth waiting before I resend the change sets?=C2=A0 It looks like at le=
+ast a subset of them have made it through.</div><div></div></div></blockquo=
+te></div></div></div><div dir=3D"auto"><br></div><div>Please wait while I m=
+ake sure this problem is correctly resolved before re-sending. I&#39;ll e-m=
+ail once we&#39;re ready.</div><div dir=3D"auto"><br></div><div dir=3D"auto=
+"><div class=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail-m_-151223519105699603quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div=
+><br></div><div>Thanks.</div><font color=3D"#888888"><div><br></div><div>-D=
+erek</div></font></div><div class=3D"gmail-m_-151223519105699603elided-text=
+"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Wed, Feb 22,=
+ 2017 at 3:55 PM, Michael Halstead <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+mhalstead@linuxfoundation.org" target=3D"_blank">mhalstead@linuxfoundation.=
+org</a><wbr>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex"><div dir=3D"auto">I&#39;ve seen several issues with hooks. I was=
+ working on them yesterday and will continue today.<div dir=3D"auto"><br></=
+div><div dir=3D"auto">These are currently managed by hand but we are moving=
+ them into configuration management which should help keep them working con=
+sistently.</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_qu=
+ote"><div><div class=3D"gmail-m_-151223519105699603m_-6994627504914321943h5=
+">On Feb 22, 2017 12:47 PM, &quot;Martin Jansa&quot; &lt;<a href=3D"mailto:=
+martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt; wr=
+ote:<br type=3D"attribution"></div></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex"><div><div class=3D"gmail-m_-151223519105699603m_-6994627504=
+914321943h5">On Wed, Feb 22, 2017 at 12:45:36PM -0500, Derek Straka wrote:<=
+br>
 &gt; Signed-off-by: Derek Straka &lt;<a href=3D"mailto:derek@asterius.io" t=
 arget=3D"_blank">derek@asterius.io</a>&gt;<br>
 <br>
@@ -204,7 +230,7 @@ And also UI issue in patchwork that paging doesn&#39;t work, e.g.:<br>
 <a href=3D"https://patchwork.openembedded.org/bundle/jama/master-next/?subm=
 itter=3D&amp;state=3D&amp;q=3D&amp;archive=3Dboth" rel=3D"noreferrer" targe=
 t=3D"_blank">https://patchwork.openembedded<wbr>.org/bundle/jama/master-nex=
-t/?<wbr>submitter=3D&amp;state=3D&amp;q=3D&amp;archive=3D<wbr>both</a><br>
+t/?<wbr>submitter=3D&amp;state=3D&amp;q=3D&amp;archive=3Db<wbr>oth</a><br>
 shows that there are 5 pages of changes (which should be in most cases<br>
 marked as accepted by the hook above), but clicking on 2nd page produces<br=
 >
@@ -229,9 +255,9 @@ o-mqtt_1.1.bb</a> =3D&gt; <a href=3D"http://python-paho-mqtt_1.2.bb" rel=3D=
 &gt;<br>
 &gt; diff --git a/meta-python/recipes-devtools<wbr>/python/<a href=3D"http:=
 //python-paho-mqtt_1.1.bb" rel=3D"noreferrer" target=3D"_blank">python-paho=
--mqtt_1.1.<wbr>bb</a> b/meta-python/recipes-devtools<wbr>/python/<a href=3D=
+-mqtt_1.1.b<wbr>b</a> b/meta-python/recipes-devtools<wbr>/python/<a href=3D=
 "http://python-paho-mqtt_1.2.bb" rel=3D"noreferrer" target=3D"_blank">pytho=
-n-paho-mqtt_1.2.<wbr>bb</a><br>
+n-paho-mqtt_1.2.b<wbr>b</a><br>
 &gt; similarity index 68%<br>
 &gt; rename from meta-python/recipes-devtools/p<wbr>ython/<a href=3D"http:/=
 /python-paho-mqtt_1.1.bb" rel=3D"noreferrer" target=3D"_blank">python-paho-=
@@ -242,10 +268,10 @@ tt_1.2.bb</a><br>
 &gt; index b8f5f3f..c8acfc5 100644<br>
 &gt; --- a/meta-python/recipes-devtools<wbr>/python/<a href=3D"http://pytho=
 n-paho-mqtt_1.1.bb" rel=3D"noreferrer" target=3D"_blank">python-paho-mqtt_1=
-.1.<wbr>bb</a><br>
+.1.b<wbr>b</a><br>
 &gt; +++ b/meta-python/recipes-devtools<wbr>/python/<a href=3D"http://pytho=
 n-paho-mqtt_1.2.bb" rel=3D"noreferrer" target=3D"_blank">python-paho-mqtt_1=
-.2.<wbr>bb</a><br>
+.2.b<wbr>b</a><br>
 &gt; @@ -11,5 +11,5 @@ RDEPENDS_${PN} =3D &quot;\<br>
 &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python-th=
 reading \<br>
@@ -274,7 +300,8 @@ reading \<br>
 --<br>
 Martin &#39;JaMa&#39; Jansa=C2=A0 =C2=A0 =C2=A0jabber: <a href=3D"mailto:Ma=
 rtin.Jansa@gmail.com" target=3D"_blank">Martin.Jansa@gmail.com</a><br>
-<br></div></div><span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+<br></div></div><span class=3D"gmail-m_-151223519105699603m_-69946275049143=
+21943HOEnZb"><font color=3D"#888888">--<br>
 ______________________________<wbr>_________________<br>
 Openembedded-core mailing list<br>
 <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
@@ -284,5 +311,15 @@ k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
 ailman/listinfo/openembedded-<wbr>core</a><br>
 <br></font></span></blockquote></div></div>
 </blockquote></div><br></div>
+</div></blockquote></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
+<br><span style=3D"font-size:12.8px">Michael: one syntax error in patchwork=
+ code was pulled into production<br></span><span style=3D"font-size:12.8px"=
+>yesterday. This is the cause for missing patches. The error is fixed in<br=
+></span><span style=3D"font-size:12.8px">the Yocto repo now, please perform=
+ a server code update ASAP.</span></blockquote><div><br></div><div>Leo and =
+I pulled changes and restarted so this should be in place now.</div></div><=
+div class=3D"gmail_extra"><br></div></div></div>
+</div>
 
---001a11449c70fe165b054925903b--
+--f403045fb52619f701054925be4b--
