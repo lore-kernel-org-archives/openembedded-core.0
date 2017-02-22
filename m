@@ -1,25 +1,25 @@
 Return-Path: <amarnath.valluri@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 193787305D
+	by mail.openembedded.org (Postfix) with ESMTP id 42C5E7305D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 08:27:27 +0000 (UTC)
+	Wed, 22 Feb 2017 08:27:28 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Feb 2017 00:27:28 -0800
+	22 Feb 2017 00:27:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,193,1484035200"; d="scan'208";a="1114017920"
+X-IronPort-AV: E=Sophos;i="5.35,193,1484035200"; d="scan'208";a="1114017927"
 Received: from avallurigigabyte.fi.intel.com ([10.237.72.170])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Feb 2017 00:27:27 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 22 Feb 2017 00:27:28 -0800
 From: Amarnath Valluri <amarnath.valluri@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Feb 2017 10:26:55 +0200
-Message-Id: <1487752042-19804-24-git-send-email-amarnath.valluri@intel.com>
+Date: Wed, 22 Feb 2017 10:26:56 +0200
+Message-Id: <1487752042-19804-25-git-send-email-amarnath.valluri@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1487752042-19804-1-git-send-email-amarnath.valluri@intel.com>
 References: <1487752042-19804-1-git-send-email-amarnath.valluri@intel.com>
 In-Reply-To: <1486734151-28331-1-git-send-email-amarnath.valluri@intel.com>
 References: <1486734151-28331-1-git-send-email-amarnath.valluri@intel.com>
-Subject: [PATCH v2 24/25] image: create symlinks needed for merged /usr
+Subject: [PATCH v2 25/25] insane.bbclass: Add package QA check for merged /usr.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,61 +32,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2017 08:27:27 -0000
+X-List-Received-Date: Wed, 22 Feb 2017 08:27:28 -0000
 
-Prepare the symlinks required for merged /usr at the time of rootfs creation.
-
-The links created in rootfs are:
-/bin --> /usr/sbin
-/sbin --> /usr/sbin
-/lib --> /usr/lib
-/lib64 --> /usr/lib64
-
-We cannot make these symlinks as part of 'base-files' or some other package.
-Because at rootfs creation, installation of the package(say kernel) that depends
-on these root folders/links fails, if package manager installs this package
-prior to base-files.
-
-These symbolic links in top level folder should present as long as
- - kerenl tools use /lib/{module,firmware}
- - shell scripts uses "#!/bin/sh"
+This check makes sure that, when usrmerge distro feature enabled, no package
+installs files to root (/bin, /sbin, /lib, /lib64) folders.
 
 Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
 ---
- meta/classes/image.bbclass | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ meta/classes/insane.bbclass | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 127e62d..4a9b40e 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -617,3 +617,26 @@ do_bundle_initramfs () {
- 	:
- }
- addtask bundle_initramfs after do_image_complete
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index e8e54f0..011eb99 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -40,6 +40,9 @@ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             version-going-backwards expanded-d invalid-chars \
+             license-checksum dev-elf \
+             "
++# Add usrmerge QA check based on distro feature	    
++ERROR_QA_append = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', ' usrmerge', '', d)}"
 +
-+# Prepare the root links to point to the /usr counterparts.
-+create_merged_usr_symlinks() {
-+    install -m 0755 -d ${IMAGE_ROOTFS}/${base_bindir}
-+    install -m 0755 -d ${IMAGE_ROOTFS}/${base_sbindir}
-+    install -m 0755 -d ${IMAGE_ROOTFS}/${base_libdir}
-+    lnr ${IMAGE_ROOTFS}${base_bindir} ${IMAGE_ROOTFS}/bin
-+    lnr ${IMAGE_ROOTFS}${base_sbindir} ${IMAGE_ROOTFS}/sbin
-+    lnr ${IMAGE_ROOTFS}${base_libdir} ${IMAGE_ROOTFS}/${baselib}
+ FAKEROOT_QA = "host-user-contaminated"
+ FAKEROOT_QA[doc] = "QA tests which need to run under fakeroot. If any \
+ enabled tests are listed here, the do_package_qa task will run under fakeroot."
+@@ -1035,6 +1038,18 @@ def package_qa_check_deps(pkg, pkgdest, skip, d):
+     check_valid_deps('RREPLACES')
+     check_valid_deps('RCONFLICTS')
+ 
++QAPKGTEST[usrmerge] = "package_qa_check_usrmerge"
++def package_qa_check_usrmerge(pkg, d, messages):
++    pkgdest = d.getVar('PKGDEST')
++    pkg_dir = pkgdest + os.sep + pkg + os.sep
++    merged_dirs = ['bin', 'sbin', 'lib'] + d.getVar('MULTILIB_VARIANTS').split()
++    for f in merged_dirs:
++        if os.path.exists(pkg_dir + f) and not os.path.islink(pkg_dir + f):
++            msg = "%s package is not obeying usrmerge distro feature. /%s should be relocated to /usr." % (pkg, f)
++            package_qa_add_message(messages, "usrmerge", msg)
++            return False
++    return True
 +
-+    if [ "${nonarch_base_libdir}" != "${base_libdir}" ]; then
-+       install -m 0755 -d ${IMAGE_ROOTFS}/${nonarch_base_libdir}
-+       lnr ${IMAGE_ROOTFS}${nonarch_base_libdir} ${IMAGE_ROOTFS}/lib
-+    fi
+ QAPKGTEST[expanded-d] = "package_qa_check_expanded_d"
+ def package_qa_check_expanded_d(package, d, messages):
+     """
+@@ -1108,6 +1123,7 @@ def package_qa_check_host_user(path, name, d, elf, messages):
+             return False
+     return True
+ 
 +
-+    # create base links for multilibs
-+    multi_libdirs="${@d.getVar('MULTILIB_VARIANTS')}"
-+    for d in $multi_libdirs; do
-+        install -m 0755 -d ${IMAGE_ROOTFS}/${exec_prefix}/$d
-+        lnr ${IMAGE_ROOTFS}/${exec_prefix}/$d ${IMAGE_ROOTFS}/$d
-+    done
-+}
-+ROOTFS_PREPROCESS_COMMAND += "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', 'create_merged_usr_symlinks; ', '',d)}"
+ # The PACKAGE FUNC to scan each package
+ python do_package_qa () {
+     import subprocess
 -- 
 2.7.4
 
