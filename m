@@ -1,26 +1,30 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CFA97301A
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 53B3973012
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 03:13:28 +0000 (UTC)
+	Wed, 22 Feb 2017 03:15:08 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v1M3DURN012780
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2017 19:13:30 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.201) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 21 Feb 2017 19:13:29 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Feb 2017 11:13:45 +0800
-Message-ID: <bcf1f63e6536a38a3d7dee1cd3a0f3a1be1a9e90.1487733094.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1487733094.git.Qi.Chen@windriver.com>
-References: <cover.1487733094.git.Qi.Chen@windriver.com>
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v1M3FAYQ001335
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 21 Feb 2017 19:15:10 -0800
+Received: from [128.224.162.201] (128.224.162.201) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Tue, 21 Feb 2017 19:15:09 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1487329062.git.Qi.Chen@windriver.com>
+	<1f3643c5e63b1771dc73c89b8f69e794944bf284.1487329062.git.Qi.Chen@windriver.com>
+	<CAJTo0LZp8hqN6huAWAJmjhmBnpvO9FCTAm7_renpBN8OocVO_w@mail.gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <ad50369e-b300-fe38-0816-7e3bcfc4d1c5@windriver.com>
+Date: Wed, 22 Feb 2017 11:15:30 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: [PATCH V2 4/4] util-linux: upgrade to 2.29.1
+In-Reply-To: <CAJTo0LZp8hqN6huAWAJmjhmBnpvO9FCTAm7_renpBN8OocVO_w@mail.gmail.com>
+X-Originating-IP: [128.224.162.201]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] sudo: upgrade to 1.8.19p2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +37,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2017 03:13:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 22 Feb 2017 03:15:09 -0000
+Content-Type: multipart/alternative;
+	boundary="------------84740069E67AD940849B33C8"
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- .../util-linux/{util-linux_2.29.bb => util-linux_2.29.1.bb}           | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/util-linux/{util-linux_2.29.bb => util-linux_2.29.1.bb} (86%)
+--------------84740069E67AD940849B33C8
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-diff --git a/meta/recipes-core/util-linux/util-linux_2.29.bb b/meta/recipes-core/util-linux/util-linux_2.29.1.bb
-similarity index 86%
-rename from meta/recipes-core/util-linux/util-linux_2.29.bb
-rename to meta/recipes-core/util-linux/util-linux_2.29.1.bb
-index 80638bd..1395b47 100644
---- a/meta/recipes-core/util-linux/util-linux_2.29.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.29.1.bb
-@@ -16,8 +16,8 @@ SRC_URI += "file://configure-sbindir.patch \
-             file://avoid_parallel_tests.patch \
-             file://uuid-test-error-api.patch \
- "
--SRC_URI[md5sum] = "07b6845f48a421ad5844aa9d58edb837"
--SRC_URI[sha256sum] = "2c59ea67cc7b564104f60532f6e0a95fe17a91acb870ba8fd7e986f273abf9e7"
-+SRC_URI[md5sum] = "0cbb6d16ab9c5736e5649ef1264bee6e"
-+SRC_URI[sha256sum] = "0ce40600b934ec2fecfa6bfc4efe6982d051ba96c2832b05201347aec582f54f"
- 
- CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=ms"
- 
--- 
-1.9.1
+On 02/17/2017 11:59 PM, Burton, Ross wrote:
+>
+> On 17 February 2017 at 10:59, Chen Qi <Qi.Chen@windriver.com 
+> <mailto:Qi.Chen@windriver.com>> wrote:
+>
+>     -LIC_FILES_CHKSUM =
+>     "file://doc/LICENSE;md5=c16e542408abda013d672be8eb88d174 \
+>     +LIC_FILES_CHKSUM =
+>     "file://doc/LICENSE;md5=f600a47c2a2cdde5899e449607810ed1 \
+>
+>
+> Please remember to explain why this was changed.
+>
+> Also, this changing on an upgrade kind of makes the point of the 
+> .inc/.bb split meaningless, so feel free to merge them.
+>
+> Ross
+
+I've added the comments and send out V2.
+
+As the change of the contents in doc/LICENSE is a small change, '2015' 
+changed to '2017', I think we don't merge the .inc and .bb files.
+
+Best Regards,
+
+Chen Qi
 
 
+--------------84740069E67AD940849B33C8
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 02/17/2017 11:59 PM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LZp8hqN6huAWAJmjhmBnpvO9FCTAm7_renpBN8OocVO_w@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 17 February 2017 at 10:59, Chen Qi
+            <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:Qi.Chen@windriver.com" target="_blank">Qi.Chen@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":4xk" class="a3s aXjCH m15a4bba4f7c12d92">-LIC_FILES_CHKSUM
+                = "<a class="moz-txt-link-freetext" href="file://doc/LICENSE;md5=">file://doc/LICENSE;md5=</a><wbr>c16e542408abda013d672be8eb88d1<wbr>74
+                \<br>
+                +LIC_FILES_CHKSUM = "<a class="moz-txt-link-freetext" href="file://doc/LICENSE;md5=">file://doc/LICENSE;md5=</a><wbr>f600a47c2a2cdde5899e449607810e<wbr>d1
+                \<br>
+              </div>
+            </blockquote>
+          </div>
+          <br>
+          Please remember to explain why this was changed.</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Also, this changing on an upgrade kind
+          of makes the point of the .inc/.bb split meaningless, so feel
+          free to merge them.</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <p>I've added the comments and send out V2.</p>
+    <p>As the change of the contents in doc/LICENSE is a small change,
+      '2015' changed to '2017', I think we don't merge the .inc and .bb
+      files.</p>
+    <p>Best Regards,</p>
+    <p>Chen Qi<br>
+    </p>
+  </body>
+</html>
+
+--------------84740069E67AD940849B33C8--
