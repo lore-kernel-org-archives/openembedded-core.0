@@ -1,23 +1,23 @@
 Return-Path: <amarnath.valluri@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 44F1A7305D
+	by mail.openembedded.org (Postfix) with ESMTP id 713C973053
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 08:27:42 +0000 (UTC)
+	Wed, 22 Feb 2017 08:27:43 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Feb 2017 00:27:44 -0800
+	22 Feb 2017 00:27:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,193,1484035200"; d="scan'208";a="1114018004"
+X-IronPort-AV: E=Sophos;i="5.35,193,1484035200"; d="scan'208";a="1114018011"
 Received: from avallurigigabyte.fi.intel.com ([10.237.72.170])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Feb 2017 00:27:42 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 22 Feb 2017 00:27:44 -0800
 From: Amarnath Valluri <amarnath.valluri@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Feb 2017 10:27:06 +0200
-Message-Id: <1487752042-19804-35-git-send-email-amarnath.valluri@intel.com>
+Date: Wed, 22 Feb 2017 10:27:07 +0200
+Message-Id: <1487752042-19804-36-git-send-email-amarnath.valluri@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1487752042-19804-1-git-send-email-amarnath.valluri@intel.com>
 References: <1487752042-19804-1-git-send-email-amarnath.valluri@intel.com>
-Subject: [PATCH v2 09/25] musl: Fix issues in relative symlink creation
+Subject: [PATCH v2 10/25] glibc: Ensure ldconfig is packaged into glibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,120 +30,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2017 08:27:42 -0000
+X-List-Received-Date: Wed, 22 Feb 2017 08:27:43 -0000
 
-Make use of lnr/ln -r while creating relative symlinks than guessing the
-relalive path.
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 
-Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
+If "usrmerge" feature is used, /usr/sbin/ldconfig gets packaged into
+glibc-utils instead of glibc: Switch PACKAGES order to prevent this.
+
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- ...dynamic-linker-a-relative-symlink-to-libc.patch | 62 ++++++++++++++++++----
- meta/recipes-core/musl/musl_git.bb                 |  2 +-
- 2 files changed, 53 insertions(+), 11 deletions(-)
+ meta/recipes-core/glibc/glibc-package.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/musl/files/0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch b/meta/recipes-core/musl/files/0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch
-index 5490b1c..462d338 100644
---- a/meta/recipes-core/musl/files/0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch
-+++ b/meta/recipes-core/musl/files/0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch
-@@ -1,6 +1,6 @@
--From 94c0b97b62125d8bbc92dce0694e387d5b2ad181 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sun, 10 Jan 2016 12:14:02 -0800
-+From 0ec74744a4cba7c5fdfaa2685995119a4fca0260 Mon Sep 17 00:00:00 2001
-+From: Amarnath Valluri <amarnath.valluri@intel.com>
-+Date: Wed, 18 Jan 2017 16:14:37 +0200
- Subject: [PATCH] Make dynamic linker a relative symlink to libc
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index f0fc9c1..6aca2db 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -19,7 +19,7 @@ USE_LDCONFIG ?= "1"
  
- absolute symlink into $(libdir) fails to load in a cross build
-@@ -9,26 +9,68 @@ applications, which cross build systems often do, since not everything
- can be computed during cross builds, qemu in usermode often comes to aid
- in such situations to feed into cross builds.
+ INHIBIT_SYSROOT_STRIP = "1"
  
-+V2:
-+ Make use of 'ln -r' to create relative symlinks, as most fo the distros
-+ shipping coreutils 8.16+
-+
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
- ---
- Upstream-Status: Pending
--
-- Makefile | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
-+---
-+ Makefile         | 2 +-
-+ tools/install.sh | 8 +++++---
-+ 2 files changed, 6 insertions(+), 4 deletions(-)
+-PACKAGES = "${PN}-dbg catchsegv sln nscd ldd tzcode ${PN}-utils glibc-thread-db ${PN}-pic libcidn libmemusage libsegfault ${PN}-pcprofile libsotruss ${PN} glibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
++PACKAGES = "${PN}-dbg catchsegv sln nscd ldd tzcode glibc-thread-db ${PN}-pic libcidn libmemusage libsegfault ${PN}-pcprofile libsotruss ${PN} ${PN}-utils glibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
  
- diff --git a/Makefile b/Makefile
--index b2226fa..0d71f7f 100644
-+index 8246b78..d1dbe39 100644
- --- a/Makefile
- +++ b/Makefile
--@@ -189,7 +189,7 @@ $(DESTDIR)$(includedir)/%: include/%
-+@@ -215,7 +215,7 @@ $(DESTDIR)$(includedir)/%: $(srcdir)/include/%
-  	$(INSTALL) -D -m 644 $< $@
-  
-  $(DESTDIR)$(LDSO_PATHNAME): $(DESTDIR)$(libdir)/libc.so
- -	$(INSTALL) -D -l $(libdir)/libc.so $@ || true
--+	$(INSTALL) -D -l ..$(libdir)/libc.so $@ || true
-++	$(INSTALL) -D -r $(DESTDIR)$(libdir)/libc.so $@ || true
-  
-  install-libs: $(ALL_LIBS:lib/%=$(DESTDIR)$(libdir)/%) $(if $(SHARED_LIBS),$(DESTDIR)$(LDSO_PATHNAME),)
-  
-+diff --git a/tools/install.sh b/tools/install.sh
-+index d913b60..b6a7f79 100755
-+--- a/tools/install.sh
-++++ b/tools/install.sh
-+@@ -6,18 +6,20 @@
-+ #
-+ 
-+ usage() {
-+-printf "usage: %s [-D] [-l] [-m mode] src dest\n" "$0" 1>&2
-++printf "usage: %s [-D] [-l] [-r] [-m mode] src dest\n" "$0" 1>&2
-+ exit 1
-+ }
-+ 
-+ mkdirp=
-+ symlink=
-++symlinkflags="-s"
-+ mode=755
-+ 
-+-while getopts Dlm: name ; do
-++while getopts Dlrm: name ; do
-+ case "$name" in
-+ D) mkdirp=yes ;;
-+ l) symlink=yes ;;
-++r) symlink=yes; symlinkflags="$symlinkflags -r" ;;
-+ m) mode=$OPTARG ;;
-+ ?) usage ;;
-+ esac
-+@@ -48,7 +50,7 @@ trap 'rm -f "$tmp"' EXIT INT QUIT TERM HUP
-+ umask 077
-+ 
-+ if test "$symlink" ; then
-+-ln -s "$1" "$tmp"
-++ln $symlinkflags "$1" "$tmp"
-+ else
-+ cat < "$1" > "$tmp"
-+ chmod "$mode" "$tmp"
- -- 
--2.7.0
-+2.7.4
- 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index e9b9fef..5775184 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -49,7 +49,7 @@ do_install() {
- 	oe_runmake install DESTDIR='${D}'
- 
- 	install -d ${D}${bindir}
--	ln -s ../../${libdir}/libc.so ${D}${bindir}/ldd
-+	lnr ${D}${libdir}/libc.so ${D}${bindir}/ldd
- 	for l in crypt dl m pthread resolv rt util xnet
- 	do
- 		ln -s libc.so ${D}${libdir}/lib$l.so
+ # The ld.so in this glibc supports the GNU_HASH
+ RPROVIDES_${PN} = "eglibc rtld(GNU_HASH)"
 -- 
 2.7.4
 
