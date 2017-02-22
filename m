@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 097F573121
+	by mail.openembedded.org (Postfix) with ESMTP id 23BFA74004
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 14:52:40 +0000 (UTC)
+	Wed, 22 Feb 2017 14:52:41 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Feb 2017 06:52:41 -0800
+	22 Feb 2017 06:52:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,194,1484035200"; d="scan'208";a="51302261"
+X-IronPort-AV: E=Sophos;i="5.35,194,1484035200"; d="scan'208";a="51302265"
 Received: from kanavin-desktop.fi.intel.com (HELO
 	kanavin-desktop.fi.intel.comfi.intel.com) ([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 22 Feb 2017 06:52:40 -0800
+	by orsmga002.jf.intel.com with ESMTP; 22 Feb 2017 06:52:42 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Feb 2017 16:51:18 +0200
-Message-Id: <18154a4a0b667faede549f0f16855f55522e1032.1487774787.git.alexander.kanavin@linux.intel.com>
+Date: Wed, 22 Feb 2017 16:51:19 +0200
+Message-Id: <93fa4a77d852419f068ccd2cd99faee771f4c29c.1487774787.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1487774787.git.alexander.kanavin@linux.intel.com>
 References: <cover.1487774787.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 23/24] nss: update to 3.28.1
+Subject: [PATCH 24/24] systemtap: update to 3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,137 +31,277 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2017 14:52:40 -0000
+X-List-Received-Date: Wed, 22 Feb 2017 14:52:41 -0000
 
-Rebase nss-fix-support-cross-compiling.patch
+Removed patches are in upstream.
+Rebase monitor-option.patch and no-msgfmt-check.patch
+Add support for python 3 probes
+(this necessitates the 0001-Do-not-let-configure-write-a-python-location-into-th.patch)
+Add perl to RDEPENDS to fix a QA warning about one of the installed files.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ... => 0001-nss-fix-support-cross-compiling.patch} | 51 ++++++----------------
- .../nss/{nss_3.27.1.bb => nss_3.28.1.bb}           |  8 ++--
- 2 files changed, 18 insertions(+), 41 deletions(-)
- rename meta/recipes-support/nss/nss/{nss-fix-support-cross-compiling.patch => 0001-nss-fix-support-cross-compiling.patch} (49%)
- rename meta/recipes-support/nss/{nss_3.27.1.bb => nss_3.28.1.bb} (96%)
+ ...configure-write-a-python-location-into-th.patch | 25 +++++++++++++
+ .../systemtap/systemtap/fix-monitor-linking.patch  | 41 ----------------------
+ .../systemtap/systemtap/monitor-option.patch       | 26 ++++++++++----
+ .../systemtap/systemtap/no-msgfmt-check.patch      | 22 ++++++++++--
+ .../systemtap/obsolete_automake_macros.patch       | 15 --------
+ meta/recipes-kernel/systemtap/systemtap_git.bb     |  9 ++---
+ meta/recipes-kernel/systemtap/systemtap_git.inc    |  7 ++--
+ 7 files changed, 72 insertions(+), 73 deletions(-)
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-Do-not-let-configure-write-a-python-location-into-th.patch
+ delete mode 100644 meta/recipes-kernel/systemtap/systemtap/fix-monitor-linking.patch
+ delete mode 100644 meta/recipes-kernel/systemtap/systemtap/obsolete_automake_macros.patch
 
-diff --git a/meta/recipes-support/nss/nss/nss-fix-support-cross-compiling.patch b/meta/recipes-support/nss/nss/0001-nss-fix-support-cross-compiling.patch
-similarity index 49%
-rename from meta/recipes-support/nss/nss/nss-fix-support-cross-compiling.patch
-rename to meta/recipes-support/nss/nss/0001-nss-fix-support-cross-compiling.patch
-index f0b3550bffd..d5403397e73 100644
---- a/meta/recipes-support/nss/nss/nss-fix-support-cross-compiling.patch
-+++ b/meta/recipes-support/nss/nss/0001-nss-fix-support-cross-compiling.patch
-@@ -1,46 +1,23 @@
--nss: fix support cross compiling
-+From 0cf47ee432cc26a706864fcc09b2c3adc342a679 Mon Sep 17 00:00:00 2001
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-Do-not-let-configure-write-a-python-location-into-th.patch b/meta/recipes-kernel/systemtap/systemtap/0001-Do-not-let-configure-write-a-python-location-into-th.patch
+new file mode 100644
+index 00000000000..742b1187fc3
+--- /dev/null
++++ b/meta/recipes-kernel/systemtap/systemtap/0001-Do-not-let-configure-write-a-python-location-into-th.patch
+@@ -0,0 +1,25 @@
++From ab29615ed6c2e779b472903564dc683dc1015de7 Mon Sep 17 00:00:00 2001
 +From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Wed, 22 Feb 2017 11:36:11 +0200
-+Subject: [PATCH] nss: fix support cross compiling
- 
- Let some make variables be assigned from outside makefile.
- 
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
- Upstream-Status: Inappropriate [configuration]
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Wed, 22 Feb 2017 13:37:33 +0200
++Subject: [PATCH] Do not let configure write a python location into the dtrace
++ binary
++
++Upstream-Status: Inappropriate [oe-core specific]
 +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- ---
-- nss/coreconf/Linux.mk   | 12 +++++++++++-
-- nss/coreconf/arch.mk    |  2 +-
-- nss/lib/freebl/Makefile |  6 ++++++
-- 3 files changed, 18 insertions(+), 2 deletions(-)
-+ nss/coreconf/arch.mk    | 2 +-
-+ nss/lib/freebl/Makefile | 6 ++++++
-+ 2 files changed, 7 insertions(+), 1 deletion(-)
- 
--diff --git a/nss/coreconf/Linux.mk b/nss/coreconf/Linux.mk
----- a/nss/coreconf/Linux.mk
--+++ b/nss/coreconf/Linux.mk
--@@ -16,11 +16,21 @@ ifeq ($(USE_PTHREADS),1)
-- 	IMPL_STRATEGY = _PTH
++---
++ dtrace.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/dtrace.in b/dtrace.in
++index 5e1cf8079..a24229cbc 100644
++--- a/dtrace.in
+++++ b/dtrace.in
++@@ -1,4 +1,4 @@
++-#!@preferred_python@
+++#!/usr/bin/python3
++ # vim: et sta sts=4 sw=4 ts=8
++ 
++ # This handles the systemtap equivalent of
++-- 
++2.11.0
++
+diff --git a/meta/recipes-kernel/systemtap/systemtap/fix-monitor-linking.patch b/meta/recipes-kernel/systemtap/systemtap/fix-monitor-linking.patch
+deleted file mode 100644
+index 2bf0742a1df..00000000000
+--- a/meta/recipes-kernel/systemtap/systemtap/fix-monitor-linking.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-Upstream-Status: Submitted
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-From d940aa0079c253b958cf9158e9ec7922ecf464f9 Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@intel.com>
+-Date: Wed, 9 Nov 2016 00:00:48 +0000
+-Subject: [PATCH] staprun: fix linking if monitor is enabled
+-
+-If the monitor is enabled, monitor.c needs to link against json-c and ncurses.
+-Instead of adding these linker flags to AM_CFLAGS (global CC flags) add them to
+-stapio_LDADD.
+-
+-Apart from being the "right" thing to do, this fixes build failures on systems
+-such as current Ubuntu (which defaults to using --as-needed and similar) where
+-link order is important.
+----
+- staprun/Makefile.am | 7 +++----
+- 1 file changed, 3 insertions(+), 4 deletions(-)
+-
+-diff --git a/staprun/Makefile.am b/staprun/Makefile.am
+-index 63d4088..66b3e21 100644
+---- a/staprun/Makefile.am
+-+++ b/staprun/Makefile.am
+-@@ -42,12 +42,11 @@ staprun_CXXFLAGS += $(nss_CFLAGS)
+- staprun_LDADD += $(nss_LIBS)
 - endif
 - 
--+ifndef CC
-- CC			= gcc
--+endif
--+
--+ifdef CXX
--+CCC			= $(CXX)
--+else
-- CCC			= g++
--+endif
--+
--+ifndef RANLIB
-- RANLIB			= ranlib
+--if HAVE_MONITOR_LIBS
+--AM_CFLAGS += $(jsonc_LIBS) $(ncurses_LIBS)
+--endif
+--
+- stapio_SOURCES = stapio.c mainloop.c common.c ctl.c relay.c relay_old.c monitor.c
+- stapio_LDADD = libstrfloctime.a -lpthread
+-+if HAVE_MONITOR_LIBS
+-+stapio_LDADD += $(jsonc_LIBS) $(ncurses_LIBS)
 -+endif
 - 
---DEFAULT_COMPILER = gcc
--+DEFAULT_COMPILER = $(CC)
+- man_MANS = staprun.8
 - 
-- ifeq ($(OS_TARGET),Android)
-- ifndef ANDROID_NDK
- diff --git a/nss/coreconf/arch.mk b/nss/coreconf/arch.mk
--index 6557348..b722412 100644
-+index 06c276f..9c1eb51 100644
- --- a/nss/coreconf/arch.mk
- +++ b/nss/coreconf/arch.mk
--@@ -37,7 +37,7 @@ OS_TEST := $(shell uname -m)
-+@@ -30,7 +30,7 @@ OS_TEST := $(shell uname -m)
-  ifeq ($(OS_TEST),i86pc)
-      OS_RELEASE := $(shell uname -r)_$(OS_TEST)
-  else
-@@ -50,7 +27,7 @@ index 6557348..b722412 100644
-  
-  #
- diff --git a/nss/lib/freebl/Makefile b/nss/lib/freebl/Makefile
--index 0d293f1..678f506 100644
-+index 0ce1425..ebeb411 100644
- --- a/nss/lib/freebl/Makefile
- +++ b/nss/lib/freebl/Makefile
- @@ -36,6 +36,12 @@ ifdef USE_64
-@@ -59,7 +36,7 @@ index 0d293f1..678f506 100644
-  
- +ifeq ($(OS_TEST),mips)
- +ifndef USE_64
--+	DEFINES += -DNS_PTR_LE_32
-++       DEFINES += -DNS_PTR_LE_32
- +endif
- +endif
- +
-@@ -67,5 +44,5 @@ index 0d293f1..678f506 100644
-  	DEFINES += -DNSS_USE_ABI32_FPU
-  endif
- -- 
--1.8.1.2
+--- 
+-2.8.1
+diff --git a/meta/recipes-kernel/systemtap/systemtap/monitor-option.patch b/meta/recipes-kernel/systemtap/systemtap/monitor-option.patch
+index 7d43a79e21a..b7ee0701b1a 100644
+--- a/meta/recipes-kernel/systemtap/systemtap/monitor-option.patch
++++ b/meta/recipes-kernel/systemtap/systemtap/monitor-option.patch
+@@ -1,21 +1,30 @@
++From 93fc4744fedf6fc593ee656968da97f7b1862ada Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@intel.com>
++Date: Tue, 4 Oct 2016 16:37:53 +0100
++Subject: [PATCH 4/6] systemtap: rationalise dependencies
++
+ Add an option to explicitly disable the monitor (and therefore the dependency on
+ json-c and ncurses).
+ 
+ Upstream-Status: Pending
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
+ 
++---
++ configure.ac | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
+ diff --git a/configure.ac b/configure.ac
+-index cd781a2..e56079a 100644
++index 6bd0c5fc4..2ea9b3cbf 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -570,13 +574,16 @@ dnl See if we have enough libraries and tools to build the virt server
+- fi
+- AM_CONDITIONAL([BUILD_VIRT], [test "${have_libvirt}" == "yes" -a "${have_libxml2}" == "yes" -a "$enable_virt" != "no"])
+-
++@@ -752,13 +752,16 @@ dnl We want either (or both) python probe support.
++ AM_CONDITIONAL([HAVE_PYTHON_PROBES],
++   [test "x$have_python2_support" = "xyes" -o "x$have_python3_support" = "xyes"])
++ 
+ +AC_ARG_ENABLE([monitor], AS_HELP_STRING([--disable-monitor],[Disable monitor]))
+ +if test "$enable_monitor" != "no"; then
+  dnl Check for presence of json-c and ncurses for use in monitor mode
+- PKG_CHECK_MODULES([jsonc], [json-c], [have_jsonc=yes], [have_jsonc=no])
++ PKG_CHECK_MODULES([jsonc], [json-c >= 0.12], [have_jsonc=yes], [have_jsonc=no])
+  PKG_CHECK_MODULES([ncurses], [ncurses], [have_ncurses=yes], [have_ncurses=no])
+ -AM_CONDITIONAL([HAVE_MONITOR_LIBS], [test "${have_jsonc}" == "yes" -a "${have_ncurses}" == "yes"])
+  if test "${have_jsonc}" == "yes" -a "${have_ncurses}" == yes; then
+@@ -23,6 +32,9 @@ index cd781a2..e56079a 100644
+  fi
+ +fi
+ +AM_CONDITIONAL([HAVE_MONITOR_LIBS], [test "${have_jsonc}" == "yes" -a "${have_ncurses}" == "yes" -a "$enable_monitor" != "no"])
+-
++ 
+  AC_CACHE_CHECK([for assembler .section "?" flags support], stap_cv_sectionq, [
+  old_CFLAGS="$CFLAGS"
++-- 
 +2.11.0
++
+diff --git a/meta/recipes-kernel/systemtap/systemtap/no-msgfmt-check.patch b/meta/recipes-kernel/systemtap/systemtap/no-msgfmt-check.patch
+index 471e62c56bb..2c860b19e51 100644
+--- a/meta/recipes-kernel/systemtap/systemtap/no-msgfmt-check.patch
++++ b/meta/recipes-kernel/systemtap/systemtap/no-msgfmt-check.patch
+@@ -1,15 +1,33 @@
++From 43f1b04449bb1cf7e0092263f1c2a25f3fca08ef Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@intel.com>
++Date: Tue, 8 Nov 2016 23:07:41 +0000
++Subject: [PATCH 5/6] systemtap: remove explicit msgfmt check
++
+ There is no need to explicitly check that msgfmt was found as the gettext macros
+ handle this for us if NLS is enabled.
  
-diff --git a/meta/recipes-support/nss/nss_3.27.1.bb b/meta/recipes-support/nss/nss_3.28.1.bb
-similarity index 96%
-rename from meta/recipes-support/nss/nss_3.27.1.bb
-rename to meta/recipes-support/nss/nss_3.28.1.bb
-index c89470fb11c..fed86fc8e92 100644
---- a/meta/recipes-support/nss/nss_3.27.1.bb
-+++ b/meta/recipes-support/nss/nss_3.28.1.bb
-@@ -15,8 +15,8 @@ LIC_FILES_CHKSUM = "file://nss/COPYING;md5=3b1e88e1b9c0b5a4b2881d46cce06a18 \
-                     file://nss/lib/freebl/mpi/doc/LICENSE-MPL;md5=5d425c8f3157dbf212db2ec53d9e5132"
+ Upstream-Status: Pending
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
  
- SRC_URI = "\
--    http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_27_1_RTM/src/${BP}.tar.gz \
--    file://nss-fix-support-cross-compiling.patch \
-+    http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_28_1_RTM/src/${BP}.tar.gz \
-+    file://0001-nss-fix-support-cross-compiling.patch \
-     file://nss-no-rpath-for-cross-compiling.patch \
-     file://nss-fix-incorrect-shebang-of-perl.patch \
-     file://nss-fix-nsinstall-build.patch \
-@@ -26,8 +26,8 @@ SRC_URI = "\
-     file://nss.pc.in \
-     file://signlibs.sh \
- "
--SRC_URI[md5sum] = "f18e1ebfe07969c84b890e45843edcb7"
--SRC_URI[sha256sum] = "fd3637a1930cd838239a89633a7ed9a18859ae9b599043f3a18f726dc4ec2a6b"
-+SRC_URI[md5sum] = "e98d48435cee5792f97ef7fc35a602c3"
-+SRC_URI[sha256sum] = "58cc0c05c0ed9523e6d820bea74f513538f48c87aac931876e3d3775de1a82ad"
++---
++ configure.ac | 4 ----
++ 1 file changed, 4 deletions(-)
++
+ diff --git a/configure.ac b/configure.ac
+-index e56079a..284bbe0 100644
++index 2ea9b3cbf..95417f59c 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -39,4 +38,0 @@ AM_GNU_GETTEXT_VERSION([0.19.4])
++@@ -36,10 +36,6 @@ AC_CHECK_FUNCS(openat)
++ AM_GNU_GETTEXT(external)
++ AM_GNU_GETTEXT_VERSION([0.19.4])
++ 
+ -if test "x$GMSGFMT" = "x:"; then
+ -   AC_MSG_ERROR([missing gnu /usr/bin/msgfmt])
+ -fi
+ -
++ # We want the 'PYTHON' varible to be python version 2. We also want
++ # our custom 'PYTHON3' varible to be python version 3.
++ #
++-- 
++2.11.0
++
+diff --git a/meta/recipes-kernel/systemtap/systemtap/obsolete_automake_macros.patch b/meta/recipes-kernel/systemtap/systemtap/obsolete_automake_macros.patch
+deleted file mode 100644
+index 988cda4f0c8..00000000000
+--- a/meta/recipes-kernel/systemtap/systemtap/obsolete_automake_macros.patch
++++ /dev/null
+@@ -1,15 +0,0 @@
+-Upstream-Status: Pending
+-
+-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+-Index: git/configure.ac
+-===================================================================
+---- git.orig/configure.ac
+-+++ git/configure.ac
+-@@ -19,7 +19,6 @@ AC_PROG_LN_S
+- AC_PROG_CC
+- AC_PROG_CXX
+- AC_PROG_CPP
+--AM_PROG_CC_STDC
+- AM_PROG_CC_C_O
+- AC_PROG_RANLIB
+- AC_OBJEXT
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
+index 43bf69e8778..fed368a38b7 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.bb
++++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
+@@ -4,12 +4,12 @@ require systemtap_git.inc
  
- UPSTREAM_CHECK_URI = "https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_Releases"
- UPSTREAM_CHECK_REGEX = "NSS_(?P<pver>.+)_release_notes"
+ DEPENDS = "boost elfutils"
+ 
+-RDEPENDS_${PN} += "python3-core bash"
++RDEPENDS_${PN} += "python3-core bash perl"
+ 
+ EXTRA_OECONF += "--with-libelf=${STAGING_DIR_TARGET} --without-rpm \
+             --without-nss --without-avahi --without-dyninst \
+             --disable-server --disable-grapher --enable-prologues \
+-            --with-python3 \
++            --with-python3 --without-python2-probes \
+             ac_cv_prog_have_javac=no \
+             ac_cv_prog_have_jar=no "
+ 
+@@ -17,11 +17,12 @@ STAP_DOCS ?= "--disable-docs --disable-publican --disable-refdocs"
+ 
+ EXTRA_OECONF += "${STAP_DOCS} "
+ 
+-PACKAGECONFIG ??= "sqlite monitor"
++PACKAGECONFIG ??= "sqlite monitor python3-probes"
+ PACKAGECONFIG[libvirt] = "--enable-libvirt,--disable-libvirt,libvirt"
+ PACKAGECONFIG[sqlite] = "--enable-sqlite,--disable-sqlite,sqlite3"
+ PACKAGECONFIG[monitor] = "--enable-monitor,--disable-monitor,ncurses json-c"
++PACKAGECONFIG[python3-probes] = "--with-python3-probes,--without-python3-probes,python3-setuptools-native"
+ 
+-inherit autotools gettext pkgconfig
++inherit autotools gettext pkgconfig distutils3-base
+ 
+ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index a0f0e6859a3..7cebd8f8bc0 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -1,16 +1,15 @@
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+-SRCREV = "616ec7a0b916df7785d911b824c3df6eb022b213"
+-PV = "3.0"
++SRCREV = "b8ea350dc13adb6190d9044a5b80110a4c441270"
++PV = "3.1"
+ 
+ SRC_URI = "git://sourceware.org/git/systemtap.git \
+-           file://obsolete_automake_macros.patch \
+            file://system_map_location.patch \
+            file://configure-allow-to-disable-libvirt.patch \
+            file://x32_abi_time.patch \
+            file://monitor-option.patch \
+            file://no-msgfmt-check.patch \
+-           file://fix-monitor-linking.patch \
++           file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
+           "
+ 
+ # systemtap doesn't support mips
 -- 
 2.11.0
 
