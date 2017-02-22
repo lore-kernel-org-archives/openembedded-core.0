@@ -1,47 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
-	[209.85.216.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EF2971D7F
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E6B40730B7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 10:01:22 +0000 (UTC)
-Received: by mail-qt0-f180.google.com with SMTP id b16so4546508qte.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 02:01:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=gV+uQZPaBBHPT4EnufGnxxWqmu4aYM6TTDLt5wzn3ic=;
-	b=I2ie94swYSkmIs1GWofwZNMzvprY4WXhcAG1Lls/V476dAjkNhZ8S4Ft/Pin/v8Kmp
-	80ymdlSQ6v5RdQr8sbrNkUBOqSyuWtdH0CbpNAVkVcT9qablEQMMigJ++sogm50DvAin
-	sAR3iLH+jq0Jn8SKt/b6Lu0QdCynBiCLIrHa4BxTgTmAFdtm/IAbtgrPVdXAOywldqcl
-	98uVKFfiLsLQ94viKSNLCzoExkO5viWr5nb25mXgV4bTHfYs8kUmO/qFOjzU2bUgZ6Tg
-	1VctrTVQArFbjA9LXw4fbnZF+laApkDMycSrPPKJ15mgHODQBT5/sh/Mxyg4mEImNrnj
-	WW3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=gV+uQZPaBBHPT4EnufGnxxWqmu4aYM6TTDLt5wzn3ic=;
-	b=TulIb4/8Oqasm2hnyUIeMRJsc10aTROyUBymjvQiRLgjgPmQI4evJdMiS5oXT4sPhW
-	9zAOImfnzqqYJm2jBEZvwfHoZKof8SiG3Sb7sNtkDqmvgPFKDDEhF2fG44j+gUgN9uWo
-	UKJgUswrX3HyUmTLMEmu/orDj9KqwtpgbLLMmZIpDD1mZ1GiFQm9FH1b17OOgnCdCLrd
-	385KMz6mPQMh+pcAIPf4p0AYubEz5naNt7uvmH6w4jf80V/wY4IHJZv5x+z6/9JD+bPS
-	e+JqeMcgfZjtdoFukh9LSy/TLA7hZFcjvn1U3ZDOC+xRciHb1Wn+S0fWcfJZ+2GCIXjO
-	vpDQ==
-X-Gm-Message-State: AMke39mXwmqYdHZ4cGAkeaU/I1KiW5XN+j/GKuXsXDdqpYijnpkz9NynAbTGiYcBkq4cdGrlhPyzpe4l/bmKBoEp
-X-Received: by 10.237.54.1 with SMTP id e1mr27792652qtb.68.1487757683872; Wed,
-	22 Feb 2017 02:01:23 -0800 (PST)
+	Wed, 22 Feb 2017 10:04:52 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v1MA4qae015220
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 22 Feb 2017 02:04:52 -0800 (PST)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Wed, 22 Feb 2017 02:04:52 -0800
+From: Dengke Du <dengke.du@windriver.com>
+To: <ross.burton@intel.com>
+Date: Wed, 22 Feb 2017 05:04:49 -0500
+Message-ID: <cover.1487757679.git.dengke.du@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Wed, 22 Feb 2017 02:01:03 -0800 (PST)
-In-Reply-To: <CALbNGRQCTBqEUiByii0LFY7=Kw07KbBNn1fy+64zuF24+g-y-A@mail.gmail.com>
-References: <CALbNGRQCTBqEUiByii0LFY7=Kw07KbBNn1fy+64zuF24+g-y-A@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 22 Feb 2017 10:01:03 +0000
-Message-ID: <CAJTo0LZ8aGGuo1nz-U9gXJ+_BFvgohvfgVw3g53DFUtV=FE5Tw@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Task sequence question
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH V5 0/1] ltp: upgrade to 20170116
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,51 +31,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2017 10:01:23 -0000
-Content-Type: multipart/alternative; boundary=001a1142dcf0427e4605491b9423
+X-List-Received-Date: Wed, 22 Feb 2017 10:04:53 -0000
+Content-Type: text/plain
 
---001a1142dcf0427e4605491b9423
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Changed in V5:
+	Fix build errors when distro is poky-lsb
 
-On 21 February 2017 at 23:20, Andreas M=C3=BCller <schnitzeltony@googlemail=
-.com>
-wrote:
+Changed in V4:
+	Rebase on the latest oe-core master branch
 
-> after some fixing in meta-oe it seems I am able to build some
-> xfce-image again. Watching the tasks go by I noticed that do_rootfs is
-> running already while many recipes still do their do_package_qa. This
-> looks a bit odd to me. Not that I am happy about an early do_rootfs
-> but what would happen if do_package_qa fails? Isn't that a kind of
-> prerequisite for an image that do_package_qa passes for all packages
-> within this image?
->
+Changed in V3:
+	Add the runtime depends packages: "unzip gzip cpio cronie logrotate which at" according to Yi zhao's
+	suggestion.
 
-If there are any failures in do_package_qa then the build will fail, so
-this is basically optimistically running the rootfs whilst doing QA in
-parallel.
+Changed in V2:
+	Add Upstream-Status for 0001-add-_GNU_SOURCE-to-pec_listener.c.patch
 
-Ross
+The following changes since commit e436a6398684d2872cb541f1cfb0f67b3618d15a:
 
---001a1142dcf0427e4605491b9423
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+  layer.conf: bump version for change in eSDK selftest behaviour (2017-02-19 09:39:03 -0800)
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 21 February 2017 at 23:20, Andreas M=C3=BCller <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:schnitzeltony@googlemail.com" target=3D"_blank">schnitzelton=
-y@googlemail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
- style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><d=
-iv id=3D":6t7" class=3D"a3s aXjCH m15a62fa6d84681fb">after some fixing in m=
-eta-oe it seems I am able to build some<br>
-xfce-image again. Watching the tasks go by I noticed that do_rootfs is<br>
-running already while many recipes still do their do_package_qa. This<br>
-looks a bit odd to me. Not that I am happy about an early do_rootfs<br>
-but what would happen if do_package_qa fails? Isn&#39;t that a kind of<br>
-prerequisite for an image that do_package_qa passes for all packages<br>
-within this image?</div></blockquote></div><br>If there are any failures in=
- do_package_qa then the build will fail, so this is basically optimisticall=
-y running the rootfs whilst doing QA in parallel.</div><div class=3D"gmail_=
-extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+are available in the git repository at:
 
---001a1142dcf0427e4605491b9423--
+  git://git.openembedded.org/openembedded-core-contrib dengke/ltp-upgrade-to-20170116
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=dengke/ltp-upgrade-to-20170116
+
+Dengke Du (1):
+  ltp: upgrade to 20170116
+
+ .../0001-add-_GNU_SOURCE-to-pec_listener.c.patch   |  39 ++
+ .../ltp/0001-ltp-Don-t-link-against-libfl.patch    |  30 --
+ ...TH_MAX-undeclared-when-building-with-musl.patch |  30 ++
+ ...sendfile-Use-off64_t-instead-of-__off64_t.patch |  31 --
+ ...RDSIZE-undeclared-when-building-with-musl.patch |  30 ++
+ .../ltp/ltp/0007-replace-SIGCLD-with-SIGCHLD.patch | 394 ---------------------
+ .../ltp/0009-Guard-error.h-with-__GLIBC__.patch    | 270 --------------
+ ...ition-of-struct-msgbuf-error-building-wit.patch |  35 ++
+ .../0011-Rename-sigset-variable-to-sigset1.patch   |  77 ++--
+ ...essat01.c-build-fails-with-security-flags.patch |  70 ++++
+ ...fsstress.c-Replace-__int64_t-with-int64_t.patch | 351 ------------------
+ ...nclude-fcntl.h-for-getting-O_-definitions.patch |  67 ----
+ ...ing-Include-sys-types.h-for-pid_t-definit.patch |  56 ---
+ ...015-mincore01-Rename-PAGESIZE-to-pagesize.patch |  64 ----
+ ...Change-header-from-ustat.h-to-sys-ustat.h.patch |  45 ---
+ .../0017-replace-sigval_t-with-union-sigval.patch  |  88 -----
+ ...lace-canonicalize_file_name-with-realpath.patch |  32 --
+ .../ltp/ltp/0022-include-sys-types.h.patch         |  29 --
+ ...sconf01-Use-_SC_2_C_VERSION-conditionally.patch |  23 +-
+ .../ltp/0029-trace_shed-Fix-build-with-musl.patch  |  32 --
+ ...READ_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch |  26 +-
+ ...age-size-offset-as-per-page-size-alignmen.patch |  33 --
+ ...-regen.sh-Include-asm-unistd.h-explicitly.patch |  30 --
+ .../ltp/ltp/0035-fix-test_proc_kill-hang.patch     |  27 +-
+ ...rs-netns_netlink-Avoid-segmentation-fault.patch |  50 ---
+ ...ix-option-group-test-replace-CWD-qith-PWD.patch |  44 ---
+ ...0039-fcntl-fix-the-time-def-to-use-time_t.patch |  17 +-
+ ...iners-userns05-use-unsigned-int-for-ns-id.patch |  60 ----
+ .../ltp/{ltp_20160126.bb => ltp_20170116.bb}       |  35 +-
+ 29 files changed, 306 insertions(+), 1809 deletions(-)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-add-_GNU_SOURCE-to-pec_listener.c.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0001-ltp-Don-t-link-against-libfl.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0006-fix-PATH_MAX-undeclared-when-building-with-musl.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0006-sendfile-Use-off64_t-instead-of-__off64_t.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0007-fix-__WORDSIZE-undeclared-when-building-with-musl.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0007-replace-SIGCLD-with-SIGCHLD.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0009-Guard-error.h-with-__GLIBC__.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0009-fix-redefinition-of-struct-msgbuf-error-building-wit.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0012-fix-faccessat01.c-build-fails-with-security-flags.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0012-fsstress.c-Replace-__int64_t-with-int64_t.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0013-include-fcntl.h-for-getting-O_-definitions.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0014-hyperthreading-Include-sys-types.h-for-pid_t-definit.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0015-mincore01-Rename-PAGESIZE-to-pagesize.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0016-ustat-Change-header-from-ustat.h-to-sys-ustat.h.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0017-replace-sigval_t-with-union-sigval.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0019-tomoyo-Replace-canonicalize_file_name-with-realpath.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0022-include-sys-types.h.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0029-trace_shed-Fix-build-with-musl.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0031-vma03-fix-page-size-offset-as-per-page-size-alignmen.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0032-regen.sh-Include-asm-unistd.h-explicitly.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0037-containers-netns_netlink-Avoid-segmentation-fault.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0038-run-posix-option-group-test-replace-CWD-qith-PWD.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0040-containers-userns05-use-unsigned-int-for-ns-id.patch
+ rename meta/recipes-extended/ltp/{ltp_20160126.bb => ltp_20170116.bb} (77%)
+
+-- 
+2.8.1
+
+
