@@ -1,57 +1,44 @@
-Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FE2773113
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 77ADC72FDF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 18:51:25 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id n37so1541092qtb.3
+	Wed, 22 Feb 2017 20:02:33 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id r18so2218650wmd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2017 10:51:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:cc:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=ZamJhW9j8kxG2NboVVwgA1Hig56GGmqBbX+C9m7UqQA=;
-	b=XDtDkSJdLZEPxnRwFc4QQxs+euHcgq3ELwsGYLY8XIHqYkxYaWxtgTdbkO2/3ta7CD
-	1kyWUf9V5vmAno+evpcdiuAlzoKj5AR9k9qA/HYVz8TJlOFZj027Vt+OgHcG/Y5+XeGp
-	lEydRGh+fU1ik3XvTT/tOMRT40RSY4lPkQjhZoEzMhuN1tok/s8MkbtEJ3nFys0Gv9Fc
-	020SCe5jHbmd0elxbZXkC4DD/7OzPOUFPTrPTAthEYYU65Oaw57PUghxgrj2SAG6WbVe
-	2X868uu8NFnEKWLwGUZR7D/OXVxNS188lFNn5zEzH77hrixDaCHli1iYCrq6B5FNu1oH
-	RjdA==
+	Wed, 22 Feb 2017 12:02:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=lIY1ITbR66hIrjCQbiooyeDdObXqBib5afwlguoEGLA=;
+	b=vcXYFisHTRTKkAPvUcWPeAvgPNvBKxzp2wXgd8kEOCKnsLrwVU79X8whSfWPcylqul
+	wkTbtm75j3XezEVvXA4uap0rAkevq3oDMrqFZMxAmykw4QRlmbkM2LiJz1IH8oXhUQl1
+	8D+Obek+kEEjbVMcV8rfR4nsnTDvZV/rqOhlxU58q+6pDq+o1Y+qlBGWi6d9eyweVJNK
+	quqI/P6aKQkgx+y9XXI5Zdwax+nJFm+oI1eMH3z4weRogGUPZ+kfUtTvH+4RwPdXfW+w
+	Nzb0smQCWBzrXWSA2gHOyj646Hjf3yrJY5QY1RF4AgmFlWmH348eI3VgyW701tp775jH
+	za+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:cc:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding;
-	bh=ZamJhW9j8kxG2NboVVwgA1Hig56GGmqBbX+C9m7UqQA=;
-	b=naJzomA8f7bHhWtNRwJJMiwFzcTAOsoIPbestU0wnQ5uRhxpr7EihggxvOA0RN0Qtm
-	95IzDpRVLkcBQyp0Xkt+dA11oq4ngfmoMkwx1JtxM3h/MVEFupsd0ZoeBvH9DuWu+MYD
-	DFzXf4QiS8WXph80xST/PSK+fB4/JZ4WruvYGwLGDrIvH2rMI0A7iq0vmE4wBjWrT4KF
-	MbkdY18rVovEojT6p1rLEK0dWjoXed4Wj4aXy+dEsyCtLQX+KW64MTCae9VQIzjmIOci
-	qgCwfEt99aEtchjb8tiH7Wbfs1vsCun+nk4gk9DQPI7XxZP/EZAECC7WT+vtDIHeCYR1
-	XNjg==
-X-Gm-Message-State: AMke39m7Ogn4Vz9a1hn3WyHsYlPcxAMgIPOsZmAcfuh1r2HZscfUcViz/UjB0QNuNTiS7Q==
-X-Received: by 10.237.59.213 with SMTP id s21mr30385095qte.146.1487789486833; 
-	Wed, 22 Feb 2017 10:51:26 -0800 (PST)
-Received: from [192.168.254.229] ([189.114.111.135])
-	by smtp.gmail.com with ESMTPSA id
-	r18sm1210642qke.26.2017.02.22.10.51.23
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=lIY1ITbR66hIrjCQbiooyeDdObXqBib5afwlguoEGLA=;
+	b=QM72ufyqxiCe1I8+gsic5M4pQkPMxdgpetAEYwzPcJdFw3yItURP/oJFSYKtENDiLY
+	e7qF8nsHoIcwqIS93Jm+OgWeCFxWBWzV402O48nTtELi8ecDlJi1k3005xMc/6ReO7vg
+	/9IFhjV7C+XbDWsucqozIGdkNoI6SWnRGJKdenu37mr9a6jXme4IKG6KoG5zCjvrNzJm
+	P3qdv6vic3VVLBB1PaR3YtAOpxHResbpGfPE2Ee0vASF3bKyZVDilwVbko5+omKArZs3
+	E8prouOCYXhas1jl05kAZJ4Sg7/G/F+qf0e9KUyR4mCP7qiwUq06Nu+q3kx6F4GUlHPJ
+	05Zg==
+X-Gm-Message-State: AMke39mEHSnVgk0B99jA/gqrv8v2SGqR/ZdcYhy+VgUNwV2FsX4nBrcVmtVI40/GbPJRiA==
+X-Received: by 10.28.11.131 with SMTP id 125mr53484wml.29.1487793754172;
+	Wed, 22 Feb 2017 12:02:34 -0800 (PST)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	c36sm2999678wrc.49.2017.02.22.12.02.33
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 22 Feb 2017 10:51:25 -0800 (PST)
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-References: <20170130162700.27969-1-fabio.berton@ossystems.com.br>
-	<CAP9ODKrkFx4co_0gxTQpOj0HuG1H+O9DhL4GJFJ-8_e87QdNWQ@mail.gmail.com>
-From: Fabio Berton <fabio.berton@ossystems.com.br>
-Organization: OS Systems
-Message-ID: <7be95a90-ca8f-c107-ec6a-537fe80720bc@ossystems.com.br>
-Date: Wed, 22 Feb 2017 15:51:22 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.6.0
-MIME-Version: 1.0
-In-Reply-To: <CAP9ODKrkFx4co_0gxTQpOj0HuG1H+O9DhL4GJFJ-8_e87QdNWQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libbsd: libbsd-overlay.pc: Set Cflags to use -I instead of -isystem
+	Wed, 22 Feb 2017 12:02:33 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Feb 2017 21:02:31 +0100
+Message-Id: <20170222200232.27761-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.11.1
+Subject: [PATCH 1/2] parted: fix build with glibc-2.25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,36 +51,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2017 18:51:27 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Feb 2017 20:02:33 -0000
 
-Hi!
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ .../parted/parted/parted-3.2-sysmacros.patch       | 32 ++++++++++++++++++++++
+ meta/recipes-extended/parted/parted_3.2.bb         |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-extended/parted/parted/parted-3.2-sysmacros.patch
 
-We need to backport this commit to morty.
-
-On 01/30/2017 03:41 PM, Otavio Salvador wrote:
-> On Mon, Jan 30, 2017 at 2:27 PM, Fabio Berton
-> <fabio.berton@ossystems.com.br> wrote:
->> pkg-config currently only handles -I and -L correctly, but misses
->> -isystem, so we need to do this workaround to fix this issue.
->>
->> There's a open bug in:
->> https://bugzilla.freedesktop.org/show_bug.cgi?id=99516
->>
->> This appears when building lldpd and shows error:
->>
->> ERROR: lldpd-0.9.6-r0 do_configure: This autoconf log indicates
->> errors, it looked at host include and/or library paths while
->> determining system capabilities.
->> Rerun configure task after fixing this.
->> ERROR: lldpd-0.9.6-r0 do_configure: Function failed: do_qa_configure
->>
->> Change-Id: I83255b5952e19bb2f516b1186276cd03eb67eed3
->> Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
-> Acked-by: Otavio Salvador <otavio@ossystems.com.br>
->
-> Also, this  should be backported to morty as well.
->
+diff --git a/meta/recipes-extended/parted/parted/parted-3.2-sysmacros.patch b/meta/recipes-extended/parted/parted/parted-3.2-sysmacros.patch
+new file mode 100644
+index 0000000000..211e6c7340
+--- /dev/null
++++ b/meta/recipes-extended/parted/parted/parted-3.2-sysmacros.patch
+@@ -0,0 +1,32 @@
++https://bugs.gentoo.org/580022
++
++From dec8995fe80508374beba6356f6ecbba8ef6b18b Mon Sep 17 00:00:00 2001
++From: Mike Frysinger <vapier@gentoo.org>
++Date: Tue, 21 Jun 2016 15:01:08 -0400
++Subject: [PATCH] include sysmacros.h for major/minor/makedev
++
++Linux C libs are moving away from including this header implicitly via
++sys/types.h, so include it explicitly.
++
++Upstream-Status: Pending
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++
++---
++ libparted/arch/linux.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/libparted/arch/linux.c b/libparted/arch/linux.c
++index 326b95619d31..e5c168be3c68 100644
++--- a/libparted/arch/linux.c
+++++ b/libparted/arch/linux.c
++@@ -37,6 +37,7 @@
++ #include <dirent.h>
++ #include <sys/ioctl.h>
++ #include <sys/stat.h>
+++#include <sys/sysmacros.h>
++ #include <sys/types.h>
++ #include <sys/utsname.h>        /* for uname() */
++ #include <scsi/scsi.h>
++-- 
++2.8.2
++
+diff --git a/meta/recipes-extended/parted/parted_3.2.bb b/meta/recipes-extended/parted/parted_3.2.bb
+index 30c00c861b..edc4bd3cc4 100644
+--- a/meta/recipes-extended/parted/parted_3.2.bb
++++ b/meta/recipes-extended/parted/parted_3.2.bb
+@@ -13,6 +13,7 @@ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
+            file://fix-compile-failure-while-dis.patch \
+            file://0001-Include-fcntl.h-in-platform_defs.h.patch \
+            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
++	   file://parted-3.2-sysmacros.patch \
+            file://run-ptest \
+            file://Makefile \
+ "
+-- 
+2.11.1
 
 
