@@ -1,55 +1,48 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
-	[209.85.214.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 0423A7307B
+Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
+	[209.85.214.53])
+	by mail.openembedded.org (Postfix) with ESMTP id B30CA7307B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2017 17:47:35 +0000 (UTC)
-Received: by mail-it0-f52.google.com with SMTP id 203so185647599ith.0
+	Thu, 23 Feb 2017 17:49:02 +0000 (UTC)
+Received: by mail-it0-f53.google.com with SMTP id 203so8407355ith.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2017 09:47:37 -0800 (PST)
+	Thu, 23 Feb 2017 09:49:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=EDkMW466rNQoYb7VqC/UIhrs/0mn0gJSy7+f4YdgYLc=;
-	b=KxZIyT1mL7Ansj+Bu3FKjgsh6tpSL/hxcP3sZew6jEqrSub9ungMnT1qF7IN3wXt3v
-	r4xzQy2QEINc+BCTwjvOO+KTXrzCax2mhG0ETVKlLFO7elisb1BKzT3iaBRXfOntuTWl
-	20BtzkZciptkW3Mo7YcpQ7KacWHvoZ0evs4lirXcyjqAIuVCr5BR+F1RhbiMIzgFvtqj
-	E+LHWpppN2EP2jnsp+dpokdHvLOk1k7PzORi/+7nFJusGkpto5mnWtbPfiQcjziBReqn
-	Gw4tMT2MetvXwbt9jjI0+wr/z0GUfCHL53PfGNT0p0VSXGyPzQ/MyIH/JWV3eMSLGRQ2
-	j8KQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=mNaanQROyChBrpvtyC7Pi1PU/YRDZ6WsFCIyhq6GbV8=;
+	b=wNpPO156fCRbFuVT72hd8PkagTqvZmQ+Evo+DURXH5poFGzrLE1jPxnDWwhzYtNRNk
+	KLsaq27GDG9g14e+sbrQZwVJ+VMmmsXYkcawDAdzdrzdO4NUbG8kv2xSxjvJzrcGFos4
+	mQ9Ft1HuJnNacSCpBqmfAkJ7olLgBKmPmfrqCO5fDaOE9t9rknnJllr3tCYVhbRALxy1
+	oyjF9Ag6fSEyw9zfaDkpN6VK/0up4XcMkodewSmttNCjDMxmaro2sskttESunY+knaCf
+	iB/kBNt7NO5W/S4h75BWoIar2RY6XNdRR2fBjDX97f/Mj3tv3i0U0sJ4mZ6QlDu+SdQV
+	MZXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=EDkMW466rNQoYb7VqC/UIhrs/0mn0gJSy7+f4YdgYLc=;
-	b=cmYt2JjHLsqISaMCXTcFaD4Caw/dQNSC/PHrYTZ/1RBsXYoSXLuIriWz2i1Y/nfLHh
-	H+b96v9UAsL7M5Wo0Q8lONib0hpkw3gHqMQ5OAtRCSdApsaUoAToNLmuiF1gVBiv1ZO+
-	YSigA/TQl4NR08iHhv0k2hgeYR9WZL2fcxU60gCMWYrD4DTBdjaDofRyTlpFtGfengrR
-	xHUUSoVZReawUOytGSgmWzIKHszDmjh3g4W485CyVCESVQhIYPoxYViaO87nTcMoq6de
-	oWgSJ5ktWlw/qVLYXmmp4CZ3ukr2TF9HELVizi7ljpKUDR7d4AkDMs56ftBp40HARAwQ
-	rDEg==
-X-Gm-Message-State: AMke39kjpThRHsb3mGVP0zkPIAQGS/wMD3Yo/4z4qd03cnFhmHvoDuP/zajS2a5eb82UjvFU
-X-Received: by 10.107.6.215 with SMTP id f84mr29640158ioi.210.1487872056705;
-	Thu, 23 Feb 2017 09:47:36 -0800 (PST)
-Received: from pohly-mobl1 ([67.23.202.154]) by smtp.gmail.com with ESMTPSA id
-	w77sm2041996ioi.20.2017.02.23.09.47.35
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 Feb 2017 09:47:35 -0800 (PST)
-Message-ID: <1487872053.11306.39.camel@intel.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=mNaanQROyChBrpvtyC7Pi1PU/YRDZ6WsFCIyhq6GbV8=;
+	b=k1GBmA9ERf9p2l0h7UMnAW5AhH+mkzcRoM73xRBVX4U06Z5fN1iGUqcOSNLCOR/h4u
+	7YQCptFjkLs3a+3DtTrxETDDV5q9Y565inc7AdeqgCHIWdobQji92rWlZcrt6y/J3twI
+	+bXbBXA+dbRrQh1Hd1MOv+clM15fEnbaIkSaSjXFBmlfxifh0oX5BwQICQJnmFDMWyOt
+	ybyW/n6cGrswPALDy2bGqkJkGhrnvSgikzr7c5uzgyvzOPRxJIsutvaFIyp8q9sdkic/
+	xeCcqEMnfBHHDCmj3tec2NCrNWsGcujoGbYayVIRmVV5OKHUBT8aKi1IbjoA4M6fz/mf
+	Hr1A==
+X-Gm-Message-State: AMke39kKHhY+hNVe+yuowHXESk544cz0mWsUh7Neqlxw6XIrGLWMaEbWmmwN6Cv/h4EzEg4I
+X-Received: by 10.107.5.137 with SMTP id 131mr32307920iof.87.1487872143677;
+	Thu, 23 Feb 2017 09:49:03 -0800 (PST)
+Received: from pohly-mobl1.event.rightround.com ([67.23.202.154])
+	by smtp.gmail.com with ESMTPSA id 202sm2258437ity.8.2017.02.23.09.49.02
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 23 Feb 2017 09:49:02 -0800 (PST)
 From: Patrick Ohly <patrick.ohly@intel.com>
-To: Khem Raj <raj.khem@gmail.com>, "Neri, Ricardo" <ricardo.neri@intel.com>
-Date: Thu, 23 Feb 2017 18:47:33 +0100
-In-Reply-To: <20170218020440.GB30443@haswell>
-References: <cover.51e0eb88ea69468cf5a410aa7194c25cf61d57b7.1485530988.git-series.patrick.ohly@intel.com>
-	<cb8f971b4cb03c90f6459374609be3dce53f2ab1.1485530988.git-series.patrick.ohly@intel.com>
-	<1487365856.4999.47.camel@linuxfoundation.org>
-	<20170218020440.GB30443@haswell>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v5 03/12] ovmf: move from meta-luv to OE-core
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Feb 2017 18:48:50 +0100
+Message-Id: <1487872131-6571-1-git-send-email-patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1487872053.11306.39.camel@intel.com>
+References: <1487872053.11306.39.camel@intel.com>
+Subject: [PATCH 1/2] acpica: fix compilation with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,52 +55,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2017 17:47:36 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 23 Feb 2017 17:49:03 -0000
 
-On Fri, 2017-02-17 at 18:04 -0800, Khem Raj wrote:
-> On 17-02-17 13:10:56, Richard Purdie wrote:
-> > On Fri, 2017-01-27 at 16:30 +0100, Patrick Ohly wrote:
-> > > From: meta-luv <luv@lists.01.org>
-> > > 
-> > > This is an unmodified copy of
-> > > github.com/01org/luv-yocto/meta-luv/recipes-core/ovmf revision
-> > > 4be4329.
-> > 
-> > https://autobuilder.yocto.io/builders/nightly-world/builds/156
-> > 
-> > which boils down to:
-> > 
-> > | "gcc-ar" cr /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-ovmf/git-r0/git/Build/OvmfIa32/RELEASE_GCC5/IA32/MdeModulePkg/Library/BootLogoLib/BootLogoLib/OUTPUT/BootLogoLib.lib  @/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-ovmf/git-r0/git/Build/OvmfIa32/RELEASE_GCC5/IA32/MdeModulePkg/Library/BootLogoLib/BootLogoLib/OUTPUT/object_files.lst
-> > | make: *** [/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-ovmf/git-r0/git/Build/OvmfIa32/RELEASE_GCC5/IA32/MdeModulePkg/Library/BootMaintenanceManagerUiLib/BootMaintenanceManagerUiLib/DEBUG/BootMaintenanceManager.c] Error 2
-> > | VfrCompile: ERROR 1003: Invalid option value
-> > |   VFR file name /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-ovmf/git-r0/git/Build/OvmfIa32/RELEASE_GCC5/IA32/MdeModulePkg/Library/BootMaintenanceManagerUiLib/BootMaintenanceManagerUiLib/OUTPUT/BootMaintenanceManager.i is too long.
-> > | "gcc-ar" cr /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-ovmf/git-r0/git/Build/OvmfIa32/RELEASE_GCC5/IA32/OvmfPkg/Library/NvVarsFileLib/NvVarsFileLib/OUTPUT/NvVarsFileLib.lib  @/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-ovmf/git-r0/git/Build/OvmfIa32/RELEASE_GCC5/IA32/OvmfPkg/Library/NvVarsFileLib/NvVarsFileLib/OUTPUT/object_files.lst
-> > 
-> > i.e. path length issues.
-> > 
-> > We saw this on multiple builds :(.
-> 
-> I wonder why its using gcc-ar that should actually be <cross>-gcc-ar
-> so probably we need to set AR to point to <cross>-gcc-ar, but I would
-> like to see if we can use normal ar since  gcc-ar would fail with clang
+Manipulating stderr after freopen() fails as done by upstream
+does not work with musl. The replacement is Unix specific
+and uses open()/dup2().
 
-The actual error wasn't in the gcc-ar invocation but rather the
-VfrCompile tool, so for now I haven't done anything about gcc-ar vs. ar.
-I have patches for the VfrCompile path length and the acpica+musl issue
-which I will send momentarily.
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ meta/recipes-extended/acpica/acpica_20150515.bb    |  1 +
+ .../files/manipulate-fds-instead-of-FILE.patch     | 71 ++++++++++++++++++++++
+ 2 files changed, 72 insertions(+)
+ create mode 100644 meta/recipes-extended/acpica/files/manipulate-fds-instead-of-FILE.patch
 
-Richard, Ross, they apply on top of the patches that I had sent earlier.
-
+diff --git a/meta/recipes-extended/acpica/acpica_20150515.bb b/meta/recipes-extended/acpica/acpica_20150515.bb
+index c23b491..b55f353 100644
+--- a/meta/recipes-extended/acpica/acpica_20150515.bb
++++ b/meta/recipes-extended/acpica/acpica_20150515.bb
+@@ -19,6 +19,7 @@ DEPENDS = "bison flex"
+ SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix2-${PV}.tar.gz \
+     file://no-werror.patch \
+     file://rename-yy_scan_string-manually.patch \
++    file://manipulate-fds-instead-of-FILE.patch \
+     "
+ SRC_URI[md5sum] = "2bc4a7ccc82de9df9fa964f784ecb29c"
+ SRC_URI[sha256sum] = "61204ec56d71bc9bfa2ee2ade4c66f7e8541772ac72ef8ccc20b3f339cc96374"
+diff --git a/meta/recipes-extended/acpica/files/manipulate-fds-instead-of-FILE.patch b/meta/recipes-extended/acpica/files/manipulate-fds-instead-of-FILE.patch
+new file mode 100644
+index 0000000..6944bb7
+--- /dev/null
++++ b/meta/recipes-extended/acpica/files/manipulate-fds-instead-of-FILE.patch
+@@ -0,0 +1,71 @@
++From 33a57979738e5ab13950ec1c0e7298e41ef50929 Mon Sep 17 00:00:00 2001
++From: Patrick Ohly <patrick.ohly@intel.com>
++Date: Thu, 23 Feb 2017 18:10:47 +0100
++Subject: [PATCH] aslfiles.c: manipulate fds instead of FILE
++
++Copying what stdout/stderr point to is not portable and fails with
++musl because FILE is an undefined struct.
++
++Instead, use lower-level Unix functions to modify the file that stderr
++writes into. This works on the platforms that Yocto targets.
++
++Upstream-Status: Inappropriate [embedded specific]
++
++Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
++---
++ source/compiler/aslfiles.c | 20 +++++++++++---------
++ 1 file changed, 11 insertions(+), 9 deletions(-)
++
++diff --git a/source/compiler/aslfiles.c b/source/compiler/aslfiles.c
++index 947e465..7a352b4 100644
++--- a/source/compiler/aslfiles.c
+++++ b/source/compiler/aslfiles.c
++@@ -44,6 +44,11 @@
++ #include "aslcompiler.h"
++ #include "acapps.h"
++ 
+++#include <sys/types.h>
+++#include <sys/stat.h>
+++#include <fcntl.h>
+++#include <unistd.h>
+++
++ #define _COMPONENT          ACPI_COMPILER
++         ACPI_MODULE_NAME    ("aslfiles")
++ 
++@@ -569,6 +574,8 @@ FlOpenMiscOutputFiles (
++ 
++     if (Gbl_DebugFlag)
++     {
+++        int fd;
+++
++         Filename = FlGenerateFilename (FilenamePrefix, FILE_SUFFIX_DEBUG);
++         if (!Filename)
++         {
++@@ -582,20 +589,15 @@ FlOpenMiscOutputFiles (
++         /* TBD: hide this behind a FlReopenFile function */
++ 
++         Gbl_Files[ASL_FILE_DEBUG_OUTPUT].Filename = Filename;
++-        Gbl_Files[ASL_FILE_DEBUG_OUTPUT].Handle =
++-            freopen (Filename, "w+t", stderr);
++-
++-        if (!Gbl_Files[ASL_FILE_DEBUG_OUTPUT].Handle)
+++        fd = open(Filename, O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH);
+++        if (fd < 0 ||
+++            dup2(fd, fileno(stderr)))
++         {
++-            /*
++-             * A problem with freopen is that on error,
++-             * we no longer have stderr.
++-             */
++             Gbl_DebugFlag = FALSE;
++-            memcpy (stderr, stdout, sizeof (FILE));
++             FlFileError (ASL_FILE_DEBUG_OUTPUT, ASL_MSG_DEBUG_FILENAME);
++             AslAbort ();
++         }
+++        Gbl_Files[ASL_FILE_DEBUG_OUTPUT].Handle = stderr;
++ 
++         AslCompilerSignon (ASL_FILE_DEBUG_OUTPUT);
++         AslCompilerFileHeader (ASL_FILE_DEBUG_OUTPUT);
++-- 
++2.1.4
++
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+2.1.4
 
 
