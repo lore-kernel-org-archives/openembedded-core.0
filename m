@@ -1,25 +1,52 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 86E0673068
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 42D2A72FFC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2017 14:50:03 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga105.jf.intel.com with ESMTP; 23 Feb 2017 06:50:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,198,1484035200"; d="scan'208";a="68210131"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 23 Feb 2017 06:50:05 -0800
-Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id BCA226A4004;
-	Thu, 23 Feb 2017 06:50:03 -0800 (PST)
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org,
-	sgw@linux.intel.com
-Date: Thu, 23 Feb 2017 16:49:49 +0200
-Message-Id: <1487861389-9081-1-git-send-email-jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
+	Thu, 23 Feb 2017 15:53:17 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id p185so1760885pfb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Feb 2017 07:53:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding;
+	bh=zS4LyHrJCetil1WwVCKB0l6hOJXxAvi48bGmOeyMuGg=;
+	b=NBsbvRCyYxjoRObGBzAKeZADe7vYDHD+DMoC+7tp41WjL955d/Q/RCbbqODqXEndtM
+	SYdw6xo832pKuSuLLOXNBvTzuNcz8bBIciPVjQ5FP+rIa4VrCJ3qVwSu5ugtmfv33+qZ
+	JWOSgjN6JIQV3n+nkC7VmoH9Icjzk+h/g69MNNi7minF9G6vGqmX1aLOa/R7cAUWD2fN
+	zBhzLmPDCqmrtd3x+C7K3D+C6YC2nV/tC+UipOGrD9yIb1dxK/8K5nezxyAfvVP6+4gb
+	P22oZ9B5b8sBX/9NP6D8XzlvIArh25ah+pnQ8Uhoo4SqWCNV07uQMU84oN+Vl4Zejt1m
+	Te4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=zS4LyHrJCetil1WwVCKB0l6hOJXxAvi48bGmOeyMuGg=;
+	b=RvMNCNp901ZvHvtErij5Hi0akP+uI0Ygf1AuI//TtWmx39CK4eNk7wUmcNRPjKu3oi
+	Ao4jXAliKjFZh9Gfpg4mPr2dy8zX4RzCL1ZEYmBuClu0V1zP5Pf54zhaLGiUCOJs+mTi
+	j5LBx/34zkJLP9pnDNAk43U1pQDdmSGLsWqNjy8tp/9GHvfoeIU185q8fVcD4+hviuzg
+	70mQHhj7q+6zYrSaBad9qGuoDaicrv851Q0cONhu9jwSK3HgIRA8WWHug4W0Hh81pEoC
+	3rKK9LbHM9P2kHPw+tx/cZjZalGPt/AQkVlptv3nSbGgr2ltU8QVPsNcd3oXVYjYUXI6
+	A6yA==
+X-Gm-Message-State: AMke39kArkkXYeOflNLIyGvOw5w8DZ+TMVfOpl4NX5mwF5ejawKvO7alLMBPSN2eSo8sew==
+X-Received: by 10.98.220.200 with SMTP id c69mr5839039pfl.60.1487865198857;
+	Thu, 23 Feb 2017 07:53:18 -0800 (PST)
+Received: from [10.11.10.242] ([67.23.202.154])
+	by smtp.gmail.com with ESMTPSA id
+	c2sm10628004pfl.61.2017.02.23.07.53.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 Feb 2017 07:53:18 -0800 (PST)
+To: mariano.lopez@linux.intel.com, openembedded-core@lists.openembedded.org
+References: <cover.1487769155.git.mariano.lopez@linux.intel.com>
+	<45b78fc683ff4d5cad5d6bc30df7014a49692a0f.1487769155.git.mariano.lopez@linux.intel.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <d2c85190-1263-3bcf-457d-4a4186bf7456@gmail.com>
+Date: Thu, 23 Feb 2017 07:53:17 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.7.0
 MIME-Version: 1.0
-Subject: [PATCH] libva: Find the correct wayland-scanner
+In-Reply-To: <45b78fc683ff4d5cad5d6bc30df7014a49692a0f.1487769155.git.mariano.lopez@linux.intel.com>
+Subject: Re: [PATCH 1/1] selftest/eSDK.py: Cleanup when there is an error in setUpClass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,436 +59,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2017 14:50:05 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 23 Feb 2017 15:53:18 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* Add a patch to make sure wayland-scanner from native sysroot is used
-* Depend on wayland-native to get the scanner into the sysroot
-* Add a patch to make sure the scanner really is used
+Mariano,
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
- ...-configure.ac-Use-wayland-scanner-in-PATH.patch |  37 +++
- ...and-Don-t-commit-and-ship-generated-files.patch | 339 +++++++++++++++++++++
- meta/recipes-graphics/libva/libva_1.7.3.bb         |   6 +-
- 3 files changed, 380 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-graphics/libva/files/0001-configure.ac-Use-wayland-scanner-in-PATH.patch
- create mode 100644 meta/recipes-graphics/libva/files/0001-wayland-Don-t-commit-and-ship-generated-files.patch
 
-diff --git a/meta/recipes-graphics/libva/files/0001-configure.ac-Use-wayland-scanner-in-PATH.patch b/meta/recipes-graphics/libva/files/0001-configure.ac-Use-wayland-scanner-in-PATH.patch
-new file mode 100644
-index 0000000..a99c225
---- /dev/null
-+++ b/meta/recipes-graphics/libva/files/0001-configure.ac-Use-wayland-scanner-in-PATH.patch
-@@ -0,0 +1,37 @@
-+From 0af30602502035155929dd2a14482b82a9747cf8 Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Thu, 23 Feb 2017 15:23:15 +0200
-+Subject: [PATCH] configure.ac: Use wayland-scanner in PATH
-+
-+pkg-config will give us the wrong wayland-scanner location.
-+Use the one in path instead: it will be from native sysroot.
-+
-+This is a workaround and should be fixed upstream: preferably
-+with the same fix as all the other wayland-scanner users
-+(see YOCTO #11100).
-+
-+Upstream-Status: Inappropriate [workaround]
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+---
-+ configure.ac | 5 +----
-+ 1 file changed, 1 insertion(+), 4 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 64eddf2..5536f35 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -273,10 +273,7 @@ if test "$enable_wayland" = "yes"; then
-+     PKG_CHECK_MODULES([WAYLAND], [wayland-client >= wayland_api_version],
-+         [USE_WAYLAND="yes"], [:])
-+     if test "$USE_WAYLAND" = "yes"; then
-+-
-+-        WAYLAND_PREFIX=`$PKG_CONFIG --variable=prefix wayland-client`
-+-        AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner],,
-+-                     [${WAYLAND_PREFIX}/bin$PATH_SEPARATOR$PATH])
-++        AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner])
-+ 
-+         AC_DEFINE([HAVE_VA_WAYLAND], [1],
-+                   [Defined to 1 if VA/Wayland API is built])
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-graphics/libva/files/0001-wayland-Don-t-commit-and-ship-generated-files.patch b/meta/recipes-graphics/libva/files/0001-wayland-Don-t-commit-and-ship-generated-files.patch
-new file mode 100644
-index 0000000..bd97e22
---- /dev/null
-+++ b/meta/recipes-graphics/libva/files/0001-wayland-Don-t-commit-and-ship-generated-files.patch
-@@ -0,0 +1,339 @@
-+From 5993a7710cc8fd9a392d5015be5109987a42b498 Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Thu, 23 Feb 2017 16:10:09 +0200
-+Subject: [PATCH] wayland: Don't commit and ship generated files
-+
-+I believe shipping wayland-drm-client-protocol.h is wrong: The header
-+should always be generated by the wayland-scanner that matches the
-+runtime wayland version. Currently when someone clones the repo and
-+builds, the shipped version is used.
-+
-+Upstream-Status: Submitted [https://github.com/01org/libva/pull/33]
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+---
-+ va/wayland/Makefile.am                   |   5 +-
-+ va/wayland/wayland-drm-client-protocol.h | 290 -------------------------------
-+ 2 files changed, 4 insertions(+), 291 deletions(-)
-+ delete mode 100644 va/wayland/wayland-drm-client-protocol.h
-+
-+diff --git a/va/wayland/Makefile.am b/va/wayland/Makefile.am
-+index 4f8262c..4ab8d07 100644
-+--- a/va/wayland/Makefile.am
-++++ b/va/wayland/Makefile.am
-+@@ -53,7 +53,7 @@ protocol_source_h = \
-+ noinst_LTLIBRARIES		= libva_wayland.la
-+ libva_waylandincludedir		= ${includedir}/va
-+ libva_waylandinclude_HEADERS	= $(source_h)
-+-libva_wayland_la_SOURCES	= $(source_c) $(protocol_source_h)
-++libva_wayland_la_SOURCES	= $(source_c)
-+ noinst_HEADERS			= $(source_h_priv)
-+ 
-+ # Wayland protocol
-+@@ -65,5 +65,8 @@ EXTRA_DIST = \
-+ 	wayland-drm.xml         \
-+ 	$(NULL)
-+ 
-++BUILT_SOURCES = $(protocol_source_h)
-++CLEANFILES = $(BUILT_SOURCES)
-++
-+ # Extra clean files so that maintainer-clean removes *everything*
-+ MAINTAINERCLEANFILES = Makefile.in
-+diff --git a/va/wayland/wayland-drm-client-protocol.h b/va/wayland/wayland-drm-client-protocol.h
-+deleted file mode 100644
-+index da267e8..0000000
-+--- a/va/wayland/wayland-drm-client-protocol.h
-++++ /dev/null
-+@@ -1,290 +0,0 @@
-+-/* Generated by wayland-scanner 1.11.90 */
-+-
-+-#ifndef DRM_CLIENT_PROTOCOL_H
-+-#define DRM_CLIENT_PROTOCOL_H
-+-
-+-#include <stdint.h>
-+-#include <stddef.h>
-+-#include "wayland-client.h"
-+-
-+-#ifdef  __cplusplus
-+-extern "C" {
-+-#endif
-+-
-+-/**
-+- * @page page_drm The drm protocol
-+- * @section page_ifaces_drm Interfaces
-+- * - @subpage page_iface_wl_drm - 
-+- * @section page_copyright_drm Copyright
-+- * <pre>
-+- *
-+- * Copyright © 2008-2011 Kristian Høgsberg
-+- * Copyright © 2010-2011 Intel Corporation
-+- *
-+- * Permission to use, copy, modify, distribute, and sell this
-+- * software and its documentation for any purpose is hereby granted
-+- * without fee, provided that\n the above copyright notice appear in
-+- * all copies and that both that copyright notice and this permission
-+- * notice appear in supporting documentation, and that the name of
-+- * the copyright holders not be used in advertising or publicity
-+- * pertaining to distribution of the software without specific,
-+- * written prior permission.  The copyright holders make no
-+- * representations about the suitability of this software for any
-+- * purpose.  It is provided "as is" without express or implied
-+- * warranty.
-+- *
-+- * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS
-+- * SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
-+- * FITNESS, IN NO EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY
-+- * SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-+- * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN
-+- * AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
-+- * ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
-+- * THIS SOFTWARE.
-+- * </pre>
-+- */
-+-struct wl_buffer;
-+-struct wl_drm;
-+-
-+-/**
-+- * @page page_iface_wl_drm wl_drm
-+- * @section page_iface_wl_drm_api API
-+- * See @ref iface_wl_drm.
-+- */
-+-/**
-+- * @defgroup iface_wl_drm The wl_drm interface
-+- */
-+-extern const struct wl_interface wl_drm_interface;
-+-
-+-#ifndef WL_DRM_ERROR_ENUM
-+-#define WL_DRM_ERROR_ENUM
-+-enum wl_drm_error {
-+-	WL_DRM_ERROR_AUTHENTICATE_FAIL = 0,
-+-	WL_DRM_ERROR_INVALID_FORMAT = 1,
-+-	WL_DRM_ERROR_INVALID_NAME = 2,
-+-};
-+-#endif /* WL_DRM_ERROR_ENUM */
-+-
-+-#ifndef WL_DRM_FORMAT_ENUM
-+-#define WL_DRM_FORMAT_ENUM
-+-enum wl_drm_format {
-+-	WL_DRM_FORMAT_C8 = 0x20203843,
-+-	WL_DRM_FORMAT_RGB332 = 0x38424752,
-+-	WL_DRM_FORMAT_BGR233 = 0x38524742,
-+-	WL_DRM_FORMAT_XRGB4444 = 0x32315258,
-+-	WL_DRM_FORMAT_XBGR4444 = 0x32314258,
-+-	WL_DRM_FORMAT_RGBX4444 = 0x32315852,
-+-	WL_DRM_FORMAT_BGRX4444 = 0x32315842,
-+-	WL_DRM_FORMAT_ARGB4444 = 0x32315241,
-+-	WL_DRM_FORMAT_ABGR4444 = 0x32314241,
-+-	WL_DRM_FORMAT_RGBA4444 = 0x32314152,
-+-	WL_DRM_FORMAT_BGRA4444 = 0x32314142,
-+-	WL_DRM_FORMAT_XRGB1555 = 0x35315258,
-+-	WL_DRM_FORMAT_XBGR1555 = 0x35314258,
-+-	WL_DRM_FORMAT_RGBX5551 = 0x35315852,
-+-	WL_DRM_FORMAT_BGRX5551 = 0x35315842,
-+-	WL_DRM_FORMAT_ARGB1555 = 0x35315241,
-+-	WL_DRM_FORMAT_ABGR1555 = 0x35314241,
-+-	WL_DRM_FORMAT_RGBA5551 = 0x35314152,
-+-	WL_DRM_FORMAT_BGRA5551 = 0x35314142,
-+-	WL_DRM_FORMAT_RGB565 = 0x36314752,
-+-	WL_DRM_FORMAT_BGR565 = 0x36314742,
-+-	WL_DRM_FORMAT_RGB888 = 0x34324752,
-+-	WL_DRM_FORMAT_BGR888 = 0x34324742,
-+-	WL_DRM_FORMAT_XRGB8888 = 0x34325258,
-+-	WL_DRM_FORMAT_XBGR8888 = 0x34324258,
-+-	WL_DRM_FORMAT_RGBX8888 = 0x34325852,
-+-	WL_DRM_FORMAT_BGRX8888 = 0x34325842,
-+-	WL_DRM_FORMAT_ARGB8888 = 0x34325241,
-+-	WL_DRM_FORMAT_ABGR8888 = 0x34324241,
-+-	WL_DRM_FORMAT_RGBA8888 = 0x34324152,
-+-	WL_DRM_FORMAT_BGRA8888 = 0x34324142,
-+-	WL_DRM_FORMAT_XRGB2101010 = 0x30335258,
-+-	WL_DRM_FORMAT_XBGR2101010 = 0x30334258,
-+-	WL_DRM_FORMAT_RGBX1010102 = 0x30335852,
-+-	WL_DRM_FORMAT_BGRX1010102 = 0x30335842,
-+-	WL_DRM_FORMAT_ARGB2101010 = 0x30335241,
-+-	WL_DRM_FORMAT_ABGR2101010 = 0x30334241,
-+-	WL_DRM_FORMAT_RGBA1010102 = 0x30334152,
-+-	WL_DRM_FORMAT_BGRA1010102 = 0x30334142,
-+-	WL_DRM_FORMAT_YUYV = 0x56595559,
-+-	WL_DRM_FORMAT_YVYU = 0x55595659,
-+-	WL_DRM_FORMAT_UYVY = 0x59565955,
-+-	WL_DRM_FORMAT_VYUY = 0x59555956,
-+-	WL_DRM_FORMAT_AYUV = 0x56555941,
-+-	WL_DRM_FORMAT_NV12 = 0x3231564e,
-+-	WL_DRM_FORMAT_NV21 = 0x3132564e,
-+-	WL_DRM_FORMAT_NV16 = 0x3631564e,
-+-	WL_DRM_FORMAT_NV61 = 0x3136564e,
-+-	WL_DRM_FORMAT_YUV410 = 0x39565559,
-+-	WL_DRM_FORMAT_YVU410 = 0x39555659,
-+-	WL_DRM_FORMAT_YUV411 = 0x31315559,
-+-	WL_DRM_FORMAT_YVU411 = 0x31315659,
-+-	WL_DRM_FORMAT_YUV420 = 0x32315559,
-+-	WL_DRM_FORMAT_YVU420 = 0x32315659,
-+-	WL_DRM_FORMAT_YUV422 = 0x36315559,
-+-	WL_DRM_FORMAT_YVU422 = 0x36315659,
-+-	WL_DRM_FORMAT_YUV444 = 0x34325559,
-+-	WL_DRM_FORMAT_YVU444 = 0x34325659,
-+-};
-+-#endif /* WL_DRM_FORMAT_ENUM */
-+-
-+-#ifndef WL_DRM_CAPABILITY_ENUM
-+-#define WL_DRM_CAPABILITY_ENUM
-+-/**
-+- * @ingroup iface_wl_drm
-+- * wl_drm capability bitmask
-+- *
-+- * Bitmask of capabilities.
-+- */
-+-enum wl_drm_capability {
-+-	/**
-+-	 * wl_drm prime available
-+-	 */
-+-	WL_DRM_CAPABILITY_PRIME = 1,
-+-};
-+-#endif /* WL_DRM_CAPABILITY_ENUM */
-+-
-+-/**
-+- * @ingroup iface_wl_drm
-+- * @struct wl_drm_listener
-+- */
-+-struct wl_drm_listener {
-+-	/**
-+-	 */
-+-	void (*device)(void *data,
-+-		       struct wl_drm *wl_drm,
-+-		       const char *name);
-+-	/**
-+-	 */
-+-	void (*format)(void *data,
-+-		       struct wl_drm *wl_drm,
-+-		       uint32_t format);
-+-	/**
-+-	 */
-+-	void (*authenticated)(void *data,
-+-			      struct wl_drm *wl_drm);
-+-	/**
-+-	 */
-+-	void (*capabilities)(void *data,
-+-			     struct wl_drm *wl_drm,
-+-			     uint32_t value);
-+-};
-+-
-+-/**
-+- * @ingroup wl_drm_iface
-+- */
-+-static inline int
-+-wl_drm_add_listener(struct wl_drm *wl_drm,
-+-		    const struct wl_drm_listener *listener, void *data)
-+-{
-+-	return wl_proxy_add_listener((struct wl_proxy *) wl_drm,
-+-				     (void (**)(void)) listener, data);
-+-}
-+-
-+-#define WL_DRM_AUTHENTICATE 0
-+-#define WL_DRM_CREATE_BUFFER 1
-+-#define WL_DRM_CREATE_PLANAR_BUFFER 2
-+-#define WL_DRM_CREATE_PRIME_BUFFER 3
-+-
-+-/**
-+- * @ingroup iface_wl_drm
-+- */
-+-#define WL_DRM_AUTHENTICATE_SINCE_VERSION 1
-+-/**
-+- * @ingroup iface_wl_drm
-+- */
-+-#define WL_DRM_CREATE_BUFFER_SINCE_VERSION 1
-+-/**
-+- * @ingroup iface_wl_drm
-+- */
-+-#define WL_DRM_CREATE_PLANAR_BUFFER_SINCE_VERSION 1
-+-/**
-+- * @ingroup iface_wl_drm
-+- */
-+-#define WL_DRM_CREATE_PRIME_BUFFER_SINCE_VERSION 2
-+-
-+-/** @ingroup iface_wl_drm */
-+-static inline void
-+-wl_drm_set_user_data(struct wl_drm *wl_drm, void *user_data)
-+-{
-+-	wl_proxy_set_user_data((struct wl_proxy *) wl_drm, user_data);
-+-}
-+-
-+-/** @ingroup iface_wl_drm */
-+-static inline void *
-+-wl_drm_get_user_data(struct wl_drm *wl_drm)
-+-{
-+-	return wl_proxy_get_user_data((struct wl_proxy *) wl_drm);
-+-}
-+-
-+-static inline uint32_t
-+-wl_drm_get_version(struct wl_drm *wl_drm)
-+-{
-+-	return wl_proxy_get_version((struct wl_proxy *) wl_drm);
-+-}
-+-
-+-/** @ingroup iface_wl_drm */
-+-static inline void
-+-wl_drm_destroy(struct wl_drm *wl_drm)
-+-{
-+-	wl_proxy_destroy((struct wl_proxy *) wl_drm);
-+-}
-+-
-+-/**
-+- * @ingroup iface_wl_drm
-+- */
-+-static inline void
-+-wl_drm_authenticate(struct wl_drm *wl_drm, uint32_t id)
-+-{
-+-	wl_proxy_marshal((struct wl_proxy *) wl_drm,
-+-			 WL_DRM_AUTHENTICATE, id);
-+-}
-+-
-+-/**
-+- * @ingroup iface_wl_drm
-+- */
-+-static inline struct wl_buffer *
-+-wl_drm_create_buffer(struct wl_drm *wl_drm, uint32_t name, int32_t width, int32_t height, uint32_t stride, uint32_t format)
-+-{
-+-	struct wl_proxy *id;
-+-
-+-	id = wl_proxy_marshal_constructor((struct wl_proxy *) wl_drm,
-+-			 WL_DRM_CREATE_BUFFER, &wl_buffer_interface, NULL, name, width, height, stride, format);
-+-
-+-	return (struct wl_buffer *) id;
-+-}
-+-
-+-/**
-+- * @ingroup iface_wl_drm
-+- */
-+-static inline struct wl_buffer *
-+-wl_drm_create_planar_buffer(struct wl_drm *wl_drm, uint32_t name, int32_t width, int32_t height, uint32_t format, int32_t offset0, int32_t stride0, int32_t offset1, int32_t stride1, int32_t offset2, int32_t stride2)
-+-{
-+-	struct wl_proxy *id;
-+-
-+-	id = wl_proxy_marshal_constructor((struct wl_proxy *) wl_drm,
-+-			 WL_DRM_CREATE_PLANAR_BUFFER, &wl_buffer_interface, NULL, name, width, height, format, offset0, stride0, offset1, stride1, offset2, stride2);
-+-
-+-	return (struct wl_buffer *) id;
-+-}
-+-
-+-/**
-+- * @ingroup iface_wl_drm
-+- */
-+-static inline struct wl_buffer *
-+-wl_drm_create_prime_buffer(struct wl_drm *wl_drm, int32_t name, int32_t width, int32_t height, uint32_t format, int32_t offset0, int32_t stride0, int32_t offset1, int32_t stride1, int32_t offset2, int32_t stride2)
-+-{
-+-	struct wl_proxy *id;
-+-
-+-	id = wl_proxy_marshal_constructor((struct wl_proxy *) wl_drm,
-+-			 WL_DRM_CREATE_PRIME_BUFFER, &wl_buffer_interface, NULL, name, width, height, format, offset0, stride0, offset1, stride1, offset2, stride2);
-+-
-+-	return (struct wl_buffer *) id;
-+-}
-+-
-+-#ifdef  __cplusplus
-+-}
-+-#endif
-+-
-+-#endif
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-graphics/libva/libva_1.7.3.bb b/meta/recipes-graphics/libva/libva_1.7.3.bb
-index a7b4b90..5c74fa6 100644
---- a/meta/recipes-graphics/libva/libva_1.7.3.bb
-+++ b/meta/recipes-graphics/libva/libva_1.7.3.bb
-@@ -17,7 +17,9 @@ SECTION = "x11"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
- 
--SRC_URI = "git://github.com/01org/libva.git;protocol=http;branch=v1.7-branch"
-+SRC_URI = "git://github.com/01org/libva.git;protocol=http;branch=v1.7-branch \
-+           file://0001-configure.ac-Use-wayland-scanner-in-PATH.patch \
-+           file://0001-wayland-Don-t-commit-and-ship-generated-files.patch"
- SRCREV = "dbf9f7e33349c3cee8d131e93a6a4f91255635cb"
- 
- S = "${WORKDIR}/git"
-@@ -33,7 +35,7 @@ EXTRA_OECONF = "--disable-dummy-driver"
- PACKAGECONFIG ??= "${@bb.utils.contains("DISTRO_FEATURES", "x11", "x11", "", d)} \
-                    ${@bb.utils.contains("DISTRO_FEATURES", "wayland", "wayland", "", d)}"
- PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11 libxext libxfixes"
--PACKAGECONFIG[wayland] = "--enable-wayland,--disable-wayland,wayland"
-+PACKAGECONFIG[wayland] = "--enable-wayland,--disable-wayland,wayland-native wayland"
- 
- PACKAGES =+ "${PN}-x11 ${PN}-tpi ${PN}-glx ${PN}-egl ${PN}-wayland"
- 
--- 
-2.1.4
+On 02/22/2017 05:12 AM, mariano.lopez@linux.intel.com wrote:
+> From: Mariano Lopez <mariano.lopez@linux.intel.com>
+>
+> Lately autobuilders are experiencing hangs with selftest,
+> it seems it is cause if an error happens in setUpClass
+> method of oeSDKExtSelfTest class because HTTP server
+> keeps running in background.
+Any issue if Morty gets this?
+- armin
+> This patch will ensure tearDownClass will be run if there
+> is an error in setUpClass.
+>
+> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+> ---
+>   meta/lib/oeqa/selftest/eSDK.py | 46 +++++++++++++++++++++++-------------------
+>   1 file changed, 25 insertions(+), 21 deletions(-)
+>
+> diff --git a/meta/lib/oeqa/selftest/eSDK.py b/meta/lib/oeqa/selftest/eSDK.py
+> index ee1ca6a..b68e997 100644
+> --- a/meta/lib/oeqa/selftest/eSDK.py
+> +++ b/meta/lib/oeqa/selftest/eSDK.py
+> @@ -64,7 +64,7 @@ class oeSDKExtSelfTest(oeSelfTest):
+>           runCmd("%s -y -d \"%s\"" % (cls.ext_sdk_path, cls.tmpdir_eSDKQA))
+>   
+>           cls.env_eSDK = oeSDKExtSelfTest.get_esdk_environment('', cls.tmpdir_eSDKQA)
+> -
+> +
+>           sstate_config="""
+>   SDK_LOCAL_CONF_WHITELIST = "SSTATE_MIRRORS"
+>   SSTATE_MIRRORS =  "file://.* http://%s/PATH"
+> @@ -73,37 +73,41 @@ CORE_IMAGE_EXTRA_INSTALL = "perl"
+>   
+>           with open(os.path.join(cls.tmpdir_eSDKQA, 'conf', 'local.conf'), 'a+') as f:
+>               f.write(sstate_config)
+> -
+>   
+>       @classmethod
+>       def setUpClass(cls):
+> -        # Start to serve sstate dir
+> -        sstate_dir = get_bb_var('SSTATE_DIR')
+> -        cls.http_service = HTTPService(sstate_dir)
+> -        cls.http_service.start()
+> +        # If there is an exception in setUpClass it will not run tearDownClass
+> +        # method and it leaves HTTP server running forever, so we need to be
+> +        # sure tearDownClass is run.
+> +        try:
+> +            cls.tmpdir_eSDKQA = tempfile.mkdtemp(prefix='eSDKQA')
+>   
+> -        cls.http_url = "http://127.0.0.1:%d" % cls.http_service.port
+> -
+> -        cls.image = 'core-image-minimal'
+> +            # Start to serve sstate dir
+> +            sstate_dir = get_bb_var('SSTATE_DIR')
+> +            cls.http_service = HTTPService(sstate_dir)
+> +            cls.http_url = "http://127.0.0.1:%d" % cls.http_service.port
+> +            cls.http_service.start()
+>   
+> -        cls.tmpdir_eSDKQA = tempfile.mkdtemp(prefix='eSDKQA')
+> -        oeSDKExtSelfTest.generate_eSDK(cls.image)
+> +            cls.image = 'core-image-minimal'
+> +            oeSDKExtSelfTest.generate_eSDK(cls.image)
+>   
+> -        # Install eSDK
+> -        cls.ext_sdk_path = oeSDKExtSelfTest.get_eSDK_toolchain(cls.image)
+> -        runCmd("%s -y -d \"%s\"" % (cls.ext_sdk_path, cls.tmpdir_eSDKQA))
+> +            # Install eSDK
+> +            cls.ext_sdk_path = oeSDKExtSelfTest.get_eSDK_toolchain(cls.image)
+> +            runCmd("%s -y -d \"%s\"" % (cls.ext_sdk_path, cls.tmpdir_eSDKQA))
+>   
+> -        cls.env_eSDK = oeSDKExtSelfTest.get_esdk_environment('', cls.tmpdir_eSDKQA)
+> +            cls.env_eSDK = oeSDKExtSelfTest.get_esdk_environment('', cls.tmpdir_eSDKQA)
+>   
+> -        # Configure eSDK to use sstate mirror from poky
+> -        sstate_config="""
+> +            # Configure eSDK to use sstate mirror from poky
+> +            sstate_config="""
+>   SDK_LOCAL_CONF_WHITELIST = "SSTATE_MIRRORS"
+>   SSTATE_MIRRORS =  "file://.* http://%s/PATH"
+> -        """ % cls.http_url
+> -        with open(os.path.join(cls.tmpdir_eSDKQA, 'conf', 'local.conf'), 'a+') as f:
+> -            f.write(sstate_config)
+> +            """ % cls.http_url
+> +            with open(os.path.join(cls.tmpdir_eSDKQA, 'conf', 'local.conf'), 'a+') as f:
+> +                f.write(sstate_config)
+> +        except:
+> +            cls.tearDownClass()
+> +            raise
+>   
+> -
+>       @classmethod
+>       def tearDownClass(cls):
+>           shutil.rmtree(cls.tmpdir_eSDKQA)
 
 
