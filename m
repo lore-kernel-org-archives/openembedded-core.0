@@ -1,25 +1,21 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E4B77300E
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id A04FE73061
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2017 12:47:23 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga105.jf.intel.com with ESMTP; 23 Feb 2017 04:47:25 -0800
+	Thu, 23 Feb 2017 13:18:34 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga105.fm.intel.com with ESMTP; 23 Feb 2017 05:18:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,197,1484035200"; d="scan'208";a="1101412280"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 23 Feb 2017 04:47:24 -0800
-Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 936166A4004;
-	Thu, 23 Feb 2017 04:47:23 -0800 (PST)
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+X-IronPort-AV: E=Sophos;i="5.35,197,1484035200"; d="scan'208";a="827620622"
+Received: from mburny-mobl.ger.corp.intel.com (HELO
+	mqz-osx-suse64.fi.intel.com) ([10.252.22.38])
+	by FMSMGA003.fm.intel.com with ESMTP; 23 Feb 2017 05:18:35 -0800
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Feb 2017 14:47:19 +0200
-Message-Id: <dce1aeb27d33257832f5b4045834ffbf069dbf15.1487853010.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1487853010.git.jussi.kukkonen@intel.com>
-References: <cover.1487853010.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 3/3] x264: Upgrade to stable branch head
+Date: Thu, 23 Feb 2017 15:18:33 +0200
+Message-Id: <1487855913-11222-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Subject: [PATCH] build-perf-test-wrapper.sh: support xml report format
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,32 +28,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2017 12:47:23 -0000
+X-List-Received-Date: Thu, 23 Feb 2017 13:18:34 -0000
 
-Small number of bug fixes and x86 optimizations.
+Add new command line option '-x' that enbles xml-formatted reports.
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- meta/recipes-multimedia/x264/x264_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/contrib/build-perf-test-wrapper.sh | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
-index 64193dc..69f52c2 100644
---- a/meta/recipes-multimedia/x264/x264_git.bb
-+++ b/meta/recipes-multimedia/x264/x264_git.bb
-@@ -13,9 +13,9 @@ SRC_URI = "git://github.com/mirror/x264;branch=stable \
-            file://Fix-X32-build-by-disabling-asm.patch \
-            "
+diff --git a/scripts/contrib/build-perf-test-wrapper.sh b/scripts/contrib/build-perf-test-wrapper.sh
+index f192fcf..240d669 100755
+--- a/scripts/contrib/build-perf-test-wrapper.sh
++++ b/scripts/contrib/build-perf-test-wrapper.sh
+@@ -33,13 +33,15 @@ Optional arguments:
+   -C GIT_REPO       commit results into Git
+   -w WORK_DIR       work dir for this script
+                     (default: GIT_TOP_DIR/build-perf-test)
++  -x                create xml report (instead of json)
+ EOF
+ }
  
--SRCREV = "86b71982e131eaa70125f8d0e725fcade9c4c677"
-+SRCREV = "2b741f81e51f92d053d87a49f59ff1026553a0f6"
  
--PV = "r2491+git${SRCPV}"
-+PV = "r2731+git${SRCPV}"
+ # Parse command line arguments
+ commitish=""
+-while getopts "ha:c:C:w:" opt; do
++oe_build_perf_test_extra_opts=()
++while getopts "ha:c:C:w:x" opt; do
+     case $opt in
+         h)  usage
+             exit 0
+@@ -52,6 +54,8 @@ while getopts "ha:c:C:w:" opt; do
+             ;;
+         w)  base_dir=`realpath -s "$OPTARG"`
+             ;;
++        x)  oe_build_perf_test_extra_opts+=("--xml")
++            ;;
+         *)  usage
+             exit 1
+             ;;
+@@ -129,6 +133,7 @@ fi
+ # Run actual test script
+ oe-build-perf-test --out-dir "$results_dir" \
+                    --globalres-file "$globalres_log" \
++                   "${oe_build_perf_test_extra_opts[@]}" \
+                    --lock-file "$base_dir/oe-build-perf.lock"
  
- S = "${WORKDIR}/git"
- 
+ # Commit results to git
 -- 
-2.1.4
+2.6.6
 
 
