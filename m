@@ -1,35 +1,29 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B435172FEE
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
+	by mail.openembedded.org (Postfix) with ESMTP id D9DD072FF5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2017 10:45:28 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	23 Feb 2017 02:45:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,197,1484035200"; d="scan'208";a="68660249"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga005.fm.intel.com with ESMTP; 23 Feb 2017 02:45:29 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 164656A4004;
-	Thu, 23 Feb 2017 02:45:27 -0800 (PST)
-Date: Thu, 23 Feb 2017 12:39:19 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20170223103919.GA29674@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <cover.1487690169.git.ed.bartosh@linux.intel.com>
-	<CAJTo0LZT_D4gXYRY__zWuDCY9zOKaHL1tmgqppP5=8qJzijn+Q@mail.gmail.com>
-	<20170222205335.GA13229@linux.intel.com>
-	<20170223101804.GA29462@linux.intel.com>
+	Thu, 23 Feb 2017 11:46:31 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
+	via TCP (outbound) with ESMTPS id 20170223114627879_0485
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Feb 2017 11:46:27 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [216.191.234.70] (port=31279 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1cgrqn-00039u-Cx for openembedded-core@lists.openembedded.org;
+	Thu, 23 Feb 2017 06:46:21 -0500
+Date: Thu, 23 Feb 2017 06:46:19 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@uk63952.mitel.com
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1702230630240.8798@uk63952.mitel.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-In-Reply-To: <20170223101804.GA29462@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/6] wic: fix for #11017
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: adding recipes to a layer.conf file to simulate(?) an extensible SDK?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,177 +36,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2017 10:45:30 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 23 Feb 2017 11:46:32 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-On Thu, Feb 23, 2017 at 12:18:04PM +0200, Ed Bartosh wrote:
-> On Wed, Feb 22, 2017 at 10:53:35PM +0200, Ed Bartosh wrote:
-> > On Wed, Feb 22, 2017 at 04:38:55PM +0000, Burton, Ross wrote:
-> > > Hi Ed,
-> > > 
-> > > Something in your latest patchset is breaking selftest:
-> > > 
-> > > https://autobuilder.yoctoproject.org/main/builders/nightly-wic/builds/626/steps/CreateWicImages/logs/stdio
-> > > 
-> > > The broken commit is somewhere in ross/mut-wic.  Can you verify that I
-> > > didn't leave something out, or otherwise chase this?
-> > > 
-> > I couldn't reproduce this so far. Will investigate further.
-> > 
-> > Can you merge this patchset please?
-> > http://lists.openembedded.org/pipermail/openembedded-core/2017-February/132854.html
-> > 
-> > The failure is most probably caused by patchset from this thread.
-> > 
-> 
-> Still not able to reproduce it. It works just fine in my environment.
-> This time I used setup as close to AB as I could get: core-image-sato
-> image, genericx86-64 machine, clean build.
-> 
-> [build-genericx86-64 (ed/wic/wip)]$ rm -rf tmp/
-> 
-> [build-genericx86-64 (ed/wic/wip)]$ bitbake core-image-sato
-> WARNING: Host distribution "opensuse-13.2" has not been validated with
-> this version of the build system; you may possibly experience unexpected
-> failures. It is recommended that you use a tested distribution.
-> Parsing recipes: 100%
-> |###############################################################################################################################################|
-> Time: 0:00:13
-> Parsing of 856 .bb files complete (0 cached, 856 parsed). 1322 targets,
-> 53 skipped, 0 masked, 0 errors.
-> NOTE: Resolving any missing task queue dependencies
-> 
-> Build Configuration:
-> BB_VERSION        = "1.33.1"
-> BUILD_SYS         = "x86_64-linux"
-> NATIVELSBSTRING   = "opensuse-13.2"
-> TARGET_SYS        = "x86_64-poky-linux"
-> MACHINE           = "genericx86-64"
-> DISTRO            = "poky"
-> DISTRO_VERSION    = "2.2+snapshot-20170222"
-> TUNE_FEATURES     = "m64 core2"
-> TARGET_FPU        = ""
-> meta
-> meta-poky
-> meta-yocto-bsp    =
-> "ed/wic/wip:5d96bc6d1af89dda11f3266548fe1547152c86e1"
-> 
-> Initialising tasks: 100%
-> |############################################################################################################################################|
-> Time: 0:00:15
-> NOTE: Executing SetScene Tasks
-> NOTE: Executing RunQueue Tasks
-> NOTE: Tasks Summary: Attempted 6116 tasks of which 2807 didn't need to
-> be rerun and all succeeded.
-> 
-> Summary: There was 1 WARNING message shown.
-> 
-> [build-genericx86-64 (ed/wic/wip)]$ wic create directdisk -e core-image-sato
-> INFO: Creating image(s)...
-> 
-> INFO: The new image(s) can be found here:
->   ./directdisk-201702231207-sda.direct
-> 
-> The following build artifacts were used to create the image(s):
->   ROOTFS_DIR:
-> /home/ed/git/yocto/poky/build-genericx86-64/tmp/work/genericx86_64-poky-linux/core-image-sato/1.0-r0/rootfs
->   BOOTIMG_DIR:
-> /home/ed/git/yocto/poky/build-genericx86-64/tmp/work/core2-64-poky-linux/wic-tools/1.0-r0/recipe-sysroot/usr/share
->   KERNEL_DIR:
-> /home/ed/git/yocto/poky/build-genericx86-64/tmp/deploy/images/genericx86-64
->   NATIVE_SYSROOT:
-> /home/ed/git/yocto/poky/build-genericx86-64/tmp/work/genericx86_64-poky-linux/core-image-sato/1.0-r0/recipe-sysroot-native
-> 
-> INFO: The image(s) were created using OE kickstart file:
->   /home/ed/git/yocto/poky/scripts/lib/wic/canned-wks/directdisk.wks
-> 
-> 
-> Could it be because of something in AB setup?
-> 
 
-Now I'm pretty sure it's because of AB setup.
+  caveat: i'm not sure this question is even going to make sense but
+i'm going to give it a shot.
 
-I was not able to reproduce it as I used genericx86-64 machine mentioned
-on the build page:
-https://autobuilder.yoctoproject.org/main/builders/nightly-wic/builds/623
+  acquaintances have in-house BSP layer for small number of target
+boards, and build using OE (actually, wind river linux, but that
+distinction doesn't seem relevant). so basic BSP image and *some* user
+space apps are incorporated into existing layers and build a number of
+working images just fine.
 
-However, AB switched to qemux86-64 machine despite of what's specified.
-This is very confusing.
+  OTOH, there are some app developers who also need to build for the
+same target boards and images, but are *not* using OE/WRL, so they've
+been given an appropriate SDK against which to compile their source.
+so far, so good, but these developers regularly request more content
+in the SDK as they extend their code and need additional shared libs
+and header files. fair enough.
 
-Anyway, the reason of the failure is that AB builds set of tools for wic
-in step 12: BuildImages Building syslinux syslinux-native parted-native
-gptfdisk-native dosfstools-native mtools-native, but due to RSS those
-tools are not accessible by wic. AB should build wic-tools instead.
+  in some cases, they apparently need the developer content related to
+things like apache2 and minicom and strace and mtd-utils, and a bunch
+of other stuff i find a little puzzling. and the solution until now
+(that i was unaware of until recently) has been to add a massive
+"IMAGE_INSTALL_append = ..." directive to the layer.conf file, so that
+when one runs (and this is the WRL command to generate the SDK):
 
-Regards,
-Ed
+  $ make export-sdk
 
-> > > On 21 February 2017 at 15:23, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
-> > > 
-> > > > Hi,
-> > > >
-> > > > This patchset improves handling of wic native tool dependencies and
-> > > > fixes minor bugs in the wic code.
-> > > >
-> > > > The following changes since commit 9a0ddad5e178d16f302af2d05c3236
-> > > > 8572849fd3:
-> > > >
-> > > >   wic: pluginbase: use global dictionary (2017-02-20 11:58:28 +0200)
-> > > >
-> > > > are available in the git repository at:
-> > > >
-> > > >   git://git.yoctoproject.org/poky-contrib ed/wic/wip
-> > > >   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wic/wip
-> > > >
-> > > > Ed Bartosh (6):
-> > > >   wic: use 2 sysroots to find native executable
-> > > >   wic: use image recipe sysroot as default
-> > > >   wic: exec_native_cmd: improve debug message
-> > > >   wic: exec_native_cmd: fix undefined variable error
-> > > >   wic: add WKS_FILE_DEPENDS variable
-> > > >   wic: raise WicError instead of calling logger.error
-> > > >
-> > > >  meta-selftest/recipes-test/images/wic-image-minimal.bb |  2 +-
-> > > >  meta/classes/image_types_wic.bbclass                   |  2 ++
-> > > >  scripts/lib/wic/plugins/source/bootimg-pcbios.py       |  4 ++--
-> > > >  scripts/lib/wic/utils/misc.py                          | 13 +++++++++----
-> > > >  scripts/wic                                            |  2 +-
-> > > >  5 files changed, 15 insertions(+), 8 deletions(-)
-> > > >
-> > > > --
-> > > > Regards,
-> > > > Ed
-> > > >
-> > > > --
-> > > > _______________________________________________
-> > > > Openembedded-core mailing list
-> > > > Openembedded-core@lists.openembedded.org
-> > > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> > > >
-> > 
-> > -- 
-> > --
-> > Regards,
-> > Ed
-> > -- 
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
-> -- 
-> --
-> Regards,
-> Ed
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+one gets an SDK with the developer-related content from all of those
+recipes.
+
+  this kind of threw me the first time i saw it. my instant reaction
+was, "pretty sure what you want is the WRL version of the extensible
+SDK," based on whatever "make" target that corresponds to.
+
+  thoughts? apparently, the above strategy is, technically, working,
+but of course it requires a total rebuild of the SDK every time a
+developers needs something added. and the idea of adding image recipes
+in the layer.conf file seems pretty clearly like a bad idea but, as i
+said, it apparently works.
+
+  am i missing something here? as i see it, the obvious (first)
+solution is to have the app developers use OE/WRL in the first place,
+but that is apparently not an option. so, barring that, the next
+solution is to set up an extensible SDK, and extend it as needed.
+
+  i'm just looking for others' opinions on what seems to me to be a
+really weird solution to a standard problem.
+
+rday
 
 -- 
---
-Regards,
-Ed
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 
