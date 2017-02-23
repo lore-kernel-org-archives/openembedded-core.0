@@ -1,46 +1,24 @@
-Return-Path: <oleksandr.kravchuk@pelagicore.com>
-Received: from mail-lf0-f43.google.com (mail-lf0-f43.google.com
-	[209.85.215.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 63F586011A
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id C9F9B7300D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2017 12:33:35 +0000 (UTC)
-Received: by mail-lf0-f43.google.com with SMTP id g134so15593450lfe.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2017 04:33:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=pelagicore-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=2tz69IkMnawcVS9ywJ3JohOuqD8ulGnwC8b37Vgp0FU=;
-	b=HVP5DgbJiTjopCtwMbXCTGJZgDvyvdIPhbbZifM3+3kvzufdIfBLhTbg0nZ7A+oeXm
-	STg10h/ornDY2LhPg97RhwteiEB8kz27Fhwqxh2jYzCgE5FVGwtHzzyBcri94af4H6sE
-	30JvNUS+42gaGcQSj6t7sGNJtuMVjS8Lcmcr5rJujoE2AiuNCZaIEVr8+Lc6yVZoopsS
-	DsdGNp4G04nqrkqOUvbPeRIqMyTtNTk23fUhiUa1UquDf6Sal+MdZsfFXlgV7jo/hEx/
-	PthSGVnz2HtxPV0CE+PKPF+wT1aE4wAa5s8nHV1m2dUO/IKa+Hgj1rGwBTsJQz/mjEc+
-	Yu1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=2tz69IkMnawcVS9ywJ3JohOuqD8ulGnwC8b37Vgp0FU=;
-	b=hdRp/p0+DcDhWD8xBq3htmlAsZwXiNVO/Wz1qxWTjSAV0OeMIPvUt2c1uwIj31a0Fm
-	CXBRD7/y0X8sfi0EcYf0XcYzOFho0+J0oZWDtr3yNYqRmQHqkDlrqjnbIN2/z76HP6mm
-	B3aqpr+5J7O7IM9VJgU3bZSSusFK0ioFEUB+hKteTg8HOalzlfENiQEvTnOR+vCl/vOg
-	oOT01QDVAUfCgOqDFxf3SHROHwsVKDLzmKbdlj4OyW8nlhBXvPAv7rCtnpp1Z+UI8n/W
-	tqrMXfSgsUK7JO6SIt2wzwpolbJ2soR36QqDuHvCY/lxZV/kmoUBw8j7UTHKlFgq5+x3
-	iQTA==
-X-Gm-Message-State: AMke39nT+RUzAANb+tDqOcb5BuR/i2X12dlYvkarKMAXUXO6rUvRtR/nktT1W20MVCvkry6q
-X-Received: by 10.25.145.77 with SMTP id y13mr979305lfj.49.1487853216565;
-	Thu, 23 Feb 2017 04:33:36 -0800 (PST)
-Received: from stout.office.pelagicore.net ([83.218.80.243])
-	by smtp.gmail.com with ESMTPSA id
-	s20sm1248519lfe.41.2017.02.23.04.33.35
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 23 Feb 2017 04:33:35 -0800 (PST)
-From: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+	Thu, 23 Feb 2017 12:47:15 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	23 Feb 2017 04:47:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.35,197,1484035200"; d="scan'208";a="1114611034"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga001.fm.intel.com with ESMTP; 23 Feb 2017 04:47:16 -0800
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id 7D32E6A4004;
+	Thu, 23 Feb 2017 04:47:15 -0800 (PST)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Feb 2017 13:33:34 +0100
-Message-Id: <1487853214-16571-1-git-send-email-oleksandr.kravchuk@pelagicore.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] curl: upgrade to 7.53.0
+Date: Thu, 23 Feb 2017 14:47:13 +0200
+Message-Id: <cover.1487853010.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/3] Upgrades for a few git recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,33 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2017 12:33:36 -0000
+X-List-Received-Date: Thu, 23 Feb 2017 12:47:15 -0000
 
-Signed-off-by: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
----
- meta/recipes-support/curl/{curl_7.52.1.bb => curl_7.53.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/curl/{curl_7.52.1.bb => curl_7.53.0.bb} (94%)
+Fairly innocent looking git revision upgrades for recipes whose
+upstreams do not make releases for one reason or another.
 
-diff --git a/meta/recipes-support/curl/curl_7.52.1.bb b/meta/recipes-support/curl/curl_7.53.0.bb
-similarity index 94%
-rename from meta/recipes-support/curl/curl_7.52.1.bb
-rename to meta/recipes-support/curl/curl_7.53.0.bb
-index 2882bc0..130643c 100644
---- a/meta/recipes-support/curl/curl_7.52.1.bb
-+++ b/meta/recipes-support/curl/curl_7.53.0.bb
-@@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
- #
- SRC_URI += " file://configure_ac.patch"
- 
--SRC_URI[md5sum] = "dd014df06ff1d12e173de86873f9f77a"
--SRC_URI[sha256sum] = "d16185a767cb2c1ba3d5b9096ec54e5ec198b213f45864a38b3bda4bbf87389b"
-+SRC_URI[md5sum] = "ede199c63b84df39f42da9da68de85c5"
-+SRC_URI[sha256sum] = "b2345a8bef87b4c229dedf637cb203b5e21db05e20277c8e1094f0d4da180801"
- 
- CVE_PRODUCT = "libcurl"
- inherit autotools pkgconfig binconfig multilib_header
+Thanks,
+ Jussi
+
+The following changes since commit e436a6398684d2872cb541f1cfb0f67b3618d15a:
+
+  layer.conf: bump version for change in eSDK selftest behaviour (2017-02-19 09:39:03 -0800)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/git-upgrades
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/git-upgrades
+
+Jussi Kukkonen (3):
+  xf86-video-intel: Upgrade to recent git revision
+  gst-player: Upgrade to recent git revision
+  x264: Upgrade to stable branch head
+
+ .../xorg-driver/xf86-video-intel_git.bb            |  2 +-
+ ...ovide-similar-behaviour-for-quit-and-clos.patch | 32 ----------------------
+ .../recipes-multimedia/gstreamer/gst-player_git.bb |  3 +-
+ meta/recipes-multimedia/x264/x264_git.bb           |  4 +--
+ 4 files changed, 4 insertions(+), 37 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gst-player/0001-gtk-play-provide-similar-behaviour-for-quit-and-clos.patch
+
 -- 
-2.7.4
+2.1.4
 
 
