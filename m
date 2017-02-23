@@ -1,23 +1,35 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 41CB272FE9
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id B435172FEE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2017 10:24:24 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga105.fm.intel.com with ESMTP; 23 Feb 2017 02:24:26 -0800
+	Thu, 23 Feb 2017 10:45:28 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	23 Feb 2017 02:45:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,197,1484035200"; d="scan'208";a="68119657"
-Received: from mburny-mobl.ger.corp.intel.com (HELO
-	mqz-osx-suse64.fi.intel.com) ([10.252.22.38])
-	by orsmga005.jf.intel.com with ESMTP; 23 Feb 2017 02:24:25 -0800
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Feb 2017 12:24:20 +0200
-Message-Id: <1487845460-27178-4-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <1487845460-27178-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1487845460-27178-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 3/3] lib/oe/gpg_sign: fix rpm signing with gpg > 2.1
+X-IronPort-AV: E=Sophos;i="5.35,197,1484035200"; d="scan'208";a="68660249"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga005.fm.intel.com with ESMTP; 23 Feb 2017 02:45:29 -0800
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 164656A4004;
+	Thu, 23 Feb 2017 02:45:27 -0800 (PST)
+Date: Thu, 23 Feb 2017 12:39:19 +0200
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20170223103919.GA29674@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <cover.1487690169.git.ed.bartosh@linux.intel.com>
+	<CAJTo0LZT_D4gXYRY__zWuDCY9zOKaHL1tmgqppP5=8qJzijn+Q@mail.gmail.com>
+	<20170222205335.GA13229@linux.intel.com>
+	<20170223101804.GA29462@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <20170223101804.GA29462@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/6] wic: fix for #11017
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,32 +42,177 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2017 10:24:24 -0000
+X-List-Received-Date: Thu, 23 Feb 2017 10:45:30 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-We need to check the gpg version and alter its command line options
-accordingly.
+On Thu, Feb 23, 2017 at 12:18:04PM +0200, Ed Bartosh wrote:
+> On Wed, Feb 22, 2017 at 10:53:35PM +0200, Ed Bartosh wrote:
+> > On Wed, Feb 22, 2017 at 04:38:55PM +0000, Burton, Ross wrote:
+> > > Hi Ed,
+> > > 
+> > > Something in your latest patchset is breaking selftest:
+> > > 
+> > > https://autobuilder.yoctoproject.org/main/builders/nightly-wic/builds/626/steps/CreateWicImages/logs/stdio
+> > > 
+> > > The broken commit is somewhere in ross/mut-wic.  Can you verify that I
+> > > didn't leave something out, or otherwise chase this?
+> > > 
+> > I couldn't reproduce this so far. Will investigate further.
+> > 
+> > Can you merge this patchset please?
+> > http://lists.openembedded.org/pipermail/openembedded-core/2017-February/132854.html
+> > 
+> > The failure is most probably caused by patchset from this thread.
+> > 
+> 
+> Still not able to reproduce it. It works just fine in my environment.
+> This time I used setup as close to AB as I could get: core-image-sato
+> image, genericx86-64 machine, clean build.
+> 
+> [build-genericx86-64 (ed/wic/wip)]$ rm -rf tmp/
+> 
+> [build-genericx86-64 (ed/wic/wip)]$ bitbake core-image-sato
+> WARNING: Host distribution "opensuse-13.2" has not been validated with
+> this version of the build system; you may possibly experience unexpected
+> failures. It is recommended that you use a tested distribution.
+> Parsing recipes: 100%
+> |###############################################################################################################################################|
+> Time: 0:00:13
+> Parsing of 856 .bb files complete (0 cached, 856 parsed). 1322 targets,
+> 53 skipped, 0 masked, 0 errors.
+> NOTE: Resolving any missing task queue dependencies
+> 
+> Build Configuration:
+> BB_VERSION        = "1.33.1"
+> BUILD_SYS         = "x86_64-linux"
+> NATIVELSBSTRING   = "opensuse-13.2"
+> TARGET_SYS        = "x86_64-poky-linux"
+> MACHINE           = "genericx86-64"
+> DISTRO            = "poky"
+> DISTRO_VERSION    = "2.2+snapshot-20170222"
+> TUNE_FEATURES     = "m64 core2"
+> TARGET_FPU        = ""
+> meta
+> meta-poky
+> meta-yocto-bsp    =
+> "ed/wic/wip:5d96bc6d1af89dda11f3266548fe1547152c86e1"
+> 
+> Initialising tasks: 100%
+> |############################################################################################################################################|
+> Time: 0:00:15
+> NOTE: Executing SetScene Tasks
+> NOTE: Executing RunQueue Tasks
+> NOTE: Tasks Summary: Attempted 6116 tasks of which 2807 didn't need to
+> be rerun and all succeeded.
+> 
+> Summary: There was 1 WARNING message shown.
+> 
+> [build-genericx86-64 (ed/wic/wip)]$ wic create directdisk -e core-image-sato
+> INFO: Creating image(s)...
+> 
+> INFO: The new image(s) can be found here:
+>   ./directdisk-201702231207-sda.direct
+> 
+> The following build artifacts were used to create the image(s):
+>   ROOTFS_DIR:
+> /home/ed/git/yocto/poky/build-genericx86-64/tmp/work/genericx86_64-poky-linux/core-image-sato/1.0-r0/rootfs
+>   BOOTIMG_DIR:
+> /home/ed/git/yocto/poky/build-genericx86-64/tmp/work/core2-64-poky-linux/wic-tools/1.0-r0/recipe-sysroot/usr/share
+>   KERNEL_DIR:
+> /home/ed/git/yocto/poky/build-genericx86-64/tmp/deploy/images/genericx86-64
+>   NATIVE_SYSROOT:
+> /home/ed/git/yocto/poky/build-genericx86-64/tmp/work/genericx86_64-poky-linux/core-image-sato/1.0-r0/recipe-sysroot-native
+> 
+> INFO: The image(s) were created using OE kickstart file:
+>   /home/ed/git/yocto/poky/scripts/lib/wic/canned-wks/directdisk.wks
+> 
+> 
+> Could it be because of something in AB setup?
+> 
 
-[YOCTO #11054]
+Now I'm pretty sure it's because of AB setup.
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- meta/lib/oe/gpg_sign.py | 2 ++
- 1 file changed, 2 insertions(+)
+I was not able to reproduce it as I used genericx86-64 machine mentioned
+on the build page:
+https://autobuilder.yoctoproject.org/main/builders/nightly-wic/builds/623
 
-diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
-index 21dc5ea..b635d8b 100644
---- a/meta/lib/oe/gpg_sign.py
-+++ b/meta/lib/oe/gpg_sign.py
-@@ -32,6 +32,8 @@ class LocalSigner(object):
- 
-         cmd = self.rpm_bin + " --addsign --define '_gpg_name %s'  " % keyid
-         cmd += "--define '_gpg_passphrase %s' " % passphrase
-+        if self.gpg_version > (2,1,):
-+            cmd += "--define '_gpg_sign_cmd_extra_args --pinentry-mode=loopback' "
-         if self.gpg_bin:
-             cmd += "--define '%%__gpg %s' " % self.gpg_bin
-         if self.gpg_path:
+However, AB switched to qemux86-64 machine despite of what's specified.
+This is very confusing.
+
+Anyway, the reason of the failure is that AB builds set of tools for wic
+in step 12: BuildImages Building syslinux syslinux-native parted-native
+gptfdisk-native dosfstools-native mtools-native, but due to RSS those
+tools are not accessible by wic. AB should build wic-tools instead.
+
+Regards,
+Ed
+
+> > > On 21 February 2017 at 15:23, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+> > > 
+> > > > Hi,
+> > > >
+> > > > This patchset improves handling of wic native tool dependencies and
+> > > > fixes minor bugs in the wic code.
+> > > >
+> > > > The following changes since commit 9a0ddad5e178d16f302af2d05c3236
+> > > > 8572849fd3:
+> > > >
+> > > >   wic: pluginbase: use global dictionary (2017-02-20 11:58:28 +0200)
+> > > >
+> > > > are available in the git repository at:
+> > > >
+> > > >   git://git.yoctoproject.org/poky-contrib ed/wic/wip
+> > > >   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wic/wip
+> > > >
+> > > > Ed Bartosh (6):
+> > > >   wic: use 2 sysroots to find native executable
+> > > >   wic: use image recipe sysroot as default
+> > > >   wic: exec_native_cmd: improve debug message
+> > > >   wic: exec_native_cmd: fix undefined variable error
+> > > >   wic: add WKS_FILE_DEPENDS variable
+> > > >   wic: raise WicError instead of calling logger.error
+> > > >
+> > > >  meta-selftest/recipes-test/images/wic-image-minimal.bb |  2 +-
+> > > >  meta/classes/image_types_wic.bbclass                   |  2 ++
+> > > >  scripts/lib/wic/plugins/source/bootimg-pcbios.py       |  4 ++--
+> > > >  scripts/lib/wic/utils/misc.py                          | 13 +++++++++----
+> > > >  scripts/wic                                            |  2 +-
+> > > >  5 files changed, 15 insertions(+), 8 deletions(-)
+> > > >
+> > > > --
+> > > > Regards,
+> > > > Ed
+> > > >
+> > > > --
+> > > > _______________________________________________
+> > > > Openembedded-core mailing list
+> > > > Openembedded-core@lists.openembedded.org
+> > > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> > > >
+> > 
+> > -- 
+> > --
+> > Regards,
+> > Ed
+> > -- 
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+> -- 
+> --
+> Regards,
+> Ed
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 -- 
-2.6.6
-
+--
+Regards,
+Ed
 
