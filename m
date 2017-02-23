@@ -1,34 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DDB772F72
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BBE06AC3C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2017 04:13:39 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v1N4Dcce012041; Thu, 23 Feb 2017 04:13:38 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id tYOpyBwWD8Cd; Thu, 23 Feb 2017 04:13:38 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v1N4DTlZ012038
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 23 Feb 2017 04:13:33 GMT
-Message-ID: <1487823209.9663.2.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>, Fabio Berton
-	<fabio.berton@ossystems.com.br>, Armin Kuster <akuster808@gmail.com>
-Date: Wed, 22 Feb 2017 20:13:29 -0800
-In-Reply-To: <CAP9ODKoCu930C64Yd5Gw+u5L+9A0PBBGnpr3R88t11AQN=nLjw@mail.gmail.com>
-References: <20170130162700.27969-1-fabio.berton@ossystems.com.br>
-	<CAP9ODKrkFx4co_0gxTQpOj0HuG1H+O9DhL4GJFJ-8_e87QdNWQ@mail.gmail.com>
-	<7be95a90-ca8f-c107-ec6a-537fe80720bc@ossystems.com.br>
-	<CAP9ODKoCu930C64Yd5Gw+u5L+9A0PBBGnpr3R88t11AQN=nLjw@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libbsd: libbsd-overlay.pc: Set Cflags to use -I instead of -isystem
+	Thu, 23 Feb 2017 08:16:32 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v1N8GXHv026937
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Feb 2017 00:16:33 -0800 (PST)
+Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Thu, 23 Feb 2017 00:16:32 -0800
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 23 Feb 2017 16:08:30 +0800
+Message-ID: <20170223080830.16470-1-jackie.huang@windriver.com>
+X-Mailer: git-send-email 2.8.3
+MIME-Version: 1.0
+Subject: [PATCH] ptest.bbclass: use BPN in PTEST_PATH for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,22 +31,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2017 04:13:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 23 Feb 2017 08:16:40 -0000
+Content-Type: text/plain
 
-On Wed, 2017-02-22 at 20:45 -0300, Otavio Salvador wrote:
-> On Wed, Feb 22, 2017 at 3:51 PM, Fabio Berton
-> <fabio.berton@ossystems.com.br> wrote:
-> > 
-> > Hi!
-> > 
-> > We need to backport this commit to morty.
-> Indeed; adding Richard on Cc.
+From: Jackie Huang <jackie.huang@windriver.com>
 
-Armin is the person you need...
+Use BPN instead of PN in PTEST_PATH for multilib builds,
+or we get two directories for a package in libdir which
+doesn't make sense, e.g.
 
-Cheers,
+$ ls /usr/lib/*coreutils
+/usr/lib/coreutils:
+libstdbuf.so
 
-Richard
+/usr/lib/lib32-coreutils:
+ptest
+
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ meta/classes/ptest.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
+index 798d802..c19f65b 100644
+--- a/meta/classes/ptest.bbclass
++++ b/meta/classes/ptest.bbclass
+@@ -2,7 +2,7 @@ SUMMARY_${PN}-ptest ?= "${SUMMARY} - Package test files"
+ DESCRIPTION_${PN}-ptest ?= "${DESCRIPTION}  \
+ This package contains a test directory ${PTEST_PATH} for package test purposes."
+ 
+-PTEST_PATH ?= "${libdir}/${PN}/ptest"
++PTEST_PATH ?= "${libdir}/${BPN}/ptest"
+ FILES_${PN}-ptest = "${PTEST_PATH}"
+ SECTION_${PN}-ptest = "devel"
+ ALLOW_EMPTY_${PN}-ptest = "1"
+-- 
+2.8.3
+
 
