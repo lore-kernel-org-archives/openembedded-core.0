@@ -1,36 +1,26 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.analogue-micro.com (mail.analogue-micro.com
-	[217.144.149.242])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B2926FFCC
+Return-Path: <francisco.j.pedraza.gonzalez@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id DE5227732D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 14:33:36 +0000 (UTC)
-Received: by mail.analogue-micro.com (Postfix, from userid 999)
-	id 1288468A01C; Fri, 24 Feb 2017 14:33:37 +0000 (GMT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	loki.analogue-micro-ltd.com
-X-Spam-Level: *
-X-Spam-Status: No, score=1.7 required=5.0 tests=ALL_TRUSTED,BAYES_20,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
-	by mail.analogue-micro.com (Postfix) with ESMTP id 9C94868A019;
-	Fri, 24 Feb 2017 14:33:36 +0000 (GMT)
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by zeus.mlbassoc.com (Postfix) with ESMTP id 54B6A67400BB;
-	Fri, 24 Feb 2017 15:33:36 +0100 (CET)
+	Fri, 24 Feb 2017 15:00:07 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	24 Feb 2017 07:00:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.35,201,1484035200"; d="scan'208";a="1101886350"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga001.jf.intel.com with ESMTP; 24 Feb 2017 07:00:08 -0800
+Received: from yocto-ab03.ostc.intel.com (yocto-ab03.ostc.intel.com
+	[10.54.69.73])
+	by linux.intel.com (Postfix) with ESMTP id 251A26A4080;
+	Fri, 24 Feb 2017 07:00:08 -0800 (PST)
+From: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <1487785536-13777-1-git-send-email-derek@asterius.io>
-	<20170222204736.GG3283@jama>
-	<CADfgfobBp60s+GjqS3zRrO-z4HUhe8zFi51GPzceDFAKQVGf=Q@mail.gmail.com>
-	<26abf96d-d224-0795-4870-cdd496f541de@linux.intel.com>
-	<1487946072.10512.9.camel@intel.com>
-From: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <d20dc7dc-c3d0-ab79-948e-2caab91d3caf@mlbassoc.com>
-Date: Fri, 24 Feb 2017 15:33:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.0
-MIME-Version: 1.0
-In-Reply-To: <1487946072.10512.9.camel@intel.com>
-Subject: Re: Patchwork not picking changes from the ML
+Date: Fri, 24 Feb 2017 07:00:07 -0800
+Message-Id: <1487948407-18563-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Cc: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
+Subject: [PATCH v2] oeqa/sdk/cases:Adds validation for SDK compatibility tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,48 +33,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2017 14:33:38 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 24 Feb 2017 15:00:08 -0000
 
-On 2017-02-24 15:21, Patrick Ohly wrote:
-> On Wed, 2017-02-22 at 15:56 -0600, Jose Lamego wrote:
->>
->> On 02/22/2017 02:55 PM, Michael Halstead wrote:
->>> I've seen several issues with hooks. I was working on them yesterday and
->>> will continue today.
->>>
->>> These are currently managed by hand but we are moving them into
->>> configuration management which should help keep them working consistently.
->>
->> Michael: one syntax error in patchwork code was pulled into production
->> yesterday. This is the cause for missing patches. The error is fixed in
->> the Yocto repo now, please perform a server code update ASAP.
->>
->> Martin: I will look at the UI issue you are describing and file a bug if
->> needed.
->
-> Would it perhaps make sense to reply to the original author with an
-> email confirming that his patch is now in Patchwork? It should include a
-> link to the patch series, too.
->
-> This could have several advantages:
->       * submitters not aware of Patchwork or whether their target
->         currently uses it learn about it and then can follow the
->         progress of their patch
->       * everyone gets a confirmation that the submission made it through
->         the various mail servers and Patchwork itself
->
-> It still relies on the original submitter to watch out for breakages in
-> the processes, but I guess that can't be avoided with an asynchronous,
-> mail-based process.
->
+Added validation for SDK compatibility tests with eSDK.
+buildcvs, buildiptables, gcc, perl, python and buildgalculator based on target manifest file.
+Running with: $ bitbake <image> -c testsdkext
+[YOCTO #9090]
 
-I would love to see this added to the process - +1 :-)
+Signed-off-by: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
+---
+ meta/lib/oeqa/sdk/cases/buildcvs.py        | 8 ++++----
+ meta/lib/oeqa/sdk/cases/buildgalculator.py | 4 +++-
+ meta/lib/oeqa/sdk/cases/buildiptables.py   | 8 ++++----
+ meta/lib/oeqa/sdk/cases/gcc.py             | 6 ++++--
+ 4 files changed, 15 insertions(+), 11 deletions(-)
 
+diff --git a/meta/lib/oeqa/sdk/cases/buildcvs.py b/meta/lib/oeqa/sdk/cases/buildcvs.py
+index 1ffd8cb..4b6a79d 100644
+--- a/meta/lib/oeqa/sdk/cases/buildcvs.py
++++ b/meta/lib/oeqa/sdk/cases/buildcvs.py
+@@ -15,10 +15,10 @@ class BuildCvsTest(OESDKTestCase):
+         self.project.download_archive()
+ 
+         machine = self.td.get("MACHINE")
+-        if not (self.tc.hasHostPackage("packagegroup-cross-canadian-%s" % machine) or 
+-                self.tc.hasHostPackage("gcc-runtime") or
+-                self.tc.hasHostPackage("libgcc") or
+-                self.tc.hasHostPackage("gcc-sanitizers")):
++        if not (self.tc.hasTargetPackage("packagegroup-cross-canadian-%s" % machine) or 
++                self.tc.hasTargetPackage("gcc-runtime") or
++                self.tc.hasTargetPackage("libgcc") or
++                self.tc.hasTargetPackage("gcc-sanitizers")):
+             raise unittest.SkipTest("SDK doesn't contain a cross-canadian toolchain")
+ 
+     def test_cvs(self):
+diff --git a/meta/lib/oeqa/sdk/cases/buildgalculator.py b/meta/lib/oeqa/sdk/cases/buildgalculator.py
+index 42e8ddb..76874ad 100644
+--- a/meta/lib/oeqa/sdk/cases/buildgalculator.py
++++ b/meta/lib/oeqa/sdk/cases/buildgalculator.py
+@@ -9,7 +9,9 @@ class GalculatorTest(OESDKTestCase):
+     @classmethod
+     def setUpClass(self):
+         if not (self.tc.hasTargetPackage("gtk+3") or\
+-                self.tc.hasTargetPackage("libgtk-3.0")):
++                self.tc.hasTargetPackage("libgtk-3.0") or
++                self.tc.hasTargetPackage("gtk+") or
++                self.tc.hasTargetPackage("matchbox-config-gtk")):
+             raise unittest.SkipTest("GalculatorTest class: SDK don't support gtk+3")
+ 
+     def test_galculator(self):
+diff --git a/meta/lib/oeqa/sdk/cases/buildiptables.py b/meta/lib/oeqa/sdk/cases/buildiptables.py
+index 621fb55..d7a0e6a 100644
+--- a/meta/lib/oeqa/sdk/cases/buildiptables.py
++++ b/meta/lib/oeqa/sdk/cases/buildiptables.py
+@@ -17,10 +17,10 @@ class BuildIptablesTest(OESDKTestCase):
+ 
+         machine = self.td.get("MACHINE")
+ 
+-        if not (self.tc.hasHostPackage("packagegroup-cross-canadian-%s" % machine) or
+-                self.tc.hasHostPackage("gcc-runtime") or
+-                self.tc.hasHostPackage("libgcc") or
+-                self.tc.hasHostPackage("gcc-sanitizers")):
++        if not (self.tc.hasTargetPackage("packagegroup-cross-canadian-%s" % machine) or
++                self.tc.hasTargetPackage("gcc-runtime") or
++                self.tc.hasTargetPackage("libgcc") or
++                self.tc.hasTargetPackage("gcc-sanitizers")):
+             raise unittest.SkipTest("SDK doesn't contain a cross-canadian toolchain")
+ 
+     def test_iptables(self):
+diff --git a/meta/lib/oeqa/sdk/cases/gcc.py b/meta/lib/oeqa/sdk/cases/gcc.py
+index d869247..a183cfc 100644
+--- a/meta/lib/oeqa/sdk/cases/gcc.py
++++ b/meta/lib/oeqa/sdk/cases/gcc.py
+@@ -18,8 +18,10 @@ class GccCompileTest(OESDKTestCase):
+ 
+     def setUp(self):
+         machine = self.td.get("MACHINE")
+-        if not (self.tc.hasHostPackage("packagegroup-cross-canadian-%s" % machine) or
+-                self.tc.hasHostPackage("gcc-runtime")):
++        if not (self.tc.hasTargetPackage("packagegroup-cross-canadian-%s" % machine) or
++                self.tc.hasTargetPackage("gcc-runtime") or
++                self.tc.hasTargetPackage("libgcc") or 
++                self.tc.hasTargetPackage("gcc-sanitizers")):
+             raise unittest.SkipTest("GccCompileTest class: SDK doesn't contain a cross-canadian toolchain")
+ 
+     def test_gcc_compile(self):
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+1.8.3.1
+
 
