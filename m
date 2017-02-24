@@ -1,27 +1,36 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 370F76FFCC
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.analogue-micro.com (mail.analogue-micro.com
+	[217.144.149.242])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B2926FFCC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 14:24:16 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v1OEOCRa012375
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 24 Feb 2017 06:24:12 -0800 (PST)
-Received: from server.local (128.224.22.134) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 24 Feb 2017 06:24:12 -0800
-To: Dengke Du <dengke.du@windriver.com>, Patches and discussions about the
-	oe-core layer <openembedded-core@lists.openembedded.org>
-References: <59065e2b-6a13-8736-6257-5ae42b647163@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <4d97435c-25e7-06ac-71e6-8b936ccc8ee2@windriver.com>
-Date: Fri, 24 Feb 2017 09:24:11 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.7.1
+	Fri, 24 Feb 2017 14:33:36 +0000 (UTC)
+Received: by mail.analogue-micro.com (Postfix, from userid 999)
+	id 1288468A01C; Fri, 24 Feb 2017 14:33:37 +0000 (GMT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	loki.analogue-micro-ltd.com
+X-Spam-Level: *
+X-Spam-Status: No, score=1.7 required=5.0 tests=ALL_TRUSTED,BAYES_20,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
+	by mail.analogue-micro.com (Postfix) with ESMTP id 9C94868A019;
+	Fri, 24 Feb 2017 14:33:36 +0000 (GMT)
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by zeus.mlbassoc.com (Postfix) with ESMTP id 54B6A67400BB;
+	Fri, 24 Feb 2017 15:33:36 +0100 (CET)
+To: openembedded-core@lists.openembedded.org
+References: <1487785536-13777-1-git-send-email-derek@asterius.io>
+	<20170222204736.GG3283@jama>
+	<CADfgfobBp60s+GjqS3zRrO-z4HUhe8zFi51GPzceDFAKQVGf=Q@mail.gmail.com>
+	<26abf96d-d224-0795-4870-cdd496f541de@linux.intel.com>
+	<1487946072.10512.9.camel@intel.com>
+From: Gary Thomas <gary@mlbassoc.com>
+Message-ID: <d20dc7dc-c3d0-ab79-948e-2caab91d3caf@mlbassoc.com>
+Date: Fri, 24 Feb 2017 15:33:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.7.0
 MIME-Version: 1.0
-In-Reply-To: <59065e2b-6a13-8736-6257-5ae42b647163@windriver.com>
-Subject: Re: Yocto Bug#10456 discuss
+In-Reply-To: <1487946072.10512.9.camel@intel.com>
+Subject: Re: Patchwork not picking changes from the ML
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,71 +43,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2017 14:24:17 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Fri, 24 Feb 2017 14:33:38 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 2017-02-24 5:33 AM, Dengke Du wrote:
-> Hi Jussi and bruce
+On 2017-02-24 15:21, Patrick Ohly wrote:
+> On Wed, 2017-02-22 at 15:56 -0600, Jose Lamego wrote:
+>>
+>> On 02/22/2017 02:55 PM, Michael Halstead wrote:
+>>> I've seen several issues with hooks. I was working on them yesterday and
+>>> will continue today.
+>>>
+>>> These are currently managed by hand but we are moving them into
+>>> configuration management which should help keep them working consistently.
+>>
+>> Michael: one syntax error in patchwork code was pulled into production
+>> yesterday. This is the cause for missing patches. The error is fixed in
+>> the Yocto repo now, please perform a server code update ASAP.
+>>
+>> Martin: I will look at the UI issue you are describing and file a bug if
+>> needed.
 >
-> Yocto Bug#10456: X can not launch on qemumips64
+> Would it perhaps make sense to reply to the original author with an
+> email confirming that his patch is now in Patchwork? It should include a
+> link to the patch series, too.
 >
-> I find the kernel 4.4 is ok, and on the latest 4.9 is ok, but on kernel
-> 4.8 is failed.
+> This could have several advantages:
+>       * submitters not aware of Patchwork or whether their target
+>         currently uses it learn about it and then can follow the
+>         progress of their patch
+>       * everyone gets a confirmation that the submission made it through
+>         the various mail servers and Patchwork itself
 >
-> This is because this commit in linux-yocto-4.8:
->
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->
-> commit d03516df837587368fc6e75591f6329c072b9eb5
-> Author: Matthew Leach <matthew.leach@codethink.co.uk>
-> Date:   Tue Jun 21 16:19:49 2016 +0100
->
->     tty: serial: 8250: add CON_CONSDEV to flags
->
->     When using the 8250 as a boot console and the main console results in
->     messages being printed twice.  The console framework will only
->     unregister boot consoles if a new console is registered with the
->     CON_CONSDEV flag set.
->
->     Set this flag for the univ8250 console to prevent double-registration.
->
->     Signed-off-by: Matthew Leach <matthew.leach@codethink.co.uk>
->     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->
-> diff --git a/drivers/tty/serial/8250/8250_core.c
-> b/drivers/tty/serial/8250/8250_core.c
-> index fa823a5..dcf43f6 100644
-> --- a/drivers/tty/serial/8250/8250_core.c
-> +++ b/drivers/tty/serial/8250/8250_core.c
-> @@ -675,7 +675,7 @@ static struct console univ8250_console = {
->         .device         = uart_console_device,
->         .setup          = univ8250_console_setup,
->         .match          = univ8250_console_match,
-> -       .flags          = CON_PRINTBUFFER | CON_ANYTIME,
-> +       .flags          = CON_PRINTBUFFER | CON_ANYTIME | CON_CONSDEV,
->         .index          = -1,
->         .data           = &serial8250_reg,
->  };
->
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->
-> The 4.9 has been reverted it, so backport that reverted patch can fix
-> this bug, but I don't know why this related to qemumips64?
-
-Looks like the console is interfering with X claiming a VT for
-startup.
-
-But I wouldn't worry about the root cause all that much, if you've
-bisected it, and it has been reverted already in newer kernels .. that
-should be enough evidence for anyone.
-
-Bruce
-
->
-> Thanks
->
-> Dengke
+> It still relies on the original submitter to watch out for breakages in
+> the processes, but I guess that can't be avoided with an asynchronous,
+> mail-based process.
 >
 
+I would love to see this added to the process - +1 :-)
+
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
