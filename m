@@ -1,25 +1,28 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 844AE77507
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 34E2577519
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 16:05:27 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga105.jf.intel.com with ESMTP; 24 Feb 2017 08:05:28 -0800
+	Fri, 24 Feb 2017 16:05:28 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	24 Feb 2017 08:05:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,201,1484035200"; d="scan'208";a="828088078"
+X-IronPort-AV: E=Sophos;i="5.35,201,1484035200"; d="scan'208";a="68691500"
 Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 24 Feb 2017 08:05:28 -0800
+	by orsmga005.jf.intel.com with ESMTP; 24 Feb 2017 08:05:30 -0800
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.71])
-	by linux.intel.com (Postfix) with ESMTP id F02EA6A4080
+	by linux.intel.com (Postfix) with ESMTP id 036A06A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 08:05:26 -0800 (PST)
+	Fri, 24 Feb 2017 08:05:28 -0800 (PST)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Feb 2017 18:07:07 +0200
-Message-Id: <1487952428-22486-1-git-send-email-maxin.john@intel.com>
+Date: Fri, 24 Feb 2017 18:07:08 +0200
+Message-Id: <1487952428-22486-2-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
-Subject: [PATCH 1/2] iproute2: upgrade to 4.10.0
+In-Reply-To: <1487952428-22486-1-git-send-email-maxin.john@intel.com>
+References: <1487952428-22486-1-git-send-email-maxin.john@intel.com>
+Subject: [PATCH 2/2] gstreamer: update to 1.10.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,229 +35,206 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2017 16:05:27 -0000
+X-List-Received-Date: Fri, 24 Feb 2017 16:05:29 -0000
 
-4.9.0 -> 4.10.0
-
-added the following patch to fix build with musl libc
- 1) 0001-libc-compat.h-add-musl-workaround.patch
+bug-fix release:
+ *) Various fixes for crashes, assertions, deadlocks and memory leaks on
+fuzzed input files and in other situations (CVE-2017-5847, CVE-2017-5848)
+ *) gst-libav was updated to ffmpeg 3.2.4, fixing a couple of CVEs
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- .../0001-libc-compat.h-add-musl-workaround.patch   |  41 +++++++
- .../iproute2/iproute2/iproute2-4.9.0-musl.patch    | 131 ---------------------
- .../{iproute2_4.9.0.bb => iproute2_4.10.0.bb}      |   6 +-
- 3 files changed, 44 insertions(+), 134 deletions(-)
- create mode 100644 meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch
- delete mode 100644 meta/recipes-connectivity/iproute2/iproute2/iproute2-4.9.0-musl.patch
- rename meta/recipes-connectivity/iproute2/{iproute2_4.9.0.bb => iproute2_4.10.0.bb} (59%)
+ .../{gstreamer1.0-libav_1.10.3.bb => gstreamer1.0-libav_1.10.4.bb}  | 4 ++--
+ .../{gstreamer1.0-omx_1.10.3.bb => gstreamer1.0-omx_1.10.4.bb}      | 5 +++--
+ ...1.0-plugins-bad_1.10.3.bb => gstreamer1.0-plugins-bad_1.10.4.bb} | 4 ++--
+ ...0-plugins-base_1.10.3.bb => gstreamer1.0-plugins-base_1.10.4.bb} | 4 ++--
+ ...0-plugins-good_1.10.3.bb => gstreamer1.0-plugins-good_1.10.4.bb} | 4 ++--
+ ...0-plugins-ugly_1.10.3.bb => gstreamer1.0-plugins-ugly_1.10.4.bb} | 4 ++--
+ .../recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.3.bb | 6 ------
+ .../recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.4.bb | 6 ++++++
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.3.bb      | 5 -----
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb      | 5 +++++
+ .../gstreamer/{gstreamer1.0_1.10.3.bb => gstreamer1.0_1.10.4.bb}    | 4 ++--
+ 11 files changed, 26 insertions(+), 25 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.10.3.bb => gstreamer1.0-libav_1.10.4.bb} (87%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.10.3.bb => gstreamer1.0-omx_1.10.4.bb} (68%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.10.3.bb => gstreamer1.0-plugins-bad_1.10.4.bb} (90%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.10.3.bb => gstreamer1.0-plugins-base_1.10.4.bb} (86%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.10.3.bb => gstreamer1.0-plugins-good_1.10.4.bb} (84%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.10.3.bb => gstreamer1.0-plugins-ugly_1.10.4.bb} (76%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.3.bb
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.4.bb
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.3.bb
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.10.3.bb => gstreamer1.0_1.10.4.bb} (72%)
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch
-new file mode 100644
-index 0000000..3d324c9
---- /dev/null
-+++ b/meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch
-@@ -0,0 +1,41 @@
-+From b7d96340c55afb7023ded0041107c63dbd886196 Mon Sep 17 00:00:00 2001
-+From: Baruch Siach <baruch@tkos.co.il>
-+Date: Thu, 22 Dec 2016 15:26:30 +0200
-+Subject: [PATCH] libc-compat.h: add musl workaround
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.10.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.10.4.bb
+similarity index 87%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.10.3.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.10.4.bb
+index 39afbeb..59d81db 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.10.3.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.10.4.bb
+@@ -14,7 +14,7 @@ SRC_URI = " \
+     file://workaround-to-build-gst-libav-for-i586-with-gcc.patch \
+     file://mips64_cpu_detection.patch \
+ "
+-SRC_URI[md5sum] = "ce1ea598f07c8bf728a33c7da39ec308"
+-SRC_URI[sha256sum] = "9a6bc165b1862b18b98d9f1755c43806e4839a80f69ec7ea9a2dab61b65752a9"
++SRC_URI[md5sum] = "e2bdd9fde6ca3ff7efffb93df121f4fd"
++SRC_URI[sha256sum] = "6ca0feca75e3d48315e07f20ec37cf6260ed1e9dde58df355febd5016246268b"
+ 
+ S = "${WORKDIR}/gst-libav-${PV}"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.4.bb
+similarity index 68%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.3.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.4.bb
+index 7d06a56..dfeefa5 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.3.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.4.bb
+@@ -4,7 +4,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+                     file://omx/gstomx.h;beginline=1;endline=21;md5=5c8e1fca32704488e76d2ba9ddfa935f"
+ 
+ SRC_URI = "http://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.tar.xz"
+-SRC_URI[md5sum] = "1eead212796151d6ac08e091bacbd190"
+-SRC_URI[sha256sum] = "dd88451e175df7a6b6f619eff0f43a6078054ec7068787b19faf89af94cdb6e1"
 +
-+The libc-compat.h kernel header uses glibc specific macros (__GLIBC__ and
-+__USE_MISC) to solve conflicts with libc provided headers. This patch makes
-+libc-compat.h work for musl libc as well.
-+
-+Upstream-Status: Pending
-+
-+Taken From:
-+https://git.buildroot.net/buildroot/tree/package/iproute2/0001-Add-the-musl-workaround-to-the-libc-compat.h-copy.patch
-+
-+Signed-off-by: Baruch Siach <baruch@tkos.co.il>
-+Signed-off-by: Maxin B. John <maxin.john@intel.com>
-+---
-+ include/linux/libc-compat.h | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/include/linux/libc-compat.h b/include/linux/libc-compat.h
-+index f38571d..30f0b67 100644
-+--- a/include/linux/libc-compat.h
-++++ b/include/linux/libc-compat.h
-+@@ -49,10 +49,12 @@
-+ #define _LIBC_COMPAT_H
-+ 
-+ /* We have included glibc headers... */
-+-#if defined(__GLIBC__)
-++#if 1
-++#define __USE_MISC
-+ 
-+ /* Coordinate with glibc net/if.h header. */
-+ #if defined(_NET_IF_H) && defined(__USE_MISC)
-++#define __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO 0
-+ 
-+ /* GLIBC headers included first so don't define anything
-+  * that would already be defined. */
-+-- 
-+2.4.0
-+
-diff --git a/meta/recipes-connectivity/iproute2/iproute2/iproute2-4.9.0-musl.patch b/meta/recipes-connectivity/iproute2/iproute2/iproute2-4.9.0-musl.patch
++SRC_URI[md5sum] = "cedb230f1c47d0cf4b575d70dff66ff2"
++SRC_URI[sha256sum] = "45072925cf262f0fd528fab78f0de52734e46a5a88aa802fae51c67c09c81aa2"
+ 
+ S = "${WORKDIR}/gst-omx-${PV}"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb
+similarity index 90%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.3.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb
+index 5bb1543..0bb4053 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.3.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb
+@@ -19,8 +19,8 @@ SRC_URI = " \
+     file://0001-smoothstreaming-use-the-duration-from-the-list-of-fr.patch \
+     file://0001-mssdemux-improved-live-playback-support.patch \
+ "
+-SRC_URI[md5sum] = "e59798c86a670041de2e61856ea43d2a"
+-SRC_URI[sha256sum] = "24099351fb6984c9e7560de06e072ff2e33d0b2db38b8fcc7afefb536e5094e7"
++SRC_URI[md5sum] = "2757103e57a096a1a05b3ab85b8381af"
++SRC_URI[sha256sum] = "23ddae506b3a223b94869a0d3eea3e9a12e847f94d2d0e0b97102ce13ecd6966"
+ 
+ S = "${WORKDIR}/gst-plugins-bad-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.10.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.10.4.bb
+similarity index 86%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.10.3.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.10.4.bb
+index e02974c..7c81670 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.10.3.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.10.4.bb
+@@ -13,7 +13,7 @@ SRC_URI = " \
+     file://make-gio_unix_2_0-dependency-configurable.patch \
+     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
+ "
+-SRC_URI[md5sum] = "12fe89a5536a0c7536c19875928637c2"
+-SRC_URI[sha256sum] = "e6299617d705a0cbfb535107c1d3a8fc0f0967f14193a8c5c7583f46a88b1710"
++SRC_URI[md5sum] = "f6b46f8fac01eb773d556e3efc369e86"
++SRC_URI[sha256sum] = "f6d245b6b3d4cb733f81ebb021074c525ece83db0c10e932794b339b8d935eb7"
+ 
+ S = "${WORKDIR}/gst-plugins-base-${PV}"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.10.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.10.4.bb
+similarity index 84%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.10.3.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.10.4.bb
+index 0fc899c..fd5369a 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.10.3.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.10.4.bb
+@@ -11,7 +11,7 @@ SRC_URI = " \
+     file://ensure-valid-sentinel-for-gst_structure_get.patch \
+     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
+ "
+-SRC_URI[md5sum] = "fd841c574c081dc205ac07b587704fc8"
+-SRC_URI[sha256sum] = "4e07e93e34d4b93208f1579c21e7d91a236577b36f128a5332ffee85b4465955"
++SRC_URI[md5sum] = "cc0cc13cdb07d4237600b6886b81f31d"
++SRC_URI[sha256sum] = "8a86c61434a8c44665365bd0b3557a040937d1f44bf69caee4e9ea816ce74d7e"
+ 
+ S = "${WORKDIR}/gst-plugins-good-${PV}"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.10.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.10.4.bb
+similarity index 76%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.10.3.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.10.4.bb
+index 87d5ba2..92a2caa 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.10.3.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.10.4.bb
+@@ -7,7 +7,7 @@ SRC_URI = " \
+     http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
+     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
+ "
+-SRC_URI[md5sum] = "198b7a8eff3e0206d3b5660389df83ef"
+-SRC_URI[sha256sum] = "c91597d03abff9df435ad4892eae44df1ee14159c7cc7317ac9d2766ff446bd2"
++SRC_URI[md5sum] = "c68d0509c9980b0b70a4b836ff73fff1"
++SRC_URI[sha256sum] = "6386c77ca8459cba431ed0b63da780c7062c7cc48055d222024d8eaf198ffa59"
+ 
+ S = "${WORKDIR}/gst-plugins-ugly-${PV}"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.3.bb
 deleted file mode 100644
-index 737a90c..0000000
---- a/meta/recipes-connectivity/iproute2/iproute2/iproute2-4.9.0-musl.patch
+index b1c56c0..0000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.3.bb
 +++ /dev/null
-@@ -1,131 +0,0 @@
--Subject: [PATCH] Avoid in6_addr redefinition
+@@ -1,6 +0,0 @@
+-require gstreamer1.0-rtsp-server.inc
 -
--Due to both <netinet/in.h> and <linux/in6.h> being included, the 
--in6_addr is being redefined: once from the C library headers and once
--from the kernel headers. This causes some build failures with for 
--example the musl C library.
+-SRC_URI[md5sum] = "2c6bdf872443a8b5bb567462c267bdb1"
+-SRC_URI[sha256sum] = "baf9f7d229711cb3d823a447a930132f809b3321eab3535491bb01c8a21566fe"
 -
--In order to fix this, use just the C library header <netinet/in.h>.
--Original patch taken from
--http://git.alpinelinux.org/cgit/aports/tree/main/iproute2/musl-fixes.patch.
+-LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.4.bb
+new file mode 100644
+index 0000000..6aa9a53
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.4.bb
+@@ -0,0 +1,6 @@
++require gstreamer1.0-rtsp-server.inc
++
++SRC_URI[md5sum] = "ef587fa6393e09bc26f884510596e305"
++SRC_URI[sha256sum] = "2f6e12fd4e3568ee190dc24e57e4c3a878971c3a3fb6904a9674404fac256de6"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.3.bb
+deleted file mode 100644
+index ae0b709..0000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.3.bb
++++ /dev/null
+@@ -1,5 +0,0 @@
+-require gstreamer1.0-vaapi.inc
+-SRC_URI[md5sum] = "ddd78e8f24b4736ad856c0de88531277"
+-SRC_URI[sha256sum] = "cea827066a152a6afa1d0c43544dfbda285238156d4c3b77f9d4037bbe79361e"
 -
--(Refreshed the patch for 4.9 release)
--
--Upstream-Status: Pending
--
--Signed-off-by: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
--Signed-off-by: Maxin B. John <maxin.john@intel.com>
--Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-----
-- include/libiptc/ipt_kernel_headers.h     | 1 -
-- include/linux/if_bridge.h                | 1 -
-- include/linux/if_tunnel.h                | 2 --
-- include/linux/netfilter.h                | 2 --
-- include/linux/netfilter_ipv4/ip_tables.h | 1 -
-- include/linux/xfrm.h                     | 1 -
-- include/utils.h                          | 1 +
-- ip/ip6tunnel.c                           | 1 -
-- 8 files changed, 1 insertion(+), 9 deletions(-)
--
--diff --git a/include/libiptc/ipt_kernel_headers.h b/include/libiptc/ipt_kernel_headers.h
--index a5963e9..42f8610 100644
----- a/include/libiptc/ipt_kernel_headers.h
--+++ b/include/libiptc/ipt_kernel_headers.h
--@@ -6,7 +6,6 @@
-- #include <limits.h>
-- 
-- #include <netinet/ip.h>
---#include <netinet/in.h>
-- #include <netinet/ip_icmp.h>
-- #include <netinet/tcp.h>
-- #include <netinet/udp.h>
--diff --git a/include/linux/if_bridge.h b/include/linux/if_bridge.h
--index b7393dd..a7028ab 100644
----- a/include/linux/if_bridge.h
--+++ b/include/linux/if_bridge.h
--@@ -15,7 +15,6 @@
-- 
-- #include <linux/types.h>
-- #include <linux/if_ether.h>
---#include <linux/in6.h>
-- 
-- #define SYSFS_BRIDGE_ATTR	"bridge"
-- #define SYSFS_BRIDGE_FDB	"brforward"
--diff --git a/include/linux/if_tunnel.h b/include/linux/if_tunnel.h
--index 4f975f5..2680646 100644
----- a/include/linux/if_tunnel.h
--+++ b/include/linux/if_tunnel.h
--@@ -2,9 +2,7 @@
-- #define _IF_TUNNEL_H_
-- 
-- #include <linux/types.h>
---#include <linux/if.h>
-- #include <linux/ip.h>
---#include <linux/in6.h>
-- #include <asm/byteorder.h>
-- 
-- 
--diff --git a/include/linux/netfilter.h b/include/linux/netfilter.h
--index b71b4c9..3e4e6ae 100644
----- a/include/linux/netfilter.h
--+++ b/include/linux/netfilter.h
--@@ -4,8 +4,6 @@
-- #include <linux/types.h>
-- 
-- #include <linux/sysctl.h>
---#include <linux/in.h>
---#include <linux/in6.h>
-- 
-- /* Responses from hook functions. */
-- #define NF_DROP 0
--diff --git a/include/linux/netfilter_ipv4/ip_tables.h b/include/linux/netfilter_ipv4/ip_tables.h
--index 456fb86..38542b4 100644
----- a/include/linux/netfilter_ipv4/ip_tables.h
--+++ b/include/linux/netfilter_ipv4/ip_tables.h
--@@ -17,7 +17,6 @@
-- 
-- #include <linux/types.h>
-- 
---#include <linux/if.h>
-- #include <linux/netfilter_ipv4.h>
-- 
-- #include <linux/netfilter/x_tables.h>
--diff --git a/include/linux/xfrm.h b/include/linux/xfrm.h
--index d2dd1fd..8c72966 100644
----- a/include/linux/xfrm.h
--+++ b/include/linux/xfrm.h
--@@ -1,7 +1,6 @@
-- #ifndef _LINUX_XFRM_H
-- #define _LINUX_XFRM_H
-- 
---#include <linux/in6.h>
-- #include <linux/types.h>
-- 
-- /* All of the structures in this file may not change size as they are
--diff --git a/include/utils.h b/include/utils.h
--index 1b4f939..d10840b 100644
----- a/include/utils.h
--+++ b/include/utils.h
--@@ -1,6 +1,7 @@
-- #ifndef __UTILS_H__
-- #define __UTILS_H__ 1
-- 
--+#include <sys/param.h>  /* MAXPATHLEN */
-- #include <sys/types.h>
-- #include <asm/types.h>
-- #include <resolv.h>
--diff --git a/ip/ip6tunnel.c b/ip/ip6tunnel.c
--index b1c0ae6..8fa4eb2 100644
----- a/ip/ip6tunnel.c
--+++ b/ip/ip6tunnel.c
--@@ -28,7 +28,6 @@
-- #include <arpa/inet.h>
-- #include <sys/ioctl.h>
-- #include <linux/ip.h>
---#include <linux/if.h>
-- #include <linux/if_arp.h>
-- #include <linux/if_tunnel.h>
-- #include <linux/ip6_tunnel.h>
---- 
--2.7.4
--
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_4.9.0.bb b/meta/recipes-connectivity/iproute2/iproute2_4.10.0.bb
-similarity index 59%
-rename from meta/recipes-connectivity/iproute2/iproute2_4.9.0.bb
-rename to meta/recipes-connectivity/iproute2/iproute2_4.10.0.bb
-index 808e550..a050e87 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_4.9.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_4.10.0.bb
-@@ -3,11 +3,11 @@ require iproute2.inc
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
-            file://configure-cross.patch \
-            file://0001-iproute2-de-bash-scripts.patch \
--           file://iproute2-4.9.0-musl.patch \
-+           file://0001-libc-compat.h-add-musl-workaround.patch \
-           "
+-DEPENDS += "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb
+new file mode 100644
+index 0000000..c4a884d
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb
+@@ -0,0 +1,5 @@
++require gstreamer1.0-vaapi.inc
++SRC_URI[md5sum] = "318af17f906637570b61dd7be9b5581d"
++SRC_URI[sha256sum] = "03e690621594d9f9495d86c7dac8b8590b3a150462770ed070dc76f66a70de75"
++
++DEPENDS += "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.10.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.10.4.bb
+similarity index 72%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.10.3.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.10.4.bb
+index ae2c1cf..2a67993 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.10.3.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.10.4.bb
+@@ -7,7 +7,7 @@ SRC_URI = " \
+     http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
+     file://deterministic-unwind.patch \
+ "
+-SRC_URI[md5sum] = "8c1806916107f79e88bc6ab5f6f7754e"
+-SRC_URI[sha256sum] = "85b9dc1b2991f224fa90d534ec57014896c479e061dc9fa1bc16ae17cbebb63d"
++SRC_URI[md5sum] = "7c91a97e4a2dc81eafd59d0a2f8b0d6e"
++SRC_URI[sha256sum] = "50c2f5af50a6cc6c0a3f3ed43bdd8b5e2bff00bacfb766d4be139ec06d8b5218"
  
--SRC_URI[md5sum] = "44a8371a4b2c40e48e4c9f98cbd41391"
--SRC_URI[sha256sum] = "c0f30f043f7767cc1b2cd2197b08d4e9b2392c95823fabe30bbce308c30116c4"
-+SRC_URI[md5sum] = "b94a2b0edefaeac124dc8f5d006931b9"
-+SRC_URI[sha256sum] = "22b1e1c1fc704ad35837e5a66103739727b8b48ac90b48c13f79b7367ff0a9a8"
- 
- # CFLAGS are computed in Makefile and reference CCOPTS
- #
+ S = "${WORKDIR}/gstreamer-${PV}"
 -- 
 2.4.0
 
