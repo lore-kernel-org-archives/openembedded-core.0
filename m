@@ -1,45 +1,41 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 6216971AEF
+Return-Path: <sona.sarmadi@enea.com>
+Received: from smtp-out11.electric.net (smtp-out11.electric.net
+	[185.38.181.39])
+	by mail.openembedded.org (Postfix) with ESMTP id 394327750C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 11:57:49 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id v77so2627072wmv.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 03:57:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Wn03B8BiOobJTeRYNyOQ2m0XitQnZbLEOX2SdSCdlck=;
-	b=kfns4BiuaHIaUSLM7ZOvvfyzFjrlxtqpeq1FbRjVN/st5BQesckb9Goa3/msLNwvkU
-	2n9s5VWkv/RWIbuYiQn1TS4TGD92tc06yGA+c2rdOXXAfb8RgXDyYpQyOhwGkJAH01oe
-	zPkXx9qc/d6MtD6JjPQSEJ1Fvf/PVzcCD3pkjYQUEU9vRF8o3S/lIC4bwnmkv25FScsa
-	L/MV/okJ0IJdiqEkmpbM76FvBOamcx1Z3aSWSfoJlrfcKGYHqu+cqgSRIbXc4u3qVpjk
-	R41bUO6c87Vn8rqpgjRY/DzKrrr3REJLbADSJqRqVL87ZPFpfbvbLThQP2mMlicb2xkh
-	NvgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Wn03B8BiOobJTeRYNyOQ2m0XitQnZbLEOX2SdSCdlck=;
-	b=gLuYvkz3/brAEqGkeg03K1BCOcyEQRSpSqC+4VwHOZzq1RH36jfB5aDo48t+p8B0DQ
-	L9JeOMuKOa72nGCsPmN0Xj0Wpw6kIIURGduecfvV02IuL5k5+TzymGTxERzqGk8xozas
-	8M9sSOX8nF387kSpS1nskSlXgxSCvyfIIkTbIBYxsMRLoBF5vVt4D0kFL+mxQD3nA3j5
-	f5RzI+vof44+VVQZ1vuT/2Fa31KTrzvj7aLOoEB6GTrdN5vEFkh9W5SKWeOSkCrJKGIK
-	5IORZOwvXkwL9ca9UsrApvKdUUmosQjddpZDRm+NWwVdg3y5xq47s3PKsUPE+nm9hjne
-	WkMg==
-X-Gm-Message-State: AMke39nplxaOxUvma4VgwnND9MiFLSAh7b16Aa3JrWrU0CwuIaOV+ccmTCro+JfP955MDA==
-X-Received: by 10.28.44.66 with SMTP id s63mr2268183wms.77.1487937470842;
-	Fri, 24 Feb 2017 03:57:50 -0800 (PST)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([117.136.38.150]) by smtp.gmail.com with ESMTPSA id
-	p49sm10075878wrb.10.2017.02.24.03.57.46
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 24 Feb 2017 03:57:49 -0800 (PST)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Feb 2017 12:57:31 +0100
-Message-Id: <1487937451-29924-1-git-send-email-liu.ming50@gmail.com>
+	Fri, 24 Feb 2017 12:49:19 +0000 (UTC)
+Received: from 1chFJH-0005D2-WA by out11b.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1chFJI-0005DM-U5
+	for openembedded-core@lists.openembedded.org;
+	Fri, 24 Feb 2017 04:49:20 -0800
+Received: by emcmailer; Fri, 24 Feb 2017 04:49:20 -0800
+Received: from [192.36.1.72] (helo=mx-3.enea.com)
+	by out11b.electric.net with esmtps (TLSv1:ECDHE-RSA-AES256-SHA:256)
+	(Exim 4.87) (envelope-from <sona.sarmadi@enea.com>)
+	id 1chFJH-0005D2-WA for openembedded-core@lists.openembedded.org;
+	Fri, 24 Feb 2017 04:49:19 -0800
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.319.2;
+	Fri, 24 Feb 2017 13:49:19 +0100
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 24 Feb 2017 13:49:18 +0100
+Message-ID: <1487940558-33482-1-git-send-email-sona.sarmadi@enea.com>
 X-Mailer: git-send-email 1.9.1
-Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH] guile: fix a bashism
+MIME-Version: 1.0
+Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
+	designate permitted sender hosts)
+X-Outbound-IP: 192.36.1.72
+X-Env-From: sona.sarmadi@enea.com
+X-Proto: esmtps
+X-Revdns: mx-3.enea.com
+X-HELO: mx-3.enea.com
+X-TLS: TLSv1:ECDHE-RSA-AES256-SHA:256
+X-Authenticated_ID: 
+X-PolicySMART: 6551647
+X-Virus-Status: Scanned by VirusSMART (c)
+X-Virus-Status: Scanned by VirusSMART (s)
+Subject: [PATCHv2] tar: CVE-2016-6321
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,39 +48,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2017 11:57:51 -0000
+X-List-Received-Date: Fri, 24 Feb 2017 12:49:21 -0000
+Content-Type: text/plain
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+Skip members whose names contain "..".
 
-A following flaw was detected by verify-bashisms script:
-......
-meta/recipes-devtools/guile/guile_2.0.13.bb
-possible bashism in guile_cross_config line 94 ($'...' should be "$(printf '...')"):
+Reference:
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-6321
 
-   echo '#!'`which ${BUILD_SYS}-guile`$' \\\n--no-auto-compile -e main -s\n!#\n(define %guile-build-info '\'\( \
-       > ${B}/guile-config.cross
-......
+Upstream patch:
+http://git.savannah.gnu.org/cgit/tar.git/commit/?id=7340f67b9860ea0531c1450e5aa261c50f671
 
-Fixed by removing $'...' from echo command, using a printf instead.
-
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 ---
- meta/recipes-devtools/guile/guile_2.0.13.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-extended/tar/tar/CVE-2016-6321.patch | 66 +++++++++++++++++++++++
+ meta/recipes-extended/tar/tar_1.29.bb             |  1 +
+ 2 files changed, 67 insertions(+)
+ create mode 100644 meta/recipes-extended/tar/tar/CVE-2016-6321.patch
 
-diff --git a/meta/recipes-devtools/guile/guile_2.0.13.bb b/meta/recipes-devtools/guile/guile_2.0.13.bb
-index c29e752..bb73dcf 100644
---- a/meta/recipes-devtools/guile/guile_2.0.13.bb
-+++ b/meta/recipes-devtools/guile/guile_2.0.13.bb
-@@ -90,7 +90,7 @@ guile_cross_config() {
- 	then
- 	        # Create guile-config returning target values instead of native values
- 	        install -d ${SYSROOT_DESTDIR}${STAGING_BINDIR_CROSS}
--        	echo '#!'`which ${BUILD_SYS}-guile`$' \\\n--no-auto-compile -e main -s\n!#\n(define %guile-build-info '\'\( \
-+        	printf '#!%s \\\n--no-auto-compile -e main -s\n!#\n(define %%guile-build-info %s(\n' $(which ${BUILD_SYS}-guile) "'" \
- 			> ${B}/guile-config.cross
- 	        sed -n -e 's:^[ \t]*{[ \t]*":  (:' \
- 			-e 's:",[ \t]*": . ":' \
+diff --git a/meta/recipes-extended/tar/tar/CVE-2016-6321.patch b/meta/recipes-extended/tar/tar/CVE-2016-6321.patch
+new file mode 100644
+index 0000000..6d35bcc
+--- /dev/null
++++ b/meta/recipes-extended/tar/tar/CVE-2016-6321.patch
+@@ -0,0 +1,66 @@
++From 7340f67b9860ea0531c1450e5aa261c50f67165d Mon Sep 17 00:00:00 2001
++From: Paul Eggert <eggert@Penguin.CS.UCLA.EDU>
++Date: Sat, 29 Oct 2016 21:04:40 -0700
++Subject: [PATCH] When extracting, skip ".." members
++
++* NEWS: Document this.
++* src/extract.c (extract_archive): Skip members whose names
++contain "..".
++
++CVE: CVE-2016-6321
++Upstream-Status: Backport
++
++Cherry picked from commit: 7340f67 When extracting, skip ".." members
++
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++---
++ NEWS          | 8 +++++++-
++ src/extract.c | 8 ++++++++
++ 2 files changed, 15 insertions(+), 1 deletion(-)
++
++diff --git a/NEWS b/NEWS
++index 501164a..fc97cfc 100644
++--- a/NEWS
+++++ b/NEWS
++@@ -1,6 +1,12 @@
++-GNU tar NEWS - User visible changes. 2016-05-16
+++GNU tar NEWS - User visible changes. 2016-10-29
++ Please send GNU tar bug reports to <bug-tar@gnu.org>
++ 
+++* Member names containing '..' components are now skipped when extracting.
+++
+++This fixes tar's behavior to match its documentation, and is a bit
+++safer when extracting untrusted archives over old files (an unsafe
+++practice that the tar manual has long recommended against).
+++
++ 
++ version 1.29 - Sergey Poznyakoff, 2016-05-16
++ 
++diff --git a/src/extract.c b/src/extract.c
++index f982433..7904148 100644
++--- a/src/extract.c
+++++ b/src/extract.c
++@@ -1629,12 +1629,20 @@ extract_archive (void)
++ {
++   char typeflag;
++   tar_extractor_t fun;
+++  bool skip_dotdot_name;
++ 
++   fatal_exit_hook = extract_finish;
++ 
++   set_next_block_after (current_header);
++ 
+++  skip_dotdot_name = (!absolute_names_option
+++		      && contains_dot_dot (current_stat_info.orig_file_name));
+++  if (skip_dotdot_name)
+++    ERROR ((0, 0, _("%s: Member name contains '..'"),
+++	    quotearg_colon (current_stat_info.orig_file_name)));
+++
++   if (!current_stat_info.file_name[0]
+++      || skip_dotdot_name
++       || (interactive_option
++ 	  && !confirm ("extract", current_stat_info.file_name)))
++     {
++-- 
++1.9.1
++
+diff --git a/meta/recipes-extended/tar/tar_1.29.bb b/meta/recipes-extended/tar/tar_1.29.bb
+index efce57d..f22d9c9 100644
+--- a/meta/recipes-extended/tar/tar_1.29.bb
++++ b/meta/recipes-extended/tar/tar_1.29.bb
+@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ 
+ SRC_URI += "file://remove-gets.patch \
+             file://musl_dirent.patch \
++            file://CVE-2016-6321.patch \
+            "
+ SRC_URI[md5sum] = "955cd533955acb1804b83fd70218da51"
+ SRC_URI[sha256sum] = "236b11190c0a3a6885bdb8d61424f2b36a5872869aa3f7f695dea4b4843ae2f2"
 -- 
 1.9.1
 
