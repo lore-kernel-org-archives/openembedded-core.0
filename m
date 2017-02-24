@@ -1,41 +1,60 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from smtp-out11.electric.net (smtp-out11.electric.net
-	[185.38.181.39])
-	by mail.openembedded.org (Postfix) with ESMTP id 394327750C
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
+	[209.85.214.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 2969D719DE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 12:49:19 +0000 (UTC)
-Received: from 1chFJH-0005D2-WA by out11b.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1chFJI-0005DM-U5
-	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Feb 2017 04:49:20 -0800
-Received: by emcmailer; Fri, 24 Feb 2017 04:49:20 -0800
-Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out11b.electric.net with esmtps (TLSv1:ECDHE-RSA-AES256-SHA:256)
-	(Exim 4.87) (envelope-from <sona.sarmadi@enea.com>)
-	id 1chFJH-0005D2-WA for openembedded-core@lists.openembedded.org;
-	Fri, 24 Feb 2017 04:49:19 -0800
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.319.2;
-	Fri, 24 Feb 2017 13:49:19 +0100
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Feb 2017 13:49:18 +0100
-Message-ID: <1487940558-33482-1-git-send-email-sona.sarmadi@enea.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
-	designate permitted sender hosts)
-X-Outbound-IP: 192.36.1.72
-X-Env-From: sona.sarmadi@enea.com
-X-Proto: esmtps
-X-Revdns: mx-3.enea.com
-X-HELO: mx-3.enea.com
-X-TLS: TLSv1:ECDHE-RSA-AES256-SHA:256
-X-Authenticated_ID: 
-X-PolicySMART: 6551647
-X-Virus-Status: Scanned by VirusSMART (c)
-X-Virus-Status: Scanned by VirusSMART (s)
-Subject: [PATCHv2] tar: CVE-2016-6321
+	Fri, 24 Feb 2017 14:21:14 +0000 (UTC)
+Received: by mail-it0-f52.google.com with SMTP id y135so23807164itc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Feb 2017 06:21:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=50y6Q/LSfmuDcz1eAxIn4Cz7d89oBUEPf0X0+C3trXg=;
+	b=IjyEeueq3mJcbIoGzKxhMqQlvIYKTc2JukPZOXWI6PTMdG5wjM7EVafIVsNoQk39+P
+	zeq54m/uIJ68vnbrFNBtEG4w3VvShM9mPlJYpoiuKNLr52QTMnXFzDgpYkrKKkt3mmJe
+	Vx2KtFaBV+VownSSlT83DsIe7ZOoaVBuWs9VNSm6oXn6PMCMFkiA3S2JWX25uar5OSdl
+	oU7Kk01/5dj8W1SnXLdPuml4UgjCmKiYCws02FD+I+Smu6PjP9N5OtyDnwLkemxR/EeO
+	MbrWlsgtKmG/M6a04CxcpsY8seALBR3wXphSWhgQpyLyDwZCj80P5H+Eweg/TrduGyni
+	+/3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=50y6Q/LSfmuDcz1eAxIn4Cz7d89oBUEPf0X0+C3trXg=;
+	b=HAvEy3768PUNbOEM64Hmglynv7+Pv8qOgXZwIwtrHkRCgbbGEsbRpdh2yCdb/tAgra
+	ifW5E/xZ88WK7yygrTGK1V99ITjRYLJQOd+PYyIA8gZzDbmoL2m2zZas85LrOMutKmAb
+	xpS5kR0dIbvsI3smaeNOJvLVFOnnEhy3nFc6NVFePodrFOGTS+dMloA75oM7b9mc9GSG
+	G0nkMDuWypkfwppgSndJmzlXQ5jkzUAvj+scYUflVkH0Q8Hs1ZDfHc6lquoQyzFcIclB
+	kA6QsdLWahy/v3Bmk6vvs2ssAxBx0VKQ9rpIHHfrxpwpoi9KV9Qjp5f+b7WrSmDEC5vv
+	FBaw==
+X-Gm-Message-State: AMke39lV0r/QNfwkBn4szRT55bN6shDR+NUhDzxhCZVmPsVLeUG/LyHuoucYua5k3kIt44wK
+X-Received: by 10.36.219.3 with SMTP id c3mr2698983itg.52.1487946076038;
+	Fri, 24 Feb 2017 06:21:16 -0800 (PST)
+Received: from pohly-mobl1 (ip-64-134-128-59.public.wayport.net.
+	[64.134.128.59])
+	by smtp.gmail.com with ESMTPSA id h69sm746848ith.16.2017.02.24.06.21.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 24 Feb 2017 06:21:14 -0800 (PST)
+Message-ID: <1487946072.10512.9.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Jose Lamego <jose.a.lamego@linux.intel.com>
+Date: Fri, 24 Feb 2017 15:21:12 +0100
+In-Reply-To: <26abf96d-d224-0795-4870-cdd496f541de@linux.intel.com>
+References: <1487785536-13777-1-git-send-email-derek@asterius.io>
+	<20170222204736.GG3283@jama>
+	<CADfgfobBp60s+GjqS3zRrO-z4HUhe8zFi51GPzceDFAKQVGf=Q@mail.gmail.com>
+	<26abf96d-d224-0795-4870-cdd496f541de@linux.intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: Derek Straka <derek@asterius.io>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	"Lamego, Jose A" <jose.a.lamego@intel.com>,
+	openembedded-devel@lists.openembedded.org,
+	Leonardo Sandoval <leonardo.sandoval.gonzalez@intel.com>
+Subject: Re: Patchwork not picking changes from the ML
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,109 +67,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2017 12:49:21 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 24 Feb 2017 14:21:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Skip members whose names contain "..".
+On Wed, 2017-02-22 at 15:56 -0600, Jose Lamego wrote:
+> 
+> On 02/22/2017 02:55 PM, Michael Halstead wrote:
+> > I've seen several issues with hooks. I was working on them yesterday and
+> > will continue today.
+> > 
+> > These are currently managed by hand but we are moving them into
+> > configuration management which should help keep them working consistently.
+> 
+> Michael: one syntax error in patchwork code was pulled into production
+> yesterday. This is the cause for missing patches. The error is fixed in
+> the Yocto repo now, please perform a server code update ASAP.
+> 
+> Martin: I will look at the UI issue you are describing and file a bug if
+> needed.
 
-Reference:
-https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-6321
+Would it perhaps make sense to reply to the original author with an
+email confirming that his patch is now in Patchwork? It should include a
+link to the patch series, too.
 
-Upstream patch:
-http://git.savannah.gnu.org/cgit/tar.git/commit/?id=7340f67b9860ea0531c1450e5aa261c50f671
+This could have several advantages:
+      * submitters not aware of Patchwork or whether their target
+        currently uses it learn about it and then can follow the
+        progress of their patch
+      * everyone gets a confirmation that the submission made it through
+        the various mail servers and Patchwork itself
 
-Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
----
- meta/recipes-extended/tar/tar/CVE-2016-6321.patch | 66 +++++++++++++++++++++++
- meta/recipes-extended/tar/tar_1.29.bb             |  1 +
- 2 files changed, 67 insertions(+)
- create mode 100644 meta/recipes-extended/tar/tar/CVE-2016-6321.patch
+It still relies on the original submitter to watch out for breakages in
+the processes, but I guess that can't be avoided with an asynchronous,
+mail-based process.
 
-diff --git a/meta/recipes-extended/tar/tar/CVE-2016-6321.patch b/meta/recipes-extended/tar/tar/CVE-2016-6321.patch
-new file mode 100644
-index 0000000..6d35bcc
---- /dev/null
-+++ b/meta/recipes-extended/tar/tar/CVE-2016-6321.patch
-@@ -0,0 +1,66 @@
-+From 7340f67b9860ea0531c1450e5aa261c50f67165d Mon Sep 17 00:00:00 2001
-+From: Paul Eggert <eggert@Penguin.CS.UCLA.EDU>
-+Date: Sat, 29 Oct 2016 21:04:40 -0700
-+Subject: [PATCH] When extracting, skip ".." members
-+
-+* NEWS: Document this.
-+* src/extract.c (extract_archive): Skip members whose names
-+contain "..".
-+
-+CVE: CVE-2016-6321
-+Upstream-Status: Backport
-+
-+Cherry picked from commit: 7340f67 When extracting, skip ".." members
-+
-+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-+---
-+ NEWS          | 8 +++++++-
-+ src/extract.c | 8 ++++++++
-+ 2 files changed, 15 insertions(+), 1 deletion(-)
-+
-+diff --git a/NEWS b/NEWS
-+index 501164a..fc97cfc 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -1,6 +1,12 @@
-+-GNU tar NEWS - User visible changes. 2016-05-16
-++GNU tar NEWS - User visible changes. 2016-10-29
-+ Please send GNU tar bug reports to <bug-tar@gnu.org>
-+ 
-++* Member names containing '..' components are now skipped when extracting.
-++
-++This fixes tar's behavior to match its documentation, and is a bit
-++safer when extracting untrusted archives over old files (an unsafe
-++practice that the tar manual has long recommended against).
-++
-+ 
-+ version 1.29 - Sergey Poznyakoff, 2016-05-16
-+ 
-+diff --git a/src/extract.c b/src/extract.c
-+index f982433..7904148 100644
-+--- a/src/extract.c
-++++ b/src/extract.c
-+@@ -1629,12 +1629,20 @@ extract_archive (void)
-+ {
-+   char typeflag;
-+   tar_extractor_t fun;
-++  bool skip_dotdot_name;
-+ 
-+   fatal_exit_hook = extract_finish;
-+ 
-+   set_next_block_after (current_header);
-+ 
-++  skip_dotdot_name = (!absolute_names_option
-++		      && contains_dot_dot (current_stat_info.orig_file_name));
-++  if (skip_dotdot_name)
-++    ERROR ((0, 0, _("%s: Member name contains '..'"),
-++	    quotearg_colon (current_stat_info.orig_file_name)));
-++
-+   if (!current_stat_info.file_name[0]
-++      || skip_dotdot_name
-+       || (interactive_option
-+ 	  && !confirm ("extract", current_stat_info.file_name)))
-+     {
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-extended/tar/tar_1.29.bb b/meta/recipes-extended/tar/tar_1.29.bb
-index efce57d..f22d9c9 100644
---- a/meta/recipes-extended/tar/tar_1.29.bb
-+++ b/meta/recipes-extended/tar/tar_1.29.bb
-@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
- SRC_URI += "file://remove-gets.patch \
-             file://musl_dirent.patch \
-+            file://CVE-2016-6321.patch \
-            "
- SRC_URI[md5sum] = "955cd533955acb1804b83fd70218da51"
- SRC_URI[sha256sum] = "236b11190c0a3a6885bdb8d61424f2b36a5872869aa3f7f695dea4b4843ae2f2"
 -- 
-1.9.1
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
