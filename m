@@ -1,26 +1,45 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B1B37750A
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6216971AEF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 10:33:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v1OAXgQJ011735
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 24 Feb 2017 02:33:42 -0800 (PST)
-Received: from [128.224.162.211] (128.224.162.211) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 24 Feb 2017 02:33:41 -0800
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-From: Dengke Du <dengke.du@windriver.com>
-Message-ID: <59065e2b-6a13-8736-6257-5ae42b647163@windriver.com>
-Date: Fri, 24 Feb 2017 18:33:39 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.0
-MIME-Version: 1.0
-Cc: bruce.ashfield@windriver.com
-Subject: Yocto Bug#10456 discuss
+	Fri, 24 Feb 2017 11:57:49 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id v77so2627072wmv.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Feb 2017 03:57:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=Wn03B8BiOobJTeRYNyOQ2m0XitQnZbLEOX2SdSCdlck=;
+	b=kfns4BiuaHIaUSLM7ZOvvfyzFjrlxtqpeq1FbRjVN/st5BQesckb9Goa3/msLNwvkU
+	2n9s5VWkv/RWIbuYiQn1TS4TGD92tc06yGA+c2rdOXXAfb8RgXDyYpQyOhwGkJAH01oe
+	zPkXx9qc/d6MtD6JjPQSEJ1Fvf/PVzcCD3pkjYQUEU9vRF8o3S/lIC4bwnmkv25FScsa
+	L/MV/okJ0IJdiqEkmpbM76FvBOamcx1Z3aSWSfoJlrfcKGYHqu+cqgSRIbXc4u3qVpjk
+	R41bUO6c87Vn8rqpgjRY/DzKrrr3REJLbADSJqRqVL87ZPFpfbvbLThQP2mMlicb2xkh
+	NvgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Wn03B8BiOobJTeRYNyOQ2m0XitQnZbLEOX2SdSCdlck=;
+	b=gLuYvkz3/brAEqGkeg03K1BCOcyEQRSpSqC+4VwHOZzq1RH36jfB5aDo48t+p8B0DQ
+	L9JeOMuKOa72nGCsPmN0Xj0Wpw6kIIURGduecfvV02IuL5k5+TzymGTxERzqGk8xozas
+	8M9sSOX8nF387kSpS1nskSlXgxSCvyfIIkTbIBYxsMRLoBF5vVt4D0kFL+mxQD3nA3j5
+	f5RzI+vof44+VVQZ1vuT/2Fa31KTrzvj7aLOoEB6GTrdN5vEFkh9W5SKWeOSkCrJKGIK
+	5IORZOwvXkwL9ca9UsrApvKdUUmosQjddpZDRm+NWwVdg3y5xq47s3PKsUPE+nm9hjne
+	WkMg==
+X-Gm-Message-State: AMke39nplxaOxUvma4VgwnND9MiFLSAh7b16Aa3JrWrU0CwuIaOV+ccmTCro+JfP955MDA==
+X-Received: by 10.28.44.66 with SMTP id s63mr2268183wms.77.1487937470842;
+	Fri, 24 Feb 2017 03:57:50 -0800 (PST)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([117.136.38.150]) by smtp.gmail.com with ESMTPSA id
+	p49sm10075878wrb.10.2017.02.24.03.57.46
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 24 Feb 2017 03:57:49 -0800 (PST)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 24 Feb 2017 12:57:31 +0100
+Message-Id: <1487937451-29924-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: [PATCH] guile: fix a bashism
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,59 +52,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2017 10:33:45 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 24 Feb 2017 11:57:51 -0000
 
-Hi Jussi and bruce
+From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-Yocto Bug#10456: X can not launch on qemumips64
+A following flaw was detected by verify-bashisms script:
+......
+meta/recipes-devtools/guile/guile_2.0.13.bb
+possible bashism in guile_cross_config line 94 ($'...' should be "$(printf '...')"):
 
-I find the kernel 4.4 is ok, and on the latest 4.9 is ok, but on kernel 
-4.8 is failed.
+   echo '#!'`which ${BUILD_SYS}-guile`$' \\\n--no-auto-compile -e main -s\n!#\n(define %guile-build-info '\'\( \
+       > ${B}/guile-config.cross
+......
 
-This is because this commit in linux-yocto-4.8:
+Fixed by removing $'...' from echo command, using a printf instead.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+---
+ meta/recipes-devtools/guile/guile_2.0.13.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-commit d03516df837587368fc6e75591f6329c072b9eb5
-Author: Matthew Leach <matthew.leach@codethink.co.uk>
-Date:   Tue Jun 21 16:19:49 2016 +0100
-
-     tty: serial: 8250: add CON_CONSDEV to flags
-
-     When using the 8250 as a boot console and the main console results in
-     messages being printed twice.  The console framework will only
-     unregister boot consoles if a new console is registered with the
-     CON_CONSDEV flag set.
-
-     Set this flag for the univ8250 console to prevent double-registration.
-
-     Signed-off-by: Matthew Leach <matthew.leach@codethink.co.uk>
-     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-diff --git a/drivers/tty/serial/8250/8250_core.c 
-b/drivers/tty/serial/8250/8250_core.c
-index fa823a5..dcf43f6 100644
---- a/drivers/tty/serial/8250/8250_core.c
-+++ b/drivers/tty/serial/8250/8250_core.c
-@@ -675,7 +675,7 @@ static struct console univ8250_console = {
-         .device         = uart_console_device,
-         .setup          = univ8250_console_setup,
-         .match          = univ8250_console_match,
--       .flags          = CON_PRINTBUFFER | CON_ANYTIME,
-+       .flags          = CON_PRINTBUFFER | CON_ANYTIME | CON_CONSDEV,
-         .index          = -1,
-         .data           = &serial8250_reg,
-  };
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The 4.9 has been reverted it, so backport that reverted patch can fix 
-this bug, but I don't know why this related to qemumips64?
-
-Thanks
-
-Dengke
+diff --git a/meta/recipes-devtools/guile/guile_2.0.13.bb b/meta/recipes-devtools/guile/guile_2.0.13.bb
+index c29e752..bb73dcf 100644
+--- a/meta/recipes-devtools/guile/guile_2.0.13.bb
++++ b/meta/recipes-devtools/guile/guile_2.0.13.bb
+@@ -90,7 +90,7 @@ guile_cross_config() {
+ 	then
+ 	        # Create guile-config returning target values instead of native values
+ 	        install -d ${SYSROOT_DESTDIR}${STAGING_BINDIR_CROSS}
+-        	echo '#!'`which ${BUILD_SYS}-guile`$' \\\n--no-auto-compile -e main -s\n!#\n(define %guile-build-info '\'\( \
++        	printf '#!%s \\\n--no-auto-compile -e main -s\n!#\n(define %%guile-build-info %s(\n' $(which ${BUILD_SYS}-guile) "'" \
+ 			> ${B}/guile-config.cross
+ 	        sed -n -e 's:^[ \t]*{[ \t]*":  (:' \
+ 			-e 's:",[ \t]*": . ":' \
+-- 
+1.9.1
 
 
