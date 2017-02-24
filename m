@@ -1,57 +1,52 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
-	[209.85.214.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 58B7777515
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
+	[209.85.216.180])
+	by mail.openembedded.org (Postfix) with ESMTP id A154273078
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 16:27:32 +0000 (UTC)
-Received: by mail-it0-f50.google.com with SMTP id 203so26439535ith.0
+	Fri, 24 Feb 2017 16:46:43 +0000 (UTC)
+Received: by mail-qt0-f180.google.com with SMTP id r45so21049331qte.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 08:27:33 -0800 (PST)
+	Fri, 24 Feb 2017 08:46:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=mV12B9lX/dWoWcj0hP+HHHKld+5EsnRA6CQx5AB4f+Q=;
-	b=VIBbyOSlD3uk5SirSV5SjtKVAEM3NCiyGJrcYAilCWOJY7eEGMery2HQxFoE+Mc9zQ
-	9oXXZx+T/9kxIYHDnEGbYb7YUbONdBKjlL0+L2EGKlCKjrNU6G8mcs6+bZwVMTmqdT0/
-	aA3l+PERosPM7j60mOvg73VQ4bFdFDPHM5wF8F+t3l3WX7tSL2PHHXkCjurNuCUcjkAS
-	Ls2JbKe0BcOc4o4Jwrm3fT6E2Oa8f7xOdWaLmM5XvqKgBxNEMK73VlvfwWLM83NbySF2
-	p/LCbaxvEXGyhRPi6F3+KjmEu8yLH+ijV8Ku7xaUUtvgzyhqPaRLomu9JV+J6wPj70sP
-	Qtgg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ye9DoebwAWS1/xpoWcSMJNkjyMVc0i+FCA+s2L7qSzQ=;
+	b=H+WLGPa7QVzaF5hSFjBhNimXEhmqMYYSJGHhhAKJxUrchu7VAfzbZsQ6mgqS8SUvR0
+	8O7TZbUH8toVJe6oa0gEA5MPT4AetlOKhNZdfCUTB6Xifv5JpTIdZa74QUWO3EDO9s7a
+	MN2qvj8UkjROvaNiBDnetsiu3KVEL7HtacbzGSfAJLIQ4tsZMjVTxf/SHPgEGiXI6Db2
+	yNjU5u3CbttUsAgAdUfzaRg6w1a4fGfuwXZZfTR5KzJpbNSx62z9/fbMJfHA43tu60nI
+	MVdcAqrKtcJZgerg7ysgtEUz51zx9qEMFjV0Ewk0SFiJqoo1DqhglpSCRTyaMMgqSsrp
+	/XVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=mV12B9lX/dWoWcj0hP+HHHKld+5EsnRA6CQx5AB4f+Q=;
-	b=PRs8nmIc4oNgr8DVhMvpoEnANS/oX0AX5OQYIW9iLtPc81IYoKJbLVrI93FN0nv80P
-	aSnUGfGzel8NqNkJKShWJ1NUeLFbLIE/B7X6uRN3qOstBYGQAKJEBZd2/LkzR9ZiGn1q
-	T0SFq3kQAGmT6S0QKpT67yZ5eGiN01kYJeXgA2irH2yJY8bOQhdPAb6JsRwW/6aSPNHV
-	J0FFKfVOeNxTvkFRw6Bz8uxcm7Du2tuqmp73i66vr82607YEE8c84j9ybNWTGvIVWjS+
-	zoyUhTMaDB4i9hwAjdewmVx67YizZYYcayJTsTf+KEY+Ab8qraSa/dDnsI5fl8v5r+0w
-	hnjw==
-X-Gm-Message-State: AMke39n+9P3lnqzIoyG+xhdY3Zyb/Jyy14rw828Iz4q7y5z3Y9XjN2WFMArH7KOPvFOgGglU
-X-Received: by 10.107.20.84 with SMTP id 81mr3145447iou.145.1487953653451;
-	Fri, 24 Feb 2017 08:27:33 -0800 (PST)
-Received: from pohly-mobl1 (ip-64-134-128-59.public.wayport.net.
-	[64.134.128.59]) by smtp.gmail.com with ESMTPSA id
-	u63sm3282619iou.29.2017.02.24.08.27.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 24 Feb 2017 08:27:32 -0800 (PST)
-Message-ID: <1487953650.10512.14.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Gary Thomas <gary@mlbassoc.com>
-Date: Fri, 24 Feb 2017 17:27:30 +0100
-In-Reply-To: <d20dc7dc-c3d0-ab79-948e-2caab91d3caf@mlbassoc.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ye9DoebwAWS1/xpoWcSMJNkjyMVc0i+FCA+s2L7qSzQ=;
+	b=EGTbZPtEE+IWmaGQxN1uMdr8Jk9O2Q9UY7AV+Mt2GI9/kdu2H48xZGKTMhmE0o00TD
+	EikAYtOiccpqY91DtMqwCOEnfYxd2Q6R0TcoUKOsG3kRXWFuWG5m3LaER1gLYJhH80fp
+	wRGvtFH21zyHWbD0RSqcnSdP2XZmgm3EXGF8xV6fXcFsYXbpFkHGBKs/lwBTGGgj6Cym
+	CCdJV38B9DWGsOe7oZ3U2eOKZn+JNtc8pAuj2gz/joONsKuw9aN0iYYtrJoHcGCmcWvj
+	8VKFCZ3O4zuwdxcXn5WQtLUIdPy5eIeNHywQoHANm6SrSOq+wwaN9fnYZ+v2N+FvU0Ok
+	7AOw==
+X-Gm-Message-State: AMke39lhWHlq0rqM3Um4mqLpVRKAEkd8OPNwHafBPOb3jhVgyy6ZwMNtKoqo1ePedlptjfRX8OM42rZrUZ5j2ruf
+X-Received: by 10.237.32.230 with SMTP id 93mr3648204qtb.144.1487954804441;
+	Fri, 24 Feb 2017 08:46:44 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.41.102 with HTTP; Fri, 24 Feb 2017 08:46:18 -0800 (PST)
+In-Reply-To: <1487953650.10512.14.camel@intel.com>
 References: <1487785536-13777-1-git-send-email-derek@asterius.io>
 	<20170222204736.GG3283@jama>
 	<CADfgfobBp60s+GjqS3zRrO-z4HUhe8zFi51GPzceDFAKQVGf=Q@mail.gmail.com>
 	<26abf96d-d224-0795-4870-cdd496f541de@linux.intel.com>
 	<1487946072.10512.9.camel@intel.com>
 	<d20dc7dc-c3d0-ab79-948e-2caab91d3caf@mlbassoc.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
+	<1487953650.10512.14.camel@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 24 Feb 2017 16:46:18 +0000
+Message-ID: <CAJTo0LbKggUJcqTKXU8sMeG=4VmpHHJ8uBFPTH7=S0GN4h96EA@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Cc: Gary Thomas <gary@mlbassoc.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Patchwork not picking changes from the ML
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -65,62 +60,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2017 16:27:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 24 Feb 2017 16:46:44 -0000
+Content-Type: multipart/alternative; boundary=94eb2c0c9b9c8fba54054949796c
 
-On Fri, 2017-02-24 at 15:33 +0100, Gary Thomas wrote:
-> On 2017-02-24 15:21, Patrick Ohly wrote:
-> > On Wed, 2017-02-22 at 15:56 -0600, Jose Lamego wrote:
-> >>
-> >> On 02/22/2017 02:55 PM, Michael Halstead wrote:
-> >>> I've seen several issues with hooks. I was working on them yesterday and
-> >>> will continue today.
-> >>>
-> >>> These are currently managed by hand but we are moving them into
-> >>> configuration management which should help keep them working consistently.
-> >>
-> >> Michael: one syntax error in patchwork code was pulled into production
-> >> yesterday. This is the cause for missing patches. The error is fixed in
-> >> the Yocto repo now, please perform a server code update ASAP.
-> >>
-> >> Martin: I will look at the UI issue you are describing and file a bug if
-> >> needed.
-> >
-> > Would it perhaps make sense to reply to the original author with an
-> > email confirming that his patch is now in Patchwork? It should include a
-> > link to the patch series, too.
-> >
-> > This could have several advantages:
-> >       * submitters not aware of Patchwork or whether their target
-> >         currently uses it learn about it and then can follow the
-> >         progress of their patch
-> >       * everyone gets a confirmation that the submission made it through
-> >         the various mail servers and Patchwork itself
-> >
-> > It still relies on the original submitter to watch out for breakages in
-> > the processes, but I guess that can't be avoided with an asynchronous,
-> > mail-based process.
-> >
-> 
-> I would love to see this added to the process - +1 :-)
+--94eb2c0c9b9c8fba54054949796c
+Content-Type: text/plain; charset=UTF-8
 
-Let me clarify that my original proposal was to reply only to the
-original author. That was meant to keep noise down on the list. However,
-perhaps it should also go to the list?
+On 24 February 2017 at 16:27, Patrick Ohly <patrick.ohly@intel.com> wrote:
 
-Then others can help check that Patchwork works, as the original author
-might not be aware that a response is missing. It also tells everyone
-the relevant link in Patchwork.
+> Let me clarify that my original proposal was to reply only to the
+> original author. That was meant to keep noise down on the list. However,
+> perhaps it should also go to the list?
+>
+> Then others can help check that Patchwork works, as the original author
+> might not be aware that a response is missing. It also tells everyone
+> the relevant link in Patchwork.
+>
 
--- 
-Best Regards, Patrick Ohly
+As long as patchworks ignores the email it sends, that's not a terrible
+idea.
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+Ross
 
+--94eb2c0c9b9c8fba54054949796c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 24 February 2017 at 16:27, Patrick Ohly <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2u8" clas=
+s=3D"a3s aXjCH m15a70f36ef5ca09a">Let me clarify that my original proposal =
+was to reply only to the<br>
+original author. That was meant to keep noise down on the list. However,<br=
+>
+perhaps it should also go to the list?<br>
+<br>
+Then others can help check that Patchwork works, as the original author<br>
+might not be aware that a response is missing. It also tells everyone<br>
+the relevant link in Patchwork.</div></blockquote></div><br>As long as patc=
+hworks ignores the email it sends, that&#39;s not a terrible idea.</div><di=
+v class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></di=
+v>
 
-
+--94eb2c0c9b9c8fba54054949796c--
