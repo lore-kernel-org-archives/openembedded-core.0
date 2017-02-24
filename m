@@ -1,33 +1,46 @@
-Return-Path: <jose.a.lamego@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 63A4874007
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com
+	[209.85.216.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BD9C74007
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 16:51:05 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	24 Feb 2017 08:51:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,201,1484035200"; 
-	d="asc'?scan'208";a="937753135"
-Received: from jalamego-mobl2.zpn.intel.com (HELO [10.219.128.117])
-	([10.219.128.117])
-	by orsmga003.jf.intel.com with ESMTP; 24 Feb 2017 08:51:06 -0800
-To: openembedded-core@lists.openembedded.org
-References: <1487785536-13777-1-git-send-email-derek@asterius.io>
-	<20170222204736.GG3283@jama>
-	<CADfgfobBp60s+GjqS3zRrO-z4HUhe8zFi51GPzceDFAKQVGf=Q@mail.gmail.com>
-	<26abf96d-d224-0795-4870-cdd496f541de@linux.intel.com>
-	<1487946072.10512.9.camel@intel.com>
-	<d20dc7dc-c3d0-ab79-948e-2caab91d3caf@mlbassoc.com>
-	<1487953650.10512.14.camel@intel.com>
-From: Jose Lamego <jose.a.lamego@linux.intel.com>
-Message-ID: <da870aaf-6b32-a0ae-787d-44108ba789ec@linux.intel.com>
-Date: Fri, 24 Feb 2017 10:50:59 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.0
+	Fri, 24 Feb 2017 17:05:02 +0000 (UTC)
+Received: by mail-qt0-f171.google.com with SMTP id n21so21633886qta.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Feb 2017 09:05:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Vd42FD5Ry6ldXj/wQNNyyf8m+p4NsnNiS/l2XZezYwE=;
+	b=w6z4dQFBIxq96tyawYCcvkAeFl4Eh5sITtJcFysqCnT9sJgNMVrgwOv7MICVQcxJ4P
+	tzEe5pnk/yOkOHIOkgL6YvOPubddzQ3htHf0soN3s0ERagZKMtLxaPJrYZwl7RhDMREv
+	R9BcUz22hYfX2dNz5NY4f2HTqNa6on5OxrJJJekzUfC8RbcWwpwHwVUAV4neSaUYNXgK
+	Nd1xmz6zEhB4+/hZJ9CSjU7ueP9xw53tjS/7WP5kWq0yD30Sa9TLlP7vPn8utqbklFRg
+	+XAPTThS9dDwImc42qKOYKbh6A3EBHvK4N21UZMNEELNOHzS2NIXXxHMINFd2aM0cQVs
+	41FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Vd42FD5Ry6ldXj/wQNNyyf8m+p4NsnNiS/l2XZezYwE=;
+	b=amDGBKmh3MEgdMakxHhId91b3COtXu3o3Ugrbo5bE1Zkc8AGweX2E5iOMRcb4BQ76p
+	GXMs9IUn2DEjaGrjrx+XONyznrXdvtldklln16EK7dpY5qfLIICb4/pucU/84h84UNZJ
+	zAkEVcRKdn7Wi88yssbZV8DWEbTT9yjuWenUAhfWk9MnyVzmZJZhywJrCpqTChfr4lNC
+	iPYhlHVH3bPR8iIa8a2LOq3c2ptcPaiMjDeMXcBeXLXY4I3oEFWdR/oYv1C7s1Ed0rAZ
+	Xe5QEp4a1cwLHPO9UH922ZdBQaiYd+mS+OEkUg9kqhlF0zgIOVg9RdkUsVDbbWxoNQWW
+	M72A==
+X-Gm-Message-State: AMke39mveOSj+1U8cM/Zi2oJMVLHTLWH1rkk4xsE3a69qTKzb1w9b6iBw4Hald3kjJH+fhKkIOOqHKzDmhp81rof
+X-Received: by 10.237.53.9 with SMTP id a9mr3441333qte.188.1487955904228; Fri,
+	24 Feb 2017 09:05:04 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1487953650.10512.14.camel@intel.com>
-Subject: Re: Patchwork not picking changes from the ML
+Received: by 10.140.103.233 with HTTP; Fri, 24 Feb 2017 09:04:43 -0800 (PST)
+In-Reply-To: <1487952031-3996-1-git-send-email-ankit.tarot@gmail.com>
+References: <1487952031-3996-1-git-send-email-ankit.tarot@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 24 Feb 2017 17:04:43 +0000
+Message-ID: <CAJTo0LY-i8JJNEoN=43F5GaNU390g2x-BPJkihYXv=Fogmg2Ow@mail.gmail.com>
+To: Ankit Navik <ankit.tarot@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ell: Initial recipe for Embedded Linux Library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,124 +53,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2017 16:51:07 -0000
-X-Groupsio-MsgNum: 93945
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="eIjMh4S4RSdCWDaJXA6RFrBXUVMfTcDQj"
+X-List-Received-Date: Fri, 24 Feb 2017 17:05:03 -0000
+Content-Type: multipart/alternative; boundary=001a11c0285e1d469d054949bb98
 
---eIjMh4S4RSdCWDaJXA6RFrBXUVMfTcDQj
-Content-Type: multipart/mixed; boundary="gSoHUxJEs4Hf4OmO36b1ix3K10nFEadfs";
- protected-headers="v1"
-From: Jose Lamego <jose.a.lamego@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <da870aaf-6b32-a0ae-787d-44108ba789ec@linux.intel.com>
-Subject: Re: [OE-core] Patchwork not picking changes from the ML
-References: <1487785536-13777-1-git-send-email-derek@asterius.io>
- <20170222204736.GG3283@jama>
- <CADfgfobBp60s+GjqS3zRrO-z4HUhe8zFi51GPzceDFAKQVGf=Q@mail.gmail.com>
- <26abf96d-d224-0795-4870-cdd496f541de@linux.intel.com>
- <1487946072.10512.9.camel@intel.com>
- <d20dc7dc-c3d0-ab79-948e-2caab91d3caf@mlbassoc.com>
- <1487953650.10512.14.camel@intel.com>
-In-Reply-To: <1487953650.10512.14.camel@intel.com>
+--001a11c0285e1d469d054949bb98
+Content-Type: text/plain; charset=UTF-8
 
---gSoHUxJEs4Hf4OmO36b1ix3K10nFEadfs
-Content-Type: text/plain; charset=windows-1252
+On 24 February 2017 at 16:00, Ankit Navik <ankit.tarot@gmail.com> wrote:
+
+>  meta/recipes-core/ell/ell.inc    | 10 ++++++++++
+>  meta/recipes-core/ell/ell_git.bb |  9 +++++++++
+>
+
+Unless you have other recipes using the .inc file, then just merge these
+into a single .bb.
+
+
+> +DEPENDS  = "dbus"
+> +RDEPENDS_${PN} += "dbus"
+>
+
+Why the RDEPENDS?  Any linking will add libdbus as required.
+
+
+> +do_configure_prepend () {
+> +    ${S}/bootstrap
+> +}
+>
+
+This just does a mkdir and then calls autoreconf which we do straight away
+afterwards, so is mostly a waste of time.  If we need to create the
+directory before autoreconf then just do the mkdir in _prepend.
+
+However currently this isn't used by anything in oe-core, so what's the
+rationale for adding it to oe-core instead of another layer?
+
+Ross
+
+--001a11c0285e1d469d054949bb98
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">On 24 February 2017 at 16:00, Ankit Navik <span dir=3D"ltr=
+">&lt;<a href=3D"mailto:ankit.tarot@gmail.com" target=3D"_blank">ankit.taro=
+t@gmail.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-l=
+eft-style:solid;padding-left:1ex">=C2=A0meta/recipes-core/ell/ell.inc=C2=A0=
+ =C2=A0 | 10 ++++++++++<br>
+=C2=A0meta/recipes-core/ell/<a href=3D"http://ell_git.bb" rel=3D"noreferrer=
+" target=3D"_blank">ell_git.<wbr>bb</a> |=C2=A0 9 +++++++++<br></blockquote=
+><div><br></div><div>Unless you have other recipes using the .inc file, the=
+n just merge these into a single .bb.</div><div>=C2=A0</div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;=
+border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex=
+">+DEPENDS=C2=A0 =3D &quot;dbus&quot;<br>
++RDEPENDS_${PN} +=3D &quot;dbus&quot;<br></blockquote><div><br></div><div>W=
+hy the RDEPENDS?=C2=A0 Any linking will add libdbus as required.</div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-s=
+tyle:solid;padding-left:1ex">+do_configure_prepend () {<br>
++=C2=A0 =C2=A0 ${S}/bootstrap<br>
++}<br></blockquote><div><br></div><div class=3D"gmail_extra">This just does=
+ a mkdir and then calls autoreconf which we do straight away afterwards, so=
+ is mostly a waste of time.=C2=A0 If we need to create the directory before=
+ autoreconf then just do the mkdir in _prepend.</div><div><br></div><div>Ho=
+wever currently this isn&#39;t used by anything in oe-core, so what&#39;s t=
+he rationale for adding it to oe-core instead of another layer?</div><div><=
+br></div><div>Ross=C2=A0</div></div></div></div>
 
-On 02/24/2017 10:27 AM, Patrick Ohly wrote:
-> On Fri, 2017-02-24 at 15:33 +0100, Gary Thomas wrote:
->> On 2017-02-24 15:21, Patrick Ohly wrote:
->>> On Wed, 2017-02-22 at 15:56 -0600, Jose Lamego wrote:
->>>>
->>>> On 02/22/2017 02:55 PM, Michael Halstead wrote:
->>>>> I've seen several issues with hooks. I was working on them yesterda=
-y and
->>>>> will continue today.
->>>>>
->>>>> These are currently managed by hand but we are moving them into
->>>>> configuration management which should help keep them working consis=
-tently.
->>>>
->>>> Michael: one syntax error in patchwork code was pulled into producti=
-on
->>>> yesterday. This is the cause for missing patches. The error is fixed=
- in
->>>> the Yocto repo now, please perform a server code update ASAP.
->>>>
->>>> Martin: I will look at the UI issue you are describing and file a bu=
-g if
->>>> needed.
->>>
->>> Would it perhaps make sense to reply to the original author with an
->>> email confirming that his patch is now in Patchwork? It should includ=
-e a
->>> link to the patch series, too.
->>>
->>> This could have several advantages:
->>>       * submitters not aware of Patchwork or whether their target
->>>         currently uses it learn about it and then can follow the
->>>         progress of their patch
->>>       * everyone gets a confirmation that the submission made it thro=
-ugh
->>>         the various mail servers and Patchwork itself
->>>
->>> It still relies on the original submitter to watch out for breakages =
-in
->>> the processes, but I guess that can't be avoided with an asynchronous=
-,
->>> mail-based process.
->>>
->>
->> I would love to see this added to the process - +1 :-)
->=20
-> Let me clarify that my original proposal was to reply only to the
-> original author. That was meant to keep noise down on the list. However=
-,
-> perhaps it should also go to the list?
->=20
-> Then others can help check that Patchwork works, as the original author=
-
-> might not be aware that a response is missing. It also tells everyone
-> the relevant link in Patchwork.
->=20
-There is a filed request to enable email notifications in patchwork:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D7684
-
-this notifications will let users (both submitter and CC'ed-users) know
-through an email about any patch status change (including "New"). Users
-will be able to opt-out of such notifications.
-
-However, this do not covers the case when submitter is not registered as
-a Patchwork user. So, there might be a one-time-only email notification
-to this kind of submitter, as Patrick suggests.
-
-If I don't get any objections for this, I'll file a request in bugzilla
-next week.
-
---=20
-Jose Lamego | OTC Embedded Platforms & Tools | GDC
-
-
---gSoHUxJEs4Hf4OmO36b1ix3K10nFEadfs--
-
---eIjMh4S4RSdCWDaJXA6RFrBXUVMfTcDQj
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQEcBAEBCAAGBQJYsGR6AAoJEFJAtowlSEbnK68H/1fw07GTsvg8iJneNmMviKqS
-OsYluL76sk5Ki5GlJEvRyk6Vk0/2/gC4o2GXCWGURXUbG6CI9NcEasGrw73yenZl
-1GdJOfRxwBaM0vZ86ARUbIkYHroiWp09Q/gbbx+REMEL7BhUtR6qBys+FywOUPHj
-Xspm23JScUS4ELce58GHcz8ZXcei+CHRoj+JkxyWSXqUydGBqcEtg1Z8nuIANDdu
-cP3+Ix9Lb+CLdVMVbANVAaDBnc5VZ/qGVjHeeaGMNYzXiBWTOzLk8+jLk9eVQDmP
-L2toxDkRFAV0kGlo88POM1RpknYMqxDtNVQKwnNzfbiFkEBpBcYHc2nabIHG4EY=
-=PGcY
------END PGP SIGNATURE-----
-
---eIjMh4S4RSdCWDaJXA6RFrBXUVMfTcDQj--
+--001a11c0285e1d469d054949bb98--
