@@ -1,28 +1,46 @@
-Return-Path: <philip@balister.org>
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with ESMTP id A803072F12
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id D092272F12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 20:39:18 +0000 (UTC)
-Received: (qmail 1810 invoked by uid 1003); 24 Feb 2017 20:39:20 -0000
-Received: from unknown (HELO ?172.16.133.249?)
-	(philip@opensdr.com@192.94.38.34)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	24 Feb 2017 20:39:20 -0000
-To: Martin Jansa <martin.jansa@gmail.com>, Khem Raj <raj.khem@gmail.com>
-References: <1487908800-18064-1-git-send-email-joe_macdonald@mentor.com>
-	<CAMKF1sr0OxcRYC9OZsJBieR-MVFnw5XbfuKr+go8xnhgYDHstA@mail.gmail.com>
-	<CA+chaQdJprDqs_aiMuWy6pRDB0WDM=fjnM6RqtLGv28EUCLOxg@mail.gmail.com>
-From: Philip Balister <philip@balister.org>
-Message-ID: <d0fc6e64-0602-0389-5c2e-f89161b3885a@balister.org>
-Date: Fri, 24 Feb 2017 12:39:09 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.0
+	Fri, 24 Feb 2017 20:45:40 +0000 (UTC)
+Received: by mail-qk0-f170.google.com with SMTP id s186so28871150qkb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Feb 2017 12:45:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=h2zkb455OSRjkyDkioPSdHFoZyaJoyuuviQAsZTEK7Q=;
+	b=tE252lE24yH/ShBq+QgGCploOguuspGRQ2b5cxky37YpydzgnU4vlqPSCZxTsPGs90
+	m8pAX3i5VdplDdRwhEtZRK8BD9gP20UvVVmA6VX07+7o7xFw+izW7dpKKjTwhoEa0kwr
+	W1lZu7ys/ulbnvud2dZ4SOfvSjYrsRaFEeZdaFP8lg4o5B6xcOTZPtdktYgLeRL9vpij
+	71G+1Y1RYkUguDrb6NNIZWjctS3+Id9B4YmAp13zdl5daUDN5BBx29d1DOun4/qHPLCA
+	+QWdhlSqJZcNF5bfD2nnxHDO0mjn+WjTNF8E8sQZMHM7B7O+ncUeS/ZrhYaXHOSd2Zjm
+	9lVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=h2zkb455OSRjkyDkioPSdHFoZyaJoyuuviQAsZTEK7Q=;
+	b=dLVlVJgSIV2uf2W8ObeZqj++b5XmFy4krqhKe7BixEC1zlDsQuIp57VnMy/WNJtBAM
+	plMJ5Fez4qVPbT8w/855ngW4IIxYSKwRh46wvgjpGPXoDP5NVo28ooWeOVF7+cDuSzi6
+	pFqkd658BkgZ/hbf71r8v9JHoKSXvU9S6HBd3pRI0Vs+4Secm2IKmixh7TmY75kAnkLJ
+	Nt1cObPEXH1WlpUNmrF7Hk44AVHRLrd4OqX6EAr5PoJm73kjDO5W2mocEDfSkhIessGP
+	Rb0kcvxWPmhaI49574MlwobONhfGWVHT5vWTkulYcidF3WJX1cuK7xppeqa+H9pJ3Vt3
+	E1pQ==
+X-Gm-Message-State: AMke39knMjLK54LZTx3uGylxRD0O3+t8E9Vw6T6QAHB04LqniLQZUylZYr1pSvDNIn7lCu5ud9ucp8CrLif4xspw
+X-Received: by 10.55.183.133 with SMTP id h127mr5056917qkf.121.1487969141689; 
+	Fri, 24 Feb 2017 12:45:41 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CA+chaQdJprDqs_aiMuWy6pRDB0WDM=fjnM6RqtLGv28EUCLOxg@mail.gmail.com>
-Cc: Joe MacDonald <joe_macdonald@mentor.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] deprecated.bbclass: Add a PNDEPRECATED variable for recipes
+Received: by 10.140.103.233 with HTTP; Fri, 24 Feb 2017 12:45:21 -0800 (PST)
+In-Reply-To: <1487961739-4548-1-git-send-email-ankit.tarot@gmail.com>
+References: <1487961739-4548-1-git-send-email-ankit.tarot@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 24 Feb 2017 20:45:21 +0000
+Message-ID: <CAJTo0Lak84XUFb8WM1WuZ_w2a1wHtKwoWwDTtZ_wtXK5_x3uFw@mail.gmail.com>
+To: Ankit Navik <ankit.tarot@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ell: Initial recipe for Embedded Linux Library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,151 +53,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2017 20:39:20 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 24 Feb 2017 20:45:41 -0000
+Content-Type: multipart/alternative; boundary=94eb2c06005620d14405494cd09c
 
-On 02/24/2017 01:16 AM, Martin Jansa wrote:
->> If nobody speaks up within some
-> amount of time the maintainer considers reasonable (I'm thinking a Yocto
-> release
-> cycle) then it's fair game to remove the recipe in question.
-> 
-> Maybe this is different case with at least some PNBLACKLIST entries we
-> currently have, but
-> I don't remove PNBLACKLISTed recipes, because as we discussed it's always
-> easier to unblacklist
-> recipe from e.g. DISTRO config if the issue doesn't affect you for whatever
-> reason and causes
-> less churn in the metadata when it gets unblacklisted.
-> 
-> And many PNBLACKLISTed recipes are also abandonware.
-> 
+--94eb2c06005620d14405494cd09c
+Content-Type: text/plain; charset=UTF-8
 
-I think we need to use a different "flag" for recipes that need
-updating, and have maintained upstreams from recipes that have upstreams
-that are abandoned.
+On 24 February 2017 at 18:42, Ankit Navik <ankit.tarot@gmail.com> wrote:
 
-So blacklist broken recipes with good upstreams and deprecate recipes
-with dead upstreams.
+> Add generic recipe for ELL.
+>
 
-Philip
+This doesn't answer the question of "why?".
 
+Ross
 
+--94eb2c06005620d14405494cd09c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-> So my question is, if we will remove PNDEPRECATed recipes after one cycle,
-> should we start
-> removing PNBLACKLISTed recipes as well (maybe after 2 cycles?). In both
-> cases it might backfire
-> when someone will fail to find recipe for his favorite abandonware and will
-> try to add completely
-> new recipe for it, or we see someone restoring these recipes (e.g. in own
-> layers instead of fixing
-> the PNBLACKLIST/PNDEPRECATED reasons in original layer).
-> 
-> On Fri, Feb 24, 2017 at 5:55 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> 
->>
->> On Thu, Feb 23, 2017 at 8:00 PM Joe MacDonald <joe_macdonald@mentor.com>
->> wrote:
->>
->>> Based on the blacklist behaviour, recipes can be tagged as deprecated.
->>> Such recipes will produce a warning message when included in a build but
->>> unlike blacklisted recipes, the build will continue.
->>
->>
->> Perhaps this should also be documented in manuals
->>
->>>
->>>
->>> Signed-off-by: Joe MacDonald <joe_macdonald@mentor.com>
->>> ---
->>>
->>> I threw this together a long time ago and never got around to sending it
->>> out for
->>> consideration, but after the excitement last week and this, I got
->>> thinking about
->>> it again and thought it might be useful.  My specific use-case for this is
->>> recipes I see in meta-networking that I know are largely abandonware but
->>> that I
->>> don't want to completely throw out without giving some kind of heads up.
->>> Obviously this is purely informational, there's no mechanism set up for
->>> purging
->>> deprecated recipes, that's intended to be a maintainer activity, but the
->>> idea
->>> would be that the maintainer would flag a recipe as deprecated (probably
->>> when
->>> it's become more trouble than it seems to be worth) and thereafter users
->>> would
->>> have fair warning that this thing is on notice.  If nobody speaks up
->>> within some
->>> amount of time the maintainer considers reasonable (I'm thinking a Yocto
->>> release
->>> cycle) then it's fair game to remove the recipe in question.
->>>
->>>  meta/classes/deprecated.bbclass    | 16 ++++++++++++++++
->>>  meta/conf/distro/defaultsetup.conf |  3 ++-
->>>  2 files changed, 18 insertions(+), 1 deletion(-)
->>>  create mode 100644 meta/classes/deprecated.bbclass
->>>
->>> diff --git a/meta/classes/deprecated.bbclass b/meta/classes/deprecated.
->>> bbclass
->>> new file mode 100644
->>> index 0000000..3dcdadb
->>> --- /dev/null
->>> +++ b/meta/classes/deprecated.bbclass
->>> @@ -0,0 +1,16 @@
->>> +# To use the deprecated recipe check, a distribution should
->>> +# include this class in the INHERIT_DISTRO
->>> +#
->>> +# Features:
->>> +#
->>> +# * To add a package to the deprecated list, set:
->>> +#   PNDEPRECATED[pn] = "message"
->>> +#
->>> +
->>> +addtask check_deprecated before do_fetch
->>> +python do_check_deprecated () {
->>> +    deprecated = d.getVarFlag('PNDEPRECATED', d.getVar('PN', True),
->>> False)
->>> +
->>> +    if deprecated:
->>> +        bb.warn("Recipe is deprecated: ", (deprecated))
->>> +}
->>> diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/
->>> defaultsetup.conf
->>> index ca2f917..16ece3a 100644
->>> --- a/meta/conf/distro/defaultsetup.conf
->>> +++ b/meta/conf/distro/defaultsetup.conf
->>> @@ -20,5 +20,6 @@ CACHE = "${TMPDIR}/cache/${TCMODE}-${TCLIBC}${@['',
->>> '/' + str(d.getVar('MACHINE'
->>>  USER_CLASSES ?= ""
->>>  PACKAGE_CLASSES ?= "package_ipk"
->>>  INHERIT_BLACKLIST = "blacklist"
->>> +INHERIT_DEPRECATED = "deprecated"
->>>  INHERIT_DISTRO ?= "debian devshell sstate license remove-libtool"
->>> -INHERIT += "${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO}
->>> ${INHERIT_BLACKLIST}"
->>> +INHERIT += "${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO}
->>> ${INHERIT_BLACKLIST} ${INHERIT_DEPRECATED}"
->>> --
->>> 1.9.1
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->>
-> 
-> 
-> 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 24 February 2017 at 18:42, Ankit Navik <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:ankit.tarot@gmail.com" target=3D"_blank">ankit.tarot@gmail.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":42d" class=
+=3D"a3s aXjCH m15a716bd694c7a01">Add generic recipe for ELL.<br></div></blo=
+ckquote></div><br>This doesn&#39;t answer the question of &quot;why?&quot;.=
+</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross<=
+/div></div>
 
+--94eb2c06005620d14405494cd09c--
