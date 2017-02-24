@@ -1,46 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com
-	[209.85.216.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BD9C74007
+Return-Path: <california.l.sullivan@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id A278C71B14
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 17:05:02 +0000 (UTC)
-Received: by mail-qt0-f171.google.com with SMTP id n21so21633886qta.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 09:05:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Vd42FD5Ry6ldXj/wQNNyyf8m+p4NsnNiS/l2XZezYwE=;
-	b=w6z4dQFBIxq96tyawYCcvkAeFl4Eh5sITtJcFysqCnT9sJgNMVrgwOv7MICVQcxJ4P
-	tzEe5pnk/yOkOHIOkgL6YvOPubddzQ3htHf0soN3s0ERagZKMtLxaPJrYZwl7RhDMREv
-	R9BcUz22hYfX2dNz5NY4f2HTqNa6on5OxrJJJekzUfC8RbcWwpwHwVUAV4neSaUYNXgK
-	Nd1xmz6zEhB4+/hZJ9CSjU7ueP9xw53tjS/7WP5kWq0yD30Sa9TLlP7vPn8utqbklFRg
-	+XAPTThS9dDwImc42qKOYKbh6A3EBHvK4N21UZMNEELNOHzS2NIXXxHMINFd2aM0cQVs
-	41FA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Vd42FD5Ry6ldXj/wQNNyyf8m+p4NsnNiS/l2XZezYwE=;
-	b=amDGBKmh3MEgdMakxHhId91b3COtXu3o3Ugrbo5bE1Zkc8AGweX2E5iOMRcb4BQ76p
-	GXMs9IUn2DEjaGrjrx+XONyznrXdvtldklln16EK7dpY5qfLIICb4/pucU/84h84UNZJ
-	zAkEVcRKdn7Wi88yssbZV8DWEbTT9yjuWenUAhfWk9MnyVzmZJZhywJrCpqTChfr4lNC
-	iPYhlHVH3bPR8iIa8a2LOq3c2ptcPaiMjDeMXcBeXLXY4I3oEFWdR/oYv1C7s1Ed0rAZ
-	Xe5QEp4a1cwLHPO9UH922ZdBQaiYd+mS+OEkUg9kqhlF0zgIOVg9RdkUsVDbbWxoNQWW
-	M72A==
-X-Gm-Message-State: AMke39mveOSj+1U8cM/Zi2oJMVLHTLWH1rkk4xsE3a69qTKzb1w9b6iBw4Hald3kjJH+fhKkIOOqHKzDmhp81rof
-X-Received: by 10.237.53.9 with SMTP id a9mr3441333qte.188.1487955904228; Fri,
-	24 Feb 2017 09:05:04 -0800 (PST)
+	Fri, 24 Feb 2017 18:19:48 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	24 Feb 2017 10:19:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.35,201,1484035200"; 
+	d="scan'208,217";a="1101955252"
+Received: from clsulliv.jf.intel.com ([10.7.201.36])
+	by orsmga001.jf.intel.com with ESMTP; 24 Feb 2017 10:19:49 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1486684537-17517-1-git-send-email-california.l.sullivan@intel.com>
+	<1487889124-8585-1-git-send-email-california.l.sullivan@intel.com>
+	<CAJTo0LaBPhygGF8NgjNOMPrHFS3Pa2F29PRviZDPB=+JjbBdkw@mail.gmail.com>
+	<41a7389d-25a3-3002-ffdd-25f2e4dda494@intel.com>
+	<b00d7924-b690-e568-e9d9-a31b76f6db79@intel.com>
+From: Cal Sullivan <california.l.sullivan@intel.com>
+Message-ID: <501e70af-504f-6b8d-b99d-562e2c028061@intel.com>
+Date: Fri, 24 Feb 2017 10:19:49 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Fri, 24 Feb 2017 09:04:43 -0800 (PST)
-In-Reply-To: <1487952031-3996-1-git-send-email-ankit.tarot@gmail.com>
-References: <1487952031-3996-1-git-send-email-ankit.tarot@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 24 Feb 2017 17:04:43 +0000
-Message-ID: <CAJTo0LY-i8JJNEoN=43F5GaNU390g2x-BPJkihYXv=Fogmg2Ow@mail.gmail.com>
-To: Ankit Navik <ankit.tarot@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ell: Initial recipe for Embedded Linux Library
+In-Reply-To: <b00d7924-b690-e568-e9d9-a31b76f6db79@intel.com>
+Cc: Saul Wold <saul.wold@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/1] kernel.bbclass: Make sanity check opt-out and provide easy opt-out
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,73 +39,227 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2017 17:05:03 -0000
-Content-Type: multipart/alternative; boundary=001a11c0285e1d469d054949bb98
+X-List-Received-Date: Fri, 24 Feb 2017 18:19:49 -0000
+Content-Type: multipart/alternative;
+	boundary="------------25D6D31DAADAFCA5ECABE0C7"
 
---001a11c0285e1d469d054949bb98
-Content-Type: text/plain; charset=UTF-8
+--------------25D6D31DAADAFCA5ECABE0C7
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 24 February 2017 at 16:00, Ankit Navik <ankit.tarot@gmail.com> wrote:
 
->  meta/recipes-core/ell/ell.inc    | 10 ++++++++++
->  meta/recipes-core/ell/ell_git.bb |  9 +++++++++
+
+On 02/23/2017 04:13 PM, Cal Sullivan wrote:
+> On 02/23/2017 03:27 PM, Cal Sullivan wrote:
+>>
+>>
+>> On 02/23/2017 03:07 PM, Burton, Ross wrote:
+>>>
+>>> On 23 February 2017 at 22:32, California Sullivan 
+>>> <california.l.sullivan@intel.com 
+>>> <mailto:california.l.sullivan@intel.com>> wrote:
+>>>
+>>>     The only change from V1 to V2 is the updated commit message,
+>>>     changing
+>>>     AUTOINC to AUTOREV and adding the blurb about impacting outside
+>>>     recipes.
+>>>
+>>>     I also agree with Richard in that this is a significant
+>>>     functionality change
+>>>     and should not be backported.
+>>>
+>>>
+>>> I failed to say that I suspected this patch was to blame for SDK 
+>>> generation failing on the autobuilder earlier. Can you try 
+>>> generating a eSDK (bitbake core-image-minimal -c populate_sdk_ext) 
+>>>  with this patch?
+>>>
+>>> Ross
+>> Will do. Any specific configuration I should use, or should it fail 
+>> in most/all situations?
+>>
+>> Thanks,
+>> Cal
+>>
+>>
 >
-
-Unless you have other recipes using the .inc file, then just merge these
-into a single .bb.
-
-
-> +DEPENDS  = "dbus"
-> +RDEPENDS_${PN} += "dbus"
+> [clsulliv@clsulliv build]$ bitbake core-image-minimal -c populate_sdk_ext
+> WARNING: Host distribution "fedora-23" has not been validated with 
+> this version of the build system; you may possibly experience 
+> unexpected failures. It is recommended that you use a tested distribution.
+> Loading cache: 100% 
+> |##############################################################################################################| 
+> Time: 0:00:00
+> Loaded 1346 entries from dependency cache.
+> NOTE: Resolving any missing task queue dependencies
 >
-
-Why the RDEPENDS?  Any linking will add libdbus as required.
-
-
-> +do_configure_prepend () {
-> +    ${S}/bootstrap
-> +}
+> Build Configuration:
+> BB_VERSION        = "1.33.1"
+> BUILD_SYS         = "x86_64-linux"
+> NATIVELSBSTRING   = "universal"
+> TARGET_SYS        = "x86_64-poky-linux"
+> MACHINE           = "intel-corei7-64"
+> DISTRO            = "poky"
+> DISTRO_VERSION    = "2.2+snapshot-20170223"
+> TUNE_FEATURES     = "m64 corei7"
+> TARGET_FPU        = ""
+> meta
+> meta-poky
+> meta-yocto-bsp    = 
+> "clsulliv/sanity:53c2449017a3312a2e65720a23ef654924eef0b4"
+> meta-intel        = "master:5153dad2fa695bbb579c03ff795ef649269e8420"
 >
+> Initialising tasks: 100% 
+> |#########################################################################################################| 
+> Time: 0:00:06
+> NOTE: Executing SetScene Tasks
+> NOTE: Executing RunQueue Tasks
+> NOTE: Tasks Summary: Attempted 3362 tasks of which 2752 didn't need to 
+> be rerun and all succeeded.
+>
+> Summary: There was 1 WARNING message shown.
+>
+>
+> I'll rerun the build with no meta-intel and qemux86 overnight.
+>
+> p.s., upgrading my fedora system now :)
+>
+> ---
+> Cal
+>
+>
+Same results with qemux86.
 
-This just does a mkdir and then calls autoreconf which we do straight away
-afterwards, so is mostly a waste of time.  If we need to create the
-directory before autoreconf then just do the mkdir in _prepend.
+Thanks,
+Cal
 
-However currently this isn't used by anything in oe-core, so what's the
-rationale for adding it to oe-core instead of another layer?
+--------------25D6D31DAADAFCA5ECABE0C7
+Content-Type: text/html; charset=windows-1252
+Content-Transfer-Encoding: 8bit
 
-Ross
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <br>
+    <br>
+    <div class="moz-cite-prefix">On 02/23/2017 04:13 PM, Cal Sullivan
+      wrote:<br>
+    </div>
+    <blockquote
+      cite="mid:b00d7924-b690-e568-e9d9-a31b76f6db79@intel.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html;
+        charset=windows-1252">
+      On 02/23/2017 03:27 PM, Cal Sullivan wrote:<br>
+      <blockquote
+        cite="mid:41a7389d-25a3-3002-ffdd-25f2e4dda494@intel.com"
+        type="cite"> <br>
+        <br>
+        <div class="moz-cite-prefix">On 02/23/2017 03:07 PM, Burton,
+          Ross wrote:<br>
+        </div>
+        <blockquote
+cite="mid:CAJTo0LaBPhygGF8NgjNOMPrHFS3Pa2F29PRviZDPB=+JjbBdkw@mail.gmail.com"
+          type="cite">
+          <div dir="ltr">
+            <div class="gmail_extra"><br>
+              <div class="gmail_quote">On 23 February 2017 at 22:32,
+                California Sullivan <span dir="ltr">&lt;<a
+                    moz-do-not-send="true"
+                    href="mailto:california.l.sullivan@intel.com"
+                    target="_blank">california.l.sullivan@intel.com</a>&gt;</span>
+                wrote:<br>
+                <blockquote class="gmail_quote" style="margin:0 0 0
+                  .8ex;border-left:1px #ccc solid;padding-left:1ex">
+                  <div id=":449" class="a3s aXjCH m15a6d1aea290b109">The
+                    only change from V1 to V2 is the updated commit
+                    message, changing<br>
+                    AUTOINC to AUTOREV and adding the blurb about
+                    impacting outside recipes.<br>
+                    <br>
+                    I also agree with Richard in that this is a
+                    significant functionality change<br>
+                    and should not be backported.</div>
+                </blockquote>
+              </div>
+              <br>
+              I failed to say that I suspected this patch was to blame
+              for SDK generation failing on the autobuilder earlier. 
+              Can you try generating a eSDK (bitbake core-image-minimal
+              -c populate_sdk_ext)  with this patch?</div>
+            <div class="gmail_extra"><br>
+            </div>
+            <div class="gmail_extra">Ross</div>
+          </div>
+        </blockquote>
+        Will do. Any specific configuration I should use, or should it
+        fail in most/all situations?<br>
+        <br>
+        Thanks,<br>
+        Cal<br>
+        <br>
+        <fieldset class="mimeAttachmentHeader"></fieldset>
+        <br>
+      </blockquote>
+      <tt><br>
+        [clsulliv@clsulliv build]$ bitbake core-image-minimal -c
+        populate_sdk_ext<br>
+        WARNING: Host distribution "fedora-23" has not been validated
+        with this version of the build system; you may possibly
+        experience unexpected failures. It is recommended that you use a
+        tested distribution.<br>
+        Loading cache: 100%
+|##############################################################################################################|
+        Time: 0:00:00<br>
+        Loaded 1346 entries from dependency cache.<br>
+        NOTE: Resolving any missing task queue dependencies<br>
+        <br>
+        Build Configuration:<br>
+        BB_VERSION        = "1.33.1"<br>
+        BUILD_SYS         = "x86_64-linux"<br>
+        NATIVELSBSTRING   = "universal"<br>
+        TARGET_SYS        = "x86_64-poky-linux"<br>
+        MACHINE           = "intel-corei7-64"<br>
+        DISTRO            = "poky"<br>
+        DISTRO_VERSION    = "2.2+snapshot-20170223"<br>
+        TUNE_FEATURES     = "m64 corei7"<br>
+        TARGET_FPU        = ""<br>
+        meta              <br>
+        meta-poky         <br>
+        meta-yocto-bsp    =
+        "clsulliv/sanity:53c2449017a3312a2e65720a23ef654924eef0b4"<br>
+        meta-intel        =
+        "master:5153dad2fa695bbb579c03ff795ef649269e8420"<br>
+        <br>
+        Initialising tasks: 100%
+|#########################################################################################################|
+        Time: 0:00:06<br>
+        NOTE: Executing SetScene Tasks<br>
+        NOTE: Executing RunQueue Tasks<br>
+        NOTE: Tasks Summary: Attempted 3362 tasks of which 2752 didn't
+        need to be rerun and all succeeded.<br>
+        <br>
+        Summary: There was 1 WARNING message shown.<br>
+        <br>
+        <br>
+        I'll rerun the build with no meta-intel and qemux86 overnight.<br>
+        <br>
+        p.s., upgrading my fedora system now :)<br>
+        <br>
+        ---<br>
+        Cal<br>
+      </tt> <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <br>
+    </blockquote>
+    Same results with qemux86.<br>
+    <br>
+    Thanks,<br>
+    Cal<br>
+  </body>
+</html>
 
---001a11c0285e1d469d054949bb98
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 24 February 2017 at 16:00, Ankit Navik <span dir=3D"ltr=
-">&lt;<a href=3D"mailto:ankit.tarot@gmail.com" target=3D"_blank">ankit.taro=
-t@gmail.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=
-=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-l=
-eft-style:solid;padding-left:1ex">=C2=A0meta/recipes-core/ell/ell.inc=C2=A0=
- =C2=A0 | 10 ++++++++++<br>
-=C2=A0meta/recipes-core/ell/<a href=3D"http://ell_git.bb" rel=3D"noreferrer=
-" target=3D"_blank">ell_git.<wbr>bb</a> |=C2=A0 9 +++++++++<br></blockquote=
-><div><br></div><div>Unless you have other recipes using the .inc file, the=
-n just merge these into a single .bb.</div><div>=C2=A0</div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;=
-border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex=
-">+DEPENDS=C2=A0 =3D &quot;dbus&quot;<br>
-+RDEPENDS_${PN} +=3D &quot;dbus&quot;<br></blockquote><div><br></div><div>W=
-hy the RDEPENDS?=C2=A0 Any linking will add libdbus as required.</div><div>=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-s=
-tyle:solid;padding-left:1ex">+do_configure_prepend () {<br>
-+=C2=A0 =C2=A0 ${S}/bootstrap<br>
-+}<br></blockquote><div><br></div><div class=3D"gmail_extra">This just does=
- a mkdir and then calls autoreconf which we do straight away afterwards, so=
- is mostly a waste of time.=C2=A0 If we need to create the directory before=
- autoreconf then just do the mkdir in _prepend.</div><div><br></div><div>Ho=
-wever currently this isn&#39;t used by anything in oe-core, so what&#39;s t=
-he rationale for adding it to oe-core instead of another layer?</div><div><=
-br></div><div>Ross=C2=A0</div></div></div></div>
-
---001a11c0285e1d469d054949bb98--
+--------------25D6D31DAADAFCA5ECABE0C7--
