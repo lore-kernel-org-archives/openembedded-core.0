@@ -1,20 +1,26 @@
-Return-Path: <daniel@lublin.se>
-X-Greylist: delayed 400 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 24 Feb 2017 10:29:05 UTC
-Received: from eltanin.uberspace.de (eltanin.uberspace.de [185.26.156.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 0760872F3A
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B1B37750A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 10:29:05 +0000 (UTC)
-Received: (qmail 29139 invoked from network); 24 Feb 2017 10:22:25 -0000
-Received: from localhost (HELO ot.lan) (127.0.0.1)
-	by eltanin.uberspace.de with SMTP; 24 Feb 2017 10:22:25 -0000
-From: Daniel Lublin <daniel@lublin.se>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Feb 2017 11:22:20 +0100
-Message-Id: <25f1d1f60267fa5c2b12d2374da46c2b31da2792.1487931507.git.daniel@lublin.se>
-X-Mailer: git-send-email 2.11.1
-Cc: Pavel Modilaynen <pavelmn@axis.com>
-Subject: [PATCH] buildstats.bbclass: Avoid index exception in /proc/PID/io parsing
+	Fri, 24 Feb 2017 10:33:41 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v1OAXgQJ011735
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 24 Feb 2017 02:33:42 -0800 (PST)
+Received: from [128.224.162.211] (128.224.162.211) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Fri, 24 Feb 2017 02:33:41 -0800
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+From: Dengke Du <dengke.du@windriver.com>
+Message-ID: <59065e2b-6a13-8736-6257-5ae42b647163@windriver.com>
+Date: Fri, 24 Feb 2017 18:33:39 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.7.0
+MIME-Version: 1.0
+Cc: bruce.ashfield@windriver.com
+Subject: Yocto Bug#10456 discuss
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,38 +33,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2017 10:29:06 -0000
+X-List-Received-Date: Fri, 24 Feb 2017 10:33:45 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Pavel Modilaynen <pavelmn@axis.com>
+Hi Jussi and bruce
 
-There is some probability (depends on system load) to get empty
-or line containing "0" as the last line while reading /proc/PID/io.
-Avoid build failure by checking if line contains separator
-":" before split.
+Yocto Bug#10456: X can not launch on qemumips64
 
-Signed-off-by: Pavel Modilaynen <pavelmn@axis.com>
-Signed-off-by: Daniel Lublin <daniel@lublin.se>
----
- meta/classes/buildstats.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
+I find the kernel 4.4 is ok, and on the latest 4.9 is ok, but on kernel 
+4.8 is failed.
 
-diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
-index 8d7b5988e3..960653c704 100644
---- a/meta/classes/buildstats.bbclass
-+++ b/meta/classes/buildstats.bbclass
-@@ -31,6 +31,11 @@ def get_process_cputime(pid):
-                 i = f.readline().strip()
-                 if not i:
-                     break
-+                if not ":" in i:
-+                    # one more extra line is appended (empty or containing "0")
-+                    # most probably due to race condition in kernel while
-+                    # updating IO stats
-+                    break
-                 i = i.split(": ")
-                 iostats[i[0]] = i[1]
-     resources = resource.getrusage(resource.RUSAGE_SELF)
--- 
-2.11.1
+This is because this commit in linux-yocto-4.8:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+commit d03516df837587368fc6e75591f6329c072b9eb5
+Author: Matthew Leach <matthew.leach@codethink.co.uk>
+Date:   Tue Jun 21 16:19:49 2016 +0100
+
+     tty: serial: 8250: add CON_CONSDEV to flags
+
+     When using the 8250 as a boot console and the main console results in
+     messages being printed twice.  The console framework will only
+     unregister boot consoles if a new console is registered with the
+     CON_CONSDEV flag set.
+
+     Set this flag for the univ8250 console to prevent double-registration.
+
+     Signed-off-by: Matthew Leach <matthew.leach@codethink.co.uk>
+     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+diff --git a/drivers/tty/serial/8250/8250_core.c 
+b/drivers/tty/serial/8250/8250_core.c
+index fa823a5..dcf43f6 100644
+--- a/drivers/tty/serial/8250/8250_core.c
++++ b/drivers/tty/serial/8250/8250_core.c
+@@ -675,7 +675,7 @@ static struct console univ8250_console = {
+         .device         = uart_console_device,
+         .setup          = univ8250_console_setup,
+         .match          = univ8250_console_match,
+-       .flags          = CON_PRINTBUFFER | CON_ANYTIME,
++       .flags          = CON_PRINTBUFFER | CON_ANYTIME | CON_CONSDEV,
+         .index          = -1,
+         .data           = &serial8250_reg,
+  };
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The 4.9 has been reverted it, so backport that reverted patch can fix 
+this bug, but I don't know why this related to qemumips64?
+
+Thanks
+
+Dengke
 
 
