@@ -1,27 +1,20 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 829C5774F4
+Return-Path: <daniel@lublin.se>
+X-Greylist: delayed 400 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 24 Feb 2017 10:29:05 UTC
+Received: from eltanin.uberspace.de (eltanin.uberspace.de [185.26.156.28])
+	by mail.openembedded.org (Postfix) with ESMTP id 0760872F3A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 09:50:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v1O9oW8w023015
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 01:50:32 -0800 (PST)
-Received: from [128.224.162.160] (128.224.162.160) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 24 Feb 2017 01:50:32 -0800
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1487727826.git.liezhi.yang@windriver.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <9a8cfb09-2633-54b9-46b5-8f8d203563e8@windriver.com>
-Date: Fri, 24 Feb 2017 17:50:31 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <cover.1487727826.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 0/5] Packages upgrade
+	Fri, 24 Feb 2017 10:29:05 +0000 (UTC)
+Received: (qmail 29139 invoked from network); 24 Feb 2017 10:22:25 -0000
+Received: from localhost (HELO ot.lan) (127.0.0.1)
+	by eltanin.uberspace.de with SMTP; 24 Feb 2017 10:22:25 -0000
+From: Daniel Lublin <daniel@lublin.se>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 24 Feb 2017 11:22:20 +0100
+Message-Id: <25f1d1f60267fa5c2b12d2374da46c2b31da2792.1487931507.git.daniel@lublin.se>
+X-Mailer: git-send-email 2.11.1
+Cc: Pavel Modilaynen <pavelmn@axis.com>
+Subject: [PATCH] buildstats.bbclass: Avoid index exception in /proc/PID/io parsing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,62 +27,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2017 09:50:31 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 24 Feb 2017 10:29:06 -0000
 
+From: Pavel Modilaynen <pavelmn@axis.com>
 
-Mike Crowe has done the upgrade for ccache, so I removed it from the PULL:
+There is some probability (depends on system load) to get empty
+or line containing "0" as the last line while reading /proc/PID/io.
+Avoid build failure by checking if line contains separator
+":" before split.
 
-The following changes since commit 65cfc8aca3ff7e39453977a0215a350d13cb85ef:
+Signed-off-by: Pavel Modilaynen <pavelmn@axis.com>
+Signed-off-by: Daniel Lublin <daniel@lublin.se>
+---
+ meta/classes/buildstats.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-   libva: Find the correct wayland-scanner (2017-02-23 12:29:21 -0800)
+diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
+index 8d7b5988e3..960653c704 100644
+--- a/meta/classes/buildstats.bbclass
++++ b/meta/classes/buildstats.bbclass
+@@ -31,6 +31,11 @@ def get_process_cputime(pid):
+                 i = f.readline().strip()
+                 if not i:
+                     break
++                if not ":" in i:
++                    # one more extra line is appended (empty or containing "0")
++                    # most probably due to race condition in kernel while
++                    # updating IO stats
++                    break
+                 i = i.split(": ")
+                 iostats[i[0]] = i[1]
+     resources = resource.getrusage(resource.RUSAGE_SELF)
+-- 
+2.11.1
 
-are available in the git repository at:
-
-   git://git.openembedded.org/openembedded-core-contrib rbt/PU
-   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/PU
-
-Robert Yang (4):
-   strace: 4.15 -> 4.16
-   guile: 2.0.13 -> 2.0.14
-   slang: 2.3.1 -> 2.3.1a
-   file: 5.29 -> 5.30
-
-
-// Robert
-
-On 02/22/2017 09:44 AM, Robert Yang wrote:
-> The following changes since commit def3800c7e58d9d1b54ea1df27b190a0f6d1d544:
->
->   layer.conf: bump version for change in eSDK selftest behaviour (2017-02-19 09:38:59 -0800)
->
-> are available in the git repository at:
->
->   git://git.openembedded.org/openembedded-core-contrib rbt/PU
->   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/PU
->
-> Robert Yang (5):
->   strace: 4.15 -> 4.16
->   guile: 2.0.13 -> 2.0.14
->   slang: 2.3.1 -> 2.3.1a
->   ccache: 3.3.3 -> 3.3.4
->   file: 5.29 -> 5.30
->
->  .../ccache/{ccache_3.3.3.bb => ccache_3.3.4.bb}    |  6 +--
->  .../file/{file_5.29.bb => file_5.30.bb}            |  2 +-
->  .../guile/{guile_2.0.13.bb => guile_2.0.14.bb}     |  4 +-
->  .../strace/strace/Makefile-ptest.patch             | 13 +++---
->  .../strace/strace/disable-git-version-gen.patch    | 18 ++++----
->  .../strace/strace/use-asm-sgidefs.h.patch          | 51 ----------------------
->  .../strace/{strace_4.15.bb => strace_4.16.bb}      |  7 ++-
->  .../slang/{slang_2.3.1.bb => slang_2.3.1a.bb}      |  4 +-
->  8 files changed, 27 insertions(+), 78 deletions(-)
->  rename meta/recipes-devtools/ccache/{ccache_3.3.3.bb => ccache_3.3.4.bb} (48%)
->  rename meta/recipes-devtools/file/{file_5.29.bb => file_5.30.bb} (96%)
->  rename meta/recipes-devtools/guile/{guile_2.0.13.bb => guile_2.0.14.bb} (97%)
->  delete mode 100644 meta/recipes-devtools/strace/strace/use-asm-sgidefs.h.patch
->  rename meta/recipes-devtools/strace/{strace_4.15.bb => strace_4.16.bb} (84%)
->  rename meta/recipes-extended/slang/{slang_2.3.1.bb => slang_2.3.1a.bb} (93%)
->
 
