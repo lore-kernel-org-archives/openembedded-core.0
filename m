@@ -1,39 +1,18 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
-	[209.85.216.180])
-	by mail.openembedded.org (Postfix) with ESMTP id A154273078
+Return-Path: <jose.a.lamego@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 63A4874007
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 16:46:43 +0000 (UTC)
-Received: by mail-qt0-f180.google.com with SMTP id r45so21049331qte.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 08:46:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ye9DoebwAWS1/xpoWcSMJNkjyMVc0i+FCA+s2L7qSzQ=;
-	b=H+WLGPa7QVzaF5hSFjBhNimXEhmqMYYSJGHhhAKJxUrchu7VAfzbZsQ6mgqS8SUvR0
-	8O7TZbUH8toVJe6oa0gEA5MPT4AetlOKhNZdfCUTB6Xifv5JpTIdZa74QUWO3EDO9s7a
-	MN2qvj8UkjROvaNiBDnetsiu3KVEL7HtacbzGSfAJLIQ4tsZMjVTxf/SHPgEGiXI6Db2
-	yNjU5u3CbttUsAgAdUfzaRg6w1a4fGfuwXZZfTR5KzJpbNSx62z9/fbMJfHA43tu60nI
-	MVdcAqrKtcJZgerg7ysgtEUz51zx9qEMFjV0Ewk0SFiJqoo1DqhglpSCRTyaMMgqSsrp
-	/XVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ye9DoebwAWS1/xpoWcSMJNkjyMVc0i+FCA+s2L7qSzQ=;
-	b=EGTbZPtEE+IWmaGQxN1uMdr8Jk9O2Q9UY7AV+Mt2GI9/kdu2H48xZGKTMhmE0o00TD
-	EikAYtOiccpqY91DtMqwCOEnfYxd2Q6R0TcoUKOsG3kRXWFuWG5m3LaER1gLYJhH80fp
-	wRGvtFH21zyHWbD0RSqcnSdP2XZmgm3EXGF8xV6fXcFsYXbpFkHGBKs/lwBTGGgj6Cym
-	CCdJV38B9DWGsOe7oZ3U2eOKZn+JNtc8pAuj2gz/joONsKuw9aN0iYYtrJoHcGCmcWvj
-	8VKFCZ3O4zuwdxcXn5WQtLUIdPy5eIeNHywQoHANm6SrSOq+wwaN9fnYZ+v2N+FvU0Ok
-	7AOw==
-X-Gm-Message-State: AMke39lhWHlq0rqM3Um4mqLpVRKAEkd8OPNwHafBPOb3jhVgyy6ZwMNtKoqo1ePedlptjfRX8OM42rZrUZ5j2ruf
-X-Received: by 10.237.32.230 with SMTP id 93mr3648204qtb.144.1487954804441;
-	Fri, 24 Feb 2017 08:46:44 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.41.102 with HTTP; Fri, 24 Feb 2017 08:46:18 -0800 (PST)
-In-Reply-To: <1487953650.10512.14.camel@intel.com>
+	Fri, 24 Feb 2017 16:51:05 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	24 Feb 2017 08:51:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.35,201,1484035200"; 
+	d="asc'?scan'208";a="937753135"
+Received: from jalamego-mobl2.zpn.intel.com (HELO [10.219.128.117])
+	([10.219.128.117])
+	by orsmga003.jf.intel.com with ESMTP; 24 Feb 2017 08:51:06 -0800
+To: openembedded-core@lists.openembedded.org
 References: <1487785536-13777-1-git-send-email-derek@asterius.io>
 	<20170222204736.GG3283@jama>
 	<CADfgfobBp60s+GjqS3zRrO-z4HUhe8zFi51GPzceDFAKQVGf=Q@mail.gmail.com>
@@ -41,12 +20,13 @@ References: <1487785536-13777-1-git-send-email-derek@asterius.io>
 	<1487946072.10512.9.camel@intel.com>
 	<d20dc7dc-c3d0-ab79-948e-2caab91d3caf@mlbassoc.com>
 	<1487953650.10512.14.camel@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 24 Feb 2017 16:46:18 +0000
-Message-ID: <CAJTo0LbKggUJcqTKXU8sMeG=4VmpHHJ8uBFPTH7=S0GN4h96EA@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: Gary Thomas <gary@mlbassoc.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
+From: Jose Lamego <jose.a.lamego@linux.intel.com>
+Message-ID: <da870aaf-6b32-a0ae-787d-44108ba789ec@linux.intel.com>
+Date: Fri, 24 Feb 2017 10:50:59 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.7.0
+MIME-Version: 1.0
+In-Reply-To: <1487953650.10512.14.camel@intel.com>
 Subject: Re: Patchwork not picking changes from the ML
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -60,48 +40,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2017 16:46:44 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0c9b9c8fba54054949796c
+X-List-Received-Date: Fri, 24 Feb 2017 16:51:07 -0000
+X-Groupsio-MsgNum: 93945
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="eIjMh4S4RSdCWDaJXA6RFrBXUVMfTcDQj"
 
---94eb2c0c9b9c8fba54054949796c
-Content-Type: text/plain; charset=UTF-8
+--eIjMh4S4RSdCWDaJXA6RFrBXUVMfTcDQj
+Content-Type: multipart/mixed; boundary="gSoHUxJEs4Hf4OmO36b1ix3K10nFEadfs";
+ protected-headers="v1"
+From: Jose Lamego <jose.a.lamego@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <da870aaf-6b32-a0ae-787d-44108ba789ec@linux.intel.com>
+Subject: Re: [OE-core] Patchwork not picking changes from the ML
+References: <1487785536-13777-1-git-send-email-derek@asterius.io>
+ <20170222204736.GG3283@jama>
+ <CADfgfobBp60s+GjqS3zRrO-z4HUhe8zFi51GPzceDFAKQVGf=Q@mail.gmail.com>
+ <26abf96d-d224-0795-4870-cdd496f541de@linux.intel.com>
+ <1487946072.10512.9.camel@intel.com>
+ <d20dc7dc-c3d0-ab79-948e-2caab91d3caf@mlbassoc.com>
+ <1487953650.10512.14.camel@intel.com>
+In-Reply-To: <1487953650.10512.14.camel@intel.com>
 
-On 24 February 2017 at 16:27, Patrick Ohly <patrick.ohly@intel.com> wrote:
-
-> Let me clarify that my original proposal was to reply only to the
-> original author. That was meant to keep noise down on the list. However,
-> perhaps it should also go to the list?
->
-> Then others can help check that Patchwork works, as the original author
-> might not be aware that a response is missing. It also tells everyone
-> the relevant link in Patchwork.
->
-
-As long as patchworks ignores the email it sends, that's not a terrible
-idea.
-
-Ross
-
---94eb2c0c9b9c8fba54054949796c
-Content-Type: text/html; charset=UTF-8
+--gSoHUxJEs4Hf4OmO36b1ix3K10nFEadfs
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 February 2017 at 16:27, Patrick Ohly <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2u8" clas=
-s=3D"a3s aXjCH m15a70f36ef5ca09a">Let me clarify that my original proposal =
-was to reply only to the<br>
-original author. That was meant to keep noise down on the list. However,<br=
->
-perhaps it should also go to the list?<br>
-<br>
-Then others can help check that Patchwork works, as the original author<br>
-might not be aware that a response is missing. It also tells everyone<br>
-the relevant link in Patchwork.</div></blockquote></div><br>As long as patc=
-hworks ignores the email it sends, that&#39;s not a terrible idea.</div><di=
-v class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></di=
-v>
 
---94eb2c0c9b9c8fba54054949796c--
+On 02/24/2017 10:27 AM, Patrick Ohly wrote:
+> On Fri, 2017-02-24 at 15:33 +0100, Gary Thomas wrote:
+>> On 2017-02-24 15:21, Patrick Ohly wrote:
+>>> On Wed, 2017-02-22 at 15:56 -0600, Jose Lamego wrote:
+>>>>
+>>>> On 02/22/2017 02:55 PM, Michael Halstead wrote:
+>>>>> I've seen several issues with hooks. I was working on them yesterda=
+y and
+>>>>> will continue today.
+>>>>>
+>>>>> These are currently managed by hand but we are moving them into
+>>>>> configuration management which should help keep them working consis=
+tently.
+>>>>
+>>>> Michael: one syntax error in patchwork code was pulled into producti=
+on
+>>>> yesterday. This is the cause for missing patches. The error is fixed=
+ in
+>>>> the Yocto repo now, please perform a server code update ASAP.
+>>>>
+>>>> Martin: I will look at the UI issue you are describing and file a bu=
+g if
+>>>> needed.
+>>>
+>>> Would it perhaps make sense to reply to the original author with an
+>>> email confirming that his patch is now in Patchwork? It should includ=
+e a
+>>> link to the patch series, too.
+>>>
+>>> This could have several advantages:
+>>>       * submitters not aware of Patchwork or whether their target
+>>>         currently uses it learn about it and then can follow the
+>>>         progress of their patch
+>>>       * everyone gets a confirmation that the submission made it thro=
+ugh
+>>>         the various mail servers and Patchwork itself
+>>>
+>>> It still relies on the original submitter to watch out for breakages =
+in
+>>> the processes, but I guess that can't be avoided with an asynchronous=
+,
+>>> mail-based process.
+>>>
+>>
+>> I would love to see this added to the process - +1 :-)
+>=20
+> Let me clarify that my original proposal was to reply only to the
+> original author. That was meant to keep noise down on the list. However=
+,
+> perhaps it should also go to the list?
+>=20
+> Then others can help check that Patchwork works, as the original author=
+
+> might not be aware that a response is missing. It also tells everyone
+> the relevant link in Patchwork.
+>=20
+There is a filed request to enable email notifications in patchwork:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D7684
+
+this notifications will let users (both submitter and CC'ed-users) know
+through an email about any patch status change (including "New"). Users
+will be able to opt-out of such notifications.
+
+However, this do not covers the case when submitter is not registered as
+a Patchwork user. So, there might be a one-time-only email notification
+to this kind of submitter, as Patrick suggests.
+
+If I don't get any objections for this, I'll file a request in bugzilla
+next week.
+
+--=20
+Jose Lamego | OTC Embedded Platforms & Tools | GDC
+
+
+--gSoHUxJEs4Hf4OmO36b1ix3K10nFEadfs--
+
+--eIjMh4S4RSdCWDaJXA6RFrBXUVMfTcDQj
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQEcBAEBCAAGBQJYsGR6AAoJEFJAtowlSEbnK68H/1fw07GTsvg8iJneNmMviKqS
+OsYluL76sk5Ki5GlJEvRyk6Vk0/2/gC4o2GXCWGURXUbG6CI9NcEasGrw73yenZl
+1GdJOfRxwBaM0vZ86ARUbIkYHroiWp09Q/gbbx+REMEL7BhUtR6qBys+FywOUPHj
+Xspm23JScUS4ELce58GHcz8ZXcei+CHRoj+JkxyWSXqUydGBqcEtg1Z8nuIANDdu
+cP3+Ix9Lb+CLdVMVbANVAaDBnc5VZ/qGVjHeeaGMNYzXiBWTOzLk8+jLk9eVQDmP
+L2toxDkRFAV0kGlo88POM1RpknYMqxDtNVQKwnNzfbiFkEBpBcYHc2nabIHG4EY=
+=PGcY
+-----END PGP SIGNATURE-----
+
+--eIjMh4S4RSdCWDaJXA6RFrBXUVMfTcDQj--
