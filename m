@@ -1,48 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
-	[209.85.220.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 2784072FE2
+Return-Path: <humberto.ibarra.lopez@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 3282977560
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 21:01:12 +0000 (UTC)
-Received: by mail-qk0-f178.google.com with SMTP id s186so29187761qkb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 13:01:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=sZj4NzV7A4AYn6h+Y33lk2X9chJFtKQmaoJjEXz8lGE=;
-	b=QqlAxJBKN9HOH4zo51JLyxwvqHkl//9PG+L0GQi0itYLUMgJ+LjOCimGExSe4OXrRF
-	yN+33IA2702+YGlhlfrspZKWduKdbPrMlzFOoNr3z9XlG9ejBBBC2+4D71wlG7NoaJ5D
-	0QR1rfJke3mHVobI/q5Buvn83Cs8Nnx3xC7oCTyU5SwFcPNySqMAEcwxS6R2MO+jDxz7
-	kw9JDB7MldpxDc/H6NGmrr1SysZeBAGFBrdcKWLAZynSsw6RPWpdv8hAFjLvxXNvJXhL
-	MgZ8DVYVhfGmVHQ80n1idWqt98zYvumvbpYj4hcWqQ4Agl0NuD46bbHK0D+zuCo11Rhu
-	ItQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=sZj4NzV7A4AYn6h+Y33lk2X9chJFtKQmaoJjEXz8lGE=;
-	b=noLawXk4Jb+1If1zhhDMfcC8iQacP/P2fHT7KR256OKAUKhdBfdSLg8bAS4K0nUi0h
-	nVPhLqem+VA6FuuI/9pQPTI+zoA+zknGpK8ZZQbdXeBlPBOarw6/pfqVqMgrv9qWGIAH
-	V/ODEwJZD1NoRy4zHTnyWJvr/zr+VxTc5zvCW3t+Lg9SAvoJIPK6bpGuK3NXAXst96Kw
-	YqK9OgCMy1lrETJbeBbDy6zuM+71f32+bX5S0g/BHmN+c/E4aASMMfoKxnYutghRcsH+
-	1N145BfcqdFaT2wvri8VI6XkGWlX67XDsq/mkgOrdTqjuUfbFXXi527LitRc3kZUUk7c
-	8B6g==
-X-Gm-Message-State: AMke39nxXeLMkAPz+jGzsHh3/K+MIw3AP4Qi2iFvyqOAjKiTrSK5gOeeu0glLbh++Jh3fWyC7q4xYApm6jTRUBCO
-X-Received: by 10.55.8.129 with SMTP id 123mr404452qki.3.1487970074042; Fri,
-	24 Feb 2017 13:01:14 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Fri, 24 Feb 2017 13:00:53 -0800 (PST)
-In-Reply-To: <CA+chaQdPPNmrs_dNBh2T31h8c2LofDxtJ0jFXFrezks_YKJ==Q@mail.gmail.com>
-References: <20170224205136.204410-1-mark.hatle@windriver.com>
-	<CA+chaQdPPNmrs_dNBh2T31h8c2LofDxtJ0jFXFrezks_YKJ==Q@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 24 Feb 2017 21:00:53 +0000
-Message-ID: <CAJTo0LYj4P9doFeYwB5qPrZbXy=oEyC0sfGLv+cL5s4d1wLcXA@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Revert "flex: upgrade to 2.6.2"
+	Fri, 24 Feb 2017 21:54:47 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga105.fm.intel.com with ESMTP; 24 Feb 2017 13:54:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.35,201,1484035200"; d="scan'208";a="52500915"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga002.jf.intel.com with ESMTP; 24 Feb 2017 13:54:48 -0800
+Received: from localhost.zpn.intel.com (unknown [10.219.4.140])
+	by linux.intel.com (Postfix) with ESMTP id CF5CB6A4080;
+	Fri, 24 Feb 2017 13:54:47 -0800 (PST)
+From: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 24 Feb 2017 15:57:47 -0600
+Message-Id: <1f66cc6879051458f2ca8265d6861f701b232c0d.1487971654.git.humberto.ibarra.lopez@intel.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1487971654.git.humberto.ibarra.lopez@intel.com>
+References: <cover.1487971654.git.humberto.ibarra.lopez@intel.com>
+Subject: [PATCH 1/1] oelib/buildhistory.py: Add unittest for buildhistory_analysis
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,35 +32,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2017 21:01:13 -0000
-Content-Type: multipart/alternative; boundary=001a114d740eb3892205494d07e2
+X-List-Received-Date: Fri, 24 Feb 2017 21:54:48 -0000
 
---001a114d740eb3892205494d07e2
-Content-Type: text/plain; charset=UTF-8
+The buildhistory_analysis module (in which buildhistory-diff is
+based) was lacking unittest for its functions. Created selftest
+module for this and a few testcases to cover basic cases.
 
-On 24 February 2017 at 20:54, Martin Jansa <martin.jansa@gmail.com> wrote:
+[YOCTO #10727]
 
-> and I was pinging Ross about it few days ago as well, hopefully it will be
-> included before pyro is branched.
->
+Signed-off-by: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
+---
+ meta/lib/oeqa/selftest/oelib/buildhistory.py | 88 ++++++++++++++++++++++++++++
+ 1 file changed, 88 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/oelib/buildhistory.py
 
-It's in the current MUT, don't worry! :)
+diff --git a/meta/lib/oeqa/selftest/oelib/buildhistory.py b/meta/lib/oeqa/selftest/oelib/buildhistory.py
+new file mode 100644
+index 0000000..8d1fa93
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/oelib/buildhistory.py
+@@ -0,0 +1,88 @@
++import os
++import unittest
++from git import Repo
++from oeqa.utils.commands import get_bb_var
++from oe.buildhistory_analysis import blob_to_dict, compare_dict_blobs
++
++class TestBlobParsing(unittest.TestCase):
++
++    def setUp(self):
++        import time
++        tmp_repo = "bhrepo_%s" % time.strftime("%Y%m%d%H%M%S")
++        self.repo_path = os.path.join(get_bb_var('TOPDIR'), tmp_repo)
++        os.mkdir(self.repo_path)
++
++        self.repo = Repo.init(self.repo_path)
++        self.test_file = "test"
++        self.var_map = {}
++
++    def tearDown(self):
++        import shutil
++        shutil.rmtree(self.repo_path)
++
++    def commit_vars(self, to_add={}, to_remove = [], msg="A commit message"):
++        if len(to_add) == 0 and len(to_remove) == 0:
++            return
++
++        for k in to_remove:
++            self.var_map.pop(x,None)
++        for k in to_add:
++            self.var_map[k] = to_add[k]
++
++        with open(os.path.join(self.repo_path, self.test_file), 'w') as repo_file:
++            for k in self.var_map:
++                repo_file.write("%s = %s\n" % (k, self.var_map[k]))
++
++        self.repo.git.add("--all")
++        self.repo.git.commit(message=msg)
++
++    def test_blob_to_dict(self):
++        """
++        Test convertion of git blobs to dictionary
++        """
++        valuesmap = { "foo" : "1", "bar" : "2" }
++        self.commit_vars(to_add = valuesmap)
++
++        blob = self.repo.head.commit.tree.blobs[0]
++        self.assertEqual(valuesmap, blob_to_dict(blob),
++            "commit was not translated correctly to dictionary")
++
++    def test_compare_dict_blobs(self):
++        """
++        Test comparisson of dictionaries extracted from git blobs
++        """
++        changesmap = { "foo-2" : ("2", "8"), "bar" : ("","4"), "bar-2" : ("","5")}
++
++        self.commit_vars(to_add = { "foo" : "1", "foo-2" : "2", "foo-3" : "3" })
++        blob1 = self.repo.heads.master.commit.tree.blobs[0]
++
++        self.commit_vars(to_add = { "foo-2" : "8", "bar" : "4", "bar-2" : "5" })
++        blob2 = self.repo.heads.master.commit.tree.blobs[0]
++
++        change_records = compare_dict_blobs(os.path.join(self.repo_path, self.test_file),
++            blob1, blob2, False, False)
++
++        var_changes = { x.fieldname : (x.oldvalue, x.newvalue) for x in change_records}
++        self.assertEqual(changesmap, var_changes, "Changes not reported correctly")
++
++    def test_compare_dict_blobs_default(self):
++        """
++        Test default values for comparisson of git blob dictionaries
++        """
++        defaultmap = { x : ("default", "1")  for x in ["PKG", "PKGE", "PKGV", "PKGR"]}
++
++        self.commit_vars(to_add = { "foo" : "1" })
++        blob1 = self.repo.heads.master.commit.tree.blobs[0]
++
++        self.commit_vars(to_add = { "PKG" : "1", "PKGE" : "1", "PKGV" : "1", "PKGR" : "1" })
++        blob2 = self.repo.heads.master.commit.tree.blobs[0]
++
++        change_records = compare_dict_blobs(os.path.join(self.repo_path, self.test_file),
++            blob1, blob2, False, False)
++
++        var_changes = {}
++        for x in change_records:
++            oldvalue = "default" if ("default" in x.oldvalue) else x.oldvalue
++            var_changes[x.fieldname] = (oldvalue, x.newvalue)
++
++        self.assertEqual(defaultmap, var_changes, "Defaults not set properly")
+-- 
+2.7.4
 
-Ross
 
---001a114d740eb3892205494d07e2
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 February 2017 at 20:54, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div=
->and I was pinging Ross about it few days ago as well, hopefully it will be=
- included before pyro is branched.</div></div><div class=3D"HOEnZb"></div><=
-/blockquote></div><br>It&#39;s in the current MUT, don&#39;t worry! :)</div=
-><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div>=
-</div>
-
---001a114d740eb3892205494d07e2--
