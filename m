@@ -1,24 +1,50 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B50E774D0
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id CE2DA77514
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 20:51:37 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v1OKpbJF000738
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Fri, 24 Feb 2017 20:51:46 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id o22so2717255wro.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 12:51:38 -0800
-Received: from msp-dhcp15.wrs.com (172.25.34.15) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 24 Feb 2017 12:51:37 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Feb 2017 14:51:36 -0600
-Message-ID: <20170224205136.204410-1-mark.hatle@windriver.com>
-X-Mailer: git-send-email 2.11.0.rc1
+	Fri, 24 Feb 2017 12:51:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=x/daeoxndQSMhm5gyxd1GaTxm+BXD0sPAvIAPwbFecQ=;
+	b=uBwpnED6Myd0WJh5tJ3+ZBs/RfF4oLbVSHMLCNLFr10ClQ9smK1D6fmtJRMxIt+v2d
+	OpMfCCDk+KjJH2xiQIjsq1tqKmtpLs71KT5m4lvMhhnZmEszKtIhqL5hchdIkfdeKeCv
+	0frE47/QJAaeiCQWx6XmYfnCkUXwdHkmOlgOOOKQxZ2sZBb/pWkayyasS/NWLpB/KXT3
+	wMQfG8QuOk+zU9iceHw0yfLGcIbDxwv3+41FTqM1gjbimNtfvMZoX6xBbCDjCfWRnTEv
+	Mn5ojwEMMXMduw9Hz+hs1jtVFcq1EuwXOoMlP6Hki2z+YtRgfqYk/5ZiBVYFEb+FS+82
+	Vb4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=x/daeoxndQSMhm5gyxd1GaTxm+BXD0sPAvIAPwbFecQ=;
+	b=p95A4LJXNiVVzPVmGmbWSKQVngnqd6SRc3kMfocinXZEuGZG9hdGfM6B6eTHIja0Tt
+	A1GWWeFIHyICSypxPyBJmggI5Eumvgkl4ZFEXROYxGbY1uX4rXSbUzOpT6rCnqlZVB5w
+	+3jw9c2NnJ4wMxP84PqKzEc0WP29alO4m7KGQ3HuEqfAcad9n6V0KVZTL9cm5zCRiACt
+	I/CIaUAGQxFuSbwbku6Y0M3cR8QvnRezS6P7Ma7NZTT+rHGN4rwh/tmMwLLAIWH3MKU1
+	0ndyAkLUcOdtX/QKodARUIs7jUMCIAhPagdzojQNyXohyD04g38G780Pv2N1RoZwfWoJ
+	zNHQ==
+X-Gm-Message-State: AMke39kqFKEgJtce9WivmIOB7X4mq/Rgv3Jll+yy+OCPnBmI+Yz96dILcOjNXDudvJjKhASC5Knm74VYxYh68Q==
+X-Received: by 10.223.136.79 with SMTP id e15mr4424474wre.14.1487969507472;
+	Fri, 24 Feb 2017 12:51:47 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] Revert "flex: upgrade to 2.6.2"
+Received: by 10.80.208.207 with HTTP; Fri, 24 Feb 2017 12:51:46 -0800 (PST)
+In-Reply-To: <d0fc6e64-0602-0389-5c2e-f89161b3885a@balister.org>
+References: <1487908800-18064-1-git-send-email-joe_macdonald@mentor.com>
+	<CAMKF1sr0OxcRYC9OZsJBieR-MVFnw5XbfuKr+go8xnhgYDHstA@mail.gmail.com>
+	<CA+chaQdJprDqs_aiMuWy6pRDB0WDM=fjnM6RqtLGv28EUCLOxg@mail.gmail.com>
+	<d0fc6e64-0602-0389-5c2e-f89161b3885a@balister.org>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 24 Feb 2017 21:51:46 +0100
+Message-ID: <CA+chaQd6FsOMascqMb16stGRVeJK-ickg8hJYq3gVDiTkE_VqQ@mail.gmail.com>
+To: Philip Balister <philip@balister.org>
+Cc: Joe MacDonald <joe_macdonald@mentor.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] deprecated.bbclass: Add a PNDEPRECATED variable for recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,456 +57,379 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2017 20:51:37 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 24 Feb 2017 20:51:47 -0000
+Content-Type: multipart/alternative; boundary=001a11491ce4edff3305494ce506
 
-This reverts commit 3632abd01abb8dfff230e18f828af705da488f97.
+--001a11491ce4edff3305494ce506
+Content-Type: text/plain; charset=UTF-8
 
-The commit upgraded flex and changed the way it was constructed.  There
-is a problem with either the upgrade or changes in construction mechanism
-resulting in problems similar to:
+OK, should I update all currently PNBLACKLISTed recipes to add " - the
+recipe will be removed on 2017-09-01 unless the issue is fixed" in the
+PNBLACKLIST value, so that we can delete all blacklisted recipes before 2.4
+release?
 
-../cil/src/cil_lexer.lo: In function `cil_lexer_setup':
-cil_lexer.c:(.text+0x1737): undefined reference to `yy_scan_buffer'
-../cil/src/cil_lexer.lo: In function `cil_lexer_destroy':
-cil_lexer.c:(.text+0x1773): undefined reference to `yylex_destroy'
+On Fri, Feb 24, 2017 at 9:39 PM, Philip Balister <philip@balister.org>
+wrote:
 
-Effectively the yy_scan_buffer and yylex_destroy (in this example) were
-defined in a header, but were not defined in the resulting generated code.
+> On 02/24/2017 01:16 AM, Martin Jansa wrote:
+> >> If nobody speaks up within some
+> > amount of time the maintainer considers reasonable (I'm thinking a Yocto
+> > release
+> > cycle) then it's fair game to remove the recipe in question.
+> >
+> > Maybe this is different case with at least some PNBLACKLIST entries we
+> > currently have, but
+> > I don't remove PNBLACKLISTed recipes, because as we discussed it's always
+> > easier to unblacklist
+> > recipe from e.g. DISTRO config if the issue doesn't affect you for
+> whatever
+> > reason and causes
+> > less churn in the metadata when it gets unblacklisted.
+> >
+> > And many PNBLACKLISTed recipes are also abandonware.
+> >
+>
+> I think we need to use a different "flag" for recipes that need
+> updating, and have maintained upstreams from recipes that have upstreams
+> that are abandoned.
+>
+> So blacklist broken recipes with good upstreams and deprecate recipes
+> with dead upstreams.
+>
+> Philip
+>
+>
+>
+> > So my question is, if we will remove PNDEPRECATed recipes after one
+> cycle,
+> > should we start
+> > removing PNBLACKLISTed recipes as well (maybe after 2 cycles?). In both
+> > cases it might backfire
+> > when someone will fail to find recipe for his favorite abandonware and
+> will
+> > try to add completely
+> > new recipe for it, or we see someone restoring these recipes (e.g. in own
+> > layers instead of fixing
+> > the PNBLACKLIST/PNDEPRECATED reasons in original layer).
+> >
+> > On Fri, Feb 24, 2017 at 5:55 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> >>
+> >> On Thu, Feb 23, 2017 at 8:00 PM Joe MacDonald <joe_macdonald@mentor.com
+> >
+> >> wrote:
+> >>
+> >>> Based on the blacklist behaviour, recipes can be tagged as deprecated.
+> >>> Such recipes will produce a warning message when included in a build
+> but
+> >>> unlike blacklisted recipes, the build will continue.
+> >>
+> >>
+> >> Perhaps this should also be documented in manuals
+> >>
+> >>>
+> >>>
+> >>> Signed-off-by: Joe MacDonald <joe_macdonald@mentor.com>
+> >>> ---
+> >>>
+> >>> I threw this together a long time ago and never got around to sending
+> it
+> >>> out for
+> >>> consideration, but after the excitement last week and this, I got
+> >>> thinking about
+> >>> it again and thought it might be useful.  My specific use-case for
+> this is
+> >>> recipes I see in meta-networking that I know are largely abandonware
+> but
+> >>> that I
+> >>> don't want to completely throw out without giving some kind of heads
+> up.
+> >>> Obviously this is purely informational, there's no mechanism set up for
+> >>> purging
+> >>> deprecated recipes, that's intended to be a maintainer activity, but
+> the
+> >>> idea
+> >>> would be that the maintainer would flag a recipe as deprecated
+> (probably
+> >>> when
+> >>> it's become more trouble than it seems to be worth) and thereafter
+> users
+> >>> would
+> >>> have fair warning that this thing is on notice.  If nobody speaks up
+> >>> within some
+> >>> amount of time the maintainer considers reasonable (I'm thinking a
+> Yocto
+> >>> release
+> >>> cycle) then it's fair game to remove the recipe in question.
+> >>>
+> >>>  meta/classes/deprecated.bbclass    | 16 ++++++++++++++++
+> >>>  meta/conf/distro/defaultsetup.conf |  3 ++-
+> >>>  2 files changed, 18 insertions(+), 1 deletion(-)
+> >>>  create mode 100644 meta/classes/deprecated.bbclass
+> >>>
+> >>> diff --git a/meta/classes/deprecated.bbclass
+> b/meta/classes/deprecated.
+> >>> bbclass
+> >>> new file mode 100644
+> >>> index 0000000..3dcdadb
+> >>> --- /dev/null
+> >>> +++ b/meta/classes/deprecated.bbclass
+> >>> @@ -0,0 +1,16 @@
+> >>> +# To use the deprecated recipe check, a distribution should
+> >>> +# include this class in the INHERIT_DISTRO
+> >>> +#
+> >>> +# Features:
+> >>> +#
+> >>> +# * To add a package to the deprecated list, set:
+> >>> +#   PNDEPRECATED[pn] = "message"
+> >>> +#
+> >>> +
+> >>> +addtask check_deprecated before do_fetch
+> >>> +python do_check_deprecated () {
+> >>> +    deprecated = d.getVarFlag('PNDEPRECATED', d.getVar('PN', True),
+> >>> False)
+> >>> +
+> >>> +    if deprecated:
+> >>> +        bb.warn("Recipe is deprecated: ", (deprecated))
+> >>> +}
+> >>> diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/
+> >>> defaultsetup.conf
+> >>> index ca2f917..16ece3a 100644
+> >>> --- a/meta/conf/distro/defaultsetup.conf
+> >>> +++ b/meta/conf/distro/defaultsetup.conf
+> >>> @@ -20,5 +20,6 @@ CACHE = "${TMPDIR}/cache/${TCMODE}-${TCLIBC}${@['',
+> >>> '/' + str(d.getVar('MACHINE'
+> >>>  USER_CLASSES ?= ""
+> >>>  PACKAGE_CLASSES ?= "package_ipk"
+> >>>  INHERIT_BLACKLIST = "blacklist"
+> >>> +INHERIT_DEPRECATED = "deprecated"
+> >>>  INHERIT_DISTRO ?= "debian devshell sstate license remove-libtool"
+> >>> -INHERIT += "${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO}
+> >>> ${INHERIT_BLACKLIST}"
+> >>> +INHERIT += "${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO}
+> >>> ${INHERIT_BLACKLIST} ${INHERIT_DEPRECATED}"
+> >>> --
+> >>> 1.9.1
+> >>>
+> >>> --
+> >>> _______________________________________________
+> >>> Openembedded-core mailing list
+> >>> Openembedded-core@lists.openembedded.org
+> >>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >>>
+> >>
+> >> --
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >>
+> >>
+> >
+> >
+> >
+>
 
-The snippet above was from libsepol-native from the meta-selinux layer.
-The build was performed on a Fedora 24 system.
+--001a11491ce4edff3305494ce506
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Reverting that commit resolves the problem.
+<div dir=3D"ltr">OK, should I update all currently PNBLACKLISTed recipes to=
+ add &quot; - the recipe will be removed on 2017-09-01 unless the issue is =
+fixed&quot; in the PNBLACKLIST value, so that we can delete all blacklisted=
+ recipes before 2.4 release?</div><div class=3D"gmail_extra"><br><div class=
+=3D"gmail_quote">On Fri, Feb 24, 2017 at 9:39 PM, Philip Balister <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:philip@balister.org" target=3D"_blank">phili=
+p@balister.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><spa=
+n class=3D"">On 02/24/2017 01:16 AM, Martin Jansa wrote:<br>
+&gt;&gt; If nobody speaks up within some<br>
+&gt; amount of time the maintainer considers reasonable (I&#39;m thinking a=
+ Yocto<br>
+&gt; release<br>
+&gt; cycle) then it&#39;s fair game to remove the recipe in question.<br>
+&gt;<br>
+&gt; Maybe this is different case with at least some PNBLACKLIST entries we=
+<br>
+&gt; currently have, but<br>
+&gt; I don&#39;t remove PNBLACKLISTed recipes, because as we discussed it&#=
+39;s always<br>
+&gt; easier to unblacklist<br>
+&gt; recipe from e.g. DISTRO config if the issue doesn&#39;t affect you for=
+ whatever<br>
+&gt; reason and causes<br>
+&gt; less churn in the metadata when it gets unblacklisted.<br>
+&gt;<br>
+&gt; And many PNBLACKLISTed recipes are also abandonware.<br>
+&gt;<br>
+<br>
+</span>I think we need to use a different &quot;flag&quot; for recipes that=
+ need<br>
+updating, and have maintained upstreams from recipes that have upstreams<br=
+>
+that are abandoned.<br>
+<br>
+So blacklist broken recipes with good upstreams and deprecate recipes<br>
+with dead upstreams.<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+Philip<br>
+</font></span><div class=3D"HOEnZb"><div class=3D"h5"><br>
+<br>
+<br>
+&gt; So my question is, if we will remove PNDEPRECATed recipes after one cy=
+cle,<br>
+&gt; should we start<br>
+&gt; removing PNBLACKLISTed recipes as well (maybe after 2 cycles?). In bot=
+h<br>
+&gt; cases it might backfire<br>
+&gt; when someone will fail to find recipe for his favorite abandonware and=
+ will<br>
+&gt; try to add completely<br>
+&gt; new recipe for it, or we see someone restoring these recipes (e.g. in =
+own<br>
+&gt; layers instead of fixing<br>
+&gt; the PNBLACKLIST/PNDEPRECATED reasons in original layer).<br>
+&gt;<br>
+&gt; On Fri, Feb 24, 2017 at 5:55 AM, Khem Raj &lt;<a href=3D"mailto:raj.kh=
+em@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; On Thu, Feb 23, 2017 at 8:00 PM Joe MacDonald &lt;<a href=3D"mailt=
+o:joe_macdonald@mentor.com">joe_macdonald@mentor.com</a>&gt;<br>
+&gt;&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt;&gt; Based on the blacklist behaviour, recipes can be tagged as dep=
+recated.<br>
+&gt;&gt;&gt; Such recipes will produce a warning message when included in a=
+ build but<br>
+&gt;&gt;&gt; unlike blacklisted recipes, the build will continue.<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Perhaps this should also be documented in manuals<br>
+&gt;&gt;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Signed-off-by: Joe MacDonald &lt;<a href=3D"mailto:joe_macdona=
+ld@mentor.com">joe_macdonald@mentor.com</a>&gt;<br>
+&gt;&gt;&gt; ---<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; I threw this together a long time ago and never got around to =
+sending it<br>
+&gt;&gt;&gt; out for<br>
+&gt;&gt;&gt; consideration, but after the excitement last week and this, I =
+got<br>
+&gt;&gt;&gt; thinking about<br>
+&gt;&gt;&gt; it again and thought it might be useful.=C2=A0 My specific use=
+-case for this is<br>
+&gt;&gt;&gt; recipes I see in meta-networking that I know are largely aband=
+onware but<br>
+&gt;&gt;&gt; that I<br>
+&gt;&gt;&gt; don&#39;t want to completely throw out without giving some kin=
+d of heads up.<br>
+&gt;&gt;&gt; Obviously this is purely informational, there&#39;s no mechani=
+sm set up for<br>
+&gt;&gt;&gt; purging<br>
+&gt;&gt;&gt; deprecated recipes, that&#39;s intended to be a maintainer act=
+ivity, but the<br>
+&gt;&gt;&gt; idea<br>
+&gt;&gt;&gt; would be that the maintainer would flag a recipe as deprecated=
+ (probably<br>
+&gt;&gt;&gt; when<br>
+&gt;&gt;&gt; it&#39;s become more trouble than it seems to be worth) and th=
+ereafter users<br>
+&gt;&gt;&gt; would<br>
+&gt;&gt;&gt; have fair warning that this thing is on notice.=C2=A0 If nobod=
+y speaks up<br>
+&gt;&gt;&gt; within some<br>
+&gt;&gt;&gt; amount of time the maintainer considers reasonable (I&#39;m th=
+inking a Yocto<br>
+&gt;&gt;&gt; release<br>
+&gt;&gt;&gt; cycle) then it&#39;s fair game to remove the recipe in questio=
+n.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt;=C2=A0 meta/classes/deprecated.<wbr>bbclass=C2=A0 =C2=A0 | 16 +=
++++++++++++++++<br>
+&gt;&gt;&gt;=C2=A0 meta/conf/distro/defaultsetup.<wbr>conf |=C2=A0 3 ++-<br=
+>
+&gt;&gt;&gt;=C2=A0 2 files changed, 18 insertions(+), 1 deletion(-)<br>
+&gt;&gt;&gt;=C2=A0 create mode 100644 meta/classes/deprecated.<wbr>bbclass<=
+br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; diff --git a/meta/classes/deprecated.<wbr>bbclass b/meta/class=
+es/deprecated.<br>
+&gt;&gt;&gt; bbclass<br>
+&gt;&gt;&gt; new file mode 100644<br>
+&gt;&gt;&gt; index 0000000..3dcdadb<br>
+&gt;&gt;&gt; --- /dev/null<br>
+&gt;&gt;&gt; +++ b/meta/classes/deprecated.<wbr>bbclass<br>
+&gt;&gt;&gt; @@ -0,0 +1,16 @@<br>
+&gt;&gt;&gt; +# To use the deprecated recipe check, a distribution should<b=
+r>
+&gt;&gt;&gt; +# include this class in the INHERIT_DISTRO<br>
+&gt;&gt;&gt; +#<br>
+&gt;&gt;&gt; +# Features:<br>
+&gt;&gt;&gt; +#<br>
+&gt;&gt;&gt; +# * To add a package to the deprecated list, set:<br>
+&gt;&gt;&gt; +#=C2=A0 =C2=A0PNDEPRECATED[pn] =3D &quot;message&quot;<br>
+&gt;&gt;&gt; +#<br>
+&gt;&gt;&gt; +<br>
+&gt;&gt;&gt; +addtask check_deprecated before do_fetch<br>
+&gt;&gt;&gt; +python do_check_deprecated () {<br>
+&gt;&gt;&gt; +=C2=A0 =C2=A0 deprecated =3D d.getVarFlag(&#39;PNDEPRECATED&#=
+39;, d.getVar(&#39;PN&#39;, True),<br>
+&gt;&gt;&gt; False)<br>
+&gt;&gt;&gt; +<br>
+&gt;&gt;&gt; +=C2=A0 =C2=A0 if deprecated:<br>
+&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn(&quot;Recipe is deprecate=
+d: &quot;, (deprecated))<br>
+&gt;&gt;&gt; +}<br>
+&gt;&gt;&gt; diff --git a/meta/conf/distro/<wbr>defaultsetup.conf b/meta/co=
+nf/distro/<br>
+&gt;&gt;&gt; defaultsetup.conf<br>
+&gt;&gt;&gt; index ca2f917..16ece3a 100644<br>
+&gt;&gt;&gt; --- a/meta/conf/distro/<wbr>defaultsetup.conf<br>
+&gt;&gt;&gt; +++ b/meta/conf/distro/<wbr>defaultsetup.conf<br>
+&gt;&gt;&gt; @@ -20,5 +20,6 @@ CACHE =3D &quot;${TMPDIR}/cache/${TCMODE}-${=
+<wbr>TCLIBC}${@[&#39;&#39;,<br>
+&gt;&gt;&gt; &#39;/&#39; + str(d.getVar(&#39;MACHINE&#39;<br>
+&gt;&gt;&gt;=C2=A0 USER_CLASSES ?=3D &quot;&quot;<br>
+&gt;&gt;&gt;=C2=A0 PACKAGE_CLASSES ?=3D &quot;package_ipk&quot;<br>
+&gt;&gt;&gt;=C2=A0 INHERIT_BLACKLIST =3D &quot;blacklist&quot;<br>
+&gt;&gt;&gt; +INHERIT_DEPRECATED =3D &quot;deprecated&quot;<br>
+&gt;&gt;&gt;=C2=A0 INHERIT_DISTRO ?=3D &quot;debian devshell sstate license=
+ remove-libtool&quot;<br>
+&gt;&gt;&gt; -INHERIT +=3D &quot;${PACKAGE_CLASSES} ${USER_CLASSES} ${INHER=
+IT_DISTRO}<br>
+&gt;&gt;&gt; ${INHERIT_BLACKLIST}&quot;<br>
+&gt;&gt;&gt; +INHERIT +=3D &quot;${PACKAGE_CLASSES} ${USER_CLASSES} ${INHER=
+IT_DISTRO}<br>
+&gt;&gt;&gt; ${INHERIT_BLACKLIST} ${INHERIT_DEPRECATED}&quot;<br>
+&gt;&gt;&gt; --<br>
+&gt;&gt;&gt; 1.9.1<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; --<br>
+&gt;&gt;&gt; ______________________________<wbr>_________________<br>
+&gt;&gt;&gt; Openembedded-core mailing list<br>
+&gt;&gt;&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Op=
+enembedded-core@lists.<wbr>openembedded.org</a><br>
+&gt;&gt;&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/open=
+embedded-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedd=
+ed.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+&gt;&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; --<br>
+&gt;&gt; ______________________________<wbr>_________________<br>
+&gt;&gt; Openembedded-core mailing list<br>
+&gt;&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openem=
+bedded-core@lists.<wbr>openembedded.org</a><br>
+&gt;&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembe=
+dded-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.o=
+rg/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+</div></div></blockquote></div><br></div>
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- ...oid-c-comments-in-c-code-fails-with-gcc-6.patch |  64 ++++++
- .../recipes-devtools/flex/flex/CVE-2016-6354.patch |  59 ++++++
- meta/recipes-devtools/flex/flex/crosscompile.patch | 214 ---------------------
- .../flex/flex/do_not_create_pdf_doc.patch          |  17 ++
- .../flex/{flex_2.6.2.bb => flex_2.6.0.bb}          |  11 +-
- 5 files changed, 146 insertions(+), 219 deletions(-)
- create mode 100644 meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch
- create mode 100644 meta/recipes-devtools/flex/flex/CVE-2016-6354.patch
- delete mode 100644 meta/recipes-devtools/flex/flex/crosscompile.patch
- create mode 100644 meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch
- rename meta/recipes-devtools/flex/{flex_2.6.2.bb => flex_2.6.0.bb} (84%)
-
-diff --git a/meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch b/meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch
-new file mode 100644
-index 0000000000..438ca5f527
---- /dev/null
-+++ b/meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch
-@@ -0,0 +1,64 @@
-+From 7072befe1397af4eb01c3ff7edf99f0cd5076089 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-+Date: Tue, 30 Aug 2016 14:25:32 +0200
-+Subject: [PATCH] avoid c++ comments in c-code - fails with gcc-6
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+fixes:
-+
-+| error: C++ style comments are not allowed in ISO C90
-+| num_to_alloc = 1; // After all that talk, this was set to 1 anyways...
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
-+---
-+ src/flex.skl | 2 +-
-+ src/scan.c   | 2 +-
-+ src/skel.c   | 2 +-
-+ 3 files changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/src/flex.skl b/src/flex.skl
-+index 73a0b9e..ed71627 100644
-+--- a/src/flex.skl
-++++ b/src/flex.skl
-+@@ -2350,7 +2350,7 @@ void yyFlexLexer::yyensure_buffer_stack(void)
-+ 		 * scanner will even need a stack. We use 2 instead of 1 to avoid an
-+ 		 * immediate realloc on the next call.
-+          */
-+-		num_to_alloc = 1; // After all that talk, this was set to 1 anyways...
-++		num_to_alloc = 1; /* After all that talk, this was set to 1 anyways... */
-+ 		YY_G(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc
-+ 								(num_to_alloc * sizeof(struct yy_buffer_state*)
-+ 								M4_YY_CALL_LAST_ARG);
-+diff --git a/src/scan.c b/src/scan.c
-+index b55df2d..f1dce75 100644
-+--- a/src/scan.c
-++++ b/src/scan.c
-+@@ -4672,7 +4672,7 @@ static void yyensure_buffer_stack (void)
-+ 		 * scanner will even need a stack. We use 2 instead of 1 to avoid an
-+ 		 * immediate realloc on the next call.
-+          */
-+-		num_to_alloc = 1; // After all that talk, this was set to 1 anyways...
-++		num_to_alloc = 1; /* After all that talk, this was set to 1 anyways...*/
-+ 		(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc
-+ 								(num_to_alloc * sizeof(struct yy_buffer_state*)
-+ 								);
-+diff --git a/src/skel.c b/src/skel.c
-+index ef657d3..26cc889 100644
-+--- a/src/skel.c
-++++ b/src/skel.c
-+@@ -2561,7 +2561,7 @@ const char *skel[] = {
-+   "		 * scanner will even need a stack. We use 2 instead of 1 to avoid an",
-+   "		 * immediate realloc on the next call.",
-+   "         */",
-+-  "		num_to_alloc = 1; // After all that talk, this was set to 1 anyways...",
-++  "		num_to_alloc = 1; /* After all that talk, this was set to 1 anyways... */",
-+   "		YY_G(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc",
-+   "								(num_to_alloc * sizeof(struct yy_buffer_state*)",
-+   "								M4_YY_CALL_LAST_ARG);",
-+-- 
-+2.5.5
-+
-diff --git a/meta/recipes-devtools/flex/flex/CVE-2016-6354.patch b/meta/recipes-devtools/flex/flex/CVE-2016-6354.patch
-new file mode 100644
-index 0000000000..216ac7ae1c
---- /dev/null
-+++ b/meta/recipes-devtools/flex/flex/CVE-2016-6354.patch
-@@ -0,0 +1,59 @@
-+From 3939eccdff598f47e5b37b05d58bf1b44d3796e7 Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Fri, 7 Oct 2016 14:15:38 +0300
-+Subject: [PATCH] Prevent buffer overflow in yy_get_next_buffer
-+
-+This is upstream commit a5cbe929ac3255d371e698f62dc256afe7006466
-+with some additional backporting to make binutils build again.
-+
-+Upstream-Status: Backport
-+CVE: CVE-2016-6354
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+---
-+ src/flex.skl | 2 +-
-+ src/scan.c   | 2 +-
-+ src/skel.c   | 2 +-
-+ 3 files changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/src/flex.skl b/src/flex.skl
-+index ed71627..814d562 100644
-+--- a/src/flex.skl
-++++ b/src/flex.skl
-+@@ -1718,7 +1718,7 @@ int yyFlexLexer::yy_get_next_buffer()
-+ 
-+ 	else
-+ 		{
-+-			yy_size_t num_to_read =
-++			int num_to_read =
-+ 			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;
-+ 
-+ 		while ( num_to_read <= 0 )
-+diff --git a/src/scan.c b/src/scan.c
-+index f1dce75..1949872 100644
-+--- a/src/scan.c
-++++ b/src/scan.c
-+@@ -4181,7 +4181,7 @@ static int yy_get_next_buffer (void)
-+ 
-+ 	else
-+ 		{
-+-			yy_size_t num_to_read =
-++			int num_to_read =
-+ 			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;
-+ 
-+ 		while ( num_to_read <= 0 )
-+diff --git a/src/skel.c b/src/skel.c
-+index 26cc889..0344d18 100644
-+--- a/src/skel.c
-++++ b/src/skel.c
-+@@ -1929,7 +1929,7 @@ const char *skel[] = {
-+   "",
-+   "	else",
-+   "		{",
-+-  "			yy_size_t num_to_read =",
-++  "			int num_to_read =",
-+   "			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;",
-+   "",
-+   "		while ( num_to_read <= 0 )",
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-devtools/flex/flex/crosscompile.patch b/meta/recipes-devtools/flex/flex/crosscompile.patch
-deleted file mode 100644
-index 14463d93f4..0000000000
---- a/meta/recipes-devtools/flex/flex/crosscompile.patch
-+++ /dev/null
-@@ -1,214 +0,0 @@
--Add this patch from https://github.com/westes/flex/pull/153 with minor changes
--to fix cross compilation.
--
--Upstream-Status: Submitted
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--From 52d4a3ca249be984614d9204dcc7b957bc04b2ac Mon Sep 17 00:00:00 2001
--From: Alastair Hughes <hobbitalastair@gmail.com>
--Date: Fri, 6 Jan 2017 19:06:03 +1300
--Subject: [PATCH] build: support cross compiling
--
--Check for cross compiling. If cross compiling, build stage1flex using a
--custom link command.
--We also override LDADD since that adds the replacement implementations
--that are cross compiled, and instead always use the replacement library
--implementations.
--
--We don't use BUILD_OBJEXT and BUILD_EXEEXT since it seems that automake
--does not support these.
--
--Fixes #78.
--
--Signed-off-by: Alastair Hughes <hobbitalastair@gmail.com>
--Signed-off-by: Ross Burton <ross.burton@intel.com>
-----
-- configure.ac               |   3 ++
-- m4/ax_prog_cc_for_build.m4 | 125 +++++++++++++++++++++++++++++++++++++++++++++
-- src/Makefile.am            |  17 ++++++
-- 3 files changed, 145 insertions(+)
-- create mode 100644 m4/ax_prog_cc_for_build.m4
--
--diff --git a/configure.ac b/configure.ac
--index 901339f..2a7dce2 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -42,6 +42,7 @@ AM_GNU_GETTEXT_VERSION([0.19])
-- AC_PROG_YACC
-- AM_PROG_LEX
-- AC_PROG_CC
--+AX_PROG_CC_FOR_BUILD
-- AC_PROG_CXX
-- AM_PROG_CC_C_O
-- AC_PROG_LN_S
--@@ -75,6 +76,8 @@ AC_ARG_ENABLE([bootstrap],
--   [], [enable_bootstrap=yes])
-- AM_CONDITIONAL([ENABLE_BOOTSTRAP], [test "x$enable_bootstrap" = xyes])
-- 
--+AM_CONDITIONAL([CROSS], [test "x$cross_compiling" = xyes])
--+
-- AC_PATH_PROG([BISON], bison, no)
-- AS_IF([test "$BISON" != no],[],
-- 	[ AC_SUBST([BISON], [\${top_srcdir}/build-aux/missing bison])
--diff --git a/m4/ax_prog_cc_for_build.m4 b/m4/ax_prog_cc_for_build.m4
--new file mode 100644
--index 0000000..77fd346
----- /dev/null
--+++ b/m4/ax_prog_cc_for_build.m4
--@@ -0,0 +1,125 @@
--+# ===========================================================================
--+#   http://www.gnu.org/software/autoconf-archive/ax_prog_cc_for_build.html
--+# ===========================================================================
--+#
--+# SYNOPSIS
--+#
--+#   AX_PROG_CC_FOR_BUILD
--+#
--+# DESCRIPTION
--+#
--+#   This macro searches for a C compiler that generates native executables,
--+#   that is a C compiler that surely is not a cross-compiler. This can be
--+#   useful if you have to generate source code at compile-time like for
--+#   example GCC does.
--+#
--+#   The macro sets the CC_FOR_BUILD and CPP_FOR_BUILD macros to anything
--+#   needed to compile or link (CC_FOR_BUILD) and preprocess (CPP_FOR_BUILD).
--+#   The value of these variables can be overridden by the user by specifying
--+#   a compiler with an environment variable (like you do for standard CC).
--+#
--+#   It also sets BUILD_EXEEXT and BUILD_OBJEXT to the executable and object
--+#   file extensions for the build platform, and GCC_FOR_BUILD to `yes' if
--+#   the compiler we found is GCC. All these variables but GCC_FOR_BUILD are
--+#   substituted in the Makefile.
--+#
--+# LICENSE
--+#
--+#   Copyright (c) 2008 Paolo Bonzini <bonzini@gnu.org>
--+#
--+#   Copying and distribution of this file, with or without modification, are
--+#   permitted in any medium without royalty provided the copyright notice
--+#   and this notice are preserved. This file is offered as-is, without any
--+#   warranty.
--+
--+#serial 8
--+
--+AU_ALIAS([AC_PROG_CC_FOR_BUILD], [AX_PROG_CC_FOR_BUILD])
--+AC_DEFUN([AX_PROG_CC_FOR_BUILD], [dnl
--+AC_REQUIRE([AC_PROG_CC])dnl
--+AC_REQUIRE([AC_PROG_CPP])dnl
--+AC_REQUIRE([AC_EXEEXT])dnl
--+AC_REQUIRE([AC_CANONICAL_HOST])dnl
--+
--+dnl Use the standard macros, but make them use other variable names
--+dnl
--+pushdef([ac_cv_prog_CPP], ac_cv_build_prog_CPP)dnl
--+pushdef([ac_cv_prog_gcc], ac_cv_build_prog_gcc)dnl
--+pushdef([ac_cv_prog_cc_works], ac_cv_build_prog_cc_works)dnl
--+pushdef([ac_cv_prog_cc_cross], ac_cv_build_prog_cc_cross)dnl
--+pushdef([ac_cv_prog_cc_g], ac_cv_build_prog_cc_g)dnl
--+pushdef([ac_cv_exeext], ac_cv_build_exeext)dnl
--+pushdef([ac_cv_objext], ac_cv_build_objext)dnl
--+pushdef([ac_exeext], ac_build_exeext)dnl
--+pushdef([ac_objext], ac_build_objext)dnl
--+pushdef([CC], CC_FOR_BUILD)dnl
--+pushdef([CPP], CPP_FOR_BUILD)dnl
--+pushdef([CFLAGS], CFLAGS_FOR_BUILD)dnl
--+pushdef([CPPFLAGS], CPPFLAGS_FOR_BUILD)dnl
--+pushdef([LDFLAGS], LDFLAGS_FOR_BUILD)dnl
--+pushdef([host], build)dnl
--+pushdef([host_alias], build_alias)dnl
--+pushdef([host_cpu], build_cpu)dnl
--+pushdef([host_vendor], build_vendor)dnl
--+pushdef([host_os], build_os)dnl
--+pushdef([ac_cv_host], ac_cv_build)dnl
--+pushdef([ac_cv_host_alias], ac_cv_build_alias)dnl
--+pushdef([ac_cv_host_cpu], ac_cv_build_cpu)dnl
--+pushdef([ac_cv_host_vendor], ac_cv_build_vendor)dnl
--+pushdef([ac_cv_host_os], ac_cv_build_os)dnl
--+pushdef([ac_cpp], ac_build_cpp)dnl
--+pushdef([ac_compile], ac_build_compile)dnl
--+pushdef([ac_link], ac_build_link)dnl
--+
--+save_cross_compiling=$cross_compiling
--+save_ac_tool_prefix=$ac_tool_prefix
--+cross_compiling=no
--+ac_tool_prefix=
--+
--+AC_PROG_CC
--+AC_PROG_CPP
--+AC_EXEEXT
--+
--+ac_tool_prefix=$save_ac_tool_prefix
--+cross_compiling=$save_cross_compiling
--+
--+dnl Restore the old definitions
--+dnl
--+popdef([ac_link])dnl
--+popdef([ac_compile])dnl
--+popdef([ac_cpp])dnl
--+popdef([ac_cv_host_os])dnl
--+popdef([ac_cv_host_vendor])dnl
--+popdef([ac_cv_host_cpu])dnl
--+popdef([ac_cv_host_alias])dnl
--+popdef([ac_cv_host])dnl
--+popdef([host_os])dnl
--+popdef([host_vendor])dnl
--+popdef([host_cpu])dnl
--+popdef([host_alias])dnl
--+popdef([host])dnl
--+popdef([LDFLAGS])dnl
--+popdef([CPPFLAGS])dnl
--+popdef([CFLAGS])dnl
--+popdef([CPP])dnl
--+popdef([CC])dnl
--+popdef([ac_objext])dnl
--+popdef([ac_exeext])dnl
--+popdef([ac_cv_objext])dnl
--+popdef([ac_cv_exeext])dnl
--+popdef([ac_cv_prog_cc_g])dnl
--+popdef([ac_cv_prog_cc_cross])dnl
--+popdef([ac_cv_prog_cc_works])dnl
--+popdef([ac_cv_prog_gcc])dnl
--+popdef([ac_cv_prog_CPP])dnl
--+
--+dnl Finally, set Makefile variables
--+dnl
--+BUILD_EXEEXT=$ac_build_exeext
--+BUILD_OBJEXT=$ac_build_objext
--+AC_SUBST(BUILD_EXEEXT)dnl
--+AC_SUBST(BUILD_OBJEXT)dnl
--+AC_SUBST([CFLAGS_FOR_BUILD])dnl
--+AC_SUBST([CPPFLAGS_FOR_BUILD])dnl
--+AC_SUBST([LDFLAGS_FOR_BUILD])dnl
--+])
--diff --git a/src/Makefile.am b/src/Makefile.am
--index 3b5e362..05fe8d3 100644
----- a/src/Makefile.am
--+++ b/src/Makefile.am
--@@ -22,7 +22,24 @@ stage1flex_SOURCES = \
-- 	scan.l \
-- 	$(COMMON_SOURCES)
-- 
--+if CROSS
--+stage1flex_LDADD =
--+stage1flex_SOURCES += \
--+		      ../lib/malloc.c \
--+		      ../lib/realloc.c \
--+		      ../lib/reallocarray.c
--+stage1flex_LINK = $(LIBTOOL) --tag=CC --mode=link $(CC_FOR_BUILD) \
--+		  $(CFLAGS_FOR_BUILD) $(LDFLAGS_FOR_BUILD) -o $@
--+
--+$(stage1flex_OBJECTS): CC=$(CC_FOR_BUILD)
--+$(stage1flex_OBJECTS): CFLAGS=$(CFLAGS_FOR_BUILD)
--+$(stage1flex_OBJECTS): CPP=$(CPP_FOR_BUILD)
--+$(stage1flex_OBJECTS): CPPFLAGS=$(CPPFLAGS_FOR_BUILD)
--+$(stage1flex_OBJECTS): LDFLAGS=$(LDFLAGS_FOR_BUILD)
--+else
-- stage1flex_CFLAGS = $(AM_CFLAGS)
--+stage1flex_LINK = $(LINK)
--+endif
-- 
-- flex_SOURCES = \
-- 	$(COMMON_SOURCES)
---- 
--2.8.1
-diff --git a/meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch b/meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch
-new file mode 100644
-index 0000000000..032833ae7a
---- /dev/null
-+++ b/meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch
-@@ -0,0 +1,17 @@
-+Upstream-Status: Inappropriate (embedded specific)
-+
-+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-+
-+Index: flex-2.5.37/doc/Makefile.am
-+===================================================================
-+--- flex-2.5.37.orig/doc/Makefile.am	2012-07-21 04:18:27.000000000 +0300
-++++ flex-2.5.37/doc/Makefile.am	2013-07-30 17:57:09.834834531 +0300
-+@@ -2,7 +2,7 @@
-+ 
-+ info_TEXINFOS =	flex.texi
-+ dist_man_MANS = flex.1
-+-dist_doc_DATA= flex.pdf
-++EXTRA_DIST= flex.pdf
-+ 
-+ CLEANFILES = \
-+ 	flex.hks \
-diff --git a/meta/recipes-devtools/flex/flex_2.6.2.bb b/meta/recipes-devtools/flex/flex_2.6.0.bb
-similarity index 84%
-rename from meta/recipes-devtools/flex/flex_2.6.2.bb
-rename to meta/recipes-devtools/flex/flex_2.6.0.bb
-index 1780cabbff..ab35b09f99 100644
---- a/meta/recipes-devtools/flex/flex_2.6.2.bb
-+++ b/meta/recipes-devtools/flex/flex_2.6.0.bb
-@@ -6,20 +6,21 @@ SECTION = "devel"
- LICENSE = "BSD"
- 
- DEPENDS = "${@bb.utils.contains('PTEST_ENABLED', '1', 'bison-native flex-native', '', d)}"
--
- BBCLASSEXTEND = "native nativesdk"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=e4742cf92e89040b39486a6219b68067"
- 
--SRC_URI = "https://github.com/westes/flex/releases/download/v${PV}/flex-${PV}.tar.gz \
--           file://crosscompile.patch;apply=1 \
-+SRC_URI = "${SOURCEFORGE_MIRROR}/flex/flex-${PV}.tar.bz2 \
-            file://run-ptest \
-+           file://do_not_create_pdf_doc.patch \
-            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
-+           file://0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch \
-+           file://CVE-2016-6354.patch \
-            ${@bb.utils.contains('PTEST_ENABLED', '1', '', 'file://disable-tests.patch', d)} \
-            "
- 
--SRC_URI[md5sum] = "cc6d76c333db7653d5caf423a3335239"
--SRC_URI[sha256sum] = "9a01437a1155c799b7dc2508620564ef806ba66250c36bf5f9034b1c207cb2c9"
-+SRC_URI[md5sum] = "266270f13c48ed043d95648075084d59"
-+SRC_URI[sha256sum] = "24e611ef5a4703a191012f80c1027dc9d12555183ce0ecd46f3636e587e9b8e9"
- 
- # Flex has moved to github from 2.6.1 onwards
- UPSTREAM_CHECK_URI = "https://github.com/westes/flex/releases"
--- 
-2.11.0.rc1
-
-
+--001a11491ce4edff3305494ce506--
