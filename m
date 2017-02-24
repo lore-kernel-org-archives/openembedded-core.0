@@ -1,25 +1,58 @@
-Return-Path: <francisco.j.pedraza.gonzalez@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D4A8774F7
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
+	[209.85.214.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 58B7777515
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 16:14:14 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga105.jf.intel.com with ESMTP; 24 Feb 2017 08:14:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,201,1484035200"; d="scan'208";a="61853805"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga004.jf.intel.com with ESMTP; 24 Feb 2017 08:14:15 -0800
-Received: from yocto-ab03.ostc.intel.com (yocto-ab03.ostc.intel.com
-	[10.54.69.73])
-	by linux.intel.com (Postfix) with ESMTP id DD36E6A4080;
-	Fri, 24 Feb 2017 08:14:14 -0800 (PST)
-From: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Feb 2017 08:14:10 -0800
-Message-Id: <1487952850-20864-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Cc: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
-Subject: [PATCH v3] oeqa/sdk/cases:Adds validation for SDK compatibility tests
+	Fri, 24 Feb 2017 16:27:32 +0000 (UTC)
+Received: by mail-it0-f50.google.com with SMTP id 203so26439535ith.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Feb 2017 08:27:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=mV12B9lX/dWoWcj0hP+HHHKld+5EsnRA6CQx5AB4f+Q=;
+	b=VIBbyOSlD3uk5SirSV5SjtKVAEM3NCiyGJrcYAilCWOJY7eEGMery2HQxFoE+Mc9zQ
+	9oXXZx+T/9kxIYHDnEGbYb7YUbONdBKjlL0+L2EGKlCKjrNU6G8mcs6+bZwVMTmqdT0/
+	aA3l+PERosPM7j60mOvg73VQ4bFdFDPHM5wF8F+t3l3WX7tSL2PHHXkCjurNuCUcjkAS
+	Ls2JbKe0BcOc4o4Jwrm3fT6E2Oa8f7xOdWaLmM5XvqKgBxNEMK73VlvfwWLM83NbySF2
+	p/LCbaxvEXGyhRPi6F3+KjmEu8yLH+ijV8Ku7xaUUtvgzyhqPaRLomu9JV+J6wPj70sP
+	Qtgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=mV12B9lX/dWoWcj0hP+HHHKld+5EsnRA6CQx5AB4f+Q=;
+	b=PRs8nmIc4oNgr8DVhMvpoEnANS/oX0AX5OQYIW9iLtPc81IYoKJbLVrI93FN0nv80P
+	aSnUGfGzel8NqNkJKShWJ1NUeLFbLIE/B7X6uRN3qOstBYGQAKJEBZd2/LkzR9ZiGn1q
+	T0SFq3kQAGmT6S0QKpT67yZ5eGiN01kYJeXgA2irH2yJY8bOQhdPAb6JsRwW/6aSPNHV
+	J0FFKfVOeNxTvkFRw6Bz8uxcm7Du2tuqmp73i66vr82607YEE8c84j9ybNWTGvIVWjS+
+	zoyUhTMaDB4i9hwAjdewmVx67YizZYYcayJTsTf+KEY+Ab8qraSa/dDnsI5fl8v5r+0w
+	hnjw==
+X-Gm-Message-State: AMke39n+9P3lnqzIoyG+xhdY3Zyb/Jyy14rw828Iz4q7y5z3Y9XjN2WFMArH7KOPvFOgGglU
+X-Received: by 10.107.20.84 with SMTP id 81mr3145447iou.145.1487953653451;
+	Fri, 24 Feb 2017 08:27:33 -0800 (PST)
+Received: from pohly-mobl1 (ip-64-134-128-59.public.wayport.net.
+	[64.134.128.59]) by smtp.gmail.com with ESMTPSA id
+	u63sm3282619iou.29.2017.02.24.08.27.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 24 Feb 2017 08:27:32 -0800 (PST)
+Message-ID: <1487953650.10512.14.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Gary Thomas <gary@mlbassoc.com>
+Date: Fri, 24 Feb 2017 17:27:30 +0100
+In-Reply-To: <d20dc7dc-c3d0-ab79-948e-2caab91d3caf@mlbassoc.com>
+References: <1487785536-13777-1-git-send-email-derek@asterius.io>
+	<20170222204736.GG3283@jama>
+	<CADfgfobBp60s+GjqS3zRrO-z4HUhe8zFi51GPzceDFAKQVGf=Q@mail.gmail.com>
+	<26abf96d-d224-0795-4870-cdd496f541de@linux.intel.com>
+	<1487946072.10512.9.camel@intel.com>
+	<d20dc7dc-c3d0-ab79-948e-2caab91d3caf@mlbassoc.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Patchwork not picking changes from the ML
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,118 +65,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2017 16:14:14 -0000
+X-List-Received-Date: Fri, 24 Feb 2017 16:27:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Added validation for SDK compatibility tests with eSDK.
-buildcvs, buildiptables, gcc, perl, python and buildgalculator based on target manifest file.Running with: $ bitbake <image> -c testsdkext
-[YOCTO #9090]
+On Fri, 2017-02-24 at 15:33 +0100, Gary Thomas wrote:
+> On 2017-02-24 15:21, Patrick Ohly wrote:
+> > On Wed, 2017-02-22 at 15:56 -0600, Jose Lamego wrote:
+> >>
+> >> On 02/22/2017 02:55 PM, Michael Halstead wrote:
+> >>> I've seen several issues with hooks. I was working on them yesterday and
+> >>> will continue today.
+> >>>
+> >>> These are currently managed by hand but we are moving them into
+> >>> configuration management which should help keep them working consistently.
+> >>
+> >> Michael: one syntax error in patchwork code was pulled into production
+> >> yesterday. This is the cause for missing patches. The error is fixed in
+> >> the Yocto repo now, please perform a server code update ASAP.
+> >>
+> >> Martin: I will look at the UI issue you are describing and file a bug if
+> >> needed.
+> >
+> > Would it perhaps make sense to reply to the original author with an
+> > email confirming that his patch is now in Patchwork? It should include a
+> > link to the patch series, too.
+> >
+> > This could have several advantages:
+> >       * submitters not aware of Patchwork or whether their target
+> >         currently uses it learn about it and then can follow the
+> >         progress of their patch
+> >       * everyone gets a confirmation that the submission made it through
+> >         the various mail servers and Patchwork itself
+> >
+> > It still relies on the original submitter to watch out for breakages in
+> > the processes, but I guess that can't be avoided with an asynchronous,
+> > mail-based process.
+> >
+> 
+> I would love to see this added to the process - +1 :-)
 
-Signed-off-by: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
----
- meta/lib/oeqa/sdk/cases/buildcvs.py        | 5 ++++-
- meta/lib/oeqa/sdk/cases/buildgalculator.py | 4 +++-
- meta/lib/oeqa/sdk/cases/buildiptables.py   | 5 ++++-
- meta/lib/oeqa/sdk/cases/gcc.py             | 5 ++++-
- meta/lib/oeqa/sdk/cases/perl.py            | 5 ++++-
- meta/lib/oeqa/sdk/cases/python.py          | 5 ++++-
- 6 files changed, 23 insertions(+), 6 deletions(-)
+Let me clarify that my original proposal was to reply only to the
+original author. That was meant to keep noise down on the list. However,
+perhaps it should also go to the list?
 
-diff --git a/meta/lib/oeqa/sdk/cases/buildcvs.py b/meta/lib/oeqa/sdk/cases/buildcvs.py
-index 8cbbca1..5665beb 100644
---- a/meta/lib/oeqa/sdk/cases/buildcvs.py
-+++ b/meta/lib/oeqa/sdk/cases/buildcvs.py
-@@ -15,7 +15,10 @@ class BuildCvsTest(OESDKTestCase):
-         self.project.download_archive()
- 
-         machine = self.td.get("MACHINE")
--        if not self.tc.hasHostPackage("packagegroup-cross-canadian-%s" % machine):
-+        if not (self.tc.hasTargetPackage("packagegroup-cross-canadian-%s" % machine) or
-+                self.tc.hasTargetPackage("gcc-runtime") or
-+                self.tc.hasTargetPackage("libgcc") or
-+                self.tc.hasTargetPackage("gcc-sanitizers")):
-             raise unittest.SkipTest("SDK doesn't contain a cross-canadian toolchain")
- 
-     def test_cvs(self):
-diff --git a/meta/lib/oeqa/sdk/cases/buildgalculator.py b/meta/lib/oeqa/sdk/cases/buildgalculator.py
-index 42e8ddb..f309ddf 100644
---- a/meta/lib/oeqa/sdk/cases/buildgalculator.py
-+++ b/meta/lib/oeqa/sdk/cases/buildgalculator.py
-@@ -9,7 +9,9 @@ class GalculatorTest(OESDKTestCase):
-     @classmethod
-     def setUpClass(self):
-         if not (self.tc.hasTargetPackage("gtk+3") or\
--                self.tc.hasTargetPackage("libgtk-3.0")):
-+                self.tc.hasTargetPackage("libgtk-3.0") or
-+                self.tc.hasTargetPackage("gtk") or
-+                self.tc.hasTargetPackage("matchbox-config-gtk")):
-             raise unittest.SkipTest("GalculatorTest class: SDK don't support gtk+3")
- 
-     def test_galculator(self):
-diff --git a/meta/lib/oeqa/sdk/cases/buildiptables.py b/meta/lib/oeqa/sdk/cases/buildiptables.py
-index 0bd00d1..d7a0e6a 100644
---- a/meta/lib/oeqa/sdk/cases/buildiptables.py
-+++ b/meta/lib/oeqa/sdk/cases/buildiptables.py
-@@ -17,7 +17,10 @@ class BuildIptablesTest(OESDKTestCase):
- 
-         machine = self.td.get("MACHINE")
- 
--        if not self.tc.hasHostPackage("packagegroup-cross-canadian-%s" % machine):
-+        if not (self.tc.hasTargetPackage("packagegroup-cross-canadian-%s" % machine) or
-+                self.tc.hasTargetPackage("gcc-runtime") or
-+                self.tc.hasTargetPackage("libgcc") or
-+                self.tc.hasTargetPackage("gcc-sanitizers")):
-             raise unittest.SkipTest("SDK doesn't contain a cross-canadian toolchain")
- 
-     def test_iptables(self):
-diff --git a/meta/lib/oeqa/sdk/cases/gcc.py b/meta/lib/oeqa/sdk/cases/gcc.py
-index 74ad2a2..5404b74 100644
---- a/meta/lib/oeqa/sdk/cases/gcc.py
-+++ b/meta/lib/oeqa/sdk/cases/gcc.py
-@@ -18,7 +18,10 @@ class GccCompileTest(OESDKTestCase):
- 
-     def setUp(self):
-         machine = self.td.get("MACHINE")
--        if not self.tc.hasHostPackage("packagegroup-cross-canadian-%s" % machine):
-+        if not (self.tc.hasTargetPackage("packagegroup-cross-canadian-%s" % machine) or
-+                self.tc.hasTargetPackage("gcc-runtime") or
-+                self.tc.hasTargetPackage("libgcc") or
-+                self.tc.hasTargetPackage("gcc-sanitizers")):
-             raise unittest.SkipTest("GccCompileTest class: SDK doesn't contain a cross-canadian toolchain")
- 
-     def test_gcc_compile(self):
-diff --git a/meta/lib/oeqa/sdk/cases/perl.py b/meta/lib/oeqa/sdk/cases/perl.py
-index e1bded2..8be9b74 100644
---- a/meta/lib/oeqa/sdk/cases/perl.py
-+++ b/meta/lib/oeqa/sdk/cases/perl.py
-@@ -8,7 +8,10 @@ from oeqa.sdk.case import OESDKTestCase
- class PerlTest(OESDKTestCase):
-     @classmethod
-     def setUpClass(self):
--        if not self.tc.hasHostPackage("nativesdk-perl"):
-+        if not (self.tc.hasHostPackage("nativesdk-perl") or
-+                self.tc.hasHostPackage("perl-native") or
-+                self.tc.hasHostPackage("libperl5") or
-+                self.tc.hasHostPackage("perl")):
-             raise unittest.SkipTest("No perl package in the SDK")
- 
-         for f in ['test.pl']:
-diff --git a/meta/lib/oeqa/sdk/cases/python.py b/meta/lib/oeqa/sdk/cases/python.py
-index 94a296f..1628787 100644
---- a/meta/lib/oeqa/sdk/cases/python.py
-+++ b/meta/lib/oeqa/sdk/cases/python.py
-@@ -8,7 +8,10 @@ from oeqa.sdk.case import OESDKTestCase
- class PythonTest(OESDKTestCase):
-     @classmethod
-     def setUpClass(self):
--        if not self.tc.hasHostPackage("nativesdk-python"):
-+        if not (self.tc.hasHostPackage("nativesdk-python") or
-+                self.tc.hasHostPackage("python-smartpm-native") or
-+                self.tc.hasHostPackage("python3-native") or
-+                self.tc.hasHostPackage("python-native")):
-             raise unittest.SkipTest("No python package in the SDK")
- 
-         for f in ['test.py']:
+Then others can help check that Patchwork works, as the original author
+might not be aware that a response is missing. It also tells everyone
+the relevant link in Patchwork.
+
 -- 
-1.8.3.1
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
