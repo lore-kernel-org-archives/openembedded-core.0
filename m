@@ -1,29 +1,55 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id EFA3F773B6
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
+	[209.85.214.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E04F605FF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 00:13:07 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga105.fm.intel.com with ESMTP; 23 Feb 2017 16:13:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,199,1484035200"; d="scan'208,217";a="68428865"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga005.jf.intel.com with ESMTP; 23 Feb 2017 16:13:08 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1486684537-17517-1-git-send-email-california.l.sullivan@intel.com>
-	<1487889124-8585-1-git-send-email-california.l.sullivan@intel.com>
-	<CAJTo0LaBPhygGF8NgjNOMPrHFS3Pa2F29PRviZDPB=+JjbBdkw@mail.gmail.com>
-	<41a7389d-25a3-3002-ffdd-25f2e4dda494@intel.com>
-From: Cal Sullivan <california.l.sullivan@intel.com>
-Message-ID: <b00d7924-b690-e568-e9d9-a31b76f6db79@intel.com>
-Date: Thu, 23 Feb 2017 16:13:08 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <41a7389d-25a3-3002-ffdd-25f2e4dda494@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Saul Wold <saul.wold@intel.com>
-Subject: Re: [PATCH v2 1/1] kernel.bbclass: Make sanity check opt-out and provide easy opt-out
+	Fri, 24 Feb 2017 00:57:22 +0000 (UTC)
+Received: by mail-it0-f46.google.com with SMTP id 203so5970881ith.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Feb 2017 16:57:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:date:in-reply-to:references:organization
+	:mime-version:content-transfer-encoding;
+	bh=+HX8J9RD0w4erlDD8GGw3kZ+ZpedLg/ZclTKVqSJtP4=;
+	b=OCBX6ctb/L+iW30/Lg2iAZiuZXKMADfnZ4cl2fk20jEBcgMMm+1+ZN1ercKGQrC+gu
+	kB9qAbMd9opmaZDd9h14T2NzVRNr35FtDCHRAuk9103qF4gsFKIwoOIqve1KwxmGwzoV
+	k3TjzfmgCYAUHgD+piHO0A0whK24S7MZx2dHkADuB0HD91dtcsoUPK77jTtwOUzxcEWd
+	/HAdSmFW2+1/xeo88ErMjRBSb1Xo9yJ5mSAKSxwQpKfhKwZmbsgDVGhlFTZB/6J8STyO
+	dRFjwzGQWplVVfFM91t6KrSk7O91LLtF+DGkUKbsY4jfO5ro7YE13bOewOaifih+0dL9
+	XaPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=+HX8J9RD0w4erlDD8GGw3kZ+ZpedLg/ZclTKVqSJtP4=;
+	b=X0GYM1AqqTYGsCt9H0Atkd6jgXGeCCCXDSK9E43KuIAenItOPDonuILiea+R8UErr6
+	3mjqZfmiwYCzalC6SoJe04ThtzPk8Rbg4EuV/nHeJw4BM3+/AEoCHkoRb/GLvQlHXpef
+	YYQ2rF4sEZEZXq3ePT6U9DS22KN9qeDmvABAnpu3MERoTCh1XMFW2MCkF23F30solYIZ
+	BaxwPq9D3+1/oGeqDv+O7jtFgzQJBX43P0ywsmQJzSirJHwDNf5E7Y81bgidUxo+elg2
+	ejA1aYJK4jR7Eaj7DGfB+8oap6SffHg7Uw0HgIvCxt/9OV/BRNqm6+NmgoL2hLGggu8K
+	FARQ==
+X-Gm-Message-State: AMke39l244UIJnGQ6iSIuSJY/HkG6DkAQyNA1Tm1uinqiQ5sEy+ZFbNfqsZoA95U08Ej4hJ/
+X-Received: by 10.107.84.2 with SMTP id i2mr576252iob.176.1487897843128;
+	Thu, 23 Feb 2017 16:57:23 -0800 (PST)
+Received: from pohly-mobl1 (ip-64-134-128-59.public.wayport.net.
+	[64.134.128.59]) by smtp.gmail.com with ESMTPSA id
+	r20sm2492473ioi.10.2017.02.23.16.57.21
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 Feb 2017 16:57:21 -0800 (PST)
+Message-ID: <1487897839.11306.49.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 24 Feb 2017 01:57:19 +0100
+In-Reply-To: <1487872131-6571-2-git-send-email-patrick.ohly@intel.com>
+References: <1487872053.11306.39.camel@intel.com>
+	<1487872131-6571-1-git-send-email-patrick.ohly@intel.com>
+	<1487872131-6571-2-git-send-email-patrick.ohly@intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 2/2] ovmf: increase path length limit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,203 +62,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2017 00:13:09 -0000
-Content-Type: multipart/alternative;
-	boundary="------------9006C191A885B7BF25AC9364"
-
---------------9006C191A885B7BF25AC9364
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Fri, 24 Feb 2017 00:57:26 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 02/23/2017 03:27 PM, Cal Sullivan wrote:
->
->
-> On 02/23/2017 03:07 PM, Burton, Ross wrote:
->>
->> On 23 February 2017 at 22:32, California Sullivan 
->> <california.l.sullivan@intel.com 
->> <mailto:california.l.sullivan@intel.com>> wrote:
->>
->>     The only change from V1 to V2 is the updated commit message, changing
->>     AUTOINC to AUTOREV and adding the blurb about impacting outside
->>     recipes.
->>
->>     I also agree with Richard in that this is a significant
->>     functionality change
->>     and should not be backported.
->>
->>
->> I failed to say that I suspected this patch was to blame for SDK 
->> generation failing on the autobuilder earlier.  Can you try 
->> generating a eSDK (bitbake core-image-minimal -c populate_sdk_ext) 
->>  with this patch?
->>
->> Ross
-> Will do. Any specific configuration I should use, or should it fail in 
-> most/all situations?
->
-> Thanks,
-> Cal
->
->
+On Thu, 2017-02-23 at 18:48 +0100, Patrick Ohly wrote:
+> The VfrCompile tool has a hard-coded maximum length for path names
+> which turned out to be too small by around 20 characters in the
+> Yocto autobuilder setup. Increasing the maximum by a factor of 4
+> is relatively easy and makes the problem less likely.
+> 
+> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+> ---
+>  meta/recipes-core/ovmf/ovmf_git.bb | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
+> index 6b3a597..76e836a 100644
+> --- a/meta/recipes-core/ovmf/ovmf_git.bb
+> +++ b/meta/recipes-core/ovmf/ovmf_git.bb
+> @@ -50,6 +50,11 @@ COMPATIBLE_HOST='(i.86|x86_64).*'
+>  OVMF_SECURE_BOOT_EXTRA_FLAGS ??= ""
+>  OVMF_SECURE_BOOT_FLAGS = "-DSECURE_BOOT_ENABLE=TRUE ${OVMF_SECURE_BOOT_EXTRA_FLAGS}"
+>  
+> +do_patch[postfuncs] += "fix_path_len"
+> +fix_path_len () {
+> +    sed -i -e 's/^#define MAX_PATH.*255/#define MAX_PATH 1023/' ${S}/BaseTools/Source/C/VfrCompile/EfiVfr.h
+> +}
 
-[clsulliv@clsulliv build]$ bitbake core-image-minimal -c populate_sdk_ext
-WARNING: Host distribution "fedora-23" has not been validated with this 
-version of the build system; you may possibly experience unexpected 
-failures. It is recommended that you use a tested distribution.
-Loading cache: 100% 
-|##############################################################################################################| 
-Time: 0:00:00
-Loaded 1346 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
+I've used sed here because it was easy. I'll also send a version which
+uses a proper patch. Just beware of the line encoding issues. The patch
+really must have CR line ends, otherwise it won't apply to the source.
 
-Build Configuration:
-BB_VERSION        = "1.33.1"
-BUILD_SYS         = "x86_64-linux"
-NATIVELSBSTRING   = "universal"
-TARGET_SYS        = "x86_64-poky-linux"
-MACHINE           = "intel-corei7-64"
-DISTRO            = "poky"
-DISTRO_VERSION    = "2.2+snapshot-20170223"
-TUNE_FEATURES     = "m64 corei7"
-TARGET_FPU        = ""
-meta
-meta-poky
-meta-yocto-bsp    = 
-"clsulliv/sanity:53c2449017a3312a2e65720a23ef654924eef0b4"
-meta-intel        = "master:5153dad2fa695bbb579c03ff795ef649269e8420"
+It might be safer to pull V2 of the ovmf patch from:
+https://github.com/pohly/openembedded-core/commits/ovmf
 
-Initialising tasks: 100% 
-|#########################################################################################################| 
-Time: 0:00:06
-NOTE: Executing SetScene Tasks
-NOTE: Executing RunQueue Tasks
-NOTE: Tasks Summary: Attempted 3362 tasks of which 2752 didn't need to 
-be rerun and all succeeded.
+-- 
+Best Regards, Patrick Ohly
 
-Summary: There was 1 WARNING message shown.
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
 
-I'll rerun the build with no meta-intel and qemux86 overnight.
 
-p.s., upgrading my fedora system now :)
 
----
-Cal
-
---------------9006C191A885B7BF25AC9364
-Content-Type: text/html; charset=windows-1252
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=windows-1252"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    On 02/23/2017 03:27 PM, Cal Sullivan wrote:<br>
-    <blockquote
-      cite="mid:41a7389d-25a3-3002-ffdd-25f2e4dda494@intel.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html;
-        charset=windows-1252">
-      <br>
-      <br>
-      <div class="moz-cite-prefix">On 02/23/2017 03:07 PM, Burton, Ross
-        wrote:<br>
-      </div>
-      <blockquote
-cite="mid:CAJTo0LaBPhygGF8NgjNOMPrHFS3Pa2F29PRviZDPB=+JjbBdkw@mail.gmail.com"
-        type="cite">
-        <div dir="ltr">
-          <div class="gmail_extra"><br>
-            <div class="gmail_quote">On 23 February 2017 at 22:32,
-              California Sullivan <span dir="ltr">&lt;<a
-                  moz-do-not-send="true"
-                  href="mailto:california.l.sullivan@intel.com"
-                  target="_blank">california.l.sullivan@intel.com</a>&gt;</span>
-              wrote:<br>
-              <blockquote class="gmail_quote" style="margin:0 0 0
-                .8ex;border-left:1px #ccc solid;padding-left:1ex">
-                <div id=":449" class="a3s aXjCH m15a6d1aea290b109">The
-                  only change from V1 to V2 is the updated commit
-                  message, changing<br>
-                  AUTOINC to AUTOREV and adding the blurb about
-                  impacting outside recipes.<br>
-                  <br>
-                  I also agree with Richard in that this is a
-                  significant functionality change<br>
-                  and should not be backported.</div>
-              </blockquote>
-            </div>
-            <br>
-            I failed to say that I suspected this patch was to blame for
-            SDK generation failing on the autobuilder earlier.  Can you
-            try generating a eSDK (bitbake core-image-minimal -c
-            populate_sdk_ext)  with this patch?</div>
-          <div class="gmail_extra"><br>
-          </div>
-          <div class="gmail_extra">Ross</div>
-        </div>
-      </blockquote>
-      Will do. Any specific configuration I should use, or should it
-      fail in most/all situations?<br>
-      <br>
-      Thanks,<br>
-      Cal<br>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-    </blockquote>
-    <tt><br>
-      [clsulliv@clsulliv build]$ bitbake core-image-minimal -c
-      populate_sdk_ext<br>
-      WARNING: Host distribution "fedora-23" has not been validated with
-      this version of the build system; you may possibly experience
-      unexpected failures. It is recommended that you use a tested
-      distribution.<br>
-      Loading cache: 100%
-|##############################################################################################################|
-      Time: 0:00:00<br>
-      Loaded 1346 entries from dependency cache.<br>
-      NOTE: Resolving any missing task queue dependencies<br>
-      <br>
-      Build Configuration:<br>
-      BB_VERSION        = "1.33.1"<br>
-      BUILD_SYS         = "x86_64-linux"<br>
-      NATIVELSBSTRING   = "universal"<br>
-      TARGET_SYS        = "x86_64-poky-linux"<br>
-      MACHINE           = "intel-corei7-64"<br>
-      DISTRO            = "poky"<br>
-      DISTRO_VERSION    = "2.2+snapshot-20170223"<br>
-      TUNE_FEATURES     = "m64 corei7"<br>
-      TARGET_FPU        = ""<br>
-      meta              <br>
-      meta-poky         <br>
-      meta-yocto-bsp    =
-      "clsulliv/sanity:53c2449017a3312a2e65720a23ef654924eef0b4"<br>
-      meta-intel        =
-      "master:5153dad2fa695bbb579c03ff795ef649269e8420"<br>
-      <br>
-      Initialising tasks: 100%
-|#########################################################################################################|
-      Time: 0:00:06<br>
-      NOTE: Executing SetScene Tasks<br>
-      NOTE: Executing RunQueue Tasks<br>
-      NOTE: Tasks Summary: Attempted 3362 tasks of which 2752 didn't
-      need to be rerun and all succeeded.<br>
-      <br>
-      Summary: There was 1 WARNING message shown.<br>
-      <br>
-      <br>
-      I'll rerun the build with no meta-intel and qemux86 overnight.<br>
-      <br>
-      p.s., upgrading my fedora system now :)<br>
-      <br>
-      ---<br>
-      Cal<br>
-    </tt>
-  </body>
-</html>
-
---------------9006C191A885B7BF25AC9364--
