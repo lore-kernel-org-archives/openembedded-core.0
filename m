@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1467A730B2
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 409FF774FF
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 24 Feb 2017 09:47:45 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v1O9ljgU022467
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v1O9lkF9010809
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 01:47:46 -0800 (PST)
+	Fri, 24 Feb 2017 01:47:47 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 24 Feb 2017 01:47:45 -0800
+	Fri, 24 Feb 2017 01:47:46 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Feb 2017 01:47:44 -0800
-Message-ID: <cover.1487929089.git.liezhi.yang@windriver.com>
+Date: Fri, 24 Feb 2017 01:47:45 -0800
+Message-ID: <fa4fb5a91643087bc48597be473226be3d907709.1487929089.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.10.2
+In-Reply-To: <cover.1487929089.git.liezhi.yang@windriver.com>
+References: <cover.1487929089.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [RFC PATCH 0/1] core-image-minimal-initramfs: set QB_DEFAULT_FSTYPE
+Subject: [RFC PATCH 1/1] core-image-minimal-initramfs: set QB_DEFAULT_FSTYPE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,43 +36,35 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 24 Feb 2017 09:47:47 -0000
 Content-Type: text/plain
 
-Hi,
+Fixed:
+MACHINE = "qemux86"
+$ bitbake core-image-minimal-initramfs
+$ runqemu qemux86 nographic
+[snip]
+Exception: Failed to find rootfs: tmp/deploy/images/qemux86/core-image-minimal-initramfs-qemux86-20170224082533*.ext4 or tmp/deploy/images/qemux86/core-image-minimal-initramfs-qemux86*.ext4
+[snip]
 
-This is a RFC patch, my concern is that QB_DEFAULT_FSTYPE is only used
-for qemu boot, it is harmless for non qemu machines, so I assume that it
-is OK to set it in the image recipe.
+This is because core-image-minimal-initramfs doesn't generate ext4 image which
+is the default value or QB_DEFAULT_FSTYPE, it only generates cpio.gz.
 
-There are also other image recipes have the similar issues:
-WARNING: meta/recipes-core/images/core-image-minimal-initramfs.bb: QB_DEFAULT_FSTYPE 'ext4' is not in IMAGE_FSTYPES 'cpio.gz'.
-WARNING: meta/recipes-extended/images/core-image-testmaster-initramfs.bb: QB_DEFAULT_FSTYPE 'ext4' is not in IMAGE_FSTYPES 'cpio.gz'.
-WARNING: meta-selftest/recipes-test/images/wic-image-minimal.bb: QB_DEFAULT_FSTYPE 'ext4' is not in IMAGE_FSTYPES 'wic'.
-WARNING: meta/recipes-core/images/core-image-tiny-initramfs.bb: QB_DEFAULT_FSTYPE 'ext4' is not in IMAGE_FSTYPES 'cpio.gz wic'.
-WARNING: meta/recipes-core/images/build-appliance-image_15.0.0.bb: QB_DEFAULT_FSTYPE 'ext4' is not in IMAGE_FSTYPES 'vmdk'.
-
-I added the WARNING locally to do the checking. I will fix others if this patch is fine.
-
-BTW, I'm working runqemu testcases (oe-selftest -r runqemu) recently,
-please feel free to give your comments on what should be tested.
-
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=10249
-
-// Robert
-
-The following changes since commit 65cfc8aca3ff7e39453977a0215a350d13cb85ef:
-
-  libva: Find the correct wayland-scanner (2017-02-23 12:29:21 -0800)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/qb
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/qb
-
-Robert Yang (1):
-  core-image-minimal-initramfs: set QB_DEFAULT_FSTYPE
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/recipes-core/images/core-image-minimal-initramfs.bb | 2 ++
  1 file changed, 2 insertions(+)
 
+diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+index 5794a25..1ea3490 100644
+--- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
++++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+@@ -16,6 +16,8 @@ LICENSE = "MIT"
+ IMAGE_FSTYPES = "${INITRAMFS_FSTYPES}"
+ inherit core-image
+ 
++QB_DEFAULT_FSTYPE = "cpio.gz"
++
+ IMAGE_ROOTFS_SIZE = "8192"
+ IMAGE_ROOTFS_EXTRA_SPACE = "0"
+ 
 -- 
 2.10.2
 
