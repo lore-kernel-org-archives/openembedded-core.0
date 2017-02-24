@@ -1,60 +1,47 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
-	[209.85.214.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 2969D719DE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f175.google.com (mail-qt0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 93BC977507
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 14:21:14 +0000 (UTC)
-Received: by mail-it0-f52.google.com with SMTP id y135so23807164itc.1
+	Fri, 24 Feb 2017 14:22:35 +0000 (UTC)
+Received: by mail-qt0-f175.google.com with SMTP id x35so17625973qtc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2017 06:21:16 -0800 (PST)
+	Fri, 24 Feb 2017 06:22:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=50y6Q/LSfmuDcz1eAxIn4Cz7d89oBUEPf0X0+C3trXg=;
-	b=IjyEeueq3mJcbIoGzKxhMqQlvIYKTc2JukPZOXWI6PTMdG5wjM7EVafIVsNoQk39+P
-	zeq54m/uIJ68vnbrFNBtEG4w3VvShM9mPlJYpoiuKNLr52QTMnXFzDgpYkrKKkt3mmJe
-	Vx2KtFaBV+VownSSlT83DsIe7ZOoaVBuWs9VNSm6oXn6PMCMFkiA3S2JWX25uar5OSdl
-	oU7Kk01/5dj8W1SnXLdPuml4UgjCmKiYCws02FD+I+Smu6PjP9N5OtyDnwLkemxR/EeO
-	MbrWlsgtKmG/M6a04CxcpsY8seALBR3wXphSWhgQpyLyDwZCj80P5H+Eweg/TrduGyni
-	+/3w==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=uK/6eJOdEI6XhyCoMbmhKFFdsttLu3K9Y270HdFh2qk=;
+	b=wIUOymP0jkCZeLIgv+obKs36IgOn/LmRQHFsJ0dxe1hqHF3lLTAok0vcZ8Wp1b1iBV
+	FZyIcwZKWX/624pU8/I0mLeOr/RAE8+qeRW7wFhCEHEOKAOAHx5D/LnnPpOwZF7qP69O
+	lyBoFIgS161VQ4xBiIm90cAUa53MzIv1Cctas5cGCyBkzd/GxA+1PAe6D+TY8onGgtpR
+	urdBlqaHF8adC1+N06x32/ElRIf8i1IYPtM7fSNYIm/onKaHieTyFPdhs1UhKnTdYqIs
+	5sTPl+L62LPfOnU7tsYUsczvUZNJqMyowrjbnKqmykVn/zdiJCuB6aIunAAhHt5fPyxH
+	9Hyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=50y6Q/LSfmuDcz1eAxIn4Cz7d89oBUEPf0X0+C3trXg=;
-	b=HAvEy3768PUNbOEM64Hmglynv7+Pv8qOgXZwIwtrHkRCgbbGEsbRpdh2yCdb/tAgra
-	ifW5E/xZ88WK7yygrTGK1V99ITjRYLJQOd+PYyIA8gZzDbmoL2m2zZas85LrOMutKmAb
-	xpS5kR0dIbvsI3smaeNOJvLVFOnnEhy3nFc6NVFePodrFOGTS+dMloA75oM7b9mc9GSG
-	G0nkMDuWypkfwppgSndJmzlXQ5jkzUAvj+scYUflVkH0Q8Hs1ZDfHc6lquoQyzFcIclB
-	kA6QsdLWahy/v3Bmk6vvs2ssAxBx0VKQ9rpIHHfrxpwpoi9KV9Qjp5f+b7WrSmDEC5vv
-	FBaw==
-X-Gm-Message-State: AMke39lV0r/QNfwkBn4szRT55bN6shDR+NUhDzxhCZVmPsVLeUG/LyHuoucYua5k3kIt44wK
-X-Received: by 10.36.219.3 with SMTP id c3mr2698983itg.52.1487946076038;
-	Fri, 24 Feb 2017 06:21:16 -0800 (PST)
-Received: from pohly-mobl1 (ip-64-134-128-59.public.wayport.net.
-	[64.134.128.59])
-	by smtp.gmail.com with ESMTPSA id h69sm746848ith.16.2017.02.24.06.21.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 24 Feb 2017 06:21:14 -0800 (PST)
-Message-ID: <1487946072.10512.9.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Jose Lamego <jose.a.lamego@linux.intel.com>
-Date: Fri, 24 Feb 2017 15:21:12 +0100
-In-Reply-To: <26abf96d-d224-0795-4870-cdd496f541de@linux.intel.com>
-References: <1487785536-13777-1-git-send-email-derek@asterius.io>
-	<20170222204736.GG3283@jama>
-	<CADfgfobBp60s+GjqS3zRrO-z4HUhe8zFi51GPzceDFAKQVGf=Q@mail.gmail.com>
-	<26abf96d-d224-0795-4870-cdd496f541de@linux.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: Derek Straka <derek@asterius.io>,
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	"Lamego, Jose A" <jose.a.lamego@intel.com>,
-	openembedded-devel@lists.openembedded.org,
-	Leonardo Sandoval <leonardo.sandoval.gonzalez@intel.com>
-Subject: Re: Patchwork not picking changes from the ML
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=uK/6eJOdEI6XhyCoMbmhKFFdsttLu3K9Y270HdFh2qk=;
+	b=TX0TzgV7JezOq7b2IyHtP8F4s8ZWRPmdtypAo3YpgMIKwIk/Lh1k5Sc0OcPTe4oVsU
+	hGwfYR8ii1buDs320nndLqS4Hihtr3k5lsAwLbgUjJESwYjLVzP/qcLwDsFqBK80SJJB
+	l79a2nsz7L4+6T/WWeHAUeMtg8Kxm7pyf+zdNPxtRMYAZMlPcqwc3RMzfSRJqrs/6bNf
+	PziLVe18tCfTZveh239H5G5pG0PrUz6Kd4NDfIAxi7A7tFaK2rAc4qGVs2tL/TVYvBVr
+	BI7/SYhhXsIEv8EIQcGF90Y+asCWY8VIsE/g9X+flEgG68DTnLMXjPj3wNN1HiqSlqML
+	NX1A==
+X-Gm-Message-State: AMke39lJ1WdTNWJXJuwEN3xr1C0IYm7Vdzeqcp9kbQfsrRas7XnPqLJ1yPc3Pz/cq1x5f1GWQReLUTJFaFWxh9Ou
+X-Received: by 10.237.43.69 with SMTP id p63mr579538qtd.68.1487946156363; Fri,
+	24 Feb 2017 06:22:36 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.103.233 with HTTP; Fri, 24 Feb 2017 06:22:15 -0800 (PST)
+In-Reply-To: <93fa4a77d852419f068ccd2cd99faee771f4c29c.1487774787.git.alexander.kanavin@linux.intel.com>
+References: <cover.1487774787.git.alexander.kanavin@linux.intel.com>
+	<93fa4a77d852419f068ccd2cd99faee771f4c29c.1487774787.git.alexander.kanavin@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 24 Feb 2017 14:22:15 +0000
+Message-ID: <CAJTo0LZuDead4UYtB0yssZQrF1XAXPYXENiQvLOSBWo2dv7uug@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 24/24] systemtap: update to 3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,49 +54,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2017 14:21:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 24 Feb 2017 14:22:35 -0000
+Content-Type: multipart/alternative; boundary=94eb2c124cc418990905494776cb
 
-On Wed, 2017-02-22 at 15:56 -0600, Jose Lamego wrote:
-> 
-> On 02/22/2017 02:55 PM, Michael Halstead wrote:
-> > I've seen several issues with hooks. I was working on them yesterday and
-> > will continue today.
-> > 
-> > These are currently managed by hand but we are moving them into
-> > configuration management which should help keep them working consistently.
-> 
-> Michael: one syntax error in patchwork code was pulled into production
-> yesterday. This is the cause for missing patches. The error is fixed in
-> the Yocto repo now, please perform a server code update ASAP.
-> 
-> Martin: I will look at the UI issue you are describing and file a bug if
-> needed.
+--94eb2c124cc418990905494776cb
+Content-Type: text/plain; charset=UTF-8
 
-Would it perhaps make sense to reply to the original author with an
-email confirming that his patch is now in Patchwork? It should include a
-link to the patch series, too.
+On 22 February 2017 at 14:51, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
+>
+> Add support for python 3 probes
 
-This could have several advantages:
-      * submitters not aware of Patchwork or whether their target
-        currently uses it learn about it and then can follow the
-        progress of their patch
-      * everyone gets a confirmation that the submission made it through
-        the various mail servers and Patchwork itself
+ERROR: QA Issue: lib64-systemtap: Files/directories were installed but not
+shipped in any package:
+  /usr/lib/python3.5/site-packages/HelperSDT-0.1.0-py3.5.egg-info
 
-It still relies on the original submitter to watch out for breakages in
-the processes, but I guess that can't be avoided with an asynchronous,
-mail-based process.
+/usr/lib/python3.5/site-packages/HelperSDT-0.1.0-py3.5.egg-info/dependency_links.txt
+  /usr/lib/python3.5/site-packages/HelperSDT-0.1.0-py3.5.egg-info/PKG-INFO
 
--- 
-Best Regards, Patrick Ohly
+/usr/lib/python3.5/site-packages/HelperSDT-0.1.0-py3.5.egg-info/top_level.txt
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+/usr/lib/python3.5/site-packages/HelperSDT-0.1.0-py3.5.egg-info/SOURCES.txt
+  /usr/lib/python3.5/site-packages/HelperSDT/__init__.py
+  /usr/lib/python3.5/site-packages/HelperSDT/_
+HelperSDT.cpython-35m-x86_64-linux-gnu.so
+  /usr/lib/python3.5/site-packages/HelperSDT/__main__.py
+  /usr/lib/python3.5/site-packages/HelperSDT/__pycache__
 
+/usr/lib/python3.5/site-packages/HelperSDT/__pycache__/__init__.cpython-35.pyc
 
+/usr/lib/python3.5/site-packages/HelperSDT/__pycache__/__main__.cpython-35.pyc
 
+Ross
 
+--94eb2c124cc418990905494776cb
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br>On 22 February 2017 at 14:51, Alexander Kanavin &lt;<a=
+ href=3D"mailto:alexander.kanavin@linux.intel.com">alexander.kanavin@linux.=
+intel.com</a>&gt; wrote:<br>&gt;<br>&gt; Add support for python 3 probes<br=
+><br>ERROR: QA Issue: lib64-systemtap: Files/directories were installed but=
+ not shipped in any package:<br>=C2=A0 /usr/lib/python3.5/site-packages/Hel=
+perSDT-0.1.0-py3.5.egg-info<br>=C2=A0 /usr/lib/python3.5/site-packages/Help=
+erSDT-0.1.0-py3.5.egg-info/dependency_links.txt<br>=C2=A0 /usr/lib/python3.=
+5/site-packages/HelperSDT-0.1.0-py3.5.egg-info/PKG-INFO<br>=C2=A0 /usr/lib/=
+python3.5/site-packages/HelperSDT-0.1.0-py3.5.egg-info/top_level.txt<br>=C2=
+=A0 /usr/lib/python3.5/site-packages/HelperSDT-0.1.0-py3.5.egg-info/SOURCES=
+.txt<br>=C2=A0 /usr/lib/python3.5/site-packages/HelperSDT/__init__.py<br>=
+=C2=A0 /usr/lib/python3.5/site-packages/HelperSDT/_<a href=3D"http://Helper=
+SDT.cpython-35m-x86_64-linux-gnu.so">HelperSDT.cpython-35m-x86_64-linux-gnu=
+.so</a><br>=C2=A0 /usr/lib/python3.5/site-packages/HelperSDT/__main__.py<br=
+>=C2=A0 /usr/lib/python3.5/site-packages/HelperSDT/__pycache__<br>=C2=A0 /u=
+sr/lib/python3.5/site-packages/HelperSDT/__pycache__/__init__.cpython-35.py=
+c<br>=C2=A0 /usr/lib/python3.5/site-packages/HelperSDT/__pycache__/__main__=
+.cpython-35.pyc<br><br><div>Ross</div></div>
+
+--94eb2c124cc418990905494776cb--
