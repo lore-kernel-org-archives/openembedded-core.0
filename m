@@ -1,47 +1,44 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
-	[209.85.220.194])
-	by mail.openembedded.org (Postfix) with ESMTP id D0A5672F3F
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f48.google.com (mail-pg0-f48.google.com [74.125.83.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E16A71A84
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Feb 2017 17:30:51 +0000 (UTC)
-Received: by mail-qk0-f194.google.com with SMTP id s186so7825868qkb.1
+	Sat, 25 Feb 2017 18:13:06 +0000 (UTC)
+Received: by mail-pg0-f48.google.com with SMTP id z128so25389604pgb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Feb 2017 09:30:53 -0800 (PST)
+	Sat, 25 Feb 2017 10:13:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=86KpwaUUinrOo7VJ8HS1ttsy3uxa0WhC4WJ4XZwOmbk=;
-	b=YfcWUNY7Xz31r2P2XsQE1aDE4N4Ri0DGfWeP3LVrTuLmxTeU4v655S3Ds1oYv8Dmc6
-	vVr8R/T5dc+Gxj+chAKfNXqkWK56SO4vD9sLDPGzG6vjy2layGfvMoRAGjrQ6I4k5i2s
-	va02V9RCSFJhkDN6RhP/CjzQrSfChn0ISsufYIw1YNHopNgPh4RMHVG8AujyOF7xF1wD
-	mZH7hvsyYWH5BXsonq93FOtCUmILJQc9xUIJP0nAPa7JVaaMynEq5BPDP0aQX45oaVvx
-	jXXFa/t8TaBQ9dxz227umT1dPawCILDff0ZP68lGzMja+BfdVOGkvvcpwGH8sxupSpth
-	O+Uw==
+	h=from:to:cc:subject:date:message-id;
+	bh=0jxJOj4qsLjr2A5UMECsdOALVnUC77Zhtxsov5N0oWE=;
+	b=lHpIpBLOhbota9K8cdTznNexX7ltfeJbTNZbZog4dKakSJytpH8PxmWEDxf3HtMsR4
+	KDk2eMGUPTfXU2fVsjZYSYYW+iYClNmLYxqkB7hX3RDemxxZwMZlo9pg82UMx+HaB5ro
+	FxlfO/32cy5zZf/V2WWjyBow7JmHAjqFxpA7yCZQP757ebxIzwGYh9XLgf2Pb+hRkbwt
+	eF7RNiq+7hgBFqc6DZ5L7ev/y0wU/qDaEa+huviTUgtc8u1rqAOy48yGhCBRTgW0R60P
+	ZwDjJ1im7Q3AsxxsUuPcAYEw1AohhRj4z4dGxo1CsmMeVCS0btJOoseAhw2bEYunrNAq
+	XZFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=86KpwaUUinrOo7VJ8HS1ttsy3uxa0WhC4WJ4XZwOmbk=;
-	b=n/GPdhX+Btg+zmt1LfOBW8Gm7zozLRP4aBgWRT79ibvXAgKPxfUdrU3BPhhWIC4tL8
-	qZbeBbQjWmRP3hDgxlvAd2+V/WEL8gM7q8Z81QkRGhaWyUMPug3KIklIqwgV6hUFKFcS
-	4fmSHHXWcLmzqM5ytih0ZJxRCuCRTpEXWpyAKoR/G1JzytG9Fpxy/Unl+5HvsRhtduaS
-	ws904D4yYDvk7noFf6zGubBbFcuyVsWuz/u+H7wfRpncpVfCBbn1gAX6FWC5QkdVuI+F
-	9shuk0L64vmfR1mrI3sfvANJ5BY0VBv/4r6iSepc4LpxoaUGj18Vl+UfvJMRyV4uTUSB
-	/ttA==
-X-Gm-Message-State: AMke39nLxKzbiDDPBtxxZSzAuYkfP/FGeJ/6nt36xKm+Pm0RkDZqDwt9OoM67YcqpbNDxNJML6bxVffwxEHuDA==
-X-Received: by 10.237.40.39 with SMTP id r36mr9063253qtd.282.1488043852721;
-	Sat, 25 Feb 2017 09:30:52 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.12.132.68 with HTTP; Sat, 25 Feb 2017 09:30:52 -0800 (PST)
-In-Reply-To: <1484089620-19725-4-git-send-email-nathan_lynch@mentor.com>
-References: <1484089620-19725-1-git-send-email-nathan_lynch@mentor.com>
-	<1484089620-19725-4-git-send-email-nathan_lynch@mentor.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sat, 25 Feb 2017 12:30:52 -0500
-Message-ID: <CADkTA4NZCsXM9eE4PyQmdsLa4sDdqawirzisZQmzw-mHZV63Qw@mail.gmail.com>
-To: Nathan Lynch <nathan_lynch@mentor.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/5] lttng-modules: upgrade to 2.9.0
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=0jxJOj4qsLjr2A5UMECsdOALVnUC77Zhtxsov5N0oWE=;
+	b=KK11Ely3iEOXrQNbYYafhj2V2PZdvB2azxvV9c37tVKaTVP/+FMYlxjkRd9ybuWR+T
+	iP+7zZrVc50szIMPRtgsDYGe/Q5hc6vOMBrkY84mNwKLxZ15aWxq27/1EgfPSusVJruv
+	+g15Q2zhVx7LODhSKpb28nf64mx7nr1iDV2OxoLqgNoV0ycrm9Z1W0NmHI53mP8fg22C
+	yehY4nftapa0AtHS8OELi4EohMYrXQ2FSw+oBv5PbirLOAPu/XgUGEDHa8PxgrLKak/H
+	ZN3HvfewLGHoEzrSt6qxZURDValFy9ITlrxOXa6aa/Hdg0uYPa0Xj/qucsSeunp9ed6w
+	8J7A==
+X-Gm-Message-State: AMke39nWuAlLcr6iCfxsDbWyfrqgSrFU9l/vZOlex4iLg2JIJk7LMuVOsFVbt28GfntTbA==
+X-Received: by 10.84.224.131 with SMTP id s3mr12627384plj.162.1488046388262;
+	Sat, 25 Feb 2017 10:13:08 -0800 (PST)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	c124sm21818988pga.43.2017.02.25.10.13.07
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 25 Feb 2017 10:13:07 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 25 Feb 2017 10:12:58 -0800
+Message-Id: <cover.1488046239.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.11.1
+Subject: [PATCH 0/4] Add golang basic infrastructure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,211 +51,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Feb 2017 17:30:52 -0000
-Content-Type: multipart/alternative; boundary=001a11487ff440737105495e35f8
+X-List-Received-Date: Sat, 25 Feb 2017 18:13:07 -0000
 
---001a11487ff440737105495e35f8
-Content-Type: text/plain; charset=UTF-8
+This patchset adds go to core, the bits has been fused from
+oe-meta-go and meta-virtualtization layers with additional
+changes needed for it to fit into oe-core
 
-Following up on this old patch .. since it causing a problem with my
-introduction of
-the 4.10 kernel.
+The following changes since commit 65cfc8aca3ff7e39453977a0215a350d13cb85ef:
 
-I'm going to have to switch back to the git fetching of lttng to easily
-pull in the latest
-changes to adapt to the 4.10 kernel.
+  libva: Find the correct wayland-scanner (2017-02-23 12:29:21 -0800)
 
-lttng just doesn't release often enough for bleeding edge kernels, and
-while maintaining
-a set of patches on top of the released version is possible .. I don't see
-the point.
+are available in the git repository at:
 
-I missed the discussion on this one when it first came out, so I missed the
-reason that
-we switched away from git to the release tarballs ?
+  git://git.openembedded.org/openembedded-core-contrib kraj/go
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/go
 
-I also didn't find it in my archived email, so before I go ahead and make a
-_git variant of
-the recipe again I wanted to check in and make sure that I'm not going to
-break a
-workflow or undo something that was being fixed.
+Khem Raj (4):
+  go: Add recipes for golang compilers and tools
+  go-examples: Add an example, helloworld written in go
+  go: Fix go cross build with rss
+  go: Use CC for CC_FOR_TARGET and CXX for CXX_FOR_TARGET
 
-Cheers,
-
-Bruce
-
-
-On Tue, Jan 10, 2017 at 6:06 PM, Nathan Lynch <nathan_lynch@mentor.com>
-wrote:
-
-> Switch to using release tarballs.
->
-> Signed-off-by: Nathan Lynch <nathan_lynch@mentor.com>
-> ---
->  .../lttng/{lttng-modules_git.bb => lttng-modules_2.9.0.bb}     | 10
-> ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
->  rename meta/recipes-kernel/lttng/{lttng-modules_git.bb =>
-> lttng-modules_2.9.0.bb} (84%)
->
-> diff --git a/meta/recipes-kernel/lttng/lttng-modules_git.bb
-> b/meta/recipes-kernel/lttng/lttng-modules_2.9.0.bb
-> similarity index 84%
-> rename from meta/recipes-kernel/lttng/lttng-modules_git.bb
-> rename to meta/recipes-kernel/lttng/lttng-modules_2.9.0.bb
-> index 8a287131d06d..e59d6bc1379c 100644
-> --- a/meta/recipes-kernel/lttng/lttng-modules_git.bb
-> +++ b/meta/recipes-kernel/lttng/lttng-modules_2.9.0.bb
-> @@ -8,20 +8,18 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=
-> 362844633a08753bd96ab322a6c7f9f6 \
->
->  inherit module
->
-> -SRCREV = "6e4fc6f36d68fb3c8d40113f8670eb6e9c8ffd76"
-> -PV = "2.8.0+git${SRCPV}"
-> -
->  COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm).*-linux'
->
-> -SRC_URI = "git://git.lttng.org/lttng-modules.git;branch=stable-2.8 \
-> +SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
->             file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-
-> en.patch"
->
-> +SRC_URI[md5sum] = "717df375ccb6f32bb297cc2f2e692bbf"
-> +SRC_URI[sha256sum] = "af914e5954081cfb6bd4c6dcf93904
-> 74e0c13fe056b12b3dfc86d1b88b8340a0"
-> +
->  export INSTALL_MOD_DIR="kernel/lttng-modules"
->
->  EXTRA_OEMAKE += "KERNELDIR='${STAGING_KERNEL_DIR}'"
->
-> -S = "${WORKDIR}/git"
-> -
->  do_install_append() {
->         # Delete empty directories to avoid QA failures if no modules were
-> built
->         find ${D}/lib -depth -type d -empty -exec rmdir {} \;
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
-
+ meta/classes/go.bbclass                            |  74 +++++++
+ meta/classes/goarch.bbclass                        |  46 +++++
+ meta/recipes-devtools/go/go-1.4.inc                |  15 ++
+ .../go/go-1.4/016-armhf-elf-header.patch           |  24 +++
+ ...ckport-cmd-link-support-new-386-amd64-rel.patch | 225 +++++++++++++++++++++
+ meta/recipes-devtools/go/go-1.4/syslog.patch       |  62 ++++++
+ meta/recipes-devtools/go/go-1.6.inc                |  19 ++
+ .../go/go-1.6/armhf-elf-header.patch               |  23 +++
+ .../go/go-1.6/fix-cc-handling.patch                |  50 +++++
+ .../go/go-1.6/fix-target-cc-for-build.patch        |  17 ++
+ meta/recipes-devtools/go/go-1.6/gotooldir.patch    |  30 +++
+ .../go/go-1.6/split-host-and-target-build.patch    |  63 ++++++
+ meta/recipes-devtools/go/go-1.6/syslog.patch       |  62 ++++++
+ meta/recipes-devtools/go/go-1.7.inc                |  19 ++
+ .../go/go-1.7/armhf-elf-header.patch               |  23 +++
+ .../go/go-1.7/fix-cc-handling.patch                |  50 +++++
+ .../go/go-1.7/fix-target-cc-for-build.patch        |  17 ++
+ meta/recipes-devtools/go/go-1.7/gotooldir.patch    |  30 +++
+ .../go/go-1.7/split-host-and-target-build.patch    |  62 ++++++
+ meta/recipes-devtools/go/go-1.7/syslog.patch       |  62 ++++++
+ meta/recipes-devtools/go/go-common.inc             |  21 ++
+ meta/recipes-devtools/go/go-cross.inc              |  10 +
+ meta/recipes-devtools/go/go-cross_1.7.bb           |   5 +
+ meta/recipes-devtools/go/go-native.inc             |  54 +++++
+ meta/recipes-devtools/go/go-native_1.4.bb          |   2 +
+ meta/recipes-devtools/go/go.inc                    |  76 +++++++
+ meta/recipes-devtools/go/go_1.6.bb                 |   4 +
+ meta/recipes-devtools/go/go_1.7.bb                 |   2 +
+ .../go-examples/files/helloworld.go                |  10 +
+ meta/recipes-extended/go-examples/go-examples.inc  |  10 +
+ .../go-examples/go-helloworld_0.1.bb               |  15 ++
+ 31 files changed, 1182 insertions(+)
+ create mode 100644 meta/classes/go.bbclass
+ create mode 100644 meta/classes/goarch.bbclass
+ create mode 100644 meta/recipes-devtools/go/go-1.4.inc
+ create mode 100644 meta/recipes-devtools/go/go-1.4/016-armhf-elf-header.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.4/go-cross-backport-cmd-link-support-new-386-amd64-rel.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.4/syslog.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.6.inc
+ create mode 100644 meta/recipes-devtools/go/go-1.6/armhf-elf-header.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.6/fix-cc-handling.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.6/fix-target-cc-for-build.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.6/gotooldir.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.6/split-host-and-target-build.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.6/syslog.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.7.inc
+ create mode 100644 meta/recipes-devtools/go/go-1.7/armhf-elf-header.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.7/fix-cc-handling.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.7/fix-target-cc-for-build.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.7/gotooldir.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.7/split-host-and-target-build.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.7/syslog.patch
+ create mode 100644 meta/recipes-devtools/go/go-common.inc
+ create mode 100644 meta/recipes-devtools/go/go-cross.inc
+ create mode 100644 meta/recipes-devtools/go/go-cross_1.7.bb
+ create mode 100644 meta/recipes-devtools/go/go-native.inc
+ create mode 100644 meta/recipes-devtools/go/go-native_1.4.bb
+ create mode 100644 meta/recipes-devtools/go/go.inc
+ create mode 100644 meta/recipes-devtools/go/go_1.6.bb
+ create mode 100644 meta/recipes-devtools/go/go_1.7.bb
+ create mode 100644 meta/recipes-extended/go-examples/files/helloworld.go
+ create mode 100644 meta/recipes-extended/go-examples/go-examples.inc
+ create mode 100644 meta/recipes-extended/go-examples/go-helloworld_0.1.bb
 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
+2.11.1
 
---001a11487ff440737105495e35f8
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Following up on this old patch .. since it causing a probl=
-em with my introduction of<div>the 4.10 kernel.</div><div><br></div><div>I&=
-#39;m going to have to switch back to the git fetching of lttng to easily p=
-ull in the latest</div><div>changes to adapt to the 4.10 kernel.=C2=A0</div=
-><div><br></div><div>lttng just doesn&#39;t release often enough for bleedi=
-ng edge kernels, and while maintaining</div><div>a set of patches on top of=
- the released version is possible .. I don&#39;t see the point.</div><div><=
-br></div><div>I missed the discussion on this one when it first came out, s=
-o I missed the reason that</div><div>we switched away from git to the relea=
-se tarballs ?=C2=A0</div><div><br></div><div>I also didn&#39;t find it in m=
-y archived email, so before I go ahead and make a _git variant of</div><div=
->the recipe again I wanted to check in and make sure that I&#39;m not going=
- to break a</div><div>workflow or undo something that was being fixed.</div=
-><div><br></div><div>Cheers,</div><div><br></div><div>Bruce</div><div><br><=
-/div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Tue=
-, Jan 10, 2017 at 6:06 PM, Nathan Lynch <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:nathan_lynch@mentor.com" target=3D"_blank">nathan_lynch@mentor.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Switch to using releas=
-e tarballs.<br>
-<br>
-Signed-off-by: Nathan Lynch &lt;<a href=3D"mailto:nathan_lynch@mentor.com">=
-nathan_lynch@mentor.com</a>&gt;<br>
----<br>
-=C2=A0.../lttng/{<a href=3D"http://lttng-modules_git.bb" rel=3D"noreferrer"=
- target=3D"_blank">lttng-modules_git.<wbr>bb</a> =3D&gt; <a href=3D"http://=
-lttng-modules_2.9.0.bb" rel=3D"noreferrer" target=3D"_blank">lttng-modules_=
-2.9.0.bb</a>}=C2=A0 =C2=A0 =C2=A0| 10 ++++------<br>
-=C2=A01 file changed, 4 insertions(+), 6 deletions(-)<br>
-=C2=A0rename meta/recipes-kernel/lttng/{<a href=3D"http://lttng-modules_git=
-.bb" rel=3D"noreferrer" target=3D"_blank">ltt<wbr>ng-modules_git.bb</a> =3D=
-&gt; <a href=3D"http://lttng-modules_2.9.0.bb" rel=3D"noreferrer" target=3D=
-"_blank">lttng-modules_2.9.0.bb</a>} (84%)<br>
-<br>
-diff --git a/meta/recipes-kernel/lttng/<a href=3D"http://lttng-modules_git.=
-bb" rel=3D"noreferrer" target=3D"_blank">lt<wbr>tng-modules_git.bb</a> b/me=
-ta/recipes-kernel/lttng/<a href=3D"http://lttng-modules_2.9.0.bb" rel=3D"no=
-referrer" target=3D"_blank">lt<wbr>tng-modules_2.9.0.bb</a><br>
-similarity index 84%<br>
-rename from meta/recipes-kernel/lttng/<a href=3D"http://lttng-modules_git.b=
-b" rel=3D"noreferrer" target=3D"_blank">lttn<wbr>g-modules_git.bb</a><br>
-rename to meta/recipes-kernel/lttng/<a href=3D"http://lttng-modules_2.9.0.b=
-b" rel=3D"noreferrer" target=3D"_blank">lttn<wbr>g-modules_2.9.0.bb</a><br>
-index 8a287131d06d..e59d6bc1379c 100644<br>
---- a/meta/recipes-kernel/lttng/<a href=3D"http://lttng-modules_git.bb" rel=
-=3D"noreferrer" target=3D"_blank">lt<wbr>tng-modules_git.bb</a><br>
-+++ b/meta/recipes-kernel/lttng/<a href=3D"http://lttng-modules_2.9.0.bb" r=
-el=3D"noreferrer" target=3D"_blank">lt<wbr>tng-modules_2.9.0.bb</a><br>
-@@ -8,20 +8,18 @@ LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D<wbr>3628=
-44633a08753bd96ab322a6c7f9<wbr>f6 \<br>
-<br>
-=C2=A0inherit module<br>
-<br>
--SRCREV =3D &quot;<wbr>6e4fc6f36d68fb3c8d40113f8670eb<wbr>6e9c8ffd76&quot;<=
-br>
--PV =3D &quot;2.8.0+git${SRCPV}&quot;<br>
--<br>
-=C2=A0COMPATIBLE_HOST =3D &#39;(x86_64|i.86|powerpc|aarch64|<wbr>mips|nios2=
-|arm).*-linux&#39;<br>
-<br>
--SRC_URI =3D &quot;git://<a href=3D"http://git.lttng.org/lttng-modules.git;=
-branch=3Dstable-2.8" rel=3D"noreferrer" target=3D"_blank">git.lttng.org/ltt=
-ng-<wbr>modules.git;branch=3Dstable-2.8</a> \<br>
-+SRC_URI =3D &quot;<a href=3D"https://lttng.org/files/${BPN}/${BPN}-${PV}.t=
-ar.bz2" rel=3D"noreferrer" target=3D"_blank">https://lttng.org/files/${<wbr=
->BPN}/${BPN}-${PV}.tar.bz2</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://Makefile-Do-not-fail-<wbr>=
-if-CONFIG_TRACEPOINTS-is-not-<wbr>en.patch&quot;<br>
-<br>
-+SRC_URI[md5sum] =3D &quot;<wbr>717df375ccb6f32bb297cc2f2e692b<wbr>bf&quot;=
-<br>
-+SRC_URI[sha256sum] =3D &quot;<wbr>af914e5954081cfb6bd4c6dcf93904<wbr>74e0c=
-13fe056b12b3dfc86d1b88b83<wbr>40a0&quot;<br>
-+<br>
-=C2=A0export INSTALL_MOD_DIR=3D&quot;kernel/lttng-<wbr>modules&quot;<br>
-<br>
-=C2=A0EXTRA_OEMAKE +=3D &quot;KERNELDIR=3D&#39;${STAGING_KERNEL_<wbr>DIR}&#=
-39;&quot;<br>
-<br>
--S =3D &quot;${WORKDIR}/git&quot;<br>
--<br>
-=C2=A0do_install_append() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Delete empty directories to avoid QA failures=
- if no modules were built<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 find ${D}/lib -depth -type d -empty -exec rmdir=
- {} \;<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.7.4<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
-r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
-hou shalt not follow the NULL pointer, for chaos and madness await thee at =
-its end&quot;</div>
-</div>
-
---001a11487ff440737105495e35f8--
