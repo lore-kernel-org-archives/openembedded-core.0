@@ -1,49 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 0661573138
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id F2E9873144
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Feb 2017 18:13:25 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id s67so7328463pgb.1
+	Sat, 25 Feb 2017 18:13:26 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id 5so7337749pgj.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Feb 2017 10:13:27 -0800 (PST)
+	Sat, 25 Feb 2017 10:13:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version:in-reply-to
-	:references:content-transfer-encoding;
-	bh=CNiUqehttrfkh+gniFWDZwSI0xKXZPzWq9Jz+KALvfk=;
-	b=X8qPbDSfctmQfW0VpTSwhdJvb54pdjxw574CxMHMQz8A1YAQxVVoD+cU/Co17locaV
-	3mpdmB4gnkwJPZhKNxBpbak1pDoMCQXro6o3u7q1pj6L4IMPu/9P1dEETFwgymZXVbuB
-	yn6gpnVYnX/xCNrJsFZO76SmJo8pEGWC/6DdQ4TKdFWwj8MJqVarhOZhca0CS06za8FJ
-	uqyqw4N07MuC+9+DMdJlMGr0P3guUpjm9rIUx8HT/mW9qWhXXhWeaymqN7/tXVxjPjqw
-	QrC1BwAayL3d6A2y/vCMB4GCc+68qlOvL/hfxDR/rKDjFbS8/5pbevG7m6/2H9l4H4oT
-	TqlQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=fCQs+gmAvkUEHGuzdvurI3TnvF1rJIcY7wdIf64ZKgk=;
+	b=KIVPK6SYdzxl2SPRezBOap/ppNwYMxKK3dY1I4IBtjxy3/u1uOtaAaMDHxOAG6fYeI
+	kg2nr58avsAeaCFX/wv9iQZ3xQoz/dOHx7CVttCjMMMTj3H3fEHf0ShV74d3QV5H4bTQ
+	lzjr0meZRdlkSHyskAifuKb2r+y3S4Vxn/pSwux267k1zQlmw/VvfhHhS+5GkbEF+PLa
+	UAxzwYCUgIppbZhYP60ztxq3miXzFxDj5RzGgq71Svv1agalUGH8y5SZJdBWBrJUJ3ww
+	xlSLcdprxDS3fE1jACoDZ2AFdc8vUxIJUDSvS+VDRhlhpHl3YT9tELFxlGjsvtH+OkgZ
+	zGGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:in-reply-to:references:content-transfer-encoding;
-	bh=CNiUqehttrfkh+gniFWDZwSI0xKXZPzWq9Jz+KALvfk=;
-	b=cCXPnbJxLBoqKmOKMqeDeTuwXx2xB/svceiXjBXL7ZeL1PLFSzT7ALK1VjuMjmBf0A
-	ii/GKf4t9ALbmM1JTw8tAe2XPGJEFu4TWbGHKJyCNhFtuoE11PXLDARZMk2ljtBorQeE
-	T03ECZGtV0er8E2Gi12oz2/NPis7D2kQ+8YmI7Y1Ur1MaC8fnMTvuMRuBFhLlyR6zFSZ
-	jpgnPUghu+g+RN02iX7+7bccUATfua9QLEOtto3d0BkT521iv0aSD+8SZ2xukhElwoGO
-	C3A02qcn7orC5nxkMuhcz824C+CeLQhGkoXbGT3lTSXAK+tay2o7ZCmWuH9Wxlza0fuK
-	UQNA==
-X-Gm-Message-State: AMke39kTfkrbq8UIFoABG7VGnUSvsAhH88l/etGeHGrqrXALVd0sIQ8JzQR05YQVogrHmA==
-X-Received: by 10.84.236.67 with SMTP id h3mr12734960pln.12.1488046407162;
-	Sat, 25 Feb 2017 10:13:27 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=fCQs+gmAvkUEHGuzdvurI3TnvF1rJIcY7wdIf64ZKgk=;
+	b=Q3tqRLWhoIqAxK3xwXwPkZ0OW3zajfAn9ij2ldz/DceizArX4ABcpaINbFhdkQGCrl
+	lEB7zJtu79ICOnRwQSBluAuouQ/hxhyicGbXrTFyxMaD0dxRTQjdKdtJfdafui2Ng1LQ
+	zsXDeWgNtA/B7xa9eQiBztIuV9sa2Puvy7LLFIyuxI+tiFmqKORba/dG559NxW6Xr0QX
+	SBWy/dM9/XeetuFHrCo5eLGyNiz+YbBfeMaYGCqVxtA2CSA75xjeVfs3RbgzhjuvmahC
+	pNlLnrgbemCtNQJmGhYMVOpdA0uAoyqJJcFhnP+88o6vANU+G035ExNtUItkk5zwiowU
+	Yebw==
+X-Gm-Message-State: AMke39nBr9iUNjsMcVA0HqqMzDJ5M1rZovWp4t7Zp36vcyJhr44NAhWuv+2XK4MomN5G2Q==
+X-Received: by 10.84.229.10 with SMTP id b10mr12567314plk.148.1488046408019;
+	Sat, 25 Feb 2017 10:13:28 -0800 (PST)
 Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	y5sm21851692pgy.28.2017.02.25.10.13.26
+	y5sm21851692pgy.28.2017.02.25.10.13.27
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 25 Feb 2017 10:13:26 -0800 (PST)
+	Sat, 25 Feb 2017 10:13:27 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 25 Feb 2017 10:13:12 -0800
-Message-Id: <6f389fa1e83f5fa48e0a26c01843f0028253d1f0.1488046239.git.raj.khem@gmail.com>
+Date: Sat, 25 Feb 2017 10:13:13 -0800
+Message-Id: <90844974c128323bc5fd7fdda850b2f3f2f83a1c.1488046239.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.11.1
-MIME-Version: 1.0
 In-Reply-To: <cover.1488046239.git.raj.khem@gmail.com>
 References: <cover.1488046239.git.raj.khem@gmail.com>
-Subject: [PATCH 2/4] go-examples: Add an example, helloworld written in go
+Subject: [PATCH 3/4] go: Fix go cross build with rss
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,75 +54,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Feb 2017 18:13:26 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 25 Feb 2017 18:13:27 -0000
 
-This should serve as temlate for writing go recipes
+recipe specific sysroot demanded changes how cross go compiler was built
+rename PN to include ARCH_NAME for cross recipe
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-extended/go-examples/files/helloworld.go  | 10 ++++++++++
- meta/recipes-extended/go-examples/go-examples.inc      | 10 ++++++++++
- meta/recipes-extended/go-examples/go-helloworld_0.1.bb | 15 +++++++++++++++
- 3 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-extended/go-examples/files/helloworld.go
- create mode 100644 meta/recipes-extended/go-examples/go-examples.inc
- create mode 100644 meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+ meta/classes/go.bbclass                  |  2 +-
+ meta/recipes-devtools/go/go-cross.inc    | 10 ++++++++++
+ meta/recipes-devtools/go/go-cross_1.7.bb |  5 +++++
+ meta/recipes-devtools/go/go_1.7.bb       |  2 --
+ 4 files changed, 16 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/go/go-cross.inc
+ create mode 100644 meta/recipes-devtools/go/go-cross_1.7.bb
 
-diff --git a/meta/recipes-extended/go-examples/files/helloworld.go b/meta/recipes-extended/go-examples/files/helloworld.go
+diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
+index e10864d99b..293194d39a 100644
+--- a/meta/classes/go.bbclass
++++ b/meta/classes/go.bbclass
+@@ -21,7 +21,7 @@ export CGO_CPPFLAGS = "${TARGET_CPPFLAGS}"
+ export CGO_CXXFLAGS = "${TARGET_CC_ARCH}${TOOLCHAIN_OPTIONS} ${TARGET_CXXFLAGS}"
+ export CGO_LDFLAGS = "${TARGET_CC_ARCH}${TOOLCHAIN_OPTIONS} ${TARGET_LDFLAGS}"
+ 
+-DEPENDS += "go-cross"
++DEPENDS += "go-cross-${TARGET_ARCH}"
+ DEPENDS_class-native += "go-native"
+ 
+ INHIBIT_PACKAGE_STRIP = "1"
+diff --git a/meta/recipes-devtools/go/go-cross.inc b/meta/recipes-devtools/go/go-cross.inc
 new file mode 100644
-index 0000000000..0253c40411
+index 0000000000..fa9c339b93
 --- /dev/null
-+++ b/meta/recipes-extended/go-examples/files/helloworld.go
++++ b/meta/recipes-devtools/go/go-cross.inc
 @@ -0,0 +1,10 @@
-+// You can edit this code!
-+// Click here and start typing.
-+// taken from https://golang.org/
-+package main
++inherit cross
 +
-+import "fmt"
++DEPENDS += "gcc-cross-${TARGET_ARCH}"
 +
-+func main() {
-+	fmt.Println("Hello, 世界")
-+}
-diff --git a/meta/recipes-extended/go-examples/go-examples.inc b/meta/recipes-extended/go-examples/go-examples.inc
++PN = "go-cross-${TARGET_ARCH}"
++
++FILESEXTRAPATHS =. "${FILE_DIRNAME}/go-cross:"
++
++GOROOT_FINAL ="${libdir}/go"
++export GOROOT_FINAL
+diff --git a/meta/recipes-devtools/go/go-cross_1.7.bb b/meta/recipes-devtools/go/go-cross_1.7.bb
 new file mode 100644
-index 0000000000..c63268116b
+index 0000000000..56ee084b10
 --- /dev/null
-+++ b/meta/recipes-extended/go-examples/go-examples.inc
-@@ -0,0 +1,10 @@
-+DESCRIPTION = "This is a simple example recipe that cross-compiles a Go program."
-+SECTION = "examples"
-+HOMEPAGE = "https://golang.org/"
++++ b/meta/recipes-devtools/go/go-cross_1.7.bb
+@@ -0,0 +1,5 @@
++require go-cross.inc
++require go_${PV}.bb
 +
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+
-+S = "${WORKDIR}"
-+
-+inherit go
-diff --git a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
-new file mode 100644
-index 0000000000..af9d3b7454
---- /dev/null
-+++ b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
-@@ -0,0 +1,15 @@
-+require go-examples.inc
-+
-+
-+SRC_URI += " \
-+  file://helloworld.go \
-+"
-+
-+do_compile() {
-+  go build helloworld.go
-+}
-+
-+do_install() {
-+  install -d "${D}/${bindir}"
-+  install -m 0755 "${S}/helloworld" "${D}/${bindir}"
-+}
++# Go binaries are not understood by the strip tool.
++INHIBIT_SYSROOT_STRIP = "1"
+diff --git a/meta/recipes-devtools/go/go_1.7.bb b/meta/recipes-devtools/go/go_1.7.bb
+index 8186427933..e7a6ab277e 100644
+--- a/meta/recipes-devtools/go/go_1.7.bb
++++ b/meta/recipes-devtools/go/go_1.7.bb
+@@ -1,4 +1,2 @@
+ require go-${PV}.inc
+ require go.inc
+-
+-BBCLASSEXTEND = "cross"
 -- 
 2.11.1
 
