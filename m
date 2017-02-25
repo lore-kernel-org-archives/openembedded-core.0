@@ -1,47 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id DA4E67313D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
+	[209.85.220.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 08BBF71C1F
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Feb 2017 18:13:27 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id 1so7315306pgz.2
+	Sat, 25 Feb 2017 23:05:46 +0000 (UTC)
+Received: by mail-qk0-f178.google.com with SMTP id s186so52578787qkb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Feb 2017 10:13:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=BMEPdUkdYJ8sG2btzh6WEwal81ne3Gvkd61DQZGvIjQ=;
-	b=Ycq2ahE90RS3PjtKuNxQQagYtmCHUbvzsYn27MdaBDJyCvesNGcTV9M7pBvyv5BNs7
-	7dUo+ITTHUJQgSt7keTNQdHwey8QW9QOukSalQUvTs0Dnccr0sjynwbBuZP5YMXX8aDx
-	ObCPoQKTvRfgzQAHG+VN+jVTO4SVZckEtaEDktvLPYEe9A5HSmacZXc68BnRQMF6sTmT
-	V49UJ6Ez94rIm9QUtx91xD+SKcjV4odnCfsIwLMA/Ao0dSriEsoUW9aZPludwEfXjM8W
-	3dTRRHyUe5HfS3xgHko0s9nJPN3p0xVbOnVhc/cHvqmlWBCdkNZIvCcHZjoLyn1eA9dv
-	NOvQ==
+	Sat, 25 Feb 2017 15:05:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
+	bh=cq5F36S87nDoScnBXFBbQQgNisC/m1EYpUX3fYuOQhw=;
+	b=R8Qrl9mpJ6t/aha9r5QdgRyil0yMOaxJr10cInUVU815gvJBr+jSVmRDgVw/LDQKnc
+	LiovXOQUjuCCTI9unZdy4L2Xwtfacf0ZUD10lIwu8vlO19FmhAhc99owQKgbOlOeAI64
+	j54nGLDT/JSXvMEXbNmsOIFGtl1E55bJ1uRaUhthhK46wdZeeSfiKGD6fWAV1GVMJ24f
+	QxT3R/acv48BcMGDv8qGfgu25TE9mpM4BWXl/oD54mE1PAyY+Ac/S0QxFzSuoxfB5WKQ
+	R8HSYn394AQMYq9/Pni+SXyfsc5cSQJ+fM2/cmmPC6ANsLJuRXa+YwC9FHWpQn2Z3Nsc
+	1unA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=BMEPdUkdYJ8sG2btzh6WEwal81ne3Gvkd61DQZGvIjQ=;
-	b=We1ZkQJTYkL/7FgZLP0fdWJoHuSCPyt/KVSSh5WS0f5VEohgy6SnQUqpbb1mhMMUpM
-	XcFmKlKaDTHubEerNH81PqdZtGRHSDx3neBE/ZgbzqMdvx+UIzYt384mPar+uFl8PeIN
-	7Q58MetxVzFiz/zmPkKKd0NY4PEODQy6wwhknjohfe5pIYBUOfFInV+UPFI9lqxmKSsz
-	br1TeTAty+w3EG1BKK9j4Ha1pXkaSkLV8MicXDh99Quf4LEgKL1TbSns0hlMolH/5CSf
-	fWrnGz1WgFH8070EEicy/r0yNkDAy4LqsIcwQKY9DKZLroHEXOY0tY0GVnetikmE14si
-	xPtg==
-X-Gm-Message-State: AMke39no50jhaDhxzOsZtt5lT/9KDd+VzIF2kRb4zHRI7CG5kUdCH1CXT1d2/cea+Jo3Ew==
-X-Received: by 10.84.231.200 with SMTP id g8mr12764198pln.100.1488046408870;
-	Sat, 25 Feb 2017 10:13:28 -0800 (PST)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	y5sm21851692pgy.28.2017.02.25.10.13.28
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 25 Feb 2017 10:13:28 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 25 Feb 2017 10:13:14 -0800
-Message-Id: <dac6679c71b845d4adeb7b1c7c75f0af32fe0435.1488046239.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.11.1
-In-Reply-To: <cover.1488046239.git.raj.khem@gmail.com>
-References: <cover.1488046239.git.raj.khem@gmail.com>
-Subject: [PATCH 4/4] go: Use CC for CC_FOR_TARGET and CXX for CXX_FOR_TARGET
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to;
+	bh=cq5F36S87nDoScnBXFBbQQgNisC/m1EYpUX3fYuOQhw=;
+	b=TWKQefXTqtzq7RpAqrkn7UYE1MunZ0rSyM1bNu5PWQMgq+0bWrW/QJzcJ2kD7AXByy
+	o4Z38xM8aOfWO58/osMXQt8a93kfAVPgEJa/xMZxrMzhh6PvJzqAJts5GxTEhEzUt1kc
+	W6tJClbo8TeXe7dbuFSHQmDRHknJvftw13qLDdMg0FVonhZcRuJzONy0nzqJ5y3WdKiG
+	M1sCZ4+4hxi9WLOyxI51Mjq1hxvNYtQA8HEy88dL+DddCxjSJAnTvazSMZbDeEH7VAub
+	P8lPv7qdBpbz55EDy6C2+5hHhNcZO4ybuIpWxLLbDYS1k946BCzN1pGZdfABeliPTD8d
+	/2wQ==
+X-Gm-Message-State: AMke39mj1uPw2LzCz3RimhQumVc8rUtiaAhAH/cncCqmI/arMoxdGP4WXXiJl4D2faZGCto7/Pc762d6PzPKdvM8
+X-Received: by 10.200.41.115 with SMTP id z48mr7910401qtz.109.1488063947903;
+	Sat, 25 Feb 2017 15:05:47 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.103.233 with HTTP; Sat, 25 Feb 2017 15:05:27 -0800 (PST)
+In-Reply-To: <CAM_RqkNdN5e2yR1BxYnM1wbdKxYLpk_wVVX3pR6sbKL_na8GpA@mail.gmail.com>
+References: <1487961739-4548-1-git-send-email-ankit.tarot@gmail.com>
+	<CAJTo0Lak84XUFb8WM1WuZ_w2a1wHtKwoWwDTtZ_wtXK5_x3uFw@mail.gmail.com>
+	<CAM_RqkNPgevLyRpP0jcM667btmhqafdhpZ1FRsQzFAV9JrXCtQ@mail.gmail.com>
+	<CAJTo0La-ta3F0synwCGkBWMKLbGwfN3wQT1bwehK9oTbyN3VZA@mail.gmail.com>
+	<CAM_RqkNfS1T67STnAQESSA_FnrqU_vW0fkdKw8GhyhTZB_hwOg@mail.gmail.com>
+	<CAM_RqkNdN5e2yR1BxYnM1wbdKxYLpk_wVVX3pR6sbKL_na8GpA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sat, 25 Feb 2017 23:05:27 +0000
+Message-ID: <CAJTo0Lby87tJuux7wrSf=COhuz-_JLXvPYHKyjjm73N9DB=2bA@mail.gmail.com>
+To: Ankit Navik <ankit.tarot@gmail.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ell: Initial recipe for Embedded Linux Library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,31 +58,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Feb 2017 18:13:28 -0000
+X-List-Received-Date: Sat, 25 Feb 2017 23:05:47 -0000
+Content-Type: multipart/alternative; boundary=001a1140699c04a6e6054962e36b
 
-Helps building with clang
+--001a1140699c04a6e6054962e36b
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/go/go.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 25 February 2017 at 15:47, Ankit Navik <ankit.tarot@gmail.com> wrote:
 
-diff --git a/meta/recipes-devtools/go/go.inc b/meta/recipes-devtools/go/go.inc
-index 2449936dab..754fa34c1b 100644
---- a/meta/recipes-devtools/go/go.inc
-+++ b/meta/recipes-devtools/go/go.inc
-@@ -13,8 +13,8 @@ export GOARM = "${TARGET_GOARM}"
- export GOROOT_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/go"
- export GOROOT_FINAL = "${libdir}/go"
- export CGO_ENABLED = "1"
--export CC_FOR_TARGET="${TARGET_PREFIX}gcc ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"
--export CXX_FOR_TARGET="${TARGET_PREFIX}g++ ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"
-+export CC_FOR_TARGET = "${CC}"
-+export CXX_FOR_TARGET = "${CXX}"
- 
- do_configure[noexec] = "1"
- 
--- 
-2.11.1
+> I think, gdbus APIs will be replaced soon with ell APIs, I was the early
+> adopter of ell APIs in OMA DM IMEI Sync (ODIS) Implementation.
+> When I was implementing ODIS, there was license issue since gdbus uses GPL
+> v2. I took help maintainer and they suggested ell. I remember they were
+> mentioned that soon gdbus API will changes to ell in other components e.g.
+> ofono, bluez, etc.
+> I dont know thier exect timelines.
+>
 
+In that case ell can be considered for oe-core when a dependency of it
+needs it - until then feel free to submit it to meta-oe or similar.
 
+Ross
+
+--001a1140699c04a6e6054962e36b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 25 February 2017 at 15:47, Ankit Navik <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:ankit.tarot@gmail.com" target=3D"_blank">ankit.tarot@gmail.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"auto">I thin=
+k, gdbus APIs will be replaced soon with ell APIs, I was the early adopter =
+of ell APIs in OMA DM IMEI Sync (ODIS) Implementation.=C2=A0<div dir=3D"aut=
+o">When I was implementing ODIS, there was license issue since gdbus uses G=
+PL v2. I took help maintainer and they suggested ell. I remember they were =
+mentioned that soon gdbus API will changes to ell in other components e.g. =
+ofono, bluez, etc.</div><div dir=3D"auto">I dont know thier exect timelines=
+.</div><div dir=3D"auto"></div></div></blockquote></div><br>In that case el=
+l can be considered for oe-core when a dependency of it needs it - until th=
+en feel free to submit it to meta-oe or similar.</div><div class=3D"gmail_e=
+xtra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a1140699c04a6e6054962e36b--
