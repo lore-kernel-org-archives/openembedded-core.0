@@ -1,47 +1,49 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 678FC71BF0
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 1567C71BA0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Feb 2017 18:15:54 +0000 (UTC)
-Received: by mail-wr0-f194.google.com with SMTP id o22so7018803wro.3
+	Sun, 26 Feb 2017 21:02:13 +0000 (UTC)
+Received: by mail-qk0-f171.google.com with SMTP id n127so71713901qkf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Feb 2017 10:15:56 -0800 (PST)
+	Sun, 26 Feb 2017 13:02:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=hvYOyuLx5vqg2m/PQvk1dTD5pCQSCBds9TzAH2HYWt4=;
-	b=CsIX7HLq7TtdZmKEZB51KR2+rCX060PM2vU8y21uLcKPuHy6HU5wvkQabvK0HmS6IA
-	QpwU53C2NePxVCdlt2P3sPVNwDUxZQG78mSd1g17MWorwJi+Zz2NM6WfQDS/feKfzl/N
-	qGvD6W02PA2X/Cf7UYKaceKtTXxAPlxP9kDmDGihtW/B4ZRaOu7KA+f1gFsMuPCPvjlH
-	fIEj4KJp77LOnbjfJH8ObFonx9RS0wZlsCHg0v6fI6OlhDn2UqG1hKfyzaEDgj7Ok7Y4
-	kZ5wzCkPRuE3UgDElKlpkGyQKc6B8yCk3SIIqgiFtD0ddXRK7y8TPNdEywgYNuDg4blx
-	GLFA==
+	:cc; bh=XyV0uIS2J+qxkcRjHC40poEaGdi1z9MyCDYxl4Pfxz4=;
+	b=p+xZxrv5qVsujwfbUH9PDAYE6QpwQhc9CDJCUe1vFfrBEQKHFyxN2v54MwOynjY8Iu
+	fqdqKfEy588o8bGv+Ou3nHfTyjI/DyTP9ZjF9TXMyzusD0cV5T8n96I+7AJNrixbG3Pk
+	LPVVEr9tkAE1KwlOwV5ew0/peOFUKwvCfs3m9T3zk4DcagmUD733ET1pENjALNbObXjU
+	6dZaeU9BsTQY8LfTLYvUL3TlU6FOoc9ddRBckMIlTXOO7bi/HvH2wViTfWIrkj6QT9hs
+	AOj2WFpA3h4k+CQE3b/Ix2/m/G+Dz1fBg5c6vO5rZ7yZ3a+USgGsavpdW0ja1DTxlNLT
+	69/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=hvYOyuLx5vqg2m/PQvk1dTD5pCQSCBds9TzAH2HYWt4=;
-	b=IemkDmp+DiaN+y3SrISbRmEjgFXW6hmc14eyAbqF5fhiqWEQVdKcAMsiKPOefXw9TU
-	uek6+mZ379KTriaYkcG+rkPVIb4IgXKyXs1YJIqrsNuLRIJPn5HxA1HT3ZGzg/xtzj54
-	gPpAkqVC9mvbRLM3jOTxFz3YulTSi2tAtEUNDBnl6zLQq/jZ/oroqsRZWQqpwjGb1tTa
-	pSIrBmogrhHEotRXLmY3wif17SG+3DcNjrioX4XG4dNzqmvKOK5j6HSDfLFzekDXfsrS
-	ceKA+o+z0EfgEw3ooX5NQOlZhITbKWc0sAplWbkn4eNZaymLLDeXXf5rn66dxjJ36M2i
-	n0+Q==
-X-Gm-Message-State: AMke39nns+vFVcBNwZvPayNjWfkJzfzxzB2Op72qNJvgTO5luJLtDLOnWA2Dx2V35/fPPCWVLVhEdHkIA3V0gw==
-X-Received: by 10.223.153.9 with SMTP id x9mr5254667wrb.196.1488132955812;
-	Sun, 26 Feb 2017 10:15:55 -0800 (PST)
+	bh=XyV0uIS2J+qxkcRjHC40poEaGdi1z9MyCDYxl4Pfxz4=;
+	b=Px7VX2Lwf1qy5IlL5GSjt2wfBwVtBciPEzBtgLybwg17Ah/ON9lDH8kdOtKYKbRW5I
+	DjTbXmTKTLoVNuNGwfC8ocMlkZB9woGzChVqBXnlBWZ0JnWK3YQTw8IECeEziJTufZpT
+	kYRqRpkz4hPPbWwHDGdbrm2BNoqyoND1CNWMsjm7NpALo0+0Inc/UutkBvSC5VNRsXJI
+	tbsXwqG2kGYN6bcM7PwsuITpQ40oOFEeur/f9zw65pY1/FkXaWeOyoWgPcmJ97mqUwKR
+	UQ223ln6vJTAgaki6DTXJH1G1gdbhk0JVMBbqfcEL7HJ4zphQIVccaaRW16risH915Oj
+	9szA==
+X-Gm-Message-State: AMke39nQqSllaOSEGh5dRcnYb08gkBN19bt9m2wxpVJP5MDL9+tWWSdlOVWc8LcQA9G884SOjgd9Vu31hpUaQw==
+X-Received: by 10.237.56.68 with SMTP id j62mr13516088qte.185.1488142934653;
+	Sun, 26 Feb 2017 13:02:14 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.80.145.24 with HTTP; Sun, 26 Feb 2017 10:15:55 -0800 (PST)
-In-Reply-To: <03b310a8701ba7a927c8de949af9398d5739e8a8.1488125460.git.jussi.kukkonen@intel.com>
-References: <cover.1488125460.git.jussi.kukkonen@intel.com>
-	<03b310a8701ba7a927c8de949af9398d5739e8a8.1488125460.git.jussi.kukkonen@intel.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Sun, 26 Feb 2017 19:15:55 +0100
-Message-ID: <CA+chaQcSpX=a77jcg1-D7Uj30ukOto2gpuemf9JMCpZ0n9m3jA@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Received: by 10.12.132.68 with HTTP; Sun, 26 Feb 2017 13:02:14 -0800 (PST)
+In-Reply-To: <871sultwa4.fsf@largeson.i-did-not-set--mail-host-address--so-tickle-me>
+References: <1484089620-19725-1-git-send-email-nathan_lynch@mentor.com>
+	<1484089620-19725-4-git-send-email-nathan_lynch@mentor.com>
+	<CADkTA4NZCsXM9eE4PyQmdsLa4sDdqawirzisZQmzw-mHZV63Qw@mail.gmail.com>
+	<871sultwa4.fsf@largeson.i-did-not-set--mail-host-address--so-tickle-me>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Sun, 26 Feb 2017 16:02:14 -0500
+Message-ID: <CADkTA4P3jXb8ZHiTUjg+ToxHGK1d6hfXjRX0TvD9zdd4ywWyZA@mail.gmail.com>
+To: Nathan Lynch <nathan_lynch@mentor.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/6] vkcube: Add recipe for minimal vulkan demo
+Subject: Re: [PATCH 3/5] lttng-modules: upgrade to 2.9.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,256 +56,180 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Feb 2017 18:15:55 -0000
-Content-Type: multipart/alternative; boundary=f403045d581235c04b054972f43a
+X-List-Received-Date: Sun, 26 Feb 2017 21:02:14 -0000
+Content-Type: multipart/alternative; boundary=001a1137ac14fef54e05497546a4
 
---f403045d581235c04b054972f43a
+--001a1137ac14fef54e05497546a4
 Content-Type: text/plain; charset=UTF-8
 
-> +PV = "0+git${SRCPV}"
-
-https://github.com/krh/vkcube/blob/master/configure.ac#L1
-
-says 0.1 since the very first commit, why not use that as base version
-instead of just "0"?
-
-On Sun, Feb 26, 2017 at 5:50 PM, Jussi Kukkonen <jussi.kukkonen@intel.com>
+On Sat, Feb 25, 2017 at 11:23 PM, Nathan Lynch <nathan_lynch@mentor.com>
 wrote:
 
-> It currently requires libvulkan_intel.so (mesa intel vulkan driver),
-> meaning that mesa needs to be built with "vulkan" PACKAGECONFIG.
-> Also, currently vkcube is only buildable with both X and wayland
-> support without other options.
+> Bruce Ashfield <bruce.ashfield@gmail.com> writes:
 >
-> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> ---
->  .../vkcube/0001-Install-the-vkcube-binary.patch    | 38
-> ++++++++++++++++++++++
->  meta/recipes-graphics/vulkan/vkcube_git.bb         | 18 ++++++++++
->  2 files changed, 56 insertions(+)
->  create mode 100644 meta/recipes-graphics/vulkan/vkcube/0001-Install-the-
-> vkcube-binary.patch
->  create mode 100644 meta/recipes-graphics/vulkan/vkcube_git.bb
+> > Following up on this old patch .. since it causing a problem with my
+> > introduction of
+> > the 4.10 kernel.
+> >
+> > I'm going to have to switch back to the git fetching of lttng to easily
+> > pull in the latest
+> > changes to adapt to the 4.10 kernel.
 >
-> diff --git a/meta/recipes-graphics/vulkan/vkcube/0001-Install-the-vkcube-binary.patch
-> b/meta/recipes-graphics/vulkan/vkcube/0001-Install-the-vkcube-binary.patch
-> new file mode 100644
-> index 00000000000..012ee528888
-> --- /dev/null
-> +++ b/meta/recipes-graphics/vulkan/vkcube/0001-Install-
-> the-vkcube-binary.patch
-> @@ -0,0 +1,38 @@
-> +From 18d1d30a6c7ad73b25751152cc4dda89e9cf77dd Mon Sep 17 00:00:00 2001
-> +From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> +Date: Sat, 25 Feb 2017 18:27:54 +0200
-> +Subject: [PATCH] Install binary, never clean generated files
-> +
-> +We don't have the tools to regenerate the spv.h files, don't
-> +clean them.
-> +
-> +Upstream-Status: Inappropriate [configuration]
-> +Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> +---
-> + Makefile.am | 4 +---
-> + 1 file changed, 1 insertion(+), 3 deletions(-)
-> +
-> +diff --git a/Makefile.am b/Makefile.am
-> +index 78724bb..e208152 100644
-> +--- a/Makefile.am
-> ++++ b/Makefile.am
-> +@@ -11,7 +11,7 @@ CFLAGS = -std=c11                            \
-> +
-> + CXXFLAGS = -std=c++11 $(common_CFLAGS)
-> +
-> +-noinst_PROGRAMS = vkcube
-> ++bin_PROGRAMS = vkcube
-> +
-> + BUILT_SOURCES = \
-> +       vkcube.vert.spv.h                       \
-> +@@ -30,7 +30,5 @@ vkcube_SOURCES =                             \
-> +       esTransform.c                           \
-> +       esUtil.h
-> +
-> +-CLEANFILES = $(BUILT_SOURCES)
-> +-
-> + vkcube_CFLAGS = $(CFLAGS) $(MINIGBM_CPPFLAGS) $(LIBDRM_CFLAGS)
-> $(WAYLAND_CFLAGS)  $(LIBPNG_CFLAGS)
-> + vkcube_LDADD = $(MINIGBM_LDFLAGS) $(MESA_LDFLAGS) $(LIBDRM_LIBS)
-> $(WAYLAND_LIBS)  $(LIBPNG_LIBS) -lgbm -lm -lvulkan -lxcb
-> +--
-> +2.11.0
-> +
-> diff --git a/meta/recipes-graphics/vulkan/vkcube_git.bb
-> b/meta/recipes-graphics/vulkan/vkcube_git.bb
-> new file mode 100644
-> index 00000000000..4a5b345cbbf
-> --- /dev/null
-> +++ b/meta/recipes-graphics/vulkan/vkcube_git.bb
-> @@ -0,0 +1,18 @@
-> +SUMMARY = "A simple Vulkan demo"
-> +HOMEPAGE = "https://github.com/krh/vkcube"
-> +
-> +LICENSE = "MIT"
-> +LIC_FILES_CHKSUM = "file://main.c;endline=24;md5=
-> 9eb35fa5573e696e3f59ec043ad2b5bc"
-> +
-> +PV = "0+git${SRCPV}"
-> +
-> +SRC_URI = "git://github.com/krh/vkcube.git \
-> +           file://0001-Install-the-vkcube-binary.patch"
-> +SRCREV = "80c0d047c257f486d054f28b0b381abef3327069"
-> +
-> +S = "${WORKDIR}/git"
-> +
-> +inherit autotools pkgconfig distro_features_check
-> +REQUIRED_DISTRO_FEATURES = "x11 wayland"
-> +
-> +DEPENDS = "libpng libxcb wayland mesa libdrm vulkan"
-> --
-> 2.11.0
+> I don't see why.  Support for 4.10 has been in lttng-modules' stable-2.9
+> branch since January, and is included in the v2.9.1 release, which was
+> tagged a week ago, right before the 4.10 release.  I had intended to
+> send the update for lttng-modules on Monday but since I've got it ready
+> I'll send it in a few minutes.
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> You should not need to use lttng-modules' master branch to work with
+> released Linux versions.
 >
 
---f403045d581235c04b054972f43a
+Yup. If you look at the history of our lttng recipe .. I've ben hacking on
+it for quite some time.
+
+
+>
+>
+> > lttng just doesn't release often enough for bleeding edge kernels,
+>
+> That's not my impression at all. The LTTng project diligently tracks
+> upstream kernel development and ensures that the latest stable branch of
+> lttng-modules supports the latest released kernel.
+>
+
+I didn't say they didn't do that. I'm saying that they don't spin enough
+tarballs at times.
+
+
+>
+>
+> > while maintaining
+> > a set of patches on top of the released version is possible .. I don't
+> see
+> > the point.
+>
+> Maintaining a set of patches on top of the released version of
+> lttng-modules should not be necessary.
+>
+
+It is .. I'm always ahead of released kernels. So when I work with a -dev
+kernel, waiting for lttng to release doesn't work. I would have put out 4.10
+a few weeks ago, but instead I kept waiting.
+
+
+>
+> > I missed the discussion on this one when it first came out, so I missed
+> the
+> > reason that
+> > we switched away from git to the release tarballs ?
+>
+> I know there's a diversity of opinion on the subject in general, but in
+> the absence of a need to use git, I think using a release tarball should
+> be preferred.
+>
+
+In this case, I'm switching back to git, since for anyone working on newer
+or in-devel kernels, the release process is just too slow. I'll avoid it
+since
+you just put out the update, but when I start tracking 4.11 in a few weeks
+.. it will again break the builds.
+
+Bruce
+
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
+
+--001a1137ac14fef54e05497546a4
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">&gt;=C2=A0<span style=3D"font-size:12.8px">+PV =3D &quot;0=
-+git${SRCPV}&quot;</span><div><br></div><div><span style=3D"font-size:12.8p=
-x"></span><a href=3D"https://github.com/krh/vkcube/blob/master/configure.ac=
-#L1">https://github.com/krh/vkcube/blob/master/configure.ac#L1</a><br></div=
-><div><br></div><div>says 0.1 since the very first commit, why not use that=
- as base version instead of just &quot;0&quot;?</div></div><div class=3D"gm=
-ail_extra"><br><div class=3D"gmail_quote">On Sun, Feb 26, 2017 at 5:50 PM, =
-Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"mailto:jussi.kukkonen@intel=
-.com" target=3D"_blank">jussi.kukkonen@intel.com</a>&gt;</span> wrote:<br><=
-blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
- #ccc solid;padding-left:1ex">It currently requires libvulkan_intel.so (mes=
-a intel vulkan driver),<br>
-meaning that mesa needs to be built with &quot;vulkan&quot; PACKAGECONFIG.<=
-br>
-Also, currently vkcube is only buildable with both X and wayland<br>
-support without other options.<br>
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Sat, Feb 25, 2017 at 11:23 PM, Nathan Lynch <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:nathan_lynch@mentor.com" target=3D"_blank">nathan_lynch@men=
+tor.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span>Bruce=
+ Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank"=
+>bruce.ashfield@gmail.com</a>&gt; writes:<br>
 <br>
-Signed-off-by: Jussi Kukkonen &lt;<a href=3D"mailto:jussi.kukkonen@intel.co=
-m">jussi.kukkonen@intel.com</a>&gt;<br>
----<br>
-=C2=A0.../vkcube/0001-Install-the-<wbr>vkcube-binary.patch=C2=A0 =C2=A0 | 3=
-8 ++++++++++++++++++++++<br>
-=C2=A0meta/recipes-graphics/vulkan/<a href=3D"http://vkcube_git.bb" rel=3D"=
-noreferrer" target=3D"_blank">v<wbr>kcube_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0| 18 ++++++++++<br>
-=C2=A02 files changed, 56 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-graphics/vulkan/<wbr>vkcube/0001-Inst=
-all-the-<wbr>vkcube-binary.patch<br>
-=C2=A0create mode 100644 meta/recipes-graphics/vulkan/<a href=3D"http://vkc=
-ube_git.bb" rel=3D"noreferrer" target=3D"_blank">v<wbr>kcube_git.bb</a><br>
+&gt; Following up on this old patch .. since it causing a problem with my<b=
+r>
+&gt; introduction of<br>
+&gt; the 4.10 kernel.<br>
+&gt;<br>
+&gt; I&#39;m going to have to switch back to the git fetching of lttng to e=
+asily<br>
+&gt; pull in the latest<br>
+&gt; changes to adapt to the 4.10 kernel.<br>
 <br>
-diff --git a/meta/recipes-graphics/<wbr>vulkan/vkcube/0001-Install-<wbr>the=
--vkcube-binary.patch b/meta/recipes-graphics/<wbr>vulkan/vkcube/0001-Instal=
-l-<wbr>the-vkcube-binary.patch<br>
-new file mode 100644<br>
-index 00000000000..012ee528888<br>
---- /dev/null<br>
-+++ b/meta/recipes-graphics/<wbr>vulkan/vkcube/0001-Install-<wbr>the-vkcube=
--binary.patch<br>
-@@ -0,0 +1,38 @@<br>
-+From 18d1d30a6c7ad73b25751152cc4dda<wbr>89e9cf77dd Mon Sep 17 00:00:00 200=
-1<br>
-+From: Jussi Kukkonen &lt;<a href=3D"mailto:jussi.kukkonen@intel.com">jussi=
-.kukkonen@intel.com</a>&gt;<br>
-+Date: Sat, 25 Feb 2017 18:27:54 +0200<br>
-+Subject: [PATCH] Install binary, never clean generated files<br>
-+<br>
-+We don&#39;t have the tools to regenerate the spv.h files, don&#39;t<br>
-+clean them.<br>
-+<br>
-+Upstream-Status: Inappropriate [configuration]<br>
-+Signed-off-by: Jussi Kukkonen &lt;<a href=3D"mailto:jussi.kukkonen@intel.c=
-om">jussi.kukkonen@intel.com</a>&gt;<br>
-+---<br>
-+ Makefile.am | 4 +---<br>
-+ 1 file changed, 1 insertion(+), 3 deletions(-)<br>
-+<br>
-+diff --git a/Makefile.am b/Makefile.am<br>
-+index 78724bb..e208152 100644<br>
-+--- a/Makefile.am<br>
-++++ b/Makefile.am<br>
-+@@ -11,7 +11,7 @@ CFLAGS =3D -std=3Dc11=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-+<br>
-+ CXXFLAGS =3D -std=3Dc++11 $(common_CFLAGS)<br>
-+<br>
-+-noinst_PROGRAMS =3D vkcube<br>
-++bin_PROGRAMS =3D vkcube<br>
-+<br>
-+ BUILT_SOURCES =3D \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0vkcube.vert.spv.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-+@@ -30,7 +30,5 @@ vkcube_SOURCES =3D=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0esTransform.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0esUtil.h<br>
-+<br>
-+-CLEANFILES =3D $(BUILT_SOURCES)<br>
-+-<br>
-+ vkcube_CFLAGS =3D $(CFLAGS) $(MINIGBM_CPPFLAGS) $(LIBDRM_CFLAGS) $(WAYLAN=
-D_CFLAGS)=C2=A0 $(LIBPNG_CFLAGS)<br>
-+ vkcube_LDADD =3D $(MINIGBM_LDFLAGS) $(MESA_LDFLAGS) $(LIBDRM_LIBS) $(WAYL=
-AND_LIBS)=C2=A0 $(LIBPNG_LIBS) -lgbm -lm -lvulkan -lxcb<br>
-+--<br>
-+2.11.0<br>
-+<br>
-diff --git a/meta/recipes-graphics/<wbr>vulkan/<a href=3D"http://vkcube_git=
-.bb" rel=3D"noreferrer" target=3D"_blank">vkcube_git.bb</a> b/meta/recipes-=
-graphics/<wbr>vulkan/<a href=3D"http://vkcube_git.bb" rel=3D"noreferrer" ta=
-rget=3D"_blank">vkcube_git.bb</a><br>
-new file mode 100644<br>
-index 00000000000..4a5b345cbbf<br>
---- /dev/null<br>
-+++ b/meta/recipes-graphics/<wbr>vulkan/<a href=3D"http://vkcube_git.bb" re=
-l=3D"noreferrer" target=3D"_blank">vkcube_git.bb</a><br>
-@@ -0,0 +1,18 @@<br>
-+SUMMARY =3D &quot;A simple Vulkan demo&quot;<br>
-+HOMEPAGE =3D &quot;<a href=3D"https://github.com/krh/vkcube" rel=3D"norefe=
-rrer" target=3D"_blank">https://github.com/krh/vkcube</a><wbr>&quot;<br>
-+<br>
-+LICENSE =3D &quot;MIT&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;file://main.c;endline=3D24;md5=3D<wbr>9eb35fa55=
-73e696e3f59ec043ad2b5<wbr>bc&quot;<br>
-+<br>
-+PV =3D &quot;0+git${SRCPV}&quot;<br>
-+<br>
-+SRC_URI =3D &quot;git://<a href=3D"http://github.com/krh/vkcube.git" rel=
-=3D"noreferrer" target=3D"_blank">github.com/krh/vkcube.<wbr>git</a> \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Install-the-<wbr>vkcu=
-be-binary.patch&quot;<br>
-+SRCREV =3D &quot;<wbr>80c0d047c257f486d054f28b0b381a<wbr>bef3327069&quot;<=
-br>
-+<br>
-+S =3D &quot;${WORKDIR}/git&quot;<br>
-+<br>
-+inherit autotools pkgconfig distro_features_check<br>
-+REQUIRED_DISTRO_FEATURES =3D &quot;x11 wayland&quot;<br>
-+<br>
-+DEPENDS =3D &quot;libpng libxcb wayland mesa libdrm vulkan&quot;<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.11.0<br>
+</span>I don&#39;t see why.=C2=A0 Support for 4.10 has been in lttng-module=
+s&#39; stable-2.9<br>
+branch since January, and is included in the v2.9.1 release, which was<br>
+tagged a week ago, right before the 4.10 release.=C2=A0 I had intended to<b=
+r>
+send the update for lttng-modules on Monday but since I&#39;ve got it ready=
 <br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
+I&#39;ll send it in a few minutes.<br>
+<br>
+You should not need to use lttng-modules&#39; master branch to work with<br=
+>
+released Linux versions.<br></blockquote><div><br></div><div>Yup. If you lo=
+ok at the history of our lttng recipe .. I&#39;ve ben hacking on</div><div>=
+it for quite some time.</div><div>=C2=A0</div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
+">
+<span><br>
+<br>
+&gt; lttng just doesn&#39;t release often enough for bleeding edge kernels,=
+<br>
+<br>
+</span>That&#39;s not my impression at all. The LTTng project diligently tr=
+acks<br>
+upstream kernel development and ensures that the latest stable branch of<br=
+>
+lttng-modules supports the latest released kernel.<br></blockquote><div><br=
+></div><div>I didn&#39;t say they didn&#39;t do that. I&#39;m saying that t=
+hey don&#39;t spin enough=C2=A0</div><div>tarballs at times.</div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex">
+<span><br>
+<br>
+&gt; while maintaining<br>
+&gt; a set of patches on top of the released version is possible .. I don&#=
+39;t see<br>
+&gt; the point.<br>
+<br>
+</span>Maintaining a set of patches on top of the released version of<br>
+lttng-modules should not be necessary.<br></blockquote><div><br></div><div>=
+It is .. I&#39;m always ahead of released kernels. So when I work with a -d=
+ev</div><div>kernel, waiting for lttng to release doesn&#39;t work. I would=
+ have put out 4.10</div><div>a few weeks ago, but instead I kept waiting.</=
+div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex">
+<span><br>
+<br>
+&gt; I missed the discussion on this one when it first came out, so I misse=
+d the<br>
+&gt; reason that<br>
+&gt; we switched away from git to the release tarballs ?<br>
+<br>
+</span>I know there&#39;s a diversity of opinion on the subject in general,=
+ but in<br>
+the absence of a need to use git, I think using a release tarball should<br=
+>
+be preferred.<br></blockquote><div><br></div><div>In this case, I&#39;m swi=
+tching back to git, since for anyone working on newer</div><div>or in-devel=
+ kernels, the release process is just too slow. I&#39;ll avoid it since</di=
+v><div>you just put out the update, but when I start tracking 4.11 in a few=
+ weeks</div><div>.. it will again break the builds.</div><div><br></div><di=
+v>Bruce</div><div>=C2=A0</div></div><br><br clear=3D"all"><div><br></div>--=
+ <br><div class=3D"m_9193072267414708295gmail_signature" data-smartmail=3D"=
+gmail_signature">&quot;Thou shalt not follow the NULL pointer, for chaos an=
+d madness await thee at its end&quot;</div>
+</div></div>
 
---f403045d581235c04b054972f43a--
+--001a1137ac14fef54e05497546a4--
