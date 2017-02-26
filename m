@@ -1,46 +1,45 @@
 Return-Path: <liu.ming50@gmail.com>
-Received: from mail-yw0-f194.google.com (mail-yw0-f194.google.com
-	[209.85.161.194])
-	by mail.openembedded.org (Postfix) with ESMTP id DBFB571ADD
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id D354B71ADD
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Feb 2017 07:39:35 +0000 (UTC)
-Received: by mail-yw0-f194.google.com with SMTP id 203so4032284ywz.1
+	Sun, 26 Feb 2017 07:44:57 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id m70so8811066wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Feb 2017 23:39:37 -0800 (PST)
+	Sat, 25 Feb 2017 23:44:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=uZS0wfSsgfScdMEW3lJgaZG2i+OFDw0NfqjJZOcTlFY=;
-	b=SJTGMhpz0Sy/0zefEszqYEkRJIJJh+1+4MyuUE8ZBtxD0h5w9ZIY9nFG+p4wJXTvbN
-	n/DuxykWKMuCIblgMLa4UZfx9CcXXBRytcLgqvyGplzg/59MEZvMaBsRrFCGN+EAHmfh
-	96slrHSmEHFF7TLatepcu9lEZkAlKtqyoU+ap6aWKQ2Dao1UAUoxx2wYDZK5b3MzUeeL
-	6hkHUU0frNfjXMaPSEzmIjP8g+eyQKbheJdYt5jUw2rqVHdaPNKZpb3BCyX73kjFWgFj
-	68owplmViQb80fq+Qb63tOnTubG5QwLpbMxy/EvXUhS27xuzQT7Ok3aov/CuLddCRQ0i
-	8Eng==
+	bh=PzqDeCcGz0rdUkC7ApRGs+GGlSjqJBl87QqbT3+oCIc=;
+	b=Bk2siaQ3SE/5YipBIX+Vgv7p5gm3QKPECNbb6v1D08I10yZ3a+ewyMXecCe355zVZA
+	e+JdslvEP/hVX7+m44Iktan5STKOCRELT9WhoczPFCEl4tj5dbACaQL0tkaNKp4IwsFH
+	dGApvNXzSFmsDrsfF/As+RGdDC5geQwug8hGC4tvuz+Kfe/lIMG0LLfgd1C/98JgU7mr
+	ZVZtNkNhJcll3y47kfBP4owRFhuY/qCOtwE7aszq36dAYzrMD42sNZSHPj9XIm668dfF
+	5UNLkSVe1nq5Cz2eFe63TP54lLK/PJdOtWrw8jH6kufwMixLMXEnMXHJ37OA2NBm1DA8
+	KsWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=uZS0wfSsgfScdMEW3lJgaZG2i+OFDw0NfqjJZOcTlFY=;
-	b=bMPr9X/oIeYSRvRo/obO/bHSZbQsW6qE0KEZI9sRbqOa7YdWwSVNMItRBNSqAvwyII
-	pU0A6zowXg2EFeQk6+bHczYcS4LwXDCQljvUDXLSCEx8m2M2Fkd5P2vG4TbA92vS8Ewl
-	YzG1RmY5c/9yfbFKPMCX1BEqh10hGcmiy8vmLZasQtDmZ0wZFp5JMMB4EkbJKrz/ooMf
-	d7mTlzzYOnVZQC8ad4p2vQtmMScMTsRzwh5wYP7aEzHFB5riRvlaZEpPEqzCF8sDF6EH
-	BegF074qZU0uZMGY4rqWOMfr3/ofowFu9nfovO/pwWAOBbEodTFyTRnNgogErslpiMCJ
-	fwlQ==
-X-Gm-Message-State: AMke39kPqa1t28Wi3pdT1OhmxCmCHHWmN5Gxr96/u2A0l84EduhucfunqxDm0K9vP1QK3A==
-X-Received: by 10.13.245.2 with SMTP id e2mr7690153ywf.159.1488094776649;
-	Sat, 25 Feb 2017 23:39:36 -0800 (PST)
+	bh=PzqDeCcGz0rdUkC7ApRGs+GGlSjqJBl87QqbT3+oCIc=;
+	b=W0pPUeD04bwNU9aUSOl7g4dagUvlmAQNG4Y0RZByFKgjiSP8AAl/p44FGnIJlIRTay
+	mi+ghlmLrEI/d9BU/XoWo0ILUM3Ru/VxvZJ/w8IXdWn1IHtDuXoS5QBeVYGux5IoAD7y
+	0UCrUEZdefHvMcGwl11KyeDbudLNhyOk17poYCw2/nvovSx8JIAzCFW9BUribMio1o28
+	NtAL1JMH5u05mM+lWh62RXOd5DAQ+myL0GUQhZ3tkJqW279RKO04rE4GqHRh8HA5W0TV
+	qBi4WtZMFIl182OaTZgBfplhOq+H/9PUcF6nqmvp0WXWfN6TjgNUuSq/Fzs+cv6Aj/DQ
+	Kclg==
+X-Gm-Message-State: AMke39m6UlLloxPxdEOPGApfFA6swFOb9Xo2mvd+WgItTLcbnc/ETASUrTYc7+vsZz0iYg==
+X-Received: by 10.28.65.132 with SMTP id o126mr8574154wma.14.1488095097819;
+	Sat, 25 Feb 2017 23:44:57 -0800 (PST)
 Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
 	([117.136.38.27]) by smtp.gmail.com with ESMTPSA id
-	b74sm5246806ywe.56.2017.02.25.23.39.33
+	45sm17236696wrx.60.2017.02.25.23.44.54
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 25 Feb 2017 23:39:35 -0800 (PST)
+	Sat, 25 Feb 2017 23:44:57 -0800 (PST)
 From: liu.ming50@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 26 Feb 2017 08:39:19 +0100
-Message-Id: <1488094759-13014-1-git-send-email-liu.ming50@gmail.com>
+Date: Sun, 26 Feb 2017 08:44:45 +0100
+Message-Id: <1488095085-14639-1-git-send-email-liu.ming50@gmail.com>
 X-Mailer: git-send-email 1.9.1
 Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH] generate-manifest-2.7.py: add logic to generate native manifest
+Subject: [PATCH] generate-manifest-3.5.py: add logic to generate native manifest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,94 +52,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Feb 2017 07:39:37 -0000
+X-List-Received-Date: Sun, 26 Feb 2017 07:44:58 -0000
 
 From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-python-native supposes to RPROVIDE all native packages as added in
-generate-manifest-2.7.py, but it does not so far, this leads a problem
-that sometimes bitbake cant find a runtime provider for a python-*-native
+python3-native supposes to RPROVIDE all native packages as added in
+generate-manifest-3.5.py, but it does not so far, this leads a problem
+that sometimes bitbake cant find a runtime provider for a python3-*-native
 when a new runtime dependency on it being required, this usualy happens
-after a new native python-* recipe is created or the old native python-*
+after a new native python3-* recipe is created or the old native python3-*
 recipes are upgraded.
-
-To give a example, the following commit is trying to address such a issue:
-commit 4583cd1bb15306e8f0ab7bcd80732e6f35aa4533:
-[ python-native: Make python-native also RPROVIDE python-unittest-native ]
 
 To avoid manually extending RPROVIDE every time when a new runtime
 dependency is introduced, an argument '-n/--native' is added to the
-manifest generator, allowing it create a native python manifest, with a
+manifest generator, allowing it create a native python3 manifest, with a
 RPROVIDE line only, the RPROVIDE should contain all the sub-packages.
 
-The generated python-native-2.7-manifest.inc is also added which is
-included by python-native recipe.
+The generated python-native-3.5-manifest.inc is also added which is
+included by python3-native recipe.
 
 Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
 ---
- .../python/python-native-2.7-manifest.inc          | 11 +++++++
- .../python/python-native_2.7.12.bb                 |  9 +-----
- scripts/contrib/python/generate-manifest-2.7.py    | 37 ++++++++++++++++++----
- 3 files changed, 42 insertions(+), 15 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python-native-2.7-manifest.inc
+ .../python/python-native-3.5-manifest.inc          | 11 +++++++
+ .../python/python3-native_3.5.2.bb                 | 27 +---------------
+ scripts/contrib/python/generate-manifest-3.5.py    | 37 ++++++++++++++++++----
+ 3 files changed, 42 insertions(+), 33 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python-native-3.5-manifest.inc
 
-diff --git a/meta/recipes-devtools/python/python-native-2.7-manifest.inc b/meta/recipes-devtools/python/python-native-2.7-manifest.inc
+diff --git a/meta/recipes-devtools/python/python-native-3.5-manifest.inc b/meta/recipes-devtools/python/python-native-3.5-manifest.inc
 new file mode 100644
-index 0000000..f45147b
+index 0000000..aa4c4f5
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python-native-2.7-manifest.inc
++++ b/meta/recipes-devtools/python/python-native-3.5-manifest.inc
 @@ -0,0 +1,11 @@
 +
 +# WARNING: This file is AUTO GENERATED: Manual edits will be lost next time I regenerate the file.
-+# Generator: '../../../scripts/contrib/python/generate-manifest-2.7.py --native' Version 20110222.2 (C) 2002-2010 Michael 'Mickey' Lauer <mlauer@vanille-media.de>
++# Generator: '../../../scripts/contrib/python/generate-manifest-3.5.py --native' Version 20140131 (C) 2002-2010 Michael 'Mickey' Lauer <mlauer@vanille-media.de>
 +# Visit the Python for Embedded Systems Site => http://www.Vanille.de/projects/python.spy
 +
 + 
 +
-+RPROVIDES+="python-2to3-native python-argparse-native python-audio-native python-bsddb-native python-codecs-native python-compile-native python-compiler-native python-compression-native python-contextlib-native python-core-native python-crypt-native python-ctypes-native python-curses-native python-datetime-native python-db-native python-debugger-native python-dev-native python-difflib-native python-distutils-native python-distutils-staticdev-native python-doctest-native python-email-native python-fcntl-native python-gdbm-native python-hotshot-native python-html-native python-idle-native python-image-native python-importlib-native python-io-native python-json-native python-lang-native python-logging-native python-mailbox-native python-math-native python-mime-native python-mmap-native python-multiprocessing-native python-netclient-native python-netserver-native python-numbers-native python-pickle-native python-pkgutil-native python-plistlib-native python-pprint-native python-profile-native python-pydoc-native python-re-native python-readline-native python-resource-native python-robotparser-native python-shell-native python-smtpd-native python-sqlite3-native python-sqlite3-tests-native python-stringold-native python-subprocess-native python-syslog-native python-terminal-native python-tests-native python-textutils-native python-threading-native python-tkinter-native python-unittest-native python-unixadmin-native python-xml-native python-xmlrpc-native python-zlib-native "
++RPROVIDES+="python3-2to3-native python3-argparse-native python3-asyncio-native python3-audio-native python3-codecs-native python3-compile-native python3-compression-native python3-core-native python3-crypt-native python3-ctypes-native python3-curses-native python3-datetime-native python3-db-native python3-debugger-native python3-dev-native python3-difflib-native python3-distutils-native python3-distutils-staticdev-native python3-doctest-native python3-email-native python3-enum-native python3-fcntl-native python3-gdbm-native python3-html-native python3-idle-native python3-image-native python3-importlib-native python3-io-native python3-json-native python3-lang-native python3-logging-native python3-mailbox-native python3-math-native python3-mime-native python3-mmap-native python3-multiprocessing-native python3-netclient-native python3-netserver-native python3-numbers-native python3-pickle-native python3-pkgutil-native python3-pprint-native python3-profile-native python3-pydoc-native python3-re-native python3-readline-native python3-reprlib-native python3-resource-native python3-selectors-native python3-shell-native python3-signal-native python3-smtpd-native python3-sqlite3-native python3-sqlite3-tests-native python3-stringold-native python3-subprocess-native python3-syslog-native python3-terminal-native python3-tests-native python3-textutils-native python3-threading-native python3-tkinter-native python3-typing-native python3-unittest-native python3-unixadmin-native python3-xml-native python3-xmlrpc-native "
 +
 +
 +
-diff --git a/meta/recipes-devtools/python/python-native_2.7.12.bb b/meta/recipes-devtools/python/python-native_2.7.12.bb
-index 9a6430d..7edf153 100644
---- a/meta/recipes-devtools/python/python-native_2.7.12.bb
-+++ b/meta/recipes-devtools/python/python-native_2.7.12.bb
-@@ -25,14 +25,7 @@ FILESEXTRAPATHS =. "${FILE_DIRNAME}/${PN}:"
+diff --git a/meta/recipes-devtools/python/python3-native_3.5.2.bb b/meta/recipes-devtools/python/python3-native_3.5.2.bb
+index bf4e686..edcf224 100644
+--- a/meta/recipes-devtools/python/python3-native_3.5.2.bb
++++ b/meta/recipes-devtools/python/python3-native_3.5.2.bb
+@@ -41,32 +41,7 @@ DEPENDS = "openssl-native bzip2-replacement-native zlib-native readline-native s
  
  inherit native
  
--RPROVIDES += "python-distutils-native \
--    python-compression-native \
--    python-textutils-native \
--    python-codecs-native \
--    python-core-native \
--    python-unittest-native \
--    python-io-native \
+-RPROVIDES += " \
+-    python3-compression-native \
+-    python3-core-native \
+-    python3-distutils-native \
+-    python3-datetime-native \
+-    python3-enum-native \
+-    python3-terminal-native \
+-    python3-email-native \
+-    python3-importlib-native \
+-    python3-io-native \
+-    python3-json-native \
+-    python3-lang-native \
+-    python3-misc-native \
+-    python3-modules-native \
+-    python3-netclient-native \
+-    python3-netserver-native \
+-    python3-numbers-native \
+-    python3-pkgutil-native \
+-    python3-pprint-native \
+-    python3-re-native \
+-    python3-shell-native \
+-    python3-subprocess-native \
+-    python3-textutils-native \
+-    python3-threading-native \
+-    python3-unittest-native \
 -"
 +require python-native-${PYTHON_MAJMIN}-manifest.inc
  
- EXTRA_OECONF_append = " --bindir=${bindir}/${PN} --with-system-expat=${STAGING_DIR_HOST}"
+ EXTRA_OECONF_append = " --bindir=${bindir}/${PN} --without-ensurepip"
  
-diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/contrib/python/generate-manifest-2.7.py
-index f2ecf8d..6f7a4c3 100755
---- a/scripts/contrib/python/generate-manifest-2.7.py
-+++ b/scripts/contrib/python/generate-manifest-2.7.py
-@@ -9,10 +9,14 @@
- #  * Updated to no longer generate special -dbg package, instead use the
- #    single system -dbg
- #  * Update version with ".1" to indicate this change
-+#
+diff --git a/scripts/contrib/python/generate-manifest-3.5.py b/scripts/contrib/python/generate-manifest-3.5.py
+index 5e2eeb7..a7fc8ba 100755
+--- a/scripts/contrib/python/generate-manifest-3.5.py
++++ b/scripts/contrib/python/generate-manifest-3.5.py
+@@ -13,9 +13,13 @@
+ # 2014 Khem Raj <raj.khem@gmail.com>
+ # Added python3 support
+ #
 +# February 26, 2017 -- Ming Liu <peter.x.liu@external.atlascopco.com>
-+#  * Updated to support generating manifest for native python
- 
++# * Updated to support generating manifest for native python3
++
  import os
  import sys
  import time
 +import argparse
  
- VERSION = "2.7.2"
+ VERSION = "3.5.0"
  
-@@ -21,16 +25,17 @@ __version__ = "20110222.2"
+@@ -24,16 +28,17 @@ __version__ = "20140131"
  
  class MakefileMaker:
  
@@ -161,7 +173,7 @@ index f2ecf8d..6f7a4c3 100755
  
      #
      # helper functions
-@@ -66,6 +71,20 @@ class MakefileMaker:
+@@ -79,6 +84,20 @@ class MakefileMaker:
          global VERSION
  
          #
@@ -171,7 +183,7 @@ index f2ecf8d..6f7a4c3 100755
 +        if self.isNative:
 +            rprovideLine = 'RPROVIDES+="'
 +            for name in sorted(self.packages):
-+                rprovideLine += "%s-native " % name.replace( '${PN}', 'python' )
++                rprovideLine += "%s-native " % name.replace( '${PN}', 'python3' )
 +            rprovideLine += '"'
 +
 +            self.out( rprovideLine )
@@ -182,12 +194,12 @@ index f2ecf8d..6f7a4c3 100755
          # generate provides line
          #
  
-@@ -147,17 +166,21 @@ class MakefileMaker:
+@@ -160,17 +179,21 @@ class MakefileMaker:
          self.doEpilog()
  
  if __name__ == "__main__":
-+    parser = argparse.ArgumentParser( description='generate python manifest' )
-+    parser.add_argument( '-n', '--native', help='generate manifest for native python', action='store_true' )
++    parser = argparse.ArgumentParser( description='generate python3 manifest' )
++    parser.add_argument( '-n', '--native', help='generate manifest for native python3', action='store_true' )
 +    parser.add_argument( 'outfile', metavar='OUTPUT_FILE', nargs='?', default='', help='Output file (defaults to stdout)' )
 +    args = parser.parse_args()
  
