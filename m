@@ -1,45 +1,33 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id EC9376FFA1
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
+	by mail.openembedded.org (Postfix) with ESMTP id CB39472F8B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Feb 2017 08:05:22 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id u63so8837683wmu.2
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Feb 2017 00:05:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=DJ9GkCN97esouVvNf5k0lU2fgim46pWYez/ZFL3tjMY=;
-	b=dqkb++h1RDYiQka9Q5o8sn/hj98fUgFgmYu6N6TcirSNvIIep4djSEHxP8N+P3nJtG
-	2vQaEovFOsHPe5I/NsSYnHrmCMsVr4p+sSAs+wQDvhX9nsrg0+o5YjMJCqxEagTSnehF
-	FeywWAwizbG86Zl2XeTYvV/3/hkd6tgoMMUekkw7e6vlA0R2KP19C9SNyzA6XmgQHdvp
-	R2PLp/Cm6eh5o1mht0uHP9aWBfqnShHPSa4vrN9XVUd1ySu1SE4IQX3ls5kUvqmbHN7A
-	jQVeC+sIJ3ioOkRZZib/H+QygLSxBb0aPzIECpZ6siMhXT7tQIR3NMmasuFK1+T3dfeq
-	6zNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=DJ9GkCN97esouVvNf5k0lU2fgim46pWYez/ZFL3tjMY=;
-	b=EQ+pO6yNpEsqKqRR5wI6SbKCjo1o32KWKBXSr2w+kvzUhjZqeXlLrWrx3SSeZCVQoF
-	TZJSM3UEsViBJZNo4nVdYYgws5uGzeflkQ19RQvc6ovONo7P5xg3KEHS1eNg6vMj++5m
-	LoOt8s8SjdblC1LODcVWUin0wpNuiCjYzt7KXLTQEH3aVeVMDf5wOqICV9klD4/LdJ0r
-	ogN/1iUsiHqCqkOZ7or94m6p1lY7d7nyQX/LhMIE3/aiLK4yl1C85587zUkkd4vbES4y
-	cDT+xBdO8Zr918Hubfd09m6fWdxPk+eUVfM8j/S9HofX0aH/nxXB6yAb9sTyBMr0ZabU
-	Q/KA==
-X-Gm-Message-State: AMke39kPkqbQj0d5Dt6qVguCVLr7h5Cbm7I94aYk2BPgisbVFd81/X+WnUDR2QxV7KCerA==
-X-Received: by 10.28.68.10 with SMTP id r10mr9461245wma.68.1488096323258;
-	Sun, 26 Feb 2017 00:05:23 -0800 (PST)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([117.136.38.27]) by smtp.gmail.com with ESMTPSA id
-	o106sm8575601wrb.63.2017.02.26.00.05.19
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 26 Feb 2017 00:05:22 -0800 (PST)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 26 Feb 2017 09:05:11 +0100
-Message-Id: <1488096311-20449-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH] generate-manifest-2.7.py: fix python-tests rdepends
+	Sun, 26 Feb 2017 11:37:41 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
+	via TCP (outbound) with ESMTPS id 20170226113658932_0486;
+	Sun, 26 Feb 2017 11:36:58 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [174.118.92.171] (port=43806 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1chx8F-0003f8-Rc; Sun, 26 Feb 2017 06:36:51 -0500
+Date: Sun, 26 Feb 2017 06:36:49 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: Christopher Larson <clarson@kergoth.com>
+In-Reply-To: <CABcZANnkk64RWAw4vHVc92QXQmuaBXD9yK0x95u2fw=SOh7jUQ@mail.gmail.com>
+Message-ID: <alpine.LFD.2.20.1702260626400.21279@localhost.localdomain>
+References: <alpine.LFD.2.20.1612190527590.8267@localhost.localdomain>
+	<CABcZANnv7=zxZ7MNT4kDPKxScTYkJa44qAxt5Lvfc-L4=-Kb0A@mail.gmail.com>
+	<CABcZAN=X+O23y=utG3iBvsdPNo1g9qM7H2JAT1PUpt-R=AYCBg@mail.gmail.com>
+	<alpine.LFD.2.20.1612191246350.4848@localhost.localdomain>
+	<CABcZANnkk64RWAw4vHVc92QXQmuaBXD9yK0x95u2fw=SOh7jUQ@mail.gmail.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: a few questions about "COMPATIBLE_MACHINE" variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,38 +40,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Feb 2017 08:05:23 -0000
+X-List-Received-Date: Sun, 26 Feb 2017 11:37:42 -0000
+Content-Type: multipart/mixed; BOUNDARY="8323328-548808278-1488109011=:21279"
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+--8323328-548808278-1488109011=:21279
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-A potential flaw was introduced by commit a8dc4bc0:
-[ python: fix python-tests rdepends ]
 
-It made python-tests RDEPENDS on python-modules which is correct, but
-this should be done in generate-manifest-2.7.py, and re-generate the
-manifest.
+  (following up on a short discussion from back in december on proper
+setting for COMPATIBLE_MACHINE ...)
 
-Fixed by adding this dependency in generate-manifest-2.7.py as well.
+On Mon, 19 Dec 2016, Christopher Larson wrote:
 
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
----
- scripts/contrib/python/generate-manifest-2.7.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> On Mon, Dec 19, 2016 at 10:56 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+>       i suspected as much. still, would consistency dictate using
+>       parentheses or not? just a style thing.
+>
+>
+> I think it’s largely personal preference. Personally, using a
+> capture when we don’t need one is ugly to me, so I’d rather see it
+> only used when needed, but that’s just my opinion. The upside to
+> always using a capture is it makes it clearer, at a glance, to a new
+> user that it’s not just a word or list of words, but a regular
+> expression.
+>  
+>       >       next, if the possibilities in a list are REs, what is the
+>       >       point of explicitly listing, say, "qemuarm|qemuarm64"? would
+>       >       not the RE "qemuarm" subsume the more explicit "qemuarm64"?
+>       >       same for the other architectures. (one could suggest that that
+>       >       entire line could be shortened to "... = (^qemu)".)
+>       >
+>       > Just qemu would potentially match future qemu machines which aren’t
+>       > actually supported, so I don’t think that would be appropriate. It’d
+>       > match too much.
+>
+>         i realized that, i was just being technical. :-) in any event, as it
+>       is, it would *still* match too much, anything starting with
+>       "qemuarm", for example.
+>
+>
+> Good point, yes. 
+>
+>       >         the above seems pretty clear since the following lines would appear
+>       >       to say that *only* the qemux86 is compatible:
+>       >
+>       >         linux-yocto-tiny_4.1.bb:COMPATIBLE_MACHINE = "(qemux86$)"
+>       >         linux-yocto-tiny_4.4.bb:COMPATIBLE_MACHINE = "(qemux86$)"
+>       >         linux-yocto-tiny_4.8.bb:COMPATIBLE_MACHINE = "(qemux86$)"
+>       >
+>       >       which suggests the following passage from the YP kernel dev manual is
+>       >       a bit misleading:
+>       >
+>       >         "You must change it to match a list of the machines that your new
+>       >         recipe supports. For example, to support the qemux86 and qemux86-64
+>       >         machines, use the following form:
+>       >
+>       >              COMPATIBLE_MACHINE = "qemux86|qemux86-64"
+>       >
+>       >       and if all this is true, then if you're introducing a new machine, to
+>       >       be magnificently pedantic, one should not use:
+>       >
+>       >         COMPATIBLE_MACHINE_machinename = "machinename"
+>       >
+>       >       but
+>       >
+>       >         COMPATIBLE_MACHINE_machinename = "^machinename$"
+>       >
+>       >       just to play it safe. am i reading all this correctly?
+>       >
+>       >
+>       > Yes, that’s correct, though we need the trailing $ but not the
+>       > leading ^, as it’s using re.match, not re.search — meaning it only
+>       > matches at the beginning of the string, it doesn’t search the string
+>       > to find a match.
+>
+>         ah, quite right, i had forgotten that. again, in any event, both the
+>       code and documentation could probably be tweaked to make all of this
+>       more obvious.
+>
+>
+> Absolutely agreed. For this regex specifically, an argument could be
+> made that a lack of a trailing $ is almost certainly a bug. I could
+> argue that it should either be implicit, though that would be
+> limiting, or failing to include it could trigger a warning unless
+> you explicitly state you know what you’re doing :) Hmm..
 
-diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/contrib/python/generate-manifest-2.7.py
-index f2ecf8d..c8f305b 100755
---- a/scripts/contrib/python/generate-manifest-2.7.py
-+++ b/scripts/contrib/python/generate-manifest-2.7.py
-@@ -360,7 +360,7 @@ if __name__ == "__main__":
-     m.addPackage( "${PN}-terminal", "Python terminal controlling support", "${PN}-core ${PN}-io",
-     "pty.* tty.*" )
- 
--    m.addPackage( "${PN}-tests", "Python tests", "${PN}-core",
-+    m.addPackage( "${PN}-tests", "Python tests", "${PN}-core ${PN}-modules",
-     "test" ) # package
- 
-     m.addPackage( "${PN}-threading", "Python threading & synchronization support", "${PN}-core ${PN}-lang",
+  i'm following up only because i'm going through the YP kernel-dev
+manual, and it contains the following snippet:
+
+    For example, to support the qemux86 and qemux86-64 machines, use
+    the following form:
+
+     COMPATIBLE_MACHINE = "qemux86|qemux86-64"
+
+which, as chris explained, because matching uses python's "re.match"
+operator, already anchors the search string at the beginning but not
+at the end so, technically and pedantically, it could be assigned
+equally well with (at least for the moment):
+
+     COMPATIBLE_MACHINE = "qemux86"
+
+or, more precisely:
+
+     COMPATIBLE_MACHINE = "qemux86$|qemux86-64$"
+
+is there a style guide entry for proper use of COMPATIBLE_MACHINE?
+having the manuals make suggestions that are potentially confusing
+to inexperienced users seems like a bad idea.
+
+rday
+
 -- 
-1.9.1
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+--8323328-548808278-1488109011=:21279--
