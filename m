@@ -1,27 +1,46 @@
-Return-Path: <Nathan_Lynch@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 5316473133
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-yw0-f194.google.com (mail-yw0-f194.google.com
+	[209.85.161.194])
+	by mail.openembedded.org (Postfix) with ESMTP id DBFB571ADD
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Feb 2017 04:29:54 +0000 (UTC)
-Received: from svr-orw-mbx-02.mgc.mentorg.com ([147.34.90.202])
-	by relay1.mentorg.com with esmtp 
-	id 1chqT6-0004uf-Os from Nathan_Lynch@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Sat, 25 Feb 2017 20:29:56 -0800
-Received: from localhost (147.34.91.1) by svr-orw-mbx-02.mgc.mentorg.com
-	(147.34.90.202) with Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Sat, 25 Feb 2017 20:29:53 -0800
-From: Nathan Lynch <nathan_lynch@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 25 Feb 2017 22:29:45 -0600
-Message-ID: <20170226042945.40308-2-nathan_lynch@mentor.com>
-X-Mailer: git-send-email 2.9.3
-In-Reply-To: <20170226042945.40308-1-nathan_lynch@mentor.com>
-References: <20170226042945.40308-1-nathan_lynch@mentor.com>
-MIME-Version: 1.0
-X-ClientProxiedBy: svr-orw-mbx-02.mgc.mentorg.com (147.34.90.202) To
-	svr-orw-mbx-02.mgc.mentorg.com (147.34.90.202)
-Subject: [PATCH 2/2] lttng-tools: update to 2.9.4
+	Sun, 26 Feb 2017 07:39:35 +0000 (UTC)
+Received: by mail-yw0-f194.google.com with SMTP id 203so4032284ywz.1
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 25 Feb 2017 23:39:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=uZS0wfSsgfScdMEW3lJgaZG2i+OFDw0NfqjJZOcTlFY=;
+	b=SJTGMhpz0Sy/0zefEszqYEkRJIJJh+1+4MyuUE8ZBtxD0h5w9ZIY9nFG+p4wJXTvbN
+	n/DuxykWKMuCIblgMLa4UZfx9CcXXBRytcLgqvyGplzg/59MEZvMaBsRrFCGN+EAHmfh
+	96slrHSmEHFF7TLatepcu9lEZkAlKtqyoU+ap6aWKQ2Dao1UAUoxx2wYDZK5b3MzUeeL
+	6hkHUU0frNfjXMaPSEzmIjP8g+eyQKbheJdYt5jUw2rqVHdaPNKZpb3BCyX73kjFWgFj
+	68owplmViQb80fq+Qb63tOnTubG5QwLpbMxy/EvXUhS27xuzQT7Ok3aov/CuLddCRQ0i
+	8Eng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=uZS0wfSsgfScdMEW3lJgaZG2i+OFDw0NfqjJZOcTlFY=;
+	b=bMPr9X/oIeYSRvRo/obO/bHSZbQsW6qE0KEZI9sRbqOa7YdWwSVNMItRBNSqAvwyII
+	pU0A6zowXg2EFeQk6+bHczYcS4LwXDCQljvUDXLSCEx8m2M2Fkd5P2vG4TbA92vS8Ewl
+	YzG1RmY5c/9yfbFKPMCX1BEqh10hGcmiy8vmLZasQtDmZ0wZFp5JMMB4EkbJKrz/ooMf
+	d7mTlzzYOnVZQC8ad4p2vQtmMScMTsRzwh5wYP7aEzHFB5riRvlaZEpPEqzCF8sDF6EH
+	BegF074qZU0uZMGY4rqWOMfr3/ofowFu9nfovO/pwWAOBbEodTFyTRnNgogErslpiMCJ
+	fwlQ==
+X-Gm-Message-State: AMke39kPqa1t28Wi3pdT1OhmxCmCHHWmN5Gxr96/u2A0l84EduhucfunqxDm0K9vP1QK3A==
+X-Received: by 10.13.245.2 with SMTP id e2mr7690153ywf.159.1488094776649;
+	Sat, 25 Feb 2017 23:39:36 -0800 (PST)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([117.136.38.27]) by smtp.gmail.com with ESMTPSA id
+	b74sm5246806ywe.56.2017.02.25.23.39.33
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 25 Feb 2017 23:39:35 -0800 (PST)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 26 Feb 2017 08:39:19 +0100
+Message-Id: <1488094759-13014-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: [PATCH] generate-manifest-2.7.py: add logic to generate native manifest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,85 +53,162 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Feb 2017 04:29:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 26 Feb 2017 07:39:37 -0000
 
-Drop upstreamed patch.
+From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-Signed-off-by: Nathan Lynch <nathan_lynch@mentor.com>
+python-native supposes to RPROVIDE all native packages as added in
+generate-manifest-2.7.py, but it does not so far, this leads a problem
+that sometimes bitbake cant find a runtime provider for a python-*-native
+when a new runtime dependency on it being required, this usualy happens
+after a new native python-* recipe is created or the old native python-*
+recipes are upgraded.
+
+To give a example, the following commit is trying to address such a issue:
+commit 4583cd1bb15306e8f0ab7bcd80732e6f35aa4533:
+[ python-native: Make python-native also RPROVIDE python-unittest-native ]
+
+To avoid manually extending RPROVIDE every time when a new runtime
+dependency is introduced, an argument '-n/--native' is added to the
+manifest generator, allowing it create a native python manifest, with a
+RPROVIDE line only, the RPROVIDE should contain all the sub-packages.
+
+The generated python-native-2.7-manifest.inc is also added which is
+included by python-native recipe.
+
+Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
 ---
- .../utils-remove-bogus-interpreter.patch           | 35 ----------------------
- .../{lttng-tools_2.9.3.bb => lttng-tools_2.9.4.bb} |  8 ++---
- 2 files changed, 4 insertions(+), 39 deletions(-)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/utils-remove-bogus-interpreter.patch
- rename meta/recipes-kernel/lttng/{lttng-tools_2.9.3.bb => lttng-tools_2.9.4.bb} (95%)
+ .../python/python-native-2.7-manifest.inc          | 11 +++++++
+ .../python/python-native_2.7.12.bb                 |  9 +-----
+ scripts/contrib/python/generate-manifest-2.7.py    | 37 ++++++++++++++++++----
+ 3 files changed, 42 insertions(+), 15 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python-native-2.7-manifest.inc
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/utils-remove-bogus-interpreter.patch b/meta/recipes-kernel/lttng/lttng-tools/utils-remove-bogus-interpreter.patch
-deleted file mode 100644
-index f08198208d4f..000000000000
---- a/meta/recipes-kernel/lttng/lttng-tools/utils-remove-bogus-interpreter.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From 4545eae3bccb0f5a97509d1405a28000029a8d7d Mon Sep 17 00:00:00 2001
--From: Nathan Lynch <nathan_lynch@mentor.com>
--Date: Mon, 9 Jan 2017 16:14:28 -0600
--Subject: [PATCH] lttng-tools: remove bogus interpreter line from utils shell
-- library
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--tests/utils/utils.sh is always sourced, never executed, and
--/src/bin/bash is not a typical path for a shell interpreter.  Just
--delete it.
--
--Signed-off-by: Nathan Lynch <nathan_lynch@mentor.com>
--Signed-off-by: Jérémie Galarneau <jeremie.galarneau@efficios.com>
-----
--
--Upstream-Status: Backport
--
-- tests/utils/utils.sh | 2 --
-- 1 file changed, 2 deletions(-)
--
--diff --git a/tests/utils/utils.sh b/tests/utils/utils.sh
--index 05d88650e9f3..9db0640b70f3 100644
----- a/tests/utils/utils.sh
--+++ b/tests/utils/utils.sh
--@@ -1,5 +1,3 @@
---#!/src/bin/bash
---#
-- # Copyright (C) - 2012 David Goulet <dgoulet@efficios.com>
-- #
-- # This library is free software; you can redistribute it and/or modify it under
---- 
--2.7.4
--
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.9.3.bb b/meta/recipes-kernel/lttng/lttng-tools_2.9.4.bb
-similarity index 95%
-rename from meta/recipes-kernel/lttng/lttng-tools_2.9.3.bb
-rename to meta/recipes-kernel/lttng/lttng-tools_2.9.4.bb
-index 4c11e5b73dc3..fbf3ae985167 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.9.3.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.9.4.bb
-@@ -28,11 +28,11 @@ PACKAGECONFIG_remove_libc-musl = "lttng-ust"
+diff --git a/meta/recipes-devtools/python/python-native-2.7-manifest.inc b/meta/recipes-devtools/python/python-native-2.7-manifest.inc
+new file mode 100644
+index 0000000..f45147b
+--- /dev/null
++++ b/meta/recipes-devtools/python/python-native-2.7-manifest.inc
+@@ -0,0 +1,11 @@
++
++# WARNING: This file is AUTO GENERATED: Manual edits will be lost next time I regenerate the file.
++# Generator: '../../../scripts/contrib/python/generate-manifest-2.7.py --native' Version 20110222.2 (C) 2002-2010 Michael 'Mickey' Lauer <mlauer@vanille-media.de>
++# Visit the Python for Embedded Systems Site => http://www.Vanille.de/projects/python.spy
++
++ 
++
++RPROVIDES+="python-2to3-native python-argparse-native python-audio-native python-bsddb-native python-codecs-native python-compile-native python-compiler-native python-compression-native python-contextlib-native python-core-native python-crypt-native python-ctypes-native python-curses-native python-datetime-native python-db-native python-debugger-native python-dev-native python-difflib-native python-distutils-native python-distutils-staticdev-native python-doctest-native python-email-native python-fcntl-native python-gdbm-native python-hotshot-native python-html-native python-idle-native python-image-native python-importlib-native python-io-native python-json-native python-lang-native python-logging-native python-mailbox-native python-math-native python-mime-native python-mmap-native python-multiprocessing-native python-netclient-native python-netserver-native python-numbers-native python-pickle-native python-pkgutil-native python-plistlib-native python-pprint-native python-profile-native python-pydoc-native python-re-native python-readline-native python-resource-native python-robotparser-native python-shell-native python-smtpd-native python-sqlite3-native python-sqlite3-tests-native python-stringold-native python-subprocess-native python-syslog-native python-terminal-native python-tests-native python-textutils-native python-threading-native python-tkinter-native python-unittest-native python-unixadmin-native python-xml-native python-xmlrpc-native python-zlib-native "
++
++
++
+diff --git a/meta/recipes-devtools/python/python-native_2.7.12.bb b/meta/recipes-devtools/python/python-native_2.7.12.bb
+index 9a6430d..7edf153 100644
+--- a/meta/recipes-devtools/python/python-native_2.7.12.bb
++++ b/meta/recipes-devtools/python/python-native_2.7.12.bb
+@@ -25,14 +25,7 @@ FILESEXTRAPATHS =. "${FILE_DIRNAME}/${PN}:"
  
- SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
-            file://x32.patch \
--           file://utils-remove-bogus-interpreter.patch \
--           file://run-ptest"
-+           file://run-ptest \
-+           "
+ inherit native
  
--SRC_URI[md5sum] = "19fdcc5e9c307ef66581a2743a08a541"
--SRC_URI[sha256sum] = "a6e6baaaa977dcbc9bce6b675881eec664599b86f0d905a7b0b508539407b24e"
-+SRC_URI[md5sum] = "10f47abfa214b167580358388428770d"
-+SRC_URI[sha256sum] = "3c72456bceef961fad1d0861f07478db16b7659efa69099ba36645da89ca2cc5"
+-RPROVIDES += "python-distutils-native \
+-    python-compression-native \
+-    python-textutils-native \
+-    python-codecs-native \
+-    python-core-native \
+-    python-unittest-native \
+-    python-io-native \
+-"
++require python-native-${PYTHON_MAJMIN}-manifest.inc
  
- inherit autotools ptest pkgconfig useradd python3-dir manpages
+ EXTRA_OECONF_append = " --bindir=${bindir}/${PN} --with-system-expat=${STAGING_DIR_HOST}"
  
+diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/contrib/python/generate-manifest-2.7.py
+index f2ecf8d..6f7a4c3 100755
+--- a/scripts/contrib/python/generate-manifest-2.7.py
++++ b/scripts/contrib/python/generate-manifest-2.7.py
+@@ -9,10 +9,14 @@
+ #  * Updated to no longer generate special -dbg package, instead use the
+ #    single system -dbg
+ #  * Update version with ".1" to indicate this change
++#
++# February 26, 2017 -- Ming Liu <peter.x.liu@external.atlascopco.com>
++#  * Updated to support generating manifest for native python
+ 
+ import os
+ import sys
+ import time
++import argparse
+ 
+ VERSION = "2.7.2"
+ 
+@@ -21,16 +25,17 @@ __version__ = "20110222.2"
+ 
+ class MakefileMaker:
+ 
+-    def __init__( self, outfile ):
++    def __init__( self, outfile, isNative ):
+         """initialize"""
+         self.packages = {}
+         self.targetPrefix = "${libdir}/python%s/" % VERSION[:3]
++        self.isNative = isNative
+         self.output = outfile
+         self.out( """
+ # WARNING: This file is AUTO GENERATED: Manual edits will be lost next time I regenerate the file.
+-# Generator: '%s' Version %s (C) 2002-2010 Michael 'Mickey' Lauer <mlauer@vanille-media.de>
++# Generator: '%s%s' Version %s (C) 2002-2010 Michael 'Mickey' Lauer <mlauer@vanille-media.de>
+ # Visit the Python for Embedded Systems Site => http://www.Vanille.de/projects/python.spy
+-""" % ( sys.argv[0], __version__ ) )
++""" % ( sys.argv[0], ' --native' if isNative else '', __version__ ) )
+ 
+     #
+     # helper functions
+@@ -66,6 +71,20 @@ class MakefileMaker:
+         global VERSION
+ 
+         #
++        # generate rprovides line for native
++        #
++
++        if self.isNative:
++            rprovideLine = 'RPROVIDES+="'
++            for name in sorted(self.packages):
++                rprovideLine += "%s-native " % name.replace( '${PN}', 'python' )
++            rprovideLine += '"'
++
++            self.out( rprovideLine )
++            self.out( "" )
++            return
++
++        #
+         # generate provides line
+         #
+ 
+@@ -147,17 +166,21 @@ class MakefileMaker:
+         self.doEpilog()
+ 
+ if __name__ == "__main__":
++    parser = argparse.ArgumentParser( description='generate python manifest' )
++    parser.add_argument( '-n', '--native', help='generate manifest for native python', action='store_true' )
++    parser.add_argument( 'outfile', metavar='OUTPUT_FILE', nargs='?', default='', help='Output file (defaults to stdout)' )
++    args = parser.parse_args()
+ 
+-    if len( sys.argv ) > 1:
++    if args.outfile:
+         try:
+-            os.unlink(sys.argv[1])
++            os.unlink( args.outfile )
+         except Exception:
+             sys.exc_clear()
+-        outfile = open( sys.argv[1], "w" )
++        outfile = open( args.outfile, "w" )
+     else:
+         outfile = sys.stdout
+ 
+-    m = MakefileMaker( outfile )
++    m = MakefileMaker( outfile, args.native )
+ 
+     # Add packages here. Only specify dlopen-style library dependencies here, no ldd-style dependencies!
+     # Parameters: revision, name, description, dependencies, filenames
 -- 
-2.9.3
+1.9.1
 
 
