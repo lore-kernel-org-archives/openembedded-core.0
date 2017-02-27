@@ -1,26 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F3457306A
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A8EB73070
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 27 Feb 2017 03:10:11 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v1R3A92U008343
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 26 Feb 2017 19:10:09 -0800 (PST)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v1R3ABuq006071
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Sun, 26 Feb 2017 19:10:11 -0800
 Received: from yow-dellw-nn.wrs.com (128.224.56.14) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Sun, 26 Feb 2017 19:10:07 -0800
+	Sun, 26 Feb 2017 19:10:10 -0800
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Sun, 26 Feb 2017 22:10:02 -0500
-Message-ID: <0988923aa78c2b42da736fea3b7aec83310bb43b.1488164498.git.bruce.ashfield@windriver.com>
+Date: Sun, 26 Feb 2017 22:10:03 -0500
+Message-ID: <96048f55609e57915ac6602f92d0dd3d25cd6f8d.1488164498.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1488164498.git.bruce.ashfield@windriver.com>
 References: <cover.1488164498.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: [PATCH 1/4] linux-yocto: introduce 4.10 recipes
+Subject: [PATCH 2/4] libc-headers: introduce 4.10 and set as default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,151 +36,49 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 27 Feb 2017 03:10:12 -0000
 Content-Type: text/plain
 
-The 4.10 kernel has been released, so we introduce the linux-yocto
-variant.
+The 4.10 kernel has been released, so we can bump our libc-headers
+to match.
 
-This version supercedes the 4.4 and 4.8 versions in the tree, leaving us
-with 4.1 (LTSI), 4.9 (LTS) and 4.10 (most recent) as the three active
-versions.
+We also drop the 4.9 headers, since we only want one variant in the
+tree.
 
-Build tested against all qemu variants, core-image-kernel-dev + sato,
-with musl and glibc as the C libraries.
+Tested against glibc and muslc core-image* variants.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb   | 38 +++++++++++++++++++
- meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb | 25 ++++++++++++
- meta/recipes-kernel/linux/linux-yocto_4.10.bb      | 44 ++++++++++++++++++++++
- 3 files changed, 107 insertions(+)
- create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb
- create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb
- create mode 100644 meta/recipes-kernel/linux/linux-yocto_4.10.bb
+ meta/conf/distro/include/tcmode-default.inc                           | 2 +-
+ .../{linux-libc-headers_4.9.bb => linux-libc-headers_4.10.bb}         | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_4.9.bb => linux-libc-headers_4.10.bb} (66%)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb
-new file mode 100644
-index 000000000000..150fda5473aa
---- /dev/null
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb
-@@ -0,0 +1,38 @@
-+KBRANCH ?= "standard/preempt-rt/base"
-+
-+require recipes-kernel/linux/linux-yocto.inc
-+
-+# Skip processing of this recipe if it is not explicitly specified as the
-+# PREFERRED_PROVIDER for virtual/kernel. This avoids errors when trying
-+# to build multiple virtual/kernel providers, e.g. as dependency of
-+# core-image-rt-sdk, core-image-rt.
-+python () {
-+    if d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
-+        raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
-+}
-+
-+SRCREV_machine ?= "b259a5d744e8955a03405c6b59c5a61724755ea8"
-+SRCREV_meta ?= "805ea440c791acee4617820ab32e93f1ccbd9ae2"
-+
-+SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.10.git;branch=${KBRANCH};name=machine \
-+           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.10;destsuffix=${KMETA}"
-+
-+LINUX_VERSION ?= "4.10"
-+
-+PV = "${LINUX_VERSION}+git${SRCPV}"
-+
-+KMETA = "kernel-meta"
-+KCONF_BSP_AUDIT_LEVEL = "2"
-+
-+LINUX_KERNEL_TYPE = "preempt-rt"
-+
-+COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuppc|qemumips)"
-+
-+KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
-+
-+# Functionality flags
-+KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
-+KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
-+KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
-+KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
-+KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb
-new file mode 100644
-index 000000000000..4d4639a97f3d
---- /dev/null
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb
-@@ -0,0 +1,25 @@
-+KBRANCH ?= "standard/tiny/common-pc"
-+LINUX_KERNEL_TYPE = "tiny"
-+KCONFIG_MODE = "--allnoconfig"
-+
-+require recipes-kernel/linux/linux-yocto.inc
-+
-+LINUX_VERSION ?= "4.10"
-+
-+KMETA = "kernel-meta"
-+KCONF_BSP_AUDIT_LEVEL = "2"
-+
-+SRCREV_machine ?= "b259a5d744e8955a03405c6b59c5a61724755ea8"
-+SRCREV_meta ?= "805ea440c791acee4617820ab32e93f1ccbd9ae2"
-+
-+PV = "${LINUX_VERSION}+git${SRCPV}"
-+
-+SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.10.git;branch=${KBRANCH};name=machine \
-+           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.10;destsuffix=${KMETA}"
-+
-+COMPATIBLE_MACHINE = "(qemux86$)"
-+
-+# Functionality flags
-+KERNEL_FEATURES = ""
-+
-+KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.10.bb b/meta/recipes-kernel/linux/linux-yocto_4.10.bb
-new file mode 100644
-index 000000000000..db6fa7eca5a2
---- /dev/null
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.10.bb
-@@ -0,0 +1,44 @@
-+KBRANCH ?= "standard/base"
-+
-+require recipes-kernel/linux/linux-yocto.inc
-+
-+# board specific branches
-+KBRANCH_qemuarm  ?= "standard/arm-versatile-926ejs"
-+KBRANCH_qemuarm64 ?= "standard/qemuarm64"
-+KBRANCH_qemumips ?= "standard/mti-malta32"
-+KBRANCH_qemuppc  ?= "standard/qemuppc"
-+KBRANCH_qemux86  ?= "standard/base"
-+KBRANCH_qemux86-64 ?= "standard/base"
-+KBRANCH_qemumips64 ?= "standard/mti-malta64"
-+
-+SRCREV_machine_qemuarm ?= "371697c9008e2f26edba9b4a3baaf327a530fb7f"
-+SRCREV_machine_qemuarm64 ?= "b259a5d744e8955a03405c6b59c5a61724755ea8"
-+SRCREV_machine_qemumips ?= "ea0bdf9b515d2ceafaf333564594ca1bfbc0e50a"
-+SRCREV_machine_qemuppc ?= "b259a5d744e8955a03405c6b59c5a61724755ea8"
-+SRCREV_machine_qemux86 ?= "b259a5d744e8955a03405c6b59c5a61724755ea8"
-+SRCREV_machine_qemux86-64 ?= "b259a5d744e8955a03405c6b59c5a61724755ea8"
-+SRCREV_machine_qemumips64 ?= "d5434bd8cfdbefbe4dcde9743e61383ce8a944c9"
-+SRCREV_machine ?= "b259a5d744e8955a03405c6b59c5a61724755ea8"
-+SRCREV_meta ?= "805ea440c791acee4617820ab32e93f1ccbd9ae2"
-+
-+SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.10.git;name=machine;branch=${KBRANCH}; \
-+           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.10;destsuffix=${KMETA}"
-+
-+LINUX_VERSION ?= "4.10"
-+
-+PV = "${LINUX_VERSION}+git${SRCPV}"
-+
-+KMETA = "kernel-meta"
-+KCONF_BSP_AUDIT_LEVEL = "2"
-+
-+KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
-+
-+COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
-+
-+# Functionality flags
-+KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
-+KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
-+KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
-+KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
-+KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
-+KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 9c9fdd67fd08..a4b06c94cadc 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -28,7 +28,7 @@ BINUVERSION ?= "2.27%"
+ GDBVERSION ?= "7.12%"
+ GLIBCVERSION ?= "2.25"
+ UCLIBCVERSION ?= "1.0%"
+-LINUXLIBCVERSION ?= "4.9%"
++LINUXLIBCVERSION ?= "4.10%"
+ 
+ PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
+ PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?= "${GCCVERSION}"
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.9.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.10.bb
+similarity index 66%
+rename from meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.9.bb
+rename to meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.10.bb
+index 0a44018f880b..108446aa34f7 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.9.bb
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.10.bb
+@@ -6,5 +6,5 @@ SRC_URI_append_libc-musl = "\
+     file://0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch \
+    "
+ 
+-SRC_URI[md5sum] = "0a68ef3615c64bd5ee54a3320e46667d"
+-SRC_URI[sha256sum] = "029098dcffab74875e086ae970e3828456838da6e0ba22ce3f64ef764f3d7f1a"
++SRC_URI[md5sum] = "b5e7f6b9b2fe1b6cc7bc56a3a0bfc090"
++SRC_URI[sha256sum] = "3c95d9f049bd085e5c346d2c77f063b8425f191460fcd3ae9fe7e94e0477dc4b"
 -- 
 2.5.0
 
