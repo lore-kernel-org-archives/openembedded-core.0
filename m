@@ -1,29 +1,46 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 5835572FC0
+Return-Path: <andhorsthemke@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 2636B72FC1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2017 15:05:44 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
-	via TCP (outbound) with ESMTPS id 20170227150544552_0485
+	Mon, 27 Feb 2017 15:05:53 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id v77so13873846wmv.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2017 15:05:44 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [216.191.234.70] (port=31089 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1ciMrq-0001nd-Ix for openembedded-core@lists.openembedded.org;
-	Mon, 27 Feb 2017 10:05:38 -0500
-Date: Mon, 27 Feb 2017 10:05:36 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@uk63952.mitel.com
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1702270953470.27827@uk63952.mitel.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: what means COMPATIBLE_MACHINE_armv4 = "(!.*armv4).*" ???
+	Mon, 27 Feb 2017 07:05:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=52Tij0TJSXPl+dqL1+YmoSMBBeTUKlbxDA9mG0Xq2dY=;
+	b=DNjrDqPJYDMA6jQGbkEhVH1dobWwpxLsb2mxz3RxTwzvKOC0iEpfpB02by1bkwPwiD
+	AkR8JzcKJCsMb9HdUIdrf+PIAPmQzOM9W/FErqQnovB1/nc0h2TjGUuTEYs3SaUGcl1y
+	4a9kAglCHpEiWBdnGOSQdr1b6doKOdiMLhzF3ViCj6MkOBONqGMUBz5Y7MNoThOn9rdX
+	m2A90o03HDEEU/DxnHzfEYFmY6pdcBchED/kQV1cV6w/N8e8d/agF3SLI1Wq3SqLYvR2
+	t5RwNpqi3cgzI5wbp/bBZzt2MUSZA/FAhQTPa3pg4ALHo9lF4B0RqCc6ToryWAN6uvzf
+	DpMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=52Tij0TJSXPl+dqL1+YmoSMBBeTUKlbxDA9mG0Xq2dY=;
+	b=FCIqi13HRJnjlhtzxQY47HCbtx+uJcrfm62v+TqOY773I+As02b0IzN00UKx5PwZGR
+	54yUUx2RxuJT03RCP0QSTiZql4vAzfsuOGWdMZXG3Bo7tar9EApVIEwhKylYzd6Dcn+C
+	//hCLpF2DEtncGNRZTEFUCiWB98UNedKOoc485xLtj6ZraWdShq3spK/K/TJyG5wyw4F
+	PT3fFbdEpgSSSQwNybibRxv7JgDs82TIP9eD9NwvV8hRLkQ1P/wYv4kEnew9ilOLhV0G
+	Ka+lUoXTTF+F+F1oqnn8OtkfM+KIT/80zAKK8/XN3VmtauznHu307txhTb7oyUQvOOOp
+	M8gA==
+X-Gm-Message-State: AMke39lraEveKYrmhv8ng+Wo/aZdAUZhMyhRBd7lLtyvna0XyILLdzsmpcE0VLqTuSuJew==
+X-Received: by 10.28.23.140 with SMTP id 134mr11919725wmx.23.1488207954622;
+	Mon, 27 Feb 2017 07:05:54 -0800 (PST)
+Received: from workstation.Speedport_W_724V_Typ_A_05011603_00_011
+	(p2003007A89742911D1FE4EECCC17D06F.dip0.t-ipconnect.de.
+	[2003:7a:8974:2911:d1fe:4eec:cc17:d06f])
+	by smtp.gmail.com with ESMTPSA id
+	m80sm14617784wmi.34.2017.02.27.07.05.53
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 27 Feb 2017 07:05:53 -0800 (PST)
+From: Andreas Horsthemke <andhorsthemke@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 27 Feb 2017 16:05:36 +0100
+Message-Id: <20170227150536.15378-1-andhorsthemke@gmail.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] lz4: upgrade to v1.7.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,47 +53,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Feb 2017 15:05:45 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Mon, 27 Feb 2017 15:05:55 -0000
 
+upgrade from r131. The version numbering changed to a new style.
+The licsense is BSD for the library and GPLv2 for the CLI tools.
 
-  ok, last question about COMPATIBLE_MACHINE, i promise. i
-notice in
-meta-oe/recipes-support/mongodb/mongodb_git.bb the snippet:
+Signed-off-by: Andreas Horsthemke <andhorsthemke@gmail.com>
+---
+ meta/recipes-support/lz4/lz4.bb | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-  #std::current_exception is undefined for arm < v6
-  COMPATIBLE_MACHINE_armv4 = "(!.*armv4).*"
-  COMPATIBLE_MACHINE_armv5 = "(!.*armv5).*"
-  COMPATIBLE_MACHINE_mips64 = "(!.*mips64).*"
-  COMPATIBLE_MACHINE_powerpc = "(!.*ppc).*"
-
-consider just the first assignment:
-
-  COMPATIBLE_MACHINE_armv4 = "(!.*armv4).*"
-
-which i interpret as, "if the machine override 'armv4' is in play,
-then the list of compatible machines are all those which do *not*
-contain the string 'armv4'. isn't that just a way of saying, "no
-variation of armv4 is compatible"?
-
-  this just looks weird, what am i missing? oh, and given the
-behaviour of re.match(), could not one write that same line
-equivalently as:
-
-  COMPATIBLE_MACHINE_armv4 = "(!.*armv4)"
-
-  i suspect i'm just confused about what's happening here.
-
-rday
-
+diff --git a/meta/recipes-support/lz4/lz4.bb b/meta/recipes-support/lz4/lz4.bb
+index 18e56d04c6..6c77aa1536 100644
+--- a/meta/recipes-support/lz4/lz4.bb
++++ b/meta/recipes-support/lz4/lz4.bb
+@@ -1,12 +1,16 @@
+ SUMMARY = "Extremely Fast Compression algorithm"
+ DESCRIPTION = "LZ4 is a very fast lossless compression algorithm, providing compression speed at 400 MB/s per core, scalable with multi-cores CPU. It also features an extremely fast decoder, with speed in multiple GB/s per core, typically reaching RAM speed limits on multi-core systems."
+ 
+-LICENSE = "BSD"
+-LIC_FILES_CHKSUM = "file://lib/LICENSE;md5=0b0d063f37a4477b54af2459477dcafd"
++# The source includes GPLv2 and BSD licensed files.
++# The library in the `lib` directory is under BSD 2-Clause license.
++# The CLI tools are GPLv2 licensed.
++LICENSE = "GPLv2 & BSD"
++LIC_FILES_CHKSUM = "file://lib/LICENSE;md5=ebc2ea4814a64de7708f1571904b32cc \
++                    file://programs/COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+-SRCREV = "d86dc916771c126afb797637dda9f6421c0cb998"
++SRCREV = "7bb64ff2b69a9f8367de9ab483cdadf42b4c1b65"
+ 
+-PV = "131+git${SRCPV}"
++PV = "1.7.5+git${SRCPV}"
+ 
+ SRC_URI = "git://github.com/Cyan4973/lz4.git"
+ 
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+2.11.0
 
 
