@@ -1,46 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id A18AD60745
+Return-Path: <Joe_MacDonald@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 56041719BD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2017 20:59:33 +0000 (UTC)
-Received: by mail-qk0-f170.google.com with SMTP id n186so41025161qkb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2017 12:59:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=fcVNBOTPL5Sg/KXNybCi0dshMuwjw07UKDaxmP40O6U=;
-	b=rdVocvyCmWAXhZ2PQPM0DopcsVFeA1sTzP9MpmY+G2Wf4DsIu2TR4LLzDWMr8z6Hn+
-	q/oBsYPwXG41AI5knQc0iJwJYOvQLYrIlfRIX47K2cbcCtfe33kd9CHGwj2oBxZJ1056
-	UVaeFD+UqbxnwmIGeCp7Y0qNnVuY/9N7kICa5+rtVWXiUdP/a7RqLioWtS7XyJvKH+Kq
-	6CMufuQlK+JCy/g3ms9w2MGWdKnXfDY4m62otKYiz+xslI8W+sUJ0yX0NWghgz4Vqfm2
-	eiqoR4rIP4uxO/3fR71yl/qfTq138WPbTsWdUeZDdU+erbcEdDSCa8yebb1+iRuWfdmY
-	XKcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=fcVNBOTPL5Sg/KXNybCi0dshMuwjw07UKDaxmP40O6U=;
-	b=N52sZe401JWSS1CMe11ICzI1TFk0ejOZ6tdPeyyPg0sD+UX3vw8ulC/R33iquhjRJ8
-	du+gDB+zpNqECnrd0HY2HpxIRq1BPSEbg6tC+kwBJKIp68f7jnPA5VT67d+cjZ87KOL6
-	sw8ErvQyWo18CA7QWp+vbe+Zea48r9a51NQffKTVs57PJjC6h1OvwwzoOh8VDXqsYKrj
-	suZaEhWpdrEW+1nufefTnW9+IeW5JdzQ1bU8QQR3xOxxcGb9NhKThvH20ZtRRStvAZK2
-	/0CiXRkGZ+Ftc4N/9W/DGj635bBP0h7Mky48dg9tWpb/nnwLFK6sjgRuB9ku2ktdQG3O
-	ZaGQ==
-X-Gm-Message-State: AMke39nFhyIqRq0kGeUPYQBX7pUBKDVZVpfmgpTJ3TMvejAnWctoK2k7Bp7Vt+8Y+5jnwW0vBxIZsKmfM7kPVJyT
-X-Received: by 10.55.3.151 with SMTP id 145mr7273212qkd.244.1488229174437;
-	Mon, 27 Feb 2017 12:59:34 -0800 (PST)
+	Mon, 27 Feb 2017 22:24:35 +0000 (UTC)
+Received: from svr-orw-fem-02x.mgc.mentorg.com ([147.34.96.206]
+	helo=SVR-ORW-FEM-02.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1ciTie-0002gO-RN from Joe_MacDonald@mentor.com ;
+	Mon, 27 Feb 2017 14:24:36 -0800
+Received: from burninator (147.34.91.1) by svr-orw-fem-02.mgc.mentorg.com
+	(147.34.96.168) with Microsoft SMTP Server id 14.3.224.2;
+	Mon, 27 Feb 2017 14:24:36 -0800
+Received: by burninator (Postfix, from userid 1000)	id 797C75805F3; Mon, 27
+	Feb 2017 17:24:35 -0500 (EST)
+Date: Mon, 27 Feb 2017 17:24:35 -0500
+From: Joe MacDonald <Joe_MacDonald@mentor.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Message-ID: <20170227222434.GB1688@mentor.com>
+References: <1487908800-18064-1-git-send-email-joe_macdonald@mentor.com>
+	<20170227183329.9748.13885@do.openembedded.org>
+	<20170227200624.GA1688@mentor.com>
+	<1488227103.28256.31.camel@linux.intel.com>
 MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Mon, 27 Feb 2017 12:59:14 -0800 (PST)
-In-Reply-To: <1488212665-27534-1-git-send-email-sgw@linux.intel.com>
-References: <1488212665-27534-1-git-send-email-sgw@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 27 Feb 2017 20:59:14 +0000
-Message-ID: <CAJTo0LaWEDCdoRcS+GrBkW7D=xW7dPLn9VWKP9MkzkSmNCA7og@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] LICENSE: Clarify what is meant by 'metadata'
+In-Reply-To: <1488227103.28256.31.camel@linux.intel.com>
+X-URL: http://github.com/joeythesaint/joe-s-common-environment/tree/master
+X-Configuration: git://github.com/joeythesaint/joe-s-common-environment.git
+X-Editor: Vim-704 http://www.vim.org
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGRlcHJlY2F0ZWQuYmJjbGFzczogQWRkIGEgUE5ERVBSRUNBVEVEIHZhcmlhYmxlIGZvciByZWNpcGVzIChyZXYzKQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,44 +41,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Feb 2017 20:59:33 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0b93a049a0fe0549895b06
+X-List-Received-Date: Mon, 27 Feb 2017 22:24:36 -0000
+X-Groupsio-MsgNum: 94031
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="zx4FCpZtqtKETZ7O"
+Content-Disposition: inline
 
---94eb2c0b93a049a0fe0549895b06
-Content-Type: text/plain; charset=UTF-8
-
-On 27 February 2017 at 16:24, Saul Wold <sgw@linux.intel.com> wrote:
-
-> The term metadata in the LICENSE text is unclear and recently
-> garnered some questions at ELC, so clarify metadata to include
-> bbclasses, which is and has been metadata as well as code.
->
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->
-
-This breaks other layers (including meta-intel and meta-qt), do you have
-corresponding patches?
-
-Ross
-
---94eb2c0b93a049a0fe0549895b06
-Content-Type: text/html; charset=UTF-8
+--zx4FCpZtqtKETZ7O
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 27 February 2017 at 16:24, Saul Wold <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:sgw@linux.intel.com" target=3D"_blank">sgw@linux.intel.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div id=3D":682" class=3D"a3s =
-aXjCH m15a8063b19093ec4">The term metadata in the <span class=3D"il">LICENS=
-E</span> text is unclear and recently<br>
-garnered some questions at ELC, so clarify metadata to include<br>
-bbclasses, which is and has been metadata as well as code.<br>
-<br>
-Signed-off-by: Saul Wold &lt;<a href=3D"mailto:sgw@linux.intel.com">sgw@lin=
-ux.intel.com</a>&gt;</div></blockquote></div><br>This breaks other layers (=
-including meta-intel and meta-qt), do you have corresponding patches?</div>=
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div><=
-/div>
+[Re: [OE-core] =E2=9C=97 patchtest: failure for deprecated.bbclass: Add a P=
+NDEPRECATED variable for recipes (rev3)] On 17.02.27 (Mon 14:25) Leonardo S=
+andoval wrote:
 
---94eb2c0b93a049a0fe0549895b06--
+> On Mon, 2017-02-27 at 15:06 -0500, Joe MacDonald wrote:
+> > [=E2=9C=97 patchtest: failure for deprecated.bbclass: Add a PNDEPRECATE=
+D variable for recipes (rev3)] On 17.02.27 (Mon 18:33) Patchwork wrote:
+> >=20
+> > > =3D=3D Series Details =3D=3D
+> > >=20
+> > > Series: deprecated.bbclass: Add a PNDEPRECATED variable for recipes (=
+rev3)
+> > > Revision: 3
+> > > URL   : https://patchwork.openembedded.org/series/5489/
+> > > State : failure
+> > >=20
+> > > =3D=3D Summary =3D=3D
+> > >=20
+> > >=20
+> > > Thank you for submitting this patch series to OpenEmbedded Core. This=
+ is
+> > > an automated response. Several tests have been executed on the propos=
+ed
+> > > series by patchtest resulting in the following failures:
+> > >=20
+> > >=20
+> > >=20
+> > > * Issue             Series does not apply on top of target branch [te=
+st_series_merge_on_head]=20
+> > >   Suggested fix    Rebase your series on top of targeted branch
+> > >   Targeted branch  master (currently at 65cfc8aca3)
+> >=20
+> > I had been out of date, but this time I'm reasonably confident v3 is
+> > still directly on top of master.
+> >=20
+> > yocto-mainline> git config --local --get-regexp '^remote'
+> > remote.yocto.url git://git.yoctoproject.org/poky
+> > remote.yocto.projectname poky
+> > remote.yocto.fetch +refs/heads/*:refs/remotes/yocto/*
+> > yocto-mainline> git pull
+> > Already up-to-date.
+> > yocto-mainline> git status
+> > On branch master
+> > Your branch is ahead of 'yocto/master' by 1 commit.
+> >   (use "git push" to publish your local commits)
+> >=20
+> > nothing to commit, working directory clean
+> >=20
+> > Is patchtest having a bad day?
+>=20
+> yes,  there were some issues with the cron job running patchtest but
+> that is now solved. The problem is that your patch is a documentation
+> patch, not a oe-core patch, so it does not apply into oe-core. Send it
+> to the correct list (yocto@yoctoproject.org) if necessary.
+
+It's actually both a change to oe-core and the accompanying
+documentation.  I wasn't aware that they needed to be sent to separate
+lists when introducing a change to meta/ and documentation/ (to document
+the change in meta/, obviously).  Seems like an odd thing to do, but
+I'll break them up into separate commits, I guess.
+
+-J.
+
+>=20
+>=20
+>=20
+>=20
+>=20
+> >=20
+> > > If you believe any of these test results are incorrect, please reply =
+to the
+> > > mailing list (openembedded-core@lists.openembedded.org) raising your =
+concerns.
+> > > Otherwise we would appreciate you correcting the issues and submittin=
+g a new
+> > > version of the patchset if applicable. Please ensure you add/incremen=
+t the
+> > > version number when sending the new version (i.e. [PATCH] -> [PATCH v=
+2] ->
+> > > [PATCH v3] -> ...).
+> > >=20
+> > > ---
+> > > Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+> > > Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+> > >=20
+> >=20
+> > --=20
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>=20
+>=20
+
+--=20
+-Joe MacDonald.
+:wq
+
+--zx4FCpZtqtKETZ7O
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQEcBAEBAgAGBQJYtKciAAoJEEn8ffcsOfaWsnQIALqbjtzxyWmI5oijl4YZnVHy
+qGIUxQPL6/CUjwjXTByl//vfgB2Ns2rxi1aamkKfXl7sD+eCST/XpJu9FzkDV/Ud
+wSrsTP1eDlbucjpfkSZQNhy/ha8Epg9jSTe9hq/ddM0BibrEi8s/5a9+/N66uW2P
+du2ka9G3GdQjLFUXfxTnLyqC2+t8J5n6kpUrvp3MI/2O+neebwFJZOD9RsKPSmWP
+/S+9NrBkoQ4DkNRrWR0jv4huBouAnG/i+Q2CBS/XbgVtfCJhcJrADM2pFG4kI6y8
+w6TpZlpuer7fDe78IXrbHsvl3973Gkzbs9JB7oO0ULhb6JjhKKFUy8BAxOSl1YE=
+=jH2a
+-----END PGP SIGNATURE-----
+
+--zx4FCpZtqtKETZ7O--
