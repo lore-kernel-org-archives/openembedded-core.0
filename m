@@ -1,26 +1,23 @@
-Return-Path: <peter.marko@siemens.com>
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id 886FC72FB9
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id EC3016FF78
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2017 17:19:09 +0000 (UTC)
-Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id v1RHJ5Cm009193
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2017 18:19:05 +0100
-Received: from dev.sbt.siemens.com ([139.22.56.193])
-	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id v1RHJ5Qk022162;
-	Mon, 27 Feb 2017 18:19:05 +0100
-Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
-	by dev.sbt.siemens.com (Postfix) with ESMTP id EB52B3E5D;
-	Mon, 27 Feb 2017 18:19:04 +0100 (CET)
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Feb 2017 18:18:45 +0100
-Message-Id: <1488215925-26396-1-git-send-email-peter.marko@siemens.com>
-X-Mailer: git-send-email 2.1.4
-Cc: Andrej Valek <andrej.valek@siemens.com>
-Subject: [PATCH] zlib: Upgrade 1.2.8 -> 1.2.11
+	Mon, 27 Feb 2017 17:50:09 +0000 (UTC)
+Received: from [2a00:c60:0:cb01:186:cd80:7d57:daaf] (helo=phil-desktop)
+	by hetzner.pbcl.net with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.87)
+	(envelope-from <pb@pbcl.net>)
+	id 1ciPR1-0000eq-2Z; Mon, 27 Feb 2017 18:50:08 +0100
+Message-ID: <1488217806.8657.20.camel@pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>, OE Core mailing list
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 27 Feb 2017 17:50:06 +0000
+In-Reply-To: <alpine.LFD.2.20.1702270819550.25847@uk63952.mitel.com>
+References: <alpine.LFD.2.20.1702270819550.25847@uk63952.mitel.com>
+X-Mailer: Evolution 3.22.1-2 
+Mime-Version: 1.0
+Subject: Re: a few more picky questions about COMPATIBLE_MACHINE usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,73 +30,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Feb 2017 17:19:12 -0000
+X-List-Received-Date: Mon, 27 Feb 2017 17:50:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
----
- 1.2.11                                                              | 0
- .../zlib/{zlib-1.2.8 => zlib-1.2.11}/Makefile-runtests.patch        | 0
- .../zlib/{zlib-1.2.8 => zlib-1.2.11}/ldflags-tests.patch            | 0
- .../zlib/{zlib-1.2.8 => zlib-1.2.11}/remove.ldconfig.call.patch     | 0
- meta/recipes-core/zlib/{zlib-1.2.8 => zlib-1.2.11}/run-ptest        | 0
- meta/recipes-core/zlib/{zlib_1.2.8.bb => zlib_1.2.11.bb}            | 6 +++---
- 6 files changed, 3 insertions(+), 3 deletions(-)
- create mode 100644 1.2.11
- rename meta/recipes-core/zlib/{zlib-1.2.8 => zlib-1.2.11}/Makefile-runtests.patch (100%)
- rename meta/recipes-core/zlib/{zlib-1.2.8 => zlib-1.2.11}/ldflags-tests.patch (100%)
- rename meta/recipes-core/zlib/{zlib-1.2.8 => zlib-1.2.11}/remove.ldconfig.call.patch (100%)
- rename meta/recipes-core/zlib/{zlib-1.2.8 => zlib-1.2.11}/run-ptest (100%)
- rename meta/recipes-core/zlib/{zlib_1.2.8.bb => zlib_1.2.11.bb} (86%)
+On Mon, 2017-02-27 at 09:09 -0500, Robert P. J. Day wrote:
+>  # webkit-efl isn't available for < armv7a
+>  COMPATIBLE_MACHINE = "(-)"
+>   COMPATIBLE_MACHINE_x86 = "(.*)"
+>   COMPATIBLE_MACHINE_x86-64 = "(.*)"
+>   COMPATIBLE_MACHINE_armv7a = "(.*)"
+> 
+>   first, that comment seems out of date as it makes no mention of
+> MIPS
+> or ppc, but that's just being picky.
+> 
+>   next, i assume the line:
+> 
+>   COMPATIBLE_MACHINE = "(-)"
+> 
+> is to initialize the set of compatible machines to the empty set,
+> yes?
 
-diff --git a/1.2.11 b/1.2.11
-new file mode 100644
-index 0000000..e69de29
-diff --git a/meta/recipes-core/zlib/zlib-1.2.8/Makefile-runtests.patch b/meta/recipes-core/zlib/zlib-1.2.11/Makefile-runtests.patch
-similarity index 100%
-rename from meta/recipes-core/zlib/zlib-1.2.8/Makefile-runtests.patch
-rename to meta/recipes-core/zlib/zlib-1.2.11/Makefile-runtests.patch
-diff --git a/meta/recipes-core/zlib/zlib-1.2.8/ldflags-tests.patch b/meta/recipes-core/zlib/zlib-1.2.11/ldflags-tests.patch
-similarity index 100%
-rename from meta/recipes-core/zlib/zlib-1.2.8/ldflags-tests.patch
-rename to meta/recipes-core/zlib/zlib-1.2.11/ldflags-tests.patch
-diff --git a/meta/recipes-core/zlib/zlib-1.2.8/remove.ldconfig.call.patch b/meta/recipes-core/zlib/zlib-1.2.11/remove.ldconfig.call.patch
-similarity index 100%
-rename from meta/recipes-core/zlib/zlib-1.2.8/remove.ldconfig.call.patch
-rename to meta/recipes-core/zlib/zlib-1.2.11/remove.ldconfig.call.patch
-diff --git a/meta/recipes-core/zlib/zlib-1.2.8/run-ptest b/meta/recipes-core/zlib/zlib-1.2.11/run-ptest
-similarity index 100%
-rename from meta/recipes-core/zlib/zlib-1.2.8/run-ptest
-rename to meta/recipes-core/zlib/zlib-1.2.11/run-ptest
-diff --git a/meta/recipes-core/zlib/zlib_1.2.8.bb b/meta/recipes-core/zlib/zlib_1.2.11.bb
-similarity index 86%
-rename from meta/recipes-core/zlib/zlib_1.2.8.bb
-rename to meta/recipes-core/zlib/zlib_1.2.11.bb
-index 913c703..2018e7b 100644
---- a/meta/recipes-core/zlib/zlib_1.2.8.bb
-+++ b/meta/recipes-core/zlib/zlib_1.2.11.bb
-@@ -4,7 +4,7 @@ library which is used by many different programs."
- HOMEPAGE = "http://zlib.net/"
- SECTION = "libs"
- LICENSE = "Zlib"
--LIC_FILES_CHKSUM = "file://zlib.h;beginline=4;endline=23;md5=fde612df1e5933c428b73844a0c494fd"
-+LIC_FILES_CHKSUM = "file://zlib.h;beginline=6;endline=23;md5=5377232268e952e9ef63bc555f7aa6c0"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/libpng/${BPN}/${PV}/${BPN}-${PV}.tar.xz \
-            file://remove.ldconfig.call.patch \
-@@ -13,8 +13,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/libpng/${BPN}/${PV}/${BPN}-${PV}.tar.xz \
-            file://run-ptest \
-            "
- 
--SRC_URI[md5sum] = "28f1205d8dd2001f26fec1e8c2cebe37"
--SRC_URI[sha256sum] = "831df043236df8e9a7667b9e3bb37e1fcb1220a0f163b6de2626774b9590d057"
-+SRC_URI[md5sum] = "85adef240c5f370b308da8c938951a68"
-+SRC_URI[sha256sum] = "4ff941449631ace0d4d203e3483be9dbc9da454084111f97ea0a2114e19bf066"
- 
- RDEPENDS_${PN}-ptest += "make"
- 
--- 
-2.1.4
+I think the intent is to set it to a string that "can't possibly ever
+match". 
+
+> 
+  i next assume that lines of the form:
+> 
+>   COMPATIBLE_MACHINE_x86 = "(.*)"
+> 
+> are meant to indicate that if that MACHINE_OVERRIDES comparison
+> succeeds, then all possible targets are compatible, is that right?
+> however, given precisely those lines above, is it not equivalent to
+> just write:
+> 
+>   COMPATIBLE_MACHINE = "(x86|x86-64|armv7a)"
+
+No, because "armv7a" is not a MACHINE.  It would be more equivalent to
+write
+
+COMPATIBLE_HOST = "armv7a-.*"
+
+but even this would not be quite the same because it would fail to
+match "cortexa15-linux" for example.  Actually that's not a very good
+example because cortexa15 is armv7ve not armv7a, but you get the idea.
+
+> oddly, there is another recipe that seems to do the same thing, but
+> in
+> a very different way, meta-oe/recipes-support/ne10/ne10_1.2.1.bb:
+> 
+>   COMPATIBLE_MACHINE_aarch64 = "(.*)"
+>   COMPATIBLE_MACHINE_armv7a = "(.*)"
+> 
+>   python () {
+>     if any(t.startswith('armv7') for t in
+> d.getVar('TUNE_FEATURES').split()):
+>         d.setVar('NE10_TARGET_ARCH', 'armv7')
+>         bb.debug(2, 'Building Ne10 for armv7')
+>     elif any(t.startswith('aarch64') for t in
+> d.getVar('TUNE_FEATURES').split()):
+>         d.setVar('NE10_TARGET_ARCH', 'aarch64')
+>         bb.debug(2, 'Building Ne10 for aarch64')
+>     else:
+>         raise bb.parse.SkipPackage("Incompatible with archs other
+> than armv7 and aarch64")
+>   }
+
+The COMPATIBLE_MACHINE declarations there do seem completely useless
+and redundant.  I can only assume that the author of this recipe tried
+to use COMPATIBLE_MACHINE to get what they wanted, found they couldn't
+(which is true, the COMPATIBLE_MACHINE semantics are full of suck, and
+even COMPATIBLE_HOST has a fairly high suckage quotient) and resorted
+to writing python to express their requirements.
+
+> now, i can see that that anonymous python routine refines the
+> machine compatibility even further but, to speed things up, why not
+> first start with just:
+> 
+>   COMPATIBLE_MACHINE = "(aarch64|armv7a)"
+> 
+> or (once again), am i misunderstanding something?
+
+No, that will lose unless your MACHINE happens to be literally named
+"aarch64", which it probably isn't.  But in any case there is no magic
+associated with COMPATIBLE_MACHINE, it is just processed by a piece of
+anonymous python which is not entirely dissimilar to that bit you
+quoted above.
+
+p.
 
 
