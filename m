@@ -1,46 +1,24 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
-	[209.85.214.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D43C6067C
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 09C0771B2F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Feb 2017 21:58:21 +0000 (UTC)
-Received: by mail-it0-f66.google.com with SMTP id r141so9726918ita.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Feb 2017 13:58:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=AhyzMCLFS6qkUreF1Pv2SpVe/NI4uSlR+3QWPkv8Z18=;
-	b=EXmB7FzXLvremOJkWTXGxXw5rYaqZgeCJMJZWQngCE2rickaS/GogC5NLA2PZs7fdY
-	CBIEMPEmbbUsmh99jF0w1wEqoaQN1kUajS7v6p/IKuCpjsK1x7PY5W+ZGH1T5xj6idh+
-	2jqavd0P3I/kWBgxcpa0dqUBlpzkBpcA5jx/5Dh+a9mY0riDySx+7WHhp8h37VWWLsDr
-	acYCViu6AWraSvDCudOvjdhO648yhS+MNFUIqgOxORgprbIswNbK8f92jTtXO2o+XpBF
-	8dQJ+ZdGvT3zOGdoQndfANpQpxrSE7Wm75fdkUrY536QfLBB3J8Ni/VJj3YNNW4JhipF
-	7FvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=AhyzMCLFS6qkUreF1Pv2SpVe/NI4uSlR+3QWPkv8Z18=;
-	b=joHn8b35ZFdZH7EoCR4jj02QdZgf33BuPUbVF/DOuYXgj4ePKPp9zClY3464mZtyBx
-	H8RoGTZmFqX6r5sRhOEJO5hSLOmgLrytnxfYFiM4vvRIx00o7CsipQkzk3RXNW7jpAt+
-	XV+8CdUReYrd8Ys0rsAHGuXcz205KSmzm/BmKP7EJSUtghqw4WFhuzANuSVKI0pAamFW
-	QpN5HD3Lij4jcUFkkY8yv5ZTs9MNJRSGoFcIEmlTpsUNfHOM52yCtC3QUEKzMbiaGsfN
-	YLI9dItJKMX4Pu3nWwSsBfuB11MoqiE2PlOP9IYA4kV/+MIe8wnHb/S5VSlliiOkaFrw
-	IVqg==
-X-Gm-Message-State: AMke39ljkw3EKNCp61MpLHoj9FfdfTtYKn+vwuUlHiOEhIcWNa0/WSlX3VGzi2wW8w4JtA==
-X-Received: by 10.36.76.203 with SMTP id a194mr12146394itb.110.1488146302755; 
-	Sun, 26 Feb 2017 13:58:22 -0800 (PST)
-Received: from localhost.localdomain ([2605:a601:a83:3700:9d9d:c132:3844:2cf])
-	by smtp.gmail.com with ESMTPSA id
-	i195sm3576574ita.17.2017.02.26.13.58.21
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 26 Feb 2017 13:58:22 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 26 Feb 2017 15:58:19 -0600
-Message-Id: <1488146299-6448-1-git-send-email-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] base.bbclass: Fix OE_IMPORTS
+	Mon, 27 Feb 2017 03:10:09 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v1R3A6JO011997
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 26 Feb 2017 19:10:07 -0800 (PST)
+Received: from yow-dellw-nn.wrs.com (128.224.56.14) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Sun, 26 Feb 2017 19:10:06 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Sun, 26 Feb 2017 22:10:01 -0500
+Message-ID: <cover.1488164498.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: [PATCH 0/4] linux-yocto: kernel version updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,29 +31,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Feb 2017 21:58:22 -0000
+X-List-Received-Date: Mon, 27 Feb 2017 03:10:10 -0000
+Content-Type: text/plain
 
-Udpate OE_IMPORTS to include oe.license because it is being used.
+Hi all,
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/classes/base.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Here is the latest updates to the linux-yocto kernel versions, and represents
+the versions that we'd like to be included in the upcoming release.
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index d6116e1..edac18b 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -10,7 +10,7 @@ inherit utility-tasks
- inherit metadata_scm
- inherit logging
- 
--OE_IMPORTS += "os sys time oe.path oe.utils oe.types oe.package oe.packagegroup oe.sstatesig oe.lsb oe.cachedpath"
-+OE_IMPORTS += "os sys time oe.path oe.utils oe.types oe.package oe.packagegroup oe.sstatesig oe.lsb oe.cachedpath oe.license"
- OE_IMPORTS[type] = "list"
- 
- def oe_import(d):
+Those versions are:
+
+ - 4.1:  LTSI
+ - 4.9:  LTS
+ - 4.10: 'latest'
+
+I've also updated the linux-libc-headers to 4.10 to match.
+
+I built and booted this kernel and libc-headers update against qemu (all
+arches, all word sizes) and I also built the same images against musl as
+the c library.
+
+After working through some issues (config and tools), everything now looks
+clean and I didn't pick up any issues.
+
+NOTES:
+
+ - this series needs the latest lttng 2.9.x -stable release, which was
+   posted to oe-core on Sunday February 26th.
+
+ - I'll send follow up patches to poky/yocto-bsps to update the bbapends
+   and kernels there.
+
+ - You'll note that I'm not dropping the 4.8 recipes in this series, since
+   there are still reference BSPs that indicate it as the preferred
+   version. I need to get the reference BSP maintainers to bump the versions
+   and then I'll drop 4.9.
+
+ - As in the past, if folks are concerned about the amount of space the
+   linux-yocto versions are taking up, we can investigate shallow clones, or
+   I can do a versioned branching structure. Either of those options can be
+   done after this version bump is in-tree, since it is a separate topic.
+
+ - I'll also be sending -stable updates for 4.1, 4.9 and 4.10 separately
+   in the next few days.
+
+Cheers,
+
+Bruce
+
+The following changes since commit 3c83b56309ab419f8cda72c0711479f60f61439a:
+
+  bitbake: fetch2/svn: change 'rsh' parameter to 'ssh' (2017-02-23 12:50:17 -0800)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (4):
+  linux-yocto: introduce 4.10 recipes
+  libc-headers: introduce 4.10 and set as default
+  linux-yocto-dev: add virtio fragment for virtio targets
+  linux-yocto: drop 4.4 recipes
+
+ meta/conf/distro/include/tcmode-default.inc        |  2 +-
+ ...c-headers_4.9.bb => linux-libc-headers_4.10.bb} |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-dev.bb       |  2 ++
+ ...inux-yocto-rt_4.4.bb => linux-yocto-rt_4.10.bb} | 12 +++++-----
+ ...-yocto-tiny_4.4.bb => linux-yocto-tiny_4.10.bb} | 12 +++++-----
+ .../{linux-yocto_4.4.bb => linux-yocto_4.10.bb}    | 26 ++++++++++++----------
+ 6 files changed, 33 insertions(+), 25 deletions(-)
+ rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_4.9.bb => linux-libc-headers_4.10.bb} (66%)
+ rename meta/recipes-kernel/linux/{linux-yocto-rt_4.4.bb => linux-yocto-rt_4.10.bb} (77%)
+ rename meta/recipes-kernel/linux/{linux-yocto-tiny_4.4.bb => linux-yocto-tiny_4.10.bb} (52%)
+ rename meta/recipes-kernel/linux/{linux-yocto_4.4.bb => linux-yocto_4.10.bb} (56%)
+
 -- 
-2.7.4
+2.5.0
 
 
