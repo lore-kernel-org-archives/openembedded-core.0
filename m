@@ -1,21 +1,25 @@
 Return-Path: <mariano.lopez@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9581D71987
+	by mail.openembedded.org (Postfix) with ESMTP id B2ABA72FC1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2017 15:46:58 +0000 (UTC)
+	Mon, 27 Feb 2017 15:47:00 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	27 Feb 2017 07:46:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,215,1484035200"; d="scan'208";a="828950357"
+X-IronPort-AV: E=Sophos;i="5.35,215,1484035200"; d="scan'208";a="828950359"
 Received: from yctb01.ostc.intel.com ([10.54.69.55])
 	by FMSMGA003.fm.intel.com with ESMTP; 27 Feb 2017 07:46:59 -0800
 From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Feb 2017 07:44:59 +0000
-Message-Id: <cover.1488181279.git.mariano.lopez@linux.intel.com>
+Date: Mon, 27 Feb 2017 07:45:00 +0000
+Message-Id: <7a84d3223a92d576623eaffefc1af5689af97636.1488181279.git.mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
-Subject: [PATCHv2 0/2] OEQA loader improvment
+In-Reply-To: <cover.1488181279.git.mariano.lopez@linux.intel.com>
+References: <cover.1488181279.git.mariano.lopez@linux.intel.com>
+In-Reply-To: <cover.1488181279.git.mariano.lopez@linux.intel.com>
+References: <cover.1488181279.git.mariano.lopez@linux.intel.com>
+Subject: [PATCHv2 1/2] oeqa/core/loader.py: Give meaningful error when failed to load classes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,32 +36,34 @@ X-List-Received-Date: Mon, 27 Feb 2017 15:47:01 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-The first adds more verbosity when a class doesn't inherit
-from the expected test class.
+With this we get the class that is actually having the problem,
+not just a TypeError with an unknown class causing the error.
 
-The second patch raises an error when trying to import a test
-with the same module name as a built-in module.
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ meta/lib/oeqa/core/loader.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Change in v2:
-
-- Rebased to current master
-
-The following changes since commit 3c83b56309ab419f8cda72c0711479f60f61439a:
-
-  bitbake: fetch2/svn: change 'rsh' parameter to 'ssh' (2017-02-23 12:50:17 -0800)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib mariano/bug10978
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mariano/bug10978
-
-Mariano Lopez (2):
-  oeqa/core/loader.py: Give meaningful error when failed to load classes
-  oeqa/core/loader.py: Avoid importing tests with built-ins name
-
- meta/lib/oeqa/core/loader.py | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
-
+diff --git a/meta/lib/oeqa/core/loader.py b/meta/lib/oeqa/core/loader.py
+index a380325..b9ba923 100644
+--- a/meta/lib/oeqa/core/loader.py
++++ b/meta/lib/oeqa/core/loader.py
+@@ -171,11 +171,11 @@ class OETestLoader(unittest.TestLoader):
+         """
+         if issubclass(testCaseClass, unittest.suite.TestSuite):
+             raise TypeError("Test cases should not be derived from TestSuite." \
+-                                " Maybe you meant to derive from TestCase?")
++                                " Maybe you meant to derive %s from TestCase?" \
++                                % testCaseClass.__name__)
+         if not issubclass(testCaseClass, self.caseClass):
+-            raise TypeError("Test cases need to be derived from %s" % \
+-                    self.caseClass.__name__)
+-
++            raise TypeError("Test %s is not derived from %s" % \
++                    (testCaseClass.__name__, self.caseClass.__name__))
+ 
+         testCaseNames = self.getTestCaseNames(testCaseClass)
+         if not testCaseNames and hasattr(testCaseClass, 'runTest'):
 -- 
 2.6.6
 
