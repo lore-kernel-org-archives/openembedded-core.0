@@ -1,49 +1,47 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-yw0-f177.google.com (mail-yw0-f177.google.com
-	[209.85.161.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 92A5F72FE7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id B21BC72FE9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2017 14:57:02 +0000 (UTC)
-Received: by mail-yw0-f177.google.com with SMTP id l138so13033439ywc.0
+	Mon, 27 Feb 2017 14:57:04 +0000 (UTC)
+Received: by mail-qk0-f170.google.com with SMTP id n127so100529596qkf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2017 06:57:04 -0800 (PST)
+	Mon, 27 Feb 2017 06:57:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Fg0F+ZtpxOuGrtaMXmYPSgR/IF8F0oDAZtLBH6sFa4k=;
-	b=Gvg3sDO9qDVtKvulWjUre+byejVcWjnE+ht4ulcp/kYylWAxW5ep2ysp/ROxfVe2Yl
-	IdBJ6HvthjatISuLWsZDPWzJ2jR3w/zfK4oyLJe7IZXGU7xMWRhzM1y4juhKWqFFz3Vu
-	Oy92BuOyUC3kZ/08s5tCzugbshAejGlbsDRl0Sz/EljDStXAREY2QZGD1+3Sp7fptBt9
-	0n5FzdeHt8cqQS+dYrqHT1Vqx6yzOG4L7S1jtzBaxvx6vv5VhOqRicdqo5xkBURZ8NHc
-	duS+JGqyQdOs9gx2KbJxYROT46mXlKIbPnFDPfCmRbC0qVue/VTou7wQ2rpxegT3YOoU
-	lYJA==
+	:cc; bh=/PR2OtP5VCTRgxk+LD/e4NUfPoUgzu/6MUyvwCUDBmo=;
+	b=dr8PdvxmVU5D0OjVDtnIuOil2xnhG0Y2pYoavVl3zgWRSjpaWnRhH+fkyHUdcwWaYv
+	eHzumF93BteDEiuR+jGX2fXTXi2ctxE84/tv6jCp1XU5V+yqnneJGVaijIfHrIrZIsO1
+	UHLPCnkrLPuTqVEGPS85LnjttKRnoM9GAY6XhzaS0X4jLMuEizSTQUoUJKw832ZLQnq+
+	8HMAZM8a95J/sRpslS+p8SP3iynyn1jJdagyPj6xoatvJ1X162Nuh7pymI2FeQvBl8u7
+	xecsYL5zs8T8/SjDSs8PLgNwS08UJdTFPMJvF+ngpSs2exmfh/y0E/mSHjo4j2tuprDr
+	bMgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Fg0F+ZtpxOuGrtaMXmYPSgR/IF8F0oDAZtLBH6sFa4k=;
-	b=BK0gwJ+cEiwhVoERsgbskl09gke7V9QtnflVbz8EyJ/YbqqqhNJBXkhdwG1ZThC5OQ
-	xWVYPn8j8N/Lf/eSGLoO/W+hlN0wJXXXfZ3y1shKt1Yt9GZvhKgVVm5nc8YYl1r+gW+j
-	HxCHa+uGgPrmGwKGRMAe6j6Jrlv2VAFRjRjbA1aIzUCY+qizyJBCvSaA+dB/NfSpk7LK
-	a8z8ojjQ3kfDXBQRmmaNBXhbbn2YkpBiWBlzudXruAcYBbMVvIV6ZM1oIZKIYAnD/thx
-	PvzGrNj6DYIWAtvUlQz8iDi9Vow7EOXvYSmkhUCe3lru+APZWAAIQWMh/9bWQvzkHLeG
-	MXrA==
-X-Gm-Message-State: AMke39kxCRgdCr9zMpLT/hKFxFRSFFdZin0a5Zb/D1Ek9DEsHX+rDnCQZpzXXFVkSqNdndT1JImgKKYXa0nNEUVq
-X-Received: by 10.37.200.68 with SMTP id y65mr11637551ybf.51.1488207423302;
-	Mon, 27 Feb 2017 06:57:03 -0800 (PST)
+	bh=/PR2OtP5VCTRgxk+LD/e4NUfPoUgzu/6MUyvwCUDBmo=;
+	b=p7STDipXByUCTIdG+AWBg7Y+d3DzMdg70NUFQbsUM7pNrHguAkpfgT2VVsYpvpM8dO
+	XTgrGpUF0FhlEChDI5CRzyAmyNMC1vAElfxZFZkr6kTtaP+Enaa6S04tpVhctPVxS+0U
+	OKLIubQVP82GA2VXHJo7E9xEbWOC+okv+EWPN+VbJXjS0Fq1xg+3/St6U0ryaQZs6YSm
+	JRpD7NLenM1vWk9xArotYi1GR9Zytg+udPaYic34A3vqdpJ5/Q7TeUcMD6FdpSETob8Q
+	nEYqgd3VgwvudBo/BZIQpKJ9PbsImq0MU4NQioK7LsUZSQvW0hiwS9uTUnTGHP3VFSZE
+	43CA==
+X-Gm-Message-State: AMke39kEx9lok56I6Tj6lNQl8M1ZHUJWmOzU6P4/YkUwz+e+BOEb+Tmw4yTuACXk8WdIhLx1goTdk/jll2T/tBJr
+X-Received: by 10.55.1.134 with SMTP id u6mr17878763qkg.36.1488207425465; Mon,
+	27 Feb 2017 06:57:05 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.129.81.136 with HTTP; Mon, 27 Feb 2017 06:56:32 -0800 (PST)
-In-Reply-To: <CA+chaQcSpX=a77jcg1-D7Uj30ukOto2gpuemf9JMCpZ0n9m3jA@mail.gmail.com>
-References: <cover.1488125460.git.jussi.kukkonen@intel.com>
-	<03b310a8701ba7a927c8de949af9398d5739e8a8.1488125460.git.jussi.kukkonen@intel.com>
-	<CA+chaQcSpX=a77jcg1-D7Uj30ukOto2gpuemf9JMCpZ0n9m3jA@mail.gmail.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Mon, 27 Feb 2017 16:56:32 +0200
-Message-ID: <CAHiDW_FbTEr8BZysykOVDqbHy930vxnuGJCpxLVcyaF2sVRr=A@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/6] vkcube: Add recipe for minimal vulkan demo
+Received: by 10.140.103.233 with HTTP; Mon, 27 Feb 2017 06:56:45 -0800 (PST)
+In-Reply-To: <1f66cc6879051458f2ca8265d6861f701b232c0d.1487971654.git.humberto.ibarra.lopez@intel.com>
+References: <cover.1487971654.git.humberto.ibarra.lopez@intel.com>
+	<1f66cc6879051458f2ca8265d6861f701b232c0d.1487971654.git.humberto.ibarra.lopez@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 27 Feb 2017 14:56:45 +0000
+Message-ID: <CAJTo0LYfd=Tbp4WxU4zgTs9xsUsO-CBYH4KAWQ05OHemUDA6sg@mail.gmail.com>
+To: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] oelib/buildhistory.py: Add unittest for buildhistory_analysis
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,42 +54,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Feb 2017 14:57:03 -0000
-Content-Type: multipart/alternative; boundary=001a114ff28ad1f9270549844a83
+X-List-Received-Date: Mon, 27 Feb 2017 14:57:05 -0000
+Content-Type: multipart/alternative; boundary=001a114046c4f295fa0549844a54
 
---001a114ff28ad1f9270549844a83
+--001a114046c4f295fa0549844a54
 Content-Type: text/plain; charset=UTF-8
 
-On 26 February 2017 at 20:15, Martin Jansa <martin.jansa@gmail.com> wrote:
+On 24 February 2017 at 21:57, Humberto Ibarra <
+humberto.ibarra.lopez@intel.com> wrote:
+
+> +        tmp_repo = "bhrepo_%s" % time.strftime("%Y%m%d%H%M%S")
+> +        self.repo_path = os.path.join(get_bb_var('TOPDIR'), tmp_repo)
+> +        os.mkdir(self.repo_path)
 >
-> > +PV = "0+git${SRCPV}"
->
-> https://github.com/krh/vkcube/blob/master/configure.ac#L1
->
-> says 0.1 since the very first commit, why not use that as base version
-instead of just "0"?
 
-I've fixed this in the branch on poky-contrib.
+Instead of hoping for the best, can this just use
+mktempd(prefix='selftest-buildhistory', dir=get_bb_bar(TOPDIR))
 
-I also added a source file to vulkan LIC_FILES_CHECKSUM (since there were
-none).
+Ross
 
-Thanks,
- Jussi
-
---001a114ff28ad1f9270549844a83
+--001a114046c4f295fa0549844a54
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 26 February 2017 at 20:15, Martin Jansa &lt;<a href=3D"=
-mailto:martin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt; wrote:<br>&gt=
-;<br>&gt; &gt; +PV =3D &quot;0+git${SRCPV}&quot;<br>&gt;<br>&gt; <a href=3D=
-"https://github.com/krh/vkcube/blob/master/configure.ac#L1">https://github.=
-com/krh/vkcube/blob/master/configure.ac#L1</a><br>&gt;<br>&gt; says 0.1 sin=
-ce the very first commit, why not use that as base version instead of just =
-&quot;0&quot;?<br><br><div>I&#39;ve fixed this in the branch on poky-contri=
-b.</div><div><br></div><div>I also added a source file to vulkan LIC_FILES_=
-CHECKSUM (since there were none).</div><div><br></div><div>Thanks,</div><di=
-v>=C2=A0Jussi</div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 24 February 2017 at 21:57, Humberto Ibarra <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:humberto.ibarra.lopez@intel.com" target=3D"_blank">humberto.ibar=
+ra.lopez@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-colo=
+r:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div id=3D"gma=
+il-:6j1" class=3D"gmail-a3s gmail-aXjCH gmail-m15a721f70cfea666">+=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 tmp_repo =3D &quot;bhrepo_%s&quot; % time.strftime(&qu=
+ot;%Y%m%d%H%M%S&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.repo_path =3D os.path.join(get_bb_var(&#3=
+9;<wbr>TOPDIR&#39;), tmp_repo)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 os.mkdir(self.repo_path)<br></div></blockquote=
+></div><br>Instead of hoping for the best, can this just use mktempd(prefix=
+=3D&#39;selftest-buildhistory&#39;, dir=3Dget_bb_bar(TOPDIR))</div><div cla=
+ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a114ff28ad1f9270549844a83--
+--001a114046c4f295fa0549844a54--
