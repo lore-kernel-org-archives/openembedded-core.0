@@ -1,30 +1,26 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 925A67199C
+Return-Path: <peter.marko@siemens.com>
+Received: from david.siemens.de (david.siemens.de [192.35.17.14])
+	by mail.openembedded.org (Postfix) with ESMTP id 215596FF56
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2017 18:53:56 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
-	via TCP (outbound) with ESMTPS id 20170227185347960_0485;
-	Mon, 27 Feb 2017 18:53:47 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [174.118.92.171] (port=37638 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1ciQQW-0007Hn-Ju; Mon, 27 Feb 2017 13:53:40 -0500
-Date: Mon, 27 Feb 2017 13:53:38 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: Phil Blundell <pb@pbcl.net>
-In-Reply-To: <1488217806.8657.20.camel@pbcl.net>
-Message-ID: <alpine.LFD.2.20.1702271347110.6269@localhost.localdomain>
-References: <alpine.LFD.2.20.1702270819550.25847@uk63952.mitel.com>
-	<1488217806.8657.20.camel@pbcl.net>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: a few more picky questions about COMPATIBLE_MACHINE usage
+	Mon, 27 Feb 2017 19:27:24 +0000 (UTC)
+Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id v1RJRPQk006856
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Feb 2017 20:27:25 +0100
+Received: from dev.sbt.siemens.com ([139.22.32.83])
+	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id v1RJRPXS010496;
+	Mon, 27 Feb 2017 20:27:25 +0100
+Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
+	by dev.sbt.siemens.com (Postfix) with ESMTP id B44AC3E5D;
+	Mon, 27 Feb 2017 20:27:24 +0100 (CET)
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 27 Feb 2017 20:26:37 +0100
+Message-Id: <1488223597-30919-1-git-send-email-peter.marko@siemens.com>
+X-Mailer: git-send-email 2.1.4
+Cc: Andrej Valek <andrej.valek@siemens.com>
+Subject: [PATCH v3] zlib: Upgrade 1.2.8 -> 1.2.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,83 +33,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Feb 2017 18:53:57 -0000
-Content-Type: multipart/mixed; BOUNDARY="8323328-1223019616-1488221620=:6269"
+X-List-Received-Date: Mon, 27 Feb 2017 19:27:25 -0000
 
---8323328-1223019616-1488221620=:6269
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Licence updated by removing its first line which was containing
+copyright notice including year, which could change quite often.
+Additional empty line was deleted, too.
 
-On Mon, 27 Feb 2017, Phil Blundell wrote:
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+---
+ 1.2.11                                                              | 0
+ .../zlib/{zlib-1.2.8 => zlib-1.2.11}/Makefile-runtests.patch        | 0
+ .../zlib/{zlib-1.2.8 => zlib-1.2.11}/ldflags-tests.patch            | 0
+ .../zlib/{zlib-1.2.8 => zlib-1.2.11}/remove.ldconfig.call.patch     | 0
+ meta/recipes-core/zlib/{zlib-1.2.8 => zlib-1.2.11}/run-ptest        | 0
+ meta/recipes-core/zlib/{zlib_1.2.8.bb => zlib_1.2.11.bb}            | 6 +++---
+ 6 files changed, 3 insertions(+), 3 deletions(-)
+ create mode 100644 1.2.11
+ rename meta/recipes-core/zlib/{zlib-1.2.8 => zlib-1.2.11}/Makefile-runtests.patch (100%)
+ rename meta/recipes-core/zlib/{zlib-1.2.8 => zlib-1.2.11}/ldflags-tests.patch (100%)
+ rename meta/recipes-core/zlib/{zlib-1.2.8 => zlib-1.2.11}/remove.ldconfig.call.patch (100%)
+ rename meta/recipes-core/zlib/{zlib-1.2.8 => zlib-1.2.11}/run-ptest (100%)
+ rename meta/recipes-core/zlib/{zlib_1.2.8.bb => zlib_1.2.11.bb} (86%)
 
-> On Mon, 2017-02-27 at 09:09 -0500, Robert P. J. Day wrote:
-> >  # webkit-efl isn't available for < armv7a
-> >  COMPATIBLE_MACHINE = "(-)"
-> >   COMPATIBLE_MACHINE_x86 = "(.*)"
-> >   COMPATIBLE_MACHINE_x86-64 = "(.*)"
-> >   COMPATIBLE_MACHINE_armv7a = "(.*)"
-> >
-> >   first, that comment seems out of date as it makes no mention of
-> > MIPS
-> > or ppc, but that's just being picky.
-> >
-> >   next, i assume the line:
-> >
-> >   COMPATIBLE_MACHINE = "(-)"
-> >
-> > is to initialize the set of compatible machines to the empty set,
-> > yes?
->
-> I think the intent is to set it to a string that "can't possibly
-> ever match".
-
-  right, that's what i suspected.
-
-> >
->   i next assume that lines of the form:
-> >
-> >   COMPATIBLE_MACHINE_x86 = "(.*)"
-> >
-> > are meant to indicate that if that MACHINE_OVERRIDES comparison
-> > succeeds, then all possible targets are compatible, is that right?
-> > however, given precisely those lines above, is it not equivalent to
-> > just write:
-> >
-> >   COMPATIBLE_MACHINE = "(x86|x86-64|armv7a)"
->
-> No, because "armv7a" is not a MACHINE.  It would be more equivalent
-> to write
->
-> COMPATIBLE_HOST = "armv7a-.*"
->
-> but even this would not be quite the same because it would fail to
-> match "cortexa15-linux" for example.  Actually that's not a very
-> good example because cortexa15 is armv7ve not armv7a, but you get
-> the idea.
-
-  i'm going to disagree here, i never suggested "armv7a" was a
-"machine" (in the sense of having a defining armv7a.conf file). i said
-it was part of MACHINE_OVERRIDES, and therefore *would* be considered
-a matching "machine" for the purposes of COMPATIBLE_MACHINE.
-
-  as another example, there is no such machine as a "qoriq", but that
-is considered a valid choice for COMPATIBLE_MACHINE since several
-actual machine definition files do this:
-
-  MACHINEOVERRIDES =. "qoriq:"
-
-am i making sense?
-
-rday
-
+diff --git a/1.2.11 b/1.2.11
+new file mode 100644
+index 0000000..e69de29
+diff --git a/meta/recipes-core/zlib/zlib-1.2.8/Makefile-runtests.patch b/meta/recipes-core/zlib/zlib-1.2.11/Makefile-runtests.patch
+similarity index 100%
+rename from meta/recipes-core/zlib/zlib-1.2.8/Makefile-runtests.patch
+rename to meta/recipes-core/zlib/zlib-1.2.11/Makefile-runtests.patch
+diff --git a/meta/recipes-core/zlib/zlib-1.2.8/ldflags-tests.patch b/meta/recipes-core/zlib/zlib-1.2.11/ldflags-tests.patch
+similarity index 100%
+rename from meta/recipes-core/zlib/zlib-1.2.8/ldflags-tests.patch
+rename to meta/recipes-core/zlib/zlib-1.2.11/ldflags-tests.patch
+diff --git a/meta/recipes-core/zlib/zlib-1.2.8/remove.ldconfig.call.patch b/meta/recipes-core/zlib/zlib-1.2.11/remove.ldconfig.call.patch
+similarity index 100%
+rename from meta/recipes-core/zlib/zlib-1.2.8/remove.ldconfig.call.patch
+rename to meta/recipes-core/zlib/zlib-1.2.11/remove.ldconfig.call.patch
+diff --git a/meta/recipes-core/zlib/zlib-1.2.8/run-ptest b/meta/recipes-core/zlib/zlib-1.2.11/run-ptest
+similarity index 100%
+rename from meta/recipes-core/zlib/zlib-1.2.8/run-ptest
+rename to meta/recipes-core/zlib/zlib-1.2.11/run-ptest
+diff --git a/meta/recipes-core/zlib/zlib_1.2.8.bb b/meta/recipes-core/zlib/zlib_1.2.11.bb
+similarity index 86%
+rename from meta/recipes-core/zlib/zlib_1.2.8.bb
+rename to meta/recipes-core/zlib/zlib_1.2.11.bb
+index 913c703..2018e7b 100644
+--- a/meta/recipes-core/zlib/zlib_1.2.8.bb
++++ b/meta/recipes-core/zlib/zlib_1.2.11.bb
+@@ -4,7 +4,7 @@ library which is used by many different programs."
+ HOMEPAGE = "http://zlib.net/"
+ SECTION = "libs"
+ LICENSE = "Zlib"
+-LIC_FILES_CHKSUM = "file://zlib.h;beginline=4;endline=23;md5=fde612df1e5933c428b73844a0c494fd"
++LIC_FILES_CHKSUM = "file://zlib.h;beginline=6;endline=23;md5=5377232268e952e9ef63bc555f7aa6c0"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/libpng/${BPN}/${PV}/${BPN}-${PV}.tar.xz \
+            file://remove.ldconfig.call.patch \
+@@ -13,8 +13,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/libpng/${BPN}/${PV}/${BPN}-${PV}.tar.xz \
+            file://run-ptest \
+            "
+ 
+-SRC_URI[md5sum] = "28f1205d8dd2001f26fec1e8c2cebe37"
+-SRC_URI[sha256sum] = "831df043236df8e9a7667b9e3bb37e1fcb1220a0f163b6de2626774b9590d057"
++SRC_URI[md5sum] = "85adef240c5f370b308da8c938951a68"
++SRC_URI[sha256sum] = "4ff941449631ace0d4d203e3483be9dbc9da454084111f97ea0a2114e19bf066"
+ 
+ RDEPENDS_${PN}-ptest += "make"
+ 
 -- 
+2.1.4
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
---8323328-1223019616-1488221620=:6269--
