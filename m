@@ -1,48 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id D287871AD9
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
+	by mail.openembedded.org (Postfix) with ESMTP id 336B372FE9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2017 11:51:05 +0000 (UTC)
-Received: by mail-qk0-f170.google.com with SMTP id s186so92643570qkb.1
+	Mon, 27 Feb 2017 12:06:44 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
+	via TCP (outbound) with ESMTPS id 20170227120644023_0486
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2017 03:51:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=bBpvqZuTgRwIMqHdBCiJNvM80/afLbOBERXjGuildaE=;
-	b=NxI2oA8W/RT2KIw0sWl2SwCuRP3xd2opm/oayLKEidlVXXihWBbOHC41Xzi2HN0Txp
-	exCxlHoutvtsgbby6de3kLb/idkAU8gVZUPNIk5dL9Pes61FFeG2K/KLVN4UdnuBWiz+
-	FHADPkEowjiSF+ZnLu1r7GVJb0VJelneII5mCC3MVcTsycw7w24PYj0lIWBcQ1vaEZ3F
-	K5971QJSn9QP8vJZSI5DclNi60UWKfiwSRAHKxpCilm84zMg20pNt3waoGeGycknT3Dp
-	GTW/bjcSGzM+sbA4MWn1CElbPwh5n5LePpnHpezG96y4Tgr0sKJPGIna8kKmgeIufrSN
-	OWtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=bBpvqZuTgRwIMqHdBCiJNvM80/afLbOBERXjGuildaE=;
-	b=Zvc3ngMcgYFCUudddoHlMB4+fk4c8/20To8y3a1a56Ro9gh/n7hmbvQfCe3GiA7aT1
-	Ef8akAuxofoK45fHsIT1NtM5uZYIPp7u01b3eIO8SDtJj3ToAGxtVWPu9joinsNQbBpu
-	Ac4nnoHjdFFsSs7j5kNC7MnUOXbw9iLZS8dNSv1c/I3FXtliZHjN1v97eEwnDEbhDnz5
-	qGvZ/hxxR46KkVVb6esZsievP56urpARyxy2XSb/o2KBjhyd3tL+NoBy2gm2LwE6jdeu
-	1AQ2dW0Bj6Eld5kWiG8nt0xnYrudGt2H/dtkSheWLQHQXp+BNHgSJkx8K2bSj4oCVLjk
-	aOog==
-X-Gm-Message-State: AMke39nf9AoHRRk51S/U6O+K3N036xyVOQbe451EuBWnSL2clPQl0l6K1W6l0bgv9zE/4q70lMvkwkH7V/SSSN0a
-X-Received: by 10.237.32.230 with SMTP id 93mr14899283qtb.144.1488196266674;
-	Mon, 27 Feb 2017 03:51:06 -0800 (PST)
+	Mon, 27 Feb 2017 12:06:44 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [216.191.234.70] (port=42866 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1ciK4b-0002dL-Td for openembedded-core@lists.openembedded.org;
+	Mon, 27 Feb 2017 07:06:37 -0500
+Date: Mon, 27 Feb 2017 07:06:35 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@uk63952.mitel.com
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+In-Reply-To: <alpine.LFD.2.20.1702270627460.23179@uk63952.mitel.com>
+Message-ID: <alpine.LFD.2.20.1702270705110.25064@uk63952.mitel.com>
+References: <alpine.LFD.2.20.1702270627460.23179@uk63952.mitel.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Mon, 27 Feb 2017 03:50:46 -0800 (PST)
-In-Reply-To: <20170223222004.GA23285@jama>
-References: <20170223222004.GA23285@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 27 Feb 2017 11:50:46 +0000
-Message-ID: <CAJTo0LZy--6KGkcfumi=_mkRpW9YryFFfAofK5T7jkuO3hik3Q@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: State of bitbake world, Failed tasks 2017-02-23
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: Re: in meta-yocto-bsp kernel recipes, why individual settings for COMPATIBLE_MACHINE?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,42 +38,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Feb 2017 11:51:06 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0c9b9cd4e152054981b1dc
+X-List-Received-Date: Mon, 27 Feb 2017 12:06:45 -0000
+Content-Type: text/plain; charset=US-ASCII
 
---94eb2c0c9b9cd4e152054981b1dc
-Content-Type: text/plain; charset=UTF-8
+On Mon, 27 Feb 2017, Robert P. J. Day wrote:
 
-On 23 February 2017 at 22:20, Martin Jansa <martin.jansa@gmail.com> wrote:
-
-> === common (2) ===
->     * openembedded-core/meta/recipes-extended/parted/parted_3.2.bb:
-> do_compile_ptest_base
->     * openembedded-core/meta/recipes-support/apr/apr_1.5.2.
-> bb:do_compile_ptest_base
 >
+>   more nitpicky pedantry ... under
+> meta-yocto-bsp/recipes-kernel/linux, i see a number of
+> COMPATIBLE_MACHINE settings:
+>
+>   COMPATIBLE_MACHINE_genericx86 = "genericx86"
+>   COMPATIBLE_MACHINE_genericx86-64 = "genericx86-64"
+>   COMPATIBLE_MACHINE_edgerouter = "edgerouter"
+>   COMPATIBLE_MACHINE_beaglebone = "beaglebone"
+>   COMPATIBLE_MACHINE_mpc8315e-rdb = "mpc8315e-rdb"
+>
+> given that every one of those conditional assignments match *exactly*
+> the respective target system, how does that effectively differ from
+> just writing (issues with RE matching aside):
+>
+>   COMPATIBLE_MACHINE = "(genericx86|genericx86-64|edgerouter|beaglebone|mpc8315e-rdb)"
+>
+> i can certainly see how one might need to use conditional assignments
+> for COMPATIBLE_MACHINE if one has, say, extended the definition of
+> MACHINEOVERRIDES to classify target systems into compatible subgroups,
+> but that's not what's happening above. is there something more subtle
+> going on there that i'm missing?
 
-FWIW neither me nor the yocto autobuilder sees these, so I suspect they're
-ld-is-gold related.
+  never mind, it just dawned on me that those override-based
+assignments will leave any earlier assignments in place, rather than
+wiping them out. but in the cases where you really just want to
+hardcode a set of compatible machines, using that single like still
+looks perfectly acceptable.
 
-Ross
+rday
 
---94eb2c0c9b9cd4e152054981b1dc
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+-- 
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 February 2017 at 22:20, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":6ef" clas=
-s=3D"a3s aXjCH m15a6d0fb201895ee">=3D=3D=3D common (2) =3D=3D=3D<br>
-=C2=A0 =C2=A0 * openembedded-core/meta/<wbr>recipes-extended/parted/<wbr>pa=
-rted_3.2.bb:do_compile_<wbr>ptest_base<br>
-=C2=A0 =C2=A0 * openembedded-core/meta/<wbr>recipes-support/apr/apr_1.5.2.<=
-wbr>bb:do_compile_ptest_base<br></div></blockquote></div><br>FWIW neither m=
-e nor the yocto autobuilder sees these, so I suspect they&#39;re ld-is-gold=
- related.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
-ra">Ross</div></div>
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
---94eb2c0c9b9cd4e152054981b1dc--
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+
