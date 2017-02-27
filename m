@@ -1,25 +1,22 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 4197A72FC3
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F34D6025F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2017 15:47:00 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Feb 2017 07:46:59 -0800
+	Mon, 27 Feb 2017 16:24:25 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Feb 2017 08:24:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,215,1484035200"; d="scan'208";a="828950360"
-Received: from yctb01.ostc.intel.com ([10.54.69.55])
-	by FMSMGA003.fm.intel.com with ESMTP; 27 Feb 2017 07:46:59 -0800
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Feb 2017 07:45:01 +0000
-Message-Id: <6633b71423628270258d04e0d36a8152f6a10e42.1488181279.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <cover.1488181279.git.mariano.lopez@linux.intel.com>
-References: <cover.1488181279.git.mariano.lopez@linux.intel.com>
-In-Reply-To: <cover.1488181279.git.mariano.lopez@linux.intel.com>
-References: <cover.1488181279.git.mariano.lopez@linux.intel.com>
-Subject: [PATCHv2 2/2] oeqa/core/loader.py: Avoid importing tests with built-ins name
+X-IronPort-AV: E=Sophos;i="5.35,215,1484035200"; d="scan'208";a="1102821803"
+Received: from swold-mobl2.amr.corp.intel.com ([10.254.4.127])
+	by orsmga001.jf.intel.com with ESMTP; 27 Feb 2017 08:24:26 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Mon, 27 Feb 2017 08:24:25 -0800
+Message-Id: <1488212665-27534-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] LICENSE: Clarify what is meant by 'metadata'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,52 +29,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Feb 2017 15:47:01 -0000
+X-List-Received-Date: Mon, 27 Feb 2017 16:24:26 -0000
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+The term metadata in the LICENSE text is unclear and recently
+garnered some questions at ELC, so clarify metadata to include
+bbclasses, which is and has been metadata as well as code.
 
-If importing a test with the same name as a built-in module,
-it will silently import the built-in and check for tests in
-built-in module. This happened with syslog module in debian
-based machines, so add a raise to avoid this behavior.
-
-[YOCTO #10978]
-
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/lib/oeqa/core/loader.py | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ LICENSE | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/core/loader.py b/meta/lib/oeqa/core/loader.py
-index b9ba923..74f1117 100644
---- a/meta/lib/oeqa/core/loader.py
-+++ b/meta/lib/oeqa/core/loader.py
-@@ -216,6 +216,13 @@ class OETestLoader(unittest.TestLoader):
-     # use_load_tests deprecation via *args and **kws.  See issue 16662.
-     if sys.version_info >= (3,5):
-         def loadTestsFromModule(self, module, *args, pattern=None, **kws):
-+            """
-+                Returns a suite of all tests cases contained in module.
-+            """
-+            if module.__name__ in sys.builtin_module_names:
-+                msg = 'Tried to import %s test module but is a built-in'
-+                raise ImportError(msg % module.__name__)
-+
-             if not self.modules or "all" in self.modules or \
-                     module.__name__ in self.modules:
-                 return super(OETestLoader, self).loadTestsFromModule(
-@@ -227,6 +234,10 @@ class OETestLoader(unittest.TestLoader):
-             """
-                 Returns a suite of all tests cases contained in module.
-             """
-+            if module.__name__ in sys.builtin_module_names:
-+                msg = 'Tried to import %s test module but is a built-in'
-+                raise ImportError(msg % module.__name__)
-+
-             if not self.modules or "all" in self.modules or \
-                     module.__name__ in self.modules:
-                 return super(OETestLoader, self).loadTestsFromModule(
+diff --git a/LICENSE b/LICENSE
+index 21fa6e6..9783ee5 100644
+--- a/LICENSE
++++ b/LICENSE
+@@ -6,9 +6,11 @@ meta/COPYING.MIT (MIT)
+ meta-selftest/COPYING.MIT (MIT)
+ meta-skeleton/COPYING.MIT (MIT)
+ 
+-All metadata is MIT licensed unless otherwise stated. Source code
+-included in tree for individual recipes is under the LICENSE stated in
+-the associated recipe (.bb file) unless otherwise stated.
++All metadata files (including, but not limited to bb, bbappend,
++bbclass, inc and conf files) are MIT licensed unless otherwise stated.
++Source code included in tree for individual recipes is under the
++LICENSE stated in the associated recipe (.bb file) unless otherwise
++stated.
+ 
+ License information for any other files is either explicitly stated 
+ or defaults to GPL version 2.
 -- 
-2.6.6
+2.7.4
 
 
