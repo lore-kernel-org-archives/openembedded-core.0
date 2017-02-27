@@ -1,29 +1,24 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
-	by mail.openembedded.org (Postfix) with ESMTP id 187EC72FF4
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 07A8C72F1F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2017 14:09:28 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
-	via TCP (outbound) with ESMTPS id 20170227140922469_0486
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2017 14:09:22 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [216.191.234.70] (port=37359 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1ciLzI-0004VR-7y for openembedded-core@lists.openembedded.org;
-	Mon, 27 Feb 2017 09:09:16 -0500
-Date: Mon, 27 Feb 2017 09:09:13 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@uk63952.mitel.com
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1702270819550.25847@uk63952.mitel.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: a few more picky questions about COMPATIBLE_MACHINE usage
+	Mon, 27 Feb 2017 14:15:09 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Feb 2017 06:15:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.35,214,1484035200"; d="scan'208";a="1135500572"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Feb 2017 06:15:10 -0800
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id DC07C6A4004;
+	Mon, 27 Feb 2017 06:15:08 -0800 (PST)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 27 Feb 2017 16:14:12 +0200
+Message-Id: <1488204852-16793-1-git-send-email-jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] wireless-tools: Update URLs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,102 +31,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Feb 2017 14:09:29 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Mon, 27 Feb 2017 14:15:11 -0000
 
+wireless-tools is now hosted on
+https://hewlettpackard.github.io/wireless-tools/Tools.html
 
-  (i apologize for beating this issue to death, but i want to
-understand it and, more often than not, what i'm puzzled about always
-seems simple but i end up wondering, "ok, is that just sloppily coded,
-or is there some subtle property that i'm missing?". anyway ...)
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+ meta/recipes-connectivity/wireless-tools/wireless-tools_30.pre9.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-  from examples under meta-openembedded, let's first look at the
-recipe meta-efl/recipes-efl/e17/elbow_git.bb, which opens with:
-
-  # webkit-efl isn't available for < armv7a
-  COMPATIBLE_MACHINE = "(-)"
-  COMPATIBLE_MACHINE_x86 = "(.*)"
-  COMPATIBLE_MACHINE_x86-64 = "(.*)"
-  COMPATIBLE_MACHINE_armv7a = "(.*)"
-
-  first, that comment seems out of date as it makes no mention of MIPS
-or ppc, but that's just being picky.
-
-  next, i assume the line:
-
-  COMPATIBLE_MACHINE = "(-)"
-
-is to initialize the set of compatible machines to the empty set, yes?
-i'm more familiar with the construct:
-
-  COMPATIBLE_MACHINE = "(^$)"
-
-to do that, but i'm assuming setting that variable to any unmatchable
-value from MACHINE_OVERRIDES will work just as well. (it would be nice
-if that were consistent, unless there is something magic about the RE
-"-").
-
-  i next assume that lines of the form:
-
-  COMPATIBLE_MACHINE_x86 = "(.*)"
-
-are meant to indicate that if that MACHINE_OVERRIDES comparison
-succeeds, then all possible targets are compatible, is that right?
-however, given precisely those lines above, is it not equivalent to
-just write:
-
-  COMPATIBLE_MACHINE = "(x86|x86-64|armv7a)"
-
-oddly, there is another recipe that seems to do the same thing, but in
-a very different way, meta-oe/recipes-support/ne10/ne10_1.2.1.bb:
-
-  COMPATIBLE_MACHINE_aarch64 = "(.*)"
-  COMPATIBLE_MACHINE_armv7a = "(.*)"
-
-  python () {
-    if any(t.startswith('armv7') for t in d.getVar('TUNE_FEATURES').split()):
-        d.setVar('NE10_TARGET_ARCH', 'armv7')
-        bb.debug(2, 'Building Ne10 for armv7')
-    elif any(t.startswith('aarch64') for t in d.getVar('TUNE_FEATURES').split()):
-        d.setVar('NE10_TARGET_ARCH', 'aarch64')
-        bb.debug(2, 'Building Ne10 for aarch64')
-    else:
-        raise bb.parse.SkipPackage("Incompatible with archs other than armv7 and aarch64")
-  }
-
-i'm confused ... what is the point of defining these compatibilites:
-
-  COMPATIBLE_MACHINE_aarch64 = "(.*)"
-  COMPATIBLE_MACHINE_armv7a = "(.*)"
-
-without first starting with:
-
-  COMPATIBLE_MACHINE = "(-)"
-
-as is stands, isn't the above just saying this recipe is compatible
-with everything?
-
-  now, i can see that that anonymous python routine refines the
-machine compatibility even further but, to speed things up, why not
-first start with just:
-
-  COMPATIBLE_MACHINE = "(aarch64|armv7a)"
-
-or (once again), am i misunderstanding something?
-
-  one more question coming on this, but i want to study it a bit more
-carefully first.
-
-rday
-
+diff --git a/meta/recipes-connectivity/wireless-tools/wireless-tools_30.pre9.bb b/meta/recipes-connectivity/wireless-tools/wireless-tools_30.pre9.bb
+index c3b8f66..0a34207 100644
+--- a/meta/recipes-connectivity/wireless-tools/wireless-tools_30.pre9.bb
++++ b/meta/recipes-connectivity/wireless-tools/wireless-tools_30.pre9.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "Tools for the Linux Standard Wireless Extension Subsystem"
+-HOMEPAGE = "http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/Tools.html"
++HOMEPAGE = "https://hewlettpackard.github.io/wireless-tools/Tools.html"
+ LICENSE = "GPLv2 & (LGPLv2.1 | MPL-1.1 | BSD)"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ 			file://iwconfig.c;beginline=1;endline=12;md5=cf710eb1795c376eb10ea4ff04649caf \
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ SECTION = "base"
+ PE = "1"
+ 
+-SRC_URI = "http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/wireless_tools.${PV}.tar.gz \
++SRC_URI = "https://hewlettpackard.github.io/wireless-tools/wireless_tools.${PV}.tar.gz \
+            file://remove.ldconfig.call.patch \
+            file://man.patch \
+            file://avoid_strip.patch \
+@@ -17,7 +17,7 @@ SRC_URI = "http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/wireless_tools.$
+ SRC_URI[md5sum] = "ca91ba7c7eff9bfff6926b1a34a4697d"
+ SRC_URI[sha256sum] = "abd9c5c98abf1fdd11892ac2f8a56737544fe101e1be27c6241a564948f34c63"
+ 
+-UPSTREAM_CHECK_URI = "http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/Tools.html"
++UPSTREAM_CHECK_URI = "https://hewlettpackard.github.io/wireless-tools/Tools.html"
+ UPSTREAM_CHECK_REGEX = "wireless_tools\.(?P<pver>(\d+)(\..*|))\.tar\.gz"
+ 
+ S = "${WORKDIR}/wireless_tools.30"
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+2.1.4
 
 
