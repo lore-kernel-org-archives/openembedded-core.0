@@ -1,26 +1,46 @@
-Return-Path: <peter.marko@siemens.com>
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id 215596FF56
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id A746460602
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2017 19:27:24 +0000 (UTC)
-Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id v1RJRPQk006856
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	Mon, 27 Feb 2017 19:49:45 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id v77so15035435wmv.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2017 20:27:25 +0100
-Received: from dev.sbt.siemens.com ([139.22.32.83])
-	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id v1RJRPXS010496;
-	Mon, 27 Feb 2017 20:27:25 +0100
-Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
-	by dev.sbt.siemens.com (Postfix) with ESMTP id B44AC3E5D;
-	Mon, 27 Feb 2017 20:27:24 +0100 (CET)
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Feb 2017 20:26:37 +0100
-Message-Id: <1488223597-30919-1-git-send-email-peter.marko@siemens.com>
-X-Mailer: git-send-email 2.1.4
-Cc: Andrej Valek <andrej.valek@siemens.com>
-Subject: [PATCH v3] zlib: Upgrade 1.2.8 -> 1.2.11
+	Mon, 27 Feb 2017 11:49:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=4ydwvUk2Wxt3RxDYRDJD/7pne/ZBGwV6mpKrCca4geM=;
+	b=QoSoyfTHHY0jy5/vu/pgc/FIDTNayEk/HopoIobPO+SPYWL3tn1bCMXZVlhDQawkv1
+	JQdu/7tYaVZWARXU/RotEzNda2sJQ+1S1wgLEJLmgUmHS1FqJD9gHRoaYEHSNVFKfePU
+	NdLZje3X4MZl7y32TZTusK1Y0ZL7sKo7xjUoOqvqmho82359vk5OsDMVQjVp/l86wXNr
+	VHeU9mB3a0YfJ9o3RZINrFmogBXuyNTGcEFaMD+zKNVM8+DmPramoiDr9MTfNJs3LNcF
+	sKeS8xqvpk5ZQFg9TZ1dlAgoa3+oxMgWz0rZ+LCnoEjOnN3EzjBNvS/KffnGgCHsR/Vc
+	n4aQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=4ydwvUk2Wxt3RxDYRDJD/7pne/ZBGwV6mpKrCca4geM=;
+	b=kNE4meIlfGTLRAfxyf8EI7+qm99ZF5mP3/Dt585GCR3Ze+MRLh+VqsdJdu2uyOsEWf
+	tjOYUUxbA5OqsLuLQtts9v76+tLW/MVwaxqsk8iBBtMiHn2vhM4Zpu0IJv+ZEmrPp3fc
+	1DD2E9vvQqTQ4MsRr3xn7+53Y1q2HznH+bj/rVeiVBVs+1u0LUSOrUso7jSNAKCNBDol
+	6HF8zqHfVekHFtS8yP5K8/0Lb/R22PwA5/reP9ny8Cs7gSQaWPwLIb1mTuzACl6YV2cC
+	L8gTdVxQBYc0MFJZYDFCVHj9DtKiQanTnwANJGnduaggcHxf0ChIJDD/Ow56gVj1YHim
+	PjmQ==
+X-Gm-Message-State: AMke39lxv98B1DCzHmQiXe2x3MhcyAptYTawPntm0yw0qYI0mIi9k757xgWDpcVHaBMiKonAVpGrj5TRbdpP9g==
+X-Received: by 10.28.229.78 with SMTP id c75mr9029355wmh.20.1488224986392;
+	Mon, 27 Feb 2017 11:49:46 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.223.174.82 with HTTP; Mon, 27 Feb 2017 11:49:45 -0800 (PST)
+In-Reply-To: <alpine.LFD.2.20.1702271347110.6269@localhost.localdomain>
+References: <alpine.LFD.2.20.1702270819550.25847@uk63952.mitel.com>
+	<1488217806.8657.20.camel@pbcl.net>
+	<alpine.LFD.2.20.1702271347110.6269@localhost.localdomain>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 27 Feb 2017 11:49:45 -0800
+Message-ID: <CAJ86T=XY4k09EZayoUdLcXV3-WE9Ft4==W1oXioJq0ZZvDgMJg@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: a few more picky questions about COMPATIBLE_MACHINE usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,77 +53,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Feb 2017 19:27:25 -0000
+X-List-Received-Date: Mon, 27 Feb 2017 19:49:46 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Licence updated by removing its first line which was containing
-copyright notice including year, which could change quite often.
-Additional empty line was deleted, too.
+On Mon, Feb 27, 2017 at 10:53 AM, Robert P. J. Day
+<rpjday@crashcourse.ca> wrote:
+> On Mon, 27 Feb 2017, Phil Blundell wrote:
+>
+>> On Mon, 2017-02-27 at 09:09 -0500, Robert P. J. Day wrote:
+>> >  # webkit-efl isn't available for < armv7a
+>> >  COMPATIBLE_MACHINE = "(-)"
+>> >   COMPATIBLE_MACHINE_x86 = "(.*)"
+>> >   COMPATIBLE_MACHINE_x86-64 = "(.*)"
+>> >   COMPATIBLE_MACHINE_armv7a = "(.*)"
+>> >
+>> >   first, that comment seems out of date as it makes no mention of
+>> > MIPS
+>> > or ppc, but that's just being picky.
+>> >
+>> >   next, i assume the line:
+>> >
+>> >   COMPATIBLE_MACHINE = "(-)"
+>> >
+>> > is to initialize the set of compatible machines to the empty set,
+>> > yes?
+>>
+>> I think the intent is to set it to a string that "can't possibly
+>> ever match".
+>
+>   right, that's what i suspected.
+>
+>> >
+>>   i next assume that lines of the form:
+>> >
+>> >   COMPATIBLE_MACHINE_x86 = "(.*)"
+>> >
+>> > are meant to indicate that if that MACHINE_OVERRIDES comparison
+>> > succeeds, then all possible targets are compatible, is that right?
+>> > however, given precisely those lines above, is it not equivalent to
+>> > just write:
+>> >
+>> >   COMPATIBLE_MACHINE = "(x86|x86-64|armv7a)"
+>>
+>> No, because "armv7a" is not a MACHINE.  It would be more equivalent
+>> to write
+>>
+>> COMPATIBLE_HOST = "armv7a-.*"
+>>
+>> but even this would not be quite the same because it would fail to
+>> match "cortexa15-linux" for example.  Actually that's not a very
+>> good example because cortexa15 is armv7ve not armv7a, but you get
+>> the idea.
+>
+>   i'm going to disagree here, i never suggested "armv7a" was a
+> "machine" (in the sense of having a defining armv7a.conf file). i said
+> it was part of MACHINE_OVERRIDES, and therefore *would* be considered
+> a matching "machine" for the purposes of COMPATIBLE_MACHINE.
+>
+>   as another example, there is no such machine as a "qoriq", but that
+> is considered a valid choice for COMPATIBLE_MACHINE since several
+> actual machine definition files do this:
+>
+>   MACHINEOVERRIDES =. "qoriq:"
+>
+> am i making sense?
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
----
- 1.2.11                                                              | 0
- .../zlib/{zlib-1.2.8 => zlib-1.2.11}/Makefile-runtests.patch        | 0
- .../zlib/{zlib-1.2.8 => zlib-1.2.11}/ldflags-tests.patch            | 0
- .../zlib/{zlib-1.2.8 => zlib-1.2.11}/remove.ldconfig.call.patch     | 0
- meta/recipes-core/zlib/{zlib-1.2.8 => zlib-1.2.11}/run-ptest        | 0
- meta/recipes-core/zlib/{zlib_1.2.8.bb => zlib_1.2.11.bb}            | 6 +++---
- 6 files changed, 3 insertions(+), 3 deletions(-)
- create mode 100644 1.2.11
- rename meta/recipes-core/zlib/{zlib-1.2.8 => zlib-1.2.11}/Makefile-runtests.patch (100%)
- rename meta/recipes-core/zlib/{zlib-1.2.8 => zlib-1.2.11}/ldflags-tests.patch (100%)
- rename meta/recipes-core/zlib/{zlib-1.2.8 => zlib-1.2.11}/remove.ldconfig.call.patch (100%)
- rename meta/recipes-core/zlib/{zlib-1.2.8 => zlib-1.2.11}/run-ptest (100%)
- rename meta/recipes-core/zlib/{zlib_1.2.8.bb => zlib_1.2.11.bb} (86%)
+I think so. However, note that ARM is somewhat of a special case in
+that it includes over-rides derived from TUNE_FEATURES in
+MACHINEOVERRIDES (although MIPS has recently started to do so too). In
+the general case (and especially in the context of COMPATIBLE_MACHINE)
+it's probably better to think of MACHINEOVERRIDES as containing just
+the machine name and perhaps a SOC family.
 
-diff --git a/1.2.11 b/1.2.11
-new file mode 100644
-index 0000000..e69de29
-diff --git a/meta/recipes-core/zlib/zlib-1.2.8/Makefile-runtests.patch b/meta/recipes-core/zlib/zlib-1.2.11/Makefile-runtests.patch
-similarity index 100%
-rename from meta/recipes-core/zlib/zlib-1.2.8/Makefile-runtests.patch
-rename to meta/recipes-core/zlib/zlib-1.2.11/Makefile-runtests.patch
-diff --git a/meta/recipes-core/zlib/zlib-1.2.8/ldflags-tests.patch b/meta/recipes-core/zlib/zlib-1.2.11/ldflags-tests.patch
-similarity index 100%
-rename from meta/recipes-core/zlib/zlib-1.2.8/ldflags-tests.patch
-rename to meta/recipes-core/zlib/zlib-1.2.11/ldflags-tests.patch
-diff --git a/meta/recipes-core/zlib/zlib-1.2.8/remove.ldconfig.call.patch b/meta/recipes-core/zlib/zlib-1.2.11/remove.ldconfig.call.patch
-similarity index 100%
-rename from meta/recipes-core/zlib/zlib-1.2.8/remove.ldconfig.call.patch
-rename to meta/recipes-core/zlib/zlib-1.2.11/remove.ldconfig.call.patch
-diff --git a/meta/recipes-core/zlib/zlib-1.2.8/run-ptest b/meta/recipes-core/zlib/zlib-1.2.11/run-ptest
-similarity index 100%
-rename from meta/recipes-core/zlib/zlib-1.2.8/run-ptest
-rename to meta/recipes-core/zlib/zlib-1.2.11/run-ptest
-diff --git a/meta/recipes-core/zlib/zlib_1.2.8.bb b/meta/recipes-core/zlib/zlib_1.2.11.bb
-similarity index 86%
-rename from meta/recipes-core/zlib/zlib_1.2.8.bb
-rename to meta/recipes-core/zlib/zlib_1.2.11.bb
-index 913c703..2018e7b 100644
---- a/meta/recipes-core/zlib/zlib_1.2.8.bb
-+++ b/meta/recipes-core/zlib/zlib_1.2.11.bb
-@@ -4,7 +4,7 @@ library which is used by many different programs."
- HOMEPAGE = "http://zlib.net/"
- SECTION = "libs"
- LICENSE = "Zlib"
--LIC_FILES_CHKSUM = "file://zlib.h;beginline=4;endline=23;md5=fde612df1e5933c428b73844a0c494fd"
-+LIC_FILES_CHKSUM = "file://zlib.h;beginline=6;endline=23;md5=5377232268e952e9ef63bc555f7aa6c0"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/libpng/${BPN}/${PV}/${BPN}-${PV}.tar.xz \
-            file://remove.ldconfig.call.patch \
-@@ -13,8 +13,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/libpng/${BPN}/${PV}/${BPN}-${PV}.tar.xz \
-            file://run-ptest \
-            "
- 
--SRC_URI[md5sum] = "28f1205d8dd2001f26fec1e8c2cebe37"
--SRC_URI[sha256sum] = "831df043236df8e9a7667b9e3bb37e1fcb1220a0f163b6de2626774b9590d057"
-+SRC_URI[md5sum] = "85adef240c5f370b308da8c938951a68"
-+SRC_URI[sha256sum] = "4ff941449631ace0d4d203e3483be9dbc9da454084111f97ea0a2114e19bf066"
- 
- RDEPENDS_${PN}-ptest += "make"
- 
--- 
-2.1.4
+(Maybe it would be clearer if over-rides derived from TUNE_FEATURES
+were placed in a dedicated variable, e.g. TUNINGOVERRIDES, rather than
+being crammed into MACHINEOVERRIDES?).
 
+> rday
+>
+> --
+>
+> ========================================================================
+> Robert P. J. Day                                 Ottawa, Ontario, CANADA
+>                         http://crashcourse.ca
+>
+> Twitter:                                       http://twitter.com/rpjday
+> LinkedIn:                               http://ca.linkedin.com/in/rpjday
+> ========================================================================
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
