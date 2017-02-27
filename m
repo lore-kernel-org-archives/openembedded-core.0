@@ -1,47 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
-	[209.85.220.177])
-	by mail.openembedded.org (Postfix) with ESMTP id A673871989
+Return-Path: <Joe_MacDonald@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id E8F8B6093F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2017 13:04:12 +0000 (UTC)
-Received: by mail-qk0-f177.google.com with SMTP id n127so95354484qkf.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2017 05:04:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=s2HbtVOsHlLV2AsAZN8bRsiVcvhKv97HzU/JDTOJIOk=;
-	b=zgGJvQuq/Rs+5lo27p9wTypi7KSYDENZRqa044v7tf4Y9dxh1kq8uO0QXuhMH+dX4M
-	QtoZSlOfqlYWUIrG4+w9X4bK0qZzdsNKm4C2QkRiB3zH5hJ2Rh0GwqOz32dX8d+DKDnW
-	P3UVB4TtgUw+gY0zPiu7rm3+hu6uShXboAgJtHJG3FXdalyEHN/j2GS/2Vis+rPxEmBb
-	1NOunB8hnFGkAyx+hxEbZlZPIFnEXoxnReixsn4ccWS5QdXqsgSGEJnu7CrzWtBesCjn
-	ojQRxzK4zCyCgVD7ZiTBtZTKPOJtgAhrhOW58bo2ujJ4UI2fNE3HQXJbzbNNPlnIqVFJ
-	J4HQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=s2HbtVOsHlLV2AsAZN8bRsiVcvhKv97HzU/JDTOJIOk=;
-	b=mgbWks5cU1udvoIfK1xDZY6ICr5yW76e92g61soswaf04D53E6PffuAgiE8w4umRof
-	GSQsxPuJaJymx+P2QU9CE3vuwdutdi0lPtfPX9p+yh/iNHpj1ADzisHB2sUJQsvmYQ83
-	agYfC3MjVMM5By4yj8CfIiV0IJFoWemxAH0H7IkwhajAERTUJjBk0+eKGR+RAifPyMB/
-	2FbosltrZyZtb7CpBi8chYJLreVlg0FS0eajEedKAOBpY/ZDw/Y5RJS0DtfmMmPevfI0
-	gpCQMM/b95OytG5q+qpG+ripOV2ZmZmvYKOhl+tQMj0yzqMEZz8z29lBeBTJNnoYzAyl
-	ZP1Q==
-X-Gm-Message-State: AMke39m11pDcRSnkykCwNMx4TZmczT/y936ht88lxF7S30pS5atJco/YYns83vrxr5kMHrhHoJxv/fhzeLaE3Vcx
-X-Received: by 10.237.53.9 with SMTP id a9mr14279446qte.188.1488200653585;
-	Mon, 27 Feb 2017 05:04:13 -0800 (PST)
+	Mon, 27 Feb 2017 13:50:13 +0000 (UTC)
+Received: from svr-orw-fem-05.mgc.mentorg.com ([147.34.97.43])
+	by relay1.mentorg.com with esmtp 
+	id 1ciLgt-0005QJ-IA from Joe_MacDonald@mentor.com ;
+	Mon, 27 Feb 2017 05:50:15 -0800
+Received: from burninator (147.34.91.1) by svr-orw-fem-05.mgc.mentorg.com
+	(147.34.97.43) with Microsoft SMTP Server id 14.3.224.2;
+	Mon, 27 Feb 2017 05:50:15 -0800
+Received: by burninator (Postfix, from userid 1000)	id 3CAE358047E; Mon, 27
+	Feb 2017 08:50:14 -0500 (EST)
+Date: Mon, 27 Feb 2017 08:50:14 -0500
+From: Joe MacDonald <Joe_MacDonald@mentor.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Message-ID: <20170227135013.GA30104@mentor.com>
+References: <1487908800-18064-1-git-send-email-joe_macdonald@mentor.com>
+	<CAMKF1sr0OxcRYC9OZsJBieR-MVFnw5XbfuKr+go8xnhgYDHstA@mail.gmail.com>
+	<CA+chaQdJprDqs_aiMuWy6pRDB0WDM=fjnM6RqtLGv28EUCLOxg@mail.gmail.com>
+	<d0fc6e64-0602-0389-5c2e-f89161b3885a@balister.org>
+	<CA+chaQd6FsOMascqMb16stGRVeJK-ickg8hJYq3gVDiTkE_VqQ@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Mon, 27 Feb 2017 05:03:53 -0800 (PST)
-In-Reply-To: <a5310e60c77c5a1037d7111056e526d6e63aaf18.1488046239.git.raj.khem@gmail.com>
-References: <cover.1488046239.git.raj.khem@gmail.com>
-	<a5310e60c77c5a1037d7111056e526d6e63aaf18.1488046239.git.raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 27 Feb 2017 13:03:53 +0000
-Message-ID: <CAJTo0LbH34veAaCtJtvC+dQ-mUFYQtP0J=KGdE8KKVpo9ZKr3g@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] go: Add recipes for golang compilers and tools
+In-Reply-To: <CA+chaQd6FsOMascqMb16stGRVeJK-ickg8hJYq3gVDiTkE_VqQ@mail.gmail.com>
+X-URL: http://github.com/joeythesaint/joe-s-common-environment/tree/master
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Editor: Vim-704 http://www.vim.org
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] deprecated.bbclass: Add a PNDEPRECATED variable for recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,66 +41,241 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Feb 2017 13:04:12 -0000
-Content-Type: multipart/alternative; boundary=001a11c0285e4ff3de054982b7ae
+X-List-Received-Date: Mon, 27 Feb 2017 13:50:14 -0000
+X-Groupsio-MsgNum: 94002
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="EVF5PPMfhYS0aIcm"
+Content-Disposition: inline
 
---001a11c0285e4ff3de054982b7ae
-Content-Type: text/plain; charset=UTF-8
-
-On 25 February 2017 at 18:13, Khem Raj <raj.khem@gmail.com> wrote:
-
-> This is converging the recipes for go from
-> meta-virtualization and oe-meta-go
->
-
-ERROR: go-cross-x86_64-1.7.4-r0 do_compile: Function failed: do_compile
-(log file is located at
-/data/poky-master/tmp/work/x86_64-linux/go-cross-x86_64/1.7.4-r0/temp/log.do_compile.21270)
-ERROR: Logfile of failure stored in:
-/data/poky-master/tmp/work/x86_64-linux/go-cross-x86_64/1.7.4-r0/temp/log.do_compile.21270
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| ##### Building Go bootstrap tool.
-| cmd/dist
-| #
-_/data/poky-master/tmp/work/x86_64-linux/go-cross-x86_64/1.7.4-r0/go/src/cmd/dist
-|
-/data/poky-master/tmp/work/x86_64-linux/go-cross-x86_64/1.7.4-r0/recipe-sysroot-native/usr/lib/go/pkg/tool/linux_amd64/6l:
-readsym out of sync
-
-Also, can you squash the fixing up patches so we just have a single commit
-that actually works.
-
-Ross
-
---001a11c0285e4ff3de054982b7ae
-Content-Type: text/html; charset=UTF-8
+--EVF5PPMfhYS0aIcm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 25 February 2017 at 18:13, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-st=
-yle:solid;padding-left:1ex"><div id=3D"gmail-:4tc" class=3D"gmail-a3s gmail=
--aXjCH gmail-m15a767aeae226157">This is converging the recipes for <span cl=
-ass=3D"gmail-il">go</span> from<br>
-meta-virtualization and oe-meta-<span class=3D"gmail-il">go</span><br></div=
-></blockquote></div><br><div class=3D"gmail_extra">ERROR: go-cross-x86_64-1=
-.7.4-r0 do_compile: Function failed: do_compile (log file is located at /da=
-ta/poky-master/tmp/work/x86_64-linux/go-cross-x86_64/1.7.4-r0/temp/log.do_c=
-ompile.21270)</div><div class=3D"gmail_extra">ERROR: Logfile of failure sto=
-red in: /data/poky-master/tmp/work/x86_64-linux/go-cross-x86_64/1.7.4-r0/te=
-mp/log.do_compile.21270</div><div class=3D"gmail_extra">Log data follows:</=
-div><div class=3D"gmail_extra">| DEBUG: Executing shell function do_compile=
-</div><div class=3D"gmail_extra">| ##### Building Go bootstrap tool.</div><=
-div class=3D"gmail_extra">| cmd/dist</div><div class=3D"gmail_extra">| # _/=
-data/poky-master/tmp/work/x86_64-linux/go-cross-x86_64/1.7.4-r0/go/src/cmd/=
-dist</div><div class=3D"gmail_extra">| /data/poky-master/tmp/work/x86_64-li=
-nux/go-cross-x86_64/1.7.4-r0/recipe-sysroot-native/usr/lib/go/pkg/tool/linu=
-x_amd64/6l: readsym out of sync</div><div class=3D"gmail_extra"><br></div><=
-div class=3D"gmail_extra">Also, can you squash the fixing up patches so we =
-just have a single commit that actually works.</div><div class=3D"gmail_ext=
-ra"><br></div><div class=3D"gmail_extra">Ross</div></div></div>
+[Re: [OE-core] [PATCH] deprecated.bbclass: Add a PNDEPRECATED variable for =
+recipes] On 17.02.24 (Fri 21:51) Martin Jansa wrote:
 
---001a11c0285e4ff3de054982b7ae--
+> OK, should I update all currently PNBLACKLISTed recipes to add " - the
+> recipe will be removed on 2017-09-01 unless the issue is fixed" in the
+> PNBLACKLIST value, so that we can delete all blacklisted recipes
+> before 2.4 release?
+
+I haven't seen any additional discussion on this yet but my personal
+opinion on this is it seems reasonable to draw a line in the sand and
+one that's quite far out.  I also expect that there'll be a flurry of
+activity as the deadline draws close, so there's room for flexibility in
+the drop-dead date, but that'd be a discretionary thing.  If we wanted
+to be slightly less contentious, the wording could be 'may' rather than
+'will' and then the message is "if it isn't fixed by this date, it's
+fair game to be removed whenever someone gets around to it".
+
+-J.
+
+>=20
+> On Fri, Feb 24, 2017 at 9:39 PM, Philip Balister <philip@balister.org> wr=
+ote:
+>=20
+>     On 02/24/2017 01:16 AM, Martin Jansa wrote:
+>     >> If nobody speaks up within some
+>     > amount of time the maintainer considers reasonable (I'm thinking a =
+Yocto
+>     > release
+>     > cycle) then it's fair game to remove the recipe in question.
+>     >
+>     > Maybe this is different case with at least some PNBLACKLIST entries=
+ we
+>     > currently have, but
+>     > I don't remove PNBLACKLISTed recipes, because as we discussed it's =
+always
+>     > easier to unblacklist
+>     > recipe from e.g. DISTRO config if the issue doesn't affect you for
+>     whatever
+>     > reason and causes
+>     > less churn in the metadata when it gets unblacklisted.
+>     >
+>     > And many PNBLACKLISTed recipes are also abandonware.
+>     >
+>=20
+>     I think we need to use a different "flag" for recipes that need
+>     updating, and have maintained upstreams from recipes that have upstre=
+ams
+>     that are abandoned.
+>=20
+>     So blacklist broken recipes with good upstreams and deprecate recipes
+>     with dead upstreams.
+>   =20
+>     Philip
+>   =20
+>=20
+>=20
+>     > So my question is, if we will remove PNDEPRECATed recipes after one
+>     cycle,
+>     > should we start
+>     > removing PNBLACKLISTed recipes as well (maybe after 2 cycles?). In =
+both
+>     > cases it might backfire
+>     > when someone will fail to find recipe for his favorite abandonware =
+and
+>     will
+>     > try to add completely
+>     > new recipe for it, or we see someone restoring these recipes (e.g. =
+in own
+>     > layers instead of fixing
+>     > the PNBLACKLIST/PNDEPRECATED reasons in original layer).
+>     >
+>     > On Fri, Feb 24, 2017 at 5:55 AM, Khem Raj <raj.khem@gmail.com> wrot=
+e:
+>     >
+>     >>
+>     >> On Thu, Feb 23, 2017 at 8:00 PM Joe MacDonald <joe_macdonald@mento=
+r.com>
+>     >> wrote:
+>     >>
+>     >>> Based on the blacklist behaviour, recipes can be tagged as deprec=
+ated.
+>     >>> Such recipes will produce a warning message when included in a bu=
+ild
+>     but
+>     >>> unlike blacklisted recipes, the build will continue.
+>     >>
+>     >>
+>     >> Perhaps this should also be documented in manuals
+>     >>
+>     >>>
+>     >>>
+>     >>> Signed-off-by: Joe MacDonald <joe_macdonald@mentor.com>
+>     >>> ---
+>     >>>
+>     >>> I threw this together a long time ago and never got around to sen=
+ding
+>     it
+>     >>> out for
+>     >>> consideration, but after the excitement last week and this, I got
+>     >>> thinking about
+>     >>> it again and thought it might be useful.  My specific use-case fo=
+r this
+>     is
+>     >>> recipes I see in meta-networking that I know are largely abandonw=
+are
+>     but
+>     >>> that I
+>     >>> don't want to completely throw out without giving some kind of he=
+ads
+>     up.
+>     >>> Obviously this is purely informational, there's no mechanism set =
+up for
+>     >>> purging
+>     >>> deprecated recipes, that's intended to be a maintainer activity, =
+but
+>     the
+>     >>> idea
+>     >>> would be that the maintainer would flag a recipe as deprecated
+>     (probably
+>     >>> when
+>     >>> it's become more trouble than it seems to be worth) and thereafter
+>     users
+>     >>> would
+>     >>> have fair warning that this thing is on notice.  If nobody speaks=
+ up
+>     >>> within some
+>     >>> amount of time the maintainer considers reasonable (I'm thinking a
+>     Yocto
+>     >>> release
+>     >>> cycle) then it's fair game to remove the recipe in question.
+>     >>>
+>     >>>  meta/classes/deprecated.bbclass    | 16 ++++++++++++++++
+>     >>>  meta/conf/distro/defaultsetup.conf |  3 ++-
+>     >>>  2 files changed, 18 insertions(+), 1 deletion(-)
+>     >>>  create mode 100644 meta/classes/deprecated.bbclass
+>     >>>
+>     >>> diff --git a/meta/classes/deprecated.bbclass b/meta/classes/depre=
+cated.
+>     >>> bbclass
+>     >>> new file mode 100644
+>     >>> index 0000000..3dcdadb
+>     >>> --- /dev/null
+>     >>> +++ b/meta/classes/deprecated.bbclass
+>     >>> @@ -0,0 +1,16 @@
+>     >>> +# To use the deprecated recipe check, a distribution should
+>     >>> +# include this class in the INHERIT_DISTRO
+>     >>> +#
+>     >>> +# Features:
+>     >>> +#
+>     >>> +# * To add a package to the deprecated list, set:
+>     >>> +#   PNDEPRECATED[pn] =3D "message"
+>     >>> +#
+>     >>> +
+>     >>> +addtask check_deprecated before do_fetch
+>     >>> +python do_check_deprecated () {
+>     >>> +    deprecated =3D d.getVarFlag('PNDEPRECATED', d.getVar('PN', T=
+rue),
+>     >>> False)
+>     >>> +
+>     >>> +    if deprecated:
+>     >>> +        bb.warn("Recipe is deprecated: ", (deprecated))
+>     >>> +}
+>     >>> diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distr=
+o/
+>     >>> defaultsetup.conf
+>     >>> index ca2f917..16ece3a 100644
+>     >>> --- a/meta/conf/distro/defaultsetup.conf
+>     >>> +++ b/meta/conf/distro/defaultsetup.conf
+>     >>> @@ -20,5 +20,6 @@ CACHE =3D "${TMPDIR}/cache/${TCMODE}-${TCLIBC}$=
+{@['',
+>     >>> '/' + str(d.getVar('MACHINE'
+>     >>>  USER_CLASSES ?=3D ""
+>     >>>  PACKAGE_CLASSES ?=3D "package_ipk"
+>     >>>  INHERIT_BLACKLIST =3D "blacklist"
+>     >>> +INHERIT_DEPRECATED =3D "deprecated"
+>     >>>  INHERIT_DISTRO ?=3D "debian devshell sstate license remove-libto=
+ol"
+>     >>> -INHERIT +=3D "${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTR=
+O}
+>     >>> ${INHERIT_BLACKLIST}"
+>     >>> +INHERIT +=3D "${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTR=
+O}
+>     >>> ${INHERIT_BLACKLIST} ${INHERIT_DEPRECATED}"
+>     >>> --
+>     >>> 1.9.1
+>     >>>
+>     >>> --
+>     >>> _______________________________________________
+>     >>> Openembedded-core mailing list
+>     >>> Openembedded-core@lists.openembedded.org
+>     >>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     >>>
+>     >>
+>     >> --
+>     >> _______________________________________________
+>     >> Openembedded-core mailing list
+>     >> Openembedded-core@lists.openembedded.org
+>     >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     >>
+>     >>
+>     >
+>     >
+>     >
+>=20
+>=20
+
+--=20
+-Joe MacDonald.
+:wq
+
+--EVF5PPMfhYS0aIcm
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQEcBAEBAgAGBQJYtC6VAAoJEEn8ffcsOfaWPUEIAJ0gQdnEdPYkFDU6sPNPt/9Q
+BEoe5Yl6YxD5i3QVvi+F6UqVH82zqn8svVR5O0N6qEZdb1eSUYssfexuYb6tuE1b
+2hagM0+ze+SUfh3kx29NyTMMRacfFGPPvWZh2eaOipX0NwTQbsHKCRCmSTZhCHk+
+Qulkrw6XnMKotOSPI8FCihF3QthB+bQhgnPMjAHe3f4DXF53ye35WY+vjPAnX+Dy
+xthKzuMpbxRuD5G/505SD+XEfHzOshbAPVqfCjWO6RSQrB4647tuMTh/TDjcEXNG
+J+HODwv+GsZFYiEpSP0wnRqsXEQHwbA91gZJadyVRuKLSqbgDDU2Uzn+tVucS5A=
+=+RCc
+-----END PGP SIGNATURE-----
+
+--EVF5PPMfhYS0aIcm--
