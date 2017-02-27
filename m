@@ -1,51 +1,29 @@
-Return-Path: <joe@deserted.net>
-Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
-	[209.85.223.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 565CD6093F
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
+	by mail.openembedded.org (Postfix) with ESMTP id 187EC72FF4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2017 13:58:06 +0000 (UTC)
-Received: by mail-io0-f194.google.com with SMTP id v13so5992149iov.2
+	Mon, 27 Feb 2017 14:09:28 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
+	via TCP (outbound) with ESMTPS id 20170227140922469_0486
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2017 05:58:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=deserted-net.20150623.gappssmtp.com; s=20150623;
-	h=sender:from:to:subject:date:message-id:in-reply-to:references;
-	bh=LIkPpfWMxnaEHAaIpl2vHu3GjosiKikKHpuAnumNpDg=;
-	b=kJ/8K7bDuqmam8GM9VhexApOunHPsQGjugRGiKRUxg7ccAqMjOa0O76LvWonIk/76h
-	wBbJp2sSRdQoZ17xK5mEWVYBxbSLyN0nVAeTUx5nr6P5S0a8LF8V0PTPiDgED12O6u9q
-	EQ/rFJ0IJxB0VggU95sCVDxb3iSNySqbB/+uG0PcvbHVNIVJjtjHr0hcmS6HN+wDEQL0
-	hd+tspmKX9Xa1L1wBUX9HgIwWPx5A5ggh4bCYRfvNP8YcFAF0H4AzRAnNrSwXppwlU9M
-	M1JcV4QpqJaJhJ1yEVH3fwM9NCTIFIZMINKc/ZT8Gl9Fln4YS5XOitknMTt9c6LbKWmM
-	7Thw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:subject:date:message-id
-	:in-reply-to:references;
-	bh=LIkPpfWMxnaEHAaIpl2vHu3GjosiKikKHpuAnumNpDg=;
-	b=HlTzNgEQCRLDKQlMe8w7TKM4hjgQ5Axg9rl1LT5c8iieRCb3BIFP4keDhhlELJaVgK
-	pjY5zn/agcKXH+GbEqEr2keFBvgHNKuFLrNQrhzZ9nsj2wJQc8sv7Bhedtd3mnIK0zvJ
-	8oHfUL72A6kNV9S7sQzp0WUjFu6aMZ4GuNLnBsjVRoTOshxSdyYufjnok5zFdRrMgvzV
-	SMXfKT7sYaHG1X5Zc/j8yzOT9PI34JbEAT96qQQtyVIaJA7o/+SHUX7sSWip4A/BQgZX
-	WtoUcbLzqhPx0nrdAU3yRPNeQBX/WtYBJgfRlVbHTYclL6kF4GVL6av+FZRCnariVAx9
-	yCSA==
-X-Gm-Message-State: AMke39ljgs1s5VvE0t5jwhcMPfae7HE2bGXVSFvSJIT6gVTMTQh9nWErBJZdGvfSq+2Wog==
-X-Received: by 10.107.38.202 with SMTP id m193mr15907130iom.185.1488203887032; 
-	Mon, 27 Feb 2017 05:58:07 -0800 (PST)
-Received: from mir.deserted.net (23-233-31-74.cpe.pppoe.ca. [23.233.31.74])
-	by smtp.gmail.com with ESMTPSA id
-	r184sm2639755ita.14.2017.02.27.05.58.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 27 Feb 2017 05:58:06 -0800 (PST)
-Sender: Joe MacDonald <joe@deserted.net>
-From: Joe MacDonald <joe_macdonald@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Feb 2017 08:59:07 -0500
-Message-Id: <1488203947-5539-1-git-send-email-joe_macdonald@mentor.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1487908800-18064-1-git-send-email-joe_macdonald@mentor.com>
-References: <1487908800-18064-1-git-send-email-joe_macdonald@mentor.com>
-Subject: [PATCH v3] deprecated.bbclass: Add a PNDEPRECATED variable for recipes
+	Mon, 27 Feb 2017 14:09:22 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [216.191.234.70] (port=37359 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1ciLzI-0004VR-7y for openembedded-core@lists.openembedded.org;
+	Mon, 27 Feb 2017 09:09:16 -0500
+Date: Mon, 27 Feb 2017 09:09:13 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@uk63952.mitel.com
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1702270819550.25847@uk63952.mitel.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: a few more picky questions about COMPATIBLE_MACHINE usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,139 +36,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Feb 2017 13:58:07 -0000
+X-List-Received-Date: Mon, 27 Feb 2017 14:09:29 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-Based on the blacklist behaviour, recipes can be tagged as deprecated.
-Such recipes will produce a warning message when included in a build but
-unlike blacklisted recipes, the build will continue.
 
-Signed-off-by: Joe MacDonald <joe_macdonald@mentor.com>
----
+  (i apologize for beating this issue to death, but i want to
+understand it and, more often than not, what i'm puzzled about always
+seems simple but i end up wondering, "ok, is that just sloppily coded,
+or is there some subtle property that i'm missing?". anyway ...)
 
-v2: Included documentation for new variable
+  from examples under meta-openembedded, let's first look at the
+recipe meta-efl/recipes-efl/e17/elbow_git.bb, which opens with:
 
-v3: Refreshed to address patchwork scolding
+  # webkit-efl isn't available for < armv7a
+  COMPATIBLE_MACHINE = "(-)"
+  COMPATIBLE_MACHINE_x86 = "(.*)"
+  COMPATIBLE_MACHINE_x86-64 = "(.*)"
+  COMPATIBLE_MACHINE_armv7a = "(.*)"
 
- documentation/ref-manual/ref-classes.xml   | 28 ++++++++++++++++++++++++++++
- documentation/ref-manual/ref-variables.xml | 28 ++++++++++++++++++++++++++++
- meta/classes/deprecated.bbclass            | 16 ++++++++++++++++
- meta/conf/distro/defaultsetup.conf         |  3 ++-
- 4 files changed, 74 insertions(+), 1 deletion(-)
- create mode 100644 meta/classes/deprecated.bbclass
+  first, that comment seems out of date as it makes no mention of MIPS
+or ppc, but that's just being picky.
 
-diff --git a/documentation/ref-manual/ref-classes.xml b/documentation/ref-manual/ref-classes.xml
-index f7b1126..6088b44 100644
---- a/documentation/ref-manual/ref-classes.xml
-+++ b/documentation/ref-manual/ref-classes.xml
-@@ -632,6 +632,34 @@
-     </para>
- </section>
- 
-+<section id='ref-classes-deprecated'>
-+    <title><filename>deprecated.bbclass</filename></title>
-+
-+    <para>
-+        The <filename>deprecated</filename> class identifies recipes
-+        that for one reason or another are being considered for removal
-+        from their current layer. It may be due to persistent, known
-+        issues with the package, that there are newer, more feature-rich
-+        alternatives available in the same layer or that the recipe is
-+        no longer needed.  The recipe should provide a reason for the
-+        depercation and a suggestion to consumers of the recipe as to how
-+        to proceed.
-+        To use this class, inherit the class globally and set
-+        <link linkend='var-PNDEPRECATED'><filename>PNDEPRECATED</filename></link>
-+        for each recipe you intend to deprecate.
-+        Specify the <link linkend='var-PN'><filename>PN</filename></link>
-+        value as a variable flag (varflag) and provide a reason, which is
-+        reported, if the package is requested to be built as the value.
-+        For example, if you want to deprecate a recipe called "exoticware",
-+        you add the following to your <filename>local.conf</filename>
-+        or distribution configuration:
-+        <literallayout class='monospaced'>
-+     INHERIT += "deprecated"
-+     PNDEPRECATED[exoticware] = "'exoticware' is considered obsolete and has been replaced by 'standardware'.  'exoticware' may not appear in future releases."
-+        </literallayout>
-+    </para>
-+</section>
-+
- <section id='ref-classes-devshell'>
-     <title><filename>devshell.bbclass</filename></title>
- 
-diff --git a/documentation/ref-manual/ref-variables.xml b/documentation/ref-manual/ref-variables.xml
-index f79cdd2..629d167 100644
---- a/documentation/ref-manual/ref-variables.xml
-+++ b/documentation/ref-manual/ref-variables.xml
-@@ -9920,6 +9920,34 @@ recipes-graphics/xorg-font/font-alias_1.0.3.bb:PR = "${INC_PR}.3"
-             </glossdef>
-         </glossentry>
- 
-+        <glossentry id='var-PNDEPRECATED'><glossterm>PNDEPRECATED</glossterm>
-+            <info>
-+                PNDEPRECATED[doc] = "Lists recipes that may be removed in a future release or have more actively maintained alternatives."
-+            </info>
-+            <glossdef>
-+                <para role="glossdeffirst">
-+<!--                <para role="glossdeffirst"><imagedata fileref="figures/define-generic.png" /> -->
-+                    Lists recipes that may be removed in a future release or
-+                    have more actively maintained alternatives.
-+                    This variable works in conjunction with the
-+                    <link linkend='ref-classes-deprecated'><filename>deprecated</filename></link>
-+                    class, which the recipe must inherit globally.
-+                </para>
-+
-+                <para>
-+                    To identify a recipe as deprecated, inherit the class
-+                    globally and use the variable in your
-+                    <filename>local.conf</filename> file.
-+                    Here is an example that will show a warning when
-+                    <filename>myrecipe</filename> is included in a project:
-+                    <literallayout class='monospaced'>
-+     INHERIT += "deprecated"
-+     PNDEPRECATED[myrecipe] = "Recipe is no longer actively maintained, you should consider using 'mynewrecipe' as an alternative."
-+                    </literallayout>
-+                </para>
-+            </glossdef>
-+        </glossentry>
-+
-         <glossentry id='var-POPULATE_SDK_POST_HOST_COMMAND'><glossterm>POPULATE_SDK_POST_HOST_COMMAND</glossterm>
-             <info>
-                 POPULATE_SDK_POST_HOST_COMMAND[doc] = "Specifies a list of functions to call once the OpenEmbedded build system has created host part of the SDK."
-diff --git a/meta/classes/deprecated.bbclass b/meta/classes/deprecated.bbclass
-new file mode 100644
-index 0000000..3dcdadb
---- /dev/null
-+++ b/meta/classes/deprecated.bbclass
-@@ -0,0 +1,16 @@
-+# To use the deprecated recipe check, a distribution should
-+# include this class in the INHERIT_DISTRO
-+#
-+# Features:
-+#
-+# * To add a package to the deprecated list, set:
-+#   PNDEPRECATED[pn] = "message"
-+#
-+
-+addtask check_deprecated before do_fetch
-+python do_check_deprecated () {
-+    deprecated = d.getVarFlag('PNDEPRECATED', d.getVar('PN', True), False)
-+
-+    if deprecated:
-+        bb.warn("Recipe is deprecated: ", (deprecated))
-+}
-diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaultsetup.conf
-index ca2f917..16ece3a 100644
---- a/meta/conf/distro/defaultsetup.conf
-+++ b/meta/conf/distro/defaultsetup.conf
-@@ -20,5 +20,6 @@ CACHE = "${TMPDIR}/cache/${TCMODE}-${TCLIBC}${@['', '/' + str(d.getVar('MACHINE'
- USER_CLASSES ?= ""
- PACKAGE_CLASSES ?= "package_ipk"
- INHERIT_BLACKLIST = "blacklist"
-+INHERIT_DEPRECATED = "deprecated"
- INHERIT_DISTRO ?= "debian devshell sstate license remove-libtool"
--INHERIT += "${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO} ${INHERIT_BLACKLIST}"
-+INHERIT += "${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO} ${INHERIT_BLACKLIST} ${INHERIT_DEPRECATED}"
+  next, i assume the line:
+
+  COMPATIBLE_MACHINE = "(-)"
+
+is to initialize the set of compatible machines to the empty set, yes?
+i'm more familiar with the construct:
+
+  COMPATIBLE_MACHINE = "(^$)"
+
+to do that, but i'm assuming setting that variable to any unmatchable
+value from MACHINE_OVERRIDES will work just as well. (it would be nice
+if that were consistent, unless there is something magic about the RE
+"-").
+
+  i next assume that lines of the form:
+
+  COMPATIBLE_MACHINE_x86 = "(.*)"
+
+are meant to indicate that if that MACHINE_OVERRIDES comparison
+succeeds, then all possible targets are compatible, is that right?
+however, given precisely those lines above, is it not equivalent to
+just write:
+
+  COMPATIBLE_MACHINE = "(x86|x86-64|armv7a)"
+
+oddly, there is another recipe that seems to do the same thing, but in
+a very different way, meta-oe/recipes-support/ne10/ne10_1.2.1.bb:
+
+  COMPATIBLE_MACHINE_aarch64 = "(.*)"
+  COMPATIBLE_MACHINE_armv7a = "(.*)"
+
+  python () {
+    if any(t.startswith('armv7') for t in d.getVar('TUNE_FEATURES').split()):
+        d.setVar('NE10_TARGET_ARCH', 'armv7')
+        bb.debug(2, 'Building Ne10 for armv7')
+    elif any(t.startswith('aarch64') for t in d.getVar('TUNE_FEATURES').split()):
+        d.setVar('NE10_TARGET_ARCH', 'aarch64')
+        bb.debug(2, 'Building Ne10 for aarch64')
+    else:
+        raise bb.parse.SkipPackage("Incompatible with archs other than armv7 and aarch64")
+  }
+
+i'm confused ... what is the point of defining these compatibilites:
+
+  COMPATIBLE_MACHINE_aarch64 = "(.*)"
+  COMPATIBLE_MACHINE_armv7a = "(.*)"
+
+without first starting with:
+
+  COMPATIBLE_MACHINE = "(-)"
+
+as is stands, isn't the above just saying this recipe is compatible
+with everything?
+
+  now, i can see that that anonymous python routine refines the
+machine compatibility even further but, to speed things up, why not
+first start with just:
+
+  COMPATIBLE_MACHINE = "(aarch64|armv7a)"
+
+or (once again), am i misunderstanding something?
+
+  one more question coming on this, but i want to study it a bit more
+carefully first.
+
+rday
+
 -- 
-1.9.1
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
