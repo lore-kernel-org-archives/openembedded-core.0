@@ -1,52 +1,59 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
-	[209.85.214.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 5375872F70
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 2626E72FC1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2017 15:56:46 +0000 (UTC)
-Received: by mail-it0-f51.google.com with SMTP id h10so79770720ith.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2017 07:56:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=I0i0UZrzA+SJxRkPPfmn14XV9q2ihvstKWSA4Vhm8p4=;
-	b=HN/lPdG/PbkfCr2nYZU+bVnBZJJmRHzii4FqB9FiExnGmOwUCFNpj+QnX52GzT8q4C
-	RakNoj32lcYzQb1DYGAEodDaUy79aePdSLMi1yxBFTu+K1NLPKi8CVnr3J4TGawhwFuW
-	RAva551ddgxI4RRcFNYaBbce0OpCjFI5Il4n6ec4JNWro+Iq7Clo37Bf6H830aLYCGAL
-	coOh+u21pBha76zqqMonM3aW5sDBa9nX+dTTWTcfimvO7gosgdFvCX561k8BN1f838H+
-	axKbhQLBMBL28AP/O2P/wxJ4caCGJfCgu9q7yaFkL9NC+TaRZuItIHQVllNuf/2oKOVY
-	m8uA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=I0i0UZrzA+SJxRkPPfmn14XV9q2ihvstKWSA4Vhm8p4=;
-	b=kZ0XDt2GaO0P+/rrAr4DmmgxK06gukGfeSHGM03bB1rzS9lH7FrtsvSp5UWQRVLVQV
-	OhrWUAs5zuLaRCf2hE8O41dHU7d3MFdhOIBkobFDITCJCglor5geQ1ih/doFEV2THqW0
-	fSEL1dwFMEdy3aLV12V9E1rGuWAN31I5F+TqE2jf24hTwuw8xl9nK3Ug5rrWrIhWcDGC
-	+qyE5JV8q9lPPC7A4J8e41mBHmmsxEjZPeBDeD/T6G2t8ghQ7j8yKq4suBcwSKwvseBp
-	67qaob1ob4eZ7y6YpvZ3dwYtZMteEwpSmrNZbax/DW3LZ33ra1NRRLpgqID/UfrVMwnS
-	0cjg==
-X-Gm-Message-State: AMke39lSUM5ty1Rh36+jRhI4cfpZhiDR/nfHsO3ivTEcFLxEza0i1+z2kPV99Bwy0vxsXjQD
-X-Received: by 10.36.115.145 with SMTP id y139mr3476345itb.123.1488297407967; 
-	Tue, 28 Feb 2017 07:56:47 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8D654.dip0.t-ipconnect.de. [93.232.214.84])
-	by smtp.gmail.com with ESMTPSA id z5sm948352ita.6.2017.02.28.07.56.45
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 28 Feb 2017 07:56:46 -0800 (PST)
-Message-ID: <1488297404.7785.53.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Date: Tue, 28 Feb 2017 16:56:44 +0100
-In-Reply-To: <cover.1488288835.git.pkj@axis.com>
-References: <cover.1488288835.git.pkj@axis.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4] Add dummy tools to help identify needed dependencies
+	Tue, 28 Feb 2017 16:33:27 +0000 (UTC)
+Received: from mail-mta-0.intern.sigma-chemnitz.de
+	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	v1SGXQ5R006240
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK) for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Feb 2017 17:33:27 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1488299607;
+	bh=d9maJhjg4M8iVGSMyOvmMyTXHy7zNsUcbuyn6GxTskQ=;
+	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=piWmbmCdwfGA9YlQhaSAUxY6Z2mg0CxXrLz9nnYrnlw7YpP3cb26ti5pg1d+XnoAL
+	08EiAlumcOwa5cNaD/cF7s40XcyV1teYaKs8RwFd+60yxMndRYIongEmEb9I7mJsXG
+	7hfRWEcsq+dwGp6m39XO7cq6vjtha8Sdi6tFMyA4=
+Received: from reddoxx.intern.sigma-chemnitz.de
+	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
+	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	v1SGXJuN006253 for <openembedded-core@lists.openembedded.org> from
+	enrico.scholz@sigma-chemnitz.de; Tue, 28 Feb 2017 17:33:20 +0100
+Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
+	reddoxx.intern.sigma-chemnitz.de
+	(Reddoxx engine) with SMTP id 5C01007412F;
+	Tue, 28 Feb 2017 17:32:41 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	v1SGXHkU006250
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org> from
+	ensc@sigma-chemnitz.de; Tue, 28 Feb 2017 17:33:17 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.87) (envelope-from <ensc@sigma-chemnitz.de>) id 1cikiD-0002pS-Hf
+	for openembedded-core@lists.openembedded.org;
+	Tue, 28 Feb 2017 17:33:17 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <alpine.LFD.2.20.1702280518430.30803@localhost.localdomain>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Tue, 28 Feb 2017 17:33:17 +0100
+In-Reply-To: <alpine.LFD.2.20.1702280518430.30803@localhost.localdomain>
+	(Robert P. J. Day's message of "Tue, 28 Feb 2017 05:28:16 -0500
+	(EST)")
+Message-ID: <lymvd6e0mq.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.1 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-Spam-Score: -0.6
+X-Spam-Tests: AWL,BAYES_00,DKIM_ADSP_ALL,RP_MATCHES_RCVD,SPF_NEUTRAL
+X-Scanned-By: MIMEDefang 2.78
+Subject: Re: how to *securely* do a remote install of an OE image?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,48 +66,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Feb 2017 15:56:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 28 Feb 2017 16:33:29 -0000
+Content-Type: text/plain
 
-On Tue, 2017-02-28 at 14:35 +0100, Peter Kjellerstedt wrote:
-> After the introduction of RSS, I still found it hard to get
-> dependencies on some common tools that are typically installed on the
-> build host correct. Using the wrong version of tools like pkg-config,
-> gdbus-codegen and dbus-binding-tool can cause build failures.
+"Robert P. J. Day" <rpjday-L09J2beyid0N/H6P543EQg@public.gmane.org>
+writes:
 
-This is indeed still a problem.
+>   here's a puzzler someone just presented me with ... given an
+> established OE build, and a way to download and install it to a
+> remote system, how would one set up root and/or non-root accounts
+> and passwords to then allow an *authorized* someone to log in to the
+> newly-installed system and configure it?
+>
+>   as in, if the installed image contains a "root" account and default
+> password, there is the potential of someone sneaking in there in the
+> interval between installation and when the "authorized" user connects
+> to do the configuration, even if the first act of the authorized user
+> is to change the root password.
 
-I had also discussed this briefly with Richard. We both had the same
-idea: manipulate the PATH so that instead of the initial paths it only
-contains a directory with symlinks to tools which are okay to inherit
-from the build host. In other words, the basic approach would be to
-whitelist acceptable tools.
+I do not think that this can be prevented.  When an attacker gains root
+access, he can do everything with the system.  E.g. he can replace your
+intrusion detection system with a custom one which does not report his
+login.
 
-> To circumvent this, I created dummy versions of the tools that always
-> fail and placed them in the scripts directory. Thus, if the real tool
-> has not been installed in the RSS, the dummy version is used and the
-> build fails. For good measures I even output a message that says what
-> needs to be corrected in the recipe.
+You could use hardware features like burning fuses, or erasing keys in
+TPM chips or increasing login counters there.  But again, an attacker
+can alter the underlying login mechanism to report an untouched system.
 
-This is the other approach: blacklisting tools which are known to be
-problematic.
+So, you should try to prevent that an attacker can login to the systsem.
 
-I suspect the blacklisting approach is going a long way towards solving
-the problem, but it'll remain uncertain how complete it is. As it is
-fairly simple, it's probably worth merging until someone has the time to
-investigate the whitelisting approach further.
 
-Richard had some code for it in some of his experimental branches.
+>   my immediate reaction was to use SSH keys, where the
+> newly-installed system would require SSH logins, and would have to
+> match the corresponding private key.
+
+Yes; public key authentication is the way to go... You will never get
+the system secure with a static default root password.
+
+For SSH keys we are using [1] for ages.
+
+OpenSSH supports CA keys[2]; e.g. you do not need to add every allowed
+pubkey to 'authorized_keys' but only a CA pubkey.  This CA signs user
+keys which are allowed to login.
+
+Alternatively, you can implement something which sets the default
+root password based on some serial number of the device.  But this is
+difficultly to implement and brute force attacks might be very simple
+(serial numbers are usually predictable).
+
+Or, you can implement an OTP mechanism based on DSS or so.  E.g. device
+contains a public key and presents a random number at login.  You have
+to sign it with the corresponding secret key and enter it as a password.
+
+ 
+
+
+Enrico
+
+Footnotes: 
+[1]  https://github.com/sigma-embedded/elito-de.sigma-chemnitz/blob/master/meta/classes/elito-image.bbclass#L56
+
+[2]  https://www.digitalocean.com/community/tutorials/how-to-create-an-ssh-ca-to-validate-hosts-and-clients-with-ubuntu
 
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+SIGMA Chemnitz GmbH       Registergericht:   Amtsgericht Chemnitz HRB 1750
+Am Erlenwald 13           Geschaeftsfuehrer: Grit Freitag, Frank Pyritz
+09128 Chemnitz
 
