@@ -1,29 +1,52 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
-	by mail.openembedded.org (Postfix) with ESMTP id BE04072F97
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 801DE72F8A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2017 10:28:22 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
-	via TCP (outbound) with ESMTPS id 20170228102822762_0685
+	Tue, 28 Feb 2017 10:52:05 +0000 (UTC)
+Received: by mail-io0-f172.google.com with SMTP id j18so6798772ioe.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2017 02:28:22 -0800
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [174.118.92.171] (port=46924 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1cif0y-0006Jr-Tm for openembedded-core@lists.openembedded.org;
-	Tue, 28 Feb 2017 05:28:16 -0500
-Date: Tue, 28 Feb 2017 05:28:16 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1702280518430.30803@localhost.localdomain>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: how to *securely* do a remote install of an OE image?
+	Tue, 28 Feb 2017 02:52:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=MKGjovbcWJohX+54JhOaJxcIBE3Bft67ce4L5llqifQ=;
+	b=BtFJZXk+3jU3F9FwjAwIIDzYMDi3oIZelDUjWjFPiLc1N1QPYeNbYDY8e8VYXlxYc4
+	0Sebv5ljicibvvBx9q2o7nOtXtsiwRb8KeqJtjtl6N925ArvzjR+mKM5hZFeTzPWo29e
+	y6dTafAQNClFbOGnWzx0REC/dWdqH8jms5mfzJEpNYJ+Rnt4reaU3HJ98vW3rrq6Vgcq
+	C6B6ArCPBGbVsyErtx0t3yjK2MFSoGopemTK+Sm56xr8aKOT+P3dzZLwOcbHvP9m8SaX
+	Cxl9XqSuv0KSwnFsnBqFU9qKPayrMAw99yAziVofw+DTWqyEWPssv8Rn7WNg5J163wYT
+	5nHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=MKGjovbcWJohX+54JhOaJxcIBE3Bft67ce4L5llqifQ=;
+	b=GwqojtTsJK2WYyWBzD6U41pORJ3WhQJySz2U8TSTG3JSOCBTpICLASCy50aDSCfoxj
+	HJJkveDxyetdUG7yQfNQAaHRR7S+H1y7M30PvHWpZ8ir/klJaYkhXbFliSPRbSJjNzFv
+	67wSOokSrstqRcX8pqndAgCKot7p6qGXHTRT8Ft49LnKxfolOH9aO92CTxZFoZlUY8yX
+	Lzk0e08qxAYPcyupRgvjggkD8NTWnhGydev43FOkg6op1eH016goj2g+fji6oVW9ElWe
+	/XMMXGqgSDWvCtp9ghyMsz62Q592Pg/yyHbofvO/s7qop9xLZxQ5zPuovm8RL/g7FYQ3
+	2wdg==
+X-Gm-Message-State: AMke39lSCVgW4Q8r3xP+Ulm+TbI2u0dZMOwnbNHVSt3ekzNrJj6cYFtc17G/fEVELeIMqyNT
+X-Received: by 10.107.16.217 with SMTP id 86mr1857914ioq.228.1488279126296;
+	Tue, 28 Feb 2017 02:52:06 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8D654.dip0.t-ipconnect.de. [93.232.214.84])
+	by smtp.gmail.com with ESMTPSA id t7sm676254ioe.22.2017.02.28.02.52.04
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 28 Feb 2017 02:52:05 -0800 (PST)
+Message-ID: <1488279122.7785.34.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
+Date: Tue, 28 Feb 2017 11:52:02 +0100
+In-Reply-To: <1487690288-18275-1-git-send-email-dmitry.rozhkov@linux.intel.com>
+References: <1487690288-18275-1-git-send-email-dmitry.rozhkov@linux.intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] runqemu: avoid overridden user input for bootparams
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,45 +59,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Feb 2017 10:28:25 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Tue, 28 Feb 2017 10:52:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Tue, 2017-02-21 at 17:18 +0200, Dmitry Rozhkov wrote:
+> Currently runqemu hardcodes the "ip=" kernel boot parameter
+> when configuring QEMU to use tap or slirp networking. This makes
+> the guest system to have a network interface pre-configured
+> by kernel and causes systemd to fail renaming the interface
+> to whatever pleases it:
+> 
+>   Feb 21 10:10:20 intel-corei7-64 systemd-udevd[201]: Error changing
+>       net interface name 'eth0' to 'enp0s3': Device or resource busy,
+> 
+> Always append user input for kernel boot params after the ones
+> added by the script. This way user input has priority over runqemu's
+> default params.
 
-  here's a puzzler someone just presented me with ... given an
-established OE build, and a way to download and install it to a remote
-system, how would one set up root and/or non-root accounts and
-passwords to then allow an *authorized* someone to log in to the
-newly-installed system and configure it?
+Presumably the user's bootparams then would include "ip="?
 
-  as in, if the installed image contains a "root" account and default
-password, there is the potential of someone sneaking in there in the
-interval between installation and when the "authorized" user connects
-to do the configuration, even if the first act of the authorized user
-is to change the root password.
-
-  my immediate reaction was to use SSH keys, where the
-newly-installed system would require SSH logins, and would have to
-match the corresponding private key.
-
-  as an alternative, perhaps don't worry about such a situation, but
-when the authorized user logs in for what is *supposed* to be the
-first time, it will be flagged that someone else has already logged in
-earlier, and a warning will be printed, "Previous login to root
-detected, you have been compromised, please re-install!"
-
-  i'm sure there are plenty of ways of doing this, anyone have any
-pointers? thanks.
-
-rday
+Either way, the change looks good to me. I did something similar for the
+qemu parameters in "runqemu: let command line parameters override
+defaults".
 
 -- 
+Best Regards, Patrick Ohly
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+
 
 
