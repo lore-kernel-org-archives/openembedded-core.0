@@ -1,52 +1,48 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f54.google.com (mail-pg0-f54.google.com [74.125.83.54])
-	by mail.openembedded.org (Postfix) with ESMTP id D3BFB719E7
+Return-Path: <twoerner@gmail.com>
+Received: from mail-it0-f48.google.com (mail-it0-f48.google.com
+	[209.85.214.48])
+	by mail.openembedded.org (Postfix) with ESMTP id E92EC71AC6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2017 02:09:38 +0000 (UTC)
-Received: by mail-pg0-f54.google.com with SMTP id b129so51480020pgc.2
+	Tue, 28 Feb 2017 04:50:07 +0000 (UTC)
+Received: by mail-it0-f48.google.com with SMTP id k200so22894113itb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2017 18:09:39 -0800 (PST)
+	Mon, 27 Feb 2017 20:50:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to; bh=IOv3iqApuN7UAJLWxNSboAk8VNw17kJ5Zd6wd/Il9zg=;
-	b=OfJR4iSz+RNlsTHa8KFaRVnn5jjBhOM5qsCf7Ms1zGVMdKFXUVyNk43GolO5nDlDfC
-	5EZxUrKFVozHn4l8H8W2O2nb9IJK7+e367Q6RSPJgZtlkKK5YlTT8NqjjMS/5ll3k+wt
-	sB/K7iRLB9h6GY1f6mfTqSXqOO4DvA57I0ZCIIeOxVU//QcBvpKcYYIXTPJAHSO1PMNS
-	W59sv8CJHJzxM09HiPvb6LC0yrbwOTmoq/iBKAAV77IZ0Ffqyh23LrqDFZRwScuSCwAf
-	rJBI8KOpiLzy2scz3rejuVi0s87ed0fVln8OU86lnkvu/Ey+ziV+UQFHDJOmDwxkeVfN
-	+sAw==
+	h=date:from:to:subject:message-id:mime-version:content-disposition
+	:content-transfer-encoding:user-agent;
+	bh=EmVLqVsLMyo8D4EoNy6BWnjHrgj2xqfu4XebxM7CUqM=;
+	b=sCAY6c+r14vGmVrW74b3D/vKsSZjxraMEnRBzwtqYdaXraBYVJUn+Vj7qPLgXii9WF
+	CcV/WtOmdeoHw407rncJlzcYWFxcJbDbIGfaMPbRrEW39BmQgCCatD48VtNoFb0RBNBT
+	FBBTs3qb9OWCOMPrbdmhXMDRi3NQ6uxK4JfC34i4wDDK+2ej+h4ADmFcSVLLFMFFf930
+	51XqG9eqVTmGV9x6KNFguZak2N9LaT6UEN7pzlt/bQgsrfWtaFyzKvINnbub9g6AH1kA
+	vkXoSFgxUkBHepHspES7NLPSin+az6uvaGcU5oqVgqwdesnw/eR+Yu+1U07VWCqcWoKo
+	s9WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to;
-	bh=IOv3iqApuN7UAJLWxNSboAk8VNw17kJ5Zd6wd/Il9zg=;
-	b=WS3yT6ueKfDARjrxCOMZZMjEP4mRjvvUNYvgmRJoy606YEaPWV1i8w5CLC8lGUyh50
-	7RlAI+hlRJmEwSffRfZRqAdBm1a0t2PoK9lagPr4RT5BZ2NzY7ad2ql/8TRWQ0mLafgB
-	+vtbVPh0b0rKHdlrA02tVFSTTYNl++PsoxlrXlrj1bNZrxPbuJqfIzfe0DtaNKDKkJX3
-	p5IfmmdlJQ5hwI8dRvcWCx+qTkAcRy2itrq8Y5mbVQ1nXCSnLzDlcA+tEO7VvFK8xsJP
-	cCGCdkClyOG4qKbLhrvI1xZHBjPxM0IT1J6fN7+ubCL7WICXSIT+TPoJQ/na+wXSpOlJ
-	ez1g==
-X-Gm-Message-State: AMke39ln002enhi77cWDeeH5HYxBVdlaTH7k2H5m4PBDWTdH8rIXvS4N0U+FrG7zC8/2tQ==
-X-Received: by 10.98.152.91 with SMTP id q88mr24332072pfd.69.1488247779485;
-	Mon, 27 Feb 2017 18:09:39 -0800 (PST)
-Received: from ?IPv6:2601:202:4001:9ea0:40d:2600:e57d:625e?
-	([2601:202:4001:9ea0:40d:2600:e57d:625e])
-	by smtp.gmail.com with ESMTPSA id d2sm229343pgf.35.2017.02.27.18.09.38
+	h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+	:content-disposition:content-transfer-encoding:user-agent;
+	bh=EmVLqVsLMyo8D4EoNy6BWnjHrgj2xqfu4XebxM7CUqM=;
+	b=G+BbHHNjC7UHjk6ThXRZNev1ekpVE1F0wKVNo8p9G9N2YeM1ZKvlLGYrG8DBya0W/8
+	zZ991drBzFdEvKPZHtHLcVrFJE8krOL98vh7FXznSNLeKMc2lnDoDE0St44SsazEjsSt
+	6QDQKy8UEx/RiX7SUw74009a6IapGkFDAi6KfRoKeLFrCaHUDcIaLJImniZ78FMBUH9c
+	BxF7HEsOYJQGxrK9e3T6mPV9FLdo5HsA4ShJ4NpxFKE6gdKTZpJr8QDItyQzDr8EIePC
+	rKx7zLkkjiNX+M8PPNS+Ejs/qpB8HH+KiQRJXBwuLRF4t3RNna8jXIDAYFsz8dZCVUzJ
+	D7jA==
+X-Gm-Message-State: AMke39m28zKFIjiV/lTakbs/ojRsXpmZBkj3F2V/jVkf6xwxlA7o8Fb/obbq6P2h+eSZ0A==
+X-Received: by 10.36.204.137 with SMTP id x131mr771554itf.35.1488257407581;
+	Mon, 27 Feb 2017 20:50:07 -0800 (PST)
+Received: from linux-uys3 ([45.72.250.10]) by smtp.gmail.com with ESMTPSA id
+	b129sm5223814itc.3.2017.02.27.20.50.05
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 27 Feb 2017 18:09:38 -0800 (PST)
-To: "Jolley, Stephen K" <stephen.k.jolley@intel.com>,
-	"yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <9ADD3FDE8B189B4AA2F8A3C711F8155E573720C5@fmsmsx111.amr.corp.intel.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <956ffb9d-d58d-93b8-6989-6283009f4826@gmail.com>
-Date: Mon, 27 Feb 2017 18:09:37 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.0
+	Mon, 27 Feb 2017 20:50:06 -0800 (PST)
+Date: Mon, 27 Feb 2017 23:50:04 -0500
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20170228045004.GA5913@linux-uys3>
 MIME-Version: 1.0
-In-Reply-To: <9ADD3FDE8B189B4AA2F8A3C711F8155E573720C5@fmsmsx111.amr.corp.intel.com>
-Subject: =?UTF-8?B?UmU6IFlvY3RvIFByb2plY3QgU3RhdHVzIFdXMDnigJkxNw==?=
+User-Agent: Mutt/1.6.0 (2016-04-01)
+Subject: npm thoughts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,774 +55,534 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Feb 2017 02:09:39 -0000
-Content-Type: multipart/alternative;
-	boundary="------------3F54D2D54A3A3A700C04E7BE"
-
---------------3F54D2D54A3A3A700C04E7BE
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Tue, 28 Feb 2017 04:50:08 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
+Hi,
+
+I was trying out devtool+npm with the electron quick-start node stuff and
+noticed some interesting results. This simple app can be found at
+https://github.com/electron/electron-quick-start
+
+According to https://wiki.yoctoproject.org/wiki/TipsAndTricks/NPM there are
+two ways to create a recipe for a node app using The Yocto Project's devtool:
+	1) by pointing devtool at the npm registry
+	2) by pointing devtool at the project's source code
+It is also possible to:
+	3) point to a tarball of the project's source
+
+Preparation for 2) is as follows:
+	$ git clone git://github.com/electron/electron-quick-start
+
+Further preparation for 3) continues:
+	$ tar -c electron-quick-start/ > electron-quick-start.tar
+	$ gzip electron-quick-start.tar
+
+It is important to note that the following assumes morty. Master is messed up
+right now with the introduction of per-recipe sysroots (but is expected to get
+fixed eventually). The layers used are openembedded-core:morty, bitbake:1.32,
+and meta-openembedded:morty.
+
+This app's package.json is:
+
+	{
+	  "name": "electron-quick-start",
+	  "version": "1.0.0",
+	  "description": "A minimal Electron application",
+	  "main": "main.js",
+	  "scripts": {
+	    "start": "electron ."
+	  },  
+	  "repository": "https://github.com/electron/electron-quick-start",
+	  "keywords": [
+	    "Electron",
+	    "quick",
+	    "start",
+	    "tutorial",
+	    "demo"
+	  ],  
+	  "author": "GitHub",
+	  "license": "CC0-1.0",
+	  "devDependencies": {
+	    "electron": "^1.4.1"
+	  }
+	}
 
 
-On 02/27/2017 08:59 AM, Jolley, Stephen K wrote:
->
-> Current Dev Position: YP 2.3 M3
->
-> Next Deadline: YP 2.3 M3 by Feb. 27, 2017
->
-> *** FEATURE FREEZE for 2.3 is now in effect. ***
->
-> SWAT team rotation: Anibal -> Todor on Feb. 24, 2017.
->
-> SWAT team rotation: Todor -> Tracy on Mar. 4, 2017.
->
-> https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
->
-> Key Status/Updates:
->
-> ·We’re now into feature freeze for 2.3.
->
-> ·We need to decide which recently submitted items should be merged. 
-> Some major items In particular:
->
-> orpm v4/dnf to replace rpm v5/smart?
->
-IMHO, we should include dnf in 2.3 so folks can start playing with it 
-and remove smart in 2.4.
+Testing 3)
+	$ . layers/openembedded-core/oe-init-build-env tarball layers/bitbake
+	edit conf/bblayers.conf to add meta-openembedded/meta-oe
+	$ devtool add electron-quick-start ~/npm/source/electron-quick-start.tar.gz
 
-> oMerging go into OE-Core?
->
-> oSeparate out elderly GPLv2 into a separate layer?
->
-yes, but maybe not for 2.3 if its a large effort.
+	Here is the recipe devtool creates:
+		# Recipe created by recipetool
+		# This is the basis of a recipe and may need further editing in order to be fully functional.
+		# (Feel free to remove these comments when editing.)
 
-> oGraphics stack vulkan changes?
->
-The "Go" changes hit before the vulkan. Both should have the same rules 
-applied which ever way the decision goes.
+		SUMMARY = "A minimal Electron application"
+		# WARNING: the following LICENSE and LIC_FILES_CHKSUM values are best guesses - it is
+		# your responsibility to verify that the values are complete and correct.
+		#
+		# The following license files were not able to be identified and are
+		# represented as "Unknown" below, you will need to check them yourself:
+		#   LICENSE.md
+		#
+		LICENSE = "CC0-1.0"
+		LIC_FILES_CHKSUM = "file://LICENSE.md;md5=c4bb4655ae0c8ab590a1aa591e3a80c5"
 
+		SRC_URI = "file:///z/npm/source/electron-quick-start.tar.gz"
 
-> oLarge queue of wic changes?
->
-> I am leaning towards trying to take these even if they do delay the M3 
-> release slightly as we do have some time left in M4 to stabilize.
->
-> ·Unfortunately we continue to have stability issues in testing. There 
-> appear to be some intermittent failures which have crept into master 
-> and M3 merging will likely be delayed until those issues have been 
-> tracked down. They seem to affect sdk image size, breaking the 4GB 
-> limit and eSDKs stopping containing libxml2 under unknown 
-> circumstances, possibly amongst other issues.
->
-> ·YP 2.2.1 has been released
->
+		NPM_LOCKDOWN := "${THISDIR}/${PN}/lockdown.json"
 
-thanks to all that help.
+		inherit npm 
 
-> Proposed upcoming dot releases:
->
-> YP 2.1.3 Cut off May 15, 2017
->
-> YP 2.1.3 Release by May 26, 2017
->
-> YP 2.2.2 Cut off May 29, 2017
->
-> YP 2.2.2 Release by June 9, 2017
->
+		# Must be set after inherit npm since that itself sets S
+		S = "${WORKDIR}/electron-quick-start.git"
+		LICENSE_${PN} = "CC0-1.0"
 
-I like the dot release schedule. Helps me focus.
-
-kind regards,
-Armin
->
-> Key YP 2.3 Dates:
->
-> YP 2.3 M3 Cutoff is Feb 27, 2017
->
-> YP 2.3 M3 Release is Mar. 10, 2017
->
-> YP 2.3 M4 Cutoff is April 10, 2017
->
-> YP 2.3 M4 Release is May 5, 2017
->
-> Tracking Metrics:
->
-> WDD 2747 (last week 2682)
->
-> (https://wiki.yoctoproject.org/charts/combo.html)
->
-> Key Status Links for YP:
->
-> https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.3_Status
->
-> https://wiki.yoctoproject.org/wiki/Yocto_2.3_Schedule
->
-> https://wiki.yoctoproject.org/wiki/Yocto_2.3_Features
->
->
-> [If anyone has suggestions for other information you’d like to see on 
-> this weekly status update, let us know!]
->
-> Thanks,
->
-> */Stephen K. Jolley/**//*
->
-> *Yocto Project Program Manager*
->
-> *INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124 *
->
-> (*Work Telephone*: (503) 712-0534
->
-> (*Cell*: (208) 244-4460
->
-> * *Email*:_stephen.k.jolley@intel.com_
->
->
->
+	$ bitbake electron-quick-start
+	$ tree tmp-glibc/work/i586-oe-linux/electron-quick-start/1.0.0-r0/packages-split/electron-quick-start
+	electron-quick-start
+	â””â”€â”€ usr
+	    â””â”€â”€ lib
+		â””â”€â”€ node_modules
+		    â””â”€â”€ electron-quick-start
+			â”œâ”€â”€ index.html
+			â”œâ”€â”€ LICENSE.md
+			â”œâ”€â”€ main.js
+			â”œâ”€â”€ package.json
+			â”œâ”€â”€ README.md
+			â””â”€â”€ renderer.js
 
 
---------------3F54D2D54A3A3A700C04E7BE
-Content-Type: text/html; charset=windows-1252
-Content-Transfer-Encoding: 8bit
+Testing 2)
+	$ . layers/openembedded-core/oe-init-build-env clone layers/bitbake
+	edit conf/bblayers.conf to add meta-openembedded/meta-oe
+	$ devtool add electron-quick-start ~/npm/source/electron-quick-start.git
 
-<html>
-  <head>
-    <meta content="text/html; charset=windows-1252"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <p><br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">On 02/27/2017 08:59 AM, Jolley, Stephen
-      K wrote:<br>
-    </div>
-    <blockquote
-cite="mid:9ADD3FDE8B189B4AA2F8A3C711F8155E573720C5@fmsmsx111.amr.corp.intel.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html;
-        charset=windows-1252">
-      <meta name="Generator" content="Microsoft Word 15 (filtered
-        medium)">
-      <style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-@font-face
-	{font-family:Consolas;
-	panose-1:2 11 6 9 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p
-	{mso-style-priority:99;
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	font-size:12.0pt;
-	font-family:"Times New Roman",serif;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-span.apple-tab-span
-	{mso-style-name:apple-tab-span;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
-/* List Definitions */
-@list l0
-	{mso-list-id:1058700876;
-	mso-list-template-ids:-537102308;}
-@list l0:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l0:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l0:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1
-	{mso-list-id:1091196149;
-	mso-list-template-ids:627992598;}
-@list l1:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l1:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l1:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2
-	{mso-list-id:1154881042;
-	mso-list-template-ids:-1030177482;}
-@list l2:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l2:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l2:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-ol
-	{margin-bottom:0in;}
-ul
-	{margin-bottom:0in;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext="edit" spidmax="1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext="edit">
-<o:idmap v:ext="edit" data="1" />
-</o:shapelayout></xml><![endif]-->
-      <div class="WordSection1">
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Current
-            Dev Position: YP 2.3 M3
-          </span><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Next
-            Deadline: YP 2.3 M3 by Feb. 27, 2017</span><o:p></o:p></p>
-        <p class="MsoNormal"><o:p> </o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">***
-            FEATURE FREEZE for 2.3 is now in effect. ***</span><o:p></o:p></p>
-        <p class="MsoNormal"><o:p> </o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">SWAT
-            team rotation: Anibal -&gt; Todor on Feb. 24, 2017.</span><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">SWAT
-            team rotation: Todor -&gt; Tracy on Mar. 4, 2017.</span><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><a
-            moz-do-not-send="true"
-            href="https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team"><span
-style="font-size:11.0pt;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team</span></a><o:p></o:p></p>
-        <p class="MsoNormal"><o:p> </o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key
-            Status/Updates:</span><o:p></o:p></p>
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l1
-          level1 lfo3;vertical-align:baseline">
-          <!--[if !supportLists]--><span
-            style="font-size:10.0pt;font-family:Symbol;color:black"><span
-              style="mso-list:Ignore">·<span style="font:7.0pt
-                &quot;Times New Roman&quot;">       
-              </span></span></span><!--[endif]--><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">We’re
-            now into feature freeze for 2.3.<o:p></o:p></span></p>
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l1
-          level1 lfo3;vertical-align:baseline">
-          <!--[if !supportLists]--><span
-            style="font-size:10.0pt;font-family:Symbol;color:black"><span
-              style="mso-list:Ignore">·<span style="font:7.0pt
-                &quot;Times New Roman&quot;">       
-              </span></span></span><!--[endif]--><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">We
-            need to decide which recently submitted items should be
-            merged. Some major items In particular:<o:p></o:p></span></p>
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:1.0in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l1
-          level2 lfo3;vertical-align:baseline">
-          <!--[if !supportLists]--><span
-            style="font-size:10.0pt;font-family:&quot;Courier
-            New&quot;;color:black"><span style="mso-list:Ignore">o<span
-                style="font:7.0pt &quot;Times New Roman&quot;">  
-              </span></span></span><!--[endif]--><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">rpm
-            v4/dnf to replace rpm v5/smart?</span></p>
-      </div>
-    </blockquote>
-    IMHO, we should include dnf in 2.3 so folks can start playing with
-    it and remove smart in 2.4.<br>
-    <br>
-    <blockquote
-cite="mid:9ADD3FDE8B189B4AA2F8A3C711F8155E573720C5@fmsmsx111.amr.corp.intel.com"
-      type="cite">
-      <div class="WordSection1">
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:1.0in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l1
-          level2 lfo3;vertical-align:baseline"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black"><o:p></o:p></span></p>
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:1.0in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l1
-          level2 lfo3;vertical-align:baseline">
-          <!--[if !supportLists]--><span
-            style="font-size:10.0pt;font-family:&quot;Courier
-            New&quot;;color:black"><span style="mso-list:Ignore">o<span
-                style="font:7.0pt &quot;Times New Roman&quot;">  
-              </span></span></span><!--[endif]--><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Merging
-            go into OE-Core?<o:p></o:p></span></p>
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:1.0in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l1
-          level2 lfo3;vertical-align:baseline">
-          <!--[if !supportLists]--><span
-            style="font-size:10.0pt;font-family:&quot;Courier
-            New&quot;;color:black"><span style="mso-list:Ignore">o<span
-                style="font:7.0pt &quot;Times New Roman&quot;">  
-              </span></span></span><!--[endif]--><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Separate
-            out elderly GPLv2 into a separate layer?</span></p>
-      </div>
-    </blockquote>
-    yes, but maybe not for 2.3 if its a large effort. <br>
-    <br>
-    <blockquote
-cite="mid:9ADD3FDE8B189B4AA2F8A3C711F8155E573720C5@fmsmsx111.amr.corp.intel.com"
-      type="cite">
-      <div class="WordSection1">
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:1.0in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l1
-          level2 lfo3;vertical-align:baseline"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black"><o:p></o:p></span></p>
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:1.0in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l1
-          level2 lfo3;vertical-align:baseline">
-          <!--[if !supportLists]--><span
-            style="font-size:10.0pt;font-family:&quot;Courier
-            New&quot;;color:black"><span style="mso-list:Ignore">o<span
-                style="font:7.0pt &quot;Times New Roman&quot;">  
-              </span></span></span><!--[endif]--><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Graphics
-            stack vulkan changes?</span></p>
-      </div>
-    </blockquote>
-    The "Go" changes hit before the vulkan. Both should have the same
-    rules applied which ever way the decision goes.<br>
-    <br>
-    <br>
-    <blockquote
-cite="mid:9ADD3FDE8B189B4AA2F8A3C711F8155E573720C5@fmsmsx111.amr.corp.intel.com"
-      type="cite">
-      <div class="WordSection1">
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:1.0in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l1
-          level2 lfo3;vertical-align:baseline"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black"><o:p></o:p></span></p>
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:1.0in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l1
-          level2 lfo3;vertical-align:baseline">
-          <!--[if !supportLists]--><span
-            style="font-size:10.0pt;font-family:&quot;Courier
-            New&quot;;color:black"><span style="mso-list:Ignore">o<span
-                style="font:7.0pt &quot;Times New Roman&quot;">  
-              </span></span></span><!--[endif]--><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Large
-            queue of wic changes?<o:p></o:p></span></p>
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:.5in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">I
-            am leaning towards trying to take these even if they do
-            delay the M3 release slightly as we do have some time left
-            in M4 to stabilize.</span><o:p></o:p></p>
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l2
-          level1 lfo4;vertical-align:baseline">
-          <!--[if !supportLists]--><span
-            style="font-size:10.0pt;font-family:Symbol;color:black"><span
-              style="mso-list:Ignore">·<span style="font:7.0pt
-                &quot;Times New Roman&quot;">       
-              </span></span></span><!--[endif]--><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Unfortunately
-            we continue to have stability issues in testing. There
-            appear to be some intermittent failures which have crept
-            into master and M3 merging will likely be delayed until
-            those issues have been tracked down. They seem to affect sdk
-            image size, breaking the 4GB limit and eSDKs stopping
-            containing libxml2 under unknown circumstances, possibly
-            amongst other issues.<o:p></o:p></span></p>
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l2
-          level1 lfo4;vertical-align:baseline">
-          <!--[if !supportLists]--><span
-            style="font-size:10.0pt;font-family:Symbol;color:black"><span
-              style="mso-list:Ignore">·<span style="font:7.0pt
-                &quot;Times New Roman&quot;">       
-              </span></span></span><!--[endif]--><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP
-            2.2.1 has been released</span></p>
-      </div>
-    </blockquote>
-    <br>
-    thanks to all that help.<br>
-    <br>
-    <blockquote
-cite="mid:9ADD3FDE8B189B4AA2F8A3C711F8155E573720C5@fmsmsx111.amr.corp.intel.com"
-      type="cite">
-      <div class="WordSection1">
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l2
-          level1 lfo4;vertical-align:baseline"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black"><o:p></o:p></span></p>
-        <p class="MsoNormal"><span
-            style="font-size:12.0pt;font-family:&quot;Times New
-            Roman&quot;,serif"><o:p> </o:p></span></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Proposed
-            upcoming dot releases:</span><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP
-            2.1.3 Cut off May 15, 2017</span><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP
-            2.1.3 Release by May 26, 2017</span><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP
-            2.2.2 Cut off May 29, 2017</span><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP
-            2.2.2 Release by June 9, 2017</span></p>
-      </div>
-    </blockquote>
-    <br>
-    I like the dot release schedule. Helps me focus.<br>
-    <br>
-    kind regards,<br>
-    Armin<br>
-    <blockquote
-cite="mid:9ADD3FDE8B189B4AA2F8A3C711F8155E573720C5@fmsmsx111.amr.corp.intel.com"
-      type="cite">
-      <div class="WordSection1">
-        <p style="margin:0in;margin-bottom:.0001pt"><o:p></o:p></p>
-        <p class="MsoNormal"><o:p> </o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key
-            YP 2.3 Dates:</span><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP
-            2.3 M3 Cutoff is Feb 27, 2017</span><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP
-            2.3 M3 Release is Mar. 10, 2017</span><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP
-            2.3 M4 Cutoff is April 10, 2017</span><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP
-            2.3 M4 Release is May 5, 2017</span><o:p></o:p></p>
-        <p class="MsoNormal"><o:p> </o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Tracking
-            Metrics:</span><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-            class="apple-tab-span"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">           
-            </span></span><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">WDD
-            2747 (last week 2682)</span><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt;text-indent:.5in"><span
-            style="font-size:11.0pt;font-family:Consolas;color:black">(</span><a
-            moz-do-not-send="true"
-            href="https://wiki.yoctoproject.org/charts/combo.html"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1155CC">https://wiki.yoctoproject.org/charts/combo.html</span></a><span
-            style="font-size:11.0pt;font-family:Consolas;color:black">)</span><o:p></o:p></p>
-        <p class="MsoNormal"><o:p> </o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key
-            Status Links for YP:</span><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><a
-            moz-do-not-send="true"
-            href="https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.3_Status"><span
-style="font-size:11.0pt;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.3_Status</span></a><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><a
-            moz-do-not-send="true"
-            href="https://wiki.yoctoproject.org/wiki/Yocto_2.3_Schedule"><span
-style="font-size:11.0pt;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.3_Schedule</span></a><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><a
-            moz-do-not-send="true"
-            href="https://wiki.yoctoproject.org/wiki/Yocto_2.3_Features"><span
-style="font-size:11.0pt;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.3_Features</span></a><o:p></o:p></p>
-        <p class="MsoNormal"><br>
-          <span
-            style="font-family:&quot;Arial&quot;,sans-serif;color:black">[If
-            anyone has suggestions for other information you’d like to
-            see on this weekly status update, let us know!]<o:p></o:p></span></p>
-        <p class="MsoNormal"><span
-            style="font-family:&quot;Arial&quot;,sans-serif;color:black">Thanks,</span><o:p></o:p></p>
-        <p class="MsoNormal"><o:p> </o:p></p>
-        <p class="MsoNormal"
-          style="page-break-after:avoid;text-autospace:none"><b><i><span
-                style="font-size:16.0pt;font-family:&quot;Times New
-                Roman&quot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span
-style="font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple"><o:p></o:p></span></i></b></p>
-        <p class="MsoNormal"><b><span
-              style="font-size:8.0pt;font-family:&quot;Courier
-              New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></span></b></p>
-        <p class="MsoNormal"
-          style="page-break-after:avoid;text-autospace:none"><b><span
-              style="font-size:10.0pt;font-family:&quot;Courier
-              New&quot;;color:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th
-              Avenue, Hillsboro, OR 97124
-              <o:p></o:p></span></b></p>
-        <p class="MsoNormal"><span
-            style="font-family:Wingdings;color:black">(</span><span
-            style="font-family:&quot;MS Sans Serif&quot;;color:teal">
-          </span><span style="font-size:8.0pt;font-family:&quot;MS Sans
-            Serif&quot;;color:teal">  </span><b><span
-              style="font-size:8.0pt;font-family:&quot;Comic Sans
-              MS&quot;;color:teal">Work Telephone</span></b><span
-            style="font-family:&quot;MS Sans Serif&quot;;color:teal">:       
-          </span><span style="font-size:9.0pt;font-family:&quot;MS Sans
-            Serif&quot;">(503) 712-0534<o:p></o:p></span></p>
-        <p class="MsoNormal"><span
-            style="font-size:9.0pt;font-family:Wingdings;color:black">(</span><span
-            style="font-size:9.0pt;font-family:&quot;MS Sans
-            Serif&quot;;color:teal">   
-          </span><b><span style="font-size:8.0pt;font-family:&quot;Comic
-              Sans MS&quot;;color:teal">Cell</span></b><span
-            style="font-size:9.0pt;font-family:&quot;MS Sans
-            Serif&quot;;color:teal">:              
-          </span><span style="font-size:9.0pt;font-family:&quot;MS Sans
-            Serif&quot;">(208) 244-4460<span style="color:black"><o:p></o:p></span></span></p>
-        <p class="MsoNormal"><span
-            style="font-size:9.0pt;font-family:Wingdings">* </span>
-          <b><span style="font-size:8.0pt;font-family:&quot;Comic Sans
-              MS&quot;;color:teal" lang="FR">Email</span></b><span
-            style="font-size:9.0pt;font-family:&quot;MS Sans
-            Serif&quot;;color:teal" lang="FR">:</span><span
-            style="font-size:9.0pt;font-family:&quot;MS Sans
-            Serif&quot;" lang="FR">                           
-            <u><span style="color:blue"><a class="moz-txt-link-abbreviated" href="mailto:stephen.k.jolley@intel.com">stephen.k.jolley@intel.com</a></span></u></span><span
-style="font-size:12.0pt;font-family:&quot;Arial&quot;,sans-serif"
-            lang="FR"><o:p></o:p></span></p>
-        <p class="MsoNormal"><o:p> </o:p></p>
-      </div>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-    </blockquote>
-    <br>
-  </body>
-</html>
+	Here is the recipe:
+		# Recipe created by recipetool
+		# This is the basis of a recipe and may need further editing in order to be fully functional.
+		# (Feel free to remove these comments when editing.)
 
---------------3F54D2D54A3A3A700C04E7BE--
+		SUMMARY = "A minimal Electron application"
+		# WARNING: the following LICENSE and LIC_FILES_CHKSUM values are best guesses - it is
+		# your responsibility to verify that the values are complete and correct.
+		#
+		# The following license files were not able to be identified and are
+		# represented as "Unknown" below, you will need to check them yourself:
+		#   LICENSE.md
+		#
+		LICENSE = "CC0-1.0"
+		LIC_FILES_CHKSUM = "file://LICENSE.md;md5=c4bb4655ae0c8ab590a1aa591e3a80c5"
+
+		SRC_URI = "git://github.com/electron/electron-quick-start.git"
+
+		# Modify these as desired
+		PV = "1.0.0+git${SRCPV}"
+		SRCREV = "f8ae670ce85ce7329580b1085e37abb62ea3566b"
+
+		NPM_LOCKDOWN := "${THISDIR}/${PN}/lockdown.json"
+
+		inherit npm 
+
+		# Must be set after inherit npm since that itself sets S
+		S = "${WORKDIR}/git"
+		LICENSE_${PN} = "CC0-1.0"
+
+	$ bitbake electron-quick-start
+	$ tree tmp-glibc/work/i586-oe-linux/electron-quick-start/1.0.0+git999-r0/packages-split/electron-quick-start
+	tmp-glibc/work/i586-oe-linux/electron-quick-start/1.0.0+git999-r0/packages-split/electron-quick-start
+	â””â”€â”€ usr
+	    â””â”€â”€ lib
+		â””â”€â”€ node_modules
+		    â””â”€â”€ electron-quick-start
+			â”œâ”€â”€ index.html
+			â”œâ”€â”€ LICENSE.md
+			â”œâ”€â”€ main.js
+			â”œâ”€â”€ package.json
+			â”œâ”€â”€ README.md
+			â””â”€â”€ renderer.js
+
+
+Testing 1)
+	$ . layers/openembedded-core/oe-init-build-env registry layers/bitbake/
+	edit conf/bblayers.conf to add meta-openembedded/meta-oe
+	$ devtool add electron-quick-start "npm://registry.npmjs.org;name=electron-quick-start;version=1.0.0"
+	this step runs for a while then fails because it can't find the license "MIT/X11"
+
+	Here is the recipe when if finishes:
+		# Recipe created by recipetool
+		# This is the basis of a recipe and may need further editing in order to be fully functional.
+		# (Feel free to remove these comments when editing.)
+
+		SUMMARY = "A minimal Electron application"
+		HOMEPAGE = "https://github.com/atom/electron-quick-start#readme"
+		# WARNING: the following LICENSE and LIC_FILES_CHKSUM values are best guesses - it is
+		# your responsibility to verify that the values are complete and correct.
+		#
+		# NOTE: multiple licenses have been detected; if that is correct you should separate
+		# these in the LICENSE value using & if the multiple licenses all apply, or | if there
+		# is a choice between the multiple licenses. If in doubt, check the accompanying
+		# documentation to determine which situation is applicable.
+		#
+		# The following license files were not able to be identified and are
+		# represented as "Unknown" below, you will need to check them yourself:
+		#   LICENSE.md
+		#   node_modules/electron-updater/node_modules/unzip/node_modules/fstream/LICENSE
+		#   node_modules/electron-updater/node_modules/unzip/node_modules/fstream/node_modules/rimraf/node_modules/glob/node_modules/fs.realpath/LICENSE
+		#   node_modules/electron-updater/node_modules/unzip/node_modules/fstream/node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match/LICENSE.md
+		#   node_modules/electron-updater/node_modules/unzip/node_modules/binary/node_modules/chainsaw/node_modules/traverse/LICENSE
+		#   node_modules/electron-updater/node_modules/tar-stream/node_modules/readable-stream/LICENSE
+		#   node_modules/electron-updater/node_modules/tar-stream/node_modules/readable-stream/node_modules/buffer-shims/license.md
+		#   node_modules/electron-updater/node_modules/tar-stream/node_modules/readable-stream/node_modules/process-nextick-args/license.md
+		#   node_modules/electron-updater/node_modules/tar-stream/node_modules/bl/LICENSE.md
+		#   node_modules/electron-updater/node_modules/tar-stream/node_modules/bl/node_modules/readable-stream/LICENSE
+		#   node_modules/electron-updater/node_modules/tar-stream/node_modules/bl/node_modules/readable-stream/node_modules/process-nextick-args/license.md
+		#   node_modules/electron-updater/node_modules/tar-stream/node_modules/bl/node_modules/readable-stream/node_modules/buffer-shims/license.md
+		#   node_modules/electron-updater/node_modules/got/node_modules/read-all-stream/node_modules/readable-stream/LICENSE
+		#   node_modules/electron-updater/node_modules/got/node_modules/read-all-stream/node_modules/readable-stream/node_modules/buffer-shims/license.md
+		#   node_modules/electron-updater/node_modules/got/node_modules/read-all-stream/node_modules/readable-stream/node_modules/process-nextick-args/license.md
+		#   node_modules/electron-updater/node_modules/got/node_modules/duplexify/node_modules/readable-stream/LICENSE
+		#   node_modules/electron-updater/node_modules/got/node_modules/duplexify/node_modules/readable-stream/node_modules/buffer-shims/license.md
+		#   node_modules/electron-updater/node_modules/got/node_modules/duplexify/node_modules/readable-stream/node_modules/process-nextick-args/license.md
+		#   node_modules/electron-updater/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match/LICENSE.md
+		#   Squirrel.Mac/script/LICENSE.md
+		#   Squirrel.Mac/External/OHHTTPStubs/LICENSE
+		#   Squirrel.Mac/Carthage/Checkouts/ReactiveCocoa/LICENSE.md
+		#   Squirrel.Mac/Carthage/Checkouts/ReactiveCocoa/Carthage/Checkouts/Quick/LICENSE
+		#   Squirrel.Mac/Carthage/Checkouts/ReactiveCocoa/Carthage/Checkouts/Quick/Externals/Nimble/LICENSE.md
+		#   Squirrel.Mac/Carthage/Checkouts/ReactiveCocoa/Carthage/Checkouts/Nimble/LICENSE.md
+		#   Squirrel.Mac/Carthage/Checkouts/ReactiveCocoa/script/LICENSE.md
+		#   Squirrel.Mac/Carthage/Checkouts/Quick/LICENSE
+		#   Squirrel.Mac/Carthage/Checkouts/Quick/Externals/Nimble/LICENSE.md
+		#   Squirrel.Mac/Carthage/Checkouts/Nimble/LICENSE.md
+		#   Squirrel.Mac/Carthage/Checkouts/Mantle/LICENSE.md
+		#   Squirrel.Mac/Carthage/Checkouts/Mantle/Carthage/Checkouts/Quick/LICENSE
+		#   Squirrel.Mac/Carthage/Checkouts/Mantle/Carthage/Checkouts/Quick/Externals/Nimble/LICENSE.md
+		#   Squirrel.Mac/Carthage/Checkouts/Mantle/Carthage/Checkouts/Nimble/LICENSE.md
+		#   Squirrel.Mac/Carthage/Checkouts/Mantle/script/LICENSE.md
+		#
+		LICENSE = "ISC & BSD & Unknown & MIT/X11 & MIT"
+		LIC_FILES_CHKSUM = "file://LICENSE.md;md5=c4bb4655ae0c8ab590a1aa591e3a80c5 \
+				    file://node_modules/electron-updater/LICENSE;md5=71a52831f2bbba1383d42d9390458df8 \
+				    file://node_modules/electron-updater/node_modules/commander/LICENSE;md5=25851d4d10d6611a12d5571dab945a00 \
+				    file://node_modules/electron-updater/node_modules/commander/node_modules/graceful-readlink/LICENSE;md5=b0270ddb7ee6643eee76e80113234806 \
+				    file://node_modules/electron-updater/node_modules/unzip/LICENSE;md5=46cc96ae87cdaa8f9ec33480b548dce5 \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/setimmediate/LICENSE.txt;md5=af19eaafbc6aa0d2c97538dcfb6db94a \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/readable-stream/LICENSE;md5=d7351a4fc8e956f1a68413490d5e655e \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/readable-stream/node_modules/string_decoder/LICENSE;md5=fcf5cfdc777e49f11402422c72a86f43 \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/readable-stream/node_modules/inherits/LICENSE;md5=5b2ef2247af6d355ae9d9f988092d470 \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/readable-stream/node_modules/core-util-is/LICENSE;md5=6126e36127d20ec0e2f637204a5c68ff \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/pullstream/LICENSE;md5=46cc96ae87cdaa8f9ec33480b548dce5 \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/pullstream/node_modules/readable-stream/LICENSE;md5=d7351a4fc8e956f1a68413490d5e655e \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/pullstream/node_modules/readable-stream/node_modules/string_decoder/LICENSE;md5=fcf5cfdc777e49f11402422c72a86f43 \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/pullstream/node_modules/readable-stream/node_modules/core-util-is/LICENSE;md5=6126e36127d20ec0e2f637204a5c68ff \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/pullstream/node_modules/readable-stream/node_modules/inherits/LICENSE;md5=5b2ef2247af6d355ae9d9f988092d470 \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/pullstream/node_modules/setimmediate/LICENSE.txt;md5=af19eaafbc6aa0d2c97538dcfb6db94a \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/pullstream/node_modules/slice-stream/LICENSE;md5=e3c4bafaf8e85046af71466220bd0eb3 \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/pullstream/node_modules/slice-stream/node_modules/readable-stream/LICENSE;md5=d7351a4fc8e956f1a68413490d5e655e \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/pullstream/node_modules/slice-stream/node_modules/readable-stream/node_modules/string_decoder/LICENSE;md5=fcf5cfdc777e49f11402422c72a86f43 \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/pullstream/node_modules/slice-stream/node_modules/readable-stream/node_modules/core-util-is/LICENSE;md5=6126e36127d20ec0e2f637204a5c68ff \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/pullstream/node_modules/slice-stream/node_modules/readable-stream/node_modules/inherits/LICENSE;md5=5b2ef2247af6d355ae9d9f988092d470 \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/match-stream/LICENSE;md5=e3c4bafaf8e85046af71466220bd0eb3 \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/match-stream/node_modules/readable-stream/LICENSE;md5=d7351a4fc8e956f1a68413490d5e655e \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/match-stream/node_modules/readable-stream/node_modules/string_decoder/LICENSE;md5=fcf5cfdc777e49f11402422c72a86f43 \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/match-stream/node_modules/readable-stream/node_modules/core-util-is/LICENSE;md5=6126e36127d20ec0e2f637204a5c68ff \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/match-stream/node_modules/readable-stream/node_modules/inherits/LICENSE;md5=5b2ef2247af6d355ae9d9f988092d470 \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/fstream/LICENSE;md5=8ce909f9cccb74a7c6f2720930d072c1 \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/fstream/node_modules/rimraf/LICENSE;md5=82703a69f6d7411dde679954c2fd9dca \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/fstream/node_modules/rimraf/node_modules/glob/LICENSE;md5=82703a69f6d7411dde679954c2fd9dca \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/fstream/node_modules/rimraf/node_modules/glob/node_modules/once/LICENSE;md5=82703a69f6d7411dde679954c2fd9dca \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/fstream/node_modules/rimraf/node_modules/glob/node_modules/once/node_modules/wrappy/LICENSE;md5=82703a69f6d7411dde679954c2fd9dca \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/fstream/node_modules/rimraf/node_modules/glob/node_modules/fs.realpath/LICENSE;md5=062470525c8e380f8567f665ef554d11 \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/fstream/node_modules/rimraf/node_modules/glob/node_modules/inherits/LICENSE;md5=5b2ef2247af6d355ae9d9f988092d470 \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/fstream/node_modules/rimraf/node_modules/glob/node_modules/minimatch/LICENSE;md5=82703a69f6d7411dde679954c2fd9dca \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/fstream/node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/concat-map/LICENSE;md5=aea1cde69645f4b99be4ff7ca9abcce1 \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/fstream/node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match/LICENSE.md;md5=7fa99ddc3424107350ca6e9a24552085 \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/fstream/node_modules/rimraf/node_modules/glob/node_modules/inflight/LICENSE;md5=90a3ca01a5efed8b813a81c6c8fa2e63 \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/fstream/node_modules/rimraf/node_modules/glob/node_modules/inflight/node_modules/once/LICENSE;md5=82703a69f6d7411dde679954c2fd9dca \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/fstream/node_modules/rimraf/node_modules/glob/node_modules/inflight/node_modules/once/node_modules/wrappy/LICENSE;md5=82703a69f6d7411dde679954c2fd9dca \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/fstream/node_modules/rimraf/node_modules/glob/node_modules/inflight/node_modules/wrappy/LICENSE;md5=82703a69f6d7411dde679954c2fd9dca \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/fstream/node_modules/rimraf/node_modules/glob/node_modules/path-is-absolute/license;md5=a12ebca0510a773644101a99a867d210 \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/fstream/node_modules/mkdirp/LICENSE;md5=b2d989bc186e7f6b418a5fdd5cc0b56b \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/fstream/node_modules/mkdirp/node_modules/minimist/LICENSE;md5=aea1cde69645f4b99be4ff7ca9abcce1 \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/fstream/node_modules/inherits/LICENSE;md5=5b2ef2247af6d355ae9d9f988092d470 \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/fstream/node_modules/graceful-fs/LICENSE;md5=82703a69f6d7411dde679954c2fd9dca \
+				    file://node_modules/electron-updater/node_modules/unzip/node_modules/binary/node_modules/chainsaw/node_modules/traverse/LICENSE;md5=0f6546e91538ce8c26b2da1623705c62 \
+				    file://node_modules/electron-updater/node_modules/tar-stream/LICENSE;md5=9befe7026bf915886cd566a98117c80e \
+				    file://node_modules/electron-updater/node_modules/tar-stream/node_modules/xtend/LICENCE;md5=96bcdf84e670aafacac9e094bce29ac9 \
+				    file://node_modules/electron-updater/node_modules/tar-stream/node_modules/readable-stream/LICENSE;md5=a67a7926e54316d90c14f74f71080977 \
+				    file://node_modules/electron-updater/node_modules/tar-stream/node_modules/readable-stream/node_modules/buffer-shims/license.md;md5=e04ef9ec24d382b7576c997066a44835 \
+				    file://node_modules/electron-updater/node_modules/tar-stream/node_modules/readable-stream/node_modules/util-deprecate/LICENSE;md5=b7c99ef4b0f3ad9911a52219947f8cf0 \
+				    file://node_modules/electron-updater/node_modules/tar-stream/node_modules/readable-stream/node_modules/string_decoder/LICENSE;md5=fcf5cfdc777e49f11402422c72a86f43 \
+				    file://node_modules/electron-updater/node_modules/tar-stream/node_modules/readable-stream/node_modules/process-nextick-args/license.md;md5=216769dac98a78ec088ee7cc6fad1dfa \
+				    file://node_modules/electron-updater/node_modules/tar-stream/node_modules/readable-stream/node_modules/inherits/LICENSE;md5=5b2ef2247af6d355ae9d9f988092d470 \
+				    file://node_modules/electron-updater/node_modules/tar-stream/node_modules/readable-stream/node_modules/core-util-is/LICENSE;md5=6126e36127d20ec0e2f637204a5c68ff \
+				    file://node_modules/electron-updater/node_modules/tar-stream/node_modules/end-of-stream/LICENSE;md5=9befe7026bf915886cd566a98117c80e \
+				    file://node_modules/electron-updater/node_modules/tar-stream/node_modules/end-of-stream/node_modules/once/LICENSE;md5=82703a69f6d7411dde679954c2fd9dca \
+				    file://node_modules/electron-updater/node_modules/tar-stream/node_modules/end-of-stream/node_modules/once/node_modules/wrappy/LICENSE;md5=82703a69f6d7411dde679954c2fd9dca \
+				    file://node_modules/electron-updater/node_modules/tar-stream/node_modules/bl/LICENSE.md;md5=e58dc7a94bb9decf6a7b2ff97d22b213 \
+				    file://node_modules/electron-updater/node_modules/tar-stream/node_modules/bl/node_modules/readable-stream/LICENSE;md5=a67a7926e54316d90c14f74f71080977 \
+				    file://node_modules/electron-updater/node_modules/tar-stream/node_modules/bl/node_modules/readable-stream/node_modules/string_decoder/LICENSE;md5=fcf5cfdc777e49f11402422c72a86f43 \
+				    file://node_modules/electron-updater/node_modules/tar-stream/node_modules/bl/node_modules/readable-stream/node_modules/util-deprecate/LICENSE;md5=b7c99ef4b0f3ad9911a52219947f8cf0 \
+				    file://node_modules/electron-updater/node_modules/tar-stream/node_modules/bl/node_modules/readable-stream/node_modules/process-nextick-args/license.md;md5=216769dac98a78ec088ee7cc6fad1dfa \
+				    file://node_modules/electron-updater/node_modules/tar-stream/node_modules/bl/node_modules/readable-stream/node_modules/inherits/LICENSE;md5=5b2ef2247af6d355ae9d9f988092d470 \
+				    file://node_modules/electron-updater/node_modules/tar-stream/node_modules/bl/node_modules/readable-stream/node_modules/buffer-shims/license.md;md5=e04ef9ec24d382b7576c997066a44835 \
+				    file://node_modules/electron-updater/node_modules/tar-stream/node_modules/bl/node_modules/readable-stream/node_modules/core-util-is/LICENSE;md5=6126e36127d20ec0e2f637204a5c68ff \
+				    file://node_modules/electron-updater/node_modules/spin/LICENSE.txt;md5=31f0289eb4d139200326604d10b9e21b \
+				    file://node_modules/electron-updater/node_modules/semver/LICENSE;md5=82703a69f6d7411dde679954c2fd9dca \
+				    file://node_modules/electron-updater/node_modules/minimist/LICENSE;md5=aea1cde69645f4b99be4ff7ca9abcce1 \
+				    file://node_modules/electron-updater/node_modules/got/license;md5=a12ebca0510a773644101a99a867d210 \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/unzip-response/license;md5=5b422d6bf88afe88977d04f8bdd4959c \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/read-all-stream/license;md5=2a8369b875113ae53aa6c5bb39a58d3c \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/read-all-stream/node_modules/pinkie-promise/license;md5=be72c3ad86c1c4e9578a1945b082b17d \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/read-all-stream/node_modules/pinkie-promise/node_modules/pinkie/license;md5=be72c3ad86c1c4e9578a1945b082b17d \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/read-all-stream/node_modules/readable-stream/LICENSE;md5=a67a7926e54316d90c14f74f71080977 \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/read-all-stream/node_modules/readable-stream/node_modules/buffer-shims/license.md;md5=e04ef9ec24d382b7576c997066a44835 \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/read-all-stream/node_modules/readable-stream/node_modules/util-deprecate/LICENSE;md5=b7c99ef4b0f3ad9911a52219947f8cf0 \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/read-all-stream/node_modules/readable-stream/node_modules/string_decoder/LICENSE;md5=fcf5cfdc777e49f11402422c72a86f43 \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/read-all-stream/node_modules/readable-stream/node_modules/process-nextick-args/license.md;md5=216769dac98a78ec088ee7cc6fad1dfa \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/read-all-stream/node_modules/readable-stream/node_modules/inherits/LICENSE;md5=5b2ef2247af6d355ae9d9f988092d470 \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/read-all-stream/node_modules/readable-stream/node_modules/core-util-is/LICENSE;md5=6126e36127d20ec0e2f637204a5c68ff \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/prepend-http/license;md5=a12ebca0510a773644101a99a867d210 \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/pinkie-promise/license;md5=be72c3ad86c1c4e9578a1945b082b17d \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/pinkie-promise/node_modules/pinkie/license;md5=be72c3ad86c1c4e9578a1945b082b17d \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/parse-json/license;md5=a12ebca0510a773644101a99a867d210 \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/parse-json/node_modules/error-ex/LICENSE;md5=e67c75e89656b80fd99cb7d30fb43102 \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/parse-json/node_modules/error-ex/node_modules/is-arrayish/LICENSE;md5=e67c75e89656b80fd99cb7d30fb43102 \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/duplexify/LICENSE;md5=9befe7026bf915886cd566a98117c80e \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/duplexify/node_modules/stream-shift/LICENSE;md5=42014010547e55bd3bcac2fec8c45624 \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/duplexify/node_modules/inherits/LICENSE;md5=5b2ef2247af6d355ae9d9f988092d470 \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/duplexify/node_modules/readable-stream/LICENSE;md5=a67a7926e54316d90c14f74f71080977 \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/duplexify/node_modules/readable-stream/node_modules/buffer-shims/license.md;md5=e04ef9ec24d382b7576c997066a44835 \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/duplexify/node_modules/readable-stream/node_modules/util-deprecate/LICENSE;md5=b7c99ef4b0f3ad9911a52219947f8cf0 \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/duplexify/node_modules/readable-stream/node_modules/string_decoder/LICENSE;md5=fcf5cfdc777e49f11402422c72a86f43 \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/duplexify/node_modules/readable-stream/node_modules/process-nextick-args/license.md;md5=216769dac98a78ec088ee7cc6fad1dfa \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/duplexify/node_modules/readable-stream/node_modules/inherits/LICENSE;md5=5b2ef2247af6d355ae9d9f988092d470 \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/duplexify/node_modules/readable-stream/node_modules/core-util-is/LICENSE;md5=6126e36127d20ec0e2f637204a5c68ff \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/duplexify/node_modules/end-of-stream/node_modules/once/LICENSE;md5=82703a69f6d7411dde679954c2fd9dca \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/duplexify/node_modules/end-of-stream/node_modules/once/node_modules/wrappy/LICENSE;md5=82703a69f6d7411dde679954c2fd9dca \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/node-status-codes/license;md5=a12ebca0510a773644101a99a867d210 \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/is-stream/license;md5=a12ebca0510a773644101a99a867d210 \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/is-redirect/license;md5=a12ebca0510a773644101a99a867d210 \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/is-plain-obj/license;md5=a12ebca0510a773644101a99a867d210 \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/create-error-class/node_modules/inherits/LICENSE;md5=5b2ef2247af6d355ae9d9f988092d470 \
+				    file://node_modules/electron-updater/node_modules/got/node_modules/object-assign/license;md5=a12ebca0510a773644101a99a867d210 \
+				    file://node_modules/electron-updater/node_modules/glob/LICENSE;md5=82703a69f6d7411dde679954c2fd9dca \
+				    file://node_modules/electron-updater/node_modules/glob/node_modules/path-is-absolute/license;md5=a12ebca0510a773644101a99a867d210 \
+				    file://node_modules/electron-updater/node_modules/glob/node_modules/once/LICENSE;md5=82703a69f6d7411dde679954c2fd9dca \
+				    file://node_modules/electron-updater/node_modules/glob/node_modules/once/node_modules/wrappy/LICENSE;md5=82703a69f6d7411dde679954c2fd9dca \
+				    file://node_modules/electron-updater/node_modules/glob/node_modules/minimatch/LICENSE;md5=82703a69f6d7411dde679954c2fd9dca \
+				    file://node_modules/electron-updater/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/concat-map/LICENSE;md5=aea1cde69645f4b99be4ff7ca9abcce1 \
+				    file://node_modules/electron-updater/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match/LICENSE.md;md5=7fa99ddc3424107350ca6e9a24552085 \
+				    file://node_modules/electron-updater/node_modules/glob/node_modules/inherits/LICENSE;md5=5b2ef2247af6d355ae9d9f988092d470 \
+				    file://node_modules/electron-updater/node_modules/glob/node_modules/inflight/LICENSE;md5=90a3ca01a5efed8b813a81c6c8fa2e63 \
+				    file://node_modules/electron-updater/node_modules/glob/node_modules/inflight/node_modules/once/LICENSE;md5=82703a69f6d7411dde679954c2fd9dca \
+				    file://node_modules/electron-updater/node_modules/glob/node_modules/inflight/node_modules/once/node_modules/wrappy/LICENSE;md5=82703a69f6d7411dde679954c2fd9dca \
+				    file://node_modules/electron-updater/node_modules/glob/node_modules/inflight/node_modules/wrappy/LICENSE;md5=82703a69f6d7411dde679954c2fd9dca \
+				    file://node_modules/electron-updater/node_modules/async/LICENSE;md5=dc113e0fc4029c29942399ad22425402 \
+				    file://node_modules/electron-updater/node_modules/appdirectory/LICENSE.md;md5=19b6cbfe48611ec68354aa02bf266b8a \
+				    file://node_modules/electron-plugins/LICENSE;md5=71a52831f2bbba1383d42d9390458df8 \
+				    file://node_modules/electron-plugins/node_modules/async/LICENSE;md5=dc113e0fc4029c29942399ad22425402 \
+				    file://node_modules/electron-plugins/node_modules/appdirectory/LICENSE.md;md5=19b6cbfe48611ec68354aa02bf266b8a \
+				    file://Squirrel.Mac/LICENSE;md5=128544b123235edfd1f1b0fcd835836b \
+				    file://Squirrel.Mac/script/LICENSE.md;md5=0e5338dfdadf532bf261f0ff3b50e5c2 \
+				    file://Squirrel.Mac/External/OHHTTPStubs/LICENSE;md5=02de072e1ba982f28a1af1385d484172 \
+				    file://Squirrel.Mac/Carthage/Checkouts/ReactiveCocoa/LICENSE.md;md5=5543b4fe42a4a7723b1e010dc924c78a \
+				    file://Squirrel.Mac/Carthage/Checkouts/ReactiveCocoa/Carthage/Checkouts/Quick/LICENSE;md5=579f318fc6783f299f5731c4a6c958d4 \
+				    file://Squirrel.Mac/Carthage/Checkouts/ReactiveCocoa/Carthage/Checkouts/Quick/Externals/Nimble/LICENSE.md;md5=7177dcbba5a41d09e055d6d14add394f \
+				    file://Squirrel.Mac/Carthage/Checkouts/ReactiveCocoa/Carthage/Checkouts/Nimble/LICENSE.md;md5=7177dcbba5a41d09e055d6d14add394f \
+				    file://Squirrel.Mac/Carthage/Checkouts/ReactiveCocoa/script/LICENSE.md;md5=0e5338dfdadf532bf261f0ff3b50e5c2 \
+				    file://Squirrel.Mac/Carthage/Checkouts/Quick/LICENSE;md5=579f318fc6783f299f5731c4a6c958d4 \
+				    file://Squirrel.Mac/Carthage/Checkouts/Quick/Externals/Nimble/LICENSE.md;md5=7177dcbba5a41d09e055d6d14add394f \
+				    file://Squirrel.Mac/Carthage/Checkouts/Nimble/LICENSE.md;md5=7177dcbba5a41d09e055d6d14add394f \
+				    file://Squirrel.Mac/Carthage/Checkouts/Mantle/LICENSE.md;md5=7c732bf6e317d77c4350da48b0438900 \
+				    file://Squirrel.Mac/Carthage/Checkouts/Mantle/Carthage/Checkouts/Quick/LICENSE;md5=579f318fc6783f299f5731c4a6c958d4 \
+				    file://Squirrel.Mac/Carthage/Checkouts/Mantle/Carthage/Checkouts/Quick/Externals/Nimble/LICENSE.md;md5=7177dcbba5a41d09e055d6d14add394f \
+				    file://Squirrel.Mac/Carthage/Checkouts/Mantle/Carthage/Checkouts/Nimble/LICENSE.md;md5=7177dcbba5a41d09e055d6d14add394f \
+				    file://Squirrel.Mac/Carthage/Checkouts/Mantle/script/LICENSE.md;md5=0e5338dfdadf532bf261f0ff3b50e5c2"
+
+		SRC_URI = "npm://registry.npmjs.org;name=electron-quick-start;version=${PV}"
+
+		NPM_SHRINKWRAP := "${THISDIR}/${PN}/npm-shrinkwrap.json"
+		NPM_LOCKDOWN := "${THISDIR}/${PN}/lockdown.json"
+
+		inherit npm
+
+		# Must be set after inherit npm since that itself sets S
+		S = "${WORKDIR}/npmpkg"
+		LICENSE_${PN}-electron-plugins-appdirectory = "MIT"
+		LICENSE_${PN}-electron-plugins-async = "MIT"
+		LICENSE_${PN}-electron-plugins = "MIT"
+		LICENSE_${PN}-electron-updater-appdirectory = "MIT"
+		LICENSE_${PN}-electron-updater-async = "MIT"
+		LICENSE_${PN}-electron-updater-commander-graceful-readlink = "MIT"
+		LICENSE_${PN}-electron-updater-commander = "MIT"
+		LICENSE_${PN}-electron-updater-glob-inflight-once-wrappy = "ISC"
+		LICENSE_${PN}-electron-updater-glob-inflight-once = "ISC"
+		LICENSE_${PN}-electron-updater-glob-inflight-wrappy = "ISC"
+		LICENSE_${PN}-electron-updater-glob-inflight = "ISC"
+		LICENSE_${PN}-electron-updater-glob-inherits = "ISC"
+		LICENSE_${PN}-electron-updater-glob-minimatch-brace-expansion-balanced-match = "MIT"
+		LICENSE_${PN}-electron-updater-glob-minimatch-brace-expansion-concat-map = "MIT"
+		LICENSE_${PN}-electron-updater-glob-minimatch-brace-expansion = "MIT"
+		LICENSE_${PN}-electron-updater-glob-minimatch = "ISC"
+		LICENSE_${PN}-electron-updater-glob-once-wrappy = "ISC"
+		LICENSE_${PN}-electron-updater-glob-once = "ISC"
+		LICENSE_${PN}-electron-updater-glob-path-is-absolute = "MIT"
+		LICENSE_${PN}-electron-updater-glob = "ISC"
+		LICENSE_${PN}-electron-updater-got-create-error-class-capture-stack-trace = "MIT"
+		LICENSE_${PN}-electron-updater-got-create-error-class-inherits = "ISC"
+		LICENSE_${PN}-electron-updater-got-create-error-class = "MIT"
+		LICENSE_${PN}-electron-updater-got-duplexify-end-of-stream-once-wrappy = "ISC"
+		LICENSE_${PN}-electron-updater-got-duplexify-end-of-stream-once = "ISC"
+		LICENSE_${PN}-electron-updater-got-duplexify-end-of-stream = "MIT"
+		LICENSE_${PN}-electron-updater-got-duplexify-inherits = "ISC"
+		LICENSE_${PN}-electron-updater-got-duplexify-readable-stream-buffer-shims = "MIT"
+		LICENSE_${PN}-electron-updater-got-duplexify-readable-stream-core-util-is = "MIT"
+		LICENSE_${PN}-electron-updater-got-duplexify-readable-stream-inherits = "ISC"
+		LICENSE_${PN}-electron-updater-got-duplexify-readable-stream-isarray = "MIT"
+		LICENSE_${PN}-electron-updater-got-duplexify-readable-stream-process-nextick-args = "MIT"
+		LICENSE_${PN}-electron-updater-got-duplexify-readable-stream-string-decoder = "MIT"
+		LICENSE_${PN}-electron-updater-got-duplexify-readable-stream-util-deprecate = "MIT"
+		LICENSE_${PN}-electron-updater-got-duplexify-readable-stream = "MIT"
+		LICENSE_${PN}-electron-updater-got-duplexify-stream-shift = "MIT"
+		LICENSE_${PN}-electron-updater-got-duplexify = "MIT"
+		LICENSE_${PN}-electron-updater-got-is-plain-obj = "MIT"
+		LICENSE_${PN}-electron-updater-got-is-redirect = "MIT"
+		LICENSE_${PN}-electron-updater-got-is-stream = "MIT"
+		LICENSE_${PN}-electron-updater-got-lowercase-keys = "MIT"
+		LICENSE_${PN}-electron-updater-got-node-status-codes = "MIT"
+		LICENSE_${PN}-electron-updater-got-object-assign = "MIT"
+		LICENSE_${PN}-electron-updater-got-parse-json-error-ex-is-arrayish = "MIT"
+		LICENSE_${PN}-electron-updater-got-parse-json-error-ex = "MIT"
+		LICENSE_${PN}-electron-updater-got-parse-json = "MIT"
+		LICENSE_${PN}-electron-updater-got-pinkie-promise-pinkie = "MIT"
+		LICENSE_${PN}-electron-updater-got-pinkie-promise = "MIT"
+		LICENSE_${PN}-electron-updater-got-prepend-http = "MIT"
+		LICENSE_${PN}-electron-updater-got-read-all-stream-pinkie-promise-pinkie = "MIT"
+		LICENSE_${PN}-electron-updater-got-read-all-stream-pinkie-promise = "MIT"
+		LICENSE_${PN}-electron-updater-got-read-all-stream-readable-stream-buffer-shims = "MIT"
+		LICENSE_${PN}-electron-updater-got-read-all-stream-readable-stream-core-util-is = "MIT"
+		LICENSE_${PN}-electron-updater-got-read-all-stream-readable-stream-inherits = "ISC"
+		LICENSE_${PN}-electron-updater-got-read-all-stream-readable-stream-isarray = "MIT"
+		LICENSE_${PN}-electron-updater-got-read-all-stream-readable-stream-process-nextick-args = "MIT"
+		LICENSE_${PN}-electron-updater-got-read-all-stream-readable-stream-string-decoder = "MIT"
+		LICENSE_${PN}-electron-updater-got-read-all-stream-readable-stream-util-deprecate = "MIT"
+		LICENSE_${PN}-electron-updater-got-read-all-stream-readable-stream = "MIT"
+		LICENSE_${PN}-electron-updater-got-read-all-stream = "MIT"
+		LICENSE_${PN}-electron-updater-got-timed-out = "MIT"
+		LICENSE_${PN}-electron-updater-got-unzip-response = "MIT"
+		LICENSE_${PN}-electron-updater-got = "MIT"
+		LICENSE_${PN}-electron-updater-minimist = "MIT"
+		LICENSE_${PN}-electron-updater-semver = "ISC"
+		LICENSE_${PN}-electron-updater-spin = "MIT"
+		LICENSE_${PN}-electron-updater-tar-stream-bl-readable-stream-buffer-shims = "MIT"
+		LICENSE_${PN}-electron-updater-tar-stream-bl-readable-stream-core-util-is = "MIT"
+		LICENSE_${PN}-electron-updater-tar-stream-bl-readable-stream-inherits = "ISC"
+		LICENSE_${PN}-electron-updater-tar-stream-bl-readable-stream-isarray = "MIT"
+		LICENSE_${PN}-electron-updater-tar-stream-bl-readable-stream-process-nextick-args = "MIT"
+		LICENSE_${PN}-electron-updater-tar-stream-bl-readable-stream-string-decoder = "MIT"
+		LICENSE_${PN}-electron-updater-tar-stream-bl-readable-stream-util-deprecate = "MIT"
+		LICENSE_${PN}-electron-updater-tar-stream-bl-readable-stream = "MIT"
+		LICENSE_${PN}-electron-updater-tar-stream-bl = "MIT"
+		LICENSE_${PN}-electron-updater-tar-stream-end-of-stream-once-wrappy = "ISC"
+		LICENSE_${PN}-electron-updater-tar-stream-end-of-stream-once = "ISC"
+		LICENSE_${PN}-electron-updater-tar-stream-end-of-stream = "MIT"
+		LICENSE_${PN}-electron-updater-tar-stream-readable-stream-buffer-shims = "MIT"
+		LICENSE_${PN}-electron-updater-tar-stream-readable-stream-core-util-is = "MIT"
+		LICENSE_${PN}-electron-updater-tar-stream-readable-stream-inherits = "ISC"
+		LICENSE_${PN}-electron-updater-tar-stream-readable-stream-isarray = "MIT"
+		LICENSE_${PN}-electron-updater-tar-stream-readable-stream-process-nextick-args = "MIT"
+		LICENSE_${PN}-electron-updater-tar-stream-readable-stream-string-decoder = "MIT"
+		LICENSE_${PN}-electron-updater-tar-stream-readable-stream-util-deprecate = "MIT"
+		LICENSE_${PN}-electron-updater-tar-stream-readable-stream = "MIT"
+		LICENSE_${PN}-electron-updater-tar-stream-xtend = "MIT"
+		LICENSE_${PN}-electron-updater-tar-stream = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-binary-buffers = "Unknown"
+		LICENSE_${PN}-electron-updater-unzip-binary-chainsaw-traverse = "MIT/X11"
+		LICENSE_${PN}-electron-updater-unzip-binary-chainsaw = "MIT/X11"
+		LICENSE_${PN}-electron-updater-unzip-binary = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-fstream-graceful-fs-natives = "ISC"
+		LICENSE_${PN}-electron-updater-unzip-fstream-graceful-fs = "ISC"
+		LICENSE_${PN}-electron-updater-unzip-fstream-inherits = "ISC"
+		LICENSE_${PN}-electron-updater-unzip-fstream-mkdirp-minimist = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-fstream-mkdirp = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-fstream-rimraf-glob-fs.realpath = "ISC"
+		LICENSE_${PN}-electron-updater-unzip-fstream-rimraf-glob-inflight-once-wrappy = "ISC"
+		LICENSE_${PN}-electron-updater-unzip-fstream-rimraf-glob-inflight-once = "ISC"
+		LICENSE_${PN}-electron-updater-unzip-fstream-rimraf-glob-inflight-wrappy = "ISC"
+		LICENSE_${PN}-electron-updater-unzip-fstream-rimraf-glob-inflight = "ISC"
+		LICENSE_${PN}-electron-updater-unzip-fstream-rimraf-glob-inherits = "ISC"
+		LICENSE_${PN}-electron-updater-unzip-fstream-rimraf-glob-minimatch-brace-expansion-balanced-match = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-fstream-rimraf-glob-minimatch-brace-expansion-concat-map = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-fstream-rimraf-glob-minimatch-brace-expansion = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-fstream-rimraf-glob-minimatch = "ISC"
+		LICENSE_${PN}-electron-updater-unzip-fstream-rimraf-glob-once-wrappy = "ISC"
+		LICENSE_${PN}-electron-updater-unzip-fstream-rimraf-glob-once = "ISC"
+		LICENSE_${PN}-electron-updater-unzip-fstream-rimraf-glob-path-is-absolute = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-fstream-rimraf-glob = "ISC"
+		LICENSE_${PN}-electron-updater-unzip-fstream-rimraf = "ISC"
+		LICENSE_${PN}-electron-updater-unzip-fstream = "BSD"
+		LICENSE_${PN}-electron-updater-unzip-match-stream-buffers = "Unknown"
+		LICENSE_${PN}-electron-updater-unzip-match-stream-readable-stream-core-util-is = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-match-stream-readable-stream-inherits = "ISC"
+		LICENSE_${PN}-electron-updater-unzip-match-stream-readable-stream-isarray = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-match-stream-readable-stream-string-decoder = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-match-stream-readable-stream = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-match-stream = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-pullstream-over = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-pullstream-readable-stream-core-util-is = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-pullstream-readable-stream-inherits = "ISC"
+		LICENSE_${PN}-electron-updater-unzip-pullstream-readable-stream-isarray = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-pullstream-readable-stream-string-decoder = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-pullstream-readable-stream = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-pullstream-setimmediate = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-pullstream-slice-stream-readable-stream-core-util-is = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-pullstream-slice-stream-readable-stream-inherits = "ISC"
+		LICENSE_${PN}-electron-updater-unzip-pullstream-slice-stream-readable-stream-isarray = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-pullstream-slice-stream-readable-stream-string-decoder = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-pullstream-slice-stream-readable-stream = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-pullstream-slice-stream = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-pullstream = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-readable-stream-core-util-is = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-readable-stream-inherits = "ISC"
+		LICENSE_${PN}-electron-updater-unzip-readable-stream-isarray = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-readable-stream-string-decoder = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-readable-stream = "MIT"
+		LICENSE_${PN}-electron-updater-unzip-setimmediate = "MIT"
+		LICENSE_${PN}-electron-updater-unzip = "MIT"
+		LICENSE_${PN}-electron-updater = "MIT"
+		LICENSE_${PN} = "Unknown MIT"
+
+	$ bitbake electron-quick-start
+	$ tree -L 6 tmp-glibc/work/i586-oe-linux/electron-quick-start/1.0.0-r0/packages-split/electron-quick-start
+	tmp-glibc/work/i586-oe-linux/electron-quick-start/1.0.0-r0/packages-split/electron-quick-start
+	â””â”€â”€ usr
+	    â””â”€â”€ lib
+		â””â”€â”€ node_modules
+		    â””â”€â”€ electron-quick-start
+			â”œâ”€â”€ electron-quick-start-1.0.0.tgz
+			â”œâ”€â”€ index.html
+			â”œâ”€â”€ LICENSE.md
+			â”œâ”€â”€ main.js
+			â”œâ”€â”€ package.json
+			â”œâ”€â”€ README.md
+			â””â”€â”€ Squirrel.Mac
+			    â”œâ”€â”€ Cartfile
+			    â”œâ”€â”€ Cartfile.private
+			    â”œâ”€â”€ Cartfile.resolved
+			    â”œâ”€â”€ Carthage
+			    â”œâ”€â”€ External
+			    â”œâ”€â”€ LICENSE
+			    â”œâ”€â”€ README.md
+			    â”œâ”€â”€ script
+			    â”œâ”€â”€ Squirrel
+			    â”œâ”€â”€ SquirrelTests
+			    â”œâ”€â”€ Squirrel.xcodeproj
+			    â”œâ”€â”€ TestApplication
+			    â””â”€â”€ TestService
+
