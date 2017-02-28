@@ -1,53 +1,55 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 490CD6FF76
+	by mail.openembedded.org (Postfix) with ESMTP id 8B16372FA7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2017 13:35:20 +0000 (UTC)
+	Tue, 28 Feb 2017 13:35:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 6DA361834B
+	by bastet.se.axis.com (Postfix) with ESMTP id A2F9A18305
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2017 14:35:21 +0100 (CET)
+	Tue, 28 Feb 2017 14:35:23 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id z4s80YN2QKgD
+	port 10024) with LMTP id pKbplpXR5M3B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2017 14:35:20 +0100 (CET)
+	Tue, 28 Feb 2017 14:35:21 +0100 (CET)
 Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id C8CF318305
+	by bastet.se.axis.com (Postfix) with ESMTPS id 10906181EB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2017 14:35:20 +0100 (CET)
+	Tue, 28 Feb 2017 14:35:21 +0100 (CET)
 Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B1C7B1E140
+	by IMSVA (Postfix) with ESMTP id 003E71E140
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2017 14:35:20 +0100 (CET)
+	Tue, 28 Feb 2017 14:35:21 +0100 (CET)
 Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A6C541E13E
+	by IMSVA (Postfix) with ESMTP id E64881E13E
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 28 Feb 2017 14:35:20 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
 	by boulder03.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 28 Feb 2017 14:35:20 +0100 (CET)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 9B06420E
+	by thoth.se.axis.com (Postfix) with ESMTP id DADA68A0
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 28 Feb 2017 14:35:20 +0100 (CET)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v1SDZKHV019106
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v1SDZK1G019118
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 28 Feb 2017 14:35:20 +0100
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v1SDZK4A019105
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v1SDZKKf019117
 	for openembedded-core@lists.openembedded.org;
 	Tue, 28 Feb 2017 14:35:20 +0100
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Feb 2017 14:35:15 +0100
-Message-Id: <cover.1488288835.git.pkj@axis.com>
+Date: Tue, 28 Feb 2017 14:35:18 +0100
+Message-Id: <c84b166b490ea5b89df6312005d130c97b7c09e2.1488288835.git.pkj@axis.com>
 X-Mailer: git-send-email 2.9.0
+In-Reply-To: <cover.1488288835.git.pkj@axis.com>
+References: <cover.1488288835.git.pkj@axis.com>
 X-TM-AS-GCONF: 00
-Subject: [PATCH 0/4] Add dummy tools to help identify needed dependencies
+Subject: [PATCH 3/4] scripts/gdbus-codegen: Add a dummy version that always fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,49 +62,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Feb 2017 13:35:21 -0000
+X-List-Received-Date: Tue, 28 Feb 2017 13:35:22 -0000
 
-After the introduction of RSS, I still found it hard to get
-dependencies on some common tools that are typically installed on the
-build host correct. Using the wrong version of tools like pkg-config,
-gdbus-codegen and dbus-binding-tool can cause build failures.
+This is intended to catch missing dependencies on the real version.
 
-To circumvent this, I created dummy versions of the tools that always
-fail and placed them in the scripts directory. Thus, if the real tool
-has not been installed in the RSS, the dummy version is used and the
-build fails. For good measures I even output a message that says what
-needs to be corrected in the recipe.
-
-Included is also an update to linux-libc-headers as it apparently
-needs to inherit pkgconfig, which the introduction of the dummy
-version of pkg-config showed.
-
-//Peter
-
-The following changes since commit 3c83b56309ab419f8cda72c0711479f60f61439a:
-
-  bitbake: fetch2/svn: change 'rsh' parameter to 'ssh' (2017-02-23 12:50:17 -0800)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib pkj/dummy_tools
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/dummy_tools
-
-Peter Kjellerstedt (4):
-  linux-libc-headers: Add inherit of pkgconfig
-  scripts/dbus-binding-tool: Add a dummy version that always fails
-  scripts/gdbus-codegen: Add a dummy version that always fails
-  scripts/pkg-config: Add a dummy version that always fails
-
- .../linux-libc-headers/linux-libc-headers.inc            |  2 +-
- scripts/dbus-binding-tool                                | 11 +++++++++++
- scripts/gdbus-codegen                                    | 11 +++++++++++
- scripts/pkg-config                                       | 16 ++++++++++++++++
- 4 files changed, 39 insertions(+), 1 deletion(-)
- create mode 100755 scripts/dbus-binding-tool
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ scripts/gdbus-codegen | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
  create mode 100755 scripts/gdbus-codegen
- create mode 100755 scripts/pkg-config
 
+diff --git a/scripts/gdbus-codegen b/scripts/gdbus-codegen
+new file mode 100755
+index 0000000..d91386b
+--- /dev/null
++++ b/scripts/gdbus-codegen
+@@ -0,0 +1,11 @@
++#!/bin/sh
++
++# This is a dummy version that always fails. It is intended to catch
++# missing dependencies on the real version.
++
++myname=${0##*/}
++
++echo "The correct version of $myname is not being used!" >&2
++echo "Make sure the recipe DEPENDS on 'glib-2.0-native'." >&2
++
++exit 1
 -- 
 2.9.0
 
