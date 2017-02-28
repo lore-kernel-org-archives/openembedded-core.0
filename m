@@ -1,30 +1,32 @@
 Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 65A3572F91
+Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 287CB72F91
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2017 10:16:16 +0000 (UTC)
+	Tue, 28 Feb 2017 10:18:57 +0000 (UTC)
 Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
-	via TCP (outbound) with ESMTPS id 20170228101610223_0485;
-	Tue, 28 Feb 2017 10:16:10 +0000
+	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
+	via TCP (outbound) with ESMTPS id 20170228101850011_0684;
+	Tue, 28 Feb 2017 10:18:50 +0000
 X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [174.118.92.171] (port=46816 helo=crashcourse.ca)
+Received: from [174.118.92.171] (port=46908 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
 	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1ciep9-0005No-5M; Tue, 28 Feb 2017 05:16:03 -0500
-Date: Tue, 28 Feb 2017 05:16:01 -0500 (EST)
+	id 1cierh-0005TR-V5; Tue, 28 Feb 2017 05:18:42 -0500
+Date: Tue, 28 Feb 2017 05:18:40 -0500 (EST)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@localhost.localdomain
-To: Patrick Ohly <patrick.ohly@intel.com>
-In-Reply-To: <1488276258.7785.26.camel@intel.com>
-Message-ID: <alpine.LFD.2.20.1702280513570.29184@localhost.localdomain>
-References: <alpine.LFD.2.20.1702270559150.22784@uk63952.mitel.com>
-	<1488276258.7785.26.camel@intel.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+In-Reply-To: <CAJ86T=XY4k09EZayoUdLcXV3-WE9Ft4==W1oXioJq0ZZvDgMJg@mail.gmail.com>
+Message-ID: <alpine.LFD.2.20.1702280517200.30803@localhost.localdomain>
+References: <alpine.LFD.2.20.1702270819550.25847@uk63952.mitel.com>
+	<1488217806.8657.20.camel@pbcl.net>
+	<alpine.LFD.2.20.1702271347110.6269@localhost.localdomain>
+	<CAJ86T=XY4k09EZayoUdLcXV3-WE9Ft4==W1oXioJq0ZZvDgMJg@mail.gmail.com>
 User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
 X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: style suggestions for that whole "_append" and leading space thing
+Subject: Re: a few more picky questions about COMPATIBLE_MACHINE usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,61 +39,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Feb 2017 10:16:19 -0000
+X-List-Received-Date: Tue, 28 Feb 2017 10:18:59 -0000
 Content-Type: text/plain; charset=US-ASCII
 
-On Tue, 28 Feb 2017, Patrick Ohly wrote:
+On Mon, 27 Feb 2017, Andre McCurdy wrote:
 
-> On Mon, 2017-02-27 at 06:07 -0500, Robert P. J. Day wrote:
-> >   getting pedantic (as i am wont to do), occasionally i run across
-> > things like this, from meta/conf/distro/include/no-static-libs.inc:
+> On Mon, Feb 27, 2017 at 10:53 AM, Robert P. J. Day
+> <rpjday@crashcourse.ca> wrote:
+> > On Mon, 27 Feb 2017, Phil Blundell wrote:
 > >
-> >   EXTRA_OECONF_append = "${DISABLE_STATIC}"
+> >> On Mon, 2017-02-27 at 09:09 -0500, Robert P. J. Day wrote:
+> >> >  # webkit-efl isn't available for < armv7a
+> >> >  COMPATIBLE_MACHINE = "(-)"
+> >> >   COMPATIBLE_MACHINE_x86 = "(.*)"
+> >> >   COMPATIBLE_MACHINE_x86-64 = "(.*)"
+> >> >   COMPATIBLE_MACHINE_armv7a = "(.*)"
+> >> >
+> >> >   first, that comment seems out of date as it makes no mention of
+> >> > MIPS
+> >> > or ppc, but that's just being picky.
+> >> >
+> >> >   next, i assume the line:
+> >> >
+> >> >   COMPATIBLE_MACHINE = "(-)"
+> >> >
+> >> > is to initialize the set of compatible machines to the empty set,
+> >> > yes?
+> >>
+> >> I think the intent is to set it to a string that "can't possibly
+> >> ever match".
 > >
-> > which, at first glance, simply seems wrong given the lack of a leading
-> > space, until one looks higher up in that same file to read:
+> >   right, that's what i suspected.
 > >
-> >   DISABLE_STATIC = " --disable-static"
+> >> >
+> >>   i next assume that lines of the form:
+> >> >
+> >> >   COMPATIBLE_MACHINE_x86 = "(.*)"
+> >> >
+> >> > are meant to indicate that if that MACHINE_OVERRIDES comparison
+> >> > succeeds, then all possible targets are compatible, is that right?
+> >> > however, given precisely those lines above, is it not equivalent to
+> >> > just write:
+> >> >
+> >> >   COMPATIBLE_MACHINE = "(x86|x86-64|armv7a)"
+> >>
+> >> No, because "armv7a" is not a MACHINE.  It would be more equivalent
+> >> to write
+> >>
+> >> COMPATIBLE_HOST = "armv7a-.*"
+> >>
+> >> but even this would not be quite the same because it would fail to
+> >> match "cortexa15-linux" for example.  Actually that's not a very
+> >> good example because cortexa15 is armv7ve not armv7a, but you get
+> >> the idea.
 > >
-> > where one finds the leading space as part of the variable itself.
-> > i find this potentially *really* confusing; consistent style
-> > suggests variables should be assigned their values without regard
-> > as to how they might be used later. subsequent references or
-> > usages of those variables should be responsible for making sure
-> > they're included properly, no?
+> >   i'm going to disagree here, i never suggested "armv7a" was a
+> > "machine" (in the sense of having a defining armv7a.conf file). i said
+> > it was part of MACHINE_OVERRIDES, and therefore *would* be considered
+> > a matching "machine" for the purposes of COMPATIBLE_MACHINE.
+> >
+> >   as another example, there is no such machine as a "qoriq", but that
+> > is considered a valid choice for COMPATIBLE_MACHINE since several
+> > actual machine definition files do this:
+> >
+> >   MACHINEOVERRIDES =. "qoriq:"
+> >
+> > am i making sense?
 >
-> In principle you are right, but probably it was done this way here
-> to avoid adding a space to EXTRA_OECONF in those cases where
-> DISABLE_STATIC is overridden to be empty. Consider DISABLE_STATIC an
-> implementation detail and then it becomes okay to set it as needed
-> by the implementation.
-
-  ehhhhhhhhh ... i'm not sure i'm convinced but i'll let this one go.
-
-> >   and the last line in that same file also suggests potential misuse:
-> >
-> >   EXTRA_OECMAKE_append_pn-libical = "-DSHARED_ONLY=True"
+> I think so. However, note that ARM is somewhat of a special case in
+> that it includes over-rides derived from TUNE_FEATURES in
+> MACHINEOVERRIDES (although MIPS has recently started to do so too). In
+> the general case (and especially in the context of COMPATIBLE_MACHINE)
+> it's probably better to think of MACHINEOVERRIDES as containing just
+> the machine name and perhaps a SOC family.
 >
-> Yes, that's just plain wrong and just happens to work by accident.
+> (Maybe it would be clearer if over-rides derived from TUNE_FEATURES
+> were placed in a dedicated variable, e.g. TUNINGOVERRIDES, rather than
+> being crammed into MACHINEOVERRIDES?).
 
-  just submitted a patch for this.
-
-> > p.s. would the same logic hold with lines like this?
-> >
-> > meta/conf/machine/include/tune-ppce6500.inc:
-> >
-> >   MACHINE_FEATURES_BACKFILL_CONSIDERED_append =
-> >      "${@bb.utils.contains('TUNE_FEATURES', 'e6500', ' qemu-usermode', '', d)}"
-> >
-> > would it not be clearer if one were to write:
-> >
-> >   MACHINE_FEATURES_BACKFILL_CONSIDERED_append =
-> >      " ${@bb.utils.contains('TUNE_FEATURES', 'e6500', 'qemu-usermode', '', d)}"
->
-> The existing line is better because it avoids adding a space when
-> nothing needs to be added.
-
-  ok, i'll buy that.
+  cripes ... this was supposed to be a quick clarification. :-) i'll
+try to summarize all of this in one place to see if i understand it
+all correctly.
 
 rday
 
