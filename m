@@ -1,47 +1,52 @@
-Return-Path: <prvs=225a98b71=Hugo.Jacob@bmw.de>
-X-Greylist: delayed 585 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 28 Feb 2017 10:00:45 UTC
-Received: from esa9.bmw.c3s2.iphmx.com (esa9.bmw.c3s2.iphmx.com
-	[68.232.133.110])
-	by mail.openembedded.org (Postfix) with ESMTP id B43F972F8A
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id DAB7772F8F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2017 10:00:45 +0000 (UTC)
+	Tue, 28 Feb 2017 10:04:21 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id l7so6135046ioe.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Feb 2017 02:04:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1488276056; x=1519812056; h=from:to:subject:date:message-id:
-	content-transfer-encoding:mime-version;
-	bh=dKYqWoYFMWLiynqPLg6GRLNBFTTlsLDNvuoJQQqUaa4=;
-	b=Ke90csjfvXmBmW34qPHFBx3kB7ebQbN5A/hQqPhLWIyxmupGtF2zdImf
-	iLmEcjv3SPHEzn6vVvWEQVUhdmnz+IjX54MksSxwqBysRomvR90f74Xkx
-	iFoCQ2cZI6UeWlYja0/HLAkn8UuGL5DP4PWMcyqXB2Uo4ko9OXjZFQ31/ c=;
-Received: from esagw5.bmwgroup.com (HELO esagw5.muc) ([160.46.252.46]) by
-	esa9.bmw.c3s2.iphmx.com with ESMTP/TLS; 28 Feb 2017 10:51:03 +0100
-Received: from esabb6.muc ([160.50.100.50])  by esagw5.muc with ESMTP/TLS;
-	28 Feb 2017 10:51:01 +0100
-Received: from smucm10j.bmwgroup.net (HELO smucm10j.europe.bmw.corp)
-	([160.48.96.46])
-	by esabb6.muc with ESMTP/TLS; 28 Feb 2017 10:51:00 +0100
-Received: from smucm10j.europe.bmw.corp (160.48.96.46) by
-	smucm10j.europe.bmw.corp
-	(160.48.96.46) with Microsoft SMTP Server (TLS;
-	Tue, 28 Feb 2017 10:51:00 +0100
-Received: from smucm10j.europe.bmw.corp ([160.48.96.46]) by
-	smucm10j.europe.bmw.corp ([160.48.96.46]) with mapi id 15.00.1263.000;
-	Tue, 28 Feb 2017 10:51:00 +0100
-From: <Hugo.Jacob@bmw.de>
-To: <openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH 1/1] buildhistory.bbclass: Add license declaration to
-	packages and recipes
-Thread-Index: AQHSkagWqGbjwSUdzU+CaGxeaiHDpA==
-Date: Tue, 28 Feb 2017 09:51:00 +0000
-Message-ID: <1488275461449.17365@bmw.de>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [192.168.44.101]
-MIME-Version: 1.0
-Subject: [PATCH 1/1] buildhistory.bbclass: Add license declaration to packages and recipes
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=nTNxhFKzfbNT0JXZz5Oa5YO8iIfhf+jjRwfaieZKpkM=;
+	b=v0tgLdhxTJnrp+69uCIrHJy6e6KJ/9urUHYQBDdabkWB4ekezJa8FvZWwhBnByoKjS
+	YL9wmtLe/bVgyYrkbqkPEpCDgn7IFcmJ3dHAwyWJcFgAFmsNSqh/TIw7SgPuPw4TzVBs
+	tFk++/UXjLS5x3JK9TB3a4y8k9TdMC4YCj+saTXeRI+XUW6EQd5LxxxR5RDIH5Z7OsWN
+	fQgCJZQGqtwbyYr8Mq/jrr8JgZMzPIxOeyN/WCOVhe7Qg78mUeK8t9Cwxoss6Mdh1WyI
+	K7dMbdTHBYpiF2iz7sNblQCcVIuJgutfEzaktnUJelxkM2fPopt1Dq6C6j2VwR5OtoKT
+	Pvgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=nTNxhFKzfbNT0JXZz5Oa5YO8iIfhf+jjRwfaieZKpkM=;
+	b=IuNqLsZ7vSdxPATJ9kgwrDY1KWkbu2JIC3S+iCVFC0tyoCMb3jvpHvKNVJNfqgrFgX
+	4dZ7WCpqzUrvf5NAQvl8Hy3szw9LDNmsig9dvG7UIo5z99dwG40DW8t0D4VcSA6Tm63b
+	hl1uxBQMz/ECdhaSdmDVBurDXbWV1zdh0HI02ZkJejHBcUWB1x8Oxu/a22EhZC4a4Yh+
+	MsZnLkecfj5O9+uEmmDl+Z2JciVllRIK0jEgpt6umAyRLdL92pORaNjCnVrVwKruHD3h
+	F4suNiExs2GAoWcsT/6Rs+Gc/FxtnCTsRZ+Bs1wWwoNLGGvSymPNfz6472eXUnnZGnwg
+	gMpA==
+X-Gm-Message-State: AMke39md5DSswklKwPM24x/zA2nV1PxaLJIsrjrGUYtt8k3IdJwnuhly2RXpehDqVULFybOp
+X-Received: by 10.107.20.148 with SMTP id 142mr1582795iou.12.1488276262741;
+	Tue, 28 Feb 2017 02:04:22 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8D654.dip0.t-ipconnect.de. [93.232.214.84])
+	by smtp.gmail.com with ESMTPSA id u65sm633876ioe.47.2017.02.28.02.04.20
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 28 Feb 2017 02:04:21 -0800 (PST)
+Message-ID: <1488276258.7785.26.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Tue, 28 Feb 2017 11:04:18 +0100
+In-Reply-To: <alpine.LFD.2.20.1702270559150.22784@uk63952.mitel.com>
+References: <alpine.LFD.2.20.1702270559150.22784@uk63952.mitel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: style suggestions for that whole "_append" and leading space thing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,95 +59,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Feb 2017 10:00:55 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 28 Feb 2017 10:04:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Having the license declaration in the buildhistory is useful to track=0A=
-licenses changes, licenses going to a given image and etc. This change=0A=
-adds the license declaration for recipes and packages to its=0A=
-buildhistory data.=0A=
-=0A=
-Upstream-status: Submitted=0A=
-=0A=
-Signed-off-by: Hugo Jacob <Hugo.Jacob@bmw.de>=0A=
----=0A=
- meta/classes/buildhistory.bbclass | 8 ++++++++=0A=
- 1 file changed, 8 insertions(+)=0A=
-=0A=
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.=
-bbclass=0A=
-index 3a5bc2c3e3..f6525dfd72 100644=0A=
---- a/meta/classes/buildhistory.bbclass=0A=
-+++ b/meta/classes/buildhistory.bbclass=0A=
-@@ -83,6 +83,7 @@ python buildhistory_emit_pkghistory() {=0A=
-             self.pe =3D "0"=0A=
-             self.pv =3D "0"=0A=
-             self.pr =3D "r0"=0A=
-+            self.license =3D ""=0A=
-             self.depends =3D ""=0A=
-             self.packages =3D ""=0A=
-             self.srcrev =3D ""=0A=
-@@ -94,6 +95,7 @@ python buildhistory_emit_pkghistory() {=0A=
-             self.pe =3D "0"=0A=
-             self.pv =3D "0"=0A=
-             self.pr =3D "r0"=0A=
-+            self.license =3D ""=0A=
-             # pkg/pkge/pkgv/pkgr should be empty because we want to be abl=
-e to default them=0A=
-             self.pkg =3D ""=0A=
-             self.pkge =3D ""=0A=
-@@ -186,6 +188,7 @@ python buildhistory_emit_pkghistory() {=0A=
-     pe =3D d.getVar('PE', True) or "0"=0A=
-     pv =3D d.getVar('PV', True)=0A=
-     pr =3D d.getVar('PR', True)=0A=
-+    license =3D d.getVar('LICENSE', True)=0A=
-=0A=
-     pkgdata_dir =3D d.getVar('PKGDATA_DIR', True)=0A=
-     packages =3D ""=0A=
-@@ -223,6 +226,7 @@ python buildhistory_emit_pkghistory() {=0A=
-     rcpinfo.pe =3D pe=0A=
-     rcpinfo.pv =3D pv=0A=
-     rcpinfo.pr =3D pr=0A=
-+    rcpinfo.license =3D license=0A=
-     rcpinfo.depends =3D sortlist(oe.utils.squashspaces(d.getVar('DEPENDS',=
- True) or ""))=0A=
-     rcpinfo.packages =3D packages=0A=
-     write_recipehistory(rcpinfo, d)=0A=
-@@ -241,6 +245,7 @@ python buildhistory_emit_pkghistory() {=0A=
-         pkge =3D pkgdata.get('PKGE', '0')=0A=
-         pkgv =3D pkgdata['PKGV']=0A=
-         pkgr =3D pkgdata['PKGR']=0A=
-+        pkg_license =3D d.getVar('LICENSE_%s' % (pkg,), True) or license=
-=0A=
-         #=0A=
-         # Find out what the last version was=0A=
-         # Make sure the version did not decrease=0A=
-@@ -261,6 +266,7 @@ python buildhistory_emit_pkghistory() {=0A=
-         pkginfo.pv =3D pkgdata['PV']=0A=
-         pkginfo.pr =3D pkgdata['PR']=0A=
-         pkginfo.pkg =3D pkgdata['PKG']=0A=
-+        pkginfo.license =3D pkg_license=0A=
-         pkginfo.pkge =3D pkge=0A=
-         pkginfo.pkgv =3D pkgv=0A=
-         pkginfo.pkgr =3D pkgr=0A=
-@@ -301,6 +307,7 @@ def write_recipehistory(rcpinfo, d):=0A=
-             f.write(u"PE =3D %s\n" %  rcpinfo.pe)=0A=
-         f.write(u"PV =3D %s\n" %  rcpinfo.pv)=0A=
-         f.write(u"PR =3D %s\n" %  rcpinfo.pr)=0A=
-+        f.write(u"LICENSE =3D %s\n" %  rcpinfo.license)=0A=
-         f.write(u"DEPENDS =3D %s\n" %  rcpinfo.depends)=0A=
-         f.write(u"PACKAGES =3D %s\n" %  rcpinfo.packages)=0A=
-=0A=
-@@ -320,6 +327,7 @@ def write_pkghistory(pkginfo, d):=0A=
-             f.write(u"PE =3D %s\n" %  pkginfo.pe)=0A=
-         f.write(u"PV =3D %s\n" %  pkginfo.pv)=0A=
-         f.write(u"PR =3D %s\n" %  pkginfo.pr)=0A=
-+        f.write(u"LICENSE =3D %s\n" %  pkginfo.license)=0A=
-=0A=
-         if pkginfo.pkg !=3D pkginfo.name:=0A=
-             f.write(u"PKG =3D %s\n" % pkginfo.pkg)=0A=
---=0A=
-2.11.0=0A=
+On Mon, 2017-02-27 at 06:07 -0500, Robert P. J. Day wrote:
+>   getting pedantic (as i am wont to do), occasionally i run across
+> things like this, from meta/conf/distro/include/no-static-libs.inc:
+> 
+>   EXTRA_OECONF_append = "${DISABLE_STATIC}"
+> 
+> which, at first glance, simply seems wrong given the lack of a leading
+> space, until one looks higher up in that same file to read:
+> 
+>   DISABLE_STATIC = " --disable-static"
+> 
+> where one finds the leading space as part of the variable itself. i
+> find this potentially *really* confusing; consistent style suggests
+> variables should be assigned their values without regard as to how
+> they might be used later. subsequent references or usages of those
+> variables should be responsible for making sure they're included
+> properly, no?
+
+In principle you are right, but probably it was done this way here to
+avoid adding a space to EXTRA_OECONF in those cases where DISABLE_STATIC
+is overridden to be empty. Consider DISABLE_STATIC an implementation
+detail and then it becomes okay to set it as needed by the
+implementation.
+
+>   and the last line in that same file also suggests potential misuse:
+> 
+>   EXTRA_OECMAKE_append_pn-libical = "-DSHARED_ONLY=True"
+
+Yes, that's just plain wrong and just happens to work by accident.
+
+> p.s. would the same logic hold with lines like this?
+> 
+> meta/conf/machine/include/tune-ppce6500.inc:
+> 
+>   MACHINE_FEATURES_BACKFILL_CONSIDERED_append =
+>      "${@bb.utils.contains('TUNE_FEATURES', 'e6500', ' qemu-usermode', '', d)}"
+> 
+> would it not be clearer if one were to write:
+> 
+>   MACHINE_FEATURES_BACKFILL_CONSIDERED_append =
+>      " ${@bb.utils.contains('TUNE_FEATURES', 'e6500', 'qemu-usermode', '', d)}"
+
+The existing line is better because it avoids adding a space when
+nothing needs to be added.
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
+
 
