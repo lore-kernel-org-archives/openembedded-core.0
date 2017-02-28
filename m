@@ -1,47 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f174.google.com (mail-ua0-f174.google.com
-	[209.85.217.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A98F72FCC
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2017 18:42:22 +0000 (UTC)
-Received: by mail-ua0-f174.google.com with SMTP id 72so23743984uaf.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2017 10:42:23 -0800 (PST)
+Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
+	[209.85.217.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 3DF9272F83
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 28 Feb 2017 19:00:22 +0000 (UTC)
+Received: by mail-ua0-f193.google.com with SMTP id f54so2993894uaa.0
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 28 Feb 2017 11:00:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=UNUrk1E2nbSDnku6M/HENtiDpz7upKuxYVJXZ97nwoY=;
-	b=hkWYEFkAIG4mKrCVCcfZlTp69dZPW4ppaMIyXKwfniPNBPQsWljrqvvBip9z8T7K0t
-	1zh1VVEXc4rmpF6nV9gvxda3xYlbBwsAxYOQIlS6HN5x7D/pv93v5cMBCG5HQPUg0ZX2
-	XyCakfDGdk/g1r54KRAfu11ksMHjTOJcWO782X6L1YlI2ir8uAXoJIekTRCdlovRRWDJ
-	NlI3tx5JKGVM7uQ/ObTdpL/K+e3IE13ewo7jepjTHht/7fn49aKimxb2wM9tuZv0musS
-	mFD8IJXqsDzCVflPOScLvRGqS7uVbadisecH5kXX1lQA9yjpx57j9Qku2ZCTjfQwM02k
-	Y+KQ==
+	:cc; bh=QgYKlT+dC5bVnS6C4ewlaQSOYeulIrgPRd1O02/s81M=;
+	b=dpeB2MoxxFzXHzYp9k+QOK/2DRoHWcYsO6VSZFn73/0mMOWevmUKgHJZb4ND3AsLU5
+	j6xUH1+JLhO1Gt01tqSVPZ/UD3kWOm+uz9vjqCyD9r4OHJ1AHR4HsLqzI8t6JHX43oi5
+	IG6DoeBAIUKiMDP0dEVCvknPxsRMycTnN2x2wYTWfcO4OOJC2DzJ/706zc2vQVKCUZW7
+	Zwpx7XlyEIScVqbvo6vmCScZ0nHeCkxVUHtMiVQE0NzW6fckkfVQCbdQcQ0l5yBKRqg7
+	3mB3LXMNpubr1J7HswM8Ir8yIu2WvmdS1urhGyDj21i1xfvvg7RUfn6pvzuZeujwVtoh
+	ncRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=UNUrk1E2nbSDnku6M/HENtiDpz7upKuxYVJXZ97nwoY=;
-	b=bM3CdM7V2hRisNgLMkP/g64bmNDG19A91HI8QbLAI4wY6Bkdz4mEfbWqHsUuPa3Mrb
-	dJm4gkoMgsge5Blcaj47b8vgWanKTRncTVvtN/duypg1w0cMr1CDNgUhKyFMv0Zg6X3f
-	c4eCF9tq1c3EO9jCO6smjuAfgBBiD3wYlSCgZW04IApE8r6NmCONmckEd5KB6W/8u3Xw
-	qJJrACxtNmdIq9ct4mLsW9jwlvAcAS220ZH/GGz79cDKlm9XD5k34PHbZiKxDmmi6+14
-	OvZtpjKR2awzy2Mdo0ZDNemLAi1+LG6Kic65MX++WmycNs0uiDHLOgB1/ChEQt3J1tN8
-	9KDg==
-X-Gm-Message-State: AMke39kOueFfzEpUA3DlcjNz76PzHSpjadXXFTilQ0Fh4XrWviyrrS+hq1dUfrWk4PIkAsgoem8nQxwq0NTMpQ==
-X-Received: by 10.31.204.197 with SMTP id c188mr1773818vkg.31.1488307343451;
-	Tue, 28 Feb 2017 10:42:23 -0800 (PST)
+	bh=QgYKlT+dC5bVnS6C4ewlaQSOYeulIrgPRd1O02/s81M=;
+	b=L26JoIy+mJaVMEOCE1n7/TF7XFKfuxsyou6t7nxPJ52xVLAbEj0Dgd/VAX1yUYEMDC
+	JDAF/Vn6JhcpMf0igIAksq2JOzTw3Vdj4YM+ahr6m/CWJCZAZhInGA5A9FEZxIi6qRUx
+	j9a/5sKYPM5ZekdK4p8v1CSoiDHQDvqPUV1l/iO2oObn2yKY8gj6pFxl9jBSGxTDPMps
+	M1tTnY6burf+xD9QH+sgy2gNhWp3Nw9qpyEpuwOetBdP+JfWAiZ3jpDe97eq/8qOoPkc
+	uqKvrjgwRj+qTPR25LEIRFo1QPZB+3mutNaAhbMLwZoAYbJ8+fMdgF28EZ82CUcGg7Jp
+	uWfQ==
+X-Gm-Message-State: AMke39n1V9Wh3/g9S+7aPLV5/tOQKJO8ToIxMgXZTaH7v1ohbmppVTZMUtnivTIeV7gxl3JiVjGxGsryJdJ3QA==
+X-Received: by 10.31.168.145 with SMTP id r139mr1801937vke.148.1488308424093; 
+	Tue, 28 Feb 2017 11:00:24 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.159.39.37 with HTTP; Tue, 28 Feb 2017 10:41:53 -0800 (PST)
-In-Reply-To: <92df5897-cca5-bef2-1f97-ae8a967e9354@linux.intel.com>
-References: <20170227200707.4566-1-raj.khem@gmail.com>
-	<92df5897-cca5-bef2-1f97-ae8a967e9354@linux.intel.com>
+Received: by 10.159.39.37 with HTTP; Tue, 28 Feb 2017 10:59:53 -0800 (PST)
+In-Reply-To: <44423ebc-3760-3da5-2cc0-45a95f62ac7c@mender.io>
+References: <502e675a-bdaa-3acd-5343-5cb2f40f2a7a@mender.io>
+	<CAHiDW_HwmNybt8AuLWBtMSW=8R1SO3GBChRmwtCkWkmq3bFB0g@mail.gmail.com>
+	<44423ebc-3760-3da5-2cc0-45a95f62ac7c@mender.io>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 28 Feb 2017 11:41:53 -0700
-Message-ID: <CAMKF1soj+i3P-oDAxdjZz=5BLWSfKAVqcv+WhPpQq8wTaUrjwQ@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] go: Add recipes for golang compilers and tools
+Date: Tue, 28 Feb 2017 11:59:53 -0700
+Message-ID: <CAMKF1soHSjdEKaOomKaXfVWqF-xY1h+Cxeuhv5ivNMZV-z02_g@mail.gmail.com>
+To: Kristian Amlie <kristian.amlie@mender.io>
+Cc: OE-core <Openembedded-core@lists.openembedded.org>
+Subject: Re: Recipe specific sysroots: New failure to compile Go
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,25 +54,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Feb 2017 18:42:22 -0000
+X-List-Received-Date: Tue, 28 Feb 2017 19:00:23 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, Feb 28, 2017 at 1:52 AM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> On 02/27/2017 10:07 PM, Khem Raj wrote:
+On Tue, Jan 24, 2017 at 3:34 AM, Kristian Amlie
+<kristian.amlie@mender.io> wrote:
+> On 24/01/17 11:17, Jussi Kukkonen wrote:
+>> On 24 January 2017 at 11:36, Kristian Amlie <kristian.amlie@mender.io
+>> <mailto:kristian.amlie@mender.io>> wrote:
+>> [snip]
 >>
->> * This is converging the recipes for go from
->>   meta-virtualization and oe-meta-go
+>>     /home/jenkins/workspace/yoctobuild/build-qemu/tmp/work/x86_64-linux/go-native/1.7.4-r0/recipe-sysroot-native/usr/lib/go-bootstrap-native-1.4.3/pkg/tool/linux_amd64/6l:
+>>     readsym out of sync
+>>     | WARNING: exit code 2 from a shell command.
+>>     | ERROR: Function failed: do_compile (log file is located at
+>>     /home/jenkins/workspace/yoctobuild/build-qemu/tmp/work/x86_64-linux/go-native/1.7.4-r0/temp/log.do_compile.10566)
+>>     ERROR: Task
+>>     (virtual:native:/home/jenkins/workspace/yoctobuild/oe-meta-go/recipes-devtools/go/go_1.7.4.bb:do_compile)
+>>     failed with exit code '1'
+>>     -----------------------------------------------
+>>
+>>     Note in particular the "readsym out of sync", which appears to be the
+>>     heart of the problem.
+>>
+>>     Using git bisect I have verified that it is the commit
+>>     9107d6ca144ac1f6169830dee25dae2dad775333, the introduction of recipe
+>>     specific sysroots, that breaks the build. However, I cannot see an
+>>     obvious link between the two, the error looks very internal to Go. Any
+>>     clue what's going on?
+>>
+>>
+>> This could be a symptom of a missing dependency in the go (or
+>> go-bootstrap) recipe: the recipe specific sysroot only contains the
+>> specified build dependencies unlike the previous system where the
+>> sysroot typically contained loads of other things as well.
 >
+> Probably. I've been looking at the dependencies for gcc-cross, which
+> should be similar, but no luck so far.
 >
-> If this does make it into oe-core (I still think it shouldn't), who is the
-> assigned maintainer? I don't see a poky patch for that.
->
+did you get to bottom of this issue ?
 
-it will be me.
-
-> Alex
->
+> --
+> Kristian
 > --
 > _______________________________________________
 > Openembedded-core mailing list
