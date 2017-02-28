@@ -1,26 +1,28 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id F06A072F6E
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 6364672F97
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2017 09:39:24 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 Feb 2017 01:39:25 -0800
+	Tue, 28 Feb 2017 09:39:48 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	28 Feb 2017 01:39:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,218,1484035200"; d="scan'208";a="53864445"
+X-IronPort-AV: E=Sophos;i="5.35,218,1484035200"; d="scan'208";a="70427056"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga002.jf.intel.com with ESMTP; 28 Feb 2017 01:39:25 -0800
+	by fmsmga005.fm.intel.com with ESMTP; 28 Feb 2017 01:39:50 -0800
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.71])
-	by linux.intel.com (Postfix) with ESMTP id 8147D6A4080
+	by linux.intel.com (Postfix) with ESMTP id BDCFA6A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2017 01:39:23 -0800 (PST)
+	Tue, 28 Feb 2017 01:39:48 -0800 (PST)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Feb 2017 11:41:14 +0200
-Message-Id: <1488274875-10233-1-git-send-email-maxin.john@intel.com>
+Date: Tue, 28 Feb 2017 11:41:15 +0200
+Message-Id: <1488274875-10233-2-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
-Subject: [PATCH 1/2] gstreamer1.0-omx_1.2.0: remove recipe
+In-Reply-To: <1488274875-10233-1-git-send-email-maxin.john@intel.com>
+References: <1488274875-10233-1-git-send-email-maxin.john@intel.com>
+Subject: [PATCH 2/2] useradd.bbclass: drop obsolete code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +35,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Feb 2017 09:39:25 -0000
+X-List-Received-Date: Tue, 28 Feb 2017 09:39:49 -0000
 
-Removing this recipe since we have the latest gstreamer1.0-omx_1.10.4
-in place.
+Cleanup useradd class by removing the code made obsolete by
+the introduction of Recipe Specific Sysroot.
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.2.0.bb | 11 -----------
- 1 file changed, 11 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.2.0.bb
+ meta/classes/useradd.bbclass | 35 -----------------------------------
+ 1 file changed, 35 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.2.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.2.0.bb
-deleted file mode 100644
-index 3b4580f..0000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.2.0.bb
-+++ /dev/null
-@@ -1,11 +0,0 @@
--require gstreamer1.0-omx.inc
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index 326c04d..bbc7053 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -30,9 +30,6 @@ if test "x$D" != "x"; then
+ 	if [ ! -e $D${sysconfdir}/login.defs -a -e $D${sysconfdir}/login.defs.dpkg-new ]; then
+ 	    cp $D${sysconfdir}/login.defs.dpkg-new $D${sysconfdir}/login.defs
+ 	fi
 -
--LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
--                    file://omx/gstomx.h;beginline=1;endline=21;md5=5c8e1fca32704488e76d2ba9ddfa935f"
+-	# user/group lookups should match useradd/groupadd --root
+-	export PSEUDO_PASSWD="$SYSROOT:${STAGING_DIR_NATIVE}"
+ fi
+ 
+ # If we're not doing a special SSTATE/SYSROOT install
+@@ -132,38 +129,6 @@ python useradd_sysroot_sstate () {
+         bb.build.exec_func("useradd_sysroot", d)
+ }
+ 
+-userdel_sysroot_sstate () {
+-if test "x${STAGING_DIR_TARGET}" != "x"; then
+-    if [ "${BB_CURRENTTASK}" = "clean" ]; then
+-        export PSEUDO="${FAKEROOTENV} PSEUDO_LOCALSTATEDIR=${STAGING_DIR_TARGET}${localstatedir}/pseudo ${PSEUDO_SYSROOT}${bindir_native}/pseudo"
+-        OPT="--root ${STAGING_DIR_TARGET}"
 -
--SRC_URI = "http://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.tar.xz"
+-        # Remove groups and users defined for package
+-        GROUPADD_PARAM="${@get_all_cmd_params(d, 'groupadd')}"
+-        USERADD_PARAM="${@get_all_cmd_params(d, 'useradd')}"
 -
--SRC_URI[md5sum] = "d24e8c0153c35dfefee3e26b1c2c35f8"
--SRC_URI[sha256sum] = "0b4874961e6488ad9e5808114bd486ea981c540907262caab1419355fd82d745"
+-        user=`echo "$USERADD_PARAM" | cut -d ';' -f 1 | awk '{ print $NF }'`
+-        remaining=`echo "$USERADD_PARAM" | cut -d ';' -f 2- -s | sed -e 's#[ \t]*$##'`
+-        while test "x$user" != "x"; do
+-            perform_userdel "${STAGING_DIR_TARGET}" "$OPT $user"
+-            user=`echo "$remaining" | cut -d ';' -f 1 | awk '{ print $NF }'`
+-            remaining=`echo "$remaining" | cut -d ';' -f 2- -s | sed -e 's#[ \t]*$##'`
+-        done
 -
--S = "${WORKDIR}/gst-omx-${PV}"
+-        user=`echo "$GROUPADD_PARAM" | cut -d ';' -f 1 | awk '{ print $NF }'`
+-        remaining=`echo "$GROUPADD_PARAM" | cut -d ';' -f 2- -s | sed -e 's#[ \t]*$##'`
+-        while test "x$user" != "x"; do
+-            perform_groupdel "${STAGING_DIR_TARGET}" "$OPT $user"
+-            user=`echo "$remaining" | cut -d ';' -f 1 | awk '{ print $NF }'`
+-            remaining=`echo "$remaining" | cut -d ';' -f 2- -s | sed -e 's#[ \t]*$##'`
+-        done
+-
+-    fi
+-fi
+-}
+-
+-#SSTATECLEANFUNCS_append_class-target = " userdel_sysroot_sstate"
+-
+ do_prepare_recipe_sysroot[postfuncs] += "${SYSROOTFUNC}"
+ SYSROOTFUNC_class-target = "useradd_sysroot_sstate"
+ SYSROOTFUNC = ""
 -- 
 2.4.0
 
