@@ -1,32 +1,29 @@
 Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 287CB72F91
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id BE04072F97
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2017 10:18:57 +0000 (UTC)
+	Tue, 28 Feb 2017 10:28:22 +0000 (UTC)
 Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
-	via TCP (outbound) with ESMTPS id 20170228101850011_0684;
-	Tue, 28 Feb 2017 10:18:50 +0000
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20170228102822762_0685
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Feb 2017 02:28:22 -0800
 X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [174.118.92.171] (port=46908 helo=crashcourse.ca)
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [174.118.92.171] (port=46924 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
 	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1cierh-0005TR-V5; Tue, 28 Feb 2017 05:18:42 -0500
-Date: Tue, 28 Feb 2017 05:18:40 -0500 (EST)
+	id 1cif0y-0006Jr-Tm for openembedded-core@lists.openembedded.org;
+	Tue, 28 Feb 2017 05:28:16 -0500
+Date: Tue, 28 Feb 2017 05:28:16 -0500 (EST)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@localhost.localdomain
-To: Andre McCurdy <armccurdy@gmail.com>
-In-Reply-To: <CAJ86T=XY4k09EZayoUdLcXV3-WE9Ft4==W1oXioJq0ZZvDgMJg@mail.gmail.com>
-Message-ID: <alpine.LFD.2.20.1702280517200.30803@localhost.localdomain>
-References: <alpine.LFD.2.20.1702270819550.25847@uk63952.mitel.com>
-	<1488217806.8657.20.camel@pbcl.net>
-	<alpine.LFD.2.20.1702271347110.6269@localhost.localdomain>
-	<CAJ86T=XY4k09EZayoUdLcXV3-WE9Ft4==W1oXioJq0ZZvDgMJg@mail.gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1702280518430.30803@localhost.localdomain>
 User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
 X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: a few more picky questions about COMPATIBLE_MACHINE usage
+Subject: how to *securely* do a remote install of an OE image?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,87 +36,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Feb 2017 10:18:59 -0000
+X-List-Received-Date: Tue, 28 Feb 2017 10:28:25 -0000
 Content-Type: text/plain; charset=US-ASCII
 
-On Mon, 27 Feb 2017, Andre McCurdy wrote:
 
-> On Mon, Feb 27, 2017 at 10:53 AM, Robert P. J. Day
-> <rpjday@crashcourse.ca> wrote:
-> > On Mon, 27 Feb 2017, Phil Blundell wrote:
-> >
-> >> On Mon, 2017-02-27 at 09:09 -0500, Robert P. J. Day wrote:
-> >> >  # webkit-efl isn't available for < armv7a
-> >> >  COMPATIBLE_MACHINE = "(-)"
-> >> >   COMPATIBLE_MACHINE_x86 = "(.*)"
-> >> >   COMPATIBLE_MACHINE_x86-64 = "(.*)"
-> >> >   COMPATIBLE_MACHINE_armv7a = "(.*)"
-> >> >
-> >> >   first, that comment seems out of date as it makes no mention of
-> >> > MIPS
-> >> > or ppc, but that's just being picky.
-> >> >
-> >> >   next, i assume the line:
-> >> >
-> >> >   COMPATIBLE_MACHINE = "(-)"
-> >> >
-> >> > is to initialize the set of compatible machines to the empty set,
-> >> > yes?
-> >>
-> >> I think the intent is to set it to a string that "can't possibly
-> >> ever match".
-> >
-> >   right, that's what i suspected.
-> >
-> >> >
-> >>   i next assume that lines of the form:
-> >> >
-> >> >   COMPATIBLE_MACHINE_x86 = "(.*)"
-> >> >
-> >> > are meant to indicate that if that MACHINE_OVERRIDES comparison
-> >> > succeeds, then all possible targets are compatible, is that right?
-> >> > however, given precisely those lines above, is it not equivalent to
-> >> > just write:
-> >> >
-> >> >   COMPATIBLE_MACHINE = "(x86|x86-64|armv7a)"
-> >>
-> >> No, because "armv7a" is not a MACHINE.  It would be more equivalent
-> >> to write
-> >>
-> >> COMPATIBLE_HOST = "armv7a-.*"
-> >>
-> >> but even this would not be quite the same because it would fail to
-> >> match "cortexa15-linux" for example.  Actually that's not a very
-> >> good example because cortexa15 is armv7ve not armv7a, but you get
-> >> the idea.
-> >
-> >   i'm going to disagree here, i never suggested "armv7a" was a
-> > "machine" (in the sense of having a defining armv7a.conf file). i said
-> > it was part of MACHINE_OVERRIDES, and therefore *would* be considered
-> > a matching "machine" for the purposes of COMPATIBLE_MACHINE.
-> >
-> >   as another example, there is no such machine as a "qoriq", but that
-> > is considered a valid choice for COMPATIBLE_MACHINE since several
-> > actual machine definition files do this:
-> >
-> >   MACHINEOVERRIDES =. "qoriq:"
-> >
-> > am i making sense?
->
-> I think so. However, note that ARM is somewhat of a special case in
-> that it includes over-rides derived from TUNE_FEATURES in
-> MACHINEOVERRIDES (although MIPS has recently started to do so too). In
-> the general case (and especially in the context of COMPATIBLE_MACHINE)
-> it's probably better to think of MACHINEOVERRIDES as containing just
-> the machine name and perhaps a SOC family.
->
-> (Maybe it would be clearer if over-rides derived from TUNE_FEATURES
-> were placed in a dedicated variable, e.g. TUNINGOVERRIDES, rather than
-> being crammed into MACHINEOVERRIDES?).
+  here's a puzzler someone just presented me with ... given an
+established OE build, and a way to download and install it to a remote
+system, how would one set up root and/or non-root accounts and
+passwords to then allow an *authorized* someone to log in to the
+newly-installed system and configure it?
 
-  cripes ... this was supposed to be a quick clarification. :-) i'll
-try to summarize all of this in one place to see if i understand it
-all correctly.
+  as in, if the installed image contains a "root" account and default
+password, there is the potential of someone sneaking in there in the
+interval between installation and when the "authorized" user connects
+to do the configuration, even if the first act of the authorized user
+is to change the root password.
+
+  my immediate reaction was to use SSH keys, where the
+newly-installed system would require SSH logins, and would have to
+match the corresponding private key.
+
+  as an alternative, perhaps don't worry about such a situation, but
+when the authorized user logs in for what is *supposed* to be the
+first time, it will be flagged that someone else has already logged in
+earlier, and a warning will be printed, "Previous login to root
+detected, you have been compromised, please re-install!"
+
+  i'm sure there are plenty of ways of doing this, anyone have any
+pointers? thanks.
 
 rday
 
