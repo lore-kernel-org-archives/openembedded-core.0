@@ -1,54 +1,55 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
-	[209.85.214.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 37F0471A18
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 315B060068
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2017 12:42:32 +0000 (UTC)
-Received: by mail-it0-f46.google.com with SMTP id 203so8192778ith.0
+	Tue, 28 Feb 2017 13:35:20 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 940612E406
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2017 04:42:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=QSxp4ZkNyCzngZzFmKRk0Tcf9jKLZ/Go8vZQrPFUfCI=;
-	b=Uv3bS79rYpfGM4PIKEt35xMc0rlLuI5w+uFN9QbuIJHquSTlY0L8CWmQC22cx6puOK
-	gfOfn46Vn66clgHk3DaVukahKZ2tvTLV8L7WJ5XBAZ/LL/SF8V72IaZDPlS0TxBJ18kr
-	FRCiwsQuVE54AKq/Dbi6B+r6xnuwQXW6JeygI2nALhFv/0BARYn2YYCOm8DKdaRnUmp5
-	cPs1sqHwk7DZeVhX2EgweRROOVCBuwIgkm4qa6NQSDOrRXnTkxkiTClHtmpHlE6jLes/
-	AIE+mfHUTV/mBovlZaxPoNTADLoJl3tF5ppTqaXsT9ac77hF1M66urveyMZRrespQ5gx
-	WiXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=QSxp4ZkNyCzngZzFmKRk0Tcf9jKLZ/Go8vZQrPFUfCI=;
-	b=sRSqtpACjKRk1kDOBO4M3HKYrgABzuwnOXDsf1YrU4H1RMM9cU+XTHa/BNvKTRofDJ
-	tmZ5l3uTJDHEeyOqkr4NRjMYm2AUkcrHGC2HBAfX/UpaupY7vCD4S1D6RpFw0VQaDGqI
-	xc8qQjruc1Bd1PYH2pHIXFPRZrR2qu+FAYCNncG8bg4lmPQCzqi6nuC5JDk349DBACjl
-	Z/Nb36bkAyYCvmJv6hSS5v0GrJVd4GYT2lrj36Q2OX1UqYJWMTd1Brk9xyy/ZdKRkP33
-	aZNA6gxPZ71bw4exJ3dlLBzniKpEwUlUBSu32QSKZYuXxj9Wf3MUu/vAMR4022c/KS4y
-	lc2w==
-X-Gm-Message-State: AMke39mWE2Zs7+C5EhW9c/Gppbavkc7tKjfiQAe23d2tCh5l4PdWW8E3Q+wDJ7jaQgFDj970
-X-Received: by 10.36.65.135 with SMTP id b7mr20022550itd.86.1488285754036;
-	Tue, 28 Feb 2017 04:42:34 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8D654.dip0.t-ipconnect.de. [93.232.214.84])
-	by smtp.gmail.com with ESMTPSA id j14sm5732478itd.0.2017.02.28.04.42.32
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 28 Feb 2017 04:42:33 -0800 (PST)
-Message-ID: <1488285750.7785.43.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Gary Thomas <gary@mlbassoc.com>
-Date: Tue, 28 Feb 2017 13:42:30 +0100
-In-Reply-To: <c784e8d2-afd8-b4d3-1cd3-75d1d398dea8@mlbassoc.com>
-References: <alpine.LFD.2.20.1702280518430.30803@localhost.localdomain>
-	<1488284875.7785.41.camel@intel.com>
-	<c784e8d2-afd8-b4d3-1cd3-75d1d398dea8@mlbassoc.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: how to *securely* do a remote install of an OE image?
+	Tue, 28 Feb 2017 14:35:21 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id qEqqGTtvnYhT
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Feb 2017 14:35:21 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bes.se.axis.com (Postfix) with ESMTPS id 0F23D2E28D
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Feb 2017 14:35:21 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E0D5F1A16F
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Feb 2017 14:35:20 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D3F031A100
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Feb 2017 14:35:20 +0100 (CET)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Feb 2017 14:35:20 +0100 (CET)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id C871020E
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Feb 2017 14:35:20 +0100 (CET)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v1SDZKgp019114
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Feb 2017 14:35:20 +0100
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v1SDZKbX019113
+	for openembedded-core@lists.openembedded.org;
+	Tue, 28 Feb 2017 14:35:20 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 28 Feb 2017 14:35:17 +0100
+Message-Id: <fb795bebf9206e385694a39e880e85dd2de6b350.1488288835.git.pkj@axis.com>
+X-Mailer: git-send-email 2.9.0
+In-Reply-To: <cover.1488288835.git.pkj@axis.com>
+References: <cover.1488288835.git.pkj@axis.com>
+X-TM-AS-GCONF: 00
+Subject: [PATCH 2/4] scripts/dbus-binding-tool: Add a dummy version that always fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,37 +62,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Feb 2017 12:42:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 28 Feb 2017 13:35:21 -0000
 
-On Tue, 2017-02-28 at 13:32 +0100, Gary Thomas wrote:
-> > For ssh keys, there's rootfsdebugfiles.bbclass. In local.conf:
-> >
-> > INHERIT += "rootfsdebugfiles"
-> > ROOTFS_DEBUG_FILES += "/home/pohly/.ssh/id_rsa.pub
-> ${IMAGE_ROOTFS}/home/root/.ssh/authorized_keys ;"
-> >
-> > This copies my id_rsa.pub into authorized_keys and thus let's me log
-> > into images that I create via ssh.
-> >
-> 
-> Does this work for dropbear or only openssh?
+This is intended to catch missing dependencies on the real version.
 
-Should also work with dropbear. From
-https://matt.ucc.asn.au/dropbear/dropbear.html:
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ scripts/dbus-binding-tool | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100755 scripts/dbus-binding-tool
 
-"Compatible with OpenSSH ~/.ssh/authorized_keys public key
-authentication"
-
+diff --git a/scripts/dbus-binding-tool b/scripts/dbus-binding-tool
+new file mode 100755
+index 0000000..2e85987
+--- /dev/null
++++ b/scripts/dbus-binding-tool
+@@ -0,0 +1,11 @@
++#!/bin/sh
++
++# This is a dummy version that always fails. It is intended to catch
++# missing dependencies on the real version.
++
++myname=${0##*/}
++
++echo "The correct version of $myname is not being used!" >&2
++echo "Make sure the recipe DEPENDS on 'dbus-glib-native'." >&2
++
++exit 1
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+2.9.0
 
 
