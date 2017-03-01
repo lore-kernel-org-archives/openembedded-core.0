@@ -1,46 +1,29 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-ua0-f181.google.com (mail-ua0-f181.google.com
-	[209.85.217.181])
-	by mail.openembedded.org (Postfix) with ESMTP id D63F9774D8;
-	Wed,  1 Mar 2017 23:14:04 +0000 (UTC)
-Received: by mail-ua0-f181.google.com with SMTP id q7so26095162uaf.2;
-	Wed, 01 Mar 2017 15:14:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=JrQ5uNc6Rdt4ybkYxOrbmThL4Gep0PfoISulOHUMIkU=;
-	b=J/Jv1kGO0u2IkJYTAQzCf2uABxTRUL//JJ1YnnZ8nBXTRP2Ou5jMth8twLqsI97bc/
-	DcaheXqYNmwgrcKtn1IFjAyFp29hTTlX962evW9hFgGaHIYd4NFZfSzDytZzk3bjJXw+
-	af3MGUvo0poJOZvVuTwKLGmhe/zGnDT6an5SN0w8a0WlTib4Yl9oNy/7cTUILSwwzu7z
-	7tVMqajcpQOnVxAqKkP8zhuSBTQBn/iAYlCW5kVTd5sHmKZS8oqyXNLbpGWDyrnmXXQp
-	Dk/VCv9rCd+uYxlCFHVXwZZfYXOP4++4cJeGQrwwH5Q5Un1wZ7G18In566K2dxmfWOjr
-	k7bQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=JrQ5uNc6Rdt4ybkYxOrbmThL4Gep0PfoISulOHUMIkU=;
-	b=s+99F4kCSFonXveMd5Pn+Qka2bX7mPSoYI872JAThyOKLaOXYAygq9sVuiECFLUZiW
-	QPhohZ7JiEGYM6vaxVR+mih3dcjQ59vwK5rafJ0EWauyocyoQ9RNYenLCnAuyLDx0jqi
-	5+kMagMz/QIGk9GW5mBZD7GI94gyEr0n4bXp2Z9WlxreEjtVB6vHF2BYaeuHDdoDEWgX
-	VM2EIIOSuF2Vx+S/YkkNFwn5UN142IytqU1SRBe1dgQtTLqlaAKiQrB7mwO5XO9xkD4U
-	Mun9BIZxbt0lv6lNZRqxw8bNMFujAVtP3CQu2FdaHrwJjfPxWp0Dvo2mDR9m9gPcT37j
-	h3dw==
-X-Gm-Message-State: AMke39km9vg20WYqPKjTLn7JEm4VGNu2xjMhPVZXZhKec5taneMS0AXSQzr5EIS5vLEdXUVjRn1oESVvp4DUHA==
-X-Received: by 10.31.3.83 with SMTP id 80mr1602850vkd.64.1488410045659; Wed,
-	01 Mar 2017 15:14:05 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.176.71.65 with HTTP; Wed, 1 Mar 2017 15:14:05 -0800 (PST)
-In-Reply-To: <20170301195550.GE3290@jama>
-References: <20170301195550.GE3290@jama>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Date: Thu, 2 Mar 2017 00:14:05 +0100
-Message-ID: <CALbNGRTO37A-tbDj93nuNi0vu6h3fJg7Wg6P6N8asz45e8H9bg@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: State of bitbake world, Failed tasks 2017-03-01
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A29C60684
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  1 Mar 2017 23:53:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v21NrNRO009878; Wed, 1 Mar 2017 23:53:23 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id dHVbwZvTVQ9U; Wed,  1 Mar 2017 23:53:23 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v21NrLpY009875
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 1 Mar 2017 23:53:22 GMT
+Message-ID: <1488412401.24526.48.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Wed, 01 Mar 2017 23:53:21 +0000
+In-Reply-To: <8bbaa675-7c8b-d00d-3b22-f051abf763a2@windriver.com>
+References: <8bbaa675-7c8b-d00d-3b22-f051abf763a2@windriver.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: About scripts/oe-find-native-sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,34 +36,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Mar 2017 23:14:05 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 01 Mar 2017 23:53:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Mar 1, 2017 at 8:55 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
->     * openembedded-core/meta/recipes-extended/parted/parted_3.2.bb:do_compile_ptest_base
-Before Martin blacklists gparted for dependency :)
+On Wed, 2017-03-01 at 13:58 +0800, Robert Yang wrote:
+> Hi RP,
+> 
+> The common STAGING_DIR_NATIVE is gone, so the OECORE_NATIVE_SYSROOT
+> defined in scripts/oe-find-native-sysroot doesn't make any sense
+> currently:
+> 
+> OECORE_NATIVE_SYSROOT=`bitbake -e | grep ^STAGING_DIR_NATIVE | cut -d
+> '"' -f2`
+> 
+> But the following ones depend on it:
+> 
+> meta/classes/populate_sdk_ext.bbclass
+> meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
+> scripts/oe-run-native
+> scripts/runqemu-export-rootfs
+> scripts/runqemu-extract-sdk
+> 
+> What shall we do on oe-find-native-sysroot? Remove it and
+> make other ones work without it? Or let it depend on build-sysroots,
+> please ?
 
-1. Autobuilder error log says:
+If we could make other things survive without it that would be good.
+Some might want to use the addto_recipe_sysroot task:
 
-| ../libparted/fs/.libs/libparted-fs-resize.so: error: undefined
-reference to 'uuid_generate'
-| collect2: error: ld returned 1 exit status
-| Makefile:1422: recipe for target 'fs-resize' failed
-| make: *** [fs-resize] Error 1
-| make: Leaving directory
-'/home/jenkins/oe/world/shr-core/tmp-glibc/work/armv5te-oe-linux-gnueabi/parted/3.2-r1/build/tests'
-| ERROR: Function failed: do_compile_ptest_base (log file is located
-at /home/jenkins/oe/world/shr-core/tmp-glibc/work/armv5te-oe-linux-gnueabi/parted/3.2-r1/temp/log.do_compile_ptest_base.7114)
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=ce79111e735529546e8a20e4315e3566a556a936
 
-2. grepping in gparted's source
-[superandy@very-old-builder parted-3.2]$ grep -r uuid_generate
-configure.ac:AC_CHECK_LIB([uuid], [uuid_generate], [UUID_LIBS="-luuid"],
-<...>
+In some cases build-sysroots would likely make the most sense.
 
-I think adding ossp-uuid to DEPENDS will do. My problem: all my build
-machines are busy with environments other than master so I cannot
-test. Will send out a patch during weekend. If somebody wants to send
-sooner: feel free.
+Cheers,
 
-Andreas
+Richard
 
