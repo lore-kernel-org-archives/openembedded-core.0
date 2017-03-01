@@ -1,57 +1,54 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id E70C373130
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id DF83B730CC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Mar 2017 15:51:06 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id f84so32618121ioj.0
+	Wed,  1 Mar 2017 15:52:43 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id v186so113719007wmd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Mar 2017 07:51:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=i9+WbbBVcq0PJEcQgHOrpNSPaaG8M9AVnyGLfPUhdJM=;
-	b=ajgqiKTSSXP49qFkfYe3ejGIQu0LyUTlRQ8gFAGZnUX8TM2HLjcNkoLSnfVGXjX2eJ
-	BL4eBx1TaTrP9Sgs6i1GkN9RhNoE2+IvtL7dI65gd+Jp6SgiBvSB9HztZMJdxzZIt1aX
-	uwBjKaatsq5PRcrbMtiJfek2zLwKOnNp2YnlMn6guPuipMBq9MXoAMwzxE6mQg9WmEUb
-	D+rAqf0AuWjte/Lp1iJir/XPk1mdJtshbbhMUczfXarrAPysMojsDhbz2xCrDdF7CIAq
-	AjoCSnTTSuri3EHHmPG4Nfrg9/WyGjust1lfC46iy2XrJZRNt48AGHCMlMamXT/Icf3c
-	jYLA==
+	Wed, 01 Mar 2017 07:52:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=2DY7Jx84qfGARAlTukeFNt8ZTCLDlfDy9mawKSPCvyY=;
+	b=QpJRJV89QNnFxtA4yodXw1w34iTVb/YTMNySclsj37l5hQFcYBwwgz/Q6be77Eizlf
+	fqY2HgoeozKgytsNYGWqjgbZF/lnaRRqcqbBs/aAeEmky0Iu+RLX+Z8fP7I71gFraeq8
+	wWK+d6FrcuhqKWSPLbJheC8KGitKwRVCBReYWMvGRCNwsD3NRYC+i1SL9B9oLPbWUpNZ
+	gDgHll3F6iokRbIqxkZUcKG0c5MzlRVZXhy+wDGs5rb0TdQlwFEqzC7jMX9cY1GBYWXC
+	y5XDJqRUTcQUuvo6i/iSDCAODT+MCOw5YzOv1CzASi2G1t6MhgjV0r/w9rPi33NHzdXN
+	k+8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=i9+WbbBVcq0PJEcQgHOrpNSPaaG8M9AVnyGLfPUhdJM=;
-	b=p+UZNxAW4kjBVrDuGcDSyRvTwf4iDEHMwyQD0bP3ya+EZQ9P/ZNApOpSBY75AFF/Vo
-	XRIeelqS86JmfC7ioS+kCgOxxjcOWI38bKRcTxOy1ZEmFBUww5mknhCEs812JVf8RH9j
-	UtO0frShV1cn2ogwKo6wqeEdxDxUDx8KGEJnHVL7/1UdrUfr8Z+OBrxaqe34tTBxlFNw
-	tBGLdgDDRBrmA+4Dg87H2jTidv7Bspi9EpK4NyAnuqPUgKk0Aeub7Qw2PWO52dVkllH9
-	C1X8GOWCegBjBchgerm+JHJgOytOJUCitWdeuunJWwOELYDlcHCZOFDlpNI98wYL5VT1
-	x8CQ==
-X-Gm-Message-State: AMke39lELONwmA4ibAt6+yTfZtlxjH2CgG3MwaRkHFBy2JAwm2Cm0trZbViTaXg5pZ2zoJZo
-X-Received: by 10.107.29.144 with SMTP id d138mr10495722iod.22.1488383467718; 
-	Wed, 01 Mar 2017 07:51:07 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8E037.dip0.t-ipconnect.de. [93.232.224.55])
-	by smtp.gmail.com with ESMTPSA id
-	f42sm2248672ioj.35.2017.03.01.07.51.05
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 01 Mar 2017 07:51:06 -0800 (PST)
-Message-ID: <1488383463.7785.165.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Wed, 01 Mar 2017 16:51:03 +0100
-In-Reply-To: <1488381139.24526.30.camel@linuxfoundation.org>
-References: <1487625169-22282-1-git-send-email-anibal.limon@linux.intel.com>
-	<1488312568.7785.73.camel@intel.com>
-	<1488340816.24526.26.camel@linuxfoundation.org>
-	<1488352225.7785.83.camel@intel.com>
-	<1488381139.24526.30.camel@linuxfoundation.org>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2] yocto-compat-layer.py: Add script to YP Compatible Layer validation
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=2DY7Jx84qfGARAlTukeFNt8ZTCLDlfDy9mawKSPCvyY=;
+	b=btOTZb0qm43S/zcPqHlrw9aR2KrIS+10RIo1Lp7tcaf+XE4L0BHgt8cMnIzqNqgt8s
+	mKHJ5Hc7tkWyT/ItqkNAXPNhgPNZCvlrqSMAN5mKVq2q/vCBKs4claQs1B2gxk5Yo5wq
+	/41QWqz1OVGV2ui0AMvyvEUMZipAXTQQZTgwwVY9o9Pa+PvIaVTuJmBr7wfItCLcNcwB
+	8qD2BoT54cpmdjfL7aE7cYIh3Rzk6VLP3UKZE/CsnVdyemhxoX4t3ZevB2w7lWpULiJR
+	r4E2IrYim4tvEsZq3dOFNQQP6PKTdx3c9IJQB9RivMCOHAOZyevTydZIFHk2QlBosjHM
+	hJ7w==
+X-Gm-Message-State: AMke39meVqpK4JkoxV1615o6Ob4pQVrwrc4/KROFDgNOUXndMrI353AyeQ+IGmkWEdDPhQ==
+X-Received: by 10.28.98.194 with SMTP id w185mr4266669wmb.84.1488383564619;
+	Wed, 01 Mar 2017 07:52:44 -0800 (PST)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	c133sm7464993wmd.13.2017.03.01.07.52.43
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 01 Mar 2017 07:52:43 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 1 Mar 2017 16:52:43 +0100
+To: Patrick Ohly <patrick.ohly@intel.com>
+Message-ID: <20170301155243.GA3290@jama>
+References: <cover.1483696378.git.patrick.ohly@intel.com>
+	<6787329b6c24642352cd015ae22b5dfa579ca010.1483696378.git.patrick.ohly@intel.com>
+	<CA+chaQebkND=ipbVvDGAJo=o79SsucECyyNgaaMRYyiOuVqZ2g@mail.gmail.com>
+	<1487240814.13854.449.camel@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1487240814.13854.449.camel@intel.com>
+User-Agent: Mutt/1.8.0 (2017-02-23)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] rm_work.bbclass: clean up sooner
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,52 +61,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Mar 2017 15:51:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 01 Mar 2017 15:52:45 -0000
+X-Groupsio-MsgNum: 94106
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="SUOF0GtieIMvvwua"
+Content-Disposition: inline
 
-On Wed, 2017-03-01 at 15:12 +0000, Richard Purdie wrote:
-> On Wed, 2017-03-01 at 08:10 +0100, Patrick Ohly wrote:
-> > Is the "build single distro for different machines" scenario that I
-> > described part of the Yocto Compliance 2.0? Should there be tests for
-> > it?
-> 
-> Right now its not
+--SUOF0GtieIMvvwua
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Okay, so the goal is a bit less ambitious than I had thought. I wonder
-whether that's useful, because at least the problems Ostro and AGL (at
-least as far as I understood it from lurking on their mailing list) had
-only happened when trying to combine multiple BSP layers *and* actually
-using the different machines in the same distro.
+On Thu, Feb 16, 2017 at 11:26:54AM +0100, Patrick Ohly wrote:
+> On Wed, 2017-02-15 at 19:32 +0100, Martin Jansa wrote:
+> > Are all changes necessary for this to work already in master?
+>=20
+> Yes.
+>=20
+> > Yesterday I've noticed that rm_work for some components which are
+> > early in the dependency (like qtbase) are executed relatively late
+> > (together with do_package_qa).
+>=20
+> Could do_rm_work run before do_package_qa? rm_work.bbclass doesn't know
+> that, and therefore schedules do_rm_work after do_package_qa.
+>=20
+> If yes, then adding a list of tasks that can be ignored would be
+> trivial. This can be a variable, so a recipe can even add their own
+> ones, if necessary.
 
-> but I'd consider it.
+That's now what I've meant.
 
-At least I'd find that useful - not sure about others ;-}
+I believe that rm_work needs to be executed after do_package_qa, but I
+don't understand the scheduler code enough (at least not yet) to say
+that higher priority of rm_work task also makes all the tasks rm_work
+depends on e.g. do_package_qa to be executed sooner.
 
->  The question is can we write an
-> easy generic test for it,
+=46rom my observation it looked like do_package_qa is still executed
+"late", but immediately followed by rm_work thanks to its high priority
+(so it's executed as soon as it can, but it's still late in progress of
+the whole build).
 
-It's a bit more complicated than the existing tests, but I think it is
-doable.
+Another interesting test from today was to run:
+# rm -rf tmp-glibc/*
+# bitbake -n zlib | tee log.zlib.rm_work
+# cd oe-core; git revert -1 936179754c8d0f98e1196ddc6796fdfd72c0c3b4; cd ..
+# rm -rf tmp-glibc/*
+# bitbake -n zlib | tee log.zlib.rm_work.revert
 
-> and also clearly phrase the criteria in the
-> list of compliance questions with a binary yes/no answer?
+and it shows interesting difference that many rm_work tasks aren't
+executed at all:
 
-Does the BSP layer only modify machine-specific packages and only when
-the MACHINE(s) defined by the BSP layer are selected? [yes/no]
+# grep rm_work log.zlib.rm_work* | grep zlib_
+log.zlib.rm_work:NOTE: Running task 526 of 527 (/OE/build/oe-core/openembed=
+ded-core/meta/recipes-core/zlib/zlib_1.2.8.bb:do_rm_work)
+log.zlib.rm_work.revert:NOTE: Running task 128 of 721 (virtual:native:/OE/b=
+uild/oe-core/openembedded-core/meta/recipes-core/zlib/zlib_1.2.8.bb:do_rm_w=
+ork)
+log.zlib.rm_work.revert:NOTE: Running task 717 of 721 (/OE/build/oe-core/op=
+enembedded-core/meta/recipes-core/zlib/zlib_1.2.8.bb:do_rm_work)
+log.zlib.rm_work.revert:NOTE: Running task 721 of 721 (/OE/build/oe-core/op=
+enembedded-core/meta/recipes-core/zlib/zlib_1.2.8.bb:do_rm_work_all)
 
-The "only when" part is covered by the existing tests (because they keep
-MACHINE constant). The missing part is comparing different MACHINE
-sstamps.
+# grep rm_work log.zlib.rm_work* | grep gcc
+log.zlib.rm_work.revert:NOTE: Running task 2 of 721 (/OE/build/oe-core/open=
+embedded-core/meta/recipes-devtools/gcc/gcc-source_6.3.bb:do_rm_work)
+log.zlib.rm_work.revert:NOTE: Running task 240 of 721 (/OE/build/oe-core/op=
+enembedded-core/meta/recipes-devtools/gcc/gcc-cross-initial_6.3.bb:do_rm_wo=
+rk)
+log.zlib.rm_work.revert:NOTE: Running task 250 of 721 (/OE/build/oe-core/op=
+enembedded-core/meta/recipes-devtools/gcc/libgcc-initial_6.3.bb:do_rm_work)
+log.zlib.rm_work.revert:NOTE: Running task 634 of 721 (/OE/build/oe-core/op=
+enembedded-core/meta/recipes-devtools/gcc/gcc-cross_6.3.bb:do_rm_work)
+log.zlib.rm_work.revert:NOTE: Running task 674 of 721 (/OE/build/oe-core/op=
+enembedded-core/meta/recipes-devtools/gcc/libgcc_6.3.bb:do_rm_work)
+log.zlib.rm_work.revert:NOTE: Running task 678 of 721 (/OE/build/oe-core/op=
+enembedded-core/meta/recipes-devtools/gcc/gcc-runtime_6.3.bb:do_rm_work)
 
--- 
-Best Regards, Patrick Ohly
+# grep -c rm_work log.zlib.rm_work*
+log.zlib.rm_work:1
+log.zlib.rm_work.revert:63
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+I'll check if it's something in my setup or if this happens everywhere now.
 
+> > So I've tried very naive way to find out if the rm_work tasks are
+> > executed sooner or not just by comparing Task IDs in build of the same
+> > image built from scratch (without sstate) with Dizzy, Morty and
+> > current master.
+>=20
+> Interesting, I hadn't thought of testing it like that.
+>=20
+> > If we dismiss the strange case in rm_work.tasks.master.qemux86 then it
+> > seems to perform at least as good as old completion BB_SCHEDULER.
+> >=20
+> >=20
+> > But I wanted to ask if there is something else we can do or you were
+> > planing to do, because IIRC you shared some longer analysis of what
+> > could be improved here and I'm not sure if you managed to implement it
+> > all.
+>=20
+> The other ideas that I mentioned at some point didn't pan out as
+> intended. In particular allowing do_rm_work tasks to run when the normal
+> task limit was reached didn't have a big effect and the implementation
+> was a hack, so I dropped that.
+>=20
+> > It feels to me that rm_work has high priority, but still it's
+> > "blocked" by e.g. do_package_qa which gets executed late and then
+> > immediately followed by rm_work.
+>=20
+> That should be easy to change, perhaps like this (untested):
+>=20
+> RM_WORK_TASKS_WHITELIST =3D "do_build do_package_qa"
+>=20
+>         deps =3D set(bb.build.preceedtask('do_build', True, d))
+> 	whitelist =3D d.getVar('RM_WORK_TASKS_WHITELIST').split()
+>         deps.difference_update(whitelist)
+>         # In practice, addtask() here merely updates the dependencies.
+>         bb.build.addtask('do_rm_work', 'do_build', ' '.join(deps), d)
+>=20
+>=20
+> --=20
+> Best Regards, Patrick Ohly
+>=20
+> The content of this message is my personal opinion only and although
+> I am an employee of Intel, the statements I make here in no way
+> represent Intel's position on the issue, nor am I authorized to speak
+> on behalf of Intel on this matter.
+>=20
+>=20
+>=20
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--SUOF0GtieIMvvwua
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWLbuSgAKCRA3VSO3ZXaA
+HI9oAJ4qlBx3pw33CrjSsudZSX7hgPqZugCgnvGsnQKnqINI4JY5rDjyIQUzP8o=
+=9RYz
+-----END PGP SIGNATURE-----
+
+--SUOF0GtieIMvvwua--
