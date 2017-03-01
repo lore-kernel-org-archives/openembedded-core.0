@@ -1,56 +1,46 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 4455F77516
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Mar 2017 18:47:27 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id g10so6653219wrg.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Mar 2017 10:47:29 -0800 (PST)
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id C9766719AF;
+	Wed,  1 Mar 2017 19:55:50 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id v186so119071695wmd.0;
+	Wed, 01 Mar 2017 11:55:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=8THUc0ivLSyLNqZSxxCr9Ij48AV/GHttUpPl0tLaolY=;
-	b=IfzhzGjQAudJb/M0itjiAO/1SAw/1bI5IYxa4mWVOljlra/gN5GbkksAGBWm+1TrfK
-	9hHUTmNQAIfifPcdFudovHEgjuLI8jViw4H/5enUNNQYRkh0JUyQVhQxH73eN936lbau
-	uV4rh14DnHLZlhIutJa6Wy7g7194+O/o0Gj9XhnK4+6Mooy/oDAP87U/I5jpVJdRpWPy
-	TGh7x97U10J7S2U4DuxbpRo50DO+3S7LqIAwdvSdwpZgA/jCF1KNDQ6Id4PAR4DkeJ0d
-	3ZAfjDJNPpVVyGISHt2M6Y2hPKVFuqXTWVjMHLFIe2TIjMGfJAbC9fFS610EP1O2Z/yX
-	FQuQ==
+	h=from:date:to:subject:message-id:mime-version:content-disposition
+	:user-agent; bh=VgVu5UiYLzq8Pf0ND4n791qgLBaOr4mqW6qr+IDpX4E=;
+	b=Ikxy3SraLszXISsTu1erJcHSTZ+nB0HGr4EUVxaKWDKYoUfxua4o3DM353wcO1sy1W
+	Ea0fV/eh4/yaE3qogFhm2NyRTxPzCr4tMq5DQDVYFsq4hQsI/NCKEizv8zsevpWjuECG
+	XbIyA7py0jnXuO3VrsJpij4l+zwbzCshdm+Hlg+oC1IxTXXmdXY+9xaxds9/toT95Bbq
+	S0n6+CAJFxleNr7shDUstGt4lyxfkkXWCI8vquUIze5x26/Hovb6FH6iVoSF/ae+/Tf0
+	bAuJv+HDsGq4bCJZKGzeiu1anKmE9UXOfgt4VFG8lji66+u/IrpLo7qaBrIOxZkGpgex
+	368w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=8THUc0ivLSyLNqZSxxCr9Ij48AV/GHttUpPl0tLaolY=;
-	b=jYRenhRNyzd3E0ixiW7Co9HHAhNdOYmljf9gSiJYWJQE7cTAVZvGcjyF3rqIf2vQ2g
-	+tw8rh4DlfKV3NIbzEmYfKLkUov8LM/JEPC938HaiVOh/9rbWkP7ijuOIFA8+HXhTr7A
-	QJNkYFy1ExvXFsNKTuNdfKKcXNcjqwv2p+ag40JRCQadce0s2M1S1quzru5h8tRfOJY3
-	xvR3dZvw8xxfgJzxTPBDFFDpNc7nZnQrTZjotosstz66dDVVuUuzkf+ZiSJAoEkuTa3g
-	KzhiRIKja1+uIvCQTUVZ7TcETrQ/IWoBDDB0ehe3J7SAZ8sl4c4kM0mSnUBRetRqFlxM
-	90fA==
-X-Gm-Message-State: AMke39lNs3w6vC5VDP6C1hHNzMKinI1zqaoB9BobaSmjYdMq2z4+Xsiio5L+pJldeCeztg==
-X-Received: by 10.223.161.213 with SMTP id v21mr8063838wrv.144.1488394048195; 
-	Wed, 01 Mar 2017 10:47:28 -0800 (PST)
-Received: from localhost ([217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id 65sm7684877wri.53.2017.03.01.10.47.26
+	h=x-gm-message-state:from:date:to:subject:message-id:mime-version
+	:content-disposition:user-agent;
+	bh=VgVu5UiYLzq8Pf0ND4n791qgLBaOr4mqW6qr+IDpX4E=;
+	b=poCfnNh4exFAFhvnJ/rHmLNVX1DyCm/QGyXbl749lDswG7Bi5OEdf7Y3/TsH54HTR6
+	SEw7o5SfXDlmaXoIvjDwdTc279s3k/imL2ibaXDEjBawcT+3CmrtuTa1alx8O3S+DvYd
+	hI496gJuC2iJWvwJ9F8BV2HG1qrhY2fuvMD8kww0H4+JQGsQPVTrZLPhVD+7vAC8Tb/R
+	Y5S66B54XtKFqmZ3yVPDaGsJUwX05mq0UlkxczCzITM0pZCw8W1DOGqdTyfYZi3I+gYC
+	9l6okylixwnwoHmSNZAni7wGxVbnOg8NuXuRWg66RdizmD869xwNsQ4TVIR/maXcH0nE
+	ZwPg==
+X-Gm-Message-State: AMke39nCrVQizsaLMepFp57LQdydiUcCxMkxKw4T1+pleERiBOl3hG/9JXEIiPM4ciJx2Q==
+X-Received: by 10.28.238.140 with SMTP id j12mr4805699wmi.35.1488398150654;
+	Wed, 01 Mar 2017 11:55:50 -0800 (PST)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	j39sm7843309wrj.45.2017.03.01.11.55.49
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 01 Mar 2017 10:47:26 -0800 (PST)
+	Wed, 01 Mar 2017 11:55:49 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 1 Mar 2017 19:47:27 +0100
-To: Patrick Ohly <patrick.ohly@intel.com>
-Message-ID: <20170301184727.GB3290@jama>
-References: <cover.1483696378.git.patrick.ohly@intel.com>
-	<6787329b6c24642352cd015ae22b5dfa579ca010.1483696378.git.patrick.ohly@intel.com>
-	<CA+chaQebkND=ipbVvDGAJo=o79SsucECyyNgaaMRYyiOuVqZ2g@mail.gmail.com>
-	<1487240814.13854.449.camel@intel.com> <20170301155243.GA3290@jama>
-	<1488386693.7785.172.camel@intel.com>
+Date: Wed, 1 Mar 2017 20:55:50 +0100
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	openembedded-devel <openembedded-devel@lists.openembedded.org>
+Message-ID: <20170301195550.GE3290@jama>
 MIME-Version: 1.0
-In-Reply-To: <1488386693.7785.172.camel@intel.com>
 User-Agent: Mutt/1.8.0 (2017-02-23)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] rm_work.bbclass: clean up sooner
+Subject: State of bitbake world, Failed tasks 2017-03-01
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,325 +53,203 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Mar 2017 18:47:28 -0000
-X-Groupsio-MsgNum: 94132
+X-List-Received-Date: Wed, 01 Mar 2017 19:55:56 -0000
+X-Groupsio-MsgNum: 94133
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="nVMJ2NtxeReIH9PS"
+	protocol="application/pgp-signature"; boundary="uCPdOCrL+PnN2Vxy"
 Content-Disposition: inline
 
---nVMJ2NtxeReIH9PS
+--uCPdOCrL+PnN2Vxy
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 01, 2017 at 05:44:53PM +0100, Patrick Ohly wrote:
-> On Wed, 2017-03-01 at 16:52 +0100, Martin Jansa wrote:
-> > On Thu, Feb 16, 2017 at 11:26:54AM +0100, Patrick Ohly wrote:
-> > > On Wed, 2017-02-15 at 19:32 +0100, Martin Jansa wrote:
-> > > > Are all changes necessary for this to work already in master?
-> > >=20
-> > > Yes.
-> > >=20
-> > > > Yesterday I've noticed that rm_work for some components which are
-> > > > early in the dependency (like qtbase) are executed relatively late
-> > > > (together with do_package_qa).
-> > >=20
-> > > Could do_rm_work run before do_package_qa? rm_work.bbclass doesn't kn=
-ow
-> > > that, and therefore schedules do_rm_work after do_package_qa.
-> > >=20
-> > > If yes, then adding a list of tasks that can be ignored would be
-> > > trivial. This can be a variable, so a recipe can even add their own
-> > > ones, if necessary.
-> >=20
-> > That's now what I've meant.
-> >=20
-> > I believe that rm_work needs to be executed after do_package_qa, but I
-> > don't understand the scheduler code enough (at least not yet) to say
-> > that higher priority of rm_work task also makes all the tasks rm_work
-> > depends on e.g. do_package_qa to be executed sooner.
->=20
-> I see. do_package_qa should have a high priority, but it's still blocked
-> by its dependencies. Building those dependencies only gets an indirect
-> boost from scheduling recipes that many other recipes depend on first (a
-> feature of the normal scheduler).
->=20
-> I suspect the problem with do_package_qa is similar to the problem with
-> do_build before: it depends on do_package_qa of everything a recipe
-> depends on, and thus finishing the build of those other recipes also
-> blocks finishing the current recipe. That creates very deep dependency
-> chains and thus increases the number of recipes which are "in progress"
-> at the same time.
+=3D=3D Number of issues - stats =3D=3D
+{| class=3D'wikitable'
+!|Date		     !!colspan=3D'3'|Failed tasks			    !!colspan=3D'6'|Failed depe=
+ncencies			 !!|Signatures		  !!colspan=3D'12'|QA !!Comment
+|-
+||		||qemuarm	||qemux86	||qemux86_64	||qemuarm||max||min	||qemux86||max||mi=
+n	||all 	||already-stripped	||libdir	||textrel	||build-deps	||file-rdeps	||=
+version-going-backwards	||host-user-contaminated	||installed-vs-shipped	||u=
+nknown-configure-option	||symlink-to-sysroot	||invalid-pkgconfig	||pkgname	=
+||=09
+|-
+||2017-03-01	||5	||4	||4	||N/A	||N/A	||N/A	||N/A	||N/A	||N/A	||0	||0		||0		=
+||0		||0		||0		||0		||0		||0		||0		||0		||0		||0		||=09
+|}
 
-Another (surprising for me) output from bitbake -D -D -D:
+http://www.openembedded.org/wiki/Bitbake_World_Status
 
-OE qemux86@ ~/build/oe-core $ head log.zlib.rm_work.debug3.prio.*
-=3D=3D> log.zlib.rm_work.debug3.prio.completion <=3D=3D
-DEBUG: completion priorities (most important first):
-1. ID /OE/build/oe-core/openembedded-core/meta/recipes-core/zlib/zlib_1.2.8=
-=2Ebb:do_build
-2. ID /OE/build/oe-core/openembedded-core/meta/recipes-core/zlib/zlib_1.2.8=
-=2Ebb:do_rm_work
-3. ID /OE/build/oe-core/openembedded-core/meta/recipes-core/zlib/zlib_1.2.8=
-=2Ebb:do_package_write_ipk
-4. ID /OE/build/oe-core/openembedded-core/meta/recipes-core/expat/expat_2.2=
-=2E0.bb:do_package_write_ipk
-5. ID /OE/build/oe-core/openembedded-core/meta/recipes-kernel/linux-libc-he=
-aders/linux-libc-headers_4.9.bb:do_package_write_ipk
-6. ID /OE/build/oe-core/openembedded-core/meta/recipes-devtools/libtool/lib=
-tool-cross_2.4.6.bb:do_package_write_ipk
-7. ID /OE/build/oe-core/openembedded-core/meta/recipes-devtools/make/make_4=
-=2E2.1.bb:do_package_write_ipk
-8. ID /OE/build/oe-core/openembedded-core/meta/recipes-core/gettext/gettext=
-_0.19.8.1.bb:do_package_write_ipk
-9. ID /OE/build/oe-core/openembedded-core/meta/recipes-devtools/gcc/libgcc_=
-6.3.bb:do_package_write_ipk
+=3D=3D Failed tasks 2017-03-01 =3D=3D
 
-=3D=3D> log.zlib.rm_work.debug3.prio.normal <=3D=3D
-DEBUG: original priorities (most important first):
-1. ID /OE/build/oe-core/openembedded-core/meta/recipes-devtools/quilt/quilt=
--native_0.65.bb:do_fetch
-2. ID /OE/build/oe-core/openembedded-core/meta/recipes-devtools/quilt/quilt=
--native_0.65.bb:do_unpack
-3. ID /OE/build/oe-core/openembedded-core/meta/recipes-devtools/quilt/quilt=
--native_0.65.bb:do_prepare_recipe_sysroot
-4. ID /OE/build/oe-core/openembedded-core/meta/recipes-devtools/quilt/quilt=
--native_0.65.bb:do_patch
-5. ID /OE/build/oe-core/openembedded-core/meta/recipes-devtools/quilt/quilt=
--native_0.65.bb:do_configure
-6. ID /OE/build/oe-core/openembedded-core/meta/recipes-devtools/quilt/quilt=
--native_0.65.bb:do_compile
-7. ID /OE/build/oe-core/openembedded-core/meta/recipes-devtools/quilt/quilt=
--native_0.65.bb:do_install
-8. ID /OE/build/oe-core/openembedded-core/meta/recipes-devtools/quilt/quilt=
--native_0.65.bb:do_populate_sysroot
-9. ID /OE/build/oe-core/openembedded-core/meta/recipes-extended/texinfo-dum=
-my-native/texinfo-dummy-native.bb:do_fetch
+INFO: jenkins-job.sh-1.8.18 Complete log available at http://logs.nslu2-lin=
+ux.org/buildlogs/oe/world/pyro/log.report.20170301_095420.log
 
-=46rom these 2 I would expect the later one to be completion (to finish who=
-le quilt-native before starting anything else
-except when all quilt-native tasks are blocked waiting for dependencies and=
- BB_NUMBER_THREADS allows to run
-more task).
+=3D=3D=3D common (4) =3D=3D=3D
+    * meta-openembedded/meta-oe/recipes-extended/efivar/efivar_0.30.bb:do_c=
+ompile
+    * meta-openembedded/meta-ruby/recipes-devtools/ruby/bundler_git.bb:do_c=
+ompile
+    * openembedded-core/meta/recipes-extended/parted/parted_3.2.bb:do_compi=
+le_ptest_base
+    * openembedded-core/meta/recipes-support/apr/apr_1.5.2.bb:do_compile_pt=
+est_base
 
-But I understand that this isn't the actual order of tasks as explained in =
-bitbake comment:
-        # Group tasks of the same kind before tasks of less important
-        # kinds at the head of the queue (because earlier =3D lower
-        # priority number =3D runs earlier), while preserving the
-        # ordering by recipe. If recipe foo is more important than
-        # bar, then the goal is to work on foo's do_populate_sysroot
-        # before bar's do_populate_sysroot and on the more important
-        # tasks of foo before any of the less important tasks in any
-        # other recipe (if those other recipes are more important than
-        # foo).
-        #
-        # All of this only applies when tasks are runable. Explicit
-        # dependencies still override this ordering by priority.
-        #
-        # Here's an example why this priority re-ordering helps with
-        # minimizing disk usage. Consider a recipe foo with a higher
-        # priority than bar where foo DEPENDS on bar. Then the
-        # implicit rule (from base.bbclass) is that foo's do_configure
-        # depends on bar's do_populate_sysroot. This ensures that
-        # bar's do_populate_sysroot gets done first. Normally the
-        # tasks from foo would continue to run once that is done, and
-        # bar only gets completed and cleaned up later. By ordering
-        # bar's task that depend on bar's do_populate_sysroot before foo's
-        # do_configure, that problem gets avoided.
+=3D=3D=3D common-x86 (0) =3D=3D=3D
 
-and the later one still doesn't list rm_worl task for quilt-native which is=
- the real
-one I'm interested in.
+=3D=3D=3D qemuarm (1) =3D=3D=3D
+    * meta-openembedded/meta-oe/recipes-support/usb-modeswitch/usb-modeswit=
+ch-data_20170205.bb:do_fetch
 
-When I do the same with last rm_work.bbclass change reverted I get this:
-$ head -n 12 log.zlib.rm_work.revert.debug3.prio.*
-=3D=3D> log.zlib.rm_work.revert.debug3.prio.completion <=3D=3D
-DEBUG: completion priorities (most important first):
-1. ID /OE/build/oe-core/openembedded-core/meta/recipes-core/zlib/zlib_1.2.8=
-=2Ebb:do_rm_work_all
-2. ID /OE/build/oe-core/openembedded-core/meta/recipes-support/ptest-runner=
-/ptest-runner_2.0.bb:do_rm_work
-3. ID virtual:native:/OE/build/oe-core/openembedded-core/meta/recipes-suppo=
-rt/libpcre/libpcre_8.40.bb:do_rm_work
-4. ID virtual:native:/OE/build/oe-core/openembedded-core/meta/recipes-graph=
-ics/xorg-util/util-macros_1.19.0.bb:do_rm_work
-5. ID virtual:native:/OE/build/oe-core/openembedded-core/meta/recipes-exten=
-ded/gperf/gperf_3.0.4.bb:do_rm_work
-6. ID virtual:native:/OE/build/oe-core/openembedded-core/meta/recipes-suppo=
-rt/attr/attr_2.4.47.bb:do_rm_work
-7. ID /OE/build/oe-core/openembedded-core/meta/recipes-devtools/python/pyth=
-on-native_2.7.12.bb:do_rm_work
-8. ID virtual:native:/OE/build/oe-core/openembedded-core/meta/recipes-core/=
-zlib/zlib_1.2.8.bb:do_rm_work
-9. ID /OE/build/oe-core/openembedded-core/meta/recipes-core/expat/expat_2.2=
-=2E0.bb:do_rm_work
-10. ID virtual:native:/OE/build/oe-core/openembedded-core/meta/recipes-devt=
-ools/gnu-config/gnu-config_git.bb:do_rm_work
-11. ID virtual:native:/OE/build/oe-core/openembedded-core/meta/recipes-exte=
-nded/pigz/pigz_2.3.4.bb:do_rm_work
+=3D=3D=3D qemux86 (0) =3D=3D=3D
 
-=3D=3D> log.zlib.rm_work.revert.debug3.prio.normal <=3D=3D
-DEBUG: original priorities (most important first):
-1. ID /OE/build/oe-core/openembedded-core/meta/recipes-devtools/quilt/quilt=
--native_0.65.bb:do_fetch
-2. ID /OE/build/oe-core/openembedded-core/meta/recipes-devtools/quilt/quilt=
--native_0.65.bb:do_unpack
-3. ID /OE/build/oe-core/openembedded-core/meta/recipes-devtools/quilt/quilt=
--native_0.65.bb:do_patch
-4. ID /OE/build/oe-core/openembedded-core/meta/recipes-devtools/quilt/quilt=
--native_0.65.bb:do_prepare_recipe_sysroot
-5. ID /OE/build/oe-core/openembedded-core/meta/recipes-devtools/quilt/quilt=
--native_0.65.bb:do_configure
-6. ID /OE/build/oe-core/openembedded-core/meta/recipes-devtools/quilt/quilt=
--native_0.65.bb:do_compile
-7. ID /OE/build/oe-core/openembedded-core/meta/recipes-devtools/quilt/quilt=
--native_0.65.bb:do_install
-8. ID /OE/build/oe-core/openembedded-core/meta/recipes-devtools/quilt/quilt=
--native_0.65.bb:do_populate_sysroot
-9. ID /OE/build/oe-core/openembedded-core/meta/recipes-extended/texinfo-dum=
-my-native/texinfo-dummy-native.bb:do_fetch
-10. ID virtual:native:/OE/build/oe-core/openembedded-core/meta/recipes-devt=
-ools/gnu-config/gnu-config_git.bb:do_fetch
-11. ID /OE/build/oe-core/openembedded-core/meta/recipes-extended/texinfo-du=
-mmy-native/texinfo-dummy-native.bb:do_unpack
+=3D=3D=3D qemux86_64 (0) =3D=3D=3D
 
-Here it doesn't look so good for quilt-native:rm_work, it's included in zli=
-b dependencies (thanks to the revert), but
-with "speed" scheduler it's far, while "completion" puts it early:
-log.zlib.rm_work.revert.debug3.prio.completion:40. ID /OE/build/oe-core/ope=
-nembedded-core/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_rm_work
-log.zlib.rm_work.revert.debug3.prio.completion:66. ID /OE/build/oe-core/ope=
-nembedded-core/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_build
-log.zlib.rm_work.revert.debug3.prio.completion:159. ID /OE/build/oe-core/op=
-enembedded-core/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_populat=
-e_lic
-log.zlib.rm_work.revert.debug3.prio.completion:229. ID /OE/build/oe-core/op=
-enembedded-core/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_populat=
-e_sysroot
-log.zlib.rm_work.revert.debug3.prio.completion:299. ID /OE/build/oe-core/op=
-enembedded-core/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_install
-log.zlib.rm_work.revert.debug3.prio.completion:361. ID /OE/build/oe-core/op=
-enembedded-core/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_compile
-log.zlib.rm_work.revert.debug3.prio.completion:423. ID /OE/build/oe-core/op=
-enembedded-core/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_configu=
-re
-log.zlib.rm_work.revert.debug3.prio.completion:484. ID /OE/build/oe-core/op=
-enembedded-core/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_prepare=
-_recipe_sysroot
-log.zlib.rm_work.revert.debug3.prio.completion:546. ID /OE/build/oe-core/op=
-enembedded-core/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_patch
-log.zlib.rm_work.revert.debug3.prio.completion:603. ID /OE/build/oe-core/op=
-enembedded-core/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_unpack
-log.zlib.rm_work.revert.debug3.prio.completion:660. ID /OE/build/oe-core/op=
-enembedded-core/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_fetch
+=3D=3D=3D Number of failed tasks (13) =3D=3D=3D
+{| class=3Dwikitable
+|-
+|| qemuarm 	|| 5	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/lo=
+g.world.qemuarm.20170301_000844.log/ || http://errors.yoctoproject.org/Erro=
+rs/Build/33017/
+|-
+|| qemux86 	|| 4	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/lo=
+g.world.qemux86.20170301_000850.log/ || http://errors.yoctoproject.org/Erro=
+rs/Build/33018/
+|-
+|| qemux86_64 	|| 4	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro=
+/log.world.qemux86-64.20170301_034223.log/ || http://errors.yoctoproject.or=
+g/Errors/Build/33025/
+|}
 
-log.zlib.rm_work.revert.debug3.prio.normal:1. ID /OE/build/oe-core/openembe=
-dded-core/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_fetch
-log.zlib.rm_work.revert.debug3.prio.normal:2. ID /OE/build/oe-core/openembe=
-dded-core/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_unpack
-log.zlib.rm_work.revert.debug3.prio.normal:3. ID /OE/build/oe-core/openembe=
-dded-core/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_patch
-log.zlib.rm_work.revert.debug3.prio.normal:4. ID /OE/build/oe-core/openembe=
-dded-core/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_prepare_recip=
-e_sysroot
-log.zlib.rm_work.revert.debug3.prio.normal:5. ID /OE/build/oe-core/openembe=
-dded-core/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_configure
-log.zlib.rm_work.revert.debug3.prio.normal:6. ID /OE/build/oe-core/openembe=
-dded-core/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_compile
-log.zlib.rm_work.revert.debug3.prio.normal:7. ID /OE/build/oe-core/openembe=
-dded-core/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_install
-log.zlib.rm_work.revert.debug3.prio.normal:8. ID /OE/build/oe-core/openembe=
-dded-core/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_populate_sysr=
-oot
-log.zlib.rm_work.revert.debug3.prio.normal:561. ID /OE/build/oe-core/openem=
-bedded-core/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_populate_lic
-log.zlib.rm_work.revert.debug3.prio.normal:599. ID /OE/build/oe-core/openem=
-bedded-core/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_build
-log.zlib.rm_work.revert.debug3.prio.normal:697. ID /OE/build/oe-core/openem=
-bedded-core/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_rm_work
+=3D=3D=3D PNBLACKLISTs (350) =3D=3D=3D
 
-=46rom this it looks like setting the weight of do_rm_work above do_populat=
-e_sysroot
-would work with "speed" scheduler the way I was hoping for.
+=3D=3D=3D QA issues (0) =3D=3D=3D
+{| class=3Dwikitable
+!| Count		||Issue
+|-
+||0	||already-stripped
+|-
+||0	||build-deps
+|-
+||0	||file-rdeps
+|-
+||0	||host-user-contaminated
+|-
+||0	||installed-vs-shipped
+|-
+||0	||invalid-pkgconfig
+|-
+||0	||libdir
+|-
+||0	||pkgname
+|-
+||0	||symlink-to-sysroot
+|-
+||0	||textrel
+|-
+||0	||unknown-configure-option
+|-
+||0	||version-going-backwards
+|}
 
-I'll retry the same on even smaller build and with BB_NUMBER_THREADS =3D "1=
-" so that
-it's easier to grasp what the completion scheduler really tries to do and h=
-ow it
-influences the actual order of runqueue in the end.
 
->=20
-> > Another interesting test from today was to run:
-> > # rm -rf tmp-glibc/*
-> > # bitbake -n zlib | tee log.zlib.rm_work
-> > # cd oe-core; git revert -1 936179754c8d0f98e1196ddc6796fdfd72c0c3b4; c=
-d ..
-> > # rm -rf tmp-glibc/*
-> > # bitbake -n zlib | tee log.zlib.rm_work.revert
-> >=20
-> > and it shows interesting difference that many rm_work tasks aren't
-> > executed at all:
-> >=20
-> > # grep rm_work log.zlib.rm_work* | grep zlib_
-> > log.zlib.rm_work:NOTE: Running task 526 of 527 (/OE/build/oe-core/opene=
-mbedded-core/meta/recipes-core/zlib/zlib_1.2.8.bb:do_rm_work)
-> > log.zlib.rm_work.revert:NOTE: Running task 128 of 721 (virtual:native:/=
-OE/build/oe-core/openembedded-core/meta/recipes-core/zlib/zlib_1.2.8.bb:do_=
-rm_work)
-> > log.zlib.rm_work.revert:NOTE: Running task 717 of 721 (/OE/build/oe-cor=
-e/openembedded-core/meta/recipes-core/zlib/zlib_1.2.8.bb:do_rm_work)
-> > log.zlib.rm_work.revert:NOTE: Running task 721 of 721 (/OE/build/oe-cor=
-e/openembedded-core/meta/recipes-core/zlib/zlib_1.2.8.bb:do_rm_work_all)
-> >=20
-> > # grep rm_work log.zlib.rm_work* | grep gcc
-> > log.zlib.rm_work.revert:NOTE: Running task 2 of 721 (/OE/build/oe-core/=
-openembedded-core/meta/recipes-devtools/gcc/gcc-source_6.3.bb:do_rm_work)
-> > log.zlib.rm_work.revert:NOTE: Running task 240 of 721 (/OE/build/oe-cor=
-e/openembedded-core/meta/recipes-devtools/gcc/gcc-cross-initial_6.3.bb:do_r=
-m_work)
-> > log.zlib.rm_work.revert:NOTE: Running task 250 of 721 (/OE/build/oe-cor=
-e/openembedded-core/meta/recipes-devtools/gcc/libgcc-initial_6.3.bb:do_rm_w=
-ork)
-> > log.zlib.rm_work.revert:NOTE: Running task 634 of 721 (/OE/build/oe-cor=
-e/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_6.3.bb:do_rm_work)
-> > log.zlib.rm_work.revert:NOTE: Running task 674 of 721 (/OE/build/oe-cor=
-e/openembedded-core/meta/recipes-devtools/gcc/libgcc_6.3.bb:do_rm_work)
-> > log.zlib.rm_work.revert:NOTE: Running task 678 of 721 (/OE/build/oe-cor=
-e/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_6.3.bb:do_rm_work)
-> >=20
-> > # grep -c rm_work log.zlib.rm_work*
-> > log.zlib.rm_work:1
-> > log.zlib.rm_work.revert:63
-> >=20
-> > I'll check if it's something in my setup or if this happens everywhere =
-now.
->=20
-> I'll try to double-check this myself, too.
->=20
-> --=20
-> Best Regards, Patrick Ohly
->=20
-> The content of this message is my personal opinion only and although
-> I am an employee of Intel, the statements I make here in no way
-> represent Intel's position on the issue, nor am I authorized to speak
-> on behalf of Intel on this matter.
->=20
->=20
->=20
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+=3D=3D=3D Incorrect PACKAGE_ARCH or sstate signatures (0) =3D=3D=3D
 
---nVMJ2NtxeReIH9PS
+Complete log: http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.signa=
+tures.20170301_025052.log/
+
+No issues detected
+
+=3D=3D Tested changes (not included in master yet) - bitbake =3D=3D
+latest upstream commit:=20
+5b364b0 fetch2/svn: change 'rsh' parameter to 'ssh'
+not included in master yet:=20
+ee30425 world-image: add extra target
+
+=3D=3D Tested changes (not included in master yet) - openembedded-core =3D=
+=3D
+latest upstream commit:=20
+65cfc8a libva: Find the correct wayland-scanner
+not included in master yet:=20
+e391f58 qemux86: Add identical qemux86copy variant for tests
+6d33fc3 sstate-sysroot-cruft.sh: Extend the whitelist
+0de471f recipes: Replace "cp -a" with "cp -R --no-dereference --preserve=3D=
+mode,links"
+f0f6112 buildhistory.bbclass: metadata-revs show repo parent
+ade2954 metadata-revs: provide more information
+c5e658a report-error: Allow to upload reports automatically
+63e44e5 flex: upgrade to 2.6.3
+edfb18a Revert "flex: upgrade to 2.6.3"
+3d6b996 Revert "flex: upgrade to 2.6.2"
+ce5cb55 qemu: fix build with glibc-2.25
+ea1f3b4 e2fsprogs: Fix build with glibc-2.25
+7f249b3 parted: fix build with glibc-2.25
+830df85 syslinux: fix build with glibc-2.25
+
+=3D=3D Tested changes (not included in master yet) - meta-openembedded =3D=
+=3D
+latest upstream commit:=20
+131255d nginx: update to version 1.11.10
+not included in master yet:=20
+4ab8e02 netcat-openbsd: fix implicit dependency on pkg-config
+a87fc99 inetutils: Move files only when src !=3D dst.
+f8b8c16 ebtables: Move files only when src !=3D dst.
+ec3b598 netcf_git: Check if src !=3D dst while moving files.
+d7dcb9f fuse: Remove unneeded RDEPENDS on util-linux-mount
+f66fb86 ell: Initial recipe for Embedded Linux Library
+29cb532 dnsmasq: add info for port setting
+0f1d882 dnsmasq: disable the service by default
+7fa9b8d zabbix: 2.4.7 -> 3.0.8
+769db05 devmem2: Change source URL to regain access to it
+ea14045 usb-modeswitch and usb-modeswitch-data: update to 2.5.0 and 2017020=
+5 respectively.
+36af8de syslog-ng: Run autoreconf twice to avoid problems with libtool
+7c4f312 syslog-ng: Update to 3.8.1
+54ea38d xfsprogs: update to version 4.10.0
+e851f7b efivar: unblacklist package and those that depend on it
+f9107b5 bundler: resolve build issues with RSS
+d2778df python-cmd2: update to version 0.7.0
+1faf3fb python-pyasn1: update to version 2.2.3
+9cebc38 python-pytest-runner: update to version 2.11.1
+bf4caab python-pyalsaaudio: update to version 0.8.4
+99236d8 efivar: update to 0.30 to fix readdir* issues
+
+=3D=3D Tested changes (not included in master yet) - meta-qt5 =3D=3D
+latest upstream commit:=20
+61c0250 qtbase-native: nativesdk-qtbase: remove patch that breaks mkspec se=
+tting for SDK
+not included in master yet:=20
+595e9cf qtbase: remove absolute binary paths from mkspec files
+9927aac qtbase: PACKAGECONFIG[gtk] change gtk+ -> gtk+3 in dependencies
+
+=3D=3D Tested changes (not included in master yet) - meta-browser =3D=3D
+latest upstream commit:=20
+021a954 chromium-browser: add missing dependency on gperf-native
+not included in master yet:=20
+a9dd704 chromium: disable generate_character_data for x86
+
+=3D=3D Tested changes (not included in master yet) - meta-webos-ports =3D=3D
+latest upstream commit:=20
+7c4309b packagegroup-luneos-extended: drop qtscenegraph-adaptation
+not included in master yet:=20
+
+=3D=3D Tested changes (not included in master yet) - meta-smartphone =3D=3D
+latest upstream commit:=20
+df77c54 linux-hp-tenderloin: don't use get_kernelversion_modules function a=
+nd adapt to multiple kernel image types changes
+not included in master yet:=20
+
+--uCPdOCrL+PnN2Vxy
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWLcP9wAKCRA3VSO3ZXaA
-HLPuAJ9pa1SjkpzNhQ2CmzT3ZQCWfxFnlACfQbvJFVTTOesR1aTcKlsDDeU3O5Y=
-=Ugpy
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWLcnRQAKCRA3VSO3ZXaA
+HG7OAKCw+bhD9ZF5VsHrrpUffFDbwBPlGgCeLEpDp6pai+ng939kdmHuxpU9TAw=
+=6w98
 -----END PGP SIGNATURE-----
 
---nVMJ2NtxeReIH9PS--
+--uCPdOCrL+PnN2Vxy--
