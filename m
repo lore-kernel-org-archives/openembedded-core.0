@@ -1,20 +1,21 @@
-Return-Path: <amarnath.valluri@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 8738571CAF
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 631BD72F50
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Mar 2017 09:44:41 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga105.jf.intel.com with ESMTP; 01 Mar 2017 01:44:42 -0800
+	Wed,  1 Mar 2017 11:08:23 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	01 Mar 2017 03:08:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,224,1484035200"; d="scan'208";a="829664198"
-Received: from avallurigigabyte.fi.intel.com ([10.237.72.170])
-	by FMSMGA003.fm.intel.com with ESMTP; 01 Mar 2017 01:44:41 -0800
-From: Amarnath Valluri <amarnath.valluri@intel.com>
+X-IronPort-AV: E=Sophos;i="5.35,225,1484035200"; d="scan'208";a="1136433824"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga002.fm.intel.com with ESMTP; 01 Mar 2017 03:08:23 -0800
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Mar 2017 11:44:45 +0200
-Message-Id: <1488361485-12847-1-git-send-email-amarnath.valluri@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH v3] firmware: use ${nonarch_base_libdir} for firmware installation.
+Date: Wed,  1 Mar 2017 13:07:22 +0200
+Message-Id: <20170301110722.10260-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] libgpg-error: correctly configure on mips64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,353 +28,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Mar 2017 09:44:41 -0000
+X-List-Received-Date: Wed, 01 Mar 2017 11:08:24 -0000
 
-Replace hardcoded '/lib' in kernel firmware installation path with
-${nonarch_base_libdir}.
+This fixes the long-standing error:
 
-Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
+../../libgpg-error-1.26/src/posix-lock.c:137: get_lock_object: Assertion `!"sizeof lock obj"' failed.
+
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../linux-firmware/linux-firmware_git.bb           | 168 ++++++++++-----------
- 1 file changed, 84 insertions(+), 84 deletions(-)
+ meta/recipes-gnome/gcr/gcr_3.20.0.bb                   | 4 ----
+ meta/recipes-gnome/libsecret/libsecret_0.18.5.bb       | 5 -----
+ meta/recipes-sato/webkit/webkitgtk_2.14.5.bb           | 5 -----
+ meta/recipes-support/libgpg-error/libgpg-error_1.26.bb | 2 ++
+ 4 files changed, 2 insertions(+), 14 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 5547e16..5b5a7a4 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -195,27 +195,27 @@ do_compile() {
+diff --git a/meta/recipes-gnome/gcr/gcr_3.20.0.bb b/meta/recipes-gnome/gcr/gcr_3.20.0.bb
+index 20889021a57..f31abced02e 100644
+--- a/meta/recipes-gnome/gcr/gcr_3.20.0.bb
++++ b/meta/recipes-gnome/gcr/gcr_3.20.0.bb
+@@ -36,7 +36,3 @@ ARM_INSTRUCTION_SET = "arm"
+ #
+ # This will be investigated later.
+ EXTRA_OECONF_append_x86-64 = " --disable-introspection --disable-gtk-doc"
+-
+-# Gcr-3.broken: poky/build-mips64/tmp/work/mips64-poky-linux/libgpg-error/1.19-r0/libgpg-error-1.19/src/posix-lock.c:119: get_lock_object: Assertion `!"sizeof lock obj"' failed.
+-# qemu: uncaught target signal 6 (Aborted) - core dumped
+-EXTRA_OECONF_append_mips64 = " --disable-introspection --disable-gtk-doc"
+diff --git a/meta/recipes-gnome/libsecret/libsecret_0.18.5.bb b/meta/recipes-gnome/libsecret/libsecret_0.18.5.bb
+index 77b9fd5be50..2b917ec517b 100644
+--- a/meta/recipes-gnome/libsecret/libsecret_0.18.5.bb
++++ b/meta/recipes-gnome/libsecret/libsecret_0.18.5.bb
+@@ -18,8 +18,3 @@ ARM_INSTRUCTION_SET = "arm"
+ do_configure_prepend() {
+     rm -f ${S}/build/m4/vapigen.m4
  }
+-
+-# Secret-1: poky/build-mips64/tmp/work/mips64-poky-linux/libgpg-error/1.19-r0/libgpg-error-1.19/src/posix-lock.c:119: get_lock_object: Assertion `!"sizeof lock obj"' failed.
+-# qemu: uncaught target signal 6 (Aborted) - core dumped
+-EXTRA_OECONF_append_mips64 = " --disable-introspection --disable-gtk-doc"
+-
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.14.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.14.5.bb
+index 5fb07da26d9..1eb5b0b6e1d 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.14.5.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.14.5.bb
+@@ -111,8 +111,3 @@ ARM_INSTRUCTION_SET_armv6 = "arm"
+ ARM_INSTRUCTION_SET_armv7a = "thumb"
+ ARM_INSTRUCTION_SET_armv7r = "thumb"
+ ARM_INSTRUCTION_SET_armv7ve = "thumb"
+-
+-# WebKit2-4.0: ../../libgpg-error-1.21/src/posix-lock.c:119: get_lock_object: Assertion `!"sizeof lock obj"' failed.
+-# qemu: uncaught target signal 6 (Aborted) - core dumped
+-EXTRA_OECMAKE_append_mipsarchn32 = " -DENABLE_INTROSPECTION=OFF -DENABLE_GTKDOC=OFF"
+-EXTRA_OECMAKE_append_mipsarchn64 = " -DENABLE_INTROSPECTION=OFF -DENABLE_GTKDOC=OFF"
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.26.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.26.bb
+index 87c4f5185b4..b9e3b0065ce 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error_1.26.bb
++++ b/meta/recipes-support/libgpg-error/libgpg-error_1.26.bb
+@@ -18,6 +18,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
  
- do_install() {
--	install -d  ${D}/lib/firmware/
--	cp -r * ${D}/lib/firmware/
-+	install -d  ${D}${nonarch_base_libdir}/firmware/
-+	cp -r * ${D}${nonarch_base_libdir}/firmware/
+ SRC_URI[md5sum] = "97456709dbbcbb69354317ffe3e347cd"
+ SRC_URI[sha256sum] = "4c4bcbc90116932e3acd37b37812d8653b1b189c1904985898e860af818aee69"
++PR = "r1"
  
- 	# Avoid Makefile to be deployed
--	rm ${D}/lib/firmware/Makefile
-+	rm ${D}${nonarch_base_libdir}/firmware/Makefile
+ BINCONFIG = "${bindir}/gpg-error-config"
  
- 	# Remove unbuild firmware which needs cmake and bash
--	rm ${D}/lib/firmware/carl9170fw -rf
-+	rm ${D}${nonarch_base_libdir}/firmware/carl9170fw -rf
- 
- 	# Remove pointless bash script
--	rm ${D}/lib/firmware/configure
-+	rm ${D}${nonarch_base_libdir}/firmware/configure
- 
- 	# Libertas sd8686
--	ln -sf libertas/sd8686_v9.bin ${D}/lib/firmware/sd8686.bin
--	ln -sf libertas/sd8686_v9_helper.bin ${D}/lib/firmware/sd8686_helper.bin
-+	ln -sf libertas/sd8686_v9.bin ${D}${nonarch_base_libdir}/firmware/sd8686.bin
-+	ln -sf libertas/sd8686_v9_helper.bin ${D}${nonarch_base_libdir}/firmware/sd8686_helper.bin
- 
- 	# fixup wl12xx location, after 2.6.37 the kernel searches a different location for it
--	( cd ${D}/lib/firmware ; ln -sf ti-connectivity/* . )
-+	( cd ${D}${nonarch_base_libdir}/firmware ; ln -sf ti-connectivity/* . )
- 
-         # Copy the iwlwifi ucode
--        cp ${WORKDIR}/iwlwifi-8000C-19.ucode ${D}/lib/firmware/
-+        cp ${WORKDIR}/iwlwifi-8000C-19.ucode ${D}${nonarch_base_libdir}/firmware/
- }
- 
- 
-@@ -252,23 +252,23 @@ LICENSE_${PN}-ath6k = "Firmware-atheros_firmware"
- LICENSE_${PN}-ath9k = "Firmware-atheros_firmware"
- LICENSE_${PN}-atheros-license = "Firmware-atheros_firmware"
- 
--FILES_${PN}-atheros-license = "/lib/firmware/LICENCE.atheros_firmware"
-+FILES_${PN}-atheros-license = "${nonarch_base_libdir}/firmware/LICENCE.atheros_firmware"
- FILES_${PN}-ar9170 = " \
--  /lib/firmware/ar9170*.fw \
-+  ${nonarch_base_libdir}/firmware/ar9170*.fw \
- "
- FILES_${PN}-carl9170 = " \
--  /lib/firmware/carl9170*.fw \
-+  ${nonarch_base_libdir}/firmware/carl9170*.fw \
- "
- FILES_${PN}-ath6k = " \
--  /lib/firmware/ath6k \
-+  ${nonarch_base_libdir}/firmware/ath6k \
- "
- FILES_${PN}-ath9k = " \
--  /lib/firmware/ar9271.fw \
--  /lib/firmware/ar7010*.fw \
--  /lib/firmware/htc_9271.fw \
--  /lib/firmware/htc_7010.fw \
--  /lib/firmware/ath9k_htc/htc_7010-1.4.0.fw \
--  /lib/firmware/ath9k_htc/htc_9271-1.4.0.fw \
-+  ${nonarch_base_libdir}/firmware/ar9271.fw \
-+  ${nonarch_base_libdir}/firmware/ar7010*.fw \
-+  ${nonarch_base_libdir}/firmware/htc_9271.fw \
-+  ${nonarch_base_libdir}/firmware/htc_7010.fw \
-+  ${nonarch_base_libdir}/firmware/ath9k_htc/htc_7010-1.4.0.fw \
-+  ${nonarch_base_libdir}/firmware/ath9k_htc/htc_9271-1.4.0.fw \
- "
- 
- RDEPENDS_${PN}-ar9170 += "${PN}-atheros-license"
-@@ -282,14 +282,14 @@ LICENSE_${PN}-ar3k-license = "Firmware-qualcommAthos_ar3k"
- LICENSE_${PN}-ath10k = "Firmware-qualcommAthos_ath10k"
- LICENSE_${PN}-ath10k-license = "Firmware-qualcommAthos_ath10k"
- 
--FILES_${PN}-ar3k-license = "/lib/firmware/LICENSE.QualcommAtheros_ar3k"
-+FILES_${PN}-ar3k-license = "${nonarch_base_libdir}/firmware/LICENSE.QualcommAtheros_ar3k"
- FILES_${PN}-ar3k = " \
--  /lib/firmware/ar3k \
-+  ${nonarch_base_libdir}/firmware/ar3k \
- "
- 
--FILES_${PN}-ath10k-license = "/lib/firmware/LICENSE.QualcommAtheros_ath10k"
-+FILES_${PN}-ath10k-license = "${nonarch_base_libdir}/firmware/LICENSE.QualcommAtheros_ath10k"
- FILES_${PN}-ath10k = " \
--  /lib/firmware/ath10k \
-+  ${nonarch_base_libdir}/firmware/ath10k \
- "
- 
- RDEPENDS_${PN}-ar3k += "${PN}-ar3k-license"
-@@ -299,9 +299,9 @@ RDEPENDS_${PN}-ath10k += "${PN}-ath10k-license"
- LICENSE_${PN}-ralink = "Firmware-ralink-firmware"
- LICENSE_${PN}-ralink-license = "Firmware-ralink-firmware"
- 
--FILES_${PN}-ralink-license = "/lib/firmware/LICENCE.ralink-firmware.txt"
-+FILES_${PN}-ralink-license = "${nonarch_base_libdir}/firmware/LICENCE.ralink-firmware.txt"
- FILES_${PN}-ralink = " \
--  /lib/firmware/rt*.bin \
-+  ${nonarch_base_libdir}/firmware/rt*.bin \
- "
- 
- RDEPENDS_${PN}-ralink += "${PN}-ralink-license"
-@@ -310,9 +310,9 @@ RDEPENDS_${PN}-ralink += "${PN}-ralink-license"
- LICENSE_${PN}-radeon = "Firmware-radeon"
- LICENSE_${PN}-radeon-license = "Firmware-radeon"
- 
--FILES_${PN}-radeon-license = "/lib/firmware/LICENSE.radeon"
-+FILES_${PN}-radeon-license = "${nonarch_base_libdir}/firmware/LICENSE.radeon"
- FILES_${PN}-radeon = " \
--  /lib/firmware/radeon \
-+  ${nonarch_base_libdir}/firmware/radeon \
- "
- 
- RDEPENDS_${PN}-radeon += "${PN}-radeon-license"
-@@ -327,20 +327,20 @@ LICENSE_${PN}-sd8887 = "Firmware-Marvell"
- LICENSE_${PN}-sd8897 = "Firmware-Marvell"
- LICENSE_${PN}-marvell-license = "Firmware-Marvell"
- 
--FILES_${PN}-marvell-license = "/lib/firmware/LICENCE.Marvell"
-+FILES_${PN}-marvell-license = "${nonarch_base_libdir}/firmware/LICENCE.Marvell"
- FILES_${PN}-sd8686 = " \
--  /lib/firmware/libertas/sd8686_v9* \
--  /lib/firmware/sd8686* \
-+  ${nonarch_base_libdir}/firmware/libertas/sd8686_v9* \
-+  ${nonarch_base_libdir}/firmware/sd8686* \
- "
- FILES_${PN}-sd8688 = " \
--  /lib/firmware/libertas/sd8688* \
--  /lib/firmware/mrvl/sd8688* \
-+  ${nonarch_base_libdir}/firmware/libertas/sd8688* \
-+  ${nonarch_base_libdir}/firmware/mrvl/sd8688* \
- "
- FILES_${PN}-sd8787 = " \
--  /lib/firmware/mrvl/sd8787_uapsta.bin \
-+  ${nonarch_base_libdir}/firmware/mrvl/sd8787_uapsta.bin \
- "
- FILES_${PN}-sd8797 = " \
--  /lib/firmware/mrvl/sd8797_uapsta.bin \
-+  ${nonarch_base_libdir}/firmware/mrvl/sd8797_uapsta.bin \
- "
- FILES_${PN}-sd8801 = " \
-   /lib/firmware/mrvl/sd8801_uapsta.bin \
-@@ -370,25 +370,25 @@ LICENSE_${PN}-rtl8821 = "Firmware-rtlwifi_firmware"
- LICENSE_${PN}-rtl-license = "Firmware-rtlwifi_firmware"
- 
- FILES_${PN}-rtl-license = " \
--  /lib/firmware/LICENCE.rtlwifi_firmware.txt \
-+  ${nonarch_base_libdir}/firmware/LICENCE.rtlwifi_firmware.txt \
- "
- FILES_${PN}-rtl8188 = " \
--  /lib/firmware/rtlwifi/rtl8188*.bin \
-+  ${nonarch_base_libdir}/firmware/rtlwifi/rtl8188*.bin \
- "
- FILES_${PN}-rtl8192cu = " \
--  /lib/firmware/rtlwifi/rtl8192cufw*.bin \
-+  ${nonarch_base_libdir}/firmware/rtlwifi/rtl8192cufw*.bin \
- "
- FILES_${PN}-rtl8192ce = " \
--  /lib/firmware/rtlwifi/rtl8192cfw*.bin \
-+  ${nonarch_base_libdir}/firmware/rtlwifi/rtl8192cfw*.bin \
- "
- FILES_${PN}-rtl8192su = " \
--  /lib/firmware/rtlwifi/rtl8712u.bin \
-+  ${nonarch_base_libdir}/firmware/rtlwifi/rtl8712u.bin \
- "
- FILES_${PN}-rtl8723 = " \
--  /lib/firmware/rtlwifi/rtl8723*.bin \
-+  ${nonarch_base_libdir}/firmware/rtlwifi/rtl8723*.bin \
- "
- FILES_${PN}-rtl8821 = " \
--  /lib/firmware/rtlwifi/rtl8821*.bin \
-+  ${nonarch_base_libdir}/firmware/rtlwifi/rtl8821*.bin \
- "
- 
- RDEPENDS_${PN}-rtl8188 += "${PN}-rtl-license"
-@@ -403,16 +403,16 @@ LICENSE_${PN}-wl12xx = "Firmware-ti-connectivity"
- LICENSE_${PN}-wl18xx = "Firmware-ti-connectivity"
- LICENSE_${PN}-ti-connectivity-license = "Firmware-ti-connectivity"
- 
--FILES_${PN}-ti-connectivity-license = "/lib/firmware/LICENCE.ti-connectivity"
-+FILES_${PN}-ti-connectivity-license = "${nonarch_base_libdir}/firmware/LICENCE.ti-connectivity"
- FILES_${PN}-wl12xx = " \
--  /lib/firmware/wl12* \
--  /lib/firmware/TI* \
--  /lib/firmware/ti-connectivity \
-+  ${nonarch_base_libdir}/firmware/wl12* \
-+  ${nonarch_base_libdir}/firmware/TI* \
-+  ${nonarch_base_libdir}/firmware/ti-connectivity \
- "
- FILES_${PN}-wl18xx = " \
--  /lib/firmware/wl18* \
--  /lib/firmware/TI* \
--  /lib/firmware/ti-connectivity \
-+  ${nonarch_base_libdir}/firmware/wl18* \
-+  ${nonarch_base_libdir}/firmware/TI* \
-+  ${nonarch_base_libdir}/firmware/ti-connectivity \
- "
- 
- RDEPENDS_${PN}-wl12xx = "${PN}-ti-connectivity-license"
-@@ -422,9 +422,9 @@ RDEPENDS_${PN}-wl18xx = "${PN}-ti-connectivity-license"
- LICENSE_${PN}-vt6656 = "Firmware-via_vt6656"
- LICENSE_${PN}-vt6656-license = "Firmware-via_vt6656"
- 
--FILES_${PN}-vt6656-license = "/lib/firmware/LICENCE.via_vt6656"
-+FILES_${PN}-vt6656-license = "${nonarch_base_libdir}/firmware/LICENCE.via_vt6656"
- FILES_${PN}-vt6656 = " \
--  /lib/firmware/vntwusb.fw \
-+  ${nonarch_base_libdir}/firmware/vntwusb.fw \
- "
- 
- RDEPENDS_${PN}-vt6656 = "${PN}-vt6656-license"
-@@ -441,28 +441,28 @@ LICENSE_${PN}-bcm4354 = "Firmware-broadcom_bcm43xx"
- LICENSE_${PN}-broadcom-license = "Firmware-broadcom_bcm43xx"
- 
- FILES_${PN}-broadcom-license = " \
--  /lib/firmware/LICENCE.broadcom_bcm43xx \
-+  ${nonarch_base_libdir}/firmware/LICENCE.broadcom_bcm43xx \
- "
- FILES_${PN}-bcm4329 = " \
--  /lib/firmware/brcm/brcmfmac4329-sdio.bin \
-+  ${nonarch_base_libdir}/firmware/brcm/brcmfmac4329-sdio.bin \
- "
- FILES_${PN}-bcm4330 = " \
--  /lib/firmware/brcm/brcmfmac4330-sdio.bin \
-+  ${nonarch_base_libdir}/firmware/brcm/brcmfmac4330-sdio.bin \
- "
- FILES_${PN}-bcm4334 = " \
--  /lib/firmware/brcm/brcmfmac4334-sdio.bin \
-+  ${nonarch_base_libdir}/firmware/brcm/brcmfmac4334-sdio.bin \
- "
- FILES_${PN}-bcm43340 = " \
--  /lib/firmware/brcm/brcmfmac43340-sdio.bin \
-+  ${nonarch_base_libdir}/firmware/brcm/brcmfmac43340-sdio.bin \
- "
- FILES_${PN}-bcm4339 = " \
--  /lib/firmware/brcm/brcmfmac4339-sdio.bin \
-+  ${nonarch_base_libdir}/firmware/brcm/brcmfmac4339-sdio.bin \
- "
- FILES_${PN}-bcm43430 = " \
--  /lib/firmware/brcm/brcmfmac43430-sdio.bin \
-+  ${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.bin \
- "
- FILES_${PN}-bcm4354 = " \
--  /lib/firmware/brcm/brcmfmac4354-sdio.bin \
-+  ${nonarch_base_libdir}/firmware/brcm/brcmfmac4354-sdio.bin \
- "
- 
- RDEPENDS_${PN}-bcm4329 += "${PN}-broadcom-license"
-@@ -481,8 +481,8 @@ RDEPENDS_${PN}-bcm4354 += "${PN}-broadcom-license"
- LICENSE_${PN}-bnx2-mips = "WHENCE"
- LICENSE_${PN}-whence-license = "WHENCE"
- 
--FILES_${PN}-bnx2-mips = "/lib/firmware/bnx2/bnx2-mips-09-6.2.1b.fw"
--FILES_${PN}-whence-license = "/lib/firmware/WHENCE"
-+FILES_${PN}-bnx2-mips = "${nonarch_base_libdir}/firmware/bnx2/bnx2-mips-09-6.2.1b.fw"
-+FILES_${PN}-whence-license = "${nonarch_base_libdir}/firmware/WHENCE"
- 
- RDEPENDS_${PN}-bnx2-mips += "${PN}-whence-license"
- 
-@@ -508,24 +508,24 @@ LICENSE_${PN}-iwlwifi-misc      = "Firmware-iwlwifi_firmware"
- LICENSE_${PN}-iwlwifi-license   = "Firmware-iwlwifi_firmware"
- 
- 
--FILES_${PN}-iwlwifi-license = "/lib/firmware/LICENCE.iwlwifi_firmware"
--FILES_${PN}-iwlwifi-135-6 = "/lib/firmware/iwlwifi-135-6.ucode"
--FILES_${PN}-iwlwifi-3160-7 = "/lib/firmware/iwlwifi-3160-7.ucode"
--FILES_${PN}-iwlwifi-3160-8 = "/lib/firmware/iwlwifi-3160-8.ucode"
--FILES_${PN}-iwlwifi-3160-9 = "/lib/firmware/iwlwifi-3160-9.ucode"
--FILES_${PN}-iwlwifi-6000-4 = "/lib/firmware/iwlwifi-6000-4.ucode"
--FILES_${PN}-iwlwifi-6000g2a-5 = "/lib/firmware/iwlwifi-6000g2a-5.ucode"
--FILES_${PN}-iwlwifi-6000g2a-6 = "/lib/firmware/iwlwifi-6000g2a-6.ucode"
--FILES_${PN}-iwlwifi-6000g2b-5 = "/lib/firmware/iwlwifi-6000g2b-5.ucode"
--FILES_${PN}-iwlwifi-6000g2b-6 = "/lib/firmware/iwlwifi-6000g2b-6.ucode"
--FILES_${PN}-iwlwifi-6050-4 = "/lib/firmware/iwlwifi-6050-4.ucode"
--FILES_${PN}-iwlwifi-6050-5 = "/lib/firmware/iwlwifi-6050-5.ucode"
--FILES_${PN}-iwlwifi-7260   = "/lib/firmware/iwlwifi-7260-*.ucode"
--FILES_${PN}-iwlwifi-7265   = "/lib/firmware/iwlwifi-7265-*.ucode"
--FILES_${PN}-iwlwifi-7265d   = "/lib/firmware/iwlwifi-7265D-*.ucode"
--FILES_${PN}-iwlwifi-8000c   = "/lib/firmware/iwlwifi-8000C-*.ucode"
--FILES_${PN}-iwlwifi-8265   = "/lib/firmware/iwlwifi-8265-*.ucode"
--FILES_${PN}-iwlwifi-misc   = "/lib/firmware/iwlwifi-*.ucode"
-+FILES_${PN}-iwlwifi-license = "${nonarch_base_libdir}/firmware/LICENCE.iwlwifi_firmware"
-+FILES_${PN}-iwlwifi-135-6 = "${nonarch_base_libdir}/firmware/iwlwifi-135-6.ucode"
-+FILES_${PN}-iwlwifi-3160-7 = "${nonarch_base_libdir}/firmware/iwlwifi-3160-7.ucode"
-+FILES_${PN}-iwlwifi-3160-8 = "${nonarch_base_libdir}/firmware/iwlwifi-3160-8.ucode"
-+FILES_${PN}-iwlwifi-3160-9 = "${nonarch_base_libdir}/firmware/iwlwifi-3160-9.ucode"
-+FILES_${PN}-iwlwifi-6000-4 = "${nonarch_base_libdir}/firmware/iwlwifi-6000-4.ucode"
-+FILES_${PN}-iwlwifi-6000g2a-5 = "${nonarch_base_libdir}/firmware/iwlwifi-6000g2a-5.ucode"
-+FILES_${PN}-iwlwifi-6000g2a-6 = "${nonarch_base_libdir}/firmware/iwlwifi-6000g2a-6.ucode"
-+FILES_${PN}-iwlwifi-6000g2b-5 = "${nonarch_base_libdir}/firmware/iwlwifi-6000g2b-5.ucode"
-+FILES_${PN}-iwlwifi-6000g2b-6 = "${nonarch_base_libdir}/firmware/iwlwifi-6000g2b-6.ucode"
-+FILES_${PN}-iwlwifi-6050-4 = "${nonarch_base_libdir}/firmware/iwlwifi-6050-4.ucode"
-+FILES_${PN}-iwlwifi-6050-5 = "${nonarch_base_libdir}/firmware/iwlwifi-6050-5.ucode"
-+FILES_${PN}-iwlwifi-7260   = "${nonarch_base_libdir}/firmware/iwlwifi-7260-*.ucode"
-+FILES_${PN}-iwlwifi-7265   = "${nonarch_base_libdir}/firmware/iwlwifi-7265-*.ucode"
-+FILES_${PN}-iwlwifi-7265d   = "${nonarch_base_libdir}/firmware/iwlwifi-7265D-*.ucode"
-+FILES_${PN}-iwlwifi-8000c   = "${nonarch_base_libdir}/firmware/iwlwifi-8000C-*.ucode"
-+FILES_${PN}-iwlwifi-8265   = "${nonarch_base_libdir}/firmware/iwlwifi-8265-*.ucode"
-+FILES_${PN}-iwlwifi-misc   = "${nonarch_base_libdir}/firmware/iwlwifi-*.ucode"
- 
- RDEPENDS_${PN}-iwlwifi-135-6     = "${PN}-iwlwifi-license"
- RDEPENDS_${PN}-iwlwifi-3160-7    = "${PN}-iwlwifi-license"
-@@ -564,14 +564,14 @@ RCONFLICTS_${PN}-iwlwifi-7260 = "${PN}-iwlwifi-7260-7 ${PN}-iwlwifi-7260-8 ${PN}
- 
- LICENSE_${PN}-i915       = "Firmware-i915"
- LICENSE_${PN}-i915-license = "Firmware-i915"
--FILES_${PN}-i915-license = "/lib/firmware/LICENSE.i915"
--FILES_${PN}-i915         = "/lib/firmware/i915"
-+FILES_${PN}-i915-license = "${nonarch_base_libdir}/firmware/LICENSE.i915"
-+FILES_${PN}-i915         = "${nonarch_base_libdir}/firmware/i915"
- RDEPENDS_${PN}-i915      = "${PN}-i915-license"
- 
--FILES_${PN}-adsp-sst-license      = "/lib/firmware/LICENCE.adsp_sst"
-+FILES_${PN}-adsp-sst-license      = "${nonarch_base_libdir}/firmware/LICENCE.adsp_sst"
- LICENSE_${PN}-adsp-sst            = "Firmware-adsp_sst"
- LICENSE_${PN}-adsp-sst-license    = "Firmware-adsp_sst"
--FILES_${PN}-adsp-sst              = "/lib/firmware/intel/dsp_fw*"
-+FILES_${PN}-adsp-sst              = "${nonarch_base_libdir}/firmware/intel/dsp_fw*"
- RDEPENDS_${PN}-adsp-sst           = "${PN}-adsp-sst-license"
- 
- # For other firmwares
-@@ -623,8 +623,8 @@ LICENSE_${PN} = "\
-     & WHENCE \
- "
- 
--FILES_${PN}-license += "/lib/firmware/LICEN*"
--FILES_${PN} += "/lib/firmware/*"
-+FILES_${PN}-license += "${nonarch_base_libdir}/firmware/LICEN*"
-+FILES_${PN} += "${nonarch_base_libdir}/firmware/*"
- RDEPENDS_${PN} += "${PN}-license"
- RDEPENDS_${PN} += "${PN}-whence-license"
- 
+@@ -34,6 +35,7 @@ do_compile_prepend() {
+ 	  arm)	      TUPLE=arm-unknown-linux-gnueabi ;;
+ 	  armeb)      TUPLE=arm-unknown-linux-gnueabi ;;
+ 	  i586|i686)  TUPLE=i686-pc-linux-gnu ;;
++	  mips64*)    TUPLE=mips64el-unknown-linux-gnuabi64 ;;
+ 	  mips*el)    TUPLE=mipsel-unknown-linux-gnu ;;
+ 	  mips*)      TUPLE=mips-unknown-linux-gnu ;;
+ 	  x86_64)     TUPLE=x86_64-pc-linux-gnu ;;
 -- 
-2.7.4
+2.11.0
 
 
