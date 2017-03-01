@@ -1,50 +1,50 @@
 Return-Path: <anders@chargestorm.se>
-Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
-	[209.85.215.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 445CD7752B
+Received: from mail-lf0-f50.google.com (mail-lf0-f50.google.com
+	[209.85.215.50])
+	by mail.openembedded.org (Postfix) with ESMTP id EA8167755D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Mar 2017 17:20:07 +0000 (UTC)
-Received: by mail-lf0-f48.google.com with SMTP id z127so22616826lfa.2
+	Wed,  1 Mar 2017 17:20:09 +0000 (UTC)
+Received: by mail-lf0-f50.google.com with SMTP id k202so22555114lfe.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Mar 2017 09:20:09 -0800 (PST)
+	Wed, 01 Mar 2017 09:20:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=1W2FbB6aFyM3XDiSVfC6Ucy9QPTsrJJYxVapWJQ6zJc=;
-	b=W3Lo/pyHPdMEpSsPljblP3vlpZ85xUJqz8R2FOaapIfwz7LSZKRyVUyHYO6Mfw1kf9
-	8e4N5hc0iDkxd+dlaMsNl21GitsQihwgHsumT9pMppWIzLOQRPrLi2X0oa7ouGJwcWyn
-	xp98zU9dgSjvhyQpiAW44cYZ0sPHjwRz3ATro4Q6Y6LVlha7Yv4vCSTiTMNbjWfMsNWZ
-	uXPBQDYvsfu4+VkWZ1ENrQXAg2QKXO5XkGfhopAOiP8BjIVaE7By90471B73nxuag5O5
-	NJxFzFVAEE5PGU+/K7DC0tI75jpzDDV5RDbZe6AbgBLoacGuAmMqBETCAHxVKwiLEVI3
-	zcUw==
+	bh=0ZVoZDCvsEU63OBkbzsQlyebl7u0e1RlJrZy36u5fAY=;
+	b=rSKSNUpMZ53kZiTgBFKGrZ0gbVUADCxEQ5rXx5u+LYeRNpT3SEf5Fp5bB3GiKPYxHa
+	Yp/quqneEcDL3+YkJFZDcaNaR1icsDTgsY41+JPYPqBsCFPzEf6LIhuHxDWWbqiFUeYV
+	yelY2IgRVdesn8NIBXGqt8nODMAJjEbRop5UJAF0qK/+19/ybJ5cDJFBeKSBNomERCrB
+	Q2em108mpoZOYSGM/a6QR86RO3ScRBXun1e+3wcbbomMuvsx9G6+WQ4X/dIlcqhekuPq
+	5geVbV7OBW9E9V9WFvSV7gCN0v4TcLm151olzZlqAXc/3jHEZXVRnC00cQmJn+bJMTVn
+	1EFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=1W2FbB6aFyM3XDiSVfC6Ucy9QPTsrJJYxVapWJQ6zJc=;
-	b=ufBG0KyFI7o+mS0XL4GRsqWTpJ6Xc9a+UZyBzlSCoxfzAfCTE3YbE4NhpKTx4lzuYm
-	wOhFAhwL07zU7Ynf5ueSrJKbAXWVjaQp3Ixc8E49/GGpW1nyOYVhYmYYYxaCIR8LF2Wm
-	Y0vvSFxKQDHJKMZgKxDQviwx/h6qvxkhAQHFluJaB64EyLNdMvSwJAcRqwoLMHcE9peU
-	FgaW7n6dk0ne/LPr82J4DfjvoO5P9sxqhBeQZwJgznTz7/echg0NhARXUQMqHKqJKVrA
-	tgdAFuuEIJSNzlMw8/BrCEj/ClzD7lsCUOLV5EMakLCgclIsHm8SXDmUV9TIvk4sh6dc
-	wO3Q==
-X-Gm-Message-State: AMke39kxixr/6i367m9+qW1Pt2dcVUq9GuGMDqjRoG430nB21jAyyCSXbbCb5+MFGslmoA==
-X-Received: by 10.46.33.158 with SMTP id h30mr3291404lji.53.1488388808934;
-	Wed, 01 Mar 2017 09:20:08 -0800 (PST)
+	bh=0ZVoZDCvsEU63OBkbzsQlyebl7u0e1RlJrZy36u5fAY=;
+	b=q4Op/dpBH/XnkwcH7pVRXZAuCEtqAU+qy1ZgPuDI5vnpem0QqwNSkmHeWvG3joYo/b
+	HAdsa0fNB6bL2Pz4VcfZ96w1nz+o/N+9S7hWIxpBWNtCUX2FfC8NtsRWRa+ODZ1ps97n
+	SY56oUH02p+U/GW/EH4NhEOMAjwKlpwD2cZNecwUbk6AbbtZzwJy+kfUoD/o7Y+cqs53
+	/O7IilMXZJQ0HSkNyi5gb7jEer/5R5Z5Qe5cdAkY+Tyo54ZKgrqERCnH65YJBpZ4mAIs
+	UP2VjaAkm/oPtSVBbfbswenEyXTHQfpm+bR+iYi+cDGf9wVVVi8Jdxc5M63phnixEgXA
+	NedQ==
+X-Gm-Message-State: AMke39nlhzSiB8nqyJL7+uVc6dDe1MydIMh1vDYS7x2d6J4a4OY5HDm7ClN/JT7/40yKlg==
+X-Received: by 10.25.159.16 with SMTP id i16mr3000303lfe.54.1488388810584;
+	Wed, 01 Mar 2017 09:20:10 -0800 (PST)
 Received: from localhost (194-237-220-218.customer.telia.com.
-	[194.237.220.218])
-	by smtp.gmail.com with ESMTPSA id n4sm1201398lje.52.2017.03.01.09.20.07
+	[194.237.220.218]) by smtp.gmail.com with ESMTPSA id
+	g16sm1211147lji.62.2017.03.01.09.20.09
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 01 Mar 2017 09:20:08 -0800 (PST)
+	Wed, 01 Mar 2017 09:20:09 -0800 (PST)
 From: Anders Darander <anders@chargestorm.se>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Mar 2017 18:19:57 +0100
-Message-Id: <3e92c4d255bcaf8f0a11574ac1f1e7ca7d16af6f.1488388550.git.anders@chargestorm.se>
+Date: Wed,  1 Mar 2017 18:19:58 +0100
+Message-Id: <b1711469087d8a7d98062ebd948a7e89a5b467c4.1488388550.git.anders@chargestorm.se>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1488388550.git.anders@chargestorm.se>
 References: <cover.1488388550.git.anders@chargestorm.se>
 Cc: Anders Darander <anders@chargestorm.se>
-Subject: [PATCH 3/7] lib/oe/package.py: remove @ from package name
+Subject: [PATCH 4/7] classes/npm: allow installation of devDependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,28 +57,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Mar 2017 17:20:08 -0000
+X-List-Received-Date: Wed, 01 Mar 2017 17:20:10 -0000
 
-@ isn't allowed in package names. Angular2 packages often have
-@ in their names.
+Often, eg when using angular2, there's a need to install also
+the devDependencies.
+
+The default is to keep the old behaviour, to not install
+devDependencies.
 
 Signed-off-by: Anders Darander <anders@chargestorm.se>
 ---
- meta/lib/oe/package.py | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/npm.bbclass | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-index 7953895..0ca41aa 100644
---- a/meta/lib/oe/package.py
-+++ b/meta/lib/oe/package.py
-@@ -150,6 +150,7 @@ def npm_split_package_dirs(pkgdir):
-                         continue
-                     pkgitems.append(pathitem)
-                 pkgname = '-'.join(pkgitems).replace('_', '-')
-+                pkgname = pkgname.replace('@', '')
-                 pkgfile = os.path.join(root, dn, 'package.json')
-                 data = None
-                 if os.path.exists(pkgfile):
+diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
+index c538040..a69bedb 100644
+--- a/meta/classes/npm.bbclass
++++ b/meta/classes/npm.bbclass
+@@ -14,6 +14,7 @@ def npm_oe_arch_map(target_arch, d):
+     return target_arch
+ 
+ NPM_ARCH ?= "${@npm_oe_arch_map(d.getVar('TARGET_ARCH'), d)}"
++NPM_INSTALL_DEV = "0"
+ 
+ npm_do_compile() {
+ 	# Copy in any additionally fetched modules
+@@ -23,12 +24,20 @@ npm_do_compile() {
+ 	# changing the home directory to the working directory, the .npmrc will
+ 	# be created in this directory
+ 	export HOME=${WORKDIR}
+-	npm config set dev false
++	if [  "${NPM_INSTALL_DEV}" = "1" ]; then
++		npm config set dev true
++	else
++		npm config set dev false
++	fi
+ 	npm set cache ${WORKDIR}/npm_cache
+ 	# clear cache before every build
+ 	npm cache clear
+ 	# Install pkg into ${S} without going to the registry
+-	npm --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} --production --no-registry install
++	if [  "${NPM_INSTALL_DEV}" = "1" ]; then
++		npm --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} --no-registry install
++	else
++		npm --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} --production --no-registry install
++	fi
+ }
+ 
+ npm_do_install() {
 -- 
 2.10.2
 
