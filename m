@@ -1,34 +1,30 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C6AB6FF76
+	by mail.openembedded.org (Postfix) with ESMTP id 2DBB67750D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Mar 2017 16:01:56 +0000 (UTC)
+	Wed,  1 Mar 2017 16:02:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v21G0Mgw011799; Wed, 1 Mar 2017 16:01:51 GMT
+	v21G2oQW011989; Wed, 1 Mar 2017 16:02:50 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id HMUtRvXkIZ1Q; Wed,  1 Mar 2017 16:01:50 +0000 (GMT)
+	with LMTP id EW3qP0anqeSL; Wed,  1 Mar 2017 16:02:50 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v21G1kSt011841
+	v21G2kt4011974
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 1 Mar 2017 16:01:47 GMT
-Message-ID: <1488384106.24526.36.camel@linuxfoundation.org>
+	Wed, 1 Mar 2017 16:02:47 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1cj6iE-0004nl-M4; Wed, 01 Mar 2017 16:02:46 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Date: Wed, 01 Mar 2017 16:01:46 +0000
-In-Reply-To: <1488383463.7785.165.camel@intel.com>
-References: <1487625169-22282-1-git-send-email-anibal.limon@linux.intel.com>
-	<1488312568.7785.73.camel@intel.com>
-	<1488340816.24526.26.camel@linuxfoundation.org>
-	<1488352225.7785.83.camel@intel.com>
-	<1488381139.24526.30.camel@linuxfoundation.org>
-	<1488383463.7785.165.camel@intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2] yocto-compat-layer.py: Add script to YP Compatible Layer validation
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  1 Mar 2017 16:02:33 +0000
+Message-Id: <1488384162-18397-3-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1488384162-18397-1-git-send-email-richard.purdie@linuxfoundation.org>
+References: <1488384162-18397-1-git-send-email-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 03/12] devtool/sdk: Run build-sysroots after installing new things
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,62 +37,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Mar 2017 16:01:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 01 Mar 2017 16:02:51 -0000
 
-On Wed, 2017-03-01 at 16:51 +0100, Patrick Ohly wrote:
-> On Wed, 2017-03-01 at 15:12 +0000, Richard Purdie wrote:
-> > 
-> > On Wed, 2017-03-01 at 08:10 +0100, Patrick Ohly wrote:
-> > > 
-> > > Is the "build single distro for different machines" scenario that
-> > > I
-> > > described part of the Yocto Compliance 2.0? Should there be tests
-> > > for
-> > > it?
-> > Right now its not
-> Okay, so the goal is a bit less ambitious than I had thought. I
-> wonder
-> whether that's useful, because at least the problems Ostro and AGL
-> (at
-> least as far as I understood it from lurking on their mailing list)
-> had
-> only happened when trying to combine multiple BSP layers *and*
-> actually
-> using the different machines in the same distro.
-> 
-> > 
-> > but I'd consider it.
-> At least I'd find that useful - not sure about others ;-}
+After running sdk-install we need to ensure that the standalone sysroots are
+updated as done when the eSDK is originally built. Add such a call so this
+happens automatically and the envrionment scripts in the SDK work correctly
+after updates.
 
-I do like the idea, I'm also mindful of walking before running...
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ scripts/lib/devtool/sdk.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-> > 
-> >  The question is can we write an
-> > easy generic test for it,
-> It's a bit more complicated than the existing tests, but I think it
-> is
-> doable.
-> 
-> > 
-> > and also clearly phrase the criteria in the
-> > list of compliance questions with a binary yes/no answer?
-> Does the BSP layer only modify machine-specific packages and only
-> when
-> the MACHINE(s) defined by the BSP layer are selected? [yes/no]
-> 
-> The "only when" part is covered by the existing tests (because they
-> keep
-> MACHINE constant). The missing part is comparing different MACHINE
-> sstamps.
+diff --git a/scripts/lib/devtool/sdk.py b/scripts/lib/devtool/sdk.py
+index f629db1..e8bf0ad 100644
+--- a/scripts/lib/devtool/sdk.py
++++ b/scripts/lib/devtool/sdk.py
+@@ -306,6 +306,12 @@ def sdk_install(args, config, basepath, workspace):
+         if failed:
+             return 2
+ 
++        try:
++            exec_build_env_command(config.init_path, basepath, 'bitbake build-sysroots', watch=True)
++        except bb.process.ExecutionError as e:
++            raise DevtoolError('Failed to bitbake build-sysroots:\n%s' % (str(e)))
++
++
+ def register_commands(subparsers, context):
+     """Register devtool subcommands from the sdk plugin"""
+     if context.fixed_setup:
+-- 
+2.7.4
 
-That seems reasonable, unless the layer in question applying for
-compatibility is not a BSP layer but thats a minor detail.
-
-I'm open to more details on what the test would look like.
-
-Cheers,
-
-Richard
 
