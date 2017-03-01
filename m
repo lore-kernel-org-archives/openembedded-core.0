@@ -1,23 +1,32 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id A06EA72F6A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 4404B730A4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Mar 2017 14:35:03 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga105.fm.intel.com with ESMTP; 01 Mar 2017 06:35:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,225,1484035200"; d="scan'208";a="70405089"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 01 Mar 2017 06:35:03 -0800
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 34B856A4004;
-	Wed,  1 Mar 2017 06:35:01 -0800 (PST)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Mar 2017 16:28:31 +0200
-Message-Id: <1488378511-18969-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] sstate.bbclass: update .siginfo atime
+	Wed,  1 Mar 2017 15:12:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v21FCOGK005165; Wed, 1 Mar 2017 15:12:24 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id HcmqMz0rZfzD; Wed,  1 Mar 2017 15:12:24 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v21FCJff005153
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 1 Mar 2017 15:12:20 GMT
+Message-ID: <1488381139.24526.30.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Date: Wed, 01 Mar 2017 15:12:19 +0000
+In-Reply-To: <1488352225.7785.83.camel@intel.com>
+References: <1487625169-22282-1-git-send-email-anibal.limon@linux.intel.com>
+	<1488312568.7785.73.camel@intel.com>
+	<1488340816.24526.26.camel@linuxfoundation.org>
+	<1488352225.7785.83.camel@intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2] yocto-compat-layer.py: Add script to YP Compatible Layer validation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,38 +39,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Mar 2017 14:35:04 -0000
+X-List-Received-Date: Wed, 01 Mar 2017 15:12:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-.siginfo files are not being accessed from local or NFS-mounted
-sstate mirrors when sstate package is installed, so their atime
-is not updated. If sstate mirror is cleaned based on access time,
-they get deleted, even though they are still being used.
+On Wed, 2017-03-01 at 08:10 +0100, Patrick Ohly wrote:
+> On Wed, 2017-03-01 at 04:00 +0000, Richard Purdie wrote:
+> > 
+> > On Tue, 2017-02-28 at 21:09 +0100, Patrick Ohly wrote:
+> > > 
+> > > On Mon, 2017-02-20 at 15:12 -0600, Aníbal Limón wrote:
+> > > > 
+> > > > 
+> > > > common.test_signatures: Test executed in BSP and DISTRO layers
+> > > > to
+> > > > review
+> > > >     doesn't comes with recipes that changes the signatures.
+> > > I have a question about the goal for this test: is it meant to
+> > > detect
+> > > layers which incorrectly change the signatures of allarch recipes
+> > > or
+> > > recipes which share the same tune flags with other machines?
+> > > 
+> > > Let's take MACHINE=edison as an example.
+> > The test is not for these things. Its using the sstate signatures
+> > for
+> > something different compared to those other tests.
+> > 
+> > The idea is that if you have a set of layers and generate the
+> > signatures for world, then you add say a BSP layer but do not
+> > select
+> > that MACHINE, the signatures should remain unchanged.
+> That's useful too, of course.
+> 
+> Is the "build single distro for different machines" scenario that I
+> described part of the Yocto Compliance 2.0? Should there be tests for
+> it?
 
-Updated atime of .siginfo symlinks with 'touch -a'. This command
-dereferences symlinks pointing to the local mirror and updates
-atime of the .siginfo file on the mirror.
+Right now its not but I'd consider it. The question is can we write an
+easy generic test for it, and also clearly phrase the criteria in the
+list of compliance questions with a binary yes/no answer?
 
-[YOCTO #10857]
+Cheers,
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/classes/sstate.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 465fdcf..aa95964 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -753,6 +753,8 @@ sstate_unpack_package () {
- 	[ ! -w ${SSTATE_PKG} ] || touch --no-dereference ${SSTATE_PKG}
- 	[ ! -w ${SSTATE_PKG}.sig ] || [ ! -e ${SSTATE_PKG}.sig ] || touch --no-dereference ${SSTATE_PKG}.sig
- 	[ ! -w ${SSTATE_PKG}.siginfo ] || [ ! -e ${SSTATE_PKG}.siginfo ] || touch --no-dereference ${SSTATE_PKG}.siginfo
-+	# update .siginfo atime on local/NFS mirror
-+	[ -h ${SSTATE_PKG}.siginfo ] && touch -a ${SSTATE_PKG}.siginfo
- }
- 
- BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
--- 
-2.1.4
+Richard
 
 
