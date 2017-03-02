@@ -1,23 +1,28 @@
-Return-Path: <Zubair.Kakakhel@imgtec.com>
-Received: from mailapp01.imgtec.com (mailapp01.imgtec.com [195.59.15.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A21E775EB
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A37372FCB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Mar 2017 15:11:45 +0000 (UTC)
-Received: from hhmail02.hh.imgtec.org (unknown [10.100.10.20])
-	by Forcepoint Email with ESMTPS id EC56C91A8A6B9
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Mar 2017 15:11:42 +0000 (GMT)
-Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
-	hhmail02.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
-	id 14.3.294.0; Thu, 2 Mar 2017 15:11:45 +0000
-From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 2 Mar 2017 15:11:40 +0000
-Message-ID: <20170302151140.7465-1-Zubair.Kakakhel@imgtec.com>
-X-Mailer: git-send-email 2.10.2
-MIME-Version: 1.0
-X-Originating-IP: [192.168.154.45]
-Subject: [Patch][Morty] gmp: Disable assembly for MIPS R6
+	Thu,  2 Mar 2017 16:09:43 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v22G9huM001409; Thu, 2 Mar 2017 16:09:43 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 9wYyvUHGELDo; Thu,  2 Mar 2017 16:09:43 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v22G9bsu001406
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 2 Mar 2017 16:09:39 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1cjTIP-00028d-T5; Thu, 02 Mar 2017 16:09:37 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  2 Mar 2017 16:09:36 +0000
+Message-Id: <1488470976-8170-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] testsdk: Use auto.conf instead of local.conf to set SSTATE_MIRROR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,45 +35,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Mar 2017 15:11:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 02 Mar 2017 16:09:45 -0000
 
-gmplib has some assembly routines. These have not been optimized
-for MIPS R6 yet. Add --disable-assembly so that the C implementation
-is used.
+The local.conf file can get overritten and changed by the SDK so (ab)use
+auto.conf instead to ensure our configuration tweaks get applied.
 
-(From OE-Core rev: b0975809fe43b7506cc30a60245f5e32b275a3ec)
+Also ensure we append to any other configured SSTATE_MIRROR variable
+that already exists.
 
-Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
-
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-Pyro has slightly different mips arch options.
-Hence the subtle difference
----
- meta/recipes-support/gmp/gmp_6.1.1.bb | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ meta/classes/testsdk.bbclass | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/gmp/gmp_6.1.1.bb b/meta/recipes-support/gmp/gmp_6.1.1.bb
-index 303c3ef..c89773a 100644
---- a/meta/recipes-support/gmp/gmp_6.1.1.bb
-+++ b/meta/recipes-support/gmp/gmp_6.1.1.bb
-@@ -20,7 +20,14 @@ SRC_URI[sha256sum] = "a8109865f2893f1373b0a8ed5ff7429de8db696fc451b1036bd7bdf95b
+diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
+index 0e6949e..d566b43 100644
+--- a/meta/classes/testsdk.bbclass
++++ b/meta/classes/testsdk.bbclass
+@@ -154,8 +154,9 @@ def testsdkext_main(d):
  
- acpaths = ""
+         # Use our own SSTATE_DIR and DL_DIR so that updates to the eSDK come from our sstate cache
+         # and we don't spend hours downloading kernels for the kernel module test
+-        with open(os.path.join(sdk_dir, 'conf', 'local.conf'), 'a+') as f:
+-            f.write('SSTATE_MIRRORS = "file://.* file://%s/PATH"\n' % test_data.get('SSTATE_DIR'))
++        # Abuse auto.conf since local.conf would be overwritten by the SDK
++        with open(os.path.join(sdk_dir, 'conf', 'auto.conf'), 'a+') as f:
++            f.write('SSTATE_MIRRORS += " \\n file://.* file://%s/PATH"\n' % test_data.get('SSTATE_DIR'))
+             f.write('SOURCE_MIRROR_URL = "file://%s"\n' % test_data.get('DL_DIR'))
+             f.write('INHERIT += "own-mirrors"')
  
--EXTRA_OECONF += " --enable-cxx=detect"
-+DISABLE_ASSEMBLY ?= ""
-+
-+DISABLE_ASSEMBLY_mipsisa32r6 = "--disable-assembly"
-+DISABLE_ASSEMBLY_mipsisa32r6el = "--disable-assembly"
-+DISABLE_ASSEMBLY_mipsisa64r6 = "--disable-assembly"
-+DISABLE_ASSEMBLY_mipsisa64r6el = "--disable-assembly"
-+
-+EXTRA_OECONF += " --enable-cxx=detect ${DISABLE_ASSEMBLY}"
- 
- PACKAGES =+ "libgmpxx"
- FILES_libgmpxx = "${libdir}/libgmpxx${SOLIBS}"
 -- 
-2.10.2
+2.7.4
 
 
