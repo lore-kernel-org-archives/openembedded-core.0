@@ -1,29 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D90D775CC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f171.google.com (mail-wr0-f171.google.com
+	[209.85.128.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 66C10775CC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Mar 2017 16:21:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v22GLhbZ002983; Thu, 2 Mar 2017 16:21:43 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 81xqnE0qkcyh; Thu,  2 Mar 2017 16:21:43 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v22GLbdJ002958
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 2 Mar 2017 16:21:39 GMT
-Message-ID: <1488471697.24526.80.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <ross.burton@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 02 Mar 2017 16:21:37 +0000
-In-Reply-To: <1488471409-11114-1-git-send-email-ross.burton@intel.com>
-References: <1488471409-11114-1-git-send-email-ross.burton@intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] gcc-source: rewrite do_preconfigure() in shell
+	Thu,  2 Mar 2017 16:22:55 +0000 (UTC)
+Received: by mail-wr0-f171.google.com with SMTP id u48so56193996wrc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 02 Mar 2017 08:22:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=S157eGUZAyZ12cHIjg0u6Xjg9cGBj1JDjIykMI+NbfM=;
+	b=tMHwmAI2zO/gP1UhPVgmLAomgDLws8p5mUGO6BUzJRya59PkzlHGfW8LFj2s71QqfM
+	P4LrowNgRu5B7q6MnmcLIkVzryGKFxfUy7RtVE2g6zJRuDQnIL6pc28PIe6Q5TSBiSCz
+	oBSziOCs3t8Z5Z6XkqkLjJVPKA3lxxLwJP2BrSPwPG9MOrriLJZqoIgZfNX+Eea6gRwm
+	yvkigB2Gtac/PCF7IY+iiA5ew1FIFS0xJ3bMbG9K1HPkxR4Lkyn/aAz8NXRshHaOixFR
+	xhblEjhlDaI9GgIDHmNS8mR+340V4rZLoMGoehX2IutReKecC83UDpdpArqXihFJNi1t
+	FnTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=S157eGUZAyZ12cHIjg0u6Xjg9cGBj1JDjIykMI+NbfM=;
+	b=gGLDL08IU0Flq+lgyDUOA2unVQaeYDzlDk8KGOmBwkkyejErexivKFFan+9NcY8vGb
+	ZbqvsVqMUCCZrU1I9qyrXmx24e6omuXrqtLzyCjdXBtVuqT+NslX2kmLesYhu0MPUMvS
+	IhwP0iBJInxJ6vNH+v9REUNYo+lxUbdHjlknjAm22px+zcmwSqd87CsGKRIe7M8MgsTi
+	Bm3hdt8Lk1GwQ56Qjti/nOblIZWxSZQ234fvqM9gal3H+k6fO8UYR/8hJQhtmI50mr4P
+	LLL0+iUXUESlTo3R5OPKtyVTIaOw1tCQu029et8kBgxDnn1UgZoQiBh11E2L+e51MlMy
+	VzXg==
+X-Gm-Message-State: AMke39n/vzFeV9ttriWKbLKXSdAx0pvZfEQe43E3bs1WNoULNbLfF8mjq6/5rpROTbeyg5EK
+X-Received: by 10.223.130.214 with SMTP id 80mr13666229wrc.43.1488471776108;
+	Thu, 02 Mar 2017 08:22:56 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	q12sm27752980wmd.8.2017.03.02.08.22.55
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 02 Mar 2017 08:22:55 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  2 Mar 2017 16:22:46 +0000
+Message-Id: <1488471766-14723-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] gcc-source: add comment explaining why a function is Python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,34 +54,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Mar 2017 16:21:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 02 Mar 2017 16:22:56 -0000
 
-On Thu, 2017-03-02 at 16:16 +0000, Ross Burton wrote:
-> This function is essentially just four lines of shell, that for some
-> reason was
-> written in Python.
-> 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
-> meta/recipes-devtools/gcc/gcc-source.inc | 25 +++++++++++-----------
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/gcc/gcc-source.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-I suspect this will break in the various signature checks and cause
-rebuilds when things shouldn't.
+diff --git a/meta/recipes-devtools/gcc/gcc-source.inc b/meta/recipes-devtools/gcc/gcc-source.inc
+index fab99f2..03bab97 100644
+--- a/meta/recipes-devtools/gcc/gcc-source.inc
++++ b/meta/recipes-devtools/gcc/gcc-source.inc
+@@ -18,6 +18,8 @@ INHIBIT_DEFAULT_DEPS = "1"
+ DEPENDS = ""
+ PACKAGES = ""
+ 
++
++# This needs to be Python to avoid lots of shell variables becoming dependencies.
+ python do_preconfigure () {
+     import subprocess
+     cmd = d.expand('cd ${S} && PATH=${PATH} gnu-configize')
+-- 
+2.8.1
 
-http://git.yoctoproject.org/cgit.cgi/poky/commit/meta/?id=f07b7c0da1748afc35fbb2ead7ae10ec66c7c428
-
-hints at why:
-
-"It needs to be a python task to avoid lots of shell exported variables as dependencies."
-
-which should of course be a comment in the code.
-
-I wish we had a better way to control exported variables to shell tasks
-which would be a better fix but right now we don't.
-
-Cheers,
-
-Richard
 
