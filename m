@@ -1,48 +1,62 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f178.google.com (mail-wr0-f178.google.com
-	[209.85.128.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 32A8D775F4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Mar 2017 19:25:06 +0000 (UTC)
-Received: by mail-wr0-f178.google.com with SMTP id u48so59775842wrc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Mar 2017 11:25:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=iEj21vjhPdawdXOhx1fothkJHI7hfcQXQxamDb/5ZYY=;
-	b=OMsyDP8JF94fcWclI0ucd2KU4XB6tQyc9fQC04rlrW/a635gUADSX8V0K/7w78ehzi
-	jbxloSFEZOmR+ifnMSfG/EMUwlzb6CrcHeEhrXSgLzilLp65DfZdhru6Cx/QrBdokHci
-	E2OqWQiKSrD4uX39AKFEX391AXkVsrCuoV4209nE/JF4uKETStcEwFdtapt6xw0xg027
-	YQQxbE5P8APwbJrsJZIqqoHJcJ7d045J6J2cohnpqijRS5tfRYdi6qGJADcms1pYFyPD
-	DuE2ButrRsRom6qhULXJDzjkq4i1fj3MqVgmGStDw0cPvbjxkxcJ3n4rPXdA2B6tDa7Y
-	iR+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=iEj21vjhPdawdXOhx1fothkJHI7hfcQXQxamDb/5ZYY=;
-	b=FSRBRPlzedNOuIYZUP/QQDNvfu6bp5OL3RbzBA4eyeWod8sff8c9viecmOaD9wG2lS
-	gocRzfjXWw0Kb0oeexo8hMq7bCG+HPDoFwNt7Ofj3s1b5T2zjp2ZKY4DBJqjXc89f2bs
-	mqNzGsi0HWvHusfKCe6Qio/H3GcVNYKEY8hZvzEa41Wds/4b13PgGlnlNrdThUnp2G19
-	BRf/aX/WlJEKAgQlB0HtMaPnh0n5fJ+F7ex3GKC/KUlRux9CCXkTRDl7VsqEURvYuNt1
-	F+TLpLhzkhTDQj+3G+Sp2h9azlCJqC2lPJxl4Rg57Oal9ASNrvEsHh9IYzeKk+/vMXH2
-	XnWQ==
-X-Gm-Message-State: AMke39nYw6/o53dh8raDESjNRSsN1BTg6QPGCv39ENk6+B5eRgxd2eXp1PG920ua5OC34BUyi5sDOFsbls04YQ==
-X-Received: by 10.223.152.239 with SMTP id w102mr14332757wrb.72.1488482707781; 
-	Thu, 02 Mar 2017 11:25:07 -0800 (PST)
+Return-Path: <bevenson@melinkcorp.com>
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com
+	(mail-bl2nam02on0131.outbound.protection.outlook.com [104.47.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 58D84775CC
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu,  2 Mar 2017 19:51:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=Melink.onmicrosoft.com; s=selector1-melinkcorp-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=6F3o5fOjFjBS6ZkvcAy446Zu68Y8Rv2mUeiqX7nuFoM=;
+	b=PgvGTw08AxVp0GXJ2TJSpPzhlFSc7EqKf0F/W6IppmnHIB0jPLvXYhAtuMC3UZrWp6KfJGKPLlvx+BPA5G4BNARo7tjNuqossnXdKQcj3Z6BdCoXyy1e72pWO2aX4R44LTzUSz5XtbcjeFsLp/T1gDItSl/0vKOrIcltvMIh9KA=
+Received: from DM5PR05MB2954.namprd05.prod.outlook.com (10.168.176.142) by
+	DM5PR05MB2955.namprd05.prod.outlook.com (10.168.176.143) with Microsoft
+	SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+	15.1.947.2; Thu, 2 Mar 2017 19:51:48 +0000
+Received: from DM5PR05MB2954.namprd05.prod.outlook.com ([10.168.176.142]) by
+	DM5PR05MB2954.namprd05.prod.outlook.com ([10.168.176.142]) with mapi id
+	15.01.0947.012; Thu, 2 Mar 2017 19:51:48 +0000
+From: Bryan Evenson <bevenson@melinkcorp.com>
+To: Bryan Evenson <bevenson@melinkcorp.com>,
+	"Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>
+Thread-Topic: util-linux: Multiple alternatives issues preventing clean
+	upgrades
+Thread-Index: AdKTjPuMek9rcNcYS0K7WVvSiIPJjw==
+Date: Thu, 2 Mar 2017 19:51:47 +0000
+Message-ID: <DM5PR05MB2954172F214E73E5C531A936BB280@DM5PR05MB2954.namprd05.prod.outlook.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: melinkcorp.com; dkim=none (message not signed)
+	header.d=none;melinkcorp.com; dmarc=none action=none
+	header.from=melinkcorp.com;
+x-originating-ip: [98.100.91.242]
+x-microsoft-exchange-diagnostics: 1; DM5PR05MB2955;
+	7:YoJgrUYUdHk7YdqtQ2C+D5zyWs6Y1YjsBZNanQqxk1i968O4/gYC69TeQ9K9CTeuB9CLBzZLczTwzJtdlTh2qytmQK7N57KGL9AO3s2qj4ozWnrRtjlCY7To4fhOHjyp7fyYPXnoqCF6kI761vpRcwXa0rWZaIKxEyZ9GWzxCFwvuj8aytV+nmn4fCd6oV3hc8Rec7C6+lWVTF4JN8BBP8DppKl14Sglrsw2JJmVy/i0OifYBPRzvMn03xUjgi/zBquJeuzzzJ1vO7oEvos7SWtEJMDHY1PJTWYi5WWgSbHgT4pfGgdxAoCxfUuO0yrD0ZWWPZ8ciCpaHUK8EVApBA==
+x-forefront-antispam-report: SFV:SKI; SCL:-1SFV:NSPM;
+	SFS:(10019020)(6009001)(7916002)(39450400003)(13464003)(377454003)(38730400002)(74316002)(6246003)(53546006)(7736002)(305945005)(53936002)(966004)(122556002)(33656002)(2501003)(450100001)(229853002)(189998001)(6506006)(6306002)(55016002)(25786008)(6436002)(54356999)(50986999)(99286003)(9686003)(92566002)(77096006)(102836003)(3846002)(6116002)(8676002)(66066001)(8936002)(81166006)(2906002)(2900100001)(86362001)(5660300001)(3280700002)(3660700001)(7696004)(1720100001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:DM5PR05MB2955;
+	H:DM5PR05MB2954.namprd05.prod.outlook.com; FPR:; SPF:None;
+	MLV:sfv; LANG:en; 
+x-ms-office365-filtering-correlation-id: 78631395-c39b-4783-0d8f-08d461a5900a
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:(22001);SRVR:DM5PR05MB2955;
+x-microsoft-antispam-prvs: <DM5PR05MB2955B34E74B9DCF5B1E44A9EBB280@DM5PR05MB2955.namprd05.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(264703809997249);
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(6040375)(601004)(2401047)(8121501046)(5005006)(3002001)(10201501046)(6041248)(20161123558025)(20161123555025)(20161123560025)(20161123562025)(20161123564025)(6072148);
+	SRVR:DM5PR05MB2955; BCL:0; PCL:0; RULEID:; SRVR:DM5PR05MB2955; 
+x-forefront-prvs: 023495660C
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
 MIME-Version: 1.0
-Received: by 10.223.174.82 with HTTP; Thu, 2 Mar 2017 11:25:07 -0800 (PST)
-In-Reply-To: <CAJ86T=XYuWtMBwFPrQ6wod7s_Jm6qnpVkek1QQt9i2X8Wks10g@mail.gmail.com>
-References: <1485556151-9063-1-git-send-email-armccurdy@gmail.com>
-	<CAMKF1sp+=6Ot3q5PkQN9Cqv95EGPCK5RQ11EkvhGCrTqo9atHA@mail.gmail.com>
-	<CAJ86T=XYuWtMBwFPrQ6wod7s_Jm6qnpVkek1QQt9i2X8Wks10g@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 2 Mar 2017 11:25:07 -0800
-Message-ID: <CAJ86T=XtVqkkqZLfxechBnkzMO15MoKxuVFCY=1K9NXgrcLKog@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] replace USE_LDCONFIG with ldconfig distro feature
+X-OriginatorOrg: melinkcorp.com
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Mar 2017 19:51:47.8236 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d06db0f9-efcc-42b5-9f8c-c934a01c9bfd
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR05MB2955
+Subject: Re: util-linux: Multiple alternatives issues preventing clean upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,49 +69,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Mar 2017 19:25:07 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 02 Mar 2017 19:51:51 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 28, 2017 at 11:17 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> On Thu, Feb 2, 2017 at 5:44 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> On Fri, Jan 27, 2017 at 2:29 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>> Andre McCurdy (2):
->>>   bitbake.conf: replace USE_LDCONFIG with new "ldconfig" distro feature
->>>   systemd: check "ldconfig" distro feature when setting PACKAGECONFIG
->>>
->>>  meta/classes/package.bbclass              | 5 +----
->>>  meta/conf/bitbake.conf                    | 2 +-
->>>  meta/recipes-core/glibc/glibc-package.inc | 9 +++------
->>>  meta/recipes-core/systemd/systemd_232.bb  | 2 +-
->>>  4 files changed, 6 insertions(+), 12 deletions(-)
->>
->> This changeset looks good.
->>
->> Acked-by: Khem Raj <raj.khem@gmail.com>
->
-> Ping.
+I've made some progress but I'm afraid I still have a few more questions.
 
-Ross, thanks for rebasing.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> Of Bryan Evenson
+> Sent: Wednesday, March 01, 2017 9:22 AM
+> To: Openembedded-core@lists.openembedded.org
+> Subject: [OE-core] util-linux: Multiple alternatives issues preventing cl=
+ean
+> upgrades
+>=20
+> I am using opkg for package management, and before moving to a more
+> recent branch (currently on dizzy) I'm doing some firmware upgrade tests =
+to
+> make sure I have a clean upgrade process.  For my testing I flash an imag=
+e
+> using our current production image and then do firmware upgrade from the
+> command line by doing "opkg update; opkg upgrade --download-only; opkg
+> upgrade" and checking what errors pop up.  I am currently testing upgradi=
+ng
+> to the jethro branch and I am seeing some errors in regards to util-linux=
+.  I
+> see the following errors during upgrade:
+>=20
+> * check_data_file_clashes: Package util-linux-sulogin wants to install fi=
+le
+> /sbin/sulogin.util-linux
+>         But that file is already provided by package  * util-linux
+> update-alternatives: Error: cannot register alternative readprofile to
+> /usr/sbin/readprofile since it is already registered to /sbin/readprofile
+> * pkg_run_script: package "util-linux-readprofile" postinst script return=
+ed
+> status 1.
+> * opkg_configure: util-linux-readprofile.postinst returned 1.
+>=20
+> The first error I traced down to being related to this commit:
+> http://git.openembedded.org/openembedded-core/commit/meta/recipes-
+> core/util-linux?h=3Djethro&id=3D4bde182ed236243547929dd98763f1c09eddd097
+>=20
 
-However, as part of this:
+I added the following line to util-linux.inc:
+RREPLACES_util-linux-sulogin =3D "util-linux"
 
-PACKAGECONFIG ??= "xz \
-ldconfig \
-- ${@bb.utils.filter('DISTRO_FEATURES', 'efi pam selinux', d)} \
-+ ${@bb.utils.filter('DISTRO_FEATURES', 'efi pam selinux ldconfig', d)} \
-${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)} \
-${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'rfkill', '', d)} \
-binfmt \
+After adding this line, then opkg acknowledged that util-linux-sulogin repl=
+aced the files that were previously owned by util-linux and the error went =
+away.  Looking at the commit log on master in the util-linux directory, it =
+looks like util-linux is being split up into even more packages.  Should th=
+e proper RREPLACES be added for each package that was split out?
 
-the existing hardcoded "ldconfig" in PACKAGECONFIG should also be removed.
+> The second error I traced down to being related to this commit:
+> http://git.openembedded.org/openembedded-core/commit/meta/recipes-
+> core/util-linux?h=3Djethro&id=3D43424eb3c8bf03a2f9ec331b78dd4040dd39eacd
+>=20
 
->>>
->>> --
->>> 1.9.1
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+From the command line on the target I entered the line:
+update-alternatives --remove readprofile /sbin/readprofile
+
+After that I issued "opkg upgrade" again and the postinstall script for uti=
+l-linux-readprofile finished without issue.  I'm a little baffled why the o=
+ld link wasn't removed.  Is there something that needs to be added to the p=
+ostinstall script to remove the old link prior to adding the new one?
+
+Thanks,
+Bryan
+
+> I know this is all related to alternatives, but that's about as far as my
+> knowledge extends in this area.  Yes, everything is running okay but I'd =
+like to
+> clean up problems like this if possible.  Does anyone have any suggestion=
+s on
+> what would need to change in the util-linux recipe to clean up these erro=
+rs?
+>=20
+> Thanks,
+> Bryan
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
