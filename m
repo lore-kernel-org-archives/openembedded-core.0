@@ -1,30 +1,29 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
-	by mail.openembedded.org (Postfix) with ESMTP id 43506775F0
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D90D775CC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Mar 2017 16:18:34 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
-	via TCP (outbound) with ESMTPS id 20170302161815207_0486;
-	Thu, 02 Mar 2017 16:18:15 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [216.191.234.70] (port=15187 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1cjTQe-0005et-58; Thu, 02 Mar 2017 11:18:08 -0500
-Date: Thu, 2 Mar 2017 11:18:06 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@uk63952.mitel.com
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-In-Reply-To: <1488470976-8170-1-git-send-email-richard.purdie@linuxfoundation.org>
-Message-ID: <alpine.LFD.2.20.1703021117280.16020@uk63952.mitel.com>
-References: <1488470976-8170-1-git-send-email-richard.purdie@linuxfoundation.org>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-X-MAG-EWAV: unavailable
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] testsdk: Use auto.conf instead of local.conf to set SSTATE_MIRROR
+	Thu,  2 Mar 2017 16:21:45 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v22GLhbZ002983; Thu, 2 Mar 2017 16:21:43 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 81xqnE0qkcyh; Thu,  2 Mar 2017 16:21:43 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v22GLbdJ002958
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 2 Mar 2017 16:21:39 GMT
+Message-ID: <1488471697.24526.80.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ross Burton <ross.burton@intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 02 Mar 2017 16:21:37 +0000
+In-Reply-To: <1488471409-11114-1-git-send-email-ross.burton@intel.com>
+References: <1488471409-11114-1-git-send-email-ross.burton@intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] gcc-source: rewrite do_preconfigure() in shell
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,28 +36,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Mar 2017 16:18:35 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Thu, 02 Mar 2017 16:21:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, 2 Mar 2017, Richard Purdie wrote:
+On Thu, 2017-03-02 at 16:16 +0000, Ross Burton wrote:
+> This function is essentially just four lines of shell, that for some
+> reason was
+> written in Python.
+> 
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+> meta/recipes-devtools/gcc/gcc-source.inc | 25 +++++++++++-----------
 
-> The local.conf file can get overritten and changed by the SDK so (ab)use
-> auto.conf instead to ensure our configuration tweaks get applied.
->
-> Also ensure we append to any other configured SSTATE_MIRROR variable
-> that already exists.
-                                               ^ SSTATE_MIRRORS?
+I suspect this will break in the various signature checks and cause
+rebuilds when things shouldn't.
 
-rday
+http://git.yoctoproject.org/cgit.cgi/poky/commit/meta/?id=f07b7c0da1748afc35fbb2ead7ae10ec66c7c428
 
--- 
+hints at why:
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+"It needs to be a python task to avoid lots of shell exported variables as dependencies."
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+which should of course be a comment in the code.
 
+I wish we had a better way to control exported variables to shell tasks
+which would be a better fix but right now we don't.
+
+Cheers,
+
+Richard
 
