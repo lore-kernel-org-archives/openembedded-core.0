@@ -1,47 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id D59D077552
+Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
+	[209.85.220.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B1AC77552
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Mar 2017 20:11:51 +0000 (UTC)
-Received: by mail-qk0-f174.google.com with SMTP id m67so27504419qkf.2
+	Thu,  2 Mar 2017 20:14:04 +0000 (UTC)
+Received: by mail-qk0-f179.google.com with SMTP id s186so142477356qkb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Mar 2017 12:11:53 -0800 (PST)
+	Thu, 02 Mar 2017 12:14:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=HyPyihsBlKWfopyEpYOExyB1eV+RaJi8NGfw5Z9ggM4=;
-	b=xx+JkQGYvK8Zyx0ZgbYAZU1gyhuL6NPrw3plGqh/ArAd7QBihrfyyHE0tlfvANFqic
-	9Epjd8DaBs1XJMLX5mHleWCjgAAvv5c5N4DiBWWREpxdkD8/j6HjJZ0ikMjBXA//Sar/
-	opTHys1vT4kv+ioSiyRZtLC9CL6LhXIaPDU17CLSdfsPVU6gbJ/uXa9h+NqDUhGnnqtG
-	No4vzZnY1BBApzKGh/Za+WTA63WXH8Midx9EMaLkjtFCCajO7WaffXHDtj70FEzI8YGn
-	YxqKjg9iL/iMGsYsjNj1J2iroi/cktXONEj3+GJd3OfsUzc2g83KQwrX5wsF//+4Zijr
-	hSxg==
+	:cc; bh=wITZG3o5H7hu2QktoZRh3VSQk0UnVytb6bSdNO7Tn4o=;
+	b=evTNMny8X+5EYGUdezd1vWrUMZalMLZiRG+1XUMx7fCdzmQJxTLePG9IsBl0sxzLVB
+	CgcM0IyMh9SRwv2pZuC8+1m4X9PEM3HMi99rX7f4ENK96R1HHztcazTWPMa1s8ZTTKBI
+	HiTtJItT9BNDbUnznNQT9V87sKsCEbxntf98UZY1KHbON5cGTctTLHqepGR8kv94gh7+
+	tVqnxX7ST9Cm+qYV2Vr8FsUyPPVJ/Fr+YCRFOb+sJPzHzBY53JpU4KiMoDFeHcwligct
+	j56/n6zAGJk61JJTcXf97Q6YbeX1CCNxqfk7MoU6q4iK2MClPoHUNzDtFH8QyZTSneWB
+	Bs2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=HyPyihsBlKWfopyEpYOExyB1eV+RaJi8NGfw5Z9ggM4=;
-	b=N6pFVkj0kb8FPW7C+V3UWTcrHE8VuOMvswADPatZiqDZaAg62nJMv/1i+/059PTDz4
-	LIO4J87hrWMpYjBt+99OgMtaqqOuKamwS5w6x7E7dOxEBuz8W2ttTey++iwnAKFObLRS
-	mk0ocQRx5FqjwutPdE0+525Db1twLl6UvsKE+PSZJMgaiwtegLkWe8kb7op5DVDqFVKB
-	pJ+dyRqZJ87691Aqgl/P5VGIclVDl0EcSIpzo0zxm25UW9UnpA80MW1DRKZX0XS86soF
-	JX2MyEUmn89VeKksHNQmOvX2jEiBZBM1LN5GQCNf0iJfw+3MhohGgqPEJotTkNc022G0
-	oztg==
-X-Gm-Message-State: AMke39m4G1leFEUoMY+6ocjEh0HoJbA8VOHHexu6anZF1aRNKuty1KDz69NDc6cydI19Q4JgWutbyRFgFPV2JpQW
-X-Received: by 10.55.1.134 with SMTP id u6mr20149809qkg.36.1488485513079; Thu,
-	02 Mar 2017 12:11:53 -0800 (PST)
+	bh=wITZG3o5H7hu2QktoZRh3VSQk0UnVytb6bSdNO7Tn4o=;
+	b=RZu47nywml/45UG8lhHUPDpjmBfyLFRR96J+PpcwQ6+6JnSHKNTKMdimo1+CIvzizf
+	yppoOUqOZawAUEljiFpkmzuXJGpvfBYK2xWn55wB/94WgZdtqHXW5CSBH8rbqgVSaJln
+	Y71wgNH5OgKtoRvfUrGaUk5bIL5R90qhQ7iDimpQqetpu5kZIjVz0G8RPnDhL0ujnaLY
+	A23atTItro6cSACNdNtbtSq15YV0lYctEvSoJchTxtvu9chI9ldYmR6564jJI0VWu97g
+	Fcu53SEi0xHm5KQ/tRgMY10ksxkkJF7CsX4MERBbRoZj1AH5EOH6H3WYigWiiP5oVKfs
+	vD1Q==
+X-Gm-Message-State: AMke39kHgXvSHjBp2rn8jlNeo7LIXHE22It8wOHC6HF1wRNlRD7wrBjyUU3st+gP8KTaMS3hIN8vOrQwX/fx72yS
+X-Received: by 10.55.175.195 with SMTP id y186mr18413644qke.26.1488485646077; 
+	Thu, 02 Mar 2017 12:14:06 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Thu, 2 Mar 2017 12:11:32 -0800 (PST)
-In-Reply-To: <1487752042-19804-45-git-send-email-amarnath.valluri@intel.com>
+Received: by 10.140.103.233 with HTTP; Thu, 2 Mar 2017 12:13:45 -0800 (PST)
+In-Reply-To: <1487752042-19804-48-git-send-email-amarnath.valluri@intel.com>
 References: <1487752042-19804-1-git-send-email-amarnath.valluri@intel.com>
-	<1487752042-19804-45-git-send-email-amarnath.valluri@intel.com>
+	<1487752042-19804-48-git-send-email-amarnath.valluri@intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 2 Mar 2017 20:11:32 +0000
-Message-ID: <CAJTo0LYgAGvTa5s1cBigazXo9edrXcF6XNpbx=NmBR=D-zjkSw@mail.gmail.com>
+Date: Thu, 2 Mar 2017 20:13:45 +0000
+Message-ID: <CAJTo0LYj_iohfPXzDPHXdK=Qkfs20ZbbqmxZrrhr3a_5rtTWhQ@mail.gmail.com>
 To: Amarnath Valluri <amarnath.valluri@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 19/25] mdadm: Avoid using hardocded udev, sbin paths
+Subject: Re: [PATCH v2 22/25] lsb: Make use of appropriate bitbake variables.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,41 +54,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Mar 2017 20:11:55 -0000
-Content-Type: multipart/alternative; boundary=001a114046c44303090549c50a75
+X-List-Received-Date: Thu, 02 Mar 2017 20:14:05 -0000
+Content-Type: multipart/alternative; boundary=94eb2c06093c308f670549c512ba
 
---001a114046c44303090549c50a75
+--94eb2c06093c308f670549c512ba
 Content-Type: text/plain; charset=UTF-8
 
 On 22 February 2017 at 08:27, Amarnath Valluri <amarnath.valluri@intel.com>
 wrote:
 
-> Use appropriate bitbake variables inplace of below hardcoded locations:
->   /sbin -> ${base_sbindir}
->   /lib/udev -> ${nonarch_base_libdir}/udev
+> Using of bitbake environment variables in-place of hardcoded strings makes
+> this
+> recipe portable to all environments.
 >
 
-Something went wrong:
+packages/corei7-64-poky-linux/lsb/lsb: FILELIST: directory renamed /bin ->
+/usr/bin, removed "/usr/lib/lsb/install_initd /usr/lib/lsb/remove_initd",
+added "/lib/lsb/remove_initd /lib/lsb/install_initd"
 
-packages/corei7-64-poky-linux/mdadm/mdadm-dbg: PKGSIZE changed from 5000047
-to 416785 (-91%)
-packages/corei7-64-poky-linux/mdadm/mdadm-ptest: RDEPENDS: removed "mdadm"
-packages/corei7-64-poky-linux/mdadm/mdadm: PKGSIZE changed from 889228 to
-3524 (-99%)
-  * FILELIST: removed "/sbin/mdadm /sbin/mdmon"
-packages/corei7-64-poky-linux/mdadm/mdadm: RDEPENDS: removed all items
-"glibc (['>= 2.25'])"
-packages/corei7-64-poky-linux/mdadm/mdadm: FILELIST: removed "/sbin/mdadm
-/sbin/mdmon"
-
-$ bb contents mdadm
-mdadm:
-/lib/udev/rules.d/63-md-raid-arrays.rules
-/lib/udev/rules.d/64-md-raid-assembly.rules
+The commit log makes it sound like there are no changes in the usual case,
+but files are moved around quite a lot.  Can you either stop files being
+moved in the default case, or explain the moves.
 
 Ross
 
---001a114046c44303090549c50a75
+--94eb2c06093c308f670549c512ba
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -98,27 +88,16 @@ f=3D"mailto:amarnath.valluri@intel.com" target=3D"_blank">amarnath.valluri@=
 intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
 =3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(20=
 4,204,204);border-left-style:solid;padding-left:1ex"><div class=3D"gmail-">=
-Use appropriate bitbake variables inplace of below hardcoded locations:<br>
-=C2=A0 /sbin -&gt; ${base_sbindir}<br>
-=C2=A0 /lib/udev -&gt; ${nonarch_base_libdir}/udev</div></blockquote></div>=
-<br>Something went wrong:</div><div class=3D"gmail_extra"><br></div><div cl=
-ass=3D"gmail_extra"><div class=3D"gmail_extra">packages/corei7-64-poky-linu=
-x/mdadm/mdadm-dbg: PKGSIZE changed from 5000047 to 416785 (-91%)</div><div =
-class=3D"gmail_extra">packages/corei7-64-poky-linux/mdadm/mdadm-ptest: RDEP=
-ENDS: removed &quot;mdadm&quot;</div><div class=3D"gmail_extra">packages/co=
-rei7-64-poky-linux/mdadm/mdadm: PKGSIZE changed from 889228 to 3524 (-99%)<=
-/div><div class=3D"gmail_extra">=C2=A0 * FILELIST: removed &quot;/sbin/mdad=
-m /sbin/mdmon&quot;</div><div class=3D"gmail_extra">packages/corei7-64-poky=
--linux/mdadm/mdadm: RDEPENDS: removed all items &quot;glibc ([&#39;&gt;=3D =
-2.25&#39;])&quot;</div><div class=3D"gmail_extra">packages/corei7-64-poky-l=
-inux/mdadm/mdadm: FILELIST: removed &quot;/sbin/mdadm /sbin/mdmon&quot;</di=
-v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><div clas=
-s=3D"gmail_extra">$ bb contents mdadm</div><div class=3D"gmail_extra">mdadm=
-:<br></div><div class=3D"gmail_extra"><span class=3D"gmail-Apple-tab-span" =
-style=3D"white-space:pre">	</span>/lib/udev/rules.d/63-md-raid-arrays.rules=
-</div><div class=3D"gmail_extra"><span class=3D"gmail-Apple-tab-span" style=
-=3D"white-space:pre">	</span>/lib/udev/rules.d/64-md-raid-assembly.rules</d=
-iv></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ro=
-ss</div></div></div>
+Using of bitbake environment variables in-place of hardcoded strings makes =
+this<br>
+recipe portable to all environments.<br></div></blockquote></div><br>packag=
+es/corei7-64-poky-linux/lsb/lsb: FILELIST: directory renamed /bin -&gt; /us=
+r/bin, removed &quot;/usr/lib/lsb/install_initd /usr/lib/lsb/remove_initd&q=
+uot;, added &quot;/lib/lsb/remove_initd /lib/lsb/install_initd&quot;<br></d=
+iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">The comm=
+it log makes it sound like there are no changes in the usual case, but file=
+s are moved around quite a lot.=C2=A0 Can you either stop files being moved=
+ in the default case, or explain the moves.</div><div class=3D"gmail_extra"=
+><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a114046c44303090549c50a75--
+--94eb2c06093c308f670549c512ba--
