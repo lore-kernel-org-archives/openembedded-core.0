@@ -1,62 +1,47 @@
-Return-Path: <bevenson@melinkcorp.com>
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com
-	(mail-bl2nam02on0131.outbound.protection.outlook.com [104.47.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 58D84775CC
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu,  2 Mar 2017 19:51:48 +0000 (UTC)
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id D59D077552
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  2 Mar 2017 20:11:51 +0000 (UTC)
+Received: by mail-qk0-f174.google.com with SMTP id m67so27504419qkf.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 02 Mar 2017 12:11:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=Melink.onmicrosoft.com; s=selector1-melinkcorp-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=6F3o5fOjFjBS6ZkvcAy446Zu68Y8Rv2mUeiqX7nuFoM=;
-	b=PgvGTw08AxVp0GXJ2TJSpPzhlFSc7EqKf0F/W6IppmnHIB0jPLvXYhAtuMC3UZrWp6KfJGKPLlvx+BPA5G4BNARo7tjNuqossnXdKQcj3Z6BdCoXyy1e72pWO2aX4R44LTzUSz5XtbcjeFsLp/T1gDItSl/0vKOrIcltvMIh9KA=
-Received: from DM5PR05MB2954.namprd05.prod.outlook.com (10.168.176.142) by
-	DM5PR05MB2955.namprd05.prod.outlook.com (10.168.176.143) with Microsoft
-	SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
-	15.1.947.2; Thu, 2 Mar 2017 19:51:48 +0000
-Received: from DM5PR05MB2954.namprd05.prod.outlook.com ([10.168.176.142]) by
-	DM5PR05MB2954.namprd05.prod.outlook.com ([10.168.176.142]) with mapi id
-	15.01.0947.012; Thu, 2 Mar 2017 19:51:48 +0000
-From: Bryan Evenson <bevenson@melinkcorp.com>
-To: Bryan Evenson <bevenson@melinkcorp.com>,
-	"Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Thread-Topic: util-linux: Multiple alternatives issues preventing clean
-	upgrades
-Thread-Index: AdKTjPuMek9rcNcYS0K7WVvSiIPJjw==
-Date: Thu, 2 Mar 2017 19:51:47 +0000
-Message-ID: <DM5PR05MB2954172F214E73E5C531A936BB280@DM5PR05MB2954.namprd05.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: melinkcorp.com; dkim=none (message not signed)
-	header.d=none;melinkcorp.com; dmarc=none action=none
-	header.from=melinkcorp.com;
-x-originating-ip: [98.100.91.242]
-x-microsoft-exchange-diagnostics: 1; DM5PR05MB2955;
-	7:YoJgrUYUdHk7YdqtQ2C+D5zyWs6Y1YjsBZNanQqxk1i968O4/gYC69TeQ9K9CTeuB9CLBzZLczTwzJtdlTh2qytmQK7N57KGL9AO3s2qj4ozWnrRtjlCY7To4fhOHjyp7fyYPXnoqCF6kI761vpRcwXa0rWZaIKxEyZ9GWzxCFwvuj8aytV+nmn4fCd6oV3hc8Rec7C6+lWVTF4JN8BBP8DppKl14Sglrsw2JJmVy/i0OifYBPRzvMn03xUjgi/zBquJeuzzzJ1vO7oEvos7SWtEJMDHY1PJTWYi5WWgSbHgT4pfGgdxAoCxfUuO0yrD0ZWWPZ8ciCpaHUK8EVApBA==
-x-forefront-antispam-report: SFV:SKI; SCL:-1SFV:NSPM;
-	SFS:(10019020)(6009001)(7916002)(39450400003)(13464003)(377454003)(38730400002)(74316002)(6246003)(53546006)(7736002)(305945005)(53936002)(966004)(122556002)(33656002)(2501003)(450100001)(229853002)(189998001)(6506006)(6306002)(55016002)(25786008)(6436002)(54356999)(50986999)(99286003)(9686003)(92566002)(77096006)(102836003)(3846002)(6116002)(8676002)(66066001)(8936002)(81166006)(2906002)(2900100001)(86362001)(5660300001)(3280700002)(3660700001)(7696004)(1720100001);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:DM5PR05MB2955;
-	H:DM5PR05MB2954.namprd05.prod.outlook.com; FPR:; SPF:None;
-	MLV:sfv; LANG:en; 
-x-ms-office365-filtering-correlation-id: 78631395-c39b-4783-0d8f-08d461a5900a
-x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:(22001);SRVR:DM5PR05MB2955;
-x-microsoft-antispam-prvs: <DM5PR05MB2955B34E74B9DCF5B1E44A9EBB280@DM5PR05MB2955.namprd05.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(264703809997249);
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(6040375)(601004)(2401047)(8121501046)(5005006)(3002001)(10201501046)(6041248)(20161123558025)(20161123555025)(20161123560025)(20161123562025)(20161123564025)(6072148);
-	SRVR:DM5PR05MB2955; BCL:0; PCL:0; RULEID:; SRVR:DM5PR05MB2955; 
-x-forefront-prvs: 023495660C
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=HyPyihsBlKWfopyEpYOExyB1eV+RaJi8NGfw5Z9ggM4=;
+	b=xx+JkQGYvK8Zyx0ZgbYAZU1gyhuL6NPrw3plGqh/ArAd7QBihrfyyHE0tlfvANFqic
+	9Epjd8DaBs1XJMLX5mHleWCjgAAvv5c5N4DiBWWREpxdkD8/j6HjJZ0ikMjBXA//Sar/
+	opTHys1vT4kv+ioSiyRZtLC9CL6LhXIaPDU17CLSdfsPVU6gbJ/uXa9h+NqDUhGnnqtG
+	No4vzZnY1BBApzKGh/Za+WTA63WXH8Midx9EMaLkjtFCCajO7WaffXHDtj70FEzI8YGn
+	YxqKjg9iL/iMGsYsjNj1J2iroi/cktXONEj3+GJd3OfsUzc2g83KQwrX5wsF//+4Zijr
+	hSxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=HyPyihsBlKWfopyEpYOExyB1eV+RaJi8NGfw5Z9ggM4=;
+	b=N6pFVkj0kb8FPW7C+V3UWTcrHE8VuOMvswADPatZiqDZaAg62nJMv/1i+/059PTDz4
+	LIO4J87hrWMpYjBt+99OgMtaqqOuKamwS5w6x7E7dOxEBuz8W2ttTey++iwnAKFObLRS
+	mk0ocQRx5FqjwutPdE0+525Db1twLl6UvsKE+PSZJMgaiwtegLkWe8kb7op5DVDqFVKB
+	pJ+dyRqZJ87691Aqgl/P5VGIclVDl0EcSIpzo0zxm25UW9UnpA80MW1DRKZX0XS86soF
+	JX2MyEUmn89VeKksHNQmOvX2jEiBZBM1LN5GQCNf0iJfw+3MhohGgqPEJotTkNc022G0
+	oztg==
+X-Gm-Message-State: AMke39m4G1leFEUoMY+6ocjEh0HoJbA8VOHHexu6anZF1aRNKuty1KDz69NDc6cydI19Q4JgWutbyRFgFPV2JpQW
+X-Received: by 10.55.1.134 with SMTP id u6mr20149809qkg.36.1488485513079; Thu,
+	02 Mar 2017 12:11:53 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: melinkcorp.com
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Mar 2017 19:51:47.8236 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d06db0f9-efcc-42b5-9f8c-c934a01c9bfd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR05MB2955
-Subject: Re: util-linux: Multiple alternatives issues preventing clean upgrades
+Received: by 10.140.103.233 with HTTP; Thu, 2 Mar 2017 12:11:32 -0800 (PST)
+In-Reply-To: <1487752042-19804-45-git-send-email-amarnath.valluri@intel.com>
+References: <1487752042-19804-1-git-send-email-amarnath.valluri@intel.com>
+	<1487752042-19804-45-git-send-email-amarnath.valluri@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 2 Mar 2017 20:11:32 +0000
+Message-ID: <CAJTo0LYgAGvTa5s1cBigazXo9edrXcF6XNpbx=NmBR=D-zjkSw@mail.gmail.com>
+To: Amarnath Valluri <amarnath.valluri@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 19/25] mdadm: Avoid using hardocded udev, sbin paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,90 +54,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Mar 2017 19:51:51 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 02 Mar 2017 20:11:55 -0000
+Content-Type: multipart/alternative; boundary=001a114046c44303090549c50a75
+
+--001a114046c44303090549c50a75
+Content-Type: text/plain; charset=UTF-8
+
+On 22 February 2017 at 08:27, Amarnath Valluri <amarnath.valluri@intel.com>
+wrote:
+
+> Use appropriate bitbake variables inplace of below hardcoded locations:
+>   /sbin -> ${base_sbindir}
+>   /lib/udev -> ${nonarch_base_libdir}/udev
+>
+
+Something went wrong:
+
+packages/corei7-64-poky-linux/mdadm/mdadm-dbg: PKGSIZE changed from 5000047
+to 416785 (-91%)
+packages/corei7-64-poky-linux/mdadm/mdadm-ptest: RDEPENDS: removed "mdadm"
+packages/corei7-64-poky-linux/mdadm/mdadm: PKGSIZE changed from 889228 to
+3524 (-99%)
+  * FILELIST: removed "/sbin/mdadm /sbin/mdmon"
+packages/corei7-64-poky-linux/mdadm/mdadm: RDEPENDS: removed all items
+"glibc (['>= 2.25'])"
+packages/corei7-64-poky-linux/mdadm/mdadm: FILELIST: removed "/sbin/mdadm
+/sbin/mdmon"
+
+$ bb contents mdadm
+mdadm:
+/lib/udev/rules.d/63-md-raid-arrays.rules
+/lib/udev/rules.d/64-md-raid-assembly.rules
+
+Ross
+
+--001a114046c44303090549c50a75
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-I've made some progress but I'm afraid I still have a few more questions.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 February 2017 at 08:27, Amarnath Valluri <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:amarnath.valluri@intel.com" target=3D"_blank">amarnath.valluri@=
+intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(20=
+4,204,204);border-left-style:solid;padding-left:1ex"><div class=3D"gmail-">=
+Use appropriate bitbake variables inplace of below hardcoded locations:<br>
+=C2=A0 /sbin -&gt; ${base_sbindir}<br>
+=C2=A0 /lib/udev -&gt; ${nonarch_base_libdir}/udev</div></blockquote></div>=
+<br>Something went wrong:</div><div class=3D"gmail_extra"><br></div><div cl=
+ass=3D"gmail_extra"><div class=3D"gmail_extra">packages/corei7-64-poky-linu=
+x/mdadm/mdadm-dbg: PKGSIZE changed from 5000047 to 416785 (-91%)</div><div =
+class=3D"gmail_extra">packages/corei7-64-poky-linux/mdadm/mdadm-ptest: RDEP=
+ENDS: removed &quot;mdadm&quot;</div><div class=3D"gmail_extra">packages/co=
+rei7-64-poky-linux/mdadm/mdadm: PKGSIZE changed from 889228 to 3524 (-99%)<=
+/div><div class=3D"gmail_extra">=C2=A0 * FILELIST: removed &quot;/sbin/mdad=
+m /sbin/mdmon&quot;</div><div class=3D"gmail_extra">packages/corei7-64-poky=
+-linux/mdadm/mdadm: RDEPENDS: removed all items &quot;glibc ([&#39;&gt;=3D =
+2.25&#39;])&quot;</div><div class=3D"gmail_extra">packages/corei7-64-poky-l=
+inux/mdadm/mdadm: FILELIST: removed &quot;/sbin/mdadm /sbin/mdmon&quot;</di=
+v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><div clas=
+s=3D"gmail_extra">$ bb contents mdadm</div><div class=3D"gmail_extra">mdadm=
+:<br></div><div class=3D"gmail_extra"><span class=3D"gmail-Apple-tab-span" =
+style=3D"white-space:pre">	</span>/lib/udev/rules.d/63-md-raid-arrays.rules=
+</div><div class=3D"gmail_extra"><span class=3D"gmail-Apple-tab-span" style=
+=3D"white-space:pre">	</span>/lib/udev/rules.d/64-md-raid-assembly.rules</d=
+iv></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ro=
+ss</div></div></div>
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> Of Bryan Evenson
-> Sent: Wednesday, March 01, 2017 9:22 AM
-> To: Openembedded-core@lists.openembedded.org
-> Subject: [OE-core] util-linux: Multiple alternatives issues preventing cl=
-ean
-> upgrades
->=20
-> I am using opkg for package management, and before moving to a more
-> recent branch (currently on dizzy) I'm doing some firmware upgrade tests =
-to
-> make sure I have a clean upgrade process.  For my testing I flash an imag=
-e
-> using our current production image and then do firmware upgrade from the
-> command line by doing "opkg update; opkg upgrade --download-only; opkg
-> upgrade" and checking what errors pop up.  I am currently testing upgradi=
-ng
-> to the jethro branch and I am seeing some errors in regards to util-linux=
-.  I
-> see the following errors during upgrade:
->=20
-> * check_data_file_clashes: Package util-linux-sulogin wants to install fi=
-le
-> /sbin/sulogin.util-linux
->         But that file is already provided by package  * util-linux
-> update-alternatives: Error: cannot register alternative readprofile to
-> /usr/sbin/readprofile since it is already registered to /sbin/readprofile
-> * pkg_run_script: package "util-linux-readprofile" postinst script return=
-ed
-> status 1.
-> * opkg_configure: util-linux-readprofile.postinst returned 1.
->=20
-> The first error I traced down to being related to this commit:
-> http://git.openembedded.org/openembedded-core/commit/meta/recipes-
-> core/util-linux?h=3Djethro&id=3D4bde182ed236243547929dd98763f1c09eddd097
->=20
-
-I added the following line to util-linux.inc:
-RREPLACES_util-linux-sulogin =3D "util-linux"
-
-After adding this line, then opkg acknowledged that util-linux-sulogin repl=
-aced the files that were previously owned by util-linux and the error went =
-away.  Looking at the commit log on master in the util-linux directory, it =
-looks like util-linux is being split up into even more packages.  Should th=
-e proper RREPLACES be added for each package that was split out?
-
-> The second error I traced down to being related to this commit:
-> http://git.openembedded.org/openembedded-core/commit/meta/recipes-
-> core/util-linux?h=3Djethro&id=3D43424eb3c8bf03a2f9ec331b78dd4040dd39eacd
->=20
-
-From the command line on the target I entered the line:
-update-alternatives --remove readprofile /sbin/readprofile
-
-After that I issued "opkg upgrade" again and the postinstall script for uti=
-l-linux-readprofile finished without issue.  I'm a little baffled why the o=
-ld link wasn't removed.  Is there something that needs to be added to the p=
-ostinstall script to remove the old link prior to adding the new one?
-
-Thanks,
-Bryan
-
-> I know this is all related to alternatives, but that's about as far as my
-> knowledge extends in this area.  Yes, everything is running okay but I'd =
-like to
-> clean up problems like this if possible.  Does anyone have any suggestion=
-s on
-> what would need to change in the util-linux recipe to clean up these erro=
-rs?
->=20
-> Thanks,
-> Bryan
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+--001a114046c44303090549c50a75--
