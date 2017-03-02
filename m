@@ -1,50 +1,22 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
-	[209.85.220.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 8150177552
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F61E7750A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Mar 2017 20:14:30 +0000 (UTC)
-Received: by mail-qk0-f182.google.com with SMTP id m67so27627239qkf.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Mar 2017 12:14:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=XOJ2d6i4kH0tXYP/prCzJ0wxl7TkJA/jOMCPT20vezo=;
-	b=F5uPD5+q7xLwGrad8wXtcrgTJUyI8rmPqK+yM4Kr8s6iTMlN/zKbXPqF9WFxzntBIT
-	G/KI8eaygOJol2u46WeTBmxcoorr1mRcP5G9vE4lXgozxsXk1ecSb7rGlbxSBR2vHxH5
-	imNHEIsIgue/AenDwjf6bkziTrwtymE6Jb/Iqgcf6MxmiPeEeQGJ4UuzluQ9Xbaen407
-	pLll+Ra/z3QhZThdId2uqkHnt4U+hbpBw8JZjTFPm6x6TjBclPewW54s6soZyhkJHXm+
-	MzJ/x5EqdZysJARCKOYvyb/lSAHMvlWM9X0U9Q3oUZqtmkxaFIh/BgA5jU7c/6PhksgT
-	WLNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=XOJ2d6i4kH0tXYP/prCzJ0wxl7TkJA/jOMCPT20vezo=;
-	b=rEA99Sieoxw+fyWbhPFFt8PMS/NhJcjZKHWJq8KLKTwPKjhQNO+2avK5JAIcIYE4Aw
-	FQ401wYZn6P7T0LAcXFI6V6OxtM1hrEvgn1YeMqUpSY0ixS91hJBgNnUpYi7tUSQUo55
-	HJ1FSg+/00FLiqj21kOgEZqw8DA2j7EkhuGSUUVkQxcbbElCdXfod/w9O+O61E9XGdvt
-	ak6uHdFAd9Tp95yXEgjFVyQQSaiR0gFe2EHsxrsEX+IVty1QRbDAJBZ18W4MenarwCCN
-	In/tTFuYP4AbkxR2Wc+mOBom0DutK29pLjOnexNatMdcNc7uC/BltGeBs9JmT1aKyHAA
-	hrNA==
-X-Gm-Message-State: AMke39mSqvyS9QaEuY6U2K3fzPvFr/ZHSnI3ZmiIKEFnbpCUZupYG16lJ4WMQmBmPJl8Xfy3uXmkVsP680V659f/
-X-Received: by 10.237.43.69 with SMTP id p63mr18970477qtd.68.1488485671274;
-	Thu, 02 Mar 2017 12:14:31 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.103.233 with HTTP; Thu, 2 Mar 2017 12:14:10 -0800 (PST)
-In-Reply-To: <CAJ86T=XtVqkkqZLfxechBnkzMO15MoKxuVFCY=1K9NXgrcLKog@mail.gmail.com>
-References: <1485556151-9063-1-git-send-email-armccurdy@gmail.com>
-	<CAMKF1sp+=6Ot3q5PkQN9Cqv95EGPCK5RQ11EkvhGCrTqo9atHA@mail.gmail.com>
-	<CAJ86T=XYuWtMBwFPrQ6wod7s_Jm6qnpVkek1QQt9i2X8Wks10g@mail.gmail.com>
-	<CAJ86T=XtVqkkqZLfxechBnkzMO15MoKxuVFCY=1K9NXgrcLKog@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 2 Mar 2017 20:14:10 +0000
-Message-ID: <CAJTo0LbXhAo9V+GbT+gNmeUwQ8JakiEiazwerYds_ETGetBW1A@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] replace USE_LDCONFIG with ldconfig distro feature
+	Thu,  2 Mar 2017 23:25:31 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Mar 2017 15:25:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.35,233,1484035200"; d="scan'208";a="231673903"
+Received: from swold-mobl2.amr.corp.intel.com ([10.254.8.26])
+	by fmsmga004.fm.intel.com with ESMTP; 02 Mar 2017 15:25:33 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Thu,  2 Mar 2017 15:25:32 -0800
+Message-Id: <1488497132-15876-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH v2] native.bbclass: populate native recipe with it's files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,34 +29,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Mar 2017 20:14:30 -0000
-Content-Type: multipart/alternative; boundary=94eb2c124cc4b102330549c513db
+X-List-Received-Date: Thu, 02 Mar 2017 23:25:33 -0000
 
---94eb2c124cc4b102330549c513db
-Content-Type: text/plain; charset=UTF-8
+This allows a native package's recipe-sysroot-native to be populated with
+that packages native image files.  This in turns allows it to be used by
+scripts or other tools without creating un-necessary DEPENDS.
 
-On 2 March 2017 at 19:25, Andre McCurdy <armccurdy@gmail.com> wrote:
+An example of this is systemtap-native and the crosstap script.
 
-> the existing hardcoded "ldconfig" in PACKAGECONFIG should also be removed.
->
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+v2: removed the "before do_build"
+ meta/classes/native.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Damnit, thanks.
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index ec91fc3..6becf82 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -174,6 +174,11 @@ python native_virtclass_handler () {
+ addhandler native_virtclass_handler
+ native_virtclass_handler[eventmask] = "bb.event.RecipePreFinalise"
+ 
++python do_addto_recipe_sysroot () {
++    bb.build.exec_func("extend_recipe_sysroot", d)
++}
++addtask addto_recipe_sysroot after do_populate_sysroot
++
+ inherit nopackages
+ 
+ do_packagedata[stamp-extra-info] = ""
+-- 
+2.7.4
 
-Ross
 
---94eb2c124cc4b102330549c513db
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 2 March 2017 at 19:25, Andre McCurdy <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1lx" class=3D"a3s =
-aXjCH m15a907c4cbbdab27">the existing hardcoded &quot;ldconfig&quot; in PAC=
-KAGECONFIG should also be removed.<div class=3D"yj6qo ajU"><div id=3D":1ei"=
- class=3D"ajR" tabindex=3D"0"></div></div></div></blockquote></div><br>Damn=
-it, thanks.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_e=
-xtra">Ross</div></div>
-
---94eb2c124cc4b102330549c513db--
