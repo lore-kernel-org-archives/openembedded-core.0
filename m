@@ -1,47 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f176.google.com (mail-wr0-f176.google.com
-	[209.85.128.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 02E0E7757A
+Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
+	[209.85.220.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E86E775DD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Mar 2017 14:20:08 +0000 (UTC)
-Received: by mail-wr0-f176.google.com with SMTP id u48so53250034wrc.0
+	Thu,  2 Mar 2017 14:50:59 +0000 (UTC)
+Received: by mail-qk0-f172.google.com with SMTP id 1so7895960qkl.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Mar 2017 06:20:10 -0800 (PST)
+	Thu, 02 Mar 2017 06:51:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=5XIDeavW9wiW9LIkzVDcU5AcfexCyGfwtGho6nVYurE=;
-	b=qPIH+wxe3JVI36RDJl2iPxw/Vt7dUS9yZWiA4T2Y1lPljW3lGuZvYui4NkLr6t8IhM
-	zhTQPnTmdS8+SwJax/nd5XQ/9UIITpME+KJt3dsj+GInlBjeLNy2iFoYz1EoultZKX30
-	q3Bcth+kKwbcQgJLb30AIZmTWo8Abe9jZdrQgeHsBO85F0N5xGlrRg9FRFSUIXVINNdb
-	sIG+HCE63GU8NmG46w9buErv3a5J0D2KlLo/B3OWYGpyErR7eylZyZT5E67mhl5FMI22
-	mLR5pQvP+20UQgiSAQGS88wCU7z0EZy7C7cQ8qv+jp8ZRarn9LJ6JjI3autW7ru0uqZA
-	NIvA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Z3YxJQ/0Z7EbedUUM73uKlCAH+poZygtSlgDNBou39g=;
+	b=xasWWw4CqXGt40AXn3Kl71pgx1/+fXZ/KbUdYbOZHsLKFOu0kewSyauXV78HbPhT/F
+	jgn2Z2KTxTKbHvw/UAT9arr0caGovhYEz0vHAJxTlN4VtuHbFeeA2MDzQ2MsJN7l+DAu
+	vcCR86O2hvHZ7IRs0Or3MReV7p9mG0vwtOPEopJeFYCzEhHnKMj4VpYoOgKzzqgUAF7T
+	tZKTMQRK8i/M5IVVsPAXWfFN+5tseZjxy+fIdIp68HA3tBdGUpF1tnmO212SfeLeTGzP
+	tu1bHdwnivGx62ExuNXqOorFvfGl6HxNHY2ISGwHnT4XU69yQLgCnNCFScdQSSAjEiJ1
+	Exeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=5XIDeavW9wiW9LIkzVDcU5AcfexCyGfwtGho6nVYurE=;
-	b=Pzg8vBxFfye017EyPD96cxezvD09MpjTqsR03wUDf7V6DCqjQsUs9HLqiHfijTqzwz
-	x8l6ZoXFPmzsOHAEEzLi5sO4to2lVuEXWcnBi9deeSFrScLIiXhUx0y+5SWPO6CputzK
-	vCh6qODeGx+18IGZMYZTbVa0bwJI7FKPEWv2d8+IYc3nJfu64KF7VceEpXcxYBMWr11E
-	a83BkVdrcI1gBC0SaSi4BTcDUGVTLdMw7mUFLCv4NrDCOE8EKTSl6d4qVUMTmQSWpokC
-	ZUcHcDhAqLgvgSkaMpVdXtcUUtfuiGcI7A+QqOX88ZkEwKg0e7crqu3PDlazs8zd+RHl
-	6JHQ==
-X-Gm-Message-State: AMke39nKTu4MdaPljv7n493C5QWYG/iS17C2JatewEAe4cbdRpMl0jqcmdY8g6y+Junw0oB4
-X-Received: by 10.223.171.78 with SMTP id r14mr2315998wrc.113.1488464409334;
-	Thu, 02 Mar 2017 06:20:09 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	o70sm11390700wmi.26.2017.03.02.06.20.08
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 02 Mar 2017 06:20:08 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Mar 2017 14:20:05 +0000
-Message-Id: <1488464405-28663-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] meta-estsdk-toolchain: use WORKDIR instead of D to hold locked-sigs
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Z3YxJQ/0Z7EbedUUM73uKlCAH+poZygtSlgDNBou39g=;
+	b=Inxxf5f9iQJvGjLw5bTZU9y5Cw257Z9Mp+bz2cg1tgoWeqOW34M0yeQ16RC26GUkPb
+	j7m1vJyyXKtSz4YfPpG5oVSiULgpbR1SnKnXzCdpnMXng+DQLAEfTkB7Nln59Ajgyh0X
+	0cH9H3CkyVM+AqvCvGxCLhd3mDTkC3JfBTHIW81FhPjydcV50w/k2A5KqRizjlS/YIg8
+	eBSKkfD+rRq4gIXhQVMMeeywQICEWLq30ESAuqvraVrY/fMLYu20M42CC/xY6TCJhkk2
+	3XuSa8y4Wjm8SsY0Nn7bqW3J3YX5t3inz5AOMNDqqYM6Q9ON87vRQ73xsOXXcV7XYv+9
+	8XEw==
+X-Gm-Message-State: AMke39nkZTWf+5Rg+CBsV8y6foQK6DUpJO5Y5LDLmlM6p+w/bmc4dUV+8JYJ8Qqp+z2Kf52YQMd7MQ54wGurwhkm
+X-Received: by 10.200.2.150 with SMTP id p22mr18148188qtg.197.1488466260848;
+	Thu, 02 Mar 2017 06:51:00 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.103.233 with HTTP; Thu, 2 Mar 2017 06:50:40 -0800 (PST)
+In-Reply-To: <20170302133630.2958-1-Zubair.Kakakhel@imgtec.com>
+References: <20170302133630.2958-1-Zubair.Kakakhel@imgtec.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 2 Mar 2017 14:50:40 +0000
+Message-ID: <CAJTo0LY=adJY25h=weJyz5PK9JzSE+UMvMK98TpMvv-DzZmCJA@mail.gmail.com>
+To: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [Patch] autoconf: Add configurations for MIPS R6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,34 +53,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Mar 2017 14:20:10 -0000
+X-List-Received-Date: Thu, 02 Mar 2017 14:51:02 -0000
+Content-Type: multipart/alternative; boundary=f4030435c234bd41200549c08e9a
 
-do_locked_sigs() uses ${D} to hold a file as input to the sstate staging code.
-Generally this isn't a problem as it happens after packaging, but sometimes (if
-the recipe is rebuild, perhaps) do_package() will see the file inside ${D} and
-fail because there is an uninstalled file.
+--f4030435c234bd41200549c08e9a
+Content-Type: text/plain; charset=UTF-8
 
-Solve this by using a directory under ${WORKDIR} so it can't be packaged.
+On 2 March 2017 at 13:36, Zubair Lutfullah Kakakhel <
+Zubair.Kakakhel@imgtec.com> wrote:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/meta/meta-extsdk-toolchain.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Is this the right way?
+>
+> Ideally should fetch a new file from
+>
+> http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_
+> plain;f=config.sub;hb=HEAD
+>
 
-diff --git a/meta/recipes-core/meta/meta-extsdk-toolchain.bb b/meta/recipes-core/meta/meta-extsdk-toolchain.bb
-index 0b8fcf0..235d6ec 100644
---- a/meta/recipes-core/meta/meta-extsdk-toolchain.bb
-+++ b/meta/recipes-core/meta/meta-extsdk-toolchain.bb
-@@ -10,7 +10,7 @@ do_populate_sysroot[deptask] = "do_populate_sysroot"
- # within sstate.bbclass, so if you copy or rename this and expect the same
- # functionality you'll need to modify that as well.
- 
--LOCKED_SIGS_INDIR = "${D}/locked-sigs"
-+LOCKED_SIGS_INDIR = "${WORKDIR}/locked-sigs"
- 
- addtask do_locked_sigs after do_populate_sysroot
- SSTATETASKS += "do_locked_sigs"
--- 
-2.8.1
+One other way would be to copy that file instead of patching, and use
+subdir=${S}/build-aux in the SRC_URI to put it in the right place.
 
+A patch works fine, although you need to include a Signed-off-by and
+Upstream-Status (in this case, Backport and mention the commit hash it came
+from) in the patch header.
 
+Ross
+
+--f4030435c234bd41200549c08e9a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 2 March 2017 at 13:36, Zubair Lutfullah Kakakhel <span dir=3D"ltr">&lt;<=
+a href=3D"mailto:Zubair.Kakakhel@imgtec.com" target=3D"_blank">Zubair.Kakak=
+hel@imgtec.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div=
+ id=3D":1ha" class=3D"a3s aXjCH m15a8f4b3bf292378">Is this the right way?<b=
+r>
+<br>
+Ideally should fetch a new file from<br>
+<br>
+<a href=3D"http://git.savannah.gnu.org/gitweb/?p=3Dconfig.git;a=3Dblob_plai=
+n;f=3Dconfig.sub;hb=3DHEAD" rel=3D"noreferrer" target=3D"_blank">http://git=
+.savannah.gnu.org/<wbr>gitweb/?p=3Dconfig.git;a=3Dblob_<wbr>plain;f=3Dconfi=
+g.sub;hb=3DHEAD</a></div></blockquote></div><br></div><div class=3D"gmail_e=
+xtra">One other way would be to copy that file instead of patching, and use=
+ subdir=3D${S}/build-aux in the SRC_URI to put it in the right place.</div>=
+<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">A patch wor=
+ks fine, although you need to include a Signed-off-by and Upstream-Status (=
+in this case, Backport and mention the commit hash it came from) in the pat=
+ch header.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ex=
+tra">Ross</div></div>
+
+--f4030435c234bd41200549c08e9a--
