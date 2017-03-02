@@ -1,49 +1,25 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-ua0-f169.google.com (mail-ua0-f169.google.com
-	[209.85.217.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 25694775CC;
-	Thu,  2 Mar 2017 13:47:41 +0000 (UTC)
-Received: by mail-ua0-f169.google.com with SMTP id c11so27380656uaa.0;
-	Thu, 02 Mar 2017 05:47:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=x67T1WYzdg7n9LS8vVyntdS889o1QKBRw5eZZXAQkA0=;
-	b=AXGgTDDvBb5hW8J5JalgFOeejNyycEE2IIEK/1GzwhW772UNSp9KAj3LZFPUyTwPPW
-	Uj/nxBaLYLM3cI7SMaQreVGfh+Vav5Utk7jdJeYEgTgbPr6Jp5+G1l6OVtpLSQqE9M18
-	CahqGI8K0bBt6MRSJoAT7N5DdFbmVtK+LZ8o0Qn6fCDGzgTt0srQoYKAZHNBCOM1nvJi
-	LgaEDZs8LOs3cvYTpElkjQ4ABPSY1Bpmnhon1F1Dx1V/oS8RIDDI4eI17Pdo2ceOsxFc
-	pOPKaGvM+csOGhEBfSWOXuA+x07vEMFwu0ZMJ25LZoGDJsICtgJckgInGXV795u8ABeA
-	lojw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=x67T1WYzdg7n9LS8vVyntdS889o1QKBRw5eZZXAQkA0=;
-	b=Lf8pCsbDH7nrDx4XqXET0dOOOR0rYbfa2tNMcTvkdZ1YPq6kjMpfaXUJMLshLbmWsY
-	B78yU17QGZv0x33Mu7phVaNpM8rRAKGAqbk1ZyIbLXKHzoJsn33HYWlkHUEW6bH4BOzv
-	Xe3qXLShMFL1321C9CSDw4bcFKKoj4TPCBRhLISOmu6IuoRjcG0jrmN34O/93t+f1GKz
-	teChcZVOTo6bNg4w1teAeTQElU1YKAkS7O4pLxV0vlyRXGhLVEExNz4qikVSXh3wxhO7
-	YJqSM/NyemaF8vFSZS5iGJdp3HvBjnTnoYo1d5MuIkqBRf+F174rmi+qubJGCCMQTl+Z
-	dsMg==
-X-Gm-Message-State: AMke39lue+2N1HEK4oI4MEhe0+WU9fNfuOcBOMeO+atZnxH9eWPRsAXXLWglGa45UC8sue2kSsSCqU+jyQvywA==
-X-Received: by 10.176.2.146 with SMTP id 18mr6890044uah.79.1488462462398; Thu,
-	02 Mar 2017 05:47:42 -0800 (PST)
+Return-Path: <Zubair.Kakakhel@imgtec.com>
+X-Greylist: delayed 901 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 02 Mar 2017 13:51:19 UTC
+Received: from mailapp01.imgtec.com (mailapp01.imgtec.com [195.59.15.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D9D072F87
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  2 Mar 2017 13:51:19 +0000 (UTC)
+Received: from hhmail02.hh.imgtec.org (unknown [10.100.10.20])
+	by Forcepoint Email with ESMTPS id E69D2A05AD701
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  2 Mar 2017 13:36:15 +0000 (GMT)
+Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
+	hhmail02.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
+	id 14.3.294.0; Thu, 2 Mar 2017 13:36:18 +0000
+From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 2 Mar 2017 13:36:14 +0000
+Message-ID: <20170302133614.2898-1-Zubair.Kakakhel@imgtec.com>
+X-Mailer: git-send-email 2.10.2
 MIME-Version: 1.0
-Received: by 10.176.71.65 with HTTP; Thu, 2 Mar 2017 05:47:42 -0800 (PST)
-In-Reply-To: <o98m4o$7ao$1@blaine.gmane.org>
-References: <20170301195550.GE3290@jama>
-	<CALbNGRTO37A-tbDj93nuNi0vu6h3fJg7Wg6P6N8asz45e8H9bg@mail.gmail.com>
-	<o98m4o$7ao$1@blaine.gmane.org>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Date: Thu, 2 Mar 2017 14:47:42 +0100
-Message-ID: <CALbNGRRHbVRAqEsVchsztBKnuDF3R6nHmTk4Y05chhWCeF-xmA@mail.gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Cc: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: State of bitbake world, Failed tasks 2017-03-01
+X-Originating-IP: [192.168.154.45]
+Subject: [Patch] arch-mips: Fix tune configuration for mipsisa64r6el-n32-nf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,18 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Mar 2017 13:47:42 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 02 Mar 2017 13:51:22 -0000
+Content-Type: text/plain
 
-On Thu, Mar 2, 2017 at 9:46 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
->
-> Util-linux is the preferred provider for libuuid (it moved from e2fsprogs to
-> util-linux a few years ago).
->
-> regards,
->
-Thanks - did not know that (just asked oe-layer-list). Will try that
-one next weekend...
+Big endian flag marked in a little endian configuration by mistake.
+Remove it.
 
-Andreas
+Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+---
+ meta/conf/machine/include/tune-mips64r6.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/conf/machine/include/tune-mips64r6.inc b/meta/conf/machine/include/tune-mips64r6.inc
+index 2289fb4..4fe3eed 100644
+--- a/meta/conf/machine/include/tune-mips64r6.inc
++++ b/meta/conf/machine/include/tune-mips64r6.inc
+@@ -52,7 +52,7 @@ BASE_LIB_tune-mipsisa64r6-nf-n32 = "lib32"
+ MIPSPKGSFX_VARIANT_tune-mipsisa64r6-nf-n32 = "${TUNE_ARCH}"
+ PACKAGE_EXTRA_ARCHS_tune-mipsisa64r6-nf-n32 = "mipsisa64r6-nf-n32"
+ 
+-TUNE_FEATURES_tune-mipsisa64r6el-nf-n32 = "bigendian r6 n32 mipsisa64r6"
++TUNE_FEATURES_tune-mipsisa64r6el-nf-n32 = "r6 n32 mipsisa64r6"
+ BASE_LIB_tune-mipsisa64r6el-nf-n32 = "lib32"
+ MIPSPKGSFX_VARIANT_tune-mipsisa64r6el-nf-n32 = "${TUNE_ARCH}"
+ PACKAGE_EXTRA_ARCHS_tune-mipsisa64r6el-nf-n32 = "mipsisa64r6el-nf-n32"
+-- 
+2.10.2
+
 
