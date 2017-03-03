@@ -1,23 +1,21 @@
-Return-Path: <amarnath.valluri@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BA4D776C7
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id CE932776A6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 12:35:54 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	03 Mar 2017 04:35:56 -0800
+	Fri,  3 Mar 2017 12:37:27 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga105.jf.intel.com with ESMTP; 03 Mar 2017 04:37:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,237,1484035200"; d="scan'208";a="1137449329"
-Received: from avallurigigabyte.fi.intel.com ([10.237.72.170])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Mar 2017 04:35:55 -0800
-From: Amarnath Valluri <amarnath.valluri@intel.com>
+X-IronPort-AV: E=Sophos;i="5.35,237,1484035200"; d="scan'208";a="1117999706"
+Received: from manuelal-mobl1.ger.corp.intel.com (HELO
+	mqz-osx-suse64.fi.intel.com) ([10.252.4.231])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Mar 2017 04:37:27 -0800
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Mar 2017 14:36:32 +0200
-Message-Id: <1488544592-30771-1-git-send-email-amarnath.valluri@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <CAJTo0LYj_iohfPXzDPHXdK=Qkfs20ZbbqmxZrrhr3a_5rtTWhQ@mail.gmail.com>
-References: <CAJTo0LYj_iohfPXzDPHXdK=Qkfs20ZbbqmxZrrhr3a_5rtTWhQ@mail.gmail.com>
-Subject: [PATCH v3] lsb: Make use of appropriate bitbake variables.
+Date: Fri,  3 Mar 2017 14:37:23 +0200
+Message-Id: <1488544647-31325-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Subject: [morty][PATCH 0/4] rpm signing fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,103 +28,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Mar 2017 12:35:55 -0000
+X-List-Received-Date: Fri, 03 Mar 2017 12:37:27 -0000
 
-Using of bitbake environment variables in-place of hardcoded strings makes this
-recipe portable to all environments.
+This patchset backports two fixes to gpg signing of rpm packages. The first
+patch fixes signing of packages with a large amount of subpackages (e.g.
+glibc-locale). The last three patches makes rpm package signing possible with
+gpg version > 2.1.
 
-Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
----
- meta/recipes-extended/lsb/lsb_4.1.bb | 40 +++++++++++++++++-------------------
- 1 file changed, 19 insertions(+), 21 deletions(-)
 
-diff --git a/meta/recipes-extended/lsb/lsb_4.1.bb b/meta/recipes-extended/lsb/lsb_4.1.bb
-index b4e8832..39cb544 100644
---- a/meta/recipes-extended/lsb/lsb_4.1.bb
-+++ b/meta/recipes-extended/lsb/lsb_4.1.bb
-@@ -34,14 +34,13 @@ S = "${WORKDIR}/lsb-release-1.4"
- CLEANBROKEN = "1"
- 
- do_install(){
--	oe_runmake install prefix=${D}  mandir=${D}/${datadir}/man/ DESTDIR=${D}
-+	oe_runmake install prefix=${D}/${base_prefix}  mandir=${D}/${datadir}/man/ DESTDIR=${D}
- 
- 	# this 2 dirs are needed by package lsb-dist-checker
- 	mkdir -p ${D}${sysconfdir}/opt
- 	mkdir -p ${D}${localstatedir}/opt
- 
--	mkdir -p ${D}${base_bindir}
--	mkdir -p ${D}/${baselib}
-+	mkdir -p ${D}${base_libdir}
- 	mkdir -p ${D}${sysconfdir}/lsb-release.d
- 	printf "LSB_VERSION=\"core-4.1-noarch:" > ${D}${sysconfdir}/lsb-release
- 
-@@ -87,47 +86,46 @@ do_install_append(){
-            install -m 0755 ${WORKDIR}/${i} ${D}${sysconfdir}/core-lsb
-        done
- 
--       install -d ${D}/lib/lsb
--       install -m 0755 ${WORKDIR}/init-functions ${D}/lib/lsb
-+       install -d ${D}/${nonarch_base_libdir}/lsb
-+       install -m 0755 ${WORKDIR}/init-functions ${D}/${nonarch_base_libdir}/lsb
- 
-        # creat links for LSB test
--       install -d ${D}/usr/lib/lsb
--       ln -sf ${sbindir}/chkconfig ${D}/usr/lib/lsb/install_initd
--       ln -sf ${sbindir}/chkconfig ${D}/usr/lib/lsb/remove_initd
-+       if [ "${nonarch_base_libdir}" != "${nonarch_libdir}" ] ; then
-+               install -d ${D}/${nonarch_libdir}/lsb
-+       fi
-+       ln -sf ${sbindir}/chkconfig ${D}/${nonarch_libdir}/lsb/install_initd
-+       ln -sf ${sbindir}/chkconfig ${D}/${nonarch_libdir}/lsb/remove_initd
- 
-        if [ "${TARGET_ARCH}" = "x86_64" ];then
--	       cd ${D}
-                if [ "${baselib}" != "lib64" ]; then
--                   ln -sf ${baselib} lib64
-+                   lnr ${D}${base_libdir} ${D}/lib64
-                fi
--	       cd ${D}/${baselib}
-+	       cd ${D}/${base_libdir}
-                ln -sf ld-linux-x86-64.so.2 ld-lsb-x86-64.so.2
-                ln -sf ld-linux-x86-64.so.2 ld-lsb-x86-64.so.3
-        fi
-        if [ "${TARGET_ARCH}" = "i586" ] || [ "${TARGET_ARCH}" = "i686" ];then
--	       cd ${D}/${baselib}
-+	       cd ${D}/${base_libdir}
-                ln -sf ld-linux.so.2 ld-lsb.so.2
-                ln -sf ld-linux.so.2 ld-lsb.so.3
-        fi
- 
-        if [ "${TARGET_ARCH}" = "powerpc64" ];then
--               cd ${D}
-                if [ "${baselib}" != "lib64" ]; then
--                   ln -sf ${baselib} lib64
-+                   lnr  ${D}${base_libdir} ${D}/lib64
-                fi
--               cd ${D}/${baselib}
-+               cd ${D}/${base_libdir}
-                ln -sf ld64.so.1 ld-lsb-ppc64.so.2
-                ln -sf ld64.so.1 ld-lsb-ppc64.so.3
-        fi
-        if [ "${TARGET_ARCH}" = "powerpc" ];then
--	       cd ${D}/${baselib}
-+	       cd ${D}/${base_libdir}
-                ln -sf ld.so.1 ld-lsb-ppc32.so.2
-                ln -sf ld.so.1 ld-lsb-ppc32.so.3
-        fi
- }
--FILES_${PN} += "/lib64 \
-+FILES_${PN} += "${@'/lib64' if d.getVar('TARGET_ARCH')  == ('x86_64' or 'powerpc64') and '${baselib}' != 'lib64' else ''} \
-                 ${base_libdir} \
--                /usr/lib/lsb \
--                ${base_libdir}/lsb/* \
--                /lib/lsb/* \
--               "
-+                ${nonarch_libdir}/lsb \
-+                ${nonarch_base_libdir}/lsb/* \
-+                "
+The following changes since commit 55c835c73cc41b6fc809c941c295d62a612e49e0:
+
+  build-appliance-image: Update to morty head revision (2017-02-08 12:00:29 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib marquiz/morty
+  http://git.openembedded.org/openembedded-core-contrib/log/?h=marquiz/morty
+
+
+Markus Lehtonen (4):
+  lib/oe/gpg_sign: sign rpm packages in chunks of 100
+  rpm: support customizing gpg command line
+  lib/oe/gpg_sign: make gpg version a property of the signer
+  lib/oe/gpg_sign: fix rpm signing with gpg > 2.1
+
+ meta/lib/oe/gpg_sign.py                            | 21 ++++++-----
+ .../0001-macros-add-_gpg_sign_cmd_extra_args.patch | 43 ++++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.16.bb            |  1 +
+ 3 files changed, 56 insertions(+), 9 deletions(-)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/0001-macros-add-_gpg_sign_cmd_extra_args.patch
+
 -- 
-2.7.4
+2.6.6
 
 
