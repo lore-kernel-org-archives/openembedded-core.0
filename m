@@ -1,23 +1,48 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 4151C775D2
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ua0-f172.google.com (mail-ua0-f172.google.com
+	[209.85.217.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 473C6775D2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 22:57:36 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	03 Mar 2017 14:57:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,239,1484035200"; d="scan'208";a="830712716"
-Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.120])
-	by FMSMGA003.fm.intel.com with ESMTP; 03 Mar 2017 14:57:37 -0800
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Mar 2017 17:01:07 -0600
-Message-Id: <1488582067-25664-1-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
+	Fri,  3 Mar 2017 22:58:34 +0000 (UTC)
+Received: by mail-ua0-f172.google.com with SMTP id c11so80380172uaa.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 03 Mar 2017 14:58:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=H8M0V6KuUlcvrjxW06VcEu7rBu7GYtxOwy4MWt20E10=;
+	b=XTuzPSSfM07ylO2lYlCHGYYDlplJsLFueOsCdzqbiJj5m/pi9+4uB5k2jfLe07M8PR
+	rWgcgNlwgMDoJjvlkPcZ1gy8yoex+oVJTmtFMipTSy2RaYDMP93ToGRvbfBPnDYKxyX8
+	7LB54BML01XLaD3AXYMNdhAy42Ngmjh5dBsciBc8n46j6GOtSGWUMq3bl3WqMZTm3C7L
+	DjPdDrhDvTO12t7Z6ZLYMcLAZvpqMHjdvpUfj4u1k+8NmnDospi/UR5WmaJFKGrWWRsv
+	BlsaKyaqmygTcmGp/jrrmM5SvIZP48pml2fXzi1T9HxYEdY5ASESLjQlxtl2YScBq0AX
+	KmNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=H8M0V6KuUlcvrjxW06VcEu7rBu7GYtxOwy4MWt20E10=;
+	b=nEzlmu2+Uczdaq8ht9YP+vX7AhACtXWBnzPVJ3nwJyUb0pGX3e4T5+I0xbtzv0WM7B
+	cpI4t8I8rAthIe0G6G+brP+nCMMFjfn9nUf/tp/V1wn1ziApaUdfKRxhHYGpb12hVf3k
+	6H430p9VfECmV0M1WY4jqcmYKJeIQUkVm8jSfb/2xc0PFVCSDc29eiqanqKg9j2aLM6H
+	DxeeNdaFoIHZlEvod2S5bn+dO78QlS8XzRW2YBsf4zWMccCixEARCCqx2DfJxzzF/U/O
+	3cI+4QuzHKGfARJNk5y4r9gIBOm0i6S/0qgNXPXkbQEyFuo7iJTLzmCoPtsxqBTnLmLV
+	122Q==
+X-Gm-Message-State: AMke39mG6hrEWYquD0+4tWEM1VsTwCR3b4yShCRJ5gg/UA/Wqx1hL8iufCuAP1k+izt1uH5Uk16DIPdhWy5Cbg==
+X-Received: by 10.176.70.66 with SMTP id z2mr1893546uab.69.1488581915957; Fri,
+	03 Mar 2017 14:58:35 -0800 (PST)
 MIME-Version: 1.0
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH] buildhistory.bbclass: Only execute get_extra_sdkinfo when sdk is enabled
+Received: by 10.159.39.37 with HTTP; Fri, 3 Mar 2017 14:58:05 -0800 (PST)
+In-Reply-To: <CAJTo0LYPwxx18CtjJ_Rng28UhQAmJbMCw5=ebW2WkZmcALznUQ@mail.gmail.com>
+References: <1488542096-23389-1-git-send-email-richard.purdie@linuxfoundation.org>
+	<CAMKF1soCXsibCK37Az9MV1HMUpAK2dtWoijOxoBW25RoMhU+8g@mail.gmail.com>
+	<CAJTo0LYPwxx18CtjJ_Rng28UhQAmJbMCw5=ebW2WkZmcALznUQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 3 Mar 2017 14:58:05 -0800
+Message-ID: <CAMKF1sqB7A9m2osnv9bwywRF5hT4-oNgKU+rLNyA8SD70n8Mbg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc-runtime: Add libmpx supprt for x86
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,34 +55,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Mar 2017 22:57:38 -0000
+X-List-Received-Date: Fri, 03 Mar 2017 22:58:35 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-If sdk ins't in BUILDHISTORY_FEATURES the get_extra_sdkinfo fails
-because no information about sdk is generated in buildhistory repo.
+On Fri, Mar 3, 2017 at 2:54 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 3 March 2017 at 21:39, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> > Enabling building the Intel Memory Protection Extension library for x86.
+>> >
+>>
+>> hope this works on amd chips as well ?
+>
+>
+> https://en.wikipedia.org/wiki/Intel_MPX
+>
+> It depends on new instructions, so you'll have to ask AMD. :)
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/classes/buildhistory.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+OK if its not so then perhaps a bbappend in meta-intel is more appropriate.
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 7251a2c..babcf57 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -550,7 +550,9 @@ END
- python buildhistory_get_extra_sdkinfo() {
-     import operator
-     import math
--    if d.getVar('BB_CURRENTTASK') == 'populate_sdk_ext':
-+
-+    if d.getVar('BB_CURRENTTASK') == 'populate_sdk_ext' and \
-+            "sdk" in (d.getVar('BUILDHISTORY_FEATURES') or "").split():
-         tasksizes = {}
-         filesizes = {}
-         for root, _, files in os.walk(d.expand('${SDK_OUTPUT}/${SDKPATH}/sstate-cache')):
--- 
-2.1.4
-
+>
+> Ross
 
