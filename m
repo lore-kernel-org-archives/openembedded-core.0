@@ -1,27 +1,29 @@
 Return-Path: <sona.sarmadi@enea.com>
-Received: from smtp-out11.electric.net (smtp-out11.electric.net
-	[185.38.181.34])
-	by mail.openembedded.org (Postfix) with ESMTP id E46D177685
+Received: from smtp-out10.electric.net (smtp-out10.electric.net
+	[185.38.180.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 22EC37768B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 11:51:45 +0000 (UTC)
-Received: from 1cjlkQ-0006G6-T5 by out11c.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1cjlkQ-0006Gv-Th
+	Fri,  3 Mar 2017 11:51:46 +0000 (UTC)
+Received: from 1cjlkQ-0000q7-Tq by out10c.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1cjlkQ-0000qO-V1
 	for openembedded-core@lists.openembedded.org;
 	Fri, 03 Mar 2017 03:51:46 -0800
 Received: by emcmailer; Fri, 03 Mar 2017 03:51:46 -0800
 Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out11c.electric.net with esmtps (TLSv1:ECDHE-RSA-AES256-SHA:256)
+	by out10c.electric.net with esmtps (TLSv1:ECDHE-RSA-AES256-SHA:256)
 	(Exim 4.87) (envelope-from <sona.sarmadi@enea.com>)
-	id 1cjlkQ-0006G6-T5 for openembedded-core@lists.openembedded.org;
+	id 1cjlkQ-0000q7-Tq for openembedded-core@lists.openembedded.org;
 	Fri, 03 Mar 2017 03:51:46 -0800
 Received: from sestofb11.enea.se (172.21.3.152) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.3.319.2; Fri, 3 Mar 2017
-	12:51:45 +0100
+	12:51:46 +0100
 From: Sona Sarmadi <sona.sarmadi@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 3 Mar 2017 12:51:41 +0100
-Message-ID: <1488541902-43423-1-git-send-email-sona.sarmadi@enea.com>
+Date: Fri, 3 Mar 2017 12:51:42 +0100
+Message-ID: <1488541902-43423-2-git-send-email-sona.sarmadi@enea.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1488541902-43423-1-git-send-email-sona.sarmadi@enea.com>
+References: <1488541902-43423-1-git-send-email-sona.sarmadi@enea.com>
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
 	designate permitted sender hosts)
@@ -35,7 +37,7 @@ X-Authenticated_ID:
 X-PolicySMART: 6551647
 X-Virus-Status: Scanned by VirusSMART (c)
 X-Virus-Status: Scanned by VirusSMART (s)
-Subject: [PATCH 1/2] Qemu: display: CVE-2016-9908
+Subject: [PATCH 2/2] Qemu: display: CVE-2016-9912
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,77 +54,81 @@ X-List-Received-Date: Fri, 03 Mar 2017 11:51:47 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-virtio-gpu: information leakage in virgl_cmd_get_capset
+virtio-gpu: memory leakage when destroying gpu resource
 
-References:
-https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-9908
+Reference:
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-9912
+
+Reference to upstream patch:
+http://git.qemu-project.org/?p=qemu.git;a=patch;h=b8e23926c568f2e963af39028b71c472e3023793
 
 Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 ---
- .../recipes-devtools/qemu/qemu/CVE-2016-9908.patch | 44 ++++++++++++++++++++++
+ .../recipes-devtools/qemu/qemu/CVE-2016-9912.patch | 45 ++++++++++++++++++++++
  meta/recipes-devtools/qemu/qemu_2.8.0.bb           |  1 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-9908.patch
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-9912.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2016-9908.patch b/meta/recipes-devtools/qemu/qemu/CVE-2016-9908.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2016-9912.patch b/meta/recipes-devtools/qemu/qemu/CVE-2016-9912.patch
 new file mode 100644
-index 0000000..e0f7a1a
+index 0000000..c009ffd
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2016-9908.patch
-@@ -0,0 +1,44 @@
-+From 7139ccbc907441337b4b59cde2c5b5a54cb5b2cc Mon Sep 17 00:00:00 2001
-+From: Sona Sarmadi <sona.sarmadi@enea.com>
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2016-9912.patch
+@@ -0,0 +1,45 @@
++From b8e23926c568f2e963af39028b71c472e3023793 Mon Sep 17 00:00:00 2001
++From: Li Qiang <liq3ea@gmail.com>
++Date: Mon, 28 Nov 2016 21:29:25 -0500
++Subject: [PATCH] virtio-gpu: call cleanup mapping function in resource destroy
 +
-+virtio-gpu: fix information leak in capset get dispatch
++If the guest destroy the resource before detach banking, the 'iov'
++and 'addrs' field in resource is not freed thus leading memory
++leak issue. This patch avoid this.
 +
-+In virgl_cmd_get_capset function, it uses g_malloc to allocate
-+a response struct to the guest. As the 'resp'struct hasn't been full
-+initialized it will lead the 'resp->padding' field to the guest.
-+Use g_malloc0 to avoid this.
-+
-+Signed-off-by: Li Qiang <liqiang6-s@360.cn>
-+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-+Message-id: 58188cae.4a6ec20a.3d2d1.aff2@mx.google.com
-+
-+[Sona: backported from master to v2.8.0 and resolved conflict]
-+
-+Reference to upstream patch:
-+http://git.qemu-project.org/?p=qemu.git;a=commit;h=85d9d044471f93c48c5c396f7e217b4ef12f69f8
-+
-+CVE: CVE-2016-9908
++CVE: CVE-2016-9912
 +Upstream-Status: Backport
 +
++Signed-off-by: Li Qiang <liq3ea@gmail.com>
++Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
++Message-id: 1480386565-10077-1-git-send-email-liq3ea@gmail.com
 +Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 +Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 +---
-+ hw/display/virtio-gpu-3d.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ hw/display/virtio-gpu.c | 3 +++
++ 1 file changed, 3 insertions(+)
 +
-+diff --git a/hw/display/virtio-gpu-3d.c b/hw/display/virtio-gpu-3d.c
-+index 23f39de..d98b140 100644
-+--- a/hw/display/virtio-gpu-3d.c
-++++ b/hw/display/virtio-gpu-3d.c
-+@@ -371,7 +371,7 @@ static void virgl_cmd_get_capset(VirtIOGPU *g,
++diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
++index ed2b6d3..6a26258 100644
++--- a/hw/display/virtio-gpu.c
+++++ b/hw/display/virtio-gpu.c
++@@ -28,6 +28,8 @@
++ static struct virtio_gpu_simple_resource*
++ virtio_gpu_find_resource(VirtIOGPU *g, uint32_t resource_id);
 + 
-+     virgl_renderer_get_cap_set(gc.capset_id, &max_ver,
-+                                &max_size);
-+-    resp = g_malloc(sizeof(*resp) + max_size);
-++    resp = g_malloc0(sizeof(*resp) + max_size);
-+ 
-+     resp->hdr.type = VIRTIO_GPU_RESP_OK_CAPSET;
-+     virgl_renderer_fill_caps(gc.capset_id,
+++static void virtio_gpu_cleanup_mapping(struct virtio_gpu_simple_resource *res);
+++
++ #ifdef CONFIG_VIRGL
++ #include <virglrenderer.h>
++ #define VIRGL(_g, _virgl, _simple, ...)                     \
++@@ -364,6 +366,7 @@ static void virtio_gpu_resource_destroy(VirtIOGPU *g,
++                                         struct virtio_gpu_simple_resource *res)
++ {
++     pixman_image_unref(res->image);
+++    virtio_gpu_cleanup_mapping(res);
++     QTAILQ_REMOVE(&g->reslist, res, next);
++     g->hostmem -= res->hostmem;
++     g_free(res);
 +-- 
 +1.9.1
 +
 diff --git a/meta/recipes-devtools/qemu/qemu_2.8.0.bb b/meta/recipes-devtools/qemu/qemu_2.8.0.bb
-index ce475e0..75928c6 100644
+index 75928c6..d0f9fab 100644
 --- a/meta/recipes-devtools/qemu/qemu_2.8.0.bb
 +++ b/meta/recipes-devtools/qemu/qemu_2.8.0.bb
-@@ -17,6 +17,7 @@ SRC_URI += " \
-             file://0002-Introduce-condition-to-notify-waiters-of-completed-c.patch \
+@@ -18,6 +18,7 @@ SRC_URI += " \
              file://0003-Introduce-condition-in-TPM-backend-for-notification.patch \
              file://0004-Add-support-for-VM-suspend-resume-for-TPM-TIS.patch \
-+            file://CVE-2016-9908.patch \
+             file://CVE-2016-9908.patch \
++            file://CVE-2016-9912.patch \
  "
  
  SRC_URI =+ "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
