@@ -1,23 +1,23 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 687B5776A6
+	by mail.openembedded.org (Postfix) with ESMTP id 19D55776CE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 12:37:28 +0000 (UTC)
+	Fri,  3 Mar 2017 12:37:30 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga105.jf.intel.com with ESMTP; 03 Mar 2017 04:37:30 -0800
+	by orsmga105.jf.intel.com with ESMTP; 03 Mar 2017 04:37:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,237,1484035200"; d="scan'208";a="1117999715"
+X-IronPort-AV: E=Sophos;i="5.35,237,1484035200"; d="scan'208";a="1117999720"
 Received: from manuelal-mobl1.ger.corp.intel.com (HELO
 	mqz-osx-suse64.fi.intel.com) ([10.252.4.231])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Mar 2017 04:37:28 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 03 Mar 2017 04:37:30 -0800
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Mar 2017 14:37:24 +0200
-Message-Id: <1488544647-31325-2-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Fri,  3 Mar 2017 14:37:25 +0200
+Message-Id: <1488544647-31325-3-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
 In-Reply-To: <1488544647-31325-1-git-send-email-markus.lehtonen@linux.intel.com>
 References: <1488544647-31325-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [morty][PATCH 1/4] lib/oe/gpg_sign: sign rpm packages in chunks of 100
+Subject: [morty][PATCH 2/4] rpm: support customizing gpg command line
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,44 +30,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Mar 2017 12:37:28 -0000
+X-List-Received-Date: Fri, 03 Mar 2017 12:37:30 -0000
 
-Split the file list into chunks in order to avoid
-"OSError: [Errno 7] Argument list too long"
+Add a new %_gpg_sign_cmd_extra_args macro that allows customizing the
+gpg options used when signing rpm packages. This is needed to be able to
+sign packages with gpg 2.1 which requires "--pinentry-mode loopback" to
+allow non-interactive signing.
 
-This would happend when a package has huge amount of subpackages, e.g.
-glibc-locale.
-
-[YOCTO #11069]
+[YOCTO #11054]
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
-(cherry picked from commit 874f5016fd4dc76bc867b68470297fe59e78a9e6)
+(cherry picked from commit 373a7146d596d27376a003014df0d06f3df5348d)
 ---
- meta/lib/oe/gpg_sign.py | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ .../0001-macros-add-_gpg_sign_cmd_extra_args.patch | 43 ++++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.16.bb            |  1 +
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/0001-macros-add-_gpg_sign_cmd_extra_args.patch
 
-diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
-index 38eb0cb..683ae5b 100644
---- a/meta/lib/oe/gpg_sign.py
-+++ b/meta/lib/oe/gpg_sign.py
-@@ -35,11 +35,12 @@ class LocalSigner(object):
-             cmd += "--define '%%__gpg %s' " % self.gpg_bin
-         if self.gpg_path:
-             cmd += "--define '_gpg_path %s' " % self.gpg_path
--        cmd += ' '.join(files)
+diff --git a/meta/recipes-devtools/rpm/rpm/0001-macros-add-_gpg_sign_cmd_extra_args.patch b/meta/recipes-devtools/rpm/rpm/0001-macros-add-_gpg_sign_cmd_extra_args.patch
+new file mode 100644
+index 0000000..eb43a87
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/rpm/0001-macros-add-_gpg_sign_cmd_extra_args.patch
+@@ -0,0 +1,43 @@
++From fa9726ff69f86d6a87c4c4bd7e3d2881999a872a Mon Sep 17 00:00:00 2001
++From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
++Date: Thu, 23 Feb 2017 11:14:20 +0200
++Subject: [PATCH] macros: add %_gpg_sign_cmd_extra_args
++
++Similar to what rpm4 has. This macro can be used to customize the
++gpg command line options when signing packages. This is needed for
++gpg 2.1 which requires "--pinentry-mode loopback" to allow
++non-interactive signing.
++
++Upstream-Status: Pending
++
++Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
++---
++ macros/macros.in | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/macros/macros.in b/macros/macros.in
++index 8bc5840..fda3c66 100644
++--- a/macros/macros.in
+++++ b/macros/macros.in
++@@ -524,7 +524,9 @@ $_arbitrary_tags_tests	Foo:Bar
++ %_gpg_passphrase_way %{?_gpg_passphrase:--passphrase "%{_gpg_passphrase}"}%{!?_gpg_passphrase:--passphrase-fd 3}
++ 
++ %__gpg_check_password_cmd	%{__gpg} \
++-	gpg --batch --no-verbose %{_gpg_passphrase_way} -u "%{_gpg_name}" -so -
+++	gpg --batch --no-verbose %{_gpg_passphrase_way} \
+++	%{?_gpg_sign_cmd_extra_args:%{_gpg_sign_cmd_extra_args}} \
+++	-u "%{_gpg_name}" -so -
++ #%__pgp_check_password_cmd	%{__pgp} \
++ #	pgp +batchmode=on +verbose=0 "%{_pgp_name}" -sf
++ #%__pgp5_check_password_cmd	%{__pgp} \
++@@ -532,6 +534,7 @@ $_arbitrary_tags_tests	Foo:Bar
++ 
++ %__gpg_sign_cmd			%{__gpg} \
++ 	gpg --batch --no-verbose --no-armor %{_gpg_passphrase_way}  --no-secmem-warning \
+++	%{?_gpg_sign_cmd_extra_args:%{_gpg_sign_cmd_extra_args}} \
++ 	-u "%{_gpg_name}" -sbo %{__signature_filename} %{__plaintext_filename}
++ #%__pgp_sign_cmd			%{__pgp} \
++ #	pgp +batchmode=on +verbose=0 +armor=off \
++-- 
++2.10.2
++
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
+index 85eb5fe..497af8e 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
+@@ -119,6 +119,7 @@ SRC_URI += " \
+ 	   file://gcc6-stdlib.patch \
+ 	   file://0001-system.h-query.c-support-nosignature.patch \
+ 	   file://rpm-ensure-rpm2cpio-call-rpm-relocation-code.patch \
++	   file://0001-macros-add-_gpg_sign_cmd_extra_args.patch \
+ "
  
--        status, output = oe.utils.getstatusoutput(cmd)
--        if status:
--            raise bb.build.FuncFailed("Failed to sign RPM packages: %s" % output)
-+        # Sign in chunks of 100 packages
-+        for i in range(0, len(files), 100):
-+            status, output = oe.utils.getstatusoutput(cmd + ' '.join(files[i:i+100]))
-+            if status:
-+                raise bb.build.FuncFailed("Failed to sign RPM packages: %s" % output)
- 
-     def detach_sign(self, input_file, keyid, passphrase_file, passphrase=None, armor=True):
-         """Create a detached signature of a file"""
+ # OE specific changes
 -- 
 2.6.6
 
