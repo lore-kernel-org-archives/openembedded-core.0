@@ -1,23 +1,55 @@
-Return-Path: <ml@embed.me.uk>
-X-Greylist: delayed 2080 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 03 Mar 2017 10:53:37 UTC
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 00B41774FB
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 363DF77696
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 10:53:37 +0000 (UTC)
+	Fri,  3 Mar 2017 10:55:14 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 5840B18176
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  3 Mar 2017 11:55:15 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id 1O78OrrPb+oq
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  3 Mar 2017 11:55:14 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 8DE331818D
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  3 Mar 2017 11:55:14 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7D6831A06F
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  3 Mar 2017 11:55:14 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 71FA61A06D
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  3 Mar 2017 11:55:14 +0100 (CET)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  3 Mar 2017 11:55:14 +0100 (CET)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id 5ECAD2FC
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  3 Mar 2017 11:55:14 +0100 (CET)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v23AtEBu005931
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 3 Mar 2017 11:55:14 +0100
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v23AtEZ1005930
+	for openembedded-core@lists.openembedded.org;
+	Fri, 3 Mar 2017 11:55:14 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-References: <alpine.LFD.2.20.1703020605560.10072@uk63952.mitel.com>
-	<alpine.LFD.2.20.1703020627050.11911@uk63952.mitel.com>
-	<20170303095825.k2mfmg2mnut7hvks@ad.chargestorm.se>
-	<alpine.LFD.2.20.1703030504170.6531@uk63952.mitel.com>
-From: Jack Mitchell <ml@embed.me.uk>
-Message-ID: <19415188-9877-089c-5816-0e1a4f263a0e@embed.me.uk>
-Date: Fri, 3 Mar 2017 10:18:57 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.1
-MIME-Version: 1.0
-In-Reply-To: <alpine.LFD.2.20.1703030504170.6531@uk63952.mitel.com>
-Subject: Re: "inherit setuptools" versus "inherit pypi" -- a python style question
+Date: Fri,  3 Mar 2017 11:55:09 +0100
+Message-Id: <ad975cd072bc82993b6179ac16c64e7b2290b6bc.1488538442.git.pkj@axis.com>
+X-Mailer: git-send-email 2.9.0
+In-Reply-To: <cover.1488538442.git.pkj@axis.com>
+References: <cover.1488538442.git.pkj@axis.com>
+X-TM-AS-GCONF: 00
+Subject: [PATCHv2 2/5] linux-libc-headers: Add inherit of pkgconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,59 +62,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Mar 2017 10:53:39 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 03 Mar 2017 10:55:14 -0000
 
+pkg-config is used by the kernel build system when creating the
+configuration tools.
 
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 03/03/17 10:06, Robert P. J. Day wrote:
-> On Fri, 3 Mar 2017, Anders Darander wrote:
-> 
->> * Robert P. J. Day <rpjday@crashcourse.ca> [170302 12:33]:
->>
->>> On Thu, 2 Mar 2017, Robert P. J. Day wrote:
->>
->>>>   inherit pypi setuptools
->>>>   require python-psutil.inc
->>
->>>> and the corresponding .inc file contains:
->>
->>>>   RDEPENDS_${PN} += " \
->>>>     ${PYTHON_PN}-shell \
->>>>     ${PYTHON_PN}-subprocess \
->>>>     ${PYTHON_PN}-threading \
->>>>   "
->>
->>>> so the first recipe inherits pypi, the second one inherits setuptools,
->>>> and the third inherits *both*. what is the *preferred* style?
->>
->> Well, different purposes... If you take a look at pypi.bbclass, it's all
->> about how to retrieve the module (source code). setuptools.bbclass is
->> about how to install the module...
->>
->> Ie retrieving and installing...
-> 
->   yes, i finally twigged to that, but is there a *preferred* style?
-> from what i've seen, if there is a pair of files for a python module:
-> 
->   * foo.bb (which includes ...)
->   * foo.inc
-> 
-> the common style seems to be that:
-> 
->   * foo.bb inherits setuptools, while
->   * foo.inc inherits pypi (if necessary, of course)
-> 
-> at least i think that was the common style. obviously, there are
-> perfectly acceptable variations, i'd just like to know if there is a
-> recommended style.
-> 
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+index 30d2243..653a470 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+@@ -42,7 +42,7 @@ python __anonymous () {
+         d.setVar("HEADER_FETCH_VER", "2.6")
+ }
+ 
+-inherit kernel-arch
++inherit kernel-arch pkgconfig
+ 
+ KORG_ARCHIVE_COMPRESSION ?= "xz"
+ 
+-- 
+2.9.0
 
-One reason for this is for py2/py3 reciepes. python-foo.bb will inherit
-setuptools, while python3-foo has to inherit setuptools3. So I would
-imagine that setuptools should always go in the bb. While pypi is python
-version agnostic I believe.
-
-Cheers,
 
