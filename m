@@ -1,97 +1,96 @@
 Return-Path: <mkelly@xevo.com>
-Received: from NAM01-SN1-obe.outbound.protection.outlook.com
-	(mail-sn1nam01on0054.outbound.protection.outlook.com [104.47.32.54])
-	by mail.openembedded.org (Postfix) with ESMTP id F1F33776A6
+X-Greylist: delayed 1975 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 03 Mar 2017 20:53:39 UTC
+Received: from NAM03-DM3-obe.outbound.protection.outlook.com
+	(mail-dm3nam03on0062.outbound.protection.outlook.com [104.47.41.62])
+	by mail.openembedded.org (Postfix) with ESMTP id 02BC877701
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 20:35:59 +0000 (UTC)
+	Fri,  3 Mar 2017 20:53:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=uievolution.onmicrosoft.com; s=selector1-xevo-com;
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=pd78dUr7BdhLDoDqJpCqjRTqclpoCCLojaKarWUgfkk=;
-	b=Ejh7b6Bx+dqsjSeZONCtEoYfdJWNKBmjrnSBQoGO42E7+zEKW504N+luKti2CVuwOyiPyK8p2x4Vvx8jPWmZOreDHqYNCoXjEATDlwSR/B4mVs1c52NHbqYbvSp0mEClsTvS9y7BwF8vf5ykb3pK34WeOo1LBQ9IOr1vjtOhFyA=
+	bh=jc2QQf78Emiky/NRgIaSf5nTAl8duAt0Ao3vbxeVIxA=;
+	b=L7xZvDmO7yTKM+uhiKKGn2DUmRw/t95817kH2AQwFOZj8i1CI20zW67FzjuOmojMC2Ian2X4q9Z4o4MGCCkH/XdTvSXYUxWcd/45x5HLrBABjh/VxKtH//eKzDH9Aj2XmkOoB+FIQWo2VIWve1xU3p7iePzkhiAJ/5eCUSMjpPI=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
 	header.d=none; lists.openembedded.org;
 	dmarc=none action=none header.from=xevo.com;
 Received: from [192.168.1.2] (67.171.33.217) by
-	BN3PR01MB1400.prod.exchangelabs.com (10.163.36.155) with Microsoft SMTP
-	Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
-	15.1.947.12; Fri, 3 Mar 2017 20:35:55 +0000
+	CY1PR01MB1405.prod.exchangelabs.com (10.163.18.27) with Microsoft SMTP
+	Server
+	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+	15.1.933.12; Fri, 3 Mar 2017 20:20:43 +0000
 To: Khem Raj <raj.khem@gmail.com>
 References: <119c985a-4527-9ced-6cfe-46ccdecbba67@xevo.com>
 	<CAMKF1spQU9cmk22_Q7VtwKqJ+vVji-YfOHewUr8sz7ykkJaG3Q@mail.gmail.com>
-	<7333db9a-fda0-a8e3-6a3f-9d7700e9eda4@xevo.com>
-	<CAMKF1sp+pwjdasqJ2P9hg3VgqPPr+XC-GWV0oN8V8vUvE-+yEg@mail.gmail.com>
 From: Martin Kelly <mkelly@xevo.com>
-Message-ID: <132772b8-699c-ac9d-8ffa-f51ab7ea6947@xevo.com>
-Date: Fri, 3 Mar 2017 12:31:00 -0800
+Message-ID: <7333db9a-fda0-a8e3-6a3f-9d7700e9eda4@xevo.com>
+Date: Fri, 3 Mar 2017 12:15:49 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Icedove/45.6.0
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sp+pwjdasqJ2P9hg3VgqPPr+XC-GWV0oN8V8vUvE-+yEg@mail.gmail.com>
+In-Reply-To: <CAMKF1spQU9cmk22_Q7VtwKqJ+vVji-YfOHewUr8sz7ykkJaG3Q@mail.gmail.com>
 X-Originating-IP: [67.171.33.217]
-X-ClientProxiedBy: MWHPR11CA0003.namprd11.prod.outlook.com (10.172.48.141) To
-	BN3PR01MB1400.prod.exchangelabs.com (10.163.36.155)
-X-MS-Office365-Filtering-Correlation-Id: a838e3be-538e-4e11-fbee-08d46274e4e5
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(22001);SRVR:BN3PR01MB1400;
-X-Microsoft-Exchange-Diagnostics: 1; BN3PR01MB1400;
-	3:ThvkZetvZFyZyehR6hvOJnUtnrIrE+yn0q4in7NppDnwwRcQj5Ym5jzyGyFfP56+om+RBjMKx0et8jTFsmk9oEFnBTVyxEyUFIsgY/r9C2RCWThEOkar8DFmOK+13mdIqGgwDu5tjfLUtLzTmJqgmZQx+qA+o/dBDHVreHfuGsWXC4Qpwoo7f2/DWN1KzJsJgshRuVWzrU5gRqe6KfEQOkiDyGU70GnRQXYfqCVh7gyS3nmKPGyCsp1Y/YtyopLgPx+JowJk+ALVh5ZSVGFitw==;
-	25:8rHM/Lg6DK8TckQBx+gIobXoumPGIDGynBgpJASh6/SNbUsg/KGydf6DYp38QsRvr3mCRKiVWaOSDQc0HlMLI0D8ZDNlhg63enpGDHh8mEFjx//7WJPVpgZQyuDmEqEP1iWO8DVNrlZeo7X0Zzrtu/KgELDyAS4Ncb61bNrExY35PAsaavUpjx0oIgA4bqcHneQHaqlEH6FOLWA9tn09sqN2sZAk7t8XLd+qWwnh3EAd9MIK+wRbrigalevsBYg9HMAGGi/STzMSHdqhqyFEBx2+X6X4MeEM9d9lObsSbK52Satzi1gccJF6IaVY4T8C7avaEW9da6GLlPD9mj3r0QHWc0Bruwgczeu3G79DWXuRD7NJrT+bPanC7pbX+QfC+tij9pQzF6SQBAt4pYdyk/ZAVtS8sRuUVinCry7Hnjqkja9zhufIqgJ9SgQ3yO7QkxVDSmURQfU/TnfXsBvo8g==
-X-Microsoft-Exchange-Diagnostics: 1; BN3PR01MB1400;
-	31:CWRAl06i0CrNrbn1jq7vjqnzAzjj3JAUzmrfDoIY/5kRIpAWBJQ1nVPKFhfm1yGGKiTL5Vm7exaaiNcpqcVWW1tsHfAc1ue7t/fYFNlTQ6z1hhkD9G0+FMXqN8C497pKVH8UTGKV9N57YyOWJ4kDp8/Tfp35L3Sen5IOzOdHgum4OSYwQa2fRngG/Q1uXP7UaReTde/SVQfvsB5NdHR2KszqlkVo2mJK4KUSsG4momfQC/axIqrG/aDCdl/JEcAoqwWtoTg5PjTrxPtcUbYzFA==;
-	20:+xFx9vl/zkXBGrlcFCAgdZfmj0nztrNcDsKVc7xzC7zOqjg/LY96JEe2Za3IFEkRhRrf840smrwsC808/LytbpGpr3IHGK+bKPUW4lohDjgJ8FgI1WpQ8XpcB5tBVQw2JMitr04ilYycpVsmuDe22QRJ2CMAaMKm2Jbp1+2K5TZ+H+0WJakGs+Xenp5IIoXs1UPYW9rKHt/0Blb+8yyvY0bLTmy5vh7oO6AAZVPR7b/YV0ISizyjDWMUfbLrG7lsSjjSF09jfK458eD1Kj4DY/ljxy7LaGKHcEBAX9RtmHqKfctoSarx1I5QsTo9zL85Nqhia9oTpqnNnV+dhCuM6Q==
-X-Microsoft-Antispam-PRVS: <BN3PR01MB14001EDBA54A8511560B8636AB2B0@BN3PR01MB1400.prod.exchangelabs.com>
+X-ClientProxiedBy: CY4PR09CA0090.namprd09.prod.outlook.com (10.172.133.156) To
+	CY1PR01MB1405.prod.exchangelabs.com (10.163.18.27)
+X-MS-Office365-Filtering-Correlation-Id: 698adc1f-7231-4351-ef6c-08d46272c4e8
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(22001);SRVR:CY1PR01MB1405;
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR01MB1405;
+	3:TrHgBLAefNkekGlsVr1f5kmwmY+HTbu2XY8u0VxQufBgC+YRpFyY2KG152b1UzU17DoYBu84Va38nY0qZQ63hL3nskS2ax+EB7sxRf41tdxwJdGs0x9feD0LZ+Qpe9xr4WSvhX6p5D0S6ehqBQe2/l/fdHIQO1ClMjZ3T6+r+Ww2GjfPptcoj0DMEzrmG14OxPJ7b5wpZgYZDIPJHjAcfvZifrX+Pl/bpjsTZI8WoUl0XndKLRftazVdJLLsdemLAMzQ1PPFH/7JonIYGfa0Uw==;
+	25:adXcqPqu0n2Eo0+RV1I/z9Saytsq4UwwY/G/qL9z/rWrEWY7OLfAn6DnpvgkM5kV00yccR8lRFvelEBP3Dgs0p3lUt8xtPjuVxeWgSD1mh4+uNMD1pN/DTOSU20pEbqpDqPzFhk/C2TxnOMbMA/RGZn9POPpA0D1DLUZjgRNYyY3EbFXDZEAqAZmVYBoG/87+Arsc9Sk1jOyjxL+6kPhPkZGogDEjPNxX4Yhrw/B/q2di7a6tNqelOExTdzPGQa3wWe44ZS5ayuUh3pjPJdQEqZjn4jDUeTlCvTBT59SEpOGjY31aRp0PXONM35x7JpY/p8qUTGCVhIFHvTtal65Urp51rm96Yp8g/lOTXIpIHYRbk/47VIBAM7ZyKzI2zaLb0k6zb86k9WZCNgSudv+PkU8QT0Xmgvf4tLbuWBaIYd/dNJoXDUH+uf/N1Eny4WjRGdW55k9L8YkfFJpYOkP1A==
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR01MB1405;
+	31:wbYB1v2UeNlD+85huWQGXvieB8H0brRQQ5TDXsMV50b44EEVxpj40uI/1khdQFW6pMsqxAPPwUlesyT4WXfZUCUjbPE6Bcd5n/8OBtkrIencWq8Docw+baRcBsisxSHrH0QR1r1myEBw3Xb40CDmxPGV9Hs9LeYuMFcT7g55dhmm+tGmGLvzxO00QCsi2AceWlgIVn6NenQvb7lRR4yQCvcTR7wumY61tVT73SE9iqMdmtQ0hwXS0jJoUt0PW8d4kL4ztUGu6OOpOz5EqCqfwCcTuiy2mp8X6bjLchVIFOg=;
+	20:vN0Ghf0hP0gofv19Ckgi5zv+8GxMU6D+BFYJSBGWxSKXt/CuUQ/jGTzNQkbdIGLq68kK5Wl4qJwv84uCgOsf/YUSff7hxiFHz/MYTAbD6poTeMX9BnPx6VXvN4tFShEFl7kSNUXk+dkGOY9EnZvYRPpHinkj0pWKxhglLfUHNid/g4l9Uf1oBRPA0gpUaBRnrzIenIbgjagCb8hbDnChNsT4kgPEb/JRDd1I4BTUQf70++pRMRckAAv+ta0HSuWdOk6PLj2iDEPEyYVrQuibYqdT6wN6NvVmsSksYfznubgQtIUdLgRawKq9ob86IH1yJWE5Aqy9mfckiAdNJjBHBmdRhNl16d/dv7AHGueTkbxK6Y+sky9Iat39tmH7NB+EzXc7IScThpy4ROaHz5vh+gjeKIYrb9fiWiJHxJIAvIY=
+X-Microsoft-Antispam-PRVS: <CY1PR01MB140531AF80D015B122151062AB2B0@CY1PR01MB1405.prod.exchangelabs.com>
 X-Exchange-Antispam-Report-Test: UriScan:;
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(6040375)(2401047)(8121501046)(5005006)(10201501046)(3002001)(6041248)(20161123558025)(20161123560025)(20161123555025)(20161123564025)(20161123562025)(6072148);
-	SRVR:BN3PR01MB1400; BCL:0; PCL:0; RULEID:; SRVR:BN3PR01MB1400; 
-X-Microsoft-Exchange-Diagnostics: 1; BN3PR01MB1400;
-	4:w2NgyLdiQoDVAPDoN4Hy7p1tBGQU4+QFSY1rB7AyrQ+7CMK0mnZ2QGBB+cTxxKbkunvVkfGbEf1p1SqzZXqv2jGgoD9CTJFGRZU2bM/1gTuJ1sYnX3T+6MQUcN2UJXVEtM2ZzwMNUa9mSO79SuxtYz8kkFmwfou46lQdbgO/YElUcbsXqca6HzOpdegkuCLoZlSSYsZgdVr4/8ZOKlaWndhj9qsKovE5QHuU0BqLL2yIUoKsAyX0wkrpz2zAra1HSgUOPmmjz/kYDzwxuNkoN6RUrbsAx39IHCuEXnIvXnc7ut4hypwmbISCnndNW4qw7ZIBzoPRJzY+l+dHAR3GrlHFnKInQii8YlAPtyfzy5B0GmRGZ+5dET/fhpvdAoIyADAcZVjcRAbm+Dfh8uIWLPiVziFEn2TobuuAVW+5JNI5iQAo3L6lNKZLoSxRUPWNCK8FJ4NNpGiSWNfksQowXhAwJbMxvM0IP/QfKW2me9EzLGpqGwUeXiL4/gHzQnc1VDyLCLYmBkGkVZFw30GBURh7Nz3OB1T8jhZaKN3UxoFt/M7EP4Io6QVIagWEEtKaojv6erwGM0R922iOFyPX1Q==
+	RULEID:(6040375)(2401047)(5005006)(8121501046)(3002001)(10201501046)(6041248)(20161123558025)(20161123564025)(20161123562025)(20161123560025)(20161123555025)(6072148);
+	SRVR:CY1PR01MB1405; BCL:0; PCL:0; RULEID:; SRVR:CY1PR01MB1405; 
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR01MB1405;
+	4:Mrb/+BEK6KRFNKWSyo2snKEvkEe2vNbV2Xn5oKMAeuM4lOi+zf6z4++eeEgm1gtRQB9pOzvCh781YCAdqwkku9OcHLFn8PRM/Fg5rIbNa+IM5/aj6mLq8FblO1p5Ztj2grEj6RJmmNFElO7eReGlKeVqlxkjBbCZ45wIwmWvYdFt/Svotg/e+j8m7Ar8MHI3CxPUwsh/m8MhUc13bIO2nhNmw+f6uVbSugiIRyQFv4WOai+1D/hELEQ7WRSz1ljdmsNT4wEwHNmuH/vm7wK+E7etbaT5l55dmykrmnSKzmNpue3NXRC70bWJhG1E8SHuCOp1oBOW60z0iEt8w4QzrRJ5NqBkNQBpEoFDHN2F0q36t31vMK1Xxnhfz7AQsRmaZ7qhcX13CYccSS0KdERGENBf4yJxHhsIu31KfIOLuBFBNf1kgxCC7t4JF56s5zlObFFw3Zfo3snt3teJreQki7CD7dS83/+DzUoKgofDPUHXWPkBKukyJgbT/clYPVhgA10H2s8GAl8FdCQGdjAvCj5bJvaXkOanCbag2QZ3bHD3OPkZAmWRW9OTsnIMdEh8h3gf+OZqN09Eu45yJrAlRg==
 X-Forefront-PRVS: 0235CBE7D0
 X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10009020)(4630300001)(6009001)(6049001)(7916002)(39450400003)(52314003)(24454002)(377454003)(4001350100001)(2950100002)(86362001)(33646002)(23676002)(229853002)(92566002)(5660300001)(36756003)(31696002)(64126003)(6666003)(50466002)(2906002)(8676002)(81166006)(50986999)(53546006)(230700001)(76176999)(93886004)(6916009)(305945005)(4326008)(83506001)(189998001)(6246003)(53936002)(117156001)(25786008)(6486002)(66066001)(77096006)(38730400002)(31686004)(3846002)(6116002)(42186005)(54356999)(7736002)(47776003)(110136004);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BN3PR01MB1400; H:[192.168.1.2];
+	SFS:(10009020)(4630300001)(6049001)(6009001)(7916002)(39450400003)(377454003)(51444003)(24454002)(189998001)(92566002)(36756003)(4001350100001)(83506001)(2906002)(4326008)(47776003)(66066001)(2950100002)(6916009)(229853002)(8676002)(6486002)(77096006)(25786008)(81166006)(33646002)(6116002)(76176999)(31686004)(31696002)(110136004)(117156001)(3846002)(38730400002)(50986999)(53546006)(5660300001)(54356999)(86362001)(230700001)(64126003)(50466002)(42186005)(7736002)(23676002)(6246003)(305945005)(53936002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:CY1PR01MB1405; H:[192.168.1.2];
 	FPR:; SPF:None; MLV:sfv; LANG:en; 
-X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtCTjNQUjAxTUIxNDAwOzIzOmhNYnZTYWhxeDhQQ1dja2FZOVpEdmJhcWtj?=
-	=?utf-8?B?cVVjVVhBWUF6MDFRc3lWVndRdWNqYldnRE5zZlMxK3daUm1pTnk1SWZVOUFO?=
-	=?utf-8?B?b3I3dzR5QVVieWRoS2pQVEl5MHlFL0E4OWVNR3FYYVRPVHNKUWdsNVk3N0Fa?=
-	=?utf-8?B?ZmF5eG9XWk9iM0NPdnZidjhTdDI2bTZhWVFzbEg3UlYvSXNDckxjVXpkSEhF?=
-	=?utf-8?B?Z0VjMWFaQnZNODhuTlFGTmFqMU9rTm1SNjJoZTlqUzJLNnVTYkNUNGMxUTBW?=
-	=?utf-8?B?THhUbmkzbXYzTkFac1lTcFVFOVEwVG5zdUM5WFdteHVFUjZGVEYwVStqMUkx?=
-	=?utf-8?B?am5HclVTVVRuRUNPUUpYa2k5VDhzY3dqdmFaemNGWVZVVHJsS2J0RkxNREdB?=
-	=?utf-8?B?djBEM1hBWnRCZkxEZHphUWlCakJJQWhqMVNRRFpRVENnVTl6N2dzbnRZeXhk?=
-	=?utf-8?B?RGo2WDZkTjYyUWhpWEpFT2oxYmoycjZjWituTHUraWl3TWMxTHVyUm5nRi84?=
-	=?utf-8?B?NXJiYWV5dThDUE5EL1R0UjFqT2R6RU52d0NJR2tvYklKM3ZjelpwS0JRVW5t?=
-	=?utf-8?B?alcxam5CbDFkNER2NnluSXpRZ2FtZjhqUnYwNytGYjhPTXJIZ2hnZ1FWMUYx?=
-	=?utf-8?B?bGRkdERzTFIybUhLeTlrRWhpb21qc0FOcDVobWs3R0ttajZyWk9tdGxiaHI1?=
-	=?utf-8?B?djNZeGFHNlRJWDdkM0pBajRzQzJFY2k5MHgyTDB6VFFIdjkrdlZkYU1LOU1o?=
-	=?utf-8?B?MFVENEhRQTNNbG90VzVkZnVCT1lTUi9MazVCcGxGTjFZOUUvSVFBWHc1WTNx?=
-	=?utf-8?B?R1oyWVNyN0lrTnJRMTBydS9qdmllMzhySmp4WXlid1ZJS1d6T1IyeHNNaUpn?=
-	=?utf-8?B?UGJwaE13Y3F1R2lVM3YyUzlmUU1jTFZtb1FCMk9OL0pGK2hTUm5VVEt4R2Jh?=
-	=?utf-8?B?ZTBObWR2blBiZWt6Q21ZazYzb1BRTjNURUtEaitrcjVQRjZ2Um9IMm14S3Nx?=
-	=?utf-8?B?eVNWUWNqemEwa2hFWVY0bjR3UjdtNEJsSTBGTm04ajZpWDNRV25yWDFnaWZx?=
-	=?utf-8?B?bVdrMHpnU1FOVlgrc0NzdDdMQUJsaTRRaUEraXBsYStnMTl3amE3T1dxNVBq?=
-	=?utf-8?B?QmN6Q2VPV2pyaUtMUlJjL0c0UXFPQWFMQU56VytiK0NPb3I1RVF4VUVPeGhJ?=
-	=?utf-8?B?NW9SQ3hiZFlMRE5HNVp3dE0xbEJ4MXg3WitiL3VjMVozY3VQRHgvNmVOUHNR?=
-	=?utf-8?B?UllIQU9MZWJGWXZTc3FFbXpsOERCcnNCdzU1cjhGZi85SUFQSUVRVnZsQ05Y?=
-	=?utf-8?B?aG45c2M3RFN5OFd0M0Q5LzBxbFhUZGRYTjFydWg4NUpHVzVOam5vUTJBM3dL?=
-	=?utf-8?B?QlppV253WWtVR0JpQURia2M5RzdJRmk0VGoxUXh3aVFpMUdIdWJNdlBvejRp?=
-	=?utf-8?B?MnA2OXVjR0hWTlRzVzlyVGVYaDlRSDE4NWtNbHA5Q0tSRmtGU3ExL3pRc3NF?=
-	=?utf-8?B?OVpwMkp5M2lMZHF1MzJnVzA5eThoZ1RYM0xvdDJ1YUZBQW5GUXA4VGVZUEZv?=
-	=?utf-8?B?YmI3OFRRMkVLOGQ1N25yOUpIZFJKU3N4ZU8wN2pQOTUyTldYWFZEMm5LeU1O?=
-	=?utf-8?B?VDNORWliUTR2R3JDemV0cDBxS3IrZGdkWDZMcDRTV1VUa00wS1ZudzZRPT0=?=
-X-Microsoft-Exchange-Diagnostics: 1; BN3PR01MB1400;
-	6:Jpncqc9HHCnENRpd2bJbplQOVQ/+UYGnRr8hO550KEF4W4adsxrq8jRyZ1Hq2OozwWklD9r+QWu+AOjlWKIBCFSluGPtR/mCUheNax72PblrE8mNVuZBD29ipfBFhcZmFbc6X1MIKBRvfw+ijbJL1iVoyMn+PSZZ9dJRUdkzS5+yLRvvfvkPiNZX7k4hf64fVjn03BFy7kBSI/twLRF6GYkSIKW2lLGLTFDZQD0OsosAgaqapeoZqg+MINjO7wo7r4t0hZiC1lAMMCI2JXcdmX6xFCdLUOJxpH1tyDccRzg5wRUZqdelIoBX1kQnX8AZNFv6bz1jqtQ7SoyZne+IaQgB2Mov1AwjUG6lLNLnRFk5HZOMCO00JqjfGhAjCMoc+f+PDqoxTiVqbe5Toh/YUg==;
-	5:lu36stTav4vUZBhs/6h4ZSfHeiPRNU+09mSLeaHnpGrEGfJi5MkJvmXZAUDJ2Vt5PDiYdHZm5EhmFZpTLHr103pQ4Ag09bYK860xMlw4+lH1hoPXChxFU7BTfNbtIDW6y9rvJPSEP8BGmZ29NosnRw==;
-	24:gfhIaMvQqA4xqyzBqo8uxvi0NtSiYeSECefvmORAPHSgjwe1her+E8bRABe+zSqHXyJxQoi5QL2aaF+QYAZqyHcHhf8mqaV/9gi0FW0mHsk=
+X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtDWTFQUjAxTUIxNDA1OzIzOmNjSU56aEp1VnJxVHBSY3o4TnVGL0JJNUxH?=
+	=?utf-8?B?ZEFMOUtoRFhFVjMwdXJFTHkwS3d1VE5aNTlMWU1TZVAxa0dmWExqK0N5Q1dl?=
+	=?utf-8?B?K291dzZIY3hEaVFVVkF0WHNHOCtWQmNvbElJem5yb0UvMktjMW1VbWN4dTRJ?=
+	=?utf-8?B?WXpjaXVMdFRoRko1d2lHektrdGxCY2twUi9SNUlZeExjcEMxam9WVURCMGhE?=
+	=?utf-8?B?bmJ0VWcxYVBoRVdoaXpEWjhRUHJmVmdjclBNQlN5dGVCR0xNNGxWRGxpRy85?=
+	=?utf-8?B?MlBOQThKYTNxUEFXWDVxMEdhYnBEMjB2OVZHQkVINldIS0hIeVdmTU5LM0dM?=
+	=?utf-8?B?TzFMTVBDOG1pM1ltUS94b1ZrbVVkbVUyOEdmc1ZsandQOFloME5PWVJ4Z1Zk?=
+	=?utf-8?B?QmpmVTFHemFlT0luTEcvVmZTMXFvcjhaUE9GVmNTRjhrb3B6RmtzVmFhS1hr?=
+	=?utf-8?B?Ulgza2d3dE9RcFdUS1NKc29UN1EyM3NKTHdmaFFJNHVaU3E5UXVVU0xhbHJx?=
+	=?utf-8?B?M1NRaFZkM2hmOVlITlZZbHozU0NIejgxcFFQeVBYS2prUUEvTVF3M2tFUlZX?=
+	=?utf-8?B?a29FQXJyZ2wwc056RXJMRVBjZHVBYlg0ak9vd0d3cVd1RktnYmhtLzljOXg5?=
+	=?utf-8?B?VmJTN2cvYWJkOXI0am1NU2dNZlBXd2dKS29wNGJqR2t1bnJGS09peEV2bEsx?=
+	=?utf-8?B?WkV0bWp1ZVQxYzNYdVB5T0x4NnhQQktDdjNlOGlLdjAzRjV5bm9IWTNwcHNk?=
+	=?utf-8?B?c0tUQUF1b3pSMXhSN0xSaXkwZktCMEVpUC9lZkNPaXBqYVY4b0pzMWVmQUVX?=
+	=?utf-8?B?Y0o3OFN4YjJmVHdOQjRBZnlkek1RUWV1OStrZzlnZ2tZMkV5RTdpaXB1bmdP?=
+	=?utf-8?B?WnpqYTRXbC9weksxbnFvMU1GTGR3eFhoQzZYak43R2N3NHZ1amx4V3F4YnhV?=
+	=?utf-8?B?bDJXUkN5NG5rM0ZKcGhvVGlxRFRlbTkxRlI2d2VnTlhwYnZUNWlTanQ3K3pj?=
+	=?utf-8?B?VHJpMUZabnEyZ0pyTmxSaTN5TDRDdHkvWG4rNVAwVytNRHBhdUtxa1l4dGMr?=
+	=?utf-8?B?dWV1a3ZqS1B1bkR4eGIzQ21nWE9pM3NWQld5ZkhSeHQwMUFLRm0yNDB3cEpG?=
+	=?utf-8?B?OE5DSkdHbUhDQ2F3ckdvQXUwbjJoajRhMjVKNUJXREZpZ1ZJL0dpY3Y0K09F?=
+	=?utf-8?B?a1NQMnJCdkVmWi8wVGFZdHI2NytoR0NES1dyaENwY2xqckVrclV4N0xxMHRJ?=
+	=?utf-8?B?dHhVOGV4OFF0VkRqdDdFK1NzZ2FwZzBEK2hMUzBqRGI3NkZRdVBVQ0lScHNL?=
+	=?utf-8?B?SFh4Sm1WNkxGY2g5OEtHTUlYTXdDTkRMOEw2cEZuZE9KUlJDRERPK0UrU3lY?=
+	=?utf-8?B?NFlMemo4ajlwOFpGMEVsaHBDbFpJOHV6dDB6enNxbmR2M2JsU0llUzNubmY5?=
+	=?utf-8?B?dWF6NUU4bXZEdEdlQWRrTnZxdXNPbnp0V0ZOM0F6R3FsOFhOK0o1SkJrb1J5?=
+	=?utf-8?B?MFptY3ZRRnFKRW1HT3k2aUNKMW5QcFVNazFMdlRjdFhCNmNwc1Vxd2hqS3dG?=
+	=?utf-8?Q?oqei/rVRJQpdemYz0G4mUVlZbFAdoiY886jYkPW7kKLM=3D?=
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR01MB1405;
+	6:rK8qn6+0G61OAU5IqSV0DKq13ncTbBvLAOqhZQ/qfeqKsw94/5733ALr7yyRTIefL/hAfkoHjVtQFNvojet6YpFMrlIiEUZiGUhIohYZoAkiRbpvnJYQG+OmiET8hmzur9ZMkkJqJqd5KSCl/+e2brXXEYDijNp6YxdyiK5OFsSZwG0q/vZ4Wx8TiaaJaKhVdaK+b+saKsG+gUbOFfQlFNdPkHrqPGsn0FEML43WQC/HjaCE1Inx1LnF7ylsCZSAdCH7b1E+Cggg1CG3/OPIsVfKxJqbqdwzvtqsp4NZtKm4KlyI9X9SRc7s0SLbmN4uB9fyRWE9Stt1UldEk8zrx3cqM0GFY3bYWW3MFRQnJuWk1ARnjy6bysh5tE0OX4kbJC9LfSbZBvsx9eIb/zMMQg==;
+	5:tMinpwOIC6fHWHXgP9uNn+YvpmLAc67qywhIO1s7vnZgxOgwGGt8sLQp9s9vAJtZ8nOKteCIRWEnK+egCcS3uXzHH+Gdrxodp6b54gwolj3kP9cTizUg64wZ4nBdkuDPKuAnhR2vKFf8we8KKk+8KQ==;
+	24:sJlKStA+e0ZCtFyAobY0iYx5XnHaHxvl+M7tojjOqcRNGgL5ji3BpIGtvs9SjtQeHSIB8N7mpd5ASWTxqNKnBF2P2NEGPhORIfN+eYQDZns=
 SpamDiagnosticOutput: 1:99
 SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1; BN3PR01MB1400;
-	7:2sl/Lm+ECe59DYAFGShNuMpaEzG3VjatwtysU9hcxD44DyudfOPZOJgI21KM3C2hQrReU7xpqmfl2NaFjstbPNIGUcRkHa3WN2EerMmpC1C42rP0sbChDCR93TdylwRlR0jYhb31T9fFIvjC0//i8UtElpc8m8FMqlcg6WaGCGuD+idzoFTaOQcZaQu2mskEABCDDNikoaBUwyXWNPEwDRs/+rRrRPA06jias0hefBYzz+lbmP4dv2Ni7cbkBkJk+5R+kwREoGOQnORRXvOFjIzc95cndy9qPRulrYPrUI1GD7syYCIpx6BI90AdLKJl7/SOVIqGc6Aspdd6/TqnFw==
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR01MB1405;
+	7:k/ziNITsXbAqf7Cha4Ch8wgl+DMHtk6OPvmcgYgr5fhYg9OeC1tgetddqCvyXAv90U+annzLAt5+TeaDOFLgXi5sfRITLcnArACxaQShJ3mfrRVsAQzWZnRBEPvQpR1qBKzNFFKrbalIJycZmkddzPAKgYEq7XdwKf4tvQlijpQR2izVWg62voa5boh9MQlJIepsWW3vZa9SNaQihbqMf4dFwTcno6h3I20gZSJY+SG2uryU6EGlKYTRIittEs1fjQCesaqV2N9JayBI8IQAopIm6xM6t5Q+9NGXvwWomCN13zKpGwQeM7KhlntgkMbg574ubMpC0m3wF27FcNZXwQ==
 X-OriginatorOrg: xevo.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2017 20:35:55.7244 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2017 20:20:43.3601 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR01MB1400
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR01MB1405
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [meta-clang] clang/LLVM versioning
@@ -107,40 +106,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Mar 2017 20:36:00 -0000
+X-List-Received-Date: Fri, 03 Mar 2017 20:53:40 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 03/03/2017 12:23 PM, Khem Raj wrote:
-> On Fri, Mar 3, 2017 at 12:15 PM, Martin Kelly <mkelly@xevo.com> wrote:
->> On 03/03/2017 12:12 PM, Khem Raj wrote:
->>>
->>> with  meta-clang there is no desire to support multiple versions of
->>> llvm and thats why versioning was dropped however, I would still like
->>> to fix the versioning if that makes it more useful.
->>>
->>
->> OK, keeping a single version is certainly simpler. Could you clarify "I
->> would still like to fix the versioning if that makes it more useful." ?
->>
->
-> say if there are other apps which depend on the versioning and
-> otherwise would need patching to work with llvm from meta-clang, then
-> lets fix it in meta-clang.
+On 03/03/2017 12:12 PM, Khem Raj wrote:
+> with  meta-clang there is no desire to support multiple versions of
+> llvm and thats why versioning was dropped however, I would still like
+> to fix the versioning if that makes it more useful.
 >
 
- From my investigation, it looks like the real (unwrapped) llvm-config 
-is in the PATH for any recipe depending on clang-native. This means that 
-when an app looks for llvm-config, it will find the real version and 
-won't know that the wrapper went anywhere. Of course, if the app truly 
-depends on a specific LLVM version -- due to LLVM's unstable ABI -- then 
-that app will break when the meta-clang version changes. However, if we 
-don't maintain multiple versions of LLVM in meta-clang, that's unavoidable.
+OK, keeping a single version is certainly simpler. Could you clarify "I 
+would still like to fix the versioning if that makes it more useful." ?
 
-So AFAICT we could safely remove the wrapper and have apps that set 
-WANT_LLVM_RELEASE still work correctly, if they compile against our 
-version of meta-clang. Since it appears the wrapper has been broken for 
-for some time anyway, I'm guessing there aren't many such apps anyway.
-
-Does that sound reasonable to you?
+I may be missing something, but it seems like the llvm-config wrapper 
+script's only job is to point to a versioned installed via 
+WANT_LLVM_RELEASE. If that's the case, and if we don't intend to support 
+multiple versions, wouldn't it be best simply to remove the wrapper? We 
+could fix the wrapper instead, but I think that would have to involve 
+reintroducing versioning.
 
