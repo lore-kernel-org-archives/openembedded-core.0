@@ -1,46 +1,46 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f175.google.com (mail-ua0-f175.google.com
-	[209.85.217.175])
-	by mail.openembedded.org (Postfix) with ESMTP id C525A72F0A
+Received: from mail-ua0-f176.google.com (mail-ua0-f176.google.com
+	[209.85.217.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 821C572F0A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 20:09:56 +0000 (UTC)
-Received: by mail-ua0-f175.google.com with SMTP id 72so127924267uaf.3
+	Fri,  3 Mar 2017 20:13:14 +0000 (UTC)
+Received: by mail-ua0-f176.google.com with SMTP id 72so128022330uaf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Mar 2017 12:09:58 -0800 (PST)
+	Fri, 03 Mar 2017 12:13:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=mhBiEhARVstbTvbe83dpGXZHJuV34f3Ml58PCltZU78=;
-	b=Mdld/fYFAZFHRKVgyZLXMu/Fo/WQ9wBJB44ceDXX3eUyN/K+zTFUPfSO5qmmSY7Iad
-	2C+SeYGEdWh6e5lQDhISp4Iwt53pwde32Vv8iWvEU6BwP3RGFUPUowyNkH6TJAS4NP4J
-	X0rN/snVM/XQ/4KlM4XUID2c5iNPUheV9q91PNg/WdZl9SbY39k5QlrQVFVFL0vkha00
-	bSLAqI4Wm5FkGh96YgnOftJ0TWNWPIASJKu0CIWMtm9Tb1XSfboW0y2xDGpp7H5fohfH
-	MunBxIPhbH3o3zZV1qgkqVC+OCUVWiUr+3RhR8aFieEFaow1bXikN9yRgKWD0pHdVcXw
-	OgYA==
+	:cc; bh=qm8lwCPmOZr5HAN9q6AujS2T3NUFw4Is+HULRctb95c=;
+	b=H5uZLdLm2Ad/4+3u3nSH13G17qVRBrIH5Y04EiR9Jl0v2iMCHqvmlRdHdKH0euNTQK
+	6G2Q7nVS3F0YsWaNFpjBlSEwTARCsS1pYnAiXMxMe/Qann5x88uxRpskjLtyIFcWjQ3G
+	VEY9ScW1i/gzS48puiWxMTRBR8Hr/JF9gPnGCxsheSYvq03eoNIv/7KhPrOIzBI2uS9y
+	fMhGuaZ/6wiKK3dxj6vQ/eSchL0eKku7JlG5WeTrzXjgrH6GTMeJpvK6jnJ6wfUpgl+s
+	+q+HcbsV+Eu9ss1PZpEDbLLqbCzQsJNAUziNZpUDqROZ4a3BP5wI6PpiE8S7aMT61iGQ
+	9uTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=mhBiEhARVstbTvbe83dpGXZHJuV34f3Ml58PCltZU78=;
-	b=X78xW+UGsujdY6s/qZzwrbJ1+G9B+dhVMFFrbaX471ri71/fZd2Ro1kHwsjkJRt2Fh
-	BhWVPPXnxJVt8Qc5pE9A0xA7IeKo0tQ4OFyr5QXHtNaTFldc2YXepBBwda5PUzwWl9ra
-	YfnlCCWz+yz1oCUCl3yGXgMKYgSLcGeFVuX/5ujDlvrclGxuqNE4R19tQHL7CRrkt2WU
-	IJu1WDjdc6HRMhmv+3ue5T7/0Q2NmYeEuJSD2WmhpIulIoLVxLsDXt30JKV+0MWZ1Ila
-	YrSRBqmO4CWjjwYmrSxYnapJHzKfyejhFnXIisN7dL2aOVQHVUe75j7CPH0Zh4qyusUH
-	sXKw==
-X-Gm-Message-State: AMke39nh0/myw2lVUPR3j2fiPhljQWlBvgoj3i96XEElB+tPH+WwLhKV/4UEWZ6xPCiQz+SKePj5dq+0z2cPAw==
-X-Received: by 10.31.6.73 with SMTP id 70mr1752511vkg.173.1488571797619; Fri,
-	03 Mar 2017 12:09:57 -0800 (PST)
+	bh=qm8lwCPmOZr5HAN9q6AujS2T3NUFw4Is+HULRctb95c=;
+	b=QJu285XJsMVYLvqSRpmJ6h381ELMjHudn+Bd4bPZUScLEmFUf4zGoZVpw8r1aEz2qK
+	Za7DBEbH7EBRbBxgBx49fD1Qp76apgNOSdWfTNsptHXgz1QRBbAeesJGje/S5e66cgCy
+	D/4c4SC1SGUn+YXj9d7sbqRcc4ps6Dw9LV6sVDkrZ8qYROZwOOfAq4tMfUCA0Uy/XFwE
+	PqmArebCqHPkIHZuoPAISwOA3IBvxxxi0/HN/pUksd1ne1M6gFC1ycLpONbeZlxg3/On
+	PGs1X+TiQgYfA8hDir4n78ayr64Jb+e/nVaU9gJDJSFx51MFnBb3c1lSUWEl6OdPxGey
+	HUCw==
+X-Gm-Message-State: AMke39l0LZ7P9n7yKsnNVC2WHiFTLwTWDWJB6/YMVPOBYN8rpOnIRjSQMNpuq94wnoHEokf6uYsrVeYzKIgZtA==
+X-Received: by 10.176.70.66 with SMTP id z2mr1634909uab.69.1488571996115; Fri,
+	03 Mar 2017 12:13:16 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.159.39.37 with HTTP; Fri, 3 Mar 2017 12:09:27 -0800 (PST)
-In-Reply-To: <7f8eeb62-a767-0882-dcc0-9a6882192d82@xevo.com>
-References: <7f8eeb62-a767-0882-dcc0-9a6882192d82@xevo.com>
+Received: by 10.159.39.37 with HTTP; Fri, 3 Mar 2017 12:12:45 -0800 (PST)
+In-Reply-To: <119c985a-4527-9ced-6cfe-46ccdecbba67@xevo.com>
+References: <119c985a-4527-9ced-6cfe-46ccdecbba67@xevo.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 3 Mar 2017 12:09:27 -0800
-Message-ID: <CAMKF1sqAw-rwkKYuEsY4QN1rA-YyQcx5hjpzux3cLk+4qxAemA@mail.gmail.com>
+Date: Fri, 3 Mar 2017 12:12:45 -0800
+Message-ID: <CAMKF1spQU9cmk22_Q7VtwKqJ+vVji-YfOHewUr8sz7ykkJaG3Q@mail.gmail.com>
 To: Martin Kelly <mkelly@xevo.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-clang] LLVM shared library support
+Subject: Re: [meta-clang] clang/LLVM versioning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,27 +53,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Mar 2017 20:09:57 -0000
+X-List-Received-Date: Fri, 03 Mar 2017 20:13:16 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Fri, Mar 3, 2017 at 11:15 AM, Martin Kelly <mkelly@xevo.com> wrote:
+On Fri, Mar 3, 2017 at 10:44 AM, Martin Kelly <mkelly@xevo.com> wrote:
 > Hi,
 >
-> I noticed that meta-clang builds only static LLVM libraries, unlike the
-> meta-oe version of LLVM 3.3, which builds shared libraries. In fact, this
-> appears to be the LLVM upstream default as well.
+> I'm attempting to build a recipe using the LLVM/clang cross toolchain
+> provided in meta-clang. However, I'm hitting issues with the llvm-config
+> wrapper in llvm-common. Specifically, it looks like the wrapper was copied
+> over from the LLVM recipe in meta-oe, but the versioning logic was not
+> updated, so when the wrapper attempts to exec the versioned
+> llvm-config-${WANT_LLVM_RELEASE}, it fails. Notably, LLVM_RELEASE is not set
+> in meta-clang/recipes-devtools/clang/clang.inc.
 >
-> What is the reason for the difference? Shared versions of LLVM would be
-> useful for reducing the size of programs linked to it and making smaller
-> filesystem images.
-
-meta-clang has only provided static compiler thus far, so using shared
-or static did not matter as much in fact it could be helping with
-faster compile
-times that we see with clang. However, there is no binding to keep it static
-link. Feel free to send a pull request to change it.
-
+> I'm looking into fixing the wrapper, but before I go too far down that path,
+> I wanted to get clarification as to the intention of how versioning is
+> handled in meta-clang. Specifically, the original LLVM recipe was clearly
+> built to support multiple side-by-side LLVM versions on the same system. Do
+> we have the same goal for meta-clang? IOW, should I make sure that the
+> versioning logic works for meta-clang, or should we instead just abandon the
+> versioning (and the wrapper) and support a single version of clang/LLVM?
 >
+with  meta-clang there is no desire to support multiple versions of
+llvm and thats why versioning was dropped however, I would still like
+to fix the versioning if that makes it more useful.
+
 > Thanks,
 > Martin
 
