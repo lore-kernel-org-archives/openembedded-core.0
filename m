@@ -1,27 +1,33 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 25FB177696
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id 3DE4277697
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 10:59:05 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	03 Mar 2017 02:59:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,236,1484035200"; d="scan'208";a="231855976"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 03 Mar 2017 02:59:06 -0800
-To: openembedded-core@lists.openembedded.org
-References: <20170228045004.GA5913@linux-uys3>
-	<b7a65c18-be64-8689-131d-c06b0aeb3b2a@rsi-elektrotechnik.de>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <90be46df-caaa-edc2-aa77-cf3b3a190d24@linux.intel.com>
-Date: Fri, 3 Mar 2017 12:57:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.6.0
+	Fri,  3 Mar 2017 11:04:56 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20170303110453246_0685;
+	Fri, 03 Mar 2017 03:04:53 -0800
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [216.191.234.70] (port=52021 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1cjl0w-00018y-CJ; Fri, 03 Mar 2017 06:04:46 -0500
+Date: Fri, 3 Mar 2017 06:04:44 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@uk63952.mitel.com
+To: Jack Mitchell <ml@embed.me.uk>
+In-Reply-To: <19415188-9877-089c-5816-0e1a4f263a0e@embed.me.uk>
+Message-ID: <alpine.LFD.2.20.1703030602410.9044@uk63952.mitel.com>
+References: <alpine.LFD.2.20.1703020605560.10072@uk63952.mitel.com>
+	<alpine.LFD.2.20.1703020627050.11911@uk63952.mitel.com>
+	<20170303095825.k2mfmg2mnut7hvks@ad.chargestorm.se>
+	<alpine.LFD.2.20.1703030504170.6531@uk63952.mitel.com>
+	<19415188-9877-089c-5816-0e1a4f263a0e@embed.me.uk>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-In-Reply-To: <b7a65c18-be64-8689-131d-c06b0aeb3b2a@rsi-elektrotechnik.de>
-Subject: Re: npm thoughts
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: "inherit setuptools" versus "inherit pypi" -- a python style question
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,33 +40,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Mar 2017 10:59:07 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 03 Mar 2017 11:04:57 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-On 03/03/2017 12:45 PM, Josef Holzmayr wrote:
-> - Given the current situation, the best practise seems to be to have
-> package.json take care of the needed modules, and have it handle that.
-> Means in my opinion that there should be as little npm-based stuff
-> installed as possible. Exactly one, in the optimal case. Downside: this
-> means a second dependency tracking is layered under bitbake. No good
-> that sounds....
+On Fri, 3 Mar 2017, Jack Mitchell wrote:
 
-I've been looking into this for the past few days. Unfortunately, it 
-looks like we do need a generic, extensible mechanism for dealing with 
-the likes of npm, cargo (i.e. rust), and 'go get' and similar things.
+> On 03/03/17 10:06, Robert P. J. Day wrote:
+> > On Fri, 3 Mar 2017, Anders Darander wrote:
+> >
+> >> * Robert P. J. Day <rpjday@crashcourse.ca> [170302 12:33]:
+> >>
+> >>> On Thu, 2 Mar 2017, Robert P. J. Day wrote:
+> >>
+> >>>>   inherit pypi setuptools
+> >>>>   require python-psutil.inc
+> >>
+> >>>> and the corresponding .inc file contains:
+> >>
+> >>>>   RDEPENDS_${PN} += " \
+> >>>>     ${PYTHON_PN}-shell \
+> >>>>     ${PYTHON_PN}-subprocess \
+> >>>>     ${PYTHON_PN}-threading \
+> >>>>   "
+> >>
+> >>>> so the first recipe inherits pypi, the second one inherits setuptools,
+> >>>> and the third inherits *both*. what is the *preferred* style?
+> >>
+> >> Well, different purposes... If you take a look at pypi.bbclass, it's all
+> >> about how to retrieve the module (source code). setuptools.bbclass is
+> >> about how to install the module...
+> >>
+> >> Ie retrieving and installing...
+> >
+> >   yes, i finally twigged to that, but is there a *preferred* style?
+> > from what i've seen, if there is a pair of files for a python module:
+> >
+> >   * foo.bb (which includes ...)
+> >   * foo.inc
+> >
+> > the common style seems to be that:
+> >
+> >   * foo.bb inherits setuptools, while
+> >   * foo.inc inherits pypi (if necessary, of course)
+> >
+> > at least i think that was the common style. obviously, there are
+> > perfectly acceptable variations, i'd just like to know if there is a
+> > recommended style.
+>
+> One reason for this is for py2/py3 reciepes. python-foo.bb will
+> inherit setuptools, while python3-foo has to inherit setuptools3. So
+> I would imagine that setuptools should always go in the bb. While
+> pypi is python version agnostic I believe.
 
-I've just set up a minimal MEAN project on my machine, and npm pulled in 
-1087 dependencies just so it could run. This is not 'wrong', it's simply 
-where the world of software development is heading. It's just so much 
-nicer to get a project started and running this way, than the old way of 
-writing Makefiles and installing development dependencies by hand into 
-the system. But it does create a headache for distributions, and those 
-who need reproducible builds.
+  right, which suggests that even if one has a recipe for which there
+is only one version (python2 or python3), it's still a good idea to
+break it as above just in case, some day, you want to support both
+versions. that's all i mean by "style." thanks.
 
-I'll write down my ideas (and maybe even a design proposal!) in a few 
-days about this.
+rday
 
-Alex
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
