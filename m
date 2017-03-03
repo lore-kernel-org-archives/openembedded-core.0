@@ -1,35 +1,28 @@
-Return-Path: <saul.wold@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id F293877636
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C796F77641
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Mar 2017 23:37:43 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 Mar 2017 15:37:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,234,1484035200"; d="scan'208";a="1137226251"
-Received: from orsmsx103.amr.corp.intel.com ([10.22.225.130])
-	by fmsmga002.fm.intel.com with ESMTP; 02 Mar 2017 15:37:44 -0800
-Received: from orsmsx113.amr.corp.intel.com ([169.254.9.30]) by
-	ORSMSX103.amr.corp.intel.com ([169.254.5.78]) with mapi id
-	14.03.0248.002; Thu, 2 Mar 2017 15:37:44 -0800
-From: "Wold, Saul" <saul.wold@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH v2] native.bbclass: populate native recipe
-	with it's files
-Thread-Index: AQHSk639GkZAvXwyJESbzVutHU17Fg==
-Date: Thu, 2 Mar 2017 23:37:44 +0000
-Message-ID: <1488497862.22952.145.camel@intel.com>
-References: <1488497132-15876-1-git-send-email-sgw@linux.intel.com>
-In-Reply-To: <1488497132-15876-1-git-send-email-sgw@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.254.8.26]
-MIME-Version: 1.0
-Subject: Re: [PATCH v2] native.bbclass: populate native recipe with it's files
+	Fri,  3 Mar 2017 00:19:17 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v230JHBg003831; Fri, 3 Mar 2017 00:19:17 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 2g01R7jy4Z76; Fri,  3 Mar 2017 00:19:17 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v230JEaw003828
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 3 Mar 2017 00:19:15 GMT
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1cjawE-00040t-IV; Fri, 03 Mar 2017 00:19:14 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  3 Mar 2017 00:19:11 +0000
+Message-Id: <1488500351-15388-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] sanity: Allow whitespace only mirror entries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,33 +35,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Mar 2017 23:37:44 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <EFF010E0F5DF9C4EBDC1C29D4D113A9C@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 03 Mar 2017 00:19:18 -0000
 
-DQpEcm9wIHRoaXMsIGFwcGFyZW50bHkgUmljaGFyZCBhbHJlYWR5IGFwcGxpZWQgdGhpcyBhbmQg
-SSB3YXMgbG9va2luZyBhdA0KYW4gb2xkZXIgbWFzdGVyIGJyYW5jaCB3aGVuIEkgc2VudCB0aGlz
-Lg0KDQpTYXUhDQoNCk9uIFRodSwgMjAxNy0wMy0wMiBhdCAxNToyNSAtMDgwMCwgU2F1bCBXb2xk
-IHdyb3RlOg0KPiBUaGlzIGFsbG93cyBhIG5hdGl2ZSBwYWNrYWdlJ3MgcmVjaXBlLXN5c3Jvb3Qt
-bmF0aXZlIHRvIGJlIHBvcHVsYXRlZA0KPiB3aXRoDQo+IHRoYXQgcGFja2FnZXMgbmF0aXZlIGlt
-YWdlIGZpbGVzLsKgwqBUaGlzIGluIHR1cm5zIGFsbG93cyBpdCB0byBiZSB1c2VkDQo+IGJ5DQo+
-IHNjcmlwdHMgb3Igb3RoZXIgdG9vbHMgd2l0aG91dCBjcmVhdGluZyB1bi1uZWNlc3NhcnkgREVQ
-RU5EUy4NCj4gDQo+IEFuIGV4YW1wbGUgb2YgdGhpcyBpcyBzeXN0ZW10YXAtbmF0aXZlIGFuZCB0
-aGUgY3Jvc3N0YXAgc2NyaXB0Lg0KPiANCj4gU2lnbmVkLW9mZi1ieTogU2F1bCBXb2xkIDxzZ3dA
-bGludXguaW50ZWwuY29tPg0KPiAtLS0NCj4gdjI6IHJlbW92ZWQgdGhlICJiZWZvcmUgZG9fYnVp
-bGQiDQo+IMKgbWV0YS9jbGFzc2VzL25hdGl2ZS5iYmNsYXNzIHwgNSArKysrKw0KPiDCoDEgZmls
-ZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKykNCj4gDQo+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNz
-ZXMvbmF0aXZlLmJiY2xhc3MNCj4gYi9tZXRhL2NsYXNzZXMvbmF0aXZlLmJiY2xhc3MNCj4gaW5k
-ZXggZWM5MWZjMy4uNmJlY2Y4MiAxMDA2NDQNCj4gLS0tIGEvbWV0YS9jbGFzc2VzL25hdGl2ZS5i
-YmNsYXNzDQo+ICsrKyBiL21ldGEvY2xhc3Nlcy9uYXRpdmUuYmJjbGFzcw0KPiBAQCAtMTc0LDYg
-KzE3NCwxMSBAQCBweXRob24gbmF0aXZlX3ZpcnRjbGFzc19oYW5kbGVyICgpIHsNCj4gwqBhZGRo
-YW5kbGVyIG5hdGl2ZV92aXJ0Y2xhc3NfaGFuZGxlcg0KPiDCoG5hdGl2ZV92aXJ0Y2xhc3NfaGFu
-ZGxlcltldmVudG1hc2tdID0gImJiLmV2ZW50LlJlY2lwZVByZUZpbmFsaXNlIg0KPiDCoA0KPiAr
-cHl0aG9uIGRvX2FkZHRvX3JlY2lwZV9zeXNyb290ICgpIHsNCj4gK8KgwqDCoMKgYmIuYnVpbGQu
-ZXhlY19mdW5jKCJleHRlbmRfcmVjaXBlX3N5c3Jvb3QiLCBkKQ0KPiArfQ0KPiArYWRkdGFzayBh
-ZGR0b19yZWNpcGVfc3lzcm9vdCBhZnRlciBkb19wb3B1bGF0ZV9zeXNyb290DQo+ICsNCj4gwqBp
-bmhlcml0IG5vcGFja2FnZXMNCj4gwqANCj4gwqBkb19wYWNrYWdlZGF0YVtzdGFtcC1leHRyYS1p
-bmZvXSA9ICIiDQo+IC0twqANCj4gMi43LjQNCj4g
+Forcing the use of "\n" in mirror variables is pointless, we can just require that
+there are pairs of values. With the bitbake restriction relaxed, we can relax
+the sanity check too.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/sanity.bbclass | 20 +++++++++-----------
+ 1 file changed, 9 insertions(+), 11 deletions(-)
+
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 8935df8..1fe172f 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -876,18 +876,16 @@ def check_sanity_everybuild(status, d):
+                  'git', 'gitsm', 'hg', 'osc', 'p4', 'svn', \
+                  'bzr', 'cvs', 'npm', 'sftp', 'ssh']
+     for mirror_var in mirror_vars:
+-        mirrors = (d.getVar(mirror_var) or '').replace('\\n', '\n').split('\n')
+-        for mirror_entry in mirrors:
+-            mirror_entry = mirror_entry.strip()
+-            if not mirror_entry:
+-                # ignore blank lines
+-                continue
++        mirrors = (d.getVar(mirror_var) or '').replace('\\n', ' ').split()
+ 
+-            try:
+-                pattern, mirror = mirror_entry.split()
+-            except ValueError:
+-                bb.warn('Invalid %s: %s, should be 2 members.' % (mirror_var, mirror_entry.strip()))
+-                continue
++        # Split into pairs
++        if len(mirrors) % 2 != 0:
++            bb.warn('Invalid mirror variable value for %s: %s, should contain paired members.' % (mirror_var, mirrors.strip()))
++            continue
++        mirrors = list(zip(*[iter(mirrors)]*2))
++
++        for mirror_entry in mirrors:
++            pattern, mirror = mirror_entry
+ 
+             decoded = bb.fetch2.decodeurl(pattern)
+             try:
+-- 
+2.7.4
+
 
