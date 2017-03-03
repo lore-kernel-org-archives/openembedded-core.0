@@ -1,30 +1,55 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CB257769A
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 54313776A1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 11:16:09 +0000 (UTC)
+	Fri,  3 Mar 2017 11:17:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v23BG8xM003827; Fri, 3 Mar 2017 11:16:08 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id m7cWMpNyoxuk; Fri,  3 Mar 2017 11:16:08 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v23BG6Pf003814
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 3 Mar 2017 11:16:07 GMT
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1cjlBu-0005bU-Og; Fri, 03 Mar 2017 11:16:06 +0000
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	by bastet.se.axis.com (Postfix) with ESMTP id 72597180D2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  3 Mar 2017 12:17:38 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id CpgTgccymebs
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  3 Mar 2017 12:17:37 +0100 (CET)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id DCC6A183E6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  3 Mar 2017 12:17:37 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A12051E07B
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  3 Mar 2017 12:17:37 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 962DA1E079
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  3 Mar 2017 12:17:37 +0100 (CET)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  3 Mar 2017 12:17:37 +0100 (CET)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id 8A46BAC3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  3 Mar 2017 12:17:37 +0100 (CET)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v23BHbBu025969
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 3 Mar 2017 12:17:37 +0100
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v23BHbaw025967
+	for openembedded-core@lists.openembedded.org;
+	Fri, 3 Mar 2017 12:17:37 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Mar 2017 11:16:02 +0000
-Message-Id: <1488539763-21490-3-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1488539763-21490-1-git-send-email-richard.purdie@linuxfoundation.org>
-References: <1488539763-21490-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 3/4] populate_ext_sdk: Append to SSTATE_MIRRORS
+Date: Fri,  3 Mar 2017 12:17:34 +0100
+Message-Id: <e9df6d349b012d6bd0628a30a47cc54c0628b648.1488539819.git.pkj@axis.com>
+X-Mailer: git-send-email 2.9.0
+In-Reply-To: <cover.1488539819.git.pkj@axis.com>
+References: <cover.1488539819.git.pkj@axis.com>
+X-TM-AS-GCONF: 00
+Subject: [PATCHv3 4/5] scripts/gdbus-codegen: Add a dummy version that always fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +62,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Mar 2017 11:16:10 -0000
+X-List-Received-Date: Fri, 03 Mar 2017 11:17:37 -0000
 
-We need to appent to SSTATE_MIRRORS in case other areas of code are also
-setting the variable.
+This is intended to catch missing dependencies on the real version.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/gdbus-codegen | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100755 scripts/gdbus-codegen
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 51b98a8..fb38ebc 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -312,7 +312,7 @@ python copy_buildsystem () {
-             f.write('BUILDCFG_HEADER = ""\n\n')
- 
-             # Map gcc-dependent uninative sstate cache for installer usage
--            f.write('SSTATE_MIRRORS = "file://universal/(.*) file://universal-4.9/\\1\\nfile://universal-4.9/(.*) file://universal-4.8/\\1"\n\n')
-+            f.write('SSTATE_MIRRORS += " file://universal/(.*) file://universal-4.9/\\1 file://universal-4.9/(.*) file://universal-4.8/\\1"\n\n')
- 
-             # Allow additional config through sdk-extra.conf
-             fn = bb.cookerdata.findConfigFile('sdk-extra.conf', d)
+diff --git a/scripts/gdbus-codegen b/scripts/gdbus-codegen
+new file mode 100755
+index 0000000..d91386b
+--- /dev/null
++++ b/scripts/gdbus-codegen
+@@ -0,0 +1,11 @@
++#!/bin/sh
++
++# This is a dummy version that always fails. It is intended to catch
++# missing dependencies on the real version.
++
++myname=${0##*/}
++
++echo "The correct version of $myname is not being used!" >&2
++echo "Make sure the recipe DEPENDS on 'glib-2.0-native'." >&2
++
++exit 1
 -- 
-2.7.4
+2.9.0
 
 
