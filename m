@@ -1,49 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f170.google.com (mail-ua0-f170.google.com
-	[209.85.217.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B5137768D
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 8235560670
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 21:13:10 +0000 (UTC)
-Received: by mail-ua0-f170.google.com with SMTP id f54so128812746uaa.1
+	Fri,  3 Mar 2017 21:36:30 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id v190so4985801wme.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Mar 2017 13:13:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=CVEnJfKqmaPF2faKeVA+Q9evkSUcNrv0P0OXlgJE4wQ=;
-	b=R5cHzExZhIauN0Es0tQ3mHjzSCl/FGF7JR/o+AhvKAQmlbHLpYXrHziCTlpTWvZqSu
-	UUI5xv7kWbGyqsIvg1Ia+L6kfJcW49J1e6m4WKUoWYcgMCytdLVZWBYT/2SttA7Z33OQ
-	yEPGMFRj6IO8szN9sJn0CJ5yzcU7kuWoQS8p6+/9uoYsjhuIFMnGiESzik+QjTDhVAPZ
-	K2dLFR2E1GS1XHyQUkx5ny4GasDGczH1pG1mbWGSgp7h+foYbnlIHqtV42r+d59F4vVz
-	sh7nsJPN8mtvl8btg+PSrJ0H+ClZPvKHQDwz/IYS4XEEMUbj9DCb1L/7Ib7gm+TRkjgE
-	QXew==
+	Fri, 03 Mar 2017 13:36:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=nvzXQmrhpEnEgKyvBNDqQjuE+3aaHQIB2m4pY6tmqnI=;
+	b=TjM9bX73jYAZhcdEU39x5eAMFupOvFIydn/bWzu1PBxZV2G7NMCkhv1P5h6WHDXa+j
+	q1fVLaMUZIQJfSgMfZ8kPCTUSt2FOd7NSJqKthiuEyf+RBO2WrU18ZII7bhJSe+hzCWu
+	SVQcm+/fDpXsRUrP6rI49WIko7DC35Ka3qKWFFSUfuuJm+fWKkjzVwh2oR39PYLi5zjT
+	O3TA7bbV1260LK4EqMcCiE4R/ttacdb/WjyizmK7IfiAB3BS4E0N1AKuMMxfXPb/HY7S
+	0fmRTaDl3uOF9xndeQADZvL2ehgIUtaBfHdG7d882L2HcUOdwjXzbVGv9735u0K1VCUL
+	VoNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=CVEnJfKqmaPF2faKeVA+Q9evkSUcNrv0P0OXlgJE4wQ=;
-	b=eqnU7IjyjTFCUXEt6N9vedklyEgmDbzCN2VB3WK4jxBcKIbO629bBJbO3+HkO8ka1x
-	dnOpnD5IJ4Sv9Vj+Zn8pn/vLWVDpPDgB+AjdF50leAH9CHEjPe/C0HNQBy5FwGcrsiB+
-	vMNKVOzN8lEaW45i//GmRX/GgUUALD4BTFmJU+oHddatLcfwaW8B1noZOa5U0qz90avu
-	aRu5DjHQigoPyY6TWAy93UPCv8HYceZ1gkwN7ZPvoEV4wxvMuv34GLO7UzBR17FyeL88
-	25MuovHqbZVZTQMwy0Z0uT9AoNcnQjKaoNrkLBSaOoqnCPbUNZfCZGZVuoFljvhilY7l
-	3RbA==
-X-Gm-Message-State: AMke39m9rUjtiSXakA4nifml4VT80szKTT6qTNT+EBYeIzfRqv/pG81+fLsJk0SGf5sZxK30DXJqllzeS0FTfA==
-X-Received: by 10.176.64.225 with SMTP id i88mr2029931uad.60.1488575591677;
-	Fri, 03 Mar 2017 13:13:11 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=nvzXQmrhpEnEgKyvBNDqQjuE+3aaHQIB2m4pY6tmqnI=;
+	b=i3WL95griHkwvjh0r5fGEBrc96E7Zy037lMt3wzS7fplGAVPnnmxkry+ci+cYM6ov/
+	45yDHNLD+/Pg5e0dkcrBIpAO5WwVjmriDjsOECoyJ1YijViAtiU9mcuDBifm8Um3F5Vu
+	n7qFp6s6n/Q+5ZNXK5iBj5Lesd9bJWDA/mnI4SnhlusCoPe87QnwFjTk+kTQ1fk5p/tp
+	c+X1+7ZOyqJO0KVAYJmZQ4nP79G1BW93hmB8RJrIefq7bQfylB2F7OHS5B0erOouA6MZ
+	hEJSzWsJsfX0lYv+ujaNHDHAOWhscaFfyo4SGypVxAt+/WTOcVPfz+V4kbJd1b9FdQdO
+	joiQ==
+X-Gm-Message-State: AMke39naE0aFg4HWdMdqv9tjOv3thb83CuakH+7xfCYHij4EElHdEYlUivy+ueMq5Ggv3A==
+X-Received: by 10.28.101.68 with SMTP id z65mr4300762wmb.102.1488576991667;
+	Fri, 03 Mar 2017 13:36:31 -0800 (PST)
+Received: from PC192-168-2-116.speedport.ip
+	(p20030046E911C6391E6F65FFFE3E7F61.dip0.t-ipconnect.de.
+	[2003:46:e911:c639:1e6f:65ff:fe3e:7f61])
+	by smtp.googlemail.com with ESMTPSA id
+	186sm4480414wmw.24.2017.03.03.13.36.30
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 03 Mar 2017 13:36:31 -0800 (PST)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  3 Mar 2017 22:36:18 +0100
+Message-Id: <20170303213619.29944-1-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 2.9.3
 MIME-Version: 1.0
-References: <119c985a-4527-9ced-6cfe-46ccdecbba67@xevo.com>
-	<CAMKF1spQU9cmk22_Q7VtwKqJ+vVji-YfOHewUr8sz7ykkJaG3Q@mail.gmail.com>
-	<7333db9a-fda0-a8e3-6a3f-9d7700e9eda4@xevo.com>
-	<CAMKF1sp+pwjdasqJ2P9hg3VgqPPr+XC-GWV0oN8V8vUvE-+yEg@mail.gmail.com>
-	<132772b8-699c-ac9d-8ffa-f51ab7ea6947@xevo.com>
-In-Reply-To: <132772b8-699c-ac9d-8ffa-f51ab7ea6947@xevo.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 03 Mar 2017 21:13:00 +0000
-Message-ID: <CAMKF1spH9qUQCPPjjVXpN2qZDs5UR=5X984WRH1WM5xeN47f0w@mail.gmail.com>
-To: Martin Kelly <mkelly@xevo.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-clang] clang/LLVM versioning
+Subject: [PATCH 1/2] parted: fix rss+perf+gold failure on do_compile_ptest_base
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,110 +58,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Mar 2017 21:13:12 -0000
-Content-Type: multipart/alternative; boundary=94eb2c12370a5d05720549da039b
-
---94eb2c12370a5d05720549da039b
+X-List-Received-Date: Fri, 03 Mar 2017 21:36:31 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-That's reasonable I think
+Was detected in Martin's world build
 
-On Fri, Mar 3, 2017 at 12:36 PM Martin Kelly <mkelly@xevo.com> wrote:
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+---
+ ...s_resize-link-against-libuuid-explicitly-.patch | 34 ++++++++++++++++++++++
+ meta/recipes-extended/parted/parted_3.2.bb         |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-extended/parted/files/0002-libparted_fs_resize-link-against-libuuid-explicitly-.patch
 
-> On 03/03/2017 12:23 PM, Khem Raj wrote:
-> > On Fri, Mar 3, 2017 at 12:15 PM, Martin Kelly <mkelly@xevo.com> wrote:
-> >> On 03/03/2017 12:12 PM, Khem Raj wrote:
-> >>>
-> >>> with  meta-clang there is no desire to support multiple versions of
-> >>> llvm and thats why versioning was dropped however, I would still like
-> >>> to fix the versioning if that makes it more useful.
-> >>>
-> >>
-> >> OK, keeping a single version is certainly simpler. Could you clarify "I
-> >> would still like to fix the versioning if that makes it more useful." ?
-> >>
-> >
-> > say if there are other apps which depend on the versioning and
-> > otherwise would need patching to work with llvm from meta-clang, then
-> > lets fix it in meta-clang.
-> >
->
->  From my investigation, it looks like the real (unwrapped) llvm-config
-> is in the PATH for any recipe depending on clang-native. This means that
-> when an app looks for llvm-config, it will find the real version and
-> won't know that the wrapper went anywhere. Of course, if the app truly
-> depends on a specific LLVM version -- due to LLVM's unstable ABI -- then
-> that app will break when the meta-clang version changes. However, if we
-> don't maintain multiple versions of LLVM in meta-clang, that's unavoidable.
->
-> So AFAICT we could safely remove the wrapper and have apps that set
-> WANT_LLVM_RELEASE still work correctly, if they compile against our
-> version of meta-clang. Since it appears the wrapper has been broken for
-> for some time anyway, I'm guessing there aren't many such apps anyway.
->
-> Does that sound reasonable to you?
->
+diff --git a/meta/recipes-extended/parted/files/0002-libparted_fs_resize-link-against-libuuid-explicitly-.patch b/meta/recipes-extended/parted/files/0002-libparted_fs_resize-link-against-libuuid-explicitly-.patch
+new file mode 100644
+index 0000000..bd2b5c5
+--- /dev/null
++++ b/meta/recipes-extended/parted/files/0002-libparted_fs_resize-link-against-libuuid-explicitly-.patch
+@@ -0,0 +1,34 @@
++From 5c99d7e4c2b5e7a957dc922aff03debfebbd6154 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
++Date: Fri, 3 Mar 2017 21:49:15 +0100
++Subject: [PATCH] libparted_fs_resize: link against libuuid explicitly to
++ unbreak gold linking on test
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++| ../libparted/fs/.libs/libparted-fs-resize.so: error: undefined reference to 'uuid_generate'
++
++Upstream-Status: Pending
++
++Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
++---
++ libparted/fs/Makefile.am | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/libparted/fs/Makefile.am b/libparted/fs/Makefile.am
++index d3cc8bc..c301b0b 100644
++--- a/libparted/fs/Makefile.am
+++++ b/libparted/fs/Makefile.am
++@@ -113,6 +113,8 @@ libparted_fs_resize_la_SOURCES = \
++   r/hfs/reloc_plus.c		\
++   r/hfs/reloc_plus.h
++ 
+++libparted_fs_resize_la_LIBADD   = $(UUID_LIBS)
+++
++ AM_CPPFLAGS = \
++   -I$(top_srcdir)/libparted/labels	\
++   $(partedincludedir)			\
++-- 
++2.9.3
++
+diff --git a/meta/recipes-extended/parted/parted_3.2.bb b/meta/recipes-extended/parted/parted_3.2.bb
+index edc4bd3..9ce2dfe 100644
+--- a/meta/recipes-extended/parted/parted_3.2.bb
++++ b/meta/recipes-extended/parted/parted_3.2.bb
+@@ -13,6 +13,7 @@ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
+            file://fix-compile-failure-while-dis.patch \
+            file://0001-Include-fcntl.h-in-platform_defs.h.patch \
+            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
++           file://0002-libparted_fs_resize-link-against-libuuid-explicitly-.patch \
+ 	   file://parted-3.2-sysmacros.patch \
+            file://run-ptest \
+            file://Makefile \
+-- 
+2.9.3
 
---94eb2c12370a5d05720549da039b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div>That&#39;s reasonable I think</div><div><br><div class=3D"gmail_quote"=
-><div>On Fri, Mar 3, 2017 at 12:36 PM Martin Kelly &lt;<a href=3D"mailto:mk=
-elly@xevo.com">mkelly@xevo.com</a>&gt; wrote:<br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
--left:1ex">On 03/03/2017 12:23 PM, Khem Raj wrote:<br class=3D"gmail_msg">
-&gt; On Fri, Mar 3, 2017 at 12:15 PM, Martin Kelly &lt;<a href=3D"mailto:mk=
-elly@xevo.com" class=3D"gmail_msg" target=3D"_blank">mkelly@xevo.com</a>&gt=
-; wrote:<br class=3D"gmail_msg">
-&gt;&gt; On 03/03/2017 12:12 PM, Khem Raj wrote:<br class=3D"gmail_msg">
-&gt;&gt;&gt;<br class=3D"gmail_msg">
-&gt;&gt;&gt; with=C2=A0 meta-clang there is no desire to support multiple v=
-ersions of<br class=3D"gmail_msg">
-&gt;&gt;&gt; llvm and thats why versioning was dropped however, I would sti=
-ll like<br class=3D"gmail_msg">
-&gt;&gt;&gt; to fix the versioning if that makes it more useful.<br class=
-=3D"gmail_msg">
-&gt;&gt;&gt;<br class=3D"gmail_msg">
-&gt;&gt;<br class=3D"gmail_msg">
-&gt;&gt; OK, keeping a single version is certainly simpler. Could you clari=
-fy &quot;I<br class=3D"gmail_msg">
-&gt;&gt; would still like to fix the versioning if that makes it more usefu=
-l.&quot; ?<br class=3D"gmail_msg">
-&gt;&gt;<br class=3D"gmail_msg">
-&gt;<br class=3D"gmail_msg">
-&gt; say if there are other apps which depend on the versioning and<br clas=
-s=3D"gmail_msg">
-&gt; otherwise would need patching to work with llvm from meta-clang, then<=
-br class=3D"gmail_msg">
-&gt; lets fix it in meta-clang.<br class=3D"gmail_msg">
-&gt;<br class=3D"gmail_msg">
-<br class=3D"gmail_msg">
-=C2=A0From my investigation, it looks like the real (unwrapped) llvm-config=
-<br class=3D"gmail_msg">
-is in the PATH for any recipe depending on clang-native. This means that<br=
- class=3D"gmail_msg">
-when an app looks for llvm-config, it will find the real version and<br cla=
-ss=3D"gmail_msg">
-won&#39;t know that the wrapper went anywhere. Of course, if the app truly<=
-br class=3D"gmail_msg">
-depends on a specific LLVM version -- due to LLVM&#39;s unstable ABI -- the=
-n<br class=3D"gmail_msg">
-that app will break when the meta-clang version changes. However, if we<br =
-class=3D"gmail_msg">
-don&#39;t maintain multiple versions of LLVM in meta-clang, that&#39;s unav=
-oidable.<br class=3D"gmail_msg">
-<br class=3D"gmail_msg">
-So AFAICT we could safely remove the wrapper and have apps that set<br clas=
-s=3D"gmail_msg">
-WANT_LLVM_RELEASE still work correctly, if they compile against our<br clas=
-s=3D"gmail_msg">
-version of meta-clang. Since it appears the wrapper has been broken for<br =
-class=3D"gmail_msg">
-for some time anyway, I&#39;m guessing there aren&#39;t many such apps anyw=
-ay.<br class=3D"gmail_msg">
-<br class=3D"gmail_msg">
-Does that sound reasonable to you?<br class=3D"gmail_msg">
-</blockquote></div></div>
-
---94eb2c12370a5d05720549da039b--
