@@ -1,55 +1,55 @@
 Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 770D9776B4
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A40E776B4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 11:17:37 +0000 (UTC)
+	Fri,  3 Mar 2017 11:17:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 2E9462E5C4
+	by bastet.se.axis.com (Postfix) with ESMTP id 47C4B180D2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 12:17:38 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id LvlVox2hpJit
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 12:17:37 +0100 (CET)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id 849DF2E5B5
+	Fri,  3 Mar 2017 12:17:40 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id IbWZscKr4lhg
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  3 Mar 2017 12:17:37 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 71D151A067
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id E892F183FE
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  3 Mar 2017 12:17:37 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 669B31A066
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C5BA21E07D
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  3 Mar 2017 12:17:37 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id BAD7B1E079
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  3 Mar 2017 12:17:37 +0100 (CET)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  3 Mar 2017 12:17:37 +0100 (CET)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 588313FE
+	by thoth.se.axis.com (Postfix) with ESMTP id ADAE6AC3
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  3 Mar 2017 12:17:37 +0100 (CET)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v23BHbhO025956
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v23BHbKW025973
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 3 Mar 2017 12:17:37 +0100
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v23BHbfZ025952
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v23BHbGw025972
 	for openembedded-core@lists.openembedded.org;
 	Fri, 3 Mar 2017 12:17:37 +0100
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Mar 2017 12:17:32 +0100
-Message-Id: <3ec46f4354894bacfb3ce7bdf054c1e962b8dbc2.1488539819.git.pkj@axis.com>
+Date: Fri,  3 Mar 2017 12:17:35 +0100
+Message-Id: <d48165fe1a6b18a7d333b6656102342c1260b755.1488539819.git.pkj@axis.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1488539819.git.pkj@axis.com>
 References: <cover.1488539819.git.pkj@axis.com>
 X-TM-AS-GCONF: 00
-Subject: [PATCHv3 2/5] linux-libc-headers: Add inherit of pkgconfig
+Subject: [PATCHv3 5/5] scripts/pkg-config: Add a dummy version that always fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,29 +62,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Mar 2017 11:17:38 -0000
+X-List-Received-Date: Fri, 03 Mar 2017 11:17:39 -0000
 
-pkg-config is used by the kernel build system when creating the
-configuration tools.
+This is intended to catch missing dependencies on the real version.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/pkg-config | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+ create mode 100755 scripts/pkg-config
 
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-index 30d2243..653a470 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-@@ -42,7 +42,7 @@ python __anonymous () {
-         d.setVar("HEADER_FETCH_VER", "2.6")
- }
- 
--inherit kernel-arch
-+inherit kernel-arch pkgconfig
- 
- KORG_ARCHIVE_COMPRESSION ?= "xz"
- 
+diff --git a/scripts/pkg-config b/scripts/pkg-config
+new file mode 100755
+index 0000000..c6376ec
+--- /dev/null
++++ b/scripts/pkg-config
+@@ -0,0 +1,16 @@
++#!/bin/sh
++
++# This is a dummy version that always fails. It is intended to catch
++# missing dependencies on the real version.
++
++myname=${0##*/}
++
++echo "The correct version of $myname is not being used!" >&2
++echo "Make sure the recipe inherits 'pkgconfig'." >&2
++
++# Return something that will make the compiler barf. This is for when
++# pkg-config is used directly in a Makefile in a construct like:
++# CFLAGS += $(shell pkg-config --cflags glib-2.0)
++echo "The-correct-version-of-$myname-is-not-being-used"
++
++exit 1
 -- 
 2.9.0
 
