@@ -1,59 +1,29 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-lf0-f53.google.com (mail-lf0-f53.google.com
-	[209.85.215.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 90E9671B57
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
+	by mail.openembedded.org (Postfix) with ESMTP id 7812277609
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 09:58:26 +0000 (UTC)
-Received: by mail-lf0-f53.google.com with SMTP id a6so45169774lfa.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Mar 2017 01:58:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
-	h=date:from:to:cc:subject:message-id:mail-followup-to:references
-	:mime-version:content-disposition:in-reply-to:organization
-	:user-agent; bh=BbFTr+6QQ8bnNZuUjL0kCOne0OafxHu1Wxui+5/bQps=;
-	b=lvXquSxiV3LUujbVUOFR1j6BGHGCkaOZX99OrV7gcxDBvF5tqYf2QtZUieKIP5Jqw+
-	jSp4G56F1lhPgbIhqRlwyCYDw1VqkwUlVJdwTRJdfv7fnxixJ0qK5Fija6nxN97Zhhb8
-	GhCrEwhmFdheJl3TpRQVcKHvnb6WARMXFSi7p80RXyyJTbmoa/MWe2zq4jhVLtsSUbgT
-	HWu1FTk+vV2ekq4dfhRTiJ1DmSAJ/Y1cchWS55KqoiylkvL+Rq0Ru+gbbOwwVXnJ3NIQ
-	oYrMhLaSKGEMnvmAAC6RPZeEskfYgYYky/gmnkjHeMJhrc5QswET1U4caTZoUZWMJnJI
-	PGIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id
-	:mail-followup-to:references:mime-version:content-disposition
-	:in-reply-to:organization:user-agent;
-	bh=BbFTr+6QQ8bnNZuUjL0kCOne0OafxHu1Wxui+5/bQps=;
-	b=mnucTyQE74p/oTHZZlcgxJFe8P3JircOuDdatqJ13DJ9qD2+yLUlh9d2BjMFGgZsZ8
-	hkhmR+El+NLdKdV5suUIGj1nvyL+xxfoi88Glr+aZrN8jKn9C/4lw/dj8bcfdpfa/Doo
-	IXUw4omVlugEOOToDA//Ux7P8wSzM/63xL/ENaAKfLBO37Ja9gid1wj2Cr0ZKBFYsaAQ
-	a7SRPsvIEbUHPQ1VgvSv+j5OPGJ4VZxfWT2kaJPc/S3NRY+g5OYP/n/9nBiT4s6zYaFF
-	jZln7+VkUg4vEyxVHAI5UYhupI6OUVHlWyBppx5kIVFYYWJ7aBZa7bpAdNkAQ0hx1JPK
-	Rv7w==
-X-Gm-Message-State: AMke39kPROP74BwWWQS9IvFklOsp1eWQIzMr+Z4WYCOcK7BCJ6CHkBQ2bjdJczmHnm3uEw==
-X-Received: by 10.25.21.37 with SMTP id l37mr614427lfi.146.1488535107941;
-	Fri, 03 Mar 2017 01:58:27 -0800 (PST)
-Received: from ad.chargestorm.se (194-237-220-218.customer.telia.com.
-	[194.237.220.218])
-	by smtp.gmail.com with ESMTPSA id 91sm2157885lft.17.2017.03.03.01.58.26
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 03 Mar 2017 01:58:26 -0800 (PST)
-Date: Fri, 3 Mar 2017 10:58:25 +0100
-From: Anders Darander <anders@chargestorm.se>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Message-ID: <20170303095825.k2mfmg2mnut7hvks@ad.chargestorm.se>
-Mail-Followup-To: "Robert P. J. Day" <rpjday@crashcourse.ca>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
+	Fri,  3 Mar 2017 10:06:53 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
+	via TCP (outbound) with ESMTPS id 20170303100652670_0486;
+	Fri, 03 Mar 2017 10:06:52 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [216.191.234.70] (port=17053 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1cjk6o-00046q-6e; Fri, 03 Mar 2017 05:06:46 -0500
+Date: Fri, 3 Mar 2017 05:06:42 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@uk63952.mitel.com
+To: Anders Darander <anders@chargestorm.se>
+In-Reply-To: <20170303095825.k2mfmg2mnut7hvks@ad.chargestorm.se>
+Message-ID: <alpine.LFD.2.20.1703030504170.6531@uk63952.mitel.com>
 References: <alpine.LFD.2.20.1703020605560.10072@uk63952.mitel.com>
 	<alpine.LFD.2.20.1703020627050.11911@uk63952.mitel.com>
+	<20170303095825.k2mfmg2mnut7hvks@ad.chargestorm.se>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-In-Reply-To: <alpine.LFD.2.20.1703020627050.11911@uk63952.mitel.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: NeoMutt/20170113 (1.7.2)
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: "inherit setuptools" versus "inherit pypi" -- a python style question
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -68,52 +38,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Mar 2017 09:58:28 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 03 Mar 2017 10:06:54 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-* Robert P. J. Day <rpjday@crashcourse.ca> [170302 12:33]:
+On Fri, 3 Mar 2017, Anders Darander wrote:
 
-> On Thu, 2 Mar 2017, Robert P. J. Day wrote:
+> * Robert P. J. Day <rpjday@crashcourse.ca> [170302 12:33]:
+>
+> > On Thu, 2 Mar 2017, Robert P. J. Day wrote:
+>
+> > >   inherit pypi setuptools
+> > >   require python-psutil.inc
+>
+> > > and the corresponding .inc file contains:
+>
+> > >   RDEPENDS_${PN} += " \
+> > >     ${PYTHON_PN}-shell \
+> > >     ${PYTHON_PN}-subprocess \
+> > >     ${PYTHON_PN}-threading \
+> > >   "
+>
+> > > so the first recipe inherits pypi, the second one inherits setuptools,
+> > > and the third inherits *both*. what is the *preferred* style?
+>
+> Well, different purposes... If you take a look at pypi.bbclass, it's all
+> about how to retrieve the module (source code). setuptools.bbclass is
+> about how to install the module...
+>
+> Ie retrieving and installing...
 
-> >   inherit pypi setuptools
-> >   require python-psutil.inc
+  yes, i finally twigged to that, but is there a *preferred* style?
+from what i've seen, if there is a pair of files for a python module:
 
-> > and the corresponding .inc file contains:
+  * foo.bb (which includes ...)
+  * foo.inc
 
-> >   RDEPENDS_${PN} += " \
-> >     ${PYTHON_PN}-shell \
-> >     ${PYTHON_PN}-subprocess \
-> >     ${PYTHON_PN}-threading \
-> >   "
+the common style seems to be that:
 
-> > so the first recipe inherits pypi, the second one inherits setuptools,
-> > and the third inherits *both*. what is the *preferred* style?
+  * foo.bb inherits setuptools, while
+  * foo.inc inherits pypi (if necessary, of course)
 
-Well, different purposes... If you take a look at pypi.bbclass, it's all
-about how to retrieve the module (source code). setuptools.bbclass is
-about how to install the module...
+at least i think that was the common style. obviously, there are
+perfectly acceptable variations, i'd just like to know if there is a
+recommended style.
 
-Ie retrieving and installing...
-
-Cheers,
-Anders
-
-> >   i'm assuming that if a python module is availably via pypi, then
-> > you'd go with that; otherwise, just use regular setuptools. and not
-> > being a python guru, why does that third recipe need to inherit both?
-
-> >   i did a quick grep of the current meta-python layer to see the
-> > frequency of each, and got:
-
->   grrrrrr ... i just looked more closely and it appears that all of
-> the "recipe" files under meta-python that inherit only pypi are all
-> ".inc" files, being included by recipe files that first inherit
-> setuptools. so, again, clarification on the proper way to do this
-> would be nice.
-
+rday
 
 -- 
-Anders Darander, Senior System Architect
-ChargeStorm AB / eStorm AB
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 
