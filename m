@@ -1,28 +1,47 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C796F77641
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ua0-f175.google.com (mail-ua0-f175.google.com
+	[209.85.217.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 161EF77673
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 00:19:17 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v230JHBg003831; Fri, 3 Mar 2017 00:19:17 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 2g01R7jy4Z76; Fri,  3 Mar 2017 00:19:17 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v230JEaw003828
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 3 Mar 2017 00:19:15 GMT
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1cjawE-00040t-IV; Fri, 03 Mar 2017 00:19:14 +0000
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Mar 2017 00:19:11 +0000
-Message-Id: <1488500351-15388-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] sanity: Allow whitespace only mirror entries
+	Fri,  3 Mar 2017 01:18:32 +0000 (UTC)
+Received: by mail-ua0-f175.google.com with SMTP id f54so98571308uaa.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 02 Mar 2017 17:18:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=jMhuvMpkZlx13Xv+Kwn6x6AND1Fodfre2wXKHvIk9X4=;
+	b=BUTpazoMD0mMDd96kQvxwrJYTFNLbaHNHLwXgAt8gqf1xGorWun4uLGGoUxPkelTdS
+	U0U0zp2S8HVxmnSzNtP/Lv2AEz3jfat46fwYsmIxMHOYlGPUJ7qQ6OlatgysECHutN0v
+	yapVYhxe89jW23bnCBfIvIq/MdpkdppLVB9GNclmPy1s2GJEFvMnyaTE3jJAfouskN4z
+	x+dfRXvO5c1sRyeVHvwwEekroki/BIKHLo415mYnwktNbT/Ji+jLmPB3S2CuAiYxVtQl
+	xJudAkyh7sUsGnmxR2Q9ThTgqeIw6+R6DB6b0F0yhO8TTWAgxE6nXdQY+vJdOir4Ly2y
+	ZKXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=jMhuvMpkZlx13Xv+Kwn6x6AND1Fodfre2wXKHvIk9X4=;
+	b=sC5fobIgvxSk65qPZ0cpvPNWOB+jm+ZYUl8oZLkDtUGtEst35MWod4J4/RrWh0M8PI
+	1uRJsxXa3m6gL+tBrSh+nHvEGjfXz/ZQxuXk3gzTpIHei9BWVb+xzS163rnNEXDda19+
+	yD8muGlSNfn7+1ttIsOchCdpn/ZOlht6X7JhI+da/n63zVoQ8tV7V/5HcSQrF6fb2n5b
+	EQdmk1OdRIpih8i+XNmWRdJT/nzRF/+YqlWYGSsn1Bm89kbY7JwqHzWPLsNRh8ecyBWG
+	WtyA8C5tLXxL6Re7Xg6YBfc8Ce51dLlNyx1nNC43/WKzYTRw2LE2Tbs6hSpI4gr/SYOK
+	GkWw==
+X-Gm-Message-State: AMke39k8s3ah9S3/hzLQxneZtf523yxFDzWdKs4b8IIIV4NX3iwhUyge9+cwA1mx8JFLiFn7ZE8mhCjHlBeeiQ==
+X-Received: by 10.31.132.212 with SMTP id g203mr46153vkd.93.1488503913848;
+	Thu, 02 Mar 2017 17:18:33 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.159.39.37 with HTTP; Thu, 2 Mar 2017 17:18:03 -0800 (PST)
+In-Reply-To: <12830a63c0c221f1a3a227173a69d55111359b8a.1488388550.git.anders@chargestorm.se>
+References: <cover.1488388550.git.anders@chargestorm.se>
+	<12830a63c0c221f1a3a227173a69d55111359b8a.1488388550.git.anders@chargestorm.se>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 2 Mar 2017 17:18:03 -0800
+Message-ID: <CAMKF1spaobz07gVftrY+ZKxUrXKfcXBvf0QUKLp=agh8fDWeug@mail.gmail.com>
+To: Anders Darander <anders@chargestorm.se>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/7] create_npm.py: convert MIT/X11 to MIT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,50 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Mar 2017 00:19:18 -0000
+X-List-Received-Date: Fri, 03 Mar 2017 01:18:33 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Forcing the use of "\n" in mirror variables is pointless, we can just require that
-there are pairs of values. With the bitbake restriction relaxed, we can relax
-the sanity check too.
+On Wed, Mar 1, 2017 at 9:19 AM, Anders Darander <anders@chargestorm.se> wrote:
+> Quite a few npm packages declare MIT/X11 as their license. This is equal to
+> a pure MIT license.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/sanity.bbclass | 20 +++++++++-----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
+it would be good if you could attach a link where this can be referred to.
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 8935df8..1fe172f 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -876,18 +876,16 @@ def check_sanity_everybuild(status, d):
-                  'git', 'gitsm', 'hg', 'osc', 'p4', 'svn', \
-                  'bzr', 'cvs', 'npm', 'sftp', 'ssh']
-     for mirror_var in mirror_vars:
--        mirrors = (d.getVar(mirror_var) or '').replace('\\n', '\n').split('\n')
--        for mirror_entry in mirrors:
--            mirror_entry = mirror_entry.strip()
--            if not mirror_entry:
--                # ignore blank lines
--                continue
-+        mirrors = (d.getVar(mirror_var) or '').replace('\\n', ' ').split()
- 
--            try:
--                pattern, mirror = mirror_entry.split()
--            except ValueError:
--                bb.warn('Invalid %s: %s, should be 2 members.' % (mirror_var, mirror_entry.strip()))
--                continue
-+        # Split into pairs
-+        if len(mirrors) % 2 != 0:
-+            bb.warn('Invalid mirror variable value for %s: %s, should contain paired members.' % (mirror_var, mirrors.strip()))
-+            continue
-+        mirrors = list(zip(*[iter(mirrors)]*2))
-+
-+        for mirror_entry in mirrors:
-+            pattern, mirror = mirror_entry
- 
-             decoded = bb.fetch2.decodeurl(pattern)
-             try:
--- 
-2.7.4
-
+>
+> Signed-off-by: Anders Darander <anders@chargestorm.se>
+> ---
+>  scripts/lib/recipetool/create_npm.py | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/scripts/lib/recipetool/create_npm.py b/scripts/lib/recipetool/create_npm.py
+> index 11b2950..2816861 100644
+> --- a/scripts/lib/recipetool/create_npm.py
+> +++ b/scripts/lib/recipetool/create_npm.py
+> @@ -45,6 +45,8 @@ class NpmRecipeHandler(RecipeHandler):
+>              license = data['license']
+>              if isinstance(license, dict):
+>                  license = license.get('type', None)
+> +            if 'MIT/X11' in license:
+> +                license = 'MIT'
+>          return license
+>
+>      def _shrinkwrap(self, srctree, localfilesdir, extravalues, lines_before):
+> --
+> 2.10.2
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
