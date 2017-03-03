@@ -1,23 +1,23 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 19D55776CE
+	by mail.openembedded.org (Postfix) with ESMTP id 31BC9776D9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 12:37:30 +0000 (UTC)
+	Fri,  3 Mar 2017 12:37:31 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga105.jf.intel.com with ESMTP; 03 Mar 2017 04:37:31 -0800
+	by orsmga105.jf.intel.com with ESMTP; 03 Mar 2017 04:37:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,237,1484035200"; d="scan'208";a="1117999720"
+X-IronPort-AV: E=Sophos;i="5.35,237,1484035200"; d="scan'208";a="1117999726"
 Received: from manuelal-mobl1.ger.corp.intel.com (HELO
 	mqz-osx-suse64.fi.intel.com) ([10.252.4.231])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Mar 2017 04:37:30 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 03 Mar 2017 04:37:32 -0800
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Mar 2017 14:37:25 +0200
-Message-Id: <1488544647-31325-3-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Fri,  3 Mar 2017 14:37:26 +0200
+Message-Id: <1488544647-31325-4-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
 In-Reply-To: <1488544647-31325-1-git-send-email-markus.lehtonen@linux.intel.com>
 References: <1488544647-31325-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [morty][PATCH 2/4] rpm: support customizing gpg command line
+Subject: [morty][PATCH 3/4] lib/oe/gpg_sign: make gpg version a property of the signer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,85 +30,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Mar 2017 12:37:30 -0000
-
-Add a new %_gpg_sign_cmd_extra_args macro that allows customizing the
-gpg options used when signing rpm packages. This is needed to be able to
-sign packages with gpg 2.1 which requires "--pinentry-mode loopback" to
-allow non-interactive signing.
-
-[YOCTO #11054]
+X-List-Received-Date: Fri, 03 Mar 2017 12:37:31 -0000
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
-(cherry picked from commit 373a7146d596d27376a003014df0d06f3df5348d)
+(cherry picked from commit a00a362e3dc18ba04230cbbd6f91264e5d76f40d)
 ---
- .../0001-macros-add-_gpg_sign_cmd_extra_args.patch | 43 ++++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.16.bb            |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/rpm/0001-macros-add-_gpg_sign_cmd_extra_args.patch
+ meta/lib/oe/gpg_sign.py | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/rpm/rpm/0001-macros-add-_gpg_sign_cmd_extra_args.patch b/meta/recipes-devtools/rpm/rpm/0001-macros-add-_gpg_sign_cmd_extra_args.patch
-new file mode 100644
-index 0000000..eb43a87
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/0001-macros-add-_gpg_sign_cmd_extra_args.patch
-@@ -0,0 +1,43 @@
-+From fa9726ff69f86d6a87c4c4bd7e3d2881999a872a Mon Sep 17 00:00:00 2001
-+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-+Date: Thu, 23 Feb 2017 11:14:20 +0200
-+Subject: [PATCH] macros: add %_gpg_sign_cmd_extra_args
-+
-+Similar to what rpm4 has. This macro can be used to customize the
-+gpg command line options when signing packages. This is needed for
-+gpg 2.1 which requires "--pinentry-mode loopback" to allow
-+non-interactive signing.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-+---
-+ macros/macros.in | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/macros/macros.in b/macros/macros.in
-+index 8bc5840..fda3c66 100644
-+--- a/macros/macros.in
-++++ b/macros/macros.in
-+@@ -524,7 +524,9 @@ $_arbitrary_tags_tests	Foo:Bar
-+ %_gpg_passphrase_way %{?_gpg_passphrase:--passphrase "%{_gpg_passphrase}"}%{!?_gpg_passphrase:--passphrase-fd 3}
-+ 
-+ %__gpg_check_password_cmd	%{__gpg} \
-+-	gpg --batch --no-verbose %{_gpg_passphrase_way} -u "%{_gpg_name}" -so -
-++	gpg --batch --no-verbose %{_gpg_passphrase_way} \
-++	%{?_gpg_sign_cmd_extra_args:%{_gpg_sign_cmd_extra_args}} \
-++	-u "%{_gpg_name}" -so -
-+ #%__pgp_check_password_cmd	%{__pgp} \
-+ #	pgp +batchmode=on +verbose=0 "%{_pgp_name}" -sf
-+ #%__pgp5_check_password_cmd	%{__pgp} \
-+@@ -532,6 +534,7 @@ $_arbitrary_tags_tests	Foo:Bar
-+ 
-+ %__gpg_sign_cmd			%{__gpg} \
-+ 	gpg --batch --no-verbose --no-armor %{_gpg_passphrase_way}  --no-secmem-warning \
-++	%{?_gpg_sign_cmd_extra_args:%{_gpg_sign_cmd_extra_args}} \
-+ 	-u "%{_gpg_name}" -sbo %{__signature_filename} %{__plaintext_filename}
-+ #%__pgp_sign_cmd			%{__pgp} \
-+ #	pgp +batchmode=on +verbose=0 +armor=off \
-+-- 
-+2.10.2
-+
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-index 85eb5fe..497af8e 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-@@ -119,6 +119,7 @@ SRC_URI += " \
- 	   file://gcc6-stdlib.patch \
- 	   file://0001-system.h-query.c-support-nosignature.patch \
- 	   file://rpm-ensure-rpm2cpio-call-rpm-relocation-code.patch \
-+	   file://0001-macros-add-_gpg_sign_cmd_extra_args.patch \
- "
+diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
+index 683ae5b..16eb7f8 100644
+--- a/meta/lib/oe/gpg_sign.py
++++ b/meta/lib/oe/gpg_sign.py
+@@ -10,6 +10,7 @@ class LocalSigner(object):
+         self.gpg_bin = d.getVar('GPG_BIN', True) or \
+                   bb.utils.which(os.getenv('PATH'), 'gpg')
+         self.gpg_path = d.getVar('GPG_PATH', True)
++        self.gpg_version = self.get_gpg_version()
+         self.rpm_bin = bb.utils.which(os.getenv('PATH'), "rpm")
  
- # OE specific changes
+     def export_pubkey(self, output_file, keyid, armor=True):
+@@ -59,9 +60,7 @@ class LocalSigner(object):
+ 
+         #gpg > 2.1 supports password pipes only through the loopback interface
+         #gpg < 2.1 errors out if given unknown parameters
+-        dots = self.get_gpg_version().split('.')
+-        assert len(dots) >= 2
+-        if int(dots[0]) >= 2 and int(dots[1]) >= 1:
++        if self.gpg_version > (2,1,):
+             cmd += ['--pinentry-mode', 'loopback']
+ 
+         cmd += [input_file]
+@@ -88,10 +87,11 @@ class LocalSigner(object):
+ 
+ 
+     def get_gpg_version(self):
+-        """Return the gpg version"""
++        """Return the gpg version as a tuple of ints"""
+         import subprocess
+         try:
+-            return subprocess.check_output((self.gpg_bin, "--version")).split()[2].decode("utf-8")
++            ver_str = subprocess.check_output((self.gpg_bin, "--version")).split()[2].decode("utf-8")
++            return tuple([int(i) for i in ver_str.split('.')])
+         except subprocess.CalledProcessError as e:
+             raise bb.build.FuncFailed("Could not get gpg version: %s" % e)
+ 
 -- 
 2.6.6
 
