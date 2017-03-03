@@ -1,48 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
-	[209.85.220.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C6C2775D2
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 4151C775D2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 22:54:48 +0000 (UTC)
-Received: by mail-qk0-f182.google.com with SMTP id n127so200649216qkf.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Mar 2017 14:54:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Tcv8w67S3M5/xJ7hUJScg8n2PVLL0W9WPLxD9pCscvw=;
-	b=kyx8FWscXXAx7YLbNGOXFo8g+6vx1eFgKb5EpF0JGntyw4hVnCXcVYG0KJrQ9/lOsp
-	TUW1mHmnetFQBIyW9j9kuiqG8iVQIfWOBqNdpQEhzVAEI3a8G+N1eFPo3uDMJICXC8TS
-	Lj+pTtOW8FuBSn8WCWhWpSPgqoc2ZFlenkE5ZPcqHRwsWE62DnMP+ehGlBq4BBGmb5LW
-	K38jkUvQAKBliGitVYVZAc//o+x8keKE/vfEt2uyDvYv+MPWKtk0CVM6OkOanh3od60/
-	KIFnonzLF7njcxCmUGM3IZCAejpKaRKZ0OFO71QBavu9I0zJRor0BTQhNPcRaVk1kVzP
-	udSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Tcv8w67S3M5/xJ7hUJScg8n2PVLL0W9WPLxD9pCscvw=;
-	b=Bp6RAikbIHMtdofw/bOfy+SGkrUqHnmrWn3OOHF9DWwK46876yEFozwrKAfoTWjSpM
-	l0eQcjIdxJDEK+ys+eLQejB1bn2UWpnz8xCQDcnNrLl3LbFrezQH/3H4cr2MCNPGU3CO
-	sCuea2Ss0rNArE/BM/czxc6QPM8P/NwJPJVPfhrm8f/8k2kkf/YdjeC7dK79krONbbB0
-	H28GidNvOUbHrGIjE80RhD2xX4nJwSeamdWtxxxCDaNsypRV3vmVGkwp29zLB+Jx4vAj
-	ZLfFRSx7021PWrp30YK3ea/frWY/VYgxx/xh9pdCsnvSPcmE77jOIodPAYNauBFIEops
-	EPcg==
-X-Gm-Message-State: AMke39kSsIGP4F4UhofVh9otShzD8l9BFnd36L4erYLI64n9K5OXm+IowV10Kq1g3sWZYDb+uVVW8fGwjAG1yDgk
-X-Received: by 10.200.41.115 with SMTP id z48mr5174475qtz.109.1488581690241;
-	Fri, 03 Mar 2017 14:54:50 -0800 (PST)
+	Fri,  3 Mar 2017 22:57:36 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 Mar 2017 14:57:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.35,239,1484035200"; d="scan'208";a="830712716"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.120])
+	by FMSMGA003.fm.intel.com with ESMTP; 03 Mar 2017 14:57:37 -0800
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  3 Mar 2017 17:01:07 -0600
+Message-Id: <1488582067-25664-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Fri, 3 Mar 2017 14:54:29 -0800 (PST)
-In-Reply-To: <CAMKF1soCXsibCK37Az9MV1HMUpAK2dtWoijOxoBW25RoMhU+8g@mail.gmail.com>
-References: <1488542096-23389-1-git-send-email-richard.purdie@linuxfoundation.org>
-	<CAMKF1soCXsibCK37Az9MV1HMUpAK2dtWoijOxoBW25RoMhU+8g@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 3 Mar 2017 22:54:29 +0000
-Message-ID: <CAJTo0LYPwxx18CtjJ_Rng28UhQAmJbMCw5=ebW2WkZmcALznUQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-runtime: Add libmpx supprt for x86
+Cc: paul.eggleton@linux.intel.com
+Subject: [PATCH] buildhistory.bbclass: Only execute get_extra_sdkinfo when sdk is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,44 +30,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Mar 2017 22:54:49 -0000
-Content-Type: multipart/alternative; boundary=001a1140699cddf3350549db6e6c
-
---001a1140699cddf3350549db6e6c
+X-List-Received-Date: Fri, 03 Mar 2017 22:57:38 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 3 March 2017 at 21:39, Khem Raj <raj.khem@gmail.com> wrote:
+If sdk ins't in BUILDHISTORY_FEATURES the get_extra_sdkinfo fails
+because no information about sdk is generated in buildhistory repo.
 
-> > Enabling building the Intel Memory Protection Extension library for x86.
-> >
->
-> hope this works on amd chips as well ?
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ meta/classes/buildhistory.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 7251a2c..babcf57 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -550,7 +550,9 @@ END
+ python buildhistory_get_extra_sdkinfo() {
+     import operator
+     import math
+-    if d.getVar('BB_CURRENTTASK') == 'populate_sdk_ext':
++
++    if d.getVar('BB_CURRENTTASK') == 'populate_sdk_ext' and \
++            "sdk" in (d.getVar('BUILDHISTORY_FEATURES') or "").split():
+         tasksizes = {}
+         filesizes = {}
+         for root, _, files in os.walk(d.expand('${SDK_OUTPUT}/${SDKPATH}/sstate-cache')):
+-- 
+2.1.4
 
 
-https://en.wikipedia.org/wiki/Intel_MPX
-
-It depends on new instructions, so you'll have to ask AMD. :)
-
-Ross
-
---001a1140699cddf3350549db6e6c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 March 2017 at 21:39, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wro=
-te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:=
-solid;padding-left:1ex"><span class=3D"gmail-">&gt; Enabling building the I=
-ntel Memory Protection Extension library for x86.<br>
-&gt;<br>
-<br>
-</span>hope this works on amd chips as well ?</blockquote><div>=C2=A0</div>=
-</div><a href=3D"https://en.wikipedia.org/wiki/Intel_MPX">https://en.wikipe=
-dia.org/wiki/Intel_MPX</a><br></div><div class=3D"gmail_extra"><br></div><d=
-iv class=3D"gmail_extra">It depends on new instructions, so you&#39;ll have=
- to ask AMD. :)</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
-il_extra">Ross</div></div>
-
---001a1140699cddf3350549db6e6c--
