@@ -1,55 +1,27 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 85750776A7
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 25FB177696
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 10:55:15 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 8F6462E0F6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 11:55:16 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id YGDkwvIKU58Q
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 11:55:14 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id B826C2E150
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 11:55:14 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A77C91E07D
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 11:55:14 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9BAEC1E07E
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 11:55:14 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 11:55:14 +0100 (CET)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id 9013B2CB
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 11:55:14 +0100 (CET)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v23AtEsl005943
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 3 Mar 2017 11:55:14 +0100
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v23AtEuF005942
-	for openembedded-core@lists.openembedded.org;
-	Fri, 3 Mar 2017 11:55:14 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+	Fri,  3 Mar 2017 10:59:05 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 Mar 2017 02:59:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.35,236,1484035200"; d="scan'208";a="231855976"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga004.fm.intel.com with ESMTP; 03 Mar 2017 02:59:06 -0800
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Mar 2017 11:55:12 +0100
-Message-Id: <0a92c2d1ce3718cf77328e9098cf5c6fa60a993e.1488538442.git.pkj@axis.com>
-X-Mailer: git-send-email 2.9.0
-In-Reply-To: <cover.1488538442.git.pkj@axis.com>
-References: <cover.1488538442.git.pkj@axis.com>
-X-TM-AS-GCONF: 00
-Subject: [PATCHv2 5/5] scripts/pkg-config: Add a dummy version that always fails
+References: <20170228045004.GA5913@linux-uys3>
+	<b7a65c18-be64-8689-131d-c06b0aeb3b2a@rsi-elektrotechnik.de>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <90be46df-caaa-edc2-aa77-cf3b3a190d24@linux.intel.com>
+Date: Fri, 3 Mar 2017 12:57:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.6.0
+MIME-Version: 1.0
+In-Reply-To: <b7a65c18-be64-8689-131d-c06b0aeb3b2a@rsi-elektrotechnik.de>
+Subject: Re: npm thoughts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,39 +34,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Mar 2017 10:55:16 -0000
+X-List-Received-Date: Fri, 03 Mar 2017 10:59:07 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This is intended to catch missing dependencies on the real version.
+On 03/03/2017 12:45 PM, Josef Holzmayr wrote:
+> - Given the current situation, the best practise seems to be to have
+> package.json take care of the needed modules, and have it handle that.
+> Means in my opinion that there should be as little npm-based stuff
+> installed as possible. Exactly one, in the optimal case. Downside: this
+> means a second dependency tracking is layered under bitbake. No good
+> that sounds....
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- scripts/pkg-config | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
- create mode 100755 scripts/pkg-config
+I've been looking into this for the past few days. Unfortunately, it 
+looks like we do need a generic, extensible mechanism for dealing with 
+the likes of npm, cargo (i.e. rust), and 'go get' and similar things.
 
-diff --git a/scripts/pkg-config b/scripts/pkg-config
-new file mode 100755
-index 0000000..c6376ec
---- /dev/null
-+++ b/scripts/pkg-config
-@@ -0,0 +1,16 @@
-+#!/bin/sh
-+
-+# This is a dummy version that always fails. It is intended to catch
-+# missing dependencies on the real version.
-+
-+myname=${0##*/}
-+
-+echo "The correct version of $myname is not being used!" >&2
-+echo "Make sure the recipe inherits 'pkgconfig'." >&2
-+
-+# Return something that will make the compiler barf. This is for when
-+# pkg-config is used directly in a Makefile in a construct like:
-+# CFLAGS += $(shell pkg-config --cflags glib-2.0)
-+echo "The-correct-version-of-$myname-is-not-being-used"
-+
-+exit 1
--- 
-2.9.0
+I've just set up a minimal MEAN project on my machine, and npm pulled in 
+1087 dependencies just so it could run. This is not 'wrong', it's simply 
+where the world of software development is heading. It's just so much 
+nicer to get a project started and running this way, than the old way of 
+writing Makefiles and installing development dependencies by hand into 
+the system. But it does create a headache for distributions, and those 
+who need reproducible builds.
+
+I'll write down my ideas (and maybe even a design proposal!) in a few 
+days about this.
+
+Alex
 
 
