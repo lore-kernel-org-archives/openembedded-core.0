@@ -1,28 +1,28 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 363DF77696
+	by mail.openembedded.org (Postfix) with ESMTP id 3760877697
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 10:55:14 +0000 (UTC)
+	Fri,  3 Mar 2017 10:55:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 5840B18176
+	by bastet.se.axis.com (Postfix) with ESMTP id EE4D718254
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 11:55:15 +0100 (CET)
+	Fri,  3 Mar 2017 11:55:14 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 1O78OrrPb+oq
+	port 10024) with LMTP id HyQL2uIpgLln
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  3 Mar 2017 11:55:14 +0100 (CET)
 Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 8DE331818D
+	by bastet.se.axis.com (Postfix) with ESMTPS id 799B018176
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  3 Mar 2017 11:55:14 +0100 (CET)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7D6831A06F
+	by IMSVA (Postfix) with ESMTP id 6708F1A067
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  3 Mar 2017 11:55:14 +0100 (CET)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 71FA61A06D
+	by IMSVA (Postfix) with ESMTP id 5C7611A066
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  3 Mar 2017 11:55:14 +0100 (CET)
 Received: from seth.se.axis.com (unknown [10.0.2.172])
@@ -30,26 +30,26 @@ Received: from seth.se.axis.com (unknown [10.0.2.172])
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  3 Mar 2017 11:55:14 +0100 (CET)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 5ECAD2FC
+	by seth.se.axis.com (Postfix) with ESMTP id 481CC2FC
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  3 Mar 2017 11:55:14 +0100 (CET)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v23AtEBu005931
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v23AtEvq005927
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 3 Mar 2017 11:55:14 +0100
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v23AtEZ1005930
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v23AtEMR005926
 	for openembedded-core@lists.openembedded.org;
 	Fri, 3 Mar 2017 11:55:14 +0100
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Mar 2017 11:55:09 +0100
-Message-Id: <ad975cd072bc82993b6179ac16c64e7b2290b6bc.1488538442.git.pkj@axis.com>
+Date: Fri,  3 Mar 2017 11:55:08 +0100
+Message-Id: <0bef040f790ae515747486994c35eacf0c78b678.1488538442.git.pkj@axis.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1488538442.git.pkj@axis.com>
 References: <cover.1488538442.git.pkj@axis.com>
 X-TM-AS-GCONF: 00
-Subject: [PATCHv2 2/5] linux-libc-headers: Add inherit of pkgconfig
+Subject: [PATCHv2 1/5] module.bbclass: Add inherit of pkgconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,27 +64,21 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 03 Mar 2017 10:55:14 -0000
 
-pkg-config is used by the kernel build system when creating the
-configuration tools.
-
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+This is needed for the make_scripts task.
 ---
- meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc | 2 +-
+ meta/classes/module.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-index 30d2243..653a470 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-@@ -42,7 +42,7 @@ python __anonymous () {
-         d.setVar("HEADER_FETCH_VER", "2.6")
- }
+diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
+index a588873..99b7ebc 100644
+--- a/meta/classes/module.bbclass
++++ b/meta/classes/module.bbclass
+@@ -1,4 +1,4 @@
+-inherit module-base kernel-module-split
++inherit module-base kernel-module-split pkgconfig
  
--inherit kernel-arch
-+inherit kernel-arch pkgconfig
- 
- KORG_ARCHIVE_COMPRESSION ?= "xz"
- 
+ addtask make_scripts after do_prepare_recipe_sysroot before do_compile
+ do_make_scripts[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
 -- 
 2.9.0
 
