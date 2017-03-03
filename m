@@ -1,55 +1,55 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 76DD077697
+	by mail.openembedded.org (Postfix) with ESMTP id 770D9776B4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 11:17:38 +0000 (UTC)
+	Fri,  3 Mar 2017 11:17:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 42D1C11A020
+	by bes.se.axis.com (Postfix) with ESMTP id 2E9462E5C4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 12:17:39 +0100 (CET)
+	Fri,  3 Mar 2017 12:17:38 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 0hqnVm7r9eWl
+	port 10024) with LMTP id LvlVox2hpJit
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  3 Mar 2017 12:17:37 +0100 (CET)
 Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id 9C3522E5BC
+	by bes.se.axis.com (Postfix) with ESMTPS id 849DF2E5B5
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  3 Mar 2017 12:17:37 +0100 (CET)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8B63E1A06D
+	by IMSVA (Postfix) with ESMTP id 71D151A067
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  3 Mar 2017 12:17:37 +0100 (CET)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 806411A066
+	by IMSVA (Postfix) with ESMTP id 669B31A066
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  3 Mar 2017 12:17:37 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
+Received: from seth.se.axis.com (unknown [10.0.2.172])
 	by boulder02.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  3 Mar 2017 12:17:37 +0100 (CET)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id 739D1AC3
+	by seth.se.axis.com (Postfix) with ESMTP id 588313FE
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  3 Mar 2017 12:17:37 +0100 (CET)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v23BHbts025962
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v23BHbhO025956
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 3 Mar 2017 12:17:37 +0100
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v23BHbPa025961
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v23BHbfZ025952
 	for openembedded-core@lists.openembedded.org;
 	Fri, 3 Mar 2017 12:17:37 +0100
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Mar 2017 12:17:33 +0100
-Message-Id: <83eee68d8f4f4bafbb4b4402818ed0d64d7d4f17.1488539819.git.pkj@axis.com>
+Date: Fri,  3 Mar 2017 12:17:32 +0100
+Message-Id: <3ec46f4354894bacfb3ce7bdf054c1e962b8dbc2.1488539819.git.pkj@axis.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1488539819.git.pkj@axis.com>
 References: <cover.1488539819.git.pkj@axis.com>
 X-TM-AS-GCONF: 00
-Subject: [PATCHv3 3/5] scripts/dbus-binding-tool: Add a dummy version that always fails
+Subject: [PATCHv3 2/5] linux-libc-headers: Add inherit of pkgconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,31 +64,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 03 Mar 2017 11:17:38 -0000
 
-This is intended to catch missing dependencies on the real version.
+pkg-config is used by the kernel build system when creating the
+configuration tools.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- scripts/dbus-binding-tool | 11 +++++++++++
- 1 file changed, 11 insertions(+)
- create mode 100755 scripts/dbus-binding-tool
+ meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/dbus-binding-tool b/scripts/dbus-binding-tool
-new file mode 100755
-index 0000000..2e85987
---- /dev/null
-+++ b/scripts/dbus-binding-tool
-@@ -0,0 +1,11 @@
-+#!/bin/sh
-+
-+# This is a dummy version that always fails. It is intended to catch
-+# missing dependencies on the real version.
-+
-+myname=${0##*/}
-+
-+echo "The correct version of $myname is not being used!" >&2
-+echo "Make sure the recipe DEPENDS on 'dbus-glib-native'." >&2
-+
-+exit 1
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+index 30d2243..653a470 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+@@ -42,7 +42,7 @@ python __anonymous () {
+         d.setVar("HEADER_FETCH_VER", "2.6")
+ }
+ 
+-inherit kernel-arch
++inherit kernel-arch pkgconfig
+ 
+ KORG_ARCHIVE_COMPRESSION ?= "xz"
+ 
 -- 
 2.9.0
 
