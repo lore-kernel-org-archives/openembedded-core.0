@@ -1,48 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f179.google.com (mail-pf0-f179.google.com
-	[209.85.192.179])
-	by mail.openembedded.org (Postfix) with ESMTP id BFC9C77727
+Received: from mail-pg0-f53.google.com (mail-pg0-f53.google.com [74.125.83.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 0166577732
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 23:13:59 +0000 (UTC)
-Received: by mail-pf0-f179.google.com with SMTP id x66so37598602pfb.3
+	Fri,  3 Mar 2017 23:18:20 +0000 (UTC)
+Received: by mail-pg0-f53.google.com with SMTP id s67so48477044pgb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Mar 2017 15:14:01 -0800 (PST)
+	Fri, 03 Mar 2017 15:18:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=w3B3ozsLLa8TnMCiut8rPk7CkaCtjYp3F/4HDe6oSEU=;
-	b=b9HRgVhWXGIwBt6huJEHmrFo62JPH+gLXKQFVcsfcW4MV3NjQkt6pWmEp+xeYyb3BC
-	OlcYSbhxpGsB9XwuDe9WuYDSALQ+7wL61wEor4TlqxhlbUZSqLE4ptGyWofTOLWlNzTk
-	+jzxqMXKaxx5kPLJHV7ejOshO33m5j2YsOnwAoOyjNZIj6j1Mof3O8ItcMeNK6wUYGC6
-	K/Co/MDlMkK2GYL2T1komOydiK2Kc5/0zAZj8GICbK5EM9YkL8x0uyhOh748lB49pzuP
-	z8HTaFWFdSlL/0zIiwANXXBc3mo/E3F9Ve0cYsdZ0JMPBMKNSO6TWmRP8+++zUHmPEZ3
-	PlUQ==
+	bh=I9hK8ug2XGUwCoVScugJ9MrWqMnXyt8eYkGuKDaE5OA=;
+	b=CRfoP76PmjUQZX9ALyA4f89whoMF9SlO2mVeiScEKEbpFARdzl14IWbqHQ4JaOehHR
+	FufHAkJ0mykgA6ohSxAS6zZv0WUttRiGLMaCXR+Nbl+0U4kgD/vKbIWjctNEfjj3Ia+S
+	m4FTO3wpBkd+yW/puRpHYc7NN6tMkHc24xm8zWczcNmG/WzQ1dh4sq9ZucaBolW8ZWCT
+	+19SRsT3yUeKw9k9216+nDlGrAFWCy2n+sXWedS0UACrY7CwW/hVpUZAY8Vcb3DYU6PP
+	6QVu24t308ww2kOJcQWtyQhoARJ4X87eM/LGOPL1xplc8ibnZCvpIUIjfUPb9pNtAWaN
+	PZ7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=w3B3ozsLLa8TnMCiut8rPk7CkaCtjYp3F/4HDe6oSEU=;
-	b=tODhwnbPg5gaunmyS4Nam4og6m2MLMQa3Kj6TJ50uOEldsOIi6ySiowikU1Atx4IB/
-	L4yyPAOBmeOj3X1SpFS+qvH06mP7KbcIGemXZpSGtuN3zYnvWzXaYR8lM+OGZgfdfDId
-	s3PbQAMT5f53XWejLF1cKkAyllwu4rJB2eWe1M5FH3/AlwZpg9fhLxDivcGof9bDveWP
-	HE1xZuRE0B5YC+j2NDNfzVnDy5c2l4Wj0tzLxs/8Ri3qtzD/fKZLZg/WKTWHLnhoVuSG
-	Xd8yQpW41I1QhnYL9AFfqEICSH1OnlwULQjd5xAdPOIGDVC/+OKLyZv1fuFZTKMgmgfZ
-	D9ZA==
-X-Gm-Message-State: AMke39lBttFgmuQmlziR/NKaA5r8QK+Ejm1IYY/HgjVzd74DRDum1oCTbgoP/indLrgF9g==
-X-Received: by 10.84.132.33 with SMTP id 30mr7736176ple.44.1488582839706;
-	Fri, 03 Mar 2017 15:13:59 -0800 (PST)
+	bh=I9hK8ug2XGUwCoVScugJ9MrWqMnXyt8eYkGuKDaE5OA=;
+	b=A/bXJX98dmLc+haeZTDuXGXdlV/tgGvew9moGLutacVB2zU0Dv7oyrskKz/s5AkMwb
+	t1ue6PmUCcaj8NT0f8DjWabauOKrvwhdl09lx1G76hhJH5QefgkYxTwyQq+EzA8tNXP/
+	uhNGvdNW5oKz0bYszjxpkkg74fU6cftcdub5mL3nlj3tYDur9KfHqFv3dJeMp4uaszjc
+	givQeEllHawK0OH077vGKXolKUXF95r8Qme/cr9H3fSatrZ+Xa7oGKzbAheLIZvXzT4V
+	Wfxk9WBGmyIAWMseoxL9dnDb3ZXEe7D7PZ+8cSaWhEtIZoOUIxph6VHugTMSfuKePWu9
+	Bmrw==
+X-Gm-Message-State: AMke39nVnVc+owW+ygy0InfovzSRO/KvR8TQSpSuy6xzLAQqR7NQDWoLLUb1TjlhmdWWPA==
+X-Received: by 10.84.205.70 with SMTP id o6mr7838322plh.176.1488583100389;
+	Fri, 03 Mar 2017 15:18:20 -0800 (PST)
 Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	m20sm25459827pgd.67.2017.03.03.15.13.58
+	h3sm25321764pfc.82.2017.03.03.15.18.18
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 03 Mar 2017 15:13:59 -0800 (PST)
+	Fri, 03 Mar 2017 15:18:19 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Mar 2017 15:13:48 -0800
-Message-Id: <20170303231348.24373-1-raj.khem@gmail.com>
+Date: Fri,  3 Mar 2017 15:18:11 -0800
+Message-Id: <20170303231811.27812-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.10.2
 MIME-Version: 1.0
-Subject: [PATCH V6] go: Add recipes for golang compilers and tools
+Subject: [PATCH V7] go: Add recipes for golang compilers and tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,7 +54,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Mar 2017 23:14:00 -0000
+X-List-Received-Date: Fri, 03 Mar 2017 23:18:22 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -1527,7 +1526,7 @@ index 0000000..c632681
 +inherit go
 diff --git a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
 new file mode 100644
-index 0000000..f262c10
+index 0000000..930c57d
 --- /dev/null
 +++ b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
 @@ -0,0 +1,13 @@
@@ -1542,7 +1541,7 @@ index 0000000..f262c10
 +}
 +
 +do_install() {
-+	install -d -m 0755 ${S}/helloworld ${D}${bindir}/helloworld
++	install -D -m 0755 ${S}/helloworld ${D}${bindir}/helloworld
 +}
 -- 
 2.10.2
