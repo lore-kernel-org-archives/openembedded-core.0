@@ -1,23 +1,48 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id D6575776ED
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 7ADEF776BE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Mar 2017 12:37:32 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga105.jf.intel.com with ESMTP; 03 Mar 2017 04:37:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,237,1484035200"; d="scan'208";a="1117999729"
-Received: from manuelal-mobl1.ger.corp.intel.com (HELO
-	mqz-osx-suse64.fi.intel.com) ([10.252.4.231])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Mar 2017 04:37:33 -0800
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Mar 2017 14:37:27 +0200
-Message-Id: <1488544647-31325-5-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <1488544647-31325-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1488544647-31325-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [morty][PATCH 4/4] lib/oe/gpg_sign: fix rpm signing with gpg > 2.1
+	Fri,  3 Mar 2017 13:49:39 +0000 (UTC)
+Received: by mail-qk0-f180.google.com with SMTP id h9so21589947qke.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 03 Mar 2017 05:49:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=lEK4ccCB4rAOum9CcgccbpuOYSTqB36aPmsfqqGEliw=;
+	b=dDK8M/Kla5CgLmRcIolwiLBl/rUKvQqzXRMMHzSS3mmPs/afzlfQi48uwBMFSPP9wJ
+	WUzaCGmvr+69Y67VV2pwmg90GyVvyMQvYZgRGPAVzIPsnvYKRiFjGysydGnVP8F7YYq7
+	J6P+mZdn2ruutat4+Vb1o4mFciSsQDzV3rGn7Xihq4PmxG49YfJ8/bPuda6AGFfDF8es
+	lvCyogfEoTlseZ0VrEcFGIHZutAJD7GHMGc6DSrlaDO9KOpRj27LLPLKBkQrPomY4L2v
+	TB/rmm/SJDNmNAEoaf/KKMTnSw/CeOHRxg1MLCQHqGvxgHoLd8oL2cITlnkK4nxd+hIz
+	r7SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=lEK4ccCB4rAOum9CcgccbpuOYSTqB36aPmsfqqGEliw=;
+	b=g9kVjBKxpN42TRpi/GBWf9vUfSU0w92t+f7mWSl59+6IAVTnjlR8fE/LXAe1YMOVOG
+	q5o4dIp23O46WbPmrdiZTanVm6ov1V8PI+L4FIr5UI0Y9/Navmi40yfh387s9tKxBffv
+	5LMwvkJCTp+620LAphG4WYwmtVj/GoGR+6C7s6xn0PRUhMLisGm3PdhPETM2ZOBynYLg
+	MokxilRozWHH6tuKjbYfzYuT82VSPTUDXs18vs2PgurK3YryYqJuiCUG24soJxjkicTd
+	Qh11u0hY6BOesbIUm7Pi8B48GNbrd6HzTfA9CmEMdUSG++zWadXcgG0mRGb3BlTxczvC
+	QrlQ==
+X-Gm-Message-State: AMke39knG5u4ijb2BWDgwi2mXCotbl/dqaokmBuvD98coxw4kQbyG9m52TN0u0o7Uqvnzubji6Lc94HzhPueYFzM
+X-Received: by 10.55.183.133 with SMTP id h127mr2790691qkf.121.1488548981154; 
+	Fri, 03 Mar 2017 05:49:41 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Fri, 3 Mar 2017 05:49:20 -0800 (PST)
+In-Reply-To: <d2ccba14-ac14-1379-d5e1-ac799e9c120b@ossystems.com.br>
+References: <20170223181309.13899-1-fabio.berton@ossystems.com.br>
+	<CAJTo0LaFsWxaGy1Jwo9K92KTry+7Hyzn-MVHvMOpaqx+Q+qCGw@mail.gmail.com>
+	<d2ccba14-ac14-1379-d5e1-ac799e9c120b@ossystems.com.br>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 3 Mar 2017 13:49:20 +0000
+Message-ID: <CAJTo0La=NDhfuMSYG3bjVYe2u6KA4TAZSNN_f1PyrsfVipoxBg@mail.gmail.com>
+To: Fabio Berton <fabio.berton@ossystems.com.br>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] wic: Prevent duplicate entries on fstab
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,34 +55,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Mar 2017 12:37:33 -0000
+X-List-Received-Date: Fri, 03 Mar 2017 13:49:41 -0000
+Content-Type: multipart/alternative; boundary=94eb2c06005641185f0549d3d1c6
 
-We need to check the gpg version and alter its command line options
-accordingly.
+--94eb2c06005641185f0549d3d1c6
+Content-Type: text/plain; charset=UTF-8
 
-[YOCTO #11054]
+On 3 March 2017 at 12:12, Fabio Berton <fabio.berton@ossystems.com.br>
+wrote:
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-(cherry picked from commit 44a44b7e582a5a654baf21829d168568481c13d9)
----
- meta/lib/oe/gpg_sign.py | 2 ++
- 1 file changed, 2 insertions(+)
+> Sorry for delay. This error for qemux86 is because common.wks.inc and
+> directdisk-gpt.wks files in scripts/lib/wic/canned-wks directory doesn't
+> have option --fstype= for part /boot.
+>
+> For qemuarm machines I get the error:
+>
+> | DEBUG: Executing python function set_image_size
+> | DEBUG: Python function set_image_size finished
+> | DEBUG: Executing shell function do_image_wic
+> | Error: Please build syslinux first
+>
 
-diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
-index 16eb7f8..ba61f98 100644
---- a/meta/lib/oe/gpg_sign.py
-+++ b/meta/lib/oe/gpg_sign.py
-@@ -32,6 +32,8 @@ class LocalSigner(object):
- 
-         cmd = self.rpm_bin + " --addsign --define '_gpg_name %s'  " % keyid
-         cmd += "--define '_gpg_passphrase %s' " % passphrase
-+        if self.gpg_version > (2,1,):
-+            cmd += "--define '_gpg_sign_cmd_extra_args --pinentry-mode=loopback' "
-         if self.gpg_bin:
-             cmd += "--define '%%__gpg %s' " % self.gpg_bin
-         if self.gpg_path:
--- 
-2.6.6
+There's patches queued that will change the behaviour here and likely cause
+your patch to not apply - can you rebase on top of poky-contrib:ed/wic/wip
+and see what happens?  The build dependency is now wic-tools.
 
+Ross
 
+--94eb2c06005641185f0549d3d1c6
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 3 March 2017 at 12:12, Fabio Berton <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:fabio.berton@ossystems.com.br" target=3D"_blank">fabio.berton@ossystems=
+.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><p><tt>Sorr=
+y for delay. This error for qemux86 is because
+        common.wks.inc and directdisk-gpt.wks files in
+        scripts/lib/wic/canned-wks directory doesn&#39;t have option
+        --fstype=3D for part /boot.<br>
+      </tt></p>
+    <p><tt>For qemuarm machines I get the error:</tt></p>
+    <p><tt>| DEBUG: Executing python function set_image_size<br>
+        | DEBUG: Python function set_image_size finished<br>
+        | DEBUG: Executing shell function do_image_wic<br>
+        | Error: Please build syslinux first</tt></p></blockquote><div><br>=
+</div><div>There&#39;s patches queued that will change the behaviour here a=
+nd likely cause your patch to not apply - can you rebase on top of poky-con=
+trib:ed/wic/wip and see what happens?=C2=A0 The build dependency is now wic=
+-tools.=C2=A0</div></div><br></div><div class=3D"gmail_extra">Ross</div></d=
+iv>
+
+--94eb2c06005641185f0549d3d1c6--
