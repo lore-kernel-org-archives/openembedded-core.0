@@ -1,48 +1,50 @@
-Return-Path: <moritz.fischer@ettus.com>
-Received: from mail-pf0-f176.google.com (mail-pf0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DB71777B3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ua0-f178.google.com (mail-ua0-f178.google.com
+	[209.85.217.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 27E3C775AC
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  4 Mar 2017 16:26:23 +0000 (UTC)
-Received: by mail-pf0-f176.google.com with SMTP id w189so43133381pfb.0
+	Sat,  4 Mar 2017 18:59:23 +0000 (UTC)
+Received: by mail-ua0-f178.google.com with SMTP id q7so104167399uaf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 04 Mar 2017 08:26:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ettus-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=VMDlTOc7xjwefgwGFKF7YQyvHecMU8ohaESL1dwY6gY=;
-	b=onX5d/c6sDaBEC9CBi4HBGVFrs5AALZfuvcprAqBIdlxQ85bqWXnSce6v50R+Vp8Qv
-	wZYZO5VuZHHRrwBXpCJrw2T086a/vY6X6s54Ur/CB1OcarzNSzCa3cBlSOA4/nHnqc5J
-	wDkvcjLqIfdFfY/xLFHc9+VrUpeyupYSg+KGrHyOm32uwyb/GY1aWGYU/OWp4959QAhc
-	Xxo1RdTKs4oyecF5y9l6BRM9jeCZdHVxEV5VnNJ4kVfztNOhwH+AHDeByQtlGUwAbk7B
-	2Sgv9V1oPVsS9bJXtAdSnlD8fn7yskR6CR9VQ9LgfY7JSXKeBXkA8gcU+bg63oKbjqne
-	hBOA==
+	Sat, 04 Mar 2017 10:59:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=pPv/FnaFBexugExsKtwGEdZbZ5MWG6Xs2WGaQOQvZrc=;
+	b=FJ86xCOHnDMHF7TB20lUF81ZCXs4+ONcRBWetg52b2aGwMXp6Jde5WU+GpeLhx9UbW
+	qgHLg4Z43Tei7k9PbPFFIpc1xMhZfkNyWs9zPljuE6ThUmHQtDKRbBu8IXr6vUWajvT+
+	5Qror6Xu3r2OSgkGWttA53XX2QMntdP7+BeTB7x5RkwwEwCgdull30UL3sLIp7dFMr7Z
+	+15IWAKZr3i10Ry5/frpGRRvH6/qhlTMrh8TlGN+AHAzRr4lC4qtcwckpf7c59GNqOpU
+	DVz4LO3aa1YIL8qoiBW0JMTNyxTgAbtJOhFZMAb8/E4Mqk+qhB35rzkk9Rtc0PkTfweB
+	5DPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=VMDlTOc7xjwefgwGFKF7YQyvHecMU8ohaESL1dwY6gY=;
-	b=Ya/VxZztjHr6AZqVFEBaaQIWPsa3x3w3+ak6EH71jzzn7OCVifgzstEXjho9jiXYbW
-	qAZ0d/cRWuMlqqnSByHL0h8sekSKpGEvi6t1kB5cmd6QGV0/yJhApYMdaMYNPLPlr1wo
-	LlrkJ8uOnvAHkwhdcqa6M+wFbGXB/z/4gl6laDJUlRlgzOvysE4ley8kNNZZKwx3+yop
-	ABqMMSZn00xNUmF87CoIpdCWIXo7IWTiNazZkqbjT8XQC40ODAAARkSp3rP6pH0zzo43
-	amPD8Uy9RWSr/EW/o7PkmSaHkbwAuTja7whytNS1OhluWN2M21GmbwfjphxCy4NqpLpm
-	NGag==
-X-Gm-Message-State: AMke39la1xIPku2gG+Rxor75ZYBQW6VyBfcwaIrp3iTlSSD6BbcLV7r/fGWOCwD6ZsYHl0Az
-X-Received: by 10.98.75.28 with SMTP id y28mr10361790pfa.157.1488644785233;
-	Sat, 04 Mar 2017 08:26:25 -0800 (PST)
-Received: from tyrael.amer.corp.natinst.com
-	(207-114-172-147.static.twtelecom.net. [207.114.172.147])
-	by smtp.gmail.com with ESMTPSA id
-	s81sm24932837pgs.18.2017.03.04.08.26.23
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 04 Mar 2017 08:26:23 -0800 (PST)
-From: Moritz Fischer <moritz.fischer@ettus.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  4 Mar 2017 08:26:15 -0800
-Message-Id: <1488644775-25405-1-git-send-email-moritz.fischer@ettus.com>
-X-Mailer: git-send-email 2.7.4
-Cc: mdf@kernel.org
-Subject: [RFC/PATCH] boost: Fix issue with python-numpy
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=pPv/FnaFBexugExsKtwGEdZbZ5MWG6Xs2WGaQOQvZrc=;
+	b=E9Hxu3czs/w3APHlncUWl1/JXvirFUdCroCz4kKrkJWpoxV4c5Asz1w3opOXWyYOwc
+	JDNjiPwZ3JxaNuoaTXTFRg/A/f7CSvwpkoaOW+rfzyzpjm6fjqPRdJJwwQZy1Uq5wncd
+	ZBvXdYo21uW8ADSTbdWYXRECSJHhXBOQC13PWUqL+VWySiqfTf03UNB6HFqy3ewsHZHf
+	Bt0dRtG4OLOCjl6idXtv7vwQrxvOhLSPvi+BB1EQqOvOBGH0zWXFwxTsgmC/9S/2O0yX
+	Ixci0ORx67vQq2bsezcOTkPiF9NRoRzwfZi/DEskNez9e4AjrAX+xi4E1l4B3zSUhhvM
+	EAIQ==
+X-Gm-Message-State: AMke39lhuLhexwVDRVjTJPbGN/uSgNfvAlsUjtPl0gCEekckR3fycT3Zb3MHei0Fv6CA405+tdXJ+LmJ0Tdtyg==
+X-Received: by 10.176.83.79 with SMTP id y15mr3299980uay.141.1488653965145;
+	Sat, 04 Mar 2017 10:59:25 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.159.39.37 with HTTP; Sat, 4 Mar 2017 10:58:54 -0800 (PST)
+In-Reply-To: <1488624869.22968.8.camel@linuxfoundation.org>
+References: <1488542096-23389-1-git-send-email-richard.purdie@linuxfoundation.org>
+	<CAMKF1soCXsibCK37Az9MV1HMUpAK2dtWoijOxoBW25RoMhU+8g@mail.gmail.com>
+	<CAJTo0LYPwxx18CtjJ_Rng28UhQAmJbMCw5=ebW2WkZmcALznUQ@mail.gmail.com>
+	<CAMKF1sqB7A9m2osnv9bwywRF5hT4-oNgKU+rLNyA8SD70n8Mbg@mail.gmail.com>
+	<1488624869.22968.8.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 4 Mar 2017 10:58:54 -0800
+Message-ID: <CAMKF1sqth8gmzS6k13EA2Sz6r-mfextxWXxB=2rfCHw6-gfFQQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc-runtime: Add libmpx supprt for x86
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,76 +57,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 Mar 2017 16:26:24 -0000
+X-List-Received-Date: Sat, 04 Mar 2017 18:59:24 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Boost 1.63 merged Boost.Python numpy support, however there
-are no configuration options to turn it off or on.
+On Sat, Mar 4, 2017 at 2:54 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Fri, 2017-03-03 at 14:58 -0800, Khem Raj wrote:
+>> On Fri, Mar 3, 2017 at 2:54 PM, Burton, Ross <ross.burton@intel.com>
+>> wrote:
+>> >
+>> >
+>> > On 3 March 2017 at 21:39, Khem Raj <raj.khem@gmail.com> wrote:
+>> > >
+>> > >
+>> > > >
+>> > > > Enabling building the Intel Memory Protection Extension library
+>> > > > for x86.
+>> > > >
+>> > > hope this works on amd chips as well ?
+>> >
+>> > https://en.wikipedia.org/wiki/Intel_MPX
+>> >
+>> > It depends on new instructions, so you'll have to ask AMD. :)
+>> OK if its not so then perhaps a bbappend in meta-intel is more
+>> appropriate.
+>
+> Well, its part of gcc, not something meta-intel is patching in and its
+> a standard which other arches can implement, maybe in their own library
+> so I believe the recipe is the better place for this to live. I just
+> copied the description from the code iirc.
+>
 
-If PACKAGECONFIG[python] is enabled, now depend on python-numpy
-and python3-numpy.
+I think its ok on second thought if its the case where it will be used
+more often then probably a provision to be able to remove it from a
+soc layer
+would be enough
 
-Signed-off-by: Moritz Fischer <moritz.fischer@ettus.com>
----
-Hi all,
+> Incidentally, this fails to build on musl so I've just disabled it on
+> musl for now.
+>
 
-I'm not sure if this is the entirely correct fix.
-I've seen other places like gentoo ([1]) simply patch out the
-numpy support to get earlier behavior.
+OK
 
-Maybe making it another PACKAGECONFIG[numpy] option
-would be desirable?
-
-Cheers,
-
-Moritz
-
-[1] http://bit.ly/2m7WBRW
-
----
- meta/recipes-support/boost/boost.inc | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
-index 87b6b88..7b55132 100644
---- a/meta/recipes-support/boost/boost.inc
-+++ b/meta/recipes-support/boost/boost.inc
-@@ -42,13 +42,13 @@ PACKAGECONFIG ??= "locale"
- PACKAGECONFIG[locale] = ",,icu"
- PACKAGECONFIG[graph_parallel] = ",,,boost-mpi mpich"
- PACKAGECONFIG[mpi] = ",,mpich"
--PACKAGECONFIG[python] = ",,python python3"
-+PACKAGECONFIG[python] = ",,python python3 python-numpy python3-numpy"
- 
- BOOST_LIBS += "\
-     ${@bb.utils.filter('PACKAGECONFIG', 'locale', d)} \
-     ${@bb.utils.contains('PACKAGECONFIG', 'graph_parallel', 'graph_parallel mpi', \
-                          bb.utils.filter('PACKAGECONFIG', 'mpi', d), d)} \
--    ${@bb.utils.contains('PACKAGECONFIG', 'python', 'python python3', '', d)} \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'python', 'python python3 numpy numpy3', '', d)} \
- "
- 
- inherit python-dir
-@@ -61,7 +61,8 @@ python __anonymous () {
-     extras = []
-     for lib in d.getVar('BOOST_LIBS').split( ):
-         # BJAM does not know '--with-python3' (only --with-python)
--        if lib != "python3":
-+        # the same goes for numpy and numpy3
-+        if (lib != "python3") and (lib != "numpy") and (lib != "numpy3"):
-             extras.append("--with-%s" % lib)
-         pkg = "boost-%s" % lib.replace("_", "-")
-         packages.append(pkg)
-@@ -69,6 +70,9 @@ python __anonymous () {
-             # special: python*.so matches python3.so !!
-             if not d.getVar("FILES_%s" % pkg):
-                     d.setVar("FILES_%s" % pkg, "${libdir}/libboost_%s.so.*" % lib)
-+        elif(lib == "numpy"):
-+            if not d.getVar("FILES_%s" % pkg):
-+                    d.setVar("FILES_%s" % pkg, "${libdir}/libboost_%s.so.*" % lib)
-         else:
-             if not d.getVar("FILES_%s" % pkg):
-                     d.setVar("FILES_%s" % pkg, "${libdir}/libboost_%s*.so.*" % lib)
--- 
-2.7.4
-
+> Cheers,
+>
+> Richard
 
