@@ -1,39 +1,53 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id D670471A54
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 733AA719B2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  5 Mar 2017 09:40:36 +0000 (UTC)
-Received: by mail-qk0-f170.google.com with SMTP id g129so50672319qkd.1
+	Sun,  5 Mar 2017 16:15:26 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id f84so99005266ioj.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Mar 2017 01:40:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=NkCRU0oOu7EUtswVDm+zJ2WMU3DvsGzocq6EzjiYQLs=;
-	b=QM/h8TSywzZnIaIAo/xY+w+ni3YoxhdfVtfS4Y4rXVoO1NGJ675jXfj20HYMfAi9rP
-	vGYCW67W+1gYrmy5baaSTFNxGvFtplS9sOBZdOuPkDuHrq1I5GkxXqeBlH+u4FnMqn+i
-	5uyAHpsxpG98uJSGqCuG+9gPK14bJYt/ZwzUQ=
+	Sun, 05 Mar 2017 08:15:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=UvvcZ1YCLjz8E+WdqXqZNmm4IWAN/scQ1RcPzTBbmAk=;
+	b=KS2zo/jdorL1cjwg+mzYq8q60WiHAbB5EhD7uBfHRWtEi3ID/PR1j0L4wHJ0nYAz2j
+	7nn7JV+NWW5KGn4OXbCtlSHAGCJNJ/yysKmTeik8PFSNk/naYte+qZBIqUNuAEh4klqG
+	hLrbvl7dEQOAJ6EXKLhNEM9tQTSJOg+srRDNE2uSMEg32STb43OyCiOW91Oep4YxZALe
+	0AghB2jx9Ee1cvfIpRm/1TAhiIR7gZiRge5WerFSHuq7M+UYBujn0MbWuCKUG+p8zbog
+	tedk2rG38IJ1BrgyAeR4ix1/Y9Xrta9XdK/SGLKkuSX/j0Mg7hQholpnLqV/EEHYGRqY
+	+VKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=NkCRU0oOu7EUtswVDm+zJ2WMU3DvsGzocq6EzjiYQLs=;
-	b=N6uQ3iMPoZ9FehLpAaG+Kh+/Y25+5Ep2jxT/9v85u3YWJe+lsV5OPjPTY/Qldd6Zix
-	tPHeku1yqjfNdgc3zCFfFpNicImr6BbykoCHogoiE+CA1gsNN5Ow5PbONSyWeZnsBU+l
-	+eVaC+iMHxy7HqPHK3rhxJ4C8Y0fYxC8vHspc5+tVrKFQNcpbbyghKFRGrTz+OZuczZW
-	Q4DPYdaOa3qRJEJ24wFwiYVSBthPiBnPnV5OlSlkLIsE737P1ZZ2xFBxalR1E7XE9Viv
-	ho4wDilt0mLZad77U9Yxmkv212phzPQk66BKRy/VhRMTpyQDdBrh2JKDIDaIOYrweHhz
-	4sGA==
-X-Gm-Message-State: AMke39kLCl23ZJhthLgIh4rDGJSH+fRTUXkUdUot8UxDe4go8jrGoUO/DQCMZ2mX5nZOOC/8tQltFYpML/narHoE
-X-Received: by 10.237.33.46 with SMTP id 43mr11947652qtc.72.1488706837719;
-	Sun, 05 Mar 2017 01:40:37 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.98.129 with HTTP; Sun, 5 Mar 2017 01:40:17 -0800 (PST)
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Sun, 5 Mar 2017 10:40:17 +0100
-Message-ID: <CAP71WjxRGB3L=iKN+LK2JTdO51oy10Vua-sg46E6MvOu+B52fQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=UvvcZ1YCLjz8E+WdqXqZNmm4IWAN/scQ1RcPzTBbmAk=;
+	b=gHKKlL1hylxU4pHml0pUti+wZSMWKvFC75z6oiSUHz/4Sn8PM72CTFXOdej4HxxKo0
+	I8qN8pFrMlOXYMKPAT8BUNCC6v1XBr6bJ1YPuJqEmec1TJINEnzVL32UxOp+7ujWlRxX
+	qMAUjHXTQfGo2ZuwtZDr4kzxihYvDZpmrGECDsUHSRLV/oDeLdmcyw91l+Wm+VMHdy50
+	kvvzmsaRhEOStNctfHd9o844QlOCiqe2z1aLzl1L5/qMjM/MkSF+j6D2TDm5YLZVHyRB
+	j8XC1BeCg16UaIT5l/0d3kePt0AiLQ5wYaxPjOiWqremmKVSMPU7+z3vnXg663ncnzYA
+	FZWw==
+X-Gm-Message-State: AMke39kcgRe/807fdvvUp2NW5vnUJ1XYpWB+bE+7Ohb5VPCVVKOXnmidsIlvZsX4KlnFjgeR
+X-Received: by 10.107.143.131 with SMTP id r125mr4715007iod.148.1488730528111; 
+	Sun, 05 Mar 2017 08:15:28 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8CB93.dip0.t-ipconnect.de. [93.232.203.147])
+	by smtp.gmail.com with ESMTPSA id y7sm3390390itc.27.2017.03.05.08.15.25
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 05 Mar 2017 08:15:26 -0800 (PST)
+Message-ID: <1488730523.7785.290.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Sun, 05 Mar 2017 17:15:23 +0100
+In-Reply-To: <CAP71WjxRGB3L=iKN+LK2JTdO51oy10Vua-sg46E6MvOu+B52fQ@mail.gmail.com>
+References: <CAP71WjxRGB3L=iKN+LK2JTdO51oy10Vua-sg46E6MvOu+B52fQ@mail.gmail.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: systemd and /etc/machine-id
+Subject: Re: systemd and /etc/machine-id
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,76 +60,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Mar 2017 09:40:38 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0c5fe23cc8f80549f892e4
+X-List-Received-Date: Sun, 05 Mar 2017 16:15:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---94eb2c0c5fe23cc8f80549f892e4
-Content-Type: text/plain; charset=UTF-8
+On Sun, 2017-03-05 at 10:40 +0100, Nicolas Dechesne wrote:
+> hi,
+> 
+> I am trying to understand why the systemd recipe creates an
+> empty /etc/machine-id file:
+> 
+> # Create machine-id
+>            
+> # 20:12 < mezcalero> koen: you have three options: a) run
+> systemd-machine-id-setup at install time, b) have / read-only and an
+> empty file there (for stateless) and c) boot with / writable
+> touch ${D}${sysconfdir}/machine-id
 
-hi,
+It's probably done for case b, the read-only rootfs (both when never
+mounted read/write and when initially read-only until fsck completes).
 
-I am trying to understand why the systemd recipe creates an empty
-/etc/machine-id file:
+systemd mounts a temporary machine-id over the empty file while the
+rootfs is read-only. This is definitely needed for the permanently
+read-only rootfs, because several services (for example, journald, if I
+remember correctly) do not run without a valid machine-id.
 
-# Create machine-id
+I'm not 100% sure whether the "read-only initially" case also needs the
+file. If not, then perhaps it can be limited to images with "read-only"
+in IMAGE_FEATURES?
 
-# 20:12 < mezcalero> koen: you have three options: a) run
-systemd-machine-id-setup at install time, b) have / read-only and an empty
-file there (for stateless) and c) boot with / writable
-touch ${D}${sysconfdir}/machine-id
+> Having an empty machine-id file seems to prevent the
+> "ConditionFirstBoot" to be ever met, e.g. I have a service that tries
+> to use it, and at first boot i am seeing in systemctl status:
+> 
+> ConditionFirstBoot=yes was not met
 
-Having an empty machine-id file seems to prevent the "ConditionFirstBoot"
-to be ever met, e.g. I have a service that tries to use it, and at first
-boot i am seeing in systemctl status:
+When the rootfs is read-only permanently, does this condition still make
+sense? Probably not, because each boot would be considered a "first
+boot". Just wondering how this condition could be handled better.
 
-ConditionFirstBoot=yes was not met
 
-However I also notice that /etc/machine-id is properly set during the first
-boot (e.g. with a valid UID). I am not sure I understand our intent to
-create an empty file. If I remove the empty file before flashing the board,
-then my service which depends on ConditionFirstBoot is executed properly,
-and becasue the systemd recipe also enables 'firstboot' by default (in
-PACKAGECONFIG) then systemd-firstboot service is kicked as well, and ask
-for hostname , TZ, .. (which isn't very convenient neither).
 
-without understanding the entire history, I would tend to think that we
-need the following changes to the systemd recipe:
+-- 
+Best Regards, Patrick Ohly
 
-1. remove the empty /etc/machine-id file
-2. remove firstboot from default PACKAGECONFIG
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
-any thoughts?
 
-cheers
-nico
 
---94eb2c0c5fe23cc8f80549f892e4
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">hi,<br><br>I am trying to understand why the systemd recip=
-e creates an empty /etc/machine-id file:<br><br># Create machine-id =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br># 20:12 &=
-lt; mezcalero&gt; koen: you have three options: a) run systemd-machine-id-s=
-etup at install time, b) have / read-only and an empty file there (for stat=
-eless) and c) boot with / writable<br>touch ${D}${sysconfdir}/machine-id<br=
-><br>Having an empty machine-id file seems to prevent the &quot;ConditionFi=
-rstBoot&quot; to be ever met, e.g. I have a service that tries to use it, a=
-nd at first boot i am seeing in systemctl status:<br><br>ConditionFirstBoot=
-=3Dyes was not met<div><br></div><div>However I also notice that /etc/machi=
-ne-id is properly set during the first boot (e.g. with a valid UID). I am n=
-ot sure I understand our intent to create an empty file. If I remove the em=
-pty file before flashing the board, then my service which depends on Condit=
-ionFirstBoot is executed properly, and becasue the systemd recipe also enab=
-les &#39;firstboot&#39; by default (in PACKAGECONFIG) then systemd-firstboo=
-t service is kicked as well, and ask for hostname , TZ, .. (which isn&#39;t=
- very convenient neither).</div><div><br></div><div>without understanding t=
-he entire history, I would tend to think that we need the following changes=
- to the systemd recipe:</div><div><br></div><div>1. remove the empty /etc/m=
-achine-id file</div><div>2. remove firstboot from default PACKAGECONFIG=C2=
-=A0</div><div><br></div><div>any thoughts?</div><div><br></div><div>cheers<=
-/div><div>nico</div></div>
-
---94eb2c0c5fe23cc8f80549f892e4--
