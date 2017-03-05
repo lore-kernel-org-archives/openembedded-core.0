@@ -1,52 +1,39 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-vk0-f49.google.com (mail-vk0-f49.google.com
-	[209.85.213.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 07911777E7
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id D670471A54
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  5 Mar 2017 00:55:25 +0000 (UTC)
-Received: by mail-vk0-f49.google.com with SMTP id x75so20631078vke.2
+	Sun,  5 Mar 2017 09:40:36 +0000 (UTC)
+Received: by mail-qk0-f170.google.com with SMTP id g129so50672319qkd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 04 Mar 2017 16:55:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=1YZQrp6QgQJa32TlEx5k1Yk3wLWfYsreeIBnEvYrZHI=;
-	b=mgOTJJJbUiycqtgecO/fdg0qDwRn/d1dBWm7AuFtw1F3mMB9fNMDbAtZoyaq2HTK3s
-	h0Jj9cg9+dWO2PFcaDpe2aEnFO+j1GrANR/UK+AiIJSOVX/e7k8YWF/9G/q0SlLcLfZJ
-	1ihjGMYLXHMb49gykTrRqKmX4pk7UZfzu6XXpi6VEQOm4wUCDmz5uaRlE7ic21z7Af/w
-	P86ejV0raKVZa10FQBvVdg6E0LMyMBuOk4vMdHeFZNeEhXcjpw7/mN50ZfxIHy7IflC1
-	xe350O4ehI4CyPV8Bu+N+Ylv57A6ttf7310k0mL7k630R8g/ovyLJfGndI+2t0RM53fL
-	FKQg==
+	Sun, 05 Mar 2017 01:40:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=NkCRU0oOu7EUtswVDm+zJ2WMU3DvsGzocq6EzjiYQLs=;
+	b=QM/h8TSywzZnIaIAo/xY+w+ni3YoxhdfVtfS4Y4rXVoO1NGJ675jXfj20HYMfAi9rP
+	vGYCW67W+1gYrmy5baaSTFNxGvFtplS9sOBZdOuPkDuHrq1I5GkxXqeBlH+u4FnMqn+i
+	5uyAHpsxpG98uJSGqCuG+9gPK14bJYt/ZwzUQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=1YZQrp6QgQJa32TlEx5k1Yk3wLWfYsreeIBnEvYrZHI=;
-	b=Zj1fo+WLYrCej521Gm1+6euLoQmLikJU2sqiK5VKx9Hj840RqIFHAAyWounV4qSJWM
-	rEDDJ92oafX7Rgsq1Z11DT//dbFGSIqey/r8zO6LquLpjNIzvr7tO+zUj+rN6p87nAw4
-	N+YHH9bV6SYrUkJu/Eqk0sbvYdn/3yu448AxRpchU1RJoy9uC6zbAklHHwDyxYQrD7Lu
-	+VbADVmswfbTtDa3Y30/RYTcZvhPn11dGSbJfWo6XruFCw+vl39ZRJO2VRn1W37ngedH
-	Ty6SDtGhzAVoL4+//zHroA4/EfHlhJ7gxFPaafx6szUynpAwlPu0vLreZB1+nbFZxJ42
-	naqg==
-X-Gm-Message-State: AMke39mubo4nOUxV6hI6ys8i6tbdfvgo0Y3NbzwnP5Qb+q72ZRxv+fTB3IXTIM/u2uS1MjRSIN6YQ5wwz7Mq+A==
-X-Received: by 10.31.3.83 with SMTP id 80mr3347159vkd.64.1488675326537; Sat,
-	04 Mar 2017 16:55:26 -0800 (PST)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=NkCRU0oOu7EUtswVDm+zJ2WMU3DvsGzocq6EzjiYQLs=;
+	b=N6uQ3iMPoZ9FehLpAaG+Kh+/Y25+5Ep2jxT/9v85u3YWJe+lsV5OPjPTY/Qldd6Zix
+	tPHeku1yqjfNdgc3zCFfFpNicImr6BbykoCHogoiE+CA1gsNN5Ow5PbONSyWeZnsBU+l
+	+eVaC+iMHxy7HqPHK3rhxJ4C8Y0fYxC8vHspc5+tVrKFQNcpbbyghKFRGrTz+OZuczZW
+	Q4DPYdaOa3qRJEJ24wFwiYVSBthPiBnPnV5OlSlkLIsE737P1ZZ2xFBxalR1E7XE9Viv
+	ho4wDilt0mLZad77U9Yxmkv212phzPQk66BKRy/VhRMTpyQDdBrh2JKDIDaIOYrweHhz
+	4sGA==
+X-Gm-Message-State: AMke39kLCl23ZJhthLgIh4rDGJSH+fRTUXkUdUot8UxDe4go8jrGoUO/DQCMZ2mX5nZOOC/8tQltFYpML/narHoE
+X-Received: by 10.237.33.46 with SMTP id 43mr11947652qtc.72.1488706837719;
+	Sun, 05 Mar 2017 01:40:37 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.176.71.65 with HTTP; Sat, 4 Mar 2017 16:55:25 -0800 (PST)
-In-Reply-To: <1487009117.27753.14.camel@linuxfoundation.org>
-References: <CALbNGRSgxbz1F2YLzQ-F2Fn+01hiA4LAoDgQuQ-qLg9KMVTHAw@mail.gmail.com>
-	<CALbNGRR1+yVyMC1O1G1mCYp8e87Q2kucGEgs-dL0P3KHxi8WCQ@mail.gmail.com>
-	<CA+chaQcHBzDJ4UbW1NCex70T56PL02+agOZBMoK4=Q1WWSm2EA@mail.gmail.com>
-	<1486999455.13854.241.camel@intel.com>
-	<CALbNGRQns-G9XOtS8wGetnAAYVv7Z+F+2h3rLQ2XxgSiSBwHWQ@mail.gmail.com>
-	<1487009117.27753.14.camel@linuxfoundation.org>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Date: Sun, 5 Mar 2017 01:55:25 +0100
-Message-ID: <CALbNGRTHovM4qdU=7_+uypZpwTGSvBES0iXz1irCo_QnSQ6zEw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
+Received: by 10.140.98.129 with HTTP; Sun, 5 Mar 2017 01:40:17 -0800 (PST)
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Sun, 5 Mar 2017 10:40:17 +0100
+Message-ID: <CAP71WjxRGB3L=iKN+LK2JTdO51oy10Vua-sg46E6MvOu+B52fQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Does recipe specific sysrooot (or whatelse in current oe) break native dependencies?
+Subject: systemd and /etc/machine-id
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,48 +46,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Mar 2017 00:55:26 -0000
-X-Groupsio-MsgNum: 94255
-Content-Type: multipart/mixed; boundary=001a1142881c069b650549f13c03
+X-List-Received-Date: Sun, 05 Mar 2017 09:40:38 -0000
+Content-Type: multipart/alternative; boundary=94eb2c0c5fe23cc8f80549f892e4
 
---001a1142881c069b650549f13c03
+--94eb2c0c5fe23cc8f80549f892e4
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Feb 13, 2017 at 7:05 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> To be clear, you can't depend on the build dependencies of some other
-> recipe to be available to your recipe just because you DEPEND on it.
-Sorry me again - but is it possible that this behavior has changed?
-With recent oe-core I see
+hi,
 
-* many configure logs finding pkg-config from recipe-sysroot-native
-although the recipes do not inherit pkgconfig and do not have
-pkgconfig-native in depends
-* adding cmake to inherit adds "bzip2-replacement-native expat-native
-xz-native zlib-native curl-native" to
-recipe-sysroot-recipe-sysroot-native/sysroot-providers.
+I am trying to understand why the systemd recipe creates an empty
+/etc/machine-id file:
 
-I reduced the recipe I was currently working on to no dependencies and
-inherit cmake only (for test attached).
+# Create machine-id
 
-Can somebody tell me what was changed or what I am missing?
+# 20:12 < mezcalero> koen: you have three options: a) run
+systemd-machine-id-setup at install time, b) have / read-only and an empty
+file there (for stateless) and c) boot with / writable
+touch ${D}${sysconfdir}/machine-id
 
-Andreas
+Having an empty machine-id file seems to prevent the "ConditionFirstBoot"
+to be ever met, e.g. I have a service that tries to use it, and at first
+boot i am seeing in systemctl status:
 
---001a1142881c069b650549f13c03
-Content-Type: application/octet-stream; name="supertuxkart_0.9.2.bb"
-Content-Disposition: attachment; filename="supertuxkart_0.9.2.bb"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: f_izvysfqp0
+ConditionFirstBoot=yes was not met
 
-TElDRU5TRSA9ICJHUEx2MiAmIEdQTHYzKyAiCkxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NP
-UFlJTkc7bWQ1PWE3MWNiNzg2NTlkNjBmMmNlZDU4YTU5NGNiNjViZmJhIgoKaW5oZXJpdCBjbWFr
-ZQoKUyA9ICIke1dPUktESVJ9L3N1cGVydHV4a2FydC0ke1BWfSIKClNSQ19VUkkgPSAiaHR0cDov
-L3NvdXJjZWZvcmdlLm5ldC9wcm9qZWN0cy9zdXBlcnR1eGthcnQvZmlsZXMvU3VwZXJUdXhLYXJ0
-LyR7UFZ9L3N1cGVydHV4a2FydC0ke1BWfS1zcmMudGFyLnh6O3Byb3RvY29sPWh0dHBzIgoKU1JD
-X1VSSVttZDVzdW1dID0gImYxZjUwODFmZDQxYjhlZWIzMTBiNGVkYzA3YjllZTEyIgpTUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiMGIwODBiYjA5OGEyNmFkYjU1MmQ2ZmQ0ODkwNWJjYjZiMWU4NzNlZjE1
-Njc0NTdkNzI2OGQ3ZDNhYWE0ODI4MiIK
+However I also notice that /etc/machine-id is properly set during the first
+boot (e.g. with a valid UID). I am not sure I understand our intent to
+create an empty file. If I remove the empty file before flashing the board,
+then my service which depends on ConditionFirstBoot is executed properly,
+and becasue the systemd recipe also enables 'firstboot' by default (in
+PACKAGECONFIG) then systemd-firstboot service is kicked as well, and ask
+for hostname , TZ, .. (which isn't very convenient neither).
 
---001a1142881c069b650549f13c03--
+without understanding the entire history, I would tend to think that we
+need the following changes to the systemd recipe:
+
+1. remove the empty /etc/machine-id file
+2. remove firstboot from default PACKAGECONFIG
+
+any thoughts?
+
+cheers
+nico
+
+--94eb2c0c5fe23cc8f80549f892e4
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">hi,<br><br>I am trying to understand why the systemd recip=
+e creates an empty /etc/machine-id file:<br><br># Create machine-id =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br># 20:12 &=
+lt; mezcalero&gt; koen: you have three options: a) run systemd-machine-id-s=
+etup at install time, b) have / read-only and an empty file there (for stat=
+eless) and c) boot with / writable<br>touch ${D}${sysconfdir}/machine-id<br=
+><br>Having an empty machine-id file seems to prevent the &quot;ConditionFi=
+rstBoot&quot; to be ever met, e.g. I have a service that tries to use it, a=
+nd at first boot i am seeing in systemctl status:<br><br>ConditionFirstBoot=
+=3Dyes was not met<div><br></div><div>However I also notice that /etc/machi=
+ne-id is properly set during the first boot (e.g. with a valid UID). I am n=
+ot sure I understand our intent to create an empty file. If I remove the em=
+pty file before flashing the board, then my service which depends on Condit=
+ionFirstBoot is executed properly, and becasue the systemd recipe also enab=
+les &#39;firstboot&#39; by default (in PACKAGECONFIG) then systemd-firstboo=
+t service is kicked as well, and ask for hostname , TZ, .. (which isn&#39;t=
+ very convenient neither).</div><div><br></div><div>without understanding t=
+he entire history, I would tend to think that we need the following changes=
+ to the systemd recipe:</div><div><br></div><div>1. remove the empty /etc/m=
+achine-id file</div><div>2. remove firstboot from default PACKAGECONFIG=C2=
+=A0</div><div><br></div><div>any thoughts?</div><div><br></div><div>cheers<=
+/div><div>nico</div></div>
+
+--94eb2c0c5fe23cc8f80549f892e4--
