@@ -1,47 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 7620877687
+Return-Path: <freesilicon@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 76C5A730EB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Mar 2017 12:58:54 +0000 (UTC)
-Received: by mail-qk0-f175.google.com with SMTP id v125so90138867qkh.2
+	Mon,  6 Mar 2017 13:32:48 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id v190so13767103wme.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Mar 2017 04:58:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=FhrK9wrjlVzw2h47lznTOQYr1Sf7vvCbzlW5p7+qGNg=;
-	b=HG7izOQMilESgOnfZav5SPBBgodQRykNKAWpRr3P62gpT4LX1ACho1gepdilQCF1uo
-	fPUlJH/gfXdX0qk/1Rm0UbQFTKuW9RhR+TKInHrvYu+RG0T7RdxoD86d7gEt8hzH748x
-	RNWJ7nHn8sBt1fYLrMiFQ8XgoOPUsE4akexJHJGbPUBAE9IU2JzInfC88EmXZHRLjseg
-	MBiZhYOaA0jW7NZ+8RXtS0XOEo4z97YwJ+ikO+tOOnx+RUoutV215JDMpw8B7kK0svTl
-	E6GtH6JAywdR0LMcwVL8LENMyIJWDZ969JcmJ4N/IOpAumtfY8BroY/zcAUC4Yp8pM1x
-	VUFA==
+	Mon, 06 Mar 2017 05:32:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=2vlHOD6GNbT1Jf3RNomPUMLKbKnjQFjRX4OcU19MCuM=;
+	b=OcDYhtYPFSrM/G3HP58Gx8oeHSriRni22pBNc97yOoqylMEN5/Df1tzffpBy2pjm0p
+	x+H8HfP+LKivQhSA+MPABx2ecQaO7C2YR8QREbU30I/9x3SNGNp0J6RIGCwYezQP1z6j
+	KyfS/L8KZQ4R2+vg+0DfPYmjpk4vYLa+BV+aA+Pz8ZNPpKNlfd0P1noDXIgVL1W2B315
+	F7+Djj9E2XkILG7K259hKKFyvEe4KGmbYqkl4YxjN/LH+1GY6bGTO/jqtBmZfw8rRPhy
+	Ann+ih0+9Ued6RZTFXX0v20jW1da5npPhizRRWjqDbCr7dfbgxeezy8P1lulyHVYa4Bx
+	R5oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=FhrK9wrjlVzw2h47lznTOQYr1Sf7vvCbzlW5p7+qGNg=;
-	b=uZPOHhqhpg/1Pgp5sqMrx4cO2kfdah12ZqhfR2EiEzLr41Ts9S1tp7qCScQEnOjUCq
-	w5j7sh3ilK4N9Yy9fUtMOnQfbOGKp2jXtOiGPFw2IDm2BVNwGMM/2H+2co5IO5dm0EeF
-	FyVkRbhWv32EG2LfPu0EvtqnrzxKLqUihrlkxzFeA9RlNDX0jXbbeFfMWiBdVV6mXGAU
-	6mmQGk3BquE6N/FH8/TkHWOuhhI2fSiZAkmoXMCY688qs8vMG5PSGJVTuqeF1qVvt2C6
-	+h7GMEhloWd4fjStVorviS/iMQQkUE1coqZfNMpWCCGhXEujXlMQ6A+0+pDCwgVCmvf5
-	RWgA==
-X-Gm-Message-State: AMke39kmZJfSsCuXTpDAFZLC+GK2bbEQd+dumA3XHa6+nSR0Ea8z2RfeJqVjivssnf/7kRLcZ/GeDiuYZLY/+0sy
-X-Received: by 10.55.175.195 with SMTP id y186mr14866532qke.26.1488805135368; 
-	Mon, 06 Mar 2017 04:58:55 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=2vlHOD6GNbT1Jf3RNomPUMLKbKnjQFjRX4OcU19MCuM=;
+	b=RuNN/zBKTX7U/9Xmjmq6DPaj0klsJO3Velm0/LKpUgeWDS0W8iF8KVb80CzLhxWvoO
+	s91GGk1Y2smoBT3xMOERCl2juesuuFbOe8LainyKtT5TjrHEs+3V9XJeIDS9pPB6Ofbf
+	kIl01yWtG2J6YS4fp/Ig3B67ISGcvKzZ6KJFU+qkL4HqJu8CYUllCo3yogZGObDf8yTd
+	n2SzVUSbc3Yi9+KjDMCBF/yh5T+RJkhkie0Sl6OcXGZwIMdGoftxv/uPWm+Sc6DEeeg0
+	0CpcCCK7iFafSV1SpwV4QeisctqIkHfarajzaB3LmrsUV2l9quth2fT27W63vfqqg1RY
+	UMsg==
+X-Gm-Message-State: AMke39mQdTY6oVAVy55DuHLQ5+4XiLF8ra0kDaS2hzYWAYlOZEPH+u8YbAanmqyVvNkJGA==
+X-Received: by 10.28.211.200 with SMTP id k191mr12839861wmg.137.1488807169791; 
+	Mon, 06 Mar 2017 05:32:49 -0800 (PST)
+Received: from crde-port-20.cahors.local ([185.47.80.46])
+	by smtp.gmail.com with ESMTPSA id
+	q5sm27149530wrd.32.2017.03.06.05.32.49
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 06 Mar 2017 05:32:49 -0800 (PST)
+From: David Vincent <freesilicon@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 06 Mar 2017 14:32:34 +0100
+Message-ID: <1877025.kTC8mT0UNC@crde-port-20.cahors.local>
+In-Reply-To: <CAJTo0LZaxR+jMiyc21N3fPGANzANkiP0x3F4o952TwmWCnKmxw@mail.gmail.com>
+References: <4236179.UN52qSrgop@crde-port-20.cahors.local>
+	<CAJTo0LZaxR+jMiyc21N3fPGANzANkiP0x3F4o952TwmWCnKmxw@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Mon, 6 Mar 2017 04:58:34 -0800 (PST)
-In-Reply-To: <9a9e3651-e3d3-c8b0-28fb-91c9c9ef1995@cisco.com>
-References: <9a9e3651-e3d3-c8b0-28fb-91c9c9ef1995@cisco.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 6 Mar 2017 12:58:34 +0000
-Message-ID: <CAJTo0La=cCuaP8mvpg3K-J31VcSnxdEJJof+Jc_nWG1rjQimmw@mail.gmail.com>
-To: Stefan Strogin <sstrogin@cisco.com>
-Cc: xe-linux-external@cisco.com,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] slang: add ptest
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] busybox: conditional inclusion of login utilities
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,47 +57,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Mar 2017 12:58:54 -0000
-Content-Type: multipart/alternative; boundary=94eb2c06093c3be942054a0f75e1
-
---94eb2c06093c3be942054a0f75e1
-Content-Type: text/plain; charset=UTF-8
-
-On 2 March 2017 at 17:29, Stefan Strogin <sstrogin@cisco.com> wrote:
-
-> +       cp -r ${S}/src/test ${D}${PTEST_PATH}/
-> +       mkdir ${D}${PTEST_PATH}/objs
-> +       cp ${S}/src/objs/libslang.a ${D}${PTEST_PATH}/objs/
->
-
-Why?
-
-If this is because the tests need sltest, that's already been built and is
-in the package: just patch the Makefile instead.  It's also huge, so I'd be
-tempted to say we should strip sltest as enabling ptest for slang causes
-slang-dbg to increase by 2MB.
-
-Ross
-
---94eb2c06093c3be942054a0f75e1
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Mon, 06 Mar 2017 13:32:50 -0000
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 2 March 2017 at 17:29, Stefan Strogin <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:sstrogin@cisco.com" target=3D"_blank">sstrogin@cisco.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex"><div id=3D":24y" class=3D"a3s a=
-XjCH m15a901aed0989ddf">+=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -r ${S}/src/test ${D=
-}${PTEST_PATH}/<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir ${D}${PTEST_PATH}/objs<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0cp ${S}/src/objs/libslang.a ${D}${PTEST_PATH}/o=
-bjs/<br></div></blockquote></div><br>Why?</div><div class=3D"gmail_extra"><=
-br></div><div class=3D"gmail_extra">If this is because the tests need sltes=
-t, that&#39;s already been built and is in the package: just patch the Make=
-file instead.=C2=A0 It&#39;s also huge, so I&#39;d be tempted to say we sho=
-uld strip sltest as enabling ptest for slang causes slang-dbg to increase b=
-y 2MB.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"=
->Ross</div></div>
+On lundi 6 mars 2017 13:48:22 CET Burton, Ross wrote:
+> On 6 March 2017 at 08:31, David Vincent <freesilicon@gmail.com> wrote:
+> > +           ${@["", "file://login-utilities.cfg"][(d.getVar('VIRTUAL-
+> > RUNTIME_login_manager') =3D=3D 'busybox')]} \
+>=20
+> VIRTUAL_RUNTIME can be set per-image, so you can't do this.
+>=20
+> Ross
 
---94eb2c06093c3be942054a0f75e1--
+I just copied the lines already present in the recipe (and I also forgot to=
+=20
+modify the git version on a side note) :
+
+${@[=E2=80=9D=E2=80=9D, "file://init.cfg"][(d.getVar('VIRTUAL-RUNTIME_init_=
+manager', True) =3D=3D=20
+'busybox')]} \
+ ${@["", "file://mdev.cfg"][(d.getVar('VIRTUAL-RUNTIME_dev_manager', True) =
+=3D=3D=20
+'busybox-mdev')]} \
+
+So, what should be the proper way to conditionally include these fragments ?
+
+I don't know for init and dev managers, but for login-utilities, my use cas=
+e=20
+is that I don't want busybox to provide adduser/addgroup/... if I already h=
+ave=20
+these provided by another package (e.g. Shadow).
+
+David
+
