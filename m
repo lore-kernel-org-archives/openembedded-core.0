@@ -1,44 +1,46 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pg0-f44.google.com (mail-pg0-f44.google.com [74.125.83.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 8269073094
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
+	[209.85.220.181])
+	by mail.openembedded.org (Postfix) with ESMTP id D55BE6AC37
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Mar 2017 22:34:11 +0000 (UTC)
-Received: by mail-pg0-f44.google.com with SMTP id 25so71157164pgy.0
+	Mon,  6 Mar 2017 22:36:32 +0000 (UTC)
+Received: by mail-qk0-f181.google.com with SMTP id p64so60977748qke.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Mar 2017 14:34:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=L8pQ907h9DyMxgPUO00Ao7taxoqlDeyH1w0DjBZsnzY=;
-	b=gBtrgMY+bL5J9GJW7+YmyVl6eA86bpVsb1nldJoCJHI1jgy9PnBRFRgPbKbeesahbt
-	yF+bAx8i491VJA2PNif5NE9J940KsRRFfeh3NmY38+xJB0B13h7u0HMxOig5ax+0Y9/x
-	1CylNWbJlW26fJqxoEjfis93QEhhFqA2zgt/th0KFyi5+RVmeXm+Rc5MKUpqD1tpSDGe
-	Rd8KTWaUPeL1Slm+1nAIdg0E6QFLqhDH7QaS2DkQh4vIq3kEKW3I2yWGdTVpUzn3nMm8
-	daFGVRQFVzequtfbjzJQB3vskok0ZSO2ZHnLj0WlXZurY2h/E8JYD30tUlbUhyQ+qjvl
-	Cl2w==
+	Mon, 06 Mar 2017 14:36:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=JPWHSbXhW8X4o6E+1srEjUMx40TJgzjFV3muj6dEwLE=;
+	b=ROiE0rCB8lNtjVX+njXTCfRnUUlNKdPxrXKXfI/FL84vwJyhAmuOCp7BRxXtxL2Gpn
+	Rcs9Wt/Vyy/bDAmd/RsUx9Rg0dwIkz2c6WmWGlZ8UFPNEnbz8RW1MmdLSUXY8o4o1LoZ
+	Tg9B2DiCQGyRNusRtHvMLhNPqsx+eesPsVuUbHAu3aP6ocNhRW0fMncKq0XF8+HrzhbM
+	U68MJ4zjuR8idgunzcDpcy7zdi4bZUqX8xBgzkRuSPkPLSDMw8HR0VAjKk1qBTQefZBk
+	DaZ7GWxw/d/OhJDYfTJ8MqF5P/TaDS/iAc++8cxJPHM6GH1ND05xNgcVE7Xi6iQMG5VT
+	HJFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=L8pQ907h9DyMxgPUO00Ao7taxoqlDeyH1w0DjBZsnzY=;
-	b=rBSYe7vUVD0yRuhRbRf/lFtbIsYUKRfUrb99R16BNvrhGvaHg859K3cwcydnM9wkzY
-	SjJbhWB/kb1bUAR8cVFf94/cycn1N8xekmOBFN4n9M9q+Lv+Wmzp440nYN8vlXsMTAhp
-	/461CbpiuZhwKRbHGi+7B/1kCg7VB+KOp2labtLK1vnuoGbSn8/rtgVQLTuNSMJmmVOx
-	LzCpx5jKjxHissax5bmDPGSVFq6tqYWgAp/rVJLlTRh3CsKis1yTg9joV4LKcXyVcJ/+
-	PYx+Yn3ll+/m82Svz2sl8ME1jHj1qvgXVBOi11nP0bRS3ymfJspaY8RtiXx9iXnh8qld
-	1Ypw==
-X-Gm-Message-State: AMke39nLtwbePK2dNCPSiSyQ6LQY1vUzaOfBuKkvVB+Dzz1S8XHBBGBWYbTZMZuL66t7ZQ==
-X-Received: by 10.84.254.75 with SMTP id a11mr29988228pln.57.1488839652658;
-	Mon, 06 Mar 2017 14:34:12 -0800 (PST)
-Received: from e6520.cablelabs.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	v143sm41698533pgb.47.2017.03.06.14.34.11
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 06 Mar 2017 14:34:11 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Mar 2017 14:34:06 -0800
-Message-Id: <1488839646-19178-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] sanity.bbclass: allow s3 protocol when sanity checking MIRRORS, etc
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=JPWHSbXhW8X4o6E+1srEjUMx40TJgzjFV3muj6dEwLE=;
+	b=myhTjen7EanBtF/H9EnxoArBM01/OkPyvX0ry+ZGrSpBbbB7hiTm1ASFrCOBhL6cSB
+	n1mw500vueHktUemdqm3MrPtT867m5BOhYGd3polEb/ew6JSEdlQYX/WZptsNOA6eWbq
+	4EUsHIYOMzggJKb6UShhXfBZfNthUDa44szTmTCwLRS/9Mpz/J/Nc8W5YSxfYFNJgcmD
+	BanH+hIgIwt+5ScmXVQr4Lx7VcF+ajBZ8oCR5Q5cnh58sYJoM1TwGc+KeuFLTjwT0KVO
+	3ADYoEOydZIuI5TElo6W6DDP90lpcOF4LX6h9OPrrkcwASmIHXBFnf3bscI2Ip1zcgMB
+	v4Og==
+X-Gm-Message-State: AMke39m6ysQbOj8K7ZH/engbn4PKvcl/IOa/fRHyIQnxsFDU484+dnZaoNJyNTpmzv5XksuDmmlfy6RKOU85p7Y6
+X-Received: by 10.237.33.69 with SMTP id 63mr9661120qtc.109.1488839793744;
+	Mon, 06 Mar 2017 14:36:33 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Mon, 6 Mar 2017 14:36:13 -0800 (PST)
+In-Reply-To: <1488839646-19178-1-git-send-email-armccurdy@gmail.com>
+References: <1488839646-19178-1-git-send-email-armccurdy@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 6 Mar 2017 22:36:13 +0000
+Message-ID: <CAJTo0LaX_0msZv=MZRYCCLZGPQNN5SRL6tUCPpwp0LXW00ruZw@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] sanity.bbclass: allow s3 protocol when sanity checking MIRRORS, etc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,31 +53,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Mar 2017 22:34:11 -0000
+X-List-Received-Date: Mon, 06 Mar 2017 22:36:33 -0000
+Content-Type: multipart/alternative; boundary=94eb2c0c7fc808f554054a178710
 
-Bitbake now supports an Amazon AWS S3 fetcher:
+--94eb2c0c7fc808f554054a178710
+Content-Type: text/plain; charset=UTF-8
 
-  http://git.openembedded.org/bitbake/commit/?id=6fe07ed25457dd7952b60f4b2153d56b15d5eea6
+On 6 March 2017 at 22:34, Andre McCurdy <armccurdy@gmail.com> wrote:
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/classes/sanity.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>      protocols = ['http', 'ftp', 'file', 'https', \
+>                   'git', 'gitsm', 'hg', 'osc', 'p4', 'svn', \
+> -                 'bzr', 'cvs', 'npm', 'sftp', 'ssh']
+> +                 'bzr', 'cvs', 'npm', 'sftp', 'ssh', 's3' ]
+>
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 1fe172f..b5f4756 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -874,7 +874,7 @@ def check_sanity_everybuild(status, d):
-     mirror_vars = ['MIRRORS', 'PREMIRRORS', 'SSTATE_MIRRORS']
-     protocols = ['http', 'ftp', 'file', 'https', \
-                  'git', 'gitsm', 'hg', 'osc', 'p4', 'svn', \
--                 'bzr', 'cvs', 'npm', 'sftp', 'ssh']
-+                 'bzr', 'cvs', 'npm', 'sftp', 'ssh', 's3' ]
-     for mirror_var in mirror_vars:
-         mirrors = (d.getVar(mirror_var) or '').replace('\\n', ' ').split()
- 
--- 
-1.9.1
+Maybe bb.fetch2 needs a "list the protocols you support" method?
 
+Ross
 
+--94eb2c0c7fc808f554054a178710
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 6 March 2017 at 22:34, Andre McCurdy <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&gt;</sp=
+an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3mt" class=3D"a3s =
+aXjCH m15aa5c2d65e7e755">=C2=A0 =C2=A0 =C2=A0protocols =3D [&#39;http&#39;,=
+ &#39;ftp&#39;, &#39;file&#39;, &#39;https&#39;, \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;git&#39=
+;, &#39;gitsm&#39;, &#39;hg&#39;, &#39;osc&#39;, &#39;p4&#39;, &#39;svn&#39=
+;, \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;bzr&#39=
+;, &#39;cvs&#39;, &#39;npm&#39;, &#39;sftp&#39;, &#39;ssh&#39;]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;bzr&#39=
+;, &#39;cvs&#39;, &#39;npm&#39;, &#39;sftp&#39;, &#39;ssh&#39;, &#39;s3&#39=
+; ]<br></div></blockquote></div><br>Maybe bb.fetch2 needs a &quot;list the =
+protocols you support&quot; method?</div><div class=3D"gmail_extra"><br></d=
+iv><div class=3D"gmail_extra">Ross</div></div>
+
+--94eb2c0c7fc808f554054a178710--
