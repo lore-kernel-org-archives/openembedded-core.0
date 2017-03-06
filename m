@@ -1,27 +1,27 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id BF4BA77511
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 55C1777552
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Mar 2017 15:24:12 +0000 (UTC)
+	Mon,  6 Mar 2017 15:24:27 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Mar 2017 07:24:13 -0800
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Mar 2017 07:24:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,254,1484035200"; d="scan'208";a="1105352389"
+X-IronPort-AV: E=Sophos;i="5.35,254,1484035200"; d="scan'208";a="1105352462"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 06 Mar 2017 07:24:13 -0800
+	by orsmga001.jf.intel.com with ESMTP; 06 Mar 2017 07:24:28 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 12ACD6A4080
+	by linux.intel.com (Postfix) with ESMTP id AB6D16A4082
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Mar 2017 07:24:09 -0800 (PST)
+	Mon,  6 Mar 2017 07:24:25 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Mar 2017 17:10:09 +0200
-Message-Id: <c471f461c2a64223e8d4a2c3f9c7a38d8d2f0faf.1488812619.git.ed.bartosh@linux.intel.com>
+Date: Mon,  6 Mar 2017 17:10:10 +0200
+Message-Id: <6d1e84322198a977fcc47f14daafd9a77417dd5c.1488812619.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1488812619.git.ed.bartosh@linux.intel.com>
 References: <cover.1488812619.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 1/5] qemurunner: add runqemuparams argument to commands.runqemu
+Subject: [PATCH 2/5] targetcontrol: add image_fstype argument to commands.runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,95 +34,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Mar 2017 15:24:13 -0000
+X-List-Received-Date: Mon, 06 Mar 2017 15:24:28 -0000
 
-Added possibility to pass additional runqemu parameters
-down the stack of APIs:
- commands.runqemu -> QemuTarget.start -> QemuRunner.start
+qemu runner picks up first fsimage type from the hard-coded
+list of supported types. This makes it impossible to test
+particular image type unless it's not ext4(first type in
+the hardcoded list of types).
 
-This will be used to pass ovmf parameter in testing of
-efi wic images under qemu.
+Added image_fstypes argument to commands.runqemu and QemuTarget
+__init__ to specify type of the image to run qemu with.
+
+This will be used to pass wic image type to test efi wic images.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/lib/oeqa/targetcontrol.py        | 4 ++--
- meta/lib/oeqa/utils/commands.py       | 4 ++--
- meta/lib/oeqa/utils/qemurunner.py     | 4 ++--
- meta/lib/oeqa/utils/qemutinyrunner.py | 2 +-
- 4 files changed, 7 insertions(+), 7 deletions(-)
+ meta/lib/oeqa/targetcontrol.py  | 4 ++--
+ meta/lib/oeqa/utils/commands.py | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index d1f441f..dbd2c7c 100644
+index dbd2c7c..0ad3a6b 100644
 --- a/meta/lib/oeqa/targetcontrol.py
 +++ b/meta/lib/oeqa/targetcontrol.py
-@@ -176,8 +176,8 @@ class QemuTarget(BaseTarget):
-         bb.note("Qemu log file: %s" % self.qemulog)
-         super(QemuTarget, self).deploy()
+@@ -113,11 +113,11 @@ class QemuTarget(BaseTarget):
  
--    def start(self, params=None, ssh=True, extra_bootparams=None):
--        if self.runner.start(params, get_ip=ssh, extra_bootparams=extra_bootparams):
-+    def start(self, params=None, ssh=True, extra_bootparams=None, runqemuparams=''):
-+        if self.runner.start(params, get_ip=ssh, extra_bootparams=extra_bootparams, runqemuparams=runqemuparams):
-             if ssh:
-                 self.ip = self.runner.ip
-                 self.server_ip = self.runner.server_ip
+     supported_image_fstypes = ['ext3', 'ext4', 'cpio.gz', 'wic']
+ 
+-    def __init__(self, d):
++    def __init__(self, d, image_fstype=None):
+ 
+         super(QemuTarget, self).__init__(d)
+ 
+-        self.image_fstype = self.get_image_fstype(d)
++        self.image_fstype = image_fstype or self.get_image_fstype(d)
+         self.qemulog = os.path.join(self.testdir, "qemu_boot_log.%s" % self.datetime)
+         self.rootfs = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"),  d.getVar("IMAGE_LINK_NAME") + '.' + self.image_fstype)
+         self.kernel = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"), d.getVar("KERNEL_IMAGETYPE", False) + '-' + d.getVar('MACHINE', False) + '.bin')
 diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
-index 0425c9f..73ede23 100644
+index 73ede23..82c5908 100644
 --- a/meta/lib/oeqa/utils/commands.py
 +++ b/meta/lib/oeqa/utils/commands.py
 @@ -218,7 +218,7 @@ def create_temp_layer(templayerdir, templayername, priority=999, recipepathspec=
  
  
  @contextlib.contextmanager
--def runqemu(pn, ssh=True):
-+def runqemu(pn, ssh=True, runqemuparams=''):
+-def runqemu(pn, ssh=True, runqemuparams=''):
++def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None):
  
      import bb.tinfoil
      import bb.build
-@@ -260,7 +260,7 @@ def runqemu(pn, ssh=True):
-     try:
-         qemu.deploy()
-         try:
--            qemu.start(ssh=ssh)
-+            qemu.start(ssh=ssh, runqemuparams=runqemuparams)
-         except bb.build.FuncFailed:
-             raise Exception('Failed to start QEMU - see the logs in %s' % logdir)
+@@ -240,7 +240,7 @@ def runqemu(pn, ssh=True, runqemuparams=''):
+         logger.propagate = False
+         logdir = recipedata.getVar("TEST_LOG_DIR")
  
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 21bc35a..19f0f92 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -95,7 +95,7 @@ class QemuRunner:
-                 self._dump_host()
-                 raise SystemExit
- 
--    def start(self, qemuparams = None, get_ip = True, extra_bootparams = None):
-+    def start(self, qemuparams = None, get_ip = True, extra_bootparams = None, runqemuparams=''):
-         if self.display:
-             os.environ["DISPLAY"] = self.display
-             # Set this flag so that Qemu doesn't do any grabs as SDL grabs
-@@ -136,7 +136,7 @@ class QemuRunner:
-         self.origchldhandler = signal.getsignal(signal.SIGCHLD)
-         signal.signal(signal.SIGCHLD, self.handleSIGCHLD)
- 
--        launch_cmd = 'runqemu snapshot '
-+        launch_cmd = 'runqemu snapshot %s ' % runqemuparams
-         if self.use_kvm:
-             logger.info('Using kvm for runqemu')
-             launch_cmd += 'kvm '
-diff --git a/meta/lib/oeqa/utils/qemutinyrunner.py b/meta/lib/oeqa/utils/qemutinyrunner.py
-index d554f0d..ec52473 100644
---- a/meta/lib/oeqa/utils/qemutinyrunner.py
-+++ b/meta/lib/oeqa/utils/qemutinyrunner.py
-@@ -60,7 +60,7 @@ class QemuTinyRunner(QemuRunner):
-             with open(self.logfile, "a") as f:
-                 f.write("%s" % msg)
- 
--    def start(self, qemuparams = None, ssh=True, extra_bootparams=None):
-+    def start(self, qemuparams = None, ssh=True, extra_bootparams=None, runqemuparams=''):
- 
-         if self.display:
-             os.environ["DISPLAY"] = self.display
+-        qemu = oeqa.targetcontrol.QemuTarget(recipedata)
++        qemu = oeqa.targetcontrol.QemuTarget(recipedata, image_fstype)
+     finally:
+         # We need to shut down tinfoil early here in case we actually want
+         # to run tinfoil-using utilities with the running QEMU instance.
 -- 
 2.1.4
 
