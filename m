@@ -1,27 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 55C1777552
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id BC04177552
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Mar 2017 15:24:27 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Mar 2017 07:24:29 -0800
+	Mon,  6 Mar 2017 15:24:28 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga105.jf.intel.com with ESMTP; 06 Mar 2017 07:24:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,254,1484035200"; d="scan'208";a="1105352462"
+X-IronPort-AV: E=Sophos;i="5.35,254,1484035200"; d="scan'208";a="1138560941"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 06 Mar 2017 07:24:28 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 06 Mar 2017 07:24:29 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id AB6D16A4082
+	by linux.intel.com (Postfix) with ESMTP id B6B046A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Mar 2017 07:24:25 -0800 (PST)
+	Mon,  6 Mar 2017 07:24:26 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Mar 2017 17:10:10 +0200
-Message-Id: <6d1e84322198a977fcc47f14daafd9a77417dd5c.1488812619.git.ed.bartosh@linux.intel.com>
+Date: Mon,  6 Mar 2017 17:10:11 +0200
+Message-Id: <433a201fa2456f518c3aaa2a3e876ea81f009eb2.1488812619.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1488812619.git.ed.bartosh@linux.intel.com>
 References: <cover.1488812619.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 2/5] targetcontrol: add image_fstype argument to commands.runqemu
+Subject: [PATCH 3/5] selftest: test wic efi image in qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,62 +35,37 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 06 Mar 2017 15:24:28 -0000
 
-qemu runner picks up first fsimage type from the hard-coded
-list of supported types. This makes it impossible to test
-particular image type unless it's not ext4(first type in
-the hardcoded list of types).
+Added test_qemu_efi test case to wic test suite.
 
-Added image_fstypes argument to commands.runqemu and QemuTarget
-__init__ to specify type of the image to run qemu with.
-
-This will be used to pass wic image type to test efi wic images.
+It uses ovmf qemu extention to test mkefidisk image.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/lib/oeqa/targetcontrol.py  | 4 ++--
- meta/lib/oeqa/utils/commands.py | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ meta/lib/oeqa/selftest/wic.py | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index dbd2c7c..0ad3a6b 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -113,11 +113,11 @@ class QemuTarget(BaseTarget):
- 
-     supported_image_fstypes = ['ext3', 'ext4', 'cpio.gz', 'wic']
- 
--    def __init__(self, d):
-+    def __init__(self, d, image_fstype=None):
- 
-         super(QemuTarget, self).__init__(d)
- 
--        self.image_fstype = self.get_image_fstype(d)
-+        self.image_fstype = image_fstype or self.get_image_fstype(d)
-         self.qemulog = os.path.join(self.testdir, "qemu_boot_log.%s" % self.datetime)
-         self.rootfs = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"),  d.getVar("IMAGE_LINK_NAME") + '.' + self.image_fstype)
-         self.kernel = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"), d.getVar("KERNEL_IMAGETYPE", False) + '-' + d.getVar('MACHINE', False) + '.bin')
-diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
-index 73ede23..82c5908 100644
---- a/meta/lib/oeqa/utils/commands.py
-+++ b/meta/lib/oeqa/utils/commands.py
-@@ -218,7 +218,7 @@ def create_temp_layer(templayerdir, templayername, priority=999, recipepathspec=
- 
- 
- @contextlib.contextmanager
--def runqemu(pn, ssh=True, runqemuparams=''):
-+def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None):
- 
-     import bb.tinfoil
-     import bb.build
-@@ -240,7 +240,7 @@ def runqemu(pn, ssh=True, runqemuparams=''):
-         logger.propagate = False
-         logdir = recipedata.getVar("TEST_LOG_DIR")
- 
--        qemu = oeqa.targetcontrol.QemuTarget(recipedata)
-+        qemu = oeqa.targetcontrol.QemuTarget(recipedata, image_fstype)
-     finally:
-         # We need to shut down tinfoil early here in case we actually want
-         # to run tinfoil-using utilities with the running QEMU instance.
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index b7fe52f..dcb88ba 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -547,3 +547,17 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
+             status, output = qemu.run_serial(cmd)
+             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
+             self.assertEqual(output, '/dev/root /\r\n/dev/vda3 /mnt')
++
++    def test_qemu_efi(self):
++        """Test core-image-minimal efi image under qemu"""
++        config = 'IMAGE_FSTYPES = "wic"\nWKS_FILE = "mkefidisk.wks"\n'
++        self.append_config(config)
++        self.assertEqual(0, bitbake('core-image-minimal ovmf').status)
++        self.remove_config(config)
++
++        with runqemu('core-image-minimal', ssh=False,
++                     runqemuparams='ovmf', image_fstype='wic') as qemu:
++            cmd = "grep vda. /proc/partitions  |wc -l"
++            status, output = qemu.run_serial(cmd)
++            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
++            self.assertEqual(output, '3')
 -- 
 2.1.4
 
