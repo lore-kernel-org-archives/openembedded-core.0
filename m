@@ -1,47 +1,46 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 074E77768E
+Return-Path: <oleksandr.kravchuk@pelagicore.com>
+Received: from mail-lf0-f46.google.com (mail-lf0-f46.google.com
+	[209.85.215.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 5AC1671DAD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Mar 2017 08:51:08 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id n11so12508562wma.0
+	Mon,  6 Mar 2017 09:22:48 +0000 (UTC)
+Received: by mail-lf0-f46.google.com with SMTP id y193so69444571lfd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Mar 2017 00:51:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=1+Y8j5uo/+vlVsDVs3ClUJ0Q0gHFxLozmIPlcE8sdUE=;
-	b=WI19d/BhDKr7MiZo25LasQvC0dQn+q4RNmbX0d1p4JcL1/aGNN9aG+oxbV8f7F3sqa
-	qeJQOHjHvW50rKSQsusMTvI5ogGpxSInM1bPNT07JH5y5Lb+xYGzwnSlYYS5zdFj+kej
-	lW3wp2VemYIGeJteggJD9W3PPgrP95MvOA+wW9iGAUthC7sfPj6K79srk+52ra1ol0bV
-	BWqAz2wWb9KbegdN/V4Ass/XGQdS5zwlg+IyVfcTEAbAGwHsTxhy/H6MeM7tw/1D0Zt6
-	j/NhpxW51pvlkfGGCxa8J264cnusT83JgZ+UIZhZ+w4wsgyqhQpSGi7+IVIVCz4DyyPZ
-	KI4g==
+	Mon, 06 Mar 2017 01:22:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=pelagicore-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=ZriMCpWikkfdUy0Ty/nmhvpAKfiDWE2apL27CdVNvZk=;
+	b=HK0kmsEaawdH3Vz8K7uKZcF4orj8HDjiIRyiiyEco27JcsCTD0BfNBPHSJ1Zykegl/
+	A4ONcGunVfb6YUyuMvZsvxFVhSOACz6QxTx2idb4mQ4Ibt8Cx6QlVgegatGeRHWrPCOE
+	caOoe5fI4/qfvTXf11PqbUqMFDmhkrjrY0YkY3nMuobgnqsBYPYBI/XV9T7TQ/6YaQAf
+	7X1gtAVmyUWjUAJrSvq9/EhgMBLE7sA0P1YnMRJUoFcses/9T4uIeqMhQybO7CZNR+Fs
+	aqkfTh6acX9PSqoQ+lnARFQ2lisKhjgvZN/bc6xIZH3tQ4646OyO1UhMGgMCY07/+bV3
+	6owA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=1+Y8j5uo/+vlVsDVs3ClUJ0Q0gHFxLozmIPlcE8sdUE=;
-	b=kzRTTcC79nd7kFYqlaKOWmzKakGcBuAWz5efNTRoKfjiUUEt6ZRUg9n8KUIFyBCJ3k
-	Ee/kpvSHAgEzFUEPDznKoEPlrmzZwpwf3YaWG+RL5RM3dOWMScjCSitL8TZ0WS5UTuaO
-	k0xeqq2tCXxm5MRgwuwwoAxisbxlF7VnNiAKg0al46Qn0P1Jehiie7CmrZEOYOcH5OHC
-	R3WFu24AQoDyMYoQbPGTADjgj5qpCXThJet5Jgawxkvs34kG+SumVcwb3udBaFrpb+DG
-	FHhBkXRfqvJ+x8xM4zBGv3GHt62F3P11gA7RuvQYQJnn2guQT5CUf3Y/lD6WUYb9KwSK
-	AGiw==
-X-Gm-Message-State: AMke39k5xmiEp6OyZiukllLBybsx1dpXCdOL2sLNWdULrs5ZZLfTeNe7fvzlLPtTBJ8yFw==
-X-Received: by 10.28.147.147 with SMTP id v141mr13845704wmd.110.1488790269740; 
-	Mon, 06 Mar 2017 00:51:09 -0800 (PST)
-Received: from crde-port-20.cahors.local ([185.47.80.46])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=ZriMCpWikkfdUy0Ty/nmhvpAKfiDWE2apL27CdVNvZk=;
+	b=GLTR2aaGYe237yHETtv9bfZSl10XwhLcJUD2cndN9VacBXcHmeoLGMfbxBUm/MRDUX
+	Yr9c9Edl/b/MyqZ2tVzlmrQ+Go4B9YB4/roydJVEBkk5h28g3w7EowN/9FcuX//HqP/u
+	uqkUOLZCl6sHjPLgtQuJZPv0g0pLlnQf+CoDOIkPHgtLsAOR2wXVBg/1bOR1M1uwmHIH
+	/GmQIjzuKZNkZFvXRdI6BccETNCbfnVBOmplpPIdj2R+BOjk4goObvqXKpjBYr5VN5PS
+	A0RhuYD0PabKjKyWWbjRW8EUVjM1ZEClC1SGP4005CWYuWe3SFPX1KjTG8+tyqp9kOi9
+	FbdQ==
+X-Gm-Message-State: AMke39nJr4C0qsyC9l+HaTrnG9tv9Ixz5gvogS6TxZ2kE05PEN0O9q42ibNApY61Sf6m9/Gi
+X-Received: by 10.46.82.145 with SMTP id n17mr1151323lje.133.1488792169575;
+	Mon, 06 Mar 2017 01:22:49 -0800 (PST)
+Received: from stout.office.pelagicore.net ([83.218.80.243])
 	by smtp.gmail.com with ESMTPSA id
-	j184sm13899469wmd.31.2017.03.06.00.51.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 06 Mar 2017 00:51:09 -0800 (PST)
-From: David Vincent <freesilicon@gmail.com>
+	p74sm4028025lfp.68.2017.03.06.01.22.48
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 06 Mar 2017 01:22:48 -0800 (PST)
+From: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 06 Mar 2017 09:51:08 +0100
-Message-ID: <2821013.tYPUGW0tn2@crde-port-20.cahors.local>
-MIME-Version: 1.0
-Subject: [PATCH] initscripts: Populate volatile from existing file
+Date: Mon,  6 Mar 2017 10:22:37 +0100
+Message-Id: <1488792157-27915-1-git-send-email-oleksandr.kravchuk@pelagicore.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [meta-networking][PATCH] wireshark: update to 2.2.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,77 +53,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Mar 2017 08:51:09 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 06 Mar 2017 09:22:50 -0000
 
-Ping
-
-----------  Forwarded Message  ----------
-
-Subject: [PATCH] initscripts: Populate volatile from existing file
-Date: mercredi 25 janvier 2017, 12:35:52 CET
-From: David Vincent <freesilicon@gmail.com>
-To: openembedded-core@lists.openembedded.org
-CC: David Vincent <freesilicon@gmail.com>
-
-In some cases, it may be useful to populate a volatile file from an
-existing one, e.g. a file in a read-only rootfs that may be edited in a
-read-write destination.
-
-To provide this behavior, creation of volatile files has been updated to
-copy a file which has been given in the <linksource> field. If set to
-none, the current behavior is preserved.
-
-Signed-off-by: David Vincent <freesilicon@gmail.com>
+Signed-off-by: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
 ---
- .../initscripts/initscripts-1.0/populate-volatile.sh     | 16 +++++++++++++
-+--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ .../wireshark/{wireshark_2.2.4.bb => wireshark_2.2.5.bb}              | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta-networking/recipes-support/wireshark/{wireshark_2.2.4.bb => wireshark_2.2.5.bb} (95%)
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-
-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-
-volatile.sh
-index 22a71ecaae..35316ec2ba 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-@@ -25,8 +25,18 @@ COREDEF="00_core"
- [ "${VERBOSE}" != "no" ] && echo "Populating volatile Filesystems."
+diff --git a/meta-networking/recipes-support/wireshark/wireshark_2.2.4.bb b/meta-networking/recipes-support/wireshark/wireshark_2.2.5.bb
+similarity index 95%
+rename from meta-networking/recipes-support/wireshark/wireshark_2.2.4.bb
+rename to meta-networking/recipes-support/wireshark/wireshark_2.2.5.bb
+index 29dfbfe..03ae3b9 100644
+--- a/meta-networking/recipes-support/wireshark/wireshark_2.2.4.bb
++++ b/meta-networking/recipes-support/wireshark/wireshark_2.2.5.bb
+@@ -10,8 +10,8 @@ SRC_URI = "https://2.na.dl.wireshark.org/src/all-versions/${BP}.tar.bz2"
  
- create_file() {
-+	EXEC=""
-+	[ -z "$2" ] && {
-+		EXEC="
-+		touch \"$1\";
-+		"
-+	} || {
-+		EXEC="
-+		cp \"$2\" \"$1\";
-+		"
-+	}
- 	EXEC="
--	touch \"$1\";
-+	${EXEC}
- 	chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -
-$1-.\" >/dev/tty0 2>&1;
- 	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" >/
-dev/tty0 2>&1 "
+ PE = "1"
  
-@@ -187,7 +197,9 @@ apply_cfgfile() {
+-SRC_URI[md5sum] = "6d0878ba931ea379f6e675d4cba6536b"
+-SRC_URI[sha256sum] = "42a7fb35eed5a32478153e24601a284bb50148b7ba919c3e8452652f4c2a3911"
++SRC_URI[md5sum] = "749e7ca7606ae7df5c1ca8c62f93ff31"
++SRC_URI[sha256sum] = "75dd88d3d6336559e5b0b72077d8a772a988197d571f00029986225fef609ac8"
  
- 		case "${TTYPE}" in
- 			"f")  [ "${VERBOSE}" != "no" ] && echo "Creating file -${TNAME}-."
--				create_file "${TNAME}"
-+				TSOURCE="$TLTARGET"
-+				[ "${TSOURCE}" = "none" ] && TSOURCE=""
-+				create_file "${TNAME}" "${TSOURCE}" &
- 				;;
- 			"d")  [ "${VERBOSE}" != "no" ] && echo "Creating directory -$
-{TNAME}-."
- 				mk_dir "${TNAME}"
+ inherit autotools pkgconfig perlnative
+ 
 -- 
-2.11.0
+2.7.4
 
-
------------------------------------------
 
