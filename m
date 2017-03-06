@@ -1,26 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id BC04177552
+	by mail.openembedded.org (Postfix) with ESMTP id 62698775C7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Mar 2017 15:24:28 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga105.jf.intel.com with ESMTP; 06 Mar 2017 07:24:30 -0800
+	Mon,  6 Mar 2017 15:24:30 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga105.jf.intel.com with ESMTP; 06 Mar 2017 07:24:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.35,254,1484035200"; d="scan'208";a="1138560941"
+X-IronPort-AV: E=Sophos;i="5.35,254,1484035200"; d="scan'208";a="56619714"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Mar 2017 07:24:29 -0800
+	by orsmga002.jf.intel.com with ESMTP; 06 Mar 2017 07:24:31 -0800
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id B6B046A4080
+	by linux.intel.com (Postfix) with ESMTP id BBE6E6A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Mar 2017 07:24:26 -0800 (PST)
+	Mon,  6 Mar 2017 07:24:28 -0800 (PST)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Mar 2017 17:10:11 +0200
-Message-Id: <433a201fa2456f518c3aaa2a3e876ea81f009eb2.1488812619.git.ed.bartosh@linux.intel.com>
+Date: Mon,  6 Mar 2017 17:10:13 +0200
+Message-Id: <cc93266d19658e96ac3a7ecfdf08872b792d475c.1488812619.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1488812619.git.ed.bartosh@linux.intel.com>
 References: <cover.1488812619.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 3/5] selftest: test wic efi image in qemu
+Subject: [PATCH 5/5] selftest: remove extra backslashes from debug output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,39 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Mar 2017 15:24:28 -0000
+X-List-Received-Date: Mon, 06 Mar 2017 15:24:30 -0000
 
-Added test_qemu_efi test case to wic test suite.
+Remove unneeded backslashes from the format strings that
+caused debug output to look confusing:
 
-It uses ovmf qemu extention to test mkefidisk image.
+2017-03-06 16:52:42,428 - selftest.base - DEBUG - Removing from: ...
+\IMAGE_FSTYPES = "wic"
+WKS_FILE = "mkefidisk.wks"
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/wic.py | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ meta/lib/oeqa/selftest/base.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index b7fe52f..dcb88ba 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -547,3 +547,17 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
-             status, output = qemu.run_serial(cmd)
-             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-             self.assertEqual(output, '/dev/root /\r\n/dev/vda3 /mnt')
-+
-+    def test_qemu_efi(self):
-+        """Test core-image-minimal efi image under qemu"""
-+        config = 'IMAGE_FSTYPES = "wic"\nWKS_FILE = "mkefidisk.wks"\n'
-+        self.append_config(config)
-+        self.assertEqual(0, bitbake('core-image-minimal ovmf').status)
-+        self.remove_config(config)
-+
-+        with runqemu('core-image-minimal', ssh=False,
-+                     runqemuparams='ovmf', image_fstype='wic') as qemu:
-+            cmd = "grep vda. /proc/partitions  |wc -l"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-+            self.assertEqual(output, '3')
+diff --git a/meta/lib/oeqa/selftest/base.py b/meta/lib/oeqa/selftest/base.py
+index 26c93f9..47a8ea8 100644
+--- a/meta/lib/oeqa/selftest/base.py
++++ b/meta/lib/oeqa/selftest/base.py
+@@ -163,7 +163,7 @@ be re-executed from a clean environment to ensure accurate results.")
+ 
+     # remove data from <builddir>/conf/selftest.inc
+     def remove_config(self, data):
+-        self.log.debug("Removing from: %s\n\%s\n" % (self.testinc_path, data))
++        self.log.debug("Removing from: %s\n%s\n" % (self.testinc_path, data))
+         ftools.remove_from_file(self.testinc_path, data)
+ 
+     # write to meta-sefltest/recipes-test/<recipe>/test_recipe.inc
+@@ -206,7 +206,7 @@ be re-executed from a clean environment to ensure accurate results.")
+ 
+     # remove data from <builddir>/conf/bblayers.inc
+     def remove_bblayers_config(self, data):
+-        self.log.debug("Removing from: %s\n\%s\n" % (self.testinc_bblayers_path, data))
++        self.log.debug("Removing from: %s\n%s\n" % (self.testinc_bblayers_path, data))
+         ftools.remove_from_file(self.testinc_bblayers_path, data)
+ 
+     # write to <builddir>/conf/machine.inc
 -- 
 2.1.4
 
