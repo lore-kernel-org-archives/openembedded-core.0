@@ -1,50 +1,50 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id A9A34775B5
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id EA72C7756D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Mar 2017 15:26:42 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id 77so7311770pgc.0
+	Mon,  6 Mar 2017 15:26:47 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id 187so6363578pgb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Mar 2017 07:26:44 -0800 (PST)
+	Mon, 06 Mar 2017 07:26:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:in-reply-to:references:from:to:cc:subject
 	:mime-version:content-transfer-encoding;
-	bh=7SPvHZDupI8riv7TRSe70KvCOp5IhNeWNCu4S4l/3Ac=;
-	b=WrBhV3vr63IjYCzi2p/B4XsLsCkm60LYuTCzOzy9i8kRr3lezS10UkBiHGnIMF9VjU
-	KC19+YUHCEtyQjdCZVr6SYh93XKoSq342gIH+OgUtXXD6nt+li79V1wHcDadXZ3F5xWK
-	O91mz0CfiGEaqThVdWqoGIn8ekod4FskKyZYPNSQEgxL9kqjOMSHzZnAMjWVAAJOkGKx
-	Dp/jsItViBH3efNffCqa5Nll4xg3xtzJRIxDqzhOCEKjY73Vcg1qbiVILG/a1qvDVOof
-	OENVXkSF+IpG3c1MtAqTDEF7ohYwU82T1d5+blOaxP6lPVZJY54Grk2rFlpXQO6EHwZH
-	R1GQ==
+	bh=1G3TEVM0/dcsP9KIXsKwkx4Do6qewbOz5bGAx8ySdvo=;
+	b=RwiRsHM9b4wwZ5T45x0dxrloSVBf0DonPMBFED/ojDVwST/m+nJ4U3xQxYcR+crHUa
+	l4zzHnOpiK6HZz9OpE48niv7vS/nhoIXhG9rhCkq8ArUqfrlq++6gm2YvacXUyJ9ncUa
+	TxqFFQ6LlW2xQ5+MhGgNVGhqVV+kTUq0DZSmnE+BzXEUA3YG39CO4D5navnC3K51pVaF
+	8wGKkUx42HxYTs9X6pM+fN1B32MNh06qLpC4DktMilubLDRPYKTUKCVDjEfNvBB4eLkx
+	I/JXHfQn4AG21CWHG4Vum81AAONEFrZEWlBx+hKeIg+PQaqa8iDHfAB/WyMubkdIvBO4
+	LpLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
 	:cc:subject:mime-version:content-transfer-encoding;
-	bh=7SPvHZDupI8riv7TRSe70KvCOp5IhNeWNCu4S4l/3Ac=;
-	b=j+sYsswhqiepCHO0C2gPZctll623ZOhxnNp4gPl9ATMqSHVytWkHGqGxSI2M5WY+/+
-	vP8tW9dsAebS9ggWc9LSg3RwCxgu1g5XcHVO4ho8vrxN5AdgDFb+4TRrezqFzzLOpHb3
-	QDNNW1wXdhaLQa9ZnKRSmKnT/4FXHtn6OAaKXZ+ndT/ok4E5YysXR1MvU5us3gKJ7Gci
-	cRaElOvAER3jEFqPniy5ZDL3gS6VuZn+7j03jonSVTfjrsirinFQ33lCCIVvqCXKqFxL
-	3q23CPE/ZOLOrjXnTND6f4aNQl/s08foIyhl7RTCgQ9wu4/KCwH2j2HDESECkByt+2RD
-	G5TA==
-X-Gm-Message-State: AMke39mAv4OinRGVyWuOQwxdDsSJWMRpslHHvhUf3RCl1+WRH/ahBXQ584AdVyDHhnyK1w==
-X-Received: by 10.98.8.74 with SMTP id c71mr21415023pfd.42.1488814004282;
-	Mon, 06 Mar 2017 07:26:44 -0800 (PST)
+	bh=1G3TEVM0/dcsP9KIXsKwkx4Do6qewbOz5bGAx8ySdvo=;
+	b=eIrcwiCTboG437vAfAGz0qqGkol6ZcjmorWkph/NgBsx27UDQ7xnAOYkpC3NhF7F/s
+	Dub+VqswBiZC2wA9HzSMknAmk/4QPluWAP62sjuB/4FzMdnhgy4eKqpXpxYIbBwwTdvz
+	An7v1ENNFs2vJmKvm443R/Qihd2ACaXN5VwGotfFDlnsli6flHZVglNcSBXYqvAh78we
+	gwgY57cbEhYqpU//4Kzok+f1V2eMt1+z1mFYyhuFD7KQTgSrBuS7kuGlUUQAmQr4/+2i
+	83fnrt60Ln645qOLzGTjpjbCIlbFETdP//yyucQszWebOAXLRJqJIsyt2Dw3pt+uiiyf
+	sNLA==
+X-Gm-Message-State: AMke39mjTUGxpZSDXqv7bE5eGFs0kND3cX02DB5isocVCdFrwCX75x6iY1Y1tMTBSPKbqA==
+X-Received: by 10.84.233.193 with SMTP id m1mr27238649pln.118.1488814009022;
+	Mon, 06 Mar 2017 07:26:49 -0800 (PST)
 Received: from [127.0.1.1] (CPE-123-211-135-66.lnse3.woo.bigpond.net.au.
 	[123.211.135.66]) by smtp.gmail.com with ESMTPSA id
-	t133sm40691895pgc.24.2017.03.06.07.26.42
+	k76sm40354326pfg.42.2017.03.06.07.26.47
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 06 Mar 2017 07:26:43 -0800 (PST)
+	Mon, 06 Mar 2017 07:26:48 -0800 (PST)
 Date: Tue, 07 Mar 2017 01:26:20 +1000
-Message-Id: <20170306152620.22194-3-nathan@nathanrossi.com>
+Message-Id: <20170306152620.22194-4-nathan@nathanrossi.com>
 In-Reply-To: <20170306152620.22194-0-nathan@nathanrossi.com>
 References: <20170306152620.22194-0-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
 Cc: Alistair Francis <alistai@xilinx.com>
-Subject: [PATCH v3 3/4] qemu: Convert KVMOPTS to PACKAGECONFIG
+Subject: [PATCH v3 4/4] qemu: Move recipe version specific patches and features to recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,76 +57,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Mar 2017 15:26:42 -0000
+X-List-Received-Date: Mon, 06 Mar 2017 15:26:48 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-Move the KVMOPTS configuration checks and option setting to a
-PACKAGECONFIG option.
+Move all the version specific patches, overrides and configuration that
+are in qemu.inc to the versioned QEMU recipe.
 
-This also changes the checking of KVM support on the host build machine
-so that it is processed as a PACKAGECONFIG _remove for class-native
-only. The darwin/mingw32 overrides are kept and applied as _remove
-overrides.
+This includes moving patches that target the versioned recipe, ptest
+configuration (which is not available in QEMU by default) and the
+installing of the powerpc_rom.bin.  All these patches/files are also
+only located in the FILESEXTRAPATHS that is valid from the recipe file
+and not from qemu.inc itself.
+
+The purpose of this change is to make the qemu.inc re-usable for
+multiple versions of QEMU as well as forks and recipes that intend to
+provide custom patches.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc | 26 ++++++++++++--------------
- 1 file changed, 12 insertions(+), 14 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc      | 30 +-----------------------------
+ meta/recipes-devtools/qemu/qemu_2.8.0.bb | 31 ++++++++++++++++++++++++++++++-
+ 2 files changed, 31 insertions(+), 30 deletions(-)
 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 72430cc6fd..5bd41d0d90 100644
+index 5bd41d0d90..85b344c960 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -65,19 +65,8 @@ do_configure_prepend_class-native() {
- 		"${S}"/Makefile "${S}"/Makefile.target
- }
+@@ -3,29 +3,14 @@ HOMEPAGE = "http://qemu.org"
+ LICENSE = "GPLv2 & LGPLv2.1"
+ DEPENDS = "glib-2.0 zlib pixman"
+ RDEPENDS_${PN}_class-target += "bash"
+-RDEPENDS_${PN}-ptest = "bash make"
  
--KVMENABLE = "--enable-kvm"
--KVMENABLE_darwin = "--disable-kvm"
--KVMENABLE_mingw32 = "--disable-kvm"
+ require qemu-targets.inc
+-inherit autotools pkgconfig ptest bluetooth
++inherit autotools pkgconfig bluetooth
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ # QEMU_TARGETS is overridable variable
+ QEMU_TARGETS ?= "arm aarch64 i386 mips mipsel mips64 mips64el ppc sh4 x86_64"
+ 
+-SRC_URI = "\
+-    file://powerpc_rom.bin \
+-    file://disable-grabs.patch \
+-    file://exclude-some-arm-EABI-obsolete-syscalls.patch \
+-    file://wacom.patch \
+-    file://add-ptest-in-makefile.patch \
+-    file://run-ptest \
+-    "
 -
- do_configure() {
--    # Handle distros such as CentOS 5 32-bit that do not have kvm support
--    KVMOPTS="--disable-kvm"
--    if [ "${PN}" != "qemu-native" -a "${PN}" != "nativesdk-qemu" ] \
--       || [ -f /usr/include/linux/kvm.h ] ; then
--       KVMOPTS="${KVMENABLE}"
--    fi
+-SRC_URI_append_class-native = "\
+-    file://fix-libcap-header-issue-on-some-distro.patch \
+-    file://cpus.c-qemu_cpu_kick_thread_debugging.patch \
+-    "
 -
--    ${S}/configure ${EXTRA_OECONF} $KVMOPTS
-+    ${S}/configure ${EXTRA_OECONF}
+ EXTRA_OECONF = " \
+     --prefix=${prefix} \
+     --bindir=${bindir} \
+@@ -70,22 +55,9 @@ do_configure() {
      test ! -e ${S}/target-i386/beginend_funcs.sh || chmod a+x ${S}/target-i386/beginend_funcs.sh
  }
  
-@@ -115,10 +104,18 @@ do_install_append() {
+-do_compile_ptest() {
+-	make buildtest-TESTS
+-}
+-
+-do_install_ptest() {
+-	cp -rL ${B}/tests ${D}${PTEST_PATH}
+-	find ${D}${PTEST_PATH}/tests -type f -name "*.[Sshcod]" | xargs -i rm -rf {}
+-
+-	cp ${S}/tests/Makefile.include ${D}${PTEST_PATH}/tests
+-}
+-
+ do_install () {
+ 	export STRIP="true"
+ 	autotools_do_install
+-	install -d ${D}${datadir}/qemu
+-	install -m 0755 ${WORKDIR}/powerpc_rom.bin ${D}${datadir}/qemu
+ }
  
- PACKAGECONFIG ??= " \
- 	fdt sdl \
-+	fdt sdl kvm \
- 	${@bb.utils.filter('DISTRO_FEATURES', 'alsa xen', d)} \
- 	"
--PACKAGECONFIG_class-native ??= "fdt alsa uuid"
--PACKAGECONFIG_class-nativesdk ??= "fdt sdl"
-+PACKAGECONFIG_class-native ??= "fdt alsa uuid kvm"
-+PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm"
+ # The following fragment will create a wrapper for qemu-mips user emulation
+diff --git a/meta/recipes-devtools/qemu/qemu_2.8.0.bb b/meta/recipes-devtools/qemu/qemu_2.8.0.bb
+index ce475e02cb..7bb4d06fb9 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.8.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.8.0.bb
+@@ -1,9 +1,20 @@
+ require qemu.inc
+ 
++inherit ptest
 +
-+# Handle distros such as CentOS 5 32-bit that do not have kvm support
-+PACKAGECONFIG_class-native_remove = "${@'kvm' if not os.path.exists('/usr/include/linux/kvm.h') else ''}"
++RDEPENDS_${PN}-ptest = "bash make"
 +
-+# Disable kvm on targets that do not support it
-+PACKAGECONFIG_remove_darwin = "kvm"
-+PACKAGECONFIG_remove_mingw32 = "kvm"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
  
- PACKAGECONFIG[sdl] = "--enable-sdl,--disable-sdl,libsdl"
- PACKAGECONFIG[virtfs] = "--enable-virtfs --enable-attr,--disable-virtfs,libcap attr,"
-@@ -147,5 +144,6 @@ PACKAGECONFIG[gnutls] = "--enable-gnutls,--disable-gnutls,gnutls"
- PACKAGECONFIG[bzip2] = "--enable-bzip2,--disable-bzip2,bzip2"
- PACKAGECONFIG[bluez] = "--enable-bluez,--disable-bluez,${BLUEZ}"
- PACKAGECONFIG[libiscsi] = "--enable-libiscsi,--disable-libiscsi"
-+PACKAGECONFIG[kvm] = "--enable-kvm,--disable-kvm"
+-SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
++SRC_URI += " \
++            file://powerpc_rom.bin \
++            file://disable-grabs.patch \
++            file://exclude-some-arm-EABI-obsolete-syscalls.patch \
++            file://wacom.patch \
++            file://add-ptest-in-makefile.patch \
++            file://run-ptest \
++            file://configure-fix-Darwin-target-detection.patch \
+             file://qemu-enlarge-env-entry-size.patch \
+             file://no-valgrind.patch \
+             file://pathlimit.patch \
+@@ -19,6 +30,11 @@ SRC_URI += " \
+             file://0004-Add-support-for-VM-suspend-resume-for-TPM-TIS.patch \
+ "
  
- INSANE_SKIP_${PN} = "arch"
++SRC_URI_append_class-native = " \
++            file://fix-libcap-header-issue-on-some-distro.patch \
++            file://cpus.c-qemu_cpu_kick_thread_debugging.patch \
++            "
++
+ SRC_URI =+ "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+ 
+ SRC_URI[md5sum] = "17940dce063b6ce450a12e719a6c9c43"
+@@ -30,4 +46,17 @@ COMPATIBLE_HOST_mipsarchn64 = "null"
+ do_install_append() {
+     # Prevent QA warnings about installed ${localstatedir}/run
+     if [ -d ${D}${localstatedir}/run ]; then rmdir ${D}${localstatedir}/run; fi
++    install -Dm 0755 ${WORKDIR}/powerpc_rom.bin ${D}${datadir}/qemu
++}
++
++do_compile_ptest() {
++	make buildtest-TESTS
+ }
++
++do_install_ptest() {
++	cp -rL ${B}/tests ${D}${PTEST_PATH}
++	find ${D}${PTEST_PATH}/tests -type f -name "*.[Sshcod]" | xargs -i rm -rf {}
++
++	cp ${S}/tests/Makefile.include ${D}${PTEST_PATH}/tests
++}
++
 -- 
 2.11.0
 
