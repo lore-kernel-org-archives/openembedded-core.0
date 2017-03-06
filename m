@@ -1,45 +1,44 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 78A63773E5
+Received: from mail-pg0-f44.google.com (mail-pg0-f44.google.com [74.125.83.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 8269073094
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Mar 2017 21:47:47 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id o126so4679449pfb.1
+	Mon,  6 Mar 2017 22:34:11 +0000 (UTC)
+Received: by mail-pg0-f44.google.com with SMTP id 25so71157164pgy.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Mar 2017 13:47:48 -0800 (PST)
+	Mon, 06 Mar 2017 14:34:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=gygkQX3tYO5iLIsNZPElFmaACM1axljpg9rZAHFkaeQ=;
-	b=ER8FkNWmeOCOkP+hrxJqtp2hltwGak7j7Ss30b3m8MlGVRipbdeXEz7hw2f5v46vkl
-	SGA4ELW2I4d5PXFAeG472zE4ouoP5jnVoy1auAEVduO+5OL9N2FgMXq2O9IT886y70yG
-	Ql1AMo0UY/d59bz19JVYgFBdA9kZrJfAIH1ITQPY+ZZEt1slDoaBEOebNiqZPlxcR7ET
-	+NpnYEc/eJsvhHwc2IvGJu/zm/gOxLpfZw9ITyllwUgHAzt6FD1e9DdUoGvPipWvSCri
-	zQ/j+DKTWNV5nulOwWVh/zmXLBwBwwC+8iUlVlX002grqRHGySR9JMzSzzFRmLrh5F/5
-	ncfQ==
+	bh=L8pQ907h9DyMxgPUO00Ao7taxoqlDeyH1w0DjBZsnzY=;
+	b=gBtrgMY+bL5J9GJW7+YmyVl6eA86bpVsb1nldJoCJHI1jgy9PnBRFRgPbKbeesahbt
+	yF+bAx8i491VJA2PNif5NE9J940KsRRFfeh3NmY38+xJB0B13h7u0HMxOig5ax+0Y9/x
+	1CylNWbJlW26fJqxoEjfis93QEhhFqA2zgt/th0KFyi5+RVmeXm+Rc5MKUpqD1tpSDGe
+	Rd8KTWaUPeL1Slm+1nAIdg0E6QFLqhDH7QaS2DkQh4vIq3kEKW3I2yWGdTVpUzn3nMm8
+	daFGVRQFVzequtfbjzJQB3vskok0ZSO2ZHnLj0WlXZurY2h/E8JYD30tUlbUhyQ+qjvl
+	Cl2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=gygkQX3tYO5iLIsNZPElFmaACM1axljpg9rZAHFkaeQ=;
-	b=DLpBoZUDdYixmLIpRkzyIJYJ8pB5cJhKO5mg1LMsVLkOKc1hOT7FwebPZdogxXUnDs
-	vXv9YUuU6GlxIdlVQ3dk1FQ2ryGnviUzA55AQO/UHGjViGG1eHgTlf0oJPiTgG2COtQJ
-	JVDxo1x3uVAKXcQh9dZvwAO09ki5B6W+4ELxfIRUEdZGanSr/NL1x2s0zMiYQVbR5zq2
-	116J4jVxJ7Wz+uTeLlrX4KB5a+iASDS9Sd8XqVeqge5buJ8l8Cigz4FbPZNTC+kpk4AK
-	D1IDEv2rucV0F5bir9RGSwG7tga6Uqy/cKZ2fixILL2NqJNFt12hFaFE5eU67K1gPwsg
-	dCDA==
-X-Gm-Message-State: AMke39kdAVWU3q7AJfnyTKpK9dLSxo8qkSS+NWZP2rSGLxz4uWUAxc3MPhl9pBnq0q9RZA==
-X-Received: by 10.84.143.1 with SMTP id 1mr29339438ply.81.1488836868516;
-	Mon, 06 Mar 2017 13:47:48 -0800 (PST)
+	bh=L8pQ907h9DyMxgPUO00Ao7taxoqlDeyH1w0DjBZsnzY=;
+	b=rBSYe7vUVD0yRuhRbRf/lFtbIsYUKRfUrb99R16BNvrhGvaHg859K3cwcydnM9wkzY
+	SjJbhWB/kb1bUAR8cVFf94/cycn1N8xekmOBFN4n9M9q+Lv+Wmzp440nYN8vlXsMTAhp
+	/461CbpiuZhwKRbHGi+7B/1kCg7VB+KOp2labtLK1vnuoGbSn8/rtgVQLTuNSMJmmVOx
+	LzCpx5jKjxHissax5bmDPGSVFq6tqYWgAp/rVJLlTRh3CsKis1yTg9joV4LKcXyVcJ/+
+	PYx+Yn3ll+/m82Svz2sl8ME1jHj1qvgXVBOi11nP0bRS3ymfJspaY8RtiXx9iXnh8qld
+	1Ypw==
+X-Gm-Message-State: AMke39nLtwbePK2dNCPSiSyQ6LQY1vUzaOfBuKkvVB+Dzz1S8XHBBGBWYbTZMZuL66t7ZQ==
+X-Received: by 10.84.254.75 with SMTP id a11mr29988228pln.57.1488839652658;
+	Mon, 06 Mar 2017 14:34:12 -0800 (PST)
 Received: from e6520.cablelabs.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	o5sm21966415pgj.66.2017.03.06.13.47.47
+	v143sm41698533pgb.47.2017.03.06.14.34.11
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 06 Mar 2017 13:47:47 -0800 (PST)
+	Mon, 06 Mar 2017 14:34:11 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Mar 2017 13:47:42 -0800
-Message-Id: <1488836862-18218-1-git-send-email-armccurdy@gmail.com>
+Date: Mon,  6 Mar 2017 14:34:06 -0800
+Message-Id: <1488839646-19178-1-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] conf/machine/include: enable hardfloat by default for ARMv6 and above
+Subject: [PATCH] sanity.bbclass: allow s3 protocol when sanity checking MIRRORS, etc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,127 +51,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Mar 2017 21:47:47 -0000
+X-List-Received-Date: Mon, 06 Mar 2017 22:34:11 -0000
 
-Defaulting to softfp probably isn't the best choice anymore,
-especially as there are now ARM BSP layers which leave DEFAULTTUNE
-entirely up to the distro:
+Bitbake now supports an Amazon AWS S3 fetcher:
 
-  https://lists.yoctoproject.org/pipermail/yocto/2017-February/034637.html
+  http://git.openembedded.org/bitbake/commit/?id=6fe07ed25457dd7952b60f4b2153d56b15d5eea6
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/conf/machine/include/arm/arch-armv6.inc   | 2 +-
- meta/conf/machine/include/arm/arch-armv7a.inc  | 2 +-
- meta/conf/machine/include/arm/arch-armv7ve.inc | 2 +-
- meta/conf/machine/include/tune-arm1136jf-s.inc | 2 +-
- meta/conf/machine/include/tune-cortexa15.inc   | 2 +-
- meta/conf/machine/include/tune-cortexa17.inc   | 2 +-
- meta/conf/machine/include/tune-cortexa5.inc    | 2 +-
- meta/conf/machine/include/tune-cortexa7.inc    | 2 +-
- meta/conf/machine/include/tune-cortexa8.inc    | 2 +-
- meta/conf/machine/include/tune-cortexa9.inc    | 2 +-
- 10 files changed, 10 insertions(+), 10 deletions(-)
+ meta/classes/sanity.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/machine/include/arm/arch-armv6.inc b/meta/conf/machine/include/arm/arch-armv6.inc
-index 91f0f07..5e1f973 100644
---- a/meta/conf/machine/include/arm/arch-armv6.inc
-+++ b/meta/conf/machine/include/arm/arch-armv6.inc
-@@ -1,4 +1,4 @@
--DEFAULTTUNE ?= "armv6"
-+DEFAULTTUNE ?= "armv6thf"
- 
- TUNEVALID[armv6] = "Enable instructions for ARMv6"
- TUNECONFLICTS[armv6] = "armv4 armv5"
-diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc b/meta/conf/machine/include/arm/arch-armv7a.inc
-index 5446048..bad1c27 100644
---- a/meta/conf/machine/include/arm/arch-armv7a.inc
-+++ b/meta/conf/machine/include/arm/arch-armv7a.inc
-@@ -1,4 +1,4 @@
--DEFAULTTUNE ?= "armv7a"
-+DEFAULTTUNE ?= "armv7athf"
- 
- TUNEVALID[armv7a] = "Enable instructions for ARMv7-a"
- TUNECONFLICTS[armv7a] = "armv4 armv5 armv6 armv7"
-diff --git a/meta/conf/machine/include/arm/arch-armv7ve.inc b/meta/conf/machine/include/arm/arch-armv7ve.inc
-index 42d8d04..4d9260f 100644
---- a/meta/conf/machine/include/arm/arch-armv7ve.inc
-+++ b/meta/conf/machine/include/arm/arch-armv7ve.inc
-@@ -1,4 +1,4 @@
--DEFAULTTUNE ?= "armv7ve"
-+DEFAULTTUNE ?= "armv7vethf"
- 
- TUNEVALID[armv7ve] = "Enable instructions for ARMv7ve"
- TUNECONFLICTS[armv7ve] = "armv4 armv5 armv6 armv7 armv7a"
-diff --git a/meta/conf/machine/include/tune-arm1136jf-s.inc b/meta/conf/machine/include/tune-arm1136jf-s.inc
-index 53994ef..2cadbee 100644
---- a/meta/conf/machine/include/tune-arm1136jf-s.inc
-+++ b/meta/conf/machine/include/tune-arm1136jf-s.inc
-@@ -1,4 +1,4 @@
--DEFAULTTUNE ?= "armv6"
-+DEFAULTTUNE ?= "armv6thf"
- 
- require conf/machine/include/arm/arch-armv6.inc
- 
-diff --git a/meta/conf/machine/include/tune-cortexa15.inc b/meta/conf/machine/include/tune-cortexa15.inc
-index 03de602..25e99f9 100644
---- a/meta/conf/machine/include/tune-cortexa15.inc
-+++ b/meta/conf/machine/include/tune-cortexa15.inc
-@@ -1,4 +1,4 @@
--DEFAULTTUNE ?= "armv7ve-neon"
-+DEFAULTTUNE ?= "armv7vethf-neon"
- 
- require conf/machine/include/arm/arch-armv7ve.inc
- 
-diff --git a/meta/conf/machine/include/tune-cortexa17.inc b/meta/conf/machine/include/tune-cortexa17.inc
-index f659a62..40392f9 100644
---- a/meta/conf/machine/include/tune-cortexa17.inc
-+++ b/meta/conf/machine/include/tune-cortexa17.inc
-@@ -1,4 +1,4 @@
--DEFAULTTUNE ?= "armv7ve-neon"
-+DEFAULTTUNE ?= "armv7vethf-neon"
- 
- require conf/machine/include/arm/arch-armv7ve.inc
- 
-diff --git a/meta/conf/machine/include/tune-cortexa5.inc b/meta/conf/machine/include/tune-cortexa5.inc
-index 93f9ca4..1f0cda6 100644
---- a/meta/conf/machine/include/tune-cortexa5.inc
-+++ b/meta/conf/machine/include/tune-cortexa5.inc
-@@ -1,4 +1,4 @@
--DEFAULTTUNE ?= "armv7a-neon"
-+DEFAULTTUNE ?= "armv7athf-neon"
- 
- require conf/machine/include/arm/arch-armv7a.inc
- 
-diff --git a/meta/conf/machine/include/tune-cortexa7.inc b/meta/conf/machine/include/tune-cortexa7.inc
-index 52e06b8..52415d9 100644
---- a/meta/conf/machine/include/tune-cortexa7.inc
-+++ b/meta/conf/machine/include/tune-cortexa7.inc
-@@ -1,4 +1,4 @@
--DEFAULTTUNE ?= "armv7ve-neon"
-+DEFAULTTUNE ?= "armv7vethf-neon"
- 
- require conf/machine/include/arm/arch-armv7ve.inc
- 
-diff --git a/meta/conf/machine/include/tune-cortexa8.inc b/meta/conf/machine/include/tune-cortexa8.inc
-index a831bd5..8ee8de9 100644
---- a/meta/conf/machine/include/tune-cortexa8.inc
-+++ b/meta/conf/machine/include/tune-cortexa8.inc
-@@ -1,4 +1,4 @@
--DEFAULTTUNE ?= "armv7a-neon"
-+DEFAULTTUNE ?= "armv7athf-neon"
- 
- require conf/machine/include/arm/arch-armv7a.inc
- 
-diff --git a/meta/conf/machine/include/tune-cortexa9.inc b/meta/conf/machine/include/tune-cortexa9.inc
-index 8b84e60..0cf323c 100644
---- a/meta/conf/machine/include/tune-cortexa9.inc
-+++ b/meta/conf/machine/include/tune-cortexa9.inc
-@@ -1,4 +1,4 @@
--DEFAULTTUNE ?= "armv7a-neon"
-+DEFAULTTUNE ?= "armv7athf-neon"
- 
- require conf/machine/include/arm/arch-armv7a.inc
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 1fe172f..b5f4756 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -874,7 +874,7 @@ def check_sanity_everybuild(status, d):
+     mirror_vars = ['MIRRORS', 'PREMIRRORS', 'SSTATE_MIRRORS']
+     protocols = ['http', 'ftp', 'file', 'https', \
+                  'git', 'gitsm', 'hg', 'osc', 'p4', 'svn', \
+-                 'bzr', 'cvs', 'npm', 'sftp', 'ssh']
++                 'bzr', 'cvs', 'npm', 'sftp', 'ssh', 's3' ]
+     for mirror_var in mirror_vars:
+         mirrors = (d.getVar(mirror_var) or '').replace('\\n', ' ').split()
  
 -- 
 1.9.1
