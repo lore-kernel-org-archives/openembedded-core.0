@@ -1,46 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by mail.openembedded.org (Postfix) with ESMTP id D55BE6AC37
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
+	[209.85.217.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CBA26AC37
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Mar 2017 22:36:32 +0000 (UTC)
-Received: by mail-qk0-f181.google.com with SMTP id p64so60977748qke.1
+	Mon,  6 Mar 2017 22:37:58 +0000 (UTC)
+Received: by mail-ua0-f194.google.com with SMTP id 72so23936068uaf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Mar 2017 14:36:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Mon, 06 Mar 2017 14:38:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=JPWHSbXhW8X4o6E+1srEjUMx40TJgzjFV3muj6dEwLE=;
-	b=ROiE0rCB8lNtjVX+njXTCfRnUUlNKdPxrXKXfI/FL84vwJyhAmuOCp7BRxXtxL2Gpn
-	Rcs9Wt/Vyy/bDAmd/RsUx9Rg0dwIkz2c6WmWGlZ8UFPNEnbz8RW1MmdLSUXY8o4o1LoZ
-	Tg9B2DiCQGyRNusRtHvMLhNPqsx+eesPsVuUbHAu3aP6ocNhRW0fMncKq0XF8+HrzhbM
-	U68MJ4zjuR8idgunzcDpcy7zdi4bZUqX8xBgzkRuSPkPLSDMw8HR0VAjKk1qBTQefZBk
-	DaZ7GWxw/d/OhJDYfTJ8MqF5P/TaDS/iAc++8cxJPHM6GH1ND05xNgcVE7Xi6iQMG5VT
-	HJFQ==
+	:cc; bh=b2xQYs11+WleAnN6q5DsSVyuUZH9Uutr1O7FwEDE828=;
+	b=a0KsohRjt4juzM+BNaiF8n04K4ksFGME7lrcXAXjYEpDDuiDrXuOD8Zyc4M57WqYx7
+	JyORkvv/K2vmWuG1Pgdf1Spk/N+sZ3k2VkoCWKYkiOB4QkziiQMsZA6EO0LuDnNvgy8S
+	Af5Q+4pWvhqAs2RdiWPxVlGbHmKXtZRMSiNR9bHM8EE5Xc5jCyeWg1wqLoEmOmzuZHz1
+	ZdlZhNjHJOY+ZD56RwnEgzZ/hl+De71veZT8zOXZ4SNrBz+11uEFU/QB+GluocBHtnqw
+	d7WowjQlH3U+zti60ud5A4WQacQeqRzS5tVHSKqxrJ8o/Vgqq/RhoqpcK6ynD5mBut2H
+	WJ9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=JPWHSbXhW8X4o6E+1srEjUMx40TJgzjFV3muj6dEwLE=;
-	b=myhTjen7EanBtF/H9EnxoArBM01/OkPyvX0ry+ZGrSpBbbB7hiTm1ASFrCOBhL6cSB
-	n1mw500vueHktUemdqm3MrPtT867m5BOhYGd3polEb/ew6JSEdlQYX/WZptsNOA6eWbq
-	4EUsHIYOMzggJKb6UShhXfBZfNthUDa44szTmTCwLRS/9Mpz/J/Nc8W5YSxfYFNJgcmD
-	BanH+hIgIwt+5ScmXVQr4Lx7VcF+ajBZ8oCR5Q5cnh58sYJoM1TwGc+KeuFLTjwT0KVO
-	3ADYoEOydZIuI5TElo6W6DDP90lpcOF4LX6h9OPrrkcwASmIHXBFnf3bscI2Ip1zcgMB
-	v4Og==
-X-Gm-Message-State: AMke39m6ysQbOj8K7ZH/engbn4PKvcl/IOa/fRHyIQnxsFDU484+dnZaoNJyNTpmzv5XksuDmmlfy6RKOU85p7Y6
-X-Received: by 10.237.33.69 with SMTP id 63mr9661120qtc.109.1488839793744;
-	Mon, 06 Mar 2017 14:36:33 -0800 (PST)
+	bh=b2xQYs11+WleAnN6q5DsSVyuUZH9Uutr1O7FwEDE828=;
+	b=rSQ90ldN2WssC6YeMi3/4k38UcofqVKPmbjGC5CxgzNPl5stPm255ae+ie94mvZBTc
+	N0fKrK4dFgOFzAe5lswwbQtrNmmBNpKxjpbnNQgwXKGPoRlvAZ6iz3pX3wNLfYQjjS3i
+	jpRW/uYXTb/jomQZZqrP7J5V+GukacgzvAe/jOxuxxl1y1it51JNo7a/fI1XQzlJ2zj9
+	BNTRed3G/3yzpdf2LupVpWZH5X48ehY8Q7mOemaYCbzGhFX+Un4idzAs58HS1K2sQ5o8
+	HLtGoU7lJshFItoImvxnKryFdRl2qWj2kPgKNX97pjyC3BRGvvQtQsfR+PTvFX696qK+
+	Azcg==
+X-Gm-Message-State: AMke39noaE22kk3rmf7sB3DZaoA3WtUOqtvgVyjrPx95u/fl0aHfy7DFuTK+XJ/qVW2dMLASkdZ2YXEdD2iKIQ==
+X-Received: by 10.31.142.208 with SMTP id q199mr3933498vkd.93.1488839879564;
+	Mon, 06 Mar 2017 14:37:59 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Mon, 6 Mar 2017 14:36:13 -0800 (PST)
-In-Reply-To: <1488839646-19178-1-git-send-email-armccurdy@gmail.com>
-References: <1488839646-19178-1-git-send-email-armccurdy@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 6 Mar 2017 22:36:13 +0000
-Message-ID: <CAJTo0LaX_0msZv=MZRYCCLZGPQNN5SRL6tUCPpwp0LXW00ruZw@mail.gmail.com>
+Received: by 10.159.39.37 with HTTP; Mon, 6 Mar 2017 14:37:29 -0800 (PST)
+In-Reply-To: <1488836862-18218-1-git-send-email-armccurdy@gmail.com>
+References: <1488836862-18218-1-git-send-email-armccurdy@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 6 Mar 2017 14:37:29 -0800
+Message-ID: <CAMKF1sr2GWjjXYBJvx+eb3Fks-PxHvFgbYf6umXM9PV+rmv5Bw@mail.gmail.com>
 To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sanity.bbclass: allow s3 protocol when sanity checking MIRRORS, etc
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] conf/machine/include: enable hardfloat by default for ARMv6 and above
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,44 +53,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Mar 2017 22:36:33 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0c7fc808f554054a178710
-
---94eb2c0c7fc808f554054a178710
+X-List-Received-Date: Mon, 06 Mar 2017 22:37:59 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 6 March 2017 at 22:34, Andre McCurdy <armccurdy@gmail.com> wrote:
-
->      protocols = ['http', 'ftp', 'file', 'https', \
->                   'git', 'gitsm', 'hg', 'osc', 'p4', 'svn', \
-> -                 'bzr', 'cvs', 'npm', 'sftp', 'ssh']
-> +                 'bzr', 'cvs', 'npm', 'sftp', 'ssh', 's3' ]
+On Mon, Mar 6, 2017 at 1:47 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> Defaulting to softfp probably isn't the best choice anymore,
+> especially as there are now ARM BSP layers which leave DEFAULTTUNE
+> entirely up to the distro:
+>
+>   https://lists.yoctoproject.org/pipermail/yocto/2017-February/034637.html
 >
 
-Maybe bb.fetch2 needs a "list the protocols you support" method?
+I like this patch and want to clarify that it changes the default ISA to thumb2
+which we should use anyway due to size reasons and other distros use it as
+default too.
 
-Ross
+I am not sure of we should change it for armv6 though. since some armv6
+has t1 and some has t2 so lets leave that as it is.
 
---94eb2c0c7fc808f554054a178710
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
+>  meta/conf/machine/include/arm/arch-armv6.inc   | 2 +-
+>  meta/conf/machine/include/arm/arch-armv7a.inc  | 2 +-
+>  meta/conf/machine/include/arm/arch-armv7ve.inc | 2 +-
+>  meta/conf/machine/include/tune-arm1136jf-s.inc | 2 +-
+>  meta/conf/machine/include/tune-cortexa15.inc   | 2 +-
+>  meta/conf/machine/include/tune-cortexa17.inc   | 2 +-
+>  meta/conf/machine/include/tune-cortexa5.inc    | 2 +-
+>  meta/conf/machine/include/tune-cortexa7.inc    | 2 +-
+>  meta/conf/machine/include/tune-cortexa8.inc    | 2 +-
+>  meta/conf/machine/include/tune-cortexa9.inc    | 2 +-
+>  10 files changed, 10 insertions(+), 10 deletions(-)
+>
+> diff --git a/meta/conf/machine/include/arm/arch-armv6.inc b/meta/conf/machine/include/arm/arch-armv6.inc
+> index 91f0f07..5e1f973 100644
+> --- a/meta/conf/machine/include/arm/arch-armv6.inc
+> +++ b/meta/conf/machine/include/arm/arch-armv6.inc
+> @@ -1,4 +1,4 @@
+> -DEFAULTTUNE ?= "armv6"
+> +DEFAULTTUNE ?= "armv6thf"
+>
+>  TUNEVALID[armv6] = "Enable instructions for ARMv6"
+>  TUNECONFLICTS[armv6] = "armv4 armv5"
+> diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc b/meta/conf/machine/include/arm/arch-armv7a.inc
+> index 5446048..bad1c27 100644
+> --- a/meta/conf/machine/include/arm/arch-armv7a.inc
+> +++ b/meta/conf/machine/include/arm/arch-armv7a.inc
+> @@ -1,4 +1,4 @@
+> -DEFAULTTUNE ?= "armv7a"
+> +DEFAULTTUNE ?= "armv7athf"
+>
+>  TUNEVALID[armv7a] = "Enable instructions for ARMv7-a"
+>  TUNECONFLICTS[armv7a] = "armv4 armv5 armv6 armv7"
+> diff --git a/meta/conf/machine/include/arm/arch-armv7ve.inc b/meta/conf/machine/include/arm/arch-armv7ve.inc
+> index 42d8d04..4d9260f 100644
+> --- a/meta/conf/machine/include/arm/arch-armv7ve.inc
+> +++ b/meta/conf/machine/include/arm/arch-armv7ve.inc
+> @@ -1,4 +1,4 @@
+> -DEFAULTTUNE ?= "armv7ve"
+> +DEFAULTTUNE ?= "armv7vethf"
+>
+>  TUNEVALID[armv7ve] = "Enable instructions for ARMv7ve"
+>  TUNECONFLICTS[armv7ve] = "armv4 armv5 armv6 armv7 armv7a"
+> diff --git a/meta/conf/machine/include/tune-arm1136jf-s.inc b/meta/conf/machine/include/tune-arm1136jf-s.inc
+> index 53994ef..2cadbee 100644
+> --- a/meta/conf/machine/include/tune-arm1136jf-s.inc
+> +++ b/meta/conf/machine/include/tune-arm1136jf-s.inc
+> @@ -1,4 +1,4 @@
+> -DEFAULTTUNE ?= "armv6"
+> +DEFAULTTUNE ?= "armv6thf"
+>
+>  require conf/machine/include/arm/arch-armv6.inc
+>
+> diff --git a/meta/conf/machine/include/tune-cortexa15.inc b/meta/conf/machine/include/tune-cortexa15.inc
+> index 03de602..25e99f9 100644
+> --- a/meta/conf/machine/include/tune-cortexa15.inc
+> +++ b/meta/conf/machine/include/tune-cortexa15.inc
+> @@ -1,4 +1,4 @@
+> -DEFAULTTUNE ?= "armv7ve-neon"
+> +DEFAULTTUNE ?= "armv7vethf-neon"
+>
+>  require conf/machine/include/arm/arch-armv7ve.inc
+>
+> diff --git a/meta/conf/machine/include/tune-cortexa17.inc b/meta/conf/machine/include/tune-cortexa17.inc
+> index f659a62..40392f9 100644
+> --- a/meta/conf/machine/include/tune-cortexa17.inc
+> +++ b/meta/conf/machine/include/tune-cortexa17.inc
+> @@ -1,4 +1,4 @@
+> -DEFAULTTUNE ?= "armv7ve-neon"
+> +DEFAULTTUNE ?= "armv7vethf-neon"
+>
+>  require conf/machine/include/arm/arch-armv7ve.inc
+>
+> diff --git a/meta/conf/machine/include/tune-cortexa5.inc b/meta/conf/machine/include/tune-cortexa5.inc
+> index 93f9ca4..1f0cda6 100644
+> --- a/meta/conf/machine/include/tune-cortexa5.inc
+> +++ b/meta/conf/machine/include/tune-cortexa5.inc
+> @@ -1,4 +1,4 @@
+> -DEFAULTTUNE ?= "armv7a-neon"
+> +DEFAULTTUNE ?= "armv7athf-neon"
+>
+>  require conf/machine/include/arm/arch-armv7a.inc
+>
+> diff --git a/meta/conf/machine/include/tune-cortexa7.inc b/meta/conf/machine/include/tune-cortexa7.inc
+> index 52e06b8..52415d9 100644
+> --- a/meta/conf/machine/include/tune-cortexa7.inc
+> +++ b/meta/conf/machine/include/tune-cortexa7.inc
+> @@ -1,4 +1,4 @@
+> -DEFAULTTUNE ?= "armv7ve-neon"
+> +DEFAULTTUNE ?= "armv7vethf-neon"
+>
+>  require conf/machine/include/arm/arch-armv7ve.inc
+>
+> diff --git a/meta/conf/machine/include/tune-cortexa8.inc b/meta/conf/machine/include/tune-cortexa8.inc
+> index a831bd5..8ee8de9 100644
+> --- a/meta/conf/machine/include/tune-cortexa8.inc
+> +++ b/meta/conf/machine/include/tune-cortexa8.inc
+> @@ -1,4 +1,4 @@
+> -DEFAULTTUNE ?= "armv7a-neon"
+> +DEFAULTTUNE ?= "armv7athf-neon"
+>
+>  require conf/machine/include/arm/arch-armv7a.inc
+>
+> diff --git a/meta/conf/machine/include/tune-cortexa9.inc b/meta/conf/machine/include/tune-cortexa9.inc
+> index 8b84e60..0cf323c 100644
+> --- a/meta/conf/machine/include/tune-cortexa9.inc
+> +++ b/meta/conf/machine/include/tune-cortexa9.inc
+> @@ -1,4 +1,4 @@
+> -DEFAULTTUNE ?= "armv7a-neon"
+> +DEFAULTTUNE ?= "armv7athf-neon"
+>
+>  require conf/machine/include/arm/arch-armv7a.inc
+>
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 6 March 2017 at 22:34, Andre McCurdy <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3mt" class=3D"a3s =
-aXjCH m15aa5c2d65e7e755">=C2=A0 =C2=A0 =C2=A0protocols =3D [&#39;http&#39;,=
- &#39;ftp&#39;, &#39;file&#39;, &#39;https&#39;, \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;git&#39=
-;, &#39;gitsm&#39;, &#39;hg&#39;, &#39;osc&#39;, &#39;p4&#39;, &#39;svn&#39=
-;, \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;bzr&#39=
-;, &#39;cvs&#39;, &#39;npm&#39;, &#39;sftp&#39;, &#39;ssh&#39;]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;bzr&#39=
-;, &#39;cvs&#39;, &#39;npm&#39;, &#39;sftp&#39;, &#39;ssh&#39;, &#39;s3&#39=
-; ]<br></div></blockquote></div><br>Maybe bb.fetch2 needs a &quot;list the =
-protocols you support&quot; method?</div><div class=3D"gmail_extra"><br></d=
-iv><div class=3D"gmail_extra">Ross</div></div>
-
---94eb2c0c7fc808f554054a178710--
