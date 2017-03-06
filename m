@@ -1,56 +1,46 @@
-Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-ua0-f195.google.com (mail-ua0-f195.google.com
-	[209.85.217.195])
-	by mail.openembedded.org (Postfix) with ESMTP id D052B774FB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
+	[209.85.218.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 7376D65D00
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Mar 2017 14:01:02 +0000 (UTC)
-Received: by mail-ua0-f195.google.com with SMTP id f54so21661589uaa.0
+	Mon,  6 Mar 2017 14:52:51 +0000 (UTC)
+Received: by mail-oi0-f54.google.com with SMTP id 62so86172698oih.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Mar 2017 06:01:04 -0800 (PST)
+	Mon, 06 Mar 2017 06:52:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:cc:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to;
-	bh=GO0TG3MTp1zOUD6EBcEkvA1PGjdzRUZRQYrj8+tiIi0=;
-	b=Y7K7bUeWZgNNIxFJK2gMk6arKTeWOxiRAb8hlYSEynpH4OO6Hb8CLLy3AcEu6Slt88
-	dsFy6vK4wXyjsi6fTej/aXTjtzol5OiGrqMi2QwXxsEwKmgOiZWjsRWlTbG0zHKm9BBY
-	gPvug4hsv6TrmEDcZjuaN3y1qK4a9SarJtDy15T1a2n5MCKnkVCSbIVGj/L5NkrNeKbZ
-	N+mf2bCdrCJDe55T5ATa1yowel5ZhaJ9c+mB4Ug0HPepf8kHkB/BTxWWEVId4nIsP5/B
-	8hCfLORAUDa9eMrkhYMQMdk8tNGXqqq+RPPeWMIAbJ0OZw9X3AKtqRQMyRPb1MA768Pu
-	5qDw==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=nHSoMA3NdRIERkcJ/QzwX0jDMy+yWZ2rJPt5xVH3pSs=;
+	b=xi1N7cMOmL+eF2+t8hrUyP04WAhcGgmgpEtx+jFrAAr1msRcfpZ8JcvfwoZQIBF17n
+	Mc4V8gdbA/oJhng+1ud5d6YaiNX61cXH6A/gezlUjc0TSWWeKwxbP3IXCdMHNfhOPvt5
+	3WQShl6HiMEkHvlIWjszkYrSnzKJG88nPnCXDAv4Yd6qkJyVlWi1NWEWYww3bDF2BGtM
+	vkzRfB00Rdy6//lJrA+3x5n9x9/oXyWvAVRo1uw59tQGcyqmJRAVp2jMQaMidpR/GrC1
+	fPFtNjOQsXaD1Nxa/Spq0KGR1lxNuUFWlKFtvZHfER8YVt3bPo0t7IET0gvTa6MLA+qi
+	/J+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:cc:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to;
-	bh=GO0TG3MTp1zOUD6EBcEkvA1PGjdzRUZRQYrj8+tiIi0=;
-	b=PyPTmv/XlbhVnXHG/vKJJjQAZ1zpIziaAHJ9ZlKUqNEhAxU4XQQ4Vkh5IWouVV7Pss
-	NO9WBW0bpkPJtUnex/S6UT92B1hREjj8x9gx4gFjMBlT8vHQT+1IQVqcn1Zjg1mr0pwa
-	Q9QiDWNBIbDuwsdcLF4nmCq6YOC9Z1bqxaVbvmI3t4FosZUbJ3N1G3IrZpROVO26ATnp
-	+OXE25yartMrrrtoWXQcC9myAkKUH3jMS+ST5X7rksA+A4vnXG1EmKcsQzRcZUZmKiiQ
-	tEYlpMXO0mADETk+18bxNcaU/LVWRU29UJxBGJYrI9SOqi2sOkwoiyQrqNFh06nYP6Oh
-	iOBQ==
-X-Gm-Message-State: AMke39m7YpadjjyAwPM8kUCSgjIsb8trnBUbscGxCtTLapmjGsXIc2cbBYgXIcvlkLSY9w==
-X-Received: by 10.31.74.135 with SMTP id x129mr6861365vka.20.1488808863926;
-	Mon, 06 Mar 2017 06:01:03 -0800 (PST)
-Received: from [10.5.3.7] ([189.114.111.135]) by smtp.gmail.com with ESMTPSA id
-	g25sm5207711uaf.23.2017.03.06.06.01.01
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 06 Mar 2017 06:01:02 -0800 (PST)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20170223181309.13899-1-fabio.berton@ossystems.com.br>
-	<CAJTo0LaFsWxaGy1Jwo9K92KTry+7Hyzn-MVHvMOpaqx+Q+qCGw@mail.gmail.com>
-	<d2ccba14-ac14-1379-d5e1-ac799e9c120b@ossystems.com.br>
-	<CAJTo0La=NDhfuMSYG3bjVYe2u6KA4TAZSNN_f1PyrsfVipoxBg@mail.gmail.com>
-From: Fabio Berton <fabio.berton@ossystems.com.br>
-Organization: OS Systems
-Message-ID: <ccfcafd7-cd74-3330-2a64-ccd1e7a27984@ossystems.com.br>
-Date: Mon, 6 Mar 2017 11:00:59 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.6.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=nHSoMA3NdRIERkcJ/QzwX0jDMy+yWZ2rJPt5xVH3pSs=;
+	b=fiUgEgFZzj8KHf2M3U4AHo5JlYEeW/wTeeHNmAT/fMBwk+ydhX09HpVbUNN/RojAay
+	fPNn7QaczIlKVFhtiRNOY2fH0OCHa5ZrAqZQtLYMS4Y1g34RSgdje8k6A+wn4B2/dw/E
+	7xWoJRb5vi9+u6UtpbUnOM1krbrg4WlZ5Soxz+6uLgaJ3lM5vXXjoLdlm/8toY99527U
+	ge0DdVuYL6s324cU67L4BYJkvK29RXN0XBo7/nv+uAHn+lbu0gJLezVShJeeM8P301y2
+	hByE2DhgiKsqY2Xcos8PII1vQOiFoQPPzyorfkU/3PbZXJm66wU5kvvKeWWZ7/ACHRQT
+	/g/Q==
+X-Gm-Message-State: AMke39mAjYacf/qGazc3/ZJbDru7SroBK7xKvJJYWfKOSqLdL75x42rl9P9IwY5wrhHS+z5PbCMdB4Z+yoBH89J0
+X-Received: by 10.237.43.69 with SMTP id p63mr15443998qtd.68.1488811973156;
+	Mon, 06 Mar 2017 06:52:53 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0La=NDhfuMSYG3bjVYe2u6KA4TAZSNN_f1PyrsfVipoxBg@mail.gmail.com>
+Received: by 10.140.22.166 with HTTP; Mon, 6 Mar 2017 06:52:32 -0800 (PST)
+In-Reply-To: <1486636418-5719-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+References: <1486636418-5719-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 6 Mar 2017 14:52:32 +0000
+Message-ID: <CAJTo0LZw6GgVuwrXZRnb0oHOUrcpNdMw8UEJ7boN8QPkjty4=Q@mail.gmail.com>
+To: zhengrq <zhengrq.fnst@cn.fujitsu.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] wic: Prevent duplicate entries on fstab
+Subject: Re: [PATCH v2] busybox: 1.24.1 -> 1.26.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,95 +53,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Mar 2017 14:01:06 -0000
-Content-Type: multipart/alternative;
-	boundary="------------8A38E4F0189931527DEB2BD8"
+X-List-Received-Date: Mon, 06 Mar 2017 14:52:52 -0000
+Content-Type: multipart/alternative; boundary=94eb2c124cc4cc3762054a110c99
 
---------------8A38E4F0189931527DEB2BD8
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+--94eb2c124cc4cc3762054a110c99
+Content-Type: text/plain; charset=UTF-8
 
-Same error with poky-contrib:ed/wic/wip, we need to add --fstype= to 
-part /boot line in all wks files.
+On 9 February 2017 at 10:33, zhengrq <zhengrq.fnst@cn.fujitsu.com> wrote:
 
-
-On 03/03/2017 10:49 AM, Burton, Ross wrote:
+> 1) Upgrade busybox from 1.24.1 to 1.26.2
 >
-> On 3 March 2017 at 12:12, Fabio Berton <fabio.berton@ossystems.com.br 
-> <mailto:fabio.berton@ossystems.com.br>> wrote:
->
->     Sorry for delay. This error for qemux86 is because common.wks.inc
->     and directdisk-gpt.wks files in scripts/lib/wic/canned-wks
->     directory doesn't have option --fstype= for part /boot.
->
->     For qemuarm machines I get the error:
->
->     | DEBUG: Executing python function set_image_size
->     | DEBUG: Python function set_image_size finished
->     | DEBUG: Executing shell function do_image_wic
->     | Error: Please build syslinux first
->
->
-> There's patches queued that will change the behaviour here and likely 
-> cause your patch to not apply - can you rebase on top of 
-> poky-contrib:ed/wic/wip and see what happens?  The build dependency is 
-> now wic-tools.
->
-> Ross
 
+With busybox 1.24.1, the busybox package contains a /bin/sh ->
+busybox.nosuid symlink and update-alternatives knows about the /bin/sh ->
+busybox.nosuid alternative.
 
---------------8A38E4F0189931527DEB2BD8
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+With 1.26.2, this binary doesn't exist anymore in the package and /bin/sh
+is linked to busybox.suid at rootfs time.
 
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <p><tt>Same error with poky-contrib:ed/wic/wip, we need to add </tt><tt>--fstype=
-        to </tt><tt>part /boot line in all wks files.</tt></p>
-    <br>
-    <div class="moz-cite-prefix">On 03/03/2017 10:49 AM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0La=NDhfuMSYG3bjVYe2u6KA4TAZSNN_f1PyrsfVipoxBg@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 3 March 2017 at 12:12, Fabio
-            Berton <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:fabio.berton@ossystems.com.br"
-                target="_blank">fabio.berton@ossystems.com.br</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <p><tt>Sorry for delay. This error for qemux86 is because
-                  common.wks.inc and directdisk-gpt.wks files in
-                  scripts/lib/wic/canned-wks directory doesn't have
-                  option --fstype= for part /boot.<br>
-                </tt></p>
-              <p><tt>For qemuarm machines I get the error:</tt></p>
-              <p><tt>| DEBUG: Executing python function set_image_size<br>
-                  | DEBUG: Python function set_image_size finished<br>
-                  | DEBUG: Executing shell function do_image_wic<br>
-                  | Error: Please build syslinux first</tt></p>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>There's patches queued that will change the behaviour
-              here and likely cause your patch to not apply - can you
-              rebase on top of poky-contrib:ed/wic/wip and see what
-              happens?  The build dependency is now wic-tools. </div>
-          </div>
-          <br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
+sh being suid doesn't look right *at all*.  There are upstream changes to
+make installing these binary names options, so it's quite likely that we're
+just missing them in defconfig.
 
---------------8A38E4F0189931527DEB2BD8--
+Also  makefile-fix-backport.patch was listed as a backported patch, so why
+do we need to rebase it?  What's the current upstream-status, as you
+deleted that from the patch?  Was it fixed in a different way in 1.26.2 so
+the patch can be dropped?
+
+Ross
+
+--94eb2c124cc4cc3762054a110c99
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 9 February 2017 at 10:33, zhengrq <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:zhengrq.fnst@cn.fujitsu.com" target=3D"_blank">zhengrq.fnst@cn.fujitsu.co=
+m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204=
+);border-left-style:solid;padding-left:1ex"><div id=3D"gmail-:341" class=3D=
+"gmail-a3s gmail-aXjCH gmail-m15a20b904027343e">1) Upgrade <span class=3D"g=
+mail-il">busybox</span> from 1.24.1 to 1.26.2<br></div></blockquote><div><b=
+r></div><div>With busybox 1.24.1, the busybox package contains a /bin/sh -&=
+gt; busybox.nosuid symlink and update-alternatives knows about the /bin/sh =
+-&gt; busybox.nosuid alternative.</div><div><br></div><div>With 1.26.2, thi=
+s binary doesn&#39;t exist anymore in the package and /bin/sh is linked to =
+busybox.suid at rootfs time.</div><div><br></div><div>sh being suid doesn&#=
+39;t look right *at all*.=C2=A0 There are upstream changes to make installi=
+ng these binary names options, so it&#39;s quite likely that we&#39;re just=
+ missing them in defconfig.</div><div><br></div><div>Also =C2=A0<span style=
+=3D"font-size:12.800000190734863px">makefile-fix-backport.</span><wbr style=
+=3D"font-size:12.800000190734863px"><span style=3D"font-size:12.80000019073=
+4863px">patch was listed as a backported patch, so why do we need to rebase=
+ it?=C2=A0 What&#39;s the current upstream-status, as you deleted that from=
+ the patch?=C2=A0 Was it fixed in a different way in 1.26.2 so the patch ca=
+n be dropped?</span></div><div><span style=3D"font-size:12.800000190734863p=
+x"><br></span></div><div><span style=3D"font-size:12.800000190734863px">Ros=
+s</span></div></div></div></div>
+
+--94eb2c124cc4cc3762054a110c99--
