@@ -1,57 +1,45 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
-	[209.85.214.47])
-	by mail.openembedded.org (Postfix) with ESMTP id BBEB97302E
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 78A63773E5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Mar 2017 21:46:19 +0000 (UTC)
-Received: by mail-it0-f47.google.com with SMTP id h10so58548958ith.1
+	Mon,  6 Mar 2017 21:47:47 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id o126so4679449pfb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Mar 2017 13:46:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=BR8meOjAMbng81o39n4cWaDAW5GEbTInob71RW+9DbY=;
-	b=gd5tn76WiDpO9dXNvGJmLHq9bLw+5zN2GkP6+oTzX3+90cRLaL53ESfHEpbRS+xmiF
-	LohromJIwRnMz7bcf29mNnXRd0asFn0oTA4bIn3LyAbn5NiAMrGMaglCslkiq6nhgfOX
-	IrfnbshH8YGKsUBd0uiMpK/KRyuoX68jaHwJFSOlRx4M1XiJIyKFWDFVo3L4AXOoe5Uw
-	OLh4rtkA4hzBsPIHc127URL3WMInkLjVKBqLXhJok2ws9cKpz1haQ4j7p9i9GK/x7utn
-	uLBXsDbVujQH1b8yawGf/OLuUmgHg3XTDvW7fLhqN2EnoNd4yBynsLriaVk4kwaAeulD
-	J0aA==
+	Mon, 06 Mar 2017 13:47:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=gygkQX3tYO5iLIsNZPElFmaACM1axljpg9rZAHFkaeQ=;
+	b=ER8FkNWmeOCOkP+hrxJqtp2hltwGak7j7Ss30b3m8MlGVRipbdeXEz7hw2f5v46vkl
+	SGA4ELW2I4d5PXFAeG472zE4ouoP5jnVoy1auAEVduO+5OL9N2FgMXq2O9IT886y70yG
+	Ql1AMo0UY/d59bz19JVYgFBdA9kZrJfAIH1ITQPY+ZZEt1slDoaBEOebNiqZPlxcR7ET
+	+NpnYEc/eJsvhHwc2IvGJu/zm/gOxLpfZw9ITyllwUgHAzt6FD1e9DdUoGvPipWvSCri
+	zQ/j+DKTWNV5nulOwWVh/zmXLBwBwwC+8iUlVlX002grqRHGySR9JMzSzzFRmLrh5F/5
+	ncfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=BR8meOjAMbng81o39n4cWaDAW5GEbTInob71RW+9DbY=;
-	b=XUsX62SnSb5GigbHFUnpB+1XgwePUveJhYliYHfx7AlhxxJPUrprPuhqVzNuLH92p3
-	5De/YcMnCIJY8P0u24rF460JMHRRJ3vk1Lu0uQ/mr4xv4swr+wXcl2KYdpOamhZlZ06k
-	LZhfQMr6C3PQSiKEYZ6ADXG9jmO552LTaBkL1375r7XaqsK+iMDccDs1h+vuH6BKJY13
-	5hkCkZ8OBE8YmwIGJIojWW71pur85tVod0SFr4VFgYLHVididUCextXQuYYRcs/CJDjL
-	ehA09t3ll10Qp6G0k+5nXXTyP40ZmdvL7l+OM+MYG1DWWoab8TUXVslOpttgR/ZaH1zP
-	IVNw==
-X-Gm-Message-State: AMke39k3FAuwUGayf5dXBUdQf57WVfat1pXIw5ZcfhlKvhsbpSW8Dtjkw40pgZWs3ixgxCoK
-X-Received: by 10.36.71.18 with SMTP id t18mr10336178itb.104.1488836780662;
-	Mon, 06 Mar 2017 13:46:20 -0800 (PST)
-Received: from pohly-mobl1 (p57A5667D.dip0.t-ipconnect.de. [87.165.102.125])
-	by smtp.gmail.com with ESMTPSA id 65sm5167714iop.21.2017.03.06.13.46.18
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 06 Mar 2017 13:46:19 -0800 (PST)
-Message-ID: <1488836777.7785.313.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: ed.bartosh@linux.intel.com
-Date: Mon, 06 Mar 2017 22:46:17 +0100
-In-Reply-To: <20170306195818.GB19275@linux.intel.com>
-References: <CAJTo0LaafDCfjH_cCHJDx0BCeZxVi7DPv3Cw_QdXvqYD+ehseA@mail.gmail.com>
-	<1488814260-8668-1-git-send-email-ed.bartosh@linux.intel.com>
-	<CAJTo0LY7pOtUWsbCJQ8_4A=Bxws04Sdfr1M-59fa6K5gdqJk-Q@mail.gmail.com>
-	<20170306175010.GA18369@linux.intel.com>
-	<1488828715.7785.310.camel@intel.com>
-	<20170306195818.GB19275@linux.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] sstate.bbclass: update .siginfo atime
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=gygkQX3tYO5iLIsNZPElFmaACM1axljpg9rZAHFkaeQ=;
+	b=DLpBoZUDdYixmLIpRkzyIJYJ8pB5cJhKO5mg1LMsVLkOKc1hOT7FwebPZdogxXUnDs
+	vXv9YUuU6GlxIdlVQ3dk1FQ2ryGnviUzA55AQO/UHGjViGG1eHgTlf0oJPiTgG2COtQJ
+	JVDxo1x3uVAKXcQh9dZvwAO09ki5B6W+4ELxfIRUEdZGanSr/NL1x2s0zMiYQVbR5zq2
+	116J4jVxJ7Wz+uTeLlrX4KB5a+iASDS9Sd8XqVeqge5buJ8l8Cigz4FbPZNTC+kpk4AK
+	D1IDEv2rucV0F5bir9RGSwG7tga6Uqy/cKZ2fixILL2NqJNFt12hFaFE5eU67K1gPwsg
+	dCDA==
+X-Gm-Message-State: AMke39kdAVWU3q7AJfnyTKpK9dLSxo8qkSS+NWZP2rSGLxz4uWUAxc3MPhl9pBnq0q9RZA==
+X-Received: by 10.84.143.1 with SMTP id 1mr29339438ply.81.1488836868516;
+	Mon, 06 Mar 2017 13:47:48 -0800 (PST)
+Received: from e6520.cablelabs.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	o5sm21966415pgj.66.2017.03.06.13.47.47
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 06 Mar 2017 13:47:47 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  6 Mar 2017 13:47:42 -0800
+Message-Id: <1488836862-18218-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] conf/machine/include: enable hardfloat by default for ARMv6 and above
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,46 +52,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Mar 2017 21:46:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 06 Mar 2017 21:47:47 -0000
 
-On Mon, 2017-03-06 at 21:58 +0200, Ed Bartosh wrote:
-> On Mon, Mar 06, 2017 at 08:31:55PM +0100, Patrick Ohly wrote:
-> > On Mon, 2017-03-06 at 19:50 +0200, Ed Bartosh wrote:
-> > > On Mon, Mar 06, 2017 at 04:49:25PM +0000, Burton, Ross wrote:
-> > > > On 6 March 2017 at 15:31, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
-> > > > 
-> > > > > +       [ -h ${SSTATE_PKG}.siginfo ] && touch -a ${SSTATE_PKG}.siginfo
-> > > > >
-> > > > 
-> > > > $ ( [ -h / ] && echo something ); echo $?
-> > > > 1
-> > > > 
-> > > > If the -h fails then this is still going to cause sstate_unpack_package to
-> > > > trap.
-> > > 
-> > > I don't think it will as '&&' and '||' lists are among other special cases where
-> > > shell doesn't exits on error.
-> > 
-> > True, but if the clause happens to be the last one in a function or
-> > script (for example, after restructuring code), then the return code of
-> > that becomes non-zero, which isn't intended.
-> 
-> Exactly because of this I moved my changes up in the function in v2.
+Defaulting to softfp probably isn't the best choice anymore,
+especially as there are now ARM BSP layers which leave DEFAULTTUNE
+entirely up to the distro:
 
-And someone else might accidentally move it down again, without
-understanding the consequences. It's simply safer to be explicit, IMHO.
-Not worth a v3, but perhaps in the future.
+  https://lists.yoctoproject.org/pipermail/yocto/2017-February/034637.html
 
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/conf/machine/include/arm/arch-armv6.inc   | 2 +-
+ meta/conf/machine/include/arm/arch-armv7a.inc  | 2 +-
+ meta/conf/machine/include/arm/arch-armv7ve.inc | 2 +-
+ meta/conf/machine/include/tune-arm1136jf-s.inc | 2 +-
+ meta/conf/machine/include/tune-cortexa15.inc   | 2 +-
+ meta/conf/machine/include/tune-cortexa17.inc   | 2 +-
+ meta/conf/machine/include/tune-cortexa5.inc    | 2 +-
+ meta/conf/machine/include/tune-cortexa7.inc    | 2 +-
+ meta/conf/machine/include/tune-cortexa8.inc    | 2 +-
+ meta/conf/machine/include/tune-cortexa9.inc    | 2 +-
+ 10 files changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/meta/conf/machine/include/arm/arch-armv6.inc b/meta/conf/machine/include/arm/arch-armv6.inc
+index 91f0f07..5e1f973 100644
+--- a/meta/conf/machine/include/arm/arch-armv6.inc
++++ b/meta/conf/machine/include/arm/arch-armv6.inc
+@@ -1,4 +1,4 @@
+-DEFAULTTUNE ?= "armv6"
++DEFAULTTUNE ?= "armv6thf"
+ 
+ TUNEVALID[armv6] = "Enable instructions for ARMv6"
+ TUNECONFLICTS[armv6] = "armv4 armv5"
+diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc b/meta/conf/machine/include/arm/arch-armv7a.inc
+index 5446048..bad1c27 100644
+--- a/meta/conf/machine/include/arm/arch-armv7a.inc
++++ b/meta/conf/machine/include/arm/arch-armv7a.inc
+@@ -1,4 +1,4 @@
+-DEFAULTTUNE ?= "armv7a"
++DEFAULTTUNE ?= "armv7athf"
+ 
+ TUNEVALID[armv7a] = "Enable instructions for ARMv7-a"
+ TUNECONFLICTS[armv7a] = "armv4 armv5 armv6 armv7"
+diff --git a/meta/conf/machine/include/arm/arch-armv7ve.inc b/meta/conf/machine/include/arm/arch-armv7ve.inc
+index 42d8d04..4d9260f 100644
+--- a/meta/conf/machine/include/arm/arch-armv7ve.inc
++++ b/meta/conf/machine/include/arm/arch-armv7ve.inc
+@@ -1,4 +1,4 @@
+-DEFAULTTUNE ?= "armv7ve"
++DEFAULTTUNE ?= "armv7vethf"
+ 
+ TUNEVALID[armv7ve] = "Enable instructions for ARMv7ve"
+ TUNECONFLICTS[armv7ve] = "armv4 armv5 armv6 armv7 armv7a"
+diff --git a/meta/conf/machine/include/tune-arm1136jf-s.inc b/meta/conf/machine/include/tune-arm1136jf-s.inc
+index 53994ef..2cadbee 100644
+--- a/meta/conf/machine/include/tune-arm1136jf-s.inc
++++ b/meta/conf/machine/include/tune-arm1136jf-s.inc
+@@ -1,4 +1,4 @@
+-DEFAULTTUNE ?= "armv6"
++DEFAULTTUNE ?= "armv6thf"
+ 
+ require conf/machine/include/arm/arch-armv6.inc
+ 
+diff --git a/meta/conf/machine/include/tune-cortexa15.inc b/meta/conf/machine/include/tune-cortexa15.inc
+index 03de602..25e99f9 100644
+--- a/meta/conf/machine/include/tune-cortexa15.inc
++++ b/meta/conf/machine/include/tune-cortexa15.inc
+@@ -1,4 +1,4 @@
+-DEFAULTTUNE ?= "armv7ve-neon"
++DEFAULTTUNE ?= "armv7vethf-neon"
+ 
+ require conf/machine/include/arm/arch-armv7ve.inc
+ 
+diff --git a/meta/conf/machine/include/tune-cortexa17.inc b/meta/conf/machine/include/tune-cortexa17.inc
+index f659a62..40392f9 100644
+--- a/meta/conf/machine/include/tune-cortexa17.inc
++++ b/meta/conf/machine/include/tune-cortexa17.inc
+@@ -1,4 +1,4 @@
+-DEFAULTTUNE ?= "armv7ve-neon"
++DEFAULTTUNE ?= "armv7vethf-neon"
+ 
+ require conf/machine/include/arm/arch-armv7ve.inc
+ 
+diff --git a/meta/conf/machine/include/tune-cortexa5.inc b/meta/conf/machine/include/tune-cortexa5.inc
+index 93f9ca4..1f0cda6 100644
+--- a/meta/conf/machine/include/tune-cortexa5.inc
++++ b/meta/conf/machine/include/tune-cortexa5.inc
+@@ -1,4 +1,4 @@
+-DEFAULTTUNE ?= "armv7a-neon"
++DEFAULTTUNE ?= "armv7athf-neon"
+ 
+ require conf/machine/include/arm/arch-armv7a.inc
+ 
+diff --git a/meta/conf/machine/include/tune-cortexa7.inc b/meta/conf/machine/include/tune-cortexa7.inc
+index 52e06b8..52415d9 100644
+--- a/meta/conf/machine/include/tune-cortexa7.inc
++++ b/meta/conf/machine/include/tune-cortexa7.inc
+@@ -1,4 +1,4 @@
+-DEFAULTTUNE ?= "armv7ve-neon"
++DEFAULTTUNE ?= "armv7vethf-neon"
+ 
+ require conf/machine/include/arm/arch-armv7ve.inc
+ 
+diff --git a/meta/conf/machine/include/tune-cortexa8.inc b/meta/conf/machine/include/tune-cortexa8.inc
+index a831bd5..8ee8de9 100644
+--- a/meta/conf/machine/include/tune-cortexa8.inc
++++ b/meta/conf/machine/include/tune-cortexa8.inc
+@@ -1,4 +1,4 @@
+-DEFAULTTUNE ?= "armv7a-neon"
++DEFAULTTUNE ?= "armv7athf-neon"
+ 
+ require conf/machine/include/arm/arch-armv7a.inc
+ 
+diff --git a/meta/conf/machine/include/tune-cortexa9.inc b/meta/conf/machine/include/tune-cortexa9.inc
+index 8b84e60..0cf323c 100644
+--- a/meta/conf/machine/include/tune-cortexa9.inc
++++ b/meta/conf/machine/include/tune-cortexa9.inc
+@@ -1,4 +1,4 @@
+-DEFAULTTUNE ?= "armv7a-neon"
++DEFAULTTUNE ?= "armv7athf-neon"
+ 
+ require conf/machine/include/arm/arch-armv7a.inc
+ 
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+1.9.1
 
 
