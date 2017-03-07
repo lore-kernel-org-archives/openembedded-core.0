@@ -1,45 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f171.google.com (mail-pf0-f171.google.com
-	[209.85.192.171])
-	by mail.openembedded.org (Postfix) with ESMTP id AAD737752E
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 8161771A18
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Mar 2017 08:20:04 +0000 (UTC)
-Received: by mail-pf0-f171.google.com with SMTP id w189so71822394pfb.0
+	Tue,  7 Mar 2017 08:20:17 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id o126so6228994pfb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Mar 2017 00:20:06 -0800 (PST)
+	Tue, 07 Mar 2017 00:20:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=4lbjIYyJcxh8Rj33G9uHhI7qgnRxQYHRd9hsM+KXb9Y=;
-	b=OyhUMDEDBpSkwdIZWZ4vaw4qUWgPcRJXJSjhwIiqEpw66d1Ev2J98RkB1q4bUqYArc
-	tPMTEugym5nx0egJPUjEIrbRNKXZiwNzxTzuqAE1oI8n3UzKQry6JoqKirD6JIRDWh4Y
-	xq7LNnCiSbuQ9oxFjWblt15ZinVw48qgByqF3DliNyDkH9bJl+fpW6kfU1sGlzJa7mt9
-	wJeydU+X1XxMBl5/nZr7UxsHke4AzE+fdNqnMdtocLcy64LiAc3oiW1pgyOKTEpjLisH
-	mi0ugv9pY06/hGK8C9faxM/lwXGkSw8e99aKkAsNz518uyLAwQ7hRaqDe3SjkNYmBYnc
-	RDvQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=QQVKBMttNYi94+vzBb5R8/gPEjfD4w7lIsGwN6Oxmsw=;
+	b=PhZiuhhe8IYi9q2KFdh9IYFeRa0yv5JwLJ5QxbGPOukPsPqEgI9Mg38e51Ztpa+ICq
+	C6RYszKFTGiZ7Kd2JowzBOYnIcSDmQsSBi11HvKdHNphrRGWpM86kvx74If2MrluflFU
+	4ckN8JVdEMTMOh83ampd7BKFp6GG2JKGYb3+4mp4kXAfNd9Mp+0uO2+bNO0mM2AjWMRt
+	Vdg0G11zckFD3iv7ppC4kd9fePMk6lMCuuHuWAdcGPdrQlrNmA60Oprys2BrXjpmkDT+
+	vUo3oux0M+4wJehVR+ek7+i6SKZA8HuON8p6PQZAgxEeM1LtUSSTZwLqHSRm3dC0w9be
+	M8fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=4lbjIYyJcxh8Rj33G9uHhI7qgnRxQYHRd9hsM+KXb9Y=;
-	b=Lrrewxfr63RLMX6woa+qFtH1/LZacqyBobNeATgCbQGGq09Y7C/YGxcDaZPBbVgV7f
-	rKs2sUAmpwfqnvWBg6QNiWEgRpMzaNL/hNsPdAOnnvJOOk/xeThO+LKLBJGWhYIGupqL
-	P2KTvNgDJbUaeJLBfp7BPiijkD2z6EAuKmrWXZTuX3PbuYVNN0W0/IHRmhCijLOrXNB0
-	Gv1LuFi9GNvCmYlMVhsh/oOTmbOGQ9vfFaW6ClSmai3AtkHbTE+60jhtbv8Mv2SsPjSq
-	B6gLWmpRkb3FLSI2+szkt5lFaNlpA8HxApD8mZXL5yqI2IAkG09l30LtRH0tDy9xrP2+
-	81LQ==
-X-Gm-Message-State: AMke39ny59Yc/RJuonMHSy85iB91h52XEDNWyG+Afprrdu+rCUTYIfX5aDdgF94pAsFoOQ==
-X-Received: by 10.99.121.77 with SMTP id u74mr25928705pgc.200.1488874806316;
-	Tue, 07 Mar 2017 00:20:06 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=QQVKBMttNYi94+vzBb5R8/gPEjfD4w7lIsGwN6Oxmsw=;
+	b=AoKmgjURHID8n5vPSu1RX6WXYtINKrPztzgf4YDjUr/fc+Dg7yZDvMun2jjpSubt+c
+	ePOlhcuFCDcZ3S6Tn30Lki50Sgx8sQ6b0Xahp14Fy8CRDqAW+NbP9MxtwN4PiOmvcrMg
+	QmGe9FdFuBLEycemURLCyRYzlnt1croENr3xV6LE4h9RUfODgJUqQRtf1iNyTQy6wNkx
+	s5m/dWWVd7+mefbcwIuli39NR1hjq4MrPu5aLNypZPClvUAKMJGeeoQ/FfBQ9tTGcbwj
+	Y4pEHfVfzVKdLbG9nBQ91u96EJKQPvkCCCHNqy1HOQT8VgJMK0jbfEQLEb2aAwYkMbBq
+	WY1A==
+X-Gm-Message-State: AMke39kEq1jQcKb7HEjUQIHusgZI/TO8NVc6z40zOVbdTMj5M5TJ5FSqk89HsivGbKYQMQ==
+X-Received: by 10.99.135.73 with SMTP id i70mr25519550pge.157.1488874818736;
+	Tue, 07 Mar 2017 00:20:18 -0800 (PST)
 Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	128sm44026536pfe.23.2017.03.07.00.20.05
+	a8sm44104243pfa.30.2017.03.07.00.20.17
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 Mar 2017 00:20:05 -0800 (PST)
+	Tue, 07 Mar 2017 00:20:18 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Mar 2017 00:19:52 -0800
-Message-Id: <cover.1488874598.git.raj.khem@gmail.com>
+Date: Tue,  7 Mar 2017 00:20:08 -0800
+Message-Id: <a5120a7bcd94d5c96f8ec3761070a1ec72eb2997.1488874598.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.12.0
-Subject: [PATCH 0/2] binutils 2.28 update
+In-Reply-To: <cover.1488874598.git.raj.khem@gmail.com>
+References: <cover.1488874598.git.raj.khem@gmail.com>
+Subject: [PATCH 1/2] musl: Update to tip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,78 +55,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Mar 2017 08:20:05 -0000
+X-List-Received-Date: Tue, 07 Mar 2017 08:20:17 -0000
 
-musl update needs to go along since it needs a patch to work with binutils 2.28
+Bring in some needed chnages for arm
 
-The following changes since commit 784a8379260759700ab8482b1699c9567d6e9f3f:
+Bobby Bingham (1):
+      s390x: implement dlsym
 
-  tzdata: update to 2017a (2017-03-04 23:18:10 +0000)
+Rich Felker (2):
+      fix build regression in arm atomics asm with new binutils
+      allow page size to vary on arm
 
-are available in the git repository at:
+Szabolcs Nagy (1):
+      fix lsearch and lfind to pass key as first arg to the compar callback
 
-  git://git.openembedded.org/openembedded-core-contrib kraj/binutils-2.28
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/binutils-2.28
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/musl/musl_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Khem Raj (2):
-  musl: Update to tip
-  binutils: Upgrade to 2.28 release
-
- meta/conf/distro/include/tcmode-default.inc        |    2 +-
- meta/recipes-core/musl/musl_git.bb                 |    2 +-
- .../{binutils-2.27.inc => binutils-2.28.inc}       |   33 +-
- ...ian_2.27.bb => binutils-cross-canadian_2.28.bb} |    0
- meta/recipes-devtools/binutils/binutils-cross.inc  |    2 +-
- ...nutils-cross_2.27.bb => binutils-cross_2.28.bb} |    0
- ...-crosssdk_2.27.bb => binutils-crosssdk_2.28.bb} |    2 +-
- ...utils-crosssdk-Generate-relocatable-SDKs.patch} |   16 +-
- ...01-ppc-apuinfo-for-spe-parsed-incorrectly.patch |   37 -
- ...ss-Do-not-generate-linker-script-directo.patch} |   26 +-
- ...03-gprof-add-uclibc-support-to-configure.patch} |   37 +-
- ...=> 0004-Point-scripts-location-to-libdir.patch} |   12 +-
- ...e-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch} |   12 +-
- ...0006-Explicitly-link-with-libm-on-uclibc.patch} |   12 +-
- ...ibtool-2.4.patch => 0007-Use-libtool-2.4.patch} | 1046 ++++++++++----------
- ...-Add-the-armv5e-architecture-to-binutils.patch} |   10 +-
- ...e-distro-compiler-point-to-the-wrong-ins.patch} |   10 +-
- ...s-of-system-directories-when-cross-linki.patch} |   42 +-
- ...rpath-in-libtool-when-sysroot-is-enabled.patch} |    8 +-
- ...hange-default-emulation-for-mips64-linux.patch} |   14 +-
- ...tch => 0013-Add-support-for-Netlogic-XLP.patch} |   74 +-
- ...correct-assembling-for-ppc-wait-mnemonic.patch} |   12 +-
- ..._sections-check-to-only-consider-compact-.patch |   97 --
- .../0015-binutils-mips-gas-pic-relax-linkonce.diff |   65 --
- ...tch => 0015-sync-with-OE-libtool-changes.patch} |   57 +-
- ...lt-in-ARM-linker-when-trying-to-parse-a-b.patch |   31 -
- ...eration-of-alignment-frags-in-code-sectio.patch |  139 ---
- .../{binutils_2.27.bb => binutils_2.28.bb}         |    0
- 28 files changed, 674 insertions(+), 1124 deletions(-)
- rename meta/recipes-devtools/binutils/{binutils-2.27.inc => binutils-2.28.inc} (47%)
- rename meta/recipes-devtools/binutils/{binutils-cross-canadian_2.27.bb => binutils-cross-canadian_2.28.bb} (100%)
- rename meta/recipes-devtools/binutils/{binutils-cross_2.27.bb => binutils-cross_2.28.bb} (100%)
- rename meta/recipes-devtools/binutils/{binutils-crosssdk_2.27.bb => binutils-crosssdk_2.28.bb} (80%)
- rename meta/recipes-devtools/binutils/binutils/{0001-Generate-relocatable-SDKs.patch => 0001-binutils-crosssdk-Generate-relocatable-SDKs.patch} (84%)
- delete mode 100644 meta/recipes-devtools/binutils/binutils/0001-ppc-apuinfo-for-spe-parsed-incorrectly.patch
- rename meta/recipes-devtools/binutils/binutils/{no-tooldirpaths.patch => 0002-binutils-cross-Do-not-generate-linker-script-directo.patch} (75%)
- rename meta/recipes-devtools/binutils/binutils/{0002-configure-widen-the-regexp-for-SH-architectures.patch => 0003-gprof-add-uclibc-support-to-configure.patch} (42%)
- rename meta/recipes-devtools/binutils/binutils/{0003-Point-scripts-location-to-libdir.patch => 0004-Point-scripts-location-to-libdir.patch} (80%)
- rename meta/recipes-devtools/binutils/binutils/{0004-Only-generate-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch => 0005-Only-generate-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch} (79%)
- rename meta/recipes-devtools/binutils/binutils/{0005-Explicitly-link-with-libm-on-uclibc.patch => 0006-Explicitly-link-with-libm-on-uclibc.patch} (84%)
- rename meta/recipes-devtools/binutils/binutils/{0006-Use-libtool-2.4.patch => 0007-Use-libtool-2.4.patch} (97%)
- rename meta/recipes-devtools/binutils/binutils/{0007-Add-the-armv5e-architecture-to-binutils.patch => 0008-Add-the-armv5e-architecture-to-binutils.patch} (83%)
- rename meta/recipes-devtools/binutils/binutils/{0008-don-t-let-the-distro-compiler-point-to-the-wrong-ins.patch => 0009-don-t-let-the-distro-compiler-point-to-the-wrong-ins.patch} (82%)
- rename meta/recipes-devtools/binutils/binutils/{0009-warn-for-uses-of-system-directories-when-cross-linki.patch => 0010-warn-for-uses-of-system-directories-when-cross-linki.patch} (90%)
- rename meta/recipes-devtools/binutils/binutils/{0010-Fix-rpath-in-libtool-when-sysroot-is-enabled.patch => 0011-Fix-rpath-in-libtool-when-sysroot-is-enabled.patch} (90%)
- rename meta/recipes-devtools/binutils/binutils/{0011-Change-default-emulation-for-mips64-linux.patch => 0012-Change-default-emulation-for-mips64-linux.patch} (88%)
- rename meta/recipes-devtools/binutils/binutils/{0012-Add-support-for-Netlogic-XLP.patch => 0013-Add-support-for-Netlogic-XLP.patch} (90%)
- rename meta/recipes-devtools/binutils/binutils/{0013-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch => 0014-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch} (76%)
- delete mode 100644 meta/recipes-devtools/binutils/binutils/0015-Refine-.cfi_sections-check-to-only-consider-compact-.patch
- delete mode 100644 meta/recipes-devtools/binutils/binutils/0015-binutils-mips-gas-pic-relax-linkonce.diff
- rename meta/recipes-devtools/binutils/binutils/{0014-libtool-remove-rpath.patch => 0015-sync-with-OE-libtool-changes.patch} (72%)
- delete mode 100644 meta/recipes-devtools/binutils/binutils/0016-Fix-seg-fault-in-ARM-linker-when-trying-to-parse-a-b.patch
- delete mode 100644 meta/recipes-devtools/binutils/binutils/0017-Fix-the-generation-of-alignment-frags-in-code-sectio.patch
- rename meta/recipes-devtools/binutils/{binutils_2.27.bb => binutils_2.28.bb} (100%)
-
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 5e293cfc13..7156669064 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -3,7 +3,7 @@
+ 
+ require musl.inc
+ 
+-SRCREV = "d6601f0af0452b218d247cb47513fc9cd6bbf2e2"
++SRCREV = "827c4e6fbe46142049ef3d8bcb8f35951712797d"
+ 
+ PV = "1.1.16+git${SRCPV}"
+ 
 -- 
 2.12.0
 
