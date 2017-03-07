@@ -1,47 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CC6E77513
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Mar 2017 14:05:44 +0000 (UTC)
-Received: by mail-qk0-f181.google.com with SMTP id y76so5219196qkb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Mar 2017 06:05:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=GPVPjSKB9aUP80US0dHX/CkAsxJySTmGB8JeDgfs9EU=;
-	b=Ta9y03e+8hg1wBkyPuxPP81FZCSdjDNNBAbLcpCVfhAtIlWirW6W+CdbhxRCriLacp
-	N5bqekxVBTGq9I5WDAsBZFMxJamPCXjyWDis7RvQow/NllQfXcBmZzTAwVfX7WSDf9yq
-	CBEP/G2lI2BakDa3PWjRswx0jd/+C9xAgMHTSAYOkjPJf2dfJFXd7m3/EEKQtHZzYBn9
-	A+nsARhhJioQB8okehhKZoNLwKvhq+fJnM34HaFpJUoD1sQ8GiTttEqNktx+nE9asvoR
-	35tJxjg6ShHCEwCG3OalqGd7kY4v0OkctJXxA2NTYUiB63PaQQrSN4VZ13PEKf7Z+XJA
-	azJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=GPVPjSKB9aUP80US0dHX/CkAsxJySTmGB8JeDgfs9EU=;
-	b=t7JJflp68AxtuVbqeWrVcGeuYn98S/VB2RAFNIacowXvRzSVG7/LtuzzA4D2eWCoKL
-	INgqA8RX5U1frHuVnUt0THnI5Zp/IgW7hIQkMNQ8MBUaPQMFcGQuV2cp5NNnnwnYqV4q
-	rMX2N6E9cNyVKNQO8KujiDXs3Q9ZSJyEIa6wSRjsD5SMsdQEOGaXZFLuLeHJd33njObJ
-	HCYms316xLs8yl3MMn3JJAp8nZgyMZD2u9E9ehQj+d0wT/PRJComG8Y7325tZqs74qdn
-	kR1J/jaDJq3l7GysuUdBBptnch70SY90o89gRQInOQa3l7+R46bJ05XliRf0c4TMb1o3
-	Ik3g==
-X-Gm-Message-State: AMke39n7fjHl9YdRpkYo9r5XOxjG6RgEJdy2/dVYdua3xNv73qkOlKlURc9nLVhGLQVWR4z4OyQjkNEH7KXFKsCT
-X-Received: by 10.200.2.150 with SMTP id p22mr513051qtg.197.1488895545980;
-	Tue, 07 Mar 2017 06:05:45 -0800 (PST)
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C977B775DB;
+	Tue,  7 Mar 2017 14:43:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v27EhDKm017238
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 7 Mar 2017 06:43:13 -0800 (PST)
+Received: from soho-mhatle-m.local (172.25.36.230) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 7 Mar 2017 06:43:13 -0800
+To: "Burton, Ross" <ross.burton@intel.com>, Andre McCurdy <armccurdy@gmail.com>
+References: <1488862727-25152-1-git-send-email-armccurdy@gmail.com>
+	<CAJTo0LaNUQW=Qsyxm7eC9hFduzVMy5v+1Sy9aBMfgNoBgAqoow@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <f417ea5c-df83-ef34-648f-5a526f3d2e16@windriver.com>
+Date: Tue, 7 Mar 2017 08:43:12 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.7.1
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Tue, 7 Mar 2017 06:05:25 -0800 (PST)
-In-Reply-To: <a89026c4b38641650e5c14e231e452e842220238.1488272553.git.jussi.kukkonen@intel.com>
-References: <cover.1488272553.git.jussi.kukkonen@intel.com>
-	<a89026c4b38641650e5c14e231e452e842220238.1488272553.git.jussi.kukkonen@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 7 Mar 2017 14:05:25 +0000
-Message-ID: <CAJTo0LaYNtKw_37Y3qs7=ptKcq9ZsamgEUOZS+QM-Cm0kaYGdw@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 5/6] vulkan: Add recipe for Vulkan common loader
+In-Reply-To: <CAJTo0LaNUQW=Qsyxm7eC9hFduzVMy5v+1Sy9aBMfgNoBgAqoow@mail.gmail.com>
+Cc: openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [Openembedded-architecture] [PATCH] meta: start to ignore the largefile distro feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,45 +37,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Mar 2017 14:05:45 -0000
-Content-Type: multipart/alternative; boundary=f4030435c23420dbe7054a2482ef
+X-List-Received-Date: Tue, 07 Mar 2017 14:43:18 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
---f4030435c23420dbe7054a2482ef
-Content-Type: text/plain; charset=UTF-8
+On 3/7/17 4:35 AM, Burton, Ross wrote:
+> CCing openembedded-architecture to open the field for comments.
 
-On 28 February 2017 at 09:26, Jussi Kukkonen <jussi.kukkonen@intel.com>
-wrote:
->
-> Add a recipe for vulkan loader library and the vulkaninfo binary.
->
-> Vulkan can be built to support X11 or wayland or both. There is
-> currently no support for building tests, validation layers or even
-> the demos as that would require a bunch of otherwise unnecessary
-> dependencies.
+At this point, I'm not sure there is any reason to NOT using largefile system
+wide.  It's a common enough feature, and even 'small' devices (with sdcard
+slots) can run into large file problems now.
 
-Under musl, this doesn't link:
+> On 7 March 2017 at 04:58, Andre McCurdy <armccurdy@gmail.com
+> <mailto:armccurdy@gmail.com>> wrote:
+> 
+>     The largefile distro feature has been enabled by default in oe-core
+>     for a long time and, more recently, also in poky-tiny. Building
+>     without the largefile distro feature receives little or no testing.
+>     Many packages now enable LFS without exposing a configure option, so
+>     there should be very little expectation that disabling the distro
+>     feature will result in a distro which globally disables LFS.
+> 
+> 
+> So I've had a bug for this for some time but have never got around to it.
+> 
+> If we're going to assert "LFS by default" do we want a sanity check to verify it
+> was used?
+> 
+> Do we want to put -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 in the default CFLAGS?
+> 
+> I'm not aware of any good reason to not use LFS, but now is the time for anyone
+> else to speak up if you have a good reason to keep it as an option!
+> 
+> Ross
+> 
+> 
+> _______________________________________________
+> Openembedded-architecture mailing list
+> Openembedded-architecture@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-architecture
+> 
 
-| ../loader/libvulkan.so.1.0.39: undefined reference to `__secure_getenv'
-| collect2: error: ld returned 1 exit status
-| demos/CMakeFiles/vulkaninfo.dir/build.make:99: recipe for target
-'demos/vulkaninfo' failed
 
-Ross
-
---f4030435c23420dbe7054a2482ef
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br>On 28 February 2017 at 09:26, Jussi Kukkonen &lt;<a hr=
-ef=3D"mailto:jussi.kukkonen@intel.com">jussi.kukkonen@intel.com</a>&gt; wro=
-te:<br>&gt;<br>&gt; Add a recipe for vulkan loader library and the vulkanin=
-fo binary.<br>&gt;<br>&gt; Vulkan can be built to support X11 or wayland or=
- both. There is<br>&gt; currently no support for building tests, validation=
- layers or even<br>&gt; the demos as that would require a bunch of otherwis=
-e unnecessary<br>&gt; dependencies.<br><br>Under musl, this doesn&#39;t lin=
-k:<br><br>| ../loader/libvulkan.so.1.0.39: undefined reference to `__secure=
-_getenv&#39;<br>| collect2: error: ld returned 1 exit status<br>| demos/CMa=
-keFiles/vulkaninfo.dir/build.make:99: recipe for target &#39;demos/vulkanin=
-fo&#39; failed<br><br><div>Ross</div></div>
-
---f4030435c23420dbe7054a2482ef--
