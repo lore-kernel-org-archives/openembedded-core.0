@@ -1,48 +1,31 @@
-Return-Path: <jobol@nonadev.net>
-Received: from edna.lautre.net (edna.lautre.net [80.67.160.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 264236FFFE
+Return-Path: <d.schultz@phytec.de>
+X-Greylist: delayed 351 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 07 Mar 2017 13:47:47 UTC
+Received: from root.phytec.de (mail.phytec.eu [217.6.246.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 4139277846
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Mar 2017 12:53:00 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by edna.lautre.net (Postfix) with ESMTP id 8DE5D115CD5;
-	Tue,  7 Mar 2017 13:52:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=nonadev.net;
-	s=alternc; t=1488891180;
-	bh=X+WynQE+IjFkVzBM6+h5411slCpkqnp7aZ1lBbEbEK0=;
-	h=From:To:Cc:Subject:Date;
-	b=edeyDo3//5/Qfw5W3hPmhmHVJbO9R3sRiTJyG0iWh0wuVw7AY7OGoQYmWaBjDH8Ld
-	YIGUtHdAGKwhMrh+y8QxF1JqFeYL3GlNQNxWEh8KIgyRyf0TmJAYFWKqaU1lfJP3wP
-	dYtXAoVPe8coW5CPbUEWKKK7Zkyy/0inim8H/T7s=
-X-Virus-Scanned: Debian amavisd-new at edna.lautre.net
-X-Spam-Flag: NO
-X-Spam-Score: -3
-X-Spam-Level: 
-X-Spam-Status: No, score=-3 tagged_above=-10 required=5.31
-	tests=[ALL_TRUSTED=-1, BAYES_00=-1.9, DKIM_SIGNED=0.1,
-	DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1] autolearn=ham autolearn_force=no
-Received: from edna.lautre.net ([127.0.0.1])
-	by localhost (edna.admin.lautre.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id Z2DahqDwvZvA; Tue,  7 Mar 2017 13:52:56 +0100 (CET)
-Received: from d-jobol.iot.bzh (por56-1-78-229-206-229.fbx.proxad.net
-	[78.229.206.229])
-	by edna.lautre.net (Postfix) with ESMTPA id 8799D115CD0;
-	Tue,  7 Mar 2017 13:52:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=nonadev.net;
-	s=alternc; t=1488891173;
-	bh=X+WynQE+IjFkVzBM6+h5411slCpkqnp7aZ1lBbEbEK0=;
-	h=From:To:Cc:Subject:Date;
-	b=085V2kj1yUGoS5+QXZgfLWTSgw8YkyOPElubO00HG/uB4fglRz2naueXe+PNLJBEp
-	qLjvUdx7tEmtGMggfZsJFUfx/BMeq2g3tk9m1+XqpwhFUlGZFsYj7BzolcTdF6IqTi
-	OLQKJKobhT/m40k3nBWwb/CXgCRrp4TyxW4krSNM=
-From: jobol@nonadev.net
+	Tue,  7 Mar 2017 13:47:47 +0000 (UTC)
+Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
+	by root.phytec.de (Postfix) with ESMTP id 232ADA00267;
+	Tue,  7 Mar 2017 14:42:23 +0100 (CET)
+Received: from augenblix.phytec.de ([172.16.0.56])
+	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
+	with ESMTP id 2017030714415657-315738 ;
+	Tue, 7 Mar 2017 14:41:56 +0100 
+From: Daniel Schultz <d.schultz@phytec.de>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Mar 2017 13:52:42 +0100
-Message-Id: <20170307125242.15333-1-jobol@nonadev.net>
-X-Mailer: git-send-email 2.9.3
-MIME-Version: 1.0
-Cc: =?UTF-8?q?Jos=C3=A9=20Bollo?= <jose.bollo@iot.bzh>
-Subject: [PATCH] shadow: use config 'attr' if distro has 'xattr'
+Date: Tue, 7 Mar 2017 14:41:56 +0100
+Message-Id: <1488894116-13140-2-git-send-email-d.schultz@phytec.de>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1488894116-13140-1-git-send-email-d.schultz@phytec.de>
+References: <1488894116-13140-1-git-send-email-d.schultz@phytec.de>
+X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
+	17, 2016) at 07.03.2017 14:41:56,
+	Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17,
+	2016) at 07.03.2017 14:41:56,
+	Serialize complete at 07.03.2017 14:41:56
+X-TNEFEvaluated: 1
+Subject: [PATCH 2/2] wic: filemap: Fixed spared_copy skip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,38 +38,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Mar 2017 12:53:01 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 07 Mar 2017 13:47:48 -0000
 
-From: José Bollo <jose.bollo@iot.bzh>
+This patches removes the empty space in front of the copied file which
+was skipped. Without this reduction it's not possible to place a
+partition with rawcopy and skip parameter on a desired alignment.
 
-When DISTRO_FEATURES has 'xattr' the shadow package
-now automatically activates its config 'attr'.
-The current implmentation is a copy of what is
-made currently for libcap.
-
-Change-Id: Ie2a8469bc18b8ca7a067caf83413a28f8bcfbc84
-Signed-off-by: José Bollo <jose.bollo@iot.bzh>
+Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
 ---
- meta/recipes-extended/shadow/shadow.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ scripts/lib/wic/filemap.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index 99ffac3..e59ff64 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -74,7 +74,8 @@ PAM_PLUGINS = "libpam-runtime \
-                pam-plugin-shells \
-                pam-plugin-rootok"
+diff --git a/scripts/lib/wic/filemap.py b/scripts/lib/wic/filemap.py
+index f3240ba..162603e 100644
+--- a/scripts/lib/wic/filemap.py
++++ b/scripts/lib/wic/filemap.py
+@@ -543,9 +543,9 @@ def sparse_copy(src_fname, dst_fname, offset=0, skip=0):
+         end = (last + 1) * fmap.block_size
  
--PACKAGECONFIG = "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}"
-+PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'xattr', 'attr', '', d)}"
- PACKAGECONFIG_class-native = ""
- PACKAGECONFIG_class-nativesdk = ""
- PACKAGECONFIG[pam] = "--with-libpam,--without-libpam,libpam,${PAM_PLUGINS}"
+         if start < skip < end:
+-            start = skip
+-
+-        fmap._f_image.seek(start, os.SEEK_SET)
++            fmap._f_image.seek(skip, os.SEEK_SET)
++        else:
++            fmap._f_image.seek(start, os.SEEK_SET)
+         dst_file.seek(offset + start, os.SEEK_SET)
+ 
+         chunk_size = 1024 * 1024
 -- 
-2.9.3
+1.9.1
 
 
