@@ -1,33 +1,45 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A74A7777D;
-	Tue,  7 Mar 2017 20:49:54 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v27KnpuU016452; Tue, 7 Mar 2017 20:49:51 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id IsoUtjdbXQoY; Tue,  7 Mar 2017 20:49:51 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v27KnjIx016448
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 7 Mar 2017 20:49:46 GMT
-Message-ID: <1488919785.22968.48.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mark Hatle <mark.hatle@windriver.com>, "Burton, Ross"
-	<ross.burton@intel.com>, Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 07 Mar 2017 20:49:45 +0000
-In-Reply-To: <f417ea5c-df83-ef34-648f-5a526f3d2e16@windriver.com>
-References: <1488862727-25152-1-git-send-email-armccurdy@gmail.com>
-	<CAJTo0LaNUQW=Qsyxm7eC9hFduzVMy5v+1Sy9aBMfgNoBgAqoow@mail.gmail.com>
-	<f417ea5c-df83-ef34-648f-5a526f3d2e16@windriver.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Cc: openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] [PATCH] meta: start to ignore the largefile distro feature
+Return-Path: <msm-oss@mcclintock.net>
+Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id E8B7277853
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  7 Mar 2017 20:53:36 +0000 (UTC)
+Received: by mail-pf0-f178.google.com with SMTP id o126so5081433pfb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 Mar 2017 12:53:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mcclintock.net; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=2RNKNmIc3dAqZrTQLrYrtFlrcRlg6+BcpTUchBotOlo=;
+	b=b1ZKh6RbHsUhY7Bloq0hnvo9W/LDA+iylXbqB3TeETevpQodk6ajAv0HniKABW9+of
+	K80M3vJbmb78AGm3hvQ/f0JYlgvARRGBv7Fr/n8fI17KegOfShXDHNYhyDpzf0DvDryc
+	m6QUxjMqTm1wX/o2CWrg2vEKG7aX5RBHtcSlE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=2RNKNmIc3dAqZrTQLrYrtFlrcRlg6+BcpTUchBotOlo=;
+	b=GbzHVGxjuF9xdMGaY73Co3nZcVTEutg/muNr56LgLVGWpDr+gr8q7Wih67DxbVngwk
+	uGX5U4tQvrasNRDUbtQfcUGzw61w135FshxS+zu6mTdSGFZqp+JdESbWZFWMP20hNaWa
+	+ZPnul/8s95hnjf+EiTt5t4afz1R2tZm95Mv3Dn50GTN4rsMFiCEefPUNK3DAIQPxAl/
+	3sYc4Z8oMAM0Upu1+Vni+2uyT1JmFHyXAY9GOK+8JGnnwK5pQJwNTVz+Okmf6CL4Eg0c
+	FibFxZVX7ekEtKaSABE6APHa8fyEej5W1cMJ2QcGjBe5RH2iJ8/4nx2D3cT7bNFbMqI6
+	3hRg==
+X-Gm-Message-State: AMke39kBDvh/E4w/mA5ez0ZBnvuwtOkCEfZu9CbWZ8JHd7jcLIoCToceWm/bMrpi0MBlZhZyaHhMo1q9iK6rSw==
+X-Received: by 10.84.245.8 with SMTP id i8mr3198342pll.131.1488920018016; Tue,
+	07 Mar 2017 12:53:38 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.100.177.198 with HTTP; Tue, 7 Mar 2017 12:53:16 -0800 (PST)
+In-Reply-To: <1488919643.22968.47.camel@linuxfoundation.org>
+References: <1488916121-30447-1-git-send-email-msm-oss@mcclintock.net>
+	<1488919643.22968.47.camel@linuxfoundation.org>
+From: Matthew McClintock <msm-oss@mcclintock.net>
+Date: Tue, 7 Mar 2017 14:53:16 -0600
+Message-ID: <CAEsOVNeAYACmJ+hr0CsuzTRTB_qPt0J68eBMHeLKP22gtxhjdA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] utility-task: Add do_patchall task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,24 +52,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Mar 2017 20:49:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 07 Mar 2017 20:53:37 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, 2017-03-07 at 08:43 -0600, Mark Hatle wrote:
-> On 3/7/17 4:35 AM, Burton, Ross wrote:
-> > 
-> > CCing openembedded-architecture to open the field for comments.
-> At this point, I'm not sure there is any reason to NOT using
-> largefile system
-> wide.  It's a common enough feature, and even 'small' devices (with
-> sdcard
-> slots) can run into large file problems now.
+On Tue, Mar 7, 2017 at 2:47 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2017-03-07 at 13:48 -0600, Matthew McClintock wrote:
+>> This is useful in a few scenarios:
+>>
+>> 1) A developer wants to be able to grep all the code in a particular
+>> without having to run patch on various components until they guess
+>> the
+>> right one (e.g. which component is generating an error/warning?)
+>>
+>> 2) Other code scanning tools that can be run without requiring a full
+>> image to be built (legal, static code analysis, etc)
+>>
+>> Signed-off-by: Matthew McClintock <msm-oss@mcclintock.net>
+>> ---
+>>  meta/classes/utility-tasks.bbclass | 7 +++++++
+>>  meta/conf/documentation.conf       | 1 +
+>>  2 files changed, 8 insertions(+)
+>
+> I have mixed feelings on this. Whilst I can see the attraction, extra
+> tasks like this do actually have a parsing overhead. We already have a
+> lot of them and its only a question of time before someone wants
+> another XXXall task adding.
+>
+> I'm wondering if we can solve this at the bitbake level instead with a
+> new parameter instead? That would allow us to delete tasks and speed up
+> parsing rather than slow things down.
 
-Agreed. Where we can we need to reduce our test matrix so I think
-dropping non-largefile support is a good move.
+Can you drop a few hints as to where to look to add this to bitbake? I
+can look at it a bit further.
 
-Cheers,
+One other thing we were thinking about was doing for only things that
+will run on or be on the target (e.g. skipping the toolchain side).
 
-Richard
+-M
 
