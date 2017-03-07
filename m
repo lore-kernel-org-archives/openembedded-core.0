@@ -1,46 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 3804377635
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 41C317777D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Mar 2017 20:16:34 +0000 (UTC)
-Received: by mail-qk0-f169.google.com with SMTP id v125so23069662qkh.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Mar 2017 12:16:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=7bcUuDAHOW4CVuHbD3pI1Vxg2f5732Wktoo/lFc2wxU=;
-	b=s7/iIhus7JX2ziC6D2zO4s6GUJXbqFSybaVXY+27l8iApnz/jsVI7KaYnF67/gGBFa
-	YzUQC10+1qUt5NokUh6kLNXtAA1eyddkqAhXrOjM5mV6RfbmcpM7lIVtyz3kwToIgZ3B
-	2cTFl9NMVsS+QNF/O1GoKW5WQgmMybtsDd5XzkQWDg9c834ffaOBUM/8Qfn/zRr76pCg
-	eSU5UzonI5osF7m1uvp9Wv1boa/l0f9zyJtTlZlCUeru3QJfYyWq+Jy8WqhUq480zSeG
-	rJCEfKPANCXTf/bE8Y1Z5SCD3MA0uT28Rb9Pu0FDeaSsbGlm3HOFT5Tn6joS7zoXdNaC
-	DQKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=7bcUuDAHOW4CVuHbD3pI1Vxg2f5732Wktoo/lFc2wxU=;
-	b=VcNvQnCRMgLITtkSfQgCfzrLfXKOKy4eFJ/RKcRudTIqMjR9KCyeO+rIYvGzfgMt08
-	r4mgse0uBp/OqoJILuxLPaj6/wtacerCaGtonNhGxmh3iY6hAnfQrxcdKwgaOrpqrkRa
-	u9HZF0T9ruJuVQeCdp9hNpiQ0H0vUUW/SzZldDdlmTDUyXcDab7NAS7atvwDU2g64c9D
-	+fsOieHEB35xgpUa2SP4Hcrf713kOodJiziPI2+G2RbQbrOoGJUYWGlQ91zHrj2VOi0H
-	SmRlnDiCDdyXvWTCLHLaMzsei3JN8jKrrcWIxhJRQK8U5nEgp7IbT+dFRvDeA241owKR
-	y75A==
-X-Gm-Message-State: AMke39lKVQuyvgLDDwaPqHvLd8/R2ObcBLiO0KesI1UY2UyZTk7jz6GCwEjvKLu5t4vcRKL0hPWWVfPDsilBf2l8
-X-Received: by 10.55.1.134 with SMTP id u6mr2990941qkg.36.1488917795866; Tue,
-	07 Mar 2017 12:16:35 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Tue, 7 Mar 2017 12:16:15 -0800 (PST)
-In-Reply-To: <1488917974.3261.25.camel@linux.intel.com>
+	Tue,  7 Mar 2017 20:47:28 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v27KlTXM016328; Tue, 7 Mar 2017 20:47:29 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Ihws746KpcLA; Tue,  7 Mar 2017 20:47:29 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v27KlNCi016323
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 7 Mar 2017 20:47:24 GMT
+Message-ID: <1488919643.22968.47.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Matthew McClintock <msm-oss@mcclintock.net>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 07 Mar 2017 20:47:23 +0000
+In-Reply-To: <1488916121-30447-1-git-send-email-msm-oss@mcclintock.net>
 References: <1488916121-30447-1-git-send-email-msm-oss@mcclintock.net>
-	<1488917974.3261.25.camel@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 7 Mar 2017 20:16:15 +0000
-Message-ID: <CAJTo0LZrvj7SzJjM-RORyJHwVcrdTb9jvBrsy08uRXtFrSNkQg@mail.gmail.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
 Subject: Re: [PATCH] utility-task: Add do_patchall task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -54,41 +36,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Mar 2017 20:16:36 -0000
-Content-Type: multipart/alternative; boundary=001a114046c452a98c054a29b058
+X-List-Received-Date: Tue, 07 Mar 2017 20:47:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---001a114046c452a98c054a29b058
-Content-Type: text/plain; charset=UTF-8
+On Tue, 2017-03-07 at 13:48 -0600, Matthew McClintock wrote:
+> This is useful in a few scenarios:
+> 
+> 1) A developer wants to be able to grep all the code in a particular
+> without having to run patch on various components until they guess
+> the
+> right one (e.g. which component is generating an error/warning?)
+> 
+> 2) Other code scanning tools that can be run without requiring a full
+> image to be built (legal, static code analysis, etc)
+> 
+> Signed-off-by: Matthew McClintock <msm-oss@mcclintock.net>
+> ---
+>  meta/classes/utility-tasks.bbclass | 7 +++++++
+>  meta/conf/documentation.conf       | 1 +
+>  2 files changed, 8 insertions(+)
 
-On 7 March 2017 at 20:19, Leonardo Sandoval <
-leonardo.sandoval.gonzalez@linux.intel.com> wrote:
+I have mixed feelings on this. Whilst I can see the attraction, extra
+tasks like this do actually have a parsing overhead. We already have a
+lot of them and its only a question of time before someone wants
+another XXXall task adding.
 
-> >  meta/classes/utility-tasks.bbclass | 7 +++++++
-> >  meta/conf/documentation.conf       | 1 +
->
-> Doc patches goes into the yocto mailing list.
+I'm wondering if we can solve this at the bitbake level instead with a
+new parameter instead? That would allow us to delete tasks and speed up
+parsing rather than slow things down.
 
+Cheers,
 
-But this patches meta/conf/documentation.conf, which is part of oe-core.
+Richard
 
-Ross
-
---001a114046c452a98c054a29b058
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 7 March 2017 at 20:19, Leonardo Sandoval <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:leonardo.sandoval.gonzalez@linux.intel.com" target=3D"_blank">le=
-onardo.sandoval.gonzalez@linux.intel.com</a>&gt;</span> wrote:<br><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
-lid;padding-left:1ex"><span class=3D"">&gt;=C2=A0 meta/classes/utility-task=
-s.<wbr>bbclass | 7 +++++++<br>
-&gt;=C2=A0 meta/conf/documentation.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0| 1 +<br>
-<br>
-</span>Doc patches goes into the yocto mailing list.</blockquote></div><br>=
-But this patches meta/conf/documentation.conf, which is part of oe-core.</d=
-iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</di=
-v></div>
-
---001a114046c452a98c054a29b058--
