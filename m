@@ -1,51 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 61E1977835
+Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
+	[209.85.220.178])
+	by mail.openembedded.org (Postfix) with ESMTP id AC86271CB1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Mar 2017 14:44:10 +0000 (UTC)
-Received: by mail-qk0-f176.google.com with SMTP id p64so7039003qke.1
+	Tue,  7 Mar 2017 14:45:46 +0000 (UTC)
+Received: by mail-qk0-f178.google.com with SMTP id 1so6876953qkl.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Mar 2017 06:44:12 -0800 (PST)
+	Tue, 07 Mar 2017 06:45:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=SF9fhOYAaIxu1Qs0D4XqmvTjOZXPd3x/gE4sp8sJTn8=;
-	b=xIU37wt5VBc5Z7RttUhjtHXsPtoTaRDXLgbRJLgk77wVPjsqvAJVSG5fSezDtf3JM9
-	futwbsEhldpy6QYDfBEjD4VDO6KPPIkzppsj2HTCzCBnu+8lMs3aMeeH4DVfjfY0RaOf
-	pL5KcFjnR6ZK/bE39non68k3CxkqDbPXPM0SZxXDOb+9XuR7PTRpPGm87tSWr+9hHs+T
-	dGczqGJUQEd0o09AOxQuxyELWyz/hTK9EJaulSA4rBdKLk2DVaSigscgeMU9FGn8piEx
-	WcttcOYZ5WSmvXZvQEobDs3+rPE3VKWPjBunvZ8kOO+VEixFwXQo3X7U98xXJH+7QNz1
-	awHQ==
+	:cc; bh=VjjoUoP0TjhnvuSr0Ss7mtCkhpqAb7gt3hbE1Nk3XHo=;
+	b=I7GEwfeS+5TfiyW3Rf2d4kFE3dnUAVINlId/ZEYwmPMsvUmhO3flDPhUWMjTwDE00F
+	eDgoTZwyI9W9F/iOf1cmyg4olFAwEkApr3DV6pQy0iVrK2IxWpU6he3Z/ZUj4CTvdkhv
+	YXrDOodoegdoEBOmplfk0IqJQD5EKguU5LsegtI9rp2jaKNhOuQPYwwwiRrO0eEP6aZf
+	5jWr2zFQqceWUgQIW2AKexJlT/8FOqbdC5S3ZyWm8rc3g3Ty5zwRIBXpmkOWcR/uVaWw
+	V/VNj71r0A+ZyuAOq1hmg1iQPBlcgHfs5yKHcb9NYhVNquRUmoNLSFotXOVCexRXE8ZE
+	hFcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=SF9fhOYAaIxu1Qs0D4XqmvTjOZXPd3x/gE4sp8sJTn8=;
-	b=hEn9LxL7y3zbHTQfsar5aPgyCorpJJqCOQAfXjUYFiNfvflgSdHdHGBhNGmq+iKBR4
-	maafR+rvm14EQJOMtPwaNDo3PmLooTYJ7K+k8Tgnfmct162/ItSSrgDwz85qzOYQ9Y/Y
-	9DDvcfNre38VvoFFKTDQKUOmCak2f92xBoRNpu/LM9wgNLWVa5Qdc45Jdnea4tG3vZGb
-	K7gm76zRzxTUPX1YhZHPqFFL+Hor5Ri0PrtJgH/1GwP5MwbejUUQCKzodMFJv3Vig3f2
-	4bDJiy376Y4iT00tSaW6O6ZJ+3XHmHr6JOPAtHT74pWNFFsYiRFtb4gobKmqBbCg7mNo
-	AhIQ==
-X-Gm-Message-State: AMke39mNrDUUdkOsHMFhx6R2VSOWgGHWc37W6uFh+tSFGWv9wVwh0G+l8FzU8qGuGDgHA6fYmKHfd/iFPjus5cfw
-X-Received: by 10.237.33.69 with SMTP id 63mr747801qtc.109.1488897852118; Tue,
-	07 Mar 2017 06:44:12 -0800 (PST)
+	bh=VjjoUoP0TjhnvuSr0Ss7mtCkhpqAb7gt3hbE1Nk3XHo=;
+	b=mHtXhtbA4+QUk/92srasVEFZunT2QbQMp7jHLiWjyJ8kYgft11sAS0q82S3As+ulGF
+	rT6u0TjCKVKhROlkOv1tvXHUmhuKar/Iu9vRU18zUWDAeNwgnddDsVOTHiXuI4Z4rybM
+	et79BzhedaLHeUOKw06x81duDy0efzJ8UZZ0834u6v7nW3o24TywYGrBmYMo+93OKxl6
+	bMZWG/UvOHhLKuxHBELGNxqnmUkF4vRRKu8JsvI8NvNj7UyazNClSCOMeVSJXqry4a4H
+	UsCSUcVnl9K0SAWui7iUsiDgsGt4qAf6gmRkhlZM9v2AfN6M0BMG/GCInTYCCxDpN8iL
+	CQUw==
+X-Gm-Message-State: AFeK/H23PnX+sgZqRfsjXZYD5zs/UHLby2FikwAs5xnupwDbnOX8Rek8w22YE0xGjeWKwHi0PZ8akM9Jvkglcy6y
+X-Received: by 10.55.175.195 with SMTP id y186mr771784qke.26.1488897947625;
+	Tue, 07 Mar 2017 06:45:47 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Tue, 7 Mar 2017 06:43:51 -0800 (PST)
-In-Reply-To: <alpine.LFD.2.20.1703070613280.6444@uk63952.mitel.com>
-References: <alpine.LFD.2.20.1702191313250.8096@localhost.localdomain>
-	<CAJTo0LbM=BKU5CEcr5mVV0cw_VJS_NsCR992Q5RgpH_x8LRHOw@mail.gmail.com>
-	<alpine.LFD.2.20.1702200654200.27683@localhost.localdomain>
-	<CAJTo0LYVkVgQ3DgEvRU-Ey+x=3pFJD=t=cddD6_d88bXXD9OYw@mail.gmail.com>
-	<158ae21e-23b2-aa04-4977-0e640e1f6e55@windriver.com>
-	<alpine.LFD.2.20.1703070613280.6444@uk63952.mitel.com>
+Received: by 10.140.22.166 with HTTP; Tue, 7 Mar 2017 06:45:27 -0800 (PST)
+In-Reply-To: <f417ea5c-df83-ef34-648f-5a526f3d2e16@windriver.com>
+References: <1488862727-25152-1-git-send-email-armccurdy@gmail.com>
+	<CAJTo0LaNUQW=Qsyxm7eC9hFduzVMy5v+1Sy9aBMfgNoBgAqoow@mail.gmail.com>
+	<f417ea5c-df83-ef34-648f-5a526f3d2e16@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 7 Mar 2017 14:43:51 +0000
-Message-ID: <CAJTo0LZcUdU-6x8E5cWe5WSdyCz_-=K9vWg_A5zX8ZXiT_DmVA@mail.gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: something seems to have happened to "gpgme" in latest oe-core
+Date: Tue, 7 Mar 2017 14:45:27 +0000
+Message-ID: <CAJTo0LZKkhLFR9-bR2TV4EDJ_8A=3UYeVmAgaBMNZAeYsmDqrQ@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [Openembedded-architecture] [PATCH] meta: start to ignore the largefile distro feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,33 +57,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Mar 2017 14:44:11 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0c7fc8955e67054a250bd7
+X-List-Received-Date: Tue, 07 Mar 2017 14:45:46 -0000
+Content-Type: multipart/alternative; boundary=94eb2c06093c46c199054a251154
 
---94eb2c0c7fc8955e67054a250bd7
+--94eb2c06093c46c199054a251154
 Content-Type: text/plain; charset=UTF-8
 
-On 7 March 2017 at 11:13, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->   glad to see i'm not the only person ... anyone have a fix?
+On 7 March 2017 at 14:43, Mark Hatle <mark.hatle@windriver.com> wrote:
 
+> At this point, I'm not sure there is any reason to NOT using largefile
+> system
+> wide.  It's a common enough feature, and even 'small' devices (with sdcard
+> slots) can run into large file problems now.
+>
 
-Looks like it finds host swig and then turns on Python support, using the
-host python.
-
-Can you try adding --enable-languages="cpp" to EXTRA_OECONF?
+My thoughts exactly, fwiw.
 
 Ross
 
---94eb2c0c7fc8955e67054a250bd7
+--94eb2c06093c46c199054a251154
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 7 March 2017 at 11:13, Robert P. J. Day &lt;<a href=3D"=
-mailto:rpjday@crashcourse.ca">rpjday@crashcourse.ca</a>&gt; wrote:<br>&gt; =
-=C2=A0 glad to see i&#39;m not the only person ... anyone have a fix?<br><b=
-r><br>Looks like it finds host swig and then turns on Python support, using=
- the host python.<div><br></div><div>Can you try adding --enable-languages=
-=3D&quot;cpp&quot; to EXTRA_OECONF?</div><div><br></div><div>Ross</div></di=
-v>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 March 2017 at 14:43, Mark Hatle <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:mark.hatle@windriver.com" target=3D"_blank">mark.hatle@windriver.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":55c" class=
+=3D"a3s aXjCH m15aa939d2ecf3252">At this point, I&#39;m not sure there is a=
+ny reason to NOT using largefile system<br>
+wide.=C2=A0 It&#39;s a common enough feature, and even &#39;small&#39; devi=
+ces (with sdcard<br>
+slots) can run into large file problems now.<br></div></blockquote></div><b=
+r>My thoughts exactly, fwiw.</div><div class=3D"gmail_extra"><br></div><div=
+ class=3D"gmail_extra">Ross</div></div>
 
---94eb2c0c7fc8955e67054a250bd7--
+--94eb2c06093c46c199054a251154--
