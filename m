@@ -1,25 +1,43 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E558777B1
+Return-Path: <msm-oss@mcclintock.net>
+Received: from mail-ot0-f194.google.com (mail-ot0-f194.google.com
+	[74.125.82.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 12C1D7763B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Mar 2017 18:54:49 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v27IshKa019664
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 7 Mar 2017 10:54:44 -0800 (PST)
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 7 Mar 2017 10:54:43 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 7 Mar 2017 12:54:33 -0600
-Message-ID: <1488912873-63651-2-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1488912873-63651-1-git-send-email-mark.hatle@windriver.com>
-References: <1488912873-63651-1-git-send-email-mark.hatle@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH v2] gpgme: Fix issue building for the target
+	Tue,  7 Mar 2017 19:48:52 +0000 (UTC)
+Received: by mail-ot0-f194.google.com with SMTP id x37so1652338ota.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 Mar 2017 11:48:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mcclintock.net; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=im20Qoulawvdsg3uL90+N//oOolp0HMsVq4dtNcOvXs=;
+	b=K1VOujsZxM5/NHxBtxfVe2j3N9MsA4OMqV/jZYqIa2R220IJGc8aJaHMZTctvvogKK
+	t79KBDkMW+5ddN+E7BStpQjn6TRyU/vXCGFkk6o7KcMJwA7wm6eXcFwZWUZi+/Fey3vw
+	/hcggPRNrVXXyae52G2dGvVj5dYAeu6EHdUF8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=im20Qoulawvdsg3uL90+N//oOolp0HMsVq4dtNcOvXs=;
+	b=raEpo5NNNN2r5aFPrlJ99HeYD9DBzA8QlOYtsw7HEzTOFfRLcW6Bi+Iyn5jrhnlDFr
+	tjQT58m46bStHfC58c01pTMhP2LEBKNWMZ6kSBxJhzM2MnJfzipfH88LoNyc76vH0Wgz
+	Rf+1CZ2XewDB7zfhZSKn4I0sj2pG4y3uOQvEPRSdjx8cMCTTjqwDviS22cO9WDjpwwSg
+	XvaNksHMPpOVgIdX8ZEc79n5Uq9SPg1sf9wAzvm7gMz1WapaNAy1xnMNQg3n/bWxKLe1
+	Rtn/9rJAZfgrKPvrfpYdp4jcq2tBKDLNn4ygwYhOnIIv/NPROWLaY23NvrPiVjyUf4qj
+	yibA==
+X-Gm-Message-State: AMke39nve8lQnKOf5dMNCguEC1GQu8akx7MSKyATrQvpc/7pYYJF25Ys2VKwAuRr8YTYow==
+X-Received: by 10.157.15.99 with SMTP id 90mr1464300ott.265.1488916133641;
+	Tue, 07 Mar 2017 11:48:53 -0800 (PST)
+Received: from pandora.lan ([2605:6000:1019:e0:55e1:79ce:f0d9:c3d8])
+	by smtp.gmail.com with ESMTPSA id
+	u131sm434250oig.24.2017.03.07.11.48.52
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 07 Mar 2017 11:48:52 -0800 (PST)
+From: Matthew McClintock <msm-oss@mcclintock.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  7 Mar 2017 13:48:41 -0600
+Message-Id: <1488916121-30447-1-git-send-email-msm-oss@mcclintock.net>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] utility-task: Add do_patchall task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,138 +50,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Mar 2017 18:54:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 07 Mar 2017 19:48:53 -0000
 
-gpgme failed when configuring since you can only configure for one python
-system at a time (via the inherits).  So we need to have a PACKAGECONFIG
-that defines which one [or neither] you want to use.
+This is useful in a few scenarios:
 
-The prior pkgconfig patch introduced the usage of the variable PKG_CONFIG,
-which is not defined anywhere.  Define this.
+1) A developer wants to be able to grep all the code in a particular
+without having to run patch on various components until they guess the
+right one (e.g. which component is generating an error/warning?)
 
-When building the python module, we can not call gpg-error-config, so we
-need to find an alternative way of finding the information the setup.py.in
-requires.  (In this case, it's easy to just use the environment
-STAGING_INCDIR.)
+2) Other code scanning tools that can be run without requiring a full
+image to be built (legal, static code analysis, etc)
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+Signed-off-by: Matthew McClintock <msm-oss@mcclintock.net>
 ---
- .../gpgme/gpgme/python-lang-config.patch           | 52 ++++++++++++++++++++++
- meta/recipes-support/gpgme/gpgme_1.8.0.bb          | 28 +++++++++++-
- 2 files changed, 79 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/gpgme/gpgme/python-lang-config.patch
+ meta/classes/utility-tasks.bbclass | 7 +++++++
+ meta/conf/documentation.conf       | 1 +
+ 2 files changed, 8 insertions(+)
 
-diff --git a/meta/recipes-support/gpgme/gpgme/python-lang-config.patch b/meta/recipes-support/gpgme/gpgme/python-lang-config.patch
-new file mode 100644
-index 0000000..132e426
---- /dev/null
-+++ b/meta/recipes-support/gpgme/gpgme/python-lang-config.patch
-@@ -0,0 +1,52 @@
-+gpgme/lang/python: gpg-error-config should not be used.
+diff --git a/meta/classes/utility-tasks.bbclass b/meta/classes/utility-tasks.bbclass
+index da69c3a..b922685 100644
+--- a/meta/classes/utility-tasks.bbclass
++++ b/meta/classes/utility-tasks.bbclass
+@@ -64,3 +64,10 @@ do_fetchall[recideptask] = "do_${BB_DEFAULT_TASK}"
+ do_fetchall() {
+ 	:
+ }
 +
-+gpg-error-config was modified by OE to always return an error.  So we want
-+to find an alternative way to retrieve whatever it is we need.  It turns
-+out that the system is just trying to find the path to the gpg-error.h, which
-+we can pull in from the STAGING_INC environment.
-+
-+Upstream-Status: Inappropriate [changes are specific to OE]
-+
-+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-+
-+Index: gpgme-1.8.0/lang/python/setup.py.in
-+===================================================================
-+--- gpgme-1.8.0.orig/lang/python/setup.py.in
-++++ gpgme-1.8.0/lang/python/setup.py.in
-+@@ -24,7 +24,6 @@ import glob
-+ import subprocess
-+ 
-+ # Out-of-tree build of the gpg bindings.
-+-gpg_error_config = ["gpg-error-config"]
-+ gpgme_config_flags = ["--thread=pthread"]
-+ gpgme_config = ["gpgme-config"] + gpgme_config_flags
-+ gpgme_h = ""
-+@@ -52,13 +51,6 @@ else:
-+     devnull = open(os.devnull, "w")
-+ 
-+ try:
-+-    subprocess.check_call(gpg_error_config + ['--version'],
-+-                          stdout=devnull)
-+-except:
-+-    sys.exit("Could not find gpg-error-config.  " +
-+-             "Please install the libgpg-error development package.")
-+-
-+-try:
-+     subprocess.check_call(gpgme_config + ['--version'],
-+                           stdout=devnull)
-+ except:
-+@@ -81,12 +73,9 @@ if not (major > 1 or (major == 1 and min
-+ if not gpgme_h:
-+     gpgme_h = os.path.join(getconfig("prefix")[0], "include", "gpgme.h")
-+ 
-+-gpg_error_prefix = getconfig("prefix", config=gpg_error_config)[0]
-+-gpg_error_h = os.path.join(gpg_error_prefix, "include", "gpg-error.h")
-++gpg_error_h = os.path.join(os.getenv('STAGING_INCDIR'), "gpg-error.h")
-+ if not os.path.exists(gpg_error_h):
-+-    gpg_error_h = \
-+-        glob.glob(os.path.join(gpg_error_prefix, "include",
-+-                               "*", "gpg-error.h"))[0]
-++    sys.exit("gpg_error_h not found: %s" % gpg_error_h)
-+ 
-+ print("Building python gpg module using {} and {}.".format(gpgme_h, gpg_error_h))
-+ 
-diff --git a/meta/recipes-support/gpgme/gpgme_1.8.0.bb b/meta/recipes-support/gpgme/gpgme_1.8.0.bb
-index 3e74b6f..728e247 100644
---- a/meta/recipes-support/gpgme/gpgme_1.8.0.bb
-+++ b/meta/recipes-support/gpgme/gpgme_1.8.0.bb
-@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
- SRC_URI = "${GNUPG_MIRROR}/gpgme/${BP}.tar.bz2 \
-            file://pkgconfig.patch \
-+           file://python-lang-config.patch \
-           "
- 
- SRC_URI[md5sum] = "722a4153904b9b5dc15485a22d29263b"
-@@ -22,12 +23,37 @@ RDEPENDS_${PN}-cpp += "libstdc++"
- 
- BINCONFIG = "${bindir}/gpgme-config"
- 
--inherit autotools texinfo binconfig-disabled pkgconfig
-+# Note select python2 or python3, but you can't select both at the same time
-+PACKAGECONFIG ??= "python3"
-+PACKAGECONFIG[python2] = ",,python swig-native,"
-+PACKAGECONFIG[python3] = ",,python3 swig-native,"
-+
-+# Default in configure.ac: "cl cpp python qt"
-+# Supported: "cl cpp python python2 python3 qt"
-+# python says 'search and find python2 or python3'
-+
-+LANGUAGES ?= "cpp"
-+LANGUAGES .= "${@bb.utils.contains('PACKAGECONFIG', 'python2', ' python2', '', d)}"
-+LANGUAGES .= "${@bb.utils.contains('PACKAGECONFIG', 'python3', ' python3', '', d)}"
-+
-+PYTHON_INHERIT = "${@bb.utils.contains('PACKAGECONFIG', 'python2', 'pythonnative', '', d)}"
-+PYTHON_INHERIT .= "${@bb.utils.contains('PACKAGECONFIG', 'python3', 'python3native', '', d)}"
-+
-+EXTRA_OECONF += '--enable-languages="${LANGUAGES}"'
-+
-+inherit autotools texinfo binconfig-disabled pkgconfig ${PYTHON_INHERIT}
-+
-+export PKG_CONFIG='pkg-config'
- 
- BBCLASSEXTEND = "native"
- 
- PACKAGES =+ "${PN}-cpp"
-+PACKAGES =. "${@bb.utils.contains('PACKAGECONFIG', 'python2', 'python2-gpg ', '', d)}"
-+PACKAGES =. "${@bb.utils.contains('PACKAGECONFIG', 'python3', 'python3-gpg ', '', d)}"
-+
- FILES_${PN}-cpp = "${libdir}/libgpgmepp.so.*"
-+FILES_python2-gpg = "${PYTHON_SITEPACKAGES_DIR}/*"
-+FILES_python3-gpg = "${PYTHON_SITEPACKAGES_DIR}/*"
- FILES_${PN}-dev += "${datadir}/common-lisp/source/gpgme/* \
-                     ${libdir}/cmake/* \
- "
++addtask patchall after do_patch
++do_patchall[recrdeptask] = "do_patchall do_patch"
++do_patchall[recideptask] = "do_${BB_DEFAULT_TASK}"
++do_patchall() {
++	:
++}
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 06527cb..5f4593c 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -40,6 +40,7 @@ do_package_write_rpm[doc] = "Creates the actual RPM packages and places them in
+ do_package_write_tar[doc] = "Creates tar archives for packages and places them in the Package Feed area"
+ do_packagedata[doc] = "Creates package metadata used by the build system to generate the final packages"
+ do_patch[doc] = "Locates patch files and applies them to the source code"
++do_patchall[doc] = "Fetches, unpacks, and patches the source for all the components in a particular target"
+ do_populate_lic[doc] = "Writes license information for the recipe that is collected later when the image is constructed"
+ do_populate_sdk[doc] = "Creates the file and directory structure for an installable SDK"
+ do_populate_sysroot[doc] = "Copies a subset of files installed by do_install into the sysroot in order to make them available to other recipes"
 -- 
-1.8.3.1
+2.7.4
 
 
