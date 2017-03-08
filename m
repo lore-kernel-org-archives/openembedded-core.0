@@ -1,24 +1,25 @@
-Return-Path: <Haiqing.Bai@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A503C7199A
+Return-Path: <maxin.john@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F593774E6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Mar 2017 08:28:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v288SPrn023252
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  8 Mar 2017 08:55:16 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga104.jf.intel.com with ESMTP; 08 Mar 2017 00:55:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,262,1486454400"; d="scan'208";a="1139427866"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga002.fm.intel.com with ESMTP; 08 Mar 2017 00:55:17 -0800
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	by linux.intel.com (Postfix) with ESMTP id B97996A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Mar 2017 00:28:25 -0800 (PST)
-Received: from pek-lpgtest5.wrs.com (128.224.153.85) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Wed, 8 Mar 2017 00:28:24 -0800
-From: Haiqing Bai <Haiqing.Bai@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 Mar 2017 16:20:04 +0800
-Message-ID: <1488961205-4793-1-git-send-email-Haiqing.Bai@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] busybox: ifupdown:pass interface device name for ipv6 route command
+	Wed,  8 Mar 2017 00:55:14 -0800 (PST)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  8 Mar 2017 10:54:44 +0200
+Message-Id: <1488963284-5915-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH v2] useradd.bbclass: drop obsolete code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,93 +32,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Mar 2017 08:28:26 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 08 Mar 2017 08:55:17 -0000
 
-IPv6 routes need the device argument for link-local routes, or they
-cannot be used at all. E.g. "gateway fe80::def" seems to be used in
-some places, but kernel refuses to insert the route unless device
-name is explicitly specified in the route addition.
+Cleanup useradd class by removing the code made obsolete by
+the introduction of Recipe Specific Sysroot.
 
-Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- ...ss-interface-device-name-for-ipv6-route-c.patch | 52 ++++++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.24.1.bb        |  1 +
- 2 files changed, 53 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox-1.24.1/ifupdown-pass-interface-device-name-for-ipv6-route-c.patch
+Changes in v2:
 
-diff --git a/meta/recipes-core/busybox/busybox-1.24.1/ifupdown-pass-interface-device-name-for-ipv6-route-c.patch b/meta/recipes-core/busybox/busybox-1.24.1/ifupdown-pass-interface-device-name-for-ipv6-route-c.patch
-new file mode 100644
-index 0000000..2c9e5ae
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox-1.24.1/ifupdown-pass-interface-device-name-for-ipv6-route-c.patch
-@@ -0,0 +1,52 @@
-+From 06fcf98f6ca40dc6b823d7d6231a240a1794ef2d Mon Sep 17 00:00:00 2001
-+From: Haiqing Bai <Haiqing.Bai@windriver.com>
-+Date: Tue, 28 Feb 2017 10:40:37 +0800
-+Subject: [PATCH] ifupdown: pass interface device name for ipv6 route commands
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+commit 028524317d8d0011ed38e86e507a06738a5b5a97 from upstream
-+
-+IPv6 routes need the device argument for link-local routes, or they
-+cannot be used at all. E.g. "gateway fe80::def" seems to be used in
-+some places, but kernel refuses to insert the route unless device
-+name is explicitly specified in the route addition.
-+
-+Signed-off-by: Timo Teräs <timo.teras@iki.fi>
-+Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-+
-+Upstream-status: Backport
-+Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
-+---
-+ networking/ifupdown.c | 7 ++++---
-+ 1 file changed, 4 insertions(+), 3 deletions(-)
-+
-+diff --git a/networking/ifupdown.c b/networking/ifupdown.c
-+index 17bc4e9..a00f68d 100644
-+--- a/networking/ifupdown.c
-++++ b/networking/ifupdown.c
-+@@ -394,8 +394,8 @@ static int FAST_FUNC static_up6(struct interface_defn_t *ifd, execfn *exec)
-+ # if ENABLE_FEATURE_IFUPDOWN_IP
-+ 	result = execute("ip addr add %address%/%netmask% dev %iface%[[ label %label%]]", ifd, exec);
-+ 	result += execute("ip link set[[ mtu %mtu%]][[ addr %hwaddress%]] %iface% up", ifd, exec);
-+-	/* Was: "[[ ip ....%gateway% ]]". Removed extra spaces w/o checking */
-+-	result += execute("[[ip route add ::/0 via %gateway%]][[ metric %metric%]]", ifd, exec);
-++	/* Reportedly, IPv6 needs "dev %iface%", but IPv4 does not: */
-++	result += execute("[[ip route add ::/0 via %gateway% dev %iface%]][[ metric %metric%]]", ifd, exec);
-+ # else
-+ 	result = execute("ifconfig %iface%[[ media %media%]][[ hw %hwaddress%]][[ mtu %mtu%]] up", ifd, exec);
-+ 	result += execute("ifconfig %iface% add %address%/%netmask%", ifd, exec);
-+@@ -421,7 +421,8 @@ static int FAST_FUNC v4tunnel_up(struct interface_defn_t *ifd, execfn *exec)
-+ 			"%endpoint%[[ local %local%]][[ ttl %ttl%]]", ifd, exec);
-+ 	result += execute("ip link set %iface% up", ifd, exec);
-+ 	result += execute("ip addr add %address%/%netmask% dev %iface%", ifd, exec);
-+-	result += execute("[[ip route add ::/0 via %gateway%]]", ifd, exec);
-++	/* Reportedly, IPv6 needs "dev %iface%", but IPv4 does not: */
-++	result += execute("[[ip route add ::/0 via %gateway% dev %iface%]]", ifd, exec);
-+ 	return ((result == 4) ? 4 : 0);
-+ }
-+ 
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-core/busybox/busybox_1.24.1.bb b/meta/recipes-core/busybox/busybox_1.24.1.bb
-index afb69d1..41fc641 100644
---- a/meta/recipes-core/busybox/busybox_1.24.1.bb
-+++ b/meta/recipes-core/busybox/busybox_1.24.1.bb
-@@ -54,6 +54,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://commit-applet_tables-fix-commit-0dddbc1.patch \
-            file://makefile-libbb-race.patch \
-            file://0001-libiproute-handle-table-ids-larger-than-255.patch \
-+           file://ifupdown-pass-interface-device-name-for-ipv6-route-c.patch \
- "
- SRC_URI_append_libc-musl = " file://musl.cfg "
+Update PSEUDO_PASSWD as it is required by pseudo and without it
+ipk builds would break
+---
+ meta/classes/useradd.bbclass | 34 +---------------------------------
+ 1 file changed, 1 insertion(+), 33 deletions(-)
+
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index 326c04d..6a3fa27 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -32,7 +32,7 @@ if test "x$D" != "x"; then
+ 	fi
  
+ 	# user/group lookups should match useradd/groupadd --root
+-	export PSEUDO_PASSWD="$SYSROOT:${STAGING_DIR_NATIVE}"
++	export PSEUDO_PASSWD="$SYSROOT"
+ fi
+ 
+ # If we're not doing a special SSTATE/SYSROOT install
+@@ -132,38 +132,6 @@ python useradd_sysroot_sstate () {
+         bb.build.exec_func("useradd_sysroot", d)
+ }
+ 
+-userdel_sysroot_sstate () {
+-if test "x${STAGING_DIR_TARGET}" != "x"; then
+-    if [ "${BB_CURRENTTASK}" = "clean" ]; then
+-        export PSEUDO="${FAKEROOTENV} PSEUDO_LOCALSTATEDIR=${STAGING_DIR_TARGET}${localstatedir}/pseudo ${PSEUDO_SYSROOT}${bindir_native}/pseudo"
+-        OPT="--root ${STAGING_DIR_TARGET}"
+-
+-        # Remove groups and users defined for package
+-        GROUPADD_PARAM="${@get_all_cmd_params(d, 'groupadd')}"
+-        USERADD_PARAM="${@get_all_cmd_params(d, 'useradd')}"
+-
+-        user=`echo "$USERADD_PARAM" | cut -d ';' -f 1 | awk '{ print $NF }'`
+-        remaining=`echo "$USERADD_PARAM" | cut -d ';' -f 2- -s | sed -e 's#[ \t]*$##'`
+-        while test "x$user" != "x"; do
+-            perform_userdel "${STAGING_DIR_TARGET}" "$OPT $user"
+-            user=`echo "$remaining" | cut -d ';' -f 1 | awk '{ print $NF }'`
+-            remaining=`echo "$remaining" | cut -d ';' -f 2- -s | sed -e 's#[ \t]*$##'`
+-        done
+-
+-        user=`echo "$GROUPADD_PARAM" | cut -d ';' -f 1 | awk '{ print $NF }'`
+-        remaining=`echo "$GROUPADD_PARAM" | cut -d ';' -f 2- -s | sed -e 's#[ \t]*$##'`
+-        while test "x$user" != "x"; do
+-            perform_groupdel "${STAGING_DIR_TARGET}" "$OPT $user"
+-            user=`echo "$remaining" | cut -d ';' -f 1 | awk '{ print $NF }'`
+-            remaining=`echo "$remaining" | cut -d ';' -f 2- -s | sed -e 's#[ \t]*$##'`
+-        done
+-
+-    fi
+-fi
+-}
+-
+-#SSTATECLEANFUNCS_append_class-target = " userdel_sysroot_sstate"
+-
+ do_prepare_recipe_sysroot[postfuncs] += "${SYSROOTFUNC}"
+ SYSROOTFUNC_class-target = "useradd_sysroot_sstate"
+ SYSROOTFUNC = ""
 -- 
-1.9.1
+2.4.0
 
 
