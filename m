@@ -1,32 +1,31 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 7355072FFD
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FF8F777E7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Mar 2017 11:11:11 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Mar 2017 03:11:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,262,1486454400"; d="scan'208";a="832281208"
-Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 08 Mar 2017 03:11:13 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 73A836A4080;
-	Wed,  8 Mar 2017 03:11:09 -0800 (PST)
-Date: Wed, 8 Mar 2017 12:57:29 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Daniel Schultz <d.schultz@phytec.de>
-Message-ID: <20170308105729.GA22401@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <2791e915-9e22-a01a-ccb5-c629d250edb2@phytec.de>
-MIME-Version: 1.0
-In-Reply-To: <2791e915-9e22-a01a-ccb5-c629d250edb2@phytec.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Create more than one image with WIC
+	Wed,  8 Mar 2017 11:11:27 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v28BBQEi004318; Wed, 8 Mar 2017 11:11:26 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id foA7G0gJZItI; Wed,  8 Mar 2017 11:11:26 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v28BBN0i004301
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 8 Mar 2017 11:11:24 GMT
+Message-ID: <1488971483.22968.64.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Date: Wed, 08 Mar 2017 11:11:23 +0000
+In-Reply-To: <08203c70694442b388883c73d7f160b0@XBOX02.axis.com>
+References: <1488910966-30028-1-git-send-email-richard.purdie@linuxfoundation.org>
+	<08203c70694442b388883c73d7f160b0@XBOX02.axis.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] recipes: Move out stale GPLv2 versions to a seperate layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,31 +38,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Mar 2017 11:11:12 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 08 Mar 2017 11:11:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 08, 2017 at 10:44:21AM +0100, Daniel Schultz wrote:
-> Hi,
+On Wed, 2017-03-08 at 09:34 +0000, Peter Kjellerstedt wrote:
+> > I'm proposing we mmove to this separate layer for 2.3 with its
+> > future
+> > maintinership and testing to be determined in 2.4 and beyond.
+> > 
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Since this has now been integrated, announcing where to find the new 
+> layer might have been a good idea, as it is no longer part of Poky.
+
+It probably would have been a good idea. There are lots of things which
+"might have been a good idea" however I am somewhat limited by physical
+hours in the day to do them all myself.
+
+> For the record, the new layer can be found here:
 > 
-> I created two kickstart files (am335x-sdimage.wks, am335x-emmc.wks)
-> and added them to the local.conf.
-> 
-> When I build the image only the first wks in WKS_FILES will be used
-> by WIC and the second will be ignored. Is it possible to build two
-> images in one build?
->
+> http://git.yoctoproject.org/cgit/cgit.cgi/meta-gplv2/
 
-I don't think it's possible to build more than one image for the same
-type. wic is not an exception here.
+Thank you. It was mentioned mentioned in the email to the openembedded-
+architecture list and you managed to find regardless.
 
-> Includes of the wks files in local.conf:
-> WKS_FILES_ti33x = "am335x-sdimage.wks am335x-emmc.wks "
+> You probably also want to update the information about the layer so 
+> that it appears correctly on http://git.yoctoproject.org/
 
-WKS_FILES variable is to provide possible wks files to use. First one found will
-be used to produce an image.
+Indeed.
 
---
-Regards,
-Ed
+> And the layer should be added to the layer index...
+
+Yes, it should.
+
+Cheers,
+
+Richard
+
 
