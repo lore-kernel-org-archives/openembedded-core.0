@@ -1,25 +1,30 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F593774E6
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 7162D6006E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Mar 2017 08:55:16 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga104.jf.intel.com with ESMTP; 08 Mar 2017 00:55:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,262,1486454400"; d="scan'208";a="1139427866"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 08 Mar 2017 00:55:17 -0800
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.71])
-	by linux.intel.com (Postfix) with ESMTP id B97996A4080
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Mar 2017 00:55:14 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Mar 2017 10:54:44 +0200
-Message-Id: <1488963284-5915-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH v2] useradd.bbclass: drop obsolete code
+	Wed,  8 Mar 2017 09:23:12 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v289N9H4027143; Wed, 8 Mar 2017 09:23:09 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id FrZcU1yAsnPk; Wed,  8 Mar 2017 09:23:09 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v289N5if027140
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 8 Mar 2017 09:23:06 GMT
+Message-ID: <1488964985.22968.54.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 08 Mar 2017 09:23:05 +0000
+In-Reply-To: <a89026c4b38641650e5c14e231e452e842220238.1488272553.git.jussi.kukkonen@intel.com>
+References: <cover.1488272553.git.jussi.kukkonen@intel.com>
+	<a89026c4b38641650e5c14e231e452e842220238.1488272553.git.jussi.kukkonen@intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH v2 5/6] vulkan: Add recipe for Vulkan common loader
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,74 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Mar 2017 08:55:17 -0000
+X-List-Received-Date: Wed, 08 Mar 2017 09:23:13 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Cleanup useradd class by removing the code made obsolete by
-the introduction of Recipe Specific Sysroot.
+On Tue, 2017-02-28 at 11:26 +0200, Jussi Kukkonen wrote:
+> Add a recipe for vulkan loader library and the vulkaninfo binary.
+> 
+> Vulkan can be built to support X11 or wayland or both. There is
+> currently no support for building tests, validation layers or even
+> the demos as that would require a bunch of otherwise unnecessary
+> dependencies.
+> 
+> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> ---
+>  .../vulkan/demos-Don-t-build-tri-or-cube.patch     | 106
+> +++++++++++++++++++++
+>  meta/recipes-graphics/vulkan/vulkan_1.0.39.1.bb    |  33 +++++++
+>  2 files changed, 139 insertions(+)
+>  create mode 100644 meta/recipes-graphics/vulkan/vulkan/demos-Don-t-
+> build-tri-or-cube.patch
+>  create mode 100644 meta/recipes-graphics/vulkan/vulkan_1.0.39.1.bb
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
-Changes in v2:
+This doesn't seem to like musl:
 
-Update PSEUDO_PASSWD as it is required by pseudo and without it
-ipk builds would break
----
- meta/classes/useradd.bbclass | 34 +---------------------------------
- 1 file changed, 1 insertion(+), 33 deletions(-)
+https://autobuilder.yocto.io/builders/nightly-musl/builds/184/steps/BuildImages/logs/stdio
 
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index 326c04d..6a3fa27 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -32,7 +32,7 @@ if test "x$D" != "x"; then
- 	fi
- 
- 	# user/group lookups should match useradd/groupadd --root
--	export PSEUDO_PASSWD="$SYSROOT:${STAGING_DIR_NATIVE}"
-+	export PSEUDO_PASSWD="$SYSROOT"
- fi
- 
- # If we're not doing a special SSTATE/SYSROOT install
-@@ -132,38 +132,6 @@ python useradd_sysroot_sstate () {
-         bb.build.exec_func("useradd_sysroot", d)
- }
- 
--userdel_sysroot_sstate () {
--if test "x${STAGING_DIR_TARGET}" != "x"; then
--    if [ "${BB_CURRENTTASK}" = "clean" ]; then
--        export PSEUDO="${FAKEROOTENV} PSEUDO_LOCALSTATEDIR=${STAGING_DIR_TARGET}${localstatedir}/pseudo ${PSEUDO_SYSROOT}${bindir_native}/pseudo"
--        OPT="--root ${STAGING_DIR_TARGET}"
--
--        # Remove groups and users defined for package
--        GROUPADD_PARAM="${@get_all_cmd_params(d, 'groupadd')}"
--        USERADD_PARAM="${@get_all_cmd_params(d, 'useradd')}"
--
--        user=`echo "$USERADD_PARAM" | cut -d ';' -f 1 | awk '{ print $NF }'`
--        remaining=`echo "$USERADD_PARAM" | cut -d ';' -f 2- -s | sed -e 's#[ \t]*$##'`
--        while test "x$user" != "x"; do
--            perform_userdel "${STAGING_DIR_TARGET}" "$OPT $user"
--            user=`echo "$remaining" | cut -d ';' -f 1 | awk '{ print $NF }'`
--            remaining=`echo "$remaining" | cut -d ';' -f 2- -s | sed -e 's#[ \t]*$##'`
--        done
--
--        user=`echo "$GROUPADD_PARAM" | cut -d ';' -f 1 | awk '{ print $NF }'`
--        remaining=`echo "$GROUPADD_PARAM" | cut -d ';' -f 2- -s | sed -e 's#[ \t]*$##'`
--        while test "x$user" != "x"; do
--            perform_groupdel "${STAGING_DIR_TARGET}" "$OPT $user"
--            user=`echo "$remaining" | cut -d ';' -f 1 | awk '{ print $NF }'`
--            remaining=`echo "$remaining" | cut -d ';' -f 2- -s | sed -e 's#[ \t]*$##'`
--        done
--
--    fi
--fi
--}
--
--#SSTATECLEANFUNCS_append_class-target = " userdel_sysroot_sstate"
--
- do_prepare_recipe_sysroot[postfuncs] += "${SYSROOTFUNC}"
- SYSROOTFUNC_class-target = "useradd_sysroot_sstate"
- SYSROOTFUNC = ""
--- 
-2.4.0
+Cheers,
 
+Richard
 
