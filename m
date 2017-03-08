@@ -1,29 +1,45 @@
-Return-Path: <d.schultz@phytec.de>
-Received: from root.phytec.de (mail.phytec.co.uk [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id B1456778AC
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id F1E8360190
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Mar 2017 09:44:20 +0000 (UTC)
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id DC1B5A0044C
+	Wed,  8 Mar 2017 10:03:16 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id u108so3439002wrb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Mar 2017 10:44:47 +0100 (CET)
-Received: from [172.16.25.223] ([172.16.25.223])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-	with ESMTP id 2017030810442099-320402 ;
-	Wed, 8 Mar 2017 10:44:20 +0100 
+	Wed, 08 Mar 2017 02:03:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=vn204i63WB3sMluVV4EginCMMoz5J2EIF1AxAwr3wSQ=;
+	b=aBBNPlYZQItYj0jWtMf93lmIB+z5BPDobUOfGt1og+WxXGagZmCr7HDzFpGN1AtZn1
+	Q53dyBBevxO8Afsl/u4mxcHqkeB+XWzLYrNRUPmZ7gFVsj4zye68t9uauKaj5KjXO3QP
+	oCKzYKPcxfNkLuU6UhbyLV4yW0Z4xFjiCGJJT5jz9lD0Mww2vo9eb2kusP8sIUXi8uHk
+	w6xya9o5JJfG4/VUHD++bsgzmGhqJecPXb5TjceEWzifvzs+A5eIG0KBJdNzGhnKDc85
+	3mugRttrkZEEBji9NZkeFw+iSmY6sowB09918GcVq89S3qRCNIFnrDPypQW9QnBthnz/
+	+HLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=vn204i63WB3sMluVV4EginCMMoz5J2EIF1AxAwr3wSQ=;
+	b=ghhIxmNhDQT4szaOghm9gPHLU2kjH6tNfglnOyL0e3uG6hdjel3YdSWNavvGmJ8hod
+	PbYnMm6NxRhTExBbHtRltfSIXOFmBwDJKx6UDIEM6B2zKBfVOChyr0qFsjCoAvTPXEHH
+	RQ9YZcire95FFO36YZfAoQaXrGGlSi0YaHgxWDz10d3SeTf/HItiz7TeJ2xIkViwuJw1
+	rL63yuJCGqoAqVVX5R7+rudsXqCAMy3b1RROjknSqWRzrffgDEiZJq17hG0G8COgnSKq
+	if2cZM8caA2gbJF0OMYbwRxmlvDTto7o68i2dJSvinktm5ec6OONAARJvryPu91KTWsD
+	DTGg==
+X-Gm-Message-State: AMke39kwLBbWrI7OlK0wAdLdj6YLRz84EP9RI930thllAgTs7ow7+Ht2y+hFb+BcSmjh8g==
+X-Received: by 10.223.172.135 with SMTP id o7mr4107441wrc.121.1488967397464;
+	Wed, 08 Mar 2017 02:03:17 -0800 (PST)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	m201sm4035856wmd.19.2017.03.08.02.03.16
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 08 Mar 2017 02:03:16 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-From: Daniel Schultz <d.schultz@phytec.de>
-Message-ID: <2791e915-9e22-a01a-ccb5-c629d250edb2@phytec.de>
-Date: Wed, 8 Mar 2017 10:44:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.1
-MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
-	17, 2016) at 08.03.2017 10:44:20,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17,
-	2016) at 08.03.2017 10:44:21
-X-TNEFEvaluated: 1
-Subject: Create more than one image with WIC
+Date: Wed,  8 Mar 2017 11:03:15 +0100
+Message-Id: <20170308100315.16232-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.11.1
+Subject: [PATCH] gcc-runtime: Fix QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,24 +52,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Mar 2017 09:44:21 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 08 Mar 2017 10:03:17 -0000
 
-Hi,
+ERROR: gcc-runtime-6.3.0-r0 do_package: QA Issue: gcc-runtime: Files/directories were installed but not shipped in any package:
+  /usr/lib/libmpxwrappers.la
+Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
+gcc-runtime: 1 installed and not shipped files. [installed-vs-shipped]
 
-I created two kickstart files (am335x-sdimage.wks, am335x-emmc.wks) and=20
-added them to the local.conf.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-devtools/gcc/gcc-runtime.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-When I build the image only the first wks in WKS=5FFILES will be used by=20
-WIC and the second will be ignored. Is it possible to build two images=20
-in one build?
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+index ec8f4a42d0..a5be491ad3 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+@@ -254,6 +254,7 @@ FILES_libmpx = "${libdir}/libmpx.so.* ${libdir}/libmpxwrappers.so.*"
+ SUMMARY_libmpx = "Intel Memory Protection Extension library"
+ FILES_libmpx-dev = "\
+     ${libdir}/libmpxwrappers.so \
++    ${libdir}/libmpxwrappers.la \
+     ${libdir}/libmpx.so \
+     ${libdir}/libmpx.la \
+     ${libdir}/libmpx.spec \
+-- 
+2.11.1
 
-Includes of the wks files in local.conf:
-WKS=5FFILES=5Fti33x =3D "am335x-sdimage.wks am335x-emmc.wks "
-
---=20
-Mit freundlichen Gr=C3=BC=C3=9Fen,
-With best regards,
-   Daniel Schultz
 
