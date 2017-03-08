@@ -1,47 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f170.google.com (mail-wr0-f170.google.com
-	[209.85.128.170])
-	by mail.openembedded.org (Postfix) with ESMTP id A79D472F62
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id E6B8D731D1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Mar 2017 16:57:07 +0000 (UTC)
-Received: by mail-wr0-f170.google.com with SMTP id l37so27681490wrc.1
+	Wed,  8 Mar 2017 17:05:31 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id u108so4913894wrb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Mar 2017 08:57:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=JxtE0Ezu8Jp+qC5uZVsO9fMivY65+dH3kzcar0De9n4=;
-	b=MZpIR5T7bteWBO1yidSY5pIqtxkWV9BiRpgreC1sWP/Fs8QBXIf1PNUC25SQvj6k3Y
-	O5xVDIr1NrXwiMQaaKZXeNvylTtkkE98gD6C22nQyWpvRhaS0qxkhzdiUI2cxLhCvQaS
-	LjVcYKpJzXTztlTplEdw0rVYutpuJ+azackYKd1N7zbHXaEhDX9Qfu5h3IwfZI1DMWI2
-	oF3F+tMlZMSvYd8yftxvCmQZmejpevBj1J4ENrktpN7cVr6cR3pA+ThN4kSrunmAU4uI
-	1Cq+T5jS9JD3cFSK1GMyUNXEpp+bpX6L557FhG1+o8qSrz6rpT8kcjqsOMoSFb1KE3gN
-	FrXg==
+	Wed, 08 Mar 2017 09:05:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=UsjLHhDi94VQadDtcTUdKy9EMFEX24ivLK88qUsaK8g=;
+	b=kuaNcuIok3lsRFmuMVgTQn1dMlpbbEMyEXZ7uIOBuqdVDeLritAzUjM/+vWGcmwuwH
+	fNQMW517dKzsPZMVJUiatgydrbIHOwo2oPA2vcApFqcUubK5fcacWNLxEqldK2rertXO
+	3SptlIEsCGJhE6/b0fjTYf7aGxe9iqQ2dxv/imd9tKqCvQtpfI7X8T2EkA3yxm+9IsMX
+	YATjqSqjJEg7wn9tK5AigQ+MKMFEpnYUufD610FW+6lktvxM/iLMZeUxGBnXPgfuedmS
+	SHYFsmzShmSeAHMhGFaKIQD9y2abTCovuEfrOZqEPCj7TplZORfX8gdIXIxMDYM0SUra
+	sd5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=JxtE0Ezu8Jp+qC5uZVsO9fMivY65+dH3kzcar0De9n4=;
-	b=RIlO+jmSwuZAfk6pS0Cf2Ro/eesc4R2Zt6aHW6YV01EaoFAhKtu66aTLLqztPulA1S
-	rhXyWlQspAXB6yWwlQONeQ0VePeyJ5yBuNZq5zIDreEmOMQjBfqBk5SNf0myRk+JEio+
-	D0IGRdpgMbX7+sBHQ6npRXuaviZOEEGTGRwFnIZHCZnBJxPmGH7OOWByUGMRDSgK2cUg
-	UJeUzyXTa4Y7yWFh+oxdN2jgZu7DEdbt7OBZRUSiPovVCbhbOysJJXYgYlkf7yyBqEFM
-	odLgtxSe5XWKy+mFnUnq8Zd3mek3YfmTxjwagxOyjcJ+fW+uok9FVBNQAaKWFPrsYICJ
-	PMXg==
-X-Gm-Message-State: AMke39kXEM5LW21s/BK/LtZrdCsF6cgHyBQpv4olfAyMdkH69DEIG6e4MfgmOINv4vgtJViG
-X-Received: by 10.223.154.149 with SMTP id a21mr6130961wrc.145.1488992227836; 
-	Wed, 08 Mar 2017 08:57:07 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	t195sm6881500wmt.32.2017.03.08.08.57.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 08 Mar 2017 08:57:07 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Mar 2017 16:57:04 +0000
-Message-Id: <1488992224-2962-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] openssl: disable cryptodev by default
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=UsjLHhDi94VQadDtcTUdKy9EMFEX24ivLK88qUsaK8g=;
+	b=hCDWtsAzrVHxrhX+y/UaO9L/5yetmHsR/4iI9YVh0DbJbxxe2jhaSkGmxohGvXRVRA
+	b6GfsTIsbsD5U6hhlDvs7/9bMcg14PNdqXbrBmhiN0s/M+0zvXW7jyXJ6kNbwJ0kSfRq
+	NJa7haiWAPJbgJl8c+nJv6DG5wvS+rRsPkYwJuLc16Es3MmWM/t0MjC/Br3gWWKWy9ie
+	s34MO8xwnpXzxRdANzqirr+tYdl9Jqq96mX6dmmv6Q+HQ17TjQ4OQANkdjJQDeCCZIU6
+	pBu1t2ie6ke2fgUbxuH/+Dt3Wn0rDpKqA1TKjZQZoPYfPe6sgkVuBgzkx6V7q/udVtrN
+	hYJg==
+X-Gm-Message-State: AMke39kFWDqvq9Ar0SPJCgOEdKi36NS/7mFpSdotAfOCNW8CQ8J9UQTCzTg/tLSe0JDMqA==
+X-Received: by 10.223.136.82 with SMTP id e18mr6401761wre.28.1488992732701;
+	Wed, 08 Mar 2017 09:05:32 -0800 (PST)
+Received: from localhost ([217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id 63sm5495064wmp.9.2017.03.08.09.05.31
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 08 Mar 2017 09:05:31 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 8 Mar 2017 18:05:33 +0100
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20170308170533.GE3279@jama>
+References: <1488992224-2962-1-git-send-email-ross.burton@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1488992224-2962-1-git-send-email-ross.burton@intel.com>
+User-Agent: Mutt/1.8.0 (2017-02-23)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] openssl: disable cryptodev by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,50 +58,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Mar 2017 16:57:08 -0000
+X-List-Received-Date: Wed, 08 Mar 2017 17:05:32 -0000
+X-Groupsio-MsgNum: 94403
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="h56sxpGKRmy85csR"
+Content-Disposition: inline
 
-Cryptodev is a way for userspace to access the kernel crypto drivers (and so,
-hardware crypto).
+--h56sxpGKRmy85csR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Not all hardware supports cryptodev so this is something that should be enabled
-in a BSP layer instead of in oe-core.
+On Wed, Mar 08, 2017 at 04:57:04PM +0000, Ross Burton wrote:
+> Cryptodev is a way for userspace to access the kernel crypto drivers (and=
+ so,
+> hardware crypto).
+>=20
+> Not all hardware supports cryptodev so this is something that should be e=
+nabled
+> in a BSP layer instead of in oe-core.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-connectivity/openssl/openssl.inc       | 2 ++
- meta/recipes-connectivity/openssl/openssl_1.0.2k.bb | 5 -----
- 2 files changed, 2 insertions(+), 5 deletions(-)
+How is BSP layer supposed to enable this without being considered toxic
+to all other layers which might support MACHINEs with the same
+TUNE_PKGARCH?
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 9afa5bd..03dee0e 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -15,7 +15,9 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-           "
- S = "${WORKDIR}/openssl-${PV}"
- 
-+PACKAGECONFIG ??= ""
- PACKAGECONFIG[perl] = ",,,"
-+PACKAGECONFIG[cryptodev] = "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS,-UHAVE_CRYPTODEV,cryptodev-linux"
- 
- AR_append = " r"
- TERMIO_libc-musl = "-DTERMIOS"
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
-index 1973f81..4436ba3 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
-@@ -1,10 +1,5 @@
- require openssl.inc
- 
--# For target side versions of openssl enable support for OCF Linux driver
--# if they are available.
--DEPENDS += "cryptodev-linux"
--
--CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
- CFLAG_append_class-native = " -fPIC"
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=27ffa5d74bb5a337056c14b2ef93fbf6"
--- 
-2.8.1
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-connectivity/openssl/openssl.inc       | 2 ++
+>  meta/recipes-connectivity/openssl/openssl_1.0.2k.bb | 5 -----
+>  2 files changed, 2 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes=
+-connectivity/openssl/openssl.inc
+> index 9afa5bd..03dee0e 100644
+> --- a/meta/recipes-connectivity/openssl/openssl.inc
+> +++ b/meta/recipes-connectivity/openssl/openssl.inc
+> @@ -15,7 +15,9 @@ SRC_URI =3D "http://www.openssl.org/source/openssl-${PV=
+}.tar.gz \
+>            "
+>  S =3D "${WORKDIR}/openssl-${PV}"
+> =20
+> +PACKAGECONFIG ??=3D ""
+>  PACKAGECONFIG[perl] =3D ",,,"
+> +PACKAGECONFIG[cryptodev] =3D "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS,-=
+UHAVE_CRYPTODEV,cryptodev-linux"
+> =20
+>  AR_append =3D " r"
+>  TERMIO_libc-musl =3D "-DTERMIOS"
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb b/meta/r=
+ecipes-connectivity/openssl/openssl_1.0.2k.bb
+> index 1973f81..4436ba3 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
+> @@ -1,10 +1,5 @@
+>  require openssl.inc
+> =20
+> -# For target side versions of openssl enable support for OCF Linux driver
+> -# if they are available.
+> -DEPENDS +=3D "cryptodev-linux"
+> -
+> -CFLAG +=3D "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
+>  CFLAG_append_class-native =3D " -fPIC"
+> =20
+>  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D27ffa5d74bb5a337056c14b2ef93f=
+bf6"
+> --=20
+> 2.8.1
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--h56sxpGKRmy85csR
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWMA53AAKCRA3VSO3ZXaA
+HL//AKC1SppsIdeDj+hdNKO7Gk2iAks7WQCgsMHrhf2KbrDiBl65RcBsnwgsngU=
+=Bot+
+-----END PGP SIGNATURE-----
+
+--h56sxpGKRmy85csR--
