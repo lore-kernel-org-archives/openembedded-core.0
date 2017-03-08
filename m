@@ -1,27 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FF8F777E7
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id ADA8572FFD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Mar 2017 11:11:27 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v28BBQEi004318; Wed, 8 Mar 2017 11:11:26 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id foA7G0gJZItI; Wed,  8 Mar 2017 11:11:26 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v28BBN0i004301
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 8 Mar 2017 11:11:24 GMT
-Message-ID: <1488971483.22968.64.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Date: Wed, 08 Mar 2017 11:11:23 +0000
-In-Reply-To: <08203c70694442b388883c73d7f160b0@XBOX02.axis.com>
+	Wed,  8 Mar 2017 11:23:17 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Mar 2017 03:23:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,262,1486454400"; d="scan'208";a="941962220"
+Received: from janmalax-mobl1.ger.corp.intel.com (HELO
+	jlock-mobl1.ger.corp.intel.com) ([10.252.1.102])
+	by orsmga003.jf.intel.com with ESMTP; 08 Mar 2017 03:23:16 -0800
+Message-ID: <1488972195.2982.5.camel@linux.intel.com>
+From: Joshua Lock <joshua.g.lock@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Peter Kjellerstedt
+	<peter.kjellerstedt@axis.com>
+Date: Wed, 08 Mar 2017 11:23:15 +0000
+In-Reply-To: <1488971483.22968.64.camel@linuxfoundation.org>
 References: <1488910966-30028-1-git-send-email-richard.purdie@linuxfoundation.org>
 	<08203c70694442b388883c73d7f160b0@XBOX02.axis.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+	<1488971483.22968.64.camel@linuxfoundation.org>
+X-Mailer: Evolution 3.22.5 (3.22.5-1.fc25) 
 Mime-Version: 1.0
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
@@ -38,41 +37,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Mar 2017 11:11:28 -0000
+X-List-Received-Date: Wed, 08 Mar 2017 11:23:17 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2017-03-08 at 09:34 +0000, Peter Kjellerstedt wrote:
-> > I'm proposing we mmove to this separate layer for 2.3 with its
-> > future
-> > maintinership and testing to be determined in 2.4 and beyond.
+On Wed, 2017-03-08 at 11:11 +0000, Richard Purdie wrote:
+> On Wed, 2017-03-08 at 09:34 +0000, Peter Kjellerstedt wrote:
 > > 
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Since this has now been integrated, announcing where to find the new 
-> layer might have been a good idea, as it is no longer part of Poky.
-
-It probably would have been a good idea. There are lots of things which
-"might have been a good idea" however I am somewhat limited by physical
-hours in the day to do them all myself.
-
-> For the record, the new layer can be found here:
+> > And the layer should be added to the layer index...
 > 
-> http://git.yoctoproject.org/cgit/cgit.cgi/meta-gplv2/
+> Yes, it should.
 
-Thank you. It was mentioned mentioned in the email to the openembedded-
-architecture list and you managed to find regardless.
+I've submitted meta-gplv2 to the layer index.
 
-> You probably also want to update the information about the layer so 
-> that it appears correctly on http://git.yoctoproject.org/
-
-Indeed.
-
-> And the layer should be added to the layer index...
-
-Yes, it should.
-
-Cheers,
-
-Richard
-
+Joshua
 
