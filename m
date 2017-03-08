@@ -1,26 +1,57 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F59C70101
+Return-Path: <alejandro.delcastillo@ni.com>
+X-Greylist: delayed 1296 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 08 Mar 2017 22:01:51 UTC
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id 3EA6170101
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Mar 2017 21:55:04 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Mar 2017 13:55:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,265,1486454400"; d="scan'208";a="233894920"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.141])
-	by fmsmga004.fm.intel.com with ESMTP; 08 Mar 2017 13:55:05 -0800
-Message-ID: <1489010552.3261.35.camel@linux.intel.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: liu.ming50@gmail.com
-Date: Wed, 08 Mar 2017 16:02:32 -0600
-In-Reply-To: <1488982634-24222-1-git-send-email-liu.ming50@gmail.com>
-References: <1488982634-24222-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: Ming Liu <peter.x.liu@external.atlascopco.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Do not append to BBCLASSEXTEND
+	Wed,  8 Mar 2017 22:01:51 +0000 (UTC)
+Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id
+	v28LuLR2002089 for <openembedded-core@lists.openembedded.org>;
+	Wed, 8 Mar 2017 16:01:53 -0600
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mx0a-00010702.pphosted.com with ESMTP id 292q4r0sx2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 Mar 2017 16:01:53 -0600
+Received: from us-aus-exch1.ni.corp.natinst.com
+	(us-aus-exch1.ni.corp.natinst.com [130.164.68.11])
+	by us-aus-skprod2.natinst.com (8.16.0.17/8.16.0.17) with ESMTPS id
+	v28M1qd2010028
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 8 Mar 2017 16:01:52 -0600
+Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
+	us-aus-exch1.ni.corp.natinst.com (130.164.68.11) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Wed, 8 Mar 2017 16:01:52 -0600
+Received: from delcastillo2.amer.corp.natinst.com (130.164.49.7) by
+	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
+	Server
+	id 15.0.1156.6 via Frontend Transport; Wed, 8 Mar 2017 16:01:52 -0600
+From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 8 Mar 2017 16:01:50 -0600
+Message-ID: <1489010510-20121-1-git-send-email-alejandro.delcastillo@ni.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2017-03-08_17:, , signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+	suspectscore=14
+	malwarescore=0 phishscore=0 adultscore=0 bulkscore=0 classifier=spam
+	adjust=0 reason=mlx scancount=1 engine=8.0.1-1702020001
+	definitions=main-1703080170
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2017-03-08_17:, , signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=30
+	priorityscore=1501 malwarescore=0
+	suspectscore=45 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+	lowpriorityscore=0 impostorscore=0 adultscore=0 classifier=spam
+	adjust=30
+	reason=mlx scancount=1 engine=8.0.1-1702020001
+	definitions=main-1703080170
+Subject: [PATCH] libsolv: upgrade to 0.6.26
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,116 +64,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Mar 2017 21:55:05 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 08 Mar 2017 22:01:52 -0000
+Content-Type: text/plain
 
-Hi
+Drop 0001-Split-libsolvext-into-it-s-own-pkg-config-file.patch
 
-you need to send a v2 revision, following the shortlog format
+Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+---
+ ...-libsolvext-into-it-s-own-pkg-config-file.patch | 67 ----------------------
+ .../{libsolv_0.6.24.bb => libsolv_0.6.26.bb}       |  3 +-
+ 2 files changed, 1 insertion(+), 69 deletions(-)
+ delete mode 100644 meta/recipes-extended/libsolv/libsolv/0001-Split-libsolvext-into-it-s-own-pkg-config-file.patch
+ rename meta/recipes-extended/libsolv/{libsolv_0.6.24.bb => libsolv_0.6.26.bb} (86%)
 
-* Patch            Do not append to BBCLASSEXTEND
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
-
-
-
-On Wed, 2017-03-08 at 15:17 +0100, liu.ming50@gmail.com wrote:
-> From: Ming Liu <peter.x.liu@external.atlascopco.com>
-> 
-> Replace some "+=/=+" with "=" when setting BBCLASSEXTEND, they are
-> redundant and inconsistent with the same setting in other recipes.
-> 
-> Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
-> ---
->  meta/recipes-devtools/build-compare/build-compare_git.bb         | 2 +-
->  meta/recipes-extended/libsolv/libsolv_0.6.24.bb                  | 2 +-
->  meta/recipes-extended/lzip/lzip_1.18.bb                          | 2 +-
->  meta/recipes-extended/wget/wget.inc                              | 2 +-
->  meta/recipes-support/ca-certificates/ca-certificates_20161130.bb | 2 +-
->  meta/recipes-support/lz4/lz4.bb                                  | 2 +-
->  meta/recipes-support/lzop/lzop_1.03.bb                           | 2 +-
->  7 files changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/build-compare/build-compare_git.bb b/meta/recipes-devtools/build-compare/build-compare_git.bb
-> index e432143..eb12e40 100644
-> --- a/meta/recipes-devtools/build-compare/build-compare_git.bb
-> +++ b/meta/recipes-devtools/build-compare/build-compare_git.bb
-> @@ -22,7 +22,7 @@ PV = "git+${SRCPV}"
->  
->  S = "${WORKDIR}/git"
->  
-> -BBCLASSEXTEND += "native nativesdk"
-> +BBCLASSEXTEND = "native nativesdk"
->  
->  do_install() {
->      install -d ${D}/${bindir}
-> diff --git a/meta/recipes-extended/libsolv/libsolv_0.6.24.bb b/meta/recipes-extended/libsolv/libsolv_0.6.24.bb
-> index 6de38b5..73db5ed 100644
-> --- a/meta/recipes-extended/libsolv/libsolv_0.6.24.bb
-> +++ b/meta/recipes-extended/libsolv/libsolv_0.6.24.bb
-> @@ -27,4 +27,4 @@ FILES_${PN}-dev += "${datadir}/cmake/Modules/FindLibSolv.cmake"
->  FILES_${PN}-tools = "${bindir}/*"
->  FILES_${PN}ext = "${libdir}/${PN}ext.so.*"
->  
-> -BBCLASSEXTEND =+ "native nativesdk"
-> +BBCLASSEXTEND = "native nativesdk"
-> diff --git a/meta/recipes-extended/lzip/lzip_1.18.bb b/meta/recipes-extended/lzip/lzip_1.18.bb
-> index 30c7dd5..c1dc8ce 100644
-> --- a/meta/recipes-extended/lzip/lzip_1.18.bb
-> +++ b/meta/recipes-extended/lzip/lzip_1.18.bb
-> @@ -38,4 +38,4 @@ do_install () {
->      fi
->  }
->  
-> -BBCLASSEXTEND += "native nativesdk"
-> +BBCLASSEXTEND = "native nativesdk"
-> diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
-> index 9eb051f..1299edb 100644
-> --- a/meta/recipes-extended/wget/wget.inc
-> +++ b/meta/recipes-extended/wget/wget.inc
-> @@ -16,7 +16,7 @@ ALTERNATIVE_PRIORITY = "100"
->  
->  RRECOMMENDS_${PN} += "ca-certificates"
->  
-> -BBCLASSEXTEND += "nativesdk"
-> +BBCLASSEXTEND = "nativesdk"
->  
->  PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
->  PACKAGECONFIG[libuuid] = "--with-libuuid, --without-libuuid,util-linux"
-> diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-> index e47bad1..42088b9 100644
-> --- a/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-> +++ b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-> @@ -80,4 +80,4 @@ do_install_append_class-native () {
->  
->  RDEPENDS_${PN} += "openssl"
->  
-> -BBCLASSEXTEND += "native nativesdk"
-> +BBCLASSEXTEND = "native nativesdk"
-> diff --git a/meta/recipes-support/lz4/lz4.bb b/meta/recipes-support/lz4/lz4.bb
-> index 18e56d0..03c5a7a 100644
-> --- a/meta/recipes-support/lz4/lz4.bb
-> +++ b/meta/recipes-support/lz4/lz4.bb
-> @@ -18,4 +18,4 @@ do_install() {
->  	oe_runmake install
->  }
->  
-> -BBCLASSEXTEND += "native nativesdk"
-> +BBCLASSEXTEND = "native nativesdk"
-> diff --git a/meta/recipes-support/lzop/lzop_1.03.bb b/meta/recipes-support/lzop/lzop_1.03.bb
-> index 649e724..6f09002 100644
-> --- a/meta/recipes-support/lzop/lzop_1.03.bb
-> +++ b/meta/recipes-support/lzop/lzop_1.03.bb
-> @@ -26,4 +26,4 @@ do_configure_prepend () {
->      install -Dm 0644 ${WORKDIR}/acinclude.m4 ${S}/acinclude.m4
->  }
->  
-> -BBCLASSEXTEND += "native nativesdk"
-> +BBCLASSEXTEND = "native nativesdk"
-> -- 
-> 1.9.1
-> 
-
+diff --git a/meta/recipes-extended/libsolv/libsolv/0001-Split-libsolvext-into-it-s-own-pkg-config-file.patch b/meta/recipes-extended/libsolv/libsolv/0001-Split-libsolvext-into-it-s-own-pkg-config-file.patch
+deleted file mode 100644
+index 9d9b234..0000000
+--- a/meta/recipes-extended/libsolv/libsolv/0001-Split-libsolvext-into-it-s-own-pkg-config-file.patch
++++ /dev/null
+@@ -1,67 +0,0 @@
+-From 0830ceffb32bdf61dab2a598b9e77f65d089074f Mon Sep 17 00:00:00 2001
+-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+-Date: Fri, 27 Jan 2017 16:10:14 -0600
+-Subject: [PATCH] Split libsolvext into it's own pkg-config file
+-
+-Upstream-Status: Submitted (https://github.com/openSUSE/libsolv/pull/177)
+-
+-Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+----
+- CMakeLists.txt                    | 4 +++-
+- libsolv.pc.in                     | 4 ++--
+- libsolv.pc.in => libsolvext.pc.in | 4 ++--
+- 3 files changed, 7 insertions(+), 5 deletions(-)
+- copy libsolv.pc.in => libsolvext.pc.in (62%)
+-
+-diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index 82034e0..0777ed9 100644
+---- a/CMakeLists.txt
+-+++ b/CMakeLists.txt
+-@@ -384,9 +384,11 @@ MACRO (SPECFILE)
+- ENDMACRO (SPECFILE)
+- 
+- MACRO (PCFILE)
+--  MESSAGE (STATUS "Writing pkg-config file...")
+-+  MESSAGE (STATUS "Writing pkg-config files...")
+-   CONFIGURE_FILE (${CMAKE_SOURCE_DIR}/libsolv.pc.in ${CMAKE_BINARY_DIR}/libsolv.pc @ONLY)
+-   INSTALL( FILES ${CMAKE_BINARY_DIR}/libsolv.pc DESTINATION ${LIB_INSTALL_DIR}/pkgconfig )
+-+  CONFIGURE_FILE (${CMAKE_SOURCE_DIR}/libsolvext.pc.in ${CMAKE_BINARY_DIR}/libsolvext.pc @ONLY)
+-+  INSTALL( FILES ${CMAKE_BINARY_DIR}/libsolvext.pc DESTINATION ${LIB_INSTALL_DIR}/pkgconfig )
+- ENDMACRO (PCFILE)
+- 
+- SPECFILE ()
+-diff --git a/libsolv.pc.in b/libsolv.pc.in
+-index c82dfc4..40a8623 100644
+---- a/libsolv.pc.in
+-+++ b/libsolv.pc.in
+-@@ -2,7 +2,7 @@ libdir=@LIB_INSTALL_DIR@
+- includedir=@INCLUDE_INSTALL_DIR@
+- 
+- Name: libsolv
+--Description: Library for solving packages and reading repositories
+-+Description: Library for solving packages
+- Version: @VERSION@
+--Libs: -L${libdir} -lsolvext -lsolv
+-+Libs: -L${libdir} -lsolv
+- Cflags: -I${includedir}
+-diff --git a/libsolv.pc.in b/libsolvext.pc.in
+-similarity index 62%
+-copy from libsolv.pc.in
+-copy to libsolvext.pc.in
+-index c82dfc4..6395f39 100644
+---- a/libsolv.pc.in
+-+++ b/libsolvext.pc.in
+-@@ -1,8 +1,8 @@
+- libdir=@LIB_INSTALL_DIR@
+- includedir=@INCLUDE_INSTALL_DIR@
+- 
+--Name: libsolv
+--Description: Library for solving packages and reading repositories
+-+Name: libsolvext
+-+Description: Library for reading repositories
+- Version: @VERSION@
+- Libs: -L${libdir} -lsolvext -lsolv
+- Cflags: -I${includedir}
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/libsolv/libsolv_0.6.24.bb b/meta/recipes-extended/libsolv/libsolv_0.6.26.bb
+similarity index 86%
+rename from meta/recipes-extended/libsolv/libsolv_0.6.24.bb
+rename to meta/recipes-extended/libsolv/libsolv_0.6.26.bb
+index 6de38b5..f29b9a1 100644
+--- a/meta/recipes-extended/libsolv/libsolv_0.6.24.bb
++++ b/meta/recipes-extended/libsolv/libsolv_0.6.26.bb
+@@ -8,11 +8,10 @@ LIC_FILES_CHKSUM = "file://LICENSE.BSD;md5=62272bd11c97396d4aaf1c41bc11f7d8"
+ DEPENDS = "expat zlib"
+ 
+ SRC_URI = "git://github.com/openSUSE/libsolv.git \
+-           file://0001-Split-libsolvext-into-it-s-own-pkg-config-file.patch \
+           "
+ SRC_URI_append_libc-musl = " file://0001-Add-fallback-fopencookie-implementation.patch"
+ 
+-SRCREV = "4049d57b026d3a67c8c164ed20db85ff62b87728"
++SRCREV = "ba32f8286d3deec6faaabc79762a4760e9af0a07"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.7.4
 
 
