@@ -1,30 +1,36 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id ADA8572FFD
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 497EE776F9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Mar 2017 11:23:17 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Mar 2017 03:23:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,262,1486454400"; d="scan'208";a="941962220"
-Received: from janmalax-mobl1.ger.corp.intel.com (HELO
-	jlock-mobl1.ger.corp.intel.com) ([10.252.1.102])
-	by orsmga003.jf.intel.com with ESMTP; 08 Mar 2017 03:23:16 -0800
-Message-ID: <1488972195.2982.5.camel@linux.intel.com>
-From: Joshua Lock <joshua.g.lock@linux.intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Peter Kjellerstedt
-	<peter.kjellerstedt@axis.com>
-Date: Wed, 08 Mar 2017 11:23:15 +0000
-In-Reply-To: <1488971483.22968.64.camel@linuxfoundation.org>
-References: <1488910966-30028-1-git-send-email-richard.purdie@linuxfoundation.org>
-	<08203c70694442b388883c73d7f160b0@XBOX02.axis.com>
-	<1488971483.22968.64.camel@linuxfoundation.org>
-X-Mailer: Evolution 3.22.5 (3.22.5-1.fc25) 
+	Wed,  8 Mar 2017 11:34:41 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v28BY99C006987; Wed, 8 Mar 2017 11:34:41 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Kayt4t70zwEk; Wed,  8 Mar 2017 11:34:41 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v28BYaIS007109
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 8 Mar 2017 11:34:37 GMT
+Message-ID: <1488972876.22968.67.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>, Khem Raj <raj.khem@gmail.com>
+Date: Wed, 08 Mar 2017 11:34:36 +0000
+In-Reply-To: <CA+chaQeHLtqAW3mK1-Y_yQZYBwrtDfEcsHocz8fMW8e8W4OCjg@mail.gmail.com>
+References: <1488542096-23389-1-git-send-email-richard.purdie@linuxfoundation.org>
+	<CAMKF1soCXsibCK37Az9MV1HMUpAK2dtWoijOxoBW25RoMhU+8g@mail.gmail.com>
+	<CAJTo0LYPwxx18CtjJ_Rng28UhQAmJbMCw5=ebW2WkZmcALznUQ@mail.gmail.com>
+	<CAMKF1sqB7A9m2osnv9bwywRF5hT4-oNgKU+rLNyA8SD70n8Mbg@mail.gmail.com>
+	<1488624869.22968.8.camel@linuxfoundation.org>
+	<CAMKF1sqth8gmzS6k13EA2Sz6r-mfextxWXxB=2rfCHw6-gfFQQ@mail.gmail.com>
+	<CA+chaQeHLtqAW3mK1-Y_yQZYBwrtDfEcsHocz8fMW8e8W4OCjg@mail.gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
 Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] recipes: Move out stale GPLv2 versions to a seperate layer
+Subject: Re: [PATCH] gcc-runtime: Add libmpx supprt for x86
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,18 +43,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Mar 2017 11:23:17 -0000
+X-List-Received-Date: Wed, 08 Mar 2017 11:34:42 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2017-03-08 at 11:11 +0000, Richard Purdie wrote:
-> On Wed, 2017-03-08 at 09:34 +0000, Peter Kjellerstedt wrote:
-> > 
-> > And the layer should be added to the layer index...
+On Wed, 2017-03-08 at 01:00 +0100, Martin Jansa wrote:
+> Seems to cause following QA issue for DISTROs which don't
+> inherit remove-libtool.bbclass
 > 
-> Yes, it should.
+> ERROR: gcc-runtime-6.3.0-r0 do_package: QA Issue: gcc-runtime:
+> Files/directories were installed but not shipped in any package:
+>   /usr/lib/libmpxwrappers.la
+> Please set FILES such that these items are packaged. Alternatively if
+> they are unneeded, avoid installing them or delete them within
+> do_install.
+> gcc-runtime: 1 installed and not shipped files. [installed-vs-
+> shipped]
 
-I've submitted meta-gplv2 to the layer index.
+Sorry, thanks for the fix.
 
-Joshua
+Cheers,
+
+Richard
 
