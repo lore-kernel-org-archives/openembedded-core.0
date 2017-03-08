@@ -1,59 +1,24 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E5847785D
+Return-Path: <Haiqing.Bai@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AE126601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Mar 2017 09:34:31 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id D6FF22E4ED;
-	Wed,  8 Mar 2017 10:34:31 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id 3XpPxUiRj0Fk; Wed,  8 Mar 2017 10:34:30 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id A6F242E177;
-	Wed,  8 Mar 2017 10:34:30 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 94AAF1E083;
-	Wed,  8 Mar 2017 10:34:30 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 89B321E060;
-	Wed,  8 Mar 2017 10:34:30 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Wed,  8 Mar 2017 10:34:30 +0100 (CET)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by thoth.se.axis.com (Postfix) with ESMTP id 7DB30766;
-	Wed,  8 Mar 2017 10:34:30 +0100 (CET)
-Received: from xbox12.axis.com (10.0.5.26) by XBOX04.axis.com (10.0.5.18) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Wed, 8 Mar 2017 10:34:30 +0100
-Received: from XBOX02.axis.com (10.0.5.16) by xbox12.axis.com (10.0.5.26) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Wed, 8 Mar 2017 10:34:30 +0100
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1210.000; Wed, 8 Mar 2017 10:34:30 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH] recipes: Move out stale GPLv2 versions to a
-	seperate layer
-Thread-Index: AQHSl3AHY/z7o+zpl0OVdUdpcMOj7KGKqrDg
-Date: Wed, 8 Mar 2017 09:34:30 +0000
-Message-ID: <08203c70694442b388883c73d7f160b0@XBOX02.axis.com>
-References: <1488910966-30028-1-git-send-email-richard.purdie@linuxfoundation.org>
-In-Reply-To: <1488910966-30028-1-git-send-email-richard.purdie@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Wed,  8 Mar 2017 09:35:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v289ZqKH030839
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 8 Mar 2017 01:35:55 -0800
+Received: from pek-lpgtest5.wrs.com (128.224.153.85) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Wed, 8 Mar 2017 01:35:51 -0800
+From: Haiqing Bai <Haiqing.Bai@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 8 Mar 2017 17:27:30 +0800
+Message-ID: <1488965251-11171-1-git-send-email-Haiqing.Bai@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] recipes: Move out stale GPLv2 versions to a	seperate layer
+Subject: [PATCH] busybox: ifupdown:pass interface device name for ipv6 route command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,49 +31,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Mar 2017 09:34:32 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 08 Mar 2017 09:35:54 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1i
-b3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gW21haWx0bzpvcGVuZW1iZWRkZWQtY29y
-ZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZiBPZg0KPiBSaWNoYXJk
-IFB1cmRpZQ0KPiBTZW50OiBkZW4gNyBtYXJzIDIwMTcgMTk6MjMNCj4gVG86IG9wZW5lbWJlZGRl
-ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogW09FLWNvcmVdIFtQQVRD
-SF0gcmVjaXBlczogTW92ZSBvdXQgc3RhbGUgR1BMdjIgdmVyc2lvbnMgdG8gYQ0KPiBzZXBlcmF0
-ZSBsYXllcg0KPiANCj4gVGhlc2UgYXJlIHJlY2lwZXMgd2hlcmUgdGhlIHVwc3RyZWFtIGhhcyBt
-b3ZlZCB0byBHUEx2MyBhbmQgdGhlc2Ugb2xkDQo+IHZlcnNpb25zIGFyZSB0aGUgbGFzdCBvbmVz
-IHVuZGVyIHRoZSBHUEx2MiBsaWNlbnNlLg0KPiANCj4gVGhlcmUgYXJlIHNldmVyYWwgcmVhc29u
-cyBmb3IgbWFraW5nIHRoaXMgbW92ZS4gVGhlcmUgaXMgYSBkaWZmZXJlbnQNCj4gcXVhbGl0eSBv
-ZiBzZXJ2aWNlIHdpdGggdGhlc2UgcmVjaXBlcyBpbiB0aGF0IHRoZXkgZG9uJ3QgZ2V0IHNlY3Vy
-aXR5DQo+IGZpeGVzIGFuZCB1cHN0cmVhbSBubyBsb25nZXIgY2FyZSBhYm91dCB0aGVtLCBpbiBm
-YWN0IHRoZXkncmUgYWN0aXZlbHkNCj4gaG9zdGlsZSBhZ2FpbnN0IHBlb3BsZSB1c2luZyBvbGQg
-dmVyc2lvbnMuIFRoZSByZWNpcGVzIHRlbmQgdG8gbmVlZCBhDQo+IGRpZmZlcmVudCBraW5kIG9m
-IG1haW50ZW5hbmNlIHRvIHdvcmsgd2l0aCBjaGFuZ2VzIGluIHRoZSB3aWRlciBlY29zeXN0ZW0N
-Cj4gYW5kIHRoZXJlIG5lZWRzIHRvIGJlIGlzb2xhdGlvbiBiZXR3ZWVuIGNoYW5nZXMgbWFkZSBp
-biB0aGUgdjMgdmVyc2lvbnMNCj4gYW5kIHRob3NlIGluIHRoZSB2MiB2ZXJzaW9ucy4NCj4gDQo+
-IFRoZXJlIGFyZSBwcm9iYWJseSBiZXR0ZXIgd2F5cyB0byBoYW5kbGUgYSAibm9uLUdQTHYzIiBz
-eXN0ZW0gYnV0IHJpZ2h0DQo+IG5vdyBoYXZpbmcgdGhlc2UgaW4gT0UtQ29yZSBtYWtlcyB0aGVt
-IGxvb2sgbGlrZSBhIGZpcnN0IGNsYXNzIGNpdGl6ZW4NCj4gd2hlbiBJIGJlbGlldmUgdGhleSBo
-YXZlIHBvdGVudGlhbCBmb3IgYSB2YXJpZXR5IG9mIHVuZGVzaXJlYWJsZQ0KPiBpc3N1ZXMuDQo+
-IA0KPiBNb3ZpbmcgdGhlbSBpbnRvIGEgc2VwYXJhdGUgbGF5ZXIgbWFrZXMgdGhlaXIgZGlmZmVy
-ZW50IG5lZWRzIGNsZWFyZXIsIGl0DQo+IGFsc28gbWFrZXMgaXQgY2xlYXIgaG93IG1hbnkgb2Yg
-dGhlc2UgdGhlcmUgYXJlLiBTb21lIGFyZSBwcm9iYWJseSBub3QNCj4gbmVlZGVkIChlLmcuIG1j
-KSwgSSBhbHNvIHdvbmRlciB3aGV0aGVyIHNvbWUgYXJlIHVzZWZ1bCAoZS5nLiBnbXApDQo+IHNp
-bmNlIG1vc3QgdGhpbmdzIHRoYXQgdXNlIHRoZW0gYXJlIEdQTHYzIG9ubHkgYWxyZWFkeS4gU29t
-ZW9uZSBjb3VsZA0KPiBub3cgbW9yZSBjbGVhcmx5IHNlZSBob3cgdG8gc3RyZWFtbGluZSB0aGUg
-bGlzdCBvZiByZWNpcGVzIGhlcmUuDQo+IA0KPiBJJ20gcHJvcG9zaW5nIHdlIG1tb3ZlIHRvIHRo
-aXMgc2VwYXJhdGUgbGF5ZXIgZm9yIDIuMyB3aXRoIGl0cyBmdXR1cmUNCj4gbWFpbnRpbmVyc2hp
-cCBhbmQgdGVzdGluZyB0byBiZSBkZXRlcm1pbmVkIGluIDIuNCBhbmQgYmV5b25kLg0KPiANCj4g
-U2lnbmVkLW9mZi1ieTogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRh
-dGlvbi5vcmc+DQoNClNpbmNlIHRoaXMgaGFzIG5vdyBiZWVuIGludGVncmF0ZWQsIGFubm91bmNp
-bmcgd2hlcmUgdG8gZmluZCB0aGUgbmV3IA0KbGF5ZXIgbWlnaHQgaGF2ZSBiZWVuIGEgZ29vZCBp
-ZGVhLCBhcyBpdCBpcyBubyBsb25nZXIgcGFydCBvZiBQb2t5Lg0KDQpGb3IgdGhlIHJlY29yZCwg
-dGhlIG5ldyBsYXllciBjYW4gYmUgZm91bmQgaGVyZToNCg0KaHR0cDovL2dpdC55b2N0b3Byb2pl
-Y3Qub3JnL2NnaXQvY2dpdC5jZ2kvbWV0YS1ncGx2Mi8NCg0KWW91IHByb2JhYmx5IGFsc28gd2Fu
-dCB0byB1cGRhdGUgdGhlIGluZm9ybWF0aW9uIGFib3V0IHRoZSBsYXllciBzbyANCnRoYXQgaXQg
-YXBwZWFycyBjb3JyZWN0bHkgb24gaHR0cDovL2dpdC55b2N0b3Byb2plY3Qub3JnLw0KDQpBbmQg
-dGhlIGxheWVyIHNob3VsZCBiZSBhZGRlZCB0byB0aGUgbGF5ZXIgaW5kZXguLi4NCg0KLy9QZXRl
-cg0KDQo=
+IPv6 routes need the device argument for link-local routes, or they
+cannot be used at all. E.g. "gateway fe80::def" seems to be used in
+some places, but kernel refuses to insert the route unless device
+name is explicitly specified in the route addition.
+
+Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
+---
+ ...ss-interface-device-name-for-ipv6-route-c.patch | 52 ++++++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.24.1.bb        |  1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox-1.24.1/ifupdown-pass-interface-device-name-for-ipv6-route-c.patch
+
+diff --git a/meta/recipes-core/busybox/busybox-1.24.1/ifupdown-pass-interface-device-name-for-ipv6-route-c.patch b/meta/recipes-core/busybox/busybox-1.24.1/ifupdown-pass-interface-device-name-for-ipv6-route-c.patch
+new file mode 100644
+index 0000000..2c9e5ae
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox-1.24.1/ifupdown-pass-interface-device-name-for-ipv6-route-c.patch
+@@ -0,0 +1,52 @@
++From 06fcf98f6ca40dc6b823d7d6231a240a1794ef2d Mon Sep 17 00:00:00 2001
++From: Haiqing Bai <Haiqing.Bai@windriver.com>
++Date: Tue, 28 Feb 2017 10:40:37 +0800
++Subject: [PATCH] ifupdown: pass interface device name for ipv6 route commands
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++commit 028524317d8d0011ed38e86e507a06738a5b5a97 from upstream
++
++IPv6 routes need the device argument for link-local routes, or they
++cannot be used at all. E.g. "gateway fe80::def" seems to be used in
++some places, but kernel refuses to insert the route unless device
++name is explicitly specified in the route addition.
++
++Signed-off-by: Timo Teräs <timo.teras@iki.fi>
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
++
++Upstream-Status: Backport
++Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
++---
++ networking/ifupdown.c | 7 ++++---
++ 1 file changed, 4 insertions(+), 3 deletions(-)
++
++diff --git a/networking/ifupdown.c b/networking/ifupdown.c
++index 17bc4e9..a00f68d 100644
++--- a/networking/ifupdown.c
+++++ b/networking/ifupdown.c
++@@ -394,8 +394,8 @@ static int FAST_FUNC static_up6(struct interface_defn_t *ifd, execfn *exec)
++ # if ENABLE_FEATURE_IFUPDOWN_IP
++ 	result = execute("ip addr add %address%/%netmask% dev %iface%[[ label %label%]]", ifd, exec);
++ 	result += execute("ip link set[[ mtu %mtu%]][[ addr %hwaddress%]] %iface% up", ifd, exec);
++-	/* Was: "[[ ip ....%gateway% ]]". Removed extra spaces w/o checking */
++-	result += execute("[[ip route add ::/0 via %gateway%]][[ metric %metric%]]", ifd, exec);
+++	/* Reportedly, IPv6 needs "dev %iface%", but IPv4 does not: */
+++	result += execute("[[ip route add ::/0 via %gateway% dev %iface%]][[ metric %metric%]]", ifd, exec);
++ # else
++ 	result = execute("ifconfig %iface%[[ media %media%]][[ hw %hwaddress%]][[ mtu %mtu%]] up", ifd, exec);
++ 	result += execute("ifconfig %iface% add %address%/%netmask%", ifd, exec);
++@@ -421,7 +421,8 @@ static int FAST_FUNC v4tunnel_up(struct interface_defn_t *ifd, execfn *exec)
++ 			"%endpoint%[[ local %local%]][[ ttl %ttl%]]", ifd, exec);
++ 	result += execute("ip link set %iface% up", ifd, exec);
++ 	result += execute("ip addr add %address%/%netmask% dev %iface%", ifd, exec);
++-	result += execute("[[ip route add ::/0 via %gateway%]]", ifd, exec);
+++	/* Reportedly, IPv6 needs "dev %iface%", but IPv4 does not: */
+++	result += execute("[[ip route add ::/0 via %gateway% dev %iface%]]", ifd, exec);
++ 	return ((result == 4) ? 4 : 0);
++ }
++ 
++-- 
++1.9.1
++
+diff --git a/meta/recipes-core/busybox/busybox_1.24.1.bb b/meta/recipes-core/busybox/busybox_1.24.1.bb
+index afb69d1..41fc641 100644
+--- a/meta/recipes-core/busybox/busybox_1.24.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.24.1.bb
+@@ -54,6 +54,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://commit-applet_tables-fix-commit-0dddbc1.patch \
+            file://makefile-libbb-race.patch \
+            file://0001-libiproute-handle-table-ids-larger-than-255.patch \
++           file://ifupdown-pass-interface-device-name-for-ipv6-route-c.patch \
+ "
+ SRC_URI_append_libc-musl = " file://musl.cfg "
+ 
+-- 
+1.9.1
+
 
