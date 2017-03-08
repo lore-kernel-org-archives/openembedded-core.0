@@ -1,46 +1,47 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 08F266011B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f181.google.com (mail-wr0-f181.google.com
+	[209.85.128.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EF93608B7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Mar 2017 14:17:35 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id g10so4331783wrg.0
+	Wed,  8 Mar 2017 14:34:37 +0000 (UTC)
+Received: by mail-wr0-f181.google.com with SMTP id u48so24707660wrc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Mar 2017 06:17:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=PHOLSKy4KdGD1B4mi2SACWBka1BSmLqustGjqSpptBw=;
-	b=X4TsayL1u8hZJ897GdAF2d507CrGvhK6Ofcxrf8ukrqI3uU+BdbmST3atNSLFV00YA
-	3hl/9TWdU/WzbqVKrsmaLxIa1fkxXl2LK453Rkiiu//xqcQdXMYSvGvia2u1mGkqM9Oa
-	b2R5fF1Way5iKRrqTtVdiYwb4eE/Y1ZZ5CXNGbJakQhafHtY3lvaiYfMqNpgWzlIP7/5
-	Q3a4UCTF00SGzsNJg3yl6tqle8jT+G3V/uan52/0sFO9Ku7WjVsjOcBnB78ge5y7s5Te
-	qYr4efGb6suBxEStyiC7HTbvnUSdTSPV+3f9VZ8sIva/IwjyvCVmZl8oU0WTy2eispdp
-	2tDQ==
+	Wed, 08 Mar 2017 06:34:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=243NW3/i0HY3DMVhiunsb4dvrayoI7gZ8emkFf0zXcY=;
+	b=CpH/3B73/U2RjyPAQxbmm3y2fUvCovQP5Hdy2sTRQeBeHvDIc1vUsAb1RvCrMuF0gh
+	UpUbqtwhc7J+QmO+s/8AR+EDp0dpXrp2pyxjV/GcZlBxxhPpsK+rMdhB0HcsRar8hvWS
+	RL2ZzUimx4WAnISxtCSW82s5S7+wzCTRb1gliyrXMaYz4w8Oosj3kH/qWTl77o5PdeuG
+	TFcM+g91Z7XP7WQQHdClopIPahQIiHU98675rbH5pTvlPnP6bjGHJclZ7aIiqOnqT/ql
+	/AC07e8YDvf2DxyCR/BjcLYDsMYTB2B+ez/M0mT3LZX+0EXIyW8qJpUEnofsDFdCe4GV
+	3zgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=PHOLSKy4KdGD1B4mi2SACWBka1BSmLqustGjqSpptBw=;
-	b=WZYni3X9RmWsWd53gK0ITS3wgcu05jLWIjeQJKcBL0jDhrYn8XM9HbCPQnamQpscMa
-	Cx3/pzZCqzaTSs3lE3VdRyqYhajncNeZWJX3OaCklKxx4Dx4AtEj3msWhjgppmeBGk2C
-	E9/g1ttEeMvDhf+rPPUGTEyTk+YkFf/p+aWujIPhUyWap5qMY7KOY75M5TltF/S86nCZ
-	v4+t2hYNKmsLQ2LaZ3ZchCCj2Q883aLFY8Z638WTtc6DkrRYHnbHNPuPCxKPi1wCRMJ9
-	UGU3zj3ObsEYxs8wY14atYQwb+7YSMkgM8hDlM0k8Oo5yrNWKXlfnGiFQ0wnxx9Hh1np
-	bmdg==
-X-Gm-Message-State: AMke39kqDKNsJKKp6L/GE8zq0uIalw45B4mBeWrYtR4Se8t6UWDbPC85xITMSmvWQC0sgA==
-X-Received: by 10.223.173.53 with SMTP id p50mr6045014wrc.112.1488982656748;
-	Wed, 08 Mar 2017 06:17:36 -0800 (PST)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([117.136.38.232]) by smtp.gmail.com with ESMTPSA id
-	m80sm4869178wmi.34.2017.03.08.06.17.32
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=243NW3/i0HY3DMVhiunsb4dvrayoI7gZ8emkFf0zXcY=;
+	b=ehY2M7uA8qIgNArK5Q087yZDyqanzCeF0V5EoF0Ab+tOqjBBOJp+nWpjsbq+qs58N+
+	TIP406YBgDCwAWlVUOvoYc09KiC5GIK+1S8ftu3DySC5MMG+TDKNT2ypXhTtePDd8Mms
+	C3NifzXTObwummNzYCplYZgNvMXUsikvjD7crFqkCB8UxB74ViK1k/bnU6YolN6sB605
+	kjuhlyHVca5qTKmcno8RxslYDRFKJsZAaBRZJCf2j135UcGHN1Ks06nYm40PzQTtL2jq
+	jcRCtnYpHBFMZDH1VFZlMwoLz4NwzBegcB5Q8niea3G1wDACx7TRYWpyQ/+NEoNNWPeK
+	vyOA==
+X-Gm-Message-State: AMke39kcjRVKHWtgcZY/jVKKpw6QutjZ0apll2P+8ha5j9cDyp+dR71xPmUpgPAfPrVszOnJ
+X-Received: by 10.223.132.37 with SMTP id 34mr5339156wrf.45.1488983677313;
+	Wed, 08 Mar 2017 06:34:37 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	j26sm4387585wrb.69.2017.03.08.06.34.36
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 08 Mar 2017 06:17:35 -0800 (PST)
-From: liu.ming50@gmail.com
+	Wed, 08 Mar 2017 06:34:36 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Mar 2017 15:17:14 +0100
-Message-Id: <1488982634-24222-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH] Do not append to BBCLASSEXTEND
+Date: Wed,  8 Mar 2017 14:34:34 +0000
+Message-Id: <1488983674-13774-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] license: don't assume source files are UTF-8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,101 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Mar 2017 14:17:36 -0000
+X-List-Received-Date: Wed, 08 Mar 2017 14:34:38 -0000
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+We can't assume that source files are entirely UTF-8, so when copying the
+license blocks open the file as binary instead of text.
 
-Replace some "+=/=+" with "=" when setting BBCLASSEXTEND, they are
-redundant and inconsistent with the same setting in other recipes.
+[ YOCTO #11135 ]
 
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/build-compare/build-compare_git.bb         | 2 +-
- meta/recipes-extended/libsolv/libsolv_0.6.24.bb                  | 2 +-
- meta/recipes-extended/lzip/lzip_1.18.bb                          | 2 +-
- meta/recipes-extended/wget/wget.inc                              | 2 +-
- meta/recipes-support/ca-certificates/ca-certificates_20161130.bb | 2 +-
- meta/recipes-support/lz4/lz4.bb                                  | 2 +-
- meta/recipes-support/lzop/lzop_1.03.bb                           | 2 +-
- 7 files changed, 7 insertions(+), 7 deletions(-)
+ meta/classes/license.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/build-compare/build-compare_git.bb b/meta/recipes-devtools/build-compare/build-compare_git.bb
-index e432143..eb12e40 100644
---- a/meta/recipes-devtools/build-compare/build-compare_git.bb
-+++ b/meta/recipes-devtools/build-compare/build-compare_git.bb
-@@ -22,7 +22,7 @@ PV = "git+${SRCPV}"
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 0ff6560..81458e7 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -386,9 +386,9 @@ def copy_license_files(lic_files_paths, destdir):
+                 if begin_idx is None and end_idx is None:
+                     shutil.copyfile(src, dst)
+                 else:
+-                    with open(src, 'r') as src_f:
+-                        with open(dst, 'w') as dst_f:
+-                            dst_f.write(''.join(src_f.readlines()[begin_idx:end_idx]))
++                    with open(src, 'rb') as src_f:
++                        with open(dst, 'wb') as dst_f:
++                            dst_f.write(b''.join(src_f.readlines()[begin_idx:end_idx]))
  
- S = "${WORKDIR}/git"
- 
--BBCLASSEXTEND += "native nativesdk"
-+BBCLASSEXTEND = "native nativesdk"
- 
- do_install() {
-     install -d ${D}/${bindir}
-diff --git a/meta/recipes-extended/libsolv/libsolv_0.6.24.bb b/meta/recipes-extended/libsolv/libsolv_0.6.24.bb
-index 6de38b5..73db5ed 100644
---- a/meta/recipes-extended/libsolv/libsolv_0.6.24.bb
-+++ b/meta/recipes-extended/libsolv/libsolv_0.6.24.bb
-@@ -27,4 +27,4 @@ FILES_${PN}-dev += "${datadir}/cmake/Modules/FindLibSolv.cmake"
- FILES_${PN}-tools = "${bindir}/*"
- FILES_${PN}ext = "${libdir}/${PN}ext.so.*"
- 
--BBCLASSEXTEND =+ "native nativesdk"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-extended/lzip/lzip_1.18.bb b/meta/recipes-extended/lzip/lzip_1.18.bb
-index 30c7dd5..c1dc8ce 100644
---- a/meta/recipes-extended/lzip/lzip_1.18.bb
-+++ b/meta/recipes-extended/lzip/lzip_1.18.bb
-@@ -38,4 +38,4 @@ do_install () {
-     fi
- }
- 
--BBCLASSEXTEND += "native nativesdk"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
-index 9eb051f..1299edb 100644
---- a/meta/recipes-extended/wget/wget.inc
-+++ b/meta/recipes-extended/wget/wget.inc
-@@ -16,7 +16,7 @@ ALTERNATIVE_PRIORITY = "100"
- 
- RRECOMMENDS_${PN} += "ca-certificates"
- 
--BBCLASSEXTEND += "nativesdk"
-+BBCLASSEXTEND = "nativesdk"
- 
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
- PACKAGECONFIG[libuuid] = "--with-libuuid, --without-libuuid,util-linux"
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-index e47bad1..42088b9 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-@@ -80,4 +80,4 @@ do_install_append_class-native () {
- 
- RDEPENDS_${PN} += "openssl"
- 
--BBCLASSEXTEND += "native nativesdk"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-support/lz4/lz4.bb b/meta/recipes-support/lz4/lz4.bb
-index 18e56d0..03c5a7a 100644
---- a/meta/recipes-support/lz4/lz4.bb
-+++ b/meta/recipes-support/lz4/lz4.bb
-@@ -18,4 +18,4 @@ do_install() {
- 	oe_runmake install
- }
- 
--BBCLASSEXTEND += "native nativesdk"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-support/lzop/lzop_1.03.bb b/meta/recipes-support/lzop/lzop_1.03.bb
-index 649e724..6f09002 100644
---- a/meta/recipes-support/lzop/lzop_1.03.bb
-+++ b/meta/recipes-support/lzop/lzop_1.03.bb
-@@ -26,4 +26,4 @@ do_configure_prepend () {
-     install -Dm 0644 ${WORKDIR}/acinclude.m4 ${S}/acinclude.m4
- }
- 
--BBCLASSEXTEND += "native nativesdk"
-+BBCLASSEXTEND = "native nativesdk"
+         except Exception as e:
+             bb.warn("Could not copy license file %s to %s: %s" % (src, dst, e))
 -- 
-1.9.1
+2.8.1
 
 
