@@ -1,45 +1,47 @@
-Return-Path: <msm-oss@mcclintock.net>
-Received: from mail-pg0-f45.google.com (mail-pg0-f45.google.com [74.125.83.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 965B672F44
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CF7D775D1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Mar 2017 02:55:34 +0000 (UTC)
-Received: by mail-pg0-f45.google.com with SMTP id 77so7658473pgc.1
+	Wed,  8 Mar 2017 05:27:17 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id b5so2282150pgg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Mar 2017 18:55:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mcclintock.net; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ZpteK9WiGUiH05cmKS6RbR2Yq84wcYzn+/c8ive5Tys=;
-	b=mQMmjpx5Te7jJ+B+Sy7N3+iMC9oMk5ehj56SJF6hzqxbB5/NphNm8x+iFTFj3oIYI7
-	Kp1ESVKWO8+U+N68ATGX+1UqMttFqLc5Ta5KcokXLASQs7dOm5lsomWX9Fqly3TmFxxV
-	7Cl1h+1g6VbUW/HKDubhQkSr3/Uf4aiBTMmXs=
+	Tue, 07 Mar 2017 21:27:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=0apIGh4lSQjvTPtXfNDt/rHy6INtFIuT1AfuVX1ukVk=;
+	b=JGmv0oN/zurixTHNvDudJCh7NQ1Uw4Ok/XubMStcomQV6gjW9nUEcqsGQfhKXmerLX
+	3t0LK+FmDcZ6Z+f04C9oSn0r1R1vC+mD+lmpHoZxtVcGYUA8Ld09KfumfHdP8eUWRRpb
+	R0CY5TGuTKmDLpWIkOLZxBUiX+Efnxknnh2rHnpDV8DOs0GDwHtwiQLknkisBSFxcuhQ
+	POwONKagIXa/WD1JjVtI2MXmG0MpUwFLUL9uYtyKZG4TT7pITfdy3XbRWPFe6gDVq340
+	EnIaOIvQbCQHI3oLAw0jpoy30CA0YmaU4pMrf/hVfv54JWdKkTBJhbWywodwV75zizFa
+	UqjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ZpteK9WiGUiH05cmKS6RbR2Yq84wcYzn+/c8ive5Tys=;
-	b=UyBjFgfkdMvx5XybkUQ905x4KXIehUWAvqvhXkNR+6MOE//u3W3rQB8ia1eJ/urRlO
-	SC1yVdhLv9Zzk/Dn8a0u8cyKmGZKdzj5af5yawk8ogbCCxPbN1Lq0f9DwYr2FdVoUYCZ
-	kg8EWWODdG85XZICXTiuYy5Zwcun3DdFqfPBvSLnOyBNWbe+gdYSEzcbfhr/hxzkQSvw
-	06EoS28uJGi1LbizBUachpJJ+P/D4gWT12o7F9GW/OIB5DpTaXDFLciOPEpVsXSUu8VZ
-	uw2EIxwtu3GA9wQamo8I8mFliEyLUZN8N5933AdYtE5yNSrpYicaCBEizV6rAxPhY4Gj
-	9S+w==
-X-Gm-Message-State: AMke39nhNx4Iwtvh8ivjzjQ6vUhgH0a2clzWJj0rUihmrYUTjanPSX+vMlDph8Alr0xAup9VarpJ9DQklXpmTw==
-X-Received: by 10.84.210.15 with SMTP id z15mr5179607plh.11.1488941735675;
-	Tue, 07 Mar 2017 18:55:35 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=0apIGh4lSQjvTPtXfNDt/rHy6INtFIuT1AfuVX1ukVk=;
+	b=qdS5lrVZs/ppYnZALzNy8NLVRg38Ysbd0aLcJ5SVg37fEROQiEpw1Z5g7O191vfFEJ
+	ffniEFpn4CaepNbsCd3mnXDfsTP5j74wdjIJE+bLJ0DBUcfevsyYz0wYM0KbuHpkv98E
+	5oQ3i8O/5EFGi4qEfcLI7ghSBbMBvStC7Z/ucMruxbjFCYKVrE1EQSJP0QjBOVJCMWqB
+	sckEgtXUFvsCxBtNjdklAqFbCYI7YBtzN63rocy7rhSDBX7UF19HgLmZUgTjGY8Z+PCy
+	v/T8L5q1sbMrT2f625L6OCQJPH3cfpA1iv++fg262m6mQcpT1AXm18mSCAXzGf7whdRQ
+	zHpA==
+X-Gm-Message-State: AMke39lSBdqhOUJh+Ht4ptP+wz4Zk8NOShs3iqNC+MMDkVnAOW1mM1tZ15MB8qvgFZpfPw==
+X-Received: by 10.99.168.5 with SMTP id o5mr4843761pgf.148.1488950837564;
+	Tue, 07 Mar 2017 21:27:17 -0800 (PST)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	129sm2944266pgj.59.2017.03.07.21.27.16
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 07 Mar 2017 21:27:16 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  7 Mar 2017 21:27:08 -0800
+Message-Id: <20170308052708.19958-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.12.0
 MIME-Version: 1.0
-Received: by 10.100.177.198 with HTTP; Tue, 7 Mar 2017 18:55:14 -0800 (PST)
-In-Reply-To: <2425083.J11tCAZyJx@peggleto-mobl.ger.corp.intel.com>
-References: <1488916121-30447-1-git-send-email-msm-oss@mcclintock.net>
-	<1488919643.22968.47.camel@linuxfoundation.org>
-	<2425083.J11tCAZyJx@peggleto-mobl.ger.corp.intel.com>
-From: Matthew McClintock <msm-oss@mcclintock.net>
-Date: Tue, 7 Mar 2017 20:55:14 -0600
-Message-ID: <CAEsOVNd-GEJihTjZ0fWFB8gtfkE8_EahNmiR0=H9oSic8FUybw@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] utility-task: Add do_patchall task
+Subject: [PATCH V8] go: Add recipes for golang compilers and tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,55 +54,1864 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Mar 2017 02:55:34 -0000
+X-List-Received-Date: Wed, 08 Mar 2017 05:27:17 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Posted an alternate patch to bitbake mailing list.
+* This is converging the recipes for go from
+  meta-virtualization and oe-meta-go
 
--M
+* Add recipes for go 1.7
 
-On Tue, Mar 7, 2017 at 4:33 PM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> On Wednesday, 8 March 2017 9:47:23 AM NZDT Richard Purdie wrote:
->> On Tue, 2017-03-07 at 13:48 -0600, Matthew McClintock wrote:
->> > This is useful in a few scenarios:
->> >
->> > 1) A developer wants to be able to grep all the code in a particular
->> > without having to run patch on various components until they guess
->> > the
->> > right one (e.g. which component is generating an error/warning?)
->> >
->> > 2) Other code scanning tools that can be run without requiring a full
->> > image to be built (legal, static code analysis, etc)
->> >
->> > Signed-off-by: Matthew McClintock <msm-oss@mcclintock.net>
->> > ---
->> >  meta/classes/utility-tasks.bbclass | 7 +++++++
->> >  meta/conf/documentation.conf       | 1 +
->> >  2 files changed, 8 insertions(+)
->>
->> I have mixed feelings on this. Whilst I can see the attraction, extra
->> tasks like this do actually have a parsing overhead. We already have a
->> lot of them and its only a question of time before someone wants
->> another XXXall task adding.
->>
->> I'm wondering if we can solve this at the bitbake level instead with a
->> new parameter instead? That would allow us to delete tasks and speed up
->> parsing rather than slow things down.
->
-> FYI there is a bug open for this (currently assigned to me, but it's in the
-> "new" state so anyone's welcome to take it):
->
->   https://bugzilla.yoctoproject.org/show_bug.cgi?id=7733
->
-> I suspect most of this would need to be handled in lib/bb/runqueue.py;
-> actually adding the option would be in main.py.
->
-> Cheers,
-> Paul
->
-> --
->
-> Paul Eggleton
-> Intel Open Source Technology Centre
+* go.bbclass is added to ease out writing
+  recipes for go packages
+
+* go-examples: Add an example, helloworld written in go
+  This should serve as temlate for writing go recipes
+
+* Disable for musl, at least for now
+
+* Disable for x32/ppc32 which is not supported
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/go.bbclass                            |  79 ++++++++
+ meta/classes/goarch.bbclass                        |  50 +++++
+ meta/recipes-devtools/go/go-1.4.inc                |  16 ++
+ ...alignment-for-the-.rel.plt-section-on-32-.patch |  33 +++
+ .../go/go-1.4/016-armhf-elf-header.patch           |  24 +++
+ ...ckport-cmd-link-support-new-386-amd64-rel.patch | 225 +++++++++++++++++++++
+ meta/recipes-devtools/go/go-1.4/syslog.patch       |  62 ++++++
+ meta/recipes-devtools/go/go-1.6.inc                |  19 ++
+ .../go/go-1.6/armhf-elf-header.patch               |  23 +++
+ .../go/go-1.6/fix-cc-handling.patch                |  50 +++++
+ .../go/go-1.6/fix-target-cc-for-build.patch        |  17 ++
+ meta/recipes-devtools/go/go-1.6/gotooldir.patch    |  30 +++
+ .../go/go-1.6/split-host-and-target-build.patch    |  63 ++++++
+ meta/recipes-devtools/go/go-1.6/syslog.patch       |  62 ++++++
+ meta/recipes-devtools/go/go-1.7.inc                |  19 ++
+ .../go/go-1.7/armhf-elf-header.patch               |  23 +++
+ .../go/go-1.7/fix-cc-handling.patch                |  50 +++++
+ .../go/go-1.7/fix-target-cc-for-build.patch        |  17 ++
+ meta/recipes-devtools/go/go-1.7/gotooldir.patch    |  30 +++
+ .../go/go-1.7/split-host-and-target-build.patch    |  62 ++++++
+ meta/recipes-devtools/go/go-1.7/syslog.patch       |  62 ++++++
+ meta/recipes-devtools/go/go-1.8.inc                |  19 ++
+ .../go/go-1.8/armhf-elf-header.patch               |  23 +++
+ .../go/go-1.8/fix-cc-handling.patch                |  50 +++++
+ .../go/go-1.8/fix-target-cc-for-build.patch        |  17 ++
+ meta/recipes-devtools/go/go-1.8/gotooldir.patch    |  30 +++
+ .../go/go-1.8/split-host-and-target-build.patch    |  62 ++++++
+ meta/recipes-devtools/go/go-1.8/syslog.patch       |  62 ++++++
+ meta/recipes-devtools/go/go-common.inc             |  22 ++
+ meta/recipes-devtools/go/go-cross.inc              |  14 ++
+ meta/recipes-devtools/go/go-cross_1.7.bb           |   5 +
+ meta/recipes-devtools/go/go-cross_1.8.bb           |   5 +
+ meta/recipes-devtools/go/go-native.inc             |  54 +++++
+ meta/recipes-devtools/go/go-native_1.4.bb          |   2 +
+ meta/recipes-devtools/go/go.inc                    |  83 ++++++++
+ meta/recipes-devtools/go/go_1.6.bb                 |   4 +
+ meta/recipes-devtools/go/go_1.7.bb                 |   2 +
+ meta/recipes-devtools/go/go_1.8.bb                 |   2 +
+ .../go-examples/files/helloworld.go                |  10 +
+ meta/recipes-extended/go-examples/go-examples.inc  |  10 +
+ .../go-examples/go-helloworld_0.1.bb               |  13 ++
+ 41 files changed, 1505 insertions(+)
+ create mode 100644 meta/classes/go.bbclass
+ create mode 100644 meta/classes/goarch.bbclass
+ create mode 100644 meta/recipes-devtools/go/go-1.4.inc
+ create mode 100644 meta/recipes-devtools/go/go-1.4/0001-cmd-ld-set-alignment-for-the-.rel.plt-section-on-32-.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.4/016-armhf-elf-header.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.4/go-cross-backport-cmd-link-support-new-386-amd64-rel.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.4/syslog.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.6.inc
+ create mode 100644 meta/recipes-devtools/go/go-1.6/armhf-elf-header.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.6/fix-cc-handling.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.6/fix-target-cc-for-build.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.6/gotooldir.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.6/split-host-and-target-build.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.6/syslog.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.7.inc
+ create mode 100644 meta/recipes-devtools/go/go-1.7/armhf-elf-header.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.7/fix-cc-handling.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.7/fix-target-cc-for-build.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.7/gotooldir.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.7/split-host-and-target-build.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.7/syslog.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.8.inc
+ create mode 100644 meta/recipes-devtools/go/go-1.8/armhf-elf-header.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.8/fix-cc-handling.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.8/fix-target-cc-for-build.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.8/gotooldir.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.8/split-host-and-target-build.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.8/syslog.patch
+ create mode 100644 meta/recipes-devtools/go/go-common.inc
+ create mode 100644 meta/recipes-devtools/go/go-cross.inc
+ create mode 100644 meta/recipes-devtools/go/go-cross_1.7.bb
+ create mode 100644 meta/recipes-devtools/go/go-cross_1.8.bb
+ create mode 100644 meta/recipes-devtools/go/go-native.inc
+ create mode 100644 meta/recipes-devtools/go/go-native_1.4.bb
+ create mode 100644 meta/recipes-devtools/go/go.inc
+ create mode 100644 meta/recipes-devtools/go/go_1.6.bb
+ create mode 100644 meta/recipes-devtools/go/go_1.7.bb
+ create mode 100644 meta/recipes-devtools/go/go_1.8.bb
+ create mode 100644 meta/recipes-extended/go-examples/files/helloworld.go
+ create mode 100644 meta/recipes-extended/go-examples/go-examples.inc
+ create mode 100644 meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+
+diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
+new file mode 100644
+index 0000000000..f1984604b0
+--- /dev/null
++++ b/meta/classes/go.bbclass
+@@ -0,0 +1,79 @@
++inherit goarch
++
++# Incompatible with musl, at least for now
++COMPATIBLE_HOST_libc-musl_class-target = "null"
++# x32 ABI is not supported on go compiler so far
++COMPATIBLE_HOST_linux-gnux32 = "null"
++# ppc32 is not supported in go compilers
++COMPATIBLE_HOST_powerpc = "null"
++
++GOROOT_class-native = "${STAGING_LIBDIR_NATIVE}/go"
++GOROOT = "${STAGING_LIBDIR_NATIVE}/${TARGET_SYS}/go"
++GOBIN_FINAL_class-native = "${GOROOT_FINAL}/bin"
++GOBIN_FINAL = "${GOROOT_FINAL}/bin/${GOOS}_${GOARCH}"
++
++export GOOS = "${TARGET_GOOS}"
++export GOARCH = "${TARGET_GOARCH}"
++export GOARM = "${TARGET_GOARM}"
++export CGO_ENABLED = "1"
++export GOROOT
++export GOROOT_FINAL = "${libdir}/${TARGET_SYS}/go"
++export GOBIN_FINAL
++export GOPKG_FINAL = "${GOROOT_FINAL}/pkg/${GOOS}_${GOARCH}"
++export GOSRC_FINAL = "${GOROOT_FINAL}/src"
++export GO_GCFLAGS = "${TARGET_CFLAGS}"
++export GO_LDFLAGS = "${TARGET_LDFLAGS}"
++export CGO_CFLAGS = "${TARGET_CC_ARCH}${TOOLCHAIN_OPTIONS} ${TARGET_CFLAGS}"
++export CGO_CPPFLAGS = "${TARGET_CPPFLAGS}"
++export CGO_CXXFLAGS = "${TARGET_CC_ARCH}${TOOLCHAIN_OPTIONS} ${TARGET_CXXFLAGS}"
++export CGO_LDFLAGS = "${TARGET_CC_ARCH}${TOOLCHAIN_OPTIONS} ${TARGET_LDFLAGS}"
++
++DEPENDS += "go-cross-${TARGET_ARCH}"
++DEPENDS_class-native += "go-native"
++
++FILES_${PN}-staticdev += "${GOSRC_FINAL}/${GO_IMPORT}"
++FILES_${PN}-staticdev += "${GOPKG_FINAL}/${GO_IMPORT}*"
++
++GO_INSTALL ?= "${GO_IMPORT}/..."
++
++do_go_compile() {
++	GOPATH=${S}:${STAGING_LIBDIR}/${TARGET_SYS}/go go env
++	if test -n "${GO_INSTALL}" ; then
++		GOPATH=${S}:${STAGING_LIBDIR}/${TARGET_SYS}/go go install -v ${GO_INSTALL}
++	fi
++}
++
++do_go_install() {
++	rm -rf ${WORKDIR}/staging
++	install -d ${WORKDIR}/staging${GOROOT_FINAL} ${D}${GOROOT_FINAL}
++	tar -C ${S} -cf - . | tar -C ${WORKDIR}/staging${GOROOT_FINAL} -xpvf -
++
++	find ${WORKDIR}/staging${GOROOT_FINAL} \( \
++		-name \*.indirectionsymlink -o \
++		-name .git\* -o                \
++		-name .hg -o                   \
++		-name .svn -o                  \
++		-name .pc\* -o                 \
++		-name patches\*                \
++		\) -print0 | \
++	xargs -r0 rm -rf
++
++	tar -C ${WORKDIR}/staging${GOROOT_FINAL} -cf - . | \
++	tar -C ${D}${GOROOT_FINAL} -xpvf -
++
++	chown -R root:root "${D}${GOROOT_FINAL}"
++
++	if test -e "${D}${GOBIN_FINAL}" ; then
++		install -d -m 0755 "${D}${bindir}"
++		find "${D}${GOBIN_FINAL}" ! -type d -print0 | xargs -r0 mv --target-directory="${D}${bindir}"
++		rmdir -p "${D}${GOBIN_FINAL}" || true
++	fi
++}
++
++do_compile() {
++	do_go_compile
++}
++
++do_install() {
++	do_go_install
++}
+diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
+new file mode 100644
+index 0000000000..4a5b2ec787
+--- /dev/null
++++ b/meta/classes/goarch.bbclass
+@@ -0,0 +1,50 @@
++BUILD_GOOS = "${@go_map_os(d.getVar('BUILD_OS', True), d)}"
++BUILD_GOARCH = "${@go_map_arch(d.getVar('BUILD_ARCH', True), d)}"
++BUILD_GOTUPLE = "${BUILD_GOOS}_${BUILD_GOARCH}"
++HOST_GOOS = "${@go_map_os(d.getVar('HOST_OS', True), d)}"
++HOST_GOARCH = "${@go_map_arch(d.getVar('HOST_ARCH', True), d)}"
++HOST_GOARM = "${@go_map_arm(d.getVar('HOST_ARCH', True), d.getVar('TUNE_FEATURES', True), d)}"
++HOST_GOTUPLE = "${HOST_GOOS}_${HOST_GOARCH}"
++TARGET_GOOS = "${@go_map_os(d.getVar('TARGET_OS', True), d)}"
++TARGET_GOARCH = "${@go_map_arch(d.getVar('TARGET_ARCH', True), d)}"
++TARGET_GOARM = "${@go_map_arm(d.getVar('TARGET_ARCH', True), d.getVar('TUNE_FEATURES', True), d)}"
++TARGET_GOTUPLE = "${TARGET_GOOS}_${TARGET_GOARCH}"
++GO_BUILD_BINDIR = "${@['bin/${HOST_GOTUPLE}','bin'][d.getVar('BUILD_GOTUPLE',True) == d.getVar('HOST_GOTUPLE',True)]}"
++
++def go_map_arch(a, d):
++    import re
++    if re.match('i.86', a):
++        return '386'
++    elif a == 'x86_64':
++        return 'amd64'
++    elif re.match('arm.*', a):
++        return 'arm'
++    elif re.match('aarch64.*', a):
++        return 'arm64'
++    elif re.match('mips64el*', a):
++        return 'mips64le'
++    elif re.match('mips64*', a):
++        return 'mips64'
++    elif re.match('mipsel*', a):
++        return 'mipsle'
++    elif re.match('mips*', a):
++        return 'mips'
++    elif re.match('p(pc|owerpc)(64)', a):
++        return 'ppc64'
++    elif re.match('p(pc|owerpc)(64el)', a):
++        return 'ppc64le'
++    else:
++        raise bb.parse.SkipPackage("Unsupported CPU architecture: %s" % a)
++
++def go_map_arm(a, f, d):
++    import re
++    if re.match('arm.*', a) and re.match('arm.*7.*', f):
++        return '7'
++    return ''
++
++def go_map_os(o, d):
++    if o.startswith('linux'):
++        return 'linux'
++    return o
++
++
+diff --git a/meta/recipes-devtools/go/go-1.4.inc b/meta/recipes-devtools/go/go-1.4.inc
+new file mode 100644
+index 0000000000..2f500f32b9
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.4.inc
+@@ -0,0 +1,16 @@
++require go-common.inc
++
++PV = "1.4.3"
++GO_BASEVERSION = "1.4"
++FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
++
++SRC_URI += "\
++        file://016-armhf-elf-header.patch \
++        file://go-cross-backport-cmd-link-support-new-386-amd64-rel.patch \
++        file://syslog.patch \
++        file://0001-cmd-ld-set-alignment-for-the-.rel.plt-section-on-32-.patch \
++"
++
++LIC_FILES_CHKSUM = "file://LICENSE;md5=591778525c869cdde0ab5a1bf283cd81"
++SRC_URI[md5sum] = "dfb604511115dd402a77a553a5923a04"
++SRC_URI[sha256sum] = "9947fc705b0b841b5938c48b22dc33e9647ec0752bae66e50278df4f23f64959"
+diff --git a/meta/recipes-devtools/go/go-1.4/0001-cmd-ld-set-alignment-for-the-.rel.plt-section-on-32-.patch b/meta/recipes-devtools/go/go-1.4/0001-cmd-ld-set-alignment-for-the-.rel.plt-section-on-32-.patch
+new file mode 100644
+index 0000000000..f2adc200b1
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.4/0001-cmd-ld-set-alignment-for-the-.rel.plt-section-on-32-.patch
+@@ -0,0 +1,33 @@
++From 855145d5c03c4b4faf60736c38d7a299c682af4a Mon Sep 17 00:00:00 2001
++From: Shenghou Ma <minux@golang.org>
++Date: Sat, 7 Feb 2015 14:06:02 -0500
++Subject: [PATCH] cmd/ld: set alignment for the .rel.plt section on 32-bit
++ architectures
++
++Fixes #9802.
++
++Change-Id: I22c52a37bdb23a14cc4615c9519431bb14ca81ca
++Reviewed-on: https://go-review.googlesource.com/4170
++Reviewed-by: Ian Lance Taylor <iant@golang.org>
++---
++Upstream-Status: Backport
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++ src/cmd/ld/elf.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/src/cmd/ld/elf.c b/src/cmd/ld/elf.c
++index 12ced98..97ed4bd 100644
++--- a/src/cmd/ld/elf.c
+++++ b/src/cmd/ld/elf.c
++@@ -1363,6 +1363,7 @@ asmbelf(vlong symo)
++ 			sh->type = SHT_REL;
++ 			sh->flags = SHF_ALLOC;
++ 			sh->entsize = ELF32RELSIZE;
+++			sh->addralign = 4;
++ 			sh->link = elfshname(".dynsym")->shnum;
++ 			shsym(sh, linklookup(ctxt, ".rel.plt", 0));
++ 
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/go/go-1.4/016-armhf-elf-header.patch b/meta/recipes-devtools/go/go-1.4/016-armhf-elf-header.patch
+new file mode 100644
+index 0000000000..e6e414e52f
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.4/016-armhf-elf-header.patch
+@@ -0,0 +1,24 @@
++Description: Use correct ELF header for armhf binaries.
++Author: Adam Conrad <adconrad@ubuntu.com>
++Last-Update: 2013-07-08
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Index: go/src/cmd/ld/elf.c
++===================================================================
++--- go.orig/src/cmd/ld/elf.c	2015-02-20 10:49:58.763451586 -0800
+++++ go/src/cmd/ld/elf.c	2015-02-20 10:49:27.895478521 -0800
++@@ -57,7 +57,11 @@
++ 	case '5':
++ 		// we use EABI on both linux/arm and freebsd/arm.
++ 		if(HEADTYPE == Hlinux || HEADTYPE == Hfreebsd)
++-			hdr.flags = 0x5000002; // has entry point, Version5 EABI
+++#ifdef __ARM_PCS_VFP
+++			hdr.flags = 0x5000402; // has entry point, Version5 EABI, hard-float ABI
+++#else
+++			hdr.flags = 0x5000202; // has entry point, Version5 EABI, soft-float ABI
+++#endif
++ 		// fallthrough
++ 	default:
++ 		hdr.phoff = ELF32HDRSIZE;	/* Must be be ELF32HDRSIZE: first PHdr must follow ELF header */
+diff --git a/meta/recipes-devtools/go/go-1.4/go-cross-backport-cmd-link-support-new-386-amd64-rel.patch b/meta/recipes-devtools/go/go-1.4/go-cross-backport-cmd-link-support-new-386-amd64-rel.patch
+new file mode 100644
+index 0000000000..95ca9d3aa9
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.4/go-cross-backport-cmd-link-support-new-386-amd64-rel.patch
+@@ -0,0 +1,225 @@
++From d6eefad445831c161fca130f9bdf7b3848aac23c Mon Sep 17 00:00:00 2001
++From: Paul Gortmaker <paul.gortmaker@windriver.com>
++Date: Tue, 29 Mar 2016 21:14:33 -0400
++Subject: [PATCH] go-cross: backport "cmd/link: support new 386/amd64
++ relocations"
++
++Newer binutils won't support building older go-1.4.3 as per:
++
++https://github.com/golang/go/issues/13114
++
++Upstream commit 914db9f060b1fd3eb1f74d48f3bd46a73d4ae9c7 (see subj)
++was identified as the fix and nominated for 1.4.4 but that release
++never happened.  The paths in 1.4.3 aren't the same as go1.6beta1~662
++where this commit appeared, but the NetBSD folks indicated what a
++1.4.3 backport would look like here: https://gnats.netbsd.org/50777
++
++This is based on that, but without the BSD wrapper infrastructure
++layer that makes things look like patches of patches.
++
++Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
++
++Upstream-Status: Backport [ Partial ]
++
++diff --git a/src/cmd/6l/asm.c b/src/cmd/6l/asm.c
++index 18b5aa311981..2e9d339aef87 100644
++--- a/src/cmd/6l/asm.c
+++++ b/src/cmd/6l/asm.c
++@@ -118,6 +118,8 @@ adddynrel(LSym *s, Reloc *r)
++ 		return;
++ 	
++ 	case 256 + R_X86_64_GOTPCREL:
+++	case 256 + R_X86_64_GOTPCRELX:
+++	case 256 + R_X86_64_REX_GOTPCRELX:
++ 		if(targ->type != SDYNIMPORT) {
++ 			// have symbol
++ 			if(r->off >= 2 && s->p[r->off-2] == 0x8b) {
++diff --git a/src/cmd/8l/asm.c b/src/cmd/8l/asm.c
++index 98c04240374f..cff29488e8af 100644
++--- a/src/cmd/8l/asm.c
+++++ b/src/cmd/8l/asm.c
++@@ -115,6 +115,7 @@ adddynrel(LSym *s, Reloc *r)
++ 		return;		
++ 	
++ 	case 256 + R_386_GOT32:
+++	case 256 + R_386_GOT32X:
++ 		if(targ->type != SDYNIMPORT) {
++ 			// have symbol
++ 			if(r->off >= 2 && s->p[r->off-2] == 0x8b) {
++diff --git a/src/cmd/ld/elf.h b/src/cmd/ld/elf.h
++index e84d996f2596..bbf2cfaa3cc0 100644
++--- a/src/cmd/ld/elf.h
+++++ b/src/cmd/ld/elf.h
++@@ -478,32 +478,47 @@ typedef struct {
++  * Relocation types.
++  */
++ 
++-#define	R_X86_64_NONE	0	/* No relocation. */
++-#define	R_X86_64_64	1	/* Add 64 bit symbol value. */
++-#define	R_X86_64_PC32	2	/* PC-relative 32 bit signed sym value. */
++-#define	R_X86_64_GOT32	3	/* PC-relative 32 bit GOT offset. */
++-#define	R_X86_64_PLT32	4	/* PC-relative 32 bit PLT offset. */
++-#define	R_X86_64_COPY	5	/* Copy data from shared object. */
++-#define	R_X86_64_GLOB_DAT 6	/* Set GOT entry to data address. */
++-#define	R_X86_64_JMP_SLOT 7	/* Set GOT entry to code address. */
++-#define	R_X86_64_RELATIVE 8	/* Add load address of shared object. */
++-#define	R_X86_64_GOTPCREL 9	/* Add 32 bit signed pcrel offset to GOT. */
++-#define	R_X86_64_32	10	/* Add 32 bit zero extended symbol value */
++-#define	R_X86_64_32S	11	/* Add 32 bit sign extended symbol value */
++-#define	R_X86_64_16	12	/* Add 16 bit zero extended symbol value */
++-#define	R_X86_64_PC16	13	/* Add 16 bit signed extended pc relative symbol value */
++-#define	R_X86_64_8	14	/* Add 8 bit zero extended symbol value */
++-#define	R_X86_64_PC8	15	/* Add 8 bit signed extended pc relative symbol value */
++-#define	R_X86_64_DTPMOD64 16	/* ID of module containing symbol */
++-#define	R_X86_64_DTPOFF64 17	/* Offset in TLS block */
++-#define	R_X86_64_TPOFF64 18	/* Offset in static TLS block */
++-#define	R_X86_64_TLSGD	19	/* PC relative offset to GD GOT entry */
++-#define	R_X86_64_TLSLD	20	/* PC relative offset to LD GOT entry */
++-#define	R_X86_64_DTPOFF32 21	/* Offset in TLS block */
++-#define	R_X86_64_GOTTPOFF 22	/* PC relative offset to IE GOT entry */
++-#define	R_X86_64_TPOFF32 23	/* Offset in static TLS block */
++-
++-#define	R_X86_64_COUNT	24	/* Count of defined relocation types. */
+++#define	R_X86_64_NONE           0
+++#define	R_X86_64_64             1
+++#define	R_X86_64_PC32           2
+++#define	R_X86_64_GOT32          3
+++#define	R_X86_64_PLT32          4
+++#define	R_X86_64_COPY           5
+++#define	R_X86_64_GLOB_DAT       6
+++#define	R_X86_64_JMP_SLOT       7
+++#define	R_X86_64_RELATIVE       8
+++#define	R_X86_64_GOTPCREL       9
+++#define	R_X86_64_32             10
+++#define	R_X86_64_32S            11
+++#define	R_X86_64_16             12
+++#define	R_X86_64_PC16           13
+++#define	R_X86_64_8              14
+++#define	R_X86_64_PC8            15
+++#define	R_X86_64_DTPMOD64       16
+++#define	R_X86_64_DTPOFF64       17
+++#define	R_X86_64_TPOFF64        18
+++#define	R_X86_64_TLSGD          19
+++#define	R_X86_64_TLSLD          20
+++#define	R_X86_64_DTPOFF32       21
+++#define	R_X86_64_GOTTPOFF       22
+++#define	R_X86_64_TPOFF32        23
+++#define	R_X86_64_PC64           24
+++#define	R_X86_64_GOTOFF64       25
+++#define	R_X86_64_GOTPC32        26
+++#define	R_X86_64_GOT64          27
+++#define	R_X86_64_GOTPCREL64     28
+++#define	R_X86_64_GOTPC64        29
+++#define	R_X86_64_GOTPLT64       30
+++#define	R_X86_64_PLTOFF64       31
+++#define	R_X86_64_SIZE32         32
+++#define	R_X86_64_SIZE64         33
+++#define	R_X86_64_GOTPC32_TLSDEC 34
+++#define	R_X86_64_TLSDESC_CALL   35
+++#define	R_X86_64_TLSDESC        36
+++#define	R_X86_64_IRELATIVE      37
+++#define	R_X86_64_PC32_BND       40
+++#define	R_X86_64_GOTPCRELX      41
+++#define	R_X86_64_REX_GOTPCRELX  42
++ 
++ 
++ #define	R_ALPHA_NONE		0	/* No reloc */
++@@ -581,39 +596,42 @@ typedef struct {
++ #define	R_ARM_COUNT		38	/* Count of defined relocation types. */
++ 
++ 
++-#define	R_386_NONE	0	/* No relocation. */
++-#define	R_386_32	1	/* Add symbol value. */
++-#define	R_386_PC32	2	/* Add PC-relative symbol value. */
++-#define	R_386_GOT32	3	/* Add PC-relative GOT offset. */
++-#define	R_386_PLT32	4	/* Add PC-relative PLT offset. */
++-#define	R_386_COPY	5	/* Copy data from shared object. */
++-#define	R_386_GLOB_DAT	6	/* Set GOT entry to data address. */
++-#define	R_386_JMP_SLOT	7	/* Set GOT entry to code address. */
++-#define	R_386_RELATIVE	8	/* Add load address of shared object. */
++-#define	R_386_GOTOFF	9	/* Add GOT-relative symbol address. */
++-#define	R_386_GOTPC	10	/* Add PC-relative GOT table address. */
++-#define	R_386_TLS_TPOFF	14	/* Negative offset in static TLS block */
++-#define	R_386_TLS_IE	15	/* Absolute address of GOT for -ve static TLS */
++-#define	R_386_TLS_GOTIE	16	/* GOT entry for negative static TLS block */
++-#define	R_386_TLS_LE	17	/* Negative offset relative to static TLS */
++-#define	R_386_TLS_GD	18	/* 32 bit offset to GOT (index,off) pair */
++-#define	R_386_TLS_LDM	19	/* 32 bit offset to GOT (index,zero) pair */
++-#define	R_386_TLS_GD_32	24	/* 32 bit offset to GOT (index,off) pair */
++-#define	R_386_TLS_GD_PUSH 25	/* pushl instruction for Sun ABI GD sequence */
++-#define	R_386_TLS_GD_CALL 26	/* call instruction for Sun ABI GD sequence */
++-#define	R_386_TLS_GD_POP 27	/* popl instruction for Sun ABI GD sequence */
++-#define	R_386_TLS_LDM_32 28	/* 32 bit offset to GOT (index,zero) pair */
++-#define	R_386_TLS_LDM_PUSH 29	/* pushl instruction for Sun ABI LD sequence */
++-#define	R_386_TLS_LDM_CALL 30	/* call instruction for Sun ABI LD sequence */
++-#define	R_386_TLS_LDM_POP 31	/* popl instruction for Sun ABI LD sequence */
++-#define	R_386_TLS_LDO_32 32	/* 32 bit offset from start of TLS block */
++-#define	R_386_TLS_IE_32	33	/* 32 bit offset to GOT static TLS offset entry */
++-#define	R_386_TLS_LE_32	34	/* 32 bit offset within static TLS block */
++-#define	R_386_TLS_DTPMOD32 35	/* GOT entry containing TLS index */
++-#define	R_386_TLS_DTPOFF32 36	/* GOT entry containing TLS offset */
++-#define	R_386_TLS_TPOFF32 37	/* GOT entry of -ve static TLS offset */
++-
++-#define	R_386_COUNT	38	/* Count of defined relocation types. */
+++#define	R_386_NONE          0
+++#define	R_386_32            1
+++#define	R_386_PC32          2
+++#define	R_386_GOT32         3
+++#define	R_386_PLT32         4
+++#define	R_386_COPY          5
+++#define	R_386_GLOB_DAT      6
+++#define	R_386_JMP_SLOT      7
+++#define	R_386_RELATIVE      8
+++#define	R_386_GOTOFF        9
+++#define	R_386_GOTPC         10
+++#define	R_386_TLS_TPOFF     14
+++#define	R_386_TLS_IE        15
+++#define	R_386_TLS_GOTIE     16
+++#define	R_386_TLS_LE        17
+++#define	R_386_TLS_GD        18
+++#define	R_386_TLS_LDM       19
+++#define	R_386_TLS_GD_32     24
+++#define	R_386_TLS_GD_PUSH   25
+++#define	R_386_TLS_GD_CALL   26
+++#define	R_386_TLS_GD_POP    27
+++#define	R_386_TLS_LDM_32    28
+++#define	R_386_TLS_LDM_PUSH  29
+++#define	R_386_TLS_LDM_CALL  30
+++#define	R_386_TLS_LDM_POP   31
+++#define	R_386_TLS_LDO_32    32
+++#define	R_386_TLS_IE_32     33
+++#define	R_386_TLS_LE_32     34
+++#define	R_386_TLS_DTPMOD32  35
+++#define	R_386_TLS_DTPOFF32  36
+++#define	R_386_TLS_TPOFF32   37
+++#define	R_386_TLS_GOTDESC   39
+++#define	R_386_TLS_DESC_CALL 40
+++#define	R_386_TLS_DESC      41
+++#define	R_386_IRELATIVE     42
+++#define	R_386_GOT32X        43
++ 
++ #define	R_PPC_NONE		0	/* No relocation. */
++ #define	R_PPC_ADDR32		1
++diff --git a/src/cmd/ld/ldelf.c b/src/cmd/ld/ldelf.c
++index dd5fa0d2a839..2e2fbd17377f 100644
++--- a/src/cmd/ld/ldelf.c
+++++ b/src/cmd/ld/ldelf.c
++@@ -888,12 +888,15 @@ reltype(char *pn, int elftype, uchar *siz)
++ 	case R('6', R_X86_64_PC32):
++ 	case R('6', R_X86_64_PLT32):
++ 	case R('6', R_X86_64_GOTPCREL):
+++	case R('6', R_X86_64_GOTPCRELX):
+++	case R('6', R_X86_64_REX_GOTPCRELX):
++ 	case R('8', R_386_32):
++ 	case R('8', R_386_PC32):
++ 	case R('8', R_386_GOT32):
++ 	case R('8', R_386_PLT32):
++ 	case R('8', R_386_GOTOFF):
++ 	case R('8', R_386_GOTPC):
+++	case R('8', R_386_GOT32X):
++ 		*siz = 4;
++ 		break;
++ 	case R('6', R_X86_64_64):
++-- 
++2.7.2
++
+diff --git a/meta/recipes-devtools/go/go-1.4/syslog.patch b/meta/recipes-devtools/go/go-1.4/syslog.patch
+new file mode 100644
+index 0000000000..29be06f1bd
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.4/syslog.patch
+@@ -0,0 +1,62 @@
++Add timeouts to logger
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++
++diff -r -u go/src/log/syslog/syslog.go /home/achang/GOCOPY/go/src/log/syslog/syslog.go
++--- go/src/log/syslog/syslog.go	2013-11-28 13:38:28.000000000 -0800
+++++ /home/achang/GOCOPY/go/src/log/syslog/syslog.go	2014-10-03 11:44:37.710403200 -0700
++@@ -33,6 +33,9 @@
++ const severityMask = 0x07
++ const facilityMask = 0xf8
++ 
+++var writeTimeout = 1 * time.Second
+++var connectTimeout = 1 * time.Second
+++
++ const (
++ 	// Severity.
++ 
++@@ -100,6 +103,7 @@
++ type serverConn interface {
++ 	writeString(p Priority, hostname, tag, s, nl string) error
++ 	close() error
+++	setWriteDeadline(t time.Time) error
++ }
++ 
++ type netConn struct {
++@@ -273,7 +277,11 @@
++ 		nl = "\n"
++ 	}
++ 
++-	err := w.conn.writeString(p, w.hostname, w.tag, msg, nl)
+++	err := w.conn.setWriteDeadline(time.Now().Add(writeTimeout))
+++	if err != nil {
+++		return 0, err
+++	}
+++	err = w.conn.writeString(p, w.hostname, w.tag, msg, nl)
++ 	if err != nil {
++ 		return 0, err
++ 	}
++@@ -305,6 +313,10 @@
++ 	return n.conn.Close()
++ }
++ 
+++func (n *netConn) setWriteDeadline(t time.Time) error {
+++	return n.conn.SetWriteDeadline(t)
+++}
+++
++ // NewLogger creates a log.Logger whose output is written to
++ // the system log service with the specified priority. The logFlag
++ // argument is the flag set passed through to log.New to create
++diff -r -u go/src/log/syslog/syslog_unix.go /home/achang/GOCOPY/go/src/log/syslog/syslog_unix.go
++--- go/src/log/syslog/syslog_unix.go	2013-11-28 13:38:28.000000000 -0800
+++++ /home/achang/GOCOPY/go/src/log/syslog/syslog_unix.go	2014-10-03 11:44:39.010403175 -0700
++@@ -19,7 +19,7 @@
++ 	logPaths := []string{"/dev/log", "/var/run/syslog"}
++ 	for _, network := range logTypes {
++ 		for _, path := range logPaths {
++-			conn, err := net.Dial(network, path)
+++			conn, err := net.DialTimeout(network, path, connectTimeout)
++ 			if err != nil {
++ 				continue
++ 			} else {
+diff --git a/meta/recipes-devtools/go/go-1.6.inc b/meta/recipes-devtools/go/go-1.6.inc
+new file mode 100644
+index 0000000000..769c1d8f22
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.6.inc
+@@ -0,0 +1,19 @@
++require go-common.inc
++
++PV = "1.6.3"
++GO_BASEVERSION = "1.6"
++FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
++
++LIC_FILES_CHKSUM = "file://LICENSE;md5=591778525c869cdde0ab5a1bf283cd81"
++
++SRC_URI += "\
++       file://armhf-elf-header.patch \
++       file://syslog.patch \
++       file://fix-target-cc-for-build.patch \
++       file://fix-cc-handling.patch \
++       file://split-host-and-target-build.patch \
++       file://gotooldir.patch \
++"
++SRC_URI[md5sum] = "bf3fce6ccaadd310159c9e874220e2a2"
++SRC_URI[sha256sum] = "6326aeed5f86cf18f16d6dc831405614f855e2d416a91fd3fdc334f772345b00"
++
+diff --git a/meta/recipes-devtools/go/go-1.6/armhf-elf-header.patch b/meta/recipes-devtools/go/go-1.6/armhf-elf-header.patch
+new file mode 100644
+index 0000000000..1e3a16b319
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.6/armhf-elf-header.patch
+@@ -0,0 +1,23 @@
++Encode arm EABI ( hard/soft ) calling convention in ELF header
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++Index: go/src/cmd/link/internal/ld/elf.go
++===================================================================
++--- go.orig/src/cmd/link/internal/ld/elf.go
+++++ go/src/cmd/link/internal/ld/elf.go
++@@ -827,7 +827,13 @@
++ 	// 32-bit architectures
++ 	case '5':
++ 		// we use EABI on both linux/arm and freebsd/arm.
++-		if HEADTYPE == obj.Hlinux || HEADTYPE == obj.Hfreebsd {
+++		if HEADTYPE == obj.Hlinux {
+++			if Ctxt.Goarm == 7 {
+++				ehdr.flags = 0x5000402 // has entry point, Version5 EABI, hard float
+++			} else {
+++				ehdr.flags = 0x5000202 // has entry point, Version5 EABI, soft float
+++			}
+++		} else if HEADTYPE == obj.Hfreebsd {
++ 			// We set a value here that makes no indication of which
++ 			// float ABI the object uses, because this is information
++ 			// used by the dynamic linker to compare executables and
+diff --git a/meta/recipes-devtools/go/go-1.6/fix-cc-handling.patch b/meta/recipes-devtools/go/go-1.6/fix-cc-handling.patch
+new file mode 100644
+index 0000000000..983323ace9
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.6/fix-cc-handling.patch
+@@ -0,0 +1,50 @@
++Accept CC with multiple words in its name
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++Index: go/src/cmd/go/build.go
++===================================================================
++--- go.orig/src/cmd/go/build.go	2015-07-29 14:48:40.323185807 -0700
+++++ go/src/cmd/go/build.go	2015-07-30 07:37:40.529818586 -0700
++@@ -2805,12 +2805,24 @@
++ 	return b.ccompilerCmd("CC", defaultCC, objdir)
++ }
++ 
+++// gccCmd returns a gcc command line prefix
+++// defaultCC is defined in zdefaultcc.go, written by cmd/dist.
+++func (b *builder) gccCmdForReal() []string {
+++	return envList("CC", defaultCC)
+++}
+++
++ // gxxCmd returns a g++ command line prefix
++ // defaultCXX is defined in zdefaultcc.go, written by cmd/dist.
++ func (b *builder) gxxCmd(objdir string) []string {
++ 	return b.ccompilerCmd("CXX", defaultCXX, objdir)
++ }
++ 
+++// gxxCmd returns a g++ command line prefix
+++// defaultCXX is defined in zdefaultcc.go, written by cmd/dist.
+++func (b *builder) gxxCmdForReal() []string {
+++	return envList("CXX", defaultCXX)
+++}
+++
++ // ccompilerCmd returns a command line prefix for the given environment
++ // variable and using the default command when the variable is empty.
++ func (b *builder) ccompilerCmd(envvar, defcmd, objdir string) []string {
++Index: go/src/cmd/go/env.go
++===================================================================
++--- go.orig/src/cmd/go/env.go	2015-07-29 14:48:40.323185807 -0700
+++++ go/src/cmd/go/env.go	2015-07-30 07:40:54.461655721 -0700
++@@ -52,10 +52,9 @@
++ 
++ 	if goos != "plan9" {
++ 		cmd := b.gccCmd(".")
++-		env = append(env, envVar{"CC", cmd[0]})
+++		env = append(env, envVar{"CC", strings.Join(b.gccCmdForReal(), " ")})
++ 		env = append(env, envVar{"GOGCCFLAGS", strings.Join(cmd[3:], " ")})
++-		cmd = b.gxxCmd(".")
++-		env = append(env, envVar{"CXX", cmd[0]})
+++		env = append(env, envVar{"CXX", strings.Join(b.gxxCmdForReal(), " ")})
++ 	}
++ 
++ 	if buildContext.CgoEnabled {
+diff --git a/meta/recipes-devtools/go/go-1.6/fix-target-cc-for-build.patch b/meta/recipes-devtools/go/go-1.6/fix-target-cc-for-build.patch
+new file mode 100644
+index 0000000000..2f6156ecd2
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.6/fix-target-cc-for-build.patch
+@@ -0,0 +1,17 @@
++Put Quotes around CC_FOR_TARGET since it can be mutliple words e.g. in OE
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++Index: go/src/make.bash
++===================================================================
++--- go.orig/src/make.bash	2015-07-29 13:28:11.334031696 -0700
+++++ go/src/make.bash	2015-07-29 13:36:55.814465630 -0700
++@@ -158,7 +158,7 @@
++ fi
++ 
++ echo "##### Building packages and commands for $GOOS/$GOARCH."
++-CC=$CC_FOR_TARGET "$GOTOOLDIR"/go_bootstrap install $GO_FLAGS -gcflags "$GO_GCFLAGS" -ldflags "$GO_LDFLAGS" -v std cmd
+++CC="$CC_FOR_TARGET" "$GOTOOLDIR"/go_bootstrap install $GO_FLAGS -gcflags "$GO_GCFLAGS" -ldflags "$GO_LDFLAGS" -v std cmd
++ echo
++ 
++ rm -f "$GOTOOLDIR"/go_bootstrap
+diff --git a/meta/recipes-devtools/go/go-1.6/gotooldir.patch b/meta/recipes-devtools/go/go-1.6/gotooldir.patch
+new file mode 100644
+index 0000000000..94670259f2
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.6/gotooldir.patch
+@@ -0,0 +1,30 @@
++Define tooldir in relation to GOTOOLDIR env var
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++Index: go/src/go/build/build.go
++===================================================================
++--- go.orig/src/go/build/build.go
+++++ go/src/go/build/build.go
++@@ -1388,7 +1388,7 @@ func init() {
++ }
++ 
++ // ToolDir is the directory containing build tools.
++-var ToolDir = filepath.Join(runtime.GOROOT(), "pkg/tool/"+runtime.GOOS+"_"+runtime.GOARCH)
+++var ToolDir = envOr("GOTOOLDIR", filepath.Join(runtime.GOROOT(), "pkg/tool/"+runtime.GOOS+"_"+runtime.GOARCH))
++ 
++ // IsLocalImport reports whether the import path is
++ // a local import path, like ".", "..", "./foo", or "../foo".
++Index: go/src/cmd/go/build.go
++===================================================================
++--- go.orig/src/cmd/go/build.go
+++++ go/src/cmd/go/build.go
++@@ -1312,7 +1312,7 @@ func (b *builder) build(a *action) (err
++ 		}
++ 
++ 		cgoExe := tool("cgo")
++-		if a.cgo != nil && a.cgo.target != "" {
+++		if a.cgo != nil && a.cgo.target != "" && os.Getenv("GOTOOLDIR") == "" {
++ 			cgoExe = a.cgo.target
++ 		}
++ 		outGo, outObj, err := b.cgo(a.p, cgoExe, obj, pcCFLAGS, pcLDFLAGS, cgofiles, gccfiles, cxxfiles, a.p.MFiles)
+diff --git a/meta/recipes-devtools/go/go-1.6/split-host-and-target-build.patch b/meta/recipes-devtools/go/go-1.6/split-host-and-target-build.patch
+new file mode 100644
+index 0000000000..afbae02b4e
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.6/split-host-and-target-build.patch
+@@ -0,0 +1,63 @@
++Add new option --target-only to build target components
++Separates the host and target pieces of build
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++Index: go/src/make.bash
++===================================================================
++--- go.orig/src/make.bash
+++++ go/src/make.bash
++@@ -143,12 +143,23 @@ if [ "$1" = "--no-clean" ]; then
++ 	buildall=""
++ 	shift
++ fi
++-./cmd/dist/dist bootstrap $buildall $GO_DISTFLAGS -v # builds go_bootstrap
++-# Delay move of dist tool to now, because bootstrap may clear tool directory.
++-mv cmd/dist/dist "$GOTOOLDIR"/dist
++-echo
++ 
++-if [ "$GOHOSTARCH" != "$GOARCH" -o "$GOHOSTOS" != "$GOOS" ]; then
+++do_host_build="yes"
+++do_target_build="yes"
+++if [ "$1" = "--target-only" ]; then
+++	do_host_build="no"
+++	shift
+++elif [ "$1" = "--host-only" ]; then
+++	do_target_build="no"
+++	shift
+++fi
+++
+++if [ "$do_host_build" = "yes" ]; then
+++	./cmd/dist/dist bootstrap $buildall $GO_DISTFLAGS -v # builds go_bootstrap
+++	# Delay move of dist tool to now, because bootstrap may clear tool directory.
+++	mv cmd/dist/dist "$GOTOOLDIR"/dist
+++	echo
+++
++ 	echo "##### Building packages and commands for host, $GOHOSTOS/$GOHOSTARCH."
++ 	# CC_FOR_TARGET is recorded as the default compiler for the go tool. When building for the host, however,
++ 	# use the host compiler, CC, from `cmd/dist/dist env` instead.
++@@ -157,11 +168,20 @@ if [ "$GOHOSTARCH" != "$GOARCH" -o "$GOH
++ 	echo
++ fi
++ 
++-echo "##### Building packages and commands for $GOOS/$GOARCH."
++-CC="$CC_FOR_TARGET" "$GOTOOLDIR"/go_bootstrap install $GO_FLAGS -gcflags "$GO_GCFLAGS" -ldflags "$GO_LDFLAGS" -v std cmd
++-echo
+++if [ "$do_target_build" = "yes" ]; then
+++    GO_INSTALL="${GO_TARGET_INSTALL:-std cmd}"
+++    echo "##### Building packages and commands for $GOOS/$GOARCH."
+++    if [ "$GOHOSTOS" = "$GOOS" -a "$GOHOSTARCH" = "$GOARCH" -a "$do_host_build" = "yes" ]; then
+++	rm -rf ./host-tools
+++	mkdir ./host-tools
+++	mv "$GOTOOLDIR"/* ./host-tools
+++	GOTOOLDIR="$PWD/host-tools"
+++    fi
+++    GOTOOLDIR="$GOTOOLDIR" CC="$CC_FOR_TARGET" "$GOTOOLDIR"/go_bootstrap install $GO_FLAGS -gcflags "$GO_GCFLAGS" -ldflags "$GO_LDFLAGS" -v ${GO_INSTALL}
+++    echo
++ 
++-rm -f "$GOTOOLDIR"/go_bootstrap
+++    rm -f "$GOTOOLDIR"/go_bootstrap
+++fi
++ 
++ if [ "$1" != "--no-banner" ]; then
++ 	"$GOTOOLDIR"/dist banner
+diff --git a/meta/recipes-devtools/go/go-1.6/syslog.patch b/meta/recipes-devtools/go/go-1.6/syslog.patch
+new file mode 100644
+index 0000000000..29be06f1bd
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.6/syslog.patch
+@@ -0,0 +1,62 @@
++Add timeouts to logger
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++
++diff -r -u go/src/log/syslog/syslog.go /home/achang/GOCOPY/go/src/log/syslog/syslog.go
++--- go/src/log/syslog/syslog.go	2013-11-28 13:38:28.000000000 -0800
+++++ /home/achang/GOCOPY/go/src/log/syslog/syslog.go	2014-10-03 11:44:37.710403200 -0700
++@@ -33,6 +33,9 @@
++ const severityMask = 0x07
++ const facilityMask = 0xf8
++ 
+++var writeTimeout = 1 * time.Second
+++var connectTimeout = 1 * time.Second
+++
++ const (
++ 	// Severity.
++ 
++@@ -100,6 +103,7 @@
++ type serverConn interface {
++ 	writeString(p Priority, hostname, tag, s, nl string) error
++ 	close() error
+++	setWriteDeadline(t time.Time) error
++ }
++ 
++ type netConn struct {
++@@ -273,7 +277,11 @@
++ 		nl = "\n"
++ 	}
++ 
++-	err := w.conn.writeString(p, w.hostname, w.tag, msg, nl)
+++	err := w.conn.setWriteDeadline(time.Now().Add(writeTimeout))
+++	if err != nil {
+++		return 0, err
+++	}
+++	err = w.conn.writeString(p, w.hostname, w.tag, msg, nl)
++ 	if err != nil {
++ 		return 0, err
++ 	}
++@@ -305,6 +313,10 @@
++ 	return n.conn.Close()
++ }
++ 
+++func (n *netConn) setWriteDeadline(t time.Time) error {
+++	return n.conn.SetWriteDeadline(t)
+++}
+++
++ // NewLogger creates a log.Logger whose output is written to
++ // the system log service with the specified priority. The logFlag
++ // argument is the flag set passed through to log.New to create
++diff -r -u go/src/log/syslog/syslog_unix.go /home/achang/GOCOPY/go/src/log/syslog/syslog_unix.go
++--- go/src/log/syslog/syslog_unix.go	2013-11-28 13:38:28.000000000 -0800
+++++ /home/achang/GOCOPY/go/src/log/syslog/syslog_unix.go	2014-10-03 11:44:39.010403175 -0700
++@@ -19,7 +19,7 @@
++ 	logPaths := []string{"/dev/log", "/var/run/syslog"}
++ 	for _, network := range logTypes {
++ 		for _, path := range logPaths {
++-			conn, err := net.Dial(network, path)
+++			conn, err := net.DialTimeout(network, path, connectTimeout)
++ 			if err != nil {
++ 				continue
++ 			} else {
+diff --git a/meta/recipes-devtools/go/go-1.7.inc b/meta/recipes-devtools/go/go-1.7.inc
+new file mode 100644
+index 0000000000..5c3004e875
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.7.inc
+@@ -0,0 +1,19 @@
++require go-common.inc
++
++PV = "1.7.4"
++GO_BASEVERSION = "1.7"
++FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
++
++LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
++
++SRC_URI += "\
++       file://armhf-elf-header.patch \
++       file://syslog.patch \
++       file://fix-target-cc-for-build.patch \
++       file://fix-cc-handling.patch \
++       file://split-host-and-target-build.patch \
++       file://gotooldir.patch \
++"
++SRC_URI[md5sum] = "49c1076428a5d3b5ad7ac65233fcca2f"
++SRC_URI[sha256sum] = "4c189111e9ba651a2bb3ee868aa881fab36b2f2da3409e80885ca758a6b614cc"
++
+diff --git a/meta/recipes-devtools/go/go-1.7/armhf-elf-header.patch b/meta/recipes-devtools/go/go-1.7/armhf-elf-header.patch
+new file mode 100644
+index 0000000000..1e3a16b319
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.7/armhf-elf-header.patch
+@@ -0,0 +1,23 @@
++Encode arm EABI ( hard/soft ) calling convention in ELF header
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++Index: go/src/cmd/link/internal/ld/elf.go
++===================================================================
++--- go.orig/src/cmd/link/internal/ld/elf.go
+++++ go/src/cmd/link/internal/ld/elf.go
++@@ -827,7 +827,13 @@
++ 	// 32-bit architectures
++ 	case '5':
++ 		// we use EABI on both linux/arm and freebsd/arm.
++-		if HEADTYPE == obj.Hlinux || HEADTYPE == obj.Hfreebsd {
+++		if HEADTYPE == obj.Hlinux {
+++			if Ctxt.Goarm == 7 {
+++				ehdr.flags = 0x5000402 // has entry point, Version5 EABI, hard float
+++			} else {
+++				ehdr.flags = 0x5000202 // has entry point, Version5 EABI, soft float
+++			}
+++		} else if HEADTYPE == obj.Hfreebsd {
++ 			// We set a value here that makes no indication of which
++ 			// float ABI the object uses, because this is information
++ 			// used by the dynamic linker to compare executables and
+diff --git a/meta/recipes-devtools/go/go-1.7/fix-cc-handling.patch b/meta/recipes-devtools/go/go-1.7/fix-cc-handling.patch
+new file mode 100644
+index 0000000000..a67caf41a5
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.7/fix-cc-handling.patch
+@@ -0,0 +1,50 @@
++Accept CC with multiple words in its name
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++Index: go/src/cmd/go/build.go
++===================================================================
++--- go.orig/src/cmd/go/build.go
+++++ go/src/cmd/go/build.go
++@@ -2991,12 +2991,24 @@ func (b *builder) gccCmd(objdir string)
++ 	return b.ccompilerCmd("CC", defaultCC, objdir)
++ }
++ 
+++// gccCmd returns a gcc command line prefix
+++// defaultCC is defined in zdefaultcc.go, written by cmd/dist.
+++func (b *builder) gccCmdForReal() []string {
+++	return envList("CC", defaultCC)
+++}
+++
++ // gxxCmd returns a g++ command line prefix
++ // defaultCXX is defined in zdefaultcc.go, written by cmd/dist.
++ func (b *builder) gxxCmd(objdir string) []string {
++ 	return b.ccompilerCmd("CXX", defaultCXX, objdir)
++ }
++ 
+++// gxxCmd returns a g++ command line prefix
+++// defaultCXX is defined in zdefaultcc.go, written by cmd/dist.
+++func (b *builder) gxxCmdForReal() []string {
+++	return envList("CXX", defaultCXX)
+++}
+++
++ // gfortranCmd returns a gfortran command line prefix.
++ func (b *builder) gfortranCmd(objdir string) []string {
++ 	return b.ccompilerCmd("FC", "gfortran", objdir)
++Index: go/src/cmd/go/env.go
++===================================================================
++--- go.orig/src/cmd/go/env.go
+++++ go/src/cmd/go/env.go
++@@ -51,10 +51,9 @@ func mkEnv() []envVar {
++ 
++ 	if goos != "plan9" {
++ 		cmd := b.gccCmd(".")
++-		env = append(env, envVar{"CC", cmd[0]})
+++		env = append(env, envVar{"CC", strings.Join(b.gccCmdForReal(), " ")})
++ 		env = append(env, envVar{"GOGCCFLAGS", strings.Join(cmd[3:], " ")})
++-		cmd = b.gxxCmd(".")
++-		env = append(env, envVar{"CXX", cmd[0]})
+++		env = append(env, envVar{"CXX", strings.Join(b.gxxCmdForReal(), " ")})
++ 	}
++ 
++ 	if buildContext.CgoEnabled {
+diff --git a/meta/recipes-devtools/go/go-1.7/fix-target-cc-for-build.patch b/meta/recipes-devtools/go/go-1.7/fix-target-cc-for-build.patch
+new file mode 100644
+index 0000000000..2f6156ecd2
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.7/fix-target-cc-for-build.patch
+@@ -0,0 +1,17 @@
++Put Quotes around CC_FOR_TARGET since it can be mutliple words e.g. in OE
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++Index: go/src/make.bash
++===================================================================
++--- go.orig/src/make.bash	2015-07-29 13:28:11.334031696 -0700
+++++ go/src/make.bash	2015-07-29 13:36:55.814465630 -0700
++@@ -158,7 +158,7 @@
++ fi
++ 
++ echo "##### Building packages and commands for $GOOS/$GOARCH."
++-CC=$CC_FOR_TARGET "$GOTOOLDIR"/go_bootstrap install $GO_FLAGS -gcflags "$GO_GCFLAGS" -ldflags "$GO_LDFLAGS" -v std cmd
+++CC="$CC_FOR_TARGET" "$GOTOOLDIR"/go_bootstrap install $GO_FLAGS -gcflags "$GO_GCFLAGS" -ldflags "$GO_LDFLAGS" -v std cmd
++ echo
++ 
++ rm -f "$GOTOOLDIR"/go_bootstrap
+diff --git a/meta/recipes-devtools/go/go-1.7/gotooldir.patch b/meta/recipes-devtools/go/go-1.7/gotooldir.patch
+new file mode 100644
+index 0000000000..94670259f2
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.7/gotooldir.patch
+@@ -0,0 +1,30 @@
++Define tooldir in relation to GOTOOLDIR env var
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++Index: go/src/go/build/build.go
++===================================================================
++--- go.orig/src/go/build/build.go
+++++ go/src/go/build/build.go
++@@ -1388,7 +1388,7 @@ func init() {
++ }
++ 
++ // ToolDir is the directory containing build tools.
++-var ToolDir = filepath.Join(runtime.GOROOT(), "pkg/tool/"+runtime.GOOS+"_"+runtime.GOARCH)
+++var ToolDir = envOr("GOTOOLDIR", filepath.Join(runtime.GOROOT(), "pkg/tool/"+runtime.GOOS+"_"+runtime.GOARCH))
++ 
++ // IsLocalImport reports whether the import path is
++ // a local import path, like ".", "..", "./foo", or "../foo".
++Index: go/src/cmd/go/build.go
++===================================================================
++--- go.orig/src/cmd/go/build.go
+++++ go/src/cmd/go/build.go
++@@ -1312,7 +1312,7 @@ func (b *builder) build(a *action) (err
++ 		}
++ 
++ 		cgoExe := tool("cgo")
++-		if a.cgo != nil && a.cgo.target != "" {
+++		if a.cgo != nil && a.cgo.target != "" && os.Getenv("GOTOOLDIR") == "" {
++ 			cgoExe = a.cgo.target
++ 		}
++ 		outGo, outObj, err := b.cgo(a.p, cgoExe, obj, pcCFLAGS, pcLDFLAGS, cgofiles, gccfiles, cxxfiles, a.p.MFiles)
+diff --git a/meta/recipes-devtools/go/go-1.7/split-host-and-target-build.patch b/meta/recipes-devtools/go/go-1.7/split-host-and-target-build.patch
+new file mode 100644
+index 0000000000..b0dd95bbe7
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.7/split-host-and-target-build.patch
+@@ -0,0 +1,62 @@
++Add new option --target-only to build target components
++Separates the host and target pieces of build
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++Index: go/src/make.bash
++===================================================================
++--- go.orig/src/make.bash
+++++ go/src/make.bash
++@@ -154,13 +154,22 @@ if [ "$1" = "--no-clean" ]; then
++ 	buildall=""
++ 	shift
++ fi
++-./cmd/dist/dist bootstrap $buildall $GO_DISTFLAGS -v # builds go_bootstrap
+++do_host_build="yes"
+++do_target_build="yes"
+++if [ "$1" = "--target-only" ]; then
+++	do_host_build="no"
+++	shift
+++elif [ "$1" = "--host-only" ]; then
+++	do_target_build="no"
+++	shift
+++fi
++ 
++-# Delay move of dist tool to now, because bootstrap may clear tool directory.
++-mv cmd/dist/dist "$GOTOOLDIR"/dist
++-echo
+++if [ "$do_host_build" = "yes" ]; then
+++	./cmd/dist/dist bootstrap $buildall $GO_DISTFLAGS -v # builds go_bootstrap
+++	# Delay move of dist tool to now, because bootstrap may clear tool directory.
+++	mv cmd/dist/dist "$GOTOOLDIR"/dist
+++	echo
++ 
++-if [ "$GOHOSTARCH" != "$GOARCH" -o "$GOHOSTOS" != "$GOOS" ]; then
++ 	echo "##### Building packages and commands for host, $GOHOSTOS/$GOHOSTARCH."
++ 	# CC_FOR_TARGET is recorded as the default compiler for the go tool. When building for the host, however,
++ 	# use the host compiler, CC, from `cmd/dist/dist env` instead.
++@@ -169,11 +178,20 @@ if [ "$GOHOSTARCH" != "$GOARCH" -o "$GOH
++ 	echo
++ fi
++ 
++-echo "##### Building packages and commands for $GOOS/$GOARCH."
++-CC="$CC_FOR_TARGET" "$GOTOOLDIR"/go_bootstrap install $GO_FLAGS -gcflags "$GO_GCFLAGS" -ldflags "$GO_LDFLAGS" -v std cmd
++-echo
+++if [ "$do_target_build" = "yes" ]; then
+++    GO_INSTALL="${GO_TARGET_INSTALL:-std cmd}"
+++    echo "##### Building packages and commands for $GOOS/$GOARCH."
+++    if [ "$GOHOSTOS" = "$GOOS" -a "$GOHOSTARCH" = "$GOARCH" -a "$do_host_build" = "yes" ]; then
+++	rm -rf ./host-tools
+++	mkdir ./host-tools
+++	mv "$GOTOOLDIR"/* ./host-tools
+++	GOTOOLDIR="$PWD/host-tools"
+++    fi
+++    GOTOOLDIR="$GOTOOLDIR" CC="$CC_FOR_TARGET" "$GOTOOLDIR"/go_bootstrap install $GO_FLAGS -gcflags "$GO_GCFLAGS" -ldflags "$GO_LDFLAGS" -v ${GO_INSTALL}
+++    echo
++ 
++-rm -f "$GOTOOLDIR"/go_bootstrap
+++    rm -f "$GOTOOLDIR"/go_bootstrap
+++fi
++ 
++ if [ "$1" != "--no-banner" ]; then
++ 	"$GOTOOLDIR"/dist banner
+diff --git a/meta/recipes-devtools/go/go-1.7/syslog.patch b/meta/recipes-devtools/go/go-1.7/syslog.patch
+new file mode 100644
+index 0000000000..29be06f1bd
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.7/syslog.patch
+@@ -0,0 +1,62 @@
++Add timeouts to logger
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++
++diff -r -u go/src/log/syslog/syslog.go /home/achang/GOCOPY/go/src/log/syslog/syslog.go
++--- go/src/log/syslog/syslog.go	2013-11-28 13:38:28.000000000 -0800
+++++ /home/achang/GOCOPY/go/src/log/syslog/syslog.go	2014-10-03 11:44:37.710403200 -0700
++@@ -33,6 +33,9 @@
++ const severityMask = 0x07
++ const facilityMask = 0xf8
++ 
+++var writeTimeout = 1 * time.Second
+++var connectTimeout = 1 * time.Second
+++
++ const (
++ 	// Severity.
++ 
++@@ -100,6 +103,7 @@
++ type serverConn interface {
++ 	writeString(p Priority, hostname, tag, s, nl string) error
++ 	close() error
+++	setWriteDeadline(t time.Time) error
++ }
++ 
++ type netConn struct {
++@@ -273,7 +277,11 @@
++ 		nl = "\n"
++ 	}
++ 
++-	err := w.conn.writeString(p, w.hostname, w.tag, msg, nl)
+++	err := w.conn.setWriteDeadline(time.Now().Add(writeTimeout))
+++	if err != nil {
+++		return 0, err
+++	}
+++	err = w.conn.writeString(p, w.hostname, w.tag, msg, nl)
++ 	if err != nil {
++ 		return 0, err
++ 	}
++@@ -305,6 +313,10 @@
++ 	return n.conn.Close()
++ }
++ 
+++func (n *netConn) setWriteDeadline(t time.Time) error {
+++	return n.conn.SetWriteDeadline(t)
+++}
+++
++ // NewLogger creates a log.Logger whose output is written to
++ // the system log service with the specified priority. The logFlag
++ // argument is the flag set passed through to log.New to create
++diff -r -u go/src/log/syslog/syslog_unix.go /home/achang/GOCOPY/go/src/log/syslog/syslog_unix.go
++--- go/src/log/syslog/syslog_unix.go	2013-11-28 13:38:28.000000000 -0800
+++++ /home/achang/GOCOPY/go/src/log/syslog/syslog_unix.go	2014-10-03 11:44:39.010403175 -0700
++@@ -19,7 +19,7 @@
++ 	logPaths := []string{"/dev/log", "/var/run/syslog"}
++ 	for _, network := range logTypes {
++ 		for _, path := range logPaths {
++-			conn, err := net.Dial(network, path)
+++			conn, err := net.DialTimeout(network, path, connectTimeout)
++ 			if err != nil {
++ 				continue
++ 			} else {
+diff --git a/meta/recipes-devtools/go/go-1.8.inc b/meta/recipes-devtools/go/go-1.8.inc
+new file mode 100644
+index 0000000000..5c376a2eb6
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.8.inc
+@@ -0,0 +1,19 @@
++require go-common.inc
++
++GOMINOR = ""
++GO_BASEVERSION = "1.8"
++PV .= "${GOMINOR}"
++FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
++
++LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
++
++SRC_URI += "\
++       file://armhf-elf-header.patch \
++       file://syslog.patch \
++       file://fix-target-cc-for-build.patch \
++       file://fix-cc-handling.patch \
++       file://split-host-and-target-build.patch \
++       file://gotooldir.patch \
++"
++SRC_URI[md5sum] = "7743960c968760437b6e39093cfe6f67"
++SRC_URI[sha256sum] = "406865f587b44be7092f206d73fc1de252600b79b3cacc587b74b5ef5c623596"
+diff --git a/meta/recipes-devtools/go/go-1.8/armhf-elf-header.patch b/meta/recipes-devtools/go/go-1.8/armhf-elf-header.patch
+new file mode 100644
+index 0000000000..3508838e8b
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.8/armhf-elf-header.patch
+@@ -0,0 +1,23 @@
++Encode arm EABI ( hard/soft ) calling convention in ELF header
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++Index: go/src/cmd/link/internal/ld/elf.go
++===================================================================
++--- go.orig/src/cmd/link/internal/ld/elf.go
+++++ go/src/cmd/link/internal/ld/elf.go
++@@ -950,7 +950,13 @@ func Elfinit(ctxt *Link) {
++ 	case sys.ARM, sys.MIPS:
++ 		if SysArch.Family == sys.ARM {
++ 			// we use EABI on linux/arm, freebsd/arm, netbsd/arm.
++-			if Headtype == obj.Hlinux || Headtype == obj.Hfreebsd || Headtype == obj.Hnetbsd {
+++			if Headtype == obj.Hlinux {
+++				if obj.GOARM == 7 {
+++					ehdr.flags = 0x5000402 // has entry point, Version5 EABI, hard float
+++				} else {
+++					ehdr.flags = 0x5000202 // has entry point, Version5 EABI, soft float
+++				}
+++			} else if Headtype == obj.Hfreebsd || Headtype == obj.Hnetbsd {
++ 				// We set a value here that makes no indication of which
++ 				// float ABI the object uses, because this is information
++ 				// used by the dynamic linker to compare executables and
+diff --git a/meta/recipes-devtools/go/go-1.8/fix-cc-handling.patch b/meta/recipes-devtools/go/go-1.8/fix-cc-handling.patch
+new file mode 100644
+index 0000000000..dc9b811b2a
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.8/fix-cc-handling.patch
+@@ -0,0 +1,50 @@
++Accept CC with multiple words in its name
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++Index: go/src/cmd/go/build.go
++===================================================================
++--- go.orig/src/cmd/go/build.go
+++++ go/src/cmd/go/build.go
++@@ -3100,12 +3100,24 @@ func (b *builder) gccCmd(objdir string)
++ 	return b.ccompilerCmd("CC", defaultCC, objdir)
++ }
++ 
+++// gccCmd returns a gcc command line prefix
+++// defaultCC is defined in zdefaultcc.go, written by cmd/dist.
+++func (b *builder) gccCmdForReal() []string {
+++	return envList("CC", defaultCC)
+++}
+++
++ // gxxCmd returns a g++ command line prefix
++ // defaultCXX is defined in zdefaultcc.go, written by cmd/dist.
++ func (b *builder) gxxCmd(objdir string) []string {
++ 	return b.ccompilerCmd("CXX", defaultCXX, objdir)
++ }
++ 
+++// gxxCmd returns a g++ command line prefix
+++// defaultCXX is defined in zdefaultcc.go, written by cmd/dist.
+++func (b *builder) gxxCmdForReal() []string {
+++	return envList("CXX", defaultCXX)
+++}
+++
++ // gfortranCmd returns a gfortran command line prefix.
++ func (b *builder) gfortranCmd(objdir string) []string {
++ 	return b.ccompilerCmd("FC", "gfortran", objdir)
++Index: go/src/cmd/go/env.go
++===================================================================
++--- go.orig/src/cmd/go/env.go
+++++ go/src/cmd/go/env.go
++@@ -63,10 +63,9 @@ func mkEnv() []envVar {
++ 	}
++ 
++ 	cmd := b.gccCmd(".")
++-	env = append(env, envVar{"CC", cmd[0]})
+++	env = append(env, envVar{"CC", strings.Join(b.gccCmdForReal(), " ")})
++ 	env = append(env, envVar{"GOGCCFLAGS", strings.Join(cmd[3:], " ")})
++-	cmd = b.gxxCmd(".")
++-	env = append(env, envVar{"CXX", cmd[0]})
+++	env = append(env, envVar{"CXX", strings.Join(b.gxxCmdForReal(), " ")})
++ 
++ 	if buildContext.CgoEnabled {
++ 		env = append(env, envVar{"CGO_ENABLED", "1"})
+diff --git a/meta/recipes-devtools/go/go-1.8/fix-target-cc-for-build.patch b/meta/recipes-devtools/go/go-1.8/fix-target-cc-for-build.patch
+new file mode 100644
+index 0000000000..2f6156ecd2
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.8/fix-target-cc-for-build.patch
+@@ -0,0 +1,17 @@
++Put Quotes around CC_FOR_TARGET since it can be mutliple words e.g. in OE
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++Index: go/src/make.bash
++===================================================================
++--- go.orig/src/make.bash	2015-07-29 13:28:11.334031696 -0700
+++++ go/src/make.bash	2015-07-29 13:36:55.814465630 -0700
++@@ -158,7 +158,7 @@
++ fi
++ 
++ echo "##### Building packages and commands for $GOOS/$GOARCH."
++-CC=$CC_FOR_TARGET "$GOTOOLDIR"/go_bootstrap install $GO_FLAGS -gcflags "$GO_GCFLAGS" -ldflags "$GO_LDFLAGS" -v std cmd
+++CC="$CC_FOR_TARGET" "$GOTOOLDIR"/go_bootstrap install $GO_FLAGS -gcflags "$GO_GCFLAGS" -ldflags "$GO_LDFLAGS" -v std cmd
++ echo
++ 
++ rm -f "$GOTOOLDIR"/go_bootstrap
+diff --git a/meta/recipes-devtools/go/go-1.8/gotooldir.patch b/meta/recipes-devtools/go/go-1.8/gotooldir.patch
+new file mode 100644
+index 0000000000..94670259f2
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.8/gotooldir.patch
+@@ -0,0 +1,30 @@
++Define tooldir in relation to GOTOOLDIR env var
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++Index: go/src/go/build/build.go
++===================================================================
++--- go.orig/src/go/build/build.go
+++++ go/src/go/build/build.go
++@@ -1388,7 +1388,7 @@ func init() {
++ }
++ 
++ // ToolDir is the directory containing build tools.
++-var ToolDir = filepath.Join(runtime.GOROOT(), "pkg/tool/"+runtime.GOOS+"_"+runtime.GOARCH)
+++var ToolDir = envOr("GOTOOLDIR", filepath.Join(runtime.GOROOT(), "pkg/tool/"+runtime.GOOS+"_"+runtime.GOARCH))
++ 
++ // IsLocalImport reports whether the import path is
++ // a local import path, like ".", "..", "./foo", or "../foo".
++Index: go/src/cmd/go/build.go
++===================================================================
++--- go.orig/src/cmd/go/build.go
+++++ go/src/cmd/go/build.go
++@@ -1312,7 +1312,7 @@ func (b *builder) build(a *action) (err
++ 		}
++ 
++ 		cgoExe := tool("cgo")
++-		if a.cgo != nil && a.cgo.target != "" {
+++		if a.cgo != nil && a.cgo.target != "" && os.Getenv("GOTOOLDIR") == "" {
++ 			cgoExe = a.cgo.target
++ 		}
++ 		outGo, outObj, err := b.cgo(a.p, cgoExe, obj, pcCFLAGS, pcLDFLAGS, cgofiles, gccfiles, cxxfiles, a.p.MFiles)
+diff --git a/meta/recipes-devtools/go/go-1.8/split-host-and-target-build.patch b/meta/recipes-devtools/go/go-1.8/split-host-and-target-build.patch
+new file mode 100644
+index 0000000000..b0dd95bbe7
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.8/split-host-and-target-build.patch
+@@ -0,0 +1,62 @@
++Add new option --target-only to build target components
++Separates the host and target pieces of build
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++Index: go/src/make.bash
++===================================================================
++--- go.orig/src/make.bash
+++++ go/src/make.bash
++@@ -154,13 +154,22 @@ if [ "$1" = "--no-clean" ]; then
++ 	buildall=""
++ 	shift
++ fi
++-./cmd/dist/dist bootstrap $buildall $GO_DISTFLAGS -v # builds go_bootstrap
+++do_host_build="yes"
+++do_target_build="yes"
+++if [ "$1" = "--target-only" ]; then
+++	do_host_build="no"
+++	shift
+++elif [ "$1" = "--host-only" ]; then
+++	do_target_build="no"
+++	shift
+++fi
++ 
++-# Delay move of dist tool to now, because bootstrap may clear tool directory.
++-mv cmd/dist/dist "$GOTOOLDIR"/dist
++-echo
+++if [ "$do_host_build" = "yes" ]; then
+++	./cmd/dist/dist bootstrap $buildall $GO_DISTFLAGS -v # builds go_bootstrap
+++	# Delay move of dist tool to now, because bootstrap may clear tool directory.
+++	mv cmd/dist/dist "$GOTOOLDIR"/dist
+++	echo
++ 
++-if [ "$GOHOSTARCH" != "$GOARCH" -o "$GOHOSTOS" != "$GOOS" ]; then
++ 	echo "##### Building packages and commands for host, $GOHOSTOS/$GOHOSTARCH."
++ 	# CC_FOR_TARGET is recorded as the default compiler for the go tool. When building for the host, however,
++ 	# use the host compiler, CC, from `cmd/dist/dist env` instead.
++@@ -169,11 +178,20 @@ if [ "$GOHOSTARCH" != "$GOARCH" -o "$GOH
++ 	echo
++ fi
++ 
++-echo "##### Building packages and commands for $GOOS/$GOARCH."
++-CC="$CC_FOR_TARGET" "$GOTOOLDIR"/go_bootstrap install $GO_FLAGS -gcflags "$GO_GCFLAGS" -ldflags "$GO_LDFLAGS" -v std cmd
++-echo
+++if [ "$do_target_build" = "yes" ]; then
+++    GO_INSTALL="${GO_TARGET_INSTALL:-std cmd}"
+++    echo "##### Building packages and commands for $GOOS/$GOARCH."
+++    if [ "$GOHOSTOS" = "$GOOS" -a "$GOHOSTARCH" = "$GOARCH" -a "$do_host_build" = "yes" ]; then
+++	rm -rf ./host-tools
+++	mkdir ./host-tools
+++	mv "$GOTOOLDIR"/* ./host-tools
+++	GOTOOLDIR="$PWD/host-tools"
+++    fi
+++    GOTOOLDIR="$GOTOOLDIR" CC="$CC_FOR_TARGET" "$GOTOOLDIR"/go_bootstrap install $GO_FLAGS -gcflags "$GO_GCFLAGS" -ldflags "$GO_LDFLAGS" -v ${GO_INSTALL}
+++    echo
++ 
++-rm -f "$GOTOOLDIR"/go_bootstrap
+++    rm -f "$GOTOOLDIR"/go_bootstrap
+++fi
++ 
++ if [ "$1" != "--no-banner" ]; then
++ 	"$GOTOOLDIR"/dist banner
+diff --git a/meta/recipes-devtools/go/go-1.8/syslog.patch b/meta/recipes-devtools/go/go-1.8/syslog.patch
+new file mode 100644
+index 0000000000..29be06f1bd
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.8/syslog.patch
+@@ -0,0 +1,62 @@
++Add timeouts to logger
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++
++diff -r -u go/src/log/syslog/syslog.go /home/achang/GOCOPY/go/src/log/syslog/syslog.go
++--- go/src/log/syslog/syslog.go	2013-11-28 13:38:28.000000000 -0800
+++++ /home/achang/GOCOPY/go/src/log/syslog/syslog.go	2014-10-03 11:44:37.710403200 -0700
++@@ -33,6 +33,9 @@
++ const severityMask = 0x07
++ const facilityMask = 0xf8
++ 
+++var writeTimeout = 1 * time.Second
+++var connectTimeout = 1 * time.Second
+++
++ const (
++ 	// Severity.
++ 
++@@ -100,6 +103,7 @@
++ type serverConn interface {
++ 	writeString(p Priority, hostname, tag, s, nl string) error
++ 	close() error
+++	setWriteDeadline(t time.Time) error
++ }
++ 
++ type netConn struct {
++@@ -273,7 +277,11 @@
++ 		nl = "\n"
++ 	}
++ 
++-	err := w.conn.writeString(p, w.hostname, w.tag, msg, nl)
+++	err := w.conn.setWriteDeadline(time.Now().Add(writeTimeout))
+++	if err != nil {
+++		return 0, err
+++	}
+++	err = w.conn.writeString(p, w.hostname, w.tag, msg, nl)
++ 	if err != nil {
++ 		return 0, err
++ 	}
++@@ -305,6 +313,10 @@
++ 	return n.conn.Close()
++ }
++ 
+++func (n *netConn) setWriteDeadline(t time.Time) error {
+++	return n.conn.SetWriteDeadline(t)
+++}
+++
++ // NewLogger creates a log.Logger whose output is written to
++ // the system log service with the specified priority. The logFlag
++ // argument is the flag set passed through to log.New to create
++diff -r -u go/src/log/syslog/syslog_unix.go /home/achang/GOCOPY/go/src/log/syslog/syslog_unix.go
++--- go/src/log/syslog/syslog_unix.go	2013-11-28 13:38:28.000000000 -0800
+++++ /home/achang/GOCOPY/go/src/log/syslog/syslog_unix.go	2014-10-03 11:44:39.010403175 -0700
++@@ -19,7 +19,7 @@
++ 	logPaths := []string{"/dev/log", "/var/run/syslog"}
++ 	for _, network := range logTypes {
++ 		for _, path := range logPaths {
++-			conn, err := net.Dial(network, path)
+++			conn, err := net.DialTimeout(network, path, connectTimeout)
++ 			if err != nil {
++ 				continue
++ 			} else {
+diff --git a/meta/recipes-devtools/go/go-common.inc b/meta/recipes-devtools/go/go-common.inc
+new file mode 100644
+index 0000000000..f74b8b7650
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-common.inc
+@@ -0,0 +1,22 @@
++SUMMARY = "Go programming language compiler"
++DESCRIPTION = " The Go programming language is an open source project to make \
++ programmers more productive. Go is expressive, concise, clean, and\
++ efficient. Its concurrency mechanisms make it easy to write programs\
++ that get the most out of multicore and networked machines, while its\
++ novel type system enables flexible and modular program construction.\
++ Go compiles quickly to machine code yet has the convenience of\
++ garbage collection and the power of run-time reflection. It's a\
++ fast, statically typed, compiled language that feels like a\
++ dynamically typed, interpreted language."
++
++HOMEPAGE = " http://golang.org/"
++LICENSE = "BSD-3-Clause"
++
++inherit goarch
++
++SRC_URI = "http://golang.org/dl/go${PV}.src.tar.gz"
++S = "${WORKDIR}/go"
++B = "${S}"
++
++INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
++SSTATE_SCAN_CMD = "true"
+diff --git a/meta/recipes-devtools/go/go-cross.inc b/meta/recipes-devtools/go/go-cross.inc
+new file mode 100644
+index 0000000000..1394c5474e
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-cross.inc
+@@ -0,0 +1,14 @@
++inherit cross
++
++DEPENDS += "gcc-cross-${TARGET_ARCH}"
++
++PN = "go-cross-${TARGET_ARCH}"
++
++FILESEXTRAPATHS =. "${FILE_DIRNAME}/go-cross:"
++
++GOROOT_FINAL = "${libdir}/go"
++export GOROOT_FINAL
++
++# Incompatible with musl, at least for now
++COMPATIBLE_HOST_libc-musl_class-target = "null"
++
+diff --git a/meta/recipes-devtools/go/go-cross_1.7.bb b/meta/recipes-devtools/go/go-cross_1.7.bb
+new file mode 100644
+index 0000000000..56ee084b10
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-cross_1.7.bb
+@@ -0,0 +1,5 @@
++require go-cross.inc
++require go_${PV}.bb
++
++# Go binaries are not understood by the strip tool.
++INHIBIT_SYSROOT_STRIP = "1"
+diff --git a/meta/recipes-devtools/go/go-cross_1.8.bb b/meta/recipes-devtools/go/go-cross_1.8.bb
+new file mode 100644
+index 0000000000..56ee084b10
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-cross_1.8.bb
+@@ -0,0 +1,5 @@
++require go-cross.inc
++require go_${PV}.bb
++
++# Go binaries are not understood by the strip tool.
++INHIBIT_SYSROOT_STRIP = "1"
+diff --git a/meta/recipes-devtools/go/go-native.inc b/meta/recipes-devtools/go/go-native.inc
+new file mode 100644
+index 0000000000..89bc63459d
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-native.inc
+@@ -0,0 +1,54 @@
++inherit native
++
++export GOOS = "${BUILD_GOOS}"
++export GOARCH = "${BUILD_GOARCH}"
++export GOROOT_FINAL = "${STAGING_LIBDIR_NATIVE}/go"
++export CGO_ENABLED = "1"
++
++do_configure[noexec] = "1"
++
++do_compile() {
++	export GOBIN="${B}/bin"
++	rm -rf ${GOBIN}
++	mkdir ${GOBIN}
++
++	export TMPDIR=${WORKDIR}/build-tmp
++	mkdir -p ${WORKDIR}/build-tmp
++
++	cd src
++	CGO_ENABLED=0 ./make.bash --host-only
++}
++
++make_wrapper() {
++	rm -f ${D}${bindir}/$2
++	cat <<END >${D}${bindir}/$2
++#!/bin/bash
++here=\`dirname \$0\`
++export GOROOT="${GOROOT:-\`readlink -f \$here/../lib/go\`}"
++\$here/../lib/go/bin/$1 "\$@"
++END
++	chmod +x ${D}${bindir}/$2
++}
++
++do_install() {
++	install -d ${D}${libdir}/go
++	cp -a ${B}/pkg ${D}${libdir}/go/
++	install -d ${D}${libdir}/go/src
++	(cd ${S}/src; for d in *; do \
++		[ -d $d ] && cp -a ${S}/src/$d ${D}${libdir}/go/src/; \
++	done)
++
++	install -d ${D}${bindir} ${D}${libdir}/go/bin
++	for f in ${B}/bin/*
++	do
++		base=`basename $f`
++		install -m755 $f ${D}${libdir}/go/bin
++		make_wrapper $base $base
++	done
++}
++
++do_package[noexec] = "1"
++do_packagedata[noexec] = "1"
++do_package_write_ipk[noexec] = "1"
++do_package_write_deb[noexec] = "1"
++do_package_write_rpm[noexec] = "1"
+diff --git a/meta/recipes-devtools/go/go-native_1.4.bb b/meta/recipes-devtools/go/go-native_1.4.bb
+new file mode 100644
+index 0000000000..bbf3c0dd73
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-native_1.4.bb
+@@ -0,0 +1,2 @@
++require ${PN}.inc
++require go-${PV}.inc
+diff --git a/meta/recipes-devtools/go/go.inc b/meta/recipes-devtools/go/go.inc
+new file mode 100644
+index 0000000000..a8e7e03cc0
+--- /dev/null
++++ b/meta/recipes-devtools/go/go.inc
+@@ -0,0 +1,83 @@
++inherit goarch
++# libgcc is required for the target specific libraries to build properly
++DEPENDS += " go-native libgcc"
++# Prevent runstrip from running because you get errors when the host arch != target arch
++INHIBIT_PACKAGE_STRIP = "1"
++INHIBIT_SYSROOT_STRIP = "1"
++
++# Incompatible with musl, at least for now
++COMPATIBLE_HOST_libc-musl_class-target = "null"
++
++export GOHOSTOS = "${BUILD_GOOS}"
++export GOHOSTARCH = "${BUILD_GOARCH}"
++export GOOS = "${TARGET_GOOS}"
++export GOARCH = "${TARGET_GOARCH}"
++export GOARM = "${TARGET_GOARM}"
++export GOROOT_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/go"
++export GOROOT_FINAL = "${libdir}/go"
++export CGO_ENABLED = "1"
++export CC_FOR_TARGET = "${CC}"
++export CXX_FOR_TARGET = "${CXX}"
++
++do_configure[noexec] = "1"
++
++do_compile_prepend_class-cross() {
++	export CGO_ENABLED=0
++}
++
++do_compile() {
++	export GOBIN="${B}/bin"
++	export CC="${@d.getVar('BUILD_CC', True).strip()}"
++	rm -rf ${GOBIN} ${B}/pkg
++	mkdir ${GOBIN}
++
++	export TMPDIR=${WORKDIR}/build-tmp
++	mkdir -p ${WORKDIR}/build-tmp
++
++	cd src
++	./make.bash --host-only
++	# Ensure cgo.a is built with the target toolchain
++	export GOBIN="${B}/target/bin"
++	rm -rf ${GOBIN}
++	mkdir -p ${GOBIN}
++	GO_FLAGS="-a" ./make.bash
++}
++
++do_install_class-target() {
++	install -d ${D}${libdir}/go
++	cp -a ${B}/pkg ${D}${libdir}/go/
++	install -d ${D}${libdir}/go/src
++	(cd ${S}/src; for d in *; do \
++		[ -d $d ] && cp -a ${S}/src/$d ${D}${libdir}/go/src/; \
++	done)
++	install -d ${D}${bindir}
++	if [ -d ${B}/bin/${GOOS}_${GOARCH} ]
++	then
++		install -m 0755 ${B}/bin/${GOOS}_${GOARCH}/* ${D}${bindir}
++	else
++		install -m 0755 ${B}/bin/* ${D}${bindir}
++	fi
++}
++
++do_install_class-cross() {
++	install -d ${D}${libdir}/go
++	cp -a ${B}/pkg ${D}${libdir}/go/
++	install -d ${D}${libdir}/go/src
++	(cd ${S}/src; for d in *; do \
++		[ -d $d ] && cp -a ${S}/src/$d ${D}${libdir}/go/src/; \
++	done)
++	install -d ${D}${bindir}
++	for f in ${B}/bin/go*
++	do
++		install -m755 $f ${D}${bindir}
++	done
++}
++
++INSANE_SKIP_${PN} += "staticdev"
++RDEPENDS_${PN} += "perl"
++
++do_package[noexec] = "1"
++do_packagedata[noexec] = "1"
++do_package_write_ipk[noexec] = "1"
++do_package_write_deb[noexec] = "1"
++do_package_write_rpm[noexec] = "1"
+diff --git a/meta/recipes-devtools/go/go_1.6.bb b/meta/recipes-devtools/go/go_1.6.bb
+new file mode 100644
+index 0000000000..2f590338c4
+--- /dev/null
++++ b/meta/recipes-devtools/go/go_1.6.bb
+@@ -0,0 +1,4 @@
++require go.inc
++require go-${PV}.inc
++
++BBCLASSEXTEND = "cross"
+diff --git a/meta/recipes-devtools/go/go_1.7.bb b/meta/recipes-devtools/go/go_1.7.bb
+new file mode 100644
+index 0000000000..e7a6ab277e
+--- /dev/null
++++ b/meta/recipes-devtools/go/go_1.7.bb
+@@ -0,0 +1,2 @@
++require go-${PV}.inc
++require go.inc
+diff --git a/meta/recipes-devtools/go/go_1.8.bb b/meta/recipes-devtools/go/go_1.8.bb
+new file mode 100644
+index 0000000000..e7a6ab277e
+--- /dev/null
++++ b/meta/recipes-devtools/go/go_1.8.bb
+@@ -0,0 +1,2 @@
++require go-${PV}.inc
++require go.inc
+diff --git a/meta/recipes-extended/go-examples/files/helloworld.go b/meta/recipes-extended/go-examples/files/helloworld.go
+new file mode 100644
+index 0000000000..0253c40411
+--- /dev/null
++++ b/meta/recipes-extended/go-examples/files/helloworld.go
+@@ -0,0 +1,10 @@
++// You can edit this code!
++// Click here and start typing.
++// taken from https://golang.org/
++package main
++
++import "fmt"
++
++func main() {
++	fmt.Println("Hello, 世界")
++}
+diff --git a/meta/recipes-extended/go-examples/go-examples.inc b/meta/recipes-extended/go-examples/go-examples.inc
+new file mode 100644
+index 0000000000..c63268116b
+--- /dev/null
++++ b/meta/recipes-extended/go-examples/go-examples.inc
+@@ -0,0 +1,10 @@
++DESCRIPTION = "This is a simple example recipe that cross-compiles a Go program."
++SECTION = "examples"
++HOMEPAGE = "https://golang.org/"
++
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++
++S = "${WORKDIR}"
++
++inherit go
+diff --git a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+new file mode 100644
+index 0000000000..930c57df95
+--- /dev/null
++++ b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+@@ -0,0 +1,13 @@
++require go-examples.inc
++
++SRC_URI += " \
++  file://helloworld.go \
++"
++
++do_compile() {
++	go build helloworld.go
++}
++
++do_install() {
++	install -D -m 0755 ${S}/helloworld ${D}${bindir}/helloworld
++}
+-- 
+2.12.0
+
 
