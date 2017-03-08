@@ -1,53 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f175.google.com (mail-pf0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id C0C2A71A71
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F59C70101
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Mar 2017 21:46:42 +0000 (UTC)
-Received: by mail-pf0-f175.google.com with SMTP id w189so19800619pfb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Mar 2017 13:46:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=HCeD8vICYAgWR1W5MZAeZZLf7rCmKnnxE4HoDCh30+U=;
-	b=Md2O7twVfQio7NLDpLkWW9PUHsNxze646lq5f3AdU+xGwCXk375lTunfdfwdOU88QJ
-	rMoJI0dR2+hd3qM3twbEJ7Hp84qmnBU6SND8vHNULXj8Qc240aBwOLpIlOINzNLbkwxj
-	W6LhLa6rVhKQI+YZIjC3ursSiHaFtBpMKm42uRJJiPhgF/8RnnqECoAYNtHq0IBIp/dD
-	3Sr77ZnDpsSJ3irB11jCi+vScBSuWZnQSGP8lOp5l1PlcqiSVmq8r0sdqIz5nWNEb728
-	gWuGWJEZnFydLWbsaPrMW+quPJo5NyNPeODEqrO8af2LCUracpjuDI4mIEwBQzST0NQ8
-	3dpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=HCeD8vICYAgWR1W5MZAeZZLf7rCmKnnxE4HoDCh30+U=;
-	b=NiR1A8RAOLUdA15VOzm1kFSofKayYqjmW1WdAubibyCrvm5b0e2oMCe8kMcUnDGCID
-	03h66WOzazPPrfWrIscnEgmh+D+8PAq8wNFrQXUfRnpW5uY3AYcRWEHYIA9YsfOuns2G
-	fAIZ99hA/5IV/YLJ6GLbFwfpx8ExVZnoNf/+XuJ7qI0quo+CYJJ1i0vOtWvW1nMzgyQ/
-	pwATg8mlsAaoQO255svUn7hkoAme6krnrr79r+IYq6glPDR4MuFgYIBDmZ8qyIkHuaM3
-	XcSz/qwzv6K1ZSWeZPRGt7c3z7UOCp9DfRAA20Y7xLmOe3+Ol65SeUqbfMXFZbDkn8rS
-	xV/A==
-X-Gm-Message-State: AMke39nS+W8L8MT6BgKmJfEHA4ipQLaTAEugCVPwNgn9f76JzCmqsEpjgVqIsrM7HKVKUw==
-X-Received: by 10.99.45.2 with SMTP id t2mr9692606pgt.209.1489009603695;
-	Wed, 08 Mar 2017 13:46:43 -0800 (PST)
-Received: from haswell (c-76-102-32-192.hsd1.ca.comcast.net. [76.102.32.192])
-	by smtp.gmail.com with ESMTPSA id
-	y67sm7942548pfa.96.2017.03.08.13.46.42
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 Mar 2017 13:46:43 -0800 (PST)
-Date: Wed, 8 Mar 2017 13:46:37 -0800
-From: Khem Raj <raj.khem@gmail.com>
-To: Martin Kelly <mkelly@xevo.com>
-Message-ID: <20170308214636.GA17756@haswell>
-References: <8f9c4dbb-10b7-25b9-1f38-704645a2eab2@xevo.com>
-MIME-Version: 1.0
-In-Reply-To: <8f9c4dbb-10b7-25b9-1f38-704645a2eab2@xevo.com>
-User-Agent: Mutt/1.8.0 (2017-02-23)
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Default rpaths in BUILD_LDFLAGS
+	Wed,  8 Mar 2017 21:55:04 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Mar 2017 13:55:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,265,1486454400"; d="scan'208";a="233894920"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.141])
+	by fmsmga004.fm.intel.com with ESMTP; 08 Mar 2017 13:55:05 -0800
+Message-ID: <1489010552.3261.35.camel@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: liu.ming50@gmail.com
+Date: Wed, 08 Mar 2017 16:02:32 -0600
+In-Reply-To: <1488982634-24222-1-git-send-email-liu.ming50@gmail.com>
+References: <1488982634-24222-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: Ming Liu <peter.x.liu@external.atlascopco.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Do not append to BBCLASSEXTEND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,45 +33,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Mar 2017 21:46:42 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Wed, 08 Mar 2017 21:55:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 17-03-07 16:43:47, Martin Kelly wrote:
-> Hi,
-> 
-> While debugging an issue with a package that uses llvm-config to compile
-> with clang, I started hitting [rpaths] QA warnings because some output
-> executables contained absolute rpaths pointing into my build directory.
-> After tracing through the issue, I determined the rpaths to eventually be
-> originating from the setting of BUILD_LDFLAGS in meta/conf/bitbake.conf. The
-> rpath part of this was added in commit 35759f97 to the poky repo.
+Hi
 
-thats for native packages alone.
+you need to send a v2 revision, following the shortlog format
 
-> 
-> A quick grep through the poky repo reveals that many projects have turned
-> off rpath in their builds (the mechanism through which is
-> build-system-dependent and doesn't always work right). Obviously, I can do
-> the same for clang/llvm-config, but it doesn't seem like the ideal solution
-> if many projects are having to do the same.
-> 
-> I'm wondering if those with more background on this issue could provide more
-> detail regarding why rpaths are set at the top level and why they are
-> necessary. In addition, I'm wondering if there might be a cleaner way to
-> remove the rpaths for those projects that need to do so without each project
-> manually writing sed and similar invocations to do it.
-> 
-> Thanks,
-> Martin
-> 
-> In case you're curious about the background of the issue, my project is
-> using the output of llvm-config --ldflags to set its linker flags.
-> llvm-config is populating the output --ldflags with whatever it is given for
-> CXX_LINK_FLAGS. CXX_LINK_FLAGS is being populated by the generic cmake logic
-> in cmake.bbclass, which is getting its flags from BUILD_LDFLAGS in
-> meta/conf/bitbake.conf.
+* Patch            Do not append to BBCLASSEXTEND
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
 
-I think we shoud not need rpaths for target recipes. We should see if we
-can just remove it atleast for /lib /usr/lib
+
+
+On Wed, 2017-03-08 at 15:17 +0100, liu.ming50@gmail.com wrote:
+> From: Ming Liu <peter.x.liu@external.atlascopco.com>
+> 
+> Replace some "+=/=+" with "=" when setting BBCLASSEXTEND, they are
+> redundant and inconsistent with the same setting in other recipes.
+> 
+> Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+> ---
+>  meta/recipes-devtools/build-compare/build-compare_git.bb         | 2 +-
+>  meta/recipes-extended/libsolv/libsolv_0.6.24.bb                  | 2 +-
+>  meta/recipes-extended/lzip/lzip_1.18.bb                          | 2 +-
+>  meta/recipes-extended/wget/wget.inc                              | 2 +-
+>  meta/recipes-support/ca-certificates/ca-certificates_20161130.bb | 2 +-
+>  meta/recipes-support/lz4/lz4.bb                                  | 2 +-
+>  meta/recipes-support/lzop/lzop_1.03.bb                           | 2 +-
+>  7 files changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/build-compare/build-compare_git.bb b/meta/recipes-devtools/build-compare/build-compare_git.bb
+> index e432143..eb12e40 100644
+> --- a/meta/recipes-devtools/build-compare/build-compare_git.bb
+> +++ b/meta/recipes-devtools/build-compare/build-compare_git.bb
+> @@ -22,7 +22,7 @@ PV = "git+${SRCPV}"
+>  
+>  S = "${WORKDIR}/git"
+>  
+> -BBCLASSEXTEND += "native nativesdk"
+> +BBCLASSEXTEND = "native nativesdk"
+>  
+>  do_install() {
+>      install -d ${D}/${bindir}
+> diff --git a/meta/recipes-extended/libsolv/libsolv_0.6.24.bb b/meta/recipes-extended/libsolv/libsolv_0.6.24.bb
+> index 6de38b5..73db5ed 100644
+> --- a/meta/recipes-extended/libsolv/libsolv_0.6.24.bb
+> +++ b/meta/recipes-extended/libsolv/libsolv_0.6.24.bb
+> @@ -27,4 +27,4 @@ FILES_${PN}-dev += "${datadir}/cmake/Modules/FindLibSolv.cmake"
+>  FILES_${PN}-tools = "${bindir}/*"
+>  FILES_${PN}ext = "${libdir}/${PN}ext.so.*"
+>  
+> -BBCLASSEXTEND =+ "native nativesdk"
+> +BBCLASSEXTEND = "native nativesdk"
+> diff --git a/meta/recipes-extended/lzip/lzip_1.18.bb b/meta/recipes-extended/lzip/lzip_1.18.bb
+> index 30c7dd5..c1dc8ce 100644
+> --- a/meta/recipes-extended/lzip/lzip_1.18.bb
+> +++ b/meta/recipes-extended/lzip/lzip_1.18.bb
+> @@ -38,4 +38,4 @@ do_install () {
+>      fi
+>  }
+>  
+> -BBCLASSEXTEND += "native nativesdk"
+> +BBCLASSEXTEND = "native nativesdk"
+> diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
+> index 9eb051f..1299edb 100644
+> --- a/meta/recipes-extended/wget/wget.inc
+> +++ b/meta/recipes-extended/wget/wget.inc
+> @@ -16,7 +16,7 @@ ALTERNATIVE_PRIORITY = "100"
+>  
+>  RRECOMMENDS_${PN} += "ca-certificates"
+>  
+> -BBCLASSEXTEND += "nativesdk"
+> +BBCLASSEXTEND = "nativesdk"
+>  
+>  PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+>  PACKAGECONFIG[libuuid] = "--with-libuuid, --without-libuuid,util-linux"
+> diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
+> index e47bad1..42088b9 100644
+> --- a/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
+> +++ b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
+> @@ -80,4 +80,4 @@ do_install_append_class-native () {
+>  
+>  RDEPENDS_${PN} += "openssl"
+>  
+> -BBCLASSEXTEND += "native nativesdk"
+> +BBCLASSEXTEND = "native nativesdk"
+> diff --git a/meta/recipes-support/lz4/lz4.bb b/meta/recipes-support/lz4/lz4.bb
+> index 18e56d0..03c5a7a 100644
+> --- a/meta/recipes-support/lz4/lz4.bb
+> +++ b/meta/recipes-support/lz4/lz4.bb
+> @@ -18,4 +18,4 @@ do_install() {
+>  	oe_runmake install
+>  }
+>  
+> -BBCLASSEXTEND += "native nativesdk"
+> +BBCLASSEXTEND = "native nativesdk"
+> diff --git a/meta/recipes-support/lzop/lzop_1.03.bb b/meta/recipes-support/lzop/lzop_1.03.bb
+> index 649e724..6f09002 100644
+> --- a/meta/recipes-support/lzop/lzop_1.03.bb
+> +++ b/meta/recipes-support/lzop/lzop_1.03.bb
+> @@ -26,4 +26,4 @@ do_configure_prepend () {
+>      install -Dm 0644 ${WORKDIR}/acinclude.m4 ${S}/acinclude.m4
+>  }
+>  
+> -BBCLASSEXTEND += "native nativesdk"
+> +BBCLASSEXTEND = "native nativesdk"
+> -- 
+> 1.9.1
+> 
+
+
 
