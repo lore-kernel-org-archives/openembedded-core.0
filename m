@@ -1,47 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CF7D775D1
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 87C4173129
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Mar 2017 05:27:17 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id b5so2282150pgg.1
+	Wed,  8 Mar 2017 06:40:32 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id 67so2707046pfg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Mar 2017 21:27:19 -0800 (PST)
+	Tue, 07 Mar 2017 22:40:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=0apIGh4lSQjvTPtXfNDt/rHy6INtFIuT1AfuVX1ukVk=;
-	b=JGmv0oN/zurixTHNvDudJCh7NQ1Uw4Ok/XubMStcomQV6gjW9nUEcqsGQfhKXmerLX
-	3t0LK+FmDcZ6Z+f04C9oSn0r1R1vC+mD+lmpHoZxtVcGYUA8Ld09KfumfHdP8eUWRRpb
-	R0CY5TGuTKmDLpWIkOLZxBUiX+Efnxknnh2rHnpDV8DOs0GDwHtwiQLknkisBSFxcuhQ
-	POwONKagIXa/WD1JjVtI2MXmG0MpUwFLUL9uYtyKZG4TT7pITfdy3XbRWPFe6gDVq340
-	EnIaOIvQbCQHI3oLAw0jpoy30CA0YmaU4pMrf/hVfv54JWdKkTBJhbWywodwV75zizFa
-	UqjA==
+	bh=V8Pic3fixjrV+eFUcWupVtuGtXhS1SNcIEUJDRkS44s=;
+	b=GX+U7VumCCvjV6Od4lKA10WdxbDfj25+M3g+3S8AulK9alWfzi/bSI2cHIK3XDvkdY
+	WgfElJdXYbNmkV2MDIxy6lfiUosJdCKJ6Zei5VGZOfWNz0e60Be2svUyQuIi2viP6cPt
+	RrH2NuXpgTkpGYzcBrnzvU/9yz5hakqhY+RBva5tqOXfkDSWIFK5i63fEhojo18po/Pa
+	i4MgjzVEL09OxlwTO55jgo4c65wMm3MT0xy+L7NBwVAZ//LuhMcjU8HVPWWkb3OKh0v4
+	3HnOdqsvoVnekX5hmc47gDg4bT+jvQ1ORa5ipjJteolcuLHo7Fl5HKQoTT/rMTiY5fZw
+	WaYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=0apIGh4lSQjvTPtXfNDt/rHy6INtFIuT1AfuVX1ukVk=;
-	b=qdS5lrVZs/ppYnZALzNy8NLVRg38Ysbd0aLcJ5SVg37fEROQiEpw1Z5g7O191vfFEJ
-	ffniEFpn4CaepNbsCd3mnXDfsTP5j74wdjIJE+bLJ0DBUcfevsyYz0wYM0KbuHpkv98E
-	5oQ3i8O/5EFGi4qEfcLI7ghSBbMBvStC7Z/ucMruxbjFCYKVrE1EQSJP0QjBOVJCMWqB
-	sckEgtXUFvsCxBtNjdklAqFbCYI7YBtzN63rocy7rhSDBX7UF19HgLmZUgTjGY8Z+PCy
-	v/T8L5q1sbMrT2f625L6OCQJPH3cfpA1iv++fg262m6mQcpT1AXm18mSCAXzGf7whdRQ
-	zHpA==
-X-Gm-Message-State: AMke39lSBdqhOUJh+Ht4ptP+wz4Zk8NOShs3iqNC+MMDkVnAOW1mM1tZ15MB8qvgFZpfPw==
-X-Received: by 10.99.168.5 with SMTP id o5mr4843761pgf.148.1488950837564;
-	Tue, 07 Mar 2017 21:27:17 -0800 (PST)
+	bh=V8Pic3fixjrV+eFUcWupVtuGtXhS1SNcIEUJDRkS44s=;
+	b=QKvOH6CsNz0Dna0A4ec3LsFvgt+Jpeqnvjo8Cvu0OeRS5WDgn9l2s2qn8X7XR9Wloq
+	SlhqQMxU4dKr8Q9iw/BZcLh1C0DBt6Ll8JrQ0MdDHuwRh9LlVtHVQP7MxzPdxdVdBe54
+	R6kqNSgKEo4PqYdjvyaoeFadASHUC9xo5MrcA1lA2ZSc0H8WyJ5+XXKfXeYq0PxxvS2s
+	Aebeg+kxmErA0dVSmQOlb7B1mXw2CEgOF3lhBBJp+Wy3DHUrKmTdjU8qXg6hUptmAM4c
+	amshugs1z0gFQxE0lRSKtupYR1N7guapdpOGL3odYSzYjdFpBsO3xNGtuSSjC0iSALfZ
+	j4Ng==
+X-Gm-Message-State: AMke39lwsWYxeclOZy+C9YTxRYELsDegtijbtD9EmuPLx/bZIqwTO3zbXAJOwqgf7VqXmA==
+X-Received: by 10.84.197.1 with SMTP id m1mr6440671pld.123.1488955232239;
+	Tue, 07 Mar 2017 22:40:32 -0800 (PST)
 Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	129sm2944266pgj.59.2017.03.07.21.27.16
+	z189sm3587854pgb.3.2017.03.07.22.40.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 Mar 2017 21:27:16 -0800 (PST)
+	Tue, 07 Mar 2017 22:40:31 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Mar 2017 21:27:08 -0800
-Message-Id: <20170308052708.19958-1-raj.khem@gmail.com>
+Date: Tue,  7 Mar 2017 22:40:22 -0800
+Message-Id: <20170308064023.27986-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.12.0
 MIME-Version: 1.0
-Subject: [PATCH V8] go: Add recipes for golang compilers and tools
+Subject: [PATCH V9] go: Add recipes for golang compilers and tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,7 +55,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Mar 2017 05:27:17 -0000
+X-List-Received-Date: Wed, 08 Mar 2017 06:40:32 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -105,19 +106,19 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
  .../go/go-1.8/split-host-and-target-build.patch    |  62 ++++++
  meta/recipes-devtools/go/go-1.8/syslog.patch       |  62 ++++++
  meta/recipes-devtools/go/go-common.inc             |  22 ++
- meta/recipes-devtools/go/go-cross.inc              |  14 ++
+ meta/recipes-devtools/go/go-cross.inc              |  17 ++
  meta/recipes-devtools/go/go-cross_1.7.bb           |   5 +
  meta/recipes-devtools/go/go-cross_1.8.bb           |   5 +
  meta/recipes-devtools/go/go-native.inc             |  54 +++++
  meta/recipes-devtools/go/go-native_1.4.bb          |   2 +
- meta/recipes-devtools/go/go.inc                    |  83 ++++++++
+ meta/recipes-devtools/go/go.inc                    |  87 ++++++++
  meta/recipes-devtools/go/go_1.6.bb                 |   4 +
  meta/recipes-devtools/go/go_1.7.bb                 |   2 +
  meta/recipes-devtools/go/go_1.8.bb                 |   2 +
  .../go-examples/files/helloworld.go                |  10 +
  meta/recipes-extended/go-examples/go-examples.inc  |  10 +
  .../go-examples/go-helloworld_0.1.bb               |  13 ++
- 41 files changed, 1505 insertions(+)
+ 41 files changed, 1512 insertions(+)
  create mode 100644 meta/classes/go.bbclass
  create mode 100644 meta/classes/goarch.bbclass
  create mode 100644 meta/recipes-devtools/go/go-1.4.inc
@@ -1637,10 +1638,10 @@ index 0000000000..f74b8b7650
 +SSTATE_SCAN_CMD = "true"
 diff --git a/meta/recipes-devtools/go/go-cross.inc b/meta/recipes-devtools/go/go-cross.inc
 new file mode 100644
-index 0000000000..1394c5474e
+index 0000000000..054ce501bd
 --- /dev/null
 +++ b/meta/recipes-devtools/go/go-cross.inc
-@@ -0,0 +1,14 @@
+@@ -0,0 +1,17 @@
 +inherit cross
 +
 +DEPENDS += "gcc-cross-${TARGET_ARCH}"
@@ -1654,7 +1655,10 @@ index 0000000000..1394c5474e
 +
 +# Incompatible with musl, at least for now
 +COMPATIBLE_HOST_libc-musl_class-target = "null"
-+
++# x32 ABI is not supported on go compiler so far
++COMPATIBLE_HOST_linux-gnux32 = "null"
++# ppc32 is not supported in go compilers
++COMPATIBLE_HOST_powerpc = "null"
 diff --git a/meta/recipes-devtools/go/go-cross_1.7.bb b/meta/recipes-devtools/go/go-cross_1.7.bb
 new file mode 100644
 index 0000000000..56ee084b10
@@ -1747,10 +1751,10 @@ index 0000000000..bbf3c0dd73
 +require go-${PV}.inc
 diff --git a/meta/recipes-devtools/go/go.inc b/meta/recipes-devtools/go/go.inc
 new file mode 100644
-index 0000000000..a8e7e03cc0
+index 0000000000..0c315afe06
 --- /dev/null
 +++ b/meta/recipes-devtools/go/go.inc
-@@ -0,0 +1,83 @@
+@@ -0,0 +1,87 @@
 +inherit goarch
 +# libgcc is required for the target specific libraries to build properly
 +DEPENDS += " go-native libgcc"
@@ -1760,6 +1764,10 @@ index 0000000000..a8e7e03cc0
 +
 +# Incompatible with musl, at least for now
 +COMPATIBLE_HOST_libc-musl_class-target = "null"
++# x32 ABI is not supported on go compiler so far
++COMPATIBLE_HOST_linux-gnux32 = "null"
++# ppc32 is not supported in go compilers
++COMPATIBLE_HOST_powerpc = "null"
 +
 +export GOHOSTOS = "${BUILD_GOOS}"
 +export GOHOSTARCH = "${BUILD_GOARCH}"
