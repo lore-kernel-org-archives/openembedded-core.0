@@ -1,56 +1,32 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 72F6A774E2
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 220DA71994
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Mar 2017 18:41:35 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id v190so7487353wme.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Mar 2017 10:41:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=dVeDwZB1OtxU8iy6L/L++9Vhg+L8/bmETQXtexs5Bec=;
-	b=BciRAmdY9bzN6mAckG5Bp1Sgc6HGzjfs7s6xT5MtslkB4I7B4m9QghdfP1FVvBUNXP
-	oZWAskyAD4o/pMUb08SypFKudduP6UM8rTevIrV6BdNYRERU6J+uXLIy3i/eyX/0VjDc
-	ywoKz+Kavv30oJgXz6fNEVzmO+YI5Q+UTx8FL2IV2g9O2rPRRe7Ytr+bRCB9oD9gQqcz
-	p4kne6PLVm4vIGhEpHRYDXeac0MIA5nNr64QhY8+JcBWGq4GkPFy0UBbHVes3RkFuW4Y
-	c/LMLhgETe1zVI52QNNzxbq+S8lqKsKrEymU05ESHFRDkoMUP1g8BjhU8PSwCrjvnlXm
-	EqbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=dVeDwZB1OtxU8iy6L/L++9Vhg+L8/bmETQXtexs5Bec=;
-	b=hKkm5ZuG3MsJ2gQD8vq/BceJaAB8cl/2kZEz1XHzeQn1b0MViHcYCt6ToxHdBESVyE
-	/DKBjbXpr0Os8iyyMb4vxuII88hNKlyrXenrSBAQaCQkRxwRyYg7xFnhuZPkAkA1r8CC
-	D8wZlv1n+4ns4/yH050Pd9uoEHOQqhAOESUCMyG5Jrghn1i6MwUNqsO1Gx2fGhzTbSy1
-	37ynOn3nJ1N7g8cxkeTHkloFSY+cO41nplXgi60tX1HfZvmv8zEUEtzSxCqI4JeEulcH
-	RvO0Ox+lKb5xxYdEQLheNP7/CVj4vsb5lbMDklNqEhfYz4TkMREfFOvjUDn9WeQ1C0vR
-	b4/w==
-X-Gm-Message-State: AMke39nllm285DsecntY0aIKyouTxFsc/W3FtoKrLj3+C2AgW5AzVnrZazL5DHw6R1Hxnw==
-X-Received: by 10.28.13.20 with SMTP id 20mr24111893wmn.24.1488998496091;
-	Wed, 08 Mar 2017 10:41:36 -0800 (PST)
-Received: from localhost ([217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id g5sm5208663wrb.48.2017.03.08.10.41.34
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 08 Mar 2017 10:41:34 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 8 Mar 2017 19:41:36 +0100
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20170308184136.GF3279@jama>
-References: <cover.1488539819.git.pkj@axis.com>
-	<CAEHkU3XyKbGzTCX9XaG7jYXjde+ZRtA9z_MSecxpgOcu6wLMiQ@mail.gmail.com>
-	<aca83849e80a444595764b812d5e3394@XBOX02.axis.com>
-	<af3c0da4bce549a5b303d828c9728524@XBOX02.axis.com>
-	<CAJTo0Laa_WrQOjCyNBBmpWbKkza9Pg=dAiQEQJBrQoiEWab0Bw@mail.gmail.com>
-	<1488996030.22968.78.camel@linuxfoundation.org>
+	Wed,  8 Mar 2017 20:04:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v28K4UGK000647
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 8 Mar 2017 12:04:30 -0800 (PST)
+Received: from soho-mhatle-m.local (172.25.36.230) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Wed, 8 Mar 2017 12:04:29 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1488993907-13037-1-git-send-email-ross.burton@intel.com>
+	<e1abebd7-dba3-0c61-a3cd-bdc5a9d39fab@windriver.com>
+	<CAJTo0LbhUp_iYLyBX2VQd_P-ouZAjYqr8_vPLop2awoW-G3mhA@mail.gmail.com>
+	<40cc8168-6fb5-6ff2-0ae2-497a36205727@windriver.com>
+	<CAJTo0LZi3Ci+sbtrrXn9_4PEVkxZwVJ107nfq1ZQ5YWGWBB+zQ@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <726baa89-825d-4ad1-462c-9d97d4c8be22@windriver.com>
+Date: Wed, 8 Mar 2017 14:04:28 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.8.0
 MIME-Version: 1.0
-In-Reply-To: <1488996030.22968.78.camel@linuxfoundation.org>
-User-Agent: Mutt/1.8.0 (2017-02-23)
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv3 0/5] Add dummy tools to help identify needed dependencies
+In-Reply-To: <CAJTo0LZi3Ci+sbtrrXn9_4PEVkxZwVJ107nfq1ZQ5YWGWBB+zQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] classes: add gitupstream class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,74 +39,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Mar 2017 18:41:35 -0000
-X-Groupsio-MsgNum: 94422
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="kR3zbvD4cgoYnS/6"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 08 Mar 2017 20:04:30 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
---kR3zbvD4cgoYnS/6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 3/8/17 11:45 AM, Burton, Ross wrote:
+> 
+> On 8 March 2017 at 17:43, Mark Hatle <mark.hatle@windriver.com
+> <mailto:mark.hatle@windriver.com>> wrote:
+> 
+>     Devtool can do something similar, create a custom recipe... but I don't believe
+>     it has the ability to take an existing (patched) recipe, create a git tree
+>     somewhere [external], and then make it available for modification.
+> 
+> 
+> devtool modify RECIPE will generate this git repository for you, so doing that
+> and then copying the git repo somewhere reachable seems like it mostly solves
+> the problem?
 
-On Wed, Mar 08, 2017 at 06:00:30PM +0000, Richard Purdie wrote:
-> On Wed, 2017-03-08 at 17:21 +0000, Burton, Ross wrote:
-> >=20
-> > On 8 March 2017 at 09:43, Peter Kjellerstedt <peter.kjellerstedt@axis
-> > .com> wrote:
-> > > since I see that you have integrated/staged the two patches that
-> > > add
-> > > inherits of pkgconfig, but not the patches that add the dummy
-> > > commands,
-> > > I assume you have some reservations to these patches. What are your
-> > > take on the subject of blacklisting vs whitelisting the commands
-> > > from
-> > > the build host? I know that having these dummy commands in place
-> > > helped
-> > > me a great deal when updating our recipes to build correctly with
-> > > RSS.
-> > >=20
-> > FWIW I wasn't entirely keen on how the blacklisting had to be very
-> > careful about how PATH was manipulated, which is why I merged to my
-> > staging branch the fixes but not the dummy commands.
-> >=20
-> > If the majority of people agree that this should be merged I don't
-> > have a strong opinion either way.
->=20
-> Ultimately I think there is a better solution than this but I haven't
-> had time to look at that as yet.
->=20
-> I do worry that it makes assumptions about PATH that may or may not be
-> valid everywhere, equally I do see it could be useful.
->=20
-> So I also have mixed feelings...
+Ahh I did not know that modify did that.  Thanks!
 
-I got many complains about my PNBLACKLISTs saying that the issues weren't
-reproducible elsewhere and in the end it was in 90% one of these
-commonly installed tools like pkgconfig being used from the host.
+--Mark
 
-So I agree that PATH changes are tricky and that whitelisting would be
-even better than this, but still I would prefer to get this merged as it
-will help to identify and fix most common issues and changing this to
-whitelist would be easier in future.
+> Ross
 
-My jenkins buildhost is quite minimal (that's why it detected so many
-issues with RSS, but I'll include the rest of this series in next run to
-see if it will find even more).
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---kR3zbvD4cgoYnS/6
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWMBQYAAKCRA3VSO3ZXaA
-HKR3AKCHOEW7zXqkwlTUx+hJVTOKIv4VSwCeKWNUeKHXyLaU+37o8NFW0NxjR/E=
-=mg9u
------END PGP SIGNATURE-----
-
---kR3zbvD4cgoYnS/6--
