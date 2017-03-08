@@ -1,46 +1,24 @@
-Return-Path: <prvs=12403ff1d9=holzmayr@rsi-elektrotechnik.de>
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de
-	[81.169.146.161])
-	by mail.openembedded.org (Postfix) with ESMTP id DCC1372FDC
+Return-Path: <Haiqing.Bai@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A503C7199A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Mar 2017 07:12:46 +0000 (UTC)
-X-RZG-AUTH: :fz5RJhWIaexwuXGosGLfiBc0xYyi1Y5bd+wRKqrzPWwJyH/ODuV4n+N26eC0MVrEDIlpLg0lWA==
-X-RZG-CLASS-ID: mo00
-Received: from mail.rsi-elektrotechnik.de (p50933415.dip0.t-ipconnect.de
-	[80.147.52.21]) by smtp.strato.de (RZmta 39.13 AUTH)
-	with ESMTPSA id 00af76t287Cc9Xx
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (curve secp384r1
-	with 384 ECDH bits, eq. 7680 bits RSA))
-	(Client did not present a certificate);
-	Wed, 8 Mar 2017 08:12:38 +0100 (CET)
-Received: from [x.x.x.x] by mail.rsi-elektrotechnik.de (Cipher
-	TLSv1.2:AES-SHA:256) (MDaemon PRO v16.5.2) 
-	with ESMTPSA id md50000507770.msg; Wed, 08 Mar 2017 08:12:27 +0100
-X-Spam-Processed: mail.rsi-elektrotechnik.de, Wed, 08 Mar 2017 08:12:27 +0100
-	(not processed: message from trusted or authenticated source)
-X-MDRemoteIP: 80.147.52.21
-X-MDArrival-Date: Wed, 08 Mar 2017 08:12:27 +0100
-X-Authenticated-Sender: holzmayr@rsi-elektrotechnik.de
-X-Return-Path: prvs=12403ff1d9=holzmayr@rsi-elektrotechnik.de
-X-Envelope-From: holzmayr@rsi-elektrotechnik.de
-X-CAV-Result: skipped - holzmayr@rsi-elektrotechnik.de is in exclusion list
-To: "Burton, Ross" <ross.burton@intel.com>,
-	Mark Hatle <mark.hatle@windriver.com>
-References: <1488862727-25152-1-git-send-email-armccurdy@gmail.com>
-	<CAJTo0LaNUQW=Qsyxm7eC9hFduzVMy5v+1Sy9aBMfgNoBgAqoow@mail.gmail.com>
-	<f417ea5c-df83-ef34-648f-5a526f3d2e16@windriver.com>
-	<CAJTo0LZKkhLFR9-bR2TV4EDJ_8A=3UYeVmAgaBMNZAeYsmDqrQ@mail.gmail.com>
-From: Josef Holzmayr <holzmayr@rsi-elektrotechnik.de>
-Message-ID: <0047dd6d-179f-6c34-0c3f-568783e3cff8@rsi-elektrotechnik.de>
-Date: Wed, 8 Mar 2017 08:12:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.1
+	Wed,  8 Mar 2017 08:28:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v288SPrn023252
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 8 Mar 2017 00:28:25 -0800 (PST)
+Received: from pek-lpgtest5.wrs.com (128.224.153.85) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Wed, 8 Mar 2017 00:28:24 -0800
+From: Haiqing Bai <Haiqing.Bai@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 8 Mar 2017 16:20:04 +0800
+Message-ID: <1488961205-4793-1-git-send-email-Haiqing.Bai@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZKkhLFR9-bR2TV4EDJ_8A=3UYeVmAgaBMNZAeYsmDqrQ@mail.gmail.com>
-Cc: openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] [PATCH] meta: start to ignore the largefile distro feature
+Subject: [PATCH] busybox: ifupdown:pass interface device name for ipv6 route command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,45 +31,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Mar 2017 07:12:48 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Wed, 08 Mar 2017 08:28:26 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On 07.03.2017 15:45, Burton, Ross wrote:
->
-> On 7 March 2017 at 14:43, Mark Hatle <mark.hatle@windriver.com
-> <mailto:mark.hatle@windriver.com>> wrote:
->
->     At this point, I'm not sure there is any reason to NOT using
->     largefile system
->     wide.  It's a common enough feature, and even 'small' devices (with
->     sdcard
->     slots) can run into large file problems now.
->
->
-> My thoughts exactly, fwiw.
+IPv6 routes need the device argument for link-local routes, or they
+cannot be used at all. E.g. "gateway fe80::def" seems to be used in
+some places, but kernel refuses to insert the route unless device
+name is explicitly specified in the route addition.
 
-FULLACK
+Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
+---
+ ...ss-interface-device-name-for-ipv6-route-c.patch | 52 ++++++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.24.1.bb        |  1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox-1.24.1/ifupdown-pass-interface-device-name-for-ipv6-route-c.patch
 
+diff --git a/meta/recipes-core/busybox/busybox-1.24.1/ifupdown-pass-interface-device-name-for-ipv6-route-c.patch b/meta/recipes-core/busybox/busybox-1.24.1/ifupdown-pass-interface-device-name-for-ipv6-route-c.patch
+new file mode 100644
+index 0000000..2c9e5ae
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox-1.24.1/ifupdown-pass-interface-device-name-for-ipv6-route-c.patch
+@@ -0,0 +1,52 @@
++From 06fcf98f6ca40dc6b823d7d6231a240a1794ef2d Mon Sep 17 00:00:00 2001
++From: Haiqing Bai <Haiqing.Bai@windriver.com>
++Date: Tue, 28 Feb 2017 10:40:37 +0800
++Subject: [PATCH] ifupdown: pass interface device name for ipv6 route commands
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++commit 028524317d8d0011ed38e86e507a06738a5b5a97 from upstream
++
++IPv6 routes need the device argument for link-local routes, or they
++cannot be used at all. E.g. "gateway fe80::def" seems to be used in
++some places, but kernel refuses to insert the route unless device
++name is explicitly specified in the route addition.
++
++Signed-off-by: Timo TerÃ¤s <timo.teras@iki.fi>
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
++
++Upstream-status: Backport
++Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
++---
++ networking/ifupdown.c | 7 ++++---
++ 1 file changed, 4 insertions(+), 3 deletions(-)
++
++diff --git a/networking/ifupdown.c b/networking/ifupdown.c
++index 17bc4e9..a00f68d 100644
++--- a/networking/ifupdown.c
+++++ b/networking/ifupdown.c
++@@ -394,8 +394,8 @@ static int FAST_FUNC static_up6(struct interface_defn_t *ifd, execfn *exec)
++ # if ENABLE_FEATURE_IFUPDOWN_IP
++ 	result = execute("ip addr add %address%/%netmask% dev %iface%[[ label %label%]]", ifd, exec);
++ 	result += execute("ip link set[[ mtu %mtu%]][[ addr %hwaddress%]] %iface% up", ifd, exec);
++-	/* Was: "[[ ip ....%gateway% ]]". Removed extra spaces w/o checking */
++-	result += execute("[[ip route add ::/0 via %gateway%]][[ metric %metric%]]", ifd, exec);
+++	/* Reportedly, IPv6 needs "dev %iface%", but IPv4 does not: */
+++	result += execute("[[ip route add ::/0 via %gateway% dev %iface%]][[ metric %metric%]]", ifd, exec);
++ # else
++ 	result = execute("ifconfig %iface%[[ media %media%]][[ hw %hwaddress%]][[ mtu %mtu%]] up", ifd, exec);
++ 	result += execute("ifconfig %iface% add %address%/%netmask%", ifd, exec);
++@@ -421,7 +421,8 @@ static int FAST_FUNC v4tunnel_up(struct interface_defn_t *ifd, execfn *exec)
++ 			"%endpoint%[[ local %local%]][[ ttl %ttl%]]", ifd, exec);
++ 	result += execute("ip link set %iface% up", ifd, exec);
++ 	result += execute("ip addr add %address%/%netmask% dev %iface%", ifd, exec);
++-	result += execute("[[ip route add ::/0 via %gateway%]]", ifd, exec);
+++	/* Reportedly, IPv6 needs "dev %iface%", but IPv4 does not: */
+++	result += execute("[[ip route add ::/0 via %gateway% dev %iface%]]", ifd, exec);
++ 	return ((result == 4) ? 4 : 0);
++ }
++ 
++-- 
++1.9.1
++
+diff --git a/meta/recipes-core/busybox/busybox_1.24.1.bb b/meta/recipes-core/busybox/busybox_1.24.1.bb
+index afb69d1..41fc641 100644
+--- a/meta/recipes-core/busybox/busybox_1.24.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.24.1.bb
+@@ -54,6 +54,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://commit-applet_tables-fix-commit-0dddbc1.patch \
+            file://makefile-libbb-race.patch \
+            file://0001-libiproute-handle-table-ids-larger-than-255.patch \
++           file://ifupdown-pass-interface-device-name-for-ipv6-route-c.patch \
+ "
+ SRC_URI_append_libc-musl = " file://musl.cfg "
+ 
 -- 
-Josef Holzmayr
-Software Developer Embedded Systems
-
-Tel: +49 8444 9204-48
-Fax: +49 8444 9204-50
-
-R-S-I Elektrotechnik GmbH & Co. KG
-Woelkestrasse 11
-D-85301 Schweitenkirchen
-www.rsi-elektrotechnik.de
-———————————————
-Amtsgericht Ingolstadt – GmbH: HRB 191328 – KG: HRA 170393
-Geschäftsführer: Dr.-Ing. Michael Sorg, Dipl.-Ing. Franz Sorg
-Ust-IdNr: DE 128592548
-
-_____________________________________________________________
-Amtsgericht Ingolstadt - GmbH: HRB 191328 - KG: HRA 170363
-Geschäftsführer: Dr.-Ing. Michael Sorg, Dipl.-Ing. Franz Sorg
-USt-IdNr.: DE 128592548
+1.9.1
 
 
