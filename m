@@ -1,52 +1,45 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 95473775E8;
-	Wed,  8 Mar 2017 02:34:47 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id 67so2011220pfg.2;
-	Tue, 07 Mar 2017 18:34:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=J/+ljbFNwjr0AtDxjNVmIPlJ2qwrkJouIi3A5w5zZH0=;
-	b=W+pwhO8+THE4P5erZXDDeSmTeRRVLCFxUABEhDqk2Ln9R8sKWgTAk8YByj2mqcq2c1
-	R1oBS4LLEirTqYl3lmVknyugoMS7arKOewlyqMZ3hLNYe94bKXVXP2/BtrdbXoUHc6Bo
-	iFAEwRocgNRbeR2RyyNvIkDwD9RM5/x8vXjEYcV0YkyBNmHu0YOpJlkFhDagO0PPMtpE
-	Ub1GQNshUsimn3v0KS4e6UN325MYoanzw5KxeV88oQa4a9MvE3B02JujMxa9mTs/BZv5
-	OPHyrYGkpHVphC50vCCYIopCI2cyMkREu0JinESLdHXATERm0lNLvLIK6O9/VO9C+Lk+
-	P96Q==
+Return-Path: <msm-oss@mcclintock.net>
+Received: from mail-pg0-f45.google.com (mail-pg0-f45.google.com [74.125.83.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 965B672F44
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  8 Mar 2017 02:55:34 +0000 (UTC)
+Received: by mail-pg0-f45.google.com with SMTP id 77so7658473pgc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 Mar 2017 18:55:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mcclintock.net; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ZpteK9WiGUiH05cmKS6RbR2Yq84wcYzn+/c8ive5Tys=;
+	b=mQMmjpx5Te7jJ+B+Sy7N3+iMC9oMk5ehj56SJF6hzqxbB5/NphNm8x+iFTFj3oIYI7
+	Kp1ESVKWO8+U+N68ATGX+1UqMttFqLc5Ta5KcokXLASQs7dOm5lsomWX9Fqly3TmFxxV
+	7Cl1h+1g6VbUW/HKDubhQkSr3/Uf4aiBTMmXs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=J/+ljbFNwjr0AtDxjNVmIPlJ2qwrkJouIi3A5w5zZH0=;
-	b=V77bgVFxBOhxwCgfJ9JmKleYtPFTcyWP1020wfJLvWKN69oBPnAkWlkp+7DOgpZrQ6
-	bnS99EwOqzj1NrTc0oaf5LLeOXu6QxHI6QIBn9+MqwnBbMge8VA1iiZkTxLwzHlTmsZa
-	6rE8z2ZBnmif2FyKpfZ/X9XDR9M03lu4LnKATIKmsy/bCJS/2jFsP2j1a73YtTteM6oT
-	P+eB/5CDPOOF4IPJtMCpCdGOpciFCtwV0XmEPr+w8qLC9tj54+/ujpQzDg6Dcg18DW2F
-	FhDkFUk8nPBOJqOoIkeaWQJBlWi/c2a6oc78bp+a9YRUx5D8XFXf+pcRtOeQhYXToNuL
-	21wA==
-X-Gm-Message-State: AMke39navofbEuWOZuUyhgBDYtW3EP5vSlnrDbDIZ30UlGV7p77pcyaTvV1nYA0ci85x7w==
-X-Received: by 10.84.248.4 with SMTP id p4mr5058910pll.72.1488940488684;
-	Tue, 07 Mar 2017 18:34:48 -0800 (PST)
-Received: from haswell (c-76-102-32-192.hsd1.ca.comcast.net. [76.102.32.192])
-	by smtp.gmail.com with ESMTPSA id
-	s26sm2203107pge.33.2017.03.07.18.34.47
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 Mar 2017 18:34:48 -0800 (PST)
-Date: Tue, 7 Mar 2017 18:34:42 -0800
-From: Khem Raj <raj.khem@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20170308023441.GA28127@haswell>
-References: <1488862727-25152-1-git-send-email-armccurdy@gmail.com>
-	<CAJTo0LaNUQW=Qsyxm7eC9hFduzVMy5v+1Sy9aBMfgNoBgAqoow@mail.gmail.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ZpteK9WiGUiH05cmKS6RbR2Yq84wcYzn+/c8ive5Tys=;
+	b=UyBjFgfkdMvx5XybkUQ905x4KXIehUWAvqvhXkNR+6MOE//u3W3rQB8ia1eJ/urRlO
+	SC1yVdhLv9Zzk/Dn8a0u8cyKmGZKdzj5af5yawk8ogbCCxPbN1Lq0f9DwYr2FdVoUYCZ
+	kg8EWWODdG85XZICXTiuYy5Zwcun3DdFqfPBvSLnOyBNWbe+gdYSEzcbfhr/hxzkQSvw
+	06EoS28uJGi1LbizBUachpJJ+P/D4gWT12o7F9GW/OIB5DpTaXDFLciOPEpVsXSUu8VZ
+	uw2EIxwtu3GA9wQamo8I8mFliEyLUZN8N5933AdYtE5yNSrpYicaCBEizV6rAxPhY4Gj
+	9S+w==
+X-Gm-Message-State: AMke39nhNx4Iwtvh8ivjzjQ6vUhgH0a2clzWJj0rUihmrYUTjanPSX+vMlDph8Alr0xAup9VarpJ9DQklXpmTw==
+X-Received: by 10.84.210.15 with SMTP id z15mr5179607plh.11.1488941735675;
+	Tue, 07 Mar 2017 18:55:35 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaNUQW=Qsyxm7eC9hFduzVMy5v+1Sy9aBMfgNoBgAqoow@mail.gmail.com>
-User-Agent: Mutt/1.8.0 (2017-02-23)
-Cc: openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] [PATCH] meta: start to ignore the largefile distro feature
+Received: by 10.100.177.198 with HTTP; Tue, 7 Mar 2017 18:55:14 -0800 (PST)
+In-Reply-To: <2425083.J11tCAZyJx@peggleto-mobl.ger.corp.intel.com>
+References: <1488916121-30447-1-git-send-email-msm-oss@mcclintock.net>
+	<1488919643.22968.47.camel@linuxfoundation.org>
+	<2425083.J11tCAZyJx@peggleto-mobl.ger.corp.intel.com>
+From: Matthew McClintock <msm-oss@mcclintock.net>
+Date: Tue, 7 Mar 2017 20:55:14 -0600
+Message-ID: <CAEsOVNd-GEJihTjZ0fWFB8gtfkE8_EahNmiR0=H9oSic8FUybw@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] utility-task: Add do_patchall task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,48 +52,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Mar 2017 02:34:49 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Wed, 08 Mar 2017 02:55:34 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 17-03-07 10:35:58, Burton, Ross wrote:
-> CCing openembedded-architecture to open the field for comments.
-> 
-> On 7 March 2017 at 04:58, Andre McCurdy <armccurdy@gmail.com> wrote:
-> 
-> > The largefile distro feature has been enabled by default in oe-core
-> > for a long time and, more recently, also in poky-tiny. Building
-> > without the largefile distro feature receives little or no testing.
-> > Many packages now enable LFS without exposing a configure option, so
-> > there should be very little expectation that disabling the distro
-> > feature will result in a distro which globally disables LFS.
-> >
-> 
-> So I've had a bug for this for some time but have never got around to it.
-> 
-> If we're going to assert "LFS by default" do we want a sanity check to
-> verify it was used?
-> 
-> Do we want to put -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 in the default
-> CFLAGS?
+Posted an alternate patch to bitbake mailing list.
 
-I think this is fine to assert, however, there might be applications which
-still want to use --enable/--disable autoconf stuff, and ignore/override the
-env settings we might pass, so we need to watch
-out for those. Otherwise, this seems a step in right direction.
+-M
 
-> 
-> I'm not aware of any good reason to not use LFS, but now is the time for
-> anyone else to speak up if you have a good reason to keep it as an option!
-
-me neither, we should just make it default settings.
-
-> 
-> Ross
-
-> _______________________________________________
-> Openembedded-architecture mailing list
-> Openembedded-architecture@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-architecture
-
+On Tue, Mar 7, 2017 at 4:33 PM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> On Wednesday, 8 March 2017 9:47:23 AM NZDT Richard Purdie wrote:
+>> On Tue, 2017-03-07 at 13:48 -0600, Matthew McClintock wrote:
+>> > This is useful in a few scenarios:
+>> >
+>> > 1) A developer wants to be able to grep all the code in a particular
+>> > without having to run patch on various components until they guess
+>> > the
+>> > right one (e.g. which component is generating an error/warning?)
+>> >
+>> > 2) Other code scanning tools that can be run without requiring a full
+>> > image to be built (legal, static code analysis, etc)
+>> >
+>> > Signed-off-by: Matthew McClintock <msm-oss@mcclintock.net>
+>> > ---
+>> >  meta/classes/utility-tasks.bbclass | 7 +++++++
+>> >  meta/conf/documentation.conf       | 1 +
+>> >  2 files changed, 8 insertions(+)
+>>
+>> I have mixed feelings on this. Whilst I can see the attraction, extra
+>> tasks like this do actually have a parsing overhead. We already have a
+>> lot of them and its only a question of time before someone wants
+>> another XXXall task adding.
+>>
+>> I'm wondering if we can solve this at the bitbake level instead with a
+>> new parameter instead? That would allow us to delete tasks and speed up
+>> parsing rather than slow things down.
+>
+> FYI there is a bug open for this (currently assigned to me, but it's in the
+> "new" state so anyone's welcome to take it):
+>
+>   https://bugzilla.yoctoproject.org/show_bug.cgi?id=7733
+>
+> I suspect most of this would need to be handled in lib/bb/runqueue.py;
+> actually adding the option would be in main.py.
+>
+> Cheers,
+> Paul
+>
+> --
+>
+> Paul Eggleton
+> Intel Open Source Technology Centre
 
