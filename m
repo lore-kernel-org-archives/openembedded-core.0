@@ -1,46 +1,55 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D4A471A88
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C31071CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Mar 2017 17:01:05 +0000 (UTC)
-Received: by mail-wm0-f54.google.com with SMTP id t189so60980685wmt.1
+	Thu,  9 Mar 2017 17:18:08 +0000 (UTC)
+Received: by mail-io0-f173.google.com with SMTP id g6so32670567ioj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Mar 2017 09:01:06 -0800 (PST)
+	Thu, 09 Mar 2017 09:18:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=A02tT0Iy/K/qU/fScmXt6rkVwaHj2/P2s6i41u/miqg=;
-	b=Tof0pZ6dtYH8mfXRYoo/T/ATuFbPFTIt6gBEzK+cNBk4zab0WeRrsuxpFhmc/pMRe7
-	/PHXqTpVvtKFoIthhg1uttzaZNHD+XleckMNDjO8/uNZPg1B4LfEpNwbLD4cgGu3TfuP
-	TrH9sneASsegn8QaThXrEumISJ9bS0JEOr7zE91xnl+fZcxZGiKCZYLCBbOsM8JBQQx/
-	YVtQTQa3BzFGYFJairAYPwY3Jal78nsv/kpj0V6ZMxVf9wWTVa+QM/cKBw0AyktroO2k
-	fhCKmY8nVotEUytE0FcoEE5DtLNT4hu8DqsZFYtFIHF9ORh76wzeMaalcXRI/kGJGBrF
-	OoMA==
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=9VXpKHe3caIVvVKrAcs1x3Ifkq1dF7Fljmn9c6ezDWE=;
+	b=xK4Vy6m7Vq5DbWtlHQgbh0nlhp08LPo1kK6hhjVaHgb2B21OsgHEc+jkF26QmGIDwa
+	QlROaZn1gK9JplE6ADJRkLLWZiFweQemsWMosXsh8TdkCDyp5fKu+bRV/07B6SssS6X9
+	+09ROrsfr6jWZdSi4uHVL5/zaJI36gE/RYOB8iy2M4Y5woOGa9bo+ne48yGgPHxlm5n3
+	tWuBa1a6KCdrs6VzS8tI2kYmBkmPqLyDkVsXHF85wr2zodvklt4Sr2obrgbDln1nDMW0
+	jEXluDdEtR4HhsCZhMBEarGMxV39ka4EUlP9mUgef0AwL502+dGAMlxcefcD+cGLIKbC
+	l6dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=A02tT0Iy/K/qU/fScmXt6rkVwaHj2/P2s6i41u/miqg=;
-	b=S3SzxKqTLdz5R5NgiZ6JDNmW+CWUrNfYJGnK/UD+r7iJKRTxTUORiktrfYiCY1SJhx
-	yKegDsv6VEfjH2vG/Wcux3xkYhOyt6BLuwkXtwtx7SfFnJrVKFy1piR5NtYAKp+GDY1b
-	D7zxAC0vMCroF/gxTNQNDNuXPFKQ0FA3Q21VUHwLgQa0xD40MMdyPkinUk4bxkONuo4p
-	m+roLE4LlsMk1p8gH6LaJBAA7P2ByVE8yKwxS8plAijHQ4Ro/WZNp6Fj6jEBmkJJLiBb
-	v01hUKkgadRZ33jzj4C0qv+XA/cf7Bg8TbZDMHu2kaTlpmCcnI0JrnfDrMnO02u4rBPV
-	bzkQ==
-X-Gm-Message-State: AMke39n3AbdabFS965M730bB02OtdAs1xZZDD1kWdaQwUa9H76YpKalNpHSoWJbPnYwILPZw
-X-Received: by 10.28.57.84 with SMTP id g81mr27859258wma.41.1489078865884;
-	Thu, 09 Mar 2017 09:01:05 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	n59sm8950412wrb.54.2017.03.09.09.01.02
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 09 Mar 2017 09:01:05 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Mar 2017 17:00:55 +0000
-Message-Id: <1489078855-1752-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] classes: add devupstream class
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=9VXpKHe3caIVvVKrAcs1x3Ifkq1dF7Fljmn9c6ezDWE=;
+	b=kXpD4mR69/EmhavoOaPzNQp1Cdhrv8S3I4gp1y3TONirnQMy3yZ9CpMj4z7U33OnCP
+	56JDDeDYjI/BRidXJLyoe/pxJG0KnX3Q4E2+uDcVYtLcUKbs++zxhhb2uW7mszN4I2yN
+	0pCcqvaQHGhlXdjlcFylGnWhvkRc2lpTsXu9jyixwKLz6Otk8DQb+QCq1CVuMpHrCJ35
+	5C8aqrOv6Ra4KrJj53bGr4yvfYsm0e74+tY1Bv+4SUc6Zsi5WH63Kmxie/vRcCYsovb+
+	eHpLO6yMrFyq0Kfjcy7XOfXQI8Msh8dcA23Mk3n0cBVoq0kjy13KajpTqOBiHMbkcqSb
+	HpSw==
+X-Gm-Message-State: AMke39nAPb+V4KKEkq05hJfcBtlEepBkJHKn0KQNkCjsCA4nxm+cpJCAcgvJMoCss0fgsZS8
+X-Received: by 10.107.17.199 with SMTP id 68mr12294938ior.127.1489079890079;
+	Thu, 09 Mar 2017 09:18:10 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8D47C.dip0.t-ipconnect.de. [93.232.212.124])
+	by smtp.gmail.com with ESMTPSA id y7sm9372552itc.27.2017.03.09.09.18.07
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 09 Mar 2017 09:18:07 -0800 (PST)
+Message-ID: <1489079885.7785.371.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: =?ISO-8859-1?Q?Jos=E9?= Bollo <jobol@nonadev.net>
+Date: Thu, 09 Mar 2017 18:18:05 +0100
+In-Reply-To: <20170309174815.056bc5a2@d-jobol.iot.bzh>
+References: <20170309140706.19814-1-jobol@nonadev.net>
+	<1489075674.7785.368.camel@intel.com>
+	<20170309174815.056bc5a2@d-jobol.iot.bzh>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: =?ISO-8859-1?Q?Jos=E9?= Bollo <jose.bollo@iot.bzh>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] shadow: 'useradd' copies root's extended attributes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,98 +62,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Mar 2017 17:01:06 -0000
+X-List-Received-Date: Thu, 09 Mar 2017 17:18:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-This class lets you use BBCLASSEXTEND to add a variant of the recipe that
-fetches from an alternative URI (such as git:) instead of a tarball.
+On Thu, 2017-03-09 at 17:48 +0100, José Bollo wrote:
+> On Thu, 09 Mar 2017 17:07:54 +0100
+> Patrick Ohly <patrick.ohly@intel.com> wrote:
+> > Can't you reorder and rebase the patches so that this
+> > 0001-useradd.c-create-parent-directories-when-necessary.patch applies
+> > on top of the patch which was submitted upstream?
+> 
+> I agree that it would be better to reorder. Better but less
+> conservative because an existing patch must be upgraded.
 
-For example:
+If upstream merges the proposed patch, then rebasing will be inevitable
+at some point, so we might as well do the cleaner solution now, even if
+the diff becomes larger.
 
- BBCLASSEXTEND = "devupstream:target"
- SRC_URI_class-devupstream = "git://git.example.com/example"
- SRCREV_class-devupstream = "abcd1234"
+> > "devtool modify shadow-native" might be useful for that. "git rebase
+> > -i" in workspace/sources/shadow-native", then finish with "devtool
+> > update-recipe shadow-native". I haven't tried whether "update-recipe"
+> > handles re-ordering patches. If it doesn't, just fix it manually.
+> 
+> I'll do and propose the new version soon.
 
-This variant will have DEFAULT_PREFERENCE set to -1 so it needs to be selected
-to be used, and any development-specific tweaks can be done with the
-class-devupstream override, for example:
+Thanks!
 
- DEPENDS_append_class-devupstream = " gperf-native"
-
- do_configure_prepend_class-devupstream() {
-    touch ${S}/README
- }
-
-It currently only supports creating a development variant of the target recipe,
-not native or nativesdk.  The BBCLASSEXTEND syntax (devupstream:target) was
-chosen so that support for native and nativesdk can be added at a later date.
-
-Support for other version control systems such as subversion is limited, as
-bitbake's automatic fetch dependencies on for example subversion-native are not
-generated.
-
-[ YOCTO #10215 ]
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/devupstream.bbclass | 48 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
- create mode 100644 meta/classes/devupstream.bbclass
-
-diff --git a/meta/classes/devupstream.bbclass b/meta/classes/devupstream.bbclass
-new file mode 100644
-index 0000000..7d4113f
---- /dev/null
-+++ b/meta/classes/devupstream.bbclass
-@@ -0,0 +1,48 @@
-+# Class for use in BBCLASSEXTEND to make it easier to have a single recipe that
-+# can build both stable tarballs and snapshots from upstream source
-+# repoistories.
-+#
-+# Usage:
-+# BBCLASSEXTEND = "devupstream:target"
-+# SRC_URI_class-devupstream = "git://git.example.com/example"
-+# SRCREV_class-devupstream = "abcdef"
-+#
-+# If the first entry in SRC_URI is a git: URL then S is rewritten to
-+# WORKDIR/git.
-+#
-+# There are a few caveats that remain to be solved:
-+# - You can't build native or nativesdk recipes using for example
-+#   devupstream:native, you can only build target recipes.
-+# - If the fetcher requires native tools (such as subversion-native) then
-+#   bitbake won't be able to add them automatically.
-+
-+CLASSOVERRIDE .= ":class-devupstream"
-+
-+python devupstream_virtclass_handler () {
-+    # Do nothing if this is inherited, as it's for BBCLASSEXTEND
-+    if "devupstream" not in (d.getVar('BBCLASSEXTEND') or ""):
-+        bb.error("Don't inherit devupstream, use BBCLASSEXTEND")
-+        return
-+
-+    variant = d.getVar("BBEXTENDVARIANT")
-+    if variant not in ("target"):
-+        bb.error("Pass the variant when using devupstream, for example devupstream:target")
-+        return
-+
-+    # Develpment releases are never preferred by default
-+    d.setVar("DEFAULT_PREFERENCE", "-1")
-+
-+    uri = bb.fetch2.URI(d.getVar("SRC_URI").split()[0])
-+
-+    if uri.scheme == "git":
-+        d.setVar("S", "${WORKDIR}/git")
-+
-+    # Modify the PV if the recipe hasn't already overridden it
-+    pv = d.getVar("PV")
-+    proto_marker = "+" + uri.scheme
-+    if proto_marker not in pv:
-+        d.setVar("PV", pv + proto_marker + "${SRCPV}")
-+}
-+
-+addhandler devupstream_virtclass_handler
-+devupstream_virtclass_handler[eventmask] = "bb.event.RecipePreFinalise"
 -- 
-2.8.1
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
