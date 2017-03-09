@@ -1,37 +1,55 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id EB9A071AE4
+Return-Path: <prvs=12419f2f09=holzmayr@rsi-elektrotechnik.de>
+Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de
+	[81.169.146.160])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C57B7017B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Mar 2017 00:44:29 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v290iSV5003707; Thu, 9 Mar 2017 00:44:28 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id IKwt2Muxz09P; Thu,  9 Mar 2017 00:44:28 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v290iNZ7003704
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 9 Mar 2017 00:44:24 GMT
-Message-ID: <1489020263.22968.88.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 09 Mar 2017 00:44:23 +0000
-In-Reply-To: <1489018715.22968.86.camel@linuxfoundation.org>
-References: <cover.1488539819.git.pkj@axis.com>
-	<CAEHkU3XyKbGzTCX9XaG7jYXjde+ZRtA9z_MSecxpgOcu6wLMiQ@mail.gmail.com>
-	<aca83849e80a444595764b812d5e3394@XBOX02.axis.com>
-	<af3c0da4bce549a5b303d828c9728524@XBOX02.axis.com>
-	<CAJTo0Laa_WrQOjCyNBBmpWbKkza9Pg=dAiQEQJBrQoiEWab0Bw@mail.gmail.com>
-	<1488996030.22968.78.camel@linuxfoundation.org>
-	<20170308184136.GF3279@jama>
-	<1489018715.22968.86.camel@linuxfoundation.org>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv3 0/5] Add dummy tools to help identify needed dependencies
+	Thu,  9 Mar 2017 06:22:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1489040576;
+	l=1078; s=domk; d=rsi-elektrotechnik.de;
+	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:
+	Date:From:References:To:Subject;
+	bh=/0rDk4HyJUHj9C2vnEM4qj7d2+3Lj7N0tyj8XjoT9Ww=;
+	b=kmgb9yTXK3xlxXcRhIPMkrjNWtxRJQMJ9RadERN/Lqci360kJYOz0K9IbMZ0vKSfqd
+	AdrcKB8TYaCCrPCTVfK/kvQT1S89ThSHZDdfRoKyeAQYTK6lZsdO31WMf+TDfDhyhdvH
+	TrjnLZIimv89Jt9iTSQ+aZJ9tRBVA/Dqgt6tw=
+X-RZG-AUTH: :fz5RJhWIaexwuXGosGLfiBc0xYyi1Y5bd+wRKqrzPWwJyH/ODuV4n+N26eC0MVrEDIlpLg0lWA==
+X-RZG-CLASS-ID: mo00
+Received: from mail.rsi-elektrotechnik.de (p50933415.dip0.t-ipconnect.de
+	[80.147.52.21]) by smtp.strato.de (RZmta 39.13 AUTH)
+	with ESMTPSA id j005fdt296MtgUb
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (curve secp384r1
+	with 384 ECDH bits, eq. 7680 bits RSA))
+	(Client did not present a certificate)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 9 Mar 2017 07:22:55 +0100 (CET)
+Received: from [x.x.x.x] by mail.rsi-elektrotechnik.de (Cipher
+	TLSv1.2:AES-SHA:256) (MDaemon PRO v16.5.2) 
+	with ESMTPSA id md50000508177.msg for
+	<openembedded-core@lists.openembedded.org>; 
+	Thu, 09 Mar 2017 07:22:44 +0100
+X-Spam-Processed: mail.rsi-elektrotechnik.de, Thu, 09 Mar 2017 07:22:44 +0100
+	(not processed: message from trusted or authenticated source)
+X-MDRemoteIP: 80.147.52.21
+X-MDArrival-Date: Thu, 09 Mar 2017 07:22:44 +0100
+X-Authenticated-Sender: holzmayr@rsi-elektrotechnik.de
+X-Return-Path: prvs=12419f2f09=holzmayr@rsi-elektrotechnik.de
+X-Envelope-From: holzmayr@rsi-elektrotechnik.de
+X-MDaemon-Deliver-To: openembedded-core@lists.openembedded.org
+X-CAV-Result: skipped - holzmayr@rsi-elektrotechnik.de is in exclusion list
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1488388550.git.anders@chargestorm.se>
+	<12830a63c0c221f1a3a227173a69d55111359b8a.1488388550.git.anders@chargestorm.se>
+	<CAMKF1spaobz07gVftrY+ZKxUrXKfcXBvf0QUKLp=agh8fDWeug@mail.gmail.com>
+	<20170306072129.usryssqrwguoftdg@ad.chargestorm.se>
+From: Josef Holzmayr <holzmayr@rsi-elektrotechnik.de>
+Message-ID: <fddc169d-2102-7ad3-0813-14ce4a079435@rsi-elektrotechnik.de>
+Date: Thu, 9 Mar 2017 07:22:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <20170306072129.usryssqrwguoftdg@ad.chargestorm.se>
+Subject: Re: [PATCH 2/7] create_npm.py: convert MIT/X11 to MIT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,63 +62,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Mar 2017 00:44:30 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 09 Mar 2017 06:22:57 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On Thu, 2017-03-09 at 00:18 +0000, Richard Purdie wrote:
-> How badly do people dislike the patch below?
-> 
-> From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Subject: bitbake/oe-core: Filter contents of PATH
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> 
-> diff --git a/bitbake/lib/bb/utils.py b/bitbake/lib/bb/utils.py
-> index d6bcfa3..dbb74dd 100644
-> --- a/bitbake/lib/bb/utils.py
-> +++ b/bitbake/lib/bb/utils.py
-> @@ -1526,3 +1526,13 @@ class LogCatcher(logging.Handler):
->          self.messages.append(bb.build.logformatter.format(record))
->      def contains(self, message):
->          return (message in self.messages)
-> +
-> +def setup_native_bindir(dest, toolsvar, d):
-> +    tools = d.getVar(toolsvar).split()
-> +    path = os.environ.get("PATH")
-> +    mkdirhier(dest)
-> +    for tool in tools:
-> +        desttool = os.path.join(dest, tool)
-> +        if not os.path.exists(desttool):
-> +            srctool = which(path, tool)
-> +            os.symlink(srctool, desttool)
-> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-> index 87c235f..21265ed 100644
-> --- a/meta/conf/layer.conf
-> +++ b/meta/conf/layer.conf
-> @@ -59,3 +59,14 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
->    oprofile->virtual/kernel \
->  "
->  
-> +NATIVETOOLS = " \
-> +    bash sh cut sed gcc ld git rm install which find xargs cat true
-> mktemp \
-> +    grep tar gzip touch cp mv basename dirname tr getopt sort awk
-> head tail \
-> +    mkdir patch uniq perl python chmod python3 ar strip expr ls make
-> as \
-> +    ranlib egrep echo chown cpio tee wc wget bzip2 stat date rmdir
-> od diff \
-> +    md5sum unlzma dd chrpath file pod2man gunzip python2.7 ln g++ [
-> \
-> +    taskset \
+Hi Anders,
 
-Adding "false true uname test hostname nm objdump objcopy cmp printf
-env" gets this going much further. taskset is only above as I have
-local patches in my build which use it for other experiments and I
-added it just to get things working.
+from what I can see the problem is rooted a bit deeper, and this patch 
+(together with 5, 6, 7 from the series) is basically symptomatic:
+the package.jsons license field is mostly expected to be spdx-compliant 
+(see https://docs.npmjs.com/files/package.json#license). So I think we 
+need a concept here to actually handle the complexity it brings, or we 
+end up rewriting a boatload of license strings. And doing that in 
+create_npm.py just feels wrong to me.
 
-Cheers,
+my $.02
+-- 
+Josef Holzmayr
+Software Developer Embedded Systems
 
-Richard
+Tel: +49 8444 9204-48
+Fax: +49 8444 9204-50
+
+R-S-I Elektrotechnik GmbH & Co. KG
+Woelkestrasse 11
+D-85301 Schweitenkirchen
+www.rsi-elektrotechnik.de
+���������������
+Amtsgericht Ingolstadt � GmbH: HRB 191328 � KG: HRA 170393
+Gesch�ftsf�hrer: Dr.-Ing. Michael Sorg, Dipl.-Ing. Franz Sorg
+Ust-IdNr: DE 128592548
+
+_____________________________________________________________
+Amtsgericht Ingolstadt - GmbH: HRB 191328 - KG: HRA 170363
+Gesch�ftsf�hrer: Dr.-Ing. Michael Sorg, Dipl.-Ing. Franz Sorg
+USt-IdNr.: DE 128592548
+
 
