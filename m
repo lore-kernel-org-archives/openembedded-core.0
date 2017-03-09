@@ -1,29 +1,47 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
-	by mail.openembedded.org (Postfix) with ESMTP id DE9556612D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
+	[209.85.220.176])
+	by mail.openembedded.org (Postfix) with ESMTP id C11DE60079
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Mar 2017 11:40:31 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
-	via TCP (outbound) with ESMTPS id 20170309114031877_0685
+	Thu,  9 Mar 2017 12:30:29 +0000 (UTC)
+Received: by mail-qk0-f176.google.com with SMTP id 1so115442980qkl.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Mar 2017 03:40:31 -0800
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [216.191.234.70] (port=47745 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1clwQk-00013J-Iz for openembedded-core@lists.openembedded.org;
-	Thu, 09 Mar 2017 06:40:26 -0500
-Date: Thu, 9 Mar 2017 06:40:24 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@uk63952.mitel.com
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1703090635210.18662@uk63952.mitel.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Thu, 09 Mar 2017 04:30:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=M2qoPPnXKMQJ97q06rkNzJCAtCbbBDRECzg6ZNNQZGc=;
+	b=YBebqnMI+xHwq87WN4vqy886OUHBUQnAWjRC4OkU1O4lFg4poJk4ngWjSP0qVG+9F6
+	JZDlVnm8xnFe1sXq8nTAaK3V5nXePqUFzqdZZTLxQe98/3nd021R/KpqnOGs/Issv4d/
+	n2eAxfhHrtiADTGJw/yqNOrcuP55cFU43WHjHuYiQCN4R3r2mwtrG929xhjtrsKNRSvv
+	O5kom8Ap0AuG/gniskMMRwVf77d9Yn7VI4WCMbV1CNZLpac13fzthZMmcBXlxTzZTVMk
+	IKzj2EMkYvxBd/g7k/FNTfQnwbXTi2FIbFFd+MJ5FM5I+v6W8qKf5nRZG5CVjy2lMsPG
+	/haw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=M2qoPPnXKMQJ97q06rkNzJCAtCbbBDRECzg6ZNNQZGc=;
+	b=GbPbxtkocIsqpaYvvwS0uYTU/DWwLCh7iaQ5lRl/M6ozZiRLzIIvRM8Ll9icOvliLa
+	mj4kc46iQMH26azZ2sqG73JEYHpBaM9nsN+tNI24JXkXARwtXxF7XpUtZ+JRsoz8bMl9
+	XZ7FiZ7tZNHdB62ijg+Sc2kPPEiOcVNOCKNMQhjSZW1BNmeuhCjy+TQmxFp/hZnpLNEI
+	YcDG1IlE6fiTQHDdCmPnMUWFHzZpcucqEpPXa9qJX1yCzF15ZUeogr+OISvXfYQI7AEV
+	A3rGefERK48eeBE8lIMA7gltLqVBT/OeCLlHPAUkBx8h+oZQU19f9KMz8rMpg+YI/UQ+
+	xBbw==
+X-Gm-Message-State: AMke39m/DuMyC1Igr8JsL/FkY17EiuSxFD8pkQs/We0UP/q6RKBeuPtdd1ieImy6Fp81jqKdxTg8jcr6tIJFQRET
+X-Received: by 10.237.43.69 with SMTP id p63mr13512904qtd.68.1489062630383;
+	Thu, 09 Mar 2017 04:30:30 -0800 (PST)
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: does "devtool add" no longer calculate the recipe name?
+Received: by 10.140.22.166 with HTTP; Thu, 9 Mar 2017 04:30:09 -0800 (PST)
+In-Reply-To: <CAJ86T=XEAnT+ZR4b2GLE_V+vQjRoXuv7Tn0_sQ5Cv14B4PoN2Q@mail.gmail.com>
+References: <1488993907-13037-1-git-send-email-ross.burton@intel.com>
+	<CAJ86T=XEAnT+ZR4b2GLE_V+vQjRoXuv7Tn0_sQ5Cv14B4PoN2Q@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 9 Mar 2017 12:30:09 +0000
+Message-ID: <CAJTo0LZmvMdvOG-YTzmHyTv+C3nONTBxbZaqJGpxUkjkPOncdQ@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] classes: add gitupstream class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,40 +54,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Mar 2017 11:40:33 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Thu, 09 Mar 2017 12:30:30 -0000
+Content-Type: multipart/alternative; boundary=94eb2c124cc4221a43054a4b69f7
 
+--94eb2c124cc4221a43054a4b69f7
+Content-Type: text/plain; charset=UTF-8
 
-  hoping it's not something silly i did but, recently, i used devtool
-add to create a recipe for mod_auth_tkt from the github repo. i didn't
-specify the recipe name, just used:
+On 8 March 2017 at 20:54, Andre McCurdy <armccurdy@gmail.com> wrote:
 
-  $ devtool add https://github.com/gavincarr/mod_auth_tkt.git
+> So if I want to select the gitupstream variant, what should I set
+> PREFERRED_VERSION to?
+>
 
-which seemed to work fine in that it figured out that the recipe name
-would be mod-auth-tkt and created the directories by that name.
+My testing recipe is fontconfig, so I have this in my local.conf:
 
-  i just did it again, and now the name is left as '%{name}',
-suggesting that devtool is no longer determining what the recipe name
-should be.
+PREFERRED_VERSION_fontconfig = "2.12.1+git%"
 
-  if i specify the recipe name explicitly:
+Yes, you need to keep the versions in track with the version bumps.
 
-$ devtool add mod-auth-tkt https://github.com/gavincarr/mod_auth_tkt.git
+I'll sent a v2 with the other fixes in shortly.
 
-then it works fine. but i'm sure i previously didn't need to do
-that. has the behaviour of devtool changed in that respect?
+Ross
 
-rday
+--94eb2c124cc4221a43054a4b69f7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
--- 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 March 2017 at 20:54, Andre McCurdy <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&gt;</sp=
+an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left=
+-style:solid;padding-left:1ex"><div id=3D"gmail-:2se" class=3D"gmail-a3s gm=
+ail-aXjCH gmail-m15aafb34f4ab80b5">So if I want to select the gitupstream v=
+ariant, what should I set<br>
+PREFERRED_VERSION to?<br>
+<div></div></div></blockquote></div><br>My testing recipe is fontconfig, so=
+ I have this in my local.conf:</div><div class=3D"gmail_extra"><br></div><d=
+iv class=3D"gmail_extra"><div class=3D"gmail_extra">PREFERRED_VERSION_fontc=
+onfig =3D &quot;2.12.1+git%&quot;</div><div><br></div><div>Yes, you need to=
+ keep the versions in track with the version bumps.</div><div><br></div><di=
+v>I&#39;ll sent a v2 with the other fixes in shortly.</div><div><br></div><=
+div>Ross</div></div></div>
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
-
+--94eb2c124cc4221a43054a4b69f7--
