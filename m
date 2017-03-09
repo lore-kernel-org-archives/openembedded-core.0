@@ -1,56 +1,46 @@
 Return-Path: <kristian.amlie@mender.io>
-Received: from mail-lf0-f54.google.com (mail-lf0-f54.google.com
-	[209.85.215.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DBFA719C3
+Received: from mail-lf0-f41.google.com (mail-lf0-f41.google.com
+	[209.85.215.41])
+	by mail.openembedded.org (Postfix) with ESMTP id A138573133
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Mar 2017 07:03:50 +0000 (UTC)
-Received: by mail-lf0-f54.google.com with SMTP id z15so2104318lfd.1
+	Thu,  9 Mar 2017 07:25:17 +0000 (UTC)
+Received: by mail-lf0-f41.google.com with SMTP id y193so24275517lfd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Mar 2017 23:03:52 -0800 (PST)
+	Wed, 08 Mar 2017 23:25:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mender-io.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=Rop9kAfscqDGOWP+2DPLiRhmDbstCOk8wk4X6Rf9jX4=;
-	b=pr2IHBWc8VognJYn1l9MxOo0+/vNMy5SzujpHkg/MJSBdL7TT3dsSJxQ3MT+vRIrjQ
-	U6wBN26+G01hhrPNd/u2qYs+4TRj3QYShWe/r9WoPmgKKsuqDSKKo1cvbC3zCKWHqd/l
-	ym7gPnzIFVKtWA+9xGkUrQYFqbUYp5eW2984yWNJ3ZfG/o2918s42GN1foF2RyiFEHKo
-	NViW7BR/VTFUiqYk6nEMItRm+AnRlZ8/pjC1GdUdBWtzCxs1VBvtwKampnEEameFvgoE
-	6RX1/DcObCwuFFRGykafjnMdR0QNWMFtLBFZ3Lk8Omk7lXuIs91Ki/vMpsxbmFv67Q4l
-	k7Ew==
+	h=from:to:cc:subject:date:message-id;
+	bh=3PD4yHtGsp8j+qED8qwA+u7rzDnRnphNDhYKZvaLQ8U=;
+	b=bVEalJlA/ZZ7C/xaavQD6t1qyD8sX+jjyb7FUHFSfJ170mlrAVStCjX/XRcHPSDjb3
+	n42CKGucNb26Aik+3lHs2//8crtbtrPa9r4wSj3EHmd2AxHNrw8HtWQyHAI4hRtjhG7Q
+	3iyJ7Oy3wawRYnh0BvsK2o9d8a3LNVM1qxEV9Thyed+9IT17y0/Z+/Cx4VxuyYbV70Qs
+	xoI0eUqtQ9rH0qLNProc2IdO+/Ca/yk2BxudhsR+2KLGk0xLTWPCldhzfhcyw6eKKe7v
+	DW/8DdXEiYgKjF42ZRRFrZXKVpn8R63m2P4Ard8qxDNCFY/nLO+R0WwbkHtj3IhynxuS
+	WMfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=Rop9kAfscqDGOWP+2DPLiRhmDbstCOk8wk4X6Rf9jX4=;
-	b=gxaUdkTBv5Z2xfccBLMkJesoVAV2JhO+l376GQ17VL/0Cc5HLMRAirDL5eLfycyzzT
-	d+/CxL6j2ZHBenuRdW3qW2QPXg3jxAYWB1n1B9vunJ8Q6AssILv3Ao57AHajAv0+TgaW
-	FDMZbzdNfCMZEYhcSY+VcVhixvnFPPAIKPr4NpbEwAJRounsGP6Qan7tvQuJ9/v2uXBm
-	NQHDhFWCXgblbqH6g3MMDPGeli55zFLecRVme+SUmMBmfrh9cuTdfL/0eKA+raj5nZvu
-	4rciXdoTzCcpplymwdZ8A9VyUhZZrsfpsITEOXOs2rcJY3pqbOL3F7eIw2J6TmbFQ0xH
-	KohQ==
-X-Gm-Message-State: AMke39k+RbaVOoas1tdTm647/t26kUGu6bu8QSXtvBeiJWqIjzPWohEc3lLPOpUbxok20w==
-X-Received: by 10.46.33.141 with SMTP id h13mr3375237lji.135.1489043031306;
-	Wed, 08 Mar 2017 23:03:51 -0800 (PST)
-Received: from [10.20.41.60] ([77.88.92.6])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=3PD4yHtGsp8j+qED8qwA+u7rzDnRnphNDhYKZvaLQ8U=;
+	b=RfTONsZ3J2X1w8gIfF6bK4yBkNrRhPL6hw6tbkjul9Ne95FPxaHxRYCCHC43xvfAaT
+	0aCH2Xmj748n7YfCdbTGzFR+uVGMi3EqlRQ261lzPUDRMHzSVGEPQccEd2Hz8dIwfXov
+	TW9J2Vgai8LSv3Mn3buj2QwpNZZItiKW+HYuI+79Hf8mpmE9u/mEh1gIX4zV+HD1yWAH
+	4357o2cmiBvp2EeeeES6+RkU61Q+sa/VPU6VQDEYWw16gPiZvU6D5J1/xY1N4VuwPYlK
+	xw2eOPdluh/6GRiwkG7NV6xycqzjxEBL+wuhlRDCYIlLFySXr6zBoSARxKlw6ResENB2
+	2SIA==
+X-Gm-Message-State: AMke39nQo2IsauLlUMyO2kHITVr6vFx2EfyMLUfYm6Ed/ndqbT2GZS31UCTAab/HI1DHog==
+X-Received: by 10.25.79.15 with SMTP id d15mr819321lfb.14.1489044318345;
+	Wed, 08 Mar 2017 23:25:18 -0800 (PST)
+Received: from localhost.localdomain ([77.88.92.6])
 	by smtp.googlemail.com with ESMTPSA id
-	3sm1080311ljj.16.2017.03.08.23.03.49
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 Mar 2017 23:03:50 -0800 (PST)
-To: Khem Raj <raj.khem@gmail.com>, Matt Madison <matt@madison.systems>
-References: <20170303231811.27812-1-raj.khem@gmail.com>
-	<CAGgRHJrrmcvv6CkO+fH++85YD+SxzrsrPeVCdP+MgsgP_iP23w@mail.gmail.com>
-	<20170308221933.GA8506@haswell>
+	p27sm1114441lfg.5.2017.03.08.23.25.17
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 08 Mar 2017 23:25:17 -0800 (PST)
 From: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <a1284fc5-f4e3-75a9-6832-893fedef7b30@mender.io>
-Date: Thu, 9 Mar 2017 08:03:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.0
-MIME-Version: 1.0
-In-Reply-To: <20170308221933.GA8506@haswell>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V7] go: Add recipes for golang compilers and tools
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  9 Mar 2017 08:25:16 +0100
+Message-Id: <1489044316-14196-1-git-send-email-kristian.amlie@mender.io>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] wic/direct.py: Avoid exception if using multiple rawcopy/no-table entries.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,33 +53,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Mar 2017 07:03:51 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Mar 2017 07:25:18 -0000
 
-On 08/03/17 23:19, Khem Raj wrote:
->> ...
->> For the following go-1.4 recipes:
->>
->> I wouldn't recommend fixing go-native at version 1.4, which is now
->> postiviely ancient.
->> Instead, add go1.4.3's SRC_URI into the go-native recipe, loading it
->> in the right place so
->> that make.bash finds it.  This way, you can have all the go toolchain
->> recipes build at the
->> same version.  The go team only supports go1.4 for bootstrapping the
->> compiler build now
->> anyway, IIRC.
-> 
-> since we do not use go-native for anything other than bootstrapping
-> right now, thats why it is there. there is no intent of providing a
-> go-native version for general consumption
+If we are both having a bootloader and a U-Boot environment file, we
+can end up with two entries using "--source rawcopy" and "--no-table",
+and since they reuse the same file [1], their cleanup handlers will
+try to delete the same file twice. So just ignore the error if the
+file doesn't exist.
 
-Just FYI, in Mender we use the latest go-native, provided by
-github.com/mem/oe-meta-go, to compile some build tools. The layer has a
-separate go-bootstrap recipe, which is locked to 1.4, for the purpose of
-creating go-native and go-cross.
+[1] Although they reuse the same file, the resulting output is
+correct, so it appears the file is accessed in properly sequential
+order.
 
+Signed-off-by: Kristian Amlie <kristian.amlie@mender.io>
+---
+ scripts/lib/wic/plugins/imager/direct.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+index b7e324a..0e8d436 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -548,7 +548,10 @@ class PartitionedImage():
+     def cleanup(self):
+         # remove partition images
+         for image in self.partimages:
+-            os.remove(image)
++            try:
++                os.remove(image)
++            except FileNotFoundError:
++                pass
+ 
+     def assemble(self):
+         logger.debug("Installing partitions")
 -- 
-Kristian
+2.7.4
+
 
