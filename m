@@ -1,37 +1,48 @@
-Return-Path: <sstrogin@cisco.com>
-Received: from aer-iport-3.cisco.com (aer-iport-3.cisco.com [173.38.203.53])
-	by mail.openembedded.org (Postfix) with ESMTP id C3E997304E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id EA68D7304E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Mar 2017 19:56:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=3955; q=dns/txt; s=iport;
-	t=1489089364; x=1490298964;
-	h=from:subject:to:cc:message-id:date:mime-version:
-	content-transfer-encoding;
-	bh=LcdFFWEL5RoO4rLcRrAZT0N57bjhZgOzFnNY4amP1tQ=;
-	b=LuQ2Xy55kBUxHxQMRFcZJm9o9A/9eXGitHkwlBtJdbsyBEg/UCVXF4Zb
-	vzjhfZP9ZD8X6wBSwX7ZIcFLSFjjxwChYo45Vr+arppXDBlvGM0OT9kYz
-	d4A8h0kDo5Enr1Q5iEvj5AuRSX+cmZ1aanMiSyz9Rv6MWZtUUIlA/Ariv 8=;
-X-IronPort-AV: E=Sophos;i="5.36,137,1486425600"; d="scan'208";a="651329607"
-Received: from aer-iport-nat.cisco.com (HELO aer-core-1.cisco.com)
-	([173.38.203.22])
-	by aer-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Mar 2017 19:56:02 +0000
-Received: from [10.61.198.147] ([10.61.198.147]) (authenticated bits=0)
-	by aer-core-1.cisco.com (8.14.5/8.14.5) with ESMTP id v29Ju1SS021522
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO);
-	Thu, 9 Mar 2017 19:56:02 GMT
-From: Stefan Strogin <sstrogin@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <1e9485cd-5bfb-5dee-57db-ae27731efe50@cisco.com>
-Date: Thu, 9 Mar 2017 21:56:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.1
+	Thu,  9 Mar 2017 19:57:44 +0000 (UTC)
+Received: by mail-qk0-f170.google.com with SMTP id 1so136468995qkl.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Mar 2017 11:57:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=aEemgJoUwIXp+p7S5f/yQrBLVTEGQVp9rlc1LahTcww=;
+	b=YCBLsXgIWnSY/dOUvBQIoW/NeYOiX+sxXQyYBTOWqyhIbht4utltCU/devpQmuf88E
+	FxlUuK/Dn4vSKyTHbq7r+KsJ8FliMhulF8vfqsTlvu7V3WkPR9j43U1o+4BvDvBvcmfM
+	hnDS+sAw9uH4HODpM+jCdV4gT9GYfwFApqrMr+6RXQoq7Mwy14OoJ9aJJ5NQS3vCd8Q6
+	VWn8ezh8+DH1/X9yecJ93RMVUuOjIawNnTaRKglSXrZeD8KhJPezsRHslyoHeBfW2L4F
+	dXGLtZv7SIMDygo4jZ1C2gwWrUmHB0IKiCLukspmhH7YwVmpKlwAqNrQHDXBu3DZRK5R
+	WxvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=aEemgJoUwIXp+p7S5f/yQrBLVTEGQVp9rlc1LahTcww=;
+	b=Wzd5jea0rbDkkhtyWnShUV/V1v+agToQoVeFIW03aFocoyeL4Rotyl31gEgHyNP6ti
+	Rz4axpiNiPuKtBDrsYhayPs4F/tZVGxh5H8tNqvSRmkDBPuTpWYHjoXQMaSWlp10r1R1
+	plII7WoPferSXh8uOQOuUljCIEMH5Ic9kJSjqfu5G+qQqtrNn3+zWnvOkmP9qUK8VfYf
+	oZlkyK0fnGK32ISqQsLNywVb2ub/+xdKKQBJVhZu4KoC5aNNT/Mah9ThkUfHZhUox+Qt
+	5A8dDvxao7Gi/DFgoupQYkOKWtlZkXtE6UR09VjikYHb4o5lu53AjI9GYx5lXACPonn7
+	edJw==
+X-Gm-Message-State: AMke39m8WUB12QTgG0GBQMM5ysrntYowU4KFW4P4jKHpIvE2qvwQJL7QhL4++CY8lySFInZwWLqSAtJaRlP9JOv1
+X-Received: by 10.237.53.9 with SMTP id a9mr15673912qte.188.1489089465961;
+	Thu, 09 Mar 2017 11:57:45 -0800 (PST)
 MIME-Version: 1.0
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Authenticated-User: sstrogin
-Cc: xe-linux-external@cisco.com
-Subject: [PATCH v3] slang: add ptest
+Received: by 10.140.22.166 with HTTP; Thu, 9 Mar 2017 11:57:25 -0800 (PST)
+In-Reply-To: <1485209611-23858-1-git-send-email-jose.perez.carranza@linux.intel.com>
+References: <1485209611-23858-1-git-send-email-jose.perez.carranza@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 9 Mar 2017 19:57:25 +0000
+Message-ID: <CAJTo0LZNJx08iHnc7G6ka57ky0=NbkV2WDE9ihT29-pba+8Y1g@mail.gmail.com>
+To: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+Cc: Paul Eggleton <paul.eggleton@intel.com>,
+	Jose Perez Carranza <jose.perez.carranza@linux-ntel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] selftest/devtool: Add test to verify "modify virtual/kernel"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,116 +55,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Mar 2017 19:56:03 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Mar 2017 19:57:46 -0000
+Content-Type: multipart/alternative; boundary=001a11c0285ea8694d054a51a857
 
-Signed-off-by: Stefan Strogin <sstrogin@cisco.com>
-Cc: xe-linux-external@cisco.com
----
- meta/recipes-extended/slang/slang/run-ptest        |  3 +++
- ...-add-output-in-the-format-result-testname.patch | 30 ++++++++++++++++++++++
- meta/recipes-extended/slang/slang_2.3.1a.bb        | 25 +++++++++++++++++-
- 3 files changed, 57 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/slang/slang/run-ptest
- create mode 100644 meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch
+--001a11c0285ea8694d054a51a857
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/meta/recipes-extended/slang/slang/run-ptest b/meta/recipes-extended/slang/slang/run-ptest
-new file mode 100644
-index 0000000000..39f474af31
---- /dev/null
-+++ b/meta/recipes-extended/slang/slang/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/sh
-+
-+make -C test runtests
-diff --git a/meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch b/meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch
-new file mode 100644
-index 0000000000..27a9bb87ea
---- /dev/null
-+++ b/meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch
-@@ -0,0 +1,30 @@
-+From 38688ee2754415cf2a1935dafb8278861b7315e7 Mon Sep 17 00:00:00 2001
-+From: Stefan Strogin <sstrogin@cisco.com>
-+Date: Thu, 2 Mar 2017 00:26:31 +0200
-+Subject: [PATCH] test: add output in the format "result: testname"
-+
-+Upstream-Status: Inappropriate [oe specific]
-+
-+Signed-off-by: Stefan Strogin <sstrogin@cisco.com>
-+---
-+ src/test/runtests.sh | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/src/test/runtests.sh b/src/test/runtests.sh
-+index a3eaad0..64f0705 100755
-+--- a/src/test/runtests.sh
-++++ b/src/test/runtests.sh
-+@@ -34,8 +34,10 @@ do
-+     then
-+ 	n_failed=`expr ${n_failed} + 1`
-+ 	tests_failed="$tests_failed $testfile"
-++	echo "FAIL: $testfile"
-+     else
-+         touch lastrun/$testfile
-++	echo "PASS: $testfile"
-+     fi
-+ done
-+ 
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-extended/slang/slang_2.3.1a.bb b/meta/recipes-extended/slang/slang_2.3.1a.bb
-index c71d80481f..b302104ee1 100644
---- a/meta/recipes-extended/slang/slang_2.3.1a.bb
-+++ b/meta/recipes-extended/slang/slang_2.3.1a.bb
-@@ -17,6 +17,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a52a18a472d4f7e45479b06563717c02"
- SRC_URI = "http://www.jedsoft.org/releases/${BPN}/${BP}.tar.bz2 \
-            file://no-x.patch \
-            file://dont-link-to-host.patch \
-+           file://test-add-output-in-the-format-result-testname.patch \
-+           file://run-ptest \
-           "
- 
- SRC_URI[md5sum] = "c5235313042ed0e71ec708f7b85ec241"
-@@ -25,7 +27,7 @@ SRC_URI[sha256sum] = "54f0c3007fde918039c058965dffdfd6c5aec0bad0f4227192cc486021
- UPSTREAM_CHECK_URI = "http://www.jedsoft.org/releases/slang/"
- PREMIRRORS_append = "\n http://www.jedsoft.org/releases/slang/.* http://www.jedsoft.org/releases/slang/old/ \n"
- 
--inherit autotools-brokensep
-+inherit autotools-brokensep ptest
- CLEANBROKEN = "1"
- 
- EXTRA_OECONF = "--without-onig"
-@@ -49,6 +51,27 @@ do_configure_prepend() {
-     cd ${B}
- }
- 
-+do_compile_ptest() {
-+	oe_runmake -C src static
-+	oe_runmake -C src/test sltest
-+}
-+
-+do_install_ptest() {
-+	mkdir ${D}${PTEST_PATH}/test
-+	for f in Makefile sltest runtests.sh *.sl *.inc; do
-+		cp ${S}/src/test/$f ${D}${PTEST_PATH}/test/
-+	done
-+	sed -e 's/\ \$(TEST_PGM)\.c\ assoc\.c\ list\.c\ \$(SLANGLIB)\/libslang\.a//' \
-+	    -e '/\$(CC).*(TEST_PGM)/d' \
-+	    -i ${D}${PTEST_PATH}/test/Makefile
-+
-+	cp ${S}/slsh/lib/require.sl ${D}${PTEST_PATH}/test/
-+	sed -i 's/\.\.\/\.\.\/slsh\/lib\/require\.sl/require\.sl/' ${D}${PTEST_PATH}/test/req.sl
-+
-+	cp ${S}/doc/text/slangfun.txt ${D}${PTEST_PATH}/test/
-+	sed -i 's/\.\.\/\.\.\/doc\/text\/slangfun\.txt/slangfun\.txt/' ${D}${PTEST_PATH}/test/docfun.sl
-+}
-+
- FILES_${PN} += "${libdir}/${BPN}/v2/modules/ ${datadir}/slsh/"
- 
- PARALLEL_MAKE = ""
--- 
-2.11.0
+On 23 January 2017 at 22:13, <jose.perez.carranza@linux.intel.com> wrote:
+>
+> +        checkmodcode = runCmd("strings %s | head -n 10 | grep '%s'" %
+(bzimagefile, modstring))
 
 
+Annoyingly this bit is failing on some autobuilders:
+
+AssertionError: Command 'strings
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/qemux86-poky-linux/linux-yocto/4.10+git999-r0/image/boot/bzImage-4.10.0-yocto-standard
+| head -n 10 | grep 'use a boot loader - Devtool kernel testing'' returned
+non-zero exit status 1:
+BFD:
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/qemux86-poky-linux/linux-yocto/4.10+git999-r0/image/boot/bzImage-4.10.0-yocto-standard:
+Warning: Ignoring section flag IMAGE_SCN_MEM_NOT_PAGED in section .bss
+
+I'm wondering if grep on its own - not strings|head|grep - would work
+around this?
+
+(note that strings is "smart" and if executed on an ELF will use libbfd to
+extract the segments with human strings in, which is why it's returning
+errors from BFD)
+
+Ross
+
+--001a11c0285ea8694d054a51a857
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br>On 23 January 2017 at 22:13, &lt;<a href=3D"mailto:jos=
+e.perez.carranza@linux.intel.com">jose.perez.carranza@linux.intel.com</a>&g=
+t; wrote:<br>&gt;<br>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0checkmodcode =3D run=
+Cmd(&quot;strings %s | head -n 10 | grep &#39;%s&#39;&quot; % (bzimagefile,=
+ modstring))<br><br><br>Annoyingly this bit is failing on some autobuilders=
+:<br><br>AssertionError: Command &#39;strings /home/pokybuild/yocto-autobui=
+lder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/qemux86-poky-lin=
+ux/linux-yocto/4.10+git999-r0/image/boot/bzImage-4.10.0-yocto-standard | he=
+ad -n 10 | grep &#39;use a boot loader - Devtool kernel testing&#39;&#39; r=
+eturned non-zero exit status 1:<br>BFD: /home/pokybuild/yocto-autobuilder/y=
+octo-worker/nightly-oe-selftest/build/build/tmp/work/qemux86-poky-linux/lin=
+ux-yocto/4.10+git999-r0/image/boot/bzImage-4.10.0-yocto-standard: Warning: =
+Ignoring section flag IMAGE_SCN_MEM_NOT_PAGED in section .bss<div><br></div=
+><div>I&#39;m wondering if grep on its own - not strings|head|grep - would =
+work around this?</div><div><br></div><div>(note that strings is &quot;smar=
+t&quot; and if executed on an ELF will use libbfd to extract the segments w=
+ith human strings in, which is why it&#39;s returning errors from BFD)</div=
+><div><br></div><div>Ross</div></div>
+
+--001a11c0285ea8694d054a51a857--
