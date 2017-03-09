@@ -1,47 +1,67 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f174.google.com (mail-ua0-f174.google.com
-	[209.85.217.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 109907300F
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 27B7A73078
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Mar 2017 21:06:29 +0000 (UTC)
-Received: by mail-ua0-f174.google.com with SMTP id q7so78724012uaf.2
+	Thu,  9 Mar 2017 21:11:22 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id m124so5461195oig.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Mar 2017 13:06:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=VNCAiEd+XLViobZDL5zjkB89pojGxF1Nm/59Q6zmIqo=;
-	b=DC1NQ8WhoPUU9IIBVt645Eq74cRI/Qml8oP4JnBYweuVHVBaZrDCaqwLwmJOkLzVBf
-	XOzB+jTKMl/RpbjSsIZ5N6R1AkdlF6sczl0vsYB7bU2NwAhok0t6Olyf0SJyeXQLfKWh
-	2PxyVUHjy6LR7hmeEIBokDNxCIVFhSKmt25+Y8mA6evAMrYACgHm5Jy9imcbwk37lgOq
-	B+aM+CH/xPaWVqxlkJ6YlXH/uZxJtTTBChDBiH8uYVl9fR8CuqeTHumKqh6xFoR/pjON
-	4qQVmwTZNz/ps9j/eQ4YUS0K6MfJ4Nb/5DYrODJ8uk4Kxtn1Gaj2724ccrmCdmIbmCM5
-	cS/g==
+	Thu, 09 Mar 2017 13:11:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=Bv5KqxiBPLIVeAoLvBCJM1SnNBiMA1YIILj/V9Dcjnk=;
+	b=jqo+DofddZeG+c6AeiK75GhwyastM8vfYOANrSYpEw8oAUnzEoE6rT46WjavpKHPCt
+	tEn+OEp0I0xLD9I7exD57ukXE7ff82z46Qc7R64oZ03Y9koEp6YInCTIsVyg39z7As6s
+	USJZ/xD8beRQqSqQp8+4Dsokxut9JQPstEXtj7AWl5jhFjAbtyFpMyS5v28s5h8nuxq6
+	jiT1uRB4JTnccr8fp2lIlPVYKcuNrsCw50AbjT7WSmJ+R+V4c55PNJgbxnIK9Mz3eHdb
+	ldY2/5SMAEa6D2ilv7XZga3i4FVq1SHVjQ7xVchymflf4T1Jem3cRcs2G6qmmpSiftvG
+	x4+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=VNCAiEd+XLViobZDL5zjkB89pojGxF1Nm/59Q6zmIqo=;
-	b=VCw9oby8y/zQNoeqg3FxGXlFAzWPaBJduqLGCikMPSKeTFfVRrQ3Ua7X6q1AUb0q4W
-	V/iupVMWOSdCHtSzdWmxLLH5l8fI6fmsW97HijG0dwdcuyhxcjLGC+XXQIC7Day6iEsg
-	Jer0tSNsDE5vEHrLpEmoPobfa2cwKwYIqhSXKg8Dx/dW2e9ZYFaU5wjn0K/YcrGJ5iS+
-	3h8QMwByaHw+PB9D7eNxMurC4XCO6et9nkFpybxdneoHxSisoBubddChklG+CnQ0rVpL
-	RT9Cww7mqjxiKQo430aZrE5BLtRkZR6RtbliAGS8EICr7GI+cDIWeTle7qvN1i88gyhU
-	vOBQ==
-X-Gm-Message-State: AMke39lWeB+zQX9JlmLleLzm+Ru58Zt6dd5hFhbWtFIh8BI886Utt95uVUOy5MgNJ2CN2uQxvo7wpRCmUqL+Mg==
-X-Received: by 10.176.69.201 with SMTP id u67mr7900439uau.101.1489093590561;
-	Thu, 09 Mar 2017 13:06:30 -0800 (PST)
+	bh=Bv5KqxiBPLIVeAoLvBCJM1SnNBiMA1YIILj/V9Dcjnk=;
+	b=m4gE2wHrzIf/WXXuv0oJRIM++soDcQeEFwUlpES+JGpFAcFhgWugeyjlxDwqlPJFqx
+	l37qoYsMyeiZk4M93J5IC59gx/otenT1HLU04taVnvI2iVO62gd33qffOOtCYkwsdkbI
+	9HrOzef3gfE0+6k6IeEuGkxUAz9GlKWU5cNKxE34qWb3sx4TWlDMF0bLWqE5P3QvcXIw
+	EOz3sJFYpKsONRrUaNOpwcgJGn9ssvVsmQy3HlLDNfsibvoG2RGRhLanRmIrmXDzEp/M
+	gAmVLlU6i5f7ypnAlbgk/wByRD3NzdFojEqYyTcJRWiiUQuE8xg0UukKUzA8PM7wEO2m
+	D2PQ==
+X-Gm-Message-State: AMke39m58Sc05xBig8v/M7i4ytgSl13p9cYrZgt2p7YWNz0AIv36Uw6F68Dz0v9flTIgzw==
+X-Received: by 10.202.218.134 with SMTP id r128mr6982131oig.2.1489093883746;
+	Thu, 09 Mar 2017 13:11:23 -0800 (PST)
+Received: from mail-ot0-f170.google.com (mail-ot0-f170.google.com.
+	[74.125.82.170])
+	by smtp.gmail.com with ESMTPSA id 36sm3366479otz.13.2017.03.09.13.11.22
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 09 Mar 2017 13:11:22 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-ot0-f170.google.com with SMTP id 19so65146815oti.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Mar 2017 13:11:22 -0800 (PST)
+X-Received: by 10.157.48.59 with SMTP id d56mr8018157otc.81.1489093881955;
+	Thu, 09 Mar 2017 13:11:21 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.159.39.37 with HTTP; Thu, 9 Mar 2017 13:06:00 -0800 (PST)
-In-Reply-To: <CAMKF1sqAw-rwkKYuEsY4QN1rA-YyQcx5hjpzux3cLk+4qxAemA@mail.gmail.com>
-References: <7f8eeb62-a767-0882-dcc0-9a6882192d82@xevo.com>
-	<CAMKF1sqAw-rwkKYuEsY4QN1rA-YyQcx5hjpzux3cLk+4qxAemA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 9 Mar 2017 13:06:00 -0800
-Message-ID: <CAMKF1spRq0quE-B+T5Wio_z5FmfGNkeGrE=dcd3H-KT1KNP4HQ@mail.gmail.com>
-To: Martin Kelly <mkelly@xevo.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-clang] LLVM shared library support
+Received: by 10.74.26.5 with HTTP; Thu, 9 Mar 2017 13:11:21 -0800 (PST)
+In-Reply-To: <20170306190728.GA19275@linux.intel.com>
+References: <20170223181309.13899-1-fabio.berton@ossystems.com.br>
+	<CAJTo0LaFsWxaGy1Jwo9K92KTry+7Hyzn-MVHvMOpaqx+Q+qCGw@mail.gmail.com>
+	<d2ccba14-ac14-1379-d5e1-ac799e9c120b@ossystems.com.br>
+	<CAJTo0La=NDhfuMSYG3bjVYe2u6KA4TAZSNN_f1PyrsfVipoxBg@mail.gmail.com>
+	<ccfcafd7-cd74-3330-2a64-ccd1e7a27984@ossystems.com.br>
+	<20170306181327.GA18694@linux.intel.com>
+	<bad2d5fb-ee7d-e32f-7f97-da988d126f0f@ossystems.com.br>
+	<20170306190728.GA19275@linux.intel.com>
+Date: Thu, 9 Mar 2017 18:11:21 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKrinftPt-L9-voxmpG6Fs0L7x2dLmEnCwkWUZgGWD9ZLQ@mail.gmail.com>
+Message-ID: <CAP9ODKrinftPt-L9-voxmpG6Fs0L7x2dLmEnCwkWUZgGWD9ZLQ@mail.gmail.com>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>, "Burton,
+	Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] wic: Prevent duplicate entries on fstab
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,48 +74,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Mar 2017 21:06:31 -0000
+X-List-Received-Date: Thu, 09 Mar 2017 21:11:23 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Fri, Mar 3, 2017 at 12:09 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Fri, Mar 3, 2017 at 11:15 AM, Martin Kelly <mkelly@xevo.com> wrote:
->> Hi,
+On Mon, Mar 6, 2017 at 4:07 PM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+> On Mon, Mar 06, 2017 at 03:48:00PM -0300, Fabio Berton wrote:
+>> Hi Ed,
 >>
->> I noticed that meta-clang builds only static LLVM libraries, unlike the
->> meta-oe version of LLVM 3.3, which builds shared libraries. In fact, this
->> appears to be the LLVM upstream default as well.
+>> The main motivation to my patch is prevent to duplicate entries. For
+>> example, if I add to my fstab line:
 >>
->> What is the reason for the difference? Shared versions of LLVM would be
->> useful for reducing the size of programs linked to it and making smaller
->> filesystem images.
+>> LABEL=data           /data                auto defaults              0  1
+>>
+>> and add to wsk file:
+>>
+>> part /data --ondisk mmcblk0 --fstype=ext4 --label data --align 8192
+>> --size 500M --extra-space 0
+>>
+>> Final fstab will have two entries for /data.
+> This can be easily avoided if you remove leading slash:
+> part data --ondisk mmcblk0 --fstype=ext4 --label data --align 8192 --size 500M --extra-space 0
+
+HACK ALERT!
+
+>> In most Linux distros mount /boot partition, if we have kernel image
+>> or boot script to update we need to mount /boot partition. Why the
+>> reason to not mount /boot?
+>>
+> The code that skips / and /boot was brought to wic codebase more than 4
+> years ago: https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=75c143a7aef46ecea07cf33edd2b1a0192e10149
 >
-> meta-clang has only provided static compiler thus far, so using shared
-> or static did not matter as much in fact it could be helping with
-> faster compile
-> times that we see with clang. However, there is no binding to keep it static
-> link. Feel free to send a pull request to change it.
+> I don't know exact reason to be honest. However, I think we need to be careful with this
+> kind of legacy. It doesn't mean we shouldn't remove it, but it should
+> not be done as a side effect of the patch addressing absolutely
+> different issue, I believe.
 
-I did try this and I see a considerable slowdown in compiler speed. I changed
-two things at a time so may be its the other
+While discussing this with Fabio here, at O.S. Systems, we ended
+agreeing that wic touching the fstab is wrong. The fstab should be
+prepare as part of the image and not mangled during the disk
+generation.
 
-diff --git a/recipes-devtools/clang/clang_git.bb
-b/recipes-devtools/clang/clang_git.bb
-index 6c6e66a..7de2be1 100644
---- a/recipes-devtools/clang/clang_git.bb
-+++ b/recipes-devtools/clang/clang_git.bb
-@@ -73,7 +73,8 @@ EXTRA_OECMAKE_append_class-nativesdk = "\
-                -DCLANG_TABLEGEN=${STAGING_BINDIR_NATIVE}/clang-tblgen \
- "
- EXTRA_OECMAKE_append_class-target = "\
--               -DLLVM_ENABLE_PIC=False \
-+               -DBUILD_SHARED_LIBS=ON \
-+               -DLLVM_ENABLE_PIC=ON \
-                -DLLVM_TABLEGEN=${STAGING_BINDIR_NATIVE}/llvm-tblgen \
-                -DCLANG_TABLEGEN=${STAGING_BINDIR_NATIVE}/clang-tblgen \
-                -DLLVM_TARGETS_TO_BUILD=${@get_clang_target_arch(bb, d)} \
+The mangled fstab is disastrous if someone uses an image upgrade. The
+generated tarball or filesystem WILL NOT be the same running on the
+device as wic will add entries.
 
->
->>
->> Thanks,
->> Martin
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
