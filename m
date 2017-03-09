@@ -1,49 +1,32 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f177.google.com (mail-ua0-f177.google.com
-	[209.85.217.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 775A373133
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.analogue-micro.com (mail.analogue-micro.com
+	[217.144.149.242])
+	by mail.openembedded.org (Postfix) with ESMTP id 7114B730CD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Mar 2017 07:27:59 +0000 (UTC)
-Received: by mail-ua0-f177.google.com with SMTP id q7so56233313uaf.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Mar 2017 23:28:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=YdZ7TVO9wUM1ROujxT/ZMJIVyCrABGM+BUG1VdGE8LY=;
-	b=rbcDe4yuI5rtRKJwGmzs74HKo7hp1IoPwZCNKlBbiIxjiyQALCMtEH+0v42OjzLJ2Q
-	C5ioD/mzeDRftWAJxeLKvZDvhq+sEUCdnkyTYxoDPOe/2oXssXr4ouPo1E+6ALncYYhH
-	xeE8d5DFMXjmU6eRRwnBjyp7R279rgIxF0YpThPbgwQvzFSAWuclN/liwV7YfXMRhCni
-	STBgxjYLOVIfUnfqvtb4eLWAYdNw1S9TzflRysk6B5G4wnF5rauGGB6xTQfo0mmGQ5fM
-	y1LH4A/2Mj57GWwhRAibZ++sI2hZ/Ng+BuT1GQYyP4Uo282tnL8nKfJlbdcSeAq3dZpF
-	JC7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=YdZ7TVO9wUM1ROujxT/ZMJIVyCrABGM+BUG1VdGE8LY=;
-	b=QrZhCWbRUlLQVBgyz0He8YziYo68AAZukjL0jiUkNtf9QFbQBz+FaNAtjsaFfTVieD
-	wVF/yHYDJSwccZTW/rtq3g/IqJsvmEJXGLBf2puktXFWfN7dIjEVK+FNBCbV3+xQ+EY+
-	N32oLQ/63OB/qgr/H5rjDkVmjzL6uL2fIWHaBZdksX+vP8NGe/6iWaZLsf1WBmNGjlSG
-	hYr/uCtViEZEwdlmNe66Pa9Gj/x1D2PJCOnBEEn4r/nfKxWgfXtv9pwUUkAFyZjDD/tk
-	fHuz7nYk/vUXhIlZF3sXTiY9KGJkGrQ7MQGdA0fS54FS/UonRSvgI6kT67v4jxd7FQBb
-	73iw==
-X-Gm-Message-State: AMke39n4FshLcBThprzX9Uxntx8/oc2K3efjOfjIawu2xd6XeC+CvCWq/2zLXQoZaVTKT9Vpk4/buSgUWszJ7w==
-X-Received: by 10.176.64.225 with SMTP id i88mr6510622uad.60.1489044481018;
-	Wed, 08 Mar 2017 23:28:01 -0800 (PST)
+	Thu,  9 Mar 2017 07:52:55 +0000 (UTC)
+Received: by mail.analogue-micro.com (Postfix, from userid 999)
+	id E032168A01C; Thu,  9 Mar 2017 07:52:55 +0000 (GMT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	loki.analogue-micro-ltd.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-0.2 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
+	by mail.analogue-micro.com (Postfix) with ESMTP id 69ABE68A019;
+	Thu,  9 Mar 2017 07:52:55 +0000 (GMT)
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by zeus.mlbassoc.com (Postfix) with ESMTP id 76D576740222;
+	Thu,  9 Mar 2017 08:52:54 +0100 (CET)
+From: Gary Thomas <gary@mlbassoc.com>
+To: openembedded-core@lists.openembedded.org
+References: <20170308064023.27986-1-raj.khem@gmail.com>
+Message-ID: <81d930ff-2eff-16dd-126b-864f4dbfc1c9@mlbassoc.com>
+Date: Thu, 9 Mar 2017 08:52:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.7.0
 MIME-Version: 1.0
-Received: by 10.159.39.37 with HTTP; Wed, 8 Mar 2017 23:27:30 -0800 (PST)
-In-Reply-To: <a1284fc5-f4e3-75a9-6832-893fedef7b30@mender.io>
-References: <20170303231811.27812-1-raj.khem@gmail.com>
-	<CAGgRHJrrmcvv6CkO+fH++85YD+SxzrsrPeVCdP+MgsgP_iP23w@mail.gmail.com>
-	<20170308221933.GA8506@haswell>
-	<a1284fc5-f4e3-75a9-6832-893fedef7b30@mender.io>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 8 Mar 2017 23:27:30 -0800
-Message-ID: <CAMKF1sq5DUzTfUBTovp5RyjmWyzcCRJbitRf1sZCO3mZgRNC5w@mail.gmail.com>
-To: Kristian Amlie <kristian.amlie@mender.io>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V7] go: Add recipes for golang compilers and tools
+In-Reply-To: <20170308064023.27986-1-raj.khem@gmail.com>
+Subject: Re: [PATCH V9] go: Add recipes for golang compilers and tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,37 +39,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Mar 2017 07:28:00 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 09 Mar 2017 07:52:55 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Mar 8, 2017 at 11:03 PM, Kristian Amlie
-<kristian.amlie@mender.io> wrote:
-> On 08/03/17 23:19, Khem Raj wrote:
->>> ...
->>> For the following go-1.4 recipes:
->>>
->>> I wouldn't recommend fixing go-native at version 1.4, which is now
->>> postiviely ancient.
->>> Instead, add go1.4.3's SRC_URI into the go-native recipe, loading it
->>> in the right place so
->>> that make.bash finds it.  This way, you can have all the go toolchain
->>> recipes build at the
->>> same version.  The go team only supports go1.4 for bootstrapping the
->>> compiler build now
->>> anyway, IIRC.
->>
->> since we do not use go-native for anything other than bootstrapping
->> right now, thats why it is there. there is no intent of providing a
->> go-native version for general consumption
+On 2017-03-08 07:40, Khem Raj wrote:
+> * This is converging the recipes for go from
+>   meta-virtualization and oe-meta-go
 >
-> Just FYI, in Mender we use the latest go-native, provided by
-> github.com/mem/oe-meta-go, to compile some build tools. The layer has a
-> separate go-bootstrap recipe, which is locked to 1.4, for the purpose of
-> creating go-native and go-cross.
-
-Thanks for info. we should add it here as well.
-
+> * Add recipes for go 1.7
 >
-> --
-> Kristian
+> * go.bbclass is added to ease out writing
+>   recipes for go packages
+>
+> * go-examples: Add an example, helloworld written in go
+>   This should serve as temlate for writing go recipes
+>
+> * Disable for musl, at least for now
+>
+> * Disable for x32/ppc32 which is not supported
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+   <snip>
+
+This is looking pretty good now.  I built go & go-helloworld easily
+with no warnings, etc.  'go-helloworld' runs fine on my target.
+
+However, there don't seem to be any packages for the target created
+by the 'go' recipe:
+
+$ ls tmp/work/cortexa9hf-neon-amltd-linux-gnueabi/go/1.8-r0
+armhf-elf-header.patch         go               pseudo                             syslog.patch
+build-tmp                      gotooldir.patch  recipe-sysroot                     sysroot-destdir
+fix-cc-handling.patch          image            recipe-sysroot-native              temp
+fix-target-cc-for-build.patch  license-destdir  split-host-and-target-build.patch
+
+I manually copied the 'image' directory (which obviously has a lot
+of stuff not designed to be on my target board) to my target and
+'go' seems to run there.
+
+There is a need for RRECOMMENDS = "git-perltools" once this packaging is set:
+
+~# go get golang.org/x/tour/gotour
+go: missing Git command. See https://golang.org/s/gogetcmd
+package golang.org/x/tour/gotour: exec: "git": executable file not found in $PATH
+
+I ran through the tour (above) and things seemed to go well.
+
+All in all, looking better.
+
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
