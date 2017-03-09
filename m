@@ -1,98 +1,44 @@
-Return-Path: <mkelly@xevo.com>
-Received: from NAM01-SN1-obe.outbound.protection.outlook.com
-	(mail-sn1nam01on0079.outbound.protection.outlook.com [104.47.32.79])
-	by mail.openembedded.org (Postfix) with ESMTP id EFB566E650
+Return-Path: <adrian.freihofer@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 317FD774E2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Mar 2017 21:52:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=uievolution.onmicrosoft.com; s=selector1-xevo-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=MJ6pcVCnH3veQZZhPd7J4wGEXPskIIn2432ffe+vj1o=;
-	b=3CmgUBVIKe/ZC03wqQDSgu418/ThxX3finnuEn5pgIsPmnLTCenslH68fJowbPjw8t5X63uK12rjQbDLb5SN0dmNQz0Y4G2VphV6wXTLUNSoxdu0ff9TN72WdKkAmDUSxpH7U2CYdAiTlCAQTr4hgP4YjrX+2nSJavAAGPZYLhk=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
-	header.d=none; lists.openembedded.org;
-	dmarc=none action=none header.from=xevo.com;
-Received: from [192.168.1.2] (67.171.33.217) by
-	CY1PR01MB1406.prod.exchangelabs.com (10.163.18.28) with Microsoft SMTP
-	Server
-	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
-	15.1.947.12; Thu, 9 Mar 2017 21:37:49 +0000
-To: Khem Raj <raj.khem@gmail.com>
-References: <7f8eeb62-a767-0882-dcc0-9a6882192d82@xevo.com>
-	<CAMKF1sqAw-rwkKYuEsY4QN1rA-YyQcx5hjpzux3cLk+4qxAemA@mail.gmail.com>
-	<CAMKF1spRq0quE-B+T5Wio_z5FmfGNkeGrE=dcd3H-KT1KNP4HQ@mail.gmail.com>
-From: Martin Kelly <mkelly@xevo.com>
-Message-ID: <93a813bd-0faa-0585-9f6e-7a49d1282616@xevo.com>
-Date: Thu, 9 Mar 2017 13:32:51 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.6.0
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1spRq0quE-B+T5Wio_z5FmfGNkeGrE=dcd3H-KT1KNP4HQ@mail.gmail.com>
-X-Originating-IP: [67.171.33.217]
-X-ClientProxiedBy: CY4PR09CA0092.namprd09.prod.outlook.com (10.172.133.158) To
-	CY1PR01MB1406.prod.exchangelabs.com (10.163.18.28)
-X-MS-Office365-Filtering-Correlation-Id: 23713893-9a9b-4f07-881c-08d4673488c2
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(22001);SRVR:CY1PR01MB1406;
-X-Microsoft-Exchange-Diagnostics: 1; CY1PR01MB1406;
-	3:WZOQ8VwtHNkYlqX55xbEVyACb2Je3z0ejhj31v4fbz/5bZb1BHbd8bscyZsTGFJ2obQMWyVaOVu92amORJPklAjbwm9Jy0nkiRvq5yrOiA7NNy8oQ0PftuPGPHuFK6i+9MGowo5YnfDw4jR4h5SzVECu9/t7WIE5Nzqig2iVp4IKmvbZGp2mmSMihxQwbyim56IYETIzaEnIl2Oi7FqJxkqiHpc43jMxs8gqa0PoqQbXCsZrLO5QMKUnBGB1MigZl9yEh3EUju4fiRJKoLDS8Q==;
-	25:D5aqqSExHxIIkETqygZ8JKeUl53NzEb4bd51s+1nrVggqKIS9VIMz1nScNnB52jXsWq/eXPKXmIbSDFZOfC0aXU8a6iLxF6C8S7/OcWy4LVaj4OzNYj+EnARvAd7+Ee3ZEi/TzoRpNJG4ARg8NXHHTdxZwFjUf/HHfgip3ote2UCEYXRTXZ+Y/4Z0iMK6eZRHoX2gAADh/AYtNrBTP7Es7UhWljv8JnK1qCoS/WJNyx7PpNTXcFpa1RnW+/guKNPBl5OEgz/W4/2o5hp3eRlU3k+RvZJXhe1cMRlvgEcSWsAuCskHbQdwh7HLz/kCtwD9w30BT5wHhh4MzVpbtDj3LX7c/PM7A7IJkSGBICbB2ZXz3oDhuXwCB+nTmoPN6Wpem1dbt7Jak9zMCBVjGHwoumCbCHG2FdYQDm7OdSUgwb35fxtdfKu1lFqJ37NCce5m/URivqQ6wV4EsCI6kml4g==
-X-Microsoft-Exchange-Diagnostics: 1; CY1PR01MB1406;
-	31:bHazL8e8VCE4kEIMZD66WOOtPpua6LSUab4V2BZekiOEVYIDr5VJpEQb7dOiB3wI+Ym/R02Q/L9nFS1Yb5mzPSBk87cOuoKqIBBwcwpNaPjjJwyEcjORQVgyJ0HH7wyAyz/R/zfNU6BKHGIzckaHL5ZrO4R7eoJWdpoydyoKvTXNlBdYLml6z/Lsi4BNVpvg6gkAjyLP77Fe4HS4/sGb3tpFD6BAS6u9oWI9wTtrGUP7Jh3NIDBWffQlmKYya2JF;
-	20:FlVa1b84grS0GDjUGKGH+sws5J3XVjUs1Eh8u7iGWQHPV6g/tgGlwrXAe8Ey7S7i3zefH2kPLmZGvM2q9mvWRhFzyNennlap1zd03eNekA+WbuQ4aG0kTrSbkyXyO8MiYJHJ9D/7EaihryT+jogkIGyjME+Hvtqc5s2HPGfeqyoJ9CpefOsHmZa32TB9pdjNq6YDllhLt2ofNOZE1rCMGvU8zOuhVCU1S9R6cOh6wIuGkJoNJK3HEWz76hAjfRQ5B1nButCm5Sdp/97L00Uw5orYI6ynk7fFOC8q6uew7j3tFu2C3g9DDH+JzO6/9JamgnlTyH4T8iVxzOELZvtaHQ==
-X-Microsoft-Antispam-PRVS: <CY1PR01MB14066F6A7C8316FB0295FB04AB210@CY1PR01MB1406.prod.exchangelabs.com>
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(6040375)(2401047)(8121501046)(5005006)(3002001)(10201501046)(6041248)(20161123562025)(20161123560025)(20161123564025)(20161123558025)(20161123555025)(6072148);
-	SRVR:CY1PR01MB1406; BCL:0; PCL:0; RULEID:; SRVR:CY1PR01MB1406; 
-X-Microsoft-Exchange-Diagnostics: 1; CY1PR01MB1406;
-	4:71c58hlZoP2t1WEInDTqLVli012gyueV1Q2783AcDEdkB1hVJOAepRfaYi2SaLh/RnWyzt9AFK+wrPZ/AzqzU6kHpJ9WAyqOyqdYZEyo1V5fKCYVIG1VL2eCiIOfbbrNWnHdpuyWGMUWMSEBSuy9FMmtgoMM5GJyIkRUKMsXnkhBz8iLRARogeAeKkrfPmVYOgBypTUNbJMHHUVYjGDtZ/c2Ax5pm9vqwoGHn9s1tqCegscA1ogHQDoeIDbtBpx+9dKLD9Ts9TLwxFKg8lYD1WXcKrZSoG2arD6nI6AxEYrpZCkbY6GuRJOO9n4yUr6BlS5972QboqKf7iO/bfrIzJx0dNDxmZsGrjIW4YUnDPv6R6pOm9gnT+tFZGoKXBnjix/LUW4sZ4egei71a7dehYlswUkuxcjQzhXfSVM7u/35fT/eOBdFZbq1aQvzbRGKYANe0HWUESAG3URxHUMww5DHD9NjaS7/YJhvj/KdYqFFE7fdvr6ELvAvax7RPvJ+JxrGTqBobBBPsRvKmXdBCuS/+BU46Ls3PyqtSox7dCu6pWdoT2dl3lIGUkWhxZScVH7IC5MOmrS6AwYaHflv+w==
-X-Forefront-PRVS: 0241D5F98C
-X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10009020)(4630300001)(6009001)(6049001)(39450400003)(377454003)(24454002)(5660300001)(4326008)(8676002)(50466002)(6246003)(81166006)(50986999)(64126003)(2906002)(53546006)(33646002)(83506001)(38730400002)(110136004)(305945005)(77096006)(6486002)(7736002)(25786008)(2950100002)(229853002)(6916009)(6666003)(90366009)(230700001)(36756003)(53936002)(31696002)(117156001)(3846002)(6116002)(76176999)(54356999)(66066001)(189998001)(4001350100001)(31686004)(86362001)(42186005)(23676002)(47776003);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:CY1PR01MB1406; H:[192.168.1.2];
-	FPR:; SPF:None; MLV:sfv; LANG:en; 
-X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtDWTFQUjAxTUIxNDA2OzIzOjhuZnREMFM0Yk9QQ09TN3J2SjhtcVZZbmp1?=
-	=?utf-8?B?OUhTamgwVEd1elIrb0xwck5RbnZVVGh4OFo2RmE1VlBGRGE0dkZsam51VWRk?=
-	=?utf-8?B?L28xNWtYSmt1aWJyUDUvMWxmR3dLVmZqdngwTlBRR25OVnE4Z2p1ZEZEb1A4?=
-	=?utf-8?B?OHY1cjFPc1ZPRDZoYzROM2o1MGE2VnRQSkVaMjdUMnVNK0ZFbnh3MFpKOW9Y?=
-	=?utf-8?B?akpuWGFDR2wxYWc1SWRMNXV3VkI0bXJXY01pZ2k2dXQ3eElrR09aRGhtRmRl?=
-	=?utf-8?B?U1d1ZnN2dnh0bHlHeGlIdnR6dCsxbnp0ejZoa2piYmFndGF4amEzYTg3a0JU?=
-	=?utf-8?B?cjRRaVR0ejN0QUpXb24rcjlLY0o4MGNvTGdjVk1zeCttTkphM2FPSmw1YmU4?=
-	=?utf-8?B?dEZGcE1JSWQ2a2p2TElmK3lyZk9mMmRvd2dzY0tHazIzTzlvOVF4Y2ZxVHEx?=
-	=?utf-8?B?SmFSTjRtb21FbUh3N3BWNUlGcXQxSzhJQzlaMi9LaGd2OHF1aFh5TVhwVS9o?=
-	=?utf-8?B?MjJHUG5qVlFWNUYxYjR3Z0QxcHE5NnJFcTA5RFRpM1BSSnVWMGhtUUVGbnVh?=
-	=?utf-8?B?Y1FDbEREMVF4eDE0UWtRa0NNRUNpRTMrWGk5YmkzZldqKzlFZXJIbVVWcS9V?=
-	=?utf-8?B?azUvRm9EUEhZSzVxQXI3V0w4ZysxdVkrNTl5eGhMUGFnZ2d5c2F0djFhdm84?=
-	=?utf-8?B?L1pZajdKUy9QNlgxMlBNSWVhMDBuV0pramFTR0dFOTJuczc5bnhIUDU2aDJ6?=
-	=?utf-8?B?cndFcVkya1NxQ3kyemthNGZDSitFdlI5dm45UFFXRThEVkZvWTgyK0htRUZp?=
-	=?utf-8?B?a2tZUFJiMGtUR3BZcHFjOVVGc3grc2ttQ0ZhWUxsYWZoc3FscmUwZHkxQ0Zu?=
-	=?utf-8?B?Y09QSmhFeXNIY2l0Ly9hL1dIbWZXb2FQY1hCZVFGdFpITHB0N1pLWW9aR2l5?=
-	=?utf-8?B?eVhNNDQ4SHF6N1J0c05PTmZDWnRpS1MxL0JMUVhJOTBuVk5NaUh0N3FRenpx?=
-	=?utf-8?B?QkdrQ2wweDRIY3dQVTN5bVNCOTcxVkFaemZ6dUdwVE5nZGp0Rk1WdVQ4bzhW?=
-	=?utf-8?B?bXpaZTFWUktIN0RXb1RuR2pYRzVwSlZwUzMyU0lzcDYwN0hXN0xOWlMzVVpJ?=
-	=?utf-8?B?R1Z6NlJ4WUllQUdhMXVGWUJWRkE5QUV6bWRYRlBXbnhpT21OQW1EekdDWVY3?=
-	=?utf-8?B?KzB5ajdteUxuS1BYZ29DYUZ3N2JKQTFIZ0NsVXFYMkpMd2IxVlh1amI3SzZV?=
-	=?utf-8?B?UDEzTXliOUt0VS84bGN1WGNBdUJmUnBoc3RCWmRTNytaYld0QVVVME9nandk?=
-	=?utf-8?B?eUJna0lDUFNUMmJCY2RoZ3Q4OUpCQTQxUU00eXk2STRNTDViSnpkdXJxeEdm?=
-	=?utf-8?B?YlZHclE4MGJ0WXE4WkxNVEVacDA1YXVlczUvaVNjaDJmU1ZNa29oV1Vuakty?=
-	=?utf-8?B?c1JWRzVHNkxlN3BCNTIzYTJ0TjdXWjlaNVJkNWEwenA5TUdQYkwrdlFFUEJ5?=
-	=?utf-8?B?dURENlJ1SWVDV2tDczRBWXF1ZDczdmlGWVg5SzBxYzI3dGFrRWVzRTBjeUlT?=
-	=?utf-8?B?K0ZrdWU2KzJldTBINkM3bGtqVjFuNGc9PQ==?=
-X-Microsoft-Exchange-Diagnostics: 1; CY1PR01MB1406;
-	6:tiAUJWTwkfc5bVyDbR/Usse9hI/5TlPeRMBfXhLunKSHyOiFGdetF5nyr6goyURtaZDKJ0DEQRoOX6d7HmrYLoVKjjzPnZnRuw4nEHXURvFYbAI4ZID+c7ygZ44IRpvHjR7UqwBlFXqgKOiaJ8MJCW83okkzNug5ADMO0KWtBLNZhrWQyyIsQLDvR9hmP82hA+FWI8WReuRZDdTLfXpQ3YLt8c/Ox5d25BaO5uwN+Nbz115gsqRaqCqRu4iH0er35+kt83LPacIaMDc6t7050hX9B1gf7OqaS/zJAr4JSaaCSSkWD+5pvOIbXLK3JebBa+rF5hToX7UJnyQN5QEpNeyiVGFT9vw2IlgiplBMJussJ4M8uwIZBAfhfUrf0toZaqybr8/5B1OxgFjOTRq9cA==;
-	5:0hW86Kmb6x6YDbt9jCR7uZb87Wqb9kV+cCVwjmR40Rc8Ud/fT1Qu2x8iABJ4aWOTdhdtRvQS5khNGRIv07ilS3IPfSJQirxcaVCc3W4SrPa3Cav7/Vb9MYS3YaYIsdXKfveD8AO0k8ue0gDTYXB80odeaUOrAIAv03BX8QtIwUM=;
-	24:eu+6xZqBg6RqH96XoeVdjk9wZ3iESySSCd4MmTuLD0lDrpV2a69x35uN8VW7MhIcxk5rV/B1z79MH8DwFwKOeT9OuPTCJP0+8Lb1bqxMKAc=
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1; CY1PR01MB1406;
-	7:YwdlMXyVMLH+P+au2YJzKB/DzYO7FIMHI+d3CSbINhHhrr687zj9Quf5ts40DaRxYJKzxogD3IL095mmglHFfNi+OQJvZkMm1NkP78gfLZePCBITcQ4M4G/H+Po+11SxrkhIur/wTE6MAR6rckqmhhZOfoZs5l99RaopWTc/enF+z/L/1NK8AsxUgfmQ3PkI6ufD4/bwUGhD+UgfcKrTQCRg7yu9n0+DToFSMue+Df0XreRRqvctTyVIu31CR7JRIPms3AbD/BpsQEPnUhUQhmC2s4HwPJbfChBqXyxQEVfP6qjXAX5XGsCm/bIBOax0ZumwGL3zj2HWI/NSzMwQ1w==
-X-OriginatorOrg: xevo.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2017 21:37:49.3524 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR01MB1406
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-clang] LLVM shared library support
+	Thu,  9 Mar 2017 22:09:23 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id n11so13054825wma.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Mar 2017 14:09:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=o1kittLxZL9YvWSrsgbFK5DfVsW++WuBQWnBa9ryC4k=;
+	b=g1sqA9P4e8SY9K6iq1M8dfYgZADUpSZlcz2362/qq0Cb+66WcqxsBK8EVlGCDjCp1C
+	gtx23ZF143R6dEpvMdqFMVh0uC2A0oYu/hG/dwhlq1rUWLUcpTM8N+Z8YON87oOsjbaY
+	2rGHKolSEndlSPOD981YgITrZ1XxhL6K05aWq/wRQu2L+UL0O+Dv2T9b5O6j/Ao3hRzz
+	nL9r0529vW9q/BtrUyWRV2fpRxF+QWJabOLHjoEk+RPxu58tXy7QFv76+fyjG9GCC4b3
+	nH1oBZxhFpqXXyR9pwErVUIzuFrNgZR43XTLZZ5IJmYUBUFpfuU2nxnRAKwBhpoyue5O
+	vK3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=o1kittLxZL9YvWSrsgbFK5DfVsW++WuBQWnBa9ryC4k=;
+	b=tYjG5pXJYksTwiefrLGS0GcFLAooAnkBQDJRkA4rLsdDiTR7NtQPF+eq92rLweGoqE
+	/L/XPqdEfAG0aeoIf+y98lgLbQ0NOARsKH/YaWUpGl/EjScpAZN/voqP5bRHwLr++gX3
+	PPKzeOJMhxDgeRch/tbSNxBw4HW6830+m3v+GgBlFTktx92mPZFWlVFxPC/N4KzQOdKx
+	RKoUofUuoSwJoB6Q4QUiZMU+KlrU19oihWsVnsCfAEvoTz5WfAGKLOfwy2HlrFzMgz5s
+	iQWB08GXAvZ7pBkai9cTDTTnD6lMzrdd1pw5DwNNEfLIWygE1TBRaeEV1aSJc0uNz91s
+	LmNA==
+X-Gm-Message-State: AMke39mbjfvgEYJGfAqHR7+wxX4sICs2uv2jlF3OBr6I5PwyoszDyUurX9Hv0MzVEP8N5w==
+X-Received: by 10.28.172.68 with SMTP id v65mr28078524wme.49.1489097364246;
+	Thu, 09 Mar 2017 14:09:24 -0800 (PST)
+Received: from wsadrian2.lan97.ffah.ch (c-93-184-18-27.customer.ggaweb.ch.
+	[93.184.18.27])
+	by smtp.gmail.com with ESMTPSA id 36sm9830671wrk.57.2017.03.09.14.09.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 09 Mar 2017 14:09:23 -0800 (PST)
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  9 Mar 2017 23:08:44 +0100
+Message-Id: <20170309220844.1892-1-adrian.freihofer@gmail.com>
+X-Mailer: git-send-email 2.9.3
+Subject: [meta-oe][PATCH rebased] wic: Fix and update rootfs-pcbios-ext plugin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -105,47 +51,286 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Mar 2017 21:52:38 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Mar 2017 22:09:24 -0000
 
-On 03/09/2017 01:06 PM, Khem Raj wrote:
-> On Fri, Mar 3, 2017 at 12:09 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> meta-clang has only provided static compiler thus far, so using shared
->> or static did not matter as much in fact it could be helping with
->> faster compile
->> times that we see with clang. However, there is no binding to keep it static
->> link. Feel free to send a pull request to change it.
->
-> I did try this and I see a considerable slowdown in compiler speed. I changed
-> two things at a time so may be its the other
->
-> diff --git a/recipes-devtools/clang/clang_git.bb
-> b/recipes-devtools/clang/clang_git.bb
-> index 6c6e66a..7de2be1 100644
-> --- a/recipes-devtools/clang/clang_git.bb
-> +++ b/recipes-devtools/clang/clang_git.bb
-> @@ -73,7 +73,8 @@ EXTRA_OECMAKE_append_class-nativesdk = "\
->                 -DCLANG_TABLEGEN=${STAGING_BINDIR_NATIVE}/clang-tblgen \
->  "
->  EXTRA_OECMAKE_append_class-target = "\
-> -               -DLLVM_ENABLE_PIC=False \
-> +               -DBUILD_SHARED_LIBS=ON \
-> +               -DLLVM_ENABLE_PIC=ON \
->                 -DLLVM_TABLEGEN=${STAGING_BINDIR_NATIVE}/llvm-tblgen \
->                 -DCLANG_TABLEGEN=${STAGING_BINDIR_NATIVE}/clang-tblgen \
->                 -DLLVM_TARGETS_TO_BUILD=${@get_clang_target_arch(bb, d)} \
->
->>
+Resolves #11003
+Adds oe-selftest for rootfs-pcbios-ext plugin
+---
+ .../recipes-test/images/wic-image-single-ext.bb    |  13 ++
+ .../recipes-test/images/wic-image-single-ext.wks   |   6 +
+ meta/lib/oeqa/selftest/wic.py                      |  21 ++++
+ .../lib/wic/plugins/source/rootfs_pcbios_ext.py    | 137 +++++++++------------
+ 4 files changed, 99 insertions(+), 78 deletions(-)
+ create mode 100644 meta-selftest/recipes-test/images/wic-image-single-ext.bb
+ create mode 100644 meta-selftest/recipes-test/images/wic-image-single-ext.wks
 
-Those are the exact changes I have been testing with; 
--DLLVM_ENABLE_PIC=ON is certainly necessary to prevent QA errors 
-regarding text relocation, so you can't really make the changes in 
-isolation. That said, the change is still very useful, as there are some 
-programs that use only shared libLLVM.so, and without them you can't 
-really use them with bitbake.
+diff --git a/meta-selftest/recipes-test/images/wic-image-single-ext.bb b/meta-selftest/recipes-test/images/wic-image-single-ext.bb
+new file mode 100644
+index 0000000..5bd4b62
+--- /dev/null
++++ b/meta-selftest/recipes-test/images/wic-image-single-ext.bb
+@@ -0,0 +1,13 @@
++SUMMARY = "An example of partitioned image."
++
++SRC_URI = "file://${FILE_DIRNAME}/${BPN}.wks"
++
++IMAGE_INSTALL = "packagegroup-core-boot ${ROOTFS_PKGMANAGE_BOOTSTRAP}"
++
++IMAGE_FSTYPES = "wic"
++
++DEPENDS = "syslinux syslinux-native e2fsprogs-native"
++
++LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++
++inherit image
+diff --git a/meta-selftest/recipes-test/images/wic-image-single-ext.wks b/meta-selftest/recipes-test/images/wic-image-single-ext.wks
+new file mode 100644
+index 0000000..af8d2f5
+--- /dev/null
++++ b/meta-selftest/recipes-test/images/wic-image-single-ext.wks
+@@ -0,0 +1,6 @@
++# short-description: Example of single ext4 partition
++# long-description: This image contains one singel ext4 partition.
++# created from core-image-minimal and wic-image-single-ext image recipes.
++
++part / --source rootfs-pcbios-ext --ondisk vda --fstype=ext4 --active --label rootfs --align 4096 --size 20
++bootloader --source rootfs-pcbios-ext --timeout=0 --append="rootwait console=tty0 rootfstype=ext4"
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index dcb88ba..8797dd5 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -561,3 +561,24 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
+             status, output = qemu.run_serial(cmd)
+             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
+             self.assertEqual(output, '3')
++
++    def test_single_ext_qemu(self):
++        """Test wic-image-single-ext under qemu"""
++        config = 'IMAGE_FSTYPES += "wic"\nWKS_FILE = "wic-image-single-ext"\n'
++        self.append_config(config)
++        self.assertEqual(0, bitbake('wic-image-single-ext').status)
++        self.remove_config(config)
++
++        with runqemu('wic-image-single-ext', ssh=False) as qemu:
++            cmd = "grep '/dev/root / ext4' /proc/mounts"
++            status, output = qemu.run_serial(cmd)
++            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
++            self.assertRegex(output, '^/dev/root +/ +ext4.*')
++
++            cmd = "ls /boot"
++            status, output = qemu.run_serial(cmd)
++            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
++            self.assertRegex(output, '.*ldlinux.c32.*')
++            self.assertRegex(output, '.*ldlinux.sys.*')
++            self.assertRegex(output, '.*syslinux.cfg.*')
++            self.assertRegex(output, '.*vmlinuz.*')
+diff --git a/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py b/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
+index 94f80d0..6008cb3 100644
+--- a/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
++++ b/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
+@@ -14,13 +14,22 @@
+ # with this program; if not, write to the Free Software Foundation, Inc.,
+ # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ #
++# DESCRIPTION
++# This plugin creates an ext4 rootfs partition. If the image feature
++# package-management is enabled and even the kernel package needs to be
++# updated on the target device this source plugin might be a good choice.
++# In general a fat boot partition and a second root partition is
++# recommended.
++# Example wks file:
++#   part / --source rootfs-pcbios-ext --ondisk sda --fstype=ext4 --active --label rootfs --align 4096 --size 20
++#   bootloader --source rootfs-pcbios-ext --timeout=0 --append="rootwait console=ttyS0,115200 rootfstype=ext4"
++#
+ # AUTHOR
+-# Adrian Freihofer <adrian.freihofer (at] neratec.com>
++# Adrian Freihofer <adrian.freihofer (at] gmail.com>
+ #
+ 
+ import logging
+ import os
+-import re
+ 
+ from wic import WicError
+ from wic.utils import runner
+@@ -29,44 +38,9 @@ from wic.pluginbase import SourcePlugin
+ 
+ logger = logging.getLogger('wic')
+ 
+-def serial_console_form_kargs(kernel_args):
+-    """
+-    Create SERIAL... line from kernel parameters
+-
+-    syslinux needs a line SERIAL port [baudrate [flowcontrol]]
+-    in the syslinux.cfg file. The config line is generated based
+-    on kernel boot parameters. The the parameters of the first
+-    ttyS console are considered for syslinux config.
+-    @param kernel_args kernel command line
+-    @return line for syslinux config file e.g. "SERIAL 0 115200"
+-    """
+-    syslinux_conf = ""
+-    for param in kernel_args.split():
+-        param_match = re.match("console=ttyS([0-9]+),?([0-9]*)([noe]?)([0-9]?)(r?)", param)
+-        if param_match:
+-            syslinux_conf += "SERIAL " + param_match.group(1)
+-            # baudrate
+-            if param_match.group(2):
+-                syslinux_conf += " " + param_match.group(2)
+-            # parity
+-            if param_match.group(3) and param_match.group(3) != 'n':
+-                logger.warning("syslinux does not support parity for console. "
+-                               "%s is ignored.", param_match.group(3))
+-            # number of bits
+-            if param_match.group(4) and param_match.group(4) != '8':
+-                logger.warning("syslinux supports 8 bit console configuration "
+-                               "only. %s is ignored.", param_match.group(4))
+-            # flow control
+-            if param_match.group(5) and param_match.group(5) != '':
+-                logger.warning("syslinux console flowcontrol configuration. "
+-                               "%s is ignored.", param_match.group(5))
+-            break
+-
+-    return syslinux_conf
+-
+ 
+ # pylint: disable=no-init
+-class RootfsPlugin(SourcePlugin):
++class RootfsPcBoisExtPlugin(SourcePlugin):
+     """
+     Create root partition and install syslinux bootloader
+ 
+@@ -106,83 +80,90 @@ class RootfsPlugin(SourcePlugin):
+ 
+     # pylint: disable=unused-argument
+     @classmethod
+-    def do_configure_partition(cls, part, source_params, image_creator,
+-                               image_creator_workdir, oe_builddir, bootimg_dir,
+-                               kernel_dir, native_sysroot):
++    def do_prepare_partition(cls, part, source_params, image_creator,
++                             image_creator_workdir, oe_builddir, bootimg_dir,
++                             kernel_dir, krootfs_dir, native_sysroot):
+         """
+-        Creates syslinux config in rootfs directory
++        Creates partition out of rootfs directory
+ 
+-        Called before do_prepare_partition()
++        Prepare content for a rootfs partition i.e. create a partition
++        and fill it from a /rootfs dir.
++        Install syslinux bootloader into root partition image file
+         """
+         bootloader = image_creator.ks.bootloader
++        syslinux_serial = get_bitbake_var('SYSLINUX_SERIAL')
+ 
+         syslinux_conf = ""
+         syslinux_conf += "PROMPT 0\n"
+-
+-        syslinux_conf += "TIMEOUT " + str(bootloader.timeout) + "\n"
++        if bootloader.timeout is not None:
++            syslinux_conf += "TIMEOUT " + str(bootloader.timeout) + "\n"
+         syslinux_conf += "ALLOWOPTIONS 1\n"
+-
+-        # Derive SERIAL... line from from kernel boot parameters
+-        syslinux_conf += serial_console_form_kargs(options) + "\n"
+-
++        if syslinux_serial:
++            syslinux_conf += "SERIAL " + syslinux_serial
+         syslinux_conf += "DEFAULT linux\n"
+         syslinux_conf += "LABEL linux\n"
+-        syslinux_conf += "  KERNEL /boot/bzImage\n"
++        syslinux_conf += "  KERNEL /boot/vmlinuz\n"
+ 
+         syslinux_conf += "  APPEND label=boot root=%s %s\n" % \
+-                             (image_creator.rootdev, bootloader.append)
++                            (image_creator.rootdev, bootloader.append)
+ 
+-        syslinux_cfg = os.path.join(image_creator.rootfs_dir['ROOTFS_DIR'], "boot", "syslinux.cfg")
+-        logger.debug("Writing syslinux config %s", syslinux_cfg)
+-        with open(syslinux_cfg, "w") as cfg:
++        # Write syslinux config file into target sysroot dir
++        tmp_syslinux_cfg_file = os.path.join(image_creator_workdir, "syslinux.cfg")
++        with open(tmp_syslinux_cfg_file, "w") as cfg:
+             cfg.write(syslinux_conf)
+ 
+-    @classmethod
+-    def do_prepare_partition(cls, part, source_params, image_creator,
+-                             image_creator_workdir, oe_builddir, bootimg_dir,
+-                             kernel_dir, krootfs_dir, native_sysroot):
+-        """
+-        Creates partition out of rootfs directory
++        hdd_boot_dir = os.path.join(image_creator.rootfs_dir['ROOTFS_DIR'], "boot")
++        p_prefix = os.environ.get("PSEUDO_PREFIX", "%s/usr" % native_sysroot)
++        p_localstatedir = os.environ.get("PSEUDO_LOCALSTATEDIR",
++                                         "%s/../pseudo" % hdd_boot_dir)
++        p_passwd = os.environ.get("PSEUDO_PASSWD", hdd_boot_dir)
++        p_nosymlinkexp = os.environ.get("PSEUDO_NOSYMLINKEXP", "1")
++        pseudo = "export PSEUDO_PREFIX=%s;" % p_prefix
++        pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % p_localstatedir
++        pseudo += "export PSEUDO_PASSWD=%s;" % p_passwd
++        pseudo += "export PSEUDO_NOSYMLINKEXP=%s;" % p_nosymlinkexp
++        pseudo += "%s/usr/bin/pseudo " % native_sysroot
++
++        install_cmd = "%s install -m 0744 -d %s" % (pseudo, hdd_boot_dir)
++        exec_cmd(install_cmd, as_shell=True)
++        install_cmd = "%s install -m 0644 %s %s" % (pseudo, tmp_syslinux_cfg_file, hdd_boot_dir)
++        exec_cmd(install_cmd, as_shell=True)
++        install_cmd = "%s install -m 0644 %s/bzImage %s/vmlinuz" % (pseudo, kernel_dir, hdd_boot_dir)
++        exec_cmd(install_cmd, as_shell=True)
++
++        os.remove(tmp_syslinux_cfg_file)
+ 
+-        Prepare content for a rootfs partition i.e. create a partition
+-        and fill it from a /rootfs dir.
+-        Install syslinux bootloader into root partition image file
+-        """
+         def is_exe(exepath):
+             """Verify exepath is an executable file"""
+             return os.path.isfile(exepath) and os.access(exepath, os.X_OK)
+ 
+-        # Make sure syslinux-nomtools is available in native sysroot or fail
++        # Verify syslinux-nomtools is available in native sysroot or fail
+         native_syslinux_nomtools = os.path.join(native_sysroot, "usr/bin/syslinux-nomtools")
+         if not is_exe(native_syslinux_nomtools):
+-            logger.info("building syslinux-native...")
+-            exec_cmd("bitbake syslinux-native")
+-        if not is_exe(native_syslinux_nomtools):
+-            raise WicError("Couldn't find syslinux-nomtools (%s), exiting" %
+-                           native_syslinux_nomtools)
++            raise WicError("Cannot find syslinux-nomtools (%s), exiting" % native_syslinux_nomtools)
+ 
+-        if part.rootfs is None:
+-            if 'ROOTFS_DIR' not in krootfs_dir:
++        if part.rootfs_dir is None:
++            if not 'ROOTFS_DIR' in krootfs_dir:
+                 raise WicError("Couldn't find --rootfs-dir, exiting")
+             rootfs_dir = krootfs_dir['ROOTFS_DIR']
+         else:
+-            if part.rootfs in krootfs_dir:
+-                rootfs_dir = krootfs_dir[part.rootfs]
+-            elif part.rootfs:
+-                rootfs_dir = part.rootfs
++            if part.rootfs_dir in krootfs_dir:
++                rootfs_dir = krootfs_dir[part.rootfs_dir]
++            elif part.rootfs_dir:
++                rootfs_dir = part.rootfs_dir
+             else:
+                 raise WicError("Couldn't find --rootfs-dir=%s connection or "
+                                "it is not a valid path, exiting" % part.rootfs)
+ 
+         real_rootfs_dir = cls._get_rootfs_dir(rootfs_dir)
+-
+         part.rootfs_dir = real_rootfs_dir
+         part.prepare_rootfs(image_creator_workdir, oe_builddir, real_rootfs_dir, native_sysroot)
+ 
+-        # install syslinux into rootfs partition
++        # install syslinux into rootfs partition (add ldlinux.c32 ldlinux.sys)
+         syslinux_cmd = "syslinux-nomtools -d /boot -i %s" % part.source_file
+         exec_native_cmd(syslinux_cmd, native_sysroot)
+ 
++    # pylint: disable=unused-argument
+     @classmethod
+     def do_install_disk(cls, disk, disk_name, image_creator, workdir, oe_builddir,
+                         bootimg_dir, kernel_dir, native_sysroot):
+-- 
+2.9.3
 
-I hope to have a pull request for you soon once I iron out the rest of 
-the issues.
 
