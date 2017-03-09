@@ -1,45 +1,47 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f181.google.com (mail-wr0-f181.google.com
-	[209.85.128.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 18B716FFD7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id A73A46010D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Mar 2017 10:04:18 +0000 (UTC)
-Received: by mail-wr0-f181.google.com with SMTP id u48so41497072wrc.0
+	Thu,  9 Mar 2017 11:20:09 +0000 (UTC)
+Received: by mail-qk0-f174.google.com with SMTP id y76so113520966qkb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Mar 2017 02:04:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=1R5RV+evIbPokadFdVjQE2AcLEmdMWFXxr3YYky3DPQ=;
-	b=njN82eu8vxnIwt2ezOI8uYUL13k6u6MCSazJ2ttBTaAtaempocdDKI3wd9wVyewoDd
-	GHfqJkJ7ti7UUQcGvxDTF3vg3f3bEmDs+sszkvbZpLYYj9rQTaB//5EV2k8N8RdGmr66
-	fJYLvALXYGjjUj84pK51e1noOeKBzgUt/HFwejrlzKIeObz05NVTl/1c2bt7VjZJrFXq
-	WcAdTy3X/yNW85kjdVl/7fLLLNwt32HtcxYisQzu1VF6FwPLN75oZEsv+1peQM7Wc096
-	i9cZwBNxK8fZub2BODVxVI/sUjK0LxrTba+tv2jLIwMDfSzWvYzXqHIFLw3befdrcQQl
-	i1pA==
+	Thu, 09 Mar 2017 03:20:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=4VxUhm4CdmFNfC6PVHVoFALpLHkd5FQu9h/DucqIQTw=;
+	b=wxDo5jA9FF2TL46KHVJIcFWlNQx1EwfQxuvXPLfB7OgTTeKiQm5g2Zy17VDtvkUUN4
+	4eLaWl5BqhgPVK5GBgpfU8O11jAxOzH+Z/96OM/kddwuLn62g0bCxDiZPPZJ35+a75b5
+	ceLQhWXCk0W2RPt0kWJUvUEygkFJS2PZWZ/DSOumljNyS+YUrB2yfzxe2R52geEkFj7D
+	/lOgSK4gD7W2GH310x4GUrULblM5v1/tqR+QN5Ud1CA03xZoaN0eAp07cHFxztQxGSv9
+	q2+Afl2NgDnGgMrbev5GS1NjgzWEJjocK/kq72pyhMVipc3NbbBf6DIboRKLseTbc3JY
+	dAWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=1R5RV+evIbPokadFdVjQE2AcLEmdMWFXxr3YYky3DPQ=;
-	b=AP4VMelC9q3nuJL34zFb5i/e91loIQZi8f+0Q48dFhOsRrvHBx8YLr8UjuCfj9ifRx
-	MNQsIr4/aZ/3DwOBdj9ZZzDsNnEfR0ifysbgUnTEmF4EA7EG89ZcdyhpRWDx03xVyZ03
-	dVSxHrbmBcUGxU2pEUxpqxNVtE36q9MRw5YMvPkiPXhU0hHjlT9sIMgSAg9R8/dLSKIl
-	DoZjaK3cX+ej2ldAruhMBgOVHJ/2POQtGACaMRDZYCZpKVSGLMW09gv7pSJsR4QrZwOB
-	SCECz58vBsq7/6HaXY7PCFbtteUeIjNx62HxuuZaNshkAv1Xqe1JfntGfgGUM9Q76pF6
-	TH/g==
-X-Gm-Message-State: AMke39nyeP+KNePix0zveoNsF13EvYifNu4UFUDukdPavLohMHYKgPlHJZeI+4+SsTDDyg==
-X-Received: by 10.223.172.137 with SMTP id o9mr10568257wrc.66.1489053858993;
-	Thu, 09 Mar 2017 02:04:18 -0800 (PST)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	186sm26587412wmw.24.2017.03.09.02.04.18
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 Mar 2017 02:04:18 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Mar 2017 11:04:17 +0100
-Message-Id: <20170309100417.18967-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.11.1
-Subject: [PATCH] bison: Remove unused bison-2.3_m4.patch
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=4VxUhm4CdmFNfC6PVHVoFALpLHkd5FQu9h/DucqIQTw=;
+	b=mBnhLpQAm+EcpYlFg84o4Ytkn/TxoGbht99tkKs/g+aVpPwGDRVGazoX4Nq+NpUUrf
+	cPwkfyNnrJ5tWsyt+8gk+bxzn50feoZpIyAJsJ/hYqEuifSpdlraFdVEKgS+5VsLVPNN
+	xh5BmJFRDlkvfntNUpxeLw1sj58rBsaZbwqx6OLISSb43nBbXqbFsxys8uF8gAEyqT0C
+	Qh2lMYqgt+oNKX2THayQTaXoGYq5xvam1K5ye/mXbIe1rJA8QkwJGjbLlTfio9Uw2TzN
+	8OL5aI6PtaQIzaF0W5BfcCNh9znK5iZ7yJ1EoDmRXZuKQN/3nq93IvU+t39XaUXro4d6
+	nhTQ==
+X-Gm-Message-State: AFeK/H0hVVKgjR/421Wzlus3VfwNvMR6KrCnBYLjBnU/PVkcOtmLloct6sqfhtRRz2Na1rPbCH8ZHINMjyTBoiUs
+X-Received: by 10.55.192.145 with SMTP id v17mr13957420qkv.3.1489058410531;
+	Thu, 09 Mar 2017 03:20:10 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Thu, 9 Mar 2017 03:19:49 -0800 (PST)
+In-Reply-To: <81d930ff-2eff-16dd-126b-864f4dbfc1c9@mlbassoc.com>
+References: <20170308064023.27986-1-raj.khem@gmail.com>
+	<81d930ff-2eff-16dd-126b-864f4dbfc1c9@mlbassoc.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 9 Mar 2017 11:19:49 +0000
+Message-ID: <CAJTo0LbR1skkK-3j5V3RSt4UfxWxsYsL90j+YrFHCsz0BOQJGg@mail.gmail.com>
+To: Gary Thomas <gary@mlbassoc.com>, Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V9] go: Add recipes for golang compilers and tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,614 +54,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Mar 2017 10:04:20 -0000
+X-List-Received-Date: Thu, 09 Mar 2017 11:20:10 -0000
+Content-Type: multipart/alternative; boundary=001a1149a1c29c54bd054a4a6db9
 
-* it was used only by bison-2.3 which was moved to meta-gplv2 layer
+--001a1149a1c29c54bd054a4a6db9
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- .../bison/bison/bison-2.3_m4.patch                 | 591 ---------------------
- 1 file changed, 591 deletions(-)
- delete mode 100644 meta/recipes-devtools/bison/bison/bison-2.3_m4.patch
+On 9 March 2017 at 07:52, Gary Thomas <gary@mlbassoc.com> wrote:
 
-diff --git a/meta/recipes-devtools/bison/bison/bison-2.3_m4.patch b/meta/recipes-devtools/bison/bison/bison-2.3_m4.patch
-deleted file mode 100644
-index 348ce1d2bb..0000000000
---- a/meta/recipes-devtools/bison/bison/bison-2.3_m4.patch
-+++ /dev/null
-@@ -1,591 +0,0 @@
--Upstream-Status: Pending
--
--#
--# Patch managed by http://www.mn-logistik.de/unsupported/pxa250/patcher
--#
--
----- /dev/null
--+++ bison-1.875/m4/inttypes-pri.m4
--@@ -0,0 +1,32 @@
--+# inttypes-pri.m4 serial 1 (gettext-0.11.4)
--+dnl Copyright (C) 1997-2002 Free Software Foundation, Inc.
--+dnl This file is free software, distributed under the terms of the GNU
--+dnl General Public License.  As a special exception to the GNU General
--+dnl Public License, this file may be distributed as part of a program
--+dnl that contains a configuration script generated by Autoconf, under
--+dnl the same distribution terms as the rest of that program.
--+
--+dnl From Bruno Haible.
--+
--+# Define PRI_MACROS_BROKEN if <inttypes.h> exists and defines the PRI*
--+# macros to non-string values.  This is the case on AIX 4.3.3.
--+
--+AC_DEFUN([gt_INTTYPES_PRI],
--+[
--+  AC_REQUIRE([gt_HEADER_INTTYPES_H])
--+  if test $gt_cv_header_inttypes_h = yes; then
--+    AC_CACHE_CHECK([whether the inttypes.h PRIxNN macros are broken],
--+      gt_cv_inttypes_pri_broken,
--+      [
--+        AC_TRY_COMPILE([#include <inttypes.h>
--+#ifdef PRId32
--+char *p = PRId32;
--+#endif
--+], [], gt_cv_inttypes_pri_broken=no, gt_cv_inttypes_pri_broken=yes)
--+      ])
--+  fi
--+  if test "$gt_cv_inttypes_pri_broken" = yes; then
--+    AC_DEFINE_UNQUOTED(PRI_MACROS_BROKEN, 1,
--+      [Define if <inttypes.h> exists and defines unusable PRI* macros.])
--+  fi
--+])
----- /dev/null
--+++ bison-1.875/m4/lcmessage.m4
--@@ -0,0 +1,32 @@
--+# lcmessage.m4 serial 3 (gettext-0.11.3)
--+dnl Copyright (C) 1995-2002 Free Software Foundation, Inc.
--+dnl This file is free software, distributed under the terms of the GNU
--+dnl General Public License.  As a special exception to the GNU General
--+dnl Public License, this file may be distributed as part of a program
--+dnl that contains a configuration script generated by Autoconf, under
--+dnl the same distribution terms as the rest of that program.
--+dnl
--+dnl This file can can be used in projects which are not available under
--+dnl the GNU General Public License or the GNU Library General Public
--+dnl License but which still want to provide support for the GNU gettext
--+dnl functionality.
--+dnl Please note that the actual code of the GNU gettext library is covered
--+dnl by the GNU Library General Public License, and the rest of the GNU
--+dnl gettext package package is covered by the GNU General Public License.
--+dnl They are *not* in the public domain.
--+
--+dnl Authors:
--+dnl   Ulrich Drepper <drepper@cygnus.com>, 1995.
--+
--+# Check whether LC_MESSAGES is available in <locale.h>.
--+
--+AC_DEFUN([AM_LC_MESSAGES],
--+[
--+  AC_CACHE_CHECK([for LC_MESSAGES], am_cv_val_LC_MESSAGES,
--+    [AC_TRY_LINK([#include <locale.h>], [return LC_MESSAGES],
--+       am_cv_val_LC_MESSAGES=yes, am_cv_val_LC_MESSAGES=no)])
--+  if test $am_cv_val_LC_MESSAGES = yes; then
--+    AC_DEFINE(HAVE_LC_MESSAGES, 1,
--+      [Define if your <locale.h> file defines LC_MESSAGES.])
--+  fi
--+])
----- /dev/null
--+++ bison-1.875/m4/uintmax_t.m4
--@@ -0,0 +1,29 @@
--+# uintmax_t.m4 serial 6 (gettext-0.11)
--+dnl Copyright (C) 1997-2002 Free Software Foundation, Inc.
--+dnl This file is free software, distributed under the terms of the GNU
--+dnl General Public License.  As a special exception to the GNU General
--+dnl Public License, this file may be distributed as part of a program
--+dnl that contains a configuration script generated by Autoconf, under
--+dnl the same distribution terms as the rest of that program.
--+
--+dnl From Paul Eggert.
--+
--+AC_PREREQ(2.13)
--+
--+# Define uintmax_t to `unsigned long' or `unsigned long long'
--+# if <inttypes.h> does not exist.
--+
--+AC_DEFUN([jm_AC_TYPE_UINTMAX_T],
--+[
--+  AC_REQUIRE([jm_AC_HEADER_INTTYPES_H])
--+  AC_REQUIRE([jm_AC_HEADER_STDINT_H])
--+  if test $jm_ac_cv_header_inttypes_h = no && test $jm_ac_cv_header_stdint_h = no; then
--+    AC_REQUIRE([jm_AC_TYPE_UNSIGNED_LONG_LONG])
--+    test $ac_cv_type_unsigned_long_long = yes \
--+      && ac_type='unsigned long long' \
--+      || ac_type='unsigned long'
--+    AC_DEFINE_UNQUOTED(uintmax_t, $ac_type,
--+  [Define to unsigned long or unsigned long long
--+   if <inttypes.h> and <stdint.h> don't define.])
--+  fi
--+])
----- /dev/null
--+++ bison-1.875/m4/glibc21.m4
--@@ -0,0 +1,32 @@
--+# glibc21.m4 serial 2 (fileutils-4.1.3, gettext-0.10.40)
--+dnl Copyright (C) 2000-2002 Free Software Foundation, Inc.
--+dnl This file is free software, distributed under the terms of the GNU
--+dnl General Public License.  As a special exception to the GNU General
--+dnl Public License, this file may be distributed as part of a program
--+dnl that contains a configuration script generated by Autoconf, under
--+dnl the same distribution terms as the rest of that program.
--+
--+# Test for the GNU C Library, version 2.1 or newer.
--+# From Bruno Haible.
--+
--+AC_DEFUN([jm_GLIBC21],
--+  [
--+    AC_CACHE_CHECK(whether we are using the GNU C Library 2.1 or newer,
--+      ac_cv_gnu_library_2_1,
--+      [AC_EGREP_CPP([Lucky GNU user],
--+	[
--+#include <features.h>
--+#ifdef __GNU_LIBRARY__
--+ #if (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 1) || (__GLIBC__ > 2)
--+  Lucky GNU user
--+ #endif
--+#endif
--+	],
--+	ac_cv_gnu_library_2_1=yes,
--+	ac_cv_gnu_library_2_1=no)
--+      ]
--+    )
--+    AC_SUBST(GLIBC21)
--+    GLIBC21="$ac_cv_gnu_library_2_1"
--+  ]
--+)
----- /dev/null
--+++ bison-1.875/m4/stdint_h.m4
--@@ -0,0 +1,28 @@
--+# stdint_h.m4 serial 2 (gettext-0.11.4)
--+dnl Copyright (C) 1997-2002 Free Software Foundation, Inc.
--+dnl This file is free software, distributed under the terms of the GNU
--+dnl General Public License.  As a special exception to the GNU General
--+dnl Public License, this file may be distributed as part of a program
--+dnl that contains a configuration script generated by Autoconf, under
--+dnl the same distribution terms as the rest of that program.
--+
--+dnl From Paul Eggert.
--+
--+# Define HAVE_STDINT_H_WITH_UINTMAX if <stdint.h> exists,
--+# doesn't clash with <sys/types.h>, and declares uintmax_t.
--+
--+AC_DEFUN([jm_AC_HEADER_STDINT_H],
--+[
--+  AC_CACHE_CHECK([for stdint.h], jm_ac_cv_header_stdint_h,
--+  [AC_TRY_COMPILE(
--+    [#include <sys/types.h>
--+#include <stdint.h>],
--+    [uintmax_t i = (uintmax_t) -1;],
--+    jm_ac_cv_header_stdint_h=yes,
--+    jm_ac_cv_header_stdint_h=no)])
--+  if test $jm_ac_cv_header_stdint_h = yes; then
--+    AC_DEFINE_UNQUOTED(HAVE_STDINT_H_WITH_UINTMAX, 1,
--+[Define if <stdint.h> exists, doesn't clash with <sys/types.h>,
--+   and declares uintmax_t. ])
--+  fi
--+])
----- /dev/null
--+++ bison-1.875/m4/inttypes_h.m4
--@@ -0,0 +1,28 @@
--+# inttypes_h.m4 serial 4 (gettext-0.11.4)
--+dnl Copyright (C) 1997-2002 Free Software Foundation, Inc.
--+dnl This file is free software, distributed under the terms of the GNU
--+dnl General Public License.  As a special exception to the GNU General
--+dnl Public License, this file may be distributed as part of a program
--+dnl that contains a configuration script generated by Autoconf, under
--+dnl the same distribution terms as the rest of that program.
--+
--+dnl From Paul Eggert.
--+
--+# Define HAVE_INTTYPES_H_WITH_UINTMAX if <inttypes.h> exists,
--+# doesn't clash with <sys/types.h>, and declares uintmax_t.
--+
--+AC_DEFUN([jm_AC_HEADER_INTTYPES_H],
--+[
--+  AC_CACHE_CHECK([for inttypes.h], jm_ac_cv_header_inttypes_h,
--+  [AC_TRY_COMPILE(
--+    [#include <sys/types.h>
--+#include <inttypes.h>],
--+    [uintmax_t i = (uintmax_t) -1;],
--+    jm_ac_cv_header_inttypes_h=yes,
--+    jm_ac_cv_header_inttypes_h=no)])
--+  if test $jm_ac_cv_header_inttypes_h = yes; then
--+    AC_DEFINE_UNQUOTED(HAVE_INTTYPES_H_WITH_UINTMAX, 1,
--+[Define if <inttypes.h> exists, doesn't clash with <sys/types.h>,
--+   and declares uintmax_t. ])
--+  fi
--+])
----- /dev/null
--+++ bison-1.875/m4/ulonglong.m4
--@@ -0,0 +1,23 @@
--+# ulonglong.m4 serial 2 (fileutils-4.0.32, gettext-0.10.40)
--+dnl Copyright (C) 1999-2002 Free Software Foundation, Inc.
--+dnl This file is free software, distributed under the terms of the GNU
--+dnl General Public License.  As a special exception to the GNU General
--+dnl Public License, this file may be distributed as part of a program
--+dnl that contains a configuration script generated by Autoconf, under
--+dnl the same distribution terms as the rest of that program.
--+
--+dnl From Paul Eggert.
--+
--+AC_DEFUN([jm_AC_TYPE_UNSIGNED_LONG_LONG],
--+[
--+  AC_CACHE_CHECK([for unsigned long long], ac_cv_type_unsigned_long_long,
--+  [AC_TRY_LINK([unsigned long long ull = 1; int i = 63;],
--+    [unsigned long long ullmax = (unsigned long long) -1;
--+     return ull << i | ull >> i | ullmax / ull | ullmax % ull;],
--+    ac_cv_type_unsigned_long_long=yes,
--+    ac_cv_type_unsigned_long_long=no)])
--+  if test $ac_cv_type_unsigned_long_long = yes; then
--+    AC_DEFINE(HAVE_UNSIGNED_LONG_LONG, 1,
--+      [Define if you have the unsigned long long type.])
--+  fi
--+])
----- /dev/null
--+++ bison-1.875/m4/codeset.m4
--@@ -0,0 +1,23 @@
--+# codeset.m4 serial AM1 (gettext-0.10.40)
--+dnl Copyright (C) 2000-2002 Free Software Foundation, Inc.
--+dnl This file is free software, distributed under the terms of the GNU
--+dnl General Public License.  As a special exception to the GNU General
--+dnl Public License, this file may be distributed as part of a program
--+dnl that contains a configuration script generated by Autoconf, under
--+dnl the same distribution terms as the rest of that program.
--+
--+dnl From Bruno Haible.
--+
--+AC_DEFUN([AM_LANGINFO_CODESET],
--+[
--+  AC_CACHE_CHECK([for nl_langinfo and CODESET], am_cv_langinfo_codeset,
--+    [AC_TRY_LINK([#include <langinfo.h>],
--+      [char* cs = nl_langinfo(CODESET);],
--+      am_cv_langinfo_codeset=yes,
--+      am_cv_langinfo_codeset=no)
--+    ])
--+  if test $am_cv_langinfo_codeset = yes; then
--+    AC_DEFINE(HAVE_LANGINFO_CODESET, 1,
--+      [Define if you have <langinfo.h> and nl_langinfo(CODESET).])
--+  fi
--+])
----- /dev/null
--+++ bison-1.875/m4/intdiv0.m4
--@@ -0,0 +1,72 @@
--+# intdiv0.m4 serial 1 (gettext-0.11.3)
--+dnl Copyright (C) 2002 Free Software Foundation, Inc.
--+dnl This file is free software, distributed under the terms of the GNU
--+dnl General Public License.  As a special exception to the GNU General
--+dnl Public License, this file may be distributed as part of a program
--+dnl that contains a configuration script generated by Autoconf, under
--+dnl the same distribution terms as the rest of that program.
--+
--+dnl From Bruno Haible.
--+
--+AC_DEFUN([gt_INTDIV0],
--+[
--+  AC_REQUIRE([AC_PROG_CC])dnl
--+  AC_REQUIRE([AC_CANONICAL_HOST])dnl
--+
--+  AC_CACHE_CHECK([whether integer division by zero raises SIGFPE],
--+    gt_cv_int_divbyzero_sigfpe,
--+    [
--+      AC_TRY_RUN([
--+#include <stdlib.h>
--+#include <signal.h>
--+
--+static void
--+#ifdef __cplusplus
--+sigfpe_handler (int sig)
--+#else
--+sigfpe_handler (sig) int sig;
--+#endif
--+{
--+  /* Exit with code 0 if SIGFPE, with code 1 if any other signal.  */
--+  exit (sig != SIGFPE);
--+}
--+
--+int x = 1;
--+int y = 0;
--+int z;
--+int nan;
--+
--+int main ()
--+{
--+  signal (SIGFPE, sigfpe_handler);
--+/* IRIX and AIX (when "xlc -qcheck" is used) yield signal SIGTRAP.  */
--+#if (defined (__sgi) || defined (_AIX)) && defined (SIGTRAP)
--+  signal (SIGTRAP, sigfpe_handler);
--+#endif
--+/* Linux/SPARC yields signal SIGILL.  */
--+#if defined (__sparc__) && defined (__linux__)
--+  signal (SIGILL, sigfpe_handler);
--+#endif
--+
--+  z = x / y;
--+  nan = y / y;
--+  exit (1);
--+}
--+], gt_cv_int_divbyzero_sigfpe=yes, gt_cv_int_divbyzero_sigfpe=no,
--+        [
--+          # Guess based on the CPU.
--+          case "$host_cpu" in
--+            alpha* | i[34567]86 | m68k | s390*)
--+              gt_cv_int_divbyzero_sigfpe="guessing yes";;
--+            *)
--+              gt_cv_int_divbyzero_sigfpe="guessing no";;
--+          esac
--+        ])
--+    ])
--+  case "$gt_cv_int_divbyzero_sigfpe" in
--+    *yes) value=1;;
--+    *) value=0;;
--+  esac
--+  AC_DEFINE_UNQUOTED(INTDIV0_RAISES_SIGFPE, $value,
--+    [Define if integer division by zero raises signal SIGFPE.])
--+])
----- /dev/null
--+++ bison-1.875/m4/glib.m4
--@@ -0,0 +1,196 @@
--+# Configure paths for GLIB
--+# Owen Taylor     97-11-3
--+
--+dnl AM_PATH_GLIB([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND [, MODULES]]]])
--+dnl Test for GLIB, and define GLIB_CFLAGS and GLIB_LIBS, if "gmodule" or 
--+dnl gthread is specified in MODULES, pass to glib-config
--+dnl
--+AC_DEFUN(AM_PATH_GLIB,
--+[dnl 
--+dnl Get the cflags and libraries from the glib-config script
--+dnl
--+AC_ARG_WITH(glib-prefix,[  --with-glib-prefix=PFX   Prefix where GLIB is installed (optional)],
--+            glib_config_prefix="$withval", glib_config_prefix="")
--+AC_ARG_WITH(glib-exec-prefix,[  --with-glib-exec-prefix=PFX Exec prefix where GLIB is installed (optional)],
--+            glib_config_exec_prefix="$withval", glib_config_exec_prefix="")
--+AC_ARG_ENABLE(glibtest, [  --disable-glibtest       Do not try to compile and run a test GLIB program],
--+		    , enable_glibtest=yes)
--+
--+  if test x$glib_config_exec_prefix != x ; then
--+     glib_config_args="$glib_config_args --exec-prefix=$glib_config_exec_prefix"
--+     if test x${GLIB_CONFIG+set} != xset ; then
--+        GLIB_CONFIG=$glib_config_exec_prefix/bin/glib-config
--+     fi
--+  fi
--+  if test x$glib_config_prefix != x ; then
--+     glib_config_args="$glib_config_args --prefix=$glib_config_prefix"
--+     if test x${GLIB_CONFIG+set} != xset ; then
--+        GLIB_CONFIG=$glib_config_prefix/bin/glib-config
--+     fi
--+  fi
--+
--+  for module in . $4
--+  do
--+      case "$module" in
--+         gmodule) 
--+             glib_config_args="$glib_config_args gmodule"
--+         ;;
--+         gthread) 
--+             glib_config_args="$glib_config_args gthread"
--+         ;;
--+      esac
--+  done
--+
--+  AC_PATH_PROG(GLIB_CONFIG, glib-config, no)
--+  min_glib_version=ifelse([$1], ,0.99.7,$1)
--+  AC_MSG_CHECKING(for GLIB - version >= $min_glib_version)
--+  no_glib=""
--+  if test "$GLIB_CONFIG" = "no" ; then
--+    no_glib=yes
--+  else
--+    GLIB_CFLAGS=`$GLIB_CONFIG $glib_config_args --cflags`
--+    GLIB_LIBS=`$GLIB_CONFIG $glib_config_args --libs`
--+    glib_config_major_version=`$GLIB_CONFIG $glib_config_args --version | \
--+           sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\1/'`
--+    glib_config_minor_version=`$GLIB_CONFIG $glib_config_args --version | \
--+           sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\2/'`
--+    glib_config_micro_version=`$GLIB_CONFIG $glib_config_args --version | \
--+           sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\3/'`
--+    if test "x$enable_glibtest" = "xyes" ; then
--+      ac_save_CFLAGS="$CFLAGS"
--+      ac_save_LIBS="$LIBS"
--+      CFLAGS="$CFLAGS $GLIB_CFLAGS"
--+      LIBS="$GLIB_LIBS $LIBS"
--+dnl
--+dnl Now check if the installed GLIB is sufficiently new. (Also sanity
--+dnl checks the results of glib-config to some extent
--+dnl
--+      rm -f conf.glibtest
--+      AC_TRY_RUN([
--+#include <glib.h>
--+#include <stdio.h>
--+#include <stdlib.h>
--+
--+int 
--+main ()
--+{
--+  int major, minor, micro;
--+  char *tmp_version;
--+
--+  system ("touch conf.glibtest");
--+
--+  /* HP/UX 9 (%@#!) writes to sscanf strings */
--+  tmp_version = g_strdup("$min_glib_version");
--+  if (sscanf(tmp_version, "%d.%d.%d", &major, &minor, &micro) != 3) {
--+     printf("%s, bad version string\n", "$min_glib_version");
--+     exit(1);
--+   }
--+
--+  if ((glib_major_version != $glib_config_major_version) ||
--+      (glib_minor_version != $glib_config_minor_version) ||
--+      (glib_micro_version != $glib_config_micro_version))
--+    {
--+      printf("\n*** 'glib-config --version' returned %d.%d.%d, but GLIB (%d.%d.%d)\n", 
--+             $glib_config_major_version, $glib_config_minor_version, $glib_config_micro_version,
--+             glib_major_version, glib_minor_version, glib_micro_version);
--+      printf ("*** was found! If glib-config was correct, then it is best\n");
--+      printf ("*** to remove the old version of GLIB. You may also be able to fix the error\n");
--+      printf("*** by modifying your LD_LIBRARY_PATH enviroment variable, or by editing\n");
--+      printf("*** /etc/ld.so.conf. Make sure you have run ldconfig if that is\n");
--+      printf("*** required on your system.\n");
--+      printf("*** If glib-config was wrong, set the environment variable GLIB_CONFIG\n");
--+      printf("*** to point to the correct copy of glib-config, and remove the file config.cache\n");
--+      printf("*** before re-running configure\n");
--+    } 
--+  else if ((glib_major_version != GLIB_MAJOR_VERSION) ||
--+	   (glib_minor_version != GLIB_MINOR_VERSION) ||
--+           (glib_micro_version != GLIB_MICRO_VERSION))
--+    {
--+      printf("*** GLIB header files (version %d.%d.%d) do not match\n",
--+	     GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION, GLIB_MICRO_VERSION);
--+      printf("*** library (version %d.%d.%d)\n",
--+	     glib_major_version, glib_minor_version, glib_micro_version);
--+    }
--+  else
--+    {
--+      if ((glib_major_version > major) ||
--+        ((glib_major_version == major) && (glib_minor_version > minor)) ||
--+        ((glib_major_version == major) && (glib_minor_version == minor) && (glib_micro_version >= micro)))
--+      {
--+        return 0;
--+       }
--+     else
--+      {
--+        printf("\n*** An old version of GLIB (%d.%d.%d) was found.\n",
--+               glib_major_version, glib_minor_version, glib_micro_version);
--+        printf("*** You need a version of GLIB newer than %d.%d.%d. The latest version of\n",
--+	       major, minor, micro);
--+        printf("*** GLIB is always available from ftp://ftp.gtk.org.\n");
--+        printf("***\n");
--+        printf("*** If you have already installed a sufficiently new version, this error\n");
--+        printf("*** probably means that the wrong copy of the glib-config shell script is\n");
--+        printf("*** being found. The easiest way to fix this is to remove the old version\n");
--+        printf("*** of GLIB, but you can also set the GLIB_CONFIG environment to point to the\n");
--+        printf("*** correct copy of glib-config. (In this case, you will have to\n");
--+        printf("*** modify your LD_LIBRARY_PATH enviroment variable, or edit /etc/ld.so.conf\n");
--+        printf("*** so that the correct libraries are found at run-time))\n");
--+      }
--+    }
--+  return 1;
--+}
--+],, no_glib=yes,[echo $ac_n "cross compiling; assumed OK... $ac_c"])
--+       CFLAGS="$ac_save_CFLAGS"
--+       LIBS="$ac_save_LIBS"
--+     fi
--+  fi
--+  if test "x$no_glib" = x ; then
--+     AC_MSG_RESULT(yes)
--+     ifelse([$2], , :, [$2])     
--+  else
--+     AC_MSG_RESULT(no)
--+     if test "$GLIB_CONFIG" = "no" ; then
--+       echo "*** The glib-config script installed by GLIB could not be found"
--+       echo "*** If GLIB was installed in PREFIX, make sure PREFIX/bin is in"
--+       echo "*** your path, or set the GLIB_CONFIG environment variable to the"
--+       echo "*** full path to glib-config."
--+     else
--+       if test -f conf.glibtest ; then
--+        :
--+       else
--+          echo "*** Could not run GLIB test program, checking why..."
--+          CFLAGS="$CFLAGS $GLIB_CFLAGS"
--+          LIBS="$LIBS $GLIB_LIBS"
--+          AC_TRY_LINK([
--+#include <glib.h>
--+#include <stdio.h>
--+],      [ return ((glib_major_version) || (glib_minor_version) || (glib_micro_version)); ],
--+        [ echo "*** The test program compiled, but did not run. This usually means"
--+          echo "*** that the run-time linker is not finding GLIB or finding the wrong"
--+          echo "*** version of GLIB. If it is not finding GLIB, you'll need to set your"
--+          echo "*** LD_LIBRARY_PATH environment variable, or edit /etc/ld.so.conf to point"
--+          echo "*** to the installed location  Also, make sure you have run ldconfig if that"
--+          echo "*** is required on your system"
--+	  echo "***"
--+          echo "*** If you have an old version installed, it is best to remove it, although"
--+          echo "*** you may also be able to get things to work by modifying LD_LIBRARY_PATH"
--+          echo "***"
--+          echo "*** If you have a RedHat 5.0 system, you should remove the GTK package that"
--+          echo "*** came with the system with the command"
--+          echo "***"
--+          echo "***    rpm --erase --nodeps gtk gtk-devel" ],
--+        [ echo "*** The test program failed to compile or link. See the file config.log for the"
--+          echo "*** exact error that occured. This usually means GLIB was incorrectly installed"
--+          echo "*** or that you have moved GLIB since it was installed. In the latter case, you"
--+          echo "*** may want to edit the glib-config script: $GLIB_CONFIG" ])
--+          CFLAGS="$ac_save_CFLAGS"
--+          LIBS="$ac_save_LIBS"
--+       fi
--+     fi
--+     GLIB_CFLAGS=""
--+     GLIB_LIBS=""
--+     ifelse([$3], , :, [$3])
--+  fi
--+  AC_SUBST(GLIB_CFLAGS)
--+  AC_SUBST(GLIB_LIBS)
--+  rm -f conf.glibtest
--+])
----- /dev/null
--+++ bison-1.875/m4/inttypes.m4
--@@ -0,0 +1,27 @@
--+# inttypes.m4 serial 1 (gettext-0.11.4)
--+dnl Copyright (C) 1997-2002 Free Software Foundation, Inc.
--+dnl This file is free software, distributed under the terms of the GNU
--+dnl General Public License.  As a special exception to the GNU General
--+dnl Public License, this file may be distributed as part of a program
--+dnl that contains a configuration script generated by Autoconf, under
--+dnl the same distribution terms as the rest of that program.
--+
--+dnl From Paul Eggert.
--+
--+# Define HAVE_INTTYPES_H if <inttypes.h> exists and doesn't clash with
--+# <sys/types.h>.
--+
--+AC_DEFUN([gt_HEADER_INTTYPES_H],
--+[
--+  AC_CACHE_CHECK([for inttypes.h], gt_cv_header_inttypes_h,
--+  [
--+    AC_TRY_COMPILE(
--+      [#include <sys/types.h>
--+#include <inttypes.h>],
--+      [], gt_cv_header_inttypes_h=yes, gt_cv_header_inttypes_h=no)
--+  ])
--+  if test $gt_cv_header_inttypes_h = yes; then
--+    AC_DEFINE_UNQUOTED(HAVE_INTTYPES_H, 1,
--+      [Define if <inttypes.h> exists and doesn't clash with <sys/types.h>.])
--+  fi
--+])
----- /dev/null
--+++ bison-1.875/m4/isc-posix.m4
--@@ -0,0 +1,26 @@
--+# isc-posix.m4 serial 2 (gettext-0.11.2)
--+dnl Copyright (C) 1995-2002 Free Software Foundation, Inc.
--+dnl This file is free software, distributed under the terms of the GNU
--+dnl General Public License.  As a special exception to the GNU General
--+dnl Public License, this file may be distributed as part of a program
--+dnl that contains a configuration script generated by Autoconf, under
--+dnl the same distribution terms as the rest of that program.
--+
--+# This file is not needed with autoconf-2.53 and newer.  Remove it in 2005.
--+
--+# This test replaces the one in autoconf.
--+# Currently this macro should have the same name as the autoconf macro
--+# because gettext's gettext.m4 (distributed in the automake package)
--+# still uses it.  Otherwise, the use in gettext.m4 makes autoheader
--+# give these diagnostics:
--+#   configure.in:556: AC_TRY_COMPILE was called before AC_ISC_POSIX
--+#   configure.in:556: AC_TRY_RUN was called before AC_ISC_POSIX
--+
--+undefine([AC_ISC_POSIX])
--+
--+AC_DEFUN([AC_ISC_POSIX],
--+  [
--+    dnl This test replaces the obsolescent AC_ISC_POSIX kludge.
--+    AC_CHECK_LIB(cposix, strerror, [LIBS="$LIBS -lcposix"])
--+  ]
--+)
--
--- 
-2.11.1
+> However, there don't seem to be any packages for the target created
+> by the 'go' recipe:
+>
 
+That's pretty bad.  Khem, can you also test nativesdk-go?
 
+Ross
+
+--001a1149a1c29c54bd054a4a6db9
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 9 March 2017 at 07:52, Gary Thomas <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:gary@mlbassoc.com" target=3D"_blank">gary@mlbassoc.com</a>&gt;</span> wr=
+ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex"><div id=3D":19y" class=3D"a3s aXjCH =
+m15ab20edb3fd6fe3">However, there don&#39;t seem to be any packages for the=
+ target created<br>
+by the &#39;go&#39; recipe:<br></div></blockquote></div><br>That&#39;s pret=
+ty bad.=C2=A0 Khem, can you also test nativesdk-go?</div><div class=3D"gmai=
+l_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a1149a1c29c54bd054a4a6db9--
