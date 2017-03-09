@@ -1,48 +1,54 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id EA68D7304E
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id D160F730F5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Mar 2017 19:57:44 +0000 (UTC)
-Received: by mail-qk0-f170.google.com with SMTP id 1so136468995qkl.3
+	Thu,  9 Mar 2017 20:05:53 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id z13so35934132iof.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Mar 2017 11:57:46 -0800 (PST)
+	Thu, 09 Mar 2017 12:05:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=aEemgJoUwIXp+p7S5f/yQrBLVTEGQVp9rlc1LahTcww=;
-	b=YCBLsXgIWnSY/dOUvBQIoW/NeYOiX+sxXQyYBTOWqyhIbht4utltCU/devpQmuf88E
-	FxlUuK/Dn4vSKyTHbq7r+KsJ8FliMhulF8vfqsTlvu7V3WkPR9j43U1o+4BvDvBvcmfM
-	hnDS+sAw9uH4HODpM+jCdV4gT9GYfwFApqrMr+6RXQoq7Mwy14OoJ9aJJ5NQS3vCd8Q6
-	VWn8ezh8+DH1/X9yecJ93RMVUuOjIawNnTaRKglSXrZeD8KhJPezsRHslyoHeBfW2L4F
-	dXGLtZv7SIMDygo4jZ1C2gwWrUmHB0IKiCLukspmhH7YwVmpKlwAqNrQHDXBu3DZRK5R
-	WxvA==
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=Hhaphv+/JPbcqP5n3cVPHG+cRU7K2lWefijrD2UUakc=;
+	b=XS+ypRhJppVoD6Lk4YY4UhKAGEvRg/Rku/ZayHmnPYQAx0ELSoy2DJQ5AeaB/UFtv2
+	2IMnkU+Djbwf3lAdQDY1NFlLyiO5ms1k13uWPUVTplKDI3ywiAcUuvG0/UCUjJ4FBIN1
+	kl6DW+EvHb9DhQ/6zV8zDbMfaAbTebv354XQdRq/QW2SjfhfFbrurxOUO80IqsOWfgMB
+	RPn0oqLfT9gYTh1aqXCYApsgPWdlgbDyK1I+HHGNS4pkxOteITJua9x2Wlc2h8WV65jf
+	t/ffLHsha17hdn13yTqzLbjfhfR+5uFa3qPdh3kn4ND7gfpeEFZPfV8vb2EYdLtfCblg
+	dPKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=aEemgJoUwIXp+p7S5f/yQrBLVTEGQVp9rlc1LahTcww=;
-	b=Wzd5jea0rbDkkhtyWnShUV/V1v+agToQoVeFIW03aFocoyeL4Rotyl31gEgHyNP6ti
-	Rz4axpiNiPuKtBDrsYhayPs4F/tZVGxh5H8tNqvSRmkDBPuTpWYHjoXQMaSWlp10r1R1
-	plII7WoPferSXh8uOQOuUljCIEMH5Ic9kJSjqfu5G+qQqtrNn3+zWnvOkmP9qUK8VfYf
-	oZlkyK0fnGK32ISqQsLNywVb2ub/+xdKKQBJVhZu4KoC5aNNT/Mah9ThkUfHZhUox+Qt
-	5A8dDvxao7Gi/DFgoupQYkOKWtlZkXtE6UR09VjikYHb4o5lu53AjI9GYx5lXACPonn7
-	edJw==
-X-Gm-Message-State: AMke39m8WUB12QTgG0GBQMM5ysrntYowU4KFW4P4jKHpIvE2qvwQJL7QhL4++CY8lySFInZwWLqSAtJaRlP9JOv1
-X-Received: by 10.237.53.9 with SMTP id a9mr15673912qte.188.1489089465961;
-	Thu, 09 Mar 2017 11:57:45 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Thu, 9 Mar 2017 11:57:25 -0800 (PST)
-In-Reply-To: <1485209611-23858-1-git-send-email-jose.perez.carranza@linux.intel.com>
-References: <1485209611-23858-1-git-send-email-jose.perez.carranza@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 9 Mar 2017 19:57:25 +0000
-Message-ID: <CAJTo0LZNJx08iHnc7G6ka57ky0=NbkV2WDE9ihT29-pba+8Y1g@mail.gmail.com>
-To: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
-Cc: Paul Eggleton <paul.eggleton@intel.com>,
-	Jose Perez Carranza <jose.perez.carranza@linux-ntel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] selftest/devtool: Add test to verify "modify virtual/kernel"
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=Hhaphv+/JPbcqP5n3cVPHG+cRU7K2lWefijrD2UUakc=;
+	b=SfVgY5y4DvvSpN5Lh55lKTsfy4+Vp/6uaOwpinZus2iZ0PTD9vGOSMigXkHEmWlIlB
+	d3y59MCukgPQ5xv3QMzLxB2Z9Lz7pjpr186uglKcssDN3ghpVp8DllvBI0K3sXbJFjvK
+	eLY6QHg8lpjSlu2XISxbsKWGAeuVur2pgbLaSITnd13kal9LoBMpLdswkkKalcjPNwOm
+	8QQPEvZd3EymAnBUcl4WteEX0pZY/Stln4xdeM++MLLj1NtIdXAMKjIgoebQ/fMpF4Tu
+	b8nOZoABpRDBOmC4XJ4P3EAqr9XD3c3qFky1xdBH3Oc9eyAeq2gog4MMyY5DgXo2kgkq
+	s/dw==
+X-Gm-Message-State: AMke39ms+d3aGfrF69MQMKXHNHP0KOPe3XBjIljphpiuSVETJFyygSgSPNH2MlMXwBPpzTPM
+X-Received: by 10.107.39.70 with SMTP id n67mr12952769ion.114.1489089954608;
+	Thu, 09 Mar 2017 12:05:54 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8D47C.dip0.t-ipconnect.de. [93.232.212.124])
+	by smtp.gmail.com with ESMTPSA id
+	e195sm5526965itb.18.2017.03.09.12.05.52
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 09 Mar 2017 12:05:53 -0800 (PST)
+Message-ID: <1489089950.7785.374.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Joshua Lock <joshua.g.lock@intel.com>
+Date: Thu, 09 Mar 2017 21:05:50 +0100
+In-Reply-To: <20170308172417.15776-2-joshua.g.lock@intel.com>
+References: <20170308172417.15776-1-joshua.g.lock@intel.com>
+	<20170308172417.15776-2-joshua.g.lock@intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/4] meta-selftest: add selftest-ed recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,58 +61,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Mar 2017 19:57:46 -0000
-Content-Type: multipart/alternative; boundary=001a11c0285ea8694d054a51a857
+X-List-Received-Date: Thu, 09 Mar 2017 20:05:54 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a11c0285ea8694d054a51a857
-Content-Type: text/plain; charset=UTF-8
+On Wed, 2017-03-08 at 17:24 +0000, Joshua Lock wrote:
+> The oe-selftest oescripts.TestScripts.test_cleanup_workdir was using
+> gzip and the GPLv2 variant to test cleanup of the workdir. This broke
+> with the removal of GPLv2 recipes from OE-Core.
+> 
+> Instead of relying on recipes in OE-Core remaining static we should
+> ensure that meta-selftest provides recipes required for the tests to pass.
+> To that end we take a copy of the current GPLv2 and GPLv3 variants of ed
+> and include them in meta-selftest as new recipes.
+> We chose ed over gzip as gzip has dependencies which would require
+> additional GPLv2 recipes to be included in meta-selftest.
 
-On 23 January 2017 at 22:13, <jose.perez.carranza@linux.intel.com> wrote:
->
-> +        checkmodcode = runCmd("strings %s | head -n 10 | grep '%s'" %
-(bzimagefile, modstring))
+Wouldn't the test become faster when using artificial recipes, i.e.
+something which doesn't really need sources? Such an artificial recipe
+can use a local file as its "source", for example.
+
+Or did I misunderstand something and the selftest doesn't really build
+ed?
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
 
-Annoyingly this bit is failing on some autobuilders:
 
-AssertionError: Command 'strings
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/qemux86-poky-linux/linux-yocto/4.10+git999-r0/image/boot/bzImage-4.10.0-yocto-standard
-| head -n 10 | grep 'use a boot loader - Devtool kernel testing'' returned
-non-zero exit status 1:
-BFD:
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/qemux86-poky-linux/linux-yocto/4.10+git999-r0/image/boot/bzImage-4.10.0-yocto-standard:
-Warning: Ignoring section flag IMAGE_SCN_MEM_NOT_PAGED in section .bss
 
-I'm wondering if grep on its own - not strings|head|grep - would work
-around this?
-
-(note that strings is "smart" and if executed on an ELF will use libbfd to
-extract the segments with human strings in, which is why it's returning
-errors from BFD)
-
-Ross
-
---001a11c0285ea8694d054a51a857
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br>On 23 January 2017 at 22:13, &lt;<a href=3D"mailto:jos=
-e.perez.carranza@linux.intel.com">jose.perez.carranza@linux.intel.com</a>&g=
-t; wrote:<br>&gt;<br>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0checkmodcode =3D run=
-Cmd(&quot;strings %s | head -n 10 | grep &#39;%s&#39;&quot; % (bzimagefile,=
- modstring))<br><br><br>Annoyingly this bit is failing on some autobuilders=
-:<br><br>AssertionError: Command &#39;strings /home/pokybuild/yocto-autobui=
-lder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/qemux86-poky-lin=
-ux/linux-yocto/4.10+git999-r0/image/boot/bzImage-4.10.0-yocto-standard | he=
-ad -n 10 | grep &#39;use a boot loader - Devtool kernel testing&#39;&#39; r=
-eturned non-zero exit status 1:<br>BFD: /home/pokybuild/yocto-autobuilder/y=
-octo-worker/nightly-oe-selftest/build/build/tmp/work/qemux86-poky-linux/lin=
-ux-yocto/4.10+git999-r0/image/boot/bzImage-4.10.0-yocto-standard: Warning: =
-Ignoring section flag IMAGE_SCN_MEM_NOT_PAGED in section .bss<div><br></div=
-><div>I&#39;m wondering if grep on its own - not strings|head|grep - would =
-work around this?</div><div><br></div><div>(note that strings is &quot;smar=
-t&quot; and if executed on an ELF will use libbfd to extract the segments w=
-ith human strings in, which is why it&#39;s returning errors from BFD)</div=
-><div><br></div><div>Ross</div></div>
-
---001a11c0285ea8694d054a51a857--
