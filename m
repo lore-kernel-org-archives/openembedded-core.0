@@ -1,27 +1,21 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 068CC7304E
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 78B63730F5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Mar 2017 20:23:36 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Mar 2017 12:23:38 -0800
+	Thu,  9 Mar 2017 20:24:33 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	09 Mar 2017 12:24:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,137,1486454400"; d="scan'208";a="234300308"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 09 Mar 2017 12:23:37 -0800
-To: Mark Hatle <mark.hatle@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <1c486f2a-f437-477d-ee79-188c7aafb34e@windriver.com>
+X-IronPort-AV: E=Sophos;i="5.36,137,1486454400"; d="scan'208";a="74304914"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga005.fm.intel.com with ESMTP; 09 Mar 2017 12:24:34 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <b02d2937-0497-aaf9-2e46-dcd9f874bf35@linux.intel.com>
-Date: Thu, 9 Mar 2017 22:22:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.6.0
-MIME-Version: 1.0
-In-Reply-To: <1c486f2a-f437-477d-ee79-188c7aafb34e@windriver.com>
-Subject: Re: gpgme -- yet another python issue...
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  9 Mar 2017 22:23:28 +0200
+Message-Id: <20170309202331.5595-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/4] glibc: do the multilib_header magic also for bits/long-double.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,17 +28,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Mar 2017 20:23:37 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Mar 2017 20:24:34 -0000
 
-On 03/08/2017 10:18 PM, Mark Hatle wrote:
-> Maybe someone else can spot how to fix this?
+Otherwise it will cause conflicts in mutlilib setting, as it
+varies from one machine to another.
 
-I *had* to fix this as this prevented me fixing multilib stuff with 
-dnf/rpm4 (which is the last remaining issue, I hope!). Patch is coming 
-to ML shortly; you're welcome.
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/recipes-core/glibc/glibc-package.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Alex
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index a674c237993..5316bb1fdbf 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -82,7 +82,7 @@ do_install_append () {
+ 		rmdir --ignore-fail-on-non-empty ${D}${libexecdir}
+ 	fi
+ 
+-	oe_multilib_header bits/syscall.h
++	oe_multilib_header bits/syscall.h bits/long-double.h
+ 
+ 	if [ -f ${D}${bindir}/mtrace ]; then
+ 		sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/env perl,' -e '2s,exec.*perl,exec ${USRBINPATH}/env perl,' ${D}${bindir}/mtrace
+-- 
+2.11.0
 
 
