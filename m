@@ -1,50 +1,31 @@
-Return-Path: <matt@madison.systems>
-Received: from mail-lf0-f44.google.com (mail-lf0-f44.google.com
-	[209.85.215.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CE7571D79
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 0435F73025
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Mar 2017 13:19:14 +0000 (UTC)
-Received: by mail-lf0-f44.google.com with SMTP id a6so28097922lfa.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Mar 2017 05:19:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=madison-systems.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=R8JmnDpbtfSbBFUzQfmJqPopZTKzVrX+DCxXCxDG2Pg=;
-	b=ml0ljSBuT8K4b4lCkyK7wLJHei94iL3u8IIw5As7NWw+81zhuu/g+L4Dl/cU2cqJGB
-	nTjQ5Sru6JOwL2ibndlm4t2/h3LzQmztvM2FoE6sL7KFdLt/0agrP47wMdbCXJu7Ykg0
-	Q1U8Vs6shb1BWJNrNEwBVBE0ndi1uTpUBORII+VKm4u42gKTMDfQ3QFijRJhDFbbEZjw
-	lvy2DDU7Bbkpe/SbW8MGfW6Pt0Sv2qRBZ8nrWcQeKdZRENlu99+9HaU479S+sNIuhRN3
-	kwICfRLIqDMX3iWuH+yLSpoYAVyu13ZOP+O5Ka+Fb0fdl1f8XAiwBug2LsavfTxpeLj/
-	IMAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=R8JmnDpbtfSbBFUzQfmJqPopZTKzVrX+DCxXCxDG2Pg=;
-	b=JFyfREXeoJda7Cj+rLPV9i8EdxDMNWkm5GY85okyH2DzCplaFPuV7dXFm7fDFDjIwS
-	negGqNRg+k/n8TVJGdri6EUFsWmyYyjYcibQqKbnqj2so/Pcl1MHB3r+Hi/P/6b1Q3dC
-	F/fvTV0yx0vjN8rU5GvJwq7XNLbbYqOrLE3iGAA0TEm7urw5gg2hWYShnllbsEuOIDes
-	czCD4SN4Sgf9lu73VIrm0vcr2S534Wd9iYzjj9uBelyaw/DLqNv7y+gotGM/9P0sC9nK
-	7Izc8ZivqG+SJrjwgl2zLMTTExEnTHog216guQhXzX4DEtT3EC/wIGC9W7U4LwObCo8+
-	bg9w==
-X-Gm-Message-State: AMke39n4YTcgQbVcfjx3FXxw8xFCdW2kBgv3IcyPYHoc6O0vakeI7HGJI2j1aHSXIhHMuN8qGPqwuRmvDXgwPQ==
-X-Received: by 10.46.8.65 with SMTP id g1mr4139389ljd.128.1489065555684; Thu,
-	09 Mar 2017 05:19:15 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.25.80.71 with HTTP; Thu, 9 Mar 2017 05:19:15 -0800 (PST)
-In-Reply-To: <a1284fc5-f4e3-75a9-6832-893fedef7b30@mender.io>
-References: <20170303231811.27812-1-raj.khem@gmail.com>
-	<CAGgRHJrrmcvv6CkO+fH++85YD+SxzrsrPeVCdP+MgsgP_iP23w@mail.gmail.com>
-	<20170308221933.GA8506@haswell>
-	<a1284fc5-f4e3-75a9-6832-893fedef7b30@mender.io>
-From: Matt Madison <matt@madison.systems>
-Date: Thu, 9 Mar 2017 05:19:15 -0800
-Message-ID: <CAGgRHJpsOdcuPMCWnugXLOPNb=GexviSddFncwFwoi3Q0hp-gQ@mail.gmail.com>
+	Thu,  9 Mar 2017 13:42:06 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga104.jf.intel.com with ESMTP; 09 Mar 2017 05:42:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,268,1486454400"; d="scan'208";a="234150785"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga004.fm.intel.com with ESMTP; 09 Mar 2017 05:42:07 -0800
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id C2C326A4006;
+	Thu,  9 Mar 2017 05:42:03 -0800 (PST)
+Date: Thu, 9 Mar 2017 15:28:20 +0200
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: Kristian Amlie <kristian.amlie@mender.io>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V7] go: Add recipes for golang compilers and tools
+Message-ID: <20170309132820.GA9232@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <1489044316-14196-1-git-send-email-kristian.amlie@mender.io>
+MIME-Version: 1.0
+In-Reply-To: <1489044316-14196-1-git-send-email-kristian.amlie@mender.io>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wic/direct.py: Avoid exception if using multiple rawcopy/no-table entries.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,40 +38,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Mar 2017 13:19:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 09 Mar 2017 13:42:07 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Mar 8, 2017 at 11:03 PM, Kristian Amlie
-<kristian.amlie@mender.io> wrote:
-> On 08/03/17 23:19, Khem Raj wrote:
->>> ...
->>> For the following go-1.4 recipes:
->>>
->>> I wouldn't recommend fixing go-native at version 1.4, which is now
->>> postiviely ancient.
->>> Instead, add go1.4.3's SRC_URI into the go-native recipe, loading it
->>> in the right place so
->>> that make.bash finds it.  This way, you can have all the go toolchain
->>> recipes build at the
->>> same version.  The go team only supports go1.4 for bootstrapping the
->>> compiler build now
->>> anyway, IIRC.
->>
->> since we do not use go-native for anything other than bootstrapping
->> right now, thats why it is there. there is no intent of providing a
->> go-native version for general consumption
->
-> Just FYI, in Mender we use the latest go-native, provided by
-> github.com/mem/oe-meta-go, to compile some build tools. The layer has a
-> separate go-bootstrap recipe, which is locked to 1.4, for the purpose of
-> creating go-native and go-cross.
+On Thu, Mar 09, 2017 at 08:25:16AM +0100, Kristian Amlie wrote:
+> If we are both having a bootloader and a U-Boot environment file, we
+> can end up with two entries using "--source rawcopy" and "--no-table",
+> and since they reuse the same file [1], their cleanup handlers will
+> try to delete the same file twice. So just ignore the error if the
+> file doesn't exist.
+> 
+> [1] Although they reuse the same file, the resulting output is
+> correct, so it appears the file is accessed in properly sequential
+> order.
+> 
+> Signed-off-by: Kristian Amlie <kristian.amlie@mender.io>
+> ---
+>  scripts/lib/wic/plugins/imager/direct.py | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+> index b7e324a..0e8d436 100644
+> --- a/scripts/lib/wic/plugins/imager/direct.py
+> +++ b/scripts/lib/wic/plugins/imager/direct.py
+> @@ -548,7 +548,10 @@ class PartitionedImage():
+>      def cleanup(self):
+>          # remove partition images
+>          for image in self.partimages:
+> -            os.remove(image)
+> +            try:
+> +                os.remove(image)
+> +            except FileNotFoundError:
+> +                pass
+>  
+>      def assemble(self):
+>          logger.debug("Installing partitions")
+Would it be better to just skip removing files that have already been
+removed?
 
-Yep, that's another way to handle it.  I just found go's built-in
-bootstrap mechanism a bit cleaner.
+# remove partition images
+for image in set(self.partimages):
+    os.remove(image)
 
--Matt
-
->
-> --
-> Kristian
+--
+Regards,
+Ed
 
