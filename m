@@ -1,56 +1,63 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
-	[209.85.214.50])
-	by mail.openembedded.org (Postfix) with ESMTP id B3ABD72F74
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 106CC776E6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Mar 2017 13:38:15 +0000 (UTC)
-Received: by mail-it0-f50.google.com with SMTP id m27so2651924iti.1
+	Fri, 10 Mar 2017 13:43:54 +0000 (UTC)
+Received: by mail-io0-f171.google.com with SMTP id z13so48744884iof.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Mar 2017 05:38:17 -0800 (PST)
+	Fri, 10 Mar 2017 05:43:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:organization:mime-version:content-transfer-encoding;
-	bh=0z4VpadijmhoLTrT0XvRwcSZSvfk90QjVn1vs/NMBkk=;
-	b=OR/uR0PIcqD+mMrXD8tI9XvbjMCO2ZbU75tbrl2iUrQFKwbEa1s9iWgqVWfG8vn20c
-	MiwCuKCH+CjZ/DSl7UHBherS2sN2aISeP+fH8J0xa4f5EHLCBRkWCIYpuaH7DbBIcDOa
-	l2i1j0P1kDZsglV19LvdPz+4DhJrfEvFo+92qmzoVDtmh1mSl2djR8abXz9yzEZpq1zX
-	Xg+faF6PD76aT9H9kFNWmFD2hKCq4aNemtipPAIeaYpwmHw483f7vAnK0YhL8tQRsUrA
-	hryj1nk8YzgB+5lC3tfJLndXOyK5lywm9sZqjoozARIa3iQ6iqHRFlnb2gx133uvNZeT
-	dYIw==
+	bh=bsYSPDJUeo5gHNTh3p3QI4EdqWyUABOGx8k5rtHn4Wk=;
+	b=UqkgraAL3DoFyot7cNpreBai62YDAF4f/uzRkny2rsIh4EUenbY0Pdny7W960Zj3zn
+	V7TDqZlTIx6IXZIQcQwaMj6KzYKcXlrfybRsYFdw7agLaANbDv28YFICGMUupYPJkQe+
+	4oTgGxHU1rMopustrxtEhvQBslSnmzz39XV0lrRONjUlVJf20UyUxLxObm90VSpq0isK
+	KZmAnheN3GFVhoipO7SbjKXs1SOSQ70e/FEogd7lpUaxgeWMYeS/Cq0+P0I9Nv7w+Xwp
+	ObRbSEaM4eEn1o66YoRRKZ/yJbFMThEssFSgh5gr5zqd8+qkMLfJ85dtBp+nDy4UTY7s
+	gXgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:organization:mime-version:content-transfer-encoding;
-	bh=0z4VpadijmhoLTrT0XvRwcSZSvfk90QjVn1vs/NMBkk=;
-	b=fTpEAer9IsTcUz1BhnhZFOPmVHu3q+VRF/6te1LBzm4f2rOQPXus7TFrljpT2OE0MQ
-	sMYgiMEKMlIOpoOBTqiqeGRUeavqliNaC3Wnq6/HCcOe0hYfVYNprM5xJQH0piwtxzwT
-	hzx+xKo23dR6VKg83dbtIf5KlYIzOoA2di1rtOfyB/Z6DE3k65r4C2FZbUZ5qxh+7NnN
-	oWD8fZimligRrUXRV2kcD3bcgEIY/XRP5CJCBT8m+kxCA7J6uBS/P8ZYXFcekEWeIWVJ
-	D8MP+K85Xmb+OWcAn63IKXqUljJ4CMdZ76RDoDyvQFeuIvIWCHT/SdAW9Z3IH5xZP3AE
-	kSjg==
-X-Gm-Message-State: AFeK/H3IqtqebtbzkhIufA09rc9Log4PD6iKLd6BjZXVJ+gaqMjmT6UxH7sjIHgFUCAtPX/c
-X-Received: by 10.36.154.69 with SMTP id l66mr1931513ite.18.1489153096566;
-	Fri, 10 Mar 2017 05:38:16 -0800 (PST)
+	bh=bsYSPDJUeo5gHNTh3p3QI4EdqWyUABOGx8k5rtHn4Wk=;
+	b=jHuHH5DKUoUBwHvaBjZxqULh7AUk7jMORVMv9VhJeahP60jbKOMgY5o/v28KGnt+9J
+	5RW+ZRqvNRaOBlt+iztAGWmje7/Fr2ZgkQ6GhK37tA6IcCMggb0SjCDqfvCA0oOPYbse
+	ngUDk6NK75ha38T+ykChyqBRhK4GRTXss2OkXbcBhttR9rY/MUqIAtg8jCwcsxF0Y1s5
+	PazoRAqir5DaPt71YiuUDSvrRLa1g81WHSXgMgDVihwboOYBcfFBTRgb1Ti6lvVxRrzV
+	3FL7A6Clj2xv/jwsyyaelM+fUyb/2rWEl8kcmqpem9t4LQvWaMQ7i8P6WN6C5YdC2zU2
+	9QnA==
+X-Gm-Message-State: AMke39kIR4yX66aKDp9q/FrPxasUoE1CevBP3ngbdDlKAfaT2o2QY+ZYdujYBkI1ELoEWMCQ
+X-Received: by 10.107.19.222 with SMTP id 91mr10253655iot.211.1489153435812;
+	Fri, 10 Mar 2017 05:43:55 -0800 (PST)
 Received: from pohly-mobl1 (p5DE8DCF9.dip0.t-ipconnect.de. [93.232.220.249])
 	by smtp.gmail.com with ESMTPSA id
-	p140sm971791itc.27.2017.03.10.05.38.14
+	i189sm981032ita.23.2017.03.10.05.43.53
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 Mar 2017 05:38:15 -0800 (PST)
-Message-ID: <1489153093.7785.443.camel@intel.com>
+	Fri, 10 Mar 2017 05:43:54 -0800 (PST)
+Message-ID: <1489153432.7785.448.camel@intel.com>
 From: Patrick Ohly <patrick.ohly@intel.com>
-To: Joshua Lock <joshua.g.lock@linux.intel.com>
-Date: Fri, 10 Mar 2017 14:38:13 +0100
-In-Reply-To: <1489152420.3099.7.camel@linux.intel.com>
-References: <20170308172417.15776-1-joshua.g.lock@intel.com>
-	<20170308172417.15776-2-joshua.g.lock@intel.com>
-	<1489089950.7785.374.camel@intel.com>
-	<1489152420.3099.7.camel@linux.intel.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Date: Fri, 10 Mar 2017 14:43:52 +0100
+In-Reply-To: <CAP9ODKoVRj+Fqx1W4U=Nr1RgFvQgbvwrzatBpv==PpTJX1P3NA@mail.gmail.com>
+References: <20170223181309.13899-1-fabio.berton@ossystems.com.br>
+	<CAJTo0LaFsWxaGy1Jwo9K92KTry+7Hyzn-MVHvMOpaqx+Q+qCGw@mail.gmail.com>
+	<d2ccba14-ac14-1379-d5e1-ac799e9c120b@ossystems.com.br>
+	<CAJTo0La=NDhfuMSYG3bjVYe2u6KA4TAZSNN_f1PyrsfVipoxBg@mail.gmail.com>
+	<ccfcafd7-cd74-3330-2a64-ccd1e7a27984@ossystems.com.br>
+	<20170306181327.GA18694@linux.intel.com>
+	<bad2d5fb-ee7d-e32f-7f97-da988d126f0f@ossystems.com.br>
+	<20170306190728.GA19275@linux.intel.com>
+	<CAP9ODKrinftPt-L9-voxmpG6Fs0L7x2dLmEnCwkWUZgGWD9ZLQ@mail.gmail.com>
+	<1489131232.7785.390.camel@intel.com>
+	<CAP9ODKoVRj+Fqx1W4U=Nr1RgFvQgbvwrzatBpv==PpTJX1P3NA@mail.gmail.com>
 Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
 X-Mailer: Evolution 3.12.9-1+b1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/4] meta-selftest: add selftest-ed recipes
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] wic: Prevent duplicate entries on fstab
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,38 +70,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Mar 2017 13:38:15 -0000
+X-List-Received-Date: Fri, 10 Mar 2017 13:43:55 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2017-03-10 at 13:27 +0000, Joshua Lock wrote:
-> On Thu, 2017-03-09 at 21:05 +0100, Patrick Ohly wrote:
-> > On Wed, 2017-03-08 at 17:24 +0000, Joshua Lock wrote:
-> > > The oe-selftest oescripts.TestScripts.test_cleanup_workdir was
-> > > using
-> > > gzip and the GPLv2 variant to test cleanup of the workdir. This
-> > > broke
-> > > with the removal of GPLv2 recipes from OE-Core.
-> > > 
-> > > Instead of relying on recipes in OE-Core remaining static we should
-> > > ensure that meta-selftest provides recipes required for the tests
-> > > to pass.
-> > > To that end we take a copy of the current GPLv2 and GPLv3 variants
-> > > of ed
-> > > and include them in meta-selftest as new recipes.
-> > > We chose ed over gzip as gzip has dependencies which would require
-> > > additional GPLv2 recipes to be included in meta-selftest.
-> > 
-> > Wouldn't the test become faster when using artificial recipes, i.e.
-> > something which doesn't really need sources? Such an artificial
-> > recipe
-> > can use a local file as its "source", for example.
+On Fri, 2017-03-10 at 10:32 -0300, Otavio Salvador wrote:
+> On Fri, Mar 10, 2017 at 4:33 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
+> > Suppose IMAGE_FSTYPES = "ext4 wic", and the WKS_FILE has multiple
+> > partitions and thus needs more entries in /etc/fstab than the
+> > single-partition "ext4" - the result of do_rootfs simply cannot work for
+> > both.
 > 
-> Indeed, that would make the test faster. I took a shorter route for
-> this series in an attempt to unblock M3, however I realise that the
-> bitbake targets used in oe-selftest could do with a consistent review.
+> That is the point. If the machine requires to use multiple partitions
+> the ext4 should have the /etc/fstab ready for use when deployed.
 
-Makes sense.
+My thinking was a bit different. I had in mind a setup where the "ext4"
+format as used by qemu has all files of the rootfs in a single
+partition, whereas the wic image splits out the data into multiple
+partitions (it recently gained such a feature).
+
+This could be made to work if wic knew how to change fstab without
+rewriting the root filesystem. But as that can't be done, such a
+combination of different image formats is only possible for a rootfs
+which always works with just a single partition.
 
 -- 
 Best Regards, Patrick Ohly
