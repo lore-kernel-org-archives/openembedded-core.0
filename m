@@ -1,22 +1,22 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id C5C29776E5
+	by mail.openembedded.org (Postfix) with ESMTP id E2BE8776E5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Mar 2017 11:25:40 +0000 (UTC)
+	Fri, 10 Mar 2017 11:25:41 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga105.jf.intel.com with ESMTP; 10 Mar 2017 03:25:42 -0800
+	by orsmga105.jf.intel.com with ESMTP; 10 Mar 2017 03:25:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,140,1486454400"; d="scan'208";a="1106988163"
+X-IronPort-AV: E=Sophos;i="5.36,140,1486454400"; d="scan'208";a="1106988169"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 10 Mar 2017 03:25:41 -0800
+	by orsmga001.jf.intel.com with ESMTP; 10 Mar 2017 03:25:42 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Mar 2017 13:23:53 +0200
-Message-Id: <13b02d2bb3a21458c6e9f3ea3c2d216dc5aef238.1489144807.git.alexander.kanavin@linux.intel.com>
+Date: Fri, 10 Mar 2017 13:23:54 +0200
+Message-Id: <e7505b0a104318f8a4bb067d5e4ab89a585cd810.1489144807.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1489144807.git.alexander.kanavin@linux.intel.com>
 References: <cover.1489144807.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 14/44] dnf: add a recipe
+Subject: [PATCH 15/44] python-smartpm: remove the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,303 +29,1487 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Mar 2017 11:25:41 -0000
-
-This is replacing Smart package manager, which is unsupported upstream, and has a growing
-amount of issues (lack of python 3.x support in particular). We identified dnf as
-the only feasible replacement.
+X-List-Received-Date: Fri, 10 Mar 2017 11:25:42 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...Corretly-install-tmpfiles.d-configuration.patch | 21 ++++++++++
- ...hardcode-etc-and-systemd-unit-directories.patch | 29 +++++++++++++
- ...0001-Do-not-prepend-installroot-to-logdir.patch | 31 ++++++++++++++
- .../dnf/dnf/0028-Use-backports.lzma-not-lzma.patch | 30 ++++++++++++++
- ...-set-PYTHON_INSTALL_DIR-by-running-python.patch | 27 ++++++++++++
- .../dnf/0030-Run-python-scripts-using-env.patch    | 48 ++++++++++++++++++++++
- meta/recipes-devtools/dnf/dnf_git.bb               | 45 ++++++++++++++++++++
- 7 files changed, 231 insertions(+)
- create mode 100644 meta/recipes-devtools/dnf/dnf/0001-Corretly-install-tmpfiles.d-configuration.patch
- create mode 100644 meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
- create mode 100644 meta/recipes-devtools/dnf/dnf/0001-Do-not-prepend-installroot-to-logdir.patch
- create mode 100644 meta/recipes-devtools/dnf/dnf/0028-Use-backports.lzma-not-lzma.patch
- create mode 100644 meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
- create mode 100644 meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch
- create mode 100644 meta/recipes-devtools/dnf/dnf_git.bb
+ ...m_sys-use-md5sum-instead-of-mtime-as-the-.patch |  38 --
+ ...art-add-deugging-when-targetpath-is-empty.patch |  47 ---
+ .../smart-add-for-rpm-ignoresize-check.patch       |  35 --
+ .../smart-already-installed-message.patch          |  54 ---
+ .../python/python-smartpm/smart-attempt-fix.patch  | 158 ---------
+ .../python/python-smartpm/smart-attempt.patch      | 185 ----------
+ ...cache.py-getPackages-matches-name-version.patch |  43 ---
+ .../python-smartpm/smart-channel-remove-all.patch  |  33 --
+ .../python/python-smartpm/smart-channelsdir.patch  |  24 --
+ .../python/python-smartpm/smart-locale.patch       |  27 --
+ .../python/python-smartpm/smart-recommends.patch   | 381 ---------------------
+ .../smart-rpm-transaction-failure-check.patch      |  57 ---
+ .../smart-set-noprogress-for-pycurl.patch          |  20 --
+ .../smartpm-rpm5-support-check-signatures.patch    | 112 ------
+ meta/recipes-devtools/python/python-smartpm_git.bb | 141 --------
+ 15 files changed, 1355 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python-smartpm/channels-rpm_sys-use-md5sum-instead-of-mtime-as-the-.patch
+ delete mode 100644 meta/recipes-devtools/python/python-smartpm/smart-add-deugging-when-targetpath-is-empty.patch
+ delete mode 100644 meta/recipes-devtools/python/python-smartpm/smart-add-for-rpm-ignoresize-check.patch
+ delete mode 100644 meta/recipes-devtools/python/python-smartpm/smart-already-installed-message.patch
+ delete mode 100644 meta/recipes-devtools/python/python-smartpm/smart-attempt-fix.patch
+ delete mode 100644 meta/recipes-devtools/python/python-smartpm/smart-attempt.patch
+ delete mode 100644 meta/recipes-devtools/python/python-smartpm/smart-cache.py-getPackages-matches-name-version.patch
+ delete mode 100644 meta/recipes-devtools/python/python-smartpm/smart-channel-remove-all.patch
+ delete mode 100644 meta/recipes-devtools/python/python-smartpm/smart-channelsdir.patch
+ delete mode 100644 meta/recipes-devtools/python/python-smartpm/smart-locale.patch
+ delete mode 100644 meta/recipes-devtools/python/python-smartpm/smart-recommends.patch
+ delete mode 100644 meta/recipes-devtools/python/python-smartpm/smart-rpm-transaction-failure-check.patch
+ delete mode 100644 meta/recipes-devtools/python/python-smartpm/smart-set-noprogress-for-pycurl.patch
+ delete mode 100644 meta/recipes-devtools/python/python-smartpm/smartpm-rpm5-support-check-signatures.patch
+ delete mode 100644 meta/recipes-devtools/python/python-smartpm_git.bb
 
-diff --git a/meta/recipes-devtools/dnf/dnf/0001-Corretly-install-tmpfiles.d-configuration.patch b/meta/recipes-devtools/dnf/dnf/0001-Corretly-install-tmpfiles.d-configuration.patch
-new file mode 100644
-index 00000000000..c9df4589746
---- /dev/null
-+++ b/meta/recipes-devtools/dnf/dnf/0001-Corretly-install-tmpfiles.d-configuration.patch
-@@ -0,0 +1,21 @@
-+From 8ce181714640315d2dd37ee794acbb22063cd669 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Thu, 26 Jan 2017 16:36:20 +0200
-+Subject: [PATCH] Corretly install tmpfiles.d configuration
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ etc/tmpfiles.d/CMakeLists.txt | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/etc/tmpfiles.d/CMakeLists.txt b/etc/tmpfiles.d/CMakeLists.txt
-+index f69c773e..3eb6d0e8 100644
-+--- a/etc/tmpfiles.d/CMakeLists.txt
-++++ b/etc/tmpfiles.d/CMakeLists.txt
-+@@ -1 +1 @@
-+-INSTALL (FILES dnf.conf DESTINATION /usr/lib/tmpfiles.d/)
-++INSTALL (FILES dnf.conf DESTINATION ${SYSCONFDIR}/tmpfiles.d/)
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch b/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
-new file mode 100644
-index 00000000000..0f261e5c5d6
---- /dev/null
-+++ b/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
-@@ -0,0 +1,29 @@
-+From 4313ced1320594013795f11f6db00381e3f4cc45 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Thu, 26 Jan 2017 16:25:47 +0200
-+Subject: [PATCH] Do not hardcode /etc and systemd unit directories
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ CMakeLists.txt | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index 6a319935..db20ccd4 100644
-+--- a/CMakeLists.txt
-++++ b/CMakeLists.txt
-+@@ -7,8 +7,8 @@ if (NOT PYTHON_DESIRED)
-+     set (PYTHON_DESIRED "2")
-+ endif()
-+ 
-+-SET( SYSCONFDIR /etc)
-+-SET( SYSTEMD_DIR /usr/lib/systemd/system)
-++SET( SYSCONFDIR ${CMAKE_INSTALL_SYSCONFDIR})
-++SET( SYSTEMD_DIR $ENV{systemd_system_unitdir})
-+ 
-+ if (${PYTHON_DESIRED} STREQUAL "2")
-+ 	FIND_PACKAGE (PythonInterp REQUIRED)
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-devtools/dnf/dnf/0001-Do-not-prepend-installroot-to-logdir.patch b/meta/recipes-devtools/dnf/dnf/0001-Do-not-prepend-installroot-to-logdir.patch
-new file mode 100644
-index 00000000000..a90e77cbf10
---- /dev/null
-+++ b/meta/recipes-devtools/dnf/dnf/0001-Do-not-prepend-installroot-to-logdir.patch
-@@ -0,0 +1,31 @@
-+From 31653d324cf8c7b1f2f9e49d22676bd2ac546331 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Wed, 11 Jan 2017 15:10:13 +0200
-+Subject: [PATCH] Do not prepend installroot to logdir.
-+
-+This would otherwise write the logs into rootfs/var/log
-+(whereas we want them in $T),
-+and will break installation of base-files rpm.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ dnf/cli/cli.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/dnf/cli/cli.py b/dnf/cli/cli.py
-+index b764801a..893f4bda 100644
-+--- a/dnf/cli/cli.py
-++++ b/dnf/cli/cli.py
-+@@ -881,7 +881,7 @@ class Cli(object):
-+         subst = conf.substitutions
-+         subst.update_from_etc(conf.installroot)
-+ 
-+-        for opt in ('cachedir', 'logdir', 'persistdir'):
-++        for opt in ('cachedir', 'persistdir'):
-+             conf.prepend_installroot(opt)
-+ 
-+         self.base._logging._setup_from_dnf_conf(conf)
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-devtools/dnf/dnf/0028-Use-backports.lzma-not-lzma.patch b/meta/recipes-devtools/dnf/dnf/0028-Use-backports.lzma-not-lzma.patch
-new file mode 100644
-index 00000000000..57038a8c7d5
---- /dev/null
-+++ b/meta/recipes-devtools/dnf/dnf/0028-Use-backports.lzma-not-lzma.patch
-@@ -0,0 +1,30 @@
-+From 89af5c84d4b920d22ae882fcc5ab71ba09443cea Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 30 Dec 2016 18:28:18 +0200
-+Subject: [PATCH 28/30] Use backports.lzma, not lzma
-+
-+This is needed when using Python 2.x and should be dropped
-+after moving to Python 3.x
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ dnf/yum/misc.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/dnf/yum/misc.py b/dnf/yum/misc.py
-+index 441b0148..6b4aea0a 100644
-+--- a/dnf/yum/misc.py
-++++ b/dnf/yum/misc.py
-+@@ -37,7 +37,7 @@ import gpgme.editutil
-+ import gzip
-+ import hashlib
-+ import io
-+-import lzma
-++import backports.lzma
-+ import os
-+ import os.path
-+ import pwd
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch b/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-new file mode 100644
-index 00000000000..8c59f9f670e
---- /dev/null
-+++ b/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-@@ -0,0 +1,27 @@
-+From 3ddaa930cda57a62a2174faebcc87aebc59591d1 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 30 Dec 2016 18:29:07 +0200
-+Subject: [PATCH 29/30] Do not set PYTHON_INSTALL_DIR by running python
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ CMakeLists.txt | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index 6a319935..466ca1e6 100644
-+--- a/CMakeLists.txt
-++++ b/CMakeLists.txt
-+@@ -18,7 +18,7 @@ else()
-+ 	FIND_PACKAGE(PythonInterp 3.0 REQUIRED)
-+ endif()
-+ 
-+-EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib())" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
-++#EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib())" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
-+ EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "import sys; sys.stdout.write('%s.%s' % (sys.version_info.major, sys.version_info.minor))" OUTPUT_VARIABLE PYTHON_MAJOR_DOT_MINOR_VERSION)
-+ MESSAGE(STATUS "Python install dir is ${PYTHON_INSTALL_DIR}")
-+ 
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch b/meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch
-new file mode 100644
-index 00000000000..7fc8afef535
---- /dev/null
-+++ b/meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch
-@@ -0,0 +1,48 @@
-+From 9c8d545152b35d8943be72b9503414a53e1ebf7c Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 30 Dec 2016 18:29:37 +0200
-+Subject: [PATCH 30/30] Run python scripts using env
-+
-+Otherwise the build tools hardcode the python path into them.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ bin/dnf-automatic.in | 2 +-
-+ bin/dnf.in           | 2 +-
-+ bin/yum.in           | 2 +-
-+ 3 files changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/bin/dnf-automatic.in b/bin/dnf-automatic.in
-+index 5b06aa26..9f6f703e 100755
-+--- a/bin/dnf-automatic.in
-++++ b/bin/dnf-automatic.in
-+@@ -1,4 +1,4 @@
-+-#!@PYTHON_EXECUTABLE@
-++#!/usr/bin/env python
-+ # dnf-automatic executable.
-+ #
-+ # Copyright (C) 2014-2016 Red Hat, Inc.
-+diff --git a/bin/dnf.in b/bin/dnf.in
-+index 645d0f06..ab141abd 100755
-+--- a/bin/dnf.in
-++++ b/bin/dnf.in
-+@@ -1,4 +1,4 @@
-+-#!@PYTHON_EXECUTABLE@
-++#!/usr/bin/env python
-+ # The dnf executable script.
-+ #
-+ # Copyright (C) 2012-2016 Red Hat, Inc.
-+diff --git a/bin/yum.in b/bin/yum.in
-+index f1fee071..013dc8c5 100755
-+--- a/bin/yum.in
-++++ b/bin/yum.in
-+@@ -1,4 +1,4 @@
-+-#!@PYTHON_EXECUTABLE@
-++#!/usr/bin/env python
-+ # The dnf executable script.
-+ #
-+ # Copyright (C) 2016 Red Hat, Inc.
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-devtools/dnf/dnf_git.bb b/meta/recipes-devtools/dnf/dnf_git.bb
-new file mode 100644
-index 00000000000..ff22d6f5f0d
---- /dev/null
-+++ b/meta/recipes-devtools/dnf/dnf_git.bb
-@@ -0,0 +1,45 @@
-+SUMMARY = "Package manager forked from Yum, using libsolv as a dependency resolver"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+                    file://PACKAGE-LICENSING;md5=bfc29916e11321be06924c4fb096fdcc \
-+                   "
-+
-+SRC_URI = "git://github.com/rpm-software-management/dnf.git \
-+           file://0028-Use-backports.lzma-not-lzma.patch \
-+           file://0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
-+           file://0030-Run-python-scripts-using-env.patch \
-+           file://0001-Do-not-prepend-installroot-to-logdir.patch \
-+           file://0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch \
-+           file://0001-Corretly-install-tmpfiles.d-configuration.patch \
-+           "
-+
-+PV = "2.0.0+git${SRCPV}"
-+SRCREV = "f0093d672d3069cfee8447973ae70ef615fd8886"
-+
-+S = "${WORKDIR}/git"
-+
-+inherit cmake gettext bash-completion distutils-base systemd
-+
-+DEPENDS += "libdnf librepo libcomps python-pygpgme python-iniparse"
-+# python 2.x only, drop when moving to python 3.x
-+DEPENDS += "python-backports-lzma"
-+
-+# manpages generation requires http://www.sphinx-doc.org/
-+EXTRA_OECMAKE = " -DWITH_MAN=0 -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR}"
-+
-+BBCLASSEXTEND = "native nativesdk"
-+
-+RDEPENDS_${PN}_class-target += "python-core python-codecs python-netclient python-email python-threading python-distutils librepo python-shell python-subprocess libcomps libdnf python-sqlite3 python-compression python-pygpgme python-backports-lzma python-rpm python-iniparse python-json python-importlib python-curses python-argparse"
-+
-+# Direct dnf-native to read rpm configuration from our sysroot, not the one it was compiled in
-+do_install_append_class-native() {
-+        create_wrapper ${D}/${bindir}/dnf-2 \
-+                RPM_CONFIGDIR=${STAGING_LIBDIR_NATIVE}/rpm \
-+                RPM_NO_CHROOT_FOR_SCRIPTS=1
-+}
-+
-+SYSTEMD_SERVICE_${PN} = "dnf-makecache.service dnf-makecache.timer \
-+                         dnf-automatic-download.service dnf-automatic-download.timer \
-+                         dnf-automatic-install.service dnf-automatic-install.timer \
-+                         dnf-automatic-notifyonly.service dnf-automatic-notifyonly.timer \
-+"
+diff --git a/meta/recipes-devtools/python/python-smartpm/channels-rpm_sys-use-md5sum-instead-of-mtime-as-the-.patch b/meta/recipes-devtools/python/python-smartpm/channels-rpm_sys-use-md5sum-instead-of-mtime-as-the-.patch
+deleted file mode 100644
+index 2f14a124efc..00000000000
+--- a/meta/recipes-devtools/python/python-smartpm/channels-rpm_sys-use-md5sum-instead-of-mtime-as-the-.patch
++++ /dev/null
+@@ -1,38 +0,0 @@
+-channels/rpm_sys: use md5sum instead of mtime as the digest
+-
+-Use the internal getFileDigest() function (which defaults to md5) instead of
+-mtime for getting the file digest. On some systems mtime proved to be
+-unreliable because of delayed update. This caused smart to miss rpm db updates
+-and thus get its understanding of installed packages out of sync.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+----
+- smart/channels/rpm_sys.py | 3 ++-
+- 1 file changed, 2 insertions(+), 1 deletion(-)
+-
+-diff --git a/smart/channels/rpm_sys.py b/smart/channels/rpm_sys.py
+-index b9fda27..6f1fe94 100644
+---- a/smart/channels/rpm_sys.py
+-+++ b/smart/channels/rpm_sys.py
+-@@ -22,6 +22,7 @@
+- from smart.backends.rpm.header import RPMDBLoader
+- from smart.backends.rpm.base import getTS, rpm_join_dbpath
+- from smart.channel import PackageChannel
+-+from smart.util.filetools import getFileDigest
+- from smart import *
+- import os
+- 
+-@@ -35,7 +36,7 @@ class RPMSysChannel(PackageChannel):
+-         dbdir = rpm_join_dbpath(sysconf.get("rpm-root", "/"),
+-                             sysconf.get("rpm-dbpath", "var/lib/rpm"))
+-         path = os.path.join(dbdir, "Packages")
+--        digest = os.path.getmtime(path)
+-+        digest = getFileDigest(path)
+-         if digest == self._digest:
+-             return True
+-         self.removeLoaders()
+--- 
+-2.6.6
+-
+diff --git a/meta/recipes-devtools/python/python-smartpm/smart-add-deugging-when-targetpath-is-empty.patch b/meta/recipes-devtools/python/python-smartpm/smart-add-deugging-when-targetpath-is-empty.patch
+deleted file mode 100644
+index 5e80804bf42..00000000000
+--- a/meta/recipes-devtools/python/python-smartpm/smart-add-deugging-when-targetpath-is-empty.patch
++++ /dev/null
+@@ -1,47 +0,0 @@
+-From 01e51afd03131947f8d74b9a23fdbc0078249499 Mon Sep 17 00:00:00 2001
+-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+-Date: Wed, 3 Aug 2016 07:47:09 +0000
+-Subject: [PATCH] fetcher.py: Add debugging when targetpath is empty
+-
+-There are several errors when openining files or manipulating
+-path strings, those errors point targetpath passed to
+-setSucceeded() is empty. This patch won't solve the problems,
+-but will add debugging to give an idea why is failing.
+-
+-Upstream-Status: Inappropriate [debugging]
+-
+-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+----
+- smart/fetcher.py | 16 ++++++++++++++++
+- 1 file changed, 16 insertions(+)
+-
+-diff --git a/smart/fetcher.py b/smart/fetcher.py
+-index dd3ff6b..64aa979 100644
+---- a/smart/fetcher.py
+-+++ b/smart/fetcher.py
+-@@ -594,6 +594,22 @@ class FetchItem(object):
+-                 self._eta = None
+- 
+-     def setSucceeded(self, targetpath, fetchedsize=0):
+-+        # It seems the in some odd cases targetpath here
+-+        # is empty, this will lead to bugs in several places
+-+        if not targetpath:
+-+            import traceback
+-+            tb_str = ""
+-+            for threadId, stack in sys._current_frames().items():
+-+                tb_str += '\nThreadID: %s' % threadId
+-+                for filename, lineno, name, line in traceback.extract_stack(stack):
+-+                    tb_str += '\nFile: "%s", line %d, in %s' % (filename, lineno, name)
+-+                    if line:
+-+                        tb_str += "\n  %s" % line.strip()
+-+            error_string = ["No file path specified",
+-+                            "URL: %s" % self._url,
+-+                            "Status: %s" % self._status,
+-+                            "Traceback: %s" % tb_str]
+-+            raise Error, _("\n".join(error_string))
+-         if self._status is not FAILED:
+-             self._status = SUCCEEDED
+-             self._targetpath = targetpath
+--- 
+-2.6.6
+-
+diff --git a/meta/recipes-devtools/python/python-smartpm/smart-add-for-rpm-ignoresize-check.patch b/meta/recipes-devtools/python/python-smartpm/smart-add-for-rpm-ignoresize-check.patch
+deleted file mode 100644
+index fe98d070d33..00000000000
+--- a/meta/recipes-devtools/python/python-smartpm/smart-add-for-rpm-ignoresize-check.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-python-smartpm: Add checking for "rpm-ignoresize" option
+-
+-The do_rootfs takes a very long time when build host has mounted many NFS
+-devices. syscall lstat() was being called on every filesystem mounted on the
+-build host during building.
+-The reason for the lstat() is that rpm is verifying that enough free disk space
+-is available to do the install. However, since the install is into the target
+-rootfs it should not matter how much free space there is in the host mounts.
+-Add checking for "rpm-ignoresize", by it, smart can make whether RPM skip
+-checking for diskspace when install a rpm package.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: wenlin.kang <wenlin.kang@windriver.com>
+-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+----
+- smart/backends/rpm/pm.py | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-Index: git/smart/backends/rpm/pm.py
+-===================================================================
+---- git.orig/smart/backends/rpm/pm.py
+-+++ git/smart/backends/rpm/pm.py
+-@@ -233,6 +233,11 @@ class RPMPackageManager(PackageManager):
+-         if sysconf.get("rpm-order"):
+-             ts.order()
+-         probfilter = rpm.RPMPROB_FILTER_OLDPACKAGE
+-+
+-+        if sysconf.get("rpm-ignoresize", False):
+-+            probfilter |= rpm.RPMPROB_FILTER_DISKNODES
+-+            probfilter |= rpm.RPMPROB_FILTER_DISKSPACE
+-+
+-         if force or reinstall:
+-             probfilter |= rpm.RPMPROB_FILTER_REPLACEPKG
+-             probfilter |= rpm.RPMPROB_FILTER_REPLACEOLDFILES
+diff --git a/meta/recipes-devtools/python/python-smartpm/smart-already-installed-message.patch b/meta/recipes-devtools/python/python-smartpm/smart-already-installed-message.patch
+deleted file mode 100644
+index 9055555cd08..00000000000
+--- a/meta/recipes-devtools/python/python-smartpm/smart-already-installed-message.patch
++++ /dev/null
+@@ -1,54 +0,0 @@
+-From a74a9a9eb9d75964a0e978950e8b191d7a18d763 Mon Sep 17 00:00:00 2001
+-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+-Date: Fri, 5 Jun 2015 17:07:16 +0100
+-Subject: [PATCH] smart: change "is already installed" message from warning to
+- info
+-
+-This doesn't need to be a warning.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+----
+- smart/commands/install.py            | 4 ++--
+- smart/interfaces/text/interactive.py | 2 +-
+- 2 files changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/smart/commands/install.py b/smart/commands/install.py
+-index 6ef9682..80d456b 100644
+---- a/smart/commands/install.py
+-+++ b/smart/commands/install.py
+-@@ -152,7 +152,7 @@ def main(ctrl, opts):
+-             for obj in results:
+-                 for pkg in obj.packages:
+-                     if pkg.installed:
+--                        iface.warning(_("%s (for %s) is already installed")
+-+                        iface.info(_("%s (for %s) is already installed")
+-                                       % (pkg, arg))
+-                         installed = True
+-                         break
+-@@ -184,7 +184,7 @@ def main(ctrl, opts):
+-         for name in names:
+-             pkg = names[name][0]
+-             if pkg.installed:
+--                iface.warning(_("%s is already installed") % pkg)
+-+                iface.info(_("%s is already installed") % pkg)
+-             else:
+-                 trans.enqueue(pkg, INSTALL)
+- 
+-diff --git a/smart/interfaces/text/interactive.py b/smart/interfaces/text/interactive.py
+-index 9865584..190867b 100644
+---- a/smart/interfaces/text/interactive.py
+-+++ b/smart/interfaces/text/interactive.py
+-@@ -278,7 +278,7 @@ class Interpreter(Cmd):
+-             for name in names:
+-                 pkg = names[name][0]
+-                 if pkg.installed:
+--                    iface.warning(_("%s is already installed") % pkg)
+-+                    iface.info(_("%s is already installed") % pkg)
+-                 else:
+-                     found = True
+-                     transaction.enqueue(pkg, INSTALL)
+--- 
+-2.1.0
+-
+diff --git a/meta/recipes-devtools/python/python-smartpm/smart-attempt-fix.patch b/meta/recipes-devtools/python/python-smartpm/smart-attempt-fix.patch
+deleted file mode 100644
+index 6e672b3321e..00000000000
+--- a/meta/recipes-devtools/python/python-smartpm/smart-attempt-fix.patch
++++ /dev/null
+@@ -1,158 +0,0 @@
+-Sadly, smart is not deterministic so the same build can go down multiple different
+-pathways. We'd expect to see the same warnings however depending on the pathway
+-taken, it may or may not warn, particularly with Recommends since they're optional.
+-
+-For example, where a Recommended package is available but has Conflicts, we'd expect
+-to see an warning that we couldn't install it. Some code paths silently hide this
+-(its a LOCKED_CONFLICT). We add printing of warnings for this case.
+-
+-Also, if there are two compatible feeds available (e.g. i586 and core2_32), this 
+-changes the code path from direct _install() to _pending() since there are multiple
+-providers. This patch adds warning handling to _pending() so we don't hit hard 
+-failures there. This is as seen with the mysterious libspeexdsp failures for x86-lsb
+-on the autobuilder.
+-
+-Upstream-Status: Pending
+-RP
+-2015/7/16
+-
+-Index: git/smart/transaction.py
+-===================================================================
+---- git.orig/smart/transaction.py
+-+++ git/smart/transaction.py
+-@@ -651,13 +651,14 @@ class Transaction(object):
+- 
+-             if not prvpkgs:
+-                 # No packages provide it at all. Give up.
+-+
+-+                reasons = []
+-+                for prv in req.providedby:
+-+                    for prvpkg in prv.packages:
+-+                        lockedres = lockedpkgs.get(prvpkg, None)
+-+                        if lockedres:
+-+                            reasons.append(lock_reason(prvpkg, lockedres))
+-                 if reqrequired:
+--                    reasons = []
+--                    for prv in req.providedby:
+--                        for prvpkg in prv.packages:
+--                            lockedres = lockedpkgs.get(prvpkg, None)
+--                            if lockedres:
+--                                reasons.append(lock_reason(prvpkg, lockedres))
+-                     if reasons:
+-                         raise Failed, _("Can't install %s: unable to install provider for %s:\n    %s") % \
+-                                 (pkg, req, '\n    '.join(reasons))
+-@@ -665,7 +666,11 @@ class Transaction(object):
+-                         raise Failed, _("Can't install %s: no package provides %s") % \
+-                                 (pkg, req)
+-                 else:
+-+                    if reasons:
+-+                        iface.warning(_("Can't install %s: unable to install provider for %s:\n    %s") % \
+-+                                (pkg, req, '\n    '.join(reasons)))
+-+
+-                     # It's only a recommend, skip
+-                     continue
+- 
+-             if len(prvpkgs) == 1:
+-@@ -846,6 +852,14 @@ class Transaction(object):
+-         isinst = changeset.installed
+-         getweight = self._policy.getWeight
+- 
+-+        attempt = sysconf.has("attempt-install", soft=True)
+-+
+-+        def handle_failure(msg):
+-+            if attempt:
+-+                iface.warning(msg)
+-+            else:
+-+                raise Failed, msg
+-+
+-         updown = []
+-         while pending:
+-             item = pending.pop(0)
+-@@ -870,8 +884,9 @@ class Transaction(object):
+- 
+-                 if not prvpkgs:
+-                     # No packages provide it at all. Give up.
+--                    raise Failed, _("Can't install %s: no package "
+--                                    "provides %s") % (pkg, req)
+-+                    handle_failure(_("Can't install %s: no package "
+-+                                    "provides %s") % (pkg, req))
+-+                    continue
+- 
+-                 if len(prvpkgs) > 1:
+-                     # More than one package provide it. We use _pending here,
+-@@ -894,9 +909,10 @@ class Transaction(object):
+-                                                  keeporder, cs, lk))
+-                             keeporder += 0.000001
+-                     if not alternatives:
+--                        raise Failed, _("Can't install %s: all packages "
+-+                        handle_failure(_("Can't install %s: all packages "
+-                                         "providing %s failed to install:\n%s")\
+--                                      % (pkg, req,  "\n".join(failures))
+-+                                      % (pkg, req,  "\n".join(failures)))
+-+                        continue
+-                     alternatives.sort()
+-                     changeset.setState(alternatives[0][1])
+-                     if len(alternatives) == 1:
+-@@ -954,18 +970,20 @@ class Transaction(object):
+- 
+-                     for reqpkg in reqpkgs:
+-                         if reqpkg in locked and isinst(reqpkg):
+--                            raise Failed, _("Can't remove %s: requiring "
+-+                            handle_failure(_("Can't remove %s: requiring "
+-                                             "package %s is locked") % \
+--                                          (pkg, reqpkg)
+-+                                          (pkg, reqpkg))
+-+                            continue
+-                     for reqpkg in reqpkgs:
+-                         # We check again, since other actions may have
+-                         # changed their state.
+-                         if not isinst(reqpkg):
+-                             continue
+-                         if reqpkg in locked:
+--                            raise Failed, _("Can't remove %s: requiring "
+-+                            handle_failure(_("Can't remove %s: requiring "
+-                                             "package %s is locked") % \
+--                                          (pkg, reqpkg)
+-+                                          (pkg, reqpkg))
+-+                            continue
+-                         self._remove(reqpkg, changeset, locked,
+-                                      pending, depth)
+-                     continue
+-@@ -978,12 +996,14 @@ class Transaction(object):
+-                 try:
+-                     for reqpkg in reqpkgs:
+-                         if reqpkg in locked and isinst(reqpkg):
+--                            raise Failed, _("%s is locked") % reqpkg
+-+                            handle_failure(_("%s is locked") % reqpkg)
+-+                            continue
+-                     for reqpkg in reqpkgs:
+-                         if not cs.installed(reqpkg):
+-                             continue
+-                         if reqpkg in lk:
+--                            raise Failed, _("%s is locked") % reqpkg
+-+                            handle_failure(_("%s is locked") % reqpkg)
+-+                            continue
+-                         self._remove(reqpkg, cs, lk, None, depth)
+-                 except Failed, e:
+-                     failures.append(unicode(e))
+-@@ -991,9 +1011,10 @@ class Transaction(object):
+-                     alternatives.append((getweight(cs), cs, lk))
+- 
+-                 if not alternatives:
+--                    raise Failed, _("Can't install %s: all packages providing "
+-+                    handle_failure(_("Can't install %s: all packages providing "
+-                                     "%s failed to install:\n%s") \
+--                                  % (pkg, prv,  "\n".join(failures))
+-+                                  % (pkg, prv,  "\n".join(failures)))
+-+                    continue
+- 
+-                 alternatives.sort()
+-                 changeset.setState(alternatives[0][1])
+-@@ -1246,6 +1267,7 @@ class Transaction(object):
+-                             changeset.setRequested(pkg, True)
+-                     except Failed, e:
+-                         if sysconf.has("attempt-install", soft=True):
+-+                            iface.warning(_("Can't install %s: %s") % (pkg, str(e)))
+-                             if pkg in changeset:
+-                                 del changeset[pkg]
+-                             continue
+diff --git a/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch b/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch
+deleted file mode 100644
+index e1182041bce..00000000000
+--- a/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch
++++ /dev/null
+@@ -1,185 +0,0 @@
+-From b105e7fe812da3ccaf7155c0fe14c8728b0d39a5 Mon Sep 17 00:00:00 2001
+-From: Mark Hatle <mark.hatle@windriver.com>
+-Date: Mon, 20 Jan 2014 14:30:52 +0000
+-Subject: [PATCH] Add mechanism to attempt install without failing
+-
+-In OpenEmbedded, for complementary and 'attemptonly' package processing,
+-we need a way to instruct smart to try to install, but ignore any
+-failures (usually conflicts).
+-
+-This option only works for the install operation.
+-
+-If a complementary install fails, an actual error occurred, one that
+-we can't ignore without losing the entire attempted transaction.  Keep
+-this as an error so that we can catch these cases in the futre.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+----
+- backends/rpm/pm.py |   35 ++++++++++++++++++++++++++++++++++-
+- transaction.py     |   50 +++++++++++++++++++++++++++++++++++++-------------
+- 2 files changed, 71 insertions(+), 14 deletions(-)
+-
+-diff --git a/smart/backends/rpm/pm.py b/smart/backends/rpm/pm.py
+-index 9bbd952..ba6405a 100644
+---- a/smart/backends/rpm/pm.py
+-+++ b/smart/backends/rpm/pm.py
+-@@ -241,15 +241,56 @@ class RPMPackageManager(PackageManager):
+-         cb = RPMCallback(prog, upgradednames)
+-         cb.grabOutput(True)
+-         probs = None
+-+        retry = 0
+-         try:
+-             probs = ts.run(cb, None)
+-         finally:
+-             del getTS.ts
+-             cb.grabOutput(False)
+-+            # If there are file conflicts, and we're attempting installation,
+-+            # remove conflicting packages from the transaction and retry
+-+            # If there are other problems returned by ts.run(), that are not
+-+            # linked with packages/files conflicts (the returned list is empty),
+-+            # then don't retry
+-+            if (probs is not None) and (len(probs) != 0) and sysconf.has("attempt-install", soft=True):
+-+                def remove_conflict(pkgNEVR):
+-+                    for key in changeset.keys():
+-+                        if pkgNEVR == str(key):
+-+                            del changeset[key]
+-+                            del pkgpaths[key]
+-+                            iface.warning("Removing %s due to file %s conflicting with %s" % (pkgNEVR, fname, altNEVR))
+-+                            break
+-+
+-+                retry = 1
+-+                for prob in probs:
+-+                    if prob[1][0] == rpm.RPMPROB_NEW_FILE_CONFLICT:
+-+                        msg = prob[0].split()
+-+                        fname = msg[1]
+-+                        pkgNEVR = msg[7]
+-+                        altNEVR = msg[9]
+-+                        pkgNEVR = pkgNEVR.rsplit('.', 1)[0] + '@' + pkgNEVR.rsplit('.', 1)[1]
+-+                        altNEVR = altNEVR.rsplit('.', 1)[0] + '@' + altNEVR.rsplit('.', 1)[1]
+-+                        remove_conflict(pkgNEVR)
+-+                    elif prob[1][0] == rpm.RPMPROB_FILE_CONFLICT:
+-+                        msg = prob[0].split()
+-+                        fname = msg[1]
+-+                        pkgNEVR = msg[5]
+-+                        altNEVR = msg[11]
+-+                        pkgNEVR = pkgNEVR.rsplit('.', 1)[0] + '@' + pkgNEVR.rsplit('.', 1)[1]
+-+                        altNEVR = altNEVR.rsplit('.', 1)[0] + '@' + altNEVR.rsplit('.', 1)[1]
+-+                        remove_conflict(pkgNEVR)
+-+                    else:
+-+                        retry = 0
+-+
+-             prog.setDone()
+--            if probs is not None:
+-+            # If there are other problems than packages/files conflicts
+-+            # returned by ts.run(), the returned list is empty, and if
+-+            # we're only attempting installation, then don't raise any error
+-+            if (probs is not None) and ((len(probs) != 0) or not sysconf.has("attempt-install", soft=True)) and (not retry):
+-                 raise Error, "\n".join([x[0] for x in probs])
+-             prog.stop()
+-+            if retry and len(changeset):
+-+                self.commit(changeset, pkgpaths)
+- 
+- class RPMCallback:
+-     def __init__(self, prog, upgradednames):
+-diff --git a/smart/transaction.py b/smart/transaction.py
+-index 4b90cb7..3e043e9 100644
+---- a/smart/transaction.py
+-+++ b/smart/transaction.py
+-@@ -555,6 +555,8 @@ class Transaction(object):
+-         changeset.set(pkg, INSTALL)
+-         isinst = changeset.installed
+- 
+-+        attempt = sysconf.has("attempt-install", soft=True)
+-+
+-         # Remove packages conflicted by this one.
+-         for cnf in pkg.conflicts:
+-             for prv in cnf.providedby:
+-@@ -564,11 +566,16 @@ class Transaction(object):
+-                     if not isinst(prvpkg):
+-                         locked[prvpkg] = (LOCKED_CONFLICT_BY, pkg)
+-                         continue
+--                    if prvpkg in locked:
+--                        raise Failed, _("Can't install %s: conflicted package "
+--                                        "%s is locked") % (pkg, prvpkg)
+--                    self._remove(prvpkg, changeset, locked, pending, depth)
+--                    pending.append((PENDING_UPDOWN, prvpkg))
+-+                    if attempt:
+-+                        del changeset[pkg]
+-+                        raise Failed, _("Can't install %s: it conflicts with package "
+-+                                        "%s") % (pkg, prvpkg)
+-+                    else:
+-+                        if prvpkg in locked:
+-+                            raise Failed, _("Can't install %s: conflicted package "
+-+                                            "%s is locked") % (pkg, prvpkg)
+-+                        self._remove(prvpkg, changeset, locked, pending, depth)
+-+                        pending.append((PENDING_UPDOWN, prvpkg))
+- 
+-         # Remove packages conflicting with this one.
+-         for prv in pkg.provides:
+-@@ -579,12 +586,18 @@ class Transaction(object):
+-                     if not isinst(cnfpkg):
+-                         locked[cnfpkg] = (LOCKED_CONFLICT, pkg)
+-                         continue
+--                    if cnfpkg in locked:
+-+                    if attempt:
+-+                        del changeset[pkg]
+-                         raise Failed, _("Can't install %s: it's conflicted by "
+--                                        "the locked package %s") \
+--                                      % (pkg, cnfpkg)
+--                    self._remove(cnfpkg, changeset, locked, pending, depth)
+--                    pending.append((PENDING_UPDOWN, cnfpkg))
+-+                                        "the package %s") \
+-+                                    % (pkg, cnfpkg)
+-+                    else:
+-+                        if cnfpkg in locked:
+-+                            raise Failed, _("Can't install %s: it's conflicted by "
+-+                                            "the locked package %s") \
+-+                                        % (pkg, cnfpkg)
+-+                        self._remove(cnfpkg, changeset, locked, pending, depth)
+-+                        pending.append((PENDING_UPDOWN, cnfpkg))
+- 
+-         # Remove packages with the same name that can't
+-         # coexist with this one.
+-@@ -594,10 +607,15 @@ class Transaction(object):
+-                 if not isinst(namepkg):
+-                     locked[namepkg] = (LOCKED_NO_COEXIST, pkg)
+-                     continue
+--                if namepkg in locked:
+-+                if attempt:
+-+                    del changeset[pkg]
+-                     raise Failed, _("Can't install %s: it can't coexist "
+-                                     "with %s") % (pkg, namepkg)
+--                self._remove(namepkg, changeset, locked, pending, depth)
+-+                else:
+-+                    if namepkg in locked:
+-+                        raise Failed, _("Can't install %s: it can't coexist "
+-+                                        "with %s") % (pkg, namepkg)
+-+                    self._remove(namepkg, changeset, locked, pending, depth)
+- 
+-         # Install packages required by this one.
+-         for req in pkg.requires + pkg.recommends:
+-@@ -1176,6 +1194,8 @@ class Transaction(object):
+- 
+-         self._policy.runStarting()
+- 
+-+        attempt = sysconf.has("attempt-install", soft=True)
+-+
+-         try:
+-             changeset = self._changeset.copy()
+-             isinst = changeset.installed
+-@@ -1190,7 +1210,11 @@ class Transaction(object):
+-                     locked[pkg] = (LOCKED_KEEP, None)
+-                 elif op is INSTALL:
+-                     if not isinst(pkg) and pkg in locked:
+--                        raise Failed, _("Can't install %s: it's locked") % pkg
+-+                        if attempt:
+-+                            iface.warning(_("Can't install %s: it's locked") % pkg)
+-+                            del changeset[pkg]
+-+                        else:
+-+                            raise Failed, _("Can't install %s: it's locked") % pkg
+-                     changeset.set(pkg, INSTALL)
+-                     locked[pkg] = (LOCKED_INSTALL, None)
+-                 elif op is REMOVE:
+diff --git a/meta/recipes-devtools/python/python-smartpm/smart-cache.py-getPackages-matches-name-version.patch b/meta/recipes-devtools/python/python-smartpm/smart-cache.py-getPackages-matches-name-version.patch
+deleted file mode 100644
+index 225b02f964c..00000000000
+--- a/meta/recipes-devtools/python/python-smartpm/smart-cache.py-getPackages-matches-name-version.patch
++++ /dev/null
+@@ -1,43 +0,0 @@
+-From ee05e55e84b53f4bb0d0baba13ca47a8f84b7cb4 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Wed, 30 Sep 2015 01:12:52 -0700
+-Subject: [PATCH] smart:cache.py: getPackages() matches name + arch
+-
+-It only matched name ony in the past, for example:
+-smart install busybox (matched)
+-but:
+-smart install busybox@core2_64 (didn't match)
+-
+-The installation is very slow when no match since it would seach all the
+-packages in the repo
+-This patch makes it match both.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+----
+- smart/cache.py |    3 ++-
+- smart/ccache.c |    9 ++++++++-
+- 2 files changed, 10 insertions(+), 2 deletions(-)
+-
+-diff --git a/smart/control.py b/smart/control.py
+-index d44abe7..f23a604 100644
+---- a/smart/control.py
+-+++ b/smart/control.py
+-@@ -876,9 +876,13 @@ class Control(object):
+-         objects = []
+- 
+-         # If we find packages with exactly the given
+--        # name or name-version, use them.
+--        for pkg in self._cache.getPackages(s):
+--            if pkg.name == s or "%s-%s" % (pkg.name, pkg.version) == s:
+-+        # name, name-version, or name@arch, use them.
+-+        s_name = s
+-+        if "@" in s:
+-+            s_name = s.split("@")[0]
+-+        for pkg in self._cache.getPackages(s_name):
+-+            if pkg.name == s or "%s-%s" % (pkg.name, pkg.version) == s \
+-+                    or "%s@%s" % (pkg.name, pkg.version.split('@')[1]) == s:
+-                 objects.append((1.0, pkg))
+-          
+-         if not objects:
+diff --git a/meta/recipes-devtools/python/python-smartpm/smart-channel-remove-all.patch b/meta/recipes-devtools/python/python-smartpm/smart-channel-remove-all.patch
+deleted file mode 100644
+index da23e7ce42f..00000000000
+--- a/meta/recipes-devtools/python/python-smartpm/smart-channel-remove-all.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From 6d2363a705697f615d9e5af5d6703b291e618b46 Mon Sep 17 00:00:00 2001
+-From: Daniel Klauer <daniel.klauer@gin.de>
+-Date: Thu, 12 May 2016 17:55:01 +0200
+-Subject: [PATCH] Fix channel command --remove-all option parsing
+-
+-Option.take_action() stores a list of options given for validation later.
+-It strips leading dashes and turns remaining dashes into underscores.
+-This list is what ensure_action() will compare its arguments against,
+-thus we must use underscores here.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Daniel Klauer <daniel.klauer@gin.de>
+----
+- smart/commands/channel.py | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/smart/commands/channel.py b/smart/commands/channel.py
+-index 108f3f1..6234f69 100644
+---- a/smart/commands/channel.py
+-+++ b/smart/commands/channel.py
+-@@ -164,7 +164,7 @@ def main(ctrl, opts):
+-     opts.check_args_of_option("edit", 0)
+-     opts.check_args_of_option("enable", -1)
+-     opts.check_args_of_option("disable", -1)
+--    opts.ensure_action("channel", ["add", "set", "remove", "remove-all",
+-+    opts.ensure_action("channel", ["add", "set", "remove", "remove_all",
+-                        "list", "show", "yaml", "enable", "disable"])
+-     opts.check_remaining_args()
+- 
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-devtools/python/python-smartpm/smart-channelsdir.patch b/meta/recipes-devtools/python/python-smartpm/smart-channelsdir.patch
+deleted file mode 100644
+index e621b338758..00000000000
+--- a/meta/recipes-devtools/python/python-smartpm/smart-channelsdir.patch
++++ /dev/null
+@@ -1,24 +0,0 @@
+-Make CHANNELSDIR in smart empty, since this causes host contamination issues
+-on some RPM-based hosts on which smart is already installed.
+-
+-[YOCTO #3881]
+-
+-Upstream-Status: Inappropriate [embedded specific]
+-
+-diff --git a/smart/plugins/channelsync.py b/smart/plugins/channelsync.py
+-index 3ba95ff..646d696 100644
+---- a/smart/plugins/channelsync.py
+-+++ b/smart/plugins/channelsync.py
+-@@ -23,7 +23,11 @@ from smart.channel import *
+- from smart import *
+- import os
+- 
+--CHANNELSDIR = "/etc/smart/channels/"
+-+# For now, we leave the definition of CHANNELSDIR empty. This prevents smart
+-+# from erroneously consider the  build host's channels while setting up its
+-+# channels [YOCTO #3881]. If this feature will be used in the future, CHANNELSDIR
+-+# should be set to a proper value.
+-+CHANNELSDIR = ""
+- 
+- def syncChannels(channelsdir, force=None):
+- 
+diff --git a/meta/recipes-devtools/python/python-smartpm/smart-locale.patch b/meta/recipes-devtools/python/python-smartpm/smart-locale.patch
+deleted file mode 100644
+index 0f1dfb91d51..00000000000
+--- a/meta/recipes-devtools/python/python-smartpm/smart-locale.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-rpm or commands run by rpm can use output which isn't strictly acsii such
+-as quotation characters around expression which are character 0xe2.
+-
+-Use utf-8 as an encoding rather than whatever the system suggests to
+-ensure smart copes with this rather than erroring with unicode errors.
+-
+-RP 2016/5/19
+-Upstream-Status: Pending
+-
+-
+-Index: git/smart/backends/rpm/pm.py
+-===================================================================
+---- git.orig/smart/backends/rpm/pm.py
+-+++ git/smart/backends/rpm/pm.py
+-@@ -32,11 +32,7 @@ from smart.pm import PackageManager
+- from smart import sysconf, iface, Error, _
+- 
+- 
+--try:
+--    ENCODING = locale.getpreferredencoding()
+--except locale.Error:
+--    ENCODING = "ascii"
+--
+-+ENCODING = "utf-8"
+- 
+- def get_public_key(header):
+-     return header.sprintf("%|DSAHEADER?{%{DSAHEADER:pgpsig}}:"
+diff --git a/meta/recipes-devtools/python/python-smartpm/smart-recommends.patch b/meta/recipes-devtools/python/python-smartpm/smart-recommends.patch
+deleted file mode 100644
+index d607fc4752b..00000000000
+--- a/meta/recipes-devtools/python/python-smartpm/smart-recommends.patch
++++ /dev/null
+@@ -1,381 +0,0 @@
+-Handle recommended packages in core and rpm backends
+-
+-Identify and store recommended packages in the cache, add a query option
+-to read them and ignore them if they are not present when installing.
+-
+-Initial identification code from Mark Hatle <mark.hatle@windriver.com>.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+-
+-diff --git a/smart/backends/rpm/base.py b/smart/backends/rpm/base.py
+-index 9332ea0..4fcfbee 100644
+---- a/smart/backends/rpm/base.py
+-+++ b/smart/backends/rpm/base.py
+-@@ -225,6 +225,52 @@ class RPMPackage(Package):
+-                         break
+-                 else:
+-                     return False
+-+        srecs = fk(self.recommends)
+-+        orecs = fk(other.recommends)
+-+        if srecs != orecs:
+-+            for srec in srecs:
+-+                if srec.name[0] == "/" or srec in orecs:
+-+                    continue
+-+                for orec in orecs:
+-+                    if (srec.name == orec.name and
+-+                        srec.relation == orec.relation and
+-+                        checkver(srec.version, orec.version)):
+-+                        break
+-+                else:
+-+                    return False
+-+            for orec in orecs:
+-+                if orec.name[0] == "/" or orec in srecs:
+-+                    continue
+-+                for srec in srecs:
+-+                    if (srec.name == orec.name and
+-+                        srec.relation == orec.relation and
+-+                        checkver(srec.version, orec.version)):
+-+                        break
+-+                else:
+-+                    return False
+-+        srecs = fk(self.recommends)
+-+        orecs = fk(other.recommends)
+-+        if srecs != orecs:
+-+            for srec in srecs:
+-+                if srec.name[0] == "/" or srec in orecs:
+-+                    continue
+-+                for orec in orecs:
+-+                    if (srec.name == orec.name and
+-+                        srec.relation == orec.relation and
+-+                        checkver(srec.version, orec.version)):
+-+                        break
+-+                else:
+-+                    return False
+-+            for orec in orecs:
+-+                if orec.name[0] == "/" or orec in srecs:
+-+                    continue
+-+                for srec in srecs:
+-+                    if (srec.name == orec.name and
+-+                        srec.relation == orec.relation and
+-+                        checkver(srec.version, orec.version)):
+-+                        break
+-+                else:
+-+                    return False
+-         return True
+- 
+-     def coexists(self, other):
+-diff --git a/smart/ccache.c b/smart/ccache.c
+-index 7193185..8b66515 100644
+---- a/smart/ccache.c
+-+++ b/smart/ccache.c
+-@@ -500,6 +500,46 @@ Package_equals(PackageObject *self, PackageObject *other)
+-         }
+-     }
+- 
+-+    ilen = 0;
+-+    jlen = 0;
+-+    for (i = 0; i != PyList_GET_SIZE(self->recommends); i++) {
+-+        PyObject *item = PyList_GET_ITEM(self->recommends, i);
+-+        if (!PyObject_IsInstance(item, (PyObject *)&Depends_Type)) {
+-+            PyErr_SetString(PyExc_TypeError, "Depends instance expected");
+-+            return NULL;
+-+        }
+-+        if (STR(((DependsObject *)item)->name)[0] != '/')
+-+            ilen += 1;
+-+    }
+-+    for (j = 0; j != PyList_GET_SIZE(other->recommends); j++) {
+-+        PyObject *item = PyList_GET_ITEM(other->recommends, j);
+-+        if (!PyObject_IsInstance(item, (PyObject *)&Depends_Type)) {
+-+            PyErr_SetString(PyExc_TypeError, "Depends instance expected");
+-+            return NULL;
+-+        }
+-+        if (STR(((DependsObject *)item)->name)[0] != '/')
+-+            jlen += 1;
+-+    }
+-+    if (ilen != jlen) {
+-+        ret = Py_False;
+-+        goto exit;
+-+    }
+-+
+-+    ilen = PyList_GET_SIZE(self->recommends);
+-+    jlen = PyList_GET_SIZE(other->recommends);
+-+    for (i = 0; i != ilen; i++) {
+-+        PyObject *item = PyList_GET_ITEM(self->recommends, i);
+-+        if (STR(((DependsObject *)item)->name)[0] != '/') {
+-+            for (j = 0; j != jlen; j++)
+-+                if (item == PyList_GET_ITEM(other->recommends, j))
+-+                    break;
+-+            if (j == jlen) {
+-+                ret = Py_False;
+-+                goto exit;
+-+            }
+-+        }
+-+    }
+-+
+- exit:
+-     Py_INCREF(ret);
+-     return ret;
+-@@ -1813,6 +1853,59 @@ Loader_buildPackage(LoaderObject *self, PyObject *args)
+-         }
+-     }
+- 
+-+    /* if recargs: */
+-+    if (recargs) {
+-+        int i = 0;
+-+        int len = PyList_GET_SIZE(recargs);
+-+        /* pkg.recommends = [] */
+-+        Py_DECREF(pkgobj->recommends);
+-+        pkgobj->recommends = PyList_New(len);
+-+        /* for args in recargs: */
+-+        for (; i != len; i++) {
+-+            PyObject *args = PyList_GET_ITEM(recargs, i);
+-+            DependsObject *recobj;
+-+            PyObject *rec;
+-+            
+-+            if (!PyTuple_Check(args)) {
+-+                PyErr_SetString(PyExc_TypeError,
+-+                                "Item in recargs is not a tuple");
+-+                return NULL;
+-+            }
+-+
+-+            /* rec = cache._objmap.get(args) */
+-+            rec = PyDict_GetItem(cache->_objmap, args);
+-+            recobj = (DependsObject *)rec;
+-+
+-+            /* if not rec: */
+-+            if (!rec) {
+-+                if (!PyTuple_Check(args) || PyTuple_GET_SIZE(args) < 2) {
+-+                    PyErr_SetString(PyExc_ValueError, "Invalid recargs tuple");
+-+                    return NULL;
+-+                }
+-+                /* rec = args[0](*args[1:]) */
+-+                callargs = PyTuple_GetSlice(args, 1, PyTuple_GET_SIZE(args));
+-+                rec = PyObject_CallObject(PyTuple_GET_ITEM(args, 0), callargs);
+-+                Py_DECREF(callargs);
+-+                if (!rec) return NULL;
+-+                recobj = (DependsObject *)rec;
+-+
+-+                /* cache._objmap[args] = rec */
+-+                PyDict_SetItem(cache->_objmap, args, rec);
+-+                Py_DECREF(rec);
+-+
+-+                /* cache._recommends.append(rec) */
+-+                PyList_Append(cache->_recommends, rec);
+-+            }
+-+
+-+            /* relpkgs.append(rec.packages) */
+-+            PyList_Append(relpkgs, recobj->packages);
+-+
+-+            /* pkg.recommends.append(rec) */
+-+            Py_INCREF(rec);
+-+            PyList_SET_ITEM(pkgobj->recommends, i, rec);
+-+        }
+-+    }
+-+
+-     /* if upgargs: */
+-     if (upgargs) {
+-         int i = 0;
+-@@ -2592,6 +2685,16 @@ Cache_reset(CacheObject *self, PyObject *args)
+-         if (PyList_Check(reqobj->providedby))
+-             LIST_CLEAR(reqobj->providedby);
+-     }
+-+    len = PyList_GET_SIZE(self->_recommends);
+-+    for (i = 0; i != len; i++) {
+-+        DependsObject *reqobj;
+-+        PyObject *req;
+-+        req = PyList_GET_ITEM(self->_recommends, i);
+-+        reqobj = (DependsObject *)req;
+-+        LIST_CLEAR(reqobj->packages);
+-+        if (PyList_Check(reqobj->providedby))
+-+            LIST_CLEAR(reqobj->providedby);
+-+    }
+-     len = PyList_GET_SIZE(self->_upgrades);
+-     for (i = 0; i != len; i++) {
+-         DependsObject *upgobj;
+-@@ -2834,6 +2937,30 @@ Cache__reload(CacheObject *self, PyObject *args)
+-                 }
+- 
+-                 /*
+-+                   for rec in pkg.recommends:
+-+                       rec.packages.append(pkg)
+-+                       if rec not in recommends:
+-+                           recommends[rec] = True
+-+                           objmap[rec.getInitArgs()] = rec
+-+                */
+-+                if (PyList_Check(pkg->recommends)) {
+-+                    klen = PyList_GET_SIZE(pkg->recommends);
+-+                    for (k = 0; k != klen; k++) {
+-+                        PyObject *rec = PyList_GET_ITEM(pkg->recommends, k);
+-+                        PyList_Append(((DependsObject *)rec)->packages,
+-+                                      (PyObject *)pkg);
+-+                        if (!PyDict_GetItem(recommends, rec)) {
+-+                            PyDict_SetItem(recommends, rec, Py_True);
+-+                            args = PyObject_CallMethod(rec, "getInitArgs",
+-+                                                       NULL);
+-+                            if (!args) return NULL;
+-+                            PyDict_SetItem(objmap, args, rec);
+-+                            Py_DECREF(args);
+-+                        }
+-+                    }
+-+                }
+-+
+-+                /*
+-                    for upg in pkg.upgrades:
+-                        upg.packages.append(pkg)
+-                        if upg not in upgrades:
+-@@ -3097,6 +3224,47 @@ Cache_linkDeps(CacheObject *self, PyObject *args)
+-         Py_DECREF(seq);
+-     }
+- 
+-+    /* recnames = {} */
+-+    recnames = PyDict_New();
+-+    /* for rec in self._recommends: */
+-+    len = PyList_GET_SIZE(self->_recommends);
+-+    for (i = 0; i != len; i++) {
+-+        PyObject *rec = PyList_GET_ITEM(self->_recommends, i);
+-+
+-+        /* for name in rec.getMatchNames(): */
+-+        PyObject *names = PyObject_CallMethod(rec, "getMatchNames", NULL);
+-+        PyObject *seq = PySequence_Fast(names, "getMatchNames() returned "
+-+                                               "non-sequence object");
+-+        int nameslen;
+-+        if (!seq) return NULL;
+-+        nameslen = PySequence_Fast_GET_SIZE(seq);
+-+        for (j = 0; j != nameslen; j++) {
+-+            PyObject *name = PySequence_Fast_GET_ITEM(seq, j);
+-+            
+-+            /* lst = recnames.get(name) */
+-+            lst = PyDict_GetItem(recnames, name);
+-+
+-+            /* 
+-+               if lst:
+-+                   lst.append(rec)
+-+               else:
+-+                   recnames[name] = [rec]
+-+            */
+-+            if (lst) {
+-+                PyList_Append(lst, rec);
+-+            } else {
+-+                lst = PyList_New(1);
+-+                Py_INCREF(rec);
+-+                PyList_SET_ITEM(lst, 0, rec);
+-+                PyDict_SetItem(recnames, name, lst);
+-+                Py_DECREF(lst);
+-+            }
+-+        }
+-+
+-+        Py_DECREF(names);
+-+        Py_DECREF(seq);
+-+    }
+-+
+-     /* upgnames = {} */
+-     upgnames = PyDict_New();
+-     /* for upg in self._upgrades: */
+-@@ -3286,6 +3454,56 @@ Cache_linkDeps(CacheObject *self, PyObject *args)
+-             }
+-         }
+- 
+-+        /* lst = recnames.get(prv.name) */
+-+        lst = PyDict_GetItem(recnames, prv->name);
+-+
+-+        /* if lst: */
+-+        if (lst) {
+-+            /* for rec in lst: */
+-+            int reclen = PyList_GET_SIZE(lst);
+-+            for (j = 0; j != reclen; j++) {
+-+                DependsObject *rec = (DependsObject *)PyList_GET_ITEM(lst, j);
+-+                /* if rec.matches(prv): */
+-+                PyObject *ret = PyObject_CallMethod((PyObject *)rec, "matches",
+-+                                                    "O", (PyObject *)prv);
+-+                if (!ret) return NULL;
+-+                if (PyObject_IsTrue(ret)) {
+-+                    /*
+-+                       if rec.providedby:
+-+                           rec.providedby.append(prv)
+-+                       else:
+-+                           rec.providedby = [prv]
+-+                    */
+-+                    if (PyList_Check(rec->providedby)) {
+-+                        PyList_Append(rec->providedby, (PyObject *)prv);
+-+                    } else {
+-+                        PyObject *_lst = PyList_New(1);
+-+                        Py_INCREF(prv);
+-+                        PyList_SET_ITEM(_lst, 0, (PyObject *)prv);
+-+                        Py_DECREF(rec->providedby);
+-+                        rec->providedby = _lst;
+-+                    }
+-+
+-+                    /*
+-+                       if prv.recommendedby:
+-+                           prv.recommendedby.append(prv)
+-+                       else:
+-+                           prv.recommendedby = [prv]
+-+                    */
+-+                    if (PyList_Check(prv->recommendedby)) {
+-+                        PyList_Append(prv->recommendedby, (PyObject *)rec);
+-+                    } else {
+-+                        PyObject *_lst = PyList_New(1);
+-+                        Py_INCREF(rec);
+-+                        PyList_SET_ITEM(_lst, 0, (PyObject *)rec);
+-+                        Py_DECREF(prv->recommendedby);
+-+                        prv->recommendedby = _lst;
+-+                    }
+-+                }
+-+                Py_DECREF(ret);
+-+            }
+-+        }
+-+
+-         /* lst = upgnames.get(prv.name) */
+-         lst = PyDict_GetItem(upgnames, prv->name);
+- 
+-@@ -3821,6 +4094,21 @@ Cache__setstate__(CacheObject *self, PyObject *state)
+-         }
+- 
+-         /*
+-+           for rec in pkg.recommends:
+-+               rec.packages.append(pkg)
+-+               recommends[rec] = True
+-+        */
+-+        if (PyList_Check(pkgobj->recommends)) {
+-+            jlen = PyList_GET_SIZE(pkgobj->recommends);
+-+            for (j = 0; j != jlen; j++) {
+-+                PyObject *rec = PyList_GET_ITEM(pkgobj->recommends, j);
+-+                DependsObject *recobj = (DependsObject *)rec;
+-+                PyList_Append(recobj->packages, pkg);
+-+                PyDict_SetItem(recommends, rec, Py_True);
+-+            }
+-+        }
+-+
+-+        /*
+-            for upg in pkg.upgrades:
+-                upg.packages.append(pkg)
+-                upgrades[upg] = True
+-diff --git a/smart/commands/query.py b/smart/commands/query.py
+-index 9265cd9..b6f5697 100644
+---- a/smart/commands/query.py
+-+++ b/smart/commands/query.py
+-@@ -750,6 +750,22 @@ class TextOutput(NullOutput):
+-             name = str(prvpkg)
+-         print "       ", "%s (%s)" % (name, prv)
+- 
+-+    def showRecommends(self, pkg, rec):
+-+        if self._firstrecommends:
+-+            self._firstrecommends = False
+-+            print " ", _("Recommends:")
+-+        print "   ", rec
+-+
+-+    def showRecommendsProvidedBy(self, pkg, req, prv, prvpkg):
+-+        if self._firstrecommendsprovidedby:
+-+            self._firstrecommendsprovidedby = False
+-+            print "     ", _("Provided By:")
+-+        if self.opts.hide_version:
+-+            name = prvpkg.name
+-+        else:
+-+            name = str(prvpkg)
+-+        print "       ", "%s (%s)" % (name, prv)
+-+
+-     def showUpgrades(self, pkg, upg):
+-         if self._firstupgrades:
+-             self._firstupgrades = False
+diff --git a/meta/recipes-devtools/python/python-smartpm/smart-rpm-transaction-failure-check.patch b/meta/recipes-devtools/python/python-smartpm/smart-rpm-transaction-failure-check.patch
+deleted file mode 100644
+index bb8c3afdb71..00000000000
+--- a/meta/recipes-devtools/python/python-smartpm/smart-rpm-transaction-failure-check.patch
++++ /dev/null
+@@ -1,57 +0,0 @@
+-From 0c55d7e18f40465e95e8e4bf22af01f5d4477d3c Mon Sep 17 00:00:00 2001
+-From: Daniel Klauer <daniel.klauer@gin.de>
+-Date: Wed, 11 May 2016 17:22:49 +0200
+-Subject: [PATCH] rpm: Don't ignore transaction error with empty problems list
+-
+-SmartPM could misinterpret RPM transaction error as success,
+-if ts.run() (RPM Python API) returns an empty problems list,
+-because of incorrect check for None which treated empty list
+-to be the same as None when it has different meaning.
+-
+-ts.run() returns:
+-* None in case of success
+-* problems list in case of error, may be empty
+-(look at rpmts_Run() in rpm-5.4.14/python/rpmts-py.c [1])
+-
+-"if mylist" is not good enough to check for error here, because it will
+-treat an empty list as "false" because its len() == 0 [2].
+-
+-ts.check() seems to be different (it's ok for it to return an empty list),
+-but for consistency it should be made clear that it can return either None,
+-an empty list or a non-empty list.
+-
+-[1] http://rpm5.org/cvs/fileview?f=rpm/python/rpmts-py.c&v=1.111.2.3
+-[2] https://docs.python.org/2/library/stdtypes.html#truth-value-testing
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Daniel Klauer <daniel.klauer@gin.de>
+----
+- smart/backends/rpm/pm.py | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/smart/backends/rpm/pm.py b/smart/backends/rpm/pm.py
+-index 9bbd952..635f726 100644
+---- a/smart/backends/rpm/pm.py
+-+++ b/smart/backends/rpm/pm.py
+-@@ -208,7 +208,7 @@ class RPMPackageManager(PackageManager):
+-         force = sysconf.get("rpm-force", False)
+-         if not force:
+-             probs = ts.check()
+--            if probs:
+-+            if (probs is not None) and (len(probs) != 0):
+-                 problines = []
+-                 for prob in probs:
+-                     name1 = "%s-%s-%s" % prob[0]
+-@@ -247,7 +247,7 @@ class RPMPackageManager(PackageManager):
+-             del getTS.ts
+-             cb.grabOutput(False)
+-             prog.setDone()
+--            if probs:
+-+            if probs is not None:
+-                 raise Error, "\n".join([x[0] for x in probs])
+-             prog.stop()
+-
+---
+-1.9.1
+-
+diff --git a/meta/recipes-devtools/python/python-smartpm/smart-set-noprogress-for-pycurl.patch b/meta/recipes-devtools/python/python-smartpm/smart-set-noprogress-for-pycurl.patch
+deleted file mode 100644
+index 2885998acc6..00000000000
+--- a/meta/recipes-devtools/python/python-smartpm/smart-set-noprogress-for-pycurl.patch
++++ /dev/null
+@@ -1,20 +0,0 @@
+-Set NOPROGRESS for pycurl just as same as default operation in pycurl module itself.
+-If set NOPROGRESS with 0 for pycurl, it causes dead lock issue of Python GIL when
+-call smart library by python gui just like pygtk.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+----
+-diff -u smart-1.4.1/smart.orig/fetcher.py smart-1.4.1/smart/fetcher.py
+---- smart-1.4.1/smart.orig/fetcher.py	2014-07-15 16:42:19.240437080 +0800
+-+++ smart-1.4.1/smart/fetcher.py	2014-07-15 17:02:37.812470289 +0800
+-@@ -1720,7 +1720,7 @@
+-                         handle.setopt(pycurl.OPT_FILETIME, 1)
+-                         handle.setopt(pycurl.LOW_SPEED_LIMIT, 1)
+-                         handle.setopt(pycurl.LOW_SPEED_TIME, SOCKETTIMEOUT)
+--                        handle.setopt(pycurl.NOPROGRESS, 0)
+-+                        handle.setopt(pycurl.NOPROGRESS, 1)
+-                         handle.setopt(pycurl.PROGRESSFUNCTION, progress)
+-                         handle.setopt(pycurl.WRITEDATA, local)
+-                         handle.setopt(pycurl.FOLLOWLOCATION, 1)
+diff --git a/meta/recipes-devtools/python/python-smartpm/smartpm-rpm5-support-check-signatures.patch b/meta/recipes-devtools/python/python-smartpm/smartpm-rpm5-support-check-signatures.patch
+deleted file mode 100644
+index 4067a90a08e..00000000000
+--- a/meta/recipes-devtools/python/python-smartpm/smartpm-rpm5-support-check-signatures.patch
++++ /dev/null
+@@ -1,112 +0,0 @@
+-From 5b79e28bd70a0ec5b34c5ff19b66cbbdd1e48835 Mon Sep 17 00:00:00 2001
+-From: Haiqing Bai <Haiqing.Bai@windriver.com>
+-Date: Fri, 18 Mar 2016 13:34:07 +0800
+-Subject: [PATCH] Make smartpm to support check signatures of rpmv5.
+-
+-The original support for 'rpm-check-signatures' has been
+-disabled for the RPMv5 does not support '_RPMVSF_NOSIGNATURES'
+-now. This fix replaces the '_RPMVSF_NOSIGNATURES' with
+-rpm VS flags set:RPMVSF_NODSAHEADER|RPMVSF_NORSAHEADER|
+-RPMVSF_NODSA|RPMVSF_NORSA.
+-
+-Upstream-Status: Pending
+-Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
+----
+- smart/backends/rpm/base.py      | 43 +++++++++++++++++++++++++++++++----------
+- smart/backends/rpm/pm.py        |  2 +-
+- smart/plugins/yumchannelsync.py |  5 +++--
+- 3 files changed, 37 insertions(+), 13 deletions(-)
+-
+-diff --git a/smart/backends/rpm/base.py b/smart/backends/rpm/base.py
+-index 85f4d49..dbd6165 100644
+---- a/smart/backends/rpm/base.py
+-+++ b/smart/backends/rpm/base.py
+-@@ -63,11 +63,23 @@ def getTS(new=False):
+-         if sysconf.get("rpm-dbpath"):
+-             rpm.addMacro('_dbpath', "/" + sysconf.get("rpm-dbpath"))
+-         getTS.ts = rpm.ts(getTS.root)
+--        if not sysconf.get("rpm-check-signatures", False):
+--            if hasattr(rpm, '_RPMVSF_NOSIGNATURES'):
+--                getTS.ts.setVSFlags(rpm._RPMVSF_NOSIGNATURES)
+--            else:
+--                raise Error, _("rpm requires checking signatures")
+-+
+-+        # _RPMVSF_NOSIGNATURES is not supported in RPMv5, so here uses
+-+        # RPMVSF_NODSAHEADER|RPMVSF_NORSAHEADER|RPMVSF_NODSA|RPMVSF_NORSA
+-+        # to replace '_RPMVSF_NOSIGNATURES' to continue to support check
+-+        # rpm signatures
+-+
+-+        #if not sysconf.get("rpm-check-signatures", False):
+-+        #    if hasattr(rpm, '_RPMVSF_NOSIGNATURES'):
+-+        #        getTS.ts.setVSFlags(rpm._RPMVSF_NOSIGNATURES)
+-+        #    else:
+-+        #        raise Error, _("rpm requires checking signatures")
+-+        if sysconf.get("rpm-check-signatures") == False:
+-+            getTS.ts.setVSFlags(rpm.RPMVSF_NODSAHEADER|rpm.RPMVSF_NORSAHEADER|\
+-+                                rpm.RPMVSF_NODSA|rpm.RPMVSF_NORSA)
+-+        else:
+-+            getTS.ts.setVSFlags(0)
+-+
+-         rpm_dbpath = sysconf.get("rpm-dbpath", "var/lib/rpm")
+-         dbdir = rpm_join_dbpath(getTS.root, rpm_dbpath)
+-         if not os.path.isdir(dbdir):
+-@@ -89,11 +101,22 @@ def getTS(new=False):
+-         if sysconf.get("rpm-dbpath"):
+-             rpm.addMacro('_dbpath', "/" + sysconf.get("rpm-dbpath"))
+-         ts = rpm.ts(getTS.root)
+--        if not sysconf.get("rpm-check-signatures", False):
+--            if hasattr(rpm, '_RPMVSF_NOSIGNATURES'):
+--                ts.setVSFlags(rpm._RPMVSF_NOSIGNATURES)
+--            else:
+--                raise Error, _("rpm requires checking signatures")
+-+
+-+        # _RPMVSF_NOSIGNATURES is not supported in RPMv5, so here uses
+-+        # RPMVSF_NODSAHEADER|RPMVSF_NORSAHEADER|RPMVSF_NODSA|RPMVSF_NORSA
+-+        # to replace '_RPMVSF_NOSIGNATURES' to continue to support check
+-+        # rpm signatures
+-+
+-+        #if not sysconf.get("rpm-check-signatures", False):
+-+        #    if hasattr(rpm, '_RPMVSF_NOSIGNATURES'):
+-+        #        ts.setVSFlags(rpm._RPMVSF_NOSIGNATURES)
+-+        #    else:
+-+        #        raise Error, _("rpm requires checking signatures")
+-+        if sysconf.get("rpm-check-signatures") == False:
+-+            ts.setVSFlags(rpm.RPMVSF_NODSAHEADER|rpm.RPMVSF_NORSAHEADER|\
+-+                                rpm.RPMVSF_NODSA|rpm.RPMVSF_NORSA)
+-+        else:
+-+            ts.setVSFlags(0)
+-         return ts
+-     else:
+-         return getTS.ts
+-diff --git a/smart/backends/rpm/pm.py b/smart/backends/rpm/pm.py
+-index b57a844..7b651b5 100644
+---- a/smart/backends/rpm/pm.py
+-+++ b/smart/backends/rpm/pm.py
+-@@ -180,7 +180,7 @@ class RPMPackageManager(PackageManager):
+-                 fd = os.open(path, os.O_RDONLY)
+-                 try:
+-                     h = ts.hdrFromFdno(fd)
+--                    if sysconf.get("rpm-check-signatures", False):
+-+                    if sysconf.get("rpm-check-signatures", True):
+-                          if get_public_key(h) == '(none)':
+-                              raise rpm.error('package is not signed')
+-                 except rpm.error, e:
+-diff --git a/smart/plugins/yumchannelsync.py b/smart/plugins/yumchannelsync.py
+-index f8107e6..2dc5482 100644
+---- a/smart/plugins/yumchannelsync.py
+-+++ b/smart/plugins/yumchannelsync.py
+-@@ -56,8 +56,9 @@ def _getreleasever():
+- 
+-     rpmroot = sysconf.get("rpm-root", "/")
+-     ts = rpmUtils.transaction.initReadOnlyTransaction(root=rpmroot)
+--    if hasattr(rpm, '_RPMVSF_NOSIGNATURES') and hasattr(rpm, '_RPMVSF_NODIGESTS'):
+--        ts.pushVSFlags(~(rpm._RPMVSF_NOSIGNATURES|rpm._RPMVSF_NODIGESTS))
+-+    #_RPMVSF_NOSIGNATURES is not supported in RPMv5
+-+    #if hasattr(rpm, '_RPMVSF_NOSIGNATURES') and hasattr(rpm, '_RPMVSF_NODIGESTS'):
+-+    #    ts.pushVSFlags(~(rpm._RPMVSF_NOSIGNATURES|rpm._RPMVSF_NODIGESTS))
+-     releasever = None
+-     # HACK: we're hard-coding the most used distros, will add more if needed
+-     idx = ts.dbMatch('provides', 'fedora-release')
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-devtools/python/python-smartpm_git.bb b/meta/recipes-devtools/python/python-smartpm_git.bb
+deleted file mode 100644
+index 31c273deaf0..00000000000
+--- a/meta/recipes-devtools/python/python-smartpm_git.bb
++++ /dev/null
+@@ -1,141 +0,0 @@
+-SUMMARY = "The Smart Package Manager"
+-DESCRIPTION = "The Smart Package Manager project has the ambitious objective of creating \
+-smart and portable algorithms for solving adequately the problem of managing software \
+-upgrades and installation."
+-
+-HOMEPAGE = "http://labix.org/smart/"
+-SECTION = "devel/python"
+-LICENSE = "GPLv2"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=393a5ca445f6965873eca0259a17f833"
+-
+-DEPENDS = "python rpm gettext-native python-rpm"
+-SRCNAME = "smart"
+-
+-SRC_URI = "\
+-          git://github.com/smartpm/smart.git \
+-          file://smart-recommends.patch \
+-          file://smart-channelsdir.patch \
+-          file://smart-rpm-transaction-failure-check.patch \
+-          file://smart-attempt.patch \
+-          file://smart-attempt-fix.patch \
+-          file://smart-add-for-rpm-ignoresize-check.patch \
+-          file://smart-already-installed-message.patch \
+-          file://smart-set-noprogress-for-pycurl.patch \
+-          file://smart-cache.py-getPackages-matches-name-version.patch \
+-          file://smart-channel-remove-all.patch \
+-          file://smart-locale.patch \
+-          file://smartpm-rpm5-support-check-signatures.patch \
+-          file://smart-add-deugging-when-targetpath-is-empty.patch \
+-          file://channels-rpm_sys-use-md5sum-instead-of-mtime-as-the-.patch \
+-         "
+-
+-SRCREV = "407a7eca766431257dcd1da15175cc36a1bb22d0"
+-PV = "1.5+git${SRCPV}"
+-
+-S = "${WORKDIR}/git"
+-
+-# Options - rpm, qt4, gtk
+-PACKAGECONFIG ??= "rpm"
+-
+-RPM_RDEP = "${PN}-backend-rpm"
+-QT_RDEP = "${PN}-interface-qt4"
+-GTK_RDEP = "${PN}-interface-gtk"
+-
+-RPM_RDEP_class-native = ""
+-QT_RDEP_class-native = ""
+-GTK_RDEP_class-native = ""
+-
+-RPM_RDEP_class-nativesdk = ""
+-QT_RDEP_class-nativesdk = ""
+-GTK_RDEP_class-nativesdk = ""
+-
+-PACKAGECONFIG[rpm] = ",,rpm,${RPM_RDEP}"
+-PACKAGECONFIG[qt4] = ",,qt4-x11,${QT_RDEP}"
+-PACKAGECONFIG[gtk] = ",,gtk+,${GTK_RDEP}"
+-
+-inherit distutils
+-
+-do_install_append() {
+-   # We don't support the following items
+-   rm -rf ${D}${PYTHON_SITEPACKAGES_DIR}/smart/backends/slack
+-   rm -rf ${D}${PYTHON_SITEPACKAGES_DIR}/smart/backends/arch
+-   rm -rf ${D}${PYTHON_SITEPACKAGES_DIR}/smart/interfaces/qt
+-
+-   # Temporary, debian support in OE is missing the python module
+-   rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/smart/plugins/aptchannelsync.py*
+-   rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/smart/plugins/debdir.py*
+-   rm -rf ${D}${PYTHON_SITEPACKAGES_DIR}/smart/backends/deb
+-
+-   # Disable automatic channel detection
+-   rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/smart/plugins/detectsys.py*
+-
+-   # Disable landscape support
+-   rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/smart/plugins/landscape.py*
+-
+-   # Disable urpmi channel support
+-   rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/smart/plugins/urpmichannelsync.py*
+-
+-   # Disable yum channel support
+-   rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/smart/plugins/yumchannelsync.py*
+-
+-   # Disable zypper channel support
+-   rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/smart/plugins/zyppchannelsync.py*
+-
+-   if [ -z "${@bb.utils.filter('PACKAGECONFIG', 'rpm', d)}" ]; then
+-      rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/smart/plugins/rpmdir.py*
+-      rm -rf ${D}${PYTHON_SITEPACKAGES_DIR}/smart/backends/rpm
+-   fi
+-
+-   if [ -z "${@bb.utils.filter('PACKAGECONFIG', 'qt4', d)}" ]; then
+-      rm -rf ${D}${PYTHON_SITEPACKAGES_DIR}/smart/interfaces/qt4
+-   fi
+-
+-   if [ -z "${@bb.utils.contains('PACKAGECONFIG', 'gtk+', 'gtk', '', d)}" ]; then
+-      rm -rf ${D}${PYTHON_SITEPACKAGES_DIR}/smart/interfaces/gtk
+-   fi
+-}
+-
+-add_native_wrapper() {
+-        create_wrapper ${D}/${bindir}/smart \
+-		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir'), d.getVar('bindir'))}/rpm \
+-		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir'), d.getVar('bindir'))}/rpm} \
+-		RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir'), d.getVar('bindir'))}/locale
+-}
+-
+-do_install_append_class-native() {
+-        sed -i -e 's|^#!.*/usr/bin/env python|#! /usr/bin/env nativepython|' ${D}${bindir}/smart
+-        add_native_wrapper
+-}
+-
+-do_install_append_class-nativesdk() {
+-        add_native_wrapper
+-}
+-
+-PACKAGES = "${PN}-dev ${PN}-dbg ${PN}-doc smartpm \
+-            ${@bb.utils.contains('PACKAGECONFIG', 'rpm', '${PN}-backend-rpm', '', d)} \
+-            ${@bb.utils.contains('PACKAGECONFIG', 'qt4', '${PN}-interface-qt4', '', d)} \
+-            ${@bb.utils.contains('PACKAGECONFIG', 'gtk', '${PN}-interface-gtk', '', d)} \
+-            ${PN}-interface-images ${PN}"
+-
+-RDEPENDS_smartpm = "${PN}"
+-
+-RDEPENDS_${PN} += "${PN}-backend-rpm python-codecs python-textutils python-xml python-fcntl \
+-                   python-pickle python-crypt python-compression python-shell \
+-                   python-resource python-netclient python-threading python-unixadmin python-pprint"
+-RDEPENDS_${PN}_class-native = ""
+-
+-RDEPENDS_${PN}-backend-rpm = "python-rpm"
+-
+-RDEPENDS_${PN}-interface-qt4 = "qt4-x11 ${PN}-interface-images"
+-RDEPENDS_${PN}-interface-gtk = "gtk+ ${PN}-interface-images"
+-
+-FILES_smartpm = "${bindir}/smart"
+-
+-FILES_${PN}-backend-rpm = "${PYTHON_SITEPACKAGES_DIR}/smart/backends/rpm"
+-
+-FILES_${PN}-interface-qt4 = "${PYTHON_SITEPACKAGES_DIR}/smart/interfaces/qt4"
+-FILES_${PN}-interface-gtk = "${PYTHON_SITEPACKAGES_DIR}/smart/interfaces/gtk"
+-FILES_${PN}-interface-images = "${datadir}/${baselib}/python*/site-packages/smart/interfaces/images"
+-
+-BBCLASSEXTEND = "native nativesdk"
+-
 -- 
 2.11.0
 
