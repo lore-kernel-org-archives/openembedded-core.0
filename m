@@ -1,28 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 171CD77711
+	by mail.openembedded.org (Postfix) with ESMTP id 180A07771B
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 10 Mar 2017 12:59:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2ACx5pY002581; Fri, 10 Mar 2017 12:59:06 GMT
+	v2ACx5pZ002581; Fri, 10 Mar 2017 12:59:06 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id dlR2l2xQiopK; Fri, 10 Mar 2017 12:59:06 +0000 (GMT)
+	with LMTP id VDWL9oJidQ5Q; Fri, 10 Mar 2017 12:59:06 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2ACwWtg002562
+	v2ACwWUM002563
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Fri, 10 Mar 2017 12:58:33 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1cmK7s-0000Qe-ET; Fri, 10 Mar 2017 12:58:32 +0000
+	id 1cmK7s-0000Qh-F8; Fri, 10 Mar 2017 12:58:32 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Mar 2017 12:58:29 +0000
-Message-Id: <1489150711-1608-1-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Fri, 10 Mar 2017 12:58:30 +0000
+Message-Id: <1489150711-1608-2-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 1/3] cdrtools-native: Fix when cc is missing
+In-Reply-To: <1489150711-1608-1-git-send-email-richard.purdie@linuxfoundation.org>
+References: <1489150711-1608-1-git-send-email-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/3] quilt: Avoid hardcoding paths into output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,29 +37,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Mar 2017 12:59:08 -0000
+X-List-Received-Date: Fri, 10 Mar 2017 12:59:09 -0000
 
-If cc isn't in PATH, the recipe fails. Set a variable to avoid this.
+Avoids:
+ quilt-0.65-r0 do_package_qa: QA Issue: /usr/lib/quilt/ptest/quilt/scripts/edmail contained in package
+ quilt-ptest requires /media/build1/poky/build/tmp/hosttools/perl, but no providers found in
+ RDEPENDS_quilt-ptest? [file-rdeps]
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-devtools/quilt/quilt-native.inc | 1 +
+ meta/recipes-devtools/quilt/quilt.inc        | 2 ++
+ 2 files changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
-index ff4d5ac..0e0be62 100644
---- a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
-+++ b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
-@@ -14,6 +14,9 @@ SRC_URI[sha256sum] = "ed282eb6276c4154ce6a0b5dee0bdb81940d0cbbfc7d03f769c4735ef5
+diff --git a/meta/recipes-devtools/quilt/quilt-native.inc b/meta/recipes-devtools/quilt/quilt-native.inc
+index 5c4b0a2..fce5fa1 100644
+--- a/meta/recipes-devtools/quilt/quilt-native.inc
++++ b/meta/recipes-devtools/quilt/quilt-native.inc
+@@ -6,6 +6,7 @@ inherit native
  
- EXTRA_OEMAKE = "-e MAKEFLAGS="
+ PATCHTOOL = "patch"
+ EXTRA_OECONF = "--disable-nls"
++EXTRA_OECONF_append_class-target = "--with-perl=perl"
  
-+# Stop failures when 'cc' can't be found
-+export ac_cv_prog_CC = "${CC}"
+ do_configure () {
+ 	oe_runconf
+diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
+index 85aaf8d..57e2a14 100644
+--- a/meta/recipes-devtools/quilt/quilt.inc
++++ b/meta/recipes-devtools/quilt/quilt.inc
+@@ -33,6 +33,8 @@ RDEPENDS_${PN} = "bash"
+ EXTRA_OE_MAKE_ARGS_darwin ?= ""
+ EXTRA_OE_MAKE_ARGS ?= "BUILD_ROOT=${D}"
+ 
++EXTRA_OECONF = "--with-perl=perl"
 +
- inherit native
+ CACHED_CONFIGUREVARS += "ac_cv_path_BASH=/bin/bash"
  
- PV = "3.01a31+really3.01"
+ # Don't setup symlinks to host utilities, we don't need them
 -- 
 2.7.4
 
