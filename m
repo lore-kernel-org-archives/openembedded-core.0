@@ -1,37 +1,36 @@
-Return-Path: <ismo.puustinen@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id F36C171AC9
+Return-Path: <fan.xin@jp.fujitsu.com>
+X-Greylist: delayed 668 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 10 Mar 2017 10:05:39 UTC
+Received: from mgwkm01.jp.fujitsu.com (mgwkm01.jp.fujitsu.com [202.219.69.168])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C35765D00
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Mar 2017 09:27:13 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga104.jf.intel.com with ESMTP; 10 Mar 2017 01:27:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,140,1486454400"; d="scan'208";a="1140427068"
-Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
-	by fmsmga002.fm.intel.com with ESMTP; 10 Mar 2017 01:27:14 -0800
-Received: from irsmsx156.ger.corp.intel.com (10.108.20.68) by
-	IRSMSX102.ger.corp.intel.com (163.33.3.155) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Fri, 10 Mar 2017 09:27:03 +0000
-Received: from irsmsx107.ger.corp.intel.com ([169.254.10.3]) by
-	IRSMSX156.ger.corp.intel.com ([169.254.3.104]) with mapi id
-	14.03.0248.002; Fri, 10 Mar 2017 09:27:02 +0000
-From: "Puustinen, Ismo" <ismo.puustinen@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "raj.khem@gmail.com"
-	<raj.khem@gmail.com>
-Thread-Topic: [OE-core] [PATCH] gcc: let cpp rrecommend gcc.
-Thread-Index: AQHSmN1uSCWL+73jikWer2asK3jeWKGMjfUAgAFBQAA=
-Date: Fri, 10 Mar 2017 09:27:02 +0000
-Message-ID: <1489138020.3001.0.camel@intel.com>
-References: <20170309135933.1232-1-ismo.puustinen@intel.com>
-	<CAMKF1sqL-AY9gnZsEJEg-zE7Mm-aZEBu5dv=Qp2mK0_WHyZOyA@mail.gmail.com>
-In-Reply-To: <CAMKF1sqL-AY9gnZsEJEg-zE7Mm-aZEBu5dv=Qp2mK0_WHyZOyA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.237.72.72]
+	Fri, 10 Mar 2017 10:05:39 +0000 (UTC)
+Received: from kw-mxoi1.gw.nic.fujitsu.com (unknown [192.168.231.131]) by
+	mgwkm01.jp.fujitsu.com with smtp
+	id 589b_3f0b_596c65ac_268c_4238_a212_daf3659dc475;
+	Fri, 10 Mar 2017 18:54:27 +0900
+Received: from g01jpfmpwyt03.exch.g01.fujitsu.local
+	(g01jpfmpwyt03.exch.g01.fujitsu.local [10.128.193.57])
+	by kw-mxoi1.gw.nic.fujitsu.com (Postfix) with ESMTP id 7E5EAAC011F
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Mar 2017 18:54:27 +0900 (JST)
+Received: from g01jpexchyt33.g01.fujitsu.local (unknown [10.128.193.4])
+	by g01jpfmpwyt03.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	69FC546E970 for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Mar 2017 18:54:26 +0900 (JST)
+Received: from localhost.localdomain (10.24.19.99) by
+	g01jpexchyt33.g01.fujitsu.local (10.128.193.36) with Microsoft SMTP
+	Server id 14.3.266.1; Fri, 10 Mar 2017 18:54:25 +0900
+From: Fan Xin <fan.xin@jp.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 10 Mar 2017 18:54:47 +0900
+Message-ID: <1489139687-5619-1-git-send-email-fan.xin@jp.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: Re: [PATCH] gcc: let cpp rrecommend gcc.
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-Encrypted: FENCE-Mail/3.1.1
+X-TM-AS-MML: disable
+Subject: [PATCH] curl: upgrade to 7.53.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,19 +43,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Mar 2017 09:27:14 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <ABC142B8E34FA049B16863AB61D96E8F@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 10 Mar 2017 10:05:41 -0000
+Content-Type: text/plain
 
-T24gVGh1LCAyMDE3LTAzLTA5IGF0IDE0OjE3ICswMDAwLCBLaGVtIFJhaiB3cm90ZToNCj4gPiBU
-aGUgZmlsZSAvdXNyL2xpYmV4ZWMvZ2NjLy4uLi9jYzEgaGFzIGJlZW4gaW5zdGFsbGVkIGluIHBh
-Y2thZ2UNCj4gPiAiZ2NjIg0KPiA+IGluc3RlYWQgb2YgcGFja2FnZSAiY3BwIiwgYmVjYXVzZSBG
-SUxFUyBzdGF0ZW1lbnRzIGZvciBib3RoDQo+ID4gcGFja2FnZXMNCj4gPiBtYXRjaCB0aGUgY2Mx
-IGJpbmFyeS4gUmVtb3ZlIHRoZSBhdHRlbXB0IHRvIGluc3RhbGwgdGhlIGZpbGUgaW4gY3BwDQo+
-ID4gdG8NCj4gPiBhdm9pZCBjb25mdXNpb24uDQo+IA0KPiANCj4gUGVyaGFwcyBpdCdzIGJldHRl
-ciB0byBwYWNrYWdlIGl0IGluIGNwcCBhbmQgcmVtb3ZlIGZyb20gZ2NjIHBhY2thZ2UNCg0KTWF5
-YmUgeW91J3JlIHJpZ2h0IC0tIHRoYXQncyBob3cgbXkgRmVkb3JhIHN5c3RlbSBhcHBlYXJzIHRv
-IGJlIGRvaW5nDQppdC4gSSdsbCBwcmVwYXJlIGEgbmV3IHBhdGNoLg0KDQpJc21v
+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+---
+ meta/recipes-support/curl/{curl_7.53.0.bb => curl_7.53.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/curl/{curl_7.53.0.bb => curl_7.53.1.bb} (94%)
+
+diff --git a/meta/recipes-support/curl/curl_7.53.0.bb b/meta/recipes-support/curl/curl_7.53.1.bb
+similarity index 94%
+rename from meta/recipes-support/curl/curl_7.53.0.bb
+rename to meta/recipes-support/curl/curl_7.53.1.bb
+index a4cca15..bc78ffb 100644
+--- a/meta/recipes-support/curl/curl_7.53.0.bb
++++ b/meta/recipes-support/curl/curl_7.53.1.bb
+@@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+ #
+ SRC_URI += " file://configure_ac.patch"
+ 
+-SRC_URI[md5sum] = "ede199c63b84df39f42da9da68de85c5"
+-SRC_URI[sha256sum] = "b2345a8bef87b4c229dedf637cb203b5e21db05e20277c8e1094f0d4da180801"
++SRC_URI[md5sum] = "fb1f03a142236840c1a77c035fa4c542"
++SRC_URI[sha256sum] = "1c7207c06d75e9136a944a2e0528337ce76f15b9ec9ae4bb30d703b59bf530e8"
+ 
+ CVE_PRODUCT = "libcurl"
+ inherit autotools pkgconfig binconfig multilib_header
+-- 
+1.9.1
+
 
