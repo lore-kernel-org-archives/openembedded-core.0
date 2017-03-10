@@ -1,35 +1,22 @@
-Return-Path: <fan.xin@jp.fujitsu.com>
-Received: from mgwkm04.jp.fujitsu.com (mgwkm04.jp.fujitsu.com [202.219.69.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 9076F77649
+Return-Path: <ismo.puustinen@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id C69FD7769A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Mar 2017 10:11:43 +0000 (UTC)
-Received: from kw-mxq.gw.nic.fujitsu.com (unknown [192.168.231.130]) by
-	mgwkm04.jp.fujitsu.com with smtp
-	id 0d18_ae72_3bb70ac3_e1eb_46ac_a8df_87563bf22b98;
-	Fri, 10 Mar 2017 19:11:38 +0900
-Received: from g01jpfmpwyt01.exch.g01.fujitsu.local
-	(g01jpfmpwyt01.exch.g01.fujitsu.local [10.128.193.38])
-	by kw-mxq.gw.nic.fujitsu.com (Postfix) with ESMTP id C187CAC00F6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Mar 2017 19:11:37 +0900 (JST)
-Received: from G01JPEXCHYT18.g01.fujitsu.local
-	(G01JPEXCHYT18.g01.fujitsu.local [10.128.194.57])
-	by g01jpfmpwyt01.exch.g01.fujitsu.local (Postfix) with ESMTP id
-	AE5906D6979 for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Mar 2017 19:11:36 +0900 (JST)
-Received: from localhost.localdomain (10.24.19.99) by
-	G01JPEXCHYT18.g01.fujitsu.local (10.128.194.57) with Microsoft SMTP
-	Server id 14.3.266.1; Fri, 10 Mar 2017 19:11:36 +0900
-From: Fan Xin <fan.xin@jp.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 10 Mar 2017 19:11:59 +0900
-Message-ID: <1489140719-5849-1-git-send-email-fan.xin@jp.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-Encrypted: FENCE-Mail/3.1.1
-X-TM-AS-MML: disable
-Subject: [PATCH] grep: upgrade to 3.0
+	Fri, 10 Mar 2017 10:16:31 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga104.jf.intel.com with ESMTP; 10 Mar 2017 02:16:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,140,1486454400"; d="scan'208";a="942802137"
+Received: from ipuustin-desk.fi.intel.com ([10.237.72.72])
+	by orsmga003.jf.intel.com with ESMTP; 10 Mar 2017 02:16:30 -0800
+From: Ismo Puustinen <ismo.puustinen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 10 Mar 2017 12:10:25 +0200
+Message-Id: <20170310101025.28634-1-ismo.puustinen@intel.com>
+X-Mailer: git-send-email 2.9.3
+In-Reply-To: <CAMKF1sqL-AY9gnZsEJEg-zE7Mm-aZEBu5dv=Qp2mK0_WHyZOyA@mail.gmail.com>
+References: <CAMKF1sqL-AY9gnZsEJEg-zE7Mm-aZEBu5dv=Qp2mK0_WHyZOyA@mail.gmail.com>
+Subject: [PATCH v2] gcc: move cc1 binary file to package cpp.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,34 +29,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Mar 2017 10:11:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 10 Mar 2017 10:16:31 -0000
 
-Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+The file /usr/libexec/gcc/.../cc1 has been installed in package gcc
+instead of package cpp, because FILES statements for both packages match
+the cc1 binary. Move the file to package cpp and add cpp to RDEPENDS_gcc
+to fix the dependency.
+
+Having the cc1 binary in cpp fixes errors such as: "cpp: error trying to
+exec 'cc1': execvp: No such file or directory".
+
+Signed-off-by: Ismo Puustinen <ismo.puustinen@intel.com>
 ---
- meta/recipes-extended/grep/{grep_2.27.bb => grep_3.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/grep/{grep_2.27.bb => grep_3.0.bb} (88%)
+ meta/recipes-devtools/gcc/gcc-target.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/grep/grep_2.27.bb b/meta/recipes-extended/grep/grep_3.0.bb
-similarity index 88%
-rename from meta/recipes-extended/grep/grep_2.27.bb
-rename to meta/recipes-extended/grep/grep_3.0.bb
-index a4d7a45..6146ef0 100644
---- a/meta/recipes-extended/grep/grep_2.27.bb
-+++ b/meta/recipes-extended/grep/grep_3.0.bb
-@@ -9,8 +9,8 @@ SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.xz \
-            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-           "
+diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
+index f436fa2..b245bdd 100644
+--- a/meta/recipes-devtools/gcc/gcc-target.inc
++++ b/meta/recipes-devtools/gcc/gcc-target.inc
+@@ -31,7 +31,7 @@ PACKAGES = "\
+ FILES_${PN} = "\
+     ${bindir}/${TARGET_PREFIX}gcc* \
+     ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/collect2* \
+-    ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/cc* \
++    ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/cc1plus \
+     ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/lto* \
+     ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/lib*${SOLIBS} \
+     ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/liblto*${SOLIBSDEV} \
+@@ -46,6 +46,7 @@ RRECOMMENDS_${PN} += "\
+     libssp \
+     libssp-dev \
+ "
++RDEPENDS_${PN} += "cpp"
  
--SRC_URI[md5sum] = "6138dd227c39d4a25f81eea76a44d4cb"
--SRC_URI[sha256sum] = "ad4cc44d23074a1c3a8baae8fbafff2a8c60f38a9a6108f985eef6fbee6dcaeb"
-+SRC_URI[md5sum] = "fa07c1616adeb9c3262be5177d10ad4a"
-+SRC_URI[sha256sum] = "e2c81db5056e3e8c5995f0bb5d0d0e1cad1f6f45c3b2fc77b6e81435aed48ab5"
- 
- inherit autotools gettext texinfo pkgconfig
- 
+ FILES_${PN}-dev = "\
+     ${gcclibdir}/${TARGET_SYS}/${BINV}/lib*${SOLIBSDEV} \
 -- 
-1.9.1
+2.9.3
 
 
