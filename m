@@ -1,29 +1,28 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 24D4171C56
+Return-Path: <andrew.shadura@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 13210778AE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Mar 2017 17:26:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v2AHQ5T3024156
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Mar 2017 09:26:06 -0800 (PST)
-Received: from soho-mhatle-m.local (172.25.36.230) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 10 Mar 2017 09:26:05 -0800
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1489144807.git.alexander.kanavin@linux.intel.com>
-	<a4cc80fb3dcbcf610b5e4b601a807492fcea9eca.1489144807.git.alexander.kanavin@linux.intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <dabda004-ddbb-0520-cea4-c9bf2b8d6044@windriver.com>
-Date: Fri, 10 Mar 2017 11:26:04 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.8.0
+	Fri, 10 Mar 2017 19:13:45 +0000 (UTC)
+Received: from [IPv6:2001:470:1f1b:476:ecae:cbdd:615e:1b52] (unknown
+	[IPv6:2001:470:1f1b:476:ecae:cbdd:615e:1b52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested) (Authenticated sender: andrewsh)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id B3DA5260AC1;
+	Fri, 10 Mar 2017 19:13:45 +0000 (GMT)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20170309143139.2785-1-andrew.shadura@collabora.co.uk>
+	<20170309143139.2785-2-andrew.shadura@collabora.co.uk>
+	<CAJTo0LYuWM7i-snTJyJ5BPdeKRez_8WzTk5EhUbbfFXFTDrfsQ@mail.gmail.com>
+From: Andrew Shadura <andrew.shadura@collabora.co.uk>
+Organization: Collabora Limited
+Message-ID: <e4c9dcc1-c915-a44c-fe01-bf44f5299f19@collabora.co.uk>
+Date: Fri, 10 Mar 2017 20:13:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.7.0
 MIME-Version: 1.0
-In-Reply-To: <a4cc80fb3dcbcf610b5e4b601a807492fcea9eca.1489144807.git.alexander.kanavin@linux.intel.com>
-Subject: Re: [PATCH 22/44] scripts/rpm2cpio.sh: replace 5.x version with 4.x version
+In-Reply-To: <CAJTo0LYuWM7i-snTJyJ5BPdeKRez_8WzTk5EhUbbfFXFTDrfsQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 2/2] ghostscript: build and install libgs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,134 +35,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Mar 2017 17:26:06 -0000
-Content-Type: text/plain; charset="windows-1252"
+X-List-Received-Date: Fri, 10 Mar 2017 19:13:46 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
-Just an FYI, I was concerned that $(( ))  (in the new script) was a bash-ism,
-but I was able to run the script on an Ubuntu machine using 'dash' as /bin/sh.
-
---Mark
-
-On 3/10/17 5:24 AM, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
->  scripts/rpm2cpio.sh | 108 ++++++++++++++++++++++++++--------------------------
->  1 file changed, 55 insertions(+), 53 deletions(-)
+On 09/03/17 17:36, Burton, Ross wrote:
+> On 9 March 2017 at 14:31, Andrew Shadura <andrew.shadura@collabora.co.uk>
+> wrote:
 > 
-> diff --git a/scripts/rpm2cpio.sh b/scripts/rpm2cpio.sh
-> index 5df8c0f7054..cf23472ba95 100755
-> --- a/scripts/rpm2cpio.sh
-> +++ b/scripts/rpm2cpio.sh
-> @@ -1,53 +1,55 @@
-> -#!/bin/sh
-> -
-> -# This comes from the RPM5 5.4.0 distribution.
-> -
-> -pkg=$1
-> -if [ "$pkg" = "" -o ! -e "$pkg" ]; then
-> -    echo "no package supplied" 1>&2
-> -   exit 1
-> -fi
-> -
-> -leadsize=96
-> -o=`expr $leadsize + 8`
-> -set `od -j $o -N 8 -t u1 $pkg`
-> -il=`expr 256 \* \( 256 \* \( 256 \* $2 + $3 \) + $4 \) + $5`
-> -dl=`expr 256 \* \( 256 \* \( 256 \* $6 + $7 \) + $8 \) + $9`
-> -# echo "sig il: $il dl: $dl"
-> -
-> -sigsize=`expr 8 + 16 \* $il + $dl`
-> -o=`expr $o + $sigsize + \( 8 - \( $sigsize \% 8 \) \) \% 8 + 8`
-> -set `od -j $o -N 8 -t u1 $pkg`
-> -il=`expr 256 \* \( 256 \* \( 256 \* $2 + $3 \) + $4 \) + $5`
-> -dl=`expr 256 \* \( 256 \* \( 256 \* $6 + $7 \) + $8 \) + $9`
-> -# echo "hdr il: $il dl: $dl"
-> -
-> -hdrsize=`expr 8 + 16 \* $il + $dl`
-> -o=`expr $o + $hdrsize`
-> -EXTRACTOR="dd if=$pkg ibs=$o skip=1"
-> -
-> -COMPRESSION=`($EXTRACTOR |file -) 2>/dev/null`
-> -if echo $COMPRESSION |grep -iq gzip; then
-> -	DECOMPRESSOR=gunzip
-> -elif echo $COMPRESSION |grep -iq bzip2; then
-> -	DECOMPRESSOR=bunzip2
-> -elif echo $COMPRESSION |grep -iq xz; then
-> -	DECOMPRESSOR=unxz
-> -elif echo $COMPRESSION |grep -iq cpio; then
-> -	DECOMPRESSOR=cat
-> -else
-> -	# Most versions of file don't support LZMA, therefore we assume
-> -	# anything not detected is LZMA
-> -	DECOMPRESSOR=`which unlzma 2>/dev/null`
-> -	case "$DECOMPRESSOR" in
-> -	    /* ) ;;
-> -	    *  ) DECOMPRESSOR=`which lzmash 2>/dev/null`
-> -	         case "$DECOMPRESSOR" in
-> -	             /* ) DECOMPRESSOR="lzmash -d -c" ;;
-> -	             *  ) DECOMPRESSOR=cat ;;
-> -	         esac
-> -	         ;;
-> -	esac
-> -fi
-> -
-> -$EXTRACTOR 2>/dev/null | $DECOMPRESSOR
-> +#!/bin/sh -efu
-> +
-> +# This file comes from rpm 4.x distribution
-> +
-> +fatal() {
-> +	echo "$*" >&2
-> +	exit 1
-> +}
-> +
-> +pkg="$1"
-> +[ -n "$pkg" -a -e "$pkg" ] ||
-> +	fatal "No package supplied"
-> +
-> +_dd() {
-> +	local o="$1"; shift
-> +	dd if="$pkg" skip="$o" iflag=skip_bytes status=none $*
-> +}
-> +
-> +calcsize() {
-> +	offset=$(($1 + 8))
-> +
-> +	local i b b0 b1 b2 b3 b4 b5 b6 b7
-> +
-> +	i=0
-> +	while [ $i -lt 8 ]; do
-> +		b="$(_dd $(($offset + $i)) bs=1 count=1)"
-> +		[ -z "$b" ] &&
-> +			b="0" ||
-> +			b="$(exec printf '%u\n' "'$b")"
-> +		eval "b$i=\$b"
-> +		i=$(($i + 1))
-> +	done
-> +
-> +	rsize=$((8 + ((($b0 << 24) + ($b1 << 16) + ($b2 << 8) + $b3) << 4) + ($b4 << 24) + ($b5 << 16) + ($b6 << 8) + $b7))
-> +	offset=$(($offset + $rsize))
-> +}
-> +
-> +case "$(_dd 0 bs=8 count=1)" in
-> +	"$(printf '\355\253\356\333')"*) ;; # '\xed\xab\xee\xdb'
-> +	*) fatal "File doesn't look like rpm: $pkg" ;;
-> +esac
-> +
-> +calcsize 96
-> +sigsize=$rsize
-> +
-> +calcsize $(($offset + (8 - ($sigsize % 8)) % 8))
-> +hdrsize=$rsize
-> +
-> +case "$(_dd $offset bs=3 count=1)" in
-> +	"$(printf '\102\132')"*) _dd $offset | bunzip2 ;; # '\x42\x5a'
-> +	"$(printf '\037\213')"*) _dd $offset | gunzip  ;; # '\x1f\x8b'
-> +	"$(printf '\375\067')"*) _dd $offset | xzcat   ;; # '\xfd\x37'
-> +	"$(printf '\135\000')"*) _dd $offset | unlzma  ;; # '\x5d\x00'
-> +	*) fatal "Unrecognized rpm file: $pkg" ;;
-> +esac
+>> Build and install libgs library, which is a build dependency
+>> of a few other libraries, such as libspectre.
+>>
+>> We don't want to ship the executable binaries, only the library and its
+>> headers, hence oe_runmake install-so + rm -rf, not e.g. oe_libinstall.
+>>
 > 
+> This does *way* more:
+> 
+> packages/corei7-64-poky-linux/ghostscript/ghostscript-dev: PKGSIZE changed
+> from 0 to 38856 (+100%)
+>   * FILELIST: added "/usr/include/ghostscript/gdevdsp.h
+> /usr/include/ghostscript/iapi.h /usr/lib/libgs.so
+> /usr/include/ghostscript/gserrors.h /usr/include/ghostscript/ierrors.h"
+> packages/corei7-64-poky-linux/ghostscript/ghostscript-dev: RDEPENDS: added
+> "ghostscript-lib"
+> packages/corei7-64-poky-linux/ghostscript/ghostscript-dev: FILELIST: added
+> "/usr/include/ghostscript/gdevdsp.h /usr/include/ghostscript/iapi.h
+> /usr/lib/libgs.so /usr/include/ghostscript/gserrors.h
+> /usr/include/ghostscript/ierrors.h"
+> packages/corei7-64-poky-linux/ghostscript/ghostscript-dev: RRECOMMENDS:
+> added "ghostscript-lib-dev"
+> 
+> That's all good.
+> 
+> packages/corei7-64-poky-linux/ghostscript/ghostscript-doc: PKGSIZE changed
+> from 45465 to 0 (-100%)
+>   * FILELIST: removed all items "/usr/share/man/de/man1/ps2pdf.1 ...
+> /usr/share/man/man1/pdf2ps.1"
+> 
+> All the man pages disappeared
+> 
+> packages/corei7-64-poky-linux/ghostscript/ghostscript: PKGSIZE changed from
+> 61037876 to 16376087 (-73%)
+>   * FILELIST: removed "/usr/share/ghostscript/9.20/doc/index.html
+> /usr/share/ghostscript/9.20/doc/gs.css
+> /usr/share/ghostscript/9.20/lib/bjc610a0.upp ...
+> /usr/share/ghostscript/9.20/doc/Make.htm /usr/share/ghostscript/9.20/lib/
+> wrfont.ps"
+> 
+> Pretty much all of ghostscript disappeared.
 
+Right. I'm probably removing way too much.
+
+> packages/corei7-64-poky-linux/ghostscript/ghostscript: RDEPENDS: removed
+> all items "cups-libimage (['>= 2.2.2']) glibc (['>= 2.25']) cups-lib (['>=
+> 2.2.2']) libpng (['>= 1.6.28']) tiff (['>= 4.0.7']) fontconfig (['>=
+> 2.12.1'])"
+> 
+> Was that the intention?  Having libgs sounds sensible but surely both
+> should be packaged.
+
+The intention was what I said, probably I misunderstood what the
+original packages had, so I haven't noticed things disappearing.
+
+Will investigate and resubmit.
+
+-- 
+Cheers,
+  Andrew
 
