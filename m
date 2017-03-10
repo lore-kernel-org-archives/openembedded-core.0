@@ -1,22 +1,46 @@
-Return-Path: <ismo.puustinen@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id C69FD7769A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C9B577698
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Mar 2017 10:16:31 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga104.jf.intel.com with ESMTP; 10 Mar 2017 02:16:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,140,1486454400"; d="scan'208";a="942802137"
-Received: from ipuustin-desk.fi.intel.com ([10.237.72.72])
-	by orsmga003.jf.intel.com with ESMTP; 10 Mar 2017 02:16:30 -0800
-From: Ismo Puustinen <ismo.puustinen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Mar 2017 12:10:25 +0200
-Message-Id: <20170310101025.28634-1-ismo.puustinen@intel.com>
-X-Mailer: git-send-email 2.9.3
-In-Reply-To: <CAMKF1sqL-AY9gnZsEJEg-zE7Mm-aZEBu5dv=Qp2mK0_WHyZOyA@mail.gmail.com>
-References: <CAMKF1sqL-AY9gnZsEJEg-zE7Mm-aZEBu5dv=Qp2mK0_WHyZOyA@mail.gmail.com>
-Subject: [PATCH v2] gcc: move cc1 binary file to package cpp.
+	Fri, 10 Mar 2017 10:29:38 +0000 (UTC)
+Received: by mail-qk0-f171.google.com with SMTP id p64so160868599qke.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Mar 2017 02:29:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=7BssQPMtQFcvzo9RRfOh/4bG0FRFWgRKCGLWeTCP1rs=;
+	b=AOu5EiW2Vj0XClB8mj71MGlt/+Gcu9nbu4O1wVKdQxvQbezPT7VwdZmbTGMCY6fUSZ
+	kBp0F9wul3on1/Gew3goA6SzDC3xk3RDk4rZ+KoElm/DYBCTO7GfM7J3rqJywjrXL2VK
+	xuixtaCO+Jz5RszhoHp1pG6CJj7i6qQISaHBH+zLVrSkprIAqj7dPOT69UlYHPxvc5it
+	doE6vaKTf//+MsPJw4aRzs+oeeTXhi5fImWcLaPr6NSB7bIVnJ43T07EnJkK8Uf609Oq
+	qJqOOUtBFC61iULIzrlv6yNPTLdDB3uBrFACqqC3id/koqDuOtV4XgqY4e2k3NTX3ZjM
+	ZdJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=7BssQPMtQFcvzo9RRfOh/4bG0FRFWgRKCGLWeTCP1rs=;
+	b=Go5NY5LZBuKeESljfpQwB6/w71hQmsDK3IAACVAgbMncQ2fikdPRFO9Y50OUOkH45B
+	gbsM8D0Bfl7v0kuYJyJf4uziqUoS3UQEpzOYtEeEmHCRPH4/htx0uRbmPiCI1uGpKtHe
+	kZAfgMn8cfetFwdzt3UX8IzWAAcmXQ5PhqCj3N1hpiXn6UZMqP39X65RJ33WNUMZYH2u
+	uEb6HplZWU/GcxsNzB8Ut3Y/PKJffA9d8QZiZgA4PhsE0AFrFS6Hwtbx9eiY+WqSN5A5
+	txlA4ZenDJAZgdZi/5UmDCflGV3Aqpe0UennlNCxpFhJ7hCcQK9eYX15B3pU1zw4j4gg
+	kUlQ==
+X-Gm-Message-State: AMke39nNPWThSG1JJeUsL941X9wFRjykjBBSrspuzPZSkJMcoUo/z/YxL13oN8enlBB5ykGw6ZdL6TWWj17WLXTl
+X-Received: by 10.237.34.250 with SMTP id q55mr19501310qtc.144.1489141780164; 
+	Fri, 10 Mar 2017 02:29:40 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Fri, 10 Mar 2017 02:29:19 -0800 (PST)
+In-Reply-To: <1489118123-17850-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+References: <1489118123-17850-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 10 Mar 2017 10:29:19 +0000
+Message-ID: <CAJTo0Lbgn3MS1D+D_jr+8bkBQfVzCA615_B_fE1xYTWugUyKrg@mail.gmail.com>
+To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pkgconfig: Fix QA issue when upgrade rpm from 5.4.16 to 5.4.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,43 +53,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Mar 2017 10:16:31 -0000
+X-List-Received-Date: Fri, 10 Mar 2017 10:29:39 -0000
+Content-Type: multipart/alternative; boundary=001a113eea5ad3eb1a054a5dd6ab
 
-The file /usr/libexec/gcc/.../cc1 has been installed in package gcc
-instead of package cpp, because FILES statements for both packages match
-the cc1 binary. Move the file to package cpp and add cpp to RDEPENDS_gcc
-to fix the dependency.
+--001a113eea5ad3eb1a054a5dd6ab
+Content-Type: text/plain; charset=UTF-8
 
-Having the cc1 binary in cpp fixes errors such as: "cpp: error trying to
-exec 'cc1': execvp: No such file or directory".
+On 10 March 2017 at 03:55, Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com> wrote:
 
-Signed-off-by: Ismo Puustinen <ismo.puustinen@intel.com>
----
- meta/recipes-devtools/gcc/gcc-target.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> +RPROVIDES_${PN} += "pkgconfig(pkg-config) pkgconfig"
+>
 
-diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
-index f436fa2..b245bdd 100644
---- a/meta/recipes-devtools/gcc/gcc-target.inc
-+++ b/meta/recipes-devtools/gcc/gcc-target.inc
-@@ -31,7 +31,7 @@ PACKAGES = "\
- FILES_${PN} = "\
-     ${bindir}/${TARGET_PREFIX}gcc* \
-     ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/collect2* \
--    ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/cc* \
-+    ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/cc1plus \
-     ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/lto* \
-     ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/lib*${SOLIBS} \
-     ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/liblto*${SOLIBSDEV} \
-@@ -46,6 +46,7 @@ RRECOMMENDS_${PN} += "\
-     libssp \
-     libssp-dev \
- "
-+RDEPENDS_${PN} += "cpp"
- 
- FILES_${PN}-dev = "\
-     ${gcclibdir}/${TARGET_SYS}/${BINV}/lib*${SOLIBSDEV} \
--- 
-2.9.3
+But PN is pkgconfig, so why is this required?
 
+Ross
 
+--001a113eea5ad3eb1a054a5dd6ab
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 10 March 2017 at 03:55, Zheng Ruoqin <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:zhengrq.fnst@cn.fujitsu.com" target=3D"_blank">zhengrq.fnst@cn.fujitsu=
+.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2e=
+u" class=3D"a3s aXjCH m15ab6a5d8424d8e7">+RPROVIDES_${PN} +=3D &quot;pkgcon=
+fig(pkg-config) pkgconfig&quot;<br></div></blockquote></div><br>But PN is p=
+kgconfig, so why is this required?</div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113eea5ad3eb1a054a5dd6ab--
