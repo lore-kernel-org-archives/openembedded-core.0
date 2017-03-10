@@ -1,28 +1,23 @@
-Return-Path: <andrew.shadura@collabora.co.uk>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id 13210778AE
+Return-Path: <jose.perez.carranza@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 7812C77835
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Mar 2017 19:13:45 +0000 (UTC)
-Received: from [IPv6:2001:470:1f1b:476:ecae:cbdd:615e:1b52] (unknown
-	[IPv6:2001:470:1f1b:476:ecae:cbdd:615e:1b52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested) (Authenticated sender: andrewsh)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id B3DA5260AC1;
-	Fri, 10 Mar 2017 19:13:45 +0000 (GMT)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20170309143139.2785-1-andrew.shadura@collabora.co.uk>
-	<20170309143139.2785-2-andrew.shadura@collabora.co.uk>
-	<CAJTo0LYuWM7i-snTJyJ5BPdeKRez_8WzTk5EhUbbfFXFTDrfsQ@mail.gmail.com>
-From: Andrew Shadura <andrew.shadura@collabora.co.uk>
-Organization: Collabora Limited
-Message-ID: <e4c9dcc1-c915-a44c-fe01-bf44f5299f19@collabora.co.uk>
-Date: Fri, 10 Mar 2017 20:13:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYuWM7i-snTJyJ5BPdeKRez_8WzTk5EhUbbfFXFTDrfsQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 2/2] ghostscript: build and install libgs
+	Fri, 10 Mar 2017 22:01:43 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga105.jf.intel.com with ESMTP; 10 Mar 2017 14:01:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,143,1486454400"; d="scan'208";a="58793941"
+Received: from yctb06.ostc.intel.com ([10.54.69.60])
+	by orsmga002.jf.intel.com with ESMTP; 10 Mar 2017 14:01:43 -0800
+From: jose.perez.carranza@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 10 Mar 2017 13:58:09 +0000
+Message-Id: <20170310135809.5770-1-jose.perez.carranza@linux.intel.com>
+X-Mailer: git-send-email 2.10.2
+In-Reply-To: <CAJTo0LZNJx08iHnc7G6ka57ky0=NbkV2WDE9ihT29-pba+8Y1g@mail.gmail.com>
+References: <CAJTo0LZNJx08iHnc7G6ka57ky0=NbkV2WDE9ihT29-pba+8Y1g@mail.gmail.com>
+Cc: Jose Perez Carranza <jose.perez.carranza@linux-ntel.com>
+Subject: [PATCH v2] selftest/devtool: Add test to verify "modify virtual/kernel"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,72 +30,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Mar 2017 19:13:46 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 10 Mar 2017 22:01:49 -0000
 
-On 09/03/17 17:36, Burton, Ross wrote:
-> On 9 March 2017 at 14:31, Andrew Shadura <andrew.shadura@collabora.co.uk>
-> wrote:
-> 
->> Build and install libgs library, which is a build dependency
->> of a few other libraries, such as libspectre.
->>
->> We don't want to ship the executable binaries, only the library and its
->> headers, hence oe_runmake install-so + rm -rf, not e.g. oe_libinstall.
->>
-> 
-> This does *way* more:
-> 
-> packages/corei7-64-poky-linux/ghostscript/ghostscript-dev: PKGSIZE changed
-> from 0 to 38856 (+100%)
->   * FILELIST: added "/usr/include/ghostscript/gdevdsp.h
-> /usr/include/ghostscript/iapi.h /usr/lib/libgs.so
-> /usr/include/ghostscript/gserrors.h /usr/include/ghostscript/ierrors.h"
-> packages/corei7-64-poky-linux/ghostscript/ghostscript-dev: RDEPENDS: added
-> "ghostscript-lib"
-> packages/corei7-64-poky-linux/ghostscript/ghostscript-dev: FILELIST: added
-> "/usr/include/ghostscript/gdevdsp.h /usr/include/ghostscript/iapi.h
-> /usr/lib/libgs.so /usr/include/ghostscript/gserrors.h
-> /usr/include/ghostscript/ierrors.h"
-> packages/corei7-64-poky-linux/ghostscript/ghostscript-dev: RRECOMMENDS:
-> added "ghostscript-lib-dev"
-> 
-> That's all good.
-> 
-> packages/corei7-64-poky-linux/ghostscript/ghostscript-doc: PKGSIZE changed
-> from 45465 to 0 (-100%)
->   * FILELIST: removed all items "/usr/share/man/de/man1/ps2pdf.1 ...
-> /usr/share/man/man1/pdf2ps.1"
-> 
-> All the man pages disappeared
-> 
-> packages/corei7-64-poky-linux/ghostscript/ghostscript: PKGSIZE changed from
-> 61037876 to 16376087 (-73%)
->   * FILELIST: removed "/usr/share/ghostscript/9.20/doc/index.html
-> /usr/share/ghostscript/9.20/doc/gs.css
-> /usr/share/ghostscript/9.20/lib/bjc610a0.upp ...
-> /usr/share/ghostscript/9.20/doc/Make.htm /usr/share/ghostscript/9.20/lib/
-> wrfont.ps"
-> 
-> Pretty much all of ghostscript disappeared.
+From: Jose Perez Carranza <jose.perez.carranza@linux-ntel.com>
 
-Right. I'm probably removing way too much.
+The purpose of this test case is to verify that
+devtool modify works correctly when building
+the kernel.
 
-> packages/corei7-64-poky-linux/ghostscript/ghostscript: RDEPENDS: removed
-> all items "cups-libimage (['>= 2.2.2']) glibc (['>= 2.25']) cups-lib (['>=
-> 2.2.2']) libpng (['>= 1.6.28']) tiff (['>= 4.0.7']) fontconfig (['>=
-> 2.12.1'])"
-> 
-> Was that the intention?  Having libgs sounds sensible but surely both
-> should be packaged.
+[YOCTO #10817]
 
-The intention was what I said, probably I misunderstood what the
-original packages had, so I haven't noticed things disappearing.
+Signed-off-by: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+---
+ meta/lib/oeqa/selftest/devtool.py | 85 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 85 insertions(+)
 
-Will investigate and resubmit.
-
+diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
+index f1661ef..c389d50 100644
+--- a/meta/lib/oeqa/selftest/devtool.py
++++ b/meta/lib/oeqa/selftest/devtool.py
+@@ -1606,3 +1606,88 @@ class DevtoolTests(DevtoolBase):
+         checkvars['S'] = '${WORKDIR}/${BPN}-%s' % recipever
+         checkvars['SRC_URI'] = url
+         self._test_recipe_contents(newrecipefile, checkvars, [])
++
++    @testcase(1577)
++    def test_devtool_virtual_kernel_modify(self):
++        """
++        Summary:        The purpose of this test case is to verify that
++                        devtool modify works correctly when building
++                        the kernel.
++        Dependencies:   NA
++        Steps:          1. Build kernel with bitbake.
++                        2. Save the config file generated.
++                        3. Clean the environment.
++                        4. Use `devtool modify virtual/kernel` to validate following:
++                           4.1 The source is checked out correctly.
++                           4.2 The resulting configuration is the same as
++                               what was get on step 2.
++                           4.3 The Kernel can be build correctly.
++                           4.4 Changes made on the source are reflected on the
++                               subsequent builds.
++                           4.5 Changes on the configuration are reflected on the
++                               subsequent builds
++         Expected:       devtool modify is able to checkout the source of the kernel
++                         and modification to the source and configurations are reflected
++                         when building the kernel.
++         """
++        #Set machine to qemxu86 to be able to modify the kernel and
++        #verify the modification.
++        features = 'MACHINE = "qemux86"\n'
++        self.write_config(features)
++        # Clean up the enviroment
++        bitbake('linux-yocto -c cleansstate')
++        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
++        self.track_for_cleanup(tempdir)
++        self.track_for_cleanup(self.workspacedir)
++        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
++        self.add_command_to_tearDown('bitbake -c clean linux-yocto')
++        #Step 1
++        #Here is just generated the config file instead of all the kernel to optimize the
++        #time of executing this test case.
++        bitbake('linux-yocto -c configure')
++        bbconfig = os.path.join(get_bb_var('B',"linux-yocto"),'.config')
++        buildir= get_bb_var('TOPDIR')
++        #Step 2
++        runCmd('cp %s %s' % (bbconfig, buildir))
++        self.assertTrue(os.path.exists(os.path.join(buildir, '.config')),
++                        'Could not copy .config file from kernel')
++
++        tmpconfig = os.path.join(buildir, '.config')
++        #Step 3
++        bitbake('linux-yocto -c cleanall')
++        #Step 4.1
++        runCmd('devtool modify virtual/kernel -x %s' % tempdir)
++        self.assertTrue(os.path.exists(os.path.join(tempdir, 'Makefile')),
++                        'Extracted source could not be found')
++        #Step 4.2
++        configfile = os.path.join(tempdir,'.config')
++        diff = runCmd('diff %s %s' % (tmpconfig, configfile))
++        self.assertEqual(0,diff.status,'Kernel .config file is not the same using bitbake and devtool')
++        #Step 4.3
++        #NOTE: virtual/kernel is mapped to linux-yocto
++        result = runCmd('devtool build linux-yocto')
++        self.assertEqual(0,result.status,'Cannot build kernel using `devtool build`')
++        kernelfile = os.path.join(get_bb_var('KBUILD_OUTPUT',"linux-yocto"), 'vmlinux')
++        self.assertTrue(os.path.exists(kernelfile),'Kernel was not build correctly')
++
++        #Modify the kernel source, this is specific for qemux86
++        modfile = os.path.join(tempdir,'arch/x86/boot/header.S')
++        modstring = "use a boot loader - Devtool kernel testing"
++        modapplied = runCmd("sed -i 's/boot loader/%s/' %s" % (modstring, modfile))
++        self.assertEqual(0,modapplied.status,'Modification to %s on kernel source failed' % modfile)
++        #Modify the configuration
++        codeconfigfile = os.path.join(tempdir,'.config.new')
++        modconfopt = "CONFIG_SG_POOL=n"
++        modconf = runCmd("sed -i 's/CONFIG_SG_POOL=y/%s/' %s" % (modconfopt, codeconfigfile))
++        self.assertEqual(0,modconf.status,'Modification to %s failed' % codeconfigfile)
++        #Build again kernel with devtool
++        rebuild = runCmd('devtool build linux-yocto')
++        self.assertEqual(0,rebuild.status,'Fail to build kernel after modification of source and config')
++        #Step 4.4
++        bzimagename = 'bzImage-' + get_bb_var('KERNEL_VERSION_NAME',"linux-yocto")
++        bzimagefile = os.path.join(get_bb_var('D',"linux-yocto"),'boot', bzimagename)
++        checkmodcode = runCmd("grep '%s' %s" % (modstring, bzimagefile))
++        self.assertEqual(0,checkmodcode.status,'Modification on kernel source failed')
++        #Step 4.5
++        checkmodconfg = runCmd("grep %s %s" % (modconfopt, codeconfigfile))
++        self.assertEqual(0,checkmodconfg.status,'Modification to configuration file failed')
 -- 
-Cheers,
-  Andrew
+2.10.2
+
 
