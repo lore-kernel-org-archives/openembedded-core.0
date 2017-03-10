@@ -1,22 +1,22 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 7638077660
+	by mail.openembedded.org (Postfix) with ESMTP id 8BEFA776DC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Mar 2017 11:25:36 +0000 (UTC)
+	Fri, 10 Mar 2017 11:25:37 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga105.jf.intel.com with ESMTP; 10 Mar 2017 03:25:38 -0800
+	by orsmga105.jf.intel.com with ESMTP; 10 Mar 2017 03:25:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,140,1486454400"; d="scan'208";a="1106988149"
+X-IronPort-AV: E=Sophos;i="5.36,140,1486454400"; d="scan'208";a="1106988150"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 10 Mar 2017 03:25:37 -0800
+	by orsmga001.jf.intel.com with ESMTP; 10 Mar 2017 03:25:38 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Mar 2017 13:23:49 +0200
-Message-Id: <a0bf9330d9c76ac704d16ef5dd9e17e7d7636703.1489144807.git.alexander.kanavin@linux.intel.com>
+Date: Fri, 10 Mar 2017 13:23:50 +0200
+Message-Id: <3627e1f80e85c6405c5b0cb3f47a2d27e7f7d53e.1489144807.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1489144807.git.alexander.kanavin@linux.intel.com>
 References: <cover.1489144807.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 10/44] python-backports-lzma: add a recipe
+Subject: [PATCH 11/44] librepo: add a recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,84 +29,217 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Mar 2017 11:25:36 -0000
+X-List-Received-Date: Fri, 10 Mar 2017 11:25:37 -0000
 
-It is needed by dnf, and only when using Python 2.x, so can
-be dropped after moving dnf/rpm4 stack to Python 3.x.
+librepo is needed by dnf and libdnf.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...-not-add-include-and-library-directories-.patch | 32 ++++++++++++++++++++++
- .../python-backports-lzma_git.bb                   | 21 ++++++++++++++
- 2 files changed, 53 insertions(+)
- create mode 100644 meta/recipes-devtools/python-backports-lzma/python-backports-lzma/0001-setup.py-do-not-add-include-and-library-directories-.patch
- create mode 100644 meta/recipes-devtools/python-backports-lzma/python-backports-lzma_git.bb
+ ...ly-set-the-library-installation-directory.patch | 28 +++++++++++++++
+ ...to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch | 41 ++++++++++++++++++++++
+ ...-race-when-deleting-temporary-directories.patch | 41 ++++++++++++++++++++++
+ ...ariables-with-pkg-config-not-with-cmake-m.patch | 29 +++++++++++++++
+ meta/recipes-devtools/librepo/librepo_git.bb       | 24 +++++++++++++
+ 5 files changed, 163 insertions(+)
+ create mode 100644 meta/recipes-devtools/librepo/librepo/0001-Correctly-set-the-library-installation-directory.patch
+ create mode 100644 meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch
+ create mode 100644 meta/recipes-devtools/librepo/librepo/0003-tests-fix-a-race-when-deleting-temporary-directories.patch
+ create mode 100644 meta/recipes-devtools/librepo/librepo/0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch
+ create mode 100644 meta/recipes-devtools/librepo/librepo_git.bb
 
-diff --git a/meta/recipes-devtools/python-backports-lzma/python-backports-lzma/0001-setup.py-do-not-add-include-and-library-directories-.patch b/meta/recipes-devtools/python-backports-lzma/python-backports-lzma/0001-setup.py-do-not-add-include-and-library-directories-.patch
+diff --git a/meta/recipes-devtools/librepo/librepo/0001-Correctly-set-the-library-installation-directory.patch b/meta/recipes-devtools/librepo/librepo/0001-Correctly-set-the-library-installation-directory.patch
 new file mode 100644
-index 00000000000..0eb904a8a70
+index 00000000000..01fea40467e
 --- /dev/null
-+++ b/meta/recipes-devtools/python-backports-lzma/python-backports-lzma/0001-setup.py-do-not-add-include-and-library-directories-.patch
-@@ -0,0 +1,32 @@
-+From e5e3196cf69172b625c8c6ccca991c02fd18137c Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/librepo/librepo/0001-Correctly-set-the-library-installation-directory.patch
+@@ -0,0 +1,28 @@
++From 36d87919223db9b054862ad38cdda8d9222a2bab Mon Sep 17 00:00:00 2001
 +From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 30 Dec 2016 18:02:12 +0200
-+Subject: [PATCH] setup.py: do not add include and library directories from the
-+ host
++Date: Fri, 30 Dec 2016 18:04:35 +0200
++Subject: [PATCH 1/4] Correctly set the library installation directory
 +
-+This avoids host contamination.
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ librepo/CMakeLists.txt | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/librepo/CMakeLists.txt b/librepo/CMakeLists.txt
++index 2fe76d8..5026def 100644
++--- a/librepo/CMakeLists.txt
+++++ b/librepo/CMakeLists.txt
++@@ -60,7 +60,8 @@ CONFIGURE_FILE("version.h.in" "${CMAKE_CURRENT_SOURCE_DIR}/version.h" @ONLY)
++ IF (CMAKE_SIZEOF_VOID_P MATCHES "8")
++   SET (LIB_SUFFIX "64")
++ ENDIF (CMAKE_SIZEOF_VOID_P MATCHES "8")
++-SET (LIB_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}")
+++#SET (LIB_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}")
+++SET (LIB_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}")
++ 
++ INSTALL(FILES ${librepo_HEADERS} DESTINATION include/librepo)
++ INSTALL(TARGETS librepo LIBRARY DESTINATION ${LIB_INSTALL_DIR})
++-- 
++2.11.0
++
+diff --git a/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch b/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch
+new file mode 100644
+index 00000000000..7138dfce21d
+--- /dev/null
++++ b/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch
+@@ -0,0 +1,41 @@
++From 1570ad33dd7e5d83f3ee80bd104b114709ac1e34 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Fri, 30 Dec 2016 18:05:36 +0200
++Subject: [PATCH 2/4] Do not try to obtain PYTHON_INSTALL_DIR by running
++ python.
 +
 +Upstream-Status: Inappropriate [oe-core specific]
 +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+ setup.py | 4 +---
-+ 1 file changed, 1 insertion(+), 3 deletions(-)
++ librepo/python/python2/CMakeLists.txt | 2 +-
++ librepo/python/python3/CMakeLists.txt | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/setup.py b/setup.py
-+index 7886cf7..9a0356a 100644
-+--- a/setup.py
-++++ b/setup.py
-+@@ -31,9 +31,7 @@ packages = ["backports", "backports.lzma"]
-+ home = os.path.expanduser("~")
-+ extens = [Extension('backports/lzma/_lzma',
-+                     ['backports/lzma/_lzmamodule.c'],
-+-                    libraries = ['lzma'],
-+-                    include_dirs = [os.path.join(home, 'include'), '/opt/local/include', '/usr/local/include'],
-+-                    library_dirs = [os.path.join(home, 'lib'), '/opt/local/lib', '/usr/local/lib']
-++                    libraries = ['lzma']
-+                     )]
++diff --git a/librepo/python/python2/CMakeLists.txt b/librepo/python/python2/CMakeLists.txt
++index 3615e17..cffa99f 100644
++--- a/librepo/python/python2/CMakeLists.txt
+++++ b/librepo/python/python2/CMakeLists.txt
++@@ -1,6 +1,6 @@
++ FIND_PACKAGE (PythonLibs 2 )
++ FIND_PACKAGE (PythonInterp 2 REQUIRED)
++-EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib(True))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
+++#EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib(True))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
++ INCLUDE_DIRECTORIES (${PYTHON_INCLUDE_PATH})
 + 
-+ descr = "Backport of Python 3.3's 'lzma' module for XZ/LZMA compressed files."
++ MESSAGE(STATUS "Python install dir is ${PYTHON_INSTALL_DIR}")
++diff --git a/librepo/python/python3/CMakeLists.txt b/librepo/python/python3/CMakeLists.txt
++index dfecac9..38bcc72 100644
++--- a/librepo/python/python3/CMakeLists.txt
+++++ b/librepo/python/python3/CMakeLists.txt
++@@ -10,7 +10,7 @@ message("--- ${PYTHON_INCLUDE_DIR}")
++ 
++ FIND_PACKAGE(PythonLibs 3.0)
++ FIND_PACKAGE(PythonInterp 3.0 REQUIRED)
++-EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib(True))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
+++#EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib(True))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
++ INCLUDE_DIRECTORIES (${PYTHON_INCLUDE_PATH})
++ 
++ MESSAGE(STATUS "Python3 install dir is ${PYTHON_INSTALL_DIR}")
 +-- 
 +2.11.0
 +
-diff --git a/meta/recipes-devtools/python-backports-lzma/python-backports-lzma_git.bb b/meta/recipes-devtools/python-backports-lzma/python-backports-lzma_git.bb
+diff --git a/meta/recipes-devtools/librepo/librepo/0003-tests-fix-a-race-when-deleting-temporary-directories.patch b/meta/recipes-devtools/librepo/librepo/0003-tests-fix-a-race-when-deleting-temporary-directories.patch
 new file mode 100644
-index 00000000000..6d3b8d569de
+index 00000000000..0d2fae434ad
 --- /dev/null
-+++ b/meta/recipes-devtools/python-backports-lzma/python-backports-lzma_git.bb
-@@ -0,0 +1,21 @@
-+HOMEPAGE = "https://github.com/peterjc/backports.lzma"
-+LICENSE = "BSD"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=846e05e7e9e1c886b2637c230cfcd5dd"
++++ b/meta/recipes-devtools/librepo/librepo/0003-tests-fix-a-race-when-deleting-temporary-directories.patch
+@@ -0,0 +1,41 @@
++From b1a5c92dbd1d11f1afdc094fccea64de334d2783 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Fri, 30 Dec 2016 18:06:24 +0200
++Subject: [PATCH 3/4] tests: fix a race when deleting temporary directories
 +
-+SRC_URI = "git://github.com/peterjc/backports.lzma.git \
-+           file://0001-setup.py-do-not-add-include-and-library-directories-.patch \
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ tests/python/tests/test_yum_repo_downloading.py | 2 +-
++ tests/python/tests/test_yum_repo_locating.py    | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/tests/python/tests/test_yum_repo_downloading.py b/tests/python/tests/test_yum_repo_downloading.py
++index ad597dc..4a32519 100644
++--- a/tests/python/tests/test_yum_repo_downloading.py
+++++ b/tests/python/tests/test_yum_repo_downloading.py
++@@ -32,7 +32,7 @@ class TestCaseYumRepoDownloading(TestCaseWithFlask):
++             os.environ.pop('GNUPGHOME')
++         else:
++             os.environ['GNUPGHOME'] = self._gnupghome
++-        shutil.rmtree(self.tmpdir)
+++        shutil.rmtree(self.tmpdir, True)
++ 
++     def test_download_repo_01(self):
++         h = librepo.Handle()
++diff --git a/tests/python/tests/test_yum_repo_locating.py b/tests/python/tests/test_yum_repo_locating.py
++index 8f4bea5..db4294c 100644
++--- a/tests/python/tests/test_yum_repo_locating.py
+++++ b/tests/python/tests/test_yum_repo_locating.py
++@@ -34,7 +34,7 @@ class TestCaseYumRepoLocating(TestCase):
++             os.environ.pop('GNUPGHOME')
++         else:
++             os.environ['GNUPGHOME'] = self._gnupghome
++-        shutil.rmtree(self.tmpdir)
+++        shutil.rmtree(self.tmpdir, True)
++ 
++     def test_read_mirrorlist(self):
++         h = librepo.Handle()
++-- 
++2.11.0
++
+diff --git a/meta/recipes-devtools/librepo/librepo/0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch b/meta/recipes-devtools/librepo/librepo/0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch
+new file mode 100644
+index 00000000000..6665b316cbb
+--- /dev/null
++++ b/meta/recipes-devtools/librepo/librepo/0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch
+@@ -0,0 +1,29 @@
++From a36be8192615e2a1fb5a5856d44565277f15583b Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Fri, 30 Dec 2016 18:23:27 +0200
++Subject: [PATCH 4/4] Set gpgme variables with pkg-config, not with cmake
++ module (which doesn't work properly)
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ CMakeLists.txt | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index ef07d2d..f1fa09b 100644
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -31,7 +31,8 @@ PKG_CHECK_MODULES(GLIB2 glib-2.0 REQUIRED)
++ PKG_SEARCH_MODULE(LIBCRYPTO REQUIRED libcrypto openssl)
++ FIND_PACKAGE(EXPAT REQUIRED)
++ FIND_PACKAGE(CURL REQUIRED)
++-FIND_PACKAGE(Gpgme REQUIRED)
+++PKG_CHECK_MODULES(GPGME gpgme REQUIRED)
+++set(GPGME_VANILLA_LIBRARIES ${GPGME_LIBRARIES})
++ FIND_PACKAGE(Xattr REQUIRED)
++ 
++ INCLUDE_DIRECTORIES(${GLIB2_INCLUDE_DIRS})
++-- 
++2.11.0
++
+diff --git a/meta/recipes-devtools/librepo/librepo_git.bb b/meta/recipes-devtools/librepo/librepo_git.bb
+new file mode 100644
+index 00000000000..70e88c47b9e
+--- /dev/null
++++ b/meta/recipes-devtools/librepo/librepo_git.bb
+@@ -0,0 +1,24 @@
++SUMMARY = " A library providing C and Python (libcURL like) API for downloading linux repository metadata and packages."
++LICENSE = "LGPLv2.1"
++LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
++
++SRC_URI = "git://github.com/rpm-software-management/librepo.git \
++           file://0001-Correctly-set-the-library-installation-directory.patch \
++           file://0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch \
++           file://0003-tests-fix-a-race-when-deleting-temporary-directories.patch \
++           file://0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch \
 +           "
 +
-+PV = "0.0.6+git${SRCPV}"
-+SRCREV = "718b3316ae7aee8e03c02e7e110108779ce3aec8"
++PV = "1.7.20+git${SRCPV}"
++SRCREV = "e1137cbbda78fecb192146300790680a5bc811b1"
 +
 +S = "${WORKDIR}/git"
 +
-+inherit distutils
++DEPENDS = "curl expat glib-2.0 openssl attr libcheck gpgme"
 +
-+DEPENDS_append = " xz"
++inherit cmake distutils-base pkgconfig
 +
-+RDEPENDS_${PN} += "python-core python-io python-pkgutil"
-+RDEPENDS_${PN}_class-native += "python-core"
++EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR}"
 +
 +BBCLASSEXTEND = "native"
++
 -- 
 2.11.0
 
