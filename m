@@ -1,30 +1,29 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
-	by mail.openembedded.org (Postfix) with ESMTP id E5F897309B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C65D072F74
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Mar 2017 09:58:16 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
-	via TCP (outbound) with ESMTPS id 20170311095815376_0685;
-	Sat, 11 Mar 2017 01:58:15 -0800
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [174.118.92.171] (port=40610 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1cmdmq-000637-Ow; Sat, 11 Mar 2017 04:58:08 -0500
-Date: Sat, 11 Mar 2017 04:57:58 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <97985b49-64ba-3fae-58a6-6eee4ad8126c@gmail.com>
-Message-ID: <alpine.LFD.2.20.1703110455070.18594@localhost.localdomain>
-References: <alpine.LFD.2.20.1703110315570.17105@localhost.localdomain>
-	<97985b49-64ba-3fae-58a6-6eee4ad8126c@gmail.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: how does files/fs-perms.txt affect building base-files rpm?
+	Sat, 11 Mar 2017 11:24:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v2BBOS7R014428; Sat, 11 Mar 2017 11:24:28 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 4oivEqp9a0_I; Sat, 11 Mar 2017 11:24:28 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v2BBOK8U014425
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sat, 11 Mar 2017 11:24:23 GMT
+Message-ID: <1489231460.13980.10.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	openembedded-core@lists.openembedded.org
+Date: Sat, 11 Mar 2017 11:24:20 +0000
+In-Reply-To: <cover.1489209195.git.pkj@axis.com>
+References: <cover.1489209195.git.pkj@axis.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 0/1] Whitelist sftp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,35 +36,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Mar 2017 09:58:17 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Sat, 11 Mar 2017 11:24:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sat, 11 Mar 2017, Khem Raj wrote:
+On Sat, 2017-03-11 at 06:14 +0100, Peter Kjellerstedt wrote:
+> I have been trying out the whitelisting of tools in $PATH, and it
+> seems to work very well. However, one thing that I realized is that
+> the tools used by the various fetchers need to be whitelisted. This
+> patch adds sftp to HOSTTOOLS_NONFATAL as that is the only fetcher we
+> use appart from git and wget, but I expect other tools such as cvs,
+> svn, hg, etc need to be added as well.
 
-> On 3/11/17 12:30 AM, Robert P. J. Day wrote:
-> >
-> >   potentially a dumb question, but do the settings in
-> > files/fs-perms.txt affect the building of the base-files rpm just
-> > as they would affect the building of any other rpm?
->
-> it should be executing fixup_perms() in PKGD before splitting the
-> package, so yes it should run for all recipes.
+For some, like subversion we actually build subversion-native so they
+shouldn't be listed by default.
 
-  so it is possible that, despite the manual settings in the
-base-files do_install() task, fs-perms.txt might override some of
-those settings. i'm not saying i've seen anything like that, just
-clarifying the possibility.
+> Feel free to squash this commit with the "base/bitbake.conf: Filter
+> contents of PATH to only allow whitelisted tools" commit.
 
-rday
+I squashed this in along with some other minor tweaks thanks.
 
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+Richard
 
