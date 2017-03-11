@@ -1,29 +1,29 @@
 Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 1899771AB9
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id 1963171CB7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Mar 2017 08:30:21 +0000 (UTC)
+	Sat, 11 Mar 2017 09:02:10 +0000 (UTC)
 Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
-	via TCP (outbound) with ESMTPS id 20170311083021968_0484
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20170311090210993_0685
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Mar 2017 08:30:21 +0000
+	Sat, 11 Mar 2017 01:02:10 -0800
 X-RC-FROM: <rpjday@crashcourse.ca>
 X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [174.118.92.171] (port=39556 helo=crashcourse.ca)
+Received: from [174.118.92.171] (port=39920 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
 	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1cmcPo-0006bS-5b for openembedded-core@lists.openembedded.org;
-	Sat, 11 Mar 2017 03:30:16 -0500
-Date: Sat, 11 Mar 2017 03:30:06 -0500 (EST)
+	id 1cmcua-0001D3-Nw for openembedded-core@lists.openembedded.org;
+	Sat, 11 Mar 2017 04:02:04 -0500
+Date: Sat, 11 Mar 2017 04:02:01 -0500 (EST)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@localhost.localdomain
 To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1703110315570.17105@localhost.localdomain>
+Message-ID: <alpine.LFD.2.20.1703110359080.18131@localhost.localdomain>
 User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
 X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: how does files/fs-perms.txt affect building base-files rpm?
+Subject: [PATCH] fs-perms.txt: Two cleanup tweaks for consistency.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,35 +36,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Mar 2017 08:30:23 -0000
+X-List-Received-Date: Sat, 11 Mar 2017 09:02:12 -0000
 Content-Type: text/plain; charset=US-ASCII
 
 
-  potentially a dumb question, but do the settings in
-files/fs-perms.txt affect the building of the base-files rpm just as
-they would affect the building of any other rpm?
+* Remove duplicate entry for /srv already defined earlier in file.
+* Use "${localstatedir}" rather than "/var" for consistency.
 
-  i can see the structure of the base-files recipe, whose do_install()
-routine manually installs a ton of stuff, with very specific file and
-directory modes, which is fine. and assuming fs-perms.txt is applied
-after that, does that mean that whatever is in that fs-perms.txt file
-will override any settings already in place as built by the base-files
-recipe?
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
 
-  also, as i understand it, given that fs-perms.txt is used to set
-file and directory modes for all created packages, does that mean that
-any discrepancy between a package and what is already in the root
-filesystem will cause a package installation error?
+---
 
-  i already ran across the situation where a package was built
-assuming a volatile log directory, but the running image it was being
-installed into had a regular /var/log directory, and that caused the
-package installation to fail. am i correct in assuming that is normal
-behaviour?
+  i'm assuming neither of these changes would cause any trouble.
 
-  thank you kindly.
+diff --git a/meta/files/fs-perms.txt b/meta/files/fs-perms.txt
+index 3d00e86..c8c3ac5 100644
+--- a/meta/files/fs-perms.txt
++++ b/meta/files/fs-perms.txt
+@@ -63,8 +63,5 @@ ${localstatedir}/volatile/tmp	01777	root	root	false - - -
+ # Set 0700
+ ${ROOT_HOME}			0700	root	root	false - - -
 
-rday
+-# Set 755-lsb
+-/srv				0755	root	root	false - - -
+-
+ # Set 2775-lsb
+-/var/mail			02775	root	mail	false - - -
++${localstatedir}/mail		02775	root	mail	false - - -
 
 -- 
 
