@@ -1,45 +1,55 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id D484E77552
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BEC877738
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Mar 2017 01:31:39 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id 77so11906117pgc.0
+	Sat, 11 Mar 2017 05:14:12 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 4B4942E315
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Mar 2017 17:31:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=3NBQfzSe1Bw5Ba2CE/t2Q5AibODjC8ZPlJEBUh8/i0M=;
-	b=myiPA/ljlqI2e9dycotg227Hm0QTZGhj1mM/eLi1LGiIWoMXRotkF/g0Bo+nYOS1yI
-	QKKzubDv9ILXwrs1btN92UHUW2Dn0SexuYnnbOLamwKlzeRN8FuWoNMKwA9KoJaUbQ4y
-	gLAFnNaV1z+OXuWG969Ock7xbx9LdX0P/1rwqMkksOTp7sSzQYK3lf2XFOmV+IDJw6Q+
-	MkkBEWhXJR3Ohn254Cmt78M8xvFdCx3yNxyyXphRjBdSsy49ziz3XzeuwEjqQKer9x5O
-	5fO4FgOif+PgEIBmp9sbLg3BdRWE2f/Q4fZigsrTiktAC6DbAvuQtpZHGBMpP4/cp2HS
-	CPkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=3NBQfzSe1Bw5Ba2CE/t2Q5AibODjC8ZPlJEBUh8/i0M=;
-	b=lyazoQqikxw48oqpvtXPEKWKco39aTharcp+D2qe8PvmkjRYx3jbcVAcNe4kQf7cda
-	cioJcPD3PelLz/+nS86+lqqfQkYu7LhS3oZLV3P2MgD51PasFJoYr9mETOP6+ZiKFj2z
-	mX5kw+MPf/eI82RWydeDSgxLmohg9MZGlVUoihys9yqGLz13WfIXVtlkID9tW4zcQ8Rp
-	w2YQKHpGrnT6q/4eJyAA8cjWNHWrCoS5uy2btkX8k4taq4gMhX6MTBn6yS+HWQ1WlQ0b
-	0T1XO+q+RUV9WjyCoQTgU96rtSYfZK6/gjm+N5JSiJfY5UmSaAr6l4d17BIWkkjHl/EA
-	smhQ==
-X-Gm-Message-State: AMke39l0eHOMyquhdSt9wcblPYF1pk/4qR0YjzrqSaaN8O+fPStbq/ZUfNkZGRQiSii/EA==
-X-Received: by 10.84.241.203 with SMTP id t11mr30066424plm.48.1489195900859;
-	Fri, 10 Mar 2017 17:31:40 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	a78sm20797149pfc.25.2017.03.10.17.31.38
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 10 Mar 2017 17:31:39 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
+	Sat, 11 Mar 2017 06:14:13 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id ouGLWWXBPt19
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 11 Mar 2017 06:14:12 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bes.se.axis.com (Postfix) with ESMTPS id B659E2E2F3
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 11 Mar 2017 06:14:12 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A6AB01A075
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 11 Mar 2017 06:14:12 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9BC191A07C
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 11 Mar 2017 06:14:12 +0100 (CET)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 11 Mar 2017 06:14:12 +0100 (CET)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id 8E4FA3B9
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 11 Mar 2017 06:14:12 +0100 (CET)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v2B5ECHK022731
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 11 Mar 2017 06:14:12 +0100
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v2B5EC1P022730
+	for openembedded-core@lists.openembedded.org;
+	Sat, 11 Mar 2017 06:14:12 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Mar 2017 17:31:19 -0800
-Message-Id: <1489195879-5397-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] feature-arm-thumb.inc: fix ARM_THUMB_SUFFIX for armv8
+Date: Sat, 11 Mar 2017 06:14:10 +0100
+Message-Id: <4556b40ea15a747a1c2e943905d3e02f5fcecf5f.1489209195.git.pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+In-Reply-To: <cover.1489209195.git.pkj@axis.com>
+References: <cover.1489209195.git.pkj@axis.com>
+X-TM-AS-GCONF: 00
+Subject: [PATCH 1/1] bitbake.conf: Add 'sftp' to HOSTTOOLS_NONFATAL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,50 +62,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Mar 2017 01:31:40 -0000
+X-List-Received-Date: Sat, 11 Mar 2017 05:14:12 -0000
 
-The current definition for ARM_THUMB_SUFFIX doesn't consider armv8
-and will therefore cause TUNE_PKGARCH to be set incorrectly for
-machines which inherit arch-armv8 and don't include aarch64 in
-TUNE_FEATURES (ie when building for 32bit ARMv8).
+This is necessary to be able to use the sftp fetcher.
 
-Also fix typo in comments and improve TUNEVALID[thumb] wording.
-
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/conf/machine/include/arm/feature-arm-thumb.inc | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/machine/include/arm/feature-arm-thumb.inc b/meta/conf/machine/include/arm/feature-arm-thumb.inc
-index 6d4747b..0b47cca 100644
---- a/meta/conf/machine/include/arm/feature-arm-thumb.inc
-+++ b/meta/conf/machine/include/arm/feature-arm-thumb.inc
-@@ -1,17 +1,14 @@
--TUNEVALID[thumb] = "Use thumb instructions instead of ARM"
--ARM_THUMB_OPT = "${@['arm', 'thumb'][d.getVar('ARM_INSTRUCTION_SET') == 'thumb']}"
--ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv4',  't',  '', d)}"
--ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv5',  't',  '', d)}"
--ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv6',  't',  '', d)}"
--ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7a', 't2', '', d)}"
--ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7r', 't2', '', d)}"
--ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7m', 't2', '', d)}"
--ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', 't2', '', d)}"
-+
-+TUNEVALID[thumb] = "Support Thumb instructions"
-+
-+ARM_THUMB_SUFFIX = "${@bb.utils.contains_any('TUNE_FEATURES', 'armv4 armv5 armv6', 't', 't2', d)}"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 5699099b41..4cf1f5d6ff 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -469,7 +469,7 @@ HOSTTOOLS += " \
+ HOSTTOOLS += "ps stty ip ssh scp ping vi"
  
- # If the device supports ARM, then respect ARM_THUMB_OPT (which can be "arm" or "thumb")
--# If the defice doesn't support ARM, then always set "thumb" even when
-+# If the device doesn't support ARM, then always set "thumb" even when
- # some recipe explicitly sets ARM_INSTRUCTION_SET to "arm"
-+ARM_THUMB_OPT = "${@['arm', 'thumb'][d.getVar('ARM_INSTRUCTION_SET') == 'thumb']}"
- ARM_M_OPT = "${@bb.utils.contains('TUNE_FEATURES', 'arm', '${ARM_THUMB_OPT}', 'thumb', d)}"
-+
- python () {
-     if bb.utils.contains('TUNE_FEATURES', 'thumb', False, True, d):
-         return
+ # Link to these if present
+-HOSTTOOLS_NONFATAL += "ccache pip3 ld.bfd ld.gold gcc-ar gpg"
++HOSTTOOLS_NONFATAL += "ccache pip3 ld.bfd ld.gold gcc-ar gpg sftp"
+ 
+ CCACHE ??= ""
+ # Disable ccache explicitly if CCACHE is null since gcc may be a symlink
 -- 
-1.9.1
+2.12.0
 
 
