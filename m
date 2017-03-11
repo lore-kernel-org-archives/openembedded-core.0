@@ -1,23 +1,45 @@
-Return-Path: <jose.perez.carranza@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 7812C77835
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id D484E77552
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Mar 2017 22:01:43 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga105.jf.intel.com with ESMTP; 10 Mar 2017 14:01:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,143,1486454400"; d="scan'208";a="58793941"
-Received: from yctb06.ostc.intel.com ([10.54.69.60])
-	by orsmga002.jf.intel.com with ESMTP; 10 Mar 2017 14:01:43 -0800
-From: jose.perez.carranza@linux.intel.com
+	Sat, 11 Mar 2017 01:31:39 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id 77so11906117pgc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Mar 2017 17:31:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=3NBQfzSe1Bw5Ba2CE/t2Q5AibODjC8ZPlJEBUh8/i0M=;
+	b=myiPA/ljlqI2e9dycotg227Hm0QTZGhj1mM/eLi1LGiIWoMXRotkF/g0Bo+nYOS1yI
+	QKKzubDv9ILXwrs1btN92UHUW2Dn0SexuYnnbOLamwKlzeRN8FuWoNMKwA9KoJaUbQ4y
+	gLAFnNaV1z+OXuWG969Ock7xbx9LdX0P/1rwqMkksOTp7sSzQYK3lf2XFOmV+IDJw6Q+
+	MkkBEWhXJR3Ohn254Cmt78M8xvFdCx3yNxyyXphRjBdSsy49ziz3XzeuwEjqQKer9x5O
+	5fO4FgOif+PgEIBmp9sbLg3BdRWE2f/Q4fZigsrTiktAC6DbAvuQtpZHGBMpP4/cp2HS
+	CPkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=3NBQfzSe1Bw5Ba2CE/t2Q5AibODjC8ZPlJEBUh8/i0M=;
+	b=lyazoQqikxw48oqpvtXPEKWKco39aTharcp+D2qe8PvmkjRYx3jbcVAcNe4kQf7cda
+	cioJcPD3PelLz/+nS86+lqqfQkYu7LhS3oZLV3P2MgD51PasFJoYr9mETOP6+ZiKFj2z
+	mX5kw+MPf/eI82RWydeDSgxLmohg9MZGlVUoihys9yqGLz13WfIXVtlkID9tW4zcQ8Rp
+	w2YQKHpGrnT6q/4eJyAA8cjWNHWrCoS5uy2btkX8k4taq4gMhX6MTBn6yS+HWQ1WlQ0b
+	0T1XO+q+RUV9WjyCoQTgU96rtSYfZK6/gjm+N5JSiJfY5UmSaAr6l4d17BIWkkjHl/EA
+	smhQ==
+X-Gm-Message-State: AMke39l0eHOMyquhdSt9wcblPYF1pk/4qR0YjzrqSaaN8O+fPStbq/ZUfNkZGRQiSii/EA==
+X-Received: by 10.84.241.203 with SMTP id t11mr30066424plm.48.1489195900859;
+	Fri, 10 Mar 2017 17:31:40 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	a78sm20797149pfc.25.2017.03.10.17.31.38
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 10 Mar 2017 17:31:39 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Mar 2017 13:58:09 +0000
-Message-Id: <20170310135809.5770-1-jose.perez.carranza@linux.intel.com>
-X-Mailer: git-send-email 2.10.2
-In-Reply-To: <CAJTo0LZNJx08iHnc7G6ka57ky0=NbkV2WDE9ihT29-pba+8Y1g@mail.gmail.com>
-References: <CAJTo0LZNJx08iHnc7G6ka57ky0=NbkV2WDE9ihT29-pba+8Y1g@mail.gmail.com>
-Cc: Jose Perez Carranza <jose.perez.carranza@linux-ntel.com>
-Subject: [PATCH v2] selftest/devtool: Add test to verify "modify virtual/kernel"
+Date: Fri, 10 Mar 2017 17:31:19 -0800
+Message-Id: <1489195879-5397-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] feature-arm-thumb.inc: fix ARM_THUMB_SUFFIX for armv8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,115 +52,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Mar 2017 22:01:49 -0000
+X-List-Received-Date: Sat, 11 Mar 2017 01:31:40 -0000
 
-From: Jose Perez Carranza <jose.perez.carranza@linux-ntel.com>
+The current definition for ARM_THUMB_SUFFIX doesn't consider armv8
+and will therefore cause TUNE_PKGARCH to be set incorrectly for
+machines which inherit arch-armv8 and don't include aarch64 in
+TUNE_FEATURES (ie when building for 32bit ARMv8).
 
-The purpose of this test case is to verify that
-devtool modify works correctly when building
-the kernel.
+Also fix typo in comments and improve TUNEVALID[thumb] wording.
 
-[YOCTO #10817]
-
-Signed-off-by: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/lib/oeqa/selftest/devtool.py | 85 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 85 insertions(+)
+ meta/conf/machine/include/arm/feature-arm-thumb.inc | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
-index f1661ef..c389d50 100644
---- a/meta/lib/oeqa/selftest/devtool.py
-+++ b/meta/lib/oeqa/selftest/devtool.py
-@@ -1606,3 +1606,88 @@ class DevtoolTests(DevtoolBase):
-         checkvars['S'] = '${WORKDIR}/${BPN}-%s' % recipever
-         checkvars['SRC_URI'] = url
-         self._test_recipe_contents(newrecipefile, checkvars, [])
+diff --git a/meta/conf/machine/include/arm/feature-arm-thumb.inc b/meta/conf/machine/include/arm/feature-arm-thumb.inc
+index 6d4747b..0b47cca 100644
+--- a/meta/conf/machine/include/arm/feature-arm-thumb.inc
++++ b/meta/conf/machine/include/arm/feature-arm-thumb.inc
+@@ -1,17 +1,14 @@
+-TUNEVALID[thumb] = "Use thumb instructions instead of ARM"
+-ARM_THUMB_OPT = "${@['arm', 'thumb'][d.getVar('ARM_INSTRUCTION_SET') == 'thumb']}"
+-ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv4',  't',  '', d)}"
+-ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv5',  't',  '', d)}"
+-ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv6',  't',  '', d)}"
+-ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7a', 't2', '', d)}"
+-ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7r', 't2', '', d)}"
+-ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7m', 't2', '', d)}"
+-ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', 't2', '', d)}"
 +
-+    @testcase(1577)
-+    def test_devtool_virtual_kernel_modify(self):
-+        """
-+        Summary:        The purpose of this test case is to verify that
-+                        devtool modify works correctly when building
-+                        the kernel.
-+        Dependencies:   NA
-+        Steps:          1. Build kernel with bitbake.
-+                        2. Save the config file generated.
-+                        3. Clean the environment.
-+                        4. Use `devtool modify virtual/kernel` to validate following:
-+                           4.1 The source is checked out correctly.
-+                           4.2 The resulting configuration is the same as
-+                               what was get on step 2.
-+                           4.3 The Kernel can be build correctly.
-+                           4.4 Changes made on the source are reflected on the
-+                               subsequent builds.
-+                           4.5 Changes on the configuration are reflected on the
-+                               subsequent builds
-+         Expected:       devtool modify is able to checkout the source of the kernel
-+                         and modification to the source and configurations are reflected
-+                         when building the kernel.
-+         """
-+        #Set machine to qemxu86 to be able to modify the kernel and
-+        #verify the modification.
-+        features = 'MACHINE = "qemux86"\n'
-+        self.write_config(features)
-+        # Clean up the enviroment
-+        bitbake('linux-yocto -c cleansstate')
-+        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-+        self.track_for_cleanup(tempdir)
-+        self.track_for_cleanup(self.workspacedir)
-+        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
-+        self.add_command_to_tearDown('bitbake -c clean linux-yocto')
-+        #Step 1
-+        #Here is just generated the config file instead of all the kernel to optimize the
-+        #time of executing this test case.
-+        bitbake('linux-yocto -c configure')
-+        bbconfig = os.path.join(get_bb_var('B',"linux-yocto"),'.config')
-+        buildir= get_bb_var('TOPDIR')
-+        #Step 2
-+        runCmd('cp %s %s' % (bbconfig, buildir))
-+        self.assertTrue(os.path.exists(os.path.join(buildir, '.config')),
-+                        'Could not copy .config file from kernel')
++TUNEVALID[thumb] = "Support Thumb instructions"
 +
-+        tmpconfig = os.path.join(buildir, '.config')
-+        #Step 3
-+        bitbake('linux-yocto -c cleanall')
-+        #Step 4.1
-+        runCmd('devtool modify virtual/kernel -x %s' % tempdir)
-+        self.assertTrue(os.path.exists(os.path.join(tempdir, 'Makefile')),
-+                        'Extracted source could not be found')
-+        #Step 4.2
-+        configfile = os.path.join(tempdir,'.config')
-+        diff = runCmd('diff %s %s' % (tmpconfig, configfile))
-+        self.assertEqual(0,diff.status,'Kernel .config file is not the same using bitbake and devtool')
-+        #Step 4.3
-+        #NOTE: virtual/kernel is mapped to linux-yocto
-+        result = runCmd('devtool build linux-yocto')
-+        self.assertEqual(0,result.status,'Cannot build kernel using `devtool build`')
-+        kernelfile = os.path.join(get_bb_var('KBUILD_OUTPUT',"linux-yocto"), 'vmlinux')
-+        self.assertTrue(os.path.exists(kernelfile),'Kernel was not build correctly')
++ARM_THUMB_SUFFIX = "${@bb.utils.contains_any('TUNE_FEATURES', 'armv4 armv5 armv6', 't', 't2', d)}"
+ 
+ # If the device supports ARM, then respect ARM_THUMB_OPT (which can be "arm" or "thumb")
+-# If the defice doesn't support ARM, then always set "thumb" even when
++# If the device doesn't support ARM, then always set "thumb" even when
+ # some recipe explicitly sets ARM_INSTRUCTION_SET to "arm"
++ARM_THUMB_OPT = "${@['arm', 'thumb'][d.getVar('ARM_INSTRUCTION_SET') == 'thumb']}"
+ ARM_M_OPT = "${@bb.utils.contains('TUNE_FEATURES', 'arm', '${ARM_THUMB_OPT}', 'thumb', d)}"
 +
-+        #Modify the kernel source, this is specific for qemux86
-+        modfile = os.path.join(tempdir,'arch/x86/boot/header.S')
-+        modstring = "use a boot loader - Devtool kernel testing"
-+        modapplied = runCmd("sed -i 's/boot loader/%s/' %s" % (modstring, modfile))
-+        self.assertEqual(0,modapplied.status,'Modification to %s on kernel source failed' % modfile)
-+        #Modify the configuration
-+        codeconfigfile = os.path.join(tempdir,'.config.new')
-+        modconfopt = "CONFIG_SG_POOL=n"
-+        modconf = runCmd("sed -i 's/CONFIG_SG_POOL=y/%s/' %s" % (modconfopt, codeconfigfile))
-+        self.assertEqual(0,modconf.status,'Modification to %s failed' % codeconfigfile)
-+        #Build again kernel with devtool
-+        rebuild = runCmd('devtool build linux-yocto')
-+        self.assertEqual(0,rebuild.status,'Fail to build kernel after modification of source and config')
-+        #Step 4.4
-+        bzimagename = 'bzImage-' + get_bb_var('KERNEL_VERSION_NAME',"linux-yocto")
-+        bzimagefile = os.path.join(get_bb_var('D',"linux-yocto"),'boot', bzimagename)
-+        checkmodcode = runCmd("grep '%s' %s" % (modstring, bzimagefile))
-+        self.assertEqual(0,checkmodcode.status,'Modification on kernel source failed')
-+        #Step 4.5
-+        checkmodconfg = runCmd("grep %s %s" % (modconfopt, codeconfigfile))
-+        self.assertEqual(0,checkmodconfg.status,'Modification to configuration file failed')
+ python () {
+     if bb.utils.contains('TUNE_FEATURES', 'thumb', False, True, d):
+         return
 -- 
-2.10.2
+1.9.1
 
 
