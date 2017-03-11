@@ -1,53 +1,29 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id ECFCA77316
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id 29A0E71AE4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Mar 2017 05:28:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id CFA4B18408
+	Sat, 11 Mar 2017 07:50:08 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20170311075008417_0685
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Mar 2017 06:28:56 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id z-IfAQGc3--l
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Mar 2017 06:28:56 +0100 (CET)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id A43F518271
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Mar 2017 06:28:55 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8783E1A077
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Mar 2017 06:28:55 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7C5841A075
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Mar 2017 06:28:55 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Mar 2017 06:28:55 +0100 (CET)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id 6E5C25D3
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Mar 2017 06:28:55 +0100 (CET)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v2B5StUW021344
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Mar 2017 06:28:55 +0100
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v2B5StKj021343
-	for openembedded-core@lists.openembedded.org;
-	Sat, 11 Mar 2017 06:28:55 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 11 Mar 2017 06:28:52 +0100
-Message-Id: <20170311052852.21281-1-pkj@axis.com>
-X-Mailer: git-send-email 2.12.0
-X-TM-AS-GCONF: 00
-Subject: [PATCH] openssl: Disable make's -e flag without breaking ${AR}
+	Fri, 10 Mar 2017 23:50:08 -0800
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [174.118.92.171] (port=39146 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1cmbms-0002FJ-6R for openembedded-core@lists.openembedded.org;
+	Sat, 11 Mar 2017 02:50:02 -0500
+Date: Sat, 11 Mar 2017 02:49:53 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1703110243360.16676@localhost.localdomain>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: couple ambiguities/errors(?) in rootfs-postcommands.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,43 +36,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Mar 2017 05:28:56 -0000
+X-List-Received-Date: Sat, 11 Mar 2017 07:50:09 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-From: Olof Johansson <olof.johansson@axis.com>
 
-The OpenSSL recipe tried to workaround the -e make flag (overriding
-variables from the environment). And when the -e flag was dropped as
-the global default, it was specifically added for OpenSSL. This is
-unnecessary, as only the value of ${AR} seems to be affected, and that
-can be handled correctly by OpenSSL's build system if we just let it.
+  perusing rootfs-postcommands.bbclass ...
 
-Signed-off-by: Olof Johansson <olof.johansson@axis.com>
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/recipes-connectivity/openssl/openssl.inc | 2 --
- 1 file changed, 2 deletions(-)
+  * very first comment says, "Zap the root password if debug-tweaks
+    feature is not enabled". should that not more properly say, "Zap
+    an *empty* root password ..." for clarity?
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 9afa5bd567..28421dab33 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -17,7 +17,6 @@ S = "${WORKDIR}/openssl-${PV}"
- 
- PACKAGECONFIG[perl] = ",,,"
- 
--AR_append = " r"
- TERMIO_libc-musl = "-DTERMIOS"
- TERMIO ?= "-DTERMIO"
- # Avoid binaries being marked as requiring an executable stack since it 
-@@ -28,7 +27,6 @@ CFLAG = "${@base_conditional('SITEINFO_ENDIANNESS', 'le', '-DL_ENDIAN', '-DB_END
- export DIRS = "crypto ssl apps"
- export EX_LIBS = "-lgcc -ldl"
- export AS = "${CC} -c"
--EXTRA_OEMAKE = "-e MAKEFLAGS="
- 
- inherit pkgconfig siteinfo multilib_header ptest relative_symlinks
- 
+  * further down:
+
+    # We want this to run as late as possible, in particular after
+    # systemd_sysusers_create and set_user_group
+      ^^^^^^^^^^^^^^^^^^^^^^^ ?
+
+    i see no such routine, should this say "systemd_create_users"?
+
+  i'll submit a patch to tweak the above and anything else i notice,
+feel free to throw in other suggestions while i'm there.
+
+rday
+
 -- 
-2.12.0
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
