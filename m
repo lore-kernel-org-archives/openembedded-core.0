@@ -1,30 +1,17 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 0657F77660
+Return-Path: <ml@embed.me.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 108CF6FF80
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Mar 2017 13:47:40 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2BDldU4019192; Sat, 11 Mar 2017 13:47:39 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id qCUJ2Sz3L3-4; Sat, 11 Mar 2017 13:47:38 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2BDlZfu019189
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sat, 11 Mar 2017 13:47:36 GMT
-Message-ID: <1489240055.13980.19.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Sat, 11 Mar 2017 13:47:35 +0000
-In-Reply-To: <20170309202331.5595-4-alexander.kanavin@linux.intel.com>
-References: <20170309202331.5595-1-alexander.kanavin@linux.intel.com>
-	<20170309202331.5595-4-alexander.kanavin@linux.intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 4/4] gpgme: fix python module build and installation
+	Sat, 11 Mar 2017 14:16:09 +0000 (UTC)
+From: Jack Mitchell <ml@embed.me.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 11 Mar 2017 14:16:03 +0000
+Message-Id: <20170311141603.18357-2-ml@embed.me.uk>
+X-Mailer: git-send-email 2.12.0
+In-Reply-To: <20170311141603.18357-1-ml@embed.me.uk>
+References: <20170311141603.18357-1-ml@embed.me.uk>
+Cc: Jack Mitchell <jack@embed.me.uk>
+Subject: [PATCH 2/2] u-boot: add option to specify FDT argument in extlinux.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,53 +24,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Mar 2017 13:47:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 11 Mar 2017 14:16:12 -0000
 
-On Thu, 2017-03-09 at 22:23 +0200, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
->  ...-Avoid-host-contamination-from-gpg-config.patch | 28
-> ++++++++++++++++++++++
->  .../0001-Correctly-install-python-modules.patch    | 26
-> ++++++++++++++++++++
->  meta/recipes-support/gpgme/gpgme_1.8.0.bb          |  2 ++
->  3 files changed, 56 insertions(+)
->  create mode 100644 meta/recipes-support/gpgme/gpgme/0001-Avoid-host-
-> contamination-from-gpg-config.patch
->  create mode 100644 meta/recipes-support/gpgme/gpgme/0001-Correctly-
-> install-python-modules.patch
-> 
-> diff --git a/meta/recipes-support/gpgme/gpgme/0001-Avoid-host-
-> contamination-from-gpg-config.patch b/meta/recipes-
-> support/gpgme/gpgme/0001-Avoid-host-contamination-from-gpg-
-> config.patch
-> new file mode 100644
-> index 00000000000..b0a9645997c
-> --- /dev/null
-> +++ b/meta/recipes-support/gpgme/gpgme/0001-Avoid-host-contamination-
-> from-gpg-config.patch
-> @@ -0,0 +1,28 @@
-> +From 96cfc76def123141d0cecaab857da3880396d5ef Mon Sep 17 00:00:00
-> 2001
-> +From: Alexander Kanavin <alex.kanavin@gmail.com>
-> +Date: Thu, 9 Mar 2017 22:11:00 +0200
-> +Subject: [PATCH] Avoid host contamination from gpg-config
-> +
-> +gpg-config gives us -L/usr/lib as the first item for linking.
-> +
-> +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> +---
-> + lang/python/setup.py.in | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
+From: Jack Mitchell <jack@embed.me.uk>
 
-I'm not sure which patch is doing it but you probably need to look at:
+Also fixes a use before defined bug with localdata.
 
-https://autobuilder.yocto.io/builders/nightly-world-lsb/builds/187
+Signed-off-by: Jack Mitchell <jack@embed.me.uk>
+---
+ meta/classes/uboot-extlinux-config.bbclass | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-Cheers,
+diff --git a/meta/classes/uboot-extlinux-config.bbclass b/meta/classes/uboot-extlinux-config.bbclass
+index aae21713e3..8447a047ee 100644
+--- a/meta/classes/uboot-extlinux-config.bbclass
++++ b/meta/classes/uboot-extlinux-config.bbclass
+@@ -12,6 +12,7 @@
+ # UBOOT_EXTLINUX_KERNEL_ARGS       - Add additional kernel arguments.
+ # UBOOT_EXTLINUX_KERNEL_IMAGE      - Kernel image name.
+ # UBOOT_EXTLINUX_FDTDIR            - Device tree directory.
++# UBOOT_EXTLINUX_FDT               - Device tree file.
+ # UBOOT_EXTLINUX_INITRD            - Indicates a list of filesystem images to
+ #                                    concatenate and use as an initrd (optional).
+ # UBOOT_EXTLINUX_MENU_DESCRIPTION  - Name to use as description.
+@@ -59,6 +60,7 @@
+ # a console=...some_tty...
+ UBOOT_EXTLINUX_CONSOLE ??= "console=${console}"
+ UBOOT_EXTLINUX_LABELS ??= "linux"
++UBOOT_EXTLINUX_FDT ??= ""
+ UBOOT_EXTLINUX_FDTDIR ??= "../"
+ UBOOT_EXTLINUX_KERNEL_IMAGE ??= "../${KERNEL_IMAGETYPE}"
+ UBOOT_EXTLINUX_KERNEL_ARGS ??= "rootwait rw"
+@@ -84,6 +86,8 @@ python create_extlinux_config() {
+     if not cfile:
+         bb.fatal('Unable to read UBOOT_EXTLINUX_CONFIG')
+ 
++    localdata = bb.data.createCopy(d)
++
+     try:
+         with open(cfile, 'w') as cfgfile:
+             cfgfile.write('# Generic Distro Configuration file generated by OpenEmbedded\n')
+@@ -99,9 +103,8 @@ python create_extlinux_config() {
+                 default = localdata.getVar('UBOOT_EXTLINUX_DEFAULT_LABEL')
+                 if default:
+                     cfgfile.write('DEFAULT %s\n' % (default))
+-                    
++
+             for label in labels.split():
+-                localdata = bb.data.createCopy(d)
+ 
+                 overrides = localdata.getVar('OVERRIDES')
+                 if not overrides:
+@@ -121,7 +124,13 @@ python create_extlinux_config() {
+ 
+                 kernel_image = localdata.getVar('UBOOT_EXTLINUX_KERNEL_IMAGE')
+                 fdtdir = localdata.getVar('UBOOT_EXTLINUX_FDTDIR')
+-                if fdtdir:
++
++                fdt = localdata.getVar('UBOOT_EXTLINUX_FDT')
++
++                if fdt:
++                    cfgfile.write('LABEL %s\n\tKERNEL %s\n\tFDT %s\n' %
++                                 (menu_description, kernel_image, fdt))
++                elif fdtdir:
+                     cfgfile.write('LABEL %s\n\tKERNEL %s\n\tFDTDIR %s\n' %
+                                  (menu_description, kernel_image, fdtdir))
+                 else:
+-- 
+2.12.0
 
-Richard
 
