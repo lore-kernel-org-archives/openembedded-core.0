@@ -1,45 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f169.google.com (mail-pf0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 3575D7770D
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id C2ADC62132
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Mar 2017 21:30:10 +0000 (UTC)
-Received: by mail-pf0-f169.google.com with SMTP id v190so54524058pfb.1
+	Sat, 11 Mar 2017 21:30:21 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id g2so9577106pge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Mar 2017 13:30:12 -0800 (PST)
+	Sat, 11 Mar 2017 13:30:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=zurphGDh7NC9jcm2TvAlGofmWSvZ68AOpU1cc02Z2s4=;
-	b=m2B2VptdUUgz2SFg2llYgLBtXRnOUs5ahNrm/8lM7Wc95jSCVogdiuc9ueNhx+601r
-	kFgaO924Xi8nbeMVYoCDlpTr6U21TLttDVodviZwG2+ecZXGIQFvg9bnA7LJ0z6k/O7D
-	0nTWuWouDko6dvAro4id2us2IW+081xN8w2NsapsRFNot6dUYbFi6WB1P9ALYeIRXJgi
-	0wfoujW2YcNbCWkyHHL3Z9vXauuM08jSpCBG+19uZXXEdHwiXtV2GKEZD4nNo88jTG6B
-	oGpja5HQF6TU3ZSZ7boF1oHWSbWQueBcPDy1OVkulRhJBotjQyGJdETSlzk9o3mjdfVt
-	chzQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=JenuuUwmmjo+M+Tvneq+yR5FQxH+EG438x9vyHun9IE=;
+	b=KIv4cBzYXVL/EpAub+qedr46BNPW/NXs//Li06qs8jesfYAo+lRGRxZI4s4MyycMgo
+	IMjBnxRVbEeq+kkUAo+kGo8OI2yfLHJZ+Z1iB1WneiKkPIJmx9HOHOAaKgGF18B2sKP5
+	zAusbNr/K510p8dOrXSk5DYJxESLjpZgyz5K+GulW7+0Sf5hG6YmadxJAFsNWzgEKQXk
+	DswqCRm+kNdXTeq/dxjRdgiFHczAgMuR0GSlVvdL7rHeV433HroHlwVfKISrdhyOjpoE
+	qR8iSWwsgS4+2hRKweIVwN1R02ArmXKHhhC6766FXkXqud7sv89B2GvRqo7hFQ+vcLaP
+	natg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=zurphGDh7NC9jcm2TvAlGofmWSvZ68AOpU1cc02Z2s4=;
-	b=pKBTcnT1NwfPAI9JTnM5hFFOKGFXKYpx85oZP+noWDyH1ijSgnU4n4Lgyqc176Ht7l
-	jzxYJMyjEpY/kYMryDD1CbeTiOCQati986eLCsWlk99BToosmx9++MMapWTyTIX/9FZL
-	KOZpTfeEI22f74wlylGmdSuxxszLpPqEzTAWoKo29/8PB2rY5MM1im8s6XOey0NtqK9a
-	5NaXiQPu5iZfFvk1NJt8F9PU7SQx03TdBKc6MkcVvXIZA+ZY17pwPw0l4pm7yKfu0Qrt
-	BSY0jRaokvGRycC4Ql7JgVgHSubWhjnwgEbrdKvgg/nw26WrO3MYYgEwwcJA04VoL9HM
-	vN/w==
-X-Gm-Message-State: AMke39lTqDDiVkJ3toLfDl/ja2msmF6AoPm0+ESqMMiJvlwkIlv0XvdPhJxpLDc4bshWIg==
-X-Received: by 10.98.56.2 with SMTP id f2mr28920602pfa.130.1489267812401;
-	Sat, 11 Mar 2017 13:30:12 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=JenuuUwmmjo+M+Tvneq+yR5FQxH+EG438x9vyHun9IE=;
+	b=sqiWMxgxZKgOrNwBQqmWWcupSsFBoUwPFYZ4fnfcO/6zfQ02fDFjN4HR3HfbsyiCLy
+	D8fsiZcoL/RyhUZ5YX3qW53DS+x7bvLYvg8Xj+Ss0Uc3kg7EMosnzn+5ZquPKZn7aNcS
+	S+XfXVo70yHMNvO/jQjAcNYOVrz6Hfem7rhfd7lRYZAE+OllCpwYDGBEcGT3pKkeSHDN
+	FuivnuSjp5NSFUy1KiQLDZcjpzzSk7LbKPHIdPzLDaso2Y/txzNhnoXtqwNrf7duaOgI
+	3nICuGtaMYikUd3+5Edts75SKeauZx0VqR3Q3yfyz5U27ZgpR+k7ybhEI3UkDuYa4WFa
+	U8DQ==
+X-Gm-Message-State: AMke39nT/lWW/Bkh9czZT4xeu+l4dSODagQocPbqJ/hFV5nxb0tCz93kme76+N1o5zZrUQ==
+X-Received: by 10.99.107.73 with SMTP id g70mr28291266pgc.129.1489267822783;
+	Sat, 11 Mar 2017 13:30:22 -0800 (PST)
 Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	x2sm25702137pfb.49.2017.03.11.13.30.10
+	129sm25784465pgj.59.2017.03.11.13.30.21
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 11 Mar 2017 13:30:11 -0800 (PST)
+	Sat, 11 Mar 2017 13:30:21 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 11 Mar 2017 13:30:02 -0800
-Message-Id: <cover.1489267743.git.raj.khem@gmail.com>
+Date: Sat, 11 Mar 2017 13:30:14 -0800
+Message-Id: <e3c8939d68bc276610f6cf79751146d0cba70b77.1489267743.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.12.0
-Subject: [PATCH 0/1] mesa: Contain configure search for llvm
+In-Reply-To: <cover.1489267743.git.raj.khem@gmail.com>
+References: <cover.1489267743.git.raj.khem@gmail.com>
+Subject: [PATCH 1/1] mesa: Contain configure search for llvm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,23 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Mar 2017 21:30:12 -0000
+X-List-Received-Date: Sat, 11 Mar 2017 21:30:21 -0000
 
-The following changes since commit a47e64d985a610535449730806651f5bfd75d9ec:
+Configure has an unbridled check for llvm and
+when distro provided llvm is installed on build host it
+will use that from /usr/bin to poke for llvm libs
+and configs. This would result in a subtle errors
+however do_qa_configure catches it as a host include/lib
+contamination during configure checks
 
-  libcomps: add a recipe (2017-03-11 16:08:50 +0000)
+ERROR: mesa-gl-2_17.0.1-r0 do_configure: This autoconf log indicates errors, it looked at host include and/or library paths while determining system capabilities.
+Rerun configure task after fixing this.
 
-are available in the git repository at:
+This is correct because when configure detects build host provided
+llvm then it add the include/lib paths to compiler cmdline which are
+looking into /usr/include and /usr/lib
 
-  git://git.openembedded.org/openembedded-core-contrib kraj/pu
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/pu
-
-Khem Raj (1):
-  mesa: Contain configure search for llvm
-
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
  meta/recipes-graphics/mesa/mesa.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 46d8d611c1..0f3dbb0397 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -22,7 +22,7 @@ inherit autotools pkgconfig pythonnative gettext distro_features_check
+ 
+ REQUIRED_DISTRO_FEATURES = "opengl"
+ 
+-EXTRA_OECONF = "--enable-shared-glapi"
++EXTRA_OECONF = "--enable-shared-glapi --with-llvm-prefix=${STAGING_BINDIR_NATIVE}"
+ 
+ PACKAGECONFIG ??= "gbm egl gles dri \
+ 		${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)} \
 -- 
 2.12.0
 
