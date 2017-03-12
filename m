@@ -1,49 +1,47 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F48A7771E
+Return-Path: <denys.zagorui@gmail.com>
+Received: from mail-yw0-f179.google.com (mail-yw0-f179.google.com
+	[209.85.161.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 2360171BD4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Mar 2017 15:27:43 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id j5so16284000pfb.3
+	Sun, 12 Mar 2017 20:02:27 +0000 (UTC)
+Received: by mail-yw0-f179.google.com with SMTP id v76so48832988ywg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Mar 2017 08:27:45 -0700 (PDT)
+	Sun, 12 Mar 2017 13:02:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=/+l/7OOR//jNTVD9JITrqO9FfTW44WQMVxWbhfSNtAE=;
-	b=DzBdUFq/M6wVkxrL1hkhhgiyq5OvTTXbkx4QqmrC8rcinJk++NqfTHZM98/8L26yqk
-	CWPI430S1iZQrSWGKsed95yjTTYixDRJTbWEpC0jSr5NQRKx10gP2Tpfhm1Py2pXXjAK
-	ADj7Qp7MXh1IjhWe4WBlxT61kq+iaNPsd24DKgRDuvi9MminCZe5HcGK7cYzLg6AODpo
-	TntivBbUZP8JuXX8rQLkaXc5+1jbS8d5cKjQXuj8VbLG7lq2/DPJQmJYjYygp/2/r3NP
-	0Rly56F3syOOfK9ZLnsHYTmH8WkvraKTMwVrVVHwigTUKNDNMBiU/PkRItPSKo2HgtIS
-	NxeQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
+	bh=8RwZdcK8zpWs5tFWHV8sINXrC3ya8Bhe27735++/W0w=;
+	b=lB1MQ3RnGdov+uuSuoP0EZjIrXpojkyji+Do3ZjW3IaFvLbox32U7V0osP2sqPRlqN
+	EtjNkvcociszuZHBqKmd4GnrKiFsejhQeEoJSq+JNSa6eG2MYY1O+jahGmn2SOUgEjpL
+	LCxJU1sz0Io9Ewktt5cy2n0i8wjfVfosaqCvzIbk3f1tl3VgbGw2zg/tBcdPeZ0jC2J3
+	GfP5+E7dfPUVdznTlWGlunnb0kHxxKr0WBwFetzLQD9FC9kTdRysm/CYscB+7edy7JHl
+	3MRc1fhIR8qf+HQXhptOM41e4T1oYX5iGha9ZCiI3fw30A01RUezEGFjIhE4fv+8DWqk
+	rzVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=/+l/7OOR//jNTVD9JITrqO9FfTW44WQMVxWbhfSNtAE=;
-	b=fvjpmWgZ6a8pH9ASEtLwNcADjzFYIx474OZSWZn/RDX52rKwmc5ASGFzC1v1Y7j3tX
-	edDukpD7BQrNnePRu8laL6MIJMCHsTzaJRGb3Yr0RdBT2aPToT37VVVVWQLUHiwJCrtW
-	9R0OQMcGRkWE4L5HygR1vIc/r6oUojZBL9GnGdYoLDuh3WXbO9eNFhoiY1i5mFqqAT56
-	6cj75HcrJXwlIRaBA1oReXANquuhC6U12Wo11QZW2FKUF5xHR2UmBbxwmvIpnRxdS5ez
-	VvcwlVSpgT6aEDQKOPM3TmGMI9gewm7AHM65wLWJ0mXSZ7LY425GWL0e2tep3m3dKE++
-	j+OA==
-X-Gm-Message-State: AMke39k4LQmSe4f+H+LffbZwIomTj0/cEFD1v0FMkWo+xDAAyRT1G3p0AycpZG3AFCEhow==
-X-Received: by 10.99.3.16 with SMTP id 16mr32351848pgd.150.1489332464639;
-	Sun, 12 Mar 2017 08:27:44 -0700 (PDT)
-Received: from akuster-ThinkPad-X240.mvista.com ([223.196.115.131])
-	by smtp.gmail.com with ESMTPSA id
-	b70sm28855324pfc.100.2017.03.12.08.27.43
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 12 Mar 2017 08:27:44 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Sun, 12 Mar 2017 08:27:32 -0700
-Message-Id: <1489332452-19584-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to;
+	bh=8RwZdcK8zpWs5tFWHV8sINXrC3ya8Bhe27735++/W0w=;
+	b=aWcN7T4NY6XXDIajWbUts5DrubpKpXtekFwW+zIYIS9YiYmKARwkLMILD4vatSWfE1
+	cn0wL80exc/KxiqZ7K6wDli+F4/Jc8lVrYWmd0KI59WCMUuBFsLYspaHinnpkUot2fet
+	jvSgiSg0YISExukJEubOImu1F7XvGUa+jXXHgFEXLHksP5eB5GeOCPNiHKhlta4SUtJu
+	E+8Owehw5bcLVme5lEWsYmJH6MaQ3tX0ppL7rZfsaDWl1n3ncCEitiUUWeM6FjZbDF60
+	YNNBIpnTUT3TV1/iBNyHpCfvA+oq51YdZmN3FQ/r+l/PSsXTYESl79RPUKL+ZmH/G2FQ
+	5kiQ==
+X-Gm-Message-State: AMke39lWaBrYLme04zkh7m6DhWlq0OsZpBgLQ6Y8k/Z8v/S1beLGG4Dy5X7jQvT1lf58ycmabW+fm8408tKF2w==
+X-Received: by 10.129.173.3 with SMTP id l3mr14821003ywh.194.1489348948814;
+	Sun, 12 Mar 2017 13:02:28 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [v2][PATCH] license class: try alt encoding when copying license file
+Received: by 10.129.147.66 with HTTP; Sun, 12 Mar 2017 13:02:28 -0700 (PDT)
+Received: by 10.129.147.66 with HTTP; Sun, 12 Mar 2017 13:02:28 -0700 (PDT)
+In-Reply-To: <CACJ80St7+4KB+Tm6J=Gqmyc-UVxuky_9Qwu25kFwqJ68=TWKzw@mail.gmail.com>
+References: <1489092518-25721-1-git-send-email-denys.zagorui@gmail.com>
+	<1489129813.7785.380.camel@intel.com>
+	<CACJ80St7+4KB+Tm6J=Gqmyc-UVxuky_9Qwu25kFwqJ68=TWKzw@mail.gmail.com>
+From: Denys Zagorui <denys.zagorui@gmail.com>
+Date: Sun, 12 Mar 2017 22:02:28 +0200
+Message-ID: <CACJ80StSeZbx-GU2NMdY-epRAJL3O2gZ=t30YqubTXaiCSx-DA@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gzip: add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,53 +54,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Mar 2017 15:27:43 -0000
+X-List-Received-Date: Sun, 12 Mar 2017 20:02:29 -0000
+Content-Type: multipart/alternative; boundary=f403045f69720a7073054a8e13ee
+
+--f403045f69720a7073054a8e13ee
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-From: Armin Kuster <akuster@mvista.com>
+Denys Zagorui
+GlobalLogic
+Kyiv, 03038, Protasov Business Park, N.Grinchenka, 2/1
+M +380.67.317.30.93
+www.globallogic.com
 
-v2: fix typos
+http://www.globallogic.com/email_disclaimer.txt
 
-Try another encoding if utf-8 fails in file read.
+11 =D0=BC=D0=B0=D1=80=D1=82=D0=B0 2017 12:52 =D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=
+=D0=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C "Denys Zagorui" <denys.zagorui@g=
+mail.com>
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BB:
 
-line 20 of irdadump.c contains:  University of Tromsø
+> Hello, thanks for reply.
+> I figure out that 'zless' from gzip 1.8 don,t work with 'less' from
+> busybox. It's because 'zless' tries to verify 'less' version invoke it wi=
+th
+> key -V, and 'less' from busybox don't understand this key, so test
+> 'help-version' fails. So when i remove version verification from 'zless'
+> it's works fine.
+> 'zdiff' test also fails, because 'diff' from busybox has another output
+> then 'diff' from diffutils package, so patch zdiff test (add version
+> verification), if 'diff' from busybox i check one output, if from diffuti=
+ls
+> another.
+>
+>
+>
+> 10 =D0=BC=D0=B0=D1=80=D1=82=D0=B0 2017 09:10 =D0=BF=D0=BE=D0=BB=D1=8C=D0=
+=B7=D0=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C "Patrick Ohly" <patrick.ohly@=
+intel.com>
+> =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BB:
+>
+>> On Thu, 2017-03-09 at 22:48 +0200, Denys Zagorui wrote:
+>> > tests don't work with 'diff' and 'less' utils from busybox
+>>
+>> I don't think that depending on diff and less is the right solution for
+>> that problem, because then enabling testing will change the system that
+>> is meant to be tested.
+>>
+>> For example, suppose that the real system only has busybox and busybox
+>> diff needs to work. That version of diff cannot be tested anymore with
+>> IMAGE_FEATURES +=3D "ptest-pkgs" because that will pull in gzip-ptest,
+>> which then overrides the busybox diff.
+>>
+>> Perhaps the tests can be fixed to work also with busybox, or the tests
+>> can detect busybox and skip the part that depends on real diff and less?
+>>
+>> --
+>> Best Regards, Patrick Ohly
+>>
+>> The content of this message is my personal opinion only and although
+>> I am an employee of Intel, the statements I make here in no way
+>> represent Intel's position on the issue, nor am I authorized to speak
+>> on behalf of Intel on this matter.
+>>
+>>
+>>
+>>
 
-fixes:
-WARNING: irda-utils-0.9.18-r0 do_populate_lic: Could not copy license file /home/akuster/oss/maint/openembedded-core/build/tmp-glibc/work/aarch64-mvl-linux/irda-utils/0.9.18-r0/irda-utils-0.9.18/irdadump/irdadump.c to /home/akuster/oss/maint/openembedded-core/build/tmp-glibc/work/aarch64-mvl-linux/irda-utils/0.9.18-r0/license-destdir/irda-utils/irdadump.c: 'utf-8' codec can't decode byte 0xf8 in position 874: invalid start byte
+--f403045f69720a7073054a8e13ee
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- meta/classes/license.bbclass | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+<div dir=3D"auto"><br><br><div data-smartmail=3D"gmail_signature">Denys Zag=
+orui<br>GlobalLogic<br>Kyiv, 03038, Protasov Business Park, N.Grinchenka, 2=
+/1<br>M=C2=A0+380.67.317.30.93<br><a href=3D"http://www.globallogic.com">ww=
+w.globallogic.com</a><br><br><a href=3D"http://www.globallogic.com/email_di=
+sclaimer.txt">http://www.globallogic.com/email_disclaimer.txt</a></div></di=
+v><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">11 =D0=BC=D0=B0=
+=D1=80=D1=82=D0=B0 2017 12:52 =D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=D0=BE=D0=B2=D0=
+=B0=D1=82=D0=B5=D0=BB=D1=8C &quot;Denys Zagorui&quot; &lt;<a href=3D"mailto=
+:denys.zagorui@gmail.com">denys.zagorui@gmail.com</a>&gt; =D0=BD=D0=B0=D0=
+=BF=D0=B8=D1=81=D0=B0=D0=BB:<br type=3D"attribution"><blockquote class=3D"g=
+mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
+eft:1ex"><div dir=3D"auto">Hello, thanks for reply.=C2=A0<div dir=3D"auto">=
+I figure out that &#39;zless&#39; from gzip 1.8 don,t work with &#39;less&#=
+39; from busybox. It&#39;s because &#39;zless&#39; tries to verify &#39;les=
+s&#39; version invoke it with key -V, and &#39;less&#39; from busybox don&#=
+39;t understand this key, so test &#39;help-version&#39; fails. So when i r=
+emove version verification from &#39;zless&#39; it&#39;s works fine.</div><=
+div dir=3D"auto">&#39;zdiff&#39; test also fails, because &#39;diff&#39; fr=
+om busybox has another output then &#39;diff&#39; from diffutils package, s=
+o patch zdiff test (add version verification), if &#39;diff&#39; from busyb=
+ox i check one output, if from diffutils another.</div><div dir=3D"auto"><b=
+r></div><div dir=3D"auto"><br></div></div><div class=3D"gmail_extra"><br><d=
+iv class=3D"gmail_quote">10 =D0=BC=D0=B0=D1=80=D1=82=D0=B0 2017 09:10 =D0=
+=BF=D0=BE=D0=BB=D1=8C=D0=B7=D0=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C &quot=
+;Patrick Ohly&quot; &lt;<a href=3D"mailto:patrick.ohly@intel.com" target=3D=
+"_blank">patrick.ohly@intel.com</a>&gt; =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=
+=B0=D0=BB:<br type=3D"attribution"><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Thu, =
+2017-03-09 at 22:48 +0200, Denys Zagorui wrote:<br>
+&gt; tests don&#39;t work with &#39;diff&#39; and &#39;less&#39; utils from=
+ busybox<br>
+<br>
+I don&#39;t think that depending on diff and less is the right solution for=
+<br>
+that problem, because then enabling testing will change the system that<br>
+is meant to be tested.<br>
+<br>
+For example, suppose that the real system only has busybox and busybox<br>
+diff needs to work. That version of diff cannot be tested anymore with<br>
+IMAGE_FEATURES +=3D &quot;ptest-pkgs&quot; because that will pull in gzip-p=
+test,<br>
+which then overrides the busybox diff.<br>
+<br>
+Perhaps the tests can be fixed to work also with busybox, or the tests<br>
+can detect busybox and skip the part that depends on real diff and less?<br=
+>
+<br>
+--<br>
+Best Regards, Patrick Ohly<br>
+<br>
+The content of this message is my personal opinion only and although<br>
+I am an employee of Intel, the statements I make here in no way<br>
+represent Intel&#39;s position on the issue, nor am I authorized to speak<b=
+r>
+on behalf of Intel on this matter.<br>
+<br>
+<br>
+<br>
+</blockquote></div></div>
+</blockquote></div></div>
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 0ff6560..3dab8d9 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -386,9 +386,19 @@ def copy_license_files(lic_files_paths, destdir):
-                 if begin_idx is None and end_idx is None:
-                     shutil.copyfile(src, dst)
-                 else:
--                    with open(src, 'r') as src_f:
-+                    with open(src, "r", encoding="utf-8") as src_f:
-+                        try:
-+                            src_chunk = ''.join(src_f.readlines()[begin_idx:end_idx])
-+                        except UnicodeDecodeError:
-+                            bb.debug(1, "Failed to copy license file %s using UTF-8 encoding"
-+                            " trying with iso8859-1" %  src)
-+                            src_f.close()
-+                            with open(src, "r", encoding="iso8859-1") as src_f:
-+                                src_chunk = ''.join(src_f.readlines()[begin_idx:end_idx])
-+
-+
-                         with open(dst, 'w') as dst_f:
--                            dst_f.write(''.join(src_f.readlines()[begin_idx:end_idx]))
-+                            dst_f.write(src_chunk)
- 
-         except Exception as e:
-             bb.warn("Could not copy license file %s to %s: %s" % (src, dst, e))
--- 
-2.7.4
-
-
+--f403045f69720a7073054a8e13ee--
