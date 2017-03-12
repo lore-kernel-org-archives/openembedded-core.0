@@ -1,47 +1,47 @@
-Return-Path: <denys.zagorui@gmail.com>
-Received: from mail-yw0-f179.google.com (mail-yw0-f179.google.com
-	[209.85.161.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 2360171BD4
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Mar 2017 20:02:27 +0000 (UTC)
-Received: by mail-yw0-f179.google.com with SMTP id v76so48832988ywg.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Mar 2017 13:02:29 -0700 (PDT)
+Return-Path: <andrea.adami@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 3074971ADE;
+	Sun, 12 Mar 2017 23:02:19 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id u132so7351458wmg.1;
+	Sun, 12 Mar 2017 16:02:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=8RwZdcK8zpWs5tFWHV8sINXrC3ya8Bhe27735++/W0w=;
-	b=lB1MQ3RnGdov+uuSuoP0EZjIrXpojkyji+Do3ZjW3IaFvLbox32U7V0osP2sqPRlqN
-	EtjNkvcociszuZHBqKmd4GnrKiFsejhQeEoJSq+JNSa6eG2MYY1O+jahGmn2SOUgEjpL
-	LCxJU1sz0Io9Ewktt5cy2n0i8wjfVfosaqCvzIbk3f1tl3VgbGw2zg/tBcdPeZ0jC2J3
-	GfP5+E7dfPUVdznTlWGlunnb0kHxxKr0WBwFetzLQD9FC9kTdRysm/CYscB+7edy7JHl
-	3MRc1fhIR8qf+HQXhptOM41e4T1oYX5iGha9ZCiI3fw30A01RUezEGFjIhE4fv+8DWqk
-	rzVw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=uBfGe4ckiQBloZ0dVszagQvRaGn2VVcuwZrPYDFBMwU=;
+	b=WWtI349uSVTUdefRIU3cCzSjy5EBNNI1FWPoH9ebtcXJ+E0iOFxf9o0pDUoeWve5eo
+	fsrN8EKlo7NzktLE0ArLS6i4V/VHx4Xz4SVkj26sMgNFva8PmBRxQYDxmlTJ1rXQuoUu
+	1aKJsA+1hnIIsiOXrTh0D7O1XyyKn+ayBbIrfF41PCAtEaDeai/rldyUCedyIuzuX48T
+	v21175vC4wALt/dZj58uYGhhD8MV8hOB43OgI/+nm8TszZj5rz/JpLhwLP/FP9GhvAlv
+	YqKI7OtoCzSB+vV+pwl053HrdRucjLa55ge260aJcUKNH6ipoHAG9HuXzndKuBfgVS1i
+	6T7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=8RwZdcK8zpWs5tFWHV8sINXrC3ya8Bhe27735++/W0w=;
-	b=aWcN7T4NY6XXDIajWbUts5DrubpKpXtekFwW+zIYIS9YiYmKARwkLMILD4vatSWfE1
-	cn0wL80exc/KxiqZ7K6wDli+F4/Jc8lVrYWmd0KI59WCMUuBFsLYspaHinnpkUot2fet
-	jvSgiSg0YISExukJEubOImu1F7XvGUa+jXXHgFEXLHksP5eB5GeOCPNiHKhlta4SUtJu
-	E+8Owehw5bcLVme5lEWsYmJH6MaQ3tX0ppL7rZfsaDWl1n3ncCEitiUUWeM6FjZbDF60
-	YNNBIpnTUT3TV1/iBNyHpCfvA+oq51YdZmN3FQ/r+l/PSsXTYESl79RPUKL+ZmH/G2FQ
-	5kiQ==
-X-Gm-Message-State: AMke39lWaBrYLme04zkh7m6DhWlq0OsZpBgLQ6Y8k/Z8v/S1beLGG4Dy5X7jQvT1lf58ycmabW+fm8408tKF2w==
-X-Received: by 10.129.173.3 with SMTP id l3mr14821003ywh.194.1489348948814;
-	Sun, 12 Mar 2017 13:02:28 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=uBfGe4ckiQBloZ0dVszagQvRaGn2VVcuwZrPYDFBMwU=;
+	b=JpJl5QgAGSs+vsPuQDWqQ2zjz5vE2JBK3ewhaixQHNWxmQ/iX288dU0+L1kajfCEAY
+	DI2vkL/Ty20lwWwzz9nTNdT0rVGGaSAus3RFfSrZLXHMypcg+RWILyzazLzpzUvEtx6y
+	AoTREeeLKl2AqZmQGxPe8LJHtBXfxOotykKmn1O+jBMWiTwafZ3MZCfR4opMEJ3aIcuA
+	SSdz2oFcB01k6xphApQBqQH5xT7+CeWQwOs6cInCD20HqtcN3bYZNTu1/SENGFm9koGr
+	z/1PzF2k600CQwQOLywD3/PjYH4ZuNeRAUoLJ+qdjZV6krRHAmQUsKqGB6HJQ+EdQygU
+	VicA==
+X-Gm-Message-State: AFeK/H3iubcK/XM2CzQV6ZUUxWOWnyJLCo0ZvvCrLV7nBWxebtwY2VxrNd2w6BXE1kwDekGwCun4UACKJGxQ7w==
+X-Received: by 10.28.1.68 with SMTP id 65mr7516666wmb.63.1489359740645; Sun,
+	12 Mar 2017 16:02:20 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.129.147.66 with HTTP; Sun, 12 Mar 2017 13:02:28 -0700 (PDT)
-Received: by 10.129.147.66 with HTTP; Sun, 12 Mar 2017 13:02:28 -0700 (PDT)
-In-Reply-To: <CACJ80St7+4KB+Tm6J=Gqmyc-UVxuky_9Qwu25kFwqJ68=TWKzw@mail.gmail.com>
-References: <1489092518-25721-1-git-send-email-denys.zagorui@gmail.com>
-	<1489129813.7785.380.camel@intel.com>
-	<CACJ80St7+4KB+Tm6J=Gqmyc-UVxuky_9Qwu25kFwqJ68=TWKzw@mail.gmail.com>
-From: Denys Zagorui <denys.zagorui@gmail.com>
-Date: Sun, 12 Mar 2017 22:02:28 +0200
-Message-ID: <CACJ80StSeZbx-GU2NMdY-epRAJL3O2gZ=t30YqubTXaiCSx-DA@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gzip: add ptest
+Received: by 10.80.150.195 with HTTP; Sun, 12 Mar 2017 16:02:20 -0700 (PDT)
+In-Reply-To: <CAAQYJAssHqXNbqmC4o0fZCBfLz6bwx+cKCV3DGQCndsZqsPRRQ@mail.gmail.com>
+References: <20170311180253.GA3984@jama>
+	<CAPuovEJn-rrTfNZ9k0fkpbHuuGy0yauk_8QWrAy0c4EHMxAX4Q@mail.gmail.com>
+	<CAAQYJAssHqXNbqmC4o0fZCBfLz6bwx+cKCV3DGQCndsZqsPRRQ@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+Date: Mon, 13 Mar 2017 00:02:20 +0100
+Message-ID: <CAAQYJAuuTcqHD9bjS6f_Ysh-o4JPH7Gx=5_3L8sLDfURXZrXzA@mail.gmail.com>
+To: mark.asselstine@windriver.com
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	openembedded-devel <openembedded-devel@lists.openembedded.org>
+Subject: Re: [oe] State of bitbake world, Failed tasks 2017-03-11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,136 +54,251 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Mar 2017 20:02:29 -0000
-Content-Type: multipart/alternative; boundary=f403045f69720a7073054a8e13ee
-
---f403045f69720a7073054a8e13ee
+X-List-Received-Date: Sun, 12 Mar 2017 23:02:25 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Denys Zagorui
-GlobalLogic
-Kyiv, 03038, Protasov Business Park, N.Grinchenka, 2/1
-M +380.67.317.30.93
-www.globallogic.com
+On Sun, Mar 12, 2017 at 12:34 AM, Andrea Adami <andrea.adami@gmail.com> wro=
+te:
+> On Sun, Mar 12, 2017 at 12:29 AM, Mark Asselstine
+> <mark.asselstine@windriver.com> wrote:
+>> On Sat, Mar 11, 2017 at 1:02 PM, Martin Jansa <martin.jansa@gmail.com> w=
+rote:
+>>> This time the results are very inconsistent across different MACHINEs
+>>> because they were using significantly different metadata.
+>>>
+>>> qemuarm is oldest 3 from 4 failures were causes by pending meta-oe
+>>> changes which I've removed from master-next before qemux86* builds were
+>>> restarted (after they failed badly few times).
+>>
+>>
+>> You can add aufs-util to this list
+>>
+>> | make: cc: Command not found
+>>
+>> Regards,
+>> Mark
+>>
+>>>
+>>> qemux86-64 is latest and contains HOSTTOOLS changes from
+>>> oe-core/master-next that's why there is so many failures.
+>>>
+>>> From the failures I see following tools which we need to either add
+>>> to HOSTTOOLS or provide with added -native dependency:
+>>> cc      - tcsh                - http://errors.yoctoproject.org/Errors/D=
+etails/135201/
+>>> cc      - u-boot-mkimage      - http://errors.yoctoproject.org/Errors/D=
+etails/135203/
+>>> cc      - toybox              - http://errors.yoctoproject.org/Errors/D=
+etails/135210/
+>>> cc      - yasm                - http://errors.yoctoproject.org/Errors/D=
+etails/135214/
+>>> cpp     - mkelfimage          - http://errors.yoctoproject.org/Errors/D=
+etails/135211/
+>>> clear   - lprng               - http://errors.yoctoproject.org/Errors/D=
+etails/135207/
+>>> gcc-ar  - ovmf                - http://errors.yoctoproject.org/Errors/D=
+etails/135202/
+>>> join    - netcf               - http://errors.yoctoproject.org/Errors/D=
+etails/135208/
+>>> join    - fontforge           - http://errors.yoctoproject.org/Errors/D=
+etails/135209/
+>>> mknod   - initramfs-live-boot - http://errors.yoctoproject.org/Errors/D=
+etails/135213/
+>>> nl      - dash                - http://errors.yoctoproject.org/Errors/D=
+etails/135215/
+>>> nl      - klibc               - http://errors.yoctoproject.org/Errors/D=
+etails/135198/
+>
+> Martin,
+>
+> I'll send a patch adding explicit dependency on coreutils-native (nl).
+> Thanks for your tests
+>
+> Cheers
+> Andrea
+>
+>
+>>> openssl - openflow            - http://errors.yoctoproject.org/Errors/D=
+etails/135216/
+>>> readelf - firefox             - http://errors.yoctoproject.org/Errors/D=
+etails/135212/
+>>> size    - iptraf              - http://errors.yoctoproject.org/Errors/D=
+etails/135204/
+>>> yes     - libnet-ssleay-perl  - http://errors.yoctoproject.org/Errors/D=
+etails/135197/
+>>> zcat    - scsirastools        - http://errors.yoctoproject.org/Errors/D=
+etails/135205/
+>>>
+>>> Some of these were already merged in newer HOSTTOOLS patch currently
+>>> in oe-core/master:
+>>> mknod cpp readelf split gcc-ar gpg sftp
+>>> and u-boot-mkimage should be fixed in master as well
+>>>
 
-http://www.globallogic.com/email_disclaimer.txt
 
-11 =D0=BC=D0=B0=D1=80=D1=82=D0=B0 2017 12:52 =D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=
-=D0=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C "Denys Zagorui" <denys.zagorui@g=
-mail.com>
-=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BB:
+I have to report failures with do_menuconfig because any of the
+terminals (xterm, gnome-terminal, ...) is listed in HOSTTOOLS.
+Setting OE_TERMINAL is pointless.
 
-> Hello, thanks for reply.
-> I figure out that 'zless' from gzip 1.8 don,t work with 'less' from
-> busybox. It's because 'zless' tries to verify 'less' version invoke it wi=
-th
-> key -V, and 'less' from busybox don't understand this key, so test
-> 'help-version' fails. So when i remove version verification from 'zless'
-> it's works fine.
-> 'zdiff' test also fails, because 'diff' from busybox has another output
-> then 'diff' from diffutils package, so patch zdiff test (add version
-> verification), if 'diff' from busybox i check one output, if from diffuti=
-ls
-> another.
->
->
->
-> 10 =D0=BC=D0=B0=D1=80=D1=82=D0=B0 2017 09:10 =D0=BF=D0=BE=D0=BB=D1=8C=D0=
-=B7=D0=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C "Patrick Ohly" <patrick.ohly@=
-intel.com>
-> =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BB:
->
->> On Thu, 2017-03-09 at 22:48 +0200, Denys Zagorui wrote:
->> > tests don't work with 'diff' and 'less' utils from busybox
->>
->> I don't think that depending on diff and less is the right solution for
->> that problem, because then enabling testing will change the system that
->> is meant to be tested.
->>
->> For example, suppose that the real system only has busybox and busybox
->> diff needs to work. That version of diff cannot be tested anymore with
->> IMAGE_FEATURES +=3D "ptest-pkgs" because that will pull in gzip-ptest,
->> which then overrides the busybox diff.
->>
->> Perhaps the tests can be fixed to work also with busybox, or the tests
->> can detect busybox and skip the part that depends on real diff and less?
->>
+ERROR: linux-handheld-4.10-r0 do_menuconfig: No valid terminal found,
+unable to open devshell.
+
+Andrea
+
+>>> I'll merge most meta-oe changes and retrigger new round of testing,
+>>> next time the failures should be a bit more consistent again.
+>>>
+>>> =3D=3D Number of issues - stats =3D=3D
+>>> {| class=3D'wikitable'
+>>> !|Date               !!colspan=3D'3'|Failed tasks                     !=
+!colspan=3D'6'|Failed depencencies                    !!|Signatures        =
+    !!colspan=3D'12'|QA !!Comment
+>>> |-
+>>> ||              ||qemuarm       ||qemux86       ||qemux86_64    ||qemua=
+rm||max||min     ||qemux86||max||min     ||all   ||already-stripped      ||=
+libdir        ||textrel       ||build-deps    ||file-rdeps    ||version-goi=
+ng-backwards       ||host-user-contaminated        ||installed-vs-shipped  =
+||unknown-configure-option      ||symlink-to-sysroot    ||invalid-pkgconfig=
+     ||pkgname       ||
+>>> |-
+>>> ||2017-03-11    ||4     ||1     ||20    ||N/A   ||N/A   ||N/A   ||N/A  =
+ ||N/A   ||N/A   ||0     ||0             ||0             ||0             ||=
+0             ||3             ||0             ||1             ||0          =
+   ||0             ||0             ||0             ||0             ||
+>>> |}
+>>>
+>>> http://www.openembedded.org/wiki/Bitbake_World_Status
+>>>
+>>> =3D=3D Failed tasks 2017-03-11 =3D=3D
+>>>
+>>> INFO: jenkins-job.sh-1.8.18 Complete log available at http://logs.nslu2=
+-linux.org/buildlogs/oe/world/pyro/log.report.20170311_062851.log
+>>>
+>>> =3D=3D=3D common () =3D=3D=3D
+>>>
+>>> =3D=3D=3D common-x86 (1) =3D=3D=3D
+>>>     * meta-openembedded/meta-oe/recipes-support/vboxguestdrivers/vboxgu=
+estdrivers_5.1.14.bb:do_install
+>>>
+>>> =3D=3D=3D qemuarm (4) =3D=3D=3D
+>>>     * meta-openembedded/meta-oe/recipes-connectivity/libtorrent/libtorr=
+ent_0.13.6.bb:do_compile
+>>>     * meta-openembedded/meta-oe/recipes-devtools/rapidjson/rapidjson_1.=
+1.0.bb:do_compile
+>>>     * meta-openembedded/meta-oe/recipes-support/gpm/gpm_1.99.7.bb:do_in=
+stall
+>>>     * meta-qt5/recipes-connectivity/libqofono/libqofono_git.bb:do_compi=
+le
+>>>
+>>> =3D=3D=3D qemux86 (0) =3D=3D=3D
+>>>
+>>> =3D=3D=3D qemux86_64 (19) =3D=3D=3D
+>>>     * meta-browser/recipes-mozilla/firefox/firefox_45.6.0esr.bb:do_comp=
+ile
+>>>     * meta-openembedded/meta-efl/recipes-efl/efl/efl_1.15.1.bb:do_compi=
+le
+>>>     * meta-openembedded/meta-initramfs/recipes-devtools/klibc/klibc_2.0=
+.4.bb:do_compile
+>>>     * meta-openembedded/meta-initramfs/recipes-devtools/klibc/klibc-sta=
+tic-utils_2.0.4.bb:do_compile
+>>>     * meta-openembedded/meta-networking/recipes-protocols/openflow/open=
+flow_git.bb:do_compile
+>>>     * meta-openembedded/meta-networking/recipes-support/netcf/netcf_git=
+.bb:do_configure
+>>>     * meta-openembedded/meta-oe/recipes-core/toybox/toybox_0.7.2.bb:do_=
+configure
+>>>     * meta-openembedded/meta-oe/recipes-devtools/iptraf/iptraf_3.0.0.bb=
+:do_compile
+>>>     * meta-openembedded/meta-oe/recipes-extended/dash/dash_0.5.8.bb:do_=
+compile
+>>>     * meta-openembedded/meta-oe/recipes-extended/lprng/lprng_3.8.C.bb:d=
+o_configure
+>>>     * meta-openembedded/meta-oe/recipes-extended/scsirastools/scsirasto=
+ols_1.6.4.bb:do_compile
+>>>     * meta-openembedded/meta-oe/recipes-extended/tcsh/tcsh_6.18.01.bb:d=
+o_compile
+>>>     * meta-openembedded/meta-oe/recipes-graphics/fontforge/fontforge_20=
+161012.bb:do_configure
+>>>     * meta-openembedded/meta-perl/recipes-perl/libnet/libnet-ssleay-per=
+l_1.65.bb:do_configure
+>>>     * openembedded-core/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.01.=
+bb:do_compile
+>>>     * openembedded-core/meta/recipes-core/initrdscripts/initramfs-live-=
+boot_1.0.bb:do_install
+>>>     * openembedded-core/meta/recipes-core/ovmf/ovmf_git.bb:do_compile
+>>>     * openembedded-core/meta/recipes-devtools/mkelfimage/mkelfimage_git=
+.bb:do_compile
+>>>     * openembedded-core/meta/recipes-devtools/yasm/yasm_1.3.0.bb:do_com=
+pile
+>>>
+>>> =3D=3D=3D Number of failed tasks (25) =3D=3D=3D
+>>> {| class=3Dwikitable
+>>> |-
+>>> || qemuarm      || 4     || http://logs.nslu2-linux.org/buildlogs/oe/wo=
+rld/pyro/log.world.qemuarm.20170307_025324.log/ || http://errors.yoctoproje=
+ct.org/Errors/Build/33300/
+>>> |-
+>>> || qemux86      || 1     || http://logs.nslu2-linux.org/buildlogs/oe/wo=
+rld/pyro/log.world.qemux86.20170309_121824.log/ || http://errors.yoctoproje=
+ct.org/Errors/Build/33551/
+>>> |-
+>>> || qemux86_64   || 20    || http://logs.nslu2-linux.org/buildlogs/oe/wo=
+rld/pyro/log.world.qemux86-64.20170311_042112.log/ || http://errors.yoctopr=
+oject.org/Errors/Build/33631/
+>>> |}
+>>>
+>>> =3D=3D=3D PNBLACKLISTs (351) =3D=3D=3D
+>>>
+>>> =3D=3D=3D QA issues (4) =3D=3D=3D
+>>> {| class=3Dwikitable
+>>> !| Count                ||Issue
+>>> |-
+>>> ||0     ||already-stripped
+>>> |-
+>>> ||0     ||build-deps
+>>> |-
+>>> ||0     ||installed-vs-shipped
+>>> |-
+>>> ||0     ||invalid-pkgconfig
+>>> |-
+>>> ||0     ||libdir
+>>> |-
+>>> ||0     ||pkgname
+>>> |-
+>>> ||0     ||symlink-to-sysroot
+>>> |-
+>>> ||0     ||textrel
+>>> |-
+>>> ||0     ||unknown-configure-option
+>>> |-
+>>> ||0     ||version-going-backwards
+>>> |-
+>>> ||1     ||host-user-contaminated
+>>> |-
+>>> ||3     ||file-rdeps
+>>> |}
+>>>
+>>>
+>>>
+>>> =3D=3D=3D Incorrect PACKAGE_ARCH or sstate signatures (0) =3D=3D=3D
+>>>
+>>> Complete log: http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.s=
+ignatures.20170307_235322.log/
+>>>
+>>> No issues detected
+>>>
+>>>
+>>>
+>>> --
+>>> _______________________________________________
+>>> Openembedded-devel mailing list
+>>> Openembedded-devel@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
+>>>
 >> --
->> Best Regards, Patrick Ohly
->>
->> The content of this message is my personal opinion only and although
->> I am an employee of Intel, the statements I make here in no way
->> represent Intel's position on the issue, nor am I authorized to speak
->> on behalf of Intel on this matter.
->>
->>
->>
->>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---f403045f69720a7073054a8e13ee
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><br><br><div data-smartmail=3D"gmail_signature">Denys Zag=
-orui<br>GlobalLogic<br>Kyiv, 03038, Protasov Business Park, N.Grinchenka, 2=
-/1<br>M=C2=A0+380.67.317.30.93<br><a href=3D"http://www.globallogic.com">ww=
-w.globallogic.com</a><br><br><a href=3D"http://www.globallogic.com/email_di=
-sclaimer.txt">http://www.globallogic.com/email_disclaimer.txt</a></div></di=
-v><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">11 =D0=BC=D0=B0=
-=D1=80=D1=82=D0=B0 2017 12:52 =D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=D0=BE=D0=B2=D0=
-=B0=D1=82=D0=B5=D0=BB=D1=8C &quot;Denys Zagorui&quot; &lt;<a href=3D"mailto=
-:denys.zagorui@gmail.com">denys.zagorui@gmail.com</a>&gt; =D0=BD=D0=B0=D0=
-=BF=D0=B8=D1=81=D0=B0=D0=BB:<br type=3D"attribution"><blockquote class=3D"g=
-mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
-eft:1ex"><div dir=3D"auto">Hello, thanks for reply.=C2=A0<div dir=3D"auto">=
-I figure out that &#39;zless&#39; from gzip 1.8 don,t work with &#39;less&#=
-39; from busybox. It&#39;s because &#39;zless&#39; tries to verify &#39;les=
-s&#39; version invoke it with key -V, and &#39;less&#39; from busybox don&#=
-39;t understand this key, so test &#39;help-version&#39; fails. So when i r=
-emove version verification from &#39;zless&#39; it&#39;s works fine.</div><=
-div dir=3D"auto">&#39;zdiff&#39; test also fails, because &#39;diff&#39; fr=
-om busybox has another output then &#39;diff&#39; from diffutils package, s=
-o patch zdiff test (add version verification), if &#39;diff&#39; from busyb=
-ox i check one output, if from diffutils another.</div><div dir=3D"auto"><b=
-r></div><div dir=3D"auto"><br></div></div><div class=3D"gmail_extra"><br><d=
-iv class=3D"gmail_quote">10 =D0=BC=D0=B0=D1=80=D1=82=D0=B0 2017 09:10 =D0=
-=BF=D0=BE=D0=BB=D1=8C=D0=B7=D0=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C &quot=
-;Patrick Ohly&quot; &lt;<a href=3D"mailto:patrick.ohly@intel.com" target=3D=
-"_blank">patrick.ohly@intel.com</a>&gt; =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=
-=B0=D0=BB:<br type=3D"attribution"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Thu, =
-2017-03-09 at 22:48 +0200, Denys Zagorui wrote:<br>
-&gt; tests don&#39;t work with &#39;diff&#39; and &#39;less&#39; utils from=
- busybox<br>
-<br>
-I don&#39;t think that depending on diff and less is the right solution for=
-<br>
-that problem, because then enabling testing will change the system that<br>
-is meant to be tested.<br>
-<br>
-For example, suppose that the real system only has busybox and busybox<br>
-diff needs to work. That version of diff cannot be tested anymore with<br>
-IMAGE_FEATURES +=3D &quot;ptest-pkgs&quot; because that will pull in gzip-p=
-test,<br>
-which then overrides the busybox diff.<br>
-<br>
-Perhaps the tests can be fixed to work also with busybox, or the tests<br>
-can detect busybox and skip the part that depends on real diff and less?<br=
->
-<br>
---<br>
-Best Regards, Patrick Ohly<br>
-<br>
-The content of this message is my personal opinion only and although<br>
-I am an employee of Intel, the statements I make here in no way<br>
-represent Intel&#39;s position on the issue, nor am I authorized to speak<b=
-r>
-on behalf of Intel on this matter.<br>
-<br>
-<br>
-<br>
-</blockquote></div></div>
-</blockquote></div></div>
-
---f403045f69720a7073054a8e13ee--
