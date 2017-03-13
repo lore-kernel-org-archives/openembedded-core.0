@@ -1,52 +1,48 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id F19126025E
+Return-Path: <maciej.borzecki@rndity.com>
+Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id BDDF87785D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Mar 2017 10:08:23 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id b5so17637580pgg.1
+	Mon, 13 Mar 2017 10:19:43 +0000 (UTC)
+Received: by mail-lf0-f42.google.com with SMTP id z15so39481154lfd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Mar 2017 03:08:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to;
-	bh=c6ESyEx8TscHj1PShqb47Wo1cjt3APakwEevDdDhSl0=;
-	b=WHnyz3vVEcEO5wJgNmla3BGBArptM6gP5pHolnBgP6Gks20CIFdmlKEhdwxX+1KypX
-	viq7LGrRQ8pPZgp9oEP5eWAtoo4nHAN9ocJ+Xf+fgfqtX8ajslW/xEiG7J47na38pPvX
-	jJlXJNCp/UtnNwUwZyxfYceXlz0DE3Y4ZuVjbBYBuVZs4hUhNwPlKDtu+RzhihiSk/L/
-	NsnmZEohCLTJ9hcB7inEq3B25P4mNUzWfe3gjYLk3ozBG/JKubC1xxP3Gf+jsVr7MQjo
-	IYGOtQKKV2KBmtFGVbmchTZb1Y4nD99ZfYLemhn2epl3eCW6lKZ3AUmbBBOpFaUhKubP
-	ItIA==
+	Mon, 13 Mar 2017 03:19:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=rndity-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=MNKcpLtUdkpSusFblVfckYCLstlaP6N2q5XjnvAfRXQ=;
+	b=A5OZMARmoXhnqXTxT+dgO+kfx55KJkehfCNNdKLXqXhyPF3zaa+DZSgEM/urb79I+t
+	JSDFGRlIgY+avM6ocB7/RZgWxnc1AnEBWoDiycR89ogEHMdhjpedb+qjhroGAAZ66azd
+	1VW79896yhkseE05bdzVvlouhYz7lZjieC1n2gfmevMzD/HeJaww8ZiMI1Op7x3I4sc0
+	T5hVm/G01se7BEI5COqy7txczn0KeM8AlblZABtkGfcaWYg1gGM87fAVGJb0aE/nBVec
+	dCQ9vl+mGEt5EzMBhfK1fXLFRAHjM4ZPfR+bG+0Hyf24IR3fAgPfLfRXLyCWZTpGKSGG
+	9dFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to;
-	bh=c6ESyEx8TscHj1PShqb47Wo1cjt3APakwEevDdDhSl0=;
-	b=VltkLdVpWOxmFtOGo0vXtOkXExwBnLgumr3RO/jYPiSJT89JucmR3HJuG2kcVZxwOW
-	6WT+W60eWS5eIPTUFyKIlG1/hK0bWQkBNJR6c0s++wsWaMRecIDP3Ue9Gn52KoKM+hjY
-	YlCxMOkMAaMCyvlyG6NeviyaBzihyzk/pMNChlrdxieKsoVy/3FM6OrHnTtcTLiRkhJz
-	b/0oRcJkIeLYNZWxS0aaSJ0fxvBh6omw9DyKywF/ucKpDADxF/FAYwyu3SAZ66sfL7U/
-	j8C0lpO0P+WoZr2f+WN3ddvhZrWdgqI5CuLrWgrWvsGupv57/s5JJsXj+bUl1/3XLPsj
-	91ag==
-X-Gm-Message-State: AMke39lrqgnjxMWTbSt02L2mj5MR/+G7A8liak+6M8IGxEVJ1VQkhhxJu61updyIIheZaA==
-X-Received: by 10.84.198.164 with SMTP id p33mr46941084pld.127.1489399705042; 
-	Mon, 13 Mar 2017 03:08:25 -0700 (PDT)
-Received: from [10.161.103.40] ([111.93.218.67])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=MNKcpLtUdkpSusFblVfckYCLstlaP6N2q5XjnvAfRXQ=;
+	b=CiyZwuHn3SWSCatWRhGfD7sBfSrroUwM7xepuPnN4XUU6vnnt7iPmYhYc39yFV5aIY
+	cyte9t+XoUuuBpe2zY4eLpI1wLs//F/UDV6ALbKJriyeQ5eeDursBFabAAGRwIHHVMYK
+	bcLlqS3lLCRboXwBoRZ5M//EbGr5DMax5ZgEfVsutKHfWnWdEoqNSy+iKD0DnFaV21E5
+	tehfmXD0Ugs1GXMfR2b02T6idcReY6AG77yu2mrpPELo+hynjPfUP+pA5eUOOaDCY93b
+	JyvVp77JxXaU4qq80G0iR1BjtH36RJqbwyxPEA2el0CM4dd0mjhhqOZA5rYWehJlm2fe
+	skuw==
+X-Gm-Message-State: AMke39n8N7Z1RsLLBCnSCXt9vg92+g+MwoZD4+/lhHEPP3cZoFTzwIkUNAypWBIImBR4fw==
+X-Received: by 10.25.16.70 with SMTP id f67mr8155922lfi.136.1489400384249;
+	Mon, 13 Mar 2017 03:19:44 -0700 (PDT)
+Received: from comp_016_pc_buildenv.localdomain
+	(staticline-31-182-60-238.toya.net.pl. [31.182.60.238])
 	by smtp.gmail.com with ESMTPSA id
-	m6sm32376557pgn.58.2017.03.13.03.08.23
+	h140sm3530190lfg.39.2017.03.13.03.19.42
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 13 Mar 2017 03:08:24 -0700 (PDT)
-To: "Burton, Ross" <ross.burton@intel.com>, Armin Kuster <akuster808@gmail.com>
-References: <1489332452-19584-1-git-send-email-akuster808@gmail.com>
-	<CAJTo0LZqLtX8zHtfTLOnF8g9t12GoTxM8ABipGJmrGdKZx5ruQ@mail.gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <eac93c3e-e92e-82a5-1356-bb2b573c6080@gmail.com>
-Date: Mon, 13 Mar 2017 03:08:22 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZqLtX8zHtfTLOnF8g9t12GoTxM8ABipGJmrGdKZx5ruQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [v2][PATCH] license class: try alt encoding when copying license file
+	Mon, 13 Mar 2017 03:19:43 -0700 (PDT)
+From: Maciej Borzecki <maciej.borzecki@rndity.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 13 Mar 2017 11:19:23 +0100
+Message-Id: <1b0cfc24faa5ed847db7b1c795e400645289c629.1489390933.git.maciej.borzecki@rndity.com>
+X-Mailer: git-send-email 2.5.5
+Cc: Maciek Borzecki <maciek.borzecki@gmail.com>
+Subject: [PATCH] wic: selftest: account for occasional newline in debugfs file names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,83 +55,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Mar 2017 10:08:25 -0000
-Content-Type: multipart/alternative;
-	boundary="------------9047EEFA1A41191F1C6C4553"
+X-List-Received-Date: Mon, 13 Mar 2017 10:19:44 -0000
 
---------------9047EEFA1A41191F1C6C4553
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Debugfs output may contain a newline in file names in 'ls -p' output. Make sure
+that output is correctly split into lines by matching '/\n' and newlines are
+removed from file names.
+
+Fixes the following error appearing in AB tests:
+
+   Traceback (most recent call last):
+     File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/wic.py", line 388, in test_exclude_path
+       files = [line.split('/')[5] for line in res.output.split('\n')]
+     File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/wic.py", line 388, in <listcomp>
+       files = [line.split('/')[5] for line in res.output.split('\n')]
+   IndexError: list index out of range
+
+Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
+---
+ meta/lib/oeqa/selftest/wic.py | 25 +++++++++++++++++++++----
+ 1 file changed, 21 insertions(+), 4 deletions(-)
+
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index dcb88bacad13a2da4c725abf1c986b39ea70f0fc..825312e5a55639129d88246e7335174484260fc1 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -381,11 +381,28 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
+                 self.assertEqual(0, runCmd("dd if=%s of=%s skip=%d count=%d" %
+                                            (wicimg, part_file, start, length)).status)
+ 
++            def extract_files(debugfs_output):
++                # extract file names from the output of debugfs -R 'ls -p',
++                # which looks like this:
++                #
++                # /2/040755/0/0/.//\n
++                # /2/040755/0/0/..//\n
++                # /11/040700/0/0/lost+found^M//\n
++                # /12/040755/1002/1002/run//\n
++                # /13/040755/1002/1002/sys//\n
++                # /14/040755/1002/1002/bin//\n
++                # /80/040755/1002/1002/var//\n
++                # /92/040755/1002/1002/tmp//\n
++                #
++                # NOTE the occasional ^M in file names
++                return [line.split('/')[5].strip() for line in \
++                        debugfs_output.strip().split('/\n')]
++
+             # Test partition 1, should contain the normal root directories, except
+             # /usr.
+             res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % os.path.join(self.resultdir, "selftest_img.part1"))
+             self.assertEqual(0, res.status)
+-            files = [line.split('/')[5] for line in res.output.split('\n')]
++            files = extract_files(res.output)
+             self.assertIn("etc", files)
+             self.assertNotIn("usr", files)
+ 
+@@ -393,7 +410,7 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
+             # directories.
+             res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % os.path.join(self.resultdir, "selftest_img.part2"))
+             self.assertEqual(0, res.status)
+-            files = [line.split('/')[5] for line in res.output.split('\n')]
++            files = extract_files(res.output)
+             self.assertNotIn("etc", files)
+             self.assertNotIn("usr", files)
+             self.assertIn("share", files)
+@@ -402,14 +419,14 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
+             # directory, but not the files inside it.
+             res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % os.path.join(self.resultdir, "selftest_img.part3"))
+             self.assertEqual(0, res.status)
+-            files = [line.split('/')[5] for line in res.output.split('\n')]
++            files = extract_files(res.output)
+             self.assertNotIn("etc", files)
+             self.assertNotIn("usr", files)
+             self.assertIn("share", files)
+             self.assertIn("bin", files)
+             res = runCmd("debugfs -R 'ls -p bin' %s 2>/dev/null" % os.path.join(self.resultdir, "selftest_img.part3"))
+             self.assertEqual(0, res.status)
+-            files = [line.split('/')[5] for line in res.output.split('\n')]
++            files = extract_files(res.output)
+             self.assertIn(".", files)
+             self.assertIn("..", files)
+             self.assertEqual(2, len(files))
+-- 
+2.5.5
 
 
-
-On 03/13/2017 02:42 AM, Burton, Ross wrote:
->
-> On 12 March 2017 at 15:27, Armin Kuster <akuster808@gmail.com 
-> <mailto:akuster808@gmail.com>> wrote:
->
->     Try another encoding if utf-8 fails in file read.
->
-> hl
-> I sent a patch for this last week (just taking bytes instead of 
-> guessing encodings, which will still fail if the encoding isn't UTF-8 
-> or 8859-1)
-Your patch works great in this case. I was working in a old tree.
-- armin
->
-> Ross
-
-
---------------9047EEFA1A41191F1C6C4553
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <p><br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">On 03/13/2017 02:42 AM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LZqLtX8zHtfTLOnF8g9t12GoTxM8ABipGJmrGdKZx5ruQ@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 12 March 2017 at 15:27, Armin
-            Kuster <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:akuster808@gmail.com" target="_blank">akuster808@gmail.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":45g" class="a3s aXjCH m15ac32210a55af5c">Try
-                another encoding if utf-8 fails in file read.<br>
-              </div>
-            </blockquote>
-          </div>
-          hl <br>
-          I sent a patch for this last week (just taking bytes instead
-          of guessing encodings, which will still fail if the encoding
-          isn't UTF-8 or 8859-1)</div>
-      </div>
-    </blockquote>
-    Your patch works great in this case. I was working in a old tree. <br>
-    - armin<br>
-    <blockquote
-cite="mid:CAJTo0LZqLtX8zHtfTLOnF8g9t12GoTxM8ABipGJmrGdKZx5ruQ@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------9047EEFA1A41191F1C6C4553--
