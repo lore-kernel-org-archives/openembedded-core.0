@@ -1,45 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3350277714
+Return-Path: <jose.a.lamego@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 84D36776C7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Mar 2017 20:21:08 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id u132so11727858wmg.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Mar 2017 13:21:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=a8uiKNoFOj1I3V5oGsp0NTByi6V6qrYBtxG9RUgGlp8=;
-	b=OECG94nRhbvcSlP+h19DeK4kGJtOC53bFrcgLkCp6L6AxjvsQWKVp9nDTHOn3Od44F
-	6d+R/yhIcvJN1USkB5TL7RkKkIDkGx65X9e3rtpfWQi9zfVb3bUWoQPlGFE/WeLZtroV
-	LUk0ENy6CvZlXhKXbOkw4kPgonhqq5Ti8xU7+58c81zqbUmzkugS2h/pBd4mzS34DD7M
-	yY18Q3wEwe+pJd89u3zRgCFqukghmF7HK3vMJsHjbE56F5kouCijhEvJMZoNch3kJvKI
-	XRzwi09S+QZ/YBgObTNatpzz0ykf9im12BDJpd0yK49P5swH/7/UdAYw7Y9Vqr8i7Wdx
-	vsgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=a8uiKNoFOj1I3V5oGsp0NTByi6V6qrYBtxG9RUgGlp8=;
-	b=nQIZSDhkzp4nGTt5nspytqv8Z8ovqEResLgt1m97nG03p1SryJcDkcrK/XRwuIR/mJ
-	003bZb4nHyP9NNv2qsrvNLSYSRiHKgh2aXyzc3rafjbdzrhWoTbS2RyZCn+gBXlS/C1e
-	DXWHctb5tjdd1ng+EYHwT5UtgSgktAt/h35Zoho58OPFjUf54AjczDHPFFqIarqA0EqP
-	s1dL+RI3Z1nNYOE4WpYqAp9TSDWDxqCustSlW7bHzcH7keCNn2kqt+17ARpijWqTjZc5
-	/PVsJ0zqMdJJtjkjUrZz7ES2STpkR8biR9P7fy2UynvavJ2pn2DaCtrSEu3c316BAyX4
-	IsnA==
-X-Gm-Message-State: AFeK/H2AadIvCVPcBUe0iFq+7aBhaac8G0kVbS3JunMsA0WGjD58VveylM/n1Exj0IiLMpOe4S93lnbuJYGx5w==
-X-Received: by 10.28.140.135 with SMTP id o129mr11301235wmd.101.1489436469622; 
-	Mon, 13 Mar 2017 13:21:09 -0700 (PDT)
+	Mon, 13 Mar 2017 20:30:52 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Mar 2017 13:30:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,160,1486454400"; 
+	d="asc'?scan'208";a="67035027"
+Received: from jalamego-mobl2.zpn.intel.com (HELO [10.219.128.117])
+	([10.219.128.117])
+	by orsmga004.jf.intel.com with ESMTP; 13 Mar 2017 13:30:53 -0700
+To: openembedded-core@lists.openembedded.org
+References: <cover.1484667160.git.jose.a.lamego@linux.intel.com>
+	<a3fe53ae33e80c917e2897d49a91c191bb230616.1484667160.git.jose.a.lamego@linux.intel.com>
+	<267c07ef-e6d0-7bf4-bcd1-b79ffa11844f@linux.intel.com>
+From: Jose Lamego <jose.a.lamego@linux.intel.com>
+Message-ID: <bab5d5a4-31d1-11dd-21a1-e1e5c290dd1f@linux.intel.com>
+Date: Mon, 13 Mar 2017 14:30:54 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.7.0
 MIME-Version: 1.0
-Received: by 10.80.180.162 with HTTP; Mon, 13 Mar 2017 13:20:39 -0700 (PDT)
-In-Reply-To: <1489398100-31546-1-git-send-email-richard.purdie@linuxfoundation.org>
-References: <1489398100-31546-1-git-send-email-richard.purdie@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 13 Mar 2017 13:20:39 -0700
-Message-ID: <CAMKF1sq=2vSP=e7ijC=AvVJd2_wtj=jaUJ8-=G9cz4wX1JjCuA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] terminal: Use original PATH for terminals
+In-Reply-To: <267c07ef-e6d0-7bf4-bcd1-b79ffa11844f@linux.intel.com>
+Subject: Re: [PATCH 1/3] distutils3.bbclass: add egg files/directories to python path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,52 +36,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Mar 2017 20:21:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 13 Mar 2017 20:30:54 -0000
+X-Groupsio-MsgNum: 94671
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="WduqVSme06S94J5tPVbG2X7iCjD9TERHT"
 
-On Mon, Mar 13, 2017 at 2:41 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> Now that we filter out PATH to only the utilities we rely upon, the devshel
-> terminal was broken since it can no longer find the terminals. Even if
-> we fix that, the user couldn't access any of their commands within
-> devshell which somewhat defeats its purpose.
->
-> Add the original PATH back to the environment to restore that behaviour
-> since this is more in line with user expectations and it wouldn't be possible
-> (or desireable) to whitelist all the commands a user might want to use from
-> the shell.
->
+--WduqVSme06S94J5tPVbG2X7iCjD9TERHT
+Content-Type: multipart/mixed; boundary="qp2hediNurdaO8hVkbKDikC0rgGmFQP3x";
+ protected-headers="v1"
+From: Jose Lamego <jose.a.lamego@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <bab5d5a4-31d1-11dd-21a1-e1e5c290dd1f@linux.intel.com>
+Subject: Re: [OE-core] [PATCH 1/3] distutils3.bbclass: add egg
+ files/directories to python path
+References: <cover.1484667160.git.jose.a.lamego@linux.intel.com>
+ <a3fe53ae33e80c917e2897d49a91c191bb230616.1484667160.git.jose.a.lamego@linux.intel.com>
+ <267c07ef-e6d0-7bf4-bcd1-b79ffa11844f@linux.intel.com>
+In-Reply-To: <267c07ef-e6d0-7bf4-bcd1-b79ffa11844f@linux.intel.com>
 
-will this also mean that it will now, inject original PATH into builds done
-using seashell ?
+--qp2hediNurdaO8hVkbKDikC0rgGmFQP3x
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/classes/terminal.bbclass | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/meta/classes/terminal.bbclass b/meta/classes/terminal.bbclass
-> index 62409c0..a27e10c 100644
-> --- a/meta/classes/terminal.bbclass
-> +++ b/meta/classes/terminal.bbclass
-> @@ -66,6 +66,11 @@ def oe_terminal(command, title, d):
->              envdata.setVar(key, str(value))
->              envdata.setVarFlag(key, 'export', '1')
->
-> +    # Use original PATH as a fallback
-> +    path = d.getVar('PATH') + ":" + origbbenv.getVar('PATH')
-> +    os.environ['PATH'] = path
-> +    envdata.setVar('PATH', path)
-> +
->      # A complex PS1 might need more escaping of chars.
->      # Lets not export PS1 instead.
->      envdata.delVar("PS1")
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Ping
 
+On 02/08/2017 04:30 PM, Jose Lamego wrote:
+> Ping.
+>=20
+> On 01/17/2017 09:42 AM, Jose Lamego wrote:
+>> Packages that use .egg files or directories for installation may
+>> not be found when imported at the python3 interpreter.
+>> .egg files/directories path must be included in a .pth file to
+>> be appropriately included in python path.
+>>
+>> This change looks for .egg files/directories in sitepackages
+>> and adds its path to a .pth file during package installation.
+>> It ensures that any new package that uses .egg files/recipes
+>> will be appropriately added to path by performing the check from
+>> the distutils3 class.
+>>
+>> [YOCTO #8673]
+>>
+>> Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
+>> ---
+>>  meta/classes/distutils3.bbclass | 10 ++++++++++
+>>  1 file changed, 10 insertions(+)
+>>
+>> diff --git a/meta/classes/distutils3.bbclass b/meta/classes/distutils3=
+=2Ebbclass
+>> index a6720c5..f8e2e2e 100644
+>> --- a/meta/classes/distutils3.bbclass
+>> +++ b/meta/classes/distutils3.bbclass
+>> @@ -68,6 +68,16 @@ distutils3_do_install() {
+>>              mv -f ${D}${datadir}/share/* ${D}${datadir}/
+>>              rmdir ${D}${datadir}/share
+>>          fi
+>> +
+>> +        # detect if .egg files/directories were created and add their=
+
+>> +        # path to a .pth file
+>> +        SHORT_PN=3D$(echo "${PN}" | sed 's/${PYTHON_PN}-//g')
+>> +        if test -e ${D}${PYTHON_SITEPACKAGES_DIR}/${SHORT_PN}*.egg; t=
+hen
+>> +            EGG_NAME=3D$(basename $(find ${D}${PYTHON_SITEPACKAGES_DI=
+R}/ \
+>> +-name ${SHORT_PN}\*.egg))
+>> +            echo "./${EGG_NAME}" > ${D}${PYTHON_SITEPACKAGES_DIR}/\
+>> +${SHORT_PN}.pth
+>> +        fi
+>>  }
+>>  distutils3_do_install[vardepsexclude] =3D "MACHINE"
+>> =20
+>>
+>=20
+>=20
+>=20
+
+--=20
+Jose Lamego | OTC Embedded Platforms & Tools | GDC
+
+
+--qp2hediNurdaO8hVkbKDikC0rgGmFQP3x--
+
+--WduqVSme06S94J5tPVbG2X7iCjD9TERHT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQEcBAEBCAAGBQJYxwF/AAoJEFJAtowlSEbn7lwH/29n4C684ZcJBJ95H7SeIShR
+dkSLJZQel69miDIPpQ14WWiE30rZ8epqus8YRXEV0OXd55dFHtuqYhPxenXStVIX
+N41AygJfspo1W3g3JKEdtoGPIMLmi6Mg12bC+342F/C8pODD7tWWZKFoFfj9Pl9J
+VNwOuSqxjOcd0QhEvWyKGeW+JMElc8DtlRbZOddnl7co5M6QeG5MxHy/KTwlA9wl
+JZMG3sE+U9MRSd1p0gAC3yKrzBz3ygNBcf+KaFwTCCZ/HXCrg21G16SGegcgczmX
+fsV1O1aJ4lMjCCrbw7912l4vsoVayGGHZv8O73LxbFs8/j4UJXejBiFxMdKNE9U=
+=F4l/
+-----END PGP SIGNATURE-----
+
+--WduqVSme06S94J5tPVbG2X7iCjD9TERHT--
