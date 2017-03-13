@@ -1,22 +1,29 @@
-Return-Path: <mikko.ylinen@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F41472FB0
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D24272F46
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Mar 2017 13:09:17 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Mar 2017 06:08:55 -0700
+	Mon, 13 Mar 2017 13:19:33 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Mar 2017 06:19:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,159,1486454400"; d="scan'208";a="833997090"
-Received: from ahatuka-mobl1.ger.corp.intel.com (HELO
-	summit.ger.corp.intel.com) ([10.252.24.113])
-	by FMSMGA003.fm.intel.com with ESMTP; 13 Mar 2017 06:08:54 -0700
-From: Mikko Ylinen <mikko.ylinen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Mar 2017 15:09:26 +0200
-Message-Id: <20170313130926.29301-1-mikko.ylinen@linux.intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] bitbake.conf: whitelist socat as non-fatal host tool
+X-IronPort-AV: E=Sophos;i="5.36,159,1486454400"; d="scan'208";a="75987849"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga006.fm.intel.com with ESMTP; 13 Mar 2017 06:19:33 -0700
+To: Mark Hatle <mark.hatle@windriver.com>,
+	openembedded-core@lists.openembedded.org
+References: <cover.1489144807.git.alexander.kanavin@linux.intel.com>
+	<b6d2b654a601d53ea4168c2f8d6438ac7be5e10d.1489144807.git.alexander.kanavin@linux.intel.com>
+	<2fbc77bf-fbe0-2673-3af7-e95c0e5e2a4e@windriver.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <a27b3883-7d69-0e61-351a-8b19aaf3255c@linux.intel.com>
+Date: Mon, 13 Mar 2017 15:18:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.6.0
+MIME-Version: 1.0
+In-Reply-To: <2fbc77bf-fbe0-2673-3af7-e95c0e5e2a4e@windriver.com>
+Subject: Re: [PATCH 30/44] byacc: remove the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,33 +36,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Mar 2017 13:09:20 -0000
+X-List-Received-Date: Mon, 13 Mar 2017 13:19:34 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-oe-git-proxy depends on socat host tool but it's not
-whitelisted and triggers a 'binary not in PATH' error.
+On 03/10/2017 06:37 PM, Mark Hatle wrote:
+> byacc, until recently, was required by the LSB / LSB Test Suite.
+>
+> So I'd rather is be kept in oe-core through the 2.3 release.
 
-Whitelist socat but make it a HOSTTOOLS_NONFATAL since
-it's not a hard dependency.
+I couldn't find it in the LSB 5 standard. Is it something from earlier 
+versions?
 
-Signed-off-by: Mikko Ylinen <mikko.ylinen@linux.intel.com>
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index bc115117c9..ea5309462f 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -469,7 +469,7 @@ HOSTTOOLS += " \
- HOSTTOOLS += "ps stty ip ssh scp ping vi"
- 
- # Link to these if present
--HOSTTOOLS_NONFATAL += "ccache pip3 ld.bfd ld.gold gcc-ar gpg sftp"
-+HOSTTOOLS_NONFATAL += "ccache pip3 ld.bfd ld.gold gcc-ar gpg sftp socat"
- 
- CCACHE ??= ""
- # Disable ccache explicitly if CCACHE is null since gcc may be a symlink
--- 
-2.11.0
+Alex
 
 
