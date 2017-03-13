@@ -1,34 +1,44 @@
-Return-Path: <d.schultz@phytec.de>
-Received: from root.phytec.de (mail.phycard.de [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id BDD6C6E668
+Return-Path: <denys.zagorui@globallogic.com>
+Received: from mail-lf0-f41.google.com (mail-lf0-f41.google.com
+	[209.85.215.41])
+	by mail.openembedded.org (Postfix) with ESMTP id EB36B730E3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Mar 2017 16:16:32 +0000 (UTC)
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id D4B3CA00422;
-	Mon, 13 Mar 2017 17:17:00 +0100 (CET)
-Received: from [172.16.25.184] ([172.16.25.184])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-	with ESMTP id 2017031317163192-345607 ;
-	Mon, 13 Mar 2017 17:16:31 +0100 
-To: ed.bartosh@linux.intel.com, Gary Thomas <gary@mlbassoc.com>
-References: <2791e915-9e22-a01a-ccb5-c629d250edb2@phytec.de>
-	<20170308105729.GA22401@linux.intel.com>
-	<7d4a770f-25c6-5747-5a5c-370c822f2efb@mlbassoc.com>
-	<20170308134349.GA16099@linux.intel.com>
-From: Daniel Schultz <d.schultz@phytec.de>
-Message-ID: <a0d78645-9670-f3a1-cd9d-d66370e89ef9@phytec.de>
-Date: Mon, 13 Mar 2017 17:16:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.1
-MIME-Version: 1.0
-In-Reply-To: <20170308134349.GA16099@linux.intel.com>
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
-	17, 2016) at 13.03.2017 17:16:31,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17,
-	2016) at 13.03.2017 17:16:32
-X-TNEFEvaluated: 1
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Create more than one image with WIC
+	Mon, 13 Mar 2017 16:37:35 +0000 (UTC)
+Received: by mail-lf0-f41.google.com with SMTP id y193so65974226lfd.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Mar 2017 09:37:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=globallogic.com; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=hMEPYcj9cMrA3Yqe08NU0emYA8sqCqDI7x6C4xAqJMU=;
+	b=E7TUZe+Q7UOfKGQ0mUUEPAiHBtyJOg7JbFU2xfJ0RS36GXU2JP6bZw9TfTJtljptsa
+	NUITRiDFwYSHiIMuuUjuWqVnCrHZBi3GbGeP7TjEL2dYdnf9dM9OW5bJABf9bJY4nXub
+	L15/mz5oFaNVJ0QFtM0Gx4gFQgLcrcs9wvJ7k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=hMEPYcj9cMrA3Yqe08NU0emYA8sqCqDI7x6C4xAqJMU=;
+	b=Lah5Qpwb240sVgZGXco0iecMVIQ4QowNjJRXEfMH7FbeF2EhQHaJvp4i8IanOcgFiN
+	lZXIAkjS9RnEKfPcPTwJwwxSlrcnxR1JmY8k68OdzJY56I48CaASU7yK1Alfy6+Rt8RH
+	VhsLk2JOI1Y/aFU3tILamnoHACpe3KKvmc+wPOcJPoHZaoZUFtfMadhAL7au+FFVVfEQ
+	47UM1AjBdZCyvVyDhJmjiUqbkQ6E9XHXMOZ0xYDGoqsdEyne619h2wRSdji6u/NOdaU+
+	nsd3/4dsPFRUquTRtjlPqdT1sLnCp6zhldo0aS3HZuHjYLMj+UYmPQtr8ATLfiRO/gUd
+	Sr3g==
+X-Gm-Message-State: AMke39m+IdKGd2scK3IQuAMBWWRcOuFQTqg9/ENqOwLKy95BuZzsR2ywFirGPXdkY1VM3/BH
+X-Received: by 10.25.29.66 with SMTP id d63mr9211190lfd.163.1489423055031;
+	Mon, 13 Mar 2017 09:37:35 -0700 (PDT)
+Received: from kbp1-ldl-f65370.synapse.com ([195.238.93.36])
+	by smtp.gmail.com with ESMTPSA id
+	t19sm3644627ljd.30.2017.03.13.09.37.34
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 13 Mar 2017 09:37:34 -0700 (PDT)
+From: Denys Zagorui <denys.zagorui@globallogic.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 13 Mar 2017 18:37:01 +0200
+Message-Id: <1489423021-5195-1-git-send-email-denys.zagorui@globallogic.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Denys Zagorui <denys.zagorui@globallogic.com>
+Subject: [PATCH v2] gzip: add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,68 +51,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Mar 2017 16:16:33 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 13 Mar 2017 16:37:37 -0000
 
+'zless' don't work with less from busybox. In this case test 'help-version'
+fails. First of all 'zless' tries to figure out version of 'less' launching
+'less -V', 'less' from busybox don't understand key -V. So 'zless' needs
+to be fixed so that it can use 'less' from busybox.
 
+'zdiff' test fixed so that it can use 'diff' from busybox
+('diff' from busybox and 'diff' from diffutils has different output)
 
-Am 08.03.2017 um 14:43 schrieb Ed Bartosh:
-> On Wed, Mar 08, 2017 at 02:41:10PM +0100, Gary Thomas wrote:
->> On 2017-03-08 11:57, Ed Bartosh wrote:
->>> On Wed, Mar 08, 2017 at 10:44:21AM +0100, Daniel Schultz wrote:
->>>> Hi,
->>>>
->>>> I created two kickstart files (am335x-sdimage.wks, am335x-emmc.wks)
->>>> and added them to the local.conf.
->>>>
->>>> When I build the image only the first wks in WKS=5FFILES will be used
->>>> by WIC and the second will be ignored. Is it possible to build two
->>>> images in one build?
->>>>
->>>
->>> I don't think it's possible to build more than one image for the same
->>> type. wic is not an exception here.
->>>
->>>> Includes of the wks files in local.conf:
->>>> WKS=5FFILES=5Fti33x =3D "am335x-sdimage.wks am335x-emmc.wks "
->>>
->>> WKS=5FFILES variable is to provide possible wks files to use. First one=
- found will
->>> be used to produce an image.
->>
->> Would it work to add/define this variable in the corresponding *image*.b=
-b recipe
->> rather than local.conf?
->
-> Yes, it would if image recipe is unique, i.e. images of the same type
-> can be produced for different recipes.
->
-But isn't wic different to other images like e.g. ext? I agree that=20
-there are other images that need only build once, but wic images can=20
-contain these and therefore act as a wrapper.
+Signed-off-by: Denys Zagorui <denys.zagorui@globallogic.com>
+---
+ ...zdiff-add-diff-from-busybox-compatibility.patch | 40 ++++++++++++++++++++++
+ meta/recipes-extended/gzip/files/run-ptest         |  6 ++++
+ meta/recipes-extended/gzip/gzip_1.8.bb             | 19 +++++++++-
+ 3 files changed, 64 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/gzip/files/0001-tests-zdiff-add-diff-from-busybox-compatibility.patch
+ create mode 100644 meta/recipes-extended/gzip/files/run-ptest
 
-Do I have misunderstood the design of wic?
-
-I mean MMC and EMMC are very similar, but different in the bootloader=20
-and it would be a overhead to create an extra image for all EMMC images.
-
---=20
-Mit freundlichen Gr=FC=DFen,
-With best regards,
-   Daniel Schultz
-
-> WKS=5FFILES makes sense to set only if there are multiple wks files that
-> can be used to produce an image. The most obvious use case is using
-> multiple layers with different wks files in each and specifying all of
-> them in WKS=5FFILES.
->
-> If this is not the case then setting WKS=5FFILE is enough.
->
-> --
-> Regards,
-> Ed
->
-
+diff --git a/meta/recipes-extended/gzip/files/0001-tests-zdiff-add-diff-from-busybox-compatibility.patch b/meta/recipes-extended/gzip/files/0001-tests-zdiff-add-diff-from-busybox-compatibility.patch
+new file mode 100644
+index 0000000..e64bf82
+--- /dev/null
++++ b/meta/recipes-extended/gzip/files/0001-tests-zdiff-add-diff-from-busybox-compatibility.patch
+@@ -0,0 +1,40 @@
++From 93673d1bc2af38dec512b05bc6d9262c6b45b5ad Mon Sep 17 00:00:00 2001
++From: Denys Zagorui <denys.zagorui@globallogic.com>
++Date: Fri, 10 Mar 2017 22:59:48 +0200
++Subject: [PATCH] tests/zdiff: add diff from busybox compatibility.
++
++Diff from busybox has another output than diff from diffutils
++
++Signed-off-by: Denys Zagorui <denys.zagorui@globallogic.com>
++Upstream-Status: Pending
++---
++ tests/zdiff | 13 +++++++------
++ 1 file changed, 7 insertions(+), 6 deletions(-)
++
++diff --git a/tests/zdiff b/tests/zdiff
++index 7ed2f34..2567d1a 100755
++--- a/tests/zdiff
+++++ b/tests/zdiff
++@@ -24,12 +24,13 @@ echo a > a || framework_failure_
++ echo b > b || framework_failure_
++ gzip a b || framework_failure_
++
++-cat <<EOF > exp
++-1c1
++-< a
++----
++-> b
++-EOF
+++diff -v 2>&1 > /dev/null | grep BusyBox
+++
+++if [ $? == 0 ];then
+++    echo -e '--- /dev/fd/5\n+++ -\n@@ -1 +1 @@\n-a\n+b' > exp
+++else
+++    echo -e '1c1\n< a\n---\n> b' >exp
+++fi
++
++ fail=0
++ returns_ 1 zdiff a.gz b.gz > out 2>&1 || fail=1
++--
++1.9.1
++
+diff --git a/meta/recipes-extended/gzip/files/run-ptest b/meta/recipes-extended/gzip/files/run-ptest
+new file mode 100644
+index 0000000..cf7c649
+--- /dev/null
++++ b/meta/recipes-extended/gzip/files/run-ptest
+@@ -0,0 +1,6 @@
++#!/bin/sh
++
++cd src/tests
++
++make check
++
+diff --git a/meta/recipes-extended/gzip/gzip_1.8.bb b/meta/recipes-extended/gzip/gzip_1.8.bb
+index 11be846..a4a39a6 100644
+--- a/meta/recipes-extended/gzip/gzip_1.8.bb
++++ b/meta/recipes-extended/gzip/gzip_1.8.bb
+@@ -2,7 +2,9 @@ require gzip.inc
+ 
+ LICENSE = "GPLv3+"
+ 
+-SRC_URI = "${GNU_MIRROR}/gzip/${BP}.tar.gz"
++SRC_URI = "${GNU_MIRROR}/gzip/${BP}.tar.gz \
++            file://0001-tests-zdiff-add-diff-from-busybox-compatibility.patch \
++            file://run-ptest"
+ SRC_URI_append_class-target = " file://wrong-path-fix.patch"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+@@ -12,6 +14,21 @@ PROVIDES_append_class-native = " gzip-replacement-native"
+ 
+ BBCLASSEXTEND = "native"
+ 
++inherit ptest
++
++do_install_ptest() {
++	mkdir -p ${D}${PTEST_PATH}/src/build-aux
++	cp ${S}/build-aux/test-driver ${D}${PTEST_PATH}/src/build-aux/
++	mkdir -p ${D}${PTEST_PATH}/src/tests
++	cp -r ${S}/tests/* ${D}${PTEST_PATH}/src/tests
++	sed -e 's/^abs_srcdir = ..*/abs_srcdir = \.\./' \
++            -e 's/^top_srcdir = ..*/top_srcdir = \.\./' \
++            -e 's/^AWK = ..*/AWK = awk/'                \
++            -e 's/^srcdir = ..*/srcdir = \./'           \
++            -e 's/^Makefile: ..*/Makefile: /'           \
++            ${B}/tests/Makefile > ${D}${PTEST_PATH}/src/tests/Makefile
++}
++
+ SRC_URI[md5sum] = "732553152814b22dc35aa0267df5286c"
+ SRC_URI[sha256sum] = "1ff7aedb3d66a0d73f442f6261e4b3860df6fd6c94025c2cb31a202c9c60fe0e"
+ 
+-- 
+1.9.1
 
 
