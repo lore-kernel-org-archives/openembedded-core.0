@@ -1,31 +1,28 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B7E2E776D2
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A71C77711
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Mar 2017 14:29:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v2DETLgm027176
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 13 Mar 2017 07:29:21 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.230) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 13 Mar 2017 07:29:21 -0700
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
+	Mon, 13 Mar 2017 14:36:39 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga104.jf.intel.com with ESMTP; 13 Mar 2017 07:36:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,159,1486454400"; d="scan'208";a="1141543384"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga002.fm.intel.com with ESMTP; 13 Mar 2017 07:36:40 -0700
+To: Mark Hatle <mark.hatle@windriver.com>,
+	openembedded-core@lists.openembedded.org
 References: <cover.1489144807.git.alexander.kanavin@linux.intel.com>
-	<fbae88fe04c9ca949e0b3a021c4cf015c666da9d.1489144807.git.alexander.kanavin@linux.intel.com>
-	<e8c2ff30-fe00-5413-6ce7-4182f6e53e49@windriver.com>
-	<3d49bfd1-97a4-f8c3-1394-73c3754b0d03@linux.intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <226c7e76-3283-481a-a486-bc80d8ab78bf@windriver.com>
-Date: Mon, 13 Mar 2017 09:29:20 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.8.0
+	<77fe606e011b51fe2551e2e4e5a2b25f682ebb2c.1489144807.git.alexander.kanavin@linux.intel.com>
+	<5b89b6ce-5a17-3cf6-dbaf-dc941daf29af@windriver.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <d92a6914-f15c-c7ff-111f-2379c5a459f9@linux.intel.com>
+Date: Mon, 13 Mar 2017 16:35:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.6.0
 MIME-Version: 1.0
-In-Reply-To: <3d49bfd1-97a4-f8c3-1394-73c3754b0d03@linux.intel.com>
-Subject: Re: [PATCH 36/44] package_rpm.bbclass: do not set the OS dynamically when building rpms
+In-Reply-To: <5b89b6ce-5a17-3cf6-dbaf-dc941daf29af@windriver.com>
+Subject: Re: [PATCH 38/44] package_rpm.bbclass: do not strip multilib prefixes from package names, do not add multilib prefix to package arch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,42 +35,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Mar 2017 14:29:24 -0000
-Content-Type: text/plain; charset="windows-1252"
+X-List-Received-Date: Mon, 13 Mar 2017 14:36:40 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 3/13/17 9:24 AM, Alexander Kanavin wrote:
-> On 03/10/2017 06:57 PM, Mark Hatle wrote:
->> On 3/10/17 5:24 AM, Alexander Kanavin wrote:
->>> Packages need to contain just one value for the os field, otherwise
->>> rpm will refuse to install them if they don't match what is in
->>> /etc/rpm/platform.
->>
->> How will this work with nativesdk for things like targeting mingw (windows),
->> darwin, or even alternative OS like Zephyr?
->>
->> I'm thinking if 'linux-gnu' is invalid, then a simple conversion to 'linux'
->> would be better then hard coding everything to 'linux'.
-> 
-> I don't believe that the OS name embedded into packages is actually used 
-> anywhere to make decisions about which package to install. It's just 
-> that some packages have one value for it, others have another, and rpm 4 
-> does not allow that (rpm 5 does, and so several OS values gets written 
-> into /etc). So I bring them all to a common value.
+On 03/10/2017 07:04 PM, Mark Hatle wrote:
+> On 3/10/17 5:24 AM, Alexander Kanavin wrote:
+>> This is done for reasons I cannot establish, and greatly complicates the code
+>> that installs packages into rootfs.
+>
+> RPM internally resolves ELF dependencies through a resolution system.
+>
+> If you look at a typical Fedora, SuSe, etc system you will often see:
+>
+> glibc-x.y.i386.rpm
+> glibc-x.y.x86-64.rpm
+>
+> When a package asks for 'glibc', the system will go out and match the one for
+> the arch that is being requested.
 
-In the past there was both a (Smart/YUM/DNF) and RPM check for OS to prevent
-packages for one OS to be installed onto another OS.
+I don't know the core reason for it, but it actually does not happen, 
+and I saw it firsthand. When a package needs a library, the resolver 
+will pick the library package with the architecture that has the higher 
+priority in the list of architectures, not the architecture that would 
+match the package correctly.
 
-While out mingw SDK does not contain RPM (not IMHO should it ever), I'd hate to
-accidentally try to install one of the mingw packages onto a Linux system.
 
-Darwin (OS X) as well.
+When using smart, there seems to be a similar issue:
 
-This is likely something we need to look into and understand.
+# Pull in multilib requires since rpm may not pull in them
+# correctly, for example,
+# lib32-packagegroup-core-standalone-sdk-target requires
+# lib32-libc6, but rpm may pull in libc6 rather than lib32-libc6
+# since it doesn't know mlprefix (lib32-), bitbake knows it and
+# can handle it well, find out the RDEPENDS on the chain will
+# fix the problem. Both do_rootfs and do_populate_sdk have this
+# issue.
+# The attempt_only packages don't need this since they are
+# based on the installed ones.
+#
+# Separate pkgs into two lists, one is multilib, the other one
+# is non-multilib.
 
---Mark
+... which is then followed by the most hackish, impementrable code that 
+recursively walks RDEPENDS and massages that into a list that is given 
+to smart, effectively subverting smart's own dependency resolution. I do 
+not want to carry this into rpm4/dnf (or even spend time understanding 
+it), and so I dropped both the multilib prefix stripping, and the code 
+that works around it.
 
-> Alex
-> 
+By the way, I don't know about Fedora, but SuSE does use -32bit suffixes 
+in package names.
 
+
+Alex
 
