@@ -1,31 +1,21 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 45DB8730E3
+Return-Path: <jose.a.lamego@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 694587752B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Mar 2017 16:50:26 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v2DGoNMw028436
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 13 Mar 2017 09:50:23 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.230) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 13 Mar 2017 09:50:23 -0700
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <20170311052758.19671-1-pkj@axis.com>
-	<6a4f5fdd-18ea-4851-b2ec-4e889d7c012f@windriver.com>
-	<3589dcdb5a884da8a4aafc12a7122959@XBOX02.axis.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <45145706-6456-2045-feec-b2d68e355908@windriver.com>
-Date: Mon, 13 Mar 2017 11:50:22 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <3589dcdb5a884da8a4aafc12a7122959@XBOX02.axis.com>
-Subject: Re: [PATCH] useradd-staticids.bbclass: Support recipes specifying static IDs
+	Mon, 13 Mar 2017 17:40:59 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Mar 2017 10:41:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,160,1486454400"; d="scan'208";a="1141630718"
+Received: from jalamego-mobl2.zpn.intel.com ([10.219.128.117])
+	by fmsmga002.fm.intel.com with ESMTP; 13 Mar 2017 10:41:00 -0700
+From: Jose Lamego <jose.a.lamego@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 13 Mar 2017 11:40:50 -0600
+Message-Id: <1489426850-26058-1-git-send-email-jose.a.lamego@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] python*-git: Upgrade to version 2.1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,109 +28,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Mar 2017 16:50:27 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 13 Mar 2017 17:41:01 -0000
 
-On 3/13/17 11:11 AM, Peter Kjellerstedt wrote:
->> -----Original Message-----
->> From: Mark Hatle [mailto:mark.hatle@windriver.com]
->> Sent: den 13 mars 2017 14:56
->> To: Peter Kjellerstedt; openembedded-core@lists.openembedded.org
->> Subject: Re: [OE-core] [PATCH] useradd-staticids.bbclass: Support
->> recipes specifying static IDs
->>
->> On 3/10/17 11:27 PM, Peter Kjellerstedt wrote:
->>> If this bblcass is used and a recipe specifies a static ID for a
->>> user/group as part of the USERADD_PARAM_${PN} or GROUPADD_PARAM_${PN},
->>> the build would fail with and error like this if there was no
->>> corresponding ID in the passwd/group files specified via
->>> USERADD_UID_TABLES/USERADD_GID_TABLES:
->>
->> If the system is set in warning mode, it should warn if this is done
->> (but allow it).
->>
->> If the system is set to error mode, it should error.
->>
->> The useradd-staticids class is expecting the files (tables) to contain
->> all of the entries.  This is specifically to avoid the situation where 
->> a new recipe is introduced that adds a new user or group (dynamic or 
->> static -- static because it could conflict with one of your existing 
->> static entries.)
-> 
-> AFAICT, even before my rewrite of much of this code in 3149319a and 
-> subsequent correction in adc0f830, if a static ID was specified as part 
-> of USERADD_PARAM_${PN} then no error would be issued. However, we can 
-> certainly change the code to always fail/warn if no ID is specified 
-> in any of the passwd/groups files. It should just be a matter of 
-> removing the if statements preceding the calls to handle_missing_id() 
-> below. (I will do some verification and send an updated patch tomorrow 
-> if this is the way the class should work.)
+Both python-git and python3-git need to be upgraded to latest
+upstream
+version.
+This change was tested using qemux86 with core-image-sato.
 
-The intention was always that the uname/gname had to be specified in the useradd
-tables in some way, or a warning/error would occur.
+Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
+---
+ meta/recipes-devtools/python/python-git.inc                           | 4 ++--
+ .../python/{python-git_2.1.1.bb => python-git_2.1.3.bb}               | 0
+ .../python/{python3-git_2.1.1.bb => python3-git_2.1.3.bb}             | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python-git_2.1.1.bb => python-git_2.1.3.bb} (100%)
+ rename meta/recipes-devtools/python/{python3-git_2.1.1.bb => python3-git_2.1.3.bb} (100%)
 
-If the fields were blank in the tables, the system would use the versions
-located in the recipe -- otherwise it would use the version in the table.  (At
-one point, but I don't think this was ever pushed in -- if a static ID was set
-in the recipe, there was a verification that the static version in both the
-recipe and the table files was the same -- otherwise it could indicate the
-package may not be built properly.)
-
->> I agree the error message below looks wrong, do the existing warning/
->> error messages about it not being defined int he useradd tables still 
->> occur with this patch?
-> 
-> The error message below occurred because before my fix it forgot all 
-> the parameters that were specified in USERADD_PARAM_${PN} when it took 
-> the continue.
-
-Ok, we need to fix that bug first then.
-
-We should then verify the second issue and fix it in a subsequent commit.  The
-key being that of the user/group was not in the table we warn them (or error) --
-preventing unexpected users from showing up.
-
-The check both static IDs are the same could very well be a TODO item (that is
-never done) -- but something that should be considered.
-
-Thanks!
---Mark
-
->> --Mark
->>
->>>   ERROR: meta-oe/recipes-support/postgresql/postgresql_9.4.11.bb:
->>>   meta-oe/recipes-support/postgresql/postgresql_9.4.11.bb inherits
->>>   useradd but doesn't set USERADD_PARAM, GROUPADD_PARAM or
->>>   GROUPMEMS_PARAM for package postgresql
->>>
->>> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
->>> ---
->>>  meta/classes/useradd-staticids.bbclass | 2 ++
->>>  1 file changed, 2 insertions(+)
->>>
->>> diff --git a/meta/classes/useradd-staticids.bbclass
->> b/meta/classes/useradd-staticids.bbclass
->>> index a65c3f69cb..9b194df490 100644
->>> --- a/meta/classes/useradd-staticids.bbclass
->>> +++ b/meta/classes/useradd-staticids.bbclass
->>> @@ -125,6 +125,7 @@ def update_useradd_static_config(d):
->>>              if uaargs.LOGIN not in users:
->>>                  if not uaargs.uid or not uaargs.uid.isdigit() or not uaargs.gid:
->>>                      handle_missing_id(uaargs.LOGIN, 'user', pkg)
->>> +                newparams.append(param)
->>>                  continue
->>>
->>>              field = users[uaargs.LOGIN]
->>> @@ -260,6 +261,7 @@ def update_useradd_static_config(d):
->>>              if gaargs.GROUP not in groups:
->>>                  if not gaargs.gid or not gaargs.gid.isdigit():
->>>                      handle_missing_id(gaargs.GROUP, 'group', pkg)
->>> +                newparams.append(param)
->>>                  continue
->>>
->>>              field = groups[gaargs.GROUP]
->>>
-> 
+diff --git a/meta/recipes-devtools/python/python-git.inc b/meta/recipes-devtools/python/python-git.inc
+index feddf27..825e795d9 100644
+--- a/meta/recipes-devtools/python/python-git.inc
++++ b/meta/recipes-devtools/python/python-git.inc
+@@ -10,8 +10,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8b8d26c37c1d5a04f9b0186edbebc183"
+ 
+ SRC_URI = "https://files.pythonhosted.org/packages/source/G/GitPython/GitPython-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "77f8339e68dedb6d7c4e26371a588ed9"
+-SRC_URI[sha256sum] = "e96f8e953cf9fee0a7599fc587667591328760b6341a0081ef311a942fc96204"
++SRC_URI[md5sum] = "6cd18008c03a767740f3bf6d89ef79bc"
++SRC_URI[sha256sum] = "3826185b11e1fc372e7d31251e9b65e11ccb7c27f82c771d619048bdb5b66c81"
+ 
+ UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/GitPython/"
+ UPSTREAM_CHECK_REGEX = "/GitPython/(?P<pver>(\d+[\.\-_]*)+)"
+diff --git a/meta/recipes-devtools/python/python-git_2.1.1.bb b/meta/recipes-devtools/python/python-git_2.1.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python-git_2.1.1.bb
+rename to meta/recipes-devtools/python/python-git_2.1.3.bb
+diff --git a/meta/recipes-devtools/python/python3-git_2.1.1.bb b/meta/recipes-devtools/python/python3-git_2.1.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python3-git_2.1.1.bb
+rename to meta/recipes-devtools/python/python3-git_2.1.3.bb
+-- 
+2.7.4
 
 
