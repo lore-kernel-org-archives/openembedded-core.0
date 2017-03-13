@@ -1,29 +1,29 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 39677776C1
+	by mail.openembedded.org (Postfix) with ESMTP id 0C9C7776F1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Mar 2017 14:40:29 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	Mon, 13 Mar 2017 14:53:42 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Mar 2017 07:40:26 -0700
+	13 Mar 2017 07:53:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,159,1486454400"; d="scan'208";a="74827870"
+X-IronPort-AV: E=Sophos;i="5.36,159,1486454400"; d="scan'208";a="834033900"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
 	([10.237.68.161])
-	by orsmga005.jf.intel.com with ESMTP; 13 Mar 2017 07:40:25 -0700
-To: Mark Hatle <mark.hatle@windriver.com>,
-	openembedded-core@lists.openembedded.org
+	by FMSMGA003.fm.intel.com with ESMTP; 13 Mar 2017 07:53:42 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <cover.1489144807.git.alexander.kanavin@linux.intel.com>
-	<b88fa585fc5fd8da7983efd4dbd86a0ed4cc86d9.1489144807.git.alexander.kanavin@linux.intel.com>
-	<9e8e04e8-07c9-d7db-d96b-fc54bd14c7ed@windriver.com>
+	<1f37f25a651a235703fc7b51d799ee2d329ac94b.1489144807.git.alexander.kanavin@linux.intel.com>
+	<CAJTo0LYj=MbWW-VdQk5y7PmOy4wuwYspfLvXZai=-t3nAzc5vQ@mail.gmail.com>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <cdee0dc7-8fde-b66b-ea24-921af4c86263@linux.intel.com>
-Date: Mon, 13 Mar 2017 16:39:28 +0200
+Message-ID: <f71769b7-4dc4-bb4f-80a0-5c367e1d6153@linux.intel.com>
+Date: Mon, 13 Mar 2017 16:52:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Icedove/45.6.0
 MIME-Version: 1.0
-In-Reply-To: <9e8e04e8-07c9-d7db-d96b-fc54bd14c7ed@windriver.com>
-Subject: Re: [PATCH 41/44] bash: package bashbug separately
+In-Reply-To: <CAJTo0LYj=MbWW-VdQk5y7PmOy4wuwYspfLvXZai=-t3nAzc5vQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 21/44] rootfs_rpm.bbclass: migrate image creation to dnf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,62 +36,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Mar 2017 14:40:30 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Mon, 13 Mar 2017 14:53:43 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 03/10/2017 07:13 PM, Mark Hatle wrote:
-> On 3/10/17 5:24 AM, Alexander Kanavin wrote:
->> It's a machine-specific script, which is causing conflicts
->> when multiple versions of bash are installed in multilib setting,
->> and it also does not really make sense for embedded systems anyway.
+On 03/13/2017 04:25 PM, Burton, Ross wrote:
+
 >
-> Out of curiosity what is machine specific here?
+>     +        raise NotImplementedError("Adding remote dnf feeds not yet
+>     supported.")
+>
+>
+> I think this is a 2.4M4 blocker if the series merges into M3.
 
---- 
-./tmp/work/x86_64-pokymllib64-linux/lib64-bash/4.3.30-r0/packages-split/lib64-bash-bashbug/usr/bin/bashbug 
-2017-03-09 16:10:27.000000000 +0200
-+++ 
-./tmp/work/i586-poky-linux/bash/4.3.30-r0/packages-split/bash-bashbug/usr/bin/bashbug 
-2017-03-09 16:03:49.000000000 +0200
-@@ -26,14 +26,14 @@
-  # configuration section:
-  #	these variables are filled in by the make target in Makefile
-  #
--MACHINE="x86_64"
-+MACHINE="i586"
-  OS="linux-gnu"
--CC="x86_64-pokymllib64-linux-gcc  -m64 "
--CFLAGS=" -DPROGRAM='bash' -DCONF_HOSTTYPE='x86_64' 
--DCONF_OSTYPE='linux-gnu' -DCONF_MACHTYPE='x86_64-pokymllib64-linux-gnu' 
--DCONF_VENDOR='pokymllib64' -DLOCALEDIR='/usr/share/locale' 
--DPACKAGE='bash' -DSHELL -DHAVE_CONFIG_H   -I.  -I../bash-4.3.30 
--I../bash-4.3.30/include -I../bash-4.3.30/lib   -O2 -pipe -g 
--feliminate-unused-debug-types 
--fdebug-prefix-map=/home/ak/development/poky/build-multilib/tmp/work/x86_64-pokymllib64-linux/lib64-bash/4.3.30-r0=/usr/src/debug/lib64-bash/4.3.30-r0 
--fdebug-prefix-map=/home/ak/development/poky/build-multilib/tmp/work/x86_64-pokymllib64-linux/lib64-bash/4.3.30-r0/recipe-sysroot-native= 
--fdebug-prefix-map=/home/ak/development/poky/build-multilib/tmp/work/x86_64-pokymllib64-linux/lib64-bash/4.3.30-r0/lib64-recipe-sysroot= 
-  -DNON_INTERACTIVE_LOGIN_SHELLS"
-+CC="i586-poky-linux-gcc  -m32 -march=i586 "
-+CFLAGS=" -DPROGRAM='bash' -DCONF_HOSTTYPE='i586' 
--DCONF_OSTYPE='linux-gnu' -DCONF_MACHTYPE='i586-poky-linux-gnu' 
--DCONF_VENDOR='poky' -DLOCALEDIR='/usr/share/locale' -DPACKAGE='bash' 
--DSHELL -DHAVE_CONFIG_H   -I.  -I../bash-4.3.30 -I../bash-4.3.30/include 
--I../bash-4.3.30/lib   -O2 -pipe -g -feliminate-unused-debug-types 
--fdebug-prefix-map=/home/ak/development/poky/build-multilib/tmp/work/i586-poky-linux/bash/4.3.30-r0=/usr/src/debug/bash/4.3.30-r0 
--fdebug-prefix-map=/home/ak/development/poky/build-multilib/tmp/work/i586-poky-linux/bash/4.3.30-r0/recipe-sysroot-native= 
--fdebug-prefix-map=/home/ak/development/poky/build-multilib/tmp/work/i586-poky-linux/bash/4.3.30-r0/recipe-sysroot= 
-  -DNON_INTERACTIVE_LOGIN_SHELLS"
-  RELEASE="4.3"
-  PATCHLEVEL="46"
-  RELSTATUS="release"
--MACHTYPE="x86_64-pokymllib64-linux-gnu"
-+MACHTYPE="i586-poky-linux-gnu"
+Yes. There is no runtime/selftest test for this, and I didn't want to 
+implement things that are not enabled by default and cannot be 
+automatically tested. I don't want to take the risk of unnoticed 
+regressions in code that was tested only once when it was initially written.
 
-  PATH=/bin:/usr/bin:/usr/local/bin:$PATH
-  export PATH
+Creating an image from signed rpms is currently not supported for the 
+same reason (but signing rpms in the first place *is* supported, because 
+it actually is tested in oe-selftest, and I can use that to verify that 
+it works and keeps working).
 
 
 Alex
-
 
