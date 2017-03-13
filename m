@@ -1,60 +1,34 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 403EE77684
+Return-Path: <d.schultz@phytec.de>
+Received: from root.phytec.de (mail.phycard.de [217.6.246.34])
+	by mail.openembedded.org (Postfix) with ESMTP id BDD6C6E668
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Mar 2017 16:11:16 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 2EC9F18095;
-	Mon, 13 Mar 2017 17:11:17 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id CbKyXJP-i-7c; Mon, 13 Mar 2017 17:11:14 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 7020A18446;
-	Mon, 13 Mar 2017 17:11:14 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 51C121E09F;
-	Mon, 13 Mar 2017 17:11:14 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4657E1E09E;
-	Mon, 13 Mar 2017 17:11:14 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Mon, 13 Mar 2017 17:11:14 +0100 (CET)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by seth.se.axis.com (Postfix) with ESMTP id 39E3D2E9;
-	Mon, 13 Mar 2017 17:11:14 +0100 (CET)
-Received: from xbox12.axis.com (10.0.5.26) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Mon, 13 Mar 2017 17:11:14 +0100
-Received: from XBOX02.axis.com (10.0.5.16) by xbox12.axis.com (10.0.5.26) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Mon, 13 Mar 2017 17:11:13 +0100
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1210.000; Mon, 13 Mar 2017 17:11:14 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Mark Hatle <mark.hatle@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] useradd-staticids.bbclass: Support recipes
-	specifying static IDs
-Thread-Index: AQHSnAGQ/HRTp0k4tkW6zJtNpU7CKqGS57AQ
-Date: Mon, 13 Mar 2017 16:11:14 +0000
-Message-ID: <3589dcdb5a884da8a4aafc12a7122959@XBOX02.axis.com>
-References: <20170311052758.19671-1-pkj@axis.com>
-	<6a4f5fdd-18ea-4851-b2ec-4e889d7c012f@windriver.com>
-In-Reply-To: <6a4f5fdd-18ea-4851-b2ec-4e889d7c012f@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Mon, 13 Mar 2017 16:16:32 +0000 (UTC)
+Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
+	by root.phytec.de (Postfix) with ESMTP id D4B3CA00422;
+	Mon, 13 Mar 2017 17:17:00 +0100 (CET)
+Received: from [172.16.25.184] ([172.16.25.184])
+	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
+	with ESMTP id 2017031317163192-345607 ;
+	Mon, 13 Mar 2017 17:16:31 +0100 
+To: ed.bartosh@linux.intel.com, Gary Thomas <gary@mlbassoc.com>
+References: <2791e915-9e22-a01a-ccb5-c629d250edb2@phytec.de>
+	<20170308105729.GA22401@linux.intel.com>
+	<7d4a770f-25c6-5747-5a5c-370c822f2efb@mlbassoc.com>
+	<20170308134349.GA16099@linux.intel.com>
+From: Daniel Schultz <d.schultz@phytec.de>
+Message-ID: <a0d78645-9670-f3a1-cd9d-d66370e89ef9@phytec.de>
+Date: Mon, 13 Mar 2017 17:16:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.5.1
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH] useradd-staticids.bbclass: Support recipes specifying static IDs
+In-Reply-To: <20170308134349.GA16099@linux.intel.com>
+X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
+	17, 2016) at 13.03.2017 17:16:31,
+	Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17,
+	2016) at 13.03.2017 17:16:32
+X-TNEFEvaluated: 1
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Create more than one image with WIC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,87 +41,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Mar 2017 16:11:19 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 13 Mar 2017 16:16:33 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-> -----Original Message-----
-> From: Mark Hatle [mailto:mark.hatle@windriver.com]
-> Sent: den 13 mars 2017 14:56
-> To: Peter Kjellerstedt; openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH] useradd-staticids.bbclass: Support
-> recipes specifying static IDs
->=20
-> On 3/10/17 11:27 PM, Peter Kjellerstedt wrote:
-> > If this bblcass is used and a recipe specifies a static ID for a
-> > user/group as part of the USERADD_PARAM_${PN} or GROUPADD_PARAM_${PN},
-> > the build would fail with and error like this if there was no
-> > corresponding ID in the passwd/group files specified via
-> > USERADD_UID_TABLES/USERADD_GID_TABLES:
->=20
-> If the system is set in warning mode, it should warn if this is done
-> (but allow it).
->=20
-> If the system is set to error mode, it should error.
->=20
-> The useradd-staticids class is expecting the files (tables) to contain
-> all of the entries.  This is specifically to avoid the situation where=20
-> a new recipe is introduced that adds a new user or group (dynamic or=20
-> static -- static because it could conflict with one of your existing=20
-> static entries.)
 
-AFAICT, even before my rewrite of much of this code in 3149319a and=20
-subsequent correction in adc0f830, if a static ID was specified as part=20
-of USERADD_PARAM_${PN} then no error would be issued. However, we can=20
-certainly change the code to always fail/warn if no ID is specified=20
-in any of the passwd/groups files. It should just be a matter of=20
-removing the if statements preceding the calls to handle_missing_id()=20
-below. (I will do some verification and send an updated patch tomorrow=20
-if this is the way the class should work.)
 
-> I agree the error message below looks wrong, do the existing warning/
-> error messages about it not being defined int he useradd tables still=20
-> occur with this patch?
+Am 08.03.2017 um 14:43 schrieb Ed Bartosh:
+> On Wed, Mar 08, 2017 at 02:41:10PM +0100, Gary Thomas wrote:
+>> On 2017-03-08 11:57, Ed Bartosh wrote:
+>>> On Wed, Mar 08, 2017 at 10:44:21AM +0100, Daniel Schultz wrote:
+>>>> Hi,
+>>>>
+>>>> I created two kickstart files (am335x-sdimage.wks, am335x-emmc.wks)
+>>>> and added them to the local.conf.
+>>>>
+>>>> When I build the image only the first wks in WKS=5FFILES will be used
+>>>> by WIC and the second will be ignored. Is it possible to build two
+>>>> images in one build?
+>>>>
+>>>
+>>> I don't think it's possible to build more than one image for the same
+>>> type. wic is not an exception here.
+>>>
+>>>> Includes of the wks files in local.conf:
+>>>> WKS=5FFILES=5Fti33x =3D "am335x-sdimage.wks am335x-emmc.wks "
+>>>
+>>> WKS=5FFILES variable is to provide possible wks files to use. First one=
+ found will
+>>> be used to produce an image.
+>>
+>> Would it work to add/define this variable in the corresponding *image*.b=
+b recipe
+>> rather than local.conf?
+>
+> Yes, it would if image recipe is unique, i.e. images of the same type
+> can be produced for different recipes.
+>
+But isn't wic different to other images like e.g. ext? I agree that=20
+there are other images that need only build once, but wic images can=20
+contain these and therefore act as a wrapper.
 
-The error message below occurred because before my fix it forgot all=20
-the parameters that were specified in USERADD_PARAM_${PN} when it took=20
-the continue.
+Do I have misunderstood the design of wic?
 
-> --Mark
->=20
-> >   ERROR: meta-oe/recipes-support/postgresql/postgresql_9.4.11.bb:
-> >   meta-oe/recipes-support/postgresql/postgresql_9.4.11.bb inherits
-> >   useradd but doesn't set USERADD_PARAM, GROUPADD_PARAM or
-> >   GROUPMEMS_PARAM for package postgresql
-> >
-> > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > ---
-> >  meta/classes/useradd-staticids.bbclass | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/meta/classes/useradd-staticids.bbclass
-> b/meta/classes/useradd-staticids.bbclass
-> > index a65c3f69cb..9b194df490 100644
-> > --- a/meta/classes/useradd-staticids.bbclass
-> > +++ b/meta/classes/useradd-staticids.bbclass
-> > @@ -125,6 +125,7 @@ def update_useradd_static_config(d):
-> >              if uaargs.LOGIN not in users:
-> >                  if not uaargs.uid or not uaargs.uid.isdigit() or not u=
-aargs.gid:
-> >                      handle_missing_id(uaargs.LOGIN, 'user', pkg)
-> > +                newparams.append(param)
-> >                  continue
-> >
-> >              field =3D users[uaargs.LOGIN]
-> > @@ -260,6 +261,7 @@ def update_useradd_static_config(d):
-> >              if gaargs.GROUP not in groups:
-> >                  if not gaargs.gid or not gaargs.gid.isdigit():
-> >                      handle_missing_id(gaargs.GROUP, 'group', pkg)
-> > +                newparams.append(param)
-> >                  continue
-> >
-> >              field =3D groups[gaargs.GROUP]
-> >
+I mean MMC and EMMC are very similar, but different in the bootloader=20
+and it would be a overhead to create an extra image for all EMMC images.
+
+--=20
+Mit freundlichen Gr=FC=DFen,
+With best regards,
+   Daniel Schultz
+
+> WKS=5FFILES makes sense to set only if there are multiple wks files that
+> can be used to produce an image. The most obvious use case is using
+> multiple layers with different wks files in each and specifying all of
+> them in WKS=5FFILES.
+>
+> If this is not the case then setting WKS=5FFILE is enough.
+>
+> --
+> Regards,
+> Ed
+>
+
 
 
