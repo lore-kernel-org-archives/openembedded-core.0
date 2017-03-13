@@ -1,44 +1,31 @@
-Return-Path: <denys.zagorui@globallogic.com>
-Received: from mail-lf0-f41.google.com (mail-lf0-f41.google.com
-	[209.85.215.41])
-	by mail.openembedded.org (Postfix) with ESMTP id EB36B730E3
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 45DB8730E3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Mar 2017 16:37:35 +0000 (UTC)
-Received: by mail-lf0-f41.google.com with SMTP id y193so65974226lfd.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Mar 2017 09:37:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=globallogic.com; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=hMEPYcj9cMrA3Yqe08NU0emYA8sqCqDI7x6C4xAqJMU=;
-	b=E7TUZe+Q7UOfKGQ0mUUEPAiHBtyJOg7JbFU2xfJ0RS36GXU2JP6bZw9TfTJtljptsa
-	NUITRiDFwYSHiIMuuUjuWqVnCrHZBi3GbGeP7TjEL2dYdnf9dM9OW5bJABf9bJY4nXub
-	L15/mz5oFaNVJ0QFtM0Gx4gFQgLcrcs9wvJ7k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=hMEPYcj9cMrA3Yqe08NU0emYA8sqCqDI7x6C4xAqJMU=;
-	b=Lah5Qpwb240sVgZGXco0iecMVIQ4QowNjJRXEfMH7FbeF2EhQHaJvp4i8IanOcgFiN
-	lZXIAkjS9RnEKfPcPTwJwwxSlrcnxR1JmY8k68OdzJY56I48CaASU7yK1Alfy6+Rt8RH
-	VhsLk2JOI1Y/aFU3tILamnoHACpe3KKvmc+wPOcJPoHZaoZUFtfMadhAL7au+FFVVfEQ
-	47UM1AjBdZCyvVyDhJmjiUqbkQ6E9XHXMOZ0xYDGoqsdEyne619h2wRSdji6u/NOdaU+
-	nsd3/4dsPFRUquTRtjlPqdT1sLnCp6zhldo0aS3HZuHjYLMj+UYmPQtr8ATLfiRO/gUd
-	Sr3g==
-X-Gm-Message-State: AMke39m+IdKGd2scK3IQuAMBWWRcOuFQTqg9/ENqOwLKy95BuZzsR2ywFirGPXdkY1VM3/BH
-X-Received: by 10.25.29.66 with SMTP id d63mr9211190lfd.163.1489423055031;
-	Mon, 13 Mar 2017 09:37:35 -0700 (PDT)
-Received: from kbp1-ldl-f65370.synapse.com ([195.238.93.36])
-	by smtp.gmail.com with ESMTPSA id
-	t19sm3644627ljd.30.2017.03.13.09.37.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 13 Mar 2017 09:37:34 -0700 (PDT)
-From: Denys Zagorui <denys.zagorui@globallogic.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Mar 2017 18:37:01 +0200
-Message-Id: <1489423021-5195-1-git-send-email-denys.zagorui@globallogic.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Denys Zagorui <denys.zagorui@globallogic.com>
-Subject: [PATCH v2] gzip: add ptest
+	Mon, 13 Mar 2017 16:50:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v2DGoNMw028436
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 13 Mar 2017 09:50:23 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.230) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Mon, 13 Mar 2017 09:50:23 -0700
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <20170311052758.19671-1-pkj@axis.com>
+	<6a4f5fdd-18ea-4851-b2ec-4e889d7c012f@windriver.com>
+	<3589dcdb5a884da8a4aafc12a7122959@XBOX02.axis.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <45145706-6456-2045-feec-b2d68e355908@windriver.com>
+Date: Mon, 13 Mar 2017 11:50:22 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <3589dcdb5a884da8a4aafc12a7122959@XBOX02.axis.com>
+Subject: Re: [PATCH] useradd-staticids.bbclass: Support recipes specifying static IDs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,121 +38,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Mar 2017 16:37:37 -0000
+X-List-Received-Date: Mon, 13 Mar 2017 16:50:27 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-'zless' don't work with less from busybox. In this case test 'help-version'
-fails. First of all 'zless' tries to figure out version of 'less' launching
-'less -V', 'less' from busybox don't understand key -V. So 'zless' needs
-to be fixed so that it can use 'less' from busybox.
+On 3/13/17 11:11 AM, Peter Kjellerstedt wrote:
+>> -----Original Message-----
+>> From: Mark Hatle [mailto:mark.hatle@windriver.com]
+>> Sent: den 13 mars 2017 14:56
+>> To: Peter Kjellerstedt; openembedded-core@lists.openembedded.org
+>> Subject: Re: [OE-core] [PATCH] useradd-staticids.bbclass: Support
+>> recipes specifying static IDs
+>>
+>> On 3/10/17 11:27 PM, Peter Kjellerstedt wrote:
+>>> If this bblcass is used and a recipe specifies a static ID for a
+>>> user/group as part of the USERADD_PARAM_${PN} or GROUPADD_PARAM_${PN},
+>>> the build would fail with and error like this if there was no
+>>> corresponding ID in the passwd/group files specified via
+>>> USERADD_UID_TABLES/USERADD_GID_TABLES:
+>>
+>> If the system is set in warning mode, it should warn if this is done
+>> (but allow it).
+>>
+>> If the system is set to error mode, it should error.
+>>
+>> The useradd-staticids class is expecting the files (tables) to contain
+>> all of the entries.  This is specifically to avoid the situation where 
+>> a new recipe is introduced that adds a new user or group (dynamic or 
+>> static -- static because it could conflict with one of your existing 
+>> static entries.)
+> 
+> AFAICT, even before my rewrite of much of this code in 3149319a and 
+> subsequent correction in adc0f830, if a static ID was specified as part 
+> of USERADD_PARAM_${PN} then no error would be issued. However, we can 
+> certainly change the code to always fail/warn if no ID is specified 
+> in any of the passwd/groups files. It should just be a matter of 
+> removing the if statements preceding the calls to handle_missing_id() 
+> below. (I will do some verification and send an updated patch tomorrow 
+> if this is the way the class should work.)
 
-'zdiff' test fixed so that it can use 'diff' from busybox
-('diff' from busybox and 'diff' from diffutils has different output)
+The intention was always that the uname/gname had to be specified in the useradd
+tables in some way, or a warning/error would occur.
 
-Signed-off-by: Denys Zagorui <denys.zagorui@globallogic.com>
----
- ...zdiff-add-diff-from-busybox-compatibility.patch | 40 ++++++++++++++++++++++
- meta/recipes-extended/gzip/files/run-ptest         |  6 ++++
- meta/recipes-extended/gzip/gzip_1.8.bb             | 19 +++++++++-
- 3 files changed, 64 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/gzip/files/0001-tests-zdiff-add-diff-from-busybox-compatibility.patch
- create mode 100644 meta/recipes-extended/gzip/files/run-ptest
+If the fields were blank in the tables, the system would use the versions
+located in the recipe -- otherwise it would use the version in the table.  (At
+one point, but I don't think this was ever pushed in -- if a static ID was set
+in the recipe, there was a verification that the static version in both the
+recipe and the table files was the same -- otherwise it could indicate the
+package may not be built properly.)
 
-diff --git a/meta/recipes-extended/gzip/files/0001-tests-zdiff-add-diff-from-busybox-compatibility.patch b/meta/recipes-extended/gzip/files/0001-tests-zdiff-add-diff-from-busybox-compatibility.patch
-new file mode 100644
-index 0000000..e64bf82
---- /dev/null
-+++ b/meta/recipes-extended/gzip/files/0001-tests-zdiff-add-diff-from-busybox-compatibility.patch
-@@ -0,0 +1,40 @@
-+From 93673d1bc2af38dec512b05bc6d9262c6b45b5ad Mon Sep 17 00:00:00 2001
-+From: Denys Zagorui <denys.zagorui@globallogic.com>
-+Date: Fri, 10 Mar 2017 22:59:48 +0200
-+Subject: [PATCH] tests/zdiff: add diff from busybox compatibility.
-+
-+Diff from busybox has another output than diff from diffutils
-+
-+Signed-off-by: Denys Zagorui <denys.zagorui@globallogic.com>
-+Upstream-Status: Pending
-+---
-+ tests/zdiff | 13 +++++++------
-+ 1 file changed, 7 insertions(+), 6 deletions(-)
-+
-+diff --git a/tests/zdiff b/tests/zdiff
-+index 7ed2f34..2567d1a 100755
-+--- a/tests/zdiff
-++++ b/tests/zdiff
-+@@ -24,12 +24,13 @@ echo a > a || framework_failure_
-+ echo b > b || framework_failure_
-+ gzip a b || framework_failure_
-+
-+-cat <<EOF > exp
-+-1c1
-+-< a
-+----
-+-> b
-+-EOF
-++diff -v 2>&1 > /dev/null | grep BusyBox
-++
-++if [ $? == 0 ];then
-++    echo -e '--- /dev/fd/5\n+++ -\n@@ -1 +1 @@\n-a\n+b' > exp
-++else
-++    echo -e '1c1\n< a\n---\n> b' >exp
-++fi
-+
-+ fail=0
-+ returns_ 1 zdiff a.gz b.gz > out 2>&1 || fail=1
-+--
-+1.9.1
-+
-diff --git a/meta/recipes-extended/gzip/files/run-ptest b/meta/recipes-extended/gzip/files/run-ptest
-new file mode 100644
-index 0000000..cf7c649
---- /dev/null
-+++ b/meta/recipes-extended/gzip/files/run-ptest
-@@ -0,0 +1,6 @@
-+#!/bin/sh
-+
-+cd src/tests
-+
-+make check
-+
-diff --git a/meta/recipes-extended/gzip/gzip_1.8.bb b/meta/recipes-extended/gzip/gzip_1.8.bb
-index 11be846..a4a39a6 100644
---- a/meta/recipes-extended/gzip/gzip_1.8.bb
-+++ b/meta/recipes-extended/gzip/gzip_1.8.bb
-@@ -2,7 +2,9 @@ require gzip.inc
- 
- LICENSE = "GPLv3+"
- 
--SRC_URI = "${GNU_MIRROR}/gzip/${BP}.tar.gz"
-+SRC_URI = "${GNU_MIRROR}/gzip/${BP}.tar.gz \
-+            file://0001-tests-zdiff-add-diff-from-busybox-compatibility.patch \
-+            file://run-ptest"
- SRC_URI_append_class-target = " file://wrong-path-fix.patch"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-@@ -12,6 +14,21 @@ PROVIDES_append_class-native = " gzip-replacement-native"
- 
- BBCLASSEXTEND = "native"
- 
-+inherit ptest
-+
-+do_install_ptest() {
-+	mkdir -p ${D}${PTEST_PATH}/src/build-aux
-+	cp ${S}/build-aux/test-driver ${D}${PTEST_PATH}/src/build-aux/
-+	mkdir -p ${D}${PTEST_PATH}/src/tests
-+	cp -r ${S}/tests/* ${D}${PTEST_PATH}/src/tests
-+	sed -e 's/^abs_srcdir = ..*/abs_srcdir = \.\./' \
-+            -e 's/^top_srcdir = ..*/top_srcdir = \.\./' \
-+            -e 's/^AWK = ..*/AWK = awk/'                \
-+            -e 's/^srcdir = ..*/srcdir = \./'           \
-+            -e 's/^Makefile: ..*/Makefile: /'           \
-+            ${B}/tests/Makefile > ${D}${PTEST_PATH}/src/tests/Makefile
-+}
-+
- SRC_URI[md5sum] = "732553152814b22dc35aa0267df5286c"
- SRC_URI[sha256sum] = "1ff7aedb3d66a0d73f442f6261e4b3860df6fd6c94025c2cb31a202c9c60fe0e"
- 
--- 
-1.9.1
+>> I agree the error message below looks wrong, do the existing warning/
+>> error messages about it not being defined int he useradd tables still 
+>> occur with this patch?
+> 
+> The error message below occurred because before my fix it forgot all 
+> the parameters that were specified in USERADD_PARAM_${PN} when it took 
+> the continue.
+
+Ok, we need to fix that bug first then.
+
+We should then verify the second issue and fix it in a subsequent commit.  The
+key being that of the user/group was not in the table we warn them (or error) --
+preventing unexpected users from showing up.
+
+The check both static IDs are the same could very well be a TODO item (that is
+never done) -- but something that should be considered.
+
+Thanks!
+--Mark
+
+>> --Mark
+>>
+>>>   ERROR: meta-oe/recipes-support/postgresql/postgresql_9.4.11.bb:
+>>>   meta-oe/recipes-support/postgresql/postgresql_9.4.11.bb inherits
+>>>   useradd but doesn't set USERADD_PARAM, GROUPADD_PARAM or
+>>>   GROUPMEMS_PARAM for package postgresql
+>>>
+>>> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+>>> ---
+>>>  meta/classes/useradd-staticids.bbclass | 2 ++
+>>>  1 file changed, 2 insertions(+)
+>>>
+>>> diff --git a/meta/classes/useradd-staticids.bbclass
+>> b/meta/classes/useradd-staticids.bbclass
+>>> index a65c3f69cb..9b194df490 100644
+>>> --- a/meta/classes/useradd-staticids.bbclass
+>>> +++ b/meta/classes/useradd-staticids.bbclass
+>>> @@ -125,6 +125,7 @@ def update_useradd_static_config(d):
+>>>              if uaargs.LOGIN not in users:
+>>>                  if not uaargs.uid or not uaargs.uid.isdigit() or not uaargs.gid:
+>>>                      handle_missing_id(uaargs.LOGIN, 'user', pkg)
+>>> +                newparams.append(param)
+>>>                  continue
+>>>
+>>>              field = users[uaargs.LOGIN]
+>>> @@ -260,6 +261,7 @@ def update_useradd_static_config(d):
+>>>              if gaargs.GROUP not in groups:
+>>>                  if not gaargs.gid or not gaargs.gid.isdigit():
+>>>                      handle_missing_id(gaargs.GROUP, 'group', pkg)
+>>> +                newparams.append(param)
+>>>                  continue
+>>>
+>>>              field = groups[gaargs.GROUP]
+>>>
+> 
 
 
