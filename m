@@ -1,44 +1,28 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 7972077824
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AF4F7783D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Mar 2017 17:25:52 +0000 (UTC)
+	Tue, 14 Mar 2017 17:28:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1489512359; x=1521048359;
-	h=date:from:to:cc:subject:message-id:reply-to:references:
-	mime-version:in-reply-to;
-	bh=/FMreJcfnenZrRpUKNEEbxLEE8R9UGUBYEzh0JfJV1E=;
-	b=kARQi7ORyKQ5L/JrW5xqYdGQW8uXZzXjMBcCZqNzEf2ZDOGHh+xiyyYT
-	8gxY1T0QPn0Ow7E9v3RPg/rwEruICQ==;
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Mar 2017 10:25:53 -0700
+	t=1489512527; x=1521048527;
+	h=from:to:cc:subject:date:message-id;
+	bh=bu1pMoKBKKYFITH+kcTP0fBFVulfW/r2E/uQJJ4JZIM=;
+	b=qzM1d0KYMT4+xvN4dsDGZinfzgpVNdgCYynW8DPTn5eq0wicEf6g4y3K
+	mhe2abqeG5oYBY6Jg1z0EOMpe7HsPg==;
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Mar 2017 10:28:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,165,1486454400"; d="scan'208";a="236028260"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga004.fm.intel.com with ESMTP; 14 Mar 2017 10:25:53 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id A94C82C8001;
-	Tue, 14 Mar 2017 10:25:47 -0700 (PDT)
-Date: Tue, 14 Mar 2017 19:11:47 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Daniel Schultz <d.schultz@phytec.de>
-Message-ID: <20170314171147.GA28498@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <2791e915-9e22-a01a-ccb5-c629d250edb2@phytec.de>
-	<20170308105729.GA22401@linux.intel.com>
-	<7d4a770f-25c6-5747-5a5c-370c822f2efb@mlbassoc.com>
-	<20170308134349.GA16099@linux.intel.com>
-	<a0d78645-9670-f3a1-cd9d-d66370e89ef9@phytec.de>
-MIME-Version: 1.0
-In-Reply-To: <a0d78645-9670-f3a1-cd9d-d66370e89ef9@phytec.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Gary Thomas <gary@mlbassoc.com>, openembedded-core@lists.openembedded.org
-Subject: Re: Create more than one image with WIC
+X-IronPort-AV: E=Sophos;i="5.36,165,1486454400"; d="scan'208";a="67345905"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by orsmga004.jf.intel.com with ESMTP; 14 Mar 2017 10:28:45 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 14 Mar 2017 19:27:47 +0200
+Message-Id: <20170314172749.6643-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/3] rpm: add support for remote package feeds via PACKAGE_FEED_URIS variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,66 +35,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Mar 2017 17:25:59 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 14 Mar 2017 17:28:46 -0000
 
-On Mon, Mar 13, 2017 at 05:16:31PM +0100, Daniel Schultz wrote:
-> 
-> 
-> Am 08.03.2017 um 14:43 schrieb Ed Bartosh:
-> >On Wed, Mar 08, 2017 at 02:41:10PM +0100, Gary Thomas wrote:
-> >>On 2017-03-08 11:57, Ed Bartosh wrote:
-> >>>On Wed, Mar 08, 2017 at 10:44:21AM +0100, Daniel Schultz wrote:
-> >>>>Hi,
-> >>>>
-> >>>>I created two kickstart files (am335x-sdimage.wks, am335x-emmc.wks)
-> >>>>and added them to the local.conf.
-> >>>>
-> >>>>When I build the image only the first wks in WKS_FILES will be used
-> >>>>by WIC and the second will be ignored. Is it possible to build two
-> >>>>images in one build?
-> >>>>
-> >>>
-> >>>I don't think it's possible to build more than one image for the same
-> >>>type. wic is not an exception here.
-> >>>
-> >>>>Includes of the wks files in local.conf:
-> >>>>WKS_FILES_ti33x = "am335x-sdimage.wks am335x-emmc.wks "
-> >>>
-> >>>WKS_FILES variable is to provide possible wks files to use. First one found will
-> >>>be used to produce an image.
-> >>
-> >>Would it work to add/define this variable in the corresponding *image*.bb recipe
-> >>rather than local.conf?
-> >
-> >Yes, it would if image recipe is unique, i.e. images of the same type
-> >can be produced for different recipes.
-> >
-> But isn't wic different to other images like e.g. ext? I agree that
-> there are other images that need only build once, but wic images can
-> contain these and therefore act as a wrapper.
->
-Makes sense.
+I've used a previous patch (which was never merged) by
+Humberto Ibarra <humberto.ibarra.lopez@intel.com> as a model
+for how to do runtime testing of this feature (e.g. we need to boot
+an image, run dnf on it, and check that it is indeed able to
+access the remote repo over http). Here's his original commit message:
 
-> Do I have misunderstood the design of wic?
->
-> I mean MMC and EMMC are very similar, but different in the
-> bootloader and it would be a overhead to create an extra image for
-> all EMMC images.
+=====
+Testing that feeds specified with PACKAGE_FEED_URIS var are set
+correctly has two parts. First a build with this var set is required,
+and then smart update needs to be issued in the running taget.
 
-You don't need to create more than one rootfs with the same content. You
-can refer to the same rootfs in multiple .wks files, but the recipes
-have to be unique. In your example MMC and EMMC image recipes can create
-directories for boot partition and their .wks files can use those
-directories and common root directory produced by another recipe, e.g.
-by core-image-minimal.
+The previous is not a common selftest practice because this is a
+simple test, but requires building and running a specific image,
+which takes a lot of time. testimage is not a good fit either,
+since the images tested there do not have the PACKAGE_FEED_URIS
+var set.
 
-It's not a big deal to run wic sequentially to produce multiple images,
-but it will create more problems than it solves I believe. It will be slower and
-will make a mess in image naming in deploy directory.
+For this test, the runtime-test module is being used, which is a
+selftest module but runs a testimage command. The var and test
+environment were set in runtime-perf.py and the actual test is
+done in a new testcase added to meta-selftest layer.
+=====
 
---
-Regards,
-Ed
+[YOCTO #10872]
+
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta-selftest/lib/oeqa/runtime/cases/selftest.py | 35 ++++++++++++++++++++++++
+ meta/lib/oe/package_manager.py                   | 12 +++++++-
+ meta/lib/oeqa/selftest/runtime-test.py           |  5 ++++
+ 3 files changed, 51 insertions(+), 1 deletion(-)
+
+diff --git a/meta-selftest/lib/oeqa/runtime/cases/selftest.py b/meta-selftest/lib/oeqa/runtime/cases/selftest.py
+index 19de7406236..e872ed85b12 100644
+--- a/meta-selftest/lib/oeqa/runtime/cases/selftest.py
++++ b/meta-selftest/lib/oeqa/runtime/cases/selftest.py
+@@ -1,5 +1,7 @@
+ from oeqa.runtime.case import OERuntimeTestCase
+ from oeqa.core.decorator.depends import OETestDepends
++from oeqa.runtime.cases.dnf import DnfTest
++from oeqa.utils.httpserver import HTTPService
+ 
+ class Selftest(OERuntimeTestCase):
+ 
+@@ -29,3 +31,36 @@ class Selftest(OERuntimeTestCase):
+ 
+         (status, output) = self.target.run("socat -V")
+         self.assertNotEqual(status, 0, msg="socat is still installed")
++
++
++class DnfSelftest(DnfTest):
++
++    @classmethod
++    def setUpClass(cls):
++        cls.repo_server = HTTPService(os.path.join(cls.tc.td['WORKDIR'], 'oe-rootfs-repo'),
++                                      cls.tc.target.server_ip)
++        cls.repo_server.port = 8080
++        cls.repo_server.start()
++
++    @classmethod
++    def tearDownClass(cls):
++        cls.repo_server.stop()
++
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    def test_verify_package_feeds(self):
++        """
++        Summary: Check correct setting of PACKAGE_FEED_URIS var
++        Expected: 1. Feeds were correctly set for dnf
++                  2. Update recovers packages from host's repo
++        Author: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
++        Author: Alexander Kanavin <alexander.kanavin@intel.com>
++        """
++        import re
++
++        output_makecache = self.dnf('makecache')
++        self.assertTrue(re.match(r".*Metadata cache created", output_makecache, re.DOTALL) is not None, msg = "dnf makecache failed: %s" %(output_makecache))
++
++        output_repoinfo = self.dnf('repoinfo')
++        matchobj = re.match(r".*Repo-pkgs\s*:\s*(?P<n_pkgs>[0-9]+)", output_repoinfo, re.DOTALL)
++        self.assertTrue(matchobj is not None, msg = "Could not find the amount of packages in dnf repoinfo output: %s" %(output_repoinfo))
++        self.assertTrue(int(matchobj.group('n_pkgs')) > 0, msg = "Amount of remote packages is not more than zero: %s\n" %(output_repoinfo))
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index d51609189d0..b016bc32dc5 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -533,10 +533,20 @@ class RpmPM(PackageManager):
+         bb.utils.unlockfile(lf)
+ 
+     def insert_feeds_uris(self, feed_uris, feed_base_paths, feed_archs):
++        from urllib.parse import urlparse
++
+         if feed_uris == "":
+             return
+ 
+-        raise NotImplementedError("Adding remote dnf feeds not yet supported.")
++        bb.utils.mkdirhier(oe.path.join(self.target_rootfs, "etc", "yum.repos.d"))
++        remote_uris = self.construct_uris(feed_uris.split(), feed_base_paths.split())
++        for uri in remote_uris:
++            repo_name = "oe-remote-repo" + "-".join(urlparse(uri).path.split("/"))
++            if feed_archs is not None:
++                repo_uris = [uri + "/" + arch for arch in feed_archs]
++            else:
++                repo_uris = [uri]
++            open(oe.path.join(self.target_rootfs, "etc", "yum.repos.d", repo_name + ".repo"), 'w').write("[%s]\nbaseurl=%s\n" % (repo_name, " ".join(repo_uris)))
+ 
+     def _prepare_pkg_transaction(self):
+         os.environ['D'] = self.target_rootfs
+diff --git a/meta/lib/oeqa/selftest/runtime-test.py b/meta/lib/oeqa/selftest/runtime-test.py
+index e8b483d7f8b..d23cb7cf46f 100644
+--- a/meta/lib/oeqa/selftest/runtime-test.py
++++ b/meta/lib/oeqa/selftest/runtime-test.py
+@@ -108,14 +108,19 @@ class TestImage(oeSelfTest):
+         Summary: Check install packages functionality for testimage/testexport.
+         Expected: 1. Import tests from a directory other than meta.
+                   2. Check install/uninstall of socat.
++                  3. Check that remote package feeds can be accessed
+         Product: oe-core
+         Author: Mariano Lopez <mariano.lopez@intel.com>
++        Author: Alexander Kanavin <alexander.kanavin@intel.com>
+         """
+         if get_bb_var('DISTRO') == 'poky-tiny':
+             self.skipTest('core-image-full-cmdline not buildable for poky-tiny')
+ 
+         features = 'INHERIT += "testimage"\n'
+         features += 'TEST_SUITES = "ping ssh selftest"\n'
++        features += 'PACKAGE_FEED_URIS = "http://192.168.7.1:8080"\n'
++        features += 'EXTRA_IMAGE_FEATURES += "package-management"\n'
++        features += 'PACKAGE_CLASSES = "package_rpm"'
+         self.write_config(features)
+ 
+         # Build core-image-sato and testimage
+-- 
+2.11.0
+
 
