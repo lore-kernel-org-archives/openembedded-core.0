@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 981CF77690
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id ABE147769D
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 14 Mar 2017 08:45:49 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v2E8joXv004800
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v2E8jovs006631
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Mar 2017 01:45:51 -0700 (PDT)
+	Tue, 14 Mar 2017 01:45:50 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 14 Mar 2017 01:45:50 -0700
+	Tue, 14 Mar 2017 01:45:49 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Mar 2017 01:45:39 -0700
-Message-ID: <d4e6c7a11c3936ca2b30246c88452b441022c297.1489481108.git.liezhi.yang@windriver.com>
+Date: Tue, 14 Mar 2017 01:45:38 -0700
+Message-ID: <c4b1dd4aad6107b58c0c66ad25db133d24e73068.1489481108.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.11.0.rc2.dirty
 In-Reply-To: <cover.1489481108.git.liezhi.yang@windriver.com>
 References: <cover.1489481108.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/8] guile: do_configure: fix "Argument list too long"
+Subject: [PATCH 1/8] m4: do_configure: fix "Argument list too long"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,23 +44,22 @@ can fix the problem.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/guile/guile_2.0.14.bb | 3 +++
+ meta/recipes-devtools/m4/m4-1.4.18.inc | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/guile/guile_2.0.14.bb b/meta/recipes-devtools/guile/guile_2.0.14.bb
-index d2306e6a75..7a36ba0c3b 100644
---- a/meta/recipes-devtools/guile/guile_2.0.14.bb
-+++ b/meta/recipes-devtools/guile/guile_2.0.14.bb
-@@ -30,6 +30,9 @@ SRC_URI[sha256sum] = "e8442566256e1be14e51fc18839cd799b966bc5b16c6a1d7a7c35155a8
- inherit autotools gettext pkgconfig texinfo
- BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-devtools/m4/m4-1.4.18.inc b/meta/recipes-devtools/m4/m4-1.4.18.inc
+index 5652b74308..d7c8648577 100644
+--- a/meta/recipes-devtools/m4/m4-1.4.18.inc
++++ b/meta/recipes-devtools/m4/m4-1.4.18.inc
+@@ -15,5 +15,8 @@ SRC_URI_append_class-target = "\
+            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+ 	   "
  
 +# Fix "Argument list too long" error when len(TMPDIR) = 410
 +acpaths = "-I ./m4"
 +
- DEPENDS = "libunistring bdwgc gmp libtool libffi ncurses readline"
- # add guile-native only to the target recipe's DEPENDS
- DEPENDS_append_class-target = " guile-native libatomic-ops"
+ SRC_URI[md5sum] = "a077779db287adf4e12a035029002d28"
+ SRC_URI[sha256sum] = "ab2633921a5cd38e48797bf5521ad259bdc4b979078034a3b790d7fec5493fab"
 -- 
 2.11.0.rc2.dirty
 
