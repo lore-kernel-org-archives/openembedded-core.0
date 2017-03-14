@@ -1,22 +1,57 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A7AF778E5
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
+	[209.85.214.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 66584778BC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Mar 2017 17:37:36 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga104.jf.intel.com with ESMTP; 14 Mar 2017 10:37:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,165,1486454400"; d="scan'208";a="1122478400"
-Received: from yctb05.ostc.intel.com ([10.54.69.59])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Mar 2017 10:37:37 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Mar 2017 09:37:26 +0000
-Message-Id: <20170314093726.24891-3-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.10.2
-In-Reply-To: <20170314093726.24891-1-leonardo.sandoval.gonzalez@linux.intel.com>
-References: <20170314093726.24891-1-leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: [PATCH 3/3] gettext: split recipe's description
+	Tue, 14 Mar 2017 17:49:47 +0000 (UTC)
+Received: by mail-it0-f53.google.com with SMTP id m27so4444496iti.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Mar 2017 10:49:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=Ek7D4ZU4CYun5ZH6O0XT3ggzlznUW42xDIJcYMSdJJ4=;
+	b=u86myyNQYQc4QjIoVUWcU0AmTe8X28U680+PuHQMRiNvB922D0baLcFoanQv6KX1rN
+	4ZntcT9W1GcSJ5E7mjeVnruQlfdz8Wty+kCAiyGUEPuAC+rEhRhka3oMWpeFRM2xrdJl
+	7kJ1YWFUlcJOytYKfRyOY8Yqq5dUECcD54oAzvj6U+o0nJAab7YwKiVnhvTZQsxBYy3L
+	RdZyDcNoblqbpuwaRMuet/lwZYIGF7hS/y9aRWMZdituTI0XpI+AfP/oS3jmkKGB1anH
+	xD6aVSdAyI+YnSbLiCahkV98IxrFhJj4BFwMCeUYyI5Ts3ugpL6DbtdI8MWgTD4P1UJQ
+	/ZoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=Ek7D4ZU4CYun5ZH6O0XT3ggzlznUW42xDIJcYMSdJJ4=;
+	b=Afy1ZqYo2tCFdhOyNwe53+Fxzfejpj5GpQX6mh0hz3jrptbQKAs7jjswBiZPkmDznX
+	PJ+e7tzSG/4FvPZN0b1Auqf7a1+uu6LK7w4OLulDCqnDQXPPNKrvfGJOu9O6awJGSs4x
+	uTjMVDTDK8pbFCzundgAd8lOOHh+M3z9b/H9m1LMiafzMO8wqCfNIuISTc5LovxaAYpr
+	Jb56f1YjYt3fm3TUpmwqQqoc7mhFO4LI+tcn2CInX2ylbKBEH22GZulCj02chy3Zn0Mp
+	qfQhf9gwrG0p+r4+xAQ6mljtW7ViXRtmTx56pkcyL2pLZ36bwecYOP6eBpn/0tzO2uXb
+	Eiqw==
+X-Gm-Message-State: AFeK/H1CE7Z2avDhYGUOudZ+nVeONCIX9PEq5RfQlwsWVqtObW7euMQSMt8dFTCOA0ek0iZ3
+X-Received: by 10.36.85.207 with SMTP id e198mr18269716itb.107.1489513789470; 
+	Tue, 14 Mar 2017 10:49:49 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8D70D.dip0.t-ipconnect.de. [93.232.215.13])
+	by smtp.gmail.com with ESMTPSA id b25sm262617iod.32.2017.03.14.10.49.47
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 14 Mar 2017 10:49:48 -0700 (PDT)
+Message-ID: <1489513785.6396.83.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: ed.bartosh@linux.intel.com
+Date: Tue, 14 Mar 2017 18:49:45 +0100
+In-Reply-To: <20170314171147.GA28498@linux.intel.com>
+References: <2791e915-9e22-a01a-ccb5-c629d250edb2@phytec.de>
+	<20170308105729.GA22401@linux.intel.com>
+	<7d4a770f-25c6-5747-5a5c-370c822f2efb@mlbassoc.com>
+	<20170308134349.GA16099@linux.intel.com>
+	<a0d78645-9670-f3a1-cd9d-d66370e89ef9@phytec.de>
+	<20170314171147.GA28498@linux.intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: Gary Thomas <gary@mlbassoc.com>, openembedded-core@lists.openembedded.org
+Subject: Re: Create more than one image with WIC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,32 +64,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Mar 2017 17:37:36 -0000
+X-List-Received-Date: Tue, 14 Mar 2017 17:49:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+On Tue, 2017-03-14 at 19:11 +0200, Ed Bartosh wrote:
+> On Mon, Mar 13, 2017 at 05:16:31PM +0100, Daniel Schultz wrote:
+> > Do I have misunderstood the design of wic?
+> >
+> > I mean MMC and EMMC are very similar, but different in the
+> > bootloader and it would be a overhead to create an extra image for
+> > all EMMC images.
+> 
+> You don't need to create more than one rootfs with the same content. You
+> can refer to the same rootfs in multiple .wks files, but the recipes
+> have to be unique. In your example MMC and EMMC image recipes can create
+> directories for boot partition and their .wks files can use those
+> directories and common root directory produced by another recipe, e.g.
+> by core-image-minimal.
 
-Split long recipe description into multiple lines.
+But beware of interaction with rm_work.bbclass when doing that...
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
----
- meta/recipes-core/gettext/gettext_0.19.8.1.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+> It's not a big deal to run wic sequentially to produce multiple images,
+> but it will create more problems than it solves I believe. It will be slower and
+> will make a mess in image naming in deploy directory.
 
-diff --git a/meta/recipes-core/gettext/gettext_0.19.8.1.bb b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-index 557bf68..83edffe 100644
---- a/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-+++ b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-@@ -1,5 +1,8 @@
- SUMMARY = "Utilities and libraries for producing multi-lingual messages"
--DESCRIPTION = "GNU gettext is a set of tools that provides a framework to help other programs produce multi-lingual messages. These tools include a set of conventions about how programs should be written to support message catalogs, a directory and file naming organization for the message catalogs themselves, a runtime library supporting the retrieval of translated messages, and a few stand-alone programs to massage in various ways the sets of translatable and already translated strings."
-+DESCRIPTION = "GNU gettext is a set of tools that provides a framework to help other programs produce multi-lingual messages. \
-+These tools include a set of conventions about how programs should be written to support message catalogs, a directory and file \
-+naming organization for the message catalogs themselves, a runtime library supporting the retrieval of translated messages, and \
-+a few stand-alone programs to massage in various ways the sets of translatable and already translated strings."
- HOMEPAGE = "http://www.gnu.org/software/gettext/gettext.html"
- SECTION = "libs"
- LICENSE = "GPLv3+ & LGPL-2.1+"
+I personally would prefer to support generating more than one wic image
+per image recipe. The different output files could be distinguished with
+an additional suffix (".efi.wic", ".live.wiC", etc.) where the suffix is
+either specified by the WKS file or the configuration where the WKS file
+is selected - the latter might be a bit more flexible.
+
 -- 
-2.10.2
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
