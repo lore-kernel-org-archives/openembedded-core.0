@@ -1,20 +1,22 @@
 Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B4F377824
+	by mail.openembedded.org (Postfix) with ESMTP id 4B4D4778DC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Mar 2017 17:37:35 +0000 (UTC)
+	Tue, 14 Mar 2017 17:37:36 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by orsmga104.jf.intel.com with ESMTP; 14 Mar 2017 10:37:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,165,1486454400"; d="scan'208";a="1122478394"
+X-IronPort-AV: E=Sophos;i="5.36,165,1486454400"; d="scan'208";a="1122478395"
 Received: from yctb05.ostc.intel.com ([10.54.69.59])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Mar 2017 10:37:36 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 14 Mar 2017 10:37:37 -0700
 From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Mar 2017 09:37:24 +0000
-Message-Id: <20170314093726.24891-1-leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Tue, 14 Mar 2017 09:37:25 +0000
+Message-Id: <20170314093726.24891-2-leonardo.sandoval.gonzalez@linux.intel.com>
 X-Mailer: git-send-email 2.10.2
-Subject: [PATCH 1/3] subversion: remove useless comment
+In-Reply-To: <20170314093726.24891-1-leonardo.sandoval.gonzalez@linux.intel.com>
+References: <20170314093726.24891-1-leonardo.sandoval.gonzalez@linux.intel.com>
+Subject: [PATCH 2/3] uninative.bbclass: split long command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +33,36 @@ X-List-Received-Date: Tue, 14 Mar 2017 17:37:36 -0000
 
 From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-Remove auto-builder comment shown on the recipe because it does not add something
-useful.
+Single long commands are difficult to read and maintain. Split it to make
+it more human-friendly.
 
 Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 ---
- meta/recipes-devtools/subversion/subversion_1.9.5.bb | 5 -----
- 1 file changed, 5 deletions(-)
+ meta/classes/uninative.bbclass | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/subversion/subversion_1.9.5.bb b/meta/recipes-devtools/subversion/subversion_1.9.5.bb
-index 05fba67..5871b84 100644
---- a/meta/recipes-devtools/subversion/subversion_1.9.5.bb
-+++ b/meta/recipes-devtools/subversion/subversion_1.9.5.bb
-@@ -47,9 +47,4 @@ do_configure_prepend () {
- 	sed -i -e 's:with_sasl="/usr/local":with_sasl="${STAGING_DIR}":' ${S}/build/ac-macros/sasl.m4
- }
+diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
+index ee4ab20..b578031 100644
+--- a/meta/classes/uninative.bbclass
++++ b/meta/classes/uninative.bbclass
+@@ -59,7 +59,16 @@ python uninative_event_fetchloader() {
+             if localpath != tarballpath and os.path.exists(localpath) and not os.path.exists(tarballpath):
+                     os.symlink(localpath, tarballpath)
  
--#| x86_64-linux-libtool: install: warning: `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotate/build/build/tmp/work/x86_64-linux/subversion-native/1.8.9-r0/build/subversion/libsvn_ra_local/libsvn_ra_local-1.la' has not been installed in `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotate/build/build/tmp/sysroots/x86_64-linux/usr/lib'| x86_64-linux-libtool: install: warning: `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotate/build/build/tmp/work/x86_64-linux/subversion-native/1.8.9-r0/build/subversion/libsvn_repos/libsvn_repos-1.la' has not been installed in `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotate/build/build/tmp/sysroots/x86_64-linux/usr/lib'| /usr/bin/ld: cannot find -lsvn_delta-1| collect2: ld returned 1 exit status| x86_64-linux-libtool: install: warning: `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotate/build/build/tmp/work/x86_64-linux/subversion-native/1.8.9-r0/build/subversion/libsvn_ra_svn/libsvn_ra_svn-1.la' has not been installed in `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotate/build/build/tmp/sysroots/x86_64-linux/usr/lib'| x86_64-linux-libtool: install: warning: `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotate/build/build/tmp/work/x86_64-linux/subversion-native/1.8.9-r0/build/subversion/libsvn_ra_serf/libsvn_ra_serf-1.la' has not been installed in `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotate/build/build/tmp/sysroots/x86_64-linux/usr/lib'
--#| x86_64-linux-libtool: install: error: relink `libsvn_ra_serf-1.la' with the above command before installing it
--#| x86_64-linux-libtool: install: warning: `../../subversion/libsvn_repos/libsvn_repos-1.la' has not been installed in `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotate/build/build/tmp/sysroots/x86_64-linux/usr/lib'
--#| /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotate/build/build/tmp/work/x86_64-linux/subversion-native/1.8.9-r0/subversion-1.8.9/build-outputs.mk:1090: recipe for target 'install-serf-lib' failed
--#| make: *** [install-serf-lib] Error 1
- PARALLEL_MAKEINST = ""
+-        cmd = d.expand("mkdir -p ${UNINATIVE_STAGING_DIR}-uninative; cd ${UNINATIVE_STAGING_DIR}-uninative; tar -xjf ${UNINATIVE_DLDIR}/%s/${UNINATIVE_TARBALL}; ${UNINATIVE_STAGING_DIR}-uninative/relocate_sdk.py ${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux ${UNINATIVE_LOADER} ${UNINATIVE_LOADER} ${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux/${bindir_native}/patchelf-uninative ${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux${base_libdir_native}/libc*.so" % chksum)
++        cmd = d.expand("\
++mkdir -p ${UNINATIVE_STAGING_DIR}-uninative; \
++cd ${UNINATIVE_STAGING_DIR}-uninative; \
++tar -xjf ${UNINATIVE_DLDIR}/%s/${UNINATIVE_TARBALL}; \
++${UNINATIVE_STAGING_DIR}-uninative/relocate_sdk.py \
++  ${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux \
++  ${UNINATIVE_LOADER} \
++  ${UNINATIVE_LOADER} \
++  ${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux/${bindir_native}/patchelf-uninative \
++  ${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux${base_libdir_native}/libc*.so" % chksum)
+         subprocess.check_output(cmd, shell=True)
+ 
+         with open(loaderchksum, "w") as f:
 -- 
 2.10.2
 
