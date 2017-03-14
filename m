@@ -1,29 +1,61 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EA54A77818
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ot0-f173.google.com (mail-ot0-f173.google.com
+	[74.125.82.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 585D5777C0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Mar 2017 16:26:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v2EGQDE0008451
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 14 Mar 2017 09:26:14 -0700
-Received: from soho-mhatle-m.local (172.25.36.230) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 14 Mar 2017 09:26:13 -0700
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <20170314155619.7506-1-pkj@axis.com>
-	<20170314155619.7506-2-pkj@axis.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <0ca1fa9c-359c-7715-f3f4-b420afa082aa@windriver.com>
-Date: Tue, 14 Mar 2017 11:26:12 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.8.0
+	Tue, 14 Mar 2017 16:48:46 +0000 (UTC)
+Received: by mail-ot0-f173.google.com with SMTP id o24so142124642otb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Mar 2017 09:48:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=LrIXFrQXCm6BkjhN5LvZNgyfX9qqISZDWEwcdOsHknU=;
+	b=WIqWduWe1ofL5Vi6NR7PwFDU22L3vMLGx2m3lFE1rwVWd/wjoIv7oZBevzziUNTH6g
+	WkMuj7zm5qmPyfJATI+I3TjI1HceqXfbNhB63yavzfa1uesItBQk5ZHAceTXLya2IX5m
+	TyRcKPwZ/np3m3J+lNAE6ZoKzzaNP31nlxbqNsoxqiOWgptVDI3I4ZoSvEqAJEc0dzUE
+	+vXGs+AhMpKlGgjLSORg3zs6OeMcl3LunaV7JoWbaecTqbHBU+X93hYwSudyuSFTiSRP
+	XacV3tkT/5YVLuF/6iCu6Vy3gYNAqYyJYD/GSiYOvsZ2+L+NnmcUuyRDT6VeKArib8Wo
+	jZQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=LrIXFrQXCm6BkjhN5LvZNgyfX9qqISZDWEwcdOsHknU=;
+	b=Lpl69qu0lITSwmiXZ7m2N9eUxIGS4agsM7DxBqs+QB5XogvB7FY9Tjob4HVC7vpgk5
+	SDggwBsE/9Om7prftj9vp6R7B7SalQgJTVzT/S5nxGxjCq3Qcds+BEJa/ipzTTsTKkg6
+	a0cYrtfpqjCXt1d5IpmYc73Acd0qiTvQe1VmuFA9dGbV95Y7+NgM/jVN0p1hjf/0uK4G
+	MDRiDcs2WS5jOrxxkaZMKEVmJoUBqIvwFprA4Pj9oBBnKR6++5+qdW6qGlIiY5aw504r
+	yq9tQdHgwhQX+db/uCnLXAacam9kLEe2uA06Ftiod+tBEr73nxGAOW3gulBdOdLybmX+
+	hBLA==
+X-Gm-Message-State: AMke39m8jXenlN+hT24ZviO9CCEhgZCOsPGHgkXJdk8b9ZRXaxTrL2HJnMj+gj7a/3rNHQ==
+X-Received: by 10.202.175.73 with SMTP id y70mr20289061oie.174.1489510127401; 
+	Tue, 14 Mar 2017 09:48:47 -0700 (PDT)
+Received: from mail-ot0-f174.google.com (mail-ot0-f174.google.com.
+	[74.125.82.174]) by smtp.gmail.com with ESMTPSA id
+	g10sm2219372oic.16.2017.03.14.09.48.46
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 14 Mar 2017 09:48:46 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-ot0-f174.google.com with SMTP id o24so142123405otb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Mar 2017 09:48:46 -0700 (PDT)
+X-Received: by 10.202.78.5 with SMTP id c5mr18437472oib.77.1489510125699; Tue,
+	14 Mar 2017 09:48:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20170314155619.7506-2-pkj@axis.com>
-Subject: Re: [PATCHv2 2/2] useradd-staticids.bbclass: Always fail/warn for missing IDs
+Received: by 10.74.26.5 with HTTP; Tue, 14 Mar 2017 09:48:45 -0700 (PDT)
+In-Reply-To: <1489504451.13980.41.camel@linuxfoundation.org>
+References: <cover.1489144807.git.alexander.kanavin@linux.intel.com>
+	<1489504451.13980.41.camel@linuxfoundation.org>
+Date: Tue, 14 Mar 2017 13:48:45 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKp5zA3egzti=OfYD7YvpHqhE9n4YOhJagOc4rZurbA85w@mail.gmail.com>
+Message-ID: <CAP9ODKp5zA3egzti=OfYD7YvpHqhE9n4YOhJagOc4rZurbA85w@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/44] Replace Smart package manager with DNF package manager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,50 +68,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Mar 2017 16:26:18 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 14 Mar 2017 16:48:47 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 3/14/17 10:56 AM, Peter Kjellerstedt wrote:
-> Previously, with USERADD_ERROR_DYNAMIC set to error/warn, if a static
-> UID/GID was specified in the recipe, then no error/warning would be
-> issued even if no ID was specified in the passwd/groups files.
+On Tue, Mar 14, 2017 at 12:14 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+...
+> Despite this I merged it on the basis that I'd rather have this in pyro
+> rather than waiting another 6 months to get this in and having to tell
+> people we were changing soon and having to deal with any more smart
+> issues.
+...
 
-I'm glad it was this simple to implement.
+This kind of change should have been merged in November, not less of
+two months of release. One more time heavy changes been commited late
+on release.
 
-Acked.
 
---Mark
-
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->  meta/classes/useradd-staticids.bbclass | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
-> index 9b194df490..c156a12ee5 100644
-> --- a/meta/classes/useradd-staticids.bbclass
-> +++ b/meta/classes/useradd-staticids.bbclass
-> @@ -123,8 +123,7 @@ def update_useradd_static_config(d):
->                  users = merge_files(get_passwd_list(d), 7)
->  
->              if uaargs.LOGIN not in users:
-> -                if not uaargs.uid or not uaargs.uid.isdigit() or not uaargs.gid:
-> -                    handle_missing_id(uaargs.LOGIN, 'user', pkg)
-> +                handle_missing_id(uaargs.LOGIN, 'user', pkg)
->                  newparams.append(param)
->                  continue
->  
-> @@ -259,8 +258,7 @@ def update_useradd_static_config(d):
->                  groups = merge_files(get_group_list(d), 4)
->  
->              if gaargs.GROUP not in groups:
-> -                if not gaargs.gid or not gaargs.gid.isdigit():
-> -                    handle_missing_id(gaargs.GROUP, 'group', pkg)
-> +                handle_missing_id(gaargs.GROUP, 'group', pkg)
->                  newparams.append(param)
->                  continue
->  
-> 
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
