@@ -1,50 +1,46 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D8472776A3;
-	Tue, 14 Mar 2017 08:49:06 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id u132so13629479wmg.1;
-	Tue, 14 Mar 2017 01:49:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=e6qXO4Il7Z5q+pGOjcxBr2NHlBRlW2d1z7y9Y0G1xcc=;
-	b=Z66h5JmirNkfQRPh2FiSvwQ9a9s90SEKLRZZkRJIs57FexLM84AdCfYq2GRArUEKOI
-	w+XZADgQPgkb73PlYRqVSrUMAJECEL9kJqSVeTmCm5eYyNOan7rIAPfYwqeNLPkcyRfJ
-	kmDvI6oZq7LmaFyD6bCjTQFa+OGdDjqHLHCugLnIIVvb2SUUho11mD+Ffs6+VHKwDuWi
-	T/pjqvowKYavPrVpQtuIaUmGka9+zTPMs7t1HsYkmOySfzyFGFonbdq15VV5YCJx9K/g
-	ebcIvr+VJ3a0nn8duWPhh4I4IhT33Vbhqsm1NZvJXynp0NrZubde2nnpIfNB5Nr5+TSL
-	MamA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=e6qXO4Il7Z5q+pGOjcxBr2NHlBRlW2d1z7y9Y0G1xcc=;
-	b=HM5jV0xiXtDxN2uqQAXIx6rH9qTaQYecweexXFJJcQOM0SOLh4qmm1okpu/GMsJcsm
-	pvaml8AcbbviCTJMfgmrghhkdzVFnMYyFx7uRSACsc1/E0uupdA0q5PPk1zIl5ehl1e+
-	LCs/FODs6jW4zbr7KInffw6fjBj9AvOr/46zxWEjWFg5FbVLOeFH9sMU459i7F/wnXwr
-	FKvUejSsMPS3jacEsS7sK9mrOGvqro4Xez/7ykFpDXNp0Hr9JdiSah39D1qB1beZk0Pu
-	35Vxk9mM0VU5/npwSjRcH5wa2kI/xRyOXXAeN9LVIe1A31DRDI8blW0QQ0FS5UxI70HY
-	0mwg==
-X-Gm-Message-State: AFeK/H3iSEzdZC5LVDt4yi8pAozYzKXOD67kbZByoY9fgbW3gsiczk3KBhQVAfqJLShKUA==
-X-Received: by 10.28.141.193 with SMTP id p184mr13846568wmd.122.1489481347751; 
-	Tue, 14 Mar 2017 01:49:07 -0700 (PDT)
-Received: from crde-port-20.cahors.local ([185.47.80.46])
-	by smtp.gmail.com with ESMTPSA id
-	l45sm28220183wrc.14.2017.03.14.01.49.07
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 Mar 2017 01:49:07 -0700 (PDT)
-From: David Vincent <freesilicon@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 14 Mar 2017 09:49:01 +0100
-Message-ID: <6065347.R33Guik3lC@crde-port-20.cahors.local>
-In-Reply-To: <CA+chaQc6r4y6uHFSvAO1FRtijABFpYuxdSd2vuneArywWnGKcw@mail.gmail.com>
-References: <148914096789.20795.18204054413475576323@git.openembedded.org>
-	<20170310101608.758BB236CDD@git.openembedded.org>
-	<CA+chaQc6r4y6uHFSvAO1FRtijABFpYuxdSd2vuneArywWnGKcw@mail.gmail.com>
+Return-Path: <sona.sarmadi@enea.com>
+Received: from smtp-out11.electric.net (smtp-out11.electric.net
+	[185.38.181.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 6746A77654
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Mar 2017 09:35:47 +0000 (UTC)
+Received: from 1cnirs-0006vS-UC by out11a.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1cnirs-0006w2-Uq
+	for openembedded-core@lists.openembedded.org;
+	Tue, 14 Mar 2017 02:35:48 -0700
+Received: by emcmailer; Tue, 14 Mar 2017 02:35:48 -0700
+Received: from [192.36.1.72] (helo=mx-3.enea.com)
+	by out11a.electric.net with esmtps (TLSv1:ECDHE-RSA-AES256-SHA:256)
+	(Exim 4.87) (envelope-from <sona.sarmadi@enea.com>)
+	id 1cnirs-0006vS-UC for openembedded-core@lists.openembedded.org;
+	Tue, 14 Mar 2017 02:35:48 -0700
+Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
+	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
+	14.03.0319.002; Tue, 14 Mar 2017 10:35:48 +0100
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: Use-SHA256-not-MD5-as-default-digest.patch file is not added
+	to the openssl_1.0.2k.bb
+Thread-Index: AdKcpWugpeUOZ+DTR5OcRUMJIKmQjA==
+Date: Tue, 14 Mar 2017 09:35:47 +0000
+Message-ID: <3230301C09DEF9499B442BBE162C5E48AC3351D9@SESTOEX04.enea.se>
+Accept-Language: sv-SE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.16.142.231]
 MIME-Version: 1.0
-Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] [openembedded-core] 13/29: openssl: Fix symlink creation
+X-Outbound-IP: 192.36.1.72
+X-Env-From: sona.sarmadi@enea.com
+X-Proto: esmtps
+X-Revdns: mx-3.enea.com
+X-HELO: mx-3.enea.com
+X-TLS: TLSv1:ECDHE-RSA-AES256-SHA:256
+X-Authenticated_ID: 
+X-PolicySMART: 6551647
+X-Virus-Status: Scanned by VirusSMART (c)
+X-Virus-Status: Scanned by VirusSMART (s)
+Subject: Use-SHA256-not-MD5-as-default-digest.patch file is not added to the openssl_1.0.2k.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,35 +53,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Mar 2017 08:49:07 -0000
+X-List-Received-Date: Tue, 14 Mar 2017 09:35:48 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_3230301C09DEF9499B442BBE162C5E48AC3351D9SESTOEX04enease_"
+
+--_000_3230301C09DEF9499B442BBE162C5E48AC3351D9SESTOEX04enease_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
 
-On samedi 11 mars 2017 21:50:23 CET Martin Jansa wrote:
-> Why not use update-alternatives for this file?
+Hi guys,
 
-IMO, update-alternatives should not handle configuration files. I think tha=
-t=20
-using it can =E2=80=9Csilently=E2=80=9D apply a new configuration with high=
-er priority and=20
-things will break in some odd ways. Using conflicting packages ensures that=
- the=20
-applied configuration has been enforced at install time and the administrat=
-or=20
-knows what is doing. Again, it is just my personal taste...
+Does anyone know why "Use-SHA256-not-MD5-as-default-digest.patch" is in the=
+ openssl directory but has not been added to the openssl recipes? (both in =
+master and morty branches):
 
->=20
-> That's what I'm using in openssl bbappend because we also use different
-> provider for this file and it worked well .. until this change.
->=20
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-connectivi=
+ty/openssl/openssl
+Use-SHA256-not-MD5-as-default-digest.patch
 
-Sorry this change broke some builds, if I am the only one to use this=20
-configuration, feel free to revert this patch.
+But this file is not added to the recipes:
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-connectivi=
+ty/openssl/openssl_1.0.2k.bb
 
-OTOH, I have also provided the same kind of patch for OpenSSH configuration=
-=20
-(not yet applied), so tell me what would be the best way to handle=20
-configuration files in Yocto, I may have missed it in the documentation.
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-connectivi=
+ty/openssl/openssl_1.0.2j.bb?h=3Dmorty
 
-David
+Thanks
+//Sona
 
+
+
+
+--_000_3230301C09DEF9499B442BBE162C5E48AC3351D9SESTOEX04enease_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Exchange Server">
+<!-- converted from rtf -->
+<style><!-- .EmailQuote { margin-left: 1pt; padding-left: 4pt; border-left:=
+ #800000 2px solid; } --></style>
+</head>
+<body>
+<font face=3D"Calibri" size=3D"2"><span style=3D"font-size:11pt;">
+<div>Hi guys,</div>
+<div>&nbsp;</div>
+<div>Does anyone know why &#8220;Use-SHA256-not-MD5-as-default-digest.patch=
+&#8221; is in the openssl directory but has not been added to the openssl r=
+ecipes? (both in master and morty branches):</div>
+<div>&nbsp;</div>
+<div><a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/re=
+cipes-connectivity/openssl/openssl"><font color=3D"#0563C1"><u>http://git.y=
+octoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-connectivity/openssl/o=
+penssl</u></font></a></div>
+<div>Use-SHA256-not-MD5-as-default-digest.patch</div>
+<div>&nbsp;</div>
+<div>But this file is not added to the recipes:</div>
+<div><a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/re=
+cipes-connectivity/openssl/openssl_1.0.2k.bb"><font color=3D"#0563C1"><u>ht=
+tp://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-connectivity=
+/openssl/openssl_1.0.2k.bb</u></font></a></div>
+<div>&nbsp;</div>
+<div><a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/re=
+cipes-connectivity/openssl/openssl_1.0.2j.bb?h=3Dmorty"><font color=3D"#056=
+3C1"><u>http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-co=
+nnectivity/openssl/openssl_1.0.2j.bb?h=3Dmorty</u></font></a></div>
+<div>&nbsp;</div>
+<div>Thanks</div>
+<div>//Sona</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+</span></font>
+</body>
+</html>
+
+--_000_3230301C09DEF9499B442BBE162C5E48AC3351D9SESTOEX04enease_--
