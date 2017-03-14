@@ -1,46 +1,47 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from smtp-out11.electric.net (smtp-out11.electric.net
-	[185.38.181.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 6746A77654
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
+	[209.85.220.172])
+	by mail.openembedded.org (Postfix) with ESMTP id EB29E71A2D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Mar 2017 09:35:47 +0000 (UTC)
-Received: from 1cnirs-0006vS-UC by out11a.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1cnirs-0006w2-Uq
-	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Mar 2017 02:35:48 -0700
-Received: by emcmailer; Tue, 14 Mar 2017 02:35:48 -0700
-Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out11a.electric.net with esmtps (TLSv1:ECDHE-RSA-AES256-SHA:256)
-	(Exim 4.87) (envelope-from <sona.sarmadi@enea.com>)
-	id 1cnirs-0006vS-UC for openembedded-core@lists.openembedded.org;
-	Tue, 14 Mar 2017 02:35:48 -0700
-Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
-	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
-	14.03.0319.002; Tue, 14 Mar 2017 10:35:48 +0100
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Use-SHA256-not-MD5-as-default-digest.patch file is not added
-	to the openssl_1.0.2k.bb
-Thread-Index: AdKcpWugpeUOZ+DTR5OcRUMJIKmQjA==
-Date: Tue, 14 Mar 2017 09:35:47 +0000
-Message-ID: <3230301C09DEF9499B442BBE162C5E48AC3351D9@SESTOEX04.enea.se>
-Accept-Language: sv-SE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.142.231]
+	Tue, 14 Mar 2017 11:01:33 +0000 (UTC)
+Received: by mail-qk0-f172.google.com with SMTP id y76so244467243qkb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Mar 2017 04:01:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=EZRehr9TLaSji+ZY+WunZbQr0Ac3QYCP4P8V9OMQGpo=;
+	b=fQHQiFOhs71KH/RX5g11dKRaVVCcpf+ad0nrdC/Gbka1met73m9Qapht2RdcB4yMxQ
+	k7MBh/x7eykL9gKOC8BJ0RYK4w2SJFIAtSdAM3XgDmixtn+JLmETJrgVzaOqgzAFLVWl
+	WMeZVgzyxuU5FCv+Ksl9bje2IhpbqqGw5BDFUnF/TyLRVcZ13/+KMYPWa4+ixOYvCFob
+	FpDMMt6ApHEUaPdTsr5kkG9qyej+p7IUH61v0BNZ4++BR2JllW15eVeNFCdBD2e3BefP
+	98yACt0ZY28tU/NB0DfgckyQhEKATuZy/PEOQFEIFVKrjGo8jtcBXzJWykhBw/fxZi9Q
+	O1/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=EZRehr9TLaSji+ZY+WunZbQr0Ac3QYCP4P8V9OMQGpo=;
+	b=jnxMLnK7KKejt6+pR/XtzCKFC7YhYqAOvFq1Qc4Jfz/irI+5ajzThdLob6qQLDCFjz
+	hzs2LNpNr6kAPfogwaYij8Sy+NFqQmbH5bmRQ3lAwWWoVmhzRqSG7dhD17LCzTQLkJlg
+	7urhGD8FEVm9AlZEQsDrDsgqJhDSOvii7n8ToJcifZposdVm4O8YvpsfBYNwfXZTt/IE
+	B9WNa6jTSUxRizrUbKObjNe80+lj4cDyrrCcEB89XuXwe5LmD4PT7MFHSnxSQCoHlhB5
+	wfyGE6To7cU/EkChlK/15i7C24ni2yPEUWlU7s7bysRVQePZtaTkQHyxXHWliktbGEJo
+	bOtg==
+X-Gm-Message-State: AFeK/H06HPqgcyITzmNded3FzQvK6e84zID76mSpYcvq3g6zB/zFaD8i84aCHcJEg8OE1tk/6dqOTbL5Z46NM9nq
+X-Received: by 10.55.192.145 with SMTP id v17mr38447615qkv.3.1489489293972;
+	Tue, 14 Mar 2017 04:01:33 -0700 (PDT)
 MIME-Version: 1.0
-X-Outbound-IP: 192.36.1.72
-X-Env-From: sona.sarmadi@enea.com
-X-Proto: esmtps
-X-Revdns: mx-3.enea.com
-X-HELO: mx-3.enea.com
-X-TLS: TLSv1:ECDHE-RSA-AES256-SHA:256
-X-Authenticated_ID: 
-X-PolicySMART: 6551647
-X-Virus-Status: Scanned by VirusSMART (c)
-X-Virus-Status: Scanned by VirusSMART (s)
-Subject: Use-SHA256-not-MD5-as-default-digest.patch file is not added to the openssl_1.0.2k.bb
+Received: by 10.140.22.166 with HTTP; Tue, 14 Mar 2017 04:01:13 -0700 (PDT)
+In-Reply-To: <3230301C09DEF9499B442BBE162C5E48AC3351D9@SESTOEX04.enea.se>
+References: <3230301C09DEF9499B442BBE162C5E48AC3351D9@SESTOEX04.enea.se>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 14 Mar 2017 11:01:13 +0000
+Message-ID: <CAJTo0LaKOR3HRz=Mb+Gyr958KXpjC-_zk17-4S47cEYwFUMZNg@mail.gmail.com>
+To: Sona Sarmadi <sona.sarmadi@enea.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Use-SHA256-not-MD5-as-default-digest.patch file is not added to the openssl_1.0.2k.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,83 +54,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Mar 2017 09:35:48 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_3230301C09DEF9499B442BBE162C5E48AC3351D9SESTOEX04enease_"
+X-List-Received-Date: Tue, 14 Mar 2017 11:01:36 -0000
+Content-Type: multipart/alternative; boundary=001a1149a1c243bcaa054aaec06b
 
---_000_3230301C09DEF9499B442BBE162C5E48AC3351D9SESTOEX04enease_
-Content-Type: text/plain; charset="us-ascii"
+--001a1149a1c243bcaa054aaec06b
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi guys,
+On 14 March 2017 at 09:35, Sona Sarmadi <sona.sarmadi@enea.com> wrote:
 
-Does anyone know why "Use-SHA256-not-MD5-as-default-digest.patch" is in the=
- openssl directory but has not been added to the openssl recipes? (both in =
-master and morty branches):
-
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-connectivi=
-ty/openssl/openssl
-Use-SHA256-not-MD5-as-default-digest.patch
-
-But this file is not added to the recipes:
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-connectivi=
-ty/openssl/openssl_1.0.2k.bb
-
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-connectivi=
-ty/openssl/openssl_1.0.2j.bb?h=3Dmorty
-
-Thanks
-//Sona
-
-
-
-
---_000_3230301C09DEF9499B442BBE162C5E48AC3351D9SESTOEX04enease_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+> Does anyone know why =E2=80=9CUse-SHA256-not-MD5-as-default-digest.patch=
+=E2=80=9D is in
+> the openssl directory but has not been added to the openssl recipes? (bot=
+h
+> in master and morty branches):
 >
-<meta name=3D"Generator" content=3D"Microsoft Exchange Server">
-<!-- converted from rtf -->
-<style><!-- .EmailQuote { margin-left: 1pt; padding-left: 4pt; border-left:=
- #800000 2px solid; } --></style>
-</head>
-<body>
-<font face=3D"Calibri" size=3D"2"><span style=3D"font-size:11pt;">
-<div>Hi guys,</div>
-<div>&nbsp;</div>
-<div>Does anyone know why &#8220;Use-SHA256-not-MD5-as-default-digest.patch=
-&#8221; is in the openssl directory but has not been added to the openssl r=
-ecipes? (both in master and morty branches):</div>
-<div>&nbsp;</div>
-<div><a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/re=
-cipes-connectivity/openssl/openssl"><font color=3D"#0563C1"><u>http://git.y=
-octoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-connectivity/openssl/o=
-penssl</u></font></a></div>
-<div>Use-SHA256-not-MD5-as-default-digest.patch</div>
-<div>&nbsp;</div>
-<div>But this file is not added to the recipes:</div>
-<div><a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/re=
-cipes-connectivity/openssl/openssl_1.0.2k.bb"><font color=3D"#0563C1"><u>ht=
-tp://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-connectivity=
-/openssl/openssl_1.0.2k.bb</u></font></a></div>
-<div>&nbsp;</div>
-<div><a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/re=
-cipes-connectivity/openssl/openssl_1.0.2j.bb?h=3Dmorty"><font color=3D"#056=
-3C1"><u>http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-co=
-nnectivity/openssl/openssl_1.0.2j.bb?h=3Dmorty</u></font></a></div>
-<div>&nbsp;</div>
-<div>Thanks</div>
-<div>//Sona</div>
-<div>&nbsp;</div>
-<div>&nbsp;</div>
-<div>&nbsp;</div>
-</span></font>
-</body>
-</html>
 
---_000_3230301C09DEF9499B442BBE162C5E48AC3351D9SESTOEX04enease_--
+Because something went badly wrong...
+
+(patch incoming)
+
+Ross
+
+--001a1149a1c243bcaa054aaec06b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 14 March 2017 at 09:35, Sona Sarmadi <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:sona.sarmadi@enea.com" target=3D"_blank">sona.sarmadi@enea.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div>Does anyone know why =
+=E2=80=9CUse-SHA256-not-MD5-as-<wbr>default-digest.patch=E2=80=9D is in the=
+ openssl directory but has not been added to the openssl recipes? (both in =
+master and morty branches):</div>
+<div></div></blockquote></div><br>Because something went badly wrong...</di=
+v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">(patch in=
+coming)</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
+">Ross</div></div>
+
+--001a1149a1c243bcaa054aaec06b--
