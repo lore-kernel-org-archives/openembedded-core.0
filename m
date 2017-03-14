@@ -1,28 +1,32 @@
-Return-Path: <geoffrey.levillain@smile.fr>
-Received: from idris.smile.fr (idris.smile.fr [91.216.209.19])
-	by mail.openembedded.org (Postfix) with ESMTP id B603D7783D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E4FB7783E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Mar 2017 16:58:40 +0000 (UTC)
+	Tue, 14 Mar 2017 17:14:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by idris.smile.fr (Postfix) with ESMTP id E00FB1EE20C2;
-	Tue, 14 Mar 2017 17:58:41 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at smile.fr
-Received: from idris.smile.fr ([127.0.0.1])
-	by localhost (bluemind-mta.prod.vitry.intranet [127.0.0.1])
-	(amavisd-new, port 10024)
-	with ESMTP id eu4YgV7Z-zGg; Tue, 14 Mar 2017 17:58:41 +0100 (CET)
-Received: from Mirage.daviel.idf.intranet
-	(lns-bzn-39-82-255-32-23.adsl.proxad.net [82.255.32.23])
-	by idris.smile.fr (Postfix) with ESMTPA id C202A1EE1738;
-	Tue, 14 Mar 2017 17:58:41 +0100 (CET)
-From: Geoffrey Levillain <geoffrey.levillain@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Mar 2017 17:58:16 +0100
-Message-Id: <20170314165816.25512-2-geoffrey.levillain@smile.fr>
-X-Mailer: git-send-email 2.12.0
-In-Reply-To: <20170314165816.25512-1-geoffrey.levillain@smile.fr>
-References: <20170314165816.25512-1-geoffrey.levillain@smile.fr>
-Subject: [PATCH v3 1/1] image_overlay.bbclass: Add possibility to install overlays to image
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v2EHE32D025753; Tue, 14 Mar 2017 17:14:03 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id bEC80R2eRXHQ; Tue, 14 Mar 2017 17:14:03 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v2EHE0I0025750
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 14 Mar 2017 17:14:01 GMT
+Message-ID: <1489511640.13980.47.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Date: Tue, 14 Mar 2017 17:14:00 +0000
+In-Reply-To: <CAP9ODKp5zA3egzti=OfYD7YvpHqhE9n4YOhJagOc4rZurbA85w@mail.gmail.com>
+References: <cover.1489144807.git.alexander.kanavin@linux.intel.com>
+	<1489504451.13980.41.camel@linuxfoundation.org>
+	<CAP9ODKp5zA3egzti=OfYD7YvpHqhE9n4YOhJagOc4rZurbA85w@mail.gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/44] Replace Smart package manager with DNF package manager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,84 +39,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Mar 2017 16:58:41 -0000
+X-List-Received-Date: Tue, 14 Mar 2017 17:14:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-There is often a need to add configuration files specific to an image,
-with this class it's possible to fetch and install files from the
-image recipe.
+On Tue, 2017-03-14 at 13:48 -0300, Otavio Salvador wrote:
+> On Tue, Mar 14, 2017 at 12:14 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> ...
+> > 
+> > Despite this I merged it on the basis that I'd rather have this in
+> > pyro
+> > rather than waiting another 6 months to get this in and having to
+> > tell
+> > people we were changing soon and having to deal with any more smart
+> > issues.
+> ...
+> 
+> This kind of change should have been merged in November, not less of
+> two months of release. One more time heavy changes been commited late
+> on release.
 
-Fetching is set as noexec for images, but there is a need to fetch files
-here. This class permit to fetch and unpack without the use of these
-tasks in order to get your image-specific overlays to install.
+In this case the patches have been talked about and in review on the
+mailing list for months so I really don't think anyone can be
+surprised. It was also a stated release objective to do something about
+smart.
 
-This class must be inherited beside an image class (such as core-image).
+Also, nobody replied to the status reports where I discussed merging or
+not merging either so I could only assume nobody had opinions.
 
-Small example of usage in image recipe as it help to understand :
-----------------------------------------------------------
-FILESEXTRAPATHS_prepend := "${THISDIR}:"
+Cheers,
 
-DESCRIPTION = "An overlayable image"
-
-OVERLAY_SRC_URI = "file://overlay.tar.gz file://overlay2"
-
-OVERLAY_ROOT_DIRS = "overlay1 overlay2"
-
-inherit core-image image_overlay
-----------------------------------------------------------
-(Where file://overlay2 refer to a directory, and overlay.tar.gz
-cointain a directory named overlay1)
-
-Signed-off-by: Geoffrey Levillain <geoffrey.levillain@smile.fr>
----
- meta/classes/image_overlay.bbclass | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
- create mode 100644 meta/classes/image_overlay.bbclass
-
-diff --git a/meta/classes/image_overlay.bbclass b/meta/classes/image_overlay.bbclass
-new file mode 100644
-index 0000000000..ade2911410
---- /dev/null
-+++ b/meta/classes/image_overlay.bbclass
-@@ -0,0 +1,38 @@
-+# When inherited by an image recipe, this class provide simple way to
-+# put configuration files into rootfs.
-+
-+ROOTFS_POSTPROCESS_COMMAND_append = "install_overlay ; "
-+
-+python install_overlay() {
-+    """Fetch and install overlays into rootfs
-+    
-+       Fetch overlays from OVERLAY_SRC_URI and copy the files
-+       inside the folders listed in OVERLAY_ROOT_DIRS to rootfs.
-+       
-+       OVERLAY_ROOT_DIRS contains only names of folders, no path.
-+       
-+       OVERLAY_SRC_URI must be used to get dirs in OVERLAY_ROOT_DIRS
-+       imported to the workdir, it's the same as SRC_URI, so it's 
-+       possible to use distant repository, tarballs, etc.
-+    """
-+    workdir = d.getVar('WORKDIR', True)
-+    rootfs = d.getVar('IMAGE_ROOTFS', True)
-+    srcs = (d.getVar("OVERLAY_SRC_URI", True) or "").split()
-+    overlay_root_dirs = (d.getVar('OVERLAY_ROOT_DIRS', True) or '').split()
-+
-+    fetcher = bb.fetch2.Fetch(srcs, d)
-+    fetcher.download()
-+    fetcher.unpack(workdir)
-+
-+    for i in range(len(overlay_root_dirs)):
-+        fullpath = os.path.join(workdir, overlay_root_dirs[i])
-+        
-+        if not os.path.isdir(fullpath):
-+            bb.fatal(fullpath +
-+                     " : directory not found, please check your"\
-+                     " OVERLAY_ROOT_DIRS and OVERLAY_SRC_URI variables.")
-+            break
-+        os.system("cp -dr " + os.path.join(fullpath, "*") + " " + rootfs)
-+}
-+
-+do_rootfs[vardeps] += "OVERLAY_ROOT_DIRS OVERLAY_SRC_URI"
--- 
-2.12.0
+Richard
 
 
