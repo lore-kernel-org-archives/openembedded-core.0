@@ -1,45 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
-	[209.85.192.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 786C277663
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id EC36E776C5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Mar 2017 23:35:28 +0000 (UTC)
-Received: by mail-pf0-f178.google.com with SMTP id o126so602958pfb.3
+	Tue, 14 Mar 2017 23:35:48 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id g2so138512pge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Mar 2017 16:35:30 -0700 (PDT)
+	Tue, 14 Mar 2017 16:35:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=kCMFB35WnRuh1PlZRjb7zQz+qboLFb4DkxRvdRmOcOI=;
-	b=sIMHY105MD2Cnsxdwmi3YaeGDiESTkFMNNC/R8KFROePl3xuRouIZeNILUGiSMXFkw
-	gERstQrbpkQ9ijqlTUTbRJRVImdK9H2Na878Hh239LqDzVKpNUHmrYubAR2h/JnilCDF
-	AiWvkGS1cP5wwEQLRZTtyyQ81fqPjF+QRYV2NOazU8tWdEv38QMk3++rC87VQn3b7f5M
-	XqHggZ7epjQZG1TpjSISRrArYFoX8A9xgQRTpdo4QdVvnhZG0vKNCcvYTzreCbudB87I
-	zKG7N1b58fEAZ3HfGFrDk313nawyflg7R7A3GjiPJA9EP0RWqkRCerfMbsOWrCzZehsi
-	J9ew==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=JenuuUwmmjo+M+Tvneq+yR5FQxH+EG438x9vyHun9IE=;
+	b=YGA0bMZNlTmPaJeF81CK1bJdwkT12PvcAwqbGCkeraz7lDhDDBvjX5RXkSkr+LxxtA
+	A14xu94ih2fzpieyHiBzgVO5i/lbDPv452/sCF1vsfcJ9LN3QpDwDLL0+D4/9yQBFoo9
+	qwwjSZVY7HpLElt23zJYWvc/RbF3fRBRWT45YgZXLTESPrSEzAgjVbsPOYAe41ODWlEp
+	0VfUd2/Ny3a5he0s140EX4m3YwvSJ7ix+vU0rWL9B0JUbDRthZBnrBLkkAn0+sId5nxA
+	qzySKKLcPHN/+0J7bq2hGMpFswVEegdjeafdViPunpmZHp5+FCmt1SuZQpiuc+cpA6Su
+	+rQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=kCMFB35WnRuh1PlZRjb7zQz+qboLFb4DkxRvdRmOcOI=;
-	b=RjALeAQWePA7IXqQZkhZVeVhayZbfC5hpNTVAsu4VzlijNEWJiBJd381YoeHS2Zo5+
-	R4vTLk85lgxTNKVQ8EIx8zufUzRiFV4ziOXW+97c0aG0I/mookI9dtAjv/m4H+u9HDaM
-	Lx3OFGEYnEOphqqhdaGk2GQ06DHTRQvBbRfNZgUwG1anyMnDlFybiVLuSDWtj+BQB6Q4
-	0/ktsSvLKtWXVDnnTuxoC+P2o9J9AUhRt5Gj425c2ypilENqFEF3gbXEHXboAC+SugqM
-	/UxzFIIHt7Qm6wEra1z1UqkmGwdu3LDoCQK/EEtv3Lt3O+yHN+p1TQtoVnM4FPFo//Dr
-	nVQw==
-X-Gm-Message-State: AFeK/H1hVBdhHTepCw3ngG3egSYpg6mxbkG+gvuQvBBsHqOXc/akjarGvHkiZ68ZpUkHGg==
-X-Received: by 10.84.177.36 with SMTP id w33mr348551plb.105.1489534530400;
-	Tue, 14 Mar 2017 16:35:30 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=JenuuUwmmjo+M+Tvneq+yR5FQxH+EG438x9vyHun9IE=;
+	b=nW25e4gdxzB/x94raGAVUxQTD/FYFXHsPtcIhI/rmHmFSdOV++DgOsrvfnyUKAtCKy
+	lfNHuSZF1w50SsldiF35YZrsUcvIM5UngPNte8ViPHKsWlGdGbumtHetEoio+cu77SvA
+	jx4vs48p3BT85tZoFrvuMMl3j2Hhw/flCq4CD0sj/jcUWzwfLwVhfHvX0J7U1sTL/n0o
+	4O6tVTkMRXLALYuixP/KG88qoayM3UUNFkubjgdeSDx7U27kO8Fjp909Lfa9nc33N2Y/
+	vtmSu2wYEL6ftYGOOQmTkOPho8EJvNbKxm8WTV9Z7zgP+mzIFSyws97384rqMCxhqucE
+	gA0Q==
+X-Gm-Message-State: AFeK/H3A1y7PRsGqYnR+u0ek2G3Pt66zj4UXIrDlMr/ttjA7DAEcaQbHO4NXGzIM/2Ha8A==
+X-Received: by 10.84.231.201 with SMTP id g9mr348794pln.91.1489534549641;
+	Tue, 14 Mar 2017 16:35:49 -0700 (PDT)
 Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	e16sm111556pfb.102.2017.03.14.16.35.29
+	[76.102.32.192])
+	by smtp.gmail.com with ESMTPSA id 73sm124094pfh.56.2017.03.14.16.35.48
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 Mar 2017 16:35:29 -0700 (PDT)
+	Tue, 14 Mar 2017 16:35:48 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Mar 2017 16:35:19 -0700
-Message-Id: <cover.1489534345.git.raj.khem@gmail.com>
+Date: Tue, 14 Mar 2017 16:35:28 -0700
+Message-Id: <428e898ac4860ce25a8e0f605ae7f307c4860617.1489534345.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.12.0
-Subject: [PATCH 0/6] mesa/go/binutils fixes
+In-Reply-To: <cover.1489534345.git.raj.khem@gmail.com>
+References: <cover.1489534345.git.raj.khem@gmail.com>
+Subject: [PATCH 1/6] mesa: Contain configure search for llvm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,40 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Mar 2017 23:35:29 -0000
+X-List-Received-Date: Tue, 14 Mar 2017 23:35:51 -0000
 
-mesa failed to build with llvm installed on build host
-go would not package target recipes correclty.
-enable threaded linking for gold regardless of it being default linker or not
+Configure has an unbridled check for llvm and
+when distro provided llvm is installed on build host it
+will use that from /usr/bin to poke for llvm libs
+and configs. This would result in a subtle errors
+however do_qa_configure catches it as a host include/lib
+contamination during configure checks
 
-The following changes since commit 477805b913a6c4b4b630e42f08cd9e59f1e4e254:
+ERROR: mesa-gl-2_17.0.1-r0 do_configure: This autoconf log indicates errors, it looked at host include and/or library paths while determining system capabilities.
+Rerun configure task after fixing this.
 
-  wic: selftest: account for occasional newline in debugfs file names (2017-03-14 14:39:34 +0000)
+This is correct because when configure detects build host provided
+llvm then it add the include/lib paths to compiler cmdline which are
+looking into /usr/include and /usr/lib
 
-are available in the git repository at:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  git://git.openembedded.org/openembedded-core-contrib kraj/pu
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/pu
-
-Khem Raj (6):
-  mesa: Contain configure search for llvm
-  mesa-gl: Drop MESA_CRYPTO from PACKAGECONFIG
-  go: Fix packaging for target go
-  binutils: Enable threading when gold is enabled and is not default
-    linker
-  musl: Update to latest
-  xserver-xf86-config: Remove X server module preload
-
- meta/recipes-core/musl/musl_git.bb                             |  2 +-
- meta/recipes-devtools/binutils/binutils.inc                    |  2 +-
- meta/recipes-devtools/go/go.inc                                |  8 +-------
- meta/recipes-graphics/mesa/mesa-gl_17.0.1.bb                   |  2 +-
- meta/recipes-graphics/mesa/mesa.inc                            |  2 +-
- .../xorg-xserver/xserver-xf86-config/10-preload-modules.conf   | 10 ----------
- meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb  |  8 --------
- 7 files changed, 5 insertions(+), 29 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/10-preload-modules.conf
-
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 46d8d611c1..0f3dbb0397 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -22,7 +22,7 @@ inherit autotools pkgconfig pythonnative gettext distro_features_check
+ 
+ REQUIRED_DISTRO_FEATURES = "opengl"
+ 
+-EXTRA_OECONF = "--enable-shared-glapi"
++EXTRA_OECONF = "--enable-shared-glapi --with-llvm-prefix=${STAGING_BINDIR_NATIVE}"
+ 
+ PACKAGECONFIG ??= "gbm egl gles dri \
+ 		${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)} \
 -- 
 2.12.0
 
