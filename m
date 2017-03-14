@@ -1,26 +1,24 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D3A1776D2
+	by mail.openembedded.org (Postfix) with ESMTP id 3DA03776D5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Mar 2017 13:31:22 +0000 (UTC)
+	Tue, 14 Mar 2017 13:31:20 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v2EDVNhg009273
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v2EDVKfb009270
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 14 Mar 2017 06:31:23 -0700 (PDT)
+	Tue, 14 Mar 2017 06:31:20 -0700 (PDT)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 14 Mar 2017 06:31:23 -0700
+	14.3.294.0; Tue, 14 Mar 2017 06:31:19 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 14 Mar 2017 09:31:14 -0400
-Message-ID: <dfaf784e8ec06f0b9c186d90794529f9fac54da6.1489498044.git.bruce.ashfield@windriver.com>
+Date: Tue, 14 Mar 2017 09:31:11 -0400
+Message-ID: <cover.1489498044.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1489498044.git.bruce.ashfield@windriver.com>
-References: <cover.1489498044.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/7] linux-yocto/4.9: integrate -rt9
+Subject: [PATCH 0/7] linux-yocto: kernel version bumps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,62 +31,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Mar 2017 13:31:25 -0000
+X-List-Received-Date: Tue, 14 Mar 2017 13:31:26 -0000
 Content-Type: text/plain
 
-Paul Gortmaker made the -rt9 integration available for the 4.9
-linux-yocto kernel.
+Hi all,
 
-This updates our SRCREVs to pull in that content.
+This is my queue of version bumps, -rt integrations and configuration changes.
+I've built and booted the various kernel variants, but the matrix is fairly large
+for this number of updates :D
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb   | 4 ++--
- meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.9.bb      | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+Note: I'm also preparing to remove 4.8 from the tree, and will follow up with
+that shortly. It appears that 4.1, 4.4 and 4.9 have users .. so we'll be
+going with a larger than normal number of kernels for this upcoming release.
+I'm hoping to get it back down to three versions for the fall release.
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
-index d95e89feac71..968e8be1b283 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
-@@ -11,8 +11,8 @@ python () {
-         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "56827595acb884098f350b1d4b32ac8914f63ce2"
--SRCREV_meta ?= "d8d88204d080817cb6e4d3a9b8e15b7a7fbf8267"
-+SRCREV_machine ?= "3e5e058d8df10a5495effd069098934dc0859f2e"
-+SRCREV_meta ?= "38e74b65164e6857450417825ee4b517452ff57f"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.9.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.9;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb
-index 145ed6c85d0c..98bcc500d8e1 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb
-@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "95c0a80ee83f1cf8e59d733f36e8a9dfd50a0098"
--SRCREV_meta ?= "d8d88204d080817cb6e4d3a9b8e15b7a7fbf8267"
-+SRCREV_meta ?= "38e74b65164e6857450417825ee4b517452ff57f"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.9.bb b/meta/recipes-kernel/linux/linux-yocto_4.9.bb
-index f48c86c94690..2bde377f3137 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.9.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.9.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "95c0a80ee83f1cf8e59d733f36e8a9dfd50a0098"
- SRCREV_machine_qemux86-64 ?= "95c0a80ee83f1cf8e59d733f36e8a9dfd50a0098"
- SRCREV_machine_qemumips64 ?= "ac72601920adbc163cd691fa060177137e41bf22"
- SRCREV_machine ?= "95c0a80ee83f1cf8e59d733f36e8a9dfd50a0098"
--SRCREV_meta ?= "d8d88204d080817cb6e4d3a9b8e15b7a7fbf8267"
-+SRCREV_meta ?= "38e74b65164e6857450417825ee4b517452ff57f"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.9.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.9;destsuffix=${KMETA}"
+Cheers,
+
+Bruce
+
+The following changes since commit b1f09df0f664052e39d939b759a63b05d767b8ec:
+
+  bitbake: ConfHandler: Use the same regular expression for all variable names (2017-03-13 09:43:40 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (7):
+  linux-yocto/4.9: bump to v4.9.13
+  linux-yocto/4.10: update to v4.10.1
+  linux-yocto/4.9: integrate -rt9
+  linux-yocto/4.9/4.10: add Intel Memory Protection Extensions
+  linux-yocto/4.10: update to v4.10.2
+  linux-yocto/4.4: update to v4.4.53
+  linux-yocto/4.1: update to v4.1.38
+
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb    |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb   |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb    |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb    |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb  |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb  |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb  |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb       | 20 ++++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_4.10.bb      | 20 ++++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb       | 20 ++++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_4.9.bb       | 20 ++++++++++----------
+ 12 files changed, 64 insertions(+), 64 deletions(-)
+
 -- 
 2.5.0
 
