@@ -1,48 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 28F8D776BD
+Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
+	[209.85.220.178])
+	by mail.openembedded.org (Postfix) with ESMTP id B2CA37199A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Mar 2017 12:11:12 +0000 (UTC)
-Received: by mail-qk0-f173.google.com with SMTP id p64so245809644qke.1
+	Tue, 14 Mar 2017 12:45:04 +0000 (UTC)
+Received: by mail-qk0-f178.google.com with SMTP id y76so246449467qkb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Mar 2017 05:11:13 -0700 (PDT)
+	Tue, 14 Mar 2017 05:45:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=gNIXmHyWvQSW5VLJ8UxU+OwF85RkBtpmHfuIFZVe2KM=;
-	b=ebisvRF0d4Po+9wKD+VVsoh+MP7hUX062Cz9uqewOrcNp92pk5WrSEFLHhIL58HdBq
-	8MUwcYN8785sWqECEA+yXmG07L4OE/3MYuWmpADGXyR4eechJTIofLCanB/zwY9oDjep
-	/mbS7MCbDnRGPmSsP6saANQEJwmWSMhpqOngnN2iiD6dJB9JQT7JztMwRcsXto+FtsC4
-	5PUQaVoTzAoCQ7F6TxuMlMuCogoR7Px2Lx/rb4WOFAw0j8F4PZ+ZL/NxA6xnw99yWCjk
-	EGpHeJS8zqz0koLSihyuuUCyCDeFiHnrqa7s0qcOzCzeHDsCR2xgqRBI5II0SyPC1bZF
-	B+bg==
+	:cc; bh=9+MdyXT3cIObvkEvtrTHCWWe3wuPOjGP5vYYqnYTQvg=;
+	b=QP9smTiLu4lrjkqJnxfu7Y+5FIT1uBfwU9d/cRjMktSXflZzqz/BOScZYsq7EPM6sX
+	Y0sNdPBXNB5aoq9zU/bfPfKYUbEgE1b36t3xKGKQk3YB7ToIak3i5P4ubqN5CSWatTZv
+	zJfo0R2JUHgtBC8OksW00SwHbZlnLlbSu85xqNRaS3IugBKbNDOCfhk53+hm8vn5nFmD
+	xLQgf980N7zxR8zl/s188RjX8HkNSYjB2G9DyyblnI2TkfgmxzqkByTh/hr1OALjnC1d
+	G4Mq0t30qI3l9CmbgBlVXvniUo8fx3SVbybkd6prkPr1u9Sveq3AWDLzmJl3hm5Fb2X+
+	Gtbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=gNIXmHyWvQSW5VLJ8UxU+OwF85RkBtpmHfuIFZVe2KM=;
-	b=KaRBAbxHa2w7XWS6s31TEfsu5bSYdw46X43nQ28YHNEufey8Gl6SZ4kixLxWyJyr0l
-	fVsCTSB275KF9HWWcdJqbFmKS6phm9HLvE91AS10v33njo/6Db2aISv9xi5SUElYvYCq
-	H5oRLTDoBQJbhhrhxPrQk+HsNpZ3vA5sOGCCMx21bfX5PxZ1mF2sDp01LWB6/KZNNZCV
-	//XFMomYnd0bYQC7OxH/RuKYy+XsRyrozX0yCJO1qpPZmigRBws1XPVfneyY2uH7KgdE
-	d+Fcx22BRQ1vnpNKl7V6p4zBpxOTbBopbchXsydRtlNFLFCW1xGefCgi94ri3rAxUEAK
-	F/uA==
-X-Gm-Message-State: AMke39kAJkfMVPOXr0FcRXd1H+YhTMcNKbqJ9QhaRcO2feebBeWkpNx/k6kabY179JvXqw1I4c/pKQIAfZzE/qNm
-X-Received: by 10.55.183.133 with SMTP id h127mr38581524qkf.121.1489493473445; 
-	Tue, 14 Mar 2017 05:11:13 -0700 (PDT)
+	bh=9+MdyXT3cIObvkEvtrTHCWWe3wuPOjGP5vYYqnYTQvg=;
+	b=jpXNBVk8wYCPYZk4jeeo87Px6mHMhna9oxCZWlaQFrWDD9vbo5UDtyRnQFG1t4idB9
+	g7RvO48L0Z9+p0VVicHRa4REH++qoAfTHYephAh1sqoJlq4CjLQLE0gm44F8/xW3z8Eq
+	U8nuQ0F7IZY1HDBwdvvOYgjqthhNnV60HMN0+AwiPev2nOuVZIFOV+zaXd9125ArtLBJ
+	L/NQb3InkLr1VyLbTLtAQ0rKbQ/laVcuNmURN+MxK3W5aom9N47DGjPBLxIKjp2V0hNf
+	aJovvgfR55UT8RuVtwUXyrpgxY+4FOu/8QUnBxC6188Agib+2mYWh7OxVaFsDFBdcU9w
+	/UkA==
+X-Gm-Message-State: AFeK/H3Qm4pc5rZem18HauLf1UL/cZEUK61N9ZK2kEXNZnmMbT5hNto11VMpmlsXO1YoiPzuzz58QV+gOh4tt/e0
+X-Received: by 10.55.175.195 with SMTP id y186mr36139064qke.26.1489495505584; 
+	Tue, 14 Mar 2017 05:45:05 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Tue, 14 Mar 2017 05:10:53 -0700 (PDT)
-In-Reply-To: <CAJTo0LZipriFRQ8oRML1=9rze9C5ghzch-v87z637emaSQg6-g@mail.gmail.com>
-References: <cover.1489481108.git.liezhi.yang@windriver.com>
-	<30b0c7a3bd07acb4f0b86ddb9076a4f443c59b50.1489481108.git.liezhi.yang@windriver.com>
-	<CAJTo0LZipriFRQ8oRML1=9rze9C5ghzch-v87z637emaSQg6-g@mail.gmail.com>
+Received: by 10.140.22.166 with HTTP; Tue, 14 Mar 2017 05:44:45 -0700 (PDT)
+In-Reply-To: <dabda004-ddbb-0520-cea4-c9bf2b8d6044@windriver.com>
+References: <cover.1489144807.git.alexander.kanavin@linux.intel.com>
+	<a4cc80fb3dcbcf610b5e4b601a807492fcea9eca.1489144807.git.alexander.kanavin@linux.intel.com>
+	<dabda004-ddbb-0520-cea4-c9bf2b8d6044@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 14 Mar 2017 12:10:53 +0000
-Message-ID: <CAJTo0LZ4hD7TMkqedh9ciJVvVbC3ee_yG1nsyhXk=hWd=B3NfA@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
+Date: Tue, 14 Mar 2017 12:44:45 +0000
+Message-ID: <CAJTo0LaoypQjYY1-oZwgKZze6tHEbXEBHmDR8YJ36_q0nG27RA@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/8] mc: set ac_cv_path_PERL to /usr/bin/perl
+Subject: Re: [PATCH 22/44] scripts/rpm2cpio.sh: replace 5.x version with 4.x version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,53 +55,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Mar 2017 12:11:16 -0000
-Content-Type: multipart/alternative; boundary=94eb2c06005661990e054aafb99c
+X-List-Received-Date: Tue, 14 Mar 2017 12:45:04 -0000
+Content-Type: multipart/alternative; boundary=94eb2c06093c81d061054ab03204
 
---94eb2c06005661990e054aafb99c
+--94eb2c06093c81d061054ab03204
 Content-Type: text/plain; charset=UTF-8
 
-On 14 March 2017 at 12:06, Burton, Ross <ross.burton@intel.com> wrote:
+On 10 March 2017 at 17:26, Mark Hatle <mark.hatle@windriver.com> wrote:
 
-> On 14 March 2017 at 08:45, Robert Yang <liezhi.yang@windriver.com> wrote:
->
->> +CACHED_CONFIGUREVARS += "ac_cv_path_PERL=${USRBINPATH}/perl"
->>
->
-> Would it be sensible to put this in autotools.bbclass?
+> Just an FYI, I was concerned that $(( ))  (in the new script) was a
+> bash-ism,
+> but I was able to run the script on an Ubuntu machine using 'dash' as
+> /bin/sh.
 >
 
-Hang on.  ac_cv_path_PERL is the result of AC_PATH_PROG(perl) which is the
-path to the perl on the host.  Is mc using this path only for writing the
-hashbang into scripts?  If it tries to execute the path on the build host
-then there's several ways this can fail (perl in /usr/local or with
-buildtools).
+http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_06_04
+
+bash adds more operators such as ++, but basic maths is POSIX.
 
 Ross
 
---94eb2c06005661990e054aafb99c
+--94eb2c06093c81d061054ab03204
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 March 2017 at 12:06, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra"=
-><span class=3D""><div class=3D"gmail_quote">On 14 March 2017 at 08:45, Rob=
-ert Yang <span dir=3D"ltr">&lt;<a href=3D"mailto:liezhi.yang@windriver.com"=
- target=3D"_blank">liezhi.yang@windriver.com</a>&gt;</span> wrote:<br><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex"><div id=3D"m_-125199929849162915:r7" class=3D"m_-=
-125199929849162915a3s m_-125199929849162915aXjCH m_-125199929849162915m15ac=
-bff8aca769db">+CACHED_CONFIGUREVARS +=3D &quot;ac_cv_path_PERL=3D${USRBINPA=
-TH}<wbr>/perl&quot;<br></div></blockquote></div><br></span>Would it be sens=
-ible to put this in autotools.bbclass?</div></blockquote><div><br></div><di=
-v>Hang on. =C2=A0ac_cv_path_PERL is the result of AC_PATH_PROG(perl) which =
-is the path to the perl on the host.=C2=A0 Is mc using this path only for w=
-riting the hashbang into scripts?=C2=A0 If it tries to execute the path on =
-the build host then there&#39;s several ways this can fail (perl in /usr/lo=
-cal or with buildtools).</div><div><br></div><div>Ross =C2=A0<br></div></di=
-v><br></div></div>
+On 10 March 2017 at 17:26, Mark Hatle <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:mark.hatle@windriver.com" target=3D"_blank">mark.hatle@windriver.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bor=
+der-left-style:solid;padding-left:1ex"><div id=3D"gmail-:10h" class=3D"gmai=
+l-a3s gmail-aXjCH gmail-m15ab9423eeb69b03">Just an FYI, I was concerned tha=
+t $(( ))=C2=A0 (in the new script) was a bash-ism,<br>
+but I was able to run the script on an Ubuntu machine using &#39;dash&#39; =
+as /bin/sh.<br></div></blockquote><div><br></div><div><a href=3D"http://pub=
+s.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_06_04=
+">http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#=
+tag_02_06_04</a><br></div><div><br></div><div>bash adds more operators such=
+ as ++, but basic maths is POSIX.</div><div><br></div><div>Ross</div></div>=
+</div></div>
 
---94eb2c06005661990e054aafb99c--
+--94eb2c06093c81d061054ab03204--
