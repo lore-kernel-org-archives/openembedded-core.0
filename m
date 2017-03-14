@@ -1,47 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f175.google.com (mail-qt0-f175.google.com
-	[209.85.216.175])
-	by mail.openembedded.org (Postfix) with ESMTP id CD26071AFC
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id EA3D671AFC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Mar 2017 12:06:26 +0000 (UTC)
-Received: by mail-qt0-f175.google.com with SMTP id i34so53586986qtc.0
+	Tue, 14 Mar 2017 12:06:52 +0000 (UTC)
+Received: by mail-qk0-f171.google.com with SMTP id 1so244952224qkl.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Mar 2017 05:06:28 -0700 (PDT)
+	Tue, 14 Mar 2017 05:06:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=u0z9zja/EmKFJC1/0gfcd4y8iCw4PkQGtxCYki3w3EU=;
-	b=1xoNhOteyB7mwfI70dri9k0hvgB08yXW9Oe6W3Zi/d8aTftOWfNR0add8JDLZFtDHc
-	WPOo+0GUc6VBXL4Ji8ecmS1rtqKppa/c5zbC65g8BDjRgeIvK4nC+WDozrYY+aIYR9IY
-	LFnOh6dFVbUhCafOOteZlC8qtEv2PB6EXWPwdnzVSdZlasdk8cZ+q48FucKNtSkYvUsE
-	f/xDcupFNnn3v1xvEpLUaiQXrHLgyj11QBBJDgwIRvnxbtNOkiRSf8XA1zpzOVTFSfMi
-	HoXdb1kzIa9dfTsKdNMb71YiMdE+W/fk7MvAsaxlr3FTUzAzljWarxFzxB9UuhOTnPtG
-	HrFg==
+	:cc; bh=gJX8sH8xSYsHn7YXUUoTxdDSZzpXMGC9TwyPODbDMPM=;
+	b=Na2x7Qk94oFz4ZhtLavxbi//2+batHXPEThjmT/ML5TuYs80daRIGPsL2aLbi6QbDD
+	aNbZwXD2pU7+Xkys1CJ0eFfa47AMB8xLUqAMhvdWwmdxhK6Oyi+gI6E0lSrb/bc9M/j4
+	OLRhRn7iNIA2ICLEAuqie6gchPEUbDiWXrCFRMN4R7pGsk9AMweUiXwWKWG6z1Si96dd
+	arjFQzidWS5izs8OWlUaHHCqRGPyxrAgIZ2xniMfQrOlOZ361c4OrP81JB8W5HvcRerx
+	A8qNj+Qosq0aVCCZAgep8JF8uFwFRpmHWSC6tcGPNJJ0Ahbs6dKuB73EClC6c8es7eBA
+	ilWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=u0z9zja/EmKFJC1/0gfcd4y8iCw4PkQGtxCYki3w3EU=;
-	b=Jw3mhPqv4vEZ2Z1quXJhabQyhpubo11Vl57lKCo/LJE5LTolq5WEmB3GH2JBZzUv9+
-	xxjDzYxHm53hSAiLyVBPkiFuUVqyWo2dT2C8Ck9RV8pCs1IfDxQlje1nj/JrUbojKTwB
-	mgOT5xY08asgmupasQAdc/Q5MRR7Lit4N7619RFzZNVukKZhNcmso17keQ/JYDagWJTo
-	jKXBrpbWc91/AeFyC6SxND0G8yW0pWkza6khjoq0+bQcjnzVI6QLz2Lb9K3UibUSEIlH
-	Op/cfOukdN72CdftP5zssd5CXWyd39pBcHcuMAoxDLlon58LMbGQ0isJ71Itz0tx7Fr0
-	F94Q==
-X-Gm-Message-State: AMke39nCl8FzaFlT7E6UcolISP0cqkpTuiAsAd2/HDPBwei1+ZbTbn5CFN/A10lxl9tsElmRyuDjA9AKSSuQ2ixJ
-X-Received: by 10.237.33.69 with SMTP id 63mr36556989qtc.109.1489493187544;
-	Tue, 14 Mar 2017 05:06:27 -0700 (PDT)
+	bh=gJX8sH8xSYsHn7YXUUoTxdDSZzpXMGC9TwyPODbDMPM=;
+	b=H8dtU0x6qAcVMgoZsWaVx56O9LERC6gpw8pqtFyT/F4DuCreJ7WrHgVPoloyZhRn3G
+	XflmZqTxTKi/JmF80v04N3lDVcDyCJruwftk60FJS8mcSr+wV9FXAp+Vb2zQJZk7mV5C
+	2YygsOGaVQHyFgGAXnvpRL6hScXNNzhQPTSF4fX0VsW/Rl6Ra+OQ0ebX9+Hgrik4dASJ
+	8/H2VKLfCKrzoTGnm8tU9sa1l9GjkQHQuA1C0SxaMwXYUX1XxuHeH9tQHGuUOfbLIoWF
+	Ar4U4a0J5Sb6ZwtW8ia2twKvDG9KuRu6/phjHm1eYwSFg4BEMBpR7/dX1d7FX9HWP3Fx
+	K1ZA==
+X-Gm-Message-State: AMke39kzBlk2yi+QKuTB7hBH/plLK4569nkYCbTdyB+vn9WKDP6icPRTw2z1dZRWqQ3QdlJt5+kiwRigUpa6qQIE
+X-Received: by 10.55.1.134 with SMTP id u6mr40299975qkg.36.1489493213709; Tue,
+	14 Mar 2017 05:06:53 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Tue, 14 Mar 2017 05:06:07 -0700 (PDT)
-In-Reply-To: <30b0c7a3bd07acb4f0b86ddb9076a4f443c59b50.1489481108.git.liezhi.yang@windriver.com>
+Received: by 10.140.22.166 with HTTP; Tue, 14 Mar 2017 05:06:33 -0700 (PDT)
+In-Reply-To: <d4e6c7a11c3936ca2b30246c88452b441022c297.1489481108.git.liezhi.yang@windriver.com>
 References: <cover.1489481108.git.liezhi.yang@windriver.com>
-	<30b0c7a3bd07acb4f0b86ddb9076a4f443c59b50.1489481108.git.liezhi.yang@windriver.com>
+	<d4e6c7a11c3936ca2b30246c88452b441022c297.1489481108.git.liezhi.yang@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 14 Mar 2017 12:06:07 +0000
-Message-ID: <CAJTo0LZipriFRQ8oRML1=9rze9C5ghzch-v87z637emaSQg6-g@mail.gmail.com>
+Date: Tue, 14 Mar 2017 12:06:33 +0000
+Message-ID: <CAJTo0LYUhAOgDrOuB6FNwp2dPyxFFZCHHd5KjxvyUKz-+hdKmg@mail.gmail.com>
 To: Robert Yang <liezhi.yang@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/8] mc: set ac_cv_path_PERL to /usr/bin/perl
+Subject: Re: [PATCH 2/8] guile: do_configure: fix "Argument list too long"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,22 +54,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Mar 2017 12:06:27 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0c7fc8571793054aafa8f0
+X-List-Received-Date: Tue, 14 Mar 2017 12:06:53 -0000
+Content-Type: multipart/alternative; boundary=001a114046c4e656e2054aafa9ef
 
---94eb2c0c7fc8571793054aafa8f0
+--001a114046c4e656e2054aafa9ef
 Content-Type: text/plain; charset=UTF-8
 
 On 14 March 2017 at 08:45, Robert Yang <liezhi.yang@windriver.com> wrote:
 
-> +CACHED_CONFIGUREVARS += "ac_cv_path_PERL=${USRBINPATH}/perl"
+> +# Fix "Argument list too long" error when len(TMPDIR) = 410
+> +acpaths = "-I ./m4"
 >
 
-Would it be sensible to put this in autotools.bbclass?
+If we're fixing this in various recipes, why not fix in autotools.bbclass
+directly?
 
 Ross
 
---94eb2c0c7fc8571793054aafa8f0
+--001a114046c4e656e2054aafa9ef
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -77,10 +79,12 @@ Content-Transfer-Encoding: quoted-printable
 On 14 March 2017 at 08:45, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mai=
 lto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com<=
 /a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":r7" cla=
-ss=3D"a3s aXjCH m15acbff8aca769db">+CACHED_CONFIGUREVARS +=3D &quot;ac_cv_p=
-ath_PERL=3D${USRBINPATH}<wbr>/perl&quot;<br></div></blockquote></div><br>Wo=
-uld it be sensible to put this in autotools.bbclass?</div><div class=3D"gma=
-il_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":se" cla=
+ss=3D"a3s aXjCH m15acbffc915c16c7">+# Fix &quot;Argument list too long&quot=
+; error when len(TMPDIR) =3D 410<br>
++acpaths =3D &quot;-I ./m4&quot;<br></div></blockquote></div><br>If we&#39;=
+re fixing this in various recipes, why not fix in autotools.bbclass directl=
+y?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ros=
+s</div></div>
 
---94eb2c0c7fc8571793054aafa8f0--
+--001a114046c4e656e2054aafa9ef--
