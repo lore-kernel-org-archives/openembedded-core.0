@@ -1,46 +1,21 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C21477824
+Return-Path: <mikko.ylinen@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C13A77925
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Mar 2017 18:20:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1489515652; x=1521051652;
-	h=date:from:to:cc:subject:message-id:reply-to:references:
-	mime-version:in-reply-to;
-	bh=BQ2fneZ5EcUl3aaKxm7CbWw2UM6zI8eyutayNU7BlVw=;
-	b=Kv6kvh4jO2qlZFTfhXTvsmGwfhvkD6ElrD0DMfTE4xDb4HGvXUFUlAlZ
-	RXD/aRm2S7n+GWUCd29XNRGI+UxWLg==;
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Mar 2017 11:20:49 -0700
+	Tue, 14 Mar 2017 18:56:05 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga104.jf.intel.com with ESMTP; 14 Mar 2017 11:56:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,165,1486454400"; d="scan'208";a="75370069"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 14 Mar 2017 11:20:49 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 977412C8001;
-	Tue, 14 Mar 2017 11:20:44 -0700 (PDT)
-Date: Tue, 14 Mar 2017 20:06:44 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Message-ID: <20170314180644.GA22000@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <2791e915-9e22-a01a-ccb5-c629d250edb2@phytec.de>
-	<20170308105729.GA22401@linux.intel.com>
-	<7d4a770f-25c6-5747-5a5c-370c822f2efb@mlbassoc.com>
-	<20170308134349.GA16099@linux.intel.com>
-	<a0d78645-9670-f3a1-cd9d-d66370e89ef9@phytec.de>
-	<20170314171147.GA28498@linux.intel.com>
-	<1489513785.6396.83.camel@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1489513785.6396.83.camel@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Gary Thomas <gary@mlbassoc.com>, openembedded-core@lists.openembedded.org
-Subject: Re: Create more than one image with WIC
+X-IronPort-AV: E=Sophos;i="5.36,165,1486454400"; d="scan'208";a="67369503"
+Received: from shersing-mobl.gar.corp.intel.com (HELO
+	summit.ger.corp.intel.com) ([10.252.0.227])
+	by orsmga004.jf.intel.com with ESMTP; 14 Mar 2017 11:56:06 -0700
+From: Mikko Ylinen <mikko.ylinen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 14 Mar 2017 20:56:35 +0200
+Message-Id: <20170314185635.2326-1-mikko.ylinen@linux.intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH v2] bitbake.conf: whitelist socat as non-fatal host tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,30 +28,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Mar 2017 18:20:50 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 14 Mar 2017 18:56:07 -0000
 
-On Tue, Mar 14, 2017 at 06:49:45PM +0100, Patrick Ohly wrote:
-> 
-> > It's not a big deal to run wic sequentially to produce multiple images,
-> > but it will create more problems than it solves I believe. It will be slower and
-> > will make a mess in image naming in deploy directory.
-> 
-> I personally would prefer to support generating more than one wic image
-> per image recipe. The different output files could be distinguished with
-> an additional suffix (".efi.wic", ".live.wiC", etc.) where the suffix is
-> either specified by the WKS file or the configuration where the WKS file
-> is selected - the latter might be a bit more flexible.
->
+oe-git-proxy depends on socat host tool but it's not
+whitelisted and triggers a 'binary not in PATH' error.
 
-From my point of view ths would be against the current design of oe
-image building susbsystem. It would be also more complex and slower
-unless we'll find a way to dynamically generate multiple image creation
-tasks per one recipe and run them in parallel. In this case it will be
-even more complex.
+Whitelist socat but make it a HOSTTOOLS_NONFATAL since
+it's not a hard dependency.
 
---
-Regards,
-Ed
+Signed-off-by: Mikko Ylinen <mikko.ylinen@linux.intel.com>
+---
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 0de8a74c43..d92c5cd0ca 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -469,7 +469,7 @@ HOSTTOOLS += " \
+ HOSTTOOLS += "ps stty ip ssh scp ping vi"
+ 
+ # Link to these if present
+-HOSTTOOLS_NONFATAL += "ccache pip3 ld.bfd ld.gold gcc-ar gpg sftp nc"
++HOSTTOOLS_NONFATAL += "ccache pip3 ld.bfd ld.gold gcc-ar gpg sftp nc socat"
+ 
+ CCACHE ??= ""
+ # Disable ccache explicitly if CCACHE is null since gcc may be a symlink
+-- 
+2.11.0
+
 
