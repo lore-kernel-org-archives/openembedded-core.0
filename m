@@ -1,48 +1,45 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
-	[209.85.220.178])
-	by mail.openembedded.org (Postfix) with ESMTP id B2CA37199A
+Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D5E17017D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Mar 2017 12:45:04 +0000 (UTC)
-Received: by mail-qk0-f178.google.com with SMTP id y76so246449467qkb.0
+	Tue, 14 Mar 2017 12:49:49 +0000 (UTC)
+Received: by mail-wm0-f44.google.com with SMTP id t189so63011566wmt.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Mar 2017 05:45:06 -0700 (PDT)
+	Tue, 14 Mar 2017 05:49:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=9+MdyXT3cIObvkEvtrTHCWWe3wuPOjGP5vYYqnYTQvg=;
-	b=QP9smTiLu4lrjkqJnxfu7Y+5FIT1uBfwU9d/cRjMktSXflZzqz/BOScZYsq7EPM6sX
-	Y0sNdPBXNB5aoq9zU/bfPfKYUbEgE1b36t3xKGKQk3YB7ToIak3i5P4ubqN5CSWatTZv
-	zJfo0R2JUHgtBC8OksW00SwHbZlnLlbSu85xqNRaS3IugBKbNDOCfhk53+hm8vn5nFmD
-	xLQgf980N7zxR8zl/s188RjX8HkNSYjB2G9DyyblnI2TkfgmxzqkByTh/hr1OALjnC1d
-	G4Mq0t30qI3l9CmbgBlVXvniUo8fx3SVbybkd6prkPr1u9Sveq3AWDLzmJl3hm5Fb2X+
-	Gtbg==
+	h=from:to:subject:date:message-id;
+	bh=Qz2idaacJ11gH5BancV0sWjEOQ7GWHLAObuRG/Bx77s=;
+	b=b1eBC0C3D7H2UI21J4AFsfLhcwe8vjhojwU+6YDz/dZeUt0Ee1vM1kqgCraQysCuBS
+	zVgJsdlC2t+/h8MbLSYfwTOy1Vs9fdar6V0ge7WQVnnxnoiecGOKAcDBB8D1l1R9BxTV
+	/9/mJT31/rsT5WyBg9ZpndevnD/2+/Rcs5p+LyKURRjQro2rkUQEN1vtf8A5P9ifnhJf
+	NPTB2tAJCYuYJ/TNnToXSTu/hyKuo7QwkuYtTVPDkG7YjuM+bbSFadT7jALIgWMz+wHo
+	HzG4htCdE4sNEc8z46ai/MK3jLu030lu5RXvoFMSttO5x0KGkHmxDsmvOCZR388FPHzd
+	F0mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=9+MdyXT3cIObvkEvtrTHCWWe3wuPOjGP5vYYqnYTQvg=;
-	b=jpXNBVk8wYCPYZk4jeeo87Px6mHMhna9oxCZWlaQFrWDD9vbo5UDtyRnQFG1t4idB9
-	g7RvO48L0Z9+p0VVicHRa4REH++qoAfTHYephAh1sqoJlq4CjLQLE0gm44F8/xW3z8Eq
-	U8nuQ0F7IZY1HDBwdvvOYgjqthhNnV60HMN0+AwiPev2nOuVZIFOV+zaXd9125ArtLBJ
-	L/NQb3InkLr1VyLbTLtAQ0rKbQ/laVcuNmURN+MxK3W5aom9N47DGjPBLxIKjp2V0hNf
-	aJovvgfR55UT8RuVtwUXyrpgxY+4FOu/8QUnBxC6188Agib+2mYWh7OxVaFsDFBdcU9w
-	/UkA==
-X-Gm-Message-State: AFeK/H3Qm4pc5rZem18HauLf1UL/cZEUK61N9ZK2kEXNZnmMbT5hNto11VMpmlsXO1YoiPzuzz58QV+gOh4tt/e0
-X-Received: by 10.55.175.195 with SMTP id y186mr36139064qke.26.1489495505584; 
-	Tue, 14 Mar 2017 05:45:05 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Tue, 14 Mar 2017 05:44:45 -0700 (PDT)
-In-Reply-To: <dabda004-ddbb-0520-cea4-c9bf2b8d6044@windriver.com>
-References: <cover.1489144807.git.alexander.kanavin@linux.intel.com>
-	<a4cc80fb3dcbcf610b5e4b601a807492fcea9eca.1489144807.git.alexander.kanavin@linux.intel.com>
-	<dabda004-ddbb-0520-cea4-c9bf2b8d6044@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 14 Mar 2017 12:44:45 +0000
-Message-ID: <CAJTo0LaoypQjYY1-oZwgKZze6tHEbXEBHmDR8YJ36_q0nG27RA@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 22/44] scripts/rpm2cpio.sh: replace 5.x version with 4.x version
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Qz2idaacJ11gH5BancV0sWjEOQ7GWHLAObuRG/Bx77s=;
+	b=l0UoRDWAYrqIGrnjRG3Q3tfKRRxHJLz6nHYzVBRT3J33HkxdcvIIgXd/awo7SMJsSC
+	ro/oHl80g+/v/UCDfjOqHKGQ0SaUnX0VxBkebQJp/IXZhNyTyEDRXajJyItcEF/ifpiT
+	5IzbUMTRnvKqZYUxMJ5Gq1M+1hCB1g9rRJQ2DbF5k6Dk1bZr+va87NMkBVyZSCr6hFBm
+	gUiAvkOfxMwX1nIWxQjTs14Ibnj31SBWr0cdj/3xnLVKartxPXcS0LqeG0S5EI+eXmMA
+	bNFKgAiiECf4KpKz4dYXM9eCUKzMaDTI+r83nXab9mmQCdbXIglXeo3opgy/QleXdtHC
+	KjIQ==
+X-Gm-Message-State: AFeK/H3gsu2jZ7JanAR9PR5SLaMsA77a8jxpenJ3ntwDv8E2WsYJujquwB21RzScIVN3wIBK
+X-Received: by 10.28.73.196 with SMTP id w187mr13676559wma.5.1489495790188;
+	Tue, 14 Mar 2017 05:49:50 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id 63sm15333646wmp.9.2017.03.14.05.49.49
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 14 Mar 2017 05:49:49 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 14 Mar 2017 12:49:47 +0000
+Message-Id: <1489495787-6306-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] openssl: actually apply Use-SHA256-not-MD5-as-default-digest.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,44 +52,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Mar 2017 12:45:04 -0000
-Content-Type: multipart/alternative; boundary=94eb2c06093c81d061054ab03204
+X-List-Received-Date: Tue, 14 Mar 2017 12:49:50 -0000
 
---94eb2c06093c81d061054ab03204
-Content-Type: text/plain; charset=UTF-8
+This patch was added to fix a CVE, but wasn't actually added to SRC_URI:
 
-On 10 March 2017 at 17:26, Mark Hatle <mark.hatle@windriver.com> wrote:
+    CVE: CVE-2004-2761
+    The MD5 Message-Digest Algorithm is not collision resistant,
+    which makes it easier for context-dependent attackers to
+    conduct spoofing attacks, as demonstrated by attacks on the
+    use of MD5 in the signature algorithm of an X.509 certificate.
 
-> Just an FYI, I was concerned that $(( ))  (in the new script) was a
-> bash-ism,
-> but I was able to run the script on an Ubuntu machine using 'dash' as
-> /bin/sh.
->
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-connectivity/openssl/openssl_1.0.2k.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_06_04
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
+index 1973f81..922819b 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
+@@ -41,6 +41,7 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
+             file://configure-musl-target.patch \
+             file://parallel.patch \
+             file://openssl-util-perlpath.pl-cwd.patch \
++            file://Use-SHA256-not-MD5-as-default-digest.patch \
+            "
+ SRC_URI[md5sum] = "f965fc0bf01bf882b31314b61391ae65"
+ SRC_URI[sha256sum] = "6b3977c61f2aedf0f96367dcfb5c6e578cf37e7b8d913b4ecb6643c3cb88d8c0"
+-- 
+2.8.1
 
-bash adds more operators such as ++, but basic maths is POSIX.
 
-Ross
-
---94eb2c06093c81d061054ab03204
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 March 2017 at 17:26, Mark Hatle <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:mark.hatle@windriver.com" target=3D"_blank">mark.hatle@windriver.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bor=
-der-left-style:solid;padding-left:1ex"><div id=3D"gmail-:10h" class=3D"gmai=
-l-a3s gmail-aXjCH gmail-m15ab9423eeb69b03">Just an FYI, I was concerned tha=
-t $(( ))=C2=A0 (in the new script) was a bash-ism,<br>
-but I was able to run the script on an Ubuntu machine using &#39;dash&#39; =
-as /bin/sh.<br></div></blockquote><div><br></div><div><a href=3D"http://pub=
-s.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_06_04=
-">http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#=
-tag_02_06_04</a><br></div><div><br></div><div>bash adds more operators such=
- as ++, but basic maths is POSIX.</div><div><br></div><div>Ross</div></div>=
-</div></div>
-
---94eb2c06093c81d061054ab03204--
