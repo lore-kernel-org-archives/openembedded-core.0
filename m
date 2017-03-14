@@ -1,28 +1,47 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 478D871BA1
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-yw0-f173.google.com (mail-yw0-f173.google.com
+	[209.85.161.173])
+	by mail.openembedded.org (Postfix) with ESMTP id C98F06FFED
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Mar 2017 07:49:16 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2E7nGKj029871; Tue, 14 Mar 2017 07:49:16 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id dmcz8oQNyDS0; Tue, 14 Mar 2017 07:49:16 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2E7nE1U029867
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 14 Mar 2017 07:49:16 GMT
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1cnhCk-0004WD-TJ; Tue, 14 Mar 2017 07:49:14 +0000
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Mar 2017 07:49:13 +0000
-Message-Id: <1489477753-17329-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] testimage: Don't use systemd.log_level=debug logging
+	Tue, 14 Mar 2017 08:42:06 +0000 (UTC)
+Received: by mail-yw0-f173.google.com with SMTP id o4so74744846ywd.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Mar 2017 01:42:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Avzd+fm96pnbZVnyr0rOSQikhqjoQohTm9WJWCW2xUY=;
+	b=oDyxawYU1jAXHwg2lN4snuklZppLnJzSRf3QgIYvB2r2u64JOhvIxrILHflGzOaQel
+	NbXur6YaKLzJOor8FtcgwJahYaHbPk0hD2HS5HNhOyxBQpnq9w+1D7dB2I4h5SozgBNg
+	YDjOLypyLZyOzfOQWpyeg5Wp6zlquipVvpgcF4//7RsQgFQPJVMjPRfjzeF97d//9erP
+	B3wrnOxFmj7nklKWodMudtOuSKzI2heyEMLU9RX4gxhG4xfvZmiU8cfKzSGR0TYagLFc
+	enGRIxf/n4x6pKNBUnjJALZyoqu+txA5TbxII52A/kEO3KeH1Weq6yDyqC5bXoAHtqmc
+	sQ3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Avzd+fm96pnbZVnyr0rOSQikhqjoQohTm9WJWCW2xUY=;
+	b=KQoy2SN/R+LzTUEGR1wg82l7/1EXJ6wOb9tbI32q1ai9vCZxGFSLAnfVuqtANi7kY7
+	72+ts7lFVdtdTgaU8Y8vTofJAOe/4SvYJbAyy0zYClh7NetOXfobEhFCZZA9voXpAz2H
+	ijhqHCRJLtFH40JGn+fy4MWtcsyBmYJlPxnZA/SSKMmjEtq54OlN/y1uZO4t7hORzb/D
+	/9h6YMFo86ytn6tmztCiBi6GIUw7N3fmHnb0bn4Vp06Nhx50cgu5X2ZUmhPZd5c5P06+
+	TvkUUBihLUzWFFBeHDu4AjlSjFsBguVq8vpdHEz8X6CNQnOm0F6rggQb6ja66Ei8Lysj
+	Sogw==
+X-Gm-Message-State: AMke39ncJb6dHIGjspyFRR2RTs1rW7Ic0c/s2AIX4MbCQol60czbwJYYiLE1pLuAPZ9ImpqmGEz1WqEMqGef00jz
+X-Received: by 10.13.211.70 with SMTP id v67mr21049679ywd.260.1489480927594;
+	Tue, 14 Mar 2017 01:42:07 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.129.81.136 with HTTP; Tue, 14 Mar 2017 01:41:37 -0700 (PDT)
+In-Reply-To: <1489426850-26058-1-git-send-email-jose.a.lamego@linux.intel.com>
+References: <1489426850-26058-1-git-send-email-jose.a.lamego@linux.intel.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Tue, 14 Mar 2017 10:41:37 +0200
+Message-ID: <CAHiDW_GWfg73izumSztPm6ipSvz+_EHPM1ugD88CuNFbSnPi_Q@mail.gmail.com>
+To: Jose Lamego <jose.a.lamego@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] python*-git: Upgrade to version 2.1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,39 +54,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Mar 2017 07:49:17 -0000
+X-List-Received-Date: Tue, 14 Mar 2017 08:42:07 -0000
+Content-Type: multipart/alternative; boundary=001a114d83ea971d2e054aaccdbb
 
-This causes MBs of log messages which overload the standard 200kb syslog limit
-used by busybox syslog by default. This means some tests which rely on messages
-being detected in syslog, e.g.
-rpm.RpmInstallRemoveTest.test_check_rpm_install_removal_log_file_size
-fail (AssertionError: 54 not greater than or equal to 80 : Cound not find sufficient
-amount of rpm entries in /var/log/messages, found 54 entries).
+--001a114d83ea971d2e054aaccdbb
+Content-Type: text/plain; charset=UTF-8
 
-We enabled this to aid debugging of some systemd race issues, those are
-now resolved so we can disable this. Leave the log level parameter as a
-comment to save others having to look it up if they need debugging.
+On 13 March 2017 at 19:40, Jose Lamego <jose.a.lamego@linux.intel.com>
+wrote:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/testimage.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> Both python-git and python3-git need to be upgraded to latest
+> upstream
+> version.
+> This change was tested using qemux86 with core-image-sato.
+>
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 07744af..173d974 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -261,7 +261,8 @@ def testimage_main(d):
- 
-     bootparams = None
-     if d.getVar('VIRTUAL-RUNTIME_init_manager', '') == 'systemd':
--        bootparams = 'systemd.log_level=debug systemd.log_target=console'
-+        # Add systemd.log_level=debug to enable systemd debug logging
-+        bootparams = 'systemd.log_target=console'
- 
-     results = None
-     orig_sigterm_handler = signal.signal(signal.SIGTERM, sigterm_exception)
--- 
-2.7.4
+M3 freeze was scheduled for Feb 28, more than two weeks ago. I think all
+version upgrades after that should have clear justification in the commit
+message or cover letter.
 
+Cheers,
+  Jussi
 
+--001a114d83ea971d2e054aaccdbb
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
+3 March 2017 at 19:40, Jose Lamego <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+jose.a.lamego@linux.intel.com" target=3D"_blank">jose.a.lamego@linux.intel.=
+com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Both python-git=
+ and python3-git need to be upgraded to latest<br>
+upstream<br>
+version.<br>
+This change was tested using qemux86 with core-image-sato.<br></blockquote>=
+<div><br></div><div>M3 freeze was scheduled for Feb 28, more than two weeks=
+ ago. I think all version upgrades after that should have clear justificati=
+on in the commit message or cover letter.</div><div><br></div><div>Cheers,<=
+/div><div>=C2=A0 Jussi</div><div><br></div></div></div></div>
+
+--001a114d83ea971d2e054aaccdbb--
