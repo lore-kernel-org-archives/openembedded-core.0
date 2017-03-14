@@ -1,34 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id AF5CE77824
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B4F377824
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Mar 2017 17:35:27 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2EHZSIA027646; Tue, 14 Mar 2017 17:35:28 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 4yVDXwDgGrIO; Tue, 14 Mar 2017 17:35:28 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2EHZOTr027622
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 14 Mar 2017 17:35:25 GMT
-Message-ID: <1489512924.13980.54.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Date: Tue, 14 Mar 2017 17:35:24 +0000
-In-Reply-To: <CAP9ODKr_wVYKauiRWu9310DJ3zPkDQ7iuMeFAiN3J7rx2q76VQ@mail.gmail.com>
-References: <cover.1489144807.git.alexander.kanavin@linux.intel.com>
-	<1489504451.13980.41.camel@linuxfoundation.org>
-	<CAP9ODKp5zA3egzti=OfYD7YvpHqhE9n4YOhJagOc4rZurbA85w@mail.gmail.com>
-	<1489511640.13980.47.camel@linuxfoundation.org>
-	<CAP9ODKr_wVYKauiRWu9310DJ3zPkDQ7iuMeFAiN3J7rx2q76VQ@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/44] Replace Smart package manager with DNF package manager
+	Tue, 14 Mar 2017 17:37:35 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga104.jf.intel.com with ESMTP; 14 Mar 2017 10:37:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,165,1486454400"; d="scan'208";a="1122478394"
+Received: from yctb05.ostc.intel.com ([10.54.69.59])
+	by fmsmga001.fm.intel.com with ESMTP; 14 Mar 2017 10:37:36 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 14 Mar 2017 09:37:24 +0000
+Message-Id: <20170314093726.24891-1-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 2.10.2
+Subject: [PATCH 1/3] subversion: remove useless comment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,69 +27,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Mar 2017 17:35:31 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 14 Mar 2017 17:37:36 -0000
 
-On Tue, 2017-03-14 at 14:17 -0300, Otavio Salvador wrote:
-> On Tue, Mar 14, 2017 at 2:14 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > 
-> > On Tue, 2017-03-14 at 13:48 -0300, Otavio Salvador wrote:
-> > > 
-> > > On Tue, Mar 14, 2017 at 12:14 PM, Richard Purdie
-> > > <richard.purdie@linuxfoundation.org> wrote:
-> > > ...
-> > > > 
-> > > > 
-> > > > Despite this I merged it on the basis that I'd rather have this
-> > > > in
-> > > > pyro
-> > > > rather than waiting another 6 months to get this in and having
-> > > > to
-> > > > tell
-> > > > people we were changing soon and having to deal with any more
-> > > > smart
-> > > > issues.
-> > > ...
-> > > 
-> > > This kind of change should have been merged in November, not less
-> > > of
-> > > two months of release. One more time heavy changes been commited
-> > > late
-> > > on release.
-> > In this case the patches have been talked about and in review on
-> > the
-> > mailing list for months so I really don't think anyone can be
-> > surprised. It was also a stated release objective to do something
-> > about
-> > smart.
-> > 
-> > Also, nobody replied to the status reports where I discussed
-> > merging or
-> > not merging either so I could only assume nobody had opinions.
-> I remember Mark sending a reply with some considerations and to be
-> honest, I did not anticipate it was being considered such late on
-> release.
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-FWIW I do agree it is late in the cycle, almost too late and if things
-hadn't been delayed for other reasons it wouldn't have made it.
+Remove auto-builder comment shown on the recipe because it does not add something
+useful.
 
-That said, I do believe we'd potentially hurt OE more by waiting given
-the stage the patchset had got to rather than merging it now and
-dealing with whatever we need to deal with.
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+---
+ meta/recipes-devtools/subversion/subversion_1.9.5.bb | 5 -----
+ 1 file changed, 5 deletions(-)
 
-Its a judgement call, I have to make them on a regular basis. Some you
-never need to notice, some like this one are controversial and can be
-argued both ways. I can think of at least one in the past that went
-badly wrong. 
-
-So I appreciate the concern and I do have some of my own but I have now
-made the decision and we'll now get to see how that works out. It
-wasn't an easy one...
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/subversion/subversion_1.9.5.bb b/meta/recipes-devtools/subversion/subversion_1.9.5.bb
+index 05fba67..5871b84 100644
+--- a/meta/recipes-devtools/subversion/subversion_1.9.5.bb
++++ b/meta/recipes-devtools/subversion/subversion_1.9.5.bb
+@@ -47,9 +47,4 @@ do_configure_prepend () {
+ 	sed -i -e 's:with_sasl="/usr/local":with_sasl="${STAGING_DIR}":' ${S}/build/ac-macros/sasl.m4
+ }
+ 
+-#| x86_64-linux-libtool: install: warning: `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotate/build/build/tmp/work/x86_64-linux/subversion-native/1.8.9-r0/build/subversion/libsvn_ra_local/libsvn_ra_local-1.la' has not been installed in `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotate/build/build/tmp/sysroots/x86_64-linux/usr/lib'| x86_64-linux-libtool: install: warning: `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotate/build/build/tmp/work/x86_64-linux/subversion-native/1.8.9-r0/build/subversion/libsvn_repos/libsvn_repos-1.la' has not been installed in `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotate/build/build/tmp/sysroots/x86_64-linux/usr/lib'| /usr/bin/ld: cannot find -lsvn_delta-1| collect2: ld returned 1 exit status| x86_64-linux-libtool: install: warning: `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotate/build/build/tmp/work/x86_64-linux/subversion-native/1.8.9-r0/build/subversion/libsvn_ra_svn/libsvn_ra_svn-1.la' has not been installed in `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotate/build/build/tmp/sysroots/x86_64-linux/usr/lib'| x86_64-linux-libtool: install: warning: `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotate/build/build/tmp/work/x86_64-linux/subversion-native/1.8.9-r0/build/subversion/libsvn_ra_serf/libsvn_ra_serf-1.la' has not been installed in `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotate/build/build/tmp/sysroots/x86_64-linux/usr/lib'
+-#| x86_64-linux-libtool: install: error: relink `libsvn_ra_serf-1.la' with the above command before installing it
+-#| x86_64-linux-libtool: install: warning: `../../subversion/libsvn_repos/libsvn_repos-1.la' has not been installed in `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotate/build/build/tmp/sysroots/x86_64-linux/usr/lib'
+-#| /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotate/build/build/tmp/work/x86_64-linux/subversion-native/1.8.9-r0/subversion-1.8.9/build-outputs.mk:1090: recipe for target 'install-serf-lib' failed
+-#| make: *** [install-serf-lib] Error 1
+ PARALLEL_MAKEINST = ""
+-- 
+2.10.2
 
 
