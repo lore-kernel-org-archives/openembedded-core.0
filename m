@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C22F776B5
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A588A776B5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Mar 2017 08:45:54 +0000 (UTC)
+	Tue, 14 Mar 2017 08:45:55 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v2E8juMd006640
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v2E8juB9004803
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 14 Mar 2017 01:45:56 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 14 Mar 2017 01:45:55 -0700
+	Tue, 14 Mar 2017 01:45:56 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Mar 2017 01:45:41 -0700
-Message-ID: <30b0c7a3bd07acb4f0b86ddb9076a4f443c59b50.1489481108.git.liezhi.yang@windriver.com>
+Date: Tue, 14 Mar 2017 01:45:42 -0700
+Message-ID: <2d29975401f385b033825cf91e62a6797169060f.1489481108.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.11.0.rc2.dirty
 In-Reply-To: <cover.1489481108.git.liezhi.yang@windriver.com>
 References: <cover.1489481108.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/8] mc: set ac_cv_path_PERL to /usr/bin/perl
+Subject: [PATCH 5/8] valgrind: set ac_cv_path_PERL to /usr/bin/perl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,22 +45,22 @@ Set ac_cv_path_PERL to /usr/bin/perl to fix the problem.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-extended/mc/mc_4.8.18.bb | 2 ++
+ meta/recipes-devtools/valgrind/valgrind_3.12.0.bb | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-extended/mc/mc_4.8.18.bb b/meta/recipes-extended/mc/mc_4.8.18.bb
-index 78abb275ba..87cc4d0677 100644
---- a/meta/recipes-extended/mc/mc_4.8.18.bb
-+++ b/meta/recipes-extended/mc/mc_4.8.18.bb
-@@ -22,6 +22,8 @@ PACKAGECONFIG[sftp] = "--enable-vfs-sftp,--disable-vfs-sftp,libssh2,"
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
+index a4a3e72ecd..48091420c3 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
+@@ -56,6 +56,8 @@ EXTRA_OECONF_append_arm = " --host=armv7${HOST_VENDOR}-${HOST_OS}"
  
- EXTRA_OECONF = "--with-screen=ncurses --without-gpm-mouse --without-x"
+ EXTRA_OEMAKE = "-w"
  
 +CACHED_CONFIGUREVARS += "ac_cv_path_PERL=${USRBINPATH}/perl"
 +
- do_install_append () {
- 	sed -i -e '1s,#!.*perl,#!${bindir}/env perl,' ${D}${libexecdir}/mc/extfs.d/*
- 	sed -i -e '1s,#!.*python,#!${bindir}/env python,' ${D}${libexecdir}/mc/extfs.d/*
+ # valgrind likes to control its own optimisation flags. It generally defaults
+ # to -O2 but uses -O0 for some specific test apps etc. Passing our own flags
+ # (via CFLAGS) means we interfere with that. Only pass DEBUG_FLAGS to it
 -- 
 2.11.0.rc2.dirty
 
