@@ -1,47 +1,47 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id B36B4719DC
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id C06AF72FF0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Mar 2017 13:39:23 +0000 (UTC)
-Received: by mail-io0-f176.google.com with SMTP id z13so20086353iof.2
+	Wed, 15 Mar 2017 13:41:38 +0000 (UTC)
+Received: by mail-io0-f180.google.com with SMTP id l7so20020081ioe.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Mar 2017 06:39:24 -0700 (PDT)
+	Wed, 15 Mar 2017 06:41:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:organization:mime-version:content-transfer-encoding;
-	bh=RTzgiCvP01BEMw6yYuAY0jSN9loBc3SrT1BOHhmA0DI=;
-	b=Lyq1OMLjyYmyFSo/Ld5Lc46dwgNVTZdDt+MQVp25T7cU9RYrIqQo/XwEnYTZDk4k2z
-	/auawMdlwIZNVJFRQXH+wDAtWlo+0UoZCCYcjJvo5s81GlxkbC71zeaDM+EtBRKFp3Ac
-	Iwc2oUC95phwIaFqB8jPxaEumnqjiOrZBQEd5CSrE7lGdKQ0v2gZAYUmZGlA9UcCr8W7
-	M1RODx3JDuu1gcd6/8LFXO/MmjHSmdcR2EFoIu91HkHuQOfb0k/LD43CicTBTrXL19fw
-	USd7YoEaUBd7ybNSbzbi0thpAZTBcAV5vNuDq+M9bpGlrKWGHN7SB0KtkmFyxyHoCiNE
-	+PgA==
+	bh=sQdArRyBjeCllvT67yf8WyBbMum8p98YKqY8u225rEU=;
+	b=UUaB71AgNQg2tBAL4EALfs0wXG/zSj2nWFCYTM8Iwh8abjlEIiuEJckmql6GPWjyGD
+	DFi+cqopJfIN2wc28XKl5830iL9nGEFp4JyhU5uoqZ1pbMnjm2qSrpZGsCGIM5nwWPeZ
+	D+geQLbU6F6hOzSQxernyI6LZRNscqOE6pskxh8BB9+cpg6eztRjV1Ir1ZtfSE8ewW9W
+	E5u4fplgjUVqQuFhE4BRVybWWZeibnBYT0O9Ld5dmf1rBzwdXod+JQ94mUBD2SsGLvJe
+	hXOIxq0RcnXDEdpcBtg8Sms66NHg+eij3TRELBXdH0/bYLgRBH9dlg+nMIH5zA2qF6xN
+	zH+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:organization:mime-version:content-transfer-encoding;
-	bh=RTzgiCvP01BEMw6yYuAY0jSN9loBc3SrT1BOHhmA0DI=;
-	b=i5zJWduxgRpR0uzBTAO56kQEUtfHp3B1mVmU+9oe6D1y7xCr7pis/zhmBr7wCpWhfc
-	Wj8xBKHej3vZIevrfLMqHUFeP/LFhOyqWpQUNePxSm8aFX/fURv3yn8WHMmvmRw0qH22
-	gT14HMd9i1TMgpxs3cZ8m7E2h94N7X+byP5kjI0Sf53MH/0egmoW/GGqiB7FVbR1TF7X
-	LIJSO/eG0QVnmv2EkreUbjqcHwvx7TidGO4Z966jMKUwbg+PGt1eFVVpkwP88JKv4XTV
-	dQI/0HJcZM0o9YnHnZrjHB6ovwODZgNnhjgUYaI4FVHDMJGjuB+LhKFahgKlbVBg6jCP
-	vccw==
-X-Gm-Message-State: AFeK/H3aqLqf3WzuLeAMFzZeLIpvHWsBKh4k9/cOxyY81OYQyTQLe6d6j1m5pwG5xMfe7nP4
-X-Received: by 10.107.12.215 with SMTP id 84mr4876654iom.89.1489585164398;
-	Wed, 15 Mar 2017 06:39:24 -0700 (PDT)
+	bh=sQdArRyBjeCllvT67yf8WyBbMum8p98YKqY8u225rEU=;
+	b=Qpq2MysY53NVPd3TBE/1rdhepOilFvKilhLkD5stCX/VAdJ8LUGgfbXIF4xcOPQmd9
+	+rSlt105jAwIFAa+pf8woBafakYhMH7bKjAqoVWvWkn1dHEF6PlycTD3I5bBnIVrDbPS
+	ZkXapuQiXo7Wg2hGOxqrgl2d0xD94qzmVJCfMwvM+zzTYplHaNpdbotK4Ac7iFf8Aaxw
+	F9eQ9A4oZFIlhgVtscf8rkmLSKFunuoNn0IGbKwFPDvm4kElNYX2jBo62A9FY/1V82Jl
+	Ftdz9K73wVsBsvS7XeZck0YZwuVZzfkZoG61sdXpkxhwoTfyW6C/J9IBysS/MOTEBpYi
+	dXlw==
+X-Gm-Message-State: AFeK/H3ny/jEAmo2FWsYf4FCRZmmZ4QFRjSqJEVniv96djNnr/w1p6RHVvsAd7FBpqDdxK6g
+X-Received: by 10.107.133.86 with SMTP id h83mr5100604iod.230.1489585300274;
+	Wed, 15 Mar 2017 06:41:40 -0700 (PDT)
 Received: from pohly-mobl1 (p5DE8DCEB.dip0.t-ipconnect.de. [93.232.220.235])
 	by smtp.gmail.com with ESMTPSA id
-	d12sm1492926iog.53.2017.03.15.06.39.21
+	y203sm1510777iod.11.2017.03.15.06.41.37
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 15 Mar 2017 06:39:23 -0700 (PDT)
-Message-ID: <1489585158.6396.102.camel@intel.com>
+	Wed, 15 Mar 2017 06:41:39 -0700 (PDT)
+Message-ID: <1489585294.6396.104.camel@intel.com>
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: ed.bartosh@linux.intel.com
-Date: Wed, 15 Mar 2017 14:39:18 +0100
-In-Reply-To: <20170315125810.GA28986@linux.intel.com>
+Date: Wed, 15 Mar 2017 14:41:34 +0100
+In-Reply-To: <1489585158.6396.102.camel@intel.com>
 References: <2791e915-9e22-a01a-ccb5-c629d250edb2@phytec.de>
 	<20170308105729.GA22401@linux.intel.com>
 	<7d4a770f-25c6-5747-5a5c-370c822f2efb@mlbassoc.com>
@@ -52,6 +52,7 @@ References: <2791e915-9e22-a01a-ccb5-c629d250edb2@phytec.de>
 	<20170314180644.GA22000@linux.intel.com>
 	<1489562674.6396.89.camel@intel.com>
 	<20170315125810.GA28986@linux.intel.com>
+	<1489585158.6396.102.camel@intel.com>
 Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
 X-Mailer: Evolution 3.12.9-1+b1 
 Mime-Version: 1.0
@@ -69,16 +70,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Mar 2017 13:39:24 -0000
+X-List-Received-Date: Wed, 15 Mar 2017 13:41:40 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2017-03-15 at 14:58 +0200, Ed Bartosh wrote:
-> Regarding do_rm_work. It should not touch rootfs directories, I believe.
+On Wed, 2017-03-15 at 14:39 +0100, Patrick Ohly wrote:
+> On Wed, 2017-03-15 at 14:58 +0200, Ed Bartosh wrote:
+> > Regarding do_rm_work. It should not touch rootfs directories, I believe.
+> 
+> It does, and it should by default because a rootfs can be quite large.
+> If it's not going to be reused in another recipe, then it is worthwhile
+> to remove it.
 
-It does, and it should by default because a rootfs can be quite large.
-If it's not going to be reused in another recipe, then it is worthwhile
-to remove it.
+I should add that RM_WORK_EXCLUDE_ITEMS += "rootfs" can be used in image
+recipes which know that their rootfs is going to be needed elsewhere -
+it's just not the default.
 
 -- 
 Best Regards, Patrick Ohly
