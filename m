@@ -1,34 +1,21 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 1882A7315E
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id A54EA71E01
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Mar 2017 16:25:56 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id E598620BAF;
-	Wed, 15 Mar 2017 16:25:57 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id gch3OTlN0jBz; Wed, 15 Mar 2017 16:25:57 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id BDD5920BAC;
-	Wed, 15 Mar 2017 16:25:55 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 605EB1623E7; Wed, 15 Mar 2017 12:25:55 -0400 (EDT)
-Date: Wed, 15 Mar 2017 12:25:55 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20170315162555.GN15664@denix.org>
-References: <20161110144409.8940-1-Martin.Jansa@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <20161110144409.8940-1-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [krogoth][PATCH] gstreamer1.0-libav: Add 'valgrind' config option
+	Wed, 15 Mar 2017 16:37:41 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga105.jf.intel.com with ESMTP; 15 Mar 2017 09:37:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,169,1486454400"; d="scan'208";a="1108788632"
+Received: from juro-precision-t5610.jf.intel.com ([10.7.198.53])
+	by orsmga001.jf.intel.com with ESMTP; 15 Mar 2017 09:37:42 -0700
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Mar 2017 09:37:39 -0700
+Message-Id: <1489595859-15016-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: richard.purdie@intel.com
+Subject: [PATCH] sanity.bbclass: modify check for shell
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,52 +28,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Mar 2017 16:25:59 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 15 Mar 2017 16:37:42 -0000
 
-FWIW, it still doesn't seem to fully work...
+Due to the recently implemented update-alternatives for bash binary,
+sanity checker may end up with a (false-positive) error such as:
 
-I just got this exact error in my morty build. My packageconfigs are:
+Error, /bin/sh links to /bin/bash.bash, must be dash or bash
 
-PACKAGECONFIG="orc yasm"
-PACKAGECONFIG_CONFARGS=" --disable-gpl --enable-orc --disable-valgrind --enable-yasm"
+This patch modifies the test: presence of "/bash" or "/dash" in shell binary
+name results in pass.
 
+[YOCTO#11108]
 
-On Thu, Nov 10, 2016 at 03:44:09PM +0100, Martin Jansa wrote:
-> From: Otavio Salvador <otavio@ossystems.com.br>
-> 
-> This fixes following error:
-> 
-> ,----
-> | src/libavutil/log.c:51:31: fatal error: valgrind/valgrind.h: No such file or directory
-> |  #include <valgrind/valgrind.h>
-> `----
-> 
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
-> index 363101e..2814a58 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
-> @@ -18,6 +18,7 @@ PACKAGECONFIG[gpl] = "--enable-gpl,--disable-gpl,"
->  PACKAGECONFIG[libav] = "--with-system-libav,,libav"
->  PACKAGECONFIG[orc] = "--enable-orc,--disable-orc,orc"
->  PACKAGECONFIG[yasm] = "--enable-yasm,--disable-yasm,yasm-native"
-> +PACKAGECONFIG[valgrind] = "--enable-valgrind,--disable-valgrind,valgrind"
->  
->  GSTREAMER_1_0_DEBUG ?= "--disable-debug"
->  
-> -- 
-> 2.10.2
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+---
+ meta/classes/sanity.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index b5f4756..e3be40b 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -935,7 +935,9 @@ def check_sanity_everybuild(status, d):
+     # If /bin/sh is a symlink, check that it points to dash or bash
+     if os.path.islink('/bin/sh'):
+         real_sh = os.path.realpath('/bin/sh')
+-        if not real_sh.endswith('/dash') and not real_sh.endswith('/bash'):
++        # Due to update-alternatives, the shell name may take various
++        # forms, such as /bin/dash, bin/bash, /bin/bash.bash ...
++        if '/dash' not in real_sh and '/bash' not in real_sh:
+             status.addresult("Error, /bin/sh links to %s, must be dash or bash\n" % real_sh)
+ 
+ def check_sanity(sanity_data):
+-- 
+2.7.4
+
 
