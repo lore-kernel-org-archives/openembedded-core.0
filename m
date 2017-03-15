@@ -1,31 +1,62 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D1F771DDD
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id B36B4719DC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Mar 2017 13:34:23 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
-	via TCP (outbound) with ESMTPS id 20170315133421834_0486;
-	Wed, 15 Mar 2017 13:34:21 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [174.118.92.171] (port=59322 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1co949-0006PV-Ii; Wed, 15 Mar 2017 09:34:13 -0400
-Date: Wed, 15 Mar 2017 09:34:09 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: Patrick Ohly <patrick.ohly@intel.com>
-In-Reply-To: <1489581612.6396.94.camel@intel.com>
-Message-ID: <alpine.LFD.2.20.1703150928510.10217@localhost.localdomain>
-References: <alpine.LFD.2.20.1703150639340.8646@localhost.localdomain>
-	<CAJTo0LZm4zR2f+2Wgvab0=dhdP-Mu-cDGihqh2_hnVvuaOVGmg@mail.gmail.com>
-	<1489581612.6396.94.camel@intel.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: what shell programming constructs can we count on in .bbclass files?
+	Wed, 15 Mar 2017 13:39:23 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id z13so20086353iof.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Mar 2017 06:39:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=RTzgiCvP01BEMw6yYuAY0jSN9loBc3SrT1BOHhmA0DI=;
+	b=Lyq1OMLjyYmyFSo/Ld5Lc46dwgNVTZdDt+MQVp25T7cU9RYrIqQo/XwEnYTZDk4k2z
+	/auawMdlwIZNVJFRQXH+wDAtWlo+0UoZCCYcjJvo5s81GlxkbC71zeaDM+EtBRKFp3Ac
+	Iwc2oUC95phwIaFqB8jPxaEumnqjiOrZBQEd5CSrE7lGdKQ0v2gZAYUmZGlA9UcCr8W7
+	M1RODx3JDuu1gcd6/8LFXO/MmjHSmdcR2EFoIu91HkHuQOfb0k/LD43CicTBTrXL19fw
+	USd7YoEaUBd7ybNSbzbi0thpAZTBcAV5vNuDq+M9bpGlrKWGHN7SB0KtkmFyxyHoCiNE
+	+PgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=RTzgiCvP01BEMw6yYuAY0jSN9loBc3SrT1BOHhmA0DI=;
+	b=i5zJWduxgRpR0uzBTAO56kQEUtfHp3B1mVmU+9oe6D1y7xCr7pis/zhmBr7wCpWhfc
+	Wj8xBKHej3vZIevrfLMqHUFeP/LFhOyqWpQUNePxSm8aFX/fURv3yn8WHMmvmRw0qH22
+	gT14HMd9i1TMgpxs3cZ8m7E2h94N7X+byP5kjI0Sf53MH/0egmoW/GGqiB7FVbR1TF7X
+	LIJSO/eG0QVnmv2EkreUbjqcHwvx7TidGO4Z966jMKUwbg+PGt1eFVVpkwP88JKv4XTV
+	dQI/0HJcZM0o9YnHnZrjHB6ovwODZgNnhjgUYaI4FVHDMJGjuB+LhKFahgKlbVBg6jCP
+	vccw==
+X-Gm-Message-State: AFeK/H3aqLqf3WzuLeAMFzZeLIpvHWsBKh4k9/cOxyY81OYQyTQLe6d6j1m5pwG5xMfe7nP4
+X-Received: by 10.107.12.215 with SMTP id 84mr4876654iom.89.1489585164398;
+	Wed, 15 Mar 2017 06:39:24 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8DCEB.dip0.t-ipconnect.de. [93.232.220.235])
+	by smtp.gmail.com with ESMTPSA id
+	d12sm1492926iog.53.2017.03.15.06.39.21
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 15 Mar 2017 06:39:23 -0700 (PDT)
+Message-ID: <1489585158.6396.102.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: ed.bartosh@linux.intel.com
+Date: Wed, 15 Mar 2017 14:39:18 +0100
+In-Reply-To: <20170315125810.GA28986@linux.intel.com>
+References: <2791e915-9e22-a01a-ccb5-c629d250edb2@phytec.de>
+	<20170308105729.GA22401@linux.intel.com>
+	<7d4a770f-25c6-5747-5a5c-370c822f2efb@mlbassoc.com>
+	<20170308134349.GA16099@linux.intel.com>
+	<a0d78645-9670-f3a1-cd9d-d66370e89ef9@phytec.de>
+	<20170314171147.GA28498@linux.intel.com>
+	<1489513785.6396.83.camel@intel.com>
+	<20170314180644.GA22000@linux.intel.com>
+	<1489562674.6396.89.camel@intel.com>
+	<20170315125810.GA28986@linux.intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: Gary Thomas <gary@mlbassoc.com>, openembedded-core@lists.openembedded.org
+Subject: Re: Create more than one image with WIC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,47 +69,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Mar 2017 13:34:24 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Wed, 15 Mar 2017 13:39:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, 15 Mar 2017, Patrick Ohly wrote:
+On Wed, 2017-03-15 at 14:58 +0200, Ed Bartosh wrote:
+> Regarding do_rm_work. It should not touch rootfs directories, I believe.
 
-> On Wed, 2017-03-15 at 11:05 +0000, Burton, Ross wrote:
-> > Our shell parser *should* be POSIX compliant.  There are a few
-> > places where it isn't, but I believe those should be considered
-> > bugs.  At the end of the day the shell is actually executed by
-> > /bin/sh or /bin/bash anyway, so as long as bitbake can parse it
-> > you can use anything.
->
-> Unfortunately bitbake has problems parsing useful things like $( ).
-> Are there open bugs about that and/or is it worth filing enhancement
-> requests?
-
-  on a more basic level, there's quite a lot of, i guess, bourne
-shell'isms (and other weirdnesses) still lying around. in
-meta/classes/, some examples (hoping i didn't screw them up):
-
-  "if test" rather then "if ["
-
-  all that 'if [ "x${VAR} = "x" ]' i mentioned earlier
-
-  if [ "x${ICE_PATH}" = "x" ]   rather than   if [ -z "${ICE_PATH}" ]
-
-  if [ ! -z "${conf_sign_keyname}" ]  ... ?????? :-)
-
-none of this is a big deal, but there sure are some historical
-holdovers and strangely-chosen constructs.
-
-rday
+It does, and it should by default because a rootfs can be quite large.
+If it's not going to be reused in another recipe, then it is worthwhile
+to remove it.
 
 -- 
+Best Regards, Patrick Ohly
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+
 
 
