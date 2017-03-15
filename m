@@ -1,55 +1,29 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 53F6B6FEFE
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id CF2C6776A7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Mar 2017 09:29:52 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 11C271829F;
-	Wed, 15 Mar 2017 10:29:53 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id r2H+RbCN41dy; Wed, 15 Mar 2017 10:29:41 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 52DD5183E2;
-	Wed, 15 Mar 2017 10:29:40 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id ECDDE1E091;
-	Wed, 15 Mar 2017 10:29:39 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E1A341E08F;
-	Wed, 15 Mar 2017 10:29:39 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Wed, 15 Mar 2017 10:29:39 +0100 (CET)
-Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
-	by seth.se.axis.com (Postfix) with ESMTP id D5B49330;
-	Wed, 15 Mar 2017 10:29:39 +0100 (CET)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX01.axis.com (10.0.5.15) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Wed, 15 Mar 2017 10:29:39 +0100
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1210.000; Wed, 15 Mar 2017 10:29:39 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "Richard Purdie (richard.purdie@linuxfoundation.org)"
-	<richard.purdie@linuxfoundation.org>, Alexander Kanavin
-	<alexander.kanavin@linux.intel.com>
-Thread-Topic: RSS-related problem after update to OE-Core with dnf
-Thread-Index: AdKdbPC3P9UVogT3TgGRAisco/qkjw==
-Date: Wed, 15 Mar 2017 09:29:39 +0000
-Message-ID: <373dcecc935f454eb93d1fa97a7f9e36@XBOX02.axis.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Wed, 15 Mar 2017 09:35:48 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="16601447"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 15 Mar 2017 17:35:47 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id C1C1849F9A69;
+	Wed, 15 Mar 2017 17:35:47 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.100) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Wed, 15 Mar 2017 17:35:46 +0800
+From: zhengrq <zhengrq.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 16 Mar 2017 02:35:37 +0800
+Message-ID: <1489602937-9554-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RSS-related problem after update to OE-Core with dnf
+X-Originating-IP: [10.167.226.100]
+X-yoursite-MailScanner-ID: C1C1849F9A69.AA0A3
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [jethro][PATCH] gcc-multilib-config: make aarch64 support multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,57 +36,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Mar 2017 09:29:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 15 Mar 2017 09:35:50 -0000
+Content-Type: text/plain
 
-I update my Poky to the latest on master yesterday (i.e., I went from=20
-a version using smart to one using dnf) and when I rebuilt my image I=20
-got the following error:
+  Fixed:
+  MACHINE = qemuarm64
+  require conf/multilib.conf
+  MULTILIBS = "multilib:lib32"
+  DEFAULTTUNE_virtclass-multilib-lib32 = "armv7at-neon"
 
-| cd ${WORKDIR}/build/ext && ${WORKDIR}/recipe-sysroot-native/usr/bin/cmake=
- -E cmake_link_script CMakeFiles/libsolvext.dir/link.txt --verbose=3D1
-| ${WORKDIR}/recipe-sysroot-native/usr/bin/mipsel-poky-linux/mipsel-poky-li=
-nux-gcc  -fPIC -mel -mabi=3D32 -msoft-float -march=3D34kc -msynci  --sysroo=
-t=3D${WORKDIR}/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types =
--fdebug-prefix-map=3D${WORKDIR}=3D/usr/src/debug/libsolv/0.6.26-r0 -fdebug-=
-prefix-map=3D${WORKDIR}/recipe-sysroot-native=3D -fdebug-prefix-map=3D${WOR=
-KDIR}/recipe-sysroot=3D  -fstack-protector-strong -D_FORTIFY_SOURCE=3D2 -Wf=
-ormat -Wformat-security -Werror=3Dformat-security -mel -mabi=3D32 -msoft-fl=
-oat -march=3D34kc -msynci  --sysroot=3D${WORKDIR}/recipe-sysroot -Wall -fPI=
-C -Wl,-O1  -Wl,--as-needed -fstack-protector-strong -Wl,-z,relro,-z,now  -W=
-l,--version-script=3D${WORKDIR}/git/ext/libsolvext.ver -shared -Wl,-soname,=
-libsolvext.so.0 -o libsolvext.so.0 CMakeFiles/libsolvext.dir/solv_xfopen.o =
-CMakeFiles/libsolvext.dir/testcase.o CMakeFiles/libsolvext.dir/pool_filecon=
-flicts.o CMakeFiles/libsolvext.dir/repo_rpmdb.o CMakeFiles/libsolvext.dir/r=
-epo_repomdxml.o CMakeFiles/libsolvext.dir/repo_rpmmd.o CMakeFiles/libsolvex=
-t.dir/repo_deltainfoxml.o CMakeFiles/libsolvext.dir/repo_updateinfoxml.o -W=
-l,-rpath,${WORKDIR}/build/src:${WORKDIR}/recipe-sysroot-native/usr/lib: ../=
-src/libsolv.so.0 -Wl,--as-needed -ldb -lrpmio ${WORKDIR}/recipe-sysroot-nat=
-ive/usr/lib/librpmdb.so -lexpat -lz
-| ${WORKDIR}/recipe-sysroot-native/usr/lib/librpmdb.so: error adding symbol=
-s: File in wrong format
+  $ bitbake core-image-minimal -cpopulate_sdk
 
-When I ran file on librpmdb.so it showed:
+  WARNING: gcc multilib setup is not supported for TARGET_ARCH=aarch64
+  WARNING: gcc multilib setup is not supported for TARGET_ARCH=aarch64
 
-$ file ${WORKDIR}/recipe-sysroot-native/usr/lib/librpmdb-5.4.so
-${WORKDIR}/recipe-sysroot-native/usr/lib/librpmdb-5.4.so: ELF 64-bit LSB sh=
-ared object, x86-64, version 1 (SYSV), dynamically linked, BuildID[sha1]=3D=
-0xb49c3f89085d16c65bb443622e68cbbfdae605cb, stripped
+  [YOCTO #8638]
 
-I.e., it is trying to link a MIPS library with an x86_64 one...
+  (From OE-Core rev: 0ae52c8b2c1d7d7cdbcfeeae6ff42e64f16bc41d)
 
-After I did a "bitbake libsolv -c cleansstate", the problem went away,=20
-and checking the log.do_compile afterwards it seems it is not even=20
-trying to link with librpmdb.so at all any more.
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+---
+ meta/recipes-devtools/gcc/gcc-multilib-config.inc | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-My guess is that the librpmdb.so (which was a link to librpmdb-5.4.so)=20
-was a leftover from before the switch from smart to dnf. However, the=20
-fact that it remained in ${WORKDIR}/recipe-sysroot-native AND that it=20
-was picked up by the build indicates both a problem with the=20
-determinism of RSS, and the with the build of libsolv itself.
+diff --git a/meta/recipes-devtools/gcc/gcc-multilib-config.inc b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+index 1c0a45a..a0a2ac0 100644
+--- a/meta/recipes-devtools/gcc/gcc-multilib-config.inc
++++ b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+@@ -29,6 +29,9 @@ python gcc_multilib_setup() {
+     bb.utils.remove(build_conf_dir, True)
+     ml_globs = ('%s/*/t-linux64' % src_conf_dir,
+                 '%s/*/linux64.h' % src_conf_dir,
++                '%s/aarch64/t-aarch64' % src_conf_dir,
++                '%s/aarch64/aarch64.h' % src_conf_dir,
++                '%s/aarch64/aarch64-cores.def' % src_conf_dir,
+                 '%s/*/linux.h' % src_conf_dir,
+                 '%s/linux.h' % src_conf_dir)
+ 
+@@ -130,6 +133,8 @@ python gcc_multilib_setup() {
+         'mips64'    : ['gcc/config/mips/t-linux64'],
+         'powerpc'   : ['gcc/config/rs6000/t-linux64'],
+         'powerpc64' : ['gcc/config/rs6000/t-linux64'],
++        'aarch64'   : ['gcc/config/aarch64/t-aarch64'],
++        'arm'       : ['gcc/config/aarch64/t-aarch64'],
+     }
+ 
+     gcc_header_config_files = {
+@@ -140,6 +145,8 @@ python gcc_multilib_setup() {
+         'mips64'    : ['gcc/config/mips/linux.h', 'gcc/config/mips/linux64.h'],
+         'powerpc'   : ['gcc/config/rs6000/linux64.h'],
+         'powerpc64' : ['gcc/config/rs6000/linux64.h'],
++        'aarch64'   : ['gcc/config/aarch64/aarch64.h'],
++        'arm'       : ['gcc/config/aarch64/aarch64.h'],
+     }
+ 
+     libdir32 = 'SYSTEMLIBS_DIR'
+-- 
+2.7.4
 
-//Peter
+
 
 
