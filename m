@@ -1,31 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 68CBB730F4
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id DDAB26079F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Mar 2017 21:54:10 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2FLs8WW016584; Wed, 15 Mar 2017 21:54:08 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id vaytZ8yJGL_M; Wed, 15 Mar 2017 21:54:07 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2FLs4HG016580
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 15 Mar 2017 21:54:07 GMT
-Message-ID: <1489614844.13980.77.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Alexander Kanavin
-	<alexander.kanavin@linux.intel.com>
-Date: Wed, 15 Mar 2017 21:54:04 +0000
-In-Reply-To: <373dcecc935f454eb93d1fa97a7f9e36@XBOX02.axis.com>
-References: <373dcecc935f454eb93d1fa97a7f9e36@XBOX02.axis.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: RSS-related problem after update to OE-Core with dnf
+	Wed, 15 Mar 2017 22:13:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1489616021; x=1521152021;
+	h=from:to:cc:subject:date:message-id;
+	bh=DAOk2tVk5AWxrA/4FZ1flnfevUk0RHOfwx2Dcm04Imk=;
+	b=R31Ea/DIpmMpjz42jrlNpz1kMxxhyCFLlDy07J1vHMuLG5VU2WYy3blO
+	JiJdcgufYmohKmn9afYN9EJa+k2K/A==;
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Mar 2017 15:13:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,170,1486454400"; d="scan'208";a="1108897478"
+Received: from juro-precision-t5610.jf.intel.com ([10.7.198.53])
+	by orsmga001.jf.intel.com with ESMTP; 15 Mar 2017 15:13:40 -0700
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Mar 2017 15:13:35 -0700
+Message-Id: <1489616018-8969-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: jurobystricky@hotmail.com
+Subject: [PATCH 0/3] Build Appliance tweaks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,47 +36,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Mar 2017 21:54:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 15 Mar 2017 22:13:40 -0000
 
-On Wed, 2017-03-15 at 09:29 +0000, Peter Kjellerstedt wrote:
-> I update my Poky to the latest on master yesterday (i.e., I went
-> from 
-> a version using smart to one using dnf) and when I rebuilt my image
-> I 
-> got the following error:
-> [...]
-> I.e., it is trying to link a MIPS library with an x86_64 one...
-> 
-> After I did a "bitbake libsolv -c cleansstate", the problem went
-> away, 
-> and checking the log.do_compile afterwards it seems it is not even 
-> trying to link with librpmdb.so at all any more.
-> 
-> My guess is that the librpmdb.so (which was a link to librpmdb-
-> 5.4.so) 
-> was a leftover from before the switch from smart to dnf. However,
-> the 
-> fact that it remained in ${WORKDIR}/recipe-sysroot-native AND that
-> it 
-> was picked up by the build indicates both a problem with the 
-> determinism of RSS, and the with the build of libsolv itself.
+The Build Appliance recipe needs several tweaks in order for the BA to build and
+to function.
 
-FWIW I have read this and it is a concern. Unfortunately RSS is just
-that, *recipe* specific, not task specific and therefore as I mentioned
-in the original commits, it can't be perfect as it doesn't know
-anything about the dependencies of other tasks this recipe may have and
-which may be running in parallel.
+1. Use native pip3: Do not rely on pip3 being installed on host.
+   This, of course, assumes there is already python-pip3-native support available.
+   (a previous patch)
 
-I'm contiuing to see if there are better ways we can ensure stale
-things get removed from the sysroots but its a hard problem due to the
-parallelism. I do have some ideas though.
+2. Remove symlinks before creating them to avid build errors, otherwise we may run
+   into "File already exists" build errors. 
 
-Distilling an easy to reproduce test case would help if someone has the
-time.
+3. Ensure pod2man is present in the BA image, toaster will not run without it.
+   
 
-Cheers,
+Even with all these changes, it may not be possible to use BA to build any image, unless
+the sanity.bbclass accepts /bin/bash.bash as a viable shell. This has already been addressed
+in another patch. The BA then needs to be rebuilt with SRCREV containing the sanity.bbclass patch.
 
-Richard
+
+
+
+Juro Bystricky (3):
+  build-appliance-image: use pip3-native
+  build-appliance-image: fix build errors
+  build-appliance-image: ensure pod2man present in BA
+
+ meta/recipes-core/images/build-appliance-image_15.0.0.bb | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+-- 
+2.7.4
+
 
