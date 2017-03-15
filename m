@@ -1,28 +1,28 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 69AA571A37
+Return-Path: <brian.avery@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E405606CA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Mar 2017 20:17:33 +0000 (UTC)
+	Wed, 15 Mar 2017 20:57:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1489609056; x=1521145056;
+	t=1489611431; x=1521147431;
 	h=from:to:cc:subject:date:message-id;
-	bh=sRIQ5JBojvMZVjYPHv0gUVSQX6s3wT5T1QTdcUWt9YY=;
-	b=P9z+eKHwuXBDqml3EK2kku9sYg0L2wAd0NOrMGB5h9Bxa7aipHb6KUJg
-	e5KlVKW9+6prOrQu2AZrq638REluYA==;
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Mar 2017 13:17:35 -0700
+	bh=C+w4sTIH453fixJ9LzWiSrd66yaQm3QTMex2c1HZLeM=;
+	b=G3/d/A8aArQSaNaqL217qofmLn/OM1UuVxf379dafVl/AQTweaxU6yZ+
+	IgxdKd8fDnb23IS0+s8C5v9ELCerCQ==;
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Mar 2017 13:57:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,170,1486454400"; d="scan'208";a="60859861"
-Received: from juro-precision-t5610.jf.intel.com ([10.7.198.53])
-	by orsmga002.jf.intel.com with ESMTP; 15 Mar 2017 13:17:35 -0700
-From: Juro Bystricky <juro.bystricky@intel.com>
+X-IronPort-AV: E=Sophos;i="5.36,170,1486454400"; d="scan'208";a="67759242"
+Received: from echidna.jf.intel.com ([10.54.77.142])
+	by orsmga004.jf.intel.com with ESMTP; 15 Mar 2017 13:57:09 -0700
+From: brian avery <brian.avery@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Mar 2017 13:17:26 -0700
-Message-Id: <1489609046-7739-1-git-send-email-juro.bystricky@intel.com>
+Date: Wed, 15 Mar 2017 06:47:58 -0700
+Message-Id: <cover.1489585481.git.brian.avery@intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] python3-pip: support native builds
+Subject: [PATCH 0/1] add cmake host tool to sdk and esdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,41 +35,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Mar 2017 20:17:34 -0000
+X-List-Received-Date: Wed, 15 Mar 2017 20:57:11 -0000
 
-Add native pip3 support.
 
-[YOCTO#11049]
-[YOCTO#11022]
+The Eclipse plugin uses cmake from the SDK and currently has issues
+because cmake is not installed as a host tool.  This patch adds cmake as
+a host tool for the sdk/esdk.
+This adds ~ 20M to the sdk/esdk which is not alot given the functionality.
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
----
- meta/recipes-devtools/python/python3-pip_9.0.1.bb | 7 +++++++
- 1 file changed, 7 insertions(+)
+-brian
 
-diff --git a/meta/recipes-devtools/python/python3-pip_9.0.1.bb b/meta/recipes-devtools/python/python3-pip_9.0.1.bb
-index b6dbb6e..4456b9b 100644
---- a/meta/recipes-devtools/python/python3-pip_9.0.1.bb
-+++ b/meta/recipes-devtools/python/python3-pip_9.0.1.bb
-@@ -34,6 +34,11 @@ do_install_append() {
- 
-     # Installed eggs need to be passed directly to the interpreter via a pth file
-     echo "./${SRCNAME}-${PV}-py${PYTHON_BASEVERSION}.egg" > ${D}${PYTHON_SITEPACKAGES_DIR}/${SRCNAME}-${PV}.pth
-+
-+    # Make sure we use /usr/bin/env python3
-+    for PYTHSCRIPT in `grep -rIl ${bindir} ${D}${bindir}/pip3*`; do
-+        sed -i -e '1s|^#!.*|#!/usr/bin/env python3|' $PYTHSCRIPT
-+    done
- }
- 
- RDEPENDS_${PN} = "\
-@@ -47,3 +52,5 @@ RDEPENDS_${PN} = "\
-   python3-unixadmin \
-   python3-xmlrpc \
- "
-+
-+BBCLASSEXTEND = "native"
--- 
+The following changes since commit 812fabbd30a062f6e726e6ae0399d87e85bf7fa3:
+
+  bitbake: runqueue: minor typo fix (2017-03-15 17:38:33 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib bavery/add-cmake-to-sdk-and-esdl
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=bavery/add-cmake-to-sdk-and-esdl
+
+brian avery (1):
+  tivesdk-packagegroup-sdk-host.bb: add cmake
+
+ meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+--
 2.7.4
-
 
