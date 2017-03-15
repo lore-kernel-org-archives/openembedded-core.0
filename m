@@ -1,45 +1,53 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7598460268
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E6C9760AC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Mar 2017 22:57:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1489618637; x=1521154637;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-transfer-encoding:mime-version;
-	bh=XHlUED/XkewFBhC6KUNFuElTU+XigLB9FYc7aZ0jsBM=;
-	b=cVyAhdOFIGWapWg70pSzsn9KRvN2TeLSD2M17XAN9jJ7TrV5xZGIh551
-	JgG8Xstx7w1tnFB4FX/m/WBi/v6LJQ==;
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Mar 2017 15:57:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,170,1486454400"; d="scan'208";a="60910315"
-Received: from orsmsx109.amr.corp.intel.com ([10.22.240.7])
-	by orsmga002.jf.intel.com with ESMTP; 15 Mar 2017 15:57:15 -0700
-Received: from orsmsx112.amr.corp.intel.com ([169.254.3.204]) by
-	ORSMSX109.amr.corp.intel.com ([169.254.11.220]) with mapi id
-	14.03.0248.002; Wed, 15 Mar 2017 15:57:15 -0700
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH 1/3] build-appliance-image: use pip3-native
-Thread-Index: AQHSndlt213QW6MI3EmdJmSmhI1B7KGW7VuA//+V2ys=
-Date: Wed, 15 Mar 2017 22:57:14 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B611910D14@ORSMSX112.amr.corp.intel.com>
-References: <1489616018-8969-1-git-send-email-juro.bystricky@intel.com>
-	<1489616018-8969-2-git-send-email-juro.bystricky@intel.com>,
-	<1489616215.13980.82.camel@linuxfoundation.org>
-In-Reply-To: <1489616215.13980.82.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.3.86.135]
+	Wed, 15 Mar 2017 23:53:08 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id m5so3838382pgk.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Mar 2017 16:53:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=mxK4tL3DkjNuAiStwfheNVeHMHDU+ZYoWOhdKEy7wcQ=;
+	b=bMkW9GobBC3ueknIgqyyfBuYasC3J3VRMIrctRgcdKpplpRj1Rezs30JxIgRm8gynd
+	SRbIHsPTTDDtaR17pNDB2M8I9uWWbM3f33XIFbPSwY1IK4XW5yI0Wzrj3507snF8Yzia
+	+Zm7BHEXWsZIcr0oFT7h/1NYyIR+k91uDvIFaG6jeB8Kaw0/oJoT5aKHPaeQ5ebMEwPK
+	AkoUA9eEq+ug22O/2gg5TrAqYkJjmZQMzvJjki8+UdGV10sntFVR8exLHYne8epC9Uuw
+	VARGxUKHgz9KIH3ShUBzndbFMPGB+1aEYSu/r9OSHxBLvQUQ3YyeCwccCy4hwyRc6rsA
+	vjtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=mxK4tL3DkjNuAiStwfheNVeHMHDU+ZYoWOhdKEy7wcQ=;
+	b=FFHOx1+UQZZdNf2XXEniK6LFcvKJgWrfQjmx/VX3h47P7o8p/MKSHvXiMUCLX0jztv
+	H+Gh2XDQGTxnUBfyJ4LHL3mHorglTbt46rQkg+0WKztNFyFBEh49Am+Anp7xHVdq30Xc
+	kHVNbW2j4xmCG0+nFrGov3BwreVI1VRCJsIQXc8D8ZpZ8uHiZ2GqSBIjGLDroK2Ru7ki
+	LX34fE94XsBFkhfwMzNxpAaZ0zOcJHu8Q1YR6KNXHx7AJ3M1m5f5Gr+eV4W8WAZoV6Md
+	p4+10v7E9Dej8yBemQzAkvZEXiK9TfvIlVjj+kFwVCBStx6jjbtQZKxE350RGp+E2Y73
+	X3/w==
+X-Gm-Message-State: AFeK/H1RIxtn6OLoPwnc8Auz6PSOCfDABtTpgZd3kqzliQxa8WvesDrEKJedFAiUraDCuw==
+X-Received: by 10.98.163.17 with SMTP id s17mr6804586pfe.61.1489621988533;
+	Wed, 15 Mar 2017 16:53:08 -0700 (PDT)
+Received: from [10.5.7.41] ([223.196.115.131])
+	by smtp.gmail.com with ESMTPSA id
+	p77sm6289476pfj.99.2017.03.15.16.53.05
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 15 Mar 2017 16:53:07 -0700 (PDT)
+To: Juro Bystricky <juro.bystricky@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <1489606752-37886-1-git-send-email-juro.bystricky@intel.com>
+	<1489606752-37886-2-git-send-email-juro.bystricky@intel.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <0e662216-a60c-967c-107a-0d78da902b27@gmail.com>
+Date: Wed, 15 Mar 2017 16:53:03 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.7.0
 MIME-Version: 1.0
-Cc: "jurobystricky@hotmail.com" <jurobystricky@hotmail.com>
-Subject: Re: [PATCH 1/3] build-appliance-image: use pip3-native
+In-Reply-To: <1489606752-37886-2-git-send-email-juro.bystricky@intel.com>
+Cc: richard.purdie@intel.com, jurobystricky@hotmmail.com
+Subject: Re: [morty][PATCH 1/1] sanity.bbclass: modify check for shell
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,67 +60,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Mar 2017 22:57:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 15 Mar 2017 23:53:10 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-sure, no problem=0A=
-=0A=
-________________________________________=0A=
-From: Richard Purdie [richard.purdie@linuxfoundation.org]=0A=
-Sent: Wednesday, March 15, 2017 3:16 PM=0A=
-To: Bystricky, Juro; openembedded-core@lists.openembedded.org=0A=
-Cc: jurobystricky@hotmail.com=0A=
-Subject: Re: [PATCH 1/3] build-appliance-image: use pip3-native=0A=
-=0A=
-On Wed, 2017-03-15 at 15:13 -0700, Juro Bystricky wrote:=0A=
-> Do not rely on pip3 being installed on the host.=0A=
-> Use pip3-native instead.=0A=
->=0A=
-> [YOCTO#10909]=0A=
-> [YOCTO#11022]=0A=
->=0A=
-> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>=0A=
-> ---=0A=
->  meta/recipes-core/images/build-appliance-image_15.0.0.bb | 6 ++++--=0A=
->  1 file changed, 4 insertions(+), 2 deletions(-)=0A=
->=0A=
-> diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb=0A=
-> b/meta/recipes-core/images/build-appliance-image_15.0.0.bb=0A=
-> index 0db1fb0..730989e 100644=0A=
-> --- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb=0A=
-> +++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb=0A=
-> @@ -18,10 +18,10 @@ IMAGE_ROOTFS_EXTRA_SPACE =3D "41943040"=0A=
->  # Do a quiet boot with limited console messages=0A=
->  APPEND +=3D "rootfstype=3Dext4 quiet"=0A=
->=0A=
-> -DEPENDS =3D "zip-native"=0A=
-> +DEPENDS =3D "zip-native python3-pip-native"=0A=
->  IMAGE_FSTYPES =3D "vmdk"=0A=
->=0A=
-> -inherit core-image module-base=0A=
-> +inherit core-image module-base setuptools3=0A=
->=0A=
->  SRCREV ?=3D "8343ed93c4278715aa1582d3cadedf8f197b4089"=0A=
->  SRC_URI =3D "git://git.yoctoproject.org/poky;branch=3Dmaster \=0A=
-> @@ -95,6 +95,8 @@ fakeroot do_populate_poky_src () {=0A=
->       echo 'gtk-theme-name =3D "Clearlooks"' >=0A=
-> ${IMAGE_ROOTFS}/etc/gtk-2.0/gtkrc=0A=
->=0A=
->       # Install modules needed for toaster=0A=
-> +     export STAGING_LIBDIR=3D${STAGING_LIBDIR_NATIVE}=0A=
-> +     export STAGING_INCDIR=3D${STAGING_INCDIR_NATIVE}=0A=
->       export HOME=3D${IMAGE_ROOTFS}/home/builder=0A=
->       mkdir -p ${IMAGE_ROOTFS}/home/builder/.cache/pip=0A=
->       pip3 install --user -I -U -v -r=0A=
-> ${IMAGE_ROOTFS}/home/builder/poky/bitbake/toaster-requirements.txt=0A=
-=0A=
-=0A=
-Looks good, thanks. Can you also drop "pip" from bitbake.conf's=0A=
-HOSTTOOLS_NONFATAL please?=0A=
-=0A=
-Cheers,=0A=
-=0A=
-Richard=0A=
+
+
+On 03/15/2017 12:39 PM, Juro Bystricky wrote:
+> Due to the recently implemented update-alternatives for bash binary,
+> sanity checker may end up with a (false-positive) error such as:
+>
+> Error, /bin/sh links to /bin/bash.bash, must be dash or bash
+>
+> This patch modifies the test: presence of "/bash" or "/dash" in shell binary
+> name results in pass.
+ok. got it in my pre-stagging.
+thanks
+- armin
+>
+> [YOCTO#11108]
+>
+> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+> ---
+>   meta/classes/sanity.bbclass | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index 7682ffb..a11b581 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -929,7 +929,9 @@ def check_sanity_everybuild(status, d):
+>       # If /bin/sh is a symlink, check that it points to dash or bash
+>       if os.path.islink('/bin/sh'):
+>           real_sh = os.path.realpath('/bin/sh')
+> -        if not real_sh.endswith('/dash') and not real_sh.endswith('/bash'):
+> +        # Due to update-alternatives, the shell name may take various
+> +        # forms, such as /bin/dash, bin/bash, /bin/bash.bash ...
+> +        if '/dash' not in real_sh and '/bash' not in real_sh:
+>               status.addresult("Error, /bin/sh links to %s, must be dash or bash\n" % real_sh)
+>   
+>   def check_sanity(sanity_data):
+
 
