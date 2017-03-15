@@ -1,34 +1,34 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 732D072F0A
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 1882A7315E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Mar 2017 16:08:31 +0000 (UTC)
+	Wed, 15 Mar 2017 16:25:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2FG7nrm021232; Wed, 15 Mar 2017 16:08:25 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id IssUAnRzLvrs; Wed, 15 Mar 2017 16:08:25 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2FG8O50021330
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 15 Mar 2017 16:08:25 GMT
-Message-ID: <1489594104.13980.67.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Ibarra Lopez, Humberto" <humberto.ibarra.lopez@intel.com>, Alexander
-	Kanavin <alexander.kanavin@linux.intel.com>, "Burton, Ross"
-	<ross.burton@intel.com>
-Date: Wed, 15 Mar 2017 16:08:24 +0000
-In-Reply-To: <F187383F84EB304A88D055C3049588791BCF0AF1@FMSMSX106.amr.corp.intel.com>
-References: <20170314172749.6643-1-alexander.kanavin@linux.intel.com>
-	<CAJTo0LY4pN1n2s9Qe1FSesSRFUcWFLdsQQ6Z2J8-DZqGeBK14Q@mail.gmail.com>
-	<9ca28013-06c6-c668-2e42-1d13a75d4331@linux.intel.com>
-	<F187383F84EB304A88D055C3049588791BCF0AF1@FMSMSX106.amr.corp.intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] rpm: add support for remote package feeds via PACKAGE_FEED_URIS variable
+	by mailout4.zoneedit.com (Postfix) with ESMTP id E598620BAF;
+	Wed, 15 Mar 2017 16:25:57 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id gch3OTlN0jBz; Wed, 15 Mar 2017 16:25:57 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id BDD5920BAC;
+	Wed, 15 Mar 2017 16:25:55 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 605EB1623E7; Wed, 15 Mar 2017 12:25:55 -0400 (EDT)
+Date: Wed, 15 Mar 2017 12:25:55 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Message-ID: <20170315162555.GN15664@denix.org>
+References: <20161110144409.8940-1-Martin.Jansa@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <20161110144409.8940-1-Martin.Jansa@gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [krogoth][PATCH] gstreamer1.0-libav: Add 'valgrind' config option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,30 +41,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Mar 2017 16:08:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 15 Mar 2017 16:25:59 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 2017-03-15 at 15:38 +0000, Ibarra Lopez, Humberto wrote:
-> Sorry, missed the previous mail.
+FWIW, it still doesn't seem to fully work...
+
+I just got this exact error in my morty build. My packageconfigs are:
+
+PACKAGECONFIG="orc yasm"
+PACKAGECONFIG_CONFARGS=" --disable-gpl --enable-orc --disable-valgrind --enable-yasm"
+
+
+On Thu, Nov 10, 2016 at 03:44:09PM +0100, Martin Jansa wrote:
+> From: Otavio Salvador <otavio@ossystems.com.br>
 > 
-> I am not sure how to improve the hardcoding there, I don't like it
-> either, but couldn't find an alternative. The thing is that we need
-> the ip of the host as seen from the target to run testimage, but we
-> don’t have the exact value for that one until qemu is up. The issue
-> here is that we need to give this ip to the conf in the
-> PACKAGE_FEED_URIS before building so we can get an image with this
-> var to later use in testimage.
+> This fixes following error:
 > 
-> If someone has a better idea to get rid of this hardcoding, it would
-> be great to know.
-
-We could run a sed command inside the image after it boots but before
-triggering the tests to put the correct IP/port number into the file?
-
-Not a perfect test but simple and probably good enough for this?
-
-Cheers,
-
-Richard
+> ,----
+> | src/libavutil/log.c:51:31: fatal error: valgrind/valgrind.h: No such file or directory
+> |  #include <valgrind/valgrind.h>
+> `----
+> 
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
+> index 363101e..2814a58 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
+> @@ -18,6 +18,7 @@ PACKAGECONFIG[gpl] = "--enable-gpl,--disable-gpl,"
+>  PACKAGECONFIG[libav] = "--with-system-libav,,libav"
+>  PACKAGECONFIG[orc] = "--enable-orc,--disable-orc,orc"
+>  PACKAGECONFIG[yasm] = "--enable-yasm,--disable-yasm,yasm-native"
+> +PACKAGECONFIG[valgrind] = "--enable-valgrind,--disable-valgrind,valgrind"
+>  
+>  GSTREAMER_1_0_DEBUG ?= "--disable-debug"
+>  
+> -- 
+> 2.10.2
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
