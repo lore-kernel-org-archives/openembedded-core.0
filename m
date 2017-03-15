@@ -1,29 +1,38 @@
 Return-Path: <zhengrq.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id A08F46FFFE
+	by mail.openembedded.org (Postfix) with ESMTP id 367D4776A7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Mar 2017 05:21:32 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="16589124"
+	Wed, 15 Mar 2017 05:32:53 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="16589879"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 15 Mar 2017 13:21:28 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 2E76448A294D;
-	Wed, 15 Mar 2017 13:21:25 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.100) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Wed, 15 Mar 2017 13:21:23 +0800
-From: zhengrq <zhengrq.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 15 Mar 2017 22:19:35 +0800
-Message-ID: <1489587575-8761-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+	by heian.cn.fujitsu.com with ESMTP; 15 Mar 2017 13:32:54 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id E205448A294D;
+	Wed, 15 Mar 2017 13:32:51 +0800 (CST)
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD02.g08.fujitsu.local ([10.167.33.83]) with mapi id
+	14.03.0319.002; Wed, 15 Mar 2017 13:32:49 +0800
+From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [jethro][PATCH] sdk: arm toolchain patch for multilib
+Thread-Index: AQHSnJUjPGLBUGBISE6g22217PE8r6GVYcRQ
+Date: Wed, 15 Mar 2017 05:32:50 +0000
+Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF73244DCE7B@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1489507238-3384-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<1489476714.13980.36.camel@linuxfoundation.org>
+In-Reply-To: <1489476714.13980.36.camel@linuxfoundation.org>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.226.100]
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.100]
-X-yoursite-MailScanner-ID: 2E76448A294D.A6D3F
+X-yoursite-MailScanner-ID: E205448A294D.AB77F
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [jethro][PATCH] sdk: fix toolchain for arm multilib
+Subject: Re: [jethro][PATCH] sdk: arm toolchain patch for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,79 +45,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Mar 2017 05:21:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 15 Mar 2017 05:32:55 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-    cross-canadian/libgcc-common: Fixes for arm multilib
-
-    Arm is unusual in that we force it to "linux-gnueabi" and "linux" doesn't
-    build. This was causing problems for multilib configurations which were assuming
-    "linux" was the default compiler rather than linux-gnueabi.
-
-    This change does two things, ensures symlinks are generated for linux-gnueabi
-    and also adapts the libgcc code to account for the difference on arm.
-
-    It still needs to immediately expand/save TARGET_VENDOR but we defer
-    deciding what TARGET_OS should be until we know TARGET_ARCH (which the
-    multilib code may change).
-
-    [YOCTO #8642]
-
-    Note that sanity tests of a 32 bit arm multilib still break due to issues
-    with the kernel headers on a mixed bit system. This looks to be a general
-    headers issue for the platform though and a different type of bug.
-
-    (From OE-Core rev: b6253350fb86d8e54792905342a5892af570d526)
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
----
- meta/classes/cross-canadian.bbclass         |  1 +
- meta/recipes-devtools/gcc/libgcc-common.inc | 11 +++++++----
- 2 files changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
-index ea17f09..f60d728 100644
---- a/meta/classes/cross-canadian.bbclass
-+++ b/meta/classes/cross-canadian.bbclass
-@@ -68,6 +68,7 @@ python () {
-     elif tarch == "mips64":
-         d.appendVar("CANADIANEXTRAOS", " linux-gnun32 linux-uclibcn32 linux-musln32")
-     if tarch == "arm" or tarch == "armeb":
-+        d.appendVar("CANADIANEXTRAOS", " linux-gnueabi linux-musleabi linux-uclibceabi")
-         d.setVar("TARGET_OS", "linux-gnueabi")
-     else:
-         d.setVar("TARGET_OS", "linux")
-diff --git a/meta/recipes-devtools/gcc/libgcc-common.inc b/meta/recipes-devtools/gcc/libgcc-common.inc
-index b09ea65..f3de9e9 100644
---- a/meta/recipes-devtools/gcc/libgcc-common.inc
-+++ b/meta/recipes-devtools/gcc/libgcc-common.inc
-@@ -122,15 +122,18 @@ fakeroot python do_multilib_install() {
-         os.symlink(src, dest)
- }
- 
--def get_original_vendoros(d):
--    vendoros = d.expand('${TARGET_VENDOR}-${TARGET_OS}')
-+def get_original_os(d):
-+    vendoros = d.expand('${TARGET_ARCH}${ORIG_TARGET_VENDOR}-${TARGET_OS}')
-     for suffix in [d.getVar('ABIEXTENSION', True), d.getVar('LIBCEXTENSION', True)]:
-         if suffix and vendoros.endswith(suffix):
-             vendoros = vendoros[:-len(suffix)]
-+    # Arm must use linux-gnueabi not linux as only the former is accepted by gcc
-+    if vendoros.startswith("arm-") and not vendoros.endswith("-gnueabi"):
-+        vendoros = vendoros + "-gnueabi"
-     return vendoros
- 
--ORIG_TARGET_VENDOROS := "${@get_original_vendoros(d)}"
--BASETARGET_SYS = "${TARGET_ARCH}${ORIG_TARGET_VENDOROS}"
-+ORIG_TARGET_VENDOR := "${TARGET_VENDOR}"
-+BASETARGET_SYS = "${@get_original_os(d)}"
- 
- addtask extra_symlinks after do_multilib_install before do_package do_populate_sysroot
- fakeroot python do_extra_symlinks() {
--- 
-2.7.4
-
-
-
+SGkgcmljaGFyZA0KICBJIGhhdmUgc2VudCBhIG5ldyBwYXRjaCB0byBmaXgg
+dG9vbGNoYWluIGZvciBhcm0gbXVsdGlsaWINCiAgICM4NjQyDQogICAoRnJv
+bSBPRS1Db3JlIHJldjogYjYyNTMzNTBmYjg2ZDhlNTQ3OTI5MDUzNDJhNTg5
+MmFmNTcwZDUyNikNCiAgTGFzdCBwYXRjaCBpcyBpbmRlZWQgbm90IGluIG1h
+c3Rlci4NCg0KWmhlbmcgUnVvcWluDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2Fn
+ZS0tLS0tDQpGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFpbHRvOnJpY2hhcmQu
+cHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddIA0KU2VudDogVHVlc2RheSwg
+TWFyY2ggMTQsIDIwMTcgMzozMiBQTQ0KVG86IFpoZW5nLCBSdW9xaW4v6YOR
+IOiLpemSpiA8emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPjsgb3BlbmVt
+YmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KU3ViamVjdDog
+UmU6IFtPRS1jb3JlXSBbamV0aHJvXVtQQVRDSF0gc2RrOiBhcm0gdG9vbGNo
+YWluIHBhdGNoIGZvciBtdWx0aWxpYg0KDQpPbiBXZWQsIDIwMTctMDMtMTUg
+YXQgMDA6MDAgKzA4MDAsIHpoZW5ncnEgd3JvdGU6DQo+IMKgIFRoZSBhcm0g
+dG9vbGNoYWluIGhhcyBhICItZ251ZWFiaSIgc3VmZml4LCBidXQgYWFyY2g2
+NCBkb2Vzbid0LHRoaXMgDQo+IG1ha2VzIG11bHRpbGliIHNkayBkb2Vzbid0
+IHdvcmssIGZvciBleGFtcGxlOg0KPiANCj4gwqAgTUFDSElORSA9IHFlbXVh
+cm02NA0KPiDCoCByZXF1aXJlIGNvbmYvbXVsdGlsaWIuY29uZg0KPiDCoCBN
+VUxUSUxJQlMgPSAibXVsdGlsaWI6bGliMzIiDQo+IMKgIERFRkFVTFRUVU5F
+X3ZpcnRjbGFzcy1tdWx0aWxpYi1saWIzMiA9ICJhcm12N2F0LW5lb24iDQo+
+IA0KPiDCoCAkIGJpdGJha2UgY29yZS1pbWFnZS1taW5pbWFsIC1jcG9wdWxh
+dGVfc2RrDQo+IA0KPiDCoCBUaGVuIGV4dHJhY3QgU0RLLCB0aGUgZW52aXJv
+bm1lbnQtc2V0dXAtYXJtdjdhLXZmcC1uZW9uLQ0KPiBwb2t5bWxsaWIzMi1s
+aW51eC1nbnVlYWJpIGRvZXNuJ3Qgd29yayBzaW5jZToNCj4gwqAgKiBUaGUg
+Q0MgaXMgYXJtLXBva3ltbGxpYjMyLWxpbnV4LWdudWVhYmktZ2NjIHdoaWNo
+IGRvZXNuJ3QgZXhpc3QsIA0KPiB0aGUgcGF0Y2ggZm9yIGNyb3NzLWNhbmFk
+aWFuLmJiY2xhc3MgZml4ZXMgcHJvYmxlbS4NCj4gwqAgKiBOZWVkIGFhcmNo
+NjQtcG9reS1saW51eC91c3IvbGliL2FybS1wb2t5LWxpbnV4LWxpbnV4LWdu
+dWVhYmkNCj4gd2hpY2ggZG9lc24ndCBleGlzdCwgdGhlIHBhdGNoIGZvciBs
+aWJnY2MtY29tbW9uLmluYyBmaXhlcyB0aGUgDQo+IHByb2JsZW0uDQo+IA0K
+PiDCoCBbWU9DVE8gIzg2MTZdDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBSb2Jl
+cnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJpdmVyLmNvbT4NCj4gU2lnbmVk
+LW9mZi1ieTogTGVpIE1hb2h1aSA8bGVpbWFvaHVpQGNuLmZ1aml0c3UuY29t
+Pg0KPiBTaWduZWQtb2ZmLWJ5OiBaaGVuZyBSdW9xaW4gPHpoZW5ncnEuZm5z
+dEBjbi5mdWppdHN1LmNvbT4NCg0KSSdtIG5vdCBzZWVpbmcgYW55IHBhdGNo
+IGluIG1hc3RlciB3aGljaCBzZXRzwqBHTlVFQUJJX1NVRkZJWCB1bmxlc3Mg
+SSdtIG1pc3Npbmcgc29tZXRoaW5nPw0KDQpXaGljaCBwYXRjaCBhcmUgeW91
+IGJhY2twb3J0aW5nIHRvIGpldGhybyBoZXJlPw0KDQpEb24ndCB5b3UgcmVh
+bGx5IHdhbnTCoGh0dHA6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9jZ2l0LmNn
+aS9wb2t5L2NvbW1pdC8NCj9pZD1iNjI1MzM1MGZiODZkOGU1NDc5MjkwNTM0
+MmE1ODkyYWY1NzBkNTI2wqA/DQoNCmFuZCBwZXJoYXBzIHlvdSBtZWFuICM4
+NjQywqBvciAjMTAwNTQ/DQoNCkNoZWVycywNCg0KUmljaGFyZA0KDQo+IMKg
+bWV0YS9jbGFzc2VzL2Nyb3NzLWNhbmFkaWFuLmJiY2xhc3PCoMKgwqDCoMKg
+wqDCoMKgwqB8wqDCoDMgKysrDQo+IMKgbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L2djYy9saWJnY2MtY29tbW9uLmluYyB8IDI1ICsrKysrKysrKysrKysrKysr
+Ky0NCj4gLS0tLS0tDQo+IMKgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2djYy9s
+aWJnY2MuaW5jwqDCoMKgwqDCoMKgwqDCoHzCoMKgMiArLQ0KPiDCoDMgZmls
+ZXMgY2hhbmdlZCwgMjIgaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkN
+Cj4gDQo+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMvY3Jvc3MtY2FuYWRp
+YW4uYmJjbGFzcw0KPiBiL21ldGEvY2xhc3Nlcy9jcm9zcy1jYW5hZGlhbi5i
+YmNsYXNzDQo+IGluZGV4IGVhMTdmMDkuLjQ1ODE4NWQgMTAwNjQ0DQo+IC0t
+LSBhL21ldGEvY2xhc3Nlcy9jcm9zcy1jYW5hZGlhbi5iYmNsYXNzDQo+ICsr
+KyBiL21ldGEvY2xhc3Nlcy9jcm9zcy1jYW5hZGlhbi5iYmNsYXNzDQo+IEBA
+IC0xOCw2ICsxOCw3IEBAIFBBQ0tBR0VfQVJDSCA9ICIke1NES19BUkNIfS0k
+e1NES1BLR1NVRkZJWH0iDQo+IMKgQ0FOQURJQU5FWFRSQU9TID0gImxpbnV4
+LXVjbGliYyBsaW51eC1tdXNsIg0KPiDCoENBTkFESUFORVhUUkFWRU5ET1Ig
+PSAiIg0KPiDCoE1PRElGWVRPUyA/Pz0gIjEiDQo+ICtHTlVFQUJJX1NVRkZJ
+WCA9ICIiDQo+IMKgcHl0aG9uICgpIHsNCj4gwqDCoMKgwqDCoGFyY2hzID0g
+ZC5nZXRWYXIoJ1BBQ0tBR0VfQVJDSFMnLCBUcnVlKS5zcGxpdCgpDQo+IMKg
+wqDCoMKgwqBzZGthcmNocyA9IFtdDQo+IEBAIC02OSw2ICs3MCw3IEBAIHB5
+dGhvbiAoKSB7DQo+IMKgwqDCoMKgwqDCoMKgwqDCoGQuYXBwZW5kVmFyKCJD
+QU5BRElBTkVYVFJBT1MiLCAiIGxpbnV4LWdudW4zMiBsaW51eC0NCj4gdWNs
+aWJjbjMyIGxpbnV4LW11c2xuMzIiKQ0KPiDCoMKgwqDCoMKgaWYgdGFyY2gg
+PT0gImFybSIgb3IgdGFyY2ggPT0gImFybWViIjoNCj4gwqDCoMKgwqDCoMKg
+wqDCoMKgZC5zZXRWYXIoIlRBUkdFVF9PUyIsICJsaW51eC1nbnVlYWJpIikN
+Cj4gK8KgwqDCoMKgwqDCoMKgwqBkLnNldFZhcigiR05VRUFCSV9TVUZGSVgi
+LCAiLWdudWVhYmkiKQ0KPiDCoMKgwqDCoMKgZWxzZToNCj4gwqDCoMKgwqDC
+oMKgwqDCoMKgZC5zZXRWYXIoIlRBUkdFVF9PUyIsICJsaW51eCIpDQo+IMKg
+DQo+IEBAIC0xNjcsNiArMTY5LDcgQEAgU0hMSUJTV09SS0RJUiA9ICIke1BL
+R0RBVEFfRElSfS9uYXRpdmVzZGstIA0KPiBzaGxpYnMyIg0KPiDCoGNyb3Nz
+X2NhbmFkaWFuX2JpbmRpcmxpbmtzICgpIHsNCj4gwqAJZm9yIGkgaW4gbGlu
+dXggJHtDQU5BRElBTkVYVFJBT1N9DQo+IMKgCWRvDQo+ICvCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoGk9IiRpJHtHTlVFQUJJX1NVRkZJWH0i
+DQo+IMKgCQlmb3IgdiBpbiAke0NBTkFESUFORVhUUkFWRU5ET1J9DQo+IMKg
+CQlkbw0KPiDCoAkJCWQ9JHtEfSR7YmluZGlyfS8uLi8ke1RBUkdFVF9BUkNI
+fSR2LSRpDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+Z2NjL2xpYmdjYy1jb21tb24uaW5jDQo+IGIvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL2djYy9saWJnY2MtY29tbW9uLmluYw0KPiBpbmRleCBiMDllYTY1Li40
+NmY4Y2ZkIDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+Z2NjL2xpYmdjYy1jb21tb24uaW5jDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9nY2MvbGliZ2NjLWNvbW1vbi5pbmMNCj4gQEAgLTEzNCwxMSAr
+MTM0LDIyIEBAIEJBU0VUQVJHRVRfU1lTID0gDQo+ICIke1RBUkdFVF9BUkNI
+fSR7T1JJR19UQVJHRVRfVkVORE9ST1N9Ig0KPiDCoA0KPiDCoGFkZHRhc2sg
+ZXh0cmFfc3ltbGlua3MgYWZ0ZXIgZG9fbXVsdGlsaWJfaW5zdGFsbCBiZWZv
+cmUgZG9fcGFja2FnZSANCj4gZG9fcG9wdWxhdGVfc3lzcm9vdA0KPiDCoGZh
+a2Vyb290IHB5dGhvbiBkb19leHRyYV9zeW1saW5rcygpIHsNCj4gLcKgwqDC
+oMKgdGFyZ2V0c3lzID0gZC5nZXRWYXIoJ0JBU0VUQVJHRVRfU1lTJywgVHJ1
+ZSkNCj4gLQ0KPiAtwqDCoMKgwqBpZiB0YXJnZXRzeXMgIT0gZC5nZXRWYXIo
+J1RBUkdFVF9TWVMnLCBUcnVlKToNCj4gLcKgwqDCoMKgwqDCoMKgwqBkZXN0
+ID0gZC5nZXRWYXIoJ0QnLCBUcnVlKSArIGQuZ2V0VmFyKCdsaWJkaXInLCBU
+cnVlKSArICcvJw0KPiArIHRhcmdldHN5cw0KPiAtwqDCoMKgwqDCoMKgwqDC
+oHNyYyA9IGQuZ2V0VmFyKCdUQVJHRVRfU1lTJywgVHJ1ZSkNCj4gLcKgwqDC
+oMKgwqDCoMKgwqBpZiBub3Qgb3MucGF0aC5sZXhpc3RzKGRlc3QpIGFuZCAN
+Cj4gb3MucGF0aC5sZXhpc3RzKGQuZ2V0VmFyKCdEJywgVHJ1ZSkgKyBkLmdl
+dFZhcignbGliZGlyJywgVHJ1ZSkpOg0KPiAtwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgb3Muc3ltbGluayhzcmMsIGRlc3QpDQo+ICvCoMKgwqDCoGJhc2Vf
+dGFyZ2V0c3lzID0gZC5nZXRWYXIoJ0JBU0VUQVJHRVRfU1lTJywgVHJ1ZSkN
+Cj4gK8KgwqDCoMKgdGFyZ2V0c3lzID0gZC5nZXRWYXIoJ1RBUkdFVF9TWVMn
+LCBUcnVlKQ0KPiArDQo+ICvCoMKgwqDCoGlmIGJhc2VfdGFyZ2V0c3lzICE9
+IHRhcmdldHN5czoNCj4gK8KgwqDCoMKgwqDCoMKgwqBkZXN0ID0gZC5nZXRW
+YXIoJ0QnLCBUcnVlKSArIGQuZ2V0VmFyKCdsaWJkaXInLCBUcnVlKSArICcv
+Jw0KPiArIGJhc2VfdGFyZ2V0c3lzDQo+ICvCoMKgwqDCoMKgwqDCoMKgZGVz
+dF9saXN0ID0gW2Rlc3RdDQo+ICvCoMKgwqDCoMKgwqDCoMKgIyBGb3IgbXVs
+dGlsaWIgbGlrZSBhYXJjaDY0ICsgYXJtLCBuZWVkIDIgc3ltbGlua3M6DQo+
+ICvCoMKgwqDCoMKgwqDCoMKgIyAxKSBCQVNFVEFSR0VUX1NZUyBhcyB1c3Vh
+bA0KPiArwqDCoMKgwqDCoMKgwqDCoCMgMikgQkFTRVRBUkdFVF9TWVMgKyAi
+LWdudWVhYmkiIGZvciBtdWx0aWxpYg0KPiArwqDCoMKgwqDCoMKgwqDCoGxp
+YmNlID0gZC5nZXRWYXIoJ0xJQkNFWFRFTlNJT04nLCBUcnVlKQ0KPiArwqDC
+oMKgwqDCoMKgwqDCoGFiaWUgPSBkLmdldFZhcignQUJJRVhURU5TSU9OJywg
+VHJ1ZSkNCj4gK8KgwqDCoMKgwqDCoMKgwqBpZiBhYmllIGFuZCBsaWJjZSBh
+bmQgdGFyZ2V0c3lzLmVuZHN3aXRoKGxpYmNlICsgYWJpZSk6DQo+ICvCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqBkZXN0X2xpc3QuYXBwZW5kKGRlc3QgKyBs
+aWJjZSArIGFiaWUpDQo+ICvCoMKgwqDCoMKgwqDCoMKgc3JjID0gdGFyZ2V0
+c3lzDQo+ICvCoMKgwqDCoMKgwqDCoMKgZm9yIGRpciBpbiBkZXN0X2xpc3Q6
+DQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiBub3Qgb3MucGF0aC5s
+ZXhpc3RzKGRpcikgYW5kDQo+IG9zLnBhdGgubGV4aXN0cyhkLmdldFZhcign
+RCcsIFRydWUpICsgZC5nZXRWYXIoJ2xpYmRpcicsIFRydWUpKToNCj4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgb3Muc3ltbGluayhzcmMs
+IGRpcikNCj4gwqB9DQo+ICsNCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9nY2MvbGliZ2NjLmluYyBiL21ldGEvcmVjaXBlcy0gDQo+
+IGRldnRvb2xzL2djYy9saWJnY2MuaW5jIGluZGV4IDk1ZmEzZjQuLmY2YTBh
+OGMgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nY2Mv
+bGliZ2NjLmluYw0KPiArKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2Nj
+L2xpYmdjYy5pbmMNCj4gQEAgLTE3LDcgKzE3LDcgQEAgTElDRU5TRV8ke1BO
+fS1kYmcgPSAiR1BMLTMuMC13aXRoLUdDQy1leGNlcHRpb24iDQo+IMKgDQo+
+IMKgRklMRVNfJHtQTn0tZGV2ID0gIlwNCj4gwqDCoMKgwqDCoCR7YmFzZV9s
+aWJkaXJ9L2xpYmdjYyouc28gXA0KPiAtwqDCoMKgwqAke0BiYXNlX2NvbmRp
+dGlvbmFsKCdCQVNFVEFSR0VUX1NZUycsICcke1RBUkdFVF9TWVN9JywgJycs
+IA0KPiAnJHtsaWJkaXJ9LyR7QkFTRVRBUkdFVF9TWVN9JywgZCl9IFwNCj4g
+K8KgwqDCoMKgJHtAYmFzZV9jb25kaXRpb25hbCgnQkFTRVRBUkdFVF9TWVMn
+LCAnJHtUQVJHRVRfU1lTfScsICcnLA0KPiAnJHtsaWJkaXJ9LyR7QkFTRVRB
+UkdFVF9TWVN9KicsIGQpfSBcDQo+IMKgwqDCoMKgwqAke2xpYmRpcn0vJHtU
+QVJHRVRfU1lTfS8ke0JJTlZ9KiBcDQo+IMKgIg0KPiDCoA0KPiAtLQ0KPiAy
+LjcuNA0KPiANCj4gDQo+IA0KDQoNCgoK
 
