@@ -1,48 +1,31 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 7252C71979
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D1F771DDD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Mar 2017 13:12:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1489583541; x=1521119541;
-	h=date:from:to:cc:subject:message-id:reply-to:references:
-	mime-version:in-reply-to;
-	bh=deGoE9qkQdiMZEoFJU/57kJlSBlAhKs96k9VirvobIQ=;
-	b=cl8VBsNt+tYBr/espPVuDzz3nbRXRCMoYpkI/U4pCAtDGZ71D0586Kcd
-	j57KA22LVN++uxVx9yv35BBchILeXA==;
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Mar 2017 06:12:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,168,1486454400"; d="scan'208";a="1142567983"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Mar 2017 06:12:18 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 270CE2C8001;
-	Wed, 15 Mar 2017 06:12:12 -0700 (PDT)
-Date: Wed, 15 Mar 2017 14:58:10 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+	Wed, 15 Mar 2017 13:34:23 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
+	via TCP (outbound) with ESMTPS id 20170315133421834_0486;
+	Wed, 15 Mar 2017 13:34:21 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [174.118.92.171] (port=59322 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1co949-0006PV-Ii; Wed, 15 Mar 2017 09:34:13 -0400
+Date: Wed, 15 Mar 2017 09:34:09 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
 To: Patrick Ohly <patrick.ohly@intel.com>
-Message-ID: <20170315125810.GA28986@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <2791e915-9e22-a01a-ccb5-c629d250edb2@phytec.de>
-	<20170308105729.GA22401@linux.intel.com>
-	<7d4a770f-25c6-5747-5a5c-370c822f2efb@mlbassoc.com>
-	<20170308134349.GA16099@linux.intel.com>
-	<a0d78645-9670-f3a1-cd9d-d66370e89ef9@phytec.de>
-	<20170314171147.GA28498@linux.intel.com>
-	<1489513785.6396.83.camel@intel.com>
-	<20170314180644.GA22000@linux.intel.com>
-	<1489562674.6396.89.camel@intel.com>
+In-Reply-To: <1489581612.6396.94.camel@intel.com>
+Message-ID: <alpine.LFD.2.20.1703150928510.10217@localhost.localdomain>
+References: <alpine.LFD.2.20.1703150639340.8646@localhost.localdomain>
+	<CAJTo0LZm4zR2f+2Wgvab0=dhdP-Mu-cDGihqh2_hnVvuaOVGmg@mail.gmail.com>
+	<1489581612.6396.94.camel@intel.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-In-Reply-To: <1489562674.6396.89.camel@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Gary Thomas <gary@mlbassoc.com>, openembedded-core@lists.openembedded.org
-Subject: Re: Create more than one image with WIC
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: what shell programming constructs can we count on in .bbclass files?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,49 +38,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Mar 2017 13:12:21 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 15 Mar 2017 13:34:24 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-On Wed, Mar 15, 2017 at 08:24:34AM +0100, Patrick Ohly wrote:
-> On Tue, 2017-03-14 at 20:06 +0200, Ed Bartosh wrote:
-> > On Tue, Mar 14, 2017 at 06:49:45PM +0100, Patrick Ohly wrote:
-> > > 
-> > > > It's not a big deal to run wic sequentially to produce multiple images,
-> > > > but it will create more problems than it solves I believe. It will be slower and
-> > > > will make a mess in image naming in deploy directory.
-> > > 
-> > > I personally would prefer to support generating more than one wic image
-> > > per image recipe. The different output files could be distinguished with
-> > > an additional suffix (".efi.wic", ".live.wiC", etc.) where the suffix is
-> > > either specified by the WKS file or the configuration where the WKS file
-> > > is selected - the latter might be a bit more flexible.
-> > >
-> > 
-> > From my point of view ths would be against the current design of oe
-> > image building susbsystem. It would be also more complex and slower
-> > unless we'll find a way to dynamically generate multiple image creation
-> > tasks per one recipe and run them in parallel. In this case it will be
-> > even more complex.
-> 
-> That's a good point. However, directly sharing the content of the build
-> directory from different recipes is also against the OE design and
-> requires special attention, for example to suppressing the do_rootfs
-> task in one recipe and preventing do_rm_work in the other.
-> 
-> Either way, something that works out of the box might be useful.
+On Wed, 15 Mar 2017, Patrick Ohly wrote:
 
-I'm going to address this in near future when I'll be working on
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=10073
-Feel free to comment on it, btw.
+> On Wed, 2017-03-15 at 11:05 +0000, Burton, Ross wrote:
+> > Our shell parser *should* be POSIX compliant.  There are a few
+> > places where it isn't, but I believe those should be considered
+> > bugs.  At the end of the day the shell is actually executed by
+> > /bin/sh or /bin/bash anyway, so as long as bitbake can parse it
+> > you can use anything.
+>
+> Unfortunately bitbake has problems parsing useful things like $( ).
+> Are there open bugs about that and/or is it worth filing enhancement
+> requests?
 
-So far the plan is to treat EFI boot partition as a rootfs. wic job
-would be to simply put content of multiple rootfs-es into partitions of
-the final image. No suppressing of do_rootfs would be needed, I hope.
+  on a more basic level, there's quite a lot of, i guess, bourne
+shell'isms (and other weirdnesses) still lying around. in
+meta/classes/, some examples (hoping i didn't screw them up):
 
-Regarding do_rm_work. It should not touch rootfs directories, I believe.
+  "if test" rather then "if ["
 
---
-Regards,
-Ed
+  all that 'if [ "x${VAR} = "x" ]' i mentioned earlier
+
+  if [ "x${ICE_PATH}" = "x" ]   rather than   if [ -z "${ICE_PATH}" ]
+
+  if [ ! -z "${conf_sign_keyname}" ]  ... ?????? :-)
+
+none of this is a big deal, but there sure are some historical
+holdovers and strangely-chosen constructs.
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 
