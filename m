@@ -1,48 +1,48 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
-	[209.85.214.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 3125360191
+Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 4995760191
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Mar 2017 15:04:42 +0000 (UTC)
-Received: by mail-it0-f45.google.com with SMTP id w124so51009567itb.1
+	Wed, 15 Mar 2017 15:09:36 +0000 (UTC)
+Received: by mail-io0-f175.google.com with SMTP id f84so22063718ioj.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Mar 2017 08:04:44 -0700 (PDT)
+	Wed, 15 Mar 2017 08:09:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:organization:mime-version:content-transfer-encoding;
-	bh=Z6VnzKul91FTk9YaTJ9mCHQRUdnac4qHKkIZfHOWews=;
-	b=ttEEr7BgEyUuKcqN8hiIAJJqWdd8QSmzgp5FixhtyKKMe/aWA+P2SX7qd41fVbilFr
-	onLsCFZ2u35Wd9F/ucTblEPshhEOicIajlVIb0NS2uSsnSKzJ9yTy3df3Sf2DJexvMXf
-	ZTldphkzTbqfnBRqm7XF3g8BVPbYd/hVM3ZkwxLgyiH1vO3IBRu7zpoyej+ocyK7kjnU
-	amALC2CvxaGTc+lUcl+QP7/NIHq8DWE376WVBz/WATkhpS3MsxRIIG5TlbHJv2w9Iz+d
-	YWolTFfki58aA6jsY457ArNQb0q2+VE/NddDwk+u5bfQDis9D+b/7NbnBPjzZWrqC41w
-	hc9w==
+	bh=A5aY9agtq32eaN7OL5LhJzNnXa2PZXDc9wQ1gaSxYyc=;
+	b=rZr4PMrApR5cGCmj5RtxQ+BPrXbDExO8FZs12tpkslAsEQcSJef8LPEYx8TDHJaHoJ
+	kdRr2MEz5Y1Ok0UwvfxjQP08Cy1x3VJOfbrrs//imMN8BZ3c7oMEvQOi+ggToBwW//3T
+	Tz6Tiqk5jBC0ueMiuFXTVAybtN1EWyEtICa2NPpEWYdaK0o2+OHdukBKKqVDQELpxHqc
+	sBB837E8ZX+vTtw5T23dVAe6zixIg1GVbLHNvT2GiUFeru4tWrKGixMh5uf64nOzdGXW
+	yYA6KjW+q8C0KGK1pJ6Nis9HvKMxXz8UCckoG3O6FLis6pfAz42KwYIBkRx4UUg+Z5O0
+	CnYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:organization:mime-version:content-transfer-encoding;
-	bh=Z6VnzKul91FTk9YaTJ9mCHQRUdnac4qHKkIZfHOWews=;
-	b=YjXNjmBZ/R5aBcRwgW3ehsYlKHmndZ199B6hZ+EinualnCph4NYPD6h/nkYQ5kCPGo
-	U3ptqAtUtSC51HcMz2gT2PpbD2HX+K9Q9Dv821iANyZUr16eMsF7yysI4W0LIrsWhRGH
-	YL31po+mz+Rhc3uorKS4B0yDdeDMLWQzptVrYGkmodbxGqdqZ/kE4lHNwHYNPyYDDSAQ
-	tZKfA2VJerv+wpHjpyckpE1iloLDj0YP/VnRpcJIcobWZOd5f6VK5gG7zT+Msw4CJr5B
-	Z5goe6AWvRjhl/wHT8ow7A1mhO46vXFwj24Vqp8ASo7D5MxVx2tAqKScbEtokeqxGZwf
-	tp5w==
-X-Gm-Message-State: AFeK/H20T7yMreNFEGoGCOlLwaitLOhyZtzUxVaNceREgx8NtQ3OMMz/ft1n/koEK8t36BDg
-X-Received: by 10.36.9.209 with SMTP id 200mr22081795itm.44.1489590283806;
-	Wed, 15 Mar 2017 08:04:43 -0700 (PDT)
+	bh=A5aY9agtq32eaN7OL5LhJzNnXa2PZXDc9wQ1gaSxYyc=;
+	b=dkM74sYg3HW8iGTch/WYARjAfBh34kQnjc0aokoJWF5IIDAOW4uIYnXUoGdIzmSuw9
+	sH5UY5JsFy9yaPD1pDk7FAS4SBfqy8CfYvOVqZWxaK8N7vl8XRmdURW6VoF/51Km0gJm
+	l0DWqrrSlMCxaJPCK38ul3Q7DbcFpnQyl+fp6buCTpyh6OZuqvWfwBmj1sCLNgUQYgJo
+	R41rGn5pkZKDtOV4woN5i4FNdyA6kXZBNhvwR35jIYdd6SdFPfKgdtOKQbontTk7qs4c
+	FxlQyD2DClyG+IjpqsS3kPRLZ119txl+Mm1Yh/h1L0Bulbfsj4qT+prHYi830x9QQKL6
+	rFHQ==
+X-Gm-Message-State: AFeK/H3LYu1Ii439nAGu2yhhkZyyLOU9ojBrS9rGCH/bMWz7yalhHPehu8/TnEw4ApVy3un7
+X-Received: by 10.107.55.137 with SMTP id e131mr5229582ioa.105.1489590578241; 
+	Wed, 15 Mar 2017 08:09:38 -0700 (PDT)
 Received: from pohly-mobl1 (p5DE8DCEB.dip0.t-ipconnect.de. [93.232.220.235])
-	by smtp.gmail.com with ESMTPSA id 10sm270981itm.12.2017.03.15.08.04.41
+	by smtp.gmail.com with ESMTPSA id
+	y124sm272781itd.19.2017.03.15.08.09.35
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 15 Mar 2017 08:04:42 -0700 (PDT)
-Message-ID: <1489590279.6396.110.camel@intel.com>
+	Wed, 15 Mar 2017 08:09:36 -0700 (PDT)
+Message-ID: <1489590574.6396.113.camel@intel.com>
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: ed.bartosh@linux.intel.com
-Date: Wed, 15 Mar 2017 16:04:39 +0100
-In-Reply-To: <20170315140143.GA17397@linux.intel.com>
-References: <7d4a770f-25c6-5747-5a5c-370c822f2efb@mlbassoc.com>
-	<20170308134349.GA16099@linux.intel.com>
+Date: Wed, 15 Mar 2017 16:09:34 +0100
+In-Reply-To: <20170315144704.GA7153@linux.intel.com>
+References: <20170308134349.GA16099@linux.intel.com>
 	<a0d78645-9670-f3a1-cd9d-d66370e89ef9@phytec.de>
 	<20170314171147.GA28498@linux.intel.com>
 	<1489513785.6396.83.camel@intel.com>
@@ -52,6 +52,7 @@ References: <7d4a770f-25c6-5747-5a5c-370c822f2efb@mlbassoc.com>
 	<1489585158.6396.102.camel@intel.com>
 	<1489585294.6396.104.camel@intel.com>
 	<20170315140143.GA17397@linux.intel.com>
+	<20170315144704.GA7153@linux.intel.com>
 Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
 X-Mailer: Evolution 3.12.9-1+b1 
 Mime-Version: 1.0
@@ -69,38 +70,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Mar 2017 15:04:44 -0000
+X-List-Received-Date: Wed, 15 Mar 2017 15:09:37 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2017-03-15 at 16:01 +0200, Ed Bartosh wrote:
-> On Wed, Mar 15, 2017 at 02:41:34PM +0100, Patrick Ohly wrote:
-> > On Wed, 2017-03-15 at 14:39 +0100, Patrick Ohly wrote:
-> > > On Wed, 2017-03-15 at 14:58 +0200, Ed Bartosh wrote:
-> > > > Regarding do_rm_work. It should not touch rootfs directories, I believe.
-> > > 
+On Wed, 2017-03-15 at 16:47 +0200, Ed Bartosh wrote:
+> On Wed, Mar 15, 2017 at 04:01:43PM +0200, Ed Bartosh wrote:
+> > On Wed, Mar 15, 2017 at 02:41:34PM +0100, Patrick Ohly wrote:
+> > > On Wed, 2017-03-15 at 14:39 +0100, Patrick Ohly wrote:
+> > > > On Wed, 2017-03-15 at 14:58 +0200, Ed Bartosh wrote:
+> > > > > Regarding do_rm_work. It should not touch rootfs directories, I believe.
+> > > > 
+> > 
+> > > It does, and it should by default because a rootfs can be quite large.
+> > > If it's not going to be reused in another recipe, then it is worthwhile
+> > > to remove it.
+> > This is true unless we're going to use wic as a stand-alone tool, which some
+> > people still do.
+> > 
+> > > I should add that RM_WORK_EXCLUDE_ITEMS += "rootfs" can be used in image
+> > > recipes which know that their rootfs is going to be needed elsewhere -
+> > > it's just not the default.
+> > 
+> > Isn't rootfs going to be rebuilt if one rootfs recipe depends on another one?
 > 
-> > It does, and it should by default because a rootfs can be quite large.
-> > If it's not going to be reused in another recipe, then it is worthwhile
-> > to remove it.
-> This is true unless we're going to use wic as a stand-alone tool, which some
-> people still do.
+> Here is an example of dependency I'm talking about:
+> wic-image-minimal can be built just fine with enabled rm_work.
+> Its .wks uses 2 rootfs: core-image-minimal and wic-image-minimal.
 > 
-> > I should add that RM_WORK_EXCLUDE_ITEMS += "rootfs" can be used in image
-> > recipes which know that their rootfs is going to be needed elsewhere -
-> > it's just not the default.
+> I didn't use any RM_WORK_EXCLUDE_ITEMS. I did specified dependency to
+> core-image-minimal in wic-image-minimal recipe:
 > 
-> Isn't rootfs going to be rebuilt if one rootfs recipe depends on another one?
+> # core-image-minimal is referenced in .wks, so we need its rootfs
+> # to be ready before our rootfs
+> do_rootfs[depends] += "core-image-minimal:do_image core-image-minimal:do_rootfs_wicenv"
+> 
+> Am I missing something here?
 
-No, that's now how it works. Suppose there's a
-image-a:do_image_wic->image-b:do_rootfs task dependency. That dependency
-ensures that image-b:do_rootfs runs before image-a:do_image_wic. But it
-does not delay image-b:do_rm_work until image-a:do_image_wic is done.
+I'm pretty sure you have a race condition, you just haven't triggered
+the failure case.
 
-That could be fixed by also adding a
-image-b:do_rm_work->image-a:do_image_wic dependency. As I said,
-something that works out of the box for this use case would be nice...
-we can't expect developers to figure all of this out themselves.
+Perhaps you were also lucky because my "rm_work.bbclass: re-enable
+recursive do_rm_work_all" is pending and thus
+core-image-minimal:do_rm_work never ran at all.
 
 -- 
 Best Regards, Patrick Ohly
