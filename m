@@ -1,55 +1,48 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
-	[209.85.214.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C55271C7A
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 7252C71979
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Mar 2017 12:44:23 +0000 (UTC)
-Received: by mail-it0-f43.google.com with SMTP id m27so18209408iti.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Mar 2017 05:44:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=SVjy1cjTlxIUiwaBV3UsTEjeeuodnyTRm151AxKL/cQ=;
-	b=lFGihuSGUwJ1xsV9PhV+ENyamdPmEVT7EFDIO7oHfI3HUazZbfg1po4PsfuWDLCX4A
-	GPMzuRy6lp4OANCGo1D710o6eCJG0pnjN0ck5TjUZ59sunHU5ApcLbxi3b7eX529fyeG
-	dXj/WDmouEWnK4kvL3AkHUa6EAiVOz7/NGWaTi1WmpqqAPsmWU3waVIpqVCJMIaikcep
-	p3QcCiIkP5PgRsivCj2D+bxRfrXd/aCzfJrv1JCiuFijSsYWy6T11S55UuYr+MfHjGKf
-	4fv0KZlJ+7bhzp42VjZEm0Xd173bjmNk6V40kaCnN52IqvWzyrbWiapei/T/nNdhSl4Y
-	c14Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=SVjy1cjTlxIUiwaBV3UsTEjeeuodnyTRm151AxKL/cQ=;
-	b=IuLGITmtAmSZ1TgLgAIOGuIppz19YujfS/PYv3FOLHoXiYHxD5eNHoTZBOFRpEjvm2
-	zMuRa6ODN3qeeeLhI/irhUNwhs4C5IwEpFaVapt0EPsXJXJ0ACZBbSiPxJp/xxNdy3kv
-	xAFEPb0CF+9nWA38CSrqR3oR+jCpLKGKljCcS6I/6oXewFP5U9YumJP0fEsMuWsKhKPG
-	fuCEq7N3OFohHEm+BRvIZV4ispiqVGBk4liAFVN4K7V2MCcOnGVnOzArzwGGo4LhpE4E
-	CLsYe8oQ4RNAsINJpwRAqIF30tByh+N262tUuJERReJz97C4BlOmJoIH2FN+KgB5Z+ks
-	1JLw==
-X-Gm-Message-State: AFeK/H0QZGyjbX8Y3sqWd8dzn573udDacTgEkzOn8AXgs7yUHVSARsV13L+IBepiCfoHOEZu
-X-Received: by 10.36.216.4 with SMTP id b4mr5008707itg.100.1489581865183;
-	Wed, 15 Mar 2017 05:44:25 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8DCEB.dip0.t-ipconnect.de. [93.232.220.235])
-	by smtp.gmail.com with ESMTPSA id
-	100sm1433577iot.39.2017.03.15.05.44.22
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 15 Mar 2017 05:44:23 -0700 (PDT)
-Message-ID: <1489581861.6396.97.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Date: Wed, 15 Mar 2017 13:44:21 +0100
-In-Reply-To: <9ca28013-06c6-c668-2e42-1d13a75d4331@linux.intel.com>
-References: <20170314172749.6643-1-alexander.kanavin@linux.intel.com>
-	<CAJTo0LY4pN1n2s9Qe1FSesSRFUcWFLdsQQ6Z2J8-DZqGeBK14Q@mail.gmail.com>
-	<9ca28013-06c6-c668-2e42-1d13a75d4331@linux.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] rpm: add support for remote package feeds via PACKAGE_FEED_URIS variable
+	Wed, 15 Mar 2017 13:12:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1489583541; x=1521119541;
+	h=date:from:to:cc:subject:message-id:reply-to:references:
+	mime-version:in-reply-to;
+	bh=deGoE9qkQdiMZEoFJU/57kJlSBlAhKs96k9VirvobIQ=;
+	b=cl8VBsNt+tYBr/espPVuDzz3nbRXRCMoYpkI/U4pCAtDGZ71D0586Kcd
+	j57KA22LVN++uxVx9yv35BBchILeXA==;
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Mar 2017 06:12:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,168,1486454400"; d="scan'208";a="1142567983"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga002.fm.intel.com with ESMTP; 15 Mar 2017 06:12:18 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 270CE2C8001;
+	Wed, 15 Mar 2017 06:12:12 -0700 (PDT)
+Date: Wed, 15 Mar 2017 14:58:10 +0200
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Message-ID: <20170315125810.GA28986@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <2791e915-9e22-a01a-ccb5-c629d250edb2@phytec.de>
+	<20170308105729.GA22401@linux.intel.com>
+	<7d4a770f-25c6-5747-5a5c-370c822f2efb@mlbassoc.com>
+	<20170308134349.GA16099@linux.intel.com>
+	<a0d78645-9670-f3a1-cd9d-d66370e89ef9@phytec.de>
+	<20170314171147.GA28498@linux.intel.com>
+	<1489513785.6396.83.camel@intel.com>
+	<20170314180644.GA22000@linux.intel.com>
+	<1489562674.6396.89.camel@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1489562674.6396.89.camel@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Gary Thomas <gary@mlbassoc.com>, openembedded-core@lists.openembedded.org
+Subject: Re: Create more than one image with WIC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,41 +55,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Mar 2017 12:44:25 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 Mar 2017 13:12:21 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 2017-03-15 at 13:19 +0200, Alexander Kanavin wrote:
-> On 03/15/2017 01:13 PM, Burton, Ross wrote:
-> >
-> >     +        cls.repo_server.port = 8080
-> >
-> >
-> > What if parallel selftests are running at once?  Can this service be
-> > started before the image is created, so the right port can be written
-> > into the image?
+On Wed, Mar 15, 2017 at 08:24:34AM +0100, Patrick Ohly wrote:
+> On Tue, 2017-03-14 at 20:06 +0200, Ed Bartosh wrote:
+> > On Tue, Mar 14, 2017 at 06:49:45PM +0100, Patrick Ohly wrote:
+> > > 
+> > > > It's not a big deal to run wic sequentially to produce multiple images,
+> > > > but it will create more problems than it solves I believe. It will be slower and
+> > > > will make a mess in image naming in deploy directory.
+> > > 
+> > > I personally would prefer to support generating more than one wic image
+> > > per image recipe. The different output files could be distinguished with
+> > > an additional suffix (".efi.wic", ".live.wiC", etc.) where the suffix is
+> > > either specified by the WKS file or the configuration where the WKS file
+> > > is selected - the latter might be a bit more flexible.
+> > >
+> > 
+> > From my point of view ths would be against the current design of oe
+> > image building susbsystem. It would be also more complex and slower
+> > unless we'll find a way to dynamically generate multiple image creation
+> > tasks per one recipe and run them in parallel. In this case it will be
+> > even more complex.
 > 
-> I don't know. I only followed what Humberto wrote in the original patch; 
-> we need to ask him. I'm also not entirely certain that hardcoding the ip 
-> address will always work, and did not get an answer to that.
+> That's a good point. However, directly sharing the content of the build
+> directory from different recipes is also against the OE design and
+> requires special attention, for example to suppressing the do_rootfs
+> task in one recipe and preventing do_rm_work in the other.
 > 
-> Another, more hackish option is to monkey patch the ephemeral port 
-> before running dnf into the repo config on the image.
+> Either way, something that works out of the box might be useful.
 
-Or perhaps use ssh with port forwarding? Then the host-side port can be
-picked randomly, while on the target side it can be fixed.
+I'm going to address this in near future when I'll be working on
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=10073
+Feel free to comment on it, btw.
 
-I was about to suggest qemu slirp networking because that also does port
-mapping, but I think ssh port forwarding is better.
+So far the plan is to treat EFI boot partition as a rootfs. wic job
+would be to simply put content of multiple rootfs-es into partitions of
+the final image. No suppressing of do_rootfs would be needed, I hope.
 
--- 
-Best Regards, Patrick Ohly
+Regarding do_rm_work. It should not touch rootfs directories, I believe.
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+--
+Regards,
+Ed
 
