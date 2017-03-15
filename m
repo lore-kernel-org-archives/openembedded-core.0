@@ -1,38 +1,54 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 367D4776A7
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f41.google.com (mail-pg0-f41.google.com [74.125.83.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DEE26E5FB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Mar 2017 05:32:53 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="16589879"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 15 Mar 2017 13:32:54 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id E205448A294D;
-	Wed, 15 Mar 2017 13:32:51 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD02.g08.fujitsu.local ([10.167.33.83]) with mapi id
-	14.03.0319.002; Wed, 15 Mar 2017 13:32:49 +0800
-From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [jethro][PATCH] sdk: arm toolchain patch for multilib
-Thread-Index: AQHSnJUjPGLBUGBISE6g22217PE8r6GVYcRQ
-Date: Wed, 15 Mar 2017 05:32:50 +0000
-Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF73244DCE7B@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1489507238-3384-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-	<1489476714.13980.36.camel@linuxfoundation.org>
-In-Reply-To: <1489476714.13980.36.camel@linuxfoundation.org>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.100]
+	Wed, 15 Mar 2017 05:58:29 +0000 (UTC)
+Received: by mail-pg0-f41.google.com with SMTP id g2so4324179pge.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Mar 2017 22:58:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=XBXICfDVX/JFgP8QmMgRUHb7+WhaK55Vt8qSrq4o0Og=;
+	b=iUflT3J8e04htppTEbzVMjs1GO+j2bzPEvQ6WFD2pMXTmQkOm8L1UAqGJhvKUJW9/z
+	eRC6klOnA0Oa3Q8y5afn+ElekB1Hf2EtyvtqFOS4MCiVFK4Tj8zP9/IYdeF2hyB++0YB
+	UzxcE7JOkfSSSUQvhNWA7L3Jq1uCMJBqrCjSdxMFjV8i8Dobl3w8xdtmJ9ayEw6kCXMb
+	DAMiOQ90nk8E719vJDOsZJK+0c+zBU78Cn0vnkA3nc3J26BY5RD0NKapgLPob8CNQVYq
+	S9sP0JL0OuVJMcGs4coAfwOFFRnTucoyGdFzTKPkey9lKG2joxeYaX5z/Od5Wxt6nqRd
+	B5FQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=XBXICfDVX/JFgP8QmMgRUHb7+WhaK55Vt8qSrq4o0Og=;
+	b=fabRg6p6lejSa1jqv4jsOrIacarDpHkftxxQ864Xv1Oqc9L5aBLYMmyuBgwNj72yq7
+	01V5CdVzO6BDJqmHqNhBeTy7oYHGKYbMZL2QaIz742+mYnMuUi6/9HY7WazFdlmlFlNE
+	joizR5rItUuIeWg7/I1Xf0EXUPhmeeSALr0FFBebZDifTODEkZq1nxNNQPMCNtZpuNEI
+	mnJEx94Lw43MvDoF4jHZdtEAymfPLrzsmor1NC1Q69VjLRwvV74h0o6QP2Zex4S3LpTb
+	AIldfFMlRe2FowtSr+QNbqvyaRx58+fSvjijaASmmBQb52hWazJ21eYbtxwyzZGBNMi0
+	P7gQ==
+X-Gm-Message-State: AFeK/H0piQ028M/jqQP2ZYwBboK04PwWYM9bAT6y9QTZOpCKif+7dGPyhmX7wXVIUi06NQ==
+X-Received: by 10.99.121.78 with SMTP id u75mr1698018pgc.202.1489557510952;
+	Tue, 14 Mar 2017 22:58:30 -0700 (PDT)
+Received: from [10.161.103.40] ([111.93.218.67])
+	by smtp.gmail.com with ESMTPSA id
+	z189sm1478075pgb.3.2017.03.14.22.58.29
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 14 Mar 2017 22:58:30 -0700 (PDT)
+To: Andre McCurdy <armccurdy@gmail.com>
+References: <1487700290-3110-1-git-send-email-armccurdy@gmail.com>
+	<CAJ86T=Vji6+uo25xxB0rir_HcCo2UzEcrmsa_q-3kdUJJUF5rg@mail.gmail.com>
+	<42b3cca7-a268-ea8c-2e35-02c1624bf290@gmail.com>
+	<CAJ86T=Ubzmt=qDickvWDCvUwpf1T9iGTTiSVQAZcqvpCsPN15A@mail.gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <f45203ef-5c5b-95a1-5ce1-4a479f31ecb4@gmail.com>
+Date: Tue, 14 Mar 2017 22:58:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.7.0
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: E205448A294D.AB77F
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: Re: [jethro][PATCH] sdk: arm toolchain patch for multilib
+In-Reply-To: <CAJ86T=Ubzmt=qDickvWDCvUwpf1T9iGTTiSVQAZcqvpCsPN15A@mail.gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2][morty] Backport image dependency chain fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,142 +61,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Mar 2017 05:32:55 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 15 Mar 2017 05:58:31 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-SGkgcmljaGFyZA0KICBJIGhhdmUgc2VudCBhIG5ldyBwYXRjaCB0byBmaXgg
-dG9vbGNoYWluIGZvciBhcm0gbXVsdGlsaWINCiAgICM4NjQyDQogICAoRnJv
-bSBPRS1Db3JlIHJldjogYjYyNTMzNTBmYjg2ZDhlNTQ3OTI5MDUzNDJhNTg5
-MmFmNTcwZDUyNikNCiAgTGFzdCBwYXRjaCBpcyBpbmRlZWQgbm90IGluIG1h
-c3Rlci4NCg0KWmhlbmcgUnVvcWluDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2Fn
-ZS0tLS0tDQpGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFpbHRvOnJpY2hhcmQu
-cHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddIA0KU2VudDogVHVlc2RheSwg
-TWFyY2ggMTQsIDIwMTcgMzozMiBQTQ0KVG86IFpoZW5nLCBSdW9xaW4v6YOR
-IOiLpemSpiA8emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPjsgb3BlbmVt
-YmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KU3ViamVjdDog
-UmU6IFtPRS1jb3JlXSBbamV0aHJvXVtQQVRDSF0gc2RrOiBhcm0gdG9vbGNo
-YWluIHBhdGNoIGZvciBtdWx0aWxpYg0KDQpPbiBXZWQsIDIwMTctMDMtMTUg
-YXQgMDA6MDAgKzA4MDAsIHpoZW5ncnEgd3JvdGU6DQo+IMKgIFRoZSBhcm0g
-dG9vbGNoYWluIGhhcyBhICItZ251ZWFiaSIgc3VmZml4LCBidXQgYWFyY2g2
-NCBkb2Vzbid0LHRoaXMgDQo+IG1ha2VzIG11bHRpbGliIHNkayBkb2Vzbid0
-IHdvcmssIGZvciBleGFtcGxlOg0KPiANCj4gwqAgTUFDSElORSA9IHFlbXVh
-cm02NA0KPiDCoCByZXF1aXJlIGNvbmYvbXVsdGlsaWIuY29uZg0KPiDCoCBN
-VUxUSUxJQlMgPSAibXVsdGlsaWI6bGliMzIiDQo+IMKgIERFRkFVTFRUVU5F
-X3ZpcnRjbGFzcy1tdWx0aWxpYi1saWIzMiA9ICJhcm12N2F0LW5lb24iDQo+
-IA0KPiDCoCAkIGJpdGJha2UgY29yZS1pbWFnZS1taW5pbWFsIC1jcG9wdWxh
-dGVfc2RrDQo+IA0KPiDCoCBUaGVuIGV4dHJhY3QgU0RLLCB0aGUgZW52aXJv
-bm1lbnQtc2V0dXAtYXJtdjdhLXZmcC1uZW9uLQ0KPiBwb2t5bWxsaWIzMi1s
-aW51eC1nbnVlYWJpIGRvZXNuJ3Qgd29yayBzaW5jZToNCj4gwqAgKiBUaGUg
-Q0MgaXMgYXJtLXBva3ltbGxpYjMyLWxpbnV4LWdudWVhYmktZ2NjIHdoaWNo
-IGRvZXNuJ3QgZXhpc3QsIA0KPiB0aGUgcGF0Y2ggZm9yIGNyb3NzLWNhbmFk
-aWFuLmJiY2xhc3MgZml4ZXMgcHJvYmxlbS4NCj4gwqAgKiBOZWVkIGFhcmNo
-NjQtcG9reS1saW51eC91c3IvbGliL2FybS1wb2t5LWxpbnV4LWxpbnV4LWdu
-dWVhYmkNCj4gd2hpY2ggZG9lc24ndCBleGlzdCwgdGhlIHBhdGNoIGZvciBs
-aWJnY2MtY29tbW9uLmluYyBmaXhlcyB0aGUgDQo+IHByb2JsZW0uDQo+IA0K
-PiDCoCBbWU9DVE8gIzg2MTZdDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBSb2Jl
-cnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJpdmVyLmNvbT4NCj4gU2lnbmVk
-LW9mZi1ieTogTGVpIE1hb2h1aSA8bGVpbWFvaHVpQGNuLmZ1aml0c3UuY29t
-Pg0KPiBTaWduZWQtb2ZmLWJ5OiBaaGVuZyBSdW9xaW4gPHpoZW5ncnEuZm5z
-dEBjbi5mdWppdHN1LmNvbT4NCg0KSSdtIG5vdCBzZWVpbmcgYW55IHBhdGNo
-IGluIG1hc3RlciB3aGljaCBzZXRzwqBHTlVFQUJJX1NVRkZJWCB1bmxlc3Mg
-SSdtIG1pc3Npbmcgc29tZXRoaW5nPw0KDQpXaGljaCBwYXRjaCBhcmUgeW91
-IGJhY2twb3J0aW5nIHRvIGpldGhybyBoZXJlPw0KDQpEb24ndCB5b3UgcmVh
-bGx5IHdhbnTCoGh0dHA6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9jZ2l0LmNn
-aS9wb2t5L2NvbW1pdC8NCj9pZD1iNjI1MzM1MGZiODZkOGU1NDc5MjkwNTM0
-MmE1ODkyYWY1NzBkNTI2wqA/DQoNCmFuZCBwZXJoYXBzIHlvdSBtZWFuICM4
-NjQywqBvciAjMTAwNTQ/DQoNCkNoZWVycywNCg0KUmljaGFyZA0KDQo+IMKg
-bWV0YS9jbGFzc2VzL2Nyb3NzLWNhbmFkaWFuLmJiY2xhc3PCoMKgwqDCoMKg
-wqDCoMKgwqB8wqDCoDMgKysrDQo+IMKgbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L2djYy9saWJnY2MtY29tbW9uLmluYyB8IDI1ICsrKysrKysrKysrKysrKysr
-Ky0NCj4gLS0tLS0tDQo+IMKgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2djYy9s
-aWJnY2MuaW5jwqDCoMKgwqDCoMKgwqDCoHzCoMKgMiArLQ0KPiDCoDMgZmls
-ZXMgY2hhbmdlZCwgMjIgaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkN
-Cj4gDQo+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMvY3Jvc3MtY2FuYWRp
-YW4uYmJjbGFzcw0KPiBiL21ldGEvY2xhc3Nlcy9jcm9zcy1jYW5hZGlhbi5i
-YmNsYXNzDQo+IGluZGV4IGVhMTdmMDkuLjQ1ODE4NWQgMTAwNjQ0DQo+IC0t
-LSBhL21ldGEvY2xhc3Nlcy9jcm9zcy1jYW5hZGlhbi5iYmNsYXNzDQo+ICsr
-KyBiL21ldGEvY2xhc3Nlcy9jcm9zcy1jYW5hZGlhbi5iYmNsYXNzDQo+IEBA
-IC0xOCw2ICsxOCw3IEBAIFBBQ0tBR0VfQVJDSCA9ICIke1NES19BUkNIfS0k
-e1NES1BLR1NVRkZJWH0iDQo+IMKgQ0FOQURJQU5FWFRSQU9TID0gImxpbnV4
-LXVjbGliYyBsaW51eC1tdXNsIg0KPiDCoENBTkFESUFORVhUUkFWRU5ET1Ig
-PSAiIg0KPiDCoE1PRElGWVRPUyA/Pz0gIjEiDQo+ICtHTlVFQUJJX1NVRkZJ
-WCA9ICIiDQo+IMKgcHl0aG9uICgpIHsNCj4gwqDCoMKgwqDCoGFyY2hzID0g
-ZC5nZXRWYXIoJ1BBQ0tBR0VfQVJDSFMnLCBUcnVlKS5zcGxpdCgpDQo+IMKg
-wqDCoMKgwqBzZGthcmNocyA9IFtdDQo+IEBAIC02OSw2ICs3MCw3IEBAIHB5
-dGhvbiAoKSB7DQo+IMKgwqDCoMKgwqDCoMKgwqDCoGQuYXBwZW5kVmFyKCJD
-QU5BRElBTkVYVFJBT1MiLCAiIGxpbnV4LWdudW4zMiBsaW51eC0NCj4gdWNs
-aWJjbjMyIGxpbnV4LW11c2xuMzIiKQ0KPiDCoMKgwqDCoMKgaWYgdGFyY2gg
-PT0gImFybSIgb3IgdGFyY2ggPT0gImFybWViIjoNCj4gwqDCoMKgwqDCoMKg
-wqDCoMKgZC5zZXRWYXIoIlRBUkdFVF9PUyIsICJsaW51eC1nbnVlYWJpIikN
-Cj4gK8KgwqDCoMKgwqDCoMKgwqBkLnNldFZhcigiR05VRUFCSV9TVUZGSVgi
-LCAiLWdudWVhYmkiKQ0KPiDCoMKgwqDCoMKgZWxzZToNCj4gwqDCoMKgwqDC
-oMKgwqDCoMKgZC5zZXRWYXIoIlRBUkdFVF9PUyIsICJsaW51eCIpDQo+IMKg
-DQo+IEBAIC0xNjcsNiArMTY5LDcgQEAgU0hMSUJTV09SS0RJUiA9ICIke1BL
-R0RBVEFfRElSfS9uYXRpdmVzZGstIA0KPiBzaGxpYnMyIg0KPiDCoGNyb3Nz
-X2NhbmFkaWFuX2JpbmRpcmxpbmtzICgpIHsNCj4gwqAJZm9yIGkgaW4gbGlu
-dXggJHtDQU5BRElBTkVYVFJBT1N9DQo+IMKgCWRvDQo+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoGk9IiRpJHtHTlVFQUJJX1NVRkZJWH0i
-DQo+IMKgCQlmb3IgdiBpbiAke0NBTkFESUFORVhUUkFWRU5ET1J9DQo+IMKg
-CQlkbw0KPiDCoAkJCWQ9JHtEfSR7YmluZGlyfS8uLi8ke1RBUkdFVF9BUkNI
-fSR2LSRpDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-Z2NjL2xpYmdjYy1jb21tb24uaW5jDQo+IGIvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL2djYy9saWJnY2MtY29tbW9uLmluYw0KPiBpbmRleCBiMDllYTY1Li40
-NmY4Y2ZkIDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-Z2NjL2xpYmdjYy1jb21tb24uaW5jDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9nY2MvbGliZ2NjLWNvbW1vbi5pbmMNCj4gQEAgLTEzNCwxMSAr
-MTM0LDIyIEBAIEJBU0VUQVJHRVRfU1lTID0gDQo+ICIke1RBUkdFVF9BUkNI
-fSR7T1JJR19UQVJHRVRfVkVORE9ST1N9Ig0KPiDCoA0KPiDCoGFkZHRhc2sg
-ZXh0cmFfc3ltbGlua3MgYWZ0ZXIgZG9fbXVsdGlsaWJfaW5zdGFsbCBiZWZv
-cmUgZG9fcGFja2FnZSANCj4gZG9fcG9wdWxhdGVfc3lzcm9vdA0KPiDCoGZh
-a2Vyb290IHB5dGhvbiBkb19leHRyYV9zeW1saW5rcygpIHsNCj4gLcKgwqDC
-oMKgdGFyZ2V0c3lzID0gZC5nZXRWYXIoJ0JBU0VUQVJHRVRfU1lTJywgVHJ1
-ZSkNCj4gLQ0KPiAtwqDCoMKgwqBpZiB0YXJnZXRzeXMgIT0gZC5nZXRWYXIo
-J1RBUkdFVF9TWVMnLCBUcnVlKToNCj4gLcKgwqDCoMKgwqDCoMKgwqBkZXN0
-ID0gZC5nZXRWYXIoJ0QnLCBUcnVlKSArIGQuZ2V0VmFyKCdsaWJkaXInLCBU
-cnVlKSArICcvJw0KPiArIHRhcmdldHN5cw0KPiAtwqDCoMKgwqDCoMKgwqDC
-oHNyYyA9IGQuZ2V0VmFyKCdUQVJHRVRfU1lTJywgVHJ1ZSkNCj4gLcKgwqDC
-oMKgwqDCoMKgwqBpZiBub3Qgb3MucGF0aC5sZXhpc3RzKGRlc3QpIGFuZCAN
-Cj4gb3MucGF0aC5sZXhpc3RzKGQuZ2V0VmFyKCdEJywgVHJ1ZSkgKyBkLmdl
-dFZhcignbGliZGlyJywgVHJ1ZSkpOg0KPiAtwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgb3Muc3ltbGluayhzcmMsIGRlc3QpDQo+ICvCoMKgwqDCoGJhc2Vf
-dGFyZ2V0c3lzID0gZC5nZXRWYXIoJ0JBU0VUQVJHRVRfU1lTJywgVHJ1ZSkN
-Cj4gK8KgwqDCoMKgdGFyZ2V0c3lzID0gZC5nZXRWYXIoJ1RBUkdFVF9TWVMn
-LCBUcnVlKQ0KPiArDQo+ICvCoMKgwqDCoGlmIGJhc2VfdGFyZ2V0c3lzICE9
-IHRhcmdldHN5czoNCj4gK8KgwqDCoMKgwqDCoMKgwqBkZXN0ID0gZC5nZXRW
-YXIoJ0QnLCBUcnVlKSArIGQuZ2V0VmFyKCdsaWJkaXInLCBUcnVlKSArICcv
-Jw0KPiArIGJhc2VfdGFyZ2V0c3lzDQo+ICvCoMKgwqDCoMKgwqDCoMKgZGVz
-dF9saXN0ID0gW2Rlc3RdDQo+ICvCoMKgwqDCoMKgwqDCoMKgIyBGb3IgbXVs
-dGlsaWIgbGlrZSBhYXJjaDY0ICsgYXJtLCBuZWVkIDIgc3ltbGlua3M6DQo+
-ICvCoMKgwqDCoMKgwqDCoMKgIyAxKSBCQVNFVEFSR0VUX1NZUyBhcyB1c3Vh
-bA0KPiArwqDCoMKgwqDCoMKgwqDCoCMgMikgQkFTRVRBUkdFVF9TWVMgKyAi
-LWdudWVhYmkiIGZvciBtdWx0aWxpYg0KPiArwqDCoMKgwqDCoMKgwqDCoGxp
-YmNlID0gZC5nZXRWYXIoJ0xJQkNFWFRFTlNJT04nLCBUcnVlKQ0KPiArwqDC
-oMKgwqDCoMKgwqDCoGFiaWUgPSBkLmdldFZhcignQUJJRVhURU5TSU9OJywg
-VHJ1ZSkNCj4gK8KgwqDCoMKgwqDCoMKgwqBpZiBhYmllIGFuZCBsaWJjZSBh
-bmQgdGFyZ2V0c3lzLmVuZHN3aXRoKGxpYmNlICsgYWJpZSk6DQo+ICvCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqBkZXN0X2xpc3QuYXBwZW5kKGRlc3QgKyBs
-aWJjZSArIGFiaWUpDQo+ICvCoMKgwqDCoMKgwqDCoMKgc3JjID0gdGFyZ2V0
-c3lzDQo+ICvCoMKgwqDCoMKgwqDCoMKgZm9yIGRpciBpbiBkZXN0X2xpc3Q6
-DQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiBub3Qgb3MucGF0aC5s
-ZXhpc3RzKGRpcikgYW5kDQo+IG9zLnBhdGgubGV4aXN0cyhkLmdldFZhcign
-RCcsIFRydWUpICsgZC5nZXRWYXIoJ2xpYmRpcicsIFRydWUpKToNCj4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgb3Muc3ltbGluayhzcmMs
-IGRpcikNCj4gwqB9DQo+ICsNCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9nY2MvbGliZ2NjLmluYyBiL21ldGEvcmVjaXBlcy0gDQo+
-IGRldnRvb2xzL2djYy9saWJnY2MuaW5jIGluZGV4IDk1ZmEzZjQuLmY2YTBh
-OGMgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nY2Mv
-bGliZ2NjLmluYw0KPiArKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2Nj
-L2xpYmdjYy5pbmMNCj4gQEAgLTE3LDcgKzE3LDcgQEAgTElDRU5TRV8ke1BO
-fS1kYmcgPSAiR1BMLTMuMC13aXRoLUdDQy1leGNlcHRpb24iDQo+IMKgDQo+
-IMKgRklMRVNfJHtQTn0tZGV2ID0gIlwNCj4gwqDCoMKgwqDCoCR7YmFzZV9s
-aWJkaXJ9L2xpYmdjYyouc28gXA0KPiAtwqDCoMKgwqAke0BiYXNlX2NvbmRp
-dGlvbmFsKCdCQVNFVEFSR0VUX1NZUycsICcke1RBUkdFVF9TWVN9JywgJycs
-IA0KPiAnJHtsaWJkaXJ9LyR7QkFTRVRBUkdFVF9TWVN9JywgZCl9IFwNCj4g
-K8KgwqDCoMKgJHtAYmFzZV9jb25kaXRpb25hbCgnQkFTRVRBUkdFVF9TWVMn
-LCAnJHtUQVJHRVRfU1lTfScsICcnLA0KPiAnJHtsaWJkaXJ9LyR7QkFTRVRB
-UkdFVF9TWVN9KicsIGQpfSBcDQo+IMKgwqDCoMKgwqAke2xpYmRpcn0vJHtU
-QVJHRVRfU1lTfS8ke0JJTlZ9KiBcDQo+IMKgIg0KPiDCoA0KPiAtLQ0KPiAy
-LjcuNA0KPiANCj4gDQo+IA0KDQoNCgoK
+
+
+On 03/14/2017 08:13 PM, Andre McCurdy wrote:
+> On Tue, Mar 14, 2017 at 8:08 PM, akuster808 <akuster808@gmail.com> wrote:
+>> On 03/14/2017 07:14 PM, Andre McCurdy wrote:
+>>> On Tue, Feb 21, 2017 at 10:04 AM, Andre McCurdy <armccurdy@gmail.com>
+>>> wrote:
+>>>> Andre McCurdy (1):
+>>>>     image_types.bbclass: fix image dependency chain collection
+>>>>
+>>>> Randy Witt (1):
+>>>>     image_types.bbclass: IMAGE_TYPEDEP_ now adds deps for conversion types
+>> I tried applying these changes and they fail. maybe I can grabbing the wrong
+>> changes.
+> You can't cherry-pick the original commits directly from master due to
+> missing getVar() True's. The patches sent to the list were manually
+> fixed up to apply correctly though.
+ok. found them thank. they apply fine.
+will be in stagging soon
+
+- armin
+>
+>> - armin
+>>
+>>
+>>
+>>> Ping (and CC'ing Armin this time...)
+>>
+>>>>    meta/classes/image_types.bbclass | 16 ++++++++++++----
+>>>>    1 file changed, 12 insertions(+), 4 deletions(-)
+>>>>
+>>>> --
+>>>> 1.9.1
+>>>>
+
 
