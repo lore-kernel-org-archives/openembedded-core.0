@@ -1,48 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
-	[209.85.220.180])
-	by mail.openembedded.org (Postfix) with ESMTP id A02AB760AC
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 5660E778A7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 17:42:20 +0000 (UTC)
-Received: by mail-qk0-f180.google.com with SMTP id p64so45667494qke.1
+	Thu, 16 Mar 2017 18:23:00 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id b5so6938975pgg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 10:42:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=DMHLd4stKOOqeamH73bCTni1FcwUGhVbpgeGMKiahG8=;
-	b=LuLuJTziBPaVBnQzILiEiBsRlQ54Nzrha3YwHmc5E6evNJTRZ84Jz9g/9D6VCY982O
-	NkzuFT34pXr6eXjnNWIdb5JcLie4jJ1jRzkeFpnjOtMyeZdcWUcW7VTh+tbgvx6Y9s5e
-	pP5yWDAneKtPin7F65Am4ypD1OVnBsF32qm/K0+f3hbqjaIA0FwSXRyZncFmVrRzOiQ5
-	pZAJGdPJhAi6ZSY6xl9JJ1CoGq0Vu+RftfvXCRz0lkU18x0lkpsr372GMD0XavOmAZoF
-	8AHMJw4rcP4XXCJnoiUD0k0X1UnbXuFkZBmZZjtE9Kx9+4cBLIilEBaH5EuC5cO/vD7K
-	KYMA==
+	Thu, 16 Mar 2017 11:23:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=emSdK07vP6EzNmXxbuFVFiW+r7z9cXKikGEkwc85d3s=;
+	b=MJfW+sG80FgmMLltRYX28JjGkthqvASAk8lZ/Yy5uvVQVKEKNtiXwJntDAjb+Ph+lM
+	cVKb0mQDHe1/ynU70+EjcH7pdRtlfeBXa8EF5lpEJJc2jFaQV6jgC7kSEag8YlLWCqS6
+	BDTOblpzT1pBNVlTTACyAsZEM/rrgu5mYs1W6/YXonTTwaKiQmeJLuFYCaMjA47hJ4xe
+	TkldP+eK1RvVV/8Hsmfzsq9MVWLAI191dUTVzvpiwppsgHFh9KZ0WErApojRbXbIdtFh
+	ixN6WGWcW35BJO3eBgiSZKp4iuFD5ypqh1+wK6RogteKK5WbVTShfoBNFfnxKAPUGXiM
+	NjCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=DMHLd4stKOOqeamH73bCTni1FcwUGhVbpgeGMKiahG8=;
-	b=VUjn0yPS47KN4/2bIGKV8aEWanFxzlDg2CTFUz9P/24CKbWzcjwpgcrRbsBfyovXz2
-	UFp50sLeaVh4uyI5rNC8Nj1MQc7VzcR/Hjj9XOaZTccaNblzbhPlcViZGxN17Sh8R3nS
-	Gb66ZipyuFayprOT1iXoYrzvZwIjoOOdz3YuOEn7/CRRFGqLMXYqMLwTW0tdrtCSx7gc
-	rwX32vjMDaTvRPJTnd6d8j8jIUDDwS3IGUglb1RQtiWkQezrkgrPOVluq/NtK5tFx0qd
-	5EYztxwfvaP6EsxLh5e71jn7Ym+f6+ggQufpat0exH3kOWgYVrs9xyboRmj+GOvlspPI
-	gh+Q==
-X-Gm-Message-State: AFeK/H3guf2Q4tw+8LcoLq8GgELFCltxxFXtWP7BqkOpiebyw9HL65aW6/V37Rn5olDFaa47VQCyiAh1Z4hFNHuU
-X-Received: by 10.55.3.151 with SMTP id 145mr8732954qkd.244.1489686141236;
-	Thu, 16 Mar 2017 10:42:21 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Thu, 16 Mar 2017 10:42:00 -0700 (PDT)
-In-Reply-To: <007BD92917A2324FA403BCF9A464CF84CF2971C7@ALA-MBC.corp.ad.wrs.com>
-References: <1489684755-27165-1-git-send-email-jslater@windriver.com>
-	<007BD92917A2324FA403BCF9A464CF84CF2971C7@ALA-MBC.corp.ad.wrs.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 16 Mar 2017 17:42:00 +0000
-Message-ID: <CAJTo0LbihmZMtH3dM7fv4BjUaL2SCj3Dbi-wLsKraL-erZ1B_g@mail.gmail.com>
-To: "Slater, Joseph" <joe.slater@windriver.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [v2][PATCH 1/1] build-compare: add date to PV
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=emSdK07vP6EzNmXxbuFVFiW+r7z9cXKikGEkwc85d3s=;
+	b=Oo5pSpMEjL0KMsKJmDIGZSNI4F5E7FonukfIUrwJS8Wzyo3s6meshs8+WxHJnenVLC
+	UDrEsMzKhaP1MG1cRCog/OYpFwbtP0v4eVhA7fVxY7hEX3+7V5XszaOXEE1NWjvHYS+y
+	bYM6kUHEbqYYs2OXXzJtbolS9uCoNx1c9N+cE7nbQG2X/L/tECM+lFJcx0Kpeb0w4duB
+	+CxgySf+cwLbW2TktO9ErLSE1ful88QGJPcAvRJp/lvfIEc2g8GhanM8zjBYdxzwSLqZ
+	cLatnz99RV5PeGF6Owk93c1qimGnzvlQxotGNP14y7PKEOBIufaTkYm2Wn4sXJMOqslD
+	NZaw==
+X-Gm-Message-State: AFeK/H15B4genRwhkd7J5ukIsFt7W9d6FYsOFTiax4BTcY3xi4fWMM99N2opJvFhSKlmFA==
+X-Received: by 10.84.231.198 with SMTP id g6mr14365841pln.20.1489688582423;
+	Thu, 16 Mar 2017 11:23:02 -0700 (PDT)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	s87sm11929003pfa.29.2017.03.16.11.23.00
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 16 Mar 2017 11:23:01 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 16 Mar 2017 11:22:43 -0700
+Message-Id: <20170316182243.25875-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.12.0
+Subject: [PATCH] webkitgtk: Fix build on aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,37 +51,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Mar 2017 17:42:21 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0b93a047111a054adc95cd
+X-List-Received-Date: Thu, 16 Mar 2017 18:23:01 -0000
 
---94eb2c0b93a047111a054adc95cd
-Content-Type: text/plain; charset=UTF-8
+Do not try to do runtime tests during cross compile
+Fixes
 
-On 16 March 2017 at 17:28, Slater, Joseph <joe.slater@windriver.com> wrote:
+| CMake Error at Source/cmake/OptionsCommon.cmake:73 (math):
+|   math cannot parse the expression: "-1": syntax error, unexpected exp_MINUS,
+|   expecting exp_OPENPARENT or exp_NUMBER (1)
 
-> Also, should PE be defined given that the form of PV has changed?
-> I know it hasn't been for any of the recipes modified so far.
->
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-sato/webkit/files/cross-compile.patch | 23 ++++++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.14.5.bb       |  3 +++
+ 2 files changed, 26 insertions(+)
+ create mode 100644 meta/recipes-sato/webkit/files/cross-compile.patch
 
-Depends on how it changed.  Numbers sort before letters, so yes this needs
-a PE bump.
+diff --git a/meta/recipes-sato/webkit/files/cross-compile.patch b/meta/recipes-sato/webkit/files/cross-compile.patch
+new file mode 100644
+index 0000000000..4d1de72851
+--- /dev/null
++++ b/meta/recipes-sato/webkit/files/cross-compile.patch
+@@ -0,0 +1,23 @@
++Disable the tests meant to run when compiling natively
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Index: webkitgtk-2.14.5/Source/cmake/OptionsCommon.cmake
++===================================================================
++--- webkitgtk-2.14.5.orig/Source/cmake/OptionsCommon.cmake
+++++ webkitgtk-2.14.5/Source/cmake/OptionsCommon.cmake
++@@ -67,8 +67,11 @@ endif ()
++ # Detect Cortex-A53 core if CPU is ARM64 and OS is Linux.
++ # Query /proc/cpuinfo for each available core and check reported CPU part number: 0xd03 signals Cortex-A53.
++ # (see Main ID Register in ARM Cortex-A53 MPCore Processor Technical Reference Manual)
++-set(WTF_CPU_ARM64_CORTEXA53_INITIALVALUE OFF)
++-if (WTF_CPU_ARM64 AND (${CMAKE_SYSTEM_NAME} STREQUAL "Linux"))
+++if( NOT WTF_CPU_ARM64_CORTEXA53_INITIALVALUE)
+++    set(WTF_CPU_ARM64_CORTEXA53_INITIALVALUE OFF)
+++endif(WTF_CPU_ARM64_CORTEXA53_INITIALVALUE)
+++
+++if (WTF_CPU_ARM64 AND NOT CMAKE_CROSSCOMPILING AND (${CMAKE_SYSTEM_NAME} STREQUAL "Linux"))
++     execute_process(COMMAND nproc OUTPUT_VARIABLE PROC_COUNT)
++     math(EXPR PROC_MAX ${PROC_COUNT}-1)
++     foreach (PROC_ID RANGE ${PROC_MAX})
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.14.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.14.5.bb
+index 1eb5b0b6e1..daa17a94da 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.14.5.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.14.5.bb
+@@ -20,6 +20,7 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
+            file://detect_atomics.patch \
+            file://x32_support.patch \
++           file://cross-compile.patch \
+            "
+ 
+ SRC_URI[md5sum] = "7fe3cb2699e64f969b285823c5ae2516"
+@@ -83,6 +84,8 @@ EXTRA_OECMAKE_append_aarch64 = " -DUSE_LD_GOLD=OFF "
+ EXTRA_OECMAKE_append_mipsarch = " -DUSE_LD_GOLD=OFF "
+ EXTRA_OECMAKE_append_toolchain-clang = " -DUSE_LD_GOLD=OFF "
+ 
++EXTRA_OECMAKE_append_aarch64 = " -DWTF_CPU_ARM64_CORTEXA53=ON"
++
+ # JIT not supported on MIPS either
+ EXTRA_OECMAKE_append_mipsarch = " -DENABLE_JIT=OFF "
+ 
+-- 
+2.12.0
 
-Ross
 
---94eb2c0b93a047111a054adc95cd
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 16 March 2017 at 17:28, Slater, Joseph <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:joe.slater@windriver.com" target=3D"_blank">joe.slater@windriver.com=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4jj" c=
-lass=3D"a3s aXjCH m15ad82a18e1cf305">Also, should PE be defined given that =
-the form of PV has changed?<br>
-I know it hasn&#39;t been for any of the recipes modified so far.<br></div>=
-</blockquote></div><br>Depends on how it changed.=C2=A0 Numbers sort before=
- letters, so yes this needs a PE bump.</div><div class=3D"gmail_extra"><br>=
-</div><div class=3D"gmail_extra">Ross</div></div>
-
---94eb2c0b93a047111a054adc95cd--
