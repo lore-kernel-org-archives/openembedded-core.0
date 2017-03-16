@@ -1,24 +1,47 @@
-Return-Path: <Paul.Gortmaker@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 32782600EA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id A725660620
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 18:42:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v2GIgQTr017813
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 16 Mar 2017 11:42:26 -0700 (PDT)
-Received: from yow-cube1.wrs.com (128.224.56.98) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 16 Mar 2017 11:42:25 -0700
-From: Paul Gortmaker <paul.gortmaker@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Mar 2017 14:42:14 -0400
-Message-ID: <1489689734-10232-1-git-send-email-paul.gortmaker@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Thu, 16 Mar 2017 18:48:09 +0000 (UTC)
+Received: by mail-qk0-f182.google.com with SMTP id y76so47317334qkb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Mar 2017 11:48:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Jh/TKbkh9m9sHp7Bfeaq2sxtZ1jqIXzEi8N8GqFDc+0=;
+	b=bFfHl+NKNeAHRWhzVj3iKVcRUElei3S2mQCZD1K0pb9N6a8dNB7eAlLDM0rboMz1OD
+	jtiAcj1+MB+2s9TBjJD1dELIXJCPfHjEVKtkVLsczo+tvNMWFWmhN0vHz846NSz0xLWs
+	E7TIgUHYKCvebGII7H5AW/ASn2iv9AaHXoLo4UmSMCus0/XacvDyBI9a8VMWjg8MZtxy
+	TQVdGuKsF3nPHnDyFXyg0YFbUzZ62yo1PKROnZXl8pfl2NGy+0SDbg/3yOL20FB8bqh2
+	6zWUoePzt6ZalpoXALsprpFz6TvoPQ5nEiQqEx0psrchd4SL+k+od5DllLpiKn/SrrN0
+	IbLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Jh/TKbkh9m9sHp7Bfeaq2sxtZ1jqIXzEi8N8GqFDc+0=;
+	b=fB6arioEFhAM/l4VSnPrS12Ybj/c702dwWVudknXohwCbfLROYVn0elnKirxGCTVx6
+	blEBgdWqI2Ziu+28EihmlJXaAgfFNV71RXlzXeZGNbfr4PV3dJjwpULKcPut5cWHU9Vi
+	7d0LR+LR7T7K85k9nzvGrD8rWzekwsjdg+9XAMuwBpDBhLifgwc3+enAiRgPdfh1YMSH
+	jKYXCXlZ5j8+ek49+whoyXovGNAOpgl6QHiAeSDeLCgDSu9L4UmjTLaCchaLxmHQUAYk
+	8MmsBCOytVKEeUvDf4xz4/1kKhqge760lVb568K/th/5yBf9Acvgl6pKd26zJIQDusyp
+	ExCw==
+X-Gm-Message-State: AFeK/H0IgZQ/h/qlG+hT53FB4asxlit+t20cgYHjKoWM7wDOJVPWxGmy1Yc1krmZqALawv3c4TaalacNWoYzXuQd
+X-Received: by 10.55.221.1 with SMTP id n1mr8884003qki.221.1489690090523; Thu,
+	16 Mar 2017 11:48:10 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Christos Zoulas <christos@zoulas.com>
-Subject: [PATCH] file: update SRCREV for 5.30 to fix fetch fail on missing commit
+Received: by 10.140.22.166 with HTTP; Thu, 16 Mar 2017 11:47:49 -0700 (PDT)
+In-Reply-To: <1489689734-10232-1-git-send-email-paul.gortmaker@windriver.com>
+References: <1489689734-10232-1-git-send-email-paul.gortmaker@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 16 Mar 2017 18:47:49 +0000
+Message-ID: <CAJTo0LY8Wp7owMzBwmX-cwF72Nq3VsRyNfGfbvFYHLsZ5cTJGQ@mail.gmail.com>
+To: Paul Gortmaker <paul.gortmaker@windriver.com>
+Cc: Christos Zoulas <christos@zoulas.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] file: update SRCREV for 5.30 to fix fetch fail on missing commit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,37 +54,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Mar 2017 18:42:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 16 Mar 2017 18:48:10 -0000
+Content-Type: multipart/alternative; boundary=001a1149d7dcac45c3054add8047
 
-Machines that cloned a while ago will have the commit, but new
-deployments won't because it seems the upstream changed/rebased
-and the old commit ID has been garbage-collected away.  Hence
-the fetch fails to check out the named commit ID.
+--001a1149d7dcac45c3054add8047
+Content-Type: text/plain; charset=UTF-8
 
-Both the old (gone) commit, and the "new" commit show the same
-dates and commit log and point at 5.30, so hopefully this is
-the right thing to do.  A git diff of the two seems to only show
-a blanket uprev of CVS tags and deletion of a couple autogen'd
-files, and no real source changes.
+On 16 March 2017 at 18:42, Paul Gortmaker <paul.gortmaker@windriver.com>
+wrote:
 
-Cc: Christos Zoulas <christos@zoulas.com>
-Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+> Machines that cloned a while ago will have the commit, but new
+> deployments won't because it seems the upstream changed/rebased
+> and the old commit ID has been garbage-collected away.  Hence
+> the fetch fails to check out the named commit ID.
+>
 
-diff --git a/meta/recipes-devtools/file/file_5.30.bb b/meta/recipes-devtools/file/file_5.30.bb
-index 0998fcfa8990..112bf105781e 100644
---- a/meta/recipes-devtools/file/file_5.30.bb
-+++ b/meta/recipes-devtools/file/file_5.30.bb
-@@ -19,7 +19,7 @@ SRC_URI = "git://github.com/file/file.git \
-         file://0001-Add-P-prompt-into-Usage-info.patch \
-         "
- 
--SRCREV = "79814950aafb81ecd6a910c2a8a3b8ec12f3e4a6"
-+SRCREV = "3050419355566d2a96c5be97fef0ffae097bbb96"
- S = "${WORKDIR}/git"
- 
- inherit autotools
--- 
-2.11.1
+<explodes>
 
+--001a1149d7dcac45c3054add8047
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 16 March 2017 at 18:42, Paul Gortmaker <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:paul.gortmaker@windriver.com" target=3D"_blank">paul.gortmaker@windr=
+iver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":c9" class=3D"a3s aXjCH m15ad86e3a5130a4d">Machines that cloned a while=
+ ago will have the commit, but new<br>
+deployments won&#39;t because it seems the upstream changed/rebased<br>
+and the old commit ID has been garbage-collected away.=C2=A0 Hence<br>
+the fetch fails to check out the named commit ID.</div></blockquote></div><=
+br>&lt;explodes&gt;</div><div class=3D"gmail_extra"><br></div><div class=3D=
+"gmail_extra"><br></div></div>
+
+--001a1149d7dcac45c3054add8047--
