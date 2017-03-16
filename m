@@ -1,53 +1,28 @@
-Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-lf0-f46.google.com (mail-lf0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id DE291775F1
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id AD69A6E5FC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 12:44:50 +0000 (UTC)
-Received: by mail-lf0-f46.google.com with SMTP id z15so19688438lfd.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 05:44:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=rndity-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=Ip72tSPYiq5O6uq3o2iPeHUSIc+QXSXMYQU9Vg+Gjs0=;
-	b=jq/BorWLJulVSvzI1K5oZHCjEGsl4dtIq/SmzakM32eq45SeLbZ9XCLmyr9vKLbw+C
-	L1CC1ESJYKhv2/0f4B3Y4gy/cF5pIIFFM5VOHxKJjRWIqd4ImGcjrO6pE36Qt8FvBmpp
-	SWkHSwzC7roRbaSd9MZ78TrAh0mXmRJ/oJt+rsDS7GNxEQDJmGlcM5hSP63kUDEeZG+4
-	M6YUuHCTnJrsgd57ZqU4gyveoJbG4PwXyIBiq2Z241NqUajf48b/sHoO794TCqR7+RtP
-	YmsEedjd1y3EM9DenR7qr4igu/6FcbsJdbkclT+AULUt2ydsbRJ411WwjKR1agcFtbim
-	POuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=Ip72tSPYiq5O6uq3o2iPeHUSIc+QXSXMYQU9Vg+Gjs0=;
-	b=kk3Z3SIWRy1LC5U4++roxLlHHdCzghaK0fsMEICmKIplqQB1K3n25DK5wVhB4IPieB
-	ACRtHq6+kQeYffLPNN+ZBm4deIrbpJF+954WiunZBLBeuDEYWcwE76zhm3q2HGUHH+IS
-	JTFcDH0VPMw58bMf/d0kr2vSqfhWB2Htv9KI3hdAILQrSfZO+9KBnLLI+us0G8PKZmxr
-	mLKvb3rIM4w92lEg4X/A58Zc4M/fENFpBiFNgNFhO+GS13ubanM3r9gqb8sNBvR5Ru39
-	1J04EgdIyLRUGQoooGhrjKRRn0Z+8bhku0RjKIWM4NLtHTGrLE8qT8FHEWgDHbkYGU5N
-	Wbfg==
-X-Gm-Message-State: AFeK/H3o59QCHrOcMkYk3mFZkcOFn2nYMotJNY3Qh7kgjB+8OSQN8NPWQMltPhvN0VVuHg==
-X-Received: by 10.25.76.85 with SMTP id z82mr2370661lfa.181.1489668291275;
-	Thu, 16 Mar 2017 05:44:51 -0700 (PDT)
-Received: from localhost.localdomain (staticline-31-182-60-238.toya.net.pl.
-	[31.182.60.238])
-	by smtp.gmail.com with ESMTPSA id n20sm893148lfb.53.2017.03.16.05.44.50
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 Mar 2017 05:44:50 -0700 (PDT)
-From: Maciej Borzecki <maciej.borzecki@rndity.com>
+	Thu, 16 Mar 2017 13:20:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1489670406; x=1521206406;
+	h=from:to:cc:subject:date:message-id;
+	bh=Drxz6H5pZ4drLaKU2NVBDfGx3MrKn/y5Ecsk23tLS+0=;
+	b=p9gcS5WuMukKBDRgxT8M7GPqXksYdU41AePlLI2xBrjmzuESvu8MPWBs
+	BhQlQGaBpdSgYtmND7GHdPgH5kex3g==;
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Mar 2017 06:20:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,172,1486454400"; d="scan'208";a="68021668"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by orsmga004.jf.intel.com with ESMTP; 16 Mar 2017 06:20:04 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Mar 2017 13:44:36 +0100
-Message-Id: <985a09fd4d92969bc1a2db4f8bf52956483fb9e0.1489668133.git.maciej.borzecki@rndity.com>
-X-Mailer: git-send-email 2.9.3
-In-Reply-To: <cover.1489668133.git.maciej.borzecki@rndity.com>
-References: <cover.1489668133.git.maciej.borzecki@rndity.com>
-In-Reply-To: <cover.1489668133.git.maciej.borzecki@rndity.com>
-References: <cover.1489668133.git.maciej.borzecki@rndity.com>
-Cc: Maciek Borzecki <maciek.borzecki@gmail.com>
-Subject: [PATCH v3 5/5] wic: selftest: add tests for --fixed-size partition flags
+Date: Thu, 16 Mar 2017 15:19:04 +0200
+Message-Id: <20170316131907.19844-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/4] rpm: add support for remote package feeds via PACKAGE_FEED_URIS variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,106 +35,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Mar 2017 12:44:51 -0000
+X-List-Received-Date: Thu, 16 Mar 2017 13:20:05 -0000
 
-wic has a new flag for setting a fixed parition size --fixed-size. Add
-tests that verify if partition is indeed sized properly and that errors
-are signaled when there is not enough space to fit partition data.
+I've used a previous patch (which was never merged) by
+Humberto Ibarra <humberto.ibarra.lopez@intel.com> as a model
+for how to do runtime testing of this feature (e.g. we need to boot
+an image, run dnf on it, and check that it is indeed able to
+access the remote repo over http). Here's his original commit message:
 
-Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
+=====
+Testing that feeds specified with PACKAGE_FEED_URIS var are set
+correctly has two parts. First a build with this var set is required,
+and then smart update needs to be issued in the running taget.
+
+The previous is not a common selftest practice because this is a
+simple test, but requires building and running a specific image,
+which takes a lot of time. testimage is not a good fit either,
+since the images tested there do not have the PACKAGE_FEED_URIS
+var set.
+
+For this test, the runtime-test module is being used, which is a
+selftest module but runs a testimage command. The var and test
+environment were set in runtime-perf.py and the actual test is
+done in a new testcase added to meta-selftest layer.
+=====
+
+[YOCTO #10872]
+
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/wic.py | 62 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
+ meta-selftest/lib/oeqa/runtime/cases/selftest.py | 42 ++++++++++++++++++++++++
+ meta/lib/oe/package_manager.py                   | 12 ++++++-
+ meta/lib/oeqa/selftest/runtime-test.py           |  7 ++++
+ 3 files changed, 60 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index b9c06e56adb70376b6f6a4893026223077b708fd..f83d4a1b51367de42043bb0b840792f1bfddeaf6 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -29,6 +29,7 @@ import unittest
- from glob import glob
- from shutil import rmtree
- from functools import wraps, lru_cache
-+from tempfile import NamedTemporaryFile
+diff --git a/meta-selftest/lib/oeqa/runtime/cases/selftest.py b/meta-selftest/lib/oeqa/runtime/cases/selftest.py
+index 19de7406236..e4985a6edd3 100644
+--- a/meta-selftest/lib/oeqa/runtime/cases/selftest.py
++++ b/meta-selftest/lib/oeqa/runtime/cases/selftest.py
+@@ -1,5 +1,7 @@
+ from oeqa.runtime.case import OERuntimeTestCase
+ from oeqa.core.decorator.depends import OETestDepends
++from oeqa.runtime.cases.dnf import DnfTest
++from oeqa.utils.httpserver import HTTPService
  
- from oeqa.selftest.base import oeSelfTest
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_bb_vars, runqemu
-@@ -61,10 +62,13 @@ class Wic(oeSelfTest):
+ class Selftest(OERuntimeTestCase):
  
-     resultdir = "/var/tmp/wic.oe-selftest/"
-     image_is_ready = False
-+    native_sysroot = None
-     wicenv_cache = {}
+@@ -29,3 +31,43 @@ class Selftest(OERuntimeTestCase):
  
-     def setUpLocal(self):
-         """This code is executed before each test method."""
-+        if not self.native_sysroot:
-+            Wic.native_sysroot = get_bb_var('STAGING_DIR_NATIVE', 'wic-tools')
+         (status, output) = self.target.run("socat -V")
+         self.assertNotEqual(status, 0, msg="socat is still installed")
++
++
++class DnfSelftest(DnfTest):
++
++    @classmethod
++    def setUpClass(cls):
++        cls.repo_server = HTTPService(os.path.join(cls.tc.td['WORKDIR'], 'oe-rootfs-repo'),
++                                      cls.tc.target.server_ip)
++        cls.repo_server.start()
++
++    @classmethod
++    def tearDownClass(cls):
++        cls.repo_server.stop()
++
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    def test_verify_package_feeds(self):
++        """
++        Summary: Check correct setting of PACKAGE_FEED_URIS var
++        Expected: 1. Feeds were correctly set for dnf
++                  2. Update recovers packages from host's repo
++        Author: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
++        Author: Alexander Kanavin <alexander.kanavin@intel.com>
++        """
++        # When we created an image, we had to supply fake ip and port
++        # for the feeds. Now we can patch the real ones into the config file.
++        import tempfile
++        temp_file = tempfile.TemporaryDirectory(prefix="oeqa-remotefeeds-").name
++        self.tc.target.copyFrom("/etc/yum.repos.d/oe-remote-repo.repo", temp_file)
++        fixed_config = open(temp_file, "r").read().replace("bogus_ip", self.tc.target.server_ip).replace("bogus_port", str(self.repo_server.port))
++        open(temp_file, "w").write(fixed_config)
++        self.tc.target.copyTo(temp_file, "/etc/yum.repos.d/oe-remote-repo.repo")
++
++        import re
++        output_makecache = self.dnf('makecache')
++        self.assertTrue(re.match(r".*Metadata cache created", output_makecache, re.DOTALL) is not None, msg = "dnf makecache failed: %s" %(output_makecache))
++
++        output_repoinfo = self.dnf('repoinfo')
++        matchobj = re.match(r".*Repo-pkgs\s*:\s*(?P<n_pkgs>[0-9]+)", output_repoinfo, re.DOTALL)
++        self.assertTrue(matchobj is not None, msg = "Could not find the amount of packages in dnf repoinfo output: %s" %(output_repoinfo))
++        self.assertTrue(int(matchobj.group('n_pkgs')) > 0, msg = "Amount of remote packages is not more than zero: %s\n" %(output_repoinfo))
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index d51609189d0..b016bc32dc5 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -533,10 +533,20 @@ class RpmPM(PackageManager):
+         bb.utils.unlockfile(lf)
  
-         # Do this here instead of in setUpClass as the base setUp does some
-         # clean up which can result in the native tools built earlier in
-@@ -615,3 +619,61 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
-             status, output = qemu.run_serial(cmd)
-             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-             self.assertEqual(output, '3')
+     def insert_feeds_uris(self, feed_uris, feed_base_paths, feed_archs):
++        from urllib.parse import urlparse
 +
-+    def _make_fixed_size_wks(self, size):
-+        """
-+        Create a wks of an image with a single partition. Size of the partition is set
-+        using --fixed-size flag. Returns a tuple: (path to wks file, wks image name)
-+        """
-+        with NamedTemporaryFile("w", suffix=".wks", delete=False) as tf:
-+            wkspath = tf.name
-+            tf.write("part " \
-+                     "--source rootfs --ondisk hda --align 4 --fixed-size %d "
-+                     "--fstype=ext4\n" % size)
-+        wksname = os.path.splitext(os.path.basename(wkspath))[0]
-+
-+        return wkspath, wksname
-+
-+    def test_fixed_size(self):
-+        """
-+        Test creation of a simple image with partition size controlled through
-+        --fixed-size flag
-+        """
-+        wkspath, wksname = self._make_fixed_size_wks(200)
-+
-+        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                   % (wkspath, self.resultdir)).status)
-+        os.remove(wkspath)
-+        wicout = glob(self.resultdir + "%s-*direct" % wksname)
-+        self.assertEqual(1, len(wicout))
-+
-+        wicimg = wicout[0]
-+
-+        # verify partition size with wic
-+        res = runCmd("parted -m %s unit mib p 2>/dev/null" % wicimg,
-+                     ignore_status=True,
-+                     native_sysroot=self.native_sysroot)
-+        self.assertEqual(0, res.status)
-+
-+        # parse parted output which looks like this:
-+        # BYT;\n
-+        # /var/tmp/wic/build/tmpfwvjjkf_-201611101222-hda.direct:200MiB:file:512:512:msdos::;\n
-+        # 1:0.00MiB:200MiB:200MiB:ext4::;\n
-+        partlns = res.output.splitlines()[2:]
-+
-+        self.assertEqual(1, len(partlns))
-+        self.assertEqual("1:0.00MiB:200MiB:200MiB:ext4::;", partlns[0])
-+
-+    def test_fixed_size_error(self):
-+        """
-+        Test creation of a simple image with partition size controlled through
-+        --fixed-size flag. The size of partition is intentionally set to 1MiB
-+        in order to trigger an error in wic.
-+        """
-+        wkspath, wksname = self._make_fixed_size_wks(1)
-+
-+        self.assertEqual(1, runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                   % (wkspath, self.resultdir), ignore_status=True).status)
-+        os.remove(wkspath)
-+        wicout = glob(self.resultdir + "%s-*direct" % wksname)
-+        self.assertEqual(0, len(wicout))
+         if feed_uris == "":
+             return
+ 
+-        raise NotImplementedError("Adding remote dnf feeds not yet supported.")
++        bb.utils.mkdirhier(oe.path.join(self.target_rootfs, "etc", "yum.repos.d"))
++        remote_uris = self.construct_uris(feed_uris.split(), feed_base_paths.split())
++        for uri in remote_uris:
++            repo_name = "oe-remote-repo" + "-".join(urlparse(uri).path.split("/"))
++            if feed_archs is not None:
++                repo_uris = [uri + "/" + arch for arch in feed_archs]
++            else:
++                repo_uris = [uri]
++            open(oe.path.join(self.target_rootfs, "etc", "yum.repos.d", repo_name + ".repo"), 'w').write("[%s]\nbaseurl=%s\n" % (repo_name, " ".join(repo_uris)))
+ 
+     def _prepare_pkg_transaction(self):
+         os.environ['D'] = self.target_rootfs
+diff --git a/meta/lib/oeqa/selftest/runtime-test.py b/meta/lib/oeqa/selftest/runtime-test.py
+index e8b483d7f8b..171a37329f5 100644
+--- a/meta/lib/oeqa/selftest/runtime-test.py
++++ b/meta/lib/oeqa/selftest/runtime-test.py
+@@ -108,14 +108,21 @@ class TestImage(oeSelfTest):
+         Summary: Check install packages functionality for testimage/testexport.
+         Expected: 1. Import tests from a directory other than meta.
+                   2. Check install/uninstall of socat.
++                  3. Check that remote package feeds can be accessed
+         Product: oe-core
+         Author: Mariano Lopez <mariano.lopez@intel.com>
++        Author: Alexander Kanavin <alexander.kanavin@intel.com>
+         """
+         if get_bb_var('DISTRO') == 'poky-tiny':
+             self.skipTest('core-image-full-cmdline not buildable for poky-tiny')
+ 
+         features = 'INHERIT += "testimage"\n'
+         features += 'TEST_SUITES = "ping ssh selftest"\n'
++        # We don't yet know what the server ip and port will be - they will be patched
++        # in at the start of the on-image test
++        features += 'PACKAGE_FEED_URIS = "http://bogus_ip:bogus_port"\n'
++        features += 'EXTRA_IMAGE_FEATURES += "package-management"\n'
++        features += 'PACKAGE_CLASSES = "package_rpm"'
+         self.write_config(features)
+ 
+         # Build core-image-sato and testimage
 -- 
-2.9.3
+2.11.0
 
 
