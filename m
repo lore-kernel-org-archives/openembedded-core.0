@@ -1,33 +1,35 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 2857877587
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 16FB3731CA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 09:15:53 +0000 (UTC)
+	Thu, 16 Mar 2017 09:15:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1489655756; x=1521191756;
-	h=from:to:cc:subject:date:message-id:in-reply-to: references;
-	bh=jdF7wiPipnEBu4OF5Iv7wKeJfMKr1SP3A41oe4Xs6PM=;
-	b=ZPF0QD/f3dRsk49kwQ+K6vdCPzFqAJLKskVoRVpVcwHyputiiaG+2YqU
-	s94K188H5kjwNKWx64dcAhp0YIxtIA==;
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Mar 2017 02:15:55 -0700
+	t=1489655758; x=1521191758;
+	h=from:to:cc:subject:date:message-id:in-reply-to:
+	references:mime-version:content-transfer-encoding;
+	bh=rhvbbEcpcJyTjm0g5C5wduG+z21adU07C8OhY8JSWAA=;
+	b=g+iArdF/sGzLEOFuOWZ8TBvRcCE7vZOLqp9w/enfvDEdagJKXj4VdPsG
+	MwjNuPRQCPL4dG0pZk9HB69r0PbJKA==;
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Mar 2017 02:15:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,170,1486454400"; d="scan'208";a="1109062733"
+X-IronPort-AV: E=Sophos;i="5.36,170,1486454400"; d="scan'208";a="1123331327"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 16 Mar 2017 02:15:55 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 16 Mar 2017 02:15:57 -0700
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 247C92C8001;
-	Thu, 16 Mar 2017 02:15:49 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id C43FD2C8001;
+	Thu, 16 Mar 2017 02:15:52 -0700 (PDT)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Mar 2017 11:15:37 +0200
-Message-Id: <f0249f0987f1067e5841464a2a3a9281f807cbe3.1489655518.git.jussi.kukkonen@intel.com>
+Date: Thu, 16 Mar 2017 11:15:39 +0200
+Message-Id: <b1c1ce2783a3512562cd8e4a6ef400511da627a3.1489655518.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1489655518.git.jussi.kukkonen@intel.com>
 References: <cover.1489655518.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 09/11] gstreamer1.0-omx: Remove unused patch
+MIME-Version: 1.0
+Subject: [PATCH 11/11] kexec-tools: Remove unused patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,52 +42,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Mar 2017 09:15:55 -0000
+X-List-Received-Date: Thu, 16 Mar 2017 09:15:56 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The patch was only used in the ancient and recently removed git recipe.
+The patch was removed from SRC_URI as merged upstream in 587778e24c9.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../0001-omx-fixed-type-error-in-printf-call.patch | 30 ----------------------
- 1 file changed, 30 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-omx/0001-omx-fixed-type-error-in-printf-call.patch
+ .../kexec/kexec-tools/kexec-x32.patch              | 88 ----------------------
+ 1 file changed, 88 deletions(-)
+ delete mode 100644 meta/recipes-kernel/kexec/kexec-tools/kexec-x32.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx/0001-omx-fixed-type-error-in-printf-call.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx/0001-omx-fixed-type-error-in-printf-call.patch
+diff --git a/meta/recipes-kernel/kexec/kexec-tools/kexec-x32.patch b/meta/recipes-kernel/kexec/kexec-tools/kexec-x32.patch
 deleted file mode 100644
-index a428ac9..0000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx/0001-omx-fixed-type-error-in-printf-call.patch
+index 26d18eb..0000000
+--- a/meta/recipes-kernel/kexec/kexec-tools/kexec-x32.patch
 +++ /dev/null
-@@ -1,30 +0,0 @@
--From f629e041e9f678fcd86ad764a15117dff63c271c Mon Sep 17 00:00:00 2001
--From: Carlos Rafael Giani <dv@pseudoterminal.org>
--Date: Sat, 27 Apr 2013 02:50:25 +0200
--Subject: [PATCH] omx: fixed type error in printf call
+@@ -1,88 +0,0 @@
+-x86_64: Add support to build kexec-tools with x32 ABI
 -
--%zu expects size_t
+-Summary of changes,
 -
--Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=699008]
+-configure.ac: Add test for detect x32 ABI.
+-purgatory/arch/x86_64/Makefile: Not use mcmodel large when
+-	x32 ABI is set.
+-kexec/arch/x86_64/kexec-elf-rel-x86_64.c: When x32 ABI is set
+-	use ELFCLASS32 instead of ELFCLASS64.
+-kexec/kexec-syscall.h: Add correct syscall number for x32 ABI.
 -
--Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+-Upstream-Status: Submitted
+-
+-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+-
 ----
-- omx/gstomx.c |    2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
+- configure.ac                             | 9 +++++++++
+- kexec/arch/x86_64/kexec-elf-rel-x86_64.c | 4 ++++
+- kexec/kexec-syscall.h                    | 4 ++++
+- purgatory/arch/x86_64/Makefile           | 4 +++-
+- 4 files changed, 20 insertions(+), 1 deletion(-)
 -
--diff --git a/omx/gstomx.c b/omx/gstomx.c
--index a2945ed..1eca7cc 100644
----- a/omx/gstomx.c
--+++ b/omx/gstomx.c
--@@ -1630,7 +1630,7 @@ gst_omx_port_allocate_buffers_unlocked (GstOMXPort * port,
+-Index: kexec-tools-2.0.10/configure.ac
+-===================================================================
+---- kexec-tools-2.0.10.orig/configure.ac
+-+++ kexec-tools-2.0.10/configure.ac
+-@@ -56,6 +56,15 @@ case $target_cpu in
+- 		;;
+- 	ia64|x86_64|alpha|m68k )
+- 		ARCH="$target_cpu"
+-+
+-+		dnl ---Test for x32 ABI in x86_64
+-+		if test "x$ARCH" = "xx86_64" ; then
+-+			AC_EGREP_CPP(x32_test,
+-+			[#if defined(__x86_64__) && defined (__ILP32__)
+-+				x32_test
+-+			#endif
+-+			], SUBARCH='x32', SUBARCH='64')
+-+		fi
+- 		;;
+- 	* )
+- 		AC_MSG_ERROR([unsupported architecture $target_cpu])
+-Index: kexec-tools-2.0.10/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
+-===================================================================
+---- kexec-tools-2.0.10.orig/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
+-+++ kexec-tools-2.0.10/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
+-@@ -8,7 +8,11 @@ int machine_verify_elf_rel(struct mem_eh
+- 	if (ehdr->ei_data != ELFDATA2LSB) {
+- 		return 0;
+- 	}
+-+#ifdef __ILP32__
+-+	if (ehdr->ei_class != ELFCLASS32) {
+-+#else
+- 	if (ehdr->ei_class != ELFCLASS64) {
+-+#endif
+- 		return 0;
+- 	}
+- 	if (ehdr->e_machine != EM_X86_64) {
+-Index: kexec-tools-2.0.10/kexec/kexec-syscall.h
+-===================================================================
+---- kexec-tools-2.0.10.orig/kexec/kexec-syscall.h
+-+++ kexec-tools-2.0.10/kexec/kexec-syscall.h
+-@@ -31,8 +31,12 @@
+- #define __NR_kexec_load		268
+- #endif
+- #ifdef __x86_64__
+-+#ifdef __ILP32__
+-+#define __NR_kexec_load		528
+-+#else
+- #define __NR_kexec_load		246
+- #endif
+-+#endif
+- #ifdef __s390x__
+- #define __NR_kexec_load		277
+- #endif
+-Index: kexec-tools-2.0.10/purgatory/arch/x86_64/Makefile
+-===================================================================
+---- kexec-tools-2.0.10.orig/purgatory/arch/x86_64/Makefile
+-+++ kexec-tools-2.0.10/purgatory/arch/x86_64/Makefile
+-@@ -23,4 +23,6 @@ x86_64_PURGATORY_SRCS += purgatory/arch/
+- x86_64_PURGATORY_SRCS += purgatory/arch/i386/vga.c
+- x86_64_PURGATORY_SRCS += purgatory/arch/i386/pic.c
 - 
--   GST_INFO_OBJECT (comp->parent,
--       "Allocating %d buffers of size %zu for %s port %u", n,
---      port->port_def.nBufferSize, comp->name, (guint) port->index);
--+      (size_t) (port->port_def.nBufferSize), comp->name, (guint) port->index);
-- 
--   if (!port->buffers)
--     port->buffers = g_ptr_array_sized_new (n);
---- 
--1.7.9.5
--
+--x86_64_PURGATORY_EXTRA_CFLAGS = -mcmodel=large
+-+ifeq ($(SUBARCH),64)
+-+        x86_64_PURGATORY_EXTRA_CFLAGS = -mcmodel=large
+-+endif
 -- 
 2.1.4
 
