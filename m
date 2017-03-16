@@ -1,31 +1,47 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D636600EA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id A02AB760AC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 17:28:03 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v2GHS3fp014112
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Thu, 16 Mar 2017 17:42:20 +0000 (UTC)
+Received: by mail-qk0-f180.google.com with SMTP id p64so45667494qke.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 10:28:03 -0700
-Received: from ALA-MBC.corp.ad.wrs.com ([fe80::fcbe:9b7:1141:89a1]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0294.000;
-	Thu, 16 Mar 2017 10:28:02 -0700
-From: "Slater, Joseph" <joe.slater@windriver.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [oe-core][v2][PATCH 1/1] build-compare: add date to PV
-Thread-Index: AQHSnnlwphqOQZtzeE2b2xuJZk1V8qGXtgsA
-Date: Thu, 16 Mar 2017 17:28:02 +0000
-Message-ID: <007BD92917A2324FA403BCF9A464CF84CF2971C7@ALA-MBC.corp.ad.wrs.com>
-References: <1489684755-27165-1-git-send-email-jslater@windriver.com>
-In-Reply-To: <1489684755-27165-1-git-send-email-jslater@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.216.160]
+	Thu, 16 Mar 2017 10:42:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=DMHLd4stKOOqeamH73bCTni1FcwUGhVbpgeGMKiahG8=;
+	b=LuLuJTziBPaVBnQzILiEiBsRlQ54Nzrha3YwHmc5E6evNJTRZ84Jz9g/9D6VCY982O
+	NkzuFT34pXr6eXjnNWIdb5JcLie4jJ1jRzkeFpnjOtMyeZdcWUcW7VTh+tbgvx6Y9s5e
+	pP5yWDAneKtPin7F65Am4ypD1OVnBsF32qm/K0+f3hbqjaIA0FwSXRyZncFmVrRzOiQ5
+	pZAJGdPJhAi6ZSY6xl9JJ1CoGq0Vu+RftfvXCRz0lkU18x0lkpsr372GMD0XavOmAZoF
+	8AHMJw4rcP4XXCJnoiUD0k0X1UnbXuFkZBmZZjtE9Kx9+4cBLIilEBaH5EuC5cO/vD7K
+	KYMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=DMHLd4stKOOqeamH73bCTni1FcwUGhVbpgeGMKiahG8=;
+	b=VUjn0yPS47KN4/2bIGKV8aEWanFxzlDg2CTFUz9P/24CKbWzcjwpgcrRbsBfyovXz2
+	UFp50sLeaVh4uyI5rNC8Nj1MQc7VzcR/Hjj9XOaZTccaNblzbhPlcViZGxN17Sh8R3nS
+	Gb66ZipyuFayprOT1iXoYrzvZwIjoOOdz3YuOEn7/CRRFGqLMXYqMLwTW0tdrtCSx7gc
+	rwX32vjMDaTvRPJTnd6d8j8jIUDDwS3IGUglb1RQtiWkQezrkgrPOVluq/NtK5tFx0qd
+	5EYztxwfvaP6EsxLh5e71jn7Ym+f6+ggQufpat0exH3kOWgYVrs9xyboRmj+GOvlspPI
+	gh+Q==
+X-Gm-Message-State: AFeK/H3guf2Q4tw+8LcoLq8GgELFCltxxFXtWP7BqkOpiebyw9HL65aW6/V37Rn5olDFaa47VQCyiAh1Z4hFNHuU
+X-Received: by 10.55.3.151 with SMTP id 145mr8732954qkd.244.1489686141236;
+	Thu, 16 Mar 2017 10:42:21 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Thu, 16 Mar 2017 10:42:00 -0700 (PDT)
+In-Reply-To: <007BD92917A2324FA403BCF9A464CF84CF2971C7@ALA-MBC.corp.ad.wrs.com>
+References: <1489684755-27165-1-git-send-email-jslater@windriver.com>
+	<007BD92917A2324FA403BCF9A464CF84CF2971C7@ALA-MBC.corp.ad.wrs.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 16 Mar 2017 17:42:00 +0000
+Message-ID: <CAJTo0LbihmZMtH3dM7fv4BjUaL2SCj3Dbi-wLsKraL-erZ1B_g@mail.gmail.com>
+To: "Slater, Joseph" <joe.slater@windriver.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [v2][PATCH 1/1] build-compare: add date to PV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -39,60 +55,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Mar 2017 17:28:03 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 16 Mar 2017 17:42:21 -0000
+Content-Type: multipart/alternative; boundary=94eb2c0b93a047111a054adc95cd
+
+--94eb2c0b93a047111a054adc95cd
+Content-Type: text/plain; charset=UTF-8
+
+On 16 March 2017 at 17:28, Slater, Joseph <joe.slater@windriver.com> wrote:
+
+> Also, should PE be defined given that the form of PV has changed?
+> I know it hasn't been for any of the recipes modified so far.
+>
+
+Depends on how it changed.  Numbers sort before letters, so yes this needs
+a PE bump.
+
+Ross
+
+--94eb2c0b93a047111a054adc95cd
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Given that PV for *_git recipes should now be specified and
-start with a version, it would be nice to shorten (or eliminate)
-SRCPV.  At least get rid of the AUTOINC.  Perhaps shorten the
-amount of SRCREV included.  The point is that as currently
-computed, PV will be far longer than the useful information
-it provides.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 16 March 2017 at 17:28, Slater, Joseph <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:joe.slater@windriver.com" target=3D"_blank">joe.slater@windriver.com=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4jj" c=
+lass=3D"a3s aXjCH m15ad82a18e1cf305">Also, should PE be defined given that =
+the form of PV has changed?<br>
+I know it hasn&#39;t been for any of the recipes modified so far.<br></div>=
+</blockquote></div><br>Depends on how it changed.=C2=A0 Numbers sort before=
+ letters, so yes this needs a PE bump.</div><div class=3D"gmail_extra"><br>=
+</div><div class=3D"gmail_extra">Ross</div></div>
 
-Also, should PE be defined given that the form of PV has changed?
-I know it hasn't been for any of the recipes modified so far.
-
-Joe
-
-
-> -----Original Message-----
-> From: Joe Slater [mailto:jslater@windriver.com]
-> Sent: Thursday, March 16, 2017 10:19 AM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Slater, Joseph
-> Subject: [oe-core][v2][PATCH 1/1] build-compare: add date to PV
->=20
-> We want PV values to be easily ordered, so
-> use the latest entry in build-compare.changes which
-> will also match the date of SRCREV.
->=20
-> Signed-off-by: Joe Slater <jslater@windriver.com>
-> ---
->  .../build-compare/build-compare_git.bb             |    4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-devtools/build-compare/build-compare_git.bb b/m=
-eta/recipes-
-> devtools/build-compare/build-compare_git.bb
-> index eb12e40..bdbad03 100644
-> --- a/meta/recipes-devtools/build-compare/build-compare_git.bb
-> +++ b/meta/recipes-devtools/build-compare/build-compare_git.bb
-> @@ -17,8 +17,10 @@ SRC_URI =3D "git://github.com/openSUSE/build-compare.g=
-it \
->             file://functions.sh-improve-deb-and-ipk-checking.patch \
->             "
->=20
-> +# Date matches entry in build-compare.changes and date of SRCREV.
-> +#
->  SRCREV =3D "c5352c054c6ef15735da31b76d6d88620f4aff0a"
-> -PV =3D "git+${SRCPV}"
-> +PV =3D "2015.02.10+git${SRCPV}"
->=20
->  S =3D "${WORKDIR}/git"
->=20
-> --
-> 1.7.9.5
-
-
+--94eb2c0b93a047111a054adc95cd--
