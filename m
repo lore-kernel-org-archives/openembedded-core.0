@@ -1,33 +1,33 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id F0D6F7756F
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 2857877587
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 09:15:54 +0000 (UTC)
+	Thu, 16 Mar 2017 09:15:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1489655757; x=1521191757;
+	t=1489655756; x=1521191756;
 	h=from:to:cc:subject:date:message-id:in-reply-to: references;
-	bh=FCbXSLyl2rZYIptPZbdxNouwzeEcj6WL8nVnDt7CeGU=;
-	b=xdtlxmb2Jn52hOmihA5L3fdcDNk3QOp4Rp/cTrQx3esN+XmkxeIe5QsO
-	8l+1vCt6S7k0tt7AcuP0Hobx66Y1AQ==;
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Mar 2017 02:15:57 -0700
+	bh=jdF7wiPipnEBu4OF5Iv7wKeJfMKr1SP3A41oe4Xs6PM=;
+	b=ZPF0QD/f3dRsk49kwQ+K6vdCPzFqAJLKskVoRVpVcwHyputiiaG+2YqU
+	s94K188H5kjwNKWx64dcAhp0YIxtIA==;
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Mar 2017 02:15:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,170,1486454400"; d="scan'208";a="1123331323"
+X-IronPort-AV: E=Sophos;i="5.36,170,1486454400"; d="scan'208";a="1109062733"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga001.fm.intel.com with ESMTP; 16 Mar 2017 02:15:56 -0700
+	by orsmga001.jf.intel.com with ESMTP; 16 Mar 2017 02:15:55 -0700
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 7B7B92C8001;
-	Thu, 16 Mar 2017 02:15:51 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 247C92C8001;
+	Thu, 16 Mar 2017 02:15:49 -0700 (PDT)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Mar 2017 11:15:38 +0200
-Message-Id: <edd3c7b2c6ebadb01799c0fc164bc24c10cbedc6.1489655518.git.jussi.kukkonen@intel.com>
+Date: Thu, 16 Mar 2017 11:15:37 +0200
+Message-Id: <f0249f0987f1067e5841464a2a3a9281f807cbe3.1489655518.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1489655518.git.jussi.kukkonen@intel.com>
 References: <cover.1489655518.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 10/11] gstreamer1.0-vaapi: Remove unused patch
+Subject: [PATCH 09/11] gstreamer1.0-omx: Remove unused patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,65 +42,49 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 16 Mar 2017 09:15:55 -0000
 
-This patch has seemingly never been applied in the recipe (even when
-it lived in meta-intel). I don't think we should have unused patches
-in the repo: If the patch is useful it could be reintroduced so that
-the binaries are packaged into a separate package.
+The patch was only used in the ancient and recently removed git recipe.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../gstreamer1.0-vaapi/install-tests.patch         | 43 ----------------------
- 1 file changed, 43 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/install-tests.patch
+ .../0001-omx-fixed-type-error-in-printf-call.patch | 30 ----------------------
+ 1 file changed, 30 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-omx/0001-omx-fixed-type-error-in-printf-call.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/install-tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/install-tests.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx/0001-omx-fixed-type-error-in-printf-call.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx/0001-omx-fixed-type-error-in-printf-call.patch
 deleted file mode 100644
-index d7def3a..0000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/install-tests.patch
+index a428ac9..0000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx/0001-omx-fixed-type-error-in-printf-call.patch
 +++ /dev/null
-@@ -1,43 +0,0 @@
--From 2791dfde0de0abe8100fa833dfe1a9c2e74c2629 Mon Sep 17 00:00:00 2001
--From: Jianxun Zhang <jianxun.zhang@linux.intel.com>
--Date: Thu, 21 Jan 2016 16:25:44 -0800
--Subject: [PATCH] Install tests
+@@ -1,30 +0,0 @@
+-From f629e041e9f678fcd86ad764a15117dff63c271c Mon Sep 17 00:00:00 2001
+-From: Carlos Rafael Giani <dv@pseudoterminal.org>
+-Date: Sat, 27 Apr 2013 02:50:25 +0200
+-Subject: [PATCH] omx: fixed type error in printf call
 -
--This patch is updated for 0.6.1
+-%zu expects size_t
 -
--Upstream-Status: Inappropriate
+-Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=699008]
 -
--Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+-Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
 ----
-- tests/Makefile.am | 6 +++---
-- 1 file changed, 3 insertions(+), 3 deletions(-)
+- omx/gstomx.c |    2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
 -
--diff --git a/tests/Makefile.am b/tests/Makefile.am
--index 3637d92..7cc6a97 100644
----- a/tests/Makefile.am
--+++ b/tests/Makefile.am
--@@ -1,4 +1,4 @@
---noinst_PROGRAMS = \
--+bin_PROGRAMS = \
-- 	simple-decoder			\
-- 	test-decode			\
-- 	test-display			\
--@@ -9,13 +9,13 @@ noinst_PROGRAMS = \
-- 	$(NULL)
+-diff --git a/omx/gstomx.c b/omx/gstomx.c
+-index a2945ed..1eca7cc 100644
+---- a/omx/gstomx.c
+-+++ b/omx/gstomx.c
+-@@ -1630,7 +1630,7 @@ gst_omx_port_allocate_buffers_unlocked (GstOMXPort * port,
 - 
-- if USE_ENCODERS
---noinst_PROGRAMS += \
--+bin_PROGRAMS += \
-- 	simple-encoder			\
-- 	$(NULL)
-- endif
+-   GST_INFO_OBJECT (comp->parent,
+-       "Allocating %d buffers of size %zu for %s port %u", n,
+--      port->port_def.nBufferSize, comp->name, (guint) port->index);
+-+      (size_t) (port->port_def.nBufferSize), comp->name, (guint) port->index);
 - 
-- if USE_GLX
---noinst_PROGRAMS += \
--+bin_PROGRAMS += \
-- 	test-textures			\
-- 	$(NULL)
-- endif
+-   if (!port->buffers)
+-     port->buffers = g_ptr_array_sized_new (n);
 --- 
--1.9.1
+-1.7.9.5
 -
 -- 
 2.1.4
