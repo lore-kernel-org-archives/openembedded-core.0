@@ -1,23 +1,44 @@
-Return-Path: <Paul.Gortmaker@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DB6817765F
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 192D660043
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 15:21:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v2GFLAHU010878
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Thu, 16 Mar 2017 08:21:11 -0700
-Received: from yow-cube1.wrs.com (128.224.56.98) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 16 Mar 2017 08:21:10 -0700
-From: Paul Gortmaker <paul.gortmaker@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Mar 2017 11:20:58 -0400
-Message-ID: <1489677658-10114-1-git-send-email-paul.gortmaker@windriver.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH] package_manager: fix "exlcude" vs. "exclude" typo
+	Thu, 16 Mar 2017 16:41:14 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id x124so5024687wmf.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Mar 2017 09:41:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=rGRh0VVKo9eIscuLbbpocDLyJzBRb/bipRs3qjD5rUg=;
+	b=Jx1bX5AsNGQLf3HL230jBvfFMekGofWh0966ixR/S3HDhE7UQSDF+0oZ4YZrPha+TQ
+	JGtvhH4R2cTIqjs5XAmTGw5tvY1FT10D3IPKi2pKAKeU3Uck3pjcIeO3hSlonDvBoioj
+	y+/l0EZSEjFvkgm20vVSVv2PEhe+d95kGhtyMI4+YRopIk2w3Bf4L4MPaCzAxhRIl0w4
+	DtaJA/9Eu8VNV/GyiqkCudZq0Hvax6DV0PZPK405idOXdEzTNLZ6H6fPOp3ac67rl6EX
+	dOK6XgfuBYbF4V0KngEfQMNkrm9QopQSknXe7W+HVlc4o63AYAYcsLeQ582eyivsocNY
+	7XXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=rGRh0VVKo9eIscuLbbpocDLyJzBRb/bipRs3qjD5rUg=;
+	b=hCvrMWUIqUhXDnGPwd6aJ1WRc4fLM7i6qb6bbv94c7sq7MxAfUEOSO2w1UWOzf8nKI
+	NWVDm2NF661kxwV7iBe9Iw6Jn3VB7tPO9sOuI3/9prOLculWhvhgvN5NNEM0lWdtxkkj
+	V2HgyIAMDnTjM3xtUX/jTzsvrJuqILp62L5LRm+APYj92k7VhEIIMOMbUVOgdOP6SjGb
+	bKeTw5ZU3yiLgVOHqRvh+nQ+Ss1uSaPj+dO9Cda9FAWYfkpYxo+Nk+Bbn7hBGrwWjVtc
+	dO0ndtxiLuH1N/YjJja3QsD8zrl65N8mM5Pv1/I4nckq0mTVhm9Zrs1Jmmqpuylu7oR4
+	vwXg==
+X-Gm-Message-State: AFeK/H1JgqpJNKsjRTXj3/w7SFU2VcNXkL31o9jd1zTq8VcfMkKMc8wzDz7CT+CWn/b4Gg==
+X-Received: by 10.28.132.20 with SMTP id g20mr10372969wmd.68.1489682475319;
+	Thu, 16 Mar 2017 09:41:15 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	s18sm4920199wmb.18.2017.03.16.09.41.14
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 16 Mar 2017 09:41:14 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 16 Mar 2017 17:41:13 +0100
+Message-Id: <20170316164113.15951-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.12.0
+Subject: [PATCH] bitbake.conf: Add few more binaries to HOSTTOOLS_NONFATAL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,39 +51,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Mar 2017 15:21:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 16 Mar 2017 16:41:16 -0000
 
-Which results in:
+* add: join nl size yes zcat
 
- --------------------------------
-      0557:        package_exclude = self.d.getVar('PACKAGE_EXCLUDE')
-  *** 0558:        exclude_pkgs = (bad_recommendations.split() if bad_recommendations else []) + (package_exlcude.split() if package_exclude else [])
-      0559:
-      0560:        output = self._invoke_dnf((["--skip-broken"] if attempt_only else []) +
-      0561:                         (["-x", ",".join(exclude_pkgs)] if len(exclude_pkgs) > 0 else []) +
-      0562:                         (["--setopt=install_weak_deps=False"] if self.d.getVar('NO_RECOMMENDATIONS') == 1 else []) +
- Exception: NameError: name 'package_exlcude' is not defined
- ERROR: cube-builder-initramfs-1.0-r0 do_rootfs: Function failed: do_rootfs
- ---------------------------------
+join    - netcf               - http://errors.yoctoproject.org/Errors/Details/135208/
+join    - fontforge           - http://errors.yoctoproject.org/Errors/Details/135209/
+nl      - dash                - http://errors.yoctoproject.org/Errors/Details/135215/
+nl      - klibc               - http://errors.yoctoproject.org/Errors/Details/135198/
+size    - iptraf              - http://errors.yoctoproject.org/Errors/Details/135204/
+yes     - libnet-ssleay-perl  - http://errors.yoctoproject.org/Errors/Details/135197/
+zcat    - scsirastools        - http://errors.yoctoproject.org/Errors/Details/135205/
 
-Cc: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/conf/bitbake.conf | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index d51609189d04..c92ed936c137 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -555,7 +555,7 @@ class RpmPM(PackageManager):
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 0de8a74c43..e1ebeb7bca 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -471,6 +471,9 @@ HOSTTOOLS += "ps stty ip ssh scp ping vi"
+ # Link to these if present
+ HOSTTOOLS_NONFATAL += "ccache pip3 ld.bfd ld.gold gcc-ar gpg sftp nc"
  
-         bad_recommendations = self.d.getVar('BAD_RECOMMENDATIONS')
-         package_exclude = self.d.getVar('PACKAGE_EXCLUDE')
--        exclude_pkgs = (bad_recommendations.split() if bad_recommendations else []) + (package_exlcude.split() if package_exclude else [])
-+        exclude_pkgs = (bad_recommendations.split() if bad_recommendations else []) + (package_exclude.split() if package_exclude else [])
- 
-         output = self._invoke_dnf((["--skip-broken"] if attempt_only else []) +
-                          (["-x", ",".join(exclude_pkgs)] if len(exclude_pkgs) > 0 else []) +
++# Temporary add few more detected in bitbake world
++HOSTTOOLS_NONFATAL += "join nl size yes zcat"
++
+ CCACHE ??= ""
+ # Disable ccache explicitly if CCACHE is null since gcc may be a symlink
+ # of ccache some distributions (e.g., Fedora 17).
 -- 
-2.7.4
+2.12.0
 
 
