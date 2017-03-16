@@ -1,44 +1,44 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5819B7769F
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 9903A7769E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 21:42:47 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id b5so7391855pgg.1
+	Thu, 16 Mar 2017 21:54:04 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id n11so525017wma.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 14:42:49 -0700 (PDT)
+	Thu, 16 Mar 2017 14:54:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Vbis2g26e8t2c5js9i4pnZLvSNUax4Myr7WW2lDMAdY=;
-	b=emjYCCxemXBOCXzHlWiXni3ae5QdaUdAcJkCrL1eZmoR+9xeIHMkK9yyEQthia1DS8
-	enY8JOZqyTgB1Be7UluY+cMmoKUWViG2nAMAiJTKIFn8aiWOe4vEcAxH6Zqwd+RPOi26
-	WjDDCkEtG1Iq+6/2la1PWbI1+3847rP5dJGZqu/f1TUh1UR90M+iP4PTQtjJr4DrUBYw
-	S7jZmlaSvSr7CEZL83UKuAhl/XyYG9Au9pZvhhzvA2H299LLTsbRrB9g19+Ie8EFMfJ/
-	ZXJ3JpubWr4UZo5YAtJN5yf9G+pJ+phUOOieOpjFoI7+X/762vVdg9N9MnuSEkUFgEI3
-	nq+Q==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=q85uN+l5/dyxVU/hG3tcv2vNpDKZMMsnWYgZsPxYVCo=;
+	b=OLEur4yqjGjSIsvYUE6RQ1qIqE97yNALWc9ZOyjvqpTpzG0R4cDNoZ/sTrn65vZOCy
+	FLJy/m7gpj4KOKuIBDzQWPMVHf4MEtjS8qdkwI0gdx11kGIVuWQpTvE/vQSRQICFHxqp
+	3JP7kr31phi2CPk7l0YxP/jPVKPfHY4II6mASKFv9SLIV3i0t2DQ0s39MfIA61w9HGM1
+	ISs+28slpSjoR36/1S8pGqvHt7Gi6W+4zOsTrHyAWgZHa0z8dISZ5E2iCeGAyAmizDTT
+	5F47C9PlwgyYOjB6PfnURM5tGpCE4RlNmdeLE7VAJbfVmr5iCQzkW3BHW839QtUDb6in
+	8CqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Vbis2g26e8t2c5js9i4pnZLvSNUax4Myr7WW2lDMAdY=;
-	b=rkid3Eo0OrTTu7sRzCQaQAFupwMY0rThHPOcx7yzIvtiA0le6MQcw1EiGiPSo85M54
-	Y61Peg8I5et/ZScBLS6nHZ8i1PwDF//4x/GEoNHOicw7HfFqnYyvgMTdSJ9R38bnxcPt
-	OYGKdbYZxEr2OfY0vl7KM3d/mvTEFdMnilK3V4OeKN68lbp+wrYYXf/0MJJ1EnzbPUay
-	Ct09RZr1qZCKuy2RRdNZ2vEz4EanzIQvBMkRfby0DY5P/RoddhO5UZt7XcnL9Op13R4f
-	fDP8urLM7hPv+Mfslh02oJ1Ga5pCYElq5lPQ+YmiRFoTBK28ztNt6Ow0B12x6yGAiziG
-	U9Bg==
-X-Gm-Message-State: AFeK/H0jMgdnOVhQkELKAULOn4FUUlLwH8PEoqZWKPahSxvBsiT5cUx9Oh5g0R4C0efsoA==
-X-Received: by 10.98.150.87 with SMTP id c84mr12776198pfe.186.1489700568610;
-	Thu, 16 Mar 2017 14:42:48 -0700 (PDT)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	a78sm12357493pfc.25.2017.03.16.14.42.47
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 Mar 2017 14:42:47 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Mar 2017 14:42:39 -0700
-Message-Id: <20170316214239.16243-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.12.0
-Subject: [PATCH] go: Remove mips32r2 from mips
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=q85uN+l5/dyxVU/hG3tcv2vNpDKZMMsnWYgZsPxYVCo=;
+	b=sJpz5PvbycqCfwrmb8gjgw6XRNp6wLoFA8fCBAquedObOxm7nssHkWXqbTqBO/QaH+
+	E6EaufgJoxmFrTgT64mHq9T/IeaqvEbhHjYlY8ww8pK6uFOvEUBFZ/2Uy4WRf6VwMoR4
+	VvBYqv5cgAcMNDX94SFpk8cvXdMA0Zp3ffB10UuqefLI+3s4F0blgm5bP89MjuDvj34h
+	xCYTeh3jzy4VZbk9tYv6Hmwxm3NBcAe7ITnkf2geI8N7l98kyDdVNNmo36uh/VOgdc8g
+	3q4Bj1ufb/oBx/n/4eYwcyNJ2My+MYIWuF8gk8hO4cxA6C7nIfDPBI8SXOPsI7xgfbnJ
+	srUQ==
+X-Gm-Message-State: AFeK/H1yU12Zxe8u637uWuQ1OuJxXLgc+o6AKxfVJ4floXWxND0UGw1tyClbD/ODf2FhLIQRPEgRV30qx8Y9eg==
+X-Received: by 10.28.229.78 with SMTP id c75mr13650wmh.20.1489701245171; Thu,
+	16 Mar 2017 14:54:05 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.223.179.24 with HTTP; Thu, 16 Mar 2017 14:54:04 -0700 (PDT)
+In-Reply-To: <20170316214239.16243-1-raj.khem@gmail.com>
+References: <20170316214239.16243-1-raj.khem@gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 16 Mar 2017 14:54:04 -0700
+Message-ID: <CAJ86T=VgRt+tvWgT-_JbDuxw5ft2hGFi8jYTjzBDEkGvLjooPQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] go: Remove mips32r2 from mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,24 +51,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Mar 2017 21:42:50 -0000
+X-List-Received-Date: Thu, 16 Mar 2017 21:54:04 -0000
+Content-Type: text/plain; charset=UTF-8
 
-mips32r1 is only one supported for mips32
+On Thu, Mar 16, 2017 at 2:42 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> mips32r1 is only one supported for mips32
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-devtools/go/go_1.8.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-devtools/go/go_1.8.bb b/meta/recipes-devtools/go/go_1.8.bb
+> index e7a6ab277e..091b1318af 100644
+> --- a/meta/recipes-devtools/go/go_1.8.bb
+> +++ b/meta/recipes-devtools/go/go_1.8.bb
+> @@ -1,2 +1,3 @@
+>  require go-${PV}.inc
+>  require go.inc
+> +TUNE_CCARGS_remove = "-march=mips32r2"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/go/go_1.8.bb | 1 +
- 1 file changed, 1 insertion(+)
+Do you need to add "-march=mips32" ? Or do the go Makefiles etc
+provide that by default?
 
-diff --git a/meta/recipes-devtools/go/go_1.8.bb b/meta/recipes-devtools/go/go_1.8.bb
-index e7a6ab277e..091b1318af 100644
---- a/meta/recipes-devtools/go/go_1.8.bb
-+++ b/meta/recipes-devtools/go/go_1.8.bb
-@@ -1,2 +1,3 @@
- require go-${PV}.inc
- require go.inc
-+TUNE_CCARGS_remove = "-march=mips32r2"
--- 
-2.12.0
-
+> --
+> 2.12.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
