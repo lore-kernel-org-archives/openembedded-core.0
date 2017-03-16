@@ -1,29 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 845F973071
+Return-Path: <maciej.borzecki@rndity.com>
+Received: from mail-lf0-f49.google.com (mail-lf0-f49.google.com
+	[209.85.215.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 6ABF36E5FC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 12:35:48 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2GCZgnw002363; Thu, 16 Mar 2017 12:35:42 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id CtkcGF8r5I0g; Thu, 16 Mar 2017 12:35:42 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2GCZZgh002329
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 16 Mar 2017 12:35:37 GMT
-Message-ID: <1489667735.13980.103.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>, OE Core mailing list
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Mar 2017 12:35:35 +0000
-In-Reply-To: <alpine.LFD.2.20.1703160713080.22627@uk63952.mitel.com>
-References: <alpine.LFD.2.20.1703160713080.22627@uk63952.mitel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: any necessity for MACHINEOVERRIDES in mpc8315e-rdb.conf?
+	Thu, 16 Mar 2017 12:44:45 +0000 (UTC)
+Received: by mail-lf0-f49.google.com with SMTP id a6so19675024lfa.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Mar 2017 05:44:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=rndity-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=IdrCIQme9119I117HPWD6X18O88CThzIfpBOPo27QQU=;
+	b=xy4Urxox6L3xt+Rk+55qWtxQHwr7tNebcfqy9/gbxyUG0ncEeL45/n+G80GJON0EZL
+	VR0I5wp7SuhvsxzVsZRiUQmONnd9NStm9IdhaZgRTAiwCp5gCfLi4wp65K9p4Rloe2dX
+	yVvFaPPl0I1+KTgHmhXHCmELb+/CgopY6U9yKMQI0zOsCf76+qxVYTE1fLN0SQuO2XtM
+	8Sb5rjoX9CYjAjRNMJXrUYn0iH8OZaFUI9O79LdLYl2brrYNCgTh537JZwdezlp4pVMN
+	EnGVOGZO9dw1BVhyUdb57l73yVYSOA+TbttVPKRZ6m69LdyBN3wcOA+Bhh1lSUik5tEV
+	oKag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=IdrCIQme9119I117HPWD6X18O88CThzIfpBOPo27QQU=;
+	b=NXeJ7StvjId/tpoD/zDMG2Y0fRnOTvGlXVCDJRnHFrPXPzR2wBx3nx8hOztpS3tJUX
+	MbcOFfG730nsQxQ5SXcd2SQnY354PMQ7aBFKSY5vo4okfIJL4+mjy0dA3U5ER0uiU0Ek
+	XWaJSrPTFwSsrizqLr/5BvCZIXzxZvfH9xn3xRHZB6h9n1CJQ3ZeEl6o/eZn7E0OBQ7k
+	AYQMur2S8+KE+KKSrETiUQ6Yp7KMBMt4YzOxUY149qLl72lxVZG7QjKdur7cmZYa4PQj
+	4cItSA+hLG+OaRxKbGiaNl9zZwcdOGuk/Ba5QIETzcsfSIdabj/yiIwkF9I2CaX6JjEp
+	zeQw==
+X-Gm-Message-State: AFeK/H3m1h4YDKKnjAvO46QQ1q1SkdfjRA+FZc2ojTZyl+juyZGZ/b8AUj002qLbzs1n5Q==
+X-Received: by 10.46.69.7 with SMTP id s7mr2994838lja.42.1489668285789;
+	Thu, 16 Mar 2017 05:44:45 -0700 (PDT)
+Received: from localhost.localdomain (staticline-31-182-60-238.toya.net.pl.
+	[31.182.60.238])
+	by smtp.gmail.com with ESMTPSA id n20sm893148lfb.53.2017.03.16.05.44.44
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 16 Mar 2017 05:44:44 -0700 (PDT)
+From: Maciej Borzecki <maciej.borzecki@rndity.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 16 Mar 2017 13:44:31 +0100
+Message-Id: <cover.1489668133.git.maciej.borzecki@rndity.com>
+X-Mailer: git-send-email 2.9.3
+Cc: Maciek Borzecki <maciek.borzecki@gmail.com>
+Subject: [PATCH v3 0/5] wic: selftest: enhancements for non-x86 MACHINE support & fixed-size tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,34 +54,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Mar 2017 12:35:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 16 Mar 2017 12:44:45 -0000
 
-On Thu, 2017-03-16 at 07:23 -0400, Robert P. J. Day wrote:
->   (yet more pedantry, but when i try to explain stuff like this to
-> students, it's nice to know what i'm talking about.)
-> 
->   i notice the following excerpts from YP's mpc8315e-rdb.conf:
-> 
->   KERNEL_IMAGETYPE = "uImage"
->   UBOOT_MACHINE_mpc8315e-rdb = "MPC8315ERDB_config"
->   KERNEL_DEVICETREE = "mpc8315erdb.dtb"
-> 
-> what is the purpose (if any) for the "mpc8315e-rdb" override in the
-> line:
-> 
->   UBOOT_MACHINE_mpc8315e-rdb = "MPC8315ERDB_config"
->                ^^^^^^^^^^^^^
-> 
-> given that this is a machine config file for a specific target,
-> "mpc8315e-rdb", wouldn't this suffice?
-> 
->   UBOOT_MACHINE = "MPC8315ERDB_config"
+A series with enhancements and new test cases for wic selftest. The
+enhancements allow for running wic selftest for non-x86 MACHINE, such as
+qemuarm (the whole series was verified on qemux86-64 and qemuarm).
 
-I suspect this would be fine, yes.
+The first patch adds a machine independent kickstart file - wictestdisk.
+Most of test cases build a disk image using one of the kickstart files
+shipped in Poky (mostly directdisk. These are usually x86 oriented due
+to use of syslinux and cannot be used when running with non-x86
+compatible MACHINE. On the other hand, the image built during tests does
+not need to be bootable (with exception of TCs that verify if the image
+is indeed bootable).
 
-Cheers,
+Patch 2 introduces wictestdisk in test cases where its use is possible.
 
-Richard
+Patch 3 adds onlyForArch() convenience decorator and applies it to test
+cases where x86 specific image must be used. In the end, only 13 TCs are
+skipped on qemuarm.
+
+Patch 4 removes some assumptions about kernel image type.
+
+Patch 5 adds tests for --fixed-size partition flags
+
+Maciej Borzecki (5):
+  selftest: wictestdisk: machine agnostic WKS for use with selftest
+  selftest: wic: replace directdisk with wictestdisk where possible
+  wic: selftest: avoid COMPATIBLE_HOST issues
+  wic: selftest: do not assume bzImage kernel image
+  wic: selftest: add tests for --fixed-size partition flags
+
+ meta-selftest/wic/wictestdisk.wks |   7 ++
+ meta/lib/oeqa/selftest/wic.py     | 167 ++++++++++++++++++++++++++++++--------
+ 2 files changed, 140 insertions(+), 34 deletions(-)
+ create mode 100644 meta-selftest/wic/wictestdisk.wks
+
+-- 
+2.9.3
+
 
