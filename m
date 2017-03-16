@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CA0073133
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 672EB73133
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 10:13:30 +0000 (UTC)
+	Thu, 16 Mar 2017 10:13:31 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v2GADU9Q003341
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v2GADVFi020204
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 03:13:31 -0700
+	Thu, 16 Mar 2017 03:13:33 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 16 Mar 2017 03:13:29 -0700
+	Thu, 16 Mar 2017 03:13:31 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Mar 2017 03:13:23 -0700
-Message-ID: <cover.1489657029.git.liezhi.yang@windriver.com>
+Date: Thu, 16 Mar 2017 03:13:24 -0700
+Message-ID: <4a4f309af98bf85673e7d1d457674382fa46d340.1489657029.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
+In-Reply-To: <cover.1489657029.git.liezhi.yang@windriver.com>
+References: <cover.1489657029.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/6] runqemu: add selftest and fixes
+Subject: [PATCH 1/6] runqemu: improve when no machine specified
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Mar 2017 10:13:31 -0000
+X-List-Received-Date: Thu, 16 Mar 2017 10:13:32 -0000
 Content-Type: text/plain
 
-The following changes since commit 477805b913a6c4b4b630e42f08cd9e59f1e4e254:
+Fixed:
+$ runqemu core-image-minimal
+[snip]
+Exception: FSTYPE is NULL!
+[snip]
 
-  wic: selftest: account for occasional newline in debugfs file names (2017-03-14 14:39:34 +0000)
+Get DEPLOY_DIR_IMAGE from "bitbake -e" to make it work.
 
-are available in the git repository at:
+[YOCTO #10471]
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/qemu
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/qemu
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ scripts/runqemu | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Robert Yang (6):
-  runqemu: improve when no machine specified
-  runqemu: add -h and --help
-  runqemu: only boot ramfs when specified
-  oeqa/targetcontrol.py: modify it to test runqemu
-  selftest/runqemu.py: add it to test runqemu
-  targetcontrol.py: use logger.info to replace of bb.note
-
- meta/lib/oeqa/selftest/runqemu.py | 140 ++++++++++++++++++++++++++++++++++++++
- meta/lib/oeqa/targetcontrol.py    |  33 ++++++---
- meta/lib/oeqa/utils/commands.py   |  13 +++-
- meta/lib/oeqa/utils/qemurunner.py |  28 +++++---
- scripts/runqemu                   |  21 +++++-
- 5 files changed, 208 insertions(+), 27 deletions(-)
- create mode 100644 meta/lib/oeqa/selftest/runqemu.py
-
+diff --git a/scripts/runqemu b/scripts/runqemu
+index c5fa88e..add48e6 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -443,6 +443,12 @@ class BaseConfig(object):
+                         self.set("DEPLOY_DIR_IMAGE", p)
+             self.check_arg_machine(unknown_arg)
+ 
++        if not (self.get('MACHINE') or self.get('DEPLOY_DIR_IMAGE')):
++            self.load_bitbake_env()
++            s = re.search('^DEPLOY_DIR_IMAGE="(.*)"', self.bitbake_e, re.M)
++            if s:
++                self.set("DEPLOY_DIR_IMAGE", s.group(1))
++
+     def check_kvm(self):
+         """Check kvm and kvm-host"""
+         if not (self.kvm_enabled or self.vhost_enabled):
 -- 
 2.9.0
 
