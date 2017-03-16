@@ -1,31 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D2BC77690
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
+	[209.85.128.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 6270B77690
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 22:13:43 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2GMDhhD025378; Thu, 16 Mar 2017 22:13:43 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id mT02WbzDAeXZ; Thu, 16 Mar 2017 22:13:43 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2GMDebw025373
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 16 Mar 2017 22:13:41 GMT
-Message-ID: <1489702420.13980.130.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Slater, Joseph" <joe.slater@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Mar 2017 22:13:40 +0000
-In-Reply-To: <007BD92917A2324FA403BCF9A464CF84CF2971C7@ALA-MBC.corp.ad.wrs.com>
-References: <1489684755-27165-1-git-send-email-jslater@windriver.com>
-	<007BD92917A2324FA403BCF9A464CF84CF2971C7@ALA-MBC.corp.ad.wrs.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [v2][PATCH 1/1] build-compare: add date to PV
+	Thu, 16 Mar 2017 22:16:48 +0000 (UTC)
+Received: by mail-wr0-f195.google.com with SMTP id g10so7546360wrg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Mar 2017 15:16:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Rku1eN+bgt/G0AqTWoRDFKMiU4T0wVLhfLVxlPD7Gxw=;
+	b=gVpauY5S3ROuwYqoRiZDMr1j81l9lbGk1NTYm3zntjrY+MeMSRhqN2X1blF2rVjfL5
+	0xSb789qePeRZB2rP0puGMnA3VgaufF/IbiN2vYAr8j6kUDhcaBHj+XxoWPkYsToDlfB
+	1rggX7au/fjRJUvJHRJ1Zh4BQVvqQ31T8dtIg0d3odQUxto83p4Mm4ne2tvoiSggfChr
+	ngva9AypndbPMZvtF4GvaQmex5+0hpANKJ9EaQVvIayOJh7Na/nRC2PLq1+HBLmsJCmX
+	8tXbmu4gTCek9ug7au/zjo+ABrRFAO17WIYgbIwjgSQVHDDypCQDtw8ghBLCMY5v3y7S
+	lYBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Rku1eN+bgt/G0AqTWoRDFKMiU4T0wVLhfLVxlPD7Gxw=;
+	b=jnYrhLQdOKkOERwva9q5LRWgryE6Het3YEI0rJCCLrrcqFm/rAPWOTiyoUpxZ4Uy4S
+	i9rwpzHCG7ruasLzL7YwBTbgWaVAi4CYxVN6d5qXofNo87444SGOVJV/3z68DMYj7i0q
+	MjVqNrY9U3U6CSFpbGMGH+QkMOSOe9vYi/sxAPSzxYxe4ZKwp7TWlyGUlMUzDVD5HV0C
+	uTEZ/F2Q6orNnOEG11XmqFn2JDmXqFkoNJNbQNAy86Fe0SkSHXGIwHoBdBGUaT6Q3fom
+	xSILRwcaO7lo/tL27fx7xJ5AbhkuGUT0S2RyQh1AV5PnXcc/gqVB40zOFTU/du2yD+0g
+	zs9Q==
+X-Gm-Message-State: AFeK/H3CSZS6HIH96vJsi5yRBT5yn+DrEa6ORC1MLkzOiG3Iq7QpDCgA1YE5AYSebJNBEaMUIhh1tCxLMMD8sQ==
+X-Received: by 10.223.139.196 with SMTP id w4mr10466463wra.172.1489702610036; 
+	Thu, 16 Mar 2017 15:16:50 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.80.180.162 with HTTP; Thu, 16 Mar 2017 15:16:19 -0700 (PDT)
+In-Reply-To: <CAJ86T=VgRt+tvWgT-_JbDuxw5ft2hGFi8jYTjzBDEkGvLjooPQ@mail.gmail.com>
+References: <20170316214239.16243-1-raj.khem@gmail.com>
+	<CAJ86T=VgRt+tvWgT-_JbDuxw5ft2hGFi8jYTjzBDEkGvLjooPQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 16 Mar 2017 15:16:19 -0700
+Message-ID: <CAMKF1spBVtKmog9u+7fQ6ucNJHFeM2vizDwgCaQcpC6UXnqrpQ@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] go: Remove mips32r2 from mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,27 +53,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Mar 2017 22:13:45 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 16 Mar 2017 22:16:49 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, 2017-03-16 at 17:28 +0000, Slater, Joseph wrote:
-> Given that PV for *_git recipes should now be specified and
-> start with a version, it would be nice to shorten (or eliminate)
-> SRCPV.  At least get rid of the AUTOINC.  Perhaps shorten the
-> amount of SRCREV included.  The point is that as currently
-> computed, PV will be far longer than the useful information
-> it provides.
+On Thu, Mar 16, 2017 at 2:54 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> On Thu, Mar 16, 2017 at 2:42 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>> mips32r1 is only one supported for mips32
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>  meta/recipes-devtools/go/go_1.8.bb | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/recipes-devtools/go/go_1.8.bb b/meta/recipes-devtools/go/go_1.8.bb
+>> index e7a6ab277e..091b1318af 100644
+>> --- a/meta/recipes-devtools/go/go_1.8.bb
+>> +++ b/meta/recipes-devtools/go/go_1.8.bb
+>> @@ -1,2 +1,3 @@
+>>  require go-${PV}.inc
+>>  require go.inc
+>> +TUNE_CCARGS_remove = "-march=mips32r2"
+>
+> Do you need to add "-march=mips32" ? Or do the go Makefiles etc
+> provide that by default?
+>
 
-I thought we already did?
+thats passed by default.
 
-e.g. for the kernel you see packages like:
-
-kernel-module-xt-u32-4.10.0-yocto-standard_4.10+git0+805ea440c7_b259a5d744-r0.30_qemux86_64.ipk
-
-which has several shortened hashes in it.
-
-Cheers,
-
-Richard
+>> --
+>> 2.12.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
