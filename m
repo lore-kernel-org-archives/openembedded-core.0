@@ -1,31 +1,23 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C1806E630
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id AD83E60670
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 09:09:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1489655393; x=1521191393;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=OhI5vTKty1XtEMvn9/0u+ResHGRuzNmBW8ayo50w8eE=;
-	b=H6nMSsU7T08oZWRTWbNfCXxe+7ImhpKnBFAZWsJ0DwedkiRXl+0+1fL7
-	RS5T/iJJtz0gFzceoPxha3CjvgIWgA==;
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Mar 2017 02:09:53 -0700
+	Thu, 16 Mar 2017 09:15:28 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga105.fm.intel.com with ESMTP; 16 Mar 2017 02:15:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,170,1486454400"; d="scan'208";a="236881429"
-Received: from klim10-mobl5.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com.fritz.box) ([10.255.172.61])
-	by fmsmga004.fm.intel.com with ESMTP; 16 Mar 2017 02:09:52 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.36,170,1486454400"; d="scan'208";a="944938461"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga003.jf.intel.com with ESMTP; 16 Mar 2017 02:15:28 -0700
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id 24E4F2C8001;
+	Thu, 16 Mar 2017 02:15:22 -0700 (PDT)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Mar 2017 22:09:43 +1300
-Message-Id: <a9369f4e5031aa270498b5dde4c49a857b0ee58f.1489655348.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.9.3
-In-Reply-To: <cover.1489655348.git.paul.eggleton@linux.intel.com>
-References: <cover.1489655348.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/2] packagegroup-core-lsb: avoid rebuilding when changing layer config
+Date: Thu, 16 Mar 2017 11:15:21 +0200
+Message-Id: <cover.1489655518.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 00/11] Remove unused patches, packageconfigs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,35 +30,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Mar 2017 09:09:52 -0000
+X-List-Received-Date: Thu, 16 Mar 2017 09:15:28 -0000
 
-It's regrettable that code in here is referring to BBFILE_COLLECTIONS,
-but it is, and the result is that this packagegroup will rebuild simply
-by adding or removing a layer which may be completely unrelated to
-whether you've got meta-qt4 or not. Add BBFILE_COLLECTIONS to
-vardepsexclude for the function to avoid this. (This was flagged up when
-testing the new yocto-compat-layer script - it understandably but
-undesirably reports it as a change caused by a layer).
+All of the unused patches seem to be unused on purpose (instead of
+just being missing from SRC_URI by accident), so have been removed.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb | 2 ++
- 1 file changed, 2 insertions(+)
+Cheers,
+ Jussi
 
-diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-index 3aedf6b..a156bcb 100644
---- a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-+++ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-@@ -225,6 +225,8 @@ def get_libqt4(d):
-                 'libraries. Its intended use is for passing LSB tests as Qt4 is ' \
-                 'a requirement for LSB.')
-     return ''
-+# We don't want this to rebuild every time you change your layer config
-+get_libqt4[vardepsexclude] += "BBFILE_COLLECTIONS"
- 
- SUMMARY_packagegroup-core-lsb-desktop = "LSB Desktop"
- DESCRIPTION_packagegroup-core-lsb-desktop = "Packages required to support libraries \
+
+The following changes since commit 812fabbd30a062f6e726e6ae0399d87e85bf7fa3:
+
+  bitbake: runqueue: minor typo fix (2017-03-15 17:38:33 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/obsolete-patches
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/obsolete-patches
+
+Jussi Kukkonen (11):
+  qemu: Remove uuid PACKAGECONFIG
+  readline: Remove unused patch
+  xf86-input-mouse: Remove unused patch
+  python3: Remove unused patches
+  python: Remove unused patches
+  python-native: Remove unused patch
+  gcc: Remove unused patch
+  opkg-utils: Remove unused patches
+  gstreamer1.0-omx: Remove unused patch
+  gstreamer1.0-vaapi: Remove unused patch
+  kexec-tools: Remove unused patch
+
+ .../readline/files/config-dirent-symbols.patch     |  34 ---
+ .../gcc/gcc-6.3/CVE-2016-4490.patch                | 290 ---------------------
+ ...e-defined-bindir-and-mandir-as-installati.patch |  30 ---
+ ...rnatives-warn-when-multiple-providers-hav.patch |  26 --
+ .../avoid_parallel_make_races_on_pgen.patch        |  27 --
+ .../python/python/CVE-2016-5636.patch              |  44 ----
+ .../python/avoid_parallel_make_races_on_pgen.patch |  27 --
+ .../python/python3/CVE-2016-5636.patch             |  44 ----
+ .../python/python3/use_packed_importlib.patch      |  31 ---
+ meta/recipes-devtools/qemu/qemu.inc                |   3 +-
+ .../xorg-driver/xf86-input-mouse/unbreak.patch     |  21 --
+ .../kexec/kexec-tools/kexec-x32.patch              |  88 -------
+ .../0001-omx-fixed-type-error-in-printf-call.patch |  30 ---
+ .../gstreamer1.0-vaapi/install-tests.patch         |  43 ---
+ 14 files changed, 1 insertion(+), 737 deletions(-)
+ delete mode 100644 meta/recipes-core/readline/files/config-dirent-symbols.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-6.3/CVE-2016-4490.patch
+ delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0001-Makefile-use-defined-bindir-and-mandir-as-installati.patch
+ delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-warn-when-multiple-providers-hav.patch
+ delete mode 100644 meta/recipes-devtools/python/python-native/avoid_parallel_make_races_on_pgen.patch
+ delete mode 100644 meta/recipes-devtools/python/python/CVE-2016-5636.patch
+ delete mode 100644 meta/recipes-devtools/python/python/avoid_parallel_make_races_on_pgen.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/CVE-2016-5636.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/use_packed_importlib.patch
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-input-mouse/unbreak.patch
+ delete mode 100644 meta/recipes-kernel/kexec/kexec-tools/kexec-x32.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-omx/0001-omx-fixed-type-error-in-printf-call.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/install-tests.patch
+
 -- 
-2.9.3
+2.1.4
 
 
