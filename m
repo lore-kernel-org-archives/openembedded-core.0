@@ -1,24 +1,24 @@
-Return-Path: <joe.slater@windriver.com>
+Return-Path: <Paul.Gortmaker@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 60D117306A
+	by mail.openembedded.org (Postfix) with ESMTP id 32782600EA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 18:24:57 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v2GIOwI7014698
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 11:24:59 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Thu, 16 Mar 2017 11:24:57 -0700
-From: Joe Slater <jslater@windriver.com>
+	Thu, 16 Mar 2017 18:42:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v2GIgQTr017813
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 16 Mar 2017 11:42:26 -0700 (PDT)
+Received: from yow-cube1.wrs.com (128.224.56.98) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 16 Mar 2017 11:42:25 -0700
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Mar 2017 11:24:57 -0700
-Message-ID: <1489688697-27502-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
+Date: Thu, 16 Mar 2017 14:42:14 -0400
+Message-ID: <1489689734-10232-1-git-send-email-paul.gortmaker@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [v3][PATCH 1/1] build-compare: add date to PV
+Cc: Christos Zoulas <christos@zoulas.com>
+Subject: [PATCH] file: update SRCREV for 5.30 to fix fetch fail on missing commit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,36 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Mar 2017 18:24:58 -0000
+X-List-Received-Date: Thu, 16 Mar 2017 18:42:27 -0000
 Content-Type: text/plain
 
-We want PV values to be easily ordered, so
-use the latest entry in build-compare.changes which
-will also match the date of SRCREV.
+Machines that cloned a while ago will have the commit, but new
+deployments won't because it seems the upstream changed/rebased
+and the old commit ID has been garbage-collected away.  Hence
+the fetch fails to check out the named commit ID.
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
----
- .../build-compare/build-compare_git.bb             |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Both the old (gone) commit, and the "new" commit show the same
+dates and commit log and point at 5.30, so hopefully this is
+the right thing to do.  A git diff of the two seems to only show
+a blanket uprev of CVS tags and deletion of a couple autogen'd
+files, and no real source changes.
 
-diff --git a/meta/recipes-devtools/build-compare/build-compare_git.bb b/meta/recipes-devtools/build-compare/build-compare_git.bb
-index eb12e40..c60c164 100644
---- a/meta/recipes-devtools/build-compare/build-compare_git.bb
-+++ b/meta/recipes-devtools/build-compare/build-compare_git.bb
-@@ -17,8 +17,11 @@ SRC_URI = "git://github.com/openSUSE/build-compare.git \
-            file://functions.sh-improve-deb-and-ipk-checking.patch \
-            "
+Cc: Christos Zoulas <christos@zoulas.com>
+Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+
+diff --git a/meta/recipes-devtools/file/file_5.30.bb b/meta/recipes-devtools/file/file_5.30.bb
+index 0998fcfa8990..112bf105781e 100644
+--- a/meta/recipes-devtools/file/file_5.30.bb
++++ b/meta/recipes-devtools/file/file_5.30.bb
+@@ -19,7 +19,7 @@ SRC_URI = "git://github.com/file/file.git \
+         file://0001-Add-P-prompt-into-Usage-info.patch \
+         "
  
-+# Date matches entry in build-compare.changes and date of SRCREV.
-+#
- SRCREV = "c5352c054c6ef15735da31b76d6d88620f4aff0a"
--PV = "git+${SRCPV}"
-+PE = "1"
-+PV = "2015.02.10+git${SRCPV}"
- 
+-SRCREV = "79814950aafb81ecd6a910c2a8a3b8ec12f3e4a6"
++SRCREV = "3050419355566d2a96c5be97fef0ffae097bbb96"
  S = "${WORKDIR}/git"
  
+ inherit autotools
 -- 
-1.7.9.5
+2.11.1
 
 
