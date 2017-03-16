@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AB6A7756E
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3104D77589
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 16 Mar 2017 10:13:32 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v2GADXg6004005
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v2GADYFk003344
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 03:13:33 -0700 (PDT)
+	Thu, 16 Mar 2017 03:13:34 -0700
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
 	Thu, 16 Mar 2017 03:13:33 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Mar 2017 03:13:25 -0700
-Message-ID: <fd02cf93a32744016e10043eb3c4c4c649c24f3e.1489657029.git.liezhi.yang@windriver.com>
+Date: Thu, 16 Mar 2017 03:13:26 -0700
+Message-ID: <6217059cf379bf40fee14ee2bda8f47d179781f0.1489657029.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1489657029.git.liezhi.yang@windriver.com>
 References: <cover.1489657029.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/6] runqemu: add -h and --help
+Subject: [PATCH 3/6] runqemu: only boot ramfs when specified
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,46 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Mar 2017 10:13:32 -0000
+X-List-Received-Date: Thu, 16 Mar 2017 10:13:33 -0000
 Content-Type: text/plain
 
-Fixed:
-$ runqemu -h
-runqemu - INFO - Assuming MACHINE = -h
-runqemu - INFO - Running MACHINE=-h bitbake -e...
-[snip]
-Exception: FSTYPE is NULL!
+This can fix a problem:
+IMAGE_FSTYPES += "iso"
+$ bitbake core-image-minimal
+$ runqemu qemux86
 
-[YOCTO #10941]
+It may boot core-image-minimal-initramfs rather than core-image-minimal, this
+is not what we want usually. This patch makes it avoid booting ramfs when there
+are other choices, or when it is specified, for example, "runqemu qemux86 ramfs"
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- scripts/runqemu | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ scripts/runqemu | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/runqemu b/scripts/runqemu
-index add48e6..d43006f 100755
+index d43006f..0918101 100755
 --- a/scripts/runqemu
 +++ b/scripts/runqemu
-@@ -80,7 +80,7 @@ of the following environment variables (in any order):
-   biosfilename=<filename> - specify bios filename
-   qemuparams=<xyz> - specify custom parameters to QEMU
-   bootparams=<xyz> - specify custom kernel parameters during boot
--  help: print this text
-+  help, -h, --help: print this text
+@@ -660,7 +660,15 @@ class BaseConfig(object):
+                 logger.info('Running %s...' % cmd)
+                 qbs = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
+                 if qbs:
+-                    self.qemuboot = qbs.split()[0]
++                    for qb in qbs.split():
++                        # Don't use initramfs when other choices unless fstype is ramfs
++                        if '-initramfs-' in os.path.basename(qb) and self.fstype != 'cpio.gz':
++                                continue
++                        self.qemuboot = qb
++                        break
++                    if not self.qemuboot:
++                        # Use the first one when no choice
++                        self.qemuboot = qbs.split()[0]
+                     self.qbconfload = True
  
- Examples:
-   runqemu qemuarm
-@@ -1158,7 +1158,8 @@ class BaseConfig(object):
-             logger.warn("Couldn't run 'bitbake -e' to gather environment information:\n%s" % err.output.decode('utf-8'))
- 
- def main():
--    if len(sys.argv) == 1 or "help" in sys.argv:
-+    if len(sys.argv) == 1 or "help" in sys.argv or \
-+            '-h' in sys.argv or '--help' in sys.argv:
-         print_usage()
-         return 0
-     config = BaseConfig()
+         if not self.qemuboot:
 -- 
 2.9.0
 
