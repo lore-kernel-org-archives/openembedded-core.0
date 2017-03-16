@@ -1,46 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
-	[209.85.220.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FEEA77935
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 22:32:36 +0000 (UTC)
-Received: by mail-qk0-f177.google.com with SMTP id 1so51915861qkl.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 15:32:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=F5ybEh4cJVfE2MG58RF/FrGahIGKnIH8GcVgVE0V6kM=;
-	b=JkLSh2/CGUHaep43Ovuz3NtT8kPeCUhgW8KX+no7iOZ2zPQyfY53UPHV+SYpKqqd4Y
-	M7X+rEN+z9IjHt0XXc+lI11dqGChD/uhauuB3Atgus1oVYEr1iQfJ4quV/jKq0vec9Tw
-	QBbTe8mcBjgUZkdKkD+cpK07N0wObj1tgIAwVJYnWRq0TqtBPMgvrM1KahbH46Xh8tCs
-	xloA+ZZcos7cKBbM2sF5v/IozFSQFyP0Qp6fZTrbC4cwGLQUICb+mSgxzJ4sZGPq2imM
-	Lwz2HeGSARn8Dnkj/byo68VbI3VlLI7ocXV7ZlrvETK/HHeb+4DjH/OvoNODBVvU109S
-	fmYA==
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AF88600EA;
+	Thu, 16 Mar 2017 23:34:28 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id u132so3797896wmg.0;
+	Thu, 16 Mar 2017 16:34:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:subject:message-id:mime-version:content-disposition
+	:user-agent; bh=6c3gAR/DtcrNHeX4Ry1qyH0aXL/75buWYYvXWKHlRxU=;
+	b=KuggzDIIpOknfEqX6KDx8jgaulp3iQl2YF2YaAJWXtStd3+EFOq0TZ5ZIiF32yKZUz
+	0lAEb/iTrDWGv8bP+5o5H4cMyhTNSqYkzrvOMSg08v2rSBLThaodlL3FJ3oy5fPyxQt4
+	szaxSLXuWL+jV2mLU701DTQYHQso/Osg0sCFspTDBcvKmY4bNB4QS9nBSG3gEBvwF09G
+	eehx7FSDqs0suRyRITZhop6vKvcx+zxetd5uU/JOI6zgumkfpIeyqTDfQ4bty68LdvMg
+	xtgmmoRjGSyn7X6x92LAOzZZZc26sFqLKfqzgA7rCw8ok1YsAK6yxVcL5y5dvLgRevbL
+	ZyKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=F5ybEh4cJVfE2MG58RF/FrGahIGKnIH8GcVgVE0V6kM=;
-	b=fGi4G9AP9iAwbU+yjcAqvt5hcTiVIYQyK0HxeoBKC7igTeVKH6UGmNzRSAkjZparCN
-	uodtdcaXNQ57vSqH+ILmn2H/i+fC3F6cnEO4uvvsZM2WmgafwxZayEG731RyFJPurJ6d
-	w3XQBcBRS5GGDLKI4o5Y4KRRS0ZA6yREFuiS60U8roao0v17lwtswY1cH6OG3Y7nVYMf
-	madmCYg5gFPIkkrVt1eWb+n83j9Tu4tbiZy7jKonNwftHUKv3flp/O9omNuXJ4tUzfBZ
-	9IVyLw+0Un/A7hfBd8xjGfltbDHStZmMuReu5fkCezscirpWKOyZht9Vj+ppmEdguqsq
-	p4rA==
-X-Gm-Message-State: AFeK/H1cOG2Wyb5PYuiZ1muKFyGb0LR4ZlnrCnk8hzWvgQNBUdZDH60yAqWngRPIMAqStpXqjFc8hiR+o+2kH0hd
-X-Received: by 10.55.175.195 with SMTP id y186mr10212905qke.26.1489703557858; 
-	Thu, 16 Mar 2017 15:32:37 -0700 (PDT)
+	h=x-gm-message-state:from:date:to:subject:message-id:mime-version
+	:content-disposition:user-agent;
+	bh=6c3gAR/DtcrNHeX4Ry1qyH0aXL/75buWYYvXWKHlRxU=;
+	b=OMZU7Y3LyYaMTYYirmhxzbsdO3M2bvJVs+ty91WCD3R9gv5HC9UtyArriGbnePl05T
+	FLGOiC8F9WvSIP2PGMBTPe384j+ZUA0g6RPDWv/wu//bwSfzR3M9+z9Piz/MGp6OQsJ0
+	ddgvSvofBk8PCPnkI4/j0D3w0IJPM4A/rcCFugDJh3874XXTOTR7DzUj90eAfFiAswD0
+	c+1ifSuwqrnFqYqamsdNngFukx9GU4YvBbOPxna+cbC03uVf5rSRcOxLw579ZYwWRZDv
+	Xj/2hJZbzi3kW7Fp8NGQM1Gd5JlxXYakFxQ3zqLuk79ue4mx12/HWAOpdhmoj4wfZgHG
+	NMaQ==
+X-Gm-Message-State: AFeK/H3CoOcx+bEk4vKpjwXAGjg1wDOeC/9vCXTYbcsfr4sb25Wx55rjHM99foREDl3Fgw==
+X-Received: by 10.28.156.195 with SMTP id f186mr217982wme.40.1489707269691;
+	Thu, 16 Mar 2017 16:34:29 -0700 (PDT)
+Received: from localhost ([217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id 36sm7888957wrk.57.2017.03.16.16.34.28
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 16 Mar 2017 16:34:28 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 17 Mar 2017 00:34:29 +0100
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	openembedded-devel <openembedded-devel@lists.openembedded.org>
+Message-ID: <20170316233429.GA3293@jama>
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Thu, 16 Mar 2017 15:32:17 -0700 (PDT)
-In-Reply-To: <d7930253eb64c32753c41d661f7148e5e65eafd8.1489505343.git-series.patrick.ohly@intel.com>
-References: <d7930253eb64c32753c41d661f7148e5e65eafd8.1489505343.git-series.patrick.ohly@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 16 Mar 2017 22:32:17 +0000
-Message-ID: <CAJTo0LYPjw9P5+CASrw6SF=w+vjtNGP7_JW=rM_pXrw05-pbDg@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rm_work.bbclass: re-enable recursive do_rm_work_all
+User-Agent: Mutt/1.8.0 (2017-02-23)
+Subject: State of bitbake world, Failed tasks 2017-03-15
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,183 +53,220 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Mar 2017 22:32:37 -0000
-Content-Type: multipart/alternative; boundary=94eb2c06093c63734d054ae0a31b
+X-List-Received-Date: Thu, 16 Mar 2017 23:34:30 -0000
+X-Groupsio-MsgNum: 94871
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="EeQfGwPcQSOJBaQU"
+Content-Disposition: inline
 
---94eb2c06093c63734d054ae0a31b
-Content-Type: text/plain; charset=UTF-8
-
-On 14 March 2017 at 15:29, Patrick Ohly <patrick.ohly@intel.com> wrote:
-
-> When rewriting the do_rm_work injection, do_rm_work_all had been
-> removed because it seemed obsolete, as do_build now always triggers
-> do_rm_work.
->
-> However, do_build does not get triggered for all recipes and thus
-> do_rm_work was not called for recipes that got built only
-> partially. For example, zlib depends indirectly on
-> zlib-native:do_populate_sysroot.  Because of that dependency,
-> zlib-native got compiled, but do_rm_work was never called for it.
->
-> Re-introducing do_rm_work_all fixes that by making do_build depend on
-> do_rm_work_all, which then recursively depends on do_rm_work of all
-> dependencies. This has the unintended side-effect that do_rm_work then
-> also triggers additional work (like do_populate_lic) that normally
-> doesn't need to be done for a build. This seems like the lesser evil,
-> compared to an incomplete cleanup because it mostly enables the
-> lighter tasks after do_populate_sysroot.
->
-> The real solution would be to have two kinds of relationships: a weak
-> ordering relationship ("if A and B are enabled, A must run before B,
-> but B can also run without A") and hard dependencies ("B cannot run
-> unless A has run before").
->
-
-If I do a build with rm_work enabled I tend to get this error at rootfs
-time:
-
-ERROR: core-image-sato-1.0-r0 do_image_wic: Error executing a python
-function in exec_python_func() autogenerated:
-
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:extend_recipe_sysroot(d)
-     0003:
-File: '/home/ross/Yocto/poky/meta/classes/staging.bbclass', lineno: 623,
-function: extend_recipe_sysroot
-     0619:                    dest = newmanifest[l]
-     0620:                    if l.endswith("/"):
-     0621:                        staging_copydir(l, targetdir, dest,
-seendirs)
-     0622:                        continue
- *** 0623:                    staging_copyfile(l, targetdir, dest,
-postinsts, seendirs)
-     0624:
-     0625:    for f in fixme:
-     0626:        if f == '':
-     0627:            staging_processfixme(fixme[f], recipesysroot,
-recipesysroot, recipesysrootnative, d)
-File: '/home/ross/Yocto/poky/meta/classes/staging.bbclass', lineno: 269,
-function: staging_copyfile
-     0265:        os.symlink(linkto, dest)
-     0266:        #bb.warn(c)
-     0267:    else:
-     0268:        try:
- *** 0269:            os.link(c, dest)
-     0270:        except OSError as err:
-     0271:            if err.errno == errno.EXDEV:
-     0272:                bb.utils.copyfile(c, dest)
-     0273:            else:
-Exception: FileExistsError: [Errno 17] File exists:
-'/data/poky-master/tmp/sysroots-components/corei7-64/glibc/usr/lib/crt1.o'
-->
-'/data/poky-master/tmp/work/intel_corei7_64-poky-linux/core-image-sato/1.0-r0/recipe-sysroot/usr/lib/crt1.o'
-
-ERROR: core-image-sato-1.0-r0 do_image_wic: Function failed:
-extend_recipe_sysroot
-ERROR: Logfile of failure stored in:
-/data/poky-master/tmp/work/intel_corei7_64-poky-linux/core-image-sato/1.0-r0/temp/log.do_image_wic.21552
-ERROR: Task
-(/home/ross/Yocto/poky/meta/recipes-sato/images/core-image-sato.bb:do_image_wic)
-failed with exit code '1'
-
-Reverting this patch makes it go away.
-
-Ross
-
---94eb2c06093c63734d054ae0a31b
-Content-Type: text/html; charset=UTF-8
+--EeQfGwPcQSOJBaQU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 March 2017 at 15:29, Patrick Ohly <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);borde=
-r-left-style:solid;padding-left:1ex"><div id=3D"gmail-:15u" class=3D"gmail-=
-a3s gmail-aXjCH gmail-m15acd71232153b6c">When rewriting the do_rm_work inje=
-ction, do_rm_work_all had been<br>
-removed because it seemed obsolete, as do_build now always triggers<br>
-do_rm_work.<br>
-<br>
-However, do_build does not get triggered for all recipes and thus<br>
-do_rm_work was not called for recipes that got built only<br>
-partially. For example, zlib depends indirectly on<br>
-zlib-native:do_populate_<wbr>sysroot.=C2=A0 Because of that dependency,<br>
-zlib-native got compiled, but do_rm_work was never called for it.<br>
-<br>
-Re-introducing do_rm_work_all fixes that by making do_build depend on<br>
-do_rm_work_all, which then recursively depends on do_rm_work of all<br>
-dependencies. This has the unintended side-effect that do_rm_work then<br>
-also triggers additional work (like do_populate_lic) that normally<br>
-doesn&#39;t need to be done for a build. This seems like the lesser evil,<b=
-r>
-compared to an incomplete cleanup because it mostly enables the<br>
-lighter tasks after do_populate_sysroot.<br>
-<br>
-The real solution would be to have two kinds of relationships: a weak<br>
-ordering relationship (&quot;if A and B are enabled, A must run before B,<b=
-r>
-but B can also run without A&quot;) and hard dependencies (&quot;B cannot r=
-un<br>
-unless A has run before&quot;).<br></div></blockquote></div><br>If I do a b=
-uild with rm_work enabled I tend to get this error at rootfs time:</div><di=
-v class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><div class=3D"=
-gmail_extra">ERROR: core-image-sato-1.0-r0 do_image_wic: Error executing a =
-python function in exec_python_func() autogenerated:</div><div class=3D"gma=
-il_extra"><br></div><div class=3D"gmail_extra">The stack trace of python ca=
-lls that resulted in this exception/failure was:</div><div class=3D"gmail_e=
-xtra">File: &#39;exec_python_func() autogenerated&#39;, lineno: 2, function=
-: &lt;module&gt;</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00001:<=
-/div><div class=3D"gmail_extra">=C2=A0*** 0002:extend_recipe_sysroot(d)</di=
-v><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00003:</div><div class=3D"g=
-mail_extra">File: &#39;/home/ross/Yocto/poky/meta/classes/staging.bbclass&#=
-39;, lineno: 623, function: extend_recipe_sysroot</div><div class=3D"gmail_=
-extra">=C2=A0 =C2=A0 =C2=A00619: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0dest =3D newmanifest[l]</div><div class=3D"gmail=
-_extra">=C2=A0 =C2=A0 =C2=A00620: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0if l.endswith(&quot;/&quot;):</div><div class=
-=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00621: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0staging_copydir(l, targ=
-etdir, dest, seendirs)</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0=
-0622: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0continue</div><div class=3D"gmail_extra">=C2=A0*** 0623: =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0staging_c=
-opyfile(l, targetdir, dest, postinsts, seendirs)</div><div class=3D"gmail_e=
-xtra">=C2=A0 =C2=A0 =C2=A00624:</div><div class=3D"gmail_extra">=C2=A0 =C2=
-=A0 =C2=A00625: =C2=A0 =C2=A0for f in fixme:</div><div class=3D"gmail_extra=
-">=C2=A0 =C2=A0 =C2=A00626: =C2=A0 =C2=A0 =C2=A0 =C2=A0if f =3D=3D &#39;&#3=
-9;:</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00627: =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0staging_processfixme(fixme[f], recipesysroot, r=
-ecipesysroot, recipesysrootnative, d)</div><div class=3D"gmail_extra">File:=
- &#39;/home/ross/Yocto/poky/meta/classes/staging.bbclass&#39;, lineno: 269,=
- function: staging_copyfile</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =
-=C2=A00265: =C2=A0 =C2=A0 =C2=A0 =C2=A0os.symlink(linkto, dest)</div><div c=
-lass=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00266: =C2=A0 =C2=A0 =C2=A0 =C2=A0#=
-bb.warn(c)</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00267: =C2=A0=
- =C2=A0else:</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00268: =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0try:</div><div class=3D"gmail_extra">=C2=A0*** 0269=
-: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0os.link(c, dest)</div><div class=
-=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00270: =C2=A0 =C2=A0 =C2=A0 =C2=A0excep=
-t OSError as err:</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00271:=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if err.errno =3D=3D errno.EXDEV:<=
-/div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00272: =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.utils.copyfile(c, dest)</div><div =
-class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00273: =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0else:</div><div class=3D"gmail_extra">Exception: FileExistsEr=
-ror: [Errno 17] File exists: &#39;/data/poky-master/tmp/sysroots-components=
-/corei7-64/glibc/usr/lib/crt1.o&#39; -&gt; &#39;/data/poky-master/tmp/work/=
-intel_corei7_64-poky-linux/core-image-sato/1.0-r0/recipe-sysroot/usr/lib/cr=
-t1.o&#39;</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
-ra">ERROR: core-image-sato-1.0-r0 do_image_wic: Function failed: extend_rec=
-ipe_sysroot</div><div class=3D"gmail_extra">ERROR: Logfile of failure store=
-d in: /data/poky-master/tmp/work/intel_corei7_64-poky-linux/core-image-sato=
-/1.0-r0/temp/log.do_image_wic.21552</div><div class=3D"gmail_extra">ERROR: =
-Task (/home/ross/Yocto/poky/meta/recipes-sato/images/core-image-sato.bb:do_=
-image_wic) failed with exit code &#39;1&#39;</div><div class=3D"gmail_extra=
-"><br></div><div class=3D"gmail_extra">Reverting this patch makes it go awa=
-y.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ros=
-s</div></div></div>
+=3D=3D Number of issues - stats =3D=3D
+{| class=3D'wikitable'
+!|Date		     !!colspan=3D'3'|Failed tasks			    !!colspan=3D'6'|Failed depe=
+ncencies			 !!|Signatures		  !!colspan=3D'12'|QA !!Comment
+|-
+||		||qemuarm	||qemux86	||qemux86_64	||qemuarm||max||min	||qemux86||max||mi=
+n	||all 	||already-stripped	||libdir	||textrel	||build-deps	||file-rdeps	||=
+version-going-backwards	||host-user-contaminated	||installed-vs-shipped	||u=
+nknown-configure-option	||symlink-to-sysroot	||invalid-pkgconfig	||pkgname	=
+||=09
+|-
+||2017-03-15	||4	||4	||4	||N/A	||N/A	||N/A	||N/A	||N/A	||N/A	||0	||0		||0		=
+||4		||0		||0		||0		||2		||0		||0		||0		||0		||0		||=09
+|}
 
---94eb2c06093c63734d054ae0a31b--
+http://www.openembedded.org/wiki/Bitbake_World_Status
+
+=3D=3D Failed tasks 2017-03-15 =3D=3D
+
+INFO: jenkins-job.sh-1.8.19 Complete log available at http://logs.nslu2-lin=
+ux.org/buildlogs/oe/world/pyro/log.report.20170316_132623.log
+
+=3D=3D=3D common (3) =3D=3D=3D
+    * meta-openembedded/meta-oe/recipes-support/devmem2/devmem2.bb:do_patch
+    * meta-openembedded/meta-perl/recipes-perl/libnet/libnet-ssleay-perl_1.=
+65.bb:do_configure
+    * virtual:native:meta-openembedded/meta-efl/recipes-efl/efl/efl_1.15.1.=
+bb:do_compile
+
+=3D=3D=3D common-x86 (1) =3D=3D=3D
+    * meta-openembedded/meta-oe/recipes-support/vboxguestdrivers/vboxguestd=
+rivers_5.1.14.bb:do_install
+
+=3D=3D=3D qemuarm (1) =3D=3D=3D
+    * meta-qt5/recipes-connectivity/libqofono/libqofono_git.bb:do_compile
+
+=3D=3D=3D qemux86 (0) =3D=3D=3D
+
+=3D=3D=3D qemux86_64 (0) =3D=3D=3D
+
+=3D=3D=3D Number of failed tasks (12) =3D=3D=3D
+{| class=3Dwikitable
+|-
+|| qemuarm 	|| 4	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/lo=
+g.world.qemuarm.20170314_100521.log/ || http://errors.yoctoproject.org/Erro=
+rs/Build/33915/
+|-
+|| qemux86 	|| 4	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/lo=
+g.world.qemux86.20170314_115504.log/ || http://errors.yoctoproject.org/Erro=
+rs/Build/33916/
+|-
+|| qemux86_64 	|| 4	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro=
+/log.world.qemux86-64.20170315_125349.log/ || http://errors.yoctoproject.or=
+g/Errors/Build/34634/
+|}
+
+=3D=3D=3D PNBLACKLISTs (351) =3D=3D=3D
+
+=3D=3D=3D QA issues (6) =3D=3D=3D
+{| class=3Dwikitable
+!| Count		||Issue
+|-
+||0	||already-stripped
+|-
+||0	||build-deps
+|-
+||0	||file-rdeps
+|-
+||0	||installed-vs-shipped
+|-
+||0	||invalid-pkgconfig
+|-
+||0	||libdir
+|-
+||0	||pkgname
+|-
+||0	||symlink-to-sysroot
+|-
+||0	||unknown-configure-option
+|-
+||0	||version-going-backwards
+|-
+||2	||host-user-contaminated
+|-
+||4	||textrel
+|}
+
+
+
+=3D=3D=3D Incorrect PACKAGE_ARCH or sstate signatures (0) =3D=3D=3D
+
+Complete log: http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.signa=
+tures.20170315_080310.log/
+
+No issues detected
+
+=3D=3D Tested changes (not included in master yet) - bitbake =3D=3D
+latest upstream commit:=20
+e455e40 toaster: resolve missing 'native[sdk]:' prefixes
+not included in master yet:=20
+7b8d726 world-image: add extra target
+
+=3D=3D Tested changes (not included in master yet) - openembedded-core =3D=
+=3D
+latest upstream commit:=20
+477805b wic: selftest: account for occasional newline in debugfs file names
+not included in master yet:=20
+ea4cfd5 qemux86: Add identical qemux86copy variant for tests
+2b668d7 sstate-sysroot-cruft.sh: Extend the whitelist
+20180be recipes: Replace "cp -a" with "cp -R --no-dereference --preserve=3D=
+mode,links"
+9e09509 buildhistory.bbclass: metadata-revs show repo parent
+997fdda metadata-revs: provide more information
+b8a5ee2 report-error: Allow to upload reports automatically
+9eee58b rm_work: restore old rm_work_all
+830f53e Revert "rm_work: restore old rm_work_all"
+4126661 Revert "rm_work.bbclass: clean up sooner"
+b96ea1d bitbake.conf: Add few more binaries to HOSTTOOLS_NONFATAL
+6f9a0ae bitbake.conf: Temporary add few more binaries to HOSTTOOLS_NONFATAL
+
+=3D=3D Tested changes (not included in master yet) - meta-openembedded =3D=
+=3D
+latest upstream commit:=20
+1dff235 vim: add native BBCLASSEXTEND
+not included in master yet:=20
+0fa3a88 netcat-openbsd: fix implicit dependency on pkg-config
+d27cf15 inetutils: Move files only when src !=3D dst.
+2889a9e ebtables: Move files only when src !=3D dst.
+ec34e51 netcf_git: Check if src !=3D dst while moving files.
+0e1b685 dnsmasq: add info for port setting
+b80d8ce dnsmasq: disable the service by default
+8712656 ptpd: add pkgconfig to inherit
+7faad88 samba: update tevent_internal.h
+f25452b wireshark: update to 2.2.5
+5f24fb9 postfix: remove references to buildmachine paths in target makedefs=
+=2Eout
+8ed26e0 chrony: fix build failure for arma9
+1a6700c libcec: update to version 4.0.1 and provide package for python3 wra=
+pper
+47f7f79 meson: Update to 0.37.1
+14e8457 meson.bbclass: Add support for more standard installation directori=
+es
+ae60e0d meson.bbclass: Make changes to meson.build files trigger reconfigur=
+ation
+b2b8e3e meson.bbclass: Support building for native
+ea83fbc meson.bbclass: Use the correct C++ compiler when cross compiling
+8055f63 lvm2: fix bash depends QA issue
+b4173fc python-pyserial: update to version 3.3
+135418c fuse: update HOMEPAGE and SRC_URI
+2829912 curlpp: update HOMEPAGE and SRC_URI
+4902e90 libdnet: update SRC_URI
+41a056d cherokee: update SRC_URI
+deacf40 lmsensors: update SRC_URI and S
+da983d9 recipes: delete obsolete patches
+4cae8ae meta: do not prepend/append to BBCLASSEXTEND
+a08f230 toybox: Fix configure failure
+8cdc920 toybox: Upgrade to 0.7.3
+cdf1f00 luajit: test SITEINFO_BITS instead of maintaining a list of 32bit t=
+argets
+dfca01b acpica: moved to OE-core
+493978b devmem2: use different filename to avoid checksum conflicts
+735a7b5 vim: Update to 8.0.0427
+fe056aa efl: append -fPIC only for target builds
+2edb15b scsirastools: add dependency on groff-native
+871b5b9 openflow: add dependency on openssl-native
+b89e68a lprng: disable clear support
+
+=3D=3D Tested changes (not included in master yet) - meta-qt5 =3D=3D
+latest upstream commit:=20
+9927aac qtbase: PACKAGECONFIG[gtk] change gtk+ -> gtk+3 in dependencies
+not included in master yet:=20
+4f44a57 packagegroup-qt5-toolchain-target: Add QtSerialBus to meta-toolchai=
+n-qt5.
+abc89e9 qtbase-native; do not build qdbuscpp2xml and qdbusxml2cpp bootstrap=
+ped
+bd2258f packagegroup-qt5-toolchain-target: add qtquickcontrols2 package
+18603cd qtwebengine: show progress for do_compile
+
+=3D=3D Tested changes (not included in master yet) - meta-browser =3D=3D
+latest upstream commit:=20
+021a954 chromium-browser: add missing dependency on gperf-native
+not included in master yet:=20
+a9dd704 chromium: disable generate_character_data for x86
+
+=3D=3D Tested changes (not included in master yet) - meta-webos-ports =3D=3D
+latest upstream commit:=20
+4d4ffcb packagegroup-luneos-extended: drop qtscenegraph-adaptation
+not included in master yet:=20
+
+=3D=3D Tested changes (not included in master yet) - meta-smartphone =3D=3D
+latest upstream commit:=20
+e39c265 android-system-image: fix builds that don't have overlay-libs
+not included in master yet:=20
+
+--EeQfGwPcQSOJBaQU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWMshBAAKCRA3VSO3ZXaA
+HN8uAJ9qyOLRgwNUIqo286PiI4eBBMOzNwCeOBHlIVZad0UUQFKKvcWnhm01kgk=
+=gblk
+-----END PGP SIGNATURE-----
+
+--EeQfGwPcQSOJBaQU--
