@@ -1,33 +1,33 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 05857730F9
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id BFD6A771DB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 09:15:45 +0000 (UTC)
+	Thu, 16 Mar 2017 09:15:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1489655747; x=1521191747;
+	t=1489655750; x=1521191750;
 	h=from:to:cc:subject:date:message-id:in-reply-to: references;
-	bh=DJWniT6qcT9B4fJ5Hn8ZNsVwkgA5ng2IkkGlls7amhQ=;
-	b=PpHsGtmaPlYWReC+Jtx29KiDBzTIsSS9/0FFJmR/j4ygvTX6nCSCVEj8
-	co4INJ+AxvgWCEnOEfGwmmTSi3m+8Q==;
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Mar 2017 02:15:46 -0700
+	bh=rLZw1KbGCFUKNAAp2sy36BKDzYA7z7L0UsHTTBPEXeI=;
+	b=OPdGYML+ftigc2FH8f4SGkxcLMnQkWyPhr3ksd+1GQ9ZNBEPFJE7GWJ+
+	0o/BOVEVc4tqkenMxbWxUvgYdHIJFw==;
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Mar 2017 02:15:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,170,1486454400"; d="scan'208";a="76043265"
+X-IronPort-AV: E=Sophos;i="5.36,170,1486454400"; d="scan'208";a="835269615"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 16 Mar 2017 02:15:46 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 16 Mar 2017 02:15:47 -0700
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 930132C8001;
-	Thu, 16 Mar 2017 02:15:41 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id DC7802C8001;
+	Thu, 16 Mar 2017 02:15:42 -0700 (PDT)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Mar 2017 11:15:30 +0200
-Message-Id: <cb7e88f07b80ab5bf97199776a904ad1d00d65f2.1489655518.git.jussi.kukkonen@intel.com>
+Date: Thu, 16 Mar 2017 11:15:31 +0200
+Message-Id: <ecf050866e8e202f5c9376943cd9fcf5a16e8d20.1489655518.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1489655518.git.jussi.kukkonen@intel.com>
 References: <cover.1489655518.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 02/11] readline: Remove unused patch
+Subject: [PATCH 03/11] xf86-input-mouse: Remove unused patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,57 +40,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Mar 2017 09:15:46 -0000
+X-List-Received-Date: Thu, 16 Mar 2017 09:15:48 -0000
 
-config-dirent-symbols.patch was removed from SRC_URI as "already
-applied in upstream" in 983a4986947.
+The patch has not been used since the ancient git version was removed.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../readline/files/config-dirent-symbols.patch     | 34 ----------------------
- 1 file changed, 34 deletions(-)
- delete mode 100644 meta/recipes-core/readline/files/config-dirent-symbols.patch
+ .../xorg-driver/xf86-input-mouse/unbreak.patch      | 21 ---------------------
+ 1 file changed, 21 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-input-mouse/unbreak.patch
 
-diff --git a/meta/recipes-core/readline/files/config-dirent-symbols.patch b/meta/recipes-core/readline/files/config-dirent-symbols.patch
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-mouse/unbreak.patch b/meta/recipes-graphics/xorg-driver/xf86-input-mouse/unbreak.patch
 deleted file mode 100644
-index cfff03c..0000000
---- a/meta/recipes-core/readline/files/config-dirent-symbols.patch
+index 6930864..0000000
+--- a/meta/recipes-graphics/xorg-driver/xf86-input-mouse/unbreak.patch
 +++ /dev/null
-@@ -1,34 +0,0 @@
--Fix the names of the STRUCT_DIRENT_D symbols to match the names used by both
--configure and the source code.
+@@ -1,21 +0,0 @@
+-Unbreak the linux mouse driver by using config.h
 -
--Upstream-Status: Submitted (http://lists.gnu.org/archive/html/bug-readline/2014-05/msg00008.html)
--Signed-off-by: Ross Burton <ross.burton@intel.com>
+-RP - 4/11/07
 -
--From e48656811550774892fd4e0f4b3c7d418422da52 Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@intel.com>
--Date: Tue, 27 May 2014 22:32:31 +0100
--Subject: [PATCH] config.h.in: fix names of STRUCT_DIRENT_D symbols
+-Upstream-Status: Pending
 -
-----
-- config.h.in |    4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/config.h.in b/config.h.in
--index a67e43e..a42acc5 100644
----- a/config.h.in
--+++ b/config.h.in
--@@ -244,9 +244,9 @@
+-Index: git/src/lnx_mouse.c
+-===================================================================
+---- git.orig/src/lnx_mouse.c	2008-11-04 23:46:05.000000000 +0000
+-+++ git/src/lnx_mouse.c	2008-11-04 23:46:15.000000000 +0000
+-@@ -3,8 +3,8 @@
+-  * Copyright 1999 by The XFree86 Project, Inc.
+-  */
 - 
-- #undef HAVE_GETPW_DECLS
+--#ifdef HAVE_XORG_CONFIG_H
+--#include <xorg-config.h>
+-+#ifdef HAVE_CONFIG_H
+-+#include <config.h>
+- #endif
 - 
---#undef STRUCT_DIRENT_HAS_D_INO
--+#undef HAVE_STRUCT_DIRENT_D_INO
-- 
---#undef STRUCT_DIRENT_HAS_D_FILENO
--+#undef HAVE_STRUCT_DIRENT_D_FILENO
-- 
-- #undef HAVE_BSD_SIGNALS
-- 
---- 
--1.7.10.4
--
+- #include <X11/X.h>
 -- 
 2.1.4
 
