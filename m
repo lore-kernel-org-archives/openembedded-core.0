@@ -1,44 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5660E778A7
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 60D117306A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 18:23:00 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id b5so6938975pgg.1
+	Thu, 16 Mar 2017 18:24:57 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v2GIOwI7014698
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 11:23:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=emSdK07vP6EzNmXxbuFVFiW+r7z9cXKikGEkwc85d3s=;
-	b=MJfW+sG80FgmMLltRYX28JjGkthqvASAk8lZ/Yy5uvVQVKEKNtiXwJntDAjb+Ph+lM
-	cVKb0mQDHe1/ynU70+EjcH7pdRtlfeBXa8EF5lpEJJc2jFaQV6jgC7kSEag8YlLWCqS6
-	BDTOblpzT1pBNVlTTACyAsZEM/rrgu5mYs1W6/YXonTTwaKiQmeJLuFYCaMjA47hJ4xe
-	TkldP+eK1RvVV/8Hsmfzsq9MVWLAI191dUTVzvpiwppsgHFh9KZ0WErApojRbXbIdtFh
-	ixN6WGWcW35BJO3eBgiSZKp4iuFD5ypqh1+wK6RogteKK5WbVTShfoBNFfnxKAPUGXiM
-	NjCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=emSdK07vP6EzNmXxbuFVFiW+r7z9cXKikGEkwc85d3s=;
-	b=Oo5pSpMEjL0KMsKJmDIGZSNI4F5E7FonukfIUrwJS8Wzyo3s6meshs8+WxHJnenVLC
-	UDrEsMzKhaP1MG1cRCog/OYpFwbtP0v4eVhA7fVxY7hEX3+7V5XszaOXEE1NWjvHYS+y
-	bYM6kUHEbqYYs2OXXzJtbolS9uCoNx1c9N+cE7nbQG2X/L/tECM+lFJcx0Kpeb0w4duB
-	+CxgySf+cwLbW2TktO9ErLSE1ful88QGJPcAvRJp/lvfIEc2g8GhanM8zjBYdxzwSLqZ
-	cLatnz99RV5PeGF6Owk93c1qimGnzvlQxotGNP14y7PKEOBIufaTkYm2Wn4sXJMOqslD
-	NZaw==
-X-Gm-Message-State: AFeK/H15B4genRwhkd7J5ukIsFt7W9d6FYsOFTiax4BTcY3xi4fWMM99N2opJvFhSKlmFA==
-X-Received: by 10.84.231.198 with SMTP id g6mr14365841pln.20.1489688582423;
-	Thu, 16 Mar 2017 11:23:02 -0700 (PDT)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	s87sm11929003pfa.29.2017.03.16.11.23.00
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 Mar 2017 11:23:01 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Mar 2017 11:22:43 -0700
-Message-Id: <20170316182243.25875-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.12.0
-Subject: [PATCH] webkitgtk: Fix build on aarch64
+	Thu, 16 Mar 2017 11:24:59 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.294.0; Thu, 16 Mar 2017 11:24:57 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 16 Mar 2017 11:24:57 -0700
+Message-ID: <1489688697-27502-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+MIME-Version: 1.0
+Subject: [v3][PATCH 1/1] build-compare: add date to PV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,73 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Mar 2017 18:23:01 -0000
+X-List-Received-Date: Thu, 16 Mar 2017 18:24:58 -0000
+Content-Type: text/plain
 
-Do not try to do runtime tests during cross compile
-Fixes
+We want PV values to be easily ordered, so
+use the latest entry in build-compare.changes which
+will also match the date of SRCREV.
 
-| CMake Error at Source/cmake/OptionsCommon.cmake:73 (math):
-|   math cannot parse the expression: "-1": syntax error, unexpected exp_MINUS,
-|   expecting exp_OPENPARENT or exp_NUMBER (1)
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Joe Slater <jslater@windriver.com>
 ---
- meta/recipes-sato/webkit/files/cross-compile.patch | 23 ++++++++++++++++++++++
- meta/recipes-sato/webkit/webkitgtk_2.14.5.bb       |  3 +++
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/files/cross-compile.patch
+ .../build-compare/build-compare_git.bb             |    5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-sato/webkit/files/cross-compile.patch b/meta/recipes-sato/webkit/files/cross-compile.patch
-new file mode 100644
-index 0000000000..4d1de72851
---- /dev/null
-+++ b/meta/recipes-sato/webkit/files/cross-compile.patch
-@@ -0,0 +1,23 @@
-+Disable the tests meant to run when compiling natively
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Index: webkitgtk-2.14.5/Source/cmake/OptionsCommon.cmake
-+===================================================================
-+--- webkitgtk-2.14.5.orig/Source/cmake/OptionsCommon.cmake
-++++ webkitgtk-2.14.5/Source/cmake/OptionsCommon.cmake
-+@@ -67,8 +67,11 @@ endif ()
-+ # Detect Cortex-A53 core if CPU is ARM64 and OS is Linux.
-+ # Query /proc/cpuinfo for each available core and check reported CPU part number: 0xd03 signals Cortex-A53.
-+ # (see Main ID Register in ARM Cortex-A53 MPCore Processor Technical Reference Manual)
-+-set(WTF_CPU_ARM64_CORTEXA53_INITIALVALUE OFF)
-+-if (WTF_CPU_ARM64 AND (${CMAKE_SYSTEM_NAME} STREQUAL "Linux"))
-++if( NOT WTF_CPU_ARM64_CORTEXA53_INITIALVALUE)
-++    set(WTF_CPU_ARM64_CORTEXA53_INITIALVALUE OFF)
-++endif(WTF_CPU_ARM64_CORTEXA53_INITIALVALUE)
-++
-++if (WTF_CPU_ARM64 AND NOT CMAKE_CROSSCOMPILING AND (${CMAKE_SYSTEM_NAME} STREQUAL "Linux"))
-+     execute_process(COMMAND nproc OUTPUT_VARIABLE PROC_COUNT)
-+     math(EXPR PROC_MAX ${PROC_COUNT}-1)
-+     foreach (PROC_ID RANGE ${PROC_MAX})
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.14.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.14.5.bb
-index 1eb5b0b6e1..daa17a94da 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.14.5.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.14.5.bb
-@@ -20,6 +20,7 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
-            file://detect_atomics.patch \
-            file://x32_support.patch \
-+           file://cross-compile.patch \
+diff --git a/meta/recipes-devtools/build-compare/build-compare_git.bb b/meta/recipes-devtools/build-compare/build-compare_git.bb
+index eb12e40..c60c164 100644
+--- a/meta/recipes-devtools/build-compare/build-compare_git.bb
++++ b/meta/recipes-devtools/build-compare/build-compare_git.bb
+@@ -17,8 +17,11 @@ SRC_URI = "git://github.com/openSUSE/build-compare.git \
+            file://functions.sh-improve-deb-and-ipk-checking.patch \
             "
  
- SRC_URI[md5sum] = "7fe3cb2699e64f969b285823c5ae2516"
-@@ -83,6 +84,8 @@ EXTRA_OECMAKE_append_aarch64 = " -DUSE_LD_GOLD=OFF "
- EXTRA_OECMAKE_append_mipsarch = " -DUSE_LD_GOLD=OFF "
- EXTRA_OECMAKE_append_toolchain-clang = " -DUSE_LD_GOLD=OFF "
++# Date matches entry in build-compare.changes and date of SRCREV.
++#
+ SRCREV = "c5352c054c6ef15735da31b76d6d88620f4aff0a"
+-PV = "git+${SRCPV}"
++PE = "1"
++PV = "2015.02.10+git${SRCPV}"
  
-+EXTRA_OECMAKE_append_aarch64 = " -DWTF_CPU_ARM64_CORTEXA53=ON"
-+
- # JIT not supported on MIPS either
- EXTRA_OECMAKE_append_mipsarch = " -DENABLE_JIT=OFF "
+ S = "${WORKDIR}/git"
  
 -- 
-2.12.0
+1.7.9.5
 
 
