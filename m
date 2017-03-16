@@ -1,53 +1,43 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E6C9760AC
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 083AC60603
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Mar 2017 23:53:08 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id m5so3838382pgk.3
+	Thu, 16 Mar 2017 02:06:31 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id x124so1740522wmf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Mar 2017 16:53:09 -0700 (PDT)
+	Wed, 15 Mar 2017 19:06:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=mxK4tL3DkjNuAiStwfheNVeHMHDU+ZYoWOhdKEy7wcQ=;
-	b=bMkW9GobBC3ueknIgqyyfBuYasC3J3VRMIrctRgcdKpplpRj1Rezs30JxIgRm8gynd
-	SRbIHsPTTDDtaR17pNDB2M8I9uWWbM3f33XIFbPSwY1IK4XW5yI0Wzrj3507snF8Yzia
-	+Zm7BHEXWsZIcr0oFT7h/1NYyIR+k91uDvIFaG6jeB8Kaw0/oJoT5aKHPaeQ5ebMEwPK
-	AkoUA9eEq+ug22O/2gg5TrAqYkJjmZQMzvJjki8+UdGV10sntFVR8exLHYne8epC9Uuw
-	VARGxUKHgz9KIH3ShUBzndbFMPGB+1aEYSu/r9OSHxBLvQUQ3YyeCwccCy4hwyRc6rsA
-	vjtQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=ZhyCvx6XTDJ7YKvyBw9U5srhLYiR3VuixidBuv5IxxA=;
+	b=KOswBHvq6kcIvJ9itoAujJ9ptPbB1GsRupL7dfNO7eN9ID/ttcmRbwIcnLeYaUjXim
+	ElzIpnnHElpE0bCxRSXBtL+D8NSAjdWjLNwIeozyzl/0tnmKQeseDXFJ6PqUTyJ/TiQp
+	4Xca80jOq+6UzRxf2EwVeDX5R+gMqsFpqfuix8ttLJQEZRx14H2Cq3MAexibxwGlX7sa
+	nL799soaP4fvMYROtl3vTcoLA1sWcYSs1SUtkD2vzPvzHw34V5qFgD4SwnpkbFqaspiG
+	h22DwEhSys22DtCgY0lUnK5sNetqfQD7HjfrLlYhsKORRK4rCx4KkY/uZTBGUvhW+Hts
+	AOkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=mxK4tL3DkjNuAiStwfheNVeHMHDU+ZYoWOhdKEy7wcQ=;
-	b=FFHOx1+UQZZdNf2XXEniK6LFcvKJgWrfQjmx/VX3h47P7o8p/MKSHvXiMUCLX0jztv
-	H+Gh2XDQGTxnUBfyJ4LHL3mHorglTbt46rQkg+0WKztNFyFBEh49Am+Anp7xHVdq30Xc
-	kHVNbW2j4xmCG0+nFrGov3BwreVI1VRCJsIQXc8D8ZpZ8uHiZ2GqSBIjGLDroK2Ru7ki
-	LX34fE94XsBFkhfwMzNxpAaZ0zOcJHu8Q1YR6KNXHx7AJ3M1m5f5Gr+eV4W8WAZoV6Md
-	p4+10v7E9Dej8yBemQzAkvZEXiK9TfvIlVjj+kFwVCBStx6jjbtQZKxE350RGp+E2Y73
-	X3/w==
-X-Gm-Message-State: AFeK/H1RIxtn6OLoPwnc8Auz6PSOCfDABtTpgZd3kqzliQxa8WvesDrEKJedFAiUraDCuw==
-X-Received: by 10.98.163.17 with SMTP id s17mr6804586pfe.61.1489621988533;
-	Wed, 15 Mar 2017 16:53:08 -0700 (PDT)
-Received: from [10.5.7.41] ([223.196.115.131])
-	by smtp.gmail.com with ESMTPSA id
-	p77sm6289476pfj.99.2017.03.15.16.53.05
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 15 Mar 2017 16:53:07 -0700 (PDT)
-To: Juro Bystricky <juro.bystricky@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <1489606752-37886-1-git-send-email-juro.bystricky@intel.com>
-	<1489606752-37886-2-git-send-email-juro.bystricky@intel.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <0e662216-a60c-967c-107a-0d78da902b27@gmail.com>
-Date: Wed, 15 Mar 2017 16:53:03 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=ZhyCvx6XTDJ7YKvyBw9U5srhLYiR3VuixidBuv5IxxA=;
+	b=eslZJFhVjwiIsIXJQ4bfgjVV/jh02lxKFZi5Qd2B+x1NEa3JO1iq89OevVy4Ipzd9e
+	znEXOOYrEYFe8Z0zyJCGLT30wx6g9vtF0RDdAAVUWJUZH9eDwmyDm2+UYS8Y37cFfpUc
+	6pJCk2YervfXLySzmp7SqBJXCmwpQ3cVO8ccQhwz9Qe4Ak9ao2yKONbjLdnmb075BxCD
+	N4w1eZ+DEdP9VoDiN4kTTw/medjFUtuKNCuTExUPIQY1xBL4Uf2bMQAV8nRTTVPFvQ27
+	bzVXFzBS8ljBGbRbhC8UuqXwr27MveI2h9hRuPrioCg5pgqgAmlQSKGmBK2VBAMSxtbd
+	0PyA==
+X-Gm-Message-State: AFeK/H2ln21yFrqCMSF/p0f1vMJXFdrNZZC/5moYnXkKmMweutVjHme17sfI5ihNM+1IuAVyGTfWMsYjZJ+PtA==
+X-Received: by 10.28.165.145 with SMTP id o139mr1433450wme.13.1489629992700;
+	Wed, 15 Mar 2017 19:06:32 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1489606752-37886-2-git-send-email-juro.bystricky@intel.com>
-Cc: richard.purdie@intel.com, jurobystricky@hotmmail.com
-Subject: Re: [morty][PATCH 1/1] sanity.bbclass: modify check for shell
+References: <1489602937-9554-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+In-Reply-To: <1489602937-9554-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 16 Mar 2017 02:06:21 +0000
+Message-ID: <CAMKF1soFMJSW3mbErsr6wiLj+sRCDfxwGNmKL2x4hUOGRZO-6w@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org, 
+	zhengrq <zhengrq.fnst@cn.fujitsu.com>
+Subject: Re: [jethro][PATCH] gcc-multilib-config: make aarch64 support multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,45 +50,206 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Mar 2017 23:53:10 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 16 Mar 2017 02:06:32 -0000
+Content-Type: multipart/alternative; boundary=001a114b41088fd1dc054acf8236
+
+--001a114b41088fd1dc054acf8236
+Content-Type: text/plain; charset=UTF-8
+
+On Wed, Mar 15, 2017 at 2:36 AM zhengrq <zhengrq.fnst@cn.fujitsu.com> wrote:
+
+>   Fixed:
+>   MACHINE = qemuarm64
+>   require conf/multilib.conf
+>   MULTILIBS = "multilib:lib32"
+>   DEFAULTTUNE_virtclass-multilib-lib32 = "armv7at-neon"
+>
+>   $ bitbake core-image-minimal -cpopulate_sdk
+>
+>   WARNING: gcc multilib setup is not supported for TARGET_ARCH=aarch64
+>   WARNING: gcc multilib setup is not supported for TARGET_ARCH=aarch64
+>
+>   [YOCTO #8638]
 
 
+Gcc backend for aarch64 is separate from arm targets how have you tested
+the generated compiler sdk
 
-On 03/15/2017 12:39 PM, Juro Bystricky wrote:
-> Due to the recently implemented update-alternatives for bash binary,
-> sanity checker may end up with a (false-positive) error such as:
 >
-> Error, /bin/sh links to /bin/bash.bash, must be dash or bash
 >
-> This patch modifies the test: presence of "/bash" or "/dash" in shell binary
-> name results in pass.
-ok. got it in my pre-stagging.
-thanks
-- armin
+>   (From OE-Core rev: 0ae52c8b2c1d7d7cdbcfeeae6ff42e64f16bc41d)
 >
-> [YOCTO#11108]
->
-> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 > ---
->   meta/classes/sanity.bbclass | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
+>  meta/recipes-devtools/gcc/gcc-multilib-config.inc | 7 +++++++
+>  1 file changed, 7 insertions(+)
 >
-> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> index 7682ffb..a11b581 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-> @@ -929,7 +929,9 @@ def check_sanity_everybuild(status, d):
->       # If /bin/sh is a symlink, check that it points to dash or bash
->       if os.path.islink('/bin/sh'):
->           real_sh = os.path.realpath('/bin/sh')
-> -        if not real_sh.endswith('/dash') and not real_sh.endswith('/bash'):
-> +        # Due to update-alternatives, the shell name may take various
-> +        # forms, such as /bin/dash, bin/bash, /bin/bash.bash ...
-> +        if '/dash' not in real_sh and '/bash' not in real_sh:
->               status.addresult("Error, /bin/sh links to %s, must be dash or bash\n" % real_sh)
->   
->   def check_sanity(sanity_data):
+> diff --git a/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+> b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+> index 1c0a45a..a0a2ac0 100644
+> --- a/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+> @@ -29,6 +29,9 @@ python gcc_multilib_setup() {
+>      bb.utils.remove(build_conf_dir, True)
+>      ml_globs = ('%s/*/t-linux64' % src_conf_dir,
+>                  '%s/*/linux64.h' % src_conf_dir,
+> +                '%s/aarch64/t-aarch64' % src_conf_dir,
+> +                '%s/aarch64/aarch64.h' % src_conf_dir,
+> +                '%s/aarch64/aarch64-cores.def' % src_conf_dir,
+>                  '%s/*/linux.h' % src_conf_dir,
+>                  '%s/linux.h' % src_conf_dir)
+>
+> @@ -130,6 +133,8 @@ python gcc_multilib_setup() {
+>          'mips64'    : ['gcc/config/mips/t-linux64'],
+>          'powerpc'   : ['gcc/config/rs6000/t-linux64'],
+>          'powerpc64' : ['gcc/config/rs6000/t-linux64'],
+> +        'aarch64'   : ['gcc/config/aarch64/t-aarch64'],
+> +        'arm'       : ['gcc/config/aarch64/t-aarch64'],
+>      }
+>
+>      gcc_header_config_files = {
+> @@ -140,6 +145,8 @@ python gcc_multilib_setup() {
+>          'mips64'    : ['gcc/config/mips/linux.h',
+> 'gcc/config/mips/linux64.h'],
+>          'powerpc'   : ['gcc/config/rs6000/linux64.h'],
+>          'powerpc64' : ['gcc/config/rs6000/linux64.h'],
+> +        'aarch64'   : ['gcc/config/aarch64/aarch64.h'],
+> +        'arm'       : ['gcc/config/aarch64/aarch64.h'],
+>      }
+>
+>      libdir32 = 'SYSTEMLIBS_DIR'
+> --
+> 2.7.4
+>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--001a114b41088fd1dc054acf8236
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div><br><div class=3D"gmail_quote"><div>On Wed, Mar 15, 2017 at 2:36 AM zh=
+engrq &lt;<a href=3D"mailto:zhengrq.fnst@cn.fujitsu.com">zhengrq.fnst@cn.fu=
+jitsu.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=C2=A0 F=
+ixed:<br class=3D"gmail_msg">
+=C2=A0 MACHINE =3D qemuarm64<br class=3D"gmail_msg">
+=C2=A0 require conf/multilib.conf<br class=3D"gmail_msg">
+=C2=A0 MULTILIBS =3D &quot;multilib:lib32&quot;<br class=3D"gmail_msg">
+=C2=A0 DEFAULTTUNE_virtclass-multilib-lib32 =3D &quot;armv7at-neon&quot;<br=
+ class=3D"gmail_msg">
+<br class=3D"gmail_msg">
+=C2=A0 $ bitbake core-image-minimal -cpopulate_sdk<br class=3D"gmail_msg">
+<br class=3D"gmail_msg">
+=C2=A0 WARNING: gcc multilib setup is not supported for TARGET_ARCH=3Daarch=
+64<br class=3D"gmail_msg">
+=C2=A0 WARNING: gcc multilib setup is not supported for TARGET_ARCH=3Daarch=
+64<br class=3D"gmail_msg">
+<br class=3D"gmail_msg">
+=C2=A0 [YOCTO #8638]</blockquote><div><br></div><div>Gcc backend for aarch6=
+4 is separate from arm targets how have you tested the generated compiler s=
+dk</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex"><br class=3D"gmail_msg">
+<br class=3D"gmail_msg">
+=C2=A0 (From OE-Core rev: 0ae52c8b2c1d7d7cdbcfeeae6ff42e64f16bc41d)<br clas=
+s=3D"gmail_msg">
+<br class=3D"gmail_msg">
+Signed-off-by: Robert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.com"=
+ class=3D"gmail_msg" target=3D"_blank">liezhi.yang@windriver.com</a>&gt;<br=
+ class=3D"gmail_msg">
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" cla=
+ss=3D"gmail_msg" target=3D"_blank">ross.burton@intel.com</a>&gt;<br class=
+=3D"gmail_msg">
+Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
+ndation.org" class=3D"gmail_msg" target=3D"_blank">richard.purdie@linuxfoun=
+dation.org</a>&gt;<br class=3D"gmail_msg">
+Signed-off-by: Zheng Ruoqin &lt;<a href=3D"mailto:zhengrq.fnst@cn.fujitsu.c=
+om" class=3D"gmail_msg" target=3D"_blank">zhengrq.fnst@cn.fujitsu.com</a>&g=
+t;<br class=3D"gmail_msg">
+---<br class=3D"gmail_msg">
+=C2=A0meta/recipes-devtools/gcc/gcc-multilib-config.inc | 7 +++++++<br clas=
+s=3D"gmail_msg">
+=C2=A01 file changed, 7 insertions(+)<br class=3D"gmail_msg">
+<br class=3D"gmail_msg">
+diff --git a/meta/recipes-devtools/gcc/gcc-multilib-config.inc b/meta/recip=
+es-devtools/gcc/gcc-multilib-config.inc<br class=3D"gmail_msg">
+index 1c0a45a..a0a2ac0 100644<br class=3D"gmail_msg">
+--- a/meta/recipes-devtools/gcc/gcc-multilib-config.inc<br class=3D"gmail_m=
+sg">
++++ b/meta/recipes-devtools/gcc/gcc-multilib-config.inc<br class=3D"gmail_m=
+sg">
+@@ -29,6 +29,9 @@ python gcc_multilib_setup() {<br class=3D"gmail_msg">
+=C2=A0 =C2=A0 =C2=A0bb.utils.remove(build_conf_dir, True)<br class=3D"gmail=
+_msg">
+=C2=A0 =C2=A0 =C2=A0ml_globs =3D (&#39;%s/*/t-linux64&#39; % src_conf_dir,<=
+br class=3D"gmail_msg">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;%s/*/lin=
+ux64.h&#39; % src_conf_dir,<br class=3D"gmail_msg">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;%s/aarch64/t-=
+aarch64&#39; % src_conf_dir,<br class=3D"gmail_msg">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;%s/aarch64/aa=
+rch64.h&#39; % src_conf_dir,<br class=3D"gmail_msg">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;%s/aarch64/aa=
+rch64-cores.def&#39; % src_conf_dir,<br class=3D"gmail_msg">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;%s/*/lin=
+ux.h&#39; % src_conf_dir,<br class=3D"gmail_msg">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;%s/linux=
+.h&#39; % src_conf_dir)<br class=3D"gmail_msg">
+<br class=3D"gmail_msg">
+@@ -130,6 +133,8 @@ python gcc_multilib_setup() {<br class=3D"gmail_msg">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;mips64&#39;=C2=A0 =C2=A0 : [&#39;gcc=
+/config/mips/t-linux64&#39;],<br class=3D"gmail_msg">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;powerpc&#39;=C2=A0 =C2=A0: [&#39;gcc=
+/config/rs6000/t-linux64&#39;],<br class=3D"gmail_msg">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;powerpc64&#39; : [&#39;gcc/config/rs=
+6000/t-linux64&#39;],<br class=3D"gmail_msg">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;aarch64&#39;=C2=A0 =C2=A0: [&#39;gcc/conf=
+ig/aarch64/t-aarch64&#39;],<br class=3D"gmail_msg">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;arm&#39;=C2=A0 =C2=A0 =C2=A0 =C2=A0: [&#3=
+9;gcc/config/aarch64/t-aarch64&#39;],<br class=3D"gmail_msg">
+=C2=A0 =C2=A0 =C2=A0}<br class=3D"gmail_msg">
+<br class=3D"gmail_msg">
+=C2=A0 =C2=A0 =C2=A0gcc_header_config_files =3D {<br class=3D"gmail_msg">
+@@ -140,6 +145,8 @@ python gcc_multilib_setup() {<br class=3D"gmail_msg">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;mips64&#39;=C2=A0 =C2=A0 : [&#39;gcc=
+/config/mips/linux.h&#39;, &#39;gcc/config/mips/linux64.h&#39;],<br class=
+=3D"gmail_msg">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;powerpc&#39;=C2=A0 =C2=A0: [&#39;gcc=
+/config/rs6000/linux64.h&#39;],<br class=3D"gmail_msg">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;powerpc64&#39; : [&#39;gcc/config/rs=
+6000/linux64.h&#39;],<br class=3D"gmail_msg">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;aarch64&#39;=C2=A0 =C2=A0: [&#39;gcc/conf=
+ig/aarch64/aarch64.h&#39;],<br class=3D"gmail_msg">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;arm&#39;=C2=A0 =C2=A0 =C2=A0 =C2=A0: [&#3=
+9;gcc/config/aarch64/aarch64.h&#39;],<br class=3D"gmail_msg">
+=C2=A0 =C2=A0 =C2=A0}<br class=3D"gmail_msg">
+<br class=3D"gmail_msg">
+=C2=A0 =C2=A0 =C2=A0libdir32 =3D &#39;SYSTEMLIBS_DIR&#39;<br class=3D"gmail=
+_msg">
+--<br class=3D"gmail_msg">
+2.7.4<br class=3D"gmail_msg">
+<br class=3D"gmail_msg">
+<br class=3D"gmail_msg">
+<br class=3D"gmail_msg">
+--<br class=3D"gmail_msg">
+_______________________________________________<br class=3D"gmail_msg">
+Openembedded-core mailing list<br class=3D"gmail_msg">
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" class=3D"gmail_=
+msg" target=3D"_blank">Openembedded-core@lists.openembedded.org</a><br clas=
+s=3D"gmail_msg">
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" class=3D"gmail_msg" target=3D"_blank">http://lists.ope=
+nembedded.org/mailman/listinfo/openembedded-core</a><br class=3D"gmail_msg"=
+>
+</blockquote></div></div>
+
+--001a114b41088fd1dc054acf8236--
