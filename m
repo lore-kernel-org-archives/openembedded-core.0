@@ -1,28 +1,31 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id A85BB60670
+	by mail.openembedded.org (Postfix) with ESMTP id 17D8260670
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 09:09:48 +0000 (UTC)
+	Thu, 16 Mar 2017 09:09:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1489655390; x=1521191390; h=from:to:subject:date:message-id;
-	bh=IqX9dcmtAZPH2EdP5mcsobHyJoUgBxVQ0Bq+QUhmjSU=;
-	b=RGnl1Uey4EUl1/gxcPl9vg84c38WF0WmxjL4ORg/6fWbMl+6BA1la7GE
-	sbB6+Y+RSRbO0EaNzUXQVIuzBP3u/g==;
+	t=1489655391; x=1521191391;
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=XP6qDUmX+mNnw3Z8lpeGE8Pxd7F/BlGDu13agKDuN1Y=;
+	b=nwLXHMfK3f8/ucPEnJls9Vao/xMKzr+1kwfn3p4LS+I2Q76b5qq79sie
+	OfwkIVk7O26BTcK+3taY8FivY+xz/g==;
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
 	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Mar 2017 02:09:49 -0700
+	16 Mar 2017 02:09:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,170,1486454400"; d="scan'208";a="236881400"
+X-IronPort-AV: E=Sophos;i="5.36,170,1486454400"; d="scan'208";a="236881409"
 Received: from klim10-mobl5.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com.fritz.box) ([10.255.172.61])
-	by fmsmga004.fm.intel.com with ESMTP; 16 Mar 2017 02:09:47 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 16 Mar 2017 02:09:50 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Mar 2017 22:09:41 +1300
-Message-Id: <cover.1489655348.git.paul.eggleton@linux.intel.com>
+Date: Thu, 16 Mar 2017 22:09:42 +1300
+Message-Id: <b81f5c38920007df83f55c10eea8375baa1828af.1489655348.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.9.3
-Subject: [PATCH 0/2] A couple of minor fixes
+In-Reply-To: <cover.1489655348.git.paul.eggleton@linux.intel.com>
+References: <cover.1489655348.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/2] classes/base: reformat HOSTTOOLS error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,25 +38,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Mar 2017 09:09:49 -0000
+X-List-Received-Date: Thu, 16 Mar 2017 09:09:50 -0000
 
-The following changes since commit 477805b913a6c4b4b630e42f08cd9e59f1e4e254:
+Adjust the message slightly to make it clearer, in particular mentioning
+the HOSTTOOLS variable.
 
-  wic: selftest: account for occasional newline in debugfs file names (2017-03-14 14:39:34 +0000)
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/classes/base.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/fixes1
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/fixes1
-
-Paul Eggleton (2):
-  classes/base: reformat HOSTTOOLS error
-  packagegroup-core-lsb: avoid rebuilding when changing layer config
-
- meta/classes/base.bbclass                                    | 2 +-
- meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
-
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index fec351a..cf8748a 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -136,7 +136,7 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=True):
+             else:
+                 notfound.append(tool)
+     if notfound and fatal:
+-        bb.fatal("These tools appear to be unavailable in PATH, please install them in order to proceed:\n%s" % " ".join(notfound))
++        bb.fatal("The following required tools (as specified by HOSTTOOLS) appear to be unavailable in PATH, please install them in order to proceed:\n  %s" % " ".join(notfound))
+ 
+ addtask fetch
+ do_fetch[dirs] = "${DL_DIR}"
 -- 
 2.9.3
 
