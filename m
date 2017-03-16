@@ -1,46 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 6270B77690
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
+	[209.85.220.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 4FEEA77935
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 22:16:48 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id g10so7546360wrg.0
+	Thu, 16 Mar 2017 22:32:36 +0000 (UTC)
+Received: by mail-qk0-f177.google.com with SMTP id 1so51915861qkl.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 15:16:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Thu, 16 Mar 2017 15:32:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Rku1eN+bgt/G0AqTWoRDFKMiU4T0wVLhfLVxlPD7Gxw=;
-	b=gVpauY5S3ROuwYqoRiZDMr1j81l9lbGk1NTYm3zntjrY+MeMSRhqN2X1blF2rVjfL5
-	0xSb789qePeRZB2rP0puGMnA3VgaufF/IbiN2vYAr8j6kUDhcaBHj+XxoWPkYsToDlfB
-	1rggX7au/fjRJUvJHRJ1Zh4BQVvqQ31T8dtIg0d3odQUxto83p4Mm4ne2tvoiSggfChr
-	ngva9AypndbPMZvtF4GvaQmex5+0hpANKJ9EaQVvIayOJh7Na/nRC2PLq1+HBLmsJCmX
-	8tXbmu4gTCek9ug7au/zjo+ABrRFAO17WIYgbIwjgSQVHDDypCQDtw8ghBLCMY5v3y7S
-	lYBw==
+	:cc; bh=F5ybEh4cJVfE2MG58RF/FrGahIGKnIH8GcVgVE0V6kM=;
+	b=JkLSh2/CGUHaep43Ovuz3NtT8kPeCUhgW8KX+no7iOZ2zPQyfY53UPHV+SYpKqqd4Y
+	M7X+rEN+z9IjHt0XXc+lI11dqGChD/uhauuB3Atgus1oVYEr1iQfJ4quV/jKq0vec9Tw
+	QBbTe8mcBjgUZkdKkD+cpK07N0wObj1tgIAwVJYnWRq0TqtBPMgvrM1KahbH46Xh8tCs
+	xloA+ZZcos7cKBbM2sF5v/IozFSQFyP0Qp6fZTrbC4cwGLQUICb+mSgxzJ4sZGPq2imM
+	Lwz2HeGSARn8Dnkj/byo68VbI3VlLI7ocXV7ZlrvETK/HHeb+4DjH/OvoNODBVvU109S
+	fmYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Rku1eN+bgt/G0AqTWoRDFKMiU4T0wVLhfLVxlPD7Gxw=;
-	b=jnYrhLQdOKkOERwva9q5LRWgryE6Het3YEI0rJCCLrrcqFm/rAPWOTiyoUpxZ4Uy4S
-	i9rwpzHCG7ruasLzL7YwBTbgWaVAi4CYxVN6d5qXofNo87444SGOVJV/3z68DMYj7i0q
-	MjVqNrY9U3U6CSFpbGMGH+QkMOSOe9vYi/sxAPSzxYxe4ZKwp7TWlyGUlMUzDVD5HV0C
-	uTEZ/F2Q6orNnOEG11XmqFn2JDmXqFkoNJNbQNAy86Fe0SkSHXGIwHoBdBGUaT6Q3fom
-	xSILRwcaO7lo/tL27fx7xJ5AbhkuGUT0S2RyQh1AV5PnXcc/gqVB40zOFTU/du2yD+0g
-	zs9Q==
-X-Gm-Message-State: AFeK/H3CSZS6HIH96vJsi5yRBT5yn+DrEa6ORC1MLkzOiG3Iq7QpDCgA1YE5AYSebJNBEaMUIhh1tCxLMMD8sQ==
-X-Received: by 10.223.139.196 with SMTP id w4mr10466463wra.172.1489702610036; 
-	Thu, 16 Mar 2017 15:16:50 -0700 (PDT)
+	bh=F5ybEh4cJVfE2MG58RF/FrGahIGKnIH8GcVgVE0V6kM=;
+	b=fGi4G9AP9iAwbU+yjcAqvt5hcTiVIYQyK0HxeoBKC7igTeVKH6UGmNzRSAkjZparCN
+	uodtdcaXNQ57vSqH+ILmn2H/i+fC3F6cnEO4uvvsZM2WmgafwxZayEG731RyFJPurJ6d
+	w3XQBcBRS5GGDLKI4o5Y4KRRS0ZA6yREFuiS60U8roao0v17lwtswY1cH6OG3Y7nVYMf
+	madmCYg5gFPIkkrVt1eWb+n83j9Tu4tbiZy7jKonNwftHUKv3flp/O9omNuXJ4tUzfBZ
+	9IVyLw+0Un/A7hfBd8xjGfltbDHStZmMuReu5fkCezscirpWKOyZht9Vj+ppmEdguqsq
+	p4rA==
+X-Gm-Message-State: AFeK/H1cOG2Wyb5PYuiZ1muKFyGb0LR4ZlnrCnk8hzWvgQNBUdZDH60yAqWngRPIMAqStpXqjFc8hiR+o+2kH0hd
+X-Received: by 10.55.175.195 with SMTP id y186mr10212905qke.26.1489703557858; 
+	Thu, 16 Mar 2017 15:32:37 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.80.180.162 with HTTP; Thu, 16 Mar 2017 15:16:19 -0700 (PDT)
-In-Reply-To: <CAJ86T=VgRt+tvWgT-_JbDuxw5ft2hGFi8jYTjzBDEkGvLjooPQ@mail.gmail.com>
-References: <20170316214239.16243-1-raj.khem@gmail.com>
-	<CAJ86T=VgRt+tvWgT-_JbDuxw5ft2hGFi8jYTjzBDEkGvLjooPQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 16 Mar 2017 15:16:19 -0700
-Message-ID: <CAMKF1spBVtKmog9u+7fQ6ucNJHFeM2vizDwgCaQcpC6UXnqrpQ@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] go: Remove mips32r2 from mips
+Received: by 10.140.22.166 with HTTP; Thu, 16 Mar 2017 15:32:17 -0700 (PDT)
+In-Reply-To: <d7930253eb64c32753c41d661f7148e5e65eafd8.1489505343.git-series.patrick.ohly@intel.com>
+References: <d7930253eb64c32753c41d661f7148e5e65eafd8.1489505343.git-series.patrick.ohly@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 16 Mar 2017 22:32:17 +0000
+Message-ID: <CAJTo0LYPjw9P5+CASrw6SF=w+vjtNGP7_JW=rM_pXrw05-pbDg@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] rm_work.bbclass: re-enable recursive do_rm_work_all
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,39 +53,183 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Mar 2017 22:16:49 -0000
+X-List-Received-Date: Thu, 16 Mar 2017 22:32:37 -0000
+Content-Type: multipart/alternative; boundary=94eb2c06093c63734d054ae0a31b
+
+--94eb2c06093c63734d054ae0a31b
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Mar 16, 2017 at 2:54 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> On Thu, Mar 16, 2017 at 2:42 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> mips32r1 is only one supported for mips32
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->>  meta/recipes-devtools/go/go_1.8.bb | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/recipes-devtools/go/go_1.8.bb b/meta/recipes-devtools/go/go_1.8.bb
->> index e7a6ab277e..091b1318af 100644
->> --- a/meta/recipes-devtools/go/go_1.8.bb
->> +++ b/meta/recipes-devtools/go/go_1.8.bb
->> @@ -1,2 +1,3 @@
->>  require go-${PV}.inc
->>  require go.inc
->> +TUNE_CCARGS_remove = "-march=mips32r2"
+On 14 March 2017 at 15:29, Patrick Ohly <patrick.ohly@intel.com> wrote:
+
+> When rewriting the do_rm_work injection, do_rm_work_all had been
+> removed because it seemed obsolete, as do_build now always triggers
+> do_rm_work.
 >
-> Do you need to add "-march=mips32" ? Or do the go Makefiles etc
-> provide that by default?
+> However, do_build does not get triggered for all recipes and thus
+> do_rm_work was not called for recipes that got built only
+> partially. For example, zlib depends indirectly on
+> zlib-native:do_populate_sysroot.  Because of that dependency,
+> zlib-native got compiled, but do_rm_work was never called for it.
+>
+> Re-introducing do_rm_work_all fixes that by making do_build depend on
+> do_rm_work_all, which then recursively depends on do_rm_work of all
+> dependencies. This has the unintended side-effect that do_rm_work then
+> also triggers additional work (like do_populate_lic) that normally
+> doesn't need to be done for a build. This seems like the lesser evil,
+> compared to an incomplete cleanup because it mostly enables the
+> lighter tasks after do_populate_sysroot.
+>
+> The real solution would be to have two kinds of relationships: a weak
+> ordering relationship ("if A and B are enabled, A must run before B,
+> but B can also run without A") and hard dependencies ("B cannot run
+> unless A has run before").
 >
 
-thats passed by default.
+If I do a build with rm_work enabled I tend to get this error at rootfs
+time:
 
->> --
->> 2.12.0
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+ERROR: core-image-sato-1.0-r0 do_image_wic: Error executing a python
+function in exec_python_func() autogenerated:
 
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:extend_recipe_sysroot(d)
+     0003:
+File: '/home/ross/Yocto/poky/meta/classes/staging.bbclass', lineno: 623,
+function: extend_recipe_sysroot
+     0619:                    dest = newmanifest[l]
+     0620:                    if l.endswith("/"):
+     0621:                        staging_copydir(l, targetdir, dest,
+seendirs)
+     0622:                        continue
+ *** 0623:                    staging_copyfile(l, targetdir, dest,
+postinsts, seendirs)
+     0624:
+     0625:    for f in fixme:
+     0626:        if f == '':
+     0627:            staging_processfixme(fixme[f], recipesysroot,
+recipesysroot, recipesysrootnative, d)
+File: '/home/ross/Yocto/poky/meta/classes/staging.bbclass', lineno: 269,
+function: staging_copyfile
+     0265:        os.symlink(linkto, dest)
+     0266:        #bb.warn(c)
+     0267:    else:
+     0268:        try:
+ *** 0269:            os.link(c, dest)
+     0270:        except OSError as err:
+     0271:            if err.errno == errno.EXDEV:
+     0272:                bb.utils.copyfile(c, dest)
+     0273:            else:
+Exception: FileExistsError: [Errno 17] File exists:
+'/data/poky-master/tmp/sysroots-components/corei7-64/glibc/usr/lib/crt1.o'
+->
+'/data/poky-master/tmp/work/intel_corei7_64-poky-linux/core-image-sato/1.0-r0/recipe-sysroot/usr/lib/crt1.o'
+
+ERROR: core-image-sato-1.0-r0 do_image_wic: Function failed:
+extend_recipe_sysroot
+ERROR: Logfile of failure stored in:
+/data/poky-master/tmp/work/intel_corei7_64-poky-linux/core-image-sato/1.0-r0/temp/log.do_image_wic.21552
+ERROR: Task
+(/home/ross/Yocto/poky/meta/recipes-sato/images/core-image-sato.bb:do_image_wic)
+failed with exit code '1'
+
+Reverting this patch makes it go away.
+
+Ross
+
+--94eb2c06093c63734d054ae0a31b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 14 March 2017 at 15:29, Patrick Ohly <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);borde=
+r-left-style:solid;padding-left:1ex"><div id=3D"gmail-:15u" class=3D"gmail-=
+a3s gmail-aXjCH gmail-m15acd71232153b6c">When rewriting the do_rm_work inje=
+ction, do_rm_work_all had been<br>
+removed because it seemed obsolete, as do_build now always triggers<br>
+do_rm_work.<br>
+<br>
+However, do_build does not get triggered for all recipes and thus<br>
+do_rm_work was not called for recipes that got built only<br>
+partially. For example, zlib depends indirectly on<br>
+zlib-native:do_populate_<wbr>sysroot.=C2=A0 Because of that dependency,<br>
+zlib-native got compiled, but do_rm_work was never called for it.<br>
+<br>
+Re-introducing do_rm_work_all fixes that by making do_build depend on<br>
+do_rm_work_all, which then recursively depends on do_rm_work of all<br>
+dependencies. This has the unintended side-effect that do_rm_work then<br>
+also triggers additional work (like do_populate_lic) that normally<br>
+doesn&#39;t need to be done for a build. This seems like the lesser evil,<b=
+r>
+compared to an incomplete cleanup because it mostly enables the<br>
+lighter tasks after do_populate_sysroot.<br>
+<br>
+The real solution would be to have two kinds of relationships: a weak<br>
+ordering relationship (&quot;if A and B are enabled, A must run before B,<b=
+r>
+but B can also run without A&quot;) and hard dependencies (&quot;B cannot r=
+un<br>
+unless A has run before&quot;).<br></div></blockquote></div><br>If I do a b=
+uild with rm_work enabled I tend to get this error at rootfs time:</div><di=
+v class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><div class=3D"=
+gmail_extra">ERROR: core-image-sato-1.0-r0 do_image_wic: Error executing a =
+python function in exec_python_func() autogenerated:</div><div class=3D"gma=
+il_extra"><br></div><div class=3D"gmail_extra">The stack trace of python ca=
+lls that resulted in this exception/failure was:</div><div class=3D"gmail_e=
+xtra">File: &#39;exec_python_func() autogenerated&#39;, lineno: 2, function=
+: &lt;module&gt;</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00001:<=
+/div><div class=3D"gmail_extra">=C2=A0*** 0002:extend_recipe_sysroot(d)</di=
+v><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00003:</div><div class=3D"g=
+mail_extra">File: &#39;/home/ross/Yocto/poky/meta/classes/staging.bbclass&#=
+39;, lineno: 623, function: extend_recipe_sysroot</div><div class=3D"gmail_=
+extra">=C2=A0 =C2=A0 =C2=A00619: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0dest =3D newmanifest[l]</div><div class=3D"gmail=
+_extra">=C2=A0 =C2=A0 =C2=A00620: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0if l.endswith(&quot;/&quot;):</div><div class=
+=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00621: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0staging_copydir(l, targ=
+etdir, dest, seendirs)</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0=
+0622: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0continue</div><div class=3D"gmail_extra">=C2=A0*** 0623: =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0staging_c=
+opyfile(l, targetdir, dest, postinsts, seendirs)</div><div class=3D"gmail_e=
+xtra">=C2=A0 =C2=A0 =C2=A00624:</div><div class=3D"gmail_extra">=C2=A0 =C2=
+=A0 =C2=A00625: =C2=A0 =C2=A0for f in fixme:</div><div class=3D"gmail_extra=
+">=C2=A0 =C2=A0 =C2=A00626: =C2=A0 =C2=A0 =C2=A0 =C2=A0if f =3D=3D &#39;&#3=
+9;:</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00627: =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0staging_processfixme(fixme[f], recipesysroot, r=
+ecipesysroot, recipesysrootnative, d)</div><div class=3D"gmail_extra">File:=
+ &#39;/home/ross/Yocto/poky/meta/classes/staging.bbclass&#39;, lineno: 269,=
+ function: staging_copyfile</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =
+=C2=A00265: =C2=A0 =C2=A0 =C2=A0 =C2=A0os.symlink(linkto, dest)</div><div c=
+lass=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00266: =C2=A0 =C2=A0 =C2=A0 =C2=A0#=
+bb.warn(c)</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00267: =C2=A0=
+ =C2=A0else:</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00268: =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0try:</div><div class=3D"gmail_extra">=C2=A0*** 0269=
+: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0os.link(c, dest)</div><div class=
+=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00270: =C2=A0 =C2=A0 =C2=A0 =C2=A0excep=
+t OSError as err:</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00271:=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if err.errno =3D=3D errno.EXDEV:<=
+/div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00272: =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.utils.copyfile(c, dest)</div><div =
+class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00273: =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0else:</div><div class=3D"gmail_extra">Exception: FileExistsEr=
+ror: [Errno 17] File exists: &#39;/data/poky-master/tmp/sysroots-components=
+/corei7-64/glibc/usr/lib/crt1.o&#39; -&gt; &#39;/data/poky-master/tmp/work/=
+intel_corei7_64-poky-linux/core-image-sato/1.0-r0/recipe-sysroot/usr/lib/cr=
+t1.o&#39;</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
+ra">ERROR: core-image-sato-1.0-r0 do_image_wic: Function failed: extend_rec=
+ipe_sysroot</div><div class=3D"gmail_extra">ERROR: Logfile of failure store=
+d in: /data/poky-master/tmp/work/intel_corei7_64-poky-linux/core-image-sato=
+/1.0-r0/temp/log.do_image_wic.21552</div><div class=3D"gmail_extra">ERROR: =
+Task (/home/ross/Yocto/poky/meta/recipes-sato/images/core-image-sato.bb:do_=
+image_wic) failed with exit code &#39;1&#39;</div><div class=3D"gmail_extra=
+"><br></div><div class=3D"gmail_extra">Reverting this patch makes it go awa=
+y.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ros=
+s</div></div></div>
+
+--94eb2c06093c63734d054ae0a31b--
