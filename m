@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E772771DB
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2578D771DB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 10:13:34 +0000 (UTC)
+	Thu, 16 Mar 2017 10:13:35 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v2GADZAF004008
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v2GADaaR003347
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 03:13:35 -0700 (PDT)
+	Thu, 16 Mar 2017 03:13:36 -0700
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
 	Thu, 16 Mar 2017 03:13:35 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Mar 2017 03:13:28 -0700
-Message-ID: <1cb116a66853942b33444ee1063fc9168d7b2228.1489657029.git.liezhi.yang@windriver.com>
+Date: Thu, 16 Mar 2017 03:13:29 -0700
+Message-ID: <e9e16b966e553248c8e3ba7e453d748a5d44ec80.1489657029.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1489657029.git.liezhi.yang@windriver.com>
 References: <cover.1489657029.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/6] selftest/runqemu.py: add it to test runqemu
+Subject: [PATCH 6/6] targetcontrol.py: use logger.info to replace of bb.note
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,182 +33,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Mar 2017 10:13:34 -0000
+X-List-Received-Date: Thu, 16 Mar 2017 10:13:35 -0000
 Content-Type: text/plain
 
-Usage:
-$ oe-selftest -r runqemu
+The bb.note prints multiple same lines when invoke this class again, but
+if we set mainlogger.propagate = False, nothing would be printed,
+according to logging's document:
 
-Current test cases:
-$ runqemu nographic qemux86-64
-$ runqemu nographic qemux86-64 ext4
-$ runqemu nographic qemux86-64 iso
-$ runqemu nographic core-image-minimal
-$ runqemu nographic core-image-minimal vmdk
-$ runqemu nographic core-image-minimal vdi
-$ runqemu nographic tmp/deploy/images/qemux86-64
-$ runqemu nographic tmp/deploy/images/qemux86-64 hddimg
-$ runqemu nographic qemux86-64 slirp
-$ runqemu nographic qemux86-64 slirp qcow2
-$ runqemu nographic tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.qemuboot.conf
-$ runqemu nographic tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.ext4
+https://docs.python.org/3/library/logging.html
+Note
+If you attach a handler to a logger and one or more of its ancestors, it
+may emit the same record multiple times. In general, you should not need
+to attach a handler to more than one logger - if you just attach it to
+the appropriate logger which is highest in the logger hierarchy, then it
+will see all events logged by all descendant loggers, provided that
+their propagate setting is left set to True. A common scenario is to
+attach handlers only to the root logger, and to let propagation take
+care of the rest.
 
-Need more later:
-- Test initramfs
-- Test nfs
-- Test when set DEPLOY_DIR_IMAGE and OECORE_NATIVE_SYSROOT
-- And others which similate runqemu runs on SDK and eSDK.
+We may need avoid using bb.note or bb.warn in oeqa since it attaches
+multiple log handlers which may cause confusions
+
+This patch only sets "mainlogger.propagate = False" in
+selftest/runqemu.py and use logger.info to replace bb.note in
+targetcontrol.py to minimize the impact.
 
 [YOCTO #10249]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/lib/oeqa/selftest/runqemu.py | 136 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 136 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/runqemu.py
+ meta/lib/oeqa/selftest/runqemu.py |  4 ++++
+ meta/lib/oeqa/targetcontrol.py    | 13 +++++++------
+ 2 files changed, 11 insertions(+), 6 deletions(-)
 
 diff --git a/meta/lib/oeqa/selftest/runqemu.py b/meta/lib/oeqa/selftest/runqemu.py
-new file mode 100644
-index 0000000..c1d5c16
---- /dev/null
+index c1d5c16..58c6f96 100644
+--- a/meta/lib/oeqa/selftest/runqemu.py
 +++ b/meta/lib/oeqa/selftest/runqemu.py
-@@ -0,0 +1,136 @@
-+#
-+# Copyright (c) 2017 Wind River Systems, Inc.
-+#
+@@ -21,6 +21,10 @@ class RunqemuTests(oeSelfTest):
+         self.fstypes = "ext4 iso hddimg vmdk qcow2 vdi"
+         self.cmd_common = "runqemu nographic"
+ 
++        # Avoid emit the same record multiple times.
++        mainlogger = logging.getLogger("BitBake.Main")
++        mainlogger.propagate = False
 +
-+import re
-+import logging
+         self.write_config(
+ """
+ MACHINE = "%s"
+diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
+index 8d11cf0..82aaf2f 100644
+--- a/meta/lib/oeqa/targetcontrol.py
++++ b/meta/lib/oeqa/targetcontrol.py
+@@ -18,6 +18,8 @@ from oeqa.utils.dump import TargetDumper
+ from oeqa.controllers.testtargetloader import TestTargetLoader
+ from abc import ABCMeta, abstractmethod
+ 
++logger = logging.getLogger('BitBake.QemuRunner')
 +
-+from oeqa.selftest.base import oeSelfTest
-+from oeqa.utils.commands import bitbake, runqemu, get_bb_var
-+from oeqa.utils.decorators import testcase
-+
-+class RunqemuTests(oeSelfTest):
-+    """Runqemu test class"""
-+
-+    image_is_ready = False
-+    deploy_dir_image = ''
-+
-+    def setUpLocal(self):
-+        self.recipe = 'core-image-minimal'
-+        self.machine =  'qemux86-64'
-+        self.fstypes = "ext4 iso hddimg vmdk qcow2 vdi"
-+        self.cmd_common = "runqemu nographic"
-+
-+        self.write_config(
-+"""
-+MACHINE = "%s"
-+IMAGE_FSTYPES = "%s"
-+# 10 means 1 second
-+SYSLINUX_TIMEOUT = "10"
-+"""
-+% (self.machine, self.fstypes)
-+        )
-+
-+        if not RunqemuTests.image_is_ready:
-+            RunqemuTests.deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE')
-+            bitbake(self.recipe)
-+            RunqemuTests.image_is_ready = True
-+
-+    @testcase(2001)
-+    def test_boot_machine(self):
-+        """Test runqemu machine"""
-+        cmd = "%s %s" % (self.cmd_common, self.machine)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            self.assertTrue(qemu.runner.logged, "Failed: %s" % cmd)
-+
-+    @testcase(2002)
-+    def test_boot_machine_ext4(self):
-+        """Test runqemu machine ext4"""
-+        cmd = "%s %s ext4" % (self.cmd_common, self.machine)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            with open(qemu.qemurunnerlog) as f:
-+                self.assertTrue('rootfs.ext4' in f.read(), "Failed: %s" % cmd)
-+
-+    @testcase(2003)
-+    def test_boot_machine_iso(self):
-+        """Test runqemu machine iso"""
-+        cmd = "%s %s iso" % (self.cmd_common, self.machine)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            with open(qemu.qemurunnerlog) as f:
-+                self.assertTrue(' -cdrom ' in f.read(), "Failed: %s" % cmd)
-+
-+    @testcase(2004)
-+    def test_boot_recipe_image(self):
-+        """Test runqemu recipe-image"""
-+        cmd = "%s %s" % (self.cmd_common, self.recipe)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            self.assertTrue(qemu.runner.logged, "Failed: %s" % cmd)
-+
-+    @testcase(2005)
-+    def test_boot_recipe_image_vmdk(self):
-+        """Test runqemu recipe-image vmdk"""
-+        cmd = "%s %s vmdk" % (self.cmd_common, self.recipe)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            with open(qemu.qemurunnerlog) as f:
-+                self.assertTrue('format=vmdk' in f.read(), "Failed: %s" % cmd)
-+
-+    @testcase(2006)
-+    def test_boot_recipe_image_vdi(self):
-+        """Test runqemu recipe-image vdi"""
-+        cmd = "%s %s vdi" % (self.cmd_common, self.recipe)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            with open(qemu.qemurunnerlog) as f:
-+                self.assertTrue('format=vdi' in f.read(), "Failed: %s" % cmd)
-+
-+    @testcase(2007)
-+    def test_boot_deploy(self):
-+        """Test runqemu deploy_dir_image"""
-+        cmd = "%s %s" % (self.cmd_common, self.deploy_dir_image)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            self.assertTrue(qemu.runner.logged, "Failed: %s" % cmd)
-+
-+    @testcase(2008)
-+    def test_boot_deploy_hddimg(self):
-+        """Test runqemu deploy_dir_image hddimg"""
-+        cmd = "%s %s hddimg" % (self.cmd_common, self.deploy_dir_image)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            with open(qemu.qemurunnerlog) as f:
-+                self.assertTrue(re.search('file=.*.hddimg', f.read()), "Failed: %s" % cmd)
-+
-+    @testcase(2009)
-+    def test_boot_machine_slirp(self):
-+        """Test runqemu machine slirp"""
-+        cmd = "%s slirp %s" % (self.cmd_common, self.machine)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            with open(qemu.qemurunnerlog) as f:
-+                self.assertTrue(' -netdev user' in f.read(), "Failed: %s" % cmd)
-+
-+    @testcase(2009)
-+    def test_boot_machine_slirp_qcow2(self):
-+        """Test runqemu machine slirp qcow2"""
-+        cmd = "%s slirp qcow2 %s" % (self.cmd_common, self.machine)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            with open(qemu.qemurunnerlog) as f:
-+                self.assertTrue('format=qcow2' in f.read(), "Failed: %s" % cmd)
-+
-+    @testcase(2010)
-+    def test_boot_qemu_boot(self):
-+        """Test runqemu /path/to/image.qemuboot.conf"""
-+        qemuboot_conf = "%s-%s.qemuboot.conf" % (self.recipe, self.machine)
-+        qemuboot_conf = os.path.join(self.deploy_dir_image, qemuboot_conf)
-+        if not os.path.exists(qemuboot_conf):
-+            self.skipTest("%s not found" % qemuboot_conf)
-+        cmd = "%s %s" % (self.cmd_common, qemuboot_conf)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            self.assertTrue(qemu.runner.logged, "Failed: %s" % cmd)
-+
-+    @testcase(2011)
-+    def test_boot_rootfs(self):
-+        """Test runqemu /path/to/rootfs.ext4"""
-+        rootfs = "%s-%s.ext4" % (self.recipe, self.machine)
-+        rootfs = os.path.join(self.deploy_dir_image, rootfs)
-+        if not os.path.exists(rootfs):
-+            self.skipTest("%s not found" % rootfs)
-+        cmd = "%s %s" % (self.cmd_common, rootfs)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            self.assertTrue(qemu.runner.logged, "Failed: %s" % cmd)
+ def get_target_controller(d):
+     testtarget = d.getVar("TEST_TARGET")
+     # old, simple names
+@@ -63,7 +65,7 @@ class BaseTarget(object, metaclass=ABCMeta):
+         if os.path.islink(sshloglink):
+             os.unlink(sshloglink)
+         os.symlink(self.sshlog, sshloglink)
+-        bb.note("SSH log file: %s" %  self.sshlog)
++        logger.info("SSH log file: %s" %  self.sshlog)
+ 
+     @abstractmethod
+     def start(self, params=None, ssh=True, extra_bootparams=None):
+@@ -140,7 +142,6 @@ class QemuTarget(BaseTarget):
+         import oe.path
+         bb.utils.mkdirhier(self.testdir)
+         self.qemurunnerlog = os.path.join(self.testdir, 'qemurunner_log.%s' % self.datetime)
+-        logger = logging.getLogger('BitBake.QemuRunner')
+         loggerhandler = logging.FileHandler(self.qemurunnerlog)
+         loggerhandler.setFormatter(logging.Formatter("%(levelname)s: %(message)s"))
+         logger.addHandler(loggerhandler)
+@@ -177,8 +178,8 @@ class QemuTarget(BaseTarget):
+             os.unlink(qemuloglink)
+         os.symlink(self.qemulog, qemuloglink)
+ 
+-        bb.note("rootfs file: %s" %  self.rootfs)
+-        bb.note("Qemu log file: %s" % self.qemulog)
++        logger.info("rootfs file: %s" %  self.rootfs)
++        logger.info("Qemu log file: %s" % self.qemulog)
+         super(QemuTarget, self).deploy()
+ 
+     def start(self, params=None, ssh=True, extra_bootparams='', runqemuparams='', launch_cmd=''):
+@@ -230,14 +231,14 @@ class SimpleRemoteTarget(BaseTarget):
+             self.port = addr.split(":")[1]
+         except IndexError:
+             self.port = None
+-        bb.note("Target IP: %s" % self.ip)
++        logger.info("Target IP: %s" % self.ip)
+         self.server_ip = d.getVar("TEST_SERVER_IP")
+         if not self.server_ip:
+             try:
+                 self.server_ip = subprocess.check_output(['ip', 'route', 'get', self.ip ]).split("\n")[0].split()[-1]
+             except Exception as e:
+                 bb.fatal("Failed to determine the host IP address (alternatively you can set TEST_SERVER_IP with the IP address of this machine): %s" % e)
+-        bb.note("Server IP: %s" % self.server_ip)
++        logger.info("Server IP: %s" % self.server_ip)
+ 
+     def deploy(self):
+         super(SimpleRemoteTarget, self).deploy()
 -- 
 2.9.0
 
