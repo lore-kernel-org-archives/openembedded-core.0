@@ -1,46 +1,45 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f170.google.com (mail-pf0-f170.google.com
-	[209.85.192.170])
-	by mail.openembedded.org (Postfix) with ESMTP id C9B0B77A02
+Received: from mail-pg0-f51.google.com (mail-pg0-f51.google.com [74.125.83.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E43B779F9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Mar 2017 03:01:01 +0000 (UTC)
-Received: by mail-pf0-f170.google.com with SMTP id w189so33156014pfb.0
+	Fri, 17 Mar 2017 03:15:17 +0000 (UTC)
+Received: by mail-pg0-f51.google.com with SMTP id b129so34293145pgc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Mar 2017 20:01:03 -0700 (PDT)
+	Thu, 16 Mar 2017 20:15:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to; bh=V/CofLdnOMW0+NslsT3hqxql//X2iOigMG1UxyN0WgM=;
-	b=uFDkzWyv21UOP7H0r8L3n8DoM+YzfYVWIhB2RaxmpHObRpQRC/rsWB9CmOtHwOsHOP
-	wHis2cI5FzL/YAKrtiu8qXhNI/sDZasi7Uct+M3WNA1cTbyH/dMGfOSqDjcoXEXMSyw/
-	zPBegmwwrQLSO1+VsbTEoupT+RU2i7CFDpTUDJ28+samF9p+huwvTYxMqVc8w5veX7mu
-	B6IhQF4u07GFoS1m+povCA8dRWyFtN3+/z/zQXJXsiZfbwbCHweviMxZmMcMRqBVcqRY
-	JZtvsmkwF0kGTeu0ngQPulvj0JeGNPxJLZBhk96/NCq2uiv2ueN1nm7H2aM0w3UGNyTJ
-	eVxg==
+	:in-reply-to; bh=tGMxooM7TRyKKXZ1o+kWtP5kN33DCGiPxXP/T/+iWRI=;
+	b=cLGxNqYVxoRc6F0J3tVkX3ZEJ0+1byUqkN58JpHXlo5Z/4+CsWhndgtGhPsKwFaIMa
+	cuwGn0JQSmxXw5htWO/v7ycf9YlawOCPbmnkH4w7VdC1G4/qmyPq3S+v5AG7q02SQbYy
+	6nIbh1ToHeMNs6o20GamItNdOFDW4316w9Xv9Ixm44cBpq/RMq83KjK0CvE2ajifqMns
+	LZ72AY3QSLrBiOAWjs7JUIdmw+NbzIazWCjRwy6DY1jlFPdEh1kj64lEKnEh6vfbKDtp
+	RzWTiAgq4Fyvzc2s3/MN6kRa/yFlDe1nbugXRpenQA2JYZyOTuQ9uqvWepa/z6DlAjw7
+	S19A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to;
-	bh=V/CofLdnOMW0+NslsT3hqxql//X2iOigMG1UxyN0WgM=;
-	b=Ma0Ml7F3aTe7yYN/5qEz3HLu+uKUhdbQgixS2pr7p4nyxFgrzuuZYH8sD2zBQVD0Yb
-	u4f9mu0qeBuIHqCfkPOGxzr4SPIbYYJ0Ccfeyyw7hIghh5UN7MITNmR4/lm4KNIivVUo
-	11pxZOEby61BwVOU2PGAB+VpzLT0c9+P37v2FhgbjrWgcwqRibk62wRWEXKd2loXjodN
-	wO699Cy/vfmzBI4EGKiXFeaY0mO61ZsVyb3cgPAT9Uz0MCBLMtB+2C1NJmcLcS0cUnCL
-	V6EeCxX33b+ZgfSBf9Tcp2VDD+XxpGcib3n2jV2yQgiAir5824Mpf4Y35guWZ7QK6WU0
-	tWDA==
-X-Gm-Message-State: AFeK/H1QWTwpAc9jMjFNlTU34EKHjLYcmjc4SNaybaYioF1Ap/ymWV1Tyom7Oxv1hAo01g==
-X-Received: by 10.99.116.10 with SMTP id p10mr13491168pgc.74.1489719662562;
-	Thu, 16 Mar 2017 20:01:02 -0700 (PDT)
+	bh=tGMxooM7TRyKKXZ1o+kWtP5kN33DCGiPxXP/T/+iWRI=;
+	b=qTVtim/BMed/D/+OhqfDjU1iyNmbxgK6xfnzK3zvncTlA+FC4xCrh8V3xsv3t7hT7u
+	cthBO809dIvRQquZKphB/kxxPaPzd/GmWqF49fU6fUckbG3K+vo8H0nD7zOTpP3+YQCl
+	SMKXQZZM0jExvVCvLWFiP8IqKB35tYIZeabl7FnGwaqv1F3qlYp9qAsbBk06XZvL5oeO
+	J9W0Q6rs7teVA80pIBskrLO9GWJFWxIWYWL4BmqqCNVc9vVqrsg7tjz6FTiXInTcm82G
+	UfyJ5udBdhAbidR6/ezIrS2GY3rAuNX0NXo3GWD26djM/cWBNEJxbin2D1R1/dDxOF9m
+	W4CQ==
+X-Gm-Message-State: AFeK/H2DnhzLAgwADWRmjVbfXzgQ11C0zONYQWGf2+E1umwaLRdiAHN67FPH/fWyj/kHDA==
+X-Received: by 10.99.210.81 with SMTP id t17mr13808040pgi.80.1489720518927;
+	Thu, 16 Mar 2017 20:15:18 -0700 (PDT)
 Received: from [10.5.7.41] ([223.196.115.131])
 	by smtp.gmail.com with ESMTPSA id
-	t12sm13021667pfg.14.2017.03.16.20.01.00
+	132sm13138135pgf.27.2017.03.16.20.15.17
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 Mar 2017 20:01:01 -0700 (PDT)
+	Thu, 16 Mar 2017 20:15:18 -0700 (PDT)
 To: openembedded-core@lists.openembedded.org
 References: <20170316233429.GA3293@jama>
 From: akuster808 <akuster808@gmail.com>
-Message-ID: <6268d24d-c246-d835-b744-c18565be0fd9@gmail.com>
-Date: Thu, 16 Mar 2017 20:00:58 -0700
+Message-ID: <9f57e4e7-470f-3c18-1ad6-6464248565e7@gmail.com>
+Date: Thu, 16 Mar 2017 20:15:14 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.7.0
 MIME-Version: 1.0
@@ -58,11 +57,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Mar 2017 03:01:05 -0000
+X-List-Received-Date: Fri, 17 Mar 2017 03:15:18 -0000
 Content-Type: multipart/alternative;
-	boundary="------------41E1392A09F85E9B92EF0AC4"
+	boundary="------------C6AA02821F935A62D356E43F"
 
---------------41E1392A09F85E9B92EF0AC4
+--------------C6AA02821F935A62D356E43F
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -87,7 +86,8 @@ On 03/16/2017 04:34 PM, Martin Jansa wrote:
 > === common (3) ===
 >      * meta-openembedded/meta-oe/recipes-support/devmem2/devmem2.bb:do_patch
 >      * meta-openembedded/meta-perl/recipes-perl/libnet/libnet-ssleay-perl_1.65.bb:do_configure
-will take a look as this failure.
+correction. version 1.80 is now in master-next but not listed below as 
+not being included so I am am going to ignore this issue for now.
 -armin
 >      * virtual:native:meta-openembedded/meta-efl/recipes-efl/efl/efl_1.15.1.bb:do_compile
 >
@@ -241,7 +241,7 @@ will take a look as this failure.
 >
 
 
---------------41E1392A09F85E9B92EF0AC4
+--------------C6AA02821F935A62D356E43F
 Content-Type: text/html; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 
@@ -277,7 +277,8 @@ INFO: jenkins-job.sh-1.8.19 Complete log available at <a class="moz-txt-link-fre
     * meta-openembedded/meta-oe/recipes-support/devmem2/devmem2.bb:do_patch
     * meta-openembedded/meta-perl/recipes-perl/libnet/libnet-ssleay-perl_1.65.bb:do_configure</pre>
     </blockquote>
-    will take a look as this failure.<br>
+    correction. version 1.80 is now in master-next but not listed below
+    as not being included so I am am going to ignore this issue for now.<br>
     -armin<br>
     <blockquote cite="mid:20170316233429.GA3293@jama" type="cite">
       <pre wrap="">
@@ -438,4 +439,4 @@ not included in master yet:
   </body>
 </html>
 
---------------41E1392A09F85E9B92EF0AC4--
+--------------C6AA02821F935A62D356E43F--
