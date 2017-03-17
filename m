@@ -1,44 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id AE7A177B13
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f44.google.com (mail-pg0-f44.google.com [74.125.83.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 168A677B0C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Mar 2017 17:10:57 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id b5so10888393pgg.1
+	Fri, 17 Mar 2017 17:52:22 +0000 (UTC)
+Received: by mail-pg0-f44.google.com with SMTP id b129so46747477pgc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Mar 2017 10:10:59 -0700 (PDT)
+	Fri, 17 Mar 2017 10:52:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=xODqT3ih+2vyp2B11XSOUzR5hLj5cUtsUv5e+iH1EbY=;
-	b=h0ca2Otsjb+2oGejdqQNs6Zp9ZAou2n2F7D0gSjBLslRQnAWe9n7sp1tq+jwjXfsBZ
-	R3oqxqH+NSXKc/k4wOMglH3ljSG0z7pV22fs94E8vHXnlBMTcvqzDPrFufvwwo23jnps
-	7Faal1jWXwolN453BMI2/bBOl+dllnLXlzIlZ+N7fjzWFOlJGV9befEtaV9QakEM8iiC
-	O5FHeXZnYtLyAYRGSPQ1AaCyClLbGwXaMVMor93StApVpgquHBRxe334AXkpepbwoNRI
-	bP4L4Kq+xm4E2ykZmT1ujFJFzwJ63wQh2hqoJTLyVftqIGMC/nH4dNzeBqbn4U8tmQZ8
-	dX+g==
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to;
+	bh=ak2AbtJNYty+UEC97sldm6mRL+PAUb2hYZbhjrumWP0=;
+	b=UubgOnxhKkvbYVB6RsLC0dUvwJb0muwwGMT5Z55utZUFoaNI3AspzUAACAmRGdiRwI
+	6ge8lg7z72YnHw2CzvC/Zb3vnznYnHfgQN9bNIBs6H5duvGhFHaYLMXSt00zsfK40X8d
+	N28rNu4QqbRKixv+BPVZM7yfpKJsNhVyQ0HAznYW2Ab5lVTbKxo3f52UaQoDzbe/OWlk
+	BSo+yra5jRprbacNa56CzhCUNSpkKJbgxNxXCRbam4SouCVNhPuQ6I7/EXdI4a0v1pbl
+	zbvKTNbOnJIkyMlXLQ4XTfWwQB2IPyCOTRJMCtGx4ybcwhud3HvwaqBkQopAkGxjjSV+
+	MhzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=xODqT3ih+2vyp2B11XSOUzR5hLj5cUtsUv5e+iH1EbY=;
-	b=JJtXOKNgrj981wvLd5npO8waeUUUgdn7hEkW60S+Y79J/7Nslw85ZrkZv5fhzN8tIn
-	V6wdUYCQGaLbLG4TfrG3Ub/iQPfl6Hg0gE6VPq4F5zLxVgIHj3Xd04MilBLakbPfONAb
-	KB5dZKGCLMbDCr5FMABLc2boILAc0jTiWvcZVUyJ4XcyBaVrqjUl979NCaOnvaBN32I7
-	yuRtpv4nPYs1eq6++ilDchtdfQI6yqgY0naErZ7gqGaYIMvJpj3rZp70LidFCJDJiuS6
-	A908e0ELrUXlvkoD5FZAyTqP/0kXiPAgkQ8glogmy1WgKzBEah3Gi4KcLT4AiaJ5Idjh
-	Qg9w==
-X-Gm-Message-State: AFeK/H2g42v/LGow9Blz2UKuAAAA+dRyeEHeVfPkIEv8iq/i2PZbExoOAlIJcCv6gVod9w==
-X-Received: by 10.98.36.81 with SMTP id r78mr17898920pfj.178.1489770658882;
-	Fri, 17 Mar 2017 10:10:58 -0700 (PDT)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	e13sm18071597pgn.38.2017.03.17.10.10.57
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to;
+	bh=ak2AbtJNYty+UEC97sldm6mRL+PAUb2hYZbhjrumWP0=;
+	b=AtmFUuXJREXxoe2GGFXqMJEjKawTlNcR+6k9psTf+GzEOk5+xm5xUmfNP44DDzgtfK
+	1WQivbfkh+vR9BEM6pAL061hBPzKFmVPVT+R7STSSDL9UeLmPC7B1BPI+1pX9yFPkHsg
+	Gtz4ffbMzPpkFbbaIhDRVEv/44g8/ax12BaxsGBJ/4EA/zRyZKonAgP4qI0MnQwDbf8V
+	nHCuJFekwaTo76LeN8uzbBBZiN2VtUWma1qCHQlYAVuKrTT2+CtcI/x6E7rVpqedoUpz
+	+eI4pPg0zTBddAwFYX5wregCN80iziH6GLW85LhlzTY0T9VUc91i97bCZ8VXuXf6xaan
+	11eQ==
+X-Gm-Message-State: AFeK/H2S+RZ0Ss8LMqyEWhl2ar4klski65yrkyM1sSkeOKgU8IZBQl8OhOFB5wJoo9Mj8Q==
+X-Received: by 10.84.136.34 with SMTP id 31mr21187396plk.52.1489773144090;
+	Fri, 17 Mar 2017 10:52:24 -0700 (PDT)
+Received: from [10.70.7.178] ([103.5.218.52]) by smtp.gmail.com with ESMTPSA id
+	r89sm18078443pfe.6.2017.03.17.10.52.21
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 17 Mar 2017 10:10:57 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Mar 2017 10:10:45 -0700
-Message-Id: <20170317171045.11750-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.12.0
-Subject: [PATCH] ltp: Fix __sighandler_t for mips
+	Fri, 17 Mar 2017 10:52:23 -0700 (PDT)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1489459188-15332-1-git-send-email-akuster808@gmail.com>
+	<CAJTo0LbJyOUHk8g512UZ_ZVJz9eXecghzMLKLwVBvHUKLF=T+A@mail.gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <5e54c568-137b-003d-f2ea-424e807c273c@gmail.com>
+Date: Fri, 17 Mar 2017 10:52:15 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.7.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LbJyOUHk8g512UZ_ZVJz9eXecghzMLKLwVBvHUKLF=T+A@mail.gmail.com>
+Cc: Armin Kuster <akuster@mvista.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pinentry: update to 1.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,75 +59,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Mar 2017 17:10:58 -0000
+X-List-Received-Date: Fri, 17 Mar 2017 17:52:24 -0000
+Content-Type: multipart/alternative;
+	boundary="------------3ED865704651AA4F2C2B4821"
 
-mips definition of kernel_sigaction was added later
-and the patch did not apply to mips part which ended
-in ltp failing to compile on mips parts
-
-In file included from rt_sigaction01.c:42:0:
-../../../../include/lapi/rt_sigaction.h:39:2: error: unknown type name '__sighandler_t'
-  __sighandler_t k_sa_handler;
-  ^~~~~~~~~~~~~~
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...n.h-Use-sighandler_t-instead-of-__sighand.patch | 31 ++++++++++++----------
- 1 file changed, 17 insertions(+), 14 deletions(-)
-
-diff --git a/meta/recipes-extended/ltp/ltp/0028-rt_sigaction.h-Use-sighandler_t-instead-of-__sighand.patch b/meta/recipes-extended/ltp/ltp/0028-rt_sigaction.h-Use-sighandler_t-instead-of-__sighand.patch
-index fc82ff9239..b26aa133e9 100644
---- a/meta/recipes-extended/ltp/ltp/0028-rt_sigaction.h-Use-sighandler_t-instead-of-__sighand.patch
-+++ b/meta/recipes-extended/ltp/ltp/0028-rt_sigaction.h-Use-sighandler_t-instead-of-__sighand.patch
-@@ -13,23 +13,29 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  testcases/kernel/syscalls/rt_sigsuspend/Makefile | 3 +++
-  2 files changed, 4 insertions(+), 1 deletion(-)
- 
--diff --git a/include/lapi/rt_sigaction.h b/include/lapi/rt_sigaction.h
--index 3a5a763..870918c 100644
----- a/include/lapi/rt_sigaction.h
--+++ b/include/lapi/rt_sigaction.h
--@@ -34,7 +34,7 @@
-- #define INVAL_SA_PTR ((void *)-1)
-- 
-+Index: git/include/lapi/rt_sigaction.h
-+===================================================================
-+--- git.orig/include/lapi/rt_sigaction.h
-++++ git/include/lapi/rt_sigaction.h
-+@@ -36,12 +36,12 @@
-+ #if defined(__mips__)
-+ struct kernel_sigaction {
-+ 	unsigned int sa_flags;
-+-	__sighandler_t k_sa_handler;
-++	sighandler_t k_sa_handler;
-+ 	sigset_t sa_mask;
-+ };
-+ #else
-  struct kernel_sigaction {
- -	__sighandler_t k_sa_handler;
- +	sighandler_t k_sa_handler;
-  	unsigned long sa_flags;
-  	void (*sa_restorer) (void);
-  	sigset_t sa_mask;
--diff --git a/testcases/kernel/syscalls/rt_sigsuspend/Makefile b/testcases/kernel/syscalls/rt_sigsuspend/Makefile
--index 37bc3a9..2ca7f7c 100644
----- a/testcases/kernel/syscalls/rt_sigsuspend/Makefile
--+++ b/testcases/kernel/syscalls/rt_sigsuspend/Makefile
-+Index: git/testcases/kernel/syscalls/rt_sigsuspend/Makefile
-+===================================================================
-+--- git.orig/testcases/kernel/syscalls/rt_sigsuspend/Makefile
-++++ git/testcases/kernel/syscalls/rt_sigsuspend/Makefile
- @@ -19,4 +19,7 @@
-  top_srcdir		?= ../../../..
-  
-@@ -38,6 +44,3 @@ index 37bc3a9..2ca7f7c 100644
- +CFLAGS	+= -D_GNU_SOURCE
- +
-  include $(top_srcdir)/include/mk/generic_leaf_target.mk
---- 
--2.7.0
--
--- 
-2.12.0
+--------------3ED865704651AA4F2C2B4821
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
+
+On 03/17/2017 09:53 AM, Burton, Ross wrote:
+>
+> On 14 March 2017 at 02:39, Armin Kuster <akuster808@gmail.com 
+> <mailto:akuster808@gmail.com>> wrote:
+>
+>     add pkg-config support for libassuan and gpg-error
+>     updated config options
+>
+>
+> This didn't quite make M3
+Didn't expect it make it in. My intend was for 
+master-to-exclude-2.3-changes branch.
+> so strictly speaking upgrades have to wait.  Can you backport the 
+> fixes to 0.9.2,
+geez, you are making me think now. I don't recall if there where any 
+issues with 0.9.2 building. I am traveling and wont have a chance to 
+look into it for a day or two.
+> or is there a sufficiently good reason to make an exception for the 
+> 1.0 upgrade?
+nope. Finally sat down to hammer out the update.
+
+thanks for getting back to me.
+
+kind regards,
+Armin
+>
+> Ross
+
+
+--------------3ED865704651AA4F2C2B4821
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <p><br>
+    </p>
+    <br>
+    <div class="moz-cite-prefix">On 03/17/2017 09:53 AM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LbJyOUHk8g512UZ_ZVJz9eXecghzMLKLwVBvHUKLF=T+A@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 14 March 2017 at 02:39, Armin
+            Kuster <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:akuster808@gmail.com" target="_blank">akuster808@gmail.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":5fd" class="a3s aXjCH m15acab19bc74744c">add
+                pkg-config support for libassuan and gpg-error<br>
+                updated config options<br>
+              </div>
+            </blockquote>
+          </div>
+          <br>
+          This didn't quite make M3 </div>
+      </div>
+    </blockquote>
+    Didn't expect it make it in. My intend was for
+    master-to-exclude-2.3-changes branch.<br>
+    <blockquote
+cite="mid:CAJTo0LbJyOUHk8g512UZ_ZVJz9eXecghzMLKLwVBvHUKLF=T+A@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra">so strictly speaking upgrades have to
+          wait.  Can you backport the fixes to 0.9.2,</div>
+      </div>
+    </blockquote>
+    geez, you are making me think now. I don't recall if there where any
+    issues with 0.9.2 building. I am traveling and wont have a chance to
+    look into it for a day or two. <br>
+    <blockquote
+cite="mid:CAJTo0LbJyOUHk8g512UZ_ZVJz9eXecghzMLKLwVBvHUKLF=T+A@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"> or is there a sufficiently good reason
+          to make an exception for the 1.0 upgrade?</div>
+      </div>
+    </blockquote>
+    nope. Finally sat down to hammer out the update.<br>
+    <br>
+    thanks for getting back to me.<br>
+    <br>
+    kind regards,<br>
+    Armin<br>
+    <blockquote
+cite="mid:CAJTo0LbJyOUHk8g512UZ_ZVJz9eXecghzMLKLwVBvHUKLF=T+A@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------3ED865704651AA4F2C2B4821--
