@@ -1,31 +1,16 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 1573977B27
+Return-Path: <cshored@cshore.thecshore.com>
+X-Greylist: delayed 2584 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sat, 18 Mar 2017 00:38:24 UTC
+Received: from s2.neomailbox.net (s2.neomailbox.net [5.148.176.60])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A02377B2B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Mar 2017 23:24:29 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 1C3BF20BAC;
-	Fri, 17 Mar 2017 23:24:31 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id vFRT1liPYaUK; Fri, 17 Mar 2017 23:24:31 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id DD141208FB;
-	Fri, 17 Mar 2017 23:24:26 +0000 (UTC)
-Received: from gimli.denix (gimli [192.168.0.6])
-	by mail.denix.org (Postfix) with ESMTP id A12C31623AA;
-	Fri, 17 Mar 2017 19:24:26 -0400 (EDT)
-From: Denys Dmytriyenko <denis@denix.org>
+	Sat, 18 Mar 2017 00:38:24 +0000 (UTC)
+Date: Fri, 17 Mar 2017 19:55:15 -0400
+From: Daniel Dickinson <cshored@cshore.thecshore.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Mar 2017 19:24:26 -0400
-Message-Id: <1489793066-52505-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
-Cc: Denys Dmytriyenko <denys@ti.com>, Christos Zoulas <christos@zoulas.com>
-Subject: [krogoth][PATCH] file: update SRCREV for 5.25 to fix fetch fail on missing commit
+Message-ID: <20170317195515.35729bb7@danielf.thecshore.com>
+MIME-Version: 1.0
+Subject: Hints on submitting to OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,45 +23,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Mar 2017 23:24:30 -0000
+X-List-Received-Date: Sat, 18 Mar 2017 00:38:25 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Paul Gortmaker <paul.gortmaker@windriver.com>
+Hi all,
 
-Machines that cloned a while ago will have the commit, but new
-deployments won't because it seems the upstream changed/rebased
-and the old commit ID has been garbage-collected away.  Hence
-the fetch fails to check out the named commit ID.
+I've got a pre-alpha 'distro' and some layers I think that could get to
+an interesting state.  The intent is to work them up to where they are
+suitable to be submitted as patches to oe-core rather than the
+current .bbappend and related files.
 
-Both the old (gone) commit, and the "new" commit show the same
-dates and commit log and point at 5.25, so hopefully this is
-the right thing to do.  A git diff of the two seems to only show
-a blanket uprev of CVS tags and deletion of a couple autogen'd
-files, and no real source changes.
+There's rather a lot of reading (which is good in the sense that I like
+actually have documentation, although that's definitely an area I need
+to improve on for the layers I've got in the works), and I haven't
+nearly got through it all yet, but I was hoping for pointers on the
+most important bits to read for prepping patches submission.
 
-(From OE-Core rev: adb71e06768adadda7b69c3b5e81ca3ad67237f4)
+Also, in the layers list I'll be asking about some build issues that I
+don't see with a manual bitbake, that look like missing preqs on a build
+server, unless the layer should be requesting installation of host files
+somewhere.
 
-Cc: Christos Zoulas <christos@zoulas.com>
-Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
----
- meta/recipes-devtools/file/file_5.25.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Regards,
 
-diff --git a/meta/recipes-devtools/file/file_5.25.bb b/meta/recipes-devtools/file/file_5.25.bb
-index 68bad69..f89931c 100644
---- a/meta/recipes-devtools/file/file_5.25.bb
-+++ b/meta/recipes-devtools/file/file_5.25.bb
-@@ -20,7 +20,7 @@ SRC_URI = "git://github.com/file/file.git \
-         file://host-file.patch \
-         "
- 
--SRCREV = "f45db89ddc91692b662fffbabbdafc7bc4c00f5e"
-+SRCREV = "789cfc7d727cee1c7cfb7d29c09162e2399285c5"
- S = "${WORKDIR}/git"
- 
- inherit autotools
--- 
-2.7.4
-
+Daniel
 
