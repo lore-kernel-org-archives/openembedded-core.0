@@ -1,27 +1,47 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BA2077A46
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f174.google.com (mail-qt0-f174.google.com
+	[209.85.216.174])
+	by mail.openembedded.org (Postfix) with ESMTP id DDEA377B13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Mar 2017 15:53:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1489765996; x=1521301996; h=from:to:subject:date:message-id;
-	bh=IwR3GyB4XzYgIHLELVuj1o8xRojItbfudLRvveMhzRI=;
-	b=PaPDV/69t8yeTYUx3mGiRSJb/HbICXeU68Bx6n+p2cRQ1Hzyd0O7jHRO
-	2FYXGfM9ULHCcDLJ/tUmKRbKj+HDZA==;
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Mar 2017 08:53:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,177,1486454400"; d="scan'208";a="1109585799"
-Received: from jlock-mobl1.ger.corp.intel.com ([10.252.34.237])
-	by orsmga001.jf.intel.com with ESMTP; 17 Mar 2017 08:53:13 -0700
-From: Joshua Lock <joshua.g.lock@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Mar 2017 15:53:09 +0000
-Message-Id: <20170317155309.4355-1-joshua.g.lock@intel.com>
-X-Mailer: git-send-email 2.9.3
-Subject: [PATCH] meta: replace uses of bb.data.expand(VARNAME, d) with d.expand(VARNAME)
+	Fri, 17 Mar 2017 16:53:35 +0000 (UTC)
+Received: by mail-qt0-f174.google.com with SMTP id r45so67326335qte.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Mar 2017 09:53:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=0H7uwla4RbFYqWfiECgAaoEUopTdvJzrFg1Ka61trh4=;
+	b=iIfM3fHNKr7gMSgg2uUvqWXugHk9dlPmD0TZUrcc46nZwGmspomxXYAtryvvdJqvtS
+	Xx+XXRrZ5JUjkihMpLoRY/y7BRpF0OaI/+BzRlpdmvodSp2+DABx1Khf53+m/7w61nzw
+	h7TK4o5vi/i+OcSzR8LR3UWPQ3u/to8bfG5q4wXqhiGh1NRkop/6XBiFzLnLruffS4Sb
+	bL50Xlv/ILN+uZDCqLdQa9juKi1tsvDt4Kl+9HdqncrNXE9evbbq1IKKICIijrHAj5w4
+	vbUz3jmy5b156VZQ3l+JNfpadlyfvQ9vWtn94y2oGMJPSLmgHTdVsuU3+239VNeyz7w0
+	PyVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=0H7uwla4RbFYqWfiECgAaoEUopTdvJzrFg1Ka61trh4=;
+	b=ncpaxnA//p1LfAD5Xytnk5pucNFRN3YP5CkfcOPTj4u2fjDi6pwOUsEtraTQ0IS20O
+	BqUDBQb4FtUh6JgIggvLbOpkuUvvDD0xBU3nBXt+ryIFW17wMrXYQf4DCNgRRIP3X6h/
+	1Ud4GyOYJqteha6IGvoo1osRS/rvgh803eYsxqucIX8WKD/FOjYnActeXAa/bb/4nwN8
+	jD+35QCHoV5p22ahQRa7lAXKk9fdyjlGQUQXBDOOOMfG/ZsssHaVaBKjMOR7roXEHW7R
+	rC/j/6sPx6WdLSYmm0Vv4R0Q2OFPuYiPKxgmbFAPSpIGTnCrQGkCLsJT3JZX6ZLcrX+y
+	Z8iA==
+X-Gm-Message-State: AFeK/H1OwjGTAAxXFfbmerBFLxIA2bZl+4+XD4aY/VTjmglL7dEgwPQKuqlXrzUkZiwcVF4JpdNtiXSPkf/pFmnQ
+X-Received: by 10.237.53.9 with SMTP id a9mr14255247qte.188.1489769617000;
+	Fri, 17 Mar 2017 09:53:37 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Fri, 17 Mar 2017 09:53:16 -0700 (PDT)
+In-Reply-To: <1489459188-15332-1-git-send-email-akuster808@gmail.com>
+References: <1489459188-15332-1-git-send-email-akuster808@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 17 Mar 2017 16:53:16 +0000
+Message-ID: <CAJTo0LbJyOUHk8g512UZ_ZVJz9eXecghzMLKLwVBvHUKLF=T+A@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+Cc: Armin Kuster <akuster@mvista.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pinentry: update to 1.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,110 +54,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Mar 2017 15:53:14 -0000
+X-List-Received-Date: Fri, 17 Mar 2017 16:53:37 -0000
+Content-Type: multipart/alternative; boundary=001a11c0285ed1c3cf054af004c1
 
-bb.data.expand(x, d) is deprecated API.
+--001a11c0285ed1c3cf054af004c1
+Content-Type: text/plain; charset=UTF-8
 
-[YOCTO #10678]
+On 14 March 2017 at 02:39, Armin Kuster <akuster808@gmail.com> wrote:
 
-Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
----
- meta/classes/archiver.bbclass                      | 2 +-
- meta/classes/package.bbclass                       | 4 ++--
- meta/classes/utility-tasks.bbclass                 | 2 +-
- meta/lib/oe/patch.py                               | 2 +-
- meta/recipes-extended/pam/libpam_1.3.0.bb          | 2 +-
- meta/recipes-multimedia/alsa/alsa-plugins_1.1.1.bb | 2 +-
- 6 files changed, 7 insertions(+), 7 deletions(-)
+> add pkg-config support for libassuan and gpg-error
+> updated config options
+>
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index ee4790d..2c04557 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -365,7 +365,7 @@ python do_ar_recipe () {
-         elif include_re.match(line):
-             incfile = include_re.match(line).group(1)
-         if incfile:
--            incfile = bb.data.expand(incfile, d)
-+            incfile = d.expand(incfile)
-             incfile = bb.utils.which(bbpath, incfile)
-             if incfile:
-                 shutil.copy(incfile, outdir)
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 871263f..b23458b 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -778,7 +778,7 @@ python fixup_perms () {
-         dir = d.getVar(path) or ""
-         if dir == "":
-             continue
--        fs_perms_table[dir] = fs_perms_entry(bb.data.expand("%s 0755 root root false - - -" % (dir), d))
-+        fs_perms_table[dir] = fs_perms_entry(d.expand("%s 0755 root root false - - -" % (dir)))
- 
-     # Now we actually load from the configuration files
-     for conf in get_fs_perms_list(d).split():
-@@ -1801,7 +1801,7 @@ python package_do_pkgconfig () {
-                         m = field_re.match(l)
-                         if m:
-                             hdr = m.group(1)
--                            exp = bb.data.expand(m.group(2), pd)
-+                            exp = pd.expand(m.group(2))
-                             if hdr == 'Requires':
-                                 pkgconfig_needed[pkg] += exp.replace(',', ' ').split()
- 
-diff --git a/meta/classes/utility-tasks.bbclass b/meta/classes/utility-tasks.bbclass
-index da69c3a..587bfd4 100644
---- a/meta/classes/utility-tasks.bbclass
-+++ b/meta/classes/utility-tasks.bbclass
-@@ -28,7 +28,7 @@ python do_clean() {
-     bb.note("Removing " + dir)
-     oe.path.remove(dir)
- 
--    dir = "%s.*" % bb.data.expand(d.getVar('STAMP', False), d)
-+    dir = "%s.*" % d.getVar('STAMP')
-     bb.note("Removing " + dir)
-     oe.path.remove(dir)
- 
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index aaa2d3a..f1ab3dd 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -81,7 +81,7 @@ class PatchSet(object):
-                 patch[param] = PatchSet.defaults[param]
- 
-         if patch.get("remote"):
--            patch["file"] = bb.data.expand(bb.fetch2.localpath(patch["remote"], self.d), self.d)
-+            patch["file"] = self.d.expand(bb.fetch2.localpath(patch["remote"], self.d))
- 
-         patch["filemd5"] = bb.utils.md5_file(patch["file"])
- 
-diff --git a/meta/recipes-extended/pam/libpam_1.3.0.bb b/meta/recipes-extended/pam/libpam_1.3.0.bb
-index 67b9d53..df56d27 100644
---- a/meta/recipes-extended/pam/libpam_1.3.0.bb
-+++ b/meta/recipes-extended/pam/libpam_1.3.0.bb
-@@ -116,7 +116,7 @@ python populate_packages_prepend () {
-         d.setVar('RPROVIDES_' + pkg, provides)
- 
-     mlprefix = d.getVar('MLPREFIX') or ''
--    dvar = bb.data.expand('${WORKDIR}/package', d, True)
-+    dvar = d.expand('${WORKDIR}/package')
-     pam_libdir = d.expand('${base_libdir}/security')
-     pam_sbindir = d.expand('${sbindir}')
-     pam_filterdir = d.expand('${base_libdir}/security/pam_filter')
-diff --git a/meta/recipes-multimedia/alsa/alsa-plugins_1.1.1.bb b/meta/recipes-multimedia/alsa/alsa-plugins_1.1.1.bb
-index 3928fb1..16686a0 100644
---- a/meta/recipes-multimedia/alsa/alsa-plugins_1.1.1.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-plugins_1.1.1.bb
-@@ -59,7 +59,7 @@ do_install_append() {
- }
- 
- python populate_packages_prepend() {
--    plugindir = bb.data.expand('${libdir}/alsa-lib/', d)
-+    plugindir = d.expand('${libdir}/alsa-lib/')
-     packages = " ".join(do_split_packages(d, plugindir, '^libasound_module_(.*)\.so$', 'libasound-module-%s', 'Alsa plugin for %s', extra_depends=''))
-     d.setVar("RDEPENDS_alsa-plugins", packages)
- }
--- 
-2.9.3
+This didn't quite make M3 so strictly speaking upgrades have to wait.  Can
+you backport the fixes to 0.9.2, or is there a sufficiently good reason to
+make an exception for the 1.0 upgrade?
 
+Ross
 
+--001a11c0285ed1c3cf054af004c1
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 14 March 2017 at 02:39, Armin Kuster <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":5fd" class=3D"a3=
+s aXjCH m15acab19bc74744c">add pkg-config support for libassuan and gpg-err=
+or<br>
+updated config options<br></div></blockquote></div><br>This didn&#39;t quit=
+e make M3 so strictly speaking upgrades have to wait.=C2=A0 Can you backpor=
+t the fixes to 0.9.2, or is there a sufficiently good reason to make an exc=
+eption for the 1.0 upgrade?</div><div class=3D"gmail_extra"><br></div><div =
+class=3D"gmail_extra">Ross</div></div>
+
+--001a11c0285ed1c3cf054af004c1--
