@@ -1,28 +1,22 @@
 Return-Path: <brian.avery@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D3F206FEE0
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EDD36FEE0
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 17 Mar 2017 19:59:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1489780746; x=1521316746;
-	h=from:to:cc:subject:date:message-id;
-	bh=0rmhH/3hkkQo2UF2N4uqWwHHl1w3bjG0Vv/6k0hIiQA=;
-	b=ErwpGqXJWLyg9eVliwdikf7nR4ZH8/CUybUg6G10xO7JneQifrfl19Ye
-	Y2pWEAvpHTclC30KC0E92RzwDaaa7g==;
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Mar 2017 12:59:04 -0700
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga104.jf.intel.com with ESMTP; 17 Mar 2017 12:59:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,178,1486454400"; d="scan'208";a="835971738"
+X-IronPort-AV: E=Sophos;i="5.36,178,1486454400"; d="scan'208";a="1124140446"
 Received: from echidna.jf.intel.com ([10.54.77.142])
-	by FMSMGA003.fm.intel.com with ESMTP; 17 Mar 2017 12:59:04 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 17 Mar 2017 12:59:06 -0700
 From: brian avery <brian.avery@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Mar 2017 05:49:54 -0700
-Message-Id: <cover.1489754655.git.brian.avery@intel.com>
+Date: Fri, 17 Mar 2017 05:49:57 -0700
+Message-Id: <87cadaf74138965f72d0943a39cd266ba942b69c.1489754655.git.brian.avery@intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 0/1] gen-lockedsig-cache: catch os.link error V2
+In-Reply-To: <cover.1489754655.git.brian.avery@intel.com>
+References: <cover.1489754655.git.brian.avery@intel.com>
+Subject: [PATCH 1/1] gen-lockedsig-cache: catch os.link error V2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,28 +31,32 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 17 Mar 2017 19:59:05 -0000
 
-If your sstate-cache directory is on a different filesystem from the one your build is on, gen-lockedsig-cache fails which causes the esdk creation to fail. This catches the hard link failure and does a copy in those cases.
+We do a hard link to speed up sdk creation but if your sstate-cache is
+across a file system boundary, this tries and fails. This patch catches
+that error and does a copy instead.
 
-This is a V2 because I took a copy/paste shortcut when I sent in the last one and that went as well as I should have expected. This one is sent from the machine it was tested on... My bad :(.
-
--brian
-
-
-The following changes since commit 7e0985bab68547f946163828a16beab7542fca2e:
-
-  nativesdk-packagegroup-sdk-host.bb: add cmake (2017-03-17 16:53:06 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib bavery/gen-sigs-linkfix
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=bavery/gen-sigs-linkfix
-
-brian avery (1):
-  gen-lockedsig-cache: catch os.link error
-
+Signed-off-by: brian avery <brian.avery@intel.com>
+---
  scripts/gen-lockedsig-cache | 6 +++++-
  1 file changed, 5 insertions(+), 1 deletion(-)
 
+diff --git a/scripts/gen-lockedsig-cache b/scripts/gen-lockedsig-cache
+index 49de74ed..6765891 100755
+--- a/scripts/gen-lockedsig-cache
++++ b/scripts/gen-lockedsig-cache
+@@ -62,7 +62,11 @@ for f in files:
+         os.remove(dst)
+     if (os.stat(src).st_dev == os.stat(destdir).st_dev):
+         print('linking')
+-        os.link(src, dst)
++        try:
++            os.link(src, dst)
++        except OSError as e:
++            print('hard linking failed, copying')
++            shutil.copyfile(src, dst)
+     else:
+         print('copying')
+         shutil.copyfile(src, dst)
 --
 2.7.4
 
