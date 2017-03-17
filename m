@@ -1,31 +1,30 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A4F756FFF7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id CAD7F72FEA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Mar 2017 11:46:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1489751211; x=1521287211;
-	h=from:to:cc:subject:date:message-id;
-	bh=xLb4zjsZj12B2pfco3yCCbrVUz2VbGYCnrwXlWKwdY0=;
-	b=FYB404Sgk95XOma2A9VUMCEST/IrLp2FM9bI5eA85mC4Vsm1nQw5TtBi
-	K/5W158GbO2RKPWq8607iCWzUrp1Gw==;
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Mar 2017 04:46:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,176,1486454400"; d="scan'208";a="76519847"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 17 Mar 2017 04:46:43 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 68EE72C8001;
-	Fri, 17 Mar 2017 04:46:38 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Mar 2017 13:32:25 +0200
-Message-Id: <1489750345-29718-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] image_types: increase filesystem size for BTRFS
+	Fri, 17 Mar 2017 11:54:24 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v2HBsPg0006948; Fri, 17 Mar 2017 11:54:25 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 9l1tRyqvOId5; Fri, 17 Mar 2017 11:54:25 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v2HBsJQg006945
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 17 Mar 2017 11:54:20 GMT
+Message-ID: <1489751659.13980.135.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 17 Mar 2017 11:54:19 +0000
+In-Reply-To: <751ae73c98c1280f2b5ada3b442cf3f5828ed437.1489657029.git.liezhi.yang@windriver.com>
+References: <cover.1489657029.git.liezhi.yang@windriver.com>
+	<751ae73c98c1280f2b5ada3b442cf3f5828ed437.1489657029.git.liezhi.yang@windriver.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 4/6] oeqa/targetcontrol.py: modify it to test runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,46 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Mar 2017 11:46:50 -0000
+X-List-Received-Date: Fri, 17 Mar 2017 11:54:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-16777216 bytes is a minimal possible filesystem size for BTRFS.
-mkfs.btrfs fails to create a filesystem if rootfs size is too small.
+On Thu, 2017-03-16 at 03:13 -0700, Robert Yang wrote:
+> Modify the following files to test runqemu:
+>     targetcontrol.py
+>     utils/commands.py
+>     utils/qemurunner.py
+> 
+> We need simulate how "runqemu" works in command line, so when test
+> "runqemu", the targetcontrol.py, utils/commands.py and
+> utils/qemurunner.py don't have to find the rootfs or set env vars.
+> 
+> [YOCTO #10249]
+> 
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  meta/lib/oeqa/targetcontrol.py    | 20 +++++++++++++++-----
+>  meta/lib/oeqa/utils/commands.py   | 13 +++++++++++--
+>  meta/lib/oeqa/utils/qemurunner.py | 28 +++++++++++++++++-----------
+>  3 files changed, 43 insertions(+), 18 deletions(-)
 
-Increased filesystem size to make it possible for mkfs.btrfs
-to create an image for small rootfs directories,
-e.g. for core-image-minimal.
+This change breaks "oe-selftest -r wic.Wic.test_qemu_efi" which just
+hangs afterwards.
 
-[YOCTO #11163]
+Cheers,
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/classes/image_types.bbclass | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index d2eb99d..99adeb3 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -82,12 +82,13 @@ IMAGE_CMD_ext4 = "oe_mkext234fs ext4 ${EXTRA_IMAGECMD}"
- 
- MIN_BTRFS_SIZE ?= "16384"
- IMAGE_CMD_btrfs () {
--	if [ ${ROOTFS_SIZE} -gt ${MIN_BTRFS_SIZE} ]; then
--		dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.btrfs count=${ROOTFS_SIZE} bs=1024
--		mkfs.btrfs ${EXTRA_IMAGECMD} -r ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.btrfs
--	else
--		bbfatal "Rootfs is too small for BTRFS (Rootfs Actual Size: ${ROOTFS_SIZE}, BTRFS Minimum Size: ${MIN_BTRFS_SIZE})"
-+	size=${ROOTFS_SIZE}
-+	if [ ${size} -lt ${MIN_BTRFS_SIZE} ] ; then
-+		size=${MIN_BTRFS_SIZE}
-+		bbwarn "Rootfs size is too small for BTRFS. Filesystem will be extended to ${size}K"
- 	fi
-+	dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.btrfs count=${size} bs=1024
-+	mkfs.btrfs ${EXTRA_IMAGECMD} -r ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.btrfs
- }
- 
- IMAGE_CMD_squashfs = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs ${EXTRA_IMAGECMD} -noappend"
--- 
-2.1.4
-
+Richard
 
