@@ -1,53 +1,30 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
-	[209.85.214.50])
-	by mail.openembedded.org (Postfix) with ESMTP id A6C53779AD
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CDA0601F2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Mar 2017 07:20:39 +0000 (UTC)
-Received: by mail-it0-f50.google.com with SMTP id m27so15616777iti.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Mar 2017 00:20:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=TRXtlrGiRf68WAaQE6Dh5aQdGUiAqlWaCp/HQAPAgIM=;
-	b=d+iWLLvoGxVKSysBRRBCp7b+c/GKwV0cSlW2db9ozGtvGuCM0KGsf7fj3DU1wMS3Ut
-	YCwv2vFRXVlK0FbDroeRrRKK+hCspgCEpVRnoMrOsBjIL1W8jM0zq4pjwsoYLnPviJdC
-	WvvIviDwF47bgtp/hbcKB6zEZp+qCvBpv2ZVIRCi8LVYZLAYm3Hjn/Cae84YlmwpnBG7
-	3aZc2hDmqZ5swrxDdAlkJs0BE/TOw4ZFqZa2DpBhyY6eWw7UB5W3qHB6Mf3ZFl8Z/cqp
-	rxrVwbQPgvTvuFNJ+8AP4o/e8nN9vTghhiNyBaVvF2vTDu3ICly/klD9vdSrlfhDtP3/
-	NQSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=TRXtlrGiRf68WAaQE6Dh5aQdGUiAqlWaCp/HQAPAgIM=;
-	b=joqflF9RY2DU1ujgk15zTHzvRzRWwpeyJIQggYVTtWY5AEx08P3FZ+QHpDwVr40iiG
-	0/3htEQb5i323I8ZY6Z+Lr4yNzDRcyZ8nC9A6WlNM6/6pgSCbUs3SIp/S96PMK/hUgA9
-	xYLER+S9xO0Ul7CpegfCDtD9sxAQQEE2sdscvjpo0rLGF45ALkqvYwa6FMjGCapNaWac
-	bbr6QDs2f9AmbqA1ePZw7WdFA8qT8/6iXM/LFhXmQ/W+WJUm6JeVXEF4MO+eBc31Kz/c
-	zfBHyc2XHm04X1l6WjKA9mLfZmIefy8dyWdGMS1WUe3W/Ivf721TIucJz5AGfMoAvIYa
-	MUcg==
-X-Gm-Message-State: AFeK/H3gTooRgAM6nd/fmfTOEcyskSmrwj44Tew9ZcCrbdZEN0qvk3vikZmK6VILqnRs9rsj
-X-Received: by 10.107.175.5 with SMTP id y5mr15412777ioe.7.1489735240593;
-	Fri, 17 Mar 2017 00:20:40 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8C17C.dip0.t-ipconnect.de. [93.232.193.124])
-	by smtp.gmail.com with ESMTPSA id y42sm732493ita.26.2017.03.17.00.20.38
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 17 Mar 2017 00:20:39 -0700 (PDT)
-Message-ID: <1489735236.6396.136.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 17 Mar 2017 08:20:36 +0100
-In-Reply-To: <CAJTo0LYPjw9P5+CASrw6SF=w+vjtNGP7_JW=rM_pXrw05-pbDg@mail.gmail.com>
-References: <d7930253eb64c32753c41d661f7148e5e65eafd8.1489505343.git-series.patrick.ohly@intel.com>
-	<CAJTo0LYPjw9P5+CASrw6SF=w+vjtNGP7_JW=rM_pXrw05-pbDg@mail.gmail.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
+	Fri, 17 Mar 2017 08:47:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v2H8lQ2L025383; Fri, 17 Mar 2017 08:47:26 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id QibF67DOnqwx; Fri, 17 Mar 2017 08:47:26 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v2H8lMY5025358
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 17 Mar 2017 08:47:23 GMT
+Message-ID: <1489740442.13980.134.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: brian avery <brian.avery@intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 17 Mar 2017 08:47:22 +0000
+In-Reply-To: <44af73e99b58322b14a9490f67c9417377404966.1489534872.git.brian.avery@intel.com>
+References: <cover.1489534872.git.brian.avery@intel.com>
+	<44af73e99b58322b14a9490f67c9417377404966.1489534872.git.brian.avery@intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
 Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rm_work.bbclass: re-enable recursive do_rm_work_all
+Subject: Re: [PATCH 1/1] gen-lockedsig-cache: catch os.link error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,48 +37,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Mar 2017 07:20:40 -0000
+X-List-Received-Date: Fri, 17 Mar 2017 08:47:32 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2017-03-16 at 22:32 +0000, Burton, Ross wrote:
-> If I do a build with rm_work enabled I tend to get this error at
-> rootfs time:
+On Tue, 2017-03-14 at 17:04 -0700, brian avery wrote:
+> We do a hard link to speed up sdk creation but if your sstate-cache
+> is
+> across a file system boundary, this tries and fails. This patch
+> catches
+> that error and does a copy instead.
 > 
+> Signed-off-by: brian avery <brian.avery@intel.com>
+> ---
+>  scripts/gen-lockedsig-cache | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> ERROR: core-image-sato-1.0-r0 do_image_wic: Error executing a python
-> function in exec_python_func() autogenerated:
-....
-> Exception: FileExistsError: [Errno 17] File exists:
-> '/data/poky-master/tmp/sysroots-components/corei7-64/glibc/usr/lib/crt1.o' -> '/data/poky-master/tmp/work/intel_corei7_64-poky-linux/core-image-sato/1.0-r0/recipe-sysroot/usr/lib/crt1.o'
-> 
-> 
-> ERROR: core-image-sato-1.0-r0 do_image_wic: Function failed:
-> extend_recipe_sysroot
-> ERROR: Logfile of failure stored
-> in: /data/poky-master/tmp/work/intel_corei7_64-poky-linux/core-image-sato/1.0-r0/temp/log.do_image_wic.21552
-> ERROR: Task
-> (/home/ross/Yocto/poky/meta/recipes-sato/images/core-image-sato.bb:do_image_wic) failed with exit code '1'
-> 
-> 
-> Reverting this patch makes it go away.
+> diff --git a/scripts/gen-lockedsig-cache b/scripts/gen-lockedsig-
+> cache
+> index 49de74ed..1cfbeae 100755
+> --- a/scripts/gen-lockedsig-cache
+> +++ b/scripts/gen-lockedsig-cache
+> @@ -63,6 +63,12 @@ for f in files:
+>      if (os.stat(src).st_dev == os.stat(destdir).st_dev):
+>          print('linking')
+>          os.link(src, dst)
+> +        try:
+> +            os.link(src, dst)
+> +        except Exception:
+> +            print('hard linking failed, copying')
+> +            shutil.copyfile(src, dst)
+> +        os.link(src, dst)
+>      else:
+>          print('copying')
+>          shutil.copyfile(src, dst)
 
-I think I have seen that before, but not necessarily (not sure anymore)
-in the context of rm_work. If I remember correctly, these were really
-two different crt1.o files, one from glibc, the other from
-glibc-initial.
+Really? How many os.link() calls do we need?
 
-I couldn't reproduce it at that time. I'll check whether I can trigger
-it now.
+Also, "Exception" without a specific exception you want to catch tends
+to be a bad idea.
 
--- 
-Best Regards, Patrick Ohly
+Cheers,
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
+Richard
 
 
 
