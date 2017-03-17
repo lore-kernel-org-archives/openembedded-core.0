@@ -1,28 +1,34 @@
-Return-Path: <jose.a.lamego@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 5683E77B20
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 411A877A31
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Mar 2017 22:24:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1489789456; x=1521325456;
-	h=from:to:cc:subject:date:message-id;
-	bh=LXvdDSVbq/7ainMx/QM1XxyMOv42aAEXP27cAxywgqM=;
-	b=aOiWE1pfDLDFJ6XiEZ3QKlWwwKMlHKwPncXN7UMedjU15h5ITtBVYSAh
-	u3BafqtlShWgxfwdXvM80JJb5l/YiA==;
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Mar 2017 15:24:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,178,1486454400"; d="scan'208";a="61857034"
-Received: from yocto-ab04.ostc.intel.com ([10.54.69.51])
-	by orsmga002.jf.intel.com with ESMTP; 17 Mar 2017 15:24:15 -0700
-From: Jose Lamego <jose.a.lamego@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Mar 2017 15:23:53 -0700
-Message-Id: <1489789433-1447-1-git-send-email-jose.a.lamego@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] python-3.3-multilib.patch: Fixes getpath on multilib configurations
+	Fri, 17 Mar 2017 23:10:43 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id CCEFE20BAC;
+	Fri, 17 Mar 2017 23:10:44 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id j8KZAVoVEupI; Fri, 17 Mar 2017 23:10:44 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id A3374208FB;
+	Fri, 17 Mar 2017 23:10:42 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 24ABA162413; Fri, 17 Mar 2017 19:10:42 -0400 (EDT)
+Date: Fri, 17 Mar 2017 19:10:42 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Paul Gortmaker <paul.gortmaker@windriver.com>
+Message-ID: <20170317231042.GW15664@denix.org>
+References: <1489689734-10232-1-git-send-email-paul.gortmaker@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <1489689734-10232-1-git-send-email-paul.gortmaker@windriver.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Christos Zoulas <christos@zoulas.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] file: update SRCREV for 5.30 to fix fetch fail on missing commit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,80 +41,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Mar 2017 22:24:14 -0000
+X-List-Received-Date: Fri, 17 Mar 2017 23:10:44 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-When using multilib configurations either on arm/arm64 and x86/x86-64
-python3 failed to execute due to a failure when looking for its
-platform independent and dependent libraries.
+We would need to do the same for past releases - morty/5.28, krogoth/5.25, jethro/5.24...
 
-This patch fixes this issue by assigning lib_python to the appropriate
-macro.
 
-[YOCTO #10812]
-
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
----
- .../python/python3/python-3.3-multilib.patch            | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
-
-diff --git a/meta/recipes-devtools/python/python3/python-3.3-multilib.patch b/meta/recipes-devtools/python/python3/python-3.3-multilib.patch
-index 056e8e7..8601903 100644
---- a/meta/recipes-devtools/python/python3/python-3.3-multilib.patch
-+++ b/meta/recipes-devtools/python/python3/python-3.3-multilib.patch
-@@ -138,6 +138,15 @@ Index: Python-3.5.2/Modules/getpath.c
-  
-  /* Get file status. Encode the path to the locale encoding. */
-  
-+@@ -494,7 +502,7 @@ calculate_path(void)
-+     _pythonpath = Py_DecodeLocale(PYTHONPATH, NULL);
-+     _prefix = Py_DecodeLocale(PREFIX, NULL);
-+     _exec_prefix = Py_DecodeLocale(EXEC_PREFIX, NULL);
-+-    lib_python = Py_DecodeLocale("lib/python" VERSION, NULL);
-++    lib_python = Py_DecodeLocale(LIB_PYTHON, NULL);
-+ 
-+     if (!_pythonpath || !_prefix || !_exec_prefix || !lib_python) {
-+         Py_FatalError(
- Index: Python-3.5.2/Python/getplatform.c
- ===================================================================
- --- Python-3.5.2.orig/Python/getplatform.c
-@@ -185,7 +194,7 @@ Index: Python-3.5.2/setup.py
- ===================================================================
- --- Python-3.5.2.orig/setup.py
- +++ Python-3.5.2/setup.py
--@@ -492,7 +492,7 @@ class PyBuildExt(build_ext):
-+@@ -495,7 +495,7 @@ class PyBuildExt(build_ext):
-          # directories (i.e. '.' and 'Include') must be first.  See issue
-          # 10520.
-          if not cross_compiling:
-@@ -194,7 +203,7 @@ Index: Python-3.5.2/setup.py
-              add_dir_to_list(self.compiler.include_dirs, '/usr/local/include')
-          # only change this for cross builds for 3.3, issues on Mageia
-          if cross_compiling:
--@@ -550,8 +550,7 @@ class PyBuildExt(build_ext):
-+@@ -553,8 +553,7 @@ class PyBuildExt(build_ext):
-          # be assumed that no additional -I,-L directives are needed.
-          if not cross_compiling:
-              lib_dirs = self.compiler.library_dirs + [
-@@ -204,7 +213,7 @@ Index: Python-3.5.2/setup.py
-                  ]
-              inc_dirs = self.compiler.include_dirs + ['/usr/include']
-          else:
--@@ -743,11 +742,11 @@ class PyBuildExt(build_ext):
-+@@ -746,11 +745,11 @@ class PyBuildExt(build_ext):
-              elif curses_library:
-                  readline_libs.append(curses_library)
-              elif self.compiler.find_library_file(lib_dirs +
-@@ -268,7 +277,7 @@ Index: Python-3.5.2/configure.ac
- ===================================================================
- --- Python-3.5.2.orig/configure.ac
- +++ Python-3.5.2/configure.ac
--@@ -876,6 +876,41 @@ PLATDIR=plat-$MACHDEP
-+@@ -883,6 +883,41 @@ PLATDIR=plat-$MACHDEP
-  AC_SUBST(PLATDIR)
-  AC_SUBST(PLATFORM_TRIPLET)
-  
--- 
-1.8.3.1
-
+On Thu, Mar 16, 2017 at 02:42:14PM -0400, Paul Gortmaker wrote:
+> Machines that cloned a while ago will have the commit, but new
+> deployments won't because it seems the upstream changed/rebased
+> and the old commit ID has been garbage-collected away.  Hence
+> the fetch fails to check out the named commit ID.
+> 
+> Both the old (gone) commit, and the "new" commit show the same
+> dates and commit log and point at 5.30, so hopefully this is
+> the right thing to do.  A git diff of the two seems to only show
+> a blanket uprev of CVS tags and deletion of a couple autogen'd
+> files, and no real source changes.
+> 
+> Cc: Christos Zoulas <christos@zoulas.com>
+> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+> 
+> diff --git a/meta/recipes-devtools/file/file_5.30.bb b/meta/recipes-devtools/file/file_5.30.bb
+> index 0998fcfa8990..112bf105781e 100644
+> --- a/meta/recipes-devtools/file/file_5.30.bb
+> +++ b/meta/recipes-devtools/file/file_5.30.bb
+> @@ -19,7 +19,7 @@ SRC_URI = "git://github.com/file/file.git \
+>          file://0001-Add-P-prompt-into-Usage-info.patch \
+>          "
+>  
+> -SRCREV = "79814950aafb81ecd6a910c2a8a3b8ec12f3e4a6"
+> +SRCREV = "3050419355566d2a96c5be97fef0ffae097bbb96"
+>  S = "${WORKDIR}/git"
+>  
+>  inherit autotools
+> -- 
+> 2.11.1
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
