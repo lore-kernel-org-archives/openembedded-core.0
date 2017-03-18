@@ -1,18 +1,18 @@
 Return-Path: <brian.avery@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A35271A92
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 81A3D73068
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Mar 2017 15:03:21 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga104.jf.intel.com with ESMTP; 18 Mar 2017 08:03:23 -0700
+	Sat, 18 Mar 2017 15:06:37 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga105.jf.intel.com with ESMTP; 18 Mar 2017 08:06:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,183,1486454400"; d="scan'208";a="1109856833"
+X-IronPort-AV: E=Sophos;i="5.36,183,1486454400"; d="scan'208";a="945766134"
 Received: from bavery-ws-desk.jf.intel.com ([10.7.198.85])
-	by orsmga001.jf.intel.com with ESMTP; 18 Mar 2017 08:03:21 -0700
+	by orsmga003.jf.intel.com with ESMTP; 18 Mar 2017 08:06:39 -0700
 From: brian avery <brian.avery@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 18 Mar 2017 08:05:29 -0700
-Message-Id: <cover.1489849183.git.brian.avery@intel.com>
+Date: Sat, 18 Mar 2017 08:08:46 -0700
+Message-Id: <cover.1489849643.git.brian.avery@intel.com>
 X-Mailer: git-send-email 1.9.1
 Subject: [PATCH 0/2] testsdk: use cpio instead of cvs as test
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -27,7 +27,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Mar 2017 15:03:22 -0000
+X-List-Received-Date: Sat, 18 Mar 2017 15:06:38 -0000
 
 We were using cvs as our sdk test by running configure,make, and install using the sdk.  Unfortunately, cvs requires vi and we were therefore requiring vi as one of our HOSTTOOLS. Since this is a choice among many for editors, it makes for a fragile requirement. Furthermore, a build container would typically not have an editor in it but should still be able to build and test images.  This patch switches cpio (also autotools based and so checks the same steps) for cvs, thus dropping the vi requirement.
 
@@ -46,6 +46,13 @@ brian avery (2):
   meta/lib/oeqa: change sdk test from cvs to cpio
   bitbake.conf: remove vi from HOSTTOOLS list
 
+ meta/classes/testimage.bbclass                            | 6 +++---
+ meta/conf/bitbake.conf                                    | 2 +-
+ meta/lib/oeqa/runtime/cases/{buildcvs.py => buildcpio.py} | 8 ++++----
+ meta/lib/oeqa/sdk/cases/{buildcvs.py => buildcpio.py}     | 8 ++++----
+ 4 files changed, 12 insertions(+), 12 deletions(-)
+ rename meta/lib/oeqa/runtime/cases/{buildcvs.py => buildcpio.py} (83%)
+ rename meta/lib/oeqa/sdk/cases/{buildcvs.py => buildcpio.py} (80%)
 
 --
 1.9.1
