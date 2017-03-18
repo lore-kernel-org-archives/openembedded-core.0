@@ -1,19 +1,48 @@
-Return-Path: <cshored@cshore.thecshore.com>
-Received: from s2.neomailbox.net (s2.neomailbox.net [5.148.176.60])
-	by mail.openembedded.org (Postfix) with ESMTP id EC4B171D9D
+Return-Path: <anton@advancedtelematic.com>
+Received: from mail-wr0-f179.google.com (mail-wr0-f179.google.com
+	[209.85.128.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 034DC71A37
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Mar 2017 19:05:06 +0000 (UTC)
-Date: Sat, 18 Mar 2017 15:05:01 -0400
-From: Daniel Dickinson <cshored@cshore.thecshore.com>
-To: akuster808 <akuster808@gmail.com>
-Message-ID: <20170318150501.26819aee@danielf.thecshore.com>
-In-Reply-To: <bdebc471-dded-69fb-1ae1-d27e1ec751ed@gmail.com>
-References: <20170317195515.35729bb7@danielf.thecshore.com>
-	<3a6a7bd6-a5e5-b139-bc2a-53d3b6b41da5@mlbassoc.com>
-	<bdebc471-dded-69fb-1ae1-d27e1ec751ed@gmail.com>
+	Sat, 18 Mar 2017 22:32:00 +0000 (UTC)
+Received: by mail-wr0-f179.google.com with SMTP id g10so71418279wrg.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 18 Mar 2017 15:32:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=advancedtelematic.com; s=google;
+	h=to:from:subject:message-id:date:user-agent:mime-version
+	:content-transfer-encoding;
+	bh=DVdRXaD0MGPva9vQlvYYFmUEs+lE0Oh3/J+IQ95YU2w=;
+	b=u7Hy8CRbD1pLjlqjG6yhmw16o401vvBtx+c8aJNIIWjG1ZGhKSjfE67nrWnO2GSaWz
+	8WWBC2KVINDbTIFq/LIMAYHF1BcAei8dRH5IQDAdqByPUMco4/fBOKNpbIHz8u5iWgqW
+	ICtXJzVzyx3Iuum6Wq0lUfEw5DViJ6vbntioY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=DVdRXaD0MGPva9vQlvYYFmUEs+lE0Oh3/J+IQ95YU2w=;
+	b=k3kKE7Wb0iE7/Z13yYAHRbuQwF+k+GAYqH+xyJEHaakn8fURJihHHeO2RKrvc5PZE0
+	460znEOs2NUIxhfakGwglLNoKG9KFRppFJuopO0qjHrEZ03kzXIwPkF7fXPwNe1A4iU6
+	H80Ca/plgmZBTLbZL037qv86QZoyFauuMdtrd6u0fLjPlEDV1JejqMdEEYVwIY6LDHEa
+	ckKmKhjc2ZOGds8FWSkckNDd/Llh5VwZrKNqaTgSAzbH3uQa4OqDvjNdv2GUwtPpMQ8g
+	49H19TBTTfLWgVlGMx9jk5q4CvB7C9HBUM2DqWH45N0Op2D/c+iXUUrrQuIpr+d4vCGh
+	LKSg==
+X-Gm-Message-State: AFeK/H1WfqAn0HbuouHr+p6d1NlqtE3Jguvo3asuTp6An+Aa6iIZhMSjBm2a56npre73AA==
+X-Received: by 10.223.148.230 with SMTP id 93mr20412343wrr.111.1489876321610; 
+	Sat, 18 Mar 2017 15:32:01 -0700 (PDT)
+Received: from [192.168.1.134] (x4db3191e.dyn.telefonica.de. [77.179.25.30])
+	by smtp.gmail.com with ESMTPSA id
+	j34sm14886273wre.7.2017.03.18.15.32.00
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 18 Mar 2017 15:32:01 -0700 (PDT)
+To: openembedded-core@lists.openembedded.org
+From: Anton Gerasimov <anton@advancedtelematic.com>
+Message-ID: <b89d6532-f5d0-5ac2-f706-7dc8cf4fe578@advancedtelematic.com>
+Date: Sat, 18 Mar 2017 23:25:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.7.1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Hints on submitting to OE-Core
+Subject: Status of usrmerge merger
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,60 +55,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Mar 2017 19:05:07 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 18 Mar 2017 22:32:02 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 18 Mar 2017 01:42:06 -0700
-akuster808 <akuster808@gmail.com> wrote:
+Hi,
 
-> On 03/17/2017 06:21 PM, Gary Thomas wrote:
-> > On 2017-03-18 00:55, Daniel Dickinson wrote:  
-> >> Hi all,
-> >>
-> >> I've got a pre-alpha 'distro' and some layers I think that could
-> >> get to an interesting state.  The intent is to work them up to
-> >> where they are suitable to be submitted as patches to oe-core
-> >> rather than the current .bbappend and related files.
-> >>
-> >> There's rather a lot of reading (which is good in the sense that I
-> >> like actually have documentation, although that's definitely an
-> >> area I need to improve on for the layers I've got in the works),
-> >> and I haven't nearly got through it all yet, but I was hoping for
-> >> pointers on the most important bits to read for prepping patches
-> >> submission.  
-> >
-> > Have you read this?
-> > http://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded  
-> 
-> To be honest, OE-core does not even comply to the basic standard of a 
-> README. It missing patch submission info like many other layers do
+what is the current status of the usrmerge patch [1]? It was submitted
+quite a long time ago and I can't find any discussion about it. If there
+is something I can do to help with testing/tweaking to get it merged
+please let me know.
 
-Hmmm...just looked at master and there is a pointer to the wiki (which
-I would considered the canonical location and better than duplicating
-in multiple repos).
+Thanks,
+Anton Gerasimov
 
-> nor does in include the Maintainer.
+[1] https://patchwork.openembedded.org/patch/136986/
 
-That's in 'meta/conf/bitbake.conf' or per-recipe (since there is no
-single maintainer for the whole layer IIRC).
 
-Regards,
+--=20
+Anton Gerasimov, ATS Advanced Telematic Systems GmbH
+Kantstrasse 162, 10623 Berlin
+Managing Directors: Dirk P=C3=B6schl, Armin G. Schmidt
+Register Court: HRB 151501 B, Amtsgericht Charlottenburg
 
-Daniel
-
-> 
-> - armin
-> >  
-> >>
-> >> Also, in the layers list I'll be asking about some build issues
-> >> that I don't see with a manual bitbake, that look like missing
-> >> preqs on a build server, unless the layer should be requesting
-> >> installation of host files somewhere.  
-> >
-> > Some tools required by ${HOSTTOOLS} are missing:
-> >   cpio chrpath gawk diffstat makeinfo
-> >  
-> 
 
 
