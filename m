@@ -1,59 +1,46 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E333C6FFA4
+Return-Path: <avery.brian@gmail.com>
+Received: from mail-pg0-f50.google.com (mail-pg0-f50.google.com [74.125.83.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 153B660069
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Mar 2017 15:47:57 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 0847B18144
+	Sun, 19 Mar 2017 17:30:54 +0000 (UTC)
+Received: by mail-pg0-f50.google.com with SMTP id 21so32734697pgg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Mar 2017 16:47:57 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id W2xwghLKTttJ
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Mar 2017 16:47:56 +0100 (CET)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 85F99183EF
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Mar 2017 16:47:56 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6C73E1A05C
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Mar 2017 16:47:56 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6176D1A058
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Mar 2017 16:47:56 +0100 (CET)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Mar 2017 16:47:56 +0100 (CET)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by thoth.se.axis.com (Postfix) with ESMTP id 5427F172C
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Mar 2017 16:47:56 +0100 (CET)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Sun, 19 Mar 2017 16:47:56 +0100
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1210.000; Sun, 19 Mar 2017 16:47:56 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "OE Core (openembedded-core@lists.openembedded.org)"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: What is the purpose of /usr/lib/.build-id?
-Thread-Index: AdKgx4d6RYwQ9B57SMC1IOiu+NEgOg==
-Date: Sun, 19 Mar 2017 15:47:56 +0000
-Message-ID: <b5b1e715bd4142e090f630ada68933bd@XBOX02.axis.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: What is the purpose of /usr/lib/.build-id?
+	Sun, 19 Mar 2017 10:30:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=AkDjtkTgy2PIqc3J0ihDQ3rtRgV5PWOdxv7crPD04IM=;
+	b=BLBvN3N2pxvuy77sBGKMHPHkSK9fHF+jcgxfKLwoida5rUfhvl9rTxQ62yV2yvGGMc
+	cYa7hYDlrOPNvaGHkysPBSIu+snbpEOwDcRSUE7lCpHbw0r53na5bN0ODa/3sjjB9Nhk
+	WtJG6957yE5hDqTR3yG3DTQaR9mt9c3Irao7W/hzc5SwKREKbZ1ZmErrULCeWP04oCrC
+	68YLiP3kzJd5A9nvq8SBwCfoYqjHvz7EK9EG+GFfK1G6GNe919gdFmZetFZ/YiW5YFwi
+	5T7+wt0vttH+1aA35P7eXBj/G086OmIVW5R+DQXUdpY8/hgFH93sLf2tjzaVrb2fOxfg
+	CnTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=AkDjtkTgy2PIqc3J0ihDQ3rtRgV5PWOdxv7crPD04IM=;
+	b=Uiabm4xrZq4/K0giexZZRVATML8Ty0vYxcq5Z0Q2PeOewpZ4y4t3fCIOoLTlOnCoE2
+	3HgSecn56BTDv4sPZfEdNTNtxdn1ayqz2jjQpQRnNoZnvXrm20MsT20B1cTebRI/mNI8
+	nGwJXHr5/Bry76xyd0Zp9oNOJtfkPrGKlgU+7FNYFjvZYiTgjrgAQLy0q0tlkic9ne/4
+	BPtRRErPXgdOI2hgKppvx+Rj4XJKhsPXXOBNyKzfz58HIiNIbtg1P9IZD+ePhGrUDHak
+	QKo+S9G5knBPhjQwPVD3A6aBRpUj8col0TsNgPpsF7XqalgxdcOpciabDsJkZD0kJrBe
+	r/wA==
+X-Gm-Message-State: AFeK/H2a9Rty8sLPjt0F71Gf4C73/kp4Mv8n720uPdLttCj9/rM1A5EX4pWfTQW5E1OjGg==
+X-Received: by 10.99.163.72 with SMTP id v8mr16240959pgn.115.1489944655910;
+	Sun, 19 Mar 2017 10:30:55 -0700 (PDT)
+Received: from whisper.hsd1.or.comcast.net
+	(c-98-232-142-195.hsd1.or.comcast.net. [98.232.142.195])
+	by smtp.gmail.com with ESMTPSA id
+	h71sm28226461pfj.65.2017.03.19.10.30.54
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 19 Mar 2017 10:30:54 -0700 (PDT)
+From: brian avery <avery.brian@gmail.com>
+X-Google-Original-From: brian avery <brian.avery@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 19 Mar 2017 10:32:32 -0700
+Message-Id: <cover.1489944653.git.brian.avery@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH V3 0/1] gen-lockedsig-cache: catch os.link error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,18 +53,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Mar 2017 15:47:58 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 19 Mar 2017 17:30:55 -0000
 
-I have recently noticed the directory /usr/lib/.build-id in the RPM=20
-packages generated by master of OE-core. It contains hashed links to=20
-the binaries in the package.
+We do a hard link to speed up sdk creation but if your sstate-cache is
+across a file system boundary, this tries and fails. This patch catches
+that error and does a copy instead.
 
-What is it used for?
-Can it be removed?
+-brian
 
-//Peter
+The following changes since commit 7e0985bab68547f946163828a16beab7542fca2e:
 
+  nativesdk-packagegroup-sdk-host.bb: add cmake (2017-03-17 16:53:06 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib bavery/gen-sigs-linkfix
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=bavery/gen-sigs-linkfix
+
+brian avery (1):
+  gen-lockedsig-cache: catch os.link error
+
+ scripts/gen-lockedsig-cache | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+--
+1.9.1
 
