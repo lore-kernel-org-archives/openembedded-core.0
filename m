@@ -1,47 +1,45 @@
-Return-Path: <avery.brian@gmail.com>
-Received: from mail-pf0-f172.google.com (mail-pf0-f172.google.com
-	[209.85.192.172])
-	by mail.openembedded.org (Postfix) with ESMTP id A73A47798D
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 55C1C71A50
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Mar 2017 17:32:17 +0000 (UTC)
-Received: by mail-pf0-f172.google.com with SMTP id p189so33082841pfp.1
+	Sun, 19 Mar 2017 18:32:24 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id u132so48621738wmg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Mar 2017 10:32:19 -0700 (PDT)
+	Sun, 19 Mar 2017 11:32:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Rx1iyKMx5AxgPUOpBdVuQdiId6S+LZkbVwTe8f0aEp8=;
-	b=VKW3n6HdSCwbNoqyjO7PDZtfYg4TDv16RDP/85ljcYHl/RUDoZ2/hQHaaCd5M6FkYr
-	h1uTWl/o+dsRtkJifMCY6jUaYDcfWo8XtY+xc3i3/5xsOyxsJ5ibxLl7eXd2XmGQJrlI
-	Oct1xJcdM24s5EgUiy70Y8dmoJwOJReIO/pC/WrnIimWGiEGGb+LjuIv62VbfPmTrsud
-	tpBsa9/XFbOksJKpYxpi/a6IsYKbBOPtOuTyy0zvcgZc+4/PCJKrfivgvPo9688oBmjI
-	x5V52VaA6kjGiOwItYiDTyOxwfjs7L17DgSsv5a2zoXEd+08z1aDsq3nyxli+MAd4BW/
-	oSGg==
+	:cc; bh=+K4Tmoq2DKweVVu+4ZXmm+4L07JLsknY60Boyo1PncE=;
+	b=CvMYIVJW8cz7bxxvsbYIRypgthl1loNT1ABoG3dKaGhrfgpcLK87XxuZkHIZOqwvAA
+	5xntA8SOwl9Y2Wn7IEECDK2oZnz5Qczk24aLQzj+GletYTJd0QoKK/KCwPo8NQHTGI0s
+	rvglKEDJYXLhsmnwX3uVQ8/+0eSmfJz6Ab0ndR+XuEZIRmluKZ4n3LfdBbfb9SaLX4vO
+	mGGGAcvNeeifbaO4kJ193NtOjMcXmBU3kus6XJoqaoUi5Nf1XcQi+JE0K7HBz+GvXKrn
+	GRx9yCOv627+hpX0O4om9KFn14Ovl85c1HF4+KrUA4cnjgZzy4iu6U6aUByf048Dk51B
+	abgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Rx1iyKMx5AxgPUOpBdVuQdiId6S+LZkbVwTe8f0aEp8=;
-	b=R+I/BeDajM5N57kN9Tq8dsEDiiEwFXMjnDsiQiDc9xfUv/1ZIcUZueSOM7BHzDZa4q
-	lOj+ceYQe0/eyJA5XKZb2AoVm82+uUrd2R84Xr1O6PMsl2yccleD5AfAgr4NboxTHH1s
-	Xd+FATgKhp0BywH+GrupTGsD1M4Y/M5UF8LmKgH4wvwW1cFk/1cafy0nNK90r9Q7w1gq
-	AHBw0mJp7JNU5G0jk6CEarFEBjKguHktW4I5cWMpOcBaqxBNx/54rSUjWF2DlAViyp6P
-	fQoTjsqmfD+9K8B3G59AVB5cUOlAoKzcya7ykcM2BT/eJ6EYSNoQ95bCY76f3Ey2QZ3Q
-	ne5Q==
-X-Gm-Message-State: AFeK/H0VQJmzrUcPL1Ewg1XgW0IiqUzMOZ5WioaHxKge8IrSvRJ4a256Q++60dmXUR3u5IC0ckFzwSUNl39Wdw==
-X-Received: by 10.99.185.91 with SMTP id v27mr16655750pgo.65.1489944739599;
-	Sun, 19 Mar 2017 10:32:19 -0700 (PDT)
+	bh=+K4Tmoq2DKweVVu+4ZXmm+4L07JLsknY60Boyo1PncE=;
+	b=ReO04ECMnbUEYZEThWpCifzl/+3CztL86n5hc7LhmpEFkpgJA+tBzqKhqIpJEdmAMu
+	JaV6UFRdGB9HYMwpeZ5T41db8PyLIhaasBCjDk1mIcyBk3QaN/O06firSFuM9ZIY6Jmg
+	pQ3a67eqhILFEf1jsZLXZqMrx9c2We9Y6S2NfVttC60bvz1JRo0r72oeDnSeCruhJmBm
+	nyPmVtL89CK+kI4eH4wLyvOuLusnwA+HbDUYsoO/V1ReAPC1J/0XiaME+9HNlbEZj3x0
+	OteCJgIao2JlQ6NyKNjoF3HQ9u3URgSNoU+XRzr4wdfvhrMyhX/b781ZhDgJDfzAM2/R
+	5bhQ==
+X-Gm-Message-State: AFeK/H1oXjjA4U3HPajWVkFTTA0+0O/pRXgI8uBszEh5QRuzIDdQopW0qItQQ6HF4wh6MQOUAaFhsB4SF+pEKg==
+X-Received: by 10.28.199.132 with SMTP id x126mr6567010wmf.37.1489948345848;
+	Sun, 19 Mar 2017 11:32:25 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.100.176.228 with HTTP; Sun, 19 Mar 2017 10:32:19 -0700 (PDT)
-In-Reply-To: <2585804f225c47279417a3859f6cc305@XBOX02.axis.com>
-References: <cover.1489754655.git.brian.avery@intel.com>
-	<2585804f225c47279417a3859f6cc305@XBOX02.axis.com>
-From: Brian Avery <avery.brian@gmail.com>
-Date: Sun, 19 Mar 2017 10:32:19 -0700
-Message-ID: <CAKV_0ej9O+Y9WNi1mej6eASEjjakn6QOrcRDPCoxhvUSGxAz8Q@mail.gmail.com>
+Received: by 10.80.180.162 with HTTP; Sun, 19 Mar 2017 11:31:55 -0700 (PDT)
+In-Reply-To: <b5b1e715bd4142e090f630ada68933bd@XBOX02.axis.com>
+References: <b5b1e715bd4142e090f630ada68933bd@XBOX02.axis.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 19 Mar 2017 11:31:55 -0700
+Message-ID: <CAMKF1srNRncX+0Fh6ixLdVR+PF7Qp73b1oZ0S6mPYyJeQJVZbw@mail.gmail.com>
 To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
+Cc: "OE Core \(openembedded-core@lists.openembedded.org\)"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] gen-lockedsig-cache: catch os.link error V2
+Subject: Re: What is the purpose of /usr/lib/.build-id?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,115 +52,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Mar 2017 17:32:18 -0000
-Content-Type: multipart/alternative; boundary=94eb2c1bad32f05b61054b18cab7
-
---94eb2c1bad32f05b61054b18cab7
+X-List-Received-Date: Sun, 19 Mar 2017 18:32:25 -0000
 Content-Type: text/plain; charset=UTF-8
 
-Thanks!
-resubmitted as [PATCH V3 x/y] .
--b
-an intel employee
+On Sun, Mar 19, 2017 at 8:47 AM, Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+> I have recently noticed the directory /usr/lib/.build-id in the RPM
+> packages generated by master of OE-core. It contains hashed links to
+> the binaries in the package.
+>
+> What is it used for?
 
-On Fri, Mar 17, 2017 at 2:32 PM, Peter Kjellerstedt <
-peter.kjellerstedt@axis.com> wrote:
+I believe it could be due to switching the versions of rpm in OE-Core,
+this is a unique build signature, which can be used by various tools
+to tie a rpm back into a build. Its handy when you are debugging field
+problems.
 
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org
-> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> > brian avery
-> > Sent: den 17 mars 2017 13:50
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [PATCH 0/1] gen-lockedsig-cache: catch os.link error
-> V2
-> >
-> > If your sstate-cache directory is on a different filesystem from the
-> > one your build is on, gen-lockedsig-cache fails which causes the esdk
-> > creation to fail. This catches the hard link failure and does a copy in
-> > those cases.
-> >
-> > This is a V2 because I took a copy/paste shortcut when I sent in the
-> > last one and that went as well as I should have expected. This one is
-> > sent from the machine it was tested on... My bad :(.
->
-> Do not make the "V2" part of the subject, make it part of the PATCH
-> prefix, e.g.:
->
->   [PATCH v2 0/1] gen-lockedsig-cache: catch os.link error
->
-> Otherwise it will become part of the commit message where it does not
-> make any sense (since there obviously is no V1 committed...)
->
-> > -brian
->
-> //Peter
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+> Can it be removed?
 
---94eb2c1bad32f05b61054b18cab7
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Yes.
 
-<div dir=3D"ltr">Thanks!<div>resubmitted as [PATCH V3 x/y] .</div><div>-b</=
-div><div>an intel employee</div></div><div class=3D"gmail_extra"><br><div c=
-lass=3D"gmail_quote">On Fri, Mar 17, 2017 at 2:32 PM, Peter Kjellerstedt <s=
-pan dir=3D"ltr">&lt;<a href=3D"mailto:peter.kjellerstedt@axis.com" target=
-=3D"_blank">peter.kjellerstedt@axis.com</a>&gt;</span> wrote:<br><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
-id;padding-left:1ex"><span class=3D"">&gt; -----Original Message-----<br>
-&gt; From: <a href=3D"mailto:openembedded-core-bounces@lists.openembedded.o=
-rg">openembedded-core-bounces@<wbr>lists.openembedded.org</a><br>
-&gt; [mailto:<a href=3D"mailto:openembedded-core-bounces@lists.openembedded=
-.org">openembedded-core-<wbr>bounces@lists.openembedded.org</a><wbr>] On Be=
-half Of<br>
-&gt; brian avery<br>
-&gt; Sent: den 17 mars 2017 13:50<br>
-&gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org">openem=
-bedded-core@lists.<wbr>openembedded.org</a><br>
-&gt; Subject: [OE-core] [PATCH 0/1] gen-lockedsig-cache: catch os.link erro=
-r V2<br>
-&gt;<br>
-&gt; If your sstate-cache directory is on a different filesystem from the<b=
-r>
-&gt; one your build is on, gen-lockedsig-cache fails which causes the esdk<=
-br>
-&gt; creation to fail. This catches the hard link failure and does a copy i=
-n<br>
-&gt; those cases.<br>
-&gt;<br>
-&gt; This is a V2 because I took a copy/paste shortcut when I sent in the<b=
-r>
-&gt; last one and that went as well as I should have expected. This one is<=
-br>
-&gt; sent from the machine it was tested on... My bad :(.<br>
-<br>
-</span>Do not make the &quot;V2&quot; part of the subject, make it part of =
-the PATCH<br>
-prefix, e.g.:<br>
-<br>
-=C2=A0 [PATCH v2 0/1] gen-lockedsig-cache: catch os.link error<br>
-<br>
-Otherwise it will become part of the commit message where it does not<br>
-make any sense (since there obviously is no V1 committed...)<br>
-<br>
-&gt; -brian<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
-//Peter<br>
-</font></span><div class=3D"HOEnZb"><div class=3D"h5"><br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</div></div></blockquote></div><br></div>
-
---94eb2c1bad32f05b61054b18cab7--
