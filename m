@@ -1,47 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A982779DC
+	by mail.openembedded.org (Postfix) with ESMTP id 23234779E0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 16:47:41 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id b5so20939053pgg.1
+	Mon, 20 Mar 2017 16:47:43 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id b5so20939263pgg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 09:47:43 -0700 (PDT)
+	Mon, 20 Mar 2017 09:47:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=xODqT3ih+2vyp2B11XSOUzR5hLj5cUtsUv5e+iH1EbY=;
-	b=q5P5swXrcUMQO8LxdgnOxlB/EaLYuGFPkiGU4HCdYxpW1CrGe4D3mtz4jrMl8+MHeK
-	jbZyOl5UtgnfNGfG4gYlQzDGNX/UjhmakatA8/bV9jAJlmlh/bD5qb8C2BiRn45prZqk
-	aDFZwfUDgWo9miQOVeVLusxEXYzWUSZ2FyIQbzIX5bIYYRLe64Bi9A0nstc3opitI3qj
-	rQgo7YXieHIiA+uviGwMTVl2FGYV8wHuxpbhkMYJ4f4CM8ItYoyysq4hHPZ/GIcU02oR
-	7H2TJnEMmLl5FRjRq7VMY4xXb2gyKb6Rlp9Hosjoq0P6NYE2/gqOCP5p3WmD4pVImIu4
-	TElw==
+	bh=Y7sUbiccK9gtm7BqvQ+6wDfxqGXg6s9K+bQDfwNpMQg=;
+	b=TKECPvBm+sTgcaQ85z0UgLk39Oi6MrUESoPNfsTzk554KtO4oZELsqFDy70wIcVU0R
+	NqiM9LF/ZzAvQ9X5LwEH9QmeiLokcZhFQhQNvI8RXMoDvXrkee2Nl6/lKJ+Hp4BjatwK
+	vWD9mw7ihGZob8hzH9lCZxGiiAEdyAD1sfapxElWFDBlkWGytmlc1wC7MuZq2lmwvsNr
+	lAcXcdCTuVMi3jGO/PLIwt172NOFLyaw061BooDNC5ujN7mCmJNzZ8aZ8LYRjWaOKrDf
+	9Xgb8a2IIamSa45KkIf7l9mRhpOD+ji1pWWYaDcB2iTzwH6cL65BqEd63UaqFYZTE4VG
+	Mr4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=xODqT3ih+2vyp2B11XSOUzR5hLj5cUtsUv5e+iH1EbY=;
-	b=Zaz1cWp7YG6FZxlMzSHtH9BqYDtB9N8P3kjnTafG3MCkgp8Z3c11hn3RrRgIrD/cZR
-	vjsCxxsYCQVal5+WgDvVqelkrBdNnrK5H3crkfDSAJfre8frlHs+u1ZeH2tkcOAZNGEu
-	5xPPTByq36oCtO+XHtzzf0DFRShFqsyokPFyKbLFMVd1pNlt0PPo8oX650RJbLHMMi+3
-	gBQy2svkAln9gg1mJdAM0bp3MwByenRHLikvVTNVgpCg1w/jfp4zWactxb2SgOuSKmp2
-	K7WVP+2ij04Lt6YI89FJu5LzBJWFd/SayK1E8JSYEaTwzdSdq+f1hfJyBpx7avXgRs+Y
-	IKyA==
-X-Gm-Message-State: AFeK/H2ROJLOQpPGbHoeKGFtc21ltAbGhi/Kad91759r3KFqdgGf73OsAcZ+nTdMVcRISQ==
-X-Received: by 10.84.204.8 with SMTP id a8mr11585949ple.4.1490028463132;
-	Mon, 20 Mar 2017 09:47:43 -0700 (PDT)
+	bh=Y7sUbiccK9gtm7BqvQ+6wDfxqGXg6s9K+bQDfwNpMQg=;
+	b=iOCXBKU57PDCyReuzhoD9nqzhFzxhXRLIm7mE52/jMFPMUz2lsn3GmJTy585zTyJy3
+	4deK/AcTowodiKztRg4jz4UTutjNBYkbZV5sMmZU01ULyaJGLzSmyRKIQHVUd4lTQnCu
+	ofjwBggCv2fmVW99RMJ/hjooVkRF2xTnlP57R20NMUp9oP7wzfOE7UxXoExkMLwTvAvp
+	J6NvaTev0DYw0ik8UMgJ/h+iKlnSWLq1kZ8GHrprT5Lu/yuxGgzEY8je6/m3qLlgYPKZ
+	8ThcBMpbLMd2IPowu8V07ccaKs5y2vjguK2HP5OdxcIvW87rMdyt2EDxTXVNP1Vr7XSN
+	L+EQ==
+X-Gm-Message-State: AFeK/H1Tp+xLsg5AkgrFuTsOgWOeyE26VXST9w3wNP9/YUnw+kQpsxvRj1RESpIhJFDeVA==
+X-Received: by 10.84.194.195 with SMTP id h61mr19159069pld.56.1490028464740;
+	Mon, 20 Mar 2017 09:47:44 -0700 (PDT)
 Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	k2sm34536513pga.29.2017.03.20.09.47.41
+	k2sm34536513pga.29.2017.03.20.09.47.43
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 Mar 2017 09:47:42 -0700 (PDT)
+	Mon, 20 Mar 2017 09:47:43 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Mar 2017 09:47:32 -0700
-Message-Id: <8cb58fb8ef823e066545ed53af376b872fd0073d.1490028304.git.raj.khem@gmail.com>
+Date: Mon, 20 Mar 2017 09:47:33 -0700
+Message-Id: <4fc23dd9c0d1dc198d2dec0a8277e2b96f014c32.1490028304.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.12.0
 In-Reply-To: <cover.1490028304.git.raj.khem@gmail.com>
 References: <cover.1490028304.git.raj.khem@gmail.com>
-Subject: [PATCH 1/4] ltp: Fix __sighandler_t for mips
+Subject: [PATCH 2/4] openssl: Fix build with clang
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,74 +54,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Mar 2017 16:47:42 -0000
-
-mips definition of kernel_sigaction was added later
-and the patch did not apply to mips part which ended
-in ltp failing to compile on mips parts
-
-In file included from rt_sigaction01.c:42:0:
-../../../../include/lapi/rt_sigaction.h:39:2: error: unknown type name '__sighandler_t'
-  __sighandler_t k_sa_handler;
-  ^~~~~~~~~~~~~~
+X-List-Received-Date: Mon, 20 Mar 2017 16:47:43 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...n.h-Use-sighandler_t-instead-of-__sighand.patch | 31 ++++++++++++----------
- 1 file changed, 17 insertions(+), 14 deletions(-)
+ ...build-with-clang-using-external-assembler.patch | 49 ++++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.2k.bb |  5 ++-
+ 2 files changed, 52 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Fix-build-with-clang-using-external-assembler.patch
 
-diff --git a/meta/recipes-extended/ltp/ltp/0028-rt_sigaction.h-Use-sighandler_t-instead-of-__sighand.patch b/meta/recipes-extended/ltp/ltp/0028-rt_sigaction.h-Use-sighandler_t-instead-of-__sighand.patch
-index fc82ff9239..b26aa133e9 100644
---- a/meta/recipes-extended/ltp/ltp/0028-rt_sigaction.h-Use-sighandler_t-instead-of-__sighand.patch
-+++ b/meta/recipes-extended/ltp/ltp/0028-rt_sigaction.h-Use-sighandler_t-instead-of-__sighand.patch
-@@ -13,23 +13,29 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  testcases/kernel/syscalls/rt_sigsuspend/Makefile | 3 +++
-  2 files changed, 4 insertions(+), 1 deletion(-)
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-with-clang-using-external-assembler.patch b/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-with-clang-using-external-assembler.patch
+new file mode 100644
+index 0000000000..47b83a5896
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-with-clang-using-external-assembler.patch
+@@ -0,0 +1,49 @@
++From 2f6026cb8b16cf00726e3c5625c023f196680f07 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Fri, 17 Mar 2017 12:52:08 -0700
++Subject: [PATCH] Fix build with clang using external assembler
++
++Cherry-picked from
++https://github.com/openssl/openssl/commit/11208dcfb9105e8afa37233185decefd45e89e17
++https://github.com/openssl/openssl/commit/fbab8baddef8d3346ae40ff068871e2ddaf10270
++https://github.com/openssl/openssl/commit/6cf412c473d8145562b76219ce3da73b201b3255
++
++Fixes
++
++| ghash-armv4.S: Assembler messages:
++| ghash-armv4.S:81: Error: bad instruction `ldrbpl r12,[r2,r3]'
++| ghash-armv4.S:91: Error: bad instruction `ldrbpl r8,[r0,r3]'
++| ghash-armv4.S:137: Error: bad instruction `ldrbne r12,[r2,#15]'
++| ghash-armv4.S:224: Error: bad instruction `ldrbpl r12,[r0,r3]'
++| clang-4.0: error: assembler command failed with exit code 1 (use -v to see invocation)
++| make[2]: *** [<builtin>: ghash-armv4.o] Error 1
++
++Upstream-Status: Backport
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ crypto/modes/asm/ghash-armv4.pl | 7 +++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/crypto/modes/asm/ghash-armv4.pl b/crypto/modes/asm/ghash-armv4.pl
++index 8ccc963ef..442fed4da 100644
++--- a/crypto/modes/asm/ghash-armv4.pl
+++++ b/crypto/modes/asm/ghash-armv4.pl
++@@ -124,7 +124,14 @@ $code=<<___;
++ #include "arm_arch.h"
++ 
++ .text
+++#if defined(__thumb2__) || defined(__clang__)
+++.syntax	unified
+++#endif
+++#if defined(__thumb2__)
+++.thumb
+++#else
++ .code	32
+++#endif
++ 
++ #ifdef __clang__
++ #define ldrplb	ldrbpl
++-- 
++2.12.0
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
+index 922819b3d5..1c1041428c 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2k.bb
+@@ -37,12 +37,13 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
+             file://Makefiles-ptest.patch \
+             file://ptest-deps.patch \
+             file://openssl-1.0.2a-x32-asm.patch \
+-            file://ptest_makefile_deps.patch  \
++            file://ptest_makefile_deps.patch \
+             file://configure-musl-target.patch \
+             file://parallel.patch \
+             file://openssl-util-perlpath.pl-cwd.patch \
+             file://Use-SHA256-not-MD5-as-default-digest.patch \
+-           "
++            file://0001-Fix-build-with-clang-using-external-assembler.patch \
++            "
+ SRC_URI[md5sum] = "f965fc0bf01bf882b31314b61391ae65"
+ SRC_URI[sha256sum] = "6b3977c61f2aedf0f96367dcfb5c6e578cf37e7b8d913b4ecb6643c3cb88d8c0"
  
--diff --git a/include/lapi/rt_sigaction.h b/include/lapi/rt_sigaction.h
--index 3a5a763..870918c 100644
----- a/include/lapi/rt_sigaction.h
--+++ b/include/lapi/rt_sigaction.h
--@@ -34,7 +34,7 @@
-- #define INVAL_SA_PTR ((void *)-1)
-- 
-+Index: git/include/lapi/rt_sigaction.h
-+===================================================================
-+--- git.orig/include/lapi/rt_sigaction.h
-++++ git/include/lapi/rt_sigaction.h
-+@@ -36,12 +36,12 @@
-+ #if defined(__mips__)
-+ struct kernel_sigaction {
-+ 	unsigned int sa_flags;
-+-	__sighandler_t k_sa_handler;
-++	sighandler_t k_sa_handler;
-+ 	sigset_t sa_mask;
-+ };
-+ #else
-  struct kernel_sigaction {
- -	__sighandler_t k_sa_handler;
- +	sighandler_t k_sa_handler;
-  	unsigned long sa_flags;
-  	void (*sa_restorer) (void);
-  	sigset_t sa_mask;
--diff --git a/testcases/kernel/syscalls/rt_sigsuspend/Makefile b/testcases/kernel/syscalls/rt_sigsuspend/Makefile
--index 37bc3a9..2ca7f7c 100644
----- a/testcases/kernel/syscalls/rt_sigsuspend/Makefile
--+++ b/testcases/kernel/syscalls/rt_sigsuspend/Makefile
-+Index: git/testcases/kernel/syscalls/rt_sigsuspend/Makefile
-+===================================================================
-+--- git.orig/testcases/kernel/syscalls/rt_sigsuspend/Makefile
-++++ git/testcases/kernel/syscalls/rt_sigsuspend/Makefile
- @@ -19,4 +19,7 @@
-  top_srcdir		?= ../../../..
-  
-@@ -38,6 +44,3 @@ index 37bc3a9..2ca7f7c 100644
- +CFLAGS	+= -D_GNU_SOURCE
- +
-  include $(top_srcdir)/include/mk/generic_leaf_target.mk
---- 
--2.7.0
--
 -- 
 2.12.0
 
