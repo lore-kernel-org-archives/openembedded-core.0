@@ -1,45 +1,53 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 1131D77941
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
+	[209.85.214.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 6061177957
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 12:20:35 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id n11so62782193wma.0
+	Mon, 20 Mar 2017 12:21:48 +0000 (UTC)
+Received: by mail-it0-f50.google.com with SMTP id g138so92780551itb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 05:20:37 -0700 (PDT)
+	Mon, 20 Mar 2017 05:21:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=Ic/aF7mJ+Skq4EvgJkNrLwjdxCVILBYePTjR1qPig68=;
-	b=a8Cxp7TRu/T+NQs3RPuKslFlwWFCgUNgM6avWoKuHR4+wMzxXkdlFU0lxPJjI+ZoWA
-	NDxoIhCgmO6SLPvP3/IxDIfeqzJPCONUU6vt8U0YlpWioIrMRl0sSy8INWJAbugX3/Jz
-	oTSs5MyfayV+FNG/VXPw3eSatQD29g1mQnu/AOrcSfbJMV291YBq2fnOzwp6UhWQ93lC
-	UubHSj7nqFO9Nl+A0Z+9o0eHtrooZm81HZKj1LEodVtfvQMhGvomE1nNnPu4egj2ZX5P
-	bUN/KsjiSsIvJwZ3yyoggZJlwOKvCzw1tL3icw9azFz3gaKkFstmhH+WjJ/tn+LO0dzc
-	Jzuw==
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=+IOrkbqpl7K3Qr0ufZ4ggmevLo4huPwC5LD4eBOCHA4=;
+	b=wTFnILhqha5SZyssLx3gcKKsFaSJxFOUGMIoD1ol7IUqBn5w6E/pKlHOp+FkhCHKOY
+	YRZM1MjhQQ5w3j5kCqg66aZSjuXSXy/68Tq65oc9MgAHOkxWtR2vPSmzUwHtuvjVY82Z
+	fj+YM9UJwypNtYDSUmqj94vY/8fg2+Ji2x7xQyLEvqVCZgiiYb1wdj6aJbdh5MSimieP
+	Zc/gmn1H1RjlECwkaf4Si01MVObHxuAWhd7aGXEmRPspiyoFde3LETxd5sBv738aOU9l
+	spjAKPJYraFmyXUPWzNyS2zCiOyi3M9WRCDyaXmfHtTJJZr53/Ci45buOB0nl9B0Bt5P
+	TSMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Ic/aF7mJ+Skq4EvgJkNrLwjdxCVILBYePTjR1qPig68=;
-	b=HB28U+DVInSmD5hbKUaGeeSVdo0mwNOFQPUJfTp3li3ma32Ip5m6kMpcqeFWmmhmai
-	0x0swAWkxIrOwakiAAO0JmQrJUmsoa78zDP6Xpoa149cvRowqyvEke0UbEWtMCZhXKwv
-	RIN2lmSpWFegEhq0EB5OoKW2MnqcRkaaKxBXekOHpCeIS2Yi6sS5WhHd6G0oQ06E5n8t
-	a2LtjaQBVJIiolba5zU/DBM7zJ8otmezsNMdS1No17KoKZKDM7hVk+7RCP4y7FIjbXAj
-	XR41LzuQRb19kcNKdl7NjNgFulYr/osHBbkPEshcr7gtH8spUWfShvY8SaRB6STMNBDr
-	0iPA==
-X-Gm-Message-State: AFeK/H1m/mlK9UPZwON10E18dbsWNcNs01mJR+4DKn4C+7IpVE3IJX6txt+SNYP2+vrlQhiW
-X-Received: by 10.28.154.7 with SMTP id c7mr10489094wme.119.1490012436538;
-	Mon, 20 Mar 2017 05:20:36 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=+IOrkbqpl7K3Qr0ufZ4ggmevLo4huPwC5LD4eBOCHA4=;
+	b=or9xmNeTsXoPHM7S1llYKWEG/ttNMZv4RhnRpMw5owUyDbBfDx75P2R+GbX0/OQDbE
+	Y9ewR6oT1LtdZX4Q683B+P81/oLktZH8fboQjWSJ54SAhep807zobTJUxFJhpEBm3wgM
+	g85TxtVNubsnDdIk/LS3IE/cpSssb1TMw/4s8sjenO7UaCmPs57+R2Gn1bgy+mPDCH9j
+	TA6wsgd3VQqoIYLhhluEFO8bWH3ChFFghEZk1YnE3DAV9lDFrukT5ij0yjUi1gypdHkY
+	6zFFk4ns9PNkptMYMNXFRmd512AMdIeDpp8jffYs9j+pGvYCqP6QVKDUZdqr26rWSlc0
+	OS+w==
+X-Gm-Message-State: AFeK/H28GYItH2DO7hn64/OWbJYWMEYcylD1jleYwT8/MJPd27IaO1oTK33U3pSXCbbc5yTh
+X-Received: by 10.107.46.136 with SMTP id u8mr12535152iou.85.1490012510170;
+	Mon, 20 Mar 2017 05:21:50 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8C233.dip0.t-ipconnect.de. [93.232.194.51])
 	by smtp.gmail.com with ESMTPSA id
-	m80sm13246323wmi.34.2017.03.20.05.20.35
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 20 Mar 2017 05:20:35 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Mar 2017 12:20:30 +0000
-Message-Id: <1490012430-748-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] binutils: disable gold on mingw
+	x100sm5133312ita.12.2017.03.20.05.21.48
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 20 Mar 2017 05:21:49 -0700 (PDT)
+Message-ID: <1490012507.6396.173.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Gary Thomas <gary@mlbassoc.com>
+Date: Mon, 20 Mar 2017 13:21:47 +0100
+In-Reply-To: <597a60bd-e1a7-c832-3f95-13464ca8ebd2@mlbassoc.com>
+References: <597a60bd-e1a7-c832-3f95-13464ca8ebd2@mlbassoc.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Error after updating Poky
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,35 +60,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Mar 2017 12:20:36 -0000
+X-List-Received-Date: Mon, 20 Mar 2017 12:21:49 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-oe-core 759eed (binutils: Enable threading when gold is enabled and is not
-default linker) causes linking in mingw SDKs to fail:
+On Mon, 2017-03-20 at 13:12 +0100, Gary Thomas wrote:
+> I just updated to the latest Poky master (7e0985bab68547) which
+> replaced rpm-5.4 with rpm-4.13.90 (git).  My builds in an existing
+> tree now fail:
+> 
+> | 
+> /build/p7619_2016-02-23/tmp/work/cortexa7hf-neon-amltd-linux-gnueabi/libsolv/0.6.26-r0/recipe-sysroot-native/usr/lib/librpmdb.so: 
+> file not recognized: File format not recognized
+> | collect2: error: ld returned 1 exit status
+> | ext/CMakeFiles/libsolvext.dir/build.make:285: recipe for target 'ext/libsolvext.so.0' failed
+> | make[2]: *** [ext/libsolvext.so.0] Error 1
+> | make[2]: Leaving directory '/build/p7619_2016-02-23/tmp/work/cortexa7hf-neon-amltd-linux-gnueabi/libsolv/0.6.26-r0/build'
+> | CMakeFiles/Makefile2:207: recipe for target 'ext/CMakeFiles/libsolvext.dir/all' failed
+> | make[1]: *** [ext/CMakeFiles/libsolvext.dir/all] Error 2
+> | make[1]: Leaving directory '/build/p7619_2016-02-23/tmp/work/cortexa7hf-neon-amltd-linux-gnueabi/libsolv/0.6.26-r0/build'
+> | Makefile:163: recipe for target 'all' failed
+> | make: *** [all] Error 2
+> | ERROR: Function failed: do_compile (log file is located at 
+> /build/p7619_2016-02-23/tmp/work/cortexa7hf-neon-amltd-linux-gnueabi/libsolv/0.6.26-r0/temp/log.do_compile.8183)
+> ERROR: Task (/local/poky-cutting-edge/meta/recipes-extended/libsolv/libsolv_0.6.26.bb:do_compile) failed with exit code '1'
+> 
+> Looking at this file shows it's a stale symlink:
+> $ file 
+> /build/p7619_2016-02-23/tmp/work/cortexa7hf-neon-amltd-linux-gnueabi/libsolv/0.6.26-r0/recipe-sysroot-native/usr/lib/librpmdb.so
+> /build/p7619_2016-02-23/tmp/work/cortexa7hf-neon-amltd-linux-gnueabi/libsolv/0.6.26-r0/recipe-sysroot-native/usr/lib/librpmdb.so: 
+> symbolic link to librpmdb-5.4.so
+> $ file `readlink 
+> /build/p7619_2016-02-23/tmp/work/cortexa7hf-neon-amltd-linux-gnueabi/libsolv/0.6.26-r0/recipe-sysroot-native/usr/lib/librpmdb.so`
+> librpmdb-5.4.so: cannot open `librpmdb-5.4.so' (No such file or directory)
+> 
+> Any ideas how to fix this?
 
-.../work/i686-nativesdk-mingw32-pokysdk-mingw32/binutils-cross-canadian-x86-64/2.28-r0
-/recipe-sysroot-native/usr/bin/i686-pokysdk-mingw32/../../libexec/i686-pokysdk-mingw32/gcc/i686-pokysdk-mingw32/6.3.0/ld:
-cannot find -lpthread
+The code maintaining the recipe specific sysroots does not always keep
+the sysroots in sync with what they should contain, primarily because it
+is limited to updating them instead of (at least sometimes) starting
+from scratch.
 
-Work around this by disabling gold entirely in mingw SDKs.
+Probably a "bitbake -c clean libsolv && bitbake libsolv" will help in
+your case. If it doesn't, try "rm -rf tmp" next (might be faster and
+easier too, if more recipes are affected).
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/binutils/binutils.inc | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-index 37813dd..7efe13f 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -78,6 +78,7 @@ EXTRA_OECONF = "--program-prefix=${TARGET_PREFIX} \
- 
- LDGOLD_class-native = ""
- LDGOLD_class-crosssdk = ""
-+LDGOLD_sdkmingw32 = ""
- LDGOLD ?= "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default --enable-threads', '--enable-gold --enable-ld=default --enable-threads', d)}"
- 
- # This is necessary due to a bug in the binutils Makefiles
 -- 
-2.8.1
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
