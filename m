@@ -1,46 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
-	[209.85.220.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 34EDC7797E
+Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 51E0D77968
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 14:07:39 +0000 (UTC)
-Received: by mail-qk0-f178.google.com with SMTP id 1so110686122qkl.3
+	Mon, 20 Mar 2017 14:09:18 +0000 (UTC)
+Received: by mail-qt0-f177.google.com with SMTP id i34so107658011qtc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 07:07:41 -0700 (PDT)
+	Mon, 20 Mar 2017 07:09:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=71yTXgKajMzuE0m59Ircjn1aIWoFIoi6VgC6J/luPgU=;
-	b=J6PeUxB14DUAn2PDnbbvL+CKtgf+HQkdSHDM60JEDc9ebBI3ixginvgdHLGKafEaWs
-	BuBCCDdMuXnurAMro+JRkmMzdlsQ6rg/OlMypCq5Z68QGNSOKNZBTPo201LvFpJZ7HwC
-	1vw5jYIuNoGG1wsK0mb6wQcYGUDvc1922cX4Erhu8+PYPx1MPHtPgIPvzsrPig0Pl5JR
-	buUhZKIYJVOo8t5iSIl59GCBnzN6RDo4gurVdWdQH12/zLzNiCC/sW7XhZBoABwpkQ04
-	3i1FSTHiDxTPmrt2mKRrhwczWZDbRXzswbvz7bQQ1oZOnMyVi3jjJWlHv8gMXsSGsToT
-	pLjA==
+	:cc; bh=9BOrGenEKu7TDxz/niCktLpAeVqG/iOZfrt0DgA/DlU=;
+	b=GL2ySPHUJLdMLCQs2G+GIDqjJf6pL/Aa2OcGm98nuQbniF+D5v3eRUgIcsxmU54yuE
+	pTGHXAY89tS+8ReJ55QUCD84lNupEfp4oCxoryFgJqRCuBwtwxpFrituDjeEtNCFoih1
+	BYmU5CUBcpxtbNt54uTXtPXcTypGXtQwRuzXrV28SbjJGDhu5CVwEV2g7sP/K7Iid4tI
+	6RQXXk2Fzcz2rY+/n5zvkFE1pSCnQQoDmw+m56kpuuR2sqBfGhzYe+tgoBLpA0QQGYsy
+	O0o2bA3DXzkRGwhsaVh2YZt3gCTz5eIN54TREmHehOGzfhRFeKldofBL9y1XQ+5a9SpA
+	aN1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=71yTXgKajMzuE0m59Ircjn1aIWoFIoi6VgC6J/luPgU=;
-	b=uF/wQ+0brYA+Upywj3zpwj2VonHZfxj1dIxejP6URHEvg/gPxB51n+yrMWMl02Pv4U
-	2l2X+93a9XgFTZWpXGa0AmTf8fY1p7gdPnNDxHpraNeUgjPWsJS3AXTXYB60DHREc0+6
-	TBONU21eDJvLeaE6j8YVCLwXERo0pIxRbylL0nyFDb5pq+Hg0gBkozc3ykquE6oR2vG+
-	n6+km/t3Qo4iMM48iTEGdI8tFB3f1VvN6qJflqoWy4chbVL4AmWaG6vwCwlHDsYNM/8Z
-	vP4NCmH9WaeD94ILquBKkIc0+PiZIEMSZq/3mW0fMhs9DBDjwtwd83QKSQWQTezjDSQ2
-	LvkQ==
-X-Gm-Message-State: AFeK/H2PWsTe2D/OLg9ULeSzOvQlM/3y3ASuZgT6CbXEb3gDIyxI8t8oyOB72v8LSMNMDounOtgXwdOtnh37WHAH
-X-Received: by 10.55.192.145 with SMTP id v17mr27680527qkv.3.1490018861047;
-	Mon, 20 Mar 2017 07:07:41 -0700 (PDT)
+	bh=9BOrGenEKu7TDxz/niCktLpAeVqG/iOZfrt0DgA/DlU=;
+	b=jeEdDO6Je+XP6+iG4c63ROaRcVa+SopAdn6kW37Rwd1o1YUePM88AV8G0BHxqRuLQf
+	xJo0F0dFlnQznJCNSRWXQz+WbW0AnO375bUcg7Px2YUzcqBCUPjVwHO66y3qo/h98pvL
+	uGyEQF2+DdxGZIx+SM2tj7ymBhh5M6yBM+sR8/uV3uXp005PK22d/mc/s9our/Cq1/gF
+	4uNa+uSrCbV3x27RHyj9mlczZyuc/CB6LZLEjpc/amRsAVpFj88zoYbfgXq/gTRr3Abp
+	F71JAssKxhw+rmwaXYgzKrL4TJ6I3u4sB78uhDZZHldPOaSmvGRhWQ9xtLzD4y0PkxE9
+	1nZg==
+X-Gm-Message-State: AFeK/H0L7KDJH+1TAkn+axSm/knQUXa2NWDf5wJaXJYzVcPRUN75AG26pwsZusAw/7mULONtOb1ygBILJg/JYLcz
+X-Received: by 10.200.2.150 with SMTP id p22mr28747495qtg.197.1490018959172;
+	Mon, 20 Mar 2017 07:09:19 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Mon, 20 Mar 2017 07:07:20 -0700 (PDT)
-In-Reply-To: <b89d6532-f5d0-5ac2-f706-7dc8cf4fe578@advancedtelematic.com>
-References: <b89d6532-f5d0-5ac2-f706-7dc8cf4fe578@advancedtelematic.com>
+Received: by 10.140.22.166 with HTTP; Mon, 20 Mar 2017 07:08:58 -0700 (PDT)
+In-Reply-To: <20170320140612.GX15664@denix.org>
+References: <1489793040-52384-1-git-send-email-denis@denix.org>
+	<20170320140612.GX15664@denix.org>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 20 Mar 2017 14:07:20 +0000
-Message-ID: <CAJTo0LZauhWh2VGro526VZTThWUBtkxUXKSCiXvYOAghomTByA@mail.gmail.com>
-To: Anton Gerasimov <anton@advancedtelematic.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Status of usrmerge merger
+Date: Mon, 20 Mar 2017 14:08:58 +0000
+Message-ID: <CAJTo0LZwQERtMJFG4pYfkVjCBo31VD0TXPTvBM7AKudEjjOjfQ@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Denys Dmytriyenko <denys@ti.com>, Christos Zoulas <christos@zoulas.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [morty][PATCH] file: update SRCREV for 5.28 to fix fetch fail on missing commit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,51 +55,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Mar 2017 14:07:40 -0000
-Content-Type: multipart/alternative; boundary=001a1149a1c2ec17c9054b2a0c7f
+X-List-Received-Date: Mon, 20 Mar 2017 14:09:18 -0000
+Content-Type: multipart/alternative; boundary=f4030435c234c55e4f054b2a12d9
 
---001a1149a1c2ec17c9054b2a0c7f
+--f4030435c234c55e4f054b2a12d9
 Content-Type: text/plain; charset=UTF-8
 
-On 18 March 2017 at 22:25, Anton Gerasimov <anton@advancedtelematic.com>
-wrote:
+On 20 March 2017 at 14:06, Denys Dmytriyenko <denis@denix.org> wrote:
 
-> what is the current status of the usrmerge patch [1]? It was submitted
-> quite a long time ago and I can't find any discussion about it. If there
-> is something I can do to help with testing/tweaking to get it merged
-> please let me know.
+> This is getting quickly escalated by my teams and customers. Can we merge
+> this
+> to morty right away? Thanks!
 >
 
-The bulk of the patches have been merged now, the only outstanding ones are
-the actual changes to bitbake.conf to add a distro feature.
-
-I'm not massively keen on how it's been implemented but right now don't
-have a better solution.  Either way, with 2.3 (releasing next month) you
-can trivially setup usrmerge by just fidding the paths in your distro.
+Morty and Krogoth have been patched now.
 
 Ross
 
---001a1149a1c2ec17c9054b2a0c7f
+--f4030435c234c55e4f054b2a12d9
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 March 2017 at 22:25, Anton Gerasimov <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:anton@advancedtelematic.com" target=3D"_blank">anton@advancedtelema=
-tic.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D"=
-:ge" class=3D"a3s aXjCH m15ae38d651ff1934">what is the current status of th=
-e usrmerge patch [1]? It was submitted<br>
-quite a long time ago and I can&#39;t find any discussion about it. If ther=
-e<br>
-is something I can do to help with testing/tweaking to get it merged<br>
-please let me know.<br></div></blockquote></div><br>The bulk of the patches=
- have been merged now, the only outstanding ones are the actual changes to =
-bitbake.conf to add a distro feature.</div><div class=3D"gmail_extra"><br><=
-/div><div class=3D"gmail_extra">I&#39;m not massively keen on how it&#39;s =
-been implemented but right now don&#39;t have a better solution.=C2=A0 Eith=
-er way, with 2.3 (releasing next month) you can trivially setup usrmerge by=
- just fidding the paths in your distro.</div><div class=3D"gmail_extra"><br=
-></div><div class=3D"gmail_extra">Ross</div></div>
+On 20 March 2017 at 14:06, Denys Dmytriyenko <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:denis@denix.org" target=3D"_blank">denis@denix.org</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":8z" class=3D"a3s aXj=
+CH m15aec0b66665eeb6">This is getting quickly escalated by my teams and cus=
+tomers. Can we merge this<br>
+to morty right away? Thanks!<br></div></blockquote></div><br></div><div cla=
+ss=3D"gmail_extra">Morty and Krogoth have been patched now.</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a1149a1c2ec17c9054b2a0c7f--
+--f4030435c234c55e4f054b2a12d9--
