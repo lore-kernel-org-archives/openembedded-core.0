@@ -1,20 +1,20 @@
 Return-Path: <d.schultz@phytec.de>
-Received: from root.phytec.de (mail.visioncatalog.com [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 899A7719B1
+Received: from root.phytec.de (mail.visioncatalog.de [217.6.246.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BE737795B
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 20 Mar 2017 12:18:53 +0000 (UTC)
 Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id 0F559A00368
+	by root.phytec.de (Postfix) with ESMTP id 5F5AAA0039E
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 20 Mar 2017 13:19:25 +0100 (CET)
 Received: from augenblix.phytec.de ([172.16.0.56])
 	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-	with ESMTP id 2017032013185344-378732 ;
+	with ESMTP id 2017032013185368-378733 ;
 	Mon, 20 Mar 2017 13:18:53 +0100 
 From: Daniel Schultz <d.schultz@phytec.de>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Mar 2017 13:18:52 +0100
-Message-Id: <1490012333-43021-2-git-send-email-d.schultz@phytec.de>
+Date: Mon, 20 Mar 2017 13:18:53 +0100
+Message-Id: <1490012333-43021-3-git-send-email-d.schultz@phytec.de>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1490012333-43021-1-git-send-email-d.schultz@phytec.de>
 References: <1490012333-43021-1-git-send-email-d.schultz@phytec.de>
@@ -24,7 +24,7 @@ X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
 	2016) at 20.03.2017 13:18:53,
 	Serialize complete at 20.03.2017 13:18:53
 X-TNEFEvaluated: 1
-Subject: [PATCH 2/3] wic: partition.py: Add fsck to avoid corrupt EXT file systems
+Subject: [PATCH 3/3] meta: images: Add fsck to avoid corrupt EXT file systems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,23 +46,21 @@ this should add to prevent possible system failures.
 
 Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
 ---
- scripts/lib/wic/partition.py | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/classes/image_types.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 6ef8d7f..8e32afc 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -286,6 +286,9 @@ class Partition():
-             (self.fstype, extra_imagecmd, rootfs, label_str, rootfs_dir)
-         exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index d2eb99d..66c643d 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -74,6 +74,7 @@ oe_mkext234fs () {
+ 	# Create a sparse image block
+ 	dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype seek=$ROOTFS_SIZE count=$COUNT bs=1024
+ 	mkfs.$fstype -F $extra_imagecmd ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype -d ${IMAGE_ROOTFS}
++	fsck.$fstype -fy ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype
+ }
  
-+        mkfs_cmd = "fsck.%s -fy %s" % (self.fstype, rootfs)
-+        exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
-+
-     def prepare_rootfs_btrfs(self, rootfs, oe_builddir, rootfs_dir,
-                              native_sysroot, pseudo):
-         """
+ IMAGE_CMD_ext2 = "oe_mkext234fs ext2 ${EXTRA_IMAGECMD}"
 -- 
 1.9.1
 
