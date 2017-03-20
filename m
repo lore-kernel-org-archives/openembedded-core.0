@@ -1,28 +1,45 @@
-Return-Path: <d.schultz@phytec.de>
-Received: from root.phytec.de (mail.rapiddevelopmentkit.de [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AFDB77957
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 1131D77941
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 12:18:53 +0000 (UTC)
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id CE502A002CD
+	Mon, 20 Mar 2017 12:20:35 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id n11so62782193wma.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 13:19:24 +0100 (CET)
-Received: from augenblix.phytec.de ([172.16.0.56])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-	with ESMTP id 2017032013185341-378731 ;
-	Mon, 20 Mar 2017 13:18:53 +0100 
-From: Daniel Schultz <d.schultz@phytec.de>
+	Mon, 20 Mar 2017 05:20:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=Ic/aF7mJ+Skq4EvgJkNrLwjdxCVILBYePTjR1qPig68=;
+	b=a8Cxp7TRu/T+NQs3RPuKslFlwWFCgUNgM6avWoKuHR4+wMzxXkdlFU0lxPJjI+ZoWA
+	NDxoIhCgmO6SLPvP3/IxDIfeqzJPCONUU6vt8U0YlpWioIrMRl0sSy8INWJAbugX3/Jz
+	oTSs5MyfayV+FNG/VXPw3eSatQD29g1mQnu/AOrcSfbJMV291YBq2fnOzwp6UhWQ93lC
+	UubHSj7nqFO9Nl+A0Z+9o0eHtrooZm81HZKj1LEodVtfvQMhGvomE1nNnPu4egj2ZX5P
+	bUN/KsjiSsIvJwZ3yyoggZJlwOKvCzw1tL3icw9azFz3gaKkFstmhH+WjJ/tn+LO0dzc
+	Jzuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Ic/aF7mJ+Skq4EvgJkNrLwjdxCVILBYePTjR1qPig68=;
+	b=HB28U+DVInSmD5hbKUaGeeSVdo0mwNOFQPUJfTp3li3ma32Ip5m6kMpcqeFWmmhmai
+	0x0swAWkxIrOwakiAAO0JmQrJUmsoa78zDP6Xpoa149cvRowqyvEke0UbEWtMCZhXKwv
+	RIN2lmSpWFegEhq0EB5OoKW2MnqcRkaaKxBXekOHpCeIS2Yi6sS5WhHd6G0oQ06E5n8t
+	a2LtjaQBVJIiolba5zU/DBM7zJ8otmezsNMdS1No17KoKZKDM7hVk+7RCP4y7FIjbXAj
+	XR41LzuQRb19kcNKdl7NjNgFulYr/osHBbkPEshcr7gtH8spUWfShvY8SaRB6STMNBDr
+	0iPA==
+X-Gm-Message-State: AFeK/H1m/mlK9UPZwON10E18dbsWNcNs01mJR+4DKn4C+7IpVE3IJX6txt+SNYP2+vrlQhiW
+X-Received: by 10.28.154.7 with SMTP id c7mr10489094wme.119.1490012436538;
+	Mon, 20 Mar 2017 05:20:36 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	m80sm13246323wmi.34.2017.03.20.05.20.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 20 Mar 2017 05:20:35 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Mar 2017 13:18:51 +0100
-Message-Id: <1490012333-43021-1-git-send-email-d.schultz@phytec.de>
-X-Mailer: git-send-email 1.9.1
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
-	17, 2016) at 20.03.2017 13:18:53,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17,
-	2016) at 20.03.2017 13:18:53,
-	Serialize complete at 20.03.2017 13:18:53
-X-TNEFEvaluated: 1
-Subject: [PATCH 1/3] e2fsprogs: Fix wrong error code after optimization
+Date: Mon, 20 Mar 2017 12:20:30 +0000
+Message-Id: <1490012430-748-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] binutils: disable gold on mingw
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,302 +52,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Mar 2017 12:18:54 -0000
+X-List-Received-Date: Mon, 20 Mar 2017 12:20:36 -0000
 
-fsck.ext will return an error code of 1 if a file systems was checked
-and successfully repaired. Even when an optimization was performed it
-will return this error code.
+oe-core 759eed (binutils: Enable threading when gold is enabled and is not
+default linker) causes linking in mingw SDKs to fail:
 
-This patch will change the error code to 0 if only optimizations had
-changed the file systems.
+.../work/i686-nativesdk-mingw32-pokysdk-mingw32/binutils-cross-canadian-x86-64/2.28-r0
+/recipe-sysroot-native/usr/bin/i686-pokysdk-mingw32/../../libexec/i686-pokysdk-mingw32/gcc/i686-pokysdk-mingw32/6.3.0/ld:
+cannot find -lpthread
 
-The reason for this patch is a question I asked at the ext4 ML:
-http://www.spinics.net/lists/linux-ext4/msg55700.html
+Work around this by disabling gold entirely in mingw SDKs.
 
-Backport from git://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git
-    Based on commit bf9f3b6d5b10d19218b4ed904c12b22e36ec57dd
-
-Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- ...-with-exit-status-0-if-no-errors-were-fix.patch | 255 +++++++++++++++++++++
- .../recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb |   1 +
- 2 files changed, 256 insertions(+)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsck-exit-with-exit-status-0-if-no-errors-were-fix.patch
+ meta/recipes-devtools/binutils/binutils.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsck-exit-with-exit-status-0-if-no-errors-were-fix.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsck-exit-with-exit-status-0-if-no-errors-were-fix.patch
-new file mode 100644
-index 0000000..1d17520
---- /dev/null
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsck-exit-with-exit-status-0-if-no-errors-were-fix.patch
-@@ -0,0 +1,255 @@
-+From bf9f3b6d5b10d19218b4ed904c12b22e36ec57dd Mon Sep 17 00:00:00 2001
-+From: Theodore Ts'o <tytso@mit.edu>
-+Date: Thu, 16 Feb 2017 22:02:35 -0500
-+Subject: [PATCH] e2fsck: exit with exit status 0 if no errors were fixed
-+
-+Previously, e2fsck would exit with a status code of 1 even though the
-+only changes that it made to the file system were various
-+optimziations and not fixing file system corruption.  Since the man
-+page states that an exit status of 1 means "file system errors
-+corrupted", fix e2fsck to return an exit status of 0.
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Theodore Ts'o <tytso@mit.edu>
-+Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
-+---
-+ e2fsck/e2fsck.conf.5.in                     |  7 +++++++
-+ e2fsck/journal.c                            |  1 +
-+ e2fsck/problem.c                            |  8 +++++---
-+ e2fsck/problemP.h                           |  1 +
-+ e2fsck/unix.c                               | 20 ++++++++++++++++----
-+ tests/f_collapse_extent_tree/expect.1       |  2 +-
-+ tests/f_compress_extent_tree_level/expect.1 |  2 +-
-+ tests/f_convert_bmap/expect.1               |  2 +-
-+ tests/f_convert_bmap_and_extent/expect.1    |  2 +-
-+ tests/f_extent_htree/expect.1               |  2 +-
-+ tests/f_jnl_errno/expect.1                  |  2 +-
-+ tests/f_journal/expect.1                    |  2 +-
-+ tests/f_orphan/expect.1                     |  2 +-
-+ tests/f_orphan_extents_inode/expect.1       |  2 +-
-+ tests/f_rehash_dir/expect.1                 |  2 +-
-+ tests/f_unsorted_EAs/expect.1               |  2 +-
-+ 16 files changed, 41 insertions(+), 18 deletions(-)
-+
-+diff --git a/e2fsck/e2fsck.conf.5.in b/e2fsck/e2fsck.conf.5.in
-+index 1848bdb..0bfc76a 100644
-+--- a/e2fsck/e2fsck.conf.5.in
-++++ b/e2fsck/e2fsck.conf.5.in
-+@@ -303,6 +303,13 @@ of 'should this problem be fixed?'.  The
-+ option even overrides the
-+ .B -y
-+ option given on the command-line (just for the specific problem, of course).
-++.TP
-++.I not_a_fix
-++This boolean option, it set to true, marks the problem as
-++one where if the user gives permission to make the requested change,
-++it does not mean that the file system had a problem which has since
-++been fixed.  This is used for requests to optimize the file system's
-++data structure, such as pruning an extent tree.
-+ @TDB_MAN_COMMENT@.SH THE [scratch_files] STANZA
-+ @TDB_MAN_COMMENT@The following relations are defined in the
-+ @TDB_MAN_COMMENT@.I [scratch_files]
-+diff --git a/e2fsck/journal.c b/e2fsck/journal.c
-+index 46fe7b4..c4f58f1 100644
-+--- a/e2fsck/journal.c
-++++ b/e2fsck/journal.c
-+@@ -572,6 +572,7 @@ static void clear_v2_journal_fields(journal_t *journal)
-+ 	if (!fix_problem(ctx, PR_0_CLEAR_V2_JOURNAL, &pctx))
-+ 		return;
-+ 
-++	ctx->flags |= E2F_FLAG_PROBLEMS_FIXED;
-+ 	memset(((char *) journal->j_superblock) + V1_SB_SIZE, 0,
-+ 	       ctx->fs->blocksize-V1_SB_SIZE);
-+ 	mark_buffer_dirty(journal->j_sb_buffer);
-+diff --git a/e2fsck/problem.c b/e2fsck/problem.c
-+index 34a671e..4b25069 100644
-+--- a/e2fsck/problem.c
-++++ b/e2fsck/problem.c
-+@@ -1276,12 +1276,12 @@ static struct e2fsck_problem problem_table[] = {
-+ 	/* Inode extent tree could be shorter */
-+ 	{ PR_1E_CAN_COLLAPSE_EXTENT_TREE,
-+ 	  N_("@i %i @x tree (at level %b) could be shorter.  "),
-+-	  PROMPT_FIX, PR_NO_OK | PR_PREEN_NO | PR_PREEN_OK },
-++	  PROMPT_FIX, PR_NO_OK | PR_PREEN_NO | PR_PREEN_OK | PR_NOT_A_FIX },
-+ 
-+ 	/* Inode extent tree could be narrower */
-+ 	{ PR_1E_CAN_NARROW_EXTENT_TREE,
-+ 	  N_("@i %i @x tree (at level %b) could be narrower.  "),
-+-	  PROMPT_FIX, PR_NO_OK | PR_PREEN_NO | PR_PREEN_OK },
-++	  PROMPT_FIX, PR_NO_OK | PR_PREEN_NO | PR_PREEN_OK | PR_NOT_A_FIX },
-+ 
-+ 	/* Pass 2 errors */
-+ 
-+@@ -2166,6 +2166,7 @@ int fix_problem(e2fsck_t ctx, problem_t code, struct problem_context *pctx)
-+ 		reconfigure_bool(ctx, ptr, key, PR_NO_NOMSG, "no_nomsg");
-+ 		reconfigure_bool(ctx, ptr, key, PR_PREEN_NOHDR, "preen_noheader");
-+ 		reconfigure_bool(ctx, ptr, key, PR_FORCE_NO, "force_no");
-++		reconfigure_bool(ctx, ptr, key, PR_NOT_A_FIX, "not_a_fix");
-+ 		profile_get_integer(ctx->profile, "options",
-+ 				    "max_count_problems", 0, 0,
-+ 				    &ptr->max_count);
-+@@ -2283,7 +2284,8 @@ int fix_problem(e2fsck_t ctx, problem_t code, struct problem_context *pctx)
-+ 	if (ptr->flags & PR_AFTER_CODE)
-+ 		answer = fix_problem(ctx, ptr->second_code, pctx);
-+ 
-+-	if (answer && (ptr->prompt != PROMPT_NONE))
-++	if (answer && (ptr->prompt != PROMPT_NONE) &&
-++	    !(ptr->flags & PR_NOT_A_FIX))
-+ 		ctx->flags |= E2F_FLAG_PROBLEMS_FIXED;
-+ 
-+ 	return answer;
-+diff --git a/e2fsck/problemP.h b/e2fsck/problemP.h
-+index 7944cd6..63bb8df 100644
-+--- a/e2fsck/problemP.h
-++++ b/e2fsck/problemP.h
-+@@ -44,3 +44,4 @@ struct latch_descr {
-+ #define PR_CONFIG	0x080000 /* This problem has been customized
-+ 				    from the config file */
-+ #define PR_FORCE_NO	0x100000 /* Force the answer to be no */
-++#define PR_NOT_A_FIX	0x200000 /* Yes doesn't mean a problem was fixed */
-+diff --git a/e2fsck/unix.c b/e2fsck/unix.c
-+index eb9f311..9e4d31a 100644
-+--- a/e2fsck/unix.c
-++++ b/e2fsck/unix.c
-+@@ -1901,11 +1901,23 @@ no_journal:
-+ 		fix_problem(ctx, PR_6_IO_FLUSH, &pctx);
-+ 
-+ 	if (was_changed) {
-+-		exit_value |= FSCK_NONDESTRUCT;
-+-		if (!(ctx->options & E2F_OPT_PREEN))
-+-			log_out(ctx, _("\n%s: ***** FILE SYSTEM WAS "
-+-				       "MODIFIED *****\n"),
-++		int fs_fixed = (ctx->flags & E2F_FLAG_PROBLEMS_FIXED);
-++
-++		if (fs_fixed)
-++			exit_value |= FSCK_NONDESTRUCT;
-++		if (!(ctx->options & E2F_OPT_PREEN)) {
-++#if 0	/* Do this later; it breaks too many tests' golden outputs */
-++			log_out(ctx, fs_fixed ?
-++				_("\n%s: ***** FILE SYSTEM ERRORS "
-++				  "CORRECTED *****\n") :
-++				_("%s: File system was modified.\n"),
-+ 				ctx->device_name);
-++#else
-++			log_out(ctx,
-++				_("\n%s: ***** FILE SYSTEM WAS MODIFIED *****\n"),
-++				ctx->device_name);
-++#endif
-++		}
-+ 		if (ctx->mount_flags & EXT2_MF_ISROOT) {
-+ 			log_out(ctx, _("%s: ***** REBOOT SYSTEM *****\n"),
-+ 				ctx->device_name);
-+diff --git a/tests/f_collapse_extent_tree/expect.1 b/tests/f_collapse_extent_tree/expect.1
-+index e2eb65e..8165a58 100644
-+--- a/tests/f_collapse_extent_tree/expect.1
-++++ b/tests/f_collapse_extent_tree/expect.1
-+@@ -13,4 +13,4 @@ Pass 5: Checking group summary information
-+ 
-+ test_filesys: ***** FILE SYSTEM WAS MODIFIED *****
-+ test_filesys: 12/128 files (0.0% non-contiguous), 19/512 blocks
-+-Exit status is 1
-++Exit status is 0
-+diff --git a/tests/f_compress_extent_tree_level/expect.1 b/tests/f_compress_extent_tree_level/expect.1
-+index a359c99..dd33f63 100644
-+--- a/tests/f_compress_extent_tree_level/expect.1
-++++ b/tests/f_compress_extent_tree_level/expect.1
-+@@ -20,4 +20,4 @@ Pass 5: Checking group summary information
-+ 
-+ test_filesys: ***** FILE SYSTEM WAS MODIFIED *****
-+ test_filesys: 12/128 files (8.3% non-contiguous), 26/512 blocks
-+-Exit status is 1
-++Exit status is 0
-+diff --git a/tests/f_convert_bmap/expect.1 b/tests/f_convert_bmap/expect.1
-+index 7d2ca86..c387962 100644
-+--- a/tests/f_convert_bmap/expect.1
-++++ b/tests/f_convert_bmap/expect.1
-+@@ -23,4 +23,4 @@ Pass 5: Checking group summary information
-+ 
-+ test_filesys: ***** FILE SYSTEM WAS MODIFIED *****
-+ test_filesys: 12/128 files (8.3% non-contiguous), 570/2048 blocks
-+-Exit status is 1
-++Exit status is 0
-+diff --git a/tests/f_convert_bmap_and_extent/expect.1 b/tests/f_convert_bmap_and_extent/expect.1
-+index 7af91aa..c86c571 100644
-+--- a/tests/f_convert_bmap_and_extent/expect.1
-++++ b/tests/f_convert_bmap_and_extent/expect.1
-+@@ -30,4 +30,4 @@ Pass 5: Checking group summary information
-+ 
-+ test_filesys: ***** FILE SYSTEM WAS MODIFIED *****
-+ test_filesys: 13/128 files (15.4% non-contiguous), 574/2048 blocks
-+-Exit status is 1
-++Exit status is 0
-+diff --git a/tests/f_extent_htree/expect.1 b/tests/f_extent_htree/expect.1
-+index 223ca69..ea48405 100644
-+--- a/tests/f_extent_htree/expect.1
-++++ b/tests/f_extent_htree/expect.1
-+@@ -26,4 +26,4 @@ test_filesys: ***** FILE SYSTEM WAS MODIFIED *****
-+            0 sockets
-+ ------------
-+          343 files
-+-Exit status is 1
-++Exit status is 0
-+diff --git a/tests/f_jnl_errno/expect.1 b/tests/f_jnl_errno/expect.1
-+index c572951..4134234 100644
-+--- a/tests/f_jnl_errno/expect.1
-++++ b/tests/f_jnl_errno/expect.1
-+@@ -6,4 +6,4 @@ Pass 5: Checking group summary information
-+ 
-+ test_filesys: ***** FILE SYSTEM WAS MODIFIED *****
-+ test_filesys: 11/2048 files (9.1% non-contiguous), 1330/8192 blocks
-+-Exit status is 1
-++Exit status is 0
-+diff --git a/tests/f_journal/expect.1 b/tests/f_journal/expect.1
-+index a202c80..0a18654 100644
-+--- a/tests/f_journal/expect.1
-++++ b/tests/f_journal/expect.1
-+@@ -59,4 +59,4 @@ Pass 5: Checking group summary information
-+ 
-+ test_filesys: ***** FILE SYSTEM WAS MODIFIED *****
-+ test_filesys: 53/2048 files (1.9% non-contiguous), 1409/8192 blocks
-+-Exit status is 1
-++Exit status is 0
-+diff --git a/tests/f_orphan/expect.1 b/tests/f_orphan/expect.1
-+index eddc1f8..087ebee 100644
-+--- a/tests/f_orphan/expect.1
-++++ b/tests/f_orphan/expect.1
-+@@ -11,4 +11,4 @@ Pass 5: Checking group summary information
-+ 
-+ test_filesys: ***** FILE SYSTEM WAS MODIFIED *****
-+ test_filesys: 12/2048 files (0.0% non-contiguous), 1303/8192 blocks
-+-Exit status is 1
-++Exit status is 0
-+diff --git a/tests/f_orphan_extents_inode/expect.1 b/tests/f_orphan_extents_inode/expect.1
-+index 2eaab78..5d713b3 100644
-+--- a/tests/f_orphan_extents_inode/expect.1
-++++ b/tests/f_orphan_extents_inode/expect.1
-+@@ -7,4 +7,4 @@ Pass 5: Checking group summary information
-+ 
-+ test_filesys: ***** FILE SYSTEM WAS MODIFIED *****
-+ test_filesys: 12/16 files (0.0% non-contiguous), 21/100 blocks
-+-Exit status is 1
-++Exit status is 0
-+diff --git a/tests/f_rehash_dir/expect.1 b/tests/f_rehash_dir/expect.1
-+index 6076765..c1449ba 100644
-+--- a/tests/f_rehash_dir/expect.1
-++++ b/tests/f_rehash_dir/expect.1
-+@@ -7,4 +7,4 @@ Pass 5: Checking group summary information
-+ 
-+ test_filesys: ***** FILE SYSTEM WAS MODIFIED *****
-+ test_filesys: 105/2048 files (2.9% non-contiguous), 336/512 blocks
-+-Exit status is 1
-++Exit status is 0
-+diff --git a/tests/f_unsorted_EAs/expect.1 b/tests/f_unsorted_EAs/expect.1
-+index 7d588d7..64b9045 100644
-+--- a/tests/f_unsorted_EAs/expect.1
-++++ b/tests/f_unsorted_EAs/expect.1
-+@@ -8,4 +8,4 @@ Pass 5: Checking group summary information
-+ 
-+ test_filesys: ***** FILE SYSTEM WAS MODIFIED *****
-+ test_filesys: 12/2048 files (0.0% non-contiguous), 1294/2048 blocks
-+-Exit status is 1
-++Exit status is 0
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb
-index 153b3a1..5216c70 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb
-@@ -9,6 +9,7 @@ SRC_URI += "file://acinclude.m4 \
-             file://Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch \
-             file://e2fsprogs-1.43-sysmacros.patch \
-             file://mkdir_p.patch \
-+            file://0001-e2fsck-exit-with-exit-status-0-if-no-errors-were-fix.patch \
- "
+diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
+index 37813dd..7efe13f 100644
+--- a/meta/recipes-devtools/binutils/binutils.inc
++++ b/meta/recipes-devtools/binutils/binutils.inc
+@@ -78,6 +78,7 @@ EXTRA_OECONF = "--program-prefix=${TARGET_PREFIX} \
  
- SRC_URI_append_class-native = " file://e2fsprogs-fix-missing-check-for-permission-denied.patch"
+ LDGOLD_class-native = ""
+ LDGOLD_class-crosssdk = ""
++LDGOLD_sdkmingw32 = ""
+ LDGOLD ?= "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default --enable-threads', '--enable-gold --enable-ld=default --enable-threads', d)}"
+ 
+ # This is necessary due to a bug in the binutils Makefiles
 -- 
-1.9.1
+2.8.1
 
 
