@@ -1,45 +1,44 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 72DA87795C
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 14:46:22 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id n11so66453193wma.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 07:46:23 -0700 (PDT)
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 73F387795C
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 20 Mar 2017 14:50:15 +0000 (UTC)
+Received: by mail-wm0-f54.google.com with SMTP id n11so66553094wma.0
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 20 Mar 2017 07:50:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Qq2kssErQzBHdKbds4tMzlRvwkBQW5hHJV/Ann+FjmI=;
-	b=H71xZBklNRxQMQDVTzJez62CU8gg72Io7rhkFNBRYlzxF9iA9ragfHA5BgQTkTvIZW
-	+JRBDZsWBljDpWzW8hHj3pbBWEV0n60gEnsCwR8ohUXqWeJ9gLV93y1/91f0a5ka+V65
-	KHdvNpkGJhaS5hDRPF9OfBGY7LbNZX/XIi8fOC8UXS2q4L8y5Kni1oXO9JC2M+K9xSbo
-	uBfSl/wfNZPufbn3RThbjwMHeQsNYspTI5JfAa1p+Q8plW2HMuaLN114SFNzuSI288MN
-	lyHdfJ1wpvtXe8mSHULW1uvsQkw0W8ZbYa0IcpiLjCe3WMif3Zsny+yD4/mWJvR/zrD5
-	x4EA==
+	:cc; bh=o0MlJsLssLqWmoBY1IFrSIluz3/zYC11PEMz0WtFn2A=;
+	b=Dc2uz/t1BjU0FuNtUdjpImhEOISKiu51yC76x5S2v7mg3e4lz6c7Xxvg16+dLN+uIV
+	c++oMM/OHGP4wQUC0rNb4Om11TlxiueqgIKQcI5y7Lk9mO2gWTbAkr015SC6zo8sVDvO
+	pUJGxcs0uJiHy1mzPtlg+WeiGwTpMf57RYuuL+ZDhs4mQV3VAIRIyYOS2k2qTkiwUIn4
+	gZzBR7HksyAR5hABtli+CDHbFnEl7frKjwo5zZpDnsmaKUD1CJpU2u+C0v7ts12Spq52
+	HJoyT7gNUEC5JagGZfKeoqewXl+EvwsMZRsLPI3YCDujob53kXcJJ+8RdUdMZEuAqEJC
+	WuGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Qq2kssErQzBHdKbds4tMzlRvwkBQW5hHJV/Ann+FjmI=;
-	b=eX31ioP+g/ct4sMQKYfsgX8kbP5SSVgR2nmfPRSzXVPEK+Rq2n7XlIDKLMsoWfuKdI
-	MtnkOIYOidwLOBcNwArBKMxwRk7RIOnwxrz7/UTiRVlunYkRRtTnTOgJ8HMfFPpBgMs0
-	iMS8/NyVC/f5qXeVfx+JjdyK5+t6lhDyu2aEoTSoOMqrUfhDDVbiXPIfvSO+pphDnxe2
-	s8YPZePoyiTGB5BjUYuEMBpBM/hrLioADWt3gPqQzB8xWfGP70H+eawNxelueTKqw6Ap
-	b9P5u/ve93ACGl9Q1Dw9ejfJ37ITPL93ZDSSDptYIc8tMto5fDTW36cx2a0D8On3YDys
-	sJig==
-X-Gm-Message-State: AFeK/H38hq2TUwW+CRuVwrD/5KGyqwlOeJXLTpvG5Ylmc4kda5WBriQDtIO0X8o6JBW4KJmrl394DUggNRcAuA==
-X-Received: by 10.28.43.129 with SMTP id r123mr2667643wmr.13.1490021183154;
-	Mon, 20 Mar 2017 07:46:23 -0700 (PDT)
+	bh=o0MlJsLssLqWmoBY1IFrSIluz3/zYC11PEMz0WtFn2A=;
+	b=PCSi37spaJnA0z4uSUn3uf6puHwwkPYfu2yxEkD12JjJaleFxaDAQ3KL7v8nEdcoT8
+	C3gDZ95q8rYhYSnXa0PPwDPfXq4UnAGnghVYWp2uSU8GyEScS/64zOq8Vj8Kaw9rYqjf
+	oOPCfa6UQqc2COvrgcr3DSXPpqUdHwV9x1y3IawzdPBcw6OiUpyFdu7Gs+e3N2yna+3H
+	I6xSOi2xHrAtoL8q+8hgdU8mnt3dcEDoa5Be2clX29LUt10vLHfUYQK9Fvrx93qQ/0LO
+	qiFxLJftGIfgJ4jvKVAIyZ9xqf9nt06l1cnU4elI1g6kE/AVkrr7kXUR9q335W96xbv/
+	2+ZA==
+X-Gm-Message-State: AFeK/H181P/78t8deZI0MIHKyyjH6wz4WhMcbJBRd1dkY05DBafL/NJ4VIOa/BiuNkffYX1FtPB9jYZXsuNgCQ==
+X-Received: by 10.28.43.129 with SMTP id r123mr2683363wmr.13.1490021416216;
+	Mon, 20 Mar 2017 07:50:16 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.80.180.162 with HTTP; Mon, 20 Mar 2017 07:45:52 -0700 (PDT)
-In-Reply-To: <1490012430-748-1-git-send-email-ross.burton@intel.com>
-References: <1490012430-748-1-git-send-email-ross.burton@intel.com>
+Received: by 10.80.180.162 with HTTP; Mon, 20 Mar 2017 07:49:45 -0700 (PDT)
+In-Reply-To: <7780ce1c-7e26-0cac-9813-ec713251c7b9@mender.io>
+References: <7780ce1c-7e26-0cac-9813-ec713251c7b9@mender.io>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 20 Mar 2017 07:45:52 -0700
-Message-ID: <CAMKF1sqUwxjKc88jNYJOzG-sbAXNN53WCw2_-J59SSgyhaLkaw@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] binutils: disable gold on mingw
+Date: Mon, 20 Mar 2017 07:49:45 -0700
+Message-ID: <CAMKF1sp6C9qqzt1azPQwOpxySj34_KifVosn5aSp2bzDjfoS6w@mail.gmail.com>
+To: Kristian Amlie <kristian.amlie@mender.io>
+Cc: OE-core <Openembedded-core@lists.openembedded.org>
+Subject: Re: go-bootstrap / go-native conflict during do_rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,40 +51,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Mar 2017 14:46:22 -0000
+X-List-Received-Date: Mon, 20 Mar 2017 14:50:15 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Mar 20, 2017 at 5:20 AM, Ross Burton <ross.burton@intel.com> wrote:
-> oe-core 759eed (binutils: Enable threading when gold is enabled and is not
-> default linker) causes linking in mingw SDKs to fail:
+On Mon, Mar 20, 2017 at 6:47 AM, Kristian Amlie
+<kristian.amlie@mender.io> wrote:
+> First of all, kudos to Khem Raj for the hard work on the go compiler
+> support, this will help a lot!
 >
-> .../work/i686-nativesdk-mingw32-pokysdk-mingw32/binutils-cross-canadian-x86-64/2.28-r0
-> /recipe-sysroot-native/usr/bin/i686-pokysdk-mingw32/../../libexec/i686-pokysdk-mingw32/gcc/i686-pokysdk-mingw32/6.3.0/ld:
-> cannot find -lpthread
+> However, I have one problem when my project reaches do_rootfs:
 >
+> ----------------------------------------------
+> ERROR: core-image-full-cmdline-1.0-r0 do_rootfs: Error executing a
+> python function in exec_python_func() autogenerated:
+>
+> The stack trace of python calls that resulted in this exception/failure was:
+> File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+>      0001:
+>  *** 0002:extend_recipe_sysroot(d)
+>      0003:
+> File: '/home/kristian/code/poky/meta/classes/staging.bbclass', lineno:
+> 623, function: extend_recipe_sysroot
+>      0619:                    dest = newmanifest[l]
+>      0620:                    if l.endswith("/"):
+>      0621:                        staging_copydir(l, targetdir, dest,
+> seendirs)
+>      0622:                        continue
+>  *** 0623:                    staging_copyfile(l, targetdir, dest,
+> postinsts, seendirs)
+>      0624:
+>      0625:    for f in fixme:
+>      0626:        if f == '':
+>      0627:            staging_processfixme(fixme[f], recipesysroot,
+> recipesysroot, recipesysrootnative, d)
+> File: '/home/kristian/code/poky/meta/classes/staging.bbclass', lineno:
+> 269, function: staging_copyfile
+>      0265:        os.symlink(linkto, dest)
+>      0266:        #bb.warn(c)
+>      0267:    else:
+>      0268:        try:
+>  *** 0269:            os.link(c, dest)
+>      0270:        except OSError as err:
+>      0271:            if err.errno == errno.EXDEV:
+>      0272:                bb.utils.copyfile(c, dest)
+>      0273:            else:
+> Exception: FileExistsError: [Errno 17] File exists:
+> '/home/kristian/code/poky/build/tmp/sysroots-components/x86_64/go-bootstrap-native/usr/bin/go'
+> ->
+> '/home/kristian/code/poky/build/tmp/work/vexpress_qemu-poky-linux-gnueabi/core-image-full-cmdline/1.0-r0/recipe-sysroot-native/usr/bin/go'
+>
+> ERROR: core-image-full-cmdline-1.0-r0 do_rootfs: Function failed:
+> extend_recipe_sysroot
+> ERROR: Logfile of failure stored in:
+> /home/kristian/code/poky/build/tmp/work/vexpress_qemu-poky-linux-gnueabi/core-image-full-cmdline/1.0-r0/temp/log.do_rootfs.18987
+> ERROR: Task
+> (/home/kristian/code/poky/meta/recipes-extended/images/core-image-full-cmdline.bb:do_rootfs)
+> failed with exit code '1'
+> NOTE: Tasks Summary: Attempted 3634 tasks of which 3589 didn't need to
+> be rerun and 1 failed.
+>
+> Summary: 1 task failed:
+>
+> /home/kristian/code/poky/meta/recipes-extended/images/core-image-full-cmdline.bb:do_rootfs
+> Summary: There were 3 WARNING messages shown.
+> Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
+> --------------------------------------------------
+>
+> Additionally, in the logs I found these two snippets:
+>
+> --------------------------------------------------
+> Considering setscene task: ['go-native', 'do_populate_sysroot']
+>   considering dependency: ['go-native', 'do_populate_sysroot']
+>   considering dependency: ['mender-artifact-native', 'do_populate_sysroot']
+> Adding dependency on go-native
+> ...
+> Considering setscene task: ['go-bootstrap-native', 'do_populate_sysroot']
+>   considering dependency: ['go-native', 'do_populate_sysroot']
+> Adding dependency on go-bootstrap-native
+> --------------------------------------------------
+>
+> which lead me to believe that all dependencies are being pulled in
+> simultaneously by do_rootfs, but go-native and go-bootstrap-native are
+> in fact mutually exclusive, since they install to the sysroot in the
+> same location. Note that both compilers build just fine, it's only at
+> the do_rootfs stage that this shows up.
+>
+> I think the oe-meta-go layer solved this by having go-bootstrap-native
+> install in a different location, but I'm unsure what is the best
+> approach for OE.
 
-looks ok
+go-bootstrap is only needed for few recipes. I think we should find out
+a way to keep this dep limited to those recipes and not reflect in final
+image rootfs creation. That seems to be not useful.
 
-> Work around this by disabling gold entirely in mingw SDKs.
 >
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-devtools/binutils/binutils.inc | 1 +
->  1 file changed, 1 insertion(+)
+> Thoughts?
 >
-> diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-> index 37813dd..7efe13f 100644
-> --- a/meta/recipes-devtools/binutils/binutils.inc
-> +++ b/meta/recipes-devtools/binutils/binutils.inc
-> @@ -78,6 +78,7 @@ EXTRA_OECONF = "--program-prefix=${TARGET_PREFIX} \
->
->  LDGOLD_class-native = ""
->  LDGOLD_class-crosssdk = ""
-> +LDGOLD_sdkmingw32 = ""
->  LDGOLD ?= "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default --enable-threads', '--enable-gold --enable-ld=default --enable-threads', d)}"
->
->  # This is necessary due to a bug in the binutils Makefiles
 > --
-> 2.8.1
->
+> Kristian
 
