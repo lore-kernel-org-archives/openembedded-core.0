@@ -1,50 +1,33 @@
-Return-Path: <kristian.amlie@mender.io>
-Received: from mail-lf0-f53.google.com (mail-lf0-f53.google.com
-	[209.85.215.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 6311E77944
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 13:47:19 +0000 (UTC)
-Received: by mail-lf0-f53.google.com with SMTP id z15so55704215lfd.1
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 06:47:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mender-io.20150623.gappssmtp.com; s=20150623;
-	h=to:cc:from:subject:message-id:date:user-agent:mime-version
-	:content-transfer-encoding;
-	bh=OefaIMMaxeLb4KhoBtoyGnDmOy9EO9NMpX+D+S/ANZ0=;
-	b=GwlXdFxMz92jdqd8ch1mK/+8OFivLoSwvfrma/cUCNsj4cf8kFTpkGwm80DtpRroqX
-	GukHmjgxQR8w24qKBQTc05bcTqscyldIzPKZkghpcJhnxKM6fgBoLYP5H3neMB29Xg8E
-	/qIkuBXblqiQnqZ/ceqnxRM0ah9dQdQ+TJQC7XKWg1phFGpeNBh3ksrbT2SZAkX+SUtr
-	cxg3f13wc1KAjM2Kvy/CRF3IzyE5O4mV+H+iOHt3F1tLYR3vCNG4Uny0DUpX2RGLxVFa
-	CkzxvS2VNQGQLbFnPuPdDIydxarivrxrA04VBWvGESfP9BiYCa8BIu4XvDSVKwE9rqzs
-	7F3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=OefaIMMaxeLb4KhoBtoyGnDmOy9EO9NMpX+D+S/ANZ0=;
-	b=chIUtiWuPBwtZbq+dWZLvQWKfBec2Xnu7TSUefvOv5HiYLnz8xSfe9wyBm9DP8ShE/
-	xbbxH5lXmUrIecaj0l8ByNfM4tUxGKVXA9tsRqhY1CPgTcE8ZTpokBT5OqE+5zKplRI1
-	85pNJO4x8SxEutB2heD366Hg3tpv+mf8gECD7l5KvB6381gpdQ8ZbEDx2L1Uu72cmltO
-	a4YejSjikbncbJ8aQLLf/lGhwuKdOh6KVo2+tNtiXe3zKjO3qh5st/Y3LJRGnw5m0GPQ
-	H3I1ZDJfq794iyLQmEM78YfgBcE5Mpt+yVg+lYwh1FbxhRi6Va6rMA+/4vY8KIOIRxhD
-	Tiaw==
-X-Gm-Message-State: AFeK/H26xHVF2yTQWkvveyLJj7ZDoXK/wcPoFPHsQhy/Cck5IJrbZ5LET7qf184V/dyDFg==
-X-Received: by 10.25.17.98 with SMTP id g95mr8446896lfi.69.1490017640692;
-	Mon, 20 Mar 2017 06:47:20 -0700 (PDT)
-Received: from [10.20.33.128] ([195.159.234.190])
-	by smtp.googlemail.com with ESMTPSA id
-	o13sm3006618lfe.42.2017.03.20.06.47.19
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 Mar 2017 06:47:19 -0700 (PDT)
-To: OE-core <Openembedded-core@lists.openembedded.org>
-From: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <7780ce1c-7e26-0cac-9813-ec713251c7b9@mender.io>
-Date: Mon, 20 Mar 2017 14:47:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.0
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 7408677980
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Mar 2017 14:06:14 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 5A280208FB;
+	Mon, 20 Mar 2017 14:06:15 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id 95G2qf23xUHn; Mon, 20 Mar 2017 14:06:15 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 32172208DA;
+	Mon, 20 Mar 2017 14:06:13 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id AAD9A162413; Mon, 20 Mar 2017 10:06:12 -0400 (EDT)
+Date: Mon, 20 Mar 2017 10:06:12 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20170320140612.GX15664@denix.org>
+References: <1489793040-52384-1-git-send-email-denis@denix.org>
 MIME-Version: 1.0
-Subject: go-bootstrap / go-native conflict during do_rootfs
+In-Reply-To: <1489793040-52384-1-git-send-email-denis@denix.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Christos Zoulas <christos@zoulas.com>, Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [morty][PATCH] file: update SRCREV for 5.28 to fix fetch fail on missing commit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,96 +40,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Mar 2017 13:47:20 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 20 Mar 2017 14:06:14 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-First of all, kudos to Khem Raj for the hard work on the go compiler
-support, this will help a lot!
+Ping.
 
-However, I have one problem when my project reaches do_rootfs:
+This is getting quickly escalated by my teams and customers. Can we merge this 
+to morty right away? Thanks!
 
-----------------------------------------------
-ERROR: core-image-full-cmdline-1.0-r0 do_rootfs: Error executing a
-python function in exec_python_func() autogenerated:
+There's another patch for krogoth, that's not as urgent yet, but probably will 
+be soon too...
 
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:extend_recipe_sysroot(d)
-     0003:
-File: '/home/kristian/code/poky/meta/classes/staging.bbclass', lineno:
-623, function: extend_recipe_sysroot
-     0619:                    dest = newmanifest[l]
-     0620:                    if l.endswith("/"):
-     0621:                        staging_copydir(l, targetdir, dest,
-seendirs)
-     0622:                        continue
- *** 0623:                    staging_copyfile(l, targetdir, dest,
-postinsts, seendirs)
-     0624:
-     0625:    for f in fixme:
-     0626:        if f == '':
-     0627:            staging_processfixme(fixme[f], recipesysroot,
-recipesysroot, recipesysrootnative, d)
-File: '/home/kristian/code/poky/meta/classes/staging.bbclass', lineno:
-269, function: staging_copyfile
-     0265:        os.symlink(linkto, dest)
-     0266:        #bb.warn(c)
-     0267:    else:
-     0268:        try:
- *** 0269:            os.link(c, dest)
-     0270:        except OSError as err:
-     0271:            if err.errno == errno.EXDEV:
-     0272:                bb.utils.copyfile(c, dest)
-     0273:            else:
-Exception: FileExistsError: [Errno 17] File exists:
-'/home/kristian/code/poky/build/tmp/sysroots-components/x86_64/go-bootstrap-native/usr/bin/go'
-->
-'/home/kristian/code/poky/build/tmp/work/vexpress_qemu-poky-linux-gnueabi/core-image-full-cmdline/1.0-r0/recipe-sysroot-native/usr/bin/go'
-
-ERROR: core-image-full-cmdline-1.0-r0 do_rootfs: Function failed:
-extend_recipe_sysroot
-ERROR: Logfile of failure stored in:
-/home/kristian/code/poky/build/tmp/work/vexpress_qemu-poky-linux-gnueabi/core-image-full-cmdline/1.0-r0/temp/log.do_rootfs.18987
-ERROR: Task
-(/home/kristian/code/poky/meta/recipes-extended/images/core-image-full-cmdline.bb:do_rootfs)
-failed with exit code '1'
-NOTE: Tasks Summary: Attempted 3634 tasks of which 3589 didn't need to
-be rerun and 1 failed.
-
-Summary: 1 task failed:
-
-/home/kristian/code/poky/meta/recipes-extended/images/core-image-full-cmdline.bb:do_rootfs
-Summary: There were 3 WARNING messages shown.
-Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
---------------------------------------------------
-
-Additionally, in the logs I found these two snippets:
-
---------------------------------------------------
-Considering setscene task: ['go-native', 'do_populate_sysroot']
-  considering dependency: ['go-native', 'do_populate_sysroot']
-  considering dependency: ['mender-artifact-native', 'do_populate_sysroot']
-Adding dependency on go-native
-...
-Considering setscene task: ['go-bootstrap-native', 'do_populate_sysroot']
-  considering dependency: ['go-native', 'do_populate_sysroot']
-Adding dependency on go-bootstrap-native
---------------------------------------------------
-
-which lead me to believe that all dependencies are being pulled in
-simultaneously by do_rootfs, but go-native and go-bootstrap-native are
-in fact mutually exclusive, since they install to the sysroot in the
-same location. Note that both compilers build just fine, it's only at
-the do_rootfs stage that this shows up.
-
-I think the oe-meta-go layer solved this by having go-bootstrap-native
-install in a different location, but I'm unsure what is the best
-approach for OE.
-
-Thoughts?
+BTW, I believe Armin was traveling last week, not sure if he's back yet.
 
 -- 
-Kristian
+Denys
+
+
+On Fri, Mar 17, 2017 at 07:24:00PM -0400, Denys Dmytriyenko wrote:
+> From: Paul Gortmaker <paul.gortmaker@windriver.com>
+> 
+> Machines that cloned a while ago will have the commit, but new
+> deployments won't because it seems the upstream changed/rebased
+> and the old commit ID has been garbage-collected away.  Hence
+> the fetch fails to check out the named commit ID.
+> 
+> Both the old (gone) commit, and the "new" commit show the same
+> dates and commit log and point at 5.28, so hopefully this is
+> the right thing to do.  A git diff of the two seems to only show
+> a blanket uprev of CVS tags and deletion of a couple autogen'd
+> files, and no real source changes.
+> 
+> (From OE-Core rev: adb71e06768adadda7b69c3b5e81ca3ad67237f4)
+> 
+> Cc: Christos Zoulas <christos@zoulas.com>
+> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> ---
+>  meta/recipes-devtools/file/file_5.28.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-devtools/file/file_5.28.bb b/meta/recipes-devtools/file/file_5.28.bb
+> index e64a89c..048fb8e 100644
+> --- a/meta/recipes-devtools/file/file_5.28.bb
+> +++ b/meta/recipes-devtools/file/file_5.28.bb
+> @@ -19,7 +19,7 @@ SRC_URI = "git://github.com/file/file.git \
+>          file://0001-Add-P-prompt-into-Usage-info.patch \
+>          "
+>  
+> -SRCREV = "3c521817322a6bf5160cfeb09b9145ccde587b2a"
+> +SRCREV = "acbaf156236cbc54b3cf3bc6cbf05d80cb196451"
+>  S = "${WORKDIR}/git"
+>  
+>  inherit autotools
+> -- 
+> 2.7.4
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
