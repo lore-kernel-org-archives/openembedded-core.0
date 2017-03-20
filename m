@@ -1,47 +1,47 @@
-Return-Path: <sbabic@denx.de>
-X-Greylist: delayed 514 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 20 Mar 2017 09:23:00 UTC
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 335F860777
+Return-Path: <andrea.adami@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 8766471DEF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 09:23:00 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3vmqyV5V6hz1qqvY;
-	Mon, 20 Mar 2017 10:14:26 +0100 (CET)
-Received: from localhost (dynscan01.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 3vmqyV4BBqz3jgYT;
-	Mon, 20 Mar 2017 10:14:26 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan01.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id 8776Kw_IyexU; Mon, 20 Mar 2017 10:14:24 +0100 (CET)
-Received: from babic.homelinux.org (host-88-217-136-221.customer.m-online.net
-	[88.217.136.221]) by mail.mnet-online.de (Postfix) with ESMTP;
-	Mon, 20 Mar 2017 10:14:24 +0100 (CET)
-Received: from localhost (mail.babic.homelinux.org [127.0.0.1])
-	by babic.homelinux.org (Postfix) with ESMTP id BFFE24540228;
-	Mon, 20 Mar 2017 10:13:31 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at babic.homelinux.org
-Received: from babic.homelinux.org ([127.0.0.1])
-	by localhost (mail.babic.homelinux.org [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id iTvMkfKewZZw; Mon, 20 Mar 2017 10:13:27 +0100 (CET)
-Received: from [192.168.178.132] (papero.fritz.box [192.168.178.132])
-	by babic.homelinux.org (Postfix) with ESMTP id 81A5B454043A;
-	Mon, 20 Mar 2017 10:13:27 +0100 (CET)
-To: Robert Yang <liezhi.yang@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1487727826.git.liezhi.yang@windriver.com>
-	<2702bdc3f6961ba31689d97d67e900f9865d40ee.1487727826.git.liezhi.yang@windriver.com>
-From: Stefano Babic <sbabic@denx.de>
-Message-ID: <ef157c32-b0e7-c487-e9de-57449c22b474@denx.de>
-Date: Mon, 20 Mar 2017 10:14:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.0
+	Mon, 20 Mar 2017 09:38:19 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id z133so13301669wmb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Mar 2017 02:38:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=7K1mDMiTpqHFKWJOMpoBKsgg2Hp1Bz7xIEuCCYBUAaE=;
+	b=BCJzOftsIvzssvVQvNQskKFB9ILr2xJ3I0qP1zdg+X0J6b6vrlqHGk1mArMyid+asL
+	jQif5riBGz2UQFmHgWi8UZy2FlCSZf/xa9meF1FbY+2yoeJ0msS3g9oyqxb61EveNCTE
+	yI1i7bRtG0tUNF+2QJN265gtHSr/DjVyDS4vYpw7SbcB/m5dQIlJPdyTmUYLVAcSFYsB
+	0H6nLKmZy0rguDXYYNOGEpWuwqK6ppShn4kdjuPeCkm0P4INg4NZAxAHmDRMfZwrBpUx
+	eCQPNJuRbrrdF1YEqR4B9Q4IW9X0y87gA7hJe6VGkX/t4mwEd5VdYjRjNuxncousmu2H
+	DB1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=7K1mDMiTpqHFKWJOMpoBKsgg2Hp1Bz7xIEuCCYBUAaE=;
+	b=cNBFBxbSLelY4oLhVGb6OcAvWzQoOA3Z03OuNa1a0rxvkz63OXF1OPZBHzyV7GzOol
+	wRTICXRTz+1HDnjENw9lWVrAh2VdzAd1xMVfambhsX5RUYS00BqLxJWAbdRFimG3b2Rz
+	pELUQ8ni9FyxEmT5c35aoVA5bLZxkOeKjc4IQRPGVuCkidoGyv/4muDiPpaN69B5o650
+	e+mcux5NwAmBeqYUkrgPbagohDY7SMrljRWnXKHBw5263jw6RwN2T2XLWegwO56+fc1K
+	fP1W/0fMNz9/+fSoD6fwbK2szNxKH5sBFLFgfIWQ4RRB+33cQuPuG72V0qrakzNymAYI
+	Dqww==
+X-Gm-Message-State: AFeK/H3VTmNFRBskH/RI3HxRn4dW94dR76/mQYuCtDlm+jIaKDX6wGZFtUT9yPfQ510pYdxhEtCAHSOy6yY6iQ==
+X-Received: by 10.28.1.68 with SMTP id 65mr9302894wmb.63.1490002699876; Mon,
+	20 Mar 2017 02:38:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <2702bdc3f6961ba31689d97d67e900f9865d40ee.1487727826.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 5/5] file: 5.29 -> 5.30
+Received: by 10.80.150.195 with HTTP; Mon, 20 Mar 2017 02:38:19 -0700 (PDT)
+In-Reply-To: <1489929217-24568-3-git-send-email-liu.ming50@gmail.com>
+References: <1489929217-24568-1-git-send-email-liu.ming50@gmail.com>
+	<1489929217-24568-3-git-send-email-liu.ming50@gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+Date: Mon, 20 Mar 2017 10:38:19 +0100
+Message-ID: <CAAQYJAtekfDc6GmD0uhm=qTqf28PQde7-b9Qa1Xa1HHPhWrVsg@mail.gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>, "Tao,
+	Yue" <yue.tao@windriver.com>,
+	Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: Re: [PATCH 2/4] kernel.bbclass: handle kernel-vmlinux in KERNEL_IMAGETYPES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,54 +54,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Mar 2017 09:23:01 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 20 Mar 2017 09:38:19 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 22/02/2017 02:44, Robert Yang wrote:
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+On Sun, Mar 19, 2017 at 2:13 PM,  <liu.ming50@gmail.com> wrote:
+> From: Ming Liu <peter.x.liu@external.atlascopco.com>
+>
+> There is a mess after KERNEL_IMAGETYPES was introduced in commit 849b67b2:
+> [ kernel: Add KERNEL_IMAGETYPES to build multi types kernel at one time ]
+>
+> There are two packages both providing vmlinux image if 'vmlinux' is set in
+> KERNEL_IMAGETYPES, they are kernel-vmlinux and kernel-image-vmlinux, to
+> let them to be able to coexist, kernel-image-vmlinux was set to empty
+> allowable, but its postinst/postrm scripts still remain trying to install/rm
+> a update-alternatives link to /boot/vmlinux-${KERNEL_VERSION_NAME} but that
+> file is actually being provided by the other package kernel-vmlinux.
+>
+> Fixed this mess by appending vmlinux to KERNEL_IMAGETYPES and process it
+> in anonymous python function. It would not change the original behavior,
+> all the generated packages would be same with before except that the
+> ALLOW_EMPTY variable, it is removed in this patch.
+
+Hi,
+
+I am testing the 'old-style' of embedding the initramfs in the images [1].
+Your patch does add 'vmlinux' even if we have KERNEL_IMAGETYPE ?= "zImage"
+so it leads to the following error:
+
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_deploy
+| install: cannot stat 'arch/arm/boot/vmlinux': No such file or director
+
+The solution for our custom kernel recipe is:
+
+inherit kernel
+addtask kernel_link_images after do_compile before do_strip
+
+as done in linux-yocto.inc.
+
+So with this little adjustment it is still possible to build in the old-way.
+
+I didn't test yet the other part of the patchset so I cannot fully ack it.
+FWIW I never liked the *BUNDLE framework for the need of specifying
+the INITRAMFS_IMAGE in a conf file and not in the kernel recipe as
+done with the old framework.
+
+Cheers
+Andrea
+
+[1] http://cgit.openembedded.org/meta-handheld/tree/recipes-kernel/linux/linux-gcw0-kexecboot_4.7.bb
+
+
+>
+> Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
 > ---
->  meta/recipes-devtools/file/{file_5.29.bb => file_5.30.bb} | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-devtools/file/{file_5.29.bb => file_5.30.bb} (96%)
-> 
-> diff --git a/meta/recipes-devtools/file/file_5.29.bb b/meta/recipes-devtools/file/file_5.30.bb
-> similarity index 96%
-> rename from meta/recipes-devtools/file/file_5.29.bb
-> rename to meta/recipes-devtools/file/file_5.30.bb
-> index 29af8748150..0998fcfa899 100644
-> --- a/meta/recipes-devtools/file/file_5.29.bb
-> +++ b/meta/recipes-devtools/file/file_5.30.bb
-> @@ -19,7 +19,7 @@ SRC_URI = "git://github.com/file/file.git \
->          file://0001-Add-P-prompt-into-Usage-info.patch \
->          "
->  
-> -SRCREV = "015b0cdce1a0abb68ab99510e7fc8d2f77e8ec77"
-> +SRCREV = "79814950aafb81ecd6a910c2a8a3b8ec12f3e4a6"
->  S = "${WORKDIR}/git"
->  
->  inherit autotools
-> 
-
-Strange enough, it seems that the tree loses the history and all SRCREV
-are wrong. I tried with -krogoth, -morty, -master, and no revision
-number is found. In fact, after cloning the tree I see that all revision
-number were changed, just a couple here:
-
-5.25 is now : 789cfc7d727cee1c7cfb7d29c09162e2399285c5
-
-5.30 (this patch) : 3050419355566d2a96c5be97fef0ffae097bbb96
-
-Ok, I fix this in my layer with a .bbappend, but...Of course, all builds
-are broken - have you seen the same effect ?
-
-Best regards,
-Stefano
-
--- 
-=====================================================================
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: +49-8142-66989-53 Fax: +49-8142-66989-80 Email: sbabic@denx.de
-=====================================================================
+>  meta/classes/kernel.bbclass | 47 +++++++++++++++++++--------------------------
+>  1 file changed, 20 insertions(+), 27 deletions(-)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 6905a9b..1a4335c 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -14,6 +14,7 @@ OE_TERMINAL_EXPORTS += "KBUILD_OUTPUT"
+>  # we include gcc above, we dont need virtual/libc
+>  INHIBIT_DEFAULT_DEPS = "1"
+>
+> +KERNEL_IMAGETYPES_append = " vmlinux"
+>  KERNEL_IMAGETYPE ?= "zImage"
+>  INITRAMFS_IMAGE ?= ""
+>  INITRAMFS_IMAGE_NAME ?= "${@['${INITRAMFS_IMAGE}-${MACHINE}', ''][d.getVar('INITRAMFS_IMAGE') == '']}"
+> @@ -35,38 +36,33 @@ python __anonymous () {
+>      import re
+>
+>      # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into KERNEL_IMAGETYPES
+> -    type = d.getVar('KERNEL_IMAGETYPE') or ""
+> -    alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
+> -    types = d.getVar('KERNEL_IMAGETYPES') or ""
+> -    if type not in types.split():
+> -        types = (type + ' ' + types).strip()
+> -    if alttype not in types.split():
+> -        types = (alttype + ' ' + types).strip()
+> +    types = set((d.getVar('KERNEL_IMAGETYPES') or "").split())
+> +    types.add(d.getVar('KERNEL_IMAGETYPE') or "")
+> +    types.add(d.getVar('KERNEL_ALT_IMAGETYPE') or "")
+> +    types = ' '.join(sorted(types)).strip()
+>      d.setVar('KERNEL_IMAGETYPES', types)
+> -
+> -    typeformake = re.sub(r'\.gz', '', types)
+> -    d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake)
+> +    d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', re.sub(r'\.gz', '', types))
+>
+>      for type in types.split():
+> -        typelower = type.lower()
+>          imagedest = d.getVar('KERNEL_IMAGEDEST')
+> +        if type == "vmlinux":
+> +            typelower = type.lower()
+> +        else:
+> +            typelower = "image-%s" % type.lower()
+>
+> -        d.appendVar('PACKAGES', ' ' + 'kernel-image-' + typelower)
+> -
+> -        d.setVar('FILES_kernel-image-' + typelower, '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME}')
+> -
+> -        d.appendVar('RDEPENDS_kernel-image', ' ' + 'kernel-image-' + typelower)
+> -
+> -        d.setVar('PKG_kernel-image-' + typelower, 'kernel-image-' + typelower + '-${KERNEL_VERSION_PKG_NAME}')
+> +        d.appendVar('PACKAGES', ' kernel-%s' % typelower)
+> +        if type != 'vmlinux' or d.getVar('KERNEL_IMAGETYPE') == 'vmlinux':
+> +            d.appendVar('RDEPENDS_kernel-image', ' kernel-%s' % typelower)
+>
+> -        d.setVar('ALLOW_EMPTY_kernel-image-' + typelower, '1')
+> +        d.setVar('FILES_kernel-%s' % typelower, '/%s/%s-${KERNEL_VERSION_NAME}' % (imagedest, type))
+> +        d.setVar('PKG_kernel-%s' % typelower, 'kernel-%s-${KERNEL_VERSION_PKG_NAME}' % typelower)
+>
+>          priority = d.getVar('KERNEL_PRIORITY')
+> -        postinst = '#!/bin/sh\n' + 'update-alternatives --install /' + imagedest + '/' + type + ' ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} ' + priority + ' || true' + '\n'
+> -        d.setVar('pkg_postinst_kernel-image-' + typelower, postinst)
+> +        postinst = '#!/bin/sh\nupdate-alternatives --install /%s/%s %s %s-${KERNEL_VERSION_NAME} %s || true\n' % (imagedest, type, type, type, priority)
+> +        d.setVar('pkg_postinst_kernel-%s' % typelower, postinst)
+>
+> -        postrm = '#!/bin/sh\n' + 'update-alternatives --remove' + ' ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} || true' + '\n'
+> -        d.setVar('pkg_postrm_kernel-image-' + typelower, postrm)
+> +        postrm = '#!/bin/sh\nupdate-alternatives --remove %s %s-${KERNEL_VERSION_NAME} || true\n' % (type, type)
+> +        d.setVar('pkg_postrm_kernel-%s' % typelower, postrm)
+>
+>      image = d.getVar('INITRAMFS_IMAGE')
+>      if image:
+> @@ -319,7 +315,6 @@ kernel_do_install() {
+>         done
+>         install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
+>         install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
+> -       install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
+>         [ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/boot/Module.symvers-${KERNEL_VERSION}
+>         install -d ${D}${sysconfdir}/modules-load.d
+>         install -d ${D}${sysconfdir}/modprobe.d
+> @@ -484,19 +479,17 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
+>
+>  # kernel-base becomes kernel-${KERNEL_VERSION}
+>  # kernel-image becomes kernel-image-${KERNEL_VERSION}
+> -PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev kernel-modules"
+> +PACKAGES = "kernel kernel-base kernel-image kernel-dev kernel-modules"
+>  FILES_${PN} = ""
+>  FILES_kernel-base = "/lib/modules/${KERNEL_VERSION}/modules.order /lib/modules/${KERNEL_VERSION}/modules.builtin"
+>  FILES_kernel-image = ""
+>  FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH} /lib/modules/${KERNEL_VERSION}/build"
+> -FILES_kernel-vmlinux = "/boot/vmlinux-${KERNEL_VERSION_NAME}"
+>  FILES_kernel-modules = ""
+>  RDEPENDS_kernel = "kernel-base"
+>  # Allow machines to override this dependency if kernel image files are
+>  # not wanted in images as standard
+>  RDEPENDS_kernel-base ?= "kernel-image"
+>  PKG_kernel-image = "kernel-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
+> -RDEPENDS_kernel-image += "${@base_conditional('KERNEL_IMAGETYPE', 'vmlinux', 'kernel-vmlinux', '', d)}"
+>  PKG_kernel-base = "kernel-${@legitimize_package_name('${KERNEL_VERSION}')}"
+>  RPROVIDES_kernel-base += "kernel-${KERNEL_VERSION}"
+>  ALLOW_EMPTY_kernel = "1"
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
