@@ -1,48 +1,51 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-yw0-f170.google.com (mail-yw0-f170.google.com
-	[209.85.161.170])
-	by mail.openembedded.org (Postfix) with ESMTP id F01A872F18
+Return-Path: <phil@advancedtelematic.com>
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id F260360777
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 08:33:01 +0000 (UTC)
-Received: by mail-yw0-f170.google.com with SMTP id o4so85193838ywd.3
+	Mon, 20 Mar 2017 09:17:43 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id n11so58798697wma.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 01:33:03 -0700 (PDT)
+	Mon, 20 Mar 2017 02:17:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=nnNVTdLZ2raFhHQCXqmjcMQM1TPLkfJtoK4ESExOQbI=;
-	b=KoHOv/aSlcOwDWHuJayc8qlnKSK9orIrteboqzmDqRJ/3qj0WS1Wn+QiakT32TWPv/
-	CaENRKIFBTYCM9LSbU/oFy+2Izd29aqkJEE/lDKbv0pl9jlG4arIFsl9knKijldqXriM
-	5q3VcjgDlBSKhoTKoitmjlfcP6eyvIbmJO88AAMUcmQRl9GyqckHzsJo1MX2M63KWqGd
-	el0iw9A6uqaNAsUJfFPMKlF5czXrRwDNHJwcFgts7xz/pZ+/GgvoJUVBTVQnZ/CS5teh
-	Vs6tq1psoUDdmaGAN2XDEp4eXJPm52JXNTRZRX7iVnAE3K6vN+fiyZEXmtcz8rLSvxWA
-	RMQQ==
+	d=advancedtelematic.com; s=google;
+	h=subject:to:references:from:organization:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=5HDLwwBTAyql/+4BnbG/sLnZswSZ6X0nJ/4Smmy3G+o=;
+	b=YHlT/VeRkHYSMJtBkkBiQh7tmCNZnJt6LJQP6uLD4Virb60o/2EoCf6oNO5tY49j7u
+	CuAKM7gDOwJk5fQCJQ8eKj1zeloVYR0FdKhse12tVUveKJaztGMlE8N0OSppocSyz9Cd
+	oZ5281sOf44tYrL/UDvpkBp6nFoi/47yRb3cc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=nnNVTdLZ2raFhHQCXqmjcMQM1TPLkfJtoK4ESExOQbI=;
-	b=SELDXBzCWvFjmMEyAkweogO1nrYYMVCb/aKkdiDjJKa8JFh/wr35mYlCEm4VzGb/a/
-	MMfbPK3shqI8ygtPEnFr1LD7skLQVG0/ejy21pWVxdlmBSnt2DCAjo0O8DrOvHkul+SE
-	jbMRvNJf9nmUgGDn8yXKwflWaCEb8f6MlPcovaIau5PlMUKZW7VLbVAcpQH6wrxK7Jn5
-	Iuyn32kNsAbfCzt0MeJ+BhQSOAggse2jv/SBkD0NJfGJ7SEMqsnBRdamSzeHDkutRbGR
-	pLDoi1NrMESI/9IY2wrAXC9jHylKylBjBXskZThzMIh0VgSFv76oc1o/J0LraxD495Iw
-	MojA==
-X-Gm-Message-State: AFeK/H308uV/RBCwzt/P+zqXvRzYRH2iCu8KXwUhi3CvBrEV/Y/FZEkvvfyp11dK9nr4Y9Rd6jdH+MT4pgHp00m/
-X-Received: by 10.37.35.205 with SMTP id j196mr12444763ybj.3.1489998782544;
-	Mon, 20 Mar 2017 01:33:02 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding;
+	bh=5HDLwwBTAyql/+4BnbG/sLnZswSZ6X0nJ/4Smmy3G+o=;
+	b=A5YFY6UMO95kXoB/7/BEC7hMuNUZ+/H9k4PwCakwUA1UCJ17dP6qIBiifMVIYs2TlY
+	DcqAhn0SP3TWPBE4IJK1eT2hUmXb9bl/G5a09sRUg/zHeTkiFcLckZCwS0AtFA0mGChp
+	h5rPcRbpbvlKHMfuL5sofRRzykJf12Vc+X6Fu6yExYf+3myR4VU5/4BAYd5K1BhzgUZd
+	3eGZI+h3vcvCdcN+w/rYz0VTDBA6DNn8FvxqZDMkSgX5JshmwynEhpG0Ma2+erUb/E4X
+	8uVQokvSg6gDTitgnTmvgQpBigj4fgJZJMAdBnxVZIhvNXa1YjY/onso4Upg+jAVyJwa
+	U75g==
+X-Gm-Message-State: AFeK/H1YYbgcqvlr95RtpKm/U8UR6z+gzgxhzqR83Xbyc2z6OfWo7vOLpeCT8hLsUPC4SA==
+X-Received: by 10.28.203.197 with SMTP id b188mr9850530wmg.110.1490001464407; 
+	Mon, 20 Mar 2017 02:17:44 -0700 (PDT)
+Received: from [192.168.1.93] (p57bf9f95.dip0.t-ipconnect.de. [87.191.159.149])
+	by smtp.googlemail.com with ESMTPSA id
+	x23sm20154881wrb.49.2017.03.20.02.17.43
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 20 Mar 2017 02:17:43 -0700 (PDT)
+To: openembedded-core@lists.openembedded.org
+References: <1489793040-52384-1-git-send-email-denis@denix.org>
+From: Phil Wise <phil@advancedtelematic.com>
+Organization: ATS Advanced Telematic Systems GmbH
+Message-ID: <f84482e5-e903-fb47-a803-c980d8f7ea77@advancedtelematic.com>
+Date: Mon, 20 Mar 2017 10:17:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.7.0
 MIME-Version: 1.0
-Received: by 10.129.81.136 with HTTP; Mon, 20 Mar 2017 01:32:32 -0700 (PDT)
-In-Reply-To: <2a1cd614717f323afc788e24fae76337cffa8816.1489534345.git.raj.khem@gmail.com>
-References: <cover.1489534345.git.raj.khem@gmail.com>
-	<2a1cd614717f323afc788e24fae76337cffa8816.1489534345.git.raj.khem@gmail.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Mon, 20 Mar 2017 10:32:32 +0200
-Message-ID: <CAHiDW_EvTOKpqOACTS6M9Y2_wofaEQ6sL89ThNHem4cPrxLFmQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/6] musl: Update to latest
+In-Reply-To: <1489793040-52384-1-git-send-email-denis@denix.org>
+Subject: Re: [morty][PATCH] file: update SRCREV for 5.28 to fix fetch fail on missing commit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,82 +58,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Mar 2017 08:33:02 -0000
-Content-Type: multipart/alternative; boundary=001a113d4508269697054b256056
+X-List-Received-Date: Mon, 20 Mar 2017 09:17:44 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 8bit
 
---001a113d4508269697054b256056
-Content-Type: text/plain; charset=UTF-8
+I hit this issue when doing a build this morning, and filed this bug
+before seeing your patches:
 
-On 15 March 2017 at 01:35, Khem Raj <raj.khem@gmail.com> wrote:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=11190
 
-> Rich Felker (11):
->       fix ld-behavior-dependent crash in ppc64 ldso startup
->       rework ldso handling of global symbol table for consistency
->       reorder addend handling before symbol lookup in relocation code
->       emulate lazy relocation as deferrable relocation
->       fix free of uninitialized buffer pointer on error in regexec
->       in static dl_iterate_phdr, fix use of possibly-uninitialized aux data
->       fix possible fd leak, unrestored cancellation state on dns socket
-> fail
->       fix wide scanf's use of a compound literal past its lifetime
->       fix one-byte overflow in legacy getpass function
->       avoid loading of multiple libc versions via explicit pathname
->       remove unused refcnt field for shared libraries
->
-> Szabolcs Nagy (1):
->       treat STB_WEAK and STB_GNU_UNIQUE like STB_GLOBAL in find_sym
->
+Cheers,
 
+Phil
 
-Could the relocation changes here be responsible for these ovmf build
-failures:
-  "GenFw: ERROR 3000: Invalid ... unsupported ELF EM_386 relocation"
-?
+On 18.03.2017 00:24, Denys Dmytriyenko wrote:
+> From: Paul Gortmaker <paul.gortmaker@windriver.com>
+> 
+> Machines that cloned a while ago will have the commit, but new
+> deployments won't because it seems the upstream changed/rebased
+> and the old commit ID has been garbage-collected away.  Hence
+> the fetch fails to check out the named commit ID.
+> 
+> Both the old (gone) commit, and the "new" commit show the same
+> dates and commit log and point at 5.28, so hopefully this is
+> the right thing to do.  A git diff of the two seems to only show
+> a blanket uprev of CVS tags and deletion of a couple autogen'd
+> files, and no real source changes.
+> 
+> (From OE-Core rev: adb71e06768adadda7b69c3b5e81ca3ad67237f4)
+> 
+> Cc: Christos Zoulas <christos@zoulas.com>
+> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> ---
+>  meta/recipes-devtools/file/file_5.28.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-devtools/file/file_5.28.bb b/meta/recipes-devtools/file/file_5.28.bb
+> index e64a89c..048fb8e 100644
+> --- a/meta/recipes-devtools/file/file_5.28.bb
+> +++ b/meta/recipes-devtools/file/file_5.28.bb
+> @@ -19,7 +19,7 @@ SRC_URI = "git://github.com/file/file.git \
+>          file://0001-Add-P-prompt-into-Usage-info.patch \
+>          "
+>  
+> -SRCREV = "3c521817322a6bf5160cfeb09b9145ccde587b2a"
+> +SRCREV = "acbaf156236cbc54b3cf3bc6cbf05d80cb196451"
+>  S = "${WORKDIR}/git"
+>  
+>  inherit autotools
+> 
 
-https://autobuilder.yocto.io/builders/nightly-musl/builds/196/steps/BuildImages/logs/stdio
+-- 
+Phil Wise, ATS Advanced Telematic Systems GmbH
+Kantstrasse 162, 10623 Berlin
+Managing Directors: Dirk Pöschl, Armin G. Schmidt
+Register Court: HRB 151501 B, Amtsgericht Charlottenburg
 
-
-Jussi
-
---001a113d4508269697054b256056
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 15 March 2017 at 01:35, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wr=
-ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex">Rich Felker (11):=
-<br>
-=C2=A0 =C2=A0 =C2=A0 fix ld-behavior-dependent crash in ppc64 ldso startup<=
-br>
-=C2=A0 =C2=A0 =C2=A0 rework ldso handling of global symbol table for consis=
-tency<br>
-=C2=A0 =C2=A0 =C2=A0 reorder addend handling before symbol lookup in reloca=
-tion code<br>
-=C2=A0 =C2=A0 =C2=A0 emulate lazy relocation as deferrable relocation<br>
-=C2=A0 =C2=A0 =C2=A0 fix free of uninitialized buffer pointer on error in r=
-egexec<br>
-=C2=A0 =C2=A0 =C2=A0 in static dl_iterate_phdr, fix use of possibly-uniniti=
-alized aux data<br>
-=C2=A0 =C2=A0 =C2=A0 fix possible fd leak, unrestored cancellation state on=
- dns socket fail<br>
-=C2=A0 =C2=A0 =C2=A0 fix wide scanf&#39;s use of a compound literal past it=
-s lifetime<br>
-=C2=A0 =C2=A0 =C2=A0 fix one-byte overflow in legacy getpass function<br>
-=C2=A0 =C2=A0 =C2=A0 avoid loading of multiple libc versions via explicit p=
-athname<br>
-=C2=A0 =C2=A0 =C2=A0 remove unused refcnt field for shared libraries<br>
-<br>
-Szabolcs Nagy (1):<br>
-=C2=A0 =C2=A0 =C2=A0 treat STB_WEAK and STB_GNU_UNIQUE like STB_GLOBAL in f=
-ind_sym<br></blockquote><div><br></div><div><br></div><div>Could the reloca=
-tion changes here be responsible for these ovmf build failures:</div><div>=
-=C2=A0 &quot;GenFw: ERROR 3000: Invalid ... unsupported ELF EM_386 relocati=
-on&quot;</div><div>?</div><div><br></div><div><a href=3D"https://autobuilde=
-r.yocto.io/builders/nightly-musl/builds/196/steps/BuildImages/logs/stdio">h=
-ttps://autobuilder.yocto.io/builders/nightly-musl/builds/196/steps/BuildIma=
-ges/logs/stdio</a><br></div><div><br></div><div><br></div><div>Jussi</div><=
-/div></div></div>
-
---001a113d4508269697054b256056--
