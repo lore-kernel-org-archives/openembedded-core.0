@@ -1,47 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
-	[209.85.216.180])
-	by mail.openembedded.org (Postfix) with ESMTP id CE6A177941
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
+	[209.85.214.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 1FFDD77941
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 12:22:52 +0000 (UTC)
-Received: by mail-qt0-f180.google.com with SMTP id x35so104606097qtc.2
+	Mon, 20 Mar 2017 12:26:24 +0000 (UTC)
+Received: by mail-it0-f43.google.com with SMTP id g138so92936960itb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 05:22:54 -0700 (PDT)
+	Mon, 20 Mar 2017 05:26:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=pBcW0y8kDYqcEuYggohIgb7d3tD2VnWSfrtXYbtJE3U=;
-	b=HU4g0nyV8IgC0RTvg+XwBhDCSQtFtcSjizVot0eA77jFD+SR+v08UEzvBs4ni9uZzs
-	xG0Q/S9MUsb8wY3klAwef6H3xI8jT+ClJbT5BXHhCmpIvoKqFkd58ar/lis7cT3H4Bp+
-	0EVyqO4726i+66MUt5mZeXGvFWs1nZ7OUxNehrFWiFSbqV3/TJ6WXmNDtHd8b2qjXyO2
-	Yhfv08OSbgGnVbLs0bmGdE4YHV+K7tBUvX/XHKhGKWSh4zFQGI8A6S/wN/ypsh8fanDP
-	CVWlGfsDYtelMW6ieIeLy7VfcWhwLbPtrDyCtQGnAQm4C4QjBMGyuUqc6gjcdBPPbbTd
-	HKig==
+	h=from:to:cc:subject:date:message-id;
+	bh=dY0ppv8k+Oa2nhhPVlDZXaAFUnw3bNwqdU2hd8Kk5yY=;
+	b=Nj8vKUP6lc5Xt1lNULn8ZdMnP7h2ow20E3QJojwKi64XlCd1sOSlh/i5qR2G434dEv
+	ylsvrAakJ7UiN5MM1OKIkz3CphgJRbc+NrDyVu3nTTjCJBqykhvnQtr6gjg0GbchA6vi
+	S5sRg6zt4En0bKoQayTxYtG6AAGVhVWOhTa+1twql193fCmJFy5XWYlsbrwwemD0ySzR
+	W/mp5SNCdWuIco/I4+V2M6VhA7HObyxYFZ3h+Zv6XeNgum24rDKNJ+hPYFWI1GnSrNGn
+	Rlji4vIdJbNZCiMuI8SESfR98wNRLmMg/H7+lwem3qOiePtx4zvf1UnD+G331e3e6XoS
+	gJ2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=pBcW0y8kDYqcEuYggohIgb7d3tD2VnWSfrtXYbtJE3U=;
-	b=YYp7Z4o7APyoQ9toFYgCixkQPVnshICmXelp2Ns+0a7TVXivZ8/d8Wqt0fMwmm5/lg
-	dFM3ImPPgT9+68RuOWWbARrPR7Cx/OmVedt0blyPJ+IzEx0pGaR0u1VwF+GwudtGvSCM
-	lC03n7wb1QIiwC5zH5bXx3Dpqt42yy2r5n0WrCdGS4MU+tlNcpAD33W1Vf1yg+VnP2b1
-	yGgLO6zeNlcWESehhs0qvS2cKWaeTdFmnCbUtudh1XO0QMHJwORmza1dXrrlFHoRsVlq
-	CP1QI8dHuEQ2cStNuCXwwiV1a5+GhqpTO+lmCGaXGRLUzv+x6lfU9pz+OznuUJy8FXXb
-	ZpnQ==
-X-Gm-Message-State: AFeK/H3Liogy8Q6nLDw1bbshR5swqJAljYyBPfhe6zLEQK3d4mC8sgNmTcCr3S58HVQTpVzQKR9ffAoPIN+KiBBn
-X-Received: by 10.237.42.164 with SMTP id t33mr28301903qtd.105.1490012573582; 
-	Mon, 20 Mar 2017 05:22:53 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Mon, 20 Mar 2017 05:22:33 -0700 (PDT)
-In-Reply-To: <e9c3eaccf98c6cb41cf985c52a59c9562c9e9b25.1489534345.git.raj.khem@gmail.com>
-References: <cover.1489534345.git.raj.khem@gmail.com>
-	<e9c3eaccf98c6cb41cf985c52a59c9562c9e9b25.1489534345.git.raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 20 Mar 2017 12:22:33 +0000
-Message-ID: <CAJTo0LbA51TSyFz3AA+qzo6Pgkkps-YPjbELXNTeTU8R62b6vg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/6] binutils: Enable threading when gold is enabled and is not default linker
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=dY0ppv8k+Oa2nhhPVlDZXaAFUnw3bNwqdU2hd8Kk5yY=;
+	b=s7f/qsJAxM9eY6SbTrCQn5amMsV4wE0s7dgK3VxQYCSOi1uQ7JCiGmcvTROzO7fM2i
+	5O3x7IbeS/j/SPvBmkXseTLLLl5wXP4N8WLPaAOx0iiGcz7AM9cv7c9JHl+70MGKN8Ea
+	bY8qQFK4QjdeEabXbGHOmJoksWu3dGtt6iZi2lH/cNZnj+Hn83HxOnk/mvzX+QUfwErA
+	ceN/nyiyGcS0tNxRS/pd+x7jzYo/WNBV3V6P3GxmwLU0VmiIObbZwfN7RrbTWMYEjFf7
+	zKAkYli4JtF43yiMoi08113JNqOJPOhoFoOgBrfVwLHybLnbaVs3dEf06/EdhFcs6ePw
+	UGRA==
+X-Gm-Message-State: AFeK/H324HKdMZSHNS3y9A1IBURKSWl1b7tTE3QQMXnPBj508H6giuOKPSWaCjd74NeJEB01
+X-Received: by 10.107.134.234 with SMTP id q103mr25199080ioi.82.1490012785496; 
+	Mon, 20 Mar 2017 05:26:25 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8C233.dip0.t-ipconnect.de.
+	[93.232.194.51]) by smtp.gmail.com with ESMTPSA id
+	i96sm8476988iod.46.2017.03.20.05.26.23
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 20 Mar 2017 05:26:24 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 20 Mar 2017 13:26:18 +0100
+Message-Id: <30bea167e7c204be52b3f5af24e43d5f339e98b7.1490012754.git-series.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] image-buildinfo.bbclass: configurable location for build file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,46 +53,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Mar 2017 12:22:53 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0cfe2228fca7054b289680
+X-List-Received-Date: Mon, 20 Mar 2017 12:26:25 -0000
 
---94eb2c0cfe2228fca7054b289680
-Content-Type: text/plain; charset=UTF-8
+In a stateless image, /etc is not a good place for the "build"
+file. By definining the location with a variable it becomes possible
+to have the file created elsewhere on a per-image basis. The default
+is the same as before.
 
-On 14 March 2017 at 23:35, Khem Raj <raj.khem@gmail.com> wrote:
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ meta/classes/image-buildinfo.bbclass | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-> Currently we enable threaded linking feature of gold linker only
-> when its used as default ld. There is no need to restrict it when
-> its not default linker either. As long as gold is enabled, which
-> is the case here, we should be able to do threaded linking.
->
+diff --git a/meta/classes/image-buildinfo.bbclass b/meta/classes/image-buildinfo.bbclass
+index 85626f0..213fb9c 100644
+--- a/meta/classes/image-buildinfo.bbclass
++++ b/meta/classes/image-buildinfo.bbclass
+@@ -12,6 +12,9 @@
+ # Desired variables to display 
+ IMAGE_BUILDINFO_VARS ?= "DISTRO DISTRO_VERSION"
+ 
++# Desired location of the output file in the image.
++IMAGE_BUILDINFO_FILE ??= "${sysconfdir}/build"
++
+ # From buildhistory.bbclass
+ def image_buildinfo_outputvars(vars, listvars, d): 
+     vars = vars.split()
+@@ -61,7 +64,7 @@ def buildinfo_target(d):
+ 
+ # Write build information to target filesystem
+ python buildinfo () {
+-    with open(d.expand('${IMAGE_ROOTFS}${sysconfdir}/build'), 'w') as build:
++    with open(d.expand('${IMAGE_ROOTFS}${IMAGE_BUILDINFO_FILE}'), 'w') as build:
+         build.writelines((
+             '''-----------------------
+ Build Configuration:  |
 
-Turns out this broke meta-mingw's Windows SDKS (reproducible if you
-set SDKMACHINE = "i686-mingw32" and build binutils-cross).  I've sent a
-patch to set LDGOLD to '' on mingw, but your comments are welcome on
-alternative fixes.
+base-commit: 6b9dd7a589537b12da648be50298cf7d36461797
+-- 
+git-series 0.9.1
 
-Ross
-
---94eb2c0cfe2228fca7054b289680
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 March 2017 at 23:35, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wr=
-ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style=
-:solid;padding-left:1ex"><div id=3D"gmail-:1na" class=3D"gmail-a3s gmail-aX=
-jCH gmail-m15acf2ed0eecbad2">Currently we enable threaded linking feature o=
-f gold linker only<br>
-when its used as default ld. There is no need to restrict it when<br>
-its not default linker either. As long as gold is enabled, which<br>
-is the case here, we should be able to do threaded linking.</div></blockquo=
-te></div><br>Turns out this broke meta-mingw&#39;s Windows SDKS (reproducib=
-le if you set=C2=A0SDKMACHINE =3D &quot;i686-mingw32&quot; and build binuti=
-ls-cross).=C2=A0 I&#39;ve sent a patch to set LDGOLD to &#39;&#39; on mingw=
-, but your comments are welcome on alternative fixes.</div><div class=3D"gm=
-ail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---94eb2c0cfe2228fca7054b289680--
