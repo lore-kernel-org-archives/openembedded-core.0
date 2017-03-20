@@ -1,51 +1,30 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-yw0-f174.google.com (mail-yw0-f174.google.com
-	[209.85.161.174])
-	by mail.openembedded.org (Postfix) with ESMTP id C576E77922
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.analogue-micro.com (mail.analogue-micro.com
+	[217.144.149.242])
+	by mail.openembedded.org (Postfix) with ESMTP id CF3AA719F7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 11:42:57 +0000 (UTC)
-Received: by mail-yw0-f174.google.com with SMTP id v76so87777327ywg.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 04:42:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=iLLY5ynLBShrzz7rLroEjbBU+myOFLBKWMmHVCKc4e8=;
-	b=IbASZuefnA2tdB25vu4/amN/FlikfS02/dgmejhRi+bR3QkDDv1Wa5q12NK7JeQYn9
-	SuzKzhp0mX8lXlH+sofCxdy/e6Kp/e7Q84HgjgrieazWD2bo4CF8w3/BHLbfhNu8ukdK
-	s9g/eBDNrNC8NEm2RP+/Myf5z6nJJMqrEzr+lmqdxy76qZSJLv2CHuZw7k0q3T6fLYXz
-	7Kf+ZvDqAoHqxqFpkfgKbAIED/bYKOG/dY3ZUupoWCT5p6lzXpshxi11VBjRybtqUVZL
-	l/HAYYkkZ9Hpk2CwJ+mG5xCcXwiHfTo5F2i3hFYEx5zXQDS1kwdZE2F577WmUuQWxWY/
-	9F5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=iLLY5ynLBShrzz7rLroEjbBU+myOFLBKWMmHVCKc4e8=;
-	b=kdM8D/cRQBFzX1CRxdY8vboI6FXS1r711BlFwbNylcbHGBCjHivyCiAOlLyvRQlS8v
-	IZFDCRLhfR61UePTtHX7+/RbLONOwzv31UjG4E18R6554sL8HI/v1hze4Vw7H48zW290
-	ZTWuS67nJimkDgSH7brZLBXPG4cVtz0TFkCvdi9PQWVWnDi7KyYuriKAh/LWetu8TpMN
-	8JjhQqXGZWr9A0zoz8feFggYWDUnUIcR7lPEh3Lre82/8Xc6f3Mk4gHuWA98CWSEGJbh
-	NFbizwCjuKf7PldPE27qv+8Q6616RV6xhATs+3SN18TcSsxkE+/jZ6qfIQ9OlTAUbCNf
-	u2Fg==
-X-Gm-Message-State: AFeK/H2mxuiC43JJoRYVxHQXQaSf6cduR3trh8VXPaj2pP0TfvgCtZkkkgyXmT/jHohRUtr3DFY7DRgdtB+rVKJi
-X-Received: by 10.129.116.213 with SMTP id p204mr14743170ywc.151.1490010178440;
-	Mon, 20 Mar 2017 04:42:58 -0700 (PDT)
+	Mon, 20 Mar 2017 12:12:40 +0000 (UTC)
+Received: by mail.analogue-micro.com (Postfix, from userid 999)
+	id C169C68A019; Mon, 20 Mar 2017 12:12:40 +0000 (GMT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	loki.analogue-micro-ltd.com
+X-Spam-Level: *
+X-Spam-Status: No, score=1.7 required=5.0 tests=ALL_TRUSTED,BAYES_20,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
+	by mail.analogue-micro.com (Postfix) with ESMTP id 28E9568A01B;
+	Mon, 20 Mar 2017 12:12:40 +0000 (GMT)
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by zeus.mlbassoc.com (Postfix) with ESMTP id DB1846740276;
+	Mon, 20 Mar 2017 13:12:39 +0100 (CET)
+To: OE-core <openembedded-core@lists.openembedded.org>
+From: Gary Thomas <gary@mlbassoc.com>
+Message-ID: <597a60bd-e1a7-c832-3f95-13464ca8ebd2@mlbassoc.com>
+Date: Mon, 20 Mar 2017 13:12:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.7.0
 MIME-Version: 1.0
-Received: by 10.129.81.136 with HTTP; Mon, 20 Mar 2017 04:42:28 -0700 (PDT)
-In-Reply-To: <14EB1FFCA0C8D24A8B04EDEC1EA78C2458A130E3@XSJ-PSEXMBX01.xlnx.xilinx.com>
-References: <cover.1487727826.git.liezhi.yang@windriver.com>
-	<2702bdc3f6961ba31689d97d67e900f9865d40ee.1487727826.git.liezhi.yang@windriver.com>
-	<ef157c32-b0e7-c487-e9de-57449c22b474@denx.de>
-	<490a19b0-0d48-c090-685f-1edf1e017c4b@windriver.com>
-	<14EB1FFCA0C8D24A8B04EDEC1EA78C2458A130E3@XSJ-PSEXMBX01.xlnx.xilinx.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Mon, 20 Mar 2017 13:42:28 +0200
-Message-ID: <CAHiDW_FRhKQf9hny0htT25b8KUvJuQodEHnh6xkCrUyEbDZnPw@mail.gmail.com>
-To: Manjukumar Harthikote Matha <manjukumar.harthikote-matha@xilinx.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] file: 5.29 -> 5.30
+Subject: Error after updating Poky
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,80 +37,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Mar 2017 11:42:58 -0000
-Content-Type: multipart/alternative; boundary=001a1147f5c065e6c8054b2807cc
+X-List-Received-Date: Mon, 20 Mar 2017 12:12:41 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a1147f5c065e6c8054b2807cc
-Content-Type: text/plain; charset=UTF-8
+I just updated to the latest Poky master (7e0985bab68547) which
+replaced rpm-5.4 with rpm-4.13.90 (git).  My builds in an existing
+tree now fail:
 
-On 20 March 2017 at 13:29, Manjukumar Harthikote Matha <
-manjukumar.harthikote-matha@xilinx.com> wrote:
+| 
+/build/p7619_2016-02-23/tmp/work/cortexa7hf-neon-amltd-linux-gnueabi/libsolv/0.6.26-r0/recipe-sysroot-native/usr/lib/librpmdb.so: 
+file not recognized: File format not recognized
+| collect2: error: ld returned 1 exit status
+| ext/CMakeFiles/libsolvext.dir/build.make:285: recipe for target 'ext/libsolvext.so.0' failed
+| make[2]: *** [ext/libsolvext.so.0] Error 1
+| make[2]: Leaving directory '/build/p7619_2016-02-23/tmp/work/cortexa7hf-neon-amltd-linux-gnueabi/libsolv/0.6.26-r0/build'
+| CMakeFiles/Makefile2:207: recipe for target 'ext/CMakeFiles/libsolvext.dir/all' failed
+| make[1]: *** [ext/CMakeFiles/libsolvext.dir/all] Error 2
+| make[1]: Leaving directory '/build/p7619_2016-02-23/tmp/work/cortexa7hf-neon-amltd-linux-gnueabi/libsolv/0.6.26-r0/build'
+| Makefile:163: recipe for target 'all' failed
+| make: *** [all] Error 2
+| ERROR: Function failed: do_compile (log file is located at 
+/build/p7619_2016-02-23/tmp/work/cortexa7hf-neon-amltd-linux-gnueabi/libsolv/0.6.26-r0/temp/log.do_compile.8183)
+ERROR: Task (/local/poky-cutting-edge/meta/recipes-extended/libsolv/libsolv_0.6.26.bb:do_compile) failed with exit code '1'
 
->
->
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org
-> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> > Robert Yang
-> > Sent: Monday, March 20, 2017 3:14 PM
-> > To: Stefano Babic; openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH 5/5] file: 5.29 -> 5.30
-> >
-> > Yes, file's upstream commit ID has changed, Paul has sent a patch for it:
-> >
-> > http://lists.openembedded.org/pipermail/openembedded-core/2017-
-> > March/134261.html
-> >
->
-> Is it better to use nobranch=1 ?
-> Changes in this file.git has broken Morty as well, we used nobranch=1 to
-> resolve this issue.
-> I haven't tested this for other released versions of Yocto.
->
+Looking at this file shows it's a stale symlink:
+$ file 
+/build/p7619_2016-02-23/tmp/work/cortexa7hf-neon-amltd-linux-gnueabi/libsolv/0.6.26-r0/recipe-sysroot-native/usr/lib/librpmdb.so
+/build/p7619_2016-02-23/tmp/work/cortexa7hf-neon-amltd-linux-gnueabi/libsolv/0.6.26-r0/recipe-sysroot-native/usr/lib/librpmdb.so: 
+symbolic link to librpmdb-5.4.so
+$ file `readlink 
+/build/p7619_2016-02-23/tmp/work/cortexa7hf-neon-amltd-linux-gnueabi/libsolv/0.6.26-r0/recipe-sysroot-native/usr/lib/librpmdb.so`
+librpmdb-5.4.so: cannot open `librpmdb-5.4.so' (No such file or directory)
 
-This is band-aid at best: If you do a "cleanall" to force a new clone the
-commits likely won't be there anymore.
+Any ideas how to fix this?
 
-Jussi
+Thanks
 
---001a1147f5c065e6c8054b2807cc
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 2=
-0 March 2017 at 13:29, Manjukumar Harthikote Matha <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:manjukumar.harthikote-matha@xilinx.com" target=3D"_blank">m=
-anjukumar.harthikote-matha@xilinx.com</a>&gt;</span> wrote:<br><blockquote =
-class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
-;padding-left:1ex"><span class=3D""><br>
-<br>
-&gt; -----Original Message-----<br>
-&gt; From: <a href=3D"mailto:openembedded-core-bounces@lists.openembedded.o=
-rg">openembedded-core-bounces@<wbr>lists.openembedded.org</a><br>
-&gt; [mailto:<a href=3D"mailto:openembedded-core-bounces@lists.openembedded=
-.org">openembedded-core-<wbr>bounces@lists.openembedded.org</a><wbr>] On Be=
-half Of<br>
-&gt; Robert Yang<br>
-&gt; Sent: Monday, March 20, 2017 3:14 PM<br>
-&gt; To: Stefano Babic; <a href=3D"mailto:openembedded-core@lists.openembed=
-ded.org">openembedded-core@lists.<wbr>openembedded.org</a><br>
-&gt; Subject: Re: [OE-core] [PATCH 5/5] file: 5.29 -&gt; 5.30<br>
-&gt;<br>
-&gt; Yes, file&#39;s upstream commit ID has changed, Paul has sent a patch =
-for it:<br>
-&gt;<br>
-&gt; <a href=3D"http://lists.openembedded.org/pipermail/openembedded-core/2=
-017-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<w=
-br>pipermail/openembedded-core/<wbr>2017-</a><br>
-&gt; March/134261.html<br>
-&gt;<br>
-<br>
-</span>Is it better to use nobranch=3D1 ?<br>
-Changes in this file.git has broken Morty as well, we used nobranch=3D1 to =
-resolve this issue.<br>
-I haven&#39;t tested this for other released versions of Yocto.<br></blockq=
-uote><div><br></div><div>This is band-aid at best: If you do a &quot;cleana=
-ll&quot; to force a new clone the commits likely won&#39;t be there anymore=
-.</div><div><br></div><div>Jussi</div><div><br></div></div></div></div>
-
---001a1147f5c065e6c8054b2807cc--
