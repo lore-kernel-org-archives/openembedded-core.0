@@ -1,47 +1,49 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 8766471DEF
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-yw0-f171.google.com (mail-yw0-f171.google.com
+	[209.85.161.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 84D1271DEF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 09:38:19 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id z133so13301669wmb.2
+	Mon, 20 Mar 2017 09:43:04 +0000 (UTC)
+Received: by mail-yw0-f171.google.com with SMTP id v198so85859278ywc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 02:38:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Mon, 20 Mar 2017 02:43:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=7K1mDMiTpqHFKWJOMpoBKsgg2Hp1Bz7xIEuCCYBUAaE=;
-	b=BCJzOftsIvzssvVQvNQskKFB9ILr2xJ3I0qP1zdg+X0J6b6vrlqHGk1mArMyid+asL
-	jQif5riBGz2UQFmHgWi8UZy2FlCSZf/xa9meF1FbY+2yoeJ0msS3g9oyqxb61EveNCTE
-	yI1i7bRtG0tUNF+2QJN265gtHSr/DjVyDS4vYpw7SbcB/m5dQIlJPdyTmUYLVAcSFYsB
-	0H6nLKmZy0rguDXYYNOGEpWuwqK6ppShn4kdjuPeCkm0P4INg4NZAxAHmDRMfZwrBpUx
-	eCQPNJuRbrrdF1YEqR4B9Q4IW9X0y87gA7hJe6VGkX/t4mwEd5VdYjRjNuxncousmu2H
-	DB1Q==
+	:cc; bh=OQYpj6rFexhYPBif89U5IQ54w3kXLBkOQ5TjBZ1nyN8=;
+	b=kab74tJNY3ir8kW+q9+KbkwmMBXrK3/1v7bUpTbtJ8yOfmZNzyyyb2LWkbTDlrVSnq
+	je7vZpHlGjFBPGUuDTRf6ZkPp3o8Anp+XkdlhbL57lwd7IbWeVzhihBUpfizrlzmrBxP
+	fTaAgSTW6jWYFgTMp+VeSCdBlgGTZmX3ipAqxGB70x7I1ztnYAJmI6RAqCZya79foKtC
+	GzS0FPHNFzlhSpURBOS6tYfVvESg5OO/PROFVGuHoFFW71B36KLRCzI7NqCDNnamWZgG
+	NtDfemKafT5lgL7qNGtPUKxnhGGMFKct0ScDTv9Vvl5ANBTQiWuwXB1yBRBCI9F+t6vI
+	FvEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=7K1mDMiTpqHFKWJOMpoBKsgg2Hp1Bz7xIEuCCYBUAaE=;
-	b=cNBFBxbSLelY4oLhVGb6OcAvWzQoOA3Z03OuNa1a0rxvkz63OXF1OPZBHzyV7GzOol
-	wRTICXRTz+1HDnjENw9lWVrAh2VdzAd1xMVfambhsX5RUYS00BqLxJWAbdRFimG3b2Rz
-	pELUQ8ni9FyxEmT5c35aoVA5bLZxkOeKjc4IQRPGVuCkidoGyv/4muDiPpaN69B5o650
-	e+mcux5NwAmBeqYUkrgPbagohDY7SMrljRWnXKHBw5263jw6RwN2T2XLWegwO56+fc1K
-	fP1W/0fMNz9/+fSoD6fwbK2szNxKH5sBFLFgfIWQ4RRB+33cQuPuG72V0qrakzNymAYI
-	Dqww==
-X-Gm-Message-State: AFeK/H3VTmNFRBskH/RI3HxRn4dW94dR76/mQYuCtDlm+jIaKDX6wGZFtUT9yPfQ510pYdxhEtCAHSOy6yY6iQ==
-X-Received: by 10.28.1.68 with SMTP id 65mr9302894wmb.63.1490002699876; Mon,
-	20 Mar 2017 02:38:19 -0700 (PDT)
+	bh=OQYpj6rFexhYPBif89U5IQ54w3kXLBkOQ5TjBZ1nyN8=;
+	b=lVUL5gjcE4hIQfzIcTosd1pUDH8+eALKSxEPqhfx+Qrn2CEZB34zqgiz3fJ9pcwGev
+	sY+tmmmk3zhIjoXU3C416+qQKtD6QXjqY2Hl5XfcBmGzUltTVxTaZufNAJnGzeh3UcK+
+	VwKRVDOtxLmfvz6iIRaXZLC8at07XgaKiIdXGRs60KSkuqmkM4BwgGuHHoGexJaN9i5+
+	Vk7rxbwAjTKKELlvW5AGZaWmSM3DHGRqOwW6Wlvjym1/cRJyxwvioOXyajDlyMHim9na
+	uqk/y8rmLy8smchfy2Cm6k9zimrQjvvXt5iyDuEQ7msnNyV1/ow9z6k3ZJSB/d5B/beF
+	852Q==
+X-Gm-Message-State: AFeK/H1E4PfZTBViA2hAJ5Gwz3pX4GLWZX28dJ6w2htVfs12f0iM7YLQY8aGMIkJbR6TJmVDmDMMMb7P3lEhTe/r
+X-Received: by 10.129.87.132 with SMTP id l126mr14850726ywb.167.1490002985378; 
+	Mon, 20 Mar 2017 02:43:05 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.80.150.195 with HTTP; Mon, 20 Mar 2017 02:38:19 -0700 (PDT)
-In-Reply-To: <1489929217-24568-3-git-send-email-liu.ming50@gmail.com>
-References: <1489929217-24568-1-git-send-email-liu.ming50@gmail.com>
-	<1489929217-24568-3-git-send-email-liu.ming50@gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-Date: Mon, 20 Mar 2017 10:38:19 +0100
-Message-ID: <CAAQYJAtekfDc6GmD0uhm=qTqf28PQde7-b9Qa1Xa1HHPhWrVsg@mail.gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>, "Tao,
-	Yue" <yue.tao@windriver.com>,
-	Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: Re: [PATCH 2/4] kernel.bbclass: handle kernel-vmlinux in KERNEL_IMAGETYPES
+Received: by 10.129.81.136 with HTTP; Mon, 20 Mar 2017 02:42:35 -0700 (PDT)
+In-Reply-To: <ef157c32-b0e7-c487-e9de-57449c22b474@denx.de>
+References: <cover.1487727826.git.liezhi.yang@windriver.com>
+	<2702bdc3f6961ba31689d97d67e900f9865d40ee.1487727826.git.liezhi.yang@windriver.com>
+	<ef157c32-b0e7-c487-e9de-57449c22b474@denx.de>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Mon, 20 Mar 2017 11:42:35 +0200
+Message-ID: <CAHiDW_Hh-R6zDNaZ5GymtGXWo1yzJpEOyr7Sts1PPZJF-pUmNQ@mail.gmail.com>
+To: Stefano Babic <sbabic@denx.de>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/5] file: 5.29 -> 5.30
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,167 +56,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Mar 2017 09:38:19 -0000
+X-List-Received-Date: Mon, 20 Mar 2017 09:43:06 -0000
+Content-Type: multipart/alternative; boundary=001a1146269aa87d80054b265a5a
+
+--001a1146269aa87d80054b265a5a
 Content-Type: text/plain; charset=UTF-8
 
-On Sun, Mar 19, 2017 at 2:13 PM,  <liu.ming50@gmail.com> wrote:
-> From: Ming Liu <peter.x.liu@external.atlascopco.com>
+On 20 March 2017 at 11:14, Stefano Babic <sbabic@denx.de> wrote:
 >
-> There is a mess after KERNEL_IMAGETYPES was introduced in commit 849b67b2:
-> [ kernel: Add KERNEL_IMAGETYPES to build multi types kernel at one time ]
+> On 22/02/2017 02:44, Robert Yang wrote:
+> > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> > ---
+> >  meta/recipes-devtools/file/{file_5.29.bb => file_5.30.bb} | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >  rename meta/recipes-devtools/file/{file_5.29.bb => file_5.30.bb} (96%)
+> >
+> > diff --git a/meta/recipes-devtools/file/file_5.29.bb
+b/meta/recipes-devtools/file/file_5.30.bb
+> > similarity index 96%
+> > rename from meta/recipes-devtools/file/file_5.29.bb
+> > rename to meta/recipes-devtools/file/file_5.30.bb
+> > index 29af8748150..0998fcfa899 100644
+> > --- a/meta/recipes-devtools/file/file_5.29.bb
+> > +++ b/meta/recipes-devtools/file/file_5.30.bb
+> > @@ -19,7 +19,7 @@ SRC_URI = "git://github.com/file/file.git \
+> >          file://0001-Add-P-prompt-into-Usage-info.patch \
+> >          "
+> >
+> > -SRCREV = "015b0cdce1a0abb68ab99510e7fc8d2f77e8ec77"
+> > +SRCREV = "79814950aafb81ecd6a910c2a8a3b8ec12f3e4a6"
+> >  S = "${WORKDIR}/git"
+> >
+> >  inherit autotools
+> >
 >
-> There are two packages both providing vmlinux image if 'vmlinux' is set in
-> KERNEL_IMAGETYPES, they are kernel-vmlinux and kernel-image-vmlinux, to
-> let them to be able to coexist, kernel-image-vmlinux was set to empty
-> allowable, but its postinst/postrm scripts still remain trying to install/rm
-> a update-alternatives link to /boot/vmlinux-${KERNEL_VERSION_NAME} but that
-> file is actually being provided by the other package kernel-vmlinux.
+> Strange enough, it seems that the tree loses the history and all SRCREV
+> are wrong. I tried with -krogoth, -morty, -master, and no revision
+> number is found. In fact, after cloning the tree I see that all revision
+> number were changed, just a couple here:
 >
-> Fixed this mess by appending vmlinux to KERNEL_IMAGETYPES and process it
-> in anonymous python function. It would not change the original behavior,
-> all the generated packages would be same with before except that the
-> ALLOW_EMPTY variable, it is removed in this patch.
-
-Hi,
-
-I am testing the 'old-style' of embedding the initramfs in the images [1].
-Your patch does add 'vmlinux' even if we have KERNEL_IMAGETYPE ?= "zImage"
-so it leads to the following error:
-
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_deploy
-| install: cannot stat 'arch/arm/boot/vmlinux': No such file or director
-
-The solution for our custom kernel recipe is:
-
-inherit kernel
-addtask kernel_link_images after do_compile before do_strip
-
-as done in linux-yocto.inc.
-
-So with this little adjustment it is still possible to build in the old-way.
-
-I didn't test yet the other part of the patchset so I cannot fully ack it.
-FWIW I never liked the *BUNDLE framework for the need of specifying
-the INITRAMFS_IMAGE in a conf file and not in the kernel recipe as
-done with the old framework.
-
-Cheers
-Andrea
-
-[1] http://cgit.openembedded.org/meta-handheld/tree/recipes-kernel/linux/linux-gcw0-kexecboot_4.7.bb
+> 5.25 is now : 789cfc7d727cee1c7cfb7d29c09162e2399285c5
+>
+> 5.30 (this patch) : 3050419355566d2a96c5be97fef0ffae097bbb96
+>
+> Ok, I fix this in my layer with a .bbappend, but...Of course, all builds
+> are broken - have you seen the same effect ?
 
 
->
-> Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
-> ---
->  meta/classes/kernel.bbclass | 47 +++++++++++++++++++--------------------------
->  1 file changed, 20 insertions(+), 27 deletions(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 6905a9b..1a4335c 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -14,6 +14,7 @@ OE_TERMINAL_EXPORTS += "KBUILD_OUTPUT"
->  # we include gcc above, we dont need virtual/libc
->  INHIBIT_DEFAULT_DEPS = "1"
->
-> +KERNEL_IMAGETYPES_append = " vmlinux"
->  KERNEL_IMAGETYPE ?= "zImage"
->  INITRAMFS_IMAGE ?= ""
->  INITRAMFS_IMAGE_NAME ?= "${@['${INITRAMFS_IMAGE}-${MACHINE}', ''][d.getVar('INITRAMFS_IMAGE') == '']}"
-> @@ -35,38 +36,33 @@ python __anonymous () {
->      import re
->
->      # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into KERNEL_IMAGETYPES
-> -    type = d.getVar('KERNEL_IMAGETYPE') or ""
-> -    alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
-> -    types = d.getVar('KERNEL_IMAGETYPES') or ""
-> -    if type not in types.split():
-> -        types = (type + ' ' + types).strip()
-> -    if alttype not in types.split():
-> -        types = (alttype + ' ' + types).strip()
-> +    types = set((d.getVar('KERNEL_IMAGETYPES') or "").split())
-> +    types.add(d.getVar('KERNEL_IMAGETYPE') or "")
-> +    types.add(d.getVar('KERNEL_ALT_IMAGETYPE') or "")
-> +    types = ' '.join(sorted(types)).strip()
->      d.setVar('KERNEL_IMAGETYPES', types)
-> -
-> -    typeformake = re.sub(r'\.gz', '', types)
-> -    d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake)
-> +    d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', re.sub(r'\.gz', '', types))
->
->      for type in types.split():
-> -        typelower = type.lower()
->          imagedest = d.getVar('KERNEL_IMAGEDEST')
-> +        if type == "vmlinux":
-> +            typelower = type.lower()
-> +        else:
-> +            typelower = "image-%s" % type.lower()
->
-> -        d.appendVar('PACKAGES', ' ' + 'kernel-image-' + typelower)
-> -
-> -        d.setVar('FILES_kernel-image-' + typelower, '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME}')
-> -
-> -        d.appendVar('RDEPENDS_kernel-image', ' ' + 'kernel-image-' + typelower)
-> -
-> -        d.setVar('PKG_kernel-image-' + typelower, 'kernel-image-' + typelower + '-${KERNEL_VERSION_PKG_NAME}')
-> +        d.appendVar('PACKAGES', ' kernel-%s' % typelower)
-> +        if type != 'vmlinux' or d.getVar('KERNEL_IMAGETYPE') == 'vmlinux':
-> +            d.appendVar('RDEPENDS_kernel-image', ' kernel-%s' % typelower)
->
-> -        d.setVar('ALLOW_EMPTY_kernel-image-' + typelower, '1')
-> +        d.setVar('FILES_kernel-%s' % typelower, '/%s/%s-${KERNEL_VERSION_NAME}' % (imagedest, type))
-> +        d.setVar('PKG_kernel-%s' % typelower, 'kernel-%s-${KERNEL_VERSION_PKG_NAME}' % typelower)
->
->          priority = d.getVar('KERNEL_PRIORITY')
-> -        postinst = '#!/bin/sh\n' + 'update-alternatives --install /' + imagedest + '/' + type + ' ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} ' + priority + ' || true' + '\n'
-> -        d.setVar('pkg_postinst_kernel-image-' + typelower, postinst)
-> +        postinst = '#!/bin/sh\nupdate-alternatives --install /%s/%s %s %s-${KERNEL_VERSION_NAME} %s || true\n' % (imagedest, type, type, type, priority)
-> +        d.setVar('pkg_postinst_kernel-%s' % typelower, postinst)
->
-> -        postrm = '#!/bin/sh\n' + 'update-alternatives --remove' + ' ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} || true' + '\n'
-> -        d.setVar('pkg_postrm_kernel-image-' + typelower, postrm)
-> +        postrm = '#!/bin/sh\nupdate-alternatives --remove %s %s-${KERNEL_VERSION_NAME} || true\n' % (type, type)
-> +        d.setVar('pkg_postrm_kernel-%s' % typelower, postrm)
->
->      image = d.getVar('INITRAMFS_IMAGE')
->      if image:
-> @@ -319,7 +315,6 @@ kernel_do_install() {
->         done
->         install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
->         install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
-> -       install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
->         [ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/boot/Module.symvers-${KERNEL_VERSION}
->         install -d ${D}${sysconfdir}/modules-load.d
->         install -d ${D}${sysconfdir}/modprobe.d
-> @@ -484,19 +479,17 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
->
->  # kernel-base becomes kernel-${KERNEL_VERSION}
->  # kernel-image becomes kernel-image-${KERNEL_VERSION}
-> -PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev kernel-modules"
-> +PACKAGES = "kernel kernel-base kernel-image kernel-dev kernel-modules"
->  FILES_${PN} = ""
->  FILES_kernel-base = "/lib/modules/${KERNEL_VERSION}/modules.order /lib/modules/${KERNEL_VERSION}/modules.builtin"
->  FILES_kernel-image = ""
->  FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH} /lib/modules/${KERNEL_VERSION}/build"
-> -FILES_kernel-vmlinux = "/boot/vmlinux-${KERNEL_VERSION_NAME}"
->  FILES_kernel-modules = ""
->  RDEPENDS_kernel = "kernel-base"
->  # Allow machines to override this dependency if kernel image files are
->  # not wanted in images as standard
->  RDEPENDS_kernel-base ?= "kernel-image"
->  PKG_kernel-image = "kernel-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
-> -RDEPENDS_kernel-image += "${@base_conditional('KERNEL_IMAGETYPE', 'vmlinux', 'kernel-vmlinux', '', d)}"
->  PKG_kernel-base = "kernel-${@legitimize_package_name('${KERNEL_VERSION}')}"
->  RPROVIDES_kernel-base += "kernel-${KERNEL_VERSION}"
->  ALLOW_EMPTY_kernel = "1"
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Paul Gortmakers fix "update SRCREV for 5.30 to fix fetch fail on missing
+commit" is in master. Similar fixes should be sent to release branches as
+well.
 
+It may have been a mistake to start using an unofficial git repo as the
+source ... but the original reasoning was that the ftp site was unreliable.
+The upstream version control being CVS means that we've got three choices,
+none of them good.
+
+--001a1146269aa87d80054b265a5a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 20 March 2017 at 11:14, Stefano Babic &lt;<a href=3D"ma=
+ilto:sbabic@denx.de">sbabic@denx.de</a>&gt; wrote:<br>&gt;<br>&gt; On 22/02=
+/2017 02:44, Robert Yang wrote:<br>&gt; &gt; Signed-off-by: Robert Yang &lt=
+;<a href=3D"mailto:liezhi.yang@windriver.com">liezhi.yang@windriver.com</a>=
+&gt;<br>&gt; &gt; ---<br>&gt; &gt; =C2=A0meta/recipes-devtools/file/{<a hre=
+f=3D"http://file_5.29.bb">file_5.29.bb</a> =3D&gt; <a href=3D"http://file_5=
+.30.bb">file_5.30.bb</a>} | 2 +-<br>&gt; &gt; =C2=A01 file changed, 1 inser=
+tion(+), 1 deletion(-)<br>&gt; &gt; =C2=A0rename meta/recipes-devtools/file=
+/{<a href=3D"http://file_5.29.bb">file_5.29.bb</a> =3D&gt; <a href=3D"http:=
+//file_5.30.bb">file_5.30.bb</a>} (96%)<br>&gt; &gt;<br>&gt; &gt; diff --gi=
+t a/meta/recipes-devtools/file/<a href=3D"http://file_5.29.bb">file_5.29.bb=
+</a> b/meta/recipes-devtools/file/<a href=3D"http://file_5.30.bb">file_5.30=
+.bb</a><br>&gt; &gt; similarity index 96%<br>&gt; &gt; rename from meta/rec=
+ipes-devtools/file/<a href=3D"http://file_5.29.bb">file_5.29.bb</a><br>&gt;=
+ &gt; rename to meta/recipes-devtools/file/<a href=3D"http://file_5.30.bb">=
+file_5.30.bb</a><br>&gt; &gt; index 29af8748150..0998fcfa899 100644<br>&gt;=
+ &gt; --- a/meta/recipes-devtools/file/<a href=3D"http://file_5.29.bb">file=
+_5.29.bb</a><br>&gt; &gt; +++ b/meta/recipes-devtools/file/<a href=3D"http:=
+//file_5.30.bb">file_5.30.bb</a><br>&gt; &gt; @@ -19,7 +19,7 @@ SRC_URI =3D=
+ &quot;git://<a href=3D"http://github.com/file/file.git">github.com/file/fi=
+le.git</a> \<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Add=
+-P-prompt-into-Usage-info.patch \<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0&quot;<br>&gt; &gt;<br>&gt; &gt; -SRCREV =3D &quot;015b0cdce1a0abb68a=
+b99510e7fc8d2f77e8ec77&quot;<br>&gt; &gt; +SRCREV =3D &quot;79814950aafb81e=
+cd6a910c2a8a3b8ec12f3e4a6&quot;<br>&gt; &gt; =C2=A0S =3D &quot;${WORKDIR}/g=
+it&quot;<br>&gt; &gt;<br>&gt; &gt; =C2=A0inherit autotools<br>&gt; &gt;<br>=
+&gt;<br>&gt; Strange enough, it seems that the tree loses the history and a=
+ll SRCREV<br>&gt; are wrong. I tried with -krogoth, -morty, -master, and no=
+ revision<br>&gt; number is found. In fact, after cloning the tree I see th=
+at all revision<br>&gt; number were changed, just a couple here:<br>&gt;<br=
+>&gt; 5.25 is now : 789cfc7d727cee1c7cfb7d29c09162e2399285c5<br>&gt;<br>&gt=
+; 5.30 (this patch) : 3050419355566d2a96c5be97fef0ffae097bbb96<br>&gt;<br>&=
+gt; Ok, I fix this in my layer with a .bbappend, but...Of course, all build=
+s<br>&gt; are broken - have you seen the same effect ?<br><br><br>Paul Gort=
+makers fix &quot;update SRCREV for 5.30 to fix fetch fail on missing commit=
+&quot; is in master. Similar fixes should be sent to release branches as we=
+ll.=C2=A0<div><br></div><div>It may have been a mistake to start using an u=
+nofficial git repo as the source ... but the original reasoning was that th=
+e ftp site was unreliable. The upstream version control being CVS means tha=
+t we&#39;ve got three choices, none of them good.<br><br></div></div>
+
+--001a1146269aa87d80054b265a5a--
