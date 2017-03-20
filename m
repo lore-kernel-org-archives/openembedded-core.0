@@ -1,46 +1,47 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
-	[209.85.214.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FFDD77941
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
+	[209.85.216.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A14777952
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 12:26:24 +0000 (UTC)
-Received: by mail-it0-f43.google.com with SMTP id g138so92936960itb.0
+	Mon, 20 Mar 2017 12:26:57 +0000 (UTC)
+Received: by mail-qt0-f180.google.com with SMTP id r45so104778945qte.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 05:26:26 -0700 (PDT)
+	Mon, 20 Mar 2017 05:26:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=dY0ppv8k+Oa2nhhPVlDZXaAFUnw3bNwqdU2hd8Kk5yY=;
-	b=Nj8vKUP6lc5Xt1lNULn8ZdMnP7h2ow20E3QJojwKi64XlCd1sOSlh/i5qR2G434dEv
-	ylsvrAakJ7UiN5MM1OKIkz3CphgJRbc+NrDyVu3nTTjCJBqykhvnQtr6gjg0GbchA6vi
-	S5sRg6zt4En0bKoQayTxYtG6AAGVhVWOhTa+1twql193fCmJFy5XWYlsbrwwemD0ySzR
-	W/mp5SNCdWuIco/I4+V2M6VhA7HObyxYFZ3h+Zv6XeNgum24rDKNJ+hPYFWI1GnSrNGn
-	Rlji4vIdJbNZCiMuI8SESfR98wNRLmMg/H7+lwem3qOiePtx4zvf1UnD+G331e3e6XoS
-	gJ2Q==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=SKp5l9etjUzze3YFEddvhb/U8GOhk7D3UXCr/55y8hU=;
+	b=zUkOSSnBgw+bwwOnsafZBc0UY5pBqV1sI6GbIKoErDKTNxC7jze87DC3j4XxFLAOeR
+	mFmrkCqczh7cueMYQdTvV7MRaBKTrsxNbnpeDlT5Nx8DSPoaTn4+/ao8EPiBUNd+Om7m
+	8qG3P/1Fr6fPWlVJ40cqEBVF1cI2IxdaSl07ae3HCKf2corVTARrI7YqK26KzaSVA8Wm
+	So4qFrpfVqIpX7B1C5VHs5ASXh1cuN0kZFf/Zt6lvjich+jBP0DCy4RZmUPVilTneIpG
+	XzI+7OzNPnPprRKxiovpfKv/3TJYVbKw9D6rKuRqvhlmU8Nz3vFKRQmSeQ0HJgiIRNbY
+	YC3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=dY0ppv8k+Oa2nhhPVlDZXaAFUnw3bNwqdU2hd8Kk5yY=;
-	b=s7f/qsJAxM9eY6SbTrCQn5amMsV4wE0s7dgK3VxQYCSOi1uQ7JCiGmcvTROzO7fM2i
-	5O3x7IbeS/j/SPvBmkXseTLLLl5wXP4N8WLPaAOx0iiGcz7AM9cv7c9JHl+70MGKN8Ea
-	bY8qQFK4QjdeEabXbGHOmJoksWu3dGtt6iZi2lH/cNZnj+Hn83HxOnk/mvzX+QUfwErA
-	ceN/nyiyGcS0tNxRS/pd+x7jzYo/WNBV3V6P3GxmwLU0VmiIObbZwfN7RrbTWMYEjFf7
-	zKAkYli4JtF43yiMoi08113JNqOJPOhoFoOgBrfVwLHybLnbaVs3dEf06/EdhFcs6ePw
-	UGRA==
-X-Gm-Message-State: AFeK/H324HKdMZSHNS3y9A1IBURKSWl1b7tTE3QQMXnPBj508H6giuOKPSWaCjd74NeJEB01
-X-Received: by 10.107.134.234 with SMTP id q103mr25199080ioi.82.1490012785496; 
-	Mon, 20 Mar 2017 05:26:25 -0700 (PDT)
-Received: from pohly-desktop.fritz.box (p5DE8C233.dip0.t-ipconnect.de.
-	[93.232.194.51]) by smtp.gmail.com with ESMTPSA id
-	i96sm8476988iod.46.2017.03.20.05.26.23
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 20 Mar 2017 05:26:24 -0700 (PDT)
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Mar 2017 13:26:18 +0100
-Message-Id: <30bea167e7c204be52b3f5af24e43d5f339e98b7.1490012754.git-series.patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] image-buildinfo.bbclass: configurable location for build file
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=SKp5l9etjUzze3YFEddvhb/U8GOhk7D3UXCr/55y8hU=;
+	b=jsLhAbTlFO0H/ftr2AkW7EdtGTMdBjBSm5hEAuQudErKbo5IA6eQZ6NBfQ/z3QjvFQ
+	SL5eSzAbZQk6TDSBeuXXqaQ5zMKPlXlXL87q8UWNaC92XbJpFKNzMJDR/zxhgiiVwqMQ
+	0XOs4BeCDlMe7koCg++65AlZDVt+KIZG8dP8RYFuog78TRvIxaqJjx0qaUHffem9gPh8
+	z2JWEueNRtH3fKwoH6lBNrQSeh929L8peQArzdqh8yyLastyV5aAGASGYu0/wF+3TZ3e
+	ggmmfZBPBwGuKnl/+Boftzhfif0GrwxtNk5chETNkzFC8tWbZR4DG24Lqv2n5xN2eg4D
+	yToQ==
+X-Gm-Message-State: AFeK/H2ReJhCjZsg1ItRys/v38KddaPCRT5f5MnvzZvNMah5MukH/Fhj5I5DW5+VJV9RE84hENBgi67Enr8ahj8e
+X-Received: by 10.200.2.150 with SMTP id p22mr28159786qtg.197.1490012818549;
+	Mon, 20 Mar 2017 05:26:58 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Mon, 20 Mar 2017 05:26:38 -0700 (PDT)
+In-Reply-To: <1490012333-43021-3-git-send-email-d.schultz@phytec.de>
+References: <1490012333-43021-1-git-send-email-d.schultz@phytec.de>
+	<1490012333-43021-3-git-send-email-d.schultz@phytec.de>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 20 Mar 2017 12:26:38 +0000
+Message-ID: <CAJTo0LbxzD21M8+A=9FuHQNjOH9A65dLh48Exe1sBRNwGrVmqg@mail.gmail.com>
+To: Daniel Schultz <d.schultz@phytec.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] meta: images: Add fsck to avoid corrupt EXT file systems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,43 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Mar 2017 12:26:25 -0000
+X-List-Received-Date: Mon, 20 Mar 2017 12:26:57 -0000
+Content-Type: multipart/alternative; boundary=f4030435c234c2f83d054b28a4da
 
-In a stateless image, /etc is not a good place for the "build"
-file. By definining the location with a variable it becomes possible
-to have the file created elsewhere on a per-image basis. The default
-is the same as before.
+--f4030435c234c2f83d054b28a4da
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
----
- meta/classes/image-buildinfo.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+On 20 March 2017 at 12:18, Daniel Schultz <d.schultz@phytec.de> wrote:
 
-diff --git a/meta/classes/image-buildinfo.bbclass b/meta/classes/image-buildinfo.bbclass
-index 85626f0..213fb9c 100644
---- a/meta/classes/image-buildinfo.bbclass
-+++ b/meta/classes/image-buildinfo.bbclass
-@@ -12,6 +12,9 @@
- # Desired variables to display 
- IMAGE_BUILDINFO_VARS ?= "DISTRO DISTRO_VERSION"
- 
-+# Desired location of the output file in the image.
-+IMAGE_BUILDINFO_FILE ??= "${sysconfdir}/build"
-+
- # From buildhistory.bbclass
- def image_buildinfo_outputvars(vars, listvars, d): 
-     vars = vars.split()
-@@ -61,7 +64,7 @@ def buildinfo_target(d):
- 
- # Write build information to target filesystem
- python buildinfo () {
--    with open(d.expand('${IMAGE_ROOTFS}${sysconfdir}/build'), 'w') as build:
-+    with open(d.expand('${IMAGE_ROOTFS}${IMAGE_BUILDINFO_FILE}'), 'w') as build:
-         build.writelines((
-             '''-----------------------
- Build Configuration:  |
+> Since there are no checks if a EXT file system was successfully created,
+> this should add to prevent possible system failures.
+>
 
-base-commit: 6b9dd7a589537b12da648be50298cf7d36461797
--- 
-git-series 0.9.1
+Doesn't mkfs returns an exit code if it wasn't successful?
 
+Ross
+
+--f4030435c234c2f83d054b28a4da
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 March 2017 at 12:18, Daniel Schultz <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:d.schultz@phytec.de" target=3D"_blank">d.schultz@phytec.de</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1o2" class=3D"a3=
+s aXjCH m15aeba88db0499fb">Since there are no checks if a EXT file system w=
+as successfully created,<br>
+this should add to prevent possible system failures.<br></div></blockquote>=
+</div><br>Doesn&#39;t mkfs returns an exit code if it wasn&#39;t successful=
+?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross=
+</div></div>
+
+--f4030435c234c2f83d054b28a4da--
