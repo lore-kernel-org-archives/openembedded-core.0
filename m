@@ -1,31 +1,32 @@
 Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 80F5660685
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 68CE671975
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 21:34:16 +0000 (UTC)
+	Mon, 20 Mar 2017 22:41:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1490045659; x=1521581659;
+	t=1490049667; x=1521585667;
 	h=from:to:cc:subject:date:message-id:mime-version:
 	content-transfer-encoding;
-	bh=JWi5I98l4wL9NniRRhnH5cydrG0F9bceJ/ST4p++2Fs=;
-	b=F4z9QcXend8HIencgMacntpKXvmZcPq/RLrYfJ1mAep02M3Bp1uxkpms
-	AC6JjbLT9UDRru4v2/j+DV9eRBbMMw==;
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Mar 2017 14:34:18 -0700
+	bh=pjYBt9nT9Wbiqy7NfvxjzYOAe03YUZ8MkAkmaeEhjQQ=;
+	b=g9UOFJ/KYkhvKIg6HCcUVx40XRfj0a3RkGiZoy/Yu2ZdzHuDpbWcjYWU
+	jti7o2DsieVdpUHfRp2PribM1SOofQ==;
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Mar 2017 15:41:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,196,1486454400"; d="scan'208";a="77508431"
+X-IronPort-AV: E=Sophos;i="5.36,196,1486454400"; d="scan'208";a="1110485015"
 Received: from aklin-mobl.amr.corp.intel.com (HELO
 	alimonb-mobl1.zpn.intel.com) ([10.255.72.95])
-	by orsmga005.jf.intel.com with ESMTP; 20 Mar 2017 14:34:17 -0700
+	by orsmga001.jf.intel.com with ESMTP; 20 Mar 2017 15:41:05 -0700
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Mar 2017 15:38:00 -0600
-Message-Id: <1490045880-26412-1-git-send-email-anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	patrick.ohly@intel.com
+Date: Mon, 20 Mar 2017 16:44:45 -0600
+Message-Id: <1490049887-10712-1-git-send-email-anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Subject: [PATCH] scripts/compatlayer: Add exclude of meta-world-pkgdata on get_signatures
+Subject: [PATCH 1/3] scripts/lib/compatlayer: Remove require of meta- in layer dir name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,52 +39,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Mar 2017 21:34:17 -0000
+X-List-Received-Date: Mon, 20 Mar 2017 22:41:05 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The meta-world-pkgdata recipe can be modified when a layer is added
-may be can add recipes to world target, so exclude by default.
-
-[YOCTO #11162]
+The layers isn't required to have a dirctory name start with meta-
+so remove the validation.
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- scripts/lib/compatlayer/__init__.py | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ scripts/lib/compatlayer/__init__.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/lib/compatlayer/__init__.py b/scripts/lib/compatlayer/__init__.py
-index a7eb862..888d303 100644
+index 888d303..15dc95d 100644
 --- a/scripts/lib/compatlayer/__init__.py
 +++ b/scripts/lib/compatlayer/__init__.py
-@@ -133,6 +133,11 @@ def get_signatures(builddir, failsafe=False):
-     import subprocess
-     import re
- 
-+    # some recipes needs to be excluded like meta-world-pkgdata
-+    # because a layer can add recipes to a world build so signature
-+    # will be change
-+    exclude_recipes = ('meta-world-pkgdata',)
-+
-     sigs = {}
- 
-     cmd = 'bitbake '
-@@ -153,6 +158,15 @@ def get_signatures(builddir, failsafe=False):
-             line = line.strip()
-             s = sig_regex.match(line)
-             if s:
-+                exclude = False
-+                for er in exclude_recipes:
-+                    (recipe, task) = s.group('task').split(':')
-+                    if er == recipe:
-+                        exclude = True
-+                        break
-+                if exclude:
-+                    continue
-+
-                 sigs[s.group('task')] = s.group('hash')
- 
-     if not sigs:
+@@ -118,7 +118,7 @@ def detect_layers(layer_directories):
+         for root, dirs, files in os.walk(directory):
+             dir_name = os.path.basename(root)
+             conf_dir = os.path.join(root, 'conf')
+-            if dir_name.startswith('meta-') and os.path.isdir(conf_dir):
++            if os.path.isdir(conf_dir):
+                 layer = _detect_layer(root)
+                 if layer:
+                     layers.append(layer)
 -- 
 2.1.4
 
