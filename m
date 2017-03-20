@@ -1,53 +1,30 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id D443171ABC
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 15:17:09 +0000 (UTC)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D8337799C
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 20 Mar 2017 15:17:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 857C82E4E4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 16:17:10 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id buSAjfH+K8d7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 16:17:09 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id B1C222E4E6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 16:17:09 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9EFB41E086
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 16:17:09 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 940241E084
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 16:17:09 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 16:17:09 +0100 (CET)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 871121739
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 16:17:09 +0100 (CET)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v2KFH9kK019211
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 16:17:09 +0100
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v2KFH9XF019205
-	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Mar 2017 16:17:09 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Mar 2017 16:17:07 +0100
-Message-Id: <20170320151707.19060-1-pkj@axis.com>
-X-Mailer: git-send-email 2.12.0
-X-TM-AS-GCONF: 00
-Subject: [PATCH] package.bbclass: Add PRIVATE_LIBS to list of package specific variables
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v2KFHMWa029858; Mon, 20 Mar 2017 15:17:22 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Shu8E-tU8Jsb; Mon, 20 Mar 2017 15:17:22 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v2KFHJ8b029854
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 20 Mar 2017 15:17:20 GMT
+Message-ID: <1490023039.13980.142.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, Kristian Amlie <kristian.amlie@mender.io>
+Date: Mon, 20 Mar 2017 15:17:19 +0000
+In-Reply-To: <CAMKF1sp6C9qqzt1azPQwOpxySj34_KifVosn5aSp2bzDjfoS6w@mail.gmail.com>
+References: <7780ce1c-7e26-0cac-9813-ec713251c7b9@mender.io>
+	<CAMKF1sp6C9qqzt1azPQwOpxySj34_KifVosn5aSp2bzDjfoS6w@mail.gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Cc: OE-core <Openembedded-core@lists.openembedded.org>
+Subject: Re: go-bootstrap / go-native conflict during do_rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,31 +37,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Mar 2017 15:17:10 -0000
+X-List-Received-Date: Mon, 20 Mar 2017 15:17:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Changes to PRIVATE_LIBS should change the sstate checksum. To make
-that happen, it needs to be listed in the list of package specific
-variables, therefore add it.
+On Mon, 2017-03-20 at 07:49 -0700, Khem Raj wrote:
+> On Mon, Mar 20, 2017 at 6:47 AM, Kristian Amlie
+> <kristian.amlie@mender.io> wrote:
+> > 
+> > --------------------------------------------------
+> > 
+> > Additionally, in the logs I found these two snippets:
+> > 
+> > --------------------------------------------------
+> > Considering setscene task: ['go-native', 'do_populate_sysroot']
+> >   considering dependency: ['go-native', 'do_populate_sysroot']
+> >   considering dependency: ['mender-artifact-native',
+> > 'do_populate_sysroot']
+> > Adding dependency on go-native
+> > ...
+> > Considering setscene task: ['go-bootstrap-native',
+> > 'do_populate_sysroot']
+> >   considering dependency: ['go-native', 'do_populate_sysroot']
+> > Adding dependency on go-bootstrap-native
+> > --------------------------------------------------
+> > 
+> > which lead me to believe that all dependencies are being pulled in
+> > simultaneously by do_rootfs, but go-native and go-bootstrap-native
+> > are
+> > in fact mutually exclusive, since they install to the sysroot in
+> > the
+> > same location. Note that both compilers build just fine, it's only
+> > at
+> > the do_rootfs stage that this shows up.
+> > 
+> > I think the oe-meta-go layer solved this by having go-bootstrap-
+> > native
+> > install in a different location, but I'm unsure what is the best
+> > approach for OE.
+> go-bootstrap is only needed for few recipes. I think we should find
+> out
+> a way to keep this dep limited to those recipes and not reflect in
+> final
+> image rootfs creation. That seems to be not useful.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/classes/package.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+There is code in sstate.bbclass in setscene_depvalid:
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 467f5f1c5a..dd1b316989 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -2011,7 +2011,7 @@ python package_depchains() {
- 
- # Since bitbake can't determine which variables are accessed during package
- # iteration, we need to list them here:
--PACKAGEVARS = "FILES RDEPENDS RRECOMMENDS SUMMARY DESCRIPTION RSUGGESTS RPROVIDES RCONFLICTS PKG ALLOW_EMPTY pkg_postinst pkg_postrm INITSCRIPT_NAME INITSCRIPT_PARAMS DEBIAN_NOAUTONAME ALTERNATIVE PKGE PKGV PKGR USERADD_PARAM GROUPADD_PARAM CONFFILES SYSTEMD_SERVICE LICENSE SECTION pkg_preinst pkg_prerm RREPLACES GROUPMEMS_PARAM SYSTEMD_AUTO_ENABLE SKIP_FILEDEPS"
-+PACKAGEVARS = "FILES RDEPENDS RRECOMMENDS SUMMARY DESCRIPTION RSUGGESTS RPROVIDES RCONFLICTS PKG ALLOW_EMPTY pkg_postinst pkg_postrm INITSCRIPT_NAME INITSCRIPT_PARAMS DEBIAN_NOAUTONAME ALTERNATIVE PKGE PKGV PKGR USERADD_PARAM GROUPADD_PARAM CONFFILES SYSTEMD_SERVICE LICENSE SECTION pkg_preinst pkg_prerm RREPLACES GROUPMEMS_PARAM SYSTEMD_AUTO_ENABLE SKIP_FILEDEPS PRIVATE_LIBS"
- 
- def gen_packagevar(d):
-     ret = []
--- 
-2.12.0
+        # Consider sysroot depending on sysroot tasks
+        if taskdependees[task][1] == 'do_populate_sysroot' and taskdependees[dep][1] == 'do_populate_sysroot':
+            [...]
+            # Nothing need depend on libc-initial/gcc-cross-initial
+            if "-initial" in taskdependees[task][0]:
+                continue
 
+so if go-bootstrap-native were renamed go-native-initial, things might
+happen to work better...
+
+Cheers,
+
+Richard
 
