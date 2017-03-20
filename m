@@ -1,47 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E8E97795B
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 16:51:13 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id t189so69603042wmt.1
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 09:51:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=R0FdfFceGi++cdKpQWVuIRUjvedt5086QL3oiMFq67c=;
-	b=ZULMCmrHeqInbY1AnRCue655IujuiM5g2by9RdWagYioZ+OjWtbvZsUDoCR2iiYH/G
-	WbPbCh+2pWR7wYf85AtvcCFFdODTpDy0NvIEiMjc2Jk30sd3y0UeMIWV6x9SgVuXuoVh
-	wgE0h59cn+FWdMXbqDagglzXs5874lN6vuey/jRUs/QMhviYpcqn2uV7QjzQkGmM+b74
-	kUe7O5VPj3SicV4AuE43W6HqTRCJimYxOVCBeAP7ccxIrW+68LaMMZqc44XpPfGw5Yjv
-	ZsvbI9LvK77Cl67D48cfKcA9HxWTN2QmvaJniCRTuQ10drSvSqyu0fXvZsLsVApA5Fej
-	DmEQ==
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id A53CB7795B
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Mar 2017 16:54:41 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id t189so69681561wmt.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Mar 2017 09:54:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=hKcJ0/5+EE8rs6NmWT0aafmt7KB0+BCQVNrf6MHIAm4=;
+	b=Y4ygr0o49zcGKnJ+5lQH5CG1/VIQUBFHmR1EoxM3MZKFYCsLimmCRGW2dOoAie2zF6
+	3oA65+3G83kiJNxVXwwOB0xuhMiSgsu4fP5SbDNgdbz+JvkXlSzDfkPVMkRxemjsJL+7
+	G6Pjmao4s4ZnnFE98h3yycKQwIkLOJgD0sjKhaNFSmPky7ut2eEczDxJDxoOhknL0vzV
+	UGpZPkdixZZWtbJRylG34T6Eiy/kfPz8SC7RA6t4uRPcGsyiyBbJfvpyihFWJtt1HTLc
+	cCE6I9mLB0mXVceKn4q2kfnAK0kuI4nlAtBl/hqkrVmF7CX/5K2A7l1vJAxUlnriFyIn
+	1DDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=R0FdfFceGi++cdKpQWVuIRUjvedt5086QL3oiMFq67c=;
-	b=DRWL6OGMf2622Gj9OZJIm8KFtNanxazhk7MU0aEBcL5dy89zwhThzxIPMoSxfw/Qj6
-	KVGRGout+ekD4jbAzGQ9w8fbYWbGkerY9/VG4AUHhRretIZLZlN8VeePLGkAl2fnwCsM
-	hbeUVCpKFu5Wmo/SXp14wWEvF1OPM2pLUyEppYIyeQCb0cIBeXt7fJrnDJpgEUUbAemZ
-	K04SRtIJmYzQNV9tOq/cxMM1KetT7bqY/tdN7q/ILcqfmLd6ocd0weyhLKGeLTCImhWv
-	fDgNSmX9YExdpO8hoe0ktm5SSPrkFR+v8UfjAYf5ncb616EDe28T6/FK6EHFX2oGvQVx
-	EpIg==
-X-Gm-Message-State: AFeK/H2WaLm4B9Ijt0Lup3kIve71eHrt7+whDFH3zDKq3XXuiVc77Z9ElMy9OT+8kZ1QqcdlT8ww5xN2TZmqkw==
-X-Received: by 10.28.43.129 with SMTP id r123mr3247593wmr.13.1490028674627;
-	Mon, 20 Mar 2017 09:51:14 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.80.180.162 with HTTP; Mon, 20 Mar 2017 09:50:44 -0700 (PDT)
-In-Reply-To: <CAMKF1sqgsN6Q+JrpOC83hxP3Vm8G0Wm_fjsN3yW=nZMOX88Oiw@mail.gmail.com>
-References: <7780ce1c-7e26-0cac-9813-ec713251c7b9@mender.io>
-	<CAMKF1sp6C9qqzt1azPQwOpxySj34_KifVosn5aSp2bzDjfoS6w@mail.gmail.com>
-	<1490023039.13980.142.camel@linuxfoundation.org>
-	<CAMKF1sqgsN6Q+JrpOC83hxP3Vm8G0Wm_fjsN3yW=nZMOX88Oiw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 20 Mar 2017 09:50:44 -0700
-Message-ID: <CAMKF1srC3vQpSOb7N9YwVkwjA4Y5Q8N4sCfKXfjpMysyBEEKAw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <Openembedded-core@lists.openembedded.org>
-Subject: Re: go-bootstrap / go-native conflict during do_rootfs
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=hKcJ0/5+EE8rs6NmWT0aafmt7KB0+BCQVNrf6MHIAm4=;
+	b=R+SCxDF8zu5FIkpAq3jCMpxrdud9jvyjQqk4BnzArhPizICMJjOBeWIUQQnOJjJyFy
+	gdbLD6mtYKidJmV8j8yMTgMeV7pjdGmoHNeUVWNACPFV5WbGjIkg/aq4R8ZTrh1ecz6m
+	SRBDLI/fcSrewjQ+6u0nZVrSbGkVpce3EZRFfXziClKTI3ufnD1oK5jONxZwbvrJdDkx
+	ShD8Qpk32BnwR5AHObDW/ZyfOFuIBNc3FmlqQCxdYRHOYGLlBW2mGM+cQb8hiYbwZ52d
+	jqTHTudKlX4BH1n0jwyUomhQr1rQwBic8XNRIRYOTU0430h6lhBNnGPoIWSF98AaHe7O
+	9kjw==
+X-Gm-Message-State: AFeK/H0UXkHGLi4OXnnHCufigHVTWqsg5ZTE6JV2xUCevVU5e8FMUsxH76Dibqfgj4kg4gUy
+X-Received: by 10.28.61.198 with SMTP id k189mr11609502wma.71.1490028882044;
+	Mon, 20 Mar 2017 09:54:42 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	o15sm14141971wmd.10.2017.03.20.09.54.40
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 20 Mar 2017 09:54:41 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 20 Mar 2017 16:54:37 +0000
+Message-Id: <1490028878-24324-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH 1/2] insane: remove broken unsafe-references-in-binaries test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,72 +53,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Mar 2017 16:51:17 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 20 Mar 2017 16:54:42 -0000
 
-On Mon, Mar 20, 2017 at 8:29 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Mon, Mar 20, 2017 at 8:17 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Mon, 2017-03-20 at 07:49 -0700, Khem Raj wrote:
->>> On Mon, Mar 20, 2017 at 6:47 AM, Kristian Amlie
->>> <kristian.amlie@mender.io> wrote:
->>> >
->>> > --------------------------------------------------
->>> >
->>> > Additionally, in the logs I found these two snippets:
->>> >
->>> > --------------------------------------------------
->>> > Considering setscene task: ['go-native', 'do_populate_sysroot']
->>> >   considering dependency: ['go-native', 'do_populate_sysroot']
->>> >   considering dependency: ['mender-artifact-native',
->>> > 'do_populate_sysroot']
->>> > Adding dependency on go-native
->>> > ...
->>> > Considering setscene task: ['go-bootstrap-native',
->>> > 'do_populate_sysroot']
->>> >   considering dependency: ['go-native', 'do_populate_sysroot']
->>> > Adding dependency on go-bootstrap-native
->>> > --------------------------------------------------
->>> >
->>> > which lead me to believe that all dependencies are being pulled in
->>> > simultaneously by do_rootfs, but go-native and go-bootstrap-native
->>> > are
->>> > in fact mutually exclusive, since they install to the sysroot in
->>> > the
->>> > same location. Note that both compilers build just fine, it's only
->>> > at
->>> > the do_rootfs stage that this shows up.
->>> >
->>> > I think the oe-meta-go layer solved this by having go-bootstrap-
->>> > native
->>> > install in a different location, but I'm unsure what is the best
->>> > approach for OE.
->>> go-bootstrap is only needed for few recipes. I think we should find
->>> out
->>> a way to keep this dep limited to those recipes and not reflect in
->>> final
->>> image rootfs creation. That seems to be not useful.
->>
->> There is code in sstate.bbclass in setscene_depvalid:
->>
->>         # Consider sysroot depending on sysroot tasks
->>         if taskdependees[task][1] == 'do_populate_sysroot' and taskdependees[dep][1] == 'do_populate_sysroot':
->>             [...]
->>             # Nothing need depend on libc-initial/gcc-cross-initial
->>             if "-initial" in taskdependees[task][0]:
->>                 continue
->>
->> so if go-bootstrap-native were renamed go-native-initial, things might
->> happen to work better...
->
-> ah thats right, forgot about that, I think we should rename the recipe
-> to go-native-initial
->
->>
+This test aims to detect binaries in /bin which link to libraries in /usr/lib,
+for the case where the user has /usr on a separate filesystem to /.
 
-Can you try
+However it doesn't scan both image/ and the sysroot, so if a binary in /bin
+links to a library in /usr/lib that was built by the same recipe then it will
+error out.
 
-http://lists.openembedded.org/pipermail/openembedded-core/2017-March/134372.html
+This test isn't enabled by default, and because of this serious bug I suspect
+nobody else is enabling it either.  As /usr being on a separate partition to /
+is a very rare configuration these days I think we should delete the test: if
+someone cares sufficiently they should write a test that actually works.
 
-and see if this works out for you ?
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/insane.bbclass | 42 ------------------------------------------
+ 1 file changed, 42 deletions(-)
+
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 6a34bd5..7a86997 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -408,48 +408,6 @@ def package_qa_check_perm(path,name,d, elf, messages):
+     """
+     return
+ 
+-QAPATHTEST[unsafe-references-in-binaries] = "package_qa_check_unsafe_references_in_binaries"
+-def package_qa_check_unsafe_references_in_binaries(path, name, d, elf, messages):
+-    """
+-    Ensure binaries in base_[bindir|sbindir|libdir] do not link to files under exec_prefix
+-    """
+-    if unsafe_references_skippable(path, name, d):
+-        return
+-
+-    if elf:
+-        import subprocess as sub
+-        pn = d.getVar('PN')
+-
+-        exec_prefix = d.getVar('exec_prefix')
+-        sysroot_path = d.getVar('STAGING_DIR_TARGET')
+-        sysroot_path_usr = sysroot_path + exec_prefix
+-
+-        try:
+-            ldd_output = bb.process.Popen(["prelink-rtld", "--root", sysroot_path, path], stdout=sub.PIPE).stdout.read().decode("utf-8")
+-        except bb.process.CmdError:
+-            error_msg = pn + ": prelink-rtld aborted when processing %s" % path
+-            package_qa_handle_error("unsafe-references-in-binaries", error_msg, d)
+-            return False
+-
+-        if sysroot_path_usr in ldd_output:
+-            ldd_output = ldd_output.replace(sysroot_path, "")
+-
+-            pkgdest = d.getVar('PKGDEST')
+-            packages = d.getVar('PACKAGES')
+-
+-            for package in packages.split():
+-                short_path = path.replace('%s/%s' % (pkgdest, package), "", 1)
+-                if (short_path != path):
+-                    break
+-
+-            base_err = pn + ": %s, installed in the base_prefix, requires a shared library under exec_prefix (%s)" % (short_path, exec_prefix)
+-            for line in ldd_output.split('\n'):
+-                if exec_prefix in line:
+-                    error_msg = "%s: %s" % (base_err, line.strip())
+-                    package_qa_handle_error("unsafe-references-in-binaries", error_msg, d)
+-
+-            return False
+-
+ QAPATHTEST[unsafe-references-in-scripts] = "package_qa_check_unsafe_references_in_scripts"
+ def package_qa_check_unsafe_references_in_scripts(path, name, d, elf, messages):
+     """
+-- 
+2.8.1
+
 
