@@ -1,36 +1,53 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CBCC71C7E
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1910671C7E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 15:07:19 +0000 (UTC)
+	Mon, 20 Mar 2017 15:13:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id AD7FA208FB;
-	Mon, 20 Mar 2017 15:07:20 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id STLREXum8TYt; Mon, 20 Mar 2017 15:07:20 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 7CFA9208DA;
-	Mon, 20 Mar 2017 15:07:17 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 0D132162413; Mon, 20 Mar 2017 11:07:17 -0400 (EDT)
-Date: Mon, 20 Mar 2017 11:07:17 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20170320150717.GZ15664@denix.org>
-References: <1489793040-52384-1-git-send-email-denis@denix.org>
-	<20170320140612.GX15664@denix.org>
-	<1490021741.13980.140.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <1490021741.13980.140.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Denys Dmytriyenko <denys@ti.com>, Christos Zoulas <christos@zoulas.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [morty][PATCH] file: update SRCREV for 5.28 to fix fetch fail on missing commit
+	by bastet.se.axis.com (Postfix) with ESMTP id 63C7718428
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Mar 2017 16:13:12 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id TgLt-lCWkfOi
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Mar 2017 16:13:11 +0100 (CET)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 0131A183BF
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Mar 2017 16:13:10 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DFD161E086
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Mar 2017 16:13:10 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D521B1E083
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Mar 2017 16:13:10 +0100 (CET)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Mar 2017 16:13:10 +0100 (CET)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id C16251794
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Mar 2017 16:13:10 +0100 (CET)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v2KFDAhM023440
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Mar 2017 16:13:10 +0100
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v2KFDAds023438
+	for openembedded-core@lists.openembedded.org;
+	Mon, 20 Mar 2017 16:13:10 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 20 Mar 2017 16:13:08 +0100
+Message-Id: <20170320151308.23291-1-pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+X-TM-AS-GCONF: 00
+Subject: [PATCH] gpgme: Avoid requiring a host C++ compiler with C++11 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,31 +60,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Mar 2017 15:07:20 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 20 Mar 2017 15:13:12 -0000
 
-On Mon, Mar 20, 2017 at 02:55:41PM +0000, Richard Purdie wrote:
-> On Mon, 2017-03-20 at 10:06 -0400, Denys Dmytriyenko wrote:
-> > Ping.
-> > 
-> > This is getting quickly escalated by my teams and customers. Can we
-> > merge this 
-> > to morty right away? Thanks!
-> > 
-> > There's another patch for krogoth, that's not as urgent yet, but
-> > probably will 
-> > be soon too...
-> > 
-> > BTW, I believe Armin was traveling last week, not sure if he's back
-> > yet.
-> 
-> Thanks for the patches, I'd been away this weekend but having them
-> available helped a lot!
+Building the C++ bindings for native requires a host C++ compiler with
+C++11 support. Since these bindings are currently not needed, we can
+disable them and thus avoid increasing the requirement for the host C++
+compiler.
 
-Sure, happy to help!
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/recipes-support/gpgme/gpgme_1.8.0.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
+diff --git a/meta/recipes-support/gpgme/gpgme_1.8.0.bb b/meta/recipes-support/gpgme/gpgme_1.8.0.bb
+index d3e7880a47..2756ef815d 100644
+--- a/meta/recipes-support/gpgme/gpgme_1.8.0.bb
++++ b/meta/recipes-support/gpgme/gpgme_1.8.0.bb
+@@ -34,7 +34,11 @@ PACKAGECONFIG[python3] = ",,python3 swig-native,"
+ # Supported: "cl cpp python python2 python3 qt"
+ # python says 'search and find python2 or python3'
+ 
+-LANGUAGES ?= "cpp"
++# Building the C++ bindings for native requires a C++ compiler with C++11
++# support. Since these bindings are currently not needed, we can disable them.
++DEFAULT_LANGUAGES = ""
++DEFAULT_LANGUAGES_class-target = "cpp"
++LANGUAGES ?= "${DEFAULT_LANGUAGES}"
+ LANGUAGES .= "${@bb.utils.contains('PACKAGECONFIG', 'python2', ' python2', '', d)}"
+ LANGUAGES .= "${@bb.utils.contains('PACKAGECONFIG', 'python3', ' python3', '', d)}"
+ 
 -- 
-Denys
+2.12.0
+
 
