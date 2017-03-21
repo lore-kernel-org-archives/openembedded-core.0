@@ -1,48 +1,48 @@
 Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 8805C6612D
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 27A2971AFC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Mar 2017 00:55:26 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id x124so341649wmf.3
+	Tue, 21 Mar 2017 00:55:32 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id u132so350662wmg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 17:55:28 -0700 (PDT)
+	Mon, 20 Mar 2017 17:55:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=3vZ4T+IthADdcdhJj8LLY9R65fG90AGZktTHoc+mBC0=;
-	b=ayu8dljgeLHDy2srhU6uFeLKTRmSOd/KXgJe4pLCaokCYBEPG9KGRDrENr9KSwbwif
-	9DvZE4Ba9iL220fXQka8s3+64iL+FSRFrLQbHvGR212sOOEu6hWaLOVVM2pSSGCVtK71
-	gp/v8xObBNoypXzhn8qouXeHqEUP+RAempEYtOLCuIzJ44x+eNGUX8aNcVlWkgZr8G51
-	4RjorxZvMW3vOW9jzgqXfb/21Nwi6byLjSxBmhqzsQCwTU8lfvW3JQBAnP0Karhf16yu
-	obHauO2fBtSz+gRbvexaHiq+kUhJHl85zxL9LmCDealUZrboHY3FOSIh0q0Trn+Eg7ke
-	MI4Q==
+	bh=m+MDGqMGsQQgxDkwbZ4Y81EL1EfckHlj7G8H28Psgv8=;
+	b=Jhi/PacpCWXTbiA5mTfDMRjbfTvOMqgX6bRocmPEbJC+q4OaD84Wkfqfth61Xfkj6R
+	0K9LjPlw9IDAlRKAA8WaW95Nndw59JmD7Zu+RDlCighrZJReSc16vroQNmVN39cgVmWD
+	AJO/kjPGPf+VGAySTiC0oxA4KeDYKF0ipaKM6lJJf/8ElTJFjzFJyhIuSQTcHlJgkdfQ
+	KqTtZ/ljjldA7KJCW35wSQdyNX+ZfTz1bnHzKzwm4NNB6Ar+bjt+cTg9jSHsdy3/p2Ry
+	M1kN00T65AUNqujzzO/3DFDfpvpmUfzTVsNb2VcOTyP6nCFkBkzmUPhok2/65xVUpLHJ
+	s9aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=3vZ4T+IthADdcdhJj8LLY9R65fG90AGZktTHoc+mBC0=;
-	b=bOeKcCaqgWoPbclIB6S0sgjIFuM1T34GPG7cq4jF5N60hgSIOF9v1HeicFZYwt1zDU
-	SavjvoBw0m37+DBvKAQw3Rf5oXVTtSUH1dNTeNmjwTl/ynr3iWiMkwYHD0VNDnUQHnq5
-	KcTev4tfRTwsvnYVRq9/FxMJim6pTddIWPShARVmVBmalNcs98jJnHLX/brBiNqT3g3F
-	kjzTT6TXZOz7WK6Ec01ZnnmQz1np/wLA8XELNFah/WSbTId8hrlJOVM1N2HKwjV2rNit
-	5MLiO4gDErHFb7iyb0iMtijQOeXSiyaWDvAv7Y84eea9jsoAxZjNJRAT3JWebFIJ9d2v
-	6aVw==
-X-Gm-Message-State: AFeK/H30h56l4Kv0LipigFn/+p9wyER/Qcxg/izf87LXcwVhEuGxRZL5IkIdvis6Z+T5Iw==
-X-Received: by 10.28.109.147 with SMTP id b19mr272806wmi.69.1490057727732;
-	Mon, 20 Mar 2017 17:55:27 -0700 (PDT)
+	bh=m+MDGqMGsQQgxDkwbZ4Y81EL1EfckHlj7G8H28Psgv8=;
+	b=f0kiI0zRMlpL2SV6nMmcqlkFY3j4e/pSdeCW3ffoz5lWmpeU+TmJSOft1J5YqsC1un
+	bjDTr6Tm0yPmeUIpPTwjw9PUec57iWuAr2NFMSVXttz2duakRxGkXc6AfyBntC9GC+U4
+	d9sr2HAKeA7oJN/LtfjVglPJCiiYSOoFq6hpIYfygts+BQSc0sGaNWviwxS0P6UDTi51
+	2iZ/g2irw525ZHUYpY7siRJ0DQoCYuRtUOxdR3r2ltbKwlWY7ufbsccGmanR5FV+fF4l
+	GicqscqX1JNipIKoU2mnD6ARPCC+O+5nYhd9JjT+TkBB6x7JtCDxOp8QnvnDC4TaykPY
+	VdZg==
+X-Gm-Message-State: AFeK/H08Z6C3IcL9zzRyhF4aekoOF4leRbuzqkD3hfCMdw047tUvp64bgpNhb05EO71lFw==
+X-Received: by 10.28.60.65 with SMTP id j62mr254967wma.73.1490057733854;
+	Mon, 20 Mar 2017 17:55:33 -0700 (PDT)
 Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
 	([223.104.101.84])
-	by smtp.gmail.com with ESMTPSA id 10sm8882258wrz.44.2017.03.20.17.55.24
+	by smtp.gmail.com with ESMTPSA id 10sm8882258wrz.44.2017.03.20.17.55.30
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 20 Mar 2017 17:55:27 -0700 (PDT)
+	Mon, 20 Mar 2017 17:55:33 -0700 (PDT)
 From: liu.ming50@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Mar 2017 01:55:00 +0100
-Message-Id: <1490057703-12819-3-git-send-email-liu.ming50@gmail.com>
+Date: Tue, 21 Mar 2017 01:55:01 +0100
+Message-Id: <1490057703-12819-4-git-send-email-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1490057703-12819-1-git-send-email-liu.ming50@gmail.com>
 References: <1490057703-12819-1-git-send-email-liu.ming50@gmail.com>
 Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH 2/5] kernel.bbclass: introduce INITRAMFS_IMAGE_NAME
+Subject: [PATCH 3/5] kernel.bbclass: handle kernel-vmlinux in KERNEL_IMAGETYPES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,124 +55,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Mar 2017 00:55:26 -0000
+X-List-Received-Date: Tue, 21 Mar 2017 00:55:33 -0000
 
 From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-It defaults to ${INITRAMFS_IMAGE}-${MACHINE} if INITRAMFS_IMAGE is not
-empty.
+There is a mess after KERNEL_IMAGETYPES was introduced in commit 849b67b2:
+[ kernel: Add KERNEL_IMAGETYPES to build multi types kernel at one time ]
 
-This allows the end users to be able to override the initramfs image
-name with a customized value.
+There are two packages both providing vmlinux image if 'vmlinux' is set in
+KERNEL_IMAGETYPES, they are kernel-vmlinux and kernel-image-vmlinux, to
+let them to be able to coexist, kernel-image-vmlinux was set to empty
+allowable, but its postinst/postrm scripts still remain trying to install/rm
+a update-alternatives link to /boot/vmlinux-${KERNEL_VERSION_NAME} but that
+file is actually being provided by the other package kernel-vmlinux.
+
+Fixed this mess by appending vmlinux to KERNEL_IMAGETYPES and process it
+in anonymous python function. It would not change the original behavior,
+all the generated packages would be same with before except that the
+ALLOW_EMPTY variable, it is removed in this patch.
 
 Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
 ---
- meta/classes/kernel-fitimage.bbclass | 10 +++++-----
- meta/classes/kernel.bbclass          | 21 +++++++++++----------
- 2 files changed, 16 insertions(+), 15 deletions(-)
+ meta/classes/kernel.bbclass | 47 +++++++++++++++++++--------------------------
+ 1 file changed, 20 insertions(+), 27 deletions(-)
 
-diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index f9702f8..1be9022 100644
---- a/meta/classes/kernel-fitimage.bbclass
-+++ b/meta/classes/kernel-fitimage.bbclass
-@@ -362,7 +362,7 @@ fitimage_assemble() {
- 	if [ "x${ramdiskcount}" = "x1" ] ; then
- 		# Find and use the first initramfs image archive type we find
- 		for img in cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.gz cpio; do
--			initramfs_path="${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.${img}"
-+			initramfs_path="${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.${img}"
- 			echo "Using $initramfs_path"
- 			if [ -e "${initramfs_path}" ]; then
- 				fitimage_emit_section_ramdisk ${1} "${ramdiskcount}" "${initramfs_path}"
-@@ -445,11 +445,11 @@ kernel_do_deploy_append() {
- 
- 		if [ -n "${INITRAMFS_IMAGE}" ]; then
- 			echo "Copying fit-image-${INITRAMFS_IMAGE}.its source file..."
--			its_initramfs_base_name="fitImage-its-${INITRAMFS_IMAGE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
--			its_initramfs_symlink_name=fitImage-its-${INITRAMFS_IMAGE}-${MACHINE}
-+			its_initramfs_base_name="fitImage-its-${INITRAMFS_IMAGE_NAME}-${PV}-${PR}-${DATETIME}"
-+			its_initramfs_symlink_name=fitImage-its-${INITRAMFS_IMAGE_NAME}
- 			install -m 0644 fit-image-${INITRAMFS_IMAGE}.its ${DEPLOYDIR}/${its_initramfs_base_name}.its
--			fit_initramfs_base_name="fitImage-${INITRAMFS_IMAGE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
--			fit_initramfs_symlink_name=fitImage-${INITRAMFS_IMAGE}-${MACHINE}
-+			fit_initramfs_base_name="fitImage-${INITRAMFS_IMAGE_NAME}-${PV}-${PR}-${DATETIME}"
-+			fit_initramfs_symlink_name=fitImage-${INITRAMFS_IMAGE_NAME}
- 			install -m 0644 arch/${ARCH}/boot/fitImage-${INITRAMFS_IMAGE} ${DEPLOYDIR}/${fit_initramfs_base_name}.bin
- 		fi
- 
 diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index d39fa24..8feb2c1 100644
+index 8feb2c1..425f6cb 100644
 --- a/meta/classes/kernel.bbclass
 +++ b/meta/classes/kernel.bbclass
-@@ -16,6 +16,7 @@ INHIBIT_DEFAULT_DEPS = "1"
+@@ -14,6 +14,7 @@ OE_TERMINAL_EXPORTS += "KBUILD_OUTPUT"
+ # we include gcc above, we dont need virtual/libc
+ INHIBIT_DEFAULT_DEPS = "1"
  
++KERNEL_IMAGETYPES_append = " vmlinux"
  KERNEL_IMAGETYPE ?= "zImage"
  INITRAMFS_IMAGE ?= ""
-+INITRAMFS_IMAGE_NAME ?= "${@['${INITRAMFS_IMAGE}-${MACHINE}', ''][d.getVar('INITRAMFS_IMAGE') == '']}"
- INITRAMFS_TASK ?= ""
- INITRAMFS_IMAGE_BUNDLE ?= ""
+ INITRAMFS_IMAGE_NAME ?= "${@['${INITRAMFS_IMAGE}-${MACHINE}', ''][d.getVar('INITRAMFS_IMAGE') == '']}"
+@@ -35,38 +36,33 @@ python __anonymous () {
+     import re
  
-@@ -167,34 +168,34 @@ copy_initramfs() {
- 	# In case the directory is not created yet from the first pass compile:
- 	mkdir -p ${B}/usr
- 	# Find and use the first initramfs image archive type we find
--	rm -f ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
-+	rm -f ${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio
- 	for img in cpio cpio.gz cpio.lz4 cpio.lzo cpio.lzma cpio.xz; do
--		if [ -e "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img" ]; then
--			cp ${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img ${B}/usr/.
-+		if [ -e "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.$img" ]; then
-+			cp ${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.$img ${B}/usr/.
- 			case $img in
- 			*gz)
- 				echo "gzip decompressing image"
--				gunzip -f ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
-+				gunzip -f ${B}/usr/${INITRAMFS_IMAGE_NAME}.$img
- 				break
- 				;;
- 			*lz4)
- 				echo "lz4 decompressing image"
--				lz4 -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
-+				lz4 -df ${B}/usr/${INITRAMFS_IMAGE_NAME}.$img
- 				break
- 				;;
- 			*lzo)
- 				echo "lzo decompressing image"
--				lzop -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
-+				lzop -df ${B}/usr/${INITRAMFS_IMAGE_NAME}.$img
- 				break
- 				;;
- 			*lzma)
- 				echo "lzma decompressing image"
--				lzma -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
-+				lzma -df ${B}/usr/${INITRAMFS_IMAGE_NAME}.$img
- 				break
- 				;;
- 			*xz)
- 				echo "xz decompressing image"
--				xz -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
-+				xz -df ${B}/usr/${INITRAMFS_IMAGE_NAME}.$img
- 				break
- 				;;
- 			esac
-@@ -222,7 +223,7 @@ do_bundle_initramfs () {
- 				tmp_path=$tmp_path" "$type"##"
- 			fi
- 		done
--		use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
-+		use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio
- 		kernel_do_compile
- 		# Restoring kernel image
- 		for tp in $tmp_path ; do
-@@ -261,7 +262,7 @@ kernel_do_compile() {
- 		# The old style way of copying an prebuilt image and building it
- 		# is turned on via INTIRAMFS_TASK != ""
- 		copy_initramfs
--		use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
-+		use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio
- 	fi
- 	for typeformake in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
- 		oe_runmake ${typeformake} CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
+     # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into KERNEL_IMAGETYPES
+-    type = d.getVar('KERNEL_IMAGETYPE') or ""
+-    alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
+-    types = d.getVar('KERNEL_IMAGETYPES') or ""
+-    if type not in types.split():
+-        types = (type + ' ' + types).strip()
+-    if alttype not in types.split():
+-        types = (alttype + ' ' + types).strip()
++    types = set((d.getVar('KERNEL_IMAGETYPES') or "").split())
++    types.add(d.getVar('KERNEL_IMAGETYPE') or "")
++    types.add(d.getVar('KERNEL_ALT_IMAGETYPE') or "")
++    types = ' '.join(sorted(types)).strip()
+     d.setVar('KERNEL_IMAGETYPES', types)
+-
+-    typeformake = re.sub(r'\.gz', '', types)
+-    d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake)
++    d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', re.sub(r'\.gz', '', types))
+ 
+     for type in types.split():
+-        typelower = type.lower()
+         imagedest = d.getVar('KERNEL_IMAGEDEST')
++        if type == "vmlinux":
++            typelower = type.lower()
++        else:
++            typelower = "image-%s" % type.lower()
+ 
+-        d.appendVar('PACKAGES', ' ' + 'kernel-image-' + typelower)
+-
+-        d.setVar('FILES_kernel-image-' + typelower, '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME}')
+-
+-        d.appendVar('RDEPENDS_kernel-image', ' ' + 'kernel-image-' + typelower)
+-
+-        d.setVar('PKG_kernel-image-' + typelower, 'kernel-image-' + typelower + '-${KERNEL_VERSION_PKG_NAME}')
++        d.appendVar('PACKAGES', ' kernel-%s' % typelower)
++        if type != 'vmlinux' or d.getVar('KERNEL_IMAGETYPE') == 'vmlinux':
++            d.appendVar('RDEPENDS_kernel-image', ' kernel-%s' % typelower)
+ 
+-        d.setVar('ALLOW_EMPTY_kernel-image-' + typelower, '1')
++        d.setVar('FILES_kernel-%s' % typelower, '/%s/%s-${KERNEL_VERSION_NAME}' % (imagedest, type))
++        d.setVar('PKG_kernel-%s' % typelower, 'kernel-%s-${KERNEL_VERSION_PKG_NAME}' % typelower)
+ 
+         priority = d.getVar('KERNEL_PRIORITY')
+-        postinst = '#!/bin/sh\n' + 'update-alternatives --install /' + imagedest + '/' + type + ' ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} ' + priority + ' || true' + '\n'
+-        d.setVar('pkg_postinst_kernel-image-' + typelower, postinst)
++        postinst = '#!/bin/sh\nupdate-alternatives --install /%s/%s %s %s-${KERNEL_VERSION_NAME} %s || true\n' % (imagedest, type, type, type, priority)
++        d.setVar('pkg_postinst_kernel-%s' % typelower, postinst)
+ 
+-        postrm = '#!/bin/sh\n' + 'update-alternatives --remove' + ' ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} || true' + '\n'
+-        d.setVar('pkg_postrm_kernel-image-' + typelower, postrm)
++        postrm = '#!/bin/sh\nupdate-alternatives --remove %s %s-${KERNEL_VERSION_NAME} || true\n' % (type, type)
++        d.setVar('pkg_postrm_kernel-%s' % typelower, postrm)
+ 
+     image = d.getVar('INITRAMFS_IMAGE')
+     if image:
+@@ -319,7 +315,6 @@ kernel_do_install() {
+ 	done
+ 	install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
+ 	install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
+-	install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
+ 	[ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/boot/Module.symvers-${KERNEL_VERSION}
+ 	install -d ${D}${sysconfdir}/modules-load.d
+ 	install -d ${D}${sysconfdir}/modprobe.d
+@@ -484,19 +479,17 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
+ 
+ # kernel-base becomes kernel-${KERNEL_VERSION}
+ # kernel-image becomes kernel-image-${KERNEL_VERSION}
+-PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev kernel-modules"
++PACKAGES = "kernel kernel-base kernel-image kernel-dev kernel-modules"
+ FILES_${PN} = ""
+ FILES_kernel-base = "/lib/modules/${KERNEL_VERSION}/modules.order /lib/modules/${KERNEL_VERSION}/modules.builtin"
+ FILES_kernel-image = ""
+ FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH} /lib/modules/${KERNEL_VERSION}/build"
+-FILES_kernel-vmlinux = "/boot/vmlinux-${KERNEL_VERSION_NAME}"
+ FILES_kernel-modules = ""
+ RDEPENDS_kernel = "kernel-base"
+ # Allow machines to override this dependency if kernel image files are
+ # not wanted in images as standard
+ RDEPENDS_kernel-base ?= "kernel-image"
+ PKG_kernel-image = "kernel-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
+-RDEPENDS_kernel-image += "${@base_conditional('KERNEL_IMAGETYPE', 'vmlinux', 'kernel-vmlinux', '', d)}"
+ PKG_kernel-base = "kernel-${@legitimize_package_name('${KERNEL_VERSION}')}"
+ RPROVIDES_kernel-base += "kernel-${KERNEL_VERSION}"
+ ALLOW_EMPTY_kernel = "1"
 -- 
 2.7.4
 
