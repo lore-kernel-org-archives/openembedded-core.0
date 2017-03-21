@@ -1,50 +1,28 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
-	[209.85.214.50])
-	by mail.openembedded.org (Postfix) with ESMTP id BE91671ACB
+Return-Path: <mcfrisk@kapsi.fi>
+Received: from mail.kapsi.fi (mail.kapsi.fi [217.30.184.167])
+	by mail.openembedded.org (Postfix) with ESMTP id 30591600BB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Mar 2017 08:56:54 +0000 (UTC)
-Received: by mail-it0-f50.google.com with SMTP id 190so5388669itm.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Mar 2017 01:56:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=mrDCAOPRtY7I3D1NUL098upCUZd9okovAHCMIUJO00Y=;
-	b=QOrjP3qFyZzTkxhreyzg+w0R1eTOC4tlvZVzysBX7fZy9q965mo7lfA7KKbpnBTDX8
-	nZflt81grmUSCAvia83AS3lI4Q68wABL3lS1r8lhIIF1y6pDIk7F5433e+yvkKFqXzn6
-	nooXISYQTuOPFqFV5/3zNHPJ8EWV4tkqaMHdTd/VUhCt1rIUk9leI8PB1Et3ORD/4gBs
-	1ObuPE6h07AscDYlSDoTdfGRd9fYgLbvzfM8JmuFZtXaQi95o3msPdBll/XUnlKHBPnY
-	MmeukgEsM63DqfdKuMDaogddZ/YzHk9GrAeRIRFLsR4au2jWY14bUDwm7bunzRAyX/xY
-	wVzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=mrDCAOPRtY7I3D1NUL098upCUZd9okovAHCMIUJO00Y=;
-	b=f9oYal0cvggLH6KCKPFBnMgFKbfdj9Wmi9zOmDR3du+9bqfS3UvEhv+xtOMe4udmly
-	ovzakI8KT20O1WVNzg8IUGq7vgPOXpgzGs3Djk9E1JaeOeMOsmBQSML1QyaO9Z14bdfW
-	FjdbPUNwTrf3JOsxfnVrqVBtc76v6jA4JXvrxyJwRyq7T+a6T/kUta6TInBRrzq7612U
-	q2ptYxGyvH5j6LGoTQmi66Tiz/5NDUI0YzLS8+CjXJVMmv49VwrS0YnDhHMOD+oSK8Zh
-	GK5IJ7sV+BSlTsiZ4DvCqoLcBc+0pSYePduidKGQWLT/dJowfEeMgb/2ZB/rvA6/hLtI
-	/ANg==
-X-Gm-Message-State: AFeK/H2K967vMdAnujx5R8fzxVPd6lA6cpfHq24edyKWxIy6CmEnfbwVWA0IAYg2ohL0xDCd
-X-Received: by 10.36.61.210 with SMTP id n201mr1430343itn.70.1490086615689;
-	Tue, 21 Mar 2017 01:56:55 -0700 (PDT)
-Received: from pohly-desktop.fritz.box (p5DE8D82C.dip0.t-ipconnect.de.
-	[93.232.216.44])
-	by smtp.gmail.com with ESMTPSA id p77sm9802770iod.4.2017.03.21.01.56.53
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 21 Mar 2017 01:56:54 -0700 (PDT)
-From: Patrick Ohly <patrick.ohly@intel.com>
+	Tue, 21 Mar 2017 10:53:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+	s=20161220; h=Message-Id:Date:Subject:Cc:To:From;
+	bh=QMZKA0I5p55CoJrmdMKyCc3TvpKQ6R2zbOntY27NKXA=; 
+	b=RfWRD5DXRRo0ddt890Ny2kzmt5ZltZ5SsjA9QOJ28qWgDI/Z88zPezxwy2/reFCGaloQSyJ+S07CUMHEBW+DsFQ/4p+SsFsjE93g4j4Zp5WsIZPK1gJCI92sqCxxjzi9HmWD9KHEMyyI0Qy2YAnTAhckFmQXwvm4dlL8Ak2zrJ3fHwy17lAGt+nxPNL120Z3vLgrt4ZGkH9EIESVqchBFsEdkyTx0YbHpHi2BrETdgJ15BCtl83rc75bzg7THVPEG7LYOsynrS3BrRC43wdY0ek63GXv9DvWgtnAetmZYghWz+B13Ng+aTrmxAhT9Rhq9tmArKCmxB7+ALuu61ghLQ==;
+Received: from lakka.kapsi.fi ([2001:1bc8:1004::1] ident=Debian-exim)
+	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.84_2) (envelope-from <mcfrisk@kapsi.fi>)
+	id 1cqHPj-0003wE-2w; Tue, 21 Mar 2017 12:53:19 +0200
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1cqHPj-00075e-1m; Tue, 21 Mar 2017 12:53:19 +0200
+From: Mikko Rapeli <mikko.rapeli@bmw.de>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Mar 2017 09:56:50 +0100
-Message-Id: <789385f4751e6657d8ed8d458d49f824adc2b5d7.1490086265.git-series.patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <1490086445.6396.214.camel@intel.com>
-References: <1490086445.6396.214.camel@intel.com>
-Cc: ricardo.neri@intel.com
-Subject: [PATCH] ovmf: fix toolchain selection
+Date: Tue, 21 Mar 2017 12:53:13 +0200
+Message-Id: <1490093593-26558-1-git-send-email-mikko.rapeli@bmw.de>
+X-Mailer: git-send-email 2.1.4
+X-SA-Exim-Connect-IP: 2001:1bc8:1004::1
+X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Subject: [PATCH] buildhistory.bbclass: add layer name to source recipe data
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,198 +35,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Mar 2017 08:56:57 -0000
+X-List-Received-Date: Tue, 21 Mar 2017 10:53:20 -0000
 
-For the native tools, a static patch inserted gcc/g++/ld/ar while later
-adding BUILD_LDFLAGS and BUILD_CFLAGS with sed. Now it's all done with sed,
-which has the advantage that it uses the actual compile variables. However,
-in practice those are the same.
+It is useful to know which layer provided a given recipe and its
+binary packages.
 
-More importantly, picking the build tools for the target was
-broken. ovmf-native tried to insert TARGET_PREFIX into the tools
-definition file, but that variable is empty in a native recipe. As a
-result, "gcc" was used instead of "${HOST_PREFIX}gcc", leading to an
-undesirable dependency on the host compiler and potentially
-(probably?!) causing some of the build issues that were seen for ovmf.
+Many projects combine a number of layers and some of them
+also provide same recipe names in which case bitbake
+can prioritize between them. buildhistory can record
+the decision by saving the layer from where the recipe
+was taken from.
 
-The new approach is to override the tool selection in ovmf-native so
-that the HOST_PREFIX env variable is used, which then gets exported
-during do_compile for the target.
+Also, if a project is split to sub projects which maintain
+recipes in different meta layers, then meta layer specific
+summaries of e.g. disk usage can be calculated if
+source recipes meta layer name is recorded for example in
+buildhistory.
 
-While at it, Python code that gets appened to do_patch only to call
-shell functions gets replaced with the do_patch[postfuncs] mechanism.
+If source layer is not in build history, then layer providing
+the recipe can be exported from build environment using
+'bitbake-layers show-recipes', but it takes a long time to execute
+since all recipes are parsed again and requires full source tree
+with correct build configuration.
 
-Incremental builds now always use the tools definition from the
-current ovmf-native; previously, only the initial build copied the
-template file.
+This patch exports the name of layer as configured in BBFILE_COLLECTIONS
+append of its layer.conf. 'bitbake-layers show-recipes' exports the
+meta layers directory path name. For several open source layers
+these are different, e.g. meta-openembedded/meta-perl/conf/layer.conf
+is perl-layer, poky/meta/conf/layer.conf is core,
+poky/meta-skeleton/conf/layer.conf is skeleton etc.
 
-Probably the entire split into ovmf-native and ovmf could be
-removed. This merely hasn't been attempted yet.
-
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
 ---
- meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch | 48 ------------------------------------------------
- meta/recipes-core/ovmf/ovmf_git.bb                                                       | 68 ++++++++++++++++++++++++++++++++++++++++++++++++++------------------
- 2 files changed, 50 insertions(+), 66 deletions(-)
- delete mode 100644 meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch
+ meta/classes/buildhistory.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch b/meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch
-deleted file mode 100644
-index 644b99d..0000000
---- a/meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch
-+++ /dev/null
-@@ -1,48 +0,0 @@
--From 6e24bde1979c2d7149b37d142fb882dfde0e9770 Mon Sep 17 00:00:00 2001
--From: Matt Fleming <matt.fleming@intel.com>
--Date: Fri, 27 Jun 2014 11:12:18 +0100
--Subject: [PATCH] BaseTools: Force tools variables to host toolchain
--
--Signed-off-by: Matt Fleming <matt.fleming@intel.com>
-----
-- BaseTools/Source/C/Makefiles/app.makefile | 7 +++++++
-- BaseTools/Source/C/VfrCompile/GNUmakefile | 5 +++++
-- 2 files changed, 12 insertions(+)
--
--diff --git a/BaseTools/Source/C/Makefiles/app.makefile b/BaseTools/Source/C/Makefiles/app.makefile
--index 19269a1..62aad0f 100644
----- a/BaseTools/Source/C/Makefiles/app.makefile
--+++ b/BaseTools/Source/C/Makefiles/app.makefile
--@@ -16,6 +16,13 @@ include $(MAKEROOT)/Makefiles/header.makefile
-- 
-- APPLICATION = $(MAKEROOT)/bin/$(APPNAME)
-- 
--+CC = gcc
--+CXX = g++
--+AS = gcc
--+AR = ar
--+LD = ld
--+LINKER = $(CC)
--+
-- .PHONY:all
-- all: $(MAKEROOT)/bin $(APPLICATION) 
-- 
--diff --git a/BaseTools/Source/C/VfrCompile/GNUmakefile b/BaseTools/Source/C/VfrCompile/GNUmakefile
--index 82005e1..5ac5f7e 100644
----- a/BaseTools/Source/C/VfrCompile/GNUmakefile
--+++ b/BaseTools/Source/C/VfrCompile/GNUmakefile
--@@ -26,6 +26,11 @@ OBJECTS = AParser.o DLexerBase.o ATokenBuffer.o EfiVfrParser.o VfrLexer.o VfrSyn
-- 
-- VFR_CPPFLAGS = -DPCCTS_USE_NAMESPACE_STD $(CPPFLAGS)
-- 
--+CC = gcc
--+CXX = g++
--+AS = gcc
--+AR = ar
--+LD = ld
-- LINKER = $(BUILD_CXX)
-- 
-- EXTRA_CLEAN_OBJECTS = EfiVfrParser.cpp EfiVfrParser.h VfrParser.dlg VfrTokens.h VfrLexer.cpp VfrLexer.h VfrSyntax.cpp tokens.h
---- 
--1.9.0
--
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
-index a658c9d..898c5b7 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -11,7 +11,6 @@ PACKAGECONFIG ??= ""
- PACKAGECONFIG[secureboot] = ",,,"
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index bf5789e..109b375 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -86,6 +86,7 @@ python buildhistory_emit_pkghistory() {
+             self.depends = ""
+             self.packages = ""
+             self.srcrev = ""
++            self.layer = ""
  
- SRC_URI = "git://github.com/tianocore/edk2.git;branch=master \
--	file://0001-BaseTools-Force-tools-variables-to-host-toolchain.patch \
- 	file://0002-ovmf-update-path-to-native-BaseTools.patch \
- 	file://0003-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch \
- 	file://VfrCompile-increase-path-length-limit.patch \
-@@ -51,31 +50,54 @@ COMPATIBLE_HOST='(i.86|x86_64).*'
- OVMF_SECURE_BOOT_EXTRA_FLAGS ??= ""
- OVMF_SECURE_BOOT_FLAGS = "-DSECURE_BOOT_ENABLE=TRUE ${OVMF_SECURE_BOOT_EXTRA_FLAGS}"
  
--do_patch_append_class-native() {
--    bb.build.exec_func('do_fix_iasl', d)
--    bb.build.exec_func('do_fix_toolchain', d)
-+do_patch[postfuncs] += "fix_basetools_location"
-+fix_basetools_location () {
- }
--
--do_fix_basetools_location() {
-+fix_basetools_location_class-target() {
-+    # Replaces the fake path inserted by 0002-ovmf-update-path-to-native-BaseTools.patch.
-+    # Necessary for finding the actual BaseTools from ovmf-native.
-     sed -i -e 's#BBAKE_EDK_TOOLS_PATH#${STAGING_BINDIR_NATIVE}/${EDK_TOOLS_DIR}#' ${S}/OvmfPkg/build.sh
- }
+     class PackageInfo:
+@@ -186,6 +187,7 @@ python buildhistory_emit_pkghistory() {
+     pe = d.getVar('PE') or "0"
+     pv = d.getVar('PV')
+     pr = d.getVar('PR')
++    layer = bb.utils.get_file_layer(d.getVar('FILE', True), d)
  
--do_patch_append_class-target() {
--    bb.build.exec_func('do_fix_basetools_location', d)
-+do_patch[postfuncs] += "fix_iasl"
-+fix_iasl() {
- }
--
--
--do_fix_iasl() {
-+fix_iasl_class-native() {
-+    # iasl is not installed under /usr/bin when building with OE.
-     sed -i -e 's#/usr/bin/iasl#${STAGING_BINDIR_NATIVE}/iasl#' ${S}/BaseTools/Conf/tools_def.template
- }
+     pkgdata_dir = d.getVar('PKGDATA_DIR')
+     packages = ""
+@@ -225,6 +227,7 @@ python buildhistory_emit_pkghistory() {
+     rcpinfo.pr = pr
+     rcpinfo.depends = sortlist(oe.utils.squashspaces(d.getVar('DEPENDS') or ""))
+     rcpinfo.packages = packages
++    rcpinfo.layer = layer
+     write_recipehistory(rcpinfo, d)
  
--do_fix_toolchain(){
--    sed -i -e 's#DEF(ELFGCC_BIN)/#${TARGET_PREFIX}#' ${S}/BaseTools/Conf/tools_def.template
--    sed -i -e 's#DEF(GCC.*PREFIX)#${TARGET_PREFIX}#' ${S}/BaseTools/Conf/tools_def.template
--    sed -i -e "s#^LINKER\(.*\)#LINKER\1\nLFLAGS += ${BUILD_LDFLAGS}#" ${S}/BaseTools/Source/C/Makefiles/app.makefile
--    sed -i -e "s#^LINKER\(.*\)#LINKER\1\nCFLAGS += ${BUILD_CFLAGS}#" ${S}/BaseTools/Source/C/Makefiles/app.makefile
--    sed -i -e "s#^LINKER\(.*\)#LINKER\1\nLFLAGS += ${BUILD_LDFLAGS}#" ${S}/BaseTools/Source/C/VfrCompile/GNUmakefile
--    sed -i -e "s#^LINKER\(.*\)#LINKER\1\nCFLAGS += ${BUILD_CFLAGS}#" ${S}/BaseTools/Source/C/VfrCompile/GNUmakefile
-+# Inject CC and friends into the build. LINKER already is in GNUmakefile.
-+# Must be idempotent and thus remove old assignments that were inserted
-+# earlier.
-+do_patch[postfuncs] += "fix_toolchain"
-+fix_toolchain() {
-+    sed -i \
-+        -e '/^\(CC\|CXX\|AS\|AR\|LD\|LINKER\) =/d' \
-+        -e '/^APPLICATION/a CC = ${CC}\nCXX = ${CXX}\nAS = ${AS}\nAR = ${AR}\nLD = ${LD}\nLINKER = $(CC)' \
-+        ${S}/BaseTools/Source/C/Makefiles/app.makefile
-+    sed -i \
-+        -e '/^\(CC\|CXX\|AS\|AR\|LD\)/d' \
-+        -e '/^VFR_CPPFLAGS/a CC = ${CC}\nCXX = ${CXX}\nAS = ${AS}\nAR = ${AR}\nLD = ${LD}' \
-+        ${S}/BaseTools/Source/C/VfrCompile/GNUmakefile
-+}
-+fix_toolchain_append_class-native() {
-+    # This tools_def.template is going to be used by the target ovmf and
-+    # defines which compilers to use. For the GCC toolchain definitions,
-+    # that will be ${HOST_PREFIX}gcc. However, "make" doesn't need that
-+    # prefix.
-+    #
-+    # Injecting ENV(HOST_PREFIX) matches exporting that value as env
-+    # variable in do_compile_class-target.
-+    sed -i \
-+        -e 's#\(ENV\|DEF\)(GCC.*_PREFIX)#ENV(HOST_PREFIX)#' \
-+        -e 's#ENV(HOST_PREFIX)make#make#' \
-+        ${S}/BaseTools/Conf/tools_def.template
-+    sed -i \
-+        -e '/^\(LFLAGS\|CFLAGS\) +=/d' \
-+        -e '/^LINKER/a LFLAGS += ${BUILD_LDFLAGS}\nCFLAGS += ${BUILD_CFLAGS}' \
-+        ${S}/BaseTools/Source/C/Makefiles/app.makefile \
-+        ${S}/BaseTools/Source/C/VfrCompile/GNUmakefile
- }
+     pkgdest = d.getVar('PKGDEST')
+@@ -303,6 +306,7 @@ def write_recipehistory(rcpinfo, d):
+         f.write(u"PR = %s\n" %  rcpinfo.pr)
+         f.write(u"DEPENDS = %s\n" %  rcpinfo.depends)
+         f.write(u"PACKAGES = %s\n" %  rcpinfo.packages)
++        f.write(u"LAYER = %s\n" %  rcpinfo.layer)
  
- GCC_VER="$(${CC} -v 2>&1 | tail -n1 | awk '{print $3}')"
-@@ -119,6 +141,16 @@ do_compile_class-target() {
-         OVMF_ARCH="IA32"
-     fi
  
-+    # The build for the target uses BaseTools/Conf/tools_def.template
-+    # from ovmf-native to find the compiler, which depends on
-+    # exporting HOST_PREFIX.
-+    export HOST_PREFIX="${HOST_PREFIX}"
-+
-+    # BaseTools/Conf gets copied to Conf, but only if that does not
-+    # exist yet. To ensure that an updated template gets used during
-+    # incremental builds, we need to remove the copy before we start.
-+    rm -f `ls ${S}/Conf/*.txt | grep -v ReadMe.txt`
-+
-     # ${WORKDIR}/ovmf is a well-known location where do_install and
-     # do_deploy will be able to find the files.
-     rm -rf ${WORKDIR}/ovmf
-
-base-commit: 30bea167e7c204be52b3f5af24e43d5f339e98b7
+ def write_pkghistory(pkginfo, d):
 -- 
-git-series 0.9.1
+1.9.1
+
 
