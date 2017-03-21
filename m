@@ -1,45 +1,58 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 7ACF46025E
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Mar 2017 05:03:05 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id p189so14778048pfp.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 22:03:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Nf5J6Aoi05Tkt5QrM9FtdL2qhjWEZToAWzuri3vVEZA=;
-	b=ZmeR7t5ReJYAFsbrubp6WWt6B3y9tkgsiIiEpII7Rd31jcohvJEgR43H02Ld+iUlVC
-	YcZezJC8rOdgiffq8TcpvoeAWq1I/EhMYRar5QbAXctwNnC/sDtLzARMzRYiC8veRdfx
-	TRCFweSpzOe46bOYqXhxPlt1BaDHjlPjdGo4Q41W6tSNKMAM0imjsXQn3k2won38Q8rA
-	zAbOlZPT4MJEo8ERQ/qL14W0eJwhGv6VY4hep1fX/pcrHxQWwAU00puCdhtOyIeHbTaX
-	4cWnzH1nERwWiDPGNxZo3R8verUK/FmjJAzGMOwtP/FhV6f2xsnUGoEN/mDYbaQV/rNe
-	B0sg==
+Return-Path: <kristian.amlie@mender.io>
+Received: from mail-lf0-f50.google.com (mail-lf0-f50.google.com
+	[209.85.215.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 47A3271B50
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 21 Mar 2017 06:13:19 +0000 (UTC)
+Received: by mail-lf0-f50.google.com with SMTP id z15so63343460lfd.1
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 20 Mar 2017 23:13:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mender-io.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=XkmxMiQgKtbAvWAqvxksr5n/2wVWOYvvgYKlTG7mZWg=;
+	b=IoVcJSR/OhtCgLIETml67BYBKYqfWj+tNDmaMfxaVsWFxXSjyvodhVct/VJr7/ZR4i
+	dB44fKSTI3y3H5I9VNdiQg1keuSnS2u+VDm0x7uJpMQ04lM0c6YkDqm/T2YOHXVXsZoJ
+	2fJqb9XiqOCND3WdfcseFPPjUrRuqDK7erdHq4GpV4K+8QizMp8QJwBWq1NkDUnWX7F+
+	BIPOTx1H45dD8LdWkip7OIjphuOoJzh7rCWu5r/ynlPUsZxQYnEAOGvdtm56QN7CLRpb
+	SzwNmoFIwXJwGoy2f05618Ny27i+Es9O3JTNfVyYKBCZrv41R7ylYIzugtuXuPrFF7AQ
+	Wf7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Nf5J6Aoi05Tkt5QrM9FtdL2qhjWEZToAWzuri3vVEZA=;
-	b=BkHBE3T715qr29TPoFDDSt9fw6VAyRW7bMqOzXox4jMLuudIYghJ6xsJmHaHuM0FSA
-	cL5Mdt4d4kIP/EiMoT0Lle1n7aG6rnH0R+MsO0mEBOuA3toIsNxefFgLjEpwuczECe1z
-	bAUTPA8TCETz86mmzKs+6PjZFyXK6JBxxjXVljdREgO8KMiX6gDfD/iwovHjb8PVAedr
-	pSmyfTUaKBFQp64VRjKfqIa1a1lP8ViNYsxCyeZ8WfsUdnl0fAotF2y/P5jug6c9YQ0k
-	bc7LhxrE4mvVYhmYxvqDaEoVVKTvwb8/491ey1peqlmZiLKgXqNmV9ouXDkT9YCNOKhW
-	4OPw==
-X-Gm-Message-State: AFeK/H1U80nc/oFk1RwU19xUcI+uRW7YQhAzTGX2oDnm0Sl63Ev/bN1Q/SPfsAMj8Brzgw==
-X-Received: by 10.99.159.1 with SMTP id g1mr35659727pge.88.1490072586222;
-	Mon, 20 Mar 2017 22:03:06 -0700 (PDT)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192])
-	by smtp.gmail.com with ESMTPSA id d1sm8523365pfa.5.2017.03.20.22.03.04
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=XkmxMiQgKtbAvWAqvxksr5n/2wVWOYvvgYKlTG7mZWg=;
+	b=iAI6Qe0DDPrM+9ox1Fpg4XQyyJPhiMhVbh862QxTQBC/uGVU1J7JE1FmQB1MQoZtZZ
+	2b437a4s2VZf/GseOP7O7sZ934va+YFT2P+gnKfh+z0zmMnGf5LbMX72dN//knNriAuN
+	6CQ/QQxJ98HbQFWAHZpXKx1Xeb2yHtYSWD3u1tCjjsOSOAzahQHRpHFAf9TBMF+xde/i
+	w6GUED3+lZI21eeaPYeK5hRqz5glKjIPOnOEa/+1N435PohB5K9pYVKFdUzptRGZdQJz
+	Zsgui/q432v5Tn4WZvh039ia+pOKT7NACqWbRcvLT26ElSjdvY84Bbv57uXKZO5DLaGw
+	Gxew==
+X-Gm-Message-State: AFeK/H2yYX0ykoEkM8v3dLufBfLPY/kJJKFrTkgw9QAaeksoq99UYgY92ehlBUzcTJTruQ==
+X-Received: by 10.25.17.153 with SMTP id 25mr8958608lfr.39.1490076800108;
+	Mon, 20 Mar 2017 23:13:20 -0700 (PDT)
+Received: from [10.20.33.128] ([195.159.234.190])
+	by smtp.googlemail.com with ESMTPSA id
+	w68sm1568896lff.15.2017.03.20.23.13.18
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 Mar 2017 22:03:04 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Mar 2017 22:02:55 -0700
-Message-Id: <20170321050255.4816-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.12.0
-Subject: [PATCH V2] libcomps: Fix/optimize building with clang
+	Mon, 20 Mar 2017 23:13:19 -0700 (PDT)
+To: Khem Raj <raj.khem@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <7780ce1c-7e26-0cac-9813-ec713251c7b9@mender.io>
+	<CAMKF1sp6C9qqzt1azPQwOpxySj34_KifVosn5aSp2bzDjfoS6w@mail.gmail.com>
+	<1490023039.13980.142.camel@linuxfoundation.org>
+	<CAMKF1sqgsN6Q+JrpOC83hxP3Vm8G0Wm_fjsN3yW=nZMOX88Oiw@mail.gmail.com>
+	<CAMKF1srC3vQpSOb7N9YwVkwjA4Y5Q8N4sCfKXfjpMysyBEEKAw@mail.gmail.com>
+From: Kristian Amlie <kristian.amlie@mender.io>
+Message-ID: <8d64350c-3ea3-beba-30d3-80b330eb9499@mender.io>
+Date: Tue, 21 Mar 2017 07:13:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.7.0
+MIME-Version: 1.0
+In-Reply-To: <CAMKF1srC3vQpSOb7N9YwVkwjA4Y5Q8N4sCfKXfjpMysyBEEKAw@mail.gmail.com>
+Cc: OE-core <Openembedded-core@lists.openembedded.org>
+Subject: Re: go-bootstrap / go-native conflict during do_rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,69 +65,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Mar 2017 05:03:05 -0000
+X-List-Received-Date: Tue, 21 Mar 2017 06:13:21 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...-Make-__comps_objmrtree_all-static-inline.patch | 35 ++++++++++++++++++++++
- meta/recipes-devtools/libcomps/libcomps_git.bb     |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-devtools/libcomps/libcomps/0001-Make-__comps_objmrtree_all-static-inline.patch
+On 20/03/17 17:50, Khem Raj wrote:
+> On Mon, Mar 20, 2017 at 8:29 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>> On Mon, Mar 20, 2017 at 8:17 AM, Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>>> On Mon, 2017-03-20 at 07:49 -0700, Khem Raj wrote:
+>>>> On Mon, Mar 20, 2017 at 6:47 AM, Kristian Amlie
+>>>> <kristian.amlie@mender.io> wrote:
+>>>>>
+>>>>> --------------------------------------------------
+>>>>>
+>>>>> Additionally, in the logs I found these two snippets:
+>>>>>
+>>>>> --------------------------------------------------
+>>>>> Considering setscene task: ['go-native', 'do_populate_sysroot']
+>>>>>   considering dependency: ['go-native', 'do_populate_sysroot']
+>>>>>   considering dependency: ['mender-artifact-native',
+>>>>> 'do_populate_sysroot']
+>>>>> Adding dependency on go-native
+>>>>> ...
+>>>>> Considering setscene task: ['go-bootstrap-native',
+>>>>> 'do_populate_sysroot']
+>>>>>   considering dependency: ['go-native', 'do_populate_sysroot']
+>>>>> Adding dependency on go-bootstrap-native
+>>>>> --------------------------------------------------
+>>>>>
+>>>>> which lead me to believe that all dependencies are being pulled in
+>>>>> simultaneously by do_rootfs, but go-native and go-bootstrap-native
+>>>>> are
+>>>>> in fact mutually exclusive, since they install to the sysroot in
+>>>>> the
+>>>>> same location. Note that both compilers build just fine, it's only
+>>>>> at
+>>>>> the do_rootfs stage that this shows up.
+>>>>>
+>>>>> I think the oe-meta-go layer solved this by having go-bootstrap-
+>>>>> native
+>>>>> install in a different location, but I'm unsure what is the best
+>>>>> approach for OE.
+>>>> go-bootstrap is only needed for few recipes. I think we should find
+>>>> out
+>>>> a way to keep this dep limited to those recipes and not reflect in
+>>>> final
+>>>> image rootfs creation. That seems to be not useful.
+>>>
+>>> There is code in sstate.bbclass in setscene_depvalid:
+>>>
+>>>         # Consider sysroot depending on sysroot tasks
+>>>         if taskdependees[task][1] == 'do_populate_sysroot' and taskdependees[dep][1] == 'do_populate_sysroot':
+>>>             [...]
+>>>             # Nothing need depend on libc-initial/gcc-cross-initial
+>>>             if "-initial" in taskdependees[task][0]:
+>>>                 continue
+>>>
+>>> so if go-bootstrap-native were renamed go-native-initial, things might
+>>> happen to work better...
+>>
+>> ah thats right, forgot about that, I think we should rename the recipe
+>> to go-native-initial
+>>
+>>>
+> 
+> Can you try
+> 
+> http://lists.openembedded.org/pipermail/openembedded-core/2017-March/134372.html
+> 
+> and see if this works out for you ?
 
-diff --git a/meta/recipes-devtools/libcomps/libcomps/0001-Make-__comps_objmrtree_all-static-inline.patch b/meta/recipes-devtools/libcomps/libcomps/0001-Make-__comps_objmrtree_all-static-inline.patch
-new file mode 100644
-index 0000000000..88469fb331
---- /dev/null
-+++ b/meta/recipes-devtools/libcomps/libcomps/0001-Make-__comps_objmrtree_all-static-inline.patch
-@@ -0,0 +1,35 @@
-+From 91a324f8771818b81017fdf4daaad0c8c4b6987c Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 20 Mar 2017 11:38:54 -0700
-+Subject: [PATCH] Make __comps_objmrtree_all() static inline
-+
-+This helps compilers to scope the symbol correctly
-+and apply the inlining optimizations, clang e.g.
-+emits the functions and calls in code which is
-+suboptimal, therefore give a little help to compiler
-+this function is not used anywhere else to have
-+a global scope.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ libcomps/src/comps_objmradix.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/libcomps/src/comps_objmradix.c b/libcomps/src/comps_objmradix.c
-+index 9be6648..55f7793 100644
-+--- a/libcomps/src/comps_objmradix.c
-++++ b/libcomps/src/comps_objmradix.c
-+@@ -604,7 +604,7 @@ inline void comps_objmrtree_pair_destroy_v(void * pair) {
-+     free(pair);
-+ }
-+ 
-+-inline COMPS_HSList* __comps_objmrtree_all(COMPS_ObjMRTree * rt, char keyvalpair) {
-++static inline COMPS_HSList* __comps_objmrtree_all(COMPS_ObjMRTree * rt, char keyvalpair) {
-+     COMPS_HSList *to_process, *ret;
-+     COMPS_HSListItem *hsit, *oldit;
-+     size_t x;
-+-- 
-+2.12.0
-+
-diff --git a/meta/recipes-devtools/libcomps/libcomps_git.bb b/meta/recipes-devtools/libcomps/libcomps_git.bb
-index 8ff13b26b6..db4481bc8c 100644
---- a/meta/recipes-devtools/libcomps/libcomps_git.bb
-+++ b/meta/recipes-devtools/libcomps/libcomps_git.bb
-@@ -5,6 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- SRC_URI = "git://github.com/rpm-software-management/libcomps.git \
-            file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
-            file://0002-Set-library-installation-path-correctly.patch \
-+           file://0001-Make-__comps_objmrtree_all-static-inline.patch \
-            "
- 
- PV = "0.1.8+git${SRCPV}"
+That worked, thanks!
+
 -- 
-2.12.0
-
+Kristian
 
