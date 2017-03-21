@@ -1,58 +1,48 @@
-Return-Path: <kristian.amlie@mender.io>
-Received: from mail-lf0-f50.google.com (mail-lf0-f50.google.com
-	[209.85.215.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 47A3271B50
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 21 Mar 2017 06:13:19 +0000 (UTC)
-Received: by mail-lf0-f50.google.com with SMTP id z15so63343460lfd.1
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 23:13:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mender-io.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=XkmxMiQgKtbAvWAqvxksr5n/2wVWOYvvgYKlTG7mZWg=;
-	b=IoVcJSR/OhtCgLIETml67BYBKYqfWj+tNDmaMfxaVsWFxXSjyvodhVct/VJr7/ZR4i
-	dB44fKSTI3y3H5I9VNdiQg1keuSnS2u+VDm0x7uJpMQ04lM0c6YkDqm/T2YOHXVXsZoJ
-	2fJqb9XiqOCND3WdfcseFPPjUrRuqDK7erdHq4GpV4K+8QizMp8QJwBWq1NkDUnWX7F+
-	BIPOTx1H45dD8LdWkip7OIjphuOoJzh7rCWu5r/ynlPUsZxQYnEAOGvdtm56QN7CLRpb
-	SzwNmoFIwXJwGoy2f05618Ny27i+Es9O3JTNfVyYKBCZrv41R7ylYIzugtuXuPrFF7AQ
-	Wf7g==
+Return-Path: <twoerner@gmail.com>
+Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 7148E77A0B
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Mar 2017 07:23:15 +0000 (UTC)
+Received: by mail-io0-f172.google.com with SMTP id b140so43828149iof.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Mar 2017 00:23:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:subject:message-id:mime-version:content-disposition
+	:user-agent; bh=NYzh4qD94OlXb2ClUnlDeAelKEo6TQVjJmt1af9cfoI=;
+	b=kGPtVDBrL3qDMeJtgtC3m/Dzg9HlWK4KrrQ6OnJY1CbF712EsORavGAxeqW9xh/3ny
+	WAu5m7xUCAt/wJICn9ejpRSMr2in/BcPTqbG5AvB8DlJvJfJFVydX4V5wFzR6B1N1iRs
+	ip5mXf4MhmxVY7fTpCpKsG0INM4Pm7dzMiyHe0B5oHonCa1uzp7eJv03Ar43IxiHdiJh
+	m+EeSfg6CLFwXTjVK/cLMsSYyk7GbwYDWOVJM4WhCv0v4WNB3D//WfFAz+qIkYxc2A8/
+	RuQ0Sz+FaFQurFjN+mGher+zl4Qr6hjPv0SeZTDrORRLP5+l9v1x9Pyz0izKOhDp3w9B
+	rYaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=XkmxMiQgKtbAvWAqvxksr5n/2wVWOYvvgYKlTG7mZWg=;
-	b=iAI6Qe0DDPrM+9ox1Fpg4XQyyJPhiMhVbh862QxTQBC/uGVU1J7JE1FmQB1MQoZtZZ
-	2b437a4s2VZf/GseOP7O7sZ934va+YFT2P+gnKfh+z0zmMnGf5LbMX72dN//knNriAuN
-	6CQ/QQxJ98HbQFWAHZpXKx1Xeb2yHtYSWD3u1tCjjsOSOAzahQHRpHFAf9TBMF+xde/i
-	w6GUED3+lZI21eeaPYeK5hRqz5glKjIPOnOEa/+1N435PohB5K9pYVKFdUzptRGZdQJz
-	Zsgui/q432v5Tn4WZvh039ia+pOKT7NACqWbRcvLT26ElSjdvY84Bbv57uXKZO5DLaGw
-	Gxew==
-X-Gm-Message-State: AFeK/H2yYX0ykoEkM8v3dLufBfLPY/kJJKFrTkgw9QAaeksoq99UYgY92ehlBUzcTJTruQ==
-X-Received: by 10.25.17.153 with SMTP id 25mr8958608lfr.39.1490076800108;
-	Mon, 20 Mar 2017 23:13:20 -0700 (PDT)
-Received: from [10.20.33.128] ([195.159.234.190])
-	by smtp.googlemail.com with ESMTPSA id
-	w68sm1568896lff.15.2017.03.20.23.13.18
+	h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+	:content-disposition:user-agent;
+	bh=NYzh4qD94OlXb2ClUnlDeAelKEo6TQVjJmt1af9cfoI=;
+	b=PYVzBska2er6QVBkHNgKfNDk+L2KtXwI+UC1v1QjwF5GMadnP0CJAmTbj62iipHvUh
+	YXa43iCXOZxV0e4EAjMd2YrIvbQAGkKQteYwflMoRQAxMblKixmqjr7V485gdA9jEm1c
+	HN8dqcMa0Ae7JmTj1H9fLfpyC4LL8aD0yhWpT3f8SRNSrhD42H4WvGidGdfX6yyvWidY
+	tkwN+03EBhydXsB56Y6KOUDGMLgprJ0UEJ4lugak4kZhQPoxDAWkRJLkEL1e3I4Nb9JU
+	SDs4Xizy+xLkfN/sUegsxr2rqJCZkSIwhPLdwOZV7AfMvkB8uj4OW53roXqFShbI+11T
+	2W6w==
+X-Gm-Message-State: AFeK/H3C016LuZmVxAqyMjfvKB9AY5559hezP5EvDCWW/QAdoUgMzDSdaph4VwFhiMLtnA==
+X-Received: by 10.107.46.136 with SMTP id u8mr16434754iou.85.1490080996347;
+	Tue, 21 Mar 2017 00:23:16 -0700 (PDT)
+Received: from linux-uys3 (104-247-246-30.cpe.teksavvy.com. [104.247.246.30])
+	by smtp.gmail.com with ESMTPSA id
+	10sm6397790itm.12.2017.03.21.00.23.15
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 Mar 2017 23:13:19 -0700 (PDT)
-To: Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <7780ce1c-7e26-0cac-9813-ec713251c7b9@mender.io>
-	<CAMKF1sp6C9qqzt1azPQwOpxySj34_KifVosn5aSp2bzDjfoS6w@mail.gmail.com>
-	<1490023039.13980.142.camel@linuxfoundation.org>
-	<CAMKF1sqgsN6Q+JrpOC83hxP3Vm8G0Wm_fjsN3yW=nZMOX88Oiw@mail.gmail.com>
-	<CAMKF1srC3vQpSOb7N9YwVkwjA4Y5Q8N4sCfKXfjpMysyBEEKAw@mail.gmail.com>
-From: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <8d64350c-3ea3-beba-30d3-80b330eb9499@mender.io>
-Date: Tue, 21 Mar 2017 07:13:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.0
+	Tue, 21 Mar 2017 00:23:15 -0700 (PDT)
+Date: Tue, 21 Mar 2017 03:23:13 -0400
+From: Trevor Woerner <twoerner@gmail.com>
+To: Martin.Jansa@gmail.com, koen@dominion.thruhere.net,
+	openembedded-core@lists.openembedded.org
+Message-ID: <20170321072313.GA2565@linux-uys3>
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1srC3vQpSOb7N9YwVkwjA4Y5Q8N4sCfKXfjpMysyBEEKAw@mail.gmail.com>
-Cc: OE-core <Openembedded-core@lists.openembedded.org>
-Subject: Re: go-bootstrap / go-native conflict during do_rootfs
+User-Agent: Mutt/1.6.0 (2016-04-01)
+Subject: kernel config, scripts/setlocalversion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,79 +55,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Mar 2017 06:13:21 -0000
+X-List-Received-Date: Tue, 21 Mar 2017 07:23:15 -0000
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-On 20/03/17 17:50, Khem Raj wrote:
-> On Mon, Mar 20, 2017 at 8:29 AM, Khem Raj <raj.khem@gmail.com> wrote:
->> On Mon, Mar 20, 2017 at 8:17 AM, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->>> On Mon, 2017-03-20 at 07:49 -0700, Khem Raj wrote:
->>>> On Mon, Mar 20, 2017 at 6:47 AM, Kristian Amlie
->>>> <kristian.amlie@mender.io> wrote:
->>>>>
->>>>> --------------------------------------------------
->>>>>
->>>>> Additionally, in the logs I found these two snippets:
->>>>>
->>>>> --------------------------------------------------
->>>>> Considering setscene task: ['go-native', 'do_populate_sysroot']
->>>>>   considering dependency: ['go-native', 'do_populate_sysroot']
->>>>>   considering dependency: ['mender-artifact-native',
->>>>> 'do_populate_sysroot']
->>>>> Adding dependency on go-native
->>>>> ...
->>>>> Considering setscene task: ['go-bootstrap-native',
->>>>> 'do_populate_sysroot']
->>>>>   considering dependency: ['go-native', 'do_populate_sysroot']
->>>>> Adding dependency on go-bootstrap-native
->>>>> --------------------------------------------------
->>>>>
->>>>> which lead me to believe that all dependencies are being pulled in
->>>>> simultaneously by do_rootfs, but go-native and go-bootstrap-native
->>>>> are
->>>>> in fact mutually exclusive, since they install to the sysroot in
->>>>> the
->>>>> same location. Note that both compilers build just fine, it's only
->>>>> at
->>>>> the do_rootfs stage that this shows up.
->>>>>
->>>>> I think the oe-meta-go layer solved this by having go-bootstrap-
->>>>> native
->>>>> install in a different location, but I'm unsure what is the best
->>>>> approach for OE.
->>>> go-bootstrap is only needed for few recipes. I think we should find
->>>> out
->>>> a way to keep this dep limited to those recipes and not reflect in
->>>> final
->>>> image rootfs creation. That seems to be not useful.
->>>
->>> There is code in sstate.bbclass in setscene_depvalid:
->>>
->>>         # Consider sysroot depending on sysroot tasks
->>>         if taskdependees[task][1] == 'do_populate_sysroot' and taskdependees[dep][1] == 'do_populate_sysroot':
->>>             [...]
->>>             # Nothing need depend on libc-initial/gcc-cross-initial
->>>             if "-initial" in taskdependees[task][0]:
->>>                 continue
->>>
->>> so if go-bootstrap-native were renamed go-native-initial, things might
->>> happen to work better...
->>
->> ah thats right, forgot about that, I think we should rename the recipe
->> to go-native-initial
->>
->>>
-> 
-> Can you try
-> 
-> http://lists.openembedded.org/pipermail/openembedded-core/2017-March/134372.html
-> 
-> and see if this works out for you ?
+Hi,
 
-That worked, thanks!
+Currently openembedded-core/meta/classes/kernel.bbclass contains:
 
--- 
-Kristian
+	kernel_do_configure() {
+		# fixes extra + in /lib/modules/2.6.37+
+		# $ scripts/setlocalversion . => +
+		# $ make kernelversion => 2.6.37
+		# $ make kernelrelease => 2.6.37+
+		touch ${B}/.scmversion ${S}/.scmversion
+
+According to the log message for this commit, the kernel's
+scripts/setlocalversion was leaving and/or appending a '+' to the end of
+directory names (e.g. /lib/modules/2.6.37+). The conversation can be seen
+here:
+
+	http://lists.openembedded.org/pipermail/openembedded-core/2011-December/053263.html
+
+The problem is that creating an empty .scmversion file circumvents the kernel
+build's CONFIG_LOCALVERSION handling. In other words, if the user enables this
+kernel option, touching .scmversion prevents this option from having any
+effect (which doesn't seem right). It seems like overkill for simply wanting
+to remove a trailing '+' character.
+
+I've been playing around with this by removing the "touch" line and in my
+testing I don't see any '+' characters appended to /lib/modules in the image.
+In other words, it *seems* as though the issue this commit was trying to fix
+doesn't seem to be an issue anymore?
+
+But maybe I'm not doing enough testing? Could anyone clarify the issue with
+commit 56fe5300ab5?
+
+I'd like to further point out that this only happens if/when the user enables
+the kernel's CONFIG_LOCALVERSION option, and that, by default, this option is
+turned off in linux-yocto* kernels.
+
+Best regards,
+	Trevor
 
