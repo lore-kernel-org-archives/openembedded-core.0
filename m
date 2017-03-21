@@ -1,46 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
-	[209.85.220.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D0E0778FF
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id E501671B32
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Mar 2017 14:14:05 +0000 (UTC)
-Received: by mail-qk0-f179.google.com with SMTP id p64so135710508qke.1
+	Tue, 21 Mar 2017 14:35:03 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id n11so3276402wma.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Mar 2017 07:14:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=z3ps9jlLruiaoYuyPikk6eHQd9kgKBroDBDyFjD4Gjc=;
-	b=P97XyHvil3LLtmMK6WeB7q38t2Ud6rbRQFaXsMX7ereKpS6mFDmrwG1SAqEEtcdvV0
-	80ipAQco5dpX7gsW37Yy5XYGK2lFr4Buci9J/dOL5UTRz/es/cHuwiJ4ckVgPHFQm2vh
-	WRqvtywS7P4eFzqdmsqjNw2ICydab//ycqglderirfAVXHn39hh4djSoagjrL1ygxnnr
-	U9PYo5gGQ8ctsgvZoGSbDKtEofaQgl/0yVLB+Qer+LbpGoxXhdXOeWHItJy3Hr96P6dJ
-	zsl04CuWLpyjaKrT/8p8bVkfEQT8yCx1v8U6gvKa0J/mGf1PJDhFD5zFFMw//+H+2+cm
-	UrVw==
+	Tue, 21 Mar 2017 07:35:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=SZ9R7kh+F9LT1BbYctvVlktPVfH+XImHwGxtuLwUEfg=;
+	b=cktpKeNt0qOjHX4ZHpe5JTv+7V4QW7votW+lsF7naYPGd1SoZZfLZyorOJXnmqVVPS
+	osvHOtzZaDgfZogoGavI5D44xtpG/QDbmydlm0LnuIFk71UbcH6itISI1N0f0SOBpbCg
+	UDE6mjk8Lrkqi/l1iC2v5VdyxQ/CqWUakP0CpcmjRFmJBPJhCqkPRHwbPHwhHZ3yiAaW
+	iY3jRnlD4TUVpIp4N+k83ei/D1M51FPiiC+xa3/E7NpjzN6N01tIt7EoDaRFOprBIJeh
+	ASCDn1y0OAgRS4FdPrXQT0TXAOs1SYqQ8warP+XXd4lErXTqxPbqPgRFeE3EdAeK1VBy
+	FXpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=z3ps9jlLruiaoYuyPikk6eHQd9kgKBroDBDyFjD4Gjc=;
-	b=pz5fpMEcSDh6mai2nemolaGK4Cu9cm6li8xZpwXzLoG+Z+KPrl3DS3c5QMBR9Pki03
-	B8/qnx5kRFq5/0zpOiaYd4RLFQ8maBKQZtAb/kyAzQgjk5G5V+CSyV9Tj48fkAtx4mJJ
-	N5Ns8vAkciZ80L14JRbf48Uiiw90qDLskOTA72t2KNQNzLdCjLEQF7VDa88ZIte4a6Gg
-	JWzQdyABHr7vL4nPSmYJE+CJBu+4G/MvL1Ki3CIcv7igxlV6qdAuGXypf+Fi9CZYaujL
-	7rSX/UzwIbZh3Ah3TFROcPcHf4sv5sfQSrKp58SzKHx+wHhSDKaDlj2iTygs06ImrO/i
-	bTSQ==
-X-Gm-Message-State: AFeK/H10pXtvuAUuBucIUgPnUj8wBuSzH5B/3suzdPRvedjyQgnTIlQyGHzT+jnrQOM7VGn6aECtnqQ18dLXG+lI
-X-Received: by 10.55.175.195 with SMTP id y186mr30248488qke.26.1490105646801; 
-	Tue, 21 Mar 2017 07:14:06 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Tue, 21 Mar 2017 07:13:46 -0700 (PDT)
-In-Reply-To: <alpine.LFD.2.20.1703210915080.29107@uk63952.mitel.com>
-References: <alpine.LFD.2.20.1703210915080.29107@uk63952.mitel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 21 Mar 2017 14:13:46 +0000
-Message-ID: <CAJTo0LZnBF2=aYmRUXmf2TuAXOJJcJwqeHo9FvV8T-201k=OUw@mail.gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: how to hack cross-compilation into a single "plugins" directory?
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=SZ9R7kh+F9LT1BbYctvVlktPVfH+XImHwGxtuLwUEfg=;
+	b=dq8d7OUB5QBrt0Au0O5N9HiKGWVXD9VQODXPB4gmpj2dRqheTFg6y2imHrkXt1faVw
+	p4pfcQXgRztXrhBrSZSqilSY5plCi39cXu/HQv9PnP9uNJAi8MkGfuFQxFceYg0nKbHa
+	OuBG79BhVQdnJG4BH91Hoz8T2evZhYgGWTcNWk7ag+FoGAAUU0onSgLDKKNTtXRp0q3b
+	HEmn87uW2lW5xb1opY+qNw9q5OBTIY9WK0yWjobOWK6TEXnuDXZXHwC/TxRWKvgHkl4h
+	Dx3LUnGSW55Makqy7yX4KxgWNB3gLcZ1l+FIaVvBBdO0RrdRQ+HnRitStSXm7eLj+NUB
+	y47Q==
+X-Gm-Message-State: AFeK/H21XZl4r3wOTu+qnVMCxiH4UZwfltl5S76ZbhTLPbxvwc2X4xzf4fr+cDq8qe8OGQ==
+X-Received: by 10.28.139.195 with SMTP id n186mr3281973wmd.139.1490106904832; 
+	Tue, 21 Mar 2017 07:35:04 -0700 (PDT)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([106.116.217.162]) by smtp.gmail.com with ESMTPSA id
+	u41sm25225692wrc.24.2017.03.21.07.35.01
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 21 Mar 2017 07:35:03 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 21 Mar 2017 15:34:47 +0100
+Message-Id: <1490106891-13909-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH 0/4] [V3] Fix some issues of kernel/image recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,65 +52,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Mar 2017 14:14:06 -0000
-Content-Type: multipart/alternative; boundary=94eb2c06093cc17703054b3e4138
+X-List-Received-Date: Tue, 21 Mar 2017 14:35:04 -0000
 
---94eb2c06093cc17703054b3e4138
-Content-Type: text/plain; charset=UTF-8
+From: Ming Liu <liu.ming50@gmail.com>
 
-On 21 March 2017 at 13:23, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+The changes in V3:
+1 Drop one patch which is problematic.
+2 Change a conditional checking line in kernel-initramfs.bb:
+From: "if type != 'vmlinux' or d.getVar('KERNEL_IMAGETYPE') == 'vmlinux':"
+To: "if type != 'vmlinux' or 'vmlinux' in (d.getVar('KERNEL_IMAGETYPE') or ""):"
 
->   i'm sure i could tease out how to hack that Makefile, but is there
-> another recipe with a similar structure i could just steal a Makefile
-> from?
->
+provided that KERNEL_IMAGETYPE might be extended in machine confs.
 
-This used to work because we used to pass -e to every make:
+Ming Liu (4):
+  kernel.bbclass: fix some incorrect inter-task dependencies
+  kernel.bbclass: introduce INITRAMFS_IMAGE_NAME
+  image.bbclass: remove initramfs bundle related code
+  kernel-initramfs: add recipe
 
-       -e, --environment-overrides
-            Give variables taken from the environment precedence over
-variables from makefiles.
+ meta/classes/image.bbclass                    |  13 ----
+ meta/classes/kernel-fitimage.bbclass          |  10 +--
+ meta/classes/kernel.bbclass                   |  26 +++----
+ meta/recipes-kernel/linux/kernel-initramfs.bb | 100 ++++++++++++++++++++++++++
+ meta/recipes-kernel/linux/linux-yocto.inc     |   1 -
+ 5 files changed, 119 insertions(+), 31 deletions(-)
+ create mode 100644 meta/recipes-kernel/linux/kernel-initramfs.bb
 
-So the exported CC=my-cross-gcc in bitbake.conf overrode the CC assignment
-in the Makefile.
+-- 
+2.7.4
 
-This is a vile hack though so we don't do itnow.  You'll just need to set
-CC etc when calling make, trivially done with EXTRA_OEMAKE.
 
-In fact this is even in the documentation:
-http://www.yoctoproject.org/docs/2.2.1/dev-manual/dev-manual.html#new-recipe-makefile-based-package
-
-Ross
-
---94eb2c06093cc17703054b3e4138
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 21 March 2017 at 13:23, Robert P. J. Day <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcourse.ca</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);b=
-order-left-style:solid;padding-left:1ex"><div id=3D"gmail-:3r" class=3D"gma=
-il-a3s gmail-aXjCH gmail-m15af10a91f4bfc24">=C2=A0 i&#39;m sure i could tea=
-se out how to hack that Makefile, but is there<br>
-another recipe with a similar structure i could just steal a Makefile<br>
-from?</div></blockquote></div><br>This used to work because we used to pass=
- -e to every make:</div><div class=3D"gmail_extra"><br></div><div class=3D"=
-gmail_extra"><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=A0-e, --en=
-vironment-overrides</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 Give variables taken from the environment precedence o=
-ver variables from makefiles.</div><div class=3D"gmail_extra"><br></div><di=
-v class=3D"gmail_extra">So the exported CC=3Dmy-cross-gcc in bitbake.conf o=
-verrode the CC assignment in the Makefile.</div><div class=3D"gmail_extra">=
-<br></div><div class=3D"gmail_extra">This is a vile hack though so we don&#=
-39;t do itnow.=C2=A0 You&#39;ll just need to set CC etc when calling make, =
-trivially done with EXTRA_OEMAKE.</div><div class=3D"gmail_extra"><br></div=
-><div class=3D"gmail_extra">In fact this is even in the documentation:=C2=
-=A0<a href=3D"http://www.yoctoproject.org/docs/2.2.1/dev-manual/dev-manual.=
-html#new-recipe-makefile-based-package">http://www.yoctoproject.org/docs/2.=
-2.1/dev-manual/dev-manual.html#new-recipe-makefile-based-package</a></div><=
-div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></=
-div></div>
-
---94eb2c06093cc17703054b3e4138--
