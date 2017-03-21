@@ -1,54 +1,29 @@
-Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-lf0-f41.google.com (mail-lf0-f41.google.com
-	[209.85.215.41])
-	by mail.openembedded.org (Postfix) with ESMTP id D0C96779AF
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 15C46719E2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Mar 2017 11:35:37 +0000 (UTC)
-Received: by mail-lf0-f41.google.com with SMTP id y193so65933790lfd.3
+	Tue, 21 Mar 2017 13:23:34 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
+	via TCP (outbound) with ESMTPS id 20170321132333259_0684
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Mar 2017 04:35:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=rndity-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=uj0ADmfVXEJ+sK9RnrgZz6PRlNZUHC91gqExoi9e3Vk=;
-	b=xm4ukyM/fPQny3BJ45q5TsAEz1zRXwLZzjSUxrVmHWBKHwTqVspwu0X59njr8O0yfC
-	N56IY10OwVRmzUiV1giljqoXAl7ij/AtFeF7InkQUkQznSU2oPmgkRVSBjTzzwhn880v
-	i+nWaKAfDzz0eFSvoyyukeSq95tTHaiLYMu1Z9fRZrOD20AprZisolr5UkkO3arilq73
-	YTxHZLXhzfnF75RVIuYrHZoBxa3mdhGrUJGmkcPB3CqqOzAptnMM4T7yUPiIKEdd7zXZ
-	3ok3hkiTVdE+lHFaRW62/6lPysVwl5b+nMj/GiImAEgKqGw8v36mpbZTzKZ/NaA/IDBg
-	FpMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=uj0ADmfVXEJ+sK9RnrgZz6PRlNZUHC91gqExoi9e3Vk=;
-	b=jTDVYmoBfQEKzPe8iKUtkMTt6uqGhFfCEFbq/y/zExsPakJnCNyRMN2m/MzI2EjQnl
-	P+o92MsJ88F0p/4TV/VgjTsTnBPGvtcCHwSX8EuI9yWwZySFxJf3sSy403sBZKndDINA
-	VQqXBPKQfABvF9kgplScjz/oqNf74nb386WbFlOASd7I+LOlcOgJSq5ICK5E8aeuNO0A
-	TzG+e8AVogHKSJP2ysfo9wI070kKoMKa1eZQntVxQsNdl+eALGa3vsGO3x+tyqxA+/Ee
-	l+ipS9qpjSCFuvraud9Y6Vq4lR0AeRqlBjnF8y1nANiztvqanvTdQoCCnvvMbkHwUqgd
-	opAw==
-X-Gm-Message-State: AFeK/H341JFus5IqVLJ8tCTPuWy8ABGZ+12eNMGZN82NNsIAIAJXDbowxkcIGdllH1wFsA==
-X-Received: by 10.25.202.66 with SMTP id h2mr9220550lfj.33.1490096138684;
-	Tue, 21 Mar 2017 04:35:38 -0700 (PDT)
-Received: from localhost.localdomain (staticline-31-182-60-238.toya.net.pl.
-	[31.182.60.238]) by smtp.gmail.com with ESMTPSA id
-	f28sm3516079lfi.52.2017.03.21.04.35.37
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 Mar 2017 04:35:38 -0700 (PDT)
-From: Maciej Borzecki <maciej.borzecki@rndity.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Mar 2017 12:35:05 +0100
-Message-Id: <a426f1bcd3162d7cb11b721b2a6af8d2cabea7f5.1490095649.git.maciej.borzecki@rndity.com>
-X-Mailer: git-send-email 2.9.3
-In-Reply-To: <cover.1490095649.git.maciej.borzecki@rndity.com>
-References: <20170317144027.GA22297@linux.intel.com>
-	<cover.1490095649.git.maciej.borzecki@rndity.com>
-In-Reply-To: <cover.1490095649.git.maciej.borzecki@rndity.com>
-References: <cover.1490095649.git.maciej.borzecki@rndity.com>
-Cc: Maciek Borzecki <maciek.borzecki@gmail.com>
-Subject: [PATCH v4 5/5] wic: selftest: add tests for --fixed-size partition flags
+	Tue, 21 Mar 2017 13:23:33 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [216.191.234.70] (port=50150 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1cqJky-0000iv-5X for openembedded-core@lists.openembedded.org;
+	Tue, 21 Mar 2017 09:23:24 -0400
+Date: Tue, 21 Mar 2017 09:23:22 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@uk63952.mitel.com
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1703210915080.29107@uk63952.mitel.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: how to hack cross-compilation into a single "plugins" directory?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,107 +36,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Mar 2017 11:35:38 -0000
+X-List-Received-Date: Tue, 21 Mar 2017 13:23:36 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-wic has a new flag for setting a fixed parition size --fixed-size. Add
-tests that verify if partition is indeed sized properly and that errors
-are signaled when there is not enough space to fit partition data.
 
-Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
----
- meta/lib/oeqa/selftest/wic.py | 63 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
+  i know this is simple, but if someone can point me at a recipe from
+which i can copy and paste, that would be just ducky.
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index 776e44aac450c545f2329332f5390f6ff1b261ac..4aacd86085309389219d07b90bd307f1431178d5 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -29,6 +29,7 @@ import unittest
- from glob import glob
- from shutil import rmtree
- from functools import wraps, lru_cache
-+from tempfile import NamedTemporaryFile
- 
- from oeqa.selftest.base import oeSelfTest
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_bb_vars, runqemu
-@@ -64,10 +65,13 @@ class Wic(oeSelfTest):
- 
-     resultdir = "/var/tmp/wic.oe-selftest/"
-     image_is_ready = False
-+    native_sysroot = None
-     wicenv_cache = {}
- 
-     def setUpLocal(self):
-         """This code is executed before each test method."""
-+        if not self.native_sysroot:
-+            Wic.native_sysroot = get_bb_var('STAGING_DIR_NATIVE', 'wic-tools')
- 
-         # Do this here instead of in setUpClass as the base setUp does some
-         # clean up which can result in the native tools built earlier in
-@@ -618,3 +622,62 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
-             status, output = qemu.run_serial(cmd)
-             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-             self.assertEqual(output, '3')
-+
-+    @staticmethod
-+    def _make_fixed_size_wks(size):
-+        """
-+        Create a wks of an image with a single partition. Size of the partition is set
-+        using --fixed-size flag. Returns a tuple: (path to wks file, wks image name)
-+        """
-+        with NamedTemporaryFile("w", suffix=".wks", delete=False) as tempf:
-+            wkspath = tempf.name
-+            tempf.write("part " \
-+                     "--source rootfs --ondisk hda --align 4 --fixed-size %d "
-+                     "--fstype=ext4\n" % size)
-+        wksname = os.path.splitext(os.path.basename(wkspath))[0]
-+
-+        return wkspath, wksname
-+
-+    def test_fixed_size(self):
-+        """
-+        Test creation of a simple image with partition size controlled through
-+        --fixed-size flag
-+        """
-+        wkspath, wksname = Wic._make_fixed_size_wks(200)
-+
-+        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                   % (wkspath, self.resultdir)).status)
-+        os.remove(wkspath)
-+        wicout = glob(self.resultdir + "%s-*direct" % wksname)
-+        self.assertEqual(1, len(wicout))
-+
-+        wicimg = wicout[0]
-+
-+        # verify partition size with wic
-+        res = runCmd("parted -m %s unit mib p 2>/dev/null" % wicimg,
-+                     ignore_status=True,
-+                     native_sysroot=self.native_sysroot)
-+        self.assertEqual(0, res.status)
-+
-+        # parse parted output which looks like this:
-+        # BYT;\n
-+        # /var/tmp/wic/build/tmpfwvjjkf_-201611101222-hda.direct:200MiB:file:512:512:msdos::;\n
-+        # 1:0.00MiB:200MiB:200MiB:ext4::;\n
-+        partlns = res.output.splitlines()[2:]
-+
-+        self.assertEqual(1, len(partlns))
-+        self.assertEqual("1:0.00MiB:200MiB:200MiB:ext4::;", partlns[0])
-+
-+    def test_fixed_size_error(self):
-+        """
-+        Test creation of a simple image with partition size controlled through
-+        --fixed-size flag. The size of partition is intentionally set to 1MiB
-+        in order to trigger an error in wic.
-+        """
-+        wkspath, wksname = Wic._make_fixed_size_wks(1)
-+
-+        self.assertEqual(1, runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                   % (wkspath, self.resultdir), ignore_status=True).status)
-+        os.remove(wkspath)
-+        wicout = glob(self.resultdir + "%s-*direct" % wksname)
-+        self.assertEqual(0, len(wicout))
+  cross-compiling recipe poptop for powerpc, source available here:
+
+https://sourceforge.net/p/poptop/git/ci/master/tree/
+
+  i found an old OE recipe here:
+
+https://github.com/openembedded/openembedded/tree/master/recipes/poptop
+
+wherein the recipe's do_install_append() routine contains the lines:
+
+  # broken
+  sed -ri "s,^[:space:]*logwtmp[:space:]*,# logwtmp," ${D}/${sysconfdir}/pptpd.conf
+  rm -f ${D}${libdir}/pptpd/pptpd-logwtmp.so
+
+well, there's a good reason that single plugin is "broken" ... because
+the plugins/Makefile reads:
+
+  CC	= gcc
+  COPTS	= -O2 -g
+  CFLAGS	= $(COPTS) -I.. -I../../include -fPIC
+  LDFLAGS	= -shared
+  LDADD   = -lutil
+  INSTALL	= install -o root
+  prefix  = /usr/local
+
+  PLUGINS = pptpd-logwtmp.so
+
+  # include dependencies if present
+  ifeq (.depend,$(wildcard .depend))
+  include .depend
+  endif
+
+  all:	$(PLUGINS)
+
+  %.so: %.c
+	$(CC) -o $@ $(LDFLAGS) $(CFLAGS) $^ $(LDADD)
+
+... etc etc ... in short, no clue about cross-compiling -- the
+generated plugin is, indeed, an x86-64 ELF executable, not powerpc.
+
+  i'm sure i could tease out how to hack that Makefile, but is there
+another recipe with a similar structure i could just steal a Makefile
+from?
+
+rday
+
 -- 
-2.9.3
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
