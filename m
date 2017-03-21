@@ -1,49 +1,46 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id DE8C5776C9
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id A6B98605FE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Mar 2017 14:35:22 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id g10so22723226wrg.0
+	Tue, 21 Mar 2017 15:27:00 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id u132so3593392wmg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Mar 2017 07:35:24 -0700 (PDT)
+	Tue, 21 Mar 2017 08:27:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ioBVuIn/Gw/E3gFcSxUG+Kk4cJKFNzRThCb/YoH3EHg=;
-	b=VAr5thSDLNxTx0OnkDHUfEEX74vSQLZqr6LMjdmEW7fEULxZ65IfJKEBDTKGyojrG5
-	14ziawIbQLbvp/XTpp1aXnkoqdaZwAFp19aYamRxn78f72htZQpCBHEoVj7p+gr23t47
-	fayDiiH8WWuV6+awi2d4JXqsFx4LF7S8A7Vd8N7ifQGcnLbY34k7oKa225TAHCc7313A
-	K5wI1VkRWr9z8ZhfNoSAl1PhgKsWP3gdgrX3ALRTDxqc3L1g3KngUAcg+2zyg9NG0eHT
-	WGkw3qf3gn0z3ixeKDThlXRaXwSlHxTwm6J8uTATiaDhl/ZYl8jk4oS9E83vycRSkx/d
-	4LBw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=QRnDDKMiNyl0vMFGP0SGTiXKZA5jdLgVo7yTEgngtq0=;
+	b=EyEAOqtjV9Mid5PaKyIXFQ8o0sxgHaUUWgD7Y+vLvrmCT9pMsfpXINYfmKU88E+vaV
+	3DI2r4e0NaKp8Ijb/M1Irqi9OONJEfT4r06ax1LW1Qi7SkfPBFsnyP07Jq50FUOAFRWj
+	ZGshf2N9Y/2FruLm/Iouv8ap/qg1QRMABcvBH++pgLDTgvIeJtaOhKBIO0uxXRcXuAMm
+	DVtwt1jn7/qd4kxtAg1Wsd35m61hIAX4LX+9fD8vDIUiOof8DMsYcKzQ/0U+2iYttuqA
+	JWO8zsSgv4obT1Ui25DQ/2IHrdti2VnPAJjNN56q8TEaFOv0aOl0JJBSuhM++ua+lR1g
+	Z18w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=ioBVuIn/Gw/E3gFcSxUG+Kk4cJKFNzRThCb/YoH3EHg=;
-	b=d00Wk/7XCygNk1ewix3IK7MgPQkbWoFNo7jfjqUlYXfq+Ix2MB0fv+hazLqlDifV+3
-	JIgvlUmwRJ/U8k/w0Wp9epgSIeNdPZPZ5uGxZtSkWCKv2u2+bTkFDB51papGff6EB/LV
-	gHW7uhBuF4xUchEIMhK8UQhAqOEnaD5FDf6jnlneU44N2OHEhX2cSePGk3GpjanZ11rm
-	fOvHWHJgweLSSIBegRc99sEUnH+k95dha+187Pjw2ubetEcSZWosbIi4F7+MYTNLov2h
-	2nReHaYkSGulIRoBxEv2NG0k4OZND7QpgL0ccS+C4rCU18esamAtKK2X41/4pk2fFPEf
-	TgKw==
-X-Gm-Message-State: AFeK/H33XP8XSGu+fI+nTolmeBoKeothn2mY3F0azgKWupi/sCQhaXHZrI9gc8uK3IrcbQ==
-X-Received: by 10.223.128.34 with SMTP id 31mr26019606wrk.179.1490106923206;
-	Tue, 21 Mar 2017 07:35:23 -0700 (PDT)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([106.116.217.162]) by smtp.gmail.com with ESMTPSA id
-	u41sm25225692wrc.24.2017.03.21.07.35.21
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 21 Mar 2017 07:35:22 -0700 (PDT)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Mar 2017 15:34:51 +0100
-Message-Id: <1490106891-13909-5-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1490106891-13909-1-git-send-email-liu.ming50@gmail.com>
-References: <1490106891-13909-1-git-send-email-liu.ming50@gmail.com>
-Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH 4/4] kernel-initramfs: add recipe
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=QRnDDKMiNyl0vMFGP0SGTiXKZA5jdLgVo7yTEgngtq0=;
+	b=NCfFDCLMoDm90efhjiVSfuFN26R+u8AxDH7n9U7OZgHjN45mVg4KT03QxXNmi/dG28
+	Tkgdt5OCsm8RLlRaBKX8TXfWFGTZXc52cl80WYxchWf+zLWxSFD9auQOK35hQB0r0qmh
+	0C/rdFG0ul85OxJ0GSihsWbHo3XuecIHmwOXiKhuD5JJPhBld9z19B2+cNLz6x+b7nHG
+	pFviSx7lrZuiWRKULi4wTKijkl8G47zxVZGwXvFzkn4f2fl+cQy//CJTVigMVkYbSezG
+	CfiYXyRtBMaoGvH08Hf7F5MouY9LH3k6IB+g1P0N1dZyC8f5kl/vj7rsiCfBMTZfPKZT
+	Y+iA==
+X-Gm-Message-State: AFeK/H1vfnMtonqVMwZplj6oWM88zKIq1KzTywae8aWms66lOK6VJ9Sr1Df5qkRm2na4Tc1T9bHq5T1gBETfVQ==
+X-Received: by 10.28.199.132 with SMTP id x126mr3171278wmf.37.1490110020729;
+	Tue, 21 Mar 2017 08:27:00 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.80.180.162 with HTTP; Tue, 21 Mar 2017 08:26:30 -0700 (PDT)
+In-Reply-To: <789385f4751e6657d8ed8d458d49f824adc2b5d7.1490086265.git-series.patrick.ohly@intel.com>
+References: <1490086445.6396.214.camel@intel.com>
+	<789385f4751e6657d8ed8d458d49f824adc2b5d7.1490086265.git-series.patrick.ohly@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 21 Mar 2017 08:26:30 -0700
+Message-ID: <CAMKF1srWnJuEctYX7sJmBZe6JwaBnsfimD8DW=zrXvcma3G4Yw@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Cc: ricardo.neri@intel.com, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ovmf: fix toolchain selection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,140 +53,208 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Mar 2017 14:35:23 -0000
+X-List-Received-Date: Tue, 21 Mar 2017 15:27:01 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+On Tue, Mar 21, 2017 at 1:56 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
+> For the native tools, a static patch inserted gcc/g++/ld/ar while later
+> adding BUILD_LDFLAGS and BUILD_CFLAGS with sed. Now it's all done with sed,
+> which has the advantage that it uses the actual compile variables. However,
+> in practice those are the same.
+>
+> More importantly, picking the build tools for the target was
+> broken. ovmf-native tried to insert TARGET_PREFIX into the tools
+> definition file, but that variable is empty in a native recipe. As a
+> result, "gcc" was used instead of "${HOST_PREFIX}gcc", leading to an
+> undesirable dependency on the host compiler and potentially
+> (probably?!) causing some of the build issues that were seen for ovmf.
+>
+> The new approach is to override the tool selection in ovmf-native so
+> that the HOST_PREFIX env variable is used, which then gets exported
+> during do_compile for the target.
+>
+> While at it, Python code that gets appened to do_patch only to call
+> shell functions gets replaced with the do_patch[postfuncs] mechanism.
+>
+> Incremental builds now always use the tools definition from the
+> current ovmf-native; previously, only the initial build copied the
+> template file.
+>
 
-To implement initramfs bundled kernel packaging.
+FWIW this patch looks good.
 
-The kernel images are copied from DEPLOY_DIR_IMAGE, and a list of
-packages will be generated according to KERNEL_IMAGETYPES setting.
-
-For instance:
-For KERNEL_IMAGETYPES = "bzImage vmlinux"
-
-the generated packages would be:
-- kernel-initramfs (Base package, RDEPENDS on kernel-initramfs-image)
-- kernel-initramfs-image (Image package, RDEPENDS on all sub images)
-- kernel-initramfs-image-bzimage (Contains bzImage image)
-- kernel-initramfs-vmlinux (Contains vmlinux image)
-
-This recipe would be skipped if INITRAMFS_IMAGE_BUNDLE or
-INITRAMFS_IMAGE is not being set correctly.
-
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
----
- meta/recipes-kernel/linux/kernel-initramfs.bb | 100 ++++++++++++++++++++++++++
- 1 file changed, 100 insertions(+)
- create mode 100644 meta/recipes-kernel/linux/kernel-initramfs.bb
-
-diff --git a/meta/recipes-kernel/linux/kernel-initramfs.bb b/meta/recipes-kernel/linux/kernel-initramfs.bb
-new file mode 100644
-index 0000000..91ea55e
---- /dev/null
-+++ b/meta/recipes-kernel/linux/kernel-initramfs.bb
-@@ -0,0 +1,100 @@
-+SUMMARY = "Initramfs bundled kernel images"
-+DESCRIPTION = "When built, it packages initramfs bundled kernel images of the \
-+preferred virtual/kernel provider."
-+SECTION = "kernel"
-+LICENSE = "GPLv2"
-+
-+inherit linux-kernel-base
-+
-+# Whilst not a module, this ensures we don't get multilib extended. (which would make no sense)
-+inherit module-base
-+
-+S = "${STAGING_KERNEL_DIR}"
-+B = "${WORKDIR}/build"
-+
-+# we dont need the default dependencies.
-+INHIBIT_DEFAULT_DEPS = "1"
-+
-+KERNEL_ALT_IMAGETYPE ??= ""
-+KERNEL_IMAGETYPES_append = " vmlinux"
-+KERNEL_IMAGETYPE ?= "zImage"
-+KERNEL_IMAGEDEST ?= "boot"
-+KERNEL_VERSION = "${@['1.0.0', get_kernelversion_file('${STAGING_KERNEL_BUILDDIR}')][get_kernelversion_file('${STAGING_KERNEL_BUILDDIR}') != None]}"
-+KERNEL_PKG_NAME = "${@legitimize_package_name(d.getVar('KERNEL_VERSION'))}"
-+KERNEL_PRIORITY ?= "${@int(d.getVar('KERNEL_VERSION').split('-')[0].split('+')[0].split('.')[0]) * 10000 + \
-+                       int(d.getVar('KERNEL_VERSION').split('-')[0].split('+')[0].split('.')[1]) * 100 + \
-+                       int(d.getVar('KERNEL_VERSION').split('-')[0].split('+')[0].split('.')[-1])}"
-+
-+PACKAGES = "${PN} ${PN}-image"
-+
-+FILES_${PN} = ""
-+FILES_${PN}-image = ""
-+RDEPENDS_${PN} = "${PN}-image"
-+PKG_${PN} = "${PN}-${KERNEL_PKG_NAME}"
-+PKG_${PN}-image = "${PN}-image-${KERNEL_PKG_NAME}"
-+RPROVIDES_${PN} += "${PN}-${KERNEL_VERSION}"
-+ALLOW_EMPTY_${PN} = "1"
-+ALLOW_EMPTY_${PN}-image = "1"
-+
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
-+PACKAGES_DYNAMIC = "^kernel-initramfs-image-.*"
-+
-+python __anonymous () {
-+    # Skip processing of this recipe if INITRAMFS_IMAGE or INITRAMFS_IMAGE_BUNDLE
-+    # is not set correctly, to avoid generating only empty packages which makes
-+    # no sense.
-+    if not d.getVar('INITRAMFS_IMAGE') or d.getVar('INITRAMFS_IMAGE_BUNDLE') != '1':
-+        raise bb.parse.SkipPackage("Set INITRAMFS_IMAGE and INITRAMFS_IMAGE_BUNDLE to enable it")
-+
-+    # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into KERNEL_IMAGETYPES
-+    types = set((d.getVar('KERNEL_IMAGETYPES') or "").split())
-+    types.add(d.getVar('KERNEL_IMAGETYPE') or "")
-+    types.add(d.getVar('KERNEL_ALT_IMAGETYPE') or "")
-+    types = ' '.join(sorted(types)).strip()
-+    d.setVar('KERNEL_IMAGETYPES', types)
-+
-+    for type in types.split():
-+        pn = d.getVar('PN')
-+        imagedest = d.getVar('KERNEL_IMAGEDEST')
-+        if type == "vmlinux":
-+            typelower = type.lower()
-+        else:
-+            typelower = "image-%s" % type.lower()
-+
-+        d.appendVar('PACKAGES', ' %s-%s' % (pn, typelower))
-+        if type != 'vmlinux' or 'vmlinux' in (d.getVar('KERNEL_IMAGETYPE') or ""):
-+            d.appendVar('RDEPENDS_%s-image' % pn, ' %s-%s' % (pn, typelower))
-+
-+        d.setVar('FILES_%s-%s' % (pn, typelower), '/%s/%s-initramfs-${KERNEL_VERSION}' % (imagedest, type))
-+        d.setVar('PKG_%s-%s' % ( pn, typelower), '%s-%s-${KERNEL_PKG_NAME}' % (pn, typelower))
-+
-+        priority = d.getVar('KERNEL_PRIORITY')
-+        postinst = '#!/bin/sh\nupdate-alternatives --install /%s/%s-initramfs %s-initramfs %s-initramfs-${KERNEL_VERSION} %s || true\n' % (imagedest, type, type, type, priority)
-+        d.setVar('pkg_postinst_%s-%s' % (pn, typelower), postinst)
-+
-+        postrm = '#!/bin/sh\nupdate-alternatives --remove %s-initramfs %s-initramfs-${KERNEL_VERSION} || true\n' % (type, type)
-+        d.setVar('pkg_postrm_%s-%s' % (pn, typelower), postrm)
-+}
-+
-+# Need the output of deploy.
-+do_install[depends] += "virtual/kernel:do_deploy"
-+
-+# We only need the packaging tasks - disable the rest
-+do_fetch[noexec] = "1"
-+do_unpack[noexec] = "1"
-+do_patch[noexec] = "1"
-+do_configure[noexec] = "1"
-+do_compile[noexec] = "1"
-+do_populate_sysroot[noexec] = "1"
-+
-+do_install() {
-+	if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
-+		echo "Copying initramfs bundled kernel images from ${DEPLOY_DIR_IMAGE}..."
-+		install -d ${D}/${KERNEL_IMAGEDEST}
-+		for type in ${KERNEL_IMAGETYPES}; do
-+			echo "Copying initramfs bundled kernel image: $type-initramfs-${MACHINE}.bin"
-+			install -m 0644 ${DEPLOY_DIR_IMAGE}/$type-initramfs-${MACHINE}.bin ${D}/${KERNEL_IMAGEDEST}/$type-initramfs-${KERNEL_VERSION}
-+		done
-+	fi
-+}
--- 
-2.7.4
-
+> Probably the entire split into ovmf-native and ovmf could be
+> removed. This merely hasn't been attempted yet.
+>
+> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+> ---
+>  meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch | 48 ------------------------------------------------
+>  meta/recipes-core/ovmf/ovmf_git.bb                                                       | 68 ++++++++++++++++++++++++++++++++++++++++++++++++++------------------
+>  2 files changed, 50 insertions(+), 66 deletions(-)
+>  delete mode 100644 meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch
+>
+> diff --git a/meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch b/meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch
+> deleted file mode 100644
+> index 644b99d..0000000
+> --- a/meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch
+> +++ /dev/null
+> @@ -1,48 +0,0 @@
+> -From 6e24bde1979c2d7149b37d142fb882dfde0e9770 Mon Sep 17 00:00:00 2001
+> -From: Matt Fleming <matt.fleming@intel.com>
+> -Date: Fri, 27 Jun 2014 11:12:18 +0100
+> -Subject: [PATCH] BaseTools: Force tools variables to host toolchain
+> -
+> -Signed-off-by: Matt Fleming <matt.fleming@intel.com>
+> ----
+> - BaseTools/Source/C/Makefiles/app.makefile | 7 +++++++
+> - BaseTools/Source/C/VfrCompile/GNUmakefile | 5 +++++
+> - 2 files changed, 12 insertions(+)
+> -
+> -diff --git a/BaseTools/Source/C/Makefiles/app.makefile b/BaseTools/Source/C/Makefiles/app.makefile
+> -index 19269a1..62aad0f 100644
+> ---- a/BaseTools/Source/C/Makefiles/app.makefile
+> -+++ b/BaseTools/Source/C/Makefiles/app.makefile
+> -@@ -16,6 +16,13 @@ include $(MAKEROOT)/Makefiles/header.makefile
+> -
+> - APPLICATION = $(MAKEROOT)/bin/$(APPNAME)
+> -
+> -+CC = gcc
+> -+CXX = g++
+> -+AS = gcc
+> -+AR = ar
+> -+LD = ld
+> -+LINKER = $(CC)
+> -+
+> - .PHONY:all
+> - all: $(MAKEROOT)/bin $(APPLICATION)
+> -
+> -diff --git a/BaseTools/Source/C/VfrCompile/GNUmakefile b/BaseTools/Source/C/VfrCompile/GNUmakefile
+> -index 82005e1..5ac5f7e 100644
+> ---- a/BaseTools/Source/C/VfrCompile/GNUmakefile
+> -+++ b/BaseTools/Source/C/VfrCompile/GNUmakefile
+> -@@ -26,6 +26,11 @@ OBJECTS = AParser.o DLexerBase.o ATokenBuffer.o EfiVfrParser.o VfrLexer.o VfrSyn
+> -
+> - VFR_CPPFLAGS = -DPCCTS_USE_NAMESPACE_STD $(CPPFLAGS)
+> -
+> -+CC = gcc
+> -+CXX = g++
+> -+AS = gcc
+> -+AR = ar
+> -+LD = ld
+> - LINKER = $(BUILD_CXX)
+> -
+> - EXTRA_CLEAN_OBJECTS = EfiVfrParser.cpp EfiVfrParser.h VfrParser.dlg VfrTokens.h VfrLexer.cpp VfrLexer.h VfrSyntax.cpp tokens.h
+> ---
+> -1.9.0
+> -
+> diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
+> index a658c9d..898c5b7 100644
+> --- a/meta/recipes-core/ovmf/ovmf_git.bb
+> +++ b/meta/recipes-core/ovmf/ovmf_git.bb
+> @@ -11,7 +11,6 @@ PACKAGECONFIG ??= ""
+>  PACKAGECONFIG[secureboot] = ",,,"
+>
+>  SRC_URI = "git://github.com/tianocore/edk2.git;branch=master \
+> -       file://0001-BaseTools-Force-tools-variables-to-host-toolchain.patch \
+>         file://0002-ovmf-update-path-to-native-BaseTools.patch \
+>         file://0003-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch \
+>         file://VfrCompile-increase-path-length-limit.patch \
+> @@ -51,31 +50,54 @@ COMPATIBLE_HOST='(i.86|x86_64).*'
+>  OVMF_SECURE_BOOT_EXTRA_FLAGS ??= ""
+>  OVMF_SECURE_BOOT_FLAGS = "-DSECURE_BOOT_ENABLE=TRUE ${OVMF_SECURE_BOOT_EXTRA_FLAGS}"
+>
+> -do_patch_append_class-native() {
+> -    bb.build.exec_func('do_fix_iasl', d)
+> -    bb.build.exec_func('do_fix_toolchain', d)
+> +do_patch[postfuncs] += "fix_basetools_location"
+> +fix_basetools_location () {
+>  }
+> -
+> -do_fix_basetools_location() {
+> +fix_basetools_location_class-target() {
+> +    # Replaces the fake path inserted by 0002-ovmf-update-path-to-native-BaseTools.patch.
+> +    # Necessary for finding the actual BaseTools from ovmf-native.
+>      sed -i -e 's#BBAKE_EDK_TOOLS_PATH#${STAGING_BINDIR_NATIVE}/${EDK_TOOLS_DIR}#' ${S}/OvmfPkg/build.sh
+>  }
+>
+> -do_patch_append_class-target() {
+> -    bb.build.exec_func('do_fix_basetools_location', d)
+> +do_patch[postfuncs] += "fix_iasl"
+> +fix_iasl() {
+>  }
+> -
+> -
+> -do_fix_iasl() {
+> +fix_iasl_class-native() {
+> +    # iasl is not installed under /usr/bin when building with OE.
+>      sed -i -e 's#/usr/bin/iasl#${STAGING_BINDIR_NATIVE}/iasl#' ${S}/BaseTools/Conf/tools_def.template
+>  }
+>
+> -do_fix_toolchain(){
+> -    sed -i -e 's#DEF(ELFGCC_BIN)/#${TARGET_PREFIX}#' ${S}/BaseTools/Conf/tools_def.template
+> -    sed -i -e 's#DEF(GCC.*PREFIX)#${TARGET_PREFIX}#' ${S}/BaseTools/Conf/tools_def.template
+> -    sed -i -e "s#^LINKER\(.*\)#LINKER\1\nLFLAGS += ${BUILD_LDFLAGS}#" ${S}/BaseTools/Source/C/Makefiles/app.makefile
+> -    sed -i -e "s#^LINKER\(.*\)#LINKER\1\nCFLAGS += ${BUILD_CFLAGS}#" ${S}/BaseTools/Source/C/Makefiles/app.makefile
+> -    sed -i -e "s#^LINKER\(.*\)#LINKER\1\nLFLAGS += ${BUILD_LDFLAGS}#" ${S}/BaseTools/Source/C/VfrCompile/GNUmakefile
+> -    sed -i -e "s#^LINKER\(.*\)#LINKER\1\nCFLAGS += ${BUILD_CFLAGS}#" ${S}/BaseTools/Source/C/VfrCompile/GNUmakefile
+> +# Inject CC and friends into the build. LINKER already is in GNUmakefile.
+> +# Must be idempotent and thus remove old assignments that were inserted
+> +# earlier.
+> +do_patch[postfuncs] += "fix_toolchain"
+> +fix_toolchain() {
+> +    sed -i \
+> +        -e '/^\(CC\|CXX\|AS\|AR\|LD\|LINKER\) =/d' \
+> +        -e '/^APPLICATION/a CC = ${CC}\nCXX = ${CXX}\nAS = ${AS}\nAR = ${AR}\nLD = ${LD}\nLINKER = $(CC)' \
+> +        ${S}/BaseTools/Source/C/Makefiles/app.makefile
+> +    sed -i \
+> +        -e '/^\(CC\|CXX\|AS\|AR\|LD\)/d' \
+> +        -e '/^VFR_CPPFLAGS/a CC = ${CC}\nCXX = ${CXX}\nAS = ${AS}\nAR = ${AR}\nLD = ${LD}' \
+> +        ${S}/BaseTools/Source/C/VfrCompile/GNUmakefile
+> +}
+> +fix_toolchain_append_class-native() {
+> +    # This tools_def.template is going to be used by the target ovmf and
+> +    # defines which compilers to use. For the GCC toolchain definitions,
+> +    # that will be ${HOST_PREFIX}gcc. However, "make" doesn't need that
+> +    # prefix.
+> +    #
+> +    # Injecting ENV(HOST_PREFIX) matches exporting that value as env
+> +    # variable in do_compile_class-target.
+> +    sed -i \
+> +        -e 's#\(ENV\|DEF\)(GCC.*_PREFIX)#ENV(HOST_PREFIX)#' \
+> +        -e 's#ENV(HOST_PREFIX)make#make#' \
+> +        ${S}/BaseTools/Conf/tools_def.template
+> +    sed -i \
+> +        -e '/^\(LFLAGS\|CFLAGS\) +=/d' \
+> +        -e '/^LINKER/a LFLAGS += ${BUILD_LDFLAGS}\nCFLAGS += ${BUILD_CFLAGS}' \
+> +        ${S}/BaseTools/Source/C/Makefiles/app.makefile \
+> +        ${S}/BaseTools/Source/C/VfrCompile/GNUmakefile
+>  }
+>
+>  GCC_VER="$(${CC} -v 2>&1 | tail -n1 | awk '{print $3}')"
+> @@ -119,6 +141,16 @@ do_compile_class-target() {
+>          OVMF_ARCH="IA32"
+>      fi
+>
+> +    # The build for the target uses BaseTools/Conf/tools_def.template
+> +    # from ovmf-native to find the compiler, which depends on
+> +    # exporting HOST_PREFIX.
+> +    export HOST_PREFIX="${HOST_PREFIX}"
+> +
+> +    # BaseTools/Conf gets copied to Conf, but only if that does not
+> +    # exist yet. To ensure that an updated template gets used during
+> +    # incremental builds, we need to remove the copy before we start.
+> +    rm -f `ls ${S}/Conf/*.txt | grep -v ReadMe.txt`
+> +
+>      # ${WORKDIR}/ovmf is a well-known location where do_install and
+>      # do_deploy will be able to find the files.
+>      rm -rf ${WORKDIR}/ovmf
+>
+> base-commit: 30bea167e7c204be52b3f5af24e43d5f339e98b7
+> --
+> git-series 0.9.1
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
