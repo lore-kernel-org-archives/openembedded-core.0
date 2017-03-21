@@ -1,48 +1,48 @@
 Return-Path: <liu.ming50@gmail.com>
 Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 57C4971AFC
+	by mail.openembedded.org (Postfix) with ESMTP id 8805C6612D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Mar 2017 00:55:20 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id z133so346225wmb.2
+	Tue, 21 Mar 2017 00:55:26 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id x124so341649wmf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Mar 2017 17:55:22 -0700 (PDT)
+	Mon, 20 Mar 2017 17:55:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=/gavGTsa1yHDmGwX7OKNGEoTXuFgG2XnLBHDoWMDG5U=;
-	b=suZf7Rr63L5UtXhWR8goJbvTx2VqUu7WsEnN/6iQHaUOu/aDXcXbGcJqAlYMMKJCHe
-	lycRiG3l/EiN3JmhmRXZHeoABtTD6nJcTkOsci99Dj16uxL9zOJIFIgOQE5oS+CFP0vQ
-	XdGsFSoRbstRMl0pPHWdJ2a+4nk4yCjMWyulIVuXfYlJOPtYdnvVOREeS173yYzTnd74
-	73Bhp4EmLiEfMFN6PRKreMv/hhP/QNmOYZP4zgjdCzvCJBPuqzJsfN8TcaEojwq58ire
-	kZBwxs5elj96Ym6jMpdGnpJSDXMZZgUo3s1NFnSwn5+Ezbv1DpFWuNgIYjbZFwXC0qdx
-	lGSQ==
+	bh=3vZ4T+IthADdcdhJj8LLY9R65fG90AGZktTHoc+mBC0=;
+	b=ayu8dljgeLHDy2srhU6uFeLKTRmSOd/KXgJe4pLCaokCYBEPG9KGRDrENr9KSwbwif
+	9DvZE4Ba9iL220fXQka8s3+64iL+FSRFrLQbHvGR212sOOEu6hWaLOVVM2pSSGCVtK71
+	gp/v8xObBNoypXzhn8qouXeHqEUP+RAempEYtOLCuIzJ44x+eNGUX8aNcVlWkgZr8G51
+	4RjorxZvMW3vOW9jzgqXfb/21Nwi6byLjSxBmhqzsQCwTU8lfvW3JQBAnP0Karhf16yu
+	obHauO2fBtSz+gRbvexaHiq+kUhJHl85zxL9LmCDealUZrboHY3FOSIh0q0Trn+Eg7ke
+	MI4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=/gavGTsa1yHDmGwX7OKNGEoTXuFgG2XnLBHDoWMDG5U=;
-	b=XyZ5PgppZa1lE82qXHUnx6vdAd066s2AI5Qc6a0wMAVyGaUZIatYVka9BWLuXiDaHk
-	jMdL31Jugh4DULzUJ2hHB5XXmIR3mt2kQmJuk7muIaEwdm+yLBJEd8ezBTFm4VM/RAhS
-	YX6o4k3UckpS36HhROeXvX1rXal5rQv4HILnsbS8xR8BKNf7WkNKLPwS6HwoaRTO7Bgy
-	7qnb+Y3fsfvflutjdYRouhZfuEekyTjZd0D6TW93Dni8rLPR5iHC2Yyn5tVOGLa/N+xr
-	aptAfBPWzcUTW1tODlHVuQb32LPuPIrB0aYeBVxPkhuewDa5eRjnOg8XVQuzt8p6+kMx
-	/RrQ==
-X-Gm-Message-State: AFeK/H2uiIi5wVBa8MkQ//T0gl0X8KWXWIRTXfklWwazFpkbFrnGrcQGKM9bemX2agVhgA==
-X-Received: by 10.28.236.209 with SMTP id h78mr275047wmi.97.1490057722048;
-	Mon, 20 Mar 2017 17:55:22 -0700 (PDT)
+	bh=3vZ4T+IthADdcdhJj8LLY9R65fG90AGZktTHoc+mBC0=;
+	b=bOeKcCaqgWoPbclIB6S0sgjIFuM1T34GPG7cq4jF5N60hgSIOF9v1HeicFZYwt1zDU
+	SavjvoBw0m37+DBvKAQw3Rf5oXVTtSUH1dNTeNmjwTl/ynr3iWiMkwYHD0VNDnUQHnq5
+	KcTev4tfRTwsvnYVRq9/FxMJim6pTddIWPShARVmVBmalNcs98jJnHLX/brBiNqT3g3F
+	kjzTT6TXZOz7WK6Ec01ZnnmQz1np/wLA8XELNFah/WSbTId8hrlJOVM1N2HKwjV2rNit
+	5MLiO4gDErHFb7iyb0iMtijQOeXSiyaWDvAv7Y84eea9jsoAxZjNJRAT3JWebFIJ9d2v
+	6aVw==
+X-Gm-Message-State: AFeK/H30h56l4Kv0LipigFn/+p9wyER/Qcxg/izf87LXcwVhEuGxRZL5IkIdvis6Z+T5Iw==
+X-Received: by 10.28.109.147 with SMTP id b19mr272806wmi.69.1490057727732;
+	Mon, 20 Mar 2017 17:55:27 -0700 (PDT)
 Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
 	([223.104.101.84])
-	by smtp.gmail.com with ESMTPSA id 10sm8882258wrz.44.2017.03.20.17.55.19
+	by smtp.gmail.com with ESMTPSA id 10sm8882258wrz.44.2017.03.20.17.55.24
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 20 Mar 2017 17:55:21 -0700 (PDT)
+	Mon, 20 Mar 2017 17:55:27 -0700 (PDT)
 From: liu.ming50@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Mar 2017 01:54:59 +0100
-Message-Id: <1490057703-12819-2-git-send-email-liu.ming50@gmail.com>
+Date: Tue, 21 Mar 2017 01:55:00 +0100
+Message-Id: <1490057703-12819-3-git-send-email-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1490057703-12819-1-git-send-email-liu.ming50@gmail.com>
 References: <1490057703-12819-1-git-send-email-liu.ming50@gmail.com>
 Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH 1/5] kernel.bbclass: fix some incorrect inter-task dependencies
+Subject: [PATCH 2/5] kernel.bbclass: introduce INITRAMFS_IMAGE_NAME
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,65 +55,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Mar 2017 00:55:21 -0000
+X-List-Received-Date: Tue, 21 Mar 2017 00:55:26 -0000
 
 From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-- Move the addtask statment that kernel_link_images needs run after
-  do_compile from linux-yocto.inc to kernel.bbclass. Or else the recipes
-  that inheriting kernel.bbclass might run into implicit dependency
-  issues.
-- Fix a typo, "addtask do_strip" should be "addtask strip".
-- Remove some redundant addtask statments, when "addtask A after B" is
-  set, then "addtask B before A" is not needed.
+It defaults to ${INITRAMFS_IMAGE}-${MACHINE} if INITRAMFS_IMAGE is not
+empty.
+
+This allows the end users to be able to override the initramfs image
+name with a customized value.
 
 Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
 ---
- meta/classes/kernel.bbclass               | 5 +++--
- meta/recipes-kernel/linux/linux-yocto.inc | 1 -
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ meta/classes/kernel-fitimage.bbclass | 10 +++++-----
+ meta/classes/kernel.bbclass          | 21 +++++++++++----------
+ 2 files changed, 16 insertions(+), 15 deletions(-)
 
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index f9702f8..1be9022 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -362,7 +362,7 @@ fitimage_assemble() {
+ 	if [ "x${ramdiskcount}" = "x1" ] ; then
+ 		# Find and use the first initramfs image archive type we find
+ 		for img in cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.gz cpio; do
+-			initramfs_path="${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.${img}"
++			initramfs_path="${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.${img}"
+ 			echo "Using $initramfs_path"
+ 			if [ -e "${initramfs_path}" ]; then
+ 				fitimage_emit_section_ramdisk ${1} "${ramdiskcount}" "${initramfs_path}"
+@@ -445,11 +445,11 @@ kernel_do_deploy_append() {
+ 
+ 		if [ -n "${INITRAMFS_IMAGE}" ]; then
+ 			echo "Copying fit-image-${INITRAMFS_IMAGE}.its source file..."
+-			its_initramfs_base_name="fitImage-its-${INITRAMFS_IMAGE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
+-			its_initramfs_symlink_name=fitImage-its-${INITRAMFS_IMAGE}-${MACHINE}
++			its_initramfs_base_name="fitImage-its-${INITRAMFS_IMAGE_NAME}-${PV}-${PR}-${DATETIME}"
++			its_initramfs_symlink_name=fitImage-its-${INITRAMFS_IMAGE_NAME}
+ 			install -m 0644 fit-image-${INITRAMFS_IMAGE}.its ${DEPLOYDIR}/${its_initramfs_base_name}.its
+-			fit_initramfs_base_name="fitImage-${INITRAMFS_IMAGE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
+-			fit_initramfs_symlink_name=fitImage-${INITRAMFS_IMAGE}-${MACHINE}
++			fit_initramfs_base_name="fitImage-${INITRAMFS_IMAGE_NAME}-${PV}-${PR}-${DATETIME}"
++			fit_initramfs_symlink_name=fitImage-${INITRAMFS_IMAGE_NAME}
+ 			install -m 0644 arch/${ARCH}/boot/fitImage-${INITRAMFS_IMAGE} ${DEPLOYDIR}/${fit_initramfs_base_name}.bin
+ 		fi
+ 
 diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 1e0646a..d39fa24 100644
+index d39fa24..8feb2c1 100644
 --- a/meta/classes/kernel.bbclass
 +++ b/meta/classes/kernel.bbclass
-@@ -538,6 +538,7 @@ do_kernel_link_images() {
- 		ln -sf ../../../vmlinuz.bin
+@@ -16,6 +16,7 @@ INHIBIT_DEFAULT_DEPS = "1"
+ 
+ KERNEL_IMAGETYPE ?= "zImage"
+ INITRAMFS_IMAGE ?= ""
++INITRAMFS_IMAGE_NAME ?= "${@['${INITRAMFS_IMAGE}-${MACHINE}', ''][d.getVar('INITRAMFS_IMAGE') == '']}"
+ INITRAMFS_TASK ?= ""
+ INITRAMFS_IMAGE_BUNDLE ?= ""
+ 
+@@ -167,34 +168,34 @@ copy_initramfs() {
+ 	# In case the directory is not created yet from the first pass compile:
+ 	mkdir -p ${B}/usr
+ 	# Find and use the first initramfs image archive type we find
+-	rm -f ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
++	rm -f ${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio
+ 	for img in cpio cpio.gz cpio.lz4 cpio.lzo cpio.lzma cpio.xz; do
+-		if [ -e "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img" ]; then
+-			cp ${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img ${B}/usr/.
++		if [ -e "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.$img" ]; then
++			cp ${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.$img ${B}/usr/.
+ 			case $img in
+ 			*gz)
+ 				echo "gzip decompressing image"
+-				gunzip -f ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
++				gunzip -f ${B}/usr/${INITRAMFS_IMAGE_NAME}.$img
+ 				break
+ 				;;
+ 			*lz4)
+ 				echo "lz4 decompressing image"
+-				lz4 -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
++				lz4 -df ${B}/usr/${INITRAMFS_IMAGE_NAME}.$img
+ 				break
+ 				;;
+ 			*lzo)
+ 				echo "lzo decompressing image"
+-				lzop -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
++				lzop -df ${B}/usr/${INITRAMFS_IMAGE_NAME}.$img
+ 				break
+ 				;;
+ 			*lzma)
+ 				echo "lzma decompressing image"
+-				lzma -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
++				lzma -df ${B}/usr/${INITRAMFS_IMAGE_NAME}.$img
+ 				break
+ 				;;
+ 			*xz)
+ 				echo "xz decompressing image"
+-				xz -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
++				xz -df ${B}/usr/${INITRAMFS_IMAGE_NAME}.$img
+ 				break
+ 				;;
+ 			esac
+@@ -222,7 +223,7 @@ do_bundle_initramfs () {
+ 				tmp_path=$tmp_path" "$type"##"
+ 			fi
+ 		done
+-		use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
++		use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio
+ 		kernel_do_compile
+ 		# Restoring kernel image
+ 		for tp in $tmp_path ; do
+@@ -261,7 +262,7 @@ kernel_do_compile() {
+ 		# The old style way of copying an prebuilt image and building it
+ 		# is turned on via INTIRAMFS_TASK != ""
+ 		copy_initramfs
+-		use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
++		use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio
  	fi
- }
-+addtask kernel_link_images after do_compile
- 
- do_strip() {
- 	if [ -n "${KERNEL_IMAGE_STRIP_EXTRA_SECTIONS}" ]; then
-@@ -566,7 +567,7 @@ do_strip() {
- }
- do_strip[dirs] = "${B}"
- 
--addtask do_strip before do_sizecheck after do_kernel_link_images
-+addtask strip before do_sizecheck after do_kernel_link_images
- 
- # Support checking the kernel size since some kernels need to reside in partitions
- # with a fixed length or there is a limit in transferring the kernel to memory
-@@ -586,7 +587,7 @@ do_sizecheck() {
- }
- do_sizecheck[dirs] = "${B}"
- 
--addtask sizecheck before do_install after do_strip
-+addtask sizecheck before do_install
- 
- KERNEL_IMAGE_BASE_NAME ?= "${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
- # Don't include the DATETIME variable in the sstate package signatures
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-index 556546f..637506a 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -65,6 +65,5 @@ do_install_append(){
- 
- # extra tasks
- addtask kernel_version_sanity_check after do_kernel_metadata do_kernel_checkout before do_compile
--addtask kernel_link_images after do_compile before do_strip
- addtask validate_branches before do_patch after do_kernel_checkout
- addtask kernel_configcheck after do_configure before do_compile
+ 	for typeformake in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
+ 		oe_runmake ${typeformake} CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
 -- 
 2.7.4
 
