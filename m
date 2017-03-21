@@ -1,50 +1,54 @@
 Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-lf0-f50.google.com (mail-lf0-f50.google.com
-	[209.85.215.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 84A2D77925
+Received: from mail-lf0-f41.google.com (mail-lf0-f41.google.com
+	[209.85.215.41])
+	by mail.openembedded.org (Postfix) with ESMTP id E21B877952
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Mar 2017 11:35:32 +0000 (UTC)
-Received: by mail-lf0-f50.google.com with SMTP id z15so66094315lfd.1
+	Tue, 21 Mar 2017 11:35:33 +0000 (UTC)
+Received: by mail-lf0-f41.google.com with SMTP id j90so66106024lfk.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Mar 2017 04:35:33 -0700 (PDT)
+	Tue, 21 Mar 2017 04:35:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=rndity-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=LetyT4g6BX2AT/MTufJq+fv1VQncDA7e+yJmiFqGnuQ=;
-	b=BwCPqFpGk4rfiM/DsZlPJ0gIva7jKgDqqfW2GCs9I6112f8jfod8ARjqaPFveFr5gM
-	1sbGBzC81lUPRlbB8XoybtQ2XfRcdiuK+cQBKhBOD0xREHLLpYvVu/iF/bD8C5Dx2nBe
-	lCxyOUTyePnX8X2Ckwq3YX4+j3/sXmmjmEKA29P7Y+sQD7BnuwgSebQfewlgcAlnhluS
-	cXEl5Xd2hWpoVsr/QcNMkA4jr6C0SEqfBrKT3+2WVme6HiA2jAI69JVt/jitftLZwW39
-	rpYoAS2kOe3Ccv7HYXHfotxdh6gZ3BA3Iu5diHZp9ycHUcd3lAuL+/OAuKNGpBg7ySBD
-	rTtQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:in-reply-to:references;
+	bh=NnPbflwj6xaFRPAu7OmaIvt3niVRPQt7TdYnnqRoghs=;
+	b=UM4oC+1FxRKX5IndfJngqAxu/DOlBuejonRVLr7lylsGoQp0tdqVIeq7vDSqgg1pZy
+	1VgVZusRdA2RwDVUokvpOYSaqoyP1goSqeZ7THqrq8vnJqBU4sNdWDWsc9hSvJcVkNTp
+	kdsPo5PI6+jRFaJhv9+OJYWkNkG2pOPVsAopCJIIlxGEQ9sLZsT093EB+/GPjpxcbDIE
+	FWZcJ1LW9Sylo4TtN557YsKxa4ppBtnYcPlyHVzrCHLqCaVElyt9iaWV/65yf7siGbVD
+	bdH4sCWYW/mI8xDQGiP+g7sLZ/4kjffcxZ/an83C+BmUdlkbC6wk4v5g9+QqTVPAYvUD
+	Ssrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=LetyT4g6BX2AT/MTufJq+fv1VQncDA7e+yJmiFqGnuQ=;
-	b=ZApm0pCKiKN1GO3KwUfmUD5L6yRFKZcHk9D8BSSmf+yLR10uCWAdg8j3qYUiBZ1zzH
-	nZ8wuUAAEqHnt+pkeZwqkDvdukDe7aJvl0EZn8/ug1gy84Vzh9jHKs8MYV5tgTgBlDu7
-	VeYkfYM/OpQtK4K3mhrxYIlHuAad2xFatQQiZPfd9OVqC3EfPQ3LY1XEaGXs9Ojl9dUW
-	Ilp4WZJf2/FOgKd811NqhZu2eVbzZCRNkS/RjlKaqoqdJlu5GdQ9ajWulfs1i0P9hd+E
-	13m04wYJ/9AGcp9E4z/1qJNNYkj9KLfcA1yzUTYrSJoxmTvJzz2QABxVFh+DMzlLVk86
-	/9Lg==
-X-Gm-Message-State: AFeK/H1DgaN2Hm2NpTQ1JROw8GVkYSQj62nJts7up81Wirg1ncg3116NP44WD52KxtxYYA==
-X-Received: by 10.46.0.148 with SMTP id e20mr11451383lji.41.1490096133136;
-	Tue, 21 Mar 2017 04:35:33 -0700 (PDT)
+	:references:in-reply-to:references;
+	bh=NnPbflwj6xaFRPAu7OmaIvt3niVRPQt7TdYnnqRoghs=;
+	b=QTtYj7BrhpcTLZ9t5LwA+j7+dFDnnsK81z1b6nMynl37Ov6ve74GDOKX1iyw/SYfF9
+	EVoLzGvQOvelyxfXQwsnvx9I7+cxOpSgHZQfEcUskFo7O/hoLxwEq1QHarG3AUib/6L8
+	CexXHBhmkQFD5XLrC25Eznh9/bGY6+oNPUcAY4yMGpBfIXeKaLC/Y8qKAvc9UACwIp5J
+	LFdVTlY5ohuIczA0eyCTbrvasw+zR8JAy9P3wuqBPXjzXQRuYuWnvqZQduS11TtmSe8H
+	0WPdPhA8XxHNDxPushQF6K8VA8A3MHj12J+cW4WZ4UPmD9CSNMr/fg/5eOtfarME1MKU
+	aSOA==
+X-Gm-Message-State: AFeK/H1kuIN58CizqM3v97n+3FnVPu89DcJTyl1hwRl3YDrAN2x168Tak6KoqVXlENAkBQ==
+X-Received: by 10.46.5.68 with SMTP id 65mr11091586ljf.49.1490096134465;
+	Tue, 21 Mar 2017 04:35:34 -0700 (PDT)
 Received: from localhost.localdomain (staticline-31-182-60-238.toya.net.pl.
 	[31.182.60.238]) by smtp.gmail.com with ESMTPSA id
-	f28sm3516079lfi.52.2017.03.21.04.35.31
+	f28sm3516079lfi.52.2017.03.21.04.35.33
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 Mar 2017 04:35:32 -0700 (PDT)
+	Tue, 21 Mar 2017 04:35:33 -0700 (PDT)
 From: Maciej Borzecki <maciej.borzecki@rndity.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Mar 2017 12:35:00 +0100
-Message-Id: <cover.1490095649.git.maciej.borzecki@rndity.com>
+Date: Tue, 21 Mar 2017 12:35:01 +0100
+Message-Id: <922271f9b39edd7a632e8e5902f4256f8a26e30f.1490095649.git.maciej.borzecki@rndity.com>
 X-Mailer: git-send-email 2.9.3
-In-Reply-To: <20170317144027.GA22297@linux.intel.com>
+In-Reply-To: <cover.1490095649.git.maciej.borzecki@rndity.com>
 References: <20170317144027.GA22297@linux.intel.com>
+	<cover.1490095649.git.maciej.borzecki@rndity.com>
+In-Reply-To: <cover.1490095649.git.maciej.borzecki@rndity.com>
+References: <cover.1490095649.git.maciej.borzecki@rndity.com>
 Cc: Maciek Borzecki <maciek.borzecki@gmail.com>
-Subject: [PATCH v4 0/5] wic: selftest: enhancements for non-x86 MACHINE support & fixed-size tests
+Subject: [PATCH v4 1/5] selftest: wictestdisk: machine agnostic WKS for use with selftest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,51 +61,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Mar 2017 11:35:33 -0000
+X-List-Received-Date: Tue, 21 Mar 2017 11:35:34 -0000
 
-v4 of a series with enhancements and new test cases for wic selftest.
-The enhancements allow for running wic selftest for non-x86 MACHINE,
-such as qemuarm (the whole series was verified on qemux86-64 and
-qemuarm).
+Add a kickstart for an image that is not limited to use on x86 compatible
+machines. This allows us to run more wic tests on non-x86 architectures.
 
-The first patch adds a machine independent kickstart file - wictestdisk.
-Most of test cases build a disk image using one of the kickstart files
-shipped in Poky (mostly directdisk. These are usually x86 oriented due
-to use of syslinux and cannot be used when running with non-x86
-compatible MACHINE. On the other hand, the image built during tests does
-not need to be bootable (with exception of TCs that verify if the image
-is indeed bootable).
-
-Patch 2 introduces wictestdisk in test cases where its use is possible.
-
-Patch 3 adds only_for_arch() convenience decorator and applies it to test
-cases where x86 specific image must be used. In the end, only 13 TCs are
-skipped on qemuarm.
-
-Changes from previous version:
-- renamed onlyForArch() to only_for_arch(), changed input arguments to
-  take image name and list of compatible architectures
-- pylint fixes
-
-Patch 4 removes some assumptions about kernel image type.
-
-Patch 5 adds tests for --fixed-size partition flags.
-
-Changes from previous version:
-- pylint fixes
-
-Maciej Borzecki (5):
-  selftest: wictestdisk: machine agnostic WKS for use with selftest
-  selftest: wic: replace directdisk with wictestdisk where possible
-  wic: selftest: avoid COMPATIBLE_HOST issues
-  wic: selftest: do not assume bzImage kernel image
-  wic: selftest: add tests for --fixed-size partition flags
-
- meta-selftest/wic/wictestdisk.wks |   7 ++
- meta/lib/oeqa/selftest/wic.py     | 171 ++++++++++++++++++++++++++++++--------
- 2 files changed, 144 insertions(+), 34 deletions(-)
+Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
+---
+ meta-selftest/wic/wictestdisk.wks | 7 +++++++
+ 1 file changed, 7 insertions(+)
  create mode 100644 meta-selftest/wic/wictestdisk.wks
 
+diff --git a/meta-selftest/wic/wictestdisk.wks b/meta-selftest/wic/wictestdisk.wks
+new file mode 100644
+index 0000000000000000000000000000000000000000..d4de24d83097dab2851dbf5f2b6884679de7c77c
+--- /dev/null
++++ b/meta-selftest/wic/wictestdisk.wks
+@@ -0,0 +1,7 @@
++# short-description: image for use in machine agnostic wic test cases
++
++# /boot is intentionally an empty partition
++part /boot --ondisk sda --label boot --active --align 1024 --size 16
++part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
++
++# bootloader is intentionally left out
 -- 
 2.9.3
 
