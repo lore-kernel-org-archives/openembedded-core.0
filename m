@@ -1,26 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id BA24C77AB3
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A99377B62
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 13:44:03 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga105.jf.intel.com with ESMTP; 22 Mar 2017 06:44:04 -0700
+	Wed, 22 Mar 2017 13:44:04 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga105.fm.intel.com with ESMTP; 22 Mar 2017 06:44:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,205,1486454400"; d="scan'208";a="79402769"
+X-IronPort-AV: E=Sophos;i="5.36,205,1486454400"; d="scan'208";a="1111070039"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga005.fm.intel.com with ESMTP; 22 Mar 2017 06:44:04 -0700
+	by orsmga001.jf.intel.com with ESMTP; 22 Mar 2017 06:44:05 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 6EB692C8001
+	by linux.intel.com (Postfix) with ESMTP id 722A42C8001
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 06:43:58 -0700 (PDT)
+	Wed, 22 Mar 2017 06:43:59 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Mar 2017 15:42:28 +0200
-Message-Id: <b1e18eba17b1a2b1cba5d25e96b6729c36671f6f.1490188583.git.ed.bartosh@linux.intel.com>
+Date: Wed, 22 Mar 2017 15:42:29 +0200
+Message-Id: <c751a81b774460973992b7bfac677ca23d3029b6.1490188583.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1490188583.git.ed.bartosh@linux.intel.com>
 References: <cover.1490188583.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 04/10] wic: fix bug in sparse_copy
+Subject: [PATCH 05/10] wic: use STAGING_DATADIR as a default for bootimg_dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,32 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Mar 2017 13:44:03 -0000
+X-List-Received-Date: Wed, 22 Mar 2017 13:44:04 -0000
 
-sparse_copy creates output file that is smaller than input
-file when input file ends with unmapped blocks.
-
-Used truncate(<input file size>) when output file is created
-to ensure the size of output file will always be equal to
-the size of input file.
+Default value for bootimg_dir was not set in main wic script
+unlike the rest of artifacts: kernel_dir, roofts_dir and
+native_sysroot. Set it to the value of STAGING_DATADIR for
+consistency and to avoid confusion of wic plugin developers.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/filemap.py | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/wic | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/scripts/lib/wic/filemap.py b/scripts/lib/wic/filemap.py
-index 162603e..080668e 100644
---- a/scripts/lib/wic/filemap.py
-+++ b/scripts/lib/wic/filemap.py
-@@ -537,6 +537,7 @@ def sparse_copy(src_fname, dst_fname, offset=0, skip=0):
-         dst_file = open(dst_fname, 'r+b')
-     except IOError:
-         dst_file = open(dst_fname, 'wb')
-+        dst_file.truncate(os.path.getsize(src_fname))
+diff --git a/scripts/wic b/scripts/wic
+index 99721dc..8e9c05c 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -171,8 +171,6 @@ def wic_create_subcommand(args, usage_str):
+     if options.build_check and not engine.verify_build_env():
+         raise WicError("Couldn't verify build environment, exiting")
  
-     for first, last in fmap.get_mapped_ranges(0, fmap.blocks_cnt):
-         start = first * fmap.block_size
+-    bootimg_dir = ""
+-
+     if options.debug:
+         logger.setLevel(logging.DEBUG)
+ 
+@@ -189,6 +187,7 @@ def wic_create_subcommand(args, usage_str):
+ 
+         rootfs_dir = get_bitbake_var("IMAGE_ROOTFS", options.image_name)
+         kernel_dir = get_bitbake_var("DEPLOY_DIR_IMAGE", options.image_name)
++        bootimg_dir = get_bitbake_var("STAGING_DATADIR", options.image_name)
+         native_sysroot = get_bitbake_var("RECIPE_SYSROOT_NATIVE",
+                                          options.image_name) #, cache=False)
+     else:
 -- 
 2.1.4
 
