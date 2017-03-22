@@ -1,24 +1,43 @@
-Return-Path: <douglas.royds@taitradio.com>
-X-Greylist: delayed 307 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 22 Mar 2017 22:37:55 UTC
-Received: from smtp1.taitradio.net (unknown [202.37.96.23])
-	by mail.openembedded.org (Postfix) with SMTP id 9FC2C71E06
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id EC7C171E06
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 22:37:55 +0000 (UTC)
-Received: from [172.16.169.141] (unknown [172.16.169.141])
-	by smtp1.taitradio.net (Postfix) with ESMTP id 05A2E1C0267
+	Wed, 22 Mar 2017 22:47:59 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id 79so24084060pgf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Mar 2017 11:32:48 +1300 (NZDT)
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-References: <alpine.LFD.2.20.1703220648410.15178@uk63952.mitel.com>
-From: Douglas Royds <douglas.royds@taitradio.com>
-Message-ID: <551380a5-13a5-da4c-29d1-d3436dfdda02@taitradio.com>
-Date: Thu, 23 Mar 2017 11:32:47 +1300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.0
-MIME-Version: 1.0
-In-Reply-To: <alpine.LFD.2.20.1703220648410.15178@uk63952.mitel.com>
-Subject: Re: possible content for site.conf?
+	Wed, 22 Mar 2017 15:48:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=56qwqUABSt/fvHPUhT71jRV7kNwM8spvRJKj6qT1yt0=;
+	b=Ca05IOH1/BvIOOptnFoxLt91ZkzVLNCKTNpYw1gccpAKpjpqjjO+l7Wvk/+BJZpfsF
+	IXAwWLk/s1j/I3WkrOpX5SZH4/Ll7bSA7Dc1+ayaJCdnH3EY1iKXVn+WgtvVsO+O+FYK
+	Ms818xdx/d5t7Ncagihnfo2PCHtwFsWu/JU+5tLaESlwCNuxwK/QxG+6RIBK8yGkb+/7
+	AbIDFuffT6y518lKfcSNF9xVjDTQLi3QD1iR7JLLmXSJd4k35YYtP/+2yD0a8gQwEM5M
+	dFJRPTiL79UaV5kBp0gaPrcF3n1aWp93C/1PCbHAJJ1ibXwIbcA244NEnvVfj+WPwM34
+	uNew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=56qwqUABSt/fvHPUhT71jRV7kNwM8spvRJKj6qT1yt0=;
+	b=b70eJVnVKmA27Fe7ETE2DRRuS0IBpbg7GXKgXS9jSu7/VrrBnIokdvdWR4ExPeWwWI
+	whLZoiLd4Jobwxfr5bF3UnpnGlRRQ18/QYkwioyDUC6uxRIC4cDJHmw1doaQ5H+mIu2V
+	hjeMG+3mVoYV9i9AdSHh1yq5V5d+NoqemF9zuAEJjHWBITotywa5ZRC4fgbqlSwTGsFV
+	vmCX+VfaOtf28LPvXVLU8gBO/HE7OrsyC699DjHJTLdmhZwpBO4u4ua4UF2pYwGDYNCU
+	inv49Q+F98pfzxuMBlSYbNFTcrnyA98tuTAp3+0jCDGkHYA+QI3qjaJ+WCl2B1cBcDTI
+	WkfA==
+X-Gm-Message-State: AFeK/H3ResuPs8Cx7gRKmRx1AlpAE776iUofWjKZsXH4aa1NoWZJcMg7a/H6lWMzk4KlqA==
+X-Received: by 10.99.130.193 with SMTP id w184mr38863208pgd.157.1490222880906; 
+	Wed, 22 Mar 2017 15:48:00 -0700 (PDT)
+Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id s4sm5858926pfi.74.2017.03.22.15.47.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 22 Mar 2017 15:47:59 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Mar 2017 15:47:55 -0700
+Message-Id: <1490222875-16219-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] native.bbclass: clear MACHINE_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,121 +50,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Mar 2017 22:37:56 -0000
-Content-Type: multipart/alternative;
-	boundary="------------95CDEBDBFFF02D2E1E9E846C"
+X-List-Received-Date: Wed, 22 Mar 2017 22:48:00 -0000
 
---------------95CDEBDBFFF02D2E1E9E846C
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+Try to avoid native recipes accidentally being dependent on
+MACHINE_FEATURES. This simple change doesn't prevent MACHINE_FEATURES
+set via MACHINE_FEATURES_BACKFILL sneaking through, but it's better
+than nothing.
 
-We use it as a form of default local.conf, making it a consistent 
-configuration for building our layer. By combining this with a "bb" 
-wrapper script, nothing needs to be sourced, and there is no build 
-preparation at all - our workflow is simply
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/classes/native.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
- 1. Check out our layer
- 2. Type `bb thing`
-
-The wrapper-script and site.conf handle the rest. Our site.conf contains 
-the things you name, plus most of the settings from local.conf.sample, 
-plus automatically-computed paths to directories:
-
-  * OEDIR
-      o The one that contains the build/ directory
-  * META_OURLAYERNAME
-  * SCRIPTS
-  * SOURCEDIR
-      o Where all the external sources get automatically checked out
-
-Devs don't have to have a local.conf at all. The local.conf becomes a 
-place to put, well, local configuration.
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index 6becf82..1919fbc 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -112,6 +112,7 @@ PKG_CONFIG_SYSTEM_INCLUDE_PATH[unexport] = "1"
+ LIBCOVERRIDE = ""
+ CLASSOVERRIDE = "class-native"
+ MACHINEOVERRIDES = ""
++MACHINE_FEATURES = ""
+ 
+ PATH_prepend = "${COREBASE}/scripts/native-intercept:"
+ 
+-- 
+1.9.1
 
 
-On 22/03/17 23:51, Robert P. J. Day wrote:
-
->    i'm documenting what one might *properly* put in a site.conf file,
-> since i've been seeing examples of people loading it with references
-> to recipes and images and so on, which is totally inappropriate.
->
->    from site.conf.sample, the obvious content is things like:
->
-> * download dir
-> * reference to local (in-house) source mirror
-> * http proxies/fetching configuration
->
-> and so on. any other things people throw into site.conf i can just add
-> to a list so readers can understand what that file is truly designed
-> for?
->
-> rday
->
-
-
---------------95CDEBDBFFF02D2E1E9E846C
-Content-Type: text/html; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=windows-1252"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <p>We use it as a form of default local.conf, making it a consistent
-      configuration for building our layer. By combining this with a
-      "bb" wrapper script, nothing needs to be sourced, and there is no
-      build preparation at all - our workflow is simply</p>
-    <ol>
-      <li>Check out our layer</li>
-      <li>Type `bb thing`</li>
-    </ol>
-    <p>The wrapper-script and site.conf handle the rest. Our site.conf
-      contains the things you name, plus most of the settings from
-      local.conf.sample, plus automatically-computed paths to
-      directories:</p>
-    <ul>
-      <li>OEDIR</li>
-      <ul>
-        <li>The one that contains the build/ directory<br>
-        </li>
-      </ul>
-      <li>META_OURLAYERNAME</li>
-      <li>SCRIPTS</li>
-      <li>SOURCEDIR</li>
-      <ul>
-        <li>Where all the external sources get automatically checked out</li>
-      </ul>
-    </ul>
-    <p>Devs don't have to have a local.conf at all. The local.conf
-      becomes a place to put, well, local configuration.<br>
-    </p>
-    <p><br>
-    </p>
-    <p>On 22/03/17 23:51, Robert P. J. Day wrote:
-      <blockquote type="cite">
-        <pre wrap="">  i'm documenting what one might *properly* put in a site.conf file,
-since i've been seeing examples of people loading it with references
-to recipes and images and so on, which is totally inappropriate.
-
-  from site.conf.sample, the obvious content is things like:
-
-* download dir
-* reference to local (in-house) source mirror
-* http proxies/fetching configuration
-
-and so on. any other things people throw into site.conf i can just add
-to a list so readers can understand what that file is truly designed
-for?
-
-rday
-
-</pre>
-      </blockquote>
-    </p>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------95CDEBDBFFF02D2E1E9E846C--
