@@ -1,34 +1,36 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A36177B84
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 6DFF672F7B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 13:44:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1490190253; x=1521726253;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=57n0NkeJvFRiDL/eJwaIwekvbvBpTg7oR1/x+1pZy3c=;
-	b=KZUy3dom3ymjxtyG1VL1HlxCQ+N9p+bYsjOqWj6dk7WzNXLYnFcPaxFn
-	twO/6wfJgQxqrggSnju+AcbbVQ7kWA==;
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Mar 2017 06:44:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,205,1486454400"; d="scan'208";a="63642021"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga002.jf.intel.com with ESMTP; 22 Mar 2017 06:44:08 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 83CA22C8001
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 06:44:02 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Mar 2017 15:42:32 +0200
-Message-Id: <b1db91d4e83c4630afa3346b97beb08b0ceb5da3.1490188583.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1490188583.git.ed.bartosh@linux.intel.com>
-References: <cover.1490188583.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 08/10] oe-selftest: test wic rawcopy plugin
+	Wed, 22 Mar 2017 15:00:13 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v2MF03Kl022577; Wed, 22 Mar 2017 15:00:03 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 2sBsHasL4c9Z; Wed, 22 Mar 2017 15:00:03 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v2MExwrd022553
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 22 Mar 2017 14:59:59 GMT
+Message-ID: <1490194798.13980.172.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>, "Robert P. J. Day"
+	<rpjday@crashcourse.ca>
+Date: Wed, 22 Mar 2017 14:59:58 +0000
+In-Reply-To: <CADkTA4OV+n4cMpR-6GTbM+Qu+bJ8TNntOXyQ7UWYDLHtB_JYfg@mail.gmail.com>
+References: <alpine.LFD.2.20.1703220707490.15622@uk63952.mitel.com>
+	<CAJTo0LZe1-9x4=w5KtK0AVFo5TawB=Ceohvmw48qy+QkyrhMLg@mail.gmail.com>
+	<CADkTA4Oj1mC+CMoT=DJAzsDtmCnm6TdZAO_xVFhujg+3kiwWVw@mail.gmail.com>
+	<CAJTo0LaNwjnEvRRYrXwP6DJptvHc0Cm6E2QZyVEKsk1xLVoNJA@mail.gmail.com>
+	<CADkTA4NhsEnk1j=_i3ahu2Lt23t802wn7yfyb5-fK9K3XAdM_Q@mail.gmail.com>
+	<alpine.LFD.2.20.1703220821160.16426@uk63952.mitel.com>
+	<CADkTA4OV+n4cMpR-6GTbM+Qu+bJ8TNntOXyQ7UWYDLHtB_JYfg@mail.gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: design question: should layer.conf contain "PREFERRED_VERSION" settings?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,60 +43,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Mar 2017 13:44:12 -0000
+X-List-Received-Date: Wed, 22 Mar 2017 15:00:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Added test_rawcopy_plugin_qemu test case and wks template.
+On Wed, 2017-03-22 at 08:33 -0400, Bruce Ashfield wrote:
+> 
+> 
+> On Wed, Mar 22, 2017 at 8:24 AM, Robert P. J. Day <rpjday@crashcourse
+> .ca> wrote:
+> > 
+> >   proper attributions seem to have been totally lost here ...
+> > 
+> > On Wed, 22 Mar 2017, Bruce Ashfield wrote:
+> > 
+> > > On Wed, Mar 22, 2017 at 8:02 AM, Burton, Ross <ross.burton@intel.
+> > com> wrote:
+> > >
+> > >       On 22 March 2017 at 11:57, Bruce Ashfield <bruce.ashfield@g
+> > mail.com> wrote:
+> > >             So where are they supposed to be specified ? Surely
+> > not a separate distro .conf ? and most
+> > > certainly not in local.conf ... I've always been unsure of where
+> > the right place to specify 
+> > > versions like that.
+> > >
+> > > If it were my layer I'd have an .inc file that set all the
+> > preferred
+> > > versions where the defaults don't work, that the user would have
+> > to
+> > > include in their distro.
+> > >
+> > > Aha. Kind of like the old versions file that used to float
+> > around.
+> > >
+> > > Seems reasonable (if a bit less automatic than someone like me
+> > who
+> > > wants .. to use the layer like a black box)
+> > >
+> > > Luckily I have push access to that layer, so I can make a change
+> > > like that ;)
+> > >
+> > > One final question, is it considered a design option to set those
+> > > versions triggered off an IMAGE or DISTRO feature ? i.e. in
+> > > anonymous python .. or is that already too late in the
+> > > parsing/resolution process ?
+> > >
+> > > Bruce
+> > 
+> >   sorry, didn't mean to start something this early in the morning
+> > ...
+> > ok, i did. :-)
+> > 
+> >   in any event, can we agree that:
+> > 
+> > 1) it's bad layer design if the simple act of including a layer in
+> > bblayers.conf suddenly causes weird things to happen like the
+> > above?
+> > 
+> > 2) regardless of how the developer eventually does it, picking up
+> > those PREFERRED VERSIONS from meta-openstack should require *some*
+> > kind of explicit selection?
+> 
+> Honestly .. I disagree on #2.
+> 
+> The packages within the openstack layer *will not work* with other
+> versions of those
+> packages. 
+> 
+> So if someone actually wants to use the functionality provided by the
+> layer, they are
+> not optional. And the errors/issues that you get are extremely obtuse
+> and hard to
+> debug. That's the design point of the layer .. it doesn't let that
+> happen.
+> 
+> Hence making it something they must do as an extra step .. really is
+> a bad idea.
+> 
+> It gets in the way of people picking packages out of that layer if
+> they don't want to 
+> actually build openstack, that's the crux of the problem. But to
+> answer that issue,
+> that's why meta-cloud-services exists, that doesn't' force versions
+> and holds the
+> generally useful "cloud" packages.
 
-This test builds ext4 rootfs image, copies it to the root
-partition of the wic image using rawcopy plugin and
-boots wic image in qemu.
+Having layers which magically change the "policy" such as selected
+versions goes against the spirit and wording of Yocto Project
+Compatible (and will go against the new layer checking tools).
 
-[YOCTO #10618]
+What should happen is that the openstack recipe should complain loudly
+(error) if anyone tried to build it (or parse it?) with anything except
+the versions its known to work with.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta-selftest/wic/test_rawcopy_plugin.wks.in |  6 ++++++
- meta/lib/oeqa/selftest/wic.py                | 16 ++++++++++++++++
- 2 files changed, 22 insertions(+)
- create mode 100644 meta-selftest/wic/test_rawcopy_plugin.wks.in
+Cheers,
 
-diff --git a/meta-selftest/wic/test_rawcopy_plugin.wks.in b/meta-selftest/wic/test_rawcopy_plugin.wks.in
-new file mode 100644
-index 0000000..83be4be
---- /dev/null
-+++ b/meta-selftest/wic/test_rawcopy_plugin.wks.in
-@@ -0,0 +1,6 @@
-+# short-description: This file is used in oe-selftest wic module to test rawcopy plugin
-+
-+part /boot --active --source bootimg-pcbios
-+part / --source rawcopy --sourceparams="file=core-image-minimal-${MACHINE}.ext4" --use-uuid
-+
-+bootloader  --timeout=0 --append="console=ttyS0,115200n8"
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index 4aacd86..2e22362 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -681,3 +681,19 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
-         os.remove(wkspath)
-         wicout = glob(self.resultdir + "%s-*direct" % wksname)
-         self.assertEqual(0, len(wicout))
-+
-+    @only_for_arch(['i586', 'i686', 'x86_64'])
-+    def test_rawcopy_plugin_qemu(self):
-+        """Test rawcopy plugin in qemu"""
-+        # build ext4 and wic images
-+        for fstype in ("ext4", "wic"):
-+            config = 'IMAGE_FSTYPES = "%s"\nWKS_FILE = "test_rawcopy_plugin.wks.in"\n' % fstype
-+            self.append_config(config)
-+            self.assertEqual(0, bitbake('core-image-minimal').status)
-+            self.remove_config(config)
-+
-+        with runqemu('core-image-minimal', ssh=False, image_fstype='wic') as qemu:
-+            cmd = "grep vda. /proc/partitions  |wc -l"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-+            self.assertEqual(output, '2')
--- 
-2.1.4
+Richard
 
 
