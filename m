@@ -1,51 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f172.google.com (mail-qt0-f172.google.com
-	[209.85.216.172])
-	by mail.openembedded.org (Postfix) with ESMTP id EC54577A3A
+Return-Path: <douglas.royds@taitradio.com>
+X-Greylist: delayed 307 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 22 Mar 2017 22:37:55 UTC
+Received: from smtp1.taitradio.net (unknown [202.37.96.23])
+	by mail.openembedded.org (Postfix) with SMTP id 9FC2C71E06
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 22:19:17 +0000 (UTC)
-Received: by mail-qt0-f172.google.com with SMTP id r45so162352516qte.3
+	Wed, 22 Mar 2017 22:37:55 +0000 (UTC)
+Received: from [172.16.169.141] (unknown [172.16.169.141])
+	by smtp1.taitradio.net (Postfix) with ESMTP id 05A2E1C0267
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 15:19:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=E5dMBXhxAyo/N89UariQ+DAwgCpxOZ3mboBzQOeHN0E=;
-	b=QpTj8XwqpHdAzfHaefZrb7vkq816cOy/7ScapUk6wQTjQsv0DmbgyYHPa4QQkaU3Fg
-	K5IUcJxstNtG2xdWHL3Qfw9XA/sy8ZqdcrYkbFrfJ/vNUbGPqUN+B14jUPYZccbH+8ia
-	Jc4jBSshgK4TutdKlSs6SMMXax4d99C7ciyBCahmwnxTc3OQ55ZXvUGOiM+O1lWItZtF
-	jc3bxVPwIyqWcIkyP4iIzqyvqajJavQQyDV8v/9xBnAT+suliucD4HJ608nFxroepCGk
-	doCS4Q3XvpbVh17JdwmAWjDP+tWgyZSRLbXhDpxhBS8nEzNElbpZco1G4w3vR3jv1WJ4
-	V2Kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=E5dMBXhxAyo/N89UariQ+DAwgCpxOZ3mboBzQOeHN0E=;
-	b=mp84FHM3DluaDZTfLd3Jav+tpUexCRzBnVqGmzlfI8szrBrBjlECEwXFU0b4fU1Onx
-	VwBANSiTj95lqGAC4S6+DCZe84eO0VfHpdrFCPy/rKYwULk7m5eF3WAqISULNfBq0g5A
-	vvneZZLsWp/4Qh0YdZTLoxlZ8NWoBsPJxlewpb7BVIvvQY7lKVN7/MTjLHVaDQtX3ByI
-	h68dtiZLCOxl2nVXgWlSJmnHqKGiUBDvh6V8M82Ie/KxmqR0B2nak5LlfNTiL9gMhFvh
-	GTdWJ07aIMnT5r/7SDKANWkdrCybd8HbE+ATZWdeoAOtpJCECoDuQVk74QwNzEUhGYLh
-	8GYw==
-X-Gm-Message-State: AFeK/H3h6qsuZ1IjcMZ5rCLaR+hp513794tC/vzumh8YqKPk+dj7D0N2TcxIprjLN59S08nc0v0fxIBBo5VZcZY1
-X-Received: by 10.237.33.69 with SMTP id 63mr38799304qtc.109.1490221158687;
-	Wed, 22 Mar 2017 15:19:18 -0700 (PDT)
+	Thu, 23 Mar 2017 11:32:48 +1300 (NZDT)
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+References: <alpine.LFD.2.20.1703220648410.15178@uk63952.mitel.com>
+From: Douglas Royds <douglas.royds@taitradio.com>
+Message-ID: <551380a5-13a5-da4c-29d1-d3436dfdda02@taitradio.com>
+Date: Thu, 23 Mar 2017 11:32:47 +1300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.7.0
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Wed, 22 Mar 2017 15:18:58 -0700 (PDT)
-In-Reply-To: <1490220976.15509.34.camel@intel.com>
-References: <1490056286-13515-1-git-send-email-vedang.patel@intel.com>
-	<CAHiDW_FBnKy7Nx_G70zgXvTbJCXMy+uY0d1QUJk-ja3Z-gmw4A@mail.gmail.com>
-	<1490213829.15509.26.camel@intel.com>
-	<CAJTo0LZd1JgF+Zz_-yS5p-HeA1jxrmbxg-G9oP1maVO3rfzfVA@mail.gmail.com>
-	<1490220976.15509.34.camel@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 22 Mar 2017 22:18:58 +0000
-Message-ID: <CAJTo0Lasv1GdwKF-R9HfaY=gvuxmENpgavWidVtEQmorX7QMdQ@mail.gmail.com>
-To: "Patel, Vedang" <vedang.patel@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libxslt: Add PACKAGECONFIG support
+In-Reply-To: <alpine.LFD.2.20.1703220648410.15178@uk63952.mitel.com>
+Subject: Re: possible content for site.conf?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,39 +31,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Mar 2017 22:19:18 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0c7fc8cd19d1054b592621
+X-List-Received-Date: Wed, 22 Mar 2017 22:37:56 -0000
+Content-Type: multipart/alternative;
+	boundary="------------95CDEBDBFFF02D2E1E9E846C"
 
---94eb2c0c7fc8cd19d1054b592621
-Content-Type: text/plain; charset=UTF-8
+--------------95CDEBDBFFF02D2E1E9E846C
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 22 March 2017 at 22:16, Patel, Vedang <vedang.patel@intel.com> wrote:
+We use it as a form of default local.conf, making it a consistent 
+configuration for building our layer. By combining this with a "bb" 
+wrapper script, nothing needs to be sourced, and there is no build 
+preparation at all - our workflow is simply
 
-> I got my mistake. Setting PACKAGECONFIG enabled all the features by
-> default. Also, should I be including python as runtime dependency when
-> --with-python is used?
+ 1. Check out our layer
+ 2. Type `bb thing`
+
+The wrapper-script and site.conf handle the rest. Our site.conf contains 
+the things you name, plus most of the settings from local.conf.sample, 
+plus automatically-computed paths to directories:
+
+  * OEDIR
+      o The one that contains the build/ directory
+  * META_OURLAYERNAME
+  * SCRIPTS
+  * SOURCEDIR
+      o Where all the external sources get automatically checked out
+
+Devs don't have to have a local.conf at all. The local.conf becomes a 
+place to put, well, local configuration.
+
+
+On 22/03/17 23:51, Robert P. J. Day wrote:
+
+>    i'm documenting what one might *properly* put in a site.conf file,
+> since i've been seeing examples of people loading it with references
+> to recipes and images and so on, which is totally inappropriate.
+>
+>    from site.conf.sample, the obvious content is things like:
+>
+> * download dir
+> * reference to local (in-house) source mirror
+> * http proxies/fetching configuration
+>
+> and so on. any other things people throw into site.conf i can just add
+> to a list so readers can understand what that file is truly designed
+> for?
+>
+> rday
 >
 
-No, the rdepends will happen magically.  You might want to package the
-python module separately though.
 
-Ross
+--------------95CDEBDBFFF02D2E1E9E846C
+Content-Type: text/html; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
---94eb2c0c7fc8cd19d1054b592621
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <p>We use it as a form of default local.conf, making it a consistent
+      configuration for building our layer. By combining this with a
+      "bb" wrapper script, nothing needs to be sourced, and there is no
+      build preparation at all - our workflow is simply</p>
+    <ol>
+      <li>Check out our layer</li>
+      <li>Type `bb thing`</li>
+    </ol>
+    <p>The wrapper-script and site.conf handle the rest. Our site.conf
+      contains the things you name, plus most of the settings from
+      local.conf.sample, plus automatically-computed paths to
+      directories:</p>
+    <ul>
+      <li>OEDIR</li>
+      <ul>
+        <li>The one that contains the build/ directory<br>
+        </li>
+      </ul>
+      <li>META_OURLAYERNAME</li>
+      <li>SCRIPTS</li>
+      <li>SOURCEDIR</li>
+      <ul>
+        <li>Where all the external sources get automatically checked out</li>
+      </ul>
+    </ul>
+    <p>Devs don't have to have a local.conf at all. The local.conf
+      becomes a place to put, well, local configuration.<br>
+    </p>
+    <p><br>
+    </p>
+    <p>On 22/03/17 23:51, Robert P. J. Day wrote:
+      <blockquote type="cite">
+        <pre wrap="">  i'm documenting what one might *properly* put in a site.conf file,
+since i've been seeing examples of people loading it with references
+to recipes and images and so on, which is totally inappropriate.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 March 2017 at 22:16, Patel, Vedang <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:vedang.patel@intel.com" target=3D"_blank">vedang.patel@intel.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1tb" class=
-=3D"a3s aXjCH m15af81792eef4832">I got my mistake. Setting PACKAGECONFIG en=
-abled all the features by<br>
-default. Also, should I be including python as runtime dependency when<br>
---with-python is used?<br></div></blockquote></div><br>No, the rdepends wil=
-l happen magically.=C2=A0 You might want to package the python module separ=
-ately though.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
-_extra">Ross</div></div>
+  from site.conf.sample, the obvious content is things like:
 
---94eb2c0c7fc8cd19d1054b592621--
+* download dir
+* reference to local (in-house) source mirror
+* http proxies/fetching configuration
+
+and so on. any other things people throw into site.conf i can just add
+to a list so readers can understand what that file is truly designed
+for?
+
+rday
+
+</pre>
+      </blockquote>
+    </p>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------95CDEBDBFFF02D2E1E9E846C--
