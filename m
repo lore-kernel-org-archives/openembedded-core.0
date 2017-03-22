@@ -1,40 +1,37 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 051FE602D9;
-	Wed, 22 Mar 2017 18:24:51 +0000 (UTC)
-Received: by mail-wm0-f42.google.com with SMTP id t189so45757107wmt.1;
-	Wed, 22 Mar 2017 11:24:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=IM+9MnZOYVBXQXYL5wftl8Nvn5g7/hqg1cGa3GltgaA=;
-	b=BRkRTE2mqWXIqWP+l7aIXD9eDhAPT7yDaD5wyjBM7NVkED/gjfSRQVb9jf4qTauhlm
-	DeMPsAjHmCG3pU4A5eWX3XhCMeKDuGDxXaDFzpqnTcHNOdcdp0dR6zfbZWDEoOPPrivY
-	gy+wZFQZ1afnM64rkpSltjmeT/dqlKfogyPlQsDmjY8D8r090gWubaJhXobv+hxDDpNt
-	GRPjvNtLm5vgUcT3q1qjE+Mmhz0t19GTSI7lWs7RuuNhqRG5s6IF9ooNzjEty0mvjOQK
-	N4oWxhGye8jMb5J+rYob8EFS+L+/cbfm6dWoGyqbsyr2h3jo9HC2hmtx+9SeAqqCytA5
-	yu0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=IM+9MnZOYVBXQXYL5wftl8Nvn5g7/hqg1cGa3GltgaA=;
-	b=FdNFmZmFJQfwVl+IqvVfTshlko8YFsx1bE3UIKyrQmFRblMaluXVG/LbnSpp35vZLM
-	z4loAgIGmUVZYVjbJCZavpKA2cyBNjD/6zaiqJ06SGXblqaBEr3E0GbIqurGcXrUV0Li
-	aU8SkTblv2D/ED7vM6GU/IcJ4nZIWT94KOCjt8gY4wFdXwbFd7t13AHgN51PSVyOC1m4
-	5cXoPk3P8Z+zcj1E7VewHtnFMmH1YikaLDFSiZoKUXReAVwOjJADBaoncWRk7mrt1BFi
-	Yju5Epd/FYARL3GTbQTgoyOPi9X1kJFxpTVQ5XDYv0639qKWT8rzzOJBBDzutsd2wVMN
-	5QDQ==
-X-Gm-Message-State: AFeK/H1F5ULQ3yElW0ivzD7X6MXki0zjYkaQUVmDKVjVeTcrx1+brqh90eBRUN9Aa6Rs7sdH4vLYdKZNhLNpyw==
-X-Received: by 10.28.165.145 with SMTP id o139mr9648131wme.13.1490207092356;
-	Wed, 22 Mar 2017 11:24:52 -0700 (PDT)
+Return-Path: <vedang.patel@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 7441E77A0B
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Mar 2017 20:17:09 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga104.jf.intel.com with ESMTP; 22 Mar 2017 13:17:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,206,1486454400"; d="scan'208,217";a="63794977"
+Received: from orsmsx107.amr.corp.intel.com ([10.22.240.5])
+	by orsmga002.jf.intel.com with ESMTP; 22 Mar 2017 13:17:11 -0700
+Received: from orsmsx160.amr.corp.intel.com (10.22.226.43) by
+	ORSMSX107.amr.corp.intel.com (10.22.240.5) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Wed, 22 Mar 2017 13:17:11 -0700
+Received: from orsmsx115.amr.corp.intel.com ([169.254.4.227]) by
+	ORSMSX160.amr.corp.intel.com ([169.254.13.45]) with mapi id
+	14.03.0319.002; Wed, 22 Mar 2017 13:17:10 -0700
+From: "Patel, Vedang" <vedang.patel@intel.com>
+To: "Kukkonen, Jussi" <jussi.kukkonen@intel.com>
+Thread-Topic: [OE-core] [PATCH] libxslt: Add PACKAGECONFIG support
+Thread-Index: AQHSodp9JloWuTDi4kKOdqEqso0XOKGfbi+AgAJWBYA=
+Date: Wed, 22 Mar 2017 20:17:10 +0000
+Message-ID: <1490213829.15509.26.camel@intel.com>
+References: <1490056286-13515-1-git-send-email-vedang.patel@intel.com>
+	<CAHiDW_FBnKy7Nx_G70zgXvTbJCXMy+uY0d1QUJk-ja3Z-gmw4A@mail.gmail.com>
+In-Reply-To: <CAHiDW_FBnKy7Nx_G70zgXvTbJCXMy+uY0d1QUJk-ja3Z-gmw4A@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.7.159.64]
 MIME-Version: 1.0
-Received: by 10.80.180.162 with HTTP; Wed, 22 Mar 2017 11:24:21 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 22 Mar 2017 11:24:21 -0700
-Message-ID: <CAMKF1srxsxW=1Hc+ONia7uMAuFNPs74w8Wjy9u5G3S2xhKi=Eg@mail.gmail.com>
-To: openembeded-devel <Openembedded-devel@lists.openembedded.org>, 
-	Patches and discussions about the oe-core layer
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Fedorahosted.org in SRC_URI
+Subject: Re: [PATCH] libxslt: Add PACKAGECONFIG support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,68 +44,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Mar 2017 18:24:52 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 22 Mar 2017 20:17:11 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_14902138291550926camelintelcom_"
 
-Hi
+--_000_14902138291550926camelintelcom_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-FYI I see this notice
+SGkgSnVzc2ksDQoNCk9uIFR1ZSwgMjAxNy0wMy0yMSBhdCAwODozNiArMDAwMCwgS3Vra29uZW4s
+IEp1c3NpIHdyb3RlOg0KT24gMjEgTWFyY2ggMjAxNyBhdCAwMjozMSwgVmVkYW5nIFBhdGVsIDx2
+ZWRhbmcucGF0ZWxAaW50ZWwuY29tPG1haWx0bzp2ZWRhbmcucGF0ZWxAaW50ZWwuY29tPj4gd3Jv
+dGU6DQpTb21lIG9wdGlvbnMgbGlrZSBweXRob24gYmluZGluZ3MsIGRlYnVnIHN1cHBvcnQsIGNy
+eXB0byBhcmUgaGFyZGNvZGVkDQppbnNpZGUgdGhlIHJlY2lwZS4gQ2hhbmdlIHRoYXQgdG8gbWFr
+ZSB0aG9zZSBvcHRpb24gY29uZmlndXJhYmxlIHVzaW5nDQpQQUNLQUdFQ09ORklHLg0KDQpTaWdu
+ZWQtb2ZmLWJ5OiBWZWRhbmcgUGF0ZWwgPHZlZGFuZy5wYXRlbEBpbnRlbC5jb208bWFpbHRvOnZl
+ZGFuZy5wYXRlbEBpbnRlbC5jb20+Pg0KLS0tDQogbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlieHNs
+dC9saWJ4c2x0XzEuMS4yOS5iYjxodHRwOi8vbGlieHNsdF8xLjEuMjkuYmI+IHwgOSArKysrKysr
+LS0NCiAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KDQpk
+aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlieHNsdC9saWJ4c2x0XzEuMS4yOS5i
+YjxodHRwOi8vbGlieHNsdF8xLjEuMjkuYmI+IGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlieHNs
+dC9saWJ4c2x0XzEuMS4yOS5iYjxodHRwOi8vbGlieHNsdF8xLjEuMjkuYmI+DQppbmRleCBiZTc0
+N2U2MDhkOWQuLmQzNjIxMThhYTMwNyAxMDA2NDQNCi0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0
+L2xpYnhzbHQvbGlieHNsdF8xLjEuMjkuYmI8aHR0cDovL2xpYnhzbHRfMS4xLjI5LmJiPg0KKysr
+IGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlieHNsdC9saWJ4c2x0XzEuMS4yOS5iYjxodHRwOi8v
+bGlieHNsdF8xLjEuMjkuYmI+DQpAQCAtMjIsNyArMjIsNyBAQCBTID0gIiR7V09SS0RJUn0vbGli
+eHNsdC0ke1BWfSINCg0KIEJJTkNPTkZJRyA9ICIke2JpbmRpcn0veHNsdC1jb25maWciDQoNCi1p
+bmhlcml0IGF1dG90b29scyBwa2djb25maWcgYmluY29uZmlnLWRpc2FibGVkIGxpYl9wYWNrYWdl
+DQoraW5oZXJpdCBhdXRvdG9vbHMgcGtnY29uZmlnIGJpbmNvbmZpZy1kaXNhYmxlZCBsaWJfcGFj
+a2FnZSBkaXN0dXRpbHMtY29tbW9uLWJhc2UNCg0KICMgV2UgZG9uJ3QgREVQRU5EIG9uIGJpbnV0
+aWxzIGZvciBhbnNpZGVjbC5oIHNvIGVuc3VyZSB3ZSBkb24ndCB1c2UgdGhlIGhlYWRlcg0KIGRv
+X2NvbmZpZ3VyZV9wcmVwZW5kICgpIHsNCkBAIC0zMyw3ICszMywxMiBAQCBkb19jb25maWd1cmVf
+cHJlcGVuZCAoKSB7DQogICAgICAgIHRvdWNoICR7U30vZG9jL3hzbHRwcm9jLjENCiB9DQoNCi1F
+WFRSQV9PRUNPTkYgPSAiLS13aXRob3V0LXB5dGhvbiAtLXdpdGhvdXQtZGVidWcgLS13aXRob3V0
+LW1lbS1kZWJ1ZyAtLXdpdGhvdXQtY3J5cHRvIg0KK1BBQ0tBR0VDT05GSUcgPz89ICJweXRob24g
+bGlieHNsdC1kZWJ1ZyBsaWJ4c2x0LW1lbS1kZWJ1ZyBsaWJ4c2x0LWNyeXB0byINCg0KDQpZb3Ug
+Y2hhbmdlIGFsbCB0aGUgZGVmYXVsdHMsIGlzIHRoaXMgb24gcHVycG9zZT8gSXQgc2hvdWxkIGJl
+IG5vdGVkIGluIHRoZSBjb21taXQgbWVzc2FnZSBpbiBhbnkgY2FzZS4NCg0KQ2FuIHlvdSBlbGFi
+b3JlIG9uIHlvdXIgY29uY2Vybj8gSSBhbSBub3QgZXhhY3RseSBmb2xsb3dpbmcgaXQuDQoNCnRo
+ZSBjb25maWdzIHdvbid0IGJlIGVuYWJsZWQgdW5sZXNzIHRoZSBjb3JyZXNwb25kaW5nIGZlYXR1
+cmVzIGFyZSBleHBsaWNpdGx5IGVuYWJsZWQgaW4gdGhlIGltYWdlLiBJIGFtIHVzaW5nIGxpYnhz
+bHQtIHByZWZpeCB0byBtYWtlIHN1cmUgc29tZW9uZSBkb2VzIG5vdCBpbmFkdmVydGVudGx5IGVu
+YWJsZXMgdGhlIGZlYXR1cmVzIGJ5IHVzaW5nIHRoZSBnZW5lcmljIGZsYWdzIChweXRob24sIGRl
+YnVnLCAuLi4gKS4NCg0KSSBkbyBzZWUgYSBidWcgaGVyZSwgSW4gdGhlIGZpcnN0IGxpbmUsIHB5
+dGhvbiBzaG91bGQgYmUgcmVwbGFjZWQgd2l0aCBsaWJ4c2x0LXB5dGhvbi4gSSB3aWxsIGZpeCBp
+dCBpbiB0aGUgbmV4dCB2ZXJzaW9uIG9mIHRoaXMgcGF0Y2guDQoNClRoYW5rcywNClZlZGFuZyBQ
+YXRlbA0KU29mdHdhcmUgRW5naW5lZXINCkludGVsIENvcnBvcmF0aW9uDQoNCitQQUNLQUdFQ09O
+RklHW2xpYnhzbHQtcHl0aG9uXSA9ICItLXdpdGgtcHl0aG9uPSR7UFlUSE9OX0JBU0VfVkVSU0lP
+Tn0sIC0td2l0aG91dC1weXRob24iDQorUEFDS0FHRUNPTkZJR1tsaWJ4c2x0LWRlYnVnXSA9ICIt
+LXdpdGgtZGVidWcsIC0td2l0aG91dC1kZWJ1ZyINCitQQUNLQUdFQ09ORklHW2xpYnhzbHQtbWVt
+LWRlYnVnXSA9ICItLXdpdGgtbWVtLWRlYnVnLCAtLXdpdGhvdXQtbWVtLWRlYnVnIg0KK1BBQ0tB
+R0VDT05GSUdbbGlieHNsdC1jcnlwdG9dID0gIi0td2l0aC1jcnlwdG8sIC0td2l0aG91dC1jcnlw
+dG8iDQorDQogIyBvbGRlciB2ZXJzaW9ucyBvZiB0aGlzIHJlY2lwZSBoYWQgJHtQTn0tdXRpbHMN
+CiBSUFJPVklERVNfJHtQTn0tYmluICs9ICIke1BOfS11dGlscyINCiBSQ09ORkxJQ1RTXyR7UE59
+LWJpbiArPSAiJHtQTn0tdXRpbHMiDQotLQ0KMi43LjMNCg0KLS0NCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQpPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5n
+IGxpc3QNCk9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8bWFpbHRvOk9w
+ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpodHRwOi8vbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlDQoNCg0K
 
-https://fedoraproject.org/wiki/Infrastructure/Fedorahosted-retirement
+--_000_14902138291550926camelintelcom_
+Content-Type: text/html; charset="utf-8"
+Content-ID: <E661B1BBB3DEFE4AB377481F2F100C42@intel.com>
+Content-Transfer-Encoding: base64
 
-and I then grep'ed for fedorahosted in SRC_URI, they need to be fixed
+PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
+dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5Pg0KPGRpdj5IaSBKdXNz
+aSw8L2Rpdj4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2Pk9uIFR1ZSwgMjAxNy0wMy0yMSBhdCAw
+ODozNiAmIzQzOzAwMDAsIEt1a2tvbmVuLCBKdXNzaSB3cm90ZTo8L2Rpdj4NCjxibG9ja3F1b3Rl
+IHR5cGU9ImNpdGUiPg0KPGRpdiBkaXI9Imx0ciI+DQo8ZGl2IGNsYXNzPSJnbWFpbF9leHRyYSI+
+DQo8ZGl2IGNsYXNzPSJnbWFpbF9xdW90ZSI+T24gMjEgTWFyY2ggMjAxNyBhdCAwMjozMSwgVmVk
+YW5nIFBhdGVsIDxzcGFuIGRpcj0ibHRyIj4NCiZsdDs8YSBocmVmPSJtYWlsdG86dmVkYW5nLnBh
+dGVsQGludGVsLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPnZlZGFuZy5wYXRlbEBpbnRlbC5jb208L2E+
+Jmd0Ozwvc3Bhbj4gd3JvdGU6PGJyPg0KPGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSI+U29tZSBvcHRp
+b25zIGxpa2UgcHl0aG9uIGJpbmRpbmdzLCBkZWJ1ZyBzdXBwb3J0LCBjcnlwdG8gYXJlIGhhcmRj
+b2RlZDxicj4NCmluc2lkZSB0aGUgcmVjaXBlLiBDaGFuZ2UgdGhhdCB0byBtYWtlIHRob3NlIG9w
+dGlvbiBjb25maWd1cmFibGUgdXNpbmc8YnI+DQpQQUNLQUdFQ09ORklHLjxicj4NCjxicj4NClNp
+Z25lZC1vZmYtYnk6IFZlZGFuZyBQYXRlbCAmbHQ7PGEgaHJlZj0ibWFpbHRvOnZlZGFuZy5wYXRl
+bEBpbnRlbC5jb20iPnZlZGFuZy5wYXRlbEBpbnRlbC5jb208L2E+Jmd0Ozxicj4NCi0tLTxicj4N
+CiZuYnNwO21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnhzbHQvPGEgaHJlZj0iaHR0cDovL2xpYnhz
+bHRfMS4xLjI5LmJiIiByZWw9Im5vcmVmZXJyZXIiIHRhcmdldD0iX2JsYW5rIj5sPHdicj5pYnhz
+bHRfMS4xLjI5LmJiPC9hPiB8IDkgJiM0MzsmIzQzOyYjNDM7JiM0MzsmIzQzOyYjNDM7JiM0Mzst
+LTxicj4NCiZuYnNwOzEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoJiM0MzspLCAyIGRlbGV0
+aW9ucygtKTxicj4NCjxicj4NCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC88d2Jy
+PmxpYnhzbHQvPGEgaHJlZj0iaHR0cDovL2xpYnhzbHRfMS4xLjI5LmJiIiByZWw9Im5vcmVmZXJy
+ZXIiIHRhcmdldD0iX2JsYW5rIj5saWJ4c2x0XzEuMS4yOS5iYjwvYT4gYi9tZXRhL3JlY2lwZXMt
+c3VwcG9ydC88d2JyPmxpYnhzbHQvPGEgaHJlZj0iaHR0cDovL2xpYnhzbHRfMS4xLjI5LmJiIiBy
+ZWw9Im5vcmVmZXJyZXIiIHRhcmdldD0iX2JsYW5rIj5saWJ4c2x0XzEuMS4yOS5iYjwvYT48YnI+
+DQppbmRleCBiZTc0N2U2MDhkOWQuLmQzNjIxMThhYTMwNyAxMDA2NDQ8YnI+DQotLS0gYS9tZXRh
+L3JlY2lwZXMtc3VwcG9ydC88d2JyPmxpYnhzbHQvPGEgaHJlZj0iaHR0cDovL2xpYnhzbHRfMS4x
+LjI5LmJiIiByZWw9Im5vcmVmZXJyZXIiIHRhcmdldD0iX2JsYW5rIj5saWJ4c2x0XzEuMS4yOS5i
+YjwvYT48YnI+DQomIzQzOyYjNDM7JiM0MzsgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC88d2JyPmxp
+YnhzbHQvPGEgaHJlZj0iaHR0cDovL2xpYnhzbHRfMS4xLjI5LmJiIiByZWw9Im5vcmVmZXJyZXIi
+IHRhcmdldD0iX2JsYW5rIj5saWJ4c2x0XzEuMS4yOS5iYjwvYT48YnI+DQpAQCAtMjIsNyAmIzQz
+OzIyLDcgQEAgUyA9ICZxdW90OyR7V09SS0RJUn0vbGlieHNsdC0ke1BWfSZxdW90Ozxicj4NCjxi
+cj4NCiZuYnNwO0JJTkNPTkZJRyA9ICZxdW90OyR7YmluZGlyfS94c2x0LWNvbmZpZyZxdW90Ozxi
+cj4NCjxicj4NCi1pbmhlcml0IGF1dG90b29scyBwa2djb25maWcgYmluY29uZmlnLWRpc2FibGVk
+IGxpYl9wYWNrYWdlPGJyPg0KJiM0Mztpbmhlcml0IGF1dG90b29scyBwa2djb25maWcgYmluY29u
+ZmlnLWRpc2FibGVkIGxpYl9wYWNrYWdlIGRpc3R1dGlscy1jb21tb24tYmFzZTxicj4NCjxicj4N
+CiZuYnNwOyMgV2UgZG9uJ3QgREVQRU5EIG9uIGJpbnV0aWxzIGZvciBhbnNpZGVjbC5oIHNvIGVu
+c3VyZSB3ZSBkb24ndCB1c2UgdGhlIGhlYWRlcjxicj4NCiZuYnNwO2RvX2NvbmZpZ3VyZV9wcmVw
+ZW5kICgpIHs8YnI+DQpAQCAtMzMsNyAmIzQzOzMzLDEyIEBAIGRvX2NvbmZpZ3VyZV9wcmVwZW5k
+ICgpIHs8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgdG91Y2ggJHtTfS9kb2MveHNs
+dHByb2MuMTxicj4NCiZuYnNwO308YnI+DQo8YnI+DQotRVhUUkFfT0VDT05GID0gJnF1b3Q7LS13
+aXRob3V0LXB5dGhvbiAtLXdpdGhvdXQtZGVidWcgLS13aXRob3V0LW1lbS1kZWJ1ZyAtLXdpdGhv
+dXQtY3J5cHRvJnF1b3Q7PGJyPg0KJiM0MztQQUNLQUdFQ09ORklHID8/PSAmcXVvdDtweXRob24g
+bGlieHNsdC1kZWJ1ZyBsaWJ4c2x0LW1lbS1kZWJ1ZyBsaWJ4c2x0LWNyeXB0byZxdW90Ozxicj4N
+Cjxicj4NCjwvYmxvY2txdW90ZT4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2PllvdSBjaGFuZ2Ug
+YWxsIHRoZSBkZWZhdWx0cywgaXMgdGhpcyBvbiBwdXJwb3NlPyBJdCBzaG91bGQgYmUgbm90ZWQg
+aW4gdGhlIGNvbW1pdCBtZXNzYWdlIGluIGFueSBjYXNlLjwvZGl2Pg0KPGRpdj48YnI+DQo8L2Rp
+dj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYmxvY2txdW90ZT4NCjxkaXY+Q2FuIHlvdSBl
+bGFib3JlIG9uIHlvdXIgY29uY2Vybj8gSSBhbSBub3QgZXhhY3RseSBmb2xsb3dpbmcgaXQuPC9k
+aXY+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj50aGUgY29uZmlncyB3b24ndCBiZSBlbmFibGVk
+IHVubGVzcyB0aGUgY29ycmVzcG9uZGluZyBmZWF0dXJlcyBhcmUgZXhwbGljaXRseSBlbmFibGVk
+IGluIHRoZSBpbWFnZS4gSSBhbSB1c2luZyBsaWJ4c2x0LSBwcmVmaXggdG8gbWFrZSBzdXJlIHNv
+bWVvbmUgZG9lcyBub3QgaW5hZHZlcnRlbnRseSBlbmFibGVzIHRoZSBmZWF0dXJlcyBieSB1c2lu
+ZyB0aGUgZ2VuZXJpYyBmbGFncyAocHl0aG9uLCBkZWJ1ZywgLi4uICkuJm5ic3A7PC9kaXY+DQo8
+ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj5JIGRvIHNlZSBhIGJ1ZyBoZXJlLCBJbiB0aGUgZmlyc3Qg
+bGluZSwgcHl0aG9uIHNob3VsZCBiZSByZXBsYWNlZCB3aXRoIGxpYnhzbHQtcHl0aG9uLiBJIHdp
+bGwgZml4IGl0IGluIHRoZSBuZXh0IHZlcnNpb24gb2YgdGhpcyBwYXRjaC48L2Rpdj4NCjxkaXY+
+PGJyPg0KPC9kaXY+DQo8ZGl2PlRoYW5rcyw8L2Rpdj4NCjxkaXY+VmVkYW5nIFBhdGVsPC9kaXY+
+DQo8ZGl2PlNvZnR3YXJlIEVuZ2luZWVyPC9kaXY+DQo8ZGl2PkludGVsIENvcnBvcmF0aW9uPC9k
+aXY+DQo8YmxvY2txdW90ZSB0eXBlPSJjaXRlIj4NCjxkaXYgZGlyPSJsdHIiPg0KPGRpdiBjbGFz
+cz0iZ21haWxfZXh0cmEiPg0KPGRpdiBjbGFzcz0iZ21haWxfcXVvdGUiPg0KPGRpdj48L2Rpdj4N
+CjxkaXY+Jm5ic3A7PC9kaXY+DQo8YmxvY2txdW90ZSB0eXBlPSJjaXRlIj4mIzQzO1BBQ0tBR0VD
+T05GSUdbbGlieHNsdC1weXRob25dID0gJnF1b3Q7LS13aXRoLXB5dGhvbj0ke1BZVEhPTl9CQVNF
+Xzx3YnI+VkVSU0lPTn0sIC0td2l0aG91dC1weXRob24mcXVvdDs8YnI+DQomIzQzO1BBQ0tBR0VD
+T05GSUdbbGlieHNsdC1kZWJ1Z10gPSAmcXVvdDstLXdpdGgtZGVidWcsIC0td2l0aG91dC1kZWJ1
+ZyZxdW90Ozxicj4NCiYjNDM7UEFDS0FHRUNPTkZJR1tsaWJ4c2x0LW1lbS08d2JyPmRlYnVnXSA9
+ICZxdW90Oy0td2l0aC1tZW0tZGVidWcsIC0td2l0aG91dC1tZW0tZGVidWcmcXVvdDs8YnI+DQom
+IzQzO1BBQ0tBR0VDT05GSUdbbGlieHNsdC1jcnlwdG9dID0gJnF1b3Q7LS13aXRoLWNyeXB0bywg
+LS13aXRob3V0LWNyeXB0byZxdW90Ozxicj4NCiYjNDM7PGJyPg0KJm5ic3A7IyBvbGRlciB2ZXJz
+aW9ucyBvZiB0aGlzIHJlY2lwZSBoYWQgJHtQTn0tdXRpbHM8YnI+DQombmJzcDtSUFJPVklERVNf
+JHtQTn0tYmluICYjNDM7PSAmcXVvdDske1BOfS11dGlscyZxdW90Ozxicj4NCiZuYnNwO1JDT05G
+TElDVFNfJHtQTn0tYmluICYjNDM7PSAmcXVvdDske1BOfS11dGlscyZxdW90Ozxicj4NCjxzcGFu
+IGNsYXNzPSJIT0VuWmIiPjxmb250IGNvbG9yPSIjODg4ODg4Ij4tLTxicj4NCjIuNy4zPGJyPg0K
+PGJyPg0KLS08YnI+DQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX188d2JyPl9fX19fX19f
+X19fX19fX19fPGJyPg0KT3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0PGJyPg0KPGEgaHJl
+Zj0ibWFpbHRvOk9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmciPk9wZW5l
+bWJlZGRlZC1jb3JlQGxpc3RzLjx3YnI+b3BlbmVtYmVkZGVkLm9yZzwvYT48YnI+DQo8YSBocmVm
+PSJodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJl
+ZGRlZC1jb3JlIiByZWw9Im5vcmVmZXJyZXIiIHRhcmdldD0iX2JsYW5rIj5odHRwOi8vbGlzdHMu
+b3BlbmVtYmVkZGVkLm9yZy88d2JyPm1haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLTx3YnI+
+Y29yZTwvYT48YnI+DQo8L2ZvbnQ+PC9zcGFuPjxicj4NCjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0K
+PGJyPg0KPC9kaXY+DQo8L2Rpdj4NCjwvYmxvY2txdW90ZT4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
-oe-core
-
-meta/lib/oeqa/selftest/recipetool.py:        checkvars['SRC_URI'] =
-'https://fedorahosted.org/releases/l/o/logrotate/logrotate-${PV}.tar.gz'
-meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:SRC_URI =
-"https://fedorahosted.org/releases/x/m/xmlto/xmlto-${PV}.tar.gz \
-meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb:SRC_URI =
-"http://fedorahosted.org/releases/c/h/chkconfig/${BPN}-${PV}.tar.bz2 \
-meta/recipes-extended/cronie/cronie_1.5.1.bb:SRC_URI =
-"https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
-meta/recipes-extended/libuser/libuser_0.62.bb:SRC_URI =
-"https://fedorahosted.org/releases/l/i/libuser/libuser-${PV}.tar.xz \
-meta/recipes-extended/logrotate/logrotate_3.9.1.bb:SRC_URI =
-"https://fedorahosted.org/releases/l/o/logrotate/logrotate-${PV}.tar.gz
-\
-meta/recipes-extended/newt/libnewt_0.52.19.bb:SRC_URI =
-"https://fedorahosted.org/releases/n/e/newt/newt-${PV}.tar.gz \
-meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb:SRC_URI =
-"https://fedorahosted.org/releases/l/i/liberation-fonts/liberation-fonts-${PV}.tar.gz
-\
-
-
-meta-openembedded
-
-meta-networking/recipes-support/netcf/netcf_git.bb:SRC_URI =
-"git://git.fedorahosted.org/netcf.git;protocol=git \
-meta-oe/recipes-extended/dlm/dlm_4.0.2.bb:SRC_URI =
-"https://git.fedorahosted.org/cgit/dlm.git/snapshot/${BP}.tar.xz"
-meta-oe/recipes-extended/libqb/libqb_0.17.2.bb:SRC_URI =
-"https://fedorahosted.org/releases/q/u/quarterback/${BP}.tar.xz \
-meta-oe/recipes-extended/openlmi/openlmi-networking_0.3.1.bb:SRC_URI =
-"http://fedorahosted.org/released/${BPN}/${BP}.tar.gz \
-meta-oe/recipes-extended/openlmi/openlmi-providers_0.6.0.bb:SRC_URI =
-"http://fedorahosted.org/released/${BPN}/${BP}.tar.gz \
-meta-oe/recipes-extended/openlmi/openlmi-storage_0.8.1.bb:SRC_URI =
-"http://fedorahosted.org/released/${BPN}/${BP}.tar.gz"
-meta-oe/recipes-extended/openlmi/openlmi-tools_0.10.5.bb:SRC_URI =
-"http://fedorahosted.org/released/${BPN}/${BP}.tar.gz \
-meta-oe/recipes-graphics/ttf-fonts/ttf-liberation-sans-narrow_1.07.4.bb:SRC_URI
-= "https://fedorahosted.org/releases/l/i/liberation-fonts/liberation-fonts-ttf-${PV}.tar.gz
-\
-meta-oe/recipes-graphics/ttf-fonts/ttf-liberation_0.2.bb:SRC_URI =
-"http://fedorahosted.org/liberation-fonts/export/807b6dfd069b998cd9b4d3158da98817ef23c79d/F-9/liberation-fonts-ttf-3.tar.gz"
-meta-oe/recipes-support/hwdata/hwdata_0.291.bb:SRC_URI =
-"https://git.fedorahosted.org/cgit/${BPN}.git/snapshot/${BP}.tar.gz"
-meta-oe/recipes-support/mailcap/mailcap_2.1.46.bb:SRC_URI =
-"https://git.fedorahosted.org/cgit/${BPN}.git/snapshot/${BPN}-r2-1-46.tar.gz"
-meta-oe/recipes-support/system-config-keyboard/system-config-keyboard_1.4.0.bb:SRC_URI
-= "https://fedorahosted.org/releases/s/y/${BPN}/${BP}.tar.bz2"
-meta-oe/recipes-support/system-setup-keyboard/system-setup-keyboard_0.8.8.bb:SRC_URI
-= "https://git.fedorahosted.org/cgit/${PN}.git/snapshot/${BP}.tar.gz"
-meta-python/recipes-devtools/python/python-slip-dbus_0.6.1.bb:SRC_URI
-= "https://fedorahosted.org/released/${SRCNAME}/${SRCNAME}-${PV}.tar.bz2"
-
+--_000_14902138291550926camelintelcom_--
