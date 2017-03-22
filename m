@@ -1,49 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
-	[209.85.220.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 112E477A54
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 17:11:20 +0000 (UTC)
-Received: by mail-qk0-f179.google.com with SMTP id y76so161644276qkb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 10:11:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=JpfL9Bf9ljsTAYtWE3tJjy2cSNDL39EgHRovUviZitM=;
-	b=iybi6kC5W0RcU7W8UNh6nG/ZVGt2h+1tYyqoZHvbxbaflU6Zj8jbzm+Y/v2vylxlaN
-	LJO8i6g8Bj56VeSIcW2VKMwlP2beOYemhaCF/fWfq3LkjEODdJD9a42wHuOvNgAfESpt
-	gPo6nQGZv4IrWcK68mU44SNEcqEMCxKWRC1jCLJNmnMhqCY23UQrkBrB+0am0vB2JnAR
-	+aWb4h3clVfiUitZLo9Ise/KWju+QJIKfaeH8LKkNZTZyBUXeaj5Hy11o8cL7TSTUAgh
-	sfhrGsVlxIA4xabQadZZ0qjb+N4ZgTKGeLRptCLaMBpULIohLP9l6PXFovS3ptGXNvGT
-	bjKA==
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 051FE602D9;
+	Wed, 22 Mar 2017 18:24:51 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id t189so45757107wmt.1;
+	Wed, 22 Mar 2017 11:24:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=IM+9MnZOYVBXQXYL5wftl8Nvn5g7/hqg1cGa3GltgaA=;
+	b=BRkRTE2mqWXIqWP+l7aIXD9eDhAPT7yDaD5wyjBM7NVkED/gjfSRQVb9jf4qTauhlm
+	DeMPsAjHmCG3pU4A5eWX3XhCMeKDuGDxXaDFzpqnTcHNOdcdp0dR6zfbZWDEoOPPrivY
+	gy+wZFQZ1afnM64rkpSltjmeT/dqlKfogyPlQsDmjY8D8r090gWubaJhXobv+hxDDpNt
+	GRPjvNtLm5vgUcT3q1qjE+Mmhz0t19GTSI7lWs7RuuNhqRG5s6IF9ooNzjEty0mvjOQK
+	N4oWxhGye8jMb5J+rYob8EFS+L+/cbfm6dWoGyqbsyr2h3jo9HC2hmtx+9SeAqqCytA5
+	yu0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=JpfL9Bf9ljsTAYtWE3tJjy2cSNDL39EgHRovUviZitM=;
-	b=k3RTm63ozkIb6Y6sC1CWYzNVKi5F63Rgg6+R90atMXGMDOJlmlxKc9fl/kj5pUAQZ0
-	D9qGdYUWGahsF0Zti6T7DOe8yyb9vJwMT9bbPrHVnJ0ymS9B+uIbBRiOJ0mGeJ0TtsMa
-	qvWaINVW+BqSfi5NftSG5Nn0dtIdDaKqFoTjiymcVyBmmVDISKY/uBeohpdoKXOp46an
-	DrsbEXJh4eyecxHvE14sjMM4LjIF1lhi/kWODkT1tJP9PyJL/KiwGbDr+oNq5B75zeL0
-	V4TnKrziU6uuvPI/fnGsxibgE8Wunt7DUDeWu66SpVegmVaIegO6nd8sE+5m8tzCnWZi
-	fdTQ==
-X-Gm-Message-State: AFeK/H2RnGzLdnn/uzD3yciYXCNIvGAHo1dWs2RwBZHI7jpfVT3XW1QyWBpR4dKSiNCJLXtLs0f1/SG83JIQTTGl
-X-Received: by 10.55.47.4 with SMTP id v4mr36776999qkh.77.1490202681564; Wed,
-	22 Mar 2017 10:11:21 -0700 (PDT)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=IM+9MnZOYVBXQXYL5wftl8Nvn5g7/hqg1cGa3GltgaA=;
+	b=FdNFmZmFJQfwVl+IqvVfTshlko8YFsx1bE3UIKyrQmFRblMaluXVG/LbnSpp35vZLM
+	z4loAgIGmUVZYVjbJCZavpKA2cyBNjD/6zaiqJ06SGXblqaBEr3E0GbIqurGcXrUV0Li
+	aU8SkTblv2D/ED7vM6GU/IcJ4nZIWT94KOCjt8gY4wFdXwbFd7t13AHgN51PSVyOC1m4
+	5cXoPk3P8Z+zcj1E7VewHtnFMmH1YikaLDFSiZoKUXReAVwOjJADBaoncWRk7mrt1BFi
+	Yju5Epd/FYARL3GTbQTgoyOPi9X1kJFxpTVQ5XDYv0639qKWT8rzzOJBBDzutsd2wVMN
+	5QDQ==
+X-Gm-Message-State: AFeK/H1F5ULQ3yElW0ivzD7X6MXki0zjYkaQUVmDKVjVeTcrx1+brqh90eBRUN9Aa6Rs7sdH4vLYdKZNhLNpyw==
+X-Received: by 10.28.165.145 with SMTP id o139mr9648131wme.13.1490207092356;
+	Wed, 22 Mar 2017 11:24:52 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Wed, 22 Mar 2017 10:11:01 -0700 (PDT)
-In-Reply-To: <CAHUNapTcmaHNCCSC+iK9j43ff-x2cmC3WqRrm9kssO84rWSrSw@mail.gmail.com>
-References: <20170321190513.21469-1-twoerner@gmail.com>
-	<20170321190513.21469-2-twoerner@gmail.com>
-	<CAHUNapTcmaHNCCSC+iK9j43ff-x2cmC3WqRrm9kssO84rWSrSw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 22 Mar 2017 17:11:01 +0000
-Message-ID: <CAJTo0LafVLu6RVb=g8bKA_+EddHyZYO=nQe0ntszTB05MebgGA@mail.gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
-Cc: Patches and discussions about the oe-core layer
+Received: by 10.80.180.162 with HTTP; Wed, 22 Mar 2017 11:24:21 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 22 Mar 2017 11:24:21 -0700
+Message-ID: <CAMKF1srxsxW=1Hc+ONia7uMAuFNPs74w8Wjy9u5G3S2xhKi=Eg@mail.gmail.com>
+To: openembeded-devel <Openembedded-devel@lists.openembedded.org>, 
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] meta/classes/kernel.bbclass: revert 56fe5300ab5
+Subject: Fedorahosted.org in SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,39 +47,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Mar 2017 17:11:31 -0000
-Content-Type: multipart/alternative; boundary=001a114f41087b2519054b54d976
-
---001a114f41087b2519054b54d976
+X-List-Received-Date: Wed, 22 Mar 2017 18:24:52 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 22 March 2017 at 17:00, Trevor Woerner <twoerner@gmail.com> wrote:
+Hi
 
-> Please don't add this patch, I've found a test case where I see the
-> "+" being added.
-> (Is there a stronger way of doing this via patchwork?)
->
+FYI I see this notice
 
-As the submitter you should be able to retract a patch in patchwork, but
-this message is good enough!
+https://fedoraproject.org/wiki/Infrastructure/Fedorahosted-retirement
 
-Ross
+and I then grep'ed for fedorahosted in SRC_URI, they need to be fixed
 
---001a114f41087b2519054b54d976
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+oe-core
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 March 2017 at 17:00, Trevor Woerner <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:twoerner@gmail.com" target=3D"_blank">twoerner@gmail.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1c4" class=3D"a3s =
-aXjCH m15af6f74362e1f87">Please don&#39;t add this patch, I&#39;ve found a =
-test case where I see the<br>
-&quot;+&quot; being added.<br>
-(Is there a stronger way of doing this via patchwork?)</div></blockquote></=
-div><br>As the submitter you should be able to retract a patch in patchwork=
-, but this message is good enough!</div><div class=3D"gmail_extra"><br></di=
-v><div class=3D"gmail_extra">Ross</div></div>
+meta/lib/oeqa/selftest/recipetool.py:        checkvars['SRC_URI'] =
+'https://fedorahosted.org/releases/l/o/logrotate/logrotate-${PV}.tar.gz'
+meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:SRC_URI =
+"https://fedorahosted.org/releases/x/m/xmlto/xmlto-${PV}.tar.gz \
+meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb:SRC_URI =
+"http://fedorahosted.org/releases/c/h/chkconfig/${BPN}-${PV}.tar.bz2 \
+meta/recipes-extended/cronie/cronie_1.5.1.bb:SRC_URI =
+"https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
+meta/recipes-extended/libuser/libuser_0.62.bb:SRC_URI =
+"https://fedorahosted.org/releases/l/i/libuser/libuser-${PV}.tar.xz \
+meta/recipes-extended/logrotate/logrotate_3.9.1.bb:SRC_URI =
+"https://fedorahosted.org/releases/l/o/logrotate/logrotate-${PV}.tar.gz
+\
+meta/recipes-extended/newt/libnewt_0.52.19.bb:SRC_URI =
+"https://fedorahosted.org/releases/n/e/newt/newt-${PV}.tar.gz \
+meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb:SRC_URI =
+"https://fedorahosted.org/releases/l/i/liberation-fonts/liberation-fonts-${PV}.tar.gz
+\
 
---001a114f41087b2519054b54d976--
+
+meta-openembedded
+
+meta-networking/recipes-support/netcf/netcf_git.bb:SRC_URI =
+"git://git.fedorahosted.org/netcf.git;protocol=git \
+meta-oe/recipes-extended/dlm/dlm_4.0.2.bb:SRC_URI =
+"https://git.fedorahosted.org/cgit/dlm.git/snapshot/${BP}.tar.xz"
+meta-oe/recipes-extended/libqb/libqb_0.17.2.bb:SRC_URI =
+"https://fedorahosted.org/releases/q/u/quarterback/${BP}.tar.xz \
+meta-oe/recipes-extended/openlmi/openlmi-networking_0.3.1.bb:SRC_URI =
+"http://fedorahosted.org/released/${BPN}/${BP}.tar.gz \
+meta-oe/recipes-extended/openlmi/openlmi-providers_0.6.0.bb:SRC_URI =
+"http://fedorahosted.org/released/${BPN}/${BP}.tar.gz \
+meta-oe/recipes-extended/openlmi/openlmi-storage_0.8.1.bb:SRC_URI =
+"http://fedorahosted.org/released/${BPN}/${BP}.tar.gz"
+meta-oe/recipes-extended/openlmi/openlmi-tools_0.10.5.bb:SRC_URI =
+"http://fedorahosted.org/released/${BPN}/${BP}.tar.gz \
+meta-oe/recipes-graphics/ttf-fonts/ttf-liberation-sans-narrow_1.07.4.bb:SRC_URI
+= "https://fedorahosted.org/releases/l/i/liberation-fonts/liberation-fonts-ttf-${PV}.tar.gz
+\
+meta-oe/recipes-graphics/ttf-fonts/ttf-liberation_0.2.bb:SRC_URI =
+"http://fedorahosted.org/liberation-fonts/export/807b6dfd069b998cd9b4d3158da98817ef23c79d/F-9/liberation-fonts-ttf-3.tar.gz"
+meta-oe/recipes-support/hwdata/hwdata_0.291.bb:SRC_URI =
+"https://git.fedorahosted.org/cgit/${BPN}.git/snapshot/${BP}.tar.gz"
+meta-oe/recipes-support/mailcap/mailcap_2.1.46.bb:SRC_URI =
+"https://git.fedorahosted.org/cgit/${BPN}.git/snapshot/${BPN}-r2-1-46.tar.gz"
+meta-oe/recipes-support/system-config-keyboard/system-config-keyboard_1.4.0.bb:SRC_URI
+= "https://fedorahosted.org/releases/s/y/${BPN}/${BP}.tar.bz2"
+meta-oe/recipes-support/system-setup-keyboard/system-setup-keyboard_0.8.8.bb:SRC_URI
+= "https://git.fedorahosted.org/cgit/${PN}.git/snapshot/${BP}.tar.gz"
+meta-python/recipes-devtools/python/python-slip-dbus_0.6.1.bb:SRC_URI
+= "https://fedorahosted.org/released/${SRCNAME}/${SRCNAME}-${PV}.tar.bz2"
+
