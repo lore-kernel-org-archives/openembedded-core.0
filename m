@@ -1,13 +1,39 @@
-Return-Path: <cshored@cshore.thecshore.com>
-Received: from s2.neomailbox.net (s2.neomailbox.net [5.148.176.60])
-	by mail.openembedded.org (Postfix) with ESMTP id 384A872F7B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id B29ED77B63
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 15:37:29 +0000 (UTC)
-Date: Wed, 22 Mar 2017 11:37:22 -0400
-From: Daniel Dickinson <cshored@cshore.thecshore.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20170322113722.00005429@cshore.thecshore.com>
-In-Reply-To: <CADkTA4OV+n4cMpR-6GTbM+Qu+bJ8TNntOXyQ7UWYDLHtB_JYfg@mail.gmail.com>
+	Wed, 22 Mar 2017 15:44:37 +0000 (UTC)
+Received: by mail-qk0-f169.google.com with SMTP id v127so160100317qkb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Mar 2017 08:44:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=gO+DdqTMivRAR4tXyZeV4B/Eg4/v+xOiR7WnN9ub2JY=;
+	b=qamVeRW9+H28FTqjgl+gjajgf2UutqsMWv4FmQv0tenf3070GwVlq5ag7e5aQ9/rH2
+	MtCL2FEtMzO7QGcKzmYjDJ0rFoy6/7TZ/xmxZy1I75nCA3GS7nFFqYGAk9nM/1XuNQb7
+	irk2Pj39F7RrLJN95DlVuXhJz7db+Pu2pdf+pmZ8dP3LgE3kMgZty8wOfv/8NL2GQ+Bi
+	4CB8ulTP9Vc25q2wCteZj43rCmFIp00z8Y9S/o2MAzimJRQDtfkRmcd6ThXcpq8ypEDv
+	TB5YmgqalVqdu3m7ImJjAE6HPCQGFtur75tDTfDCEdWqd7PyP4pwpP5QmhXX6syBUrb2
+	jgxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=gO+DdqTMivRAR4tXyZeV4B/Eg4/v+xOiR7WnN9ub2JY=;
+	b=d7UPjh3QuZjiy0WhIjW+7gmNuWOcyBX4LsFo/1jWkd7TD9w0Q9pXVR00rfieYkUyhI
+	nu9g68/CgFqLVkWbmodImoQLzrCMLSREYWHRqVfgC0+P0lzIE/VHpX/U9L7w15IDmAY/
+	Xu3at4BdORU+BZTKVPEPAWyEDlh+52UEPHhz7y2cKy/ABM22RBY/i+dleC/m9sQwLh5m
+	ihDtFcAF2KU1d+WC4vo+cdGKTseomMNgwO5CUFQqiNkjI9Mc+xsdykPo9bWdu6kQKpUc
+	GS3z8RPanr7TofyWSgsOUR5HTEuU+YuwXM2j5x0kxnzX9wW9FGlyuNfosBLSHw4xVFN4
+	/p9g==
+X-Gm-Message-State: AFeK/H0zkx2htfKUvjz7CgINCUW8RlEpKJCjfkr1KOAod0O2K/vc84Q7+a3pQ68CA7voi0vn92kdB0X4bqypqfiM
+X-Received: by 10.55.47.4 with SMTP id v4mr36339333qkh.77.1490197478552; Wed,
+	22 Mar 2017 08:44:38 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Wed, 22 Mar 2017 08:44:18 -0700 (PDT)
+In-Reply-To: <1490194798.13980.172.camel@linuxfoundation.org>
 References: <alpine.LFD.2.20.1703220707490.15622@uk63952.mitel.com>
 	<CAJTo0LZe1-9x4=w5KtK0AVFo5TawB=Ceohvmw48qy+QkyrhMLg@mail.gmail.com>
 	<CADkTA4Oj1mC+CMoT=DJAzsDtmCnm6TdZAO_xVFhujg+3kiwWVw@mail.gmail.com>
@@ -15,7 +41,12 @@ References: <alpine.LFD.2.20.1703220707490.15622@uk63952.mitel.com>
 	<CADkTA4NhsEnk1j=_i3ahu2Lt23t802wn7yfyb5-fK9K3XAdM_Q@mail.gmail.com>
 	<alpine.LFD.2.20.1703220821160.16426@uk63952.mitel.com>
 	<CADkTA4OV+n4cMpR-6GTbM+Qu+bJ8TNntOXyQ7UWYDLHtB_JYfg@mail.gmail.com>
-MIME-Version: 1.0
+	<1490194798.13980.172.camel@linuxfoundation.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 22 Mar 2017 15:44:18 +0000
+Message-ID: <CAJTo0LZV4kh3=r=cxYpBydGO74R6cvootczedwMW3s_k1xxSWQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: design question: should layer.conf contain "PREFERRED_VERSION" settings?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -29,103 +60,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Mar 2017 15:37:31 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Mar 2017 15:44:37 -0000
+Content-Type: multipart/alternative; boundary=001a114f41085b150e054b53a38e
 
-On Wed, 22 Mar 2017 08:33:17 -0400
-Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+--001a114f41085b150e054b53a38e
+Content-Type: text/plain; charset=UTF-8
 
-> On Wed, Mar 22, 2017 at 8:24 AM, Robert P. J. Day
-> <rpjday@crashcourse.ca> wrote:
-> 
-> >
-> >   proper attributions seem to have been totally lost here ...
-> >
-> > On Wed, 22 Mar 2017, Bruce Ashfield wrote:
-> >  
-> > > On Wed, Mar 22, 2017 at 8:02 AM, Burton, Ross
-> > > <ross.burton@intel.com>  
-> > wrote:  
-> > >
-> > >       On 22 March 2017 at 11:57, Bruce Ashfield <
-> > bruce.ashfield@gmail.com> wrote:
-> > >             So where are they supposed to be specified ? Surely
-> > > not a  
-> > separate distro .conf ? and most  
-> > > certainly not in local.conf ... I've always been unsure of where
-> > > the  
-> > right place to specify  
-> > > versions like that.
-> > >
-> > > If it were my layer I'd have an .inc file that set all the
-> > > preferred versions where the defaults don't work, that the user
-> > > would have to include in their distro.
-> > >
-> > > Aha. Kind of like the old versions file that used to float around.
-> > >
-> > > Seems reasonable (if a bit less automatic than someone like me who
-> > > wants .. to use the layer like a black box)
-> > >
-> > > Luckily I have push access to that layer, so I can make a change
-> > > like that ;)
-> > >
-> > > One final question, is it considered a design option to set those
-> > > versions triggered off an IMAGE or DISTRO feature ? i.e. in
-> > > anonymous python .. or is that already too late in the
-> > > parsing/resolution process ?
-> > >
-> > > Bruce  
-> >
-> >   sorry, didn't mean to start something this early in the
-> > morning ... ok, i did. :-)
-> >
-> >   in any event, can we agree that:
-> >
-> > 1) it's bad layer design if the simple act of including a layer in
-> > bblayers.conf suddenly causes weird things to happen like the above?
-> >
-> > 2) regardless of how the developer eventually does it, picking up
-> > those PREFERRED VERSIONS from meta-openstack should require *some*
-> > kind of explicit selection?
-> >  
-> 
-> 
-> Honestly .. I disagree on #2.
-> 
-> The packages within the openstack layer *will not work* with other
-> versions of those
-> packages.
-> 
-> So if someone actually wants to use the functionality provided by the
-> layer, they are
-> not optional. And the errors/issues that you get are extremely obtuse
-> and hard to
-> debug. That's the design point of the layer .. it doesn't let that
-> happen.
-> 
-> Hence making it something they must do as an extra step .. really is
-> a bad idea.
-> 
-> It gets in the way of people picking packages out of that layer if
-> they don't want to
-> actually build openstack, that's the crux of the problem. But to
-> answer that issue,
-> that's why meta-cloud-services exists, that doesn't' force versions
-> and holds the
-> generally useful "cloud" packages.
-> 
+On 22 March 2017 at 14:59, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Wouldn't that make the openstack layer more of a distro or distro
-fragment then?  Wouldn't it make sense to have a openstack.bbclass and
-INHERIT in local.conf or distro.conf (depending on whether create a
-distro or a one-off test?) that takes care of the specific
-dependencies for that specific use-case?
+> What should happen is that the openstack recipe should complain loudly
+> (error) if anyone tried to build it (or parse it?) with anything except
+> the versions its known to work with.
+>
 
-Specific use-cases seems to be the point of distros and images to me,
-whereas recipes should be pick and choose...
+Is this a good time to bring up versions in DEPENDS?
 
-Regards,
+It would be awesome to automatically set PREFERRED_VERSION as appropriate
+depending on the constrains in DEPENDS, but I'd be really happy with errors
+if the versions specified were not selected.
 
-Daniel
+So in this case openstack could do DEPENDS=python-something (>4.0) and
+bitbake would error out if python-something v3 is being built.
 
+Ross
+
+--001a114f41085b150e054b53a38e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 March 2017 at 14:59, Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie=
+@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
+"><div id=3D":1nx" class=3D"a3s aXjCH m15af689089651d6d">What should happen=
+ is that the openstack recipe should complain loudly<br>
+(error) if anyone tried to build it (or parse it?) with anything except<br>
+the versions its known to work with.<br></div></blockquote></div><br>Is thi=
+s a good time to bring up versions in DEPENDS?</div><div class=3D"gmail_ext=
+ra"><br></div><div class=3D"gmail_extra">It would be awesome to automatical=
+ly set PREFERRED_VERSION as appropriate depending on the constrains in DEPE=
+NDS, but I&#39;d be really happy with errors if the versions specified were=
+ not selected.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmai=
+l_extra">So in this case openstack could do DEPENDS=3Dpython-something (&gt=
+;4.0) and bitbake would error out if python-something v3 is being built.</d=
+iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</di=
+v></div>
+
+--001a114f41085b150e054b53a38e--
