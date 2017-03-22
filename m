@@ -1,49 +1,18 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f173.google.com (mail-qt0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 54F6A71CB3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 20:20:14 +0000 (UTC)
-Received: by mail-qt0-f173.google.com with SMTP id n21so160901764qta.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 13:20:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=9NjyqYXs1sDPzqNQt6NEFDF5+xCCoGSBfcOm24T0u4Q=;
-	b=rRWx/C6DApg8USdopmiCIJn1+Unv/39i7ag0dEnhNC0IT3uGpZzLjfosP1UdQKmNBP
-	wjg/ppJDzYG7vr70lpmJDA4pFZGN64jseBVKel6gvQbzS4gbleBPmpjir2WzwF69BMib
-	9D79E2s+kY/eF9hd4tkRZH1VEcKAjbxORMKfgjp79Qc+K6x6iR5S7SDNGXETV394OU+d
-	p/84ylWCFOoZKV4bXJCTSOXbYQBgDNL2ME7H66tytdeNuAH98havSSSkpKlD3GebClSu
-	VnQD/Z1ZzBPlQfBv72APlB+MbiSGaQ4QR+fRJPjCprkONF7h7dNwpeubFwEJRZTdScgO
-	20gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=9NjyqYXs1sDPzqNQt6NEFDF5+xCCoGSBfcOm24T0u4Q=;
-	b=lyIrvIHZQHcJbJaxzV2Ca8eBIwHRXE49roJqAgLFxwPXBTiX4IVBNet76cFa+D6klH
-	2njeVPbw0fOueO9NvczAFCDKJ5+9nRepljYrRKK/bLA1jNHksNyE9Bmx1dh1q8XWkyHr
-	v2BOBQE4qeVmS4zdk0c7nTbO+7fvsnf4RhZzz4MHyh4uJewQu+AUPWBsBlnUjGOSkAV7
-	GwFSTFXOZANbZ7P/blwN3jdcHCk48yRJuyMP/tqOM3i4ijY5V1mVKtMdI7++GMJj/LIr
-	UXcKcVmJuyCNJJHEprLQGFQgk+mjND6UtZK9wrE3ZS9AVg3jyCLi6BINNH3kjVw3YDSe
-	1SWw==
-X-Gm-Message-State: AFeK/H1TrCs7NRno8zsKrBfbzNsdGX6xHLxabsRmsDMBvbCpw+n22C2e9bzaj7yvBFU2sD4FNvV0Xyv1uK1rMoNo
-X-Received: by 10.237.42.164 with SMTP id t33mr42989104qtd.105.1490214016206; 
-	Wed, 22 Mar 2017 13:20:16 -0700 (PDT)
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E9A96FF80;
+	Wed, 22 Mar 2017 20:53:29 +0000 (UTC)
 MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Wed, 22 Mar 2017 13:19:55 -0700 (PDT)
-In-Reply-To: <1490213829.15509.26.camel@intel.com>
-References: <1490056286-13515-1-git-send-email-vedang.patel@intel.com>
-	<CAHiDW_FBnKy7Nx_G70zgXvTbJCXMy+uY0d1QUJk-ja3Z-gmw4A@mail.gmail.com>
-	<1490213829.15509.26.camel@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 22 Mar 2017 20:19:55 +0000
-Message-ID: <CAJTo0LZd1JgF+Zz_-yS5p-HeA1jxrmbxg-G9oP1maVO3rfzfVA@mail.gmail.com>
-To: "Patel, Vedang" <vedang.patel@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libxslt: Add PACKAGECONFIG support
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Date: Wed, 22 Mar 2017 20:53:31 -0000
+Message-ID: <20170322205331.6648.75789@do.openembedded.org>
+References: <cover.1490188583.git.ed.bartosh@linux.intel.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1490188583.git.ed.bartosh@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIzEwNjE4OiBJbmNyZWFzZSBvZS1zZWxmdGVzdCBjb3ZlcmFnZSBvZiB3aWMgY29kZWJhc2UgKGZpcnN0IHBhcnQp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,55 +25,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Mar 2017 20:20:15 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0cfe2213673d054b577d37
+X-List-Received-Date: Wed, 22 Mar 2017 20:53:29 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
---94eb2c0cfe2213673d054b577d37
-Content-Type: text/plain; charset=UTF-8
+== Series Details ==
 
-On 22 March 2017 at 20:17, Patel, Vedang <vedang.patel@intel.com> wrote:
+Series: #10618: Increase oe-selftest coverage of wic codebase (first part)
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/5923/
+State : failure
 
-> Can you elabore on your concern? I am not exactly following it.
->
-> the configs won't be enabled unless the corresponding features are
-> explicitly enabled in the image. I am using libxslt- prefix to make sure
-> someone does not inadvertently enables the features by using the generic
-> flags (python, debug, ... ).
->
+== Summary ==
 
-No, you're changing the default to enable all the things that were
-previously disabled.
 
-Also you don't need to prefix the names as they're recipe-specific already.
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following results:
 
-I suggest that you re-read the PACKAGECONFIG section in the manual and
-resubmit the patch.
 
-Ross
 
---94eb2c0cfe2213673d054b577d37
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+* Issue             [pretest_src_uri_checksums_not_changed] 
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 March 2017 at 20:17, Patel, Vedang <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:vedang.patel@intel.com" target=3D"_blank">vedang.patel@intel.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bord=
-er-left-style:solid;padding-left:1ex"><div>Can you elabore on your concern?=
- I am not exactly following it.</div>
-<div><br>
-</div>
-<div>the configs won&#39;t be enabled unless the corresponding features are=
- explicitly enabled in the image. I am using libxslt- prefix to make sure s=
-omeone does not inadvertently enables the features by using the generic fla=
-gs (python, debug, ... ).=C2=A0</div></blockquote></div><br>No, you&#39;re =
-changing the default to enable all the things that were previously disabled=
-.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Also=
- you don&#39;t need to prefix the names as they&#39;re recipe-specific alre=
-ady.<br></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
-a">I suggest that you re-read the PACKAGECONFIG section in the manual and r=
-esubmit the patch.</div><div class=3D"gmail_extra"><br></div><div class=3D"=
-gmail_extra">Ross</div></div>
+* Issue             No modified recipes, skipping pretest [pretest_src_uri_left_files] 
 
---94eb2c0cfe2213673d054b577d37--
+* Issue             No added or modified recipes, skipping pretest [pretest_lic_files_chksum_modified_not_mentioned] 
+
+* Issue             [pretest_pylint] 
+
+* Issue             [test_max_line_length] 
+
+* Issue             [test_cve_presence_in_commit_message] 
+
+* Issue             [test_cve_tag_format] 
+
+* Issue             [test_shortlog_format] 
+
+* Issue             [test_shortlog_length] 
+
+* Issue             [test_summary_presence] 
+
+* Issue             [test_upstream_status_format] 
+
+* Issue             There are no new software patches, no reason to test Upstream-Status presence [test_upstream_status_presence] 
+
+* Issue             Until general agreement with the community, disabling it [test_commit_message_presence] 
+
+* Issue             [test_mbox_format] 
+
+* Issue             [test_series_merge_on_head] 
+
+* Issue             [test_src_uri_checksums_not_changed] 
+
+* Issue             No modified recipes, skipping pretest [test_src_uri_left_files] 
+
+* Issue             [test_bugzilla_entry_format] 
+
+* Issue             [test_signed_off_by_presence] 
+
+* Issue             There are no new software patches, no reason to test Signed-off-by presence [test_signed_off_by_presence] 
+
+* Issue             Series merged, no reason to check other mailing lists [test_target_mailing_list] 
+
+* Issue             No modified or added recipes, skipping test [test_lic_files_chksum_modified_not_mentioned] 
+
+* Issue             No added recipes, skipping test [test_lic_files_chksum_presence] 
+
+* Issue             [test_pylint] 
+
+* Issue             [test_author_valid] 
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
+
