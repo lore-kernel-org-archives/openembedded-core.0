@@ -1,50 +1,47 @@
-Return-Path: <vedang.patel@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AF7A6E668
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wr0-f181.google.com (mail-wr0-f181.google.com
+	[209.85.128.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 859F272F0E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 23:33:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1490225638; x=1521761638;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-id:content-transfer-encoding: mime-version;
-	bh=ko6ZbrsnrYlXzIn0KbkFXCaYnIq/QszAY1XCfW3kHN8=;
-	b=fw+S6IUEOOYNMqy2r2oM5KUaUHEyS2hIRoloJlEUyogn46BF53Rc95VW
-	6F5juuSijSzVPzsvavHQnPmI82DgcQ==;
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Mar 2017 16:33:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,206,1486454400"; d="scan'208";a="1125979817"
-Received: from orsmsx108.amr.corp.intel.com ([10.22.240.6])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Mar 2017 16:33:55 -0700
-Received: from orsmsx162.amr.corp.intel.com (10.22.240.85) by
-	ORSMSX108.amr.corp.intel.com (10.22.240.6) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Wed, 22 Mar 2017 16:33:55 -0700
-Received: from orsmsx115.amr.corp.intel.com ([169.254.4.227]) by
-	ORSMSX162.amr.corp.intel.com ([169.254.3.101]) with mapi id
-	14.03.0319.002; Wed, 22 Mar 2017 16:33:55 -0700
-From: "Patel, Vedang" <vedang.patel@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] libxslt: Add PACKAGECONFIG support
-Thread-Index: AQHSodp9JloWuTDi4kKOdqEqso0XOKGfbi+AgAJWBYCAAADGgIAAIIIAgAAAwQCAABTwAA==
-Date: Wed, 22 Mar 2017 23:33:54 +0000
-Message-ID: <1490225634.15509.40.camel@intel.com>
-References: <1490056286-13515-1-git-send-email-vedang.patel@intel.com>
-	<CAHiDW_FBnKy7Nx_G70zgXvTbJCXMy+uY0d1QUJk-ja3Z-gmw4A@mail.gmail.com>
-	<1490213829.15509.26.camel@intel.com>
-	<CAJTo0LZd1JgF+Zz_-yS5p-HeA1jxrmbxg-G9oP1maVO3rfzfVA@mail.gmail.com>
-	<1490220976.15509.34.camel@intel.com>
-	<CAJTo0Lasv1GdwKF-R9HfaY=gvuxmENpgavWidVtEQmorX7QMdQ@mail.gmail.com>
-In-Reply-To: <CAJTo0Lasv1GdwKF-R9HfaY=gvuxmENpgavWidVtEQmorX7QMdQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.7.159.64]
+	Thu, 23 Mar 2017 00:00:04 +0000 (UTC)
+Received: by mail-wr0-f181.google.com with SMTP id l37so137402726wrc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Mar 2017 17:00:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=XTUmqnbic9vcyIPuUyOIAOKENkpdInjOcvBFd31R8k0=;
+	b=Ef40+ILqnmztrfG0af1+HV+KUPn3I7CzlRQ8TOSlkFcLTMPXwM5UxYuLyqMGIPZSxL
+	lb0nD7THPWxfxVHPbsYi16r2ytnWRQeEPr2WnZGkNEa1+EvTJMnIzYuHtFmqdQG6CytQ
+	qw/Hu3mHIXKwhvyK0DdFEScQMiTK6tuQJOoV6kKWofqDrwsX59Yz+GtrK31rZW9+pZVL
+	mDgQxCmHp0ZU6zRiNSOi/+r4XGdDg9FkRJs3qG1IBjb6N1HD8Uvman6puoILlAYqZE9W
+	LKCuPiVBHNvAg+zmxnnWgVIxLaXZbW1br5sdHYeqM3rjbCY1/cxMrHDLeaaMlHrLAbj+
+	56hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=XTUmqnbic9vcyIPuUyOIAOKENkpdInjOcvBFd31R8k0=;
+	b=uiDzH1g4X7ilr5iExERndgEYGmeqZJQHXw9fDo8n9nIwl0VGtUSuOFdXstMKp7XTuA
+	RaRsULkwbAaSEKzLKD2mN5GcCbRxYXVDcCRb6SZPOQWg49r1b9D3tcVk7ctg2rD+crbl
+	TCaUztNaHCP/ROkGVibM2jjcl99I5uN+GrsDmaJtD/LAgS6W0EGInDEIHYoLdhHDg0Un
+	YXdlBOTwtlSP5ivKLt+AmAuorI2zSEDoRD/CA6NDJT696C2t5RkjBeeJ5fN/ZZYR1ziz
+	ejignR0KWOrPdCikz2N2aIROPujf+eVkpxePobRLPO7zVVhW+S7NcH/fuqtBRDBD8c5b
+	w/lQ==
+X-Gm-Message-State: AFeK/H08919yYjXXVUYuO/H3yG0Ev/09se955EjphhM1WIbLnRP0+o0wTTuREmYJHz03zCazlPdNnmndafecAA==
+X-Received: by 10.223.139.196 with SMTP id w4mr39281482wra.172.1490227205214; 
+	Wed, 22 Mar 2017 17:00:05 -0700 (PDT)
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libxslt: Add PACKAGECONFIG support
+Received: by 10.80.180.162 with HTTP; Wed, 22 Mar 2017 16:59:34 -0700 (PDT)
+In-Reply-To: <CAJ86T=XbcuU0-oWQ4z_t8--HCyQYUKx8P7qzO6rkGcH7C6MN2w@mail.gmail.com>
+References: <CAJ86T=WhxRaQ42=2bsFVZpeLhrZo2XwZBYoWp=f42tyebo2=2A@mail.gmail.com>
+	<CAMKF1sq0b7U2wZo=65ox=KZ+JAq1oScfxpzCdiQRT3iC_Y5hNw@mail.gmail.com>
+	<CAJ86T=XbcuU0-oWQ4z_t8--HCyQYUKx8P7qzO6rkGcH7C6MN2w@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 22 Mar 2017 16:59:34 -0700
+Message-ID: <CAMKF1sp5Q+Vcr0x1HwtFZRoDiWFo8wDHq1XJjoAE3mxBz=RYZQ@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: Using MACHINE_FEATURES in a native recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,22 +54,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Mar 2017 23:33:56 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6023E9AC49F7AD409B1E960975EF31FB@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 23 Mar 2017 00:00:05 -0000
+Content-Type: text/plain; charset=UTF-8
 
-T24gV2VkLCAyMDE3LTAzLTIyIGF0IDIyOjE4ICswMDAwLCBCdXJ0b24sIFJvc3Mgd3JvdGU6DQo+
-IA0KPiBPbiAyMiBNYXJjaCAyMDE3IGF0IDIyOjE2LCBQYXRlbCwgVmVkYW5nIDx2ZWRhbmcucGF0
-ZWxAaW50ZWwuY29tPg0KPiB3cm90ZToNCj4gPiBJIGdvdCBteSBtaXN0YWtlLiBTZXR0aW5nIFBB
-Q0tBR0VDT05GSUcgZW5hYmxlZCBhbGwgdGhlIGZlYXR1cmVzIGJ5DQo+ID4gZGVmYXVsdC4gQWxz
-bywgc2hvdWxkIEkgYmUgaW5jbHVkaW5nIHB5dGhvbiBhcyBydW50aW1lIGRlcGVuZGVuY3kNCj4g
-PiB3aGVuDQo+ID4gLS13aXRoLXB5dGhvbiBpcyB1c2VkPw0KPiA+IA0KPiBObywgdGhlIHJkZXBl
-bmRzIHdpbGwgaGFwcGVuIG1hZ2ljYWxseS7CoCBZb3UgbWlnaHQgd2FudCB0byBwYWNrYWdlDQo+
-IHRoZSBweXRob24gbW9kdWxlIHNlcGFyYXRlbHkgdGhvdWdoLg0KVGhhbmtzIFJvc3MgZm9yIHRo
-ZSBpbnB1dHMuIEkgd2lsbCBzdWJtaXQgYSBuZXcgcGF0Y2ggc29vbi4NCg0KQWxzbywgSSBhbSBw
-bGFubmluZyB0byBkcm9wIHRoZSBvdGhlciAzIGZlYXR1cmVzIChkZWJ1ZywgbWVtLWRlYnVnIGFu
-ZA0KY3J5cHRvKSBhcyBJIGhhdmUgbm90IHJlYWxseSB0ZXN0ZWQgdGhlbS4NCg0KVGhhbmtzLA0K
-VmVkYW5nDQo+IA0KPiBSb3Nz
+On Wed, Mar 22, 2017 at 4:00 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> On Wed, Mar 22, 2017 at 2:46 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>> On Wed, Mar 22, 2017 at 2:42 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>>> Currently native.bbclass clears MACHINEOVERRIDES but leaves
+>>> MACHINE_FEATURES alone. Is that an oversight? Or is there ever a
+>>> legitimate reason for a native recipe to have a dependency on
+>>> MACHINE_FEATURES?
+>>
+>> MACHINE_FEATURES is specific to target only.
+>
+> Right, the question is really whether we should try to enforce that or not.
+>
+
+we are better off to nullify it for native case. Worth a pull request :)
 
