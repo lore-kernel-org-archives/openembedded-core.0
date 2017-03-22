@@ -1,44 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id AB59877A90
+Return-Path: <vedang.patel@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 5159C77A98
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 21:47:20 +0000 (UTC)
-Received: by mail-wm0-f41.google.com with SMTP id t189so49043898wmt.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 14:47:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=NSnOtUJnrT+rN6JA2R3WMUZI35GEAnMn2RsJG5rXFyM=;
-	b=drFvdr8UoCEdQ5TviS3tqEENu7+D5pHvrwXZqwVezhraX7LlZ4W5N/MMy9YoakM1eg
-	O20D2rRcWPBMH5uiRfq3j8nIckpgGHYoaVMAu/6CFvKU9AvuQ7+uTqxO1sEMRFCgJdLU
-	6LLXSwnFuE53ryposvnO4Fl3uFIdbKCDDMvtx5RfgM7hycGdFfNNYttEfmAz803jcUgO
-	oT5WzyJ72MTrKWwVQbN7Msuqbi0ewUCIINaTfBRkNuDnYO4aruHP7BN67Xe/acJrA01y
-	HFIuInWtuChKQGR+VVlDX8jZiyAgfxySD+zFGo4eIf/9lgKsQkxFT/Bn0san7M4AAfbX
-	s7Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=NSnOtUJnrT+rN6JA2R3WMUZI35GEAnMn2RsJG5rXFyM=;
-	b=WBIIQqU93sLTWPUsSijduwUAPLakovPC6iRkXm9tyJxLUrVy+CWdy5YWCaU0zM1Dit
-	9dJoiQ4haBHKGXC8COVwnpzrGQDbeevRheZwB+ZBTnyjwRPfsIG8fUkOpfN+anBiiLxa
-	9udqlbZcnKlPlc6PcmzfADX+yzb3g+eUajgtC9Ec7A5aVphlEgMIZyYkDMjqi4bpo46K
-	OYfzmO71gDd2GLM1YpFxH8DDbrSIagSQ0+zk0lAU0k9ntoqHJUVCES7sjGzAIlqY8Z3z
-	35DZHOzKA/g83vv10XDEBe8z40y+12YGpmA4TjDuTx0YWVZS/P2ntc11YxSCMwmlJmLj
-	J0Og==
-X-Gm-Message-State: AFeK/H2+w3IpJ4QZ4ySuwqldqb0iVFGxyGD8Tk0q9txdClK+gCIcH8B/agKyK6qGGbG0fIjU1FVJtchrcEZAug==
-X-Received: by 10.28.140.135 with SMTP id o129mr9772146wmd.101.1490219241359; 
-	Wed, 22 Mar 2017 14:47:21 -0700 (PDT)
+	Wed, 22 Mar 2017 22:16:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1490220980; x=1521756980;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-id:content-transfer-encoding: mime-version;
+	bh=ajYWKPIJ4KAA2Vmz5//73WjoOsu04Bw5+5lZ67ukhzY=;
+	b=NogmZQlNw/O+ApOGMNMHOjITU9WZsBv9FVsGbsilEakLiW+Or5Oy5S29
+	wuSFEvEbMHUdQJlYH5OMQlJEXdX1OA==;
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Mar 2017 15:16:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,206,1486454400"; d="scan'208";a="1125961071"
+Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Mar 2017 15:16:18 -0700
+Received: from orsmsx159.amr.corp.intel.com (10.22.240.24) by
+	ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Wed, 22 Mar 2017 15:16:17 -0700
+Received: from orsmsx115.amr.corp.intel.com ([169.254.4.227]) by
+	ORSMSX159.amr.corp.intel.com ([169.254.11.140]) with mapi id
+	14.03.0319.002; Wed, 22 Mar 2017 15:16:17 -0700
+From: "Patel, Vedang" <vedang.patel@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] libxslt: Add PACKAGECONFIG support
+Thread-Index: AQHSodp9JloWuTDi4kKOdqEqso0XOKGfbi+AgAJWBYCAAADGgIAAIIIA
+Date: Wed, 22 Mar 2017 22:16:16 +0000
+Message-ID: <1490220976.15509.34.camel@intel.com>
+References: <1490056286-13515-1-git-send-email-vedang.patel@intel.com>
+	<CAHiDW_FBnKy7Nx_G70zgXvTbJCXMy+uY0d1QUJk-ja3Z-gmw4A@mail.gmail.com>
+	<1490213829.15509.26.camel@intel.com>
+	<CAJTo0LZd1JgF+Zz_-yS5p-HeA1jxrmbxg-G9oP1maVO3rfzfVA@mail.gmail.com>
+In-Reply-To: <CAJTo0LZd1JgF+Zz_-yS5p-HeA1jxrmbxg-G9oP1maVO3rfzfVA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.7.159.64]
 MIME-Version: 1.0
-Received: by 10.80.180.162 with HTTP; Wed, 22 Mar 2017 14:46:50 -0700 (PDT)
-In-Reply-To: <CAJ86T=WhxRaQ42=2bsFVZpeLhrZo2XwZBYoWp=f42tyebo2=2A@mail.gmail.com>
-References: <CAJ86T=WhxRaQ42=2bsFVZpeLhrZo2XwZBYoWp=f42tyebo2=2A@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 22 Mar 2017 14:46:50 -0700
-Message-ID: <CAMKF1sq0b7U2wZo=65ox=KZ+JAq1oScfxpzCdiQRT3iC_Y5hNw@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: Using MACHINE_FEATURES in a native recipe
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libxslt: Add PACKAGECONFIG support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,20 +55,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Mar 2017 21:47:22 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 22 Mar 2017 22:16:18 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E3473DC6F9D13848A0A471086EB2ED72@intel.com>
+Content-Transfer-Encoding: base64
 
-On Wed, Mar 22, 2017 at 2:42 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> Currently native.bbclass clears MACHINEOVERRIDES but leaves
-> MACHINE_FEATURES alone. Is that an oversight? Or is there ever a
-> legitimate reason for a native recipe to have a dependency on
-> MACHINE_FEATURES?
-
-MACHINE_FEATURES is specific to target only.
-
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+SGkgUm9zcywNCg0KT24gV2VkLCAyMDE3LTAzLTIyIGF0IDIwOjE5ICswMDAwLCBCdXJ0b24sIFJv
+c3Mgd3JvdGU6DQo+IA0KPiBPbiAyMiBNYXJjaCAyMDE3IGF0IDIwOjE3LCBQYXRlbCwgVmVkYW5n
+IDx2ZWRhbmcucGF0ZWxAaW50ZWwuY29tPg0KPiB3cm90ZToNCj4gPiBDYW4geW91IGVsYWJvcmUg
+b24geW91ciBjb25jZXJuPyBJIGFtIG5vdCBleGFjdGx5IGZvbGxvd2luZyBpdC4NCj4gPiANCj4g
+PiB0aGUgY29uZmlncyB3b24ndCBiZSBlbmFibGVkIHVubGVzcyB0aGUgY29ycmVzcG9uZGluZyBm
+ZWF0dXJlcyBhcmUNCj4gPiBleHBsaWNpdGx5IGVuYWJsZWQgaW4gdGhlIGltYWdlLiBJIGFtIHVz
+aW5nIGxpYnhzbHQtIHByZWZpeCB0byBtYWtlDQo+ID4gc3VyZSBzb21lb25lIGRvZXMgbm90IGlu
+YWR2ZXJ0ZW50bHkgZW5hYmxlcyB0aGUgZmVhdHVyZXMgYnkgdXNpbmcNCj4gPiB0aGUgZ2VuZXJp
+YyBmbGFncyAocHl0aG9uLCBkZWJ1ZywgLi4uICkuwqANCj4gPiANCj4gTm8sIHlvdSdyZSBjaGFu
+Z2luZyB0aGUgZGVmYXVsdCB0byBlbmFibGUgYWxsIHRoZSB0aGluZ3MgdGhhdCB3ZXJlDQo+IHBy
+ZXZpb3VzbHkgZGlzYWJsZWQuDQo+IA0KPiBBbHNvIHlvdSBkb24ndCBuZWVkIHRvIHByZWZpeCB0
+aGUgbmFtZXMgYXMgdGhleSdyZSByZWNpcGUtc3BlY2lmaWMNCj4gYWxyZWFkeS4NCj4gDQo+IEkg
+c3VnZ2VzdCB0aGF0IHlvdSByZS1yZWFkIHRoZSBQQUNLQUdFQ09ORklHIHNlY3Rpb24gaW4gdGhl
+IG1hbnVhbA0KPiBhbmQgcmVzdWJtaXQgdGhlIHBhdGNoLg0KDQpJIGdvdCBteSBtaXN0YWtlLiBT
+ZXR0aW5nIFBBQ0tBR0VDT05GSUcgZW5hYmxlZCBhbGwgdGhlIGZlYXR1cmVzIGJ5DQpkZWZhdWx0
+LiBBbHNvLCBzaG91bGQgSSBiZSBpbmNsdWRpbmcgcHl0aG9uIGFzIHJ1bnRpbWUgZGVwZW5kZW5j
+eSB3aGVuDQotLXdpdGgtcHl0aG9uIGlzIHVzZWQ/DQoNClRoYW5rcywNClZlZGFuZyBQYXRlbA0K
+U29mdHdhcmUgRW5naW5lZXINCkludGVsIENvcnBvcmF0aW9uDQo+IA0KPiBSb3Nz
 
