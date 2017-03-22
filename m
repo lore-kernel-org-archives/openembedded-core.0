@@ -1,45 +1,50 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id AAE9877A57
+Return-Path: <vedang.patel@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AF7A6E668
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 23:00:17 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id t189so49767527wmt.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 16:00:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=r9zQrvxBoS708fb8K8yf7YQ2QMOBR9pF5d/L/ApPOFQ=;
-	b=rGBqtHcymICHwnbzYYDkl9KH8xi/3nobwkp1725RMREbM5FwEtHwyMlrudxZI19f7m
-	9zgrEc8HFiQCsyKji2EDuZCY6zfUXfRuBXP8yILtTy2YOlJZI15ee+eBy7DduTvxbeGU
-	+zEd1ZrSL3KgSp+PYssPa/aUY1B1U+/06VjxPYWGKMR0joBegdBRKsaIS9pjSvykTvYn
-	X1xRTuYUhb45gV9Vfei9s3Jx/I5NXFjd6osCAFG2PRUNGZMpoREieaqg1rt+/o3ZQPNc
-	UufO3wBIDJKHbyGz6UkYF8/OwixZG5ooa5YXXoQkMASG2l2Rj5AI1g5Yq6c8tW8dzSU/
-	y3rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=r9zQrvxBoS708fb8K8yf7YQ2QMOBR9pF5d/L/ApPOFQ=;
-	b=OesKRsAg+znx/na212WX0Oootx8rNL4KyyKt2uOaQqrxUftIhMjer041VP9LBLvM7b
-	Uz6AbuPnY+8M7nTtTqmNAFWrvlUB/kUdNyyQRmjl7p+0oxWHrUvibs6W/cisatWL2Bx3
-	Y+dtr4nt7v/ieFRq8agHEAjnNxNw/x4X+56lPtU4TS/oKITk5Um445OGmGXQ/5QQGw+x
-	cQsm8B8/Vu6M3REG5lv4H8CKf/CntZG8SmzJjMe8nSn7yLJCasbRlNRwlznKmWRLOlDq
-	wVbCuQIOP7lQe/VVXQRgP4/2OimJHa1IBpe6CYwdD/jjaY3PA4pfqtOZaPdA+qPxWZda
-	ohmw==
-X-Gm-Message-State: AFeK/H0ri5H+osRda+kE+DqV+d2hxZoitM375nbRNrKGa2AoKdrtxDhqIep28vTfCmoBUcX0oCaGNzngnowyPw==
-X-Received: by 10.28.224.11 with SMTP id x11mr10475828wmg.98.1490223618177;
-	Wed, 22 Mar 2017 16:00:18 -0700 (PDT)
+	Wed, 22 Mar 2017 23:33:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1490225638; x=1521761638;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-id:content-transfer-encoding: mime-version;
+	bh=ko6ZbrsnrYlXzIn0KbkFXCaYnIq/QszAY1XCfW3kHN8=;
+	b=fw+S6IUEOOYNMqy2r2oM5KUaUHEyS2hIRoloJlEUyogn46BF53Rc95VW
+	6F5juuSijSzVPzsvavHQnPmI82DgcQ==;
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Mar 2017 16:33:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,206,1486454400"; d="scan'208";a="1125979817"
+Received: from orsmsx108.amr.corp.intel.com ([10.22.240.6])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Mar 2017 16:33:55 -0700
+Received: from orsmsx162.amr.corp.intel.com (10.22.240.85) by
+	ORSMSX108.amr.corp.intel.com (10.22.240.6) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Wed, 22 Mar 2017 16:33:55 -0700
+Received: from orsmsx115.amr.corp.intel.com ([169.254.4.227]) by
+	ORSMSX162.amr.corp.intel.com ([169.254.3.101]) with mapi id
+	14.03.0319.002; Wed, 22 Mar 2017 16:33:55 -0700
+From: "Patel, Vedang" <vedang.patel@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] libxslt: Add PACKAGECONFIG support
+Thread-Index: AQHSodp9JloWuTDi4kKOdqEqso0XOKGfbi+AgAJWBYCAAADGgIAAIIIAgAAAwQCAABTwAA==
+Date: Wed, 22 Mar 2017 23:33:54 +0000
+Message-ID: <1490225634.15509.40.camel@intel.com>
+References: <1490056286-13515-1-git-send-email-vedang.patel@intel.com>
+	<CAHiDW_FBnKy7Nx_G70zgXvTbJCXMy+uY0d1QUJk-ja3Z-gmw4A@mail.gmail.com>
+	<1490213829.15509.26.camel@intel.com>
+	<CAJTo0LZd1JgF+Zz_-yS5p-HeA1jxrmbxg-G9oP1maVO3rfzfVA@mail.gmail.com>
+	<1490220976.15509.34.camel@intel.com>
+	<CAJTo0Lasv1GdwKF-R9HfaY=gvuxmENpgavWidVtEQmorX7QMdQ@mail.gmail.com>
+In-Reply-To: <CAJTo0Lasv1GdwKF-R9HfaY=gvuxmENpgavWidVtEQmorX7QMdQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.7.159.64]
 MIME-Version: 1.0
-Received: by 10.223.179.24 with HTTP; Wed, 22 Mar 2017 16:00:17 -0700 (PDT)
-In-Reply-To: <CAMKF1sq0b7U2wZo=65ox=KZ+JAq1oScfxpzCdiQRT3iC_Y5hNw@mail.gmail.com>
-References: <CAJ86T=WhxRaQ42=2bsFVZpeLhrZo2XwZBYoWp=f42tyebo2=2A@mail.gmail.com>
-	<CAMKF1sq0b7U2wZo=65ox=KZ+JAq1oScfxpzCdiQRT3iC_Y5hNw@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 22 Mar 2017 16:00:17 -0700
-Message-ID: <CAJ86T=XbcuU0-oWQ4z_t8--HCyQYUKx8P7qzO6rkGcH7C6MN2w@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: Using MACHINE_FEATURES in a native recipe
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libxslt: Add PACKAGECONFIG support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,23 +57,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Mar 2017 23:00:18 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 22 Mar 2017 23:33:56 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <6023E9AC49F7AD409B1E960975EF31FB@intel.com>
+Content-Transfer-Encoding: base64
 
-On Wed, Mar 22, 2017 at 2:46 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Wed, Mar 22, 2017 at 2:42 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->> Currently native.bbclass clears MACHINEOVERRIDES but leaves
->> MACHINE_FEATURES alone. Is that an oversight? Or is there ever a
->> legitimate reason for a native recipe to have a dependency on
->> MACHINE_FEATURES?
->
-> MACHINE_FEATURES is specific to target only.
-
-Right, the question is really whether we should try to enforce that or not.
-
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+T24gV2VkLCAyMDE3LTAzLTIyIGF0IDIyOjE4ICswMDAwLCBCdXJ0b24sIFJvc3Mgd3JvdGU6DQo+
+IA0KPiBPbiAyMiBNYXJjaCAyMDE3IGF0IDIyOjE2LCBQYXRlbCwgVmVkYW5nIDx2ZWRhbmcucGF0
+ZWxAaW50ZWwuY29tPg0KPiB3cm90ZToNCj4gPiBJIGdvdCBteSBtaXN0YWtlLiBTZXR0aW5nIFBB
+Q0tBR0VDT05GSUcgZW5hYmxlZCBhbGwgdGhlIGZlYXR1cmVzIGJ5DQo+ID4gZGVmYXVsdC4gQWxz
+bywgc2hvdWxkIEkgYmUgaW5jbHVkaW5nIHB5dGhvbiBhcyBydW50aW1lIGRlcGVuZGVuY3kNCj4g
+PiB3aGVuDQo+ID4gLS13aXRoLXB5dGhvbiBpcyB1c2VkPw0KPiA+IA0KPiBObywgdGhlIHJkZXBl
+bmRzIHdpbGwgaGFwcGVuIG1hZ2ljYWxseS7CoCBZb3UgbWlnaHQgd2FudCB0byBwYWNrYWdlDQo+
+IHRoZSBweXRob24gbW9kdWxlIHNlcGFyYXRlbHkgdGhvdWdoLg0KVGhhbmtzIFJvc3MgZm9yIHRo
+ZSBpbnB1dHMuIEkgd2lsbCBzdWJtaXQgYSBuZXcgcGF0Y2ggc29vbi4NCg0KQWxzbywgSSBhbSBw
+bGFubmluZyB0byBkcm9wIHRoZSBvdGhlciAzIGZlYXR1cmVzIChkZWJ1ZywgbWVtLWRlYnVnIGFu
+ZA0KY3J5cHRvKSBhcyBJIGhhdmUgbm90IHJlYWxseSB0ZXN0ZWQgdGhlbS4NCg0KVGhhbmtzLA0K
+VmVkYW5nDQo+IA0KPiBSb3Nz
 
