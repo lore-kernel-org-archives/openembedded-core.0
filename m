@@ -1,35 +1,29 @@
 Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 1946077A8F
+Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D55177B3E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 12:53:57 +0000 (UTC)
+	Wed, 22 Mar 2017 13:22:16 +0000 (UTC)
 Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
-	via TCP (outbound) with ESMTPS id 20170322125356243_0485;
-	Wed, 22 Mar 2017 12:53:56 +0000
+	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
+	via TCP (outbound) with ESMTPS id 20170322132216353_0684
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Mar 2017 13:22:16 +0000
 X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [216.191.234.70] (port=51203 helo=crashcourse.ca)
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [216.191.234.70] (port=16934 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
 	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1cqfls-0004zd-Sb; Wed, 22 Mar 2017 08:53:48 -0400
-Date: Wed, 22 Mar 2017 08:53:46 -0400 (EDT)
+	id 1cqgDK-0007t5-6A for openembedded-core@lists.openembedded.org;
+	Wed, 22 Mar 2017 09:22:10 -0400
+Date: Wed, 22 Mar 2017 09:22:07 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@uk63952.mitel.com
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-In-Reply-To: <CADkTA4OV+n4cMpR-6GTbM+Qu+bJ8TNntOXyQ7UWYDLHtB_JYfg@mail.gmail.com>
-Message-ID: <alpine.LFD.2.20.1703220852520.16883@uk63952.mitel.com>
-References: <alpine.LFD.2.20.1703220707490.15622@uk63952.mitel.com>
-	<CAJTo0LZe1-9x4=w5KtK0AVFo5TawB=Ceohvmw48qy+QkyrhMLg@mail.gmail.com>
-	<CADkTA4Oj1mC+CMoT=DJAzsDtmCnm6TdZAO_xVFhujg+3kiwWVw@mail.gmail.com>
-	<CAJTo0LaNwjnEvRRYrXwP6DJptvHc0Cm6E2QZyVEKsk1xLVoNJA@mail.gmail.com>
-	<CADkTA4NhsEnk1j=_i3ahu2Lt23t802wn7yfyb5-fK9K3XAdM_Q@mail.gmail.com>
-	<alpine.LFD.2.20.1703220821160.16426@uk63952.mitel.com>
-	<CADkTA4OV+n4cMpR-6GTbM+Qu+bJ8TNntOXyQ7UWYDLHtB_JYfg@mail.gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1703220907350.17218@uk63952.mitel.com>
 User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
 X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: design question: should layer.conf contain "PREFERRED_VERSION" settings?
+Subject: another design question -- proper (meaningful) content of recipe patches?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,83 +36,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Mar 2017 12:53:58 -0000
-Content-Type: multipart/mixed;
-	BOUNDARY="587868445-1151867023-1490187228=:16883"
+X-List-Received-Date: Wed, 22 Mar 2017 13:22:20 -0000
+Content-Type: text/plain; charset=US-ASCII
 
---587868445-1151867023-1490187228=:16883
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
 
-On Wed, 22 Mar 2017, Bruce Ashfield wrote:
+  got into an animated discussion the other day regarding proper
+design of patch files associated with a recipe. as a demo, i can
+actually use part of a recipe file ripped from the meta-digi-arm
+layer, for "kernel-module-qualcomm", whose recipe file contains (in
+part):
 
->
->
-> On Wed, Mar 22, 2017 at 8:24 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->
->         proper attributions seem to have been totally lost here ...
->
->       On Wed, 22 Mar 2017, Bruce Ashfield wrote:
->
->       > On Wed, Mar 22, 2017 at 8:02 AM, Burton, Ross <ross.burton@intel.com> wrote:
->       >
->       >       On 22 March 2017 at 11:57, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
->       >             So where are they supposed to be specified ? Surely not a separate distro .conf ? and most
->       > certainly not in local.conf ... I've always been unsure of where the right place to specify 
->       > versions like that.
->       >
->       > If it were my layer I'd have an .inc file that set all the preferred
->       > versions where the defaults don't work, that the user would have to
->       > include in their distro.
->       >
->       > Aha. Kind of like the old versions file that used to float around.
->       >
->       > Seems reasonable (if a bit less automatic than someone like me who
->       > wants .. to use the layer like a black box)
->       >
->       > Luckily I have push access to that layer, so I can make a change
->       > like that ;)
->       >
->       > One final question, is it considered a design option to set those
->       > versions triggered off an IMAGE or DISTRO feature ? i.e. in
->       > anonymous python .. or is that already too late in the
->       > parsing/resolution process ?
->       >
->       > Bruce
->
->         sorry, didn't mean to start something this early in the morning ...
->       ok, i did. :-)
->
->         in any event, can we agree that:
->
->       1) it's bad layer design if the simple act of including a layer in
->       bblayers.conf suddenly causes weird things to happen like the above?
->
->       2) regardless of how the developer eventually does it, picking up
->       those PREFERRED VERSIONS from meta-openstack should require *some*
->       kind of explicit selection?
->
-> Honestly .. I disagree on #2.
->
-> The packages within the openstack layer *will not work* with other
-> versions of those packages.
->
-> So if someone actually wants to use the functionality provided by
-> the layer, they are not optional. And the errors/issues that you get
-> are extremely obtuse and hard to debug. That's the design point of
-> the layer .. it doesn't let that happen.
->
-> Hence making it something they must do as an extra step .. really is
-> a bad idea.
->
-> It gets in the way of people picking packages out of that layer if
-> they don't want to actually build openstack, that's the crux of the
-> problem. But to answer that issue, that's why meta-cloud-services
-> exists, that doesn't' force versions and holds the generally useful
-> "cloud" packages.
+  SRC_URI = " \
+    ${CAF_MIRROR};destsuffix=${PV};branch=${SRCBRANCH} \
+    file://qualcomm-pre-up \
+    file://modprobe-qualcomm.conf \
+    file://0001-qcacld-Fix-compiling-errors-when-BUILD_DEBUG_VERSION.patch \
+    file://0002-Update-cfg80211_vendor_event_alloc-call-for-newer-ke.patch \
+    file://0003-wlan_hdd_main-Update-cfg80211_ap_stopped-to-nl80211_.patch \
+    file://0004-qcacld-2.0-remove-unused-code.patch \
+    file://0005-Including-header-file-for-regulatory_hint_user.patch \
+    file://0006-Updating-calls-to-alloc_netdev_mq.patch \
+    file://0007-wlan_hdd_cfg80211-update-cfg80211_inform_bss-params-.patch \
+    file://0008-wlan_hdd_p2p-Update-call-to-cfg80211_rx_mgmt-for-dif.patch \
+    file://0009-linux_ac-Fix-for-f_dentry.patch \
+    file://0010-native_sdio-src-hif-Do-not-call-to-HIGH-SPEED-functi.patch \
+    file://0011-osdep_adf.h-fix-for-undefined-ath_sysctl_pktlog_size.patch \
+    file://0012-Kbuild-Add-compilation-flag-based-on-kernel-support.patch \
+    file://0013-Kbuild-do-not-compile-the-DEBUG-version-inconditiona.patch \
+    file://0014-Kbuild-Group-most-of-the-relevant-DEBUG-options.patch \
+    file://0015-wlan_hdd_cfg80211-fix-missing-ifdef-clause.patch \
+    file://0016-Add-.gitignore-rules.patch \
+    file://0017-wlan_hdd_main-initialize-all-adapter-completion-vari.patch \
+    file://0018-qcacld-Indicate-disconnect-event-to-upper-layers.patch \
+    file://0019-wdd_hdd_main-Print-con_mode-to-clearly-see-if-in-FTM.patch \
+    file://0020-Makefile-Pass-BUILD_DEBUG_VERSION-to-kbuild-system.patch \
+    file://0021-cosmetic-change-log-level.patch \
+    file://0022-fix-issue-with-_scan_callback.patch \
+  "
 
-  ok, i see your point ... i will ponder this. it still seems ...
-unclean.
+  when i was presented with something resembling the above the other
+day, my immediate reaction was , "yuck." at the time, i opined that,
+if the purpose of the above was to simply add a qualcomm module, it
+was silly to do that with a lengthy, numbered series of patches that
+were almost certainly inter-dependent and even numbered to enforce a
+particular processing order.
+
+  i insisted that the above was unnecessarily messy and, if a
+developer tried to examine the patches, it would be next to impossible
+to do that easily, as it would require walking through each patch,
+then mentally adding the next one, and so on and so on.
+
+  i suggested that, in cases like this, adding a well-defined
+functionality should be done with a single all-encompassing patch or,
+at the very worst, a small number of patches that might be applied
+independently. as in, "Add-qualcomm-driver.patch".
+
+  the argument i got coming back was that the above made sense as it
+reflected the *history* of how that driver came to be added. i
+shuddered, and pointed out that if one wanted to see the history,
+that's what version control is for -- there is no reason that the
+information from version control should be used *verbatim* to generate
+the patches for a recipe.
+
+  in any event, i can appreciate the value of sometimes adding
+numbering to patches to enforce a processing order, but when one has a
+numbered series of patches getting up to 20 or 25, that strikes me as
+time to collapse all that into larger and more modular and more
+meaningful patches.
+
+  thoughts?
 
 rday
 
@@ -132,4 +118,5 @@ Twitter:                                       http://twitter.com/rpjday
 LinkedIn:                               http://ca.linkedin.com/in/rpjday
 ========================================================================
 
---587868445-1151867023-1490187228=:16883--
+
+
