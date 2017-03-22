@@ -1,28 +1,29 @@
-Return-Path: <richard@rpsys.net>
+Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D18871A88
+	by mail.openembedded.org (Postfix) with ESMTP id 3DE1F72F89
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 10:12:31 +0000 (UTC)
+	Wed, 22 Mar 2017 10:27:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2MACVlB021107; Wed, 22 Mar 2017 10:12:31 GMT
+	v2MAR8lu024077; Wed, 22 Mar 2017 10:27:08 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ncWQMz4MGHCB; Wed, 22 Mar 2017 10:12:31 +0000 (GMT)
+	with LMTP id 0ZEbqRNDzimk; Wed, 22 Mar 2017 10:27:08 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	v2MACTkb021104
+	v2MAR3lE024072
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 22 Mar 2017 10:12:30 GMT
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1cqdFl-0003LZ-Q1; Wed, 22 Mar 2017 10:12:29 +0000
+	Wed, 22 Mar 2017 10:27:04 GMT
+Message-ID: <1490178423.13980.168.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Mar 2017 10:12:28 +0000
-Message-Id: <1490177548-12827-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] sstate: Ensure installation directory is empty before execution
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Wed, 22 Mar 2017 10:27:03 +0000
+In-Reply-To: <afcb3771cf109ba4d11e81a79eaadef62f9437a3.1490174366.git.Qi.Chen@windriver.com>
+References: <cover.1490174366.git.Qi.Chen@windriver.com>
+	<afcb3771cf109ba4d11e81a79eaadef62f9437a3.1490174366.git.Qi.Chen@windriver.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/1] runqemu-gen-tapdevs: fix file path in example
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,42 +36,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Mar 2017 10:12:35 -0000
+X-List-Received-Date: Wed, 22 Mar 2017 10:27:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-When you enable the systemd DISTRO_FEATURE, opkg-native contains systemd units
-which have a relocation fixme list. When systemd isn't in DISTRO_FEATURES, there
-are no fixmes required. Unfortunately as sstate isn't cleaning up its installation
-directory before use, if you install the systemd version, then install the
-non-systemd version from sstate, it would leave behind the fixme file from the
-systemd version and breakage results as it would try and fixup files which don't
-exist.
+On Wed, 2017-03-22 at 17:23 +0800, Chen Qi wrote:
+> Fix the path in example so that '/usr/bin/tunctl' could be found under
+> this path.
+> 
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  scripts/runqemu-gen-tapdevs | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/runqemu-gen-tapdevs b/scripts/runqemu-gen-tapdevs
+> index 9e5e5b9..994efd0 100755
+> --- a/scripts/runqemu-gen-tapdevs
+> +++ b/scripts/runqemu-gen-tapdevs
+> @@ -29,7 +29,7 @@ usage() {
+>  	echo " is the number of tap devices to create (0 to remove all)"
+>  	echo " is the path to the build system's native sysroot"
+>  	echo "e.g. $ bitbake qemu-helper-native -c addto_recipe_sysroot"
 
-The solution is to ensure the unpack/install directory is clean before use. It
-does raise other questions about opkg-native, systemd and DISTRO_FEATURES but there
-is an underlying sstate issue here too which would cause missing file failures.
+If we change this, you also need to change the above to remove -c
+addto_recipe_sysroot.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/sstate.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
+Cheers,
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index a780926..af58854 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -313,6 +313,11 @@ def sstate_installpkg(ss, d):
-         if not signer.verify(sstatepkg + '.sig'):
-             bb.warn("Cannot verify signature on sstate package %s" % sstatepkg)
- 
-+    # Empty sstateinst directory, ensure its clean
-+    if os.path.exists(sstateinst):
-+        oe.path.remove(sstateinst)
-+    bb.utils.mkdirhier(sstateinst)
-+
-     sstateinst = d.getVar("SSTATE_INSTDIR")
-     d.setVar('SSTATE_FIXMEDIR', ss['fixmedir'])
- 
--- 
-2.7.4
+Richard
 
+> -	echo "$ sudo $0 1000 1000 4 tmp/work/x86_64-linux/qemu-helper-native/*/recipe-sysroot-native/"
+> +	echo "$ sudo $0 1000 1000 4 tmp/sysroots-components/x86_64/qemu-helper-native/"
+>  	exit 1
+>  }
+>  
+> -- 
+> 1.9.1
+> 
 
