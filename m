@@ -1,39 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id B29ED77B63
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D17D719B7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 15:44:37 +0000 (UTC)
-Received: by mail-qk0-f169.google.com with SMTP id v127so160100317qkb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 08:44:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=gO+DdqTMivRAR4tXyZeV4B/Eg4/v+xOiR7WnN9ub2JY=;
-	b=qamVeRW9+H28FTqjgl+gjajgf2UutqsMWv4FmQv0tenf3070GwVlq5ag7e5aQ9/rH2
-	MtCL2FEtMzO7QGcKzmYjDJ0rFoy6/7TZ/xmxZy1I75nCA3GS7nFFqYGAk9nM/1XuNQb7
-	irk2Pj39F7RrLJN95DlVuXhJz7db+Pu2pdf+pmZ8dP3LgE3kMgZty8wOfv/8NL2GQ+Bi
-	4CB8ulTP9Vc25q2wCteZj43rCmFIp00z8Y9S/o2MAzimJRQDtfkRmcd6ThXcpq8ypEDv
-	TB5YmgqalVqdu3m7ImJjAE6HPCQGFtur75tDTfDCEdWqd7PyP4pwpP5QmhXX6syBUrb2
-	jgxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=gO+DdqTMivRAR4tXyZeV4B/Eg4/v+xOiR7WnN9ub2JY=;
-	b=d7UPjh3QuZjiy0WhIjW+7gmNuWOcyBX4LsFo/1jWkd7TD9w0Q9pXVR00rfieYkUyhI
-	nu9g68/CgFqLVkWbmodImoQLzrCMLSREYWHRqVfgC0+P0lzIE/VHpX/U9L7w15IDmAY/
-	Xu3at4BdORU+BZTKVPEPAWyEDlh+52UEPHhz7y2cKy/ABM22RBY/i+dleC/m9sQwLh5m
-	ihDtFcAF2KU1d+WC4vo+cdGKTseomMNgwO5CUFQqiNkjI9Mc+xsdykPo9bWdu6kQKpUc
-	GS3z8RPanr7TofyWSgsOUR5HTEuU+YuwXM2j5x0kxnzX9wW9FGlyuNfosBLSHw4xVFN4
-	/p9g==
-X-Gm-Message-State: AFeK/H0zkx2htfKUvjz7CgINCUW8RlEpKJCjfkr1KOAod0O2K/vc84Q7+a3pQ68CA7voi0vn92kdB0X4bqypqfiM
-X-Received: by 10.55.47.4 with SMTP id v4mr36339333qkh.77.1490197478552; Wed,
-	22 Mar 2017 08:44:38 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.22.166 with HTTP; Wed, 22 Mar 2017 08:44:18 -0700 (PDT)
-In-Reply-To: <1490194798.13980.172.camel@linuxfoundation.org>
+	Wed, 22 Mar 2017 16:32:23 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v2MGW7LE002510; Wed, 22 Mar 2017 16:32:07 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id QziICBkH7Bjp; Wed, 22 Mar 2017 16:32:07 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	v2MGW1gh002501
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 22 Mar 2017 16:32:02 GMT
+Message-ID: <1490200321.13980.177.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 22 Mar 2017 16:32:01 +0000
+In-Reply-To: <CAJTo0LZV4kh3=r=cxYpBydGO74R6cvootczedwMW3s_k1xxSWQ@mail.gmail.com>
 References: <alpine.LFD.2.20.1703220707490.15622@uk63952.mitel.com>
 	<CAJTo0LZe1-9x4=w5KtK0AVFo5TawB=Ceohvmw48qy+QkyrhMLg@mail.gmail.com>
 	<CADkTA4Oj1mC+CMoT=DJAzsDtmCnm6TdZAO_xVFhujg+3kiwWVw@mail.gmail.com>
@@ -42,10 +27,9 @@ References: <alpine.LFD.2.20.1703220707490.15622@uk63952.mitel.com>
 	<alpine.LFD.2.20.1703220821160.16426@uk63952.mitel.com>
 	<CADkTA4OV+n4cMpR-6GTbM+Qu+bJ8TNntOXyQ7UWYDLHtB_JYfg@mail.gmail.com>
 	<1490194798.13980.172.camel@linuxfoundation.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 22 Mar 2017 15:44:18 +0000
-Message-ID: <CAJTo0LZV4kh3=r=cxYpBydGO74R6cvootczedwMW3s_k1xxSWQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	<CAJTo0LZV4kh3=r=cxYpBydGO74R6cvootczedwMW3s_k1xxSWQ@mail.gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.1 
+Mime-Version: 1.0
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: design question: should layer.conf contain "PREFERRED_VERSION" settings?
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -60,52 +44,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Mar 2017 15:44:37 -0000
-Content-Type: multipart/alternative; boundary=001a114f41085b150e054b53a38e
+X-List-Received-Date: Wed, 22 Mar 2017 16:32:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a114f41085b150e054b53a38e
-Content-Type: text/plain; charset=UTF-8
+On Wed, 2017-03-22 at 15:44 +0000, Burton, Ross wrote:
+> 
+> On 22 March 2017 at 14:59, Richard Purdie <richard.purdie@linuxfounda
+> tion.org> wrote:
+> > What should happen is that the openstack recipe should complain
+> > loudly
+> > (error) if anyone tried to build it (or parse it?) with anything
+> > except
+> > the versions its known to work with.
+> > 
+> Is this a good time to bring up versions in DEPENDS?
 
-On 22 March 2017 at 14:59, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Yes. I'd swear there was a bug for this but I can't find it. I know we
+made versions able to be added to DEPENDS without parse failures, its
+just a question of getting bitbake to parse them.
 
-> What should happen is that the openstack recipe should complain loudly
-> (error) if anyone tried to build it (or parse it?) with anything except
-> the versions its known to work with.
->
+> It would be awesome to automatically set PREFERRED_VERSION as
+> appropriate depending on the constrains in DEPENDS, but I'd be really
+> happy with errors if the versions specified were not selected.
+> 
+> So in this case openstack could do DEPENDS=python-something (>4.0)
+> and bitbake would error out if python-something v3 is being built.
 
-Is this a good time to bring up versions in DEPENDS?
+I don't think setting PREFERRED_VERSION magically would be good but I
+do like the rest of the idea, its always been the intent really...
 
-It would be awesome to automatically set PREFERRED_VERSION as appropriate
-depending on the constrains in DEPENDS, but I'd be really happy with errors
-if the versions specified were not selected.
+Someone needs to file a bug...
 
-So in this case openstack could do DEPENDS=python-something (>4.0) and
-bitbake would error out if python-something v3 is being built.
+Cheers,
 
-Ross
+Richard
 
---001a114f41085b150e054b53a38e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 March 2017 at 14:59, Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie=
-@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-"><div id=3D":1nx" class=3D"a3s aXjCH m15af689089651d6d">What should happen=
- is that the openstack recipe should complain loudly<br>
-(error) if anyone tried to build it (or parse it?) with anything except<br>
-the versions its known to work with.<br></div></blockquote></div><br>Is thi=
-s a good time to bring up versions in DEPENDS?</div><div class=3D"gmail_ext=
-ra"><br></div><div class=3D"gmail_extra">It would be awesome to automatical=
-ly set PREFERRED_VERSION as appropriate depending on the constrains in DEPE=
-NDS, but I&#39;d be really happy with errors if the versions specified were=
- not selected.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmai=
-l_extra">So in this case openstack could do DEPENDS=3Dpython-something (&gt=
-;4.0) and bitbake would error out if python-something v3 is being built.</d=
-iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</di=
-v></div>
-
---001a114f41085b150e054b53a38e--
