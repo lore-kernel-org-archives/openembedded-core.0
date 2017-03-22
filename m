@@ -1,34 +1,34 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id B137E77B7A
+	by mail.openembedded.org (Postfix) with ESMTP id 9A36177B84
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 13:44:09 +0000 (UTC)
+	Wed, 22 Mar 2017 13:44:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1490190251; x=1521726251;
+	t=1490190253; x=1521726253;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=DqaAsptBlCPAt+95+ZoJlAco+frG/3pg9R1fem8143k=;
-	b=xz1FcpvMv0lpHGdeks9jI6efaYHjLawWCQI/TA89TqGvXV1ZTrIX8dGq
-	aU2QAAS7vshp3JjTaEVagZShK5LbsA==;
+	bh=57n0NkeJvFRiDL/eJwaIwekvbvBpTg7oR1/x+1pZy3c=;
+	b=KZUy3dom3ymjxtyG1VL1HlxCQ+N9p+bYsjOqWj6dk7WzNXLYnFcPaxFn
+	twO/6wfJgQxqrggSnju+AcbbVQ7kWA==;
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Mar 2017 06:44:06 -0700
+	22 Mar 2017 06:44:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,205,1486454400"; d="scan'208";a="63641998"
+X-IronPort-AV: E=Sophos;i="5.36,205,1486454400"; d="scan'208";a="63642021"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga002.jf.intel.com with ESMTP; 22 Mar 2017 06:44:06 -0700
+	by orsmga002.jf.intel.com with ESMTP; 22 Mar 2017 06:44:08 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 7B86C2C8001
+	by linux.intel.com (Postfix) with ESMTP id 83CA22C8001
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 06:44:00 -0700 (PDT)
+	Wed, 22 Mar 2017 06:44:02 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Mar 2017 15:42:30 +0200
-Message-Id: <ca7b81dd4a82d6d1a6c6ef612ab93ee2beb01e02.1490188583.git.ed.bartosh@linux.intel.com>
+Date: Wed, 22 Mar 2017 15:42:32 +0200
+Message-Id: <b1db91d4e83c4630afa3346b97beb08b0ceb5da3.1490188583.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1490188583.git.ed.bartosh@linux.intel.com>
 References: <cover.1490188583.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 06/10] wic: remove empty plugin methods
+Subject: [PATCH 08/10] oe-selftest: test wic rawcopy plugin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,112 +41,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Mar 2017 13:44:10 -0000
+X-List-Received-Date: Wed, 22 Mar 2017 13:44:12 -0000
 
-Removed do_install_disk and do_configure_partition methods from
-bootimage-partition, fsimage and rawcopy plugins as they're empy
-and not used.
+Added test_rawcopy_plugin_qemu test case and wks template.
+
+This test builds ext4 rootfs image, copies it to the root
+partition of the wic image using rawcopy plugin and
+boots wic image in qemu.
 
 [YOCTO #10618]
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/plugins/source/bootimg-partition.py | 20 --------------------
- scripts/lib/wic/plugins/source/fsimage.py           | 19 -------------------
- scripts/lib/wic/plugins/source/rawcopy.py           | 19 -------------------
- 3 files changed, 58 deletions(-)
+ meta-selftest/wic/test_rawcopy_plugin.wks.in |  6 ++++++
+ meta/lib/oeqa/selftest/wic.py                | 16 ++++++++++++++++
+ 2 files changed, 22 insertions(+)
+ create mode 100644 meta-selftest/wic/test_rawcopy_plugin.wks.in
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-partition.py b/scripts/lib/wic/plugins/source/bootimg-partition.py
-index 4afc8a2..13fddbd 100644
---- a/scripts/lib/wic/plugins/source/bootimg-partition.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-partition.py
-@@ -44,26 +44,6 @@ class BootimgPartitionPlugin(SourcePlugin):
-     name = 'bootimg-partition'
- 
-     @classmethod
--    def do_install_disk(cls, disk, disk_name, cr, workdir, oe_builddir,
--                        bootimg_dir, kernel_dir, native_sysroot):
--        """
--        Called after all partitions have been prepared and assembled into a
--        disk image. Do nothing.
--        """
--        pass
--
--    @classmethod
--    def do_configure_partition(cls, part, source_params, cr, cr_workdir,
--                               oe_builddir, bootimg_dir, kernel_dir,
--                               native_sysroot):
--        """
--        Called before do_prepare_partition(). Possibly prepare
--        configuration files of some sort.
--
--        """
--        pass
--
--    @classmethod
-     def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
-                              oe_builddir, bootimg_dir, kernel_dir,
-                              rootfs_dir, native_sysroot):
-diff --git a/scripts/lib/wic/plugins/source/fsimage.py b/scripts/lib/wic/plugins/source/fsimage.py
-index 8fbe44d..f781499 100644
---- a/scripts/lib/wic/plugins/source/fsimage.py
-+++ b/scripts/lib/wic/plugins/source/fsimage.py
-@@ -32,25 +32,6 @@ class FSImagePlugin(SourcePlugin):
-     name = 'fsimage'
- 
-     @classmethod
--    def do_install_disk(cls, disk, disk_name, cr, workdir, oe_builddir,
--                        bootimg_dir, kernel_dir, native_sysroot):
--        """
--        Called after all partitions have been prepared and assembled into a
--        disk image. Do nothing.
--        """
--        pass
--
--    @classmethod
--    def do_configure_partition(cls, part, source_params, cr, cr_workdir,
--                               oe_builddir, bootimg_dir, kernel_dir,
--                               native_sysroot):
--        """
--        Called before do_prepare_partition(). Possibly prepare
--        configuration files of some sort.
--        """
--        pass
--
--    @classmethod
-     def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
-                              oe_builddir, bootimg_dir, kernel_dir,
-                              rootfs_dir, native_sysroot):
-diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/plugins/source/rawcopy.py
-index 431afce..e1c4f5e 100644
---- a/scripts/lib/wic/plugins/source/rawcopy.py
-+++ b/scripts/lib/wic/plugins/source/rawcopy.py
-@@ -33,25 +33,6 @@ class RawCopyPlugin(SourcePlugin):
-     name = 'rawcopy'
- 
-     @classmethod
--    def do_install_disk(cls, disk, disk_name, cr, workdir, oe_builddir,
--                        bootimg_dir, kernel_dir, native_sysroot):
--        """
--        Called after all partitions have been prepared and assembled into a
--        disk image. Do nothing.
--        """
--        pass
--
--    @classmethod
--    def do_configure_partition(cls, part, source_params, cr, cr_workdir,
--                               oe_builddir, bootimg_dir, kernel_dir,
--                               native_sysroot):
--        """
--        Called before do_prepare_partition(). Possibly prepare
--        configuration files of some sort.
--        """
--        pass
--
--    @classmethod
-     def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
-                              oe_builddir, bootimg_dir, kernel_dir,
-                              rootfs_dir, native_sysroot):
+diff --git a/meta-selftest/wic/test_rawcopy_plugin.wks.in b/meta-selftest/wic/test_rawcopy_plugin.wks.in
+new file mode 100644
+index 0000000..83be4be
+--- /dev/null
++++ b/meta-selftest/wic/test_rawcopy_plugin.wks.in
+@@ -0,0 +1,6 @@
++# short-description: This file is used in oe-selftest wic module to test rawcopy plugin
++
++part /boot --active --source bootimg-pcbios
++part / --source rawcopy --sourceparams="file=core-image-minimal-${MACHINE}.ext4" --use-uuid
++
++bootloader  --timeout=0 --append="console=ttyS0,115200n8"
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index 4aacd86..2e22362 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -681,3 +681,19 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
+         os.remove(wkspath)
+         wicout = glob(self.resultdir + "%s-*direct" % wksname)
+         self.assertEqual(0, len(wicout))
++
++    @only_for_arch(['i586', 'i686', 'x86_64'])
++    def test_rawcopy_plugin_qemu(self):
++        """Test rawcopy plugin in qemu"""
++        # build ext4 and wic images
++        for fstype in ("ext4", "wic"):
++            config = 'IMAGE_FSTYPES = "%s"\nWKS_FILE = "test_rawcopy_plugin.wks.in"\n' % fstype
++            self.append_config(config)
++            self.assertEqual(0, bitbake('core-image-minimal').status)
++            self.remove_config(config)
++
++        with runqemu('core-image-minimal', ssh=False, image_fstype='wic') as qemu:
++            cmd = "grep vda. /proc/partitions  |wc -l"
++            status, output = qemu.run_serial(cmd)
++            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
++            self.assertEqual(output, '2')
 -- 
 2.1.4
 
