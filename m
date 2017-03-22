@@ -1,26 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 6107A77AB3
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id BA24C77AB3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 13:44:01 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga104.jf.intel.com with ESMTP; 22 Mar 2017 06:44:03 -0700
+	Wed, 22 Mar 2017 13:44:03 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga105.jf.intel.com with ESMTP; 22 Mar 2017 06:44:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,205,1486454400"; d="scan'208";a="79825630"
+X-IronPort-AV: E=Sophos;i="5.36,205,1486454400"; d="scan'208";a="79402769"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga006.fm.intel.com with ESMTP; 22 Mar 2017 06:44:02 -0700
+	by fmsmga005.fm.intel.com with ESMTP; 22 Mar 2017 06:44:04 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 64B532C8001
+	by linux.intel.com (Postfix) with ESMTP id 6EB692C8001
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 06:43:56 -0700 (PDT)
+	Wed, 22 Mar 2017 06:43:58 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Mar 2017 15:42:26 +0200
-Message-Id: <d3467b4b9ed4eeb0108ca66ba3f5750d937b87d4.1490188583.git.ed.bartosh@linux.intel.com>
+Date: Wed, 22 Mar 2017 15:42:28 +0200
+Message-Id: <b1e18eba17b1a2b1cba5d25e96b6729c36671f6f.1490188583.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1490188583.git.ed.bartosh@linux.intel.com>
 References: <cover.1490188583.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 02/10] wic: don't set creator.bootimg_dir in plugins
+Subject: [PATCH 04/10] wic: fix bug in sparse_copy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,42 +35,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 22 Mar 2017 13:44:03 -0000
 
-Changing bootimg_dir in plugins is a dangerous hack as this
-value comes from wic command line and can be used by multiple
-plugins.
+sparse_copy creates output file that is smaller than input
+file when input file ends with unmapped blocks.
+
+Used truncate(<input file size>) when output file is created
+to ensure the size of output file will always be equal to
+the size of input file.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/plugins/source/bootimg-efi.py    | 2 --
- scripts/lib/wic/plugins/source/bootimg-pcbios.py | 2 --
- 2 files changed, 4 deletions(-)
+ scripts/lib/wic/filemap.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 2d793a5..2d1c4d4 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -189,8 +189,6 @@ class BootimgEFIPlugin(SourcePlugin):
-             bootimg_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
-             if not bootimg_dir:
-                 raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
--            # just so the result notes display it
--            creator.bootimg_dir = bootimg_dir
+diff --git a/scripts/lib/wic/filemap.py b/scripts/lib/wic/filemap.py
+index 162603e..080668e 100644
+--- a/scripts/lib/wic/filemap.py
++++ b/scripts/lib/wic/filemap.py
+@@ -537,6 +537,7 @@ def sparse_copy(src_fname, dst_fname, offset=0, skip=0):
+         dst_file = open(dst_fname, 'r+b')
+     except IOError:
+         dst_file = open(dst_fname, 'wb')
++        dst_file.truncate(os.path.getsize(src_fname))
  
-         staging_kernel_dir = kernel_dir
- 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-index bd03eaa..1779520 100644
---- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-@@ -153,8 +153,6 @@ class BootimgPcbiosPlugin(SourcePlugin):
-                 raise WicError("Couldn't find STAGING_DATADIR, exiting")
-             if not _has_syslinux(bootimg_dir):
-                 raise WicError("Please build syslinux first")
--            # just so the result notes display it
--            creator.bootimg_dir = bootimg_dir
- 
-         staging_kernel_dir = kernel_dir
- 
+     for first, last in fmap.get_mapped_ranges(0, fmap.blocks_cnt):
+         start = first * fmap.block_size
 -- 
 2.1.4
 
