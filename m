@@ -1,34 +1,46 @@
-Return-Path: <vedang.patel@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 7441E77A0B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f173.google.com (mail-qt0-f173.google.com
+	[209.85.216.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 54F6A71CB3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 20:17:09 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga104.jf.intel.com with ESMTP; 22 Mar 2017 13:17:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,206,1486454400"; d="scan'208,217";a="63794977"
-Received: from orsmsx107.amr.corp.intel.com ([10.22.240.5])
-	by orsmga002.jf.intel.com with ESMTP; 22 Mar 2017 13:17:11 -0700
-Received: from orsmsx160.amr.corp.intel.com (10.22.226.43) by
-	ORSMSX107.amr.corp.intel.com (10.22.240.5) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Wed, 22 Mar 2017 13:17:11 -0700
-Received: from orsmsx115.amr.corp.intel.com ([169.254.4.227]) by
-	ORSMSX160.amr.corp.intel.com ([169.254.13.45]) with mapi id
-	14.03.0319.002; Wed, 22 Mar 2017 13:17:10 -0700
-From: "Patel, Vedang" <vedang.patel@intel.com>
-To: "Kukkonen, Jussi" <jussi.kukkonen@intel.com>
-Thread-Topic: [OE-core] [PATCH] libxslt: Add PACKAGECONFIG support
-Thread-Index: AQHSodp9JloWuTDi4kKOdqEqso0XOKGfbi+AgAJWBYA=
-Date: Wed, 22 Mar 2017 20:17:10 +0000
-Message-ID: <1490213829.15509.26.camel@intel.com>
+	Wed, 22 Mar 2017 20:20:14 +0000 (UTC)
+Received: by mail-qt0-f173.google.com with SMTP id n21so160901764qta.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Mar 2017 13:20:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=9NjyqYXs1sDPzqNQt6NEFDF5+xCCoGSBfcOm24T0u4Q=;
+	b=rRWx/C6DApg8USdopmiCIJn1+Unv/39i7ag0dEnhNC0IT3uGpZzLjfosP1UdQKmNBP
+	wjg/ppJDzYG7vr70lpmJDA4pFZGN64jseBVKel6gvQbzS4gbleBPmpjir2WzwF69BMib
+	9D79E2s+kY/eF9hd4tkRZH1VEcKAjbxORMKfgjp79Qc+K6x6iR5S7SDNGXETV394OU+d
+	p/84ylWCFOoZKV4bXJCTSOXbYQBgDNL2ME7H66tytdeNuAH98havSSSkpKlD3GebClSu
+	VnQD/Z1ZzBPlQfBv72APlB+MbiSGaQ4QR+fRJPjCprkONF7h7dNwpeubFwEJRZTdScgO
+	20gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=9NjyqYXs1sDPzqNQt6NEFDF5+xCCoGSBfcOm24T0u4Q=;
+	b=lyIrvIHZQHcJbJaxzV2Ca8eBIwHRXE49roJqAgLFxwPXBTiX4IVBNet76cFa+D6klH
+	2njeVPbw0fOueO9NvczAFCDKJ5+9nRepljYrRKK/bLA1jNHksNyE9Bmx1dh1q8XWkyHr
+	v2BOBQE4qeVmS4zdk0c7nTbO+7fvsnf4RhZzz4MHyh4uJewQu+AUPWBsBlnUjGOSkAV7
+	GwFSTFXOZANbZ7P/blwN3jdcHCk48yRJuyMP/tqOM3i4ijY5V1mVKtMdI7++GMJj/LIr
+	UXcKcVmJuyCNJJHEprLQGFQgk+mjND6UtZK9wrE3ZS9AVg3jyCLi6BINNH3kjVw3YDSe
+	1SWw==
+X-Gm-Message-State: AFeK/H1TrCs7NRno8zsKrBfbzNsdGX6xHLxabsRmsDMBvbCpw+n22C2e9bzaj7yvBFU2sD4FNvV0Xyv1uK1rMoNo
+X-Received: by 10.237.42.164 with SMTP id t33mr42989104qtd.105.1490214016206; 
+	Wed, 22 Mar 2017 13:20:16 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.22.166 with HTTP; Wed, 22 Mar 2017 13:19:55 -0700 (PDT)
+In-Reply-To: <1490213829.15509.26.camel@intel.com>
 References: <1490056286-13515-1-git-send-email-vedang.patel@intel.com>
 	<CAHiDW_FBnKy7Nx_G70zgXvTbJCXMy+uY0d1QUJk-ja3Z-gmw4A@mail.gmail.com>
-In-Reply-To: <CAHiDW_FBnKy7Nx_G70zgXvTbJCXMy+uY0d1QUJk-ja3Z-gmw4A@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.7.159.64]
-MIME-Version: 1.0
+	<1490213829.15509.26.camel@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 22 Mar 2017 20:19:55 +0000
+Message-ID: <CAJTo0LZd1JgF+Zz_-yS5p-HeA1jxrmbxg-G9oP1maVO3rfzfVA@mail.gmail.com>
+To: "Patel, Vedang" <vedang.patel@intel.com>
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] libxslt: Add PACKAGECONFIG support
@@ -44,150 +56,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Mar 2017 20:17:11 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_14902138291550926camelintelcom_"
+X-List-Received-Date: Wed, 22 Mar 2017 20:20:15 -0000
+Content-Type: multipart/alternative; boundary=94eb2c0cfe2213673d054b577d37
 
---_000_14902138291550926camelintelcom_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--94eb2c0cfe2213673d054b577d37
+Content-Type: text/plain; charset=UTF-8
 
-SGkgSnVzc2ksDQoNCk9uIFR1ZSwgMjAxNy0wMy0yMSBhdCAwODozNiArMDAwMCwgS3Vra29uZW4s
-IEp1c3NpIHdyb3RlOg0KT24gMjEgTWFyY2ggMjAxNyBhdCAwMjozMSwgVmVkYW5nIFBhdGVsIDx2
-ZWRhbmcucGF0ZWxAaW50ZWwuY29tPG1haWx0bzp2ZWRhbmcucGF0ZWxAaW50ZWwuY29tPj4gd3Jv
-dGU6DQpTb21lIG9wdGlvbnMgbGlrZSBweXRob24gYmluZGluZ3MsIGRlYnVnIHN1cHBvcnQsIGNy
-eXB0byBhcmUgaGFyZGNvZGVkDQppbnNpZGUgdGhlIHJlY2lwZS4gQ2hhbmdlIHRoYXQgdG8gbWFr
-ZSB0aG9zZSBvcHRpb24gY29uZmlndXJhYmxlIHVzaW5nDQpQQUNLQUdFQ09ORklHLg0KDQpTaWdu
-ZWQtb2ZmLWJ5OiBWZWRhbmcgUGF0ZWwgPHZlZGFuZy5wYXRlbEBpbnRlbC5jb208bWFpbHRvOnZl
-ZGFuZy5wYXRlbEBpbnRlbC5jb20+Pg0KLS0tDQogbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlieHNs
-dC9saWJ4c2x0XzEuMS4yOS5iYjxodHRwOi8vbGlieHNsdF8xLjEuMjkuYmI+IHwgOSArKysrKysr
-LS0NCiAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KDQpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlieHNsdC9saWJ4c2x0XzEuMS4yOS5i
-YjxodHRwOi8vbGlieHNsdF8xLjEuMjkuYmI+IGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlieHNs
-dC9saWJ4c2x0XzEuMS4yOS5iYjxodHRwOi8vbGlieHNsdF8xLjEuMjkuYmI+DQppbmRleCBiZTc0
-N2U2MDhkOWQuLmQzNjIxMThhYTMwNyAxMDA2NDQNCi0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0
-L2xpYnhzbHQvbGlieHNsdF8xLjEuMjkuYmI8aHR0cDovL2xpYnhzbHRfMS4xLjI5LmJiPg0KKysr
-IGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlieHNsdC9saWJ4c2x0XzEuMS4yOS5iYjxodHRwOi8v
-bGlieHNsdF8xLjEuMjkuYmI+DQpAQCAtMjIsNyArMjIsNyBAQCBTID0gIiR7V09SS0RJUn0vbGli
-eHNsdC0ke1BWfSINCg0KIEJJTkNPTkZJRyA9ICIke2JpbmRpcn0veHNsdC1jb25maWciDQoNCi1p
-bmhlcml0IGF1dG90b29scyBwa2djb25maWcgYmluY29uZmlnLWRpc2FibGVkIGxpYl9wYWNrYWdl
-DQoraW5oZXJpdCBhdXRvdG9vbHMgcGtnY29uZmlnIGJpbmNvbmZpZy1kaXNhYmxlZCBsaWJfcGFj
-a2FnZSBkaXN0dXRpbHMtY29tbW9uLWJhc2UNCg0KICMgV2UgZG9uJ3QgREVQRU5EIG9uIGJpbnV0
-aWxzIGZvciBhbnNpZGVjbC5oIHNvIGVuc3VyZSB3ZSBkb24ndCB1c2UgdGhlIGhlYWRlcg0KIGRv
-X2NvbmZpZ3VyZV9wcmVwZW5kICgpIHsNCkBAIC0zMyw3ICszMywxMiBAQCBkb19jb25maWd1cmVf
-cHJlcGVuZCAoKSB7DQogICAgICAgIHRvdWNoICR7U30vZG9jL3hzbHRwcm9jLjENCiB9DQoNCi1F
-WFRSQV9PRUNPTkYgPSAiLS13aXRob3V0LXB5dGhvbiAtLXdpdGhvdXQtZGVidWcgLS13aXRob3V0
-LW1lbS1kZWJ1ZyAtLXdpdGhvdXQtY3J5cHRvIg0KK1BBQ0tBR0VDT05GSUcgPz89ICJweXRob24g
-bGlieHNsdC1kZWJ1ZyBsaWJ4c2x0LW1lbS1kZWJ1ZyBsaWJ4c2x0LWNyeXB0byINCg0KDQpZb3Ug
-Y2hhbmdlIGFsbCB0aGUgZGVmYXVsdHMsIGlzIHRoaXMgb24gcHVycG9zZT8gSXQgc2hvdWxkIGJl
-IG5vdGVkIGluIHRoZSBjb21taXQgbWVzc2FnZSBpbiBhbnkgY2FzZS4NCg0KQ2FuIHlvdSBlbGFi
-b3JlIG9uIHlvdXIgY29uY2Vybj8gSSBhbSBub3QgZXhhY3RseSBmb2xsb3dpbmcgaXQuDQoNCnRo
-ZSBjb25maWdzIHdvbid0IGJlIGVuYWJsZWQgdW5sZXNzIHRoZSBjb3JyZXNwb25kaW5nIGZlYXR1
-cmVzIGFyZSBleHBsaWNpdGx5IGVuYWJsZWQgaW4gdGhlIGltYWdlLiBJIGFtIHVzaW5nIGxpYnhz
-bHQtIHByZWZpeCB0byBtYWtlIHN1cmUgc29tZW9uZSBkb2VzIG5vdCBpbmFkdmVydGVudGx5IGVu
-YWJsZXMgdGhlIGZlYXR1cmVzIGJ5IHVzaW5nIHRoZSBnZW5lcmljIGZsYWdzIChweXRob24sIGRl
-YnVnLCAuLi4gKS4NCg0KSSBkbyBzZWUgYSBidWcgaGVyZSwgSW4gdGhlIGZpcnN0IGxpbmUsIHB5
-dGhvbiBzaG91bGQgYmUgcmVwbGFjZWQgd2l0aCBsaWJ4c2x0LXB5dGhvbi4gSSB3aWxsIGZpeCBp
-dCBpbiB0aGUgbmV4dCB2ZXJzaW9uIG9mIHRoaXMgcGF0Y2guDQoNClRoYW5rcywNClZlZGFuZyBQ
-YXRlbA0KU29mdHdhcmUgRW5naW5lZXINCkludGVsIENvcnBvcmF0aW9uDQoNCitQQUNLQUdFQ09O
-RklHW2xpYnhzbHQtcHl0aG9uXSA9ICItLXdpdGgtcHl0aG9uPSR7UFlUSE9OX0JBU0VfVkVSU0lP
-Tn0sIC0td2l0aG91dC1weXRob24iDQorUEFDS0FHRUNPTkZJR1tsaWJ4c2x0LWRlYnVnXSA9ICIt
-LXdpdGgtZGVidWcsIC0td2l0aG91dC1kZWJ1ZyINCitQQUNLQUdFQ09ORklHW2xpYnhzbHQtbWVt
-LWRlYnVnXSA9ICItLXdpdGgtbWVtLWRlYnVnLCAtLXdpdGhvdXQtbWVtLWRlYnVnIg0KK1BBQ0tB
-R0VDT05GSUdbbGlieHNsdC1jcnlwdG9dID0gIi0td2l0aC1jcnlwdG8sIC0td2l0aG91dC1jcnlw
-dG8iDQorDQogIyBvbGRlciB2ZXJzaW9ucyBvZiB0aGlzIHJlY2lwZSBoYWQgJHtQTn0tdXRpbHMN
-CiBSUFJPVklERVNfJHtQTn0tYmluICs9ICIke1BOfS11dGlscyINCiBSQ09ORkxJQ1RTXyR7UE59
-LWJpbiArPSAiJHtQTn0tdXRpbHMiDQotLQ0KMi43LjMNCg0KLS0NCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQpPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5n
-IGxpc3QNCk9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8bWFpbHRvOk9w
-ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpodHRwOi8vbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlDQoNCg0K
+On 22 March 2017 at 20:17, Patel, Vedang <vedang.patel@intel.com> wrote:
 
---_000_14902138291550926camelintelcom_
-Content-Type: text/html; charset="utf-8"
-Content-ID: <E661B1BBB3DEFE4AB377481F2F100C42@intel.com>
-Content-Transfer-Encoding: base64
+> Can you elabore on your concern? I am not exactly following it.
+>
+> the configs won't be enabled unless the corresponding features are
+> explicitly enabled in the image. I am using libxslt- prefix to make sure
+> someone does not inadvertently enables the features by using the generic
+> flags (python, debug, ... ).
+>
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5Pg0KPGRpdj5IaSBKdXNz
-aSw8L2Rpdj4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2Pk9uIFR1ZSwgMjAxNy0wMy0yMSBhdCAw
-ODozNiAmIzQzOzAwMDAsIEt1a2tvbmVuLCBKdXNzaSB3cm90ZTo8L2Rpdj4NCjxibG9ja3F1b3Rl
-IHR5cGU9ImNpdGUiPg0KPGRpdiBkaXI9Imx0ciI+DQo8ZGl2IGNsYXNzPSJnbWFpbF9leHRyYSI+
-DQo8ZGl2IGNsYXNzPSJnbWFpbF9xdW90ZSI+T24gMjEgTWFyY2ggMjAxNyBhdCAwMjozMSwgVmVk
-YW5nIFBhdGVsIDxzcGFuIGRpcj0ibHRyIj4NCiZsdDs8YSBocmVmPSJtYWlsdG86dmVkYW5nLnBh
-dGVsQGludGVsLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPnZlZGFuZy5wYXRlbEBpbnRlbC5jb208L2E+
-Jmd0Ozwvc3Bhbj4gd3JvdGU6PGJyPg0KPGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSI+U29tZSBvcHRp
-b25zIGxpa2UgcHl0aG9uIGJpbmRpbmdzLCBkZWJ1ZyBzdXBwb3J0LCBjcnlwdG8gYXJlIGhhcmRj
-b2RlZDxicj4NCmluc2lkZSB0aGUgcmVjaXBlLiBDaGFuZ2UgdGhhdCB0byBtYWtlIHRob3NlIG9w
-dGlvbiBjb25maWd1cmFibGUgdXNpbmc8YnI+DQpQQUNLQUdFQ09ORklHLjxicj4NCjxicj4NClNp
-Z25lZC1vZmYtYnk6IFZlZGFuZyBQYXRlbCAmbHQ7PGEgaHJlZj0ibWFpbHRvOnZlZGFuZy5wYXRl
-bEBpbnRlbC5jb20iPnZlZGFuZy5wYXRlbEBpbnRlbC5jb208L2E+Jmd0Ozxicj4NCi0tLTxicj4N
-CiZuYnNwO21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnhzbHQvPGEgaHJlZj0iaHR0cDovL2xpYnhz
-bHRfMS4xLjI5LmJiIiByZWw9Im5vcmVmZXJyZXIiIHRhcmdldD0iX2JsYW5rIj5sPHdicj5pYnhz
-bHRfMS4xLjI5LmJiPC9hPiB8IDkgJiM0MzsmIzQzOyYjNDM7JiM0MzsmIzQzOyYjNDM7JiM0Mzst
-LTxicj4NCiZuYnNwOzEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoJiM0MzspLCAyIGRlbGV0
-aW9ucygtKTxicj4NCjxicj4NCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC88d2Jy
-PmxpYnhzbHQvPGEgaHJlZj0iaHR0cDovL2xpYnhzbHRfMS4xLjI5LmJiIiByZWw9Im5vcmVmZXJy
-ZXIiIHRhcmdldD0iX2JsYW5rIj5saWJ4c2x0XzEuMS4yOS5iYjwvYT4gYi9tZXRhL3JlY2lwZXMt
-c3VwcG9ydC88d2JyPmxpYnhzbHQvPGEgaHJlZj0iaHR0cDovL2xpYnhzbHRfMS4xLjI5LmJiIiBy
-ZWw9Im5vcmVmZXJyZXIiIHRhcmdldD0iX2JsYW5rIj5saWJ4c2x0XzEuMS4yOS5iYjwvYT48YnI+
-DQppbmRleCBiZTc0N2U2MDhkOWQuLmQzNjIxMThhYTMwNyAxMDA2NDQ8YnI+DQotLS0gYS9tZXRh
-L3JlY2lwZXMtc3VwcG9ydC88d2JyPmxpYnhzbHQvPGEgaHJlZj0iaHR0cDovL2xpYnhzbHRfMS4x
-LjI5LmJiIiByZWw9Im5vcmVmZXJyZXIiIHRhcmdldD0iX2JsYW5rIj5saWJ4c2x0XzEuMS4yOS5i
-YjwvYT48YnI+DQomIzQzOyYjNDM7JiM0MzsgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC88d2JyPmxp
-YnhzbHQvPGEgaHJlZj0iaHR0cDovL2xpYnhzbHRfMS4xLjI5LmJiIiByZWw9Im5vcmVmZXJyZXIi
-IHRhcmdldD0iX2JsYW5rIj5saWJ4c2x0XzEuMS4yOS5iYjwvYT48YnI+DQpAQCAtMjIsNyAmIzQz
-OzIyLDcgQEAgUyA9ICZxdW90OyR7V09SS0RJUn0vbGlieHNsdC0ke1BWfSZxdW90Ozxicj4NCjxi
-cj4NCiZuYnNwO0JJTkNPTkZJRyA9ICZxdW90OyR7YmluZGlyfS94c2x0LWNvbmZpZyZxdW90Ozxi
-cj4NCjxicj4NCi1pbmhlcml0IGF1dG90b29scyBwa2djb25maWcgYmluY29uZmlnLWRpc2FibGVk
-IGxpYl9wYWNrYWdlPGJyPg0KJiM0Mztpbmhlcml0IGF1dG90b29scyBwa2djb25maWcgYmluY29u
-ZmlnLWRpc2FibGVkIGxpYl9wYWNrYWdlIGRpc3R1dGlscy1jb21tb24tYmFzZTxicj4NCjxicj4N
-CiZuYnNwOyMgV2UgZG9uJ3QgREVQRU5EIG9uIGJpbnV0aWxzIGZvciBhbnNpZGVjbC5oIHNvIGVu
-c3VyZSB3ZSBkb24ndCB1c2UgdGhlIGhlYWRlcjxicj4NCiZuYnNwO2RvX2NvbmZpZ3VyZV9wcmVw
-ZW5kICgpIHs8YnI+DQpAQCAtMzMsNyAmIzQzOzMzLDEyIEBAIGRvX2NvbmZpZ3VyZV9wcmVwZW5k
-ICgpIHs8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgdG91Y2ggJHtTfS9kb2MveHNs
-dHByb2MuMTxicj4NCiZuYnNwO308YnI+DQo8YnI+DQotRVhUUkFfT0VDT05GID0gJnF1b3Q7LS13
-aXRob3V0LXB5dGhvbiAtLXdpdGhvdXQtZGVidWcgLS13aXRob3V0LW1lbS1kZWJ1ZyAtLXdpdGhv
-dXQtY3J5cHRvJnF1b3Q7PGJyPg0KJiM0MztQQUNLQUdFQ09ORklHID8/PSAmcXVvdDtweXRob24g
-bGlieHNsdC1kZWJ1ZyBsaWJ4c2x0LW1lbS1kZWJ1ZyBsaWJ4c2x0LWNyeXB0byZxdW90Ozxicj4N
-Cjxicj4NCjwvYmxvY2txdW90ZT4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2PllvdSBjaGFuZ2Ug
-YWxsIHRoZSBkZWZhdWx0cywgaXMgdGhpcyBvbiBwdXJwb3NlPyBJdCBzaG91bGQgYmUgbm90ZWQg
-aW4gdGhlIGNvbW1pdCBtZXNzYWdlIGluIGFueSBjYXNlLjwvZGl2Pg0KPGRpdj48YnI+DQo8L2Rp
-dj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYmxvY2txdW90ZT4NCjxkaXY+Q2FuIHlvdSBl
-bGFib3JlIG9uIHlvdXIgY29uY2Vybj8gSSBhbSBub3QgZXhhY3RseSBmb2xsb3dpbmcgaXQuPC9k
-aXY+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj50aGUgY29uZmlncyB3b24ndCBiZSBlbmFibGVk
-IHVubGVzcyB0aGUgY29ycmVzcG9uZGluZyBmZWF0dXJlcyBhcmUgZXhwbGljaXRseSBlbmFibGVk
-IGluIHRoZSBpbWFnZS4gSSBhbSB1c2luZyBsaWJ4c2x0LSBwcmVmaXggdG8gbWFrZSBzdXJlIHNv
-bWVvbmUgZG9lcyBub3QgaW5hZHZlcnRlbnRseSBlbmFibGVzIHRoZSBmZWF0dXJlcyBieSB1c2lu
-ZyB0aGUgZ2VuZXJpYyBmbGFncyAocHl0aG9uLCBkZWJ1ZywgLi4uICkuJm5ic3A7PC9kaXY+DQo8
-ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj5JIGRvIHNlZSBhIGJ1ZyBoZXJlLCBJbiB0aGUgZmlyc3Qg
-bGluZSwgcHl0aG9uIHNob3VsZCBiZSByZXBsYWNlZCB3aXRoIGxpYnhzbHQtcHl0aG9uLiBJIHdp
-bGwgZml4IGl0IGluIHRoZSBuZXh0IHZlcnNpb24gb2YgdGhpcyBwYXRjaC48L2Rpdj4NCjxkaXY+
-PGJyPg0KPC9kaXY+DQo8ZGl2PlRoYW5rcyw8L2Rpdj4NCjxkaXY+VmVkYW5nIFBhdGVsPC9kaXY+
-DQo8ZGl2PlNvZnR3YXJlIEVuZ2luZWVyPC9kaXY+DQo8ZGl2PkludGVsIENvcnBvcmF0aW9uPC9k
-aXY+DQo8YmxvY2txdW90ZSB0eXBlPSJjaXRlIj4NCjxkaXYgZGlyPSJsdHIiPg0KPGRpdiBjbGFz
-cz0iZ21haWxfZXh0cmEiPg0KPGRpdiBjbGFzcz0iZ21haWxfcXVvdGUiPg0KPGRpdj48L2Rpdj4N
-CjxkaXY+Jm5ic3A7PC9kaXY+DQo8YmxvY2txdW90ZSB0eXBlPSJjaXRlIj4mIzQzO1BBQ0tBR0VD
-T05GSUdbbGlieHNsdC1weXRob25dID0gJnF1b3Q7LS13aXRoLXB5dGhvbj0ke1BZVEhPTl9CQVNF
-Xzx3YnI+VkVSU0lPTn0sIC0td2l0aG91dC1weXRob24mcXVvdDs8YnI+DQomIzQzO1BBQ0tBR0VD
-T05GSUdbbGlieHNsdC1kZWJ1Z10gPSAmcXVvdDstLXdpdGgtZGVidWcsIC0td2l0aG91dC1kZWJ1
-ZyZxdW90Ozxicj4NCiYjNDM7UEFDS0FHRUNPTkZJR1tsaWJ4c2x0LW1lbS08d2JyPmRlYnVnXSA9
-ICZxdW90Oy0td2l0aC1tZW0tZGVidWcsIC0td2l0aG91dC1tZW0tZGVidWcmcXVvdDs8YnI+DQom
-IzQzO1BBQ0tBR0VDT05GSUdbbGlieHNsdC1jcnlwdG9dID0gJnF1b3Q7LS13aXRoLWNyeXB0bywg
-LS13aXRob3V0LWNyeXB0byZxdW90Ozxicj4NCiYjNDM7PGJyPg0KJm5ic3A7IyBvbGRlciB2ZXJz
-aW9ucyBvZiB0aGlzIHJlY2lwZSBoYWQgJHtQTn0tdXRpbHM8YnI+DQombmJzcDtSUFJPVklERVNf
-JHtQTn0tYmluICYjNDM7PSAmcXVvdDske1BOfS11dGlscyZxdW90Ozxicj4NCiZuYnNwO1JDT05G
-TElDVFNfJHtQTn0tYmluICYjNDM7PSAmcXVvdDske1BOfS11dGlscyZxdW90Ozxicj4NCjxzcGFu
-IGNsYXNzPSJIT0VuWmIiPjxmb250IGNvbG9yPSIjODg4ODg4Ij4tLTxicj4NCjIuNy4zPGJyPg0K
-PGJyPg0KLS08YnI+DQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX188d2JyPl9fX19fX19f
-X19fX19fX19fPGJyPg0KT3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0PGJyPg0KPGEgaHJl
-Zj0ibWFpbHRvOk9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmciPk9wZW5l
-bWJlZGRlZC1jb3JlQGxpc3RzLjx3YnI+b3BlbmVtYmVkZGVkLm9yZzwvYT48YnI+DQo8YSBocmVm
-PSJodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJl
-ZGRlZC1jb3JlIiByZWw9Im5vcmVmZXJyZXIiIHRhcmdldD0iX2JsYW5rIj5odHRwOi8vbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZy88d2JyPm1haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLTx3YnI+
-Y29yZTwvYT48YnI+DQo8L2ZvbnQ+PC9zcGFuPjxicj4NCjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0K
-PGJyPg0KPC9kaXY+DQo8L2Rpdj4NCjwvYmxvY2txdW90ZT4NCjwvYm9keT4NCjwvaHRtbD4NCg==
+No, you're changing the default to enable all the things that were
+previously disabled.
 
---_000_14902138291550926camelintelcom_--
+Also you don't need to prefix the names as they're recipe-specific already.
+
+I suggest that you re-read the PACKAGECONFIG section in the manual and
+resubmit the patch.
+
+Ross
+
+--94eb2c0cfe2213673d054b577d37
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 March 2017 at 20:17, Patel, Vedang <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:vedang.patel@intel.com" target=3D"_blank">vedang.patel@intel.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bord=
+er-left-style:solid;padding-left:1ex"><div>Can you elabore on your concern?=
+ I am not exactly following it.</div>
+<div><br>
+</div>
+<div>the configs won&#39;t be enabled unless the corresponding features are=
+ explicitly enabled in the image. I am using libxslt- prefix to make sure s=
+omeone does not inadvertently enables the features by using the generic fla=
+gs (python, debug, ... ).=C2=A0</div></blockquote></div><br>No, you&#39;re =
+changing the default to enable all the things that were previously disabled=
+.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Also=
+ you don&#39;t need to prefix the names as they&#39;re recipe-specific alre=
+ady.<br></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
+a">I suggest that you re-read the PACKAGECONFIG section in the manual and r=
+esubmit the patch.</div><div class=3D"gmail_extra"><br></div><div class=3D"=
+gmail_extra">Ross</div></div>
+
+--94eb2c0cfe2213673d054b577d37--
