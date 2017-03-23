@@ -1,27 +1,27 @@
 Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A1AC371A54
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id CFF1C71A54
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Mar 2017 16:27:15 +0000 (UTC)
+	Thu, 23 Mar 2017 16:28:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
-	t=1490286437; x=1521822437;
+	t=1490286531; x=1521822531;
 	h=message-id:subject:from:to:cc:date:in-reply-to:
 	references:mime-version:content-transfer-encoding;
-	bh=kikhNucjTk5wLluhf2AthrToVsAoHdeKPCWrJBjzp5k=;
-	b=jj8Kdxgcz06uGgOyAYZRYP2MUWZcSL7PqkediIvcDA8dxuJ6sAE9ODjL
-	6WLrjEIGJI1mwDa/Eq7SQd/dpyAR3Q==;
+	bh=EqUXEC/PK9IAfDhav0hRH/RICTOlxDabHvMRdhZchxk=;
+	b=w7PwoVStq+57MUTtwSlsUFY4w9uDhR23ZHoHifTRfT0Yra+J5P6QCzpR
+	qpSVw/XZ0L7rttU6b+sBSc7gCJFj6w==;
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	23 Mar 2017 09:27:16 -0700
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	23 Mar 2017 09:28:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.36,210,1486454400"; d="scan'208";a="64171812"
+X-IronPort-AV: E=Sophos;i="5.36,210,1486454400"; d="scan'208";a="64172475"
 Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.141])
-	by orsmga002.jf.intel.com with ESMTP; 23 Mar 2017 09:27:15 -0700
-Message-ID: <1490286911.28281.84.camel@linux.intel.com>
+	by orsmga002.jf.intel.com with ESMTP; 23 Mar 2017 09:28:49 -0700
+Message-ID: <1490287004.28281.86.camel@linux.intel.com>
 From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Thu, 23 Mar 2017 10:35:11 -0600
+Date: Thu, 23 Mar 2017 10:36:44 -0600
 In-Reply-To: <6135390.NMCEsh2eSl@peggleto-mobl.ger.corp.intel.com>
 References: <cover.1490188583.git.ed.bartosh@linux.intel.com>
 	<20170322205331.6648.75789@do.openembedded.org>
@@ -42,7 +42,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Mar 2017 16:27:15 -0000
+X-List-Received-Date: Thu, 23 Mar 2017 16:28:50 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
@@ -129,11 +129,12 @@ On Thu, 2017-03-23 at 15:57 +1300, Paul Eggleton wrote:
 > showing at all. Was the script invoked in a different way to normal?
 > 
 
-Yes, it was invoked in a different way so there was not filtering on
-failures. From now on, we should be getting emails just with test
-failures.
+Yes, it was invoked in a different way (there was not filtering on
+failures). From now on, we should be getting emails just with test
+failures. 
 
 Leo
+
 > Cheers,
 > Paul
 > 
