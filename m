@@ -1,48 +1,45 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 659A577AC7
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-lf0-f49.google.com (mail-lf0-f49.google.com
+	[209.85.215.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 6344C6FF80
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Mar 2017 03:38:23 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id p189so24093751pfp.0
+	Thu, 23 Mar 2017 05:54:15 +0000 (UTC)
+Received: by mail-lf0-f49.google.com with SMTP id j90so77375245lfk.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Mar 2017 20:38:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=h9Lj4BajrbR8QxuI5mQnVqYssn0jnXPGzLAQ3Jt1wEQ=;
-	b=GKZ6+WDpfcqIzle3OV1vWA3+n6MMH5PGxvOBsh8GmjySA3SA7CZ66YaW7xQrKBsKBO
-	5DX1ypt9MNEZB8ffq1KrE+Oh9aYdLTxvTu/lcAwfdNjerOVM1fsCL7ZmJgQf7ofba5GS
-	V/aRx1q35Ijc24VI/fdyEE22I7HE2eyJfam5JIekV0ndCyhUJxT2ajEnTS40CCmayw2f
-	M4pGy8jfXiW0hGV2UbqBOixcEOHjHw7fCnCPYI9+bQ75JrqARl0WbjBbyZaehIBn2mTO
-	HQJGvJLDyn4pJ1Jqx8Xm4R6vBzq4/GeM9sOSIk8dp1LcyBG8V2f/041vRlF/CZN4FwaB
-	Wujw==
+	Wed, 22 Mar 2017 22:54:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=iX5hXklSJ6iW9GQ7zBKF73TRlQkvdo8SySVI8shsPRM=;
+	b=Kvlwhg4qraJQIHKv4IFWg1CCWin+JvB6j47+3gEmCtNIs9CkYn6VL1uWA5sDN4G5Zo
+	XNrgyhwJt9hIRrtm+VJQsFH9E1/PKFDNtGCOf7/vqT5k4eU6c4D0Tmea/RN0247HU3S9
+	jXduTulsNrZhikpGdo1xwPT8Q2D5pIaAF+swI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=h9Lj4BajrbR8QxuI5mQnVqYssn0jnXPGzLAQ3Jt1wEQ=;
-	b=A0lkMkU9khrNeGxh5ZJdUlxvOK9B5I3YhK9iu5UuYpuRJmoL3Ai6nkJ23yGlT7EKp7
-	pwnDYmqkJdd2MOgGP924Yo393/tLU9nXRMfrD9VDt+704358Ry40fC6XNtsj80j9Oyxv
-	S8GD3YSqDBNx6tQziSU8kQdoSb6w9AX9T6qSaDttJfukNOHrwMhpp0/m7t9T28E7ZnJ0
-	eypvyG9OY7BYJ4BI1nEaR8FeMdhovzh2pxHBliQg/LBq+eSv3wtDGfrcJYyS+D38139i
-	zkglopPkMClKbMePqg6iufSnEGE9LuNDPbxGp212QMle41UyIeHm2cBVZGPMwJUEe+0Z
-	DXkw==
-X-Gm-Message-State: AFeK/H0oW64N0hMMI+kJh+Xn7Q/tC+eW6fIjdn0d6UCef6hZNbZmqFpvAiRaVGT4pWCHLw==
-X-Received: by 10.98.100.88 with SMTP id y85mr455510pfb.112.1490240305139;
-	Wed, 22 Mar 2017 20:38:25 -0700 (PDT)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	i124sm6277651pgd.66.2017.03.22.20.38.23
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 22 Mar 2017 20:38:24 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=iX5hXklSJ6iW9GQ7zBKF73TRlQkvdo8SySVI8shsPRM=;
+	b=k7nR38kTLoXxyyxFBQ6joeQMdnmsmd+rxnuFZBvOvD6z5KjU5Y1/s2O/OPoRWOvkm/
+	i/PEYytJYjRg/955d23GqIdBJLKjMIDKyYADOdLo+Qj4pfBoMlXB94wUF3yl40m+LQ5X
+	+HPNHjqDcI+V0nxkrIx7SeGgAg3K5vTNZ/MnLYlPQruR+JIDGy59+mETHsaFaAjdlW7y
+	JEBSTNvHXNivG5XrOcE3phhH1O2RECs2o/RZ8g9PwydbIWZilgLkMREAZy8zmF33rnXC
+	jFAx5y/ZTx2jVmTZHAJVz70dQP+EUdElkLQ4DpvxVRvtsK79OsdK4XE4crHQ7cwHrMlq
+	kjfw==
+X-Gm-Message-State: AFeK/H1HU8Id+1ClT0CmEPtQFSMVpZKoi86oOyIvRqE2Zk/sxnG9WQj77yCHRHfRMuGafG6s
+X-Received: by 10.25.80.86 with SMTP id z22mr316385lfj.157.1490248456219;
+	Wed, 22 Mar 2017 22:54:16 -0700 (PDT)
+Received: from localhost.localdomain (a91-156-68-16.elisa-laajakaista.fi.
+	[91.156.68.16])
+	by smtp.gmail.com with ESMTPSA id c28sm877665lfh.49.2017.03.22.22.54.14
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 22 Mar 2017 22:54:14 -0700 (PDT)
+From: Fathi Boudra <fathi.boudra@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Mar 2017 20:38:14 -0700
-Message-Id: <48d4089afac5042cfa742120e79f561f9b415d2b.1490240196.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.12.1
-In-Reply-To: <cover.1490240196.git.raj.khem@gmail.com>
-References: <cover.1490240196.git.raj.khem@gmail.com>
-Subject: [PATCH 2/2] libvorbis: Contain gcc specific compiler flags using configure option
+Date: Thu, 23 Mar 2017 07:54:12 +0200
+Message-Id: <20170323055412.10238-1-fathi.boudra@linaro.org>
+X-Mailer: git-send-email 2.11.0
+MIME-Version: 1.0
+Subject: [PATCH] glibc: add missing TRAP_BRANCH/TRAP_HWBKPT definitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,93 +52,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Mar 2017 03:38:24 -0000
+X-List-Received-Date: Thu, 23 Mar 2017 05:54:18 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Patch submitted upstream, pending to be merged:
+https://sourceware.org/bugzilla/show_bug.cgi?id=21286
+
+Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
 ---
- .../libvorbis/0001-configure-Check-for-clang.patch | 56 ++++++++++++++++++++++
- .../libvorbis/libvorbis_1.3.5.bb                   |  4 +-
- 2 files changed, 59 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-multimedia/libvorbis/libvorbis/0001-configure-Check-for-clang.patch
+ ...o.h-enum-definition-for-TRAP_HWBKPT-is-mi.patch | 69 ++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.25.bb              |  1 +
+ 2 files changed, 70 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0028-bits-siginfo.h-enum-definition-for-TRAP_HWBKPT-is-mi.patch
 
-diff --git a/meta/recipes-multimedia/libvorbis/libvorbis/0001-configure-Check-for-clang.patch b/meta/recipes-multimedia/libvorbis/libvorbis/0001-configure-Check-for-clang.patch
+diff --git a/meta/recipes-core/glibc/glibc/0028-bits-siginfo.h-enum-definition-for-TRAP_HWBKPT-is-mi.patch b/meta/recipes-core/glibc/glibc/0028-bits-siginfo.h-enum-definition-for-TRAP_HWBKPT-is-mi.patch
 new file mode 100644
-index 0000000000..7dad0cd8a5
+index 0000000000..fe22cc3442
 --- /dev/null
-+++ b/meta/recipes-multimedia/libvorbis/libvorbis/0001-configure-Check-for-clang.patch
-@@ -0,0 +1,56 @@
-+From 44b4511784f9b51c514dff4ceb3cbeaf9c374d08 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 22 Mar 2017 16:06:55 +0000
-+Subject: [PATCH] configure: Check for clang
++++ b/meta/recipes-core/glibc/glibc/0028-bits-siginfo.h-enum-definition-for-TRAP_HWBKPT-is-mi.patch
+@@ -0,0 +1,69 @@
++From af3054b3856379d353a779801678f330e1b58c9a Mon Sep 17 00:00:00 2001
++Message-Id: <af3054b3856379d353a779801678f330e1b58c9a.1490183611.git.panand@redhat.com>
++From: Pratyush Anand <panand@redhat.com>
++Date: Wed, 22 Mar 2017 17:02:38 +0530
++Subject: [PATCH] bits/siginfo.h: enum definition for TRAP_HWBKPT is missing
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+Disable gcc specific options if using clang
++Compile following linux kernel test code with latest glibc:
 +
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/breakpoints/breakpoint_test_arm64.c
++
++and we get following error:
++breakpoint_test_arm64.c: In function ‘run_test’:
++breakpoint_test_arm64.c:171:25: error: ‘TRAP_HWBKPT’ undeclared (first use in this function)
++  if (siginfo.si_code != TRAP_HWBKPT) {
++                         ^
++I can compile test code by modifying my local
++/usr/include/bits/siginfo.h and test works great. Therefore, this patch
++will be needed in upstream glibc so that issue is fixed there as well.
++
++Signed-off-by: Pratyush Anand <panand@redhat.com>
++
++Upstream-Status : Submitted [https://sourceware.org/bugzilla/show_bug.cgi?id=21286]
 +---
-+Upstream-Status: Pending
++ bits/siginfo.h                         | 6 +++++-
++ sysdeps/unix/sysv/linux/bits/siginfo.h | 6 +++++-
++ 2 files changed, 10 insertions(+), 2 deletions(-)
 +
-+ configure.ac | 19 +++++++++++++++++--
-+ 1 file changed, 17 insertions(+), 2 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index eddd02d..00ecba5 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -93,6 +93,16 @@ AC_ARG_ENABLE(examples,
-+  	
-+ AM_CONDITIONAL(BUILD_EXAMPLES, [test "x$enable_examples" = xyes]) 
++diff --git a/bits/siginfo.h b/bits/siginfo.h
++index 4919df543634..6dc714e8f30b 100644
++--- a/bits/siginfo.h
+++++ b/bits/siginfo.h
++@@ -140,8 +140,12 @@ enum
++ {
++   TRAP_BRKPT = 1,		/* Process breakpoint.  */
++ #  define TRAP_BRKPT	TRAP_BRKPT
++-  TRAP_TRACE			/* Process trace trap.  */
+++  TRAP_TRACE,			/* Process trace trap.  */
++ #  define TRAP_TRACE	TRAP_TRACE
+++  TRAP_BRANCH,			/* Process branch trap. */
+++# define TRAP_BRANCH	TRAP_BRANCH
+++  TRAP_HWBKPT			/* hardware breakpoint/watchpoint  */
+++# define TRAP_HWBKPT	TRAP_HWBKPT
++ };
++ # endif
 + 
-++AC_MSG_CHECKING([whether C compiler is clang])
-++$CC -x c /dev/null -dM -E > conftest.txt 2>&1
-++if grep "__clang__" conftest.txt >/dev/null 2>&1; then
-++  AC_SUBST([CC_CLANG], [1])
-++   AC_MSG_RESULT([yes])
-++ else
-++   AC_SUBST([CC_CLANG], [0])
-++   AC_MSG_RESULT([no])
-++fi
-++
-+ dnl --------------------------------------------------
-+ dnl Set build flags based on environment
-+ dnl --------------------------------------------------
-+@@ -127,10 +137,15 @@ else
-+ 	AC_MSG_RESULT([$GCC_VERSION])
-+ 	case $host in 
-+ 	*86-*-linux*)
-++		if test "$CC_CLANG" = "1"; then
-++			ieeefp=""
-++		else
-++			ieefp="-mno-ieee-fp"
-++		fi
-+ 		DEBUG="-g -Wall -Wextra -D_REENTRANT -D__NO_MATH_INLINES -fsigned-char"
-+-		CFLAGS="-O3 -ffast-math -mno-ieee-fp -D_REENTRANT -fsigned-char"
-++		CFLAGS="-O3 -ffast-math -D_REENTRANT -fsigned-char ${ieefp}"
-+ #              	PROFILE="-Wall -Wextra -pg -g -O3 -ffast-math -D_REENTRANT -fsigned-char -fno-inline -static"
-+-		PROFILE="-Wall -Wextra -pg -g -O3 -ffast-math -mno-ieee-fp -D_REENTRANT -fsigned-char -fno-inline"
-++		PROFILE="-Wall -Wextra -pg -g -O3 -ffast-math ${ieefp} -D_REENTRANT -fsigned-char -fno-inline"
++diff --git a/sysdeps/unix/sysv/linux/bits/siginfo.h b/sysdeps/unix/sysv/linux/bits/siginfo.h
++index 7b0d4f62a331..9cdf42a42557 100644
++--- a/sysdeps/unix/sysv/linux/bits/siginfo.h
+++++ b/sysdeps/unix/sysv/linux/bits/siginfo.h
++@@ -235,8 +235,12 @@ enum
++ {
++   TRAP_BRKPT = 1,		/* Process breakpoint.  */
++ #  define TRAP_BRKPT	TRAP_BRKPT
++-  TRAP_TRACE			/* Process trace trap.  */
+++  TRAP_TRACE,			/* Process trace trap.  */
++ #  define TRAP_TRACE	TRAP_TRACE
+++  TRAP_BRANCH,			/* Process branch trap. */
+++# define TRAP_BRANCH	TRAP_BRANCH
+++  TRAP_HWBKPT			/* hardware breakpoint/watchpoint  */
+++# define TRAP_HWBKPT	TRAP_HWBKPT
++ };
++ # endif
 + 
-+ 		# glibc < 2.1.3 has a serious FP bug in the math inline header
-+ 		# that will cripple Vorbis.  Look to see if the magic FP stack
 +-- 
-+1.8.3.1
++2.9.3
 +
-diff --git a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb
-index 636e0f307b..56c5b0a9cb 100644
---- a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb
-+++ b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb
-@@ -10,7 +10,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7d2c487d2fc7dd3e3c7c465a5b7f6217 \
-                     file://include/vorbis/vorbisenc.h;beginline=1;endline=11;md5=d1c1d138863d6315131193d4046d81cb"
- DEPENDS = "libogg"
+diff --git a/meta/recipes-core/glibc/glibc_2.25.bb b/meta/recipes-core/glibc/glibc_2.25.bb
+index cf9c4f71b8..3f3d6ae2ae 100644
+--- a/meta/recipes-core/glibc/glibc_2.25.bb
++++ b/meta/recipes-core/glibc/glibc_2.25.bb
+@@ -42,6 +42,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
+            file://0026-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch \
+            file://0027-locale-fix-hard-coded-reference-to-gcc-E.patch \
++           file://0028-bits-siginfo.h-enum-definition-for-TRAP_HWBKPT-is-mi.patch
+ "
  
--SRC_URI = "http://downloads.xiph.org/releases/vorbis/${BP}.tar.xz"
-+SRC_URI = "http://downloads.xiph.org/releases/vorbis/${BP}.tar.xz \
-+           file://0001-configure-Check-for-clang.patch \
-+          "
- SRC_URI[md5sum] = "28cb28097c07a735d6af56e598e1c90f"
- SRC_URI[sha256sum] = "54f94a9527ff0a88477be0a71c0bab09a4c3febe0ed878b24824906cd4b0e1d1"
- 
+ NATIVESDKFIXES ?= ""
 -- 
-2.12.1
+2.11.0
 
 
