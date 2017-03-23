@@ -1,49 +1,35 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f179.google.com (mail-wr0-f179.google.com
-	[209.85.128.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 774A977B6B
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id AEF6D77B3D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Mar 2017 19:26:27 +0000 (UTC)
-Received: by mail-wr0-f179.google.com with SMTP id u1so20197672wra.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Mar 2017 12:26:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=poVIKtMOFvi+E1nGIKhVNdvSO9ZLKaRX2dQQmm8ok7c=;
-	b=iqjXzEqb+dMDjaEwhb6h9LeoPhklM7UHSGlwaU88gFdiGW7UY4m/dSWBuJ87VODbF3
-	AQgDM+7etpdLCIR2CLUtu1I9H1avTDv9GxOmP4caYTqfigjMUTYfVW2tfiWu1wbj5vQm
-	gPiEd7rEkQxHuszp0twBEaWnYCuBKMwuGBFawDUZl1Ayaf700Or7X8Yb96lZgvgv2cx9
-	KW1sKW8nduh1MWbj0MWCIg4f1HH4bFhNge/+Zn1hQWdurdASRUfH5Z4Cb1MJr3W6czPH
-	gBBks5MRuiQNUextyybFGR5yg0eYhb4PzuvVo2Mmlo8thwhtccGd8qOjEqlTzja+1W1v
-	E7aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=poVIKtMOFvi+E1nGIKhVNdvSO9ZLKaRX2dQQmm8ok7c=;
-	b=bKJLEVN6SZUB77MiI4zgQZCUWBfL2t7ny28h+EETbxxUIB457ipwLXrCGstglMjmOO
-	Q+sJxh6BWwAGVqsBPPo3sb9Lsk33mSX9hQVD8nW+3Myi37qHsesVlREWjgXMpZIA2ngP
-	8tdPogCGLlkpHF4n5IYI+kkTP1TUKjJuj1IgDYHCbTRH+QYjLJd/ElpbVotzFGKK1D3W
-	8oXDgp4gdBqtld3dterWJBGNE4x+UFQFFI3IDW+JjGtCnS2rHSc6M13ANfJVWoEIc/fX
-	AOzGTCQ6ITvv30zJDN0k9haMpPJcjUDFC2zQjCp0ZsMcX3CG7G1GFwV1KeBPcItmJJnK
-	T0Sg==
-X-Gm-Message-State: AFeK/H3FJNe718FUEIhyCGBmP9k81FGnRHf512U3m9v9NLdgSJ4P8KvI4KAxJ9a5HwgPRpDT1MHHJy8rgvS7cA==
-X-Received: by 10.223.152.215 with SMTP id w81mr4513917wrb.151.1490297188109; 
-	Thu, 23 Mar 2017 12:26:28 -0700 (PDT)
+	Thu, 23 Mar 2017 19:55:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=intel;
+	t=1490298907; x=1521834907;
+	h=subject:to:references:from:message-id:date:mime-version:
+	in-reply-to:content-transfer-encoding;
+	bh=2NZLCI2wz7xToHS3gY8/CVTF41BfJOKGNmfMD6VYafY=;
+	b=kFBbIdSKrAQbS87hwrC10feAKgHQCLW0f4lJUP92xNZlL80YZ17Vbakp
+	WyWf5bjzQR0NcL6CVcXTPo2ChSWLWw==;
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	23 Mar 2017 12:55:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.36,211,1486454400"; d="scan'208";a="70107429"
+Received: from bitbang.jf.intel.com (HELO [10.7.159.60]) ([10.7.159.60])
+	by orsmga004.jf.intel.com with ESMTP; 23 Mar 2017 12:55:06 -0700
+To: Vedang Patel <vedang.patel@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <1490225634.15509.40.camel@intel.com>
+	<1490231158-6151-1-git-send-email-vedang.patel@intel.com>
+From: Randy Witt <randy.e.witt@linux.intel.com>
+Message-ID: <ee7db60c-985e-49a5-8e64-0632e40d2db2@linux.intel.com>
+Date: Thu, 23 Mar 2017 12:55:06 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Received: by 10.223.152.55 with HTTP; Thu, 23 Mar 2017 12:26:27 -0700 (PDT)
-In-Reply-To: <1490296143.6396.253.camel@intel.com>
-References: <1490222875-16219-1-git-send-email-armccurdy@gmail.com>
-	<bca89655-d4fd-d6ea-74c7-9f6050473b89@topic.nl>
-	<CAJ86T=USCOn32KPsH1TURbJL671wPwGXLBeajkL06wyvs4Q0wA@mail.gmail.com>
-	<1490296143.6396.253.camel@intel.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 23 Mar 2017 12:26:27 -0700
-Message-ID: <CAJ86T=XroAvBkQScEm80TT0Nc8tjkHs6dEw5PSae3NEP5C=fMg@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: Mike Looijmans <mike.looijmans@topic.nl>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] native.bbclass: clear MACHINE_FEATURES
+In-Reply-To: <1490231158-6151-1-git-send-email-vedang.patel@intel.com>
+Subject: Re: [PATCH v2] libxslt: Add PACKAGECONFIG support for python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,43 +42,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Mar 2017 19:26:28 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 23 Mar 2017 19:55:06 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Mar 23, 2017 at 12:09 PM, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> On Thu, 2017-03-23 at 11:59 -0700, Andre McCurdy wrote:
->> On Thu, Mar 23, 2017 at 2:06 AM, Mike Looijmans <mike.looijmans@topic.nl> wrote:
->> > On 22-03-17 23:47, Andre McCurdy wrote:
->> >>
->> >> Try to avoid native recipes accidentally being dependent on
->> >> MACHINE_FEATURES. This simple change doesn't prevent MACHINE_FEATURES
->> >> set via MACHINE_FEATURES_BACKFILL sneaking through, but it's better
->> >> than nothing.
->> >
->> > Maybe this would work:
->> >
->> > MACHINE_FEATURES_BACKFILL_CONSIDERED = "${MACHINE_FEATURES_BACKFILL}"
->>
->> I guess it doesn't work if MACHINE_FEATURES_BACKFILL_CONSIDERED is set
->> elsewhere using _append.
->>
->> The real solution would probably be to skip backfilling
->> MACHINE_FEATURES entirely for class-native?
->
-> Perhaps set MACHINE_FEATURES_forcevariable = "" in native.bbclass?
+Hi Patel,
 
-Over-riding MACHINE_FEATURES doesn't work, presumably because the
-ConfigParsed event handler which does the backfilling runs after
-over-rides have been applied?
+On 03/22/2017 06:05 PM, Vedang Patel wrote:
+> Add support to enable python bindings for libxslt using PACKAGECONFIG.
+> This will include --with-python argument while compiling the package.
+> The support is disabled by default.
+>
+> Signed-off-by: Vedang Patel <vedang.patel@intel.com>
+> ---
+>  meta/recipes-support/libxslt/libxslt_1.1.29.bb | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-support/libxslt/libxslt_1.1.29.bb b/meta/recipes-support/libxslt/libxslt_1.1.29.bb
+> index be747e608d9d..1e00306207c5 100644
+> --- a/meta/recipes-support/libxslt/libxslt_1.1.29.bb
+> +++ b/meta/recipes-support/libxslt/libxslt_1.1.29.bb
+> @@ -22,7 +22,7 @@ S = "${WORKDIR}/libxslt-${PV}"
+>
+>  BINCONFIG = "${bindir}/xslt-config"
+>
+> -inherit autotools pkgconfig binconfig-disabled lib_package
+> +inherit autotools pkgconfig binconfig-disabled lib_package distutils-common-base
+>
+>  # We don't DEPEND on binutils for ansidecl.h so ensure we don't use the header
+>  do_configure_prepend () {
+> @@ -33,7 +33,9 @@ do_configure_prepend () {
+>  	touch ${S}/doc/xsltproc.1
+>  }
+>
+> -EXTRA_OECONF = "--without-python --without-debug --without-mem-debug --without-crypto"
+> +EXTRA_OECONF = "--without-debug --without-mem-debug --without-crypto"
+> +PACKAGECONFIG[libxslt-python] = "--with-python=${PYTHON_BASE_VERSION}, --without-python"
+> +
+You kept "libxslt-python", and I think you meant to change it to "python".
 
-> --
-> Best Regards, Patrick Ohly
+>  # older versions of this recipe had ${PN}-utils
+>  RPROVIDES_${PN}-bin += "${PN}-utils"
+>  RCONFLICTS_${PN}-bin += "${PN}-utils"
 >
-> The content of this message is my personal opinion only and although
-> I am an employee of Intel, the statements I make here in no way
-> represent Intel's position on the issue, nor am I authorized to speak
-> on behalf of Intel on this matter.
->
->
->
+
 
