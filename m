@@ -1,43 +1,49 @@
-Return-Path: <fathi.boudra@linaro.org>
-Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 234E477B7F
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wr0-f179.google.com (mail-wr0-f179.google.com
+	[209.85.128.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 774A977B6B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Mar 2017 19:11:31 +0000 (UTC)
-Received: by mail-wm0-f54.google.com with SMTP id u132so69684128wmg.0
+	Thu, 23 Mar 2017 19:26:27 +0000 (UTC)
+Received: by mail-wr0-f179.google.com with SMTP id u1so20197672wra.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Mar 2017 12:11:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	Thu, 23 Mar 2017 12:26:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=NDI0DvxzAioz68lxn60LbIEY7NEgUsz/rCwhXkksIbk=;
-	b=RxAcx/iYt/BKg6e/L4nPbPwSiW1z3c6NweKafc2Oi45dZ/1KL6HYHuqHnOE8GdfS8k
-	cAsnPFxknFpry4A3OkG9Vnew7+voWpdhzYk2v6cGhr25ZquI8FyuUz8QiShap69B9K+M
-	aAJzPXFK03SHrYEQOylr+aJ0dT5d51ksUXpmI=
+	:cc; bh=poVIKtMOFvi+E1nGIKhVNdvSO9ZLKaRX2dQQmm8ok7c=;
+	b=iqjXzEqb+dMDjaEwhb6h9LeoPhklM7UHSGlwaU88gFdiGW7UY4m/dSWBuJ87VODbF3
+	AQgDM+7etpdLCIR2CLUtu1I9H1avTDv9GxOmP4caYTqfigjMUTYfVW2tfiWu1wbj5vQm
+	gPiEd7rEkQxHuszp0twBEaWnYCuBKMwuGBFawDUZl1Ayaf700Or7X8Yb96lZgvgv2cx9
+	KW1sKW8nduh1MWbj0MWCIg4f1HH4bFhNge/+Zn1hQWdurdASRUfH5Z4Cb1MJr3W6czPH
+	gBBks5MRuiQNUextyybFGR5yg0eYhb4PzuvVo2Mmlo8thwhtccGd8qOjEqlTzja+1W1v
+	E7aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=NDI0DvxzAioz68lxn60LbIEY7NEgUsz/rCwhXkksIbk=;
-	b=Xn1erVeL4Cs1VJqCK9wyttFyzupkrCXQCR9EMavSMeJPDaY/dnQcJXKOLNwkSqiTVO
-	9+5YEpjWN4UJ2/bINyPbi4w9es3J+d307w48QL+s4R6EEHca3E06evcfSICDLd75rI+P
-	/1ygdGnjInUvAj2BJieC4mmvm9N/dqwyBXPl5U5BZ4+nve9NcQX7kWNHg/eUfevZ7a3Q
-	tXy3bBfPmb6h28mPJM+hsFmEOd2JLw4OGF9CgTPCuOeg1FSsdxkXIbfGZFcxhVM/xNAB
-	GlEv5pt/irgP4qvNQxLOCDoUtoaONxGLIywTTyeYM2AhgOCAQoCGLdSySutEUEhHCobX
-	rzig==
-X-Gm-Message-State: AFeK/H2Jjf9GgDqwg4Xm4UHI8lAfW1NQRtthuOPwViVAQdKWIEVDhD8bEwcQ282M2zU1TpbPyfWeJfx2L48rihJe
-X-Received: by 10.28.126.17 with SMTP id z17mr14353586wmc.33.1490296292806;
-	Thu, 23 Mar 2017 12:11:32 -0700 (PDT)
+	bh=poVIKtMOFvi+E1nGIKhVNdvSO9ZLKaRX2dQQmm8ok7c=;
+	b=bKJLEVN6SZUB77MiI4zgQZCUWBfL2t7ny28h+EETbxxUIB457ipwLXrCGstglMjmOO
+	Q+sJxh6BWwAGVqsBPPo3sb9Lsk33mSX9hQVD8nW+3Myi37qHsesVlREWjgXMpZIA2ngP
+	8tdPogCGLlkpHF4n5IYI+kkTP1TUKjJuj1IgDYHCbTRH+QYjLJd/ElpbVotzFGKK1D3W
+	8oXDgp4gdBqtld3dterWJBGNE4x+UFQFFI3IDW+JjGtCnS2rHSc6M13ANfJVWoEIc/fX
+	AOzGTCQ6ITvv30zJDN0k9haMpPJcjUDFC2zQjCp0ZsMcX3CG7G1GFwV1KeBPcItmJJnK
+	T0Sg==
+X-Gm-Message-State: AFeK/H3FJNe718FUEIhyCGBmP9k81FGnRHf512U3m9v9NLdgSJ4P8KvI4KAxJ9a5HwgPRpDT1MHHJy8rgvS7cA==
+X-Received: by 10.223.152.215 with SMTP id w81mr4513917wrb.151.1490297188109; 
+	Thu, 23 Mar 2017 12:26:28 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.28.54.90 with HTTP; Thu, 23 Mar 2017 12:11:32 -0700 (PDT)
-In-Reply-To: <CAMKF1sq9UMGWoCBEOp-8gmpPekA4p6MEKg3FiJvrFr85mFjxVQ@mail.gmail.com>
-References: <20170323055412.10238-1-fathi.boudra@linaro.org>
-	<CAMKF1sq9UMGWoCBEOp-8gmpPekA4p6MEKg3FiJvrFr85mFjxVQ@mail.gmail.com>
-From: Fathi Boudra <fathi.boudra@linaro.org>
-Date: Thu, 23 Mar 2017 21:11:32 +0200
-Message-ID: <CAGNsrLBy2phUWevgVdR4njdQJPUaGRW=PTHTZG2wU_e6Hp9_BA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc: add missing TRAP_BRANCH/TRAP_HWBKPT definitions
+Received: by 10.223.152.55 with HTTP; Thu, 23 Mar 2017 12:26:27 -0700 (PDT)
+In-Reply-To: <1490296143.6396.253.camel@intel.com>
+References: <1490222875-16219-1-git-send-email-armccurdy@gmail.com>
+	<bca89655-d4fd-d6ea-74c7-9f6050473b89@topic.nl>
+	<CAJ86T=USCOn32KPsH1TURbJL671wPwGXLBeajkL06wyvs4Q0wA@mail.gmail.com>
+	<1490296143.6396.253.camel@intel.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 23 Mar 2017 12:26:27 -0700
+Message-ID: <CAJ86T=XroAvBkQScEm80TT0Nc8tjkHs6dEw5PSae3NEP5C=fMg@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Cc: Mike Looijmans <mike.looijmans@topic.nl>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] native.bbclass: clear MACHINE_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,18 +56,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Mar 2017 19:11:33 -0000
+X-List-Received-Date: Thu, 23 Mar 2017 19:26:28 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 23 March 2017 at 19:22, Khem Raj <raj.khem@gmail.com> wrote:
-> On Wed, Mar 22, 2017 at 10:54 PM, Fathi Boudra <fathi.boudra@linaro.org> wrote:
->> Patch submitted upstream, pending to be merged:
->> https://sourceware.org/bugzilla/show_bug.cgi?id=21286
+On Thu, Mar 23, 2017 at 12:09 PM, Patrick Ohly <patrick.ohly@intel.com> wrote:
+> On Thu, 2017-03-23 at 11:59 -0700, Andre McCurdy wrote:
+>> On Thu, Mar 23, 2017 at 2:06 AM, Mike Looijmans <mike.looijmans@topic.nl> wrote:
+>> > On 22-03-17 23:47, Andre McCurdy wrote:
+>> >>
+>> >> Try to avoid native recipes accidentally being dependent on
+>> >> MACHINE_FEATURES. This simple change doesn't prevent MACHINE_FEATURES
+>> >> set via MACHINE_FEATURES_BACKFILL sneaking through, but it's better
+>> >> than nothing.
+>> >
+>> > Maybe this would work:
+>> >
+>> > MACHINE_FEATURES_BACKFILL_CONSIDERED = "${MACHINE_FEATURES_BACKFILL}"
+>>
+>> I guess it doesn't work if MACHINE_FEATURES_BACKFILL_CONSIDERED is set
+>> elsewhere using _append.
+>>
+>> The real solution would probably be to skip backfilling
+>> MACHINE_FEATURES entirely for class-native?
 >
-> Patch to glibc is fine provided you resent it with proper SRC_URI change
-> and report on how it builds in OE with this change applied
+> Perhaps set MACHINE_FEATURES_forcevariable = "" in native.bbclass?
 
-we'll need a v2 to address the backslash, but also the patch itself.
-It's currently incomplete, it misses the inclusion on other
-architectures siginfo headers.
+Over-riding MACHINE_FEATURES doesn't work, presumably because the
+ConfigParsed event handler which does the backfilling runs after
+over-rides have been applied?
+
+> --
+> Best Regards, Patrick Ohly
+>
+> The content of this message is my personal opinion only and although
+> I am an employee of Intel, the statements I make here in no way
+> represent Intel's position on the issue, nor am I authorized to speak
+> on behalf of Intel on this matter.
+>
+>
+>
 
